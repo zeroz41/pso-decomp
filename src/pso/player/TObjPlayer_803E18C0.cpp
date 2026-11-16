@@ -1,10 +1,11 @@
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/player/TObjPlayer_803E18C0.h"
 
 #pragma push
 #pragma scheduling off
 
-f32 project_point_onto_line(V_803E18C0 *p, Line_803E18C0 *l, V_803E18C0 *out) {
+f32 project_point_onto_line(Vec *p, Line_803E18C0 *l, Vec *out) {
     f32 t;
     f32 x;
     f32 r;

@@ -15,23 +15,6 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/render_util.h"
 
-struct RecoveredGlobal_800FAD08_TFogCtrl__data_80501188 {
-    s32 value;
-    u8 remaining[0xC];
-};
-
-typedef char RecoveredGlobal_800FAD08_TFogCtrl__data_80501188_size[sizeof(RecoveredGlobal_800FAD08_TFogCtrl__data_80501188) == 0x10 ? 1 : -1];
-
-struct RecoveredGlobal_800FB8A0___vt__8TFogCtrl {
-    s32 value;
-    u8 remaining[0x14];
-};
-
-struct RecoveredGlobal_800FB8A0_TFogCtrl__data_80501188 {
-    s32 value;
-    u8 remaining[0xC];
-};
-
 struct O_800FB400 { u8 pad[0x174]; s32 arr[1]; };
 
 struct FogRow_800FB134 {
@@ -64,10 +47,6 @@ struct FogCtrl_800FB134 {
     f32 width;
 };
 
-typedef char RecoveredGlobal_800FB8A0___vt__8TFogCtrl_size[sizeof(RecoveredGlobal_800FB8A0___vt__8TFogCtrl) == 0x18 ? 1 : -1];
-
-typedef char RecoveredGlobal_800FB8A0_TFogCtrl__data_80501188_size[sizeof(RecoveredGlobal_800FB8A0_TFogCtrl__data_80501188) == 0x10 ? 1 : -1];
-
 struct Stack_800FBD74 {
     f32 sp8;
     f32 spC;
@@ -78,10 +57,6 @@ struct Stack_800FBD74 {
     f32 sp20;
     f32 sp24;
 };
-
-struct RecoveredGlobal_800FBB68_lbl_8049C670 { s32 value; u8 remaining[0x8C]; };
-
-typedef char RecoveredGlobal_800FBB68_lbl_8049C670_size[sizeof(RecoveredGlobal_800FBB68_lbl_8049C670) == 0x90 ? 1 : -1];
 
 struct Pos_800FBEA8 {
     f32 x;
@@ -186,9 +161,9 @@ void draw_small_font_text(void *color, const char *s, f32 x, f32 y, f32 scale) {
     }
     TWindowSubStatusDisp::get_player();
 }
+}
 
 u32 get_name_text_width(void* p) { return ((u32 (*)(void*))calc_small_font_text_width)(p); }
-}
 
 u32 calc_small_font_text_width(const char *s) {
     f32 max = (0.0f);

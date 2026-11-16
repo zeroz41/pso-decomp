@@ -1,4 +1,5 @@
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjMotion.h"
@@ -151,7 +152,7 @@ TOTrapAncient02::TOTrapAncient02(TObject *parent, void *set_data) : TOTrap(paren
     init_collision_body_parts(this, &trap_ancient02_collision_body, 1);
     refresh_collision_body_centers();
     actorFlags |= 0x60000000;
-    ((TObjPlayer *)this)->register_object_by_id();
+    this->register_object_by_id();
     h348 = 0.0f;
     h344 = 0.0f;
     spin_angle = 0;
@@ -445,20 +446,20 @@ void TOTrapAncient02::vfunc_84() {
         case AREA_CAVE1:
         case AREA_CAVE2:
         case AREA_CAVE3:
-            play_persistent_sound(0x4461B, (s32)this, &position, 0, 0);
+            play_persistent_sound(0x4461B, (s32)this, (Vec *)(&position), 0, 0);
             return;
         case AREA_MINE1:
         case AREA_MINE2:
-            play_persistent_sound(0x4004C612, (s32)this, &position, 0, 0);
+            play_persistent_sound(0x4004C612, (s32)this, (Vec *)(&position), 0, 0);
             return;
         case AREA_RUINS1:
         case AREA_RUINS2:
         case AREA_RUINS3:
-            play_persistent_sound(0x4004C618, (s32)this, &position, 0, 0);
+            play_persistent_sound(0x4004C618, (s32)this, (Vec *)(&position), 0, 0);
             return;
         case AREA_VR_SPACESHIP_ALPHA:
         case AREA_VR_SPACESHIP_BETA:
-            play_persistent_sound(0x4004C610, (s32)this, &position, 0, 0);
+            play_persistent_sound(0x4004C610, (s32)this, (Vec *)(&position), 0, 0);
         case AREA_PIONEER2_EP1:
             return;
         case AREA_FOREST1:
@@ -604,7 +605,7 @@ void TOTrapAncient02R::vfunc_81() {
                 (((TObjBase *)target)->alt_room == alt_room || ((TObjBase *)target)->room == room ||
                  ((TObjBase *)target)->room == alt_room)) {
                 d = horizontal_distance_squared(&((TObjBase *)target)->position, &position);
-                dist = range + get_collision_body_radius((TObjCollidable *)target, 0);
+                dist = range + ((TObjCollidable *)target)->get_collision_body_radius(0);
                 if (d < dist * dist) {
                     mode = 3;
                     phase = 2;
@@ -635,7 +636,7 @@ void TOTrapAncient02R::vfunc_81() {
                                 ((TTecZonde *)t)->construct_bolt_effect((u8 *)tl_07, (u8 *)&scratch_vec, (u8 *)&lbl_8050BF00, 0x14000000, 0x14, range, 1.8f);
                             }
                         }
-                        play_sound_effect(0x4002A408, &scratch_vec, 0, 0);
+                        play_sound_effect(0x4002A408, (Vec *)(&scratch_vec), 0, 0);
                         break;
                     }
                     case 0:

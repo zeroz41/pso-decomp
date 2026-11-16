@@ -35,15 +35,15 @@ void *TFontSmallLobby__sub_801C0164(void *player) {
 void bswap_g_client_id_header(void* p) { ((G_ClientIDHeader *)p)->bswap(); }
 
 void *TFontSmallLobby__sub_801C01DC(void *arg0, void *arg1) {
-    TFontSmallLobby__sub_801C0228(arg0, arg1);
+    copy_subcommand_header(arg0, arg1);
     *(u8 *)((s8 *)arg0 + 0x4) = *(u8 *)((s8 *)arg1 + 0x4);
     __copy((void *)((char *)arg0 + 5), (void *)((char *)arg1 + 5), 3);
     return arg0;
 }
 
-void* TFontSmallLobby__sub_801C0228(void* p, void* _w1) { TFontSmallLobby__sub_801C0258(p, _w1); return p; }
+void* copy_subcommand_header(void* p, void* _w1) { assign_subcommand_header(p, _w1); return p; }
 
-void TFontSmallLobby__sub_801C0258(void* p, void* q) { *(u8*)((char*)p + 0x0) = *(u8*)((char*)q + 0x0); *(u8*)((char*)p + 0x1) = *(u8*)((char*)q + 0x1); *(u16*)((char*)p + 0x2) = *(u16*)((char*)q + 0x2); }
+void assign_subcommand_header(void* p, void* q) { *(u8*)((char*)p + 0x0) = *(u8*)((char*)q + 0x0); *(u8*)((char*)p + 0x1) = *(u8*)((char*)q + 0x1); *(u16*)((char*)p + 0x2) = *(u16*)((char*)q + 0x2); }
 
 void TFontSmallLobby::init_packet_6x9b_level_up() {
     u8 *arg0 = (u8 *)this;
@@ -59,7 +59,7 @@ void send_6x9B_level_up_all_techniques(void* p) { bswap_g_client_id_header(p); s
 
 void TFontSmallLobby::bswap_battle_damage_packet() { ((G_ClientIDHeader *)this)->bswap(); bswap_16((u16 *)((char*)this + 0x4)); bswap_16((u16 *)((char*)this + 0x6)); }
 
-void* TFontSmallLobby__sub_801C030C(void* p, void* a1) { TFontSmallLobby__sub_801C0228(p, a1); *(short*)((char*)p + 0x4) = *(unsigned short*)((char*)a1 + 0x4); *(short*)((char*)p + 0x6) = *(short*)((char*)a1 + 0x6); return p; }
+void* TFontSmallLobby__sub_801C030C(void* p, void* a1) { copy_subcommand_header(p, a1); *(short*)((char*)p + 0x4) = *(unsigned short*)((char*)a1 + 0x4); *(short*)((char*)p + 0x6) = *(short*)((char*)a1 + 0x6); return p; }
 
 void TFontSmallLobby::init_packet_6x8f_battle_damage() {
     O_801C0350 *p = (O_801C0350 *)this;
@@ -74,7 +74,7 @@ void send_6x8F_add_battle_damage_scores(void* p) { ((TFontSmallLobby *)p)->bswap
 void TFontSmallLobby::bswap_6x90_set_player_battle_team() { ((G_ClientIDHeader *)this)->bswap(); bswap_32((u32 *)((char*)this + 0x4)); }
 
 void *TFontSmallLobby__sub_801C03E0(void *arg0, void *arg1) {
-    TFontSmallLobby__sub_801C0228(arg0, arg1);
+    copy_subcommand_header(arg0, arg1);
     *(void **)((s8 *)arg0 + 0x4) = *(void **)((s8 *)arg1 + 0x4);
     return arg0;
 }
@@ -125,7 +125,7 @@ void TObjPlayer::bswap_change_hp_packet() {
 }
 
 void *TObjPlayer__sub_801C06BC(void *arg0, void *arg1) {
-    TFontSmallLobby__sub_801C0228(arg0, arg1);
+    copy_subcommand_header(arg0, arg1);
     *(void **)((s8 *)arg0 + 0x4) = *(void **)((s8 *)arg1 + 0x4);
     *(u16 *)((s8 *)arg0 + 0x8) = *(s16 *)((s8 *)arg1 + 0x8);
     *(u16 *)((s8 *)arg0 + 0xA) = *(u16 *)((s8 *)arg1 + 0xA);
@@ -151,7 +151,7 @@ void TObjPlayer::byteswap_packet_body() {
     bswap_32((u32 *)((void *)((char *)this + 16)));
 }
 u8 *TObjPlayer__sub_801C07B4(u8 *arg0, u8 *arg1) {
-    TFontSmallLobby__sub_801C0228(arg0, arg1);
+    copy_subcommand_header(arg0, arg1);
     *(s32 *)((s8 *)arg0 + 4) = (s32) *(s32 *)((s8 *)arg1 + 4);
     *(ByteBlock_C *)((s32) arg0 + 8) = *(const ByteBlock_C *)((s32) arg1 + 8);
     return arg0;

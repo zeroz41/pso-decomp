@@ -1,10 +1,10 @@
 #include "types.h"
 #include "pso/ui/TUnk_804E3008.h"
 #include "pso/ui/frontend/TAdPlyStatusGC.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 extern "C" {
 
-void *mem_alloc(u32 size);
 s32 sub_802E0CB0__13TUnk_804E3008Fv(void *, s32);
 
 extern s32 lbl_805D3F78;

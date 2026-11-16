@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/ui/frontend/TAdEndText.h"
 #include "pso/item/TItemReverseTechBG.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
@@ -30,7 +31,8 @@
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/system/task/TObject.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
+
 
 struct TItemReverseTechBG_80119658 {
     u8 pad0[0x1C];
@@ -47,7 +49,6 @@ struct TItemReverseTechBG_80119658 {
 
 extern "C" {
 void __ct__7TObjectFP7TObject(void *, void *);
-void *__nw__7TObjectFUl(int);
 
 extern void *__vt__18TItemReverseTechBG[];
 
@@ -56,11 +57,7 @@ extern void *__vt__18TItemReverseTechBG[];
 struct RecoveredGlobal_80119B28___vt__21TItemReverseTechPart2 { s32 value; u8 remaining[0x14]; };
 typedef char RecoveredGlobal_80119B28___vt__21TItemReverseTechPart2_size[sizeof(RecoveredGlobal_80119B28___vt__21TItemReverseTechPart2) == 0x18 ? 1 : -1];
 
-extern "C" {
-
 extern RecoveredGlobal_80119B28___vt__21TItemReverseTechPart2 __vt__21TItemReverseTechPart2;
-
-}
 
 void *TItemReverseTech__texture_archive;
 int TItemReverseTech__entry_table;
@@ -83,36 +80,18 @@ struct Self_80119DA0 {
 };
 
 void TAdRicoRingCtrl__sub_8001B4A0(void *, f32);
-void *__nw__7TObjectFUl(int);
 
 extern s32 __vt__21TItemReverseTechPart1[];
 extern s32 destroy_and_flag__21TItemReverseTechPart2Fv[];
-
-}
-
-extern "C" {
 
 extern s32 __vt__16TItemReverseTech[];
 const char *TItemReverseTech__name = "TItemReverseTech";
 
 }
 
-struct RecoveredGlobal_8011A350_main_task {
-    s32 value;
-    u8 remaining[0x30];
-};
-
-struct RecoveredGlobal_8011A3D8_main_task
-{
-  s32 value;
-  u8 remaining[0x30];
-};
-
 struct Ent_8011A270 { int name; int a; int b; };
 
 struct Hdr_8011A270 { int entries; int x4; };
-
-struct Vec_8011A43C { f32 x, y, z; };
 
 // One load/release pair of the reverse tech scene: init_scene calls each load,
 // run_cleanup_callbacks each release, last pair first.
@@ -123,28 +102,18 @@ struct TItemReverseTechSceneHook {
 
 extern "C" {
 s32 TKeyBoardControl__sub_8000F92C();
-void TKeyBoardControl__sub_8000F9CC(s32 arg0);
+void request_main_phase(s32 arg0);
 s8 func_801A5E54__Fv();
 s32 prs_decompress_alloc(int, int, int);
 int set_stream_and_load_file__6TLobbyFi(const char *);
-void mem_free(void *p);
-void *mem_alloc(u32 size);
 char *strncpy(char *, const char *, u32);
 void load_gvm_texture_archive(int, void *);
 void TKeyBoardControl__sub_8000F90C(s32);
-void TKeyBoardControl__sub_8000F91C(s32);
+void set_queued_main_phase(s32);
 void set_active_camera_pose(u8 *arg0, u8 *arg1);
 u8 *TCameraCtrl__ct(u8 *arg0, void *parent);
 void reset_controller_input_state();
 void set_copy_clear_color_argb(s32, s32, s32);
-}
-void process_async_file_reads(void);
-void update_sound_request_slots(void);
-void clear_resource_load_tasks();
-void init_map_lights(u8 *arg0);
-void set_screen_size(f32, f32);
-extern u8 default_scene_light_config[];
-extern "C" {
 void TItemReverseTech__sub_8011A54C(void* a0);
 int TItemReverseTech__sub_8011A55C(void);
 int TItemReverseTech__sub_8011A580(void);
@@ -153,7 +122,12 @@ void reset__11TCameraCtrlFv(void);
 s32 free_texture_if_valid(u32 arg0);
 int set_global_flags__6TLobbyFl(void*);
 }
-
+void process_async_file_reads(void);
+void update_sound_request_slots(void);
+void clear_resource_load_tasks();
+void init_map_lights(u8 *arg0);
+void set_screen_size(f32, f32);
+extern u8 default_scene_light_config[];
 TItemReverseTechSceneHook TItemReverseTech__cleanup_callback_table[7] = {
     {TCameraCtrl::reset_view_state, reset__11TCameraCtrlFv},
     {TCameraCtrl::init_default_view, TCameraCtrl::reset_default_view},
@@ -166,7 +140,7 @@ TItemReverseTechSceneHook TItemReverseTech__cleanup_callback_table[7] = {
 
 #pragma defer_codegen on
 
-extern "C" {
+
 void TItemReverseTech__sub_8011A5A4(void) {  }
 int TItemReverseTech__sub_8011A580(void) { return set_global_flags__6TLobbyFl((void*)(1)); }
 int TItemReverseTech__sub_8011A55C(void) { return set_global_flags__6TLobbyFl((void*)(2)); }
@@ -191,23 +165,21 @@ void TItemReverseTech::init_scene() {
         }
     }
     init_map_lights(default_scene_light_config);
-    cam = __nw__7TObjectFUl(0x1D4);
+    cam = TObject::operator new(0x1D4);
     if (cam != NULL) {
         TCameraCtrl__ct((u8 *)cam, (void *)tl_camera);
     }
-    Vec_8011A43C eye = {0.0f, 0.0f, 0.0f};
-    Vec_8011A43C at = {0.0f, 0.0f, -100.0f};
+    Vec eye = {0.0f, 0.0f, 0.0f};
+    Vec at = {0.0f, 0.0f, -100.0f};
     TCameraCtrl::select_active_controller(9);
     set_active_camera_pose((u8 *)&eye, (u8 *)&at);
     TKeyBoardControl__sub_8000F90C(2);
-    TKeyBoardControl__sub_8000F91C(2);
+    set_queued_main_phase(2);
     TParticleCtrl::create_quad_sprites();
     TItemReverseTech::create();
     render_tick();
 }
 
-typedef struct RecoveredGlobal_8011A3D8_main_task RecoveredGlobal_8011A3D8_main_task;
-typedef char RecoveredGlobal_8011A3D8_main_task_size[((sizeof(RecoveredGlobal_8011A3D8_main_task)) == 0x34) ? (1) : (-1)];
 void TItemReverseTech::run_cleanup_callbacks() {
     void (*fn)(void);
     TItemReverseTechSceneHook *e;
@@ -230,17 +202,17 @@ void TItemReverseTech::run_frame() {
     s32 *var_r3;
     controller_stuff();
     TKeyBoardControl::update_input_frame();
-    var_r3 = (s32 *)(&(*(RecoveredGlobal_8011A350_main_task *)&main_task).value);
-    var_r3 = (s32 *)(&(*(RecoveredGlobal_8011A350_main_task *)&main_task).value);
+    var_r3 = (s32 *)&main_task;
+    var_r3 = (s32 *)&main_task;
     main_task.begin_frame();
-    var_r3 = (s32 *)(&(*(RecoveredGlobal_8011A350_main_task *)&main_task).value);
-    var_r3 = (s32 *)(&(*(RecoveredGlobal_8011A350_main_task *)&main_task).value);
+    var_r3 = (s32 *)&main_task;
+    var_r3 = (s32 *)&main_task;
     main_task.run_task();
-    var_r3 = (s32 *)(&(*(RecoveredGlobal_8011A350_main_task *)&main_task).value);
-    var_r3 = (s32 *)(&(*(RecoveredGlobal_8011A350_main_task *)&main_task).value);
+    var_r3 = (s32 *)&main_task;
+    var_r3 = (s32 *)&main_task;
     main_task.render();
-    var_r3 = (s32 *)(&(*(RecoveredGlobal_8011A350_main_task *)&main_task).value);
-    var_r3 = (s32 *)(&(*(RecoveredGlobal_8011A350_main_task *)&main_task).value);
+    var_r3 = (s32 *)&main_task;
+    var_r3 = (s32 *)&main_task;
     main_task.render_screen_overlay();
     process_async_file_reads();
     update_sound_request_slots();
@@ -250,12 +222,10 @@ void TItemReverseTech::run_frame() {
     }
     if (TQuestVmDownLoadServer::is_ready() != 0) {
         var_r3 = NULL;
-        TKeyBoardControl__sub_8000F9CC(0);
+        request_main_phase(0);
     }
     render_tick();
 }
-
-typedef char RecoveredGlobal_8011A350_main_task_size[sizeof(RecoveredGlobal_8011A350_main_task) == 0x34 ? 1 : -1];
 
 #pragma push
 #pragma opt_propagation off
@@ -293,15 +263,11 @@ void TItemReverseTech::load_textures() {
 void TItemReverseTech::free() { free_texture_if_valid((u32)TItemReverseTech__texture_archive); mem_free((void *)TItemReverseTech__name_buffer); TItemReverseTech__name_buffer = 0; mem_free((void *)TItemReverseTech__entry_table); TItemReverseTech__entry_table = 0; ::operator delete((void *)TItemReverseTech__texture_archive); TItemReverseTech__texture_archive = 0; }
 
 void TItemReverseTech::create() {
-    void *obj = __nw__7TObjectFUl(0x28);
+    void *obj = TObject::operator new(0x28);
     if (obj != 0) {
         TItemReverseTech__ct(obj, tl_01);
     }
 }
-
-}
-
-extern "C" {
 
 void *TItemReverseTech__ct(void *item_reverse_tech, void *parent) {
     void *o;
@@ -309,13 +275,13 @@ void *TItemReverseTech__ct(void *item_reverse_tech, void *parent) {
     __ct__7TObjectFP7TObject(item_reverse_tech, parent);
     *(s32 **)((s8 *)item_reverse_tech + 0x18) = __vt__16TItemReverseTech;
     ((TItemReverseTech *)item_reverse_tech)->m_name = TItemReverseTech__name;
-    o = __nw__7TObjectFUl(0x34);
+    o = TObject::operator new(0x34);
     if (o != NULL) {
         o = TItemReverseTechPart1__ct(o, item_reverse_tech, TItemReverseTech__texture_archive);
     }
     *(void * *)&((TItemReverseTech *)item_reverse_tech)->part_one = o;
     *(u32 *)((s8 *)item_reverse_tech + 0x24) = 0;
-    o2 = __nw__7TObjectFUl(0x197C);
+    o2 = TObject::operator new(0x197C);
     if (o2 != NULL) {
         __ct__10TAdEndTextFv((u8 *)o2, (TObject *)item_reverse_tech);
     }
@@ -323,7 +289,6 @@ void *TItemReverseTech__ct(void *item_reverse_tech, void *parent) {
     return item_reverse_tech;
 }
 
-}
 
 TItemReverseTech::~TItemReverseTech() {
     TLobby::stop_audio_streams();
@@ -333,8 +298,8 @@ TItemReverseTech::~TItemReverseTech() {
 #pragma opt_common_subs off
 
 void TItemReverseTech::run_task() {
-    Vec_8011A43C eye = {0.0f, 0.0f, 0.0f};
-    Vec_8011A43C at = {0.0f, 0.0f, -100.0f};
+    Vec eye = {0.0f, 0.0f, 0.0f};
+    Vec at = {0.0f, 0.0f, -100.0f};
 
     u32 temp_r3;
     u32 object;
@@ -346,7 +311,7 @@ void TItemReverseTech::run_task() {
     temp_r3 = (u32)part_one;
     if ((temp_r3 != 0U) && (((TObject *)temp_r3)->all_parents_unqueued_for_destruction() == 0)) {
         part_one = NULL;
-        object = (u32)__nw__7TObjectFUl(0x158);
+        object = (u32)TObject::operator new(0x158);
         var_r0 = object;
         if (var_r0 != 0U) {
             var_r0 = (u32)__ct__21TItemReverseTechPart2Fv((u8 *)object, (s32)this, (s32)TItemReverseTech__texture_archive);
@@ -363,7 +328,6 @@ void TItemReverseTech::run_task() {
 
 const char *TItemReverseTechPart1__name = "TItemReverseTechPart1";
 
-extern "C" {
 
 void *TItemReverseTechPart1__ct(void *item_reverse_tech_part1, void *parent, void *texture_archive) {
     void *o;
@@ -377,18 +341,16 @@ void *TItemReverseTechPart1__ct(void *item_reverse_tech_part1, void *parent, voi
     *(u32 *)((s8 *)item_reverse_tech_part1 + 0x2C) = 150;
     *(u32 *)((s8 *)item_reverse_tech_part1 + 0x30) = 0;
     TItemReverseTechPart1__instance = item_reverse_tech_part1;
-    o = __nw__7TObjectFUl(0x28);
+    o = TObject::operator new(0x28);
     if (o != NULL) {
         ((TLobby *)o)->init_fade(tl_00, destroy_and_flag__21TItemReverseTechPart2Fv);
     }
     return item_reverse_tech_part1;
 }
 
-}
 
 TItemReverseTechPart1::~TItemReverseTechPart1() {}
 
-extern "C" {
 
 void TItemReverseTechPart1::run_task() {
     Self_80119DA0 *self = (Self_80119DA0 *)this;
@@ -399,7 +361,7 @@ void TItemReverseTechPart1::run_task() {
         break;
     case 1:
         if (self->ring == NULL) {
-            p = __nw__7TObjectFUl(0x2C);
+            p = TObject::operator new(0x2C);
             if (p != NULL) {
                 p = TAdRicoRingCtrl__ct((TAdRicoRingCtrl *)((u8 *)p), (s32)self);
             }
@@ -441,7 +403,6 @@ void TItemReverseTechPart1::run_task() {
     }
 }
 
-}
 
 void TItemReverseTechPart2::destroy_and_flag() {
     queue_destruction();
@@ -452,9 +413,9 @@ void TItemReverseTechPart2::destroy_and_flag() {
 
 const char *TItemReverseTechPart2__name = "TItemReverseTechPart2";
 
-extern "C" {
+
 u8 *__ct__21TItemReverseTechPart2Fv(u8 *object, s32 arg1, s32 arg2) {
-    void *temp_r3;
+    void *item_reverse_tech_bg;
     __ct__7TObjectFP7TObject((void *)object, (void *)arg1);
     *(s32 **)((s8 *)object + 0x18) = &__vt__21TItemReverseTechPart2.value;
     TItemReverseTech__sub_8011A54C((object + 0x1C));
@@ -532,29 +493,28 @@ u8 *__ct__21TItemReverseTechPart2Fv(u8 *object, s32 arg1, s32 arg2) {
     *(f32 *)((s8 *)object + 0x13C) = 3.4e+02f;
     *(f32 *)((s8 *)object + 0x140) = (f32) lbl_805DAC0C[0];
     *(f32 *)((s8 *)object + 0x14C) = 0.75f;
-    temp_r3 = __nw__7TObjectFUl(0x64);
-    if (temp_r3 != NULL) {
-        __ct__18TItemReverseTechBGFv(temp_r3, (void *)object, object + 0x124);
+    item_reverse_tech_bg = TObject::operator new(0x64);
+    if (item_reverse_tech_bg != NULL) {
+        __ct__18TItemReverseTechBGFv(item_reverse_tech_bg, (void *)object, object + 0x124);
     }
     *(s32 *)((s8 *)object + 0x150) = 0;
     *(s32 *)((s8 *)object + 0x154) = 0;
     return object;
 }
-}
 
 TItemReverseTechPart2::~TItemReverseTechPart2() {}
 
-extern "C" {
+
 void run_task__21TItemReverseTechPart2Fv(u8 *object) {
     s32 temp_r3;
     s32 temp_r3_2;
     void *nw;
 
     if ((*(s32 *)((s8 *)object + 0x150) % 360) == 0) {
-        if ((nw = __nw__7TObjectFUl(0x64)) != 0U) {
+        if ((nw = TObject::operator new(0x64)) != 0U) {
             __ct__18TItemReverseTechBGFv(nw, object, object + 0x74);
         }
-        if ((nw = __nw__7TObjectFUl(0x64)) != 0U) {
+        if ((nw = TObject::operator new(0x64)) != 0U) {
             __ct__18TItemReverseTechBGFv(nw, object, object + 0xA0);
         }
     }
@@ -562,14 +522,14 @@ void run_task__21TItemReverseTechPart2Fv(u8 *object) {
         temp_r3 = *(s32 *)((s8 *)object + 0x150);
         if ((temp_r3 >= 0x78) && (((temp_r3 - 0x78) % 720) == 0)) {
             *(s32 *)((s8 *)object + 0x28) = 0xC;
-            if ((nw = __nw__7TObjectFUl(0x64)) != 0U) {
+            if ((nw = TObject::operator new(0x64)) != 0U) {
                 __ct__18TItemReverseTechBGFv(nw, object, object + 0x1C);
             }
-            if ((nw = __nw__7TObjectFUl(0x64)) != 0U) {
+            if ((nw = TObject::operator new(0x64)) != 0U) {
                 __ct__18TItemReverseTechBGFv(nw, object, object + 0x48);
             }
             *(s32 *)((s8 *)object + 0xD8) = (s32) *(s32 *)((s8 *)object + 0x154);
-            if ((nw = __nw__7TObjectFUl(0x64)) != 0U) {
+            if ((nw = TObject::operator new(0x64)) != 0U) {
                 __ct__18TItemReverseTechBGFv(nw, object, object + 0xCC);
             }
             *(s32 *)((s8 *)object + 0x154) = (s32) (*(s32 *)((s8 *)object + 0x154) + 1);
@@ -577,14 +537,14 @@ void run_task__21TItemReverseTechPart2Fv(u8 *object) {
         temp_r3_2 = *(s32 *)((s8 *)object + 0x150);
         if ((temp_r3_2 >= 0x1E0) && (((temp_r3_2 - 0x1E0) % 720) == 0)) {
             *(s32 *)((s8 *)object + 0x28) = 0xD;
-            if ((nw = __nw__7TObjectFUl(0x64)) != 0U) {
+            if ((nw = TObject::operator new(0x64)) != 0U) {
                 __ct__18TItemReverseTechBGFv(nw, object, object + 0x1C);
             }
-            if ((nw = __nw__7TObjectFUl(0x64)) != 0U) {
+            if ((nw = TObject::operator new(0x64)) != 0U) {
                 __ct__18TItemReverseTechBGFv(nw, object, object + 0x48);
             }
             *(s32 *)((s8 *)object + 0x104) = (s32) *(s32 *)((s8 *)object + 0x154);
-            if ((nw = __nw__7TObjectFUl(0x64)) != 0U) {
+            if ((nw = TObject::operator new(0x64)) != 0U) {
                 __ct__18TItemReverseTechBGFv(nw, object, object + 0xF8);
             }
             *(s32 *)((s8 *)object + 0x154) = (s32) (*(s32 *)((s8 *)object + 0x154) + 1);
@@ -598,45 +558,43 @@ void run_task__21TItemReverseTechPart2Fv(u8 *object) {
 block_26:
     *(s32 *)((s8 *)object + 0x150) = (s32) (*(s32 *)((s8 *)object + 0x150) + 1);
 }
-}
 
 void TItemReverseTechPart2::render() {  }
 
 const char *TItemReverseTechBG__name = "TItemReverseTechBG";
 
-extern "C" {
-void *__ct__18TItemReverseTechBGFv(void *arg0, void *parent, void *arg3) {
+
+void *__ct__18TItemReverseTechBGFv(void *object, void *parent, void *arg3) {
     s32 temp_r3;
 
-    __ct__7TObjectFP7TObject(arg0, parent);
-    *(void **)((s8 *)arg0 + 0x18) = __vt__18TItemReverseTechBG;
-    *(s32 *)((s8 *)arg0 + 0) = (s32) TItemReverseTechBG__name;
-    *(s32 *)((s8 *)arg0 + 0x1C) = (s32) *(s32 *)((s8 *)arg3 + 0);
-    *(s32 *)((s8 *)arg0 + 0x20) = (s32) *(s32 *)((s8 *)arg3 + 4);
-    *(s32 *)((s8 *)arg0 + 0x2C) = (s32) *(s32 *)((s8 *)arg3 + 8);
-    *(s32 *)((s8 *)arg0 + 0x30) = (s32) *(s32 *)((s8 *)arg3 + 0xC);
-    *(s32 *)((s8 *)arg0 + 0x24) = 0;
-    temp_r3 = *(s32 *)((s8 *)arg0 + 0x20);
+    __ct__7TObjectFP7TObject(object, parent);
+    *(void **)((s8 *)object + 0x18) = __vt__18TItemReverseTechBG;
+    *(s32 *)((s8 *)object + 0) = (s32) TItemReverseTechBG__name;
+    *(s32 *)((s8 *)object + 0x1C) = (s32) *(s32 *)((s8 *)arg3 + 0);
+    *(s32 *)((s8 *)object + 0x20) = (s32) *(s32 *)((s8 *)arg3 + 4);
+    *(s32 *)((s8 *)object + 0x2C) = (s32) *(s32 *)((s8 *)arg3 + 8);
+    *(s32 *)((s8 *)object + 0x30) = (s32) *(s32 *)((s8 *)arg3 + 0xC);
+    *(s32 *)((s8 *)object + 0x24) = 0;
+    temp_r3 = *(s32 *)((s8 *)object + 0x20);
     if (temp_r3 != 0) {
-        *(s32 *)((s8 *)arg0 + 0x28) = (s32) (0xFF / temp_r3);
-        if ((u32) *(s32 *)((s8 *)arg0 + 0x28) == 0U) {
-            *(s32 *)((s8 *)arg0 + 0x28) = 1;
+        *(s32 *)((s8 *)object + 0x28) = (s32) (0xFF / temp_r3);
+        if ((u32) *(s32 *)((s8 *)object + 0x28) == 0U) {
+            *(s32 *)((s8 *)object + 0x28) = 1;
         }
     }
-    *(s32 *)((s8 *)arg0 + 0x34) = -1;
-    *(f32 *)((s8 *)arg0 + 0x38) = (f32) *(f32 *)((s8 *)arg3 + 0x10);
-    *(f32 *)((s8 *)arg0 + 0x3C) = (f32) *(f32 *)((s8 *)arg3 + 0x14);
-    *(f32 *)((s8 *)arg0 + 0x40) = (f32) (*(f32 *)((s8 *)arg3 + 0x10) + *(f32 *)((s8 *)arg3 + 0x18));
-    *(f32 *)((s8 *)arg0 + 0x44) = (f32) (*(f32 *)((s8 *)arg3 + 0x14) + *(f32 *)((s8 *)arg3 + 0x1C));
-    *(f32 *)((s8 *)arg0 + 0x48) = (f32) lbl_805DAC08[0];
-    *(f32 *)((s8 *)arg0 + 0x4C) = (f32) lbl_805DAC08[0];
-    *(f32 *)((s8 *)arg0 + 0x50) = (f32) *(f32 *)((s8 *)arg3 + 0x20);
-    *(f32 *)((s8 *)arg0 + 0x54) = (f32) *(f32 *)((s8 *)arg3 + 0x24);
-    *(f32 *)((s8 *)arg0 + 0x58) = (f32) *(f32 *)((s8 *)arg3 + 0x28);
-    *(s32 *)((s8 *)arg0 + 0x60) = 0;
-    *(s32 *)((s8 *)arg0 + 0x5C) = 0;
-    return arg0;
-}
+    *(s32 *)((s8 *)object + 0x34) = -1;
+    *(f32 *)((s8 *)object + 0x38) = (f32) *(f32 *)((s8 *)arg3 + 0x10);
+    *(f32 *)((s8 *)object + 0x3C) = (f32) *(f32 *)((s8 *)arg3 + 0x14);
+    *(f32 *)((s8 *)object + 0x40) = (f32) (*(f32 *)((s8 *)arg3 + 0x10) + *(f32 *)((s8 *)arg3 + 0x18));
+    *(f32 *)((s8 *)object + 0x44) = (f32) (*(f32 *)((s8 *)arg3 + 0x14) + *(f32 *)((s8 *)arg3 + 0x1C));
+    *(f32 *)((s8 *)object + 0x48) = (f32) lbl_805DAC08[0];
+    *(f32 *)((s8 *)object + 0x4C) = (f32) lbl_805DAC08[0];
+    *(f32 *)((s8 *)object + 0x50) = (f32) *(f32 *)((s8 *)arg3 + 0x20);
+    *(f32 *)((s8 *)object + 0x54) = (f32) *(f32 *)((s8 *)arg3 + 0x24);
+    *(f32 *)((s8 *)object + 0x58) = (f32) *(f32 *)((s8 *)arg3 + 0x28);
+    *(s32 *)((s8 *)object + 0x60) = 0;
+    *(s32 *)((s8 *)object + 0x5C) = 0;
+    return object;
 }
 
 TItemReverseTechBG::~TItemReverseTechBG() {}

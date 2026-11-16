@@ -1,4 +1,5 @@
 #include "pso/ui/window/TObjBagWarnWin.h"
+#include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
 #include "pso/unk/text_8006EF80.h"
@@ -7,6 +8,7 @@
 #include "pso/map/FloorArea.h"
 #include "types.h"
 #include "pso/unk/TLobby.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 #pragma readonly_strings on
 
@@ -25,11 +27,10 @@ struct Ctrl_8006EC20 {
 };
 
 extern "C" {
-s32 TWindowCtrlMain__sub_8024CE58();
+s32 has_window_task_root();
 void *get_player_by_client_id(s32 i);
 s32 TLobby__sub_80211C3C();
 extern s32 local_client_id;
-s32 append_line__14TWindowMessageFii(u32, void *, s32);
 u32 create__14TWindowMessageFPvll(s32, void *, s32);
 s32 get_window_layout_position(s32);
 s32 strncpy(void *, s32, s32);
@@ -67,60 +68,60 @@ s32 TObjBagWarnWin::should_show_warning(void *arg0) {
 }
 
 void TObjBagWarnWin::run_task() {
-    u8 *arg0 = (u8 *)this;
     s32 temp_r0;
-    if ((u32) *(u32 *)((s8 *)arg0 + 0x1C) == 0U) {
-        if (TWindowCtrlMain__sub_8024CE58() != 0) {
-            if (TObjBagWarnWin::should_show_warning(arg0) != 0) {
-                temp_r0 = *(s32 *)((s8 *)arg0 + 0xA0) - 1;
-                *(s32 *)((s8 *)arg0 + 0xA0) = temp_r0;
+    if (message_window == NULL) {
+        if (has_window_task_root() != 0) {
+            if (TObjBagWarnWin::should_show_warning(this) != 0) {
+                temp_r0 = open_delay - 1;
+                open_delay = temp_r0;
                 if (temp_r0 < 0) {
-                    *(s32 *)((s8 *)arg0 + 0xA0) = 0;
+                    open_delay = 0;
                 }
             } else {
-                *(s32 *)((s8 *)arg0 + 0xA0) = 0x1E;
+                open_delay = 0x1E;
             }
-            if ((s32) *(s32 *)((s8 *)arg0 + 0xA0) == 0) {
+            if (open_delay == 0) {
                 open_message_window();
             }
         }
-    } else if (TObjBagWarnWin::should_show_warning(arg0) == 0) {
-        ((TWindowBase *)(*(u32 *)((s8 *)arg0 + 0x1C)))->close();
-        *(u32 *)((s8 *)arg0 + 0x1C) = 0U;
-        *(s32 *)((s8 *)arg0 + 0xA0) = 0x1E;
+    } else if (TObjBagWarnWin::should_show_warning(this) == 0) {
+        message_window->close();
+        message_window = NULL;
+        open_delay = 0x1E;
     }
 }
 void TObjBagWarnWin::open_message_window() {
-    u8 *arg0 = (u8 *)this;
-    *(u32 *)((s8 *)arg0 + 0x1C) = create__14TWindowMessageFPvll(get_window_layout_position(0x38), TObjBagWarnWin__message_window_size, 1);
-    if ((u32) *(u32 *)((s8 *)arg0 + 0x1C) != 0U) {
-        ((TWindowBase *)(*(u32 *)((s8 *)arg0 + 0x1C)))->set_depth(70200.0f);
+    message_window = (TWindowMessage *)create__14TWindowMessageFPvll(get_window_layout_position(0x38), TObjBagWarnWin__message_window_size, 1);
+    if (message_window != NULL) {
+        message_window->set_depth(70200.0f);
         if (TCameraCtrl::get_camera_id() == 4) {
-            ((TWindowAddition *)(*(u32 *)((s8 *)arg0 + 0x1C)))->set_position_xy(0.8f, 0.8f);
+            message_window->set_position_xy(0.8f, 0.8f);
         }
-        strncpy(arg0 + 0x20, TQuestVmDownLoadServer__sub_8006EF6C(0x59), 0x7F);
-        *(s8 *)((s8 *)arg0 + 0x9F) = 0;
-        append_line__14TWindowMessageFii(*(u32 *)((s8 *)arg0 + 0x1C), arg0 + 0x20, 0);
+        strncpy(message_text, get_message_text(0x59), 0x7F);
+        message_text[0x7F] = 0;
+        message_window->append_line((int)message_text, (int)0);
     }
 }
 TObjBagWarnWin::~TObjBagWarnWin() {}
 
+const char *TObjBagWarnWin__name = "TObjBagWarnWin";
+
+}
+TObjBagWarnWin::TObjBagWarnWin(TObject *parent) : TObject(parent) {
+    this->m_name = TObjBagWarnWin__name;
+    message_window = NULL;
+    open_delay = 0;
 }
 
 extern "C" {
+extern u8 *text_language_group_table;
 
-void __ct__7TObjectFP7TObject(void *, void *);
-
-extern s32 __vt__14TObjBagWarnWin[];
-const char *TObjBagWarnWin__name = "TObjBagWarnWin";
-
-void *__ct__14TObjBagWarnWinFv(void *bag_warn_win, void *parent) {
-    __ct__7TObjectFP7TObject(bag_warn_win, parent);
-    *(s32 **)((s8 *)bag_warn_win + 0x18) = __vt__14TObjBagWarnWin;
-    ((TObjBagWarnWin *)bag_warn_win)->m_name = TObjBagWarnWin__name;
-    *(u32 *)((s8 *)bag_warn_win + 0x1C) = 0;
-    *(u32 *)((s8 *)bag_warn_win + 0xA0) = 0;
-    return bag_warn_win;
+void *TObjBagWarnWin::create(void *bag_warn_win) {
+    void *o = (void *)new TObjBagWarnWin((TObject *)bag_warn_win);
+    return o;
+}
+s32 get_message_text(s32 arg0) {
+    return *(s32 *)((s8 *)(*(s32 *)((s8 *)text_language_group_table + 0x2C)) + (arg0 * 4));
 }
 
 }

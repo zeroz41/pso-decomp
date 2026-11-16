@@ -1,4 +1,7 @@
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
+#include "pso/unk/TLobby_80228154.h"
+#include "pso/unk/TLobby_80299C4C.h"
 #include "pso/unk/TLobby.h"
 #include "pso/item/TUnk_804CC048.h"
 #include "pso/map/FloorArea.h"
@@ -16,6 +19,8 @@
 #include "pso/unk/TLobby_801404CC.h"
 #include "pso/unk/TLobby_8013FFA8.h"
 #include "pso/unk/text_80140D50.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/system/MatrixStack.h"
 
 // Area set-up functions of TLobby_80299A60/B90/C4C.cpp, which have no header.
 s32 initialize_boss_scene();
@@ -24,12 +29,7 @@ s32 load_dragon2_scene();
 
 
 extern "C" {
-s32 select_area_entrance(void *arg0);
 s32 lookup_scene_object__6TLobbyFPv(s32, void *);
-s32 init_jungle_area(void);
-void run_area_scene_cleanup(u8 *arg0);
-void promote_area_floor(u8 *arg0);
-void load_area_scene_and_init(u8 *arg0);
 s32 get_floor_map_terrain(s32);
 
 
@@ -148,6 +148,7 @@ void TLobby__sub_80228154(Sprite_80228154 *sprite, s32 frame_index, s32 flags, f
     draw_textured_quad_at_depth(&quad.x0, depth);
     TWindowSubStatusDisp::get_player();
 }
+}
 
 void TLobby::clear_ready_flag_unless_locked() {
     if (get_current_floor_area() != AREA_LOBBY) {
@@ -239,12 +240,10 @@ AreaInitializer area_initializer_dispatch_table[] = {
 void run_area_scene_cleanup(u8 *arg0) {
     s32 sp8;
     s32 *var_r4;
-    s32 var_r3;
     u8 *var_r31;
     var_r4 = &sp8;
     var_r31 = arg0;
-    var_r3 = *(s32 *)((s8 *)arg0 + 4);
-    if (lookup_scene_object__6TLobbyFPv(var_r3, var_r4) != 0) {
+    if (lookup_scene_object__6TLobbyFPv(*(s32 *)((s8 *)arg0 + 4), var_r4) != 0) {
         area_initializer_dispatch_table[sp8].cleanup();
     } else {
         area_initializer_dispatch_table[*(s32 *)((s8 *)var_r31 + 4)].cleanup();
@@ -253,6 +252,7 @@ void run_area_scene_cleanup(u8 *arg0) {
     *(s32 *)((s8 *)var_r31 + 8) = 0;
     *(s32 *)((s8 *)var_r31 + 0xC) = 0;
 }
+extern "C" {
 
 void load_area_scene_and_init(u8 *arg0) {
     s32 sp8;
@@ -272,16 +272,15 @@ void load_area_scene_and_init(u8 *arg0) {
     }
     area_initializer_dispatch_table[*(s32 *)((s8 *)var_r31 + 4)].init();
 }
+}
 
 void promote_area_floor(u8 *arg0) {
     s32 sp8;
     s32 *var_r4;
-    s32 var_r3;
     u8 *var_r31;
     var_r4 = &sp8;
     var_r31 = arg0;
-    var_r3 = *(s32 *)((s8 *)arg0 + 4);
-    if (lookup_scene_object__6TLobbyFPv(var_r3, var_r4) != 0) {
+    if (lookup_scene_object__6TLobbyFPv(*(s32 *)((s8 *)arg0 + 4), var_r4) != 0) {
         area_initializer_dispatch_table[sp8].cleanup();
     } else {
         area_initializer_dispatch_table[*(s32 *)((s8 *)var_r31 + 4)].cleanup();
@@ -290,7 +289,6 @@ void promote_area_floor(u8 *arg0) {
     *(s32 *)((s8 *)var_r31 + 4) = (s32) *(s32 *)((s8 *)var_r31 + 0xC);
     *(s32 *)((s8 *)var_r31 + 0x10) = (s32) *(s32 *)((s8 *)var_r31 + 0x18);
     TLobby::reset_story_select_state();
-}
 }
 
 Obj_80515BA0 lbl_80515BA0;

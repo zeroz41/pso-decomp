@@ -12,7 +12,7 @@ extern s32 is_timed_out(void);
 #include "pso/network/NetStackTypes.h"
 
 s32 TLobby__sub_803F778C(void *);
-void TLobby__sub_803F97E8(int);
+void net_sleep_ms(int);
 #include "pso/network/PppBuffer.h"
 #include "pso/network/PppFsm.h"
 
@@ -54,7 +54,7 @@ s16 TLobby__sub_80402BB4(void *arg0, u32 timeout) {
             return -0x12;
         }
         unlock_mutex(g->mutex);
-        TLobby__sub_803F97E8(100);
+        net_sleep_ms(100);
         process_expired_timers();
         lock_mutex(g->mutex);
     }
@@ -63,7 +63,7 @@ s16 TLobby__sub_80402BB4(void *arg0, u32 timeout) {
 }
 
 PppFrame *TLobby__sub_80403634(PppFsm *fsm, PppFsmProtocol *proto);
-void TLobby__sub_80402CE0(u8 *arg0) {
+void pap_init(u8 *arg0) {
     u8 *g;
     PppFsmProtocol *p;
     PppFsm *fsm;
@@ -138,7 +138,7 @@ static inline s16 read_text_field(u8 *self, Hdr_803FC4B4 *hdr, s32 src) {
     if (hdr->flag != self[1]) {
         return -1;
     }
-    n = (TLobby__sub_80401BCC(&src, lbl_805D7AB8, 1) != 1) ? -1 : (s16)lbl_805D7AB8[0];
+    n = (ppp_buffer_read(&src, lbl_805D7AB8, 1) != 1) ? -1 : (s16)lbl_805D7AB8[0];
     if (n != -1) {
         if (n != 0) {
             fld = (s16)get_field_4((void *)src);
@@ -173,23 +173,21 @@ static inline void finish_pending_step(u8 *self, u8 bit) {
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
-void PADRead(u8 *self, s32 arg1)
+void PADRead(u8 *self, s32 src)
 {
   Hdr_803FC4B4 hdr;
   PapOptions *opts;
-  extern s16 TLobby__sub_803FE8BC(u8 *, void *); /* declared s16 here; the definition returns s32 */
-  extern s16 TLobby__sub_80403308(u8 *, u8 *, PppFrame *);
   opts = (PapOptions *)((PppFsm *)self)->opts;
-  if (TLobby__sub_803FE8BC((u8 *) (&hdr), &arg1))
+  if (TLobby__sub_803FE8BC((u8 *)&hdr, &src))
   {
     return;
   }
   hdr.len -= 4;
-  TLobby__sub_80401CAC((PppFrame **) (&arg1), hdr.len);
+  TLobby__sub_80401CAC((PppFrame **) (&src), hdr.len);
   switch (hdr.type)
   {
     case 1:
-      if (TLobby__sub_80403308(self, (u8 *) (&hdr), (PppFrame *) arg1))
+      if (pap_recv_auth_request(self, (u8 *)&hdr, (PppFrame *) src))
     {
       return;
     }
@@ -197,7 +195,7 @@ void PADRead(u8 *self, s32 arg1)
       return;
 
     case 2:
-      if (read_text_field(self, &hdr, arg1) != 0)
+      if (read_text_field(self, &hdr, src) != 0)
     {
       return;
     }
@@ -205,14 +203,14 @@ void PADRead(u8 *self, s32 arg1)
       return;
 
     case 3:
-      if (read_text_field(self, &hdr, arg1) != 0)
+      if (read_text_field(self, &hdr, src) != 0)
     {
       return;
     }
       TLobby__sub_80405304(self + 0x10);
       opts->peer_id = NULL;
       opts->password = NULL;
-      *((s16 *) (self + 8)) = 1;
+      *((s16 *)(self + 8)) = 1;
       self[0] = 0;
       lbl_805D7A80 = 1;
       return;
@@ -222,20 +220,20 @@ void PADRead(u8 *self, s32 arg1)
 }
 #pragma pop
 
-s32 TLobby__sub_80403168(u8 *arg0, u8 *arg1, u8 *arg2) {
+s32 TLobby__sub_80403168(u8 *arg0, u8 *arg1, u8 *ppp_fsm) {
     Names_80403168 *g;
     PapOptions *opts;
     u32 n;
     u32 m;
-    opts = (PapOptions *)((PppFsm *)arg2)->opts;
+    opts = (PapOptions *)((PppFsm *)ppp_fsm)->opts;
     g = &lbl_805C04D8;
-    n = NetStringLength((const char *)((void *)(arg0)));
+    n = NetStringLength((const char *)(arg0));
     if (n >= 0x80) {
         n = 0x7F;
     }
     NetMemcpy(g->a, arg0, n);
     g->a[n] = 0;
-    m = NetStringLength((const char *)((void *)(arg1)));
+    m = NetStringLength((const char *)(arg1));
     if (m >= 0x80) {
         m = 0x7F;
     }
@@ -304,12 +302,12 @@ inline s32 get_80403308(PppFrame **s) {
         (*s)->len--;
         return *(*s)->data++;
     }
-    if (TLobby__sub_80401BCC(s, lbl_805D7AB8, 1) != 1) {
+    if (ppp_buffer_read(s, lbl_805D7AB8, 1) != 1) {
         return -1;
     }
     return (s16)lbl_805D7AB8[0];
 }
-s16 TLobby__sub_80403308(u8 *self, u8 *src, PppFrame *val) {
+s16 pap_recv_auth_request(u8 *self, u8 *src, PppFrame *val) {
     s32 TLobby__sub_803FE6CC(void *, u8, u8, void *); /* declared here with other parameter types; the definition is s32 (void *, int, int, void *) */
     PppFsm *fsm = (PppFsm *)self;
     u8 *p1 = 0;
@@ -322,7 +320,7 @@ s16 TLobby__sub_80403308(u8 *self, u8 *src, PppFrame *val) {
     s16 n;
     u8 *ent;
 
-    ch = (TLobby__sub_80401BCC(&val, lbl_805D7AB8, 1) != 1) ? -1 : (s16)lbl_805D7AB8[0];
+    ch = (ppp_buffer_read(&val, lbl_805D7AB8, 1) != 1) ? -1 : (s16)lbl_805D7AB8[0];
     if (ch != -1) {
         s16 cnt;
         u8 *out;
@@ -334,7 +332,7 @@ s16 TLobby__sub_80403308(u8 *self, u8 *src, PppFrame *val) {
         *out = 0;
     }
 
-    ch = (TLobby__sub_80401BCC(&val, lbl_805D7AB8, 1) != 1) ? -1 : (s16)lbl_805D7AB8[0];
+    ch = (ppp_buffer_read(&val, lbl_805D7AB8, 1) != 1) ? -1 : (s16)lbl_805D7AB8[0];
     if (ch != -1) {
         s16 cnt;
         u8 *out;
@@ -370,7 +368,7 @@ zero:
     }
     n = (s16)NetStringLength((const char *)(ptr));
     ent = (u8 *)TLobby__sub_80401B20(ptr, n);
-    *(*(u8 **)ent) = (u8)(n - 1);
+    *(*(u8 **)ent) = (n - 1);
     TLobby__sub_803FE6CC(self, st, src[1], ent);
 
     if (st == 3) {

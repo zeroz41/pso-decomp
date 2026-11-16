@@ -1,4 +1,5 @@
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/effect/sprite/TQuadSpriteNormal.h"
 
 #include "pso/system/vector.h"
@@ -9,16 +10,14 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/render_util.h"
 
-typedef struct Vec_801E5598 { f32 x, y, z; } Vec_801E5598;
-
 typedef struct Col_801E5598 { f32 r, g, b, a; } Col_801E5598;
 
 typedef struct Quad_801E5598 { f32 x0, y0, x1, y1; Col_801E5598 col; } Quad_801E5598;
 
 typedef struct Node_801E5598 {
     struct Node_801E5598 *next;
-    Vec_801E5598 pos;
-    Vec_801E5598 ofs;
+    Vec pos;
+    Vec ofs;
     u8 pad1C[0x24 - 0x1C];
     s32 tex;
     u8 pad28;
@@ -68,8 +67,8 @@ extern s32 __vt__17TQuadSpriteNormal[];
 #pragma fp_contract on
 void render__17TQuadSpriteNormalFv(Self_801E5598 *self) {
     Quad_801E5598 q;
-    Vec_801E5598 out;
-    Vec_801E5598 pos;
+    Vec out;
+    Vec pos;
     u32 flags;
     f32 sw;
     f32 sh;
@@ -161,11 +160,11 @@ TQuadSpriteNormal::~TQuadSpriteNormal() {
 }
 
 
-extern void *TQuadSpriteNormal__class_name;
+const char *TQuadSpriteNormal__class_name = "TQuadSpriteNormal";
 
 void *TQuadSpriteNormal__ct(void *quad_sprite_normal) {
     quad_sprite_base_ct(quad_sprite_normal);
     *(s32 **)((s8 *)quad_sprite_normal + 0x18) = __vt__17TQuadSpriteNormal;
-    *(void * *)&((TQuadSpriteNormal *)quad_sprite_normal)->m_name = TQuadSpriteNormal__class_name;
+    ((TQuadSpriteNormal *)quad_sprite_normal)->m_name = TQuadSpriteNormal__class_name;
     return quad_sprite_normal;
 }

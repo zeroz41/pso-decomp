@@ -1,4 +1,5 @@
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/boss/volopt/TBoss3VoloptHiraisin.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
@@ -20,7 +21,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/object/ambient/TObjFish_8001ED90.h"
-#include "pso/player/TObjPlayer.h"
+
 
 extern "C" {
 s32 minimap_render_dot(Vec *pos, s32 color, s16 a2, s32 a3);
@@ -143,8 +144,8 @@ void TBoss3VoloptHiraisin::start_attack() {
     s16 max_hp;
     u32 flags;
     TBoss3Volopt::create_breakup_mdl((s32)volopt_hiraisin_breakup_model, (s32)&volopt_hiraisin_breakup_params,
-                                     TObjFish__sub_8001EDB0(volopt_hiraisin_resources, 0x10), (s32)&m_2fc, rotation_y);
-    ((TObjPlayer *)(&m_2fc))->trigger_dell_biter_events();
+                                     get_bml_texlist(volopt_hiraisin_resources, 0x10), (s32)&m_2fc, rotation_y);
+    ((TObjPlayer *)((Vec *)&m_2fc))->trigger_dell_biter_events();
     play_sound_effect(0x4001C112, (Vec *)(&position), 0, 0);
     m_388 &= ~1;
     max_hp = hpmax;
@@ -256,7 +257,7 @@ void TBoss3VoloptHiraisin::render() {
             scale = 1.0f - 0.02202643f * (position.y - 4.6f);
             translate_matrix(0, position.x, 4.5f, position.z);
             scale_matrix(NULL, scale, scale, scale);
-            TObjFish::set_global_param(TObjFish__sub_8001EDB0(volopt_hiraisin_resources, 0));
+            TObjFish::set_global_param(get_bml_texlist(volopt_hiraisin_resources, 0));
             draw_chunk_object((void *)get_bml_model(volopt_hiraisin_resources, 0));
             pop_matrix();
         }

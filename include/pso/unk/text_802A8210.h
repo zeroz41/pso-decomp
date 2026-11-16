@@ -3,8 +3,8 @@
 
 #include "types.h"
 
-extern "C" {
 s8 find_indirect_effect_ctrl(s32 kind);
+extern "C" {
 void register_indirect_effect_ctrl(s32 kind);
 }
 

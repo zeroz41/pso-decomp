@@ -21,6 +21,9 @@ public:
     f32 get_scale();
 public:
     void confirm_and_close_if_valid();
+public:
+    void create_judgment_item_window();
+    void update_confirm_input();
 };
 
 // The derived windows' constructors are still C functions and call these by symbol.

@@ -13,7 +13,7 @@ BmlResourceDescriptor bm_n_efsw_i_body_resource_descriptor = { "bm_n_efsw_i_body
 const char *TObjNpcFemaleDwarf__name = "TObjNpcFemaleDwarf";
 BmlResource *TObjNpcFemaleDwarf__static_data;
 
-extern "C" s32 __vt__18TObjNpcFemaleDwarf[];
+s32 __vt__18TObjNpcFemaleDwarf[];
 
 void *TObjNpcFemaleDwarf__create(void *set_data) {
     TObjControl *control = new TObjControl(tl_04);

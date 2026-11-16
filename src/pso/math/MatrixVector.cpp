@@ -1,14 +1,13 @@
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/math/MatrixVector.h"
-
-struct Vec_803D8D1C { f32 x, y, z; };
 
 extern "C" {
 extern u8 *current_matrix;
 void GXGetProjectionv(f32 *p);
 void GXGetViewportv(f32 *vp);
 void GXProject(f32 x, f32 y, f32 z, u8 *mtx, f32 *pm, f32 *vp, f32 *sx, f32 *sy, f32 *sz);
-void project_world_to_screen(u8 *mtx, Vec_803D8D1C *pos, f32 *out);
+void project_world_to_screen(u8 *mtx, Vec *pos, f32 *out);
 s32 scale_matrix(f32, f32, f32);
 s32 translate_matrix(f32, f32, f32);
 
@@ -74,7 +73,7 @@ f32 vec_squared_length(const Vec *v) {
 
 #pragma push
 #pragma scheduling off
-void project_world_to_screen(u8 *mtx, Vec_803D8D1C *pos, f32 *out) {
+void project_world_to_screen(u8 *mtx, Vec *pos, f32 *out) {
     f32 proj[7];
     f32 vp[6];
     f32 sz;

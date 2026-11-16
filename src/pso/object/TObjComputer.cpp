@@ -18,26 +18,13 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/map/FloorArea.h"
+
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/unk/text_80087278.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/system/task/TObject.h"
 
-#define CAT2(a, b) a##b
-#define CAT(a, b) CAT2(a, b)
-#define PADV4 virtual void CAT(pa, __LINE__)(); virtual void CAT(pb, __LINE__)(); virtual void CAT(pc, __LINE__)(); virtual void CAT(pd, __LINE__)();
-struct Base_TOC_801881D4 { char pad[0x18]; };
-struct V_TOC_801881D4 : Base_TOC_801881D4 {
-    PADV4
-    PADV4
-    virtual s32 m8(f32, f32);
-};
-
-struct Obj_80188884 { u8 pad0[0x38]; u8 pos[0x28]; s32 id; u8 pad1[0x326 - 0x64]; s16 state; };
-
-struct Obj_80188814 { u8 pad0[0x38]; u8 pos[0x4c]; s32 id; };
 
 struct Obj_801884A0 {
     const char *unk0;
@@ -74,66 +61,25 @@ struct Computer_8018807C {
     u32 tick_c4;
 };
 
-struct Obj_80188768 { u8 pad0[0x1C]; u16 f1C; u8 pad1[0x62]; u32 f80; s32 f84; };
-
-struct Pkt_80188768 { u16 a; u16 b; s32 c; s32 d; s32 e; };
-
-struct Vec_8018860C { f32 x, y, z; };
-
-struct ChipParam_8018860C {
-    u32 x00;
-    u32 x04;
-    u32 x08;
-    Vec_8018860C pos;
-    u8 pad18[0x20];
-    f32 y2;
-    u32 pad3C;
-    s32 res;
-    s32 x44;
-    u32 x48;
-};
-
-struct Obj_8018860C {
-    u8 pad[0x38];
-    Vec_8018860C pos;
-    u8 pad44[0x326 - 0x44];
-    s16 state;
-};
 
 extern "C" {
 s32 push_matrix();
 s32 post_translate_matrix(void *);
 s32 rotate_matrix_y(s32, s32);
-void draw_ginja_box_tree(void);
-extern void *container_breakup_model_archive;
-extern s32 lbl_805D5B8C;
-extern char lbl_80444EF4[];
-extern const f32 lbl_805DBCF8;
 s32 get_bml_model(void *, s32);
 u32 init_collision_body_parts(void *, void *, s32);
 void *TObjMesBase__ct(TObjMesBase *arg0, s32 arg1, s32 arg2);
 extern s32 __vt__12TObjComputer[];
 void *TObjComputer__ct(void *arg0, void *parent, void *row);
 void *load_resource_from_descriptor(void *, int, void *, int, int, int);
+}
 u8 *load_gvm_texture_file(s32 arg0);
+extern "C" {
 s32 scroll_ginja_mesh_uvs(void *, s32, s32, u16, s32);
 s32 PPCSync();
 s32 rotate_matrix_by_node_angles(void *, u32);
 extern u32 actor_frame_tick;
-s32 get_current_floor();
-extern s32 local_client_id;
-extern const f32 lbl_805DBCF4;
-u8 *__ct__8TObjChipFP7TObjectPC14TObjChipParams(u8 *arg0, u8 *arg1, u8 *arg2);
-}
-void load_computer_resources(void);
-void play_container_break_sound(s32 arg0);
-extern "C" {
-s32 dispatch_fish_event__6TLobbyFPv(void *a0);
-void *__nw__7TObjectFUl(int);
-extern ChipParam_8018860C lbl_80444E5C;
-extern ChipParam_8018860C lbl_80444EA8;
 extern void *tl_05;
-void TObjContainerAbeEnemy__vt77(const Obj_8018860C *self);
 void free_bin_model_request(void*, int);
 s32 release_texture_list(void*);
 s32 free_collision_body_parts(void *);
@@ -142,10 +88,10 @@ s32 clear_ref_if_destroyed__11TObjMesBaseFv();
 
 extern s32 __vt__13TObjGbAdvance[];
 
-s32 TObjFish__sub_8001EDB0(void *, s32);
+s32 get_bml_texlist(void *, s32);
 u8 *TObjGbAdvance__ct(u8 *arg0, s32 arg1, s32 arg2);
 }
-
+void load_computer_resources(void);
 const char *fe_obj_tanmatu02_model_names[3] = {"fe_obj_tanmatu02.gj", "fs_obj_tanmatu01.gj", NULL};
 const char *fe_obj_tanmatu02_motion_names[1] = {NULL};
 BmlResourceDescriptor fe_obj_tanmatu02_resource_descriptor = {
@@ -245,7 +191,7 @@ void TObjComputer::free_resources() {
 }
 
 void *TObjComputer::create() {
-    void *o = __nw__7TObjectFUl(0xC8);
+    void *o = TObject::operator new(0xC8);
     if (o != NULL) {
         o = TObjComputer__ct(o, tl_05, this);
     }
@@ -266,8 +212,7 @@ void TObjComputer::clear_ref_if_destroyed() {
 }
 
 void TObjComputer::render() {
-    u8 *arg0 = (u8 *)this;
-    if (((V_TOC_801881D4 *)arg0)->m8(400.0f, 20.0f) != 0) {
+    if (this->update_object_view_visibility(400.0f, 20.0f) != 0) {
         draw_model();
     }
 }
@@ -306,26 +251,26 @@ s32 TObjComputer::draw_model() {
 
 void TObjComputer::debug_draw_label() {
     this->TObjMesBase::debug_draw_label();
-    *(s32 *)&this->set_params[1] = *(s32 *)&this->set_params[1] % 2;
-    *(s32 *)&this->m_bc = get_bml_model((void *)TObjComputer__model_archive, TObjComputer__data_805DBCD8[*(s32 *)&this->set_params[1]]);
+    this->set_params[1] = this->set_params[1] % 2;
+    this->m_bc = get_bml_model((void *)TObjComputer__model_archive, TObjComputer__data_805DBCD8[this->set_params[1]]);
     TObjNpcEnemy::set_global_count(0xFF00FF);
     debug_printf_at(0x130021, "<- MODEL SELECT");
     TObjNpcEnemy::set_global_count(0xF0F0F0FF);
 }
 
-u8 *TObjGbAdvance__ct(u8 *arg0, s32 arg1, s32 arg2) {
-    TObjMesBase__ct((TObjMesBase *)arg0, arg1, arg2);
-    *(s32 **)((s8 *)arg0 + 0x18) = __vt__13TObjGbAdvance;
-    *(const char **)((s8 *)arg0 + 0) = TObjGbAdvance__class_name;
-    init_collision_body_parts(arg0, &gb_advance_collision_body_parts, 1);
-    ((TObjGbAdvance *)arg0)->actorFlags = (s32) (((TObjGbAdvance *)arg0)->actorFlags | 0x40000000);
-    ((TObjPlayer *)arg0)->register_object_by_id();
-    ((TObjGbAdvance *)arg0)->cursor_action.set_use();
-    return arg0;
+u8 *TObjGbAdvance__ct(u8 *mes_base, s32 arg1, s32 arg2) {
+    TObjMesBase__ct((TObjMesBase *)mes_base, arg1, arg2);
+    *(s32 **)((s8 *)mes_base + 0x18) = __vt__13TObjGbAdvance;
+    ((TObjGbAdvance *)mes_base)->m_name = TObjGbAdvance__class_name;
+    init_collision_body_parts(mes_base, &gb_advance_collision_body_parts, 1);
+    ((TObjGbAdvance *)mes_base)->actorFlags = (s32) (((TObjGbAdvance *)mes_base)->actorFlags | 0x40000000);
+    ((TObjPlayer *)mes_base)->register_object_by_id();
+    ((TObjGbAdvance *)mes_base)->cursor_action.set_use();
+    return mes_base;
 }
 
 TObjGbAdvance::~TObjGbAdvance() {
-    ((TObjCollidable *)this)->unregister_object_by_id();
+    this->unregister_object_by_id();
     free_collision_body_parts(this);
 }
 
@@ -337,8 +282,8 @@ void TObjGbAdvance::vfunc_14() {
 }
 
 void TObjGbAdvance::render() {
-    if (((V_TOC_801881D4 *)this)->m8(400.0f, 20.0f) != 0) {
-        TObjFish::set_global_param(TObjFish__sub_8001EDB0((void *)TObjGbAdvance__data_805D5B74, 0));
+    if (this->update_object_view_visibility(400.0f, 20.0f) != 0) {
+        TObjFish::set_global_param(get_bml_texlist((void *)TObjGbAdvance__data_805D5B74, 0));
         push_matrix();
         post_translate_matrix(&this->position);
         rotate_matrix_y(0, this->rotation_y);

@@ -1,4 +1,5 @@
 #include "pso/enemy/TObjEnemy.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "types.h"
 #include "pso/unk/text_800D8830.h"

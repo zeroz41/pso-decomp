@@ -64,8 +64,8 @@ typedef char Ipv6NdMtuOption_size_check[sizeof(Ipv6NdMtuOption) == 8 ? 1 : -1];
 typedef struct Ipv6NdPrefixEvent {
     u8 *prefix;
     s16 prefix_len;
-    s32 preferred_lifetime;
-    s32 valid_lifetime;
+    u32 preferred_lifetime;
+    u32 valid_lifetime;
 } Ipv6NdPrefixEvent;
 typedef char Ipv6NdPrefixEvent_size_check[sizeof(Ipv6NdPrefixEvent) == 0x10 ? 1 : -1];
 

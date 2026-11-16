@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/object/TObjParticle.h"
 #include "pso/render/NinjaUtil.h"
@@ -7,35 +8,33 @@
 #include "pso/system/task/TObject_8001A448.h"
 #include "pso/system/vector.h"
 #include "pso/object/base/TObjMotion.h"
-#include "pso/object/TObjParticle.h"
+
 #include "pso/system/task/TObject.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/map/FloorArea.h"
 #include "pso/player/TObjPlayer_80011014.h"
-#include "pso/system/task/TObject.h"
+
 
 struct P_8019527C { u8 pad[0x90]; u32 f90; };
 
-struct Vec_80195400 { f32 x, y, z; };
-
 struct Src_80195400 {
     u8 pad0[0xC];
-    Vec_80195400 pos;
-    Vec_80195400 ang;
+    Vec pos;
+    Vec ang;
     f32 params[3];
     s32 ints[3];
 };
 
 struct Part_80195400 {
-    s32 f0;
+    const char *f0;
     u8 pad4[0x14];
     s32 *vt;
     u8 pad1c[0x38 - 0x1C];
-    Vec_80195400 pos;
+    Vec pos;
     u8 pad44[0x5C - 0x44];
-    Vec_80195400 ang;
+    Vec ang;
     f32 params[3];
     u8 pad74[0x84 - 0x74];
     s32 ints[3];
@@ -44,15 +43,13 @@ struct Part_80195400 {
 };
 
 extern "C" {
-u8 *__nw__7TObjectFUl(s32);
 extern s32 tl_05;
 s32 spawn_particle_effect_with_rotation(void *, void *, s32, u16);
 s32 spawn_continuous_particle_with_direction(void *, void *, s32);
 s32 __ct__8TObjBaseFP7TObject(void *, void *);
 extern s32 __vt__12TObjParticle[];
-extern s32 obj_particle_class_name;
+const char *obj_particle_class_name = "TObjParticle";
 Part_80195400 *TObjParticle__ct(Part_80195400 *arg0, s32 arg1, Src_80195400 *arg2);
-void __dl__7TObjectFPv(void *);
 
 extern s32 camera_ctrl_instance;
 
@@ -90,9 +87,9 @@ void TObjParticle::run_task() {
 }
 TObjParticle::~TObjParticle() {
     if (*(void **)((s8 *)this + 0x90) != NULL) { ((TObject *)((void *)(*(void **)((s8 *)this + 0x90))))->queue_destruction(); this->m_90 = 0; }
-    ((TObjBase *)this)->mask_object_set_row_flags(-3);
+    this->mask_object_set_row_flags(-3);
 }
-extern "C" {
+
 
 Part_80195400 *TObjParticle__ct(Part_80195400 *arg0, s32 parent, Src_80195400 *arg2) {
     u32 i;
@@ -167,7 +164,7 @@ u8 *TObjParticle__create(u8 *arg0) {
     if (is_split_screen() != 0) {
         return NULL;
     }
-    temp_r3 = (u8 *)(__nw__7TObjectFUl(0x98));
+    temp_r3 = (u8 *)(TObject::operator new(0x98));
     var_r0 = temp_r3;
     if (var_r0 != NULL) {
         var_r0 = (u8 *)(TObjParticle__ct((Part_80195400 *)(temp_r3), tl_05, (Src_80195400 *)(arg0)));
@@ -175,4 +172,3 @@ u8 *TObjParticle__create(u8 *arg0) {
     return var_r0;
 }
 
-}

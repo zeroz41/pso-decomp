@@ -1,4 +1,6 @@
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/unk/TLobby.h"
@@ -7,7 +9,10 @@
 #include "pso/unk/TLobby_80227A2C.h"
 #include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/system/vector.h"
+#include "pso/system/TLoadCtrl_80227390.h"
+#include "pso/network/client_id.h"
 #include "pso/object/trap/TOTrapAncient01.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 extern "C" {
 
@@ -29,7 +34,7 @@ struct SndEnt_8022675C {
     s32 id;
     Vec *src;
     Vec pos;
-    s16 prio;
+    s16 timer; // frames left: 0x96 when played, 5 to fade out; the same id is not replayed while >= 0x94
     s16 x1a;
     s32 x1c;
     u8 pad[8];
@@ -65,12 +70,12 @@ void TLobby::init_layout_positions() {
     TLobby::close_option_window();
     TLobby::reset_global();
 }
-u8 *get_global_state__23TAdSinglePlyChrSelectGCFv();
 s32 OSSetSoundMode(int);
+}
 extern SndEnt_8022675C lbl_805145F0[];
-extern const u32 lbl_805DC748;
 extern s32 lbl_805D62B0;
-int release_sound_with_fade(void *p);
+void release_sound_with_fade(s32 slot);
+extern "C" {
 void stop_sound_request(s32 idx);
 u32 OSGetSoundMode();
 int TLobby__sub_80227D38(void);
@@ -119,11 +124,16 @@ void TTecRaFoie::update_technique_slot(s32 arg0) {
     }
 }
 
+}
+// Defined here: CodeWarrior emits it in definition order, and its .sdata2 slot
+// (0x805DC748) lies between update_music_stream_gain's literal and the 0.0 below.
+const u32 lbl_805DC748 = 1;
+extern "C" {
 void stop_sound_request(s32 idx) {
     if (lbl_805D62B0 != 0 && idx >= 0 && idx < 0x28) {
-        release_sound_with_fade((void *)idx);
+        release_sound_with_fade(idx);
         lbl_805145F0[idx].flags &= lbl_805DC748;
-        lbl_805145F0[idx].prio = 0;
+        lbl_805145F0[idx].timer = 0;
         lbl_805145F0[idx].src = 0;
     }
 }
@@ -138,7 +148,7 @@ int TLobby::init_sound_mode() {
     } else {
         TLobby::set_mode(1);
         sound_mode_value = 0;
-        p = get_global_state__23TAdSinglePlyChrSelectGCFv();
+        p = TAdSinglePlyChrSelectGC::get_global_state();
         if (p != NULL && p != NULL && *(s16 *)((s8 *)p + 0xE) != 0) {
             sound_mode_value = 2;
             TLobby::set_mode(2);
@@ -149,10 +159,10 @@ int TLobby::init_sound_mode() {
 
 void TLobby::set_sound_output_mode(s32 arg0) {
     s32 var_r30;
-    u8 *temp_r3;
-    temp_r3 = get_global_state__23TAdSinglePlyChrSelectGCFv();
-    if (temp_r3 != NULL) {
-        *(s16 *)((s8 *)temp_r3 + 0xE) = 0;
+    u8 *global_state;
+    global_state = TAdSinglePlyChrSelectGC::get_global_state();
+    if (global_state != NULL) {
+        *(s16 *)((s8 *)global_state + 0xE) = 0;
     }
     switch (arg0) {
     case 0:
@@ -161,8 +171,8 @@ void TLobby::set_sound_output_mode(s32 arg0) {
         break;
     case 2:
         OSSetSoundMode(1);
-        if (temp_r3 != NULL) {
-            *(s16 *)((s8 *)temp_r3 + 0xE) = 1;
+        if (global_state != NULL) {
+            *(s16 *)((s8 *)global_state + 0xE) = 1;
         }
         var_r30 = 2;
         break;
@@ -180,15 +190,13 @@ void TLobby__sub_8022644C(void) {
     }
     for (i = 0; i < 0x28; i++) {
         lbl_805145F0[i].flags &= lbl_805DC748;
-        lbl_805145F0[i].prio = 0;
+        lbl_805145F0[i].timer = 0;
         lbl_805145F0[i].src = 0;
     }
 }
 }
-
-
-extern "C" {
 s32 check_sound_admission_range(const Vec *pos);
+extern "C" {
 s32 fn_802264B8(s32 slot, s32) {
     s32 r;
     if (lbl_805145F0[slot].flags & 0x2000) {
@@ -204,14 +212,10 @@ s32 fn_802264B8(s32 slot, s32) {
     return 1;
 }
 
-}
-
-
-
-extern "C" {
 SndEnt_8022675C lbl_805145F0[40];
 u8 lbl_80514C30[0x20];
 f32 lbl_80514C50[4];
+s32 play_sound_effect(s32 id, Vec *src, s32 a2, s32 flags);
 
 s32 TOTrapAncient01::check_trigger_flag(s32 arg0, s32 arg1) {
     s32 var_r3;
@@ -254,10 +258,10 @@ s32 play_persistent_sound(s32 id, s32 a1, Vec *src, s32 a3, s32 flags) {
         last_sound_effect_slot = idx;
         if (ok != 0) {
             e = &lbl_805145F0[idx];
-            e->src = src;
+            e->src = (Vec *)src;
             e->x1a = a3;
-            e->prio = 5;
-            idx = normalize_sound_request(id, e->x1c, (s32)e->src, e->x1a, flags);
+            e->timer = 5;
+            idx = normalize_sound_request((u32)id, (s32)e->x1c, (s32)e->src, (s32)e->x1a, (s32)flags);
         }
         return idx;
     }
@@ -269,11 +273,11 @@ s32 play_persistent_sound(s32 id, s32 a1, Vec *src, s32 a3, s32 flags) {
             if (flags & 1) {
                 lbl_805145F0[idx].flags |= 0x2000;
             }
-            lbl_805145F0[idx].src = src;
+            lbl_805145F0[idx].src = (Vec *)src;
             lbl_805145F0[idx].x1a = a3;
             lbl_805145F0[idx].id = id;
             lbl_805145F0[idx].x1c = a1;
-            lbl_805145F0[idx].prio = 5;
+            lbl_805145F0[idx].timer = 5;
             lbl_805145F0[idx].flags |= 0x1600;
         } else {
             return -1;
@@ -294,7 +298,7 @@ s32 play_sound_effect(s32 id, Vec *src, s32 a2, s32 flags) {
     }
     idx = -1;
     for (i = 0; i < 40; i++) {
-        if ((lbl_805145F0[i].flags & 0x400) && id == lbl_805145F0[i].id && lbl_805145F0[i].prio >= 0x94) {
+        if ((lbl_805145F0[i].flags & 0x400) && id == lbl_805145F0[i].id && lbl_805145F0[i].timer >= 0x94) {
             return -1;
         }
     }
@@ -304,15 +308,15 @@ s32 play_sound_effect(s32 id, Vec *src, s32 a2, s32 flags) {
     if (idx >= 0) {
         if (src != NULL) {
             pos = &lbl_805145F0[idx].pos;
-            VecCopy(pos, (const Vec *)src);
-            TLobby__sub_80227AF8(idx, pos);
+            VecCopy((Vec *)pos, (const Vec *)src);
+            ((void (*)(s32, Vec *))TLobby__sub_80227AF8)(idx, pos);
         }
         lbl_805145F0[idx].flags &= lbl_805DC748;
         if (flags & 1) {
             lbl_805145F0[idx].flags |= 0x2000;
         }
         lbl_805145F0[idx].src = src;
-        lbl_805145F0[idx].prio = 0x96;
+        lbl_805145F0[idx].timer = 0x96;
         lbl_805145F0[idx].x1a = a2;
         lbl_805145F0[idx].id = id;
         lbl_805145F0[idx].x1c = 0;
@@ -324,5 +328,139 @@ s32 play_sound_effect(s32 id, Vec *src, s32 a2, s32 flags) {
     }
     return -1;
 }
+}
 
+
+extern u32 camera_ctrl_instance;
+extern s8 lbl_805D6279;
+extern "C" {
+void *get_player_by_client_id(s32 i);
+s32 TLobby__sub_8023F880(s32 arg0);
+extern int lbl_805D62B4;
+extern int lbl_805D62B8;
+
+void TLobby::update_lobby_subsystems() { TLobby__sub_8022644C(); stop_cue_stream(); }
+
+// Dead-stripped from the DOL: no code of it survives. This part of the .sdata2 pool opens
+// with 0.0 (0x805DC74C) ahead of check_sound_admission_range's 90000/40/260/127
+// although that function loads 0.0 last, so a function before it used 0.0 first.
+// Minimal body: it clears the sound listener position (lbl_80514C50) the way
+// update_sound_request_slots does when there is neither a player nor a camera.
+// Name inferred from that role.
+void clear_sound_listener_position(void) {
+    lbl_80514C50[2] = 0.0f;
+    lbl_80514C50[1] = 0.0f;
+    lbl_80514C50[0] = 0.0f;
+}
+
+f32 xz_distance_squared(const Vec *a, const Vec *b);
+}
+
+s32 check_sound_admission_range(const Vec *pos) {
+    if (pos == NULL) {
+        return 0;
+    }
+    if (camera_ctrl_instance == 0U) {
+        return 0;
+    }
+    f32 dist_sq = xz_distance_squared(pos, (const Vec *)lbl_80514C50);
+    if (dist_sq < 90000.0f) {
+        f32 t = (newton_sqrtf(dist_sq) - 40.0f) / 260.0f;
+        return (s32)-(127.0f * (t > 0.0f ? t : 0.0f));
+    }
+    return -0x100;
+}
+
+void update_sound_request_slots(void) {
+    s32 i;
+    s32 r;
+    u32 p;
+    SndEnt_8022675C *e;
+    s16 *t;
+    if (lbl_805D62B0 != 0) {
+        p = (u32)get_player_by_client_id((local_client_id));
+        if (p != 0U) {
+            VecCopy((Vec *)lbl_80514C50, (const Vec *)(p + 0x38));
+        } else if (camera_ctrl_instance != 0U) {
+            VecCopy((Vec *)lbl_80514C50, (const Vec *)(camera_ctrl_instance + 0x178));
+        } else {
+            lbl_80514C50[2] = 0.0f;
+            lbl_80514C50[1] = 0.0f;
+            lbl_80514C50[0] = 0.0f;
+        }
+        if (lbl_805D6279 == 0) {
+            for (i = 0; i < 0x28; i++) {
+                r = TLobby__sub_8023F880(i);
+                if (r == -1 || r == 1) {
+                    e = &lbl_805145F0[i];
+                    t = &e->timer;
+                    e->flags &= ~0x200;
+                    if (*t > 0) {
+                        (*t)--;
+                        if ((e->flags & 0x1000) && e->src != NULL && fn_802264B8(i, 1) == 0) {
+                            *t = 0;
+                            stop_sound_request(i);
+                            e->flags &= ~0x400;
+                        }
+                    } else {
+                        stop_sound_request(i);
+                        e->flags &= ~0x400;
+                    }
+                } else {
+                    e = &lbl_805145F0[i];
+                    if (!(e->flags & 0x200)) {
+                        e->flags &= ~0x400;
+                    } else {
+                        e->timer--;
+                        if (e->timer <= 0) {
+                            e->flags &= ~0x600;
+                            stop_sound_request(i);
+                        }
+                    }
+                }
+            }
+        }
+        update_music_fade();
+    }
+}
+
+int TLobby__sub_80226B64(void) { TLobby::update_lobby_subsystems(); TLobby::init_layout_positions(); TLobby__sub_80226308(); lbl_805D62B4 = 0; lbl_805D62B8 = 0; lbl_805D62B0 = 1; return 0; }
+
+extern "C" {
+extern s8 lbl_805D6278;
+extern s32 lbl_805D62BC;
+extern s32 lbl_805D62C0;
+extern s32 lbl_805D62C4;
+extern s32 lbl_805D62C8;
+extern s16 lbl_805D62CC;
+extern s8 lbl_805D62CE;
+extern s8 lbl_805D62CF;
+extern s8 lbl_805D62D0;
+extern s8 lbl_805D62D1;
+
+s32 TLobby__sub_80226BA4(void) {
+    s32 i;
+    lbl_805D6278 = 0;
+    lbl_805D62C4 = 0;
+    lbl_805D62CC = 0;
+    lbl_805D62C8 = 0;
+    lbl_805D62C0 = 0;
+    lbl_805D62BC = 0;
+    lbl_805D62D0 = 0;
+    lbl_805D62CE = 0;
+    lbl_805D62CF = 0;
+    lbl_805D62D1 = 0;
+    lbl_805D62B0 = 1;
+    lbl_805D6279 = 0;
+    lbl_805D62B8 = 0;
+    lbl_80514C30[0] = 0;
+    lbl_805D6280 = 0;
+    lbl_805D62A8 = 0;
+    lbl_805D6294 = 0;
+    TLobby::init_layout_positions();
+    for (i = 0; i < 40; i++) {
+        lbl_805145F0[i].flags = 1;
+    }
+    return 1;
+}
 }

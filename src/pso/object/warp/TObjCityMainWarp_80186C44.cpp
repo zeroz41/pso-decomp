@@ -24,10 +24,10 @@ struct Obj_80186DA0 {
 };
 
 extern "C" {
-u8 is_current_floor_switch_set(int);
+u8 is_current_floor_switch_set(s32 id);
 void end_player_keyboard_hold(s32 arg0);
-void obj_clear_flag30_20000(void *arg0);
-void obj_set_flag_20000(void *arg0);
+void obj_clear_flag30_20000(TObjBase *actor);
+void obj_set_flag_20000(TObjBase *actor);
 s32 send_code_45_1__10TObjPlayerFl();
 
 extern s32 local_client_id;
@@ -37,9 +37,9 @@ void TObjCityMainWarpChallenge::close_windows() {
         ((TWindowSubComCard *)(*(void **)((s8 *)this + 0x168)))->close();
         *(u32 *)((s8 *)this + 0x168) = 0U;
     }
-    if (this->m_b0 != 0U) {
-        ((TWindowBase *)this->m_b0)->close();
-        (this->m_b0) = 0U;
+    if (this->menu_window != 0U) {
+        ((TWindowBase *)this->menu_window)->close();
+        (this->menu_window) = 0U;
     }
     if ((u32) *(u32 *)((s8 *)this + 0x164) != 0U) {
         ((TWindowBase *)(*(void **)((s8 *)this + 0x164)))->close();
@@ -65,7 +65,7 @@ void TObjCityMainWarp::notify_player_warp(void *arg0, s32 arg1) {
     player = (s32)get_player_by_client_id(arg1);
     if (player != 0) {
         send_code_45_1__10TObjPlayerFl();
-        obj_clear_flag30_20000((void *)player);
+        obj_clear_flag30_20000((TObjBase *)player);
     }
 }
 
@@ -75,8 +75,8 @@ void TObjCityMainWarpChallenge::trigger_warp_effect(s32 arg1) {
     player = (s32)get_player_by_client_id(arg1);
     if (player != 0) {
         TObjPlayer::play_effect_default(player, -1);
-        obj_set_flag_20000((void *)player);
-        this->m_174 = 0x12C;
+        obj_set_flag_20000((TObjBase *)player);
+        this->warp_effect_timer = 0x12C;
     }
 }
 void TObjCityMainWarp::update_floor_switch_state() {

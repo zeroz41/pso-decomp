@@ -9,7 +9,6 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/MatrixOps.h"
 
-extern "C" {
 
 void TUnk_804A5150::update_idle() { TObjPlayer::add_angle_clamped(&rotation_x, (s32)((void*)-910), (s32)((void*)-7281)); TObjPlayer::add_angle_clamped(&rotation_z, (s32)((void*)-910), (s32)((void*)-9102)); }
 
@@ -31,7 +30,6 @@ void TUnk_804A5150::vfunc_60() {
         return;
     }
 }
-}
 
 TUnk_804A5150::TUnk_804A5150(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
     shot_callback = (WeaponShotCallback)TItemShoot::spawn_shoot_particle_attached;
@@ -41,14 +39,12 @@ TUnk_804A5150::TUnk_804A5150(TObject *parent, u8 *item) : TItemWeapon(parent, it
     rotation_x = 0;
 }
 
-extern "C" {
+
 u8 *TObjPlayer::create_handlers_state(u8 *arg0) {
     if (arg0 != NULL) {
         return (u8 *)new TUnk_804A5150(tl_05, arg0);
     }
     return NULL;
-}
-
 }
 
 

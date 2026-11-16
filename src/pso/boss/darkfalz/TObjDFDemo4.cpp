@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/boss/darkfalz/TObjDFDemo4.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
@@ -25,10 +26,8 @@
 // Built with deferred code generation (-inline deferred): functions come out in reverse
 // order (sub_8004F1FC first in .text).
 
-extern "C" {
 // Dark Falz's afterimage (zanzo) models.
 extern s32 boss4_zanzo_bml_index_table[2];
-}
 
 const char *TObjDFDemo4__name = "TObjDFDemo4";
 // The motions of the afterimage and body models.
@@ -65,13 +64,13 @@ TObjDFDemo4::TObjDFDemo4(TObject *parent, const Vec *pos, s32 angle) : TObjBase(
     for (i = 0; i < 2; i++) {
         int id = boss4_zanzo_bml_index_table[i];
         zanzo_parts[i].model = get_bml_model(res, id);
-        zanzo_parts[i].texlist = TObjFish__sub_8001EDB0(res, id);
+        zanzo_parts[i].texlist = get_bml_texlist(res, id);
         zanzo_parts[i].motion = get_bml_motion(res, lbl_80485720[i]);
     }
     for (i = 0; i < 3; i++) {
         int id = lbl_80486FB0[i];
         body_parts[i].model = get_bml_model(res, id);
-        body_parts[i].texlist = TObjFish__sub_8001EDB0(res, id);
+        body_parts[i].texlist = get_bml_texlist(res, id);
         body_parts[i].motion = get_bml_motion(res, lbl_80485728[i]);
     }
     frame = -0.5f;
@@ -124,11 +123,11 @@ void TObjDFDemo4::run_task() {
         if ((fx = (TParticleCtrl *)spawn_particle_effect(&pos, 0x17A)) != NULL) {
             fx->set_flags(0x40);
         }
-        play_sound_effect(0x40039E09, &pos, 0, 1);
+        play_sound_effect(0x40039E09, (Vec *)(&pos), 0, 1);
         start_pad_rumble_all(0xC0, 0xF);
     }
     if (timer == 0x72) {
-        play_sound_effect(0x4003B227, &pos, 0, 1);
+        play_sound_effect(0x4003B227, (Vec *)(&pos), 0, 1);
     }
     if (timer >= 0xAA) {
         TParticleCtrl **p = &particle_emitters[0];

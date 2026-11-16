@@ -521,8 +521,15 @@ void qst_getargs_u8_u8(s32 opcode);
 void qst_getargs_void_reset(s32 opcode);
 void qst_getargs_void(s32 opcode);
 
-extern const char quest_bgm_clear_filename[];
-extern const char quest_bgm_miniclear_filename[];
+__declspec(section ".rodata") const s32 quest_sound_effect_ids[0x1D] ATTRIBUTE_ALIGN(8) = {
+    0x00054100, 0x00052D01, 0x00052802, 0x00053703, 0x00053704, 0x00053705, 0x00053F06, 0x00053507,
+    0x00052608, 0x00052A09, 0x0005250A, 0x0005230B, 0x0005250C, 0x0005280D, 0x0005250E, 0x0005640F,
+    0x00053C10, 0x0005B211, 0x00052812, 0x00052813, 0x00052E14, 0x40052D15, 0x00052F16, 0x00052D17,
+    0x0003D20C, 0x0005051A, 0x0005251B, 0x00052B1C, 0x4005191D
+};
+
+__declspec(section ".rodata") const char quest_bgm_clear_filename[] ATTRIBUTE_ALIGN(4) = "clear.adx";
+__declspec(section ".rodata") const char quest_bgm_miniclear_filename[] ATTRIBUTE_ALIGN(4) = "miniclear.adx";
 extern "C" {
 
 __declspec(section ".data") const char* qst_bgm_filename_table[2] = {

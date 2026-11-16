@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/NinjaTypes.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "types.h"
 #include "pso/effect/photon/TPhotonMagicSquare.h"
 #include "pso/ui/hud/TRaderMapCore.h"
@@ -11,7 +12,7 @@
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/vector.h"
-#include "pso/effect/photon/TPhotonMagicSquare.h"
+
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
@@ -20,13 +21,8 @@
 
 #pragma readonly_strings on
 
-extern "C" {
+
 const char *TPhotonMagicSquare__data_805D3508 = "TPhotonMagicSquare";
-}
-
-struct Color_801ACE1C { f32 a, r, g, b; };
-
-struct Vec_801ACE1C { f32 x, y, z; };
 
 struct Self_801ACE1C {
     u8 pad0[0x24];
@@ -36,15 +32,15 @@ struct Self_801ACE1C {
     u8 pad2[0x60 - 0x38];
     s32 f60;
     u8 pad3[0x68 - 0x64];
-    Vec_801ACE1C v68;
+    Vec v68;
     u8 pad4[0x90 - 0x74];
     s32 f90;
     u8 pad5[0x9C - 0x94];
     f32 f9C;
-    Color_801ACE1C color;
+    NJS_ARGB color;
     u32 fB0;
     u8 pad6[0xB8 - 0xB4];
-    Vec_801ACE1C vB8;
+    Vec vB8;
     u8 pad7[0xCC - 0xC4];
     u32 fCC;
 };
@@ -54,7 +50,7 @@ s32 rotate_matrix_y(int, int);
 s32 push_matrix();
 s32 scale_current_matrix(void *);
 s32 post_translate_matrix(void *);
-extern Color_801ACE1C chunk_material_color_half_alpha_f32;
+extern NJS_ARGB chunk_material_color_half_alpha_f32;
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 void TPhotonMagicSquare::render() {
@@ -65,7 +61,7 @@ void TPhotonMagicSquare::render() {
     rotate_matrix_y(0, this->rotation_y);
     TObjFish::set_global_param(this->texlist);
     scale_current_matrix(&self->v68);
-    Color_801ACE1C saved = self->color;
+    NJS_ARGB saved = self->color;
     if ((this->m_b0 % this->m_cc) == 0) {
         self->color.r = (0.5f);
         self->color.g = (0.5f);
@@ -147,11 +143,9 @@ void TPhotonMagicSquare::run_task() {
 
 }
 
-struct RecoveredGlobal_801AD0F0_TPhotonMagicSquare__data_804C3940 { s32 value; u8 remaining[0x5C]; };
 
 struct RecoveredGlobal_801AD0F0___vt__18TPhotonMagicSquare { s32 value; u8 remaining[0x34]; };
 
-struct RecoveredGlobal_801AD218_TPhotonMagicSquare__data_804C3940 { s32 value; u8 remaining[0x5C]; };
 
 struct RecoveredGlobal_801AD218___vt__18TPhotonMagicSquare { s32 value; u8 remaining[0x34]; };
 
@@ -169,14 +163,13 @@ NJS_ARGB TPhotonMagicSquare__color_palette[6] = {
 extern RecoveredGlobal_801AD0F0___vt__18TPhotonMagicSquare __vt__18TPhotonMagicSquare;
 extern const char *TPhotonMagicSquare__data_805D3508;
 extern u8 *photon_blast_shared_resource;
-s32 play_sound_effect(int, int, int, int);
-void __dl__7TObjectFPv(void *);
+s32 play_sound_effect(int, Vec *, int, int);
 
 }
 TPhotonMagicSquare::~TPhotonMagicSquare() {
 
 }
-extern "C" {
+
 
 u8 *TPhotonMagicSquare__ct(u8 *photon_magic_square, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0) {
     __ct__8TObjBaseFP7TObject(photon_magic_square);
@@ -199,7 +192,6 @@ u8 *TPhotonMagicSquare__ct(u8 *photon_magic_square, s32 arg1, s32 arg2, s32 arg3
     *(f32 *)((s8 *)photon_magic_square + 0xC8) = farg0;
     ((TPhotonMagicSquare *)photon_magic_square)->m_cc = 0xFFFFFF;
     return photon_magic_square;
-}
 }
 u8 *construct_photon_magic_square_normal(u8 *photon_magic_square, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
     __ct__8TObjBaseFP7TObject(photon_magic_square);
@@ -231,7 +223,7 @@ TPhotonMagicSquare::TPhotonMagicSquare(TObject *parent, s32 color, u16 owner_id)
     *(s32 *)&this->model = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)photon_blast_shared_resource + 0x42C)) + 0x28);
     *(u8 * *)&this->m_90 = (unsigned char *) ((void *) *(void **)((s8 *)(*(u8 **)((s8 *)photon_blast_shared_resource + 0x430)) + 0x14));
     *(f32 *)&this->unk_9C = 0.0f;
-    *(f32 *)((s8 *)((u8 *)this) + 0x94) = (f32) ((f32) *(u32 *)((s8 *)(*(u8 * *)&this->m_90) + 4) - (1.0f));
+    *(f32 *)((s8 *)((u8 *)this) + 0x94) = (f32) ((f32) *(u32 *)(this->m_90 + 4) - (1.0f));
     this->m_98 = 0.1f;
     this->texlist = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)photon_blast_shared_resource + 0x42C)) + 0x2C);
     this->scale.x = 0.0f;
@@ -243,10 +235,10 @@ TPhotonMagicSquare::TPhotonMagicSquare(TObject *parent, s32 color, u16 owner_id)
         VecCopy((Vec *)(((u8 *)this) + 0xB8), &entity->position);
     }
     *(f32 *)((s8 *)((u8 *)this) + 0xBC) += (2.0f);
-    *(s32 *)&this->m_b0 = 0;
-    *(s32 *)&this->m_b4 = 0;
-    *(s32 *)&this->m_c4 = 0x37;
+    this->m_b0 = 0;
+    this->m_b4 = 0;
+    this->m_c4 = 0x37;
     *(f32 *)&this->_padC8 = 0.1f;
-    *(s32 *)&this->m_cc = 2;
-    play_sound_effect(0x4002AD2E, 0, 0, 0);
+    this->m_cc = 2;
+    play_sound_effect(0x4002AD2E, (Vec *)(0), 0, 0);
 }

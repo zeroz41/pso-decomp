@@ -22,4 +22,8 @@ u32 kb_sum_803F1604(u32 *p);
 }
 // --- end of C functions
 
+// keyboard_pad_state_table: layout known from its uses only.
+struct KeyboardPadStateTable { s32 value; u8 remaining[0x19C]; };
+extern KeyboardPadStateTable keyboard_pad_state_table;
+
 #endif

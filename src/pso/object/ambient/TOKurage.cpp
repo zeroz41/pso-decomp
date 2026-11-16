@@ -1,4 +1,5 @@
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include <stdlib.h>
 #include "pso/system/task/TMainTask.h"
 #include "pso/math/AngleLookup.h"
@@ -298,7 +299,7 @@ void TOKurage::render() {
             break;
         }
         set_constant_material(&color);
-        draw_chunk_model_with_shape_motion(model, motion, motion2, animation_frame);
+        draw_chunk_model_with_shape_motion(model, motion, (NJS_MOTION *)motion2, (f32)animation_frame);
         set_constant_material(&chunk_material_color_half_alpha_f32);
         model_render_flags = saved_model_render_flags;
         pop_matrix();
@@ -331,7 +332,7 @@ TOKurage::TOKurage(TObject *parent, void *set_data) : TObjMapObject(parent) {
     m_name = TOKurage__class_name;
     apply_object_set_data(set_data);
     model = (void *)get_bml_model(TOKurage__bml_resource, 0);
-    texlist = TObjFish__sub_8001EDB0(TOKurage__bml_resource, 0);
+    texlist = get_bml_texlist(TOKurage__bml_resource, 0);
     motion = get_bml_motion(TOKurage__bml_resource, 0);
     motion2 = get_bml_motion(TOKurage__bml_resource, 1);
     animation_step = 0.5f;

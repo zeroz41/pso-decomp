@@ -16,8 +16,10 @@ void draw_ui_sprite_shaded(s32 sprite_id, const vec2f* position, const vec2f* sc
                           f32 depth, f32 alpha, f32 brightness);
 void draw_ui_sprite_scaled(s32 sprite_id, const vec2f* position, const vec2f* scale,
                           f32 depth, f32 alpha);
+}
 void draw_ui_sprite_opaque(s32 sprite_id, const vec2f* position, const vec2f* scale,
                            f32 depth);
+extern "C" {
 void draw_ui_sprite(s32 sprite_id, const vec2f* position, f32 depth, f32 alpha);
 }
 

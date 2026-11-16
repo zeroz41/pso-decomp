@@ -1,4 +1,7 @@
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
+#include "pso/object/base/TObjChara.h"
+#include "pso/object/base/TObjMotion.h"
 #include "pso/object/TOHealGeneral.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/task/TObject.h"
@@ -31,8 +34,7 @@
 extern "C" {
 s32 add_actor_tp(u8 *arg0, s32 arg1);
 s32 add_actor_hp(u8 *arg0, s16 arg1);
-s16 get_actor_hp(void *object);
-s16 get_actor_tp(void *object);
+s16 get_actor_tp(u8 *p);
 s16 obj_getS16_2BA(u8 *p);
 s32 get_entity_id(void *object);
 }
@@ -80,7 +82,7 @@ void TOHealGeneral::update_closing() {
         if (is_local_player(heal_target) != 0) {
             player = get_player_by_client_id(heal_target);
             if (player != NULL) {
-                hp = get_actor_hp(player);
+                hp = ((TObjChara *)player)->get_actor_hp();
                 if (hp > 0) {
                     send_6x2F_change_player_hp(0xFFFF, heal_target, hp);
                 }
@@ -132,13 +134,13 @@ void TOHealGeneral::find_heal_target() {
         if ((u16)id >= 0x1000) {
             continue;
         }
-        r = 10.0f - get_collision_body_radius(player, 0);
+        r = 10.0f - ((TObjCollidable *)player)->get_collision_body_radius(0);
         if (!(horizontal_distance_squared(&player->position, &position) < r * r)) {
             continue;
         }
         heal_target = id;
-        if (get_actor_hp(player) < ((TItemProShield *)player)->get_field_2b8() ||
-            get_actor_tp(player) < obj_getS16_2BA((u8 *)player) ||
+        if (((TObjChara *)player)->get_actor_hp() < ((TItemProShield *)player)->get_field_2b8() ||
+            get_actor_tp((u8 *)player) < obj_getS16_2BA((u8 *)player) ||
             (u32)player->get_recovery_need_flags() != 0 ||
             (player->is_alive_and_ready() != 0 && player->are_traps_full() == 0)) {
             TParticleCtrl *effect;
@@ -158,7 +160,7 @@ void TOHealGeneral::find_heal_target() {
             if (effect != NULL) {
                 effect->set_owner_id(heal_target);
             }
-            play_sound_effect(0x4002AB0E, &position, 0, 0);
+            play_sound_effect(0x4002AB0E, (Vec *)(&position), 0, 0);
             break;
         }
     }

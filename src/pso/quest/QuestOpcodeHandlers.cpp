@@ -334,18 +334,13 @@ void append_split_screen_hero_name(void);
 
 struct Pair_801F1838 { s32 a; s32 b; };
 
-__declspec(section ".rodata") extern const s32 quest_sound_effect_ids[NUM_QUEST_SOUND_FX] ATTRIBUTE_ALIGN(8) = {
-    0x00054100, 0x00052D01, 0x00052802, 0x00053703, 0x00053704, 0x00053705, 0x00053F06, 0x00053507,
-    0x00052608, 0x00052A09, 0x0005250A, 0x0005230B, 0x0005250C, 0x0005280D, 0x0005250E, 0x0005640F,
-    0x00053C10, 0x0005B211, 0x00052812, 0x00052813, 0x00052E14, 0x40052D15, 0x00052F16, 0x00052D17,
-    0x0003D20C, 0x0005051A, 0x0005251B, 0x00052B1C, 0x4005191D
-};
+extern const s32 quest_sound_effect_ids[];
 
-__declspec(section ".rodata") extern const char quest_bgm_clear_filename[] ATTRIBUTE_ALIGN(4) = "clear.adx";
+extern const char quest_bgm_clear_filename[];
 
-__declspec(section ".rodata") extern const char quest_bgm_miniclear_filename[] ATTRIBUTE_ALIGN(4) = "miniclear.adx";
+extern const char quest_bgm_miniclear_filename[];
 
-__declspec(section ".rodata") extern Pair_801F1838 lbl_80449A38[] ATTRIBUTE_ALIGN(8) = { { 0x43C50000, 0x42A00000 } };
+extern Pair_801F1838 lbl_80449A38[];
 
 struct Tbl_801E9AF8 { s32 w[5]; };
 
@@ -834,7 +829,6 @@ void qst_op_va_call(s32 arg0) {
 
 
 extern "C" {
-s16 get_actor_hp(u8 *);
 }
 void qst_op_p_hpstat(void);
 extern "C" {
@@ -1538,11 +1532,9 @@ void send_6x29_delete_item__10TObjPlayerFPvii(void *obj, s32 a, s32 b);
 void send_6x21_inter_level_warp(void *obj, s32 value);
 u32 TObjPlayer__sub_801BFFA0(void *);
 int TFontSmallLobby__sub_801C013C(void *p);
-void init_battle_ctrl__6TLobbyFii(s32, s32);
 void request_player_size_restore(PlayerScaleState *state);
 void request_player_shrink(PlayerScaleState *state);
 Vec_801ECFDC * TObjPlayer__sub_801C6FDC(void *);
-void * set_mode_and_refresh_object__10TObjPlayerFPvi(void *, Item_801EE77C *);
 void * get_owner_if_alive__10TObjPlayerFv(void *);
 s32 send_download_head_d7(int, int, int);
 void* __ct__13TQuestBgmCtrlFP7TObject(void*, TObject *);
@@ -2294,7 +2286,7 @@ void qst_op_get_player_hp_tp(void) {
     u8 i = qst_args[1];
     if (player != NULL) {
         qst_registers[i++] = ((TItemProShield *)player)->get_field_2b8();
-        qst_registers[i++] = get_actor_hp(player);
+        qst_registers[i++] = ((TObjChara *)player)->get_actor_hp();
         qst_registers[i++] = obj_getS16_2BA(player);
         qst_registers[i] = get_actor_tp(player);
     } else {
@@ -4555,7 +4547,7 @@ void qst_op_ba_start(void) {
         TPlayerBattleCtrl4P::init_instance_with_text((s32)&battle_rules, temp_r31);
         return;
     }
-    init_battle_ctrl__6TLobbyFii((s32)&battle_rules, temp_r31);
+    TLobby::init_battle_ctrl((s32)&battle_rules, temp_r31);
 }
 
 void qst_op_ba_teams() {
@@ -4942,7 +4934,7 @@ void qst_op_find_inventory_item_ex(u8 arg0, u8 arg1) {
         item.data[1] = qst_registers[(u8)arg0++];
         item.data[2] = qst_registers[(u8)arg0++];
         item.data[4] = qst_registers[(u8)arg0];
-        obj = set_mode_and_refresh_object__10TObjPlayerFPvi(player->fD00, &item);
+        obj = ((TObjPlayer *)((void *)player->fD00))->set_mode_and_refresh_object((s32)&item);
         if (obj != NULL) {
             obj = get_owner_if_alive__10TObjPlayerFv(obj);
             if (obj != NULL) {
@@ -4970,7 +4962,7 @@ void qst_op_item_check(u32 first, u32 destination) {
         item.data[0] = qst_registers[(u8)first++];
         item.data[1] = qst_registers[(u8)first++];
         item.data[2] = qst_registers[(u8)first];
-        slot = set_mode_and_refresh_object__10TObjPlayerFPvi(*(void **)((s8 *)player + 0xD00), &item);
+        slot = ((TObjPlayer *)(*(void **)((s8 *)player + 0xD00)))->set_mode_and_refresh_object((s32)&item);
         if (slot != 0) {
             owner = get_owner_if_alive__10TObjPlayerFv(slot);
             if (owner != 0) {
@@ -5000,7 +4992,7 @@ void qst_op_item_delete2(u32 src, u32 dst) {
         item.data[0] = qst_registers[(u8)src++];
         item.data[1] = qst_registers[(u8)src++];
         item.data[2] = qst_registers[(u8)src];
-        slot = set_mode_and_refresh_object__10TObjPlayerFPvi(*(void **)((s8 *)player + 0xD00), &item);
+        slot = ((TObjPlayer *)(*(void **)((s8 *)player + 0xD00)))->set_mode_and_refresh_object((s32)&item);
         if (slot != 0) {
             owner = get_owner_if_alive__10TObjPlayerFv(slot);
             if (owner != 0) {
@@ -5537,7 +5529,7 @@ void qst_op_p_hpstat(void) {
     limit = 1.0f / pct;
     obj = (void *)((s32)get_player_by_client_id(player));
     if (obj != NULL) {
-        hp = get_actor_hp((u8 *)obj);
+        hp = ((TObjChara *)obj)->get_actor_hp();
         if (hp / ((TItemProShield *)obj)->get_field_2b8() < limit) {
             qst_registers[reg] = 1;
             return;
@@ -5801,8 +5793,8 @@ u8 *load_npc_player_template(s32 appearance);
 u8 *construct_player_instance__10TObjPlayerFlslPUc(void *self, s32 parent, s32 slot, s32 role, u8 *data);
 void set_arrival_override_coords(u16 slot, s32 heading, f32 x, f32 y, f32 z);
 void queue_player_injured_pose(s32 arg0);
-void set_player_quest_control_flag(TObjPlayer *player);
 }
+void set_player_quest_control_flag(TObjPlayer *player);
 void qst_op_npc_crptalk_id(u8 first);
 void qst_op_npc_crptalk(u8 first);
 

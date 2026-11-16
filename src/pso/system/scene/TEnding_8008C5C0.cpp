@@ -1,4 +1,7 @@
 #include "pso/system/task/TMainTask.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
+#include "pso/unk/TLobby_802A7290.h"
+#include "pso/system/scene/TEndingC.h"
 #include "types.h"
 #include "pso/unk/text_8008C4F4.h"
 #include "pso/system/main_loop.h"
@@ -25,19 +28,13 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdEndText.h"
 #include "pso/ui/frontend/TAdRicoRingCtrl.h"
-
-struct RecoveredGlobal_8008C534_main_task {
-    s32 value;
-    u8 remaining[0x30];
-};
+#include "pso/system/task/TObject.h"
 
 extern "C" {
 s32 TKeyBoardControl__sub_8000F92C();
-void TKeyBoardControl__sub_8000F9CC(s32 arg0);
+void request_main_phase(s32 arg0);
 void func_803DCDFC__Fv(void);
-s32 call_funcs_reverse__6TLobbyFPvUi(void *, int);
 void reset__11TCameraCtrlFv(void);
-void disable_and_free_boss4rock_buffer(void);
 }
 void create_player_ending_motion(void);
 
@@ -59,15 +56,12 @@ void (*ending_scene_callbacks[26])(void) = {
     TAdRicoRingCtrl::load_static_resource, TAdRicoRingCtrl::release_global_805D4A00,
 };
 
-extern "C" {
-typedef char RecoveredGlobal_8008C534_main_task_size[sizeof(RecoveredGlobal_8008C534_main_task) == 0x34 ? 1 : -1];
 
 void fn_8008C4F4(void) {
     TLobby::stop_audio_streams();
     main_task.delete_layer_children();
-    call_funcs_reverse__6TLobbyFPvUi(ending_scene_callbacks, sizeof(ending_scene_callbacks));
+    TLobby::call_funcs_reverse(ending_scene_callbacks, sizeof(ending_scene_callbacks));
     render_tick();
-}
 }
 void process_async_file_reads(void);
 void update_sound_request_slots(void);
@@ -76,17 +70,17 @@ void run_game_frame(void) {
     func_803DCDFC__Fv();
     controller_stuff();
     TKeyBoardControl::update_input_frame();
-    var_r3 = (s32 *)(&(*(RecoveredGlobal_8008C534_main_task *)&main_task).value);
-    var_r3 = (s32 *)(&(*(RecoveredGlobal_8008C534_main_task *)&main_task).value);
+    var_r3 = (s32 *)&main_task;
+    var_r3 = (s32 *)&main_task;
     main_task.begin_frame();
-    var_r3 = (s32 *)(&(*(RecoveredGlobal_8008C534_main_task *)&main_task).value);
-    var_r3 = (s32 *)(&(*(RecoveredGlobal_8008C534_main_task *)&main_task).value);
+    var_r3 = (s32 *)&main_task;
+    var_r3 = (s32 *)&main_task;
     main_task.run_task();
-    var_r3 = (s32 *)(&(*(RecoveredGlobal_8008C534_main_task *)&main_task).value);
-    var_r3 = (s32 *)(&(*(RecoveredGlobal_8008C534_main_task *)&main_task).value);
+    var_r3 = (s32 *)&main_task;
+    var_r3 = (s32 *)&main_task;
     main_task.render();
-    var_r3 = (s32 *)(&(*(RecoveredGlobal_8008C534_main_task *)&main_task).value);
-    var_r3 = (s32 *)(&(*(RecoveredGlobal_8008C534_main_task *)&main_task).value);
+    var_r3 = (s32 *)&main_task;
+    var_r3 = (s32 *)&main_task;
     main_task.render_screen_overlay();
     process_async_file_reads();
     update_sound_request_slots();
@@ -96,7 +90,7 @@ void run_game_frame(void) {
     }
     if (TQuestVmDownLoadServer::is_ready() != 0) {
         var_r3 = NULL;
-        TKeyBoardControl__sub_8000F9CC(0);
+        request_main_phase(0);
     }
     render_tick();
 }
@@ -106,7 +100,7 @@ void set_active_camera_pose(u8 *arg0, u8 *arg1);
 u8 *TCameraCtrl__ct(u8 *arg0, void *parent);
 void run_load_callback_table(void *, int);
 void set_copy_clear_color_argb(int, int, int);
-void *__nw__7TObjectFUl(int);
+}
 extern u8 default_scene_light_config[];
 extern s32 ending_scene_active;
 
@@ -121,7 +115,7 @@ void TEnding::start_ending_scene() {
     set_copy_clear_color_argb(0, 0, 0);
     reset_controller_input_state();
     init_map_lights(default_scene_light_config);
-    p = __nw__7TObjectFUl(0x1D4);
+    p = TObject::operator new(0x1D4);
     if (p != 0) {
         TCameraCtrl__ct((u8 *)p, tl_camera);
     }
@@ -132,7 +126,7 @@ void TEnding::start_ending_scene() {
     clear_resource_load_tasks();
     run_load_callback_table(ending_scene_callbacks, sizeof(ending_scene_callbacks));
     TKeyBoardControl__sub_8000F90C(2);
-    TKeyBoardControl__sub_8000F91C(2);
+    set_queued_main_phase(2);
     play_area_music("ending.adx");
     TParticleCtrl::create_quad_sprites();
     new TEnding;
@@ -142,6 +136,5 @@ void TEnding::start_ending_scene() {
 // inferred: the empty load/unload pair in ending_scene_callbacks
 void ending_scene_nop_release() {}
 void ending_scene_nop_load() {}
-}
 
 void TEnding::render() {}

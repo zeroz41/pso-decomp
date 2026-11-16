@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/vector.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "types.h"
 #include "pso/boss/derolle/TObjBoss2CeilJunk.h"
 #include "pso/render/MaterialColorFade.h"
@@ -9,7 +10,7 @@
 #include "pso/render/GinjaMaterial.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/unk/text_803E2D70.h"
-#include "pso/boss/derolle/TObjBoss2CeilJunk.h"
+
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/camera/TCameraCtrl.h"
@@ -45,16 +46,6 @@ struct RecoveredFields_8003A6F4_arg0 {
  f32 field_B4;
 };
 
-struct RecoveredGlobal_8003A6F4_lbl_80435BD8 {
-    s32 value;
-    u8 remaining[0x14];
-};
-
-struct RecoveredGlobal_8003A6F4___vt__17TObjBoss2CeilJunk {
-    s32 value;
-    u8 remaining[0x34];
-};
-
 struct Color_8003A1B4
 {
   f32 a;
@@ -63,13 +54,12 @@ struct Color_8003A1B4
   s32 d;
 };
 
-extern "C" {
+
 const s32 boss2_ceil_junk_model_index_table[6] = { 0, 1, 2, 4, 3, 5 };
 const f32 TObjBoss2CeilJunk__height_offset_table[6] = { 10.0f, 10.0f, 7.0f, 3.0f, 10.0f, 6.0f };
 const f32 TObjBoss2CeilJunk__radius_table[6] = { 15.0f, 15.0f, 10.5f, 15.0f, 0.45000002f, 1.2f };
 const char *TObjBoss2CeilJunk__name = "TObjBoss2CeilJunk";
 const Color_8003A1B4 boss2_ceil_junk_render_color = { 0.0f, 0, 0, 0 };
-}
 
 struct Mdl_8003A1B4
 {
@@ -135,7 +125,6 @@ s32 vec3_add_to(void *, void *);
 s32 subtract_vector(void *, void *);
 extern const f32 lbl_805D4BE0;
 void run_task__17TObjBoss2CeilJunkFv(Junk_8003A314 *o);
-void __dl__7TObjectFPv(void *);
 
 typedef struct Color_8003A1B4 Color_8003A1B4;
 typedef struct Holder_8003A1B4 Holder_8003A1B4;
@@ -169,7 +158,7 @@ void TObjBoss2CeilJunk::render() {
   TObjFish::set_global_param(lbl_805D4BEC);
   post_translate_matrix(self->pos);
   rotate_matrix_y(0, this->rotation_y);
-  rotate_matrix_x(0, self->f5C);
+  rotate_matrix_x(0, this->rotation_x);
   draw_ginja_object((void *)(boss2_tunnel_instance->mdls[boss2_ceil_junk_model_index_table[*(s32 *)&this->m_ac]].f8));
   pop_matrix();
   model_render_flags = saved_model_render_flags;
@@ -233,7 +222,7 @@ void run_task__17TObjBoss2CeilJunkFv(Junk_8003A314 *o) {
             bottom = o->pos.y - ((f32 *)&TObjBoss2CeilJunk__height_offset_table)[o->fAC];
             rad = (1e+01f) + TObjBoss2CeilJunk__radius_table[o->fAC];
             for (i = 0; i < n; i++) {
-                pl = (u8 *)get_player_data__10TObjPlayerFi(i);
+                pl = (u8 *)TObjPlayer::get_player_data(i);
                 if (is_valid_target__9TObjEneDDFv(pl) != 0) {
                     h = *(f32 *)((s8 *)pl + 0xD48) + *(f32 *)((s8 *)pl + 0x3C);
                     if (top > h && bottom < h) {
@@ -256,7 +245,7 @@ void run_task__17TObjBoss2CeilJunkFv(Junk_8003A314 *o) {
                 o->vel.x = (2.0f) * sin_table_lookup(o->f60);
                 o->vel.z = (2.0f) * cos_table_lookup(o->f60);
                 o->fA8 = 3;
-                play_sound_effect(0x4003A801, &o->pos, 0, 0);
+                play_sound_effect(0x4003A801, (Vec *)(&o->pos), 0, 0);
                 TCameraCtrl::set_shake_preset(0);
             }
         }
@@ -284,17 +273,15 @@ void run_task__17TObjBoss2CeilJunkFv(Junk_8003A314 *o) {
 TObjBoss2CeilJunk::~TObjBoss2CeilJunk() {
 
 }
-extern "C" {
+
 extern const f32 lbl_805D85A0 = 6.0f;
 #pragma push
 #pragma opt_dead_assignments off
-typedef char RecoveredGlobal_8003A6F4_lbl_80435BD8_size[sizeof(RecoveredGlobal_8003A6F4_lbl_80435BD8) == 0x18 ? 1 : -1];
-typedef char RecoveredGlobal_8003A6F4___vt__17TObjBoss2CeilJunk_size[sizeof(RecoveredGlobal_8003A6F4___vt__17TObjBoss2CeilJunk) == 0x38 ? 1 : -1];
 u8 *TObjBoss2CeilJunk__ct(struct RecoveredFields_8003A6F4_arg0 *arg0, s32 arg1, s32 arg2) {
     f32 temp_f1;
     f32 temp_f2;
     __ct__8TObjBaseFP7TObject();
-    arg0->unk18 = &(*(RecoveredGlobal_8003A6F4___vt__17TObjBoss2CeilJunk *)&__vt__17TObjBoss2CeilJunk).value;
+    arg0->unk18 = __vt__17TObjBoss2CeilJunk;
     arg0->field_0 = (s32)TObjBoss2CeilJunk__name;
     VecCopy((Vec *)&arg0->unknown_1C[0x1C], (const Vec *)arg2);
     temp_f2 = (f32) rand();
@@ -317,4 +304,3 @@ u8 *TObjBoss2CeilJunk__ct(struct RecoveredFields_8003A6F4_arg0 *arg0, s32 arg1, 
 }
 #pragma pop
 
-}

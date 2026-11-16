@@ -1,4 +1,5 @@
 #include "pso/boss/derolle/TObjBoss2RaftSplash.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/system/vector.h"
 #include "types.h"
 #include "pso/boss/goldragon/TBoss8Dragon_8002CC48.h"
@@ -38,7 +39,7 @@ const char *lbl_805D2700 = "TObjBoss2RaftSplash";
 u8 *TObjBoss2RaftSplash__ct(u8 *object, u8 *arg1, u8 *arg2, u8 *arg3, s32 arg4) {
     __ct__7TObjectFP7TObject(object, arg1);
     *(s32 **)((s8 *)object + 0x18) = &__vt__19TObjBoss2RaftSplash.value;
-    *(const char **)((s8 *)object + 0) = lbl_805D2700;
+    ((TObjBoss2RaftSplash *)object)->m_name = lbl_805D2700;
     *(f32 *)((s8 *)object + 0x20) = (f32) (lbl_805D85B0 * (3.0f + rand_signed_unit()));
     *(f32 *)((s8 *)object + 0x1C) = (f32) (*(f32 *)((s8 *)object + 0x20) * (3.0517578e-05f * (f32) rand()));
     VecCopy((Vec *)(object + 0x28), (const Vec *)arg2);

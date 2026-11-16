@@ -1,5 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/animation/MotionContext.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
+#include "pso/system/MatrixOps.h"
 #include "pso/system/vector.h"
 #include "types.h"
 #include "pso/effect/TBreakUpMdl.h"
@@ -21,34 +23,11 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
-
-struct RecoveredGlobal_80096F54_TBreakUpMdl__data_8048FA00 { s32 value; u8 remaining[0xC]; };
-typedef char RecoveredGlobal_80096F54_TBreakUpMdl__data_8048FA00_size[sizeof(RecoveredGlobal_80096F54_TBreakUpMdl__data_8048FA00) == 0x10 ? 1 : -1];
-
-struct RecoveredGlobal_80096F54_lbl_8058D490 { s32 value; u8 remaining[0x2C]; };
-typedef char RecoveredGlobal_80096F54_lbl_8058D490_size[sizeof(RecoveredGlobal_80096F54_lbl_8058D490) == 0x30 ? 1 : -1];
-
-struct RecoveredGlobal_80096FD8_TBreakUpMdl__data_8048FA00 { s32 value; u8 remaining[0xC]; };
-typedef char RecoveredGlobal_80096FD8_TBreakUpMdl__data_8048FA00_size[sizeof(RecoveredGlobal_80096FD8_TBreakUpMdl__data_8048FA00) == 0x10 ? 1 : -1];
-
-struct RecoveredGlobal_80096FD8_lbl_8058D490 { s32 value; u8 remaining[0x2C]; };
-typedef char RecoveredGlobal_80096FD8_lbl_8058D490_size[sizeof(RecoveredGlobal_80096FD8_lbl_8058D490) == 0x30 ? 1 : -1];
-
-struct RecoveredGlobal_8009705C_TBreakUpMdl__data_8048FA00 {
-    s32 value;
-    u8 remaining[0xC];
-};
-
-struct RecoveredGlobal_8009705C_lbl_8058D490 {
-    s32 value;
-    u8 remaining[0x2C];
-};
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 struct Seg_80096EBC { s32 a; f32 x; f32 y; f32 z; u8 pad[12]; };
 
 struct Brk_80096EBC { s32 count; Seg_80096EBC *segs; };
-
-struct Color_8009680C { f32 a; f32 r; f32 g; f32 b; };
 
 struct Part_8009680C { u8 pos[0x18]; u8 rot[0x10]; };
 
@@ -88,7 +67,6 @@ struct BreakUp_8009693C {
     f32 gravity;
 };
 
-struct RecoveredGlobal_80096F54_lbl_8058D490;
 struct Part_80096AD8 { f32 pos[3]; f32 vel[3]; s32 f18; s32 f1c; s32 f20; s32 f24; };
 
 struct Seg_80096AD8 { s32 f0; f32 a[3]; f32 b[3]; };
@@ -120,11 +98,9 @@ s32 rotate_matrix_by_node_angles(void *, int);
 s32 scale_current_matrix(void *);
 s32 post_translate_matrix(void *);
 extern s32 TBreakUpMdl__vtable[];
-extern RecoveredGlobal_80096F54_lbl_8058D490 identity_matrix;
 u8 *init__11TBreakUpMdlFPviif(u8 *arg0, s32 arg1, s32 arg2, f32 farg0);
-void *mem_alloc(u32 size);
 void alloc_breakup_piece_records(Brk_80096EBC *arg0, void *arg1);
-extern Color_8009680C breakup_default_color;
+extern NJS_ARGB breakup_default_color;
 extern u32 saved_model_render_flags;
 extern u32 model_render_flags;
 void __ct__7TObjectFP7TObject(void *, void *);
@@ -136,7 +112,6 @@ extern s32 __vt__11TBreakUpMdl[];
 extern s32 TBreakUpMdl__class_name;
 u8 *TBreakUpMdl__ct(u8 *arg0, void *arg1, Model_80096AD8 *arg2, void *arg3, s32 arg4, void *arg5, s32 arg6);
 void *__dt_deleting__11TBreakUpMdlFPvs(void *arg0, s16 arg1);
-void mem_free(void *);
 
 void TBreakUpMdl::render() {
     BreakUp_8009680C *self = (BreakUp_8009680C *)this;
@@ -147,7 +122,7 @@ void TBreakUpMdl::render() {
     }
     saved_model_render_flags = model_render_flags;
     if (self->alpha < 1.0f) {
-        Color_8009680C color = breakup_default_color;
+        NJS_ARGB color = breakup_default_color;
         model_render_flags |= 0x810;
         set_chunk_material_override_pair(0xFF00, 0x800);
         color.a = self->alpha;
@@ -344,34 +319,32 @@ void alloc_breakup_piece_records(Brk_80096EBC *arg0, void *boss2_tunnel) {
     }
 }
 
-u8 *TBreakUpMdl::setup_pieces(s32 boss2_tunnel, s32 arg2, f32 farg0) {
-    *(s32 * *)&this->m_next = &(*(RecoveredGlobal_80096F54_TBreakUpMdl__data_8048FA00 *)&TBreakUpMdl__vtable).value;
+u8 *TBreakUpMdl::setup_pieces(s32 boss2_tunnel, s32 arg2, f32 frame) {
+    *(s32 * *)&this->m_next = TBreakUpMdl__vtable;
     *(s32 *)&this->m_prev = 1;
     alloc_breakup_piece_records((Brk_80096EBC *)(this), (void *)boss2_tunnel);
-    bind_motion_context((NJS_MOTION *)arg2, farg0);
-    push_matrix_from(&identity_matrix.value);
+    bind_motion_context((NJS_MOTION *)arg2, frame);
+    push_matrix_from(&identity_matrix);
     this->collect_node_positions((u8 *)((void *) boss2_tunnel), 0);
     pop_matrix();
     return ((u8 *)this);
 }
 
-u8 *init__11TBreakUpMdlFPviif(u8 *break_up_mdl, s32 boss2_tunnel, s32 arg2, f32 farg0) {
-    *(s32 * *)&((TBreakUpMdl *)break_up_mdl)->m_next = &(*(RecoveredGlobal_80096FD8_TBreakUpMdl__data_8048FA00 *)&TBreakUpMdl__vtable).value;
+u8 *init__11TBreakUpMdlFPviif(u8 *break_up_mdl, s32 boss2_tunnel, s32 motion, f32 frame) {
+    *(s32 * *)&((TBreakUpMdl *)break_up_mdl)->m_next = TBreakUpMdl__vtable;
     *(s32 *)((s8 *)break_up_mdl + 8) = 0;
     alloc_breakup_piece_records((Brk_80096EBC *)(break_up_mdl), (void *)boss2_tunnel);
-    bind_motion_context((NJS_MOTION *)arg2, farg0);
-    push_matrix_from((void *)((u32) &(*(RecoveredGlobal_80096FD8_lbl_8058D490 *)&identity_matrix).value));
+    bind_motion_context((NJS_MOTION *)motion, frame);
+    push_matrix_from((void *)&identity_matrix);
     ((TBreakUpMdl *)break_up_mdl)->collect_node_positions((u8 *)((void *) boss2_tunnel), 0);
     pop_matrix();
     return break_up_mdl;
 }
 
-typedef char RecoveredGlobal_8009705C_TBreakUpMdl__data_8048FA00_size[sizeof(RecoveredGlobal_8009705C_TBreakUpMdl__data_8048FA00) == 0x10 ? 1 : -1];
-typedef char RecoveredGlobal_8009705C_lbl_8058D490_size[sizeof(RecoveredGlobal_8009705C_lbl_8058D490) == 0x30 ? 1 : -1];
 u8 *TBreakUpMdl::init_from_model(s32 boss2_tunnel) {
-    *(s32 * *)&this->m_next = &(*(RecoveredGlobal_8009705C_TBreakUpMdl__data_8048FA00 *)&TBreakUpMdl__vtable).value;
+    *(s32 * *)&this->m_next = TBreakUpMdl__vtable;
     alloc_breakup_piece_records((Brk_80096EBC *)(this), (void *)boss2_tunnel);
-    push_matrix_from((void *)((u32) &(*(RecoveredGlobal_8009705C_lbl_8058D490 *)&identity_matrix).value));
+    push_matrix_from((void *)&identity_matrix);
     this->build_node_records((u8 *)((void *) boss2_tunnel), 0);
     pop_matrix();
     this->m_prev = 0;

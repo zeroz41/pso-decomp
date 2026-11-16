@@ -2,13 +2,15 @@
 #pragma push
 
 #include "pso/render/render_util.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
+#include "pso/unk/text_8022BE64.h"
 #include "pso/system/NinjaTypes.h"
 #include "types.h"
 #include "pso/effect/TUnk_804CC148.h"
 
 #include "pso/system/vector.h"
 #include "pso/technique/TTecReverser.h"
-#include "pso/effect/TUnk_804CC148.h"
+
 #include "pso/system/task/TObject.h"
 
 struct V3_8022BEAC { s32 x; s32 y; s32 z; };
@@ -26,19 +28,13 @@ void count_if_within_range__13TUnk_804CC148Fv(u8 *arg0);
 extern u8 __vt__13TUnk_804CC148[];
 }
 
-struct Stack_8022BF8C_more_8022be64_1 {
-    f32 sp8;
-    f32 spC;
-    f32 sp10;
-};
-
 extern "C" {
 f32 vector_length(void *, f32);
 
 void TTecReverser::sub_8022BE64(u8 *arg1, s32 arg2) {
     u8 *arg0 = (u8 *)this;
     *(f32 *)((s8 *)arg1 + 0) = (f32) (*(f32 *)((s8 *)arg1 + 0) + (f32) arg2);
-    *(f32 *)((s8 *)arg0 + 0x64) = (f32) *(f32 *)((s8 *)arg1 + 4);
+    this->speed = (f32) *(f32 *)((s8 *)arg1 + 4);
     *(f32 *)((s8 *)arg0 + 0x70) = (f32) *(f32 *)((s8 *)arg1 + 8);
 }
 
@@ -65,13 +61,13 @@ void TUnk_804CC148::tick_lifetime() {
 
 void TUnk_804CC148::count_if_within_range() {
     u8 *arg0 = (u8 *)this;
-    Stack_8022BF8C_more_8022be64_1 stack;
+    Vec stack;
     f32 temp_f1;
-    stack.sp8 = *(f32 *)((s8 *)arg0 + 0x20) - this->m_7c;
-    stack.spC = *(f32 *)((s8 *)arg0 + 0x24) - *(f32 *)((s8 *)arg0 + 0x80);
+    stack.x = *(f32 *)((s8 *)arg0 + 0x20) - this->m_7c;
+    stack.y = *(f32 *)((s8 *)arg0 + 0x24) - *(f32 *)((s8 *)arg0 + 0x80);
     temp_f1 = *(f32 *)((s8 *)arg0 + 0x28);
-    stack.sp10 = temp_f1 - this->m_84;
-    if (vector_length(&stack.sp8, temp_f1) <= *(f32 *)((s8 *)arg0 + 0x64)) {
+    stack.z = temp_f1 - this->m_84;
+    if (vector_length(&stack.x, temp_f1) <= this->speed) {
         this->state = (this->state + 1);
     }
 }
@@ -81,7 +77,7 @@ void TUnk_804CC148::sub_8022C008() {
     s32 temp_r3;
 
     temp_r3 = (long) (arg0 + 0x20);
-    approach_vector_fixed_distance((Vec *)temp_r3, (Vec *)&this->m_7c, (Vec *)temp_r3, (f32) (*(f32 *)((s8 *)arg0 + 0x64)));
+    approach_vector_fixed_distance((Vec *)temp_r3, (Vec *)&this->m_7c, (Vec *)temp_r3, (f32) (this->speed));
 }
 
 #pragma pop
@@ -121,7 +117,6 @@ void *__ct__7TEffectFv(void *);
 s32 init_collision_body_parts(u32, void *, s32);
 u32 __ct__14TObjCollidableFP7TObject(u32, void *);
 u32 __nw__7TObjectFUl(s32);
-u8 *construct_area_technique_base(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
 
 }
 TUnk_804CC148::TUnk_804CC148(s32 arg1, s32 arg2, s32 arg4) : TEffect() {
@@ -149,7 +144,7 @@ TUnk_804CC148::TUnk_804CC148(s32 arg1, s32 arg2, s32 arg4) : TEffect() {
     *(f32 *)((s8 *)this + 0x30) = 1.0f;
     *(f32 *)((s8 *)this + 0x34) = 1.0f;
     *(f32 *)((s8 *)this + 0x38) = 1.0f;
-    *(f32 *)((s8 *)this + 0x64) = 3.0f;
+    this->speed = 3.0f;
     *(f32 *)((s8 *)this + 0x70) = 150.0f;
     *(f32 *)((s8 *)this + 0xBC) = 0.0f;
     this->m_c0 = 0.0f;
@@ -201,7 +196,7 @@ u8 *construct_area_technique_base(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 ar
     *(f32 *)((s8 *)arg0 + 0x30) = 1.0f;
     *(f32 *)((s8 *)arg0 + 0x34) = 1.0f;
     *(f32 *)((s8 *)arg0 + 0x38) = 1.0f;
-    *(f32 *)((s8 *)arg0 + 0x64) = 3.0f;
+    ((TUnk_804CC148 *)arg0)->speed = 3.0f;
     *(f32 *)((s8 *)arg0 + 0x70) = 150.0f;
     *(f32 *)((s8 *)arg0 + 0xBC) = 0.0f;
     ((TUnk_804CC148 *)arg0)->m_c0 = 0.0f;

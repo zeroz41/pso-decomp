@@ -1,20 +1,76 @@
-#include "pso/enemy/TObjEnemy.h"
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
+#include "pso/boss/barbaray/TBoss7Joint.h"
+#include "pso/enemy/dd/TObjEneDD.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/enemy/TObjEnemy.h"
+#include "pso/unk/TLobby.h"
 #include "pso/boss/dragon/TBoss1DragonColli.h"
 #include "pso/enemy/dd/TObjEneDD_800BB804.h"
 #include "pso/system/vector.h"
 #include "pso/boss/barbaray/TBoss7DeRolLeC.h"
-#include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/object/base/TObjMotion.h"
-#include "pso/boss/barbaray/TBoss7Joint.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/enemy/dd/TObjEneDD.h"
 
-struct RecoveredGlobal_802EEC60___vt__11TBoss7Joint {
-    s32 value;
-    u8 remaining[0x1A0];
-};
+
+extern "C" {
+extern const f32 lbl_805DE9F0;
+s32 register_object__6TLobbyFl(int);
+s32 dispatch_shared_handler_b__6TLobbyFl(int);
+s32 register_boss__6TLobbyFl(int);
+s32 reload_stats_keep_hp_tp__9TObjEneDDFv(void *, int, int, int);
+u32 __nw__7TObjectFUl(int);
+s32 TObjPlayer__sub_802E72DC(void *, void *, void *, int);
+
+int TBoss7Joint::is_part_active() { return *(u32*)((char*)this + 0x3bc) & 0x1; }
+
+void TBoss7Joint::init_boss_stats() {
+    *(s32 *)((s8 *)((u8 *)this) + 0x3BC) = *(s32 *)((s8 *)((u8 *)this) + 0x3BC) | 1;
+    reload_stats_keep_hp_tp__9TObjEneDDFv(this, register_boss__6TLobbyFl(0x10), dispatch_shared_handler_b__6TLobbyFl(0xF), register_object__6TLobbyFl(0x10));
+    this->hp = 0x4E20;
+    this->hpmax = 0x4E20;
+    u32 p = __nw__7TObjectFUl(0x2C);
+    if (p != 0U) {
+        TObjPlayer__sub_802E72DC((void *)p, this, ((u8 *)this) + 0x38, index);
+    }
+    play_sound_effect(0x3A312, (Vec *)(((u8 *)this) + 0x38), 0, 0);
+}
+
+void TBoss7Joint::vfunc_93() {
+    if (*(s32 *)((s8 *)this->bodies + 0x18) & 6) {
+        TObjEneDD::vfunc_93();
+        return;
+    }
+    TObjEneDD::vfunc_94();
+}
+void TBoss7Joint::vfunc_88() {
+    u8 *arg0 = (u8 *)this;
+    f32 temp_f2;
+    u8 *temp_r4;
+    u8 *temp_r4_2;
+    u8 *temp_r4_3;
+    u8 *temp_r4_4;
+    u8 *temp_r4_5;
+    temp_f2 = *(f32 *)((s8 *)arg0 + 0x3C);
+    if (temp_f2 < (lbl_805DE9F0 - 50.0f)) {
+        temp_r4 = (u8 *)this->bodies;
+        *(s32 *)((s8 *)temp_r4 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r4 + 0x18) & 0xFFFFFFF8);
+    } else if (temp_f2 >= 30.0f) {
+        temp_r4_2 = (u8 *)this->bodies;
+        *(s32 *)((s8 *)temp_r4_2 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r4_2 + 0x18) | 5);
+        temp_r4_3 = (u8 *)this->bodies;
+        *(s32 *)((s8 *)temp_r4_3 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r4_3 + 0x18) & 0xFFFFFFFD);
+    } else {
+        temp_r4_4 = (u8 *)this->bodies;
+        *(s32 *)((s8 *)temp_r4_4 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r4_4 + 0x18) | 3);
+        temp_r4_5 = (u8 *)this->bodies;
+        *(s32 *)((s8 *)temp_r4_5 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r4_5 + 0x18) & 0xFFFFFFFB);
+    }
+    ((TObjEneDD *)arg0)->transform_part_positions();
+}
+
+}
 
 struct J_802EEB88 { u8 pad[0x38C]; u8 sub; };
 
@@ -24,15 +80,9 @@ const char *TBoss7Joint__name = "TBoss7Joint";
 
 extern "C" {
 s32 add_radar_scaled_marker(void *, int, int, int, f32);
-extern s32 __vt__11TBoss7Joint[];
-s32 register_object__6TLobbyFl(int);
-s32 dispatch_shared_handler_b__6TLobbyFl(int);
-s32 register_boss__6TLobbyFl(int);
-s32 reset_hp__9TObjEneDDFPUcPUcPUc(void *, int, int, int);
 struct VOff_802EE9A4_arg0_802EE9A4 { char pad_0[0x2FC]; char f_2FC[1]; };
 
 s32 apply_damage_and_set_effect__8TObjFishFl(int, int, int);
-void __dl__7TObjectFPv(void *);
 u32 is_part_active__11TBoss7JointFv(void *, int);
 
 void TBoss7Joint::store_position() {
@@ -52,9 +102,9 @@ void TBoss7Joint::vfunc_62() {
         TObjFish__sub_802EC468((s32)(((u8 *)this) + 0x38), 15.0f, 12.0f);
         apply_damage_and_set_effect__8TObjFishFl((int) (*(s32 *)((s8 *)((u8 *)this) + 0x10)), temp_r31, this->m_2d4);
     } else {
-        *(s32 *)((s8 *)((u8 *)this) + 0x3C4) = (s32) (*(s32 *)((s8 *)((u8 *)this) + 0x3C4) - temp_r31);
-        if ((s32) *(s32 *)((s8 *)((u8 *)this) + 0x3C4) <= 0) {
-            *(s32 *)((s8 *)((u8 *)this) + 0x3C4) = 0;
+        shell_hp -= temp_r31;
+        if (shell_hp <= 0) {
+            shell_hp = 0;
             init_boss_stats();
         }
     }
@@ -66,7 +116,7 @@ void TBoss7Joint::vfunc_62() {
 void TBoss7Joint::run_task() {
     u8 *arg0 = (u8 *)this;
     if (TObjPlayer::check_demo_mode() == 0) {
-        VecCopy((Vec *)(arg0 + 0x38), (const Vec *)((int) (*(s32 *)((s8 *)arg0 + 0x3C0))));
+        VecCopy(&position, source_position);
         this->vfunc_83();
         store_position();
         this->vfunc_88();
@@ -80,8 +130,6 @@ void TBoss7Joint::run_task() {
 TBoss7Joint::~TBoss7Joint() {
     clear_collision_bodies();
 }
-
-typedef char RecoveredGlobal_802EEC60___vt__11TBoss7Joint_size[sizeof(RecoveredGlobal_802EEC60___vt__11TBoss7Joint) == 0x1A4 ? 1 : -1];
 
 // The table init_params hands to TObjEneDD at +0x350; only its first word (225.0) is a float.
 struct Boss7JointParams {
@@ -98,30 +146,27 @@ s32 TBoss7Joint::init_params() {
     copy_collision_body((CollisionBody *)(&((J_802EEB88 *)this)->sub), &lbl_80473FB8);
     set_collision_body(&((J_802EEB88 *)this)->sub);
     transform_part_positions();
-    reset_hp__9TObjEneDDFPUcPUcPUc(this, register_boss__6TLobbyFl(0x10), dispatch_shared_handler_b__6TLobbyFl(0xF), register_object__6TLobbyFl(0x10));
-    *(s16 *)((s8 *)this + 0x32C) = 0x4E20;
-    *(s16 *)((s8 *)this + 0x2B8) = 0x4E20;
+    reset_hp((u8 *)(TLobby::register_boss(0x10)), (u8 *)(TLobby::dispatch_shared_handler_b(0xF)), (u8 *)(TLobby::register_object(0x10)));
+    this->hp = 0x4E20;
+    this->hpmax = 0x4E20;
     check_state_flag_2();
     *(Boss7JointParams **)((s8 *)this + 0x350) = &boss7_joint_params;
-    *(s16 *)((s8 *)this + 0x33E) = *(s16 *)((s8 *)this + 0x2B8);
+    this->referenceHp = this->hpmax;
     *(f32 *)((s8 *)this + 0x37C) = 3.0f;
     this->vfunc_96();
     *(s32 *)((s8 *)this + 0x3BC) = 0;
-    return *(s32 *)((s8 *)this + 0x3C4) = TBoss7Joint_get_shell_max_hp();
+    return shell_hp = TBoss7Joint_get_shell_max_hp();
 }
 
-u8 *TBoss7Joint__ct(u8 *boss7_joint, u8 *arg1, s16 arg2, s16 arg3, s32 arg4, s32 arg5) {
-    __ct__9TObjEneDDFP7TObject(boss7_joint);
-    *(s32 **)((s8 *)boss7_joint + 0x18) = &(*(RecoveredGlobal_802EEC60___vt__11TBoss7Joint *)&__vt__11TBoss7Joint).value;
-    *(const char **)((s8 *)boss7_joint + 0) = TBoss7Joint__name;
-    ((TObjEneDD *)boss7_joint)->init_common_from(arg1);
-    ((TBoss7Joint *)boss7_joint)->entity_id = arg2;
-    *(s16 *)((s8 *)boss7_joint + 0x2C) = arg3;
-    *(s32 *)((s8 *)boss7_joint + 0x3C0) = arg4;
-    *(s32 *)((s8 *)boss7_joint + 0x3B8) = arg5;
-    ((TObjEneDD *)boss7_joint)->initialize_enemy_state(0x49);
-    ((TBoss7Joint *)boss7_joint)->init_params();
-    return boss7_joint;
+TBoss7Joint::TBoss7Joint(TObject *parent, u16 id, s16 set_index, Vec *position, s32 index) : TObjEneDD(parent) {
+    m_name = TBoss7Joint__name;
+    init_common_from((u8 *)parent);
+    entity_id = id;
+    this->set_index = set_index;
+    source_position = position;
+    this->index = index;
+    initialize_enemy_state(0x49);
+    init_params();
 }
 
 void TBoss7Joint::dispatch_action(u32, s32) {  }

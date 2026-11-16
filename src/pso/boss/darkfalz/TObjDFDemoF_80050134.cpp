@@ -1,4 +1,5 @@
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/camera/CameraPlayback.h"
 #include "pso/system/PadRumble.h"
 #include "pso/system/task/TObject.h"
@@ -19,7 +20,7 @@ typedef struct Data_80050194 Data_80050194;
 typedef struct Obj_80050194 Obj_80050194;
 typedef struct Obj_80050194
 {
-  s32 f0;
+  const char *f0;
   u8 pad4[0x18 - 0x4];
   void *vt;
   u8 pad1c[0x90 - 0x1c];
@@ -40,11 +41,11 @@ typedef struct Data_80050194
   u8 vt[4];
 } Data_80050194;
 s32 get_bml_motion(s32, s32);
-s32 TObjFish__sub_8001EDB0(s32, s32);
-s32 get_bml_model(s32, s32);
+s32 get_bml_texlist(BmlResource *resource, s32 index);
+s32 get_bml_model(BmlResource *resource, s32 index);
 void set_scripted_camera_pose(void *, void *, void *);
 void __ct__8TObjBaseFP7TObject(void *, void *);
-extern s32 TObjDFDemoF__name;
+const char *TObjDFDemoF__name = "TObjDFDemoF";
 void vfunc_6__8TObjBaseFPsl();
 void get_name__8TObjBaseFv();
 void get_center__8TObjBaseFv();
@@ -64,16 +65,16 @@ CameraPlayback lbl_80485858 = {0, 5, 0, 0.0f, 0.5f};
 void *three_part_model_translate_offset[3] = {(void *) 0xc69c4000, (void *) 0x0, (void *) 0x0};
 void *__vt__11TObjDFDemoF[14] = {(void *) 0x0, (void *) 0x0, &__dt__11TObjDFDemoFFPvs, &run_task__11TObjDFDemoFFv, &render__11TObjDFDemoFFv, &render_shadows__7TObjectFv, &vfunc_6__8TObjBaseFPsl, &apply_object_set_data__8TObjBaseFPv, &reset_motion_fields__8TObjBaseFv, &get_center__8TObjBaseFv, &update_object_view_visibility__8TObjBaseFff, &classify_actor_view_detail__8TObjBaseFfff, &get_name__8TObjBaseFv, (void *) 0x0};
 
-void *__dt__11TObjDFDemoFFPvs(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = (s32 *)__vt__11TObjDFDemoF;
+void *__dt__11TObjDFDemoFFPvs(void *base, s16 arg1) {
+    if (base != NULL) {
+        *(s32 **)((s8 *)base + 0x18) = (s32 *)__vt__11TObjDFDemoF;
         restore_player_cameras();
-        __dt__8TObjBaseFv(arg0, 0);
+        __dt__8TObjBaseFv(base, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(base);
         }
     }
-    return arg0;
+    return base;
 }
 
 #pragma opt_propagation off
@@ -95,9 +96,9 @@ Obj_80050194 *TObjDFDemoF__ct(Obj_80050194 *arg0, void *parent) {
     ids2 = lbl_80485834;
     {
       k = t;
-      arg0->f94[i] = get_bml_model(h, t);
+      arg0->f94[i] = get_bml_model((BmlResource *)h, t);
     }
-    arg0->fa0[i] = TObjFish__sub_8001EDB0(h, k);
+    arg0->fa0[i] = get_bml_texlist((BmlResource *)h, k);
     if (ids2[i] < 0)
     {
       arg0->fac[i] = 0;
@@ -112,7 +113,7 @@ Obj_80050194 *TObjDFDemoF__ct(Obj_80050194 *arg0, void *parent) {
   activate_camera_mode(5);
   set_scripted_camera_pose(lbl_80485840, lbl_80485840, lbl_8048584C);
   lbl_80485858.cache_target_and_forward(0x392D);
-  play_sound_effect(0x3A802, 0, 0, 0);
+  play_sound_effect(0x3A802, (Vec *)(0), 0, 0);
   start_pad_rumble_all(0x20, 0xF);
   arg0->f90 = 0;
   return new_var;

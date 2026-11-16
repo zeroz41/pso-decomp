@@ -1,4 +1,6 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/boss/goldragon/TBoss8DragonEffBullet.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/vector.h"
@@ -8,26 +10,9 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/unk/text_80087278.h"
+#include "pso/system/task/TObject.h"
 
-struct RecoveredGlobal_802FE378_lbl_80474B68 {
-    s32 value;
-    u8 remaining[0x8];
-};
-
-struct RecoveredGlobal_802FE378_lbl_80474B74 {
-    s32 value;
-    u8 remaining[0x8];
-};
-
-struct RecoveredGlobal_802FE378_lbl_80474B80 {
-    s32 value;
-    u8 remaining[0x8];
-};
-
-struct RecoveredGlobal_802FE378___vt__21TBoss8DragonEffBullet {
-    s32 value;
-    u8 remaining[0x14];
-};
+#pragma readonly_strings on
 
 struct RecoveredFields_802FE0E4_arg0 {
     u8 unknown_0[0x1C];
@@ -52,11 +37,12 @@ struct RecoveredFields_802FE0E4_arg0 {
 extern "C" {
 s32 __ct__7TObjectFP7TObject(void *, void *);
 f32 subtract_vector(void *, void *);
-extern RecoveredGlobal_802FE378_lbl_80474B68 lbl_80474B68;
-extern RecoveredGlobal_802FE378_lbl_80474B74 lbl_80474B74;
-extern RecoveredGlobal_802FE378_lbl_80474B80 lbl_80474B80;
+// Three id tables; the constructor stores the one m_44 (1-3) selects at +0x54.
+static const s32 lbl_80474B68[3] = {548, 550, 553};
+static const s32 lbl_80474B74[3] = {538, 536, 553};
+static const s32 lbl_80474B80[3] = {522, 518, 521};
 extern s32 __vt__21TBoss8DragonEffBullet[];
-extern s32 TBoss8DragonEffBullet__name;
+const char *TBoss8DragonEffBullet__name = "TBoss8DragonEffBullet";
 u8 *get_enemy_entity(u16 arg0);
 void TBoss8Dragon__sub_802FB220(void *o, int x, u32 a);
 
@@ -108,12 +94,12 @@ void TBoss8DragonEffBullet::run_task() {
             spawn_particle_effect_with_flags((void *)&arg0->field_1C, (s32)(*(u8 **)((s8 *)arg0->field_54 + 4)), 0x40);
             temp_r3_3 = arg0->field_50;
             if (temp_r3_3 != NULL) {
-                queue_destruction__7TObjectFv(temp_r3_3);
+                ((TObject *)temp_r3_3)->queue_destruction();
                 arg0->field_50 = NULL;
             }
             temp_r3_4 = arg0->field_4C;
             if (temp_r3_4 != NULL) {
-                queue_destruction__7TObjectFv(temp_r3_4);
+                ((TObject *)temp_r3_4)->queue_destruction();
                 arg0->field_4C = NULL;
             }
             play_sound_effect(0x4003AD0C, (Vec *)&arg0->field_1C, 0, 0);
@@ -128,7 +114,7 @@ void TBoss8DragonEffBullet::run_task() {
     case 2:
         arg0->field_34 += 1;
         if ((s32) arg0->field_34 > 0x64) {
-            queue_destruction__7TObjectFv(arg0);
+            ((TObject *)arg0)->queue_destruction();
         }
         break;
     }
@@ -137,17 +123,13 @@ void TBoss8DragonEffBullet::run_task() {
 
 }
 TBoss8DragonEffBullet::~TBoss8DragonEffBullet() {
-    if (*(void **)((s8 *)this + 0x50) != NULL) { queue_destruction__7TObjectFv(*(void **)((s8 *)this + 0x50)); this->m_50 = 0; }
-    if (*(void **)((s8 *)this + 0x4C) != NULL) { queue_destruction__7TObjectFv(*(void **)((s8 *)this + 0x4C)); this->m_4c = 0; }
+    if (*(void **)((s8 *)this + 0x50) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0x50)))->queue_destruction(); this->m_50 = 0; }
+    if (*(void **)((s8 *)this + 0x4C) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0x4C)))->queue_destruction(); this->m_4c = 0; }
 }
 
-typedef char RecoveredGlobal_802FE378_lbl_80474B68_size[sizeof(RecoveredGlobal_802FE378_lbl_80474B68) == 0xC ? 1 : -1];
-typedef char RecoveredGlobal_802FE378_lbl_80474B74_size[sizeof(RecoveredGlobal_802FE378_lbl_80474B74) == 0xC ? 1 : -1];
-typedef char RecoveredGlobal_802FE378_lbl_80474B80_size[sizeof(RecoveredGlobal_802FE378_lbl_80474B80) == 0xC ? 1 : -1];
-typedef char RecoveredGlobal_802FE378___vt__21TBoss8DragonEffBullet_size[sizeof(RecoveredGlobal_802FE378___vt__21TBoss8DragonEffBullet) == 0x18 ? 1 : -1];
 u8 *TBoss8DragonEffBullet__ct(u8 *boss8_dragon_eff_bullet, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s16 arg5) {
     __ct__7TObjectFP7TObject((void *)boss8_dragon_eff_bullet, (void *)arg1);
-    *(s32 **)((s8 *)boss8_dragon_eff_bullet + 0x18) = &(*(RecoveredGlobal_802FE378___vt__21TBoss8DragonEffBullet *)&__vt__21TBoss8DragonEffBullet).value;
+    *(s32 **)((s8 *)boss8_dragon_eff_bullet + 0x18) = __vt__21TBoss8DragonEffBullet;
     *(s32 *)((s8 *)boss8_dragon_eff_bullet + 0) = (s32) TBoss8DragonEffBullet__name;
     VecCopy((Vec *)(boss8_dragon_eff_bullet + 0x1C), (const Vec *)(arg2));
     VecCopy((Vec *)(boss8_dragon_eff_bullet + 0x28), (const Vec *)(arg3));
@@ -163,13 +145,13 @@ u8 *TBoss8DragonEffBullet__ct(u8 *boss8_dragon_eff_bullet, s32 arg1, s32 arg2, s
     play_sound_effect(0x4003B20B, (Vec *)(boss8_dragon_eff_bullet + 0x1C), 0, 0);
     switch (((TBoss8DragonEffBullet *)boss8_dragon_eff_bullet)->m_44) {
     case 1:
-        *(s32 **)((s8 *)boss8_dragon_eff_bullet + 0x54) = &lbl_80474B68.value;
+        *(const s32 **)((s8 *)boss8_dragon_eff_bullet + 0x54) = lbl_80474B68;
         break;
     case 2:
-        *(s32 **)((s8 *)boss8_dragon_eff_bullet + 0x54) = &lbl_80474B74.value;
+        *(const s32 **)((s8 *)boss8_dragon_eff_bullet + 0x54) = lbl_80474B74;
         break;
     case 3:
-        *(s32 **)((s8 *)boss8_dragon_eff_bullet + 0x54) = &lbl_80474B80.value;
+        *(const s32 **)((s8 *)boss8_dragon_eff_bullet + 0x54) = lbl_80474B80;
         break;
     }
     return boss8_dragon_eff_bullet;

@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/render/RenderFadeState_800D7BFC.h"
@@ -43,7 +44,7 @@
 
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/task/TObject.h"
-#include "pso/player/TUnk_804B6C24.h"
+
 
 BmlResource *TOTrapAncient01__bml_resource;
 
@@ -126,7 +127,7 @@ TOTrapAncient01::TOTrapAncient01(TObject *parent, void *set_data) : TOTrap(paren
     ((TObjPlayer *)this)->init_position_vectors();
     calc_attach_pos();
     model = (void *)get_bml_model(TOTrapAncient01__bml_resource, 3);
-    texlist = TObjFish__sub_8001EDB0(TOTrapAncient01__bml_resource, 3);
+    texlist = get_bml_texlist(TOTrapAncient01__bml_resource, 3);
     mode = 0;
     range = 0.5f * scale.x + 30.0f;
     if (scale.y < 0.0f) {
@@ -160,7 +161,7 @@ TOTrapAncient01::TOTrapAncient01(TObject *parent, void *set_data) : TOTrap(paren
     refresh_collision_body_centers();
     actorFlags |= 0x60040000;
     get_or_assign_entity_id(0);
-    ((TObjPlayer *)this)->register_object_by_id();
+    this->register_object_by_id();
     for (i = 0; i < 4; i++) {
         fades[i].activate_and_dispatch();
     }
@@ -178,7 +179,7 @@ void TOTrapAncient01::load_resources() {
         resource = load_resource_from_descriptor(resource, 1, &bm_o_trap_ancient01_resource_descriptor, 0, 0, 0);
     }
     TOTrapAncient01__bml_resource = resource;
-    TMotorcycle::add_entry(0x39, get_bml_model(TOTrapAncient01__bml_resource, 3), TObjFish__sub_8001EDB0(resource, 3), 20.0f, 0.0f);
+    TMotorcycle::add_entry(0x39, get_bml_model(TOTrapAncient01__bml_resource, 3), get_bml_texlist(resource, 3), 20.0f, 0.0f);
 }
 
 void TOTrapAncient01::release_static_resource() {
@@ -259,20 +260,20 @@ void TOTrapAncient01::vfunc_81() {
         case AREA_CAVE1:
         case AREA_CAVE2:
         case AREA_CAVE3:
-            play_persistent_sound(0x4321A, (s32)this, &position, 0, 0);
+            play_persistent_sound(0x4321A, (s32)this, (Vec *)(&position), 0, 0);
             break;
         case AREA_MINE1:
         case AREA_MINE2:
-            play_persistent_sound(0x4004B211, (s32)this, &position, 0, 0);
+            play_persistent_sound(0x4004B211, (s32)this, (Vec *)(&position), 0, 0);
             break;
         case AREA_RUINS1:
         case AREA_RUINS2:
         case AREA_RUINS3:
-            play_persistent_sound(0x4004B217, (s32)this, &position, 0, 0);
+            play_persistent_sound(0x4004B217, (s32)this, (Vec *)(&position), 0, 0);
             break;
         case AREA_VR_SPACESHIP_ALPHA:
         case AREA_VR_SPACESHIP_BETA:
-            play_persistent_sound(0x4004B212, (s32)this, &position, 0, 0);
+            play_persistent_sound(0x4004B212, (s32)this, (Vec *)(&position), 0, 0);
             break;
         }
     } else {
@@ -316,7 +317,7 @@ void TOTrapAncient01::vfunc_82() {
         ((Trap_801797D4 *)this)->fA4->fC = 15.0f;
         set_indexed_flags(0, 0x100);
         TObjPlayer::init_all_slots();
-        ((TObjPlayer *)this)->check_object_collisions();
+        this->check_object_collisions();
         for (i = 0; i < 16; i++) {
             p = get_battle_param__10TObjPlayerFi(i);
             if (p == 0) {
@@ -343,11 +344,11 @@ void TOTrapAncient01::vfunc_82() {
     case AREA_RUINS1:
     case AREA_RUINS2:
     case AREA_RUINS3:
-        play_persistent_sound(0x4004C618, (s32)this, &position, 0, 0);
+        play_persistent_sound(0x4004C618, (s32)this, (Vec *)(&position), 0, 0);
         break;
     case AREA_VR_SPACESHIP_ALPHA:
     case AREA_VR_SPACESHIP_BETA:
-        play_persistent_sound(0x4004C610, (s32)this, &position, 0, 0);
+        play_persistent_sound(0x4004C610, (s32)this, (Vec *)(&position), 0, 0);
         break;
     case AREA_PIONEER2_EP1:
         return;
@@ -399,17 +400,17 @@ void TOTrapAncient01::play_sounds() {
     const TObjChipParams chip0 = {
         {0.5f, 0.03f, 0.15f}, {position.x, position.y, position.z}, {3.0f, 5.0f, 3.0f},
         {0x800, 0x100, 0x800}, {4, 30}, {position.y, 1.0f},
-        get_bml_model(TOTrapAncient01__bml_resource, 0), TObjFish__sub_8001EDB0(TOTrapAncient01__bml_resource, 0), 22,
+        get_bml_model(TOTrapAncient01__bml_resource, 0), get_bml_texlist(TOTrapAncient01__bml_resource, 0), 22,
     };
     const TObjChipParams chip1 = {
         {0.5f, 0.03f, 0.15f}, {position.x, position.y, position.z}, {3.0f, 5.0f, 3.0f},
         {0x800, 0x100, 0x800}, {4, 30}, {position.y, 1.0f},
-        get_bml_model(TOTrapAncient01__bml_resource, 1), TObjFish__sub_8001EDB0(TOTrapAncient01__bml_resource, 1), 22,
+        get_bml_model(TOTrapAncient01__bml_resource, 1), get_bml_texlist(TOTrapAncient01__bml_resource, 1), 22,
     };
     const TObjChipParams chip2 = {
         {0.5f, 0.03f, 0.15f}, {position.x, position.y, position.z}, {3.0f, 5.0f, 3.0f},
         {0x800, 0x100, 0x800}, {4, 30}, {position.y, 1.0f},
-        get_bml_model(TOTrapAncient01__bml_resource, 2), TObjFish__sub_8001EDB0(TOTrapAncient01__bml_resource, 2), 22,
+        get_bml_model(TOTrapAncient01__bml_resource, 2), get_bml_texlist(TOTrapAncient01__bml_resource, 2), 22,
     };
     new TObjChip(tl_06, &chip0);
     new TObjChip(tl_06, &chip1);
@@ -421,24 +422,24 @@ void TOTrapAncient01::play_sounds() {
     switch (get_current_floor_area()) {
     case AREA_SEABED_UPPER:
     case AREA_SEABED_LOWER:
-        play_sound_effect(0x4004C118, &position, 0, 0);
+        play_sound_effect(0x4004C118, (Vec *)(&position), 0, 0);
         break;
     case AREA_VR_TEMPLE_ALPHA:
     case AREA_VR_TEMPLE_BETA:
-        play_sound_effect(0x4BC07, &position, 0, 0);
+        play_sound_effect(0x4BC07, (Vec *)(&position), 0, 0);
         break;
     case AREA_VR_SPACESHIP_ALPHA:
     case AREA_VR_SPACESHIP_BETA:
-        play_sound_effect(0x4004BC07, &position, 0, 0);
+        play_sound_effect(0x4004BC07, (Vec *)(&position), 0, 0);
         break;
     case AREA_SEASIDE_NIGHT:
-        play_sound_effect(0x4004BC19, &position, 0, 0);
+        play_sound_effect(0x4004BC19, (Vec *)(&position), 0, 0);
         break;
     case AREA_TOWER:
-        play_sound_effect(0x4004BC19, &position, 0, 0);
+        play_sound_effect(0x4004BC19, (Vec *)(&position), 0, 0);
         break;
     default:
-        play_sound_effect(0x4004BC12, &position, 0, 0);
+        play_sound_effect(0x4004BC12, (Vec *)(&position), 0, 0);
         break;
     }
 }

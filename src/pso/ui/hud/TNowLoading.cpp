@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/render/render_util.h"
 #include "pso/unk/TLobby_8001D6A0.h"
@@ -11,22 +12,9 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/task/TObject.h"
 
-struct Stack_8001D19C {
-    f32 sp8;
-    f32 spC;
-    f32 sp10;
-};
-
-struct RecoveredGlobal_8001D19C_lbl_804FF5E8 {
-    s32 value;
-    u8 remaining[0x24];
-};
-
-typedef struct Vec_8001D3A8 { f32 x, y, z; } Vec_8001D3A8;
-
 typedef struct Cam_8001D3A8 {
-    Vec_8001D3A8 eye;
-    Vec_8001D3A8 dir;
+    Vec eye;
+    Vec dir;
     u8 pad18[0x10];
 } Cam_8001D3A8;
 
@@ -35,22 +23,21 @@ typedef struct TNowLoading_8001D3A8 {
     u8 pad4[0x18 - 0x4];
     void *vtable;
     void *children[4];
-    Vec_8001D3A8 pos;
+    Vec pos;
 } TNowLoading_8001D3A8;
 
 extern "C" {
-extern RecoveredGlobal_8001D19C_lbl_804FF5E8 lbl_804FF5E8;
+extern f32 lbl_804FF5E8[];
 extern u32 camera_ctrl_instance;
 void DCInvalidateRange(void *, u32);
 void ARQPostRequest(void *, u32, u32, u32, u32, u32, u32, void *);
 extern s32 aram_dma_pending;
 s32 TLoadingCur__ct(void *, void *, void *);
-void *__nw__7TObjectFUl(u32);
 s32 __ct__7TObjectFP7TObject(void *, void *);
 s32 TAdLoadNetworkGC__ct(void *, void *, void *);
 extern s32 __vt__11TNowLoading[];
 const char *TNowLoading__class_name = "TNowLoading";
-TNowLoading_8001D3A8 *TNowLoading__ct(TNowLoading_8001D3A8 *arg0, void *arg1, Vec_8001D3A8 *arg2);
+TNowLoading_8001D3A8 *TNowLoading__ct(TNowLoading_8001D3A8 *arg0, void *arg1, Vec *arg2);
 void DCFlushRange(void *, u32);
 void TNowLoading__sub_8001D4D0(void);
 void TNowLoading__sub_8001D4D4(void);
@@ -59,12 +46,8 @@ void TNowLoading::render() {  }
 
 #pragma push
 #pragma fp_contract on
-typedef char RecoveredGlobal_8001D19C_lbl_804FF5E8_size[sizeof(RecoveredGlobal_8001D19C_lbl_804FF5E8) == 0x28 ? 1 : -1];
 void TNowLoading::run_task() {
-    typedef char sp8_offset[(offsetof(Stack_8001D19C, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_8001D19C, spC) == 0x4) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_8001D19C, sp10) == 0x8) ? 1 : -1];
-    Stack_8001D19C stack;
+    Vec stack;
     u32 temp_r3;
     u32 temp_r3_2;
     u32 temp_r3_3;
@@ -74,9 +57,9 @@ void TNowLoading::run_task() {
     u32 temp_r3_7;
     u32 temp_r3_8;
     if ((u32) camera_ctrl_instance == 0U) {
-        *(f32 *)&this->m_2c = (f32) ((65.0f * *(f32 *)((s8 *)&lbl_804FF5E8.value + 0xC)) + *(f32 *)((s8 *)&lbl_804FF5E8.value + 0));
-        *(f32 *)&this->unk_30 = (f32) ((65.0f * *(f32 *)((s8 *)&lbl_804FF5E8.value + 0x10)) + *(f32 *)((s8 *)&lbl_804FF5E8.value + 4));
-        this->m_34 = (f32) ((65.0f * *(f32 *)((s8 *)&lbl_804FF5E8.value + 0x14)) + *(f32 *)((s8 *)&lbl_804FF5E8.value + 8));
+        *(f32 *)&this->m_2c = (f32) ((65.0f * *(f32 *)((s8 *)&lbl_804FF5E8 + 0xC)) + *(f32 *)((s8 *)&lbl_804FF5E8 + 0));
+        *(f32 *)&this->unk_30 = (f32) ((65.0f * *(f32 *)((s8 *)&lbl_804FF5E8 + 0x10)) + *(f32 *)((s8 *)&lbl_804FF5E8 + 4));
+        this->m_34 = (f32) ((65.0f * *(f32 *)((s8 *)&lbl_804FF5E8 + 0x14)) + *(f32 *)((s8 *)&lbl_804FF5E8 + 8));
         temp_r3 = this->m_1c;
         if (temp_r3 != 0U) {
             ((TParticleCtrl *)temp_r3)->set_position((u8 *)&this->m_2c);
@@ -94,24 +77,24 @@ void TNowLoading::run_task() {
             ((TParticleCtrl *)temp_r3_4)->set_position((u8 *)&this->m_2c);
         }
     } else {
-        stack.sp8 = (65.0f * *(f32 *)((s8 *)&lbl_804FF5E8.value + 0xC)) + *(f32 *)((s8 *)&lbl_804FF5E8.value + 0);
-        stack.spC = (65.0f * *(f32 *)((s8 *)&lbl_804FF5E8.value + 0x10)) + *(f32 *)((s8 *)&lbl_804FF5E8.value + 4);
-        stack.sp10 = (65.0f * *(f32 *)((s8 *)&lbl_804FF5E8.value + 0x14)) + *(f32 *)((s8 *)&lbl_804FF5E8.value + 8);
+        stack.x = (65.0f * *(f32 *)((s8 *)&lbl_804FF5E8 + 0xC)) + *(f32 *)((s8 *)&lbl_804FF5E8 + 0);
+        stack.y = (65.0f * *(f32 *)((s8 *)&lbl_804FF5E8 + 0x10)) + *(f32 *)((s8 *)&lbl_804FF5E8 + 4);
+        stack.z = (65.0f * *(f32 *)((s8 *)&lbl_804FF5E8 + 0x14)) + *(f32 *)((s8 *)&lbl_804FF5E8 + 8);
         temp_r3_5 = this->m_1c;
         if (temp_r3_5 != 0U) {
-            ((TParticleCtrl *)temp_r3_5)->set_position((void *)&stack.sp8);
+            ((TParticleCtrl *)temp_r3_5)->set_position((void *)&stack.x);
         }
         temp_r3_6 = this->m_20;
         if (temp_r3_6 != 0U) {
-            ((TParticleCtrl *)temp_r3_6)->set_position((void *)&stack.sp8);
+            ((TParticleCtrl *)temp_r3_6)->set_position((void *)&stack.x);
         }
         temp_r3_7 = this->m_24;
         if (temp_r3_7 != 0U) {
-            ((TParticleCtrl *)temp_r3_7)->set_position((void *)&stack.sp8);
+            ((TParticleCtrl *)temp_r3_7)->set_position((void *)&stack.x);
         }
         temp_r3_8 = this->m_28;
         if (temp_r3_8 != 0U) {
-            ((TParticleCtrl *)temp_r3_8)->set_position((void *)&stack.sp8);
+            ((TParticleCtrl *)temp_r3_8)->set_position((void *)&stack.x);
         }
     }
 }
@@ -128,8 +111,8 @@ TNowLoading::~TNowLoading() {
 
 #pragma push
 #pragma fp_contract on
-TNowLoading_8001D3A8 *TNowLoading__ct(TNowLoading_8001D3A8 *parent, void *arg1, Vec_8001D3A8 *arg2) {
-    Vec_8001D3A8 dir;
+TNowLoading_8001D3A8 *TNowLoading__ct(TNowLoading_8001D3A8 *parent, void *arg1, Vec *arg2) {
+    Vec dir;
     s32 out[3];
     Cam_8001D3A8 *cam;
     void *p;
@@ -145,18 +128,18 @@ TNowLoading_8001D3A8 *TNowLoading__ct(TNowLoading_8001D3A8 *parent, void *arg1, 
     dir.y = -cam->dir.y;
     dir.z = -cam->dir.z;
     direction_to_rotation_xz((u8 *)&dir, &out[0], &out[2]);
-    parent->pos.x = 65.0f * cam->dir.x + *(f32 *)((s8 *)&lbl_804FF5E8.value + 0);
-    parent->pos.y = 65.0f * cam->dir.y + *(f32 *)((s8 *)&lbl_804FF5E8.value + 4);
-    parent->pos.z = 65.0f * cam->dir.z + *(f32 *)((s8 *)&lbl_804FF5E8.value + 8);
+    parent->pos.x = 65.0f * cam->dir.x + *(f32 *)((s8 *)&lbl_804FF5E8 + 0);
+    parent->pos.y = 65.0f * cam->dir.y + *(f32 *)((s8 *)&lbl_804FF5E8 + 4);
+    parent->pos.z = 65.0f * cam->dir.z + *(f32 *)((s8 *)&lbl_804FF5E8 + 8);
     parent->children[0] = NULL;
     parent->children[1] = NULL;
     parent->children[2] = NULL;
     parent->children[3] = NULL;
-    p = __nw__7TObjectFUl(0x40);
+    p = TObject::operator new(0x40);
     if (p != NULL) {
         TAdLoadNetworkGC__ct(p, parent, &parent->pos);
     }
-    p = __nw__7TObjectFUl(0x5C);
+    p = TObject::operator new(0x5C);
     if (p != NULL) {
         TLoadingCur__ct(p, parent, &parent->pos);
     }

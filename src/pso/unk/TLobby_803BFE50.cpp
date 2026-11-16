@@ -1,17 +1,8 @@
 #include "types.h"
+#include "pso/unk/TLobby_803BFE50.h"
 #include "pso/audio/SjRingBuffer.h"
 #include "pso/unk/TLobby.h"
-#include "pso/unk/TLobby.h"
 
-struct RecoveredGlobal_803C0B08_lbl_80570AC0 {
-    s32 value;
-    u8 remaining[0x9BC];
-};
-
-struct RecoveredGlobal_803C0AD8_lbl_80570AC0 {
-    s32 value;
-    u8 remaining[0x9BC];
-};
 
 struct Obj_803C07E8 { u8 a; s8 b; };
 
@@ -154,7 +145,7 @@ void TLobby__sub_803C39CC(u8 *arg0);
 void TLobby__sub_803C0758(u8 *arg0);
 s32 TLobby__sub_803C1A00(int);
 s32 memset(void *, int, int);
-RecoveredGlobal_803C0B08_lbl_80570AC0 lbl_80570AC0;
+RecoveredGlobal_lbl_80570AC0 lbl_80570AC0;
 void TLobby__sub_803C406C(void);
 void TLobby__sub_803C133C(Snd_803C0BE8 *arg0);
 void TLobby__sub_803C0B3C(u8 *arg0);
@@ -167,11 +158,11 @@ void TLobby__sub_803C0628(void *arg0_, s32 *arg1, s32 *arg2, s32 *arg3);
 void EXIGetID(Snd_803C0BE8 *arg0);
 void GXFlush(void);
 void TLobby__sub_803C0238(AudioStreamInputState *st);
-s32 TLobby__sub_803C3B68(TLobby *decoder, u16 *hdr, s32 size);
+s32 TLobby__sub_803C3B68(s32 arg0, u16 *hdr, s32 size);
 void TLobby__sub_803D3130(SjChunk *chunk, s32 size, SjChunk *head, SjChunk *tail);
 void *memcpy(void *, const void *, u32);
 void process_audio_stream_input(AudioStreamInputState *arg0);
-TLobby *alloc_record__6TLobbyFiiii(s32 channels, u8 *buffer, s32 size, s32 total);
+TLobby *alloc_record__6TLobbyFllll(s32 channels, u8 *buffer, s32 size, s32 total);
 void TLobby__sub_803C3B5C(TLobby *decoder, void (*callback)(void *, s32 *, s32 *, s32 *), void *context);
 AudioStreamInputState *TLobby__sub_803C0848(AudioStreamSource *source, s32 channels, SjRingBuffer **rings);
 s32 TLobby::get_offset_58() {
@@ -267,7 +258,7 @@ inline void parse_audio_stream_input_header(AudioStreamInputState *st) {
         s->vt->unget_chunk(s, 1, &b);
         return;
     }
-    n = TLobby__sub_803C3B68(h, (u16 *)b.data, b.size);
+    n = TLobby__sub_803C3B68((s32)h, (u16 *)b.data, b.size);
     if (n == 0 || n > b.size) {
         s->vt->unget_chunk(s, 1, &b);
         return;
@@ -305,6 +296,7 @@ inline void feed_audio_stream_decoder(AudioStreamInputState *st) {
         return;
     }
     s->vt->get_chunk(s, 1, 0x7FFFFFFF, &st->src_chunk);
+    // An ADX footer ends the stream before the next block is submitted.
     if (h->get_field_a8() == 0 && st->src_chunk.size >= 2 && (u16)*(s16 *)st->src_chunk.data == 0x8001) {
         st->state = 3;
         s->vt->unget_chunk(s, 1, &st->src_chunk);
@@ -328,18 +320,19 @@ inline void feed_audio_stream_decoder(AudioStreamInputState *st) {
 }
 
 inline void drain_audio_stream_decoder(AudioStreamInputState *st) {
+    s32 n;
     TLobby *h = st->decoder;
     AudioStreamSource *s = st->source;
     SjChunk head;
     SjChunk tail;
-    s32 total = TLobby__sub_803C3ABC((u8 *)h);
-    s32 bytes = h->get_field_0xa4();
-    s32 avail = h->get_field_a0();
-    s32 n = total - st->decoded_samples;
+    s32 bytes;
+    s32 avail;
     s32 i;
-    if (avail < n) {
-        n = avail;
-    }
+    n = TLobby__sub_803C3ABC((u8 *)h);
+    bytes = h->get_field_0xa4();
+    avail = h->get_field_a0();
+    n -= st->decoded_samples;
+    n = avail < n ? avail : n;
     TLobby__sub_803D3130(&st->src_chunk, bytes, &head, &tail);
     s->vt->put_chunk(s, 0, &head);
     s->vt->unget_chunk(s, 1, &tail);
@@ -348,8 +341,8 @@ inline void drain_audio_stream_decoder(AudioStreamInputState *st) {
         if (st->output_callback != NULL) {
             st->output_callback(st->output_context, i, head.data, head.size);
         }
-        st->rings[i]->interface->put_chunk(st->rings[i], 1, (SjChunk *)&head);
-        st->rings[i]->interface->unget_chunk(st->rings[i], 0, (SjChunk *)&tail);
+        st->rings[i]->interface->put_chunk(st->rings[i], 1, &head);
+        st->rings[i]->interface->unget_chunk(st->rings[i], 0, &tail);
     }
     st->output_samples += n;
     st->consumed_bytes += bytes;
@@ -366,13 +359,11 @@ inline void drain_audio_stream_decoder(AudioStreamInputState *st) {
 
 inline void skip_audio_stream_decoder(AudioStreamInputState *st) {
     TLobby *h = st->decoder;
-    s32 total = TLobby__sub_803C3ABC((u8 *)h);
+    s32 n = TLobby__sub_803C3ABC((u8 *)h);
     s32 bytes = h->get_field_0xa4();
     s32 avail = h->get_field_a0();
-    s32 n = total - st->decoded_samples;
-    if (avail < n) {
-        n = avail;
-    }
+    n -= st->decoded_samples;
+    n = avail < n ? avail : n;
     st->output_samples += n;
     st->consumed_bytes += bytes;
     st->decoded_samples += n;
@@ -387,6 +378,7 @@ void TLobby__sub_803C0238(AudioStreamInputState *st) {
     if (h->get_entry_id() == 3) {
         drain_audio_stream_decoder(st);
     }
+    // Format 10 also updates the counters outside the output-ring path.
     if (((AudioStreamDecoder *)h)->format == 10) {
         skip_audio_stream_decoder(st);
     }
@@ -479,7 +471,7 @@ AudioStreamInputState *TLobby__sub_803C0848(AudioStreamSource *source, s32 chann
     st = &((AudioStreamInputState *)&lbl_80570AC0)[i];
     buffer = sj_ring_buffer_get_buffer(ring);
     size = sj_ring_buffer_get_buffer_size(ring) / 2;
-    st->decoder = alloc_record__6TLobbyFiiii(channels, buffer, size, size + sj_ring_buffer_get_extra_buffer_size(ring) / 2);
+    st->decoder = alloc_record__6TLobbyFllll(channels, buffer, size, size + sj_ring_buffer_get_extra_buffer_size(ring) / 2);
     if (st->decoder == NULL) {
         return NULL;
     }
@@ -508,7 +500,7 @@ AudioStreamInputState *TLobby__sub_803C0848(AudioStreamSource *source, s32 chann
 }
 
 void TLobby::clear_session_buffer() {
-    memset((void *) (&(*(RecoveredGlobal_803C0AD8_lbl_80570AC0 *)&lbl_80570AC0).value), 0, 0x9C0);
+    memset((void *) (&lbl_80570AC0.value), 0, 0x9C0);
 }
 void TLobby::reset_sound_buffers() {
     TLobby__sub_803C406C();
@@ -648,8 +640,5 @@ void TLobby__sub_803C133C(Snd_803C0BE8 *arg0) {
         arg0->state = 3;
     }
 }
-
-typedef char RecoveredGlobal_803C0B08_lbl_80570AC0_size[sizeof(RecoveredGlobal_803C0B08_lbl_80570AC0) == 0x9C0 ? 1 : -1];
-typedef char RecoveredGlobal_803C0AD8_lbl_80570AC0_size[sizeof(RecoveredGlobal_803C0AD8_lbl_80570AC0) == 0x9C0 ? 1 : -1];
 
 }

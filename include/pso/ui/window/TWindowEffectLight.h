@@ -8,6 +8,7 @@ class TWindowEffectLight : public TObject {
 public:
     TWindowEffectLight(void *arg1, s16 arg2, u32 id);
     virtual ~TWindowEffectLight();
+    void sub_802AD040(f32);
     void draw_outline_quad(s32);
     virtual void render();
     virtual void run_task();

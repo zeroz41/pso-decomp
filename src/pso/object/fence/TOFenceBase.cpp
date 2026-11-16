@@ -1,4 +1,5 @@
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/object/fence/TOFenceBase.h"
 #include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/object/switch/TSwitch.h"
@@ -49,7 +50,7 @@ void TOFenceBase::update_trigger() {
         }
         break;
     }
-    play_persistent_sound(0x4004C10F, (s32)this, &position, 0, 0);
+    play_persistent_sound(0x4004C10F, (s32)this, (Vec *)(&position), 0, 0);
 }
 
 void TOFenceBase::run_task() {

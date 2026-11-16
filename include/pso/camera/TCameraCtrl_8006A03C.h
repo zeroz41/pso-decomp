@@ -4,7 +4,7 @@
 #include "types.h"
 
 extern "C" {
-void TCameraCtrl__sub_8006A044(s32 id, f32 v);
+void start_camera_shake(s32 id, f32 v);
 }
 
 #endif

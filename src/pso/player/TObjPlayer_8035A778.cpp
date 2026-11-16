@@ -4,8 +4,6 @@
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
 #include "pso/unk/TLobby_801E2F94.h"
 
-extern "C" {
-
 
 extern s32 process_callback_list__10TObjPlayerFl[];
 extern s32 player_node_matrix_cursor;
@@ -25,4 +23,3 @@ void TObjPlayer::apply_with_callback(s32 arg1, f32 farg0) {
     set_chunk_model_node_callback((s32)NULL);
 }
 
-}

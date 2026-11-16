@@ -4,6 +4,7 @@
  * GC/1.2.5n, separate from the game's C++: each function here fills one of its configuration records with
  * counts, sizes and static buffers. Record and field names are ours (no symbols survive). */
 #include "types.h"
+#include "pso/network/NetworkTransport.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -22,18 +23,6 @@ typedef struct NetParamCfg {
 } NetParamCfg;
 
 
-
-typedef struct NetBufferLayout {
-    s16 a;
-    s16 b;
-    u16 n1;
-    u16 n2;
-    s32 c;
-    s32 d;
-    s32 e;
-    u32 f;
-    u32 g;
-} NetBufferLayout;
 
 void TLobby__sub_803F86BC(void *cfg);
 void init_net_config(struct DnsResolverState *cfg);
@@ -75,8 +64,8 @@ void init_net_func_table(struct EthernetState *cfg);
 void TLobby__sub_803F8B78(void *cfg);
 struct LoopbackState;
 void init_net_recv_desc(struct LoopbackState *cfg);
-u8 *layout_buffers(NetBufferLayout *h, u8 *p, u8 *end);
-s32 TLobby__sub_803F8D24(NetBufferLayout *h);
+u8 *layout_buffers(NetTransportParams *h, u8 *p, u8 *end);
+s32 TLobby__sub_803F8D24(NetTransportParams *h);
 void TLobby__sub_803F8D84(u32 key);
 s32 alloc_buffer_slot(s32 size);
 

@@ -1,4 +1,5 @@
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/enemy/TUnk_80493450.h"
 #include "pso/player/TObjPlayer.h"
@@ -18,13 +19,13 @@
 #include "pso/unk/text_803E2D70.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/boss/volopt/TBoss3VoloptHiraisin.h"
-#include "pso/object/base/TObjChara.h"
-#include "pso/object/base/TObjMotion.h"
+
+
 #include "pso/system/task/TObject.h"
 extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
 extern "C" void test_flag_1000__9TObjCharaFv();
-#include "pso/object/base/TObjMotion.h"
+
 #include "pso/system/vector.h"
 
 #include "pso/render/TUnk_80494938.h"
@@ -44,12 +45,6 @@ struct Pl_800D5614 { u8 pad0[0x38]; u8 pos[0xC]; };
 #include "pso/object/ambient/TObjFish.h"
 
 #pragma readonly_strings on
-
-struct Stack_800D5060 {
-    f32 sp8;
-    f32 spC;
-    f32 sp10;
-};
 
 struct RecoveredGlobal_800D5060_lbl_8058D490 { s32 value; u8 remaining[0x2C]; };
 typedef char RecoveredGlobal_800D5060_lbl_8058D490_size[sizeof(RecoveredGlobal_800D5060_lbl_8058D490) == 0x30 ? 1 : -1];
@@ -276,13 +271,11 @@ typedef struct Ene_800D52DC {
 
 struct Vec_800D57C8 { s32 x, y, z; };
 
-
 struct Stack_800D4D74 {
     s32 sp8;
     f32 spC;
     f32 sp10;
 };
-
 
 struct VBase_18_800D6110 { char pad[0x18]; };
 
@@ -328,7 +321,6 @@ struct Obj_800D6110 : VObj_18_800D6110 {
     u8 pad354[0x374 - 0x354]; s16 f374; u8 pad376[0x398 - 0x376]; f32 f398;
     u8 pad39c[0x3D4 - 0x39C]; f32 f3d4;
 };
-
 
 struct Param_800D5BCC { u8 pad0[4]; f32 speed; s32 turn; };
 
@@ -490,7 +482,9 @@ void vfunc_60__16TObjEneMerillLiaFv(Ene_800D52DC *arg0);
 s32 minimap_render_dot(void *, int, int, int);
 s32 create__9TTecKafunFlllllff(void *, void *, int, int, int, f32, f32);
 s32 matrix_mult_vec(int, void *, void *);
-s32 apply_actor_gravity(void *, int, f32);
+}
+void apply_actor_gravity(TObjEnemy *enemy, s32 *arg1, f32 farg0);
+extern "C" {
 s32 enemy_move_toward(void *, s32, void *, int, f32);
 f32 horizontal_distance_squared(void *, void *);
 s32 test_elt_flag__13TUnk_80493450Fll(void *, int, int);
@@ -505,7 +499,7 @@ u32 csnVector(void *, void *, s32);
 f32 normalize_vector(void *);
 void beast_update_group_chase__16TObjEneMerillLiaFv(Obj_800D6110 *arg0);
 f32 fabs_float(f32);
-f64 atan2_float(f32, f32);
+f32 atan2_float(f32 y, f32 x);
 void link_chain_nodes__10TObjPlayerFPvPvPv(void *, void *, void *);
 s32 approach_angle_limited(s32, s32, s32);
 s32 project_actor_to_ground(void *, void *, s32);
@@ -525,7 +519,6 @@ void *TObjEneMerillLia__ct(void *, void *, void *);
 void *__dt__13TUnk_80493450Fv(void *arg0, s16 arg1);
 void __dl__7TObjectFPv(void *);
 void *__dt__13TUnk_80494938Fv(void *arg0, s16 arg1);
-void *__nw__7TObjectFUl(int);
 s32 is_split_screen(void);
 u8 *load_resource_from_descriptor(void *, s32, BmlResourceDescriptor *, s32, s32, s32);
 void TObjEneMerillLia__sub_800D6D64(void);
@@ -714,7 +707,6 @@ typedef struct VObj_14_fddec9 VObj_14_fddec9;
 typedef struct VObj_18_ca64a0 VObj_18_ca64a0;
 struct Obj_800D5100;
 struct RecoveredGlobal_800D5060_lbl_8058D490;
-f32 get_collision_body_radius(void *, s32);
 s32 check_path_obstructed(void *, void *);
 typedef struct VBase_18_477421 VBase_18_477421;
 typedef struct VObj_18_477421 VObj_18_477421;
@@ -872,11 +864,11 @@ void TObjEneMerillLia::destroy_rocks() {
 void * TObjEneMerillLia__create(void *arg0) {
     void *o;
     void *o2;
-    o = __nw__7TObjectFUl(0x20);
+    o = TObject::operator new(0x20);
     if (o != NULL) {
         o = __ct__11TObjControlFP7TObject(o, tl_04);
     }
-    o2 = __nw__7TObjectFUl(0x3DC);
+    o2 = TObject::operator new(0x3DC);
     if (o2 != NULL) {
         o2 = TObjEneMerillLia__ct(o2, o, arg0);
     }
@@ -981,7 +973,7 @@ void TObjEneMerillLia::render() {
   s16 temp_r0;
   s32 temp_r3;
   s32 var_r29;
-  temp_r3 = (((VObj_18_ca64a0 *)(this))->m9(200.0f, 400.0f, 30.0f));
+  temp_r3 = (this->classify_actor_view_detail(200.0f, 400.0f, 30.0f));
   if (temp_r3 != 0)
   {
     saved_model_render_flags = model_render_flags;
@@ -1008,7 +1000,7 @@ void TObjEneMerillLia::render() {
       if (var_r29 != 0)
       {
         (((VObj_14_fddec9 *)(((u8 *) ((u8 *)this)) + 936))->m6());
-        if (((TObject *)this)->defer_render() != 0)
+        if (this->defer_render() != 0)
         {
           var_r30 = 0;
         }
@@ -1053,7 +1045,7 @@ void TObjEneMerillLia::beast_update_approach() {
     f32 r;
     switch (this->phase) {
     case 0:
-        apply_actor_gravity(arg0, 0, 0.0f);
+        apply_actor_gravity((TObjEnemy *)arg0, (s32 *)(0), 0.0f);
         ((TObjMotion *)arg0)->advance_animation();
         if (this->action_flags != 0x20U) {
             this->phase = 1;
@@ -1337,7 +1329,7 @@ void TObjEneMerillLia__sub_800D5BCC(u8 *arg0) {
     }
     }
     if (((TObjCollidable *)o)->obj_testFlags30(0x800000) == 0) {
-        apply_actor_gravity(o, 0, 0.0f);
+        apply_actor_gravity((TObjEnemy *)o, (s32 *)(0), 0.0f);
     }
     ((TObjCollidable *)o)->refresh_collision_body_centers();
     minimap_render_dot(&o->pos, -0x5DB4, 1, 0);
@@ -1350,19 +1342,19 @@ void TObjEneMerillLia__sub_800D5BCC(u8 *arg0) {
 void TObjEneMerillLia::beast_update_hurt() {
     Vec pos;
 
-    ((TObjMotion *)((u8 *)this))->advance_animation();
+    this->advance_animation();
     VecCopy((Vec *)&pos, (const Vec *)(((u8 *)this) + 0x2FC));
     scratch_vec.y = 0.0f;
     scratch_vec.x = 0.0f;
-    scratch_vec.z = get_collision_body_radius(((u8 *)this), 0);
+    scratch_vec.z = get_collision_body_radius(0);
     push_matrix_from(&identity_matrix);
-    rotate_matrix_y(0, -*(s32 *)((s8 *)((u8 *)this) + 0x60));
+    rotate_matrix_y(0, -this->rotation_y);
     rotate_vector_by_matrix(0, &scratch_vec, &scratch_vec);
     pop_matrix();
     vec3_add_to(&pos, &scratch_vec);
     pos.x = pos.x + *(f32 *)((s8 *)((u8 *)this) + 0x308);
     pos.z = pos.z + *(f32 *)((s8 *)((u8 *)this) + 0x310);
-    if (check_path_obstructed(((u8 *)this), &pos) == 0) {
+    if (check_path_obstructed(this, &pos) == 0) {
         move_with_wall_slide(((u8 *)this));
         *(f32 *)((s8 *)((u8 *)this) + 0x308) *= 0.5f;
         *(f32 *)((s8 *)((u8 *)this) + 0x310) *= 0.5f;
@@ -1371,17 +1363,17 @@ void TObjEneMerillLia::beast_update_hurt() {
         *(f32 *)((s8 *)((u8 *)this) + 0x308) = 0.0f;
     }
     ((TObjPlayer *)((u8 *)this))->update_collisions();
-    ((TObjPlayer *)((u8 *)this))->update_enemy_collision_flags();
-    if (((TObjMotion *)((u8 *)this))->is_passing_frame(0.0f) != 0) {
-        ((TObjEneMerillLia *)((u8 *)this))->vfunc_97();
+    this->update_enemy_collision_flags();
+    if (this->is_passing_frame(0.0f) != 0) {
+        this->vfunc_97();
     }
-    if (*(u32 *)((s8 *)((u8 *)this) + 0xB4) != 8) {
-        ((TObjBase *)((u8 *)this))->obj_clearFlags30(0x600);
-        ((TObjCollidable *)((u8 *)this))->clear_player_status_flag(0, 0x04000000);
-        if ((f32)*(s16 *)((s8 *)((u8 *)this) + 0x32C) <= (f32)*(s16 *)((s8 *)((u8 *)this) + 0x2B8) * *(f32 *)((s8 *)((u8 *)this) + 0x3CC)) {
-            ((TObjEneMerillLia *)((u8 *)this))->select_action_by_distance();
+    if (this->action_flags != 8) {
+        this->obj_clearFlags30(0x600);
+        this->clear_player_status_flag(0, 0x04000000);
+        if ((f32)this->hp <= (f32)this->hpmax * *(f32 *)((s8 *)((u8 *)this) + 0x3CC)) {
+            this->select_action_by_distance();
         }
-        *(s16 *)((s8 *)((u8 *)this) + 0x33E) = *(s16 *)((s8 *)((u8 *)this) + 0x32C);
+        this->referenceHp = this->hp;
     }
     minimap_render_dot(((u8 *)this) + 0x38, -0x5DB4, 1, 0);
 }
@@ -1701,60 +1693,57 @@ void TObjEneMerillLia::vfunc_93() {  }
 
 void TObjEneMerillLia::vfunc_94() {
     u8 *arg0 = (u8 *)this;
-    typedef char sp8_offset[(offsetof(Stack_800D5060, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_800D5060, spC) == 0x4) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_800D5060, sp10) == 0x8) ? 1 : -1];
-    Stack_800D5060 stack;
-    stack.sp8 = 0.0f;
-    stack.spC = 10.0f;
-    stack.sp10 = 0.5f * *(f32 *)(this->m_2b0 + 0x10);
+    Vec stack;
+    stack.x = 0.0f;
+    stack.y = 10.0f;
+    stack.z = 0.5f * *(f32 *)(this->m_2b0 + 0x10);
     push_matrix_from((void *)&identity_matrix.value);
     rotate_matrix_y(0, this->rotation_y);
-    rotate_vector_by_matrix(0, (void *)&stack.sp8, (void *)&stack.sp8);
+    rotate_vector_by_matrix(0, (void *)&stack.x, (void *)&stack.x);
     pop_matrix();
-    vec3_add_to((void *)&stack.sp8, (void *)(arg0 + 0x38));
-    ((TObjPlayer *)(&stack.sp8))->spawn_ground_effect(0x23);
-    TObjPlayer__sub_800D92BC((s32)&stack.sp8, 0xF);
+    vec3_add_to((void *)&stack.x, (void *)(arg0 + 0x38));
+    ((TObjPlayer *)(&stack.x))->spawn_ground_effect(0x23);
+    TObjPlayer__sub_800D92BC((s32)&stack.x, 0xF);
 }
 
 void TObjEneMerillLia__sub_800D501C(s32 arg0) {
-    play_sound_effect((void *) (((TObjEnemy *)((void *)arg0))->remap_sound_for_area((s32)(0x3B206))), (Vec *)((void *)(arg0 + 0x38)), 0, 0);
+    play_sound_effect((void *) (((TObjEnemy *)((void *)arg0))->remap_sound_for_area(0x3B206)), (Vec *)((void *)(arg0 + 0x38)), 0, 0);
 }
 
 void TObjEneMerillLia::vfunc_96() {
     s32 arg0 = (s32)this;
-    play_sound_effect((void *) (((TObjEnemy *)((void *)arg0))->remap_sound_for_area((s32)(0x3AB02))), (Vec *)((void *)(arg0 + 0x38)), 0, 0);
+    play_sound_effect((void *) (((TObjEnemy *)((void *)arg0))->remap_sound_for_area(0x3AB02)), (Vec *)((void *)(arg0 + 0x38)), 0, 0);
 }
 
 void TObjEneMerillLia::vfunc_97() {
     s32 arg0 = (s32)this;
-    play_sound_effect((void *) (((TObjEnemy *)((void *)arg0))->remap_sound_for_area((s32)(0x3B201))), (Vec *)((void *)(arg0 + 0x38)), 0, 0);
+    play_sound_effect((void *) (((TObjEnemy *)((void *)arg0))->remap_sound_for_area(0x3B201)), (Vec *)((void *)(arg0 + 0x38)), 0, 0);
 }
 
 void TObjEneMerillLia::vfunc_98() {
     s32 arg0 = (s32)this;
-    play_sound_effect((void *) (((TObjEnemy *)((void *)arg0))->remap_sound_for_area((s32)(0x3AD00))), (Vec *)((void *)(arg0 + 0x38)), 0, 0);
+    play_sound_effect((void *) (((TObjEnemy *)((void *)arg0))->remap_sound_for_area(0x3AD00)), (Vec *)((void *)(arg0 + 0x38)), 0, 0);
 }
 
 void TObjEneMerillLia::vfunc_99() {
     s32 arg0 = (s32)this;
-    play_sound_effect((void *) (((TObjEnemy *)((void *)arg0))->remap_sound_for_area((s32)(0x3B205))), (Vec *)((void *)(arg0 + 0x38)), 0, 0);
+    play_sound_effect((void *) (((TObjEnemy *)((void *)arg0))->remap_sound_for_area(0x3B205)), (Vec *)((void *)(arg0 + 0x38)), 0, 0);
 }
 
 void TObjEneMerillLia__sub_800D4EC8(s32 arg0) {
-    play_sound_effect((void *) (((TObjEnemy *)((void *)arg0))->remap_sound_for_area((s32)(0x3AD04))), (Vec *)((void *)(arg0 + 0x38)), 0, 0);
+    play_sound_effect((void *) (((TObjEnemy *)((void *)arg0))->remap_sound_for_area(0x3AD04)), (Vec *)((void *)(arg0 + 0x38)), 0, 0);
 }
 
-void spawn_ground_effect__16TObjEneMerillLiaFPv(u8 *arg0) {
+void spawn_ground_effect__16TObjEneMerillLiaFPv(u8 *motion) {
     typedef char sp8_offset[(offsetof(Stack_800D4D74, sp8) == 0x0) ? 1 : -1];
     typedef char spC_offset[(offsetof(Stack_800D4D74, spC) == 0x4) ? 1 : -1];
     Stack_800D4D74 stack;
     s32 temp_r29;
     s32 particle_effect;
     u8 *temp_r3;
-    VecCopy((Vec *)&stack.sp8, (const Vec *)(arg0 + 0x38));
+    VecCopy((Vec *)&stack.sp8, (const Vec *)(motion + 0x38));
     stack.spC += 15.0f;
-    temp_r3 = (u8 *)(csnVectorUnder((s32)&stack.sp8, (u32 *)(arg0 + 0x120), 5));
+    temp_r3 = (u8 *)(csnVectorUnder((s32)&stack.sp8, (u32 *)(motion + 0x120), 5));
     if ((temp_r3 != NULL) && (*(s32 *)((s8 *)temp_r3 + 0) & 4)) {
         if (((s32) ((f32) actor_frame_tick * (3.0517578125e-05f * (f32) rand())) % 5) == 0) {
             particle_effect = (s32)spawn_particle_effect((void *)(*(s32 *)((s8 *)temp_r3 + 4) + 0x38), 0x49);
@@ -1763,12 +1752,11 @@ void spawn_ground_effect__16TObjEneMerillLiaFPv(u8 *arg0) {
             }
             spawn_particle_effect((void *)(*(s32 *)((s8 *)temp_r3 + 4) + 0x38), 0xA4);
         }
-        if ((((TObjMotion *)arg0)->is_passing_frame(7.0f) != 0) || (((TObjMotion *)arg0)->is_passing_frame(22.0f) != 0)) {
-            fn_800D88E4((arg0 + 0x38));
+        if ((((TObjMotion *)motion)->is_passing_frame(7.0f) != 0) || (((TObjMotion *)motion)->is_passing_frame(22.0f) != 0)) {
+            fn_800D88E4((motion + 0x38));
         }
     }
 }
+}
 
 void TObjEneMerillLia::vfunc_101() {  }
-
-}

@@ -28,7 +28,7 @@ typedef struct UdpControlBlock {
     s32 eventCallback;
 } UdpControlBlock;
 
-/* One piece of the data to send (tcp_send, TUdpSocket__sub_80421BAC). */
+/* One piece of the data to send (tcp_send, udp_send). */
 typedef struct send_buffs {
     short len;
     u8 *buff; /* 0x04 */
@@ -68,6 +68,7 @@ s16 NetUdpCreate(void);
 s16 NetUdpBind(s16 handle, NetworkAddress* localAddress, s32 port);
 u16 NetUdpAllocateEphemeralPort(void);
 s16 NetValidateLocalAddress(NetworkAddress* address);
+s16 compare_sockaddr(NetworkAddress *a, NetworkAddress *b);
 s32 reset_stack_module(void);
 s32 init_ucb_entries(void);
 void expire_timeout_entries(void* tcb);

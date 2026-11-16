@@ -12,14 +12,7 @@
 
 #pragma readonly_strings on
 
-struct RecoveredGlobal_803074FC___vt__18TAdGameStartBackGC {
-    s32 value;
-    u8 remaining[0x14];
-};
-
 extern "C" {
-void __ct__7TObjectFP7TObject(void *, void *);
-extern RecoveredGlobal_803074FC___vt__18TAdGameStartBackGC __vt__18TAdGameStartBackGC;
 const char *TAdGameStartBackGC__class_name = "TAdGameStartBackGC";
 s32 game_start_background_texture_list;
 void TAdGameStartBackGC::render_background_status() {
@@ -35,7 +28,6 @@ void TAdGameStartBackGC::render() { if (TMainTask::get_render_pass() != 1) { set
 
 #pragma push
 #pragma fp_contract on
-typedef char RecoveredGlobal_803074FC___vt__18TAdGameStartBackGC_size[sizeof(RecoveredGlobal_803074FC___vt__18TAdGameStartBackGC) == 0x18 ? 1 : -1];
 
 #pragma push
 #pragma fp_contract on
@@ -72,33 +64,32 @@ void TAdGameStartBackGC::run_task() {
 #pragma pop
 
 TAdGameStartBackGC::~TAdGameStartBackGC() {}
-u8 *__ct__18TAdGameStartBackGCFv(u8 *object, u8 *arg1) {
+}
+TAdGameStartBackGC::TAdGameStartBackGC(TObject *arg1) : TObject(arg1) {
     f32 temp_f5;
     f32 temp_f5_2;
-    __ct__7TObjectFP7TObject(object, arg1);
-    *(s32 **)((s8 *)object + 0x18) = &__vt__18TAdGameStartBackGC.value;
-    *(const char **)((s8 *)object + 0) = TAdGameStartBackGC__class_name;
-    *(f32 *)((s8 *)object + 0x5C) = 106.0f;
-    *(f32 *)((s8 *)object + 0x60) = 192.0f;
-    *(s32 *)((s8 *)object + 0x78) = 0xFF;
-    *(s32 *)((s8 *)object + 0x7C) = -1;
-    *(f32 *)((s8 *)object + 0x6C) = 5.0f;
-    *(f32 *)((s8 *)object + 0x70) = 5.0f;
+    this->m_name = TAdGameStartBackGC__class_name;
+    *(f32 *)((s8 *)this + 0x5C) = 106.0f;
+    *(f32 *)((s8 *)this + 0x60) = 192.0f;
+    *(s32 *)((s8 *)this + 0x78) = 0xFF;
+    *(s32 *)((s8 *)this + 0x7C) = -1;
+    *(f32 *)((s8 *)this + 0x6C) = 5.0f;
+    *(f32 *)((s8 *)this + 0x70) = 5.0f;
     game_start_background_texture_list = TObjPlayer::get_instance();
-    *(f32 *)((s8 *)object + 0x1C) = (f32) *(f32 *)((s8 *)object + 0x5C);
-    *(f32 *)((s8 *)object + 0x20) = (f32) *(f32 *)((s8 *)object + 0x60);
-    *(f32 *)((s8 *)object + 0x24) = (f32) (512.0f + *(f32 *)((s8 *)object + 0x5C));
-    *(f32 *)((s8 *)object + 0x28) = (f32) (128.0f + *(f32 *)((s8 *)object + 0x60));
-    temp_f5 = *(f32 *)((s8 *)object + 0x1C);
-    *(f32 *)((s8 *)object + 0x64) = (f32) ((0.5f * (*(f32 *)((s8 *)object + 0x24) - temp_f5)) + temp_f5);
-    temp_f5_2 = *(f32 *)((s8 *)object + 0x20);
-    *(f32 *)((s8 *)object + 0x68) = (f32) ((0.5f * (*(f32 *)((s8 *)object + 0x28) - temp_f5_2)) + temp_f5_2);
-    *(f32 *)((s8 *)object + 0x4C) = 0.0f;
-    *(f32 *)((s8 *)object + 0x50) = 0.25f;
-    *(f32 *)((s8 *)object + 0x54) = 1.0f;
-    *(f32 *)((s8 *)object + 0x58) = 0.5f;
-    return object;
+    *(f32 *)((s8 *)this + 0x1C) = (f32) *(f32 *)((s8 *)this + 0x5C);
+    *(f32 *)((s8 *)this + 0x20) = (f32) *(f32 *)((s8 *)this + 0x60);
+    *(f32 *)((s8 *)this + 0x24) = (f32) (512.0f + *(f32 *)((s8 *)this + 0x5C));
+    *(f32 *)((s8 *)this + 0x28) = (f32) (128.0f + *(f32 *)((s8 *)this + 0x60));
+    temp_f5 = *(f32 *)((s8 *)this + 0x1C);
+    *(f32 *)((s8 *)this + 0x64) = (f32) ((0.5f * (*(f32 *)((s8 *)this + 0x24) - temp_f5)) + temp_f5);
+    temp_f5_2 = *(f32 *)((s8 *)this + 0x20);
+    *(f32 *)((s8 *)this + 0x68) = (f32) ((0.5f * (*(f32 *)((s8 *)this + 0x28) - temp_f5_2)) + temp_f5_2);
+    *(f32 *)((s8 *)this + 0x4C) = 0.0f;
+    *(f32 *)((s8 *)this + 0x50) = 0.25f;
+    *(f32 *)((s8 *)this + 0x54) = 1.0f;
+    *(f32 *)((s8 *)this + 0x58) = 0.5f;
 }
+extern "C" {
 #pragma pop
 
 void TUnk_804E70A8::emit_marker_effects() {

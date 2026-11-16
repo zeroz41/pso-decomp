@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/weapon/TItemWeapon.h"
 #include "pso/weapon/TUnk_804A63F0.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/technique/TTecBarta.h"
@@ -7,7 +8,6 @@
 #include "pso/item/TItem.h"
 #include "pso/system/task/TMainTask.h"
 
-extern "C" {
 
 void TUnk_804A63F0::emit_marker_effects() {
     u8 *arg0 = (u8 *)this;
@@ -23,23 +23,20 @@ void TUnk_804A63F0::emit_marker_effects() {
         ((TTecBarta *)temp_r3)->create_ex(temp_r3 + 0x38, (void *)(*(s32 *)((s8 *)temp_r3 + 0x60)), (void *)3);
         return;
     }
-    ((TObjPlayer *)arg0)->update_active_game_effect();
+    ((TItemWeapon *)arg0)->update_active_game_effect();
 }
 
-}
 
 TUnk_804A63F0::TUnk_804A63F0(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
     set_weapon_flags(34);
 }
 
-extern "C" {
+
 u8 *TObjPlayer::create_vtable_804A63F0(u8 *arg0) {
     if (arg0 != NULL) {
         return (u8 *)new TUnk_804A63F0(tl_05, arg0);
     }
     return NULL;
-}
-
 }
 
 

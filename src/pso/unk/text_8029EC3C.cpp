@@ -1,11 +1,12 @@
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/system/vector.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/map/FloorArea.h"
-struct Vec_8029EC3C { f32 x; f32 y; f32 z; };
+#include "pso/player/TObjPlayer_80011014.h"
 
-struct Ray_8029EC3C { Vec_8029EC3C o; Vec_8029EC3C d; };
+struct Ray_8029EC3C { Vec o; Vec d; };
 
 struct Hit_8029EC3C {
     u8 pad0[4];
@@ -22,17 +23,17 @@ void reflect_matrix_in_plane(s32, void *);
 s32 *csnVecterUnder(s32 origin, s32 mask);
 Hit_8029EC3C *csnVector(void *, void *, s32);
 extern s32 local_client_id;
-extern Vec_8029EC3C sora_reflection_ray_direction;
+extern Vec sora_reflection_ray_direction;
 extern const f32 lbl_805DDD88;
 extern const f32 lbl_805DDD8C;
-s32 fn_8029EC3C(Vec_8029EC3C *pos, s32 arg1);
+s32 fn_8029EC3C(Vec *pos, s32 arg1);
 #pragma push
 #pragma fp_contract on
-s32 fn_8029EC3C(Vec_8029EC3C *pos, s32 arg1) {
+s32 fn_8029EC3C(Vec *pos, s32 arg1) {
     Ray_8029EC3C ray;
-    Vec_8029EC3C a;
-    Vec_8029EC3C b;
-    Vec_8029EC3C d;
+    Vec a;
+    Vec b;
+    Vec d;
     void *p;
     Hit_8029EC3C *r;
     Hit_8029EC3C::HitE_8029EC3C *e;

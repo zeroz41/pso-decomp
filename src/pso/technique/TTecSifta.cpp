@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/technique/TTecSifta.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/effect/TUnk_804CCC68.h"
@@ -8,20 +9,14 @@
 #include "pso/technique/TTecLuker.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer.h"
+
 #include "pso/system/task/TObject.h"
 
 #pragma readonly_strings on
 
-extern "C" {
+
 const char *TTecSifta__name = "TTecSifta";
-}
 
-
-struct RecoveredGlobal_8023B17C___vt__9TTecSifta {
-    s32 value;
-    u8 remaining[0x1C];
-};
 
 struct Obj_8023ACA8 { u8 pad[0xA6]; s16 state; };
 
@@ -79,7 +74,7 @@ extern s32 __vt__9TTecSifta[];
 extern const char *TTecSifta__name;
 u8 *TTecSifta__sub_8023B17C(TTecSifta *arg0, s32 arg1, s32 arg2, s32 arg3);
 s32 update_technique_slot__10TTecRaFoieFl(s32, s32, s32);
-s32 play_sound_effect(int, void *, int, int);
+s32 play_sound_effect(int, Vec *, int, int);
 s32 is_split_screen();
 void *find_entity_by_id(u16 id);
 void deliver_technique_to_party_targets(void *);
@@ -87,7 +82,6 @@ void run_task__9TTecSiftaFv(Sifta_8023AF94 *self);
 void copy_technique_target_list(void *, void *);
 void *TTecSifta__ct(void *arg0_, void *arg1, void *arg2, void *arg3, void *arg4);
 s32 calc_technique_parameters(s32, s16, s32);
-void *__nw__7TObjectFUl(int);
 int spawn_support_tec_range_effect(void*);
 
 int TTecSifta__sub_8023AC88(void* p) { return spawn_support_tec_range_effect(p); }
@@ -98,18 +92,18 @@ void TTecSifta::play_sifta_cast_sound() {
     switch (*(s16 *)&this->m_a6) {
     case 0:
     case 1:
-        r = play_sound_effect(0x4002AD14, (u8 *)arg0 + 0x20, 0, 0);
+        r = play_sound_effect(0x4002AD14, (Vec *)((u8 *)arg0 + 0x20), 0, 0);
         if (r >= 0) {
             update_technique_slot__10TTecRaFoieFl(r, 0x100, 0);
         }
         break;
     case 2:
     case 3:
-        play_sound_effect(0x4002AD14, (u8 *)arg0 + 0x20, 0, 0);
+        play_sound_effect(0x4002AD14, (Vec *)((u8 *)arg0 + 0x20), 0, 0);
         break;
     case 4:
     case 5:
-        r = play_sound_effect(0x4002AD14, (u8 *)arg0 + 0x20, 0, 0);
+        r = play_sound_effect(0x4002AD14, (Vec *)((u8 *)arg0 + 0x20), 0, 0);
         if (r >= 0) {
             update_technique_slot__10TTecRaFoieFl(r, -0x100, 0);
         }
@@ -127,7 +121,7 @@ void TTecSifta::update_effect_params() {
 
 void TTecSifta::create_instance(void *pos, void *arg2, void *level) {
     void *o;
-    o = __nw__7TObjectFUl(0x140);
+    o = TObject::operator new(0x140);
     if (o != NULL) {
         TTecSifta__ct(o, this, pos, arg2, level);
     }
@@ -135,7 +129,7 @@ void TTecSifta::create_instance(void *pos, void *arg2, void *level) {
 
 void TTecSifta::create(void *owner, void *pos, void *level) {
     void *o;
-    o = __nw__7TObjectFUl(0x140);
+    o = TObject::operator new(0x140);
     if (o != NULL) {
         TTecSifta__sub_8023B17C((TTecSifta *)((u8 *)o), (s32)owner, (s32)pos, (s32)level);
     }
@@ -161,8 +155,6 @@ TTecSifta::~TTecSifta() {
 
 }
 
-
-typedef char RecoveredGlobal_8023B17C___vt__9TTecSifta_size[sizeof(RecoveredGlobal_8023B17C___vt__9TTecSifta) == 0x20 ? 1 : -1];
 
 void run_task__9TTecSiftaFv(Sifta_8023AF94 *self) {
     u32 target;
@@ -229,7 +221,7 @@ u8 *TTecSifta__sub_8023B17C(TTecSifta *arg0, s32 owner, s32 pos, s32 level) {
     u32 temp_r3_2;
     u8 *temp_r3;
     TTecPlayerInfluence__ct((void *)arg0, (void *)owner, (void *)pos, (void *)level);
-    *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_8023B17C___vt__9TTecSifta *)&__vt__9TTecSifta).value;
+    *(s32 **)((s8 *)arg0 + 0x18) = __vt__9TTecSifta;
     ((TObjPlayer *)((u8 *)arg0 + 0xE0))->construct_target_cursor_records();
     *(s32 *)((s8 *)arg0 + 0) = (s32) ((s32)TTecSifta__name);
     arg0->m_13c = 0;

@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/camera/TObjCamera.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/animation/ActorAnimationState.h"
@@ -26,7 +27,7 @@ u8 *load_resource_from_descriptor(void *, s32, BmlResourceDescriptor *, s32, s32
 void free_bin_model_request(void *, int);
 AnimationMotion *get_bml_motion(u32, int);
 s32 get_bml_model(u32, int);
-void TObjFish__sub_8001EDB0(u32, int);
+void get_bml_texlist(u32, int);
 void set_global_param__8TObjFishFl();
 void get_camera_ctrl__9TObjEneDDFv(const Vec *, Vec *);
 }
@@ -62,7 +63,7 @@ void TObjCamera::play_sound_events() {
     s32 i;
     for (i = 0; i < 8; i++) {
         if (sound_events[i].played == 0 && animation_frame >= sound_events[i].frame) {
-            play_sound_effect(sound_events[i].sound_id, &sound_events[i].position, 0, 0);
+            play_sound_effect(sound_events[i].sound_id, (Vec *)(&sound_events[i].position), 0, 0);
             sound_events[i].played = 1;
         }
     }
@@ -132,7 +133,7 @@ s32 TObjCamera::update_object_view_visibility(f32 radius, f32 depth) {
 void TObjCamera::render() {
     s32 i;
     if (update_object_view_visibility(400.0f, 20.0f) != 0) {
-        TObjFish__sub_8001EDB0(model_resource, 0);
+        get_bml_texlist(model_resource, 0);
         set_global_param__8TObjFishFl();
         push_matrix();
         post_translate_matrix(&position.x);

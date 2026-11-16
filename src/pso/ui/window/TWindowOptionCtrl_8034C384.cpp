@@ -1,4 +1,5 @@
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/ui/window/TWindowSubComCard_802A5748.h"
 #include "pso/unk/TLobby_803382E4.h"
 #include "pso/ui/window/TWindowOptionCtrl_8034C384.h"
@@ -9,14 +10,14 @@
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/window/TWindowSubComCard.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 
 extern "C" {
 s32 get_localized_text_entry(s32);
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
-s32 TWindowShortListCtrl__check_controller_button(void *, int);
-s32 TAdPlayerLoadGC__sub_801E1B50(int);
-s32 TAdPlayerLoadGC__sub_801E24F8(int, int, int, int, int);
-s32 play_sound_effect(int, int, int, int);
+s32 poll_memcard_result(s32 chan);
+s32 start_memcard_format(int, int, int, int, int);
+s32 play_sound_effect(int, Vec *, int, int);
 extern s32 controller_input_state[];
 u32 create__19TWindowMessageYesNoFPvPvPvPv(s32, s32, s32, s32);
 void __ct__7TObjectFP7TObject(void *);
@@ -33,17 +34,17 @@ s32 TWindowOptionCtrl::get_field_24() { return this->m_24; }
 extern s32 local_client_id;
 extern s32 tl_01;
 
-void TWindowOptionCtrl::open_confirm_dialog(s32 arg1, s32 arg2) {
+void TWindowOptionCtrl::open_confirm_dialog(s32 message, s32 arg2) {
     if ((u32) this->m_2c != 0U) {
         ((TWindowSubComCard *)(this->m_2c))->close();
         this->m_2c = 0U;
     }
     this->m_2c = create__19TWindowMessageYesNoFPvPvPvPv(tl_01, local_client_id, 0, 0);
     if (arg2 != 0) {
-        forward_slot_selection__16TAdChrSelASlotGCFPvPv(this->m_2c, arg1, get_option_entry__17TWindowOptionCtrlFi(0xCF), 470.0f);
+        forward_slot_selection__16TAdChrSelASlotGCFPvPv(this->m_2c, message, get_option_entry__17TWindowOptionCtrlFi(0xCF), 470.0f);
         return;
     }
-    initialize_option_dialog((void *)this->m_2c, arg1, (get_option_entry__17TWindowOptionCtrlFi(0xCF)), 470.0f);
+    initialize_option_dialog((void *)this->m_2c, message, (get_option_entry__17TWindowOptionCtrlFi(0xCF)), 470.0f);
 }
 
 void TWindowOptionCtrl::set_option_and_confirm(s32 arg1, s32 arg2) {
@@ -154,7 +155,7 @@ void TWindowOptionCtrl::handle_save_result() {
             *(s32 *)((s8 *)arg0 + 0x1C) = 4;
         case 4:
             if ((TWindowShortListCtrl__check_controller_button((void *) ((u8 *)controller_input_state + 0x20), 6) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) ((u8 *)controller_input_state + 0x160), 6) != 0)) {
-                play_sound_effect(0x52F16, 0, 0, 0);
+                play_sound_effect(0x52F16, (Vec *)(0), 0, 0);
                 *(s32 *)((s8 *)arg0 + 0x20) = (s32) (*(s32 *)((s8 *)arg0 + 0x20) & 0xFFFFFFFD);
                 this->m_24 = 2;
                 *(s32 *)((s8 *)arg0 + 0x1C) = 0x10;
@@ -239,7 +240,7 @@ void TWindowOptionCtrl::handle_save_result() {
             }
             break;
         case 13:
-            if (TAdPlayerLoadGC__sub_801E24F8(1, 0, 0, 0, 0) == 0) {
+            if (start_memcard_format(1, 0, 0, 0, 0) == 0) {
                 set_option_and_confirm(8, 0);
                 *(s32 *)((s8 *)arg0 + 0x20) = (s32) (*(s32 *)((s8 *)arg0 + 0x20) | 1);
                 *(s32 *)((s8 *)arg0 + 0x1C) = 0xE;
@@ -249,7 +250,7 @@ void TWindowOptionCtrl::handle_save_result() {
             *(s32 *)((s8 *)arg0 + 0x1C) = 0xF;
             return;
         case 14:
-            if (TAdPlayerLoadGC__sub_801E1B50(1) == 0) {
+            if (poll_memcard_result(1) == 0) {
                 if ((u32) TAdPlayerLoadGC::get_load_result((void *)1) == 0xFFFFFF81U) {
                     set_option_and_confirm(9, 0);
                     *(s32 *)((s8 *)arg0 + 0x1C) = 0xF;
@@ -262,7 +263,7 @@ void TWindowOptionCtrl::handle_save_result() {
             break;
         case 15:
             if ((TWindowShortListCtrl__check_controller_button((void *) ((u8 *)controller_input_state + 0x20), 6) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) ((u8 *)controller_input_state + 0x160), 6) != 0)) {
-                play_sound_effect(0x52F16, 0, 0, 0);
+                play_sound_effect(0x52F16, (Vec *)(0), 0, 0);
                 *(s32 *)((s8 *)arg0 + 0x1C) = 3;
             }
             break;

@@ -1,4 +1,5 @@
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/system/vector.h"
 #include "pso/enemy/nanodrago/TObjEneNanoDrago.h"
 #include "pso/enemy/TObjEnemyCustom.h"

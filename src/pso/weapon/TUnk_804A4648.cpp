@@ -6,11 +6,10 @@
 #include "pso/item/TItem.h"
 #include "pso/system/task/TMainTask.h"
 
-extern "C" {
+
 // The spread of the five needles (launch_shot angles).
 const s32 lbl_8043E968[6] = {0, 2184, -2184, 4551, -4551, 0};
 extern s32 create_shoot_model__10TObjPlayerFUiiif[];
-}
 
 void TUnk_804A4648::emit_marker_effects() {
     WeaponVector pos;

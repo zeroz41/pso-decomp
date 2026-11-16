@@ -26,23 +26,10 @@
 #include "pso/unk/text_80121180.h"
 #include "pso/player/TObjPlayer_8012121C.h"
 #include "pso/unk/text_803E2D70.h"
-#include "pso/item/TItemEquipBase.h"
+#include "pso/system/MatrixStack.h"
+
 
 // ---- pso/unk/text_80120908
-
-struct VBase_18_26a62c { char pad[0x18]; };
-
-struct VObj_18_26a62c : VBase_18_26a62c {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual s32 m8(f32, f32);
-};
 
 extern "C" {
 s32 get_attach_joint__14TItemEquipBaseFv(void *);
@@ -65,14 +52,14 @@ s32 TItemWeapon::draw_weapon_model() {
     }
     {
         reset_model_node_counter();
-        if (((TItem *)this)->has_no_defer_render() != 0) {
+        if (this->has_no_defer_render() != 0) {
             var_r30 = 1;
         } else {
-            var_r30 = ((VObj_18_26a62c *)(this))->m8(400.0f, 20.0f);
+            var_r30 = this->update_object_view_visibility(400.0f, 20.0f);
         }
-        set_texlist((int) (*(s32 *)((s8 *)this + 0x24)));
+        set_texlist((int) (this->texlist));
         push_matrix_from((void *)((TObjMotion *)(this->owner))->get_item_ptr((s32)((void *) ((s8)get_attach_joint()))));
-        if ((var_r30 != 0) && (((TItem *)this)->is_hidden() == 0)) {
+        if ((var_r30 != 0) && (this->is_hidden() == 0)) {
             weapon_render_callback_object = (u8 *)this;
             weapon_node_material_index = *(s16 *)((s8 *)this + 0x1CC);
             temp_r4 = (u8 *)this->parameters;
@@ -86,9 +73,9 @@ s32 TItemWeapon::draw_weapon_model() {
             }
             TObjPlayer__sub_80364198();
             model_render_flags &= 0xFFFFFFEF;
-            ((TItem *)this)->get_owner_alpha();
+            this->get_owner_alpha();
             set_model_fade_alpha__10TObjPlayerFf();
-            if (((TItem *)this)->has_no_defer_render() != 0) {
+            if (this->has_no_defer_render() != 0) {
                 model_render_flags |= 0x8011;
                 set_color_blend_mode(1, 4, 5, 0);
                 set_shadow_material_state();
@@ -96,7 +83,7 @@ s32 TItemWeapon::draw_weapon_model() {
                     if (this->test_weapon_flags(0x800000) != 0U) {
                         draw_chunk_object((void *)(*(u32 *)((s8 *)this + 0xF4)));
                     } else {
-                        ((TItem *)this)->draw_model_nodes(NULL);
+                        this->draw_model_nodes(NULL);
                     }
                 } else {
                     set_motion_packed_rotation();
@@ -106,11 +93,11 @@ s32 TItemWeapon::draw_weapon_model() {
                 model_render_flags &= 0xFFFF7FEE;
             } else if ((u32) *(u32 *)((s8 *)this + 0x17C) == 0U) {
                 if (this->test_weapon_flags(0x40) != 0U) {
-                    ((TItem *)this)->apply_sign_effect((u8 *)(*(s32 *)((s8 *)this->owner + 0xDB4)));
+                    this->apply_sign_effect((u8 *)(*(s32 *)((s8 *)this->owner + 0xDB4)));
                 } else if (this->test_weapon_flags(0x800000) != 0U) {
                     draw_chunk_object((void *)(*(u32 *)((s8 *)this + 0xF4)));
                 } else {
-                    ((TItem *)this)->draw_model_nodes((u8 *)(*(s32 *)((s8 *)this->owner + 0xDB4)));
+                    this->draw_model_nodes((u8 *)(*(s32 *)((s8 *)this->owner + 0xDB4)));
                 }
             } else {
                 set_motion_packed_rotation();
@@ -119,8 +106,8 @@ s32 TItemWeapon::draw_weapon_model() {
             }
             TItem::end_material_color();
             TItem::end_effect_render();
-            ((TItem *)this)->end_particle_tev();
-            ((TItem *)this)->end_shield_tev();
+            this->end_particle_tev();
+            this->end_shield_tev();
             TObjPlayer::warn_if_gauge_low();
             TObjPlayer__sub_8036414C();
             if ((u32) *(u32 *)((s8 *)this + 0x17C) == 0U) {
@@ -130,7 +117,7 @@ s32 TItemWeapon::draw_weapon_model() {
             }
             item_render_state.reset();
         } else {
-            ((TItem *)this)->visit_model_nodes((u8 *)(*(s32 *)((s8 *)this->owner + 0xDB4)));
+            this->visit_model_nodes((u8 *)(*(s32 *)((s8 *)this->owner + 0xDB4)));
         }
         pop_matrix();
         reset_model_node_counter();
@@ -144,12 +131,7 @@ void draw_weapon_at_joint(s32 arg0, s8 arg1) {
     ((TItemWeapon *)arg0)->draw_weapon_model();
     ((TItemEquipBase *)arg0)->set_attach_joint(temp_r31);
 }
-}
-
 // ---- pso/unk/text_80120C5C
-
-extern "C" {
-
 void TItemWeapon::release_model() { memset((char*)this + 0x18c, 0, 16); clear_weapon_flags((u32)((void*)12)); TItemEquipBase::release_model(); }
 
 }
@@ -228,11 +210,10 @@ void TItemWeapon::request_equipped_model() {
 
 TItemWeapon::~TItemWeapon() {}
 
-extern "C" {
+
 void *lookup_item_pmt_record(u8 *item);
 extern const f32 lbl_805DAC98;
 extern u8 lbl_805DACA4;
-}
 
 TItemWeapon::TItemWeapon(TObject *parent, u8 *item) : TItemEquipBase(parent, item) {
     s32 identified;
@@ -256,7 +237,7 @@ TItemWeapon::TItemWeapon(TObject *parent, u8 *item) : TItemEquipBase(parent, ite
     impact_callback = 0;
     hit_callback = 0;
     shot_callback = (WeaponShotCallback)create_gun_shot;
-    *(s16 *)((s8 *)this + 0x1CE) = (s16) *(u8 *)((s8 *)parameters + 0x1B);
+    this->gun_point_joint = (s16) *(u8 *)((s8 *)parameters + 0x1B);
     set_weapon_trail_joints((s32)this, 0, parameters->trail_joints[0], parameters->trail_joints[1]);
     set_weapon_trail_joints((s32)this, 1, parameters->trail_joints[2], parameters->trail_joints[3]);
     set_weapon_trail_joints((s32)this, 2, -1, -1);
@@ -292,10 +273,10 @@ TItemWeapon::TItemWeapon(TObject *parent, u8 *item) : TItemEquipBase(parent, ite
         effect_flags.set(0x20);
     }
     if (*(u8 *)((s8 *)parameters + 0x27) & 2) {
-        ((TItemWeapon *)this)->set_weapon_flags(0x40000);
+        this->set_weapon_flags(0x40000);
     }
     if (*(u8 *)((s8 *)parameters + 0x27) & 4) {
-        ((TItemWeapon *)this)->set_weapon_flags(0x80000);
+        this->set_weapon_flags(0x80000);
     }
 }
 
@@ -320,13 +301,7 @@ s32 create_weapon_for_item(s32 arg0) {
     return 0;
 }
 
-}
-
 // ---- pso/player/TObjPlayer_8012105C
-
-extern "C" {
-
-
 s16 TObjPlayer__sub_801D2F4C(s16 *);
 
 void TObjPlayer__sub_8012105C(void) {  }
@@ -369,20 +344,15 @@ struct RecoveredGlobal_80121198_lbl_804C43D8 {
     u8 remaining[0xC];
 };
 
-struct RecoveredGlobal_80121180_lbl_804C43C0 {
-    s32 value;
-    u8 remaining[0x8];
-};
-
 extern "C" {
 s16 get_validated_attack_stage();
 extern RecoveredGlobal_80121198_lbl_804C43CC attack_type_accuracy_scales;
 extern RecoveredGlobal_80121198_lbl_804C43D8 attack_combo_accuracy_multipliers;
-extern RecoveredGlobal_80121180_lbl_804C43C0 attack_damage_scale_table;
+struct AttackDamageScaleTable { s32 value; u8 remaining[0x8]; };
+extern AttackDamageScaleTable attack_damage_scale_table;
 typedef char RecoveredGlobal_80121198_lbl_804C43CC_size[sizeof(RecoveredGlobal_80121198_lbl_804C43CC) == 0xC ? 1 : -1];
 typedef char RecoveredGlobal_80121198_lbl_804C43D8_size[sizeof(RecoveredGlobal_80121198_lbl_804C43D8) == 0x10 ? 1 : -1];
 
-typedef char RecoveredGlobal_80121180_lbl_804C43C0_size[sizeof(RecoveredGlobal_80121180_lbl_804C43C0) == 0xC ? 1 : -1];
 f32 get_attack_damage_scale(s16 *arg0) {
     return *(f32 *)((s8 *)((u8 *)&attack_damage_scale_table.value + (*(s16 *)((s8 *)arg0 + 0) * 4)) + 0);
 }

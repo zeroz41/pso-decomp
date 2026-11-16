@@ -81,7 +81,7 @@ void TQuestVmDownLoadServer__sub_803F0BE8(u8 *arg0);
 s32 Write_803E7B9C(void);
 s32 Write_803E8150(void);
 void *format_number_text__22TQuestVmDownLoadServerFiiPvi(s32 arg0, s32 arg1, void *arg2, s32 mode);
-u8 *get_cached_page__22TQuestVmDownLoadServerFi(s32 page);
+u8 *get_cached_page__22TQuestVmDownLoadServerFl(s32 page);
 }
 
 // --- C functions defined in TQuestVmDownLoadServer_803E6970.cpp ---
@@ -163,7 +163,7 @@ void TQuestVmDownLoadServer__sub_803F0BE8(u8 *arg0);
 s32 Write_803E7B9C(void);
 s32 Write_803E8150(void);
 void *format_number_text__22TQuestVmDownLoadServerFiiPvi(s32 arg0, s32 arg1, void *arg2, s32 mode);
-u8 *get_cached_page__22TQuestVmDownLoadServerFi(s32 page);
+u8 *get_cached_page__22TQuestVmDownLoadServerFl(s32 page);
 }
 // --- end of C functions
 

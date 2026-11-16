@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/object/base/TObjMotion.h"
@@ -29,7 +30,6 @@
 // The wreck family is one TU built with -inline off,deferred: its code runs Brakable05, Brakable, 07, 06, 05,
 // 04, 01, TOWreckAncient while its strings, name pointers and vtables run the other way, so the source is
 // written last function first.
-
 
 struct Arr_8017D448 { Vec v[9]; };
 
@@ -129,7 +129,7 @@ u32 wreck_ancient_brakable_bml_resource;
 
 extern "C" {
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-s32 TObjFish__sub_8001EDB0(void *, s32);
+s32 get_bml_texlist(void *, s32);
 s32 get_bml_model(void *, s32);
 void free_bin_model_request(void*, int);
 s32 post_translate_matrix(void *);
@@ -137,7 +137,7 @@ s32 push_matrix();
 void vec3_add_to(Vec *, Vec *);
 void rotate_vector_by_matrix(int, Vec *, Vec *);
 extern u8 identity_matrix[];
-u8 is_current_floor_switch_set(u16);
+u8 is_current_floor_switch_set(s32 id);
 }
 
 // --- TOWreckAncient ---
@@ -145,7 +145,7 @@ u8 is_current_floor_switch_set(u16);
 TOWreckAncient::TOWreckAncient(s32 model_index) : TObjCollidable(tl_05) {
     m_name = TOWreckAncient__name;
     model = (void *)get_bml_model((void *)wreck_ancient_bml_resource, model_index);
-    texlist = TObjFish__sub_8001EDB0((void *)wreck_ancient_bml_resource, model_index);
+    texlist = get_bml_texlist((void *)wreck_ancient_bml_resource, model_index);
     view_far_depth = 400.0f;
     view_radius = 40.0f;
 }
@@ -302,7 +302,7 @@ void TOWreckAncientBrakable::run_task() {
         temp_r0_2 = switch_id;
         if ((temp_r0_2 >= 0) && (temp_r0_2 < 0x100) && (is_current_floor_switch_set((u16) temp_r0_2) == 1)) {
             state = 1;
-            play_sound_effect(0x43C11, &this->position, 0, 0);
+            play_sound_effect(0x43C11, (Vec *)(&this->position), 0, 0);
             spawn_particle_effect(&this->position, 0x45);
             spawn_particle_effect(&this->position, 0x46);
             spawn_debris();
@@ -333,7 +333,7 @@ void TOWreckAncientBrakable::spawn_debris() {
         VecCopy((Vec *)&p.pos, &position);
         vec3_add_to(&p.pos, &tmp);
         p.f40 = get_bml_model((void *) wreck_ancient_brakable_bml_resource, i);
-        p.f44 = TObjFish__sub_8001EDB0((void *) wreck_ancient_brakable_bml_resource, i);
+        p.f44 = get_bml_texlist((void *) wreck_ancient_brakable_bml_resource, i);
         new TObjChip(tl_05, (const TObjChipParams *)&p);
     }
 }

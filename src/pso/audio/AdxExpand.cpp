@@ -1,4 +1,6 @@
 #include <dolphin/os/OSThread.h>
+#include "pso/audio/AdxExpand.h"
+#include "pso/audio/AdxHeader.h"
 #include "pso/unk/TLobby.h"
 #include "pso/audio/AdxStreamRuntime.h"
 #include "pso/audio/AdxmThreadStorage.h"
@@ -24,18 +26,12 @@ struct Ch_803CB5C4 {
 };
 
 extern "C" {
-s32 calc_adx_predictor_coeffs(void *, void *, void *, void *);
 extern Ch_803CB5C4 adx_decoder_channel_pool[16];
 
-void TLobby__sub_803CB4A4(u8 *arg0);
-void TLobby__sub_803CB570(u8 *arg0, u8 *arg1, s16 *arg2);
 u32 decode_adx_mono_blocks(int, int, int, void *, int, int);
 u32 dispatch_receive_update__6TLobbyFv(int, int, int, void *, int, void *, int, int);
 
 s32 lbl_805D7588;
-
-}
-extern "C" {
 
 void TLobby::update_receive_check() {
     u8 *arg0 = (u8 *)this;
@@ -130,9 +126,9 @@ void TLobby__sub_803CB570(u8 *arg0, u8 *arg1, s16 *arg2) {
 
 #pragma push
 #pragma fp_contract on
-void TLobby::calc_adx_coeffs_at_offset(void *arg1, s32 arg2) {
+void TLobby::calc_adx_coeffs_at_offset(void *arg1, s32 cutoff) {
     s32 arg0 = (s32)this;
-    calc_adx_predictor_coeffs((void *)arg2, arg1, (void *)(arg0 + 0x30), (void *)(arg0 + 0x32));
+    calc_adx_predictor_coeffs(cutoff, (s32)arg1, (s16 *)(arg0 + 0x30), (s16 *)(arg0 + 0x32));
 }
 #pragma pop
 
@@ -154,7 +150,7 @@ Ch_803CB5C4 *adx_allocate_decoder_channel(void) {
     c->id = i;
     c->f8 = 0;
     c->fC = 0;
-    calc_adx_predictor_coeffs((void *)500, (void *)44100, &c->c0, &c->c1);
+    calc_adx_predictor_coeffs((s32)((void *)500), (s32)((void *)44100), (s16 *)((s16 *)&c->c0), (s16 *)((s16 *)&c->c1));
     memset(c->f28, 0, 8);
     return c;
 }

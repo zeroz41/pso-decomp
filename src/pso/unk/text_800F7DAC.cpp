@@ -16,22 +16,7 @@
 #include "pso/object/TObjLuker.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/render/ModelDrawContext.h"
-#include "pso/system/task/TObject.h"
-#include "pso/unk/TUnk_80499970.h"
 
-struct RecoveredGlobal_800F81A8_lbl_80499970 {
-    s32 value;
-    u8 remaining[0x14];
-};
-
-typedef char RecoveredGlobal_800F81A8_lbl_80499970_size[sizeof(RecoveredGlobal_800F81A8_lbl_80499970) == 0x18 ? 1 : -1];
-
-struct RecoveredGlobal_800F8428_lbl_80499988 {
-    s32 value;
-    u8 remaining[0x14];
-};
-
-typedef char RecoveredGlobal_800F8428_lbl_80499988_size[sizeof(RecoveredGlobal_800F8428_lbl_80499988) == 0x18 ? 1 : -1];
 
 struct Quad_800F7E28 {
     f32 *pos;
@@ -85,8 +70,10 @@ s32 TWindowCtrlMain__sub_8024CD5C(s32 viewport_index);
 u32 prs_decompress(int, int, int, int);
 u32 reset_counters__6TLobbyFv();
 
-extern RecoveredGlobal_800F81A8_lbl_80499970 lbl_80499970;
-extern RecoveredGlobal_800F8428_lbl_80499988 lbl_80499988;
+struct RecoveredGlobal_lbl_80499970 { s32 value; u8 remaining[0x14]; };
+extern RecoveredGlobal_lbl_80499970 lbl_80499970;
+struct RecoveredGlobal_lbl_80499988 { s32 value; u8 remaining[0x14]; };
+extern RecoveredGlobal_lbl_80499988 lbl_80499988;
 extern s32 lbl_804999A0[];
 extern s32 lbl_804999B8[];
 extern s32 lbl_804999D0[];
@@ -345,16 +332,16 @@ void TUnk_804999A0::render() {  }
 void TUnk_804999A0::run_task() {
     u8 *arg0 = (u8 *)this;
     s32 (*temp_r12)();
-    *(f32 *)((s8 *)arg0 + 0x1C) += 2.0f;
-    if (*(f32 *)((s8 *)arg0 + 0x1C) >= 128.0f) {
-        *(f32 *)((s8 *)arg0 + 0x1C) = 128.0f;
+    this->alpha += 2.0f;
+    if (this->alpha >= 128.0f) {
+        this->alpha = 128.0f;
         temp_r12 = *(s32 (**)())((s8 *)arg0 + 0x28);
         if (temp_r12 != NULL) {
             temp_r12();
         }
         ((TObject *)arg0)->suspend_update();
     }
-    *(s8 *)((s8 *)arg0 + 0x23) = (s8) *(f32 *)((s8 *)arg0 + 0x1C);
+    *(s8 *)((s8 *)arg0 + 0x23) = (s8) this->alpha;
     TWindowCtrlMain::set_value((s32)(*(s32 *)((s8 *)arg0 + 0x24)), this->m_20);
 }
 
@@ -376,9 +363,9 @@ void*TLobby::init_entry_fields(int a1, int a2, int a3) { ((int (*)(void))__ct__1
 #pragma opt_common_subs off
 void TUnk_804999B8::run_task() {
     s32 (*temp_r12)();
-    *(f32 *)((s8 *)((u8 *)this) + 0x1C) = (f32) (*(f32 *)((s8 *)((u8 *)this) + 0x1C) - (8.0f));
-    if (*(f32 *)((s8 *)((u8 *)this) + 0x1C) <= 0.0f) {
-        *(f32 *)((s8 *)((u8 *)this) + 0x1C) = 0.0f;
+    this->alpha = (f32) (this->alpha - (8.0f));
+    if (this->alpha <= 0.0f) {
+        this->alpha = 0.0f;
         temp_r12 = *(s32 (**)())((s8 *)((u8 *)this) + 0x24);
         if (temp_r12 != NULL) {
             temp_r12();
@@ -414,9 +401,9 @@ void *TLobby::init_fade(void *arg1, void *arg2) {
 #pragma opt_common_subs off
 void TUnk_804999D0::run_task() {
     s32 (*temp_r12)();
-    *(f32 *)((s8 *)((u8 *)this) + 0x1C) += 8.0f;
-    if (*(f32 *)((s8 *)((u8 *)this) + 0x1C) >= (255.0f)) {
-        *(f32 *)((s8 *)((u8 *)this) + 0x1C) = 255.0f;
+    this->alpha += 8.0f;
+    if (this->alpha >= (255.0f)) {
+        this->alpha = 255.0f;
         temp_r12 = *(s32 (**)())((s8 *)((u8 *)this) + 0x24);
         if (temp_r12 != NULL) {
             temp_r12();

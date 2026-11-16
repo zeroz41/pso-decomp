@@ -6,6 +6,7 @@
 #include "pso/unk/TLobby.h"
 #include "pso/unk/TLobby_8020E400.h"
 #include "pso/item/TItemData.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -40,8 +41,6 @@ void push_shop_pool_entry(Ctr_8020E934 *, u8);
 void init__9TItemDataFv(Item_8020E934 *);
 s32 is_duplicate_shop_shield_or_unit(Item_8020E934 *, s32);
 s32 is_duplicate_shop_armor(Rec_8020E700 *arg0, s32 arg1);
-void generate_shop_armor_pool(s32 arg0);
-void generate_shop_unit_pool(s32 arg0);
 s32 is_duplicate_shop_armor(Rec_8020E700 *arg0, s32 arg1) {
     s32 i;
     Rec_8020E700 *tbl = (Rec_8020E700 *)lbl_80513D78[arg1];
@@ -170,7 +169,7 @@ void generate_shop_shield_pool(s32 arg0) {
     }
 }
 
-extern "C" {
+
 void generate_shop_armor_pool(s32 arg0) {
     Item_8020E934 item;
     Ctr_8020E934 ctr;
@@ -229,7 +228,6 @@ void generate_shop_armor_pool(s32 arg0) {
         }
     }
 }
-}
 
 void TLobby::clear_shop_entry_value(s32 i, s32 j) {
     Ent_8020EC68 *e = (Ent_8020EC68 *)lbl_80513D78[j];
@@ -248,25 +246,16 @@ void TLobby::copy_armor_shop_entry(s32 arg1, s32 arg2) {
 }
 
 // ---- pso/unk/TLobby_8020ED20
-#include "types.h"
-#include "pso/unk/TLobby.h"
 
-extern "C" {
-
-void generate_armor_shop_stock(s32 arg0);
 
 void TLobby::set_shop_armor_list_flag(int a0, int a1) { lbl_805D615C = a1; generate_armor_shop_stock(a0); }
 
-}
 
 // ---- pso/unk/text_8020ED44
-#include "types.h"
-#include "pso/unk/text_8020E700.h"
+
+
 #include "pso/unk/text_8020ED44.h"
 
-extern "C" {
-void generate_shop_unit_pool(s32);
-void generate_shop_armor_pool(s32);
 void generate_armor_shop_stock(s32 arg0) {
     if (lbl_805D6158 != NULL) {
         if (shop_armor_stock_generated_flags[arg0] == 0) {
@@ -278,16 +267,11 @@ void generate_armor_shop_stock(s32 arg0) {
         }
     }
 }
-
-}
-
-// ---- pso/unk/TLobby_8020EDBC
-#include "types.h"
-#include "pso/unk/TLobby.h"
-
 extern "C" {
 
+// ---- pso/unk/TLobby_8020EDBC
 void mem_free(void *p);
+}
 
 void TLobby::free_rocks() {
     s32 var_r28 = 3;
@@ -309,13 +293,10 @@ void TLobby::free_rocks() {
     }
 }
 
-}
-
 // ---- pso/unk/text_8020EE2C
-#include "types.h"
+
 #include "pso/unk/text_8020EE2C.h"
 extern "C" {
-s32 is_split_screen(void);
 s32 mem_alloc(s32);
 }
 s32 create_named_object(s32 arg0);

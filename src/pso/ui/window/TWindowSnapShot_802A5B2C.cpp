@@ -6,11 +6,6 @@
 #include "pso/system/TGStream.h"
 #include "pso/unk/TLobby.h"
 
-struct RecoveredGlobal_802A5F24_lbl_804DD098 {
-    s32 value;
-    u8 remaining[0xC];
-};
-
 extern "C" {
 s32 strncpy(void *, void *, int);
 s32 strcpy(void *, void *);
@@ -108,8 +103,8 @@ s32 alloc_buffer__15TWindowSnapShotFPv(TWindowSnapShot *window_snap_shot) {
     }
     return 1;
 }
-s32 TWindowSnapShot::open_stream(s32 arg1) {
-    *(s32 *)&this->m_next = TGStream::read_whole_file((s32)arg1, (u8 *)(*(s32 *)&this->m_prev));
+s32 TWindowSnapShot::open_stream(s32 name) {
+    *(s32 *)&this->m_next = TGStream::read_whole_file((s32)name, (u8 *)(*(s32 *)&this->m_prev));
     if (TWindowSnapShot__sub_802A605C((u8 *)this) == 0) {
         set_mode(2);
         free_buffer();
@@ -145,10 +140,9 @@ void *TWindowSnapShot__sub_802A5EDC(void *arg0, s16 arg1) {
     return arg0;
 }
 
-typedef char RecoveredGlobal_802A5F24_lbl_804DD098_size[sizeof(RecoveredGlobal_802A5F24_lbl_804DD098) == 0x10 ? 1 : -1];
 u8 *TWindowSnapShot::init_and_reset() {
     u8 *arg0 = (u8 *)this;
-    this->m_3c = &(*(RecoveredGlobal_802A5F24_lbl_804DD098 *)&lbl_804DD098).value;
+    this->m_3c = lbl_804DD098;
     reset();
     return arg0;
 }

@@ -18,6 +18,7 @@ struct Boss6PartMotion {
 };
 struct TBoss6Type1 : public TObjEnemy {
     virtual ~TBoss6Type1();
+    void sub_802B626C();
     void set_action_state(s32);
     void sub_802B5CB4();
     void sub_802B4C28();
@@ -214,7 +215,7 @@ struct TBoss6Type1 : public TObjEnemy {
     void init_work();
 };
 extern "C" {
-void TBoss6Type1__sub_802B626C(TBoss6Type1 *boss);
+void sub_802B626C__11TBoss6Type1Fv(TBoss6Type1 *boss);
 // Spreads the mines on rings around node 0 in a shuffled order (inferred: the mine attack).
 void TBoss6Type1__sub_802B6504(TBoss6Type1 *boss);
 // Fires five kakusan shots from body nodes across the boss's front (inferred).

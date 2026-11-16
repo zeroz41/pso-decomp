@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/weapon/TItemWeapon.h"
 #include "pso/weapon/TUnk_804A1098.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/technique/TTecGiBarta.h"
@@ -17,11 +18,11 @@ void TUnk_804A1098::emit_marker_effects() {
     if (is_mode_two_and_ready() != 0) {
         if (get_joint_position(0, &sp8) != 0) {
             tec_gi_barta = this->owner;
-            ((TTecGiBarta *)tec_gi_barta)->create_ex(&sp8, (void *)(*(s32 *)((s8 *)tec_gi_barta + 0x60)), (void *)(((TObjPlayer *)this)->get_tp()));
+            ((TTecGiBarta *)tec_gi_barta)->create_ex(&sp8, (void *)(*(s32 *)((s8 *)tec_gi_barta + 0x60)), (void *)(((TItemWeapon *)this)->get_tp()));
             roll_technique();
         }
     } else {
-        ((TObjPlayer *)this)->update_active_game_effect();
+        ((TItemWeapon *)this)->update_active_game_effect();
     }
 }
 void TUnk_804A1098::vfunc_60() { if (TObjPlayer::get_player_list() == 1) { rotate_matrix_x((void*)0, (void *)this->open_angle); } }
@@ -84,9 +85,9 @@ TUnk_804A1098::TUnk_804A1098(TObject *parent, u8 *item) : TItemWeapon(parent, it
     ((TObjPlayer *)this)->set_effect_state(10);
 }
 
-u8 *TObjPlayer__sub_801228CC(u8 *arg0) {
-    if (arg0 != NULL) {
-        return (u8 *)new TUnk_804A1098(tl_05, arg0);
+u8 *TObjPlayer__sub_801228CC(u8 *item) {
+    if (item != NULL) {
+        return (u8 *)new TUnk_804A1098(tl_05, item);
     }
     return NULL;
 }

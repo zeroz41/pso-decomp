@@ -121,6 +121,7 @@ void TLobby__sub_803C2A00(AdxbDecoder *o) {
         o->state = 3;
     }
 }
+}
 
 void process_byteswapped_pcm_transfer(AdxbDecoder *o) {
     u16 *src = (u16 *)o->src;
@@ -160,6 +161,7 @@ void process_byteswapped_pcm_transfer(AdxbDecoder *o) {
         o->state = 3;
     }
 }
+extern "C" {
 
 s32 TLobby__sub_803C30E8(u8 *decoder, s32 hdr, s32 size) {
     AdxbDecoder *o = (AdxbDecoder *)decoder;
@@ -286,5 +288,4 @@ u8 *fn_803C32EC(u8 *hdr, s32 size, s32 *rate, s32 *channels, s32 *bits, s32 *sam
     }
     return hdr + offset;
 }
-
 }

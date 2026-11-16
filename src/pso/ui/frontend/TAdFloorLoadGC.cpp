@@ -2,13 +2,13 @@
 #include "pso/ui/frontend/TAdFloorLoadCamGC.h"
 
 #include "types.h"
+#include "pso/system/task/TObject.h"
 
 #pragma readonly_strings on
 
 extern "C" {
 
 void *TAdFloorLoadPrtGC__ct(void *, void *);
-void *__nw__7TObjectFUl(int);
 
 void TAdFloorLoadGC::render() {  }
 void TAdFloorLoadGC::run_task() {  }
@@ -22,7 +22,7 @@ TAdFloorLoadGC::TAdFloorLoadGC(TObject *object, void *arg2) : TObject(object) {
     void *o2;
     this->m_name = lbl_805D4328;
     o = new TAdFloorLoadCamGC(this, arg2);
-    o2 = __nw__7TObjectFUl(0x3A0);
+    o2 = TObject::operator new(0x3A0);
     if (o2 != NULL) {
         TAdFloorLoadPrtGC__ct(o2, this);
     }

@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/camera/TCameraCtrl_8006C7C4.h"
 #include "pso/unk/TUnk_80488D70.h"
 #include "pso/unk/TUnk_80488B38.h"
 #include "pso/unk/TUnk_80488B68.h"
@@ -11,9 +12,11 @@
 #include "pso/camera/TCameraCtrl_80067FC0.h"
 #include "pso/camera/TCameraCtrl_8006C580.h"
 #include "pso/system/memory.h"
-#include "pso/unk/TUnk_80488D70.h"
+
 #include "pso/system/scene/TScene.h"
 #include "pso/camera/TCameraCtrl_8006C254.h"
+#include "pso/system/task/TObject.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 static Entry_8006C6CC lbl_80488B98[1] = { { "CommonCam.rel", 0x48 } };
 static Entry_8006C6CC lbl_80488BA0[3] = { { "CommonCam.rel", 0x48 }, { "Bo01OpCam.rel", 0xC }, { "Bo01EnCam.rel", 0x48 } };
@@ -38,15 +41,11 @@ Bank_8006C6CC camera_path_bank_table[36] = {
     { lbl_80488C20, 3 }, { lbl_80488C38, 3 }, { lbl_80488B98, 1 }, { lbl_80488B98, 1 },
 };
 
-extern "C" {
-void *__dt__13TUnk_80488A28Fv(void *arg0, s16 arg1);
-void __dl__7TObjectFPv(void *);
 
 #pragma push
 #pragma fp_contract on
 #pragma pop
 
-}
 
 extern void *camera_ctrl_instance;
 extern void* camera_controller_registry[];
@@ -65,15 +64,12 @@ struct CameraMotionData;
 
 extern "C" {
 
-void *TCameraCtrl__vt10(void);
-void *__dt__13TUnk_80488D70Fv(void *arg0, s16 arg1);
 void *get_player_by_client_id(s32);
-void *__nw__7TObjectFUl(int);
 
 }
 
 void *TCameraCtrl__vt10(void) {
-    void *o = __nw__7TObjectFUl(0x6C);
+    void *o = TObject::operator new(0x6C);
     if (o != NULL) {
         o = ((TUnk_80488D70 *)o)->init_subobject();
     }

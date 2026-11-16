@@ -5,6 +5,7 @@
 #include "pso/system/task/TObject.h"
 
 struct TLoadCtrl : public TObject {
+    TLoadCtrl(s32);
     virtual ~TLoadCtrl();
     u32 m_1c;
     u32 m_20;

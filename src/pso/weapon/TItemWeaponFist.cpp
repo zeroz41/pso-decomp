@@ -1,4 +1,5 @@
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/weapon/TUnk_804A2A58.h"
 #include "pso/item/TItem.h"
 #include "pso/unk/text_80126740.h"
@@ -20,8 +21,6 @@ void TUnk_804A2B98::vfunc_58() {
 }
 
 // ---- pso/player/TObjPlayer_801267C4
-
-extern "C" {
 
 
 void TUnk_804A2B98::vfunc_57() {
@@ -47,7 +46,6 @@ void TUnk_804A2B98::vfunc_57() {
     ((PlayerAttackState *)((u8 *)this->owner + 0x7CC))->set_evp(var_f31);
 }
 
-}
 
 // ---- pso/unk/text_8012685C
 
@@ -110,8 +108,6 @@ s32 knuckle_marker_joint_table[18] = {
     0x23, 0x30, 0x30, 0x23, 0x30, 0x12, 0x30, 0x12, 0x12,
 };
 
-extern "C" {
-
 
 void TUnk_804A2B98::reserved_53() {
     s32 arg0 = (s32)this;
@@ -126,11 +122,10 @@ void TUnk_804A2B98::reserved_53() {
 TUnk_804A2B98::TUnk_804A2B98(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
     set_weapon_flags(577);
 }
-}
 
-u8 *create_knuckle_weapon(u8 *arg0) {
-    if (arg0 != NULL) {
-        return (u8 *)new TUnk_804A2B98(tl_05, arg0);
+u8 *create_knuckle_weapon(u8 *item) {
+    if (item != NULL) {
+        return (u8 *)new TUnk_804A2B98(tl_05, item);
     }
     return NULL;
 }

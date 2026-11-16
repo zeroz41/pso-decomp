@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/object/TUnk_804CCAC8.h"
 
 #include "pso/system/vector.h"
@@ -12,7 +13,7 @@ extern "C" {
 __declspec(section ".data") u32 TObjLight__support_charge_effect_ids[2] = {0x1F4, 0x1F5};
 void TObjLight__updateSupportTechniqueCharge(TechniqueChargeEmitter* state);
 void *__dt__13TUnk_804CCAC8Fv(void *arg0, s16 arg1);
-s32 play_sound_effect(int, void *, int, int);
+s32 play_sound_effect(int, Vec *, int, int);
 void stop_sound_request(s32 idx);
 void __dl__7TObjectFPv(void *);
 void __dt__7TObjectFv(void *, int);
@@ -28,16 +29,16 @@ void TObjLight__updateSupportTechniqueCharge(TechniqueChargeEmitter* state) {
     else if(state->age>=180)((TObject *)state)->queue_destruction();
 }
 
-void *__dt__13TUnk_804CCAC8Fv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__13TUnk_804CCAC8;
-        stop_sound_request((s32)(*(void **)((s8 *)arg0 + 0x30)));
-        __dt__7TObjectFv(arg0, 0);
+void *__dt__13TUnk_804CCAC8Fv(void *object, s16 arg1) {
+    if (object != NULL) {
+        *(s32 **)((s8 *)object + 0x18) = __vt__13TUnk_804CCAC8;
+        stop_sound_request((s32)(*(void **)((s8 *)object + 0x30)));
+        __dt__7TObjectFv(object, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(object);
         }
     }
-    return arg0;
+    return object;
 }
 
 }
@@ -45,5 +46,5 @@ TUnk_804CCAC8::TUnk_804CCAC8(s32 arg1, s32 arg2) : TObject((TObject *)((void *)a
     *(s32 *)((s8 *)this + 0x1C) = arg1;
     VecCopy((Vec *)(((u8 *)this) + 0x20), (const Vec *)(*(s32 *)((s8 *)this + 0x1C) + 0x2FC));
     this->m_2c = 0;
-    *(s32 *)((s8 *)this + 0x30) = play_sound_effect(0x4002B71B, ((u8 *)this) + 0x20, 0, 0);
+    *(s32 *)((s8 *)this + 0x30) = play_sound_effect(0x4002B71B, (Vec *)(((u8 *)this) + 0x20), 0, 0);
 }

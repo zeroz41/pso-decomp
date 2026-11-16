@@ -13,14 +13,12 @@ TUnk_804A2450::TUnk_804A2450(TObject *parent, u8 *item) : TItemWeapon(parent, it
     shot_speed = 11.0f;
 }
 
-extern "C" {
-u8 *TObjPlayer__sub_80125428(u8 *arg0) {
-    if (arg0 != NULL) {
-        return (u8 *)new TUnk_804A2450(tl_05, arg0);
+
+u8 *TObjPlayer__sub_80125428(u8 *item) {
+    if (item != NULL) {
+        return (u8 *)new TUnk_804A2450(tl_05, item);
     }
     return NULL;
-}
-
 }
 
 

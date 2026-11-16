@@ -13,7 +13,7 @@ u8 is_selection_done__23TAdSinglePlyChrSelectGCFPv(void *arg0) {
     return (u8) (*(s32 *)((s8 *)arg0 + 0x2C) == 2);
 }
 
-extern "C" {
+
 u32 lbl_80518850[4];
 u32 chr_select_load_buffer_table[8];
 u32 chr_select_load_buffer_base;
@@ -56,7 +56,6 @@ u32 TLobby::alloc_load_buffer(s32 size) {
     return p;
 }
 
-}
 
 int TLobby::start_load_default() { return alloc_load_buffer(0); }
 
@@ -110,25 +109,13 @@ void TLobby::free_chr_select_singleton() {
     }
 }
 
-struct RecoveredGlobal_8028D940_lbl_8051C070 {
-    s32 value;
-    u8 remaining[0x8];
-};
-
-struct RecoveredGlobal_8028D8F4_lbl_8051C070 {
-    s32 value;
-    u8 remaining[0x8];
-};
-
 extern "C" {
 s32 TChCrEffCtrlPl__sub_80298F6C(void);
 s32 create__14TChCrEffCtrlPlFv(s32);
-extern RecoveredGlobal_8028D940_lbl_8051C070 lbl_8051C070;
+struct RecoveredGlobal_lbl_8051C070 { s32 value; u8 remaining[0x8]; };
+extern RecoveredGlobal_lbl_8051C070 lbl_8051C070;
 extern s32 tl_03;
 }
-typedef char RecoveredGlobal_8028D940_lbl_8051C070_size[sizeof(RecoveredGlobal_8028D940_lbl_8051C070) == 0xC ? 1 : -1];
-
-typedef char RecoveredGlobal_8028D8F4_lbl_8051C070_size[sizeof(RecoveredGlobal_8028D8F4_lbl_8051C070) == 0xC ? 1 : -1];
 
 void alloc_quest_download_buffer(void) {
     if (chr_select_load_buffer_base == 0) {
@@ -137,11 +124,11 @@ void alloc_quest_download_buffer(void) {
 }
 
 void fn_8028D8F4(void) {
-    if ((u32) *(u32 *)((s8 *)(&(*(RecoveredGlobal_8028D8F4_lbl_8051C070 *)&lbl_8051C070).value) + 0) != 0U) {
-        ((TObject *)((void *)(*(u32 *)((s8 *)(&(*(RecoveredGlobal_8028D8F4_lbl_8051C070 *)&lbl_8051C070).value) + 0))))->queue_destruction();
+    if ((u32) *(u32 *)((s8 *)(&lbl_8051C070.value) + 0) != 0U) {
+        ((TObject *)((void *)(*(u32 *)((s8 *)(&lbl_8051C070.value) + 0))))->queue_destruction();
     }
-    if ((u32) *(u32 *)((s8 *)(&(*(RecoveredGlobal_8028D8F4_lbl_8051C070 *)&lbl_8051C070).value) + 4) != 0U) {
-        ((TObject *)((void *)(*(u32 *)((s8 *)(&(*(RecoveredGlobal_8028D8F4_lbl_8051C070 *)&lbl_8051C070).value) + 4))))->queue_destruction();
+    if ((u32) *(u32 *)((s8 *)(&lbl_8051C070.value) + 4) != 0U) {
+        ((TObject *)((void *)(*(u32 *)((s8 *)(&lbl_8051C070.value) + 4))))->queue_destruction();
     }
 }
 

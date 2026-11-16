@@ -5,6 +5,7 @@
 #include "pso/network/NetworkTransport.h"
 #include "pso/network/NetPppLink.h"
 #include "pso/network/NetStackTypes.h"
+#include "pso/network/netcfg.h"
 #include "pso/network/TLobby_80426CAC.h"
 
 #include "types.h"
@@ -68,9 +69,9 @@ s32 send_at_compression_cmd__23TAdSinglePlyChrSelectGCFl(s32 mode);
 s32 send_atx_command__23TAdSinglePlyChrSelectGCFl(s32 mode);
 s32 copy_default_and_get_state__23TAdSinglePlyChrSelectGCFv(void *self);
 
-void TLobby__sub_803F97E8(s32);
+void net_sleep_ms(s32);
 s32 TLobby__sub_80428094(s16);
-void TAdSinglePlyChrSelectGC__sub_8042D604(void);
+void modem_hangup(void);
 extern s16 lbl_805D47F8;
 extern s16 lbl_805D4804;
 extern s32 lbl_805D4808;
@@ -83,23 +84,20 @@ s16 TLobby__sub_803F96AC(void *);
 s16 TLobby__sub_803F9B94(void *, void *);
 s32 TAdSinglePlyChrSelectGC__sub_8042DD70(s32 arg0, s32 arg1, s32 arg2);
 s32 TAdSinglePlyChrSelectGC__sub_8042E184(void);
-s32 TAdSinglePlyChrSelectGC__sub_8042E320(s32, s32, void *);
+s32 modem_dial(s32, s32, void *);
 void subtract_network_queue_timeout(s32 arg0);
 void set_lobby_map_state_code(s32 arg0);
 Q_803F7AF4 *get_next_send_chunk(void);
 s32 OSIsThreadSuspended(s32);
 s16 TLobby__sub_804281DC(void *);
-s32 TAdSinglePlyChrSelectGC__sub_8042CEF8(char *);
+s32 modem_init(char *);
 void TAdSinglePlyChrSelectGC__sub_8042E488(s32);
 s32 open_network_transport(A_803F8314 *arg0);
-u32 layout_buffers(u8 *, u32, u32);
 s32 layout_net_params_buffer(u8 *data, s32 size);
-s32 TAdSinglePlyChrSelectGC__sub_8042D49C(int);
+s32 modem_send_at_command(int);
 s32 configure_modem_options(s32 arg0, s32 arg1, s32 arg2, s32 n, s32 p);
-s32 TAdSinglePlyChrSelectGC__sub_8042D7E0(void *);
-s32 TLobby__sub_803F8D24(NetTransportParams *);
+s32 TAdSinglePlyChrSelectGC__sub_8042D7E0(u8 *buf);
 s32 get_net_params_and_size(NetTransportParams *arg0);
-s32 send_network_frame(u16 arg0, u8 *arg1);
 void TLobby__sub_803F76F0(void);
 void TLobby__sub_803F778C(void);
 void TLobby__sub_803F77E0(void);
@@ -465,7 +463,7 @@ s32 map_state_to_code(s32 handle, s16 kind) {
         return -1;
     }
     lobby_map_state_code = 4;
-    if (TAdSinglePlyChrSelectGC__sub_8042E320(handle, mode, (void *)set_lobby_map_state_code) != 1) {
+    if (modem_dial(handle, mode, (void *)set_lobby_map_state_code) != 1) {
         return -1;
     }
     return 0;
@@ -517,7 +515,7 @@ s32 configure_modem_options(s32 ms_mode, s32 error_correction, s32 compression, 
         if (cmd_len > 0x3FU) {
             return -1;
         }
-        result = TAdSinglePlyChrSelectGC__sub_8042D49C(cmd);
+        result = modem_send_at_command(cmd);
         if (result != 1 && result != -8) {
             return -1;
         }
@@ -545,7 +543,7 @@ void TLobby__sub_803F808C(void) {
 
 }
 
-s32 is_transport_connected(void) {
+u16 is_transport_connected(void) {
     u8 buf[0x20];
     if (network_pppoe_transport_enabled != 0) {
         if (net_slot_id < 0) {
@@ -615,7 +613,7 @@ void close_network_transport(void) {
             TLobby__sub_80428094(net_slot_id);
             tries = 0;
 retry_close:
-            TLobby__sub_803F97E8(0xA);
+            net_sleep_ms(0xA);
             if ((pppoe_recv_packet(NULL, 0U, NULL) >= 0) && (get_pppoe_session_id(net_slot_id) != -1)) {
                 tries += 1;
                 if (tries < 0x12C) {
@@ -634,7 +632,7 @@ retry_close:
         NetReleaseMutex(TLobby__send_ring_mutex);
 after_close:
         if ((u32) (copy_default_and_get_state__23TAdSinglePlyChrSelectGCFv((void *)0U) - 2) <= 1U) {
-            TAdSinglePlyChrSelectGC__sub_8042D604();
+            modem_hangup();
         }
     }
 }
@@ -662,7 +660,7 @@ s32 open_network_transport(A_803F8314 *cfg) {
             name = (char *)modem_default_connect_argument;
         }
         unlock_mutex(lbl_805C18A0.mutex);
-        ret = TAdSinglePlyChrSelectGC__sub_8042CEF8(name);
+        ret = modem_init(name);
         lock_mutex(lbl_805C18A0.mutex);
         if (ret == 1) {
             TAdSinglePlyChrSelectGC__sub_8042E488(5);
@@ -723,7 +721,7 @@ s32 layout_net_params_buffer(u8 *data, s32 size) {
     if ((u32)cur > end) {
         return -1;
     }
-    after_tables = layout_buffers((u8 *)&params, (u32)cur, end);
+    after_tables = (u32)layout_buffers(&params, cur, (u8 *)end);
     if (after_tables == 0) {
         return -1;
     }

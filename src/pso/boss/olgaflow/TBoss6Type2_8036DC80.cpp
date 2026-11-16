@@ -7,7 +7,6 @@ struct E_8036DDE8 { s32 f0; u8 pad[0x28]; };
 
 struct Ent_8036DD30 { s32 active; u8 v0[8]; u8 v1[8]; u8 v2[8]; s32 a; s32 b; s32 c; s32 d; };
 
-extern "C" {
 s8 boss6_type2_player_snapshot_table[176] = {
     0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0,
@@ -32,16 +31,18 @@ s8 boss6_type2_player_snapshot_table[176] = {
     0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0,
 };
+extern "C" {
 s32 is_state_1f__14TBoss6PlotFalzFUi(u32 arg0);
 u16 get_entity_id();
+}
 
 void TBoss6Type2::apply_pending_effect() {
-    u16 temp_r3;
+    u16 entity_id;
     u8 *temp_r31;
 
-    temp_r3 = get_entity_id();
-    if (temp_r3 < 4U) {
-        temp_r31 = (unsigned char *) (boss6_type2_player_snapshot_table + (temp_r3 * 0x2C));
+    entity_id = get_entity_id();
+    if (entity_id < 4U) {
+        temp_r31 = (unsigned char *) (boss6_type2_player_snapshot_table + (entity_id * 0x2C));
         if ((s32) *(s32 *)((s8 *)temp_r31 + 0) != 0) {
             *(s32 *)((s8 *)temp_r31 + 0) = 0;
             if (is_state_1f__14TBoss6PlotFalzFUi((u32)this) != 0) {
@@ -84,6 +85,4 @@ void clear_boss6_player_snapshots(void) {
     for (i = 0; i < 4; i++) {
         ((E_8036DDE8 *)boss6_type2_player_snapshot_table)[i].f0 = 0;
     }
-}
-
 }

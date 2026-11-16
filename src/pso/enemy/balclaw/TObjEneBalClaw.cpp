@@ -1,4 +1,5 @@
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/enemy/balclaw/TObjEneBalClaw.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/object/mine/TOComputerMachine01_8023DD0C.h"
@@ -70,17 +71,14 @@ const char *balclaw_class_name = balclaw_class_name_text;
 NJS_OBJECT *balclaw_arm_part_models[4][11];
 
 
-extern "C" {
 extern s32 balclaw_last_shared_update_frame;
 extern s32 actor_frame_tick;
-}
 
 extern u8 *lbl_805D4F28[];
 extern u8 *lbl_805D4F2C[];
 extern u8 *lbl_805D4F30[];
 extern u8 *lbl_805D4F34[];
 
-extern "C" {
 
 void TObjEneBalClaw__sub_8008D68C(void) {
     s32 i;
@@ -201,7 +199,6 @@ void TObjEneBalClaw__sub_8008D924(void) {
     }
 }
 
-}
 
 TObjEneBalClaw::~TObjEneBalClaw() {
 }
@@ -230,5 +227,5 @@ void TObjEneBalClaw::clear_attack_flag() {
     m_388 &= ~0x10000;
 }
 
-extern "C" void TObjEneBalClawClaw__sub_8008DC14(void) {
+void TObjEneBalClawClaw__sub_8008DC14(void) {
 }

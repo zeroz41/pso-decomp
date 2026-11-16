@@ -1,19 +1,10 @@
 #include "types.h"
 #include "pso/unk/text_802C095C.h"
+#include "pso/object/TUnk_804E0898.h"
+#include "pso/system/task/TMainTask.h"
 
-extern "C" {
-
-void *construct_lobby_pigeon(void *, void *, void *);
-void *__nw__7TObjectFUl(int);
-
-extern void *tl_05;
 
 void *create_lobby_pigeon(void *source) {
-    void *o = __nw__7TObjectFUl(0xE0);
-    if (o != NULL) {
-        o = construct_lobby_pigeon(o, tl_05, source);
-    }
-    return o;
+    return new TUnk_804E0898(tl_05, source);
 }
 
-}

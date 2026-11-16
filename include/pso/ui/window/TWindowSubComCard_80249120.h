@@ -11,7 +11,7 @@ s32 create_choice_setting_window__17TWindowSubComCardFiii(s32 arg0, s32 arg1, s3
 
 // --- C functions defined in TWindowSubComCard_80249120.cpp ---
 extern "C" {
-void TWindowSubComCard__sub_80249144(void *arg0);
+void TWindowSubComCard__sub_80249144(void *window_choice_setting);
 int TWindowSubComCard__sub_80249220(void *p, void *_w1);
 s32 create_choice_setting_window__17TWindowSubComCardFiii(s32 arg0, s32 arg1, s32 arg2);
 }

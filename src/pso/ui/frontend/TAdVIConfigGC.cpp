@@ -12,7 +12,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
 #include "pso/ui/frontend/TAdVIConfigGC.h"
-#include "pso/system/task/TObject.h"
+
 
 struct Name_80307D00 { char s[0x18]; };
 
@@ -33,9 +33,7 @@ void *TAdVIConfigGC__ct(TAdVIConfigGC *arg0);
 void *destroy__13TAdVIConfigGCFPvs(void *arg0, s16 arg1);
 int OSSetProgressiveMode(void*);
 void *TAdYesNoBaseGC__ct(TAdYesNoBaseGC *arg0);
-void *__dt__14TAdYesNoBaseGCFv(void *arg0, s16 arg1);
 s32 VecCopy__FP3VecPC3Vec(void *);
-void __dl__7TObjectFPv(void *);
 int VIWaitForRetrace(void);
 int VIConfigure(void*);
 int VIFlush(void);

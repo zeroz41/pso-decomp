@@ -33,4 +33,13 @@ struct AdxHeader {
     u16 m_18[4];
 };
 
+// --- C functions defined in AdxHeader.cpp ---
+extern "C" {
+s32 ARStartDMA(u8 *hdr, s32 size, s16 *len, u8 *out_0C, s8 *bits, s8 *block_bytes, u8 *channels, s32 *rate, s32 *samples, s32 *block_samples);
+s32 TLobby__sub_803C48C8(u8 *hdr, s32 size, u16 *out);
+s32 __DVDPrepareResetAsync(u8 *hdr, s32 size, s32 *o1, s16 *o2, s16 *o3, s32 *o4, s32 *o5, s32 *o6, s32 *o7);
+}
+void calc_adx_predictor_coeffs(s32 cutoff, s32 rate, s16 *k0, s16 *k1);
+// --- end of C functions
+
 #endif

@@ -7,6 +7,7 @@
 
 class TObjCMHexTile : public TObject {
 public:
+    TObjCMHexTile(TObject *parent, void *pos);
     virtual ~TObjCMHexTile();
     virtual void run_task();
     virtual void render();
@@ -26,7 +27,12 @@ typedef char TObjCMHexTile_size[sizeof(TObjCMHexTile) == 0x54 ? 1 : -1];
 
 extern "C" {
 void fn_802947A8(void);
-TObjCMHexTile *__ct__13TObjCMHexTileFv(TObjCMHexTile *self, TObject *parent, void *pos);
 }
+
+// --- C functions defined in TObjCMHexTile.cpp ---
+extern "C" {
+void fn_802947A8(void);
+}
+// --- end of C functions
 
 #endif

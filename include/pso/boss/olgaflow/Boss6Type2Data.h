@@ -9,7 +9,6 @@
 // reads boss6_arena_center as well.
 
 struct Tbl_802B9C00 { s32 a; s32 b; };
-struct Vec_802B9A68 { f32 x, y, z; };
 struct Ent_802B9F3C { s32 a; s32 b; s32 c; };
 struct Blk_802BCFD4 { s32 a; s32 b; s32 rest[7]; };
 struct Tbl_802BBE20 { s32 kind; s32 idx; };
@@ -39,6 +38,6 @@ extern const s32 TBoss6Type2__no_target_sound_ids[4];
 extern const Tbl_802BBE20 lbl_8047130C[3];
 extern const s32 TBoss6Type2__player_hit_rock_indices[6];
 extern const s32 lbl_8047133C[2];
-extern const Vec_802B9A68 lbl_80471344;
+extern const Vec lbl_80471344;
 
 #endif

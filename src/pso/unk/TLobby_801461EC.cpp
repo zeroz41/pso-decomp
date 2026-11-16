@@ -16,30 +16,11 @@
 #include "pso/system/memory.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/system/ControllerInputState.h"
-
-struct RecoveredGlobal_80146CB8_lbl_8050CCE8 {
-    s32 value;
-    u8 remaining[0x128];
-};
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 
 struct RecoveredGlobal_8014672C_lbl_8050C0A8 {
     s32 value;
     u8 remaining[0x6D8];
-};
-
-struct RecoveredGlobal_80146588_lbl_8050CCE8 {
-    s32 value;
-    u8 remaining[0x128];
-};
-
-struct RecoveredGlobal_80146D14_lbl_8050CCE8 {
-    s32 value;
-    u8 remaining[0x128];
-};
-
-struct RecoveredGlobal_80146D44_lbl_8050CE14 {
-    s32 value;
-    u8 remaining[0x150];
 };
 
 extern "C" {
@@ -62,12 +43,16 @@ extern s32 lobby_dns_server_addr2;
 extern s32 lobby_connect_battle_flag;
 s32 TLobby__sub_80146588(s32 *arg0);
 u8 *TLobby__sub_80146D14(void);
+}
 char *get_modem_phone_number(s32 idx);
+extern "C" {
 char *TLobby__sub_80146D44(void);
 char *TLobby__sub_80146D50(s32 idx);
 s32 TLobby__sub_801466F4(u32 arg0);
 s32 TLobby__sub_80145EE4(void);
+}
 s32 connect_pppoe(s32 *);
+extern "C" {
 s32 TLobby__sub_801465C0(s32 *);
 void fn_80147A68(void);
 void TLobby__sub_804073B8(void);
@@ -77,9 +62,9 @@ s32 lobby_net_session_id = -1;
 extern s32 TLobby__connect_pending_flags;
 extern s32 lobby_connect_active_flag;
 s32 TLobby__sub_801478C4(s32 arg0);
+}
 s32 connect_modem(s32 idx, s16 id);
 extern s32 actor_frame_tick;
-}
 
 struct Sub_801465C0 {
     u8 pad0[0x1C];
@@ -163,7 +148,7 @@ s32 get_network_config_buffer_size(s32 mode);
 s8 func_801A5E54();
 extern "C" {
 s32 TLobby__sub_804219D0(s32, s32, s32);
-s32 TLobby__sub_80421A50(s32, s32, s32);
+s32 net_add_ipv4_route(s32, s32, s32);
 void xfree__FPv(void*);
 int xmalloc__FUl(void);
 
@@ -176,13 +161,12 @@ u32 lbl_8050C684[64];
 AccountEntry lobby_account_entries[3]; /* cleared by TLobby::init_account_entries, filled by load_network_configs; [2] is the modem account */
 u32 lbl_8050CCE8[73];
 __declspec(section ".data") s32 lbl_8050CE0C[2];
+}
 char lbl_8050CE14[0x20];
 char lbl_8050CE34[0x20];
 u8 lbl_8050CE54[0x114];
 extern s32 lbl_805D5714;
 #define lbl_8050C0A8 (*(RecoveredGlobal_8014672C_lbl_8050C0A8 *)lbl_8050C0A8)
-#define lbl_8050CCE8 (*(RecoveredGlobal_80146CB8_lbl_8050CCE8 *)lbl_8050CCE8)
-#define lbl_8050CE14 (*(RecoveredGlobal_80146D44_lbl_8050CE14 *)lbl_8050CE14)
 
 void TLobby::init_keyboard_buffer() { keyboard_buffer_cursor = 0; lbl_805D56CE = 0; lbl_805D56C8 = 0; get_network_config_buffer_size((s32)((void*)0)); lbl_805D56C8 = xmalloc__FUl(); TLobby__sub_80145A94(); }
 
@@ -217,11 +201,10 @@ void TLobby::flush_pending_flag2() {
 void TLobby::set_battle_flag(s32 arg0) {
     TLobby__battle_flag = arg0;
     TLobby__connect_pending_flags |= 2;
-    TLobby__sub_80421A50(0, 0, arg0);
+    net_add_ipv4_route(0, 0, arg0);
 }
 
 void get_link_state(s16 *state, s16 *reason);
-s32 TWindowShortListCtrl__check_controller_button(ControllerInputContext *, int);
 
 s32 connect_pppoe(s32 *out_value) {
     NetConnectCfg cfg;
@@ -322,13 +305,13 @@ s32 connect_pppoe(s32 *out_value) {
     }
 }
 
-typedef char RecoveredGlobal_80146588_lbl_8050CCE8_size[sizeof(RecoveredGlobal_80146588_lbl_8050CCE8) == 0x12C ? 1 : -1];
+extern "C" {
 s32 TLobby__sub_80146588(s32 *arg0) {
-    lobby_local_ip_addr = *(s32 *)((s8 *)(&(*(RecoveredGlobal_80146588_lbl_8050CCE8 *)&lbl_8050CCE8).value) + 4);
-    *(s32 *)((s8 *)arg0 + 0) = *(s32 *)((s8 *)(&(*(RecoveredGlobal_80146588_lbl_8050CCE8 *)&lbl_8050CCE8).value) + 8);
-    lobby_connect_battle_flag = *(s32 *)((s8 *)(&(*(RecoveredGlobal_80146588_lbl_8050CCE8 *)&lbl_8050CCE8).value) + 0x18);
-    lobby_dns_server_addr = *(s32 *)((s8 *)(&(*(RecoveredGlobal_80146588_lbl_8050CCE8 *)&lbl_8050CCE8).value) + 0x10);
-    lobby_dns_server_addr2 = *(s32 *)((s8 *)(&(*(RecoveredGlobal_80146588_lbl_8050CCE8 *)&lbl_8050CCE8).value) + 0x14);
+    lobby_local_ip_addr = *(s32 *)((s8 *)&lbl_8050CCE8 + 4);
+    *(s32 *)((s8 *)arg0 + 0) = *(s32 *)((s8 *)&lbl_8050CCE8 + 8);
+    lobby_connect_battle_flag = *(s32 *)((s8 *)&lbl_8050CCE8 + 0x18);
+    lobby_dns_server_addr = *(s32 *)((s8 *)&lbl_8050CCE8 + 0x10);
+    lobby_dns_server_addr2 = *(s32 *)((s8 *)&lbl_8050CCE8 + 0x14);
     return 0;
 }
 
@@ -394,12 +377,11 @@ s32 TLobby::query_task_active() {
 }
 
 int TLobby__sub_8014677C(void) { return TLobby__sub_80145DB4(1); }
+}
 int TLobby::get_link_status_value() { return TLobby__sub_80145DB4(4); }
 
 extern u32 lbl_805D5700;
 extern s32 TLobby__net_session_mode;
-
-}
 int get_link_status() {
     NetLinkStatus link;
     if (TLobby__net_session_mode == 0) {
@@ -426,8 +408,6 @@ int get_link_status() {
     }
     return 1;
 }
-extern "C" {
-
 void TLobby::cleanup() {
     if ((s32) TLobby__net_session_mode != 0) {
         TLobby__sub_801469B8(this);
@@ -443,6 +423,7 @@ void TLobby::cleanup() {
         lbl_805D5700 = 0U;
     }
 }
+extern "C" {
 s32 TLobby__sub_80146908() {
     NetTransportParams params;
     s32 size;
@@ -466,6 +447,7 @@ s32 TLobby__sub_80146908() {
     return TLobby__sub_801478C4(init_net_session());
 }
 void TLobby__sub_801469B8(void* p) { TLobby::flush_pending_flags(); }
+}
 void TLobby::flush_pending_flags() {
     NetLinkStatus status;
     NetWaitParam stop;
@@ -564,8 +546,6 @@ s32 TLobby::run_connect_sequence() {
 
 void TLobby::call_146CA0_with_5708() { get_modem_phone_number(lbl_805D5708); }
 
-typedef char RecoveredGlobal_80146CB8_lbl_8050CCE8_size[sizeof(RecoveredGlobal_80146CB8_lbl_8050CCE8) == 0x12C ? 1 : -1];
-
 char *get_modem_phone_number(s32 idx) {
     return lobby_account_entries[2].phone[idx].number;
 }
@@ -574,21 +554,20 @@ void TLobby::set_ppp_password(s32 arg0) {
     u8 *temp_r31;
     TLobby__sub_8014618C();
     TLobby::is_state_active();
-    temp_r31 = (u8 *)&lbl_8050CCE8.value + 0xFC;
+    temp_r31 = (u8 *)&lbl_8050CCE8 + 0xFC;
     memset(temp_r31, 0, 0x20);
     strncpy((char *)temp_r31, (const char *)arg0, 0x1F);
 }
 
-typedef char RecoveredGlobal_80146D14_lbl_8050CCE8_size[sizeof(RecoveredGlobal_80146D14_lbl_8050CCE8) == 0x12C ? 1 : -1];
+extern "C" {
 u8 *TLobby__sub_80146D14(void) {
     TLobby__sub_8014618C();
     TLobby::is_state_active();
-    return (u8 *)&(*(RecoveredGlobal_80146D14_lbl_8050CCE8 *)&lbl_8050CCE8).value + 0xFC;
+    return (u8 *)&lbl_8050CCE8 + 0xFC;
 }
 
-typedef char RecoveredGlobal_80146D44_lbl_8050CE14_size[sizeof(RecoveredGlobal_80146D44_lbl_8050CE14) == 0x154 ? 1 : -1];
 char *TLobby__sub_80146D44(void) {
-    return (char *)&lbl_8050CE14.value;
+    return (char *)&lbl_8050CE14;
 }
 
 char *TLobby__sub_80146D50(s32 idx) {
@@ -671,6 +650,7 @@ void TLobby::load_network_configs() {
 #undef A_80146D7C
 #undef C_80146D7C
 void TLobby__sub_8014715C(void* p, void* q) { *(u32*)((char*)p + 0x0) = *(u32*)((char*)q + 0x0); }
+}
 void TLobby::teardown_boss2() {
     if ((s32) lbl_805D570C != 0) {
         clear_all_used_records();
@@ -678,20 +658,13 @@ void TLobby::teardown_boss2() {
         lbl_805D570C = 0;
     }
 }
-}
 
 #undef lbl_8050C0A8
-#undef lbl_8050CCE8
-#undef lbl_8050CE14
-
-struct RecoveredGlobal_80147A74_lbl_804EF500 {
-    s32 value;
-    u8 remaining[0x94];
-};
 
 struct Req_801471A0 { s32 type; u32 addr; u8 pad[0x18]; };
 
-extern RecoveredGlobal_80147A74_lbl_804EF500 ppp_password_buffer;
+struct PppPasswordBuffer { s32 value; u8 remaining[0x94]; };
+extern PppPasswordBuffer ppp_password_buffer;
 char *get_ppp_password_buffer(void);
 extern "C" {
 void OSReport(const char *, ...);
@@ -743,6 +716,7 @@ s32 TLobby__sub_80147284(void) {
     TLobby::teardown_boss2();
     lobby_net_session_id = -1;
     return 0;
+}
 }
 
 void get_link_state(s16 *state, s16 *reason) {
@@ -961,8 +935,9 @@ s32 connect_modem(s32 idx, s16 id) {
         return 4;
     }
 }
+extern "C" {
 
-s32 TLobby__sub_801478C4(s32 arg0) {
+s32 TLobby__sub_801478C4(s32 id) {
     s32 count;
     s32 result;
     char name[0x81];
@@ -972,7 +947,7 @@ s32 TLobby__sub_801478C4(s32 arg0) {
         memset(name, 0, sizeof(name));
         strncpy(name, get_modem_phone_number(lbl_805D5708), sizeof(name));
         if (name[0] != 0) {
-            result = connect_modem(lbl_805D5708, arg0);
+            result = connect_modem(lbl_805D5708, id);
             if (TLobby__sub_801466F4(result) == 0) {
                 return result;
             }
@@ -1006,7 +981,6 @@ void fn_80147A60(int a0) { keyboard_buffer_cursor = a0; }
 
 void fn_80147A68(void) { keyboard_buffer_cursor = 0; }
 }
-typedef char RecoveredGlobal_80147A74_lbl_804EF500_size[sizeof(RecoveredGlobal_80147A74_lbl_804EF500) == 0x98 ? 1 : -1];
 char *get_ppp_password_buffer(void) {
     return (char *)&ppp_password_buffer.value;
 }

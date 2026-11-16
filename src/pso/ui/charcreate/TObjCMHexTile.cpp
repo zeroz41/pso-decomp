@@ -5,12 +5,12 @@
 #include "pso/unk/text_802948A8.h"
 #include "types.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
+#include "pso/system/NinjaTypes.h"
 
 #pragma readonly_strings on
 
-extern "C" {
+
 const char *TObjCMHexTile__name = "TObjCMHexTile";
-}
 
 
 void TObjCMHexTile::render() {
@@ -59,7 +59,7 @@ void TObjCMHexTile::run_task() {
     frame = temp_r6;
     temp_r5_2 = state;
     if (temp_r6 >= state_end_frame[temp_r5_2]) {
-        state = (s32)(temp_r5_2 + 1);
+        state = (temp_r5_2 + 1);
         if ((s32) state == 3) {
             queue_destruction();
         }
@@ -72,41 +72,32 @@ TObjCMHexTile::~TObjCMHexTile() {}
 #pragma fp_contract on
 extern "C" {
 
-void __ct__7TObjectFP7TObject(void *, void *);
 int rand(void);
-extern void *__vt__13TObjCMHexTile[];
 extern const char *TObjCMHexTile__name;
 
 #pragma push
 #pragma opt_lifetimes off
-TObjCMHexTile *__ct__13TObjCMHexTileFv(TObjCMHexTile *self, TObject *parent, void *pos) {
-    s32 v;
-
-    __ct__7TObjectFP7TObject(self, parent);
-    *(void ***)((u8 *)self + 0x18) = __vt__13TObjCMHexTile;
-    self->m_name = TObjCMHexTile__name;
-    self->state_end_frame[0] = v = 22.0f * (0.000030517578f * (f32)rand()) + 7.0f;
-    self->state_end_frame[1] = v = (f32)v + (7.0f * (0.000030517578f * (f32)rand()) + 22.0f);
-    v = (f32)v + (45.0f * (0.000030517578f * (f32)rand()) + 30.0f);
-    self->state_end_frame[2] = v;
-    self->m_44 = 0.033333335f * (0.000030517578f * (f32)rand()) + 0.008333334f;
-    self->m_2c.x = 20.0f * (0.000030517578f * (f32)rand()) - 10.0f;
-    self->m_2c.y = 20.0f * (0.000030517578f * (f32)rand()) - 10.0f;
-    ((TWindowSubSymbolChatPartsSet *)&self->pos)->copy_vec2(pos);
-    self->alpha = 0.0f;
-    self->scale = 1.0f;
-    self->frame = 0;
-    self->state = 0;
-    return self;
 }
+TObjCMHexTile::TObjCMHexTile(TObject *parent, void *pos) : TObject(parent) {
+    s32 v;
+    this->m_name = TObjCMHexTile__name;
+    this->state_end_frame[0] = v = 22.0f * (0.000030517578f * (f32)rand()) + 7.0f;
+    this->state_end_frame[1] = v = (f32)v + (7.0f * (0.000030517578f * (f32)rand()) + 22.0f);
+    v = (f32)v + (45.0f * (0.000030517578f * (f32)rand()) + 30.0f);
+    this->state_end_frame[2] = v;
+    this->m_44 = 0.033333335f * (0.000030517578f * (f32)rand()) + 0.008333334f;
+    this->m_2c.x = 20.0f * (0.000030517578f * (f32)rand()) - 10.0f;
+    this->m_2c.y = 20.0f * (0.000030517578f * (f32)rand()) - 10.0f;
+    ((TWindowSubSymbolChatPartsSet *)&this->pos)->copy_vec2(pos);
+    this->alpha = 0.0f;
+    this->scale = 1.0f;
+    this->frame = 0;
+    this->state = 0;
+}
+extern "C" {
 #pragma pop
 
 #pragma pop
-
-struct V2_802947A8 {
-    f32 x;
-    f32 y;
-};
 
 
 void fn_802947A8(void) {
@@ -116,7 +107,7 @@ void fn_802947A8(void) {
     f32 stepX;
     f32 evenX;
     f32 oddX;
-    V2_802947A8 p;
+    NJS_POINT2 p;
     s32 odd = 0;
 
     p.y = -11.5f;

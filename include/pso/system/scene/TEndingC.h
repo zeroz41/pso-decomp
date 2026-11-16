@@ -8,6 +8,7 @@ public:
     virtual void render();
     virtual void run_task();
     virtual ~TEndingC();
+    void release_lobby();
 
     u32 phase;
     s32 elapsed_ticks;

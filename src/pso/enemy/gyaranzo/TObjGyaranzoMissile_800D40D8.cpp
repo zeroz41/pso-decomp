@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/system/vector.h"
 #include "pso/enemy/gyaranzo/TObjEneGyaranzo.h"
 #include "pso/object/TUnk_8049442C.h"
@@ -82,7 +83,7 @@ u8 *get_battle_param__10TObjPlayerFi(s32);
 s32 remap_area_sound_id(s32 arg0, s32 arg1);
 void *find_entity_by_id(u16 id);
 void check_enemy_body_collisions(void *arg0);
-s32 play_sound_effect(void *, void *, int, int);
+s32 play_sound_effect(void *, Vec *, int, int);
 extern Hit_800D4200 lbl_8043C440[];
 
 void rotate_vector_by_matrix(int, void *, void *);
@@ -148,7 +149,7 @@ void TUnk_8049442C::sub_800D4200() {
     TObjPlayer::init_all_slots();
     ((TObjPlayer *)arg0)->check_object_collisions();
     check_enemy_body_collisions(arg0);
-    if ((*(Info_800D4200 * *)&((TUnk_8049442C *)arg0)->bodies)->flags & 0x180000) {
+    if ((((TUnk_8049442C *)arg0)->bodies)->flags & 0x180000) {
         for (i = 0; i < 0x10; i++) {
             t = get_battle_param__10TObjPlayerFi(i);
             if (t == NULL) {
@@ -165,7 +166,7 @@ void TUnk_8049442C::sub_800D4200() {
         }
     }
     spawn_particle_effect(arg0 + 0x38, 0xFB);
-    play_sound_effect((void *)remap_area_sound_id(0x4003A80C, 0x19), arg0 + 0x38, 0, 0);
+    play_sound_effect((void *)remap_area_sound_id(0x4003A80C, 0x19), (Vec *)(arg0 + 0x38), 0, 0);
     ((TObject *)arg0)->queue_destruction();
 }
 
@@ -251,20 +252,11 @@ s32 init_collision_body_parts(void *, void *, int);
 
 extern BmlResource *gyaranzo_bml_resource;
 
-s32 remap_area_sound_id(s32 arg0, s32 arg1);
 void *find_entity_by_id(u16);
 void check_enemy_body_collisions(void *);
-s32 play_sound_effect(void *, void *, int, int);
 
-}
-s32 get_gyaranzo_missile_int_parameter(s32 i);
-extern "C" {
-s32 project_actor_to_ground(void *, void *, int);
-
-s32 post_translate_matrix(void *);
 void free_collision_body_parts(void *);
 
-s32 push_matrix();
 }
 
 TUnk_8049442C::~TUnk_8049442C() {
@@ -272,7 +264,6 @@ TUnk_8049442C::~TUnk_8049442C() {
     free_collision_body_parts(this);
 }
 
-extern s32 model_render_flags;
 
 TUnk_8049442C::TUnk_8049442C(TObjBase *owner, Vec *pos, s32 angle, s32 spin) : TObjCollidable(tl_04) {
     VecCopy(&position, pos);

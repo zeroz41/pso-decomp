@@ -1,13 +1,12 @@
 #include "types.h"
 #include "pso/unk/TUnk_804C57F0.h"
 #include "pso/unk/text_801E4F04.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 
 extern "C" {
 
 s32 __ct__7TObjectFP7TObject();
-void *mem_alloc(u32 size);
-void mem_free(void *);
 
 extern s32 __vt__13TUnk_804C57F0[];
 

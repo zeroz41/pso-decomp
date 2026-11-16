@@ -1,4 +1,5 @@
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/camera/CameraDistanceFade.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/render/model_render_state.h"

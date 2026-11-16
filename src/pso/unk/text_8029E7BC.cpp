@@ -1,8 +1,10 @@
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/unk/text_8029E7BC.h"
 #include "pso/system/vector.h"
 #include "pso/map/FloorArea.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 struct Stack_8029E7BC
 {

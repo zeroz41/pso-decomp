@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/unk/TLobby_8030A6A8.h"
 #include "pso/render/render_util.h"
@@ -19,7 +20,6 @@
 #include "pso/object/container/TOContainerAncientEnemyRare.h"
 #include "pso/object/container/TOContainerAncientItemRare.h"
 #include "pso/object/container/TOContainerAncientItemNone.h"
-#include "pso/object/container/TOContainerAncientItemNone_8015BF38.h"
 #include "pso/object/container/TOContainerAncientItemCommon.h"
 #include "pso/object/container/TObjContainerBase.h"
 #include "pso/object/container/TObjContainerItem.h"
@@ -39,9 +39,7 @@
 #include "pso/unk/text_80087278.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/unk/text_8015C048.h"
 #include "pso/unk/text_8015C534.h"
-#include "pso/unk/text_8018A150.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/BmlResource.h"
@@ -71,16 +69,6 @@ struct Pk_8015BAE0 { u8 pad[2]; u16 id; s32 a; s32 b; s32 c; };
 
 void play_container_break_sound(s32 arg0);
 
-extern "C" {
-
-extern s32 __vt__27TOContainerAncientEnemyRare[];
-extern s32 __vt__29TOContainerAncientEnemyCommon[];
-extern s32 __vt__23TOContainerAncientEnemy[];
-extern s32 __vt__26TOContainerAncientItemNone[];
-extern s32 __vt__26TOContainerAncientItemRare[];
-extern s32 __vt__28TOContainerAncientItemCommon[];
-extern s32 lbl_804B08BC[];
-extern s32 lbl_804B6C24[];
 
 extern const f32 lbl_805DB398;
 extern const f32 lbl_805DB39C;
@@ -121,452 +109,44 @@ static const TObjChipParams ancient_enemy_break_debris_desc_b = {
     { 0.5f, 0.07f, 0.26f }, { 0.0f, 0.0f, 0.0f }, { 4.0f, 4.5f, 4.0f }, { 0x200, 0x100, 0x200 }, { 6, 0x32 }, { 0.0f, 0.5f }, 0, 0, 0x16,
 };
 
-TOContainerAncientEnemy *TOContainerAncientEnemy__ct(TOContainerAncientEnemy *container, s32 arg1);
-u8 *TOContainerAncientEnemyCommon__ct(u8 *arg0, s32 arg1);
-void *__dt__23TOContainerAncientEnemyFv(void *arg0, s16 arg1);
 
-void *__dt__27TOContainerAncientEnemyRareFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__27TOContainerAncientEnemyRare;
-        __dt__23TOContainerAncientEnemyFv(arg0, 0);
-        if (arg1 > 0) {
-            TObject::operator delete(arg0);
-        }
-    }
-    return arg0;
+// Built with -inline off,deferred: the compiler emits the functions (and the
+// vtables) last-to-first, so the definitions below run backwards from the
+// original code order.
+
+void TLobby::init_packet_67_04() { *(u8 *)&this->m_name = 103; *(u8*)((char*)this + 0x1) = 4; }
+
+void TLobby::byteswap_event_packet() {
+    s32 packet = (s32)this;
+    ((G_ClientIDHeader *)packet)->bswap();
+    bswap_32((u32 *)(packet + 4));
+    bswap_32((u32 *)(packet + 8));
+    bswap_32((u32 *)(packet + 0xC));
 }
 
-u8 *TOContainerAncientEnemyRare__ct(u8 *container_ancient_enemy_rare, s32 arg1) {
-    TOContainerAncientEnemy__ct((TOContainerAncientEnemy *)container_ancient_enemy_rare, arg1);
-    *(s32 **)((s8 *)container_ancient_enemy_rare + 0x18) = __vt__27TOContainerAncientEnemyRare;
-    ((TOContainerAncientEnemyRare *)container_ancient_enemy_rare)->m_name = lbl_805D2F10;
-    ((TOContainerAncientEnemyRare *)container_ancient_enemy_rare)->texlist = (s32) *ancient_container_fragment_texture_lists;
-    return container_ancient_enemy_rare;
+void TLobby::byteswap_and_send() {
+    s32 arg0 = (s32)this;
+    ((TLobby *)arg0)->byteswap_event_packet();
+    send_subcommand((u8 *)arg0);
 }
 
-s32 TOContainerAncientEnemyCommon__create(s32 container_ancient_enemy_common) {
-    u8 *o;
-    if (((s32) enable_v2_features == 1) && (get_game_play_mode() == 1) && (is_quest_active() == 1)) {
-        o = (u8 *)TObject::operator new(0x368);
-        if (o != NULL) {
-            o = TOContainerAncientEnemyCommon__ct(o, container_ancient_enemy_common);
-        }
-        return (s32)o;
-    }
-    o = (u8 *)TObject::operator new(0x368);
-    if (o != NULL) {
-        o = TOContainerAncientEnemyCommon__ct(o, container_ancient_enemy_common);
-    }
-    return (s32)o;
+void TUnk_804B6C24::vfunc_6(s16 *, s32) {  }
+
+TUnk_804B6C24::~TUnk_804B6C24() {
 }
 
-void *__dt__29TOContainerAncientEnemyCommonFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__29TOContainerAncientEnemyCommon;
-        __dt__23TOContainerAncientEnemyFv(arg0, 0);
-        if (arg1 > 0) {
-            TObject::operator delete(arg0);
-        }
-    }
-    return arg0;
-}
+s32 TUnk_804B6C24::roll_physical_accuracy(void *, s32, f32) { return 1; }
 
-u8 *TOContainerAncientEnemyCommon__ct(u8 *container_ancient_enemy_common, s32 arg1) {
-    TOContainerAncientEnemy__ct((TOContainerAncientEnemy *)container_ancient_enemy_common, arg1);
-    *(s32 **)((s8 *)container_ancient_enemy_common + 0x18) = __vt__29TOContainerAncientEnemyCommon;
-    ((TOContainerAncientEnemyCommon *)container_ancient_enemy_common)->m_name = TOContainerAncientEnemyCommon__name;
-    return container_ancient_enemy_common;
-}
+s32 TUnk_804B6C24::try_start_action(s32, s32) { return 1; }
 
-void TOContainerAncientEnemy::vfunc_6(s16 *arg1, s32 arg2) {
-    if ((s16) *arg1 == 1) {
-        if (arg2 != 0) {
-            this->vfunc_79();
-        }
-        this->mode = 1;
-        set_flag8();
-        queue_destruction();
-    }
-}
+void TUnk_804B6C24::apply_knockback_from_attacker(u8 *, f32) {  }
 
-void TOContainerAncientEnemy::vfunc_79() {
-    extern const u32 ancient_container_resource_bundle;
-    if (this->mode != 1) {
-        TObjChipParams a = ancient_enemy_break_debris_desc;
-        a.pos[0] = this->position.x;
-        a.pos[1] = this->position.y;
-        a.pos[2] = this->position.z;
-        a.pad_38[0] = this->position.y;
-        a.model = get_bml_model((BmlResource *)ancient_container_resource_bundle, 1);
-        a.textures = TObjFish__sub_8001EDB0((BmlResource *)ancient_container_resource_bundle, 1);
-        TObjChipParams b = ancient_enemy_break_debris_desc_b;
-        b.pos[0] = this->position.x;
-        b.pos[1] = this->position.y;
-        b.pos[2] = this->position.z;
-        b.pad_38[0] = this->position.y;
-        b.model = get_bml_model((BmlResource *)ancient_container_resource_bundle, 2);
-        b.textures = TObjFish__sub_8001EDB0((BmlResource *)ancient_container_resource_bundle, 2);
-        if (check_value_equals((s32)lbl_805D2F10) != 0) {
-            a.textures = ancient_container_fragment_texture_lists[1];
-            b.textures = ancient_container_fragment_texture_lists[2];
-        }
-        spawn_particle_effect(&this->position, 0x45);
-        spawn_particle_effect(&this->position, 0x46);
-        new TObjChip(tl_05, &a);
-        new TObjChip(tl_05, &b);
-        play_container_break_sound((s32)this);
-    }
-}
-
-f32 TOContainerAncientEnemy::receive_physical_attack(void *, f32) {
-    s16 sp8;
-    Pk_8015BAE0 pk;
-    if (this->entity_id >= 0x1000U && this->set_entry != NULL && access_object_saved_state(&sp8, 1) != 0) {
-        sp8 = 1;
-        access_object_saved_state(&sp8, 0);
-        send_object_state_update(&sp8);
-        ((TLobby *)(&pk))->init_packet_67_04();
-        pk.id = this->entity_id;
-        pk.a = get_current_floor();
-        pk.b = this->set_params[0];
-        pk.c = local_client_id;
-        ((TLobby *)(&pk))->byteswap_and_send();
-    }
+f32 TUnk_804B6C24::receive_weapon_special_attack(void *, void *) {
+    receive_physical_attack(NULL, lbl_805DB398);
     return lbl_805DB39C;
 }
 
-void TOContainerAncientEnemy::debug_print_item_box_info() {
-    TObjNpcEnemy::set_global_count(0xFF00FF);
-    debug_printf_at(0x130020, "EVT NO : %d", this->set_params[0]);
-    TObjNpcEnemy::set_global_count(0xF0F0F0FF);
-    debug_draw_sphere(&this->position, &debug_color_blue_alpha30, lbl_805DB3A0);
-}
-
-void TOContainerAncientEnemy::vfunc_81() {
-    extern BmlResource *ancient_container_resource_bundle;
-    NJS_OBJECT *obj;
-    NJS_OBJECT *child;
-    NJS_OBJECT *sibling;
-    if (ancient_container_resource_bundle != NULL) {
-        switch (this->mode) {
-        case 0:
-            push_matrix();
-            post_translate_matrix(&this->position.x);
-            rotate_matrix_y(0, this->rotation_y);
-            TObjFish::set_global_param(this->texlist);
-            obj = (NJS_OBJECT *)this->model;
-            push_matrix();
-            post_translate_matrix(obj->pos);
-            draw_ginja_model((s32)obj->model);
-            child = obj->child;
-            push_matrix();
-            post_translate_matrix(child->pos);
-            draw_ginja_model((s32)child->model);
-            pop_matrix();
-            sibling = child->sibling;
-            push_matrix();
-            post_translate_matrix(sibling->pos);
-            TParticleCtrl::begin_effect_render();
-            draw_ginja_model((s32)sibling->model);
-            TParticleCtrl::end_effect_render();
-            pop_matrix();
-            pop_matrix();
-            pop_matrix();
-            break;
-        }
-    }
-}
-
-void TOContainerAncientEnemy::vfunc_80() {
-    switch (this->mode) {
-    case 0:
-        if (this->m_364 != 0) {
-            submit_cursor_candidate(this, -1);
-        }
-        break;
-    }
-}
-
-void *__dt__23TOContainerAncientEnemyFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__23TOContainerAncientEnemy;
-        ((TObjCollidable *)arg0)->unregister_object_by_id();
-        free_collision_body_parts((TObjCollidable *)arg0);
-        ((TUnk_804B6C24 *)arg0)->destroy_container_object(0);
-        if (arg1 > 0) {
-            TObject::operator delete(arg0);
-        }
-    }
-    return arg0;
-}
-
-TOContainerAncientEnemy *TOContainerAncientEnemy__ct(TOContainerAncientEnemy *container, s32 arg1) {
-    extern BmlResource *ancient_container_resource_bundle;
-    init_container_base((u8 *)container, (s32)tl_05, arg1);
-    *(s32 **)((s8 *)container + 0x18) = __vt__23TOContainerAncientEnemy;
-    container->m_name = TOContainerAncientEnemy__name;
-    container->mode = 0;
-    container->actorFlags |= 0x60000000;
-    init_collision_body_parts(container, &TOContainerAncientEnemy__collision_body_params, 1);
-    container->register_object_by_id();
-    VecCopy(&container->center, &container->position);
-    VecCopy(&container->m_2fc, &container->position);
-    container->center.y += TOContainerAncientEnemy__collision_body_params.offset.y;
-    container->model = (void *)get_bml_model(ancient_container_resource_bundle, 0);
-    container->texlist = TObjFish__sub_8001EDB0(ancient_container_resource_bundle, 0);
-    return container;
-}
-
-void TOContainerAncientItemNone::vfunc_6(s16 *arg1, s32 arg2) {
-    if ((s16) *arg1 == 1) {
-        if (arg2 != 0) {
-            this->vfunc_79();
-        }
-        this->mode = 1;
-        set_flag8();
-        queue_destruction();
-    }
-}
-
-void *TOContainerAncientItemNone::create(void *container_ancient_item_none) {
-    void *o = TObject::operator new(0x368);
-    if (o != NULL) {
-        o = TOContainerAncientItemNone__ct(o, container_ancient_item_none);
-    }
-    return o;
-}
-
-void *__dt__26TOContainerAncientItemNoneFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__26TOContainerAncientItemNone;
-        __dt__26TOContainerAncientItemRareFv(arg0, 0);
-        if (arg1 > 0) {
-            TObject::operator delete(arg0);
-        }
-    }
-    return arg0;
-}
-
-void *TOContainerAncientItemNone__ct(void *container_ancient_item_none, void *parent) {
-    TOContainerAncientItemRare__ct((u8 *)container_ancient_item_none, (s32)parent);
-    *(s32 **)((s8 *)container_ancient_item_none + 0x18) = __vt__26TOContainerAncientItemNone;
-    ((TOContainerAncientItemNone *)container_ancient_item_none)->m_name = TOContainerAncientItemNone__name;
-    return container_ancient_item_none;
-}
-
-void TOContainerAncientItemRare::vfunc_6(s16 *arg1, s32 arg2) {
-    if ((s16) *arg1 == 1) {
-        if (arg2 != 0) {
-            this->vfunc_79();
-            request_box_item_drop((u8 *)&this->position, 1);
-        }
-        this->mode = 1;
-        set_flag8();
-        queue_destruction();
-    }
-}
-
-void *__dt__26TOContainerAncientItemRareFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__26TOContainerAncientItemRare;
-        ((TUnk_804B08BC *)arg0)->destroy_ancient_container(0);
-        if (arg1 > 0) {
-            TObject::operator delete(arg0);
-        }
-    }
-    return arg0;
-}
-
-u8 *TOContainerAncientItemRare__ct(u8 *container_ancient_item_rare, s32 arg1) {
-    init_ancient_container(container_ancient_item_rare, arg1);
-    *(s32 **)((s8 *)container_ancient_item_rare + 0x18) = __vt__26TOContainerAncientItemRare;
-    *(s32 *)((s8 *)container_ancient_item_rare + 0) = (s32) TOContainerAncientItemRare__name;
-    ((TOContainerAncientItemRare *)container_ancient_item_rare)->texlist = ancient_container_fragment_texture_lists[0];
-    return container_ancient_item_rare;
-}
-
-void TOContainerAncientItemCommon::vfunc_6(s16 *arg1, s32 arg2) {
-    if ((s16) *arg1 == 1) {
-        if (arg2 != 0) {
-            this->vfunc_79();
-            this->spawn_item((s32)this);
-        }
-        this->mode = 1;
-        set_flag8();
-        queue_destruction();
-    }
-}
-
-s32 TOContainerAncientItemCommon::create() {
-    void *o;
-    if (((s32) enable_v2_features == 1) && (get_game_play_mode() == 1) && (is_quest_active() == 1)) {
-        o = TObject::operator new(0x368);
-        if (o != NULL) {
-            o = TOContainerAncientItemCommon__ct(o, this);
-        }
-        return (s32)o;
-    }
-    o = TObject::operator new(0x368);
-    if (o != NULL) {
-        o = TOContainerAncientItemCommon__ct(o, this);
-    }
-    return (s32)o;
-}
-
-void *__dt__28TOContainerAncientItemCommonFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__28TOContainerAncientItemCommon;
-        ((TUnk_804B08BC *)arg0)->destroy_ancient_container(0);
-        if (arg1 > 0) {
-            TObject::operator delete(arg0);
-        }
-    }
-    return arg0;
-}
-
-void *TOContainerAncientItemCommon__ct(void *container_ancient_item_common, void * _w1) {
-    init_ancient_container((u8 *)container_ancient_item_common, (s32)_w1);
-    *(s32 **)((s8 *)container_ancient_item_common + 0x18) = __vt__28TOContainerAncientItemCommon;
-    ((TOContainerAncientItemCommon *)container_ancient_item_common)->m_name = TOContainerAncientItemCommon__name;
-    return container_ancient_item_common;
-}
-
-void TUnk_804B08BC::vfunc_79() {
-    extern const u32 ancient_container_resource_bundle;
-    if (this->mode == 1) {
-        return;
-    }
-    TObjChipParams a = fish_break_debris_desc;
-    a.pos[0] = this->position.x;
-    a.pos[1] = this->position.y;
-    a.pos[2] = this->position.z;
-    a.pad_38[0] = a.pos[1];
-    a.model = get_bml_model((BmlResource *)ancient_container_resource_bundle, 1);
-    a.textures = TObjFish__sub_8001EDB0((BmlResource *)ancient_container_resource_bundle, 1);
-    TObjChipParams b = lbl_8044074C;
-    b.pos[0] = this->position.x;
-    b.pos[1] = this->position.y;
-    b.pos[2] = this->position.z;
-    b.pad_38[0] = b.pos[1];
-    b.model = get_bml_model((BmlResource *)ancient_container_resource_bundle, 2);
-    b.textures = TObjFish__sub_8001EDB0((BmlResource *)ancient_container_resource_bundle, 2);
-    if (check_value_equals((s32)TOContainerAncientItemRare__name) != 0) {
-        a.textures = ancient_container_fragment_texture_lists[1];
-        b.textures = ancient_container_fragment_texture_lists[2];
-    }
-    new TObjChip(tl_05, &a);
-    new TObjChip(tl_05, &b);
-    spawn_particle_effect(&this->position, 0x45);
-    spawn_particle_effect(&this->position, 0x46);
-    play_container_break_sound((s32)this);
-}
-
-void TUnk_804B08BC::vfunc_81() {
-    extern BmlResource *ancient_container_resource_bundle;
-    NJS_OBJECT *obj;
-    NJS_OBJECT *child;
-    NJS_OBJECT *sibling;
-    if (ancient_container_resource_bundle != NULL) {
-        switch (this->mode) {
-        case 0:
-            push_matrix();
-            post_translate_matrix(&this->position.x);
-            rotate_matrix_y(0, this->rotation_y);
-            TObjFish::set_global_param(this->texlist);
-            obj = (NJS_OBJECT *)this->model;
-            push_matrix();
-            post_translate_matrix(obj->pos);
-            draw_ginja_model((s32)obj->model);
-            child = obj->child;
-            push_matrix();
-            post_translate_matrix(child->pos);
-            draw_ginja_model((s32)child->model);
-            pop_matrix();
-            sibling = child->sibling;
-            push_matrix();
-            post_translate_matrix(sibling->pos);
-            TParticleCtrl::begin_effect_render();
-            draw_ginja_model((s32)sibling->model);
-            TParticleCtrl::end_effect_render();
-            pop_matrix();
-            pop_matrix();
-            pop_matrix();
-            break;
-        }
-    }
-}
-void TUnk_804B08BC::vfunc_80() {
-    switch (this->mode) {
-    case 0:
-        if (this->m_364 != 0) {
-            submit_cursor_candidate(this, -1);
-        }
-        break;
-    }
-}
-
-void *TUnk_804B08BC::destroy_ancient_container(s16 arg1) {
-    if (this != NULL) {
-        *(s32 **)((s8 *)this + 0x18) = lbl_804B08BC;
-        unregister_object_by_id();
-        free_collision_body_parts(this);
-        destroy_container_object(0);
-        if (arg1 > 0) {
-            TObject::operator delete(this);
-        }
-    }
-    return this;
-}
-
-}
-
-u8 *init_ancient_container(u8 *arg0, s32 arg1) {
-    extern BmlResource *ancient_container_resource_bundle;
-    init_container_base(arg0, (s32)tl_05, arg1);
-    *(s32 **)((s8 *)arg0 + 0x18) = lbl_804B08BC;
-    ((TUnk_804B08BC *)arg0)->mode = 0;
-    ((TUnk_804B08BC *)arg0)->actorFlags |= 0x60000000;
-    init_collision_body_parts((TUnk_804B08BC *)arg0, &TOContainerAncientEnemy__collision_body_params, 1);
-    ((TUnk_804B08BC *)arg0)->register_object_by_id();
-    VecCopy((Vec *)(arg0 + 0x74), (const Vec *)(arg0 + 0x38));
-    VecCopy((Vec *)(arg0 + 0x2FC), (const Vec *)(arg0 + 0x38));
-    ((TUnk_804B08BC *)arg0)->center.y += TOContainerAncientEnemy__collision_body_params.offset.y;
-    ((TUnk_804B08BC *)arg0)->model = (void *)get_bml_model(ancient_container_resource_bundle, 0);
-    ((TUnk_804B08BC *)arg0)->texlist = TObjFish__sub_8001EDB0(ancient_container_resource_bundle, 0);
-    return arg0;
-}
-
-#pragma push
-#pragma fp_contract on
-
-void free_ancient_container_resources(void) {
-    extern BmlResource *ancient_container_resource_bundle;
-    s32 var_r31;
-    s32 var_r30;
-    void *p;
-    if (ancient_container_fragment_texture_lists != NULL) {
-        var_r30 = 0;
-        var_r31 = 0;
-        do {
-            TObjPlayer::free_if_valid((int) (*(s32 *)((s8 *)ancient_container_fragment_texture_lists + var_r31)));
-            var_r30 += 1;
-            var_r31 += 4;
-        } while (var_r30 < 3);
-        p = ancient_container_fragment_texture_lists;
-        if (p != NULL) {
-            mem_free(p);
-            ancient_container_fragment_texture_lists = NULL;
-        }
-    }
-    p = ancient_container_resource_bundle;
-    if (p != NULL) {
-        free_bin_model_request((BmlResource *)p, 1);
-        ancient_container_resource_bundle = NULL;
-    }
-}
-#pragma pop
-
-extern "C" {
+int TUnk_804B6C24::calc_distance_accuracy_penalty(void *, void *, void *, float) { return 1; }
 
 void TLanguage::load_container_fragment_textures() {
     extern BmlResource *ancient_container_resource_bundle;
@@ -608,43 +188,344 @@ void TLanguage::load_container_fragment_textures() {
     }
 }
 
-int TUnk_804B6C24::calc_distance_accuracy_penalty(void *, void *, void *, float) { return 1; }
+#pragma push
+#pragma fp_contract on
+void free_ancient_container_resources(void) {
+    extern BmlResource *ancient_container_resource_bundle;
+    s32 var_r31;
+    s32 var_r30;
+    void *p;
+    if (ancient_container_fragment_texture_lists != NULL) {
+        var_r30 = 0;
+        var_r31 = 0;
+        do {
+            TObjPlayer::free_if_valid((int) (*(s32 *)((s8 *)ancient_container_fragment_texture_lists + var_r31)));
+            var_r30 += 1;
+            var_r31 += 4;
+        } while (var_r30 < 3);
+        p = ancient_container_fragment_texture_lists;
+        if (p != NULL) {
+            mem_free(p);
+            ancient_container_fragment_texture_lists = NULL;
+        }
+    }
+    p = ancient_container_resource_bundle;
+    if (p != NULL) {
+        free_bin_model_request((BmlResource *)p, 1);
+        ancient_container_resource_bundle = NULL;
+    }
+}
 
-f32 TUnk_804B6C24::receive_weapon_special_attack(void *, void *) {
-    receive_physical_attack(NULL, lbl_805DB398);
+#pragma pop
+
+TUnk_804B08BC::TUnk_804B08BC(void *set_data) : TUnk_804B6C24(tl_05, set_data) {
+    extern BmlResource *ancient_container_resource_bundle;
+    mode = 0;
+    actorFlags |= 0x60000000U;
+    init_collision_body_parts(this, &TOContainerAncientEnemy__collision_body_params, 1);
+    register_object_by_id();
+    VecCopy(&center, &position);
+    VecCopy((Vec *)&m_2fc, &position);
+    center.y += TOContainerAncientEnemy__collision_body_params.offset.y;
+    model = (void *)get_bml_model(ancient_container_resource_bundle, 0);
+    texlist = get_bml_texlist(ancient_container_resource_bundle, 0);
+}
+
+TUnk_804B08BC::~TUnk_804B08BC() {
+    unregister_object_by_id();
+    free_collision_body_parts(this);
+}
+
+void TUnk_804B08BC::vfunc_80() {
+    switch (this->mode) {
+    case 0:
+        if (this->in_view != 0) {
+            submit_cursor_candidate(this, -1);
+        }
+        break;
+    }
+}
+
+void TUnk_804B08BC::vfunc_81() {
+    extern BmlResource *ancient_container_resource_bundle;
+    NJS_OBJECT *obj;
+    NJS_OBJECT *child;
+    NJS_OBJECT *sibling;
+    if (ancient_container_resource_bundle != NULL) {
+        switch (this->mode) {
+        case 0:
+            push_matrix();
+            post_translate_matrix(&this->position.x);
+            rotate_matrix_y(0, this->rotation_y);
+            TObjFish::set_global_param(this->texlist);
+            obj = (NJS_OBJECT *)this->model;
+            push_matrix();
+            post_translate_matrix(obj->pos);
+            draw_ginja_model((s32)obj->model);
+            child = obj->child;
+            push_matrix();
+            post_translate_matrix(child->pos);
+            draw_ginja_model((s32)child->model);
+            pop_matrix();
+            sibling = child->sibling;
+            push_matrix();
+            post_translate_matrix(sibling->pos);
+            TParticleCtrl::begin_effect_render();
+            draw_ginja_model((s32)sibling->model);
+            TParticleCtrl::end_effect_render();
+            pop_matrix();
+            pop_matrix();
+            pop_matrix();
+            break;
+        }
+    }
+}
+
+void TUnk_804B08BC::vfunc_79() const {
+    extern const u32 ancient_container_resource_bundle;
+    if (this->mode == 1) {
+        return;
+    }
+    TObjChipParams a = fish_break_debris_desc;
+    a.pos[0] = this->position.x;
+    a.pos[1] = this->position.y;
+    a.pos[2] = this->position.z;
+    a.pad_38[0] = a.pos[1];
+    a.model = get_bml_model((BmlResource *)ancient_container_resource_bundle, 1);
+    a.textures = get_bml_texlist((BmlResource *)ancient_container_resource_bundle, 1);
+    TObjChipParams b = lbl_8044074C;
+    b.pos[0] = this->position.x;
+    b.pos[1] = this->position.y;
+    b.pos[2] = this->position.z;
+    b.pad_38[0] = b.pos[1];
+    b.model = get_bml_model((BmlResource *)ancient_container_resource_bundle, 2);
+    b.textures = get_bml_texlist((BmlResource *)ancient_container_resource_bundle, 2);
+    if (check_value_equals((s32)TOContainerAncientItemRare__name) != 0) {
+        a.textures = ancient_container_fragment_texture_lists[1];
+        b.textures = ancient_container_fragment_texture_lists[2];
+    }
+    new TObjChip(tl_05, &a);
+    new TObjChip(tl_05, &b);
+    spawn_particle_effect(&this->position, 0x45);
+    spawn_particle_effect(&this->position, 0x46);
+    play_container_break_sound((s32)this);
+}
+
+TOContainerAncientItemCommon::TOContainerAncientItemCommon(void *set_data) : TUnk_804B08BC(set_data) {
+    m_name = TOContainerAncientItemCommon__name;
+}
+
+TOContainerAncientItemCommon::~TOContainerAncientItemCommon() {
+}
+
+s32 TOContainerAncientItemCommon::create() {
+    if (((s32) enable_v2_features == 1) && (get_game_play_mode() == 1) && (is_quest_active() == 1)) {
+        return (s32)new TOContainerAncientItemCommon(this);
+    }
+    return (s32)new TOContainerAncientItemCommon(this);
+}
+
+void TOContainerAncientItemCommon::vfunc_6(s16 *arg1, s32 arg2) {
+    if ((s16) *arg1 == 1) {
+        if (arg2 != 0) {
+            this->vfunc_79();
+            this->spawn_item((s32)this);
+        }
+        this->mode = 1;
+        set_flag8();
+        queue_destruction();
+    }
+}
+
+TOContainerAncientItemRare::TOContainerAncientItemRare(void *set_data) : TUnk_804B08BC(set_data) {
+    m_name = TOContainerAncientItemRare__name;
+    texlist = ancient_container_fragment_texture_lists[0];
+}
+
+TOContainerAncientItemRare::~TOContainerAncientItemRare() {
+}
+
+void TOContainerAncientItemRare::vfunc_6(s16 *arg1, s32 arg2) {
+    if ((s16) *arg1 == 1) {
+        if (arg2 != 0) {
+            this->vfunc_79();
+            request_box_item_drop((u8 *)&this->position, 1);
+        }
+        this->mode = 1;
+        set_flag8();
+        queue_destruction();
+    }
+}
+
+TOContainerAncientItemNone::TOContainerAncientItemNone(void *set_data) : TOContainerAncientItemRare(set_data) {
+    m_name = TOContainerAncientItemNone__name;
+}
+
+TOContainerAncientItemNone::~TOContainerAncientItemNone() {
+}
+
+void *TOContainerAncientItemNone::create(void *set_data) {
+    return new TOContainerAncientItemNone(set_data);
+}
+
+void TOContainerAncientItemNone::vfunc_6(s16 *arg1, s32 arg2) {
+    if ((s16) *arg1 == 1) {
+        if (arg2 != 0) {
+            this->vfunc_79();
+        }
+        this->mode = 1;
+        set_flag8();
+        queue_destruction();
+    }
+}
+
+TOContainerAncientEnemy::TOContainerAncientEnemy(void *set_data) : TUnk_804B6C24(tl_05, set_data) {
+    extern BmlResource *ancient_container_resource_bundle;
+    m_name = TOContainerAncientEnemy__name;
+    mode = 0;
+    actorFlags |= 0x60000000U;
+    init_collision_body_parts(this, &TOContainerAncientEnemy__collision_body_params, 1);
+    register_object_by_id();
+    VecCopy(&center, &position);
+    VecCopy((Vec *)&m_2fc, &position);
+    center.y += TOContainerAncientEnemy__collision_body_params.offset.y;
+    model = (void *)get_bml_model(ancient_container_resource_bundle, 0);
+    texlist = get_bml_texlist(ancient_container_resource_bundle, 0);
+}
+
+TOContainerAncientEnemy::~TOContainerAncientEnemy() {
+    unregister_object_by_id();
+    free_collision_body_parts(this);
+}
+
+void TOContainerAncientEnemy::vfunc_80() {
+    switch (this->mode) {
+    case 0:
+        if (this->in_view != 0) {
+            submit_cursor_candidate(this, -1);
+        }
+        break;
+    }
+}
+
+void TOContainerAncientEnemy::vfunc_81() {
+    extern BmlResource *ancient_container_resource_bundle;
+    NJS_OBJECT *obj;
+    NJS_OBJECT *child;
+    NJS_OBJECT *sibling;
+    if (ancient_container_resource_bundle != NULL) {
+        switch (this->mode) {
+        case 0:
+            push_matrix();
+            post_translate_matrix(&this->position.x);
+            rotate_matrix_y(0, this->rotation_y);
+            TObjFish::set_global_param(this->texlist);
+            obj = (NJS_OBJECT *)this->model;
+            push_matrix();
+            post_translate_matrix(obj->pos);
+            draw_ginja_model((s32)obj->model);
+            child = obj->child;
+            push_matrix();
+            post_translate_matrix(child->pos);
+            draw_ginja_model((s32)child->model);
+            pop_matrix();
+            sibling = child->sibling;
+            push_matrix();
+            post_translate_matrix(sibling->pos);
+            TParticleCtrl::begin_effect_render();
+            draw_ginja_model((s32)sibling->model);
+            TParticleCtrl::end_effect_render();
+            pop_matrix();
+            pop_matrix();
+            pop_matrix();
+            break;
+        }
+    }
+}
+
+void TOContainerAncientEnemy::debug_print_item_box_info() {
+    TObjNpcEnemy::set_global_count(0xFF00FF);
+    debug_printf_at(0x130020, "EVT NO : %d", this->set_params[0]);
+    TObjNpcEnemy::set_global_count(0xF0F0F0FF);
+    debug_draw_sphere(&this->position, &debug_color_blue_alpha30, lbl_805DB3A0);
+}
+
+f32 TOContainerAncientEnemy::receive_physical_attack(void *, f32) {
+    s16 sp8;
+    Pk_8015BAE0 pk;
+    if (this->entity_id >= 0x1000U && this->set_entry != NULL && access_object_saved_state(&sp8, 1) != 0) {
+        sp8 = 1;
+        access_object_saved_state(&sp8, 0);
+        send_object_state_update(&sp8);
+        ((TLobby *)(&pk))->init_packet_67_04();
+        pk.id = this->entity_id;
+        pk.a = get_current_floor();
+        pk.b = this->set_params[0];
+        pk.c = local_client_id;
+        ((TLobby *)(&pk))->byteswap_and_send();
+    }
     return lbl_805DB39C;
 }
 
-void TUnk_804B6C24::apply_knockback_from_attacker(u8 *, f32) {  }
-s32 TUnk_804B6C24::try_start_action(s32, s32) { return 1; }
-s32 TUnk_804B6C24::roll_physical_accuracy(void *, s32, f32) { return 1; }
-
-void *TUnk_804B6C24::destroy_container_object(s16 arg1) {
-    if (this != NULL) {
-        *(s32 **)((s8 *)this + 0x18) = lbl_804B6C24;
-        ((CameraDistanceFade *)((s8 *)this + 0x340))->CameraDistanceFade::~CameraDistanceFade();
-        __dt__9TObjCharaFv(this, 0);
-        if (arg1 > 0) {
-            TObject::operator delete(this);
+void TOContainerAncientEnemy::vfunc_79() const {
+    extern const u32 ancient_container_resource_bundle;
+    if (this->mode != 1) {
+        TObjChipParams a = ancient_enemy_break_debris_desc;
+        a.pos[0] = this->position.x;
+        a.pos[1] = this->position.y;
+        a.pos[2] = this->position.z;
+        a.pad_38[0] = this->position.y;
+        a.model = get_bml_model((BmlResource *)ancient_container_resource_bundle, 1);
+        a.textures = get_bml_texlist((BmlResource *)ancient_container_resource_bundle, 1);
+        TObjChipParams b = ancient_enemy_break_debris_desc_b;
+        b.pos[0] = this->position.x;
+        b.pos[1] = this->position.y;
+        b.pos[2] = this->position.z;
+        b.pad_38[0] = this->position.y;
+        b.model = get_bml_model((BmlResource *)ancient_container_resource_bundle, 2);
+        b.textures = get_bml_texlist((BmlResource *)ancient_container_resource_bundle, 2);
+        if (check_value_equals((s32)lbl_805D2F10) != 0) {
+            a.textures = ancient_container_fragment_texture_lists[1];
+            b.textures = ancient_container_fragment_texture_lists[2];
         }
+        spawn_particle_effect(&this->position, 0x45);
+        spawn_particle_effect(&this->position, 0x46);
+        new TObjChip(tl_05, &a);
+        new TObjChip(tl_05, &b);
+        play_container_break_sound((s32)this);
     }
-    return this;
 }
 
-void TUnk_804B6C24::vfunc_6(s16 *, s32) {  }
-
-void TLobby::byteswap_and_send() {
-    s32 arg0 = (s32)this;
-    ((s32 (*)())byteswap_event_packet__6TLobbyFi)();
-    send_subcommand((u8 *)arg0);
+void TOContainerAncientEnemy::vfunc_6(s16 *arg1, s32 arg2) {
+    if ((s16) *arg1 == 1) {
+        if (arg2 != 0) {
+            this->vfunc_79();
+        }
+        this->mode = 1;
+        set_flag8();
+        queue_destruction();
+    }
 }
 
-void byteswap_event_packet__6TLobbyFi(s32 packet) {
-    ((G_ClientIDHeader *)packet)->bswap();
-    bswap_32((u32 *)(packet + 4));
-    bswap_32((u32 *)(packet + 8));
-    bswap_32((u32 *)(packet + 0xC));
+TOContainerAncientEnemyCommon::TOContainerAncientEnemyCommon(void *set_data) : TOContainerAncientEnemy(set_data) {
+    m_name = TOContainerAncientEnemyCommon__name;
 }
-void TLobby::init_packet_67_04() { *(u8 *)&this->m_name = 103; *(u8*)((char*)this + 0x1) = 4; }
 
+TOContainerAncientEnemyCommon::~TOContainerAncientEnemyCommon() {
 }
+
+void *TOContainerAncientEnemyCommon__create(void *set_data) {
+    if (((s32) enable_v2_features == 1) && (get_game_play_mode() == 1) && (is_quest_active() == 1)) {
+        return new TOContainerAncientEnemyCommon(set_data);
+    }
+    return new TOContainerAncientEnemyCommon(set_data);
+}
+
+TOContainerAncientEnemyRare::TOContainerAncientEnemyRare(void *set_data) : TOContainerAncientEnemy(set_data) {
+    m_name = lbl_805D2F10;
+    texlist = (s32) *ancient_container_fragment_texture_lists;
+}
+
+TOContainerAncientEnemyRare::~TOContainerAncientEnemyRare() {
+}
+

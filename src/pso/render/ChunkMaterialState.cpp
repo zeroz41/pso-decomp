@@ -7,11 +7,6 @@
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/render/MaterialColorFade.h"
 
-struct RecoveredGlobal_803DEB74_lbl_8058D8E0 {
-    s32 value;
-    u8 remaining[0xCC];
-};
-
 struct Ent_803DEBC8 { u32 mask; u32 val; };
 
 struct ChunkMaterialColor { f32 alpha, red, green, blue; };
@@ -33,7 +28,6 @@ typedef struct Pad_803DEA18
 
 
 extern "C" {
-extern RecoveredGlobal_803DEB74_lbl_8058D8E0 keyboard_control_pad_slots;
 s32 Dolphin_PADRead(void *, void *);
 extern s32 keyboard_pad_status_buffer[];
 extern s32 TKeyBoardControl__pad_status_buffer[];
@@ -58,7 +52,6 @@ s32 PADReset(u32);
 
 #pragma push
 #pragma scheduling off
-typedef char RecoveredGlobal_803DEB74_lbl_8058D8E0_size[sizeof(RecoveredGlobal_803DEB74_lbl_8058D8E0) == 0xD0 ? 1 : -1];
 
 void TKeyBoardControl::init_pad_slots_and_read() {
     *(s32 **)((s8 *)((s32 *)&keyboard_control_pad_slots) + 0x30) = TKeyBoardControl__pad_status_buffer;
@@ -69,7 +62,6 @@ void TKeyBoardControl::init_pad_slots_and_read() {
 }
 
 typedef struct Pad_803DEA18 Pad_803DEA18;
-typedef struct RecoveredGlobal_803DEB74_lbl_8058D8E0 RecoveredGlobal_803DEB74_lbl_8058D8E0;
 #pragma push
 #pragma use_lmw_stmw off
 void TKeyBoardControl::read_pads() {
@@ -151,6 +143,7 @@ u8 *TKeyBoardControl__sub_803DEB74(u32 arg0) {
     }
     return (u8 *)&keyboard_control_pad_slots.value + (var_r5 * 0x34);
 }
+}
 #pragma pop
 
 s32 TKeyBoardControl::map_pad_buttons(u16 arg0) {
@@ -213,8 +206,6 @@ void init_light_globals(s32, s32) {
     reset_scene_fog();
 }
 
-}
-
 void set_model_render_flags(u32 flags) {
     model_render_flags = flags;
 }
@@ -248,7 +239,7 @@ void set_constant_material(const NJS_ARGB *color) {
 
 s32 keyboard_pad_status_buffer[12];
 Pad_803DEA18 TKeyBoardControl_prev_pad_state[4];
-RecoveredGlobal_803DEB74_lbl_8058D8E0 keyboard_control_pad_slots;
+KeyboardControlPadSlots keyboard_control_pad_slots;
 s32 TKeyBoardControl__pad_status_buffer[0x78];
 
 Ent_803DEBC8 pad_button_map_table[12] = {

@@ -4,12 +4,6 @@
 #include "pso/unk/text_800F9B84.h"
 #include "pso/item/TItemData.h"
 
-struct RecoveredGlobal_80215ABC_lbl_804CA0B8 {
-    s32 value;
-    u8 remaining[0x24];
-};
-typedef char RecoveredGlobal_80215ABC_lbl_804CA0B8_size[sizeof(RecoveredGlobal_80215ABC_lbl_804CA0B8) == 0x28 ? 1 : -1];
-
 struct Pair_802156E0 { s8 key; u8 val; };
 
 struct G_802156E0 { u8 pad[0xc]; Pair_802156E0 *tbl; };
@@ -49,7 +43,8 @@ struct Ctr_80215720 { u8 buf[0x68]; };
 static const s8 item_appraisal_adjust_table[] = {-10, -5, -3, -2, -1, 0, 1, 2, 3, 5, 10, 0};
 
 extern "C" {
-extern RecoveredGlobal_80215ABC_lbl_804CA0B8 section_id_favored_grind_table;
+struct SectionIdFavoredGrindTable { s32 value; u8 remaining[0x24]; };
+extern SectionIdFavoredGrindTable section_id_favored_grind_table;
 extern s32 lbl_805D6238;
 extern G_802156E0 *item_appraisal_rules;
 u8 lookup_key_value__6TLobbyFc(s8 x);
@@ -135,7 +130,7 @@ void TLobby::roll_item_grind_bonus() {
     s32 n;
     s32 c;
     s32 r;
-    if (TItemData::is_rare_item(((Item_8021587C *)this)) == 0) {
+    if (TItemData::is_rare_item(this) == 0) {
         ((TLobby *)buf)->reset_counter_64();
         Tbl_8021587C *t = (*(G_8021587C **)&item_appraisal_rules)->t;
         n = t->count;
@@ -208,13 +203,8 @@ bool TLobby::is_slot_match() {
     u8 *arg0 = (u8 *)this;
     return *(u8 *)((s8 *)arg0 + 1) == *(s32 *)((s8 *)&section_id_favored_grind_table.value + (lbl_805D6238 * 4));
 }
-}
-
-extern "C" {
 s32 is_slot_match__6TLobbyFv();
 
-extern s32 item_appraisal_favored_weapon;
-extern s32 item_appraisal_score;
 
 void update_all__6TLobbyFi(s32 arg0) {
     if ((u32) item_appraisal_rules != 0U) {

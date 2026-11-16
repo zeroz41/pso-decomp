@@ -1,4 +1,5 @@
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
 #include "pso/object/mine/TODragonflyMachine01.h"
 #include "pso/system/BmlResource.h"
@@ -19,6 +20,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/SoundEffect.h"
 #include <stdlib.h>
+#include "pso/player/TObjPlayer_80011014.h"
 
 // The motion setup TObjEneMe3Stelth::spawn_attack registers the model with.
 struct DragonflyMotionSetup {
@@ -209,30 +211,30 @@ void TODummyKeyCave01Sound::play_cave01_key_sound() {
 
     switch (sound_kind) {
     case 1:
-        play_sound_effect(0x4005281F, 0, 0, 0);
+        play_sound_effect(0x4005281F, (Vec *)(0), 0, 0);
         return;
     case 2:
-        play_sound_effect(0x53F06, 0, 0, 0);
+        play_sound_effect(0x53F06, (Vec *)(0), 0, 0);
         return;
     case 3:
         area = get_current_floor_area();
         if ((area != AREA_BATTLE1) && (area != AREA_BATTLE2)) {
-            play_sound_effect(0x52812, 0, 0, 0);
+            play_sound_effect(0x52812, (Vec *)(0), 0, 0);
             return;
         }
         break;
     case 4:
         area_again = get_current_floor_area();
         if ((area_again != AREA_BATTLE1) && (area_again != AREA_BATTLE2)) {
-            play_sound_effect(0x52813, 0, 0, 0);
+            play_sound_effect(0x52813, (Vec *)(0), 0, 0);
             return;
         }
         break;
     case 5:
-        play_sound_effect(0x4001C112, 0, 0, 0);
+        play_sound_effect(0x4001C112, (Vec *)(0), 0, 0);
         return;
     case 6:
-        play_sound_effect(0x4002A60B, 0, 0, 0);
+        play_sound_effect(0x4002A60B, (Vec *)(0), 0, 0);
         break;
     }
 }

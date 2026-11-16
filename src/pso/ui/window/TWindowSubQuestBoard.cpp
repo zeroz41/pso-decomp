@@ -17,11 +17,6 @@
 
 #pragma readonly_strings on
 
-struct RecoveredGlobal_8027CE74_lbl_804D1818 {
-    s32 value;
-    u8 remaining[0x14];
-};
-
 struct VB_8027CCCC { u8 pad[0x18]; };
 
 struct VO_8027CCCC : VB_8027CCCC {
@@ -100,10 +95,9 @@ void *TUnk_804D1818::dt(s16 arg1) {
     return this;
 }
 
-typedef char RecoveredGlobal_8027CE74_lbl_804D1818_size[sizeof(RecoveredGlobal_8027CE74_lbl_804D1818) == 0x18 ? 1 : -1];
 u8 *TWindowSubQuestBoard__sub_8027CE74(u8 *arg0, u8 *arg1, s32 arg2) {
     __ct__7TObjectFP7TObject(arg0, arg1);
-    *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_8027CE74_lbl_804D1818 *)&__vt__19TWindowSubQuestBoard).value;
+    *(s32 **)((s8 *)arg0 + 0x18) = __vt__19TWindowSubQuestBoard;
     ((TUnk_804D1818 *)arg0)->m_24 = arg1;
     ((TUnk_804D1818 *)arg0)->m_20 = arg2;
     *(s32 *)((s8 *)arg0 + 0x28) = ((TUnk_804D1818 *)arg0)->create_option_menu_window();
@@ -173,7 +167,6 @@ TWindowSubQuestBoard::~TWindowSubQuestBoard() {
 
 extern "C" {
 
-void *__nw__7TObjectFUl(int);
 
 const char *TWindowSubQuestBoard__class_name = "TWindowSubQuestBoard";
 
@@ -183,7 +176,7 @@ TWindowSubQuestBoard::TWindowSubQuestBoard(TObject *object, void *arg2) : TObjec
     this->m_name = TWindowSubQuestBoard__class_name;
     *(void **)((s8 *)this + 0x24) = object;
     *(void **)((s8 *)this + 0x20) = arg2;
-    o = __nw__7TObjectFUl(0x68);
+    o = TObject::operator new(0x68);
     if (o != NULL) {
         o = TWindowSubQuestBoardSelect__ct((TWindowSubQuestBoardSelect *)((u8 *)o));
     }

@@ -1,12 +1,12 @@
 #include "types.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/hud/TRaderMapCore.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 
 extern "C" {
 
 s32 check_camera_mode__10TObjPlayerFv();
 s32 get_game_play_mode();
-s32 get_main_phase();
 s32 reset_volopt_state__10TObjPlayerFv(s32);
 int check_flag_100__10TObjPlayerFPv(void *p);
 void *get_player_by_client_id(s32 i);

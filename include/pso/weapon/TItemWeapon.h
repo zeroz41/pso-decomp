@@ -14,7 +14,8 @@ struct WeaponVector { f32 x,y,z; };
 struct Desc_8011E5C4 {
     u8 pad_0[0x10];
     s32 pad_10;
-    u8 pad_14[0x3C - 0x14];
+    u8 pad_14[0x38 - 0x14];
+    f32 pad_38;          // 5.0 for TUnk_804E21F8
     f32 pad_3c;          // 160.0 for TUnk_804ED488
     u32 flags;
     NJS_OBJECT *model;   // the weapon's second_model
@@ -52,6 +53,11 @@ typedef s32 (*WeaponShotCallback)(void *weapon, void *origin, f32 *end, f32 fram
 struct TItemWeapon : public TItemEquipBase {
     TItemWeapon(TObject *parent, u8 *item);
     virtual ~TItemWeapon();
+    s32 get_tp();
+    void update_active_game_effect();
+    void launch_rare_weapon_special(void *, s32, f32);
+    void fill_status_info(void *);
+    void drain_owner_hp_fraction(f32);
     virtual void *get_center();
     virtual void update_owned();
     virtual void update_equipped();

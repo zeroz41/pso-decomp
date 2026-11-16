@@ -1,4 +1,5 @@
 #include "pso/boss/TUnk_80484870.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/vector.h"

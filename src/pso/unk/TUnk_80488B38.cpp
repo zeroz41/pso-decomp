@@ -1,7 +1,8 @@
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/unk/TUnk_80488B38.h"
 #include "pso/camera/TCameraCtrl_80067FC0.h"
-#include "pso/unk/TUnk_80488B38.h"
+
 #include "pso/unk/TUnk_80488B68.h"
 #include "pso/unk/TUnk_80488B08.h"
 #include "pso/system/vector.h"
@@ -13,8 +14,7 @@
 #include "pso/system/memory.h"
 #include "pso/unk/TUnk_80488D70.h"
 #include "pso/system/scene/TScene.h"
-
-struct Vec_8006BB1C { f32 x, y, z; };
+#include "pso/math/AngleLookup.h"
 
 struct Pad_8006BB1C {
     u8 pad0[0x70];
@@ -29,26 +29,21 @@ struct Obj_8006BB1C {
     s32 yaw;
     s32 pitch;
     u8 pad34[0x3c - 0x34];
-    Vec_8006BB1C eye;
-    Vec_8006BB1C at;
+    Vec eye;
+    Vec at;
     u8 pad54[0x6c - 0x54];
     f32 dist;
 };
 
 extern "C" {
-f32 sin_table_lookup(s32);
-f32 cos_table_lookup(s32);
 extern Pad_8006BB1C controller_input_state;
 void *TCameraCtrl__vt4(void);
-void *__dt__13TUnk_80488B38Fv(void *arg0, s16 arg1);
-void __dl__7TObjectFPv(void *);
 
 void *TCameraCtrl__vt4(void) {
     void *o = (void *)new TUnk_80488B38();
     return o;
 }
 
-extern s32 __vt__13TUnk_80488B38[];
 
 #pragma push
 #pragma fp_contract on

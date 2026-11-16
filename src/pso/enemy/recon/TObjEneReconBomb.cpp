@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/enemy/recon/TObjEneReconBomb.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -21,10 +22,9 @@
 #include "pso/enemy/recon/TObjEneRecobox_8031FCB0.h"
 #include "pso/enemy/recon/TObjEneRecon.h"
 #include "pso/system/task/TObject.h"
-#include "pso/player/TObjPlayer.h"
+
 
 #pragma readonly_strings on
-
 
 struct Sub_8031B618 { u8 pad[0xC]; f32 radius; };
 
@@ -101,7 +101,7 @@ s32 project_actor_to_ground(void *, void *, void *);
 s32 TObjEneRecon__sub_8031C250(u32);
 s32 vec3_add_to(void *, void *);
 extern s32 lbl_805D5868;
-s32 TObjFish__sub_8001EDB0(void *, int);
+s32 get_bml_texlist(void *, int);
 s32 get_bml_model(void *, int);
 s32 rotate_matrix_z(int, int);
 s32 rotate_matrix_x(int, void *);
@@ -114,7 +114,6 @@ f32 TObjEneRecon__sub_8031C2BC(int);
 f32 TObjEneRecon__sub_8031C2C8(int);
 f32 TObjEneRecon__sub_8031C2D4(int);
 s32 __ct__9TObjCharaFP7TObject();
-void __dl__7TObjectFPv(void *);
 
 extern s32 __vt__16TObjEneReconBomb[];
 
@@ -151,10 +150,10 @@ void TObjEneReconBomb::render() {
         return;
     }
     bml_model = get_bml_model((void *)recon_bomb_bml_resource, 2);
-    temp_r30 = TObjFish__sub_8001EDB0((void *)recon_bomb_bml_resource, 2);
+    temp_r30 = get_bml_texlist((void *)recon_bomb_bml_resource, 2);
     push_matrix();
     translate_matrix(0, (f32) (*(f32 *)((s8 *)arg0 + 0x38)), (f32) ((2.0f) + *(f32 *)((s8 *)arg0 + 0x3C)), (f32) (*(f32 *)((s8 *)arg0 + 0x40)));
-    rotate_matrix_zyx(0, (*(s32 *)&this->rotation_x), (this->rotation_y), (this->rotation_z));
+    rotate_matrix_zyx(0, (this->rotation_x), (this->rotation_y), (this->rotation_z));
     TObjFish::set_global_param(temp_r30);
     draw_chunk_object((void *)bml_model);
     pop_matrix();
@@ -282,17 +281,12 @@ u8 *TObjEneReconBomb__ct(TObjEneReconBomb *ene_recon_bomb, s32 arg1, s32 arg2, s
 
 const char *TObjEneReconBomb__name = "TObjEneReconBomb";
 
-}
-
-extern "C" {
-
-void *__nw__7TObjectFUl(int);
 
 void TObjEneRecon__sub_8031BC38(void) {  }
 
 void *TObjEneRecon::create_bomb(void *arg0, void *arg1, void *arg2) {
     void *o;
-    o = __nw__7TObjectFUl(0x364);
+    o = TObject::operator new(0x364);
     if (o != NULL) {
         o = TObjEneReconBomb__ct((TObjEneReconBomb *)((u8 *)o), (s32)arg0, (s32)arg1, (s32)arg2);
     }

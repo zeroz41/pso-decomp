@@ -1,4 +1,5 @@
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer_803E1A58.h"
 #include "pso/player/TObjPlayer.h"

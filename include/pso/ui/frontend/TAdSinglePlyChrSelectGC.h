@@ -164,7 +164,7 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     void update_select_state();
     void handle_load_result();
     void start_check_memory_card();
-    int queue_destruction(void *);
+    void queue_destruction(void *);
     void sub_8033AA64();
     void check_memcard_space();
     void sub_8033ACF4();

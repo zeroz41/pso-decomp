@@ -1,4 +1,5 @@
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/network/TProtocol.h"
@@ -81,17 +82,17 @@ void TOKeyMachine01::trigger_deactivate_sound() {
     if (enable_v2_features == 1 && (get_current_floor_area() == AREA_BATTLE1 || get_current_floor_area() == AREA_BATTLE2)) {
         sound = key_machine01_switch_sounds[get_current_floor_area()];
         if (sound >= 0) {
-            play_sound_effect(sound, &position, 0, 0);
+            play_sound_effect(sound, (Vec *)(&position), 0, 0);
         }
     } else if (enable_v2_features == 1 && (get_current_floor_area() == AREA_FOREST1 || get_current_floor_area() == AREA_FOREST2)) {
         sound = key_machine01_switch_sounds[get_current_floor_area()];
         if (sound >= 0) {
-            play_sound_effect(sound, &position, 0, 0);
+            play_sound_effect(sound, (Vec *)(&position), 0, 0);
         }
     } else {
         sound = key_machine01_switch_sounds[get_current_floor_area()];
         if (sound >= 0) {
-            play_sound_effect(sound, &position, 0, 0);
+            play_sound_effect(sound, (Vec *)(&position), 0, 0);
         }
     }
 }
@@ -101,17 +102,17 @@ void TOKeyMachine01::trigger_activate_sound() {
     if (enable_v2_features == 1 && (get_current_floor_area() == AREA_BATTLE1 || get_current_floor_area() == AREA_BATTLE2)) {
         sound = key_machine01_switch_sounds[get_current_floor_area()];
         if (sound >= 0) {
-            play_sound_effect(sound, &position, 0, 0);
+            play_sound_effect(sound, (Vec *)(&position), 0, 0);
         }
     } else if (enable_v2_features == 1 && (get_current_floor_area() == AREA_FOREST1 || get_current_floor_area() == AREA_FOREST2)) {
         sound = key_machine01_switch_sounds[get_current_floor_area()];
         if (sound >= 0) {
-            play_sound_effect(sound, &position, 0, 0);
+            play_sound_effect(sound, (Vec *)(&position), 0, 0);
         }
     } else {
         sound = key_machine01_switch_sounds[get_current_floor_area()];
         if (sound >= 0) {
-            play_sound_effect(sound, &position, 0, 0);
+            play_sound_effect(sound, (Vec *)(&position), 0, 0);
         }
     }
 }

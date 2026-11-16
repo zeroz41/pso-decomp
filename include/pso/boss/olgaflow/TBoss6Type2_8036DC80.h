@@ -3,8 +3,6 @@
 
 #include "types.h"
 
-extern "C" {
 void clear_boss6_player_snapshots(void);
-}
 
 #endif

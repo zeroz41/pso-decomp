@@ -1,4 +1,6 @@
 #include "pso/object/TObjWarnChime.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
+#include "pso/object/base/TObjChara.h"
 #include "pso/item/armor/TItemProShield.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/player/TObjPlayer.h"
@@ -6,17 +8,16 @@
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/player/TObjPlayer_80011014.h"
 
-extern "C" {
+
 extern const char TObjWarnChime_class_name[] = "TObjWarnChime";
 const char* TObjWarnChime_name = TObjWarnChime_class_name;
-}
 
 void TObjWarnChime::update_chime_countdown() {
     if (m_countdown < 0 || m_chime_interval <= 0) {
         return;
     }
     if (m_countdown % m_chime_interval == 0) {
-        play_sound_effect(0x23230, 0, 0, 0);
+        play_sound_effect(0x23230, (Vec *)(0), 0, 0);
     }
     m_countdown--;
 }
@@ -35,7 +36,7 @@ void TObjWarnChime::update_player_hp_ratios() {
             m_player_hp_ratios[i] = 1.0f;
             continue;
         }
-        cur = get_actor_hp((u8 *)p);
+        cur = ((TObjChara *)p)->get_actor_hp();
         max = ((TItemProShield *)p)->get_field_2b8();
         if (0.0f == cur) {
             m_player_hp_ratios[i] = 1.0f;

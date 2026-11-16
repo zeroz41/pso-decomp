@@ -12,8 +12,12 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowAddition.h"
 #include "pso/ui/window/TWindowDD.h"
-#include "pso/ui/window/TWindowBase.h"
+
 #include "pso/unk/WindowLayoutRecord.h"
+#include "pso/system/NinjaTypes.h"
+#include "pso/system/task/TObject.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
+const char *lbl_805D3980 = "TWindowMessage";
 
 struct RecoveredFields_802698C4_arg0 {
     u8 unknown_0[0x6C];
@@ -236,7 +240,6 @@ struct Entry_80269A0C {
 extern "C" {
 void measure_message_text_width(void *, f32);
 
-s32 append_message_window_line(TWindowMessage *self, s32 text, s32 flags, s32 arg3);
 s32 append_message_window_line(TWindowMessage *self, s32 text, s32 flags, s32 arg3) {
     Entry_80269A0C *e;
     TWindowMessageLine *rec;
@@ -331,12 +334,9 @@ WindowDescriptor message_window_settings = {
     {0.0f, 0.0f}, 50100.0f, &message_window_layout_entries, 3,
 };
 
-struct V2_80269DA4 { f32 x; f32 y; };
-
 extern "C" {
-s32 TLobby__sub_80269DA4(V2_80269DA4 size, void *arg1);
+s32 TLobby__sub_80269DA4(NJS_POINT2 size, void *arg1);
 u8 *TWindowMessage__ct(u8 *arg0, s32 arg1, u32 arg2, s32 arg3);
-u8 *__nw__7TObjectFUl(s32);
 
 int TWindowMessage::append_line(int a1, int a2) { return append_message_window_line((TWindowMessage *)this, a1, a2, -1); }
 
@@ -356,7 +356,7 @@ u8 *TWindowMessage::create(s32 arg0, const f32 *size, u32 arg2, s32 arg3) {
     u8 *temp_r3;
     u8 *var_r0;
     ((s32 (*)(void *, void *))TLobby__sub_80269DA4)((void *)size, (void *)arg2);
-    temp_r3 = (u8 *)(__nw__7TObjectFUl(0x90));
+    temp_r3 = (u8 *)(TObject::operator new(0x90));
     var_r0 = temp_r3;
     if (var_r0 != NULL) {
         var_r0 = (u8 *)(TWindowMessage__ct(temp_r3, arg0, arg2, arg3));
@@ -373,27 +373,18 @@ void TLobby::update_window_mode_from_progress(void *arg1) {
     TWindowMessage::create((void *)arg0, (s32)arg1, (s32)((s32)((s32) TWindowSubStatusDisp::round_away_from_zero((*(f32 *)((s8 *)arg1 + 4) - 2e+01f) / 2e+01f) + 2)));
 }
 
-s32 TLobby__sub_80269DA4(V2_80269DA4 size, void *arg1) {
-    V2_80269DA4 *dst = (V2_80269DA4 *)&message_window_settings;
+s32 TLobby__sub_80269DA4(NJS_POINT2 size, void *arg1) {
+    NJS_POINT2 *dst = (NJS_POINT2 *)&message_window_settings;
     dst->x = size.x;
     dst->y = size.y;
     message_window_layout_entries.rows = (u32)arg1;
 }
 
-}
-
-extern "C" {
 s32 get_draw_context__11TWindowBaseFPv();
 s32 draw_visible_window_entries(void *, void *, int);
-void *mem_alloc(u32 size);
 void *construct_with_parent__15TWindowAdditionFPv(void *, void *, s16, s32);
 extern s32 __vt__14TWindowMessage[];
-extern s32 lbl_805D3980;
 
-u8 *TWindowMessage__ct(u8 *arg0, s32 arg1, u32 arg2, s32 arg3);
-void *__dt__14TWindowMessageFv(void *arg0, s16 arg1);
-void __dl__7TObjectFPv(void *);
-void mem_free(void *);
 
 void TWindowMessage::render() {
     s32 temp_r3;
@@ -417,38 +408,30 @@ void TWindowMessage::run_task() {
     ((TWindowBase *)arg0)->update_window_entry_list((u8 *)&this->m_24);
 }
 
-void *__dt__14TWindowMessageFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__14TWindowMessage;
-        if (*(void **)((s8 *)arg0 + 0x7C) != NULL) { mem_free(*(void **)((s8 *)arg0 + 0x7C)); }
-        ((TWindowAddition *)arg0)->destroy_window(0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
+TWindowMessage::~TWindowMessage() {
+    if (*(void **)((s8 *)this + 0x7C) != NULL) { mem_free(*(void **)((s8 *)this + 0x7C)); }
 }
-u8 *TWindowMessage__ct(u8 *arg0, s32 arg1, u32 arg2, s32 arg3) {
+u8 *TWindowMessage__ct(u8 *window_addition, s32 arg1, u32 arg2, s32 arg3) {
     u32 i;
     u8 *p;
-    construct_with_parent__15TWindowAdditionFPv(arg0, (u8 *)&message_window_settings, arg3, arg1);
-    *(void **)(arg0 + 0x18) = ((u8 *)&__vt__14TWindowMessage);
-    *(s32 *)arg0 = lbl_805D3980;
-    *(s32 *)(arg0 + 0x70) = 0;
-    *(s32 *)(arg0 + 0x74) = 0;
-    *(s32 *)(arg0 + 0x88) = 0;
-    *(u32 *)(arg0 + 0x8C) = arg2;
-    *(s32 *)(arg0 + 0x78) = 0xB4;
-    *(f32 *)(arg0 + 0x84) = 0.0f;
-    *(f32 *)(arg0 + 0x80) = 0.0f;
-    *(u8 **)(arg0 + 0x7C) = (u8 *)mem_alloc(arg2 * 8);
-    p = *(u8 **)(arg0 + 0x7C);
+    construct_with_parent__15TWindowAdditionFPv(window_addition, (u8 *)&message_window_settings, arg3, arg1);
+    *(void **)(window_addition + 0x18) = ((u8 *)&__vt__14TWindowMessage);
+    ((TObject *)window_addition)->m_name = lbl_805D3980;
+    *(s32 *)(window_addition + 0x70) = 0;
+    *(s32 *)(window_addition + 0x74) = 0;
+    *(s32 *)(window_addition + 0x88) = 0;
+    *(u32 *)(window_addition + 0x8C) = arg2;
+    *(s32 *)(window_addition + 0x78) = 0xB4;
+    *(f32 *)(window_addition + 0x84) = 0.0f;
+    *(f32 *)(window_addition + 0x80) = 0.0f;
+    *(u8 **)(window_addition + 0x7C) = (u8 *)mem_alloc(arg2 * 8);
+    p = *(u8 **)(window_addition + 0x7C);
     for (i = 0; i < arg2; i++) {
         *(s32 *)p = 0;
         *(s32 *)(p + 4) = 0;
         p += 8;
     }
-    return arg0;
+    return window_addition;
 }
 
 }

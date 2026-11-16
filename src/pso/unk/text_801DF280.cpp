@@ -78,6 +78,7 @@ int __ct__16TPlyGuildCardTagFRC16TPlyGuildCardTag(void*);
 Obj_801DF61C *copy_ply_meet_user_extension(Obj_801DF61C *dst, Obj_801DF61C *src);
 s32 __ct__16TPlyGuildCardTagFv(s32);
 int bswap_32__FPUl(void* a0 = 0);
+}
 
 void bswap_cmd_db_regist_connect_reply(packet_header *arg0) {
     arg0->bswap();
@@ -88,7 +89,6 @@ void bswap_cmd_db_regist_connect_reply(packet_header *arg0) {
 s32 construct_cmd_db_regist_connect_reply(s32 arg0) {
     __ct__8TPlySmthFv((void *)(arg0 + 0x44));
     return arg0;
-}
 }
 int bswap_cmd_8a_header(void* p) { return bswap__13packet_headerFv(p); }
 void bswap_cmd_88_body(void* p) { ((packet_header *)p)->bswap(); { int i; for (i = 0; i < 16; i++) { bswap_cmd_88_marker_record((void*)((char*)p + 0x4 + i * 12)); } } }

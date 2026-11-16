@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjMotion.h"
@@ -17,14 +18,14 @@
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/system/task/TObject.h"
+
 #include "pso/system/BmlResourceDescriptor.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 #pragma readonly_strings on
 
 extern "C" {
 
-void *__nw__7TObjectFUl(int);
 
     extern int player_unique_pair_entry_count;
 extern "C" void vfunc_6__8TObjBaseFPsl();
@@ -165,7 +166,7 @@ void *__vt__16TObjOnlineEnding[13] = {
     (void *)&get_name__8TObjBaseFv,
 };
 #define lbl_804E3A38 ((f32 *)lbl_804E3A38)
-#define online_ending_quad_vertices ((V2_802E4C70 *)online_ending_quad_vertices)
+#define online_ending_quad_vertices ((NJS_POINT2 *)online_ending_quad_vertices)
 #define __vt__16TObjOnlineEnding ((const s32 *)__vt__16TObjOnlineEnding)
 
 int TObjOnlineEnding::get_instance() {  return player_unique_pair_entry_count; }
@@ -176,8 +177,6 @@ void*TObjOnlineEnding::get_attack_entry(int a0) {  return (char*)lbl_8050DAD0 + 
 void TObjOnlineEnding::close_window() { if (*(unsigned int *)&this->m_154 != 0) { ((TWindowBase *)(*(void* *)&this->m_154))->close(); *(int *)&this->m_154 = 0; } }
 
 }
-
-struct Vec_802E4E44 { f32 x, y, z; };
 
 struct Ent_802E4E44 { s32 active; u16 id; u8 pad[0x28 - 6]; };
 
@@ -194,12 +193,10 @@ struct Cam_802E4E44 {
     u8 pad0[0x14];
     s32 f14;
     u8 pad18[4];
-    Vec_802E4E44 a;
-    Vec_802E4E44 b;
+    Vec a;
+    Vec b;
     u8 pad34[0x8];
 };
-
-struct V2_802E4C70 { f32 x, y; };
 
 struct Ent_802E4C70 { s32 active; u16 id; u8 name[0x12]; void *f18; s32 f1C; f32 f20; s32 f24; };
 
@@ -220,8 +217,8 @@ s32 activate_camera_mode(s32);
 void set_active_camera_pose_from_params(u8 *arg0);
 const char *TObjOnlineEnding__name = "TObjOnlineEnding";
 // inferred: the camera position and target run_task gives the ending scene.
-static const Vec_802E4E44 online_ending_camera_eye = {20000.0f, 0.0f, 0.0f};
-static const Vec_802E4E44 online_ending_camera_target = {20000.0f, 0.0f, -100.0f};
+static const Vec online_ending_camera_eye = {20000.0f, 0.0f, 0.0f};
+static const Vec online_ending_camera_target = {20000.0f, 0.0f, -100.0f};
 u32 calc_text_width(char *s);
 s32 render_status_line__15TAdSubPlyItemGCFi(void *, int, f32, f32, f32);
 s32 push_matrix();
@@ -240,7 +237,6 @@ s32 TWindowSubStatusDisp__sub_800718D0();
 s32 __dl__7TObjectFPv(void *);
 s32 get_card_window_value__16TObjOnlineEndingFv();
 s32 get_layout_id__20TWindowSubStatusDispFv(s32);
-s32 is_flag_set__6TLobbyFv();
 
 void TObjOnlineEnding::create_result_window() {
     s32 temp_r31;
@@ -249,12 +245,12 @@ void TObjOnlineEnding::create_result_window() {
     s32 var_r29;
 
     this->m_154 = 0;
-    if (is_flag_set__6TLobbyFv() != 0) {
+    if (TLobby::is_flag_set() != 0) {
         temp_r30 = get_layout_id__20TWindowSubStatusDispFv(-1) - 1;
         {
         s32 t = TLobby::get_online_result_value();
         if (t == temp_r30) {
-            var_r29 = (s32)__nw__7TObjectFUl(0x68);
+            var_r29 = (s32)TObject::operator new(0x68);
             if (var_r29 != 0) {
                 temp_r30_2 = get_card_window_value__16TObjOnlineEndingFv();
                 temp_r31 = TWindowSubStatusDisp__sub_800718D0();
@@ -294,7 +290,7 @@ void TObjOnlineEnding::render() {
             {
                 u8 *name = e->name;
                 u32 w = calc_text_width((char *)name);
-                V2_802E4C70 v = online_ending_quad_vertices[i];
+                NJS_POINT2 v = online_ending_quad_vertices[i];
                 v.x -= (f32)(w >> 1);
                 render_status_line__15TAdSubPlyItemGCFi(name, -1, v.x, v.y, 0.1f);
             }
@@ -324,8 +320,8 @@ void TObjOnlineEnding::run_task() {
         break;
     case 1: {
         activate_camera_mode(9);
-        Vec_802E4E44 t1 = online_ending_camera_eye;
-        Vec_802E4E44 t2 = online_ending_camera_target;
+        Vec t1 = online_ending_camera_eye;
+        Vec t2 = online_ending_camera_target;
         Cam_802E4E44 cam;
         VecCopy((Vec *)&cam.a, (const Vec *)&t1);
         VecCopy((Vec *)&cam.b, (const Vec *)&t2);
@@ -379,8 +375,8 @@ struct Obj_802E4FFC {
 };
 
 s32 get_bml_motion(s32, s32);
-s32 TObjFish__sub_8001EDB0(s32, s32);
-s32 get_bml_model(s32, s32);
+s32 get_bml_texlist(BmlResource *resource, s32 index);
+s32 get_bml_model(BmlResource *resource, s32 index);
 void __ct__8TObjBaseFP7TObject(void *, void *);
 void play_area_music(char *name);
 void *fn_802E6218(void *arg0);
@@ -412,8 +408,8 @@ void *TObjOnlineEnding__ct(void *arg0, void *parent) {
         ((TObject *)obj)->queue_destruction();
         return arg0;
     }
-    SELF->f90 = get_bml_model(lbl_805D68F4, 0);
-    SELF->f94 = TObjFish__sub_8001EDB0(lbl_805D68F4, 0);
+    SELF->f90 = get_bml_model((BmlResource *)lbl_805D68F4, 0);
+    SELF->f94 = get_bml_texlist((BmlResource *)lbl_805D68F4, 0);
     SELF->f98 = get_bml_motion(lbl_805D68F4, 0x18);
     SELF->count = 0;
     for (i = 0; i < 4; i++) {
@@ -465,7 +461,7 @@ void free_bin_model_request(void*, int);
 void *TObjOnlineEnding__ct(void *, void *);
 
 void *TObjOnlineEnding::create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0x158);
+    void *o = TObject::operator new(0x158);
     if (o != NULL) {
         o = TObjOnlineEnding__ct(o, arg0);
     }
@@ -479,9 +475,6 @@ void TBoss4DarkFalz::free_global_instance() {
     }
 }
 
-}
-
-extern "C" {
 s32 load_resource_from_descriptor(s32, int, void *, int, int, int);
 extern u32 lbl_805D68F4;
 

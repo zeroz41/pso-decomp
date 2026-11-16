@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/boss/volopt/TBoss3VoloptCore.h"
 #include "pso/boss/volopt/TBoss3VoloptMonitor.h"
@@ -50,15 +51,15 @@ extern s32 local_client_id;
 extern u32 model_render_flags;
 void *find_entity_by_id(u16 id);
 void minimap_render_dot(f32 *pos, s32 color, s32, s32);
-void play_persistent_sound(u32 id, TObject *source, f32 *pos, s32, s32);
+s32 play_persistent_sound(s32 id, s32 a1, Vec *, s32 a3, s32 flags);
 TObject *create_particle_emitter(Vec *pos, s32 id);
 void set_matrix_identity(s32 matrix, f32 scale);
 void rotate_vector_by_matrix(s32 matrix, Vec *src, Vec *dst);
 void free_collision_body_parts(TObjEnemyCustom *object);
 void init_collision_body_parts(TObjEnemyCustom *object, TBoss3VoloptCoreBodyPart *parts, s32 count);
 void obj_setFlags30(TObjEnemyCustom *object, u32 flags);
-s32 obj_is_hit_receivable(TBoss3VoloptCoreTarget *object);
-void TCameraCtrl__sub_8006A044(s32 id, f32 strength);
+s32 obj_is_hit_receivable(u8 *arg0);
+void start_camera_shake(s32 id, f32 strength);
 }
 void reset_status_effect_row(u8 *row);
 
@@ -126,10 +127,10 @@ TBoss3VoloptCore::TBoss3VoloptCore(TObject *parent, void *set_data) : TObjEnemyC
 
 TBoss3VoloptCore::TBoss3VoloptCore(TObject *parent, u16 id, s32 param) : TObjEnemyCustom(parent) {
     entity_id = id;
-    *(s16 *)((u8 *)this + 0x2C) = param;
+    this->set_index = param;
     set_entry = 0;
     *(s16 *)((u8 *)this + 0x28) = *(s16 *)((u8 *)parent + 0x28);
-    *(s16 *)((u8 *)this + 0x2A) = *(s16 *)((u8 *)parent + 0x2A);
+    this->set_group = *(s16 *)((u8 *)parent + 0x2A);
     init_params();
 }
 
@@ -361,10 +362,10 @@ void TBoss3VoloptCore::update_grabbed_state() {
         obj_clearFlags30(0x02200200);
         referenceHp = hp;
         this->requested_action = 3;
-        play_sound_effect(0x4003A81F, NULL, 0, 0);
-        play_sound_effect(0x4003BC20, NULL, 0, 0);
+        play_sound_effect(0x4003A81F, (Vec *)(NULL), 0, 0);
+        play_sound_effect(0x4003BC20, (Vec *)(NULL), 0, 0);
         if (local_client_id == m_2d4) {
-            TCameraCtrl__sub_8006A044(0x1E, 0.08f);
+            start_camera_shake(0x1E, 0.08f);
         }
         hit_cooldown = 0x14;
         state = 1;
@@ -422,14 +423,14 @@ s32 TBoss3VoloptCore::check_target_collision() {
     }
     found = 0;
     TObjPlayer::init_all_slots();
-    ((TObjPlayer *)this)->check_object_collisions();
+    this->check_object_collisions();
     if (bodies->flags & 0x80000) {
         for (i = 0; i < 0x10; i++) {
             object = (TBoss3VoloptCoreTarget *)TObjPlayer::get_battle_param(i);
             if (object == NULL) {
                 break;
             }
-            if (obj_is_hit_receivable(object) != 0) {
+            if (obj_is_hit_receivable((u8 *)object) != 0) {
                 if (object->select_melee_contact_body(this, 1.0f) != 0) {
                     object->apply_knockback_from_attacker(this, 3.0f);
                     object->receive_physical_attack(this, 1.0f);
@@ -573,7 +574,7 @@ void TBoss3VoloptCore::update_orbit_state() {
             drop_angle = orbit_angle;
             this->update_if_active(9);
         }
-        play_persistent_sound(0x4003BC05, this, &position.x, 0, 0);
+        play_persistent_sound((s32)(0x4003BC05), (s32)this, (Vec *)((u32)&position.x), (s32)(0), (s32)(0));
         break;
     case -1:
         break;
@@ -603,7 +604,7 @@ void TBoss3VoloptCore::sub_8003F81C() {
             Vec pos = *&position;
             pos.y -= 20.0f;
             effect = create_particle_emitter(&pos, 0x31);
-            play_sound_effect(0x4003AD1E, &position, 0, 0);
+            play_sound_effect(0x4003AD1E, (Vec *)(&position), 0, 0);
             state = 3;
         }
         break;
@@ -682,7 +683,7 @@ void TBoss3VoloptCore::update_topple_state() {
         }
         break;
     case 3:
-        play_persistent_sound(0x4003BC05, this, &position.x, 0, 0);
+        play_persistent_sound((s32)(0x4003BC05), (s32)this, (Vec *)((u32)&position.x), (s32)(0), (s32)(0));
         advance_animation();
         orbit_angle -= get_orbit_speed(0);
         sweep_angle -= get_orbit_speed(0);

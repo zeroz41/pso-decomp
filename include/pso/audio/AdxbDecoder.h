@@ -78,7 +78,9 @@ struct SpsdHeader {
 
 extern "C" {
 void TLobby__sub_803C2A00(AdxbDecoder *o);
+}
 void process_byteswapped_pcm_transfer(AdxbDecoder *o);
+extern "C" {
 void TLobby__sub_803C40D0(AdxbDecoder *o);
 s32 TLobby__sub_803C44C0(SpsdHeader *hdr, s32 size, s16 *len, s8 *out_0C, s8 *bits, s8 *block_bytes, s8 *channels, s32 *rate,
                          s32 *samples, s32 *block_samples, s16 *format);

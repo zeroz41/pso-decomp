@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/TParticleCtrl.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "types.h"
 #include "pso/unk/text_80086D50.h"
 #include "pso/technique/TTecFoie.h"
@@ -7,6 +8,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
 #include "pso/technique/TTecCtrl.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 struct RecoveredGlobal_8022FE84_lbl_804CC510
 {
@@ -99,7 +101,7 @@ s32 clamp_nonnegative_int(s32 x);
 extern RecoveredGlobal_8022FE84_lbl_804CC510 tech_high_level_linear_power_table;
 extern RecoveredGlobal_8022FE84_lbl_804CC55C lbl_804CC55C;
 extern "C" {
-s32 play_sound_effect(s32 id, void *pos, s32 a, s32 b);
+s32 play_sound_effect(s32 id, Vec *, s32 a, s32 b);
 void mem_free(void *p);
 void __dl__7TObjectFPv(void *);
 // foie_emitter_parts_N (inferred, after TTecGiFoie's emitter_parts_N): the particle parts entry N of
@@ -123,12 +125,10 @@ TTecFoie_80230144 *__dt__8TTecFoieFv(TTecFoie_80230144 *self, s16 deleting);
 s32 attach_particle_model(int, int, int, int, int, f32);
 void *spawn_particle_effect_with_rotation(void *pos, void *dir, s32 id, u16 e);
 void *spawn_continuous_particle_effect_with_flags(void *, s32, u16);
-s32 mem_alloc(s32);
 extern s32 lbl_805D63B0;
-void *spawn_particle_effect(void *pos, s32 id);
+void *spawn_particle_effect(const void *pos, s32 id);
 void *TTecFoie__ct(void *, void *, void *, void *, void *);
 void *construct_aimed__8TTecFoieFlPUcPUcs(void *, void *, void *, void *, void *);
-void *__nw__7TObjectFUl(int);
 
 typedef struct RecoveredFields_8022FE84_arg0 RecoveredFields_8022FE84_arg0;
 typedef struct RecoveredGlobal_8022FE84_lbl_804CC510 RecoveredGlobal_8022FE84_lbl_804CC510;
@@ -205,8 +205,8 @@ void TTecFoie::init_projectile_params() {
 
 void TTecFoie::vfunc_6() {
     s32 arg0 = (s32)this;
-    spawn_particle_effect((void *)(arg0 + 0x20), 0x1DC);
-    spawn_particle_effect((void *)(arg0 + 0x20), 0x1DD);
+    spawn_particle_effect((const void *)(arg0 + 0x20), 0x1DC);
+    spawn_particle_effect((const void *)(arg0 + 0x20), 0x1DD);
 }
 
 void TTecFoie::vfunc_8(void *target_arg) {
@@ -215,13 +215,13 @@ void TTecFoie::vfunc_8(void *target_arg) {
     d.kind = 1;
     d.amount = this->power;
     target->receive(((Tec_80230004 *)this)->owner, d, ((Tec_80230004 *)this)->f8, 0, -1);
-    play_sound_effect(0x4002A828, target->pos, 0, 0);
+    play_sound_effect(0x4002A828, (Vec *)(target->pos), 0, 0);
     queue_destruction();
 }
 
 void TTecFoie::create_ex(void *arg0, void *arg1, void *arg2, void *arg3) {
     void *o;
-    o = __nw__7TObjectFUl(0x134);
+    o = TObject::operator new(0x134);
     if (o != NULL) {
         construct_aimed__8TTecFoieFlPUcPUcs(o, arg0, arg1, arg2, arg3);
     }
@@ -229,7 +229,7 @@ void TTecFoie::create_ex(void *arg0, void *arg1, void *arg2, void *arg3) {
 
 void TTecFoie::create(void *arg0, void *arg1, void *arg2, void *arg3) {
     void *o;
-    o = __nw__7TObjectFUl(0x134);
+    o = TObject::operator new(0x134);
     if (o != NULL) {
         TTecFoie__ct(o, arg0, arg1, arg2, arg3);
     }

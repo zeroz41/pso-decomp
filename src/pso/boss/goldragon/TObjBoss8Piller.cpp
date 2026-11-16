@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/boss/goldragon/TObjBoss8Piller.h"
@@ -29,7 +30,7 @@ u8 *get_enemy_entity(u16 arg0);
 s32 TBoss8Dragon__sub_802FB1B0(int, f32, void *);
 s32 post_translate_matrix(void *);
 s32 scale_matrix(int, f32, f32, f32);
-s32 draw_model_motion(int, int, f32);
+void draw_model_motion(void *arg0, void *arg1, f32 farg0);
 s32 push_matrix();
 
 
@@ -47,7 +48,7 @@ void TObjBoss8Piller::render() {
         push_matrix();
         post_translate_matrix(arg0 + 0x1C);
         scale_matrix(0, 1.0f, 1.0f, 1.0f);
-        draw_model_motion(var_r31, (int) (*(s32 *)((s8 *)arg0 + 0x2C)), (f32) (*(f32 *)((s8 *)arg0 + 0x28)));
+        draw_model_motion((void *)var_r31, (void *)(*(s32 *)((s8 *)arg0 + 0x2C)), (f32) (*(f32 *)((s8 *)arg0 + 0x28)));
         pop_matrix();
         set_default_alpha_blend();
     }
@@ -88,7 +89,7 @@ typedef char RecoveredGlobal_8030AF60___vt__15TObjBoss8Piller_size[sizeof(Recove
 u8 *__ct__15TObjBoss8PillerFv(u8 *object, u8 *arg1, u8 *arg2, s16 arg3) {
     __ct__7TObjectFP7TObject(object, arg1);
     *(s32 **)((s8 *)object + 0x18) = &__vt__15TObjBoss8Piller.value;
-    *(const char **)((s8 *)object + 0) = TObjBoss8Piller__class_name;
+    ((TObjBoss8Piller *)object)->m_name = TObjBoss8Piller__class_name;
     VecCopy((Vec *)(object + 0x1C), (const Vec *)arg2);
     *(f32 *)((s8 *)object + 0x20) = 0.0f;
     *(f32 *)((s8 *)object + 0x28) = 0.0f;

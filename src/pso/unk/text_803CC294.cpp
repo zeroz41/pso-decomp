@@ -23,7 +23,6 @@ struct LogEnt_803CD16C { s8 type; s8 phase; u16 seq; s32 a; s32 b; s32 c; };
 
 struct Buf_803CD16C { u8 data[0x10C]; };
 
-struct LogHdr_803CD16C { u8 pad[0x4]; u16 seq; u8 pad2[0x1A]; };
 
 struct Slot_803CD16C {
     s8 used; s8 f1; s8 f2; u8 f3; u32 f4; s32 f8; s32 fc; s32 f10; u8 pad_14[4];
@@ -32,7 +31,6 @@ struct Slot_803CD16C {
 
 struct LogHdr_803CD3A8 { u8 pad[0x2]; u16 seq; };
 
-struct LogHdr_803CC980 { u8 pad[0xA]; u16 seq; };
 
 struct Snd_803CC980 {
     u8 f0; s8 state; s8 f2; u8 f3; u32 f4; SjRingBuffer *f8; int fc; u8 pad_10[0x14 - 0x10];
@@ -49,7 +47,7 @@ struct Hdr_803CCE9C { u8 used; u8 f1; };
 struct LogHdr_803CCE9C { u8 pad[0x6]; u16 seq; };
 
 extern "C" {
-s32 TLobby__sub_803CC4C0(Obj_803CC4C0 *p);
+s32 adxf_get_stat(Obj_803CC4C0 *p);
 extern Ent_803CC294 *afs_archive_toc_table[];
 extern s32 lobby_adxf_current_file_id;
 extern Slot_803CD16C *lobby_adxf_open_file_handle;
@@ -149,7 +147,7 @@ s32 TLobby::get_afs_file_info(s32 arg0, s32 arg1, char *arg2, s32 *arg3, s32 *ar
     return st;
 }
 
-s32 TLobby__sub_803CC4C0(Obj_803CC4C0 *p) {
+s32 adxf_get_stat(Obj_803CC4C0 *p) {
     if (p == 0) {
         TLobby::notify_error("E9040832:'adxf' is NULL.(ADXF_GetStat)");
         return -3;
@@ -183,7 +181,7 @@ s32 TLobby::adxf_get_fsize_byte() {
     }
     return *(s32 *)&this->m_up;
 }
-s32 TLobby__sub_803CC53C(u8 *arg0) {
+s32 adxf_get_fsize_sct(u8 *arg0) {
     if (arg0 == NULL) {
         TLobby::notify_error("E9040828:'adxf' is NULL.(ADXF_GetFsizeSct)");
         return -3;

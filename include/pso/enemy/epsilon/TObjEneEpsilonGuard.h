@@ -78,6 +78,7 @@ struct TObjEneEpsilonGuard : public TObjEneEpsilon {
     void set_orbit_destination(s32 arg1);
     s32 assign_guard_targets();
     void handle_warp_state(s32 arg1);
+    void render_with_fade(s32 detail);
 };
 
 typedef char TObjEneEpsilonGuard_size[sizeof(TObjEneEpsilonGuard) == 0x4D8 ? 1 : -1];

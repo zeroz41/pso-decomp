@@ -1,11 +1,13 @@
 #ifndef PSO_TADSELECTCURGC_H
 #define PSO_TADSELECTCURGC_H
 #include "pso/system/task/TObject.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/ui/frontend/TAdSelectCurGC_802AED98.h"
 #include "pso/ui/window/TWindowChoiceSetting.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
 #include "types.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 class TAdSelectCurGC : public TObject {
 public:
     virtual ~TAdSelectCurGC();
@@ -61,9 +63,8 @@ GinjaTextureList *menu_selection_cursor_texture_list;
 extern "C" {
 extern const s32 current_language;
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
-s32 TWindowShortListCtrl__check_controller_button(void *, int);
 s32 check_flag_0x48__14TAdSelectCurGCFv(void *, int);
-void play_sound_effect(int, int, int, int);
+void play_sound_effect(int, Vec *, int, int);
 void fn_802AEAA4(void *, s32);
 extern u8 controller_input_state[];
 extern u8 controller_physical_port_bank[];
@@ -71,7 +72,6 @@ void run_task__14TAdSelectCurGCFv(TAdSelectCurGC_802AED98 *o);
 void __ct__7TObjectFP7TObject(void *);
 extern void *__vt__14TAdSelectCurGC[];
 TAdSelectCurGC_802AF0E0 *__ct__14TAdSelectCurGCFv(TAdSelectCurGC_802AF0E0 *o, void *unused, void *a, void *b);
-void *__nw__7TObjectFUl(int);
 
 void run_task__14TAdSelectCurGCFv(TAdSelectCurGC_802AED98 *o) {
     s32 ok;
@@ -91,12 +91,12 @@ void run_task__14TAdSelectCurGCFv(TAdSelectCurGC_802AED98 *o) {
         if (ok != 0) {
             if (TAdMultiPlyChrSelectGC::dispatch_draw_command((s32)(controller_input_state + 0x20), 0x10, 6, 1) != 0 ||
                 TWindowChoiceSetting::apply_choice((s32)(controller_input_state + 0x160), 0x10, 6, 1) != 0) {
-                play_sound_effect(0x54100, 0, 0, 0);
+                play_sound_effect(0x54100, (Vec *)(0), 0, 0);
                 o->fA4--;
             }
             if (TAdMultiPlyChrSelectGC::dispatch_draw_command((s32)(controller_input_state + 0x20), 0x20, 6, 1) != 0 ||
                 TWindowChoiceSetting::apply_choice((s32)(controller_input_state + 0x160), 0x20, 6, 1) != 0) {
-                play_sound_effect(0x54100, 0, 0, 0);
+                play_sound_effect(0x54100, (Vec *)(0), 0, 0);
                 o->fA4++;
             }
         }
@@ -109,7 +109,7 @@ void run_task__14TAdSelectCurGCFv(TAdSelectCurGC_802AED98 *o) {
         if (o->fB4 == 0 &&
             (TWindowShortListCtrl__check_controller_button(controller_physical_port_bank + 0x20, 4) != 0 ||
              test_flag_4c__23TAdSinglePlyChrSelectGCFv(controller_input_state + 0x160, 4) != 0)) {
-            play_sound_effect(0x52D01, 0, 0, 0);
+            play_sound_effect(0x52D01, (Vec *)(0), 0, 0);
             o->fAC = 1;
         }
     }
@@ -181,7 +181,7 @@ void TLobby::apply_menu_cursor_selection() {
     };
     GinjaTextureList *list = lists[current_language];
     menu_selection_cursor_texture_list = list;
-    TLobby__sub_8023E4B4((s32)names[current_language], (s32)list);
+    load_streamed_prs_texture((s32)names[current_language], (s32)list);
 }
 
 void TAdSelectCurGC__sub_802AF274(void* p, f32 v) { *(f32*)((char*)p + 0x704) = v; }

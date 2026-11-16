@@ -1,5 +1,10 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
+#include "pso/object/container/TContainerAncient01.h"
+#include "pso/object/base/TObjChara.h"
+#include "pso/object/base/TObjMotion.h"
+#include "pso/object/container/TContainerAncient01R.h"
 #include "pso/map/FloorArea.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/SoundEffect.h"
@@ -8,12 +13,11 @@
 #include "pso/system/task/TObject.h"
 static const f32 TContainerAncient01__data_805DBD10[1] = {1.0f};
 static const f32 TContainerAncient01__data_805DBD14[1] = {0.0f};
-#include "types.h"
-#include "pso/system/task/TObject.h"
+
+
 #include "pso/player/TObjPlayer.h"
-#include "pso/object/base/TObjChara.h"
-#include "pso/object/base/TObjMotion.h"
-#include "pso/object/container/TContainerAncient01R.h"
+
+
 extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
 extern "C" void test_flag_1000__9TObjCharaFv();
@@ -48,14 +52,6 @@ struct VObj_8018AC68_8018A584 : Base_8018AC68_8018A584 {
     virtual void m19();
     virtual void m20(s32, f32);
 };
-struct VBase8018AD04_8018A584 { char pad[0x18]; };
-struct VObj8018AD04_8018A584 : VBase8018AD04_8018A584 {
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3();
-    virtual void m4(); virtual void m5(); virtual void m6(); virtual void m7();
-    virtual s32 m8(f32, f32);
-};
-
-struct RecoveredGlobal_8018A9D8_TContainerAncient01__data_804B6DC0 { s32 value; u8 remaining[0x28]; };
 
 struct Obj_8018AB44 { u8 pad0[0x38]; u8 pos[0x328]; s32 f360; };
 
@@ -115,10 +111,6 @@ struct Obj_8018A914 {
     u8 pad328[0x33C - 0x328];
     f32 x33c;
 };
-struct RecoveredGlobal_8018B5D0_TContainerAncient01__data_804B6DC0 {
-    s32 value;
-    u8 remaining[0x28];
-};
 
 struct Obj_8018B510 { u8 pad0[0x38]; u8 pos[0x7C]; s16 fB4[3]; u8 pad1[0x1FA]; f32 f2B4; u8 pad2[0x6E]; s16 state; u8 pad3[0x10]; f32 f338; };
 
@@ -170,7 +162,6 @@ struct Obj_8018B284 {
     u32 f36C;
 };
 
-struct Coll_8018B030 { f32 x; f32 y; };
 struct Res_8018B030 { u8 pad[0x430]; s32 x430; };
 
 struct VBase_8018B030 { u8 pad[0x18]; };
@@ -198,7 +189,7 @@ struct Obj_8018B030 : VBase_8018B030 {
 
 extern "C" {
 void __ct__9TObjCharaFP7TObject(void *, void *, void *);
-s32 TObjFish__sub_8001EDB0(int, int);
+s32 get_bml_texlist(int, int);
 void init_collision_body_parts(void *, void *, int);
 extern s32 TContainerAncient01R__name;
 
@@ -216,7 +207,6 @@ unsigned int __cvt_fp2unsigned(f32);
 f32 receive_physical_attack__20TContainerAncient01RFPvf(u8 *arg0);
 
 extern s32 TContainerAncient01__open_effect_table[];
-s32 obj_testFlags30__14TObjCollidableFUl(void *, s32);
 f32 horizontal_distance_squared(void *, void *);
 
 void TContainerAncient01__sub_8018A584(Obj_8018A584 *self, f32 range);
@@ -237,7 +227,7 @@ void vfunc_6__20TContainerAncient01RFPsl(void *arg0, s16 *arg1, s32 arg2);
 s32 scale_current_matrix(void *);
 s32 post_translate_matrix(void *);
 void draw_ginja_object(void *child);
-s32 draw_ginja_model_with_motion(s32, s32, f32);
+void draw_ginja_model_with_motion(void *model, void *motion, f32 frame);
 s32 push_matrix();
 s32 pop_matrix();
 
@@ -247,7 +237,6 @@ void *dt__20TContainerAncient01RFPvs(void *arg0, s16 arg1);
 void *TContainerAncient01R__ct(Obj_8018B030 *, void *, void *);
 s32 free_collision_body_parts(void *);
 s32 __dl__7TObjectFPv(void *);
-void *__nw__7TObjectFUl(int);
 
 extern "C" void receive_weapon_special_attack__20TContainerAncient01RFPvPv();
 extern "C" void apply_knockback_from_attacker__20TContainerAncient01RFPUcf();
@@ -376,7 +365,6 @@ void *__vt__20TContainerAncient01R[79] = {
     (void *)&enemy_spawn_zalure_effect__9TObjCharaFv, (void *)&recalc_stats__9TObjCharaFv, (void *)&vfunc_74__9TObjCharaFl, (void *)&vfunc_75__9TObjCharaFf,
     (void *)&vfunc_76__9TObjCharaFf, (void *)&vfunc_77__9TObjCharaFv, (void *)&vfunc_78__9TObjCharaFl,
 };
-#define TContainerAncient01__collision_body_parts (*(RecoveredGlobal_8018A9D8_TContainerAncient01__data_804B6DC0 *)TContainerAncient01__collision_body_parts)
 #define __vt__20TContainerAncient01R ((s32 *)__vt__20TContainerAncient01R)
 
 void TContainerAncient01__sub_8018A584(Obj_8018A584 *self, f32 range) {
@@ -385,7 +373,7 @@ void TContainerAncient01__sub_8018A584(Obj_8018A584 *self, f32 range) {
     for (i = 0; i < 4; i++) {
         pl = (Player_8018A584 *)get_player_by_client_id(i);
         if (pl != NULL) {
-            if (((TObjPlayer *)pl)->get_floor() == get_current_floor() && obj_testFlags30__14TObjCollidableFUl(pl, 1) == 0 &&
+            if (((TObjPlayer *)pl)->get_floor() == get_current_floor() && ((TObjCollidable *)pl)->obj_testFlags30(1) == 0 &&
                 horizontal_distance_squared(self->pos, pl->pos) < range) {
                 Atk_8018A584 atk;
                 atk.type = 0xF;
@@ -497,12 +485,12 @@ void TContainerAncient01::init_positions() {
     this->m_33c = (f32) (3e+02f + (this->scale.x - TContainerAncient01__data_805DBD10[0]));
     *(f32 *)&this->unk_340 = (f32) (2.1e+02f + (this->scale.y - TContainerAncient01__data_805DBD10[0]));
     this->m_344 = (f32) (4e+02f + (this->scale.z - TContainerAncient01__data_805DBD10[0]));
-    *(s32 *)((s8 *)arg0 + 0x370) = (s32) (*(s32 *)&this->set_params[2] + 4);
+    *(s32 *)((s8 *)arg0 + 0x370) = (this->set_params[2] + 4);
     VecCopy((Vec *)&this->unk_348, (const Vec *)&this->position);
-    this->m_34c = (f32) (this->m_34c + *(f32 *)((s8 *)&TContainerAncient01__collision_body_parts.value + 4));
+    this->m_34c = (f32) (this->m_34c + *(f32 *)((s8 *)&TContainerAncient01__collision_body_parts + 4));
     VecCopy((Vec *)&this->m_354, (const Vec *)&this->unk_348);
-    *(f32 *)&this->unk_358 = (f32) ((1.25f * *(f32 *)((s8 *)&TContainerAncient01__collision_body_parts.value + 4)) + *(f32 *)&this->unk_358);
-    *(s32 *)&this->m_360 = 0;
+    *(f32 *)&this->unk_358 = (f32) ((1.25f * *(f32 *)((s8 *)&TContainerAncient01__collision_body_parts + 4)) + *(f32 *)&this->unk_358);
+    this->m_360 = 0;
     *(f32 *)&this->unk_364 = (f32) TContainerAncient01__data_805DBD10[0];
     this->m_368 = (f32) TContainerAncient01__data_805DBD10[0];
     *(f32 *)&this->unk_36C = (f32) TContainerAncient01__data_805DBD10[0];
@@ -573,8 +561,7 @@ s32 is_within_range__19TContainerAncient01Fii(s32 arg0, s32 arg1) {
 }
 
 void TContainerAncient01R::render() {
-    u8 *arg0 = (u8 *)this;
-    if (((VObj8018AD04_8018A584 *) arg0)->m8(3e+02f, 2e+01f) != 0) {
+    if (this->update_object_view_visibility(3e+02f, 2e+01f) != 0) {
         TObjFish::set_global_param(this->texlist);
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
@@ -585,7 +572,7 @@ void TContainerAncient01R::render() {
         if (TObjPlayer::check_demo_mode() == 1) {
             draw_ginja_object(this->model);
         } else {
-            draw_ginja_model_with_motion(*(s32 *)&this->model, *(s32 *)&this->current_motion, this->frame);
+            draw_ginja_model_with_motion((void *)(*(s32 *)&this->model), (void *)(*(s32 *)&this->current_motion), this->frame);
         }
         pop_matrix();
     }
@@ -640,7 +627,7 @@ void TContainerAncient01R::run_task() {
 extern void *tl_05;
 
 void *TContainerAncient01R__create(void *parent) {
-    void *o = __nw__7TObjectFUl(0x374);
+    void *o = TObject::operator new(0x374);
     if (o != NULL) {
         o = TContainerAncient01R__ct((Obj_8018B030 *)o, tl_05, parent);
     }
@@ -671,14 +658,14 @@ void *dt__20TContainerAncient01RFPvs(void *arg0, s16 arg1) {
 #pragma push
 #pragma fp_contract on
 void *TContainerAncient01R__ct(Obj_8018B030 *self, void *arg1, void *parent) {
-    Coll_8018B030 *c;
+    NJS_POINT2 *c;
 
     __ct__9TObjCharaFP7TObject(self, arg1, parent);
     *(void **)((u8 *)self + 0x18) = (void *)__vt__20TContainerAncient01R;
     *(s32 *)self = TContainerAncient01R__name;
     self->m5(parent);
     self->x34 = get_bml_model(TContainerAncient01R__bml_resource, 0);
-    self->x24 = TObjFish__sub_8001EDB0(TContainerAncient01R__bml_resource, 0);
+    self->x24 = get_bml_texlist(TContainerAncient01R__bml_resource, 0);
     self->animTbl = (void *)TContainerAncient01__anim_table;
     ((TObjMotion *)self)->set_field_d8((s32)self->animTbl);
     self->xdc = ((Res_8018B030 *)TContainerAncient01R__bml_resource)->x430;
@@ -689,7 +676,7 @@ void *TContainerAncient01R__ct(Obj_8018B030 *self, void *arg1, void *parent) {
     init_collision_body_parts(self, (void *)&TContainerAncient01__collision_body_parts, 1);
     ((TObjPlayer *)self)->register_object_by_id();
     VecCopy((Vec *)&self->pos74, (const Vec *)&self->pos);
-    c = (Coll_8018B030 *)&TContainerAncient01__collision_body_parts;
+    c = (NJS_POINT2 *)&TContainerAncient01__collision_body_parts;
     self->pos74.y = c->y / 2.0f + self->pos74.y;
     VecCopy((Vec *)&self->pos2fc, (const Vec *)&self->pos74);
     self->state = 0;
@@ -706,7 +693,7 @@ void TContainerAncient01__sub_8018B180(Obj_8018B180 *self, f32 range) {
     for (i = 0; i < 4; i++) {
         pl = (Player_8018B180 *)get_player_by_client_id(i);
         if (pl != NULL) {
-            if (((TObjPlayer *)pl)->get_floor() == get_current_floor() && obj_testFlags30__14TObjCollidableFUl(pl, 1) == 0 &&
+            if (((TObjPlayer *)pl)->get_floor() == get_current_floor() && ((TObjCollidable *)pl)->obj_testFlags30(1) == 0 &&
                 horizontal_distance_squared(self->pos, pl->pos) < range) {
                 Atk_8018B180 atk;
                 atk.type = 0xF;
@@ -784,7 +771,6 @@ void TContainerAncient01::sub_8018B48C() {
 
 #pragma push
 #pragma fp_contract on
-typedef char RecoveredGlobal_8018B5D0_TContainerAncient01__data_804B6DC0_size[sizeof(RecoveredGlobal_8018B5D0_TContainerAncient01__data_804B6DC0) == 0x2C ? 1 : -1];
 
 void TContainerAncient01::update_wait_for_player() {
     Obj_8018B510 *arg0 = (Obj_8018B510 *)this;
@@ -818,9 +804,9 @@ void TContainerAncient01::init_state_vectors() {
     *(f32 *)&this->unk_340 = (f32) (4e+02f + (this->scale.z - TContainerAncient01__data_805DBD10[0]));
     *(s32 *)&this->unk_36C = (s32) (*(s32 *)&this->set_params[2] + 4);
     VecCopy((Vec *)&this->m_344, (const Vec *)&this->position);
-    *(f32 *)&this->unk_348 = (f32) (*(f32 *)&this->unk_348 + *(f32 *)((s8 *)&TContainerAncient01__collision_body_parts.value + 4));
+    *(f32 *)&this->unk_348 = (f32) (*(f32 *)&this->unk_348 + *(f32 *)((s8 *)&TContainerAncient01__collision_body_parts + 4));
     VecCopy((Vec *)&this->unk_350, (const Vec *)&this->m_344);
-    this->m_354 = (f32) ((1.25f * *(f32 *)((s8 *)&TContainerAncient01__collision_body_parts.value + 4)) + this->m_354);
+    this->m_354 = (f32) ((1.25f * *(f32 *)((s8 *)&TContainerAncient01__collision_body_parts + 4)) + this->m_354);
     *(s32 *)&this->m_35c = 0;
     *(f32 *)&this->m_360 = (f32) TContainerAncient01__data_805DBD10[0];
     *(f32 *)&this->unk_364 = (f32) TContainerAncient01__data_805DBD10[0];
@@ -853,14 +839,11 @@ void TContainerAncient01::sub_8018B700() {
 }
 
 }
-#include "types.h"
+
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/object/base/TObjMotion.h"
-#include "pso/object/container/TContainerAncient01.h"
-#include "pso/object/ambient/TObjFish.h"
-#include "pso/player/TObjPlayer.h"
+
 
 struct Base_8018B820_8018B79C { char pad[0x18]; };
 struct VObj_8018B820_8018B79C : Base_8018B820_8018B79C {
@@ -886,24 +869,10 @@ struct VObj_8018B820_8018B79C : Base_8018B820_8018B79C {
     virtual void m19();
     virtual void m20(s32, f32);
 };
-struct VBase8018B8BC_8018B79C { char pad[0x18]; };
-struct VObj8018B8BC_8018B79C : VBase8018B8BC_8018B79C {
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3();
-    virtual void m4(); virtual void m5(); virtual void m6(); virtual void m7();
-    virtual s32 m8(f32, f32);
-};
-
 extern "C" {
-u32 get_bml_motion(int, int);
-s32 get_bml_model(int, int);
-s32 submit_cursor_candidate(void *, int, f32);
 extern s32 TContainerAncient01__bml_resource;
 
 
-s32 scale_current_matrix(void *);
-s32 post_translate_matrix(void *);
-s32 draw_ginja_model_with_motion(s32, s32, f32);
-s32 push_matrix();
 s32 reset_state__19TContainerAncient01Fv();
 
 f32 TContainerAncient01::receive_physical_attack(void *, f32) {
@@ -938,8 +907,7 @@ s32 TContainerAncient01::select_melee_contact_body(void *target, f32) {
 }
 
 void TContainerAncient01::render() {
-    u8 *arg0 = (u8 *)this;
-    if (((VObj8018B8BC_8018B79C *) arg0)->m8(3e+02f, 2e+01f) != 0) {
+    if (this->update_object_view_visibility(3e+02f, 2e+01f) != 0) {
         TObjFish::set_global_param(this->texlist);
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
@@ -950,7 +918,7 @@ void TContainerAncient01::render() {
         if (TObjPlayer::check_demo_mode() == 1) {
             draw_ginja_object(this->model);
         } else {
-            draw_ginja_model_with_motion(*(s32 *)&this->model, *(s32 *)&this->current_motion, this->frame);
+            draw_ginja_model_with_motion((void *)(*(s32 *)&this->model), (void *)(*(s32 *)&this->current_motion), this->frame);
         }
         pop_matrix();
     }
@@ -1003,8 +971,8 @@ void TContainerAncient01::run_task() {
 }
 
 }
-#include "types.h"
-#include "pso/object/container/TContainerAncient01.h"
+
+
 #include "pso/enemy/stelth/TObjEneMe3Stelth.h"
 
 struct Param_8018BB64 { s32 a; s32 b; s32 c; s32 d; };
@@ -1016,16 +984,13 @@ extern "C" {
 void *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 extern Param_8018BB64 container_ancient_anim_binding[];
 
-extern s32 TContainerAncient01__effect_id_table[];
 
 u8 *TContainerAncient01__ct(u8 *arg0, s32 arg1, s32 arg2);
 void free_bin_model_request(void*, int);
-void *__nw__7TObjectFUl(int);
 
-extern void *tl_05;
 
 void *TContainerAncient01::create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0x370);
+    void *o = TObject::operator new(0x370);
     if (o != NULL) {
         o = TContainerAncient01__ct((u8 *)o, (s32)tl_05, (s32)arg0);
     }
@@ -1060,39 +1025,19 @@ void TContainerAncient01::load_resources() {
     }
     Param_8018BB64 prm = container_ancient_anim_binding[0];
     prm.a = ((Res_8018BB64 *)TContainerAncient01__bml_resource)->x430;
-    TObjEneMe3Stelth::spawn_attack((s16)0x3B, (s32)(get_bml_model(TContainerAncient01__bml_resource, 0)), (s32)(TObjFish__sub_8001EDB0(TContainerAncient01__bml_resource, 0)), (s32)&prm, (f32)1e+01f, (f32)TContainerAncient01__data_805DBD14[0]);
+    TObjEneMe3Stelth::spawn_attack((s16)0x3B, (s32)(get_bml_model(TContainerAncient01__bml_resource, 0)), (s32)(get_bml_texlist(TContainerAncient01__bml_resource, 0)), (s32)&prm, (f32)1e+01f, (f32)TContainerAncient01__data_805DBD14[0]);
 }
 
 }
 #include "pso/render/RenderFadeState.h"
-#include "pso/system/vector.h"
+
 #include "pso/ui/hud/TRaderMapCore.h"
-#include "pso/object/ambient/TObjFish.h"
-#include "pso/object/base/TObjMotion.h"
-#include "pso/player/TObjPlayer.h"
-#include "pso/object/base/TObjChara.h"
+
+
 #include "pso/object/container/TObjContainerJungEnemy.h"
 #include "pso/object/container/TObjContainerIdo.h"
 #include "pso/item/TUnk_804B97C0.h"
-#include "pso/object/container/TContainerAncient01.h"
-#include "pso/object/container/TContainerAncient01R.h"
 
-#include "types.h"
-
-struct RecoveredGlobal_8018BD00_TContainerAncient01__data_804B6DC0 {
-    s32 value;
-    u8 remaining[0x28];
-};
-
-struct RecoveredGlobal_8018BD00_lbl_804B6DEC {
-    s32 value;
-    u8 remaining[0x2C];
-};
-
-struct RecoveredGlobal_8018BD00___vt__19TContainerAncient01 {
-    s32 value;
-    u8 remaining[0x13C];
-};
 
 struct B_8018BE30 { u8 pad[0x18]; };
 
@@ -1116,43 +1061,26 @@ struct V_8018BE98 : B_8018BE98 {
     virtual void m20(s32 a, f32 b);
 };
 
-extern "C" {
-
-s32 TObjFish__sub_8001EDB0(int, int);
-s32 get_bml_model(int, int);
 
 extern s32 __vt__19TContainerAncient01[];
 extern s32 TContainerAncient01__name;
-extern s32 TContainerAncient01__bml_resource;
 
-u8 *TContainerAncient01__ct(u8 *arg0, s32 arg1, s32 arg2);
-
-s32 TContainerAncient01__sub_8018BE90(void);
-void *__dt__19TContainerAncient01Fv(void *arg0, s16 arg1);
-s32 free_collision_body_parts(void *);
-s32 __dl__7TObjectFPv(void *);
-
-}
 
 TContainerAncient01::~TContainerAncient01() {
     unregister_object_by_id();
     free_collision_body_parts(this);
 }
 
-extern "C" {
 
 #pragma push
 #pragma fp_contract on
-typedef char RecoveredGlobal_8018BD00_TContainerAncient01__data_804B6DC0_size[sizeof(RecoveredGlobal_8018BD00_TContainerAncient01__data_804B6DC0) == 0x2C ? 1 : -1];
-typedef char RecoveredGlobal_8018BD00_lbl_804B6DEC_size[sizeof(RecoveredGlobal_8018BD00_lbl_804B6DEC) == 0x30 ? 1 : -1];
-typedef char RecoveredGlobal_8018BD00___vt__19TContainerAncient01_size[sizeof(RecoveredGlobal_8018BD00___vt__19TContainerAncient01) == 0x140 ? 1 : -1];
-u8 *TContainerAncient01__ct(u8 *arg0, s32 arg1, s32 arg2) {
-    __ct__9TObjCharaFP7TObject(arg0, (void *)arg1, (void *)arg2);
-    *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_8018BD00___vt__19TContainerAncient01 *)&__vt__19TContainerAncient01).value;
+u8 *TContainerAncient01__ct(u8 *arg0, s32 arg1, s32 parent) {
+    __ct__9TObjCharaFP7TObject(arg0, (void *)arg1, (void *)parent);
+    *(s32 **)((s8 *)arg0 + 0x18) = __vt__19TContainerAncient01;
     *(s32 *)((s8 *)arg0 + 0) = (s32) TContainerAncient01__name;
-    ((TContainerAncient01 *)(arg0))->apply_object_set_data((void *)arg2);
+    ((TContainerAncient01 *)(arg0))->apply_object_set_data((void *)parent);
     *(s32 *)((s8 *)arg0 + 0x34) = get_bml_model((int) ((*(u8 * *)&TContainerAncient01__bml_resource)), 0);
-    ((TContainerAncient01 *)arg0)->texlist = TObjFish__sub_8001EDB0((int) ((*(u8 * *)&TContainerAncient01__bml_resource)), 0);
+    ((TContainerAncient01 *)arg0)->texlist = get_bml_texlist((int) ((*(u8 * *)&TContainerAncient01__bml_resource)), 0);
     ((TContainerAncient01 *)arg0)->action_table = TContainerAncient01__anim_table;
     ((TObjMotion *)arg0)->set_field_d8((s32)((void *) (((TContainerAncient01 *)arg0)->action_table)));
     *(s32 *)((s8 *)arg0 + 0xDC) = (s32) *(s32 *)((s8 *)(*(u8 * *)&TContainerAncient01__bml_resource) + 0x430);
@@ -1160,10 +1088,10 @@ u8 *TContainerAncient01__ct(u8 *arg0, s32 arg1, s32 arg2) {
     ((TObjMotion *)arg0)->set_animation((((TContainerAncient01 *)arg0)->requested_action));
     ((TObjMotion *)arg0)->set_field_b8((int) (((TContainerAncient01 *)arg0)->requested_action));
     ((TContainerAncient01 *)arg0)->actorFlags = (s32) (((TContainerAncient01 *)arg0)->actorFlags | 0x60000000);
-    init_collision_body_parts(arg0, (void *)&TContainerAncient01__collision_body_parts.value, 1);
+    init_collision_body_parts(arg0, (void *)&TContainerAncient01__collision_body_parts, 1);
     ((TObjPlayer *)arg0)->register_object_by_id();
     VecCopy((Vec *)(arg0 + 0x74), (const Vec *)(arg0 + 0x38));
-    *(f32 *)((s8 *)arg0 + 0x78) = (f32) ((*(f32 *)((s8 *)&TContainerAncient01__collision_body_parts.value + 4) / 2.0f) + *(f32 *)((s8 *)arg0 + 0x78));
+    *(f32 *)((s8 *)arg0 + 0x78) = (f32) ((*(f32 *)((s8 *)&TContainerAncient01__collision_body_parts + 4) / 2.0f) + *(f32 *)((s8 *)arg0 + 0x78));
     VecCopy((Vec *)(arg0 + 0x2FC), (const Vec *)(arg0 + 0x74));
     ((TContainerAncient01 *)arg0)->mode = 0;
     ((TContainerAncient01 *)arg0)->init_state_vectors();
@@ -1196,7 +1124,6 @@ f32 TContainerAncient01::receive_weapon_special_attack(void *, void *) {
 void TContainerAncient01::apply_knockback_from_attacker(u8 *, f32) {  }
 s32 TContainerAncient01::try_start_action(s32, s32) { return 1; }
 s32 TContainerAncient01::roll_physical_accuracy(void *, s32, f32) { return 1; }
-}
 
 s32 TContainerAncient01__bml_resource;
 s32 TContainerAncient01R__bml_resource;

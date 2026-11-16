@@ -22,7 +22,6 @@ s32 sub_801BEE24__10TObjPlayerFs(void *, int);
 s32 sub_801BEE2C__10TObjPlayerFs(void *, int);
 s32 TObjPlayer__sub_801BF660(void *);
 s32 TObjPlayer__sub_801BFB4C(void *);
-s32 init_state__10TObjPlayerFi(void *);
 s32 TObjPlayer__sub_801C1A00(void *);
 s32 init_player_telepipe_record(void *);
 s32 TObjPlayer__sub_801C221C(void *);
@@ -48,7 +47,7 @@ u8 *TObjPlayer::construct_player_instance(s32 arg1, s16 arg2, s32 role, u8 *arg4
     *(s32 **)((s8 *)((u8 *)this) + 0x18) = __vt__10TObjPlayer;
     ((TObjPlayer *)(((u8 *)this) + 0x340))->init_subobject();
     ((TObjPlayer *)(((u8 *)this) + 0x34C))->setup_ctrl();
-    init_state__10TObjPlayerFi((void *) (((u8 *)this) + 0x360));
+    ((TObjPlayer *)(((u8 *)this) + 0x360))->init_state();
     TObjPlayer__sub_803374C4((void *) (((u8 *)this) + 0x374));
     TObjPlayer__sub_80309E9C((void *) (((u8 *)this) + 0x384));
     __ct__8FlagWordFv((((u8 *)this) + 0x41C));
@@ -119,29 +118,22 @@ struct VObj_18_dac7f3 : VBase_18_dac7f3 {
     virtual s32 m0(s32);
 };
 
-struct RecoveredGlobal_801BDCF8_TObjPlayer__data_8050EA70
-{
-  s32 value;
-  u8 remaining[0x320C];
-};
-
 struct E_801BDC98 { u8 b[0x42C]; };
 
 extern "C" {
 s32 is_locally_controlled__10TObjPlayerFPv();
 void *get_player_by_client_id(s32 i);
-extern RecoveredGlobal_801BDCF8_TObjPlayer__data_8050EA70 TObjPlayer__char_data_array;
+struct TObjPlayerCharDataArray { s32 value; u8 remaining[0x320C]; };
+extern TObjPlayerCharDataArray TObjPlayer__char_data_array;
 void create__10TObjPlayerFUll(u16, void *);
-typedef struct RecoveredGlobal_801BDCF8_TObjPlayer__data_8050EA70 RecoveredGlobal_801BDCF8_TObjPlayer__data_8050EA70;
 typedef struct VBase_18_dac7f3 VBase_18_dac7f3;
 typedef struct VObj_18_dac7f3 VObj_18_dac7f3;
 #pragma opt_pointer_analysis on
-typedef char RecoveredGlobal_801BDCF8_TObjPlayer__data_8050EA70_size[((sizeof(RecoveredGlobal_801BDCF8_TObjPlayer__data_8050EA70)) == 0x3210) ? (1) : (-1)];
 #define PSO_VCALL_VObj_18_dac7f3_m0(_self, _arg0) (((VObj_18_dac7f3 *)(_self))->m0((_arg0)))
 
 extern s32 lbl_80515BA0[];
 extern const char *TObjPlayer__player_set_class_name;
-extern "C" s32 check_value_equals__13TUnk_804B6C24Fl(void *self, const char *name);
+extern "C" s32 check_value_equals__13TUnk_804B6C24CFl(void *self, const char *name);
 
 TObjPlayerSet *find_player_arrival_set(TObjPlayer *player, s32 slot) {
     TObjPlayerSet *set;
@@ -166,7 +158,7 @@ TObjPlayerSet *find_player_arrival_set(TObjPlayer *player, s32 slot) {
         }
     }
     for (set = (TObjPlayerSet *)tl_06->m_down; set != NULL; set = (TObjPlayerSet *)set->m_next) {
-        if (check_value_equals__13TUnk_804B6C24Fl(set, TObjPlayer__player_set_class_name) != 0 &&
+        if (check_value_equals__13TUnk_804B6C24CFl(set, TObjPlayer__player_set_class_name) != 0 &&
             slot == (s32)set->scale.x && set->set_params[0] == side) {
             return set;
         }

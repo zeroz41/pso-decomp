@@ -4,18 +4,14 @@
 
 extern "C" {
 
-u32 __nw__7TObjectFUl(s32);
 
 extern u32 TAdDialingGC__instance;
 
 void TAdDialingGC::create() {
-    void *temp_r3;
+    void *ad_dialing_gc;
 
     if ((u32) TAdDialingGC__instance == 0U) {
-        temp_r3 = (void *) __nw__7TObjectFUl(0xA8);
-        if (temp_r3 != NULL) {
-            TAdDialingGC__ct((TAdDialingGC *)temp_r3, tl_window);
-        }
+        ad_dialing_gc = (void *)new TAdDialingGC(tl_window);
     }
 }
 

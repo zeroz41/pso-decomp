@@ -1,4 +1,5 @@
 #include "pso/network/protocol/protocol_types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/render/NinjaUtil.h"
@@ -68,8 +69,8 @@ f32 random_ratio__9TObjCharaFv(TObject *actor);
 f32 fabs_float(f32 x);
 f32 newton_sqrtf(f32 x);
 s32 get_current_floor(void);
-s16 get_actor_hp(u8 *p);
-s32 play_persistent_sound(u32 id, TObject *source, f32 *pos, s32, s32);
+s16 get_actor_hp__9TObjCharaFv(u8 *p);
+s32 play_persistent_sound(u32 id, TObject *source, Vec *, s32, s32);
 u16 find_nearest_visible_player(TObject *self, s32 flags, f32 range);
 s32 is_local_client_floor_leader();
 void request_follow_camera_offsets(Vec *position, Vec *target, s32 id, f32 blend);
@@ -240,7 +241,7 @@ static Vec boss3_volopt_seq4_camera_position;
 static Vec boss3_volopt_seq4_camera_target;
 TObjPlayer *TBoss3Volopt::candidate_players[5];
 
-extern "C" TBoss3VoloptCore *fn_8003F468(TBoss3Volopt *parent, u16 id, s32 group) {
+TBoss3VoloptCore *fn_8003F468(TBoss3Volopt *parent, u16 id, s32 group) {
     return new TBoss3VoloptCore(parent, id, group);
 }
 
@@ -276,7 +277,7 @@ void TObject::pause_update() {
     m_flags |= PAUSE_UPDATE;
 }
 
-BOOL TUnk_804B6C24::check_value_equals(s32 name) {
+BOOL TUnk_804B6C24::check_value_equals(s32 name) const {
     return (s32)m_name == name;
 }
 
@@ -378,7 +379,7 @@ s32 TBoss3Volopt::get_field_3e0() {
 }
 
 void TBoss3Volopt::reset_photon_effect() {
-    ((TObjPlayer *)this)->register_object_by_id();
+    this->register_object_by_id();
 }
 
 TBoss3Volopt::TBoss3Volopt(void *set_data) : TObjEnemyCustom(tl_04) {
@@ -498,7 +499,7 @@ void TBoss3Volopt::dispatch_mode() {
         break;
     case 1:
         update_intro_cutscene();
-        play_persistent_sound(0x4003C600, this, 0, 0, 0);
+        play_persistent_sound(0x4003C600, this, (Vec *)(0), 0, 0);
         break;
     case 2:
         update_phase1();
@@ -515,7 +516,7 @@ void TBoss3Volopt::dispatch_mode() {
         break;
     case 3:
         update_phase2_intro();
-        play_persistent_sound(0x4003C601, this, 0, 0, 0);
+        play_persistent_sound(0x4003C601, this, (Vec *)(0), 0, 0);
         break;
     case 4:
         update_phase2();
@@ -988,7 +989,7 @@ void TBoss3Volopt::update_intro_cutscene() {
         first.cache_target_and_forward(0x271C);
         state = 1;
     case 1:
-        play_persistent_sound(0x4003B202, this, 0, 0, 0);
+        play_persistent_sound(0x4003B202, this, (Vec *)(0), 0, 0);
         if (--m_384 <= 0) {
             m_384 = 0x3C;
             state = 2;
@@ -1038,7 +1039,7 @@ void TBoss3Volopt::update_phase1() {
     s32 i;
     f32 radius;
     s32 angle;
-    play_persistent_sound(0x4003C600, this, 0, 0, 0);
+    play_persistent_sound(0x4003C600, this, (Vec *)(0), 0, 0);
     switch (state) {
     case 0:
         state = 1;
@@ -1056,7 +1057,7 @@ void TBoss3Volopt::update_phase1() {
         break;
     case 2: {
         m_384 = 0x96;
-        TCameraCtrl__sub_8006A044(0xB4, 0.03f);
+        start_camera_shake(0xB4, 0.03f);
         for (i = 0; i < 6; i++) {
             TObject *p01 = (TObject *)find_entity_by_id(volopt_target_entity_ids[i]);
             if (p01 != NULL) {
@@ -1080,7 +1081,7 @@ void TBoss3Volopt::update_phase1() {
         pos.y = 50.0f * (3.0517578e-05f * (f32)rand()) + 10.0f;
         pos.z = radius * sin_table_lookup(angle);
         spawn_particle_effect(&pos, 0xFB);
-        play_persistent_sound(0x4003AD21, this, 0, 0, 0);
+        play_persistent_sound(0x4003AD21, this, (Vec *)(0), 0, 0);
         break;
     case 4:
         new TUnk_804848B8(this, NULL);
@@ -1179,7 +1180,7 @@ void TBoss3Volopt::update_phase2() {
             next_action = 5;
             new TUnk_80483B88;
         }
-        play_persistent_sound(0x4003C601, this, 0, 0, 0);
+        play_persistent_sound(0x4003C601, this, (Vec *)(0), 0, 0);
         break;
     case -1:
         break;
@@ -1551,7 +1552,7 @@ u16 TBoss3Volopt::find_strongest_player() {
     for (i = 0; i < volopt_candidate_count; i++) {
         player = candidate_players[i];
         if (player != NULL) {
-            s16 hp = get_actor_hp((u8 *)player);
+            s16 hp = get_actor_hp__9TObjCharaFv((u8 *)player);
             if (hp > best_hp) {
                 best_hp = hp;
                 best = player;

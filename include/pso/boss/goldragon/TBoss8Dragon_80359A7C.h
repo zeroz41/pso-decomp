@@ -2,17 +2,15 @@
 #define PSO_BOSS_GOLDRAGON_TBOSS8DRAGON_80359A7C_H
 
 #include "types.h"
+#include "pso/boss/goldragon/TBoss8Dragon.h"
 
-extern "C" {
-void TBoss8Dragon__sub_80359A7C(u8 *arg0);
-void *__dt__13TUnk_804F1A78Fv(void *arg0, s16 arg1);
-}
-
-// --- C functions defined in TBoss8Dragon_80359A7C.cpp ---
-extern "C" {
-void TBoss8Dragon__sub_80359A7C(u8 *boss8_dragon);
-void *__dt__13TUnk_804F1A78Fv(void *arg0, s16 arg1);
-}
-// --- end of C functions
+// The TBoss8Dragon that TBoss8Dragon::spawn_attack_object creates. Its table (0x804F1A78) differs from
+// TBoss8Dragon's only in the destructor and run_task slots.
+class TUnk_804F1A78 : public TBoss8Dragon {
+public:
+    TUnk_804F1A78(TObject *parent, void *set_data, s32 hp);
+    virtual ~TUnk_804F1A78();
+    virtual void run_task();
+};
 
 #endif

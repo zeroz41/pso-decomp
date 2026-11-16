@@ -44,12 +44,12 @@ s16 NetIPv6HandleIcmpMessage(NetPacket *pkt, u8 *src, u8 *dst, u8 hop_limit, s16
     NetPacketFragment *body;
     NetPacket *reply;
 
-    if (TLobby__sub_80411040((const IPv6Address *)src, (const IPv6Address *)dst, 0x3A, pkt, 0)) {
+    if (calc_ipv6_pseudo_header_checksum((const IPv6Address *)src, (const IPv6Address *)dst, 0x3A, pkt, 0)) {
         return -1;
     }
     body = &pkt->fragments[1];
     set_value_and_enable(&ref, (s32)&icmp);
-    TLobby__sub_80406FD8(&ref, &body->buffer, 8);
+    netbuf_copy_by_ref(&ref, &body->buffer, 8);
     switch (icmp.type) {
     case 128:
         reply = alloc_free_entry();
@@ -69,14 +69,14 @@ s16 NetIPv6HandleIcmpMessage(NetPacket *pkt, u8 *src, u8 *dst, u8 hop_limit, s16
         release_entry(reply);
         return r;
     case 1:
-        TLobby__sub_80406EB8(&body->buffer, 8);
+        netbuf_ref_advance(&body->buffer, 8);
         set_value_and_enable(&ref, (s32)&ip);
-        TLobby__sub_80406FD8(&ref, &body->buffer, sizeof(ip));
-        TLobby__sub_80406EB8(&body->buffer, sizeof(ip));
+        netbuf_copy_by_ref(&ref, &body->buffer, sizeof(ip));
+        netbuf_ref_advance(&body->buffer, sizeof(ip));
         switch (ip.next_header) {
         case 17:
             set_value_and_enable(&ref, (s32)&udp);
-            TLobby__sub_80406FD8(&ref, &body->buffer, sizeof(udp));
+            netbuf_copy_by_ref(&ref, &body->buffer, sizeof(udp));
             TLobby__sub_80420D38(udp.src_port, icmp.code);
             break;
         case 6:
@@ -86,9 +86,9 @@ s16 NetIPv6HandleIcmpMessage(NetPacket *pkt, u8 *src, u8 *dst, u8 hop_limit, s16
     case 2:
         mtu = icmp.pointer;
         if (mtu > 0 && mtu < 0x8000) {
-            TLobby__sub_80406EB8(&body->buffer, 8);
+            netbuf_ref_advance(&body->buffer, 8);
             set_value_and_enable(&ref, (s32)&ip);
-            TLobby__sub_80406FD8(&ref, &body->buffer, sizeof(ip));
+            netbuf_copy_by_ref(&ref, &body->buffer, sizeof(ip));
             TLobby__sub_80411DEC(&ip.dst, mtu);
         }
         return 0;
@@ -222,7 +222,7 @@ s16 TLobby__sub_8040D510(void *a, u8 *src, s16 c, s16 flag) {
         pkt->fragments[0].length -= d;
     }
     msg->checksum = 0;
-    msg->checksum = TLobby__sub_80411040(&buf, p, 0x3a, pkt, 1);
+    msg->checksum = calc_ipv6_pseudo_header_checksum(&buf, p, 0x3a, pkt, 1);
     r = TLobby__sub_80410A98((s32)pkt, p, &buf, 0, (void *)0x3a);
     release_entry(pkt);
     return r;
@@ -246,7 +246,7 @@ s16 TLobby__sub_8040D718(u8 type, u8 code, u8 *src, u8 *dst, NetPacket *pkt, s16
     }
     switch (type) {
     case 0x81:
-        TLobby__sub_80406EB8(&pkt->fragments[pkt->fragment_count - 1].buffer, sizeof(hdr));
+        netbuf_ref_advance(&pkt->fragments[pkt->fragment_count - 1].buffer, sizeof(hdr));
         pkt->fragments[pkt->fragment_count - 1].length -= sizeof(hdr);
         pkt->fragments[pkt->fragment_count].length = sizeof(hdr);
         set_value_and_enable(&pkt->fragments[pkt->fragment_count].buffer, (s32)&hdr);
@@ -258,7 +258,7 @@ s16 TLobby__sub_8040D718(u8 type, u8 code, u8 *src, u8 *dst, NetPacket *pkt, s16
     hdr.type = type;
     hdr.code = code;
     hdr.checksum = 0;
-    hdr.checksum = TLobby__sub_80411040((const IPv6Address *)src, (const IPv6Address *)dst, 0x3A, pkt, 1);
+    hdr.checksum = calc_ipv6_pseudo_header_checksum((const IPv6Address *)src, (const IPv6Address *)dst, 0x3A, pkt, 1);
     if (TLobby__sub_80410A98((s32)pkt, dst, src, NULL, (void *)0x3A)) {
         return -1;
     }

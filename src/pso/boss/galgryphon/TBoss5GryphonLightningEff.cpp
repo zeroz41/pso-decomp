@@ -1,4 +1,5 @@
 #include "pso/boss/galgryphon/TBoss5GryphonLightningEff.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/render/MaterialColorFade.h"
 #include "pso/technique/TTecZondeEff.h"
 #include "pso/render/ChunkMaterialState.h"
@@ -14,24 +15,22 @@
 #include "pso/unk/TLobby_803255F8.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/technique/TTecZondeEff.h"
+
 
 struct Ent_80325248 { u8 b[0xC]; };
 
 struct Obj_80325248 { u8 pad[0x38]; s32 n; u8 pad2[0xD8 - 0x3C]; Ent_80325248 ents[1]; };
 
-struct Vec_8032537C { f32 x, y, z; };
-
 struct Self_8032537C {
-    s32 f0;
+    const char *f0;
     char pad4[0x14];
     void *vt;
-    Vec_8032537C v1c;
-    Vec_8032537C v28;
+    Vec v1c;
+    Vec v28;
     f32 f34;
     s32 n;
-    Vec_8032537C pts[13];
-    Vec_8032537C pts2[13];
+    Vec pts[13];
+    Vec pts2[13];
     char pad174[0x25C - 0x174];
     s16 f25c;
     char pad25e[2];
@@ -52,7 +51,7 @@ extern "C" {
 void eval_bezier_curve__12TBoss8DragonFPviiPvf(void *, void *, s32, void *, f32);
 void subtract_vector(void *, void *);
 extern s32 __vt__25TBoss5GryphonLightningEff[];
-extern s32 lbl_805D4188;
+const char *lbl_805D4188 = "TBoss5GryphonLightningEff";
 Self_8032537C *__ct__25TBoss5GryphonLightningEffFv(Self_8032537C *self, void *parent, void *a, void *b, f32 x0, f32 x1, f32 scale);
 extern L1_80325070 **inazuma_texture_list;
 s32 project_lightning_points(void *, void *, void *, void *);
@@ -132,10 +131,10 @@ extern const f32 lbl_805DF5FC = 0.0625f;
 #pragma push
 #pragma fp_contract on
 Self_8032537C *__ct__25TBoss5GryphonLightningEffFv(Self_8032537C *self, void *parent, void *a, void *b, f32 x0, f32 x1, f32 scale) {
-    Vec_8032537C v;
+    Vec v;
     f32 denom;
     s32 i;
-    __ct__12TTecZondeEffFv((u8 *)self, (u8 *)parent, 0x30000000, 4, (f32)scale);
+    __ct__12TTecZondeEffFP7TObjectllf((u8 *)self, (u8 *)parent, 0x30000000, 4, (f32)scale);
     self->vt = __vt__25TBoss5GryphonLightningEff;
     self->f0 = lbl_805D4188;
     self->f260 = 0;
@@ -169,16 +168,14 @@ Self_8032537C *__ct__25TBoss5GryphonLightningEffFv(Self_8032537C *self, void *pa
     }
     return self;
 }
+}
 #pragma pop
 
-}
-
 #pragma readonly_strings on
-
-
-extern "C" {
     u8 *load_gvm_texture_file(s32 arg0);
+extern "C" {
 s32 release_texture_list(void*);
+}
 
 void TLobby::free_char_select_singleton() {
     if ((u32) inazuma_texture_list != 0U) {
@@ -186,6 +183,5 @@ void TLobby::free_char_select_singleton() {
         TAdSinglePlyChrSelectGC::safe_free((u32)inazuma_texture_list);
         inazuma_texture_list = 0U;
     }
-}
 }
 void load_f512_inazuma(void) { (*(int *)&inazuma_texture_list) = (int)load_gvm_texture_file((s32)(unsigned char *)"f512_inazuma.gvm"); }

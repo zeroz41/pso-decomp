@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/TParticleCtrl.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
 #include "pso/effect/particle/ParticleBallistic.h"
 #include "pso/render/render_util.h"
@@ -25,12 +26,6 @@
 #pragma auto_inline off
 #pragma dont_inline off
 
-struct Stack_80088844 {
-    f32 sp8;
-    f32 spC;
-    f32 sp10;
-};
-
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
@@ -77,12 +72,6 @@ struct Stack_80088844 {
 #pragma auto_inline off
 #pragma dont_inline off
 
-struct RecoveredGlobal_8008C21C_TParticleCtrl__data_80511F70 {
-    s32 value;
-    u8 remaining[0x1AC];
-};
-
-struct RecoveredGlobal_8008C21C_TParticleCtrl__data_80511F70;
 struct Fields0_800896E4 {
     u8 pad_0[0x18]; s32 *field_18; u16 field_1C; u8 pad_1E[6]; u16 field_24; s16 field_26;
     f32 field_28; f32 field_2C; f32 field_30; f32 field_34; f32 field_38; f32 field_3C; f32 field_40; f32 field_44;
@@ -97,20 +86,14 @@ struct Fields1_800896E4 {
     u8 pad_50[4]; f32 field_54; u8 pad_58[0x30]; u8 field_88;
 };
 
-struct Fields2_800896E4 { f32 field_0; f32 field_4; f32 field_8; };
-
 struct Fields3_800896E4 { s32 field_0; s32 field_4; s32 field_8; };
-
-struct Vec_800890F4 { f32 x, y, z; };
 
 struct Ang_800890F4 { s32 x, y, z; };
 
-static const Vec_800890F4 lbl_804394E8 = { 0.0f, 0.0f, -1.0f };
-static const Vec_800890F4 lbl_804394F4 = { 0.0f, 0.0f, -1.0f };
-static const Vec_800890F4 lbl_80439500 = { 0.0f, 0.0f, 1.0f };
+static const Vec lbl_804394E8 = { 0.0f, 0.0f, -1.0f };
+static const Vec lbl_804394F4 = { 0.0f, 0.0f, -1.0f };
+static const Vec lbl_80439500 = { 0.0f, 0.0f, 1.0f };
 static const Ang_800890F4 lbl_8043950C = { 0, 0, 0 };
-
-struct Scr_800890F4 { f32 x, y; };
 
 struct Def_800890F4 {
     u8 pad0[0x64];
@@ -131,8 +114,8 @@ struct Part_800890F4 {
     f32 h;
     u8 pad30[0x6C - 0x30];
     u8 f6C[4];
-    Vec_800890F4 pos;
-    Vec_800890F4 ofs;
+    Vec pos;
+    Vec ofs;
     f32 sw;
     f32 sh;
     u8 pad90[0x96 - 0x90];
@@ -148,7 +131,7 @@ struct Part_800890F4 {
     u32 motion;
     f32 frame;
     u8 padC0[0xC4 - 0xC0];
-    Vec_800890F4 vel;
+    Vec vel;
 };
 
 extern "C" {
@@ -165,8 +148,8 @@ extern ParticleTexture *TParticleCtrl__data_80511F70[];
 s32 is_particle_sprite_additive__13TUnk_8048E728Fv(void *, s32);
 s32 append_node_to_tail__13TParticleCtrlFPvPv(s32, void *);
 s32 all_parents_unqueued_for_destruction__7TObjectFv();
-s32 draw_ginja_object(u32);
-s32 draw_ginja_model_with_motion(u32, u32, f32);
+void draw_ginja_object(void *child);
+void draw_ginja_model_with_motion(void *model, void *motion, f32 frame);
 extern u8 *camera_ctrl_instance;
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
@@ -263,12 +246,12 @@ void *TParticleCtrl::create_random_spread(void *arg0, void *arg1, void *arg2) {
 }
 void TUnk_8048E778::retire_ballistic_particle_if_done() {
     u8 *arg0 = (u8 *)this;
-    Stack_80088844 stack;
+    Vec stack;
     if (*(u8 *)((s8 *)this->param + 0x88) & 8) {
-        stack.sp8 = this->pos.x - this->origin.x;
-        stack.spC = this->pos.y - *(f32 *)((s8 *)arg0 + 0x34);
-        stack.sp10 = this->pos.z - this->origin.z;
-        if (0.0f == vec_squared_length((u8 *)&stack.sp8)) {
+        stack.x = this->pos.x - this->origin.x;
+        stack.y = this->pos.y - *(f32 *)((s8 *)arg0 + 0x34);
+        stack.z = this->pos.z - this->origin.z;
+        if (0.0f == vec_squared_length((u8 *)&stack.x)) {
             ((TObject *)arg0)->queue_destruction();
             return;
         }
@@ -414,7 +397,7 @@ void TUnk_8048E778::run_task() {
         }
     }
     motion_frame += unk_C0;
-    if (motion != NULL && (f32)(motion->nbFrame - 1) <= motion_frame) {
+    if (motion != NULL && (motion->nbFrame - 1) <= motion_frame) {
         motion_frame = motion->nbFrame - 1;
     }
     retire_ballistic_particle_if_done();
@@ -429,10 +412,10 @@ void TUnk_8048E778::render() {
         return;
     }
     if (p->def->flags & 4) {
-        Vec_800890F4 b;
-        Vec_800890F4 a;
-        Scr_800890F4 s0;
-        Scr_800890F4 s1;
+        Vec b;
+        Vec a;
+        NJS_POINT2 s0;
+        NJS_POINT2 s1;
         f32 len;
         if (p->flags & 0x10) {
             a.x = p->pos.x + p->ofs.x;
@@ -453,9 +436,9 @@ void TUnk_8048E778::render() {
         p->sw = p->def->sx * len;
         p->sh = p->def->sy * len;
     } else if (p->def->flags & 0x40) {
-        Vec_800890F4 a = lbl_804394E8;
-        Vec_800890F4 b = lbl_804394F4;
-        Vec_800890F4 c = lbl_80439500;
+        Vec a = lbl_804394E8;
+        Vec b = lbl_804394F4;
+        Vec c = lbl_80439500;
         f32 d1;
         f32 d2;
         push_matrix_from(identity_matrix);
@@ -497,7 +480,7 @@ void TUnk_8048E778::render() {
     p->sh *= p->scy;
     flags = p->flags;
     if (flags & 0x200) {
-        Vec_800890F4 t;
+        Vec t;
         if (is_split_screen() != 0 && (p->flags & 0x400)) {
             return;
         }
@@ -544,9 +527,9 @@ void TUnk_8048E778::render() {
         TObjFish::set_global_param(p->texlist);
         set_draw_list_mask(3);
         if (p->motion != 0) {
-            draw_ginja_model_with_motion(p->model, p->motion, p->frame);
+            draw_ginja_model_with_motion((void *)p->model, (void *)p->motion, (f32)p->frame);
         } else {
-            draw_ginja_object(p->model);
+            draw_ginja_object((void *)p->model);
         }
         if (p->flags & 0x400) {
             reset_particle_tev();
@@ -590,7 +573,7 @@ void *__dt__13TUnk_8048E778Fv(void *arg0, s16 arg1) {
 u8 *construct_ballistic_particle(void *a0, void *a1, void *a2, void *a3, s32 arg4, u16 arg5, s16 arg6) {
     Fields0_800896E4 *p = (Fields0_800896E4 *)a0;
     Fields1_800896E4 *d = (Fields1_800896E4 *)a1;
-    Fields2_800896E4 *pos = (Fields2_800896E4 *)a2;
+    Vec *pos = (Vec *)a2;
     Fields3_800896E4 *c = (Fields3_800896E4 *)a3;
     s32 temp_r0;
     f32 *v;
@@ -607,19 +590,19 @@ u8 *construct_ballistic_particle(void *a0, void *a1, void *a2, void *a3, s32 arg
     p->field_98 = c->field_0;
     p->field_9C = c->field_4;
     p->field_A0 = c->field_8;
-    p->field_70 = (d->field_18 * ((3.0517578e-05f * (f32)rand()) - 0.5f)) + pos->field_0;
-    p->field_78 = (d->field_20 * ((3.0517578e-05f * (f32)rand()) - 0.5f)) + pos->field_8;
+    p->field_70 = (d->field_18 * ((3.0517578e-05f * (f32)rand()) - 0.5f)) + pos->x;
+    p->field_78 = (d->field_20 * ((3.0517578e-05f * (f32)rand()) - 0.5f)) + pos->z;
     if (d->field_88 & 2) {
-        p->field_74 = pos->field_4 + d->field_1C;
+        p->field_74 = pos->y + d->field_1C;
     } else {
-        p->field_74 = (d->field_1C * ((3.0517578e-05f * (f32)rand()) - 0.5f)) + pos->field_4;
+        p->field_74 = (d->field_1C * ((3.0517578e-05f * (f32)rand()) - 0.5f)) + pos->y;
     }
-    p->field_30 = pos->field_0;
-    p->field_38 = pos->field_8;
+    p->field_30 = pos->x;
+    p->field_38 = pos->z;
     if (d->field_88 & 2) {
-        p->field_34 = pos->field_4;
+        p->field_34 = pos->y;
     } else {
-        p->field_34 = pos->field_4;
+        p->field_34 = pos->y;
     }
     p->field_28 = (d->field_28 * (3.0517578e-05f * (f32)rand())) + d->field_24;
     p->field_2C = p->field_28;
@@ -648,7 +631,6 @@ u8 *construct_ballistic_particle(void *a0, void *a1, void *a2, void *a3, s32 arg
 }
 #pragma pop
 
-struct RecoveredGlobal_8008C21C_TParticleCtrl__data_80511F70;
 struct BF0_80089B50 {
     u8 pad_0[0x18]; s32 *field_18; u16 field_1C; u8 pad_1E[6]; u16 field_24; s16 field_26;
     f32 field_28; f32 field_2C; f32 field_30; f32 field_34; f32 field_38; f32 field_3C; f32 field_40; f32 field_44;
@@ -661,14 +643,13 @@ struct BF1_80089B50 {
     f32 field_30; f32 field_34; f32 field_38; f32 field_3C; u8 pad_40[8]; s32 field_48; s32 field_4C;
     u8 pad_50[4]; f32 field_54; u8 pad_58[0x30]; u8 field_88;
 };
-struct BF2_80089B50 { f32 field_0; f32 field_4; f32 field_8; };
 
 #pragma push
 #pragma fp_contract on
 void *TUnk_8048E778::init_particle_random_spread(void *a1, void *a2, void *a3) {
     BF0_80089B50 *p = (BF0_80089B50 *)this;
     BF1_80089B50 *d = (BF1_80089B50 *)a1;
-    BF2_80089B50 *pos = (BF2_80089B50 *)a2;
+    Vec *pos = (Vec *)a2;
     s32 temp_r0;
     f32 *v;
     init_particle_base(this, a1, (s32)a3);
@@ -676,19 +657,19 @@ void *TUnk_8048E778::init_particle_random_spread(void *a1, void *a2, void *a3) {
     p->field_C4 = 0.0f;
     p->field_C8 = 0.0f;
     p->field_CC = 0.0f;
-    p->field_70 = (d->field_18 * ((3.0517578e-05f * (f32)rand()) - 0.5f)) + pos->field_0;
-    p->field_78 = (d->field_20 * ((3.0517578e-05f * (f32)rand()) - 0.5f)) + pos->field_8;
+    p->field_70 = (d->field_18 * ((3.0517578e-05f * (f32)rand()) - 0.5f)) + pos->x;
+    p->field_78 = (d->field_20 * ((3.0517578e-05f * (f32)rand()) - 0.5f)) + pos->z;
     if (d->field_88 & 2) {
-        p->field_74 = pos->field_4 + d->field_1C;
+        p->field_74 = pos->y + d->field_1C;
     } else {
-        p->field_74 = (d->field_1C * ((3.0517578e-05f * (f32)rand()) - 0.5f)) + pos->field_4;
+        p->field_74 = (d->field_1C * ((3.0517578e-05f * (f32)rand()) - 0.5f)) + pos->y;
     }
-    p->field_30 = pos->field_0;
-    p->field_38 = pos->field_8;
+    p->field_30 = pos->x;
+    p->field_38 = pos->z;
     if (d->field_88 & 2) {
-        p->field_34 = pos->field_4;
+        p->field_34 = pos->y;
     } else {
-        p->field_34 = pos->field_4;
+        p->field_34 = pos->y;
     }
     p->field_28 = (d->field_28 * (3.0517578e-05f * (f32)rand())) + d->field_24;
     p->field_2C = p->field_28;

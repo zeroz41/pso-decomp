@@ -1,6 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 // ---- pso/technique/TTecMegid
 #include "pso/effect/particle/TParticleCtrl.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "types.h"
 #include "pso/effect/TUnk_804CCC68.h"
 #include "pso/unk/TUnk_804CCA78.h"
@@ -12,6 +13,7 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/technique/TTecCtrl.h"
 #include "pso/technique/TTecBarta.h"
+#include "pso/system/MatrixStack.h"
 
 struct RecoveredGlobal_80235348_lbl_804CC510
 {
@@ -39,18 +41,6 @@ struct RecoveredFields_80235348_arg0
   f32 field_D4;
   u8 unknown_D8[0x18];
   s16 field_F0;
-};
-
-struct RecoveredGlobal_802308A0_lbl_804CC510
-{
-  s32 value;
-  u8 remaining[0x48];
-};
-
-struct RecoveredGlobal_802308A0_lbl_804CC55C
-{
-  s32 value;
-  u8 remaining[0x94];
 };
 
 struct RecoveredFields_802308A0_arg0
@@ -132,7 +122,6 @@ struct Obj_80235490 {
 };
 
 struct TTecGiBartaData_80230B48;
-struct Vec_80235740 { f32 x; f32 y; f32 z; };
 
 struct Row_80235740 { u32 entry; u32 flags; f32 scale; };
 
@@ -141,7 +130,7 @@ struct Data_80235740 { Row_80235740 *rows; u32 count; };
 struct Obj_80235740 {
     u8 pad0[0x1C];
     void *source;
-    Vec_80235740 pos;
+    Vec pos;
     u8 pad2c[0x58 - 0x2C];
     s32 f58;
     u8 pad5c[0xC6 - 0x5C];
@@ -164,13 +153,6 @@ struct Data_802351B4
   u32 count;
 };
 
-struct Vec_802351B4
-{
-  f32 x;
-  f32 y;
-  f32 z;
-};
-
 struct Arg_802351B4
 {
   s32 a;
@@ -181,7 +163,7 @@ struct Arg_802351B4
 struct Obj_802351B4
 {
   u8 pad0[0x20];
-  Vec_802351B4 pos;
+  Vec pos;
   u8 pad2c[0x54 - 0x2C];
   s32 f54;
   s32 f58;
@@ -217,7 +199,7 @@ const TechniqueEmitterSourceTable TTecMegid__emitter_bands[6] = {
 };
 // inferred: same <Class>__class_name pattern as TTecBarta__class_name
 const char *TTecMegid__class_name = "TTecMegid";
-static const Vec_80235740 tec_megid_offset_vec = {0.0f, 0.0f, -5.0f};
+static const Vec tec_megid_offset_vec = {0.0f, 0.0f, -5.0f};
 
 extern "C" {
 s32 calc_technique_parameters(int, int, int);
@@ -231,14 +213,18 @@ u16 get_entity_id(void *);
 void __ct__13TUnk_804CCC68FlPUcPUcl();
 u8 *TTecMegid__ct(TTecMegid *arg0, s32 _w1, s32 _w2, s32 _w3, s32 _w4);
 void construct_facing_technique__10TObjPlayerFPviPvii();
-s32 play_sound_effect(s32, s32, s32, s32);
-s32 get_technique_caster_flags(s32, u16);
+s32 play_sound_effect(s32, Vec *, s32, s32);
+}
+u32 get_technique_caster_flags(s32 technique, u16 actor);
+extern "C" {
 void TTecMegid__vt6(Obj_80235490 *self, VObj_80235490 *target);
 void *find_entity_by_id(u16);
 s32 push_matrix_from(void *src);
 void rotate_matrix_y(s32, s32);
-void matrix_mult_vec(s32, Vec_80235740 *, Vec_80235740 *);
+void matrix_mult_vec(s32, Vec *, Vec *);
+}
 s32 pop_matrices(s32 arg0);
+extern "C" {
 void dispatch_technique_contact__13TUnk_804CCC68Fv(Obj_80235740 *, s32);
 extern u8 identity_matrix[];
 void run_task__9TTecMegidFv(Obj_80235740 *self);
@@ -258,29 +244,29 @@ void TTecMegid::update_by_state() {
 
     switch (this->band) {
     case 0:
-        handle = play_sound_effect(0x4002A60B, (int)(arg0 + 0x20), 0, 0);
+        handle = play_sound_effect(0x4002A60B, (Vec *)((int)(arg0 + 0x20)), 0, 0);
         if (handle >= 0) {
             update_technique_slot__10TTecRaFoieFl(handle, 0x100, 0);
         }
         return;
     case 1:
-        play_sound_effect(0x4002A60B, (int)(arg0 + 0x20), 0, 0);
+        play_sound_effect(0x4002A60B, (Vec *)((int)(arg0 + 0x20)), 0, 0);
         return;
     case 2:
     case 3:
-        handle = play_sound_effect(0x4002A60B, (int)(arg0 + 0x20), 0, 0);
+        handle = play_sound_effect(0x4002A60B, (Vec *)((int)(arg0 + 0x20)), 0, 0);
         if (handle >= 0) {
             update_technique_slot__10TTecRaFoieFl(handle, -0x180, 0);
         }
         break;
     case 4:
-        handle = play_sound_effect(0x4002A60B, (int)(arg0 + 0x20), 0, 0);
+        handle = play_sound_effect(0x4002A60B, (Vec *)((int)(arg0 + 0x20)), 0, 0);
         if (handle >= 0) {
             update_technique_slot__10TTecRaFoieFl(handle, -0x250, 0);
         }
         break;
     case 5:
-        handle = play_sound_effect(0x4002A60B, (int)(arg0 + 0x20), 0, 0);
+        handle = play_sound_effect(0x4002A60B, (Vec *)((int)(arg0 + 0x20)), 0, 0);
         if (handle >= 0) {
             update_technique_slot__10TTecRaFoieFl(handle, -0x100, 0);
         }
@@ -299,7 +285,6 @@ typedef struct Data_802351B4 Data_802351B4;
 typedef struct Obj_802351B4 Obj_802351B4;
 typedef struct Row_802351B4 Row_802351B4;
 typedef struct TTecGiBartaData_80230B48 TTecGiBartaData_80230B48;
-typedef struct Vec_802351B4 Vec_802351B4;
 void TTecMegid::spawn_particle_emitters() {
   Obj_802351B4 *self = (Obj_802351B4 *) this;
   u32 fl;
@@ -389,7 +374,7 @@ void TTecMegid__vt6(Obj_80235490 *self, VObj_80235490 *target) {
         }
         HitInfo_80235490 info = tmp;
         target->m21(self->source, &info, self->contact, 0x12, -1);
-        play_sound_effect(0x4002AD29, (s32)((u8 *)target + 0x38), 0, 0);
+        play_sound_effect(0x4002AD29, (Vec *)((s32)((u8 *)target + 0x38)), 0, 0);
         if (self->fc8 < 12) {
             if ((get_technique_caster_flags(0x12, self->fc8) & 1) == 0) {
                 ((TObject *)self)->queue_destruction();
@@ -415,10 +400,6 @@ void TTecMegid::create_ex(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
 void TTecMegid::render() {  }
 
 typedef struct RecoveredFields_802308A0_arg0 RecoveredFields_802308A0_arg0;
-typedef struct RecoveredGlobal_802308A0_lbl_804CC510 RecoveredGlobal_802308A0_lbl_804CC510;
-typedef struct RecoveredGlobal_802308A0_lbl_804CC55C RecoveredGlobal_802308A0_lbl_804CC55C;
-typedef char RecoveredGlobal_802308A0_lbl_804CC510_size[((sizeof(RecoveredGlobal_802308A0_lbl_804CC510)) == 0x4C) ? (1) : (-1)];
-typedef char RecoveredGlobal_802308A0_lbl_804CC55C_size[((sizeof(RecoveredGlobal_802308A0_lbl_804CC55C)) == 0x98) ? (1) : (-1)];
 TTecGiBarta_80230B48 *__dt__9TTecMegidFv(TTecGiBarta_80230B48 *self, s16 deleting) {
     if (self) {
         self->vtable = __vt__9TTecMegid;
@@ -443,8 +424,8 @@ void run_task__9TTecMegidFv(Obj_80235740 *self) {
     }
     for (i = 0; i < ((Data_80235740 *)TTecMegid__emitter_bands)[self->band].count; i++) {
         if (((Data_80235740 *)TTecMegid__emitter_bands)[self->band].rows[i].flags & 4) {
-            Vec_80235740 off = tec_megid_offset_vec;
-            Vec_80235740 p;
+            Vec off = tec_megid_offset_vec;
+            Vec p;
             push_matrix_from(identity_matrix);
             rotate_matrix_y(0, self->f58);
             matrix_mult_vec(0, &off, &off);
@@ -480,6 +461,7 @@ u8 *TTecMegid__ct(TTecMegid *tec_megid, s32 _w1, s32 _w2, s32 _w3, s32 _w4) {
     }
     return (u8 *)tec_megid;
 }
+}
 
 u8 *TTecMegid::construct_facing(s32 _w1, s32 _w2, s32 _w3, s32 _w4) {
     u8 *arg0 = (u8 *)this;
@@ -508,19 +490,16 @@ void TUnk_804CCA78::run_task() {
     }
 }
 
-}
-
 // ---- pso/unk/text_80235A20
-#include "types.h"
-#include "pso/unk/TUnk_804CCA78.h"
+
+
 #include "pso/unk/TLobby_80226070.h"
 #include "pso/unk/text_80235A20.h"
 
-struct RecoveredGlobal_80235A20_lbl_804CCA78 { s32 value; u8 remaining[0x14]; };
-
 extern "C" {
 u8 * __dt__7TObjectFv(void *, s16);
-extern RecoveredGlobal_80235A20_lbl_804CCA78 lbl_804CCA78;
+struct RecoveredGlobal_lbl_804CCA78 { s32 value; u8 remaining[0x14]; };
+extern RecoveredGlobal_lbl_804CCA78 lbl_804CCA78;
 u8 *__dt__13TUnk_804CCA78Fv(u8 *arg0, s16 arg1) {
     s32 temp_r3;
     if (arg0 != NULL) {
@@ -537,10 +516,6 @@ u8 *__dt__13TUnk_804CCA78Fv(u8 *arg0, s16 arg1) {
     return arg0;
 }
 
-}
-
-
-extern "C" {
 s32 __ct__7TObjectFP7TObject(void *, void *);
 }
 u8 *construct_timed_sound_voice(u8 *arg0, s32 arg1, s16 arg2, s32 arg3, s32 arg4, s32 arg5) {
@@ -550,7 +525,7 @@ u8 *construct_timed_sound_voice(u8 *arg0, s32 arg1, s16 arg2, s32 arg3, s32 arg4
     *(s16 *)((s8 *)arg0 + 0x1C) = arg2;
     ((TUnk_804CCA78 *)arg0)->m_1e = 0;
     *(s32 *)((s8 *)arg0 + 0x20) = arg3;
-    ((TUnk_804CCA78 *)arg0)->m_24 = play_sound_effect(*(s32 *)((s8 *)arg0 + 0x20), arg1, 0, 0);
+    ((TUnk_804CCA78 *)arg0)->m_24 = play_sound_effect(*(s32 *)((s8 *)arg0 + 0x20), (Vec *)(arg1), 0, 0);
     handle = ((TUnk_804CCA78 *)arg0)->m_24;
     if ((handle >= 0) && (arg4 != 0)) {
         update_technique_slot__10TTecRaFoieFl(handle, arg4, 0);

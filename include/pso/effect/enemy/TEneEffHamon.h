@@ -9,6 +9,8 @@ public:
     virtual ~TEneEffHamon();
     virtual void render();
     virtual void run_task();
+public:
+    static void init_fish_effects();
 };
 
 extern "C" {

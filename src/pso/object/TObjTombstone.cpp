@@ -1,4 +1,5 @@
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 // TObject's helpers are out-of-line functions for this TU (run_task calls
 // TObject::queue_destruction, defined elsewhere).
 #define TOBJECT_OUT_OF_LINE_HELPERS
@@ -36,12 +37,11 @@
 #include "pso/player/TObjPlayer_80011014.h"
 
 struct Off_800753DC { s16 x, y; };
-struct P_800753DC { f32 x, y; };
 
 extern "C" {
 f32 xyz_distance(void *, void *);
 extern s32 TLobby__designated_client_id;
-s32 TObjFish__sub_8001EDB0(s32, s32);
+s32 get_bml_texlist(s32, s32);
 s32 get_bml_model(s32, s32);
 u8 *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 void free_bin_model_request(void *, int);
@@ -51,8 +51,8 @@ s32 get_screen_height__11TCameraCtrlFv();
 s32 PPCSync();
 u32 calc_text_width(const char *);
 void draw_menu_font_string(const char *, u32, s32, f32, f32, f32);
-const char *TQuestVmDownLoadServer__sub_8006EF6C(s32);
-s32 TWindowCtrlMain__sub_8024CE58();
+const char *get_message_text(s32);
+s32 has_window_task_root();
 void fn_80074E04(s32 i, Vec *pos);
 void TObjTombstone__sub_80075DFC(TObjTombstone *self);
 }
@@ -158,7 +158,7 @@ TObjTombstone::TObjTombstone(TObject *parent, s32 client, TObjTombstoneSpot *spo
 }
 
 void TObjTombstone::setup(s32 client, TObjTombstoneRecord *src) {
-    this->texlist = TObjFish__sub_8001EDB0(TObjTombstone__shared_resource_object, 0);
+    this->texlist = get_bml_texlist(TObjTombstone__shared_resource_object, 0);
     *(s32 *)&this->model = get_bml_model(TObjTombstone__shared_resource_object, 0);
     this->client_id = client;
     this->record = *src;
@@ -336,7 +336,7 @@ void TObjTombstone::format_player_name() {
 }
 
 void TObjTombstone::format_label() {
-    sprintf(this->labels[1], "%s%d", TQuestVmDownLoadServer__sub_8006EF6C(0x4D), this->record.unk_4);
+    sprintf(this->labels[1], "%s%d", get_message_text(0x4D), this->record.unk_4);
     this->labels[1][0x2F] = 0;
 }
 
@@ -345,7 +345,7 @@ void TObjTombstone::build_name_text() {
     if (this->record.unk_1C[0] == 0 || TWindowSubComCard::contains_profanity(this->record.unk_1C) != 0) {
         buf[0] = 0;
     } else {
-        sprintf(buf, "%s%s", TQuestVmDownLoadServer__sub_8006EF6C(0x4C), this->record.unk_1C);
+        sprintf(buf, "%s%s", get_message_text(0x4C), this->record.unk_1C);
     }
     buf[0x2F] = 0;
 }
@@ -358,7 +358,7 @@ void TObjTombstone::format_enemy_text() {
     if (this->record.rt_index > 0) {
         name = enemy_name_for_rt_index(this->record.rt_index);
         if (name != 0) {
-            strncpy(fmt, TQuestVmDownLoadServer__sub_8006EF6C(0x4E), 0x2F);
+            strncpy(fmt, get_message_text(0x4E), 0x2F);
             fmt[0x2F] = 0;
             sprintf(text, fmt, name);
         }
@@ -446,7 +446,7 @@ s32 TObjTombstone::check_all_players_active() {
     s32 i;
     TObjPlayer *player;
 
-    if (TWindowCtrlMain__sub_8024CE58() == 0) {
+    if (has_window_task_root() == 0) {
         return 0;
     }
     i = 0;
@@ -493,7 +493,7 @@ void TObjTombstone::update_render_flags() {
 void TObjTombstone::draw_name_labels() {
     u32 c2;
     u32 c1;
-    P_800753DC screen;
+    NJS_POINT2 screen;
     Vec pos;
     f32 m;
     f32 a;
@@ -523,7 +523,7 @@ void TObjTombstone::draw_name_labels() {
     c2 = ((u32)(alpha * b) << 24) | 0xFFFFFF;
     for (s32 i = 0; i < 6; i++) {
         char *name;
-        P_800753DC p = screen;
+        NJS_POINT2 p = screen;
         name = this->labels[i];
         if (strlen(name) != 0) {
             p.x -= 0.5f * TWindowSubStatusDisp::calc_text_width(name);

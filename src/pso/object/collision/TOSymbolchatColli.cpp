@@ -1,14 +1,17 @@
 #include "pso/render/render_util.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/object/collision/TOSymbolchatColli.h"
-#include "pso/object/collision/TOSymbolchatColli.h"
+
 #include "pso/system/NinjaTypes.h"
 #include "types.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/base/TObjChara.h"
-#include "pso/object/collision/TOSymbolchatColli.h"
+
 #include "pso/ui/chat/TWindowSubSymbolChat.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/system/task/TObject.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 struct VBase_80178AD4 { u8 pad[0x18]; };
 
@@ -58,31 +61,24 @@ struct Ent_8017873C
 
 extern "C" {
 f32 newton_sqrtf(f32 x);
-void __ct__9TObjCharaFP7TObject(void *);
 void init_collision_body_parts(void *, void *, int);
 CollisionBody lbl_804B4550[1] = {
     { { 0.0f, 80.0f, 0.0f }, 1.0f, 1.0f, 0, 0x10002, { 0.0f, 0.0f, 0.0f }, 0.0f },
 };
-extern s32 __vt__17TOSymbolchatColli[];
-extern s32 TOSymbolchatColli__name;
+const char *lbl_805D3190 = "symbolchatcolli.prs";
+const char *TOSymbolchatColli__name = "TOSymbolchatColli";
 Obj_80178AD4 *__ct__17TOSymbolchatColliFP7TObjectl(Obj_80178AD4 *arg0, void *arg1, s32 arg2);
 s32 is_locally_controlled__10TObjPlayerFPv();
 void *find_entity_by_id(u16 id);
 void fn_8017866C(void *, s32, u16);
 void run_task__17TOSymbolchatColliFv(Obj_80178890 *self);
 u32 prs_decompress_buffer(s32 arg0, s32 arg1);
-s32 set_stream_and_load_file__6TLobbyFi(s32);
-void *mem_alloc(u32 size);
-extern u32 symbolchat_colli_param_table[];
-extern s32 lbl_805D3190;
-extern int symbol_chat_colli_entries;
+s32 set_stream_and_load_file__6TLobbyFi(const char *);
+u32 symbolchat_colli_param_table[4];
+int symbol_chat_colli_entries;
 void *memset(void *, int, u32);
-void *__dt__17TOSymbolchatColliFv(void *arg0, s16 arg1);
-u8 is_current_floor_switch_set(u16);
+u8 is_current_floor_switch_set(s32 id);
 s32 free_collision_body_parts(void *);
-s32 __dl__7TObjectFPv(void *);
-void *__nw__7TObjectFUl(int);
-void mem_free(void *p);
 
 s32 TOSymbolchatColli::get_state() {
     if (is_current_floor_switch_set(this->m_37c) == 1) {
@@ -178,7 +174,7 @@ void run_task__17TOSymbolchatColliFv(Obj_80178890 *self) {
 }
 
 void *TOSymbolchatColli::create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0x384);
+    void *o = TObject::operator new(0x384);
     if (o != NULL) {
         o = __ct__17TOSymbolchatColliFP7TObjectl((Obj_80178AD4 *)(o), (void *)tl_05, (s32)arg0);
     }
@@ -206,15 +202,15 @@ void TOSymbolchatColli::load_symbol_chat_data() {
 
 }
 TOSymbolchatColli::~TOSymbolchatColli() {
-    ((TObjCollidable *)this)->unregister_object_by_id();
+    this->unregister_object_by_id();
     free_collision_body_parts(this);
 }
 TOSymbolchatColli::TOSymbolchatColli(TObject *arg1, s32 arg2) : TObjChara(arg1) {
     s32 i;
-    *(s32 *)this = TOSymbolchatColli__name;
+    m_name = TOSymbolchatColli__name;
     ((Obj_80178AD4 *)this)->v5(arg2);
-    init_collision_body_parts(((Obj_80178AD4 *)this), lbl_804B4550, 1);
-    ((TObjPlayer *)this)->register_object_by_id();
+    init_collision_body_parts(this, lbl_804B4550, 1);
+    this->register_object_by_id();
     this->init_collision_params();
     for (i = 0; i < 4; i++) {
         ((Obj_80178AD4 *)this)->arr[i] = 0;

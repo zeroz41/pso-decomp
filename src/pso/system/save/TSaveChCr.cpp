@@ -15,18 +15,13 @@
 
 #include <stddef.h>
 #include "pso/system/task/TObject.h"
-#include "pso/system/save/TSaveChCr.h"
+
 
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
 
 struct ByteBlock_20 { u8 bytes[0x20]; };
-
-struct RecoveredGlobal_80339F98_lbl_80477CBC {
-    s32 value;
-    u8 remaining[0x20];
-};
 
 struct Stack_8033A184 {
     s32 sp8;
@@ -36,26 +31,18 @@ struct Stack_8033A184 {
 
 union MemberActionStorage_8033A184 { s32 words[3]; void (TSaveChCr::*action)(); };
 
-struct RecoveredGlobal_8033A184_lbl_804EF658 {
-    s32 value;
-    u8 remaining[0x74];
-};
-
 extern TSaveChCrStateActions lbl_804EF658[];
 
 extern "C" {
-int close_and_advance__9TSaveChCrFPv(void*, int);
 extern s32 pso_character_card_filename[];
 extern s32 pso_system_card_filename[];
 extern s32 pso_guildcard_card_filename[];
-void *__nw__7TObjectFUl(int);
 void *__ct__9TAdBackGCFv(void *, void *);
 void *__ct__12TAdBackTxtGCFv(void *, void *);
-extern RecoveredGlobal_80339F98_lbl_80477CBC TSaveChCr__message_text_ids;
 u32 update_window_mode_from_progress__6TLobbyFPv(s32 *, s32 *);
 extern s32 lbl_80477CAC[];
 extern s32 lbl_80477CB4[];
-s32 TAdPlayerLoadGC__sub_801E1B50(s32);
+s32 poll_memcard_result(s32);
 s32 poll_memcard_status__23TAdSinglePlyChrSelectGCFv();
 extern const char *TSaveChCr__name;
 s32 load_character_from_card__23TAdSinglePlyChrSelectGCFi(s32 arg0);
@@ -66,7 +53,7 @@ extern void *tl_03;
 void TSaveChCr::destroy_if_keyboard_idle() { if (this->timer == 0) { queue_destruction(); request_queued_main_phase(); } }
 void TSaveChCr::sub_80339B94() { close_window(); }
 void TSaveChCr::save_if_dirty() { if (sub_80339F30() != 0) { set_state((s32)((void*)4)); } }
-void TSaveChCr::close_and_advance_to_3() { close_and_advance__9TSaveChCrFPv(this, 3); }
+void TSaveChCr::close_and_advance_to_3() { close_and_advance((void*)3); }
 void TSaveChCr::update_save_status() {
     s32 var_r3;
 
@@ -87,12 +74,12 @@ void TSaveChCr::update_save_status() {
             return;
         }
         queue_destruction();
-        TKeyBoardControl__sub_8000F9CC(9);
+        request_main_phase(9);
     }
 }
-void TSaveChCr::close_and_advance_step2() { close_and_advance__9TSaveChCrFPv(this, 2); }
+void TSaveChCr::close_and_advance_step2() { close_and_advance((void*)2); }
 void TSaveChCr::sub_80339CE4() {}
-void TSaveChCr::save_1() { close_and_advance__9TSaveChCrFPv(this, 1); }
+void TSaveChCr::save_1() { close_and_advance((void*)1); }
 void TSaveChCr::update_save_state() {
     s32 temp_r4;
 
@@ -137,7 +124,7 @@ s32 TSaveChCr::poll_memcard_status() {
         this->m_28 = 0;
         return 4;
     }
-    if (TAdPlayerLoadGC__sub_801E1B50(0) != 0) {
+    if (poll_memcard_result(0) != 0) {
         this->m_24 = (this->m_24 + 1);
         this->m_28 = 0;
         return 2;
@@ -166,7 +153,6 @@ s32 TSaveChCr::sub_80339F30() {
 }
 
 void TSaveChCr::close_and_advance(void* a1) { close_window(); set_message_by_index((s32)a1); }
-typedef char RecoveredGlobal_80339F98_lbl_80477CBC_size[sizeof(RecoveredGlobal_80339F98_lbl_80477CBC) == 0x24 ? 1 : -1];
 void TSaveChCr::set_message_by_index(s32 arg1) {
     s32 arg0 = (s32)this;
     ByteBlock_20 sp8;
@@ -198,12 +184,12 @@ void TSaveChCr::close_window() {
 void TSaveChCr::create_backgrounds() {
     void *o;
     void *o2;
-    o = __nw__7TObjectFUl(0x24);
+    o = TObject::operator new(0x24);
     if (o != NULL) {
         o = __ct__9TAdBackGCFv(o, this);
     }
     *(void **)((s8 *)this + 0x30) = o;
-    o2 = __nw__7TObjectFUl(0x28);
+    o2 = TObject::operator new(0x28);
     if (o2 != NULL) {
         o2 = __ct__12TAdBackTxtGCFv(o2, this);
     }
@@ -217,7 +203,6 @@ s32 TSaveChCr::save_character() {
 }
 
 typedef char MemberActionStorage_8033A184_size[sizeof(MemberActionStorage_8033A184) == 12 ? 1 : -1];
-typedef char RecoveredGlobal_8033A184_lbl_804EF658_size[sizeof(RecoveredGlobal_8033A184_lbl_804EF658) == 0x78 ? 1 : -1];
 void TSaveChCr::set_state(s32 arg1) {
     u8 *arg0 = (u8 *)this;
     MemberActionStorage_8033A184 member_action;
@@ -228,7 +213,7 @@ void TSaveChCr::set_state(s32 arg1) {
     u8 *temp_r6;
     if ((s32) *(s32 *)((s8 *)arg0 + 0x1C) != arg1) {
         *(s32 *)((s8 *)arg0 + 0x1C) = arg1;
-        temp_r6 = (u8 *)&(*(RecoveredGlobal_8033A184_lbl_804EF658 *)&lbl_804EF658).value + (*(s32 *)((s8 *)arg0 + 0x1C) * 0x18);
+        temp_r6 = (u8 *)&lbl_804EF658 + (*(s32 *)((s8 *)arg0 + 0x1C) * 0x18);
         member_action.words[0] = *(s32 *)((s8 *)temp_r6 + 0);
         member_action.words[1] = *(s32 *)((s8 *)temp_r6 + 4);
         member_action.words[2] = *(s32 *)((s8 *)temp_r6 + 8);

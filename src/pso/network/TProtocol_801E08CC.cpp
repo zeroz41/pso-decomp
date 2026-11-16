@@ -14,7 +14,6 @@ void __dl__9TProtocolFPv(s32 arg0) {
 
     extern int lobby_count_value;
 void set_lobby_count_value(void) { lobby_count_value = 1; }
+}
 
 void bswap_ply_smth_pair(void* p) { bswap_32((u32 *)p); bswap_32((u32 *)((char*)p + 0x4)); }
-
-}

@@ -1,4 +1,5 @@
 #include "pso/system/NinjaTypes.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/item/mag/TItemMagSub.h"

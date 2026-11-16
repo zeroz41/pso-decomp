@@ -6,6 +6,9 @@
 
 struct TWindowKeyBoardSoft
 {
+    void sub_8026227C(TWindowKeyBoardSoft *);
+    void sub_802616BC(TWindowKeyBoardSoft *);
+    void sub_80260E30(s32);
     void spawn_key_effect(s32, s32);
     void handle_page_cycle_input(s32);
     void update_keyboard_child_input_from_controller(s32);
@@ -131,9 +134,16 @@ struct TWindowKeyBoardSoft
     static void dispatch_request_0x13(s32 arg0, s32 arg1, s32 arg2);
     static void dispatch_request_0x10(s32 a, s32 b);
     static void dispatch_request_0f(s32 a, s32 b);
+    void calc_cursor_step(s32 *arg1, s32 *arg2);
+    f32 calc_key_x(s32 arg1, s32 arg2);
+    static s32 calc_key_index(TWindowKeyBoardSoft *arg1, s32 arg2, s32 arg3);
 };
 
 typedef char TWindowKeyBoardSoft_depth_offset[offsetof(TWindowKeyBoardSoft, depth) == 0x38 ? 1 : -1];
 typedef char TWindowKeyBoardSoft_m_60_offset[offsetof(TWindowKeyBoardSoft, m_60) == 0x44 ? 1 : -1];
+
+// TWindowKeyBoardSoft__data_804CB7C8: layout known from its uses only.
+struct RecoveredGlobal_TWindowKeyBoardSoft__data_804CB7C8 { s32 value; u8 remaining[0x6C]; };
+extern RecoveredGlobal_TWindowKeyBoardSoft__data_804CB7C8 TWindowKeyBoardSoft__data_804CB7C8;
 
 #endif

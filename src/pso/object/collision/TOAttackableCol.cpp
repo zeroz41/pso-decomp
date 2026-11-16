@@ -12,11 +12,10 @@
 #include "pso/quest/TQuestThread.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/unk/text_80087278.h"
-#include "pso/system/task/TObject.h"
-#include "pso/object/base/TObjMotion.h"
-#include "pso/player/TObjPlayer.h"
+
+
 #include "pso/player/TUnk_804B6C24.h"
-#include "pso/unk/TLobby.h"
+
 
 #pragma readonly_strings on
 
@@ -25,11 +24,6 @@ const char *TOAttackableCol__name = "TOAttackableCol";
 
 void set_floor_switch_flag(u32 id, s16 floor);
 
-
-struct RecoveredGlobal_80157AD8___vt__15TOAttackableCol {
-    s32 value;
-    u8 remaining[0x138];
-};
 
 struct Msg_801575AC {
     u16 cmd;
@@ -60,27 +54,20 @@ struct Obj_801575AC {
 };
 
 extern "C" {
-void *__nw__7TObjectFUl(int);
 void *fn_80157CA8(void *arg0);
 void TOAttackableCol__sub_80157310(void *_w0);
-u8 is_current_floor_switch_set(int);
-volatile int is_locally_controlled__10TObjPlayerFPv(void *);
+u8 is_current_floor_switch_set(s32 id);
 u16 get_entity_id(void *);
 extern u32 quest_mission_manager;
 extern u32 quest_area_manager;
 extern s32 tl_00;
-s32 __ct__9TObjCharaFP7TObject(void *, int);
 s32 obj_setFlags30(void *, int);
 s32 init_collision_body_parts(void *, void *, int);
-extern s32 __vt__15TOAttackableCol[];
 extern s32 tl_05;
-u8 *TOAttackableCol__ct(u8 *arg0, s32 arg1);
 s32 get_current_floor(void);
 void TOAttackableCol__sub_80157C20(void* p, s32 v);
 s32 TOAttackableCol__sub_80157C28(void* p);
-void *__dt__15TOAttackableColFv(void *arg0, s16 arg1);
 s32 free_collision_body_parts(void *);
-s32 __dl__7TObjectFPv(void *);
 int clear_player_status_flag__14TObjCollidableFlUl(void*, int, int);
 void *find_entity_by_id(u16 id);
 extern SetEntry_80157454 *quest_object_entries;
@@ -241,7 +228,7 @@ f32 TOAttackableCol::apply_hit(s32 arg1) {
   if (var_r30 != 0)
   {
     temp_r0 = this->m_34c;
-    if (((temp_r0 >= 0) && (temp_r0 < 0x100)) && (is_current_floor_switch_set((int) ((u16) temp_r0)) == 0))
+    if (((temp_r0 >= 0) && (temp_r0 < 0x100)) && (is_current_floor_switch_set(((u16) temp_r0)) == 0))
     {
       return 0.0f;
     }
@@ -318,36 +305,29 @@ void TOAttackableCol::render() {  }
 
 void *TOAttackableCol::create(void *arg0) {
     void *o;
-    o = __nw__7TObjectFUl(0x350);
-    if (o != NULL) {
-        o = TOAttackableCol__ct((u8 *)o, (s32)arg0);
-    }
+    o = (void *)new TOAttackableCol((s32)arg0);
     return o;
 }
 
 }
 TOAttackableCol::~TOAttackableCol() {
-    ((TObjCollidable *)this)->unregister_object_by_id();
+    this->unregister_object_by_id();
     free_collision_body_parts(this);
 }
-extern "C" {
 
-typedef char RecoveredGlobal_80157AD8___vt__15TOAttackableCol_size[sizeof(RecoveredGlobal_80157AD8___vt__15TOAttackableCol) == 0x13C ? 1 : -1];
-u8 *TOAttackableCol__ct(u8 *arg0, s32 arg1) {
-    __ct__9TObjCharaFP7TObject(arg0, tl_05);
-    *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_80157AD8___vt__15TOAttackableCol *)&__vt__15TOAttackableCol).value;
-    ((TObject *)arg0)->m_name = TOAttackableCol__name;
-    ((TOAttackableCol *)(arg0))->apply_object_set_data((void *)arg1);
-    ((TObjChara *)arg0)->calc_attach_pos();
-    obj_setFlags30(arg0, 0x60000000);
-    init_collision_body_parts(arg0, &TOAttackableCol__collision_parts, 1);
-    ((TObjCollidable *)arg0)->set_indexed_flags(0, 0x718);
-    ((TObjPlayer *)arg0)->register_object_by_id();
-    ((TOAttackableCol *)arg0)->mode = 0;
-    *(f32 *)((s8 *)arg0 + 0x334) = 500.0f;
-    ((TOAttackableCol *)arg0)->m_338 = 50.0f;
-    ((TOAttackableCol *)arg0)->init_params();
-    return arg0;
+
+TOAttackableCol::TOAttackableCol(s32 arg1) : TObjChara((TObject *)tl_05) {
+    ((TObject *)this)->m_name = TOAttackableCol__name;
+    ((TOAttackableCol *)(((u8 *)this)))->apply_object_set_data((void *)arg1);
+    ((TObjChara *)this)->calc_attach_pos();
+    obj_setFlags30(((u8 *)this), 0x60000000);
+    init_collision_body_parts(((u8 *)this), &TOAttackableCol__collision_parts, 1);
+    ((TObjCollidable *)this)->set_indexed_flags(0, 0x718);
+    ((TObjPlayer *)this)->register_object_by_id();
+    this->mode = 0;
+    *(f32 *)((s8 *)this + 0x334) = 500.0f;
+    this->m_338 = 50.0f;
+    this->init_params();
 }
 
 s32 TOAttackableCol::try_start_action(s32, s32) { return 1; }
@@ -380,4 +360,3 @@ void *fn_80157CA8(void *barrier_energy01) {
     return barrier_energy01;
 }
 
-}

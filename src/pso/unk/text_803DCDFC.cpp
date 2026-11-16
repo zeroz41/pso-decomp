@@ -45,10 +45,6 @@ extern "C" {
 u8 lbl_805D46C8 = 0x1;
 Tlut_803DD0D8 gx_tlut_region_table[0x500 / sizeof(Tlut_803DD0D8)];
 s32 tv_render_mode_obj[16];
-}
-
-extern "C" {
-
 u32 VIGetNextField(void);
 void GXInvalidateVtxCache(void);
 void GXInvalidateTexAll(void);
@@ -145,7 +141,6 @@ void present_frame_and_wait_vsync(void) {
     }
     video_current_framebuffer = (video_current_framebuffer == video_initial_display_framebuffer) ? video_initial_draw_framebuffer : video_initial_display_framebuffer;
 }
-
 
 
 void TMovie::run_callback() {
@@ -376,11 +371,10 @@ void init_sin_cos_table(void) {
 }
 #pragma pop
 
-extern "C" {
+
 Elem_803DD300 render_contexts[6];
 s32 lbl_8058D470[8];
 Mtx34 identity_matrix;
 NJS_ARGB model_material_color;
 f32 camera_clip_parameters[10];
 Cam_803DD300 lbl_8058D4F8;
-}

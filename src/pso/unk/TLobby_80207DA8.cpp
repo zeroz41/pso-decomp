@@ -1,4 +1,5 @@
 #include "pso/network/protocol/protocol_types.h"
+#include "pso/unk/TLobby_80207DA8.h"
 #include "pso/map/FloorLifecycleTables.h"
 #include "pso/ui/frontend/TAdStorySelectGC.h"
 #include "pso/system/THeap.h"
@@ -9,9 +10,11 @@
 #include "pso/map/FloorArea.h"
 
 #include "types.h"
-#include "pso/map/FloorArea.h"
+#include "pso/system/task/TObject.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 
-extern "C" {
+
 extern char floor_map_name_acity00[];
 extern char floor_map_name_acity00_00[];
 extern char floor_map_name_aforest01[];
@@ -204,6 +207,7 @@ extern char floor_map_name_forest02[];
 extern char floor_map_name_forest01[];
 extern char floor_map_name_city00_00[];
 extern char floor_map_name_city00[];
+extern "C" {
 __declspec(section ".data") const char *lbl_804C8C60[2] = { floor_map_name_city00, floor_map_name_city00_00 };
 __declspec(section ".data") const char *lbl_804C8C68[2] = { floor_map_name_forest01, floor_map_name_forest01 };
 __declspec(section ".data") const char *lbl_804C8C70[2] = { floor_map_name_forest02, floor_map_name_forest02 };
@@ -260,14 +264,11 @@ const char *lbl_804C9230[10] = { floor_map_name_aancient03, floor_map_name_aanci
 __declspec(section ".data") const char *lbl_804C9258[2] = { floor_map_name_aboss01, floor_map_name_aboss01 };
 __declspec(section ".data") const char *lbl_804C9260[2] = { floor_map_name_aboss02, floor_map_name_aboss02 };
 __declspec(section ".data") const char *lbl_804C9268[2] = { floor_map_name_aboss03, floor_map_name_aboss03 };
+}
 FloorSceneEntry floor_scene_table[36] = { { lbl_804C90E0, 1 }, { lbl_804C90E8, 1 }, { lbl_804C90F0, 1 }, { lbl_804C90F8, 6 }, { lbl_804C9128, 5 }, { lbl_804C9150, 6 }, { lbl_804C9180, 6 }, { lbl_804C91B0, 6 }, { lbl_804C91E0, 5 }, { lbl_804C9208, 5 }, { lbl_804C9230, 5 }, { lbl_804C9258, 1 }, { lbl_804C9260, 1 }, { lbl_804C9268, 1 }, { lbl_804C8DF0, 1 }, { lbl_804C8DF8, 15 }, { lbl_804C8E70, 3 }, { lbl_804C8E88, 3 }, { lbl_804C8EA0, 1 }, { lbl_804C8ED8, 3 }, { lbl_804C8EF0, 3 }, { lbl_804C8EA8, 3 }, { lbl_804C8EC0, 3 }, { lbl_804C8F08, 1 }, { lbl_804C8F10, 1 }, { lbl_804C8F18, 1 }, { lbl_804C8F20, 3 }, { lbl_804C8F38, 1 }, { lbl_804C8F70, 3 }, { lbl_804C8F88, 3 }, { lbl_804C8FA0, 1 }, { lbl_804C8FA8, 1 }, { lbl_804C8FB0, 1 }, { lbl_804C8FB8, 1 }, { lbl_804C8F40, 1 }, { lbl_804C8F48, 5 } };
 s32 forest_rel_filename_table[6] = { (s32)"SetDataTableOff.rel", (s32)"SetDataTableOffUlti.rel", (s32)"SetDataTableOn.rel", (s32)"SetDataTableOnUlti.rel", (s32)"SetDataTable_TGS2001.rel", 0 };
-}
-
-
-
-extern "C" {
 s32 get_floor_scene_table(s32 arg0);
+extern "C" {
 void reset_story_select__6TLobbyFv(void);
 int TLobby__sub_80207E24(void* p);
 void TLobby__sub_80207E44(void);
@@ -294,6 +295,7 @@ s32 TLobby::is_scene_ready() {
 int TLobby__sub_80207E24(void* p) { return copy_table_entries__6TLobbyFUl(p); }
 void TLobby__sub_80207E44(void) {  }
 int TLobby__sub_80207E48(void* p) { return randomize_adventure_maps(p); }
+}
 int TLobby::lookup_scene_object(void* p) { return ((int (*)(void*))get_floor_map_selection)(p); }
 s32 get_floor_scene_table(s32 arg0) {
     if (arg0 > 0x23) {
@@ -304,12 +306,12 @@ s32 get_floor_scene_table(s32 arg0) {
     }
     return (s32)lbl_804C8FC0[arg0].names;
 }
+extern "C" {
 
 int TLobby__sub_80207F10(void* p);
 
 int TLobby::reset_story_select(void* p) { return ((int (*)(void*))reset_story_select__6TLobbyFv)(p); }
 int TLobby__sub_80207F10(void* p) { return ((int (*)(void*))reset_story_select__6TLobbyFv)(p); }
-
 }
 
 struct R_80207F30 { s16 a; s16 b; u16 c; };
@@ -428,8 +430,6 @@ void bswap_object_row_fields(void *arg0) {
 }
 extern "C" {
 
-s32 get_main_phase();
-s32 is_split_screen();
 
 extern s32 game_difficulty_selection;
 
@@ -722,11 +722,6 @@ s32 run_wave_event_actions(void) {
 #undef wave_event_stream_cursor
 #undef wave_event_stop_requested
 
-struct RecoveredGlobal_80208D28_lbl_805139F8 {
-    s32 value;
-    u8 remaining[0x44];
-};
-
 struct Ent_80208A04 { u8 pad[8]; s32 n; };
 
 struct Rec_80208B7C { s32 id; s16 f4; u8 pad[0xE]; };
@@ -759,7 +754,7 @@ void activate_triggered_floor_events(void);
 u8 * heap_alloc__5THeapFUl(void *, s32);
 }
 s32 activate_first_floor_event(s32 idx, s32 id);
-RecoveredGlobal_80208D28_lbl_805139F8 lobby_slot_ptr_table;
+LobbySlotPtrTable lobby_slot_ptr_table;
 extern u8 *area_event_set_heap;
 s32 set_floor_event_flags(s32 arg0, s32 arg1, s32 arg2);
 #define BS16 ((void (*)(void *))bswap_16__FPUs)
@@ -775,7 +770,6 @@ void create_empty_floor_event(void);
 void show_partner_chatter_for_key(s16 key);
 extern "C" {
 s32 __ct__14TSetEvtDestroyFP7TObjectP21SetDestroyEventRecord(void *, s32, void *);
-void *__nw__7TObjectFUl(s32);
 
 #define wave_event_stream_base (*(int *)&wave_event_stream_base)
 #define wave_event_stream_cursor (*(int *)&wave_event_stream_cursor)
@@ -792,7 +786,7 @@ void TLobby::spawn_destroy_event() {
     if (TLobby::get_destroy_event_obj() != -1) {
         show_partner_chatter_for_key(*(s16 *)((s8 *)this + 8));
     }
-    obj = __nw__7TObjectFUl(0x34);
+    obj = TObject::operator new(0x34);
     if (obj != NULL) {
         __ct__14TSetEvtDestroyFP7TObjectP21SetDestroyEventRecord(obj, tl_01, this);
     }
@@ -801,7 +795,6 @@ void TLobby::spawn_destroy_event() {
 }
 
 void create_empty_floor_event(void) {  }
-typedef char RecoveredGlobal_80208D28_lbl_805139F8_size[sizeof(RecoveredGlobal_80208D28_lbl_805139F8) == 0x48 ? 1 : -1];
 
 void bswap_floor_event_set(s32 idx) {
     Rec_80208904 *r = ((Rec_80208904 **)&lobby_slot_ptr_table)[idx];

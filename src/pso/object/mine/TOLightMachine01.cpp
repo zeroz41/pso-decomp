@@ -3,7 +3,7 @@
 #include "pso/math/MatrixTransforms.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/object/mine/TOLightMachine01.h"
+
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
@@ -11,24 +11,16 @@
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/math/AngleLookup.h"
 #include <stdlib.h>
+#include "pso/system/task/TObject.h"
 
 #pragma readonly_strings on
-
-struct Base_8016E9F4_8016E998 { char pad[0x18]; };
-struct VObj_8016E9F4_8016E998 : Base_8016E9F4_8016E998 {
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3();
-    virtual void m4(); virtual void m5(); virtual void m6(); virtual void m7();
-    virtual s32 m8(f32, f32);
-};
 
 const char *bm_o_light_machine01_motion_names[1] = {0};
 const char *bm_o_light_machine01_model_names[3] = { "fs_obj_light.gj", "fs_obj_toudai.gj", NULL };
 BmlResourceDescriptor light_machine01_resource_desc = { "bm_o_light_machine01.bml", bm_o_light_machine01_model_names, bm_o_light_machine01_motion_names, 2, 0 };
 
-struct RecoveredGlobal_8016EC04___vt__16TOLightMachine01 { s32 value; u8 remaining[0x30]; };
-
 extern "C" {
-s32 TObjFish__sub_8001EDB0(void *, s32);
+s32 get_bml_texlist(void *, s32);
 s32 get_bml_model(void *, s32);
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 u32 TOLightMachine01__shared_bml_archive;
@@ -42,8 +34,6 @@ void free_bin_model_request(void*, int);
 s32 post_translate_matrix(void *);
 s32 rotate_matrix_y(s32, s32);
 s32 push_matrix();
-void __dl__7TObjectFPv(void *);
-void *__nw__7TObjectFUl(int);
 
 void TOLightMachine01::run_task() {
     this->m_a8 = (s32) (this->m_a8 + this->m_a4);
@@ -53,8 +43,7 @@ void TOLightMachine01::run_task() {
 
 
 void TOLightMachine01::render() {
-    u8 *arg0 = (u8 *)this;
-    if (((VObj_8016E9F4_8016E998 *)arg0)->m8(*(f32 *)&this->unk_90, this->m_94) != 0) {
+    if (this->update_object_view_visibility(*(f32 *)&this->unk_90, this->m_94) != 0) {
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
@@ -74,7 +63,7 @@ void TOLightMachine01::render() {
 }
 
 void *TOLightMachine01::create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0xB0);
+    void *o = TObject::operator new(0xB0);
     if (o != NULL) {
         o = TOLightMachine01__ct((TOLightMachine01 *)((u8 *)o), (s32)arg0);
     }
@@ -98,23 +87,23 @@ void TOLightMachine01::load_assets() {
     }
     (*(u8 * *)&TOLightMachine01__shared_bml_archive) = (unsigned char *) ((void *) var_r0);
     light_machine_ginja_model_handle = get_bml_model((void *) var_r0, 0);
-    light_machine_ginja_param = TObjFish__sub_8001EDB0((*(u8 * *)&TOLightMachine01__shared_bml_archive), 0);
+    light_machine_ginja_param = get_bml_texlist((*(u8 * *)&TOLightMachine01__shared_bml_archive), 0);
 }
 
 }
 TOLightMachine01::~TOLightMachine01() {
 
 }
-extern "C" {
+
 #pragma push
 #pragma fp_contract on
 u8 *TOLightMachine01__ct(TOLightMachine01 *light_machine01, s32 arg1) {
     __ct__8TObjBaseFP7TObject(light_machine01, tl_05);
-    *(s32 **)((s8 *)light_machine01 + 0x18) = &(*(RecoveredGlobal_8016EC04___vt__16TOLightMachine01 *)&__vt__16TOLightMachine01).value;
-    *(const char **)((s8 *)light_machine01 + 0) = TOLightMachine01__name;
+    *(s32 **)((s8 *)light_machine01 + 0x18) = __vt__16TOLightMachine01;
+    ((TOLightMachine01 *)light_machine01)->m_name = TOLightMachine01__name;
     ((TOLightMachine01 *)(light_machine01))->apply_object_set_data((void *)arg1);
     light_machine01->model = ((u8 *)get_bml_model((void *)((*(s32 *)&TOLightMachine01__shared_bml_archive)), 1));
-    light_machine01->texlist = TObjFish__sub_8001EDB0((void *)((int) ((*(s32 *)&TOLightMachine01__shared_bml_archive))), 1);
+    light_machine01->texlist = get_bml_texlist((void *)((int) ((*(s32 *)&TOLightMachine01__shared_bml_archive))), 1);
     *(f32 *)((s8 *)light_machine01 + 0x90) = 500.0f;
     light_machine01->m_94 = (f32) *(f32 *)((s8 *)(*(void **)((s8 *)light_machine01->model + 4)) + 0x14);
     light_machine01->actorFlags = (s32) (light_machine01->actorFlags | 0x40000000);
@@ -128,4 +117,3 @@ u8 *TOLightMachine01__ct(TOLightMachine01 *light_machine01, s32 arg1) {
 }
 #pragma pop
 
-}

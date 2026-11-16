@@ -102,7 +102,6 @@ struct Src_802A1838 {
 };
 
 extern "C" {
-void *__nw__7TObjectFUl(s32);
 void *__ct__17TAdSelectTxtSubGCFv(void *, void *, void *);
 extern const s32 current_language;
 extern u32 ad_select_text_texture_handle;
@@ -131,7 +130,7 @@ void TAdSelectTxtGC::run_task() {
     void *o;
     arg0->cnt = arg0->cnt + 1;
     if (arg0->cnt % 3 == 0 && arg0->cnt / 3 < 8) {
-        o = __nw__7TObjectFUl(0x88);
+        o = TObject::operator new(0x88);
         if (o != NULL) {
             o = __ct__17TAdSelectTxtSubGCFv(o, arg0, &arg0->ent[arg0->cnt / 3]);
         }
@@ -177,5 +176,5 @@ void TLobby__sub_802A194C(void) {
                                      &select_gamen_eng_texture_list};
     NJS_TEXLIST *list = texture_lists[current_language];
     ad_select_text_texture_handle = (u32)list;
-    TLobby__sub_8023E4B4((s32)texture_files[current_language], (s32)list);
+    load_streamed_prs_texture((s32)texture_files[current_language], (s32)list);
 }

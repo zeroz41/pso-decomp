@@ -1,4 +1,5 @@
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/object/ambient/TButterfly.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/vector.h"
@@ -19,9 +20,6 @@ BmlResourceDescriptor bm_o_abe_butterfly_resource_descriptor = {
     "bm_o_abe_butterfly.bml", bm_o_abe_butterfly_model_names, bm_o_abe_butterfly_motion_names, 1, 1
 };
 const char *TButterfly__name = "TButterfly";
-
-struct Base_8017E978 { char pad[0x18]; };
-struct VObj_8017E978 : Base_8017E978 { virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3(); virtual void m4(); virtual void m5(); virtual void m6(); virtual void m7(); virtual s32 m8(f32, f32); };
 
 struct Butterfly_8017EA74 {
     u8 pad0[0x38];
@@ -44,7 +42,6 @@ struct Butterfly_8017EA74 {
 
 extern "C" {
 void rotate_vector_by_matrix(void *, Vec *, Vec *);
-void __dl__7TObjectFPv(void *);
 s32 set_global_param__8TObjFishFl();
 
 BmlResource *butterfly_bml_resource;
@@ -59,7 +56,6 @@ void TButterfly::draw_model() {
 }
 
 void TButterfly::init_motion() {
-    u8 *arg0 = (u8 *)this;
     VecCopy((Vec *)&this->unk_90, (const Vec *)&this->position);
     *(f32 *)&this->m_9c = 0.0f;
     *(f32 *)&this->unk_A0 = 0.0f;
@@ -73,14 +69,13 @@ void TButterfly::init_motion() {
 }
 
 void TButterfly::render() {
-    if (((VObj_8017E978*)this)->m8((4e+02f), (2e+01f)) != 0) {
-        TObjFish__sub_8001EDB0(butterfly_bml_resource, 0);
+    if (this->update_object_view_visibility((4e+02f), (2e+01f)) != 0) {
+        get_bml_texlist(butterfly_bml_resource, 0);
         set_global_param__8TObjFishFl();
         draw_model();
     }
 }
 
-extern s32 __vt__10TButterfly[];
 
 #pragma push
 #pragma fp_contract on
@@ -226,13 +221,7 @@ TButterfly::~TButterfly() {
 }
 extern "C" {
 
-}
-
-extern "C" {
-
 void free_bin_model_request(void*, int);
-void __ct__8TObjBaseFP7TObject(void *);
-void *__nw__7TObjectFUl(int);
 
 
 }

@@ -29,7 +29,6 @@ typedef char TWindowSubAreaMapDisp_size[sizeof(TWindowSubAreaMapDisp) == 0x78 ? 
 extern "C" {
 u8 *TWindowSubAreaMapDisp__ct(TWindowSubAreaMapDisp *arg0);
 void TWindowSubStatusDisp__sub_80271A6C(s32 arg0, u8 *arg1);
-u8 *__dt__21TWindowSubAreaMapDispFv(TWindowSubAreaMapDisp *arg0, s16 arg1);
 void fn_80271848(s32 arg0, u8 *arg1);
 }
 

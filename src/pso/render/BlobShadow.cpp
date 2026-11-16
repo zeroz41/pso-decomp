@@ -10,6 +10,7 @@
 #include "pso/render/GinjaTexture.h"
 #include "pso/system/TLanguage_801E4874.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 #pragma readonly_strings on
 
@@ -24,13 +25,7 @@ struct Stack_800F09E8 {
     s32 * sp24;
 };
 
-struct RecoveredGlobal_800F09E8_lbl_804976B0 {
-    s32 value;
-    u8 remaining[0x14];
-};
-
-extern "C" {
-RecoveredGlobal_800F09E8_lbl_804976B0 blob_shadow_rect_desc = {
+BlobShadowRectDesc blob_shadow_rect_desc = {
     0x00050005,
     { 0x00, 0x00, 0x00, 0x00, 0x00, 0x05, 0x00, 0x05, 0x00, 0xFD, 0x00, 0xFD,
       0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 },
@@ -90,7 +85,6 @@ void release_blob_shadow_texture(void) {
         TAdSinglePlyChrSelectGC::safe_free(blob_shadow_texture_list);
         blob_shadow_texture_list = 0U;
     }
-}
 }
 
 void load_ha_u032_kage(void) { blob_shadow_texture_list = (u32)load_gvm_texture_file((s32)"ha_u032_kage.gvm"); }

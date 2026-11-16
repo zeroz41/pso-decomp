@@ -5,7 +5,8 @@
 #include "pso/unk/TUnk_804DDD28.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/TUnk_804ED7D0.h"
-#include "pso/unk/TUnk_804DDD28.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
+
 
 struct Base_80328F7C { char pad[0x8]; };
 struct VObj_80328F7C : Base_80328F7C {
@@ -107,16 +108,6 @@ struct VObj_80329044 : Base_80329044 {
     virtual void m73();
     virtual void m74();
     virtual void m75(s32);
-};
-
-struct RecoveredGlobal_80329088_lbl_805430E8 {
-    s32 value;
-    u8 remaining[0x1BC];
-};
-
-struct RecoveredGlobal_80329088_lbl_805432A8 {
-    s32 value;
-    u8 remaining[0x1BC];
 };
 
 struct PlayerMotionEntry {
@@ -297,8 +288,10 @@ __declspec(section ".data") const s32 ** town_player_motion_clip_index_tables[2]
 
 extern "C" {
 s32 is_valid_state__6TLobbyFPvi(void *unused, s32 arg1);
-RecoveredGlobal_80329088_lbl_805430E8 lbl_805430E8;
-RecoveredGlobal_80329088_lbl_805432A8 lbl_805432A8;
+struct RecoveredGlobal_lbl_805430E8 { s32 value; u8 remaining[0x1BC]; };
+RecoveredGlobal_lbl_805430E8 lbl_805430E8;
+struct RecoveredGlobal_lbl_805432A8 { s32 value; u8 remaining[0x1BC]; };
+RecoveredGlobal_lbl_805432A8 lbl_805432A8;
 int is_valid_player_motion_variant(void* a0);
 int TLobby__sub_802A7278(void* a0);
 int is_valid_player_motion_variant(void* a0 = 0);
@@ -337,8 +330,6 @@ int TUnk_804ED7D0::vfunc_76() {
     struct VObj_80329044 *o = (struct VObj_80329044 *)this;
     o->m75(is_handle_valid__10TObjPlayerFv());
 }
-typedef char RecoveredGlobal_80329088_lbl_805430E8_size[sizeof(RecoveredGlobal_80329088_lbl_805430E8) == 0x1C0 ? 1 : -1];
-typedef char RecoveredGlobal_80329088_lbl_805432A8_size[sizeof(RecoveredGlobal_80329088_lbl_805432A8) == 0x1C0 ? 1 : -1];
 s32 *TLobby::get_state_table(s32 _w1) {
     s32 unused = (s32)this;
     s32 *var_r3;
@@ -379,7 +370,6 @@ int TUnk_804ED7D0::vfunc_7(s32, s32) {
 }
 
 s32 apply_player_flag_2__6TLobbyFv();
-void mem_free(void*);
 s32 set_flag_1_at_6c84__6TLobbyFv();
 
 int TUnk_804ED7D0::vfunc_6(s32, s32, s32) { return 1; }
@@ -404,7 +394,6 @@ void TLobby::free_singleton_805D6C80() {
 }
 
 void alloc_work_buffer__6TLobbyFv(void);
-void *mem_alloc(u32 size);
 
 void alloc_work_buffer__6TLobbyFv(void) {
     lbl_805D6C80 = (s32)mem_alloc(0x1C0000);

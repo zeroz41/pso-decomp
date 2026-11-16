@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/system/ControllerInputState.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/frontend/TAdAgreementBaseGC.h"
@@ -13,6 +14,8 @@
 #include "pso/ui/frontend/TAdEnterSerialAccessGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/NinjaTypes.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 
 struct VBase_18_fbe024 { char pad[0x18]; };
 
@@ -28,32 +31,16 @@ struct VObj_18_fbe024 : VBase_18_fbe024 {
     virtual u32 m8();
 };
 
-struct RecoveredGlobal_80329830_lbl_8050E208 {
-    s32 value;
-    u8 remaining[0x1AC];
-};
-
-struct RecoveredGlobal_80329830_lbl_8050E3B8 {
-    s32 value;
-    u8 remaining[0x1AC];
-};
-
 struct Obj_80329AA8 { const char *f0; u8 pad[0x14]; void *vt; s32 f1C; u8 pad2[4]; s32 f24; s32 f28; s32 f2C; void *cur; s32 f34; };
 
-struct Pos_803296E8 { f32 x, y; };
-
-static const Pos_803296E8 agreement_item_rect_table[2] = {{89.0f, 394.0f}, {89.0f, 414.0f}};
-static const Pos_803296E8 lbl_804770A0 = {462.0f, 18.0f};
+static const NJS_POINT2 agreement_item_rect_table[2] = {{89.0f, 394.0f}, {89.0f, 414.0f}};
+static const NJS_POINT2 lbl_804770A0 = {462.0f, 18.0f};
 const char *lbl_805D41B8 = "TAdAgreementBaseGC";
-static const Pos_803296E8 lbl_804770BC = {85.0f, 384.0f};
-static const Pos_803296E8 lbl_804770C4 = {470.0f, 60.0f};
+static const NJS_POINT2 lbl_804770BC = {85.0f, 384.0f};
+static const NJS_POINT2 lbl_804770C4 = {470.0f, 60.0f};
 
 extern "C" {
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
-s32 TWindowShortListCtrl__check_controller_button(void *, int);
-extern RecoveredGlobal_80329830_lbl_8050E208 controller_input_state;
-extern RecoveredGlobal_80329830_lbl_8050E3B8 controller_physical_port_bank;
-void *__nw__7TObjectFUl(u32);
 void __ct__7TObjectFP7TObject(void *, void *);
 void __ct__9TAdBackGCFv(void *, void *);
 void __ct__12TAdBackTxtGCFv(void *, void *);
@@ -72,7 +59,7 @@ void TAdAgreementBaseGC::check_main_task_state() {
 #pragma push
 #pragma fp_contract on
 void TAdAgreementBaseGC::draw_agreement_text() {
-    Pos_803296E8 pos[2];
+    NJS_POINT2 pos[2];
     u32 i;
     draw_window_frame__11TWindowBaseFPv();
     for (i = 0; i < 2; i++) {
@@ -84,9 +71,6 @@ void TAdAgreementBaseGC::draw_agreement_text() {
 #pragma pop
 
 void TAdAgreementBaseGC::vfunc_9() { this->m_1c = 4; }
-
-typedef char RecoveredGlobal_80329830_lbl_8050E208_size[sizeof(RecoveredGlobal_80329830_lbl_8050E208) == 0x1B0 ? 1 : -1];
-typedef char RecoveredGlobal_80329830_lbl_8050E3B8_size[sizeof(RecoveredGlobal_80329830_lbl_8050E3B8) == 0x1B0 ? 1 : -1];
 
 void TAdAgreementBaseGC::create_agreement_callback() {
     TAdEnterSerialAccessGC::create_callback((void *)&lbl_804770BC, (void *)&lbl_804770C4, (void *)TAdAgreementBaseGC::draw_agreement_text);
@@ -113,7 +97,7 @@ void TAdAgreementBaseGC::update_state() {
                 *(s32 *)&this->m_24 = 4;
                 break;
             }
-        } else if ((TWindowShortListCtrl__check_controller_button((void *) ((u8 *)&controller_physical_port_bank.value + 0x20), 2) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) ((u8 *)&controller_input_state.value + 0x160), 2) != 0)) {
+        } else if ((TWindowShortListCtrl__check_controller_button((void *) ((u8 *)&controller_physical_port_bank + 0x20), 2) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) ((u8 *)&controller_input_state + 0x160), 2) != 0)) {
             *(s32 *)&this->m_1c = 2;
             *(s32 *)&this->m_24 = 5;
         }
@@ -163,15 +147,15 @@ Obj_80329AA8 *TAdAgreementBaseGC__ct(Obj_80329AA8 *arg0, void *arg1) {
     arg0->f34 = 0;
     arg0->f2C = 0;
     arg0->cur = 0;
-    p = __nw__7TObjectFUl(0x24);
+    p = TObject::operator new(0x24);
     if (p != 0) {
         __ct__9TAdBackGCFv(p, arg0);
     }
-    p = __nw__7TObjectFUl(0x28);
+    p = TObject::operator new(0x28);
     if (p != 0) {
         __ct__12TAdBackTxtGCFv(p, arg0);
     }
-    p = __nw__7TObjectFUl(0x708);
+    p = TObject::operator new(0x708);
     if (p != 0) {
         p = __ct__14TAdSelectCurGCFv(p, tl_clipout, (void *)agreement_item_rect_table, (void *)&lbl_804770A0);
     }

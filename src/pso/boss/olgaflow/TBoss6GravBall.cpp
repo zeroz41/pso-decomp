@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/boss/olgaflow/TBoss6GravBall.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/vector.h"
@@ -7,9 +8,8 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/system/task/TObject.h"
-#include "pso/boss/olgaflow/TBoss6GravBall.h"
+
 #include "pso/player/TObjPlayer.h"
-extern "C" void *__ct__14TObjCollidableFP7TObject(void *, s32);
 
 #include "pso/boss/olgaflow/TBoss6PlotFalz.h"
 #include "pso/unk/TLobby.h"
@@ -128,12 +128,9 @@ void TBoss6GravBall::render() {  }
 
 struct P_80323348 { u8 pad[0x30]; u32 flags; };
 
-
 struct Obj_803237A0 { u8 pad[0xC8]; Vec pos; };
 
-
 struct PL_803233AC { u8 pad[0x30]; u32 flags; u8 pad34[4]; Vec pos; };
-
 
 struct PL_80323544 { u8 pad[0x30]; u32 flags; u8 pad34[4]; Vec pos; };
 
@@ -154,9 +151,7 @@ void vec3_add_to(void *, void *);
 void TBoss6PlotFalz__sub_802AC724(void *, void *);
 
 
-
 void TBoss6GravBall__sub_803233AC(u8 *self);
-
 
 
 void TBoss6GravBall__sub_80323544(u8 *self);
@@ -269,18 +264,18 @@ void TBoss6GravBall__sub_80323544(u8 *self) {
     }
 }
 
-void TBoss6GravBall__sub_803236F8(TBoss6GravBall *arg0) {
-    Vec v = arg0->ball_position;
+void TBoss6GravBall__sub_803236F8(TBoss6GravBall *boss6_grav_ball) {
+    Vec v = boss6_grav_ball->ball_position;
     v.y = 0.0f;
     if (vector_length(&v) > 0.6666667f) {
         normalize_vector(&v);
         v.x *= 0.6666667f;
         v.z *= 0.6666667f;
-        subtract_vector(&arg0->ball_position, &v);
+        subtract_vector(&boss6_grav_ball->ball_position, &v);
     } else {
-        VecCopy(&arg0->ball_position, &lbl_80476684);
+        VecCopy(&boss6_grav_ball->ball_position, &lbl_80476684);
     }
-    arg0->clamp_to_ground();
+    boss6_grav_ball->clamp_to_ground();
 }
 
 s32 TBoss6GravBall::clamp_to_ground() {
@@ -313,7 +308,7 @@ void TBoss6GravBall::update_lifetime(void *) {
 
 #include "pso/boss/olgaflow/TBoss6GravBall_80323878.h"
 #include "pso/unk/text_80087278.h"
-#include "pso/player/TObjPlayer.h"
+
 
 struct Obj_80323D20 {
     const char *name; u8 pad[0xAC - 4]; s32 fAC; s32 fB0; s32 fB4; u8 padB8[4]; f32 fBC; s32 fC0; s32 fC4; f32 pos[3];
@@ -335,15 +330,12 @@ extern "C" {
 s32 check_demo_mode__10TObjPlayerFv(void *);
 s32 query_teammate_state__9TObjEneDDFv(void);
 void VecCopy__FP3VecPC3Vec(void *, void *);
-extern s32 __vt__14TBoss6GravBall[];
 
 s32 play_persistent_sound(int, void *, Vec *, int, int);
-void TBoss6GravBall__sub_80323544(u8 *self);
 s32 clamp_to_ground__14TBoss6GravBallFv();
 
 
 void clear_player_grav_flags__14TBoss6GravBallFv(void *);
-void __dl__7TObjectFPv(void *);
 
 void update_charge_effects__14TBoss6GravBallFPv(u8 *self) {
     s32 temp_r0;
@@ -409,7 +401,6 @@ void update_charge_effects__14TBoss6GravBallFPv(u8 *self) {
 }
 
 void update_state__14TBoss6GravBallFPv(u8 *arg0) {
-    f32 temp_f2;
     s32 temp_r3;
     s32 temp_r3_2;
     temp_r3 = clamp_to_ground__14TBoss6GravBallFv();
@@ -419,8 +410,7 @@ void update_state__14TBoss6GravBallFPv(u8 *arg0) {
     fn_80323134((Obj_80323134 *)arg0);
     if (temp_r3 != 0) {
         ((TBoss6GravBall *)arg0)->create_emitter(2);
-        temp_f2 = *(f32 *)((s8 *)arg0 + 0xBC);
-        if (temp_f2 < 1.0f) {
+        if ((*(f32 *)((s8 *)arg0 + 0xBC)) < 1.0f) {
             *(f32 *)((s8 *)arg0 + 0xBC) += 0.033333335f;
             if (*(f32 *)((s8 *)arg0 + 0xBC) > 1.0f) {
                 *(f32 *)((s8 *)arg0 + 0xBC) = 1.0f;
@@ -486,6 +476,6 @@ TBoss6GravBall::TBoss6GravBall(s32 arg1, void *arg2) : TObjCollidable((TObject *
     ((Obj_80323D20 *)this)->fC4 = 0;
     TBoss6GravBall__sub_80323320((T_80323320 *)this);
     for (i = 0; i < 2; i++) {
-        ((TBoss6GravBall *)((Obj_80323D20 *)this))->create_emitter(lbl_8047667C[i]);
+        ((TBoss6GravBall *)this)->create_emitter(lbl_8047667C[i]);
     }
 }

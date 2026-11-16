@@ -1,4 +1,5 @@
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/object/door/TODoorBase.h"
 #include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/ui/hud/TRaderMapCore.h"
@@ -7,6 +8,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/network/TProtocol.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 // This unit is compiled with deferred code generation (its vtable comes ahead
 // of its switch tables), which emits the functions in reverse: the file is
@@ -93,37 +95,37 @@ void TODoorBase::update_closed() {
         case AREA_CAVE1:
         case AREA_CAVE2:
         case AREA_CAVE3:
-            play_sound_effect(0x42807, &position, 0, 0);
+            play_sound_effect(0x42807, (Vec *)(&position), 0, 0);
             break;
         case AREA_MINE1:
         case AREA_MINE2:
-            play_sound_effect(0x4004BC01, &position, 0, 0);
+            play_sound_effect(0x4004BC01, (Vec *)(&position), 0, 0);
             break;
         case AREA_RUINS1:
         case AREA_RUINS2:
         case AREA_RUINS3:
-            play_sound_effect(0x4004B708, &position, 0, 0);
+            play_sound_effect(0x4004B708, (Vec *)(&position), 0, 0);
             break;
         case AREA_BATTLE1:
         case AREA_BATTLE2:
             if (enable_v2_features == 1) {
-                play_sound_effect(0x4004AA0B, &position, 0, 0);
+                play_sound_effect(0x4004AA0B, (Vec *)(&position), 0, 0);
             }
             break;
         case AREA_VR_TEMPLE_ALPHA:
         case AREA_VR_TEMPLE_BETA:
-            play_sound_effect(0x4BF0B, &position, 0, 0);
+            play_sound_effect(0x4BF0B, (Vec *)(&position), 0, 0);
             break;
         case AREA_VR_SPACESHIP_ALPHA:
         case AREA_VR_SPACESHIP_BETA:
-            play_sound_effect(0x4004AA0B, &position, 0, 0);
+            play_sound_effect(0x4004AA0B, (Vec *)(&position), 0, 0);
             break;
         case AREA_PIONEER2_EP2:
-            play_sound_effect(0x42A04, &position, 0, 0);
+            play_sound_effect(0x42A04, (Vec *)(&position), 0, 0);
             break;
         case AREA_SEABED_UPPER:
         case AREA_SEABED_LOWER:
-            play_sound_effect(0x4004A80C, &position, 0, 0);
+            play_sound_effect(0x4004A80C, (Vec *)(&position), 0, 0);
             break;
         case AREA_PIONEER2_EP1:
             break;
@@ -142,7 +144,7 @@ void TODoorBase::update_opening() {
         break;
     case AREA_FOREST1:
     case AREA_FOREST2:
-        play_persistent_sound(0x49E08, (s32)this, &position, 0, 0);
+        play_persistent_sound(0x49E08, (s32)this, (Vec *)(&position), 0, 0);
         break;
     case AREA_DARK_FALZ:
         return;
@@ -163,29 +165,29 @@ void TODoorBase::update_open() {
     case AREA_CAVE1:
     case AREA_CAVE2:
     case AREA_CAVE3:
-        play_sound_effect(0x42807, &position, 0, 0);
+        play_sound_effect(0x42807, (Vec *)(&position), 0, 0);
         break;
     case AREA_MINE1:
     case AREA_MINE2:
-        play_sound_effect(0x4004BC01, &position, 0, 0);
+        play_sound_effect(0x4004BC01, (Vec *)(&position), 0, 0);
         break;
     case AREA_RUINS1:
     case AREA_RUINS2:
     case AREA_RUINS3:
-        play_sound_effect(0x4004B708, &position, 0, 0);
+        play_sound_effect(0x4004B708, (Vec *)(&position), 0, 0);
         break;
     case AREA_BATTLE1:
     case AREA_BATTLE2:
         if (enable_v2_features == 1) {
-            play_sound_effect(0x4004AA0B, &position, 0, 0);
+            play_sound_effect(0x4004AA0B, (Vec *)(&position), 0, 0);
         }
         break;
     case AREA_SEABED_UPPER:
     case AREA_SEABED_LOWER:
-        play_sound_effect(0x4004A80C, &position, 0, 0);
+        play_sound_effect(0x4004A80C, (Vec *)(&position), 0, 0);
         break;
     case AREA_PIONEER2_EP2:
-        play_sound_effect(0x42A05, &position, 0, 0);
+        play_sound_effect(0x42A05, (Vec *)(&position), 0, 0);
         break;
     }
 }
@@ -201,7 +203,7 @@ void TODoorBase::update_closing() {
         break;
     case AREA_FOREST1:
     case AREA_FOREST2:
-        play_persistent_sound(0x49E08, (s32)this, &position, 0, 0);
+        play_persistent_sound(0x49E08, (s32)this, (Vec *)(&position), 0, 0);
         break;
     case AREA_DARK_FALZ:
         return;
@@ -227,29 +229,29 @@ void TODoorBase::play_door_sound() {
         switch (get_current_floor_area()) {
         case AREA_PIONEER2_EP1:
         case AREA_PIONEER2_EP2:
-            play_sound_effect(0x42A04, &position, 0, 0);
+            play_sound_effect(0x42A04, (Vec *)(&position), 0, 0);
             break;
         case AREA_FOREST1:
         case AREA_FOREST2:
-            play_sound_effect(0x4BC07, &position, 0, 0);
+            play_sound_effect(0x4BC07, (Vec *)(&position), 0, 0);
             break;
         case AREA_CAVE1:
         case AREA_CAVE2:
         case AREA_CAVE3:
-            play_sound_effect(0x42807, &position, 0, 0);
+            play_sound_effect(0x42807, (Vec *)(&position), 0, 0);
             break;
         case AREA_MINE1:
         case AREA_MINE2:
-            play_sound_effect(0x4004BC00, &position, 0, 0);
+            play_sound_effect(0x4004BC00, (Vec *)(&position), 0, 0);
             break;
         case AREA_RUINS1:
         case AREA_RUINS2:
         case AREA_RUINS3:
-            play_sound_effect(0x4004BC07, &position, 0, 0);
+            play_sound_effect(0x4004BC07, (Vec *)(&position), 0, 0);
             break;
         case AREA_BATTLE1:
         case AREA_BATTLE2:
-            play_sound_effect(0x4004BC00, &position, 0, 0);
+            play_sound_effect(0x4004BC00, (Vec *)(&position), 0, 0);
             break;
         }
     }

@@ -4,27 +4,18 @@
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include <stddef.h>
 #include "pso/ui/charcreate/TChCrEffFade.h"
-
-struct V2_80293D84 {
-    f32 x;
-    f32 y;
-};
+#include "pso/system/NinjaTypes.h"
 
 struct Prim_80293D84 {
-    V2_80293D84 *pts;
+    NJS_POINT2 *pts;
     u32 *colors;
     s32 start;
     s32 count;
 };
 
-struct V2_80293E58 {
-    f32 x;
-    f32 y;
-};
-
 extern "C" {
 u32 __cvt_fp2unsigned(f32);
-extern V2_80293D84 lbl_80464ED8[6];
+extern NJS_POINT2 lbl_80464ED8[6];
 
 extern const f32 lbl_80464F10[];
 extern const f32 lbl_80464F18[];
@@ -32,10 +23,10 @@ extern const f32 lbl_80464F18[];
 #pragma push
 #pragma fp_contract on
 void fn_80293D84(void *arg0, void *arg1, u32 color, f32 scale, f32 alpha) {
-    V2_80293D84 *pos = (V2_80293D84 *)arg1;
+    NJS_POINT2 *pos = (NJS_POINT2 *)arg1;
     Prim_80293D84 prim;
     u32 colors[6];
-    V2_80293D84 pts[6];
+    NJS_POINT2 pts[6];
     s32 i;
     u32 c;
     for (i = 0; i < 6; i++) {
@@ -55,7 +46,7 @@ void fn_80293D84(void *arg0, void *arg1, u32 color, f32 scale, f32 alpha) {
 #pragma pop
 
 void fn_80293E58(void *arg0, f32 scale) {
-    V2_80293E58 p;
+    NJS_POINT2 p;
     f32 s = 12.0f * scale;
     s32 odd = 1;
     ((TWindowSubSymbolChatPartsSet *)(&p))->copy_vec2((void *)lbl_80464F10);
@@ -84,7 +75,6 @@ struct Stack_80293F98 {
     s32 sp24;
 };
 
-extern "C" {
 
 // The 640x480 screen corners the fade strip is drawn over.
 f32 chcr_eff_fade_strip_rect[4][2] = {
@@ -114,4 +104,3 @@ void TChCrEffFade::draw_fade_strip(f32 farg0) {
     ((TWindowCtrlMain *)(&stack.sp8))->draw_strip_swap_color(4, 6, (-1.5f));
 }
 
-}

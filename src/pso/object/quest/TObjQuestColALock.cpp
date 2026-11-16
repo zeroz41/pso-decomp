@@ -6,28 +6,17 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/quest/TQuestThread.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
-
-struct RecoveredGlobal_8019677C_lbl_80445E84 {
-    s32 value;
-    u8 remaining[0x28];
-};
-
-struct RecoveredGlobal_8019677C___vt__17TObjQuestColALock {
-    s32 value;
-    u8 remaining[0x40];
-};
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 
 extern "C" {
 u32 init_collision_body_parts(void *, s32, s32);
 u8 * TObjQuestColBase__ct(void *, s32);
-extern RecoveredGlobal_8019677C_lbl_80445E84 TObjQuestColALock__collision_desc;
 extern s32 __vt__17TObjQuestColALock[];
 extern s32 obj_quest_col_alock_class_name;
 u8 *TObjQuestColALock__ct(TObjQuestColALock *arg0, s32 arg1);
 void *__dt__17TObjQuestColALockFv(void *arg0, s16 arg1);
 s32 free_collision_body_parts(void *);
 void enable_action_input__10TObjPlayerFPv(void *p);
-s32 TWindowShortListCtrl__check_controller_button(void *, s32);
 s32 __dl__7TObjectFPv(void *);
 u8 *__dt__16TObjQuestColBaseFv(u8 *arg0, s16 arg1);
 s32 check_flag_100__10TObjPlayerFPv();
@@ -71,24 +60,22 @@ block_12:
     return 0;
 }
 
-void *__dt__17TObjQuestColALockFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__17TObjQuestColALock;
-        ((TObjCollidable *)arg0)->unregister_object_by_id();
-        free_collision_body_parts(arg0);
-        __dt__16TObjQuestColBaseFv((u8 *)arg0, 0);
+void *__dt__17TObjQuestColALockFv(void *quest_col_base, s16 arg1) {
+    if (quest_col_base != NULL) {
+        *(s32 **)((s8 *)quest_col_base + 0x18) = __vt__17TObjQuestColALock;
+        ((TObjCollidable *)quest_col_base)->unregister_object_by_id();
+        free_collision_body_parts(quest_col_base);
+        __dt__16TObjQuestColBaseFv((u8 *)quest_col_base, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(quest_col_base);
         }
     }
-    return arg0;
+    return quest_col_base;
 }
-typedef char RecoveredGlobal_8019677C_lbl_80445E84_size[sizeof(RecoveredGlobal_8019677C_lbl_80445E84) == 0x2C ? 1 : -1];
-typedef char RecoveredGlobal_8019677C___vt__17TObjQuestColALock_size[sizeof(RecoveredGlobal_8019677C___vt__17TObjQuestColALock) == 0x44 ? 1 : -1];
 u8 *TObjQuestColALock__ct(TObjQuestColALock *quest_col_a_lock, s32 arg1) {
     u8 *temp_r4;
     TObjQuestColBase__ct(quest_col_a_lock, arg1);
-    *(s32 **)((s8 *)quest_col_a_lock + 0x18) = &(*(RecoveredGlobal_8019677C___vt__17TObjQuestColALock *)&__vt__17TObjQuestColALock).value;
+    *(s32 **)((s8 *)quest_col_a_lock + 0x18) = __vt__17TObjQuestColALock;
     *(s32 *)((s8 *)quest_col_a_lock + 0) = (s32) obj_quest_col_alock_class_name;
     init_collision_body_parts(quest_col_a_lock, (s32) &TObjQuestColALock__collision_desc.value, 1);
     ((TObjCollidable *)quest_col_a_lock)->set_indexed_flags(0, 0xF0);

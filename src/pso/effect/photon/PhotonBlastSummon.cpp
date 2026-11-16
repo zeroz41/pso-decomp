@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/camera/CameraPlayback.h"
 #include "pso/unk/TUnk_804C3248.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
@@ -13,13 +14,15 @@
 #include "pso/render/TFogCtrl.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/system/scene/TScene.h"
-#include "pso/unk/TUnk_804C3248.h"
+
 #include "pso/map/FloorArea.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/render/render_util.h"
 #include "pso/effect/particle/TParticleCtrl_800867E4.h"
-#include "pso/system/task/TObject.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/system/MatrixStack.h"
+
 extern "C" { void setup_photon_blast_camera__13TUnk_804C3248Fv(u8 *); }
 #pragma push
 
@@ -141,30 +144,26 @@ void TUnk_804C3248::begin_photon_summon_camera(s8 arg1) {
 #pragma dont_inline off
 struct ByteBlock_C { u8 bytes[0xc]; };
 
-typedef Vec Vec_801A73B0;
-
 struct PbCamera_801A73B0 {
     u8 pad0[0x104];
-    Vec_801A73B0 target;
-    Vec_801A73B0 position;
-    Vec_801A73B0 destination_target;
-    Vec_801A73B0 destination_position;
+    Vec target;
+    Vec position;
+    Vec destination_target;
+    Vec destination_position;
 };
 
 struct PbCameraParams_801A73B0 {
     u8 pad0[0x14];
     s32 projection;
     s32 pad18;
-    Vec_801A73B0 position;
-    Vec_801A73B0 target;
+    Vec position;
+    Vec target;
     u8 pad34[0x50 - 0x34];
 };
 
-typedef struct Vec_801A7578 { f32 x, y, z; } Vec_801A7578;
-
 struct Node_801A7578 {
     u8 pad0[4];
-    Vec_801A7578 pos;
+    Vec pos;
     s32 id;
     u8 pad1[0x20 - 0x14];
 };
@@ -174,9 +173,7 @@ struct Reg_801A7578 {
     s32 count;
 };
 
-typedef struct Vec_801A7428 { f32 x, y, z; } Vec_801A7428;
-
-struct Rec_801A7428 { s32 a, b, c; Vec_801A7428 v; s32 d; };
+struct Rec_801A7428 { s32 a, b, c; Vec v; s32 d; };
 
 struct PhotonAttachmentDef_801A7748 { s32 unk0, unk4, unk8, unkC; s32 unk10[3]; s32 unk1C; };
 
@@ -189,7 +186,7 @@ struct Group_801A7428 {
 
 struct Obj_801A7428 {
     u8 pad0[0x38];
-    Vec_801A7428 pos;
+    Vec pos;
     u8 pad44[0x60 - 0x44];
     s32 f60;
 };
@@ -197,17 +194,19 @@ struct Obj_801A7428 {
 extern "C" {
 void set_active_camera_pose_from_params(u8 *arg0);
 void update_photon_blast_camera_pose(struct PbCamera_801A73B0 *self);
-void get_camera_ctrl__9TObjEneDDFv(Vec_801A7578 *, Vec_801A7578 *);
-extern Vec_801A7578 lbl_80446A44;
+void get_camera_ctrl__9TObjEneDDFv(Vec *, Vec *);
+extern Vec lbl_80446A44;
 extern struct Reg_801A7578 photon_blast_joint_origins[];
 extern s32 photon_blast_joint_index;
 void *create_timed_particle_emitter(void *owner, s32 id, s32 b, s32 c);
 void *find_entity_by_id(u16 id);
-void matrix_mult_vec(s32, Vec_801A7428 *, Vec_801A7428 *);
+void matrix_mult_vec(s32, Vec *, Vec *);
 void rotate_matrix_y(s32, s32);
 s32 push_matrix_from(void *src);
+}
 s32 pop_matrices(s32 arg0);
 extern Group_801A7428 photon_blast_attachment_table[];
+extern "C" {
 void update_photon_blast_camera_pose(struct PbCamera_801A73B0 *self) {
     struct PbCameraParams_801A73B0 parameters;
     approach_vector_fixed_distance(&self->position, &self->destination_position, &self->position, 0.48f);
@@ -217,10 +216,11 @@ void update_photon_blast_camera_pose(struct PbCamera_801A73B0 *self) {
     parameters.projection = 0x4222;
     set_active_camera_pose_from_params((u8 *)&parameters);
 }
+}
 
 void spawn_photon_blast_opening_effects(s32 arg0, s32 arg1) {
     Rec_801A7428 rec;
-    Vec_801A7428 pos;
+    Vec pos;
     Obj_801A7428 *obj;
     Group_801A7428 *g;
     Rec_801A7428 *entries;
@@ -248,7 +248,6 @@ void spawn_photon_blast_opening_effects(s32 arg0, s32 arg1) {
         create_timed_particle_emitter(&pos, rec.a, rec.b, rec.c);
     }
 }
-}
 
 void copy_effect_params(u8 *arg0, u8 *arg1) {
     *(s32 *)((s8 *)arg0 + 0) = (s32) *(s32 *)((s8 *)arg1 + 0);
@@ -262,7 +261,7 @@ void publish_photon_blast_joint_origins(void) {
     for (i = 0; i < photon_blast_joint_origins->count; i++) {
         struct Node_801A7578 *node = &photon_blast_joint_origins->list[i];
         if (photon_blast_joint_index == node->id) {
-            Vec_801A7578 origin = lbl_80446A44;
+            Vec origin = lbl_80446A44;
             get_camera_ctrl__9TObjEneDDFv(&origin, &node->pos);
         }
     }
@@ -281,18 +280,16 @@ struct PhotonDrawOwner_801A7638 {
     PhotonAttachment_801A7638 *bindings;
 };
 
-typedef struct Vec_801A7680 { f32 x, y, z; } Vec_801A7680;
-
 struct Eff_801A7680 {
     void *obj;
-    Vec_801A7680 pos;
+    Vec pos;
     s32 flag;
     s32 angles[3];
 };
 
 struct Self_801A7680 {
     u8 pad0[0x38];
-    Vec_801A7680 pos;
+    Vec pos;
     u8 pad1[0x60 - 0x44];
     s32 rotation_y;
     u8 pad2[0x100 - 0x64];
@@ -305,7 +302,7 @@ extern "C" {
 
 int update_all__8TFogCtrlFl(void*);
 // Unit direction rotated into each attachment's heading.
-extern Vec_801A7428 lbl_80446A38;
+extern Vec lbl_80446A38;
 
 void TObjPlayer::clear_render_context() { set_chunk_model_node_callback(0); }
 
@@ -338,32 +335,28 @@ void TUnk_804C3248::update_photon_blast_attachments() {
 
 void TUnk_804C3248::free_photon() { void* m = *(void* *)&this->m_148; if (m) mem_free(m); }
 
-void spawn_photon_blast_attachment_effects(struct Self_801A7680 *self, s32 kind) {
-    s32 b;
-    s32 id;
-    s32 a;
-    PhotonAttachmentDef_801A7748 *def;
-    PhotonAttachmentDef_801A7748 *defs;
-    u32 i;
-    s32 flags;
-    Group_801A7428 *group;
-
-    group = &photon_blast_attachment_table[kind];
+void TUnk_804C3248::spawn_photon_blast_attachment_effects(s32 kind) {
+    struct Self_801A7680 *self = (struct Self_801A7680 *)this;
+    Group_801A7428 *group = &photon_blast_attachment_table[kind];
     self->count = group->attachment_count;
     if (self->count != 0) {
+        struct { s32 a; s32 b; s32 id; } params;
+        s32 angles[3];
+        PhotonAttachmentDef_801A7748 *def;
+        PhotonAttachmentDef_801A7748 *defs;
+        u32 i;
         self->effects = (struct Eff_801A7680 *)mem_alloc(self->count * sizeof(struct Eff_801A7680));
         defs = group->attachments;
         for (i = 0; i < self->count; i++) {
-            s32 angles[3];
-            s32 rot[3];
             def = &defs[i];
-            a = def->unk4;
-            b = def->unk8;
-            id = def->unk0;
+            params.a = def->unk4;
+            params.b = def->unk8;
+            params.id = def->unk0;
             copy_xyz(angles, def->unk10);
-            flags = def->unk1C;
-            Vec_801A7428 dir = lbl_80446A38;
-            if (angles[2] != 0 || angles[0] != 0 || angles[1] != 0) {
+            s32 flags = def->unk1C;
+            s32 rot[3];
+            Vec dir = lbl_80446A38;
+            if (angles[2] || angles[0] || angles[1]) {
                 push_matrix_from(identity_matrix);
                 rotate_matrix_z(0, angles[2]);
                 rotate_matrix_x(0, angles[0]);
@@ -381,7 +374,7 @@ void spawn_photon_blast_attachment_effects(struct Self_801A7680 *self, s32 kind)
                 rot[1] = 0;
                 rot[2] = 0;
             }
-            self->effects[i].obj = create_timed_particle_emitter_with_angles(&self->pos, rot, id, a, b, flags & 0xFFFF);
+            self->effects[i].obj = create_timed_particle_emitter_with_angles(&self->pos, rot, params.id, params.a, params.b, flags & 0xFFFF);
             self->effects[i].flag = def->unkC;
             copy_xyz(self->effects[i].angles, angles);
         }
@@ -456,23 +449,16 @@ s32 restore_player_cameras(void);
 
 void TCameraCtrl::update() { restore_player_cameras(); TCameraCtrl::release_photon_blast_camera(); }
 
-struct Vec_801A7B14
-{
-  f32 x;
-  f32 y;
-  f32 z;
-};
-
 s32 activate_camera_mode(s32 arg0);
 void *get_player_by_client_id(s32 i);
 
 extern s32 local_client_id;
 void TUnk_804C3248::setup_photon_blast_camera() {
     u8 *arg0 = (u8 *)this;
-  Vec_801A7B14 a = {-3.0f, 6.7f, 11.0f};
-  Vec_801A7B14 b = {-9.0f, 58.0f, 32.0f};
-  Vec_801A7B14 c = {0.0f, 8.0f, 0.0f};
-  Vec_801A7B14 d = {0.0f, 56.0f, 0.0f};
+  Vec a = {-3.0f, 6.7f, 11.0f};
+  Vec b = {-9.0f, 58.0f, 32.0f};
+  Vec c = {0.0f, 8.0f, 0.0f};
+  Vec d = {0.0f, 56.0f, 0.0f};
   u8 *p;
   if ((*((s32 *)(arg0 + 0x138))) == 0)
   {
@@ -549,7 +535,7 @@ TUnk_804C3248::TUnk_804C3248() : TObjMotion((TObject *)tl_06) {
 
 #pragma pop
 
-extern "C" {
+
 PhotonAttachmentDef_801A7748 lbl_804C2438[10] = {
     {0x136, 0x1e, 0x14, 0x27, {0, 0, 0}, 0},
     {0x137, 0x14, 0x28, 0x11, {0, 0, 0}, 0},
@@ -710,7 +696,6 @@ Group_801A7428 photon_blast_attachment_table[7] = {
     {lbl_804C2A98, 6, lbl_804C3088, 4},
     {lbl_804C2B58, 6, lbl_804C3088, 4},
 };
-}
 
 Reg_801A7578 photon_blast_joint_origins[1];
 PhotonBlastHit photon_blast_hit_queue[32];

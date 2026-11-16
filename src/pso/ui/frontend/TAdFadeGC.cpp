@@ -6,13 +6,13 @@
 #include "pso/object/collision/TObjTradeCollision.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/ModelDrawContext.h"
-#include "pso/system/task/TObject.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+
 
 struct Desc_802C79C8 { f32 *pos; u32 *col; s32 a; s32 b; };
 
 extern "C" {
-s32 get_main_phase(void);
-s32 get_current_floor(void);
 void *get_player_by_client_id(s32 i);
 f32 xz_distance_squared(void *, void *);
 s32 draw_color_lines(void *, int, int, f32);

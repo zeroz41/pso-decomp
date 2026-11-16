@@ -6,17 +6,17 @@
 
 extern "C" {
 
-s32 TQuestVmDownLoadServer__sub_8006EF6C(s32);
+s32 get_message_text(s32);
 
 s32 TLobby::get_class_type_name(s32 class_flags) {
     if (class_flags & CLASS_FLAG_HUNTER) {
-        return TQuestVmDownLoadServer__sub_8006EF6C(3);
+        return get_message_text(3);
     }
     if (class_flags & CLASS_FLAG_RANGER) {
-        return TQuestVmDownLoadServer__sub_8006EF6C(4);
+        return get_message_text(4);
     }
     if (class_flags & CLASS_FLAG_FORCE) {
-        return TQuestVmDownLoadServer__sub_8006EF6C(5);
+        return get_message_text(5);
     }
     return 0;
 }

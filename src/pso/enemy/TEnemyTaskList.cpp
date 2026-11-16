@@ -1,8 +1,7 @@
 #include "pso/enemy/TEnemyTaskList.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 extern "C" {
-void *mem_alloc(u32 size);
-void mem_free(void*);
 extern const char TEnemyTaskList_class_name[] = "TEnemyTaskList";
 const char* TEnemyTaskList_name = TEnemyTaskList_class_name;
 }

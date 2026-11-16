@@ -1,5 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/render/ChunkMaterialState.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
+#include "pso/player/TObjPlayer_802E6CA8.h"
 #include "types.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/render/MaterialColorFade.h"
@@ -11,6 +13,7 @@
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/unk/text_80087278.h"
 #include "pso/system/task/TObject.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 struct VB_802E74E4 { u8 pad[0xC]; };
 
@@ -22,15 +25,13 @@ struct Part_802E6CB0 { u8 pad0[0x18]; s32 f18; u8 pad1c[4]; s32 f20; f32 f24; s3
 
 struct Node_802E6CB0 { u8 pad0[4]; s32 model; u8 pad8[0x28]; Node_802E6CB0 *next; };
 
-struct Vec_802E6F10 { f32 x, y, z; };
-
-struct Bone_802E6F10 { u8 pad0[4]; Vec_802E6F10 pos; Vec_802E6F10 rot; };
+struct Bone_802E6F10 { u8 pad0[4]; Vec pos; Vec rot; };
 
 struct Model_802E6F10 { u8 pad0[4]; Bone_802E6F10 *bones; };
 
 struct Part_802E6F10 {
-    Vec_802E6F10 pos;
-    Vec_802E6F10 rot;
+    Vec pos;
+    Vec rot;
     s32 f18;
     s32 f1C;
     s32 f20;
@@ -38,23 +39,19 @@ struct Part_802E6F10 {
     s32 f28;
 };
 
-struct Vec_802E708C { f32 x, y, z; };
-
 struct Col_802E708C { f32 a; f32 b; f32 c; f32 d; };
 
 struct Part_802E708C { u8 pad0[0x18]; u8 rot[0xC]; f32 f24; s32 type; };
 
 struct Node_802E708C { u8 pad0[4]; s32 model; u8 pad8[0x24]; Node_802E708C *child; Node_802E708C *next; };
 
-typedef struct Vec_802E72DC { f32 x, y, z; } Vec_802E72DC;
-
-typedef struct Src_802E72DC { u8 pad0[4]; Vec_802E72DC a; Vec_802E72DC b; } Src_802E72DC;
+typedef struct Src_802E72DC { u8 pad0[4]; Vec a; Vec b; } Src_802E72DC;
 
 typedef struct Tbl_802E72DC { u8 pad0[4]; Src_802E72DC *items; } Tbl_802E72DC;
 
 typedef struct Piece_802E72DC {
-    Vec_802E72DC pos;
-    Vec_802E72DC rot;
+    Vec pos;
+    Vec rot;
     s32 x18;
     s32 x1C;
     s32 x20;
@@ -81,8 +78,6 @@ extern const float lbl_805DE9F0;
 extern const f32 lbl_805DE9FC;
 extern const f32 lbl_805DEA00;
 extern const f32 lbl_805DEA04;
-s32 TObjPlayer__sub_802E76C8(u8 *arg0);
-void mem_free(void *p);
 void __dl__7TObjectFPv(void *);
 extern s32 __vt__13TUnk_804E3BD8[];
 u8 *__dt__13TUnk_804E3BD8Fv(u8 *arg0, s16 arg1);
@@ -95,14 +90,6 @@ s32 push_matrix();
 s32 pop_matrix();
 s32 post_translate_matrix(void *);
 void set_chunk_material_override_pair(s32 arg0, s32 arg1);
-}
-void set_chunk_blend(u32 x);
-void draw_chunk_model(void *arg0);
-extern Col_802E6CB0 lbl_80472C9C;
-extern s32 current_scene_light;
-extern s32 saved_model_render_flags;
-extern s32 model_render_flags;
-extern "C" {
 f32 lerp__9TDeadSpotFff(f32, f32);
 f32 rand_signed_unit();
 s32 matrix_mult_vec(int, void *, void *);
@@ -115,30 +102,26 @@ extern const f32 lbl_805DE9D8;
 extern const f32 lbl_805DE9DC;
 extern const f32 lbl_805DE9E0;
 s32 rotate_matrix_by_node_angles(void *, int);
-s32 scale_current_matrix(Vec_802E708C *);
+s32 scale_current_matrix(Vec *);
 extern Col_802E708C lbl_80472C80;
-extern Vec_802E708C lbl_80472C90;
+extern Vec lbl_80472C90;
 extern const f32 lbl_805DE9F8;
-void TObjPlayer__sub_802E7640(void *);
 extern s32 lbl_80472C68[6];
 extern s32 lbl_804E3BC0[];
-Obj_802E72DC *TObjPlayer__sub_802E72DC(Obj_802E72DC *arg0, s32 arg1, Vec_802E72DC *arg2, s32 arg3);
-void *__dt__13TUnk_804E3BA8Fv(void *arg0, s16 arg1);
-void TObjPlayer__sub_802E7084(void);
-void TObjPlayer__sub_802E7088(void);
-void *__dt__13TUnk_804E3BC0Fv(void *arg0, s16 arg1);
-void TObjPlayer__sub_802E746C(void);
-void TObjPlayer__sub_802E7470(void);
+Obj_802E72DC *TObjPlayer__sub_802E72DC(Obj_802E72DC *arg0, s32 arg1, Vec *arg2, s32 arg3);
 s32 *init_from_model__11TBreakUpMdlFl(s32 *, s32);
-void TObjPlayer__sub_802E75B8(void *, s32 *);
 s32 scale_matrix(int, f32, f32, f32);
 extern const f32 lbl_805DE9E4;
 void __ct__7TObjectFP7TObject(void *);
-void *mem_alloc(u32 size);
 
     extern int multiplay_texture_f512_handle;
 }
-
+void set_chunk_blend(u32 x);
+void draw_chunk_model(void *arg0);
+extern Col_802E6CB0 lbl_80472C9C;
+extern s32 current_scene_light;
+extern s32 saved_model_render_flags;
+extern s32 model_render_flags;
 #pragma push
 #pragma opt_common_subs off
 #pragma opt_propagation off
@@ -196,8 +179,8 @@ s32 TObjPlayer__sub_802E76C8(u8 *arg0) {
 }
 #pragma pop
 
-void TObjPlayer__sub_802E7640(void *arg0) {
-    TUnk_804E3BD8 *self = (TUnk_804E3BD8 *)arg0;
+void TUnk_804E3BC0::sub_802E7640() {
+    TUnk_804E3BD8 *self = (TUnk_804E3BD8 *)this;
     s32 i;
     push_matrix();
     set_matrix_identity(0);
@@ -208,8 +191,8 @@ void TObjPlayer__sub_802E7640(void *arg0) {
     pop_matrix();
 }
 
-void TObjPlayer__sub_802E75B8(void *arg0, s32 *) {
-    TUnk_804E3BD8 *self = (TUnk_804E3BD8 *)arg0;
+void TUnk_804E3BD8::sub_802E75B8(s32 *) {
+    TUnk_804E3BD8 *self = (TUnk_804E3BD8 *)this;
     s32 i;
     push_matrix();
     set_matrix_identity(0);
@@ -239,30 +222,29 @@ TUnk_804E3BD8::~TUnk_804E3BD8() {
     }
 }
 
-extern "C" {
 
-void TUnk_804E3BD8::alloc_breakup_model(s32 arg1) {
+void TUnk_804E3BD8::alloc_breakup_model(s32 model) {
     s32 *temp_r4;
     s32 *var_r0;
 
     var_r0 = (s32 *)::operator new(0x10);
     if (var_r0 != NULL) {
-        var_r0 = init_from_model__11TBreakUpMdlFl(var_r0, arg1);
+        var_r0 = init_from_model__11TBreakUpMdlFl(var_r0, model);
     }
     *(s32 **)((s8 *)this + 0x1C) = var_r0;
     temp_r4 = *(s32 **)((s8 *)this + 0x1C);
     this->m_24 = (s32) *temp_r4;
-    TObjPlayer__sub_802E75B8(this, temp_r4);
+    sub_802E75B8(temp_r4);
     *(s32 *)&(this->unk_28) = (s32)mem_alloc(this->m_24 * 0x2C);
 }
 
 void TObjPlayer__sub_802E7470(void) {  }
 void TObjPlayer__sub_802E746C(void) {  }
 
-Obj_802E72DC *TObjPlayer__sub_802E72DC(Obj_802E72DC *arg0, s32 arg1, Vec_802E72DC *arg2, s32 arg3) {
+Obj_802E72DC *TObjPlayer__sub_802E72DC(Obj_802E72DC *arg0, s32 arg1, Vec *arg2, s32 arg3) {
     s32 n;
     Piece_802E72DC *p;
-    Vec_802E72DC *q;
+    Vec *q;
     s32 i;
     ((TObjPlayer *)arg0)->init_zeroed_object();
     arg0->vt = lbl_804E3BC0;
@@ -273,7 +255,7 @@ Obj_802E72DC *TObjPlayer__sub_802E72DC(Obj_802E72DC *arg0, s32 arg1, Vec_802E72D
     }
     if (n > 0) {
         ((TUnk_804E3BD8 *)arg0)->alloc_breakup_model((s32)find_model_node((u32)queue_boss_effect__10TObjPlayerFPv(3), n));
-        TObjPlayer__sub_802E7640(arg0);
+        ((TUnk_804E3BC0 *)arg0)->sub_802E7640();
         p = arg0->pieces;
         for (i = 0; i < arg0->count; i++, p++) {
             VecCopy((Vec *)&p->pos, (const Vec *)arg2);
@@ -326,7 +308,7 @@ void TUnk_804E3BC0::render() {
     u8 *fx = queue_boss_effect__10TObjPlayerFPv(3);
     Col_802E708C c = lbl_80472C80;
     node = *(Node_802E708C **)((s8 *)fx + 0x2C);
-    Vec_802E708C s = lbl_80472C90;
+    Vec s = lbl_80472C90;
     s.z = s.y = s.x = lbl_805DE9F8;
     part = *(Part_802E708C * *)&this->unk_28;
     TObjPlayer::draw_effect();
@@ -372,7 +354,7 @@ u8 *TObjPlayer::init_breakup_pieces(void *arg1, s32 arg2) {
     push_matrix();
     set_matrix_identity(0);
     TObjPlayer::concat_matrix(0, *(s32 *)((s8 *)((u8 *)this) + 0x2C));
-    (*(Vec_802E6F10 *)((s8 *)((u8 *)this) + 0x30)).z = (*(Vec_802E6F10 *)((s8 *)((u8 *)this) + 0x30)).y = (*(Vec_802E6F10 *)((s8 *)((u8 *)this) + 0x30)).x = lbl_805DE9CC;
+    (*(Vec *)((s8 *)((u8 *)this) + 0x30)).z = (*(Vec *)((s8 *)((u8 *)this) + 0x30)).y = (*(Vec *)((s8 *)((u8 *)this) + 0x30)).x = lbl_805DE9CC;
     matrix_mult_vec(0, ((u8 *)this) + 0x30, ((u8 *)this) + 0x30);
     for (i = 0; i < this->texlist; i++) {
         matrix_mult_vec(0, &(*(Model_802E6F10 **)((s8 *)((u8 *)this) + 0x1C))->bones[i].pos, &part->pos);
@@ -459,7 +441,6 @@ void TUnk_804E3BA8::render() {
 }
 
 int TObjPlayer::get_instance() {  return multiplay_texture_f512_handle; }
-}
 
 f32 lbl_805D6910 = lbl_805DE9F0;
 const f32 lbl_805DE9C8 = 1.0f;
@@ -483,7 +464,7 @@ const f32 lbl_805DEA04 = -75.0f;
 extern "C" {
 __declspec(section ".rodata") s32 lbl_80472C68[6] = { 1, 6, 12, 18, 24, 29 };
 __declspec(section ".rodata") Col_802E708C lbl_80472C80 = { 1.0f, 1.0f, 1.0f, 1.0f };
-__declspec(section ".rodata") Vec_802E708C lbl_80472C90 = { 0.0f, 0.0f, 0.0f };
+__declspec(section ".rodata") Vec lbl_80472C90 = { 0.0f, 0.0f, 0.0f };
 __declspec(section ".rodata") Col_802E6CB0 lbl_80472C9C = { 1.0f, 1.0f, 1.0f, 1.0f };
 }
 

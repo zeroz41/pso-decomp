@@ -1,4 +1,5 @@
 #include "pso/network/protocol/protocol_types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/system/NinjaTypes.h"
 // TItem, the base of every item object, with the item registry, the item
 // packets (6x59/5A/5D/5E/61) and the item system's set-up. The data is
@@ -929,7 +930,7 @@ void TItem::set_mode(s8 new_mode) {
 void TItem::register_in_world(s32 clear_status) {
     if (get_entity_id(this) == 0xFFFF) {
         set_entity_id(pop_free_entity_id());
-        ((TObjPlayer *)this)->register_object_by_id();
+        this->register_object_by_id();
         if (clear_status != 0) {
             clear_player_status_flag(0, 1);
         }
@@ -1183,7 +1184,7 @@ void TItem::set_owner_technique_level(s16 technique, s16 level) {
     if (technique >= 0 && technique < 19 && level >= 0 && level <= 29) {
         TObjPlayer *owner = get_player_by_client_id(get_owner_client());
         if (owner != NULL) {
-            s16 hp = get_actor_hp(owner);
+            s16 hp = get_actor_hp__9TObjCharaFv(owner);
             s16 tp = get_actor_tp(owner);
             s32 slot;
             for (slot = 9; slot != 13; slot++) {
@@ -1339,7 +1340,7 @@ void TItem::remove_equip_stats(s32) {}
 void TItemEquipBase::refresh_owner_stats() {
     TObjPlayer *player = owner;
     if (player != NULL) {
-        s16 hp = get_actor_hp(player);
+        s16 hp = get_actor_hp__9TObjCharaFv(player);
         s16 tp = get_actor_tp(owner);
         remove_equip_stats(0);
         add_equip_stats(0);
@@ -1409,7 +1410,7 @@ void TItem::apply_switch_attack(s32 effect) {
 
 void TItem::notify_owner(s32 sound) {
     if (owner != NULL && owner->is_body_collision_inactive() == 0) {
-        play_sound_effect(sound, &owner->position, 0, 0);
+        play_sound_effect(sound, (Vec *)(&owner->position), 0, 0);
     }
 }
 

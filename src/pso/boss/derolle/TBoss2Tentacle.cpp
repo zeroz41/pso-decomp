@@ -1,4 +1,5 @@
 #include "pso/system/vector.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/boss/derolle/TBoss2Tentacle.h"
 
@@ -23,11 +24,9 @@ static const int TBoss2Tentacle__rest_angles[] = {-2048, 2048, -4864, 4864};
 static const s32 boss2_tentacle_angle_limit_table[] = {4096, -4096, 6144, -6144};
 const char *TBoss2Tentacle__name = "TBoss2Tentacle";
 
-
 struct Obj_80039DE0 { u8 pad[0x30]; Vec pts[14]; s32 vals[14]; };
 
 struct Obj_80039C44 { u8 pad[0x114]; f32 pos; f32 speed; };
-
 
 struct Ten_8003933C { char pad0[0x30]; Vec pos[14]; s32 vals[14]; };
 
@@ -60,7 +59,6 @@ struct Obj_80039F50 {
     s32 f154;
 };
 
-
 struct Obj_80039994 {
     u8 pad0[0x30];
     Vec pts[14];
@@ -88,8 +86,8 @@ s32 post_translate_matrix(void *);
 void draw_model_motion(void *arg0, void *arg1, f32 farg0);
 extern DragonModelNode tentacle_model_nodes[];
 void render__14TBoss2TentacleFv(u8 *arg0);
-s32 emit_effect_and_step__13TBoss2DeRolLeFPvPv(void *, void *);
-void *get_instance__13TBoss2DeRolLeFv(void);
+void emit_effect_and_step__13TBoss2DeRolLeFPvPv(void *arg0, void *arg1);
+s32 get_instance__13TBoss2DeRolLeFv(void);
 void TBoss2Tentacle__sub_8003998C(void);
 void TBoss2Tentacle__sub_80039CB4(void* p);
 void TBoss2Tentacle__sub_80039D50(void* p);
@@ -157,8 +155,7 @@ void render__14TBoss2TentacleFv(u8 *arg0) {
     clear_motion_packed_rotation();
 }
 
-typedef Vec V3_800394DC;
-typedef struct { u8 pad[0x30]; V3_800394DC pts[14]; } Ten_800394DC;
+typedef struct { u8 pad[0x30]; Vec pts[14]; } Ten_800394DC;
 #define F(t, o) (*(t *)(arg0 + (o)))
 #pragma pool_data off
 void run_task__14TBoss2TentacleFv(u8 *arg0) {
@@ -206,7 +203,7 @@ void run_task__14TBoss2TentacleFv(u8 *arg0) {
         break;
     case 3: {
         Vec pos;
-        V3_800394DC v;
+        Vec v;
         f32 len;
         v.z = v.y = v.x = 0.0f;
         push_matrix();
@@ -241,11 +238,11 @@ void run_task__14TBoss2TentacleFv(u8 *arg0) {
                 F(f32, 0x138) = len;
                 F(s32, 0x14C) = 0;
                 F(s32, 0x24) = 2;
-                inst = get_instance__13TBoss2DeRolLeFv();
+                inst = (void *)get_instance__13TBoss2DeRolLeFv();
                 if (inst != NULL) {
                     emit_effect_and_step__13TBoss2DeRolLeFPvPv(inst, &pos);
                 }
-                play_sound_effect(0x4003A507, &pos, 0, 0);
+                play_sound_effect(0x4003A507, (Vec *)(&pos), 0, 0);
             }
             if (F(f32, 0x138) >= 0.4f * len) {
                 F(f32, 0x13C) = 1.0f;

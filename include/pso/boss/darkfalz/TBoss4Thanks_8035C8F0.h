@@ -4,7 +4,8 @@
 #include "types.h"
 
 extern "C" {
-int TBoss4Thanks__sub_8035C96C(void *p);
+// Takes no argument: the body calls is_door_0x97_open() without setting r3.
+s32 TBoss4Thanks__sub_8035C96C(void);
 }
 
 #endif

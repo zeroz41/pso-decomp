@@ -45,11 +45,6 @@ public:
     virtual s32 v8();
 };
 
-struct RecoveredGlobal_80289200___vt__19TQuestListChallenge {
-    s32 value;
-    u8 remaining[0x2C];
-};
-
 struct RecoveredGlobal_80289200_lbl_8045080C {
     s32 value;
     u8 remaining[0x4C];
@@ -112,7 +107,6 @@ extern "C" {
 
 s32 get_entity_id(s32);
 s32 get_quest_list_text(int, int, int);
-f32 get_scale__15TShopWindowBaseFv(void *);
 void *create_yes_no_window(s32, u16, s32, s32);
 void *create__14TWindowMessageFlPCfUll(s32, Pair_80288DA4 *, s32, u16);
 s32 get_window_layout_position(s32);
@@ -157,7 +151,6 @@ s32 prepare_offline_quest_filenames(s32, s32);
 void *__ct__11TObjControlFP7TObject(void *, void *);
 u8 *TObjNpcKenkyu__ct(u8 *arg0, s32 arg1, s32 arg2);
 s32 __dl__7TObjectFPv(void *);
-void *__nw__7TObjectFUl(int);
 
 extern "C" {
 struct QLCStage_80289200 { s32 a; s32 b; s32 c; const char *name; };
@@ -309,7 +302,7 @@ void update_selection__19TQuestListChallengeFv(QLC_80288DA4 *self) {
     if (self->f34 == NULL) {
         id = (u16)get_entity_id(self->f24);
         self->f34 = create_yes_no_window(get_window_layout_position(0x2B), id, 0, 0);
-        ((TWindowAddition *)(self->f34))->set_position_xy(get_scale__15TShopWindowBaseFv(self), get_scale__15TShopWindowBaseFv(self));
+        ((TWindowAddition *)(self->f34))->set_position_xy(((TShopWindowBase *)self)->get_scale(), ((TShopWindowBase *)self)->get_scale());
         if (self->obj != NULL) {
             self->obj->m7(5, 0x80);
         }
@@ -379,15 +372,14 @@ void *__dt__19TQuestListChallengeFv(void *arg0, s16 arg1) {
 extern s32 lbl_805D64A8;
 extern s32 lbl_805D64AC;
 
-typedef char RecoveredGlobal_80289200___vt__19TQuestListChallenge_size[sizeof(RecoveredGlobal_80289200___vt__19TQuestListChallenge) == 0x30 ? 1 : -1];
 typedef char RecoveredGlobal_80289200_lbl_8045080C_size[sizeof(RecoveredGlobal_80289200_lbl_8045080C) == 0x50 ? 1 : -1];
 typedef char RecoveredGlobal_80289200_lbl_80450910_size[sizeof(RecoveredGlobal_80289200_lbl_80450910) == 0x90 ? 1 : -1];
 typedef char RecoveredGlobal_80289200_lbl_80450A20_size[sizeof(RecoveredGlobal_80289200_lbl_80450A20) == 0x80 ? 1 : -1];
-u8 *TQuestListChallenge__ct(u8 *shop_window_base, s32 arg1, s32 arg2, s32 arg3) {
+u8 *TQuestListChallenge__ct(u8 *shop_window_base, s32 parent, s32 arg2, s32 arg3) {
     s32 temp_r3;
     s32 var_r3;
-    __ct__15TShopWindowBaseFP7TObject(shop_window_base, (TObject *)arg1);
-    *(s32 **)((s8 *)shop_window_base + 0x18) = &(*(RecoveredGlobal_80289200___vt__19TQuestListChallenge *)&__vt__19TQuestListChallenge).value;
+    __ct__15TShopWindowBaseFP7TObject(shop_window_base, (TObject *)parent);
+    *(s32 **)((s8 *)shop_window_base + 0x18) = ((s32 *)&__vt__19TQuestListChallenge);
     *(s32 *)((s8 *)shop_window_base + 0) = (s32) (*(s32 *)&TQuestListChallenge__name);
     if ((void *) (*(u8 * *)&TQuestListChallenge__active_instance) != NULL) {
         return shop_window_base;
@@ -449,11 +441,11 @@ extern void *tl_04;
 void * TObjNpcKenkyu__create(void *arg0) {
     void *o;
     void *o2;
-    o = __nw__7TObjectFUl(0x20);
+    o = TObject::operator new(0x20);
     if (o != NULL) {
         o = __ct__11TObjControlFP7TObject(o, tl_04);
     }
-    o2 = __nw__7TObjectFUl(0x3B8);
+    o2 = TObject::operator new(0x3B8);
     if (o2 != NULL) {
         o2 = TObjNpcKenkyu__ct((u8 *)o2, (s32)o, (s32)arg0);
     }

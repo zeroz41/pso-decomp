@@ -4,6 +4,7 @@
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
 #include "pso/ui/frontend/TAdMultiPlayerNoGC.h"
+#include "pso/system/task/TObject.h"
 
 typedef struct Obj_802FF87C {
     u8 pad0[0x1C];
@@ -37,20 +38,22 @@ s32 fn_802E0454(void *);
 int multi_confirm_cancel_requested(void *p);
 extern "C" {
 s32 are_all_entries_finished(s32);
-void *get_localized_text_entry(s32, s32);
-void *__nw__7TObjectFUl(u32);
+s32 get_localized_text_entry(s32 arg0, s32 arg1);
 void __ct__9TAdBackGCFv(void *, void *);
 void __ct__12TAdBackTxtGCFv(void *, void *);
 void __ct__10TAdTitleGCFP7TObjectl(void *, void *, s32);
 void __ct__13TAdTitleTexGCFv(void *, void *);
 void *__ct__13TAdGuideTxtGCFv(void *, void *);
-s32 is_multiplayer_character_slot_selected(u32);
-void *get_or_create_player__22TAdMultiPlyChrSelectGCFiiii(void *, u32, u32, s32);
+}
+s32 is_multiplayer_character_slot_selected(s32 arg0);
+extern "C" {
+s32 get_or_create_player__22TAdMultiPlyChrSelectGCFiiii(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 void fn_802FF7EC(void *);
 void *__ct__12TAdMultiOkGCFv(void *, void *, OkArg_802FFA3C *);
 extern const char *TAdMultiConfirmGC__name;
 extern u8 lbl_805DEF30;
 void fn_802FF760(void *);
+}
 
 void TAdMultiConfirmGC::render() {  }
 
@@ -97,8 +100,6 @@ void TAdMultiConfirmGC::run_task() {
         break;
     }
 }
-
-}
 TAdMultiConfirmGC::~TAdMultiConfirmGC() {
     fn_802FF760(this);
 }
@@ -116,16 +117,16 @@ TAdMultiConfirmGC::TAdMultiConfirmGC(TObject *parent) : TObject(parent) {
     for (i = 0; i < 4; i++) {
         ((TAdMultiConfirmGC_802FFA3C *)this)->players[i] = 0;
     }
-    if ((p = __nw__7TObjectFUl(0x24)) != 0) {
+    if ((p = TObject::operator new(0x24)) != 0) {
         __ct__9TAdBackGCFv(p, this);
     }
-    if ((p = __nw__7TObjectFUl(0x28)) != 0) {
+    if ((p = TObject::operator new(0x28)) != 0) {
         __ct__12TAdBackTxtGCFv(p, this);
     }
-    if ((p = __nw__7TObjectFUl(0x138)) != 0) {
+    if ((p = TObject::operator new(0x138)) != 0) {
         __ct__10TAdTitleGCFP7TObjectl(p, this, 0x10);
     }
-    if ((p = __nw__7TObjectFUl(0x9C)) != 0) {
+    if ((p = TObject::operator new(0x9C)) != 0) {
         __ct__13TAdTitleTexGCFv(p, this);
     }
     ((TAdMultiConfirmGC_802FFA3C *)this)->count = 0;
@@ -141,16 +142,16 @@ TAdMultiConfirmGC::TAdMultiConfirmGC(TObject *parent) : TObject(parent) {
     arg.count = ((TAdMultiConfirmGC_802FFA3C *)this)->count;
     arg.mask = 0;
     for (j = 0; j < (n = ((TAdMultiConfirmGC_802FFA3C *)this)->count); j++) {
-        ((TAdMultiConfirmGC_802FFA3C *)this)->players[j] = get_or_create_player__22TAdMultiPlyChrSelectGCFiiii(((TAdMultiConfirmGC_802FFA3C *)this), n + 1, j, ((TAdMultiConfirmGC_802FFA3C *)this)->ids[j]);
+        ((TAdMultiConfirmGC_802FFA3C *)this)->players[j] = (void *)get_or_create_player__22TAdMultiPlyChrSelectGCFiiii((s32)((TAdMultiConfirmGC_802FFA3C *)this), (s32)(n + 1), (s32)j, (s32)(((TAdMultiConfirmGC_802FFA3C *)this)->ids[j]));
         new TAdMultiPlayerNoGC(this, ((TAdMultiConfirmGC_802FFA3C *)this)->count, j, ((TAdMultiConfirmGC_802FFA3C *)this)->ids[j]);
         arg.mask |= 1 << ((TAdMultiConfirmGC_802FFA3C *)this)->ids[j];
     }
-    p = __nw__7TObjectFUl(0x984);
+    p = TObject::operator new(0x984);
     if (p != 0) {
         p = __ct__12TAdMultiOkGCFv(p, ((TAdMultiConfirmGC_802FFA3C *)this), &arg);
     }
     ((TAdMultiConfirmGC_802FFA3C *)this)->ok = p;
-    p = __nw__7TObjectFUl(0x44);
+    p = TObject::operator new(0x44);
     if (p != 0) {
         p = __ct__13TAdGuideTxtGCFv(p, ((TAdMultiConfirmGC_802FFA3C *)this));
     }

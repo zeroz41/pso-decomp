@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/enemy/berura/TObjEneRe7BeruraPunch.h"
 #include "pso/enemy/dd/TObjEneDD_800BA138.h"
 #include "pso/math/MatrixTransforms.h"
@@ -193,22 +194,17 @@ void TObjEneRe7BeruraPunch::launch(s32 arg1, s32 arg2) {
     this->m_b4 = 1;
 }
 
-}
-
-extern "C" {
-
 // The punch's two collision spheres (radius 3).
 CollisionBody TObjEneRe7BeruraPunch__collision_body_templates[2] = {
     {{0.0f, 0.0f, 0.0f}, 3.0f, 0.0f, 0, 0x9D03, {0.0f, 0.0f, 0.0f}, 0.0f},
     {{0.0f, 0.0f, 0.0f}, 3.0f, 0.0f, 0, 0x9D03, {0.0f, 0.0f, 0.0f}, 0.0f},
 };
 extern const char *TObjEneRe7BeruraPunch__name;
-void queue_destruction__7TObjectFv(void *);
 s32 all_parents_unqueued_for_destruction__7TObjectFv();
 void vec3_add_to(void *, void *);
 
 void TObjEneRe7BeruraPunch__sub_800962F4(TObjEneRe7BeruraPunch *p);
-s32 fill_value_array(void *);
+void fill_value_array(s32 address);
 
 void TObjEneRe7BeruraPunch__sub_800962F4(TObjEneRe7BeruraPunch *p) { p->m_b4 = 0; }
 
@@ -238,7 +234,7 @@ void TObjEneRe7BeruraPunch::snap_to_ground() {
 }
 
 void TObjEneRe7BeruraPunch::reset() {
-    fill_value_array(this->attack_history);
+    fill_value_array((s32)this->attack_history);
     this->m_f4 = 1.0f;
     this->m_f8.reset_color();
     this->m_118 = 0;
@@ -251,7 +247,7 @@ void TObjEneRe7BeruraPunch::run_task() {
     f32 s;
     f32 c;
     if (find_entity_by_id(this->owner_id) == NULL || all_parents_unqueued_for_destruction__7TObjectFv() == 0) {
-        queue_destruction__7TObjectFv(this);
+        queue_destruction();
         return;
     }
     switch (this->m_b4) {
@@ -311,11 +307,11 @@ void TObjEneRe7BeruraPunch::run_task() {
 }
 TObjEneRe7BeruraPunch::~TObjEneRe7BeruraPunch() {
     if (this->m_d0 != NULL) {
-        queue_destruction__7TObjectFv(this->m_d0);
+        ((TObject *)(this->m_d0))->queue_destruction();
         this->m_d0 = 0;
     }
     if (this->m_d4 != NULL) {
-        queue_destruction__7TObjectFv(this->m_d4);
+        ((TObject *)(this->m_d4))->queue_destruction();
         this->m_d4 = 0;
     }
     if (this->attack_history != NULL) {
@@ -323,7 +319,7 @@ TObjEneRe7BeruraPunch::~TObjEneRe7BeruraPunch() {
         this->attack_history = 0;
     }
 }
-extern "C" {
+
 
 void TObjEneRe7BeruraPunch::init() {
     this->m_b4 = 0;
@@ -346,4 +342,6 @@ TObjEneRe7BeruraPunch::TObjEneRe7BeruraPunch(TObject *parent, TObjBase *owner)
     init();
 }
 
+void *TObjEneRe7Berura::spawn_punch(void *arg0) {
+    return new TObjEneRe7BeruraPunch((TObject *)arg0, (TObjBase *)arg0);
 }

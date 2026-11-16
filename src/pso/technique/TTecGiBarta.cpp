@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/TParticleCtrl.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "types.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/effect/particle/TParticleCtrl_800867E4.h"
@@ -15,6 +16,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
 #include "pso/technique/TTecCtrl.h"
+#include "pso/system/MatrixStack.h"
 
 struct RecoveredGlobal_802308A0_lbl_804CC510
 {
@@ -83,7 +85,6 @@ struct Obj_802309AC {
     s32 cursor;
 };
 
-struct TTecGiBartaData_80230B48 { u8 pad[4]; u32 count; };
 
 struct TTecGiBarta_80230B48 {
     u8 pad0[0x18];
@@ -108,13 +109,12 @@ struct TTecGiBarta_80230C58 {
     s32 f174;
 };
 
-struct Vec_802304A0 { f32 x, y, z; };
 struct Row_802304A0 { u32 entry; u32 flags; f32 scale; };
 struct Band_802304A0 { const Row_802304A0 *rows; u32 count; };
 struct Angles_802304A0 { s32 a[3]; };
 struct Shot_802304A0 {
     u8 pad0[0x20];
-    Vec_802304A0 pos;
+    Vec pos;
     u8 pad2C[0x54 - 0x2C];
     s32 f54;
     s32 f58;
@@ -153,9 +153,8 @@ TTecGiBarta_80230B48 *__dt__11TTecGiBartaFv(TTecGiBarta_80230B48 *self, s16 dele
 void __ct__13TUnk_804CCC68FlPUcPUcl();
 TTecGiBarta_80230C58 *TTecGiBarta__ct(TTecGiBarta_80230C58 *self, void * _w1, void * _w2, void * _w3, void * _w4);
 void construct_facing_technique__10TObjPlayerFPviPvii();
-s32 play_sound_effect(s32, s32, s32, s32);
+s32 play_sound_effect(s32, Vec *, s32, s32);
 void *find_entity_by_id(u16 id);
-void *__nw__7TObjectFUl(int);
 s32 update_technique_slot__10TTecRaFoieFl(s32, s32, s32);
 
 void TTecGiBarta::update_technique_by_phase() {
@@ -164,29 +163,29 @@ void TTecGiBarta::update_technique_by_phase() {
 
     switch (this->band) {
     case 0:
-        handle = play_sound_effect(0x4002A605, (int)(arg0 + 0x20), 0, 0);
+        handle = play_sound_effect(0x4002A605, (Vec *)((int)(arg0 + 0x20)), 0, 0);
         if (handle >= 0) {
             update_technique_slot__10TTecRaFoieFl(handle, 0x100, 0);
         }
         return;
     case 1:
-        play_sound_effect(0x4002A605, (int)(arg0 + 0x20), 0, 0);
+        play_sound_effect(0x4002A605, (Vec *)((int)(arg0 + 0x20)), 0, 0);
         return;
     case 2:
     case 3:
-        handle = play_sound_effect(0x4002A605, (int)(arg0 + 0x20), 0, 0);
+        handle = play_sound_effect(0x4002A605, (Vec *)((int)(arg0 + 0x20)), 0, 0);
         if (handle >= 0) {
             update_technique_slot__10TTecRaFoieFl(handle, -0x180, 0);
         }
         break;
     case 4:
-        handle = play_sound_effect(0x4002A605, (int)(arg0 + 0x20), 0, 0);
+        handle = play_sound_effect(0x4002A605, (Vec *)((int)(arg0 + 0x20)), 0, 0);
         if (handle >= 0) {
             update_technique_slot__10TTecRaFoieFl(handle, -0x250, 0);
         }
         break;
     case 5:
-        handle = play_sound_effect(0x4002A605, (int)(arg0 + 0x20), 0, 0);
+        handle = play_sound_effect(0x4002A605, (Vec *)((int)(arg0 + 0x20)), 0, 0);
         if (handle >= 0) {
             update_technique_slot__10TTecRaFoieFl(handle, -0x100, 0);
         }
@@ -234,16 +233,16 @@ const Band_802304A0 TTecGiBarta__emitter_profile_table[6] = {
     {lbl_8044D1EC, 3}, {lbl_8044D210, 3}, {lbl_8044D234, 2},
 };
 const char *TTecGiBarta__class_name = "TTecGiBarta";
-const Vec_802304A0 lbl_8044D288 = {0.0f, 0.0f, 3.0f};
+const Vec lbl_8044D288 = {0.0f, 0.0f, 3.0f};
 
 
 void TTecGiBarta::create_particles() {
     Shot_802304A0 *shot = (Shot_802304A0 *)this;
     Angles_802304A0 angles;
-    Vec_802304A0 pos;
-    Vec_802304A0 off;
-    Vec_802304A0 p2;
-    Vec_802304A0 v;
+    Vec pos;
+    Vec off;
+    Vec p2;
+    Vec v;
     u32 i;
     void *emitter;
     u8 *src;
@@ -362,7 +361,7 @@ void TTecGiBarta::vfunc_8(void *target) {
 
 void TTecGiBarta::create(void *arg1, void *arg2, void *arg3) {
     void *o;
-    o = __nw__7TObjectFUl(0x178);
+    o = TObject::operator new(0x178);
     if (o != NULL) {
         TTecGiBarta__ct((TTecGiBarta_80230C58 *)(o), this, arg1, arg2, arg3);
     }
@@ -370,7 +369,7 @@ void TTecGiBarta::create(void *arg1, void *arg2, void *arg3) {
 
 void TTecGiBarta::create_ex(void *arg1, void *arg2, void *arg3) {
     void *o;
-    o = __nw__7TObjectFUl(0x178);
+    o = TObject::operator new(0x178);
     if (o != NULL) {
         ((TTecGiBarta *)o)->construct_facing(this, arg1, arg2, arg3);
     }

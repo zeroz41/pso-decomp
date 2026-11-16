@@ -53,14 +53,14 @@ typedef struct Ipv6Iface {
     s16 prefix_len;
     s16 dad_state;
     s16 f18;
-    s16 f1A;
+    s16 flags; /* flag word: TLobby__sub_80413D78 tests bit 0; TLobby__sub_80412CA4 sets it from its request */
     s16 scope;
     s16 dad_count;
     s16 dad_timer;
     s16 rs_count;
     s16 rs_timer;
     s16 mtu;
-    void *f28;
+    void *callback; /* event callback: TLobby__sub_8042325C calls it as (iface, event, data) */
     Ipv6AddrNode *addrs;
 } Ipv6Iface;
 typedef char Ipv6Iface_size_check[sizeof(Ipv6Iface) == 0x30 ? 1 : -1];

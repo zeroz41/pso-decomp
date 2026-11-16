@@ -1,4 +1,5 @@
 #include "pso/system/scene/EndingSceneTables.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 
 const Vec ending_player_positions_hunter[12] = {
     {7.0f, -7.27548f, -25.0f},

@@ -1,5 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/TParticleCtrl.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
+#include "pso/unk/text_80356E30.h"
 #include "pso/boss/olgaflow/TBoss6SwordShot.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/vector.h"
@@ -12,9 +14,8 @@
 #include <stddef.h>
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/unk/text_80087278.h"
-#include "pso/player/TObjPlayer.h"
-#include "pso/system/task/TObject.h"
-#include "pso/unk/TLobby.h"
+
+
 extern "C" {
 void *__dt__15TBoss6SwordShotFv(void *arg0, s16 arg1);
 void run_task__15TBoss6SwordShotFv(u8 *arg0);
@@ -37,15 +38,9 @@ typedef char RecoveredGlobal_80356B18___vt__15TBoss6SwordWave_size[sizeof(Recove
 
 struct W_80356D10 { s32 w[1]; };
 
-struct Vec_803564F4 { f32 x, y, z; };
-
-struct Wave_803564F4 { u8 pad0[0x1C]; s32 owner; Vec_803564F4 pos; u8 x2C[4]; u8 x30[0x24]; f32 radius; };
-
-struct Vec_803567D0 { f32 x, y, z; };
+struct Wave_803564F4 { u8 pad0[0x1C]; s32 owner; Vec pos; u8 x2C[4]; u8 x30[0x24]; f32 radius; };
 
 struct Pair_8035663C { s32 a; f32 b; };
-
-struct Vec_8035663C { f32 x, y, z; };
 
 struct VBase_8035663C { char pad[0x18]; };
 
@@ -60,12 +55,10 @@ struct VObj_8035663C : VBase_8035663C {
 };
 
 extern "C" {
-u8 *__nw__7TObjectFUl(s32);
 u8 test_rock_bit__15TBoss6SwordWaveFiUc(s32 arg0, u8 arg1);
 void set_bit__15TBoss6SwordWaveFiUc(s32 arg0, u8 arg1);
 f32 *dispatch_shared_handler_a__6TLobbyFl(s32);
 s32 __ct__7TObjectFP7TObject(void *, void *);
-void fn_80356E30(s32 *p);
 extern RecoveredGlobal_80356B18___vt__15TBoss6SwordWave __vt__15TBoss6SwordWave;
 extern const char *TBoss6SwordWave__name;
 u8 *__ct__15TBoss6SwordWaveFv(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0);
@@ -112,8 +105,6 @@ struct VObj_18_ec708a : VBase_18_ec708a {
     virtual s32 m21(s32, struct Pair_803561C4, int, int, int);
 };
 
-struct Vec_803561C4 { f32 x, y, z; };
-
 const char TBoss6SwordWave__class_name_string[] = "TBoss6SwordWave";
 const Vec lbl_80479388 = {-10000.0f, 0.0f, 0.0f};
 const char TBoss6SwordShot__class_name_string[] = "TBoss6SwordShot";
@@ -121,7 +112,7 @@ const char *TBoss6SwordWave__name = TBoss6SwordWave__class_name_string;
 const char *TBoss6SwordShot__name = TBoss6SwordShot__class_name_string;
 
 void damage_players_in_radius(u8 *arg0) {
-    Vec_803561C4 v;
+    Vec v;
     s32 n;
     s32 i;
     u8 *pl;
@@ -219,7 +210,7 @@ u8 *TBoss6SwordShot__ct(void *arg0, s32 arg1, s32 arg2, s32 arg3, f32 farg0) {
 u8 *fn_8035648C(s32 arg0, s32 arg1, s32 arg2, f32 farg0) {
     u8 *temp_r3;
     u8 *var_r0;
-    temp_r3 = (u8 *)(__nw__7TObjectFUl(0x38));
+    temp_r3 = (u8 *)(TObject::operator new(0x38));
     var_r0 = temp_r3;
     if (var_r0 != NULL) {
         var_r0 = (u8 *)(TBoss6SwordShot__ct(temp_r3, arg0, arg1, arg2, farg0));
@@ -249,7 +240,7 @@ s32 TBoss6SwordWave::spawn_wave_ring_particles() {
     for (ang = 0; ang < 0x10000; ang += step) {
         s32 seg = ((s32 (*)(void *, s32))TBoss6SwordWave__sub_80356D08)(o->x30, ang);
         if (((s32 (*)(void *, s32))test_rock_bit__15TBoss6SwordWaveFiUc)(o->x30, seg) != 0) {
-            Vec_803564F4 v = o->pos;
+            Vec v = o->pos;
             v.x += o->radius * sin_table_lookup(ang);
             v.z += o->radius * cos_table_lookup(ang);
             if (!(xyz_distance(&v, (void *)&lbl_80479388) > 400.0f)) {
@@ -275,7 +266,7 @@ s32 TBoss6SwordWave::check_player_hits() {
     u8 t;
     s32 v;
     f32 d;
-    Vec_8035663C dir;
+    Vec dir;
     n = TLobby::get_game_mode();
     for (i = 0; i < n; i++) {
         pl = (VObj_8035663C *)TObjPlayer::get_player_data(i);
@@ -306,11 +297,11 @@ s32 TBoss6SwordWave::check_player_hits() {
 }
 
 s32 TBoss6SwordWave::break_rocks_in_wave() {
-    Vec_803567D0 pt;
-    Vec_803567D0 d;
-    Vec_803567D0 va;
-    Vec_803567D0 vb;
-    Vec_803567D0 n;
+    Vec pt;
+    Vec d;
+    Vec va;
+    Vec vb;
+    Vec n;
     f32 scale;
     u8 *arg0 = (u8 *)this;
     s32 i;
@@ -422,7 +413,7 @@ u8 *__ct__15TBoss6SwordWaveFv(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, 
 u8 *TBoss6SwordWave::create(s32 arg0, s32 arg1, s32 arg2, s32 arg3, f32 farg0) {
     u8 *temp_r3;
     u8 *var_r0;
-    temp_r3 = (u8 *)(__nw__7TObjectFUl(0x64));
+    temp_r3 = (u8 *)(TObject::operator new(0x64));
     var_r0 = temp_r3;
     if (var_r0 != NULL) {
         var_r0 = (u8 *)(__ct__15TBoss6SwordWaveFv(temp_r3, arg0, arg1, arg2, arg3, farg0));

@@ -11,6 +11,8 @@
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/NinjaTypes.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 
 struct Self_80133068 { u8 pad[0x20]; s32 f20; s32 f24; };
 
@@ -30,20 +32,16 @@ struct Ent_8013319C { s32 id; f32 b; f32 c; };
 
 struct Ents_8013319C { Ent_8013319C e[4]; };
 
-struct Pos_8013319C { f32 x; f32 y; };
-
-struct Poss_8013319C { Pos_8013319C p[4]; };
+struct Poss_8013319C { NJS_POINT2 p[4]; };
 
 const char *level_select_class_name = "TLevelSelect";
 
 extern "C" {
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, s32);
-s32 TWindowShortListCtrl__check_controller_button(void *, s32);
 extern u8 controller_input_state[];
 extern u8 controller_physical_port_bank[];
-extern s32 game_difficulty_selection;
+s32 game_difficulty_selection;
 void __ct__7TObjectFP7TObject(void *, void *);
-void *__nw__7TObjectFUl(u32);
 void __ct__9TAdBackGCFv(void *, void *);
 void __ct__12TAdBackTxtGCFv(void *, void *);
 void __ct__8TAdRayGCFv(void *, void *);
@@ -85,7 +83,7 @@ void TLevelSelect::run_task() {
     game_difficulty_selection = TAdSinglePlyChrSelectGC__sub_801334DC((void *)self->f20);
     switch (((TAdSinglePlyChrSelectGC *)(self->f20))->get_selected_slot()) {
     case 1:
-        TKeyBoardControl__sub_8000F9CC(0xE);
+        request_main_phase(0xE);
         break;
     case 0:
     default:
@@ -108,23 +106,23 @@ Self_8013319C *__ct__12TLevelSelectFv(Self_8013319C *self) {
     game_difficulty_selection = 0;
     self->count = ((int (*)(void *))count_unlocked_difficulties__12TLevelSelectFv)(self);
     if (self->count == 0) {
-        TKeyBoardControl__sub_8000F9CC(0xE);
+        request_main_phase(0xE);
         ((TObject *)self)->queue_destruction();
         return self;
     }
-    if ((p = __nw__7TObjectFUl(0x24)) != NULL) {
+    if ((p = TObject::operator new(0x24)) != NULL) {
         __ct__9TAdBackGCFv(p, self);
     }
-    if ((p = __nw__7TObjectFUl(0x28)) != NULL) {
+    if ((p = TObject::operator new(0x28)) != NULL) {
         __ct__12TAdBackTxtGCFv(p, self);
     }
-    if ((p = __nw__7TObjectFUl(0x24)) != NULL) {
+    if ((p = TObject::operator new(0x24)) != NULL) {
         __ct__8TAdRayGCFv(p, self);
     }
-    if ((p = __nw__7TObjectFUl(0x138)) != NULL) {
+    if ((p = TObject::operator new(0x138)) != NULL) {
         __ct__10TAdTitleGCFP7TObjectl(p, self, 2);
     }
-    if ((p = __nw__7TObjectFUl(0x9C)) != NULL) {
+    if ((p = TObject::operator new(0x9C)) != NULL) {
         __ct__13TAdTitleTexGCFv(p, self);
     }
     {
@@ -135,28 +133,28 @@ Self_8013319C *__ct__12TLevelSelectFv(Self_8013319C *self) {
         for (i = 0; i < self->count + 1; i++) {
             ents.e[i].id = -1;
         }
-        if ((p = __nw__7TObjectFUl(0xE0)) != NULL) {
+        if ((p = TObject::operator new(0xE0)) != NULL) {
             __ct__14TAdSelectTxtGCFP7TObjectPvPv(p, self, &ents.e[0], 0);
         }
-        if ((p = __nw__7TObjectFUl(0xE0)) != NULL) {
+        if ((p = TObject::operator new(0xE0)) != NULL) {
             __ct__14TAdSelectTxtGCFP7TObjectPvPv(p, self, &ents.e[1], 1);
         }
-        if ((p = __nw__7TObjectFUl(0xE0)) != NULL) {
+        if ((p = TObject::operator new(0xE0)) != NULL) {
             __ct__14TAdSelectTxtGCFP7TObjectPvPv(p, self, &ents.e[2], 2);
         }
-        if ((p = __nw__7TObjectFUl(0xE0)) != NULL) {
+        if ((p = TObject::operator new(0xE0)) != NULL) {
             __ct__14TAdSelectTxtGCFP7TObjectPvPv(p, self, &ents.e[3], 3);
         }
         {
-            Pos_8013319C pos = { 302.0f, 28.0f };
+            NJS_POINT2 pos = { 302.0f, 28.0f };
             Poss_8013319C poss = {{ { 215.0f, 146.0f }, { 185.0f, 198.0f }, { 155.0f, 250.0f }, { 125.0f, 302.0f } }};
-            p = __nw__7TObjectFUl(0x708);
+            p = TObject::operator new(0x708);
             if (p != NULL) {
                 p = __ct__14TAdSelectCurGCFv(p, self, &poss, &pos);
             }
             self->cur = p;
             ((TLevelSelect *)(self->cur))->add_item_rect(&poss.p[0]);
-            p = __nw__7TObjectFUl(0x44);
+            p = TObject::operator new(0x44);
             if (p != NULL) {
                 p = __ct__13TAdGuideTxtGCFv(p, self);
             }

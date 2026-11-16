@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/enemy/gigue/TObjEneMe1GiGueBarrier.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/text_803D96A8.h"
@@ -26,9 +27,6 @@ TObjMotionAction TObjEneMe1GiGueBarrier__animation_definitions[3] = {
     { MOTION_MODE_LOOP, 0, 7, 1.0f, 0x0 },
     { MOTION_MODE_ONCE, 0, 8, 1.0f, 0x1 },
 };
-}
-
-extern "C" {
 void TObjEneMe1GiGueBarrier__sub_80325CC0(void);
 
 void TObjEneMe1GiGueBarrier::render() {
@@ -70,9 +68,9 @@ void TObjEneMe1GiGueBarrier::run_task() {
             m_104 = 1;
             requested_action = 1;
             if (get_current_floor_area() == AREA_TOWER) {
-                play_sound_effect(0x4003A316, &position, 0, 0);
+                play_sound_effect(0x4003A316, (Vec *)(&position), 0, 0);
             } else {
-                play_sound_effect(0x3A346, &position, 0, 0);
+                play_sound_effect(0x3A346, (Vec *)(&position), 0, 0);
             }
         }
         break;

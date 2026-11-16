@@ -5,7 +5,7 @@
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/object/TObjEZBoneRotPlayer.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/system/task/TObject.h"
+
 extern "C" {
 extern void* __vt__12T_OWEHMS_Exp[6];
 void destroy__12T_OWEHMS_ExpFs();
@@ -15,11 +15,6 @@ void run_task__12T_OWEHMS_ExpFv();
 #pragma push
 
 #include "types.h"
-
-struct RecoveredGlobal_800FE364_lbl_8049DC78 {
-    s32 value;
-    u8 remaining[0x10];
-};
 
 struct H_800FE32C { u8 pad[0x878]; u8 state; u8 pad879[0x88E - 0x879]; s8 flags; };
 
@@ -44,12 +39,11 @@ s32 get_move_done_result__24TObjWaitEntryHairMoveSimFPv(H_800FE32C *h) {
     return -1;
 }
 
-typedef char RecoveredGlobal_800FE364_lbl_8049DC78_size[sizeof(RecoveredGlobal_800FE364_lbl_8049DC78) == 0x14 ? 1 : -1];
 }
 void T_OWEHMS_Exp::start_bone_rotation() {
     s32 bone = (s32)player->m_8ac;
     TObjWaitEntryHairMoveSim__sub_800FE3BC(bone);
-    TObjEZBoneRotPlayer::create((void *)player, (void *)bone, (void *)((u8*)&(*(RecoveredGlobal_800FE364_lbl_8049DC78 *)&hair_bone_rotation_descriptor).value + descriptor_index * 0x14));
+    TObjEZBoneRotPlayer::create((void *)player, (void *)bone, (void *)((u8*)&hair_bone_rotation_descriptor + descriptor_index * 0x14));
 }
 
 void TObjWaitEntryHairMoveSim__sub_800FE3BC(int _w0) {  }
@@ -79,12 +73,13 @@ extern "C" {
 int __ct__7TObjectFP7TObject(void);
 void *__nw__7TObjectFUl(int);
 
-    extern int T_OWEHMS_Exp__name;
+    const char *TObjWaitEntryHairMoveSim__name = "TObjWaitEntryHairMoveSim";
+    const char *T_OWEHMS_Exp__name = "T_OWEHMS_Exp";
 }
 T_OWEHMS_Exp* T_OWEHMS_Exp::construct(TObjPlayer* p) {
     ((void (*)(void*, void*))__ct__7TObjectFP7TObject)(this, p);
     *(void**)((u8*)this + 0x18) = __vt__12T_OWEHMS_Exp;
-    m_name = (const char*)T_OWEHMS_Exp__name;
+    m_name = T_OWEHMS_Exp__name;
     player = p;
     descriptor_index = get_move_done_result__24TObjWaitEntryHairMoveSimFPv((H_800FE32C*)player);
     return this;
@@ -711,12 +706,11 @@ void TObjWaitEntryHairMoveSim::run_task() {
 }
 
 extern s32 __vt__24TObjWaitEntryHairMoveSim[];
-extern void *TObjWaitEntryHairMoveSim__name;
 
 void *__ct__24TObjWaitEntryHairMoveSimFv(void *arg0, void *arg1) {
     ((void (*)(void *))__ct__7TObjectFP7TObject)(arg0);
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__24TObjWaitEntryHairMoveSim;
-    *(void **)((s8 *)arg0 + 0x0) = TObjWaitEntryHairMoveSim__name;
+    ((TObject *)arg0)->m_name = TObjWaitEntryHairMoveSim__name;
     *(void **)((s8 *)arg0 + 0x1C) = arg1;
     return arg0;
 }

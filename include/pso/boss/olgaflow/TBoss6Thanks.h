@@ -19,7 +19,8 @@ struct TBoss6Thanks : public TObject {
     void *motion1;
     virtual void run_task();
     virtual void render();
-    static u8 check_ship_door();
+    // int: the body widens a bool (clrlwi) and its callers test r3 with a plain cmpwi.
+    static s32 check_ship_door();
     static int dispatch_darkfalz_phase();
     void update_particle_emitters();
     void destroy_effects();
@@ -33,4 +34,7 @@ struct TBoss6Thanks : public TObject {
     u8 unk_54[0x10];
 };
 typedef char TBoss6Thanks_size[sizeof(TBoss6Thanks) == 0x64 ? 1 : -1];
+
+// Story flag 0x9A test next to check_ship_door(); int return for the same reason.
+extern "C" s32 fn_8035CAE0(void);
 #endif

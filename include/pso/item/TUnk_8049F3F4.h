@@ -18,4 +18,10 @@ public:
 };
 typedef char TUnk_8049F3F4_size[sizeof(TUnk_8049F3F4) == 0x44 ? 1 : -1];
 
+// --- C functions defined in TUnk_8049F3F4.cpp ---
+extern "C" {
+void *__dt__13TUnk_8049F3F4Fv(void *arg0, s16 arg1);
+}
+// --- end of C functions
+
 #endif

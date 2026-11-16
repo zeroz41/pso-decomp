@@ -3,7 +3,7 @@
 #include "pso/ui/charcreate/TChCrTag.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TObject_80019A50.h"
-#include "pso/system/task/TObject.h"
+
 
 extern "C" void render__8TChCrTagFv();
 #include "pso/ui/charcreate/TChCrCharSelect.h"
@@ -62,7 +62,7 @@ void update_fade__8TChCrTagFPv(TChCrTag *tag) {
         tag->m_24 = tag->m_24 + tag->m_2c;
         if (tag->m_24 <= 0.0f) {
             tag->m_24 = 0.0f;
-            queue_destruction__7TObjectFv(tag);
+            ((TObject *)tag)->queue_destruction();
         }
         break;
     }

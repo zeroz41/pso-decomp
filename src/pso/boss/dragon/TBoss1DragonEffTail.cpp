@@ -1,4 +1,5 @@
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/boss/dragon/TBoss1DragonColli.h"
 #include "pso/boss/goldragon/TBoss8Dragon_800BC53C.h"
 #include "pso/enemy/dd/TObjEneDD_800BA754.h"
@@ -60,8 +61,6 @@ typedef struct EffTail_8002C06C {
 
 struct Pair_8002BD38 { f32 a; s32 b; };
 
-struct Vec_8002BD38 { f32 x, y, z; };
-
 #pragma readonly_strings on
 
 extern "C" {
@@ -69,21 +68,17 @@ const char *TBoss1DragonEffTail__name = "TBoss1DragonEffTail";
 CollisionBody TBoss1DragonEffTail__collision_body_templates[17] = {
     { { 0.0f, 0.0f, 0.0f }, 10.0f, 0.0f, 0, 0x8003 },
 };
-}
-
-extern "C" {
 void TBoss1Dragon__sub_8002AB6C(u8 *arg0);
 extern s32 __vt__19TBoss1DragonEffTail[];
 EffTail_8002C06C *TBoss1DragonEffTail__ct(EffTail_8002C06C *arg0, s32 arg1, s32 arg2);
 s32 matrix_mult_vec(int, void *, void *);
-void __dl__7TObjectFPv(void *);
 int fill_value_array(void*);
 
 void TBoss1DragonEffTail::render() {  }
 
 void run_task__19TBoss1DragonEffTailFv(u8 *boss1_dragon_eff_tail) {
     u8 *p;
-    Vec_8002BD38 *src;
+    Vec *src;
     s32 i;
     f32 f;
     VecCopy((Vec *)(boss1_dragon_eff_tail + 0x38), (const Vec *)(*(u8 **)((s8 *)boss1_dragon_eff_tail + 0xB4) + 0x24));
@@ -92,7 +87,7 @@ void run_task__19TBoss1DragonEffTailFv(u8 *boss1_dragon_eff_tail) {
     *(f32 *)((s8 *)boss1_dragon_eff_tail + 0x40) *= 0.5f;
     *(f32 *)((s8 *)boss1_dragon_eff_tail + 0x3C) = *(f32 *)((s8 *)(*(u8 **)((s8 *)boss1_dragon_eff_tail + 0xB0)) + 0x3C);
     ((TBoss1DragonEffTail *)boss1_dragon_eff_tail)->rotation_y = *(s32 *)((s8 *)(*(u8 **)((s8 *)boss1_dragon_eff_tail + 0xB0)) + 0x60);
-    src = *(Vec_8002BD38 **)((s8 *)boss1_dragon_eff_tail + 0xB4);
+    src = *(Vec **)((s8 *)boss1_dragon_eff_tail + 0xB4);
     push_matrix();
     set_matrix_identity(0);
     rotate_matrix_y(0, -((TBoss1DragonEffTail *)boss1_dragon_eff_tail)->rotation_y);

@@ -104,7 +104,6 @@ extern "C" {
 void TLobby__sub_803C5ED4(AdxEncoder *enc);
 s32 adx_encode_available_blocks(AdxEncoder *enc);
 s32 adx_write_encoded_blocks(AdxEncoder *enc);
-s32 write_adx_header__6TLobbyFPvPv(AdxEncoder *o, Strm_803C5B50 *s);
 void TLobby__sub_803C7DF0(AdxEncoder *enc, s32 ch);
 s32 fn_803C8020(AdxEncoder *enc, s32 ch);
 s32 lbl_805D4660 = 0x1000;
@@ -172,7 +171,7 @@ void TLobby__sub_803C5ED4(AdxEncoder *enc) {
             enc->hist1[i] = enc->start_hist1[i];
             enc->hist2[i] = enc->start_hist2[i];
         }
-        n = write_adx_header__6TLobbyFPvPv(enc, out);
+        n = ((TLobby *)enc)->write_adx_header(out);
         if (n == 0) {
             return;
         }
@@ -400,7 +399,7 @@ inline s32 putn_803C6860(Strm_803C5B50 *s, void *src, s32 n) {
     return n;
 }
 
-s32 write_adx_header__6TLobbyFPvPv(AdxEncoder *o, Strm_803C5B50 *s) {
+s32 TLobby::write_adx_header(Strm_803C5B50 *s) {
     u8 c;
     u16 h;
     u16 h2;
@@ -415,35 +414,35 @@ s32 write_adx_header__6TLobbyFPvPv(AdxEncoder *o, Strm_803C5B50 *s) {
     if (put16_803C6860(s, &h) != 1) {
         goto fail;
     }
-    h2 = o->data_offset;
+    h2 = ((AdxEncoder *)this)->data_offset;
     if (put16_803C6860(s, &h2) != 1) {
         goto fail;
     }
-    c = o->encoding_type;
+    c = ((AdxEncoder *)this)->encoding_type;
     if (put8_803C6860(s, &c) != 1) {
         goto fail;
     }
-    c = o->block_size;
+    c = ((AdxEncoder *)this)->block_size;
     if (put8_803C6860(s, &c) != 1) {
         goto fail;
     }
-    c = o->sample_bits;
+    c = ((AdxEncoder *)this)->sample_bits;
     if (put8_803C6860(s, &c) != 1) {
         goto fail;
     }
-    c = o->channels;
+    c = ((AdxEncoder *)this)->channels;
     if (put8_803C6860(s, &c) != 1) {
         goto fail;
     }
-    w = o->sample_rate;
+    w = ((AdxEncoder *)this)->sample_rate;
     if (put32_803C6860(s, &w) != 1) {
         goto fail;
     }
-    w = o->header_samples;
+    w = ((AdxEncoder *)this)->header_samples;
     if (put32_803C6860(s, &w) != 1) {
         goto fail;
     }
-    h = o->highpass_freq;
+    h = ((AdxEncoder *)this)->highpass_freq;
     if (put16_803C6860(s, &h) != 1) {
         goto fail;
     }
@@ -459,34 +458,34 @@ s32 write_adx_header__6TLobbyFPvPv(AdxEncoder *o, Strm_803C5B50 *s) {
     if (put32_803C6860(s, &w) != 1) {
         goto fail;
     }
-    h = o->start_hist1[0];
+    h = ((AdxEncoder *)this)->start_hist1[0];
     if (put16_803C6860(s, &h) != 1) {
         goto fail;
     }
-    h = o->start_hist2[0];
+    h = ((AdxEncoder *)this)->start_hist2[0];
     if (put16_803C6860(s, &h) != 1) {
         goto fail;
     }
-    h = o->start_hist1[1];
+    h = ((AdxEncoder *)this)->start_hist1[1];
     if (put16_803C6860(s, &h) != 1) {
         goto fail;
     }
-    h = o->start_hist2[1];
+    h = ((AdxEncoder *)this)->start_hist2[1];
     if (put16_803C6860(s, &h) != 1) {
         goto fail;
     }
     total = 0x1C;
-    if (o->loop_count > 0) {
-        h = o->loop_type;
+    if (((AdxEncoder *)this)->loop_count > 0) {
+        h = ((AdxEncoder *)this)->loop_type;
         if (put16_803C6860(s, &h) != 1) {
             goto fail;
         }
-        h = o->loop_count;
+        h = ((AdxEncoder *)this)->loop_count;
         if (put16_803C6860(s, &h) != 1) {
             goto fail;
         }
         total += 4;
-        for (i = 0; i < o->loop_count; i++) {
+        for (i = 0; i < ((AdxEncoder *)this)->loop_count; i++) {
             h = i;
             if (put16_803C6860(s, &h) != 1) {
                 goto fail;
@@ -495,19 +494,19 @@ s32 write_adx_header__6TLobbyFPvPv(AdxEncoder *o, Strm_803C5B50 *s) {
             if (put16_803C6860(s, &h) != 1) {
                 goto fail;
             }
-            w = o->loop_start_sample;
+            w = ((AdxEncoder *)this)->loop_start_sample;
             if (put32_803C6860(s, &w) != 1) {
                 goto fail;
             }
-            w = o->loop_start_byte;
+            w = ((AdxEncoder *)this)->loop_start_byte;
             if (put32_803C6860(s, &w) != 1) {
                 goto fail;
             }
-            w = o->loop_end_sample;
+            w = ((AdxEncoder *)this)->loop_end_sample;
             if (put32_803C6860(s, &w) != 1) {
                 goto fail;
             }
-            w = o->loop_end_byte;
+            w = ((AdxEncoder *)this)->loop_end_byte;
             if (put32_803C6860(s, &w) != 1) {
                 goto fail;
             }
@@ -515,7 +514,7 @@ s32 write_adx_header__6TLobbyFPvPv(AdxEncoder *o, Strm_803C5B50 *s) {
         }
     }
     c = 0;
-    lim = o->data_offset - len;
+    lim = ((AdxEncoder *)this)->data_offset - len;
     for (; total < lim; total++) {
         if (put8_803C6860(s, &c) != 1) {
             goto fail;

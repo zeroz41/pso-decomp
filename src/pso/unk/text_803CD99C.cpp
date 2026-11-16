@@ -1,4 +1,5 @@
 #include <string.h>
+#include "pso/unk/text_803CD99C.h"
 
 #include "pso/system/MiddlewareInterruptLock.h"
 

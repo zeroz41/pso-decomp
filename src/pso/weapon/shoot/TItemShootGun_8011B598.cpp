@@ -1,4 +1,5 @@
 #include "pso/weapon/shoot/TItemShootGun.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/weapon/shoot/TItemShoot.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/unk/text_80087278.h"

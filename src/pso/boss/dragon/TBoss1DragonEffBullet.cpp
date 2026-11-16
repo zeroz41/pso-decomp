@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/boss/dragon/TBoss1DragonEffBullet.h"
 #include "pso/system/vector.h"
 #include "pso/boss/dragon/TBoss1Dragon.h"
@@ -11,20 +12,7 @@
 #include "pso/unk/text_80087278.h"
 #include "pso/system/task/TObject.h"
 
-struct RecoveredGlobal_8002BCE0_lbl_80435410 {
-    s32 value;
-    u8 remaining[0x8];
-};
-
-struct RecoveredGlobal_8002BCE0_lbl_8043541C {
-    s32 value;
-    u8 remaining[0x8];
-};
-
-struct RecoveredGlobal_8002BC30___vt__21TBoss1DragonEffBullet {
-    s32 value;
-    u8 remaining[0x14];
-};
+#pragma readonly_strings on
 
 struct RecoveredFields_8002B9D0_arg0 {
     u8 unknown_0[0x1C];
@@ -40,13 +28,14 @@ struct RecoveredFields_8002B9D0_arg0 {
 
 extern "C" {
 s32 isV2Mode__12TBoss1DragonFv(void);
-extern RecoveredGlobal_8002BCE0_lbl_80435410 lbl_80435410;
-extern RecoveredGlobal_8002BCE0_lbl_8043541C lbl_8043541C;
-s32 *dragon_fireball_particle_ids;
+// Fireball particle ids (flight, impact, burst): the normal dragon's and the v2 one's.
+extern const s32 lbl_80435410[3] = {548, 550, 553};
+extern const s32 lbl_8043541C[3] = {522, 520, 201};
+const s32 *dragon_fireball_particle_ids;
 s32 __ct__7TObjectFP7TObject(void *, void *);
 f32 subtract_vector(void *, void *);
 extern s32 __vt__21TBoss1DragonEffBullet[];
-extern s32 TBoss1DragonEffBullet__name;
+const char *TBoss1DragonEffBullet__name = "TBoss1DragonEffBullet";
 
 void TBoss1DragonEffBullet::render() {  }
 
@@ -101,7 +90,7 @@ void TBoss1DragonEffBullet::run_task() {
                 temp_r3_4->queue_destruction();
                 self->particle = NULL;
             }
-            play_sound_effect(0x4003AD0C, &self->position, 0, 0);
+            play_sound_effect(0x4003AD0C, (Vec *)(&self->position), 0, 0);
             ((TBoss1Dragon *)(TBoss1Dragon::get_instance()))->apply_fireball_impact_damage(&self->position);
         }
         if ((s32) self->field_34 <= 2) {
@@ -126,13 +115,9 @@ TBoss1DragonEffBullet::~TBoss1DragonEffBullet() {
     if (*(void **)((s8 *)this + 0x44) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0x44)))->queue_destruction(); this->m_44 = 0; }
 }
 
-typedef char RecoveredGlobal_8002BCE0_lbl_80435410_size[sizeof(RecoveredGlobal_8002BCE0_lbl_80435410) == 0xC ? 1 : -1];
-typedef char RecoveredGlobal_8002BCE0_lbl_8043541C_size[sizeof(RecoveredGlobal_8002BCE0_lbl_8043541C) == 0xC ? 1 : -1];
-
-typedef char RecoveredGlobal_8002BC30___vt__21TBoss1DragonEffBullet_size[sizeof(RecoveredGlobal_8002BC30___vt__21TBoss1DragonEffBullet) == 0x18 ? 1 : -1];
 u8 *TBoss1DragonEffBullet__ct(u8 *boss1_dragon_eff_bullet, s32 arg1, s32 arg2, s32 arg3) {
     __ct__7TObjectFP7TObject((void *)boss1_dragon_eff_bullet, (void *)arg1);
-    *(s32 **)((s8 *)boss1_dragon_eff_bullet + 0x18) = &(*(RecoveredGlobal_8002BC30___vt__21TBoss1DragonEffBullet *)&__vt__21TBoss1DragonEffBullet).value;
+    *(s32 **)((s8 *)boss1_dragon_eff_bullet + 0x18) = __vt__21TBoss1DragonEffBullet;
     *(s32 *)((s8 *)boss1_dragon_eff_bullet + 0) = (s32) TBoss1DragonEffBullet__name;
     VecCopy((Vec *)(boss1_dragon_eff_bullet + 0x1C), (const Vec *)(arg2));
     VecCopy((Vec *)(boss1_dragon_eff_bullet + 0x28), (const Vec *)(arg3));
@@ -150,10 +135,10 @@ u8 *TBoss1DragonEffBullet__ct(u8 *boss1_dragon_eff_bullet, s32 arg1, s32 arg2, s
 void TBoss1Dragon::select_fireball_particle_table() {
     switch (isV2Mode__12TBoss1DragonFv()) {
     case 0:
-        dragon_fireball_particle_ids = &lbl_80435410.value;
+        dragon_fireball_particle_ids = lbl_80435410;
         return;
     case 1:
-        dragon_fireball_particle_ids = &lbl_8043541C.value;
+        dragon_fireball_particle_ids = lbl_8043541C;
         return;
     }
 }

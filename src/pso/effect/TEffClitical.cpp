@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/TEffClitical.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/render/MaterialColorFade.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/render/ChunkMaterialState.h"
@@ -13,12 +14,6 @@
 
 #include "types.h"
 #include "pso/system/task/TObject.h"
-
-struct Stack_80082688 {
-    f32 sp8;
-    f32 spC;
-    f32 sp10;
-};
 
 #include <stddef.h>
 #include "pso/effect/particle/TParticleCtrl.h"
@@ -42,7 +37,6 @@ extern u8 *camera_ctrl_instance;
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 void *__ct__12TEffCliticalFPv(void *arg0, void *arg1);
-void *__nw__7TObjectFUl(int);
 
 #pragma push
 #pragma opt_common_subs off
@@ -137,7 +131,7 @@ TEffClitical::TEffClitical(void *arg1) : TEffect() {
 
 void TEffClitical::create() {
     void *o;
-    o = __nw__7TObjectFUl(0x78);
+    o = TObject::operator new(0x78);
     if (o != NULL) {
         __ct__12TEffCliticalFPv(o, this);
     }
@@ -150,12 +144,12 @@ void init_texture_copy_rect(void *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) 
     *(s32 *)((s8 *)arg0 + 0xC) = arg3;
 }
 void approach_position_if_far(u8 *arg0, u8 *arg1, f32 farg0) {
-    Stack_80082688 stack;
+    Vec stack;
     f32 temp_f1;
-    stack.sp8 = *(f32 *)((s8 *)arg0 + 0) - *(f32 *)((s8 *)arg1 + 0);
-    stack.spC = *(f32 *)((s8 *)arg0 + 4) - *(f32 *)((s8 *)arg1 + 4);
-    stack.sp10 = *(f32 *)((s8 *)arg0 + 8) - *(f32 *)((s8 *)arg1 + 8);
-    temp_f1 = vector_length(&stack.sp8);
+    stack.x = *(f32 *)((s8 *)arg0 + 0) - *(f32 *)((s8 *)arg1 + 0);
+    stack.y = *(f32 *)((s8 *)arg0 + 4) - *(f32 *)((s8 *)arg1 + 4);
+    stack.z = *(f32 *)((s8 *)arg0 + 8) - *(f32 *)((s8 *)arg1 + 8);
+    temp_f1 = vector_length(&stack.x);
     if (temp_f1 > farg0) {
         approach_vector_fixed_distance((const Vec *)arg0, (const Vec *)arg1, (Vec *)arg0, temp_f1 * farg0);
     }

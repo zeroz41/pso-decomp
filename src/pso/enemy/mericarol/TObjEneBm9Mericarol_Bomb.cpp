@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TUnk_804928CC.h"
@@ -179,10 +180,6 @@ void TObjEneBm9Mericarol_Bomb::run_task() {
         break;
     }
 }
-
-}
-
-extern "C" {
 
 s16 get_entity_id(void *);
 s32 normalize_vector(Vec *);

@@ -3,27 +3,24 @@
 
 #include "types.h"
 #include "pso/object/cave/TORockCaveBrakable.h"
+#include "pso/render/RenderFadeState.h"
+
+struct TObjMapCsn;
 
 struct TORockJungleM01 : public TORockCaveBrakable {
+    TORockJungleM01(void *set_data);
     virtual ~TORockJungleM01();
     virtual void vfunc_16();
     virtual void vfunc_15();
     virtual void vfunc_14();
     virtual void vfunc_18();
-    void* m_bc;
-    u8 _padC0[0x10];
-    u32 m_d0;
-    u8 _padD4[0x4];
-    u32 m_d8;
-    u32 m_dc;
+    RenderFadeState fade;
+    s32 fade_active;         // fade.isFading() of the last vfunc_14, 0 in split screen
+    TObjMapCsn *map_csn;     // the rock's map collision
     virtual void run_task();
-    static void *create(void *arg0);
+    static void *create(void *set_data);
 };
 
 typedef char TORockJungleM01_size[sizeof(TORockJungleM01) == 0xE0 ? 1 : -1];
-
-extern "C" {
-u8 *TORockJungleM01__ct(u8 *arg0, s32 arg1);
-}
 
 #endif

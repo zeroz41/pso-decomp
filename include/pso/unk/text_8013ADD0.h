@@ -4,12 +4,12 @@
 #include "types.h"
 
 extern "C" {
-s32 fn_8013ADD0(s32 arg0);
+s32 get_online_message_text(s32 arg0);
 }
 
 // --- C functions defined in text_8013ADD0.cpp ---
 extern "C" {
-s32 fn_8013ADD0(s32 arg0);
+s32 get_online_message_text(s32 arg0);
 }
 // --- end of C functions
 

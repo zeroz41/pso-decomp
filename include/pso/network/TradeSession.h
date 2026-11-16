@@ -1,5 +1,21 @@
 #ifndef PSO_NETWORK_TRADESESSION_H
 #define PSO_NETWORK_TRADESESSION_H
+#include "types.h"
+
+// One trade window item list entry (id 0xFFFFFF01 is the meseta amount).
+struct E_802D2A70 { u32 id; s32 count; };
+
+// One side of the trade window state: two 31-entry item lists.
+struct Half_802D38B4 { E_802D2A70 lists[2][0x1F]; };
+
+extern "C" Half_802D38B4 TLobby__trade_window_state[2];
+// The trade session state (.sbss), defined in TradeSession.cpp.
+extern u16 trade_protocol_flags;
+extern s8 TLobby__trade_partner_client_id;
+extern u8 TLobby__trade_proposal_state;
+extern s32 trade_proposal_delay;
+extern u32 TLobby__trade_main_window;
+
 typedef void (*TradeProposalHandler)(void* packet);
 extern "C" TradeProposalHandler trade_proposal_state_handlers[10][8];
 
@@ -22,6 +38,8 @@ void send_trade_busy_reply(s32 arg0);
 // --- C functions defined in TradeSession.cpp ---
 extern "C" {
 void reset__6TLobbyFi(s32 arg0);
+s32 TLobby__sub_802D268C(void);
+u8 *copy_struct_f8__6TLobbyFii(s32 arg0, s32 arg1);
 }
 // --- end of C functions
 

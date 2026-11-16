@@ -4,6 +4,7 @@
 #include <stddef.h>
 #include "pso/object/switch/TOChatSensor.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjPlayer_80011014.h"
 struct Stack_801781D8 {
     s32 sp8;
     s16 spC;
@@ -21,7 +22,6 @@ struct Pkt_80178178 { u8 pad[4]; s16 area; u16 id; u8 mode; };
 void clear_floor_switch_flag(u32 id, s16 floor);
 void set_floor_switch_flag(u32 id, s16 floor);
 extern "C" {
-s32 get_current_floor();
 void handle_6x93_set_switch_flag_from_timer(Pkt_80178178 *p);
 void handle_6x93_set_switch_flag_from_timer(Pkt_80178178 *p) {
     ((TOChatSensor *)p)->swap_state_endian();

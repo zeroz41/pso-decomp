@@ -1,12 +1,12 @@
 #include "types.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/map/FloorArea.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 extern "C" {
 
 u32 get_player_by_client_id(s32);
 s32 check_player_state_flag_2__6TLobbyFv();
-s32 is_split_screen();
 
     extern short TCameraCtrl__viewport_y;
 short TCameraCtrl::get_screen_width() {  return TCameraCtrl__viewport_y; }

@@ -1,7 +1,9 @@
 #include "pso/ui/frontend/TAdMultiOkGC.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/render/render_util.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 struct E_80306AC8 { u8 pad[0x1c]; u32 flags; u8 pad2[0xc4 - 0x20]; };
 struct O_80306AC8 { E_80306AC8 e[12]; u8 pad[0x97c - 12 * 0xc4]; s32 count; };
 extern "C" {
@@ -74,8 +76,7 @@ typedef struct { P3_80307034 v[11]; } Pos_80307034;
 typedef struct { u32 c[12]; } Col_80307034;
 
 extern "C" {
-s32 TWindowShortListCtrl__check_controller_button(void *, int);
-s32 play_sound_effect(int, void *, int, int);
+s32 play_sound_effect(int, Vec *, int, int);
 extern Pad_80306DF4 controller_physical_port_bank[];
 s32 multi_confirm_texture_list;
 void __ct__7TObjectFP7TObject(void *, void *);
@@ -85,7 +86,7 @@ Ok_80307034 *__ct__12TAdMultiOkGCFv(Ok_80307034 *self, void *parent, Cfg_8030703
 const char *TAdMultiOkGC__name = "TAdMultiOkGC";
 // The unit was built with -inline off,deferred: the functions are written
 // last-to-first, which gives the original address order.
-void load_multi_confirm_textures(void) { multi_confirm_texture_list = (int)&multi_confirm_texture_descriptor; TLobby__sub_8023E4B4((s32)multi_confirm_texture_archive_name, (s32)&multi_confirm_texture_descriptor); }
+void load_multi_confirm_textures(void) { multi_confirm_texture_list = (int)&multi_confirm_texture_descriptor; load_streamed_prs_texture((s32)multi_confirm_texture_archive_name, (s32)&multi_confirm_texture_descriptor); }
 
 void free_multi_confirm_textures(void) {
     if ((u32) multi_confirm_texture_list != 0U) {
@@ -175,17 +176,17 @@ void TAdMultiOkGC::handle_player_buttons(int arg1) {
             e->t = -1;
             e->flags &= ~1;
             e->flags &= ~4;
-            play_sound_effect(0x52F16, 0, 0, 0);
+            play_sound_effect(0x52F16, (Vec *)(0), 0, 0);
         } else if (!(e->flags & 2)) {
             e->t = -1;
             e->flags |= 1;
             e->flags |= 2;
-            play_sound_effect(0x52D01, 0, 0, 0);
+            play_sound_effect(0x52D01, (Vec *)(0), 0, 0);
         }
     } else if (TWindowShortListCtrl__check_controller_button(controller_physical_port_bank[ports.v[o->port[arg1]]].btn, 2) != 0) {
         if (!(o->e[arg1].flags & 2)) {
             o->flags |= 1;
-            play_sound_effect(0x52F16, 0, 0, 0);
+            play_sound_effect(0x52F16, (Vec *)(0), 0, 0);
         }
     }
 }

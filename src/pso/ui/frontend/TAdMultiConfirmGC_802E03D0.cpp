@@ -8,15 +8,16 @@
 #include "pso/npc/TNpcPlayer_8028B810.h"
 #include "pso/boss/galgryphon/TObjBoss5Pillar_8028B714.h"
 #include "pso/ui/frontend/TAdMultiConfirmGC_802E03D0.h"
-#include "pso/ui/TUnk_804E3008.h"
+
 #include "pso/ui/charcreate/TChCrLoadAfs.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/npc/TNpcPlayer.h"
-#include "pso/player/TObjPlayer.h"
+
 #include "pso/ui/frontend/TAdMultiConfirmGC.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
 #include "pso/ui/charcreate/TCharaMaking.h"
-#include "pso/ui/frontend/TAdPlyStatusGC.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
+
 
 struct Obj_802E0CB0 {
     u8 pad0[0x38]; f32 x, y, z; u8 pad44[0x5C - 0x44]; s32 rx, ry, rz;
@@ -58,9 +59,6 @@ s32 push_matrix();
 s32 pop_matrix();
 s32 set_global_param__8TObjFishFl();
 
-}
-
-extern "C" {
 extern TObjMotionAction lbl_804E2F78[9];
 extern u8 *TAdMultiPlyChrSelectGC__resource_bundle;
 
@@ -68,7 +66,6 @@ s32 copy_player_visual_record(void *, void *);
 u8 *get_entry__23TAdSinglePlyChrSelectGCFi(int);
 u8 *get_char_table_entry__23TAdSinglePlyChrSelectGCFi(int);
 u8 *get_char_index__23TAdSinglePlyChrSelectGCFUi(int);
-void set_load_state__14TAdPlyStatusGCFPvi(u8 *arg0, s32 arg1);
 #define F(o, t) (*(t *)(arg0 + (o)))
 
 }
@@ -78,19 +75,13 @@ struct RecoveredGlobal_802E0B60_lbl_804E2F68 {
     u8 remaining[0xC];
 };
 
-struct RecoveredGlobal_802E0B60_lbl_804E3008 {
-    s32 value;
-    u8 remaining[0x34];
-};
-
 extern "C" {
 void *__dt__10TObjMotionFv(void *arg0, s16 arg1);
-void mem_free(void *p);
 s32 __dl__7TObjectFPv(void *);
 extern RecoveredGlobal_802E0B60_lbl_804E2F68 multi_chr_select_player_slot_table;
-extern RecoveredGlobal_802E0B60_lbl_804E3008 multi_chr_select_player_actor_ops;
+struct MultiChrSelectPlayerActorOps { s32 value; u8 remaining[0x34]; };
+extern MultiChrSelectPlayerActorOps multi_chr_select_player_actor_ops;
 typedef char RecoveredGlobal_802E0B60_lbl_804E2F68_size[sizeof(RecoveredGlobal_802E0B60_lbl_804E2F68) == 0x10 ? 1 : -1];
-typedef char RecoveredGlobal_802E0B60_lbl_804E3008_size[sizeof(RecoveredGlobal_802E0B60_lbl_804E3008) == 0x38 ? 1 : -1];
 
 #pragma push
 #pragma fp_contract on
@@ -153,9 +144,9 @@ void TUnk_804E3008::sub_802E0CB0() {
 void TAdMultiPlyChrSelectGC::set_index_and_close_status(s32 arg1) {
     *(s32 *)((s8 *)this + 0x104) = arg1;
     ((s32 (*)(void *, s32))sub_802E0CB0__13TUnk_804E3008Fv)(this, *(s32 *)((s8 *)this + 0x104));
-    u32 temp_r3 = ((u32)TAdPlyStatusGC::get_index());
-    if (temp_r3 != 0U) {
-        ((TAdPlyStatusGC *)temp_r3)->close_window(arg1);
+    u32 index = ((u32)TAdPlyStatusGC::get_index());
+    if (index != 0U) {
+        ((TAdPlyStatusGC *)index)->close_window(arg1);
     }
 }
 
@@ -311,7 +302,7 @@ void TUnk_804E3008::run_task() {
     }
     idx = get_index__14TAdPlyStatusGCFv();
     if (idx != NULL) {
-        set_load_state__14TAdPlyStatusGCFPvi((u8 *)idx, F(0xFC, s32));
+        ((TAdPlyStatusGC *)idx)->set_load_state(F(0xFC, s32));
         TAdPlyStatusGC::set_status_param((int)idx, (int)(F(0x170, void *)));
     }
 }

@@ -22,11 +22,6 @@ struct RecoveredFields_8025FC60_arg0 {
     u8 * field_70;
 };
 
-struct RecoveredGlobal_8025FC60_TKeyBoardControl__data_80506270 {
-    s32 value;
-    u8 remaining[0xAC];
-};
-
 struct Sub_8025EDB4 {
     u8 pad[0xB4];
     s32 flags;
@@ -506,7 +501,6 @@ void TWindowKeyBoardHard::process_all_key_states() {
     }
 }
 
-typedef char RecoveredGlobal_8025FC60_TKeyBoardControl__data_80506270_size[sizeof(RecoveredGlobal_8025FC60_TKeyBoardControl__data_80506270) == 0xB0 ? 1 : -1];
 void TWindowKeyBoardHard::update_modifier_flags() {
     struct RecoveredFields_8025FC60_arg0 *arg0 = (struct RecoveredFields_8025FC60_arg0 *)this;
     s32 temp_r3;
@@ -514,34 +508,34 @@ void TWindowKeyBoardHard::update_modifier_flags() {
     u32 temp_r4;
     u8 *temp_r3_3;
     u8 *temp_r3_4;
-    if (get_key_state__16TKeyBoardControlFPv((s32 *)(&(*(RecoveredGlobal_8025FC60_TKeyBoardControl__data_80506270 *)&TKeyBoardControl__global_key_state).value)) != 0) {
-        if ((TKeyBoardControl__sub_801323C8(&(*(RecoveredGlobal_8025FC60_TKeyBoardControl__data_80506270 *)&TKeyBoardControl__global_key_state).value, 0x56) != 0) || (TKeyBoardControl__sub_801323C8(&(*(RecoveredGlobal_8025FC60_TKeyBoardControl__data_80506270 *)&TKeyBoardControl__global_key_state).value, 0x5B) != 0)) {
+    if (get_key_state__16TKeyBoardControlFPv((s32 *)&TKeyBoardControl__global_key_state) != 0) {
+        if ((TKeyBoardControl__sub_801323C8(TKeyBoardControl__global_key_state, 0x56) != 0) || (TKeyBoardControl__sub_801323C8(TKeyBoardControl__global_key_state, 0x5B) != 0)) {
             arg0->field_60 |= 2;
         } else {
             arg0->field_60 &= 0xFFFFFFFD;
         }
     }
-    if (TKeyBoardControl__sub_801321B4(&(*(RecoveredGlobal_8025FC60_TKeyBoardControl__data_80506270 *)&TKeyBoardControl__global_key_state).value) != 0) {
+    if (TKeyBoardControl__sub_801321B4(TKeyBoardControl__global_key_state) != 0) {
         arg0->field_60 |= 2;
     } else {
         arg0->field_60 &= 0xFFFFFFFD;
     }
-    if (is_key_57_pressed__16TKeyBoardControlFi(&(*(RecoveredGlobal_8025FC60_TKeyBoardControl__data_80506270 *)&TKeyBoardControl__global_key_state).value) != 0) {
+    if (is_key_57_pressed__16TKeyBoardControlFi(TKeyBoardControl__global_key_state) != 0) {
         arg0->field_60 |= 4;
     } else {
         arg0->field_60 &= 0xFFFFFFFB;
     }
-    if (TKeyBoardControl__sub_80132274(&(*(RecoveredGlobal_8025FC60_TKeyBoardControl__data_80506270 *)&TKeyBoardControl__global_key_state).value) != 0) {
+    if (TKeyBoardControl__sub_80132274(TKeyBoardControl__global_key_state) != 0) {
         arg0->field_60 |= 8;
     } else {
         arg0->field_60 &= 0xFFFFFFF7;
     }
-    if ((get_key_state__16TKeyBoardControlFPv((s32 *)(&(*(RecoveredGlobal_8025FC60_TKeyBoardControl__data_80506270 *)&TKeyBoardControl__global_key_state).value)) == 2) || (get_key_state__16TKeyBoardControlFPv((s32 *)(&(*(RecoveredGlobal_8025FC60_TKeyBoardControl__data_80506270 *)&TKeyBoardControl__global_key_state).value)) == 3)) {
+    if ((get_key_state__16TKeyBoardControlFPv((s32 *)&TKeyBoardControl__global_key_state) == 2) || (get_key_state__16TKeyBoardControlFPv((s32 *)&TKeyBoardControl__global_key_state) == 3)) {
         arg0->field_60 |= 1;
     } else {
         arg0->field_60 &= 0xFFFFFFFE;
     }
-    if ((TKeyBoardControl__sub_801323C8(&(*(RecoveredGlobal_8025FC60_TKeyBoardControl__data_80506270 *)&TKeyBoardControl__global_key_state).value, 0x54) != 0) || (TKeyBoardControl__sub_801323C8(&(*(RecoveredGlobal_8025FC60_TKeyBoardControl__data_80506270 *)&TKeyBoardControl__global_key_state).value, 0x55) != 0)) {
+    if ((TKeyBoardControl__sub_801323C8(TKeyBoardControl__global_key_state, 0x54) != 0) || (TKeyBoardControl__sub_801323C8(TKeyBoardControl__global_key_state, 0x55) != 0)) {
         arg0->field_60 |= 0x80;
     } else {
         arg0->field_60 &= 0xFFFFFF7F;
@@ -610,12 +604,13 @@ void fn_8025FF8C(void *arg0) {
     }
 }
 
-#include "types.h"
+
 #include "pso/ui/window/TWindowSubStatusDisp_8024FBA8.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8025CB70.h"
-#include "pso/ui/window/TWindowKeyBoardHard.h"
+
+
 #include "pso/ui/window/TWindowDD.h"
-#include "pso/ui/Language.h"
+#include "pso/system/NinjaTypes.h"
+
 
 extern const char lbl_8044F0CC[];
 extern const char lbl_8044F0D4[];
@@ -626,9 +621,8 @@ extern const char lbl_8044F104[];
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-struct Pt_80260020 { f32 x, y; };
 
-struct Ctx_80260020 { u8 pad0[0x10]; Pt_80260020 pos; u8 pad18[0x38 - 0x18]; f32 scale; };
+struct Ctx_80260020 { u8 pad0[0x10]; NJS_POINT2 pos; u8 pad18[0x38 - 0x18]; f32 scale; };
 
 struct State_80260020 { u8 pad0[0xB4]; s32 flags; };
 
@@ -643,7 +637,7 @@ void TWindowKeyBoardHard::draw_status_text(void *ctx) {
     s32 flags;
     if (((Win_80260020 *)this)->state != NULL && current_language == LANGUAGE_JAPANESE) {
         f32 inv = -1.0f / ((Ctx_80260020 *)ctx)->scale;
-        Pt_80260020 pt;
+        NJS_POINT2 pt;
         pt.x = ((Ctx_80260020 *)ctx)->pos.x;
         pt.y = ((Ctx_80260020 *)ctx)->pos.y;
         set_text_draw_params((s32)((Ctx_80260020 *)ctx), 0, 0, (f32)inv, 100000.0f);
@@ -676,20 +670,15 @@ void TWindowKeyBoardHard::render() {
 
 }
 
-#include "types.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8025CB70.h"
+
 #include "pso/ui/window/TWindowKeyBoardHard_802601D4.h"
-#include "pso/ui/keyboard/TKeyBoardControl.h"
+
 #include "pso/ui/window/TWindowBase.h"
-#include "pso/ui/window/TWindowKeyBoardHard.h"
-#include "pso/ui/window/TWindowDD.h"
-#include "pso/ui/Language.h"
+
 
 extern "C" {
 s32 get_window_layout_position(int);
 extern s32 __vt__19TWindowKeyBoardHard[];
-s32 is_key_active__19TWindowKeyBoardHardFv();
-void __dl__7TObjectFPv(void *);
 s32 has_non_modifier_key__16TKeyBoardControlFv(void *);
 
 
@@ -722,16 +711,7 @@ void TWindowKeyBoardHard::run_task() {
     }
 }
 
-void *__dt__19TWindowKeyBoardHardFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__19TWindowKeyBoardHard;
-        ((TWindowDD *)arg0)->destroy_window_base(0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
-}
+TWindowKeyBoardHard::~TWindowKeyBoardHard() {}
 u8 *TWindowKeyBoardHard__ct(TWindowKeyBoardHard *window_key_board_hard, s32 arg1) {
     ((TWindowDD *)window_key_board_hard)->construct_base((u8 *)&lbl_804CFAD0, (s16)(4), (u8 *)(get_window_layout_position(0xB9)));
     *(s32 **)((s8 *)window_key_board_hard + 0x18) = __vt__19TWindowKeyBoardHard;
@@ -747,8 +727,6 @@ u8 *TWindowKeyBoardHard__ct(TWindowKeyBoardHard *window_key_board_hard, s32 arg1
 
 }
 
-#include "types.h"
-#include "pso/ui/window/TWindowKeyBoardHard.h"
 
 void TWindowKeyBoardHard::set_bits_shift7(s32 arg0, s32 arg1) {
     TWindowKeyBoardHard::set_card_window_flags((void *)arg0, (s32)(arg1 << 7), -0x81);

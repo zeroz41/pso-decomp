@@ -5,8 +5,7 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/window/TWindowCtrlMain.h"
 
-struct RecoveredGlobal_80288838___vt__17TWindowMainMenu1P { s32 value; u8 remaining[0x24]; };
-typedef char RecoveredGlobal_80288838___vt__17TWindowMainMenu1P_size[sizeof(RecoveredGlobal_80288838___vt__17TWindowMainMenu1P) == 0x28 ? 1 : -1];
+const char *TWindowMainMenu1P__name = "TWindowMainMenu1P";
 
 extern "C" {
 extern s32 __vt__17TWindowMainMenu1P[];
@@ -89,7 +88,6 @@ void TWindowMainMenu1P::update_backdrop_transition() {
 void TWindowMainMenu1P::render() {  }
 void TWindowMainMenu1P::run_task() { handle_menu_selection(); sub_80263FE0(); update_backdrop_transition(); }
 
-extern void *TWindowMainMenu1P__name;
 TWindowMainMenu1P::~TWindowMainMenu1P() {
     if (*(s32 *)((s8 *)this + 0x4C) & 2) {
         end_view_override();
@@ -99,7 +97,7 @@ TWindowMainMenu1P::~TWindowMainMenu1P() {
 void *TWindowMainMenu1P__ct(TWindowMainMenu1P *window_main_menu1_p) {
     TWindowMainMenu__ct(window_main_menu1_p);
     *(s32 **)((s8 *)window_main_menu1_p + 0x18) = __vt__17TWindowMainMenu1P;
-    *(void * *)&window_main_menu1_p->m_name = TWindowMainMenu1P__name;
+    window_main_menu1_p->m_name = TWindowMainMenu1P__name;
     *(u8 *)((s8 *)window_main_menu1_p + 0x60) = 0;
     *(u8 *)((s8 *)window_main_menu1_p + 0x61) = 0;
     window_main_menu1_p->m_6c = 320.0f;

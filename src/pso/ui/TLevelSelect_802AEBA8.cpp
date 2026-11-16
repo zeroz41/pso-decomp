@@ -2,14 +2,14 @@
 #include "pso/ui/TLevelSelect.h"
 #include "pso/ui/frontend/TAdEnterSerialAccessGC.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
+#include "pso/system/NinjaTypes.h"
 struct Obj_802AEBA8 { u8 pad[0xa4]; s32 a4; s32 a8; s32 ac; u8 pad2[0x6bc - 0xb0]; s32 arr[16]; s32 f6fc; s32 f700; };
 
-typedef struct { f32 x, y; } V2_802AEBE4;
 typedef struct { f32 x, y, x2, y2; f32 pad[4]; } Quad_802AEBE4;
 
 typedef struct {
     u8 pad0[0x1C];
-    V2_802AEBE4 pts[16];
+    NJS_POINT2 pts[16];
     f32 w;
     f32 h;
     u32 pad_a4;

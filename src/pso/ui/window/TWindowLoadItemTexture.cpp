@@ -10,14 +10,13 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/system/task/TObject.h"
-#include "pso/ui/window/TWindowDD.h"
+
 #include "pso/unk/WindowLayoutRecord.h"
 
 #pragma push
 #pragma opt_common_subs off
 
 extern "C" {
-void *__nw__7TObjectFUl(int);
 
 #pragma push
 #pragma fp_contract on
@@ -25,7 +24,7 @@ TWindowLoadItemTexture *fn_802628C0(void *layout, void *table, void *id) {
     TWindowLoadItemTexture *window;
     s32 sprite;
 
-    window = (TWindowLoadItemTexture *)__nw__7TObjectFUl(0x74);
+    window = (TWindowLoadItemTexture *)TObject::operator new(0x74);
     if (window != NULL) {
         window = (TWindowLoadItemTexture *)TWindowLoadItemTexture__ct(window, layout, table, id);
     }
@@ -64,18 +63,19 @@ extern "C" {
 
 void get_array_entry__11TWindowBaseFi(void *, int);
 extern s32 __vt__22TWindowLoadItemTexture[];
-extern s32 lbl_805D3940;
+#pragma push
+#pragma readonly_strings on
+const char *TWindowLoadItemTexture__name = "TWindowLoadItemTexture";
+#pragma pop
 extern s32 tl_07;
 
 s32 draw_visible_window_entries(void *, void *, s32);
-void __dl__7TObjectFPv(void *);
-void *__nw__7TObjectFUl(int);
 
-extern s32 lbl_8044F280[];
+extern const f32 lbl_8044F280[2] = { 160.0f, 120.0f };
 
 void *TWindowLoadItemTexture::create(void *arg1) {
     void *o;
-    o = __nw__7TObjectFUl(0x74);
+    o = TObject::operator new(0x74);
     if (o != NULL) {
         o = TWindowLoadItemTexture__ct((TWindowLoadItemTexture *)o, (void *)this, (void *)lbl_8044F280, (void *)arg1);
     }
@@ -102,23 +102,15 @@ void render__22TWindowLoadItemTextureFv(TWindowLoadItemTexture *arg0) {
 
 void TWindowLoadItemTexture::run_task() { ((TWindowDD *)this)->initialize_subwindow(); update_fade(); update_window_entry_list((char*)this + 0x24); }
 
-void *__dt__22TWindowLoadItemTextureFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__22TWindowLoadItemTexture;
-        ((TObject *)(*(void **)((s8 *)arg0 + 0x6C)))->queue_destruction();
-        ((TWindowDD *)arg0)->destroy_window_base(0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
+TWindowLoadItemTexture::~TWindowLoadItemTexture() {
+    ((TObject *)(*(void **)((s8 *)this + 0x6C)))->queue_destruction();
 }
 
 void *TWindowLoadItemTexture__ct(TWindowLoadItemTexture *window_load_item_texture, void *arg1, void *arg2, void *arg3) {
     void *e;
     ((TWindowDD *)window_load_item_texture)->construct_base((u8 *)&TWindowLoadItemTexture__window_descriptor, (s16)((s16)(s32)arg3), (u8 *)arg1);
     *(s32 **)((s8 *)window_load_item_texture + 0x18) = __vt__22TWindowLoadItemTexture;
-    *(s32 *)((s8 *)window_load_item_texture + 0) = lbl_805D3940;
+    *(s32 *)((s8 *)window_load_item_texture + 0) = (s32)TWindowLoadItemTexture__name;
     switch (TCameraCtrl::get_camera_id()) {
     case 1:
         *(f32 *)((s8 *)window_load_item_texture + 0x68) = *(f32 *)((s8 *)window_load_item_texture + 0x64) = 1.0f;

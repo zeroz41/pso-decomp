@@ -13,12 +13,8 @@ void TObjLight__sub_8013379C(void);
 void TObjLight__sub_801337F8(void);
 void TObjLight__sub_801337FC(void);
 void TObjLight__sub_8013397C(void *_w0);
-u8 *TObjLight__sub_80133980(u8 *arg0, int _w1);
-void *__dt__13TUnk_804A6F78Fv(void *arg0, s16 arg1);
-void *__dt__13TUnk_804A6F90Fv(void *arg0, s16 arg1);
 void *__dt__13TUnk_804A7008Fv(void *arg0, s16 arg1);
 }
-void apply_environment_light(s32 arg0);
 void init_area_lights(void);
 void init_map_lights(u8 *arg0);
 extern "C" {
@@ -36,5 +32,9 @@ void select_actor_lighting(s32 obj);
 void set_scene_light_diffuse(void *_w0);
 void submit_scene_ambient_color(void);
 void submit_scene_light_direction(void *_w0);
+
+// TObjLight__scene_light_state: layout known from its uses only.
+struct TObjLightSceneLightState { s32 value; u8 remaining[0x4C]; };
+extern TObjLightSceneLightState TObjLight__scene_light_state;
 
 #endif

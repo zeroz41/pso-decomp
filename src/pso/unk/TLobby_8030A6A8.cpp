@@ -5,9 +5,8 @@
 #include "pso/unk/TLobby.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/unk/TLobby.h"
 
-extern "C" {
+
 int is_quest_active(void);
 
 extern s32 game_difficulty_selection;
@@ -59,4 +58,3 @@ s32 get_game_play_mode(void) {
     return r;
 }
 
-}

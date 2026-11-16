@@ -12,64 +12,34 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/render_util.h"
+#include "pso/system/task/TObject.h"
+#include "pso/system/MatrixStack.h"
 
 #pragma readonly_strings on
 
 CollisionBody TObjNpcEnemy__collision_body_parts = {{0.0f, 7.5f, 0.0f}, 7.0f, 0.0f, 0, 0x30203, {0.0f, 0.0f, 0.0f}, 0.0f};
 const char *TObjNpcEnemy_class_name = "TObjNpcEnemy";
 
-struct RecoveredGlobal_802D72E4_TObjNpcEnemy__data_80540FF0 {
-    s32 value;
-    u8 remaining[0x23C];
-};
-
-struct RecoveredGlobal_802D78A0_lbl_804A7CB8 {
-    s32 value;
-    u8 remaining[0x20];
-};
-
-struct RecoveredGlobal_802D78A0_lbl_804A7CDC {
-    s32 value;
-    u8 remaining[0x44];
-};
-
-struct RecoveredGlobal_802D78A0___vt__12TObjNpcEnemy {
-    s32 value;
-    u8 remaining[0x178];
-};
-
 struct Ent_802D732C { s16 id; u8 rest[0x22]; };
 
 extern "C" {
-extern RecoveredGlobal_802D72E4_TObjNpcEnemy__data_80540FF0 TObjNpcEnemy__entry_table;
 s32 TObjNpcBase__ct(void *);
 s32 init_collision_body_parts(void *, void *, int);
-extern RecoveredGlobal_802D78A0_lbl_804A7CB8 npc_default_battle_stats;
-extern RecoveredGlobal_802D78A0_lbl_804A7CDC npc_movement_parameters;
+struct NpcDefaultBattleStats { s32 value; u8 remaining[0x20]; };
+extern NpcDefaultBattleStats npc_default_battle_stats;
+struct NpcMovementParameters { s32 value; u8 remaining[0x44]; };
+extern NpcMovementParameters npc_movement_parameters;
 extern s32 __vt__12TObjNpcEnemy[];
 u8 *TObjNpcEnemy__ct(u8 *arg0, s32 arg1, s32 arg2);
 s32 draw_debug_info__11TObjNpcBaseFv();
 void debug_printf_at(s32, const char *, ...);
 void *memmove(void *, const void *, u32);
-struct NpcBase_802d7748_802D745C { char pad[0x18]; };
-struct NpcV_802d7748_802D745C : NpcBase_802d7748_802D745C {
-    virtual s32 m0(); virtual s32 m1(); virtual s32 m2();
-    virtual s32 m3(); virtual s32 m4(); virtual s32 m5();
-    virtual s32 m6(); virtual s32 m7();
-    virtual s32 m8(f32 a, f32 b);
-};
-
 void * TObjNpcEnemy__create(void *arg0);
-void *__dt__12TObjNpcEnemyFv(void *arg0, s16 arg1);
 void *__ct__11TObjControlFP7TObject(void *, void *);
 s32 rotate_matrix_y(int, int);
 s32 translate_matrix(int, int, f32, f32, f32);
-void __dl__7TObjectFPv(void *);
-void *__dt__11TObjNpcBaseFv(void *arg0, s16 arg1);
-void *__nw__7TObjectFUl(int);
 s32 init_motion__10TObjMotionFP16TObjMotionActionP14BmlMotionEntrys(void *, s32, s32, s16);
 
-typedef char RecoveredGlobal_802D72E4_TObjNpcEnemy__data_80540FF0_size[sizeof(RecoveredGlobal_802D72E4_TObjNpcEnemy__data_80540FF0) == 0x240 ? 1 : -1];
 s16 *TObjNpcEnemy::get_entry_by_index(s16 arg0) {
     s16 *temp_r3;
     if (arg0 < 0) {
@@ -237,7 +207,7 @@ void TObjNpcEnemy::render() {
     u8 *arg0 = (u8 *)this;
     u8 *temp_r4;
 
-    if (((void *) *(void * *)&this->m_3b8 != NULL) && (((NpcV_802d7748_802D745C *)arg0)->m8(this->m_398, this->m_39c) != 0) && ((s32) *(s32 *)&this->m_390 == 1)) {
+    if (((void *) this->m_3b8 != NULL) && (this->update_object_view_visibility(this->m_398, this->m_39c) != 0) && ((s32) this->m_390 == 1)) {
         select_actor_lighting((s32)arg0);
         if (((TObjNpcEnemy *)arg0)->sub_802D7444() != 0) {
             model_render_flags |= 1;
@@ -260,16 +230,13 @@ void TObjNpcEnemy::render() {
 
 }
 TObjNpcEnemy::~TObjNpcEnemy() {}
-extern "C" {
+
 
 extern void *tl_04;
 
-typedef char RecoveredGlobal_802D78A0_lbl_804A7CB8_size[sizeof(RecoveredGlobal_802D78A0_lbl_804A7CB8) == 0x24 ? 1 : -1];
-typedef char RecoveredGlobal_802D78A0_lbl_804A7CDC_size[sizeof(RecoveredGlobal_802D78A0_lbl_804A7CDC) == 0x48 ? 1 : -1];
-typedef char RecoveredGlobal_802D78A0___vt__12TObjNpcEnemy_size[sizeof(RecoveredGlobal_802D78A0___vt__12TObjNpcEnemy) == 0x17C ? 1 : -1];
 u8 *TObjNpcEnemy__ct(u8 *arg0, s32 arg1, s32 arg2) {
     TObjNpcBase__ct(arg0);
-    *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_802D78A0___vt__12TObjNpcEnemy *)&__vt__12TObjNpcEnemy).value;
+    *(s32 **)((s8 *)arg0 + 0x18) = __vt__12TObjNpcEnemy;
     ((TObject *)arg0)->m_name = TObjNpcEnemy_class_name;
     ((TObjNpcEnemy *)(arg0))->apply_set_data((void *)arg2);
     ((TObjPlayer *)arg0)->init_position_vectors();
@@ -280,24 +247,23 @@ u8 *TObjNpcEnemy__ct(u8 *arg0, s32 arg1, s32 arg2) {
     ((TObjPlayer *)arg0)->register_object_by_id();
     ((TObjEnemy *)arg0)->update_prev_position();
     ((TBoss3VoloptHiraisin *)arg0)->copy_position();
-    ((TObjNpcEnemy *)arg0)->set_npc_data((void *)((int) (((s32)TObjNpcEnemy::get_entry_by_index((s16)((int) ((s16) *(s32 *)((s8 *)arg0 + 0x5C))))))));
+    ((TObjNpcEnemy *)arg0)->set_npc_data((void *)((int) (((s32)TObjNpcEnemy::get_entry_by_index((s16)((int) ((s16) ((TObjNpcEnemy *)arg0)->rotation_x)))))));
     return arg0;
 }
 
 void * TObjNpcEnemy__create(void *arg0) {
     void *o;
     void *o2;
-    o = __nw__7TObjectFUl(0x20);
+    o = TObject::operator new(0x20);
     if (o != NULL) {
         o = __ct__11TObjControlFP7TObject(o, tl_04);
     }
-    o2 = __nw__7TObjectFUl(0x3BC);
+    o2 = TObject::operator new(0x3BC);
     if (o2 != NULL) {
         o2 = TObjNpcEnemy__ct((u8 *)o2, (s32)o, (s32)arg0);
     }
     return o2;
 }
 
-}
 
-RecoveredGlobal_802D72E4_TObjNpcEnemy__data_80540FF0 TObjNpcEnemy__entry_table;
+TObjNpcEnemyEntryTable TObjNpcEnemy__entry_table;

@@ -1,5 +1,6 @@
 #include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/audio/SoundBankTables.h"
+#include "pso/unk/TLobby.h"
 
 // --- data head (folded from pso/audio/SoundBankTables.cpp) ---
 
@@ -487,7 +488,7 @@ u16 sound_bank_group_ids[38] = {
 }
 #include "pso/unk/TLobby_8023F734.h"
 #include "pso/system/memory.h"
-#include "pso/unk/TLobby.h"
+
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/audio/SoundRequestVoice.h"
 #include "pso/unk/TLobby_80242910.h"
@@ -517,9 +518,9 @@ u16 calculate_crc16_ccitt(const u8* bytes, s32 count);
 extern "C" {
 s32 sndOutputMode(s32);
 
-s32 advance_rng__6TLobbyFPv(void *arg0) {
-    *(s32 *)((s8 *)arg0 + 0x2AC) = (s32) ((*(s32 *)((s8 *)arg0 + 0x2AC) * 0x10DCD) + 1);
-    return *(s32 *)((s8 *)arg0 + 0x2AC);
+s32 TLobby::advance_rng() {
+    *(s32 *)((s8 *)this + 0x2AC) = (s32) ((*(s32 *)((s8 *)this + 0x2AC) * 0x10DCD) + 1);
+    return *(s32 *)((s8 *)this + 0x2AC);
 }
 
 void TLobby__sub_8023F754(s32 id, Vec *pos) {
@@ -529,15 +530,17 @@ void TLobby__sub_8023F754(s32 id, Vec *pos) {
 
     sound_requests[id].position = pos;
 }
+}
 
 void set_sound_slot_special_scale(s32 slot, f32 scale) {
     if (slot < 0 || slot >= 32) return;
-    clamp_field9c__6TLobbyFPvf(&sound_requests[slot], scale);
+    ((TLobby *)(&sound_requests[slot]))->clamp_field9c(scale);
 }
 
-f32 get_field_2a4__6TLobbyFPv(void* p) { return *(f32*)((char*)p + 0x2a4); }
-s32 get_field_0x280__6TLobbyFPv(void* p) { return *(s32*)((char*)p + 0x280); }
-void set_menu_index__6TLobbyFPvi(void* p, s32 v) { *(s32*)((char*)p + 0x280) = v; }
+f32 TLobby::get_field_2a4() { return *(f32*)((char*)this + 0x2a4); }
+s32 TLobby::get_field_0x280() { return *(s32*)((char*)this + 0x280); }
+void TLobby::set_menu_index(s32 v) { *(s32*)((char*)this + 0x280) = v; }
+extern "C" {
 void set_mode__6TLobbyFPvi(void *arg0, s32 arg1) {
     switch (arg1) {
     case 0:
@@ -556,7 +559,7 @@ void set_mode__6TLobbyFPvi(void *arg0, s32 arg1) {
 }
 
 
-void set_clamped_field27c__6TLobbyFPvf(void *arg0, f32 farg0) {
+void TLobby::set_clamped_field27c(f32 farg0) {
     f32 var_f1;
 
     var_f1 = farg0;
@@ -566,7 +569,7 @@ void set_clamped_field27c__6TLobbyFPvf(void *arg0, f32 farg0) {
     if (var_f1 > 1.0f) {
         var_f1 = 1.0f;
     }
-    *(f32 *)((s8 *)arg0 + 0x27C) = var_f1;
+    *(f32 *)((s8 *)this + 0x27C) = var_f1;
 }
 #pragma opt_common_subs off
 #pragma opt_propagation off
@@ -582,15 +585,18 @@ s32 TLobby__sub_8023F880(s32 arg0) {
   }
   return -9;
 }
+}
 void fade_out_sound_slot(s32 slot, s32 step) {
     if (slot < 0 || slot >= 32) return;
     ((void (*)(void*, s32))start_voice_fade)(&sound_requests[slot], step);
 }
+extern "C" {
 void set_sound_slot_pitch(s32 slot, s32 pitch, s32 duration) {
     if (slot < 0 || slot >= 0x20) {
         return;
     }
     set_voice_pitch_slide((u8 *)&sound_requests[slot], (s32)((u32)pitch << 13) / 3072, duration);
+}
 }
 #pragma push
 #pragma opt_common_subs on
@@ -616,7 +622,7 @@ s32 alloc_looping_sound_slot(u32 id, s32 actor, const void *position, s32 base, 
     }
     return -6;
 found:
-    init_sound_voice__6TLobbyFPviiii(&sound_requests[i], 0, id >> 16, id & 0xFFFF, flags | 1);
+    ((TLobby *)(&sound_requests[i]))->init_sound_voice(0, id >> 16, id & 0xFFFF, flags | 1);
     sound_requests[i].base = base;
     sound_requests[i].extra = 0;
     sound_requests[i].spatial = 0;
@@ -645,7 +651,7 @@ s32 alloc_one_shot_sound_slot(u32 id, const void *position, s32 base, s32 flags)
     }
     return -6;
 found:
-    init_sound_voice__6TLobbyFPviiii(&sound_requests[i], 0, id >> 16, id & 0xFFFF, flags);
+    ((TLobby *)(&sound_requests[i]))->init_sound_voice(0, id >> 16, id & 0xFFFF, flags);
     sound_requests[i].base = base;
     sound_requests[i].extra = 0;
     sound_requests[i].spatial = 0;
@@ -659,6 +665,7 @@ found:
 #pragma opt_common_subs off
 #pragma opt_propagation off
 #pragma opt_dead_assignments off
+extern "C" {
 s32 resolve_sound_effect_bank(Owner_8023FBBC *owner, s32 kind, s32 bank, s32 index) {
     u8 *t = (u8 *)&sound_bank_file_sizes;
     s32 result = -1;
@@ -695,18 +702,13 @@ s32 resolve_sound_effect_bank(Owner_8023FBBC *owner, s32 kind, s32 bank, s32 ind
     }
     return result;
 }
-}
 #pragma pop
 
 #pragma pop
-
-
-
-extern "C" {
 void *adxf_open_afs__6TLobbyFii(int, int);
 
 s32 TLobby__sub_8023FFB8(SoundControlState *self, int id);
-s32 TLobby__sub_803CC4C0(void *handle);
+s32 adxf_get_stat(void *handle);
 u32 sndPushGroup(void *prj_data, u16 gid, void *samples, void *sdir, void *pool);
 
 u8 is_ready__6TLobbyFPv(void *arg0) {
@@ -742,7 +744,7 @@ void TLobby__sub_8023FCC0(SoundControlState *self) {
         for (i = 0; i < 4; i++) {
             if (self->bank_file_handles[i] != NULL) {
                 active++;
-                switch (TLobby__sub_803CC4C0(self->bank_file_handles[i])) {
+                switch (adxf_get_stat(self->bank_file_handles[i])) {
                 case 2:
                 case 1:
                     break;
@@ -794,13 +796,13 @@ void TLobby__sub_8023FCC0(SoundControlState *self) {
     }
 }
 
-void reset_sound_group_fade__6TLobbyFv(void) {
+void TLobby::reset_sound_group_fade() {
     s32 i;
     for (i = 0; i < 0x20; i++) {
         sound_requests[i].extra = -0x100;
     }
 }
-void fade_voice_channels__6TLobbyFi(s32 arg0) {
+void TLobby::fade_voice_channels(s32 arg0) {
     s32 i;
     for (i = 0; i < 0x20; i++) {
         ((void (*)(void*, s32))start_voice_fade)(&sound_requests[i], arg0);
@@ -864,7 +866,6 @@ fail:
     }
     return ret;
 }
-
 }
 
 
@@ -883,10 +884,11 @@ extern "C" {
 s32 sndPopGroup();
 s32 OSGetTick();
 }
-extern "C" {
 s32 update_sound_frame(SoundControlState *self);
+extern "C" {
 
 int TLobby__sub_802401C8(SoundControlState *self) { return 0; }
+}
 
 s32 update_sound_frame(SoundControlState *self) {
     s32 t;
@@ -898,7 +900,7 @@ s32 update_sound_frame(SoundControlState *self) {
     self->tick = t;
     self->ms = self->elapsed / ((*(u32 *)0x800000F8 >> 2) / 1000);
     TLobby__sub_8023FCC0(self);
-    advance_rng__6TLobbyFPv(self);
+    ((TLobby *)self)->advance_rng();
     for (i = 0; i < 40; i++) {
         tick_sound_voice(&sound_requests[i]);
     }
@@ -918,9 +920,9 @@ s32 update_sound_frame(SoundControlState *self) {
     return 0;
 }
 
-s32 reset_sound_state__6TLobbyFPv(u8 *arg0) {
-    pop_sound_groups__6TLobbyFPvi(arg0, 1);
-    *(s32 *)((s8 *)arg0 + 0x298) = 4;
+s32 TLobby::reset_sound_state() {
+    TLobby::pop_sound_groups(((u8 *)this), 1);
+    *(s32 *)((s8 *)((u8 *)this) + 0x298) = 4;
     return 0;
 }
 extern "C" {
@@ -939,7 +941,7 @@ s32 init_sound_aux_effects(SoundControlState *self) {
     u32 size;
 
     for (i = 0; i < 40; i++) {
-        set_field0__6TLobbyFPvi(&sound_requests[i], self);
+        ((TLobby *)(&sound_requests[i]))->set_field0(self);
     }
     self->tick = OSGetTick();
     self->elapsed = 0;
@@ -986,7 +988,7 @@ s32 init_sound_aux_effects(SoundControlState *self) {
                 TLobby__sub_803382E4();
                 TLobby::run_disk_error_check();
                 render_tick();
-            } while (TLobby__sub_803CC4C0(handle) != 3);
+            } while (adxf_get_stat(handle) != 3);
             TLobby::reset_read_state();
             ((TLobby *)handle)->close_adxf_handle();
         } else {
@@ -998,11 +1000,11 @@ s32 init_sound_aux_effects(SoundControlState *self) {
 }
 
 #define M ((Mgr_802405B0 *)p)
-s32 pop_sound_groups__6TLobbyFPvi(void *p, s32 arg1) {
+s32 TLobby::pop_sound_groups(void *p, s32 arg1) {
     s32 idx;
     s32 n;
-    ((s32 (*)(int))fade_voice_channels__6TLobbyFi)(0);
-    ((s32 (*)(void))reset_sound_group_fade__6TLobbyFv)();
+    TLobby::fade_voice_channels(0);
+    TLobby::reset_sound_group_fade();
     if (M->state == -1) {
         return 8;
     }
@@ -1063,32 +1065,31 @@ s32 pop_sound_groups__6TLobbyFPvi(void *p, s32 arg1) {
 #pragma push
 
 #pragma fp_contract on
+extern "C" {
 s32 sndVolume(s32, s32, s32);
+}
 
-s32 validate_and_set_selection__6TLobbyFPvi(void *arg0, s32 arg1) {
+s32 TLobby::validate_and_set_selection(s32 arg1) {
     if ((arg1 < 0) || (arg1 >= 0x16)) {
         return 4;
     }
-    if ((arg1 != 0) && ((s32) *(s32 *)((s8 *)arg0 + 0x288) == -1)) {
+    if ((arg1 != 0) && ((s32) *(s32 *)((s8 *)this + 0x288) == -1)) {
         return 8;
     }
-    if ((s32) *(s32 *)((s8 *)arg0 + 0x288) > 0) {
-        pop_sound_groups__6TLobbyFPvi(arg0, 0);
+    if ((s32) *(s32 *)((s8 *)this + 0x288) > 0) {
+        TLobby::pop_sound_groups(this, 0);
     }
     sndVolume(0x7F, 0, 0xFF);
-    if ((s32) *(s32 *)((s8 *)arg0 + 0x298) != 1) {
+    if ((s32) *(s32 *)((s8 *)this + 0x298) != 1) {
         return 9;
     }
-    *(s32 *)((s8 *)arg0 + 0x2B0) = -1;
-    *(s32 *)((s8 *)arg0 + 0x2B4) = (s32) sound_bank_load_routes[arg1];
-    *(s32 *)((s8 *)arg0 + 0x29C) = arg1;
+    *(s32 *)((s8 *)this + 0x2B0) = -1;
+    *(s32 *)((s8 *)this + 0x2B4) = (s32) sound_bank_load_routes[arg1];
+    *(s32 *)((s8 *)this + 0x29C) = arg1;
     return 0;
 }
 
 #pragma pop
-
-
-}
 
 SoundControlState::~SoundControlState() {
     f294 = 0;
@@ -1114,13 +1115,13 @@ SoundControlState::SoundControlState() {
 u16 calculate_crc16_ccitt(const u8* bytes, s32 count) {
     u16 crc = 0;
     while (count-- > 0) {
-        crc = update_crc16_ccitt__6TLobbyFUsUc(crc, *bytes);
+        crc = TLobby::update_crc16_ccitt(crc, *bytes);
         ++bytes;
     }
     return crc;
 }
 
-u16 update_crc16_ccitt__6TLobbyFUsUc(u16 crc, u8 c) {
+u16 TLobby::update_crc16_ccitt(u16 crc, u8 c) {
     s32 i;
     u32 r = crc;
     r ^= c << 8;

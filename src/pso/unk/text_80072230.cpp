@@ -2,7 +2,7 @@
 #include "pso/unk/TLobby.h"
 
 #include <stddef.h>
-#include "pso/unk/TLobby.h"
+
 struct Stack_800724F0 {
     s32 sp8;
     s32 spC;
@@ -47,15 +47,15 @@ struct Pkt7C_80072230 { u32 hdr; u16 id; u8 pad6[2]; u8 recs[0x100]; };
 extern "C" {
 void TLobby__sub_800728FC(u8 *arg0);
 s32 TLobby__sub_800703D0(void *, void *);
-s32 get_character_save_record(int);
+s32 get_character_save_record(u32 arg0);
 extern s32 local_client_id;
-s32 mix_seed_checked__6TLobbyFi(void *);
+s32 mix_seed_checked__6TLobbyFi(s32 arg0);
 void TLobby__sub_80072880(u8 *arg0);
-s32 TLobby__sub_800727EC(void *);
+void TLobby__sub_800727EC(u8 *arg0);
 extern void *challenge_task;
 void handle_6x8A_show_challenge_time_records_window(Pkt_80072494 *pkt);
-s32 TLobby__sub_80072758(void *);
-s32 TLobby__sub_80072724(void *);
+void TLobby__sub_80072758(u8 *arg0);
+void TLobby__sub_80072724(TLobby *lobby);
 void TLobby__sub_800722AC(s32 arg0);
 extern s32 challenge_mode_state[];
 void TLobby__sub_80072618(void);
@@ -63,7 +63,7 @@ void handle_6x7C_set_challenge_records(Pkt7C_80072230 *pkt);
 void *get_player_by_client_id(s32);
 void handle_6x9D_set_challenge_dead_flag(Pkt_80072230 *pkt);
 void handle_6x95_set_challenge_time(Pkt_80072230 *pkt);
-s32 TLobby__sub_800727A0(void *);
+void TLobby__sub_800727A0(void *player);
 
 void handle_6x9D_set_challenge_dead_flag(Pkt_80072230 *pkt) {
     s32 idx;
@@ -88,9 +88,9 @@ void TLobby__sub_800722AC(s32 arg0) {
     if (arg0 < 0 || arg0 >= 4) {
         return;
     }
-    TLobby__sub_80072758(&stack);
+    TLobby__sub_80072758((u8 *)&stack);
     stack.spC = arg0;
-    TLobby__sub_80072724(&stack);
+    TLobby__sub_80072724((TLobby *)&stack);
 }
 
 void TLobby::send_challenge_retry_cmd(s32 arg0) {
@@ -99,7 +99,7 @@ void TLobby::send_challenge_retry_cmd(s32 arg0) {
     typedef char sp10_offset[(offsetof(Stack_80072308, sp10) == 0x8) ? 1 : -1];
     Stack_80072308 stack;
     if (TLobby::is_flag_set() != 0) {
-        TLobby__sub_800727EC(&stack.sp8);
+        TLobby__sub_800727EC((u8 *)&stack.sp8);
         stack.sp10 = arg0;
         stack.spC = local_client_id;
         ((TLobby *)(&stack.sp8))->send_and_handle_60_wrapper();
@@ -135,7 +135,7 @@ void handle_6x95_set_challenge_time(Pkt_80072230 *pkt) {
         return;
     }
     if (TLobby::check_challenge_time_range(r) != 0) {
-        t = mix_seed_checked__6TLobbyFi((void *)0x8C9F);
+        t = mix_seed_checked__6TLobbyFi((s32)((void *)0x8C9F));
     }
     challenge_mode_state[idx + 0x680 / 4] = t;
 }
@@ -147,7 +147,7 @@ void TLobby::send_seed_state() {
     typedef char sp10_offset[(offsetof(Stack_80072448, sp10) == 0x8) ? 1 : -1];
     Stack_80072448 stack;
     TLobby__sub_80072880((u8 *)&stack.sp8);
-    stack.sp10 = mix_seed_checked__6TLobbyFi((void *)arg0);
+    stack.sp10 = mix_seed_checked__6TLobbyFi(arg0);
     stack.spC = local_client_id;
     ((TLobby *)(&stack.sp8))->send_state();
 }

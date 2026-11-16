@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/enemy/canadin/TObjEneMe1Canadin_EffLineFade.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/enemy/darkgunner/TObjEneDarkGunner.h"
@@ -7,10 +8,6 @@
 #include "pso/system/vector.h"
 #include "pso/system/task/TObject.h"
 
-extern "C" {
-
-void __dl__7TObjectFPv(void *);
-void __dt__7TObjectFv(void *, int);
 
 void TObjEneMe1Canadin_EffLineFade::run_task() {
     s32 var_r31;
@@ -27,7 +24,6 @@ void TObjEneMe1Canadin_EffLineFade::run_task() {
 
 extern s32 __vt__29TObjEneMe1Canadin_EffLineFade[];
 
-}
 TObjEneMe1Canadin_EffLineFade::~TObjEneMe1Canadin_EffLineFade() {
 
 }

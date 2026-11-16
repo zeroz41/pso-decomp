@@ -27,15 +27,15 @@
 #include "pso/unk/TLobby_80132ED0.h"
 #include "pso/unk/TLobby_80226070.h"
 #include "pso/unk/text_8023F160.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 
 // Functions and data of other units that have no shared declaration with the signature these calls use.
 extern "C" {
-s32 TAdPlayerLoadGC__sub_801E0FA4(s32 chan);
-s32 TAdPlayerLoadGC__sub_801E1B50(s32 chan);
-s32 TAdPlayerLoadGC__sub_801E24F8(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
+s32 get_memcard_free_files(s32 chan);
+s32 poll_memcard_result(s32 chan);
+s32 start_memcard_format(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
 s32 query_memcard_capacity__15TAdPlayerLoadGCFl(s32 chan, s32 arg1);
 s32 poll_load_status__15TAdPlayerLoadGCFl(s32 chan, const char *name);
-s32 TWindowShortListCtrl__check_controller_button(ControllerInputContext *context, s32 mask);
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(ControllerInputContext *context, s32 mask);
 TWindowMessage *update_window_mode_from_progress__6TLobbyFPv(const f32 *pos, const f32 *size);
 TWindowMenu *check_room_seq_4__16TAdChrSelASlotGCFl(const f32 *pos, s32 arg1);
@@ -758,7 +758,7 @@ s32 TAdTimeSetGC::count_selected_flags() {
 s32 TAdTimeSetGC::check_capacity() {
     s32 files = count_flags();
     s32 blocks = count_selected_flags();
-    s32 free_files = TAdPlayerLoadGC__sub_801E0FA4(0);
+    s32 free_files = get_memcard_free_files(0);
     s32 free_blocks = query_memcard_capacity__15TAdPlayerLoadGCFl(0, 0);
 
     if (files > free_files || blocks > free_blocks) {
@@ -890,7 +890,7 @@ void TAdTimeSetGC::apply_settings() {
 }
 
 void TAdTimeSetGC::sub_802E18C8() {
-    TKeyBoardControl__sub_8000F9CC(0);
+    request_main_phase(0);
 }
 
 s32 TAdTimeSetGC::sub_802E1868() {
@@ -908,7 +908,7 @@ s32 TAdTimeSetGC::poll_load_status() {
     s32 failed;
     s32 absent;
 
-    if (TAdPlayerLoadGC__sub_801E1B50(0) != 0) {
+    if (poll_memcard_result(0) != 0) {
         busy_count++;
         return 2;
     }
@@ -993,7 +993,7 @@ s32 TAdTimeSetGC::poll_load_status() {
 }
 
 s32 TAdTimeSetGC::is_load_complete() {
-    if (TAdPlayerLoadGC__sub_801E24F8(0, 0, 0, 0, 0) == 0) {
+    if (start_memcard_format(0, 0, 0, 0, 0) == 0) {
         return 1;
     }
     return 0;

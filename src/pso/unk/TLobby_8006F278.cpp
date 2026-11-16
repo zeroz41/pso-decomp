@@ -1,16 +1,18 @@
 #include "types.h"
+#include "pso/unk/TLobby_8006F278.h"
+#include "pso/unk/TLobby_80070A00.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80071774.h"
 #include "pso/ui/window/TObjResultWin.h"
-#include "pso/unk/TLobby.h"
+
 
 struct RecoveredGlobal_8006F5B0_lbl_8048C9D8 { s32 value; u8 remaining[0x744]; };
 typedef char RecoveredGlobal_8006F5B0_lbl_8048C9D8_size[sizeof(RecoveredGlobal_8006F5B0_lbl_8048C9D8) == 0x748 ? 1 : -1];
 
 struct G_8006F2CC { u8 pad[0x28]; s32 x28; };
 
-extern "C" {
+
 extern RecoveredGlobal_8006F5B0_lbl_8048C9D8 challenge_mode_state;
 s32 TLobby::calc_challenge_time_limit() {
     s32 valid_slot;
@@ -34,12 +36,6 @@ void TLobby::advance_state_if_flag_set() {
     }
 }
 
-}
-
-struct RecoveredGlobal_8006F848_lbl_804FF800 {
-    s32 value;
-    u8 remaining[0x1C];
-};
 
 struct Entry_8006F48C {
     char key[12];
@@ -83,9 +79,8 @@ s32 mix_seed_checked__6TLobbyFi(s32);
 u32 get_character_save_record(int);
 s32 TLobby__sub_8006F5B0(s32 arg0);
 s32 strncpy(void *, void *, int);
-RecoveredGlobal_8006F848_lbl_804FF800 lobby_name_string_buffer;
+LobbyNameStringBuffer lobby_name_string_buffer;
 s32 decode_slot__6TLobbyFUi(u32 id);
-u32 TLobby__sub_80071640(u32 c);
 s32 strncmp(void *, void *, int);
 void TLobby__sub_8006F48C(void);
 s32 calc_layout_hash__20TWindowSubStatusDispFv(int);
@@ -229,14 +224,14 @@ s32 TLobby__sub_8006F6B0(s32 clear_time) {
 
     result = -4;
     TLobby__sub_8006F5B0(clear_time);
-    total = TWindowSubStatusDisp__sub_80071988(0xFFFF, -1);
+    total = TWindowSubStatusDisp__sub_80071988(0xFFFF, TWindowSubStatusDisp::RECORD_SET_CURRENT);
     if (total != 0) {
         local_data = (u8 *)get_character_save_record(0xFFFF) + 0x21C4;
-        total -= TLobby::get_valid_slot(((s32 *)TWindowSubStatusDisp__sub_8006F0D8(local_data, -1))[challenge_mode_state.value]);
+        total -= TLobby::get_valid_slot(((s32 *)TWindowSubStatusDisp__sub_8006F0D8(local_data, TWindowSubStatusDisp::RECORD_SET_CURRENT))[challenge_mode_state.value]);
         total += clear_time;
         result = TLobby__sub_8006F38C(total);
         next = result + 1;
-        flags = TWindowSubStatusDisp__sub_8006F134(local_data, -1);
+        flags = TWindowSubStatusDisp__sub_8006F134(local_data, TWindowSubStatusDisp::RECORD_SET_CURRENT);
         if (((s32 (*)(u32))TLobby::get_slot_clamped)(flags[1]) < next) {
             flags[1] = ((s32 (*)(s32))mix_seed__6TLobbyFUs)(next);
         }
@@ -245,13 +240,13 @@ s32 TLobby__sub_8006F6B0(s32 clear_time) {
     rec.summary.reserved = 0;
     rec.summary.total_time = total;
     client_data = (u8 *)&challenge_mode_state + local_client_id * 0x104 + 0x274;
-    best_time = &((s32 *)TWindowSubStatusDisp__sub_8006F0D8(client_data, -1))[challenge_mode_state.value];
-    flags = TWindowSubStatusDisp__sub_8006F134(client_data, -1);
+    best_time = &((s32 *)TWindowSubStatusDisp__sub_8006F0D8(client_data, TWindowSubStatusDisp::RECORD_SET_CURRENT))[challenge_mode_state.value];
+    flags = TWindowSubStatusDisp__sub_8006F134(client_data, TWindowSubStatusDisp::RECORD_SET_CURRENT);
     rec.previous.time = TLobby::get_valid_slot(*best_time);
     ((TLobby *)rec.previous.award_name)->decode_obfuscated_string(client_data + 0xD8, 12);
     rec.previous.rank = ((s32 (*)(u32))TLobby::get_slot_clamped)(flags[1]);
     record_data = (u8 *)get_character_save_record(0xFFFF) + 0x21C4;
-    flags = TWindowSubStatusDisp__sub_8006F134(record_data, -1);
+    flags = TWindowSubStatusDisp__sub_8006F134(record_data, TWindowSubStatusDisp::RECORD_SET_CURRENT);
     rec.current.time = clear_time;
     ((TLobby *)rec.current.award_name)->decode_obfuscated_string(record_data + 0xD8, 12);
     rec.current.rank = ((s32 (*)(u32))TLobby::get_slot_clamped)(flags[1]);
@@ -262,7 +257,6 @@ s32 TLobby__sub_8006F6B0(s32 clear_time) {
     }
     return ret;
 }
-typedef char RecoveredGlobal_8006F848_lbl_804FF800_size[sizeof(RecoveredGlobal_8006F848_lbl_804FF800) == 0x20 ? 1 : -1];
 void TLobby::set_name_string() {
     s32 arg0 = (s32)this;
     strncpy((void *)&lobby_name_string_buffer.value, (void *)arg0, 0x1F);
@@ -328,7 +322,6 @@ s32 TLobby::get_valid_slot(int id) {
 }
 
 s32 mix_seed_checked__6TLobbyFi(s32 arg0);
-s32 mix_seed__6TLobbyFUs(u16);
 
 s32 mix_seed_checked__6TLobbyFi(s32 arg0) {
     if ((arg0 == 0) || (((s32 (*)())is_id_out_of_range__6TLobbyFi)() != 0)) {

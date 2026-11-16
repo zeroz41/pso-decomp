@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/unk/TLobby_80228818.h"
 #include "pso/unk/TLobby.h"
 #include "pso/item/TUnk_804CC048.h"
 #include "pso/map/FloorArea.h"
@@ -13,11 +14,10 @@ struct L_8022884C { u8 pad[0x109c]; s32 count; s32 hi; s32 lo; };
 
 extern "C" {
 char *strcpy(char *dst, const char *src);
-void clear_work_buffer(u8 *arg0);
 u32 strlen(const char *s);
 s32 debug_printf_at(u32, void *, ...);
-void __ct__7TObjectFP7TObject(void *);
 void memset(void *, int, int);
+}
 
 Obj_80515BA0::Obj_80515BA0() {
     init_range(0);
@@ -153,6 +153,4 @@ void TLobby::trim_whitespace() {
         }
         strcpy(s, s + i);
     }
-}
-
 }

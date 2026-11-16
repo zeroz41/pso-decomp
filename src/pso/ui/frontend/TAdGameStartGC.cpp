@@ -6,7 +6,8 @@
 #include "pso/system/byteswap.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
 #include "pso/render/ModelDrawContext.h"
-#include "pso/system/task/TObject.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+
 class TAdGameStartGC : public TObject {
 public:
     virtual void render();
@@ -51,7 +52,7 @@ struct GS_802E655C { u8 pad0[0x1C]; Slot_802E655C slots[8]; s32 count; s32 activ
 
 extern "C" {
 u32 __nw__7TObjectFUl(int);
-u8 *__ct__18TAdGameStartBackGCFv(u8 *arg0, u8 *arg1);
+u8 *__ct__18TAdGameStartBackGCFP7TObject(u8 *arg0, u8 *arg1);
 u32 __ct__20TAdGameStartShadowGCFv(int, void *);
 u32 __ct__18TAdGameStartLineGCFv(int, void *);
 u32 __ct__19TAdGameStartShineGCFv(int, void *);
@@ -60,7 +61,6 @@ extern s32 __vt__14TAdGameStartGC[];
 extern void *ad_game_start_name_ptr[2];
 Obj_802E6750 *__ct__14TAdGameStartGCFv(Obj_802E6750 *arg0);
 void destroy_windows__14TAdGameStartGCFPv(Obj_802E6380 *o);
-s32 TWindowShortListCtrl__check_controller_button(void *, int);
 extern u8 controller_physical_port_bank[];
 
 void bswap_6x92__14TAdGameStartGCFPv(void* p) { ((G_ClientIDHeader *)p)->bswap(); bswap_32((u32 *)((char*)p + 0x4)); bswap_32((u32 *)((char*)p + 0x8)); }
@@ -140,7 +140,7 @@ void create_effects__14TAdGameStartGCFPv(u8 *parent) {
     object = __nw__7TObjectFUl(0x80);
     var_r0_2 = object;
     if (var_r0_2 != 0U) {
-        var_r0_2 = (u32)__ct__18TAdGameStartBackGCFv((u8 *)object, (u8 *)parent);
+        var_r0_2 = (u32)__ct__18TAdGameStartBackGCFP7TObject((u8 *)object, (u8 *)parent);
     }
     *(u32 *)((s8 *)parent + 0xC8) = var_r0_2;
     temp_r3_7 = __nw__7TObjectFUl(0x160);
@@ -233,11 +233,11 @@ void destroy_instance__17TAdGameStartSubGCFv(void) {
     }
 }
 
-    s32 TLobby__sub_8023E4B4(s32 arg0, s32 arg1);
+    s32 load_streamed_prs_texture(s32 arg0, s32 arg1);
 }
     extern const unsigned char lbl_80472C28[];
     extern void *texture_f512_multiplay_descriptor[];
-void register_texture_f512_multiplay(void) { multiplay_texture_f512_handle = (int)texture_f512_multiplay_descriptor; TLobby__sub_8023E4B4((s32)lbl_80472C28, (s32)texture_f512_multiplay_descriptor); }
+void register_texture_f512_multiplay(void) { multiplay_texture_f512_handle = (int)texture_f512_multiplay_descriptor; load_streamed_prs_texture((s32)lbl_80472C28, (s32)texture_f512_multiplay_descriptor); }
 extern "C" {
 __declspec(section ".rodata") extern const unsigned char lbl_80472C28[] = "f512_multiplay";
 __declspec(section ".rodata") extern const char TAdGameStartGC__class_name_string[] = "TAdGameStartGC";

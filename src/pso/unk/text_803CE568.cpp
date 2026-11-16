@@ -40,7 +40,7 @@ char *const volatile lbl_805E0DA0 = "\nCVFS/GC Ver.2.24 Build:Jun 13 2002 19:00:
 s8 fs_default_device_name[12];
 Ent_803CF958 cvfs_entry_table[32];
 CvFsHandle si_type_info_table[40];
-extern const char lbl_805E0DA4[4];
+extern const char lbl_805E0DA4[6] = "%s:%s";
 char *strcpy(char *, const char *);
 int sprintf(char *, const char *, ...);
 
@@ -711,7 +711,7 @@ inline CvFsDevIf *cvfs_add_device(char *name, CvFsDevIf *dev) {
     memcpy(cvfs_entry_table[k].name, name, strlen(name) + 1);
     return dev;
 }
-void TLobby__sub_803CFAA8(char *name, CvFsDevIf *(*getif)(void), s32 arg) {
+void cvFsAddDev(char *name, CvFsDevIf *(*getif)(void), s32 arg) {
     CvFsDevIf *dev;
     u32 n;
     u32 i;

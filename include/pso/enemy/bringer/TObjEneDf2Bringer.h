@@ -47,6 +47,9 @@ struct TObjEneDf2Bringer : public TObjEneDD_ST {
     void *create();
     static void load_resources();
     u8 unk_490[0x38];
+    void spawn_offset_particle();
+    void spawn_particle_if_in_band();
+    void update_if_in_band();
 };
 
 typedef char TObjEneDf2Bringer_size[sizeof(TObjEneDf2Bringer) == 0x4C8 ? 1 : -1];

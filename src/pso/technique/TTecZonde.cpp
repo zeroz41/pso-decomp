@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/technique/TTecAnti.h"
 #include "pso/technique/TTecZonde.h"
@@ -37,6 +38,10 @@ typedef struct RecoveredGlobal_8023C558_lbl_804CC510 RecoveredGlobal_8023C558_lb
 typedef struct RecoveredGlobal_8023C558_lbl_804CC55C RecoveredGlobal_8023C558_lbl_804CC55C;
 typedef char RecoveredGlobal_8023C558_lbl_804CC510_size[((sizeof(RecoveredGlobal_8023C558_lbl_804CC510)) == 0x4C) ? (1) : (-1)];
 typedef char RecoveredGlobal_8023C558_lbl_804CC55C_size[((sizeof(RecoveredGlobal_8023C558_lbl_804CC55C)) == 0x98) ? (1) : (-1)];
+#pragma readonly_strings on
+
+const char *lbl_805D3838 = "TTecZonde"; // TTecZonde__name
+
 void TTecZonde::init_parameters() {
   s32 new_var;
   new_var = calc_technique_parameters(6, (int) ((RecoveredFields_8023C558_arg0 *) ((u8 *)this))->field_C4, 0xFFFF);
@@ -89,11 +94,10 @@ struct Obj_8023C6B4 { u8 pad[0x1C]; void *source; u8 pad20[0xCC - 0x20]; f32 pow
 extern "C" {
 s32 test_elt_flag__13TUnk_80493450Fll(void *, s32, s32);
 u8 *TTecZonde__ct(u8 *arg0, s32 arg1, u8 *arg2, u8 *arg3, s16 arg4);
-void *__nw__7TObjectFUl(int);
 
 void TObjPlayer::create_tec_zonde(void *arg0, void *arg1, void *arg2, void *arg3) {
     void *o;
-    o = __nw__7TObjectFUl(0x18C);
+    o = TObject::operator new(0x18C);
     if (o != NULL) {
         ((void *(*)(void *, void *, void *, void *, void *))TTecZonde__ct)(o, arg0, arg1, arg2, arg3);
     }
@@ -127,27 +131,23 @@ struct Zonde_8023C79C {
     u16 f134;
 };
 
-struct RecoveredGlobal_8023CD48___vt__9TTecZonde { s32 value; u8 remaining[0x24]; };
-typedef char RecoveredGlobal_8023CD48___vt__9TTecZonde_size[sizeof(RecoveredGlobal_8023CD48___vt__9TTecZonde) == 0x28 ? 1 : -1];
-
 extern "C" {
 u16 get_entity_id(void *);
 void copy_technique_target_list(void *, void *);
 u8 * construct_facing_technique__10TObjPlayerFPviPvii(void *, s32, void *, s32, s16);
 extern s32 __vt__9TTecZonde[];
-extern s32 lbl_805D3838;
 void *__dt__9TTecZondeFv(void *arg0, s16 arg1);
 void __dl__7TObjectFPv(void *);
 
-void *__dt__9TTecZondeFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__9TTecZonde;
-        ((TObjPlayer *)arg0)->destroy_technique_effect_resources(0);
+void *__dt__9TTecZondeFv(void *player, s16 arg1) {
+    if (player != NULL) {
+        *(s32 **)((s8 *)player + 0x18) = __vt__9TTecZonde;
+        ((TObjPlayer *)player)->destroy_technique_effect_resources(0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(player);
         }
     }
-    return arg0;
+    return player;
 }
 
 void TTecZonde::render() {  }
@@ -157,7 +157,7 @@ void TTecZonde::render() {  }
 
 void *find_entity_by_id(u16 id);
 void update_technique_slot__10TTecRaFoieFl(s32, s32, s32);
-s32 play_sound_effect(s32, void *, s32, s32);
+s32 play_sound_effect(s32, Vec *, s32, s32);
 u8 *construct_helper_effect__11TTecGiZondeFPvPvPvPvi(u8 *arg0, u8 *arg1, u8 *arg2, u8 *arg3, s32 arg4);
 s32 rand();
 f32 vector_length(void *);
@@ -208,28 +208,28 @@ void TTecZonde::run_task() {
         scale = 0.5f;
         switch (self->level) {
         case 0:
-            o = __nw__7TObjectFUl(0x260);
+            o = TObject::operator new(0x260);
             if (o != NULL) {
                 ((TTecZonde *)o)->construct_bolt_effect(tl_07, (u8 *)segs[0].a, (u8 *)segs[0].b, 0x14000000, 0x14, segs[0].len, 0.5f);
             }
             break;
         case 1:
             scale *= 1.2f;
-            o = __nw__7TObjectFUl(0x260);
+            o = TObject::operator new(0x260);
             if (o != NULL) {
                 ((TTecZonde *)o)->construct_bolt_effect(tl_07, (u8 *)segs[0].a, (u8 *)segs[0].b, 0x14000000, 0x14, segs[0].len, scale);
             }
             break;
         case 2:
             scale *= 1.4f;
-            o = __nw__7TObjectFUl(0x260);
+            o = TObject::operator new(0x260);
             if (o != NULL) {
                 ((TTecZonde *)o)->construct_bolt_effect(tl_07, (u8 *)segs[0].a, (u8 *)segs[0].b, 0x14000000, 0x14, segs[0].len, scale);
             }
             break;
         case 3:
             for (j = 0; j < 3; j++) {
-                o = __nw__7TObjectFUl(0x260);
+                o = TObject::operator new(0x260);
                 if (o != NULL) {
                     ((TTecZonde *)o)->construct_bolt_effect(tl_07, (u8 *)segs[j].a, (u8 *)segs[j].b, 0x14000000, 0x14, segs[j].len, 0.5f);
                 }
@@ -238,7 +238,7 @@ void TTecZonde::run_task() {
         case 4:
             scale *= 1.4f;
             for (k = 0; k < 3; k++) {
-                o = __nw__7TObjectFUl(0x260);
+                o = TObject::operator new(0x260);
                 if (o != NULL) {
                     ((TTecZonde *)o)->construct_bolt_effect(tl_07, (u8 *)segs[k].a, (u8 *)segs[k].b, 0x14000000, 0x14, segs[k].len, scale);
                 }
@@ -247,12 +247,12 @@ void TTecZonde::run_task() {
         case 5:
             for (l = 0; l < 14; l++) {
                 if (l == 0) {
-                    o = __nw__7TObjectFUl(0x260);
+                    o = TObject::operator new(0x260);
                     if (o != NULL) {
                         ((TTecZonde *)o)->construct_bolt_effect(tl_07, (u8 *)segs[l].a, (u8 *)segs[l].b, 0x14000000, 0x14, segs[l].len, 5.0f);
                     }
                 } else {
-                    o = __nw__7TObjectFUl(0x260);
+                    o = TObject::operator new(0x260);
                     if (o != NULL) {
                         ((TTecZonde *)o)->construct_bolt_effect(tl_07, (u8 *)segs[l].a, (u8 *)segs[l].b, 0x14000000, 0x14, segs[l].len, 0.5f);
                     }
@@ -261,7 +261,7 @@ void TTecZonde::run_task() {
             break;
         }
         if (self->level != 5) {
-            o = __nw__7TObjectFUl(0x40);
+            o = TObject::operator new(0x40);
             if (o != NULL) {
                 construct_helper_effect__11TTecGiZondeFPvPvPvPvi((u8 *)o, (u8 *)segs, (u8 *)&t->x, tl_07, 0x19F);
             }
@@ -270,29 +270,29 @@ void TTecZonde::run_task() {
             s32 h;
             switch (self->level) {
             case 0:
-                h = play_sound_effect(0x4002A408, &t->x, 0, 0);
+                h = play_sound_effect(0x4002A408, (Vec *)(&t->x), 0, 0);
                 if (h >= 0) {
                     update_technique_slot__10TTecRaFoieFl(h, 0x100, 0);
                 }
                 break;
             case 1:
-                play_sound_effect(0x4002A408, &t->x, 0, 0);
+                play_sound_effect(0x4002A408, (Vec *)(&t->x), 0, 0);
                 break;
             case 2:
             case 3:
-                h = play_sound_effect(0x4002A408, &t->x, 0, 0);
+                h = play_sound_effect(0x4002A408, (Vec *)(&t->x), 0, 0);
                 if (h >= 0) {
                     update_technique_slot__10TTecRaFoieFl(h, -0x180, 0);
                 }
                 break;
             case 4:
-                h = play_sound_effect(0x4002A408, &t->x, 0, 0);
+                h = play_sound_effect(0x4002A408, (Vec *)(&t->x), 0, 0);
                 if (h >= 0) {
                     update_technique_slot__10TTecRaFoieFl(h, -0x250, 0);
                 }
                 break;
             case 5:
-                h = play_sound_effect(0x4002A408, &t->x, 0, 0);
+                h = play_sound_effect(0x4002A408, (Vec *)(&t->x), 0, 0);
                 if (h >= 0) {
                     update_technique_slot__10TTecRaFoieFl(h, -0x100, 0);
                 }
@@ -310,7 +310,7 @@ void TTecZonde::run_task() {
 u8 *TTecZonde__ct(u8 *arg0, s32 arg1, u8 *arg2, u8 *arg3, s16 arg4) {
     u8 *temp_r3;
     construct_facing_technique__10TObjPlayerFPviPvii(arg0, arg1, arg2, 0, arg4);
-    *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_8023CD48___vt__9TTecZonde *)&__vt__9TTecZonde).value;
+    *(s32 **)((s8 *)arg0 + 0x18) = __vt__9TTecZonde;
     ((TObjPlayer *)(arg0 + 0x130))->construct_target_cursor_records();
     *(s32 *)((s8 *)arg0 + 0) = (s32) lbl_805D3838;
     ((TTecZonde *)arg0)->init_parameters();

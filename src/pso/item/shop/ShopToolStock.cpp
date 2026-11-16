@@ -8,7 +8,8 @@
 #include "pso/unk/text_8020EEFC.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include <stdlib.h>
-#include "pso/item/TItemData.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
+
 struct SRock_80224544_8022448C;
 
 
@@ -52,8 +53,6 @@ typedef struct Hdr_8022525C
 } Hdr_8022525C;
 
 extern "C" {
-s32 mem_alloc(s32);
-void mem_free(void *p);
 void sort_shop_items(s32, s32, s32);
 u32 lobby_tool_random_rel;
 int shop_tool_stock_level;
@@ -221,7 +220,6 @@ s32 TLobby__sub_80223E64(Item_802242F8 *item, s32 shop) {
     }
     return 1;
 }
-
 
 
 void roll_shop_technique_level(Obj_80223EE0 *arg0, s32 arg1) {
@@ -408,7 +406,7 @@ void mark_shop_tool_sold_out(s32 a, s32 b) {
     }
 }
 
-extern "C" {
+
 void TLobby::set_6264_and_call_2244B0(int a0, int a1) { shop_tool_stock_level = a1; TLobby::generate_shop_inventory(a0); }
 
 void TLobby::generate_shop_inventory(s32 idx) {
@@ -444,7 +442,6 @@ void TLobby::free_all_rocks() {
         lobby_tool_random_rel = var_r30;
     }
 }
-}
 s32 create_named_object(s32 arg0);
 void load_tool_random_rel(void) {
     s32 i;
@@ -454,10 +451,10 @@ void load_tool_random_rel(void) {
     }
     if (is_split_screen() == 1) {
         for (i = 0; i < 4; i++) {
-            ((s32 *)&shop_tool_stock_buffers)[i] = mem_alloc(0x168);
+            ((s32 *)&shop_tool_stock_buffers)[i] = (s32)mem_alloc(0x168);
         }
     } else {
-        ((s32 *)&shop_tool_stock_buffers)[0] = mem_alloc(0x168);
+        ((s32 *)&shop_tool_stock_buffers)[0] = (s32)mem_alloc(0x168);
     }
     (*(s32 *)&shop_tool_stock_level) = 0;
 }

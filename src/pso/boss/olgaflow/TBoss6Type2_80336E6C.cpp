@@ -1,4 +1,5 @@
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/boss/olgaflow/TBoss6Type2_8032E708.h"
 #include "pso/boss/olgaflow/TBoss6Type2.h"
 #include "pso/boss/olgaflow/TBoss6Mag.h"
@@ -7,7 +8,7 @@ struct O_80337054 { u8 pad[0x3CC]; s32 f3cc; u8 pad2[0x410 - 0x3D0]; s32 f410; }
 
 extern "C" {
 void spawn_mag_mines__11TBoss6Type2Fv();
-int play_sound_effect(void*, void*, void*, void*);
+int play_sound_effect(void*, Vec *, void*, void*);
 s32 turn_toward_target__11TBoss6Type2Fv();
 s32 fly_toward_target__11TBoss6Type2Fv();
 s32 TBoss6Type2__sub_8032FB84();
@@ -29,7 +30,7 @@ void TBoss6Type2::update_recover_timer() {
     }
 }
 
-void TBoss6Type2::sub_80336F00() { m_3cc = 0; play_sound_effect((void*)438292, &position, (void*)0, (void*)0); destroy_part_object((s32)((void*)((void*)0))); }
+void TBoss6Type2::sub_80336F00() { m_3cc = 0; play_sound_effect((void*)438292, (Vec *)(&position), (void*)0, (void*)0); destroy_part_object((s32)((void*)((void*)0))); }
 
 void TBoss6Type2::update_ramp_timer() {
     u8 *arg0 = (u8 *)this;

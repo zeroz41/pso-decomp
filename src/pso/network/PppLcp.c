@@ -18,7 +18,7 @@ struct St_8040098C { s8 f0; u8 f1; u8 f2; u8 pad3[0x69]; u8 f6C[0x9C]; s32 f108;
 #include <stddef.h>
 #include "pso/network/NetStackTypes.h"
 
-void TLobby__sub_803F97E8(int);
+void net_sleep_ms(s32 ms);
 #include "pso/network/PppBuffer.h"
 
 
@@ -35,7 +35,7 @@ s32 wait_for_connection(Conn_804004DC *c) {
             return -1;
         }
         unlock_mutex(g->mutex);
-        TLobby__sub_803F97E8(100);
+        net_sleep_ms(100);
         process_expired_timers();
         lock_mutex(g->mutex);
     }
@@ -277,7 +277,7 @@ extern s32 TLobby__sub_80400C4C(Conn_804004DC *fsm, Msg_803FA664 *msg, s32 src) 
             return -1;
         }
         for (n = len - 2; n-- > 0;) {
-            if ((TLobby__sub_80401BCC(&src, lobby_read_byte_buffer, 1) != 1 ? -1 : (s16)lobby_read_byte_buffer[0]) == -1) {
+            if ((ppp_buffer_read(&src, lobby_read_byte_buffer, 1) != 1 ? -1 : (s16)lobby_read_byte_buffer[0]) == -1) {
                 return -1;
             }
         }
@@ -341,7 +341,7 @@ inline void loop_8040172C(u32 *self, void *src, s16 mask) {
     }
 }
 inline s32 read_80400F1C(u32 *p) {
-    if (TLobby__sub_80401BCC(p, lobby_read_byte_buffer, 1) != 1) {
+    if (ppp_buffer_read(p, lobby_read_byte_buffer, 1) != 1) {
         return -1;
     }
     return (s16)lobby_read_byte_buffer[0];
@@ -359,17 +359,17 @@ inline u32 first2_80400F1C(Obj_803FF858 *fsm) {
     loop_8040172C(&t, &o->local.got, o->local.got.mask);
     return t;
 }
-s32 TLobby__sub_80400F1C(Obj_803FF858 *arg0, Msg_803FA664 *arg1, u32 arg2) {
+s32 TLobby__sub_80400F1C(Obj_803FF858 *fsm, Msg_803FA664 *msg_803_fa664, u32 arg2) {
     s16 err;
     s16 a;
     s16 b;
     err = 0;
-    if (arg1->b1 != arg0->b1) {
+    if (msg_803_fa664->b1 != fsm->b1) {
         return -1;
     }
     {
-        u32 cur = first2_80400F1C(arg0);
-        if (arg1->h2 != get_field_4((void *)cur)) {
+        u32 cur = first2_80400F1C(fsm);
+        if (msg_803_fa664->h2 != get_field_4((void *)cur)) {
             err = 1;
         } else {
             while ((a = read_80400F1C(&cur)) != -1) {
@@ -463,9 +463,9 @@ s16 TLobby__sub_804010A0(Obj_803FF858 *fsm, Msg_803FA664 *msg, u32 src) {
 }
 #pragma pop
 
-#define rd16_804012E0(src) (TLobby__sub_80401BCC((void *)(src), lcp_read_value_buffer, 2) != 2 ? -1 : read_network_u16_be(lcp_read_value_buffer))
-#define rd32_804012E0(src) (TLobby__sub_80401BCC((void *)(src), lcp_read_value_buffer, 4) != 4 ? 0 : TLobby__sub_80402AFC(lcp_read_value_buffer))
-#define rd8_804012E0(src) (TLobby__sub_80401BCC((void *)(src), lobby_read_byte_buffer, 1) != 1 ? -1 : (s16)lobby_read_byte_buffer[0])
+#define rd16_804012E0(src) (ppp_buffer_read((void *)(src), lcp_read_value_buffer, 2) != 2 ? -1 : read_network_u16_be(lcp_read_value_buffer))
+#define rd32_804012E0(src) (ppp_buffer_read((void *)(src), lcp_read_value_buffer, 4) != 4 ? 0 : TLobby__sub_80402AFC(lcp_read_value_buffer))
+#define rd8_804012E0(src) (ppp_buffer_read((void *)(src), lobby_read_byte_buffer, 1) != 1 ? -1 : (s16)lobby_read_byte_buffer[0])
 s16 parse_lcp_option(s32 arg0, u8 *arg1, u8 *arg2, u8 *arg3, s16 arg4) {
     s16 len;
     s16 res;
@@ -669,7 +669,7 @@ break;
 }
 while ((rem--) > 0)
 {
-if (((s16) (TLobby__sub_80401BCC((void *)((u8 *) flag), (void *)(&(*(u8*)&lobby_read_byte_buffer)), (int)(1)))) != 1)
+if (((s16) (ppp_buffer_read((void *)((u8 *) flag), (void *)(&(*(u8*)&lobby_read_byte_buffer)), 1))) != 1)
 {
 c = -1;
 }

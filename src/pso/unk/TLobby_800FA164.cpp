@@ -34,7 +34,7 @@ s32 TLobby::create_file_load_entry(s32 arg0, s32 arg1, u32 arg2, s32 arg3, void 
     strncpy((u8 *)var_r31 + 8, arg0, 0x20);
     *(s32 *)((s8 *)var_r31 + 0) = 2;
     *(s32 *)((s8 *)var_r31 + 0x3C) = arg1;
-    *(s32 *)((s8 *)var_r31 + 0x30) = TLobby__sub_803CC53C((u8 *)temp_r3);
+    *(s32 *)((s8 *)var_r31 + 0x30) = adxf_get_fsize_sct((u8 *)temp_r3);
     ((TLobby *)temp_r3)->close_adxf_handle();
     *(s32 *)((s8 *)var_r31 + 0x34) = 0;
     *(u32 *)((s8 *)var_r31 + 0x40) = arg2;

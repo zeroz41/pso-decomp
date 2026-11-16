@@ -1,4 +1,5 @@
 #include "pso/ui/font/TFontSmallHelp.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/ui/window/TWindowSubStatusDisp_800FBD74.h"
 #include "types.h"
 #include <string.h>
@@ -9,6 +10,7 @@
 #include "pso/ui/window/TWindowCtrlMain.h"
 #include "pso/system/vector.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 extern "C" {
 extern s32 localized_alphabet_list;
@@ -32,7 +34,6 @@ void pop_matrix(void);
 f32 vec3_dot(const Vec *a, const Vec *b);
 void push_matrix(void);
 void project_world_to_screen(void *m, Vec *pos, f32 *screen);
-s32 is_split_screen(void);
 s32 get_screen_height__11TCameraCtrlFv(void);
 s32 get_screen_width__11TCameraCtrlFv(void);
 }
@@ -106,7 +107,7 @@ void TFontSmallHelp::render() {
     }
     screen[0] -= lbl_805DA9C8 * text_width;
     fade = (f32)age_ticks;
-    if (lifetime_ticks > 0 && fade > (f32)(lifetime_ticks - 6)) {
+    if (lifetime_ticks > 0 && fade > (lifetime_ticks - 6)) {
         fade = (f32)(lifetime_ticks - age_ticks);
     }
     if (fade < lbl_805DA9CC) {

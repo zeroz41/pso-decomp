@@ -1,4 +1,5 @@
 #include "pso/object/door/TODoorAncient08.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/task/TObject.h"
@@ -113,16 +114,16 @@ void TODoorAncient08::update_closed() {
         case AREA_CAVE1:
         case AREA_CAVE2:
         case AREA_CAVE3:
-            play_sound_effect(0x42807, &position, 0, 0);
+            play_sound_effect(0x42807, (Vec *)(&position), 0, 0);
             break;
         case AREA_MINE1:
         case AREA_MINE2:
-            play_sound_effect(0x4004BC01, &position, 0, 0);
+            play_sound_effect(0x4004BC01, (Vec *)(&position), 0, 0);
             break;
         case AREA_RUINS1:
         case AREA_RUINS2:
         case AREA_RUINS3:
-            play_sound_effect(0x4004B708, &position, 0, 0);
+            play_sound_effect(0x4004B708, (Vec *)(&position), 0, 0);
             break;
         case AREA_PIONEER2_EP1:
         case AREA_LOBBY:
@@ -144,16 +145,16 @@ void TODoorAncient08::update_open() {
         case AREA_CAVE1:
         case AREA_CAVE2:
         case AREA_CAVE3:
-            play_sound_effect(0x42807, &position, 0, 0);
+            play_sound_effect(0x42807, (Vec *)(&position), 0, 0);
             break;
         case AREA_MINE1:
         case AREA_MINE2:
-            play_sound_effect(0x4004BC01, &position, 0, 0);
+            play_sound_effect(0x4004BC01, (Vec *)(&position), 0, 0);
             break;
         case AREA_RUINS1:
         case AREA_RUINS2:
         case AREA_RUINS3:
-            play_sound_effect(0x4004B708, &position, 0, 0);
+            play_sound_effect(0x4004B708, (Vec *)(&position), 0, 0);
             break;
         case AREA_PIONEER2_EP1:
         case AREA_LOBBY:
@@ -301,25 +302,25 @@ void TODoorAncient08::play_open_sound() {
     if (!(door_flags & 1)) {
         switch (get_current_floor_area()) {
         case AREA_PIONEER2_EP1:
-            play_sound_effect(0x42A04, &position, 0, 0);
+            play_sound_effect(0x42A04, (Vec *)(&position), 0, 0);
             break;
         case AREA_FOREST1:
         case AREA_FOREST2:
-            play_sound_effect(0x4BC07, &position, 0, 0);
+            play_sound_effect(0x4BC07, (Vec *)(&position), 0, 0);
             break;
         case AREA_CAVE1:
         case AREA_CAVE2:
         case AREA_CAVE3:
-            play_sound_effect(0x42807, &position, 0, 0);
+            play_sound_effect(0x42807, (Vec *)(&position), 0, 0);
             break;
         case AREA_MINE1:
         case AREA_MINE2:
-            play_sound_effect(0x4004BC00, &position, 0, 0);
+            play_sound_effect(0x4004BC00, (Vec *)(&position), 0, 0);
             break;
         case AREA_RUINS1:
         case AREA_RUINS2:
         case AREA_RUINS3:
-            play_sound_effect(0x4004BC07, &position, 0, 0);
+            play_sound_effect(0x4004BC07, (Vec *)(&position), 0, 0);
             break;
         case AREA_LOBBY:
             break;

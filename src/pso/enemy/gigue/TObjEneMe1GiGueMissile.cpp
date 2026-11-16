@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/enemy/gigue/TObjEneMe1GiGueMissile.h"
 #include "pso/enemy/gigue/TObjEneMe1GiGue.h"
@@ -30,7 +31,7 @@ void *TNeedleShoot__ct(void *, s32, Vec *, Vec *);
 extern void *__vt__22TObjEneMe1GiGueMissile[];
 const char *lbl_805D3F20 = "TObjEneMe1GiGueMissile";
 TObjEneMe1GiGueMissile *TObjEneMe1GiGueMissile__ct(TObjEneMe1GiGueMissile *self, s32 owner, Vec *from, Vec *to, f32 speed, f32 power);
-s32 TObjPlayer__sub_802A445C(void *, int);
+void TObjPlayer__sub_802A445C(TNeedleShoot *self, int arg1);
 void TObjEneMe1GiGue__sub_802CE4E8(void);
 void TObjEneMe1GiGue__sub_802CE4EC(void);
 void obj_setFlags30(void *, int);

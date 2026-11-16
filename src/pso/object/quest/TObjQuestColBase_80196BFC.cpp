@@ -1,4 +1,5 @@
 #include "pso/render/render_util.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/system/NinjaTypes.h"
 #include "types.h"
 #include "pso/render/NinjaUtil.h"
@@ -33,20 +34,6 @@ struct VObj_18_551843 : VBase_18_551843 {
 
 struct RecoveredGlobal_80196D50___vt__16TObjQuestColBase { s32 value; u8 remaining[0x44]; };
 typedef char RecoveredGlobal_80196D50___vt__16TObjQuestColBase_size[sizeof(RecoveredGlobal_80196D50___vt__16TObjQuestColBase) == 0x48 ? 1 : -1];
-
-struct VBase_18_26a62c { char pad[0x18]; };
-
-struct VObj_18_26a62c : VBase_18_26a62c {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual s32 m8(f32, f32);
-};
 
 struct VBase_18_1a504b
 {
@@ -94,7 +81,7 @@ extern s32 TObjQuestColBase__instance_count;
 extern const f32 lbl_805DBEF8;
 extern const f32 lbl_805DBEFC;
 extern const f32 lbl_805DBF00;
-extern s32 quest_col_base_class_name;
+const char *quest_col_base_class_name = "TObjQuestColBase";
 extern u16 quest_collision_next_id;
 
 extern s32 local_client_id;
@@ -111,8 +98,7 @@ s32 TObjQuestColBase::is_within_range(f32 farg0) {
 }
 
 void TObjQuestColBase::update_room_id_check() {
-    u8 *arg0 = (u8 *)this;
-    if (((VObj_18_26a62c *)(arg0))->m8(lbl_805DBEF8, lbl_805DBEFC) != 0) {
+    if (this->update_object_view_visibility(lbl_805DBEF8, lbl_805DBEFC) != 0) {
         debug_draw_sphere(&position, &debug_color_green_half_alpha, lbl_805DBF00 * *(f32 *)&this->unk_AC);
     }
 }
@@ -129,16 +115,16 @@ void TObjQuestColBase::run_task() {
         *(u8 * *)&this->m_b8 = ((VObj_18_551843 *)(arg0))->m14();
     }
 }
-u8 *__dt__16TObjQuestColBaseFv(u8 *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = &__vt__16TObjQuestColBase.value;
+u8 *__dt__16TObjQuestColBaseFv(u8 *collidable, s16 arg1) {
+    if (collidable != NULL) {
+        *(s32 **)((s8 *)collidable + 0x18) = &__vt__16TObjQuestColBase.value;
         TObjQuestColBase__instance_count -= 1;
-        __dt__14TObjCollidableFv(arg0, 0);
+        __dt__14TObjCollidableFv(collidable, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(collidable);
         }
     }
-    return arg0;
+    return collidable;
 }
 typedef struct RecoveredFields_80196DB4_arg0 RecoveredFields_80196DB4_arg0;
 typedef struct RecoveredGlobal_80196DB4___vt__16TObjQuestColBase RecoveredGlobal_80196DB4___vt__16TObjQuestColBase;
@@ -149,7 +135,7 @@ u8 *TObjQuestColBase__ct(u8 *quest_col_base, s32 arg1, s32 arg2) {
   u16 temp_r6;
   __ct__14TObjCollidableFP7TObject(quest_col_base, arg1);
   ((RecoveredFields_80196DB4_arg0 *) quest_col_base)->field_18 = &(*(RecoveredGlobal_80196DB4___vt__16TObjQuestColBase *)&__vt__16TObjQuestColBase).value;
-  ((RecoveredFields_80196DB4_arg0 *) quest_col_base)->field_0 = quest_col_base_class_name;
+  ((TObjQuestColBase *) quest_col_base)->m_name = quest_col_base_class_name;
   (((TObjQuestColBase *)(quest_col_base))->apply_object_set_data((void *)arg2));
   temp_r6 = -1;
   if (((RecoveredFields_80196DB4_arg0 *) quest_col_base)->field_1C == temp_r6)

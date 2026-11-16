@@ -17,8 +17,8 @@ void TObjEneRe4Sorcerer__sub_800EEFE4(TObjEneRe4Sorcerer *self, s32 arg1);
 void TObjEneRe4Sorcerer__sub_800EF214(TObjEneRe4Sorcerer *self);
 void TObjEneRe4Sorcerer__sub_800EFE30(void);
 void TObjEneRe4Sorcerer__vt85(TObjEneRe4Sorcerer *self, u32 state, s32 reason);
-s32 select_attack_target__18TObjEneRe4SorcererFiff(TObjEneRe4Sorcerer *self, f32 farg0, f32 farg1);
-void set_motion_by_state__18TObjEneRe4SorcererFPv(TObjEneRe4Sorcerer *self);
+s32 select_attack_target__18TObjEneRe4SorcererFff(TObjEneRe4Sorcerer *self, f32 farg0, f32 farg1);
+void set_motion_by_state__18TObjEneRe4SorcererFv(TObjEneRe4Sorcerer *self);
 }
 
 #endif

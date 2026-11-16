@@ -7,10 +7,6 @@
 
 extern "C" {
 __declspec(section ".rodata") s32 lobby_story_flag_clear_list[6] = { 151, 152, 153, 154, -1, 0 };
-}
-
-
-extern "C" {
 extern s32 lobby_story_flag_clear_list[6];
 void *memcpy(void *, void *, u32);
 extern u8 quest_story_flags_by_difficulty[0x200];

@@ -6,12 +6,12 @@
 
 #include "pso/system/MatrixOps.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/player/TObjPlayer.h"
+
 
 void TUnk_804A4138::update_idle() { rotation = 0; }
 void TUnk_804A4138::vfunc_60() { if (TObjPlayer::get_player_list() == 0) { rotate_matrix_z(NULL, rotation); } }
 
-extern "C" {
+
 #pragma push
 #pragma fp_contract on
 void TUnk_804A4138::update_attack() {
@@ -48,21 +48,20 @@ void TUnk_804A4138::update_attack() {
         if (ok == 1) {
             if (flag == 0) {
                 if (speed < flo) {
-                    *(s32 *)((s8 *)self + 0x1FC) = lo;
+                    this->rotation = lo;
                 } else if (flo <= speed && speed <= fhi) {
-                    *(s32 *)((s8 *)self + 0x1FC) = (s32)((speed - flo) * ((f32)(hi - lo) / (fhi - flo)) + (f32)lo);
+                    this->rotation = (s32)((speed - flo) * ((f32)(hi - lo) / (fhi - flo)) + (f32)lo);
                 } else {
-                    *(s32 *)((s8 *)self + 0x1FC) = hi;
+                    this->rotation = hi;
                 }
             } else {
-                *(s32 *)((s8 *)self + 0x1FC) = hi;
+                this->rotation = hi;
             }
         }
     }
 }
 #pragma pop
 
-}
 
 TUnk_804A4138::TUnk_804A4138(TObject *parent, u8 *item) : TUnk_804A4948(parent, item) {
     rotation = 0;

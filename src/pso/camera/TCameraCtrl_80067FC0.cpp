@@ -1,21 +1,21 @@
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/unk/TUnk_80488A28.h"
 #include "pso/camera/TCameraCtrl_80067FC0.h"
 #include "pso/unk/TLobby_801E2F94.h"
 #include "pso/system/vector.h"
 #include "pso/unk/TUnk_80488838.h"
-#include "pso/unk/TUnk_80488A28.h"
+
 #include "pso/unk/TUnk_80488DA0.h"
 #include "pso/unk/TUnk_80488E00.h"
 #include "pso/camera/TCameraCtrl.h"
-#include "pso/camera/TCameraCtrl.h"
+#include "pso/system/MatrixStack.h"
 
-struct Vec_8006835C { f32 x, y, z; };
 
 struct View_8006835C {
     u8 pad0[0x178];
-    Vec_8006835C pos;
-    Vec_8006835C target;
+    Vec pos;
+    Vec target;
     u8 f190[4];
     u8 f194[4];
 };
@@ -26,23 +26,23 @@ struct Scissor_8006835C { u8 pad0[8]; f32 x; f32 y; u8 pad10[0x30 - 0x10]; u8 f3
 
 struct View_80068530 {
     u8 pad0[0xD4];
-    Vec_8006835C eye[4];
-    Vec_8006835C look[4];
+    Vec eye[4];
+    Vec look[4];
     u8 pad134[0x178 - 0x134];
-    Vec_8006835C pos;
-    Vec_8006835C target;
+    Vec pos;
+    Vec target;
     u8 pad190[0x19C - 0x190];
     s32 f19c;
-    Vec_8006835C curPos;
-    Vec_8006835C curTarget;
+    Vec curPos;
+    Vec curTarget;
     f32 f1b8;
     f32 f1bc;
 };
 
 struct Cam_80068530 {
     u8 pad0[0x3C];
-    Vec_8006835C pos;
-    Vec_8006835C target;
+    Vec pos;
+    Vec target;
     s32 f54;
     f32 f58;
     f32 f5c;
@@ -52,16 +52,18 @@ struct Obj_8006809C { u8 pad0[0x38]; f32 x; f32 y; f32 z; u8 pad44[0x60 - 0x44];
 
 struct Hit_8006809C { u8 pad0[4]; void *pos; };
 
-struct Cam_8006809C { u8 pad0[0x1C]; Obj_8006809C *obj; u8 pad20[0x60 - 0x20]; Vec_8006835C out; };
+struct Cam_8006809C { u8 pad0[0x1C]; Obj_8006809C *obj; u8 pad20[0x60 - 0x20]; Vec out; };
 
 extern "C" {
-Vec_8006835C *get_target__11TCameraCtrlFv(void *);
+Vec *get_target__11TCameraCtrlFv(void *);
+}
 void direction_to_pitch_yaw(u8 *arg0, s32 *arg1, s32 *arg2);
+extern "C" {
 void set_viewport_scissor__11TCameraCtrlFiPv(s32, void *);
 void GXSetScissorBoxOffset(s32, s32);
 f32 vector_length(void *);
 void normalize_vector(void *);
-extern Vec_8006835C lbl_804FF5E8;
+extern Vec lbl_804FF5E8;
 extern Flags_8006835C TCameraCtrl__view_state;
 extern Scissor_8006835C TCameraCtrl__data_804FF634;
 extern u8 TCameraCtrl__up_vector[];
@@ -69,34 +71,31 @@ extern View_8006835C *camera_ctrl_instance;
 void apply_camera_controller_pose(Cam_80068530 *arg0);
 s32 is_split_screen();
 f32 fabs_float();
-Vec_8006835C *get_position_ptr__10TObjPlayerFv(void *);
-Vec_8006835C *get_target_ptr__11TCameraCtrlFv(void *);
+Vec *get_position_ptr__10TObjPlayerFv(void *);
+Vec *get_target_ptr__11TCameraCtrlFv(void *);
 Hit_8006809C *csnVector(void *, void *, s32);
 s32 matrix_mult_vec(int, void *, void *);
 s32 vec3_dot(void *, void *);
 s32 rotate_matrix_y(int, s32);
 s32 push_matrix_from(void *);
-s32 pop_matrices(int);
-const Vec_8006835C lbl_80438168 = {0.0f, 0.0f, -1.0f};
-const Vec_8006835C lbl_80438174 = {0.0f, 0.0f, -1.0f};
-extern u8 identity_matrix[];
-extern s32 __vt__13TUnk_80488A28[];
-void __dt__7TObjectFv(void *, int);
-
 }
+s32 pop_matrices(s32 arg0);
+const Vec lbl_80438168 = {0.0f, 0.0f, -1.0f};
+const Vec lbl_80438174 = {0.0f, 0.0f, -1.0f};
+extern u8 identity_matrix[];
 void set_camera_look_at(u8 *eye, u8 *target, u8 *up);
 
 #pragma push
 #pragma fp_contract on
 s32 TUnk_80488E00::predict_obstruction() {
     Cam_8006809C *self = (Cam_8006809C *)this;
-    Vec_8006835C dir;
-    Vec_8006835C probe;
-    Vec_8006835C d;
-    Vec_8006835C *tgt;
-    Vec_8006835C *pos;
-    Vec_8006835C *a;
-    Vec_8006835C *b;
+    Vec dir;
+    Vec probe;
+    Vec d;
+    Vec *tgt;
+    Vec *pos;
+    Vec *a;
+    Vec *b;
     Hit_8006809C *hit;
     f32 dist;
     if (self->obj == NULL) {
@@ -109,8 +108,8 @@ s32 TUnk_80488E00::predict_obstruction() {
     d.z = pos->z - tgt->z;
     dist = vector_length(&d);
     if (dist < 1.0f) {
-        Vec_8006835C v1 = lbl_80438168;
-        Vec_8006835C v2 = lbl_80438174;
+        Vec v1 = lbl_80438168;
+        Vec v2 = lbl_80438174;
         push_matrix_from(identity_matrix);
         rotate_matrix_y(0, *(s32 *) camera_ctrl_instance->f194);
         matrix_mult_vec(0, &v1, &v1);
@@ -167,9 +166,9 @@ void TCameraCtrl__sub_80068354(void) {  }
 void TCameraCtrl__sub_80068358(void) {  }
 
 void TUnk_80488A28::post_update_view() {
-    Vec_8006835C e;
-    Vec_8006835C d;
-    Vec_8006835C *t;
+    Vec e;
+    Vec d;
+    Vec *t;
     d.x = camera_ctrl_instance->target.x - camera_ctrl_instance->pos.x;
     d.y = camera_ctrl_instance->target.y - camera_ctrl_instance->pos.y;
     d.z = camera_ctrl_instance->target.z - camera_ctrl_instance->pos.z;

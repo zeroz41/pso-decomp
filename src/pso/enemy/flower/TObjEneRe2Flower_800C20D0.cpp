@@ -1,4 +1,5 @@
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/enemy/flower/TObjEneRe2Flower.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/player/TObjPlayer.h"
@@ -13,14 +14,23 @@
 #include "pso/unk/text_803D8F74.h"
 #include "pso/unk/text_803E2F28.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
+#include "pso/unk/text_803D96A8.h"
+#include "pso/enemy/dd/TObjEneDD_800BA138.h"
+#include "pso/enemy/dd/TObjEneDD_800C2614.h"
+#include "pso/unk/text_80087278.h"
+#include "pso/unk/text_800C3A60.h"
+#include "pso/system/vector.h"
+#include "pso/system/SoundEffect.h"
+#pragma inline_depth(1)
+#pragma auto_inline off
+#pragma dont_inline off
 
 // The Re2 flower's draw functions open the flower's translation unit: their
 // literal pool (400.0, 25.0, 600.0 at 0x805D9FA0) repeats values the Lappy
 // pool before it already holds, so they are not part of the Lappy file.
 extern Vec lbl_8043BBC0[];
+
 extern Vec lbl_8043BBB4[];
-extern "C" {
-s32 is_main_phase_15__9TObjEneDDFv(void);
 extern s32 lbl_805D5178;
 extern s32 lbl_805D517C;
 extern f32 *lbl_805D5180;
@@ -30,37 +40,167 @@ extern const f32 lbl_805D9FAC;
 extern const f32 lbl_805D9FB0;
 extern const f32 lbl_805D9FB4;
 extern const f32 lbl_805D9FB8;
+extern "C" {
+s32 update_camera_sequence__9TObjEneDDFv();
+s32 mult_vec_array__10TObjPlayerFUll(s32, f32 *, f32 *, s32);
 }
 
-void TObjEneRe2Flower::vfunc_106() {
-    s32 save8;
-    s32 save14;
-    if (update_object_view_visibility(400.0f, 25.0f) == 0) {
+struct Prm_800C2628 { f32 a, b, c, d, e; };
+
+extern "C" {
+s32 noop__9TObjEneDDFv(void *, s32);
+extern Prm_800C2628 enemy_dd_attack_param_block;
+extern Prm_800C2628 lbl_8043BBA0;
+extern f32 *const lbl_805D5170;
+extern const f32 lbl_805D9FBC;
+extern const f32 lbl_805D9FC0;
+void TObjEneRe2Flower::handle_event(s32 arg1) {
+    u8 *arg0 = (u8 *)this;
+    s32 temp_r4;
+
+    switch (arg1) {
+    case 4:
+        this->requested_action = 6;
+        this->vfunc_96();
+        ((TObjEneRe2Flower *)arg0)->clear_child_flags();
+        *(s32 *)((s8 *)arg0 + 0x3C4) = (s32) (*(s32 *)((s8 *)arg0 + 0x3C4) & 0xFFFFFFF7);
+        ((TObjEneDD *)arg0)->set_field_378(3);
+        *(s32 *)((s8 *)arg0 + 0x410) = 0;
+        play_sound_effect(fn_800C3A60((s32)arg0, 0x4003A315), (Vec *)((u8 *)&this->position), 0, 0);
+        TObjPlayer::play_effect_if_v2(-0x200);
+        return;
+    case 3:
+        if (is_passing_frame(this->frame_count - lbl_805D9FC0) != 0) {
+            ((TObjEneDD *)arg0)->transition_enemy_state(3);
+        }
+        this->vfunc_102();
+        this->vfunc_88();
+        return;
+    case 0:
+        advance_animation();
+        temp_r4 = *(s32 *)((s8 *)arg0 + 0x410);
+        *(s32 *)((s8 *)arg0 + 0x410) = (temp_r4 + 1);
+        noop__9TObjEneDDFv(arg0, temp_r4);
+        return;
+    case 5:
+        *(s32 *)((s8 *)arg0 + 0x3C4) = (s32) (*(s32 *)((s8 *)arg0 + 0x3C4) & 0xFFFFFFFD);
+    case 1:
         return;
     }
-    Vec v = lbl_8043BBC0[0];
-    draw_ground_shadow(&v, 0);
-    if (get_flag_11() == 0 && sub_800C3B8C() != 0) {
-        save8 = ((NJS_TEXLIST *)texlist)->textures[0].texaddr;
-        save14 = ((NJS_TEXLIST *)texlist)->textures[1].texaddr;
-        ((NJS_TEXLIST *)texlist)->textures[0].texaddr = ((NJS_TEXLIST *)texlist)->textures[2].texaddr;
-        ((NJS_TEXLIST *)texlist)->textures[1].texaddr = ((NJS_TEXLIST *)texlist)->textures[3].texaddr;
+}
+
+#define F(T, off) (*(T *)(arg0 + (off)))
+void TObjEneDD__sub_800C2628(u8 *arg0, s32 arg1) {
+    s32 step;
+    Vec v;
+    switch (arg1) {
+    case 4:
+        F(s16, 0xB8) = 1;
+        ((TObjEneDD *)(arg0))->vfunc_96();
+        ((TObjEneRe2Flower *)arg0)->clear_child_flags();
+        F(u32, 0x3C4) &= ~8;
+        ((TObjEneDD *)arg0)->set_field_378(8);
+        if (!(F(u32, 0x3C4) & 4)) {
+            F(u32, 0x3C4) |= 4;
+            F(s32, 0x410) = 0;
+            F(s32, 0x420) = 0;
+            F(s32, 0x414) = 1;
+            F(s32, 0x3D8) = 0;
+            F(s32, 0x3D4) = 0;
+        }
+        break;
+    case 1:
+    case 5:
+        break;
+    case 3:
+        if (F(s32, 0x410) > 0x1C2) {
+            F(u32, 0x30) |= 0x800;
+            ((TObjEneDD *)arg0)->transition_enemy_state(0xA);
+            VecCopy((Vec *)&v, (const Vec *)(arg0 + 0x38));
+            v.y += lbl_805D9FBC;
+            spawn_particle_effect_with_flags(&v, 0xD3, 0x40);
+            {
+                Prm_800C2628 prm = lbl_8043BBA0;
+                prm.d = prm.b = *lbl_805D5170;
+                if (((TObjEneRe2Flower *)arg0)->get_flag_11() != 0) {
+                    TObjEneDD__sub_800BA5A4(arg0, &prm);
+                } else {
+                    TObjEneDD__sub_800BA5A4(arg0, &enemy_dd_attack_param_block);
+                }
+            }
+            play_sound_effect(fn_800C3A60((s32)arg0, 0x4003A311), (Vec *)(arg0 + 0x38), 0, 0);
+        }
+        break;
+    case 0:
+        ((TObjMotion *)arg0)->advance_animation();
+        if (F(s32, 0x3D4) > 0) {
+            F(s32, 0x3D4)--;
+            if (F(s32, 0x3D4) == 0) {
+                ((TObjEneDD *)arg0)->clear_attack_receipts();
+            }
+        }
+        if (TObjEneDD::check_v2_mode() != 0) {
+            F(s32, 0x410) += 0x14;
+        } else {
+            F(s32, 0x410) += 1;
+        }
+        if (F(s32, 0x410) < 0x12C) {
+            step = 0x11;
+            F(s32, 0x60) += 0x400;
+        } else if (F(s32, 0x410) < 0x168) {
+            step = 0x22;
+            F(s32, 0x60) += 0x800;
+        } else if (F(s32, 0x410) < 0x1B3) {
+            step = 0x44;
+            F(s32, 0x60) += 0x1000;
+        } else {
+            step = 0x44;
+        }
+        if (F(s32, 0x410) < 0x1B3) {
+            if (F(s32, 0x414) == 0) {
+                F(s32, 0x3D8) += step;
+                if (F(s32, 0x3D8) > 0xFF) {
+                    F(s32, 0x3D8) = 0xFF - (F(s32, 0x3D8) - 0xFF);
+                    F(s32, 0x414) = 1;
+                    play_sound_effect(fn_800C3A60((s32)arg0, 0x4003AD10), (Vec *)(arg0 + 0x38), 0, 0);
+                }
+            } else {
+                F(s32, 0x3D8) -= step;
+                if (F(s32, 0x3D8) < 0) {
+                    F(s32, 0x3D8) = -F(s32, 0x3D8);
+                    F(s32, 0x414) = 0;
+                }
+            }
+        } else {
+            F(s32, 0x3D8) = 0xFF;
+        }
+        ((TObjEneDD *)(arg0))->vfunc_102();
+        ((TObjEneDD *)(arg0))->vfunc_88();
+        ((s32 (*)(void *))noop__9TObjEneDDFv)(arg0);
+        break;
     }
-    TObjFish::set_global_param(texlist);
-    push_matrix();
-    post_translate_matrix(&position.x);
-    rotate_matrix_y(0, rotation_y);
-    TObjEneDD::clear_global_flag_400();
-    TObjPlayer::toggle_particle_effect();
-    set_alpha_ref_override(0);
-    draw_chunk_object(model);
-    restore_alpha_ref();
-    TParticleCtrl::end_effect_render();
-    pop_matrix();
-    if (get_flag_11() == 0 && sub_800C3B8C() != 0) {
-        ((NJS_TEXLIST *)texlist)->textures[0].texaddr = save8;
-        ((NJS_TEXLIST *)texlist)->textures[1].texaddr = save14;
+}
+#undef F
+
+void TObjEneDD__sub_800C2618(void* p) { *(u32*)((char*)p + 0x3c4) |= 0x2; }
+
+void TObjEneRe2Flower::vfunc_105() {  }
+
+void TObjPlayer::update_effect_sequence() {
+    switch ((s32) lbl_805D5178) {
+    case 1:
+        rotate_matrix_y(0, lbl_805D517C);
+        break;
+    case 14:
+        push_matrix();
+        update_camera_sequence__9TObjEneDDFv();
+        mult_vec_array__10TObjPlayerFUll(0, lbl_805D5180, lbl_805D5180, 2);
+        pop_matrix();
+        break;
     }
+    lbl_805D5178 += 1;
+}
+
 }
 
 void TObjEneRe2Flower::render() {
@@ -74,7 +214,7 @@ void TObjEneRe2Flower::render() {
     if (mode == 11) {
         return;
     }
-    if (is_main_phase_15__9TObjEneDDFv() != 0) {
+    if (TObjEneDD::is_main_phase_15() != 0) {
         if (get_flag_11() != 0) {
             visible = classify_actor_view_detail(600.0f, 600.0f, 25.0f);
         } else {
@@ -156,4 +296,35 @@ void TObjEneRe2Flower::render() {
     m_3dc[1].x = position.x;
     m_3dc[1].y = lbl_805D9FB4 + position.y;
     m_3dc[1].z = position.z;
+}
+
+void TObjEneRe2Flower::vfunc_106() {
+    s32 save8;
+    s32 save14;
+    if (update_object_view_visibility(400.0f, 25.0f) == 0) {
+        return;
+    }
+    Vec v = lbl_8043BBC0[0];
+    draw_ground_shadow(&v, 0);
+    if (get_flag_11() == 0 && sub_800C3B8C() != 0) {
+        save8 = ((NJS_TEXLIST *)texlist)->textures[0].texaddr;
+        save14 = ((NJS_TEXLIST *)texlist)->textures[1].texaddr;
+        ((NJS_TEXLIST *)texlist)->textures[0].texaddr = ((NJS_TEXLIST *)texlist)->textures[2].texaddr;
+        ((NJS_TEXLIST *)texlist)->textures[1].texaddr = ((NJS_TEXLIST *)texlist)->textures[3].texaddr;
+    }
+    TObjFish::set_global_param(texlist);
+    push_matrix();
+    post_translate_matrix(&position.x);
+    rotate_matrix_y(0, rotation_y);
+    TObjEneDD::clear_global_flag_400();
+    TObjPlayer::toggle_particle_effect();
+    set_alpha_ref_override(0);
+    draw_chunk_object(model);
+    restore_alpha_ref();
+    TParticleCtrl::end_effect_render();
+    pop_matrix();
+    if (get_flag_11() == 0 && sub_800C3B8C() != 0) {
+        ((NJS_TEXLIST *)texlist)->textures[0].texaddr = save8;
+        ((NJS_TEXLIST *)texlist)->textures[1].texaddr = save14;
+    }
 }

@@ -4,9 +4,9 @@
 #include "pso/boss/olgaflow/TBoss6EmptyWarp.h"
 #include "pso/unk/TLobby.h"
 #include "pso/system/TLoadCtrl_80227390.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 extern "C" {
-s32 is_split_screen();
 s32 load_floor_sound_bank();
 s32 create_instance__10TSceneSoraFPv(void*, s32);
 void fn_802FE9E0(void);

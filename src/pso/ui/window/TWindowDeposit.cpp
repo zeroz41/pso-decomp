@@ -9,14 +9,8 @@
 #include "pso/ui/window/TWindowDeposit.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/ui/window/TWindowDD.h"
-#include "pso/unk/WindowLayoutRecord.h"
 
-struct RecoveredGlobal_8024E548___vt__14TWindowDeposit
-{
-  s32 value;
-  u8 remaining[0x18];
-};
+#include "pso/unk/WindowLayoutRecord.h"
 
 // inferred: window_deposit_layout_entries, the layout table window_deposit_layout points at.
 struct DepositWindowLayout {
@@ -41,9 +35,11 @@ s32 draw_visible_window_entries(void *, void *, int);
 s32 construct_base__9TWindowDDFPUcsPUc(void *, void *, void *, int);
 s32 get_window_layout_position(int);
 extern s32 __vt__14TWindowDeposit[];
-extern s32 TWindowDeposit__name;
+#pragma push
+#pragma readonly_strings on
+const char *TWindowDeposit__name = "TWindowDeposit";
+#pragma pop
 s32 draw_window_tab(s32, s32, s32, f32);
-void __dl__7TObjectFPv(void *);
 
 void TWindowDeposit::render_status(s32 arg1) {
     draw_window_tab(arg1, arg1 + 0x10, 3, this->m_60);
@@ -58,17 +54,7 @@ void render__14TWindowDepositFv(s32 arg0) {
 
 void TWindowDeposit::run_task() { ((TWindowDD *)this)->initialize_subwindow(); update_window_entry_list((char*)this + 0x24); }
 
-void *__dt__14TWindowDepositFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__14TWindowDeposit;
-        ((TWindowDD *)arg0)->destroy_window_base(0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
-}
-typedef struct RecoveredGlobal_8024E548___vt__14TWindowDeposit RecoveredGlobal_8024E548___vt__14TWindowDeposit;
+TWindowDeposit::~TWindowDeposit() {}
 #pragma opt_common_subs off
 #pragma opt_propagation off
 #pragma opt_dead_assignments off
@@ -81,9 +67,9 @@ u8 *TWindowDeposit__ct(u8 *arg0, s32 arg1) {
   u32 temp_r3_2;
   u8 *temp_r31;
   construct_base__9TWindowDDFPUcsPUc((void *) arg0, &window_deposit_layout, (void *) arg1, (int) get_window_layout_position(0x29));
-  *((s32 **) (((s8 *) arg0) + (((((0x18 & 0xFFFFFFFFFFFFFFFFu) & 0xFFFFFFFFFFFFFFFFu) & 0xFFFFFFFFFFFFFFFFu) & 0xFFFFFFFFFFFFFFFFu) & 0xFFFFFFFFFFFFFFFFu))) = &(*(RecoveredGlobal_8024E548___vt__14TWindowDeposit *)&__vt__14TWindowDeposit).value;
+  *((s32 **) (((s8 *) arg0) + (((((0x18 & 0xFFFFFFFFFFFFFFFFu) & 0xFFFFFFFFFFFFFFFFu) & 0xFFFFFFFFFFFFFFFFu) & 0xFFFFFFFFFFFFFFFFu) & 0xFFFFFFFFFFFFFFFFu))) = __vt__14TWindowDeposit;
   *((s32 *) (((s8 *) arg0) + 0)) = (s32) TWindowDeposit__name;
-  str = TQuestVmDownLoadServer__sub_8006EF6C(2);
+  str = get_message_text(2);
   temp_r3_2 = calc_text_width((char *)str);
   spC = temp_r3_2;
   sp8 = 0x43300000;

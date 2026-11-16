@@ -1,4 +1,5 @@
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/system/data/FlagWord.h"
 #include "pso/weapon/TUnk_804A403C.h"
 #include "pso/weapon/shoot/TUnk_804A4020.h"
@@ -29,7 +30,7 @@ struct Obj_80128E08 { u8 pad[0x184]; void *f184; void *f188; u8 pad2[0x1fc - 0x1
 
 extern "C" {
 Obj_80128A74 *find_entity_by_id(s32);
-s32 test_flags_any(void *p, s32 n);
+s32 test_flags_any(s32 *flags, s32 mask);
 
 void TObjPlayer__sub_80128A70(void) {  }
 
@@ -48,7 +49,7 @@ void TObjPlayer::notify_hit_target(u32 arg0, u32 arg1, u32 arg2, u32 arg3) {
     if ((arg1 != 0U) && (arg3 != 0U)) {
         ((TObjPlayer *)arg1)->clear_rico_ring_flag();
         spawn_particle_effect((void *)arg3, 0x45);
-        play_sound_effect(0x4001C112, 0, 0, 0);
+        play_sound_effect(0x4001C112, (Vec *)(0), 0, 0);
     }
 }
 
@@ -121,8 +122,8 @@ void TUnk_804A403C::vfunc_60() {
     Obj_80128E08 *self = (Obj_80128E08 *)this;
     switch (TObjPlayer::get_player_list()) {
     case 1:
-        if (test_flags_any(self->f1fc, 2) == 0) {
-            if (test_flags_any(self->f1fc, 1)) {
+        if (test_flags_any((s32 *)self->f1fc, 2) == 0) {
+            if (test_flags_any((s32 *)self->f1fc, 1)) {
                 p = self->f188;
             } else {
                 p = self->f184;
@@ -182,16 +183,14 @@ void TObjPlayer::clear_rico_ring_flag() {
     }
 }
 
-extern "C" {
 
 s32 TObjPlayer__sub_801290D0(u8 *arg0) {
-    if (test_flags_any(arg0 + 0x1FC, 4) != 0) {
+    if (test_flags_any((s32 *)(arg0 + 0x1FC), 4) != 0) {
         return *(s32 *)((s8 *)arg0 + 0x188);
     }
     return *(s32 *)((s8 *)arg0 + 0x184);
 }
 
-}
 
 void TItemShootModel::sub_80129118(s32 arg1, s32 arg2) {
     *(s32 *)&this->m_58 = arg1;

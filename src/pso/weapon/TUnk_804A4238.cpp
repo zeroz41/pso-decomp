@@ -1,4 +1,5 @@
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/item/TItem.h"
 #include "pso/weapon/TItemWeapon.h"
 #include "pso/weapon/TUnk_804A4238.h"
@@ -6,13 +7,11 @@
 #include "pso/technique/TTecSlicer.h"
 #include "pso/weapon/TItemAttacker.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/player/TObjPlayer.h"
+
 
 struct Owner_801293FC { u8 pad[0x60]; s32 f60; };
 
 struct Self_801293FC { u8 pad0[0x24]; s32 f24; u8 pad28[0xF0 - 0x28]; Owner_801293FC *owner; u8 padF4[0x188 - 0xF4]; s32 f188; };
-
-struct Vec_801293FC { f32 x, y, z; };
 
 struct Tec_801293FC {
     s16 id;
@@ -29,14 +28,16 @@ struct Tec_801293FC {
     f32 f24;
     s32 f28;
     u8 pad2C[4];
-    Vec_801293FC pos;
-    Vec_801293FC dir;
+    Vec pos;
+    Vec dir;
 };
 
 extern "C" {
 s16 get_entity_id(void *);
 void TObjPlayer__sub_80128A70(void);
+}
 void init_slicer_launch_state(void *);
+extern "C" {
 s16 get_validated_attack_stage(u8 *arg0);
 s16 TObjPlayer__sub_801D2F4C(s16 *arg0);
 }
@@ -49,7 +50,7 @@ void TUnk_804A4238::emit_marker_effects() {
     init_slicer_launch_state(&tec);
     tec.id = get_entity_id(self->owner);
     tec.fC = ((TItem *)self)->get_item_id();
-    tec.f4 = self->f24;
+    tec.f4 = this->texlist;
     tec.f8 = self->f188;
     tec.f10 = TObjPlayer__sub_801D2F4C((s16 *)((u8 *)self->owner + 0x7CC));
     tec.f12 = get_validated_attack_stage((u8 *)self->owner + 0x7CC);
@@ -102,7 +103,7 @@ struct SlicerState_801295FC {
     s32 angle;
 };
 
-extern "C" {
+
 void init_slicer_launch_state(void *arg0) {
     SlicerState_801295FC *s = (SlicerState_801295FC *)arg0;
     s->id = 0xFFFF;
@@ -116,5 +117,4 @@ void init_slicer_launch_state(void *arg0) {
     s->f1C = 0.0f;
     s->f18 = 0.0f;
     s->angle = -0x2AAA;
-}
 }

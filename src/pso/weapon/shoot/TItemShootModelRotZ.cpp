@@ -1,4 +1,5 @@
 #include "pso/weapon/shoot/TItemShootModelRotZ.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/weapon/shoot/TItemShootModel.h"

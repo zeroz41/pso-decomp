@@ -112,6 +112,8 @@ struct TObjEneRe7Berura : public TObjEneDD_ST {
     f32 m_4d8;
     f32 m_4dc;
     f32 m_4e0;
+    void set_data_and_draw_node_tree(u8 *matrices);
+    s32 get_field_3D4_shifted();
 };
 
 typedef char TObjEneRe7Berura_size[sizeof(TObjEneRe7Berura) == 0x4E4 ? 1 : -1];

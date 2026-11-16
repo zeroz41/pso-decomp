@@ -1,26 +1,22 @@
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/object/collision/TObjCollision.h"
 #include "pso/system/vector.h"
 #include "pso/object/base/TObjMotion.h"
-#include "pso/object/collision/TObjCollision.h"
+
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/system/task/TObject.h"
 
 #pragma readonly_strings on
 extern "C" void *__ct__14TObjCollidableFP7TObject(void *, s32);
-
-struct RecoveredGlobal_8006754C___vt__13TObjCollision { s32 value; u8 remaining[0x34]; };
-typedef char RecoveredGlobal_8006754C___vt__13TObjCollision_size[sizeof(RecoveredGlobal_8006754C___vt__13TObjCollision) == 0x38 ? 1 : -1];
 
 extern "C" {
 u32 init_collision_body_parts(void *, s32, s32);
 extern s32 __vt__13TObjCollision[];
 const char *lbl_805D2830 = "TObjCollision";
 u8 *TObjCollision__ct(u8 *arg0, s32 arg1, s32 arg2);
-void *__dt__13TObjCollisionFv(void *arg0, s16 arg1);
 void free_collision_body_parts(void *);
-void __dl__7TObjectFPv(void *);
-void *__nw__7TObjectFUl(int);
 
 void TObjCollision::render() {  }
 void TObjCollision::run_task() {  }
@@ -28,7 +24,7 @@ void TObjCollision::run_task() {  }
 extern void *tl_06;
 
 void *TObjCollision::create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0xD8);
+    void *o = TObject::operator new(0xD8);
     if (o != NULL) {
         o = TObjCollision__ct((u8 *)o, (s32)tl_06, (s32)arg0);
     }
@@ -38,14 +34,14 @@ void *TObjCollision::create(void *arg0) {
 }
 TObjCollision::~TObjCollision() {
     free_collision_body_parts(this);
-    ((TObjCollidable *)this)->unregister_object_by_id();
+    this->unregister_object_by_id();
 }
-extern "C" {
+
 u8 *TObjCollision__ct(u8 *arg0, s32 arg1, s32 arg2) {
     s32 var_r0;
     __ct__14TObjCollidableFP7TObject(arg0, arg1);
-    *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_8006754C___vt__13TObjCollision *)&__vt__13TObjCollision).value;
-    *(const char **)((s8 *)arg0 + 0) = lbl_805D2830;
+    *(s32 **)((s8 *)arg0 + 0x18) = __vt__13TObjCollision;
+    ((TObjCollision *)arg0)->m_name = lbl_805D2830;
     VecCopy((Vec *)(arg0 + 0x38), (const Vec *)(arg2 + 0xC));
     copy_xyz(arg0 + 0x5C, (void *)(arg2 + 0x18));
     VecCopy((Vec *)(arg0 + 0x68), (const Vec *)(arg2 + 0x24));
@@ -72,4 +68,3 @@ u8 *TObjCollision__ct(u8 *arg0, s32 arg1, s32 arg2) {
     return arg0;
 }
 
-}

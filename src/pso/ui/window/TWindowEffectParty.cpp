@@ -7,17 +7,14 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/math/AngleLookup.h"
 
 
 extern "C" {
-f32 atan2_float(f32 y, f32 x);
-f32 sin_table_lookup(s32);
-f32 cos_table_lookup(s32);
 extern const f64 lbl_8044ECF0;
-void *__nw__7TObjectFUl(u32);
 void *__ct__18TWindowEffectPartyFP7TObjectScScPv(void *, void *, u16, u16, s32);
 extern s32 local_client_id;
-void *TWindowCtrl__sub_8024FB80(s8);
 s32 get_window_layout_position(s32);
 f32 get_scale__15TWindowCtrlMainFv(s32);
 
@@ -107,18 +104,14 @@ void *TWindowEffectParty::create(void *owner, s32 from, s32 to, u32 kind) {
     if (b & 0xFFFC) {
         b += 4;
     }
-    w = __nw__7TObjectFUl(0x34);
+    w = TObject::operator new(0x34);
     if (w != 0) {
         w = __ct__18TWindowEffectPartyFP7TObjectScScPv(w, owner, a, b, id);
     }
     return w;
 }
 
-}
-
 #pragma readonly_strings on
-
-extern "C" {
 const char *TWindowEffectParty__name = "TWindowEffectParty";
 }
 
@@ -129,7 +122,7 @@ struct Pos_8024FAD8 { s32 a, b, c; };
 
 extern "C" {
 extern Obj_8024FB80 *TWindowCtrl__active_window;
-void *spawn_continuous_particle_effect_with_flags(void *parent, s32 idx, s32 flags);
+TParticleCtrl *spawn_continuous_particle_effect_with_flags(void *parent, s32 idx, s32 flags);
 extern s32 __vt__18TWindowEffectParty[];
 extern const char *TWindowEffectParty__name;
 void __dl__7TObjectFPv(void *);
@@ -176,16 +169,16 @@ void TWindowEffectParty::run_task() {
     }
 }
 
-void *__dt__18TWindowEffectPartyFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__18TWindowEffectParty;
-        TParticleCtrl::release(*(void **)((s8 *)arg0 + 0x30));
-        __dt__7TObjectFv(arg0, 0);
+void *__dt__18TWindowEffectPartyFv(void *object, s16 arg1) {
+    if (object != NULL) {
+        *(s32 **)((s8 *)object + 0x18) = __vt__18TWindowEffectParty;
+        TParticleCtrl::release(*(void **)((s8 *)object + 0x30));
+        __dt__7TObjectFv(object, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(object);
         }
     }
-    return arg0;
+    return object;
 }
 
 }
@@ -197,7 +190,7 @@ TWindowEffectParty::TWindowEffectParty(TObject *object, s8 arg2, s8 arg3, void *
     *(s8 *)&this->m_1e = arg3;
     TWindowEffectParty::set_slot_position((s32)this, (s32)(*(s8 *)&this->m_1e), (void *)(((u8 *)this) + 0x28));
     this->calc_effect_position(&p);
-    *(s32 *)&this->m_30 = (s32)spawn_continuous_particle_effect_with_flags((void *)&p, (s32)arg4, 0xC0);
+    *(s32 *)&this->m_30 = (s32)spawn_continuous_particle_effect_with_flags((void *)&p, (s32)arg4, (s32)(0xC0));
     *(s8 *)&this->m_1c = 0;
 }
 

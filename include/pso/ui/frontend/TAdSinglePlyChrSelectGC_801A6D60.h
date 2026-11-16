@@ -3,13 +3,13 @@
 
 #include "types.h"
 
-extern "C" {
-u8 TWindowShortListCtrl__check_controller_button(void *arg0);
-}
-
 // --- C functions defined in TAdSinglePlyChrSelectGC_801A6D60.cpp ---
 extern "C" {
-u8 TWindowShortListCtrl__check_controller_button(void *arg0);
+// pad: a controller context (ControllerInputContext, 0x50 bytes; callers pass
+// controller_input_state + 0x20 + port * 0x50); mask: the button bits to test.
+// Returns int: the body's `!= 0` is a C++ bool widened with clrlwi, and all 229
+// call sites test the result with a plain cmpwi (an 8-bit return would add clrlwi).
+s32 TWindowShortListCtrl__check_controller_button(void *pad, s32 mask);
 }
 // --- end of C functions
 

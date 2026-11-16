@@ -12,11 +12,7 @@
 #include "pso/unk/TLobby.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/system/task/TObject.h"
-
-struct RecoveredGlobal_801F6548_lbl_80512790 {
-    s32 value;
-    u8 remaining[0x1C];
-};
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 
 struct MCFmt_801F68FC {
     u8 pad0[0x24];
@@ -31,18 +27,15 @@ struct MCFmt_801F68FC {
 struct Pair_801F68FC { s32 a; s32 b; };
 
 extern "C" {
-s32 TWindowShortListCtrl__check_controller_button(void *, s32);
 s32 is_message_window_ready__18TWindowMessagePageFv();
 extern s8 controller_input_state[];
-extern RecoveredGlobal_801F6548_lbl_80512790 offline_quest_filename_buffer_a;
 s32 init_shop_judgment_window();
 s32 set_text__18TWindowMessagePageFlll(s32, void *, s32);
 s32 get_window_layout_position(s32);
 extern Pair_801F68FC lbl_8044A684[];
-s32 TAdPlayerLoadGC__sub_801E1B50(s32);
-s32 TAdPlayerLoadGC__sub_801E24F8(s32, s32, s32, s32, s32);
+s32 poll_memcard_result(s32);
+s32 start_memcard_format(s32, s32, s32, s32, s32);
 
-typedef char RecoveredGlobal_801F6548_lbl_80512790_size[sizeof(RecoveredGlobal_801F6548_lbl_80512790) == 0x20 ? 1 : -1];
 void TMCFormatSequence::close_window() { if (this->m_34 != 0) { ((TWindowBase *)this->m_34)->close(); this->m_34 = 0; } }
 
 void TMCFormatSequence::show_message(s32 arg1, s32 arg2) {
@@ -84,7 +77,7 @@ void TMCFormatSequence::check_memcard_load_result() {
         this->m_24 = 3;
         return;
     }
-    if (TAdPlayerLoadGC__sub_801E1B50(*(s32 *)((s8 *)this + 0x28)) == 0) {
+    if (poll_memcard_result(*(s32 *)((s8 *)this + 0x28)) == 0) {
         show_message((s32)(get_localized_text_entry(0xB, 0x6B)), 0);
         this->m_24 = 4;
     }
@@ -109,9 +102,9 @@ void TMCFormatSequence::process_format_result() {
         return;
     }
     if (((u32) this->m_38 != 0U) && (((TWindowMenu *)(this->m_38))->is_decided() != 0)) {
-        selected_menu_value = ((TWindowMenu *)(*(u32 *)&this->m_38))->get_selected_value();
+        selected_menu_value = ((TWindowMenu *)(this->m_38))->get_selected_value();
         if (selected_menu_value == 0) {
-            if (TAdPlayerLoadGC__sub_801E24F8(*(s32 *)((s8 *)this + 0x28), 0, 0, 0, 0) == 0) {
+            if (start_memcard_format(*(s32 *)((s8 *)this + 0x28), 0, 0, 0, 0) == 0) {
                 this->m_24 = 2;
             } else {
                 show_message((s32)(get_localized_text_entry(0xB, 0x6C)), 0);

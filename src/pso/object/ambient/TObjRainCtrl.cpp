@@ -3,12 +3,13 @@
 #include "pso/map/FloorArea.h"
 
 #include "types.h"
-#include "pso/map/FloorArea.h"
+#include "pso/system/task/TObject.h"
+#include "pso/player/TObjPlayer_80011014.h"
+
 
 #pragma readonly_strings on
 
 extern "C" {
-u32 __nw__7TObjectFUl(int);
 extern s32 tl_particle;
 void __ct__7TObjectFP7TObject(void *, void *);
 
@@ -25,12 +26,12 @@ void TObjRainCtrl::run_task() {
     *(s32 *)((s8 *)arg0 + 0x1C) = temp_r0;
     if (temp_r0 < 0) {
         if (get_current_floor_area() == AREA_GAL_GRYPHON) {
-            p = (void *) __nw__7TObjectFUl(0x220);
+            p = (void *) TObject::operator new(0x220);
             if (p != NULL) {
                 __ct__8TObjRainFv((u8 *)p, (tl_particle), 0x24);
             }
         } else {
-            p = (void *) __nw__7TObjectFUl(0x220);
+            p = (void *) TObject::operator new(0x220);
             if (p != NULL) {
                 __ct__8TObjRainFv((u8 *)p, (tl_particle), 9);
             }

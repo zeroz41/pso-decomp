@@ -3,9 +3,8 @@
 
 #pragma readonly_strings on
 
-extern "C" {
+
 const char *lbl_805D38B0 = "TWindowCheckBox";
-}
 
 
 extern const char *lbl_805D38B0;

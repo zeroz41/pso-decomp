@@ -3,9 +3,8 @@
 
 #include "types.h"
 #include "pso/unk/TLobby.h"
-#include "pso/unk/TLobby.h"
 
-extern "C" {
+
 extern s32 challenge_mode_state[];
 
 int TLobby__sub_8006EF90(void) { return 1; }
@@ -30,4 +29,3 @@ s32 TLobby::get_online_result_value() {
     return r;
 }
 
-}

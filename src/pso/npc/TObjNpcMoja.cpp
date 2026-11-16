@@ -11,11 +11,12 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/boss/volopt/TBoss3VoloptHiraisin.h"
+#include "pso/system/task/TObject.h"
+#include "pso/system/MatrixStack.h"
 extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
 extern "C" void test_flag_1000__9TObjCharaFv();
 extern "C" void test_flag_256__9TObjCharaFv();
-
 
 
 struct VBase_8014C780 { char pad[0x18]; };
@@ -114,9 +115,8 @@ void *__ct__11TObjControlFP7TObject(void *, void *);
 void *TObjNpcMoja__ct(void *, void *, void *);
 void __dl__7TObjectFPv(void *);
 void *__dt__11TObjNpcBaseFv(void *arg0, s16 arg1);
-void *__nw__7TObjectFUl(int);
 
-s32 TObjFish__sub_8001EDB0(void *, s32);
+s32 get_bml_texlist(void *, s32);
 s32 get_bml_model(void *, s32);
 void TObjNpcBase__ct(void *, void *);
 void init_collision_body_parts(void *, void *, s32);
@@ -264,22 +264,9 @@ s32 rotate_matrix_y(s32, s32);
 
 extern s32 model_render_flags;
 
-struct Base_8014C610 { char pad[0x18]; };
-struct VObj_8014C610 : Base_8014C610 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual s32 m8(f32, f32);
-};
-
 void TObjPlayer::draw_if_visible() {
     u8 *arg0 = (u8 *)this;
-    if ((((VObj_8014C610 *)arg0)->m8(*(f32 *)&this->unk_398, *(f32 *)((s8 *)arg0 + 0x39C)) != 0) && ((s32) *(s32 *)&this->unk_390 == 1)) {
+    if ((this->update_object_view_visibility(*(f32 *)&this->unk_398, *(f32 *)((s8 *)arg0 + 0x39C)) != 0) && ((s32) *(s32 *)&this->unk_390 == 1)) {
         model_render_flags |= 1;
         TObjFish::set_global_param(this->texlist);
         push_matrix_from(0);
@@ -297,26 +284,26 @@ void TObjPlayer::draw_if_visible() {
 void *TObjNpcMoja::create(void *arg2v) {
     void *o;
     void *o2;
-    o = __nw__7TObjectFUl(0x20);
+    o = TObject::operator new(0x20);
     if (o != NULL) {
         o = __ct__11TObjControlFP7TObject(o, tl_04);
     }
-    o2 = __nw__7TObjectFUl(0x3B8);
+    o2 = TObject::operator new(0x3B8);
     if (o2 != NULL) {
         o2 = TObjNpcMoja__ct(o2, o, arg2v);
     }
     return o2;
 }
 
-void *dt__11TObjNpcMojaFPvs(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = (s32 *)__vt__11TObjNpcMoja;
-        __dt__11TObjNpcBaseFv(arg0, 0);
+void *dt__11TObjNpcMojaFPvs(void *npc_base, s16 arg1) {
+    if (npc_base != NULL) {
+        *(s32 **)((s8 *)npc_base + 0x18) = (s32 *)__vt__11TObjNpcMoja;
+        __dt__11TObjNpcBaseFv(npc_base, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(npc_base);
         }
     }
-    return arg0;
+    return npc_base;
 }
 
 #define self ((u8 *)selfv)
@@ -329,7 +316,7 @@ void *TObjNpcMoja__ct(void *selfv, void *parent, void *arg2v) {
     ((TObjPlayer *)self)->init_position_vectors();
     ((VObj_8014C780 *)self)->m85(0, 1);
     *(s32 *)(self + 0x34) = get_bml_model(lbl_805D50D8, 0);
-    *(s32 *)(self + 0x24) = TObjFish__sub_8001EDB0(lbl_805D50D8, 0);
+    *(s32 *)(self + 0x24) = get_bml_texlist(lbl_805D50D8, 0);
     ((TObjMotion *)self)->init_motion(moja_action_table, (BmlMotionEntry *)*(s32 *)(lbl_805D50D8 + 0x430), *(s16 *)(self + 0xB8));
     *(u8 **)(self + 0x350) = npc_movement_parameters;
     ((TObjChara *)self)->set_motion_params(npc_default_battle_stats);

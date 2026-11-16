@@ -51,7 +51,7 @@ void fn_8023F3F8(void) {
             TKeyBoardControl__sub_8000F92C();
         }
         if (TQuestVmDownLoadServer::is_ready() != 0) {
-            TKeyBoardControl__sub_8000F9CC(0);
+            request_main_phase(0);
         }
     }
     render_tick();

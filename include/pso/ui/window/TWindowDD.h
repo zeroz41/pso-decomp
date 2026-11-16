@@ -73,9 +73,8 @@ struct TWindowDD
     void set_value_f32(s32 arg1);
     void set_scale(s32 arg1, s32 arg2);
     static s32 check_all_ready(s32 arg0);
-    int update_com_card();
+    void update_com_card();
     int initialize_subwindow();
-    void *destroy_window_base(s16 arg1);
     static void refresh_status_display();
     void set_mode_2();
     void reset_cursor();
@@ -135,7 +134,7 @@ struct TWindowDD
     void set_state();
     void close_all_windows();
     static s32 can_append_chars(s32 arg0, s32 *arg1);
-    static void update_state();
+    static void format_message(void *src, void *dst, u16 player);
     void append_prompt_newline(s32 *arg1);
     static s32 clamp_range_5FA_682(s16 arg0);
     static s32 clamp_range_2C9_552(s16 arg0);
@@ -169,6 +168,8 @@ typedef char WindowListSize[sizeof(TWindowDDValueList) == 8 ? 1 : -1];
 typedef char WindowListCountOffset[offsetof(TWindowDDValueList, count) == 4 ? 1 : -1];
 
 extern "C" {
+// TWindowBase::~TWindowBase(), called by the destructors that are still written by hand.
+void *__dt__11TWindowBaseFv(void *p, s16 flags);
 s32 TWindowDD__sub_80340820(void *p);
 void TWindowDD__sub_80340910(void *p);
 }

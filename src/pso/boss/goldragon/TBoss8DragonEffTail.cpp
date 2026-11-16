@@ -1,4 +1,5 @@
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/boss/dragon/ObjBoss1CommonJResource.h"
 #include "pso/boss/dragon/TBoss1DragonColli.h"
 #include "pso/boss/goldragon/TBoss8Dragon_800BC53C.h"
@@ -16,6 +17,8 @@
 #include "pso/math/MatrixTransforms.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/math/MatrixVector.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/enemy/AttackTargetHistory.h"
 
 struct VBase_18 { char pad[0x18]; };
 struct VObj_18 : VBase_18 {
@@ -60,8 +63,6 @@ typedef struct EffTail_8002C06C {
 
 struct P8_802FE494 { f32 a; s32 b; };
 
-struct V3_802FE494 { f32 x, y, z; };
-
 struct VB_802FE494 { u8 pad0[0x18]; };
 
 struct Obj_802FE494 : VB_802FE494 {
@@ -91,7 +92,7 @@ struct Obj_802FE494 : VB_802FE494 {
     u8 *xA4;
     u8 padA8[0xB0 - 0xA8];
     u8 *xB0;
-    V3_802FE494 *xB4;
+    Vec *xB4;
     s32 xB8;
     s32 xBC;
     f32 xC0;
@@ -106,14 +107,12 @@ CollisionBody boss8_dragon_eff_tail_init_data[17] = { { { 0.0f, 0.0f, 0.0f }, 10
 s32 boss8_eff_tail_bml_resource;
 u32 dragon_tail_gvm_texture_handle;
 
-extern "C" {
 extern s32 __vt__19TBoss8DragonEffTail[];
+extern "C" {
 EffTail_8002C06C *TBoss8DragonEffTail__ct(EffTail_8002C06C *arg0, s32 arg1, s32 arg2);
-s32 vec3_add_to(s32, s32, s32);
 void matrix_mult_vec(s32, void *, void *);
 s32 free_bin_model_request(s32, s32);
 s32 release_texture_list(void*);
-void __dl__7TObjectFPv(void *);
 int fill_value_array(void*);
 
 void fn_802FE48C(void) {  }
@@ -122,11 +121,11 @@ void TBoss8DragonEffTail::render() {  }
 void run_task__19TBoss8DragonEffTailFv(u8 *arg0p) {
     s32 off;
     u8 *e;
-    V3_802FE494 *p;
+    Vec *p;
     s32 i;
     Obj_802FE494 *self = (Obj_802FE494 *)arg0p;
     VecCopy((Vec *)(arg0p + 0x38), (const Vec *)((u8 *)self->xB4 + 0x24));
-    ((void (*)(void *, void *))vec3_add_to)(arg0p + 0x38, (u8 *)self->xB4 + 0x78);
+    vec3_add_to((Vec *)(arg0p + 0x38), (Vec *)((u8 *)self->xB4 + 0x78));
     self->x38 *= 0.5f;
     self->x40 *= 0.5f;
     self->x3C = *(f32 *)(self->xB0 + 0x3C);
@@ -160,8 +159,8 @@ void run_task__19TBoss8DragonEffTailFv(u8 *arg0p) {
     ((TBoss8Dragon *)(self->xB0))->reload_boss_stats();
 }
 
-void TBoss8DragonEffTail__vt18(s32 arg0, s32 arg1) {
-    vec3_add_to(arg1 + 0x308, arg0 + 0xC0, arg0);
+void TBoss8DragonEffTail::area_attack_apply_recoil(void *target, f32) {
+    vec3_add_to((Vec *)((u8 *)target + 0x308), &m_c0);
 }
 
 void TBoss8DragonEffTail::apply_hit_if_active(void *arg1_arg, f32 *) {
@@ -171,19 +170,11 @@ void TBoss8DragonEffTail::apply_hit_if_active(void *arg1_arg, f32 *) {
 
 void TBoss8DragonEffTail::enable() { this->m_bc = 1; get_state(); }
 void TBoss8DragonEffTail::disable() { this->m_bc = 0; get_state(); }
-int TBoss8DragonEffTail::get_state() { return fill_value_array(*(void* *)&this->m_b8); }
+int TBoss8DragonEffTail::get_state() { return fill_value_array(attack_history); }
 
-void *__dt__19TBoss8DragonEffTailFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__19TBoss8DragonEffTail;
-        __dt__17AreaAttackHistoryFv((s32)(*(void **)((s8 *)arg0 + 0xB8)), 1);
-        ((TBoss8DragonEffTail *)arg0)->m_b8 = 0;
-        __dt__13TUnk_804928CCFv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
+TBoss8DragonEffTail::~TBoss8DragonEffTail() {
+    delete attack_history;
+    attack_history = NULL;
 }
 
 EffTail_8002C06C *TBoss8DragonEffTail__ct(EffTail_8002C06C *arg0, s32 arg1, s32 arg2) {
@@ -210,6 +201,7 @@ EffTail_8002C06C *TBoss8DragonEffTail__ct(EffTail_8002C06C *arg0, s32 arg1, s32 
     arg0->unkC8 = 0.0f;
     return arg0;
 }
+}
 
 void TBoss8DragonEffTail::free_statics() {
     if ((u32) dragon_tail_gvm_texture_handle != 0U) {
@@ -221,11 +213,7 @@ void TBoss8DragonEffTail::free_statics() {
     boss8_eff_tail_bml_resource = 0;
 }
 
-}
-
-extern "C" {
 u8 *load_gvm_texture_file(s32 arg0);
-}
 
 void TBoss8DragonEffTail::load_statics() {
     boss8_eff_tail_bml_resource = load_enemy_bml_resource((u8 *)&bm_obj_boss1_common_j_resource_descriptor);

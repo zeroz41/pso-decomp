@@ -5,6 +5,7 @@
 #include "pso/object/base/TObjMotion.h"
 
 struct TObjLiveCamera : public TObjBase {
+    TObjLiveCamera(s32 parent, s32);
     virtual ~TObjLiveCamera();
     virtual void render();
     virtual void run_task();

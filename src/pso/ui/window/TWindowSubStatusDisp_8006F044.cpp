@@ -1,5 +1,7 @@
 #include "types.h"
+#include "pso/unk/TLobby.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 s32 TWindowSubStatusDisp::calc_layout_hash() {
     return TWindowSubStatusDisp::get_layout_id() * 0x8C9F;
@@ -9,7 +11,7 @@ s32 TWindowSubStatusDisp::calc_entry_offset() {
     return TWindowSubStatusDisp::get_layout_id() * 0x12C;
 }
 
-#include "pso/unk/TLobby.h"
+
 #pragma fp_contract on
 
 struct RecoveredGlobal_8006F23C_lbl_8048C9D8 {
@@ -30,9 +32,7 @@ struct E_8006F134 { s32 a; s32 b; };
 struct O_8006F134 { u8 pad[0xc0]; E_8006F134 e[4]; s32 pad2; E_8006F134 def; };
 
 extern "C" {
-s32 is_flag_set__6TLobbyFv();
 extern RecoveredGlobal_8006F23C_lbl_8048C9D8 challenge_mode_state;
-s32 is_split_screen(void);
 extern s32 lbl_80438590[];
 s32 *TWindowSubStatusDisp__sub_8006F0D8(O_8006F0D8 *self, s32 slot);
 extern s32 lbl_80438584[];
@@ -71,23 +71,23 @@ E_8006F134 *TWindowSubStatusDisp__sub_8006F134(O_8006F134 *self, s32 slot) {
 
 s32 TWindowSubStatusDisp::resolve_player_slot(s32 slot) {
     switch (slot) {
-    case -1:
+    case RECORD_SET_CURRENT:
         if (is_split_screen()) {
             s32 inst = TLobby::get_instance();
-            s32 r = 2;
+            s32 r = RECORD_SET_EP1_SPLIT;
             if (inst == 1) {
-                r = 3;
+                r = RECORD_SET_EP2_SPLIT;
             }
             return r;
         }
-        return (TLobby::get_instance() == 1) ? 1 : 0;
+        return (TLobby::get_instance() == 1) ? RECORD_SET_EP2 : RECORD_SET_EP1;
     }
     return slot;
 }
 
 s32 TLobby::get_flagged_table_entry(s32 arg0) {
   u8 *new_var;
-  if (is_flag_set__6TLobbyFv() != 0)
+  if (TLobby::is_flag_set() != 0)
   {
     new_var = (u8 *) (&(*(RecoveredGlobal_8006F1EC_lbl_8048C9D8 *)&challenge_mode_state).value);
     new_var = new_var + (arg0 * 4);
@@ -97,7 +97,7 @@ s32 TLobby::get_flagged_table_entry(s32 arg0) {
 }
 
 s32 TLobby::get_flag_value_if_set() {
-    if (is_flag_set__6TLobbyFv() != 0) {
+    if (TLobby::is_flag_set() != 0) {
         return *(s32 *)((s8 *)&challenge_mode_state.value + 0x34);
     }
     return 0;

@@ -1,18 +1,15 @@
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/unk/text_8034D3D0.h"
 #include "pso/system/vector.h"
 typedef struct Vec4_8034D500 {
     f32 x, y, z, w;
 } Vec4_8034D500;
 
-typedef struct Vec3_8034D500 {
-    f32 x, y, z;
-} Vec3_8034D500;
-
 extern "C" {
 f32 TBoss8Dragon__sub_8008072C(f32, f32);
 s32 calc_binomial_coefficient__12TBoss8DragonFll(int, int);
-s32 eval_bezier_curve__12TBoss8DragonFPviiPvf(Vec4_8034D500 *pts, s32 count, s32 closed, Vec3_8034D500 *out, f32 t);
+s32 eval_bezier_curve__12TBoss8DragonFPviiPvf(Vec4_8034D500 *pts, s32 count, s32 closed, Vec *out, f32 t);
 struct Entry_8034D3D0 {
     u8 pad0[0xC];
     f32 weight;
@@ -43,12 +40,12 @@ s32 fn_8034D3D0(Entry_8034D3D0 *e, s32 n, s32 arg2, s32 closed, s32 arg4, f32 sc
     if (ratio >= 1.0f) {
         return 1;
     }
-    return eval_bezier_curve__12TBoss8DragonFPviiPvf((Vec4_8034D500 *)e, n, closed, (Vec3_8034D500 *)arg4, ratio);
+    return eval_bezier_curve__12TBoss8DragonFPviiPvf((Vec4_8034D500 *)e, n, closed, (Vec *)arg4, ratio);
 }
 
 #pragma push
 #pragma fp_contract on
-s32 eval_bezier_curve__12TBoss8DragonFPviiPvf(Vec4_8034D500 *pts, s32 count, s32 closed, Vec3_8034D500 *out, f32 t) {
+s32 eval_bezier_curve__12TBoss8DragonFPviiPvf(Vec4_8034D500 *pts, s32 count, s32 closed, Vec *out, f32 t) {
     s32 n;
     s32 i;
     s32 m;
@@ -112,17 +109,16 @@ struct PartnerText_8034DA38
 };
 
 struct PartnerText_8034D9E0 partner_dialogue_table[4];
-struct V3_8034D790 { f32 x, y, z; };
-struct Ent_8034D790 { V3_8034D790 p; f32 weight; };
+struct Ent_8034D790 { Vec p; f32 weight; };
 extern "C" {
 void normalize_vector(void *);
 
 #pragma push
 #pragma fp_contract on
-s32 fn_8034D790(Ent_8034D790 *e, s32 n, s32 arg2, s32 closed, V3_8034D790 *out, f32 scale) {
-    V3_8034D790 a;
-    V3_8034D790 b;
-    V3_8034D790 d;
+s32 fn_8034D790(Ent_8034D790 *e, s32 n, s32 arg2, s32 closed, Vec *out, f32 scale) {
+    Vec a;
+    Vec b;
+    Vec d;
     f32 sum;
     f32 pos;
     f32 acc;

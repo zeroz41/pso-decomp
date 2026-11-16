@@ -1,4 +1,5 @@
 #include "pso/player/PlayerClassStats.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 
 extern const PlayerProfessionStatFactors player_profession_stat_factors[3] = {
     { 2.0f, 1.0f },
@@ -452,13 +453,13 @@ extern const TPlyInventoryItem lbl_804490E0[5] = {
     { { 1, 0, 0, 0 }, 0, { { { 3, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
     { { 1, 0, 0, 0 }, 0, { { { 3, 1, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
 };
-extern const Vec_801D8CCC lbl_8044916C[4] = {
+extern const Vec lbl_8044916C[4] = {
     { 213.0f, 3.0f, -280.0f },
     { 207.0f, 3.0f, -280.0f },
     { 219.0f, 3.0f, -280.0f },
     { 225.0f, 3.0f, -280.0f },
 };
-extern const Vec_801D8CCC lbl_8044919C[4] = {
+extern const Vec lbl_8044919C[4] = {
     { 7.0f, 0.0f, -200.0f },
     { 5.0f, 0.0f, -185.0f },
     { 20.0f, 0.0f, -211.0f },
@@ -467,13 +468,13 @@ extern const Vec_801D8CCC lbl_8044919C[4] = {
 extern const s32 lbl_804491CC[2] = {
     0x8000, 0xb000,
 };
-extern const Vec_801D8CCC lbl_804491D4[4] = {
+extern const Vec lbl_804491D4[4] = {
     { 190.0f, 0.0f, 330.0f },
     { 184.0f, 0.0f, 324.0f },
     { 196.0f, 0.0f, 336.0f },
     { 178.0f, 0.0f, 318.0f },
 };
-extern const Vec_801D8CCC lbl_80449204[4] = {
+extern const Vec lbl_80449204[4] = {
     { 10.0f, 0.0f, 205.0f },
     { 7.0f, 0.0f, 194.0f },
     { 0.0f, 0.0f, 185.0f },
@@ -482,7 +483,7 @@ extern const Vec_801D8CCC lbl_80449204[4] = {
 extern const s32 lbl_80449234[2] = {
     0xe400, 0xc000,
 };
-extern const Vec_801D8CCC lobby_entry_table[2] = {
+extern const Vec lobby_entry_table[2] = {
     { 0.0f, 0.0f, -2015.0f },
     { -9998.0f, 30.0f, -198.0f },
 };

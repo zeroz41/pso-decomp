@@ -29,7 +29,8 @@ struct TWindowMenu : public TWindowAddition {
     u32 m_2c;
     u8 unk_30[0x8];
     f32 m_38;
-    u8 unk_3C[0xC];
+    f32 pad_3c;  // compared and clamped by TWindowSubComCardList::set_scroll_target
+    u8 unk_40[0x8];
     f32 m_48;
     u8 unk_4C[0x10];
     u32 m_5c;

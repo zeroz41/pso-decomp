@@ -1,8 +1,9 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/enemy/TUnk_804909C4.h"
-#include "pso/enemy/TUnk_804909C4.h"
+
 #include "pso/object/base/TObjChara.h"
 #include "pso/enemy/darkgunner/TObjEneDarkGunCenter.h"
 #include "pso/player/TObjPlayer.h"
@@ -63,8 +64,6 @@ struct Sub_800A3290 { u8 pad0[0x18]; u32 flags; };
 
 struct Obj_800A3290 { u8 pad0[0xA4]; Sub_800A3290 *sub; };
 
-struct Vec_800A34E8 { f32 x, y, z; };
-
 extern "C" {
 Obj_800A3290 *find_entity_by_id(s32);
 void check_enemy_body_collisions(void *arg0);
@@ -73,21 +72,17 @@ s32 obj_is_hit_receivable();
 s32 TObjPlayer__sub_800A3210(s32 i, s32 _w1, s32 _w2);
 s32 vec3_add_to(void *, void *);
 s32 free_collision_body_parts(void *);
-s32 __dl__7TObjectFPv(void *);
-s32 __ct__14TObjCollidableFP7TObject(void *, void *);
 s32 init_collision_body_parts(void *, void *, int);
 s16 get_entity_id(void *, f32);
 s32 subtract_vector(void *, void *);
 f32 atan2_float(f32, f32);
 void *spawn_particle_effect_with_rotation(void *pos, void *dir, s32 id, int e);
-u8 *csnVector(void *, Vec_800A34E8 *, s32);
+u8 *csnVector(void *, Vec *, s32);
 extern void *tl_04;
 extern f32 player_scale_factor;
-extern s32 __vt__13TUnk_804909C4[];
 CollisionBody lbl_80490998[] = {
     {{0.0f, 0.0f, 0.0f}, 0.0f, 0.0f, 0, 0x8003, {0.0f, 0.0f, 0.0f}, 0.0f}
 };
-void *__dt__13TUnk_804909C4Fv(void *arg0, s16 arg1);
 
 s32 TUnk_804909C4::sub_800A3290(s32 id) {
     Obj_800A3290 *other;
@@ -100,7 +95,7 @@ s32 TUnk_804909C4::sub_800A3290(s32 id) {
     }
     other->sub->flags &= ~1;
     TObjPlayer::init_all_slots();
-    ((TObjPlayer *)this)->check_object_collisions();
+    this->check_object_collisions();
     check_enemy_body_collisions(this);
     other->sub->flags |= 1;
     if (((Obj_800A3290 *)this)->sub->flags & 0x180000) {
@@ -154,7 +149,7 @@ TUnk_804909C4::~TUnk_804909C4() {
 TUnk_804909C4::TUnk_804909C4(u8 *player, s32 arg2, s32 arg3) : TObjCollidable((TObject *)tl_04) {
     s32 var_r0;
     u8 *temp_r3;
-    init_collision_body_parts(((u8 *)this), lbl_80490998, 1);
+    init_collision_body_parts(this, lbl_80490998, 1);
     *(f32 *)((s8 *)(this->bodies) + 0xC) = 0.75f * player_scale_factor;
     *(s16 *)((s8 *)this + 0xC8) = get_entity_id(player, 0.75f);
     if (((TObjPlayer *)player)->is_flag_set_388_bit26() != 0) {
@@ -174,7 +169,7 @@ TUnk_804909C4::TUnk_804909C4(u8 *player, s32 arg2, s32 arg3) : TObjCollidable((T
     this->m_c0 = 0x4000;
     *(s32 *)((s8 *)this + 0xD0) = (s32)spawn_particle_effect_with_rotation((((u8 *)this) + 0x38), (((u8 *)this) + 0xB8), this->m_cc, 0x42);
     {
-    Vec_800A34E8 v = *(Vec_800A34E8 *)(((u8 *)this) + 0xAC);
+    Vec v = *(Vec *)(((u8 *)this) + 0xAC);
     vec_set_length((Vec *)(&v), 500.0f);
     vec3_add_to(&v, ((u8 *)this) + 0x38);
     temp_r3 = csnVector(((u8 *)this) + 0x38, &v, -1);

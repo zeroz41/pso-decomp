@@ -24,7 +24,6 @@ struct Mag_8025373C {
 };
 
 extern "C" {
-void deserialize_mag__9TItemDataFPvPv(s32, Mag_8025373C *);
 Entry_8025373C *get_array_entry__11TWindowBaseFi(void *, s32);
 extern const f32 TWindowHelpItem__data_805DCDE4;
 s32 fn_8025373C(u8 *self) {
@@ -35,7 +34,7 @@ s32 fn_8025373C(u8 *self) {
     Entry_8025373C *num;
     s32 count;
     ((MagStats *)(&mag))->init();
-    deserialize_mag__9TItemDataFPvPv(*(s32 *)(self + 0x68), &mag);
+    TItemData::deserialize_mag((void *)(*(s32 *)(self + 0x68)), (void *)(&mag));
     help = get_array_entry__11TWindowBaseFi(self, 0);
     panel = get_array_entry__11TWindowBaseFi(self, 0xF);
     count = TWindowHelpItem__sub_80255DDC(help);

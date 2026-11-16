@@ -1,4 +1,5 @@
 #include "pso/system/ControllerInputState.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
 #include "pso/ui/window/TWindowSubComCard_80244774.h"
 #include "pso/unk/TLobby_80226070.h"
@@ -15,6 +16,7 @@
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/unk/WindowLayoutRecord.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 
 #pragma readonly_strings on
 
@@ -54,8 +56,7 @@ WindowDescriptor window_sound_balance_settings = {
 
 extern "C" {
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
-s32 TWindowShortListCtrl__check_controller_button(int, int);
-s32 play_sound_effect(s32, s32, s32, s32);
+s32 play_sound_effect(s32, Vec *, s32, s32);
 SoundBalanceSettings *get_global_state__23TAdSinglePlyChrSelectGCFv();
 u32 calc_text_width();
 u8 *get_array_entry__11TWindowBaseFi(void *, s32);
@@ -64,7 +65,6 @@ s32 refresh_status_display__9TWindowDDFv(u8 *);
 extern s32 __vt__19TWindowSoundBalance[];
 const char *TWindowSoundBalance__name = "TWindowSoundBalance";
 s32 draw_visible_window_entries(s32, s32, void *);
-void __dl__7TObjectFPv(void *);
 
 void TWindowSoundBalance::set_sound_effect_gain(s16 gain) {
     if (sound_effect_gain != gain) {
@@ -95,14 +95,14 @@ void TWindowSoundBalance::apply_balance(void *window_key_board_soft) {
 
 void TWindowSoundBalance::handle_cancel() {
     if (is_active() == 0) {
-        play_sound_effect(0x52F16, 0, 0, 0);
+        play_sound_effect(0x52F16, (Vec *)(0), 0, 0);
         this->m_60 = (u8) (this->m_60 | 2);
     }
 }
 
 
 void TWindowSoundBalance::play_open_sound() {
-    play_sound_effect(0x52D01, 0, 0, 0);
+    play_sound_effect(0x52D01, (Vec *)(0), 0, 0);
     this->m_60 = (u8) (this->m_60 | 1);
 }
 
@@ -145,7 +145,7 @@ void TWindowSoundBalance::handle_lr_input() {
     u8 *input;
     input = (u8 *)&controller_input_state.controllers[0];
     if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((int)input, 0x30, 6, 1) != 0) || (TWindowChoiceSetting::apply_choice((s32)((void *) ((u8 *)&controller_input_state.keyboard)), 0x30, 6, 1) != 0)) {
-        play_sound_effect(0x54100, (s32)(0U), 0, 0);
+        play_sound_effect(0x54100, (Vec *)((s32)(0U)), 0, 0);
         if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((int)input, 0x10, 6, 1) != 0) || (TWindowChoiceSetting::apply_choice((s32)((void *) ((u8 *)&controller_input_state.keyboard)), 0x10, 6, 1) != 0)) {
             this->selection = (this->selection - 1);
         }
@@ -180,10 +180,10 @@ void TWindowSoundBalance::run_task() {
         handle_lr_input();
         sub_8027095C();
         input = (u8 *)&controller_input_state.controllers[0];
-        if ((TWindowShortListCtrl__check_controller_button((int)input, 4) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) ((u8 *)&controller_input_state.keyboard), 4) != 0)) {
+        if ((TWindowShortListCtrl__check_controller_button(input, 4) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) ((u8 *)&controller_input_state.keyboard), 4) != 0)) {
             play_open_sound();
         }
-        if ((TWindowShortListCtrl__check_controller_button((int)input, 2) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) ((u8 *)&controller_input_state.keyboard), 2) != 0)) {
+        if ((TWindowShortListCtrl__check_controller_button(input, 2) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) ((u8 *)&controller_input_state.keyboard), 2) != 0)) {
             handle_cancel();
         }
     }
@@ -192,45 +192,36 @@ void TWindowSoundBalance::run_task() {
     update_window_entry_list(&m_24);
 }
 
-void *__dt__19TWindowSoundBalanceFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__19TWindowSoundBalance;
-        ((TWindowDD *)arg0)->destroy_window_base(0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
-}
+TWindowSoundBalance::~TWindowSoundBalance() {}
 #pragma push
 #pragma fp_contract on
-u8 *TWindowSoundBalance__ct(u8 *arg0, s32 arg1) {
+u8 *TWindowSoundBalance__ct(TWindowSoundBalance *window_sound_balance, s32 arg1) {
     u8 *e;
     SoundBalanceSettings *st;
-    ((TWindowDD *)arg0)->construct_base((u8 *)&window_sound_balance_settings, (s16)4, (u8 *)arg1);
-    *(s32 **)((s8 *)arg0 + 0x18) = __vt__19TWindowSoundBalance;
-    *(const char **)((s8 *)arg0 + 0) = TWindowSoundBalance__name;
-    ((TWindowSoundBalance *)arg0)->m_60 = 0;
-    ((TWindowSoundBalance *)arg0)->selection = 0;
-    ((TWindowSoundBalance *)arg0)->music_gain = 1;
-    ((TWindowSoundBalance *)arg0)->sound_effect_gain = 1;
-    e = get_array_entry__11TWindowBaseFi(arg0, 0);
+    ((TWindowDD *)window_sound_balance)->construct_base((u8 *)&window_sound_balance_settings, (s16)4, (u8 *)arg1);
+    *(s32 **)((s8 *)window_sound_balance + 0x18) = __vt__19TWindowSoundBalance;
+    ((TWindowSoundBalance *)window_sound_balance)->m_name = TWindowSoundBalance__name;
+    window_sound_balance->m_60 = 0;
+    window_sound_balance->selection = 0;
+    window_sound_balance->music_gain = 1;
+    window_sound_balance->sound_effect_gain = 1;
+    e = get_array_entry__11TWindowBaseFi(window_sound_balance, 0);
     get_field_20__17TWindowSubComCardFv();
     *(f32 *)((s8 *)e + 8) = 231.0f - 0.5f * calc_text_width();
     refresh_status_display__9TWindowDDFv(e);
-    e = get_array_entry__11TWindowBaseFi(arg0, 1);
+    e = get_array_entry__11TWindowBaseFi(window_sound_balance, 1);
     get_field_20__17TWindowSubComCardFv();
     *(f32 *)((s8 *)e + 8) = 231.0f - 0.5f * calc_text_width();
     refresh_status_display__9TWindowDDFv(e);
     st = get_global_state__23TAdSinglePlyChrSelectGCFv();
     if (st == 0) {
-        ((TWindowSoundBalance *)arg0)->set_music_gain(0);
-        ((TWindowSoundBalance *)arg0)->set_sound_effect_gain(0);
+        window_sound_balance->set_music_gain(0);
+        window_sound_balance->set_sound_effect_gain(0);
     } else {
-        ((TWindowSoundBalance *)arg0)->set_music_gain(st->music_gain);
-        ((TWindowSoundBalance *)arg0)->set_sound_effect_gain(st->sound_effect_gain);
+        window_sound_balance->set_music_gain(st->music_gain);
+        window_sound_balance->set_sound_effect_gain(st->sound_effect_gain);
     }
-    return arg0;
+    return (u8 *)window_sound_balance;
 }
 #pragma pop
 

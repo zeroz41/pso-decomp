@@ -1,5 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
+#include "pso/enemy/slime/TObjEneSlime.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/player/TObjPlayer.h"
@@ -18,8 +20,8 @@
 #include "pso/unk/text_803D853C.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
-#include "pso/object/base/TObjChara.h"
-#include "pso/system/task/TObject.h"
+
+
 extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
 extern "C" void test_flag_1000__9TObjCharaFv();
@@ -48,31 +50,12 @@ struct Obj_800E9BCC {
     s32 target_client_id;
 };
 
-typedef struct { f32 x, y, z; } Vec_800EB654;
-
-
 struct Obj_800EAD84 { u8 pad0[0x38]; Vec pos; };
 
-struct VBase_18_26a62c { char pad[0x18]; };
-
-struct VObj_18_26a62c : VBase_18_26a62c {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual s32 m8(f32, f32);
-};
-
-struct Vec_800EAEE8 { f32 x, y, z; };
 extern "C" {
 
 
-
-f64 atan2_float(f32, f32);
+f32 atan2_float(f32 y, f32 x);
 u32 csnLookAt(void *, void *);
 s32 project_actor_to_ground(void *, void *, int);
 s32 vec3_add_to(void *, void *);
@@ -84,31 +67,12 @@ void scale_matrix_vec3(u8 *arg0, u8 *arg1);
 s32 push_matrix();
 s32 post_translate_matrix(void *);
 void render__15TObjEneSlimeOneFv(TObjEneSlimeOne *arg0);
-s32 TObjFish__sub_8001EDB0(s32, s32);
-s32 get_bml_model(s32, s32);
+s32 get_bml_texlist(BmlResource *resource, s32 index);
+s32 get_bml_model(BmlResource *resource, s32 index);
 u8 *get_instance__15TObjEneSlimeOneFv();
 s32 init_collision_body_parts(void *, void *, int);
 extern void *lbl_80496368[2];
 extern void *lbl_8049639C[28];
-struct RecoveredGlobal_800E8128_lbl_80496704 {
-    s32 value;
-    u8 remaining[0x8];
-};
-
-struct RecoveredGlobal_800E8128_lbl_80496710 {
-    s32 value;
-    u8 remaining[0x8];
-};
-
-struct RecoveredGlobal_800E8128_lbl_80501010 {
-    s32 value;
-    u8 remaining[0x3C];
-};
-
-struct RecoveredGlobal_800E80C0_lbl_80501010 {
-    s32 value;
-    u8 remaining[0x3C];
-};
 
 struct B_800E80E8 { s32 w[3]; };
 
@@ -116,20 +80,9 @@ struct A_800E80E8 { s32 w[12]; };
 
 struct S_800E80E8 { B_800E80E8 a; A_800E80E8 d; };
 
-typedef struct { f32 x, y, z; } Vec_800E81B4;
-
 struct Rot_800E81B4 { s32 x, y, z; };
 
-struct Obj_800E81B4 { u8 pad[0x39C]; Vec_800E81B4 pts[4]; };
-
-
-typedef char RecoveredGlobal_800E8128_lbl_80496704_size[sizeof(RecoveredGlobal_800E8128_lbl_80496704) == 0xC ? 1 : -1];
-
-typedef char RecoveredGlobal_800E8128_lbl_80496710_size[sizeof(RecoveredGlobal_800E8128_lbl_80496710) == 0xC ? 1 : -1];
-
-typedef char RecoveredGlobal_800E8128_lbl_80501010_size[sizeof(RecoveredGlobal_800E8128_lbl_80501010) == 0x40 ? 1 : -1];
-
-typedef char RecoveredGlobal_800E80C0_lbl_80501010_size[sizeof(RecoveredGlobal_800E80C0_lbl_80501010) == 0x40 ? 1 : -1];
+struct Obj_800E81B4 { u8 pad[0x39C]; Vec pts[4]; };
 
 struct Hit_800E8AD0 { s32 kind; f32 dmg; };
 
@@ -162,7 +115,6 @@ struct Ent_800E8AD0 : Base_800E8AD0 {
     virtual void m23(void *);
 };
 
-
 struct Bomb_800E8D4C {
     u8 pad0[0x38];
     Vec pos;
@@ -177,9 +129,6 @@ struct Bomb_800E8D4C {
     s32 timer;
 };
 
-typedef struct { f32 x, y, z; } Vec_800E8C6C;
-
-
 struct Bomb_800E9090 {
     u8 pad0[0x38];
     Vec pos;
@@ -191,13 +140,6 @@ struct Bomb_800E9090 {
     u8 pad3A4[0x3F4 - 0x3A4];
     s32 f3F4;
 };
-
-struct Stack_800E9238 {
-    f32 sp8;
-    f32 spC;
-    f32 sp10;
-};
-
 
 typedef struct Tgt_800E984C { u8 pad[0x30]; u32 flags; u8 pad34[4]; Vec pos; } Tgt_800E984C;
 
@@ -215,7 +157,6 @@ typedef struct Self_800E984C {
     Vec dest;
 } Self_800E984C;
 
-struct Obj_800E9DC8 { u8 pad0[0x60]; s32 rotation_y; u8 pad1[0x390 - 0x64]; s32 state_timer; u8 pad2[0x3C4 - 0x394]; s32 turn_speed; };
 
 struct RecoveredGlobal_800EA678_lbl_8043D230 {
     s32 value;
@@ -226,7 +167,6 @@ struct RecoveredGlobal_800EA678_lbl_8043D23C {
     s32 value;
     u8 remaining[0x8];
 };
-
 
 typedef char RecoveredGlobal_800EA678_lbl_8043D230_size[sizeof(RecoveredGlobal_800EA678_lbl_8043D230) == 0xC ? 1 : -1];
 
@@ -239,11 +179,6 @@ struct Stack_800EB3D4 {
     u8 trailing_storage[0x4];
 };
 
-struct RecoveredGlobal_800EB3D4___vt__15TObjEneSlimeOne {
-    s32 value;
-    u8 remaining[0x148];
-};
-
 struct Stack_800EB4A0 {
     s32 sp8;
     u8 pad_C[0x2];
@@ -251,19 +186,7 @@ struct Stack_800EB4A0 {
     u8 trailing_storage[0x4];
 };
 
-struct RecoveredGlobal_800EB4A0___vt__15TObjEneSlimeOne {
-    s32 value;
-    u8 remaining[0x148];
-};
-
-
-typedef char RecoveredGlobal_800EB3D4___vt__15TObjEneSlimeOne_size[sizeof(RecoveredGlobal_800EB3D4___vt__15TObjEneSlimeOne) == 0x14C ? 1 : -1];
-
-typedef char RecoveredGlobal_800EB4A0___vt__15TObjEneSlimeOne_size[sizeof(RecoveredGlobal_800EB4A0___vt__15TObjEneSlimeOne) == 0x14C ? 1 : -1];
-
-
 u16 find_nearest_visible_player(void *, void *, f32);
-void queue_destruction__7TObjectFv(void *);
 f32 * dispatch_shared_handler_a__6TLobbyFl(s32);
 u8 * get_bml_motion(s32, s32);
 s32 exchange_object_state__9TObjEnemyFls(void *, void *, int);
@@ -273,7 +196,6 @@ S_800E80E8 * TObjPlayer__sub_800E80E8(S_800E80E8 *dst, S_800E80E8 *src);
 void TObjPlayer__sub_800E8128(void);
 void TObjPlayer__sub_800E81A8(void);
 void render__22TObjEneSlimeTailAttackFv(u8 *arg0);
-s32 TObjPlayer__sub_800E85BC(TObjEneSlimeTailAttack *self);
 void run_task__22TObjEneSlimeTailAttackFv(u8 *arg0);
 void * create__22TObjEneSlimeTailAttackFiiii(s32 arg1, s32 arg2, s32 arg3, s32 arg4);
 void * dt__22TObjEneSlimeTailAttackFPvs(void *arg0, s16 arg1);
@@ -292,12 +214,6 @@ u8 *get_enemy_entity(u16 arg0);
 int get_entity_id(void *);
 void *__dt__9TObjEnemyFv(TObjEnemy *arg0, s16 arg1);
 s32 __ct__9TObjEnemyFP7TObject(void *);
-}
-
-s32 water_bomb_hit_nearby(u8 *arg0);
-extern "C" {
-
-
 void free_collision_body_parts(void *);
 void __dl__7TObjectFPv(void *);
 void * __nw__7TObjectFUl(s32);
@@ -306,7 +222,7 @@ s32 rotate_matrix_z(int, int);
 void subtract_vector(void *, void *);
 void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
 s32 rotate_matrix_x(int, int);
-s32 scale_current_matrix(Vec_800E8C6C *);
+s32 scale_current_matrix(Vec *);
 
 
 // This TU's .rodata objects in address order (names stay placeholders).
@@ -342,7 +258,7 @@ extern const RecoveredGlobal_800EA678_lbl_8043D23C lbl_8043D23C = {0x3F800000, {
 extern const char TObjEneSlimeWaterBomb__class_name_string[] = "TObjEneSlimeWaterBomb";
 extern s32 __vt__15TObjEneSlimeOne[];
 extern s32 __vt__21TObjEneSlimeWaterBomb[];
-RecoveredGlobal_800E8128_lbl_80501010 lbl_80501010;
+RecoveredGlobal_lbl_80501010 lbl_80501010;
 void *slime_bml_resource;
 int lbl_805D52B4;
 extern s32 registered_player_count;
@@ -599,8 +515,6 @@ void *__vt__22TObjEneSlimeTailAttack[83] = {
 };
 #define slime_tail_attack_id_pair ((s32 *)slime_tail_attack_id_pair)
 #define TObjEneSlime__attack_target_param_table ((s32 *)TObjEneSlime__attack_target_param_table)
-#define slime_tail_attack_zero_vec (*(RecoveredGlobal_800E8128_lbl_80496704 *)slime_tail_attack_zero_vec)
-#define slime_tail_attack_transform (*(RecoveredGlobal_800E8128_lbl_80496710 *)slime_tail_attack_transform)
 #define __vt__22TObjEneSlimeTailAttack ((s32 *)__vt__22TObjEneSlimeTailAttack)
 
 
@@ -614,12 +528,10 @@ const char *TObjEneSlimeTailAttack__name = TObjEneSlimeTailAttack__class_name_st
 
 f32 fabs_float(f32);
 }
-
-
+s32 water_bomb_hit_nearby(u8 *arg0);
 // ---- folded from src/pso/unk/text_800EB778.cpp ----
-#include "types.h"
-#include "pso/system/vector.h"
-#include "pso/enemy/slime/TObjEneSlimeOne.h"
+
+
 struct E_800EB8DC { s32 f0; s32 f4; };
 
 struct O_800EB8DC { u8 pad[0x3b8]; E_800EB8DC arr[4]; };
@@ -634,7 +546,7 @@ struct Tmpl_800EB7BC {
     s16 c;
     u16 d;
     u8 pad8[8];
-    Vec_800EB654 pos;
+    Vec pos;
     u8 rest[0x40 - 0x1C];
 };
 
@@ -644,7 +556,7 @@ struct Slot_800EB7BC { s32 active; u32 obj; };
 
 struct Obj_800EB7BC {
     u8 pad0[0x38];
-    Vec_800EB654 pos;
+    Vec pos;
     u8 pad44[0x374 - 0x44];
     Tmpl_800EB7BC tmpl;
     s32 count;
@@ -654,104 +566,19 @@ struct Obj_800EB7BC {
 extern "C" {
 s32 has_no_active_slot(O_800EB8DC *self);
 void fn_800EB778(Obj_800EB778 *self, s32 id);
-s32 spawn_slime_in_slot(Obj_800EB7BC *origin, s32 arg1, Vec_800EB654 *arg2, Vec_800EB654 *arg3);
+s32 spawn_slime_in_slot(Obj_800EB7BC *origin, s32 arg1, Vec *arg2, Vec *arg3);
 
 }
 
 // ---- folded from src/pso/enemy/TObjEneSlime.cpp ----
-#include "types.h"
+
 #include "pso/render/render_util.h"
 #include "pso/unk/text_803E2D70.h"
 #include "pso/enemy/slime/TObjEneSlimeOne_800EC394.h"
-#include "pso/object/ambient/TObjFish.h"
-#include "pso/enemy/TObjEnemy.h"
-#include "pso/enemy/slime/TObjEneSlime.h"
-#include "pso/player/TObjPlayer.h"
 
-#define CAT2(a,b) a##b
-#define CAT(a,b) CAT2(a,b)
-#define VA virtual void CAT(f,__LINE__)();
-struct Base_800EBB18_800EB9F0 { char pad[0x18]; };
-struct VObj_800EBB18_800EB9F0 : Base_800EBB18_800EB9F0 {
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-    virtual void m77(s32 *);
-};
+
+#include "pso/enemy/slime/TObjEneSlime.h"
+
 
 struct Slot_800EB910 { s32 state; void *obj; };
 
@@ -766,67 +593,34 @@ s32 set_global_param__8TObjFishFl();
 extern u32 model_render_flags;
 
 
-
 void TObjEneSlime__sub_800EB9F0(void* p, void* q);
-
-
 
 
 }
 
 // ---- folded from src/pso/enemy/TObjEneSlime_800EBBC8.cpp ----
-#include "types.h"
-#include "pso/enemy/slime/TObjEneSlime.h"
+
+
 #include "pso/enemy/slime/TObjEneSlime_800EBBC8.h"
 #include "pso/boss/darkfalz/TObjDFHorming.h"
-#include "pso/enemy/slime/TObjEneSlime.h"
-#include "pso/boss/volopt/TBoss3Volopt.h"
-#include "pso/player/TObjPlayer.h"
 
-struct RecoveredGlobal_800EBC28___vt__12TObjEneSlime {
-    s32 value;
-    u8 remaining[0x14C];
-};
 
 extern "C" {
-s32 __ct__9TObjEnemyFP7TObject(void *);
 extern s32 __vt__12TObjEneSlime[];
 void free_bin_model_request(void*, int);
-void __dl__7TObjectFPv(void *);
-void *__dt__9TObjEnemyFv(TObjEnemy *arg0, s16 arg1);
-
-}
-extern "C" {
-
-
-typedef char RecoveredGlobal_800EBC28___vt__12TObjEneSlime_size[sizeof(RecoveredGlobal_800EBC28___vt__12TObjEneSlime) == 0x150 ? 1 : -1];
-
-
-}
 
 // ---- folded from src/pso/enemy/TObjEneSlime_800EBD38.cpp ----
-#include "types.h"
-#include "pso/enemy/slime/TObjEneSlime_800EBBC8.h"
-#include "pso/enemy/slime/TObjEneSlime.h"
-
-extern "C" {
-
 void *load_resource_from_descriptor(void *, s32, s32 *, s32, s32, s32);
-
-
-
 
 
 }
 
 // ---- folded from src/pso/player/TObjPlayer_800EBE2C.cpp ----
-#include "types.h"
+
 #include "pso/render/MaterialColorFade.h"
 #include "pso/player/TObjPlayer_800EBE2C.h"
 #include "pso/render/ChunkMaterialState.h"
-#include "pso/enemy/slime/TObjEneSlimeTailAttack.h"
-#include "pso/player/TObjPlayer.h"
-#include "pso/enemy/slime/TObjEneSlimeOne.h"
+
 
 struct Stack_800EBE74 {
     f32 sp8;
@@ -835,17 +629,11 @@ struct Stack_800EBE74 {
     f32 sp14;
 };
 
-extern "C" {
 extern int saved_model_render_flags;
 extern int saved_chunk_polygon_flags_and_mask;
 extern int saved_chunk_polygon_flags_or_mask;
 extern int chunk_polygon_flags_or_mask;
 extern int chunk_polygon_flags_and_mask;
-s32 find_nearest_hittable_enemy__10TObjPlayerFiPvf(void *, int, f32);
-
-
-
-}
 
 
 void TObjPlayer::push_material_color_override(f32 farg0, f32 farg1, f32 farg2, f32 farg3) {
@@ -909,7 +697,7 @@ void TObjEneSlime::free_instance() {
 u8 *TObjEneSlime__ct(TObjEneSlime *ene_slime, s32 arg1, u8 *arg2) {
     s32 temp_r0;
     __ct__9TObjEnemyFP7TObject(ene_slime);
-    *(s32 **)((s8 *)ene_slime + 0x18) = &(*(RecoveredGlobal_800EBC28___vt__12TObjEneSlime *)&__vt__12TObjEneSlime).value;
+    *(s32 **)((s8 *)ene_slime + 0x18) = __vt__12TObjEneSlime;
     *(s32 *)((s8 *)ene_slime + 0) = (s32) TObjEneSlime__name;
     ((TObjEneSlime *)(ene_slime))->apply_set_data(arg2);
     ((TObjEneSlime *)(ene_slime))->clear_lobby_object_state();
@@ -942,7 +730,7 @@ void TObjEneSlime::run_task() {
         sp8 = 0x800;
         send_6x0A_enemy_state(&sp8);
         exchange_object_state((s32)&sp8, (s16)0);
-        ((VObj_800EBB18_800EB9F0 *)this)->m77(&sp8);
+        this->vfunc_79(&sp8);
         send_entity_set_flags();
         queue_destruction();
     }
@@ -961,20 +749,20 @@ void TObjEneSlime::render() {
         push_matrix();
         temp_r30_2 = *(s32 *)((s8 *)((u8 *)lbl_80496368 + temp_r30) + 0);
         post_translate_matrix((void *) ((u8 *)arg0 + 0x38));
-        TObjFish__sub_8001EDB0((s32)slime_bml_resource, temp_r30_2);
+        get_bml_texlist((BmlResource *)slime_bml_resource, temp_r30_2);
         set_global_param__8TObjFishFl();
         if (temp_r31 != 0) {
             model_render_flags |= 0x400000;
             set_chunk_render_flags(1);
-            draw_chunk_object((void *)get_bml_model((s32)slime_bml_resource, temp_r30_2));
+            draw_chunk_object((void *)get_bml_model((BmlResource *)slime_bml_resource, temp_r30_2));
             clear_chunk_render_flags();
             model_render_flags &= 0xFFBFFFFF;
         } else {
             set_chunk_render_flags(2);
             set_cull_back();
-            draw_chunk_object((void *)get_bml_model((s32)slime_bml_resource, temp_r30_2));
+            draw_chunk_object((void *)get_bml_model((BmlResource *)slime_bml_resource, temp_r30_2));
             set_cull_front();
-            draw_chunk_object((void *)get_bml_model((s32)slime_bml_resource, temp_r30_2));
+            draw_chunk_object((void *)get_bml_model((BmlResource *)slime_bml_resource, temp_r30_2));
             set_cull_none();
             clear_chunk_render_flags();
         }
@@ -1018,7 +806,7 @@ s32 has_no_active_slot(O_800EB8DC *self) {
     return 1;
 }
 
-s32 spawn_slime_in_slot(Obj_800EB7BC *origin, s32 arg1, Vec_800EB654 *arg2, Vec_800EB654 *arg3) {
+s32 spawn_slime_in_slot(Obj_800EB7BC *origin, s32 arg1, Vec *arg2, Vec *arg3) {
     Tmpl_800EB7BC t;
     Slot_800EB7BC *slot;
     s32 n;
@@ -1061,8 +849,8 @@ struct Bomb_800E9090;
 
 s32 TObjEneSlimeOne::try_spawn_child(void *arg1) {
     s32 i;
-    Vec_800EB654 pos;
-    Vec_800EB654 dir;
+    Vec pos;
+    Vec dir;
     s32 ang;
     s32 n;
     int origin = (int)this;
@@ -1119,25 +907,25 @@ s32 TObjEneSlimeOne::create(s32 arg0, s32 arg1, s32 arg2) {
     return actor;
 }
 
-u8 *init__15TObjEneSlimeOneFPviii(u8 *arg0, s32 arg1, s32 arg2, s32 arg3) {
+u8 *init__15TObjEneSlimeOneFPviii(u8 *ene_slime_one, s32 arg1, s32 arg2, s32 arg3) {
     typedef char sp8_offset[(offsetof(Stack_800EB4A0, sp8) == 0x0) ? 1 : -1];
     typedef char spE_offset[(offsetof(Stack_800EB4A0, spE) == 0x6) ? 1 : -1];
     Stack_800EB4A0 stack;
-    __ct__9TObjEnemyFP7TObject(arg0);
-    *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_800EB4A0___vt__15TObjEneSlimeOne *)&__vt__15TObjEneSlimeOne).value;
-    *(s32 *)((s8 *)arg0 + 0) = (s32) TObjEneSlimeOne_class_name;
-    ((TObjChara *)arg0)->add_flags_2e4(2);
-    ((TObjEneSlimeOne *)(arg0))->apply_set_data((void *)arg3);
-    if (exchange_object_state__9TObjEnemyFls(arg0, &stack.sp8, 1) != 0) {
+    __ct__9TObjEnemyFP7TObject(ene_slime_one);
+    *(s32 **)((s8 *)ene_slime_one + 0x18) = __vt__15TObjEneSlimeOne;
+    *(s32 *)((s8 *)ene_slime_one + 0) = (s32) TObjEneSlimeOne_class_name;
+    ((TObjChara *)ene_slime_one)->add_flags_2e4(2);
+    ((TObjEneSlimeOne *)(ene_slime_one))->apply_set_data((void *)arg3);
+    if (exchange_object_state__9TObjEnemyFls(ene_slime_one, &stack.sp8, 1) != 0) {
         stack.sp8 = 0;
         stack.spE = 0;
-        exchange_object_state__9TObjEnemyFls(arg0, &stack.sp8, 0);
+        exchange_object_state__9TObjEnemyFls(ene_slime_one, &stack.sp8, 0);
     }
-    ((TObjEneSlimeOne *)arg0)->parent_slime = arg2;
-    ((TObjEneSlimeOne *)arg0)->initialize_slime_instance_state();
-    project_actor_to_ground(arg0, arg0 + 0x38, 0);
-    ((TObjEneSlimeOne *)arg0)->set_state((s32)((void*)(0)));
-    return arg0;
+    ((TObjEneSlimeOne *)ene_slime_one)->parent_slime = arg2;
+    ((TObjEneSlimeOne *)ene_slime_one)->initialize_slime_instance_state();
+    project_actor_to_ground(ene_slime_one, ene_slime_one + 0x38, 0);
+    ((TObjEneSlimeOne *)ene_slime_one)->set_state((s32)((void*)(0)));
+    return ene_slime_one;
 }
 
 u8 *TObjEneSlimeOne__ct(u8 *actor, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
@@ -1145,7 +933,7 @@ u8 *TObjEneSlimeOne__ct(u8 *actor, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
     typedef char spE_offset[(offsetof(Stack_800EB3D4, spE) == 0x6) ? 1 : -1];
     Stack_800EB3D4 stack;
     __ct__9TObjEnemyFP7TObject(actor);
-    *(s32 **)((s8 *)actor + 0x18) = &(*(RecoveredGlobal_800EB3D4___vt__15TObjEneSlimeOne *)&__vt__15TObjEneSlimeOne).value;
+    *(s32 **)((s8 *)actor + 0x18) = __vt__15TObjEneSlimeOne;
     *(s32 *)((s8 *)actor + 0) = (s32) TObjEneSlimeOne_class_name;
     ((TObjChara *)actor)->add_flags_2e4(2);
     ((TObjEneSlimeOne *)(actor))->apply_set_data((void *)arg3);
@@ -1178,8 +966,8 @@ void TObjEneSlimeOne::initialize_slime_instance_state() {
   }
   new_var2 = &(*((s32 *) (((s8 *) actor) + 0x3F4)));
   id = ((s32 *) lbl_804966DC)[*new_var2];
-  ((TObjEneSlimeOne *)actor)->texlist = TObjFish__sub_8001EDB0((s32)(((TObjEneSlimeOne *)actor)->model_archive), id);
-  *((s32 *) (((s8 *) actor) + 0x34)) = get_bml_model((s32)(((TObjEneSlimeOne *)actor)->model_archive), id);
+  ((TObjEneSlimeOne *)actor)->texlist = get_bml_texlist((BmlResource *)(((TObjEneSlimeOne *)actor)->model_archive), id);
+  *((s32 *) (((s8 *) actor) + 0x34)) = get_bml_model((BmlResource *)(((TObjEneSlimeOne *)actor)->model_archive), id);
   VecCopy((Vec *)(actor + 0x44), (const Vec *)((u8 *)VecCopy((Vec *)(actor + 0x50), (const Vec *)((void *)VecCopy((Vec *)(actor + 0x74), (const Vec *)(actor + 0x38))))));
   *((s32 *) (((s8 *) actor) + 0x38C)) = init_collision_body_parts(actor, lbl_80496370, 1);
   ((TObjMotion *)actor)->set_field_d8((s32)lbl_8049639C);
@@ -1260,7 +1048,7 @@ void TObjEneSlimeOne::run_task() {
 }
 void render__15TObjEneSlimeOneFv(TObjEneSlimeOne *ene_slime_one) {
     s32 temp_r31;
-    if ((TObjPlayer::check_demo_mode() == 0) && !(ene_slime_one->alpha <= 0.0f) && (((VObj_18_26a62c *)(ene_slime_one))->m8(500.0f, 20.0f) != 0)) {
+    if ((TObjPlayer::check_demo_mode() == 0) && !(ene_slime_one->alpha <= 0.0f) && (((TObjEneSlimeOne *)(ene_slime_one))->update_object_view_visibility(500.0f, 20.0f) != 0)) {
         temp_r31 = ene_slime_one->defer_render();
         if (ene_slime_one->alpha < 1.0f) {
             TObjPlayer__sub_800EBE48(ene_slime_one->alpha);
@@ -1268,7 +1056,7 @@ void render__15TObjEneSlimeOneFv(TObjEneSlimeOne *ene_slime_one) {
         TObjPlayer::toggle_particle_effect();
         push_matrix();
         {
-            Vec_800EAEE8 v = *(Vec_800EAEE8 *)((u8 *)ene_slime_one + 0x38);
+            Vec v = *(Vec *)((u8 *)ene_slime_one + 0x38);
             v.y += ene_slime_one->draw_offset_y;
             post_translate_matrix(&v);
         }
@@ -1331,7 +1119,7 @@ void set_display_mode__15TObjEneSlimeOneFPvi(void *arg0, s32 arg1) {
 void TObjEneSlimeOne::set_target_flag_bit0() {
     void *temp_r3;
 
-    temp_r3 = *(void **)((s8 *)this + 0x38C);
+    temp_r3 = this->collision_body_parts;
     *(s32 *)((s8 *)temp_r3 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r3 + 0x18) | 1);
 }
 
@@ -1339,7 +1127,7 @@ void TObjEneSlimeOne::clear_child_flag() {
     void *temp_r3;
 
     if ((s32) this->m_3ec == 0) {
-        temp_r3 = *(void **)((s8 *)this + 0x38C);
+        temp_r3 = this->collision_body_parts;
         *(s32 *)((s8 *)temp_r3 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r3 + 0x18) & 0xFFFFFFFE);
     }
 }
@@ -1419,7 +1207,7 @@ void TObjEneSlimeOne::sub_800EA820() {
     temp_f1_2 = var_f31 * (0.1f * sin_table_lookup(this->state_timer << 0xC));
     this->draw_scale.x = (f32) (this->draw_scale.x * (1.0f + temp_f1_2));
     this->draw_scale.z = (f32) (this->draw_scale.z * (1.0f - temp_f1_2));
-    this->state_timer = (s32) (this->state_timer + 1);
+    this->state_timer = (this->state_timer + 1);
     temp_f1_3 = this->m_398;
     if (temp_f1_3 >= 0.5f) {
         this->alpha = (f32) 1.0f;
@@ -1427,7 +1215,7 @@ void TObjEneSlimeOne::sub_800EA820() {
         this->alpha = (f32) (2.0f * temp_f1_3);
     }
     if ((this->m_398 += 0.033333335f) > 1.0f) {
-        if (find_nearest_visible_player(((u8 *)this), 0, 200.0f) != 0xFFFF) {
+        if (find_nearest_visible_player(this, 0, 200.0f) != 0xFFFF) {
             this->set_state(3);
         } else {
             this->set_state(2);
@@ -1453,7 +1241,7 @@ void TObjEneSlimeOne::sub_800EA678() {
     temp_f1_2 = var_f31 * (0.15f * sin_table_lookup(this->state_timer << 0xA));
     this->draw_scale.x = (f32) (this->draw_scale.x * (1.0f + temp_f1_2));
     this->draw_scale.z = (f32) (this->draw_scale.z * (1.0f - temp_f1_2));
-    this->state_timer = (s32) (this->state_timer + 1);
+    this->state_timer = (this->state_timer + 1);
     temp_f1_3 = this->m_398;
     if (temp_f1_3 >= 0.5f) {
         this->alpha = (f32) 1.0f;
@@ -1467,21 +1255,21 @@ void TObjEneSlimeOne::sub_800EA678() {
 void TObjEneSlimeOne::sub_800EA56C() {
     s32 temp_r31;
     u8 *actor = (u8 *)this;
-    *(f32 *)((s8 *)actor + 0x3B4) = (f32) 0.0f;
-    if (find_nearest_visible_player(actor, actor + 0x3B8, 200.0f) == 0xFFFF) {
+    this->move_speed = (f32) 0.0f;
+    if (find_nearest_visible_player(actor, (u8 *)&this->move_dir_x, 200.0f) == 0xFFFF) {
         ((TObjEneSlimeOne *)actor)->set_state(2);
         return;
     }
     temp_r31 = (s32) (1048575.0f * ((TObjChara *)actor)->random_ratio());
-    *(f32 *)((s8 *)actor + 0x3B8) = (f32) ((15.0f * sin_table_lookup(temp_r31)) + *(f32 *)((s8 *)actor + 0x3B8));
-    *(f32 *)((s8 *)actor + 0x3C0) = (f32) ((15.0f * cos_table_lookup(temp_r31)) + *(f32 *)((s8 *)actor + 0x3C0));
-    if (vector_length(actor + 0x3B8) <= 0.01f) {
+    this->move_dir_x = (f32) ((15.0f * sin_table_lookup(temp_r31)) + this->move_dir_x);
+    this->move_dir_z = (f32) ((15.0f * cos_table_lookup(temp_r31)) + this->move_dir_z);
+    if (vector_length((u8 *)&this->move_dir_x) <= 0.01f) {
         ((TObjEneSlimeOne *)actor)->set_state(2);
         return;
     }
     ((s32 (*)(void *))normalize_vector)(actor + 0x3B8);
     *(f32 *)((s8 *)actor + 0x398) = ((20.0f * ((TObjChara *)actor)->random_ratio()) + 50.0f);
-    *(f32 *)((s8 *)actor + 0x3A0) = (f32) 1.0f;
+    this->alpha = (f32) 1.0f;
     ((TObjEneSlimeOne *)((void *) *(s32 *)((s8 *)actor + 0x388)))->set_motion_state((s32)((void *) 8));
     ((int (*)(void*, int))set_display_mode__15TObjEneSlimeOneFPvi)(actor, 1);
 }
@@ -1536,7 +1324,7 @@ void TObjEneSlimeOne::enter_slime_state() {
     *(s32 *)((s8 *)((u8 *)this) + 0x394) = 8;
     ((TObjEneSlimeOne *)(*(s32 *)((s8 *)((u8 *)this) + 0x388)))->set_motion_state((s32)((void*)(9)));
     ((s32 (*)(s32, void *, s32, s32))play_sound_effect)(0x4003AD1D, ((u8 *)this) + 0x38, 0, 0);
-    ((int (*)(void*, int))set_display_mode__15TObjEneSlimeOneFPvi)(((u8 *)this), 1);
+    ((int (*)(void*, int))set_display_mode__15TObjEneSlimeOneFPvi)(this, 1);
 }
 
 void TObjEneSlimeOne::update_slime_timer() {
@@ -1560,7 +1348,7 @@ void TObjEneSlimeOne::enter_appear_state() {
     *(s32 *)((s8 *)((u8 *)this) + 0x394) = 0x14;
     ((s32 (*)(s32, void *, s32, s32))play_sound_effect)(0x4003AD1D, ((u8 *)this) + 0x38, 0, 0);
     ((TObjEneSlimeOne *)(*(s32 *)((s8 *)((u8 *)this) + 0x388)))->set_motion_state((s32)((void*)(0xA)));
-    ((int (*)(void*, int))set_display_mode__15TObjEneSlimeOneFPvi)(((u8 *)this), 1);
+    ((int (*)(void*, int))set_display_mode__15TObjEneSlimeOneFPvi)(this, 1);
 }
 
 void TObjEneSlimeOne::update_dive_timer() {
@@ -1578,17 +1366,17 @@ void TObjEneSlimeOne::update_dive_timer() {
 
 void TObjEneSlimeOne::sub_800EA120() {
   unsigned int new_var;
-  *((s32 *) (((s8 *) ((u8 *)this)) + 0x3CC)) = 0xFFFF;
-  *((s32 *) (((s8 *) ((u8 *)this)) + 0x39C)) = (s32) ((((s32) (4.0f * ((TObjChara *)this)->random_ratio())) + 4) << 0x10);
-  *((s32 *) (((s8 *) ((u8 *)this)) + 0x390)) = 0x7FFFFFFF;
-  *((s32 *) (((s8 *) ((u8 *)this)) + 0x3C4)) = 0x400;
+  this->target_client_id = 0xFFFF;
+  *((s32 *) (((s8 *) ((u8 *)this)) + 0x39C)) = (s32) ((((s32) (4.0f * this->random_ratio())) + 4) << 0x10);
+  this->state_timer = 0x7FFFFFFF;
+  this->turn_speed = 0x400;
   new_var = 1;
-  if (((TObjChara *)this)->random_ratio() > 0.5f)
+  if (this->random_ratio() > 0.5f)
   {
-    *((s32 *) (((s8 *) ((u8 *)this)) + 0x3C4)) = (s32) ((*((s32 *) (((s8 *) ((u8 *)this)) + 0x3C4))) * (-new_var));
+    this->turn_speed = (s32) ((this->turn_speed) * (-new_var));
   }
   ((TObjEneSlimeOne *)(*((s32 *) (((s8 *) ((u8 *)this)) + 0x388))))->set_motion_state((s32)((void*)((int) new_var)));
-  ((int (*)(void*, int))set_display_mode__15TObjEneSlimeOneFPvi)(((u8 *)this), 2);
+  ((int (*)(void*, int))set_display_mode__15TObjEneSlimeOneFPvi)(this, 2);
 }
 void TObjEneSlimeOne::sub_800E9EFC() {
     Vec sp14;
@@ -1603,9 +1391,9 @@ void TObjEneSlimeOne::sub_800E9EFC() {
     }
     this->rotation_y = f * (f32)this->turn_speed + (f32)this->rotation_y;
     if (this->target_client_id == 0xFFFF) {
-        r = find_nearest_visible_player(((u8 *)this), &sp14, 162.5f);
+        r = find_nearest_visible_player(this, &sp14, 162.5f);
         if (r != 0xFFFF &&
-            angle_difference_abs(this->rotation_y, (s32)(10430.38043493439 * ((f32 (*)(f32, f32))atan2_float)(sp14.x, sp14.z))) < 0x1C71) {
+            angle_difference_abs(this->rotation_y, (s32)(10430.38043493439 * atan2_float(sp14.x, sp14.z))) < 0x1C71) {
             *(s32 *)((s8 *)((u8 *)this) + 0x39C) = 0;
             this->target_client_id = r;
         }
@@ -1618,8 +1406,8 @@ void TObjEneSlimeOne::sub_800E9EFC() {
             sp8.x = 1.0f;
             sp8.y = 0.0f;
             sp8.z = 0.0f;
-            TObjPlayer::calc_distance_to_client((s32)((u8 *)this), (u16)(this->target_client_id), (u32)&sp8);
-            this->rotation_y = approach_angle_limited(this->rotation_y, (s32)(10430.38043493439 * ((f32 (*)(f32, f32))atan2_float)(sp8.x, sp8.z)), 0x280);
+            TObjPlayer::calc_distance_to_client((s32)this, this->target_client_id, (u32)&sp8);
+            this->rotation_y = approach_angle_limited(this->rotation_y, (s32)(10430.38043493439 * atan2_float(sp8.x, sp8.z)), 0x280);
         }
         if (this->state_timer > n) {
             ((TObjEneSlimeOne *)((void *)this->m_388))->set_motion_state((s32)((void *)0));
@@ -1648,17 +1436,17 @@ void TObjEneSlimeOne::sub_800E9DC8() {
     f32 sp[3];
     s32 r = 0;
     s32 t;
-    ((Obj_800E9DC8 *)this)->rotation_y = ((Obj_800E9DC8 *)this)->rotation_y + ((Obj_800E9DC8 *)this)->turn_speed;
-    if (((TObjEneSlimeOne *)((Obj_800E9DC8 *)this))->find_nearest_enemy_with_flag((s32)sp, 500.0f) != 0xFFFF) {
+    this->rotation_y = this->rotation_y + this->turn_speed;
+    if (((TObjEneSlimeOne *)this)->find_nearest_enemy_with_flag((s32)sp, 500.0f) != 0xFFFF) {
         t = (s32) (10430.38043493439 * atan2_float(sp[0], sp[2]));
-        if (angle_difference_abs(((Obj_800E9DC8 *)this)->rotation_y, t) < 0x444) {
-            ((Obj_800E9DC8 *)this)->rotation_y = t;
+        if (angle_difference_abs(this->rotation_y, t) < 0x444) {
+            this->rotation_y = t;
             r = 1;
         }
     }
-    ((Obj_800E9DC8 *)this)->state_timer = ((Obj_800E9DC8 *)this)->state_timer - 1;
-    if (r != 0 || ((Obj_800E9DC8 *)this)->state_timer < 0) {
-        ((TObjEneSlimeOne *)((Obj_800E9DC8 *)this))->set_state(9);
+    this->state_timer = this->state_timer - 1;
+    if (r != 0 || this->state_timer < 0) {
+        ((TObjEneSlimeOne *)this)->set_state(9);
     }
 }
 
@@ -1718,8 +1506,8 @@ void TObjEneSlimeOne::update_water_bomb_timer() {
         spawn_particle_effect(((u8 *)this) + 0x2FC, 0xE2);
         ((TObjEneSlimeWaterBomb *)((u8 *)this))->create(((u8 *)this));
     }
-    temp_r0_2 = *(s32 *)((s8 *)((u8 *)this) + 0x390) - 1;
-    *(s32 *)((s8 *)((u8 *)this) + 0x390) = temp_r0_2;
+    temp_r0_2 = this->state_timer - 1;
+    this->state_timer = temp_r0_2;
     if (temp_r0_2 <= 0) {
         if (this->is_timer_active() != 0) {
             this->set_state(7);
@@ -1735,7 +1523,7 @@ void TObjEneSlimeOne::start_tail_attack() {
     s32 n;
     f32 len;
     Tgt_800E984C *t;
-    t = ((Tgt_800E984C * (*)(s32))get_player_by_client_id)(self->target);
+    t = ((Tgt_800E984C * (*)(s32))get_player_by_client_id)(this->target_client_id);
     if (t == NULL || (t->flags & 0x02000800)) {
         ((TObjEneSlimeOne *)self)->set_state(5);
         return;
@@ -1773,10 +1561,10 @@ void TObjEneSlimeOne::start_tail_attack() {
         n--;
         ((void (*)(void *, void *))vec3_add_to)(&pos, &dir);
     }
-    self->state_timer = 0x5A;
+    this->state_timer = 0x5A;
     ((TObjEneSlimeOne *)((void *)self->f388))->set_motion_state((s32)((void*)((void *)0)));
-    play_sound_effect(0x4003A318, (Vec *)&self->dest, 0, 0);
-    ((void (*)(void *, void *, s32, void *))create__22TObjEneSlimeTailAttackFiiii)(self, &self->dest, self->rotation_y, self);
+    play_sound_effect(0x4003A318, (Vec *)(&self->dest), 0, 0);
+    ((void (*)(void *, void *, s32, void *))create__22TObjEneSlimeTailAttackFiiii)(self, &self->dest, this->rotation_y, self);
     ((int (*)(void*, void*))set_display_mode__15TObjEneSlimeOneFPvi)(self, (void*)((void *)2));
 }
 
@@ -1816,7 +1604,7 @@ void TObjEneSlimeOne::init_split_effect() {
     spawn_particle_effect((((u8 *)this) + 0x2FC), 0xCE);
     play_sound_effect(0x4003A61A, (Vec *)(((u8 *)this) + 0x38), 0, 0);
     ((TObjEneSlimeOne *)(*(s32 *)((s8 *)((u8 *)this) + 0x388)))->set_motion_state(5);
-    ((s32 (*)(void *, int))set_display_mode__15TObjEneSlimeOneFPvi)(((u8 *)this), 0);
+    ((s32 (*)(void *, int))set_display_mode__15TObjEneSlimeOneFPvi)(this, 0);
 }
 
 void TObjEneSlimeOne::sub_800E969C() {
@@ -1829,25 +1617,25 @@ void TObjEneSlimeOne::sub_800E95F4() {
     u8 *object;
     object = (u8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x3F0));
     if ((object != NULL) && (((TObject *)object)->all_parents_unqueued_for_destruction() != 0)) {
-        fn_800EB778(*(Obj_800EB778 **)((s8 *)((u8 *)this) + 0x3F0), (s32) *(u16 *)((s8 *)((u8 *)this) + 0x1C));
+        fn_800EB778(*(Obj_800EB778 **)((s8 *)((u8 *)this) + 0x3F0), (s32) this->entity_id);
     }
     *(f32 *)((s8 *)((u8 *)this) + 0x3B0) = 1.0f;
     this->draw_scale.y = 1.0f;
     this->draw_scale.x = 1.0f;
-    *(s32 *)((s8 *)((u8 *)this) + 0x390) = 5;
+    this->state_timer = 5;
     ((TObjPlayer *)((u8 *)this))->refresh_lobby_state();
     ((s32 (*)(s32, u32, s16, s32))play_sound_effect)(0x4003A81B, (u32)(((u8 *)this) + 0x38), 0, 0);
     spawn_particle_effect((((u8 *)this) + 0x2FC), 0xFE);
     ((TObjEneSlimeOne *)(*(u8 **)((s8 *)((u8 *)this) + 0x388)))->set_motion_state(5);
-    set_display_mode__15TObjEneSlimeOneFPvi(((u8 *)this), 0);
+    set_display_mode__15TObjEneSlimeOneFPvi(this, 0);
 }
 
 void TObjEneSlimeOne::update_effect_fade_lifetime() {
-    if ((*(f32 *)((s8 *)((u8 *)this) + 0x3A0) += -0.2f) < 0.0f) {
-        *(f32 *)((s8 *)((u8 *)this) + 0x3A0) = 0.0f;
+    if ((this->alpha += -0.2f) < 0.0f) {
+        this->alpha = 0.0f;
     }
-    if (--*(s32 *)((s8 *)((u8 *)this) + 0x390) <= 0) {
-        ((TObject *)this)->queue_destruction();
+    if (--this->state_timer <= 0) {
+        this->queue_destruction();
     }
 }
 extern "C" {
@@ -1861,7 +1649,7 @@ void TObjEneSlimeOne::sub_800E9538() {
     this->draw_scale.x = 0.0f;
     this->alpha = 0.0f;
     ((TObjEneSlimeOne *)(this->m_388))->set_motion_state(7);
-    set_display_mode__15TObjEneSlimeOneFPvi(((u8 *)this), 0);
+    set_display_mode__15TObjEneSlimeOneFPvi(this, 0);
 }
 void TObjEneSlimeOne::sub_800E92D8() {
     s32 landed = 0;
@@ -1931,16 +1719,13 @@ void TObjEneSlimeOne::copy_position() {
 }
 
 void fn_800E9238(s32 arg0) {
-    typedef char sp8_offset[(offsetof(Stack_800E9238, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_800E9238, spC) == 0x4) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_800E9238, sp10) == 0x8) ? 1 : -1];
-    Stack_800E9238 stack;
-    VecCopy((Vec *)(&stack.sp8), (const Vec *)(arg0 + 0x38));
-    ((f32 (*)(void *, void *))subtract_vector)((void *)&stack.sp8, (void *)(arg0 + 0x374));
-    stack.sp8 *= 0.025f;
-    stack.spC *= 0.025f;
-    stack.sp10 *= 0.025f;
-    ((f32 (*)(void *, void *))vec3_add_to)((void *)(arg0 + 0x374), (void *)&stack.sp8);
+    Vec stack;
+    VecCopy((Vec *)(&stack.x), (const Vec *)(arg0 + 0x38));
+    ((f32 (*)(void *, void *))subtract_vector)((void *)&stack.x, (void *)(arg0 + 0x374));
+    stack.x *= 0.025f;
+    stack.y *= 0.025f;
+    stack.z *= 0.025f;
+    ((f32 (*)(void *, void *))vec3_add_to)((void *)(arg0 + 0x374), (void *)&stack.x);
 }
 
 void TObjEneSlimeOne::sub_800E9090() {
@@ -1961,7 +1746,7 @@ void TObjEneSlimeOne::sub_800E9090() {
     VecCopy((Vec *)&c, (const Vec *)&self->vel);
     vec3_add_to(&c, &a);
     c.y += -1.125f;
-    ang = 10430.38043493439 * ((f32 (*)(f32, f32))atan2_float)(a.x, a.z);
+    ang = 10430.38043493439 * atan2_float(a.x, a.z);
     b.x = 1.25f;
     b.y = 0.21428572f;
     b.z = 1.25f * vector_length(&a) / 11.0f;
@@ -1977,8 +1762,8 @@ void TObjEneSlimeOne::sub_800E9090() {
     rotate_matrix_y(0, ang);
     scale_matrix_vec3((u8 *)(0), (u8 *)&b);
     t = slime_tail_attack_id_pair[self->f3F4];
-    TObjFish::set_global_param(TObjFish__sub_8001EDB0(self->f380, t));
-    draw_chunk_object((void *)(get_bml_model(self->f380, t)));
+    TObjFish::set_global_param(get_bml_texlist((BmlResource *)self->f380, t));
+    draw_chunk_object((void *)(get_bml_model((BmlResource *)self->f380, t)));
     ((int (*)(void))pop_matrix)();
     TObjPlayer::init_render_globals();
 }
@@ -2058,13 +1843,13 @@ void run_task__21TObjEneSlimeWaterBombFv(Bomb_800E8D4C *arg0) {
     {
         if ((arg0->life += 0.6f) >= 200.0f || die != 0) {
             spawn_particle_effect(&arg0->pos, 0xE2);
-            ((s32 (*)(void *))queue_destruction__7TObjectFv)(arg0);
+            ((TObject *)arg0)->queue_destruction();
         }
     }
 }
 void TObjEneSlimeWaterBomb::render() {
     u8 *arg0 = (u8 *)this;
-    Vec_800E8C6C v;
+    Vec v;
     s32 spC;
     s32 sp8;
     f32 d;
@@ -2129,8 +1914,8 @@ void *TObjEneSlimeTailAttack__ct(TObjEneSlimeTailAttack *ene_slime_tail_attack, 
   *((s32 *) (((s8 *) ene_slime_tail_attack) - -0x374)) = arg4;
   inst = get_instance__15TObjEneSlimeOneFv();
   id = ((s32 *) lbl_804966F4)[((TObjEneSlimeOne *)(*((s32 *) (((s8 *) ene_slime_tail_attack) + (0x374 & 0xFFFF)))))->get_attack_target()];
-  ene_slime_tail_attack->texlist = TObjFish__sub_8001EDB0((s32) inst, id);
-  *((s32 *) (((s8 *) ene_slime_tail_attack) + 0x34)) = get_bml_model((s32) inst, id);
+  ene_slime_tail_attack->texlist = get_bml_texlist((BmlResource *)inst, id);
+  *((s32 *) (((s8 *) ene_slime_tail_attack) + 0x34)) = get_bml_model((BmlResource *)inst, id);
   ene_slime_tail_attack->action_table = (TObjMotionAction *)lbl_8049639C;
   ((TObjMotion *)ene_slime_tail_attack)->set_field_d8((s32) ((u8 *) lbl_8049639C));
   *((s32 *) (((s8 *) ene_slime_tail_attack) + 0xDC)) = *((s32 *) (((s8 *) inst) + 0x430));
@@ -2176,7 +1961,7 @@ void *create__22TObjEneSlimeTailAttackFiiii(s32 arg1, s32 arg2, s32 arg3, s32 ar
 }
 void TObjEneSlimeTailAttack::run_task() {
     if ((s32) *(s32 *)((s8 *)((u8 *)this) + 0x378) != 0) {
-        TObjPlayer__sub_800E85BC(this);
+        sub_800E85BC();
         advance_animation();
         if (this->motion_flags & 0x10) {
             queue_destruction();
@@ -2193,50 +1978,50 @@ void TObjEneSlimeTailAttack::run_task() {
         *(f32 *)((s8 *)((u8 *)this) + 0x384) += -0.031666666f;
         *(f32 *)((s8 *)((u8 *)this) + 0x388) += 0.06666667f;
         if (*(f32 *)((s8 *)((u8 *)this) + 0x384) <= 0.05f) {
-            ((TObject *)this)->queue_destruction();
+            this->queue_destruction();
         }
     }
 }
 
-s32 TObjPlayer__sub_800E85BC(TObjEneSlimeTailAttack *self) {
+s32 TObjEneSlimeTailAttack::sub_800E85BC() {
     Hit_800E8AD0 hit;
     s32 result;
     Ent_800E8AD0 *e;
     Ent_800E8AD0 *e2;
     u16 id;
     s32 id2;
-    f32 t = self->frame;
+    f32 t = this->frame;
     if (t < 17.0f || t > 30.0f) {
         return 0;
     }
     hit.kind = 0;
     result = 0;
-    hit.dmg = *(s16 *)TLobby::register_boss((s32)lbl_804966FC[((TObjEneSlimeOne *)(*(s32 *)((u8 *)self + 0x374)))->get_attack_target()]);
-    id = find_nearest_visible_player(self, 0, 25.0f);
-    if (id != 0xFFFF && id != *(s32 *)((u8 *)self + 0x37C)) {
+    hit.dmg = *(s16 *)TLobby::register_boss((s32)lbl_804966FC[((TObjEneSlimeOne *)(*(s32 *)((u8 *)this + 0x374)))->get_attack_target()]);
+    id = find_nearest_visible_player(this, 0, 25.0f);
+    if (id != 0xFFFF && id != *(s32 *)((u8 *)this + 0x37C)) {
         e = ((Ent_800E8AD0 *(*)(s32))get_player_by_client_id)(id);
         if (e != NULL) {
             TObjPlayer *pl = (TObjPlayer *)e;
             f32 lo = pl->position.y - 5.0f;
             f32 hi = 5.0f + (pl->position.y + pl->m_d48);
-            if (!(self->m_2fc.y < lo) && !(self->m_2fc.y > hi) &&
-                !(horizontal_distance_squared((const Vec *)&self->m_2fc, (const Vec *)&pl->position) > 56.25f)) {
-                if (e->m21(*(s32 *)((u8 *)self + 0x374), hit, 0, -1, -1) != 0.0f) {
-                    e->m23(self);
+            if (!(this->m_2fc.y < lo) && !(this->m_2fc.y > hi) &&
+                !(horizontal_distance_squared((const Vec *)&this->m_2fc, (const Vec *)&pl->position) > 56.25f)) {
+                if (e->m21(*(s32 *)((u8 *)this + 0x374), hit, 0, -1, -1) != 0.0f) {
+                    e->m23(this);
                 }
-                *(s32 *)((u8 *)self + 0x37C) = id;
+                *(s32 *)((u8 *)this + 0x37C) = id;
                 result = 1;
             }
         }
     }
-    id2 = self->find_nearest_enemy_with_flag(25.0f);
+    id2 = this->find_nearest_enemy_with_flag(25.0f);
     if (id2 != 0xFFFF) {
-        void *owner = *(void **)((u8 *)self + 0x374);
+        void *owner = *(void **)((u8 *)this + 0x374);
         if (owner == NULL || id2 != (u16)get_entity_id(owner)) {
             e2 = (Ent_800E8AD0 *)get_enemy_entity(id2);
-            if (e2 != NULL && !(horizontal_distance_squared((const Vec *)&self->m_2fc, (const Vec *)((u8 *)e2 + 0x2FC)) > 56.25f)) {
-                if (e2->m21(*(s32 *)((u8 *)self + 0x374), hit, 0, -1, -1) != 0.0f) {
-                    e2->m23(self);
+            if (e2 != NULL && !(horizontal_distance_squared((const Vec *)&this->m_2fc, (const Vec *)((u8 *)e2 + 0x2FC)) > 56.25f)) {
+                if (e2->m21(*(s32 *)((u8 *)this + 0x374), hit, 0, -1, -1) != 0.0f) {
+                    e2->m23(this);
                 }
                 result = 1;
             }
@@ -2332,10 +2117,10 @@ void TObjPlayer::draw_blob_shadows() {
     s32 sp8;
     k = 10.0f;
     for (i = 0; i < 4; i++) {
-        Vec_800E81B4 v = ((Obj_800E81B4 *)this)->pts[i];
+        Vec v = ((Obj_800E81B4 *)this)->pts[i];
         Rot_800E81B4 rot;
         v.y += k;
-        if (((s32 (*)(void *, Vec_800E81B4 *, Rot_800E81B4 *))project_actor_to_ground)(this, &v, &rot) != 0) {
+        if (((s32 (*)(void *, Vec *, Rot_800E81B4 *))project_actor_to_ground)(this, &v, &rot) != 0) {
             push_matrix();
             translate_matrix(0, v.x, 0.1f + v.y, v.z);
             direction_to_rotation_xz((u8 *)&rot, &spC, &sp8);
@@ -2350,10 +2135,10 @@ void TObjPlayer::draw_blob_shadows() {
 void TObjPlayer__sub_800E81A8(void) { lbl_805D52B4 = 0; }
 void TObjPlayer__sub_800E8128(void) {
     if ((s32) (*(s32 *)&lbl_805D52B4) == 7) {
-        transform_to_view__11TCameraCtrlFii((s32) &slime_tail_attack_zero_vec.value, (s32) &lbl_80501010.value);
+        transform_to_view__11TCameraCtrlFii((s32)&slime_tail_attack_zero_vec, (s32) &lbl_80501010.value);
     }
     if (((s32) (*(s32 *)&lbl_805D52B4) >= 4) && ((s32) (*(s32 *)&lbl_805D52B4) < 8)) {
-        transform_to_view__11TCameraCtrlFii((s32) &slime_tail_attack_transform.value, (s32) ((u8 *)&lbl_80501010.value + (((*(s32 *)&lbl_805D52B4) - 4) * 0xC) + 0xC));
+        transform_to_view__11TCameraCtrlFii((s32)&slime_tail_attack_transform, (s32) ((u8 *)&lbl_80501010.value + (((*(s32 *)&lbl_805D52B4) - 4) * 0xC) + 0xC));
     }
     (*(s32 *)&lbl_805D52B4) += 1;
 }
@@ -2364,13 +2149,11 @@ S_800E80E8 *TObjPlayer__sub_800E80E8(S_800E80E8 *dst, S_800E80E8 *src) {
 }
 
 void TObjPlayer__sub_800E80C0(u8 *dst) {
-    TObjPlayer__sub_800E80E8((S_800E80E8 *)(dst), (S_800E80E8 *)(&(*(RecoveredGlobal_800E80C0_lbl_80501010 *)&lbl_80501010).value));
+    TObjPlayer__sub_800E80E8((S_800E80E8 *)(dst), (S_800E80E8 *)(&lbl_80501010.value));
 }
 }
 
 #undef lbl_80496574
 #undef slime_tail_attack_id_pair
 #undef TObjEneSlime__attack_target_param_table
-#undef slime_tail_attack_zero_vec
-#undef slime_tail_attack_transform
 #undef __vt__22TObjEneSlimeTailAttack

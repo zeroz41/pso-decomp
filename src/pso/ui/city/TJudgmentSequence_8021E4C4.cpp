@@ -2,6 +2,7 @@
 #include "pso/ui/city/TJudgmentSequence_8021E4C4.h"
 #include "pso/ui/city/TShopGetItemWindow.h"
 #include "pso/ui/city/TJudgmentSequence.h"
+#include "pso/system/task/TObject.h"
 
 struct Base_8021E524_8021E4C4 { char pad[0x18]; };
 struct VObj_8021E524_8021E4C4 : Base_8021E524_8021E4C4 {
@@ -23,12 +24,11 @@ struct VObj_8021E55C_8021E4C4 : Base_8021E55C_8021E4C4 {
 
 extern "C" {
 
-void *__nw__7TObjectFUl(int);
 
 extern void *tl_05;
 
 void *TJudgmentSequence::create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0x34);
+    void *o = TObject::operator new(0x34);
     if (o != NULL) {
         o = TJudgmentSequence__ct((u8 *)o, (s32)tl_05, (s32)arg0);
     }

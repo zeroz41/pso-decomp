@@ -1,5 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/NinjaTypes.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
+#include "pso/weapon/TItemWeapon.h"
 #include "types.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/system/vector.h"
@@ -29,8 +31,7 @@
 #include "pso/item/TUnk_804E355C.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/system/task/TObject.h"
-#include "pso/player/TObjPlayer.h"
-#include "pso/system/task/TMainTask.h"
+
 
 struct Base_8034EFDC { char pad[0x18]; };
 struct VObj_8034EFDC : Base_8034EFDC {
@@ -121,15 +122,12 @@ struct Elem_8034F204 { u8 x[0x2C]; };
 struct Tbl_8034F204 { u8 pad[0x1C]; Elem_8034F204 arr[1]; };
 
 
-struct RecoveredGlobal_8034FCF0_lbl_804F0BF0 {
-    s32 value;
-    u8 remaining[0x14];
-};
-
 extern "C" {
 u8 *TObjPlayer__sub_8034F1AC(u8 *item);
 s32 rotate_matrix_z(s32, s32);
+}
 void init_slicer_launch_state(void *arg0);
+extern "C" {
 u16 get_entity_id(void *);
 s16 TObjPlayer__sub_801D2F4C(s16 *arg0);
 s16 get_validated_attack_stage(u8 *arg0);
@@ -138,14 +136,13 @@ u8 *create__10TTecSlicerFPUs(SlicerLaunchData_8012D9C8 *);
 extern const f32 lbl_805DFDF8;
 s32 spawn_particle_effect(void *, s32);
 void *find_entity_by_id(s32);
-void *__nw__7TObjectFUl(u32);
 void create_fire_explosion_effect(void *, f32, void *, int, void *);
 void *TObjPlayer__sub_802E449C(void *a0);
 extern const f32 lbl_805DFE00;
 s32 rotate_matrix_x(s32, s32);
 void draw_weapon_at_joint(s32 arg0, s8 arg1);
 void TItemEffPG__begin_visual_fade(void *p);
-void *create_particle_emitter(void *pos, s32 id);
+TParticleCtrl *create_particle_emitter(const void *pos, s32 id);
 void __ct__7TObjectFP7TObject(void *, void *);
 extern s32 __vt__13TUnk_804F0BF0[];
 s32 all_parents_unqueued_for_destruction__7TObjectFv();
@@ -153,6 +150,7 @@ s32 rotate_matrix_y(int, int);
 s32 push_matrix();
 s32 scale_current_matrix(void *);
 s32 post_translate_matrix(void *);
+}
 extern s32 saved_model_draw_color[];
 extern s32 model_material_color[];
 extern s32 saved_model_render_flags;
@@ -161,17 +159,11 @@ extern s32 saved_chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_and_mask;
 extern s32 model_render_flags;
-void __dl__7TObjectFPv(void *);
-}
-
 // Built with -inline off,deferred: functions are written last to first, so
 // the vtables come out 0810, 0908, 0A00, 0AF8, 0BF0, 0C08, 0C28 as in the original.
 // The functions from 0x8034FE28 on were a separate unit; their literals continue
 // this TU's .sdata2 pool at 0x805DFE14 (a 4-mod-8 address, so no TU starts there).
-
-extern "C" {
 const char *TItemEffPG__name = "TItemEffPG";
-}
 
 S_8035016C *S_8035016C::init_params() {
     TObjPlayer__sub_802E451C(this);
@@ -273,11 +265,10 @@ s32 TUnk_804F0C08::vfunc_7() {
     return 0;
 }
 
-typedef char RecoveredGlobal_8034FCF0_lbl_804F0BF0_size[sizeof(RecoveredGlobal_8034FCF0_lbl_804F0BF0) == 0x18 ? 1 : -1];
 u8 *TItemEffPG__visual_ct(u8 *arg0, u8 *arg1, u8 *arg2) {
     f32 temp_f1;
     __ct__7TObjectFP7TObject(arg0, arg1);
-    *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_8034FCF0_lbl_804F0BF0 *)&__vt__13TUnk_804F0BF0).value;
+    *(s32 **)((s8 *)arg0 + 0x18) = __vt__13TUnk_804F0BF0;
     *(s32 *)((s8 *)arg0 + 0x1C) = (s32) *(s32 *)((s8 *)arg2 + 0x18);
     *(s32 *)((s8 *)arg0 + 0x20) = (s32) *(s32 *)((s8 *)arg2 + 0x34);
     *(s32 *)((s8 *)arg0 + 0x24) = (s32) *(s32 *)((s8 *)arg2 + 0x38);
@@ -348,7 +339,7 @@ void TUnk_804F0BF0::render() {
             saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
             copy_argb((NJS_ARGB *)saved_model_draw_color, (NJS_ARGB *)model_material_color);
             model_render_flags |= 0x20;
-            set_constant_material((const NJS_ARGB *)((arg0 + 0x28)));
+            set_constant_material((const NJS_ARGB *)(((u8 *)&this->m_28)));
             TParticleCtrl::begin_effect_render();
             TObjFish::set_global_param((int) (*(s32 *)((s8 *)arg0 + 0x24)));
             push_matrix();
@@ -402,7 +393,7 @@ void TUnk_804F0AF8::vfunc_60() {
     player_list = TObjPlayer::get_player_list();
     switch (player_list) {
     case 2:
-        rotate_matrix_z(0, *(s32 *)&this->unk_1F8);
+        rotate_matrix_z(0, this->unk_1F8);
         return;
     case 8:
         rotate_matrix_z(0, this->m_1fc);
@@ -436,16 +427,16 @@ void TUnk_804F0A00::vfunc_60() {
     player_list = TObjPlayer::get_player_list();
     switch (player_list) {
     case 2:
-        rotate_matrix_x(0, *(s32 *)&this->unk_1F8);
+        rotate_matrix_x(0, this->unk_1F8);
         return;
     case 3:
         rotate_matrix_x(0, this->m_1fc);
         return;
     case 5:
-        rotate_matrix_z(0, *(s32 *)&this->unk_200);
+        rotate_matrix_z(0, this->unk_200);
         return;
     case 4:
-        rotate_matrix_z(0, -*(s32 *)&this->unk_200);
+        rotate_matrix_z(0, -this->unk_200);
         return;
     }
 }
@@ -460,11 +451,11 @@ s32 TObjPlayer::spawn_fire_explosion(u32 a0, s32 a1) {
     S_802E449C info;
     void *o;
     TObjPlayer__sub_802E449C(&info);
-    ((TObjPlayer *)a0)->fill_status_info(&info);
+    ((TItemWeapon *)a0)->fill_status_info(&info);
     VecCopy(&info.position, (const Vec *)a1);
     info.hits = 10;
     new TUnk_804A2548(tl_05, &info);
-    o = __nw__7TObjectFUl(0x64);
+    o = TObject::operator new(0x64);
     if (o != NULL) {
         create_fire_explosion_effect(o, lbl_805DFE00, &info, 0, tl_particle);
     }

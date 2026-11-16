@@ -15,9 +15,9 @@ void TUnk_804A1478::emit_marker_effects() {
 
 TUnk_804A1478::TUnk_804A1478(TObject *parent, u8 *item) : TItemWeapon(parent, item) {}
 
-u8 *create_wand_weapon(u8 *arg0) {
-    if (arg0 != NULL) {
-        return (u8 *)new TUnk_804A1478(tl_05, arg0);
+u8 *create_wand_weapon(u8 *item) {
+    if (item != NULL) {
+        return (u8 *)new TUnk_804A1478(tl_05, item);
     }
     return NULL;
 }

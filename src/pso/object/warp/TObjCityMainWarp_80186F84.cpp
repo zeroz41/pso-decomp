@@ -1,9 +1,12 @@
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
+#include "pso/ui/frontend/TAdChrSelASlotGC.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/object/warp/TObjWarpBossMulti.h"
 #include "pso/ui/window/TWindowMessageYesNo.h"
 #include "pso/object/warp/TObjCityMainWarpChallenge.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
+#include "pso/system/BmlResource.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
@@ -15,50 +18,14 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/player/TObjPlayer_80011014.h"
-#include "pso/object/warp/TObjCityMainWarp.h"
 
-void initialize_option_dialog(void *dialog, s32 message, s32 position, f32 width);
-
-struct Warp_80187438 {
-    u8 pad0[0x38];
-    f32 pos[3];
-    u8 pad44[0xAC - 0x44];
-    f32 radius;
-    u8 padb0[0xBC - 0xB0];
-    s32 fbc;
-    u8 padc0[0xE4 - 0xC0];
-    char names[4][0x18];
-    s32 inside[4];
-    s32 count;
-    s32 n_inside;
-    s32 f15c;
-    u8 pad160[4];
-    u32 window;
-};
-
-struct Player_80187438 {
-    u8 pad0[0x38];
-    f32 pos[3];
-    u8 pad44[0x85C - 0x44];
-    char name[0x18];
-};
 
 extern "C" {
-f32 xz_distance_squared(void *, void *);
-char *strcpy(char *, const char *);
 extern s32 local_client_id;
 s32 is_local_client_floor_leader(s32);
 s32 find_local_player_in_range__16TObjCityMainWarpFf(void *, f32);
 s32 close_windows__25TObjCityMainWarpChallengeFv();
-void TObjCityMainWarp__sub_801875F8(TObjCityMainWarpChallenge *self);
-s32 fn_80248994(void *, u32, int);
-void request_active_window_close(void);
-void begin_player_keyboard_hold(s32 arg0);
-s32 get_window_layout_position(s32);
-s32 free_member__17TWindowSubComCardFv(void *, int);
-s32 forward_slot_selection__16TAdChrSelASlotGCFPvPv(void *, s32, s32, f32);
-extern void *city_common_model_archive;
-s32 get_main_phase();
+extern BmlResource *city_common_model_archive;
 extern s32 city_main_warp_destination_id;
 
 void TObjCityMainWarp::update_state() {
@@ -79,7 +46,7 @@ void TObjCityMainWarp::update_state() {
             if (temp_r3 != 0) {
                 TObjCityMainWarp::notify_player_warp(this, local_client_id);
                 *(s32 *)((s8 *)this + 0xBC) = (s32) city_main_warp_destination_id;
-                this->confirm_area_transfer(temp_r3);
+                this->confirm_area_transfer((void *)temp_r3);
                 *(s16 *)((s8 *)this + 0xE0) = 2;
             }
         }
@@ -98,34 +65,35 @@ void TObjCityMainWarp::update_state() {
 }
 
 void TObjCityMainWarp::update_warp_sequence() {
-    u8 *arg0 = (u8 *)this;
+    // The object is a TObjCityMainWarpChallenge: its update_state runs this as state 1.
+    TObjCityMainWarpChallenge *arg0 = (TObjCityMainWarpChallenge *)this;
     s32 r;
-    switch (this->m_e0) {
+    switch (arg0->state_step) {
     case 0:
-        *(s32 *)((s8 *)arg0 + 0x160) = 0x12C;
-        play_sound_effect(0x40003205, &this->position, 0, 0);
-        this->m_e0 = 1;
-        this->m_d0 = *(s32 *)((s8 *)(*(void **)((s8 *)city_common_model_archive + 0x42C)) + 8);
-        *(s32 *)((s8 *)arg0 + 0xD4) = *(s32 *)((s8 *)(*(void **)((s8 *)city_common_model_archive + 0x430)) + 0x2C);
+        arg0->warp_countdown = 0x12C;
+        play_sound_effect(0x40003205, (Vec *)((u8 *)&arg0->position), 0, 0);
+        arg0->state_step = 1;
+        arg0->model = city_common_model_archive->models[0].model;
+        arg0->motion = city_common_model_archive->motions[5].motion;
         break;
     case 1:
-        if (((u32 (*)(f32))find_local_player_in_range__16TObjCityMainWarpFf)(*(f32 *)((s8 *)arg0 + 0xAC)) != 0) {
-            TObjCityMainWarp__sub_801875F8((TObjCityMainWarpChallenge *)arg0);
-            if (*(s32 *)((s8 *)arg0 + 0x170) == 0) {
-                ((TObjCityMainWarpChallenge *)arg0)->trigger_warp_effect(local_client_id);
-                *(s32 *)((s8 *)arg0 + 0x170) = 1;
+        if (((u32 (*)(f32))find_local_player_in_range__16TObjCityMainWarpFf)(arg0->warp_range) != 0) {
+            ((TObjCityMainWarpChallenge *)arg0)->sub_801875F8();
+            if (arg0->warp_triggered == 0) {
+                arg0->trigger_warp_effect(local_client_id);
+                arg0->warp_triggered = 1;
             }
         }
         if (TWindowSubTradeMain::get_warp_state() != 0) {
-            if (is_local_client_floor_leader((*(s32 *)((s8 *)arg0 + 0x160))--) != 0) {
-                if (*(s32 *)((s8 *)arg0 + 0x160) <= 0) {
+            if (is_local_client_floor_leader(arg0->warp_countdown--) != 0) {
+                if (arg0->warp_countdown <= 0) {
                     r = 1;
                 } else {
-                    r = ((TObjCityMainWarpChallenge *)arg0)->are_all_players_in_range();
+                    r = arg0->are_all_players_in_range();
                 }
                 if (r != 0) {
-                    ((TObjCityMainWarpChallenge *)arg0)->send_6x6A_set_boss_warp_flags(2);
-                    this->m_e0 = 2;
+                    arg0->send_6x6A_set_boss_warp_flags(2);
+                    arg0->state_step = 2;
                 }
             }
         }

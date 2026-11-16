@@ -7,7 +7,7 @@
 #include "pso/system/vector.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/player/TObjPlayer.h"
+
 
 void TUnk_804A4E68::vfunc_60() {
     if (TObjPlayer::get_player_list() == 0) {
@@ -19,7 +19,7 @@ void TUnk_804A4E68::update_idle() {
     rotation_z = 0;
 }
 
-extern "C" {
+
 #pragma push
 #pragma fp_contract on
 void TUnk_804A4E68::update_attack() {
@@ -69,7 +69,6 @@ void TUnk_804A4E68::update_attack() {
 }
 #pragma pop
 
-}
 
 TUnk_804A4E68::~TUnk_804A4E68() {}
 

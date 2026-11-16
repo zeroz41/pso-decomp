@@ -1,4 +1,6 @@
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
+#include "pso/player/TObjPlayer_801D84CC.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/item/TItem.h"
 #include "pso/player/TPlyCharData.h"
@@ -11,11 +13,12 @@
 #include "pso/map/FloorArea.h"
 
 #include <stddef.h>
-#include "pso/map/FloorArea.h"
+
 #include "pso/item/TItemData.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/object/base/TObjMotion.h"
-#include "pso/player/TObjPlayer.h"
+#include "pso/system/MatrixStack.h"
+
 struct Stack_801D8664 {
     s8 sp8;
     s8 sp9;
@@ -28,8 +31,6 @@ struct Src_801D88C8;
 struct Rec_801D86F8 { s32 a[0x50 / 4]; s32 b[0x38 / 4]; s32 c[0x40 / 4]; };
 
 extern "C" {
-void process_trade_target__10TObjPlayerFiPv(s32 arg0, void *arg1);
-void TObjPlayer__sub_801D8664(s32 arg0, s8 arg1, s8 arg2);
 void copy_data__6TLobbyFPvPv(void *arg0, void *arg1);
 s32 copy_player_visual_record(void *, void *);
 s32 fn_801D40D4(void *, void *, void *);
@@ -56,21 +57,21 @@ s32 get_item_id__5TItemFv();
 u16 get_entity_id(void *);
 
 void process_trade_target__10TObjPlayerFiPv(s32 arg0, void *player) {
-    void *temp_r3;
+    void *item;
 
     ((s32 (*)())get_entity_id)();
     *(s32 *)((s8 *)player + 0xC) = advance_item_id_counter();
-    temp_r3 = create_item((TItemData *)player);
-    if (temp_r3 != NULL) {
-        s8 val = ((VObj_84_801d859c_801D84CC *)temp_r3)->m31();
+    item = create_item((TItemData *)player);
+    if (item != NULL) {
+        s8 val = ((VObj_84_801d859c_801D84CC *)item)->m31();
         s32 val_ext = (s32)val;
         if (TObjPlayer::get_slot_value((s32 *)(arg0 + 0xD04), val_ext) != 0U) {
             send_6x29_delete_item__10TObjPlayerFPvii((void *)arg0, get_item_id__5TItemFv(), 1);
             set_equip_slot_entry(arg0 + 0xD04, val_ext, 0);
         }
-        if (pickup_item__10TObjPlayerFP5TItem((u8 *)arg0, (u8 *)temp_r3) != 0U) {
+        if (pickup_item__10TObjPlayerFP5TItem((u8 *)arg0, (u8 *)item) != 0U) {
             ((TObjPlayer *)arg0)->set_flag_20000();
-            ((TObjPlayer *)arg0)->equip_item_to_slot(temp_r3, 0);
+            ((TObjPlayer *)arg0)->equip_item_to_slot(item, 0);
             ((TObjPlayer *)arg0)->sub_801BE9A8();
         }
     }
@@ -87,9 +88,6 @@ void TObjPlayer__sub_801D8664(s32 arg0, s8 arg1, s8 arg2) {
     process_trade_target__10TObjPlayerFiPv(arg0, &stack.sp8);
 }
 
-s32 calc_joint_matrices__10TObjMotionFP10NJS_MOTIONfl(void *, s32, f32, s32);
-void push_matrix(void);
-s32 pop_matrix(void);
 void restore_scene_lighting(void);
 void select_actor_lighting(s32 obj);
 s32 TObjPlayer__sub_801BAC48(void *);
@@ -99,8 +97,6 @@ void save_render_material_state(u8 *arg0);
 extern "C" {
 void translate_matrix_vec3(u8 *arg0, u8 *arg1);
 s32 rotate_matrix_y(int, int);
-void TObjPlayer__sub_801D877C(u8 *arg0);
-void TObjPlayer__sub_801D8864(void);
 
 int TUnk_804C4540::set_position_from(void *pos) { return TObjBase::set_position_from(pos); }
 void TUnk_804C4540::set_animation_default(s16 index) { set_animation(index); }
@@ -184,7 +180,6 @@ void TObjPlayer__ct(void *, void *);
 extern s32 ending_sequence_player_vtable[];
 extern u8 *TObjPlayer__shared_model_buffer;
 void *__dt__13TUnk_804C4540Fv(void *arg0, s16 arg1);
-void TObjPlayer__sub_801D8A38(void* a0);
 void TObjPlayer__sub_801BFF80(u8 *arg0);
 void __dl__7TObjectFPv(void *);
 void *__dt__10TObjPlayerFv(void *arg0, s16 arg1);
@@ -209,22 +204,22 @@ Player_801D88C8 *create_ending_sequence_player(Player_801D88C8 *self, void *pare
     push_matrix();
     translate_matrix_vec3(0, self->pos);
     rotate_matrix_y(0, self->ang);
-    ((void (*)(void *, void *, f32, void *))calc_joint_matrices__10TObjMotionFP10NJS_MOTIONfl)(self, self->motion, 0.0f, self->model);
+    ((TObjPlayer *)self)->calc_joint_matrices((NJS_MOTION *)(self->motion), (f32)0.0f, (s32)(self->model));
     pop_matrix();
     TObjPlayer::assign_lobby_slot_if_flagged((s32)self, src->slot0);
     TObjPlayer::assign_lobby_slot_if_flagged((s32)self, src->slot1);
     return self;
 }
 
-void *__dt__13TUnk_804C4540Fv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = ending_sequence_player_vtable;
-        __dt__10TObjPlayerFv(arg0, 0);
+void *__dt__13TUnk_804C4540Fv(void *player, s16 arg1) {
+    if (player != NULL) {
+        *(s32 **)((s8 *)player + 0x18) = ending_sequence_player_vtable;
+        __dt__10TObjPlayerFv(player, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(player);
         }
     }
-    return arg0;
+    return player;
 }
 
 void TObjPlayer__sub_801D8A38(void* a0) { *(short*)((char*)a0 + 0x0) = 1; *(float*)((char*)a0 + 0x4) = 0.0f; }

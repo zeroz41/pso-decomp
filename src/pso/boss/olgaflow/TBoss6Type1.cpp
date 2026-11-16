@@ -1,4 +1,5 @@
 #include "pso/network/protocol/protocol_types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/unk/TLobby_801E43E4.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
@@ -31,11 +32,6 @@
 
 
 #include <stddef.h>
-struct Stack_802B5140 {
-    f32 sp8;
-    f32 spC;
-    f32 sp10;
-};
 
 struct Obj_802B4B34 { u8 pad[0x508]; s32 f508; s32 arr[1]; };
 
@@ -97,12 +93,9 @@ struct T1_802B8E1C { u8 pad0[0x3C]; f32 y; u8 pad40[0x438 - 0x40]; s32 f438; };
 
 struct Boss_802B5434 { u8 pad[0x378]; s32 list[32]; };
 
-
 struct Boss_802B54F0 { u8 pad[0x38]; Vec pos; };
 
 struct Boss_802B5648 { u8 pad0[0x3C]; f32 f3C; u8 pad40[0x374 - 0x40]; u32 f374; u8 pad378[0x41C - 0x378]; s8 f41C; };
-
-
 
 struct Boss_802B683C {
     u8 pad0[0x38];
@@ -110,7 +103,6 @@ struct Boss_802B683C {
     u8 pad44[0x41C - 0x44];
     s8 f41C;
 };
-
 
 struct Ent_802B79DC { Vec m; u8 padC[0x1C - 0xC]; Vec n; u8 pad28[0x2C - 0x28]; };
 
@@ -169,7 +161,6 @@ struct Player_802B6B34 : Base_802B6B34 {
 
 struct Boss_802B6B34 { u8 pad[0x488]; s32 f488; };
 
-
 struct Boss_802B73AC {
     u8 pad0[0x408];
     s32 f408;
@@ -177,9 +168,6 @@ struct Boss_802B73AC {
     Vec a;
     Vec b;
 };
-
-
-
 
 struct Boss_802B4EAC {
     u8 pad0[0x38];
@@ -210,7 +198,6 @@ struct Boss_802B7B44 {
     s32 f4F4;
 };
 
-struct Vec;
 struct Player_802B6B34;
 
 struct V3_802B6C30 { s32 x; f32 y; s32 z; };
@@ -242,7 +229,6 @@ struct ArgPair_802B6C30 {
         a[0].v.i = a[1].v.i;
     }
 };
-
 
 struct Line_802B6C30 { Vec p; Vec d; };
 
@@ -320,7 +306,7 @@ void normalize_vector(void *);
 f32 project_point_onto_line(void *, void *, void *);
 f32 xyz_distance(void *, void *);
 void TBoss6Type1__sub_802B6C30(Boss_802B6C30 *self);
-s32 TObjFish__sub_8001EDB0(s32, s32);
+s32 get_bml_texlist(s32, s32);
 void clear_render_callback__8TObjFishFv(u32);
 void draw_model_motion(void *arg0, void *arg1, f32 farg0);
 // init_collision_body_parts copies these 7 spheres in TBoss6Type1__ct.
@@ -395,8 +381,6 @@ void fire_at_all_players__11TBoss6Type1FPvf(Boss_802B5AD4 *, f32);
 int release_object__11TBoss6Type1FPv(void*);
 
 
-
-
 }
 
 void draw_model_blend_motion(void *arg0, void *arg1, f32 farg0);
@@ -404,19 +388,12 @@ void draw_model_blend_motion(void *arg0, void *arg1, f32 farg0);
 
 struct ByteBlock_C_boss6_1 { u8 bytes[0xc]; };
 
-struct Stack_802B7D74_boss6_1
-{
-  f32 sp8;
-  f32 spC;
-  f32 sp10;
-};
-
 #include <stddef.h>
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/enemy/lappy/TObjEneLappy.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer_801542CC.h"
-#include "pso/player/TObjPlayer.h"
+
 extern "C" TObjEnemy *__ct__9TObjEnemyFP7TObject(void *, void *);
 struct Stack_802B9204_boss6_1 {
     s32 sp8;
@@ -424,7 +401,6 @@ struct Stack_802B9204_boss6_1 {
     u8 trailing_storage[0xF];
 };
 extern "C" {
-
 
 
 u8 * TBoss6Type1__sub_802B96C0(s32 arg0, s32 arg1);
@@ -466,21 +442,10 @@ struct Boss_802B7530 {
 f32 vec3_dot(void *, void *);
 
 
-typedef struct Stack_802B7D74_boss6_1 Stack_802B7D74_boss6_1;
-
-
-}
-
-void build_6xA4_olga_flow_boss_actions(void* p);
-extern "C" {
-
-
-
 s32 submit_cursor_candidate(void *, int);
 s32 add_radar_scaled_marker(void *, int, int, int, f32);
 }
-
-
+void build_6xA4_olga_flow_boss_actions(void* p);
 /* 6xA4: the Olga Flow boss action sent by send_6xA4_action. */
 struct OlgaFlowActionMsg {
     u8 command;
@@ -495,8 +460,6 @@ struct T1_802B529C;
 struct Boss_802B5434;
 struct Boss_802B8EE0;
 extern "C" {
-
-
 
 
 extern s32 tl_04;
@@ -1103,7 +1066,6 @@ void TBoss6Type1::set_action_state(s32 arg1) {
         (((Boss_802B865C *)this)->*a.action)();
     }
 }
-extern "C" {
 
 
 Blk_802B8624 *copy_block__11TBoss6Type1FPvPv(Blk_802B8624 *d, const Blk_802B8624 *s) {
@@ -1186,7 +1148,7 @@ void TBoss6Type1::set_motion_set(s32 arg1) {
     this->m_440 = t->f0;
     for (i = 0; i < n; i++) {
         a = &arg0->anim[i];
-        s32 id = get_bml_motion(arg0->f3FC, t->ids[i]);
+        s32 id = get_bml_motion(this->bml_resource, t->ids[i]);
         a->blend = a->f10;
         a->prevId = a->id;
         a->prevT = a->t;
@@ -1211,9 +1173,9 @@ void TBoss6Type1::draw_part_motions() {
         {
             s32 t = lbl_804DF614[i];
             id = t;
-            p = TObjFish__sub_8001EDB0(arg0->f3FC, t);
+            p = get_bml_texlist(this->bml_resource, t);
         }
-        id = get_bml_model((BmlResource *)arg0->f3FC, id);
+        id = get_bml_model((BmlResource *)this->bml_resource, id);
         cb = arg0->draw_callback_lists[i];
         a = &arg0->anim[i];
         if (cb != 0) {
@@ -1299,7 +1261,7 @@ s32 TBoss6Type1::calc_field4b0_delta() {
 
 void TBoss6Type1::update_turn_to_center() {
     u8 *arg0 = (u8 *)this;
-  Stack_802B7D74_boss6_1 stack;
+  Vec stack;
   s32 var_r5;
   int new_var;
   f32 temp_f1;
@@ -1310,21 +1272,21 @@ void TBoss6Type1::update_turn_to_center() {
   {
     var_r31 = 0x8000;
   }
-  if (angle_difference_abs((int) (*((s32 *) (((s8 *) arg0) + 0x5C))), (int) var_r31) < 0x666)
+  if (angle_difference_abs((int) (this->rotation_x), (int) var_r31) < 0x666)
   {
-    *((s32 *) (((s8 *) arg0) + 0x5C)) = var_r31;
+    this->rotation_x = var_r31;
   }
   else
   {
-    *((s32 *) (((s8 *) arg0) + 0x5C)) = (s32) ((*((s32 *) (((s8 *) arg0) + 0x5C))) + 0x666);
+    this->rotation_x = (s32) ((this->rotation_x) + 0x666);
   }
-  stack.sp8 = -(*((f32 *) (((s8 *) arg0) + 0x38)));
+  stack.x = -(*((f32 *) (((s8 *) arg0) + 0x38)));
   temp_f1 = -(*((f32 *) (((s8 *) arg0) + 0x40)));
-  stack.spC = 0.0f;
-  stack.sp10 = temp_f1;
-  if (!(vector_length(&stack.sp8, (f32) temp_f1) <= 0.00001f))
+  stack.y = 0.0f;
+  stack.z = temp_f1;
+  if (!(vector_length(&stack.x, (f32) temp_f1) <= 0.00001f))
   {
-    var_r4 = (s32) (10430.38043493439 * atan2_float((f64) stack.sp8, (f64) stack.sp10));
+    var_r4 = (s32) (10430.38043493439 * atan2_float((f64) stack.x, (f64) stack.z));
     if ((this->m_438) != 0)
     {
       var_r4 += 0x8000;
@@ -1981,7 +1943,7 @@ void TBoss6Type1__sub_802B6504(TBoss6Type1 *boss) {
     }
     mem_free(points);
     if (boss->m_4e0 > 0) {
-        play_sound_effect(0x4003B51B, &boss->position, 0, 0);
+        play_sound_effect(0x4003B51B, (Vec *)(&boss->position), 0, 0);
     }
 }
 
@@ -2002,22 +1964,22 @@ void TBoss6Type1::reset_param() {
     this->m_4dc = 0.0f;
 }
 // Draws bml model 0 at node_points[7], turned to face the viewing player and scaled by m_4dc.
-void TBoss6Type1__sub_802B626C(TBoss6Type1 *boss) {
-    if (boss->m_4dc != 0.0f) {
-        s32 fish = TObjFish__sub_8001EDB0(boss->bml_resource, 0);
-        s32 model = get_bml_model((BmlResource *)boss->bml_resource, 0);
+void TBoss6Type1::sub_802B626C() {
+    if (this->m_4dc != 0.0f) {
+        s32 fish = get_bml_texlist(this->bml_resource, 0);
+        s32 model = get_bml_model((BmlResource *)this->bml_resource, 0);
         s32 pitch = 0;
-        Vec pos = boss->node_points[7];
-        s32 yaw = boss->rotation_y + 0x8000;
+        Vec pos = this->node_points[7];
+        s32 yaw = this->rotation_y + 0x8000;
         static f32 s_min_width = 0.15f;
         static f32 s_max_width = 0.625f;
         static f32 s_grow_end = 0.1f;
         f32 width = s_min_width;
         f32 height;
-        if (boss->m_4dc < s_grow_end) {
-            height = boss->m_4dc / s_grow_end;
+        if (this->m_4dc < s_grow_end) {
+            height = this->m_4dc / s_grow_end;
         } else {
-            width = (boss->m_4dc - s_grow_end) / (1.0f - s_grow_end) * (s_max_width - s_min_width) + s_min_width;
+            width = (this->m_4dc - s_grow_end) / (1.0f - s_grow_end) * (s_max_width - s_min_width) + s_min_width;
             height = 1.0f;
         }
         TObjPlayer *player = get_player_by_client_id(
@@ -2025,7 +1987,7 @@ void TBoss6Type1__sub_802B626C(TBoss6Type1 *boss) {
         if (player != NULL) {
             Vec from;
             Vec to;
-            VecCopy(&from, &boss->node_points[7]);
+            VecCopy(&from, &this->node_points[7]);
             VecCopy(&to, &player->position);
             to.y += 14.0f;
             subtract_vector(&to, &from);
@@ -2046,7 +2008,6 @@ void TBoss6Type1__sub_802B626C(TBoss6Type1 *boss) {
         draw_chunk_object((void *)model);
         pop_matrix();
     }
-}
 }
 
 
@@ -2084,7 +2045,6 @@ void TBoss6Type1::update_effect_points() {
 }
 
 void TBoss6Type1::set_part_default_value(int a0, void* a1) { *(float*)((char*)a1 + 0x4) = 10.0f; }
-extern "C" {
 
 
 s32 TBoss6Type1__sub_802B6060(u8 *arg0) {
@@ -2452,10 +2412,7 @@ s32 TBoss6Type1::count_matches(s32 arg1, s32 arg2) {
 }
 
 void TBoss6Type1__sub_802B5140(s32 arg0, s32 arg1, s32 arg2) {
-    typedef char sp8_offset[(offsetof(Stack_802B5140, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_802B5140, spC) == 0x4) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_802B5140, sp10) == 0x8) ? 1 : -1];
-    Stack_802B5140 stack;
+    Vec stack;
     f32 temp_f31;
     f32 var_f30;
     f32 var_f31;
@@ -2472,13 +2429,13 @@ void TBoss6Type1__sub_802B5140(s32 arg0, s32 arg1, s32 arg2) {
     if (temp_r31 > 0x4000) {
         var_f31 += (1.0f - var_f31) * TBoss6PlotFalz::cosine_ease((var_f30 - 0.6666667f) / 0.3333333f);
     }
-    VecCopy((Vec *)(&stack.sp8), &lbl_80470CE0);
-    subtract_vector(&stack.sp8, &lbl_80470CD4);
-    stack.sp8 *= var_f31;
-    stack.spC *= var_f31;
-    stack.sp10 *= var_f31;
-    vec3_add_to(&stack.sp8, &lbl_80470CD4);
-    VecCopy((Vec *)(arg0 + 0x38), (const Vec *)(&stack.sp8));
+    VecCopy((Vec *)(&stack.x), &lbl_80470CE0);
+    subtract_vector(&stack.x, &lbl_80470CD4);
+    stack.x *= var_f31;
+    stack.y *= var_f31;
+    stack.z *= var_f31;
+    vec3_add_to(&stack.x, &lbl_80470CD4);
+    VecCopy((Vec *)(arg0 + 0x38), (const Vec *)(&stack.x));
 }
 void TBoss6Type1::ease_toward_target(s32 a, s32 b) {
     Obj_802B5100 *self = (Obj_802B5100 *)this;
@@ -2670,7 +2627,7 @@ void TBoss6Type1::release_object(void *) {
 
 void TBoss6Type1::render() {
     draw_model();
-    TBoss6Type1__sub_802B626C(this);
+    sub_802B626C();
 }
 
 void TBoss6Type1::draw_model() {
@@ -2686,7 +2643,6 @@ void TBoss6Type1::draw_model() {
     TBoss6PlotFalz::update_camera_target();
     pop_matrix();
     TParticleCtrl::end_effect_render();
-}
 }
 
 

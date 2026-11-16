@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/ui/window/TWindowMainMenu_80263AB0.h"
 #include "pso/unk/text_80263A20.h"
 #include "pso/ui/window/TWindowHelpItem_80255AB4.h"
 #include "pso/ui/window/TWindowSubComCardList_8026CB08.h"
@@ -10,7 +11,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/ui/window/TWindowInputNumber.h"
-#include "pso/ui/window/TWindowDD.h"
+
 
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -23,7 +24,6 @@ extern s32 TWindowHelpItem__object_vtable[];
 extern u32 window_help_item_class_name;
 extern TWindowHelpItem::CallbackWords __ptmf_null;
 void *init__21TWindowSubComCardListFiii(void *p, s32 a, s32 b, s32 c);
-void call_if_split_screen(void *self, s32 idx);
 
 s32 handle_list_page_flip_input(s32);
 s32 draw_visible_window_entries(void *, void *, int);
@@ -88,7 +88,7 @@ void *TWindowHelpItem::dt(s16 arg1) {
     if (this != NULL) {
         this->m_vtable18 = TWindowHelpItem__object_vtable;
         delete_if_allocated(this->m_64, 1);
-        ((TWindowDD *)this)->destroy_window_base(0);
+        __dt__11TWindowBaseFv(this, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(this);
         }
@@ -121,7 +121,7 @@ TWindowHelpItem::TWindowHelpItem(void *pos, u16 idx) {
     self->m_a8 = 1.0f;
     self->m_ac = 1.0f;
     ((TWindowHelpItem *)self)->dispatch_item_help();
-    call_if_split_screen(self, self->m_20);
+    call_if_split_screen((u32)self, self->m_20);
 }
 
 s32 get_help_text_string(s32 arg0) {

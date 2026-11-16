@@ -14,7 +14,7 @@
 extern "C" {
 void * sonic_logo_object;
 int TAdSoniclogo__state;
-extern int TLogo__exit_requested_flag;
+int TLogo__exit_requested_flag;
 const char *TAdSoniclogo__class_name = "TAdSoniclogo";
 extern void *tl_00;
 int queue_destruction__7TObjectFv(void);
@@ -61,10 +61,8 @@ TAdSoniclogo::TAdSoniclogo(TObject *parent) : TObject(parent) {
     }
 }
 
-extern "C" {
 
 void TLogo__sub_8001C360(void) {  }
 
 void TLogo__sub_8001C364(void) { sonic_logo_object = (void *)get_logo_texture_e_handle(); }
 
-}

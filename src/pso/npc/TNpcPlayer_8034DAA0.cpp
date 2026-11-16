@@ -1,4 +1,6 @@
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
+#include "pso/npc/TNpcPlayer_8034DAA0.h"
 #include "pso/unk/text_8034DAA0.h"
 #include "pso/npc/TNpcPlayer_8034DC20.h"
 #include "pso/unk/TUnk_804F07C8.h"
@@ -13,8 +15,7 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/system/task/TObject.h"
-#include "pso/object/base/TObjMotion.h"
-#include "pso/player/TObjPlayer.h"
+
 
 // One TU: TLobby__sub_8034DAA0 (jumptable after the TUnk_804F07C8 vtable in .data),
 // the party-area task, TTecReverser::is_active, the 4-player notifiers and the
@@ -109,22 +110,12 @@ void set_tp__10TObjPlayerFs(Player_8034DAA0 *, s32);
 }
 
 
-struct RecoveredGlobal_8034DEA0_TNpcPlayer__data_804ABC90 {
-    s32 value;
-    u8 remaining[0x9FC];
-};
-
-
-
-
 extern "C" {
 s32 copy__10TNpcPlayerFPv(void *, void *, int);
-extern RecoveredGlobal_8034DEA0_TNpcPlayer__data_804ABC90 TNpcPlayer__template_table;
-s32 __dt__7TObjectFv(void *, int);
+struct TNpcPlayerTemplateTable { s32 value; u8 remaining[0x9FC]; };
+extern TNpcPlayerTemplateTable TNpcPlayer__template_table;
 s32 is_script_controlled__10TObjPlayerFv();
-s32 __dl__7TObjectFPv(void *);
 void construct_partner__10TNpcPlayerFPviisPv(void *, u16, u16, s32, void *);
-void *__nw__7TObjectFUl(u32);
 extern void *tl_00;
 
 typedef struct VBase_18_dac7f3 VBase_18_dac7f3;
@@ -133,27 +124,11 @@ typedef struct VObj_18_dac7f3 VObj_18_dac7f3;
 #define PSO_VCALL_VObj_18_dac7f3_m0(_self, _arg0) (((VObj_18_dac7f3 *)(_self))->m0((_arg0)))
 
 
-
-
-
-typedef char RecoveredGlobal_8034DEA0_TNpcPlayer__data_804ABC90_size[sizeof(RecoveredGlobal_8034DEA0_TNpcPlayer__data_804ABC90) == 0xA00 ? 1 : -1];
-
-}
-
-
-extern "C" {
-
 s32 all_parents_unqueued_for_destruction__7TObjectFv();
 
 
-}
-
-
-extern "C" {
-
 s32 notify_field1c__10TObjPlayerFl();
 s32 send_item_pickup_request__10TObjPlayerFl();
-
 
 
 }
@@ -262,11 +237,8 @@ s32 set_arrival_override_coords(s32, s32, f32, f32, f32);
 void send_6x21_inter_level_warp(void *obj, s32 value);
 s32 get_entity_id(s32);
 void send_6x24_teleport_player(u16 slot, void *pos, s32 heading);
-void TNpcPlayer__sub_8034EDB8(void);
 s32 end_camera_pan__10TObjPlayerFv();
 void set_npc_control_flag__10TNpcPlayerFPvs(void* p, s16 v);
-void build_6x69_npc_control(void* p);
-void clear_partner_dialogue_flags(void);
 int sprintf(char *, const char *, ...);
 char *strcpy(char *, const char *);
 u32 strlen(const char *);
@@ -291,29 +263,9 @@ void notify_partner_room_cleared(s32 arg0);
 void quest_player_face_actor(u16 src, u16 dst);
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 #define SETFLAG_8034E814 ((void (*)(void *, u16))set_npc_control_flag__10TNpcPlayerFPvs)
 #define ISSTATE3_8034E814 ((s32 (*)(void *))obj_isState3_324__9TObjCharaFv)
 #define NOTIFY_8034E814 ((void (*)(void *))notify_field1c__10TObjPlayerFl)
-
-
-
-
-
-
-
-
 
 
 // Compiled with -inline off,deferred: the functions are written in reverse of their
@@ -500,7 +452,7 @@ void handle_6x69_npc_control(Pkt_8034E814 *pkt) {
             p->m6();
             SETFLAG_8034E814(p, (u16)local_client_id);
             ((TNpcPlayer *)p)->set_npc_ctrl_state(pkt->state);
-            o = __nw__7TObjectFUl(0xE8);
+            o = TObject::operator new(0xE8);
             if (o != NULL) {
                 construct_partner__10TNpcPlayerFPviisPv(o, (u16)local_client_id, pkt->target, pkt->state, tl_00);
             }
@@ -538,7 +490,7 @@ void handle_6x69_npc_control(Pkt_8034E814 *pkt) {
             p->m6();
             SETFLAG_8034E814(p, (u16)local_client_id);
             ((TNpcPlayer *)p)->set_npc_ctrl_state(pkt->state);
-            o = __nw__7TObjectFUl(0xE8);
+            o = TObject::operator new(0xE8);
             if (o != NULL) {
                 TNpcPlayer__ct(o, (u16)local_client_id, pkt->target, pkt->state, 1, tl_00);
             }
@@ -789,7 +741,7 @@ void set_partner_common_remark(s32 kind, const char *text) {
     }
 }
 
-extern "C" {
+
 void TObjPlayer::update_4p_battle_ctrls() {
     s32 var_r31;
 
@@ -863,7 +815,7 @@ TUnk_804F07C8::TUnk_804F07C8(TObject *parent) : TObject(parent) {
         if (player == NULL || ISSTATE3_8034E814(player) == 0 || ((TNpcPlayer *)player)->get_action_flags() == 0xFFFF) {
             continue;
         }
-        task = __nw__7TObjectFUl(0xE8);
+        task = TObject::operator new(0xE8);
         if (task != NULL) {
             construct_partner__10TNpcPlayerFPviisPv(task, ((TNpcPlayer *)player)->get_action_flags(), (u16) slot, ((TNpcPlayer *)player)->get_field_67c(), tl_00);
         }
@@ -954,4 +906,3 @@ void TLobby__sub_8034DAA0(s32 arg0, u32 arg1) {
     }
 }
 
-}

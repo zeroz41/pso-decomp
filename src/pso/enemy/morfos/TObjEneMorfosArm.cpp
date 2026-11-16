@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/enemy/morfos/TObjEneMorfosArm.h"
 #include "pso/enemy/morfos/TObjEneMorfosArm_80335218.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -22,12 +23,6 @@ const char *TObjEneMorfosArm__name = "TObjEneMorfosArm";
 TObjMotionAction morfos_arm_motion_params[1] = {
     { MOTION_MODE_ONCE, 0, 0, 0.7f, 0x4 },
 };
-}
-
-
-
-
-extern "C" {
 void *TObjEneMorfosArm__sub_803326B4(void *p);
 s32 TObjEneMorfosArm__sub_803326BC(void *);
 u16 get_entity_id(void *);
@@ -90,7 +85,6 @@ TObjEneMorfosArm::TObjEneMorfosArm(TObject *parent, void *owner) : TObjMotion(pa
     set_field_b8(requested_action);
 }
 
-extern "C" {
 
 void TObjEneMorfosArm__sub_8033542C(void) {  }
 
@@ -103,4 +97,3 @@ void TObjEneMorfosArm::init_global() {
     TObjEneMorfosArm__parent_morfos_instance = TObjEneMorfos::get_instance();
 }
 
-}

@@ -1,34 +1,28 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/system/vector.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/enemy/illgill/TObjIllGillKage.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
-#include "pso/system/task/TObject.h"
-#include "pso/object/base/TObjMotion.h"
 
-struct RecoveredGlobal_803655F8___vt__15TObjIllGillKage { s32 value; u8 remaining[0x30]; };
-typedef char RecoveredGlobal_803655F8___vt__15TObjIllGillKage_size[sizeof(RecoveredGlobal_803655F8___vt__15TObjIllGillKage) == 0x34 ? 1 : -1];
 
 extern "C" {
-s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
+s32 play_persistent_sound(s32 id, s32 a1, Vec *, s32 a3, s32 flags);
 u16 get_entity_id(void *);
-int queue_destruction__7TObjectFv(void*);
-s32 __ct__8TObjBaseFP7TObject(void *);
 extern s32 __vt__15TObjIllGillKage[];
 extern const char *TObjIllGillKage__class_name;
-u8 *TObjIllGillKage__ct(u8 *arg0, s32 arg1, u32 arg2);
 void *__dt__15TObjIllGillKageFv(void *arg0, s16 arg1);
 s32 is_locally_controlled__10TObjPlayerFPv();
 void __dl__7TObjectFPv(void *);
 
-int TObjIllGillKage::queue_destruction() { return queue_destruction__7TObjectFv(this); }
+void TObjIllGillKage::queue_destruction() { TObject::queue_destruction(); }
 
 void TObjIllGillKage::tick_persistent_sound() {
     s32 temp_r3;
-    play_persistent_sound(0x4003A357, (s32)this, (u32)(((u8 *)this) + 0x38), 0, 0);
+    play_persistent_sound(0x4003A357, (s32)this, (Vec *)((u32)(((u8 *)this) + 0x38)), 0, 0);
     temp_r3 = this->m_94;
     this->m_94 = (temp_r3 - 1);
     if (temp_r3 < 0) {
@@ -37,12 +31,12 @@ void TObjIllGillKage::tick_persistent_sound() {
 }
 
 void TObjIllGillKage::attack_target() {
-    s32 temp_r3;
+    s32 player;
 
     this->m_90 = 1;
-    temp_r3 = (s32)get_player_by_client_id(this->m_98);
-    if ((temp_r3 != 0) && (is_locally_controlled__10TObjPlayerFPv() != 0) && (((TObject *)temp_r3)->all_parents_unqueued_for_destruction() != 0) && (((TObjCollidable *)temp_r3)->obj_testFlags30(0x800) == 0)) {
-        TObjPlayer::play_effect(temp_r3, this->m_94, 3);
+    player = (s32)get_player_by_client_id(this->m_98);
+    if ((player != 0) && (is_locally_controlled__10TObjPlayerFPv() != 0) && (((TObject *)player)->all_parents_unqueued_for_destruction() != 0) && (((TObjCollidable *)player)->obj_testFlags30(0x800) == 0)) {
+        TObjPlayer::play_effect(player, this->m_94, 3);
     }
 }
 
@@ -62,30 +56,26 @@ void TObjIllGillKage::run_task() {
 
 void TObjIllGillKage::render() {  }
 
-void *__dt__15TObjIllGillKageFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__15TObjIllGillKage;
-        __dt__8TObjBaseFv(arg0, 0);
+void *__dt__15TObjIllGillKageFv(void *base, s16 arg1) {
+    if (base != NULL) {
+        *(s32 **)((s8 *)base + 0x18) = __vt__15TObjIllGillKage;
+        __dt__8TObjBaseFv(base, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(base);
         }
     }
-    return arg0;
+    return base;
 }
-u8 *TObjIllGillKage__ct(u8 *ill_gill_kage, s32 arg1, u32 arg2) {
-    __ct__8TObjBaseFP7TObject(ill_gill_kage);
-    *(s32 **)((s8 *)ill_gill_kage + 0x18) = &(*(RecoveredGlobal_803655F8___vt__15TObjIllGillKage *)&__vt__15TObjIllGillKage).value;
-    *(s32 *)((s8 *)ill_gill_kage + 0) = (s32) TObjIllGillKage__class_name;
+}
+TObjIllGillKage::TObjIllGillKage(s32 arg1, u32 arg2) : TObjBase((TObject *)arg1) {
+    *(s32 *)((s8 *)this + 0) = (s32) TObjIllGillKage__class_name;
     if (arg2 != 0U) {
-        VecCopy((Vec *)(ill_gill_kage + 0x38), (const Vec *)(arg2 + 0x38));
-        ((TObjIllGillKage *)ill_gill_kage)->m_98 = get_entity_id((void *)arg2);
-        ((TObjIllGillKage *)ill_gill_kage)->m_94 = 0xB4;
-        ((TObjIllGillKage *)ill_gill_kage)->m_90 = 0;
+        VecCopy((Vec *)(((u8 *)this) + 0x38), (const Vec *)(arg2 + 0x38));
+        this->m_98 = get_entity_id((void *)arg2);
+        this->m_94 = 0xB4;
+        this->m_90 = 0;
     } else {
-        ((TObjIllGillKage *)ill_gill_kage)->m_98 = 0xFFFFU;
-        ((TObject *)ill_gill_kage)->queue_destruction();
+        this->m_98 = 0xFFFFU;
+        ((TObject *)this)->queue_destruction();
     }
-    return ill_gill_kage;
-}
-
 }

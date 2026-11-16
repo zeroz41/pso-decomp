@@ -1,13 +1,9 @@
 #include "pso/system/NinjaTypes.h"
+#include "pso/camera/TCameraCtrl_803D749C.h"
 #include "pso/system/ModelDrawCallback.h"
 #include "pso/animation/MotionContext.h"
 #include "types.h"
 #include "pso/render/ModelDrawContext.h"
-
-struct RecoveredGlobal_803DCBD8_lbl_8058D380 {
-    s32 value;
-    u8 remaining[0xEC];
-};
 
 typedef s32 (*RecoveredCallback_92513335c3ed)(void *);
 typedef void (*RecoveredCallback_2be3cacebb2e)(void);
@@ -33,11 +29,11 @@ struct N_803DC9E4 {
     f32 f34;
 };
 
-extern RecoveredGlobal_803DCBD8_lbl_8058D380 render_contexts;
+struct RenderContexts { s32 value; u8 remaining[0xEC]; };
+extern RenderContexts render_contexts;
 extern u8 *current_render_context;
 extern "C" {
 void select_render_context(s32 arg0);
-void compose_motion_node_matrix(void *arg0);
 s32 push_matrix();
 s32 pop_matrix();
 s32 queue_model_draw_matrix(int, void *);
@@ -65,7 +61,6 @@ void traverse_model_node_tree(struct N_803DC9E4 *p, s32 (*cb)(s32));
 void set_model_node_callback(s32 arg0) {
     model_node_callback = arg0;
 }
-typedef char RecoveredGlobal_803DCBD8_lbl_8058D380_size[sizeof(RecoveredGlobal_803DCBD8_lbl_8058D380) == 0xF0 ? 1 : -1];
 
 void draw_ginja_model_with_motion(void *model, void *motion, f32 frame) {
     bind_motion_context((NJS_MOTION *)motion, frame);
@@ -227,7 +222,6 @@ void apply_cached_blend_mode(s32 arg0) {
 __declspec(section ".rodata") extern const Tbl_803DCC34 gx_blend_mode_table = {{255, 255, 6, 2, 7, 3, 5, 3, 4, 2, 1, 0}};
 __declspec(section ".rodata") extern const u32 cached_blend_factor_table[8] = {0, 1, 2, 3, 4, 5, 6, 7};
 
-extern "C" {
+
 s32 node_saved_matrix[12];
-}
 

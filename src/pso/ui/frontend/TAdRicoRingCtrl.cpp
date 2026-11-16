@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/system/data/FlagWord.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/ui/frontend/TAdRicoRingCtrl_8001B4A0.h"
@@ -36,7 +37,7 @@ s32 __ct__7TObjectFP7TObject(void *, void *);
 extern RecoveredGlobal_8001B8AC___vt__15TAdRicoRingCtrl __vt__15TAdRicoRingCtrl;
 extern s32 tl_04;
 void TAdRicoRingCtrl__sub_8001B4A0(Obj_8001B4A0 *self, f32 x);
-s32 test_flags_any(void *, int);
+s32 test_flags_any(s32 *flags, s32 mask);
 s32 TAdRicoRing__resource_bundle;
 f32 lbl_805D4A04;
 s8 lbl_805D4A08;
@@ -57,15 +58,13 @@ typedef char RecoveredGlobal_8001B8AC___vt__15TAdRicoRingCtrl_size[sizeof(Recove
 struct RecoveredGlobal_8001BD0C___vt__11TAdRicoRing { s32 value; u8 remaining[0x14]; };
 typedef char RecoveredGlobal_8001BD0C___vt__11TAdRicoRing_size[sizeof(RecoveredGlobal_8001BD0C___vt__11TAdRicoRing) == 0x18 ? 1 : -1];
 
-s32 TObjFish__sub_8001EDB0(void *, int);
+s32 get_bml_texlist(void *, int);
 s32 get_bml_model(void *, int);
 extern RecoveredGlobal_8001BD0C___vt__11TAdRicoRing __vt__11TAdRicoRing;
 int post_translate_matrix(void*);
 int push_matrix(void*);
-int push_matrix(void*);
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 void free_bin_model_request(void*, int);
-void *__nw__7TObjectFUl(int);
 }
 
 // inferred: the vertex list draw_tri_fan_2d reads (cf. VtxList_80077BC0)
@@ -111,53 +110,53 @@ void TAdRicoRingCtrl::release_global_805D4A00() {
 }
 
 void *TAdRicoRingCtrl::create(void *parent) {
-    void *o = __nw__7TObjectFUl(0x70);
+    void *o = TObject::operator new(0x70);
     if (o != NULL) {
         o = __ct__11TAdRicoRingFv((u8 *)o, parent);
     }
     return o;
 }
 
-u8 *__ct__11TAdRicoRingFv(u8 *arg0, void *parent) {
-    __ct__7TObjectFP7TObject(arg0, parent);
-    *(s32 **)((s8 *)arg0 + 0x18) = &__vt__11TAdRicoRing.value;
-    __ct__8FlagWordFv((arg0 + 0x2C));
-    *(s32 *)((s8 *)arg0 + 0) = (s32) TAdRicoRing__class_name;
-    *(s32 *)((s8 *)arg0 + 0x4C) = get_bml_model((void *)TAdRicoRing__resource_bundle, 0);
-    *(s32 *)((s8 *)arg0 + 0x50) = TObjFish__sub_8001EDB0((void *)TAdRicoRing__resource_bundle, 0);
-    *(f32 *)((s8 *)arg0 + 0x28) = 0.0f;
-    *(f32 *)((s8 *)arg0 + 0x24) = 0.0f;
-    *(f32 *)((s8 *)arg0 + 0x20) = 0.0f;
-    *(f32 *)((s8 *)arg0 + 0x1C) = 0.0f;
-    *(f32 *)((s8 *)arg0 + 0x44) = 0.0f;
-    *(f32 *)((s8 *)arg0 + 0x40) = 0.0f;
-    *(f32 *)((s8 *)arg0 + 0x3C) = 0.0f;
-    *(f32 *)((s8 *)arg0 + 0x38) = 0.0f;
-    *(f32 *)((s8 *)arg0 + 0x60) = 0.0f;
-    *(f32 *)((s8 *)arg0 + 0x5C) = 0.0f;
-    *(f32 *)((s8 *)arg0 + 0x58) = 0.0f;
-    *(s32 *)((s8 *)arg0 + 0x6C) = 0;
-    *(s32 *)((s8 *)arg0 + 0x68) = 0;
-    *(s32 *)((s8 *)arg0 + 0x64) = 0;
-    *(f32 *)((s8 *)arg0 + 0x34) = 0.0f;
-    *(s32 *)((s8 *)arg0 + 0x30) = 0x5B0;
-    ((FlagWord *)(arg0 + 0x2C))->set((s32)(4U));
+u8 *__ct__11TAdRicoRingFv(u8 *object, void *parent) {
+    __ct__7TObjectFP7TObject(object, parent);
+    *(s32 **)((s8 *)object + 0x18) = &__vt__11TAdRicoRing.value;
+    __ct__8FlagWordFv((object + 0x2C));
+    *(s32 *)((s8 *)object + 0) = (s32) TAdRicoRing__class_name;
+    *(s32 *)((s8 *)object + 0x4C) = get_bml_model((void *)TAdRicoRing__resource_bundle, 0);
+    *(s32 *)((s8 *)object + 0x50) = get_bml_texlist((void *)TAdRicoRing__resource_bundle, 0);
+    *(f32 *)((s8 *)object + 0x28) = 0.0f;
+    *(f32 *)((s8 *)object + 0x24) = 0.0f;
+    *(f32 *)((s8 *)object + 0x20) = 0.0f;
+    *(f32 *)((s8 *)object + 0x1C) = 0.0f;
+    *(f32 *)((s8 *)object + 0x44) = 0.0f;
+    *(f32 *)((s8 *)object + 0x40) = 0.0f;
+    *(f32 *)((s8 *)object + 0x3C) = 0.0f;
+    *(f32 *)((s8 *)object + 0x38) = 0.0f;
+    *(f32 *)((s8 *)object + 0x60) = 0.0f;
+    *(f32 *)((s8 *)object + 0x5C) = 0.0f;
+    *(f32 *)((s8 *)object + 0x58) = 0.0f;
+    *(s32 *)((s8 *)object + 0x6C) = 0;
+    *(s32 *)((s8 *)object + 0x68) = 0;
+    *(s32 *)((s8 *)object + 0x64) = 0;
+    *(f32 *)((s8 *)object + 0x34) = 0.0f;
+    *(s32 *)((s8 *)object + 0x30) = 0x5B0;
+    ((FlagWord *)(object + 0x2C))->set((s32)(4U));
     switch (TKeyBoardControl__sub_8000F828()) {
     case 0:
-        *(s32 *)((s8 *)arg0 + 0x48) = 0x12;
+        *(s32 *)((s8 *)object + 0x48) = 0x12;
         break;
     case 1:
-        *(s32 *)((s8 *)arg0 + 0x48) = 0x15;
+        *(s32 *)((s8 *)object + 0x48) = 0x15;
         break;
     }
-    return arg0;
+    return object;
 }
 
 TAdRicoRing::~TAdRicoRing() {}
 void TAdRicoRing::run_task() {
     u8 *arg0 = (u8 *)this;
   f32 temp_f1;
-  if (test_flags_any(arg0 + 0x2C, 1) != 0)
+  if (test_flags_any((s32 *)(arg0 + 0x2C), 1) != 0)
   {
     update_position();
     if ((*((f32 *) (((s8 *) arg0) + 0x1C))) <= -1.0f)
@@ -166,7 +165,7 @@ void TAdRicoRing::run_task() {
       return;
     }
   }
-  if (test_flags_any(arg0 + 0x2C, 2) != 0)
+  if (test_flags_any((s32 *)(arg0 + 0x2C), 2) != 0)
   {
     update_position();
     temp_f1 = *((f32 *) (((s8 *) arg0) + 0x34));
@@ -180,7 +179,7 @@ void TAdRicoRing::run_task() {
     }
   }
   *((s32 *) (((s8 *) arg0) + 0x68)) = (s32) ((*((s32 *) (((s8 *) arg0) + 0x68))) + (*((s32 *) (((s8 *) arg0) + 0x30))));
-  if (test_flags_any(arg0 + 0x2C, 4) != 0)
+  if (test_flags_any((s32 *)(arg0 + 0x2C), 4) != 0)
   {
     *((s32 *) (((s8 *) arg0) + 0x30)) = (s32) ((*((s32 *) (((s8 *) arg0) + 0x30))) + (*((s32 *) (((s8 *) arg0) + 0x48))));
     if (((s32) (*((s32 *) (((s8 *) arg0) + 0x30)))) >= 0xCCC)
@@ -218,7 +217,7 @@ void TAdRicoRingCtrl::start_anim(f32 farg0) {
     u8 *arg0 = (u8 *)this;
     f32 temp_f0;
 
-    if (test_flags_any(arg0 + 0x2C, 2) != 0) {
+    if (test_flags_any((s32 *)(arg0 + 0x2C), 2) != 0) {
         ((FlagWord *)(arg0 + 0x2C))->clear(2);
     }
     ((FlagWord *)(arg0 + 0x2C))->set(1);
@@ -235,7 +234,7 @@ void TAdRicoRingCtrl::start_fade(f32 farg0) {
     u8 *arg0 = (u8 *)this;
     f32 temp_f0;
 
-    if (test_flags_any(arg0 + 0x2C, 1) != 0) {
+    if (test_flags_any((s32 *)(arg0 + 0x2C), 1) != 0) {
         ((FlagWord *)(arg0 + 0x2C))->clear(1);
     }
     ((FlagWord *)(arg0 + 0x2C))->set(2);

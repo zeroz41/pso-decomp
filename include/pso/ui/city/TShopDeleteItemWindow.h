@@ -7,6 +7,7 @@
 struct TShopDeleteItemWindow : public TShopWindowBase {
     TShopDeleteItemWindow(void *arg1, void *arg2, void *arg3);
     virtual ~TShopDeleteItemWindow();
+    void sub_80337E2C();
     virtual void vfunc_11();
     virtual void display_message(const char *text, s32 flags);
     virtual void vfunc_6();

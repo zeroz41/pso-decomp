@@ -1,4 +1,5 @@
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/render/render_util.h"
 #include "pso/system/memory.h"
 #include "pso/boss/olgaflow/TBoss6Zanzo.h"
@@ -6,6 +7,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdChrMoveEffectGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -34,9 +36,7 @@ const char *TBoss6Zanzo__name = "TBoss6Zanzo";
 
 extern "C" {
 void VecCopy__FP3VecPC3Vec(void *, void *);
-void mem_free(void *);
 void run_task__11TBoss6ZanzoFv(Obj_803208CC *arg0);
-void *mem_alloc(u32 size);
 int set_depth_buffer_settings_1__Fv(void*);
 
 s32 fn_803204B0(void* p) { return *(s32*)((char*)p + 0x4); }
@@ -96,7 +96,6 @@ void TBoss6Zanzo::sub_803205C4() {
     f32 next_alpha;
     s32 drawn;
     s32 i;
-    ZanzoTrailPoint *p;
     u8 colors[4][4];
     ZanzoQuad quad;
     Vec positions[4];
@@ -122,22 +121,30 @@ void TBoss6Zanzo::sub_803205C4() {
             quad.count = 4;
             quad.positions = positions;
             for (i = 0; i < m_24 - 1; i++) {
-                p = &((ZanzoTrailPoint *)prev->p)[i];
-                ((TAdChrMoveEffectGC *)colors[0])->copy4(p);
-                colors[0][3] = prev_alpha * p->color[3];
-                VecCopy__FP3VecPC3Vec(&positions[0], &p->pos);
-                p = (ZanzoTrailPoint *)prev->p + i + 1;
-                ((TAdChrMoveEffectGC *)colors[1])->copy4(p);
-                colors[1][3] = prev_alpha * p->color[3];
-                VecCopy__FP3VecPC3Vec(&positions[1], &p->pos);
-                p = (ZanzoTrailPoint *)frame->p + i + 1;
-                ((TAdChrMoveEffectGC *)colors[2])->copy4(p);
-                colors[2][3] = next_alpha * p->color[3];
-                VecCopy__FP3VecPC3Vec(&positions[2], &p->pos);
-                p = &((ZanzoTrailPoint *)frame->p)[i];
-                ((TAdChrMoveEffectGC *)colors[3])->copy4(p);
-                colors[3][3] = next_alpha * p->color[3];
-                VecCopy__FP3VecPC3Vec(&positions[3], &p->pos);
+                {
+                    ZanzoTrailPoint *p = &((ZanzoTrailPoint *)prev->p)[i];
+                    ((TAdChrMoveEffectGC *)colors[0])->copy4(p);
+                    colors[0][3] = prev_alpha * p->color[3];
+                    VecCopy__FP3VecPC3Vec(&positions[0], &p->pos);
+                }
+                {
+                    ZanzoTrailPoint *p = (ZanzoTrailPoint *)prev->p + i + 1;
+                    ((TAdChrMoveEffectGC *)colors[1])->copy4(p);
+                    colors[1][3] = prev_alpha * p->color[3];
+                    VecCopy__FP3VecPC3Vec(&positions[1], &p->pos);
+                }
+                {
+                    ZanzoTrailPoint *p = (ZanzoTrailPoint *)frame->p + i + 1;
+                    ((TAdChrMoveEffectGC *)colors[2])->copy4(p);
+                    colors[2][3] = next_alpha * p->color[3];
+                    VecCopy__FP3VecPC3Vec(&positions[2], &p->pos);
+                }
+                {
+                    ZanzoTrailPoint *p = &((ZanzoTrailPoint *)frame->p)[i];
+                    ((TAdChrMoveEffectGC *)colors[3])->copy4(p);
+                    colors[3][3] = next_alpha * p->color[3];
+                    VecCopy__FP3VecPC3Vec(&positions[3], &p->pos);
+                }
                 ((TObjPlayer *)&quad)->draw_tri_fan_3d(4, 7);
             }
             drawn = 1;

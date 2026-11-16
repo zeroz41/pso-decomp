@@ -1,6 +1,8 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
+#include "pso/camera/TCameraCtrl.h"
 
 #include "pso/object/base/TObjMotion.h"
 
@@ -83,20 +85,6 @@
 
 #include "pso/ui/window/TWindowSubComCard.h"
 
-struct VBase_18_26a62c { char pad[0x18]; };
-
-struct VObj_18_26a62c : VBase_18_26a62c {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual s32 m8(f32, f32);
-};
-
 struct FadeBase_8031EA70 { char pad[0x14]; };
 
 struct Fade_8031EA70 : FadeBase_8031EA70 {
@@ -104,110 +92,6 @@ struct Fade_8031EA70 : FadeBase_8031EA70 {
     virtual void m4(); virtual void m5(); virtual void m6(); virtual void m7();
     virtual s32 m8();
     u8 pad18[4];
-};
-
-struct ObjBase_8031EA70 { char pad[0x18]; };
-
-struct Obj_8031EA70 : ObjBase_8031EA70 {
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3();
-    virtual void m4(); virtual void m5(); virtual void m6(); virtual void m7();
-    virtual s32 m8(f32, f32);
-    virtual s32 m9(f32, f32, f32);
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual void m23();
-    virtual void m24();
-    virtual void m25();
-    virtual void m26();
-    virtual void m27();
-    virtual void m28();
-    virtual void m29();
-    virtual void m30();
-    virtual void m31();
-    virtual void m32();
-    virtual void m33();
-    virtual void m34();
-    virtual void m35();
-    virtual void m36();
-    virtual void m37();
-    virtual void m38();
-    virtual void m39();
-    virtual void m40();
-    virtual void m41();
-    virtual void m42();
-    virtual void m43();
-    virtual void m44();
-    virtual void m45();
-    virtual void m46();
-    virtual void m47();
-    virtual void m48();
-    virtual void m49();
-    virtual void m50();
-    virtual void m51();
-    virtual void m52();
-    virtual void m53();
-    virtual void m54();
-    virtual void m55();
-    virtual void m56();
-    virtual void m57();
-    virtual void m58();
-    virtual void m59();
-    virtual void m60();
-    virtual void m61();
-    virtual void m62();
-    virtual void m63();
-    virtual void m64();
-    virtual void m65();
-    virtual void m66();
-    virtual void m67();
-    virtual void m68();
-    virtual void m69();
-    virtual void m70();
-    virtual void m71();
-    virtual void m72();
-    virtual void m73();
-    virtual void m74();
-    virtual void m75();
-    virtual void m76();
-    virtual void m77();
-    virtual void m78();
-    virtual void m79();
-    virtual void m80();
-    virtual void m81();
-    virtual void m82();
-    virtual void m83();
-    virtual void m84();
-    virtual void m85();
-    virtual void m86();
-    virtual void m87();
-    virtual void m88();
-    virtual void m89();
-    virtual void m90();
-    virtual void m91();
-    virtual void m92();
-    virtual void m93();
-    virtual void m94();
-    virtual void m95();
-    virtual void m96();
-    virtual void m97();
-    virtual void m98();
-    virtual void m99();
-    virtual void m100();
-    virtual void m101();
-    virtual void m102();
-    virtual void m103();
-    virtual void m104();
 };
 
 struct Holder_8031EA70 { u8 pad[0x460]; Fade_8031EA70 arr[4]; };
@@ -222,11 +106,6 @@ s32 post_translate_matrix(void *);
 
 extern s32 debug_chunk_object;
 
-s32 get_camera_mode__11TCameraCtrlFv();
-
-s32 is_main_phase_15__9TObjEneDDFv();
-
-s32 update__15RenderFadeStateFv(int);
 
 extern s32 saved_model_render_flags;
 
@@ -291,7 +170,6 @@ s32 send_entity_set_flags__9TObjEnemyFv();
 
 s32 get_flag_b4__9TObjEneDDFv();
 
-s32 get_flag_b4__9TObjEneDDFv();
 
 s32 is_out_of_range__12TObjEneReconFv();
 
@@ -379,7 +257,6 @@ struct V_Sub_8031f748 : Base_Sub_8031f748 {
     virtual s32 m5();
 };
 
-
 struct Recon_8031F8C4 {
     u8 pad0[0x1C];
     u16 f1C;
@@ -423,11 +300,6 @@ struct Stack_8031FB6C {
 
 struct Obj_8031FACC { u8 pad[0x3F4]; s32 f3F4; s32 f3F8; u8 pad2[0x410 - 0x3FC]; s32 f410; s32 f414; };
 
-extern "C" {
-
-s32 has_child_in_anim_5__12TObjEneReconFv();
-
-}
 
 extern "C" void has_flag_0x800__9TObjCharaFv();
 
@@ -541,9 +413,6 @@ void *__dt__12TObjEneDD_STFv(void *arg0, s16 arg1);
 
 void __ct__12TObjEneDD_STFP7TObject(void *, s32, void *);
 
-void reset_hp__9TObjEneDDFPUcPUcPUc(void *, s32, s32, s32);
-
-void init_model__9TObjEneDDFP13CollisionBodyl(void *, void *, int);
 
 void *__dt__13TUnk_80494938Fv(void *arg0, s16 arg1);
 
@@ -851,22 +720,14 @@ void *TObjEneRecobox__vtable[107] = {
     (void *)&vfunc_104__12TObjEneDD_STFf, (void *)&update_if_800BB858__14TObjEneRecoboxFv, (void *)&draw_with_debug_info__14TObjEneRecoboxFv,
 };
 
-}
-
 #define TObjEneRecobox__attack_params ((u8 *)TObjEneRecobox__attack_params)
 #define TObjEneRecobox__vtable ((u8 *)TObjEneRecobox__vtable)
-
-extern "C" {
-
 int TObjEneRecobox__sub_803201D0(void);
 
 void *TObjEneRecobox__create(void *arg0);
 
 void free_bin_model_request(void*, int);
 
-void *__nw__7TObjectFUl(int);
-
-struct V3_80320260 { f32 x, y, z; };
 
 // inferred: field names follow MojaAnimationBinding (TObjEneMoja.h), the same 0x10 animation binding layout.
 struct Spawn_80320260 { s32 motions; void **actions; u32 unknown_08; u16 action_count; u16 unknown_0E; };
@@ -887,11 +748,7 @@ s32 register_boss__6TLobbyFl(s32);
 
 s32 load_enemy_bml_resource(u8 *arg0);
 
-}
-
-extern "C" {
-
-V3_80320260 lbl_80543000;
+Vec lbl_80543000;
 
 s32 lbl_805D6B1C;
 
@@ -931,14 +788,10 @@ void TObjEneRecobox::load_resources() {
     }
 }
 
-}
-
-extern "C" {
-
 u8 *TObjEneRecobox__ct(u8 *ene_recobox, s32 arg1, u8 *arg2);
 
 void *TObjEneRecobox__create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0x4F4);
+    void *o = TObject::operator new(0x4F4);
     if (o != NULL) {
         o = TObjEneRecobox__ct((u8 *)o, (s32)tl_04, (u8 *)arg0);
     }
@@ -975,20 +828,20 @@ u32 TObjEneRecobox::remap_area_sound_id(u32 arg0) {
     return ret;
 }
 
-u8 *TObjEneRecobox__ct(u8 *ene_recobox, s32 arg1, u8 *arg2) {
+u8 *TObjEneRecobox__ct(u8 *ene_recobox, s32 arg1, u8 *set_data) {
     Self_8031FE98 *S = (Self_8031FE98 *)ene_recobox;
     s32 i;
     s32 n;
-    __ct__12TObjEneDD_STFP7TObject(ene_recobox, arg1, arg2);
+    __ct__12TObjEneDD_STFP7TObject(ene_recobox, arg1, set_data);
     *(u8 **)((s8 *)ene_recobox + 0x18) = TObjEneRecobox__vtable;
     __ct__13TUnk_80494938Fv((ene_recobox + 0x3C0));
     __construct_array(ene_recobox + 0x460, (void *)&__ct__15RenderFadeStateFv, (void *)&__dt__15RenderFadeStateFv, 0x1C, 4);
     ((TObject *)ene_recobox)->m_name = TObjEneRecobox_name_ref;
-    ((TObjEneDD *)ene_recobox)->invoke_initialization_hook(arg2);
+    ((TObjEneDD *)ene_recobox)->invoke_initialization_hook(set_data);
     ((TObjEneDD *)ene_recobox)->init_position_vectors();
     *(s32 *)((s8 *)ene_recobox + 0x34) = *(s32 *)((s8 *)(*(u8 **)((s8 *)TObjEneRecobox__static_instance + 0x42C)) + 0x18);
     ((TObjEneRecobox *)ene_recobox)->texlist = *(s32 *)((s8 *)(*(u8 **)((s8 *)TObjEneRecobox__static_instance + 0x42C)) + 0x1C);
-    init_model__9TObjEneDDFP13CollisionBodyl(ene_recobox, lbl_804EC684, 1);
+    ((TObjEneDD *)ene_recobox)->init_model((CollisionBody *)lbl_804EC684, (s32)1);
     ((TObjEneRecobox *)ene_recobox)->m_2fc.y = 20.0f + *(f32 *)((s8 *)ene_recobox + 0x3C);
     ((TObjEneRecobox *)ene_recobox)->vfunc_88();
     ((TObjMotion *)ene_recobox)->set_field_d8((s32)TObjEneRecobox__animation_entries);
@@ -996,13 +849,13 @@ u8 *TObjEneRecobox__ct(u8 *ene_recobox, s32 arg1, u8 *arg2) {
     ((TObjEneRecobox *)ene_recobox)->requested_action = 0;
     ((TObjMotion *)ene_recobox)->set_animation(((TObjEneRecobox *)ene_recobox)->requested_action);
     ((TObjMotion *)ene_recobox)->set_field_b8(((TObjEneRecobox *)ene_recobox)->requested_action);
-    reset_hp__9TObjEneDDFPUcPUcPUc(ene_recobox, recobox_boss_register_id, lbl_805D6B14, TObjEneRecobox__shared_object_handle);
+    ((TObjEneDD *)ene_recobox)->reset_hp((u8 *)recobox_boss_register_id, (u8 *)lbl_805D6B14, (u8 *)TObjEneRecobox__shared_object_handle);
     ((TObjEneDD *)ene_recobox)->check_state_flag_4();
     *(u8 * *)&((TObjEneRecobox *)ene_recobox)->movementParameters = TObjEneRecobox__attack_params;
     ((TObjEneDD *)ene_recobox)->initialize_enemy_state(0x43);
     ((TObjEneRecobox *)ene_recobox)->m_37c = 10.0f;
     ((TObjEneRecobox *)ene_recobox)->sub_8031F800();
-    n = *(s16 *)((s8 *)arg2 + 2);
+    n = *(s16 *)((s8 *)set_data + 2);
     if (n <= 1) {
         *(s32 *)&((TObjEneRecobox *)ene_recobox)->m_410 = 0;
     } else if (*(s32 *)&((TObjEneRecobox *)ene_recobox)->m_410 >= n) {
@@ -1068,33 +921,33 @@ void TObjEneRecobox::run_task() {
     }
     this->vfunc_88();
     ((TObjEneRecon *)((u8 *)this))->restore_position();
-    ((TObjEnemy *)((u8 *)this))->submit_default_cursor_candidate();
+    this->submit_default_cursor_candidate();
     this->vfunc_100();
     this->update_floor_probe();
 }
 
-void dispatch_state__12TObjEneReconFiUii(s32 ene_dd, u32 arg1, s32 arg2) {
+void dispatch_state__12TObjEneReconFiUii(s32 ene_dd, u32 arg1, s32 reason) {
     switch (arg1) {
     case 0:
-        ((TObjEneRecobox *)ene_dd)->sub_8031F6C0(arg2);
+        ((TObjEneRecobox *)ene_dd)->sub_8031F6C0(reason);
         return;
     case 1:
-        ((TObjEneRecon *)ene_dd)->handle_state(arg2);
+        ((TObjEneRecon *)ene_dd)->handle_state(reason);
         return;
     case 2:
-        TObjEneRecon__sub_8031F600((void *)ene_dd, (arg2));
+        TObjEneRecon__sub_8031F600((void *)ene_dd, (reason));
         return;
     case 3:
-        ((TObjEneRecon *)ene_dd)->update_state(arg2);
+        ((TObjEneRecon *)ene_dd)->update_state(reason);
         return;
     case 4:
-        ((TObjEneRecon *)ene_dd)->handle_action_state(arg2);
+        ((TObjEneRecon *)ene_dd)->handle_action_state(reason);
         return;
     case 5:
-        TObjEneRecon__sub_8031F408((void *)ene_dd, (arg2));
+        TObjEneRecon__sub_8031F408((void *)ene_dd, (reason));
         return;
     case 6:
-        ((TObjEneRecon *)ene_dd)->handle_death_state(arg2);
+        ((TObjEneRecon *)ene_dd)->handle_death_state(reason);
     default:
         return;
     }
@@ -1112,7 +965,6 @@ void TObjEneRecobox::vfunc_61() {  }
 
 void TObjEneRecon::restore_position() { VecCopy((Vec *)((char*)this + 0x74), (const Vec *)((char*)this + 0x2fc)); }
 
-extern "C" {
 
 void TObjEneRecon__sub_8031FB6C(u8 *ene_recobox) {
     Stack_8031FB6C stack;
@@ -1270,10 +1122,6 @@ void TObjEneRecobox::sub_8031F6C0(s32 arg1) {
         return;
     }
 }
-
-}
-
-extern "C" {
 
 void TObjEneRecon__sub_8031F600(void *ene_dd, s32 arg1) {
     s32 temp_r4;
@@ -1471,7 +1319,6 @@ void TObjEneRecon::remove_child_entity(u8 *arg1) {
     }
 }
 
-}
 
 u8 TObjEneRecon::is_anim_6() {
     return (u8) (this->mode == 6);
@@ -1531,12 +1378,11 @@ void TObjEneRecon::remove_tracked_id(s32 id) {
 
 void TObjEneRecobox::update_if_800BB858() { if (get_target_info() != 0) { sub_8031F800(); } }
 
-extern "C" {
 
 void TObjEneRecobox::render() {
     s32 temp_r30;
     Fade_8031EA70 *temp_r29;
-    s32 var_r29;
+    s32 camera_mode;
     s32 var_r28;
     s32 var_r27;
     u8 *arg0 = (u8 *)this;
@@ -1544,14 +1390,14 @@ void TObjEneRecobox::render() {
         ((TObjEneRecobox *)arg0)->draw_with_debug_info();
         return;
     }
-    var_r29 = 0;
+    camera_mode = 0;
     if (is_split_screen() != 0) {
-        var_r29 = get_camera_mode__11TCameraCtrlFv();
+        camera_mode = TCameraCtrl::get_camera_mode();
     }
     if (!(*(s32 *)((s8 *)arg0 + 0x40C) & 1)) {
-        if (is_main_phase_15__9TObjEneDDFv() != 0) {
-            var_r28 = ((Obj_8031EA70 *)arg0)->m9(25.0f + lbl_805D9E88, 50.0f + lbl_805D9E84, 120.0f);
-        } else if (((Obj_8031EA70 *)arg0)->m8(500.0f, 120.0f) != 0) {
+        if (TObjEneDD::is_main_phase_15() != 0) {
+            var_r28 = this->classify_actor_view_detail(25.0f + lbl_805D9E88, 50.0f + lbl_805D9E84, 120.0f);
+        } else if (this->update_object_view_visibility(500.0f, 120.0f) != 0) {
             var_r28 = 1;
         } else {
             var_r28 = 0;
@@ -1580,8 +1426,8 @@ void TObjEneRecobox::render() {
                     return;
                 }
 block_18:
-                temp_r29 = &((Holder_8031EA70 *)arg0)->arr[var_r29];
-                update__15RenderFadeStateFv((int)temp_r29);
+                temp_r29 = &((Holder_8031EA70 *)arg0)->arr[camera_mode];
+                ((RenderFadeState *)temp_r29)->update();
                 temp_r30 = ((RenderFadeState *)temp_r29)->updateFromCamera((const f32*)(arg0 + 0x2FC));
                 if ((var_r27 == 0) && (temp_r30 != 0)) {
                     if (((TObject *)arg0)->defer_render() != 0) {
@@ -1640,7 +1486,6 @@ block_37:
 #pragma push
 #pragma pool_data off
 void TObjEneRecobox::draw_with_debug_info() {
-    u8 *arg0 = (u8 *)this;
     if (get_target_info__9TObjEneDDFv() != 0) {
         switch (this->m_3f8) {
         case 0:
@@ -1658,7 +1503,7 @@ void TObjEneRecobox::draw_with_debug_info() {
         debug_printf_at(pack_debug_text_position(0, 3), "RECON ROTATE RAD(+50.f)");
         debug_printf_at(pack_debug_text_position(0, 5), "RECON MAX(Min:0 Max:6)");
     }
-    if (((VObj_18_26a62c *)(arg0))->m8(500.0f, 120.0f) != 0) {
+    if (this->update_object_view_visibility(500.0f, 120.0f) != 0) {
         TObjFish::set_global_param(this->texlist);
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
@@ -1685,5 +1530,4 @@ void TObjEneRecobox::draw_with_debug_info() {
 }
 #pragma pop
 
-}
 

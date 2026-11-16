@@ -1,22 +1,18 @@
 #include "types.h"
+#include "pso/weapon/TItemWeapon.h"
 #include "pso/weapon/TUnk_804F1320.h"
 #include "pso/item/TItemEquipBase.h"
 #include "pso/item/TItem.h"
 #include "pso/item/mag/TItemMag.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/map/FloorArea.h"
-#include "pso/item/TItem.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
-struct RecoveredGlobal_80355BA0_lbl_804F1320 {
-    s32 value;
-    u8 remaining[0xF4];
-};
 
 extern "C" {
 u8 * __ct__11TItemWeaponFP7TObjectPUc(void *, void *);
 extern s32 __vt__13TUnk_804F1320[];
 u8 *photon_field_weapon_ct(TObjPlayer *arg0, u8 *arg1);
-s32 get_current_floor();
 
 void TUnk_804F1320::activate_effect(s32 item) {
     s32 temp_r31;
@@ -25,7 +21,7 @@ void TUnk_804F1320::activate_effect(s32 item) {
         temp_r31 = ((TObjPlayer *)(this->owner))->get_floor();
         {
         s32 t = get_current_floor();
-        if ((t == temp_r31) && (((TItem *)this)->get_mode() == 2)) {
+        if ((t == temp_r31) && (this->get_mode() == 2)) {
             spawn_pg_effect((void *)(*(u32 *)&this->owner + 0x2FC), (s32)item, (f32)(*(f32 *)&this->unk_1F8));
         }
         }
@@ -40,19 +36,18 @@ void TUnk_804F1320::emit_marker_effects() {
             ((TItem *)arg0)->send_activate_effect(temp_r3);
             return;
         }
-        ((TObjPlayer *)arg0)->update_active_game_effect();
+        ((TItemWeapon *)arg0)->update_active_game_effect();
         return;
     }
-    ((TObjPlayer *)arg0)->update_active_game_effect();
+    ((TItemWeapon *)arg0)->update_active_game_effect();
 }
-typedef char RecoveredGlobal_80355BA0_lbl_804F1320_size[sizeof(RecoveredGlobal_80355BA0_lbl_804F1320) == 0xF8 ? 1 : -1];
 
 }
 TUnk_804F1320::~TUnk_804F1320() {}
-extern "C" {
+
 u8 *photon_field_weapon_ct(TObjPlayer *player, u8 *arg1) {
     __ct__11TItemWeaponFP7TObjectPUc(player, arg1);
-    *(s32 **)((s8 *)player + 0x18) = &(*(RecoveredGlobal_80355BA0_lbl_804F1320 *)&__vt__13TUnk_804F1320).value;
+    *(s32 **)((s8 *)player + 0x18) = __vt__13TUnk_804F1320;
     ((TItemWeapon *)player)->set_weapon_flags(0x22);
     if (((TItem *)player)->get_item_group() == 0x3D) {
         *(f32 *)((s8 *)player + 0x1F8) = 70.0f;
@@ -63,4 +58,3 @@ u8 *photon_field_weapon_ct(TObjPlayer *player, u8 *arg1) {
     return (u8 *)player;
 }
 
-}

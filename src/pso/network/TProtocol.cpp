@@ -47,7 +47,7 @@ void TLobby::send_6F_burst_done() {
 }
 
 // ---- pso/network/TProtocol_801DB5C4
-#include "pso/network/TProtocol.h"
+
 
 void TProtocol::send_quest_menu_closed() {
     packet_header header;
@@ -59,9 +59,7 @@ void TProtocol::send_quest_menu_closed() {
 }
 
 // ---- pso/network/TProtocol_801DB630
-#include "types.h"
-#include "pso/network/TProtocol.h"
-#include "pso/network/protocol/protocol.h"
+
 
 void TProtocol::handle_cmd_97(packet &pkt) {
     s32 *arg1 = (s32 *)&pkt;
@@ -79,7 +77,7 @@ void TProtocol::handle_cmd_97(packet &pkt) {
 }
 
 // ---- pso/network/TProtocol_801DB684
-#include "pso/network/TProtocol.h"
+
 #include "pso/ui/chat/TChatMessage.h"
 #include "pso/player/TPlyGuildCardTag_8007B434.h"
 #include "pso/unk/text_801DF280.h"
@@ -161,9 +159,7 @@ void TProtocol::send_simple_mail(TChatMessage &message) {
 }
 
 // ---- pso/network/TProtocol_801DB8EC
-#include "types.h"
-#include "pso/network/TProtocol.h"
-#include "pso/network/protocol/protocol.h"
+
 
 void TProtocol::handle_cmd_95(packet &pkt) {
     s32 *arg1 = (s32 *)&pkt;
@@ -192,7 +188,7 @@ void TProtocol::handle_cmd_92(packet &pkt) {
 }
 
 // ---- pso/unk/text_801DB998
-#include "types.h"
+
 #include "pso/player/TPlySmth.h"
 #include "pso/ui/chat/TChatMessage_801DF918.h"
 #include "pso/unk/text_801DB998.h"
@@ -211,26 +207,24 @@ struct Stack_801DB998 {
     char sp7C[0x30];
 };
 
-void send_register_9c(u8 *arg0) {
+void send_register_9c(u8 *protocol) {
     Stack_801DB998 stack;
     construct_cmd_9c_send_pso_regist((&stack.sp8));
     memset(&stack.sp8, 0, 0xA4);
     stack.sp8 = 0x9C;
     stack.spA = 0xA4;
-    __as__8TPlySmthFRC8TPlySmth((s32)&stack.spC, (s32)(arg0 + 0x18F8));
-    stack.sp14 = (s32) *(u16 *)((s8 *)arg0 + 0x1908);
-    stack.sp19 = (s8) *(s32 *)((s8 *)arg0 + 0x1934);
-    strncpy(stack.sp1C, (char *)(arg0 + 0x3EDA), 0x30);
-    strncpy(stack.sp4C, (char *)(arg0 + 0x3F0A), 0x30);
-    strncpy(stack.sp7C, (char *)(arg0 + 0x3F3A), 0x30);
+    __as__8TPlySmthFRC8TPlySmth((s32)&stack.spC, (s32)(protocol + 0x18F8));
+    stack.sp14 = (s32) ((TProtocol *)protocol)->m_sub_version;
+    stack.sp19 = (s8) *(s32 *)((s8 *)protocol + 0x1934);
+    strncpy(stack.sp1C, (char *)(protocol + 0x3EDA), 0x30);
+    strncpy(stack.sp4C, (char *)(protocol + 0x3F0A), 0x30);
+    strncpy(stack.sp7C, (char *)(protocol + 0x3F3A), 0x30);
     bswap_cmd_9c_send_pso_regist((&stack.sp8));
-    ((TProtocol *)arg0)->send(&stack.sp8, 0xA4);
+    ((TProtocol *)protocol)->send(&stack.sp8, 0xA4);
 }
 
 // ---- pso/network/TProtocol_801DBA58
-#include "types.h"
-#include "pso/network/TProtocol.h"
-#include "pso/network/protocol/protocol.h"
+
 
 void TProtocol::handle_cmd_90(packet &pkt) {
     s32 *arg1 = (s32 *)&pkt;
@@ -250,10 +244,10 @@ void TProtocol::handle_cmd_90(packet &pkt) {
 #include <global_types.h>
 #include "pso/network/TProtocol_801DFCAC.h"
 #include "pso/network/TPlyJoinLobbyEntry.h"
-#include "pso/network/TProtocol.h"
+
 #include "pso/unk/text_801DFC3C.h"
 #include "pso/system/byteswap.h"
-#include "pso/unk/TLobby.h"
+
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include <string.h>
 #include <stdio.h>
@@ -271,7 +265,7 @@ void TProtocol::handle_cmd_90(packet &pkt) {
 extern packet *server_packet;
 extern const char *port_map_copyright;
 
-#include "types.h"
+
 #include "pso/item/TItem.h"
 struct RecoveredFields_801DD33C_arg0 {
     u8 field_0;
@@ -460,8 +454,8 @@ struct Pkt_801DC084 {
 
 extern "C" {
 void bswap__12TRecvPsoDataFv(void *);
-extern char TProtocol__send_pso_data2_log_format[];
-extern char TProtocol__send_pso_data_log_format[];
+extern const char TProtocol__send_pso_data2_log_format[21] = "SndPsoData2 %d %d %d";
+extern const char TProtocol__send_pso_data_log_format[17] = "SndPsoData %d %d";
 
 void TProtocol::send_subcommand_to_client(s32 flag, s8 *src, s32 len) {
     char buf[0x80];

@@ -21,6 +21,7 @@
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/unk/text_803D8F74.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 #pragma defer_codegen on
 #pragma inline_depth(1)
@@ -170,16 +171,18 @@ void __ct__10TODoorBaseFP7TObject(void *, void *);
 extern s32 __vt__19TODoorFourLightBase[];
 Door_802A0994 *TODoorFourLightBase__ct(Door_802A0994 *arg0, void *arg1, s32 arg2);
 u8 is_current_floor_switch_set(int);
-s32 draw_ginja_model_with_motion(s32, s32, f32);
+void draw_ginja_model_with_motion(void *model, void *motion, f32 frame);
 void render__19TODoorFourLightBaseFv(TODoorFourLightBase *arg0);
-Res_8029F7E0 *get_bml_motion(s32, s32);
+AnimationMotion *get_bml_motion(BmlResource *resource, s32 index);
 void init_collision_body_parts(void *, void *, s32);
 extern s32 __vt__16TODoorLaboNormal[];
 extern s32 __vt__10TODoorLabo[];
 Self_8029F7E0 *TODoorLaboNormal__ct(Self_8029F7E0 *self, void *parent, s32 arg);
 s32 load_resource_from_descriptor(s32, int, void *, int, int, int);
-u8 *load_gvm_texture_file(const char *arg0);
-s32 get_bml_model(s32, s32);
+}
+u8 *load_gvm_texture_file(s32 arg0);
+extern "C" {
+s32 get_bml_model(BmlResource *resource, s32 index);
 Door_8029FAE4 *TODoorLabo__ct(Door_8029FAE4 *arg0, void *parent, s32 arg);
 void free_bin_model_request(void*, int);
 s32 release_texture_list(void*);
@@ -215,13 +218,12 @@ struct Door_802A0068 {
     s32 fD4;
     s32 fD8[8];
 };
-extern "C" {
+
 struct Door_802A0670;
-}
 
 const char *TODoorFourLightBase__class_name = "TODoorFourLightBase";
 
-extern "C" {
+
 Door_802A0994 *TODoorFourLightBase__ct(Door_802A0994 *arg0, void *arg1, s32 arg2) {
     s32 i;
     __ct__10TODoorBaseFP7TObject(arg0, arg1);
@@ -236,7 +238,6 @@ Door_802A0994 *TODoorFourLightBase__ct(Door_802A0994 *arg0, void *arg1, s32 arg2
     return arg0;
 }
 
-}
 TODoorFourLightBase::~TODoorFourLightBase() {
 
 }
@@ -244,7 +245,7 @@ TODoorFourLightBase::~TODoorFourLightBase() {
 extern "C" {
 void render__19TODoorFourLightBaseFv(TODoorFourLightBase *door_four_light_base) {
     VObj_802A07E0 *self = (VObj_802A07E0 *)door_four_light_base;
-    if (self->m8(door_four_light_base->view_range, *(f32 *)((s8 *)door_four_light_base + 0xC4)) != 1) {
+    if (self->m8(door_four_light_base->view_range, ((TODoorFourLightBase *)door_four_light_base)->model_radius) != 1) {
         return;
     }
     switch (door_four_light_base->object_state) {
@@ -254,7 +255,7 @@ void render__19TODoorFourLightBaseFv(TODoorFourLightBase *door_four_light_base) 
         TObjFish::set_global_param((s32)((void *)self->m20()));
         post_translate_matrix((u8 *)door_four_light_base + 0x38);
         rotate_matrix_y(0, door_four_light_base->rotation_y);
-        draw_ginja_model_with_motion(door_four_light_base->m_d4, (s32)door_four_light_base->motion, door_four_light_base->animation_frame);
+        draw_ginja_model_with_motion((void *)door_four_light_base->m_d4, (void *)door_four_light_base->motion, (f32)door_four_light_base->animation_frame);
         pop_matrix();
         break;
     case 2:
@@ -262,7 +263,7 @@ void render__19TODoorFourLightBaseFv(TODoorFourLightBase *door_four_light_base) 
         TObjFish::set_global_param((s32)((void *)self->m20()));
         post_translate_matrix((u8 *)door_four_light_base + 0x38);
         rotate_matrix_y(0, door_four_light_base->rotation_y);
-        draw_ginja_model_with_motion(door_four_light_base->m_d4, (s32)door_four_light_base->motion, door_four_light_base->animation_end_frame);
+        draw_ginja_model_with_motion((void *)door_four_light_base->m_d4, (void *)door_four_light_base->motion, (f32)door_four_light_base->animation_end_frame);
         pop_matrix();
         break;
     case 0:
@@ -448,7 +449,7 @@ void TODoorFourLightBase::clamp_light_index() {
         this->set_params[1] = 0;
     }
     if ((s32) this->set_params[1] > 4) {
-        *(s32 *)&this->set_params[1] = 4;
+        this->set_params[1] = 4;
     }
     this->m_f8 = (s32) this->set_params[1];
 }
@@ -465,8 +466,8 @@ void TLanguage__sub_802A0204(void) {
             var_r0 = load_resource_from_descriptor(var_r0, 5, &bm_o_door_seabed01_resource_descriptor, 0, 0, 0);
         }
         door_labo_bml_resource = var_r0;
-        lbl_805D6604 = (u32)load_gvm_texture_file("fs_obj_doorx4_atui_green.GVM");
-        lbl_805D6608 = (u32)load_gvm_texture_file("fs_obj_doorx4_atui.GVM");
+        lbl_805D6604 = (u32)load_gvm_texture_file((s32)("fs_obj_doorx4_atui_green.GVM"));
+        lbl_805D6608 = (u32)load_gvm_texture_file((s32)("fs_obj_doorx4_atui.GVM"));
         return;
     case AREA_SEABED_LOWER:
         var_r0_2 = (int)::operator new(0x440);
@@ -474,8 +475,8 @@ void TLanguage__sub_802A0204(void) {
             var_r0_2 = load_resource_from_descriptor(var_r0_2, 5, &bm_o_door_seabed01_resource_descriptor, 0, 0, 0);
         }
         door_labo_bml_resource = var_r0_2;
-        lbl_805D6604 = (u32)load_gvm_texture_file("fs_obj_doorx4_atui_green_02.GVM");
-        lbl_805D6608 = (u32)load_gvm_texture_file("fs_obj_doorx4_atui_02.GVM");
+        lbl_805D6604 = (u32)load_gvm_texture_file((s32)("fs_obj_doorx4_atui_green_02.GVM"));
+        lbl_805D6608 = (u32)load_gvm_texture_file((s32)("fs_obj_doorx4_atui_02.GVM"));
         return;
     }
 }
@@ -509,8 +510,8 @@ u8 *TODoorFourLightSeabed__ct(u8 *arg0, void *parent, s32 arg) {
     init_collision_body_parts(arg0, labo_door_collision_body_parts, 1);
     ((TObjCollidable *)arg0)->refresh_collision_body_centers();
     ((TObjPlayer *)arg0)->register_object_by_id();
-    ((Door_802A0068 *)arg0)->fD4 = get_bml_model(door_labo_bml_resource, 0);
-    ((Door_802A0068 *)arg0)->infoBC = (Info_802A0068 *)get_bml_motion(door_labo_bml_resource, 0);
+    ((Door_802A0068 *)arg0)->fD4 = get_bml_model((BmlResource *)door_labo_bml_resource, 0);
+    ((Door_802A0068 *)arg0)->infoBC = (Info_802A0068 *)get_bml_motion((BmlResource *)door_labo_bml_resource, 0);
     ((Door_802A0068 *)arg0)->fB4 = (f32)((Door_802A0068 *)arg0)->infoBC->v4 - 1.0f;
     ((Door_802A0068 *)arg0)->fB8 = 0.5f;
     {
@@ -549,8 +550,8 @@ void TLanguage__sub_8029FF0C(void) {
             var_r0 = load_resource_from_descriptor(var_r0, 5, &bm_o_door_seabed01_u_resource_descriptor, 0, 0, 0);
         }
         seabed_four_light_door_bml_resource = var_r0;
-        seabed_four_light_door_textures = (s32)load_gvm_texture_file("fs_obj_doorx4_u_green.GVM");
-        TODoorFourLightSeabedU__texture_list = (s32)load_gvm_texture_file("fs_obj_doorx4_u.GVM");
+        seabed_four_light_door_textures = (s32)load_gvm_texture_file((s32)("fs_obj_doorx4_u_green.GVM"));
+        TODoorFourLightSeabedU__texture_list = (s32)load_gvm_texture_file((s32)("fs_obj_doorx4_u.GVM"));
         return;
     case AREA_SEABED_LOWER:
         var_r0_2 = (int)::operator new(0x440);
@@ -558,8 +559,8 @@ void TLanguage__sub_8029FF0C(void) {
             var_r0_2 = load_resource_from_descriptor(var_r0_2, 5, &bm_o_door_seabed01_u_resource_descriptor, 0, 0, 0);
         }
         seabed_four_light_door_bml_resource = var_r0_2;
-        seabed_four_light_door_textures = (s32)load_gvm_texture_file("fs_obj_doorx4_usui_green_02.GVM");
-        TODoorFourLightSeabedU__texture_list = (s32)load_gvm_texture_file("fs_obj_doorx4_usui_02.GVM");
+        seabed_four_light_door_textures = (s32)load_gvm_texture_file((s32)("fs_obj_doorx4_usui_green_02.GVM"));
+        TODoorFourLightSeabedU__texture_list = (s32)load_gvm_texture_file((s32)("fs_obj_doorx4_usui_02.GVM"));
         return;
     }
 }
@@ -592,8 +593,8 @@ u8 *TODoorFourLightSeabedU__ct(u8 *arg0, void *parent, s32 arg) {
     init_collision_body_parts(arg0, labo_door_collision_body_parts, 1);
     ((TObjCollidable *)arg0)->refresh_collision_body_centers();
     ((TObjPlayer *)arg0)->register_object_by_id();
-    ((Door_8029FD70 *)arg0)->fD4 = get_bml_model((s32)seabed_four_light_door_bml_resource, 0);
-    ((Door_8029FD70 *)arg0)->infoBC = (Info_8029FD70 *)get_bml_motion((s32)seabed_four_light_door_bml_resource, 0);
+    ((Door_8029FD70 *)arg0)->fD4 = get_bml_model((BmlResource *)seabed_four_light_door_bml_resource, 0);
+    ((Door_8029FD70 *)arg0)->infoBC = (Info_8029FD70 *)get_bml_motion((BmlResource *)seabed_four_light_door_bml_resource, 0);
     ((Door_8029FD70 *)arg0)->fB4 = (f32)((Door_8029FD70 *)arg0)->infoBC->v4 - 1.0f;
     ((Door_8029FD70 *)arg0)->fB8 = 0.5f;
     {
@@ -626,14 +627,14 @@ void load_labo_door_resources(void) {
         r = load_resource_from_descriptor(r, 5, &labo_door_resource_descriptor, 0, 0, 0);
     }
     TODoorLabo__bml_resource = r;
-    TODoorLabo__green_texture_list = (s32)load_gvm_texture_file("obj_o_labodoor_l_grn.GVM");
-    labo_door_red_textures = (s32)load_gvm_texture_file("obj_o_labodoor_l_red.GVM");
+    TODoorLabo__green_texture_list = (s32)load_gvm_texture_file((s32)("obj_o_labodoor_l_grn.GVM"));
+    labo_door_red_textures = (s32)load_gvm_texture_file((s32)("obj_o_labodoor_l_red.GVM"));
 }
 
 const char *odoor_labo_class_name = "TODoorLabo";
 const Tbl_8029FAE4 door_labo_link_table = {{1, -1, -1, -1, 4, -1, -1, -1}};
 
-extern "C" {
+
 void TAdSinglePlyChrSelectGC::free_all_resources() {
     if ((u32) labo_door_red_textures != 0U) {
         release_texture_list((void*)labo_door_red_textures);
@@ -662,7 +663,7 @@ Door_8029FAE4 *TODoorLabo__ct(Door_8029FAE4 *arg0, void *parent, s32 arg) {
     ((TObjCollidable *)arg0)->refresh_collision_body_centers();
     ((TObjPlayer *)arg0)->register_object_by_id();
     ((TODoorLabo *)arg0)->init_model_by_type();
-    arg0->fBC = (u8 *)get_bml_motion(TODoorLabo__bml_resource, 0);
+    arg0->fBC = (u8 *)get_bml_motion((BmlResource *)TODoorLabo__bml_resource, 0);
     arg0->fB4 = (f32)*(u32 *)((s8 *)arg0->fBC + 4) - 1.0f;
     arg0->fB8 = 0.5f;
     tbl = door_labo_link_table;
@@ -691,13 +692,13 @@ s32 TODoorLabo::vfunc_22() {
 
 void TODoorLabo::init_model_by_type() {
     s32 tbl[2] = {0, 1};
-    if (*(s32 *)&this->set_params[1] < 0) {
+    if (this->set_params[1] < 0) {
         this->set_params[1] = 0;
     }
-    if (*(s32 *)&this->set_params[1] > 1) {
-        *(s32 *)&this->set_params[1] = 1;
+    if (this->set_params[1] > 1) {
+        this->set_params[1] = 1;
     }
-    *(s32 *)&this->m_d4 = get_bml_model(TODoorLabo__bml_resource, tbl[*(s32 *)&this->set_params[1]]);
+    this->m_d4 = get_bml_model((BmlResource *)TODoorLabo__bml_resource, tbl[this->set_params[1]]);
 }
 
 void TODoorLabo::load_resources() {
@@ -706,8 +707,8 @@ void TODoorLabo::load_resources() {
         r = load_resource_from_descriptor(r, 5, &labo_door_resource_descriptor_2, 0, 0, 0);
     }
     (*(s32 *)&TODoorLabo__model_archive) = r;
-    (*(s32 *)&TODoorLaboNormal__green_texture_list) = (s32)load_gvm_texture_file("o_labodoor_nrm_green.GVM");
-    (*(s32 *)&TODoorLaboNormal__red_texture_list) = (s32)load_gvm_texture_file("o_labodoor_nrm_red.GVM");
+    (*(s32 *)&TODoorLaboNormal__green_texture_list) = (s32)load_gvm_texture_file((s32)("o_labodoor_nrm_green.GVM"));
+    (*(s32 *)&TODoorLaboNormal__red_texture_list) = (s32)load_gvm_texture_file((s32)("o_labodoor_nrm_red.GVM"));
 }
 
 void TODoorLabo::free_resources() {
@@ -738,7 +739,7 @@ Self_8029F7E0 *TODoorLaboNormal__ct(Self_8029F7E0 *self, void *parent, s32 arg) 
     ((TObjCollidable *)self)->refresh_collision_body_centers();
     ((TObjPlayer *)self)->register_object_by_id();
     ((TODoorLaboNormal *)self)->init_field_d4();
-    self->fBC = get_bml_motion((s32)TODoorLabo__model_archive, 0);
+    self->fBC = (Res_8029F7E0 *)get_bml_motion((BmlResource *)TODoorLabo__model_archive, 0);
     self->fB4 = (f32)self->fBC->f4 - 1.0f;
     self->fB8 = 0.5f;
     {
@@ -767,6 +768,5 @@ s32 TODoorLaboNormal::vfunc_22() {
     return TODoorLaboNormal__green_texture_list;
 }
 
-void TODoorLaboNormal::init_field_d4() { this->m_d4 = get_bml_model(TODoorLabo__model_archive, 0); }
+void TODoorLaboNormal::init_field_d4() { this->m_d4 = get_bml_model((BmlResource *)TODoorLabo__model_archive, 0); }
 
-}

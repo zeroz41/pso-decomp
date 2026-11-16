@@ -7,7 +7,7 @@ extern "C" {
 void *TObjQuestCol__create(void *arg0);
 }
 
-// --- C functions defined in text_80196A8C.cpp ---
+// --- C functions defined in TObjQuestCol_80196A8C.cpp ---
 extern "C" {
 void *TObjQuestCol__create(void *arg0);
 }

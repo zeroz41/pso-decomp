@@ -1,4 +1,5 @@
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/weapon/TUnk_804A535C.h"
 #include "pso/player/TObjPlayer_8012C3F4.h"
 #include "pso/player/TObjPlayer_8012C950.h"
@@ -13,7 +14,7 @@
 #include "pso/weapon/shoot/TItemShootParticle.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/data/FlagWord.h"
-#include "pso/weapon/TUnk_804A535C.h"
+
 #include "pso/weapon/SpecialProjectileWeapons.h"
 #include "pso/unk/text_8012C5F8.h"
 #include "pso/ui/frontend/TAdRicoRing.h"
@@ -35,6 +36,7 @@ struct Mylla_8012C384 { u8 pad[0xa4]; Ent_8012C384 *ents; s32 count; };
 
 extern "C" {
 Mylla_8012C384 *find_entity_by_id(u32);
+}
 
 void rocket_punch_target_impact(void *self, u32 a, u32 b, s32 idx) {
     Mylla_8012C384 *m;
@@ -49,17 +51,15 @@ void rocket_punch_wall_impact(u32 arg0, u32 arg1, u32 arg2, u32 arg3) {
     if ((arg1 != 0U) && (arg3 != 0U)) {
         rocket_punch_return_timer(arg1);
         spawn_particle_effect((void *)arg3, 0x45);
-        play_sound_effect(0x4001C112, 0, 0, 0);
+        play_sound_effect(0x4001C112, (Vec *)(0), 0, 0);
     }
 }
-
-}
-
 extern "C" {
 
 s32 post_translate_matrix(void *);
 s32 push_matrix();
 s32 is_owner_alive__15TItemShootModelFv();
+}
 
 
 extern "C" {
@@ -79,7 +79,7 @@ void TUnk_804A5340::render() {
 
 }
 
-}
+
 
 void TUnk_804A5340::hook() {  }
 
@@ -96,12 +96,9 @@ Obj_8012C4E4 *TObjPlayer__sub_8012C4E4(Obj_8012C4E4 *self, void *owner, const vo
     return self;
 }
 
-}
-
-extern "C" {
-
 u32 spawn_shoot_particle__10TObjPlayerFUlllf(s32, s32, s32, f32);
 u32 __nw__7TObjectFUl(s32);
+}
 
 u32 rocket_punch_create_shot(s32 owner, s32 arg1, s32 arg2, f32 farg0) {
     u32 var_r31;
@@ -122,67 +119,10 @@ u32 rocket_punch_create_shot(s32 owner, s32 arg1, s32 arg2, f32 farg0) {
     return var_r31;
 }
 
-}
-
 struct Obj_8012C714 { u8 pad[0x184]; void *f184; void *f188; u8 pad2[0x1f8 - 0x18c]; u8 f1f8[4]; };
 
-struct VBase_18 { char pad[0x18]; };
-
-struct VObj_18 : VBase_18 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual void m23();
-    virtual void m24();
-    virtual void m25();
-    virtual void m26();
-    virtual void m27();
-    virtual void m28();
-    virtual void m29();
-    virtual void m30();
-    virtual void m31();
-    virtual void m32();
-    virtual void m33();
-    virtual void m34();
-    virtual void m35();
-    virtual void m36();
-    virtual void m37();
-    virtual void m38();
-    virtual void m39();
-    virtual void m40();
-    virtual void m41();
-    virtual void m42();
-    virtual void m43();
-    virtual void m44();
-    virtual void m45();
-    virtual void m46();
-    virtual void m47();
-    virtual void m48();
-    virtual s32 m49(void *, s32, s32, s32);
-};
-
 extern "C" {
-s32 test_flags_any(void *p, s32 n);
+s32 test_flags_any(s32 *flags, s32 mask);
 
 void TUnk_804A535C::emit_marker_effects() {
     s32 temp_r31;
@@ -201,13 +141,13 @@ void TUnk_804A535C::emit_marker_effects() {
         ((FlagWord *)(arg0 + 0x1F8))->set(2);
         TItemAttacker::spawn_item_timer((TObject *)arg0, (ItemTimerCallback)rocket_punch_return_timer, 0x3C);
         ((FlagWord *)(arg0 + 0x1F8))->set(4);
-        if (((VObj_18 *)(arg0))->m49(arg0 + 0x1FC, 0, 0, 1) == 1) {
+        if (this->launch_shot(arg0 + 0x1FC, 0, 0, 1) == 1) {
             ((FlagWord *)(arg0 + 0x1F8))->clear(4);
-            ((VObj_18 *)(arg0))->m49(arg0 + 0x208, 0, 0, 0);
+            this->launch_shot(arg0 + 0x208, 0, 0, 0);
             return;
         }
         ((FlagWord *)(arg0 + 0x1F8))->clear(4);
-        ((VObj_18 *)(arg0))->m49(arg0 + 0x208, 0, 0, 1);
+        this->launch_shot(arg0 + 0x208, 0, 0, 1);
     }
 }
 
@@ -216,8 +156,8 @@ void TUnk_804A535C::vfunc_60() {
     Obj_8012C714 *self = (Obj_8012C714 *)this;
     switch (TObjPlayer::get_player_list()) {
     case 1:
-        if (test_flags_any(self->f1f8, 2) == 0) {
-            if (test_flags_any(self->f1f8, 1)) {
+        if (test_flags_any((s32 *)self->f1f8, 2) == 0) {
+            if (test_flags_any((s32 *)self->f1f8, 1)) {
                 p = self->f188;
             } else {
                 p = self->f184;
@@ -257,7 +197,6 @@ extern "C" {
 
 void __ct__11TItemWeaponFP7TObjectPUc(void *);
 
-extern s32 __vt__13TUnk_804A535C[];
 struct VOff_8012C868_arg0_8012c868 { char pad_0[0x1F8]; char f_1F8[1]; };
 
 void *TUnk_804A535C::init_trade_action() {
@@ -275,9 +214,6 @@ void *TUnk_804A535C::init_trade_action() {
     return this;
 }
 
-}
-
-extern "C" {
 u8 * init_trade_action__13TUnk_804A535CFv(void *, s32, s32);
 u8 *__nw__5TItemFUl(s32);
 extern s32 tl_05;
@@ -308,7 +244,7 @@ void rocket_punch_return_timer(u32 arg0) {
 
 s32 TObjPlayer::get_hp_by_flag() {
     u8 *arg0 = (u8 *)this;
-    if (test_flags_any((u8 *)&this->unk_1F8, 4) != 0) {
+    if (test_flags_any((s32 *)&this->unk_1F8, 4) != 0) {
         return *(s32 *)((s8 *)arg0 + 0x188);
     }
     return this->m_184;

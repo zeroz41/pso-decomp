@@ -3,19 +3,19 @@
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/chat/TWindowSubSymbolChat.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 
 struct TPlyGuildCardTag { u32 a; u32 b; TPlyGuildCardTag(u16, u32); };
 
 struct Tag_80076BC8 { u32 a; u32 b; };
 
 extern "C" {
-s32 get_main_phase();
 void *get_entity_id(void *);
 void *get_player_by_client_id(s32);
 void send_chat__9TProtocolFR16TPlyGuildCardTagPc(void *, TPlyGuildCardTag *, u8 *);
-void fn_80076BC4(void);
+char *fn_80076BC4(s32 *text);
 
-void fn_80076BC4(void) {  }
+char *fn_80076BC4(s32 *text) { return (char *)text; }
 }
 extern s32 local_client_id;
 extern void *TLobby__protocol_instance;

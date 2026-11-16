@@ -28,13 +28,12 @@ TUnk_804A6108::TUnk_804A6108(TObject *parent, u8 *item) : TItemWeapon(parent, it
     rotation_z = 0;
 }
 
-extern "C" {
+
 u8 *TObjPlayer__sub_8012EFAC(u8 *item) {
     if (item != NULL) {
         return (u8 *)new TUnk_804A6108(tl_05, item);
     }
     return NULL;
-}
 }
 
 TUnk_804A6108::~TUnk_804A6108() {}

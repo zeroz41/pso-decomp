@@ -19,6 +19,7 @@ public:
 
     TObjVoloptPillar(Vec *pos, TObject *owner);
     virtual ~TObjVoloptPillar();
+    void sub_80049FD8();
     virtual void run_task();
     virtual void render();
 
@@ -30,7 +31,6 @@ typedef char TObjVoloptPillar_size[sizeof(TObjVoloptPillar) == 0xC0 ? 1 : -1];
 extern const char *TObjVoloptPillar_name;
 extern const DirectAttackPayload volopt_pillar_attack;
 extern const Vec volopt_pillar_push;
-extern const f64 volopt_pillar_rad_to_angle;
 
 
 #endif

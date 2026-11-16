@@ -16,9 +16,7 @@
 extern "C" {
 
 s32 draw_visible_window_entries(void *, void *, void *, f32);
-int update_window_entry_list__11TWindowBaseFPv(void*, void*);
 void *draw_default_entry__9TWindowDDFl();
-int update_fade__11TWindowBaseFv(void*);
 
 void TWindowDD_WS_String::render() {
     f32 y;
@@ -40,8 +38,8 @@ void TWindowDD_WS_String::draw_entry_if_visible(void *entry) {
 
 void TWindowDD_WS_String::run_task() {
     ((TWindowDD *)this)->initialize_subwindow();
-    update_fade__11TWindowBaseFv(this);
-    update_window_entry_list__11TWindowBaseFPv(this, pad_24);
+    update_fade();
+    update_window_entry_list(pad_24);
 }
 
 }
@@ -82,9 +80,8 @@ void TWindowDD_WS_String::set_first_entry_text(u32 str) {
     }
 }
 
-extern "C" {
+
 const char *lbl_805D42D8 = "TWindowDD_WS_String";
-}
 
 // Entry layout table of the window: one column, one row, one text record (type 3).
 struct TWindowDD_WS_StringLayout {
@@ -107,25 +104,16 @@ WindowDescriptor TWindowDD__data_804EFC24 = {
     {0.0f, 0.0f}, lbl_805DFC20, &lbl_804EFC00, 3,
 };
 
+TWindowDD_WS_String::~TWindowDD_WS_String() {}
+
 extern "C" {
 s32 refresh_status_display__9TWindowDDFv(int);
-extern s32 lbl_804EFC38[];
-
-void *__dt__19TWindowDD_WS_StringFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = lbl_804EFC38;
-        ((TWindowDD *)arg0)->destroy_window_base(0);
-        if (arg1 > 0) {
-            TObject::operator delete(arg0);
-        }
-    }
-    return arg0;
-}
+extern s32 __vt__19TWindowDD_WS_String[];
 
 TWindowDD_WS_String *TWindowDD__sub_8034138C(TWindowDD_WS_String *self, f32 *pos, f32 *size, u32 str, s32 style) {
     u8 *entry;
     ((TWindowDD *)self)->construct_base((u8 *)&TWindowDD__data_804EFC24, 4, (u8 *)pos);
-    *(s32 **)((s8 *)self + 0x18) = lbl_804EFC38;
+    *(s32 **)((s8 *)self + 0x18) = __vt__19TWindowDD_WS_String;
     self->m_name = lbl_805D42D8;
     ((TWindowSubSymbolChatPartsSet *)self->pad_64)->copy_vec2(pos);
     ((TWindowSubSymbolChatPartsSet *)self->pad_6C)->copy_vec2(size);

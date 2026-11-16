@@ -2,6 +2,7 @@
 #pragma fp_contract on
 
 #include "pso/boss/volopt/TObjVoloptCage.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/boss/volopt/TBoss3VoloptHiraisin.h"
@@ -24,7 +25,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include <stdlib.h>
-#include "pso/player/TObjPlayer.h"
+
 
 // TBreakUpMdl.h still derives TBreakUpMdl from TObject; the real class keeps
 // its vtable at +0xC, which only this view of it can delete through.
@@ -81,7 +82,7 @@ void TObjVoloptCage::update_breakup() {
     case -1:
         break;
     case 0:
-        play_sound_effect(0x4001C112, &position, 0, 0);
+        play_sound_effect(0x4001C112, (Vec *)(&position), 0, 0);
         create_breakup_mdl__12TBoss3VoloptFlllll(volopt_cage_breakup_model, &volopt_cage_breakup_params,
                                                  volopt_cage_textures, &m_2fc, rotation_y);
         create_breakup_mdl__12TBoss3VoloptFlllll(volopt_cage_breakup_model, &volopt_cage_breakup_params,
@@ -118,7 +119,7 @@ void TObjVoloptCage::update_collision_state() {
     case 1:
         count = countdown;
         countdown = count - 1;
-        ((TObjPlayer *)this)->check_object_collisions();
+        this->check_object_collisions();
         if ((timer -= 1) <= 0) {
             actorFlags &= ~0x200;
             referenceHp = hp;
@@ -160,7 +161,7 @@ void TObjVoloptCage::sub_80049000() {
     case 0:
         actorFlags |= 0x40000;
         state = 1;
-        play_sound_effect(0x4003A80A, &position, 10, 0);
+        play_sound_effect(0x4003A80A, (Vec *)(&position), 10, 0);
         break;
     case 1:
         position.y += 5.0f;
@@ -276,7 +277,7 @@ TObjVoloptCage::TObjVoloptCage(TObjEnemy *boss, u16 target, u16 id, s32 group) :
     entity_id = id;
     *(s16 *)&set_index = group;
     set_entry = 0;
-    *(s16 *)&room = *(s16 *)&boss->room;
+    *(s16 *)&room = boss->room;
     *((s16 *)&room + 1) = *((s16 *)&boss->room + 1);
     ((TBoss3Volopt *)this)->reset_photon_effect();
     set_param(0x2E);

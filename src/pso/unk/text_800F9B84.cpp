@@ -2,11 +2,6 @@
 #include "pso/unk/text_800F9B84.h"
 #include "pso/system/task/TObject.h"
 
-struct RecoveredGlobal_800F9B84_lbl_8050113C {
-    s32 value;
-    u8 remaining[0x38];
-};
-
 struct RelHdr_800F9BAC { u32 reloc_ofs; u32 count; u8 pad8[8]; u32 root; u8 pad14[0xC]; u16 relocs[1]; };
 
 struct Obj_800F9BAC { u8 pad[0x1C]; u32 base; u8 pad20[4]; u32 root; };
@@ -19,7 +14,8 @@ s32 update_lobby_scene__6TSceneFv();
 u8 *__nw__7TObjectFUl(s32);
 s32 strncpy(void *, s32, s32);
 s32 memset(void *, s32, s32);
-extern RecoveredGlobal_800F9B84_lbl_8050113C resource_load_task_root;
+struct ResourceLoadTaskRoot { s32 value; u8 remaining[0x38]; };
+extern ResourceLoadTaskRoot resource_load_task_root;
 u32 apply_pointer_relocations(Obj_800F9BAC *self, RelHdr_800F9BAC *hdr);
 }
 s32 create_named_object(s32 arg0) {
@@ -42,7 +38,6 @@ s32 create_named_object(s32 arg0) {
     return 0;
 }
 
-typedef char RecoveredGlobal_800F9B84_lbl_8050113C_size[sizeof(RecoveredGlobal_800F9B84_lbl_8050113C) == 0x3C ? 1 : -1];
 void clear_resource_load_tasks(void) {
     ((TObject *)(&resource_load_task_root.value))->delete_children();
 }

@@ -1,5 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
+#include "pso/enemy/dubchik/TOCtrlDubchik_8015CA74.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/system/vector.h"
 #include "pso/object/base/TObjMotion.h"
@@ -26,8 +28,8 @@
 #include "pso/math/AngleLookup.h"
 #include "pso/unk/text_80087278.h"
 #include "pso/system/task/TObject.h"
-#include "pso/object/base/TObjMotion.h"
-#include "pso/player/TObjPlayer.h"
+
+
 #include "pso/player/TUnk_804B6C24.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/system/BmlResourceDescriptor.h"
@@ -55,7 +57,6 @@ extern s32 lbl_805D5870;
 void dubchik_start_dying(u8 *arg0);
 void free_bin_model_request(void*, int);
 s32 select_melee_contact_body__9TObjCharaFPvf();
-void TOCtrlDubchik__sub_8015C9D0(u8 *);
 
 void TOCtrlDubchik::apply_knockback_from_attacker(u8 *, f32) {  }
 
@@ -327,7 +328,7 @@ void TOCtrlDubchik::sub_8015CA74() {
     spawn_particle_effect(&this->position, 0x46);
     area = get_current_floor_area();
     if (area >= 0x17 || area < 0x13) {
-        play_sound_effect(0x4003AD16, &this->position, 0, 0);
+        play_sound_effect(0x4003AD16, (Vec *)(&this->position), 0, 0);
     }
     for (i = registered_player_count; i < registered_player_count + lbl_805D5870; i++) {
         p = (u8 *)TObjPlayer::get_player_data(i);
@@ -367,8 +368,5 @@ void TOCtrlDubchik::clear_part_offsets() {
 }
 
 
-}
-
-extern "C" {
 u32 TOCtrlDubchik__shared_resource;
 }

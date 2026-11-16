@@ -22,11 +22,11 @@ struct TBoss7Joint : public TObjEneDD {
     virtual void vfunc_28();
     virtual void vfunc_88();
     virtual void vfunc_93();
-    u8 unk_374[0x28];
-    u32 m_3b8;
+    u8 unk_374[0x44];
+    s32 index;              // constructor argument: the joint's place along the body
     u8 _pad3BC[0x4];
-    u32 m_3c0;
-    u32 m_3c4;
+    Vec *source_position;   // constructor argument: run_task copies it into position
+    s32 shell_hp;           // init_params sets it from TBoss7Joint_get_shell_max_hp()
     void store_position();
     void run_task();
     s32 init_params();
@@ -36,13 +36,11 @@ struct TBoss7Joint : public TObjEneDD {
     void update_and_send_60();
     void broadcast_state();
     int is_part_active();
-    u8 unk_3AC[0x1C];
 };
 
 typedef char TBoss7Joint_size[sizeof(TBoss7Joint) == 0x3C8 ? 1 : -1];
 
 extern "C" {
-u8 *TBoss7Joint__ct(u8 *arg0, u8 *arg1, s16 arg2, s16 arg3, s32 arg4, s32 arg5);
 void TBoss7Joint__sub_802EE7B8(void *p);
 void TBoss7Joint__sub_802EE800(void *p);
 }

@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/object/door/TObjDoorKey.h"
 #include "pso/render/MaterialColorFade.h"
 #include "pso/object/ambient/TObjEnvSoundGlobal.h"
@@ -27,6 +28,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/object/key/TOKey.h"
 #include "pso/player/TUnk_804B6C24.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 const char *abeno_fs_obj001_fosuno_model_names[4] = { "abeno_fs_obj001_fosuno.gj", "abesu_fs_obj001_fosu.gj", "abesu_fs_obj001_fotutu.gj", NULL };
 const char *abeno_fs_obj001_fosuno_motion_names[1] = { NULL };
@@ -75,12 +77,6 @@ Obj_8018FA6C *fn_8018FA6C(u16 id) {
 }
 
 
-struct TObjDoorKeyBase_8018FAEC { char pad[0x18]; };
-struct TObjDoorKeyVObj_8018FAEC : TObjDoorKeyBase_8018FAEC {
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3();
-    virtual void m4(); virtual void m5(); virtual void m6(); virtual void m7();
-    virtual s32 m8(f32, f32);
-};
 struct Base_8018FF74_8018FAEC { char pad[0x18]; };
 struct VObj_8018FF74_8018FAEC : Base_8018FF74_8018FAEC {
     virtual void m0();
@@ -118,13 +114,13 @@ struct Node_8018FCD8 { s32 pad0; void *f4; };
 
 struct Key_8018FCD8 { u8 pad0[0x38]; u8 f38[0x28]; s32 f60; u8 pad64[0x28]; s32 f8C; u8 pad90[0x60]; s32 fF0; };
 
-struct Vec_80190020 { f32 x, y, z; };
-
 extern "C" {
 void debug_draw_key_id__5TOKeyFv();
 s32 get_bml_model(s32, int);
 s32 load_resource_from_descriptor(s32, int, void *, int, int, int);
+}
 u8 *load_gvm_texture_file(s32 arg0);
+extern "C" {
 void scroll_ginja_mesh_uvs(void *, int, int, int, int);
 void PPCSync();
 void push_matrix();
@@ -133,12 +129,7 @@ extern u8 chunk_material_color_half_alpha_f32[];
 extern s32 actor_frame_tick;
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
-void *__ct__5TOKeyFP7TObject(TOKey *arg0);
-extern s32 __vt__11TObjDoorKey[];
 void free_bin_model_request(void*, int);
-s32 __dl__7TObjectFPv(void *);
-void *__dt__5TOKeyFv(void *arg0, s16 arg1);
-void *__nw__7TObjectFUl(int);
 int is_not_split_screen__13TRaderMapCoreFv(void *);
 
 void TObjDoorKey__sub_8018FAEC(u16 id, u16) {
@@ -149,11 +140,12 @@ void TObjDoorKey__sub_8018FAEC(u16 id, u16) {
         *(s32 *)((s8 *)temp_r3 + 0xE8) = 1;
     }
 }
+}
 
 
 void TObjDoorKey::render() {
 
-    if (((TObjDoorKeyVObj_8018FAEC*)this)->m8(400.0f, 20.0f) == 0) {
+    if (this->update_object_view_visibility(400.0f, 20.0f) == 0) {
         if ((u32) this->m_f8 != 0U) {
             ((TParticleCtrl *)(this->m_f8))->enable();
         }
@@ -272,10 +264,8 @@ void TObjDoorKey::run_task() {
     struct VObj_8018FF74_8018FAEC *o = (struct VObj_8018FF74_8018FAEC *)this;
     o->m22();
 }
-
-}
 TObjDoorKey::~TObjDoorKey() {
-    ((TObjCollidable *)this)->unregister_object_by_id();
+    this->unregister_object_by_id();
     free_collision_body_parts(this);
     if ((u32) this->m_f8 != 0U) {
         ((TObject *)(*(void **)((s8 *)this + 0xF8)))->queue_destruction();
@@ -283,29 +273,29 @@ TObjDoorKey::~TObjDoorKey() {
     }
 }
 TObjDoorKey::TObjDoorKey(TObject *arg1, void *arg2) : TOKey(arg1) {
-    *(const char **)((s8 *)this + 0) = TObjDoorKey__class_name;
+    this->m_name = TObjDoorKey__class_name;
     init_key(arg2);
     this->m_e8 = 0;
     this->m_f0 = 0;
     *(s32 *)((s8 *)this + 0xEC) = 0x14;
     *(s32 *)((s8 *)this + 0xF4) = 0;
-    *(s32 *)&this->m_f8 = 0;
+    this->m_f8 = 0;
     this->m_id = (*(u16 *)&door_key_id_counter)++;
-    if (*(s32 *)&this->set_params[2] < 0) {
-        *(s32 *)&this->set_params[2] = 0;
+    if (this->set_params[2] < 0) {
+        this->set_params[2] = 0;
     }
-    if (*(s32 *)&this->set_params[2] > 9) {
-        *(s32 *)&this->set_params[2] = 9;
+    if (this->set_params[2] > 9) {
+        this->set_params[2] = 9;
     }
     init_collision_body_parts(this, TObjDoorKey__collision_body_parts, 1);
-    *(s32 *)&this->actorFlags |= 0x40000000;
-    ((TObjPlayer *)this)->register_object_by_id();
-    Vec_80190020 pos = *(Vec_80190020 *)((s8 *)this + 0x38);
+    this->actorFlags |= 0x40000000;
+    this->register_object_by_id();
+    Vec pos = *(Vec *)((s8 *)this + 0x38);
     pos.y += 10.0f;
-    *(s32 *)&this->m_f8 = (s32)spawn_continuous_particle_effect_with_flags(&pos, 0x60, 0x40);
+    this->m_f8 = (s32)spawn_continuous_particle_effect_with_flags(&pos, 0x60, 0x40);
     this->cursor_action.set_use();
 }
-extern "C" {
+
 
 void *TObjDoorKey__create(void *arg0) {
     void *o = (void *)new TObjDoorKey((TObject *)tl_05, (void *)arg0);
@@ -342,11 +332,10 @@ void * TObjEnvSoundGlobal__create(void *rader_map_core) {
     if (is_not_split_screen__13TRaderMapCoreFv(rader_map_core) == 1) {
         return NULL;
     }
-    o = __nw__7TObjectFUl(0x9C);
+    o = TObject::operator new(0x9C);
     if (o != NULL) {
         o = TObjEnvSoundGlobal__ct((u8 *)o, (s32)tl_05, (s32)rader_map_core);
     }
     return o;
 }
 
-}

@@ -4,6 +4,7 @@
 // and TUnk_804820A8::render's .rodata templates before TUnk_80482090::render's only come out in that order).
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/player/TUnk_804820A8.h"
 #include "pso/boss/goldragon/TBoss8Dragon_8002CC48.h"
 #include "pso/system/vector.h"

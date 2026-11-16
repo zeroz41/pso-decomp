@@ -1,4 +1,5 @@
 #include "pso/weapon/shoot/TItemShootGun.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "types.h"
 #include "pso/weapon/shoot/TItemShoot.h"
 #include "pso/item/TItemLoad.h"
@@ -23,9 +24,6 @@ extern TObject *const tl_07;
 extern const f32 lbl_805DAC64;
 extern const GunStarLightBlock gun_shot_star_light_parameters[];
 WeaponColor get_weapon_color__11TItemWeaponFPv(void *arg0);
-void lookup_item_data__9TItemLoadFlPl(s32, s32 *);
-void get_data_entry__9TItemLoadFlPl(s32, s32 *);
-u8 get_item_index__5TItemFv(void *);
 TObject *spawn_star_light_2d__Flll(Vec *pos, const GunStarLightBlock *params, TObject *parent);
 }
 

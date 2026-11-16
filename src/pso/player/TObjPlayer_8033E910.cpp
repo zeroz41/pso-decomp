@@ -94,7 +94,7 @@ void setup_projection_tex_matrix__10TObjPlayerFv(void) {
 void TObjPlayer::free_indexed_entry(s32 _w1) {
     s32 temp_r0;
 
-    temp_r0 = (*(s32 *)&this->m_20);
+    temp_r0 = (this->m_20);
     if (temp_r0 < 0x10) {
         ((TObjPlayer *)(*(s32 *)((s8 *)this + 0x1C) + (temp_r0 * 0x24)))->copy_node_record(_w1);
     }

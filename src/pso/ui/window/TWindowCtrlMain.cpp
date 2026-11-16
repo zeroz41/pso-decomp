@@ -35,8 +35,10 @@
 #include "pso/object/TObjLuker.h"
 #include "pso/unk/text_80269FE8.h"
 #include "pso/unk/text_80271400.h"
-#include "pso/system/task/TObject.h"
+
 #include "pso/ui/window/TWindowDD.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/player/TObjPlayer_80011014.h"
 const char *TWindowCtrlMain__name = "TWindowCtrlMain";
 const char *TWindowCtrlScreen__name = "TWindowCtrlScreen";
 const char *TWindowCtrlSub__name = "TWindowCtrlSub";
@@ -57,9 +59,8 @@ extern TObject *tl_window;
 extern TObject *tl_clipout;
 extern TObject *tl_fadeafter;
 extern "C" {
-s32 TCameraCtrl__sub_80068EF0(void);
+void TCameraCtrl__sub_80068EF0(void);
 s32 get_nth_view_player_id__11TCameraCtrlFl(s32);
-s32 is_split_screen(void);
 }
 struct VObj_8024C820 {
     char pad[0x18];
@@ -69,9 +70,8 @@ extern "C" void TWindowCtrlMain__sub_8024D2A4(s32 viewport_index);
 struct Ent_8024CCDC { u8 p0[8]; f32 f8; f32 fC; u8 p10[0xC]; };
 extern "C" {
 WindowControlState TWindowCtrlMain__viewport_states[6];
-struct Vec2_8024CE68 { f32 x, y; };
 struct Poly_8024CE68 {
-    Vec2_8024CE68 *verts;
+    NJS_POINT2 *verts;
     u32 *colors;
     s32 flags;
     s32 count;
@@ -86,13 +86,11 @@ void spawn_action_palette_slot_light(void *window, s32 kind);
 int open_submenu__15TWindowSubEquipFll(void*);
 int append_line__14TWindowMessageFii(void*);
 int try_open_battle_menu__15TWindowMainMenuFs(void*);
-}
-void load_hud_palette_textures(void);
-extern "C" {
 void TWindowCtrlMain__sub_8024D838(void);
 void TWindowCtrlMain__sub_8024D85C(void* p);
 bool TWindowCtrlMain__sub_8024D868(u8 *arg0);
 }
+void load_hud_palette_textures(void);
 struct Pad_8024DCE8 { u8 pad[0x20]; u8 btn[0x30]; };
 struct WBase_8024DCE8 { u8 pad[0x18]; };
 struct W_8024DCE8 : WBase_8024DCE8 {
@@ -106,9 +104,6 @@ struct W_8024DCE8 : WBase_8024DCE8 {
 };
 extern "C" {
 u32 get_player_by_client_id(int);
-}
-void window_request_show(void *arg0);
-extern "C" {
 s32 TWindowCtrl__sub_8024C7F8(void *);
 s32 TWindowCtrl__sub_8024A314();
 s32 TWindowCtrl__sub_8024C7C4(void *);
@@ -119,7 +114,6 @@ s32 TKeyBoardControl__sub_801A58B0();
 s32 TKeyBoardControl__sub_801A58D8();
 s32 get_function_key_menu__16TKeyBoardControlFPv(void *arg0);
 s32 fn_8002AE08(void *p);
-s32 TWindowShortListCtrl__check_controller_button(void *, int);
 s32 is_on_current_screen__11TCameraCtrlFv(void *, int);
 u16 get_current_target_id__10TObjPlayerFv();
 s32 is_player_input_active(s32);
@@ -130,9 +124,8 @@ int TWindowMainMenu__sub_8024E3F4(void *p);
 void TWindowCtrl__sub_8024DAAC(void *arg0);
 s32 TWindowMainMenu__sub_8024E3E0(void *);
 s32 get_window_layout_position(s32);
-s32 get_function_key_menu__16TKeyBoardControlFPv(void *arg0);
-void TWindowCtrl__sub_8024DAAC(void *arg0);
 }
+void window_request_show(void *arg0);
 struct Ctl_8024E2A8 {
     s32 f0;
     u8 pad4[0x18 - 4];
@@ -571,7 +564,7 @@ void TWindowCtrlMain::render() {
 }
 
 void TWindowCtrlMain__sub_8024D2A4(s32 viewport_index) {
-    Vec2_8024CE68 verts[4];
+    NJS_POINT2 verts[4];
     Poly_8024CE68 poly;
     u32 colors[4];
     u32 color;
@@ -602,12 +595,12 @@ void TWindowCtrlMain__sub_8024D2A4(s32 viewport_index) {
 #pragma push
 #pragma fp_contract on
 void draw_menu_backdrop_gradients(s32 viewport_index) {
-    Vec2_8024CE68 verts[4];
+    NJS_POINT2 verts[4];
     Quad_8024CE68 q;
     Poly_8024CE68 poly;
     u32 colors[4];
     Poly_8024CE68 line;
-    Vec2_8024CE68 lverts[2];
+    NJS_POINT2 lverts[2];
     u32 lcolors[2];
     WindowControlState *s;
     f32 alpha;
@@ -726,7 +719,7 @@ void draw_menu_backdrop_gradients(s32 viewport_index) {
 }
 #pragma pop
 
-bool TWindowCtrlMain__sub_8024CE58(void) {
+bool has_window_task_root(void) {
     return TWindowCtrlMain__window_task_root != 0;
 }
 
@@ -743,14 +736,14 @@ TObject *TWindowCtrlMain__sub_8024CE24(void) {
     return TWindowCtrlMain__viewport_states[5].window_root;
 }
 
-TObject *TWindowCtrlMain__sub_8024CDD0(s32 viewport_index) {
+TObject *get_viewport_window_root(s32 viewport_index) {
     if (is_split_screen() != 0) {
         return TWindowCtrlMain__viewport_states[viewport_index].window_root;
     }
     return TWindowCtrlMain__viewport_states[0].window_root;
 }
 
-TObject *TWindowCtrlMain__sub_8024CDB0(void* p) { return TWindowCtrlMain__sub_8024CDD0((s32)p); }
+TObject *TWindowCtrlMain__sub_8024CDB0(void* p) { return get_viewport_window_root((s32)p); }
 
 void TWindowCtrlMain::set_value(s32 arg0, s32 arg1) {
     get_window_control_state(arg0)->field04 = arg1;
@@ -845,7 +838,7 @@ void TWindowCtrlScreen::render() {
         TWindowCtrlMain__sub_8024D2A4(viewport_index);
         TCameraCtrl::restore_full_screen_view();
         draw_menu_backdrop_gradients(viewport_index);
-        TWindowCtrlMain__sub_8024CDD0(viewport_index)->render_nodes();
+        get_viewport_window_root(viewport_index)->render_nodes();
         TCameraCtrl__sub_80068EF0();
         TParticleCtrl::end_effect_render();
     }

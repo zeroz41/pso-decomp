@@ -1,8 +1,9 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/unk/TUnk_804ED598.h"
 #include "pso/unk/TUnk_804ED5B0.h"
-#include "pso/unk/TUnk_804ED5B0.h"
+
 #include "pso/unk/text_802A8210.h"
 #include "pso/unk/text_803281B8.h"
 #include "pso/effect/particle/TParticleCtrl_80327D30.h"
@@ -14,25 +15,18 @@
 #include "pso/unk/text_803DA798.h"
 
 #include "pso/system/vector.h"
-#include "pso/unk/TUnk_804ED598.h"
+
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
 #pragma defer_codegen on
 
-struct RecoveredGlobal_80327F88_lbl_804ED598 {
-    s32 value;
-    u8 remaining[0x14];
-};
-
 struct Vtx_80327D30 { f32 x, y, z, u, v; u32 color; };
 
 struct Obj_80327D30 { u8 pad0[0x1C]; f32 w; f32 h; u8 pos[0xC]; u8 pad30; u8 f31; u8 pad32[2]; s32 f34; s32 f38; u8 pad3c[4]; void *f40; };
 
 extern "C" {
-void __dl__7TObjectFPv(void *);
-void __dt__7TObjectFv(void *, int);
 extern s32 __vt__13TUnk_804ED598[];
 int GXSetNumIndStages(int);
 int GXSetTevDirect(int);
@@ -46,12 +40,10 @@ s32 rotate_matrix_y(int, int);
 s32 rotate_matrix_x(int, int);
 s32 push_matrix();
 s32 post_translate_matrix(void *);
-s32 TParticleCtrl__sub_803E2A1C(void *, int);
+s32 emit_particle_strip_vertices(void *, int);
 extern u8 lbl_804C5820[];
 extern u8 *camera_ctrl_instance;
 }
-
-typedef char RecoveredGlobal_80327F88_lbl_804ED598_size[sizeof(RecoveredGlobal_80327F88_lbl_804ED598) == 0x18 ? 1 : -1];
 
 u8 *construct_indirect_effect_task(u8 *arg0, s32 kind, s32 arg2, u8 *arg3) {
     __ct__7TObjectFP7TObject(arg0, arg3);
@@ -95,7 +87,7 @@ u8 *create_telepipe_marker(u8 *arg0, s32 arg1, s8 arg2, s8 arg3, s32 arg4, s32 a
     s32 temp_r3;
     s32 var_r0;
     __ct__7TObjectFP7TObject((void *)arg0, (void *)arg4);
-    *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_80327F88_lbl_804ED598 *)&__vt__13TUnk_804ED598).value;
+    *(s32 **)((s8 *)arg0 + 0x18) = __vt__13TUnk_804ED598;
     *(f32 *)((s8 *)arg0 + 0x1C) = farg0;
     ((TUnk_804ED598 *)arg0)->m_20 = farg1;
     VecCopy((Vec *)(arg0 + 0x24), (const Vec *)(arg1));
@@ -180,7 +172,7 @@ void TUnk_804ED598::render() {
         if (this->m_34 != 0) {
             set_depth_buffer_settings_2();
         }
-        TParticleCtrl__sub_803E2A1C(v, 4);
+        emit_particle_strip_vertices(v, 4);
         if (this->m_34 != 0) {
             restore_saved_depth_alpha_state();
         }

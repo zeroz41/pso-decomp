@@ -1,4 +1,7 @@
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
+#include "pso/object/base/TObjChara.h"
+#include "pso/weapon/TItemWeapon.h"
 #include <stddef.h>
 #include "pso/weapon/TUnk_804ED488.h"
 #include "pso/player/TObjPlayer.h"
@@ -14,19 +17,19 @@ void TUnk_804ED488::init_weapon_effect_descriptor(Desc_8011E5C4 *desc) {
 
 void TUnk_804ED488::emit_marker_effects() {
     if (is_mode_two_and_ready() != 0) {
-        if (get_actor_hp(owner) * 8 < ((TItemProShield *)owner)->get_field_2b8()) {
+        if (((TObjChara *)owner)->get_actor_hp() * 8 < ((TItemProShield *)owner)->get_field_2b8()) {
             fire_shot_at_target(&owner->position, NULL, -0x238E);
             fire_shot_at_target(&owner->position, NULL, -0x11C7);
             fire_shot_at_target(&owner->position, NULL, 0);
             fire_shot_at_target(&owner->position, NULL, 0x11C7);
             fire_shot_at_target(&owner->position, NULL, 0x238E);
-            play_sound_effect(0x4001A642, &owner->position, 0, 0);
+            play_sound_effect(0x4001A642, (Vec *)(&owner->position), 0, 0);
             return;
         }
-        ((TObjPlayer *)this)->update_active_game_effect();
+        ((TItemWeapon *)this)->update_active_game_effect();
         return;
     }
-    ((TObjPlayer *)this)->update_active_game_effect();
+    ((TItemWeapon *)this)->update_active_game_effect();
 }
 
 void TUnk_804ED488::update_weapon() {
@@ -44,9 +47,9 @@ TUnk_804ED488::TUnk_804ED488(TObject *parent, u8 *item) : TItemWeapon(parent, it
     set_weapon_flags(34);
 }
 
-u8 *create_dark_flow(u8 *arg0) {
-    if (arg0 != NULL) {
-        return (u8 *)new TUnk_804ED488(tl_05, arg0);
+u8 *create_dark_flow(u8 *item) {
+    if (item != NULL) {
+        return (u8 *)new TUnk_804ED488(tl_05, item);
     }
     return NULL;
 }

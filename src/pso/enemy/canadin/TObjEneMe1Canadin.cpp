@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/math/FloatRounding.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/enemy/canadin/TObjEneMe1Canadin.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/enemy/TObjEnemy.h"
@@ -55,7 +56,6 @@
 
 
 extern "C" {
-s32 is_main_phase_15__9TObjEneDDFv();
 void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
 s32 push_matrix();
 s32 post_translate_matrix(void *);
@@ -65,7 +65,7 @@ extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 extern const f32 lbl_805D9E84;
 extern const f32 lbl_805D9E88;
-f64 atan2_float(f32, f32);
+f32 atan2_float(f32 y, f32 x);
 void rotate_xz_pair_by_angle(f32 *arg0, f32 *arg1, s32 arg2);
 f32 calc_elapsed_scaled__9TObjEneDDFv(void *);
 f32 subtract_vector(void *, void *);
@@ -213,10 +213,8 @@ void TObjEneEpsilon__sub_800B92AC(u8 *arg0, s32 arg1, f32 farg0);
 int select_and_apply_target__12TObjEneDD_STFf(void*);
 s32 get_camera_ctrl__9TObjEneDDFv(Vec *, Vec *);
 s32 update_camera_sequence__9TObjEneDDFv();
-void initialize_enemy_state__9TObjEneDDFl(void *, s32);
 void TObjEneDD__sub_800BA5A4(void *, void *, void *);
-u32 is_player_entity_id(u16 arg0);
-int vfunc_89__9TObjEneDDFv(void*);
+s32 is_player_entity_id(u16 arg0);
 void set_part_position__9TObjEneDDFPvPvi(void *, s32, s32);
 s32 collect_enemy_target_candidates(void *, Entry_8009E860 *);
 void clear_attack_receipts__9TObjEneDDFv();
@@ -227,12 +225,12 @@ s32 matrix_mult_vec(int, Vec *, Vec *);
 s32 rotate_vector_by_matrix(int, Vec *, Vec *);
 
 extern BmlResource *lbl_805D4FD0;
-extern TUnk_8048FA00 *lbl_805D4FDC;
-extern TUnk_8048FA00 *lbl_805D4FE0;
-extern s32 *lbl_805D4FE4;
-extern s32 *lbl_805D4FE8;
-extern s32 *lbl_805D4FEC;
-extern s32 *lbl_805D4FF0;
+TUnk_8048FA00 *lbl_805D4FDC;
+TUnk_8048FA00 *lbl_805D4FE0;
+s32 *lbl_805D4FE4;
+s32 *lbl_805D4FE8;
+s32 *lbl_805D4FEC;
+s32 *lbl_805D4FF0;
 int is_target_android(void *p);
 
 TObjEneMe1CanadinMovement canadin_setup_param_block = { 225.0f, 0.0f, 0x600, 0, 0, 0, 0 };
@@ -288,12 +286,10 @@ Vec lbl_80500960;
 
 }
 
-extern "C" {
 extern const s32 lbl_8043A180[3];
 extern const s32 lbl_8043A18C[3];
 extern const s32 lbl_8043A198[3];
 extern const s32 lbl_8043A1A4[3];
-}
 
 // Motion setup passed to TLobby::spawn_npc_enemy: (motions, animation table, 0, 0x70000).
 struct CanadinSpawnParams {
@@ -387,7 +383,7 @@ TObjEneMe1Canadin::TObjEneMe1Canadin(TObject *parent, void *set_data, s32 kind) 
 TObjEneMe1Canadin::TObjEneMe1Canadin(TObject *parent, TObjEneMe1Canadin *leader, Vec *pos, s32 id, s32 sub_id) : TObjEneDD_ST(parent) {
     m_name = TObjEneMe1Canadin__class_name;
     m_3C0 = leader;
-    init_common_from((u8 *)(m_3C0));
+    init_common_from((u8 *)m_3C0);
     entity_id = id;
     set_index = sub_id;
     calc_move_vector((int)m_3C0, &position);
@@ -573,7 +569,7 @@ u8 *TObjEneMe1Canadin::vfunc_101(u8 *arg) {
     return result;
 }
 
-extern "C" {
+
 void TObjEneMe1Canadin__sub_8009EB98(TObjEneMe1Canadin *self, f32 farg0) {
     f32 temp_f3;
     temp_f3 = farg0 - self->m_3F8;
@@ -587,20 +583,18 @@ void TObjEneMe1Canadin__sub_8009EB98(TObjEneMe1Canadin *self, f32 farg0) {
         self->m_3C8 |= 0x80000;
     }
 }
-}
 
 void TObjEneMe1Canadin::update_position_with_offset() {
     TObjEneMe1Canadin__sub_8009EB98(this, position.y + m_3E8);
 }
 
-extern "C" {
+
 void TObjEneMe1Canadin__sub_8009EB14(TObjEneMe1Canadin *self, f32 height) {
     Vec pos;
     TObjEneMe1Canadin__sub_8009EB98(self, height);
     VecCopy(&pos, &self->position);
     pos.y = self->m_3F8;
     self->vfunc_101((u8 *)&pos);
-}
 }
 
 void TObjEneMe1Canadin::set_target_speed_z() {
@@ -638,19 +632,13 @@ void TObjEneMe1Canadin::vfunc_105() {
 
 void TObjEneMe1Canadin::vfunc_89() { TObjEneDD::vfunc_89(); }
 
-extern "C" {
+
 void TObjEneMe1Canadin__sub_8009E948(TObjEneMe1Canadin *self) {
     self->bodies->flags |= 0x28;
 }
-}
-
-extern "C" {
 void TObjEneMe1Canadin__sub_8009E930(TObjEneMe1Canadin *self) {
     self->bodies->flags &= ~0x28;
 }
-}
-
-extern "C" {
 s32 TObjEneMe1Canadin__sub_8009E860(TObjEneMe1Canadin *self, f32 *out, f32 _w2) {
     Entry_8009E860 list[5];
     s32 found;
@@ -673,7 +661,6 @@ s32 TObjEneMe1Canadin__sub_8009E860(TObjEneMe1Canadin *self, f32 *out, f32 _w2) 
         }
     }
     return found;
-}
 }
 
 s32 TObjEneMe1Canadin::check_target() {
@@ -706,10 +693,9 @@ void TObjEneMe1Canadin::advance_state_5_to_4(void *arg0) {
     }
 }
 
-extern "C" {
+
 s32 TObjEneMe1Canadin__sub_8009E76C(TObjEneMe1Canadin *self) {
     return self->m_3F4 < 20.0f;
-}
 }
 
 void TObjEneMe1Canadin::vfunc_107() {  }
@@ -788,14 +774,13 @@ void TObjEneMe1CanadinLeader::update_fade_sequence(void *pv) {
     }
 }
 
-extern "C" {
+
 void TObjEneMe1CanadinLeader__sub_8009E4AC(TObjEneMe1Canadin *self, s32 sequence) {
     self->reset_map_core((void *)&canadin_formation_fade_start_color);
     self->m_4B8 = 3;
     self->m_4BC = sequence;
     self->m_4C0 = 2;
     self->m_4C4 = 0;
-}
 }
 
 void TObjEneMe1Canadin::reset_map_core(void *color) {
@@ -817,57 +802,40 @@ void TObjEneMe1Canadin::vfunc_113() {
 
 int TObjEneMe1Canadin::vfunc_109() { return 1; }
 
-extern "C" {
+
 void fn_8009E378(TObjEneMe1Canadin *self) {
     if (self->mode == 2) {
         self->m_3C0 = (TObjEneMe1Canadin *)find_entity_by_id(self->m_4C8);
         fn_8009E2DC(self->m_3C0);
     }
 }
-}
-
-extern "C" {
 int TObjEneMe1CanadinLeader__sub_8009E36C(TObjEneMe1Canadin *self) { return (self->m_3C8 >> 15) & 0x1; }
-}
-
-extern "C" {
 void TObjEneMe1CanadinLeader__sub_8009E350(TObjEneMe1Canadin *self) {
     self->m_3C8 |= 0x100;
     self->m_3C8 &= ~0x200;
 }
-}
-
-extern "C" {
 void TObjEneMe1CanadinLeader__sub_8009E334(TObjEneMe1Canadin *self) {
     self->m_3C8 |= 0x200;
     self->m_3C8 &= ~0x100;
 }
-}
-
-extern "C" {
 s32 TObjEneMe1CanadinLeader__sub_8009E31C(TObjEneMe1Canadin *self, s32 mask) {
     return (self->m_3C8 & mask) != 0;
 }
-}
-
-extern "C" {
 s32 fn_8009E300(TObjEneMe1Canadin *self) {
     if (self->m_3C8 & 0x40000) {
         return (s32)self->m_390;
     }
     return 0;
 }
-}
 
 void TObjEneMe1Canadin::vfunc_117(u32) {  }
 
 int TObjEneMe1Canadin::vfunc_116() { return 1; }
 
-extern "C" {
+
 void fn_8009E2DC(TObjEneMe1Canadin *self) {
     self->m_400 = 0;
     self->m_3C8 |= 1;
-}
 }
 
 void TObjEneMe1CanadinLeader::set_leader_index(s32 arg1, s32 arg2) {
@@ -878,28 +846,25 @@ void TObjEneMe1CanadinLeader::set_leader_index(s32 arg1, s32 arg2) {
 
 void TObjEneMe1CanadinLeader::set_attack_flag() { m_3C8 |= 0x2; }
 
-extern "C" {
+
 void TObjEneMe1CanadinLeader__sub_8009E27C(TObjEneMe1Canadin *self) { self->m_3C8 |= 0x4; }
-}
 
 void TObjEneMe1CanadinLeader::set_flag3c8_bit8() { m_3C8 |= 0x8; }
 
-extern "C" {
+
 void TObjEneMe1CanadinLeader__sub_8009E258(TObjEneMe1Canadin *self) {
     self->m_3C8 |= 0x100000 | 4;
-}
 }
 
 void TObjEneMe1CanadinLeader::set_flag3c8_bit20() { m_3C8 |= 0x20; }
 
 void TObjEneMe1CanadinLeader::set_flag3c8_bit40() { m_3C8 |= 0x40; }
 
-extern "C" {
+
 void fn_8009E1D4(TObjEneMe1Canadin *canadin, Vec *pos) {
     CanadinBehaviorParams params = canadin_behavior_params;
     params.m_4 = canadin->m_468->m_4;
     TObjEneDD::setup(canadin, (s32)pos, (s32)&params);
-}
 }
 
 void TObjEneMe1Canadin::dispatch_action(u32 which, s32 arg) {
@@ -988,7 +953,7 @@ void TObjEneMe1Canadin::handle_state(s32 arg1) {
     }
 }
 
-extern "C" {
+
 void TObjEneMe1Canadin__sub_8009DE90(TObjEneMe1Canadin *self, s32 arg1) {
     switch (arg1) {
     case 4:
@@ -1018,7 +983,6 @@ void TObjEneMe1Canadin__sub_8009DE90(TObjEneMe1Canadin *self, s32 arg1) {
         self->vfunc_88();
         break;
     }
-}
 }
 
 void TObjEneMe1Canadin::action(s32 arg1) {
@@ -1230,7 +1194,7 @@ void TObjEneMe1Canadin::move(s32 arg1) {
     }
 }
 
-extern "C" {
+
 #pragma push
 #pragma fp_contract on
 void TObjEneMe1Canadin__sub_8009D320(TObjEneMe1Canadin *self, s32 arg1) {
@@ -1369,9 +1333,6 @@ void TObjEneMe1Canadin__sub_8009D320(TObjEneMe1Canadin *self, s32 arg1) {
     }
 }
 #pragma pop
-}
-
-extern "C" {
 #pragma push
 #pragma fp_contract on
 #pragma optimization_level 3
@@ -1548,9 +1509,6 @@ void TObjEneMe1Canadin__sub_8009CC74(TObjEneMe1Canadin *self, s32 arg1) {
     }
 }
 #pragma pop
-}
-
-extern "C" {
 #pragma push
 #pragma fp_contract on
 void TObjEneMe1Canadin__sub_8009C91C(TObjEneMe1Canadin *self, s32 arg1) {
@@ -1645,7 +1603,6 @@ void TObjEneMe1Canadin__sub_8009C91C(TObjEneMe1Canadin *self, s32 arg1) {
     }
 }
 #pragma pop
-}
 
 void TObjEneMe1Canadin::run_task(s32 arg1) {
     switch (arg1) {
@@ -1680,7 +1637,7 @@ void TObjEneMe1Canadin::run_task(s32 arg1) {
     }
 }
 
-extern "C" {
+
 void TObjEneMe1Canadin__sub_8009C510(TObjEneMe1Canadin *self, s32 arg1) {
     f32 t;
     Vec v;
@@ -1759,9 +1716,6 @@ void TObjEneMe1Canadin__sub_8009C510(TObjEneMe1Canadin *self, s32 arg1) {
         break;
     }
 }
-}
-
-extern "C" {
 void TObjEneMe1Canadin__sub_8009C2EC(TObjEneMe1Canadin *self, s32 arg1) {
     switch (arg1) {
     case 4:
@@ -1814,9 +1768,6 @@ void TObjEneMe1Canadin__sub_8009C2EC(TObjEneMe1Canadin *self, s32 arg1) {
         break;
     }
 }
-}
-
-extern "C" {
 void TObjEneMe1Canadin__sub_8009C178(TObjEneMe1Canadin *self, s32 arg1) {
     switch (arg1) {
     case 4:
@@ -1846,9 +1797,6 @@ void TObjEneMe1Canadin__sub_8009C178(TObjEneMe1Canadin *self, s32 arg1) {
         return;
     }
 }
-}
-
-extern "C" {
 void TObjEneMe1Canadin__sub_8009BFF8(TObjEneMe1Canadin *self, s32 arg1) {
 
     switch (arg1) {
@@ -1893,7 +1841,6 @@ void TObjEneMe1Canadin__sub_8009BFF8(TObjEneMe1Canadin *self, s32 arg1) {
         break;
     }
 }
-}
 
 void TObjEneMe1Canadin::vfunc_112(s32 arg1) {
     Vec pos;
@@ -1904,7 +1851,7 @@ void TObjEneMe1Canadin::vfunc_112(s32 arg1) {
             m_3C0 = (TObjEneMe1Canadin *)find_entity_by_id(m_4C8);
             m_3C0->vfunc_117((u32)this);
         }
-        TBoss3Volopt::create_breakup_mdl((s32)lbl_805D4FE0, 0, (s32)((int) (texlist)), (s32)&m_2fc, (s32)((int) (rotation_y)));
+        TBoss3Volopt::create_breakup_mdl((s32)lbl_805D4FE0, 0, (s32)(texlist), (s32)&m_2fc, (s32)(rotation_y));
         m_3C8 |= 0x400000;
         VecCopy(&pos, (const Vec *)&m_2fc);
         temp_f1 = pos.y;
@@ -1932,7 +1879,7 @@ void TObjEneMe1Canadin::update_walk_animation(s32 arg1) {
         m_470 += 1;
         if (m_470 > 0x5A) {
             m_470 = 0;
-            requested_action = (s16) (requested_action + 1);
+            requested_action = (requested_action + 1);
             if ((s16) requested_action >= 7) {
                 requested_action = 0;
             }
@@ -1945,13 +1892,11 @@ void TObjEneMe1Canadin::update_walk_animation(s32 arg1) {
 }
 
 void TObjEneMe1Canadin::update_by_state(s32 arg1) {
-    f32 temp_f1;
 
     switch (arg1) {
     case 4:
         requested_action = 0;
-        temp_f1 = position.y;
-        m_3F8 = (f32) (temp_f1 + m_3EC);
+        m_3F8 = (f32) (position.y + m_3EC);
         m_484 = sin_table_lookup(rotation_y);
         m_488 = cos_table_lookup(rotation_y);
         return;
@@ -1967,7 +1912,7 @@ void TObjEneMe1Canadin::update_by_state(s32 arg1) {
     }
 }
 
-extern "C" {
+
 void fn_8009BD00(void) {
     Vec *temp_r4;
     Vec *pos;
@@ -1997,7 +1942,6 @@ void fn_8009BD00(void) {
     }
     lbl_805D4FD4 += 1;
 }
-}
 
 void TObjEneMe1Canadin::render() {
     s16 temp_r0;
@@ -2010,7 +1954,7 @@ void TObjEneMe1Canadin::render() {
     }
     if (m_3C8 & 0x400000) {
         var_r30 = 0;
-    } else if (is_main_phase_15__9TObjEneDDFv() != 0) {
+    } else if (TObjEneDD::is_main_phase_15() != 0) {
         var_r30 = classify_actor_view_detail(lbl_805D9E88, lbl_805D9E84, 15.0f);
     } else if (update_object_view_visibility(400.0f, 15.0f) != 0) {
         var_r30 = 1;
@@ -2022,7 +1966,7 @@ void TObjEneMe1Canadin::render() {
             draw_ground_shadow(0, 0);
         }
         update_secondary_light();
-        TObjFish::set_global_param((int) (texlist));
+        TObjFish::set_global_param(texlist);
         saved_model_render_flags = model_render_flags;
         TObjEneDD::clear_global_flag_400();
         TObjPlayer::toggle_particle_effect();
@@ -2030,7 +1974,7 @@ void TObjEneMe1Canadin::render() {
         push_matrix();
         post_translate_matrix(&position);
         translate_matrix(0, 0.0f, m_3F4, 0.0f);
-        rotate_matrix_y(0, (int) (rotation_y));
+        rotate_matrix_y(0, rotation_y);
         temp_r0 = mode;
         var_r29 = 1;
         if ((temp_r0 == 1) || (temp_r0 == 0xB)) {
@@ -2059,7 +2003,7 @@ void TObjEneMe1Canadin::render() {
                 VecCopy(&m_414[3], &lbl_8043A268);
                 VecCopy(&m_414[1], &lbl_8043A274);
                 set_chunk_model_node_callback((s32)&fn_8009BD00);
-                ((TObjEneDD_ST *)this)->draw_with_alt_model((int) (m_410));
+                this->draw_with_alt_model(m_410);
                 set_chunk_model_node_callback(NULL);
             }
         }
@@ -2100,10 +2044,10 @@ void TObjEneMe1Canadin::render_canadin_model_with_debug_type() {
     if (update_object_view_visibility(400.0f, 15.0f) != 0) {
         draw_ground_shadow(0, 0);
         TObjPlayer::toggle_particle_effect();
-        TObjFish::set_global_param((int) (texlist));
+        TObjFish::set_global_param(texlist);
         push_matrix();
         post_translate_matrix(&position);
-        rotate_matrix_y(0, (int) (rotation_y));
+        rotate_matrix_y(0, rotation_y);
         TObjEneDD::clear_global_flag_400();
         draw_chunk_object((void *)model);
         pop_matrix();

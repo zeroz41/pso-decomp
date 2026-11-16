@@ -12,7 +12,8 @@ struct ControllerInputContext {
     /* PADStatus-style sticks (field names from the pad copy loop at 0x801A5F1C) */
     s16 cstick_x;
     s16 cstick_y;
-    u8 unknown_1c[0xC];
+    u8 unknown_1c[0x8];
+    f32 stick_magnitude;  // inferred: TObjWarpBoss::sub_8019E418 cancels the warp prompt above 0.25
     f32 cstick_magnitude;
     u8 unknown_2c[0x1C];
     u32 previous_buttons;

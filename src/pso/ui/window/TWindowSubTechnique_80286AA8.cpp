@@ -2,7 +2,7 @@
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowSubTechnique.h"
 
-extern "C" {
+
 s32 TWindowSubTechnique::sub_80286AA8() {
     if ((u32) this->m_34 == 0U) {
         return 0;
@@ -14,4 +14,3 @@ s32 TWindowSubTechnique::sub_80286AA8() {
     return 1;
 }
 
-}

@@ -12,8 +12,8 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/Language.h"
 #include "pso/unk/WindowLayoutRecord.h"
-#include "pso/ui/window/TWindowKeyBoardSoft.h"
-#include "pso/ui/window/TWindowSubStatusDisp.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
+
 
 #pragma push
 #pragma readonly_strings on
@@ -133,7 +133,7 @@ struct Quad_8025E350 {
     f32 uv[4];
 };
 
-u8 calc_gauge_scale__20TWindowSubStatusDispFPvPvi(s32, void *, s32);
+u8 calc_gauge_scale__20TWindowSubStatusDispFUsPvl(s32, void *, s32);
 s32 fn_8025CE00(void *, u8 *);
 void TWindowKeyBoardSoft__sub_8025CF50(void *, int, int);
 void TWindowKeyBoardSoft__sub_8025CFA8(void *, s32 *);
@@ -388,10 +388,10 @@ void TWindowKeyBoardSoft::update_input(void* a1) { TWindowKeyBoardSoft__sub_8025
 
 #pragma push
 #pragma optimization_level 2
-s32 TWindowKeyBoardSoft__sub_8025D378(void *arg0, void *arg1) {
+s32 TWindowKeyBoardSoft__sub_8025D378(void *arg0, void *window_sub_status_disp) {
     KbSoft_8025D264 *self = (KbSoft_8025D264 *)arg0;
     s32 len = ((KbRec_8025D264 *)self->buf)->len;
-    s32 need = measure_string_len__20TWindowSubStatusDispFv(arg1);
+    s32 need = measure_string_len__20TWindowSubStatusDispFv(window_sub_status_disp);
 
     return (self->remain >= need - len) ? 1 : 0;
 }
@@ -890,7 +890,7 @@ void TWindowKeyBoardBase::draw_wrapped_text(void *arg1, void *arg2) {
                 n--;
                 ch |= *p++ & 0xFF;
             }
-            adv = calc_gauge_scale__20TWindowSubStatusDispFPvPvi(map_char_to_font_code(ch), &q, -1);
+            adv = calc_gauge_scale__20TWindowSubStatusDispFUsPvl(map_char_to_font_code(ch), &q, -1);
             if (((f32 *)arg2)[0] + (f32)adv > ((Box_8025E350 *)arg1)->x + ((Box_8025E350 *)arg1)->w) {
                 ((f32 *)arg2)[0] = ((Box_8025E350 *)arg1)->x;
                 ((f32 *)arg2)[1] += 20.0f;
@@ -921,7 +921,7 @@ void TWindowSubStatusDisp__sub_8025E530(TWindowKeyBoardBase *self, TWindowKeyBoa
         ch = *text++;
         code = map_char_to_font_code(ch);
         if (scaled != 0) {
-            adv = calc_gauge_scale__20TWindowSubStatusDispFPvPvi(code, &q, -1);
+            adv = calc_gauge_scale__20TWindowSubStatusDispFUsPvl(code, &q, -1);
         } else {
             adv = get_font_char_advance(code);
         }
@@ -1010,12 +1010,6 @@ void TWindowKeyBoardBase::sub_8025E6DC(u8 *arg1) {
 }
 #pragma pop
 
-}
-
-
-
-extern "C" {
-void *mem_alloc(u32 size);
 u8 * get_window_layout_position(s32);
 }
 void init_keyboard_text_buffer(u8 *arg0, u32 arg1, u32 arg2);
@@ -1024,13 +1018,10 @@ extern s32 __vt__19TWindowKeyBoardBase[];
 u8 *TWindowKeyBoardBase__ct(u8 *arg0);
 s32 set_stream_and_load_file__6TLobbyFi(s32 *);
 s32 Dolphin_ARAlloc(s32);
-s32 TQuestVmDownLoadServer__sub_803F0C04(s32, s32, s32, s32, s32);
-void *__dt__19TWindowKeyBoardBaseFv(void *arg0, s16 arg1);
+void TQuestVmDownLoadServer__sub_803F0C04(u32 aram_addr, s32 size, u32 owner, u32 priority, u32 timeout_ms);
 s32 sub_8025CB10__19TWindowKeyBoardBaseFv(void *);
 s32 sub_8025EB68__19TWindowKeyBoardBaseFv();
-void __dl__7TObjectFPv(void *);
 u32 *destroy__19TWindowKeyBoardBaseFPvs(u32 *arg0, s16 arg1);
-void mem_free(void *);
 
 void TWindowKeyBoardBase::render() {
     s32 temp_r31;
@@ -1049,18 +1040,10 @@ void TWindowKeyBoardBase::run_task() {
     update_fade();
 }
 
-void *__dt__19TWindowKeyBoardBaseFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__19TWindowKeyBoardBase;
-        mem_free(*(void **)((s8 *)arg0 + 0x9C));
-        destroy__19TWindowKeyBoardBaseFPvs((u32 *)((s8 *)arg0 + 0x84), -1);
-        destroy__19TWindowKeyBoardBaseFPvs((u32 *)((s8 *)arg0 + 0x6C), -1);
-        ((TWindowDD *)arg0)->destroy_window_base(0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
+TWindowKeyBoardBase::~TWindowKeyBoardBase() {
+    mem_free(*(void **)((s8 *)this + 0x9C));
+    destroy__19TWindowKeyBoardBaseFPvs((u32 *)((s8 *)this + 0x84), -1);
+    destroy__19TWindowKeyBoardBaseFPvs((u32 *)((s8 *)this + 0x6C), -1);
 }
 u8 *TWindowKeyBoardBase__ct(u8 *arg0) {
     s32 temp_r31;

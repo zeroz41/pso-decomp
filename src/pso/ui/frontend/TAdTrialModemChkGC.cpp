@@ -33,7 +33,7 @@ struct VObj_80335580_803354A4 : Base_80335580_803354A4 {
 
 extern "C" {
 
-int TKeyBoardControl__sub_8000F9CC(void*);
+int request_main_phase(void*);
 
 void TAdTrialModemChkGC__sub_803354A4(void) {  }
 void TAdTrialModemChkGC::check_modem_result() {
@@ -52,7 +52,7 @@ void TAdTrialModemChkGC::render() {
 }
 
 void TAdTrialModemChkGC::vfunc_7() { get_localized_text_entry((s32)((void*)35), (s32)((void*)0)); }
-int TAdTrialModemChkGC::vfunc_6() { return TKeyBoardControl__sub_8000F9CC((void*)(0)); }
+int TAdTrialModemChkGC::vfunc_6() { return request_main_phase((void*)(0)); }
 
 void TAdTrialModemChkGC::run_task() {
     struct VObj_80335580_803354A4 *o = (struct VObj_80335580_803354A4 *)this;

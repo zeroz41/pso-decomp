@@ -2,6 +2,7 @@
 #include "pso/unk/text_802D1C84.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 struct VBase_18_477421
 {
@@ -115,7 +116,6 @@ extern "C" {
 extern u32 lbl_80540BC8[];
 void *lbl_805D6880;
 void release_texture_list(void *);
-void mem_free(void *);
 void fn_802D1C84(void) {
     void *p = lbl_80540BC8;
     if (p != 0) {
@@ -127,7 +127,6 @@ void fn_802D1C84(void) {
     }
 }
 
-void *mem_alloc(u32 size);
 void pso_load_texture__6TLobbyFv(void *, void *);
 void set_texture_name(void *, void *, int, int);
 

@@ -1,4 +1,5 @@
 #include "pso/boss/olgaflow/Boss6Type2Data.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 
 const char *TBoss6Type2__name = "TBoss6Type2";
 // Inferred name: distance checks (> 390), sound sources and the start position all use it.
@@ -31,4 +32,4 @@ const s32 TBoss6Type2__no_target_sound_ids[4] = { 0x68528, 0x68529, 0x6852A, 0x6
 const Tbl_802BBE20 lbl_8047130C[3] = { { 0, 4 }, { 0, 9 }, { 0, 11 } };
 const s32 TBoss6Type2__player_hit_rock_indices[6] = { 3, 4, 5, 8, 9, 10 };
 const s32 lbl_8047133C[2] = { 0x1FE, 0x1FD };
-const Vec_802B9A68 lbl_80471344 = { 0.0f, 19.8f, -5.0f };
+const Vec lbl_80471344 = { 0.0f, 19.8f, -5.0f };

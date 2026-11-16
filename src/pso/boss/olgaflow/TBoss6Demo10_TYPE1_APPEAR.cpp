@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/camera/CameraPlayback.h"
 #include "pso/system/PadRumble.h"
 #include "pso/object/ambient/TObjFish_800E2FFC.h"
@@ -20,7 +21,7 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/system/task/TObject.h"
-#include "pso/object/ambient/TObjFish.h"
+
 
 struct Ent_8033CB4C
 {
@@ -46,8 +47,8 @@ struct Fish_8033CB4C
 
 extern "C" {
 s32 get_bml_motion(s32, s32);
-s32 TObjFish__sub_8001EDB0(s32, s32);
-s32 get_bml_model(s32, s32);
+s32 get_bml_texlist(BmlResource *resource, s32 index);
+s32 get_bml_model(BmlResource *resource, s32 index);
 int set_scripted_camera_pose(void *, void *, void *);
 int build_tables__14TBoss6PlotFalzFPvPvi(void *, void *, int);
 extern s32 lbl_80477DEC[];
@@ -66,7 +67,6 @@ Fish_8033CB4C *__ct__25TBoss6Demo10_TYPE1_APPEARFP7TObject(Fish_8033CB4C *self, 
 s32 refresh_players_equipment__14TBoss6PlotFalzFPv();
 s32 post_translate_matrix(s32 *);
 s32 push_matrix();
-void *__nw__7TObjectFUl(int);
 
 void TBoss6Demo10_TYPE1_APPEAR::sub_8033C7C8() {
     push_matrix();
@@ -94,15 +94,15 @@ void run_task__25TBoss6Demo10_TYPE1_APPEARFv(TBoss6Demo10_TYPE1_APPEAR *boss6_de
     }
     ((TBoss6PlotFalz *)((u8 *)boss6_demo10_type1_appear + 0x40))->scroll_strips_uv(8, 0);
     if ((s32) boss6_demo10_type1_appear->m_38 == 0x78) {
-        play_sound_effect(0x4003A105, NULL, 0, 0);
+        play_sound_effect(0x4003A105, (Vec *)(NULL), 0, 0);
     }
     switch (boss6_demo10_type1_appear->m_38) {
     case 0x1B8:
     case 0xFA:
-        play_sound_effect(0x4003A811, NULL, 0, 0);
+        play_sound_effect(0x4003A811, (Vec *)(NULL), 0, 0);
         break;
     case 0x154:
-        play_sound_effect(0x40031222, NULL, 0, 0);
+        play_sound_effect(0x40031222, (Vec *)(NULL), 0, 0);
         break;
     }
     switch (boss6_demo10_type1_appear->m_38) {
@@ -183,8 +183,8 @@ TBoss6Demo10_TYPE1_APPEAR::TBoss6Demo10_TYPE1_APPEAR(TObject *parent) : TObject(
     {
       k = lbl_804DF614[i];
       k = k & 0xFFFFFFFFu;
-      ((Fish_8033CB4C *)this)->tbl[i].a = get_bml_model(n, k);
-      ((Fish_8033CB4C *)this)->tbl[i].b = TObjFish__sub_8001EDB0(n, k);
+      ((Fish_8033CB4C *)this)->tbl[i].a = get_bml_model((BmlResource *)n, k);
+      ((Fish_8033CB4C *)this)->tbl[i].b = get_bml_texlist((BmlResource *)n, k);
       ((Fish_8033CB4C *)this)->tbl[i].c = get_bml_motion(n, boss6_type1_appear_motion_indices[i]);
     }
     ((Fish_8033CB4C *)this)->x60 = TObjFish__sub_800E3124((u8 *)boss6_type1_appear_node_desc, (s32)(((Fish_8033CB4C *)this)->x54));
@@ -198,7 +198,7 @@ TBoss6Demo10_TYPE1_APPEAR::TBoss6Demo10_TYPE1_APPEAR(TObject *parent) : TObject(
 }
 
 void *TBoss6Demo10_TYPE1_APPEAR__create(void *parent) {
-    void *o = __nw__7TObjectFUl(0x68);
+    void *o = TObject::operator new(0x68);
     if (o != NULL) {
         o = __ct__25TBoss6Demo10_TYPE1_APPEARFP7TObject((Fish_8033CB4C *)(o), parent);
     }

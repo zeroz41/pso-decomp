@@ -1,5 +1,8 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/unk/text_80104FCC.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
+#include "pso/ui/city/THunterGuildSeqOnlineTask_802156A0.h"
+#include "pso/ui/window/TWindowShortListCtrl_80221828.h"
 #include "pso/ui/city/TShopJudgmentItemWindow.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -11,7 +14,7 @@
 #include "pso/ui/city/TShopWindowBase.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowSubShortCutList.h"
-#include "pso/ui/city/TShopJudgmentItemWindow.h"
+
 #include "pso/item/TItem.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/window/TWindowHelpItem.h"
@@ -22,10 +25,9 @@
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/Language.h"
-#include "pso/player/TObjPlayer.h"
+
 #include "pso/system/task/TObject.h"
-#include "pso/ui/city/TShopWindowBase.h"
-#include "pso/ui/window/TWindowMenuIconLine.h"
+
 
 const char *TShopJudgmentItemWindow__class_name = "TShopJudgmentItemWindow";
 
@@ -170,10 +172,8 @@ struct VObj_802209D8 : VBase_802209D8 {
 
 extern "C" {
 int obj_getPtr2B0_20(u8 *p);
-void update_all__6TLobbyFi(s32 arg0);
 void play_cue_stream_file(s32 name);
 u16 get_entity_id(s32);
-void fn_80221838(u8 *arg0, s32 arg1, s32 arg2);
 }
 s32 get_appraisal_text(s32 arg0);
 extern "C" {
@@ -186,7 +186,7 @@ u8 *create_yes_no_window(s32 arg0, s32 arg1, u32 arg2, u32 arg3);
 s32 get_window_layout_position(s32);
 void send_6x25_equip_item(void *arg0, s32 arg1, s32 arg2);
 void TItemData__clear_unidentified_flag(void *arg0);
-u32 advance_item_id_counter(s32 client);
+u32 advance_item_id_counter(u16 client);
 u32 __nw__7TObjectFUl(int);
 u32 __ct__15TWindowHelpItemFPvUs(int, int, u16);
 u32 create__22TWindowLoadItemTextureFPv(int, u16);
@@ -194,7 +194,6 @@ extern s32 local_client_id;
 void *__dt__23TShopJudgmentItemWindowFv(TShopJudgmentItemWindow *arg0, s16 arg1);
 s32 play_sound_effect(s32, Vec *, s32, s32);
 s32 sub_802239EC__13TShopSequenceFv(void *);
-s32 sub_80223A48__15TShopWindowBaseFv(void *);
 void __dl__7TObjectFPv(void *);
 
 void TShopJudgmentItemWindow::display_message(const char *text, s32 flags) {
@@ -270,7 +269,7 @@ void TShopJudgmentItemWindow::handle_pay_confirm() {
                     this->m_15c = 0U;
                 }
                 if ((u32) this->m_50 != 0U) {
-                    ((TObject *)(*(void * *)&this->m_50))->queue_destruction();
+                    ((TObject *)(this->m_50))->queue_destruction();
                     this->m_50 = 0U;
                 }
                 *(s32 *)&this->_pad14C = 3;
@@ -304,7 +303,7 @@ void TShopJudgmentItemWindow::update() {
     VObj_80220940_802205E4 *o = (VObj_80220940_802205E4 *)this;
     s32 c = *(s32 *)&this->_pad14C - 1;
     *(s32 *)&this->_pad14C = c;
-    if (c <= 0 && o->m8() != 0 && (sub_80223A48__15TShopWindowBaseFv(this) != 0 || sub_802239EC__13TShopSequenceFv(this) != 0)) {
+    if (c <= 0 && o->m8() != 0 && (sub_80223A48() != 0 || sub_802239EC__13TShopSequenceFv(this) != 0)) {
         o->m6(0xB, 1);
         set_field_20(0);
     }
@@ -425,7 +424,7 @@ void TShopJudgmentItemWindow::update_judge_confirm() {
                 get_item_record__23TShopJudgmentItemWindowFPv((s32) (*(s32 *)((s8 *)arg0 + 0x24)), (s32) (*(s32 *)((s8 *)arg0 + 0x48)), 1);
                 *(s32 *)((s8 *)arg0 + 0x34) = (s32) *(s32 *)((s8 *)arg0 + 0x48);
                 ((TObjPlayer *)(*(s32 *)((s8 *)arg0 + 0x24)))->request_inventory_item((TItemData*)(arg0 + 0x28));
-                set_judgment_target_flag((arg0), (arg0 + 0x28));
+                set_judgment_target_flag((arg0), ((u8 *)&this->unk_28));
                 ((VObj_18 *)(arg0))->m6(0xB, 1);
                 ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x158)))->close();
                 *(u32 *)((s8 *)arg0 + 0x158) = 0U;
@@ -564,15 +563,15 @@ void TShopJudgmentItemWindow::handle_input() {
 
     if (sub_802239EC__13TShopSequenceFv(this) != 0) {
         set_field_20(0xA);
-        play_sound_effect(0x52D01, NULL, 0, 0);
+        play_sound_effect(0x52D01, (Vec *)(NULL), 0, 0);
         return;
     }
-    if (((TShopWindowBase *)this)->TShopWindowBase::sub_80223A48() != 0) {
+    if (this->TShopWindowBase::sub_80223A48() != 0) {
         this->m_158 = (s32)create_yes_no_window(get_window_layout_position(0x2B), (u16)get_entity_id(this->m_24), 0, 0);
-        ((TWindowAddition *)(this->m_158))->set_position_xy(((TShopWindowBase *)this)->TShopWindowBase::get_scale(), ((TShopWindowBase *)this)->TShopWindowBase::get_scale());
+        ((TWindowAddition *)(this->m_158))->set_position_xy(this->TShopWindowBase::get_scale(), this->TShopWindowBase::get_scale());
         ((VObj_80221344_802205E4 *)this)->m6(3, 1);
         set_field_20(2);
-        play_sound_effect(0x52D01, NULL, 0, 0);
+        play_sound_effect(0x52D01, (Vec *)(NULL), 0, 0);
     }
 }
 
@@ -617,7 +616,7 @@ s32 TShopJudgmentItemWindow::build_item_list(void *arg0) {
 }
 #undef W
 
-void TShopJudgmentItemWindow::close() { if (*(unsigned int *)&this->m_50 != 0) { ((TObject *)(*(void* *)&this->m_50))->queue_destruction(); *(int *)&this->m_50 = 0; } }
+void TShopJudgmentItemWindow::close() { if (this->m_50 != 0) { ((TObject *)(this->m_50))->queue_destruction(); this->m_50 = 0; } }
 
 extern s32 __vt__23TShopJudgmentItemWindow[];
 

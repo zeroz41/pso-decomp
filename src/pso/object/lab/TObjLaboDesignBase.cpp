@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/base/TObjMotion.h"
@@ -8,6 +9,7 @@
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/system/BmlResourceLoader.h"
 #include "pso/unk/text_80365348.h"
+#include "pso/system/task/TObject.h"
 
 #pragma readonly_strings on
 
@@ -41,11 +43,6 @@ struct TObjLaboDesignBase : VBase_80365040 {
     void render(void *);
 };
 
-struct RecoveredGlobal_80365210___vt__18TObjLaboDesignBase {
-    s32 value;
-    u8 remaining[0x34];
-};
-
 extern "C" {
 s16 TObjLaboDesignBase__vt8(u8 *arg0, f32 farg0, f32 farg1);
 f32 xz_distance_squared(void *, s32);
@@ -68,12 +65,10 @@ void *create_instance__18TObjLaboDesignBaseFPv(void *arg0);
 void render__18TObjLaboDesignBaseFPv(u8 *arg0);
 void run_task__18TObjLaboDesignBaseFv(void);
 void free_collision_body_parts(void *);
-s32 TObjFish__sub_8001EDB0(int, int);
-s32 get_bml_model(int, int);
+s32 get_bml_texlist(BmlResource *resource, s32 index);
+s32 get_bml_model(BmlResource *resource, s32 index);
 s32 rotate_matrix_y(int, int);
 void __dl__7TObjectFPv(void *);
-void *__nw__7TObjectFUl(int);
-void queue_destruction__7TObjectFv(void *);
 s32 set_global_param__8TObjFishFl();
 
 
@@ -167,7 +162,7 @@ void *labo_design_entry_table[66] = {
 };
 
 void *create_instance__18TObjLaboDesignBaseFPv(void *arg0) {
-    void *o = __nw__7TObjectFUl(0xC0);
+    void *o = TObject::operator new(0xC0);
     if (o != NULL) {
         o = TObjLaboDesignBase__ct((u8 *)o, (s32)tl_05, (s32)arg0, 5);
     }
@@ -175,7 +170,7 @@ void *create_instance__18TObjLaboDesignBaseFPv(void *arg0) {
 }
 }
 void* get_labo_design_entry(int a0);
-extern "C" u32 labo_design_object_table[];
+u32 labo_design_object_table[];
 
 int get_labo_design_object(int a0);
 extern s32 __vt__18TObjLaboDesignBase[];
@@ -183,7 +178,7 @@ const char *TObjLaboDesignBase_class_name = "TObjLaboDesignBase";
 void *create_labo_design_base(void *arg0);
 void *create_obj_labo_design_base(void *arg0);
 void *create_obj_labo_design_base(void *arg0) {
-    void *o = __nw__7TObjectFUl(0xC0);
+    void *o = TObject::operator new(0xC0);
     if (o != NULL) {
         o = TObjLaboDesignBase__ct((u8 *)o, (s32)tl_05, (s32)arg0, 4);
     }
@@ -191,7 +186,7 @@ void *create_obj_labo_design_base(void *arg0) {
 }
 
 void *TObjLaboDesignBase__sub_80364D38(void *arg0) {
-    void *o = __nw__7TObjectFUl(0xC0);
+    void *o = TObject::operator new(0xC0);
     if (o != NULL) {
         o = TObjLaboDesignBase__ct((u8 *)o, (s32)tl_05, (s32)arg0, 3);
     }
@@ -199,7 +194,7 @@ void *TObjLaboDesignBase__sub_80364D38(void *arg0) {
 }
 
 void *create_labo_design_base(void *arg0) {
-    void *o = __nw__7TObjectFUl(0xC0);
+    void *o = TObject::operator new(0xC0);
     if (o != NULL) {
         o = TObjLaboDesignBase__ct((u8 *)o, (s32)tl_05, (s32)arg0, 2);
     }
@@ -207,7 +202,7 @@ void *create_labo_design_base(void *arg0) {
 }
 
 void *alloc_and_construct__18TObjLaboDesignBaseFPv(void *arg0) {
-    void *o = __nw__7TObjectFUl(0xC0);
+    void *o = TObject::operator new(0xC0);
     if (o != NULL) {
         o = TObjLaboDesignBase__ct((u8 *)o, (s32)tl_05, (s32)arg0, 1);
     }
@@ -215,22 +210,22 @@ void *alloc_and_construct__18TObjLaboDesignBaseFPv(void *arg0) {
 }
 
 void *TObjLaboDesignBase__create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0xC0);
+    void *o = TObject::operator new(0xC0);
     if (o != NULL) {
         o = TObjLaboDesignBase__ct((u8 *)o, (s32)tl_05, (s32)arg0, 0);
     }
     return o;
 }
 
-s16 TObjLaboDesignBase__vt8(u8 *arg0, f32 farg0, f32 farg1) {
+s16 TObjLaboDesignBase__vt8(u8 *base, f32 farg0, f32 farg1) {
     if (TMainTask::get_render_pass() == 1) {
-        return *(s16 *)((s8 *)arg0 + 0x1E);
+        return *(s16 *)((s8 *)base + 0x1E);
     }
-    if (xz_distance_squared(arg0 + 0x38, camera_ctrl_instance + 0x178) < (farg1 * farg1)) {
-        *(s16 *)((s8 *)arg0 + 0x1E) = 1;
-        return *(s16 *)((s8 *)arg0 + 0x1E);
+    if (xz_distance_squared(base + 0x38, camera_ctrl_instance + 0x178) < (farg1 * farg1)) {
+        *(s16 *)((s8 *)base + 0x1E) = 1;
+        return *(s16 *)((s8 *)base + 0x1E);
     }
-    return update_object_view_visibility__8TObjBaseFff(arg0, farg0, farg1);
+    return update_object_view_visibility__8TObjBaseFff(base, farg0, farg1);
 }
 
 void draw_node_tree__18TObjLaboDesignBaseFiPv(s32 arg0, u8 *arg1) {
@@ -270,12 +265,12 @@ void draw_node_tree__18TObjLaboDesignBaseFiPv(s32 arg0, u8 *arg1) {
 }
 
 void render__18TObjLaboDesignBaseFPv(u8 *arg0) {
-    TObjFish__sub_8001EDB0((int) (*(s32 *)((s8 *)arg0 + 0xAC)), 0);
+    get_bml_texlist((BmlResource *)(*(s32 *)((s8 *)arg0 + 0xAC)), 0);
     set_global_param__8TObjFishFl();
     push_matrix();
     post_translate_matrix(arg0 + 0x38);
     rotate_matrix_y(0, (int) (*(s32 *)((s8 *)arg0 + 0x60)));
-    draw_node_tree__18TObjLaboDesignBaseFiPv((s32)arg0, (u8 *)((int) (get_bml_model((int) (*(s32 *)((s8 *)arg0 + 0xAC)), 0))));
+    draw_node_tree__18TObjLaboDesignBaseFiPv((s32)arg0, (u8 *)((int) (get_bml_model((BmlResource *)(*(s32 *)((s8 *)arg0 + 0xAC)), 0))));
     pop_matrix();
     TParticleCtrl::end_effect_render();
 }
@@ -301,27 +296,26 @@ void TObjLaboDesignBase::render() {
 
 void run_task__18TObjLaboDesignBaseFv(void) {  }
 
-void *__dt__18TObjLaboDesignBaseFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__18TObjLaboDesignBase;
-        if (*(void **)((s8 *)arg0 + 0xBC) != NULL) { queue_destruction__7TObjectFv(*(void **)((s8 *)arg0 + 0xBC)); *(s32 *)((s8 *)arg0 + 0xBC) = 0; }
-        ((TObjCollidable *)arg0)->unregister_object_by_id();
-        free_collision_body_parts(arg0);
-        __dt__14TObjCollidableFv(arg0, 0);
+void *__dt__18TObjLaboDesignBaseFv(void *collidable, s16 arg1) {
+    if (collidable != NULL) {
+        *(s32 **)((s8 *)collidable + 0x18) = __vt__18TObjLaboDesignBase;
+        if (*(void **)((s8 *)collidable + 0xBC) != NULL) { ((TObject *)(*(void **)((s8 *)collidable + 0xBC)))->queue_destruction(); *(s32 *)((s8 *)collidable + 0xBC) = 0; }
+        ((TObjCollidable *)collidable)->unregister_object_by_id();
+        free_collision_body_parts(collidable);
+        __dt__14TObjCollidableFv(collidable, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(collidable);
         }
     }
-    return arg0;
+    return collidable;
 }
 
-typedef char RecoveredGlobal_80365210___vt__18TObjLaboDesignBase_size[sizeof(RecoveredGlobal_80365210___vt__18TObjLaboDesignBase) == 0x38 ? 1 : -1];
 u8 *TObjLaboDesignBase__ct(u8 *player, s32 arg1, s32 arg2, s32 arg3) {
     struct CopyStack_80365210 { u8 bytes[0x3C]; };
     CopyStack_80365210 copy_storage_80365210;
     s32 temp_r0;
     __ct__14TObjCollidableFP7TObject();
-    *(s32 **)((s8 *)player + 0x18) = &(*(RecoveredGlobal_80365210___vt__18TObjLaboDesignBase *)&__vt__18TObjLaboDesignBase).value;
+    *(s32 **)((s8 *)player + 0x18) = __vt__18TObjLaboDesignBase;
     *(const char **)((s8 *)player + 0) = TObjLaboDesignBase_class_name;
     ((VObj_18_1a504b *)(player))->m5(arg2);
     *(s32 *)((s8 *)player + 0xB0) = arg3;
@@ -344,7 +338,7 @@ u8 *TObjLaboDesignBase__ct(u8 *player, s32 arg1, s32 arg2, s32 arg3) {
 
 void* get_labo_design_entry(int a0) {  return (char*)labo_design_entry_table + a0 * 44; }
 
-extern "C" u32 labo_design_object_table[];
+u32 labo_design_object_table[];
 
 int get_labo_design_object(int a0) {  return labo_design_object_table[a0]; }
 
@@ -378,6 +372,5 @@ void load_labo_design_object_table(void) {
     }
 }
 
-extern "C" {
+
 u32 labo_design_object_table[6];
-}

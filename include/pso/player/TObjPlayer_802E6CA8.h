@@ -1,0 +1,18 @@
+#ifndef PSO_PLAYER_TOBJPLAYER_802E6CA8_H
+#define PSO_PLAYER_TOBJPLAYER_802E6CA8_H
+
+#include "types.h"
+
+// --- C functions defined in TObjPlayer_802E6CA8.cpp ---
+extern "C" {
+void TObjPlayer__sub_802E7084(void);
+void TObjPlayer__sub_802E7088(void);
+void TObjPlayer__sub_802E746C(void);
+void TObjPlayer__sub_802E7470(void);
+s32 TObjPlayer__sub_802E76C8(u8 *arg0);
+void *__dt__13TUnk_804E3BA8Fv(void *arg0, s16 arg1);
+void *__dt__13TUnk_804E3BC0Fv(void *arg0, s16 arg1);
+}
+// --- end of C functions
+
+#endif

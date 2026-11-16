@@ -1,4 +1,5 @@
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/map/FloorArea.h"
 #include "pso/object/container/TContainerAncient01.h"
 #include "pso/system/scene/TScene.h"
@@ -22,6 +23,9 @@
 #include "pso/map/TObjMapCsn.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/unk/TLobby.h"
+#include "pso/system/task/TObject.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 
 struct SurfaceAreaTable { s32 enabled[36]; };
 
@@ -32,7 +36,6 @@ struct Tbl_8020335C { s32 v[8]; };
 
 
 extern struct Tbl_8020335C group_selection_area_id_table;
-
 
 
 struct FloorMapSelection {
@@ -55,9 +58,6 @@ struct Root_80203510 { u8 pad[8]; s16 count; u8 pad2[6]; Rec_80203510 *recs; };
 
 
 struct Root_80204024 { u8 pad[0x178]; f32 x; f32 y; f32 z; };
-
-
-struct Vec_80204024 { f32 x, y, z; };
 
 
 struct Inner_802040D4 { u8 pad[0x20]; f32 radius; };
@@ -114,13 +114,10 @@ struct Group_80203F0C {
 struct Root_80203F0C { u8 pad[8]; s16 count; u8 pad2[6]; Group_80203F0C *groups; };
 
 
-struct Vec_802043CC { f32 x, y, z; };
-
-
 struct W_802043CC { s32 a, b, c; };
 
 
-struct Cam_802043CC { u8 pad[0x178]; Vec_802043CC pos; u8 pad2[0x10]; s32 angY; u8 pad3[4]; s32 f19C; };
+struct Cam_802043CC { u8 pad[0x178]; Vec pos; u8 pad2[0x10]; s32 angY; u8 pad3[4]; s32 f19C; };
 
 
 struct Ent_802043CC { s32 id; s32 n; s32 start; };
@@ -145,7 +142,7 @@ f32 project_point_onto_line(void *, void *, void *);
 
 extern Root_80204024 *camera_ctrl_instance;
 
-s32 TScene__sub_80204024(f32 thr, s32 unused, void *a, void *b, Vec_80204024 *c);
+s32 TScene__sub_80204024(f32 thr, s32 unused, void *a, void *b, Vec *c);
 
 f32 xz_distance_squared(void *, void *);
 
@@ -157,21 +154,19 @@ SceneMaterialNode* resolve_indirect_node_record(void*,SceneMaterialStatic*);
 SceneMaterialNode* resolve_indirect_object_record(void*,SceneMaterialAnimated*);
 
 
-
-
 extern u8 identity_matrix[];
 
-void normalize_vector(Vec_80204024 *);
+void normalize_vector(Vec *);
 
 void push_matrix_from(void *);
 
 void rotate_matrix_y(s32, s32);
 
-void rotate_vector_by_matrix(s32, void *, Vec_80204024 *);
+void rotate_vector_by_matrix(s32, void *, Vec *);
 
 void pop_matrix(void);
 
-s32 check_object_in_view_cone__6TSceneFiPvPvPvi(s32 arg0, Obj_80204B78 *obj, Vec_80204024 *pos, void *arg3, s32 arg4);
+s32 check_object_in_view_cone__6TSceneFiPvPvPvi(s32 arg0, Obj_80204B78 *obj, Vec *pos, void *arg3, s32 arg4);
 
 extern s32 model_render_flags;
 
@@ -186,25 +181,19 @@ void post_translate_matrix(f32 *);
 void rotate_matrix_by_node_angles(s32 *, s32);
 
 
-
-f32 fabs_float(f32);
-
 void PPCSync();
-
 
 
 void scroll_ginja_mesh_uvs(void *, s32, s32, u16, s32);
 
 
-struct Vec_8020533C { f32 x, y, z; };
-
 struct Ang_8020533C { s32 x, y, z; };
 
-struct Node_8020533C { u8 pad0[8]; Vec_8020533C pos; Ang_8020533C ang; };
+struct Node_8020533C { u8 pad0[8]; Vec pos; Ang_8020533C ang; };
 
 struct Model_8020533C { u8 pad0[4]; void *tex; s32 f8; u8 padC[2]; u8 fE; u8 fF; };
 
-struct Lobby_8020533C { Vec_8020533C v; Ang_8020533C a; void *param; Node_8020533C *node; s16 scene; u8 id; };
+struct Lobby_8020533C { Vec v; Ang_8020533C a; void *param; Node_8020533C *node; s16 scene; u8 id; };
 
 
 void render_projected_shadow_receiver(void *, void *);
@@ -232,7 +221,6 @@ void end_ginja_model_draw(void);
 extern W_802043CC lbl_8044A858[];
 
 
-
 struct SceneFormatEntry {
     const char *name;
     s32 format;
@@ -257,17 +245,6 @@ typedef char SceneDispatchPrefix_size[sizeof(SceneDispatchPrefix) == 0x78 ? 1 : 
 struct Task_80204688;
 extern "C" {
 
-extern const char lbl_8044A7F0[];
-
-extern const char lbl_8044A7F8[];
-
-void initialize_fmt1_materials__6TSceneFv(void *);
-
-void initialize_fmt2_materials__6TSceneFv();
-
-void TScene__sub_80205FD0(void);
-
-void TScene__sub_80205ECC(void);
 
 s32 TScene__sub_80205874(void*);
 
@@ -281,23 +258,12 @@ struct Task_80204688 { u8 pad[0x1C]; s32 count; };
 struct Model_80204688 { u8 pad[0x14]; f32 x, y, z; };
 
 struct Node_80204688 { u32 flags; Model_80204688 *model; f32 x, y, z; };
-extern "C" {
+extern Vec lbl_8044A84C[];
 
-
-
-
-
-
-
-extern Vec_80204024 lbl_8044A84C[];
-
-void pop_matrices(s32);
-
-s32 is_split_screen(void);
+s32 pop_matrices(s32 arg0);
 #define CAM ((Cam_80204688 *)camera_ctrl_instance)
-#define TEST ((s32 (*)(f32, void *, void *, void *, Vec_80204024 *))TScene__sub_80204024)
+#define TEST ((s32 (*)(f32, void *, void *, void *, Vec *))TScene__sub_80204024)
 #define VIS ((s32 (*)(void *, void *, f32, f32))is_in_view_depth__6TSceneFf)
-}
 
 struct Ent_80205AA8 { u16 id; u8 pad[6]; };
 
@@ -325,7 +291,6 @@ extern "C" {
 
 u8 *construct_pvr_wave__6TSceneFPvPvPvii(void *, s32, s32, s32, s32);
 
-u8 *__nw__7TObjectFUl(s32);
 
 s32 find_uv_animation__6TSceneFPvPv(void *task, Uv_80205DE4 *uv);
 
@@ -334,11 +299,6 @@ extern u32 lbl_8044A800[];
 extern u8 lbl_8044A80C[];
 
 }
-
-struct RecoveredGlobal_8020650C___vt__6TScene { s32 value; u8 remaining[0x14]; };
-
-typedef char RecoveredGlobal_8020650C___vt__6TScene_size[sizeof(RecoveredGlobal_8020650C___vt__6TScene) == 0x18 ? 1 : -1];
-
 
 struct Ent_802066BC { char *name; s32 idx; };
 
@@ -358,11 +318,9 @@ s32 release_texture_list(u32);
 extern s32 *scene_collision_data;
 
 
-
 s32 __ct__7TObjectFP7TObject(void *, void *);
 
 extern s32 __vt__6TScene[];
-
 
 
 void bind_gvm_texture_list(s32 *, u32);
@@ -370,12 +328,7 @@ void bind_gvm_texture_list(s32 *, u32);
 s32 collect_collision_groups(u32, s32);
 
 
-
-
 s32 read_disc_file(char *, u32);
-
-
-
 
 
 struct Sp8Buf20_80206494 {
@@ -387,9 +340,6 @@ struct Sp8Buf20_80206494 {
 void TScene__sub_80205AE8(s32 *);
 
 }
-
-
-
 
 
 #pragma readonly_strings on
@@ -408,8 +358,8 @@ __declspec(section ".rodata") s32 boss_area_id_table[] = {
     AREA_GAL_GRYPHON, AREA_OLGA_FLOW, AREA_BARBA_RAY, AREA_GOL_DRAGON, -1,
 };
 const char *TScene__class_name = "TScene";
-__declspec(section ".rodata") Vec_80204024 lbl_8044A840[1] = {{0.0f, 0.0f, -1.0f}};
-__declspec(section ".rodata") Vec_80204024 lbl_8044A84C[1] = {{0.0f, 0.0f, -1.0f}};
+__declspec(section ".rodata") Vec lbl_8044A840[1] = {{0.0f, 0.0f, -1.0f}};
+__declspec(section ".rodata") Vec lbl_8044A84C[1] = {{0.0f, 0.0f, -1.0f}};
 __declspec(section ".rodata") W_802043CC lbl_8044A858[1] = {{0, 0, (s32)0xBF800000}};
 __declspec(section ".rodata") s32 item_disabled_area_table[] = {AREA_PIONEER2_EP1, AREA_LOBBY, AREA_PIONEER2_EP2, -1};
 __declspec(section ".rodata") Tbl_8020335C group_selection_area_id_table = {{
@@ -432,7 +382,7 @@ s32 lobby_online_ready_flag;
 s32 TScene__data_805D5FE0;
 f32 TScene__visibility_radius_margin;
 s32 TScene__data_805D5FE8;
-void (*TScene__map_section_render_callback)(Vec_8020533C *, Ang_8020533C *, u32);
+void (*TScene__map_section_render_callback)(Vec *, Ang_8020533C *, u32);
 void (*TScene__active_scene_callback)(u32);
 RecoveredCallback_2be3cacebb2e TScene__render_callback;
 s32 lbl_805D5FF8;
@@ -483,7 +433,7 @@ void TScene::set_instance(int a0) { TScene__render_callback = (RecoveredCallback
 
 void TScene::set_active_scene(int a0) { TScene__active_scene_callback = (void (*)(u32))a0; }
 
-void TScene::set_id(int a0) { TScene__map_section_render_callback = (void (*)(Vec_8020533C *, Ang_8020533C *, u32))a0; }
+void TScene::set_id(int a0) { TScene__map_section_render_callback = (void (*)(Vec *, Ang_8020533C *, u32))a0; }
 
 s32 TContainerAncient01::is_global_state_in_table() {
     struct Tbl_8020335C t = group_selection_area_id_table;
@@ -1178,7 +1128,7 @@ void TScene__sub_802065E8(void) {  }
 
 void TScene::create() {
     void *o;
-    o = __nw__7TObjectFUl(0x40);
+    o = TObject::operator new(0x40);
     if (o != NULL) {
         TScene__ct((TScene *)((u8 *)o), (s32)tl_02);
     }
@@ -1186,7 +1136,7 @@ void TScene::create() {
 
 u8 *TScene__ct(TScene *scene, s32 arg1) {
     __ct__7TObjectFP7TObject((void *)scene, (void *)arg1);
-    *(s32 **)((s8 *)scene + 0x18) = &(*(RecoveredGlobal_8020650C___vt__6TScene *)&__vt__6TScene).value;
+    *(s32 **)((s8 *)scene + 0x18) = __vt__6TScene;
     *(s32 *)((s8 *)scene + 0) = (s32)TScene__class_name;
     scene->m_1c = 0;
     scene->m_30 = 0;
@@ -1304,9 +1254,8 @@ void TScene::cleanup_materials() {
     (this->*fns[TScene__data_805D5FE8])();
 }
 
-extern "C" {
+
 void TScene::cleanup_fmt1_materials() {  }
-}
 
 void TScene::cleanup_fmt2_materials() {
     s32 i;
@@ -1339,9 +1288,8 @@ void TScene::cleanup_fmt2_materials() {
     }
 }
 
-extern "C" {
+
 void TScene::copy_header_and_vec(void* q) { *(u16 *)&this->m_name = *(u16*)((char*)q + 0x0); *(u16*)((char*)this + 0x2) = *(u16*)((char*)q + 0x2); *(f32 *)&this->m_flags = *(f32*)((char*)q + 0x4); *(f32 *)&this->m_prev = *(f32*)((char*)q + 0x8); *(f32 *)&this->m_next = *(f32*)((char*)q + 0xc); *(f32 *)&this->m_up = *(f32*)((char*)q + 0x10); }
-}
 
 s32 find_uv_animation__6TSceneFPvPv(void *task, Uv_80205DE4 *uv) {
     s16 *p;
@@ -1405,7 +1353,7 @@ void TScene::create_texture_wave_tasks(s32 arg0) {
   do
   {
     new_var = (s8 *) var_r31;
-    temp_r3 = (u8 *) __nw__7TObjectFUl(0x38);
+    temp_r3 = (u8 *) TObject::operator new(0x38);
     if (temp_r3 != 0)
     {
       construct_pvr_wave__6TSceneFPvPvPvii(temp_r3, arg0, *((s32 *) (((s8 *) var_r31) + 4)), *((s32 *) (((s8 *) var_r31) + 8)), (s32) (*((s16 *) (((s8 *) var_r31) + 0))));
@@ -1471,9 +1419,8 @@ void TScene::init_material_nodes() {
     }
 }
 
-extern "C" {
+
 void TScene__sub_80205AE8(s32 *) {  }
-}
 
 Ent_80205AA8 *find_material_entry_by_id__6TSceneFPvUs(void *self, u16 id) {
     Tbl_80205AA8 *t = (Tbl_80205AA8 *)TScene__material_info_buffer;
@@ -1487,9 +1434,8 @@ Ent_80205AA8 *find_material_entry_by_id__6TSceneFPvUs(void *self, u16 id) {
     return 0;
 }
 
-extern "C" {
+
 void TScene::run_task() { set_field4(); advance_scene_object_animations(); dispatch_material_animation(); }
-}
 
 void TScene::set_field4() {
     if ((void *) TScene__data_805D5FCC != NULL) {
@@ -1521,7 +1467,6 @@ void TScene::render() {
 #pragma pop
 
 extern "C" {
-s32 get_main_phase(void);
 
 s32 TScene__sub_80205874(void *) {
     if (TScene__data_805D6020 != 0) {
@@ -1626,7 +1571,7 @@ void TScene::render_static_map_section(SceneMaterialSection *scene_material_sect
         if (e->flags & 0x10) {
             Node_8020533C *sh = (Node_8020533C *)resolve_indirect_node_record(this, e);
             if (sh != NULL) {
-                Vec_8020533C v;
+                Vec v;
                 Ang_8020533C a;
                 v.x = sh->pos.x;
                 v.y = sh->pos.y;
@@ -1640,7 +1585,7 @@ void TScene::render_static_map_section(SceneMaterialSection *scene_material_sect
         }
         node = (Node_8020533C *)resolve_indirect_node_record(this, e);
         if (TScene__map_section_render_callback != NULL) {
-            Vec_8020533C v;
+            Vec v;
             Ang_8020533C a;
             v.x = node->pos.x;
             v.y = node->pos.y;
@@ -1749,7 +1694,7 @@ void TScene::render_animated_map_section(SceneMaterialSection *scene_material_se
     node = (Node_8020533C *) resolve_indirect_object_record(this, e);
     if (e->flags & 0x10)
     {
-      Vec_8020533C v;
+      Vec v;
       Ang_8020533C a;
       v.x = node->pos.x;
       v.y = node->pos.y;
@@ -1762,7 +1707,7 @@ void TScene::render_animated_map_section(SceneMaterialSection *scene_material_se
     }
     if (TScene__map_section_render_callback != 0)
     {
-      Vec_8020533C v;
+      Vec v;
       Ang_8020533C a;
       v.x = node->pos.x;
       v.y = node->pos.y;
@@ -1821,14 +1766,14 @@ void TScene::render_animated_map_section(SceneMaterialSection *scene_material_se
   }
 
 }
-extern Vec_80204024 lbl_8044A840[];
+extern Vec lbl_8044A840[];
 }
 
 void TScene::sub_80204D7C() {
-    Vec_80204024 dir;
-    Vec_80204024 d;
-    Vec_80204024 up = lbl_8044A840[0];
-    Vec_80204024 p;
+    Vec dir;
+    Vec d;
+    Vec up = lbl_8044A840[0];
+    Vec p;
     f32 far2;
     SceneMaterialSection *sec;
     s32 i;
@@ -1911,10 +1856,10 @@ void TScene::sub_80204D7C() {
 }
 
 
-s32 check_object_in_view_cone__6TSceneFiPvPvPvi(s32 unused, Obj_80204B78 *obj, Vec_80204024 *pos, void *arg3, s32 arg4) {
-    Vec_80204024 c;
-    Vec_80204024 a;
-    Vec_80204024 b;
+s32 check_object_in_view_cone__6TSceneFiPvPvPvi(s32 unused, Obj_80204B78 *obj, Vec *pos, void *arg3, s32 arg4) {
+    Vec c;
+    Vec a;
+    Vec b;
     f32 r2;
     f32 g2;
     f32 k;
@@ -1980,11 +1925,11 @@ void TScene::cull_sections() {
     static f32 s_near = 520.0f;
     static f32 s_far = 800.0f;
     static f32 s_pad = 80.0f;
-    Vec_80204024 dir;
-    Vec_80204024 d;
-    Vec_80204024 up = lbl_8044A84C[0];
-    Vec_80204024 p;
-    Vec_80204024 v;
+    Vec dir;
+    Vec d;
+    Vec up = lbl_8044A84C[0];
+    Vec p;
+    Vec v;
     s32 i;
     SceneMaterialSection *sec;
 
@@ -2108,9 +2053,9 @@ void TScene::cull_sections() {
 #pragma opt_propagation off
 #pragma opt_lifetimes off
 void TScene::update_room_visibility_from_camera() {
-    Vec_802043CC dir;
-    Vec_802043CC fwd;
-    Vec_802043CC out;
+    Vec dir;
+    Vec fwd;
+    Vec out;
     Tbl_802043CC *tbl;
     s32 j;
     Ent_802043CC *e;
@@ -2149,15 +2094,15 @@ void TScene::update_room_visibility_from_camera() {
             } else {
                 VecCopy__FP3VecPC3Vec(&dir, room->position);
                 subtract_vector(&dir, &(*(Cam_802043CC * *)&camera_ctrl_instance)->pos);
-                normalize_vector((Vec_80204024 *)(&dir));
+                normalize_vector((Vec *)(&dir));
                 fwd.x = 0.0f;
                 fwd.y = 0.0f;
                 fwd.z = -1.0f;
                 push_matrix_from(identity_matrix);
                 rotate_matrix_y(0, (*(Cam_802043CC * *)&camera_ctrl_instance)->angY);
-                rotate_vector_by_matrix(0, &fwd, (Vec_80204024 *)(&out));
+                rotate_vector_by_matrix(0, &fwd, (Vec *)(&out));
                 pop_matrix();
-                normalize_vector((Vec_80204024 *)(&out));
+                normalize_vector((Vec *)(&out));
                 if (vec3_dot(&dir, &out) < 0.0f) {
                     room->flags &= ~0x10000;
                 } else if (d < (*(SceneMaterialRoot * *)&TScene__data_805D5FCC)->radius * (*(SceneMaterialRoot * *)&TScene__data_805D5FCC)->radius) {
@@ -2170,20 +2115,20 @@ void TScene::update_room_visibility_from_camera() {
     }
     {
         W_802043CC w = lbl_8044A858[0];
-        Vec_802043CC out2;
+        Vec out2;
         SceneMaterialSection *s;
         s32 k;
         push_matrix_from(identity_matrix);
         rotate_matrix_y(0, (*(Cam_802043CC * *)&camera_ctrl_instance)->angY);
-        rotate_vector_by_matrix(0, &w, (Vec_80204024 *)(&out2));
-        normalize_vector((Vec_80204024 *)(&out2));
+        rotate_vector_by_matrix(0, &w, (Vec *)(&out2));
+        normalize_vector((Vec *)(&out2));
         pop_matrix();
         s = (*(SceneMaterialRoot * *)&TScene__data_805D5FCC)->sections;
         for (k = 0; k < (*(SceneMaterialRoot * *)&TScene__data_805D5FCC)->count; k++, s++) {
             if (s->flags & 0x80000) {
                 update_room_object_visibility(s);
             } else if (s->id < 0) {
-                check_object_in_view_cone__6TSceneFiPvPvPvi((s32)this, (Obj_80204B78 *)(s), (Vec_80204024 *)(&(*(Cam_802043CC * *)&camera_ctrl_instance)->pos), &out2, (s32)((*(Cam_802043CC * *)&camera_ctrl_instance)->f19C));
+                check_object_in_view_cone__6TSceneFiPvPvPvi((s32)this, (Obj_80204B78 *)(s), (Vec *)(&(*(Cam_802043CC * *)&camera_ctrl_instance)->pos), &out2, (s32)((*(Cam_802043CC * *)&camera_ctrl_instance)->f19C));
             }
         }
     }
@@ -2254,9 +2199,9 @@ s32 TScene__sub_802040D4(void *arg0, Obj_802040D4 *o, f32 f0, f32 f1) {
     }
     return 0;
 }
-s32 TScene__sub_80204024(f32 thr, s32 unused, void *a, void *b, Vec_80204024 *c) {
-    struct { Vec_80204024 p, q; } s;
-    Vec_80204024 o;
+s32 TScene__sub_80204024(f32 thr, s32 unused, void *a, void *b, Vec *c) {
+    struct { Vec p, q; } s;
+    Vec o;
     if (vec3_dot(b, c) < 0.0f) {
         return 0;
     }

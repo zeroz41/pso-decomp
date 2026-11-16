@@ -1,4 +1,5 @@
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/trap/TOMine.h"
 #include "pso/object/trap/TOMineIcon04.h"
@@ -28,9 +29,9 @@ TOMineIcon04::TOMineIcon04(TObject *parent, void *set_data) : TOMine(parent) {
     ((TObjPlayer *)this)->init_position_vectors();
     calc_attach_pos();
     model = (void *)get_bml_model(lbl_805D5A50, 7);
-    texlist = TObjFish__sub_8001EDB0(lbl_805D5A50, 7);
+    texlist = get_bml_texlist(lbl_805D5A50, 7);
     m_374 = get_bml_model(lbl_805D5A50, 3);
-    m_378 = TObjFish__sub_8001EDB0(lbl_805D5A50, 3);
+    m_378 = get_bml_texlist(lbl_805D5A50, 3);
     mode = 0;
     if (set_params[0] < 0) {
         set_params[0] = 0;

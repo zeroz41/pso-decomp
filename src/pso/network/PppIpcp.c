@@ -28,7 +28,7 @@ struct Self_803FF698 { u8 f0; u8 f1; u8 pad2[0x2E]; IpcpConfig *f30; };
 #include "pso/network/NetStackTypes.h"
 
 extern u8 lbl_805C0038[];
-void TLobby__sub_803F97E8(int);
+void net_sleep_ms(int);
 #include "pso/network/PppBuffer.h"
 
 extern s32 lbl_805D7AA0;
@@ -49,7 +49,7 @@ s16 TLobby__sub_803FED78(u8 *self) {
     goto test;
     while (1) {
         if (is_timed_out() != 0 || obj[0] == 4) {
-            update_connection_state((int)(self));
+            update_connection_state((int)self);
             *(s16 *)(self + 8) = 0;
             *(s16 *)(p + 8) = 0;
             return -1;
@@ -57,7 +57,7 @@ s16 TLobby__sub_803FED78(u8 *self) {
         if (*(s16 *)(self + 8) != 0) goto after;
         st = check_connection_status((void *)p);
         unlock_mutex(pd->mutex);
-        TLobby__sub_803F97E8(0x64);
+        net_sleep_ms(0x64);
         process_expired_timers();
         lock_mutex(pd->mutex);
 test:
@@ -79,7 +79,7 @@ after:
     while (st > 0) {
         st = check_connection_status((void *)p);
         unlock_mutex(pd->mutex);
-        TLobby__sub_803F97E8(0x64);
+        net_sleep_ms(0x64);
         process_expired_timers();
         lock_mutex(pd->mutex);
     }
@@ -96,7 +96,7 @@ after:
         }
         break;
     }
-    update_connection_state((int)(self));
+    update_connection_state((int)self);
     *(s16 *)(p + 8) = 0;
     *(s16 *)(self + 8) = 0;
     return -1;
@@ -231,7 +231,7 @@ s16 TLobby__sub_803FF304(u8 *lobby) {
     typedef struct Fields_arg0 { u8 pad_0[12]; u8 * field_C; } Fields_arg0;
     set_flags_and_state((void *)lobby);
     if ((u8) *((Fields_arg0*)lobby)->field_C == 3) {
-        TLobby__sub_803FD958((u8 *)(lobby));
+        TLobby__sub_803FD958(lobby);
     }
     return 0;
 }
@@ -277,7 +277,7 @@ void free_field_98_and_clear(void *self) {
 }
 
 void TLobby__sub_803FF468(s32 arg0) {
-    TLobby__sub_80405304((void *)((void *) (arg0 + 0x10)));
+    TLobby__sub_80405304((void *)(arg0 + 0x10));
 }
 
 struct P_803FF48C { u8 pad[0x30]; IpcpConfig *q; };
@@ -340,7 +340,7 @@ extern s32 TLobby__sub_803FF50C(Self_803FF698 *self, u8 *item, s32 arg) {
             return -1;
         }
         for (k = len - 2; k-- > 0;) {
-            r = (TLobby__sub_80401BCC(&arg, &lcp_read_byte_buffer, 1) != 1) ? -1 : (s16)lcp_read_byte_buffer;
+            r = (ppp_buffer_read(&arg, &lcp_read_byte_buffer, 1) != 1) ? -1 : (s16)lcp_read_byte_buffer;
             if (r == -1) {
                 return -1;
             }
@@ -381,7 +381,7 @@ extern s32 TLobby__sub_803FF698(Self_803FF698 *self, u8 *item, s32 arg) {
             bit = optbit_803FF50C(hdr[0]);
             bits->local.got.flags |= 1 << bit;
         }
-        r = TLobby__sub_803FFB84(&arg, bits, p, hdr, 0);
+        r = ipcp_merge_config_options(&arg, bits, p, hdr, 0);
         if (r == -1) {
             return -1;
         }
@@ -413,22 +413,22 @@ inline u32 first_803FA664(Sub_803FF858 *s) {
     return v;
 }
 inline s32 read_803FA664(u32 *p) {
-    if (TLobby__sub_80401BCC(p, &lcp_read_byte_buffer, 1) != 1) {
+    if (ppp_buffer_read(p, &lcp_read_byte_buffer, 1) != 1) {
         return -1;
     }
     return (s16)lcp_read_byte_buffer;
 }
-s32 TLobby__sub_803FF858(Obj_803FF858 *arg0, Msg_803FA664 *arg1, u32 arg2) {
+s32 TLobby__sub_803FF858(Obj_803FF858 *obj_803_ff858, Msg_803FA664 *msg_803_fa664, u32 arg2) {
     u32 cur;
     s16 err;
     s16 a;
     s16 b;
     err = 0;
-    if (arg1->b1 != arg0->b1) {
+    if (msg_803_fa664->b1 != obj_803_ff858->b1) {
         return -1;
     }
-    cur = first_803FA664(arg0->p30);
-    if (arg1->h2 != get_field_4((void *)cur)) {
+    cur = first_803FA664(obj_803_ff858->p30);
+    if (msg_803_fa664->h2 != get_field_4((void *)cur)) {
         err = 1;
     } else {
         while ((a = read_803FA664(&cur)) != -1) {
@@ -442,7 +442,7 @@ s32 TLobby__sub_803FF858(Obj_803FF858 *arg0, Msg_803FA664 *arg1, u32 arg2) {
     if (err != 0) {
         return -1;
     }
-    arg0->bB++;
+    obj_803_ff858->bB++;
     return 0;
 }
 #pragma pop
@@ -470,7 +470,7 @@ extern s32 TLobby__sub_803FF9A4(void *self, u8 *src, u32 bits) {
         if (n < 0) {
             return -1;
         }
-        res = TLobby__sub_803FFB84(&bits, base, &base->peer, hdr, 1);
+        res = ipcp_merge_config_options(&bits, base, &base->peer, hdr, 1);
         if (res == -1) {
             return -1;
         }
@@ -508,7 +508,7 @@ extern s32 TLobby__sub_803FF9A4(void *self, u8 *src, u32 bits) {
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
-s16 TLobby__sub_803FFB84(void *cursor, IpcpConfig *cfg, IpcpSide *side, u8 *hdr, s16 c) {
+s16 ipcp_merge_config_options(void *cursor, IpcpConfig *cfg, IpcpSide *side, u8 *hdr, s16 c) {
     s16 len;
     s16 res;
     s16 ch;
@@ -516,8 +516,8 @@ s16 TLobby__sub_803FFB84(void *cursor, IpcpConfig *cfg, IpcpSide *side, u8 *hdr,
     len = hdr[1] - 2;
     switch (hdr[0]) {
     case 1:
-        side->got.our_addr = (TLobby__sub_80401BCC(cursor, lbl_805D7AA8, 4) != 4) ? 0 : TLobby__sub_80402AFC(lbl_805D7AA8);
-        side->got.his_addr = (TLobby__sub_80401BCC(cursor, lbl_805D7AA8, 4) != 4) ? 0 : TLobby__sub_80402AFC(lbl_805D7AA8);
+        side->got.our_addr = (ppp_buffer_read(cursor, lbl_805D7AA8, 4) != 4) ? 0 : TLobby__sub_80402AFC(lbl_805D7AA8);
+        side->got.his_addr = (ppp_buffer_read(cursor, lbl_805D7AA8, 4) != 4) ? 0 : TLobby__sub_80402AFC(lbl_805D7AA8);
         len -= 8;
         if (c == 0) {
             if (cfg->peer.want.our_addr != 0) {
@@ -561,16 +561,16 @@ s16 TLobby__sub_803FFB84(void *cursor, IpcpConfig *cfg, IpcpSide *side, u8 *hdr,
         break;
 
     case 2:
-        side->got.vj_protocol = (s16)((TLobby__sub_80401BCC(cursor, lbl_805D7AA8, 2) != 2) ? -1 : read_network_u16_be(lbl_805D7AA8));
+        side->got.vj_protocol = (s16)((ppp_buffer_read(cursor, lbl_805D7AA8, 2) != 2) ? -1 : read_network_u16_be(lbl_805D7AA8));
         len -= 2;
         if (!(side->flags & 4)) {
             if (side->got.vj_protocol == 0x2d) {
-                ch = (TLobby__sub_80401BCC(cursor, &lcp_read_byte_buffer, 1) != 1) ? -1 : (s16)lcp_read_byte_buffer;
+                ch = (ppp_buffer_read(cursor, &lcp_read_byte_buffer, 1) != 1) ? -1 : (s16)lcp_read_byte_buffer;
                 if (ch == -1) {
                     return -1;
                 }
                 side->got.vj_slots = ch + 1;
-                ch = (TLobby__sub_80401BCC(cursor, &lcp_read_byte_buffer, 1) != 1) ? -1 : (s16)lcp_read_byte_buffer;
+                ch = (ppp_buffer_read(cursor, &lcp_read_byte_buffer, 1) != 1) ? -1 : (s16)lcp_read_byte_buffer;
                 if (ch == -1) {
                     return -1;
                 }
@@ -581,7 +581,7 @@ s16 TLobby__sub_803FFB84(void *cursor, IpcpConfig *cfg, IpcpSide *side, u8 *hdr,
         } else {
             switch (side->got.vj_protocol) {
             case 0x2d:
-                ch = (TLobby__sub_80401BCC(cursor, &lcp_read_byte_buffer, 1) != 1) ? -1 : (s16)lcp_read_byte_buffer;
+                ch = (ppp_buffer_read(cursor, &lcp_read_byte_buffer, 1) != 1) ? -1 : (s16)lcp_read_byte_buffer;
                 if (ch == -1) {
                     return -1;
                 }
@@ -592,7 +592,7 @@ s16 TLobby__sub_803FFB84(void *cursor, IpcpConfig *cfg, IpcpSide *side, u8 *hdr,
                     side->got.vj_slots = 0x10;
                     res = 3;
                 }
-                ch = (TLobby__sub_80401BCC(cursor, &lcp_read_byte_buffer, 1) != 1) ? -1 : (s16)lcp_read_byte_buffer;
+                ch = (ppp_buffer_read(cursor, &lcp_read_byte_buffer, 1) != 1) ? -1 : (s16)lcp_read_byte_buffer;
                 if (ch == -1) {
                     return -1;
                 }
@@ -620,7 +620,7 @@ s16 TLobby__sub_803FFB84(void *cursor, IpcpConfig *cfg, IpcpSide *side, u8 *hdr,
         break;
 
     case 3:
-        side->got.our_addr = (TLobby__sub_80401BCC(cursor, lbl_805D7AA8, 4) != 4) ? 0 : TLobby__sub_80402AFC(lbl_805D7AA8);
+        side->got.our_addr = (ppp_buffer_read(cursor, lbl_805D7AA8, 4) != 4) ? 0 : TLobby__sub_80402AFC(lbl_805D7AA8);
         len -= 4;
         if (c == 0) {
             cfg->local.want.our_addr = side->got.our_addr;
@@ -635,7 +635,7 @@ s16 TLobby__sub_803FFB84(void *cursor, IpcpConfig *cfg, IpcpSide *side, u8 *hdr,
         break;
 
     case 0x81:
-        side->got.dns[0] = (TLobby__sub_80401BCC(cursor, lbl_805D7AA8, 4) != 4) ? 0 : TLobby__sub_80402AFC(lbl_805D7AA8);
+        side->got.dns[0] = (ppp_buffer_read(cursor, lbl_805D7AA8, 4) != 4) ? 0 : TLobby__sub_80402AFC(lbl_805D7AA8);
         len -= 4;
         if (c == 0) {
             cfg->local.want.dns[0] = side->got.dns[0];
@@ -650,7 +650,7 @@ s16 TLobby__sub_803FFB84(void *cursor, IpcpConfig *cfg, IpcpSide *side, u8 *hdr,
         break;
 
     case 0x83:
-        side->got.dns[1] = (TLobby__sub_80401BCC(cursor, lbl_805D7AA8, 4) != 4) ? 0 : TLobby__sub_80402AFC(lbl_805D7AA8);
+        side->got.dns[1] = (ppp_buffer_read(cursor, lbl_805D7AA8, 4) != 4) ? 0 : TLobby__sub_80402AFC(lbl_805D7AA8);
         len -= 4;
         if (c == 0) {
             cfg->local.want.dns[1] = side->got.dns[1];
@@ -677,7 +677,7 @@ s16 TLobby__sub_803FFB84(void *cursor, IpcpConfig *cfg, IpcpSide *side, u8 *hdr,
     }
     if (c == 0 && len > 0) {
         while (len-- > 0) {
-            if (((TLobby__sub_80401BCC(cursor, &lcp_read_byte_buffer, 1) != 1) ? -1 : (s16)lcp_read_byte_buffer) == -1) {
+            if (((ppp_buffer_read(cursor, &lcp_read_byte_buffer, 1) != 1) ? -1 : (s16)lcp_read_byte_buffer) == -1) {
                 return -1;
             }
         }
@@ -800,7 +800,7 @@ void TLobby__sub_80400338(PppFrame **pbuf, IpcpOptions *opt, s32 type, s32 len, 
         break;
     }
     while (n-- > 0) {
-        *p++ = TLobby__sub_80401BCC(src, &lcp_read_byte_buffer, 1) != 1 ? -1 : (s16)lcp_read_byte_buffer;
+        *p++ = ppp_buffer_read(src, &lcp_read_byte_buffer, 1) != 1 ? -1 : (s16)lcp_read_byte_buffer;
     }
     buf->len += len;
 }

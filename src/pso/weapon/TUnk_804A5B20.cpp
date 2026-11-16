@@ -11,7 +11,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/MatrixOps.h"
-#include "pso/player/TObjPlayer.h"
+
 
 extern "C" {
 
@@ -55,13 +55,12 @@ typedef struct SlicerLaunchData_8012D9C8 {
     s32 facing, spin; f32 first[3], second[3];
 } SlicerLaunchData_8012D9C8;
 
-extern "C" {
-u8 get_item_index__5TItemFv();
 extern const f32 lbl_805DAF38;
 extern const f32 lbl_805DAF3C;
 extern const f32 lbl_805DAF50;
 extern const f32 lbl_805DAF54;
 void init_slicer_launch_state(void *arg0);
+extern "C" {
 s16 TObjPlayer__sub_801D2F4C(s16 *arg0);
 s16 get_validated_attack_stage(u8 *arg0);
 void get_weapon_color__11TItemWeaponFPv(f32 *, void *);
@@ -100,7 +99,7 @@ void TUnk_804A5B20::update_idle() {
       s32 lim;
       TObjPlayer::add_angle_clamped((s32 *)(arg0 + 0x1F8), 0x1555, 0x8000);
       new_var = 0x8000;
-      if (new_var <= ((s32) (*((s32 *) (((s8 *) arg0) + 0x1F8)))))
+      if (new_var <= ((s32) (this->rotation)))
       {
         TItemEffOrgaFlowShot::approach_value((f32 *)(arg0 + 0x204), (f32)lbl_805DAF40, (f32)lbl_805DAF44);
       }

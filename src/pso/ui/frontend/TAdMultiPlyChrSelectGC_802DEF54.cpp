@@ -1,4 +1,5 @@
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC_802D50A0.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC_802E0FC8.h"
@@ -17,15 +18,16 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
 #include "pso/ui/window/TWindowSubComCard.h"
+#include "pso/system/NinjaTypes.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-struct V2_802DF9B4 { f32 x, y; };
 
 struct I2_802DF9B4 { s32 a, b; };
 
-struct Blk_802DF9B4 { V2_802DF9B4 a, b, c; };
+struct Blk_802DF9B4 { NJS_POINT2 a, b, c; };
 
 extern "C" {
 u32 __nw__7TObjectFUl(int);
@@ -39,16 +41,15 @@ u32 __ct__13TAdGuideTxtGCFv(void *, void *);
 u32 __ct__14TAdGameStartGCFv(void *, s32);
 u8 *get_or_create_slot_window__22TAdMultiPlyChrSelectGCFii(s32 arg0, s32 arg1);
 s32 create__16TAdChrSelBSlotGCFPv(void *);
-extern V2_802DF9B4 multi_chr_select_widget_layout[];
+extern NJS_POINT2 multi_chr_select_widget_layout[];
 extern u8 lbl_80472808[];
 extern I2_802DF9B4 lbl_80472828[];
 extern Blk_802DF9B4 multi_chr_select_layout_table[];
-extern V2_802DF9B4 lbl_80472848[];
+extern NJS_POINT2 lbl_80472848[];
 extern TObject *tl_02;
 extern s32 tl_clipout;
 extern s32 TAdMultiPlyChrSelectGC__data_805DE898;
-s32 TWindowShortListCtrl__check_controller_button(void *, s32, s32);
-s32 play_sound_effect(s32, s32, s32, s32);
+s32 play_sound_effect(s32, Vec *, s32, s32);
 
 extern s8 controller_physical_port_bank[];
 extern u32 multi_chr_select_serial_access_state;
@@ -86,14 +87,14 @@ void update_state_serial__22TAdMultiPlyChrSelectGCFPv(void *arg0) {
     *(s32 *)((s8 *)arg0 + 0x30) = -1;
     temp_r5 = *(s32 *)((s8 *)arg0 + 0x1C);
     *(s32 *)((s8 *)arg0 + 0x1C) = (temp_r5 + 1);
-    if ((TWindowShortListCtrl__check_controller_button(controller_physical_port_bank + 0x20, 2, temp_r5) != 0) && (TAdMultiPlyChrSelectGC::get_chr_select_state() == 0)) {
+    if ((TWindowShortListCtrl__check_controller_button(controller_physical_port_bank + 0x20, 2) != 0) && (TAdMultiPlyChrSelectGC::get_chr_select_state() == 0)) {
         if ((((TAdMultiPlyChrSelectGC *)(*(s32 *)((s8 *)arg0 + 0x68)))->get_player_index() != 0xE) && ((s32) *(s32 *)((s8 *)arg0 + 0x1C) > 0xA)) {
-            play_sound_effect(0x52F16, 0, 0, 0);
+            play_sound_effect(0x52F16, (Vec *)(0), 0, 0);
             *(s32 *)((s8 *)arg0 + 0x20) = 0x1B;
             return;
         }
         if (TAdMultiPlyChrSelectGC__sub_802C6558() < 1) {
-            play_sound_effect(0x52F16, 0, 0, 0);
+            play_sound_effect(0x52F16, (Vec *)(0), 0, 0);
             *(s32 *)((s8 *)arg0 + 0x20) = 0x1B;
             return;
         }
@@ -464,7 +465,7 @@ void TAdMultiPlyChrSelectGC::create_widgets() {
         p = __ct__14TAdGameStartGCFv((void *) p, tl_clipout);
     }
     *(u32 *)&this->unk_78 = p;
-    V2_802DF9B4 v = lbl_80472848[0];
+    NJS_POINT2 v = lbl_80472848[0];
     v.x = multi_chr_select_widget_layout[0].x;
     v.y = multi_chr_select_widget_layout[0].y;
     this->m_5c = (s32)fn_802C6F20(tl_02, (vec2f *)&v);

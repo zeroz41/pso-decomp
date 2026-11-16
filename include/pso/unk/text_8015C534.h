@@ -6,6 +6,5 @@
 extern "C" {
 void free_ancient_container_resources(void);
 }
-u8 *init_ancient_container(u8 *arg0, s32 arg1);
 
 #endif

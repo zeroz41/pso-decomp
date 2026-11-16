@@ -1,4 +1,5 @@
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/effect/TUnk_80494968.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
@@ -27,9 +28,9 @@ s32 defer_render__7TObjectFv();
 
 void TUnk_80494968::render() {
     u8 *arg0 = (u8 *)this;
-    if ((defer_render__7TObjectFv() == 0) && ((s32) *(s32 *)((s8 *)arg0 + 0x1C) > 1)) {
+    if ((defer_render__7TObjectFv() == 0) && ((s32) this->segment_count > 1)) {
         set_additive_blend();
-        ((TObjPlayer *)(arg0 + 0x20))->draw_trail_strip((void *)(*(s32 *)((s8 *)arg0 + 0x1C) * 2), 1);
+        ((TObjPlayer *)(arg0 + 0x20))->draw_trail_strip((void *)(this->segment_count * 2), 1);
     }
 }
 
@@ -87,9 +88,7 @@ struct P_800D78CC { u8 b[0x10]; };
 
 struct Obj_800D78CC { u8 pad0[0x1C]; s32 count; P_800D78CC a[2]; };
 
-struct Vec_800D7824 { f32 x, y, z; };
-
-struct P_800D7824 { Vec_800D7824 v; s32 w; };
+struct P_800D7824 { Vec v; s32 w; };
 
 struct B_800D7824 { u8 pad0[0x18]; };
 
@@ -108,8 +107,8 @@ struct Obj_800D7824 : B_800D7824 {
 
 void TUnk_80494968::vfunc_6(void *p0_arg, void *p1_arg) {
     Obj_800D7824 *self = (Obj_800D7824 *)this;
-    Vec_800D7824 *p0 = (Vec_800D7824 *)p0_arg;
-    Vec_800D7824 *p1 = (Vec_800D7824 *)p1_arg;
+    Vec *p0 = (Vec *)p0_arg;
+    Vec *p1 = (Vec *)p1_arg;
     P_800D7824 *e;
     if (self->count >= 0x10) {
         self->flush();
@@ -132,9 +131,9 @@ void TUnk_80494968::shift_line_buffer_down() {
     P_800D78CC *q;
     s32 lim;
     s32 i;
-    s32 n = arg0->count;
+    s32 n = this->segment_count;
     if (n <= 1) {
-        arg0->count = 0;
+        this->segment_count = 0;
         return;
     }
     p = arg0->a;
@@ -143,7 +142,7 @@ void TUnk_80494968::shift_line_buffer_down() {
     for (i = 0; i < lim; i++) {
         TAdDrawLineTask__sub_80019A8C(p++, q++);
     }
-    arg0->count = arg0->count - 1;
+    this->segment_count = this->segment_count - 1;
 }
 
 TUnk_80494968::~TUnk_80494968() {

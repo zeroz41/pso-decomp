@@ -1,4 +1,5 @@
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/effect/photon/TPhotonRainbow.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/unk/text_803E2D70.h"
@@ -12,7 +13,6 @@ extern "C" {
 s32 post_translate_matrix(void *);
 s32 rotate_matrix_y(s32, s32);
 s32 push_matrix();
-void __dl__7TObjectFPv(void *);
 
 extern u8 *camera_ctrl_instance;
 
@@ -49,19 +49,10 @@ void TPhotonRainbow::run_task() {
 TPhotonRainbow::~TPhotonRainbow() {
 
 }
-extern "C" {
-
-}
-
 #pragma readonly_strings on
 
 extern "C" {
 const char *TPhotonRainbow__name = "TPhotonRainbow";
-}
-
-
-extern "C" {
-
 s32 __ct__8TObjBaseFP7TObject();
 
 extern void *__vt__14TPhotonRainbow[];

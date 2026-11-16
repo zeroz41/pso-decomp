@@ -15,10 +15,9 @@
 
 #pragma readonly_strings on
 
-extern "C" {
+
 // Defined (returning u8) in the lobby-event module; the original callers test
 // the full register.
-}
 
 const char *bm_obj_lobby_rainbow_motion_names[1] = { NULL };
 __declspec(section ".data") const char *bm_obj_lobby_rainbow_model_names[2] = { "lobby_obj_niji.gj", NULL };

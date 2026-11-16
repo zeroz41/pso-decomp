@@ -21,4 +21,8 @@ void TWindowGetComCard__sub_8007B67C(void *p);
 }
 // --- end of C functions
 
+// TWindowGetComCard__received_guild_card_tags: layout known from its uses only.
+struct TWindowGetComCardReceivedGuildCardTags { s32 value; u8 remaining[0x23C]; };
+extern TWindowGetComCardReceivedGuildCardTags TWindowGetComCard__received_guild_card_tags;
+
 #endif

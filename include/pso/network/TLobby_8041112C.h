@@ -6,7 +6,6 @@
 #include "pso/network/UdpRuntime.h"
 
 /* TLobby_8041112C.c: IPv6 neighbour discovery, routing and packet fragments. */
-typedef struct RecoveredFields_804143BC_arg0 RecoveredFields_804143BC_arg0;
 typedef struct Ipv6NdPending Ipv6NdPending;
 typedef struct Ipv6NdNeighbor Ipv6NdNeighbor;
 typedef struct Ipv6NdRouter Ipv6NdRouter;
@@ -51,10 +50,6 @@ typedef struct NetBufferPool {
 } NetBufferPool;
 typedef char NetBufferPoolEntry_size_check[sizeof(NetBufferPoolEntry) == 0x3C ? 1 : -1];
 typedef char NetBufferPool_size_check[sizeof(NetBufferPool) == 0x10 ? 1 : -1];
-struct RecoveredFields_804143BC_arg0 {
-    u8 field_0;
-    u8 field_1;
-};
 /* A packet queued until its next hop's link-layer address is known (tag "PEN"). */
 struct Ipv6NdPending {
     u8 tag[3];
@@ -190,7 +185,7 @@ s32 TLobby__sub_804136AC(s16 i);
 void TLobby__sub_804136CC(s16 i);
 s16 NetIPv6IsLoopback(u8 *arg0);
 s16 NetIPv6IsUnspecified(u8 *arg0);
-s32 NetIPv6CompareAddresses(s32 arg0, s32 arg1);
+s16 NetIPv6CompareAddresses(u8 *a, u8 *b);
 s16 TLobby__sub_8041510C(void);
 void TLobby__sub_804150EC(void);
 void TLobby__sub_8041615C(void);
@@ -200,11 +195,13 @@ s16 NetIPv6EmitNeighborSolicitation(int arg0, void *arg1, void *arg2, s16 arg3, 
 s32 NetIPv6SendUnspecifiedSourceNeighborSolicitation(s32 arg0, s16 arg1);
 s16 TLobby__sub_804112B8(s32 arg0, s32 arg1, s16 arg2);
 s16 TLobby__sub_8041123C(s32 arg0, s32 arg1, s16 arg2);
-s32 TLobby__sub_804136EC(void *self);
+s16 TLobby__sub_804136EC(void *self);
 s16 TLobby__sub_8041579C(NetBufferRef *self);
 s16 TLobby__sub_80415954(void *out_, int size, s16 owner);
-s32 NetCompareBitsBackward(u8 *arg0, u8 *arg1, s16 arg2);
-s32 NetCompareBitPrefix(u8 *a, u8 *b, s16 bits);
+s16 NetCompareBitsBackward(u8 *arg0, u8 *arg1, s16 arg2);
+s16 NetCompareBitPrefix(u8 *a, u8 *b, s16 bits);
+s16 NetIPv6GetAddressScopeClass(u8 *a);
+s16 TLobby__sub_8041347C(u8 *src, s16 id, u8 *key, s16 a, s16 b, s16 c);
 s32 NetIPv6MakeSolicitedNodeMulticastAddress(u8 *arg0, u8 *arg1);
 s32 TLobby__sub_8041509C(void);
 s32 init_ipv6_all_routers_multicast_address(u8 *address, s8 scope);

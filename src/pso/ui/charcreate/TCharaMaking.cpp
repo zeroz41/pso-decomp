@@ -1,4 +1,6 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/render/MaterialColorFade.h"
 #include "pso/ui/charcreate/TObjCMMainMenu_8028EA88.h"
 #include "pso/render/render_util.h"
@@ -12,7 +14,16 @@
 #include "pso/ui/charcreate/TCharaMaking_8028E3F4.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
+#include "pso/system/task/TObject_80019A50.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_8028D5D4.h"
+#include "pso/camera/CreationCamera.h"
+#include "pso/ui/charcreate/TObjCMMainMenu.h"
+#include "pso/ui/charcreate/TChCrCharSelect.h"
+#include "pso/system/save/TSaveChCr.h"
+#include "pso/math/AngleLookup.h"
+#include <dolphin/mtx.h>
 #include <stddef.h>
+#include "pso/system/task/TObject.h"
 
 // The character-creation motion archive: no models, 49 body motions.
 const char *charamakingmot_model_names[1] = {NULL};
@@ -61,7 +72,7 @@ struct TextureOutput {int loaded; u8 names[8][32]; struct OutputSlot slots[8]; s
 
 struct P_8028DCCC { f32 a; f32 b; };
 
-extern "C" {
+
 u8 lbl_80518880[0x228];
 u8 lbl_80518AA8[0x384];
 u8 lbl_80518E2C[0x354];
@@ -82,7 +93,6 @@ u8 lbl_8051B8C8[0x134];
 u8 lbl_8051B9FC[0x134];
 u8 lbl_8051BB30[0x134];
 u8 chara_making_load_buffer[0x40C];
-}
 
 void *player_class_texture_buffer_table[19] = {
     lbl_80518880, lbl_80518AA8, lbl_80518E2C, lbl_80519180, lbl_80519438,
@@ -100,13 +110,9 @@ P_8028DCCC character_proportion_height_table[12] = {
 };
 
 extern "C" {
-void build_appearance_texture_names__12TCharaMakingFv(TextureOutput *, CharacterAppearanceFields *, CharacterClassAppearance *, CharacterTextureList *);
 void TCharaMaking__bind_appearance_texture_lists(TextureOutput *arg0, TextureOutput *arg1, TextureOutput *arg2, CharacterAppearanceFields *arg3);
 s32 TCharaMaking__sub_8028E3A0(f32 *arg0);
 }
-s32 validate_player_visual_record(void *arg0);
-
-extern "C" {
 CharacterAppearanceFields *get_class_appearance_preset(s32 arg0);
 extern s32 saved_model_render_flags;
 extern s32 saved_chunk_polygon_flags_and_mask;
@@ -114,8 +120,7 @@ extern s32 saved_chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_and_mask;
 extern s32 model_render_flags;
-extern s32 lbl_805DD930;
-extern const f32 lbl_805DD934;
+extern "C" {
 s32 calc_section_id_from_name(s8 *arg0);
 s32 release_texture_list(void *);
 
@@ -140,6 +145,7 @@ s32 calc_section_id_from_name(s8 *arg0) {
     return sum;
 }
 }
+s32 validate_player_visual_record(void *arg0);
 #pragma push
 #pragma fp_contract on
 #pragma opt_common_subs off
@@ -156,6 +162,11 @@ f32 calc_character_height(CharacterAppearanceFields *appearance) {
     return v * (a - b) + b;
 }
 #pragma pop
+
+// Render flags OR'ed into model_render_flags for the hair pass. The original
+// loads them from .sdata2 (lwz) between the pool's 1.0 and 1/255, so they are
+// a const object, not a folded literal.
+static const s32 lbl_805DD930[1] = {0x81C};
 
 #pragma push
 #pragma opt_dead_assignments off
@@ -175,7 +186,7 @@ void TCharaMaking__draw_colored_hair(f32 farg0, s32 arg0, CharacterAppearanceFie
     saved_model_render_flags = temp_r8;
     saved_chunk_polygon_flags_and_mask = first;
     saved_chunk_polygon_flags_or_mask = second;
-    model_render_flags = temp_r3 | lbl_805DD930;
+    model_render_flags = temp_r3 | lbl_805DD930[0];
     if (farg0 < 1.0f) {
         set_chunk_material_override_pair(-1, 0x800);
     }
@@ -183,9 +194,9 @@ void TCharaMaking__draw_colored_hair(f32 farg0, s32 arg0, CharacterAppearanceFie
         set_shadow_material_state();
     } else {
         color.a = farg0;
-        color.r = lbl_805DD934 * (f32) character_appearance_fields->red;
-        color.g = lbl_805DD934 * (f32) character_appearance_fields->green;
-        color.b = lbl_805DD934 * (f32) character_appearance_fields->blue;
+        color.r = (1.0f / 255.0f) * (f32) character_appearance_fields->red;
+        color.g = (1.0f / 255.0f) * (f32) character_appearance_fields->green;
+        color.b = (1.0f / 255.0f) * (f32) character_appearance_fields->blue;
         set_constant_material((const NJS_ARGB *)((&color.a)));
     }
     draw_chunk_object((void *)arg0);
@@ -359,7 +370,7 @@ void TCharaMaking__bind_appearance_texture_lists(TextureOutput *output, TextureO
     temp_r6 = temp_r3[appearance->hair];
     if (temp_r6 != 0)
     {
-      build_appearance_texture_names__12TCharaMakingFv(output, appearance, definition, temp_r6);
+      ((TCharaMaking *)output)->build_appearance_texture_names(appearance, definition, temp_r6);
       output->loaded = 1;
     }
   }
@@ -370,11 +381,11 @@ void TCharaMaking__bind_appearance_texture_lists(TextureOutput *output, TextureO
     temp_r6_2 = temp_r3_2[appearance->head];
     if (temp_r6_2 != 0)
     {
-      build_appearance_texture_names__12TCharaMakingFv(arg1, appearance, definition, temp_r6_2);
+      ((TCharaMaking *)arg1)->build_appearance_texture_names(appearance, definition, temp_r6_2);
       arg1->loaded = 1;
     }
   }
-  build_appearance_texture_names__12TCharaMakingFv(arg2, appearance, definition, definition->bodyTextures);
+  ((TCharaMaking *)arg2)->build_appearance_texture_names(appearance, definition, definition->bodyTextures);
   arg2->loaded = 1;
 }
 s32 TCharaMaking__sub_8028E3A0(f32 *arg0) {
@@ -415,18 +426,19 @@ s32 TCharaMaking::get_display_index() {
 }
 
 unsigned int strlen(u8 *); u8 *strncpy(u8 *,u8 *,unsigned int);
-void build_appearance_texture_names__12TCharaMakingFv(TextureOutput *output, CharacterAppearanceFields *appearance, CharacterClassAppearance *definition, CharacterTextureList *source) {
+}
+void TCharaMaking::build_appearance_texture_names(CharacterAppearanceFields *appearance, CharacterClassAppearance *definition, CharacterTextureList *source) {
     if (source->count <= 8) {
         int index;
         OutputSlot *slot;
         u8 **entry;
         u8 *name;
-        slot = output->entries = output->slots;
+        slot = ((TextureOutput *)this)->entries = ((TextureOutput *)this)->slots;
         index = 0;
-        output->count = source->count;
+        ((TextureOutput *)this)->count = source->count;
         entry = (u8 **)source->entries;
         for (; index < source->count; ++index, ++entry, ++slot) {
-            name = output->names[index];
+            name = ((TextureOutput *)this)->names[index];
             strlen(*entry);
             strncpy(name, *entry, 31);
             name[31] = 0;
@@ -488,5 +500,75 @@ void request_chara_making_archives(void) {
         }
     }
 }
+extern "C" {
 
+void *TCMCharacter__ct(void *arg0, void *arg1);
+extern Vec TObjLight__scene_light_state;
+extern void *creation_player_character;
+s32 is_active__23TAdSinglePlyChrSelectGCFv(void *self);
+s32 is_state_3__14TObjCMMainMenuFv(s32);
+s32 is_state_4__14TObjCMMainMenuFv(s32);
+
+void TCharaMaking__sub_8028E790(void) {  }
+}
+
+extern s32 tl_03;
+extern s32 creation_dressing_room_mode_flag;
+
+void TCharaMaking::update_light_direction() {
+    f32 temp_f31;
+    TObjLight__scene_light_state.y = -1.0f * sin_table_lookup(m_1c);
+    temp_f31 = cos_table_lookup(m_1c);
+    TObjLight__scene_light_state.x = temp_f31 * sin_table_lookup(m_20);
+    TObjLight__scene_light_state.z = temp_f31 * cos_table_lookup(m_20);
+}
+
+s32 TCharaMaking::update_main_menu(s32 arg0) {
+    s32 var_r3;
+
+    if (is_state_3__14TObjCMMainMenuFv(creation_main_menu_obj) != 0) {
+        fn_8028D8F4();
+        var_r3 = 0;
+        if ((s32) creation_dressing_room_mode_flag == 1) {
+            var_r3 = 1;
+        }
+        TSaveChCr::create((void *)var_r3);
+        end_creation_view();
+        ((TObject *)arg0)->queue_destruction();
+        return 1;
+    }
+    if (is_state_4__14TObjCMMainMenuFv(creation_main_menu_obj) != 0) {
+        ((TObject *)arg0)->queue_destruction();
+        TChCrCharSelect::create((void *)tl_03);
+        return 1;
+    }
+    return 0;
+}
+
+void TCharaMaking::run_task() {
+    if (!is_active__23TAdSinglePlyChrSelectGCFv(this)) return;
+    if (TCharaMaking::update_main_menu((s32)this)) return;
+}
+
+void *TCharaMaking::create(void *arg0, void *arg1) {
+    creation_player_character = arg1;
+    return new TCharaMaking((TObject *)arg0);
+}
+
+TCharaMaking::~TCharaMaking() {
+    creation_player_character = NULL;
+    creation_main_menu_obj = 0;
+}
+
+TCharaMaking::TCharaMaking(TObject *parent) : TObject(parent) {
+    u32 motion;
+    m_name = TCharaMaking__name;
+    motion = ((u32)TObject::operator new(0x10C));
+    if (motion != 0U) {
+        TCMCharacter__ct((void *)motion, this);
+    }
+    creation_main_menu_obj = (s32)TObjCMMainMenu::create(this);
+    m_1c = 0x1555;
+    m_20 = 0x9000;
+    update_light_direction();
 }

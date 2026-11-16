@@ -41,4 +41,8 @@ extern "C" {
 void *__dt__10TUdpSocketFv(void *arg0, s16 arg1);
 }
 
+// udp_socket_slots: layout known from its uses only.
+struct UdpSocketSlots { s32 value; u8 remaining[0x3C]; };
+extern UdpSocketSlots udp_socket_slots;
+
 #endif

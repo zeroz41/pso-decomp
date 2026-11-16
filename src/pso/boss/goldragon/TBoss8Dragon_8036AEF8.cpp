@@ -10,11 +10,6 @@
 #include "pso/render/render_util.h"
 #include "pso/math/AngleLookup.h"
 
-struct RecoveredGlobal_8036AF40_lbl_804F3610 {
-    s32 value;
-    u8 remaining[0x14];
-};
-
 struct Col_8036B1AC { s8 r; u8 g, b, a; };
 
 struct Obj_8036B1AC {
@@ -39,9 +34,8 @@ s32 **TBoss8Dragon__sub_8036AEF8(s32 **arg0, s16 arg1) {
     return arg0;
 }
 
-typedef char RecoveredGlobal_8036AF40_lbl_804F3610_size[sizeof(RecoveredGlobal_8036AF40_lbl_804F3610) == 0x18 ? 1 : -1];
 void TBoss8Dragon__sub_8036AF40(s32 **arg0) {
-    *arg0 = &(*(RecoveredGlobal_8036AF40_lbl_804F3610 *)&lbl_804F3610).value;
+    *arg0 = lbl_804F3610;
 }
 
 #pragma push

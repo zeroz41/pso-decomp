@@ -63,10 +63,10 @@ void append_padded_number(s32 v, u8 n) {
 }
 
 // ---- pso/unk/text_80228E98
-#include "types.h"
+
 #include "pso/unk/text_80228E98.h"
 
-char *fn_80228E98(s32 v, char *out) {
+char *format_int_decimal(s32 v, char *out) {
     u8 digits[16];
     u32 n;
     u32 i;
@@ -101,17 +101,15 @@ char *fn_80228E98(s32 v, char *out) {
 }
 
 // ---- pso/ui/window/TWindowSubStatusDisp_80228F5C
-#include "types.h"
-#include "pso/unk/text_80228E98.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
-#include "pso/ui/window/TWindowSubStatusDisp.h"
+
+
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
 #include "pso/ui/Language.h"
 
 extern "C" {
 char *parse_text_control_codes(char *p, s32 *a, s32 *b);
-void TWindowSubStatusDisp__sub_80228F5C(s32 arg0) {
-    text_builder_write_cursor = fn_80228E98(arg0, text_builder_write_cursor);
+void text_builder_append_int(s32 arg0) {
+    text_builder_write_cursor = format_int_decimal(arg0, text_builder_write_cursor);
 }
 
 s8 *TWindowSubStatusDisp::copy_message_page_text() {

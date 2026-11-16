@@ -1,9 +1,13 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowDD_WS_String.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/ui/Language.h"
 #include "pso/ui/window/TWindowDD_8034435C.h"
+#include "pso/system/task/TObject.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 struct TWindowDD_803431C0 {
     u8 pad0[0x20];
@@ -41,7 +45,6 @@ struct TWindowDD_8034330C {
 };
 
 
-
 struct Sub_803438C4 { u8 pad[0x50]; u32 x50; };
 
 struct Win_803438C4 {
@@ -67,12 +70,6 @@ struct Win_803438C4 {
 };
 
 struct R_80343BC0 { s16 a; s16 b; u32 w[6]; };
-
-struct V2_80343C64
-{
-  f32 x;
-  f32 y;
-};
 
 struct Win_80343C64
 {
@@ -163,7 +160,6 @@ void TWindowDD__sub_80342D14(u8 *arg0);
 s32 update__9TWindowDDFv(void *);
 s32 handle_confirm_input__9TWindowDDFv(void *);
 void run_state__9TWindowDDFPv(u8 *arg0);
-void queue_destruction__7TObjectFv(void *);
 s16 TWindowDD__sub_8034214C(u8 *arg0);
 void destroy_menu_entry__9TWindowDDFl(void *, int);
 void TWindowDD__sub_80347980(void *);
@@ -219,17 +215,16 @@ void run_task__9TWindowDDFv(u8 *arg0);
 void copy_chat_entry__9TWindowDDFPvPv(R_80343BC0 *arg0, R_80343BC0 *arg1);
 void __ct__7TObjectFP7TObject(void *);
 void *get_player_by_client_id(s32);
-s32 get_current_floor(void);
 s32 check_all_ready__9TWindowDDFl(s32);
 s32 is_room_free_of_active_enemies(s32 floor, s16 room);
 void init_item_slots__9TWindowDDFv(void *);
-s32 TWindowDD__sub_80340F70(void);
+void *TWindowDD__sub_80340F70(void);
 s32 TWindowDD__sub_80342384(s32 arg0, s32 arg1);
 void set_default_positions__9TWindowDDFiPv(void *, s32);
 void init_layout__9TWindowDDFiPv(void *, s32);
-s32 TWindowDD__sub_8034146C(V2_80343C64 *arg0, V2_80343C64 *arg1, s32 arg2, s32 arg3, f32 farg0);
-void TWindowDD__sub_803412A0(u8 *arg0);
-void update_state__9TWindowDDFv(void);
+s32 TWindowDD__sub_8034146C(NJS_POINT2 *arg0, NJS_POINT2 *arg1, s32 arg2, s32 arg3, f32 farg0);
+void TWindowDD__sub_803412A0(TWindowDD_WS_String *self);
+void format_message__9TWindowDDFPvPvUs(void *src, void *dst, u16 player);
 s32 create__9TWindowDDFv(void);
 extern s32 __vt__9TWindowDD[];
 const char *word_select_type_name_pointer = "TWindowDD";
@@ -257,7 +252,6 @@ extern const f32 lbl_805DFBF0;
 extern const f32 lbl_805DFBF4;
 extern const f32 lbl_805DFBF8;
 Obj_80343C64 *TWindowDD__ct(Obj_80343C64 *self, void *parent, void *arg2);
-void* __nw__7TObjectFUl(u32 size);
 extern const f32 lbl_805DFB70, lbl_805DFC28;
 void open_numeric_parameter_input__9TWindowDDFPviii(WordSelectWindowState* self, s32 minimum, s32 maximum, s32 initial);
 void *__dt__9TWindowDDFv(void *arg0, s16 arg1);
@@ -272,7 +266,6 @@ s32 classify_id__9TWindowDDFs();
 s32 TWindowDD_check_input_mask(void *input_context, s32 arg1);
 void clear_window_dd_nodes(void);
 extern "C" {
-void mem_free(void*);
 
 s32 update_close_flag__9TWindowDDFPv(void *arg0) {
     get_current_child_index__9TWindowDDFv();
@@ -289,7 +282,7 @@ void open_numeric_parameter_input__9TWindowDDFPviii(WordSelectWindowState* self,
     WindowPosition position;
     position.x = 60.0f + TWindowDD__data_805DFB6C;
     position.y = 10.0f + lbl_805DFB70;
-    NumberWindow* window = (NumberWindow*)__nw__7TObjectFUl(0x7C);
+    NumberWindow* window = (NumberWindow*)TObject::operator new(0x7C);
     if (window) {
         window = __ct__18TWindowInputNumberFPvllls(window, &position, minimum, maximum, initial,
                                       (s16)local_client_id);
@@ -318,7 +311,7 @@ void pop_menu_level__9TWindowDDFPv(TWindowDD_803431C0 *arg0) {
     if (*entry & 4) {
         arg0->fBC--;
         if (arg0->fBC >= 0 && arg0->objs[arg0->fBC] != NULL) {
-            queue_destruction__7TObjectFv(arg0->objs[arg0->fBC]);
+            ((TObject *)arg0->objs[arg0->fBC])->queue_destruction();
             arg0->objs[arg0->fBC] = NULL;
         }
     }
@@ -694,12 +687,11 @@ extern u32 ws_data_de;
 extern u32 TWindowDD__ws_data_buffer;
 
 typedef struct Obj_80343C64 Obj_80343C64;
-typedef struct V2_80343C64 V2_80343C64;
 typedef struct Win_80343C64 Win_80343C64;
 #pragma opt_common_subs off
 Obj_80343C64 *TWindowDD__ct(Obj_80343C64 *self, void *parent, void *arg2) {
-  V2_80343C64 a;
-  V2_80343C64 b;
+  NJS_POINT2 a;
+  NJS_POINT2 b;
   u8 *p;
   s32 floor;
   s32 v;
@@ -735,7 +727,7 @@ Obj_80343C64 *TWindowDD__ct(Obj_80343C64 *self, void *parent, void *arg2) {
   self->fC0 = arg2;
   init_item_slots__9TWindowDDFv(self->fC4);
   init_item_slots__9TWindowDDFv(self->fE0);
-  self->f7C = TWindowDD__sub_80340F70();
+  self->f7C = (s32)TWindowDD__sub_80340F70();
   {
     s32 i;
     for (i = 0; i < 8; i++)
@@ -785,38 +777,38 @@ Obj_80343C64 *TWindowDD__ct(Obj_80343C64 *self, void *parent, void *arg2) {
     a.y = lbl_805DFBA8;
     b.x = lbl_805DFB60;
     b.y = lbl_805DFBA8;
-    self->a64[0] = ((s32 (*)(f32, V2_80343C64 *, V2_80343C64 *, s32, s32)) TWindowDD__sub_8034146C)(lbl_805DFBAC, &a, &b, (s32) lbl_805D6E64, 4);
+    self->a64[0] = ((s32 (*)(f32, NJS_POINT2 *, NJS_POINT2 *, s32, s32)) TWindowDD__sub_8034146C)(lbl_805DFBAC, &a, &b, (s32) lbl_805D6E64, 4);
   }
   {
     a.x = lbl_805DFBB0;
     a.y = lbl_805DFBB4;
     b.x = lbl_805DFB64;
     b.y = lbl_805DFBB4;
-    self->a64[1] = ((s32 (*)(f32, V2_80343C64 *, V2_80343C64 *, s32, s32)) TWindowDD__sub_8034146C)(lbl_805DFBB8, &a, &b, (s32) lbl_805D6E6C, 4);
+    self->a64[1] = ((s32 (*)(f32, NJS_POINT2 *, NJS_POINT2 *, s32, s32)) TWindowDD__sub_8034146C)(lbl_805DFBB8, &a, &b, (s32) lbl_805D6E6C, 4);
   }
   {
     a.x = lbl_805DFBD0;
     a.y = lbl_805DFBD4;
     b.x = lbl_805DFBD0;
     b.y = lbl_805DFB68;
-    void *q = (void *) ((s32 (*)(f32, V2_80343C64 *, V2_80343C64 *, s32, s32)) TWindowDD__sub_8034146C)(lbl_805DFBD8, &a, &b, TWindowDD__sub_80348B70(0x687), 5);
+    void *q = (void *) ((s32 (*)(f32, NJS_POINT2 *, NJS_POINT2 *, s32, s32)) TWindowDD__sub_8034146C)(lbl_805DFBD8, &a, &b, get_word_select_token_text(0x687), 5);
     self->a64[2] = (s32) q;
     if (q != 0)
     {
-      TWindowDD__sub_803412A0((u8 *)q);
+      TWindowDD__sub_803412A0((TWindowDD_WS_String *)q);
     }
   }
-  ((void (*)(void *, u32, u16)) update_state__9TWindowDDFv)(self->fC4, TWindowDD__work_buffer, local_client_id);
+  format_message__9TWindowDDFPvPvUs(self->fC4, (void *)TWindowDD__work_buffer, local_client_id);
   {
     a.x = lbl_805DFBF0;
     a.y = lbl_805DFBF4;
     b.x = lbl_805DFB60;
     b.y = lbl_805DFBF4;
-    p = (u8 *) ((s32 (*)(f32, V2_80343C64 *, V2_80343C64 *, s32, s32)) TWindowDD__sub_8034146C)(lbl_805DFBF8, &a, &b, TWindowDD__work_buffer, 0);
+    p = (u8 *) ((s32 (*)(f32, NJS_POINT2 *, NJS_POINT2 *, s32, s32)) TWindowDD__sub_8034146C)(lbl_805DFBF8, &a, &b, TWindowDD__work_buffer, 0);
     self->a64[3] = (s32) p;
     if (p != 0)
     {
-      TWindowDD__sub_803412A0(p);
+      TWindowDD__sub_803412A0((TWindowDD_WS_String *)p);
       ((TWindowDD_WS_String *)p)->update_position(0);
       ((Win_80343C64 *) p)->f30 = lbl_805DFB60;
       ((Win_80343C64 *) p)->f40 = lbl_805DFB60;
@@ -891,20 +883,18 @@ void free_buffers__9TWindowDDFv(void) {
         ws_data_jp = 0U;
     }
 }
-struct DDPoint_80344114 { f32 x; f32 y; };
 struct WordList_80344114 { u8 *words; s32 count; };
 extern "C++" void ws_data_load(void);
-void *mem_alloc(u32 size);
 void *memset(void *dst, int c, u32 n);
 extern u32 TWindowDD__ws_data_base;
 extern u32 lbl_805D6E34;
-extern DDPoint_80344114 TWindowDD__data_805434E8[][8];
-extern const DDPoint_80344114 lbl_80478568[];
+extern NJS_POINT2 TWindowDD__data_805434E8[][8];
+extern const NJS_POINT2 lbl_80478568[];
 extern const f32 lbl_804785A0[];
 extern const f32 TWindowDD__data_805DFB18;
 extern const f32 lbl_805DFB24;
 extern const f32 lbl_805DFB28;
-void set_quad_corners_scaled__9TWindowDDFfff(DDPoint_80344114 *quad, f32 x, f32 y, f32 size);
+void set_quad_corners_scaled__9TWindowDDFfff(NJS_POINT2 *quad, f32 x, f32 y, f32 size);
 void init_ws_data_tables__9TWindowDDFv(void);
 
 void TWindowDD__sub_80344114(void) {
@@ -912,8 +902,8 @@ void TWindowDD__sub_80344114(void) {
     u8 *list;
     s32 j;
     WordList_80344114 *entry;
-    const DDPoint_80344114 *src;
-    DDPoint_80344114 *pt;
+    const NJS_POINT2 *src;
+    NJS_POINT2 *pt;
     f32 x;
     f32 y;
     f32 x2;

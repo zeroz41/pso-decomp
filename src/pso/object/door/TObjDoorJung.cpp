@@ -2,7 +2,7 @@
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/object/door/TObjDoorJung.h"
 #include "pso/object/base/TObjMotion.h"
-#include "pso/object/door/TObjDoorJung.h"
+
 #include "pso/object/door/TODoorBase.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/object/door/TODoorAncient01.h"
@@ -33,18 +33,6 @@ s32 lbl_805D5BE8;
 s32 lbl_805D5BEC;
 s32 lbl_805D5BF0;
 
-struct RecoveredGlobal_8018F9CC___vt__12TObjDoorJung {
-    s32 value;
-    u8 remaining[0x54];
-};
-
-struct VBase_8018F644 { char pad[0x18]; };
-struct VObj_8018F644 : VBase_8018F644 {
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3();
-    virtual void m4(); virtual void m5(); virtual void m6(); virtual void m7();
-    virtual s32 m8(f32, f32);
-};
-
 struct Jung_8018F808 { u8 pad0[0xC8]; s32 fC8; u8 padCC[4]; u32 fD0; s32 fD4; };
 
 extern "C" {
@@ -52,7 +40,7 @@ s32 init_collision_body_parts(void *, void *, int);
 void *__ct__10TODoorBaseFP7TObject(void *a0);
 extern s32 __vt__12TObjDoorJung[];
 u8 *TObjDoorJung__ct(u8 *arg0, s32 arg1, s32 arg2);
-u8 is_current_floor_switch_set(int);
+u8 is_current_floor_switch_set(s32 id);
 /* Ninja object node of the door model: model pointer, transform, then child and sibling links. */
 struct Node_8018F4AC {
     u32 eval_flags;
@@ -71,11 +59,9 @@ s32 push_matrix();
 s32 post_translate_matrix(void *);
 extern s32 actor_frame_tick;
 
-void *__dt__12TObjDoorJungFv(void *arg0, s16 arg1);
 s32 free_bin_model_request(void *, s16);
 s32 free_collision_body_parts(void *);
 s32 minimap_render_gate(void *, s32, u16, s32, s32);
-s32 __dl__7TObjectFPv(void *);
 
 void TObjDoorJung::free_buffers() {
     if (TObjDoorJung__door_scene_buffer != NULL) {
@@ -89,9 +75,9 @@ void TObjDoorJung::free_buffers() {
 }
 
 s32 load_resource_from_descriptor(s32 buffer, s32 kind, void *descriptor, s32 a3, s32 a4, s32 a5);
-s32 TObjFish__sub_8001EDB0(void *bml, s32 index);
+s32 get_bml_texlist(void *bml, s32 index);
 
-void TObjDoorJung__sub_8018F4AC(void) {
+void load_door_jung_resources(void) {
     s32 handle;
     Node_8018F4AC *model;
     Node_8018F4AC *node;
@@ -102,7 +88,7 @@ void TObjDoorJung__sub_8018F4AC(void) {
         handle = load_resource_from_descriptor(handle, 5, &bm_obj_beamdoa_resource_descriptor, 0, 0, 0);
     }
     TObjDoorJung__resource_handle = (void *)handle;
-    lbl_805D5BD4 = TObjFish__sub_8001EDB0(TObjDoorJung__resource_handle, 0);
+    lbl_805D5BD4 = get_bml_texlist(TObjDoorJung__resource_handle, 0);
     model = get_bml_model(TObjDoorJung__resource_handle, 1);
     node = model->child;
     TObjDoorJung__child_table[0] = node->model;
@@ -138,11 +124,10 @@ void TObjDoorJung::clamp_state() {
 }
 
 void TObjDoorJung::render() {
-    u8 *arg0 = (u8 *)this;
     s32 i;
     s32 j;
 
-    if (((VObj_8018F644 *)arg0)->m8(650.0f, 30.0f) != 0) {
+    if (this->update_object_view_visibility(650.0f, 30.0f) != 0) {
         if (this->door_flags & 1) {
             if (lbl_805D5BF0 >= 0) {
                 free_children__12TObjDoorJungFPv(door_jung_child_list, lbl_805D5BF0);
@@ -219,15 +204,14 @@ void TObjDoorJung::run_task() {
 
 }
 TObjDoorJung::~TObjDoorJung() {
-    ((TObjCollidable *)this)->unregister_object_by_id();
+    this->unregister_object_by_id();
     free_collision_body_parts(this);
 }
-extern "C" {
-typedef char RecoveredGlobal_8018F9CC___vt__12TObjDoorJung_size[sizeof(RecoveredGlobal_8018F9CC___vt__12TObjDoorJung) == 0x58 ? 1 : -1];
+
 u8 *TObjDoorJung__ct(u8 *arg0, s32 arg1, s32 arg2) {
     __ct__10TODoorBaseFP7TObject((arg0));
-    *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_8018F9CC___vt__12TObjDoorJung *)&__vt__12TObjDoorJung).value;
-    *(const char **)((s8 *)arg0 + 0) = TObjDoorJung__class_name;
+    *(s32 **)((s8 *)arg0 + 0x18) = __vt__12TObjDoorJung;
+    ((TObjDoorJung *)arg0)->m_name = TObjDoorJung__class_name;
     ((TObjDoorJung *)(arg0))->apply_object_set_data((void *)arg2);
     init_collision_body_parts(arg0, &TObjDoorJung__collision_desc, 1);
     ((TObjCollidable *)arg0)->refresh_collision_body_centers();
@@ -237,4 +221,3 @@ u8 *TObjDoorJung__ct(u8 *arg0, s32 arg1, s32 arg2) {
     return arg0;
 }
 
-}

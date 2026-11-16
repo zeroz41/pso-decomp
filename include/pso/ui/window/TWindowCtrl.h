@@ -122,4 +122,15 @@ struct TWindowCtrl : public TObject {
 };
 
 typedef char TWindowCtrl_size[sizeof(TWindowCtrl) == 0xE8 ? 1 : -1];
+
+// TWindowCtrl__player_menu_query_cb: layout known from its uses only.
+struct TWindowCtrlPlayerMenuQueryCb { s32 value; u8 remaining[0x8]; };
+extern TWindowCtrlPlayerMenuQueryCb TWindowCtrl__player_menu_query_cb;
+// TWindowCtrl__suppress_slot_cb: layout known from its uses only.
+struct TWindowCtrlSuppressSlotCb { s32 value; u8 remaining[0x8]; };
+extern TWindowCtrlSuppressSlotCb TWindowCtrl__suppress_slot_cb;
+// TWindowCtrl__unsuppress_slot_cb: layout known from its uses only.
+struct TWindowCtrlUnsuppressSlotCb { s32 value; u8 remaining[0x8]; };
+extern TWindowCtrlUnsuppressSlotCb TWindowCtrl__unsuppress_slot_cb;
+
 #endif

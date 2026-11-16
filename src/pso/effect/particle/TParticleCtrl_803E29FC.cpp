@@ -14,7 +14,7 @@ struct Particle_803E2A1C {
 
 extern "C" {
 s32 GXBegin(int, int, u16);
-void TParticleCtrl__sub_803E2A1C(Particle_803E2A1C *p, s32 n);
+void emit_particle_strip_vertices(Particle_803E2A1C *p, s32 n);
 
 void TParticleCtrl::reset_particles() {
     TObjPlayer__sub_803E2248();
@@ -30,7 +30,7 @@ typedef union {
     f32 f32;
 } WGPipe_803E2A1C;
 #define GXWGFifo_803E2A1C (*(volatile WGPipe_803E2A1C *)0xCC008000)
-void TParticleCtrl__sub_803E2A1C(Particle_803E2A1C *p, s32 n) {
+void emit_particle_strip_vertices(Particle_803E2A1C *p, s32 n) {
     s32 i;
     GXBegin(0x98, 4, n);
     for (i = 0; i < n; i++) {

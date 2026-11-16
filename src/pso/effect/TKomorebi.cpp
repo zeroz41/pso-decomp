@@ -1,4 +1,5 @@
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/effect/TKomorebi.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/unk/text_803D853C.h"
@@ -11,6 +12,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/object/base/TObjMotion.h"
+#include "pso/system/task/TObject.h"
 
 #pragma readonly_strings on
 
@@ -18,30 +20,12 @@ extern const char *bm_fe_obj_komo_model_names[2];
 extern BmlResourceDescriptor TKomorebi__resource_descriptor;
 extern const char *bm_fe_obj_komo_motion_names[1];
 
-struct VObjBase_80192174 { char pad[0x18]; };
-struct VObj_80192174 : VObjBase_80192174 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual s32 m8(f32, f32);
-};
-
-struct RecoveredGlobal_801922C4___vt__9TKomorebi {
-    s32 value;
-    u8 remaining[0x34];
-};
-
 struct Node_80192434 { u32 flags; void *model; u8 pad8[0x24]; Node_80192434 *child; Node_80192434 *sibling; };
 
 struct Fish_80192434 { u8 pad0[0x8C]; s32 f8C; u8 pad90[0x2C]; Node_80192434 *fBC; Node_80192434 *fC0; s32 fC4; void *fC8[4]; };
 
 extern "C" {
-s32 TObjFish__sub_8001EDB0(void *, int);
+s32 get_bml_texlist(void *, int);
 s32 get_bml_model(void *, int);
 s32 __ct__8TObjBaseFP7TObject(void *);
 extern s32 __vt__9TKomorebi[];
@@ -56,30 +40,27 @@ s32 scroll_ginja_mesh_uvs(s32, s32, s32, s32, s32);
 s32 post_translate_matrix(void *);
 s32 scale_matrix(s32, f32, f32, f32);
 s32 push_matrix();
-void __dl__7TObjectFPv(void *);
-void *__nw__7TObjectFUl(int);
 f32 xz_distance_squared(void *, s32);
 
 extern s32 camera_ctrl_instance;
 extern s32 actor_frame_tick;
 
 void TKomorebi::render() {
-    u8 *arg0 = (u8 *)this;
     f32 temp_f1;
 
-    if ((((VObj_80192174*)arg0)->m8(400.0f, 20.0f) != 0) && !(xz_distance_squared((u8 *)&this->position, camera_ctrl_instance + 0x178) < 1600.0f)) {
+    if ((this->update_object_view_visibility(400.0f, 20.0f) != 0) && !(xz_distance_squared((u8 *)&this->position, camera_ctrl_instance + 0x178) < 1600.0f)) {
         TParticleCtrl::begin_effect_render();
         if ((s32) actor_frame_tick != (s32) komorebi_last_uv_update_frame) {
-            scroll_ginja_mesh_uvs(*(s32 *)((s8 *)(*(void * *)&this->model) + 4), 0, (s32) this->scale.x, 0, 1);
+            scroll_ginja_mesh_uvs(*(s32 *)((s8 *)this->model + 4), 0, (s32) this->scale.x, 0, 1);
             komorebi_last_uv_update_frame = actor_frame_tick;
         }
         push_matrix();
         TObjFish::set_global_param(this->texlist);
         post_translate_matrix((u8 *)&this->position);
-        rotate_matrix_yxz(0, *(s32 *)&this->rotation_x, this->rotation_y, this->rotation_z);
+        rotate_matrix_yxz(0, this->rotation_x, this->rotation_y, this->rotation_z);
         temp_f1 = this->scale.z;
         scale_matrix(0, temp_f1, this->scale.y, temp_f1);
-        draw_ginja_object(*(void * *)&this->model);
+        draw_ginja_object(this->model);
         pop_matrix();
         TParticleCtrl::end_effect_render();
     }
@@ -95,21 +76,20 @@ extern "C" {
 
 extern void *tl_05;
 
-typedef char RecoveredGlobal_801922C4___vt__9TKomorebi_size[sizeof(RecoveredGlobal_801922C4___vt__9TKomorebi) == 0x38 ? 1 : -1];
 u8 *TKomorebi__ct(u8 *komorebi, s32 arg1, s32 arg2) {
     __ct__8TObjBaseFP7TObject(komorebi);
-    *(s32 **)((s8 *)komorebi + 0x18) = &(*(RecoveredGlobal_801922C4___vt__9TKomorebi *)&__vt__9TKomorebi).value;
+    *(s32 **)((s8 *)komorebi + 0x18) = __vt__9TKomorebi;
     *(s32 *)((s8 *)komorebi + 0) = (s32) ((s32)komorebi_class_name);
     VecCopy((Vec *)(komorebi + 0x38), (const Vec *)(arg2 + 0xC));
     copy_xyz(komorebi + 0x5C, (void *)(arg2 + 0x18));
     VecCopy((Vec *)(komorebi + 0x68), (const Vec *)(arg2 + 0x24));
     *(s32 *)((s8 *)komorebi + 0x34) = get_bml_model((void *) ((*(s32 *)&TKomorebi__resource_bundle)), 0);
-    ((TKomorebi *)komorebi)->texlist = TObjFish__sub_8001EDB0((void *) ((*(s32 *)&TKomorebi__resource_bundle)), 0);
+    ((TKomorebi *)komorebi)->texlist = get_bml_texlist((void *) ((*(s32 *)&TKomorebi__resource_bundle)), 0);
     return komorebi;
 }
 
 void *TKomorebi__create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0x90);
+    void *o = TObject::operator new(0x90);
     if (o != NULL) {
         o = TKomorebi__ct((u8 *)o, (s32)tl_05, (s32)arg0);
     }
@@ -136,7 +116,7 @@ void TObjLazerFenceExtra::init_models() {
     s32 i;
     Node_80192434 *node;
     s32 j;
-    if (*(s32 *)&this->set_params[2] % 2 == 0) {
+    if (this->set_params[2] % 2 == 0) {
         arg0->fBC = (Node_80192434 *)get_bml_model((void *)lazer_fence_norm_bml_resource, 1);
         arg0->fC0 = (Node_80192434 *)get_bml_model((void *)lazer_fence_norm_bml_resource, 0);
         this->m_c4 = get_bml_motion(lazer_fence_norm_bml_resource, 0);

@@ -1,4 +1,5 @@
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/render/render_util.h"
 
@@ -10,30 +11,14 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/unk/text_803D96A8.h"
+#include "pso/unk/text_803D853C.h"
+#include "pso/npc/TObjNpcEnemy.h"
+#include "pso/render/NinjaUtil.h"
+#include "pso/system/task/TObject.h"
 
 extern const char *fe_obj_baiku_model_names[3];
 extern BmlResourceDescriptor motorcycle_resource_descriptor;
 extern const char *fe_obj_baiku_motion_names[1];
-
-struct VBase_18_26a62c { char pad[0x18]; };
-
-struct VObj_18_26a62c : VBase_18_26a62c {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual s32 m8(f32, f32);
-};
-
-struct RecoveredGlobal_801950B8_lbl_80445E18 { char value[0x13]; };
-typedef char RecoveredGlobal_801950B8_lbl_80445E18_size[sizeof(RecoveredGlobal_801950B8_lbl_80445E18) == 0x13 ? 1 : -1];
-
-struct RecoveredGlobal_801950B8_lbl_804B8564 { s32 value; u8 remaining[0xC]; };
-typedef char RecoveredGlobal_801950B8_lbl_804B8564_size[sizeof(RecoveredGlobal_801950B8_lbl_804B8564) == 0x10 ? 1 : -1];
 
 struct Moto_801951C8 { const char *x0; u8 pad4[0x30 - 4]; u32 flags; u8 pad34[0x68 - 0x34]; f32 x68; u8 pad6C[0xBC - 0x6C]; s32 xBC; };
 
@@ -48,8 +33,9 @@ s32 draw_ginja_object();
 u32 TMotorcycle__bml_resource;
 u32 TMotorcycle__texture_list;
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
+}
 u8 * load_gvm_texture_file(s32);
-extern RecoveredGlobal_801950B8_lbl_80445E18 lbl_80445E18;
+extern "C" {
 s32 init_collision_body_parts(void *, void *, int);
 void *TObjMesBase__ct(TObjMesBase *arg0, s32 arg1, s32 arg2);
 extern const s32 lbl_80445DF4[];
@@ -57,13 +43,9 @@ extern CollisionBody TMotorcycle__collision_parts[1];
 extern s32 __vt__11TMotorcycle[];
 extern const char *motorcycle_class_name;
 void *TMotorcycle__ct(void *arg0, void *arg1, void *arg2);
-void *__dt__11TMotorcycleFv(void *arg0, s16 arg1);
 void free_bin_model_request(void*, int);
 s32 release_texture_list(void*);
 s32 free_collision_body_parts(void *);
-s32 __dl__7TObjectFPv(void *);
-void *__dt__11TObjMesBaseFv(void *arg0, s16 arg1);
-void *__nw__7TObjectFUl(int);
 
 __declspec(section ".data") const char *fe_obj_baiku_model_names[3] = { "fe_obj_baiku.gj", "fe_obj_baiku_jimen.gj", NULL };
 BmlResourceDescriptor motorcycle_resource_descriptor = { "fe_obj_baiku.bml", fe_obj_baiku_model_names, fe_obj_baiku_motion_names, 2, 0 };
@@ -75,15 +57,34 @@ const s32 lbl_80445DF4[2] = { 1, 0 };
 __declspec(section ".sdata") const char *fe_obj_baiku_motion_names[1] = { NULL };
 const char *motorcycle_class_name = "TMotorcycle";
 
+extern s32 camera_ctrl_instance;
+
+// The override of TObjBase::update_object_view_visibility (vtable slot +0x28): visible inside `radius` of the camera.
+s32 TMotorcycle::update_object_view_visibility(f32 depth, f32 radius) {
+    if (xz_distance_squared((const Vec *)(camera_ctrl_instance + 0x178), &position) < (radius * radius)) {
+        return 1;
+    }
+    return TObjBase::update_object_view_visibility(depth, radius);
+}
+
+void TMotorcycle::debug_draw_label() {
+    TObjMesBase::debug_draw_label();
+    m_bc = (s32)fabs_float(scale.x);
+    m_bc = m_bc % 2;
+    m_bc = lbl_80445DF4[m_bc];
+    TObjNpcEnemy::set_global_count(0xFF00FF);
+    debug_printf_at(0x13001C, "<- MODEL SELECT");
+    TObjNpcEnemy::set_global_count(0xF0F0F0FF);
+}
+
 void TMotorcycle::render() {
-    u8 *arg0 = (u8 *)this;
-    if ((TMainTask::get_render_pass() != 1) && (((VObj_18_26a62c *)(arg0))->m8(400.0f, 50.0f) != 0)) {
+    if ((TMainTask::get_render_pass() != 1) && (update_object_view_visibility(400.0f, 50.0f) != 0)) {
         set_draw_list_mask(3);
         if ((u32) TMotorcycle__texture_list != 0U) {
             TObjFish::set_global_param((s32) TMotorcycle__texture_list);
             push_matrix();
             post_translate_matrix((u8 *)&this->position);
-            rotate_matrix_yxz(0, (*(s32 *)&this->rotation_x), (this->rotation_y), (this->rotation_z));
+            rotate_matrix_yxz(0, (this->rotation_x), (this->rotation_y), (this->rotation_z));
             get_bml_model((void *) ((*(s32 *)&TMotorcycle__bml_resource)), this->m_bc);
             draw_ginja_object();
             pop_matrix();
@@ -96,7 +97,7 @@ void TMotorcycle::vfunc_14() {  }
 
 
 void *TMotorcycle::create() {
-    void *o = __nw__7TObjectFUl(0xC0);
+    void *o = TObject::operator new(0xC0);
     if (o != NULL) {
         o = TMotorcycle__ct(o, tl_05, this);
     }
@@ -124,22 +125,14 @@ void TMotorcycle::load_resources() {
         var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 5, &motorcycle_resource_descriptor, 0, 0, 0));
     }
     (*(u8 * *)&TMotorcycle__bml_resource) = (unsigned char *) ((void *) var_r0);
-    (*(u8 * *)&TMotorcycle__texture_list) = load_gvm_texture_file((s32) &lbl_80445E18.value);
+    (*(u8 * *)&TMotorcycle__texture_list) = load_gvm_texture_file((s32) "obj_motorcycle.GVM");
     TMotorcycle::add_entry((s16)(0x3C), (s32)((void *) (((s32)get_bml_model((void *)((*(u8 * *)&TMotorcycle__bml_resource)), 0)))), (s32)((void *) ((*(u8 * *)&TMotorcycle__texture_list))), 16.0f, 0.0f);
     TMotorcycle::add_entry((s16)(0x3D), (s32)((void *) (((s32)get_bml_model((void *)((*(u8 * *)&TMotorcycle__bml_resource)), 1)))), (s32)((void *) ((*(u8 * *)&TMotorcycle__texture_list))), 16.0f, 0.0f);
 }
 
-void *__dt__11TMotorcycleFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__11TMotorcycle;
-        ((TObjCollidable *)arg0)->unregister_object_by_id();
-        free_collision_body_parts(arg0);
-        __dt__11TObjMesBaseFv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
+TMotorcycle::~TMotorcycle() {
+    unregister_object_by_id();
+    free_collision_body_parts(this);
 }
 #define self ((Moto_801951C8 *)arg0)
 void *TMotorcycle__ct(void *arg0, void *arg1, void *arg2) {
@@ -154,5 +147,4 @@ void *TMotorcycle__ct(void *arg0, void *arg1, void *arg2) {
     ((TObjPlayer *)arg0)->register_object_by_id();
     return arg0;
 }
-
 }

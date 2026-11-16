@@ -38,7 +38,7 @@ void TWindowKeyBoardSoft__sub_8025CFA8(void *, void *);
 s32 TWindowKeyBoardSoft__sub_803E67D4(void *, void *);
 s32 get_shared_text_buffer();
 s32 append_text__19TWindowKeyBoardSoftFPvPv(void *, s32);
-s32 TWindowKeyBoardSoft__sub_8025DBDC(void *, s32);
+void TWindowKeyBoardSoft__sub_8025DBDC(void *arg0, s32 arg1);
 extern s32 lbl_805DD030;
 extern s32 lbl_805DD034;
 s32 TWindowKeyBoardSoft__sub_8025D7FC();
@@ -497,7 +497,7 @@ void TWindowKeyBoardSoft::vt0() {
 }
 
 void TWindowKeyBoardSoft__sub_8025C51C(u8 *window_key_board_soft, s32 arg1) {
-    s32 *temp_r3;
+    s32 *str;
     u16 temp_r4;
     u32 temp_r3_2;
     temp_r4 = *(u16 *)((s8 *)window_key_board_soft + 0x60);
@@ -507,21 +507,21 @@ void TWindowKeyBoardSoft__sub_8025C51C(u8 *window_key_board_soft, s32 arg1) {
         }
         ((TWindowKeyBoardSoft *)window_key_board_soft)->commit_composition_text();
     }
-    temp_r3 = (s32 *)TWindowCtrl__sub_8024B7D4(arg1);
-    if (temp_r3 != NULL) {
+    str = (s32 *)TWindowCtrl__sub_8024B7D4(arg1);
+    if (str != NULL) {
         text_builder_reset();
         temp_r3_2 = *(u32 *)((s8 *)window_key_board_soft + 0x70);
         if (temp_r3_2 != 0U) {
             if (temp_r3_2 == (u32) *(u32 *)((s8 *)window_key_board_soft + 0x7C)) {
                 text_builder_append((u8 *)&lbl_805DD030);
-                text_builder_append((u8 *)temp_r3);
+                text_builder_append((u8 *)str);
             } else {
                 text_builder_append((u8 *)&lbl_805DD034);
-                text_builder_append((u8 *)temp_r3);
+                text_builder_append((u8 *)str);
                 text_builder_append((u8 *)&lbl_805DD034);
             }
         } else {
-            text_builder_append((u8 *)temp_r3);
+            text_builder_append((u8 *)str);
             if ((u32) *(u32 *)((s8 *)window_key_board_soft + 0x7C) != 0U) {
                 text_builder_append((u8 *)&lbl_805DD034);
             }
@@ -532,9 +532,9 @@ void TWindowKeyBoardSoft__sub_8025C51C(u8 *window_key_board_soft, s32 arg1) {
 
 int TWindowKeyBoardSoft::get_field_6c() { return set_text_from_string__19TWindowKeyBoardSoftFPc((char*)this + 0x6c); }
 
-void TWindowKeyBoardBase::insert_character(u16 arg1) {
+void TWindowKeyBoardBase::insert_character(u16 code) {
     s32 f;
-    if (current_language == LANGUAGE_JAPANESE && arg1 >= 0x80U && arg1 < 0x100U) {
+    if (current_language == LANGUAGE_JAPANESE && code >= 0x80U && code < 0x100U) {
         return;
     }
     if (!(*(u16 *)((s8 *)((u8 *)this) + 0x60) & 0x80) && *(u8 *)((s8 *)((u8 *)this) + 0x64) >= 1U) {
@@ -550,28 +550,28 @@ void TWindowKeyBoardBase::insert_character(u16 arg1) {
         ((TWindowKeyBoardSoft *)((u8 *)this))->commit_composition_text();
     }
     f = *(s32 *)((s8 *)((u8 *)this) + 0xB4);
-    if ((f & 0x10) && arg1 >= 0x80U) {
+    if ((f & 0x10) && code >= 0x80U) {
         return;
     }
-    if ((f & 0x80) && !((s32)arg1 >= 0x41 && (s32)arg1 <= 0x5A)) {
+    if ((f & 0x80) && !((s32)code >= 0x41 && (s32)code <= 0x5A)) {
         return;
     }
-    if ((f & 0x100) && TWindowKeyBoardSoft::is_alnum(arg1) == 0) {
+    if ((f & 0x100) && TWindowKeyBoardSoft::is_alnum(code) == 0) {
         return;
     }
     f = *(s32 *)((s8 *)((u8 *)this) + 0xB4);
-    if ((f & 0x200) && !((s32)arg1 >= 0x30 && (s32)arg1 <= 0x39)) {
+    if ((f & 0x200) && !((s32)code >= 0x30 && (s32)code <= 0x39)) {
         return;
     }
     if (!(f & 1)) {
-        ((s32 (*)(int, u16))TWindowKeyBoardSoft__sub_800808FC)(*(int *)((s8 *)((u8 *)this) + 0x68), arg1);
+        ((s32 (*)(int, u16))TWindowKeyBoardSoft__sub_800808FC)(*(int *)((s8 *)((u8 *)this) + 0x68), code);
         return;
     }
     if (!(*(u16 *)((s8 *)((u8 *)this) + 0x60) & 2)) {
         *(void **)((s8 *)((u8 *)this) + 0x68) = (void *)(((u8 *)this) + 0x84);
         *(u16 *)((s8 *)((u8 *)this) + 0x60) |= 2;
     }
-    ((s32 (*)(int, u16))TWindowKeyBoardSoft__sub_800808FC)(*(int *)((s8 *)((u8 *)this) + 0x68), arg1);
+    ((s32 (*)(int, u16))TWindowKeyBoardSoft__sub_800808FC)(*(int *)((s8 *)((u8 *)this) + 0x68), code);
     if (*(u8 *)((s8 *)((u8 *)this) + 0x64) == 0 && !(*(u16 *)((s8 *)((u8 *)this) + 0x60) & 0x80)) {
         TWindowKeyBoardSoft__sub_8025DBDC(this, 0);
     }

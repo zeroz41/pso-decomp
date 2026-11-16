@@ -1,4 +1,5 @@
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/weapon/TUnk_804A67D0.h"
 #include "pso/item/TItemHeapObject.h"
 #include "pso/effect/item/TItemEffOrgaFlowShot.h"
@@ -41,7 +42,7 @@ void TUnk_804A67D0::update_idle() {
     TItemEffOrgaFlowShot::approach_value(&scale.y, -0.04000001f, 1.0f);
     TItemEffOrgaFlowShot::approach_value(&scale.z, 0.14f, 1.0f);
     if (opened == 1) {
-        play_sound_effect(0x4001AA24, &this->owner->position, 0, 0);
+        play_sound_effect(0x4001AA24, (Vec *)(&this->owner->position), 0, 0);
     }
 }
 

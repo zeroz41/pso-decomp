@@ -31,9 +31,8 @@ struct TWindowActionPalette : public TWindowBase {
         f32 y;
     };
 
-    // run_task comes first: it is the key function that emits the vtable in
-    // TWindowActionPalette.cpp, whose destructor is still the hand-made one (its
-    // base and member-array destructors carry no real names yet).
+    // The destructor runs the member-array destructor by hand (__destroy_arr on
+    // resources): that element type carries no real name yet.
     virtual void run_task();
     virtual void render();
     virtual ~TWindowActionPalette();

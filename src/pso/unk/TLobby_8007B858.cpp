@@ -15,36 +15,17 @@
 #include "pso/map/FloorArea.h"
 
 #include "types.h"
-#include "pso/map/FloorArea.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 
-struct RecoveredGlobal_8007BA98_lbl_8048D4C0 {
-    s32 value;
-    u8 remaining[0xE4];
-};
-
-struct RecoveredGlobal_8007BA98_lbl_8048D5A8 {
-    s32 value;
-    u8 remaining[0x1C];
-};
-
-struct RecoveredGlobal_8007BA20_lbl_8048D4C0 {
-    s32 value;
-    u8 remaining[0xE4];
-};
-
-struct RecoveredGlobal_8007BA20_lbl_8048D5A8 {
-    s32 value;
-    u8 remaining[0x1C];
-};
 
 extern "C" {
 void TLobby__sub_802A5154(void);
-}
-extern "C" {
 s32 run_load_callback_table(void *, int);
-extern RecoveredGlobal_8007BA98_lbl_8048D4C0 lbl_8048D4C0;
-extern RecoveredGlobal_8007BA98_lbl_8048D5A8 lbl_8048D5A8;
-void call_funcs_reverse__6TLobbyFPvUi(s32, u32);
+struct RecoveredGlobal_lbl_8048D4C0 { s32 value; u8 remaining[0xE4]; };
+extern RecoveredGlobal_lbl_8048D4C0 lbl_8048D4C0;
+struct RecoveredGlobal_lbl_8048D5A8 { s32 value; u8 remaining[0x1C]; };
+extern RecoveredGlobal_lbl_8048D5A8 lbl_8048D5A8;
 void fn_80198E84(void);
 s32 __ct__9TCineCtrlFv(u32, s32);
 s32 create_area_fog_ctrl();
@@ -60,8 +41,6 @@ s32 ct_register__6TLobbyFv(u32, s32);
 s32 TWindowTimer__sub_80198D98();
 s32 TLobby__sub_8032BDC4(u32, s32);
 s32 TLobby__sub_8033ED24(u32, s32);
-s32 get_main_phase();
-s32 is_split_screen();
 
 extern s32 tl_00;
 extern s32 tl_01;
@@ -134,11 +113,7 @@ void TLobby::create_tasks() {
         __ct__8TTecCtrlFv(tmp, tl_01);
     }
 }
-typedef char RecoveredGlobal_8007BA98_lbl_8048D4C0_size[sizeof(RecoveredGlobal_8007BA98_lbl_8048D4C0) == 0xE8 ? 1 : -1];
-typedef char RecoveredGlobal_8007BA98_lbl_8048D5A8_size[sizeof(RecoveredGlobal_8007BA98_lbl_8048D5A8) == 0x20 ? 1 : -1];
 
-typedef char RecoveredGlobal_8007BA20_lbl_8048D4C0_size[sizeof(RecoveredGlobal_8007BA20_lbl_8048D4C0) == 0xE8 ? 1 : -1];
-typedef char RecoveredGlobal_8007BA20_lbl_8048D5A8_size[sizeof(RecoveredGlobal_8007BA20_lbl_8048D5A8) == 0x20 ? 1 : -1];
 void TLobby::clear_session_buffers() {
     if (get_current_floor_area() == AREA_LOBBY) {
         TLobby::free_dialing_gc();
@@ -146,9 +121,9 @@ void TLobby::clear_session_buffers() {
         free_obj_lobby_main();
     }
     if ((get_current_floor_area() != AREA_PIONEER2_EP1) && (get_current_floor_area() != AREA_LOBBY) && (get_current_floor_area() != AREA_PIONEER2_EP2)) {
-        call_funcs_reverse__6TLobbyFPvUi((s32) &(*(RecoveredGlobal_8007BA20_lbl_8048D5A8 *)&lbl_8048D5A8).value, 0x20U);
+        TLobby::call_funcs_reverse((void*)((s32) &lbl_8048D5A8.value), (unsigned int)0x20U);
     }
-    call_funcs_reverse__6TLobbyFPvUi((s32) &(*(RecoveredGlobal_8007BA20_lbl_8048D4C0 *)&lbl_8048D4C0).value, 0xE8U);
+    TLobby::call_funcs_reverse((void*)((s32) &lbl_8048D4C0.value), (unsigned int)0xE8U);
 }
 
 s32 TLobby::run_lobby_load_tables() {

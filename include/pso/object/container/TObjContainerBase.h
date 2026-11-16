@@ -5,7 +5,9 @@
 #include "pso/player/TUnk_804B6C24.h"
 
 struct TObjContainerBase : public TUnk_804B6C24 {
+    TObjContainerBase(TObject *parent, void *set_data);
     virtual ~TObjContainerBase();
+    virtual void vfunc_79() const;
     virtual void vfunc_81();
     virtual void vfunc_80();
     virtual void vfunc_6(s16 *, s32);

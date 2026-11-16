@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/NinjaTypes.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "types.h"
 #include "pso/render/MaterialColorFade.h"
 #include "pso/system/vector.h"
@@ -16,18 +17,9 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/task/TObject.h"
+#include "pso/boss/darkfalz/TBoss4ZakoDraw_8030AD38.h"
 
 void set_constant_material(const NJS_ARGB *color);
-
-struct RecoveredGlobal_8030ABF4_TCameraCtrl__data_804FF634 {
-    s32 value;
-    u8 remaining[0x44];
-};
-
-struct RecoveredGlobal_8030ABF4_lbl_80541E58 {
-    s32 value;
-    u8 remaining[0xF04];
-};
 
 struct E_8030AD08 { s32 a; u8 pad[0x780]; };
 
@@ -43,23 +35,20 @@ extern "C" {
 u8 *get_bml_model(s32, s32);
 s32 set_viewport_scissor__11TCameraCtrlFiPv(int, int);
 void TObjPlayer__sub_8030A9B0();
-extern RecoveredGlobal_8030ABF4_TCameraCtrl__data_804FF634 TCameraCtrl__data_804FF634;
-extern RecoveredGlobal_8030ABF4_lbl_80541E58 boss4_zako_draw_buffers;
+struct RecoveredGlobal_TCameraCtrl__data_804FF634 { s32 value; u8 remaining[0x44]; };
+extern RecoveredGlobal_TCameraCtrl__data_804FF634 TCameraCtrl__data_804FF634;
 extern s32 TBoss4ZakoDraw__draw_buffer_index;
 extern s32 TBoss4ZakoDraw__rotation_phase;
 void TCameraCtrl__sub_8030ABF4(void);
-extern RecoveredGlobal_8030ABF4_lbl_80541E58 boss4_zako_draw_buffers;
 extern s32 TBoss4ZakoDraw__draw_buffer_index;
 u8 *get_bml_model(s32, s32);
 void TObjPlayer__sub_80052390(f32);
 void push_matrix(void);
 void post_translate_matrix(void *);
 void draw_chunk_object(int);
-extern RecoveredGlobal_8030ABF4_lbl_80541E58 boss4_zako_draw_buffers;
 extern s32 falz_zako_texture_list;
 extern s32 TBoss4ZakoDraw__draw_buffer_index;
 extern const f32 lbl_805DF148;
-extern RecoveredGlobal_8030ABF4_lbl_80541E58 boss4_zako_draw_buffers;
 extern s32 TBoss4ZakoDraw__draw_buffer_index;
 struct Raw_8030A9B0 { u8 b[12]; };
 struct Ent_8030A9B0 { f32 x; f32 y; f32 z; s32 f0c; s32 f10; };
@@ -112,16 +101,17 @@ void *__ct__14TBoss4ZakoDrawFv(void *arg0);
 void __ct__7TObjectFP7TObject(void *);
 
 extern s32 __vt__14TBoss4ZakoDraw[];
-extern void *TBoss4ZakoDraw__class_name;
+#pragma push
+#pragma readonly_strings on
+const char *TBoss4ZakoDraw__class_name = "TBoss4ZakoDraw";
+#pragma pop
 
 void *__ct__14TBoss4ZakoDrawFv(void *object) {
     __ct__7TObjectFP7TObject(object);
     *(s32 **)((s8 *)object + 0x18) = __vt__14TBoss4ZakoDraw;
-    *(void **)((s8 *)object + 0x0) = TBoss4ZakoDraw__class_name;
+    *(void **)((s8 *)object + 0x0) = (void *)TBoss4ZakoDraw__class_name;
     return object;
 }
-typedef char RecoveredGlobal_8030ABF4_TCameraCtrl__data_804FF634_size[sizeof(RecoveredGlobal_8030ABF4_TCameraCtrl__data_804FF634) == 0x48 ? 1 : -1];
-typedef char RecoveredGlobal_8030ABF4_lbl_80541E58_size[sizeof(RecoveredGlobal_8030ABF4_lbl_80541E58) == 0xF08 ? 1 : -1];
 
 #pragma push
 #pragma fp_contract on
@@ -249,4 +239,12 @@ void TBoss4DarkFalz::clear_uro_link_state() {
 
 }
 
-RecoveredGlobal_8030ABF4_lbl_80541E58 boss4_zako_draw_buffers;
+Boss4ZakoDrawBuffers boss4_zako_draw_buffers;
+
+extern "C" {
+
+int clear_uro_link_state__14TBoss4DarkFalzFv(void*);
+
+int TBoss4DarkFalz__sub_8030AD38(void* p) { return clear_uro_link_state__14TBoss4DarkFalzFv(p); }
+
+}

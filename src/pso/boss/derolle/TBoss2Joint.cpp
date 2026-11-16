@@ -1,4 +1,5 @@
 #include "pso/enemy/TObjEnemy.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/system/NinjaTypes.h"
 #include "types.h"
 #include "pso/ui/hud/TRaderMapCore.h"
@@ -133,13 +134,9 @@ struct VObj_18 : VBase_18 {
     virtual s32 m86();
 };
 
-typedef struct Vec_80037074 {
-    f32 x, y, z;
-} Vec_80037074;
-
 typedef struct Laser_80037074 {
     u8 pad0[0x1C];
-    Vec_80037074 pts[20];
+    Vec pts[20];
     s32 head;
     s32 cur;
     s32 limit;
@@ -209,7 +206,6 @@ typedef struct Param_80036EA8 {
 } Param_80036EA8;
 
 extern "C" {
-void TBoss2Joint__sub_80036940(void *);
 s32 add_radar_scaled_marker(void *, int, int, int, f32);
 s32 vfunc_94__9TObjEneDDFv(void *);
 s32 vfunc_93__9TObjEneDDFv(void *);
@@ -218,8 +214,6 @@ s32 register_object__6TLobbyFl(s32);
 s32 dispatch_shared_handler_b__6TLobbyFl(s32);
 s32 register_boss__6TLobbyFl(s32);
 s32 TBoss2Joint_get_shell_max_hp(void);
-void reset_hp__9TObjEneDDFPUcPUcPUc(void *, s32, s32, s32);
-void init_model__9TObjEneDDFP13CollisionBodyl(void *, void *, s32);
 void spawn_offset_particle__13TBoss2DeRolLeFiff(s32 arg0, f32 farg0, f32 farg1);
 s32 apply_hp_damage_with_sound__13TBoss2DeRolLeFPvi(s32, s32, u16);
 
@@ -291,8 +285,8 @@ void TBoss2Joint::call_36A90_with_1() { init_joint_offset(1); }
 #pragma push
 #pragma fp_contract on
 #pragma opt_common_subs off
-void TBoss2Joint__sub_80036940(void *arg) {
-    Joint_80036EA8 *self = (Joint_80036EA8 *)arg;
+void TBoss2Joint::sub_80036940() {
+    Joint_80036EA8 *self = (Joint_80036EA8 *)this;
     f32 t;
     if (self->unk38C & 1) {
         self->unk3A4 = 0.0f;
@@ -400,11 +394,11 @@ void TBoss2Joint::run_task() {
         VecCopy((Vec *)(arg0 + 0x38), (const Vec *)((int) (*(s32 *)((s8 *)arg0 + 0x390))));
         this->vfunc_83();
         if (((VObj_18 *)(arg0))->m84() == 0) {
-            ((VObj_18 *)(arg0))->m85(this->mode, 3);
+            this->dispatch_action(this->mode, 3);
         }
-        ((VObj_18 *)(arg0))->m85(this->mode, 0);
+        this->dispatch_action(this->mode, 0);
         ((TObjEneDD *)arg0)->sub_800BBA0C();
-        TBoss2Joint__sub_80036940(arg0);
+        ((TBoss2Joint *)arg0)->sub_80036940();
         update_position_history();
         this->vfunc_88();
         ((TObjEnemy *)arg0)->submit_default_cursor_candidate();
@@ -426,8 +420,8 @@ s32 TBoss2Joint::init_params() {
     ((TObjEneDD *)self)->init_position_vectors();
     self->unk34 = 0;
     self->unk24 = 0;
-    init_model__9TObjEneDDFP13CollisionBodyl(self, prm->unk34, 1);
-    reset_hp__9TObjEneDDFPUcPUcPUc(self, register_boss__6TLobbyFl(prm->unk0), dispatch_shared_handler_b__6TLobbyFl(prm->unk8), register_object__6TLobbyFl(prm->unk10));
+    ((TObjEneDD *)self)->init_model((CollisionBody *)(prm->unk34), (s32)1);
+    ((TObjEneDD *)self)->reset_hp((u8 *)(register_boss__6TLobbyFl(prm->unk0)), (u8 *)(dispatch_shared_handler_b__6TLobbyFl(prm->unk8)), (u8 *)(register_object__6TLobbyFl(prm->unk10)));
     self->hp32C = 0x4E20;
     self->hp2B8 = 0x4E20;
     ((TObjEneDD *)self)->check_state_flag_2();

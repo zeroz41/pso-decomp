@@ -11,6 +11,7 @@
 #include "pso/ui/window/TWindowSubEquip.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 struct RecoveredGlobal_8026492C___vt__15TWindowMainMenu { s32 value; u8 remaining[0x24]; };
 
@@ -80,7 +81,6 @@ void *__ct__7TObjectFP7TObject(void *);
 extern s32 lbl_805D3950;
 Win_802649C0 *TWindowMainMenu__ct(Win_802649C0 *arg0, void *arg1, s32 arg2);
 int park_selection__15TWindowMainMenuFPv(void*);
-s32 is_split_screen();
 
 void TWindowMainMenu4P::show_child_window() { if (*(unsigned int*)((char*)this + 0x1c) != 0) { window_request_show(*(void**)((char*)this + 0x1c)); ((TWindowMainMenu *)(*(void**)((char*)this + 0x1c)))->update_scaled_position(); } }
 void TWindowMainMenu::update_trade_submenu() { void* m = *(void**)((char*)this + 0x1c); if (m) ((TWindowLockOn *)m)->request_close(); }
@@ -177,25 +177,25 @@ void TWindowMainMenu::handle_menu_selection() {
 void TWindowMainMenu::render() {  }
 void TWindowMainMenu::run_task() {  }
 
-u8 *__dt__15TWindowMainMenuFv(u8 *arg0, s16 arg1) {
+u8 *__dt__15TWindowMainMenuFv(u8 *window_main_menu, s16 arg1) {
     u32 player;
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = &__vt__15TWindowMainMenu.value;
-        if (*(s32 *)((s8 *)arg0 + 0x4C) & 1) {
-            player = (u32)get_player_by_client_id(*(u32 *)((s8 *)arg0 + 0x54));
+    if (window_main_menu != NULL) {
+        *(s32 **)((s8 *)window_main_menu + 0x18) = &__vt__15TWindowMainMenu.value;
+        if (*(s32 *)((s8 *)window_main_menu + 0x4C) & 1) {
+            player = (u32)get_player_by_client_id(*(u32 *)((s8 *)window_main_menu + 0x54));
             if (player != 0U) {
                 ((TObjPlayer *)player)->init_parts();
             }
         }
-        ((TWindowMainMenu *)arg0)->close_child_window();
-        ((TWindowMainMenu *)arg0)->destroy_submenu();
-        ((TWindowMainMenu *)arg0)->close();
-        __dt__7TObjectFv(arg0, 0);
+        ((TWindowMainMenu *)window_main_menu)->close_child_window();
+        ((TWindowMainMenu *)window_main_menu)->destroy_submenu();
+        ((TWindowMainMenu *)window_main_menu)->close();
+        __dt__7TObjectFv(window_main_menu, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv((s32) arg0);
+            __dl__7TObjectFPv((s32) window_main_menu);
         }
     }
-    return arg0;
+    return window_main_menu;
 }
 
 Win_802649C0 *TWindowMainMenu__ct(Win_802649C0 *arg0, void *arg1, s32 arg2) {

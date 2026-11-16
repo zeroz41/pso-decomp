@@ -56,12 +56,12 @@ void TLobby__sub_804073B8(void) {
     TUdpSocket__sub_80407508();
 }
 
-s32 dispatch_slot_a(s16 arg0, s32 arg1) {
-    return TLobby__sub_80407C60(arg0, arg1);
+s32 dispatch_slot_a(s16 id, s32 key) {
+    return TLobby__sub_80407C60(id, key);
 }
 
-s32 dispatch_slot_b(s16 arg0, s32 arg1) {
-    return TLobby__sub_80407D98(arg0, arg1);
+s32 dispatch_slot_b(s16 id, s32 pkey) {
+    return TLobby__sub_80407D98(id, pkey);
 }
 
 s32 TLobby__sub_80407418(s16 id) {
@@ -92,8 +92,8 @@ s32 TLobby__sub_80407418(s16 id) {
     return 0;
 }
 
-s16 forward_net_op(s16 arg0, u8 *arg1, u8 *arg2) {
-    return TLobby__sub_8040799C(arg0, arg1, arg2);
+s16 forward_net_op(s16 idx, u8 *name, u8 *arg2) {
+    return TLobby__sub_8040799C(idx, name, arg2);
 }
 
 void forward_net_op_5args(s16 arg0, s16 arg1, s16 arg2, s16 arg3, s16 arg4, s32 arg5, s8 arg6, s32 arg7) {
@@ -187,8 +187,6 @@ inline ArpEntry *FindPeer_80407640(ArpEntry *peer, s16 n, u8 ff, u8 *p2) {
     }
     return 0;
 }
-#pragma push
-#pragma opt_common_subs on
 extern s32 TLobby__sub_80407640(void *pkt, s16 a, s16 b, s16 c)
 {
   s32 call_handler_by_index(s16 arg0, s16 arg1, s32 arg2, s32 arg3, s32 arg4); /* declared here with an s16 2nd argument; the definition takes s32 */
@@ -247,7 +245,6 @@ extern s32 TLobby__sub_80407640(void *pkt, s16 a, s16 b, s16 c)
   }
   return 0;
 }
-#pragma pop
 void TLobby__sub_804078B4(void) {
     ArpEntry* p;
     s16 n;
@@ -327,7 +324,7 @@ inline void Send_8040799C(ArpIface *e, void *name) {
     }
 }
 
-s16 TLobby__sub_8040799C(s16 idx, void *name, void *arg2) {
+s16 TLobby__sub_8040799C(s16 idx, void *name, void *pkt) {
     ArpState *t = &lbl_805C1AB0;
     ArpIface *e;
     ArpEntry *p;
@@ -343,13 +340,13 @@ s16 TLobby__sub_8040799C(s16 idx, void *name, void *arg2) {
     if (p != NULL) {
         p->timer = t->timeout;
         if (p->state != 1) {
-            ret = call_handler_by_index(e->handler, e->socket, 0, (s32)p->haddr, (s32)arg2);
+            ret = call_handler_by_index(e->handler, e->socket, 0, (s32)p->haddr, (s32)pkt);
         } else {
             if (p->hold != NULL) {
                 Clear_8040799C(p);
                 p->hold = NULL;
             }
-            TLobby__sub_80408060(p, arg2);
+            TLobby__sub_80408060(p, pkt);
             Send_8040799C(e, name);
             p->timer = t->retry;
         }
@@ -357,7 +354,7 @@ s16 TLobby__sub_8040799C(s16 idx, void *name, void *arg2) {
         u8 buf[6];
         NetMemset(buf, 0, 6);
         np = find_or_add_peer_entry(e->handler, e->socket, e->plen, name, e->hlen, buf, 1);
-        TLobby__sub_80408060(np, arg2);
+        TLobby__sub_80408060(np, pkt);
         Send_8040799C(e, name);
         np->timer = t->retry;
     }
@@ -501,7 +498,7 @@ s16 TLobby__sub_80407F20(s16 a, s16 b, s16 c, s16 d, s16 e, s32 f, s16 g, s32 h)
     ArpIface *slot;
     s16 res;
     s16 idx;
-    s16 TLobby__sub_8040A044(s16, u32, s16, u32 *); /* declared here with an s16 result and 3rd argument; the definition is s32 (s16, u32, s32, u32 *) */
+    s16 TLobby__sub_8040A044(s16, u32, s16, u32 *); /* declared here with an s16 3rd argument; the definition takes s32 */
     s32 call_entry_callback(s16, s16); /* declared here with an s16 2nd argument; the definition takes s32 */
 
     if (a < 0) {
@@ -587,7 +584,7 @@ p = pkt->fragments + k - 1;
 while (k > 0)
 {
 set_value_and_enable(tmp, src);
-TLobby__sub_80406FD8((void *)(tmp), (void *)&pkt->fragments[k - 1].buffer, (s32)p->length);
+netbuf_copy_by_ref(tmp, (void *)&pkt->fragments[k - 1].buffer, (s32)p->length);
 src += p->length;
 sum += p->length;
 p--;

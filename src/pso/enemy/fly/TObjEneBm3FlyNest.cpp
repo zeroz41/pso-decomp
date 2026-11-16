@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/enemy/TObjEnemy.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/system/vector.h"
@@ -41,47 +42,30 @@
 
 extern "C" {
 
-struct VBase_18_800B23A0 { char pad[0x18]; };
-
-struct VObj_18_800B23A0 : VBase_18_800B23A0 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual s32 m8(f32, f32);
-};
-
 struct Ent_800B23A0 { s32 a; u32 count; };
 
 struct Pair_800B23A0 { s32 k; Ent_800B23A0 *e; };
 
 void free_bin_model_request(void*, int);
 void rotate_xz_pair_by_angle(f32 *arg0, f32 *arg1, s32 arg2);
-s32 is_main_phase_15__9TObjEneDDFv();
 void get_camera_ctrl__9TObjEneDDFv(const Vec *origin, Vec *out);
 s32 get_random_scaled__9TObjEneDDFv(void *);
 s32 noop__12TBoss8DragonFv(void *);
 s32 TBoss8Dragon__sub_800BB7D4(void *, s32);
 s32 pack_debug_text_position(s32, s32);
-BmlResource *load_enemy_bml_resource_named(BmlResourceDescriptor *descriptor, const char *filename);
-BmlResource *load_enemy_bml_resource(BmlResourceDescriptor *descriptor);
+s32 load_enemy_bml_resource_named(s32 arg0, s32 arg1);
+s32 load_enemy_bml_resource(u8 *arg0);
 s32 set_field_e4__10TObjPlayerFll(void *, int, f32);
 void spawn_dead_spot_scale15(s32 point, s32 delay);
 void *find_entity_by_id(u16 id);
 void free_collision_body_parts(void *);
 s32 play_persistent_sound(s32 id, s32 a1, Vec *, s32 a3, s32 flags);
 s32 play_sound_effect(void *, Vec *, int, int);
-s32 defer_render__7TObjectFv(void *);
 f32 sin_table_lookup(int);
 f32 cos_table_lookup(int);
 s32 vec3_add_to(void *, void *);
 s32 push_matrix();
 s32 post_translate_matrix(void *);
-void set_global_param__8TObjFishFl(s32);
 void draw_model_motion(void *arg0, void *arg1, f32 farg0);
 
 Bm3FlyMovementParameters bm3_fly_nest_params = { 225.0f, 0.0f, 0x600, { 0, 0, 0, 0 } };
@@ -137,10 +121,6 @@ extern const f32 lbl_805D9E88;
 extern s32 model_render_flags;
 }
 
-extern "C" {
-
-}
-
 #pragma defer_codegen on
 
 void TObjEneBm3FlyNest::init_vertex_table() {
@@ -181,7 +161,7 @@ TObjEneBm3FlyNest_CarryFly::TObjEneBm3FlyNest_CarryFly(TObject *parent, Vec *ori
     arc = 0.0f;
     state = 0;
 }
-extern "C" {
+
 
 TObjEneBm3FlyNest_CarryFly::~TObjEneBm3FlyNest_CarryFly() {}
 
@@ -192,7 +172,7 @@ void TObjEneBm3FlyNest_CarryFly::run_task() {
     f32 v;
     f32 spd;
 
-    lim = (f32)(motion->frameCount - 1);
+    lim = (motion->frameCount - 1);
     frame += 0.8f;
     if (frame > lim) {
         frame -= lim;
@@ -277,9 +257,9 @@ void TObjEneBm3FlyNest::load_resources() {
     lbl_805D5114 = NULL;
     bm3_fly_nest_attachment_index = 0;
     if (TObjEneDD::check_v2_mode() != 0) {
-        lbl_805D5108 = load_enemy_bml_resource_named(&bm3_fly_nest_resource_desc, "bm_ene_bm3_fly_a.bml");
+        lbl_805D5108 = (BmlResource *)load_enemy_bml_resource_named((s32)&bm3_fly_nest_resource_desc, (s32)("bm_ene_bm3_fly_a.bml"));
     } else {
-        lbl_805D5108 = load_enemy_bml_resource(&bm3_fly_nest_resource_desc);
+        lbl_805D5108 = (BmlResource *)load_enemy_bml_resource((u8 *)&bm3_fly_nest_resource_desc);
     }
     lbl_805D50F8 = (u8 *)TLobby::register_boss(1);
     lbl_805D50FC = (u8 *)TLobby::dispatch_shared_handler_b(1);
@@ -390,7 +370,7 @@ void TObjEneBm3FlyNest::run_task() {
     }
     this->vfunc_88();
     this->copy_pos();
-    ((TObjEnemy *)((u8 *)this))->submit_default_cursor_candidate();
+    this->submit_default_cursor_candidate();
     this->vfunc_100();
 }
 #pragma pop
@@ -1028,7 +1008,7 @@ void TObjEneBm3FlyNest::render() {
     }
     unk_3ac = 0;
     if (mode != 9) {
-        if (is_main_phase_15__9TObjEneDDFv() != 0) {
+        if (TObjEneDD::is_main_phase_15() != 0) {
             res = classify_actor_view_detail(25.0f + lbl_805D9E88, 50.0f + lbl_805D9E84, 120.0f);
         } else if (update_object_view_visibility(500.0f, 120.0f) != 0) {
             res = 1;
@@ -1045,7 +1025,7 @@ void TObjEneBm3FlyNest::render() {
             cm->update();
             if (cm->updateFromCamera(&m_2fc.x) != 0) {
                 cm->set_flags_and_apply_damage_color();
-                if (defer_render__7TObjectFv(this) != 0) {
+                if (defer_render() != 0) {
                     visible = 0;
                 }
             }
@@ -1134,10 +1114,10 @@ void TObjEneBm3FlyNest::render_with_state_debug() {
         var_f31 = var_r30->count - 1;
         break;
     }
-    if (((VObj_18_800B23A0 *)arg0)->m8(500.0f, 120.0f) != 0) {
+    if (this->update_object_view_visibility(500.0f, 120.0f) != 0) {
         Vec v = {5.0f, 1.0f, 5.0f};
         ((TObjEneDD *)(arg0))->draw_ground_shadow(&v, 1);
-        set_global_param__8TObjFishFl(this->texlist);
+        TObjFish::set_global_param(this->texlist);
         ((void (*)(void))push_matrix)();
         ((void (*)(void *))post_translate_matrix)(arg0 + 0x38);
         translate_matrix(0, 0.0f, -5.0f, 0.0f);
@@ -1158,4 +1138,3 @@ void TObjEneBm3FlyNest::render_with_state_debug() {
     ((void (*)(void))pop_matrix)();
 }
 #pragma pool_data reset
-}

@@ -1,6 +1,7 @@
 #pragma readonly_strings on
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/boss/dragon/TObjBoss1Rock.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 
 #include "types.h"
 #include <stdlib.h>

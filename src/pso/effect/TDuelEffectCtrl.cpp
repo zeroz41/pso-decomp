@@ -1,5 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
+#include "pso/unk/TLobby.h"
 #include "pso/unk/TLobby_801C25B4.h"
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -22,7 +24,7 @@ void TDuelEffectCtrl::update_duel_end_effect() {
     switch (m_frameCount) {
     case 0:
         new TDuelEffectString(m_effect, (void *)lbl_80438D48, (void *)1);
-        send_neg50__6TLobbyFPvPv((void *)"end.adx", (void *)0x96);
+        ((TLobby *)((void *)"end.adx"))->send_neg50((void *)0x96);
         break;
     case 30:
         queue_destruction();
@@ -34,23 +36,23 @@ void TDuelEffectCtrl::update_duel_start_countdown() {
     switch (m_frameCount) {
     case 0x0:
         new TDuelEffectNumber(m_effect, (void *)lbl_80438D40, (void *)5);
-        play_sound_effect(0x4B210, 0, 0, 0);
+        play_sound_effect(0x4B210, (Vec *)(0), 0, 0);
         break;
     case 0x1E:
         new TDuelEffectNumber(m_effect, (void *)lbl_80438D40, (void *)4);
-        play_sound_effect(0x4B210, 0, 0, 0);
+        play_sound_effect(0x4B210, (Vec *)(0), 0, 0);
         break;
     case 0x3C:
         new TDuelEffectNumber(m_effect, (void *)lbl_80438D40, (void *)3);
-        play_sound_effect(0x4B210, 0, 0, 0);
+        play_sound_effect(0x4B210, (Vec *)(0), 0, 0);
         break;
     case 0x5A:
         new TDuelEffectNumber(m_effect, (void *)lbl_80438D40, (void *)2);
-        play_sound_effect(0x4B210, 0, 0, 0);
+        play_sound_effect(0x4B210, (Vec *)(0), 0, 0);
         break;
     case 0x78:
         new TDuelEffectNumber(m_effect, (void *)lbl_80438D40, (void *)1);
-        play_sound_effect(0x4B210, 0, 0, 0);
+        play_sound_effect(0x4B210, (Vec *)(0), 0, 0);
         break;
     case 0x96:
         new TDuelEffectString(m_effect, (void *)lbl_80438D40, (void *)0);

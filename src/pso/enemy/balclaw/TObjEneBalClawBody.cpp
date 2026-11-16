@@ -1,4 +1,6 @@
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
+#include "pso/object/base/TObjChara.h"
 #include "pso/enemy/balclaw/TObjEneBalClawBody.h"
 #include "pso/enemy/balclaw/TObjEneBalClawClaw.h"
 #include "pso/enemy/lappy/TObjEneLappy_800F5DE0.h"
@@ -117,7 +119,7 @@ TObjEneBalClawBody::TObjEneBalClawBody(TObject *parent, void *set_data) : TObjEn
     VecCopy((Vec *)(&m_290), (const Vec *)(VecCopy((Vec *)(&m_29c), (const Vec *)(&position))));
     motion_list = lbl_805D4F20->motions;
     action_table = balclaw_body_actions;
-    set_field_d8((s32)(action_table));
+    set_field_d8((s32)action_table);
     init_collision_body_parts(this, &balclaw_body_collision, 1);
     requested_action = 0;
     set_animation(requested_action);
@@ -475,7 +477,7 @@ void TObjPlayer::run_death_sequence() {
             body->y_speed = body->m_3b4 / 11.666666f;
             body->state = 2;
         }
-        play_sound_effect(0x4003AD37, &body->position, 0, 0);
+        play_sound_effect(0x4003AD37, (Vec *)(&body->position), 0, 0);
         break;
     case 1:
         body->advance_animation();
@@ -594,11 +596,11 @@ void TObjPlayer__sub_8008F1DC(TObjEneBalClawBody *body) {
         }
         body->turn_toward_direction(((EnemyMoveParams *)body->movementParameters)->turn_speed, (Vec *)&body->x_speed);
         if (body->is_passing_frame(10.0f) != 0) {
-            play_sound_effect(0x4003B034, &body->position, 0, 0);
+            play_sound_effect(0x4003B034, (Vec *)(&body->position), 0, 0);
             if (((TObjChara *)body->target)->select_melee_contact_body(body, 1.0f) != 0) {
                 ((TObjChara *)body->target)->receive_physical_attack(body, 1.0f);
                 ((TObjChara *)body->target)->apply_knockback_from_attacker((u8 *)body, 3.0f);
-                if (!(((TObjChara *)body->target)->actorFlags & 0x800) && get_actor_hp(body->target) > 0) {
+                if (!(((TObjChara *)body->target)->actorFlags & 0x800) && ((TObjChara *)(body->target))->get_actor_hp() > 0) {
                     send_6x2F_change_player_hp(body->entity_id, body->targetId, 1);
                 }
             }
@@ -662,7 +664,7 @@ void TObjPlayer__sub_8008EDE8(TObjEneBalClawBody *body) {
             if (body->m_3c0 <= ((AttackParams *)body->m_318)->get_attack_range() * ((AttackParams *)body->m_318)->get_attack_range()) {
                 body->requested_action = 2;
                 body->state = 2;
-                play_sound_effect(0x4003B033, &body->position, 0, 0);
+                play_sound_effect(0x4003B033, (Vec *)(&body->position), 0, 0);
             }
         }
         break;
@@ -954,7 +956,7 @@ void TObjPlayer__sub_8008E310(TObjEneBalClawBody *body) {
                 TObjEneBalClawClaw *claw2 = (TObjEneBalClawClaw *)find_entity_by_id(body->child_ids[i]);
                 if (claw2 != NULL) {
                     claw2->set_claw_flags();
-                    body->hp += get_actor_hp((u8 *)claw2);
+                    body->hp += ((TObjChara *)claw2)->get_actor_hp();
                 }
             }
             body->effects[1] = create_particle_emitter(&body->m_2fc, 0x12A);
@@ -983,7 +985,7 @@ void TObjPlayer__sub_8008E310(TObjEneBalClawBody *body) {
             body->m_388 &= ~0x04000000;
             body->timer = 0x1E;
             body->state = 3;
-            play_sound_effect(0x4003AD30, &body->position, 0, 0);
+            play_sound_effect(0x4003AD30, (Vec *)(&body->position), 0, 0);
         }
         break;
     case 3:

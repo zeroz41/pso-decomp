@@ -30,6 +30,7 @@ s32 TObjPlayer__sub_801C1AC8();
 Entry_802D20C8 *find_free_trade_slot__6TLobbyFPv(void *);
 void *get_player_by_client_id(s32 i);
 int TLobby__sub_802D2358(void*);
+}
 
 void TLobby::set_trade_field_4(s32 arg1) {
     s32 arg0 = (s32)this;
@@ -133,6 +134,4 @@ s32 TLobby::add_trade_item(u32 arg1, s32 arg2) {
     e->id = arg1;
     e->count = arg2;
     return 0;
-}
-
 }

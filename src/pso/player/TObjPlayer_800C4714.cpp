@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/system/vector.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/enemy/flower/TObjEneRe2Flower_EffCurse3.h"
@@ -16,11 +17,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/boss/goldragon/TBoss8Dragon_800BC53C.h"
-#include "pso/system/task/TObject.h"
 
-typedef struct Vec_800C4A5C {
-    f32 x, y, z;
-} Vec_800C4A5C;
 
 typedef struct Coll_800C4A5C {
     u8 pad0[0xC];
@@ -32,16 +29,16 @@ typedef struct Obj_800C4A5C {
     u8 pad4[0x18 - 0x4];
     void *vptr;
     u8 pad1C[0x38 - 0x1C];
-    Vec_800C4A5C pos;
+    Vec pos;
     u8 pad44[0xA4 - 0x44];
     Coll_800C4A5C *coll;
     u8 padA8[0xB0 - 0xA8];
     u16 ownerId;
     u8 padB2[0xB4 - 0xB2];
-    Vec_800C4A5C start;
-    Vec_800C4A5C velA;
-    Vec_800C4A5C velB;
-    Vec_800C4A5C accel;
+    Vec start;
+    Vec velA;
+    Vec velB;
+    Vec accel;
     f32 fE4;
     s32 fE8;
     s32 angle;
@@ -52,13 +49,9 @@ typedef struct Obj_800C4A5C {
     s32 f100;
 } Obj_800C4A5C;
 
-typedef struct Vec_800C4B78 {
-    f32 x, y, z;
-} Vec_800C4B78;
-
 typedef struct Ent_800C4B78 {
     u8 pad0[0x38];
-    Vec_800C4B78 pos;
+    Vec pos;
 } Ent_800C4B78;
 
 typedef struct Obj_800C4B78 {
@@ -86,15 +79,11 @@ void __dl__7TObjectFPv(void *);
 u8 *__ct__13TUnk_804928CCFP7TObjectP8TObjBase(u8 *arg0, s32 arg1, u32 arg2);
 f32 sin_table_lookup(int);
 f32 cos_table_lookup(int);
-Obj_800C4A5C *TObjPlayer__sub_800C4A5C(Obj_800C4A5C *o, void *owner, Vec_800C4A5C *start, s32 angle);
+Obj_800C4A5C *TObjPlayer__sub_800C4A5C(Obj_800C4A5C *o, void *owner, Vec *start, s32 angle);
 void *destroy_and_free__21TObjEneRe2Flower_BombFs(void *arg0, s16 arg1);
 void render__21TObjEneRe2Flower_BombFv(u8 *arg0);
 
 }
-
-typedef struct Vec_800C4754 {
-    f32 x, y, z;
-} Vec_800C4754;
 
 typedef struct Rot_800C4754 {
     s32 x, y, z;
@@ -130,16 +119,16 @@ struct Obj_800C4754 : VBase_800C4754 {
     virtual void m13();
     virtual s32 m14(void *, const void *);
     u8 pad1C[0x38 - 0x1C];
-    Vec_800C4754 pos;
+    Vec pos;
     u8 pad44[0xA4 - 0x44];
     Coll_800C4754 *coll;
     u8 padA8[0xB0 - 0xA8];
     u16 ownerId;
     u8 padB2[0xB4 - 0xB2];
-    Vec_800C4754 start;
-    Vec_800C4754 velA;
-    Vec_800C4754 velB;
-    Vec_800C4754 accel;
+    Vec start;
+    Vec velA;
+    Vec velB;
+    Vec accel;
     f32 fE4;
     s32 fE8;
     s32 angle;
@@ -218,7 +207,7 @@ s32 TObjEneRe2Flower_Bomb::area_attack_deliver_direct(void *recoil, s32 arg2, vo
         this->mark_enemy_body_contacts();
         flags |= 0x100000;
     }
-    if (*(s32 *)((s8 *)(this->bodies) + 0x18) & flags) {
+    if (*(s32 *)((s8 *)this->bodies + 0x18) & flags) {
         for (i = 0; i < 0x10; i++) {
             p = TObjPlayer::get_battle_param(i);
             if (p == 0) {
@@ -250,7 +239,7 @@ void TObjEneRe2Flower_Bomb::render() {
 }
 void TObjEneRe2Flower_Bomb::run_task() {
     Obj_800C4754 *o = (Obj_800C4754 *)this;
-    Vec_800C4754 tmp;
+    Vec tmp;
     Rot_800C4754 rot;
     Hit_800C4754 *hit;
     f32 d;
@@ -330,7 +319,7 @@ void *TObjEneRe2Flower_Bomb::destroy_and_free(s16 arg1) {
     return this;
 }
 
-Obj_800C4A5C *TObjPlayer__sub_800C4A5C(Obj_800C4A5C *o, void *owner, Vec_800C4A5C *start, s32 angle) {
+Obj_800C4A5C *TObjPlayer__sub_800C4A5C(Obj_800C4A5C *o, void *owner, Vec *start, s32 angle) {
     f32 s;
     f32 c;
     __ct__13TUnk_804928CCFP7TObjectP8TObjBase((u8 *)o, (s32)owner, (u32)owner);

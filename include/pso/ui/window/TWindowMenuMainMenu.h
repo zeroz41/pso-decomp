@@ -34,7 +34,6 @@ typedef char TWindowMenuMainMenu_size[sizeof(TWindowMenuMainMenu) == 0x144 ? 1 :
 
 extern "C" {
 u8 *TWindowMenuMainMenu__ct(TWindowMenuMainMenu *arg0, s32 arg1, s16 arg2);
-void *__dt__19TWindowMenuMainMenuFv(void *arg0, s16 arg1);
 void render__19TWindowMenuMainMenuFv(s32 arg0);
 void run_task__19TWindowMenuMainMenuFv(TWindowMenuMainMenu *arg0);
 }
@@ -42,7 +41,6 @@ void run_task__19TWindowMenuMainMenuFv(TWindowMenuMainMenu *arg0);
 // --- C functions defined in TWindowMenuMainMenu.cpp ---
 extern "C" {
 u8 *TWindowMenuMainMenu__ct(TWindowMenuMainMenu *window_menu_main_menu, s32 arg1, s16 arg2);
-void *__dt__19TWindowMenuMainMenuFv(void *arg0, s16 arg1);
 void render__19TWindowMenuMainMenuFv(s32 arg0);
 void run_task__19TWindowMenuMainMenuFv(TWindowMenuMainMenu *window_menu_main_menu);
 }

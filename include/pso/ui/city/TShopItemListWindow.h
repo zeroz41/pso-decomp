@@ -5,6 +5,7 @@
 #include "pso/ui/city/TShopWindowBase.h"
 
 struct TShopItemListWindow : public TShopWindowBase {
+    TShopItemListWindow(s32 parent, s32, s32);
     virtual ~TShopItemListWindow();
     void prepare_tool_purchase();
     void handle_amount_confirm();
@@ -38,13 +39,11 @@ struct TShopItemListWindow : public TShopWindowBase {
 typedef char TShopItemListWindow_size[sizeof(TShopItemListWindow) == 0x1C4 ? 1 : -1];
 
 extern "C" {
-u8 *TShopItemListWindow__ct(u8 *arg0, s32 arg1, s32 arg2, s32 arg3);
 void *__dt__19TShopItemListWindowFv(TShopItemListWindow *arg0, s16 arg1);
 }
 
 // --- C functions defined in TShopItemListWindow.cpp ---
 extern "C" {
-u8 *TShopItemListWindow__ct(u8 *shop_item_list_window, s32 arg1, s32 arg2, s32 arg3);
 void *__dt__19TShopItemListWindowFv(TShopItemListWindow *arg0, s16 arg1);
 }
 // --- end of C functions

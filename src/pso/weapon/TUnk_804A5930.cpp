@@ -57,16 +57,11 @@ u8 *sealed_j_sword_create(u8 *item) {
 
 s16 TObjPlayer::get_kill_count() { return this->m_11a; }
 
-struct RecoveredGlobal_8012D6BC_lbl_804A05A8 {
-    s32 value;
-    u8 remaining[0x1C];
-};
-
 extern "C" {
 u8 * TItemTimerEvent__ct(s32, u32, u16, s32);
-extern RecoveredGlobal_8012D6BC_lbl_804A05A8 lbl_804A05A8;
+struct RecoveredGlobal_lbl_804A05A8 { s32 value; u8 remaining[0x1C]; };
+extern RecoveredGlobal_lbl_804A05A8 lbl_804A05A8;
 }
-typedef char RecoveredGlobal_8012D6BC_lbl_804A05A8_size[sizeof(RecoveredGlobal_8012D6BC_lbl_804A05A8) == 0x20 ? 1 : -1];
 
 s32 slow_curse_timer_ct(s32 event, u32 effect_objects, u16 owner_client, s32 duration, f32 rate) {
     TItemTimerEvent__ct(event, effect_objects, owner_client, duration);

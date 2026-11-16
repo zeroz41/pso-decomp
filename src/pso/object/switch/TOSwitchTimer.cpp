@@ -1,36 +1,62 @@
+#include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
+#include "pso/object/switch/TOSwitchTimer.h"
+#include "pso/player/TObjPlayer_80011014.h"
 #include "pso/render/render_util.h"
 #include "pso/system/NinjaTypes.h"
-#include "types.h"
 #include "pso/object/trap/TOTrapAncient01_80226534.h"
-#include "pso/object/switch/TOSwitchTimer.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/SoundEffect.h"
-
 #pragma readonly_strings on
 
 extern "C" {
-const char *TOSwitchTimer__name = "TOSwitchTimer";
+u8 is_current_floor_switch_set(s32 id);
 }
 
+void TOSwitchTimer::sub_801782A0() {
+    s32 i;
+    u16 *ids;
 
+    this->m_90 = 0;
+    this->m_94 = 0;
+    this->m_98 = (u32)this->rotation_x;
+    if (this->m_98 >= 2) {
+        this->m_98 = 1;
+    }
+    this->m_9c = this->rotation_y;
+    if ((s32)this->m_9c > 1) {
+        this->m_9c = 0;
+    }
+    this->m_a0 = this->rotation_z;
+    if ((s32)this->m_a0 < 0) {
+        this->m_a0 = 0;
+    }
+    this->m_a4 = (s32)this->m_a0 * 3 / 4;
+    this->m_a8 = this->set_params[0];
+    if (this->m_a8 < 0x100) {
+        this->m_b0 = is_current_floor_switch_set(this->m_a8);
+    } else {
+        this->m_a8 = 0xFFFF;
+        this->m_b0 = 0;
+    }
+    ids = (u16 *)((u8 *)this + 0xAA);
+    for (i = 0; i < 3; i++) {
+        *ids = *(u32 *)((u8 *)this + 0x84 + i * 4) >> 16;
+        if (*ids >= 0x100) {
+            *ids = 0xFFFF;
+        }
+        ids++;
+    }
+    this->m_b4 = get_current_floor();
+}
 
-struct RecoveredGlobal_8017858C___vt__13TOSwitchTimer { s32 value; u8 remaining[0x34]; };
-typedef char RecoveredGlobal_8017858C___vt__13TOSwitchTimer_size[sizeof(RecoveredGlobal_8017858C___vt__13TOSwitchTimer) == 0x38 ? 1 : -1];
+const char *TOSwitchTimer__name = "TOSwitchTimer";
 
-struct RecoveredGlobal_80178604___vt__13TOSwitchTimer {
-    s32 value;
-    u8 remaining[0x34];
-};
 
 void clear_floor_switch_flag(u32 id, s16 floor);
 extern "C" {
-void __dl__7TObjectFPv(s32);
-extern RecoveredGlobal_8017858C___vt__13TOSwitchTimer __vt__13TOSwitchTimer;
-s32 __ct__8TObjBaseFP7TObject(void *);
 extern const char *TOSwitchTimer__name;
-u8 is_current_floor_switch_set(u16);
-void *__nw__7TObjectFUl(int);
 
 void TOSwitchTimer::render() {
     if (TObjPlayer::check_demo_mode() == 1) {
@@ -65,10 +91,10 @@ void TOSwitchTimer::run_task() {
         if ((s32) *(s32 *)&this->m_9c == 1) {
             if ((s32) *(s32 *)&this->m_94 < (s32) *(s32 *)&this->m_a4) {
                 if ((*(s32 *)&this->m_94 % 30) == 0) {
-                    play_sound_effect(0x53218, 0, 0, 0);
+                    play_sound_effect(0x53218, (Vec *)(0), 0, 0);
                 }
             } else {
-                play_persistent_sound(0x53218, (s32)this, 0, 0, 0);
+                play_persistent_sound(0x53218, (s32)this, (Vec *)(0), 0, 0);
             }
         }
         temp_r3_2 = *(s32 *)&this->m_94;
@@ -84,35 +110,22 @@ void TOSwitchTimer::run_task() {
 extern void *tl_05;
 
 void *TOSwitchTimer::create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0xB8);
-    if (o != NULL) {
-        o = TOSwitchTimer__ct((u8 *)o, (s32)tl_05, (s32)arg0);
-    }
+    void *o = (void *)new TOSwitchTimer((s32)tl_05, (s32)arg0);
     return o;
 }
 
 void TOSwitchTimer__sub_80178584(void) {  }
 void TOSwitchTimer__sub_80178588(void) {  }
-u8 *__dt__13TOSwitchTimerFv(u8 *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = &__vt__13TOSwitchTimer.value;
-        if ((u32) ((TOSwitchTimer *)arg0)->m_98 == 0U) {
-            clear_floor_switch_flag(((TOSwitchTimer *)arg0)->m_a8, (s16) ((TOSwitchTimer *)arg0)->m_b4);
-        }
-        __dt__8TObjBaseFv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv((s32) arg0);
-        }
+}
+TOSwitchTimer::~TOSwitchTimer() {
+    if ((u32) this->m_98 == 0U) {
+        clear_floor_switch_flag(this->m_a8, (s16) this->m_b4);
     }
-    return arg0;
 }
-typedef char RecoveredGlobal_80178604___vt__13TOSwitchTimer_size[sizeof(RecoveredGlobal_80178604___vt__13TOSwitchTimer) == 0x38 ? 1 : -1];
-u8 *TOSwitchTimer__ct(u8 *switch_timer, s32 arg1, s32 arg2) {
-    __ct__8TObjBaseFP7TObject(switch_timer);
-    *(s32 **)((s8 *)switch_timer + 0x18) = &(*(RecoveredGlobal_80178604___vt__13TOSwitchTimer *)&__vt__13TOSwitchTimer).value;
-    *(s32 *)((s8 *)switch_timer + 0) = (s32) ((s32)TOSwitchTimer__name);
-    ((TOSwitchTimer *)(switch_timer))->apply_object_set_data((void *)arg2);
-    ((TOSwitchTimer *)switch_timer)->sub_801782A0();
-    return switch_timer;
+extern "C" {
 }
+TOSwitchTimer::TOSwitchTimer(s32 arg1, s32 arg2) : TObjBase((TObject *)arg1) {
+    *(s32 *)((s8 *)this + 0) = (s32) ((s32)TOSwitchTimer__name);
+    ((TOSwitchTimer *)(((u8 *)this)))->apply_object_set_data((void *)arg2);
+    this->sub_801782A0();
 }

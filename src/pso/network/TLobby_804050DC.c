@@ -15,6 +15,8 @@
 #include "pso/network/TLobby_803FAEA0.h"
 #include "pso/network/TLobby_803FCF44.h"
 #include "pso/network/TLobby_8041112C.h"
+#include "pso/network/TLobby_80428374.h"
+#include "pso/network/PppBuffer.h"
 #include "pso/network/text_80421620.h"
 /* The object header the stack's records share (laid out like TObject's fields). */
 typedef struct Timer_804051CC Timer_804051CC;
@@ -34,7 +36,6 @@ extern u16 ppp_rx_fcs;
 /* inferred: the PPP FCS-16 lookup table (RFC 1662 fcstab); the receive path checks the FCS against 0xF0B8. */
 extern u16 ppp_fcs16_table[];
 extern u8 lbl_805C18B0[];
-extern s16 TLobby__sub_804290D4(s32 idx);
 
 #include <stddef.h>
 
@@ -46,9 +47,8 @@ typedef struct Obj_80405304 { u8 pad[0x18]; u8 f18; } Obj_80405304;
 
 s32 TLobby__sub_803F79AC(void *);
 
-void TLobby__sub_803F97E8(int);
+void net_sleep_ms(int);
 extern u8 lbl_805C0038[];
-s16 TLobby__sub_80401BCC(void *, void *, int);
 void TLobby__sub_803FDBF8(u8 *self, void *arg1);
 void PADRead(u8 *, PppFrame *); /* declared here with other parameter types; the definition is void (u8 *, s32) */
 s16 TLobby__sub_804040E0(void *self, void *arg);
@@ -90,7 +90,7 @@ void run_net_thread_loop(void) {
             unlock_mutex(g->mutex);
             continue;
         }
-        TLobby__sub_803F97E8(g->poll_ms);
+        net_sleep_ms(g->poll_ms);
         if (lbl_805D7A84 != 0) {
             process_expired_timers();
         }
@@ -213,7 +213,7 @@ extern s32 TLobby__sub_804053B8(void *self, u8 **pp)
   s32 ret;
   u8 c;
   u32 n;
-  ret = TLobby__sub_80401BCC(pp, &hdr, 0x14);
+  ret = ppp_buffer_read(pp, &hdr, 0x14);
   (void) (&pad);
   *((u16 *) b) = hdr.h0;
   *((u16 *) (b + 0x2)) = hdr.h2;
@@ -245,7 +245,7 @@ extern s32 TLobby__sub_804053B8(void *self, u8 **pp)
   {
     return 0;
   }
-  TLobby__sub_80401BCC(pp, b + 0x1c, b[0x1b]);
+  ppp_buffer_read(pp, b + 0x1c, b[0x1b]);
   rem = b[0x1b];
   p = b + 0x1c;
   while (rem != 0)
@@ -358,12 +358,10 @@ s32 TLobby__sub_80405700()
   u32 b;
   u16 id;
   u8 c;
-  PppFrame **new_var;
   u16 st;
   u16 n;
   PppBuffers *base;
   u8 *buf = lbl_805C18B0;
-  u16 is_transport_connected(void); /* declared u16 here; the definition returns s32 */
   if (lobby_modem_connect_state == 10)
   {
     if (TLobby__sub_804290D4(0x7fff) == 0)
@@ -377,8 +375,7 @@ s32 TLobby__sub_80405700()
     base = &lbl_805C04A8;
     for (;;)
     {
-      new_var = &base->frame_in;
-      ppp_rx_frame_ptr = (frame = *new_var);
+      ppp_rx_frame_ptr = (frame = base->frame_in);
       ppp_rx_frame_ptr->data = ((u8 *) frame) + ((base->headroom + 0x83) & (~3));
       ppp_rx_frame_ptr->len = 0;
       if ((recv_network_frame(0x5d6, ppp_rx_frame_ptr->data, &ppp_rx_frame_ptr->len) != 0) || (ppp_rx_frame_ptr->len < 1))
@@ -509,7 +506,7 @@ inline s32 get_80405A74(PppFrame **s) {
         (*s)->len--;
         return *(*s)->data++;
     }
-    if (TLobby__sub_80401BCC(s, &ppp_input_byte, 1) != 1) {
+    if (ppp_buffer_read(s, &ppp_input_byte, 1) != 1) {
         return -1;
     }
     return (s16)ppp_input_byte;
@@ -526,7 +523,7 @@ inline s32 get_80405A74(PppFrame **s) {
         (*(s16 *)(G + 0x142))++;                                        \
         return;                                                              \
     }                                                                        \
-    if (TLobby__sub_80401BCC(&u, &lobby_ppp_read_buf, 2) == 2) {                   \
+    if (ppp_buffer_read(&u, &lobby_ppp_read_buf, 2) == 2) {                   \
         read_network_u16_be(&lobby_ppp_read_buf);                                 \
     }                                                                        \
     TLobby__sub_803FE6CC(G + 4, 8, 0, u);                                    \
@@ -543,7 +540,7 @@ void ppp_input_packet(PppFrame *arg0) {
     }
     G = lbl_805C0038;
     if (lbl_805D7A7A == 0 && arg0->data[0] == 0xFF && arg0->data[1] == 3 &&
-        TLobby__sub_80401BCC(&arg0, &lobby_ppp_read_buf, 2) == 2) {
+        ppp_buffer_read(&arg0, &lobby_ppp_read_buf, 2) == 2) {
         read_network_u16_be(&lobby_ppp_read_buf);
     }
     code = (u16)get_80405A74(&arg0);
@@ -692,11 +689,11 @@ s32 TLobby__sub_804060B8(u8 *src, u16 len, int id) {
     return 0;
 }
 #pragma pop
-void TLobby__sub_8040059C(void* self);
-void TLobby__sub_80402CE0(void* self);
+void TLobby__sub_8040059C(u8 *conn);
+void pap_init(u8 *arg0);
 void TLobby__sub_803FC318(void* self);
-void TLobby__sub_803FEF4C(void* self);
-void TLobby__sub_803F9FAC(void* self);
+void TLobby__sub_803FEF4C(u8 *self);
+void TLobby__sub_803F9FAC(u8 *ctx);
 s32 TLobby__sub_804061FC(void)
 {
   u8 *p;
@@ -711,7 +708,7 @@ s32 TLobby__sub_804061FC(void)
   NetMemset(q, 0, 0x144);
   p[0] = z;
   TLobby__sub_8040059C(new_var);
-  TLobby__sub_80402CE0(new_var);
+  pap_init(new_var);
   TLobby__sub_803FC318(new_var);
   TLobby__sub_803FEF4C(new_var);
   TLobby__sub_803F9FAC(new_var);
@@ -743,7 +740,7 @@ s32 TLobby__sub_804062A0(s16 arg0) {
 }
 
 s32 TLobby__sub_804048E8(void *, s32 *, s16); /* declared here with other parameter types; the definition is s32 (Obj_80403F4C *, PppFrame **, s16) */
-s32 TLobby__sub_804066D8(u8 *);
+s32 ppp_output_frame(u8 *);
 s32 TLobby__sub_80406328(s32 self, s16 type) {
     s32 sv = self;
     void *me = (void *)self;
@@ -772,7 +769,7 @@ s32 TLobby__sub_80406328(s32 self, s16 type) {
             (*(s16 *)(G + 0x124))++;
             return -1;
         }
-        return TLobby__sub_804066D8(t);
+        return ppp_output_frame(t);
     }
     G = lbl_805C0038;
     if (G[0x6c] != 5) {
@@ -793,7 +790,7 @@ s32 TLobby__sub_80406328(s32 self, s16 type) {
             (*(s16 *)(G + 0x124))++;
             return -1;
         }
-        return TLobby__sub_804066D8(t);
+        return ppp_output_frame(t);
     }
     {
         u8 *e = *(u8 **)(G + 0x9c);
@@ -842,7 +839,7 @@ skip:
                 (*(s16 *)(G + 0x124))++;
                 return -1;
             }
-            return TLobby__sub_804066D8(t2);
+            return ppp_output_frame(t2);
         }
     }
 }
@@ -869,10 +866,9 @@ s32 TLobby__sub_80406624(s32 a, s32 b, u16 code, void *self) {
         *(s16 *)(lbl_805C0038 + 0x124) = *(s16 *)(lbl_805C0038 + 0x124) + 1;
         return -1;
     }
-    return TLobby__sub_804066D8(ret);
+    return ppp_output_frame(ret);
 }
 
-s32 send_network_frame(u32 a, void* b);
 inline s32 acfc_804066D8(s32 lcp, u8 *ctx)
 {
   s32 r = 1;
@@ -884,9 +880,8 @@ inline s32 acfc_804066D8(s32 lcp, u8 *ctx)
 }
 #pragma push
 #pragma opt_propagation off
-s32 TLobby__sub_804066D8(u8 *p)
+s32 ppp_output_frame(u8 *p)
 {
-  void get_time_ms(u32 *); /* declared here with other parameter types; the definition is void (s32 *) */
   u8 c0;
   u8 c1;
   u8 *st;
@@ -1030,7 +1025,7 @@ s32 TLobby__sub_804066D8(u8 *p)
   {
     return 0;
   }
-  get_time_ms(&(*((u32 *) (&lbl_805D7A94))));
+  get_time_ms(&lbl_805D7A94);
   return (s16) send_network_frame(q->len, q->data);
 }
 #pragma pop
@@ -1059,7 +1054,7 @@ void set_value_and_enable(void *self, s32 arg1) {
 #pragma push
 #pragma opt_common_subs on
 #pragma opt_propagation off
-void TLobby__sub_80406FD8(void *a, void *b, s32 v) {
+void netbuf_copy_by_ref(void *a, void *b, s32 v) {
     switch (((NetBufferRef *)b)->kind) {
     case 1:
     case 4:
@@ -1117,33 +1112,35 @@ void TLobby__sub_80406FD8(void *a, void *b, s32 v) {
         case 2:
             {
         u32 word = ((NetBufferRef *)b)->value;
+        u32 word2;
         s16 id = (s16)(word >> 24);
+        s16 cnt = network_buffer_pool_state.count;
+        NetBufferPoolEntry *ents;
         u32 hi;
-        u8 *rec;
         u8 *ent;
         u32 t;
-        u32 word2;
         s16 id2;
-        u32 hi2;
-        u8 *rec2;
-        u8 *ent2;
+        u32 raw;
+        u8 *rec;
         u32 t2;
-        if (network_buffer_pool_state.count < id) {
+        if (cnt < id) {
             return;
         }
-        word2 = ((NetBufferRef *)a)->value;
-        id2 = (s16)(word2 >> 24);
-        rec = (u8 *)network_buffer_pool_state.ents + id * (s32)sizeof(NetBufferPoolEntry);
         hi = word >> 16;
+        word2 = ((NetBufferRef *)a)->value;
+        ents = network_buffer_pool_state.ents;
+        rec = (u8 *)&ents[id];
+        raw = word2 >> 24;
         ent = rec + (s16)(hi & 0xff) * (s32)sizeof(NetBufferSegment);
+        id2 = (s16)raw;
         t = *(u16 *)(ent + offsetof(NetBufferPoolEntry, segs[0].offset)) + (word & 0xffff) + *(u32 *)(rec + offsetof(NetBufferPoolEntry, buf));
-        if (network_buffer_pool_state.count < id2) {
+        if (cnt < id2) {
             return;
         }
-        rec2 = (u8 *)network_buffer_pool_state.ents + id2 * (s32)sizeof(NetBufferPoolEntry);
-        hi2 = word2 >> 16;
-        ent2 = rec2 + (s16)(hi2 & 0xff) * (s32)sizeof(NetBufferSegment);
-        t2 = *(u16 *)(ent2 + offsetof(NetBufferPoolEntry, segs[0].offset)) + (word2 & 0xffff) + *(u32 *)(rec2 + offsetof(NetBufferPoolEntry, buf));
+        hi = word2 >> 16;
+        rec = (u8 *)&ents[id2];
+        ent = rec + (s16)(hi & 0xff) * (s32)sizeof(NetBufferSegment);
+        t2 = *(u16 *)(ent + offsetof(NetBufferPoolEntry, segs[0].offset)) + (word2 & 0xffff) + *(u32 *)(rec + offsetof(NetBufferPoolEntry, buf));
         NetMemcpy((void *)t2, (void *)t, v);
         break;
     }
@@ -1234,7 +1231,7 @@ s32 TLobby__sub_80406B6C(NetBufferRef *o) {
     return -1;
 }
 
-u16 TUdpSocket__sub_80419864();
+u16 ones_complement_sum();
 u16 TLobby__sub_80406BD8(NetPacket *pkt, s16 flag)
 {
     u32 sum = 0;
@@ -1287,7 +1284,7 @@ u16 TLobby__sub_80406BD8(NetPacket *pkt, s16 flag)
                 carry = 0;
             }
             len = len >> 1;
-            sum += TUdpSocket__sub_80419864(ptr, len);
+            sum += ones_complement_sum(ptr, len);
         }
         if (carry) {
             sum += *(u16 *)hdr;
@@ -1331,7 +1328,7 @@ u16 TLobby__sub_80406BD8(NetPacket *pkt, s16 flag)
                 carry = 0;
             }
             len = len >> 1;
-            sum += TUdpSocket__sub_80419864(ptr, len);
+            sum += ones_complement_sum(ptr, len);
         }
         if (carry) {
             sum += *(u16 *)hdr;
@@ -1344,7 +1341,7 @@ u16 TLobby__sub_80406BD8(NetPacket *pkt, s16 flag)
     return (u16)sum;
 }
 
-void TLobby__sub_80406EB8(NetBufferRef *ref, s32 n) {
+void netbuf_ref_advance(NetBufferRef *ref, s32 n) {
     switch (ref->kind) {
     case 4:
         break;
@@ -1360,7 +1357,7 @@ void TLobby__sub_80406EB8(NetBufferRef *ref, s32 n) {
     }
 }
 
-u8 *TLobby__sub_80406F0C(void *self)
+u8 *netbuf_ref_data(void *self)
 {
     u32 w;
     s16 k;

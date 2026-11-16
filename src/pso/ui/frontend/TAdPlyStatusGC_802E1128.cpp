@@ -6,7 +6,7 @@
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-extern "C" {
+
 s32 TAdPlyStatusGC::get_field_498() { return *(s32*)((char*)this + 0x498); }
 void*TAdPlyStatusGC::get_chara_making_data() { return (char*)this + 0x1b8; }
 s32 TAdPlyStatusGC::get_field_49c() { return *(s32*)((char*)this + 0x49c); }
@@ -34,4 +34,3 @@ void TAdPlyStatusGC::close_window(s32 arg1) {
     }
 }
 
-}

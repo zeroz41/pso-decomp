@@ -11,7 +11,6 @@ struct Obj_80125628 { u8 pad[0xa4]; Elem_80125628 *elems; };
 
 struct Ctx_80125628 { Obj_80125628 *obj; s32 idx; };
 
-extern "C" {
 
 void TAdVIConfigGC::set_field_2c(s32 v) { this->m_2c = v; }
 
@@ -29,4 +28,3 @@ void spawn_nug2000_hit_explosion(s32 item_id, s32 arg1) {
     }
 }
 
-}

@@ -1,7 +1,8 @@
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/object/collision/TObjBgmColCtrl.h"
 #include "pso/system/TLoadCtrl_80227390.h"
-#include "pso/object/collision/TObjBgmColCtrl.h"
+
 #include "pso/map/FloorArea.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/hud/TRaderMapCore.h"
@@ -15,6 +16,7 @@
 #include "pso/object/collision/TObjBgmCol_8017E7F0.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 
 #pragma defer_codegen on
@@ -35,20 +37,13 @@ u32 __ct__7TObjectFP7TObject(int, int);
 extern u32 TObjBgmColCtrl__instance;
 extern s32 tl_05;
 s32 is_active__14TObjBgmColCtrlFv();
+}
 int get_quest_bgm_issued_flag(void);
 
 extern s32 local_client_id;
 extern s32 lbl_805D5B04;
 
-}
-
-extern "C" {
-extern s32 __vt__14TObjBgmColCtrl[];
-}
-
-struct Vec_8017E550 { f32 x, y, z; };
-
-struct Row_8017E550 { Vec_8017E550 pos; f32 radius; s32 category; };
+struct Row_8017E550 { Vec pos; f32 radius; s32 category; };
 
 const Row_8017E550 lbl_80443690[12] = {
     {{-2.11f, 0.0f, -0.24f}, 72.0f, 4},
@@ -81,7 +76,7 @@ const Row_8017E550 lbl_80443780[12] = {
 
 struct Set_8017E550 {
     u8 pad[0xC];
-    Vec_8017E550 pos;
+    Vec pos;
     u8 pad18[0x24 - 0x18];
     f32 radius;
     u8 pad28[0x30 - 0x28];
@@ -99,7 +94,6 @@ struct Zone_8017E748 { u8 pad[0x9C]; s32 category; };
 extern "C" {
 s32 is_within_distance__10TObjBgmColFf(f32);
 s32 __ct__8TObjBaseFP7TObject();
-void __dl__7TObjectFPv(void *);
 
 extern s32 __vt__10TObjBgmCol[];
 

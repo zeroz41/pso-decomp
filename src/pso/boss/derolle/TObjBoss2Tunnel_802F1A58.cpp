@@ -1,4 +1,6 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/boss/dragon/TBoss1DragonColli.h"
 #include "pso/math/MatrixVector.h"
@@ -22,10 +24,10 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include <stdlib.h>
+#include "pso/system/task/TObject.h"
 
 struct Nd_802F2348 { u8 pad[0xC]; Nd_802F2348 *next; };
 struct Li_802F2348 { u8 pad[0x14]; Nd_802F2348 *head; };
-struct Vec_802F25AC { f32 x, y, z; };
 // count + index list; the TUnk_804E4B24 constructor copies both into the segment it builds
 struct Boss2TunnelEffectEntry {
     s32 count;
@@ -55,7 +57,7 @@ s32 boss2_tunnel_spawn_timer_table_b[10] = {1, 1, 3, 4, 3, 3, 3, 3, 3, 3};
 // y comes from a float constant of another file, so this file's static
 // initializer (0x802F2CC4, .ctors 0x80433FDC) fills it in at startup.
 extern "C" const f32 lbl_805DE9F4;
-Vec_802F25AC lbl_804E4A44[2] = {
+Vec lbl_804E4A44[2] = {
     {78.0f, lbl_805DE9F4, 83.0f},
     {-78.0f, lbl_805DE9F4, 83.0f},
 };
@@ -88,7 +90,6 @@ void __dl__7TObjectFPv(void *);
 u32 __nw__7TObjectFUl(s32);
 void TObjBoss2Tunnel__sub_802F2278(void);
 s32 TObjBoss2Tunnel__sub_802F22F4(void);
-void queue_destruction__7TObjectFv(void *arg0);
 extern const f32 lbl_805DEC68;
 s32 init_piecewise_curve(void *, f32, f32, f32, f32, f32);
 f32 update_position__15TObjBoss2TunnelFv(void *);
@@ -102,14 +103,16 @@ void TObjBoss2Tunnel__sub_802F2C84(void);
 void TObjBoss2Tunnel__sub_802F22DC(void);
 void TObjBoss2Tunnel__sub_802F22C4(void);
 s32 query_teammate_state__9TObjEneDDFv();
+}
 void draw_particle_effect(void *a0);
 void draw_tunnel_segment(u8 *arg0);
+extern "C" {
 void fn_802F1DAC(u8 *arg0);
 void fn_802F1E54(u8 *arg0);
 s32 reset_floats__15TObjBoss2TunnelFv(void *);
 s32 reset_floats__15TObjBoss2TunnelFl(void *);
-s32 is_room_enemy_set_cleared(s32, int);
-s32 TObjBoss7RaftSplash__ct(void *, void *, void *, const Vec *, void *);
+s32 is_room_enemy_set_cleared(s32 floor, s16 room);
+u8 *TObjBoss7RaftSplash__ct(u8 *object, u8 *arg1, u8 *arg2, u8 *arg3, s32 arg4);
 void *TObjBoss2Tunnel__sub_802F2A2C(void *arg0p, s32 parent);
 f32 rand_signed_unit();
 u8 *__ct__13TObjBoss7DustFv(u8 *arg0, s32 arg1, s32 arg2);
@@ -166,18 +169,18 @@ void *TObjBoss2Tunnel__sub_802F2A2C(void *arg0p, s32 parent) {
     *(u32 *)((s8 *)arg0 + 0x8C) = p;
     *(s32 *)((s8 *)arg0 + 0x1C) = 0;
     if (is_split_screen() == 0) {
-        *(f32 *)((s8 *)arg0 + 0x84) = 8000.0f;
+        ((TUnk_804E4B3C *)arg0)->half_length = 8000.0f;
     } else {
-        *(f32 *)((s8 *)arg0 + 0x84) = 2666.6667f;
+        ((TUnk_804E4B3C *)arg0)->half_length = 2666.6667f;
     }
     reset_floats__15TObjBoss2TunnelFv(arg0 + 0x20);
     *(s32 *)((s8 *)arg0 + 0x4C) = 0;
     *(f32 *)((s8 *)arg0 + 0x50) = 1.0f;
-    *(f32 *)((s8 *)arg0 + 0x54) = 0.0f;
-    *(f32 *)((s8 *)arg0 + 0x5C) = 0.0f;
+    ((TUnk_804E4B3C *)arg0)->segment_x = 0.0f;
+    ((TUnk_804E4B3C *)arg0)->scroll_speed = 0.0f;
     boss2_tunnel_state_flags = 0;
-    *(f32 *)((s8 *)arg0 + 0x58) = 0.0f;
-    *(s32 *)((s8 *)arg0 + 0x70) = 0;
+    ((TUnk_804E4B3C *)arg0)->scroll_offset = 0.0f;
+    ((TUnk_804E4B3C *)arg0)->spawn_index = 0;
     *(f32 *)((s8 *)arg0 + 0x78) = 0.0f;
     *(f32 *)((s8 *)arg0 + 0x7C) = 0.0f;
     *(f32 *)((s8 *)arg0 + 0x80) = 0.0f;
@@ -185,7 +188,7 @@ void *TObjBoss2Tunnel__sub_802F2A2C(void *arg0p, s32 parent) {
     for (i = 0; i < 2; i++) {
         p = __nw__7TObjectFUl(0x40);
         if (p != 0) {
-            TObjBoss7RaftSplash__ct((void *) p, arg0, &lbl_804E4A44[i], &TObjBoss2Tunnel__raft_splash_offset_table[i], arg0 + 0x5C);
+            TObjBoss7RaftSplash__ct((u8 *)p, (u8 *)arg0, (u8 *)&lbl_804E4A44[i], (u8 *)&TObjBoss2Tunnel__raft_splash_offset_table[i], (s32)(arg0 + 0x5C));
         }
     }
     new TUnk_804E4AD4(*(TObject **)((s8 *)arg0 + 0x90), 0);
@@ -203,11 +206,11 @@ void *TObjBoss2Tunnel__sub_802F2A2C(void *arg0p, s32 parent) {
         }
         *(u32 *)((s8 *)arg0 + 0x88) = p;
     } else {
-        *(f32 *)((s8 *)arg0 + 0x84) = 8000.0f;
+        ((TUnk_804E4B3C *)arg0)->half_length = 8000.0f;
         ((TUnk_804E4B3C *)arg0)->spawn_segment_row_a();
         *(s32 *)((s8 *)arg0 + 0x1C) = 2;
-        *(f32 *)((s8 *)arg0 + 0x5C) = 0.0f;
-        *(f32 *)((s8 *)arg0 + 0x54) = (-50.0f);
+        ((TUnk_804E4B3C *)arg0)->scroll_speed = 0.0f;
+        ((TUnk_804E4B3C *)arg0)->segment_x = (-50.0f);
         *(u32 *)((s8 *)arg0 + 0x88) = 0;
         boss2_tunnel_state_flags |= 0x8000;
     }
@@ -219,7 +222,7 @@ void *TObjBoss2Tunnel__sub_802F2A2C(void *arg0p, s32 parent) {
 void *TUnk_804E4B3C::destroy(s16 arg1) {
     if (this != NULL) {
         *(s32 **)((s8 *)this + 0x18) = lbl_804E4B3C;
-        if (*(void **)((s8 *)this + 0x88) != NULL) { queue_destruction__7TObjectFv((*(void **)((s8 *)this + 0x88))); }
+        if (*(void **)((s8 *)this + 0x88) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0x88)))->queue_destruction(); }
         TObjBoss2Tunnel::dt((s32)((s8 *)this + 0x20), (s16)(-1));
         __dt__7TObjectFv(this, 0);
         if (arg1 > 0) {
@@ -296,9 +299,9 @@ void TUnk_804E4B3C::update_phase_motion() {
 void TUnk_804E4B3C::sub_802F273C() {  }
 
 void TUnk_804E4B3C::advance_effect_timer() {
-    *(f32 *)((s8 *)this + 0x5C) += 0.05f;
-    if (*(f32 *)((s8 *)this + 0x5C) > lbl_805DEC68) {
-        *(f32 *)((s8 *)this + 0x5C) = (f32) lbl_805DEC68;
+    this->scroll_speed += 0.05f;
+    if (this->scroll_speed > lbl_805DEC68) {
+        this->scroll_speed = (f32) lbl_805DEC68;
     }
 }
 
@@ -313,25 +316,24 @@ void TUnk_804E4B3C::double_scroll_speed() {
 #pragma push
 #pragma opt_common_subs off
 void TUnk_804E4B3C::update_spawn_timer(s32 arg1, s32 arg2, s32 arg3) {
-    u8 *arg0 = (u8 *)this;
     Vec position;
     f32 temp_f1;
-    *(f32 *)((s8 *)arg0 + 0x58) = (f32) (*(f32 *)((s8 *)arg0 + 0x58) + *(f32 *)((s8 *)arg0 + 0x5C));
-    temp_f1 = *(f32 *)((s8 *)arg0 + 0x58);
+    this->scroll_offset = (f32) (this->scroll_offset + this->scroll_speed);
+    temp_f1 = this->scroll_offset;
     if (temp_f1 >= 800.0f) {
-        *(f32 *)((s8 *)arg0 + 0x58) = (f32) (temp_f1 - 800.0f);
-        *(s32 *)((s8 *)arg0 + 0x70) = (s32) (*(s32 *)((s8 *)arg0 + 0x70) + 1);
-        if ((s32) *(s32 *)((s8 *)arg0 + 0x70) == arg2) {
+        this->scroll_offset = (f32) (temp_f1 - 800.0f);
+        this->spawn_index = (s32) (this->spawn_index + 1);
+        if ((s32) this->spawn_index == arg2) {
             if (arg3 != 0) {
-                *(s32 *)((s8 *)arg0 + 0x70) = (arg2 - 1);
+                this->spawn_index = (arg2 - 1);
             } else {
-                *(s32 *)((s8 *)arg0 + 0x70) = 0;
+                this->spawn_index = 0;
             }
         }
-        position.x = *(f32 *)((s8 *)arg0 + 0x54);
+        position.x = this->segment_x;
         position.y = 0.0f;
-        position.z = *(f32 *)((s8 *)arg0 + 0x84) - *(f32 *)((s8 *)arg0 + 0x58);
-        spawn(*(s32 *)((s8 *)(arg1 + (*(s32 *)((s8 *)arg0 + 0x70) * 4)) + 0), &position);
+        position.z = this->half_length - this->scroll_offset;
+        spawn(*(s32 *)((s8 *)(arg1 + (this->spawn_index * 4)) + 0), &position);
     }
 }
 #pragma pop
@@ -340,7 +342,7 @@ void TUnk_804E4B3C::update_spawn_timer(s32 arg1, s32 arg2, s32 arg3) {
 #pragma fp_contract on
 void TUnk_804E4B3C::update_dust_spawn() {
     u8 *arg0 = (u8 *)this;
-    Vec_802F25AC v;
+    Vec v;
     u32 p;
     *(s32 *)((s8 *)arg0 + 0x74) = *(s32 *)((s8 *)arg0 + 0x74) - 1;
     if (*(s32 *)((s8 *)arg0 + 0x74) <= 0) {
@@ -369,17 +371,17 @@ void TUnk_804E4B3C::init_effect() {
 
 void TUnk_804E4B3C::sub_802F2400() {
     f32 temp_f1;
-    TObject *temp_r3;
+    TObject *object;
     update_spawn_timer((s32)boss2_tunnel_spawn_timer_table_b, 0xA, 1);
     if ((*(s32 *)&boss2_tunnel_state_flags) & 8) {
         temp_f1 = unk_78.z;
         if (temp_f1 < 1.0f) {
             phase = 2;
-            *(f32 *)((s8 *)this + 0x5C) = 0.0f;
+            this->scroll_speed = 0.0f;
             segment_x = (-50.0f);
-            temp_r3 = tunnel_col;
-            if (temp_r3 != NULL) {
-                queue_destruction__7TObjectFv(temp_r3);
+            object = tunnel_col;
+            if (object != NULL) {
+                object->queue_destruction();
                 tunnel_col = NULL;
             }
             (*(s32 *)&boss2_tunnel_state_flags) |= 0x8000;
@@ -519,8 +521,8 @@ void TUnk_804E4B24::run_task() {
     if ((s32) this->kind == 4) {
         controller->copy_position(&position);
     }
-    if (this->position.z <= -*(f32 *)((s8 *)arg0 + 0x44)) {
-        queue_destruction__7TObjectFv((arg0));
+    if (this->position.z <= -this->half_length) {
+        ((TObject *)arg0)->queue_destruction();
     }
     ((TUnk_804E4B24 *)arg0)->update_collision();
 }
@@ -556,7 +558,6 @@ void fn_802F1DAC(u8 *arg0) {
 }
 }
 
-extern "C" {
 void draw_tunnel_segment(u8 *boss7_tunnel_col) {
     s32 var_r31;
     u8 *var_r30;
@@ -586,7 +587,6 @@ void draw_tunnel_segment(u8 *boss7_tunnel_col) {
         restore_draw_list_mask();
     }
 }
-}
 
 s32 TObjBoss7TunnelCol::is_in_camera_range() {
     f32 temp_f1;
@@ -607,18 +607,18 @@ void TUnk_804E4B24::update_collision() {
 }
 
 extern "C" {
-void *TObjBoss7TunnelCol__ct(void *arg0, TObject *parent) {
-    TObjBoss7TunnelCol *self = (TObjBoss7TunnelCol *)arg0;
-    __ct__14TObjCollidableFP7TObject(arg0, parent);
-    *(s32 **)((s8 *)arg0 + 0x18) = __vt__18TObjBoss7TunnelCol;
+void *TObjBoss7TunnelCol__ct(void *player, TObject *parent) {
+    TObjBoss7TunnelCol *self = (TObjBoss7TunnelCol *)player;
+    __ct__14TObjCollidableFP7TObject(player, parent);
+    *(s32 **)((s8 *)player + 0x18) = __vt__18TObjBoss7TunnelCol;
     self->m_name = TObjBoss7TunnelCol__name;
     copy_collision_body(&self->collision_body, &TObjBoss7TunnelCol__col_desc);
-    *(f32 *)((s8 *)arg0 + 0x38) = 85.0f;
-    *(f32 *)((s8 *)arg0 + 0x3C) = 0.0f;
-    *(f32 *)((s8 *)arg0 + 0x40) = 0.0f;
-    ((TObjCollidable *)arg0)->set_collision_body(&self->collision_body);
-    ((TObjPlayer *)arg0)->register_object_by_id();
-    return arg0;
+    *(f32 *)((s8 *)player + 0x38) = 85.0f;
+    *(f32 *)((s8 *)player + 0x3C) = 0.0f;
+    *(f32 *)((s8 *)player + 0x40) = 0.0f;
+    ((TObjCollidable *)player)->set_collision_body(&self->collision_body);
+    ((TObjPlayer *)player)->register_object_by_id();
+    return player;
 }
 }
 

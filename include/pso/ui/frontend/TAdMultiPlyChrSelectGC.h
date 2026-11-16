@@ -5,6 +5,7 @@
 #include "pso/system/task/TObject.h"
 
 struct TAdMultiPlyChrSelectGC : public TObject {
+    TAdMultiPlyChrSelectGC(TObject *, s32);
     virtual ~TAdMultiPlyChrSelectGC();
     void create_widgets();
     void sub_802DC118(s32);
@@ -122,4 +123,9 @@ struct TAdMultiPlyChrSelectGC : public TObject {
 };
 
 typedef char TAdMultiPlyChrSelectGC_size[sizeof(TAdMultiPlyChrSelectGC) == 0xA0 ? 1 : -1];
+
+// TAdMultiPlyChrSelectGC__character_slot_positions: layout known from its uses only.
+struct TAdMultiPlyChrSelectGCCharacterSlotPositions { s32 value; u8 remaining[0x1C]; };
+extern TAdMultiPlyChrSelectGCCharacterSlotPositions TAdMultiPlyChrSelectGC__character_slot_positions;
+
 #endif

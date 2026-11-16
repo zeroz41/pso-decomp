@@ -1,20 +1,18 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/system/MatrixOps.h"
 #include "pso/item/shop/TShopGenerator.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/task/TObject.h"
 
-struct RecoveredGlobal_8021E110_TShopGenerator__data_80513ED0 {
-    s32 value;
-    u8 remaining[0xC];
-};
-
 #include <stddef.h>
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/ui/city/TMedicalCenterMes.h"
 #include "pso/object/base/TObjMotion.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/MatrixStack.h"
 struct Stack_8021DC30 {
     s32 sp8;
     s32 spC;
@@ -22,16 +20,6 @@ struct Stack_8021DC30 {
     f32 sp14;
     f32 sp18;
     f32 sp1C;
-};
-
-struct RecoveredGlobal_8021DC30_lbl_8044C140 {
-    s32 value;
-    u8 remaining[0xC];
-};
-
-struct RecoveredGlobal_8021DC30_lbl_8058D490 {
-    s32 value;
-    u8 remaining[0x2C];
 };
 
 struct E_8021E1FC { u8 pad0[8]; void (*fn)(void); u8 pad1[8]; };
@@ -48,35 +36,31 @@ struct Ent_8021DDB8 {
 
 extern "C" {
 s32 TShopGenerator__sub_80222DAC(s32);
-RecoveredGlobal_8021E110_TShopGenerator__data_80513ED0 TShopGenerator__slot_active_table;
+TShopGeneratorSlotActiveTable TShopGenerator__slot_active_table;
 u8 is_slot_active__14TShopGeneratorFi(s32 arg0);
 f32 xyz_distance_squared(u8 *arg0, u8 *arg1);
 f32 vec3_dot(void *, void *);
 s32 rotate_vector_by_matrix(int, void *, void *);
 s32 rotate_matrix_y(int, int);
 f32 normalize_vector(void *);
-extern RecoveredGlobal_8021DC30_lbl_8044C140 shop_service_facing_vec;
-extern RecoveredGlobal_8021DC30_lbl_8058D490 identity_matrix;
+struct ShopServiceFacingVec { s32 value; u8 remaining[0xC]; };
+extern ShopServiceFacingVec shop_service_facing_vec;
 bool is_player_in_service_range__14TShopGeneratorFPUcf(u8 *arg0, u8 *arg1, f32 farg0);
 void THunterGuildSeqOffline__sub_8021E180(s32 arg0);
 extern Tbl_8021E1FC TShopGenerator__service_dispatch_table;
 s32 get_entity_id(s32);
 s8 get_chr_select_state__23TAdSinglePlyChrSelectGCFv(void);
-s32 TWindowShortListCtrl__check_controller_button(void *, int);
 int is_flag_400_set__10TObjPlayerFPv(void *p);
 int check_flag_100__10TObjPlayerFPv(void *p);
-s32 TAdPlayerLoadGC__sub_801E1B50(s32);
+s32 poll_memcard_result(s32);
 extern u8 controller_input_state[];
 extern s32 local_client_id;
 extern s32 lbl_805D55C0;
 void run_task__14TShopGeneratorFv(u8 *self);
 void TMedicalCenterMes__sub_80216260(void);
 void *TShopGenerator__create(void *arg0);
-void *TShopGenerator__ct(void *arg0, s32 arg1);
 void *__dt__14TShopGeneratorFv(void *arg0, s16 arg1);
-s32 __ct__8TObjBaseFP7TObject(void *, s32);
 void __dl__7TObjectFPv(void *);
-void *__nw__7TObjectFUl(int);
 
 extern s32 __vt__14TShopGenerator[];
 
@@ -84,8 +68,6 @@ extern s32 __vt__14TShopGenerator[];
 #pragma opt_common_subs off
 #pragma opt_propagation off
 #pragma opt_dead_assignments off
-typedef char RecoveredGlobal_8021DC30_lbl_8044C140_size[sizeof(RecoveredGlobal_8021DC30_lbl_8044C140) == 0x10 ? 1 : -1];
-typedef char RecoveredGlobal_8021DC30_lbl_8058D490_size[sizeof(RecoveredGlobal_8021DC30_lbl_8058D490) == 0x30 ? 1 : -1];
 bool TShopGenerator::is_player_in_service_range(u8 *arg1, f32 farg0) {
     u8 *arg0 = (u8 *)this;
     typedef char sp8_offset[(offsetof(Stack_8021DC30, sp8) == 0x0) ? 1 : -1];
@@ -101,7 +83,7 @@ bool TShopGenerator::is_player_in_service_range(u8 *arg1, f32 farg0) {
     stack.sp8 = *(s32 *)((s8 *)&shop_service_facing_vec.value + 0);
     stack.spC = *(s32 *)((s8 *)&shop_service_facing_vec.value + 4);
     stack.sp10 = *(s32 *)((s8 *)&shop_service_facing_vec.value + 8);
-    push_matrix_from((void *)&identity_matrix.value);
+    push_matrix_from((void *)&identity_matrix);
     rotate_matrix_y(0, (int) (*(s32 *)((s8 *)arg1 + 0x60)));
     rotate_vector_by_matrix(0, (void *)&stack.sp8, (void *)&stack.sp8);
     pop_matrix();
@@ -138,7 +120,7 @@ void run_task__14TShopGeneratorFv(u8 *self) {
     if (lbl_805D55C0 != 0) {
         return;
     }
-    if (TAdPlayerLoadGC__sub_801E1B50(get_chr_select_state__23TAdSinglePlyChrSelectGCFv()) != 0) {
+    if (poll_memcard_result(get_chr_select_state__23TAdSinglePlyChrSelectGCFv()) != 0) {
         return;
     }
     if (TAdPlayerLoadGC::get_instance() != 0) {
@@ -176,42 +158,39 @@ void run_task__14TShopGeneratorFv(u8 *self) {
     }
 }
 
-void *__dt__14TShopGeneratorFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__14TShopGenerator;
-        __dt__8TObjBaseFv(arg0, 0);
+void *__dt__14TShopGeneratorFv(void *base, s16 arg1) {
+    if (base != NULL) {
+        *(s32 **)((s8 *)base + 0x18) = __vt__14TShopGenerator;
+        __dt__8TObjBaseFv(base, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(base);
         }
     }
-    return arg0;
+    return base;
 }
 
-extern s32 TShopGenerator__class_name;
+extern const char *TShopGenerator__class_name;
 extern s32 tl_05;
 
-void *TShopGenerator__ct(void *shop_generator, s32 arg1) {
+}
+TShopGenerator::TShopGenerator(s32 arg1) : TObjBase((TObject *)tl_05) {
     s32 temp_r0;
-
-    __ct__8TObjBaseFP7TObject(shop_generator, tl_05);
-    *(s32 **)((s8 *)shop_generator + 0x18) = __vt__14TShopGenerator;
-    *(s32 *)((s8 *)shop_generator + 0) = (s32) TShopGenerator__class_name;
-    ((TShopGenerator *)shop_generator)->apply_object_set_data((void *)arg1);
-    ((TShopGenerator *)shop_generator)->m_90 = 0;
-    ((TShopGenerator *)shop_generator)->m_94 = 5;
-    temp_r0 = ((TShopGenerator *)shop_generator)->set_params[0];
+    m_name = TShopGenerator__class_name;
+    this->apply_object_set_data((void *)arg1);
+    this->m_90 = 0;
+    this->m_94 = 5;
+    temp_r0 = this->set_params[0];
     if (temp_r0 < 0) {
-        ((TObject *)shop_generator)->queue_destruction();
-        return shop_generator;
+        queue_destruction();
+        return;
     }
     if (temp_r0 > 6) {
-        ((TObject *)shop_generator)->queue_destruction();
-        return shop_generator;
+        queue_destruction();
+        return;
     }
-    return shop_generator;
 }
+extern "C" {
 
-typedef char RecoveredGlobal_8021E110_TShopGenerator__data_80513ED0_size[sizeof(RecoveredGlobal_8021E110_TShopGenerator__data_80513ED0) == 0x10 ? 1 : -1];
 u8 is_slot_active__14TShopGeneratorFi(s32 arg0) {
     return (u8) (*(s32 *)((s8 *)&TShopGenerator__slot_active_table.value + ((TShopGenerator__sub_80222DAC(arg0) * 4) & 0x3FFFC)) == 1);
 }
@@ -227,10 +206,7 @@ void THunterGuildSeqOffline__sub_8021E180(s32 arg0) {
 }
 
 void *TShopGenerator__create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0x98);
-    if (o != NULL) {
-        o = TShopGenerator__ct((void *)o, (s32)arg0);
-    }
+    void *o = (void *)new TShopGenerator((s32)arg0);
     return o;
 }
 void TShopGenerator::run_fn_table_reverse() {

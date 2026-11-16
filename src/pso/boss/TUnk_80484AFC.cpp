@@ -1,6 +1,7 @@
 #pragma fp_contract on
 
 #include "pso/boss/TUnk_80484AFC.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/boss/volopt/TBoss3VoloptP02.h"
@@ -32,8 +33,8 @@
 extern "C" {
 s32 push_matrix(void);
 void post_translate_matrix(const Vec *v);
-void play_persistent_sound(s32 id, void *owner, const Vec *pos, s32 a3, s32 flags);
-s32 obj_is_hit_receivable(TObjChara *actor);
+s32 play_persistent_sound(s32 id, s32 a1, Vec *, s32 a3, s32 flags);
+s32 obj_is_hit_receivable(u8 *arg0);
 extern GC_Mtx identity_matrix;
 }
 
@@ -52,18 +53,18 @@ void TUnk_80484AFC::explode_and_destroy() {
     if (TBoss3Volopt::is_v2_mode() != 0 && 3.0517578e-05f * (f32)rand() < 0.16666667f) {
         attack.kind = 0x11;
     }
-    play_sound_effect(0x4003AD15, &position, 0, 0);
-    play_sound_effect(0x4001C112, &position, 0, 0);
+    play_sound_effect(0x4003AD15, (Vec *)(&position), 0, 0);
+    play_sound_effect(0x4001C112, (Vec *)(&position), 0, 0);
     bodies->radius = 15.0f;
     TObjPlayer::init_all_slots();
-    ((TObjPlayer *)this)->check_object_collisions();
+    this->check_object_collisions();
     if (bodies->flags & 0x80000) {
         for (i = 0; i < 16; i++) {
             target = (TObjChara *)TObjPlayer::get_battle_param(i);
             if (target == NULL) {
                 break;
             }
-            if (obj_is_hit_receivable(target) != 0) {
+            if (obj_is_hit_receivable((u8 *)target) != 0) {
                 target->receive_direct_attack(m_up, attack, NULL, -1, -1);
             }
         }
@@ -117,7 +118,7 @@ void TUnk_80484AFC::run_task() {
     } else {
         bodies->flags |= 4;
     }
-    ((TObjPlayer *)this)->check_object_collisions();
+    this->check_object_collisions();
     check_enemy_body_collisions(this);
     if (bodies->flags & 0x180000) {
         explode_and_destroy();
@@ -128,7 +129,7 @@ void TUnk_80484AFC::run_task() {
         explode_and_destroy();
         return;
     }
-    play_persistent_sound(0x4003C114, this, &position, 0, 0);
+    play_persistent_sound((s32)(0x4003C114), (s32)this, (Vec *)((u32)&position), (s32)(0), (s32)(0));
 }
 
 TUnk_80484AFC::~TUnk_80484AFC() {

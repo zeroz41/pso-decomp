@@ -1,4 +1,5 @@
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/ui/keyboard/TKeyBoardControl_803DE9C4.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/render/ModelDrawContext.h"
@@ -11,6 +12,7 @@
 #include "pso/ui/frontend/TAdChrSelPlyPlateGC.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC_802C6F88.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 
 typedef struct S_802C59EC {
     u8 pad0[0x444];
@@ -33,13 +35,11 @@ struct S_802C5594 {
 
 struct E_802C5944 { f32 x; f32 y; u8 pad[0x18]; };
 
-struct V_802C5944 { f32 x; f32 y; };
-
 struct S_802C5944 {
     u8 pad0[0x24];
     E_802C5944 e[4][3];
     u8 pad1a4[0x384 - 0x1A4];
-    V_802C5944 v[4][3];
+    NJS_POINT2 v[4][3];
     u8 pad3e4[0x444 - 0x3E4];
     s32 a[4][3];
     u8 pad474[0x4A4 - 0x474];
@@ -71,12 +71,11 @@ struct Pad_802C6AC8 { u8 pad[0x20]; u8 ctl[0x30]; };
 /* Selection-screen view: per player row/column quads (x0,y0,x1,y1,u0,v0,u1,v1), the three
    cursor quads, home positions, and per-player column state. */
 struct Quad_802C50EC { f32 x, y, z, w, u0, v0, u1, v1; };
-struct V2_802C50EC { f32 x, y; };
 struct S_802C50EC {
     u8 pad0[0x24];
     Quad_802C50EC quad[8][3];
     f32 cursor[3][8];
-    V2_802C50EC home[4][3];
+    NJS_POINT2 home[4][3];
     u8 pad3e4[0x444 - 0x3E4];
     s32 a[4][3];
     u8 pad474[0x4A4 - 0x474];
@@ -89,17 +88,16 @@ struct S_802C50EC {
     s32 b[4][3];
 };
 
-extern "C" {
     extern int multi_ply_chr_select_active_player;
 extern s32 TAdMultiPlyChrSelectGC__select_mode;
 extern s32 TAdMultiPlyChrSelectGC__selected_slot;
 extern s32 multi_ply_chr_select_slot_table[][5];
+extern "C" {
 void copy_vec2__28TWindowSubSymbolChatPartsSetFPv(void *);
 s32 get_field_20__22TAdMultiPlyChrSelectGCFv();
 s32 lbl_805D67D0;
 s32 lbl_805D67D4;
-s32 TWindowShortListCtrl__check_controller_button(void *, int);
-s32 play_sound_effect(int, void *, int, int);
+s32 play_sound_effect(int, Vec *, int, int);
 s32 TAdMultiPlyChrSelectGC__sub_802C5F1C(void *);
 extern u8 controller_physical_port_bank[];
 
@@ -424,6 +422,7 @@ s32 TAdMultiPlyChrSelectGC__sub_802C6558(void) {
     }
     return n;
 }
+}
 
 s32 TAdMultiPlyChrSelectGC::count_ready() {
     s32 var_r31;
@@ -507,11 +506,11 @@ void TAdChrSelPlyPlateGC::update_option_cursor() {
     TAdMultiPlyChrSelectGC__sub_802C5F1C(this);
     if (unk_4dc[cursor_col] != 0 && unk_4f8 == 0) {
         if (TAdMultiPlyChrSelectGC::dispatch_draw_command((s32)WIN_802C6008, 0x10, 6, 1) != 0) {
-            play_sound_effect(0x54100, 0, 0, 0);
+            play_sound_effect(0x54100, (Vec *)(0), 0, 0);
             sel[multi_ply_chr_select_active_player][cursor_col]--;
         }
         if (TAdMultiPlyChrSelectGC::dispatch_draw_command((s32)WIN_802C6008, 0x20, 6, 1) != 0) {
-            play_sound_effect(0x54100, 0, 0, 0);
+            play_sound_effect(0x54100, (Vec *)(0), 0, 0);
             sel[multi_ply_chr_select_active_player][cursor_col]++;
         }
         if (sel[multi_ply_chr_select_active_player][cursor_col] > unk_4dc[cursor_col] - 1) {
@@ -525,6 +524,7 @@ void TAdChrSelPlyPlateGC::update_option_cursor() {
         unk_4f8 = 1;
     }
 }
+extern "C" {
 
 s32 TAdMultiPlyChrSelectGC__sub_802C5F1C(void *arg0) {
     S_802C50EC *self = (S_802C50EC *)arg0;
@@ -594,7 +594,7 @@ void TAdChrSelPlyPlateGC::move_cursor(s32 x_, s32 y_, s32 dx, s32 dy, s32 depth)
     if (multi_ply_chr_select_slot_table[ny][nx] == 1) {
         x += dx;
         y += dy;
-        play_sound_effect(0x54100, NULL, 0, 0);
+        play_sound_effect(0x54100, (Vec *)(NULL), 0, 0);
         cursor_col = x - 1;
         sel[multi_ply_chr_select_active_player][cursor_col] = y - 1;
         return;
@@ -743,7 +743,7 @@ void TAdMultiPlyChrSelectGC__sub_802C5688(S_802C50EC *self) {
     s32 row = self->sel[multi_ply_chr_select_active_player][self->cursor_col] + 1;
     s32 col = self->cursor_col + 1;
     if (multi_ply_chr_select_slot_table[row][col] == -1) {
-        play_sound_effect(0x53F06, 0, 0, 0);
+        play_sound_effect(0x53F06, (Vec *)(0), 0, 0);
         return;
     }
     multi_ply_chr_select_tag_shown[multi_ply_chr_select_active_player] = 1;
@@ -770,7 +770,7 @@ void TAdMultiPlyChrSelectGC__sub_802C5688(S_802C50EC *self) {
 #pragma pop
 
 void TAdMultiPlyChrSelectGC__sub_802C561C(S_802C50EC *self) {
-    V2_802C50EC pos;
+    NJS_POINT2 pos;
     TAdPlyPltAnimCtrlGC *anim;
     pos.x = self->quad[self->sel[multi_ply_chr_select_active_player][self->cursor_col]][self->cursor_col].x;
     pos.y = self->quad[self->sel[multi_ply_chr_select_active_player][self->cursor_col]][self->cursor_col].y;
@@ -924,6 +924,5 @@ void TAdMultiPlyChrSelectGC__sub_802C50EC(s32 arg0) {
         }
     }
 }
-#pragma pop
-
 }
+#pragma pop

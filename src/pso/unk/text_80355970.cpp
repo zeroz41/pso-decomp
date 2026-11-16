@@ -1,4 +1,5 @@
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/unk/text_80355970.h"
 #include "pso/system/vector.h"

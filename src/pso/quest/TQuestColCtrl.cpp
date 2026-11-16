@@ -12,7 +12,6 @@ struct Obj_80195F50 : Base_80195F50 { virtual ~Obj_80195F50(); };
 
 extern "C" {
 extern u32 quest_collision_task_root;
-void *__nw__7TObjectFUl(int);
 void *TObjQuestColApcINW__ct(void *self, void *parent, void *arg);
 Obj_8019601C *create_quest_col_apc_inw__6TLobbyFPvPv(void *arg, s32 *out_id);
 extern s32 __vt__13TQuestColCtrl[];
@@ -46,7 +45,7 @@ void *TQuestColCtrl__ct(void *quest_col_ctrl) {
     return quest_col_ctrl;
 }
 Obj_8019601C *create_quest_col_apc_inw__6TLobbyFPvPv(void *arg, s32 *out_id) {
-    Obj_8019601C *o = (Obj_8019601C *)__nw__7TObjectFUl(0xcc);
+    Obj_8019601C *o = (Obj_8019601C *)TObject::operator new(0xcc);
     if (o != 0) {
         o = (Obj_8019601C *)TObjQuestColApcINW__ct(o, (void *)quest_collision_task_root, arg);
     }

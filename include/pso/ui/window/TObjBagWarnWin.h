@@ -3,18 +3,23 @@
 #include "pso/system/task/TObject.h"
 #include "types.h"
 
+struct TWindowMessage;
+
 class TObjBagWarnWin : public TObject {
 public:
+    TObjBagWarnWin(TObject *parent);
     virtual ~TObjBagWarnWin();
     virtual void run_task();
 public:
     static s32 should_show_warning(void *arg0);
     void open_message_window();
     static void *create(void *arg0);
+
+    TWindowMessage *message_window;
+    char message_text[0x80];
+    s32 open_delay; // name inferred: frames left before the window opens
 };
 
-extern "C" {
-void *__ct__14TObjBagWarnWinFv(void *bag_warn_win, void *parent);
-}
+typedef char TObjBagWarnWin_size[sizeof(TObjBagWarnWin) == 0xA4 ? 1 : -1];
 
 #endif

@@ -9,16 +9,11 @@
 
 #pragma readonly_strings on
 
-struct RecoveredGlobal_80352F6C___vt__10TEndingPic { s32 value; u8 remaining[0x14]; };
-typedef char RecoveredGlobal_80352F6C___vt__10TEndingPic_size[sizeof(RecoveredGlobal_80352F6C___vt__10TEndingPic) == 0x18 ? 1 : -1];
-
 extern "C" {
 int TKeyBoardControl__sub_8000F828(void);
-void __ct__7TObjectFP7TObject(void *, void *);
-extern RecoveredGlobal_80352F6C___vt__10TEndingPic __vt__10TEndingPic;
 const char *lbl_805D4378 = "TEndingPic";
-extern s32 TEndingPic__animation_state;
-extern s32 ending_pic_wall_texture_list;
+s32 TEndingPic__animation_state;
+s32 ending_pic_wall_texture_list;
 
 void TEndingPic::advance_animation_state() {
     s32 temp_r0;
@@ -103,8 +98,7 @@ void TEndingPic::draw_current_pic() {
     TWindowSubStatusDisp::get_player();
 }
 
-    extern const float lbl_805DFF28;
-void TEndingPic::init_positions() { *(float*)((char*)this + 0x2c) = 228.0f; *(float*)((char*)this + 0x30) = 0.0f; *(float*)((char*)this + 0x34) = 640.0f; *(float*)((char*)this + 0x38) = 480.0f; *(float*)((char*)this + 0x3c) = 0.1953125f; *(float*)((char*)this + 0x40) = 0.0f; *(float*)((char*)this + 0x44) = 1.0f; *(float*)((char*)this + 0x48) = 0.9375f; *(float*)((char*)this + 0x4c) = 0.0f; *(float*)((char*)this + 0x50) = 0.0f; *(float*)((char*)this + 0x54) = 100.0f; *(float*)((char*)this + 0x58) = 480.0f; *(float*)((char*)this + 0x5c) = 0.0f; *(float*)((char*)this + 0x60) = 0.0f; *(float*)((char*)this + 0x64) = 0.1953125f; *(float*)((char*)this + 0x68) = 0.9375f; *(float*)((char*)this + 0x6c) = 228.0f; *(float*)((char*)this + 0x70) = 0.0f; *(float*)((char*)this + 0x74) = 640.0f; *(float*)((char*)this + 0x78) = 480.0f; *(float*)((char*)this + 0x7c) = 0.1953125f; *(float*)((char*)this + 0x80) = 0.0f; *(float*)((char*)this + 0x84) = 1.0f; *(float*)((char*)this + 0x88) = 0.9375f; *(float*)((char*)this + 0x8c) = 0.0f; *(float*)((char*)this + 0x90) = 0.0f; *(float*)((char*)this + 0x94) = 100.0f; *(float*)((char*)this + 0x98) = 480.0f; *(float*)((char*)this + 0x9c) = 0.0f; *(float*)((char*)this + 0xa0) = 0.0f; *(float*)((char*)this + 0xa4) = 0.1953125f; *(float*)((char*)this + 0xa8) = 0.9375f; *(float*)((char*)this + 0xac) = 316.0f; *(float*)((char*)this + 0xb0) = 32.0f; *(float*)((char*)this + 0xb4) = 616.0f; *(float*)((char*)this + 0xb8) = 332.0f; *(float*)((char*)this + 0xbc) = 0.0f; *(float*)((char*)this + 0xc0) = 0.0f; *(float*)((char*)this + 0xc4) = 1.0f; *(float*)((char*)this + 0xc8) = 1.0f; *(float*)((char*)this + 0xcc) = 316.0f; *(float*)((char*)this + 0xd0) = 148.0f; *(float*)((char*)this + 0xd4) = 616.0f; *(float*)((char*)this + 0xd8) = lbl_805DFF28; *(float*)((char*)this + 0xdc) = 0.0f; *(float*)((char*)this + 0xe0) = 0.0f; *(float*)((char*)this + 0xe4) = 1.0f; *(float*)((char*)this + 0xe8) = 1.0f; }
+void TEndingPic::init_positions() { *(float*)((char*)this + 0x2c) = 228.0f; *(float*)((char*)this + 0x30) = 0.0f; *(float*)((char*)this + 0x34) = 640.0f; *(float*)((char*)this + 0x38) = 480.0f; *(float*)((char*)this + 0x3c) = 0.1953125f; *(float*)((char*)this + 0x40) = 0.0f; *(float*)((char*)this + 0x44) = 1.0f; *(float*)((char*)this + 0x48) = 0.9375f; *(float*)((char*)this + 0x4c) = 0.0f; *(float*)((char*)this + 0x50) = 0.0f; *(float*)((char*)this + 0x54) = 100.0f; *(float*)((char*)this + 0x58) = 480.0f; *(float*)((char*)this + 0x5c) = 0.0f; *(float*)((char*)this + 0x60) = 0.0f; *(float*)((char*)this + 0x64) = 0.1953125f; *(float*)((char*)this + 0x68) = 0.9375f; *(float*)((char*)this + 0x6c) = 228.0f; *(float*)((char*)this + 0x70) = 0.0f; *(float*)((char*)this + 0x74) = 640.0f; *(float*)((char*)this + 0x78) = 480.0f; *(float*)((char*)this + 0x7c) = 0.1953125f; *(float*)((char*)this + 0x80) = 0.0f; *(float*)((char*)this + 0x84) = 1.0f; *(float*)((char*)this + 0x88) = 0.9375f; *(float*)((char*)this + 0x8c) = 0.0f; *(float*)((char*)this + 0x90) = 0.0f; *(float*)((char*)this + 0x94) = 100.0f; *(float*)((char*)this + 0x98) = 480.0f; *(float*)((char*)this + 0x9c) = 0.0f; *(float*)((char*)this + 0xa0) = 0.0f; *(float*)((char*)this + 0xa4) = 0.1953125f; *(float*)((char*)this + 0xa8) = 0.9375f; *(float*)((char*)this + 0xac) = 316.0f; *(float*)((char*)this + 0xb0) = 32.0f; *(float*)((char*)this + 0xb4) = 616.0f; *(float*)((char*)this + 0xb8) = 332.0f; *(float*)((char*)this + 0xbc) = 0.0f; *(float*)((char*)this + 0xc0) = 0.0f; *(float*)((char*)this + 0xc4) = 1.0f; *(float*)((char*)this + 0xc8) = 1.0f; *(float*)((char*)this + 0xcc) = 316.0f; *(float*)((char*)this + 0xd0) = 148.0f; *(float*)((char*)this + 0xd4) = 616.0f; *(float*)((char*)this + 0xd8) = 448.0f; *(float*)((char*)this + 0xdc) = 0.0f; *(float*)((char*)this + 0xe0) = 0.0f; *(float*)((char*)this + 0xe4) = 1.0f; *(float*)((char*)this + 0xe8) = 1.0f; }
 
 void TEndingPic::render() {
     s32 arg0 = (s32)this;
@@ -119,27 +113,24 @@ void TEndingPic::run_task() { advance_animation_state(); }
     extern int ending_ab_wall_texture_list;
 
 TEndingPic::~TEndingPic() {}
-u8 *__ct__10TEndingPicFv(u8 *ending_pic, u8 *arg1) {
-    __ct__7TObjectFP7TObject(ending_pic, arg1);
-    *(s32 **)((s8 *)ending_pic + 0x18) = &__vt__10TEndingPic.value;
-    *(const char **)((s8 *)ending_pic + 0) = lbl_805D4378;
-    *(s32 *)((s8 *)ending_pic + 0x1C) = -1;
+}
+TEndingPic::TEndingPic(TObject *arg1) : TObject(arg1) {
+    this->m_name = lbl_805D4378;
+    *(s32 *)((s8 *)this + 0x1C) = -1;
     TEndingPic__animation_state = 0;
-    *(s32 *)((s8 *)ending_pic + 0x20) = 0xFF;
-    *(s32 *)((s8 *)ending_pic + 0x28) = 0;
-    *(s32 *)((s8 *)ending_pic + 0x24) = 0;
+    *(s32 *)((s8 *)this + 0x20) = 0xFF;
+    *(s32 *)((s8 *)this + 0x28) = 0;
+    *(s32 *)((s8 *)this + 0x24) = 0;
     ending_pic_wall_texture_list = ((s32)get_ending_ab_wall_texture_list());
-    ((TEndingPic *)ending_pic)->init_positions();
+    this->init_positions();
     switch (TKeyBoardControl__sub_8000F828()) {
     case 0:
-        *(s32 *)((s8 *)ending_pic + 0xEC) = 0x1E;
+        *(s32 *)((s8 *)this + 0xEC) = 0x1E;
         break;
     case 1:
-        *(s32 *)((s8 *)ending_pic + 0xEC) = 0x19;
+        *(s32 *)((s8 *)this + 0xEC) = 0x19;
         break;
     }
-    return ending_pic;
-}
 }
 
 int get_ending_ab_wall_texture_list(void) {  return ending_ab_wall_texture_list; }

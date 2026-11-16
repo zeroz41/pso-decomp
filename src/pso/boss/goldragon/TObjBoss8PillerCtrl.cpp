@@ -1,23 +1,17 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/memory.h"
 #include "pso/system/vector.h"
 #include "pso/boss/goldragon/TObjBoss8PillerCtrl.h"
 #include "pso/system/task/TObject.h"
 
-struct RecoveredGlobal_8035C22C___vt__19TObjBoss8PillerCtrl {
-    s32 value;
-    u8 remaining[0x14];
-};
-
-struct Vec_8035C03C { f32 x, y, z; };
-
 struct Ent_8035C03C { s32 x; s32 y; };
 
 struct Self_8035C03C {
     u8 pad0[0x1c];
-    Vec_8035C03C pos;
+    Vec pos;
     s32 f28;
     u16 f2C;
     u8 pad2e[0x34 - 0x2e];
@@ -39,14 +33,13 @@ const Ent_8035C03C boss8_piller_ctrl_params[41] = {
 extern "C" {
 s32 __ct__7TObjectFP7TObject();
 extern s32 __vt__19TObjBoss8PillerCtrl[];
-void *__nw__7TObjectFUl(u32);
-void __ct__15TObjBoss8PillerFv(void *, s32, Vec_8035C03C *, f32, u16);
+void __ct__15TObjBoss8PillerFv(void *, s32, Vec *, f32, u16);
 extern s32 tl_05;
 void run_task__19TObjBoss8PillerCtrlFv(Self_8035C03C *self);
 void __dl__7TObjectFPv(void *);
 void __dt__7TObjectFv(void *, int);
 
-s32 fn_8035BFF8(void *self, const Vec_8035C03C *pos) {
+s32 fn_8035BFF8(void *self, const Vec *pos) {
     Vec position;
     VecCopy(&position, (const Vec *)pos);
     return normalize_vector_xz(&position) > 373.0f;
@@ -57,7 +50,7 @@ void TObjBoss8PillerCtrl::render() {  }
 
 #pragma fp_contract on
 void run_task__19TObjBoss8PillerCtrlFv(Self_8035C03C *self) {
-    Vec_8035C03C v;
+    Vec v;
     void *p;
     switch (self->f28) {
     case 0:
@@ -72,7 +65,7 @@ void run_task__19TObjBoss8PillerCtrlFv(Self_8035C03C *self) {
                 v.z += -21.65f;
             }
             if (fn_8035BFF8(self, &v) == 0) {
-                p = __nw__7TObjectFUl(0x34);
+                p = TObject::operator new(0x34);
                 if (p != NULL) {
                     __ct__15TObjBoss8PillerFv(p, tl_05, &v, 100.0f, self->f2C);
                 }
@@ -87,21 +80,20 @@ void run_task__19TObjBoss8PillerCtrlFv(Self_8035C03C *self) {
     }
 }
 
-void *__dt__19TObjBoss8PillerCtrlFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__19TObjBoss8PillerCtrl;
-        if (*(void **)((s8 *)arg0 + 0x30) != NULL) { ::operator delete(*(void **)((s8 *)arg0 + 0x30)); ((TObjBoss8PillerCtrl *)arg0)->m_30 = 0; }
-        __dt__7TObjectFv(arg0, 0);
+void *__dt__19TObjBoss8PillerCtrlFv(void *boss8_piller_ctrl, s16 arg1) {
+    if (boss8_piller_ctrl != NULL) {
+        *(s32 **)((s8 *)boss8_piller_ctrl + 0x18) = __vt__19TObjBoss8PillerCtrl;
+        if (*(void **)((s8 *)boss8_piller_ctrl + 0x30) != NULL) { ::operator delete(*(void **)((s8 *)boss8_piller_ctrl + 0x30)); ((TObjBoss8PillerCtrl *)boss8_piller_ctrl)->m_30 = 0; }
+        __dt__7TObjectFv(boss8_piller_ctrl, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(boss8_piller_ctrl);
         }
     }
-    return arg0;
+    return boss8_piller_ctrl;
 }
-typedef char RecoveredGlobal_8035C22C___vt__19TObjBoss8PillerCtrl_size[sizeof(RecoveredGlobal_8035C22C___vt__19TObjBoss8PillerCtrl) == 0x18 ? 1 : -1];
 u8 *TObjBoss8PillerCtrl__ct(u8 *boss8_piller_ctrl, s32 arg1, s32 arg2, s16 arg3) {
     __ct__7TObjectFP7TObject();
-    *(s32 **)((s8 *)boss8_piller_ctrl + 0x18) = &(*(RecoveredGlobal_8035C22C___vt__19TObjBoss8PillerCtrl *)&__vt__19TObjBoss8PillerCtrl).value;
+    *(s32 **)((s8 *)boss8_piller_ctrl + 0x18) = __vt__19TObjBoss8PillerCtrl;
     ((TObject *)boss8_piller_ctrl)->m_name = TObjBoss8PillerCtrl__class_name;
     VecCopy((Vec *)(boss8_piller_ctrl + 0x1C), (const Vec *)(arg2));
     TObjBoss8PillerCtrl__sub_8035C034(boss8_piller_ctrl, boss8_piller_ctrl + 0x1C);

@@ -1,4 +1,5 @@
 #include "pso/ui/window/TWindowDD.h"
+#include "pso/unk/TLobby.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowDD_80348304.h"
 #include "pso/ui/window/TWindowDD_8034AF68.h"
@@ -7,7 +8,8 @@
 
 #include "types.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/map/FloorArea.h"
+#include "pso/player/TObjPlayer_80011014.h"
+
 
 struct W_80348520 {
     u8 pad0[0x24];
@@ -22,15 +24,14 @@ struct W_80348520 {
 extern "C" {
 s32 copy_chat_entry__9TWindowDDFPvPv(int, void *);
 s32 reset_selection__9TWindowDDFv(void *, void *);
-s32 is_flag_set__6TLobbyFv();
 s32 TWindowDD__sub_8034435C();
 s32 TWindowDD__sub_80344568();
 s32 TWindowDD__sub_80344774();
-s32 format_message_text__9TWindowDDFPvPvUs();
-s32 format_german_message__9TWindowDDFPvPvUs();
-s32 TWindowDD__sub_80345608();
-s32 format_english_message__9TWindowDDFPvPvUs();
-s32 format_entry_text__9TWindowDDFPvPv();
+s32 format_message_text__9TWindowDDFPvPvUs(void *src, void *dst, u16 player);
+s32 format_german_message__9TWindowDDFPvPvUs(void *src, void *dst, u16 player);
+s32 TWindowDD__sub_80345608(void *src, void *dst, u16 player);
+s32 format_english_message__9TWindowDDFPvPvUs(void *src, void *dst, u16 player);
+s32 format_entry_text__9TWindowDDFPvPv(void *src, void *dst);
 s32 TWindowDD__sub_80346434();
 s32 TWindowDD__sub_80346640();
 
@@ -70,7 +71,7 @@ s32 TWindowDD::get_word_select_context() {
     if (TObjPlayer::get_player_count() != 0) {
         return 4;
     }
-    if (is_flag_set__6TLobbyFv() != 0) {
+    if (TLobby::is_flag_set() != 0) {
         return 5;
     }
     return (this->m_bc != 0 ? 1 : 0) + 2;
@@ -137,22 +138,22 @@ s32 TWindowDD::can_append_chars(s32 arg0, s32 *arg1) {
     return (arg0 + t + 1) < 0x80;
 }
 
-void TWindowDD::update_state() {
+void TWindowDD::format_message(void *src, void *dst, u16 player) {
     switch ((s32) TWindowDD__window_mode) {
     case 0:
-        format_entry_text__9TWindowDDFPvPv();
+        format_entry_text__9TWindowDDFPvPv(src, dst);
         return;
     default:
-        format_english_message__9TWindowDDFPvPvUs();
+        format_english_message__9TWindowDDFPvPvUs(src, dst, player);
         return;
     case 4:
-        TWindowDD__sub_80345608();
+        TWindowDD__sub_80345608(src, dst, player);
         return;
     case 2:
-        format_german_message__9TWindowDDFPvPvUs();
+        format_german_message__9TWindowDDFPvPvUs(src, dst, player);
         return;
     case 3:
-        format_message_text__9TWindowDDFPvPvUs();
+        format_message_text__9TWindowDDFPvPvUs(src, dst, player);
         return;
     }
 }

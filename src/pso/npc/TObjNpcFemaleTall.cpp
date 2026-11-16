@@ -13,7 +13,7 @@ BmlResourceDescriptor bm_n_etw_i_body_resource_descriptor = { "bm_n_etw_i_body.b
 const char *TObjNpcFemaleTall__name = "TObjNpcFemaleTall";
 BmlResource *TObjNpcFemaleTall__instance;
 
-extern "C" s32 __vt__17TObjNpcFemaleTall[];
+s32 __vt__17TObjNpcFemaleTall[];
 
 void *TObjNpcFemaleTall__create(void *set_data) {
     TObjControl *control = new TObjControl(tl_04);

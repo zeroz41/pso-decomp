@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/unk/TLobby_801E2F94.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/vector.h"
@@ -8,12 +9,11 @@
 #include "pso/render/render_util.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/NinjaTypes.h"
-struct Vec_80197904 { f32 x, y, z; };
 
 struct Drop_80197904 {
     s32 active;
-    struct Vec_80197904 position;
-    struct Vec_80197904 velocity;
+    Vec position;
+    Vec velocity;
     f32 floor_y;
 };
 
@@ -23,12 +23,10 @@ struct Rain_80197904 {
     u32 count;
 };
 
-struct Vec_801977D4 { f32 x, y, z; };
-
 struct Drop_801977D4 {
     s32 active;
-    struct Vec_801977D4 position;
-    struct Vec_801977D4 velocity;
+    Vec position;
+    Vec velocity;
     f32 floor_y;
 };
 
@@ -67,9 +65,9 @@ void TObjRain::draw_streaks() {
         if (drop->active != 0) {
             set_line_width(5);
             VecCopy((Vec *)TObjRain__streak_line_list.p, (const Vec *)&drop->position);
-            struct Vec_801977D4 pos = drop->position;
+            Vec pos = drop->position;
             if (xz_distance_squared(camera_ctrl_instance + 0x178, &pos) < 90000.0f) {
-                struct Vec_801977D4 dir = drop->velocity;
+                Vec dir = drop->velocity;
                 normalize_vector(&dir);
                 dir.x *= 12.0f;
                 dir.y *= 12.0f;

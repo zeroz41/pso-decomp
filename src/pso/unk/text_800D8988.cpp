@@ -1,6 +1,8 @@
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/system/vector.h"
 #include "pso/map/FloorArea.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 extern "C" {
 s32 play_sound_effect(s32 id, Vec *src, s32 a2, s32 flags);
@@ -12,14 +14,14 @@ void TObjEneGibbles__sub_800D8988(Vec *pos) {
     case AREA_JUNGLE_EAST:
     case AREA_MOUNTAIN:
     case AREA_SEASIDE:
-        play_sound_effect(0x3A841, pos, 0, 0);
+        play_sound_effect(0x3A841, (Vec *)(pos), 0, 0);
         break;
     case AREA_SEASIDE_NIGHT:
-        play_sound_effect(0x4003B22C, pos, 0, 0);
+        play_sound_effect(0x4003B22C, (Vec *)(pos), 0, 0);
         break;
     case AREA_SEABED_UPPER:
     case AREA_SEABED_LOWER:
-        play_sound_effect(0x4003A834, pos, 0, 0);
+        play_sound_effect(0x4003A834, (Vec *)(pos), 0, 0);
         break;
     }
 }

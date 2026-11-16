@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/weapon/TItemWeapon.h"
 #include "pso/player/TObjPlayer_8012121C.h"
 #include "pso/unk/text_80087278.h"
 #include "pso/weapon/TUnk_804A3358.h"
@@ -37,7 +38,7 @@ void TUnk_804A3358::emit_marker_effects() {
             }
         }
     } else {
-        ((TObjPlayer *)this)->update_active_game_effect();
+        ((TItemWeapon *)this)->update_active_game_effect();
     }
 }
 
@@ -47,13 +48,12 @@ TUnk_804A3358::TUnk_804A3358(TObject *parent, u8 *item) : TItemWeapon(parent, it
     set_weapon_flags(34);
 }
 
-extern "C" {
+
 u8 *TObjPlayer__sub_801277EC(u8 *item) {
     if (item != NULL) {
         return (u8 *)new TUnk_804A3358(tl_05, item);
     }
     return NULL;
-}
 }
 
 TUnk_804A3358::~TUnk_804A3358() {}

@@ -1,8 +1,10 @@
 #include "types.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/player/TUnk_804B6C24.h"
+#define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/system/task/TObject_80019A50.h"
+#include "pso/system/task/TObject.h"
 
-extern "C" {
 
 extern s32 TParticleCtrl__class_name_descriptor;
 
@@ -11,6 +13,18 @@ u32 TParticleCtrl::validate_ctrl() {
         *(u32 *)&this->m_flags = 0U;
     }
     return *(u32 *)&this->m_flags;
+}
+
+extern "C" {
+
+void *validate_ctrl__13TParticleCtrlFv(void *);
+
+void TParticleCtrl::destroy_particle() {
+    void *x;
+    x = validate_ctrl__13TParticleCtrlFv(this);
+    if (x != NULL) {
+        ((TObject *)(*(void * *)&this->m_flags))->queue_destruction();
+    }
 }
 
 }

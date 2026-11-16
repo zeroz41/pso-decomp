@@ -1,4 +1,5 @@
 #include "pso/render/ChunkMaterialState.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/object/door/TObjDoor.h"
 #include "types.h"
 #include "pso/render/MaterialColorFade.h"
@@ -15,6 +16,7 @@
 #include "pso/math/AngleLookup.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/render/GinjaMaterial.h"
+#include "pso/system/task/TObject.h"
 
 struct Node_8018E358 { s32 pad0; void *f4; };
 struct Glob_8018E358 { s32 f0; s32 pad4; s32 pad8; Node_8018E358 *a; Node_8018E358 *b; };
@@ -77,10 +79,7 @@ f32 xyz_distance_squared(u8 *arg0, u8 *arg1);
 s32 project_world_to_screen(int, void *, void *);
 extern s32 camera_ctrl_instance;
 s32 free_collision_body_parts(void *);
-s32 __dl__7TObjectFPv(void *);
 extern s32 __vt__8TObjDoor[];
-void *__dt__8TObjDoorFv(void *arg0, s16 arg1);
-void *__nw__7TObjectFUl(int);
 extern void *tl_05;
 void *TObjDoor__create(void *arg0);
 void free_bin_model_request(void*, int);
@@ -94,7 +93,9 @@ extern s32 model_render_flags;
 void render__8TObjDoorFPv(Door_8018E40C *arg0);
 s32 draw_closed__8TObjDoorFPv(Door_8018E5F4 *arg0);
 u8 *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
+}
 u8 *load_gvm_texture_file(s32 arg0);
+extern "C" {
 s32 get_bml_model(s32, s32);
 s32 get_bml_motion(s32, s32);
 s32 draw_locked__8TObjDoorFPv(Door_8018E74C *arg0);
@@ -105,7 +106,7 @@ s32 activate_camera_mode(s32);
 s32 check_player_door_proximity(s32 arg0, s32 arg1, f32 farg0);
 extern "C" {
 s32 play_persistent_sound(s32 id, s32 a1, Vec *, s32 a3, s32 flags);
-u8 is_current_floor_switch_set(u16);
+u8 is_current_floor_switch_set(s32 id);
 extern s32 TObjDoor__data_805D5BC8;
 s32 init_collision_body_parts(void *, void *, s32);
 s32 __ct__14TObjCollidableFP7TObject(void *, void *);
@@ -509,10 +510,10 @@ void run_task__8TObjDoorFv(VObj_8018EF70 *self) {
 }
 }
 TObjDoor::~TObjDoor() {
-    ((TObjCollidable *)this)->unregister_object_by_id();
+    this->unregister_object_by_id();
     free_collision_body_parts(this);
 }
-extern "C" {
+
 
 #define d ((Door_8018F15C *)arg0)
 void *TObjDoor__ct(void *arg0, void *arg1, void *arg2) {
@@ -543,7 +544,7 @@ void *TObjDoor__ct(void *arg0, void *arg1, void *arg2) {
 }
 
 void *TObjDoor__create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0xD4);
+    void *o = TObject::operator new(0xD4);
     if (o != NULL) {
         o = TObjDoor__ct(o, tl_05, arg0);
     }
@@ -576,12 +577,11 @@ void TObjDoor::load_resources() {
 }
 
 void *TObjDoorJung__create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0xD8);
+    void *o = TObject::operator new(0xD8);
     if (o != NULL) {
         o = TObjDoorJung__ct((u8 *)o, (s32)tl_05, (s32)arg0);
     }
     return o;
-}
 }
 
 #pragma pop

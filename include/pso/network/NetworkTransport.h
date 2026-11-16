@@ -14,8 +14,8 @@ typedef struct NetTransportParams {
     s32 e;
     s32 f;
     s32 ring_buffer_size;
-    s32 h;
-    s32 i;
+    u32 h;
+    u32 i;
 } NetTransportParams;
 
 #ifdef __cplusplus
@@ -41,8 +41,9 @@ extern s32 lbl_805D4800;
 void close_network_transport(void);
 s32 TLobby__sub_803F7684(void *lobby);
 void start_network_thread(void);
-s32 is_transport_connected(void);
+u16 is_transport_connected(void);
 s32 recv_network_frame(u16 max_len, void *lobby, u16 *out_len);
+s32 send_network_frame(u16 len, u8 *src);
 void TLobby__sub_803F7678(void);
 s32 TLobby__sub_803F767C(void);
 struct NetThreadState;

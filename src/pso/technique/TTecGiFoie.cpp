@@ -1,9 +1,12 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/TParticleCtrl.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "types.h"
 #include "pso/technique/TTecGiFoie.h"
 #include "pso/system/task/TObject.h"
 #include "pso/technique/TTecCtrl.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
+#include "pso/system/MatrixStack.h"
 extern "C" void *__dt__13TUnk_804CC148Fv(void *, s16);
 #include "pso/system/vector.h"
 #include "pso/effect/TUnk_804CC148.h"
@@ -112,8 +115,6 @@ struct Obj_8023154C {
     s32 cursor;
 };
 
-struct Vec_802312E4 { f32 x, y, z; };
-
 struct Rot_802312E4 { s32 x, y, z; };
 
 // Same layout as TTecGiBarta's Row_802304A0 {entry, flags, scale}.
@@ -125,8 +126,8 @@ struct Task_802312E4 {
     u8 pad0[0x18];
     void **vt;
     u32 *emitters;
-    Vec_802312E4 pos;
-    Vec_802312E4 pos2;
+    Vec pos;
+    Vec pos2;
     f32 x38;
     s32 x3c;
     s32 x40;
@@ -140,8 +141,6 @@ typedef struct RecoveredGlobal_80231638___vt__10TTecGiFoie RecoveredGlobal_80231
 
 typedef char RecoveredGlobal_80231638___vt__10TTecGiFoie_size[((sizeof(RecoveredGlobal_80231638___vt__10TTecGiFoie)) == 0x28) ? (1) : (-1)];
 
-struct Vec_8023179C { f32 x, y, z; };
-
 struct Task_8023179C;
 
 struct GiFoie_8023179C {
@@ -149,7 +148,7 @@ struct GiFoie_8023179C {
     u8 pad4[0x18 - 0x4];
     void *vt;
     void *source;
-    Vec_8023179C pos;
+    Vec pos;
     u8 pad2c[0x78 - 0x2C];
     s16 level;
     s16 band;
@@ -166,23 +165,18 @@ struct GiFoie_8023179C {
 
 struct Task_802312E4;
 
-struct Vec_802312E4;
-
 void *spawn_particle_effect_with_rotation(void *pos, void *dir, s32 id, int e);
 void *spawn_continuous_particle_with_direction(void *pos, void *dir, s32 id);
-void mem_free(void *);
-void *mem_alloc(u32 size);
 void * find_entity_by_id(u16);
 s32 update_technique_slot__10TTecRaFoieFl(s32, s32, s32);
-s32 play_sound_effect(s32, void *, s32, s32);
+s32 play_sound_effect(s32, Vec *, s32, s32);
 void __dl__7TObjectFPv(void *);
-void * __nw__7TObjectFUl(int);
 void __dt__7TObjectFv(void *, int);
 void __ct__7TObjectFP7TObject(void *, void *);
 void construct_area_technique_base(void *, void *, void *, void *, void *);
 s32 calc_technique_parameters(int, int, int);
 u8 * __dt__13TUnk_804CC800Fv(Task_80231224 *task, s16 flag);
-Task_802312E4 * construct_orbit__10TTecGiFoieFPvPviUciPvUc(Task_802312E4 *self, Vec_802312E4 *pos, s32 arg2, u8 band, s32 arg4, void *parent, u8 single);
+Task_802312E4 * construct_orbit__10TTecGiFoieFPvPviUciPvUc(Task_802312E4 *self, Vec *pos, s32 arg2, u8 band, s32 arg4, void *parent, u8 single);
 u8 * __dt__10TTecGiFoieFv(u8 *arg0, s16 arg1);
 void run_task__10TTecGiFoieFv(u8 *self);
 void * TTecGiFoie__ct(void *self_, void *source, void *origin, void *level);
@@ -235,8 +229,8 @@ void *TTecGiFoie__ct(void *self_, void *source, void *origin, void *level) {
     }
     self->cursor = 0;
     for (k = 0; k < orbit_counts[self->band]; k++) {
-        Vec_8023179C v = {0.0f, 0.0f, -10.0f};
-        Vec_8023179C p;
+        Vec v = {0.0f, 0.0f, -10.0f};
+        Vec p;
         s32 angle;
         s32 step;
         void *o;
@@ -249,43 +243,43 @@ void *TTecGiFoie__ct(void *self_, void *source, void *origin, void *level) {
         p.x = self->pos.x + v.x;
         p.y = self->pos.y + v.y;
         p.z = self->pos.z + v.z;
-        o = __nw__7TObjectFUl(0x4C);
+        o = TObject::operator new(0x4C);
         if (o != NULL) {
-            o = ((Task_8023179C *(*)(void *, Vec_8023179C *, s32, s32, s32, void *, u8))construct_orbit__10TTecGiFoieFPvPviUciPvUc)(o, &p, angle, self->band, self->level, (void *)tl_07, 0);
+            o = ((Task_8023179C *(*)(void *, Vec *, s32, s32, s32, void *, u8))construct_orbit__10TTecGiFoieFPvPviUciPvUc)(o, &p, angle, self->band, self->level, (void *)tl_07, 0);
         }
         self->tasks[k] = (Task_8023179C *)o;
     }
     switch (self->band) {
     case 0:
-        r = play_sound_effect(0x4002A801, (u8 *)self_ + 0x20, 0, 0);
+        r = play_sound_effect(0x4002A801, (Vec *)((u8 *)self_ + 0x20), 0, 0);
         if (r >= 0) {
             update_technique_slot__10TTecRaFoieFl(r, 0x100, 0);
         }
         break;
     case 1:
-        play_sound_effect(0x4002A801, (u8 *)self_ + 0x20, 0, 0);
+        play_sound_effect(0x4002A801, (Vec *)((u8 *)self_ + 0x20), 0, 0);
         break;
     case 2:
     case 3:
-        r = play_sound_effect(0x4002A801, (u8 *)self_ + 0x20, 0, 0);
+        r = play_sound_effect(0x4002A801, (Vec *)((u8 *)self_ + 0x20), 0, 0);
         if (r >= 0) {
             update_technique_slot__10TTecRaFoieFl(r, -0x180, 0);
         }
         break;
     case 4:
-        r = play_sound_effect(0x4002A801, (u8 *)self_ + 0x20, 0, 0);
+        r = play_sound_effect(0x4002A801, (Vec *)((u8 *)self_ + 0x20), 0, 0);
         if (r >= 0) {
             update_technique_slot__10TTecRaFoieFl(r, -0x250, 0);
         }
         break;
     case 5:
-        r = play_sound_effect(0x4002A801, (u8 *)self_ + 0x20, 0, 0);
+        r = play_sound_effect(0x4002A801, (Vec *)((u8 *)self_ + 0x20), 0, 0);
         if (r >= 0) {
             update_technique_slot__10TTecRaFoieFl(r, -0x100, 0);
         }
         break;
     default:
-        play_sound_effect(0x4002A801, (u8 *)self_ + 0x20, 0, 0);
+        play_sound_effect(0x4002A801, (Vec *)((u8 *)self_ + 0x20), 0, 0);
         break;
     }
     if (self->source != NULL) {
@@ -388,13 +382,13 @@ void TTecGiFoie::vfunc_6(void *target) {
 
 void TTecGiFoie::create(void *arg0, void *origin, void *level) {
     void *o;
-    o = __nw__7TObjectFUl(0x13C);
+    o = TObject::operator new(0x13C);
     if (o != NULL) {
         TTecGiFoie__ct(o, arg0, origin, level);
     }
 }
 
-Task_802312E4 *construct_orbit__10TTecGiFoieFPvPviUciPvUc(Task_802312E4 *self, Vec_802312E4 *pos, s32 arg2, u8 band, s32 arg4, void *parent, u8 single) {
+Task_802312E4 *construct_orbit__10TTecGiFoieFPvPviUciPvUc(Task_802312E4 *self, Vec *pos, s32 arg2, u8 band, s32 arg4, void *parent, u8 single) {
     __ct__7TObjectFP7TObject(self, parent);
     self->vt = lbl_804CC800;
     self->x46 = 0;
@@ -508,7 +502,7 @@ void TUnk_804CC800::run_task() {
         pad_2C.z = pad_20.z + offset.z;
     } else {
         pad_38 += 0.55f;
-        pad_3C += (s32)(182.04445f * (f32)(pad_44 + 9));
+        pad_3C += (s32)(182.04445f * (pad_44 + 9));
         pad_2C.y = lbl_8044D338[bob] * sin_table_lookup((s32)(182.04445f * (f32)(pad_40 * 15))) + pad_20.y;
         pad_2C.x = pad_38 * cos_table_lookup(pad_3C) + pad_20.x;
         pad_2C.z = pad_38 * sin_table_lookup(pad_3C) + pad_20.z;

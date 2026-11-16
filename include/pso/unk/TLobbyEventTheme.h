@@ -40,8 +40,6 @@ void load_obj_lobby_main();
 void free_obj_lobby_main();
 s32 get_theme_lobby_type();
 
-extern "C" {
 s32 is_lobby_event_active(void);
-}
 
 #endif

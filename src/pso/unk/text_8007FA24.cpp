@@ -4,16 +4,8 @@
 #include "pso/unk/text_8007FA24.h"
 #include "pso/ui/frontend/TAdTrialModemChkGC.h"
 
-struct RecoveredGlobal_8007FA24_lbl_8048DF88
-{
-  s32 value;
-  u8 remaining[0x8];
-};
-
-
-extern RecoveredGlobal_8007FA24_lbl_8048DF88 lbl_8048DF88;
-typedef struct RecoveredGlobal_8007FA24_lbl_8048DF88 RecoveredGlobal_8007FA24_lbl_8048DF88;
-typedef char RecoveredGlobal_8007FA24_lbl_8048DF88_size[((sizeof(RecoveredGlobal_8007FA24_lbl_8048DF88)) == 0xC) ? (1) : (-1)];
+struct RecoveredGlobal_lbl_8048DF88 { s32 value; u8 remaining[0x8]; };
+extern RecoveredGlobal_lbl_8048DF88 lbl_8048DF88;
 void TAdTrialModemChkGC__sub_8007FA24(s32 arg0) {
   s32 temp_r31;
   s32 var_r31;

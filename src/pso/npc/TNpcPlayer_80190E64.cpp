@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/unk/TUnk_804B7C1C.h"
 #include "pso/system/vector.h"
 #include "pso/object/base/TObjMotion.h"
@@ -44,10 +45,7 @@ extern s32 npc_player_char_data_buffer;
 Npc_80190F3C *init_npc_player_char_loader(Npc_80190F3C *arg0, void *arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, void *arg6);
 void free_collision_body_parts(void *);
 void *get_player_by_client_id(s32 i);
-s32 __dl__7TObjectFPv(void *);
-Obj_801910F4 *__dt__13TUnk_804B7C1CFv(Obj_801910F4 *arg0, s16 arg1);
 f32 horizontal_distance_squared(void *, void *);
-void *__nw__7TObjectFUl(int);
 int npc_proximity_target_id = -1;
 extern s32 local_client_id;
 extern void *tl_07;
@@ -56,39 +54,35 @@ s32 build_npc_player_record__10TNpcPlayerFl(s32);
 void send_6x24_teleport_player(u16 slot, void *pos, s32 heading);
 u8 *create_player_object(u16, s32, s32);
 s32 queue_player_injured_pose();
-s32 __dt__7TObjectFv(void *, s32);
+}
 void set_player_quest_control_flag(TObjPlayer *player);
 
-}
-
 #pragma defer_codegen on
-
-extern "C" {
 extern void *tl_05;
 int hashi_versus2_flag;
+extern "C" {
 
 void TObjHashiVersus2__sub_801912B0(void) { hashi_versus2_flag = 0; }
 
 void TObjHashiVersus2__sub_801912A4(void) { hashi_versus2_flag = 1; }
+}
 
 void set_player_quest_control_flag(TObjPlayer *player) {
     player->set_state_flags(0x8000);
 }
+extern "C" {
 
 void TLobby__sub_80191270(void) { npc_proximity_target_id = -1; }
 
 void TLobby__sub_80191264(void) { npc_proximity_target_id = -1; }
 
 void *TLobby::create_npc(void *arg0) {
-    void *o = __nw__7TObjectFUl(0xB8);
+    void *o = TObject::operator new(0xB8);
     if (o != NULL) {
         o = TLobby__sub_8019118C((u8 *)o, (s32)tl_05, (s32)arg0);
     }
     return o;
 }
-}
-
-extern "C" {
 u8 *TLobby__sub_8019118C(u8 *arg0, s32 arg1, s32 arg2) {
     __ct__14TObjCollidableFP7TObject(arg0, arg1);
     *(s32 **)((s8 *)arg0 + 0x18) = &__vt__13TUnk_804B7C1C.value;
@@ -103,8 +97,8 @@ u8 *TLobby__sub_8019118C(u8 *arg0, s32 arg1, s32 arg2) {
 }
 
 TUnk_804B7C1C::~TUnk_804B7C1C() {
-    ((TObjCollidable *)this)->unregister_object_by_id();
-    free_collision_body_parts(((Obj_801910F4 *)this));
+    this->unregister_object_by_id();
+    free_collision_body_parts(this);
     u32 id = ((Obj_801910F4 *)this)->fAC;
     if (id != 0xFFFF) {
         Ctrl_801910F4 *c = (Ctrl_801910F4 *)get_player_by_client_id(id);
@@ -130,7 +124,7 @@ void TUnk_804B7C1C::run_task() {
         ((TObjCollidable *)arg0)->set_indexed_flags(0, 1);
         if (arg0->fB4 == 0) {
             arg0->fB4 = 1;
-            o = __nw__7TObjectFUl(0x3C);
+            o = TObject::operator new(0x3C);
             if (o != 0) {
                 init_npc_player_char_loader((Npc_80190F3C *)o, arg0->pos, arg0->f60, arg0->fAC, arg0->fB0, arg0->f88, tl_07);
             }
@@ -152,7 +146,7 @@ void TUnk_804B7C1C::render() {  }
 
 void TLobby__sub_80190FD0(int a0) { npc_proximity_target_id = a0; }
 
-extern "C" {
+
 Npc_80190F3C *init_npc_player_char_loader(Npc_80190F3C *arg0, void *arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, void *arg6) {
     __ct__7TObjectFP7TObject(arg0, arg6);
     arg0->f18 = ((u8 *)__vt__13TUnk_804B7C04);
@@ -165,7 +159,6 @@ Npc_80190F3C *init_npc_player_char_loader(Npc_80190F3C *arg0, void *arg1, s32 ar
     TNpcPlayer::ensure_rock_singleton();
     TLobby::request_file_read((s32)"npcplayerchar.dat", (s32)npc_player_char_data_buffer, &arg0->f2C, (void **)0);
     return arg0;
-}
 }
 
 TUnk_804B7C04::~TUnk_804B7C04() {

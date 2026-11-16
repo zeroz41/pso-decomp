@@ -9,8 +9,8 @@ void TObjPlayer__sub_803D9C60(u32 *p);
 s32 TObjPlayer__sub_803D9E38(s32 *arg0, u32 arg1, s32 *arg2, u32 *arg3);
 }
 u32 *find_gvrt_texture_chunk(TLobby *arg0, u32 *arg1, u32 *arg2);
-extern "C" {
 s32 pop_matrices(s32 arg0);
+extern "C" {
 s32 pop_matrix(void);
 s32 push_matrix_from(void *src);
 }

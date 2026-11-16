@@ -1,19 +1,16 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
+#include "pso/unk/TLobby.h"
 #include "pso/object/ambient/TObjEnvSound.h"
 #include "pso/object/ambient/TObjEnvSoundEx.h"
 #include "pso/object/ambient/TObjEnvSoundGlobal.h"
-#include "pso/object/ambient/TObjEnvSoundEx.h"
-#include "pso/object/ambient/TObjEnvSoundGlobal.h"
+
+
 #include "pso/object/base/TObjMotion.h"
 #include "pso/map/FloorArea.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/task/TObject.h"
-
-struct RecoveredGlobal_80190484___vt__18TObjEnvSoundGlobal {
-    s32 value;
-    u8 remaining[0x30];
-};
 
 struct Row_80190AA0 { u32 cue; s32 mode; };
 
@@ -63,35 +60,18 @@ Row_80190AA0 *environment_sound_tables_by_area[36] = {
     NULL, NULL, lbl_80445820, lbl_80445820,
 };
 
-s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
+s32 play_persistent_sound(s32 id, s32 a1, Vec *, s32 a3, s32 flags);
 f32 xz_distance_squared(void *, void *);
 extern u8 *camera_ctrl_instance;
 void run_task__14TObjEnvSoundExFv(Env_80190624 *o);
 void * TObjEnvSoundEx__create(void *arg0);
-void *__dt__18TObjEnvSoundGlobalFv(void *arg0, s16 arg1);
 void __dl__7TObjectFPv(void *);
-void *__nw__7TObjectFUl(int);
 int is_not_split_screen__13TRaderMapCoreFv(void *);
 
 
-
-
-}
-extern "C" {
-
 extern void *tl_05;
 
-typedef char RecoveredGlobal_80190484___vt__18TObjEnvSoundGlobal_size[sizeof(RecoveredGlobal_80190484___vt__18TObjEnvSoundGlobal) == 0x34 ? 1 : -1];
-
-
 extern s32 __vt__14TObjEnvSoundEx[];
-void *__dt__14TObjEnvSoundExFv(void *arg0, s16 arg1);
-struct RecoveredGlobal_8019080C___vt__14TObjEnvSoundEx {
-    s32 value;
-    u8 remaining[0x30];
-};
-
-
 
 #define F(o) (*(f32 *)(self + (o)))
 #define S(o) (*(s32 *)(self + (o)))
@@ -101,24 +81,19 @@ struct RecoveredGlobal_8019080C___vt__14TObjEnvSoundEx {
 
 
 }
-extern "C" {
-typedef char RecoveredGlobal_8019080C___vt__14TObjEnvSoundEx_size[sizeof(RecoveredGlobal_8019080C___vt__14TObjEnvSoundEx) == 0x34 ? 1 : -1];
 
-}
 
-#include "types.h"
 #include "pso/unk/text_80190884.h"
-#include "pso/object/ambient/TObjEnvSound.h"
+
 #include "pso/ui/hud/TRaderMapCore.h"
 
 extern "C" {
 f32 xyz_distance_squared(void *, void *, void *);
 
 
-
 }
 
-#include "types.h"
+
 #include "pso/unk/text_80190940.h"
 
 
@@ -140,41 +115,24 @@ struct Obj_80190AA0 {
 extern "C" {
 
 void *TObjEnvSound__ct(Obj_80190AA0 *, void *, void *);
-int is_not_split_screen__13TRaderMapCoreFv(void *);
-void *__nw__7TObjectFUl(int);
-
-extern void *tl_05;
 
 
 }
 
-#include "types.h"
-#include "pso/object/ambient/TObjEnvSound.h"
 
 struct Pkt_80190BA0 { u32 header; s32 target; s32 event; };
 
 extern "C" {
 
-s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
-void byteswap_event_packet__6TLobbyFi(s32 arg0);
-}
-s32 set_floor_event_flags(s32 arg0, s32 arg1, s32 arg2);
-s32 activate_first_floor_event(s32 idx, s32 id);
-extern "C" {
 void handle_6x67_trigger_set_event(Pkt_80190BA0 *pkt);
 void copy_pair__18TObjEnvSoundGlobalFPvPv(void *p, void *q);
 
 extern s32 __vt__12TObjEnvSound[];
-
-void *__dt__12TObjEnvSoundFv(void *arg0, s16 arg1);
-void __dl__7TObjectFPv(void *);
-
-
-
 }
-
+s32 set_floor_event_flags(s32 arg0, s32 arg1, s32 arg2);
+s32 activate_first_floor_event(s32 idx, s32 id);
 void handle_6x67_trigger_set_event(Pkt_80190BA0 *pkt) {
-    byteswap_event_packet__6TLobbyFi((s32)pkt);
+    ((TLobby *)pkt)->byteswap_event_packet();
     if (pkt->target != get_current_floor()) {
         set_floor_event_flags(pkt->target, pkt->event, 4);
     } else {
@@ -223,10 +181,10 @@ void TObjEnvSound::run_task() {
         case 0:
             break;
         case 1:
-            play_persistent_sound((s32)this->m_98, (s32)arg0, (u32)(arg0 + 0x38), 0, 0);
+            play_persistent_sound((s32)this->m_98, (s32)arg0, (Vec *)((u32)(arg0 + 0x38)), 0, 0);
             return;
         case 2:
-            play_persistent_sound((s32)this->m_98, (s32)arg0, (u32)(arg0 + 0x38), (s32)this->m_94, 2);
+            play_persistent_sound((s32)this->m_98, (s32)arg0, (Vec *)((u32)(arg0 + 0x38)), (s32)this->m_94, 2);
             break;
         }
     }
@@ -239,7 +197,7 @@ void * TObjEnvSound__create(void *rader_map_core) {
     if (is_not_split_screen__13TRaderMapCoreFv(rader_map_core) == 1) {
         return NULL;
     }
-    o = __nw__7TObjectFUl(0xA0);
+    o = TObject::operator new(0xA0);
     if (o != NULL) {
         o = TObjEnvSound__ct((Obj_80190AA0 *)o, tl_05, rader_map_core);
     }
@@ -263,8 +221,8 @@ s32 TObjEnvSound::is_sound_enabled(void *self, s32 cue) {
 
 u8 *TObjEnvSoundEx__ct(u8 *env_sound_ex, s32 arg1, s32 arg2) {
     ((s32 (*)(void *))__ct__8TObjBaseFP7TObject)(env_sound_ex);
-    *(s32 **)((s8 *)env_sound_ex + 0x18) = &(*(RecoveredGlobal_8019080C___vt__14TObjEnvSoundEx *)&__vt__14TObjEnvSoundEx).value;
-    *(const char **)((s8 *)env_sound_ex + 0) = TObjEnvSoundEx__class_name;
+    *(s32 **)((s8 *)env_sound_ex + 0x18) = __vt__14TObjEnvSoundEx;
+    ((TObjEnvSoundEx *)env_sound_ex)->m_name = TObjEnvSoundEx__class_name;
     ((TObjEnvSoundEx *)(env_sound_ex))->apply_object_set_data((void *)arg2);
     ((TObjEnvSoundEx *)env_sound_ex)->init_sound_params();
     *(f32 *)((s8 *)env_sound_ex + 0x94) = -127.0f;
@@ -286,10 +244,10 @@ void run_task__14TObjEnvSoundExFv(Env_80190624 *o) {
         case 0:
             break;
         case 1:
-            play_persistent_sound((s32)o->f9C, (s32)o, (u32)((f32 *)o->pos), 0, 0);
+            play_persistent_sound((s32)o->f9C, (s32)o, (Vec *)((u32)((f32 *)o->pos)), 0, 0);
             break;
         case 2:
-            play_persistent_sound((s32)o->f9C, (s32)o, (u32)((f32 *)(0)), (s32)((s32)o->vol), 2);
+            play_persistent_sound((s32)o->f9C, (s32)o, (Vec *)((u32)((f32 *)(0))), (s32)((s32)o->vol), 2);
             break;
         }
     } else {
@@ -302,10 +260,10 @@ void run_task__14TObjEnvSoundExFv(Env_80190624 *o) {
             case 0:
                 break;
             case 1:
-                play_persistent_sound((s32)o->f9C, (s32)o, (u32)((f32 *)o->pos), 0, 0);
+                play_persistent_sound((s32)o->f9C, (s32)o, (Vec *)((u32)((f32 *)o->pos)), 0, 0);
                 break;
             case 2:
-                play_persistent_sound((s32)o->f9C, (s32)o, (u32)((f32 *)(0)), (s32)((s32)o->vol), 2);
+                play_persistent_sound((s32)o->f9C, (s32)o, (Vec *)((u32)((f32 *)(0))), (s32)((s32)o->vol), 2);
                 break;
             }
         }
@@ -347,7 +305,7 @@ void * TObjEnvSoundEx__create(void *rader_map_core) {
     if (is_not_split_screen__13TRaderMapCoreFv(rader_map_core) == 1) {
         return NULL;
     }
-    o = __nw__7TObjectFUl(0xA8);
+    o = TObject::operator new(0xA8);
     if (o != NULL) {
         o = TObjEnvSoundEx__ct((u8 *)o, (s32)tl_05, (s32)rader_map_core);
     }
@@ -356,8 +314,8 @@ void * TObjEnvSoundEx__create(void *rader_map_core) {
 
 u8 *TObjEnvSoundGlobal__ct(u8 *env_sound_global, s32 parent, s32 arg2) {
     __ct__8TObjBaseFP7TObject((void *)env_sound_global, (void *)parent);
-    *(s32 **)((s8 *)env_sound_global + 0x18) = &(*(RecoveredGlobal_80190484___vt__18TObjEnvSoundGlobal *)&__vt__18TObjEnvSoundGlobal).value;
-    *(const char **)((s8 *)env_sound_global + 0) = TObjEnvSoundGlobal__class_name;
+    *(s32 **)((s8 *)env_sound_global + 0x18) = __vt__18TObjEnvSoundGlobal;
+    ((TObjEnvSoundGlobal *)env_sound_global)->m_name = TObjEnvSoundGlobal__class_name;
     ((TObjEnvSoundGlobal *)(env_sound_global))->apply_object_set_data((void *)arg2);
     ((TObjEnvSoundGlobal *)env_sound_global)->setup_sound();
     return env_sound_global;
@@ -373,10 +331,10 @@ void TObjEnvSoundGlobal::run_task() {
     case 0:
         break;
     case 1:
-        play_persistent_sound((s32)self->sound, (s32)self, (u32)self->pos, 0, 0);
+        play_persistent_sound((s32)self->sound, (s32)self, (Vec *)((u32)self->pos), 0, 0);
         break;
     case 2:
-        play_persistent_sound((s32)self->sound, (s32)self, (u32)(0), (s32)self->param, 2);
+        play_persistent_sound((s32)self->sound, (s32)self, (Vec *)((u32)(0)), (s32)self->param, 2);
         break;
     }
 }

@@ -1,4 +1,5 @@
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/ui/TLevelSelect.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/task/TObject.h"
@@ -19,6 +20,7 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/unk/text_803D8F74.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 extern s32 game_difficulty_selection;
 
@@ -50,7 +52,7 @@ void TOKeyJungleMain::play_activate_sound() {
         sound = 0x4004AD12;
         break;
     }
-    play_sound_effect(sound, &position, 0, 0);
+    play_sound_effect(sound, (Vec *)(&position), 0, 0);
 }
 
 void *TOKeyJungleMain::create(void *set_data) {
@@ -90,7 +92,7 @@ void TOKeyJungleMain::render() {
     if (update_object_view_visibility(view_range, model_radius) == 1) {
         switch (is_on) {
         case 0:
-            TObjFish::set_global_param(TObjFish__sub_8001EDB0(TOKeyJungleMain__static_model_resource, 1));
+            TObjFish::set_global_param(get_bml_texlist(TOKeyJungleMain__static_model_resource, 1));
             push_matrix();
             post_translate_matrix(&position.x);
             rotate_matrix_y(0, rotation_y);
@@ -98,7 +100,7 @@ void TOKeyJungleMain::render() {
             pop_matrix();
             return;
         case 1:
-            TObjFish::set_global_param(TObjFish__sub_8001EDB0(TOKeyJungleMain__static_model_resource, 1));
+            TObjFish::set_global_param(get_bml_texlist(TOKeyJungleMain__static_model_resource, 1));
             push_matrix();
             post_translate_matrix(&position.x);
             rotate_matrix_y(0, rotation_y);
@@ -138,12 +140,12 @@ void TOKeyJungleMain::update_switch_on() {
     AnimationMotion *motion = get_bml_motion(TOKeyJungleMain__static_model_resource, 1);
 
     switch_frame += 1.0f;
-    if (switch_frame > (f32)(motion->frameCount - 1)) {
+    if (switch_frame > (motion->frameCount - 1)) {
         switch_frame = motion->frameCount - 1;
     }
     motion = get_bml_motion(TOKeyJungleMain__static_model_resource, 0);
     sw_naka_frame += 1.0f;
-    if (sw_naka_frame > (f32)(motion->frameCount - 1)) {
+    if (sw_naka_frame > (motion->frameCount - 1)) {
         sw_naka_frame = 0.0f;
     }
 }

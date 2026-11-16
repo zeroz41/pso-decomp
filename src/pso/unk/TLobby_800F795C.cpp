@@ -1,4 +1,5 @@
 #include "pso/enemy/nanodrago/TObjEneNanoDrago.h"
+#include "pso/unk/TLobby_80291D94.h"
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/map/FloorResourceCallbacks.h"
 #include "pso/boss/dragon/TBoss1DragonDemo.h"
@@ -33,7 +34,7 @@
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/boss/olgaflow/TBoss6PlotFalz.h"
-#include "pso/boss/barbaray/TBoss7DeRolLeC.h"
+
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 #include "pso/enemy/balclaw/TObjEneBalClaw.h"
 #include "pso/enemy/balclaw/TObjEneBalClawClaw.h"
@@ -116,19 +117,14 @@
 #include "pso/object/ambient/TObjGrass.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/text_800C7FEC.h"
-#include "pso/map/FloorArea.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
-struct RecoveredGlobal_800F7A6C_lbl_804DB1F0 {
-    s32 value;
-    u8 remaining[0x6AC];
-};
 
 struct RecoveredGlobal_800F7A7C_lbl_8048C9D8 {
     s32 value;
     u8 remaining[0x744];
 };
 
-extern RecoveredGlobal_800F7A6C_lbl_804DB1F0 lbl_804DB1F0;
 extern RecoveredGlobal_800F7A7C_lbl_8048C9D8 challenge_mode_state;
 extern "C" {
 s32 is_area_transfer_pending();
@@ -148,7 +144,6 @@ void send_6x0A_enemy_state_packet(void* p) { ((TLobby *)p)->bswap_enemy_state();
 void init_6x0A_enemy_state_packet(void* p) { *(u8*)((char*)p + 0x0) = 10; *(u8*)((char*)p + 0x1) = 3; }
 int get_attack_credit_slot_count(void) { return 4; }
 
-typedef char RecoveredGlobal_800F7A6C_lbl_804DB1F0_size[sizeof(RecoveredGlobal_800F7A6C_lbl_804DB1F0) == 0x6B0 ? 1 : -1];
 f32 TLobby__sub_800F7A6C(void) {
     return *(f32 *)((s8 *)&lbl_804DB1F0.value + 4);
 }
@@ -200,7 +195,6 @@ void load_resources__12TBoss1DragonFv();
 void load_boss5_gryphon_resources();
 void TObjEneBalClaw__sub_8008D924();
 void load_darkgunner_effect_resources();
-void load_resources__11TObjEneMojaFv();
 void TObjEneMerillLia__sub_800D6D64();
 
 void load_shinowa_mirage_resources();
@@ -268,7 +262,7 @@ FloorResourceCallbacks floor_resource_callbacks_selector_01[8] = {
 FloorResourceCallbacks floor_resource_callbacks_selector_02[10] = {
     { load_corpse_mark_resource, TObjPlayer::destroy_static_lobby },
     { TObjEneDD::create_instance, TObjEneDD::release_resource },
-    { load_resources__11TObjEneMojaFv, TObjEneMoja::free_resources },
+    { TObjEneMoja::load_resources, TObjEneMoja::free_resources },
     { TObjEneLappy::load_resources, TLobby::cleanup_handles },
     { TObjEneBm3FlyNest::load_resources, TObjEneBm3FlyNest::free_fly },
     { TObjEneBm5Wolf::load_resources, TObjEneBm5Wolf::release_global_805D5120 },
@@ -283,7 +277,7 @@ FloorResourceCallbacks floor_resource_callbacks_selector_03[10] = {
     { TObjEneDD::create_instance, TObjEneDD::release_resource },
     { TObjGrass::load_resources, TObjGrass::destroy_all },
     { TObjCGrass::load_resources, TObjCGrass::release_global_805D5130 },
-    { TObjPlayer__sub_800C44C4, TObjEneRe2Flower::destroy_instance },
+    { load_re2_flower_resources, TObjEneRe2Flower::destroy_instance },
     { TObjEneNanoDrago::load_resources, TObjEneNanoDrago::free_resources },
     { TLobby::load_shark_resources, TObjEneShark::free_resources },
     { TObjEnePanarms::load_and_spawn_npc, TObjEnePanarms::free_data },
@@ -296,7 +290,7 @@ FloorResourceCallbacks floor_resource_callbacks_selector_04[10] = {
     { TObjEneDD::create_instance, TObjEneDD::release_resource },
     { TObjGrass::load_resources, TObjGrass::destroy_all },
     { TObjCGrass::load_resources, TObjCGrass::release_global_805D5130 },
-    { TObjPlayer__sub_800C44C4, TObjEneRe2Flower::destroy_instance },
+    { load_re2_flower_resources, TObjEneRe2Flower::destroy_instance },
     { TObjEneNanoDrago::load_resources, TObjEneNanoDrago::free_resources },
     { TLobby::load_shark_resources, TObjEneShark::free_resources },
     { TObjEneSlime::spawn_pair, TObjEneSlime::free_instance },
@@ -307,7 +301,7 @@ FloorResourceCallbacks floor_resource_callbacks_selector_04[10] = {
 FloorResourceCallbacks floor_resource_callbacks_selector_05[12] = {
     { load_corpse_mark_resource, TObjPlayer::destroy_static_lobby },
     { TObjEneDD::create_instance, TObjEneDD::release_resource },
-    { TObjPlayer__sub_800C44C4, TObjEneRe2Flower::destroy_instance },
+    { load_re2_flower_resources, TObjEneRe2Flower::destroy_instance },
     { TObjEneNanoDrago::load_resources, TObjEneNanoDrago::free_resources },
     { TLobby::load_shark_resources, TObjEneShark::free_resources },
     { TObjEneSlime::spawn_pair, TObjEneSlime::free_instance },
@@ -431,7 +425,7 @@ __declspec(section ".data") FloorResourceCallbacks floor_resource_callbacks_sele
 FloorResourceCallbacks floor_resource_callbacks_selector_16[10] = {
     { load_corpse_mark_resource, TObjPlayer::destroy_static_lobby },
     { TObjEneDD::create_instance, TObjEneDD::release_resource },
-    { load_resources__11TObjEneMojaFv, TObjEneMoja::free_resources },
+    { TObjEneMoja::load_resources, TObjEneMoja::free_resources },
     { TObjGrass::load_resources, TObjGrass::destroy_all },
     { TObjCGrass::load_resources, TObjCGrass::release_global_805D5130 },
     { TLobby::load_shark_resources, TObjEneShark::free_resources },
@@ -444,7 +438,7 @@ FloorResourceCallbacks floor_resource_callbacks_selector_16[10] = {
 FloorResourceCallbacks floor_resource_callbacks_selector_17[10] = {
     { load_corpse_mark_resource, TObjPlayer::destroy_static_lobby },
     { TObjEneDD::create_instance, TObjEneDD::release_resource },
-    { load_resources__11TObjEneMojaFv, TObjEneMoja::free_resources },
+    { TObjEneMoja::load_resources, TObjEneMoja::free_resources },
     { TObjGrass::load_resources, TObjGrass::destroy_all },
     { TObjCGrass::load_resources, TObjCGrass::release_global_805D5130 },
     { TLobby::load_shark_resources, TObjEneShark::free_resources },
@@ -514,10 +508,10 @@ FloorResourceCallbacks floor_resource_callbacks_selectors_19_20[11] = {
     { load_corpse_mark_resource, TObjPlayer::destroy_static_lobby },
     { TObjEneDD::create_instance, TObjEneDD::release_resource },
     { TObjEneLappy::load_resources, TLobby::cleanup_handles },
-    { load_resources__11TObjEneMojaFv, TObjEneMoja::free_resources },
+    { TObjEneMoja::load_resources, TObjEneMoja::free_resources },
     { TObjGrass::load_resources, TObjGrass::destroy_all },
     { TObjCGrass::load_resources, TObjCGrass::release_global_805D5130 },
-    { TObjPlayer__sub_800C44C4, TObjEneRe2Flower::destroy_instance },
+    { load_re2_flower_resources, TObjEneRe2Flower::destroy_instance },
     { TObjEneBm3FlyNest::load_resources, TObjEneBm3FlyNest::free_fly },
     { TLobby::load_dimedian_resources, TObjEneDimedian::free_boss_objects },
     { TObjEneRe7Berura::load_static_resources, TObjEneRe7Berura::destroy_children },
@@ -570,7 +564,7 @@ FloorResourceCallbacks floor_resource_callbacks_selector_35[16] = {
     { TObjEneRecobox::load_resources, TObjEneRecobox::release_static_instance },
     { TObjEneDellBiter::load_resources, TObjEneDellBiter::destroy_static_instance },
     { TObjEneEpsilonGuard::load_assets, TObjEneEpsilonGuard::free_shared_resources },
-    { TObjPlayer__sub_800C44C4, TObjEneRe2Flower::destroy_instance },
+    { load_re2_flower_resources, TObjEneRe2Flower::destroy_instance },
     { TObjEneIllGill::load_shared_resources, TObjEneIllGill::free_effect },
     { load_ply_motion_npc_town, TObjNpcBase::free_static },
     { TObjNpcFemaleBase__sub_80149C7C, TObjNpcFemaleBase__sub_80149C64 },

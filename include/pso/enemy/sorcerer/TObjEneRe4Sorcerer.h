@@ -75,6 +75,8 @@ struct TObjEneRe4Sorcerer : public TObjEneDD_ST {
     s32 m_4e4;
     s32 m_4e8;
     f32 m_4ec;
+    void set_motion_by_state();
+    s32 select_attack_target(f32 farg0, f32 farg1);
 };
 
 typedef char TObjEneRe4Sorcerer_m_3c0_offset[offsetof(TObjEneRe4Sorcerer, m_3c0) == 0x3C0 ? 1 : -1];

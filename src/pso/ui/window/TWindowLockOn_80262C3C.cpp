@@ -23,7 +23,7 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/system/task/TObject.h"
+
 
 #pragma readonly_strings on
 #pragma defer_codegen on
@@ -145,13 +145,13 @@ void init_window_layout_entries(void *, void *, int);
 f32 get_target_distance__13TWindowLockOnFv(s32);
 extern s32 __vt__13TWindowLockOn[];
 s32 draw_visible_window_entries(void *, void *, int);
-void __dl__7TObjectFPv(void *);
-void *__nw__7TObjectFUl(u32);
 s32 get_window_layout_position(int);
 s32 obj_testFlag_2E4__9TObjCharaFUl(TObjChara *, int);
 s32 is_split_screen(void);
 s32 get_message_10__20TWindowSubStatusDispFl(int);
-s32 enemy_name_for_rt_index(int);
+}
+s32 enemy_name_for_rt_index(s32 arg0);
+extern "C" {
 u32 calc_text_width(int);
 }
 s32 get_status_effect_icon_index(u32);
@@ -176,16 +176,7 @@ u8 *TWindowLockOn__ct(TWindowLockOn *self, s32 player, u16 id) {
     return (u8 *)self;
 }
 
-void *__dt__13TWindowLockOnFv(void *self, s16 flags) {
-    if (self != NULL) {
-        *(s32 **)((s8 *)self + 0x18) = __vt__13TWindowLockOn;
-        ((TWindowDD *)self)->destroy_window_base(0);
-        if (flags > 0) {
-            __dl__7TObjectFPv(self);
-        }
-    }
-    return self;
-}
+TWindowLockOn::~TWindowLockOn() {}
 
 void TWindowLockOn::run_task() {
     s32 old;
@@ -222,7 +213,7 @@ void *TWindowLockOn::create_for_target(s32 player, u16 id) {
     if (is_lockable_target(find_entity_by_id(id)) == 0) {
         return NULL;
     }
-    p = __nw__7TObjectFUl(0x7C);
+    p = TObject::operator new(0x7C);
     if (p != NULL) {
         p = TWindowLockOn__ct((TWindowLockOn *)p, player, id);
     }

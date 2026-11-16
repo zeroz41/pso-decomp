@@ -8,10 +8,12 @@ public:
     virtual ~TWindowAddition();
     s32 sub_80266B18(s32);
     void *construct_with_parent(void *);
-    void *destroy_window(s16);
     void sub_802443B4();
     void step_window_tween();
     void set_position_xy(f32, f32);
 };
+
+// TWindowAddition::~TWindowAddition(), called by the destructors that are still written by hand.
+extern "C" void *__dt__15TWindowAdditionFv(void *p, s16 flags);
 
 #endif

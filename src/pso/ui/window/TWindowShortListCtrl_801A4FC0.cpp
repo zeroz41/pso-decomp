@@ -9,20 +9,15 @@
 #include "pso/ui/window/TWindowShortListCtrl.h"
 #include "pso/system/task/TObject.h"
 
-struct RecoveredGlobal_801A51C0_lbl_80446980 {
-    s32 value;
-    u8 remaining[0x14];
-};
-
 extern "C" {
-extern RecoveredGlobal_801A51C0_lbl_80446980 short_list_ctrl_interval_table;
+struct ShortListCtrlIntervalTable { s32 value; u8 remaining[0x14]; };
+extern ShortListCtrlIntervalTable short_list_ctrl_interval_table;
 void *TWindowOptionCtrl__ct(void *, void *);
 void *__ct__10TAdTitleGCFP7TObjectl(void *, void *, int);
 void *__ct__12TAdBackTxtGCFv(void *, void *);
 void *__ct__9TAdBackGCFv(void *, void *);
 void __dl__7TObjectFPv(void *);
 void __dt__7TObjectFv(void *, int);
-void *__nw__7TObjectFUl(int);
 void *get_character_save_record();
 
 extern s32 __vt__13TUnk_804C2298[];
@@ -50,15 +45,15 @@ TUnk_804C2298::TUnk_804C2298() : TObject((TObject *)tl_00) {
     void *o2;
     void *o3;
     void *o4;
-    o = __nw__7TObjectFUl(0x24);
+    o = TObject::operator new(0x24);
     if (o != NULL) {
         __ct__9TAdBackGCFv(o, this);
     }
-    o2 = __nw__7TObjectFUl(0x28);
+    o2 = TObject::operator new(0x28);
     if (o2 != NULL) {
         __ct__12TAdBackTxtGCFv(o2, this);
     }
-    o3 = __nw__7TObjectFUl(0x138);
+    o3 = TObject::operator new(0x138);
     if (o3 != NULL) {
         __ct__10TAdTitleGCFP7TObjectl(o3, this, 3);
     }
@@ -66,7 +61,7 @@ TUnk_804C2298::TUnk_804C2298() : TObject((TObject *)tl_00) {
     this->m_20 = 4;
     *(u8 *)((s8 *)this + 0x1C) = 0;
     this->m_1e = 0;
-    o4 = __nw__7TObjectFUl(0x50);
+    o4 = TObject::operator new(0x50);
     if (o4 != NULL) {
         o4 = TWindowOptionCtrl__ct(o4, this);
     }
@@ -97,7 +92,6 @@ s32 TWindowShortListCtrl::get_card_status_bits() {
     return ((u32) *(u32 *)((s8 *)character_save_record + 0x10) >> 0xDU) & 7;
 }
 
-typedef char RecoveredGlobal_801A51C0_lbl_80446980_size[sizeof(RecoveredGlobal_801A51C0_lbl_80446980) == 0x18 ? 1 : -1];
 s32 TLobby::get_table_entry_by_index() {
     return *(s32 *)((s8 *)&short_list_ctrl_interval_table.value + (fn_801A51F0() * 4));
 }

@@ -1,5 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
+#include "pso/player/TObjPlayer.h"
 #include "pso/system/vector.h"
 #include "pso/ui/font/TFontSmallTask.h"
 #include "pso/enemy/epsilon/TObjEneEpsilonGuard.h"
@@ -10,16 +12,13 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/map/FloorArea.h"
 #include "pso/system/task/TObject.h"
-
-struct Vec_800FD4D4 {
-    f32 x, y, z;
-};
+const char *TFontSmallTask__name = "TFontSmallTask";
 
 struct TFontSmallTask_800FD4D4 {
-    s32 f0;
+    const char *f0;
     u8 pad4[0x18 - 4];
     void *vt;
-    Vec_800FD4D4 pos;
+    Vec pos;
     f32 ofs_x;
     f32 ofs_y;
     f32 width;
@@ -32,11 +31,10 @@ struct TFontSmallTask_800FD4D4 {
     u16 view;
 };
 extern "C" {
-TFontSmallTask_800FD4D4 *__ct__14TFontSmallTaskFv(TFontSmallTask_800FD4D4 *self, Vec_800FD4D4 *pos, u32 color, s32 life, s32 delay, const char *text, u16 view);
+TFontSmallTask_800FD4D4 *__ct__14TFontSmallTaskFv(TFontSmallTask_800FD4D4 *self, Vec *pos, u32 color, s32 life, s32 delay, const char *text, u16 view);
 }
 
-struct Vec_800FCD40 { f32 x, y, z; };
-static const Vec_800FCD40 font_small_forward_vec = {0.0f, 0.0f, -1.0f};
+static const Vec font_small_forward_vec = {0.0f, 0.0f, -1.0f};
 extern "C" {
 void TBoss3Volopt__sub_800FD344(s32 arg0, s32 arg1, s32 arg2, void *arg3, void *arg4);
 s32 create_font_small_task(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 *arg4, s32 arg5, s32 arg6);
@@ -44,7 +42,7 @@ s32 create_font_small_task_default_color(s32 arg0, s32 arg1, s32 arg2, s32 arg3,
 void fn_800FCCC8(s32 arg0, s32 arg1);
 s32 fn_800FCCF4(void* p);
 s32 *get_shared_text_buffer(void);
-void TWindowSubStatusDisp__sub_80228F5C(s32 arg0);
+void text_builder_append_int(s32 arg0);
 void text_builder_append(u8 *str);
 s32 __nw__7TObjectFUl(s32);
 
@@ -73,9 +71,9 @@ void push_matrix_from(void *);
 void rotate_matrix_y(int, s32);
 void rotate_matrix_x(int, s32);
 void rotate_matrix_z(int, s32);
-void rotate_vector_by_matrix(int, Vec_800FCD40 *, Vec_800FCD40 *);
+void rotate_vector_by_matrix(int, Vec *, Vec *);
 void pop_matrix(void);
-f32 vec3_dot(Vec_800FCD40 *, Vec_800FCD40 *);
+f32 vec3_dot(Vec *, Vec *);
 void push_matrix(void);
 void project_world_to_screen(int, f32 *, f32 *);
 s32 is_split_screen(void);
@@ -94,8 +92,8 @@ extern u8 *camera_ctrl_instance;
 #pragma push
 #pragma fp_contract on
 void TFontSmallTask::render() {
-    Vec_800FCD40 forward = font_small_forward_vec;
-    Vec_800FCD40 diff;
+    Vec forward = font_small_forward_vec;
+    Vec diff;
     f32 screen[2];
     Quad_800FCD40 q;
     f32 depth;
@@ -206,15 +204,15 @@ void TFontSmallTask::run_task() {
     }
 }
 
-s32 create_font_small_task(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 *arg4, s32 arg5, s32 arg6) {
+s32 create_font_small_task(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 *str, s32 arg5, s32 arg6) {
     s32 var_r31;
 
     text_builder_reset();
-    text_builder_append((u8 *)arg4);
+    text_builder_append((u8 *)str);
     if (arg5 >= 0) {
         text_builder_append((u8 *)"+");
     }
-    TWindowSubStatusDisp__sub_80228F5C(arg5);
+    text_builder_append_int(arg5);
     var_r31 = __nw__7TObjectFUl(0x58);
     if (var_r31 != 0) {
         var_r31 = ((s32 (*)(s32, s32, s32, s32, s32, s32, s32))__ct__14TFontSmallTaskFv)(var_r31, arg0, arg1, arg2, arg3, (s32)(get_shared_text_buffer()), arg6);
@@ -222,15 +220,15 @@ s32 create_font_small_task(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 *arg4, s3
     return var_r31;
 }
 
-s32 create_font_small_task_default_color(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 *arg4, s32 arg5) {
+s32 create_font_small_task_default_color(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 *str, s32 arg5) {
     s32 var_r31;
 
     text_builder_reset();
-    text_builder_append((u8 *)arg4);
+    text_builder_append((u8 *)str);
     if (arg5 >= 0) {
         text_builder_append((u8 *)"+");
     }
-    TWindowSubStatusDisp__sub_80228F5C(arg5);
+    text_builder_append_int(arg5);
     var_r31 = __nw__7TObjectFUl(0x58);
     if (var_r31 != 0) {
         var_r31 = ((s32 (*)(s32, s32, s32, s32, s32, s32, s32))__ct__14TFontSmallTaskFv)(var_r31, arg0, arg1, arg2, arg3, (s32)(get_shared_text_buffer()), 0xFFFF);
@@ -246,7 +244,7 @@ s32 TObjEneEpsilonGuard::create_damage_font(s32 arg0, s32 arg1, s32 arg2, s32 ar
     s32 var_r31;
 
     text_builder_reset();
-    TWindowSubStatusDisp__sub_80228F5C(arg3);
+    text_builder_append_int(arg3);
     var_r31 = __nw__7TObjectFUl(0x58);
     if (var_r31 != 0) {
         var_r31 = ((s32 (*)(s32, s32, s32, s32, s32, s32, s32))__ct__14TFontSmallTaskFv)(var_r31, arg0, arg1, arg2, 0, (s32)get_shared_text_buffer(), 0xFFFF);
@@ -268,46 +266,6 @@ s32 TOCtrlDubchik::create_font(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
 
 TFontSmallTask::~TFontSmallTask() {}
 
-struct RecoveredGlobal_8000F764_TKeyBoardControl__data_80506270 {
-    s32 value;
-    u8 remaining[0xAC];
-};
-
-struct RecoveredGlobal_8000F7FC_lbl_80515F48 {
-    s32 value;
-    u8 remaining[0x24];
-};
-
-struct RecoveredGlobal_8000F9E4_lbl_804FE120 {
-    s32 value;
-    u8 remaining[0x14];
-};
-
-struct RecoveredGlobal_8000F90C_lbl_804FE120 {
-    s32 value;
-    u8 remaining[0x14];
-};
-
-struct RecoveredGlobal_8000F9CC_lbl_804FE120 {
-    s32 value;
-    u8 remaining[0x14];
-};
-
-struct RecoveredGlobal_8000F8FC_lbl_804FE120 {
-    s32 value;
-    u8 remaining[0x14];
-};
-
-struct RecoveredGlobal_8000F8EC_lbl_804FE120 {
-    s32 value;
-    u8 remaining[0x14];
-};
-
-struct RecoveredGlobal_8000F91C_lbl_804FE120 {
-    s32 value;
-    u8 remaining[0x14];
-};
-
 struct Ent_800FD6A0 { u32 id; void (*fn)(void); };
 
 struct Ent_800FD6F8 { void (*fn)(void); u32 id; };
@@ -324,12 +282,12 @@ struct VObj_800FD614 : VBase_800FD614 {
 struct Out_800FD614 { s32 a; s32 b; };
 
 void reset_leader_selection(void* p);
-extern RecoveredGlobal_8000F7FC_lbl_80515F48 TLobby__data_805011D8;
+struct RecoveredGlobal_TLobby__data_805011D8 { s32 value; u8 remaining[0x24]; };
+extern RecoveredGlobal_TLobby__data_805011D8 TLobby__data_805011D8;
 extern "C" {
 void call_funcs_reverse__6TLobbyFPvUi(Ent_800FD6A0 *arr, u32 size);
 s32 is_area_transfer_pending(void);
 s32 run_load_callback_table(Ent_800FD6F8 *p, u32 size);
-int get_player_data__10TObjPlayerFi(int a0);
 u16 get_entity_id();
 s32 get_actor_section_id__15TPlyPhotonChairFv(void *);
 void find_leader_section_id(struct Out_800FD614 *out, s32 arg1);
@@ -339,13 +297,12 @@ char *strncpy(char *, const char *, u32);
 }
 u32 calc_small_font_text_width(const char *s);
 extern u8 __vt__14TFontSmallTask[];
-extern s32 TFontSmallTask__name;
 void set_world_section_id(void* p, s32 v);
 
 #pragma push
 #pragma fp_contract on
 
-TFontSmallTask_800FD4D4 *__ct__14TFontSmallTaskFv(TFontSmallTask_800FD4D4 *self, Vec_800FD4D4 *pos, u32 color, s32 life, s32 delay, const char *text, u16 view) {
+TFontSmallTask_800FD4D4 *__ct__14TFontSmallTaskFv(TFontSmallTask_800FD4D4 *self, Vec *pos, u32 color, s32 life, s32 delay, const char *text, u16 view) {
     __ct__7TObjectFP7TObject(self, get_instance__15TWindowCtrlMainFv());
     self->vt = __vt__14TFontSmallTask;
     self->f0 = TFontSmallTask__name;
@@ -373,8 +330,6 @@ TFontSmallTask_800FD4D4 *__ct__14TFontSmallTaskFv(TFontSmallTask_800FD4D4 *self,
 void set_world_section_id(void* p, s32 v) { *(s32*)((char*)p + 0x4) = v; }
 s32 TFontSmallTask::get_task_id() { return *(s32 *)&this->m_flags; }
 void reset_leader_selection(void* p) { *(s32*)((char*)p + 0x0) = 0; *(s32*)((char*)p + 0x4) = 0; }
-typedef char RecoveredGlobal_8000F764_TKeyBoardControl__data_80506270_size[sizeof(RecoveredGlobal_8000F764_TKeyBoardControl__data_80506270) == 0xB0 ? 1 : -1];
-typedef char RecoveredGlobal_8000F7FC_lbl_80515F48_size[sizeof(RecoveredGlobal_8000F7FC_lbl_80515F48) == 0x28 ? 1 : -1];
 
 void find_leader_section_id(struct Out_800FD614 *out, s32 arg1) {
     s32 n;
@@ -382,7 +337,7 @@ void find_leader_section_id(struct Out_800FD614 *out, s32 arg1) {
     VObj_800FD614 *p;
     n = TLobby::get_game_mode();
     for (i = 0; i < n; i++) {
-        p = (VObj_800FD614 *)get_player_data__10TObjPlayerFi(i);
+        p = (VObj_800FD614 *)TObjPlayer::get_player_data(i);
         if (p != NULL && arg1 == get_entity_id()) {
             out->a = p->m14();
             out->b = get_actor_section_id__15TPlyPhotonChairFv(p);
@@ -420,11 +375,5 @@ s32 run_load_callback_table(Ent_800FD6F8 *p, u32 size) {
 void TLobby::reset_leader_selection_static() {
     reset_leader_selection(&TLobby__data_805011D8.value);
 }
-typedef char RecoveredGlobal_8000F90C_lbl_804FE120_size[sizeof(RecoveredGlobal_8000F90C_lbl_804FE120) == 0x18 ? 1 : -1];
-typedef char RecoveredGlobal_8000F8FC_lbl_804FE120_size[sizeof(RecoveredGlobal_8000F8FC_lbl_804FE120) == 0x18 ? 1 : -1];
-typedef char RecoveredGlobal_8000F8EC_lbl_804FE120_size[sizeof(RecoveredGlobal_8000F8EC_lbl_804FE120) == 0x18 ? 1 : -1];
-typedef char RecoveredGlobal_8000F91C_lbl_804FE120_size[sizeof(RecoveredGlobal_8000F91C_lbl_804FE120) == 0x18 ? 1 : -1];
-typedef char RecoveredGlobal_8000F9E4_lbl_804FE120_size[sizeof(RecoveredGlobal_8000F9E4_lbl_804FE120) == 0x18 ? 1 : -1];
-typedef char RecoveredGlobal_8000F9CC_lbl_804FE120_size[sizeof(RecoveredGlobal_8000F9CC_lbl_804FE120) == 0x18 ? 1 : -1];
 
 __declspec(section ".ctors") static void *const __sinit_TFontSmallTask_cpp_ref = (void *)TLobby::reset_leader_selection_static;

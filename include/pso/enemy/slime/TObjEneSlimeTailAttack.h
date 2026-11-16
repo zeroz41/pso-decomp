@@ -6,6 +6,7 @@
 
 struct TObjEneSlimeTailAttack : public TObjEnemy {
     virtual ~TObjEneSlimeTailAttack();
+    s32 sub_800E85BC();
     void draw_stretched_segment(void *, void *, f32);
     void sub_800E841C();
     virtual void run_task();
@@ -40,5 +41,9 @@ s32 try_spawn_child__15TObjEneSlimeOneFPv(int origin, void *arg1);
 extern "C" {
 }
 s32 water_bomb_hit_nearby(u8 *target);
+
+// lbl_80501010: layout known from its uses only.
+struct RecoveredGlobal_lbl_80501010 { s32 value; u8 remaining[0x3C]; };
+extern RecoveredGlobal_lbl_80501010 lbl_80501010;
 
 #endif

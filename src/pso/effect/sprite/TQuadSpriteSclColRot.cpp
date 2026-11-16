@@ -1,4 +1,5 @@
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/effect/sprite/TQuadSpriteSclColRot.h"
 #include "pso/system/vector.h"
 #include "pso/effect/particle/TParticleCtrl.h"
@@ -7,6 +8,7 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/render_util.h"
+#include "pso/math/AngleLookup.h"
 
 struct QuadSpriteNode {
     QuadSpriteNode *next;
@@ -75,8 +77,6 @@ extern "C" {
 
 void quad_sprite_base_ct(void *);
 void transform_point_by_current_matrix(Vec *in, Vec *out);
-f32 sin_table_lookup(s32 angle);
-f32 cos_table_lookup(s32 angle);
 extern SpriteCamera lbl_8058D4F8;
 
 extern s32 __vt__20TQuadSpriteSclColRot[];
@@ -198,11 +198,11 @@ TQuadSpriteSclColRot::~TQuadSpriteSclColRot() {
 
 }
 
-extern void *TQuadSpriteSclColRot__class_name;
+const char *TQuadSpriteSclColRot__class_name = "TQuadSpriteSclColRot";
 
 void *TQuadSpriteSclColRot__ct(void *quad_sprite_scl_col_rot) {
     quad_sprite_base_ct(quad_sprite_scl_col_rot);
     *(s32 **)((s8 *)quad_sprite_scl_col_rot + 0x18) = __vt__20TQuadSpriteSclColRot;
-    *(void * *)&((TQuadSpriteSclColRot *)quad_sprite_scl_col_rot)->m_name = TQuadSpriteSclColRot__class_name;
+    ((TQuadSpriteSclColRot *)quad_sprite_scl_col_rot)->m_name = TQuadSpriteSclColRot__class_name;
     return quad_sprite_scl_col_rot;
 }

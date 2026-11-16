@@ -10,7 +10,7 @@
 struct Zanzo_8005676C {
     Vec pos;
     s32 rotation_y;
-    s32 unk_10;    // TObjFish__sub_8001EDB0(bml, index); render passes it to TObjFish::set_global_param
+    s32 unk_10;    // get_bml_texlist(bml, index); render passes it to TObjFish::set_global_param
     void *model;   // get_bml_model
     void *motion;  // get_bml_motion
     f32 unk_1c;    // draw_model_motion's frame argument

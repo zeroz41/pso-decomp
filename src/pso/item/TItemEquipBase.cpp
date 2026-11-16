@@ -1,4 +1,5 @@
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/item/TItemEquipBase.h"
 #include "pso/item/TItem.h"
 #include "pso/item/TItemData.h"

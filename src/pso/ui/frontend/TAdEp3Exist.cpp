@@ -15,6 +15,7 @@
 #include "pso/ui/frontend/TAdScrollWinGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/task/TObject.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 
 #pragma readonly_strings on
 
@@ -84,7 +85,6 @@ u32 calc_text_width(char *s);
 s32 render_status_line__15TAdSubPlyItemGCFi(int, int, f32, f32, f32);
 s32 load_and_verify_character_save__23TAdSinglePlyChrSelectGCFPc(void *, void *);
 u8 *get_instance__23TAdSinglePlyChrSelectGCFv(void);
-void *__nw__7TObjectFUl(u32);
 void __ct__7TObjectFP7TObject(void);
 int reset_and_set_mode__21TAdMultiChgGameModeGCFv(void*);
 void __ct__9TAdBackGCFv(void *, void *);
@@ -93,7 +93,6 @@ u32 __ct__14TAdSelectCurGCFv(void *, TObject *, void *, void *);
 extern s32 __vt__11TAdEp3Exist[];
 void *TAdEp3Exist__ct(Ep3_8036F354 *o);
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, s32);
-s32 TWindowShortListCtrl__check_controller_button(void *, s32);
 int TAdEp3Exist__sub_8036F0AC(void* p);
 extern u8 controller_input_state[];
 extern u8 controller_physical_port_bank[];
@@ -215,20 +214,20 @@ void *TAdEp3Exist__ct(Ep3_8036F354 *o) {
         ((TObject *)o)->queue_destruction();
         return o;
     }
-    p = __nw__7TObjectFUl(0x24);
+    p = TObject::operator new(0x24);
     if (p != 0) {
         __ct__9TAdBackGCFv(p, o);
     }
-    p = __nw__7TObjectFUl(0x28);
+    p = TObject::operator new(0x28);
     if (p != 0) {
         __ct__12TAdBackTxtGCFv(p, o);
     }
-    r = (u32)__nw__7TObjectFUl(0x54);
+    r = (u32)TObject::operator new(0x54);
     if (r != 0) {
         r = (u32)TAdScrollWinGC__ct((TAdScrollWinGC *)((void *)r), (void *)o, 3, (s32)(get_localized_text_entry(0x2C, 9)));
     }
     o->win1C = r;
-    r = (u32)__nw__7TObjectFUl(0x708);
+    r = (u32)TObject::operator new(0x708);
     if (r != 0) {
         r = __ct__14TAdSelectCurGCFv((void *)r, tl_clipout, (void *)lbl_8047B8A8, (void *)lbl_8047B8B0);
     }

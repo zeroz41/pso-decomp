@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/boss/olgaflow/TBoss6Kakusan.h"
 #include "pso/system/vector.h"
 
@@ -15,24 +16,11 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/system/task/TObject.h"
-#include "pso/player/TObjPlayer.h"
+
 
 #pragma readonly_strings on
 
-struct RecoveredGlobal_80322994___vt__13TBoss6Kakusan { s32 value; u8 remaining[0x14]; };
-
-struct V3_80322644 { f32 x; f32 y; f32 z; };
-
-struct Obj_80322644 { u8 pad[0x30]; V3_80322644 pos; };
-
-struct Vec_803226C0 { f32 x, y, z; };
-
-struct Vec_80322438
-{
-  f32 x;
-  f32 y;
-  f32 z;
-};
+struct Obj_80322644 { u8 pad[0x30]; Vec pos; };
 
 struct Hit_80322438
 {
@@ -73,7 +61,6 @@ struct VObj_80322438 : Base_80322438 {
 };
 
 extern "C" {
-u8 *__nw__7TObjectFUl(s32);
 s32 __ct__7TObjectFP7TObject(void *, void *);
 f32 vector_length(void *);
 extern s32 __vt__13TBoss6Kakusan[];
@@ -98,13 +85,12 @@ u8 TBoss6Kakusan__homing_end_frame_initialized;
 typedef struct Base_80322438 Base_80322438;
 typedef struct Hit_80322438 Hit_80322438;
 typedef struct VObj_80322438 VObj_80322438;
-typedef struct Vec_80322438 Vec_80322438;
 #define PSO_VCALL_VObj_80322438_m21(_self, _arg0, _arg1, _arg2, _arg3, _arg4) (((VObj_80322438 *)(_self))->m21((_arg0), (_arg1), (_arg2), (_arg3), (_arg4)))
 void TBoss6Kakusan::check_beam_player_hits() {
     u8 *arg0 = (u8 *)this;
-  Vec_80322438 dir;
-  Vec_80322438 p;
-  Vec_80322438 q;
+  Vec dir;
+  Vec p;
+  Vec q;
   Hit_80322438 h;
   s32 n;
   s32 i;
@@ -176,7 +162,7 @@ s32 TBoss6Kakusan::is_out_of_range() {
     if (arg0->pos.y < -200.0f || arg0->pos.y > 200.0f) {
         return 1;
     }
-    V3_80322644 v = arg0->pos;
+    Vec v = arg0->pos;
     v.y = 0.0f;
     return vector_length(&v) > 400.0f;
 }
@@ -185,10 +171,10 @@ void TBoss6Kakusan::render() {  }
 
 void TBoss6Kakusan::run_task() {
     u8 *arg0 = (u8 *)this;
-    Vec_803226C0 v;
-    Vec_803226C0 w;
-    Vec_803226C0 b;
-    Vec_803226C0 a;
+    Vec v;
+    Vec w;
+    Vec b;
+    Vec a;
     f32 speed;
     u8 *pl;
     if (TObjPlayer::check_demo_mode() != 0) return;
@@ -258,8 +244,8 @@ u8 *TBoss6Kakusan__ct(u8 *boss6_kakusan, TObject *parent, Vec *pos, Vec *dir, u1
     f32 temp_f2;
     u32 temp_r3;
     __ct__7TObjectFP7TObject((void *)boss6_kakusan, parent);
-    *(s32 **)((s8 *)boss6_kakusan + 0x18) = &(*(RecoveredGlobal_80322994___vt__13TBoss6Kakusan *)&__vt__13TBoss6Kakusan).value;
-    *(const char **)((s8 *)boss6_kakusan + 0) = TBoss6Kakusan__name;
+    *(s32 **)((s8 *)boss6_kakusan + 0x18) = __vt__13TBoss6Kakusan;
+    ((TBoss6Kakusan *)boss6_kakusan)->m_name = TBoss6Kakusan__name;
     ((TBoss6Kakusan *)boss6_kakusan)->m_20 = target_client;
     ((TBoss6Kakusan *)boss6_kakusan)->m_24 = speed;
     if (((TBoss6Kakusan *)boss6_kakusan)->m_24 <= 0.0f) {
@@ -293,7 +279,7 @@ u8 *TBoss6Kakusan__ct(u8 *boss6_kakusan, TObject *parent, Vec *pos, Vec *dir, u1
 u8 *TBoss6Type1::create_kakusan(TObject *parent, Vec *pos, Vec *dir, u16 target_client, f32 speed) {
     u8 *boss6_kakusan;
     u8 *var_r0;
-    boss6_kakusan = (u8 *)(__nw__7TObjectFUl(0x58));
+    boss6_kakusan = (u8 *)(TObject::operator new(0x58));
     var_r0 = boss6_kakusan;
     if (var_r0 != NULL) {
         var_r0 = (u8 *)(TBoss6Kakusan__ct(boss6_kakusan, parent, pos, dir, target_client, speed));

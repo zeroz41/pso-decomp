@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/camera/CameraPlayback.h"
 #include "pso/system/PadRumble.h"
 #include "pso/object/ambient/TObjFish_800E2FFC.h"
@@ -39,8 +40,6 @@ struct O_8033E5A8 {
     void *fa0[4];
 };
 
-struct Vec_8033E0F0 { f32 x, y, z; };
-
 struct Rng_8033E0F0 { s32 start; s32 end; s32 id; };
 
 struct Fish_8033E0F0 {
@@ -48,13 +47,13 @@ struct Fish_8033E0F0 {
     f32 f4c;
     s32 timer;
     s32 f54;
-    Vec_8033E0F0 pos;
-    Vec_8033E0F0 f64;
+    Vec pos;
+    Vec f64;
     u8 pad70[0x74 - 0x70];
-    Vec_8033E0F0 f74;
+    Vec f74;
     u8 pad80[0x84 - 0x80];
-    Vec_8033E0F0 f84;
-    Vec_8033E0F0 f90;
+    Vec f84;
+    Vec f90;
     u8 pad9C[0xA0 - 0x9C];
     void *emit[4];
     void *fb0;
@@ -64,18 +63,17 @@ struct Pl_8033E0F0 {
     u8 pad0[0x30];
     u32 f30;
     u8 pad34[0x38 - 0x34];
-    Vec_8033E0F0 pos;
+    Vec pos;
 };
 
 extern "C" {
-void *__nw__7TObjectFUl(int);
 s32 refresh_players_equipment__14TBoss6PlotFalzFPv();
 extern void *__vt__23TBoss6Demo21_TYPE2_DEAD[];
 void push_matrix();
 void post_translate_matrix(void *);
 s32 get_bml_motion(void *, int);
-s32 TObjFish__sub_8001EDB0(void *, int);
-s32 get_bml_model(void *, int);
+s32 get_bml_texlist(BmlResource *resource, s32 index);
+s32 get_bml_model(BmlResource *resource, s32 index);
 void set_scripted_camera_pose(void *, void *, void *);
 void __ct__7TObjectFP7TObject(void *);
 void *get_fish_count__8TObjFishFv(void);
@@ -85,7 +83,7 @@ f32 vector_length(void *);
 void subtract_vector(void *, void *);
 void normalize_vector(void *);
 #define __vt__23TBoss6Demo21_TYPE2_DEAD ((u8 *)__vt__23TBoss6Demo21_TYPE2_DEAD)
-s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
+s32 play_persistent_sound(s32 id, s32 a1, Vec *, s32 a3, s32 flags);
 s32 is_state_1f__14TBoss6PlotFalzFUi(u32 arg0);
 void run_task__23TBoss6Demo21_TYPE2_DEADFv(Fish_8033E0F0 *arg0);
 
@@ -103,8 +101,8 @@ extern "C" const u32 boss6_type2_death_emitter_ranges[12] = {0x0, 0x8e, 0x228, 0
 extern "C" const u32 lbl_8047817C[3] = {0xffff4000, 0xffffff60, 0xffff4000};
 extern "C" const char *TBoss6Demo21_TYPE2_DEAD__name = TBoss6Demo21_TYPE2_DEAD__class_name_string;
 #define lbl_804780A0 ((u8 *)lbl_804780A0)
-#define lbl_804780AC ((Vec_8033E0F0 *)lbl_804780AC)
-#define lbl_804780B8 ((Vec_8033E0F0 *)lbl_804780B8)
+#define lbl_804780AC ((Vec *)lbl_804780AC)
+#define lbl_804780B8 ((Vec *)lbl_804780B8)
 #define boss6_type2_death_effect_desc_a ((u8 *)boss6_type2_death_effect_desc_a)
 #define boss6_type2_death_effect_desc_b ((u8 *)boss6_type2_death_effect_desc_b)
 #define boss6_type2_death_effect_desc_c ((u8 *)boss6_type2_death_effect_desc_c)
@@ -228,34 +226,34 @@ void render__23TBoss6Demo21_TYPE2_DEADFv(void* p) { ((TBoss6Demo21_TYPE2_DEAD *)
 #pragma push
 #pragma pool_data off
 void run_task__23TBoss6Demo21_TYPE2_DEADFv(Fish_8033E0F0 *arg0) {
-    Vec_8033E0F0 b;
-    Vec_8033E0F0 mid;
-    Vec_8033E0F0 a;
+    Vec b;
+    Vec mid;
+    Vec a;
     if ((arg0->f4c += 0.7f) > 499.0f) {
         arg0->f4c = 499.0f;
     }
     switch (arg0->timer) {
     case 0x0:
-        play_sound_effect(0x4003232C, 0, 0, 0);
+        play_sound_effect(0x4003232C, (Vec *)(0), 0, 0);
         break;
     case 0xAE:
     case 0xCF:
-        play_sound_effect(0x4003942D, 0, 0, 0);
+        play_sound_effect(0x4003942D, (Vec *)(0), 0, 0);
         break;
     case 0x23B:
-        play_sound_effect(0x40032830, 0, 0, 0);
+        play_sound_effect(0x40032830, (Vec *)(0), 0, 0);
         break;
     }
     if (arg0->timer >= 0x12C && arg0->timer <= 0x1AC) {
-        play_persistent_sound(0x4003352E, (s32)arg0, 0, 0, 0);
+        play_persistent_sound(0x4003352E, (s32)arg0, (Vec *)(0), 0, 0);
     }
     if (arg0->timer >= 0x1D7 && arg0->timer <= 0x23A) {
-        play_persistent_sound(0x32D2F, (s32)arg0, 0, 0, 0);
+        play_persistent_sound(0x32D2F, (s32)arg0, (Vec *)(0), 0, 0);
     }
     switch (arg0->timer) {
     case 0xAE:
     case 0xCF: {
-        Vec_8033E0F0 p = arg0->pos;
+        Vec p = arg0->pos;
         vec3_add_to(&p, lbl_804780AC);
         spawn_particle_effect_with_flags(&p, 0x221, 0x40);
         spawn_particle_effect_with_flags(&p, 0x22F, 0x40);
@@ -265,7 +263,7 @@ void run_task__23TBoss6Demo21_TYPE2_DEADFv(Fish_8033E0F0 *arg0) {
         spawn_particle_effect_with_flags(&arg0->f74, 0x223, 0x40);
         break;
     case 0x23A: {
-        Vec_8033E0F0 p = arg0->pos;
+        Vec p = arg0->pos;
         vec3_add_to(&p, lbl_804780B8);
         spawn_particle_effect_with_flags(&p, 0xA4, 0x40);
         spawn_particle_effect_with_flags(&p, 0xE3, 0x40);
@@ -276,7 +274,7 @@ void run_task__23TBoss6Demo21_TYPE2_DEADFv(Fish_8033E0F0 *arg0) {
         spawn_particle_effect_with_flags(&arg0->f74, 0x22E, 0x40);
     }
     {
-        Vec_8033E0F0 *ptrs[4];
+        Vec *ptrs[4];
         s32 i;
         ptrs[0] = &arg0->pos;
         ptrs[1] = &arg0->f64;
@@ -314,14 +312,14 @@ void run_task__23TBoss6Demo21_TYPE2_DEADFv(Fish_8033E0F0 *arg0) {
     }
     if (arg0->timer == 0x23A) {
         s32 n = TLobby::get_game_mode();
-        Vec_8033E0F0 c;
+        Vec c;
         s32 i;
         VecCopy((Vec *)&c, (const Vec *)&arg0->pos);
         vec3_add_to(&c, lbl_804780B8);
         for (i = 0; i < n; i++) {
             Pl_8033E0F0 *p = (Pl_8033E0F0 *)TObjPlayer::get_player_data(i);
             if (TObjPlayer::is_locally_controlled(p) != 0 && is_state_1f__14TBoss6PlotFalzFUi((u32)p) != 0) {
-                Vec_8033E0F0 d;
+                Vec d;
                 VecCopy((Vec *)&d, (const Vec *)&p->pos);
                 subtract_vector(&d, &c);
                 d.y = (0.0f);
@@ -375,7 +373,6 @@ TBoss6Demo21_TYPE2_DEAD::~TBoss6Demo21_TYPE2_DEAD() {
 }
 #pragma push
 #pragma opt_common_subs off
-typedef struct { f32 x, y, z; } Vec_8033E688;
 typedef struct {
     u8 pad[0xA0];
     s32 arr[4];
@@ -383,7 +380,7 @@ typedef struct {
 #define arg0 ((u8 *)arg0p)
 extern "C" {
 void *TBoss6Demo21_TYPE2_DEAD__ct(void *arg0p, void *arg1, void *arg2) {
-    Vec_8033E688 v;
+    Vec v;
     s32 i;
     __ct__7TObjectFP7TObject(arg0);
     *(u8 **)((s8 *)arg0 + 0x18) = __vt__23TBoss6Demo21_TYPE2_DEAD;
@@ -400,17 +397,17 @@ void *TBoss6Demo21_TYPE2_DEAD__ct(void *arg0p, void *arg1, void *arg2) {
     }
     vec3_add_to(arg0 + 0x58, &v);
     void *count = get_fish_count__8TObjFishFv();
-    *(s32 *)((s8 *)arg0 + 0x1C) = get_bml_model(count, 4);
-    *(s32 *)((s8 *)arg0 + 0x20) = TObjFish__sub_8001EDB0(count, 4);
+    *(s32 *)((s8 *)arg0 + 0x1C) = get_bml_model((BmlResource *)count, 4);
+    *(s32 *)((s8 *)arg0 + 0x20) = get_bml_texlist((BmlResource *)count, 4);
     ((TBoss6Type1 *)arg0)->texlist = get_bml_motion(count, 7);
-    *(s32 *)((s8 *)arg0 + 0x28) = get_bml_model(count, 5);
-    *(s32 *)((s8 *)arg0 + 0x2C) = TObjFish__sub_8001EDB0(count, 5);
+    *(s32 *)((s8 *)arg0 + 0x28) = get_bml_model((BmlResource *)count, 5);
+    *(s32 *)((s8 *)arg0 + 0x2C) = get_bml_texlist((BmlResource *)count, 5);
     ((TBoss6Type1 *)arg0)->actorFlags = get_bml_motion(count, 7);
-    *(s32 *)((s8 *)arg0 + 0x34) = get_bml_model(count, 8);
-    *(s32 *)((s8 *)arg0 + 0x38) = TObjFish__sub_8001EDB0(count, 8);
+    *(s32 *)((s8 *)arg0 + 0x34) = get_bml_model((BmlResource *)count, 8);
+    *(s32 *)((s8 *)arg0 + 0x38) = get_bml_texlist((BmlResource *)count, 8);
     *(s32 *)((s8 *)arg0 + 0x3C) = get_bml_motion(count, 8);
-    *(s32 *)((s8 *)arg0 + 0x40) = get_bml_model(count, 0xD);
-    *(s32 *)&((TBoss6Type1 *)arg0)->prev_position.x = TObjFish__sub_8001EDB0(count, 0xD);
+    *(s32 *)((s8 *)arg0 + 0x40) = get_bml_model((BmlResource *)count, 0xD);
+    *(s32 *)&((TBoss6Type1 *)arg0)->prev_position.x = get_bml_texlist((BmlResource *)count, 0xD);
     *(s32 *)&((TBoss6Type1 *)arg0)->prev_position.y = get_bml_motion(count, 0x3D);
     *(s32 *)&((TBoss6Type1 *)arg0)->scale.z = TObjFish__sub_800E3124(boss6_type2_death_effect_desc_a, (s32)(arg0 + 0x64));
     *(s32 *)((s8 *)arg0 + 0x80) = TObjFish__sub_800E3124(boss6_type2_death_effect_desc_b, (s32)(arg0 + 0x74));
@@ -432,7 +429,7 @@ void *TBoss6Demo21_TYPE2_DEAD__ct(void *arg0p, void *arg1, void *arg2) {
 
 void * create_boss6_type2_death(void *arg0, void *arg1) {
     void *o;
-    o = __nw__7TObjectFUl(0xB4);
+    o = TObject::operator new(0xB4);
     if (o != NULL) {
         o = TBoss6Demo21_TYPE2_DEAD__ct(o, arg0, arg1);
     }

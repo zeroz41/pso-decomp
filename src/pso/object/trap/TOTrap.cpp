@@ -26,11 +26,11 @@ struct Obj_80178CF8 {
 
 struct Obj_80178E10 { u8 pad0[0x2A8]; u8 *target; u8 pad1[0x7A]; s16 state; u8 pad2[0xC]; f32 range; u8 pad3[4]; u16 idx; };
 
+const char *lbl_805D3198 = "TOTrap";
+
 extern "C" {
-s32 is_locally_controlled__10TObjPlayerFPv(int);
 s32 get_entity_id(u32);
 
-extern u32 trap_scale_factor_table[];
 extern s32 game_difficulty_selection;
 s32 fn_80171314(void *);
 u16 find_nearest_visible_player(void *, int, f32);
@@ -53,12 +53,8 @@ struct VObj_80178EF8_80178BC0 : Base_80178EF8_80178BC0 {
 };
 
 f32 TOTrap::scale_by_table_value(f32 farg0) {
-    u32 v[4];
-    v[0] = trap_scale_factor_table[0];
-    v[1] = trap_scale_factor_table[1];
-    v[2] = trap_scale_factor_table[2];
-    v[3] = trap_scale_factor_table[3];
-    return farg0 * ((f32*)v)[game_difficulty_selection];
+    f32 scale[4] = {1.0f, 2.0f, 3.0f, 6.0f};
+    return farg0 * scale[game_difficulty_selection];
 }
 
 void TOTrap::vfunc_89() {  }
@@ -90,7 +86,7 @@ void TOTrap::vfunc_82() {
             u32 v = (u16) get_entity_id(p);
             if (v < 0x1000U) {
                 temp_r31 = (s32)get_player_by_client_id(v);
-                if ((is_locally_controlled__10TObjPlayerFPv(temp_r31) != 0) && (((TLobby *)temp_r31)->check_player_flag1() != 0)) {
+                if ((TObjPlayer::is_locally_controlled((void *)temp_r31) != 0) && (((TLobby *)temp_r31)->check_player_flag1() != 0)) {
                     TObjPlayer::send_code_45_1(temp_r31);
                 }
             }
@@ -110,7 +106,7 @@ void TOTrap::vfunc_81() {
         if (this->target != 0) {
             if (horizontal_distance_squared(this->target + 0x38, self->pos) < this->dist * this->dist) {
                 this->mode = 3;
-                if (is_locally_controlled__10TObjPlayerFPv((int)pl) != 0) {
+                if (TObjPlayer::is_locally_controlled((void *)pl) != 0) {
                     ((void (*)(f32, void *, void *, s32, int))send_6x2C_impose_hold)(this->dist, pl, self->pos, this->set_params[0], 0);
                 }
             } else {
@@ -180,7 +176,7 @@ f32 TOTrap::receive_physical_attack(void *arg1, f32) {
       if (temp_r3 < 0x1000U)
       {
         temp_r3_2 = (s32)get_player_by_client_id(((int) ((s32) temp_r3)));
-        if (((temp_r3_2 != 0) && (is_locally_controlled__10TObjPlayerFPv((int)((int) temp_r3_2)) != 0)) && (((TLobby *)((long long) temp_r3_2))->check_player_flag1() != 0))
+        if (((temp_r3_2 != 0) && (TObjPlayer::is_locally_controlled((void *)temp_r3_2) != 0)) && (((TLobby *)((long long) temp_r3_2))->check_player_flag1() != 0))
         {
           TObjPlayer::send_code_45_1((s32)((int) temp_r3_2));
         }
@@ -233,23 +229,10 @@ s32 post_translate_matrix(void *);
 s32 rotate_matrix_y(s32, s32);
 s32 push_matrix();
 
-struct TOTrapBase { char pad[0x18]; };
-struct TOTrapVObj : TOTrapBase {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual s32 m8(f32, f32);
-};
 #pragma explicit_unused_unused_members on
 void TOTrap::render() {
-    u8 *arg0 = (u8 *)this;
     if (TObjPlayer::is_any_teammate_in_state() == 0) {
-        this->m_340 = ((TOTrapVObj*)arg0)->m8(4e+02f, 2e+01f);
+        this->m_340 = this->update_object_view_visibility(4e+02f, 2e+01f);
         if (this->m_340 == 1) {
             push_matrix();
             post_translate_matrix((u8 *)&this->position);
@@ -268,9 +251,6 @@ void TOTrap::render() {
 }
 
 
-extern "C" {
-extern const char *lbl_805D3198;
-}
 
 TOTrap::~TOTrap() {}
 

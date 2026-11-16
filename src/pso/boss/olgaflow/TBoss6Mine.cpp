@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/boss/olgaflow/TBoss6Mine.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/unk/text_803D96A8.h"
@@ -19,7 +20,7 @@
 #include "pso/enemy/lappy/TObjEneLappy.h"
 #include "pso/unk/TLobby.h"
 #include "pso/object/ambient/TObjFish.h"
-#include "pso/player/TObjPlayer.h"
+
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/SoundEffect.h"
@@ -68,10 +69,7 @@ struct VObj_18_b27ba1 : VBase_18_b27ba1 {
     virtual s32 m21(void *, void *, s32, s32, s32);
 };
 
-
 struct Hit_803240F8 { s32 a; s32 b; s32 c; f32 d; };
-
-
 
 struct Tmp_80324A00 { s32 a; u8 pad4[2]; s16 b; u8 pad8[8]; };
 
@@ -100,12 +98,10 @@ int rotate_matrix_x(void*, void*);
 s32 __ct__11TObjControlFP7TObject(s32, s32);
 void free_collision_body_parts(void *);
 s32 get_bml_motion(s32, s32);
-s32 TObjFish__sub_8001EDB0(s32, s32);
-s32 get_bml_model(s32, s32);
+s32 get_bml_texlist(BmlResource *resource, s32 index);
+s32 get_bml_model(BmlResource *resource, s32 index);
 int rotate_matrix_y(void*, void*);
 int push_matrix(void*);
-void __dl__7TObjectFPv(void *);
-void *__dt__9TObjEnemyFv(TObjEnemy *arg0, s16 arg1);
 s32 __nw__7TObjectFUl(s32);
 
 void TBoss6Mine::render_shadows() {
@@ -134,8 +130,8 @@ void TBoss6Mine::draw() {
     s32 bml_model;
 
     set_motion_packed_rotation();
-    temp_r31 = TObjFish__sub_8001EDB0(this->m_374, 2);
-    bml_model = get_bml_model(this->m_374, 2);
+    temp_r31 = get_bml_texlist((BmlResource *)this->m_374, 2);
+    bml_model = get_bml_model((BmlResource *)this->m_374, 2);
     bml_motion = get_bml_motion(this->m_374, 0);
     TObjFish::set_global_param(temp_r31);
     TBoss6PlotFalz__sub_802AC008(this->fade_amount, 0.0f);
@@ -204,7 +200,7 @@ void TBoss6Mine::explode_damage_players() {
             }
         }
     }
-    play_sound_effect(0x4003BA1E, &this->position, 0, 0);
+    play_sound_effect(0x4003BA1E, (Vec *)(&this->position), 0, 0);
 }
 
 void TBoss6Mine::state_7() {
@@ -260,7 +256,7 @@ void TBoss6Mine::state_4() {
     if (frames > (s32)this->arm_delay) {
         this->state_frames = 0;
         this->state = 5;
-        play_sound_effect(0x4003B51D, &this->position, 0, 0);
+        play_sound_effect(0x4003B51D, (Vec *)(&this->position), 0, 0);
     }
 }
 
@@ -390,11 +386,11 @@ void TBoss6Mine::run_task() {
 
 }
 TBoss6Mine::~TBoss6Mine() {
-    if (*(void **)((s8 *)this + 0x3CC) != NULL) { TParticleCtrl::release(*(void **)((s8 *)this + 0x3CC)); this->emitter = 0; }
+    if (this->emitter != NULL) { TParticleCtrl::release(this->emitter); this->emitter = 0; }
     free_collision_body_parts(this);
     if (this->owner != NULL) { TBoss6Type1__sub_802B5DD4(this->owner); }
 }
-extern "C" {
+
 
 extern s32 tl_04;
 
@@ -476,4 +472,3 @@ TBoss6Mine *TBoss6Mine::create(TBoss6MineSetData *set_data) {
     return (TBoss6Mine *)var_r31;
 }
 
-}

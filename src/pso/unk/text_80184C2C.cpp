@@ -3,6 +3,7 @@
 #include "pso/unk/text_80184C2C.h"
 #include "pso/unk/TLobby.h"
 #include "pso/system/BmlResourceDescriptor.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 
 int lbl_8050DC20[6];
 const s32 lobby_event_theme_id_table[6] = {4, 3, 1, 5, 2, 6};
@@ -149,7 +150,6 @@ void TLobby::free_buffers() {
     }
 }
 
-extern "C" s32 get_main_phase(void);
 extern "C" void *load_resource_from_descriptor(void *, s32, BmlResourceDescriptor *, s32, s32, s32);
 extern "C" void clear_global_array__6TLobbyFPv();
 

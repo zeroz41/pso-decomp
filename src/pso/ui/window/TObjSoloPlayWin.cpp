@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/ui/window/TObjSoloPlayWin.h"
+#include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/unk/TLobby_8006F278.h"
 #include "pso/ui/window/TWindowSubComCard_80244774.h"
@@ -8,14 +9,14 @@
 #include "pso/map/FloorArea.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjMotion.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 extern "C" {
 u32 get_player_by_client_id(s32);
-s32 TWindowCtrlMain__sub_8024CE58();
+s32 has_window_task_root();
 void* get_window_layout_position(s32);
 void* create__14TWindowMessageFPvll(void*, void*, s32);
-void* TQuestVmDownLoadServer__sub_8006EF6C(s32);
-s32 append_line__14TWindowMessageFii(void*, void*, s32);
+s32 get_message_text(s32 arg0);
 extern s32 local_client_id;
 extern const char TObjSoloPlayWin_class_name[] = "TObjSoloPlayWin";
 const char* TObjSoloPlayWin_name = TObjSoloPlayWin_class_name;
@@ -35,7 +36,7 @@ s32 TObjSoloPlayWin::area_allows_win_timer() {
 }
 s32 TObjSoloPlayWin::can_start_win_timer() {
     u32 player = get_player_by_client_id(local_client_id);
-    if (TWindowCtrlMain__sub_8024CE58() == 1 && area_allows_win_timer() != 0 &&
+    if (has_window_task_root() == 1 && area_allows_win_timer() != 0 &&
         player != 0U && ((TObjCollidable *)player)->obj_testFlags30(0x02000000) == 0) {
         return 1;
     }
@@ -45,7 +46,7 @@ void TObjSoloPlayWin::open_result_window() {
     m_result_window = create__14TWindowMessageFPvll(get_window_layout_position(0x3E), solo_play_result_window_extent, 1);
     if (m_result_window != 0) {
         ((TWindowBase *)m_result_window)->set_depth(70200.0f);
-        append_line__14TWindowMessageFii(m_result_window, TQuestVmDownLoadServer__sub_8006EF6C(0x5F), 2);
+        ((TWindowMessage *)m_result_window)->append_line((int)(get_message_text(0x5F)), (int)2);
     }
 }
 void TObjSoloPlayWin::update_close_timer() {

@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/object/ambient/TObjCGrass.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/BmlResourceDescriptor.h"
@@ -15,22 +16,22 @@
 #include <stdlib.h>
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/task/TObject.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
+#include "pso/system/MatrixStack.h"
 
 struct Rec_800B8B08 { u8 vec[0x18]; s32 f18; u32 flags; };
 
 struct Obj_800B8B08 { u8 pad0[0x24]; s32 f24; u8 pad28[0x34 - 0x28]; s32 f34; u8 pad38[0xC0 - 0x38]; f32 fc0; u8 padc4[0xF8 - 0xC4]; s32 ff8; Rec_800B8B08 *recs; u8 pad100[4]; s32 count; };
 
-struct Vec_800B8BB4 { f32 x, y, z; };
+struct Rec_800B8BB4 { Vec pos; Vec v2; s32 f18; u32 flags; };
 
-struct Rec_800B8BB4 { Vec_800B8BB4 pos; Vec_800B8BB4 v2; s32 f18; u32 flags; };
-
-struct Hit_800B8BB4 { u8 pad0[4]; Vec_800B8BB4 *pos; };
+struct Hit_800B8BB4 { u8 pad0[4]; Vec *pos; };
 
 struct Grass_800B8BB4 {
     u8 pad0[0x3C];
     f32 f3C;
     u8 pad40[4];
-    Vec_800B8BB4 f44;
+    Vec f44;
     u8 pad50[0xC0 - 0x50];
     f32 fC0;
     u8 padC4[4];
@@ -43,9 +44,7 @@ struct Grass_800B8BB4 {
     u8 f10C[4];
 };
 
-struct Vec_800B8EFC { f32 x, y, z; };
-
-struct Rec_800B8EFC { Vec_800B8EFC pos; Vec_800B8EFC v2; s32 f18; u32 flags; };
+struct Rec_800B8EFC { Vec pos; Vec v2; s32 f18; u32 flags; };
 
 struct Src_800B8EFC { u8 pad0[8]; s32 f8; s32 fC; };
 
@@ -59,7 +58,7 @@ struct Grass_800B8EFC {
     s32 f24;
     u8 pad28[0x34 - 0x28];
     s32 f34;
-    Vec_800B8EFC f38;
+    Vec f38;
     u8 pad44[0xC4 - 0x44];
     f32 fC4;
     u8 padC8[0xD8 - 0xC8];
@@ -80,7 +79,6 @@ u8 *csnVectorUnder(void *, void *, int);
 s32 vec3_add_to(void *, void *);
 extern s32 actor_frame_tick;
 s32 __ct__10TObjMotionFP7TObject(void *, s32);
-void *mem_alloc(u32 size);
 s32 rotate_vector_by_matrix(int, void *, void *);
 extern s32 __vt__10TObjCGrass[];
 extern u8 identity_matrix[];
@@ -88,10 +86,9 @@ u32 TObjCGrass_bml_resource;
 extern s32 tl_06;
 u8 *TObjCGrass__ct(Grass_800B8EFC *self, u8 *arg1, s32 arg2, s32 arg3);
 void free_bin_model_request(void*, int);
-void mem_free(void *);
 
 u8 *load_resource_from_descriptor(void *, s32, BmlResourceDescriptor *, s32, s32, s32);
-u8 *load_enemy_bml_resource_named(BmlResourceDescriptor *, const char *);
+s32 load_enemy_bml_resource_named(s32 arg0, s32 arg1);
 
 // The motion-binding block TLobby::spawn_npc_enemy takes (same layout as DelDepthAnimationBinding).
 struct CGrassAnimBinding {
@@ -134,8 +131,8 @@ void TObjCGrass::run_task() {
     u8 *arg0 = (u8 *)this;
     s32 i;
     Grass_800B8BB4 *self = (Grass_800B8BB4 *)arg0;
-    Vec_800B8BB4 a;
-    Vec_800B8BB4 b;
+    Vec a;
+    Vec b;
     Hit_800B8BB4 *hit;
     self->fC0 += self->fC8;
     if (self->f100 < self->fC0) {
@@ -189,7 +186,7 @@ void TObjCGrass::load_resources() {
     u8 *var_r0;
 
     if (TObjEneDD::check_v2_mode() != 0) {
-        TObjCGrass_bml_resource = (u32) load_enemy_bml_resource_named(&bm_ene_cgrass_resource_descriptor, "bm_ene_cgrass_a.bml");
+        TObjCGrass_bml_resource = (u32) load_enemy_bml_resource_named((s32)&bm_ene_cgrass_resource_descriptor, (s32)("bm_ene_cgrass_a.bml"));
     } else {
         temp_r3 = (u8 *)((int)::operator new(0x440));
         var_r0 = temp_r3;
@@ -240,7 +237,7 @@ u8 *TObjCGrass__ct(Grass_800B8EFC *self, u8 *arg1, s32 arg2, s32 arg3) {
     s32 i;
     for (i = 0; i < self->count; i++) {
         s32 a;
-        Vec_800B8EFC v;
+        Vec v;
         VecCopy((Vec *)&self->recs[i].pos, (const Vec *)&self->f38);
         v.x = 0.0f;
         v.y = 3.0517578e-05f * (f32)rand();

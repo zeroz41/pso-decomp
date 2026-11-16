@@ -1,4 +1,5 @@
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/ui/window/TWindowSubComCard_80244774.h"
@@ -8,6 +9,7 @@
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
 #include "pso/ui/window/TWindowSubComCard.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 
 struct Obj_802DCCA4 { u8 pad[0x2C]; s32 f2C; };
 
@@ -16,8 +18,7 @@ void collect_player_slots__22TAdMultiPlyChrSelectGCFv(void *);
 extern s32 multi_chr_select_serial_access_state;
 void TAdMultiPlyChrSelectGC__sub_802DCCA4(Obj_802DCCA4 *arg0);
 s32 set_entry_value__22TAdMultiPlyChrSelectGCFlUl(s32, s32, s32 *);
-s32 TWindowShortListCtrl__check_controller_button(char *, s32);
-s32 play_sound_effect(s32, s32, s32, s32);
+s32 play_sound_effect(s32, Vec *, s32, s32);
 
 extern char controller_physical_port_bank[];
 extern s32 TAdMultiPlyChrSelectGC__data_805DE898;
@@ -40,7 +41,7 @@ void TAdMultiPlyChrSelectGC::close_and_reset() {
     set_entry_value__22TAdMultiPlyChrSelectGCFlUl(*(s32 *)&this->m_64, 1, &TAdMultiPlyChrSelectGC__data_805DE898);
     *(s32 *)&this->unk_30 = -1;
     if ((((TAdMultiPlyChrSelectGC *)(this->m_6c))->is_state_closing() == 0) && (TWindowShortListCtrl__check_controller_button(controller_physical_port_bank + 0x20, 2) != 0)) {
-        play_sound_effect(0x52F16, 0, 0, 0);
+        play_sound_effect(0x52F16, (Vec *)(0), 0, 0);
         *(s32 *)&this->unk_28 = 0x1B;
         *(s32 *)&this->m_20 = 0x1A;
         return;
@@ -56,7 +57,7 @@ void TAdMultiPlyChrSelectGC__sub_802DCCA4(Obj_802DCCA4 *arg0) {
         break;
     case 0:
         set_opening_movie_purpose(1);
-        TKeyBoardControl__sub_8000F9CC(3);
+        request_main_phase(3);
         break;
     case 1:
         collect_player_slots__22TAdMultiPlyChrSelectGCFv(arg0);

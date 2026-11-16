@@ -1,4 +1,6 @@
 #include "pso/enemy/TObjEnemy.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
+#include "pso/unk/TLobby.h"
 #include "pso/system/vector.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "types.h"
@@ -35,10 +37,8 @@ void update_pulse_state__10TBoss2MineFv(Mine_80038760 *self);
 
 void set_node_offsets__10TBoss2MineFv(O_80038908 *self);
 
-void *__dt__10TBoss2MineFv(void *arg0, s16 arg1);
 
 }
-
 
 struct Mine_800377E8 { u8 pad[0x404]; Vec vel; };
 
@@ -56,7 +56,6 @@ s32 subtract_vector(void *, void *);
 
 s32 vec3_add_to(void *, void *);
 
-s32 is_alive__8TObjBaseFv(s32);
 
 }
 
@@ -223,12 +222,6 @@ struct ByteBlock_14
   u8 bytes[0x14];
 };
 
-struct RecoveredGlobal_800384C8_lbl_80435AB0
-{
-  s32 value;
-  u8 remaining[0x10];
-};
-
 struct Base_80038200 { char pad[0x18]; };
 
 struct Mine_80038200 : Base_80038200 {
@@ -277,7 +270,8 @@ void *create_timed_particle_emitter(void *owner, s32 id, s32 b, s32 c);
 
 void TObjEneDD__sub_800BA5A4(void *p, void *a1);
 
-extern RecoveredGlobal_800384C8_lbl_80435AB0 boss2_mine_collision_desc;
+struct Boss2MineCollisionDesc { s32 value; u8 remaining[0x10]; };
+extern Boss2MineCollisionDesc boss2_mine_collision_desc;
 
 void scale_matrix(s32, f32, f32, f32);
 
@@ -301,13 +295,9 @@ typedef struct ByteBlock_10 ByteBlock_10;
 
 typedef struct ByteBlock_14 ByteBlock_14;
 
-typedef struct RecoveredGlobal_800384C8_lbl_80435AB0 RecoveredGlobal_800384C8_lbl_80435AB0;
-
 typedef struct VBase_18_444bc5 VBase_18_444bc5;
 
 typedef struct VObj_18_444bc5 VObj_18_444bc5;
-
-typedef char RecoveredGlobal_800384C8_lbl_80435AB0_size[((sizeof(RecoveredGlobal_800384C8_lbl_80435AB0)) == 0x14) ? (1) : (-1)];
 
 }
 
@@ -328,8 +318,6 @@ typedef struct Mine_80038760 {
     s32 wait;
     s32 state;
 } Mine_80038760;
-
-extern "C" {
 
 struct Base_80038948_80038610 {
     char pad[0x18];
@@ -438,8 +426,6 @@ struct VObj_80038948_80038610 : Base_80038948_80038610 {
     virtual void m99();
     virtual u32 m102();
 };
-
-}
 
 struct VBase_18 { char pad[0x18]; };
 
@@ -554,105 +540,6 @@ struct VObj_18 : VBase_18 {
     virtual s32 m107();
 };
 
-struct VBase_18_72b3e0 { char pad[0x18]; };
-
-struct VObj_18_72b3e0 : VBase_18_72b3e0 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual void m23();
-    virtual void m24();
-    virtual void m25();
-    virtual void m26();
-    virtual void m27();
-    virtual void m28();
-    virtual void m29();
-    virtual void m30();
-    virtual void m31();
-    virtual void m32();
-    virtual void m33();
-    virtual void m34();
-    virtual void m35();
-    virtual void m36();
-    virtual void m37();
-    virtual void m38();
-    virtual void m39();
-    virtual void m40();
-    virtual void m41();
-    virtual void m42();
-    virtual void m43();
-    virtual void m44();
-    virtual void m45();
-    virtual void m46();
-    virtual void m47();
-    virtual void m48();
-    virtual void m49();
-    virtual void m50();
-    virtual void m51();
-    virtual void m52();
-    virtual void m53();
-    virtual void m54();
-    virtual void m55();
-    virtual void m56();
-    virtual void m57();
-    virtual void m58();
-    virtual void m59();
-    virtual void m60();
-    virtual void m61();
-    virtual void m62();
-    virtual void m63();
-    virtual void m64();
-    virtual void m65();
-    virtual void m66();
-    virtual void m67();
-    virtual void m68();
-    virtual void m69();
-    virtual void m70();
-    virtual void m71();
-    virtual void m72();
-    virtual void m73();
-    virtual void m74();
-    virtual void m75();
-    virtual void m76();
-    virtual void m77();
-    virtual void m78();
-    virtual void m79();
-    virtual void m80();
-    virtual void m81();
-    virtual void m82();
-    virtual void m83();
-    virtual void m84();
-    virtual s32 m85(s16, s32);
-    virtual void m86();
-    virtual void m87();
-    virtual void m88();
-    virtual void m89();
-    virtual void m90();
-    virtual void m91();
-    virtual void m92();
-    virtual s32 m93();
-};
-
 typedef struct Rec_80038BA0 { u8 d[0x1C]; } Rec_80038BA0;
 
 typedef struct Tbl_80038BA0 {
@@ -665,13 +552,6 @@ typedef struct Tbl_80038BA0 {
 
 extern "C" {
 
-s32 register_object__6TLobbyFl(int);
-
-s32 dispatch_shared_handler_b__6TLobbyFl(int);
-
-s32 register_boss__6TLobbyFl(int);
-
-s32 reset_hp__9TObjEneDDFPUcPUcPUc(void *, int, int, int);
 
 s32 init_model__9TObjEneDDFP13CollisionBodyl(void *, void *, int, int);
 
@@ -710,20 +590,14 @@ void TBoss2Mine__sub_80038D84(void);
 
 int TBoss2Mine__sub_80038D88(void* p);
 
-s32 __ct__9TObjEneDDFP7TObject(void *, s32);
 
 int TObjPlayer__sub_800F0928(void*);
 
 extern s32 TBoss2Mine__name;
 
-}
-
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-
-extern "C" {
-
 void TBoss2Mine::apply_defense_stat_status(void *) {  }
 
 void TBoss2Mine::apply_attack_stat_status(void *) {  }
@@ -753,14 +627,13 @@ TBoss2Mine::TBoss2Mine(TObject *parent, u16 entity_id, s32 set_index, s32 varian
     *(s32 *)((s8 *)this + 0) = (s32) TBoss2Mine__name;
     temp_r3 = get_instance__13TBoss2DeRolLeFv();
     if (temp_r3 != 0) {
-        ((TObjEneDD *)this)->init_common_from((u8 *)temp_r3);
+        this->init_common_from((u8 *)temp_r3);
     }
     this->entity_id = entity_id;
     this->set_index = set_index;
     init__10TBoss2MineFPvi((u8 *)this, variant);
 }
 
-extern "C" {
 
 void init__10TBoss2MineFPvi(u8 *boss2_mine, s32 arg1) {
     s32 temp_r29;
@@ -769,11 +642,9 @@ void init__10TBoss2MineFPvi(u8 *boss2_mine, s32 arg1) {
     ((TObjEneDD *)boss2_mine)->init_position_vectors();
     *(s32 *)((s8 *)boss2_mine + 0x34) = *(s32 *)((s8 *)(*(u8 **)((s8 *)lbl_805D4BA4 + 0x42C)) + 0x38);
     temp_r6 = *(u8 **)((s8 *)lbl_805D4BA4 + 0x42C);
-    *(s32 *)((s8 *)boss2_mine + 0x24) = *(s32 *)((s8 *)temp_r6 + 0x2C);
+    ((TBoss2Mine *)boss2_mine)->texlist = *(s32 *)((s8 *)temp_r6 + 0x2C);
     init_model__9TObjEneDDFP13CollisionBodyl(boss2_mine, (u8 *)lbl_80482CD8, 1, (int)temp_r6);
-    reset_hp__9TObjEneDDFPUcPUcPUc(boss2_mine, register_boss__6TLobbyFl(((s32 *)boss2_mine_params)[arg1]),
-                            dispatch_shared_handler_b__6TLobbyFl(((s32 *)lbl_80482C90)[arg1]),
-                            register_object__6TLobbyFl(((s32 *)lbl_80482C98)[arg1]));
+    ((TObjEneDD *)boss2_mine)->reset_hp((u8 *)(TLobby::register_boss(((s32 *)boss2_mine_params)[arg1])), (u8 *)(TLobby::dispatch_shared_handler_b(((s32 *)lbl_80482C90)[arg1])), (u8 *)(TLobby::register_object(((s32 *)lbl_80482C98)[arg1])));
     ((TObjEneDD *)boss2_mine)->check_state_flag_2();
     *(Rec_80038BA0 **)((s8 *)boss2_mine + 0x350) = &((Rec_80038BA0 *)lbl_80482CA0)[arg1];
     *(f32 *)((s8 *)boss2_mine + 0x37C) = (3.0f);
@@ -802,11 +673,10 @@ void init__10TBoss2MineFPvi(u8 *boss2_mine, s32 arg1) {
     *(f32 *)((s8 *)boss2_mine + 0x3E4) = (0.0f);
     *(f32 *)((s8 *)boss2_mine + 0x3E8) = (0.0f);
     *(f32 *)((s8 *)boss2_mine + 0x3EC) = (0.0f);
-    *(s16 *)((s8 *)boss2_mine + 0x326) = 0;
-    ((VObj_18_72b3e0 *)(boss2_mine))->m85(*(s16 *)((s8 *)boss2_mine + 0x326), 4);
+    ((TBoss2Mine *)boss2_mine)->mode = 0;
+    ((TBoss2Mine *)(boss2_mine))->dispatch_action(((TBoss2Mine *)boss2_mine)->mode, 4);
 }
 
-}
 
 TBoss2Mine::~TBoss2Mine() {
     free_collision_body_parts(this);
@@ -822,9 +692,9 @@ void TBoss2Mine::run_task() {
     }
     this->vfunc_83();
     if (((VObj_18 *)(arg0))->m84() == 0) {
-        ((VObj_18 *)(arg0))->m85(*(s16 *)((s8 *)arg0 + 0x326), 3);
+        this->dispatch_action(this->mode, 3);
     }
-    ((VObj_18 *)(arg0))->m85(*(s16 *)((s8 *)arg0 + 0x326), 0);
+    this->dispatch_action(this->mode, 0);
     ((TObjEneDD *)arg0)->sub_800BBA0C();
     if (!(*(s32 *)((s8 *)arg0 + 0x38C) & 1)) {
         save_position();
@@ -841,7 +711,6 @@ void TBoss2Mine::vfunc_63() { if (*(short*)((char*)this + 0x326) != 4) { transit
 
 void TBoss2Mine::vfunc_62() { clear_attack_receipts(); }
 
-extern "C" {
 
 void TBoss2Mine::vfunc_61() {  }
 
@@ -937,7 +806,6 @@ void TBoss2Mine::update_pulse_state() {
     }
 }
 
-}
 
 void TBoss2Mine::dispatch_action(u32 state, s32 reason) {
     switch (state) {
@@ -981,10 +849,9 @@ void TBoss2Mine::vfunc_104(s32 reason) {
 }
 
 #undef transition_enemy_state__9TObjEneDDFl
-#define play_sound_effect ((s32 (*)(s32, u32, s16, s32))play_sound_effect)
+#define play_sound_effect ((s32 (*)(s32, Vec *, s16, s32))play_sound_effect)
 #define set_node_offsets__10TBoss2MineFv ((void (*)(void *))set_node_offsets__10TBoss2MineFv)
 
-extern "C" {
 
 void TBoss2Mine::vfunc_105(s32) {  }
 
@@ -1024,7 +891,7 @@ void TBoss2Mine::vfunc_107(s32 arg1) {
       TObjEneDD__sub_800BA5A4(arg0, copy_storage_800384C8.bytes);
       spawn_particle_effect_with_flags((void *)((*((s32 *) (((s8 *) arg0) + 0xA4))) + 0x1C), 0x16B, 0x40);
       *((s32 *) (((s8 *) arg0) + 0x3CC)) = 2;
-      play_sound_effect(0x4003AD05, (u32)(arg0 + 0x2FC), 0, 0);
+      play_sound_effect(0x4003AD05, (Vec *)((u32)(arg0 + 0x2FC)), 0, 0);
     }
       break;
   }
@@ -1041,7 +908,7 @@ void TBoss2Mine::vfunc_108(s32 arg1) {
         return;
     case 5:
         *(s32 *)((s8 *)this + 0x30) = (s32) (*(s32 *)((s8 *)this + 0x30) & 0xFFFFF7FF);
-        *(s16 *)((s8 *)this + 0x32C) = (s16) *(s16 *)((s8 *)this + 0x2B8);
+        this->hp = (s16) this->hpmax;
     case 0:
         return;
     }
@@ -1113,17 +980,12 @@ void TUnk_80482EC0::vfunc_88() {
     *(f32 *)((s8 *)(*(void **)((s8 *)this + 0xA4)) + 4) = (f32) ((5.0f) + (*(f32 *)((s8 *)this + 0x300) - *(f32 *)((s8 *)this + 0x3C)));
 }
 
-}
-
 #undef play_sound_effect
 #undef set_node_offsets__10TBoss2MineFv
 #define calc_elapsed_scaled__9TObjEneDDFv ((f32 (*)(void *, int, int))calc_elapsed_scaled__9TObjEneDDFv)
 #define init_params__10TBoss2MineFlf ((s32 (*)(void *, int, f32))init_params__10TBoss2MineFlf)
-#define play_sound_effect ((s32 (*)(int, void *, int, int, int))play_sound_effect)
+#define play_sound_effect ((s32 (*)(int, Vec *, int, int, int))play_sound_effect)
 #define update_pulse_state__10TBoss2MineFv ((s32 (*)(void *))update_pulse_state__10TBoss2MineFv)
-
-extern "C" {
-
 void TBoss2Mine::set_launch_position_velocity(u8 *arg1, u8 *arg2) {
     u8 *arg0 = (u8 *)this;
     *(s32 *)((s8 *)arg0 + 0x38C) = (s32) (*(s32 *)((s8 *)arg0 + 0x38C) | 0x100);
@@ -1132,7 +994,7 @@ void TBoss2Mine::set_launch_position_velocity(u8 *arg1, u8 *arg2) {
     *(f32 *)((s8 *)arg0 + 0x394) += 1.0f;
     VecCopy((Vec *)(arg0 + 0x38), (const Vec *)(arg0 + 0x2FC));
     *(s32 *)((s8 *)arg0 + 0x3A8) = 0;
-    *(s16 *)((s8 *)arg0 + 0x32C) = (s16) *(s16 *)((s8 *)arg0 + 0x2B8);
+    this->hp = (s16) this->hpmax;
     *(s32 *)((s8 *)arg0 + 0x30) = (s32) (*(s32 *)((s8 *)arg0 + 0x30) & ~0xA00);
 }
 
@@ -1148,11 +1010,11 @@ void TUnk_80482EC0::vfunc_105(s32 arg1) {
         ((VObj_80037EE0 *)arg0)->m93();
         *(s32 *)((s8 *)arg0 + 0x38C) = (s32) (*(s32 *)((s8 *)arg0 + 0x38C) & 0xFFFFFFF8);
         VecCopy((Vec *)(arg0 + 0x39C), (const Vec *)(arg0 + 0x390));
-        subtract_vector(arg0 + 0x39C, arg0 + 0x2FC);
+        subtract_vector(arg0 + 0x39C, (u8 *)&this->m_2fc);
         *(f32 *)((s8 *)arg0 + 0x3DC) = normalize_vector_xz((Vec *)(arg0 + 0x39C));
         temp_r3 = (s32) ((10430.38043493439) * atan2_float(*(f32 *)((s8 *)arg0 + 0x39C), *(f32 *)((s8 *)arg0 + 0x3A4)));
-        *(s32 *)((s8 *)arg0 + 0x60) = temp_r3;
-        *(s32 *)((s8 *)arg0 + 0x5C) = 0x4000;
+        this->rotation_y = temp_r3;
+        this->rotation_x = 0x4000;
         temp_f2 = *(f32 *)((s8 *)arg0 + 0x300);
         temp_f1 = newton_sqrtf(temp_r3, ((2.0f) * (temp_f2 - *(f32 *)((s8 *)arg0 + 0x394))) / (0.2f), temp_f2, (2.0f));
         *(f32 *)((s8 *)arg0 + 0x3E4) = (1e+01f) * temp_f1;
@@ -1176,14 +1038,14 @@ void TUnk_80482EC0::vfunc_105(s32 arg1) {
         if (*(f32 *)((s8 *)arg0 + 0x3E0) < *(f32 *)((s8 *)arg0 + 0x3E4)) {
             *(f32 *)((s8 *)arg0 + 0x3E8) = (f32) (*(f32 *)((s8 *)arg0 + 0x3E8) - (0.2f));
             *(f32 *)((s8 *)arg0 + 0x300) = (f32) (*(f32 *)((s8 *)arg0 + 0x300) + *(f32 *)((s8 *)arg0 + 0x3E8));
-            if ((s32) *(s32 *)((s8 *)arg0 + 0x5C) >= 0x8000) {
-                *(s32 *)((s8 *)arg0 + 0x5C) = 0x8000;
+            if ((s32) this->rotation_x >= 0x8000) {
+                this->rotation_x = 0x8000;
             } else {
                 *(s32 *)((s8 *)arg0 + 0x3D8) = (s32) (*(s32 *)((s8 *)arg0 + 0x3D8) + 0x300);
-                *(s32 *)((s8 *)arg0 + 0x5C) = (s32) (*(s32 *)((s8 *)arg0 + 0x3D8) + 0x4000);
+                this->rotation_x = (s32) (*(s32 *)((s8 *)arg0 + 0x3D8) + 0x4000);
             }
         } else {
-            *(s32 *)((s8 *)arg0 + 0x5C) = 0x4000;
+            this->rotation_x = 0x4000;
         }
         ((TBoss2Mine *)arg0)->update_move_flag();
         break;
@@ -1203,12 +1065,12 @@ void TUnk_80482EC0::vfunc_106(s32 arg1) {
         *(s32 *)((s8 *)((u8 *)this) + 0x38C) = (s32) (*(s32 *)((s8 *)((u8 *)this) + 0x38C) & ~5);
         temp_r5 = *(s32 *)((s8 *)((u8 *)this) + 0x38C) | 2;
         *(s32 *)((s8 *)((u8 *)this) + 0x38C) = temp_r5;
-        *(s32 *)((s8 *)((u8 *)this) + 0x5C) = 0x8000;
+        this->rotation_x = 0x8000;
         *(s32 *)((s8 *)((u8 *)this) + 0x3B0) = 0;
         *(s32 *)((s8 *)((u8 *)this) + 0x3C8) = 0;
         temp_r7 = (s32) ((3e+01f) * calc_elapsed_scaled__9TObjEneDDFv(this, 0x8000, temp_r5));
         *(s32 *)((s8 *)((u8 *)this) + 0x3CC) = (temp_r7 + 0xB4);
-        play_sound_effect(0x4003A804, (void *) (((u8 *)this) + 0x2FC), 0, 0, temp_r7);
+        play_sound_effect(0x4003A804, (Vec *)((void *) (((u8 *)this) + 0x2FC)), 0, 0, temp_r7);
         init_params__10TBoss2MineFlf(this, 0x1E, (f32) ((0.25f)));
         return;
     case 3:
@@ -1259,30 +1121,20 @@ TUnk_80482D04::TUnk_80482D04(TObject *parent, u16 entity_id, s32 set_index)
     direction.z = 0.0f;
 }
 
-}
-
 #undef calc_elapsed_scaled__9TObjEneDDFv
 #undef init_params__10TBoss2MineFlf
 #undef play_sound_effect
 #undef update_pulse_state__10TBoss2MineFv
-
-extern "C" {
-
 TUnk_80482D04::~TUnk_80482D04() {}
 
-}
-
 #define update_pulse_state__10TBoss2MineFv ((s32 (*)(void *))update_pulse_state__10TBoss2MineFv)
-
-extern "C" {
-
 void TUnk_80482D04::vfunc_88() {
     *(f32 *)((s8 *)(*(void **)((s8 *)this + 0xA4)) + 4) = (f32) ((1.0f) + (*(f32 *)((s8 *)this + 0x300) - *(f32 *)((s8 *)this + 0x3C)));
 }
 
 void TUnk_80482D04::move_mine() {
     u8 *arg0 = (u8 *)this;
-    if (is_alive__8TObjBaseFv(*(s32 *)((s8 *)arg0 + 0x3F0)) != 0) {
+    if (((TObjBase *)(*(s32 *)((s8 *)arg0 + 0x3F0)))->is_alive() != 0) {
         VecCopy((Vec *)(arg0 + 0x390), (const Vec *)(*(s32 *)((s8 *)arg0 + 0x3F0) + 0x38));
         vec3_add_to(arg0 + 0x390, arg0 + 0x3F8);
         *(f32 *)((s8 *)arg0 + 0x394) += 17.0f;
@@ -1296,7 +1148,7 @@ void init_launch__10TBoss2MineFPvPvii(u8 *arg0, u8 *arg1, s32 arg2, s32 arg3) {
     VecCopy((Vec *)(arg0 + 0x2FC), (const Vec *)(arg1));
     *(s32 *)((s8 *)arg0 + 0x3F0) = arg2;
     temp_r31 = arg3 * 0x5555;
-    *(s32 *)((s8 *)arg0 + 0x3F4) = arg3;
+    ((TUnk_80482D04 *)arg0)->slot = arg3;
     *(f32 *)((s8 *)arg0 + 0x3F8) = (f32) ((2e+01f) * sin_table_lookup(temp_r31));
     *(f32 *)((s8 *)arg0 + 0x3FC) = 0.0f;
     *(f32 *)((s8 *)arg0 + 0x400) = (f32) ((2e+01f) * cos_table_lookup(temp_r31));
@@ -1310,15 +1162,15 @@ void init_launch__10TBoss2MineFPvPvii(u8 *arg0, u8 *arg1, s32 arg2, s32 arg3) {
     *(f32 *)((s8 *)arg0 + 0x404) = sin_table_lookup(var_r31);
     *(f32 *)((s8 *)arg0 + 0x408) = 0.0f;
     *(f32 *)((s8 *)arg0 + 0x40C) = cos_table_lookup(var_r31);
-    *(s32 *)((s8 *)arg0 + 0x60) = var_r31;
+    ((TUnk_80482D04 *)arg0)->rotation_y = var_r31;
     *(f32 *)((s8 *)arg0 + 0x390) = 0.0f;
     *(f32 *)((s8 *)arg0 + 0x394) = 0.0f;
     *(f32 *)((s8 *)arg0 + 0x398) = 0.0f;
     ((TUnk_80482D04 *)arg0)->move_mine();
-    *(s32 *)((s8 *)arg0 + 0x5C) = 0x4000;
+    ((TUnk_80482D04 *)arg0)->rotation_x = 0x4000;
     VecCopy((Vec *)(arg0 + 0x38), (const Vec *)(arg0 + 0x2FC));
     *(s32 *)((s8 *)arg0 + 0x3A8) = 0;
-    *(s16 *)((s8 *)arg0 + 0x32C) = (s16) *(s16 *)((s8 *)arg0 + 0x2B8);
+    ((TUnk_80482D04 *)arg0)->hp = (s16) ((TUnk_80482D04 *)arg0)->hpmax;
     *(s32 *)((s8 *)arg0 + 0x30) = (s32) (*(s32 *)((s8 *)arg0 + 0x30) & ~0xA00);
 }
 
@@ -1333,8 +1185,8 @@ void TUnk_80482D04::vfunc_105(s32 arg1) {
         ((TUnk_80482D04 *)(arg0))->vfunc_95();
         *(s32 *)((s8 *)arg0 + 0x38C) &= ~7;
         *(s32 *)((s8 *)arg0 + 0x3A8) = 0;
-        *(s32 *)((s8 *)arg0 + 0x5C) = 0x4000;
-        *(s32 *)((s8 *)arg0 + 0x64) = 0;
+        this->rotation_x = 0x4000;
+        this->rotation_z = 0;
         *(s32 *)((s8 *)arg0 + 0x3C8) = 1;
         *(s32 *)((s8 *)arg0 + 0x3CC) = 0;
         *(f32 *)((s8 *)arg0 + 0x3DC) = (8.0f);
@@ -1351,7 +1203,7 @@ void TUnk_80482D04::vfunc_105(s32 arg1) {
             (*(s32 *)((s8 *)arg0 + 0x3CC))++;
             if (*(s32 *)((s8 *)arg0 + 0x3CC) >= 0xF) {
                 *(s32 *)((s8 *)arg0 + 0x3C8) = 1;
-                play_sound_effect(0x4003A804, (Vec *)(arg0 + 0x2FC), 0, 0);
+                play_sound_effect(0x4003A804, (Vec *)((u8 *)&this->m_2fc), 0, 0);
             }
             *(f32 *)((s8 *)arg0 + 0x2FC) = *(f32 *)((s8 *)arg0 + 0x404) * *(f32 *)((s8 *)arg0 + 0x3DC) + *(f32 *)((s8 *)arg0 + 0x2FC);
             *(f32 *)((s8 *)arg0 + 0x304) = *(f32 *)((s8 *)arg0 + 0x40C) * *(f32 *)((s8 *)arg0 + 0x3DC) + *(f32 *)((s8 *)arg0 + 0x304);
@@ -1366,18 +1218,18 @@ void TUnk_80482D04::vfunc_105(s32 arg1) {
             *(f32 *)((s8 *)arg0 + 0x304) = *(f32 *)((s8 *)arg0 + 0x40C) * *(f32 *)((s8 *)arg0 + 0x3DC) + *(f32 *)((s8 *)arg0 + 0x304);
             break;
         case 2:
-            *(s32 *)((s8 *)arg0 + 0x5C) -= 0x600;
-            if (*(s32 *)((s8 *)arg0 + 0x5C) < 0) {
-                *(s32 *)((s8 *)arg0 + 0x5C) = 0;
+            this->rotation_x -= 0x600;
+            if (this->rotation_x < 0) {
+                this->rotation_x = 0;
             }
-            *(s32 *)((s8 *)arg0 + 0x64) += 2.56e+03f;
+            this->rotation_z += 2.56e+03f;
             *(f32 *)((s8 *)arg0 + 0x3DC) -= (0.2f);
             if (*(f32 *)((s8 *)arg0 + 0x3DC) <= (3.0f)) {
                 *(f32 *)((s8 *)arg0 + 0x3DC) = (3.0f);
             }
             ((TUnk_80482D04 *)arg0)->move_mine();
             VecCopy((Vec *)&v, (const Vec *)(arg0 + 0x390));
-            subtract_vector(&v, arg0 + 0x2FC);
+            subtract_vector(&v, (u8 *)&this->m_2fc);
             if (((TObjBoss2Tunnel *)(&v))->update_scale() <= (4.5f)) {
                 *(s32 *)((s8 *)arg0 + 0x3C8) = 3;
             }
@@ -1414,7 +1266,7 @@ void TUnk_80482D04::vfunc_106(s32 arg1) {
         ((TUnk_80482D04 *)(arg0))->vfunc_96();
         *(s32 *)((s8 *)arg0 + 0x38C) &= ~5;
         *(s32 *)((s8 *)arg0 + 0x38C) |= 2;
-        *(s32 *)((s8 *)arg0 + 0x5C) = 0;
+        this->rotation_x = 0;
         *(s32 *)((s8 *)arg0 + 0x3B0) = 0;
         *(s32 *)((s8 *)arg0 + 0x3C8) = 0;
         *(s32 *)((s8 *)arg0 + 0x3CC) = (s32)((6e+01f) * calc_elapsed_scaled__9TObjEneDDFv(arg0)) + 0xF0;
@@ -1434,10 +1286,10 @@ void TUnk_80482D04::vfunc_106(s32 arg1) {
         if (*(s32 *)((s8 *)arg0 + 0x3CC) <= 0) {
             *(s32 *)((s8 *)arg0 + 0x3C8) = 1;
         }
-        *(s32 *)((s8 *)arg0 + 0x64) += 2.56e+03f;
+        this->rotation_z += 2.56e+03f;
         ((TUnk_80482D04 *)arg0)->move_mine();
         VecCopy((Vec *)&v, (const Vec *)(arg0 + 0x390));
-        subtract_vector(&v, arg0 + 0x2FC);
+        subtract_vector(&v, (u8 *)&this->m_2fc);
         s = normalize_vector_xz((Vec *)(&v));
         s *= (0.75f);
         if (s < (0.2f)) {
@@ -1465,6 +1317,5 @@ void TUnk_80482D04::vfunc_106(s32 arg1) {
 }
 #pragma pop
 
-}
 
 #undef update_pulse_state__10TBoss2MineFv

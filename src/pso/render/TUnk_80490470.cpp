@@ -23,28 +23,22 @@ s32 TUnk_80490470::advance_toward_max() {
     return phase >= 2.0f;
 }
 s32 TUnk_80490470::decay_value_toward_floor() {
-    u8 *arg0 = (u8 *)this;
     f32 temp_f1;
-    temp_f1 = *(f32 *)((s8 *)arg0 + 0x18);
-    *(f32 *)((s8 *)arg0 + 0x18) = (f32) (temp_f1 - *(f32 *)((s8 *)arg0 + 0x10));
+    temp_f1 = this->phase;
+    this->phase = (f32) (temp_f1 - this->rate);
     calc_recoil_offsets__13TUnk_80490470Fv(temp_f1);
-    return *(f32 *)((s8 *)arg0 + 0x18) <= 0.0f;
+    return this->phase <= 0.0f;
 }
 
 }
 
 // ---- pso/player/TObjPlayer_800A0408
-#include "types.h"
+
 #include "pso/enemy/darkgunner/DarkGunner.h"
 #include "pso/object/TObjControl.h"
 #include "pso/player/TObjPlayer_800A0408.h"
 #include "pso/player/TObjPlayer_800D8FDC.h"
 #include "pso/system/memory.h"
-#include "pso/render/TUnk_80490470.h"
-
-
-
-
 
 
 void TUnk_80490470::calc_recoil_offsets() {
@@ -126,12 +120,10 @@ void TObjPlayer__sub_800A0554(Obj_800A0554 *self) {
 }
 
 
-
 TUnk_80490470::~TUnk_80490470() {}
 
 }
 
-#include "pso/player/TObjPlayer.h"
 
 struct Obj_800A0654 { u8 pad[0x37c]; s32 count; u8 pad2[4]; u16 ids[1]; };
 
@@ -142,7 +134,6 @@ struct Obj_800A0728 { u8 pad[0x374]; s32 mode; s32 timer; s32 count; u8 pad2[4];
 extern "C" {
 void TObjPlayer__sub_800A0654(Obj_800A0654 *self);
 s32 TObjPlayer__sub_800A06B4(Obj_800A06B4 *self);
-int __ct__17MaterialColorFadeFv(void);
 
 TUnk_80490470::TUnk_80490470() : MaterialColorFade(), phase(0.0f) {}
 void TObjPlayer__sub_800A0654(Obj_800A0654 *self) {

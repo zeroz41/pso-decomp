@@ -10,7 +10,7 @@ u8 get_item_index__5TItemFv();
 extern s32 game_difficulty_selection;
 }
 
-int TUnk_8049FE00::get_max_tp() { return obj_getS16_2BA(*(void* *)&this->owner); }
+int TUnk_8049FE00::get_max_tp() { return obj_getS16_2BA(this->owner); }
 
 int TUnk_8049FE00::calc_large_tp() {
     return (s16) ((game_difficulty_selection * 0x32) + get_pmt_amount());

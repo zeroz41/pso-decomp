@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/enemy/TUnk_804E14E8.h"
 #include "pso/system/vector.h"
@@ -98,10 +99,10 @@ void TUnk_804E14E8::run_task() {
             VecCopy(&pos, start);
             state = 1;
             if (get_current_floor_area() == AREA_TOWER) {
-                play_sound_effect(0x4003A313, &pos, 0, 0);
+                play_sound_effect(0x4003A313, (Vec *)(&pos), 0, 0);
                 return;
             }
-            play_sound_effect(0x3A820, &pos, 0, 0);
+            play_sound_effect(0x3A820, (Vec *)(&pos), 0, 0);
             return;
         }
         if (ptcl0 != NULL) {

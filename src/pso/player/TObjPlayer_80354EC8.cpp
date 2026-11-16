@@ -76,7 +76,7 @@ void TObjPlayer__sub_80354E7C(void) {
         ((TObjPlayer *)(&((E_80354E7C *)lbl_80543984)[i]))->reset_field4();
     }
 }
-void TObjPlayer::finish_quest_thread() { TQuestThread::create_in_root(get_quest_thread_id__10TObjPlayerFPv(this)); }
+void TObjPlayer::finish_quest_thread() { TQuestThread::create_in_root(get_quest_thread_id()); }
 
 void __sinit_TObjPlayer_80354EC8_cpp(void) {
     __construct_array(lbl_80543984, (void *)init_and_reset_forward__10TObjPlayerFPv, (void *)TObjPlayer__sub_80355098, 8, 4);
@@ -95,11 +95,9 @@ __declspec(section ".ctors") static void *const __sinit_TObjPlayer_80354EC8_cpp_
 
 extern "C" {
 
-int set__8FlagWordFUl(void*, int);
-int clear__8FlagWordFUl(void*, int);
 int test_flags_any(void*, int);
 
-s32 get_quest_thread_id__10TObjPlayerFPv(void* p) { return *(s32*)((char*)p + 0x4); }
+s32 TObjPlayer::get_quest_thread_id() { return *(s32*)((char*)this + 0x4); }
 void TObjPlayer::set_player_index(s32 v) { *(s32*)((char*)this + 0x4) = v; }
 u8 TObjPlayer__sub_80354F8C(void *p) { return fn_8035510C((s32 *)p, 3); }
 void TObjPlayer__sub_80354FB0(void* p) { ((FlagWord *)p)->clear(2); }

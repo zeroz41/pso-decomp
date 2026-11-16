@@ -1,5 +1,9 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
+#include "pso/ui/window/TWindowGetComCard_8007B54C.h"
+#include "pso/unk/text_8024AC64.h"
+#include "pso/unk/text_8024ACA8.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowGetComCard.h"
 #include "pso/ui/window/TWindowMessage.h"
@@ -15,11 +19,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/system/task/TObject.h"
-
-struct RecoveredGlobal_80252FCC___vt__17TWindowGetComCard {
-    s32 value;
-    u8 remaining[0x14];
-};
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 
 struct Pad_80252CCC { u8 pad[0x20]; u8 m20[0x30]; };
 
@@ -34,26 +34,21 @@ struct GetCard_80252CCC {
 extern "C" {
 s32 *get_shared_text_buffer(void);
 s32 init_com_card__17TWindowSubComCardFv();
-s32 *TWindowGetComCard__sub_8007B594(void);
 s32 reset_equip_slots__10TObjPlayerFv();
 void *get_player_by_client_id(s32 i);
-void *get_com_card_list__6TLobbyFPv(void *p);
 s32 text_builder_append();
 s32 __ct__7TObjectFP7TObject();
 void TObjPlayer__sub_8024ABDC(s32 arg0);
-void fn_8024AC64(s32 arg0);
 s32 create__14TWindowMessageFPvll(void *, void *, int);
 extern s32 lbl_8044ED94[];
 extern s32 lbl_8044ED9C[];
 extern void *__vt__17TWindowGetComCard[];
-extern s32 TWindowGetComCard__name;
+const char *TWindowGetComCard__name = "TWindowGetComCard";
 extern s32 local_client_id;
 u8 *TWindowGetComCard__ct(TWindowGetComCard *arg0);
 void start_player_data_load__17TWindowSubComCardFl(void);
-void TWindowGetComCard__sub_8007B54C(void);
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, s32);
-s32 TWindowShortListCtrl__check_controller_button(void *, s32);
-void play_sound_effect(s32, s32, s32, s32);
+void play_sound_effect(s32, Vec *, s32, s32);
 s32 is_player_input_active(s32);
 u8 *init_shop_judgment_window(void *p);
 __declspec(section ".data") f32 TWindowGetComCard__window_rect[2] = {152.0f, 370.0f};
@@ -63,7 +58,6 @@ void TWindowFukidasi__sub_80252C38(void* p);
 int fn_80252CBC(void* p);
 void TLobby__sub_8024AC20(s32 arg0);
 s32 TWindowCtrl__sub_8024A314();
-void TWindowReturnCity__sub_8024ACA8(s32 arg0);
 s32 init_parts__10TObjPlayerFv();
 
 void TWindowFukidasi__sub_80252C38(void* p) { *(u8*)((char*)p + 0x71) |= 0x4; }
@@ -128,7 +122,7 @@ void run_task__17TWindowGetComCardFv(GetCard_80252CCC *self) {
             self->state = 6;
         } else if (TWindowShortListCtrl__check_controller_button(controller_input_state[port].m20, 2) != 0 ||
                    test_flag_4c__23TAdSinglePlyChrSelectGCFv(controller_input_state[4].m20, 2) != 0) {
-            play_sound_effect(0x52F16, 0, 0, 0);
+            play_sound_effect(0x52F16, (Vec *)(0), 0, 0);
             self->state = 2;
         }
         break;
@@ -161,18 +155,17 @@ TWindowGetComCard::~TWindowGetComCard() {
     }
 }
 
-typedef char RecoveredGlobal_80252FCC___vt__17TWindowGetComCard_size[sizeof(RecoveredGlobal_80252FCC___vt__17TWindowGetComCard) == 0x18 ? 1 : -1];
 u8 *TWindowGetComCard__ct(TWindowGetComCard *window_get_com_card) {
     s32 temp_r31;
     __ct__7TObjectFP7TObject();
-    *(s32 **)((s8 *)window_get_com_card + 0x18) = &(*(RecoveredGlobal_80252FCC___vt__17TWindowGetComCard *)&__vt__17TWindowGetComCard).value;
+    *(s32 **)((s8 *)window_get_com_card + 0x18) = ((s32 *)&__vt__17TWindowGetComCard);
     *(s32 *)((s8 *)window_get_com_card + 0) = (s32) TWindowGetComCard__name;
     window_get_com_card->m_1c = create__14TWindowMessageFPvll(lbl_8044ED94, lbl_8044ED9C, 1);
     window_get_com_card->m_20 = 0;
     if (init_com_card__17TWindowSubComCardFv() != 0) {
         temp_r31 = (s32)TWindowGetComCard__sub_8007B594();
         text_builder_reset();
-        get_com_card_list__6TLobbyFPv((void *)temp_r31);
+        ((TLobby *)temp_r31)->get_com_card_list();
         text_builder_append();
         TWindowSubStatusDisp::get_message_10(0x36);
         text_builder_append();

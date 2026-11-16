@@ -1,4 +1,5 @@
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
@@ -70,11 +71,11 @@ void TOKeyAncient03::send_switch_changed(s32 flags) {
 }
 
 void TOKeyAncient03::trigger_deactivate_sound() {
-    play_sound_effect(0x4004B20D, &position, 0, 0);
+    play_sound_effect(0x4004B20D, (Vec *)(&position), 0, 0);
 }
 
 void TOKeyAncient03::trigger_activate_sound() {
-    play_sound_effect(0x4004B20D, &position, 0, 0);
+    play_sound_effect(0x4004B20D, (Vec *)(&position), 0, 0);
 }
 
 void TOKeyAncient03::update_switch_off() {

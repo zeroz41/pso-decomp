@@ -7,52 +7,6 @@
 #include "pso/ui/Language.h"
 #include "pso/render/render_util.h"
 
-struct RecoveredGlobal_8000F764_TKeyBoardControl__data_80506270 {
-    s32 value;
-    u8 remaining[0xAC];
-};
-
-struct RecoveredGlobal_8000F7FC_lbl_80515F48 {
-    s32 value;
-    u8 remaining[0x24];
-};
-
-struct RecoveredGlobal_8000F9E4_lbl_804FE120 {
-    s32 value;
-    u8 remaining[0x14];
-};
-
-struct RecoveredGlobal_8000F90C_lbl_804FE120 {
-    s32 value;
-    u8 remaining[0x14];
-};
-
-struct RecoveredGlobal_8000F9CC_lbl_804FE120 {
-    s32 value;
-    u8 remaining[0x14];
-};
-
-struct RecoveredGlobal_8000F8FC_lbl_804FE120 {
-    s32 value;
-    u8 remaining[0x14];
-};
-
-struct RecoveredGlobal_8000F8EC_lbl_804FE120 {
-    s32 value;
-    u8 remaining[0x14];
-};
-
-struct RecoveredGlobal_8000F91C_lbl_804FE120 {
-    s32 value;
-    u8 remaining[0x14];
-};
-
-struct RecoveredGlobal_80144FCC_lbl_804A74F0
-{
-  s32 value;
-  u8 remaining[0x2F8];
-};
-
 struct Glyph_80145190 {
     u16 code;
     u8 width;
@@ -70,28 +24,20 @@ typedef struct Pos_8014556C
 } Pos_8014556C;
 
 extern u8 lbl_805D56C0;
-extern RecoveredGlobal_8000F7FC_lbl_80515F48 menu_font_texture_list;
+struct MenuFontTextureList { s32 value; u8 remaining[0x24]; };
+extern MenuFontTextureList menu_font_texture_list;
 extern "C" {
 void set_glyph_quad_extents(u8 arg0, u8 *arg1);
-extern RecoveredGlobal_80144FCC_lbl_804A74F0 menu_font_char_advance_table;
+struct MenuFontCharAdvanceTable { s32 value; u8 remaining[0x2F8]; };
+extern MenuFontCharAdvanceTable menu_font_char_advance_table;
 u32 get_font_char_advance(u16 arg0);
 u16 map_char_to_font_code(u16 c);
 extern s32 text_control_color_palette[];
 char *parse_text_control_codes(char *p, s32 *a, s32 *b);
 void DCStoreRange(void *, u32);
-}
-extern u8 *menu_font_glyph_pixel_buffers[];
-extern u8 *menu_font_glyph_data;
-extern u32 menu_font_upload_flags;
-void upload_font_glyph(u16 c, void *arg1);
-s32 calc_ci4_tile_offset(u32 arg0, u32 arg1);
-extern "C" {
 u32 calc_text_width(char *s);
 u32 TWindowSubStatusDisp__sub_80144E9C(char *s);
-u8 calc_gauge_scale__20TWindowSubStatusDispFPvPvi(u16 glyph, void *arg1, s32 arg2);
 void draw_menu_font_string(const char *s, s32 arg1, u32 flags, f32 x, f32 y, f32 scale);
-void *find_cached_glyph__20TWindowSubStatusDispFUs(u16 code);
-int get_player__20TWindowSubStatusDispFv(void*);
 
 char *parse_text_control_codes(char *p, s32 *a, s32 *b) {
     while (*p == '\t') {
@@ -128,9 +74,6 @@ void set_glyph_quad_extents(u8 arg0, u8 *arg1) {
     *(f32 *)((s8 *)arg1 + 0x1C) = (f32) (0.0703125f + *(f32 *)((s8 *)arg1 + 0x14));
 }
 #pragma pop
-
-typedef struct RecoveredGlobal_80144FCC_lbl_804A74F0 RecoveredGlobal_80144FCC_lbl_804A74F0;
-typedef char RecoveredGlobal_80144FCC_lbl_804A74F0_size[((sizeof(RecoveredGlobal_80144FCC_lbl_804A74F0)) == 0x2FC) ? (1) : (-1)];
 
 u32 TWindowSubStatusDisp::calc_text_width(char *s) {
     f32 max = 0.0f;
@@ -325,7 +268,11 @@ void TWindowSubStatusDisp::pack_status_flags(u32 arg1) {
     *(u8 *)((s8 *)this + 1) = (u8) (*(u8 *)((s8 *)this + 1) | ((arg1 * 4) & 0x30));
 }
 }
-
+extern u8 *menu_font_glyph_pixel_buffers[];
+extern u8 *menu_font_glyph_data;
+extern u32 menu_font_upload_flags;
+void upload_font_glyph(u16 c, void *arg1);
+s32 calc_ci4_tile_offset(u32 arg0, u32 arg1);
 #define g ((Glyph_80145190 *)arg1)
 
 s32 calc_ci4_tile_offset(u32 arg0, u32 arg1) {
@@ -383,7 +330,7 @@ s32 TWindowSubStatusDisp::upload_glyph_if_needed(u16 arg0, u8 *arg1, void **arg2
 
 typedef struct Glyph_801452DC { u16 code; u16 data[4]; } Glyph_801452DC;
 extern Glyph_801452DC *menu_font_glyph_table;
-void *find_cached_glyph__20TWindowSubStatusDispFUs(u16 code) {
+void *TWindowSubStatusDisp::find_cached_glyph(u16 code) {
     void *free_slot;
     Glyph_801452DC *g;
     Glyph_801452DC *p;
@@ -430,28 +377,20 @@ void *find_cached_glyph__20TWindowSubStatusDispFUs(u16 code) {
     return free_slot;
 }
 
-u8 calc_gauge_scale__20TWindowSubStatusDispFPvPvi(u16 glyph, void *arg1, s32 arg2) {
-    void *temp_r3;
+u8 TWindowSubStatusDisp::calc_gauge_scale(u16 glyph, void *arg1, s32 arg2) {
+    void *cached_glyph;
 
-    temp_r3 = find_cached_glyph__20TWindowSubStatusDispFUs(glyph);
-    *(u8 *)((s8 *)temp_r3 + 3) = (u8) lbl_805D56C0;
-    set_draw_texture_and_color((*(u8 *)((s8 *)temp_r3 + 4)), (arg2));
-    *(f32 *)((s8 *)arg1 + 0x10) = (f32) ((f32) *(u8 *)((s8 *)temp_r3 + 5) / 256.0f);
-    *(f32 *)((s8 *)arg1 + 0x14) = (f32) ((f32) *(u8 *)((s8 *)temp_r3 + 6) / 256.0f);
-    return *(u8 *)((s8 *)temp_r3 + 2);
+    cached_glyph = TWindowSubStatusDisp::find_cached_glyph(glyph);
+    *(u8 *)((s8 *)cached_glyph + 3) = (u8) lbl_805D56C0;
+    set_draw_texture_and_color((*(u8 *)((s8 *)cached_glyph + 4)), (arg2));
+    *(f32 *)((s8 *)arg1 + 0x10) = (f32) ((f32) *(u8 *)((s8 *)cached_glyph + 5) / 256.0f);
+    *(f32 *)((s8 *)arg1 + 0x14) = (f32) ((f32) *(u8 *)((s8 *)cached_glyph + 6) / 256.0f);
+    return *(u8 *)((s8 *)cached_glyph + 2);
 }
 
-typedef char RecoveredGlobal_8000F764_TKeyBoardControl__data_80506270_size[sizeof(RecoveredGlobal_8000F764_TKeyBoardControl__data_80506270) == 0xB0 ? 1 : -1];
-typedef char RecoveredGlobal_8000F7FC_lbl_80515F48_size[sizeof(RecoveredGlobal_8000F7FC_lbl_80515F48) == 0x28 ? 1 : -1];
 void TWindowSubStatusDisp::set_gauge_param(s32 _w0) {
     TObjFish::set_global_param((s32)&menu_font_texture_list.value);
 }
-typedef char RecoveredGlobal_8000F90C_lbl_804FE120_size[sizeof(RecoveredGlobal_8000F90C_lbl_804FE120) == 0x18 ? 1 : -1];
-typedef char RecoveredGlobal_8000F8FC_lbl_804FE120_size[sizeof(RecoveredGlobal_8000F8FC_lbl_804FE120) == 0x18 ? 1 : -1];
-typedef char RecoveredGlobal_8000F8EC_lbl_804FE120_size[sizeof(RecoveredGlobal_8000F8EC_lbl_804FE120) == 0x18 ? 1 : -1];
-typedef char RecoveredGlobal_8000F91C_lbl_804FE120_size[sizeof(RecoveredGlobal_8000F91C_lbl_804FE120) == 0x18 ? 1 : -1];
-typedef char RecoveredGlobal_8000F9E4_lbl_804FE120_size[sizeof(RecoveredGlobal_8000F9E4_lbl_804FE120) == 0x18 ? 1 : -1];
-typedef char RecoveredGlobal_8000F9CC_lbl_804FE120_size[sizeof(RecoveredGlobal_8000F9CC_lbl_804FE120) == 0x18 ? 1 : -1];
 
 void TWindowSubStatusDisp::end_render_forward() { get_player(); }
 void TWindowSubStatusDisp::reset_gauge(void* p) { begin_screen_draw((s32)((void*)1)); TWindowSubStatusDisp::set_gauge_param((s32)p); set_draw_texture_and_color((s32)((void*)0), (s32)((void*)-1)); }
@@ -518,7 +457,7 @@ void draw_menu_font_string(const char *s, s32 arg1, u32 flags, f32 x, f32 y, f32
       }
       code = (hi << 8) & 0xFF00;
       code = code | lo;
-      w = calc_gauge_scale__20TWindowSubStatusDispFPvPvi(((u16 (*)(u32)) map_char_to_font_code)(code), &pos, arg1);
+      w = TWindowSubStatusDisp::calc_gauge_scale(((u16 (*)(u32)) map_char_to_font_code)(code), &pos, arg1);
       set_glyph_quad_extents(w, (u8 *)&pos);
       draw_textured_quad_at_depth((f32 *)&pos, scale);
       pos.x += (f32) w;

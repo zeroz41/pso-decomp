@@ -6,6 +6,8 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/window/TWindowCtrlMain_8024EEF8.h"
 #include "pso/ui/window/TWindowCtrlMain.h"
+#include "pso/system/NinjaTypes.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 struct RecoveredFields_8024E754_arg0
 {
@@ -15,8 +17,6 @@ struct RecoveredFields_8024E754_arg0
 };
 
 struct Ctx_8024E6D8 { u8 pad[0x20]; f32 pivot[2]; f32 scale[2]; };
-
-struct Vec2_8024EC34 { f32 x; f32 y; };
 
 struct Ctx_8024E68C { u8 pad[0x20]; f32 pivot[2]; f32 scale[2]; };
 
@@ -28,7 +28,7 @@ struct Win_8024EA50 {
     f32 x, y;
     f32 w, h;
     f32 x10, y14, x18, y1c;
-    Vec2_8024EC34 c;
+    NJS_POINT2 c;
     f32 sx, sy;
     s32 f30;
     s32 f34;
@@ -40,13 +40,12 @@ u32 soft_keyboard_instance;
 extern "C" {
 s32 __cvt_fp2unsigned(f32);
 void apply_context_transform_to_rect(Ctx_8024E6D8 *c, f32 *q);
-s32 is_split_screen();
 f32 TCameraCtrl__sub_80068A04(s32);
-Vec2_8024EC34 *get_viewport_offset__19TWindowKeyBoardSoftFi(s32);
-Vec2_8024EC34 *get_zero_vec2();
-extern Vec2_8024EC34 keyboard_soft_viewport_offset_table[];
-extern Vec2_8024EC34 lbl_8044EC80[];
-extern Vec2_8024EC34 lbl_8044EC98[];
+NJS_POINT2 *get_viewport_offset__19TWindowKeyBoardSoftFi(s32);
+NJS_POINT2 *get_zero_vec2();
+extern NJS_POINT2 keyboard_soft_viewport_offset_table[];
+extern NJS_POINT2 lbl_8044EC80[];
+extern NJS_POINT2 lbl_8044EC98[];
 s32 clip_textured_quad__19TWindowKeyBoardSoftFPvPv(Win_8024E8E8 *w, Box_8024E8E8 *b);
 u32 init_text_window_layout(Win_8024EA50 *win, f32 *pos, f32 *size, f32 *scale, u32 flags, f32 depth);
 
@@ -100,8 +99,8 @@ void apply_window_closing_stretch(u8 *arg0, int arg1) {
 void TWindowKeyBoardSoft::set_open_tick(s32 arg1) {
     u8 *arg0 = (u8 *)this;
     s32 temp_r0;
-    *(s32 *)((s8 *)arg0 + 0x30) = arg1;
-    temp_r0 = *(s32 *)((s8 *)arg0 + 0x30);
+    this->open_tick = arg1;
+    temp_r0 = this->open_tick;
     if (temp_r0 < 0) {
         *(s32 *)((s8 *)arg0 + 0x34) = (s32) ((__cvt_fp2unsigned(255.0f * ((7.5f + (f32) temp_r0) / 7.5f)) << 0x18) | 0xFF0000 | 0xFFFF);
     }
@@ -112,14 +111,14 @@ void TWindowKeyBoardSoft::set_bounds(f32 a, f32 b, f32 c, f32 d) { *(f32*)((char
 
 
 void TWindowKeyBoardSoft::shrink_clip_right() {
-    *(f32 *)((s8 *)this + 0x18) = (f32) (*(f32 *)((s8 *)this + 0x18) - 5.0f);
+    this->inner_w = (f32) (this->inner_w - 5.0f);
     *(f32 *)((s8 *)this + 0x44) = (f32) (*(f32 *)((s8 *)this + 0x44) - 5.0f);
 }
 
 
 void TWindowKeyBoardSoft::animate_scale() {
-    *(f32 *)((s8 *)this + 0x14) += 6.0f;
-    *(f32 *)((s8 *)this + 0x1C) -= 6.0f;
+    this->inner_y += 6.0f;
+    this->inner_h -= 6.0f;
     *(f32 *)((s8 *)this + 0x40) += 6.0f;
 }
 
@@ -226,8 +225,8 @@ u32 init_text_window_layout(Win_8024EA50 *win, f32 *pos, f32 *size, f32 *scale, 
 #pragma pop
 
 void TWindowKeyBoardSoft::adjust_pos_for_split_screen(s32 i) {
-    Vec2_8024EC34 *arg0 = (Vec2_8024EC34 *)this;
-    Vec2_8024EC34 *p;
+    NJS_POINT2 *arg0 = (NJS_POINT2 *)this;
+    NJS_POINT2 *p;
     if (is_split_screen() == 0 || i == 0x64) {
         return;
     }
@@ -238,7 +237,7 @@ void TWindowKeyBoardSoft::adjust_pos_for_split_screen(s32 i) {
     arg0->y = arg0->y / TCameraCtrl::get_fov();
 }
 
-Vec2_8024EC34 *get_viewport_offset__19TWindowKeyBoardSoftFi(s32 i) {
+NJS_POINT2 *get_viewport_offset__19TWindowKeyBoardSoftFi(s32 i) {
     switch (TCameraCtrl::get_camera_id()) {
     case 1:
         break;

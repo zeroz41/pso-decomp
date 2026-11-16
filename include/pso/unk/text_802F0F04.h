@@ -2,18 +2,16 @@
 #define PSO_UNK_TEXT_802F0F04_H
 
 #include "types.h"
+#include "pso/object/warp/TObjAreaWarpForest.h"
 
-struct TObjAreaWarpForest;
-extern "C" {
-void TObjAreaWarpForest__sub_802F0F30(TObjAreaWarpForest *arg0);
-void *__dt__13TUnk_804E48D8Fv(void *arg0, s16 arg1);
-}
+// A forest area warp that stays hidden until TObjBoss2Tunnel__sub_802F2070 reports true.
+struct TUnk_804E48D8 : public TObjAreaWarpForest {
+    TUnk_804E48D8(TObject *parent, void *set_data);
+    virtual ~TUnk_804E48D8();
+    virtual void run_task();
+    virtual void render();
+    s32 visible; // set once TObjBoss2Tunnel__sub_802F2070 passes; render is skipped until then
+};
 
-// --- C functions defined in text_802F0F04.cpp ---
-extern "C" {
-void TObjAreaWarpForest__sub_802F0F30(TObjAreaWarpForest *area_warp_forest);
-void *__dt__13TUnk_804E48D8Fv(void *arg0, s16 arg1);
-}
-// --- end of C functions
-
+typedef char TUnk_804E48D8_size[sizeof(TUnk_804E48D8) == 0xE0 ? 1 : -1];
 #endif

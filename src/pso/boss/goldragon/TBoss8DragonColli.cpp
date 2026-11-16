@@ -1,11 +1,13 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/task/TObject.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/vector.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/boss/goldragon/TBoss8DragonColli_C.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/system/task/TObject.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
+
 class TBoss8DragonColli : public TObject {
 public:
     virtual void render();
@@ -37,7 +39,6 @@ struct O_802F31E4 {
 
 extern "C" {
 void set_all_flags__17TBoss8DragonColliFPv(O_802F3144 *self);
-void *mem_alloc(u32 size);
 u16 register_entity_by_id(void *ov);
 s32 __ct__14TObjCollidableFP7TObject(void *, void *);
 extern u8 boss8_collision_segment_desc[];
@@ -58,15 +59,6 @@ TBoss8DragonColli::~TBoss8DragonColli() {
 #include <stddef.h>
 #include "pso/unk/TLobby.h"
 
-struct Stack_802F2F68 {
-    f32 sp8;
-    f32 spC;
-    f32 sp10;
-};
-
-struct RecoveredGlobal_802F2F68___vt__17TBoss8DragonColli { s32 value; u8 remaining[0x14]; };
-typedef char RecoveredGlobal_802F2F68___vt__17TBoss8DragonColli_size[sizeof(RecoveredGlobal_802F2F68___vt__17TBoss8DragonColli) == 0x18 ? 1 : -1];
-
 extern "C" {
 s32 __nw__7TObjectFUl(int);
 s32 __ct__7TObjectFP7TObject(void *, void *);
@@ -80,16 +72,13 @@ void init__17TBoss8DragonColliFPvPvPv(void* p, void* a1, void* a2);
 int matrix_mult_vec(void*, void*, void*);
 int post_translate_matrix(void*);
 void free_collision_body_parts(void *);
-int set_matrix_identity(void*);
+void set_matrix_identity(u8 *arg0);
 int rotate_matrix_y(void*, void*);
 int push_matrix(void*);
 void __dl__7TObjectFPv(void *);
 
 u8 *TBoss8DragonColli__ct(u8 *object, s32 arg1) {
-    typedef char sp8_offset[(offsetof(Stack_802F2F68, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_802F2F68, spC) == 0x4) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_802F2F68, sp10) == 0x8) ? 1 : -1];
-    Stack_802F2F68 stack;
+    Vec stack;
     s32 temp_r3;
     s32 temp_r3_2;
     s32 temp_r3_3;
@@ -99,31 +88,31 @@ u8 *TBoss8DragonColli__ct(u8 *object, s32 arg1) {
     __ct__7TObjectFP7TObject((void *)object, (void *)arg1);
     *(s32 **)((s8 *)object + 0x18) = (s32 *)__vt__17TBoss8DragonColli;
     *(s32 *)((s8 *)object + 0) = (s32) TBoss8DragonColli__name;
-    stack.sp8 = 0.0f;
-    stack.spC = 0.0f;
-    stack.sp10 = 0.0f;
+    stack.x = 0.0f;
+    stack.y = 0.0f;
+    stack.z = 0.0f;
     temp_r3 = __nw__7TObjectFUl(0xB8);
     var_r0 = temp_r3;
     if (var_r0 != 0) {
-        var_r0 = init_collision_segments__17TBoss8DragonColliFiPviPvf(temp_r3, object, 1, &stack.sp8, 25.0f);
+        var_r0 = init_collision_segments__17TBoss8DragonColliFiPviPvf(temp_r3, object, 1, &stack.x, 25.0f);
     }
     *(s32 *)((s8 *)object + 0x1C) = var_r0;
-    stack.sp8 = -4.0f;
-    stack.spC = 0.0f;
-    stack.sp10 = 40.0f;
+    stack.x = -4.0f;
+    stack.y = 0.0f;
+    stack.z = 40.0f;
     temp_r3_2 = __nw__7TObjectFUl(0xB8);
     var_r0_2 = temp_r3_2;
     if (var_r0_2 != 0) {
-        var_r0_2 = init_collision_segments__17TBoss8DragonColliFiPviPvf(temp_r3_2, object, 3, &stack.sp8, 10.0f);
+        var_r0_2 = init_collision_segments__17TBoss8DragonColliFiPviPvf(temp_r3_2, object, 3, &stack.x, 10.0f);
     }
     *(s32 *)((s8 *)object + 0x20) = var_r0_2;
-    stack.sp8 = -4.0f;
-    stack.spC = 0.0f;
-    stack.sp10 = -100.0f;
+    stack.x = -4.0f;
+    stack.y = 0.0f;
+    stack.z = -100.0f;
     temp_r3_3 = __nw__7TObjectFUl(0xB8);
     var_r0_3 = temp_r3_3;
     if (var_r0_3 != 0) {
-        var_r0_3 = init_collision_segments__17TBoss8DragonColliFiPviPvf(temp_r3_3, object, 5, &stack.sp8, 10.0f);
+        var_r0_3 = init_collision_segments__17TBoss8DragonColliFiPviPvf(temp_r3_3, object, 5, &stack.x, 10.0f);
     }
     *(s32 *)((s8 *)object + 0x24) = var_r0_3;
     return object;
@@ -131,12 +120,12 @@ u8 *TBoss8DragonColli__ct(u8 *object, s32 arg1) {
 
 void TBoss8DragonColli_C::render() {  }
 void TBoss8DragonColli__sub_802F3074(void* p) { ((TBoss8DragonColli_C *)p)->clear_segment_flags(); }
-void init__17TBoss8DragonColliFPvPvPv(void* p, void* a1, void* a2) { push_matrix(p); set_matrix_identity((void*)0); post_translate_matrix(a1); rotate_matrix_y((void*)0, a2); matrix_mult_vec((void*)0, (char*)p + 0xac, (char*)p + 0x38); pop_matrix(); *(void**)((char*)p + 0x60) = a2; ((TObjCollidable *)p)->refresh_collision_body_centers(); set_all_flags__17TBoss8DragonColliFPv((O_802F3144 *)(p)); }
+void init__17TBoss8DragonColliFPvPvPv(void* p, void* a1, void* a2) { push_matrix(p); set_matrix_identity((u8 *)((void*)0)); post_translate_matrix(a1); rotate_matrix_y((void*)0, a2); matrix_mult_vec((void*)0, (char*)p + 0xac, (char*)p + 0x38); pop_matrix(); *(void**)((char*)p + 0x60) = a2; ((TObjCollidable *)p)->refresh_collision_body_centers(); set_all_flags__17TBoss8DragonColliFPv((O_802F3144 *)(p)); }
 
 void TBoss8DragonColli_C::clear_segment_flags() {
     O_802F310C *self = (O_802F310C *)this;
     s32 i;
-    for (i = 0; i < self->count; i++) self->arr[i].flags &= ~1;
+    for (i = 0; i < this->body_count; i++) self->arr[i].flags &= ~1;
 }
 
 void set_all_flags__17TBoss8DragonColliFPv(O_802F3144 *self) {
@@ -144,17 +133,17 @@ void set_all_flags__17TBoss8DragonColliFPv(O_802F3144 *self) {
     for (i = 0; i < self->count; i++) self->arr[i].flags |= 1;
 }
 
-void *destroy__17TBoss8DragonColliFPvs(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = lbl_804E4BB4;
-        ((TObjCollidable *)arg0)->unregister_object_by_id();
-        free_collision_body_parts(arg0);
-        __dt__14TObjCollidableFv(arg0, 0);
+void *destroy__17TBoss8DragonColliFPvs(void *collidable, s16 arg1) {
+    if (collidable != NULL) {
+        *(s32 **)((s8 *)collidable + 0x18) = lbl_804E4BB4;
+        ((TObjCollidable *)collidable)->unregister_object_by_id();
+        free_collision_body_parts(collidable);
+        __dt__14TObjCollidableFv(collidable, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(collidable);
         }
     }
-    return arg0;
+    return collidable;
 }
 #define self ((O_802F31E4 *)arg0)
 s32 init_collision_segments__17TBoss8DragonColliFiPviPvf(int arg0, void *arg1, int arg2, void *arg3, f32 scale) {

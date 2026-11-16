@@ -3,6 +3,7 @@
 #include "pso/system/debug_print.h"
 #include "pso/map/FloorArea.h"
 #include "pso/object/door/TObjDoorKey.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 struct Ent_801E3FA4 {
     u16 id;

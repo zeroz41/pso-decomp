@@ -1,5 +1,6 @@
 // CRI adx_crs.c: the ADX critical section (ADXCRS_Unlock, ADXCRS_Lock, ADXCRS_Init).
 #include "types.h"
+#include "pso/audio/AdxLock.h"
 #include "pso/unk/text_803D31A4.h"
 #include "pso/unk/TLobby.h"
 #include "pso/audio/LscStream.h"
@@ -13,7 +14,6 @@
 #include "pso/unk/text_803CC294.h"
 #include "pso/unk/text_803CE568.h"
 
-extern "C" {
 
 s32 TLobby__init_ref_count;
 
@@ -38,4 +38,3 @@ void TLobby__sub_803C4698(void) {
     TLobby__init_ref_count = 0;
 }
 
-}

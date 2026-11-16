@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/system/vector.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
@@ -16,6 +17,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/render_util.h"
 #include <stdlib.h>
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 extern "C" {
 __declspec(section ".rodata") extern const char TObjEneMe1Canadin_EffLine__class_name[] ATTRIBUTE_ALIGN(4) = "TObjEneMe1Canadin_EffLine";
@@ -28,8 +30,6 @@ __declspec(section ".sdata2") extern const CanadinRandomScale canadin_random_sca
 extern const char *TObjEneMe1Canadin_EffLight__name;
 extern const char *TObjEneMe1Canadin_EffDischarge__name;
 extern const char *TObjEneMe1Canadin_EffLine__name;
-void *mem_alloc(u32 size);
-void mem_free(void *ptr);
 void draw_line_list(VoloptLineList *lines, s32 count, u32 flags);
 extern s32 __vt__26TObjEneMe1Canadin_EffLight[];
 extern s32 __vt__30TObjEneMe1Canadin_EffDischarge[];
@@ -115,12 +115,12 @@ void TObjEneMe1Canadin_EffLight::run_task() {
     s32 i;
     m_24 = m_20 - 1;
     for (i = m_20 - 1; i >= 0; i--) {
-        if (fade_alpha_step__17TObjEneMe1CanadinFPvif(&m_2C[i], m_34, m_30) == 0) {
+        if (((TObjEneMe1Canadin *)(&m_2C[i]))->fade_alpha_step(m_34, m_30) == 0) {
             m_24 = i;
         }
     }
     for (i = m_1C - 1; i >= m_20; i--) {
-        if (fade_alpha_step__17TObjEneMe1CanadinFPvif(&m_2C[i], m_34, m_30) == 0) {
+        if (((TObjEneMe1Canadin *)(&m_2C[i]))->fade_alpha_step(m_34, m_30) == 0) {
             m_24 = i;
         }
     }
@@ -139,27 +139,24 @@ void TObjEneMe1Canadin::push_history_entry(void *trail, f32 width, void *pos, in
     }
 }
 
-s32 fade_alpha_step__17TObjEneMe1CanadinFPvif(TObjEneMe1Canadin_EffLightPoint *point, f32 scale, s32 step) {
+s32 TObjEneMe1Canadin::fade_alpha_step(f32 scale, s32 step) {
     s32 a;
-    if (0.0f == point->width) {
+    if (0.0f == ((TObjEneMe1Canadin_EffLightPoint *)this)->width) {
         return 1;
     }
-    point->width = point->width * scale;
-    if (point->width < 0.01f) {
-        point->width = 0.0f;
+    ((TObjEneMe1Canadin_EffLightPoint *)this)->width = ((TObjEneMe1Canadin_EffLightPoint *)this)->width * scale;
+    if (((TObjEneMe1Canadin_EffLightPoint *)this)->width < 0.01f) {
+        ((TObjEneMe1Canadin_EffLightPoint *)this)->width = 0.0f;
         return 1;
     }
-    a = (point->color >> 24) - step;
-    point->color &= 0xFFFFFF;
+    a = (((TObjEneMe1Canadin_EffLightPoint *)this)->color >> 24) - step;
+    ((TObjEneMe1Canadin_EffLightPoint *)this)->color &= 0xFFFFFF;
     if (a <= 0) {
         return 1;
     }
-    point->color |= a << 24;
+    ((TObjEneMe1Canadin_EffLightPoint *)this)->color |= a << 24;
     return 0;
 }
-}
-
-extern "C" {
 TObjEneMe1Canadin_EffLight *__dt__26TObjEneMe1Canadin_EffLightFv(TObjEneMe1Canadin_EffLight *self, s16 flags) {
     if (self != NULL) {
         *(s32 **)((u8 *)self + 0x18) = __vt__26TObjEneMe1Canadin_EffLight;

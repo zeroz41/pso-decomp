@@ -6,6 +6,8 @@
 
 struct TBoss2DeRolLe : public TObjEneDD_ST {
     virtual ~TBoss2DeRolLe();
+    void advance_phase_wrap();
+    virtual void vfunc_62();
     void reset_parts();
     void load_resources();
     void *create(void *);
@@ -106,9 +108,9 @@ s32 TBoss2Joint_get_shell_max_hp(void);
 void TObjPlayer__sub_8002F61C(void);
 u8 *__dt__13TBoss2DeRolLeFv(u8 *arg0, s16 arg1);
 void activate_laser_light__13TBoss2DeRolLeFPv(void *arg0);
-void advance_phase_wrap__13TBoss2DeRolLeFPv(u8 *arg0);
+void advance_phase_wrap__13TBoss2DeRolLeFv(u8 *arg0);
 s32 advance_scalar_motion_profile(void *arg0);
-void apply_damage_taken__13TBoss2DeRolLeFPv(TBoss2DeRolLe *arg0);
+void vfunc_62__13TBoss2DeRolLeFv(TBoss2DeRolLe *arg0);
 void apply_hp_damage_with_sound__13TBoss2DeRolLeFPvi(u8 *arg0, s32 arg1);
 void backup_pos__13TBoss2DeRolLeFi(s32 arg0);
 void calc_offset_position__13TBoss2DeRolLeFPv(u8 *arg0);
@@ -148,7 +150,7 @@ void set_position_index__13TBoss2DeRolLeFPvi(u8 *arg0, s32 arg1);
 void spawn_ceil_junk__13TBoss2DeRolLeFii(s32 arg1, s32 arg2);
 void spawn_offset_particle__13TBoss2DeRolLeFiff(s32 arg0, f32 farg0, f32 farg1);
 int spawn_trap__13TBoss2DeRolLeFPvii(void *p, int a1, int a2);
-void state_ceiling_attack__13TBoss2DeRolLeFPvUi(u8 *arg0, u32 arg1);
+void state_ceiling_attack__13TBoss2DeRolLeFPvUi(TBoss2DeRolLe *arg0, u32 arg1);
 void swap_6x13_fields__13TBoss2DeRolLeFPv(void *p);
 void swap_endian__13TBoss2DeRolLeFPv(void *p);
 void switch_phase_stats__13TBoss2DeRolLeFPvPv(u8 *arg0, u8 *arg1);
@@ -161,5 +163,15 @@ void update_projectile_spawns__13TBoss2DeRolLeFPv(u8 *arg0);
 void update_pulsing_colors__13TBoss2DeRolLeFPv(u8 *arg0);
 u8 update_state__13TBoss2DeRolLeFPv(u8 *arg0);
 }
+
+// derolle_part_transform_template: layout known from its uses only.
+struct DerollePartTransformTemplate { s32 value; u8 remaining[0x2C]; };
+extern DerollePartTransformTemplate derolle_part_transform_template;
+// lbl_804FE30C: layout known from its uses only.
+struct RecoveredGlobal_lbl_804FE30C { s32 value; u8 remaining[0xC]; };
+extern RecoveredGlobal_lbl_804FE30C lbl_804FE30C;
+// lbl_804FE31C: layout known from its uses only.
+struct RecoveredGlobal_lbl_804FE31C { s32 value; u8 remaining[0x8]; };
+extern RecoveredGlobal_lbl_804FE31C lbl_804FE31C;
 
 #endif

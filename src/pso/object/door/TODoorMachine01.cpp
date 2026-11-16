@@ -1,4 +1,5 @@
 #include "pso/object/door/TODoorMachine01.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/task/TObject.h"
@@ -51,7 +52,7 @@ void TODoorMachine01::update_open() {
     if (!(door_flags & 1) || is_any_player_within_radius_xz(10000.0f) != 1) {
         object_state = DOOR_CLOSING;
         clear_player_status_flag(0, 8);
-        play_sound_effect(0x4004BC01, &position, 0, 0);
+        play_sound_effect(0x4004BC01, (Vec *)(&position), 0, 0);
     }
 }
 
@@ -59,7 +60,7 @@ void TODoorMachine01::update_closed() {
     if ((door_flags & 1) && is_any_player_within_radius_xz(4900.0f) == 1) {
         object_state = DOOR_OPENING;
         set_indexed_flags(0, 8);
-        play_sound_effect(0x4004BC01, &position, 0, 0);
+        play_sound_effect(0x4004BC01, (Vec *)(&position), 0, 0);
     }
     if (door_flags & PULSE_RISING) {
         light_color.r += 0.1f;

@@ -1,4 +1,5 @@
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/player/TUnk_80491460.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
@@ -13,6 +14,7 @@
 #include "pso/map/CsnQuery.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/system/MatrixStack.h"
 
 // Written last-to-first: the TU was compiled with deferred codegen, which emits the
 // functions in reverse definition order.

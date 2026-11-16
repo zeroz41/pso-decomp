@@ -4,8 +4,8 @@
 #include "pso/map/TMapCsnCtrl.h"
 #include "pso/system/task/TMainTask.h"
 
-extern "C" {
-extern void *map_csn_ctrl_instance;
+
+void *map_csn_ctrl_instance;
 
 void TLobby::create_map_csn_ctrl() {
     map_csn_ctrl_instance = new TMapCsnCtrl(tl_05);
@@ -27,4 +27,3 @@ void TLobby__sub_80141038(u8 *arg0, s32 arg1, s32 arg2) {
     *(s32 *)((s8 *)arg0 + 0x20) = 0;
 }
 
-}

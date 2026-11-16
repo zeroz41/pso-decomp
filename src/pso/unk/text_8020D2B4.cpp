@@ -1,4 +1,5 @@
 #include "pso/object/base/ObjectFactoryTables.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/map/FloorArea.h"
 
@@ -7,17 +8,12 @@
 #include "pso/unk/TLobby.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/map/FloorArea.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/system/MatrixStack.h"
+
 
 struct RecoveredGlobal_8020D2B4_lbl_8058D490 { s32 value; u8 remaining[0x2C]; };
 typedef char RecoveredGlobal_8020D2B4_lbl_8058D490_size[sizeof(RecoveredGlobal_8020D2B4_lbl_8058D490) == 0x30 ? 1 : -1];
-
-struct RecoveredGlobal_8020D6F0_TLobby__data_80513AD0 {
-    s32 value;
-    u8 remaining[0x1AC];
-};
-
-typedef struct SpawnVector_8020D36C { f32 x, y, z; } SpawnVector_8020D36C;
 
 typedef struct SpawnAngles_8020D36C { u32 x, y, z; } SpawnAngles_8020D36C;
 
@@ -31,7 +27,7 @@ typedef struct SpawnRecord_8020D36C {
     s16 room;
     s16 wave;
     u32 secondary_wave;
-    SpawnVector_8020D36C position;
+    Vec position;
     SpawnAngles_8020D36C angles;
     f32 parameters[5];
     s16 integers[4];
@@ -64,14 +60,13 @@ struct Rec_8020D5AC {
 
 extern "C" {
 s32 push_matrix_from(void *src);
-s32 pop_matrix(void);
 s32 matrix_mult_vec(int, void *, void *);
 s32 rotate_matrix_y(int, int);
 s32 rotate_matrix_z(int, int);
 void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
 s32 rotate_matrix_x(int, int);
-s32 get_current_floor();
-extern RecoveredGlobal_8020D6F0_TLobby__data_80513AD0 TLobby__floor_enemy_group_table;
+struct TLobbyFloorEnemyGroupTable { s32 value; u8 remaining[0x1AC]; };
+extern TLobbyFloorEnemyGroupTable TLobby__floor_enemy_group_table;
 extern s32 TLobby__data_805D60FC;
 extern s32 TLobby__data_805D610C;
 extern s32 TLobby__data_805D6114;
@@ -212,7 +207,6 @@ void TSetManager::update_decoration_spawning() { spawn_decorations_in_range(this
 #pragma push
 #pragma opt_common_subs off
 #pragma opt_propagation off
-typedef char RecoveredGlobal_8020D6F0_TLobby__data_80513AD0_size[sizeof(RecoveredGlobal_8020D6F0_TLobby__data_80513AD0) == 0x1B0 ? 1 : -1];
 void TSetManager::apply_floor_set_rows() {
     u8 *arg0 = (u8 *)this;
     s32 current_floor;

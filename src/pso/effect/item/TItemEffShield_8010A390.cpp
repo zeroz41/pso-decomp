@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/item/TUnk_8049F148.h"
 #include "pso/boss/darkfalz/TBoss4Type2_80086C44.h"
 #include "pso/item/TItem.h"
@@ -10,16 +11,6 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/vector.h"
 #include "pso/system/task/TObject.h"
-
-struct RecoveredGlobal_8010A404_lbl_8049F148 {
-    s32 value;
-    u8 remaining[0x14];
-};
-
-struct RecoveredGlobal_8010A5E0___vt__14TItemEffShield {
-    s32 value;
-    u8 remaining[0x14];
-};
 
 struct Base_8010A4C0 { u8 pad0[0x18]; };
 
@@ -104,9 +95,6 @@ struct Shield_8010A4C0 {
 };
 
 extern "C" {
-void __ct__7TObjectFP7TObject(void *, void *);
-extern s32 __vt__13TUnk_8049F148[];
-extern RecoveredGlobal_8010A5E0___vt__14TItemEffShield __vt__14TItemEffShield;
 extern s32 TItemEffShield__class_name;
 void *get_player_by_client_id(s32 i);
 void play_sound_effect(s32, Vec *, s32, s32);
@@ -118,15 +106,11 @@ TUnk_8049F148::~TUnk_8049F148() {
 }
 
 
-typedef char RecoveredGlobal_8010A404_lbl_8049F148_size[sizeof(RecoveredGlobal_8010A404_lbl_8049F148) == 0x18 ? 1 : -1];
-u8 *TItemEffShield::ct_init(u8 *arg1, s16 arg2) {
-    __ct__7TObjectFP7TObject(this, arg1);
-    *(s32 **)((s8 *)((u8 *)this) + 0x18) = &(*(RecoveredGlobal_8010A404_lbl_8049F148 *)&__vt__13TUnk_8049F148).value;
+TUnk_8049F148::TUnk_8049F148(TObject *arg1, s16 arg2) : TObject(arg1) {
     *(s16 *)((s8 *)((u8 *)this) + 0x24) = arg2;
     *(s32 *)((s8 *)((u8 *)this) + 0x20) = -1;
     *(s32 *)((s8 *)((u8 *)this) + 0x1C) = 0;
     *(s32 *)((s8 *)((u8 *)this) + 0x28) = get_item_system_generation();
-    return ((u8 *)this);
 }
 
 void TItemEffShield::spawn_recipe_particles() {
@@ -151,7 +135,6 @@ void TItemEffShield::spawn_recipe_particles() {
   }
   while (var_r30 != 8);
 }
-typedef char RecoveredGlobal_8010A5E0___vt__14TItemEffShield_size[sizeof(RecoveredGlobal_8010A5E0___vt__14TItemEffShield) == 0x18 ? 1 : -1];
 
 void run_task__14TItemEffShieldFv(Shield_8010A4C0 *self) {
     Player_8010A4C0 *p = (Player_8010A4C0 *)get_player_by_client_id(self->m_44);
@@ -187,16 +170,13 @@ void run_task__14TItemEffShieldFv(Shield_8010A4C0 *self) {
     }
 }
 
-u8 *__ct__14TItemEffShieldFv(u8 *object, u8 *arg1, s16 arg2, s32 arg3) {
-    __ct__7TObjectFP7TObject(object, arg1);
-    *(s32 **)((s8 *)object + 0x18) = &__vt__14TItemEffShield.value;
-    *(s32 *)((s8 *)object + 0) = (s32) TItemEffShield__class_name;
-    *(s32 *)((s8 *)object + 0x34) = arg3;
-    *(s16 *)((s8 *)object + 0x44) = arg2;
-    *(s32 *)((s8 *)object + 0x38) = 0;
-    *(s32 *)((s8 *)object + 0x3C) = 0;
-    *(s32 *)((s8 *)object + 0x40) = 0x24;
-    ((TObject *)object)->disallow_rendering();
-    return object;
+TItemEffShield::TItemEffShield(TObject *arg1, s16 arg2, s32 arg3) : TObject(arg1) {
+    *(s32 *)((s8 *)this + 0) = (s32) TItemEffShield__class_name;
+    *(s32 *)((s8 *)this + 0x34) = arg3;
+    *(s16 *)((s8 *)this + 0x44) = arg2;
+    *(s32 *)((s8 *)this + 0x38) = 0;
+    *(s32 *)((s8 *)this + 0x3C) = 0;
+    *(s32 *)((s8 *)this + 0x40) = 0x24;
+    ((TObject *)this)->disallow_rendering();
 }
 

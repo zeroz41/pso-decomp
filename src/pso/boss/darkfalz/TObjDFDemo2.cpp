@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/camera/CameraPlayback.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/PadRumble.h"
@@ -25,7 +26,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/system/task/TObject.h"
+
 #pragma readonly_strings on
 
 typedef struct Rec_8004E918 {
@@ -71,15 +72,14 @@ struct Obj_8004EB78 {
 };
 struct Pose_8004EB78 { s32 a; s32 b; s32 c; };
 s32 get_bml_motion(s32, s32);
-s32 TObjFish__sub_8001EDB0(s32, s32);
-s32 get_bml_model(s32, s32);
+s32 get_bml_texlist(BmlResource *resource, s32 index);
+s32 get_bml_model(BmlResource *resource, s32 index);
 void set_scripted_camera_pose(void *, void *, void *);
 s32 __ct__8TObjBaseFP7TObject(void *, void *);
 extern s32 boss4_zanzo_bml_index_table[];
 void *__dt__11TObjDFDemo2Fv(void *arg0, s16 arg1);
 void *TObjDFDemo2__ct(void *, void *, Vec *, void *, void *);
 void __dl__7TObjectFPv(void *);
-void *__nw__7TObjectFUl(int);
 
 void vfunc_6__8TObjBaseFPsl();
 void get_name__8TObjBaseFv();
@@ -164,15 +164,15 @@ void TObjDFDemo2::run_task() {
     }
 }
 
-void *__dt__11TObjDFDemo2Fv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = (s32 *)__vt__11TObjDFDemo2;
-        __dt__8TObjBaseFv(arg0, 0);
+void *__dt__11TObjDFDemo2Fv(void *base, s16 arg1) {
+    if (base != NULL) {
+        *(s32 **)((s8 *)base + 0x18) = (s32 *)__vt__11TObjDFDemo2;
+        __dt__8TObjBaseFv(base, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(base);
         }
     }
-    return arg0;
+    return base;
 }
 
 #pragma push
@@ -194,8 +194,8 @@ void *TObjDFDemo2__ct(void *arg0, void *parent, Vec *arg2, void *arg3, void *arg
     for (i = 0; i < 2; i++) {
         s32 t = boss4_zanzo_bml_index_table[i];
         k = t;
-        ((s32 *)self)[i * 3 + 0x24] = get_bml_model(cnt, t);
-        ((s32 *)self)[i * 3 + 0x25] = TObjFish__sub_8001EDB0(cnt, k);
+        ((s32 *)self)[i * 3 + 0x24] = get_bml_model((BmlResource *)cnt, t);
+        ((s32 *)self)[i * 3 + 0x25] = get_bml_texlist((BmlResource *)cnt, k);
         ((s32 *)self)[i * 3 + 0x26] = get_bml_motion(cnt, ((s32 *)TObjDFDemo2__motion_index_table)[i]);
     }
     self->c0 = -0.5f;
@@ -215,7 +215,7 @@ void *TObjDFDemo2__ct(void *arg0, void *parent, Vec *arg2, void *arg3, void *arg
 
 void *TBoss4DarkFalz::create_demo2(void *arg0, void *arg1, void *arg2, void *arg3) {
     void *o;
-    o = __nw__7TObjectFUl(0xC4);
+    o = TObject::operator new(0xC4);
     if (o != NULL) {
         o = TObjDFDemo2__ct(o, arg0, (Vec *)arg1, arg2, arg3);
     }

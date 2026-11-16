@@ -6,7 +6,7 @@
 
 extern "C" {
 
-s32 test_flags_any(void *, int);
+s32 test_flags_any(s32 *flags, s32 mask);
 s32 free_texture__9TItemLoadFv();
 s32 get_ring_lobby__9TItemLoadFv();
 
@@ -28,7 +28,7 @@ void TItemLoad::update_ring() {
 void TItemLoad::update_load_state() {
     u8 *arg0 = (u8 *)this;
     free_texture__9TItemLoadFv();
-    if (test_flags_any(arg0 + 0x1C, 1) != 0) {
+    if (test_flags_any((s32 *)(arg0 + 0x1C), 1) != 0) {
         *(s32 *)((s8 *)arg0 + 0x18) = 1;
         return;
     }

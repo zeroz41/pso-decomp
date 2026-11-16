@@ -17,7 +17,6 @@ void wait_aram_request__16TAdWarningBaseGCFv(void *arg0);
 // --- C functions defined in TAdWarningBaseGC_8032CE1C.cpp ---
 extern "C" {
 int TAdWarningBaseGC__sub_8032D020(void);
-void *__dt__13TUnk_804EDBD0Fv(void *arg0, s16 arg1);
 void enter_request_state__16TAdWarningBaseGCFv(void *p);
 int get_alloc_size__16TAdWarningBaseGCFv(void);
 s32 load_from_aram_sync__16TAdWarningBaseGCFi(s32 arg0);

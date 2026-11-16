@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/task/TObject.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/vector.h"
 #include "pso/object/base/TObjMotion.h"
@@ -10,14 +11,7 @@
 #include "types.h"
 
 #include <stddef.h>
-struct Stack_8002B250 {
-    f32 sp8;
-    f32 spC;
-    f32 sp10;
-};
-
-struct RecoveredGlobal_8002B250___vt__17TBoss1DragonColli { s32 value; u8 remaining[0x14]; };
-typedef char RecoveredGlobal_8002B250___vt__17TBoss1DragonColli_size[sizeof(RecoveredGlobal_8002B250___vt__17TBoss1DragonColli) == 0x18 ? 1 : -1];
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 struct E_8002B3F4 { u8 pad[0x18]; u32 flags; u8 pad2[0x2c - 0x1c]; };
 
@@ -47,8 +41,6 @@ s32 __ct__7TObjectFP7TObject(void *, void *);
 extern void *__vt__17TBoss1DragonColli[];
 extern s32 TBoss1DragonColli__name;
 u8 *TBoss1DragonColli__ct(u8 *arg0, s32 arg1);
-void set_elem_flags__17TBoss1DragonColliFPv(O_8002B42C *self);
-void *mem_alloc(u32 size);
 u16 register_entity_by_id(void *ov);
 s32 __ct__14TObjCollidableFP7TObject(void *, void *);
 extern CollisionBody TBoss1DragonColli_sphere_chain_desc;
@@ -77,20 +69,16 @@ extern "C" {
 void render__19TBoss1DragonColli_CFv(void);
 void TBoss1DragonColli__sub_8002B35C(void* p);
 void *__dt__19TBoss1DragonColli_CFv(void *arg0, s16 arg1);
-void draw__17TBoss1DragonColliFPvPvPv(void* p, void* a1, void* a2);
 int matrix_mult_vec(void*, void*, void*);
 int post_translate_matrix(void*);
 s32 free_collision_body_parts(void *);
-int set_matrix_identity(void*);
+void set_matrix_identity(u8 *arg0);
 int rotate_matrix_y(void*, void*);
 int push_matrix(void*);
 s32 __dl__7TObjectFPv(void *);
 
 u8 *TBoss1DragonColli__ct(u8 *object, s32 arg1) {
-    typedef char sp8_offset[(offsetof(Stack_8002B250, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_8002B250, spC) == 0x4) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_8002B250, sp10) == 0x8) ? 1 : -1];
-    Stack_8002B250 stack;
+    Vec stack;
     s32 temp_r3;
     s32 temp_r3_2;
     s32 temp_r3_3;
@@ -100,31 +88,31 @@ u8 *TBoss1DragonColli__ct(u8 *object, s32 arg1) {
     __ct__7TObjectFP7TObject((void *)object, (void *)arg1);
     *(s32 **)((s8 *)object + 0x18) = (s32 *)__vt__17TBoss1DragonColli;
     *(s32 *)((s8 *)object + 0) = (s32) TBoss1DragonColli__name;
-    stack.sp8 = 0.0f;
-    stack.spC = 0.0f;
-    stack.sp10 = 0.0f;
+    stack.x = 0.0f;
+    stack.y = 0.0f;
+    stack.z = 0.0f;
     temp_r3 = __nw__7TObjectFUl(0xB8);
     var_r0 = temp_r3;
     if (var_r0 != 0) {
-        var_r0 = TBoss1DragonColli_C__ct(temp_r3, object, 1, &stack.sp8, 25.0f);
+        var_r0 = TBoss1DragonColli_C__ct(temp_r3, object, 1, &stack.x, 25.0f);
     }
     *(s32 *)((s8 *)object + 0x1C) = var_r0;
-    stack.sp8 = -4.0f;
-    stack.spC = 0.0f;
-    stack.sp10 = 40.0f;
+    stack.x = -4.0f;
+    stack.y = 0.0f;
+    stack.z = 40.0f;
     temp_r3_2 = __nw__7TObjectFUl(0xB8);
     var_r0_2 = temp_r3_2;
     if (var_r0_2 != 0) {
-        var_r0_2 = TBoss1DragonColli_C__ct(temp_r3_2, object, 3, &stack.sp8, 10.0f);
+        var_r0_2 = TBoss1DragonColli_C__ct(temp_r3_2, object, 3, &stack.x, 10.0f);
     }
     *(s32 *)((s8 *)object + 0x20) = var_r0_2;
-    stack.sp8 = -4.0f;
-    stack.spC = 0.0f;
-    stack.sp10 = -100.0f;
+    stack.x = -4.0f;
+    stack.y = 0.0f;
+    stack.z = -100.0f;
     temp_r3_3 = __nw__7TObjectFUl(0xB8);
     var_r0_3 = temp_r3_3;
     if (var_r0_3 != 0) {
-        var_r0_3 = TBoss1DragonColli_C__ct(temp_r3_3, object, 5, &stack.sp8, 10.0f);
+        var_r0_3 = TBoss1DragonColli_C__ct(temp_r3_3, object, 5, &stack.x, 10.0f);
     }
     *(s32 *)((s8 *)object + 0x24) = var_r0_3;
     return object;
@@ -134,34 +122,34 @@ void TBoss1DragonColli_C::render() {  }
 
 void TBoss1DragonColli__sub_8002B35C(void* p) { ((TBoss1DragonColli_C *)p)->clear_segment_flags(); }
 
-void draw__17TBoss1DragonColliFPvPvPv(void* p, void* a1, void* a2) { push_matrix(p); set_matrix_identity((void*)0); post_translate_matrix(a1); rotate_matrix_y((void*)0, a2); matrix_mult_vec((void*)0, (char*)p + 0xac, (char*)p + 0x38); pop_matrix(); *(void**)((char*)p + 0x60) = a2; ((TObjCollidable *)p)->refresh_collision_body_centers(); set_elem_flags__17TBoss1DragonColliFPv((O_8002B42C *)(p)); }
+void TBoss1DragonColli::draw(void* a1, void* a2) { push_matrix(this); set_matrix_identity((u8 *)((void*)0)); post_translate_matrix(a1); rotate_matrix_y((void*)0, a2); matrix_mult_vec((void*)0, (char*)this + 0xac, (char*)this + 0x38); pop_matrix(); *(void**)((char*)this + 0x60) = a2; ((TObjCollidable *)this)->refresh_collision_body_centers(); set_elem_flags(); }
 
 void TBoss1DragonColli_C::clear_segment_flags() {
     O_8002B3F4 *self = (O_8002B3F4 *)this;
     s32 i;
-    for (i = 0; i < self->count; i++) {
+    for (i = 0; i < this->body_count; i++) {
         self->elems[i].flags &= ~1;
     }
 }
 
-void set_elem_flags__17TBoss1DragonColliFPv(O_8002B42C *self) {
+void TBoss1DragonColli::set_elem_flags() {
     s32 i;
-    for (i = 0; i < self->count; i++) {
-        self->elems[i].flags |= 1;
+    for (i = 0; i < ((O_8002B42C *)this)->count; i++) {
+        ((O_8002B42C *)this)->elems[i].flags |= 1;
     }
 }
 
-void *__dt__19TBoss1DragonColli_CFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__19TBoss1DragonColli_C;
-        ((TObjCollidable *)arg0)->unregister_object_by_id();
-        free_collision_body_parts(arg0);
-        __dt__14TObjCollidableFv(arg0, 0);
+void *__dt__19TBoss1DragonColli_CFv(void *collidable, s16 arg1) {
+    if (collidable != NULL) {
+        *(s32 **)((s8 *)collidable + 0x18) = __vt__19TBoss1DragonColli_C;
+        ((TObjCollidable *)collidable)->unregister_object_by_id();
+        free_collision_body_parts(collidable);
+        __dt__14TObjCollidableFv(collidable, 0);
         if ((s16) arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(collidable);
         }
     }
-    return arg0;
+    return collidable;
 }
 
 #define self ((O_8002B4CC *)arg0)
@@ -197,6 +185,7 @@ s32 TBoss1DragonColli_C__ct(int arg0, void *arg1, int arg2, void *arg3, f32 scal
     ((TBoss1DragonColli_C *)self)->clear_segment_flags();
     return arg0;
 }
+}
 #undef self
 
 // *dst = *src. In the original this is the compiler-generated CollisionBody
@@ -210,6 +199,7 @@ void copy_collision_body(CollisionBody *dst, const CollisionBody *src) {
     *dst = *src;
 }
 #pragma pop
+extern "C" {
 
 void __dt__17TBoss1DragonColliFv();
 void run_task__7TObjectFv();
@@ -223,6 +213,7 @@ void update_object_view_visibility__8TObjBaseFff();
 void classify_actor_view_detail__8TObjBaseFfff();
 void get_name__8TObjBaseFv();
 void interact__14TObjCollidableFl();
+}
 CollisionBody TBoss1DragonColli_sphere_chain_desc = {
     {0.0f, 0.0f, 0.0f}, 25.0f, 0.0f, 0, 0x8003,
 };
@@ -251,4 +242,3 @@ s32 __vt__19TBoss1DragonColli_C[] = {
     (s32)interact__14TObjCollidableFl,
     0,
 };
-}

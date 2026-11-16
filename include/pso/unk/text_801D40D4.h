@@ -13,7 +13,9 @@ s32 TObjPlayer__sub_801D47EC(s32 arg0, s32 arg1, s32 arg2);
 s32 check_player_action_allowed(void);
 s32 export_inventory_entry__10TObjPlayerFiPv(s32 arg0, u8 *arg1);
 s32 fn_801D4270(s32 arg0);
+}
 void remove_list_entry_by_id(s32 arg0);
+extern "C" {
 int reset(void *p);
 }
 
@@ -28,7 +30,9 @@ s32 TObjPlayer__sub_801D47EC(s32 arg0, s32 arg1, s32 arg2);
 s32 check_player_action_allowed(void);
 s32 export_inventory_entry__10TObjPlayerFiPv(s32 arg0, u8 *arg1);
 s32 fn_801D4270(s32 arg0);
+}
 void remove_list_entry_by_id(s32 arg0);
+extern "C" {
 int reset(void *p);
 }
 // --- end of C functions

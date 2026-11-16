@@ -1,5 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
+#include "pso/unk/TLobby_80227AA0.h"
 #include "pso/unk/text_8023F160.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/player/TObjPlayer_801A5AEC.h"
@@ -9,46 +11,24 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/unk/TLobby.h"
 #include "pso/system/task/TObject.h"
-#include "pso/system/task/TObject.h"
+#include "pso/math/AngleLookup.h"
 
-struct RecoveredGlobal_8023F1B8_lbl_804CCDA8 {
-    s32 value;
-    u8 remaining[0xB4];
-};
-
-struct RecoveredGlobal_8023F1B8_lbl_804CCE60 {
-    s32 value;
-    u8 remaining[0x34];
-};
-
-struct RecoveredGlobal_8023F1B8_main_task {
-    s32 value;
-    u8 remaining[0x30];
-};
-
-struct Vec_8023F22C { f32 x, y, z; };
 
 extern "C" {
-s32 call_funcs_reverse__6TLobbyFPvUi(void *, int);
-extern RecoveredGlobal_8023F1B8_lbl_804CCDA8 lbl_804CCDA8;
-extern RecoveredGlobal_8023F1B8_lbl_804CCE60 lobby_scene_release_callback_table;
+struct RecoveredGlobal_lbl_804CCDA8 { s32 value; u8 remaining[0xB4]; };
+extern RecoveredGlobal_lbl_804CCDA8 lbl_804CCDA8;
+struct LobbySceneReleaseCallbackTable { s32 value; u8 remaining[0x34]; };
+extern LobbySceneReleaseCallbackTable lobby_scene_release_callback_table;
 extern u32 game_mode_scene_instance;
-void set_active_camera_pose(Vec_8023F22C *, Vec_8023F22C *);
+void set_active_camera_pose(Vec *, Vec *);
 void TCameraCtrl__ct(void *, void *);
 s32 is_area_transfer_pending(void);
 void apply_phase_keyboard_mode(void);
 void run_load_callback_table(void *, s32);
 void init_menu_scene_lights(void *, s32);
 void set_copy_clear_color_argb(s32, s32, s32);
-void load_floor_sound_bank(s32);
-void *__nw__7TObjectFUl(u32);
-f32 sin_table_lookup(s32);
-f32 cos_table_lookup(s32);
-}
-
-extern "C" {
 void fn_8023F160(void) {
-    call_funcs_reverse__6TLobbyFPvUi(&lobby_scene_release_callback_table.value, 0x38);
+    TLobby::call_funcs_reverse(&lobby_scene_release_callback_table.value, 0x38);
 }
 void fn_8023F18C(void) {
     run_load_callback_table(&lobby_scene_release_callback_table.value, 0x38);
@@ -56,13 +36,10 @@ void fn_8023F18C(void) {
 }
 void clear_resource_load_tasks(void);
 void set_screen_size(f32, f32);
-extern Vec_8023F22C lbl_8044DCE8;
-extern Vec_8023F22C lbl_8044DCF4;
+extern Vec lbl_8044DCE8;
+extern Vec lbl_8044DCF4;
 extern u8 default_scene_light_config[];
-extern Vec_8023F22C TObjLight__scene_light_state;
-typedef char RecoveredGlobal_8023F1B8_lbl_804CCDA8_size[sizeof(RecoveredGlobal_8023F1B8_lbl_804CCDA8) == 0xB8 ? 1 : -1];
-typedef char RecoveredGlobal_8023F1B8_lbl_804CCE60_size[sizeof(RecoveredGlobal_8023F1B8_lbl_804CCE60) == 0x38 ? 1 : -1];
-typedef char RecoveredGlobal_8023F1B8_main_task_size[sizeof(RecoveredGlobal_8023F1B8_main_task) == 0x34 ? 1 : -1];
+extern Vec TObjLight__scene_light_state;
 
 void TLobby::release_scene_resources() {
     TLobby::refresh_render_state();
@@ -72,8 +49,8 @@ void TLobby::release_scene_resources() {
         game_mode_scene_instance = 0U;
     }
     main_task.delete_layer_children();
-    call_funcs_reverse__6TLobbyFPvUi(&lobby_scene_release_callback_table.value, 0x38);
-    call_funcs_reverse__6TLobbyFPvUi(&lbl_804CCDA8.value, 0xB8);
+    TLobby::call_funcs_reverse(&lobby_scene_release_callback_table.value, 0x38);
+    TLobby::call_funcs_reverse(&lbl_804CCDA8.value, 0xB8);
     TParticleCtrl::free_heap();
     clear_resource_load_tasks();
     render_tick();
@@ -111,13 +88,13 @@ void init_game_mode_select_scene(void) {
     c = cos_table_lookup(0x1555);
     TObjLight__scene_light_state.x = c * sin_table_lookup(0x9000);
     TObjLight__scene_light_state.z = c * cos_table_lookup(0x9000);
-    p = __nw__7TObjectFUl(0x1d4);
+    p = TObject::operator new(0x1d4);
     if (p != NULL) {
         TCameraCtrl__ct(p, tl_camera);
     }
     {
-        Vec_8023F22C eye = lbl_8044DCE8;
-        Vec_8023F22C at = lbl_8044DCF4;
+        Vec eye = lbl_8044DCE8;
+        Vec at = lbl_8044DCF4;
         TCameraCtrl::select_active_controller(9);
         set_active_camera_pose(&eye, &at);
     }

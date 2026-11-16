@@ -4,17 +4,12 @@
 #include "pso/player/TObjPlayer_801BD384.h"
 #include "pso/player/TObjPlayer_801BDD8C.h"
 
-extern "C" {
-
-void *__nw__7TObjectFUl(int);
-}
-
 extern void *tl_03;
 
-void *create_remote_player_object(void *arg0) {
+void *create_remote_player_object(void *record) {
     void *o;
 
-    decode_remote_player_inventory(arg0);
-    o = (void *)new TObjPlayer((TObject *)tl_03, (void *)arg0);
+    decode_remote_player_inventory(record);
+    o = (void *)new TObjPlayer((TObject *)tl_03, (void *)record);
     return o;
 }

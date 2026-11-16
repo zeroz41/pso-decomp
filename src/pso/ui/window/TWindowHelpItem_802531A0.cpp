@@ -10,7 +10,7 @@
 #include "pso/item/mag/TItemMag.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/Language.h"
-#include "pso/item/TItemData.h"
+
 #include "pso/ui/window/TWindowBase.h"
 struct Stack_80253268 {
     s32 sp8;
@@ -48,7 +48,7 @@ void draw_action_palette_icon(void *, int, u16);
 void init_window_layout_entries(void *, const void *, s16);
 s32 *get_shared_text_buffer(void);
 u8 calc_display_grade__9TItemDataFv(void *);
-void check_equip_requirements(int, void *, void *);
+s32 check_equip_requirements(void *self, TItemData *p, s32 *out);
 void text_builder_append();
 }
 extern u8 lbl_804CF4E4[];
@@ -81,7 +81,7 @@ void TWindowHelpItem::update_displayed_item() {
     ((TWindowHelpItem *)arg0)->format_description_with_price();
     ((TWindowHelpItem *)arg0)->init_text((void *)(get_shared_text_buffer()));
 }
-void TWindowHelpItem__sub_80253268(u8 *arg0) {
+void TWindowHelpItem__sub_80253268(u8 *window_base) {
     typedef char sp8_offset[(offsetof(Stack_80253268, sp8) == 0x0) ? 1 : -1];
     typedef char spC_offset[(offsetof(Stack_80253268, spC) == 0x4) ? 1 : -1];
     Stack_80253268 stack;
@@ -89,11 +89,11 @@ void TWindowHelpItem__sub_80253268(u8 *arg0) {
     u8 *temp_r31;
     u8 *temp_r31_2;
     ((TWindowSubStatusDisp *)(&stack.sp8))->clear_fields();
-    temp_r3 = (s32)get_player_by_client_id((*(s16 *)((s8 *)arg0 + 0x20)));
+    temp_r3 = (s32)get_player_by_client_id((*(s16 *)((s8 *)window_base + 0x20)));
     if (temp_r3 != 0) {
         temp_r31 = (u8 *)(temp_r3 + 0x85C);
         if (temp_r31 != NULL) {
-            temp_r31_2 = (u8 *)(((TWindowBase *)arg0)->get_array_entry(5));
+            temp_r31_2 = (u8 *)(((TWindowBase *)window_base)->get_array_entry(5));
             if (!(*(s32 *)((s8 *)temp_r31 + 0x34) & 0x10) && (build_player_equipment_requirement_stats(temp_r3, &stack.sp8) != 0)) {
                 *(s32 *)((s8 *)temp_r31_2 + 0x20) = (s32) stack.spC;
             }
@@ -131,7 +131,7 @@ void TWindowHelpItem::update_tech_disk_details() {
         e4 = get_array_entry__11TWindowBaseFi(this, 4);
         e5 = get_array_entry__11TWindowBaseFi(this, 5);
         e6 = get_array_entry__11TWindowBaseFi(this, 6);
-        check_equip_requirements(player, *(void **)(((u8 *)this) + 0x68), &sp8);
+        check_equip_requirements((void *)player, (TItemData *)(*(void **)(((u8 *)this) + 0x68)), &sp8);
         if (sp8 & 1) {
             set_sprite_uv_from_pixels(e1, TWindowHelpItem__data_805DCDE4, 152.0f);
             ((TWindowHelpItem *)e2)->set_flag0_bit2();

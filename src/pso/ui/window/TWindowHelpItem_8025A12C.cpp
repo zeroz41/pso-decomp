@@ -8,12 +8,9 @@
 #include "pso/unk/TUnk_804CF930.h"
 #include "pso/ui/window/TWindowHelpItem.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
+#include "pso/system/NinjaTypes.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 #pragma readonly_strings on
-
-struct RecoveredGlobal_8025A594_lbl_804CF9F8 {
-    s32 value;
-    u8 remaining[0x14];
-};
 
 typedef struct Item_8025A354 {
     u16 flags;
@@ -37,12 +34,7 @@ typedef struct Win_8025A354 {
     f32 f38;
 } Win_8025A354;
 
-typedef struct Vec2_8025A354 { f32 x, y; } Vec2_8025A354;
-
 extern "C" {
-s32 sub_80256BDC__13TUnk_804CF930Fl(void *, void *);
-void mem_free(void *p);
-void *mem_alloc(u32 size);
 s32 strncpy(s32, u32, s32);
 void render_summary_row__15TWindowHelpItemFv(Item_8025A354 *self, Win_8025A354 *w);
 s32 measure_string_len__20TWindowSubStatusDispFv(u32);
@@ -75,7 +67,7 @@ void TWindowHelpItem::update_visible_flags() {
 void TWindowHelpItem::draw_number_value(void *entry, f32 *pos, s32 value, s32 color, s32 percent) {
     f32 xy[2];
     text_builder_reset();
-    TWindowSubStatusDisp__sub_80228F5C(value);
+    text_builder_append_int(value);
     if (percent) {
         text_builder_append((u8 *)((void *)"%"));
     }
@@ -132,7 +124,7 @@ void TWindowHelpItem::set_help_text(u32 arg1) {
 }
 
 void render_summary_row__15TWindowHelpItemFv(Item_8025A354 *self, Win_8025A354 *w) {
-    Vec2_8025A354 pos;
+    NJS_POINT2 pos;
     s32 color;
     if (w->f30 < 0) {
         return;
@@ -190,10 +182,9 @@ void *destroy__15TWindowHelpItemFPvs(void *arg0, s16 arg1) {
     return arg0;
 }
 
-typedef char RecoveredGlobal_8025A594_lbl_804CF9F8_size[sizeof(RecoveredGlobal_8025A594_lbl_804CF9F8) == 0x18 ? 1 : -1];
 u8 *TWindowHelpItem__sub_8025A594(u8 *arg0, s32 arg1, s32 arg2) {
-    sub_80256BDC__13TUnk_804CF930Fl((void *)arg0, (void *)arg2);
-    *(s32 **)((s8 *)arg0 + 4) = &(*(RecoveredGlobal_8025A594_lbl_804CF9F8 *)&lbl_804CF9F8).value;
+    ((TUnk_804CF930 *)arg0)->sub_80256BDC((s32)((void *)arg2));
+    *(s32 **)((s8 *)arg0 + 4) = ((s32 *)&lbl_804CF9F8);
     ((TWindowSubSymbolChatPartsSet *)(arg0 + 8))->copy_vec2((void *)(arg1 + 4));
     *(s32 *)((s8 *)arg0 + 0x10) = -1;
     *(s32 *)((s8 *)arg0 + 0x14) = 0;

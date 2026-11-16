@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/boss/darkfalz/TObjDFDemo1.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
@@ -79,13 +80,13 @@ TObjDFDemo1::TObjDFDemo1(TObject *parent, const Vec *pos, s32 angle) : TObjBase(
     for (i = 0; i < 6; i++) {
         int id = lbl_80485EB0[i];
         body_parts[i].model = get_bml_model(res, id);
-        body_parts[i].texlist = TObjFish__sub_8001EDB0(res, id);
+        body_parts[i].texlist = get_bml_texlist(res, id);
         body_parts[i].motion = get_bml_motion(res, lbl_804855F0[i]);
     }
     for (i = 0; i < 2; i++) {
         int id = boss4_zanzo_bml_index_table[i];
         zanzo_parts[i].model = get_bml_model(res, id);
-        zanzo_parts[i].texlist = TObjFish__sub_8001EDB0(res, id);
+        zanzo_parts[i].texlist = get_bml_texlist(res, id);
         zanzo_parts[i].motion = get_bml_motion(res, lbl_80485608[i]);
     }
     frame = -0.5f;
@@ -98,7 +99,7 @@ TObjDFDemo1::TObjDFDemo1(TObject *parent, const Vec *pos, s32 angle) : TObjBase(
         set_scripted_camera_pose(&this->pos, &this->pos, &angles);
     }
     lbl_80485610.cache_target_and_forward(0x4000);
-    play_sound_effect(0x4003A324, &position, 0, 1);
+    play_sound_effect(0x4003A324, (Vec *)(&position), 0, 1);
     scroll = 0.0f;
     strips.init(lbl_80437328, 6);
     timer = 0;
@@ -159,7 +160,7 @@ void TObjDFDemo1::run_task() {
         start_pad_rumble_all(0xC0, 0xF);
     }
     if (timer == 0x7C) {
-        play_sound_effect(0x4003AA26, &pos, 0, 1);
+        play_sound_effect(0x4003AA26, (Vec *)(&pos), 0, 1);
     }
     if ((frame += 0.5f) > 149.0f) {
         frame = 149.0f;

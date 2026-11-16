@@ -4,11 +4,10 @@
 #include "pso/ui/window/TWindowFukidasi.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TUnk_804CF0B8.h"
+#include "pso/system/NinjaTypes.h"
 struct Ctrl_8024B1A0 { u8 pad[0x1C]; u16 flags; };
 
 struct Win_8024B1A0 { u8 pad[0x40]; f32 x; f32 y; f32 w; f32 h; };
-
-struct Msg_8024B1A0 { f32 x; f32 y; };
 
 extern "C" {
 s32 get_flag_bit1__13TUnk_804CF0B8Fv();
@@ -24,7 +23,7 @@ s8 TUnk_804CF0B8::alloc_nearest_free_slot() {
     f32 cx;
     f32 cy;
     f32 bestd;
-    Msg_8024B1A0 *m;
+    NJS_POINT2 *m;
     f32 dx;
     f32 dy;
     f32 d;
@@ -43,7 +42,7 @@ s8 TUnk_804CF0B8::alloc_nearest_free_slot() {
     cy = (lbl_805DCBE4 * ((Win_8024B1A0 *)this)->h) + ((Win_8024B1A0 *)this)->y;
     do {
         if (!(TWindowCtrl__active_window->flags & mask)) {
-            m = (Msg_8024B1A0 *)TWindowCtrl::get_message_by_type((s8)i, get_field_20());
+            m = (NJS_POINT2 *)TWindowCtrl::get_message_by_type((s8)i, get_field_20());
             if (m != NULL) {
                 dx = cx - m->x;
                 dy = cy - m->y;
@@ -89,6 +88,7 @@ struct Ctrl_8024B440 { u8 pad[0x84]; void *win[4]; };
 
 extern "C" {
 s32 acquire_balloon_slot__11TWindowCtrlFPviiPv(s32, u16, s32, s32);
+}
 
 void TWindowCtrl::close_windows_by_flags(u16 arg0) {
     u32 i;
@@ -142,6 +142,4 @@ s32 TWindowCtrl::open_balloon(u16 arg0, u8 *arg1, s32 arg2, s32 arg3) {
     }
     open__15TWindowFukidasiFPvPvi((u8 *)temp_r3, (u32 *)arg1, arg2);
     return temp_r3;
-}
-
 }

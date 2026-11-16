@@ -11,7 +11,7 @@
 
 s16 TLobby__sub_803FB358(NetLinkStatus *status);
 extern u16 ppp_auth_protocol;
-void TLobby__sub_803F97E8(int);
+void net_sleep_ms(int);
 
 NetSession lbl_805BFF68;
 u32 lbl_805C0038[82];
@@ -163,7 +163,7 @@ s32 NetLinkDisconnect(NetWaitParam *param) {
         return 0;
     }
     for (t = 0; t < 300000; t += 200) {
-        TLobby__sub_803F97E8(200);
+        net_sleep_ms(200);
         TLobby__sub_803FB358(&status);
         if (status.state == 0) {
             return 0;
@@ -186,7 +186,7 @@ s32 NetLinkConnect(NetConnectCfg *cfg) {
         return 0;
     }
     for (t = 0; t < 300000; t += 200) {
-        TLobby__sub_803F97E8(200);
+        net_sleep_ms(200);
         TLobby__sub_803FB358(&status);
         switch (status.state) {
         case 4:
@@ -224,38 +224,38 @@ s16 TLobby__sub_803FB358(NetLinkStatus *status)
   b = *((u8 **) (base + 0x9c));
   if (base[0x6c] == 5)
   {
-    *((s16 *) (p + 0)) = 1;
+    *((s16 *)(p + 0)) = 1;
   }
   else
   {
-    *((s16 *) (p + 0)) = 0;
+    *((s16 *)(p + 0)) = 0;
   }
-  *((u32 *) (p + 0x10)) = *((u32 *) (b + 0x8));
-  *(new_var = (u32 *) (p + 0x14)) = *((u32 *) (b + 0xc));
-  *((u32 *) (p + 0x18)) = *((u32 *) (b + 0x18));
-  *((u32 *) (p + 0x1c)) = *((u32 *) (b + 0x1c));
-  *((u32 *) (p + 0x20)) = *((u32 *) (b + 0x64));
-  *((u32 *) (p + 0x24)) = *((u32 *) (b + 0x68));
+  *((u32 *)(p + 0x10)) = *((u32 *)(b + 0x8));
+  *(new_var = (u32 *)(p + 0x14)) = *((u32 *)(b + 0xc));
+  *((u32 *)(p + 0x18)) = *((u32 *)(b + 0x18));
+  *((u32 *)(p + 0x1c)) = *((u32 *)(b + 0x1c));
+  *((u32 *)(p + 0x20)) = *((u32 *)(b + 0x64));
+  *((u32 *)(p + 0x24)) = *((u32 *)(b + 0x68));
   if (q[0] == 5)
   {
-    *((s16 *) (p + 2)) = 1;
+    *((s16 *)(p + 2)) = 1;
   }
   else
   {
-    *((s16 *) (p + 2)) = 0;
+    *((s16 *)(p + 2)) = 0;
   }
-  v0 = *((u32 *) (a + 0x8));
-  v1 = *((u32 *) (a + 0xc));
+  v0 = *((u32 *)(a + 0x8));
+  v1 = *((u32 *)(a + 0xc));
   NetMemcpy(p + 0x28, &v0, 4);
   NetMemcpy(p + 0x2c, &v1, 4);
-  v0 = *((u32 *) (a + 0x10));
-  v1 = *((u32 *) (a + 0x14));
+  v0 = *((u32 *)(a + 0x10));
+  v1 = *((u32 *)(a + 0x14));
   NetMemcpy(p + 0x30, &v0, 4);
   NetMemcpy(p + 0x34, &v1, 4);
-  *((s16 *) (p + 4)) = *((s16 *) (&lobby_modem_connect_state));
-  *((s32 *) (p + 8)) = lobby_modem_reply_value;
-  *((s16 *) (p + 6)) = *((s16 *) (&lbl_805D7A82));
-  *((s16 *) (p + 0xc)) = *((s16 *) (&lbl_805D7A84));
+  *((s16 *)(p + 4)) = *((s16 *)&lobby_modem_connect_state);
+  *((s32 *)(p + 8)) = lobby_modem_reply_value;
+  *((s16 *)(p + 6)) = *((s16 *)&lbl_805D7A82);
+  *((s16 *)(p + 0xc)) = *((s16 *)&lbl_805D7A84);
   unlock_mutex(lbl_805C18A0.mutex);
   return 0;
 }
@@ -333,7 +333,7 @@ s32 TLobby__sub_803FB6A0(void) {
         while (st->busy != 0) {
             unlock_mutex(lbl_805C18A0.mutex);
             process_expired_timers();
-            TLobby__sub_803F97E8(lbl_805C18A0.poll_ms);
+            net_sleep_ms(lbl_805C18A0.poll_ms);
             lock_mutex(lbl_805C18A0.mutex);
         }
     }
@@ -361,7 +361,6 @@ s32 TLobby__sub_803FB7A4(void) {
     extern s32 lbl_805D7BD8;
     s16 TLobby__sub_80403D28(s32, s32, s32, s32, s32, s32, s32, s32); /* declared s16 here; the definition returns s32 */
     s32 configure_modem_options(s32, s32, s32, s32, s32);
-    u16 is_transport_connected(void); /* declared u16 here; the definition returns s32 */
     s16 TLobby__sub_80403C60(void *); /* declared s16 here; the definition is s32 (u8 *) */
     s16 TLobby__sub_80403BA8(s32, s32, s32); /* declared s16 here; the definition is s32 (u8 *, u8 *, s32) */
     s16 TLobby__sub_80403B04(s32, s32, s32); /* declared s16 here; the definition is s32 (u8 *, u8 *, s32) */
@@ -450,7 +449,7 @@ s32 TLobby__sub_803FB7A4(void) {
                 return 0;
             }
             unlock_mutex(lbl_805C18A0.mutex);
-            TLobby__sub_803F97E8(100);
+            net_sleep_ms(100);
             lock_mutex(lbl_805C18A0.mutex);
         }
     }
@@ -459,7 +458,7 @@ L242:
         lobby_modem_connect_state = 0xa;
         while (lobby_modem_connect_state == 0xa) {
             unlock_mutex(lbl_805C18A0.mutex);
-            TLobby__sub_803F97E8(100);
+            net_sleep_ms(100);
             process_expired_timers();
             lock_mutex(lbl_805C18A0.mutex);
         }
@@ -474,7 +473,7 @@ L242:
         }
     }
     unlock_mutex(lbl_805C18A0.mutex);
-    TLobby__sub_803F97E8(500);
+    net_sleep_ms(500);
     lock_mutex(lbl_805C18A0.mutex);
     lobby_modem_connect_state = 3;
     lbl_805D7A80 = 0;

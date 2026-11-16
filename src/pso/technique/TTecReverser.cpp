@@ -1,15 +1,15 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/technique/TTecReverser.h"
 #include "pso/unk/TUnk_804CCC28.h"
 #include "pso/system/task/TObject.h"
-extern "C" void *__dt__13TUnk_804CC148Fv(void *, s16);
 #include "pso/system/vector.h"
 #include "pso/effect/TUnk_804CC148.h"
 #include "pso/effect/TUnk_804CCC68.h"
-#include "pso/unk/TUnk_804CCC28.h"
+
 #include "pso/enemy/gibon/TObjEneBm5GibonU.h"
-#include "pso/technique/TTecReverser.h"
+
 #include "pso/technique/TTecAnti.h"
 #include "pso/player/TObjPlayer.h"
 
@@ -18,21 +18,16 @@ extern "C" void *__dt__13TUnk_804CC148Fv(void *, s16);
 struct RecoveredGlobal_8023A094_lbl_804CC1CC { s32 value; u8 remaining[0x340]; };
 typedef char RecoveredGlobal_8023A094_lbl_804CC1CC_size[sizeof(RecoveredGlobal_8023A094_lbl_804CC1CC) == 0x344 ? 1 : -1];
 
-struct RecoveredGlobal_8023A094___vt__12TTecReverser { s32 value; u8 remaining[0x24]; };
-typedef char RecoveredGlobal_8023A094___vt__12TTecReverser_size[sizeof(RecoveredGlobal_8023A094___vt__12TTecReverser) == 0x28 ? 1 : -1];
-
-struct Vec_80239E44 { f32 x, y, z; };
-
 struct Entry_80239E44 { s32 a; s32 b; s32 c; s32 pad; };
 
-struct Player_80239E44 { u8 pad[0x2FC]; Vec_80239E44 pos; };
+struct Player_80239E44 { u8 pad[0x2FC]; Vec pos; };
 
 struct Obj_80239E44 {
     u8 pad[0x18];
     void *vtable;
     void *parts[3];
     s32 f28;
-    Vec_80239E44 pos;
+    Vec pos;
 };
 
 struct Rev_8023A364 {
@@ -53,7 +48,7 @@ void *find_entity_by_id(u16 id);
 s32 is_active__12TTecReverserFv();
 void run_task__12TTecReverserFv(u8 *arg0);
 s32 get_entity_id(int);
-s32 play_sound_effect(int, void *, int, int);
+s32 play_sound_effect(int, Vec *, int, int);
 s32 copy_technique_target_list(void *, void *);
 s32 __ct__13TUnk_804CC148Flll(void *, void *, void *, void *);
 extern RecoveredGlobal_8023A094_lbl_804CC1CC technique_param_table;
@@ -71,12 +66,7 @@ Entry_80239E44 revival_particle_table[3] = {
 Obj_80239E44 *construct_revival_particle_effect(Obj_80239E44 *self, Player_80239E44 *player, void *parent);
 void debug_printf_at(s32 id, const char *fmt, ...);
 s32 get_type__10TObjPlayerFPv(void *p);
-void *__dt__13TUnk_804CCC28Fv(void *arg0, s16 arg1);
-void *__dt__12TTecReverserFv(void *arg0, s16 arg1);
-void *spawn_particle_effect(void *pos, s32 id);
-void __dl__7TObjectFPv(void *);
-void __dt__7TObjectFv(void *, int);
-void *__nw__7TObjectFUl(int);
+void *spawn_particle_effect(const void *pos, s32 id);
 
 }
 
@@ -154,13 +144,13 @@ void TUnk_804CCC68::dispatch_technique_contact() {
 u8 *TTecReverser__ct(u8 *tec_reverser, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
     u32 temp_r3;
     __ct__13TUnk_804CC148Flll((void *)tec_reverser, (void *)arg1, (void *)arg2, (void *)arg4);
-    *(s32 **)((s8 *)tec_reverser + 0x18) = &(*(RecoveredGlobal_8023A094___vt__12TTecReverser *)&__vt__12TTecReverser).value;
+    *(s32 **)((s8 *)tec_reverser + 0x18) = __vt__12TTecReverser;
     ((TObjPlayer *)(tec_reverser + 0xEC))->construct_target_cursor_records();
-    *(const char **)((s8 *)tec_reverser + 0) = lbl_805D3818;
+    ((TTecReverser *)tec_reverser)->m_name = lbl_805D3818;
     ((TTecAnti *)(tec_reverser + 0x88))->copy_params((u8 *)((u8 *)&technique_param_table.value + 0x2EC));
     ((TTecReverser *)tec_reverser)->sub_8022BE64(tec_reverser + 0x88, arg4);
     copy_technique_target_list(tec_reverser + 0xEC, (void *)arg3);
-    play_sound_effect(0x4002A812, tec_reverser + 0x20, 0, 0);
+    play_sound_effect(0x4002A812, (Vec *)(tec_reverser + 0x20), 0, 0);
     temp_r3 = ((TTecReverser *)tec_reverser)->source;
     if (temp_r3 != 0U) {
         ((TTecReverser *)tec_reverser)->m_b4 = get_entity_id(temp_r3);
@@ -174,7 +164,7 @@ TTecReverser::~TTecReverser() {
 
 void TTecReverser::create(void *arg0, void *arg1, void *arg2, void *arg3) {
     void *o;
-    o = __nw__7TObjectFUl(0x148);
+    o = TObject::operator new(0x148);
     if (o != NULL) {
         TTecReverser__ct((u8 *)o, (s32)arg0, (s32)arg1, (s32)arg2, (s32)arg3);
     }
@@ -208,7 +198,7 @@ Obj_80239E44 *construct_revival_particle_effect(Obj_80239E44 *self, Player_80239
     VecCopy((Vec *)&self->pos, (const Vec *)&player->pos);
     for (i = 0; i < 3; i++) {
         if (i == 0) {
-            Vec_80239E44 v;
+            Vec v;
             VecCopy((Vec *)&v, (const Vec *)&self->pos);
             v.y += 20.0f;
             self->parts[i] = create_timed_particle_emitter(&v, revival_particle_table[i].c, revival_particle_table[i].a, revival_particle_table[i].b);
@@ -223,7 +213,7 @@ void TUnk_804CCC28::run_task() {
     u8 *arg0 = (u8 *)this;
     this->m_28 = (this->m_28 + 1);
     if ((s32) this->m_28 == 0xA) {
-        spawn_particle_effect((u8 *)&this->unk_2C, 0x38);
+        spawn_particle_effect(&this->unk_2C, 0x38);
     }
     if ((s32) this->m_28 > 0xC8) {
         ((TObject *)arg0)->queue_destruction();

@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/vector.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "types.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/task/TObject_8001A448.h"
@@ -32,12 +33,6 @@ void TBoss7Tentacle__sub_802F0608(TBoss7Tentacle *tentacle, f32 len);
 s32 subtract_vector(void *, void *);
 s32 transform_point_by_current_matrix(void *, void *);
 void push_matrix(void);
-struct RecoveredGlobal_802EFB1C_lbl_80541918 {
-    s32 value;
-    u8 remaining[0xC];
-};
-
-struct RecoveredGlobal_802EFB1C_lbl_80541918;
 
 struct VBase_18_9935f6 { char pad[0x18]; };
 
@@ -78,29 +73,11 @@ struct Cnt_802EF898 { u8 pad[4]; u32 n; };
 
 struct Ten_802EF898 { u8 pad[0x74]; f32 t; Cnt_802EF898 *c; };
 
-typedef char RecoveredGlobal_802EFB1C_lbl_80541918_size[sizeof(RecoveredGlobal_802EFB1C_lbl_80541918) == 0x10 ? 1 : -1];
-
-struct RecoveredGlobal_802EFEA8_lbl_80541918 {
-    s32 value;
-    u8 remaining[0xC];
-};
-
-typedef char RecoveredGlobal_802EFEA8_lbl_80541918_size[sizeof(RecoveredGlobal_802EFEA8_lbl_80541918) == 0x10 ? 1 : -1];
-
-struct RecoveredGlobal_802EFEC4_lbl_80541918 {
-    s32 value;
-    u8 remaining[0xC];
-};
-
-typedef char RecoveredGlobal_802EFEC4_lbl_80541918_size[sizeof(RecoveredGlobal_802EFEC4_lbl_80541918) == 0x10 ? 1 : -1];
-
 struct Ten_802F0A5C { u8 pad0[0x50]; Vec v[14]; u32 w[14]; };
 
-struct V_802EFF24 { f32 x, y, z; };
+struct Node_802EFF24 { u32 flags; u8 pad4[4]; Vec pos; u8 pad14[8]; s32 ang; u8 pad20[0x18]; };
 
-struct Node_802EFF24 { u32 flags; u8 pad4[4]; V_802EFF24 pos; u8 pad14[8]; s32 ang; u8 pad20[0x18]; };
-
-struct Tent_802EFF24 { u8 pad0[0x50]; V_802EFF24 pos[14]; s32 ang[14]; };
+struct Tent_802EFF24 { u8 pad0[0x50]; Vec pos[14]; s32 ang[14]; };
 
 struct Cnt_802F08A8 { u8 pad[4]; u32 n; };
 
@@ -112,8 +89,6 @@ typedef struct Anim_802F0BE8 { u8 pad0[4]; u32 n; } Anim_802F0BE8;
 
 s32 attach_particle_model(int, int, int, int, int, f32);
 f32 horizontal_distance_squared(void *, void *);
-void __dl__7TObjectFPv(void *);
-void __dt__7TObjectFv(void *, int);
 s32 notify_fish_obj__10TObjPlayerFPv(int);
 s32 queue_boss_effect__10TObjPlayerFPv(int);
 s32 TObjPlayer__sub_802E80A0();
@@ -126,7 +101,6 @@ extern Vec TBoss7Tentacle__segment_offsets[];
 extern s32 __vt__20TBoss7TentacleNeedle[];
 extern Node_802EFF24 lbl_80541528[];
 extern u32 TBoss7Tentacle__needle_offsets[];
-extern RecoveredGlobal_802EFB1C_lbl_80541918 boss7_tentacle_needle_target_state;
 extern s32 lbl_805D6948;
 
 // .rodata 0x80474070-0x804740C8 and the .sdata names are not this TU's: defined here, run_task would
@@ -153,7 +127,7 @@ struct Arr_802EFD08 { u8 pad[0x44]; s32 a[12]; };
 Node_802EFF24 lbl_80541528[14];
 Vec TBoss7Tentacle__segment_offsets[14];
 u32 TBoss7Tentacle__needle_offsets[14];
-RecoveredGlobal_802EFB1C_lbl_80541918 boss7_tentacle_needle_target_state;
+Boss7TentacleNeedleTargetState boss7_tentacle_needle_target_state;
 s32 lbl_805D6948;
 
 // Written last-to-first: built with -inline off,deferred, which emits functions in reverse source order
@@ -423,7 +397,7 @@ void run_task__14TBoss7TentacleFv(u8 *boss7_tentacle) {
                         ((TBoss7PhotonBullet *)st)->emit_hit_effect(&p);
                     }
                 }
-                play_sound_effect(0x3A809, &p, 0, 0);
+                play_sound_effect(0x3A809, (Vec *)(&p), 0, 0);
             }
             if (*(f32 *)((s8 *)boss7_tentacle + 0x158) >= 0.4f * len) {
                 *(f32 *)((s8 *)boss7_tentacle + 0x15C) = 1.0f;
@@ -575,16 +549,16 @@ extern "C" {
 
 void TObjPlayer__sub_802EFEC4(void) {
     lbl_805D6948 = queue_boss_effect__10TObjPlayerFPv(5);
-    *(s32 *)((s8 *)(&(*(RecoveredGlobal_802EFEC4_lbl_80541918 *)&boss7_tentacle_needle_target_state).value) + 0) = notify_fish_obj__10TObjPlayerFPv(0x13);
-    *(s32 *)((s8 *)(&(*(RecoveredGlobal_802EFEC4_lbl_80541918 *)&boss7_tentacle_needle_target_state).value) + 4) = notify_fish_obj__10TObjPlayerFPv(0x14);
-    *(s32 *)((s8 *)(&(*(RecoveredGlobal_802EFEC4_lbl_80541918 *)&boss7_tentacle_needle_target_state).value) + 8) = notify_fish_obj__10TObjPlayerFPv(0x12);
+    *(s32 *)((s8 *)(&boss7_tentacle_needle_target_state.value) + 0) = notify_fish_obj__10TObjPlayerFPv(0x13);
+    *(s32 *)((s8 *)(&boss7_tentacle_needle_target_state.value) + 4) = notify_fish_obj__10TObjPlayerFPv(0x14);
+    *(s32 *)((s8 *)(&boss7_tentacle_needle_target_state.value) + 8) = notify_fish_obj__10TObjPlayerFPv(0x12);
 }
 
 void fn_802EFEA8(void) {
-    *(s32 *)((s8 *)(&(*(RecoveredGlobal_802EFEA8_lbl_80541918 *)&boss7_tentacle_needle_target_state).value) + 0) = 0;
+    *(s32 *)((s8 *)(&boss7_tentacle_needle_target_state.value) + 0) = 0;
     lbl_805D6948 = 0;
-    *(s32 *)((s8 *)(&(*(RecoveredGlobal_802EFEA8_lbl_80541918 *)&boss7_tentacle_needle_target_state).value) + 4) = 0;
-    *(s32 *)((s8 *)(&(*(RecoveredGlobal_802EFEA8_lbl_80541918 *)&boss7_tentacle_needle_target_state).value) + 8) = 0;
+    *(s32 *)((s8 *)(&boss7_tentacle_needle_target_state.value) + 4) = 0;
+    *(s32 *)((s8 *)(&boss7_tentacle_needle_target_state.value) + 8) = 0;
 }
 
 #pragma push
@@ -747,7 +721,7 @@ void TBoss7Tentacle::restart_particle_effect() {
     ((TObject *)(*((void **) (((s8 *) arg0) + 0x40))))->queue_destruction();
     *((u32 *) (((s8 *) arg0) + 0x40)) = 0U;
   }
-  particle_effect = (s32)spawn_particle_effect((arg0 + 0x1C), 0x215);
+  particle_effect = (s32)spawn_particle_effect(((u8 *)&this->m_1c), 0x215);
   temp_r3 = particle_effect;
   if (temp_r3 != 0)
   {

@@ -1,5 +1,6 @@
-extern "C" void *__ct__12TObjEneDD_STFP7TObject(void *);
 #include "pso/system/NinjaTypes.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
+#include "pso/system/MatrixOps.h"
 #include "types.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/base/TObjMotion.h"
@@ -24,13 +25,6 @@ struct Stack_803626A8 {
     s32 spC;
     s32 sp10;
 };
-
-
-struct RecoveredGlobal_803626A8_lbl_8058D490 {
-    s32 value;
-    u8 remaining[0x2C];
-};
-
 
 
 struct Leaf_803627DC { u8 pad[4]; s32 v; };
@@ -58,14 +52,12 @@ public:
 };
 
 extern "C" {
-u8 *__nw__5TItemFUl(s32);
 s32 matrix_mult_vec(int, void *, void *);
 s32 rotate_matrix_y(int, int);
 s32 push_matrix_from(void *);
 s32 pop_matrix();
 f32 post_translate_matrix(void *);
-extern RecoveredGlobal_803626A8_lbl_8058D490 identity_matrix;
-void *spawn_particle_effect(void *pos, s32 id);
+void *spawn_particle_effect(const void *pos, s32 id);
 s16 get_validated_attack_stage(u8 *arg0);
 extern s32 knuckle_marker_joint_table[];
 s32 dispatch_shared_handler_a__6TLobbyFl(int);
@@ -76,7 +68,7 @@ Node_803627DC *get_bml_model(void *, int);
 u8 *load_resource_from_descriptor(void *, int, void *, int, int, int);
 s32 TObjPlayer__sub_800F0928(void *);
 f32 lbl_80543A18[3];
-extern s32 epsilon_guard_part_color_table[9];
+s32 epsilon_guard_part_color_table[9];
 extern s32 epsilon_guard_boss_stat_handle;
 extern s32 epsilon_guard_shared_handler_b;
 extern s32 epsilon_guard_registered_object_handle;
@@ -89,10 +81,8 @@ extern u8 *lbl_805D6FA0;
 extern u8 *lbl_805D6FA4;
 extern u8 *lbl_805D6FA8;
 void free_bin_model_request(void *, int);
-void __construct_array(void *, void *, void *, int, int);
 
 
-typedef char RecoveredGlobal_803626A8_lbl_8058D490_size[sizeof(RecoveredGlobal_803626A8_lbl_8058D490) == 0x30 ? 1 : -1];
 }
 
 const char *bm_ene_epsilon_model_names[8] = {
@@ -117,9 +107,9 @@ u8 *create_s_rank_knuckle(u8 *arg0);
 
 TUnk_804F26E0::~TUnk_804F26E0() {}
 
-u8 *create_s_rank_knuckle(u8 *arg0) {
-    if (arg0 != NULL) {
-        return (u8 *)new TUnk_804F26E0(tl_05, arg0);
+u8 *create_s_rank_knuckle(u8 *item) {
+    if (item != NULL) {
+        return (u8 *)new TUnk_804F26E0(tl_05, item);
     }
     return NULL;
 }
@@ -215,7 +205,7 @@ void TObjEneEpsilonGuard::sub_803626A8(s32 arg1, s32 arg2) {
     typedef char spC_offset[(offsetof(Stack_803626A8, spC) == 0x4) ? 1 : -1];
     typedef char sp10_offset[(offsetof(Stack_803626A8, sp10) == 0x8) ? 1 : -1];
     Stack_803626A8 stack = { 0, 0, 0 };
-    push_matrix_from((void *)&identity_matrix.value);
+    push_matrix_from((void *)&identity_matrix);
     post_translate_matrix((void *) (((u8 *)this) + 0x38));
     rotate_matrix_y(0, this->rotation_y);
     this->calc_joint_matrices(this->frame);

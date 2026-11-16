@@ -1,10 +1,9 @@
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/boss/goldragon/TBoss8Dragon_802F3348.h"
 #include "pso/unk/TLobby_8007C550.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 #include "pso/math/AngleLookup.h"
-
-struct Vec_802F33C8 { f32 x, y, z; };
 
 struct Ent_802F33C8 { u8 pad0[0x38]; f32 x, y, z; u8 pad44[0x60 - 0x44]; s32 rot; };
 
@@ -13,7 +12,7 @@ s32 get_enemy_entity();
 extern u8 *boss8_dragon_leader_part;
 f32 calc_random_ratio__10TObjPlayerFv(void *);
 void subtractive_rng_seed(void *, s32);
-void spawn_attack_object__12TBoss8DragonFllll(void *, Vec_802F33C8 *, u16, s32, s32);
+void spawn_attack_object__12TBoss8DragonFllll(void *, Vec *, u16, s32, s32);
 s32 TBoss8Dragon__sub_802F3348(s32 arg0) {
     if ((void *) boss8_dragon_leader_part == NULL) {
         return 0;
@@ -29,7 +28,7 @@ u16 TBoss8Dragon::get_global_part_count(s32 arg0) {
 }
 void TBoss8Dragon::place_parts_in_ring(s32 arg1, s32 arg2) {
     s32 n = (s32)this;
-    Vec_802F33C8 v;
+    Vec v;
     u8 buf[0xEC];
     s32 ang;
     s32 step;

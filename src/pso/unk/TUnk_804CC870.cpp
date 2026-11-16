@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/render/ChunkMaterialState.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "types.h"
 #include "pso/map/FloorArea.h"
 #include "pso/effect/TEffect.h"
@@ -22,14 +23,12 @@
 
 // ---- pso/unk/text_80232934
 
-struct Vec_80232934 { f32 x; f32 y; f32 z; };
-
 struct Quad_80232934 { u32 a; u32 b; u32 c; u32 d; };
 
 struct Obj_80232934 {
     u8 pad[0x20];
     u8 f20[0xC];
-    Vec_80232934 pos;
+    Vec pos;
     u8 f38[0x10];
     s32 f48;
     f32 f4c;
@@ -38,7 +37,7 @@ struct Obj_80232934 {
 extern "C" {
 s32 get_bml_model(s32, u32);
 void init_texture_copy_rect(TextureFrameSlot *, void *, void *, s32, s32);
-void approach_position_if_far(Vec_80232934 *, Vec_80232934 *, f32);
+void approach_position_if_far(Vec *, Vec *, f32);
 void scale_matrix(s32, f32, f32, f32);
 void push_matrix(void);
 void post_translate_matrix(void *);
@@ -49,11 +48,7 @@ extern s32 saved_model_render_flags;
 extern s32 technique_effect_bml;
 extern s32 model_render_flags;
 
-}
-
 // ---- pso/unk/text_80232AA4
-
-extern "C" {
 void *find_entity_by_id(u16 id);
 
 }
@@ -74,14 +69,12 @@ struct Obj_80232E0C {
     s32 kind;
 };
 
-struct Vec_80232B7C { f32 x, y, z; };
-
 struct Obj_80232B7C {
     u8 pad0[0x18];
     void *vt;
     u16 id;
-    Vec_80232B7C pos;
-    Vec_80232B7C scale;
+    Vec pos;
+    Vec scale;
     f32 f38;
     f32 f3c;
     f32 f40;
@@ -109,12 +102,10 @@ void mem_free(void *);
 void __ct__7TObjectFP7TObject(void *self, void *parent);
 extern u8 __vt__13TUnk_804CC870[];
 
-Obj_80232B7C *construct_grants_flash(Obj_80232B7C *self, s32 id, void *parent, Vec_80232B7C *pos, f32 scale);
+Obj_80232B7C *construct_grants_flash(Obj_80232B7C *self, s32 id, void *parent, Vec *pos, f32 scale);
 
 void attach_particle_model(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0);
-void *spawn_particle_effect(void *pos, s32 id);
-void *find_entity_by_id(u16 id);
-void *__nw__7TObjectFUl(u32);
+void *spawn_particle_effect(const void *pos, s32 id);
 }
 u8 *construct_timed_sound_voice(u8 *arg0, s32 arg1, s16 arg2, s32 arg3, s32 arg4, s32 arg5);
 
@@ -147,7 +138,6 @@ const SGrp_80232C50 technique_effect_entry_table[6] = {
 
 const char *tec_grants_class_name = "TTecGrants";
 extern void *tl_07;
-extern s32 technique_effect_bml;
 extern s32 lbl_805D63B0;
 
 // Function definitions in reverse address order (defer_codegen emits them reversed).
@@ -172,7 +162,7 @@ void TUnk_804CC888::run_task() {
     void *p;
     ((Ctl_80232C50 *)this)->timer++;
     if (((Ctl_80232C50 *)this)->timer % 5 == 0) {
-        p = __nw__7TObjectFUl(0x50);
+        p = TObject::operator new(0x50);
         if (p != 0) {
             construct_grants_flash((Obj_80232B7C *) p, ((Ctl_80232C50 *)this)->id, tl_07, 0, 1.0f);
         }
@@ -206,7 +196,7 @@ void TUnk_804CC888::run_task() {
             dir = -0x100;
             break;
         }
-        p = __nw__7TObjectFUl(0x28);
+        p = TObject::operator new(0x28);
         if (p != 0) {
             construct_timed_sound_voice((u8 *)p, (s32)((Ctl_80232C50 *)this)->f30, (s16)(0xF), 0x4002A60D, (s32)dir, (s32)tl_07);
         }
@@ -214,7 +204,7 @@ void TUnk_804CC888::run_task() {
     }
 }
 
-Obj_80232B7C *construct_grants_flash(Obj_80232B7C *self, s32 id, void *parent, Vec_80232B7C *pos, f32 scale) {
+Obj_80232B7C *construct_grants_flash(Obj_80232B7C *self, s32 id, void *parent, Vec *pos, f32 scale) {
     __ct__7TObjectFP7TObject(self, parent);
     self->vt = __vt__13TUnk_804CC870;
     self->id = id;
@@ -269,7 +259,7 @@ void TUnk_804CC870::render() {
         return;
     }
     init_texture_copy_rect(&ctx, lbl_804CC868, technique_ringwave_texture_list, 0, this->m_48 + 1);
-    Vec_80232934 v = { 1.2f, 1.2f, 1.2f };
+    Vec v = { 1.2f, 1.2f, 1.2f };
     Quad_80232934 q = { 0, 0, 0, 0 };
     approach_alpha_clamped((f32 *)arg0->f38, (const f32 *)&q, 0.1f);
     approach_position_if_far(&arg0->pos, &v, arg0->f4c);
@@ -353,10 +343,10 @@ struct Task_80232EC0 {
 
 extern "C" {
 u16 get_entity_id(void *);
-void *spawn_continuous_particle_effect_with_flags(void *parent, s32 idx, s32 flags);
+TParticleCtrl *spawn_continuous_particle_effect_with_flags(void *parent, s32 idx, s32 flags);
 void *mem_alloc(u32 size);
 s32 update_technique_slot__10TTecRaFoieFl(s32, s32, s32);
-s32 play_sound_effect(s32, void *, s32, s32);
+s32 play_sound_effect(s32, Vec *, s32, s32);
 }
 TUnk_804CC888::TUnk_804CC888(u8 *src, s32 level, TObject *parent) : TObject(parent) {
     u32 i;
@@ -379,29 +369,29 @@ TUnk_804CC888::TUnk_804CC888(u8 *src, s32 level, TObject *parent) : TObject(pare
     }
     switch (((Task_80232EC0 *)this)->tier) {
     case 0:
-        ((Task_80232EC0 *)this)->sound = play_sound_effect(0x4002A90C, ((Task_80232EC0 *)this)->pos, 0, 0);
+        ((Task_80232EC0 *)this)->sound = play_sound_effect(0x4002A90C, (Vec *)(((Task_80232EC0 *)this)->pos), 0, 0);
         if (((Task_80232EC0 *)this)->sound >= 0) {
             update_technique_slot__10TTecRaFoieFl(((Task_80232EC0 *)this)->sound, 0x100, 0);
         }
         break;
     case 1:
-        ((Task_80232EC0 *)this)->sound = play_sound_effect(0x4002A90C, ((Task_80232EC0 *)this)->pos, 0, 0);
+        ((Task_80232EC0 *)this)->sound = play_sound_effect(0x4002A90C, (Vec *)(((Task_80232EC0 *)this)->pos), 0, 0);
         break;
     case 2:
     case 3:
-        ((Task_80232EC0 *)this)->sound = play_sound_effect(0x4002A90C, ((Task_80232EC0 *)this)->pos, 0, 0);
+        ((Task_80232EC0 *)this)->sound = play_sound_effect(0x4002A90C, (Vec *)(((Task_80232EC0 *)this)->pos), 0, 0);
         if (((Task_80232EC0 *)this)->sound >= 0) {
             update_technique_slot__10TTecRaFoieFl(((Task_80232EC0 *)this)->sound, -0x180, 0);
         }
         break;
     case 4:
-        ((Task_80232EC0 *)this)->sound = play_sound_effect(0x4002A90C, ((Task_80232EC0 *)this)->pos, 0, 0);
+        ((Task_80232EC0 *)this)->sound = play_sound_effect(0x4002A90C, (Vec *)(((Task_80232EC0 *)this)->pos), 0, 0);
         if (((Task_80232EC0 *)this)->sound >= 0) {
             update_technique_slot__10TTecRaFoieFl(((Task_80232EC0 *)this)->sound, -0x250, 0);
         }
         break;
     case 5:
-        ((Task_80232EC0 *)this)->sound = play_sound_effect(0x4002A90C, ((Task_80232EC0 *)this)->pos, 0, 0);
+        ((Task_80232EC0 *)this)->sound = play_sound_effect(0x4002A90C, (Vec *)(((Task_80232EC0 *)this)->pos), 0, 0);
         if (((Task_80232EC0 *)this)->sound >= 0) {
             update_technique_slot__10TTecRaFoieFl(((Task_80232EC0 *)this)->sound, -0x100, 0);
         }

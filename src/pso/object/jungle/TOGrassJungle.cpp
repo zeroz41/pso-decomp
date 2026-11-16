@@ -9,14 +9,7 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/object/base/TObjMotion.h"
-
-struct RecoveredGlobal_8029CD0C_lbl_804DC534 { s32 value; u8 remaining[0xC]; };
-typedef char RecoveredGlobal_8029CD0C_lbl_804DC534_size[sizeof(RecoveredGlobal_8029CD0C_lbl_804DC534) == 0x10 ? 1 : -1];
-
-struct RecoveredGlobal_8029CE64___vt__13TOGrassJungle {
-    s32 value;
-    u8 remaining[0x30];
-};
+#include "pso/system/task/TObject.h"
 
 extern "C" {
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
@@ -28,12 +21,11 @@ BmlResourceDescriptor ograss_jungle_resource_descriptor = { "bm_o_grass_jungle.b
 const char *grass_jungle_class_name = "TOGrassJungle";
 void free_bin_model_request(void*, int);
 s32 release_texture_list(void*);
-void *__nw__7TObjectFUl(int);
 
 extern void *tl_05;
 
 void *TOGrassJungle__create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0x94);
+    void *o = TObject::operator new(0x94);
     if (o != NULL) {
         o = TOGrassJungle__ct((TOGrassJungle *)((u8 *)o), (s32)tl_05, (s32)arg0);
     }
@@ -66,28 +58,13 @@ void TOGrassJungle::load_resources() {
 
 s32 __ct__8TObjBaseFP7TObject(void *, void *);
 extern s32 __vt__13TOGrassJungle[];
-struct Base_8029CD90 { char pad[0x18]; };
-struct VObj_8029CD90 : Base_8029CD90 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual s32 m8(f32, f32);
-};
-
 s32 post_translate_matrix(void *);
 s32 draw_ginja_object();
 s32 rotate_matrix_y(s32, s32);
 s32 push_matrix();
-void __dl__7TObjectFPv(void *);
 
 void TOGrassJungle::render() {
-    u8 *arg0 = (u8 *)this;
-    if (((VObj_8029CD90 *)arg0)->m8(400.0f, 20.0f) == 1) {
+    if (this->update_object_view_visibility(400.0f, 20.0f) == 1) {
         TObjFish::set_global_param(TOGrassJungle__grass_gvm_texture);
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
@@ -102,12 +79,11 @@ void TOGrassJungle::render() {
 TOGrassJungle::~TOGrassJungle() {
 
 }
-extern "C" {
 
-typedef char RecoveredGlobal_8029CE64___vt__13TOGrassJungle_size[sizeof(RecoveredGlobal_8029CE64___vt__13TOGrassJungle) == 0x34 ? 1 : -1];
+
 u8 *TOGrassJungle__ct(TOGrassJungle *grass_jungle, s32 parent, s32 arg2) {
     __ct__8TObjBaseFP7TObject((void *)grass_jungle, (void *)parent);
-    *(s32 **)((s8 *)grass_jungle + 0x18) = &(*(RecoveredGlobal_8029CE64___vt__13TOGrassJungle *)&__vt__13TOGrassJungle).value;
+    *(s32 **)((s8 *)grass_jungle + 0x18) = __vt__13TOGrassJungle;
     *(s32 *)((s8 *)grass_jungle + 0) = (s32) grass_jungle_class_name;
     ((TOGrassJungle *)(grass_jungle))->apply_object_set_data((void *)arg2);
     grass_jungle->m_90 = (s32) grass_jungle->set_params[0];
@@ -120,4 +96,3 @@ u8 *TOGrassJungle__ct(TOGrassJungle *grass_jungle, s32 parent, s32 arg2) {
     return (u8 *)grass_jungle;
 }
 
-}

@@ -24,4 +24,10 @@ extern "C" {
 void TChCrEffTagStr__sub_8029AED0(TChCrEffTagStr *p);
 }
 
+// --- C functions defined in TChCrEffTagStr.cpp ---
+extern "C" {
+void TChCrEffTagStr__sub_8029AED0(TChCrEffTagStr *p);
+}
+// --- end of C functions
+
 #endif

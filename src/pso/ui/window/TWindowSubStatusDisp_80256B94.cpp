@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/unk/TUnk_804CF918.h"
 #include "pso/system/memory.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/unk/TUnk_804CF930.h"
@@ -10,13 +11,9 @@
 #include "pso/ui/frontend/TAdChrMoveEffectGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 extern s32 lbl_805D63F0;
-
-struct RecoveredGlobal_80256BDC_lbl_804CF918 {
-    s32 value;
-    u8 remaining[0x14];
-};
 
 struct Bar_80256C00 {
     u8 pad0[0x14];
@@ -38,21 +35,14 @@ struct Gauge_802571B4 {
 };
 
 
-struct Pos_80256E0C { f32 x; f32 y; };
-
 struct Quad_80256E0C { f32 x0, y0, x1, y1, u0, v0, u1, v1; };
 
 extern "C" {
 extern s32 lbl_804CF918[];
-void sub_80256BDC__13TUnk_804CF930Fl(void *self, s32 arg1);
-void calc_bar_width__13TUnk_804CF930Fv(struct Bar_80256C00 *bar);
-f32 fabs_float(f32);
 void step_gauge_bar_width(Gauge_802571B4 *g);
 s32 try_open__19TWindowKeyBoardSoftFii(void *, void *);
 void draw_textured_quad_at_depth(f32 *q, f32 depth);
 void TWindowSubStatusDisp__sub_80256BF8(void);
-void TWindowSubStatusDisp__sub_80256BFC(void);
-void *destroy__13TUnk_804CF930Fs(void *arg0, s16 arg1);
 
 void *TUnk_804CF930::destroy(s16 arg1) {
     if (this != NULL) {
@@ -64,29 +54,28 @@ void *TUnk_804CF930::destroy(s16 arg1) {
     return this;
 }
 
-typedef char RecoveredGlobal_80256BDC_lbl_804CF918_size[sizeof(RecoveredGlobal_80256BDC_lbl_804CF918) == 0x18 ? 1 : -1];
 void TUnk_804CF930::sub_80256BDC(s32 arg1) {
     u8 *arg0 = (u8 *)this;
-    *(s32 **)((s8 *)arg0 + 4) = &(*(RecoveredGlobal_80256BDC_lbl_804CF918 *)&lbl_804CF918).value;
+    *(s32 **)((s8 *)arg0 + 4) = lbl_804CF918;
     *(s16 *)((s8 *)arg0 + 0) = 0;
     this->m_2 = arg1;
 }
 
 void TWindowSubStatusDisp__sub_80256BF8(void) {  }
-void TWindowSubStatusDisp__sub_80256BFC(void) {  }
+void TUnk_804CF918::render(TWindowKeyBoardSoft *) {  }
 void TUnk_804CF930::calc_bar_width() {
     f32 target;
     f32 max = ((struct Bar_80256C00 *)this)->max;
     f32 v;
-    if (max <= 0.0f || (target = ((struct Bar_80256C00 *)this)->target) <= 0.0f) {
+    if (max <= 0.0f || (target = this->target) <= 0.0f) {
         v = 0.0f;
     } else {
-        v = (target * ((struct Bar_80256C00 *)this)->scale) / max;
+        v = (target * this->scale) / max;
     }
-    ((struct Bar_80256C00 *)this)->width = v;
+    this->width = v;
 }
 
-void TWindowSubStatusDisp__sub_80256C40(TUnk_804CF930 *self, TWindowKeyBoardSoft *ctx, Pos_80256E0C *pos, f32 depth) {
+void TWindowSubStatusDisp__sub_80256C40(TUnk_804CF930 *self, TWindowKeyBoardSoft *ctx, NJS_POINT2 *pos, f32 depth) {
     Quad_80256E0C q;
     f32 w;
     w = self->scale - -2.0f;
@@ -126,7 +115,7 @@ void TWindowSubStatusDisp__sub_80256C40(TUnk_804CF930 *self, TWindowKeyBoardSoft
 }
 
 void TUnk_804CF930::draw_status_gauge_bar(void *ctx, void *pos_arg, f32 depth, f32 len) {
-    Pos_80256E0C *pos = (Pos_80256E0C *)pos_arg;
+    NJS_POINT2 *pos = (NJS_POINT2 *)pos_arg;
     Quad_80256E0C q;
     f32 w;
     f32 end;
@@ -182,19 +171,19 @@ void TUnk_804CF930::draw_status_gauge_bar(void *ctx, void *pos_arg, f32 depth, f
     }
 }
 
-void TWindowSubStatusDisp__sub_80257024(TUnk_804CF930 *self, TWindowKeyBoardSoft *ctx) {
-    Pos_80256E0C pos;
+void TUnk_804CF930::render(TWindowKeyBoardSoft *ctx) {
+    NJS_POINT2 pos;
     f32 depth;
     f32 len;
     f32 width;
-    f32 used = self->y / 21.0f + self->x / ctx->inner_w;
+    f32 used = this->y / 21.0f + this->x / ctx->inner_w;
     used *= 7.5f;
     f32 avail = 17.0f * ((f32)ctx->open_tick - used);
     if (avail <= 0.0f) {
         return;
     }
-    width = self->width;
-    if (width <= 0.0f && !(self->flags & 8)) {
+    width = this->width;
+    if (width <= 0.0f && !(this->flags & 8)) {
         return;
     }
     if (width > avail) {
@@ -202,18 +191,18 @@ void TWindowSubStatusDisp__sub_80257024(TUnk_804CF930 *self, TWindowKeyBoardSoft
     } else {
         len = width;
     }
-    pos.x = ctx->inner_x + self->x;
-    pos.y = ctx->inner_y + self->y;
-    depth = -1.0f / (0.299f * self->depth + ctx->depth);
+    pos.x = ctx->inner_x + this->x;
+    pos.y = ctx->inner_y + this->y;
+    depth = -1.0f / (0.299f * this->depth + ctx->depth);
     begin_screen_draw(1);
     TObjFish::set_global_param(lbl_805D63F0);
     set_draw_texture_and_color(11, -1);
-    if (self->flags & 8) {
-        TWindowSubStatusDisp__sub_80256C40(self, ctx, &pos, depth);
+    if (this->flags & 8) {
+        TWindowSubStatusDisp__sub_80256C40(this, ctx, &pos, depth);
     }
     if (avail > 0.0f) {
-        set_constant_material_color(self->color);
-        self->draw_status_gauge_bar(ctx, &pos, depth, len);
+        set_constant_material_color(this->color);
+        this->draw_status_gauge_bar(ctx, &pos, depth, len);
     }
     TWindowSubStatusDisp::get_player();
 }
@@ -245,7 +234,7 @@ extern s32 lbl_804CF930[];
 void *TWindowSubStatusDisp__sub_80257298(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 4) = lbl_804CF930;
-        destroy__13TUnk_804CF930Fs(arg0, 0);
+        ((TUnk_804CF930 *)arg0)->destroy(0);
         if (arg1 > 0) {
             ::operator delete(arg0);
         }
@@ -254,18 +243,10 @@ void *TWindowSubStatusDisp__sub_80257298(void *arg0, s16 arg1) {
 }
 
 
-struct RecoveredGlobal_80257B4C_lbl_804CF948 {
-    s32 value;
-    u8 remaining[0x14];
-};
-
-typedef char RecoveredGlobal_80257B4C_lbl_804CF948_size[sizeof(RecoveredGlobal_80257B4C_lbl_804CF948) == 0x18 ? 1 : -1];
-
 typedef void *(*Ctor_80257D44)(void *, void *, s32);
 
 
-
-void*TUnk_804CF930::init_from(void*a1, int a2) { sub_80256BDC__13TUnk_804CF930Fl(this, a2); *(int*)((char*)this + 0x4) = (int)lbl_804CF930; *(float*)((char*)this + 0x1c) = 0.0f; *(float*)((char*)this + 0xc) = *(float*)((char*)a1 + 0x4); *(float*)((char*)this + 0x10) = *(float*)((char*)a1 + 0x8); *(float*)((char*)this + 0x8) = *(float*)((char*)a1 + 0xc); *(float*)((char*)this + 0x14) = *(float*)((char*)a1 + 0x18); *(int*)((char*)this + 0x18) = *(int*)((char*)a1 + 0x10); *(short*)((char*)this + 0x0) = *(int*)((char*)a1 + 0x14); *(float*)((char*)this + 0x20) = *(float*)((char*)a1 + 0x1c); *(float*)((char*)this + 0x24) = *(float*)((char*)a1 + 0x20); return this; }
+void*TUnk_804CF930::init_from(void*a1, int a2) { sub_80256BDC(a2); *(int*)((char*)this + 0x4) = (int)lbl_804CF930; *(float*)((char*)this + 0x1c) = 0.0f; *(float*)((char*)this + 0xc) = *(float*)((char*)a1 + 0x4); *(float*)((char*)this + 0x10) = *(float*)((char*)a1 + 0x8); *(float*)((char*)this + 0x8) = *(float*)((char*)a1 + 0xc); *(float*)((char*)this + 0x14) = *(float*)((char*)a1 + 0x18); *(int*)((char*)this + 0x18) = *(int*)((char*)a1 + 0x10); *(short*)((char*)this + 0x0) = *(int*)((char*)a1 + 0x14); *(float*)((char*)this + 0x20) = *(float*)((char*)a1 + 0x1c); *(float*)((char*)this + 0x24) = *(float*)((char*)a1 + 0x20); return this; }
 
 }
 

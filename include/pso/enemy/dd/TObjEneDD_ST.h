@@ -7,6 +7,7 @@ class TObjEneDD_ST : public TObjEneDD {
 public:
     TObjEneDD_ST(TObject *parent);
     virtual ~TObjEneDD_ST();
+    f32 get_motion_frame();
     void draw_with_alt_model(s32);
     void set_active();
     void init_float_params();

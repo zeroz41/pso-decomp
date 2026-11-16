@@ -1,6 +1,7 @@
 #include "types.h"
 #include "pso/unk/text_800F5BC0.h"
 #include "pso/system/memory.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 struct StripRef_800F5BC0 { s16 *strip; s16 *uv; };
 
@@ -8,7 +9,6 @@ struct Provider_800F5BC0 { s32 unk0; s32 count; StripRef_800F5BC0 *refs; };
 
 extern "C" {
 void scroll_strip_uvs(Provider_800F5BC0 *arg0, s16 arg1, s16 arg2);
-void mem_free(void *p);
 
 void scroll_strip_uvs(Provider_800F5BC0 *arg0, s16 arg1, s16 arg2) {
     s32 i;

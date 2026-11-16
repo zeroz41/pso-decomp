@@ -3,14 +3,14 @@
 
 #include "types.h"
 
-extern "C" {
 s32 enemy_name_for_rt_index(s32 arg0);
+extern "C" {
 void get_floor_destination_name(u32 arg0);
 }
 
 // --- C functions defined in TObjLuker_801329B0.cpp ---
-extern "C" {
 s32 enemy_name_for_rt_index(s32 arg0);
+extern "C" {
 void get_floor_destination_name(u32 arg0);
 }
 // --- end of C functions

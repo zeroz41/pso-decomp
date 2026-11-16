@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/render/ChunkMaterialState.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/technique/TTecZondeEff.h"
 #include "pso/render/MaterialColorFade.h"
 #include "pso/render/render_util.h"
@@ -14,9 +15,8 @@
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/map/FloorArea.h"
-#include "pso/system/task/TObject.h"
-#include "pso/technique/TTecZondeEff.h"
+#include "pso/player/TObjPlayer_80011014.h"
+
 
 #pragma readonly_strings on
 
@@ -49,15 +49,13 @@ struct Obj_8023D4A8 {
     f32 w[1];
 };
 
-struct Rec_8023D568 { f32 x, y, z; };
-
 struct Obj_8023D568 {
     u8 pad0[0x1C];
-    Rec_8023D568 a;
-    Rec_8023D568 d;
+    Vec a;
+    Vec d;
     f32 len;
     s32 count;
-    Rec_8023D568 pts[1];
+    Vec pts[1];
 };
 
 struct C_8023D7A0 { s32 v; };
@@ -66,14 +64,12 @@ struct B_8023D7A0 { u8 pad[0xc]; C_8023D7A0 *c; };
 
 struct E_8023D7A0 { u8 pad[8]; B_8023D7A0 *b; };
 
-struct V_8023D7A0 { f32 x, y, z; };
-
 struct Zonde_8023D7A0 {
     u8 pad0[0x38];
     s32 count;
-    V_8023D7A0 base[(0xD8 - 0x3C) / 12];
-    V_8023D7A0 pos[(0x174 - 0xD8) / 12];
-    V_8023D7A0 dir[(0x210 - 0x174) / 12];
+    Vec base[(0xD8 - 0x3C) / 12];
+    Vec pos[(0x174 - 0xD8) / 12];
+    Vec dir[(0x210 - 0x174) / 12];
     f32 w[(0x248 - 0x210) / 4];
     s32 timer;
     u32 power;
@@ -91,13 +87,6 @@ struct Zonde_8023D6B0 {
     s16 active;
 };
 
-struct Vec_8023D128
-{
-  f32 x;
-  f32 y;
-  f32 z;
-};
-
 struct Cam_8023D128
 {
   u8 pad0[8];
@@ -113,16 +102,9 @@ struct Obj_8023D128
   u8 pad0[0x38];
   s32 count;
   u8 pad3c[0xD8 - 0x3C];
-  Vec_8023D128 pts[16];
+  Vec pts[16];
   u8 pad198[0x244 - 0x198];
   f32 f244;
-};
-
-struct Vec_8023CED4
-{
-  f32 x;
-  f32 y;
-  f32 z;
 };
 
 struct Vtx_8023CED4
@@ -147,25 +129,22 @@ extern "C" {
 void __ct__7TObjectFP7TObject(void *, void *);
 extern RecoveredGlobal_8023D988___vt__12TTecZondeEff __vt__12TTecZondeEff;
 const char *TTecZondeEff_class_name = "TTecZondeEff";
-u8 *__ct__12TTecZondeEffFv(u8 *arg0, u8 *arg1, s32 arg2, s32 arg3, f32 farg0);
 extern P_8023DBB4 tec_zonde_effect_task_list;
 extern char lbl_804CC8C8[];
 s32 TTecZondeEff__beam_vertex_data;
 f32 rand_signed_unit();
-s32 is_split_screen(void);
-void spawn_particle_effect(Rec_8023D568 *, s32);
+void spawn_particle_effect(Vec *, s32);
 void restore_saved_depth_alpha_state();
 extern u32 saved_model_render_flags;
 extern u32 model_render_flags;
-void matrix_mult_vec(s32, Vec_8023D128 *, Vec_8023D128 *);
+void matrix_mult_vec(s32, Vec *, Vec *);
 extern Cam_8023D128 lbl_8058D4F8;
-s32 project_lightning_points(Obj_8023D128 *self, Vec_8023D128 *out, f32 *a, f32 *b);
-f32 newton_sqrtf(f32);
+s32 project_lightning_points(Obj_8023D128 *self, Vec *out, f32 *a, f32 *b);
+}
 void clear_zonde_beam_vertex_pointer(void);
-f32 fabs_float(f32);
+extern "C" {
 
-struct Vec_8023D294 { f32 x, y, z; };
-struct Obj_8023D294 { u8 pad[0x28]; Vec_8023D294 d; };
+struct Obj_8023D294 { u8 pad[0x28]; Vec d; };
 
 extern "C" {
 
@@ -174,15 +153,13 @@ extern "C" {
 #pragma fp_contract on
 typedef struct Cam_8023D128 Cam_8023D128;
 typedef struct Obj_8023D128 Obj_8023D128;
-typedef struct Vec_8023D128 Vec_8023D128;
 
 typedef struct Obj_8023CED4 Obj_8023CED4;
-typedef struct Vec_8023CED4 Vec_8023CED4;
 typedef struct Vtx_8023CED4 Vtx_8023CED4;
 #pragma fp_contract on
 s32 TTecZondeEff::build_lightning_strip(void *out_arg, void *pts_arg, f32 *widths, f32 *heights) {
     Vtx_8023CED4 *out = (Vtx_8023CED4 *)out_arg;
-    Vec_8023CED4 *pts = (Vec_8023CED4 *)pts_arg;
+    Vec *pts = (Vec *)pts_arg;
   f32 px;
   f32 py;
   f32 pz;
@@ -197,7 +174,7 @@ s32 TTecZondeEff::build_lightning_strip(void *out_arg, void *pts_arg, f32 *width
   f32 scale;
   u32 color;
   Vtx_8023CED4 *o;
-  Vec_8023CED4 *p;
+  Vec *p;
   s32 i;
   v = 0.0f;
   scale = 1.0f;
@@ -259,7 +236,7 @@ s32 TTecZondeEff::build_lightning_strip(void *out_arg, void *pts_arg, f32 *width
   return 1;
 }
 
-s32 project_lightning_points(Obj_8023D128 *self, Vec_8023D128 *out, f32 *a, f32 *b) {
+s32 project_lightning_points(Obj_8023D128 *self, Vec *out, f32 *a, f32 *b) {
   f32 sy0;
   f32 sx0;
   f32 cx;
@@ -271,7 +248,7 @@ s32 project_lightning_points(Obj_8023D128 *self, Vec_8023D128 *out, f32 *a, f32 
   cy = lbl_8058D4F8.cy;
   for (i = 0; i < self->count; i++)
   {
-    Vec_8023D128 v;
+    Vec v;
     f32 w;
     f32 sx;
     f32 sy;
@@ -300,7 +277,7 @@ s32 project_lightning_points(Obj_8023D128 *self, Vec_8023D128 *out, f32 *a, f32 
 void TTecZondeEff::calc_lightning_scatter_direction(s32 axis, void *arg2) {
     void *arg0 = (void *)this;
     Obj_8023D294 *o = (Obj_8023D294 *)arg0;
-    Vec_8023D294 *out = (Vec_8023D294 *)arg2;
+    Vec *out = (Vec *)arg2;
 
     switch (axis) {
     case 0: {
@@ -430,7 +407,7 @@ void TTecZondeEff::render() {
     model_render_flags = id | 0x10;
     TParticleCtrl::begin_effect_render();
     set_depth_buffer_settings_1();
-    if (project_lightning_points((Obj_8023D128 *)(self), (Vec_8023D128 *)(m70), (f32 *)m3c, (f32 *)m8) != 0 && ((TTecZondeEff *)self)->build_lightning_strip((Vtx_8023CED4 *)(verts), (Vec_8023CED4 *)(m70), (f32 *)m3c, (f32 *)m8) != 0) {
+    if (project_lightning_points((Obj_8023D128 *)(self), (Vec *)(m70), (f32 *)m3c, (f32 *)m8) != 0 && ((TTecZondeEff *)self)->build_lightning_strip((Vtx_8023CED4 *)(verts), (Vec *)(m70), (f32 *)m3c, (f32 *)m8) != 0) {
         set_additive_blend();
         ((TWindowDD *)verts)->draw_transformed_primitive(self->count * 2, TTecZondeEff__beam_vertex_data, 1);
         set_default_alpha_blend();
@@ -485,20 +462,18 @@ void TTecZondeEff::run_task() {
 
 TTecZondeEff::~TTecZondeEff() {}
 
-u8 *__ct__12TTecZondeEffFv(u8 *object, u8 *arg1, s32 arg2, s32 arg3, f32 farg0) {
-    __ct__7TObjectFP7TObject(object, arg1);
-    *(s32 **)((s8 *)object + 0x18) = &__vt__12TTecZondeEff.value;
-    *(const char **)((s8 *)object + 0) = TTecZondeEff_class_name;
-    *(f32 *)((s8 *)object + 0x244) = farg0;
-    *(s32 *)((s8 *)object + 0x254) = arg2;
-    *(s32 *)((s8 *)object + 0x258) = arg3;
-    *(s32 *)((s8 *)object + 0x250) = 0;
-    *(s16 *)((s8 *)object + 0x25C) = 0;
-    *(s32 *)((s8 *)object + 0x38) = 0xD;
-    *(s32 *)((s8 *)object + 0x248) = 0;
-    *(s32 *)((s8 *)object + 0x24C) = 0xFF000000;
-    *(s16 *)((s8 *)object + 0x25E) = 0;
-    return object;
+}
+TTecZondeEff::TTecZondeEff(TObject *arg1, s32 arg2, s32 arg3, f32 farg0) : TObject(arg1) {
+    this->m_name = TTecZondeEff_class_name;
+    *(f32 *)((s8 *)this + 0x244) = farg0;
+    *(s32 *)((s8 *)this + 0x254) = arg2;
+    *(s32 *)((s8 *)this + 0x258) = arg3;
+    *(s32 *)((s8 *)this + 0x250) = 0;
+    *(s16 *)((s8 *)this + 0x25C) = 0;
+    *(s32 *)((s8 *)this + 0x38) = 0xD;
+    *(s32 *)((s8 *)this + 0x248) = 0;
+    *(s32 *)((s8 *)this + 0x24C) = 0xFF000000;
+    *(s16 *)((s8 *)this + 0x25E) = 0;
 }
 
 typedef char RecoveredGlobal_8023DADC___vt__12TTecZondeEff_size[sizeof(RecoveredGlobal_8023DADC___vt__12TTecZondeEff) == 0x18 ? 1 : -1];
@@ -518,7 +493,7 @@ u8 *TTecZonde::construct_bolt_effect(u8 *arg1, u8 *arg2, u8 *arg3, s32 arg4, s32
     *(s16 *)((s8 *)((u8 *)this) + 0x25C) = 0;
     *(s32 *)((s8 *)((u8 *)this) + 0x38) = 0xD;
     ((TTecZondeEff *)((u8 *)this))->init_bolt_points();
-    ((TTecZondeEff *)((Obj_8023D4A8 *)(this)))->randomize_bolt_jitter();
+    ((TTecZondeEff *)this)->randomize_bolt_jitter();
     *(s32 *)((s8 *)((u8 *)this) + 0x248) = 0;
     *(s32 *)((s8 *)((u8 *)this) + 0x24C) = 0xFF000000;
     *(s16 *)((s8 *)((u8 *)this) + 0x25E) = 0;
@@ -539,7 +514,7 @@ u8 *TTecZondeEff::construct(u8 *arg1, u8 *arg2, u8 *arg3, f32 farg0) {
     *(s16 *)((s8 *)((u8 *)this) + 0x25C) = 0;
     *(s32 *)((s8 *)((u8 *)this) + 0x38) = 0xD;
     this->init_bolt_points();
-    ((TTecZondeEff *)((Obj_8023D4A8 *)(this)))->randomize_bolt_jitter();
+    ((TTecZondeEff *)this)->randomize_bolt_jitter();
     *(s32 *)((s8 *)((u8 *)this) + 0x248) = 0;
     *(s32 *)((s8 *)((u8 *)this) + 0x24C) = 0xFF000000;
     *(s16 *)((s8 *)((u8 *)this) + 0x25E) = 0;
@@ -553,6 +528,4 @@ void TTecZondeEff::init_resources() {
     tec_zonde_effect_task_list.vt = lbl_804CC8C8;
     tec_zonde_effect_task_list.n = 0x10;
     TTecZondeEff__beam_vertex_data = shared_effect_texture_list.entries[16].texture->surface->id;
-}
-
 }

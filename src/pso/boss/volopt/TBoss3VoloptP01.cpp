@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/boss/volopt/TBoss3VoloptCore.h"
 #include "pso/boss/volopt/TBoss3VoloptP01.h"
@@ -112,11 +113,11 @@ int TObjPlayer::construct_target_cursor_records() {
     TargetCursorList *list = (TargetCursorList *)this;
 
     __construct_array(list->records, (void *)fn_8004438C, NULL, sizeof(TargetCursorRecord), 11);
-    fn_80044330(list);
+    clear_target_cursor_list(list);
     return (int)list;
 }
 
-void fn_80044330(TargetCursorList *list) {
+void clear_target_cursor_list(TargetCursorList *list) {
     list->count = 0;
 }
 
@@ -138,7 +139,7 @@ TBoss3VoloptP01::TBoss3VoloptP01(TBoss3Volopt *parent, s32 index, u16 id, s32 an
     entity_id = id;
     *(s16 *)&set_index = angle_param;
     set_entry = NULL;
-    *(s16 *)&room = *(s16 *)&parent->room;
+    *(s16 *)&room = parent->room;
     *((s16 *)&room + 1) = *((s16 *)&parent->room + 1);
     init_params();
     angle = (s32)(182.04445f * (f32)(index * 60));
@@ -318,7 +319,7 @@ void TBoss3VoloptP01::update_state() {
                 m_388 = flags & ~1;
                 sub_80042F84();
             } else {
-                play_sound_effect(0x4003A810, &position, 0xA, 0);
+                play_sound_effect(0x4003A810, (Vec *)(&position), 0xA, 0);
                 state = 2;
             }
         } else {
@@ -335,7 +336,7 @@ void TBoss3VoloptP01::update_state() {
                     m_388 = flags & ~1;
                     sub_80042F84();
                 } else {
-                    play_sound_effect(0x4003A810, &position, 0xA, 0);
+                    play_sound_effect(0x4003A810, (Vec *)(&position), 0xA, 0);
                     state = 2;
                 }
             }
@@ -379,7 +380,7 @@ void TBoss3VoloptP01::update_breakup() {
             TBoss3Volopt::create_breakup_mdl((s32)TBoss3VoloptP01__breakup_model, (s32)&volopt_p01_breakup_params, texlist, (s32)&m_2fc, rotation_y);
             ((TObjPlayer *)&m_2fc)->trigger_dell_biter_events();
             m_388 |= 0x40000;
-            play_sound_effect(0x4003AD07, &position, 0, 0);
+            play_sound_effect(0x4003AD07, (Vec *)(&position), 0, 0);
             state = 2;
             actorFlags &= ~0x800;
         }
@@ -528,7 +529,7 @@ void TBoss3VoloptP01::update_attack() {
     case 1:
         set_flags_30();
         if (--*(s16 *)&timer <= 0) {
-            play_sound_effect(0x4003A306, &position, 0xA, 0);
+            play_sound_effect(0x4003A306, (Vec *)(&position), 0xA, 0);
             state = 2;
         }
         break;
@@ -562,7 +563,7 @@ void TBoss3VoloptP01::update_attack() {
         state = 5;
     }
     case 5:
-        play_persistent_sound(0x4002B51E, (s32)this, &position, 0, 0);
+        play_persistent_sound(0x4002B51E, (s32)this, (Vec *)(&position), 0, 0);
         if (--attack_timer <= 0) {
             if (charge_effect != NULL) {
                 charge_effect->queue_destruction();
@@ -608,7 +609,7 @@ void TBoss3VoloptP01::update_attack() {
         break;
     case 10:
         set_flags_30();
-        play_sound_effect(0x4003A810, &position, 0xA, 0);
+        play_sound_effect(0x4003A810, (Vec *)(&position), 0xA, 0);
         state = 0xB;
     case 11:
         set_flags_30();
@@ -683,7 +684,7 @@ s32 TBoss3VoloptP01::update_sink() {
 
 void TBoss3VoloptP01::sub_80042F84() {
     if (obj_testFlags30(0x04000800) == 0) {
-        ((TObjEnemyCustom *)this)->update_if_active(9);
+        this->update_if_active(9);
     }
 }
 
@@ -729,7 +730,7 @@ void TBoss3VoloptP01::push_nearby_players() {
 void TBoss3VoloptP01::set_primary(s32 primary) {
     if (obj_testFlags30(0x800) == 0) {
         m_388 &= ~1;
-        ((TObjEnemyCustom *)this)->update_if_active(2);
+        this->update_if_active(2);
         is_primary = primary;
     }
 }
@@ -793,7 +794,7 @@ s32 TBoss3VoloptP01::fire_zonde_at_players() {
                 packet.send();
             }
         }
-        play_sound_effect(0x4002A509, NULL, 0, 0);
+        play_sound_effect(0x4002A509, (Vec *)(NULL), 0, 0);
     }
     return n;
 }
@@ -810,7 +811,7 @@ void TBoss3VoloptP01::cast_tech_on_players() {
     get_node_position(12, &pos);
     switch (volopt_p01_tech) {
     case 0:
-        fn_80044330(&targets);
+        clear_target_cursor_list(&targets);
         n = 0;
         for (i = 0; i < registered_player_count; i++) {
             player = TObjPlayer::get_player_data(i);

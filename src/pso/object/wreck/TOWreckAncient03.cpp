@@ -5,14 +5,12 @@
 
 #pragma readonly_strings on
 
-extern "C" {
 
 void *TOWreckAncient03__create(void *set_data) {
     return new TOWreckAncient03(set_data);
 }
 
 
-}
 TOWreckAncient03::~TOWreckAncient03() {
 
 }

@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/ui/chat/TWindowSubShortMail_80131AA4.h"
 #include "pso/ui/chat/TWindowSubShortMail.h"
 #include "pso/unk/text_80131ADC.h"
 #include "pso/ui/window/TWindowBase.h"

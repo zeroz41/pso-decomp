@@ -8,14 +8,11 @@
 #include "pso/system/task/TMainTask.h"
 #include <stdlib.h>
 
-extern "C" {
-
 
 s32 TObjPlayer::is_rand_below_threshold() {
     return (u32)__cntlzw(((3.0517578e-05f * (f32) rand()) < 0.3f)) >> 5;
 }
 
-}
 
 struct Obj_8012AFF8 {
     u8 pad0[0xF4];
@@ -69,5 +66,5 @@ u8 *TObjPlayer::create_obj_8012B140(u8 *item) {
 
 TUnk_804A4C78::~TUnk_804A4C78() {}
 
-void TUnk_804A4C78::sub_8012B1F0(s16 v) { *(s16*)((char*)this + 0x1e8) = v; }
-s16 TUnk_804A4C78::sub_8012B1F8() { return *(s16*)((char*)this + 0x1e8); }
+void TUnk_804A4C78::sub_8012B1F0(s16 v) { this->photon_color_id = v; }
+s16 TUnk_804A4C78::sub_8012B1F8() { return this->photon_color_id; }

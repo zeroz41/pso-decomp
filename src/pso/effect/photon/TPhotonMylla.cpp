@@ -1,4 +1,6 @@
 #include "pso/system/NinjaTypes.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
+#include "pso/unk/TUnk_804C3248.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "types.h"
@@ -8,9 +10,10 @@
 #include "pso/render/MaterialColorFade.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/map/FloorArea.h"
+#include "pso/system/MatrixStack.h"
 struct TPhotonYoulla;
 #include "pso/system/vector.h"
-#include "pso/unk/TUnk_804C3248.h"
+
 
 #include <stddef.h>
 #include <stddef.h>
@@ -51,30 +54,25 @@ struct RecoveredFields_801AD5D8_arg0 {
     s32 field_1A4;
 };
 
-struct Color_801AD4C0 { f32 a, r, g, b; };
-
-struct Vec_801AD4C0 { f32 x, y, z; };
-
 struct Self_801AD4C0 {
     u8 pad0[0x24];
     s32 f24;
     u8 pad1[0x38 - 0x28];
-    Vec_801AD4C0 pos;
+    Vec pos;
     u8 pad2[0x60 - 0x44];
     s32 f60;
     u8 pad3[0x14C - 0x64];
     s16 f14C;
     u8 pad4[0x184 - 0x14E];
-    Color_801AD4C0 color;
+    NJS_ARGB color;
     u8 pad5[0x1A0 - 0x194];
     s32 started;
 };
 
 #define F_801AD970(o, t, off) (*(t *)((u8 *)(o) + (off)))
-struct Vec_801AD970 { f32 x, y, z; };
 
 struct Pkt_801AD970 {
-    Vec_801AD970 pos;
+    Vec pos;
     u16 owner;
     s32 first;
     s32 more;
@@ -84,7 +82,7 @@ struct Pkt_801AD970 {
 };
 
 struct YPkt_801AD970 {
-    Vec_801AD970 pos;
+    Vec pos;
     u16 owner;
     s32 first;
     s32 more;
@@ -101,7 +99,7 @@ struct Mylla_801AD970 : VBase_801AD970 {
     virtual void m8(); virtual void m9(); virtual void m10(); virtual void m11();
     virtual void m12();
     u8 pad1C[0x38 - 0x1C];
-    Vec_801AD970 pos;
+    Vec pos;
 };
 
 struct Res_801AD970 { u8 pad[0xA8]; s32 fA8; s32 fAC; };
@@ -110,21 +108,21 @@ struct Game_801AD970 { u8 pad[0x42C]; Res_801AD970 *res; s32 f430; };
 
 extern "C" {
 u16 get_entity_id(void *);
-void *spawn_particle_effect(void *pos, s32 id);
+void *spawn_particle_effect(const void *pos, s32 id);
 void *find_entity_by_id(u16 id);
 u8 *TPhotonMagicSquare__ct(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0);
-s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
-s32 queue_photon_blast_hit(int, int, int, f32);
-s32 spawn_photon_blast_attachment_effects(void *, int);
+s32 play_persistent_sound(s32 id, s32 a1, Vec *, s32 a3, s32 flags);
+}
+void queue_photon_blast_hit(u32 identity, s32 kind, s32 allow_duplicate, f32 scale);
+extern "C" {
 s32 clear_render_context__10TObjPlayerFv(void *);
 s32 rotate_matrix_y(int, int);
-s32 push_matrix();
-s32 pop_matrix();
 void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
 void set_material_alpha_compare_reference(s32 reference);
 void set_chunk_material_override_pair(s32 arg0, s32 arg1);
-extern Color_801AD4C0 saved_model_draw_color;
-extern Color_801AD4C0 model_material_color;
+}
+extern NJS_ARGB saved_model_draw_color;
+extern NJS_ARGB model_material_color;
 extern s32 saved_model_render_flags;
 extern s32 saved_chunk_polygon_flags_and_mask;
 extern s32 saved_chunk_polygon_flags_or_mask;
@@ -132,6 +130,7 @@ extern s32 chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_and_mask;
 extern s32 model_render_flags;
 void spawn_photon_blast_opening_effects(s32 arg0, s32 arg1);
+extern "C" {
 void *__ct__13TUnk_804C3248Fv(void *arg0);
 void sub_801AD4A8__12TPhotonMyllaFv(void* a0);
 void TPhotonRainbow__ct(void *, void *, void *, s32);
@@ -222,7 +221,7 @@ void TPhotonMylla::run_task() {
         ((TUnk_804C3248 *)arg0)->begin_photon_summon_camera(3);
         ((RecoveredFields_801AD5D8_arg0 *)arg0)->field_1A4 = 0;
         ((TObjMotion *)arg0)->set_field_b8(0);
-        spawn_photon_blast_attachment_effects((void *) (arg0), 5);
+        ((TUnk_804C3248 *)arg0)->spawn_photon_blast_attachment_effects(5);
     }
     ((RecoveredFields_801AD5D8_arg0 *)arg0)->field_194 = (s16) ((RecoveredFields_801AD5D8_arg0 *)arg0)->field_B8;
     ((TUnk_804C3248 *)arg0)->update_state();
@@ -256,7 +255,7 @@ void TPhotonMylla::run_task() {
         stack.spC += 45.0f;
         spawn_particle_effect(&stack.sp8, 0x169);
         if (temp_r3_5 != NULL) {
-            queue_photon_blast_hit((int) (get_entity_id(temp_r3_5)), 5, 0, (f32) (((RecoveredFields_801AD5D8_arg0 *)arg0)->field_150));
+            queue_photon_blast_hit((get_entity_id(temp_r3_5)), 5, 0, (f32) (((RecoveredFields_801AD5D8_arg0 *)arg0)->field_150));
         }
     }
     if ((f32) ((RecoveredFields_801AD5D8_arg0 *)arg0)->field_1A4 > 116.0f) {
@@ -266,7 +265,7 @@ void TPhotonMylla::run_task() {
         }
     }
     if ((s32) ((RecoveredFields_801AD5D8_arg0 *)arg0)->field_1A0 != 0) {
-        play_persistent_sound(0x4002462F, (s32)arg0, (u32)(0U), 0, 0);
+        play_persistent_sound(0x4002462F, (s32)arg0, (Vec *)((u32)(0U)), 0, 0);
     }
 }
 #pragma pop
@@ -282,7 +281,7 @@ TObjMotionAction photon_mylla_action_table[2] = {
 };
 
 void *TPhotonMylla__ct(Mylla_801AD970 *self, Pkt_801AD970 *pkt) {
-    Vec_801AD970 v;
+    Vec v;
     u8 *o;
     u8 *owner;
     __ct__13TUnk_804C3248Fv(self);
@@ -363,7 +362,7 @@ void *TPhotonMylla__ct(Mylla_801AD970 *self, Pkt_801AD970 *pkt) {
         if (o != NULL) {
             TPhotonMagicSquare__ct((u8 *)o, (s32)self, 5, (s32)&v, 0xAA, 0.5f);
         }
-        spawn_photon_blast_attachment_effects(self, 5);
+        ((TUnk_804C3248 *)self)->spawn_photon_blast_attachment_effects(5);
         play_cue_stream_file((s32)"maila2.adx");
     } else {
         spawn_photon_blast_opening_effects(5, F_801AD970(self, u16, 0x17C));
@@ -377,5 +376,4 @@ int lbl_805D5D50;
 void TObjPlayer__sub_801ADC6C(void) { lbl_805D5D50 = 0; }
 
 void TObjPlayer__sub_801ADC78(void) {  }
-
 }

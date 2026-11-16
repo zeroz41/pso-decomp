@@ -3,13 +3,12 @@
 #include "pso/unk/text_8010F168.h"
 #include "pso/system/memory.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 extern "C" {
 
-void *mem_alloc(u32 size);
 s32 fn_8010F018();
 s32 fn_8010F0C0(void *);
-void mem_free(void *p);
 
 void *TItemDrop__sub_8010F168(void *arg0, s16 arg1) {
     if (arg0 != NULL) {

@@ -1,4 +1,5 @@
 #include "pso/system/NinjaTypes.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/item/mag/TItemMag.h"
 
@@ -515,7 +516,7 @@ void TItemMag::on_equip() {
     if (owner_watch.area == -1) {
         owner_watch.area = get_current_floor_area();
     }
-    owner_watch.hp = get_actor_hp(owner);
+    owner_watch.hp = ((TObjChara *)owner)->get_actor_hp();
     owner_watch.tp = get_actor_tp(owner);
     if (test_flags_any(&effect_flags.bits, 1) != 0) {
         state &= ~MAG_INACTIVE;
@@ -523,7 +524,7 @@ void TItemMag::on_equip() {
         state |= MAG_INACTIVE;
     }
     if (is_hidden() == 0 && owner->is_in_fixed_pose() == 0) {
-        play_sound_effect(0x4000B20A, &owner->position, 0, 0);
+        play_sound_effect(0x4000B20A, (Vec *)(&owner->position), 0, 0);
     }
 }
 
@@ -697,7 +698,7 @@ void TItemMag::update_resta_action() {
 
     frames = action_frames;
     if (frames == 90) {
-        if (get_actor_hp(owner) > 0) {
+        if (((TObjChara *)owner)->get_actor_hp() > 0) {
             cast_support_technique(15);
         }
     } else if (frames > 90) {
@@ -922,7 +923,7 @@ s32 TItemMag::feed(TItemData *food) {
                 spawn_particle_effect(&pos, 0x9B);
             }
         }
-        play_sound_effect(0x5B211, &owner->position, 0, 0);
+        play_sound_effect(0x5B211, (Vec *)(&owner->position), 0, 0);
     }
     return apply_feed(&change);
 }
@@ -938,7 +939,7 @@ s8 TItemMag::collect_owner_events() {
         return 0;
     }
     loss = 0;
-    hp = get_actor_hp(owner);
+    hp = ((TObjChara *)owner)->get_actor_hp();
     max_hp = ((TItemProShield *)owner)->get_field_2b8();
     events = 0;
     if (owner_watch.hp != hp) {
@@ -1080,7 +1081,7 @@ void TItemMag::on_form_changed() {
         register_photon_blasts();
     }
     if (is_hidden() == 0) {
-        play_sound_effect(0x4000B20A, &owner->position, 0, 0);
+        play_sound_effect(0x4000B20A, (Vec *)(&owner->position), 0, 0);
     }
     load_param_record();
 }
@@ -1771,7 +1772,7 @@ void TItemMag::load_param_record() {
 s32 TItemMag::can_perform_action(s32 action) {
     s16 hp;
 
-    hp = get_actor_hp(owner);
+    hp = ((TObjChara *)owner)->get_actor_hp();
     if (action == MAG_ACTION_REVERSER) {
         if (hp != 0) {
             return 0;

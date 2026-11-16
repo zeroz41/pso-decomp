@@ -24,29 +24,20 @@ void sub_802443B4__15TWindowAdditionFv(void *, void *);
 void construct_base__9TWindowDDFPUcsPUc(void *);
 void __dl__7TObjectFPv(void *);
 
-extern s32 lbl_804CDFE8[];
+extern s32 __vt__15TWindowAddition[];
 
-void *TWindowAddition::destroy_window(s16 arg1) {
-    if (this != NULL) {
-        *(s32 **)((s8 *)this + 0x18) = lbl_804CDFE8;
-        ((TWindowDD *)this)->destroy_window_base(0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(this);
-        }
-    }
-    return this;
-}
+TWindowAddition::~TWindowAddition() {}
 
 void *TWindowAddition::construct_with_parent(void *arg1) {
     construct_base__9TWindowDDFPUcsPUc(this);
-    *(s32 **)((s8 *)this + 0x18) = lbl_804CDFE8;
+    *(s32 **)((s8 *)this + 0x18) = __vt__15TWindowAddition;
     sub_802443B4__15TWindowAdditionFv(this, arg1);
     return this;
 }
 void TWindowSubStatusDisp::set_count_ratio_text(s32 arg1, s32 arg2) {
     s32 arg0 = (s32)this;
     text_builder_reset();
-    text_builder_append((u8 *)(TQuestVmDownLoadServer__sub_8006EF6C(0x67)));
+    text_builder_append((u8 *)(get_message_text(0x67)));
     append_text_space();
     append_padded_number((arg1), (2U));
     text_builder_append((u8 *)"/");
@@ -55,10 +46,6 @@ void TWindowSubStatusDisp::set_count_ratio_text(s32 arg1, s32 arg2) {
     TWindowSubStatusDisp__count_ratio_value = arg1;
 }
 
-}
-
-
-extern "C" {
 s32 __nw__7TObjectFUl(int);
 u8 *get_title_entry__11TWindowRoomFv(s32);
 void fn_8024450C(s32 arg0) {
@@ -108,14 +95,10 @@ s32 create_window_area(void) {
 #pragma pop
 
 
-struct RecoveredGlobal_8024470C___vt__11TWindowArea { s32 value; u8 remaining[0x14]; };
-typedef char RecoveredGlobal_8024470C___vt__11TWindowArea_size[sizeof(RecoveredGlobal_8024470C___vt__11TWindowArea) == 0x18 ? 1 : -1];
-
 extern "C" {
 u8 * get_window_layout_position(s32);
 u8 * __ct__11TWindowRoomFPc(void *, s32);
 extern s32 __vt__11TWindowArea[];
-void __dl__7TObjectFPv(void *);
 
 void TWindowArea::run_task() { ((TWindowDD *)this)->initialize_subwindow(); ((TWindowBase *)this)->update_window_entry_list((char*)this + 0x24); }
 
@@ -137,9 +120,9 @@ u8 *TWindowArea__ct(u8 *window_room) {
     window_layout_position = NULL;
     var_r31 = window_room;
     __ct__11TWindowRoomFPc(window_room, 0);
-    window_layout_position = (s32 *)(&(*(RecoveredGlobal_8024470C___vt__11TWindowArea *)&__vt__11TWindowArea).value);
+    window_layout_position = (s32 *)&__vt__11TWindowArea;
     var_r3 = (u8 *)((void *)0x25);
-    *(s32 **)((s8 *)var_r31 + 0x18) = &(*(RecoveredGlobal_8024470C___vt__11TWindowArea *)&__vt__11TWindowArea).value;
+    *(s32 **)((s8 *)var_r31 + 0x18) = __vt__11TWindowArea;
     *(s32 *)((s8 *)var_r31 + 0) = (s32) TWindowArea__name;
     var_r3 = (var_r31 + 0x40);
     window_layout_position = (s32 *)(get_window_layout_position(0x25));

@@ -4,7 +4,7 @@
 #include "pso/effect/particle/ParticleRadial.h"
 #include "pso/system/scene/TEndingAB.h"
 #include "pso/system/scene/TEndingC_8008D00C.h"
-#include "pso/system/task/TMainTask_80104C40.h"
+#include "pso/system/task/TMainTask.h"
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
 #include "pso/ui/city/THunterGuildSeqOffline.h"
 #include "pso/unk/TLobby.h"
@@ -16,7 +16,7 @@ void TAdRicoRingCtrl__sub_8001B4A0(TAdRicoRingCtrl *, f32);
 s32 get_end_text_font_loaded_flag();
 u32 __cvt_fp2unsigned(f32);
 int TKeyBoardControl__sub_8000F828(void);
-u8 *__ct__10TEndingPicFv(u8 *arg0, u8 *arg1);
+u8 *__ct__10TEndingPicFP7TObject(u8 *arg0, u8 *arg1);
 u8 *TAdRicoRingCtrl__ct(TAdRicoRingCtrl *arg0, s32 arg1);
 extern u32 ending_frame_counter;
 extern s32 ending_scene_active;
@@ -68,16 +68,16 @@ TEnding::~TEnding() {
 TEnding::TEnding() : TObject(tl_window) {
     m_name = TEnding__class_name;
     TEnding__sub_8008C9F8();
-    cleanup_game_objects__9TMainTaskFv();
+    TMainTask::cleanup_game_objects();
     set_current_floor_area(1);
     switch (TKeyBoardControl__sub_8000F828()) {
     case 0: timing_rate = 30; break;
     case 1: timing_rate = 25; break;
     }
     void *picture = TObject::operator new(0xF0);
-    if (picture != NULL) __ct__10TEndingPicFv((u8 *)picture, (u8 *)tl_01);
+    if (picture != NULL) __ct__10TEndingPicFP7TObject((u8 *)picture, (u8 *)tl_01);
     void *first = TObject::operator new(0xF0);
-    if (first != NULL) __ct__9TEndingABFv((u8 *)first, (u8 *)this);
+    if (first != NULL) __ct__9TEndingABFP7TObject((u8 *)first, (u8 *)this);
     void *second = TObject::operator new(0x9C);
     if (second != NULL) __ct__8TEndingCFv((u8 *)second, (u8 *)this);
     ending_frame_counter = 0;

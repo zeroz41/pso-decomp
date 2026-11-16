@@ -4,10 +4,10 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/ControllerInputState.h"
 #include "pso/unk/text_80086E28.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 
 extern "C" {
 int ansi_fp_abs(int x);
-s32 TWindowShortListCtrl__check_controller_button(ControllerInputContext *context, s32 button);
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(ControllerInputContext *context, s32 button);
 }
 

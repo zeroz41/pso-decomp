@@ -3,6 +3,8 @@
 // TObjFogCollision_Manager. Built with -inline deferred, so functions are written in reverse
 // address order (code is emitted last function first).
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
+#include "pso/object/base/TObjChara.h"
 #include "pso/math/FloatRounding.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/task/TObject.h"
@@ -32,11 +34,6 @@ const char *TObjFogCollision__name = "TObjFogCollision";
 const char *TObjFogCollisionSwitch__name = "TObjFogCollisionSwitch";
 const char *TObjFogCollisionPoison__name = "TObjFogCollisionPoison";
 
-struct RecoveredGlobal_80153FD0___vt__16TObjFogCollision {
-    s32 value;
-    u8 remaining[0x3C];
-};
-
 struct VBase_801537CC { char pad[0x18]; };
 
 struct VObj_801537CC : VBase_801537CC {
@@ -47,32 +44,14 @@ struct VObj_801537CC : VBase_801537CC {
 
 struct O_801538D4 { u8 pad[0x8C]; s32 v; };
 
-struct VBase_18_26a62c { char pad[0x18]; };
-
-struct VObj_18_26a62c : VBase_18_26a62c {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual s32 m8(f32, f32);
-};
-
 struct O_80153D98 { u8 pad[0x88]; s32 mode; };
 
 extern TObject *tl_05;
 
 extern "C" {
 
-s32 __ct__8TObjBaseFP7TObject(void *);
-extern s32 __vt__16TObjFogCollision[];
-u8 *TObjFogCollision__ct(u8 *fog_collision, void *parent, void *set);
+u8 *__ct__16TObjFogCollisionFP7TObjectPv(u8 *fog_collision, void *parent, void *set);
 void *TObjFogCollision__create(void *set);
-void __dl__7TObjectFPv(void *);
-void *__nw__7TObjectFUl(int);
 
 extern s32 __vt__22TObjFogCollisionPoison[];
 extern s32 __vt__22TObjFogCollisionSwitch[];
@@ -100,39 +79,25 @@ f32 horizontal_distance_squared(void *, s32);
 s32 get_player_by_client_id(u16);
 s32 is_split_screen();
 
-}
-
 // Function definitions in reverse address order (-inline deferred emits them reversed).
-
-extern "C" {
-
 void *TObjFogCollision__create(void *set) {
-    void *o = __nw__7TObjectFUl(0x98);
-    if (o != NULL) {
-        o = TObjFogCollision__ct((u8 *)o, tl_05, set);
-    }
+    void *o = (void *)new TObjFogCollision(tl_05, set);
     return o;
 }
 
-typedef char RecoveredGlobal_80153FD0___vt__16TObjFogCollision_size[sizeof(RecoveredGlobal_80153FD0___vt__16TObjFogCollision) == 0x40 ? 1 : -1];
-u8 *TObjFogCollision__ct(u8 *fog_collision, void *parent, void *set) {
-    __ct__8TObjBaseFP7TObject(fog_collision);
-    *(s32 **)((s8 *)fog_collision + 0x18) = &(*(RecoveredGlobal_80153FD0___vt__16TObjFogCollision *)&__vt__16TObjFogCollision).value;
-    ((TObject *)fog_collision)->m_name = TObjFogCollision__name;
-    ((TObjFogCollision *)(fog_collision))->apply_object_set_data(set);
-    ((TObjFogCollision *)fog_collision)->m_90 = 0;
-    ((TObjFogCollision *)fog_collision)->m_94 = 0;
-    ((TObject *)(fog_collision))->disallow_rendering();
-    return fog_collision;
 }
-
+TObjFogCollision::TObjFogCollision(TObject *parent, void *set) : TObjBase(parent) {
+    ((TObject *)this)->m_name = TObjFogCollision__name;
+    ((TObjFogCollision *)(((u8 *)this)))->apply_object_set_data(set);
+    this->m_90 = 0;
+    this->m_94 = 0;
+    ((TObject *)(((u8 *)this)))->disallow_rendering();
 }
 
 TObjFogCollision::~TObjFogCollision() {
 
 }
 
-extern "C" {
 
 int TObjFogCollision__sub_80153F70(void *self) { return 0; }
 int TObjFogCollision__sub_80153F68(void *self) { return 0; }
@@ -205,9 +170,8 @@ void TObjFogCollision::render() {
 }
 
 void TObjFogCollision::draw_volume() {
-    u8 *arg0 = (u8 *)this;
     f32 s;
-    if (((VObj_18_26a62c *)(arg0))->m8(1.5e+02f, this->scale.x) != 0) {
+    if (this->update_object_view_visibility(1.5e+02f, this->scale.x) != 0) {
         NJS_ARGB c0 = {0.7f, 0.5f, 0.5f, 0.5f};
         NJS_ARGB c3 = {0.2f, 0.5f, 0.5f, 0.5f};
         NJS_ARGB cd = {0.5f, 0.5f, 1.0f, 1.0f};
@@ -244,28 +208,26 @@ void TObjFogCollision::draw_volume() {
     }
 }
 
-void *TObjFogCollisionSwitch__create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0x98);
+void *TObjFogCollisionSwitch__create(void *set) {
+    void *o = TObject::operator new(0x98);
     if (o != NULL) {
-        o = TObjFogCollisionSwitch__ct(o, tl_05, arg0);
+        o = TObjFogCollisionSwitch__ct(o, tl_05, set);
     }
     return o;
 }
 
 void *TObjFogCollisionSwitch__ct(void *fog_collision_switch, void *parent, void *set) {
-    TObjFogCollision__ct((u8 *)fog_collision_switch, parent, set);
+    __ct__16TObjFogCollisionFP7TObjectPv((u8 *)fog_collision_switch, parent, set);
     *(s32 **)((s8 *)fog_collision_switch + 0x18) = __vt__22TObjFogCollisionSwitch;
     ((TObjFogCollisionSwitch *)fog_collision_switch)->m_name = TObjFogCollisionSwitch__name;
     return fog_collision_switch;
 }
 
-}
 
 TObjFogCollisionSwitch::~TObjFogCollisionSwitch() {
 
 }
 
-extern "C" {
 
 void TObjFogCollisionSwitch::vfunc_13(s32) {
     s32 temp_r0;
@@ -313,36 +275,34 @@ void TObjFogCollisionSwitch::vfunc_14() {
 }
 
 void *create__22TObjFogCollisionPoisonFPv(void *arg0) {
-    void *o = __nw__7TObjectFUl(0x9C);
+    void *o = TObject::operator new(0x9C);
     if (o != NULL) {
         o = TObjFogCollisionPoison__ct(o, tl_05, arg0);
     }
     return o;
 }
 
-void *TObjFogCollisionPoison__ct(void *arg0, void *arg1, void *arg2) {
+void *TObjFogCollisionPoison__ct(void *parent, void *arg1, void *set) {
     u16 i;
-    TObjFogCollisionSwitch__ct(arg0, arg1, arg2);
-    *(s32 **)((s8 *)arg0 + 0x18) = __vt__22TObjFogCollisionPoison;
-    ((TObject *)arg0)->m_name = TObjFogCollisionPoison__name;
-    ((VObj_801537CC *)arg0)->m11();
+    TObjFogCollisionSwitch__ct(parent, arg1, set);
+    *(s32 **)((s8 *)parent + 0x18) = __vt__22TObjFogCollisionPoison;
+    ((TObject *)parent)->m_name = TObjFogCollisionPoison__name;
+    ((VObj_801537CC *)parent)->m11();
     if (is_split_screen() != 0) {
         for (i = 0; i != 4; i++) {
-            new TUnk_804AF7B0((TObject *)arg0, i);
+            new TUnk_804AF7B0((TObject *)parent, i);
         }
     } else {
-        new TUnk_804AF7B0((TObject *)arg0, local_client_id);
+        new TUnk_804AF7B0((TObject *)parent, local_client_id);
     }
-    return arg0;
+    return parent;
 }
 
-}
 
 TObjFogCollisionPoison::~TObjFogCollisionPoison() {
 
 }
 
-extern "C" {
 
 void TObjFogCollisionPoison::vfunc_13(s32) {
     f32 var_f2;
@@ -375,7 +335,6 @@ void run_task__22TObjFogCollisionPoisonFv(void *self) {
     }
 }
 
-}
 
 // ---- poison area sounds, damage and the per-client fog managers ----
 
@@ -386,7 +345,6 @@ const char *TObjFogCollision_Manager__name = "TObjFogCollision_Manager";
 TObjFogCollision_Manager *TObjFogCollisionPoison__instances[12];
 
 extern "C" {
-s16 get_actor_hp(s32);
 s32 get_entity_id(s32);
 s32 is_valid_target__9TObjEneDDFv(s32);
 s32 send_6x2F_change_player_hp(s32, s32, s16);
@@ -433,7 +391,7 @@ void TObjFogCollisionPoison::apply_poison_damage(s32 arg1) {
     s16 v;
     p = get_player_by_client_id(arg1);
     if (is_valid_target__9TObjEneDDFv(p) != 0) {
-        v = get_actor_hp(p) - this->m_98;
+        v = ((TObjChara *)p)->get_actor_hp() - this->m_98;
         if (v < 0) {
             v = 0;
         }
@@ -442,10 +400,10 @@ void TObjFogCollisionPoison::apply_poison_damage(s32 arg1) {
 }
 
 u8 TObjFogCollisionPoison::check_switch() {
-    s32 temp_r31;
+    s32 switch_mode;
 
-    temp_r31 = get_switch_mode();
-    return (u8) (temp_r31 == is_current_floor_switch_set((u16) this->set_params[2]));
+    switch_mode = get_switch_mode();
+    return (u8) (switch_mode == is_current_floor_switch_set((u16) this->set_params[2]));
 }
 
 void TObjFogCollisionPoison::vfunc_14() {
@@ -497,12 +455,12 @@ void TObjFogCollision_Manager::record_hit(s32 level, s32 link) {
     }
 }
 
-void record_fog_collision_hit(s32 arg0, s32 arg1, s32 arg2) {
+void record_fog_collision_hit(s32 arg0, s32 level, s32 link) {
     TObjFogCollision_Manager *manager;
     if ((arg0 >= 0) && (arg0 < 0xC)) {
         manager = TObjFogCollisionPoison__instances[arg0];
         if (manager != 0) {
-            manager->record_hit(arg1, arg2);
+            manager->record_hit(level, link);
         }
     }
 }

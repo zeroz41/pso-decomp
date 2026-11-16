@@ -1,4 +1,5 @@
 #include "pso/item/drop/TItemDrop_800F93F0.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "types.h"
 #include "pso/item/armor/TItemProShield.h"
 #include "pso/item/TItemData.h"
@@ -28,9 +29,9 @@ extern "C" {
 // Defined in files that have no headers yet.
 void *lookup_item_pmt_record(u8 *item);
 s32 play_shield_sound_cue(ShieldSoundCue *cue);
-s32 add_actor_hp(TObjPlayer *actor, s16 amount);
-s32 add_actor_tp(TObjPlayer *actor, s32 amount);
-s16 obj_getS16_2BA(TObjPlayer *actor);
+s32 add_actor_hp(u8 *arg0, s16 arg1);
+s32 add_actor_tp(u8 *arg0, s32 arg1);
+s16 obj_getS16_2BA(u8 *p);
 void TObjPlayer__sub_8036414C(void);
 void TObjPlayer__sub_80364198(void);
 // The item file helpers (TItemDrop_800F93F0.cpp).
@@ -46,7 +47,7 @@ void init_item_timer_event__13TUnk_804A0648Fv(void *event, TItemHeapObject *pare
 void construct_timer_event__13TUnk_804A0628Fv(void *event, TItemHeapObject *parent, u16 client, s32 duration);
 // Called with the client unextended and the item index widened to int, as
 // this TU saw TItemEffShield::ct_init and the TUnk_8049F130 constructor.
-void ct_init__14TItemEffShieldFPUcs(void *effect, TItemHeapObject *parent, u16 client);
+void __ct__13TUnk_8049F148FP7TObjects(void *effect, TItemHeapObject *parent, u16 client);
 void __ct__13TUnk_8049F130FP7TObjectsUc(void *object, TItemHeapObject *parent, u16 client, int index);
 }
 
@@ -122,11 +123,11 @@ void TItemProShield::perform_action() {
         if (shield_flags & SHIELD_FLAG_BLOCK_RECOVERY) {
             switch (get_item_index()) {
             case 34:
-                add_actor_hp(owner, 0.05f * (f32)((TItemProShield *)owner)->get_field_2b8());
+                add_actor_hp((u8 *)owner, 0.05f * (f32)((TItemProShield *)owner)->get_field_2b8());
                 break;
             case 35:
-                add_actor_hp(owner, 0.05f * (f32)((TItemProShield *)owner)->get_field_2b8());
-                add_actor_tp(owner, (s32)(0.05f * (f32)obj_getS16_2BA(owner)));
+                add_actor_hp((u8 *)owner, 0.05f * (f32)((TItemProShield *)owner)->get_field_2b8());
+                add_actor_tp((u8 *)owner, (s32)(0.05f * (f32)obj_getS16_2BA((u8 *)owner)));
                 break;
             }
         }
@@ -137,7 +138,7 @@ void TItemProShield::on_equip() {
     u8 index;
     void *event;
     if (is_hidden() == 0) {
-        play_sound_effect(0x4000B20A, &owner->position, 0, 0);
+        play_sound_effect(0x4000B20A, (Vec *)(&owner->position), 0, 0);
     }
     if (effect_objects != NULL) {
         index = get_item_index();
@@ -158,7 +159,7 @@ void TItemProShield::on_equip() {
             if (effect_objects != NULL) {
                 event = TObject::operator new(0x2C);
                 if (event != NULL) {
-                    ct_init__14TItemEffShieldFPUcs(event, effect_objects, get_owner_client());
+                    __ct__13TUnk_8049F148FP7TObjects(event, effect_objects, get_owner_client());
                 }
             }
             break;

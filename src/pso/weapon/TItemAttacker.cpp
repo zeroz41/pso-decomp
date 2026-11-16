@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/weapon/TItemAttacker.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/system/vector.h"
 
 #include "types.h"
@@ -9,12 +10,12 @@
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/system/task/TObject.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 #pragma readonly_strings on
 
-extern "C" {
+
 const char *TItemAttacker__name = "TItemAttacker";
-}
 
 
 struct RecoveredGlobal_8010355C_lbl_8043E038 { char value[0xA]; };
@@ -25,18 +26,19 @@ struct Rec_80103368 { u8 pad[0x1C]; f32 v[3]; u8 pad2[0x2C - 0x28]; };
 struct M_80103368 { u8 pad[0xA4]; Rec_80103368 *recs; };
 
 extern "C" {
-void mem_free(void *p);
 extern s32 item_buffer_temp_mode;
 extern s32 item_buff_buffer;
 void TItemBuff__ct(void);
 extern const char *TItemAttacker__name;
 void TItemAttacker__sub_8010349C(u32 arg0);
+}
 int get_item_chunk_buffer(int a0);
+extern "C" {
 u8 *TItemTimer__ct(u8 *arg0, s32 arg1, s32 arg2, s32 arg3);
+}
 void deliver_delayed_weapon_hit(u8 *arg0);
+extern "C" {
 s32 __nw__7TObjectFUl(int);
-void *mem_alloc(u32 size);
-
 }
 
 struct AttackWeaponBase { char pad[0x18]; };
@@ -111,6 +113,7 @@ struct Tbl_801031CC { u8 pad[0x1c]; Rec_801031CC r[1]; };
 extern "C" {
 u8 *__ct__13TItemAttackerFllll(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
 f32 horizontal_distance_squared(void *, void *);
+}
 void deliver_delayed_weapon_hit(u8 *arg0) {
     u8 *temp_r3;
     u8 *temp_r30;
@@ -133,16 +136,15 @@ void deliver_delayed_weapon_hit(u8 *arg0) {
     }
     *(s32 *)((s8 *)arg0 + 0x34) = 1;
 }
-}
 void spawn_item_attacker(s32 arg0, u32 arg1, s32 arg2, u8 *arg3);
-void spawn_item_attacker(s32 arg0, u32 arg1, s32 arg2, u8 *arg3) {
+void spawn_item_attacker(s32 arg0, u32 arg1, s32 frames, u8 *arg3) {
     s32 object;
     if ((arg0 != 0) && (arg3 != NULL) && (arg1 != 0U) && ((u16) *(u16 *)((s8 *)arg3 + 0xC) != 65535U) && ((u16) *(u16 *)((s8 *)arg3 + 0xE) != 65535U)) {
         object = __nw__7TObjectFUl(0x50);
         if (object != 0) {
-            object = (s32)__ct__13TItemAttackerFllll((u8 *)object, (s32)arg0, (s32)arg1, (s32)arg2, (s32)arg3);
+            object = (s32)__ct__13TItemAttackerFllll((u8 *)object, (s32)arg0, (s32)arg1, (s32)frames, (s32)arg3);
         }
-        TItemAttacker::spawn_item_timer((TObject *)object, (ItemTimerCallback)TItemAttacker__sub_8010349C, arg2);
+        TItemAttacker::spawn_item_timer((TObject *)object, (ItemTimerCallback)TItemAttacker__sub_8010349C, frames);
     }
 }
 

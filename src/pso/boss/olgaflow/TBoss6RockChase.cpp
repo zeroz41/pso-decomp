@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/boss/olgaflow/TBoss6RockChase.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/render/GinjaMaterial.h"
@@ -16,11 +17,11 @@
 extern "C" void *__ct__14TObjCollidableFP7TObject(void *, s32);
 
 #include <stddef.h>
-#include "pso/boss/olgaflow/TBoss6RockChase.h"
+
 #include "pso/boss/olgaflow/TBoss6PlotFalz.h"
 #include "pso/unk/TLobby.h"
 #include "pso/object/ambient/TObjFish.h"
-#include "pso/player/TObjPlayer.h"
+
 struct Stack_8036D6D4 {
     s32 sp8;
     f32 spC;
@@ -31,12 +32,6 @@ struct RecoveredGlobal_8036D4E0_lbl_8047ACE8 {
     s32 value;
     u8 remaining[0xC];
 };
-
-struct RecoveredGlobal_8036D4E0___vt__15TBoss6RockChase {
-    s32 value;
-    u8 remaining[0x34];
-};
-
 
 struct Hit_8036D1B4 {
     s32 a;
@@ -107,7 +102,6 @@ int rotate_matrix_z(void*, void*);
 int rotate_matrix_x(void*, void*);
 int rotate_matrix_y(void*, void*);
 int push_matrix(void*);
-void __dl__7TObjectFPv(void *);
 
 #pragma push
 #pragma opt_propagation off
@@ -171,12 +165,12 @@ void TBoss6RockChase::run_task() {
             *(f32 *)((s8 *)arg0 + 0x3C) = 0.0f;
             *(f32 *)&this->_padB8 = 0.0f;
             damage_players_in_range();
-            play_sound_effect(0x4006B51E, &this->position, 0, 0);
+            play_sound_effect(0x4006B51E, (Vec *)(&this->position), 0, 0);
             spawn_particle_effect(((u8 *)&this->position), 0x220);
             spawn_particle_effect(((u8 *)&this->position), 0x222);
             TBoss6PlotFalz::apply_radial_effect_to_players((u8 *)&this->position, 0xC0, 0xF, 100.0f);
             ((TBoss6Rock *)(arg0 + 0x38))->spawn_crush_rocks(this->m_b0);
-            play_sound_effect(0x4006AB1F, &this->position, 0, 0);
+            play_sound_effect(0x4006AB1F, (Vec *)(&this->position), 0, 0);
             ((TObject *)arg0)->queue_destruction();
         }
     }
@@ -187,20 +181,19 @@ void TBoss6RockChase::run_task() {
 TBoss6RockChase::~TBoss6RockChase() {
 
 }
-extern "C" {
+
 
 #pragma push
 #pragma fp_contract on
 typedef char RecoveredGlobal_8036D4E0_lbl_8047ACE8_size[sizeof(RecoveredGlobal_8036D4E0_lbl_8047ACE8) == 0x10 ? 1 : -1];
-typedef char RecoveredGlobal_8036D4E0___vt__15TBoss6RockChase_size[sizeof(RecoveredGlobal_8036D4E0___vt__15TBoss6RockChase) == 0x38 ? 1 : -1];
 u8 *TBoss6RockChase__ct(TBoss6RockChase *boss6_rock_chase, s32 arg1, s32 arg2, s32 arg3) {
     __ct__14TObjCollidableFP7TObject(boss6_rock_chase, arg1);
-    *(s32 **)((s8 *)boss6_rock_chase + 0x18) = &(*(RecoveredGlobal_8036D4E0___vt__15TBoss6RockChase *)&__vt__15TBoss6RockChase).value;
+    *(s32 **)((s8 *)boss6_rock_chase + 0x18) = __vt__15TBoss6RockChase;
     *(s32 *)((s8 *)boss6_rock_chase + 0) = (s32) lbl_805D44F0;
     boss6_rock_chase->m_ac = arg1;
     boss6_rock_chase->m_b0 = arg3;
     boss6_rock_chase->m_b4 = (s32) (15.0f * (3.0517578e-05f * (f32) rand()));
-    *(s32 *)((s8 *)boss6_rock_chase + 0x5C) = (s32) (2048.0f * ((3.0517578e-05f * (f32) rand()) - 0.5f));
+    ((TBoss6RockChase *)boss6_rock_chase)->rotation_x = (s32) (2048.0f * ((3.0517578e-05f * (f32) rand()) - 0.5f));
     boss6_rock_chase->rotation_y = (s32) (65535.0f * (3.0517578e-05f * (f32) rand()));
     boss6_rock_chase->rotation_z = (s32) (2048.0f * ((3.0517578e-05f * (f32) rand()) - 0.5f));
     boss6_rock_chase->m_bc = (s32) (8192.0f * ((3.0517578e-05f * (f32) rand()) - 0.5f));
@@ -233,4 +226,3 @@ s32 TBoss6RockChase::spawn(s32 arg0, s32 arg1) {
     return var_r0;
 }
 
-}

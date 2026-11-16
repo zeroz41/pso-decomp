@@ -1,10 +1,11 @@
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/system/vector.h"
 #include "pso/object/base/TObjMotion.h"
 
 #include "pso/enemy/deldepth/DelDepthData.h"
 
-extern "C" {
+
 extern TObjMotionAction lbl_804E8194[];
 extern TObjMotionAction lbl_804E81F4[];
 extern const char lbl_80475BD8[] = "swim_body.nj";
@@ -44,4 +45,3 @@ u8 TObjEneDelDepth__state_complete_flag;
 f32 TObjEneDelDepth__animation_end_frame;
 u8 TObjEneDelDepth__animation_end_frame_initialized;
 
-}

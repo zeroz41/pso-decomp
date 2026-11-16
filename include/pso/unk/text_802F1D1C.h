@@ -3,8 +3,8 @@
 
 #include "types.h"
 
-extern "C" {
 void draw_tunnel_segment(u8 *arg0);
+extern "C" {
 void fn_802F1DAC(u8 *arg0);
 void fn_802F1E54(u8 *arg0);
 }

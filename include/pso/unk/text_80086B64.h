@@ -7,8 +7,6 @@
 class TParticleCtrl;
 struct ParticleAngles { s32 x, y, z; };
 
-extern "C" {
 TParticleCtrl *create_particle_controller_with_rotation(Vec *position, ParticleAngles *rotation, s32 id, s32 a, s32 b);
-}
 
 #endif

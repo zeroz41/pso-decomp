@@ -3,8 +3,6 @@
 
 #include "types.h"
 
-extern "C" {
 void request_chara_making_archives(void);
-}
 
 #endif

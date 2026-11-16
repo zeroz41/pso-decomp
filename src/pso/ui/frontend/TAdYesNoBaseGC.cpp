@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/frontend/TAdYesNoBaseGC.h"
 #include "pso/ui/window/TWindowSubComCard_80244774.h"
@@ -9,6 +10,7 @@
 
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/system/task/TObject.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 
 struct VBase_18 { char pad[0x18]; };
 struct VObj_18 : VBase_18 {
@@ -26,7 +28,6 @@ struct VObj_18 : VBase_18 {
 struct T_8032C118 { s32 a; s32 b; };
 
 extern "C" {
-s32 append_line__14TWindowMessageFii(int, void *, int);
 s32 update_window_mode_from_progress__6TLobbyFPv(void *, void *);
 void align_menu_entry_positions(s32);
 void update_layout_height__21TWindowSubComCardListFf(f32);
@@ -45,11 +46,9 @@ struct VtObj8032C1C8_8032C188 : VtBase8032C1C8_8032C188 {
 };
 
 void *TAdYesNoBaseGC__ct(TAdYesNoBaseGC *arg0);
-s32 TWindowShortListCtrl__check_controller_button(void *, s32);
 void *__ct__12TAdBackTxtGCFv(void *, void *);
 void __ct__7TObjectFP7TObject(void *);
 void *__ct__9TAdBackGCFv(void *, void *);
-void *__nw__7TObjectFUl(int);
 void copy_vec2__28TWindowSubSymbolChatPartsSetFPv(void *);
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, s32);
 
@@ -57,7 +56,7 @@ s32 TAdYesNoBaseGC::sub_8032C0B4() {
     u8 *arg0 = (u8 *)this;
     s32 temp_r31;
     temp_r31 = update_window_mode_from_progress__6TLobbyFPv((u8 *)&this->unk_30, (u8 *)&this->unk_38);
-    append_line__14TWindowMessageFii(temp_r31, (void *) (((VObj_18 *)(arg0))->m8()), 1);
+    ((TWindowMessage *)temp_r31)->append_line((int)((void *) (((VObj_18 *)(arg0))->m8())), (int)1);
     return temp_r31;
 }
 
@@ -164,11 +163,11 @@ void *TAdYesNoBaseGC__ct(TAdYesNoBaseGC *ad_yes_no_base_gc) {
     ad_yes_no_base_gc->m_2c = 1;
     ad_yes_no_base_gc->m_40 = 0;
     ad_yes_no_base_gc->m_44 = 0;
-    o = __nw__7TObjectFUl(0x24);
+    o = TObject::operator new(0x24);
     if (o != NULL) {
         __ct__9TAdBackGCFv(o, ad_yes_no_base_gc);
     }
-    o2 = __nw__7TObjectFUl(0x28);
+    o2 = TObject::operator new(0x28);
     if (o2 != NULL) {
         __ct__12TAdBackTxtGCFv(o2, ad_yes_no_base_gc);
     }

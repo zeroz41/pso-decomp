@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/player/TObjPlayer_80362E60.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/weapon/TItemWeapon.h"
@@ -96,23 +97,17 @@ struct Stack_80362FB4 {
     s32 sp10;
 };
 
-struct RecoveredGlobal_80362FB4_lbl_80479FC8 {
-    s32 value;
-    u8 remaining[0xC];
-};
-
 extern "C" {
 s16 get_validated_attack_stage(u8 *arg0);
-u8 *__nw__5TItemFUl(s32);
-u8 *TObjPlayer__sub_803630F0(u8 *arg0);
 s32 rotate_matrix_x(int, int);
 s32 push_matrix();
 s32 pop_matrix();
 f32 post_translate_matrix(void *);
-extern RecoveredGlobal_80362FB4_lbl_80479FC8 lbl_80479FC8;
+struct RecoveredGlobal_lbl_80479FC8 { s32 value; u8 remaining[0xC]; };
+extern RecoveredGlobal_lbl_80479FC8 lbl_80479FC8;
 
 void TUnk_804F27E0::update_weapon() {
-    if (((TItemWeapon *)this)->get_attack_stage() == 2) {
+    if (this->get_attack_stage() == 2) {
         (*(s32 *)((u8 *)this + 0x1FC)) = (s32) ((*(s32 *)((u8 *)this + 0x1FC)) | 1);
         return;
     }
@@ -131,16 +126,15 @@ void TUnk_804F27E0::emit_marker_effects() {
     s32 sp8;
     ((VObj_18_f1aa6a *)(this->owner))->m63(0x30, &sp8);
     if (get_validated_attack_stage(*(u8 * *)&this->owner + 0x7CC) == 2) {
-        ((TItemWeapon *)arg0)->fire_shot_at_target((void *)(&sp8), (void *)(*(s32 *)((s8 *)arg0 + 0xF4)), 0);
-        ((TItemWeapon *)arg0)->fire_shot_at_target((void *)(&sp8), (void *)(*(s32 *)((s8 *)arg0 + 0xF4)), 0x1555);
-        ((TItemWeapon *)arg0)->fire_shot_at_target((void *)(&sp8), (void *)(*(s32 *)((s8 *)arg0 + 0xF4)), -0x1555);
+        ((TItemWeapon *)arg0)->fire_shot_at_target(&sp8, (void *)(*(s32 *)((s8 *)arg0 + 0xF4)), 0);
+        ((TItemWeapon *)arg0)->fire_shot_at_target(&sp8, (void *)(*(s32 *)((s8 *)arg0 + 0xF4)), 0x1555);
+        ((TItemWeapon *)arg0)->fire_shot_at_target(&sp8, (void *)(*(s32 *)((s8 *)arg0 + 0xF4)), -0x1555);
     } else {
-        ((TItemWeapon *)arg0)->fire_shot_at_target((void *)(&sp8), (void *)(*(s32 *)((s8 *)arg0 + 0xF4)), 0);
+        ((TItemWeapon *)arg0)->fire_shot_at_target(&sp8, (void *)(*(s32 *)((s8 *)arg0 + 0xF4)), 0);
     }
     TObjPlayer::create_cane_if_ready((s32)arg0, (void *)((void *)&sp8));
 }
 
-typedef char RecoveredGlobal_80362FB4_lbl_80479FC8_size[sizeof(RecoveredGlobal_80362FB4_lbl_80479FC8) == 0x10 ? 1 : -1];
 void TUnk_804F27E0::vfunc_60() {
     typedef char sp8_offset[(offsetof(Stack_80362FB4, sp8) == 0x0) ? 1 : -1];
     typedef char spC_offset[(offsetof(Stack_80362FB4, spC) == 0x4) ? 1 : -1];
@@ -155,11 +149,11 @@ void TUnk_804F27E0::vfunc_60() {
         if (*(s32 *)((s8 *)((u8 *)this) + 0x1FC) & 1) {
             push_matrix();
             rotate_matrix_x(0, 0x2AAA);
-            ((TItem *)((u8 *)this))->draw_model();
+            this->draw_model();
             pop_matrix();
             push_matrix();
             rotate_matrix_x(0, -0x2AAA);
-            ((TItem *)((u8 *)this))->draw_model();
+            this->draw_model();
             pop_matrix();
         }
     }
@@ -176,9 +170,9 @@ TUnk_804F27E0::TUnk_804F27E0(TObject *parent, u8 *item) : TUnk_804A4948(parent, 
     set_weapon_flags(3);
     pad_1fc = 0;
 }
-u8 *TObjPlayer__sub_803630F0(u8 *arg0) {
-    if (arg0 != NULL) {
-        return (u8 *)new TUnk_804F27E0(tl_05, arg0);
+u8 *TObjPlayer__sub_803630F0(u8 *item) {
+    if (item != NULL) {
+        return (u8 *)new TUnk_804F27E0(tl_05, item);
     }
     return NULL;
 }

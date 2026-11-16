@@ -1,5 +1,6 @@
 #pragma readonly_strings on
 #include "pso/effect/TEffect.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/unk/TLobby.h"
 #include "pso/render/GinjaTexture.h"

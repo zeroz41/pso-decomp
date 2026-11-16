@@ -1,4 +1,5 @@
 #include "pso/boss/TUnk_80484A94.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
@@ -20,10 +21,11 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/math/MatrixVector.h"
+#include "pso/system/MatrixStack.h"
 
 extern "C" {
-void play_persistent_sound(s32 id, void *owner, const Vec *pos, s32 a3, s32 flags);
-s32 obj_is_hit_receivable(TObjChara *actor);
+s32 play_persistent_sound(s32 id, s32 a1, Vec *, s32 a3, s32 flags);
+s32 obj_is_hit_receivable(u8 *arg0);
 u16 get_entity_id(TObject *object);
 extern GC_Mtx identity_matrix;
 }
@@ -39,14 +41,14 @@ s32 TUnk_80484A94::try_capture_target() {
     TObjChara *target;
     TObject *owner;
     TObjPlayer::init_all_slots();
-    ((TObjPlayer *)this)->check_object_collisions();
+    this->check_object_collisions();
     if (bodies->flags & 0x80000) {
         for (i = 0; i < 16; i++) {
             target = (TObjChara *)TObjPlayer::get_battle_param(i);
             if (target == NULL) {
                 break;
             }
-            if (obj_is_hit_receivable(target) != 0) {
+            if (obj_is_hit_receivable((u8 *)target) != 0) {
                 DirectAttackPayload hit = {0, 0.0f};
                 target->receive_direct_attack(m_up, hit, NULL, -1, -1);
                 owner = m_up;
@@ -94,7 +96,7 @@ void TUnk_80484A94::run_task() {
         queue_destruction();
         return;
     }
-    play_persistent_sound(0x4003C11D, this, &position, 0, 0);
+    play_persistent_sound((s32)(0x4003C11D), (s32)this, (Vec *)((u32)&position), (s32)(0), (s32)(0));
 }
 
 TUnk_80484A94::~TUnk_80484A94() {

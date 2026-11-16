@@ -1,17 +1,14 @@
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80259DB0.h"
 #include "pso/ui/window/TWindowSubStatusDisp_802598E4.h"
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
 #include "pso/system/memory.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 
-struct RecoveredGlobal_8025A0A4_lbl_804CF9E0 {
-    s32 value;
-    u8 remaining[0x14];
-};
-
 extern "C" {
 f32 fabs_float(f32, f32);
-s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
+s32 play_persistent_sound(s32 id, s32 a1, Vec *, s32 a3, s32 flags);
 }
 extern s32 lbl_804CF9E0[];
 
@@ -77,7 +74,7 @@ void TWindowSubStatusDisp::update_pb_counter_approach() {
     f32 temp_f30;
     if (*(f32 *)((s8 *)((u8 *)this) + 0x28) != *(f32 *)((s8 *)((u8 *)this) + 0x24)) {
         if (*(u16 *)((s8 *)((u8 *)this) + 0) & 8) {
-            play_persistent_sound(0x44E03, (s32)this, 0, 0, 0);
+            play_persistent_sound(0x44E03, (s32)this, (Vec *)(0), 0, 0);
         }
         temp_f2 = *(f32 *)((s8 *)((u8 *)this) + 0x28);
         temp_f30 = temp_f2 - *(f32 *)((s8 *)((u8 *)this) + 0x24);
@@ -101,11 +98,10 @@ void *TWindowSubStatusDisp__sub_8025A04C(void *window_sub_status_disp, s16 arg1)
     }
     return window_sub_status_disp;
 }
-typedef char RecoveredGlobal_8025A0A4_lbl_804CF9E0_size[sizeof(RecoveredGlobal_8025A0A4_lbl_804CF9E0) == 0x18 ? 1 : -1];
 u8 *TWindowSubStatusDisp::init_layout_entry_scaled(u8 *arg1, s32 arg2) {
     u8 *arg0 = (u8 *)this;
     TWindowSubStatusDisp__sub_80259D3C(arg0, arg1, arg2);
-    *(s32 **)((s8 *)arg0 + 4) = &(*(RecoveredGlobal_8025A0A4_lbl_804CF9E0 *)&lbl_804CF9E0).value;
+    *(s32 **)((s8 *)arg0 + 4) = lbl_804CF9E0;
     *(f32 *)((s8 *)arg0 + 0x28) = (f32) *(s32 *)((s8 *)arg0 + 0x20);
     *(f32 *)((s8 *)arg0 + 0x24) = (f32) *(s32 *)((s8 *)arg0 + 0x20);
     *(f32 *)((s8 *)arg0 + 0x2C) = 0.0f;

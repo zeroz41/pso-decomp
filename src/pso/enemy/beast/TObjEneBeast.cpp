@@ -1,14 +1,23 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/unk/SampledMotionPoints.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
+#include "pso/enemy/TObjEnemy.h"
+#include "pso/enemy/TObjEnemyCustom.h"
+#include "pso/enemy/TUnk_80493450.h"
+#include "pso/enemy/balclaw/TObjEneBalClaw.h"
+#include "pso/enemy/balclaw/TObjEneBalClawClaw.h"
+#include "pso/enemy/beast/TObjEneBeast.h"
+#include "pso/object/base/TObjChara.h"
+#include "pso/object/base/TObjMotion.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
+extern "C" void render__12TObjEneBeastFv();
+
 #include "pso/effect/TUnk_80494968.h"
 #include "types.h"
-#include "pso/enemy/balclaw/TObjEneBalClaw.h"
+
 #include "pso/player/TObjPlayer.h"
-#include "pso/object/base/TObjChara.h"
-#include "pso/enemy/TObjEnemyCustom.h"
-#include "pso/enemy/TObjEnemy.h"
-#include "pso/object/base/TObjMotion.h"
-#include "pso/enemy/balclaw/TObjEneBalClawClaw.h"
+
+
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/player/TObjPlayer_80011014.h"
@@ -16,18 +25,18 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/object/ambient/TObjFish.h"
-#include "pso/object/base/TObjChara.h"
-#include "pso/object/base/TObjMotion.h"
+
+
 #include "pso/render/RenderFadeState.h"
 #include "pso/system/task/TObject.h"
 extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
 extern "C" void test_flag_1000__9TObjCharaFv();
-#include "pso/object/base/TObjMotion.h"
+
 #include "pso/system/vector.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 
-#include "pso/enemy/beast/TObjEneBeast.h"
+
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
 #include "pso/unk/TLobby.h"
 #include "pso/system/BmlResourceDescriptor.h"
@@ -36,9 +45,9 @@ extern "C" void test_flag_1000__9TObjCharaFv();
 extern "C" {
 void obj_clearFlags30__8TObjBaseFUl(void *, u32);
 s32 post_translate_matrix(void *);
-s32 draw_chunk_object(s32);
-s32 restore_scene_lighting();
-s32 select_actor_lighting(void *);
+void draw_chunk_object(void *child);
+void restore_scene_lighting(void);
+void select_actor_lighting(s32 obj);
 s32 push_matrix();
 s32 set_global_param__8TObjFishFl(s32);
 extern s32 model_render_flags;
@@ -47,25 +56,19 @@ extern s32 model_render_flags;
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/enemy/lappy/TObjEneLappy.h"
 #include "pso/enemy/panarms/TObjEnePanarms.h"
-#include "pso/render/RenderFadeState.h"
-struct Stack_80091E08 {
-    f32 sp8;
-    f32 spC;
-    f32 sp10;
-};
+
 struct RecoveredGlobal_80091E08_lbl_8058D490 { s32 value; u8 remaining[0x2C]; };
-struct Vec_80091EA4 { f32 x, y, z; };
 struct VBase_80091EA4 { char pad[0x18]; };
 struct VObj_80091EA4 : VBase_80091EA4 {
     virtual void m0();
     virtual void m1();
     virtual void m2();
     virtual void m3();
-    virtual void m4(Vec_80091EA4 *, Vec_80091EA4 *);
+    virtual void m4(Vec *, Vec *);
 };
 struct Obj_80091EA4 {
     u8 pad0[0x38];
-    Vec_80091EA4 pos;
+    Vec pos;
     u8 pad44[0x60 - 0x44];
     s32 angle;
     u8 pad64[0xB8 - 0x64];
@@ -126,55 +129,52 @@ void set_matrix_identity(u8 *arg0);
 extern void *beast_claw_trail_instance;
 extern void *boss4_type3_instance;
 extern s32 saved_model_render_flags;
-#define play_sound_effect (*(s32 (*)(s32, s32, s32, s32))&play_sound_effect)
+#define play_sound_effect (*(s32 (*)(s32, Vec *, s32, s32))&play_sound_effect)
 extern "C" void render_shadows__9TObjEnemyFv(u8 *arg0);
 void TObjEneBeast::vfunc_101() {  }
 void TObjEneBeast::vfunc_99() {
     s32 arg0 = (s32)this;
-    play_sound_effect(0x4003E431, arg0 + 0x38, 0, 0);
+    play_sound_effect(0x4003E431, (Vec *)(arg0 + 0x38), 0, 0);
 }
 void TObjEneBeast::vfunc_98() {
     s32 arg0 = (s32)this;
-    play_sound_effect(0x4003AB2D, arg0 + 0x38, 0, 0);
+    play_sound_effect(0x4003AB2D, (Vec *)(arg0 + 0x38), 0, 0);
     TObjPlayer::play_effect_if_v2(-0x200);
 }
 void TObjEneBeast::vfunc_97() {
     s32 arg0 = (s32)this;
-    play_sound_effect(0x4003A32E, arg0 + 0x38, 0, 0);
+    play_sound_effect(0x4003A32E, (Vec *)(arg0 + 0x38), 0, 0);
     TObjPlayer::play_effect_if_v2(-0x100);
 }
 void TObjEneBeast::vfunc_96() {
     s32 arg0 = (s32)this;
-    play_sound_effect(0x4003A62F, arg0 + 0x38, 0, 0);
+    play_sound_effect(0x4003A62F, (Vec *)(arg0 + 0x38), 0, 0);
     TObjPlayer::play_effect_if_v2(-0x100);
 }
 void TObjEneBeast::vfunc_95() {
     s32 arg0 = (s32)this;
-    play_sound_effect(0x4003A82C, arg0 + 0x38, 0, 0);
+    play_sound_effect(0x4003A82C, (Vec *)(arg0 + 0x38), 0, 0);
     TObjPlayer::play_effect_if_v2(-0x200);
 }
 
 void TObjEneBeast::vfunc_94() {
-    typedef char sp8_offset[(offsetof(Stack_80091E08, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_80091E08, spC) == 0x4) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_80091E08, sp10) == 0x8) ? 1 : -1];
-    Stack_80091E08 stack;
-    stack.sp8 = 0.0f;
-    stack.spC = 1e+01f;
-    stack.sp10 = 0.5f * *(f32 *)(this->m_2b0 + 0x10);
+    Vec stack;
+    stack.x = 0.0f;
+    stack.y = 1e+01f;
+    stack.z = 0.5f * *(f32 *)(this->m_2b0 + 0x10);
     push_matrix_from(&identity_matrix.value);
     rotate_matrix_y(0, this->rotation_y);
-    rotate_vector_by_matrix(0, &stack.sp8, &stack.sp8);
+    rotate_vector_by_matrix(0, &stack.x, &stack.x);
     pop_matrix();
-    vec3_add_to(&stack.sp8, (u8 *)&this->position);
-    ((TObjPlayer *)(&stack.sp8))->spawn_effect_at_ground(0x23);
-    TObjPlayer::spawn_dead_spot_type2((s32)&stack.sp8, 0xF);
+    vec3_add_to(&stack.x, (u8 *)&this->position);
+    ((TObjPlayer *)(&stack.x))->spawn_effect_at_ground(0x23);
+    TObjPlayer::spawn_dead_spot_type2((s32)&stack.x, 0xF);
 }
 
 void TObjEneBeast::vfunc_93() {
     Obj_80091EA4 *self = (Obj_80091EA4 *)this;
-    Vec_80091EA4 dir;
-    Vec_80091EA4 pos;
+    Vec dir;
+    Vec pos;
     u32 entry;
     s32 idx;
     VObj_80091EA4 *eff;
@@ -243,7 +243,7 @@ void TObjEneBeast::vfunc_83() {
             *(s16 *)((s8 *)arg0 + 0xB8) = 0xB;
             ((TObjCollidable *)arg0)->set_indexed_flags(0, 0x0A000000);
             obj_setFlags30(arg0, 0x04000000);
-            play_sound_effect(0x4003AB32, (s32)(arg0 + 0x38), 0, 0);
+            play_sound_effect(0x4003AB32, (Vec *)((s32)(arg0 + 0x38)), 0, 0);
         }
         break;
     case 1:
@@ -261,7 +261,7 @@ void TObjEneBeast::vfunc_83() {
     }
     ((TObjMotion *)arg0)->advance_animation();
 }
-void render__12TObjEneBeastFPv(Obj_8009211C *o) {
+void TObjEneBeast::render() {
     s32 drawMode;
     s32 fade;
     s32 cam;
@@ -271,54 +271,54 @@ void render__12TObjEneBeastFPv(Obj_8009211C *o) {
     if (is_split_screen() != 0) {
         cam = TCameraCtrl::get_camera_mode();
     }
-    drawMode = o->m9(2e+02f, 4e+02f, 3e+01f);
+    drawMode = ((Obj_8009211C *)this)->m9(2e+02f, 4e+02f, 3e+01f);
     if (drawMode == 0) {
         return;
     }
     fade = 0;
     if (TObjEneDD::check_v2_mode() != 0) {
-        fade = (s32)&o->fades[cam];
+        fade = (s32)&((Obj_8009211C *)this)->fades[cam];
         ((RenderFadeState *)fade)->update();
-        fade = ((RenderFadeState *)fade)->updateFromCamera((const f32*)(&o->f2FC));
+        fade = ((RenderFadeState *)fade)->updateFromCamera((const f32*)(&((Obj_8009211C *)this)->f2FC));
     }
     saved_model_render_flags = model_render_flags;
-    select_actor_lighting(o);
-    TObjFish::set_global_param(o->f24);
+    select_actor_lighting((s32)((Obj_8009211C *)this));
+    TObjFish::set_global_param(((Obj_8009211C *)this)->f24);
     push_matrix();
-    translate_matrix(0, 0.0f, o->f380, 0.0f);
-    post_translate_matrix(o->f38);
-    rotate_matrix_y(0, o->f60);
+    translate_matrix(0, 0.0f, ((Obj_8009211C *)this)->f380, 0.0f);
+    post_translate_matrix(((Obj_8009211C *)this)->f38);
+    rotate_matrix_y(0, ((Obj_8009211C *)this)->f60);
     if (TObjPlayer::check_demo_mode() == 1) {
-        draw_chunk_object(o->f34);
+        draw_chunk_object((void *)(((Obj_8009211C *)this)->f34));
     } else {
         TObjPlayer::toggle_particle_effect();
         doDraw = 1;
         if (fade != 0) {
-            o->fades[cam].m6();
-            if (((TObject *)o)->defer_render() != 0) {
+            ((Obj_8009211C *)this)->fades[cam].m6();
+            if (((TObject *)((Obj_8009211C *)this))->defer_render() != 0) {
                 doDraw = 0;
             }
         }
         if (doDraw != 0) {
             if (drawMode == 1) {
-                ((TObjMotion *)o)->draw();
+                ((TObjMotion *)((Obj_8009211C *)this))->draw();
             } else {
-                ((TObjEnemy *)o)->draw_motion_model();
+                ((TObjEnemy *)((Obj_8009211C *)this))->draw_motion_model();
             }
         }
         TParticleCtrl::end_effect_render();
         if (fade != 0) {
-            o->fades[cam].m7();
+            ((Obj_8009211C *)this)->fades[cam].m7();
         }
     }
     pop_matrix();
     restore_scene_lighting();
-    if (o->f326 >= 10 || o->f326 < 8) {
+    if (((Obj_8009211C *)this)->f326 >= 10 || ((Obj_8009211C *)this)->f326 < 8) {
         Vec v;
         v.x = 1.5f;
         v.y = 1.0f;
         v.z = 2.0f;
-        ((TObjEnemy *)o)->draw_ground_shadow(&v, 0);
+        ((TObjEnemy *)((Obj_8009211C *)this))->draw_ground_shadow(&v, 0);
     }
 }
 
@@ -344,30 +344,21 @@ void render__12TObjEneBeastFPv(Obj_8009211C *o) {
 #undef play_sound_effect
 #undef translate_matrix
 #undef set_global_param__8TObjFishFl
-#undef draw_chunk_object
 #undef update_if_active__15TObjEnemyCustomFl
 #undef TObjEneBalClawClaw__sub_800914A4
 #undef find_active_entity_by_id
 #undef reset_active_state__18TObjEneBalClawClawFPv
 
-#include "types.h"
-#include "pso/enemy/TUnk_80493450.h"
-#include "pso/player/TObjPlayer.h"
-#include "pso/object/base/TObjChara.h"
+
 #include "pso/boss/volopt/TBoss3VoloptHiraisin.h"
 #include "pso/enemy/saver/TObjEneSaver.h"
-#include "pso/enemy/TObjEnemy.h"
-#include "pso/object/base/TObjMotion.h"
-#include "pso/enemy/beast/TObjEneBeast.h"
+
+
 #include "pso/system/task/TObject_80019A50.h"
-extern "C" void has_flag_0x800__9TObjCharaFv();
-extern "C" void test_flag30_512__9TObjCharaFv();
-extern "C" void test_flag_1000__9TObjCharaFv();
 
 extern "C" void vfunc_101__12TObjEneBeastFv();
 extern "C" void test_flag_256__13TUnk_80493450Fv();
-#include "pso/enemy/dd/TObjEneDD.h"
-#include "pso/enemy/panarms/TObjEnePanarms.h"
+
 
 struct Ent_8009241C { u8 pad0[0xC]; f32 radius; u8 pad10[0x2C - 0x10]; };
 struct Mdl_8009241C { u8 pad0[8]; s32 f8; NJS_TEXLIST *texlist; };
@@ -390,12 +381,9 @@ s32 register_object__6TLobbyFl(int);
 s32 dispatch_shared_handler_b__6TLobbyFl(int);
 s32 register_boss__6TLobbyFl(int);
 u8 *load_resource_from_descriptor(void *, int, void *, int, int, int);
-u8 *load_enemy_bml_resource_named(void *, const char *);
-void *mem_alloc(u32 size);
+s32 load_enemy_bml_resource_named(s32 arg0, s32 arg1);
 void free_bin_model_request(void*, int);
 void *__ct__11TObjControlFP7TObject(void *, void *);
-void *__nw__7TObjectFUl(int);
-void mem_free(void*);
 
 extern void *tl_04;
 
@@ -491,6 +479,7 @@ extern "C" s32 update_defense_stat_status__9TObjCharaFv(u8 *player);
 extern "C" void update_flag30_timer__9TObjCharaFv();
 extern "C" void update_object_view_visibility__8TObjBaseFff();
 extern "C" void update_poison_status__9TObjCharaFv();
+}
 const char *beast_model_name_table[4] = {
     "re8_b_beast_wola_body.nj", "re8_b_rdbeast_wola_body.nj", "re8_b_srdbeast_wola_body.nj", NULL,
 };
@@ -541,7 +530,7 @@ void *beast_collision_body_table[33] = {
 };
 void *__vt__12TObjEneBeast[103] = {
     (void *)0x0, (void *)0x0, (void *)&TObjPlayer__sub_80092724, (void *)&run_task__13TUnk_80493450Fv,
-    (void *)&render__12TObjEneBeastFPv, (void *)&render_shadows__9TObjEnemyFv, (void *)&vfunc_6__8TObjBaseFPsl, (void *)&apply_object_set_data__8TObjBaseFPv,
+    (void *)&render__12TObjEneBeastFv, (void *)&render_shadows__9TObjEnemyFv, (void *)&vfunc_6__8TObjBaseFPsl, (void *)&apply_object_set_data__8TObjBaseFPv,
     (void *)&reset_motion_fields__9TObjCharaFv, (void *)&get_center__9TObjCharaFv, (void *)&update_object_view_visibility__8TObjBaseFff, (void *)&classify_actor_view_detail__8TObjBaseFfff,
     (void *)&get_name__9TObjEnemyFv, (void *)&interact__14TObjCollidableFl, (void *)&add_actor_exp__9TObjCharaFl, (void *)&consume_timer_field__9TObjCharaFl,
     (void *)&get_actor_level_index__9TObjCharaFv, (void *)&update_actor_ground_y__9TObjCharaFv, (void *)&vfunc_18__9TObjCharaFPUc, (void *)&is_actor_cadence_frame__9TObjCharaFl,
@@ -571,11 +560,11 @@ void *__vt__12TObjEneBeast[103] = {
 void *TObjEneBeast::create(void *arg0) {
     void *o;
     void *o2;
-    o = __nw__7TObjectFUl(0x20);
+    o = TObject::operator new(0x20);
     if (o != NULL) {
         o = __ct__11TObjControlFP7TObject(o, tl_04);
     }
-    o2 = __nw__7TObjectFUl(0x420);
+    o2 = TObject::operator new(0x420);
     if (o2 != NULL) {
         o2 = TObjEneBeast__ct(o2, o, arg0);
     }
@@ -626,7 +615,7 @@ void TObjEneBeast::load_resources() {
     s32 i;
 
     if (TObjEneDD::check_v2_mode() != 0) {
-        ene_beast_bml_resource = (u32)load_enemy_bml_resource_named(&beast_resource_descriptor, beast_a_bml_filename);
+        ene_beast_bml_resource = (u32)load_enemy_bml_resource_named((s32)&beast_resource_descriptor, (s32)beast_a_bml_filename);
         ((Ent_8009241C *)beast_collision_body_table)[0].radius = 1e+01f;
         ((Ent_8009241C *)beast_collision_body_table)[1].radius = 1e+01f;
         ((Ent_8009241C *)beast_collision_body_table)[2].radius = 9.0f;
@@ -675,6 +664,7 @@ void TObjEneBeast::load_resources() {
 }
 
 #pragma pop
+extern "C" {
 // Archive loaded instead of beast_resource_descriptor's when TObjEneDD::check_v2_mode() is set. Defined after
 // load_resources (it follows that function's initialisers and is not pooled there); the declaration above it would
 // otherwise send it to .data.
@@ -787,7 +777,6 @@ void *TObjEneBeast__ct(void *arg0v, void *arg1, void *arg2) {
     ((VObj_800927DC *)arg0)->m80();
     return arg0;
 }
+}
 #undef arg0
 #undef F
-
-}

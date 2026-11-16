@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/TParticleCtrl.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/object/switch/TOSwitchAttackSub.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "types.h"
@@ -17,7 +18,7 @@ const char *TOSwitchAttackSub__name = "TOSwitchAttackSub";
 
 extern "C" {
 f32 horizontal_distance_squared(const f32*, const f32*);
-u8 is_current_floor_switch_set(int);
+u8 is_current_floor_switch_set(s32 id);
 extern u8* camera_ctrl_instance;
 extern void* local_client_id;
 
@@ -88,15 +89,10 @@ u8 *TOSwitchAttackSub__ct(u8 *object, u8 *arg1, s32 arg2, s32 arg3, u32 arg4, f3
     return object;
 }
 
-}
-
-extern "C" {
-
-u32 __nw__7TObjectFUl(s32);
 
 void TOSwitchAttack::create_sub(s32 arg0, s32 arg1, s32 arg2, s32 arg3, f32 farg0) {
     void *object;
-    object = (void *)__nw__7TObjectFUl(0x30);
+    object = (void *)TObject::operator new(0x30);
     if (object != (void *)0U) {
         TOSwitchAttackSub__ct((u8 *)object, (u8 *)arg0, arg1, arg2, (u32)arg3, farg0);
     }

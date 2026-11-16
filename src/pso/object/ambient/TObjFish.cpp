@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/task/TObject.h"
@@ -26,29 +27,23 @@
 #include "pso/unk/TLobby.h"
 #include "pso/network/client_id.h"
 #include <stdlib.h>
-#include "pso/system/task/TObject.h"
+
 
 struct VBase_18_26a62c;
 struct SVec_8029D5C8;
 struct Fish_8029D5C8;
-struct Vec_8029E170;
 struct Ent_8029E170;
 extern "C" {
-void * __nw__7TObjectFUl(int);
 void render__8TObjFishFv(u8 *arg0);
-s32 init_fish_school__8TObjFishFPvll(u8 *arg0, Vec_8029E170 *arg1, s32 arg2, s32 arg3);
+s32 init_fish_school__8TObjFishFPvll(u8 *arg0, Vec *arg1, s32 arg2, s32 arg3);
 s32 TObjFish__area_bml_resource;
 extern void* __vt__8TObjFish[];
 extern void* fish_resource_name_table[];
-}
-
-
-extern "C" {
 s32 post_translate_matrix(void *);
 s32 draw_ginja_object();
 s32 draw_ginja_model_with_motion(s32, s32, f32);
 s32 get_bml_motion(s32, s32);
-s32 TObjFish__sub_8001EDB0(s32, s32);
+s32 get_bml_texlist(s32, s32);
 s32 get_bml_model(s32, s32);
 s32 push_matrix();
 s32 set_global_param__8TObjFishFl();
@@ -130,18 +125,6 @@ extern const char TObjFish__class_name_string[] = "TObjFish";
 }
 
 struct VBase_18_26a62c { char pad[0x18]; };
-struct VObj_18_26a62c : VBase_18_26a62c {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual s32 m8(f32, f32);
-};
-
 struct SVec_8029D5C8 { s16 x, y, z; };
 struct Fish_8029D5C8 {
     f32 x, y, z;
@@ -180,7 +163,7 @@ void render__8TObjFishFv(u8 *arg0) {
     struct { f32 x, y, z; } d;
 
     if (TMainTask::get_render_pass() != 1 &&
-        ((VObj_18_26a62c *)arg0)->m8(400.0f, 200.0f) != 0 &&
+        ((TObjFish *)arg0)->update_object_view_visibility(400.0f, 200.0f) != 0 &&
         F(Fish_8029D5C8 *, 0xA0) != NULL && ((s32 (*)(void *))update_state__8TObjFishFv)(arg0) != 0) {
         f = F(Fish_8029D5C8 *, 0xA0);
         n = F(s32, 0x94);
@@ -226,19 +209,19 @@ void render__8TObjFishFv(u8 *arg0) {
             if (get_current_floor_area() == AREA_SEABED_UPPER) {
                 switch (f->kind) {
                 case 1:
-                    TObjFish__sub_8001EDB0(TObjFish__area_bml_resource, 1);
+                    get_bml_texlist(TObjFish__area_bml_resource, 1);
                     set_global_param__8TObjFishFl();
                     get_bml_model(TObjFish__area_bml_resource, 1);
                     draw_ginja_object();
                     break;
                 case 2:
-                    TObjFish__sub_8001EDB0(TObjFish__area_bml_resource, 2);
+                    get_bml_texlist(TObjFish__area_bml_resource, 2);
                     set_global_param__8TObjFishFl();
                     get_bml_model(TObjFish__area_bml_resource, 2);
                     draw_ginja_object();
                     break;
                 default:
-                    TObjFish__sub_8001EDB0(TObjFish__area_bml_resource, 0);
+                    get_bml_texlist(TObjFish__area_bml_resource, 0);
                     set_global_param__8TObjFishFl();
                     get_bml_model(TObjFish__area_bml_resource, 0);
                     draw_ginja_object();
@@ -248,17 +231,17 @@ void render__8TObjFishFv(u8 *arg0) {
                 set_motion_packed_rotation();
                 switch (f->kind) {
                 case 1:
-                    TObjFish__sub_8001EDB0(TObjFish__area_bml_resource, 1);
+                    get_bml_texlist(TObjFish__area_bml_resource, 1);
                     set_global_param__8TObjFishFl();
                     draw_ginja_model_with_motion(get_bml_model(TObjFish__area_bml_resource, 1), get_bml_motion(TObjFish__area_bml_resource, 1), f->frame);
                     break;
                 case 2:
-                    TObjFish__sub_8001EDB0(TObjFish__area_bml_resource, 2);
+                    get_bml_texlist(TObjFish__area_bml_resource, 2);
                     set_global_param__8TObjFishFl();
                     draw_ginja_model_with_motion(get_bml_model(TObjFish__area_bml_resource, 2), get_bml_motion(TObjFish__area_bml_resource, 2), f->frame);
                     break;
                 default:
-                    TObjFish__sub_8001EDB0(TObjFish__area_bml_resource, 0);
+                    get_bml_texlist(TObjFish__area_bml_resource, 0);
                     set_global_param__8TObjFishFl();
                     draw_ginja_model_with_motion(get_bml_model(TObjFish__area_bml_resource, 0), get_bml_motion(TObjFish__area_bml_resource, 0), f->frame);
                     break;
@@ -409,11 +392,10 @@ void TObjFish::run_task() {
 
 }
 
-struct Vec_8029E170 { f32 x, y, z; };
 struct Ent_8029E170 {
-    Vec_8029E170 pos;
-    Vec_8029E170 v0c;
-    Vec_8029E170 v18;
+    Vec pos;
+    Vec v0c;
+    Vec v18;
     s32 f24;
     f32 f28;
     s16 f2c;
@@ -425,13 +407,11 @@ struct Ent_8029E170 {
     u8 pad3c[8];
 };
 
-extern "C" {
-
 
 #pragma push
 #pragma fp_contract on
 s32 TObjFish::init_fish_school(void *arg1_arg, s32 arg2, s32 arg3) {
-    Vec_8029E170 *arg1 = (Vec_8029E170 *)arg1_arg;
+    Vec *arg1 = (Vec *)arg1_arg;
     Ent_8029E170 *p;
     s32 i;
 
@@ -479,7 +459,6 @@ s32 TObjFish::init_fish_school(void *arg1_arg, s32 arg2, s32 arg3) {
 }
 #pragma pop
 
-}
 
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
@@ -541,7 +520,7 @@ u8 *TObjFish__create(u8 *arg0) {
     if (is_split_screen() != 0) {
         return NULL;
     }
-    fish = (u8 *)(__nw__7TObjectFUl(0xA4));
+    fish = (u8 *)(TObject::operator new(0xA4));
     var_r0 = fish;
     if (var_r0 != NULL) {
         var_r0 = (u8 *)(TObjFish__ct(fish, (s32)((*(s32 *)&tl_05)), arg0));

@@ -1,6 +1,7 @@
 #include "types.h"
 #include "pso/system/debug_print.h"
 #include "pso/map/FloorArea.h"
+#include "pso/player/TObjPlayer_80011014.h"
 struct Handler_801E416C {
     u16 cmd;
     u16 mask;

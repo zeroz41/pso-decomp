@@ -1,4 +1,5 @@
 #include "pso/animation/MotionContext.h"
+#include "pso/camera/TCameraCtrl_803D676C.h"
 #include "types.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/camera/TCameraCtrl_803D6538.h"
@@ -6,10 +7,7 @@
 #include <stddef.h>
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/player/TObjPlayer.h"
-struct RecoveredGlobal_803D662C_lbl_8058D4D0 {
-    s32 value;
-    u8 remaining[0x24];
-};
+#include "pso/math/AngleLookup.h"
 
 struct G_803D6688 { f32 f0, f4, pad8[2], f10, f14, f18, f1c, f20, f24; };
 
@@ -21,10 +19,8 @@ extern "C" {
 s32 C_MTXPerspective(void *, f32, f32, f32, f32);
 s32 GXSetProjection(void *, int);
 f64 atan(f32);
-f32 sin_table_lookup(s32);
-f32 cos_table_lookup(s32);
 Proj_803D676C scene_projection_state;
-extern RecoveredGlobal_803D662C_lbl_8058D4D0 camera_clip_parameters;
+extern f32 camera_clip_parameters[];
 extern G_803D6688 lbl_8058D4F8;
 extern Disp_803D676C *active_gx_render_mode;
 }
@@ -75,7 +71,7 @@ void set_perspective_projection_from_fov(s32 arg0, f32 farg0, f32 farg1, f32 far
     lbl_8058D4F8.f4 = b;
     lbl_8058D4F8.f10 = one / a;
     lbl_8058D4F8.f14 = one / (f32)(f64)b;
-    *(f32 *)((s8 *)&camera_clip_parameters.value + 0) = farg2;
-    *(f32 *)((s8 *)&camera_clip_parameters.value + 4) = farg1;
+    *(f32 *)((s8 *)&camera_clip_parameters + 0) = farg2;
+    *(f32 *)((s8 *)&camera_clip_parameters + 4) = farg1;
 }
 #pragma pop

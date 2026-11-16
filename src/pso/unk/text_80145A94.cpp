@@ -19,7 +19,7 @@ struct Ids_80145A94 { s32 v[2]; };
 
 struct Buf_80145A94 { s32 hdr; s8 name[0xA0]; s8 x[0x270 - 0xA4]; };
 
-extern "C" {
+
 extern s32 lbl_8043F3E8[];
 extern s16 disc_error_code;
 extern s32 lbl_805D56C8;
@@ -195,9 +195,6 @@ s32 TLobby__sub_80145DB4(s32 arg0) {
     return 0;
 }
 
-}
-
-extern "C" {
 int TLobby__sub_80145E40(void) {  return (lbl_805D56CC & 0x1); }
 
 s32 TLobby::is_status_zero() {
@@ -229,8 +226,6 @@ s32 TLobby__sub_80145EE4(void) {
         return 1;
     }
     return (sp8 == 1) ? 0 : 0;
-}
-
 }
 
 

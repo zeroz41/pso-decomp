@@ -1,4 +1,5 @@
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/ui/window/TWindowInputNumber.h"
 #include "pso/ui/window/TWindowHelpItem.h"
 #include "pso/ui/window/TWindowSubMag.h"
@@ -13,6 +14,11 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/unk/WindowLayoutRecord.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+
+const char *TWindowInputNumber__name = "TWindowInputNumber";
+// Value of one step at each digit position (1 .. 1000000).
+static const s32 number_input_decimal_place_values[7] = {1, 10, 100, 1000, 10000, 100000, 1000000};
 
 // inferred: window_input_number_layout_entries, the layout table window_input_number_layout points at.
 struct InputNumberWindowLayout {
@@ -32,7 +38,7 @@ WindowDescriptor window_input_number_layout = {
 
 extern "C" {
 
-s32 play_sound_effect(s32 a0 = 0, s32 a1 = 0, s32 a2 = 0, s32 a3 = 0);
+s32 play_sound_effect(s32 a0 = 0, Vec * = 0, s32 a2 = 0, s32 a3 = 0);
 s32 is_confirmed__18TWindowInputNumberFv();
 s32 save_position__11TWindowBaseFv();
 
@@ -47,10 +53,10 @@ void TWindowInputNumber::confirm_input() {
 
     temp_r3 = this->value;
     if ((temp_r3 < (s32) this->minimum) || (temp_r3 > (s32) this->maximum)) {
-        play_sound_effect(0x53F06, 0, 0, 0);
+        play_sound_effect(0x53F06, (Vec *)(0), 0, 0);
         return;
     }
-    play_sound_effect(0x52D01, 0, 0, 0);
+    play_sound_effect(0x52D01, (Vec *)(0), 0, 0);
     this->inputFlags = (u16) (this->inputFlags | 2);
     temp = (u32) this->unknown70;
     if (temp != 0U) {
@@ -58,10 +64,9 @@ void TWindowInputNumber::confirm_input() {
     }
 }
 
-extern s32 number_input_decimal_place_values[];
 
 void TWindowInputNumber::update() {
-    play_sound_effect(0x54100, 0, 0, 0);
+    play_sound_effect(0x54100, (Vec *)(0), 0, 0);
     this->value = (s32) (this->value - number_input_decimal_place_values[(s8) this->selectedDigit]);
     if ((s32) this->value < (s32) this->minimum) {
         this->value = (s32) this->maximum;
@@ -71,7 +76,7 @@ void TWindowInputNumber::update() {
 }
 
 void TWindowInputNumber::update_value() {
-    play_sound_effect(0x54100, 0, 0, 0);
+    play_sound_effect(0x54100, (Vec *)(0), 0, 0);
     this->value = (s32) (this->value + number_input_decimal_place_values[(s8) this->selectedDigit]);
     if ((s32) this->value > (s32) this->maximum) {
         this->value = (s32) this->minimum;
@@ -81,7 +86,7 @@ void TWindowInputNumber::update_value() {
 }
 
 void TWindowInputNumber::handle_decrement() {
-    play_sound_effect(0x54100, 0, 0, 0);
+    play_sound_effect(0x54100, (Vec *)(0), 0, 0);
     this->selectedDigit = (this->selectedDigit - 1);
     if ((s8) this->selectedDigit < 0) {
         if (this->inputFlags & 1) {
@@ -95,7 +100,7 @@ void TWindowInputNumber::handle_decrement() {
 void TWindowInputNumber::move_cursor_next() {
     u8 temp_r4;
 
-    play_sound_effect(0x54100, 0, 0, 0);
+    play_sound_effect(0x54100, (Vec *)(0), 0, 0);
     *(u8 *)&this->selectedDigit = (u8) (*(u8 *)&this->selectedDigit + 1);
     if ((s8) *(u8 *)&this->selectedDigit >= (s8) (temp_r4 = *(u8 *)&this->digitCount)) {
         if (this->inputFlags & 1) {
@@ -113,11 +118,6 @@ void TWindowInputNumber::set_value(f32 farg0) {
 }
 
 }
-
-struct RecoveredGlobal_80256B0C_lbl_8050E208 {
-    s32 value;
-    u8 remaining[0x1AC];
-};
 
 typedef struct Digit_802561E8 {
     u16 flags;
@@ -155,20 +155,18 @@ struct Win_80256354 { u8 p0[0x62]; s8 f62; u8 p63[5]; s32 f68; };
 extern "C" {
 void construct_base__9TWindowDDFPUcsPUc(void *, void *, s16, void *);
 extern s32 __vt__18TWindowInputNumber[];
-extern s32 TWindowInputNumber__name;
 extern s8 controller_input_state[];
 u8 test_input_flag__18TWindowInputNumberFv(u8 *arg0);
 void draw_arrows__18TWindowInputNumberFv(TWindowInputNumber *, Ctx_802563A0 *, Digit_802561E8 *, int);
 void apply_context_transform_to_rect(Ctx_802563A0 *, Quad_802563A0 *);
 void begin_screen_draw(s32);
 void set_draw_texture_and_color(s32, s32);
-void draw_textured_quad_at_depth(Quad_802563A0 *q, f32 depth);
+void draw_textured_quad_at_depth(f32 *q, f32 depth);
 extern s32 lbl_805D63F0;
 s32 draw_visible_window_entries(void *, void *, int);
 u32 construct_type1_heading__20TWindowSubStatusDispFll(u32, s32, s16);
 void __dl__7TObjectFPv(void *);
 s32 forward_render__20TWindowSubStatusDispFv(void *, int);
-s32 TWindowShortListCtrl__check_controller_button(int, int);
 
 void TWindowInputNumber::create(s32 arg1) {
     u32 var_r0;
@@ -272,7 +270,7 @@ void draw_arrows__18TWindowInputNumberFv(TWindowInputNumber *self, Ctx_802563A0 
     q.u2 = (14.0f + uv->u) / 256.0f;
     q.v2 = (12.0f + uv->v) / 256.0f;
     apply_context_transform_to_rect(ctx, &q);
-    draw_textured_quad_at_depth(&q, depth);
+    draw_textured_quad_at_depth((f32 *)&q, depth);
     q.x = x;
     q.y = 25.0f + y;
     q.x2 = 14.0f + q.x;
@@ -282,7 +280,7 @@ void draw_arrows__18TWindowInputNumberFv(TWindowInputNumber *self, Ctx_802563A0 
     q.u2 = (14.0f + uv->u) / 256.0f;
     q.v2 = (28.0f + (12.0f + uv->v)) / 256.0f;
     apply_context_transform_to_rect(ctx, &q);
-    draw_textured_quad_at_depth(&q, depth);
+    draw_textured_quad_at_depth((f32 *)&q, depth);
     q.x = x;
     q.y = 19.0f + y;
     q.x2 = 14.0f + q.x;
@@ -292,22 +290,22 @@ void draw_arrows__18TWindowInputNumberFv(TWindowInputNumber *self, Ctx_802563A0 
     q.u2 = (14.0f + uv->u) / 256.0f;
     q.v2 = (13.0f + (12.0f + uv->v)) / 256.0f;
     apply_context_transform_to_rect(ctx, &q);
-    draw_textured_quad_at_depth(&q, depth);
+    draw_textured_quad_at_depth((f32 *)&q, depth);
     TWindowSubStatusDisp::get_player();
 }
 #pragma pop
 
 void render__18TWindowInputNumberFv(TWindowInputNumber *arg0) {
-    s32 temp_r3;
+    s32 ctx;
 
-    temp_r3 = ((TWindowBase *)arg0)->setup_window_draw_context((s32)((u8 *)arg0 + 0x74));
-    ((TWindowBase *)arg0)->draw_window_frame((void *)temp_r3);
-    draw_visible_window_entries(arg0, (u8 *)arg0 + 0x24, temp_r3);
-    draw_arrows__18TWindowInputNumberFv(arg0, (Ctx_802563A0 *)temp_r3, (Digit_802561E8 *)((TWindowBase *)arg0)->get_array_entry(arg0->selectedDigit), arg0->is_confirmed());
+    ctx = ((TWindowBase *)arg0)->setup_window_draw_context((s32)((u8 *)arg0 + 0x74));
+    ((TWindowBase *)arg0)->draw_window_frame((void *)ctx);
+    draw_visible_window_entries(arg0, (u8 *)arg0 + 0x24, ctx);
+    draw_arrows__18TWindowInputNumberFv(arg0, (Ctx_802563A0 *)ctx, (Digit_802561E8 *)((TWindowBase *)arg0)->get_array_entry(arg0->selectedDigit), arg0->is_confirmed());
     {
         void *temp_ptr = (void *) arg0->unknown70;
         if (temp_ptr != NULL) {
-            forward_render__20TWindowSubStatusDispFv(temp_ptr, temp_r3);
+            forward_render__20TWindowSubStatusDispFv(temp_ptr, ctx);
         }
     }
 }
@@ -318,7 +316,7 @@ void TWindowInputNumber::run_task() {
     u32 temp_r3;
     u8 *input;
     u8 *temp_r29_2;
-    u8 *temp_r29_3;
+    u8 *context;
 
     temp_r30 = is_player_input_active(((s32) *(s16 *)((s8 *)arg0 + 0x20)));
     if (!(*(s32 *)((s8 *)arg0 + 0x2C) & 2)) {
@@ -354,11 +352,11 @@ void TWindowInputNumber::run_task() {
                 ((TWindowInputNumber *)arg0)->handle_decrement();
             }
         }
-        temp_r29_3 = (u8 *)controller_input_state + (temp_r30 * 0x50) + 0x20;
-        if ((TWindowShortListCtrl__check_controller_button((int)temp_r29_3, 4) != 0) || (((s32 (*)(void *, int))test_input_flag__18TWindowInputNumberFv)((void *)arg0, 4) != 0)) {
+        context = (u8 *)controller_input_state + (temp_r30 * 0x50) + 0x20;
+        if ((TWindowShortListCtrl__check_controller_button(context, 4) != 0) || (((s32 (*)(void *, int))test_input_flag__18TWindowInputNumberFv)((void *)arg0, 4) != 0)) {
             ((TWindowInputNumber *)arg0)->confirm_input();
         }
-        if ((TWindowShortListCtrl__check_controller_button((int)temp_r29_3, 2) != 0) || (((s32 (*)(void *, int))test_input_flag__18TWindowInputNumberFv)((void *)arg0, 2) != 0)) {
+        if ((TWindowShortListCtrl__check_controller_button(context, 2) != 0) || (((s32 (*)(void *, int))test_input_flag__18TWindowInputNumberFv)((void *)arg0, 2) != 0)) {
             ((TWindowInputNumber *)arg0)->mark_confirmed();
         }
     }
@@ -375,7 +373,7 @@ void *__dt__18TWindowInputNumberFv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         ((TWindowInputNumber *)arg0)->objectVtable = __vt__18TWindowInputNumber;
         if (*(void **)((s8 *)arg0 + 0x70) != NULL) { TWindowSubStatusDisp::destroy_status_display((s32)(*(void **)((s8 *)arg0 + 0x70)), (s16)1); }
-        ((TWindowDD *)arg0)->destroy_window_base(0);
+        __dt__11TWindowBaseFv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
         }
@@ -404,12 +402,11 @@ TWindowInputNumber::TWindowInputNumber(void *position, s32 low, s32 high,
     align_digits();
 }
 
-typedef char RecoveredGlobal_80256B0C_lbl_8050E208_size[sizeof(RecoveredGlobal_80256B0C_lbl_8050E208) == 0x1B0 ? 1 : -1];
 u8 TWindowInputNumber::test_input_flag() {
     if (this->inputFlags & 0x20) {
         return 0U;
     }
-    return ((TAdSinglePlyChrSelectGC *)((u8 *)&(*(RecoveredGlobal_80256B0C_lbl_8050E208 *)&controller_input_state).value + 0x160))->test_flag_4c();
+    return ((TAdSinglePlyChrSelectGC *)((u8 *)&controller_input_state + 0x160))->test_flag_4c();
 }
 
 s32 TWindowInputNumber::is_locked(s32 arg1) {

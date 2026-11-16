@@ -1,4 +1,5 @@
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/effect/sprite/TQuadSpriteCol.h"
 #include "pso/system/vector.h"
 #include "pso/unk/TUnk_804C57F0.h"
@@ -11,16 +12,14 @@
 
 #pragma readonly_strings on
 
-typedef struct Vec_801E4FF0 { f32 x, y, z; } Vec_801E4FF0;
-
 typedef struct Col_801E4FF0 { f32 r, g, b, a; } Col_801E4FF0;
 
 typedef struct Quad_801E4FF0 { f32 x0, y0, x1, y1; Col_801E4FF0 col; } Quad_801E4FF0;
 
 typedef struct Node_801E4FF0 {
     struct Node_801E4FF0 *next;
-    Vec_801E4FF0 pos;
-    Vec_801E4FF0 ofs;
+    Vec pos;
+    Vec ofs;
     u8 pad1C[0x24 - 0x1C];
     s32 tex;
     u8 pad28;
@@ -72,8 +71,8 @@ extern s32 __vt__14TQuadSpriteCol[];
 void TQuadSpriteCol::render() {
     Self_801E4FF0 *self = (Self_801E4FF0 *)this;
     Quad_801E4FF0 q;
-    Vec_801E4FF0 out;
-    Vec_801E4FF0 pos;
+    Vec out;
+    Vec pos;
     u32 flags;
     f32 sw;
     f32 sh;

@@ -6,6 +6,16 @@
 #include "pso/ui/window/TWindowBase.h"
 
 struct TWindowSubStatusDisp : public TWindowBase {
+    // Challenge-mode record set (inferred names): resolve_player_slot maps RECORD_SET_CURRENT to the running
+    // game's set by selected_episode and is_split_screen; get_layout_id gives the sets 9/5/9/5 stages.
+    enum RecordSet {
+        RECORD_SET_CURRENT = -1,
+        RECORD_SET_EP1,
+        RECORD_SET_EP2,
+        RECORD_SET_EP1_SPLIT,
+        RECORD_SET_EP2_SPLIT
+    };
+
     virtual ~TWindowSubStatusDisp();
     void calc_row_width();
     virtual void run_task();
@@ -28,7 +38,7 @@ struct TWindowSubStatusDisp : public TWindowBase {
     f32 m_4c;
     u8 unk_50[0xC];
     u32 m_5c;
-    s16 m_60;
+    s16 page; // inferred: index into the dispatch_page_init/update page tables
     u16 m_62;
     u32 m_64;
     u32 m_68;
@@ -53,14 +63,13 @@ struct TWindowSubStatusDisp : public TWindowBase {
     void dispatch_page_update();
     void dispatch_page_init();
     void set_count_ratio_text(s32 arg1, s32 arg2);
-    void handle_choice_input();
     void clear_visible_flag();
     void increment_counter();
     static s32 destroy_allocation(s32 arg0, s16 arg1);
     void *reset_selection();
-    static s32 get_status_index(int arg0);
+    static s32 get_status_index(u16 arg0);
     static s32 get_status_index_or_default(u16 *arg0);
-    static s32 *get_status_window(int arg0);
+    static s32 *get_status_window(u16 arg0);
     static void*get_message_10(s32 index);
     static void draw_number_digits(void *color, s16 value, u16 digits, f32 x, f32 y, f32 scale);
     static void render_forward();
@@ -85,7 +94,6 @@ struct TWindowSubStatusDisp : public TWindowBase {
     static void draw_status(s32 arg1, s32 arg2, s32 arg3);
     static void dispatch_without_flags(s32 arg1, s32 arg2, s32 arg3);
     static void *refresh_with_default_list(s32 a, s32 b);
-    void handle_input();
     int is_flag_4_set();
     s8 get_type();
     void set_input_mode(u8 v);
@@ -143,7 +151,6 @@ struct TWindowSubStatusDisp : public TWindowBase {
     static void get_player();
     void set_entry_display_value(s32 arg1);
     s32 get_display_mode();
-    int get_record_slot(int base);
     static void vt16();
     static void vt15();
     static void vt18();
@@ -154,7 +161,6 @@ struct TWindowSubStatusDisp : public TWindowBase {
     static s32 calc_entry_offset();
     static s32 get_layout_id();
     static s32 resolve_player_slot(s32 slot);
-    void render_status_and_children();
     u8 *init_layout_entry_copy(u8 *arg1);
     u8 *init_layout_entry_rect(u8 *arg1, s32 arg2);
     void advance_state();
@@ -185,9 +191,12 @@ struct TWindowSubStatusDisp : public TWindowBase {
     void update_entry_visibility();
     void update_item_colors(s32 arg1);
     s32 update_hp_gauge();
+    static void *find_cached_glyph(u16 code);
+    static u8 calc_gauge_scale(u16 glyph, void *arg1, s32 arg2);
+    void update_item_icon_colors(void *item);
 };
 
-typedef char TWindowSubStatusDisp_offset_m_60[(offsetof(TWindowSubStatusDisp, m_60) == 0x60) ? 1 : -1];
+typedef char TWindowSubStatusDisp_offset_page[(offsetof(TWindowSubStatusDisp, page) == 0x60) ? 1 : -1];
 typedef char TWindowSubStatusDisp_offset_m_62[(offsetof(TWindowSubStatusDisp, m_62) == 0x62) ? 1 : -1];
 typedef char TWindowSubStatusDisp_offset_m_68[(offsetof(TWindowSubStatusDisp, m_68) == 0x68) ? 1 : -1];
 typedef char TWindowSubStatusDisp_offset_scale_x[(offsetof(TWindowSubStatusDisp, scale_x) == 0x6C) ? 1 : -1];

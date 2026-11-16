@@ -1,4 +1,5 @@
 #include "pso/quest/challenge/ChallengeStageLoadouts.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/unk/text_80071B30.h"
 #include "pso/system/vector.h"
 
@@ -6,8 +7,6 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/unk/TLobby.h"
-
-struct Vec_80071BC0 { f32 x, y, z; };
 
 struct Hdr_80071BC0 { u32 a, b; };
 
@@ -74,7 +73,7 @@ s32 TLobby__sub_80071B30(s32 arg0, s32 arg1) {
 }
 void TObjPlayer::rebuild_players_for_stage(s32 arg0) {
     Hdr_80071BC0 hdr;
-    Vec_80071BC0 pos;
+    Vec pos;
     Chr_80071BC0 chr;
     s32 i;
     Plr_80071BC0 *p;

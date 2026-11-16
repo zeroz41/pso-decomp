@@ -1,8 +1,8 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/network/protocol/protocol_types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "types.h"
 #include "pso/unk/TLobby_801E43E4.h"
-#include "pso/weapon/TItemAttackCol_802E4798.h"
 #include "pso/object/ambient/TObjLight_803DF220.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/task/TObject_8001A448.h"
@@ -18,9 +18,9 @@
 #include "pso/weapon/TItemAttackCol.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
+#include "pso/math/AngleLookup.h"
 
 #pragma readonly_strings on
-
 
 
 struct B_80357058 { u8 hdr[4]; u8 d[0x40]; u8 tail[8+1]; };
@@ -42,24 +42,18 @@ struct Shot_80357284 {
 
 struct Pkt_803570E4 { u8 hdr[4]; s8 d[0x40]; };
 
-struct Vec_803570E4 { f32 x, y, z; };
-
 struct V4_8035740C { f32 x, y, z; s32 w; };
 
 struct O_8035740C { u8 pad0[0xC4]; V4_8035740C v[10]; };
 
 extern "C" {
-f32 sin_table_lookup(s32);
-f32 cos_table_lookup(s32);
 f32 normalize_vector(void *);
 const char *TItemEffOrgaFlowShot__name = "TItemEffOrgaFlowShot";
 s32 is_local_client_floor_leader();
-void grid_to_world_pos__11TBoss6Type2FccPv(u8, u8, Vec_803570E4 *);
+void grid_to_world_pos__11TBoss6Type2FccPv(u8, u8, Vec *);
 void clear_rock_state__10TBoss6RockFl(s32 i, s32 a, s32 b);
 int olga_flow_subordinate_actions_enabled;
 void handle_6xAD_olga_flow_subordinate_boss_actions(Pkt_803570E4 *pkt);
-void __dl__7TObjectFPv(void *);
-void *__nw__7TObjectFUl(int);
 }
 
 void send_6xAD_olga_flow_subordinate_boss_actions(u8 *arg0) {
@@ -85,7 +79,7 @@ void TBoss6Type2__sub_803570C8(s8 *arg0) {
 
 struct B_80357058;
 void handle_6xAD_olga_flow_subordinate_boss_actions(Pkt_803570E4 *pkt) {
-    Vec_803570E4 v[3];
+    Vec v[3];
     s8 boss;
     s32 n;
     s8 *p;
