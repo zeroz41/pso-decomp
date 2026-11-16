@@ -158,11 +158,10 @@ inline s16 frag_chain_contig_check(NetFragPacket *node, s16 *pn, NetFragPool *g)
    the fragments being copied into it. */
 s32 reassemble_fragment_packet(NetFragPacket *node, u8 *self, u16 hdr_len, u16 frag_off, u16 frag_len, u8 more, s16 iface)
 {
-  NetFragment *f;
   NetBufferRef tmp;
   s16 i;
   s16 res;
-  NetFragment *n0;
+  NetFragment *f;
   s16 ls;
   s16 *pn;
   NetFragment *e;
@@ -255,11 +254,11 @@ s32 reassemble_fragment_packet(NetFragPacket *node, u8 *self, u16 hdr_len, u16 f
     }
     else
     {
-      n0 = head->next;
+      f = head->next;
       cnt = *pn;
       cur = head;
-      nx = n0;
-      if (n0 == 0)
+      nx = f;
+      if (f == 0)
       {
         TLobby__sub_80406B6C(&e->data);
         e->used = 0;
