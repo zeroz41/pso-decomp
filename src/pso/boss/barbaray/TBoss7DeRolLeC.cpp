@@ -346,6 +346,8 @@ extern const char bm_boss7_de_rol_le_c_bml_filename[] = "bm_boss7_de_rol_le_c.bm
 
 extern const char TBoss7DeRolLeC__class_name_string[] = "TBoss7DeRolLeC";
 
+const char *TBoss7DeRolLeC__class_name = TBoss7DeRolLeC__class_name_string;
+
 extern const Vec lbl_80473F6C = {10000.0f, 10000.0f, 10000.0f};
 
 extern const Vec lbl_80473F78 = {0.0f, 0.0f, -600.0f};
@@ -615,8 +617,6 @@ s32 mult_vec_array__10TObjPlayerFUll(int, void *, void *, int);
 s32 transform_point_by_current_matrix(void *, void *);
 
 s32 push_matrix();
-
-extern s32 lbl_805D6944;
 
 void TObjPlayer__sub_802E8274(void);
 
@@ -1303,6 +1303,19 @@ void run_load_callback_table(void *, int);
 }
 
 Light_802EE574 boss7_derolle_light_pool[11];
+
+u8 *lbl_805D6918; // resource bundle loaded by TObjPlayer__sub_802EE574
+s32 boss7_derolle_c_motion_id;
+s32 lbl_805D6920;
+s32 lbl_805D6924;
+s32 lbl_805D6928;
+s32 lbl_805D692C;
+s32 lbl_805D6930;
+s32 lbl_805D6934;
+u32 boss7_joint_state; // the destructor clears it when it holds this object
+u8 *lbl_805D693C;
+s32 *lbl_805D6940;
+s32 lbl_805D6944;
 
 void TBoss7DeRolLeC::clear_harmful_statuses() {  }
 

@@ -6,6 +6,7 @@
 
 #include "types.h"
 #include "pso/boss/barbaray/TObjBoss7DustCtrl.h"
+#include "pso/boss/barbaray/Boss7DustData.h"
 #include "pso/system/task/TObject.h"
 
 struct RecoveredGlobal_802F119C___vt__13TObjBoss7Dust {
@@ -16,7 +17,6 @@ struct RecoveredGlobal_802F119C___vt__13TObjBoss7Dust {
 extern "C" {
 s32 __ct__7TObjectFP7TObject(void *, void *);
 extern RecoveredGlobal_802F119C___vt__13TObjBoss7Dust __vt__13TObjBoss7Dust;
-extern s32 TObjBoss7Dust__name;
 void TObjBoss7DustCtrl__sub_802F1450(void);
 }
 void boss7_dust_draw_at(s32 *arg0, s32 arg1);
@@ -44,7 +44,7 @@ TObjBoss7Dust::~TObjBoss7Dust() {}
 u8 *__ct__13TObjBoss7DustFv(u8 *object, s32 arg1, s32 arg2) {
     __ct__7TObjectFP7TObject((void *)object, (void *)arg1);
     *(s32 **)((s8 *)object + 0x18) = &__vt__13TObjBoss7Dust.value;
-    *(s32 *)((s8 *)object + 0) = (s32) TObjBoss7Dust__name;
+    ((TObjBoss7Dust *)object)->m_name = TObjBoss7Dust__name;
     VecCopy((Vec *)(object + 0x24), (const Vec *)(arg2));
     *(s32 *)((s8 *)object + 0x1C) = 0;
     *(s32 *)((s8 *)object + 0x20) = TObjBoss7DustCtrl__sub_802F125C();

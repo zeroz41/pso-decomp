@@ -163,17 +163,6 @@ struct Light_802EE574 {
 
 // Globals of the De Rol Le C translation unit (802E7888-802EE814; .sbss/.bss).
 extern "C" {
-extern u8 *lbl_805D6918;              // resource bundle loaded by TObjPlayer__sub_802EE574
-extern s32 boss7_derolle_c_motion_id;
-extern s32 lbl_805D6920;
-extern s32 lbl_805D6924;
-extern s32 lbl_805D6928;
-extern s32 lbl_805D692C;
-extern s32 lbl_805D6930;
-extern s32 lbl_805D6934;
-extern u32 boss7_joint_state;         // the destructor clears it when it holds this object
-extern u8 *lbl_805D693C;
-extern s32 *lbl_805D6940;
 extern Light_802EE574 boss7_derolle_light_pool[11];
 
 void TObjPlayer__sub_802ED984(void);

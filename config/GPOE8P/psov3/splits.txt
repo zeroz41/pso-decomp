@@ -8997,6 +8997,8 @@ pso/boss/barbaray/TBoss7DeRolLeC.cpp:
 	.rodata     start:0x80472CB0 end:0x80473FB8
 	.data       start:0x804E3BF0 end:0x804E45C4
 	.bss        start:0x805412C0 end:0x80541528
+	.sdata      start:0x805D3FB8 end:0x805D3FBC
+	.sbss       start:0x805D6918 end:0x805D6948
 	.sdata2     start:0x805DEA10 end:0x805DEBA4
 
 pso/boss/barbaray/TBoss7Joint_802EE704.cpp:
@@ -9023,6 +9025,10 @@ pso/boss/barbaray/TBoss7PhotonBullet_802EF26C.cpp:
 	.sdata      start:0x805D3FD0 end:0x805D3FD8
 	.sdata2     start:0x805DEBE0 end:0x805DEBFC
 
+pso/boss/barbaray/Boss7TentacleData.cpp:
+	.rodata     start:0x80474070 end:0x804740C8
+	.sdata      start:0x805D3FD8 end:0x805D3FE0
+
 pso/boss/barbaray/TBoss7TentacleNeedle.cpp:
 	.text       start:0x802EF800 end:0x802F0E24
 	.rodata     start:0x804740C8 end:0x804740E0
@@ -9037,6 +9043,10 @@ pso/unk/text_802F0E24.cpp:
 	.data       start:0x804E4860 end:0x804E48D8
 	.bss        start:0x80541928 end:0x80541948
 	.sbss       start:0x805D6950 end:0x805D6958
+
+pso/boss/barbaray/Boss7DustData.cpp:
+	.rodata     start:0x80474360 end:0x80474388
+	.sdata      start:0x805D3FE0 end:0x805D3FE8
 
 pso/unk/text_802F0F04.cpp:
 	.text       start:0x802F0F04 end:0x802F105C
@@ -10826,6 +10836,7 @@ pso/boss/olgaflow/TBoss6RockChase.cpp:
 	.text       start:0x8036D1B4 end:0x8036D774
 	.rodata     start:0x8047ACD8 end:0x8047AD00
 	.data       start:0x804F36C0 end:0x804F36F8
+	.sdata      start:0x805D44F0 end:0x805D44F4
 	.sdata2     start:0x805E03B8 end:0x805E03E8
 
 pso/ui/window/TWindowSubStatusDisp_8036D774.cpp:

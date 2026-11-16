@@ -1,4 +1,5 @@
 #include "pso/boss/barbaray/TObjBoss7DustCtrl.h"
+#include "pso/boss/barbaray/Boss7DustData.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/unk/text_803D96A8.h"
@@ -118,12 +119,11 @@ extern "C" {
 
 void __ct__7TObjectFP7TObject(void *);
 extern s32 __vt__17TObjBoss7DustCtrl[];
-extern void *TObjBoss7DustCtrl__name;
 
 void *TObjBoss7DustCtrl__ct(void *boss7_dust_ctrl) {
     __ct__7TObjectFP7TObject(boss7_dust_ctrl);
     *(s32 **)((s8 *)boss7_dust_ctrl + 0x18) = __vt__17TObjBoss7DustCtrl;
-    *(void * *)&((TObjBoss7DustCtrl *)boss7_dust_ctrl)->m_name = TObjBoss7DustCtrl__name;
+    ((TObjBoss7DustCtrl *)boss7_dust_ctrl)->m_name = TObjBoss7DustCtrl__name;
     return boss7_dust_ctrl;
 }
 
