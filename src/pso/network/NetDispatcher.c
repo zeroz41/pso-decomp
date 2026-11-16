@@ -32,7 +32,7 @@ NetworkDispatchState network_dispatch_state;
 s32 NetUnregisterTimer(void* p);
 
 void TLobby__sub_80419A00(void) {
-    NetMemset((void *) (&network_dispatch_state.lock_handle), 0, offsetof(NetworkDispatchState, unknown_F4));
+    NetMemset(&network_dispatch_state.lock_handle, 0, offsetof(NetworkDispatchState, unknown_F4));
     cancel_pending_alarms();
 }
 s32 TLobby__sub_80419A34(void) {

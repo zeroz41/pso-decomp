@@ -222,7 +222,7 @@ void TObjBoss1Crater::area_attack_receive_direct(void *self_arg, f32 *arg2, void
 
 }
 TObjBoss1Crater::~TObjBoss1Crater() {
-    if (this->m_b4 != NULL) { __dt__17AreaAttackHistoryFv((s32)(this->m_b4), 1); *(s32 *)((s8 *)this + 0xB4) = 0; }
+    if (this->m_b4 != NULL) { __dt__17AreaAttackHistoryFv((s32)this->m_b4, 1); *(s32 *)((s8 *)this + 0xB4) = 0; }
     if (*(void **)((s8 *)this + 0xB0) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0xB0)))->queue_destruction(); *(s32 *)((s8 *)this + 0xB0) = 0; }
 }
 extern "C" {

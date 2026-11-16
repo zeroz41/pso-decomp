@@ -49,7 +49,7 @@ s16 TLobby__sub_803FED78(u8 *self) {
     goto test;
     while (1) {
         if (is_timed_out() != 0 || obj[0] == 4) {
-            update_connection_state((int)(self));
+            update_connection_state((int)self);
             *(s16 *)(self + 8) = 0;
             *(s16 *)(p + 8) = 0;
             return -1;
@@ -96,7 +96,7 @@ after:
         }
         break;
     }
-    update_connection_state((int)(self));
+    update_connection_state((int)self);
     *(s16 *)(p + 8) = 0;
     *(s16 *)(self + 8) = 0;
     return -1;
@@ -231,7 +231,7 @@ s16 TLobby__sub_803FF304(u8 *lobby) {
     typedef struct Fields_arg0 { u8 pad_0[12]; u8 * field_C; } Fields_arg0;
     set_flags_and_state((void *)lobby);
     if ((u8) *((Fields_arg0*)lobby)->field_C == 3) {
-        TLobby__sub_803FD958((u8 *)(lobby));
+        TLobby__sub_803FD958(lobby);
     }
     return 0;
 }
@@ -277,7 +277,7 @@ void free_field_98_and_clear(void *self) {
 }
 
 void TLobby__sub_803FF468(s32 arg0) {
-    TLobby__sub_80405304((void *)((void *) (arg0 + 0x10)));
+    TLobby__sub_80405304((void *)(arg0 + 0x10));
 }
 
 struct P_803FF48C { u8 pad[0x30]; IpcpConfig *q; };

@@ -117,7 +117,7 @@ TObjEneBalClawBody::TObjEneBalClawBody(TObject *parent, void *set_data) : TObjEn
     VecCopy((Vec *)(&m_290), (const Vec *)(VecCopy((Vec *)(&m_29c), (const Vec *)(&position))));
     motion_list = lbl_805D4F20->motions;
     action_table = balclaw_body_actions;
-    set_field_d8((s32)(action_table));
+    set_field_d8((s32)action_table);
     init_collision_body_parts(this, &balclaw_body_collision, 1);
     requested_action = 0;
     set_animation(requested_action);

@@ -172,7 +172,7 @@ void TLobby__sub_8032C9A8(s32 arg0, s32 arg1) {
             getDateStamp((DateStamp *)&ds);
             DateToSeconds((DateStamp *)&ds, (int *)&secs);
             secs = 100.0f * (3.0517578e-05f * rand()) + secs;
-            memmove(&rec.a, (void *)(st + 0x118), 4);
+            memmove(&rec.a, st + 0x118, 4);
             memmove(&rec.b, &secs, 4);
             memmove(obj + 0x2C0, &rec, 8);
         }

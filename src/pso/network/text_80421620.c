@@ -923,7 +923,7 @@ s16 TLobby__sub_80422F70(s16 iface, s32 hdr_src, s32 len, s32 buf) {
     }
     total = 0;
     lock_mutex(network_dispatch_state.lock_handle);
-    init_packet_header((void *)(&sp18), hdr_src);
+    init_packet_header(&sp18, hdr_src);
     first = TLobby__sub_8040F00C(iface, &sp18, (int)len, (void *)buf);
     if (first > 0) {
         total = first;

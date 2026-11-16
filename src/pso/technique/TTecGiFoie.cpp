@@ -508,7 +508,7 @@ void TUnk_804CC800::run_task() {
         pad_2C.z = pad_20.z + offset.z;
     } else {
         pad_38 += 0.55f;
-        pad_3C += (s32)(182.04445f * (f32)(pad_44 + 9));
+        pad_3C += (s32)(182.04445f * (pad_44 + 9));
         pad_2C.y = lbl_8044D338[bob] * sin_table_lookup((s32)(182.04445f * (f32)(pad_40 * 15))) + pad_20.y;
         pad_2C.x = pad_38 * cos_table_lookup(pad_3C) + pad_20.x;
         pad_2C.z = pad_38 * sin_table_lookup(pad_3C) + pad_20.z;

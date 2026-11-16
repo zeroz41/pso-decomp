@@ -134,7 +134,7 @@ void TObjWarpJungMain::open_confirm_window(s32 client_id) {
 
 void TObjWarpJungMain::run_task() {
     m_c4 += 4.0f;
-    if (m_c4 > (f32)(warp_jung_beam_motion->frameCount - 1)) {
+    if (m_c4 > (warp_jung_beam_motion->frameCount - 1)) {
         m_c4 = 0.0f;
     }
     handle_area_selection();
@@ -195,7 +195,7 @@ void TObjWarpJung::confirm_area_transfer(void *player) { TObjAreaWarp::confirm_a
 
 void TObjWarpJung::run_task() {
     beam_frame += 4.0f;
-    if (beam_frame > (f32)(warp_jung_beam_motion->frameCount - 1)) {
+    if (beam_frame > (warp_jung_beam_motion->frameCount - 1)) {
         beam_frame = 0.0f;
     }
     handle_area_selection();

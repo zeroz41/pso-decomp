@@ -359,7 +359,7 @@ u8 *TObjContainerIdo__ct(u8 *arg0, s32 arg1, s32 arg2) {
     s32 i;
     ((TUnk_804B97C0 *)arg0)->init_positions();
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__16TObjContainerIdo;
-    __ct__15RenderFadeStateFv(((void *)(arg0 + 0xF0)));
+    __ct__15RenderFadeStateFv((arg0 + 0xF0));
     *(const char **)((s8 *)arg0 + 0) = obj_container_ido_class_name;
     ((TObjContainerIdo *)(arg0))->apply_object_set_data((void *)arg2);
     VecCopy((Vec *)(arg0 + 0xC0), (const Vec *)(arg0 + 0x38));

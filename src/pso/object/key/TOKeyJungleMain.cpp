@@ -138,12 +138,12 @@ void TOKeyJungleMain::update_switch_on() {
     AnimationMotion *motion = get_bml_motion(TOKeyJungleMain__static_model_resource, 1);
 
     switch_frame += 1.0f;
-    if (switch_frame > (f32)(motion->frameCount - 1)) {
+    if (switch_frame > (motion->frameCount - 1)) {
         switch_frame = motion->frameCount - 1;
     }
     motion = get_bml_motion(TOKeyJungleMain__static_model_resource, 0);
     sw_naka_frame += 1.0f;
-    if (sw_naka_frame > (f32)(motion->frameCount - 1)) {
+    if (sw_naka_frame > (motion->frameCount - 1)) {
         sw_naka_frame = 0.0f;
     }
 }

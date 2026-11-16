@@ -1727,13 +1727,13 @@ void TFontSmallLobby__sub_80152F28(Obj_80152F28 *self) {
     self->b = 0;
 }
 
-void* fn_80152EF8(void* p) { TFontSmallLobby__sub_80152F28((Obj_80152F28 *)((void*)(p))); return p; }
+void* fn_80152EF8(void* p) { TFontSmallLobby__sub_80152F28((Obj_80152F28 *)(p)); return p; }
 
 void set_type__10TNpcPlayerFPvs(void* p, s16 v) { *(s16*)((char*)p + 0x0) = v; }
 
 void set_state__10TNpcPlayerFPvs(void* p, s16 v) { *(s16*)((char*)p + 0x2) = v; }
 
-void TNpcPlayer::byteswap_pos() { bswap_16__FPUs((void*)(this)); bswap_16__FPUs((void*)((char*)this + 0x2)); }
+void TNpcPlayer::byteswap_pos() { bswap_16__FPUs(this); bswap_16__FPUs((void*)((char*)this + 0x2)); }
 
 void TNpcPlayer::set_state(s32 v) { *(s32*)((char*)this + 0x0) = v; }
 
@@ -1778,9 +1778,9 @@ void TNpcPlayer::byteswap_positions() {
 
 void TNpcPlayer::finalize_and_send_packet() {
     u8 *arg0 = (u8 *)this;
-    *(s8 *)((s8 *)arg0 + 1) = (s8) ((((u32)get_6x47_cast_packet_size((u8 *)(arg0))) >> 2U) & 0x3F);
+    *(s8 *)((s8 *)arg0 + 1) = (s8) ((((u32)get_6x47_cast_packet_size(arg0)) >> 2U) & 0x3F);
     byteswap_positions();
-    send_subcommand((u8 *)((void *) (arg0)));
+    send_subcommand((u8 *)(arg0));
 }
 
 void init_6x43_attack_packet(u8 *arg0) {
@@ -1792,7 +1792,7 @@ void init_6x43_attack_packet(u8 *arg0) {
 
 void bswap_6x43_packet(void* p) { ((G_ClientIDHeader *)p)->bswap(); bswap_16__FPUs((void*)((char*)p + 0x4)); bswap_16__FPUs((void*)((char*)p + 0x6)); }
 
-void TNpcPlayer::update_lobby() { bswap_6x43_packet((void*)(this)); update_players__6TLobbyFv((s32)this); }
+void TNpcPlayer::update_lobby() { bswap_6x43_packet(this); update_players__6TLobbyFv((s32)this); }
 
 void init_6x44_attack_packet(u8 *arg0) {
     *(s16 *)((s8 *)arg0 + 4) = 0;
@@ -1803,7 +1803,7 @@ void init_6x44_attack_packet(u8 *arg0) {
 
 void bswap_6x44_packet(void* p) { ((G_ClientIDHeader *)p)->bswap(); bswap_16__FPUs((void*)((char*)p + 0x4)); bswap_16__FPUs((void*)((char*)p + 0x6)); }
 
-void TNpcPlayer::update_players() { bswap_6x44_packet((void*)(this)); update_players__6TLobbyFv((s32)this); }
+void TNpcPlayer::update_players() { bswap_6x44_packet(this); update_players__6TLobbyFv((s32)this); }
 
 void init_6x45_attack_packet(u8 *arg0) {
     *(s16 *)((s8 *)arg0 + 4) = 0;
@@ -1814,7 +1814,7 @@ void init_6x45_attack_packet(u8 *arg0) {
 
 void bswap_6x45_packet(void* p) { ((G_ClientIDHeader *)p)->bswap(); bswap_16__FPUs((void*)((char*)p + 0x4)); bswap_16__FPUs((void*)((char*)p + 0x6)); }
 
-void TNpcPlayer::update() { bswap_6x45_packet((void*)(this)); update_players__6TLobbyFv((s32)this); }
+void TNpcPlayer::update() { bswap_6x45_packet(this); update_players__6TLobbyFv((s32)this); }
 
 void TNpcPlayer__sub_80152A78(s16 *self) {
     s32 i;
@@ -2119,7 +2119,7 @@ TNpcPlayer::~TNpcPlayer() {
     }
     temp_r3_2 = (u8 *)(*(u8 **)((s8 *)this + 0x78));
     if (temp_r3_2 != NULL) {
-        player = (u32)get_player_by_client_id((get_npc_type__10TNpcPlayerFPv((void*)(temp_r3_2))));
+        player = (u32)get_player_by_client_id((get_npc_type__10TNpcPlayerFPv(temp_r3_2)));
         if (player != 0U) {
             TObjPlayer::send_item_pickup_request((s32) player);
         }
@@ -2137,7 +2137,7 @@ void TNpcPlayer::run_task() {
     }
     {
         {
-        if (refresh_npc_view_actor_lost((void *) (owner)) != 0) {
+        if (refresh_npc_view_actor_lost(owner) != 0) {
             ((TObject *)arg0)->queue_destruction();
             return;
         }
@@ -2149,17 +2149,17 @@ void TNpcPlayer::run_task() {
             ((TNpcPlayer *)arg0)->init_state();
             if (!(*(s32 *)((s8 *)(*(void **)((s8 *)(*(u8 **)((s8 *)arg0 + 0x74)) + 0x94)) + 0x30) & 0x800)) {
                 if (*(s32 *)((s8 *)(*(void **)((s8 *)(*(u8 **)((s8 *)arg0 + 0x78)) + 0x94)) + 0x30) & 0x800) {
-                    if (((s32 (*)(void *, int, int))clamp_partner_counter)((void *) (arg0 + 0x5C), 3, 0x400) != 0) {
+                    if (((s32 (*)(void *, int, int))clamp_partner_counter)(arg0 + 0x5C, 3, 0x400) != 0) {
                         ((TNpcPlayer *)arg0)->request_chatter(5);
-                    } else if (((s32 (*)(void *, int, int))is_partner_counter_reached)((void *) (arg0 + 0x5C), 3, 0) != 0) {
+                    } else if (((s32 (*)(void *, int, int))is_partner_counter_reached)(arg0 + 0x5C, 3, 0) != 0) {
                         ((TNpcPlayer *)arg0)->request_chatter(4);
                     }
-                    increment_partner_counter((s32) (arg0 + 0x5C), 3);
+                    increment_partner_counter((s32)(arg0 + 0x5C), 3);
                     ((TNpcPlayer *)arg0)->change_ai_state(0);
                 } else {
-                    reset_partner_counter((s32) (arg0 + 0x5C), 3);
+                    reset_partner_counter((s32)(arg0 + 0x5C), 3);
                     ((TNpcPlayer *)arg0)->update_condition_flags();
-                    ((s32 (*)(void *))partner_observe_surroundings)((void *) (arg0));
+                    ((s32 (*)(void *))partner_observe_surroundings)(arg0);
                     ((TNpcPlayer *)arg0)->decide_action();
                     ((TNpcPlayer *)arg0)->update_follow_target();
                 }
@@ -2200,7 +2200,7 @@ void TNpcPlayer::decide_action() {
                 return;
             }
             *(s32 *)((s8 *)arg0 + 0x80) = (s32) (temp_r3 & 0xFFFFFDFF);
-            if (((f32 (*)(void *, void *))horizontal_distance_squared)((void *) (arg0 + 0xDC), (void *) (*(s32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x78)) + 0x94) + 0x38)) < 900.0f) {
+            if (((f32 (*)(void *, void *))horizontal_distance_squared)(arg0 + 0xDC, (void *) (*(s32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x78)) + 0x94) + 0x38)) < 900.0f) {
                 change_ai_state(8);
                 return;
             }
@@ -2249,7 +2249,7 @@ void TNpcPlayer::decide_action() {
                 }
             }
         } else if (select_recovery_action__10TNpcPlayerFv((Npc_801510F8 *) (arg0), 1) != 0) {
-            ((s32 (*)(void *, int))reset_partner_counter)((void *) (arg0 + 0x5C), 8);
+            ((s32 (*)(void *, int))reset_partner_counter)(arg0 + 0x5C, 8);
             temp_r3_3 = *(s32 *)((s8 *)arg0 + 0x80);
             if (temp_r3_3 & 0x200) {
                 request_chatter(0x13);
@@ -2261,7 +2261,7 @@ void TNpcPlayer::decide_action() {
                 }
             } else {
                 *(s32 *)((s8 *)arg0 + 0x80) = (s32) (temp_r3_3 & 0xFFFFFDFF);
-                if (((f32 (*)(void *, void *))horizontal_distance_squared)((void *) (arg0 + 0xDC), (void *) (*(s32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x78)) + 0x94) + 0x38)) < 900.0f) {
+                if (((f32 (*)(void *, void *))horizontal_distance_squared)(arg0 + 0xDC, (void *) (*(s32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x78)) + 0x94) + 0x38)) < 900.0f) {
                     change_ai_state(8);
                 } else if ((s32) *(s32 *)((s8 *)arg0 + 0x84) != 0) {
                     if (*(s16 *)((s8 *)arg0 + 0x8E) == 0) {
@@ -2284,7 +2284,7 @@ void TNpcPlayer::decide_action() {
             if ((s32) *(s32 *)((s8 *)arg0 + 0x84) != 0) {
                 calc_follow_goal();
             } else {
-                ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)((void *) (arg0 + 0xDC), (void *) (*(s32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x78)) + 0x94) + 0x38));
+                ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(arg0 + 0xDC, (void *) (*(s32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x78)) + 0x94) + 0x38));
             }
             change_ai_state(1);
         }
@@ -2298,14 +2298,14 @@ void TNpcPlayer::decide_action() {
 s32 TNpcPlayer::update_follow_target() {
     u8 *arg0 = (u8 *)this;
     if (((s32 (*)())needs_movement__10TNpcPlayerFPvPvi)() != 0) {
-        ((s32 (*)(void *))select_path_waypoint__10TNpcPlayerFv)((void *) (arg0));
+        ((s32 (*)(void *))select_path_waypoint__10TNpcPlayerFv)(arg0);
         if (check_movement_progress() != 0) {
-            ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)((void *) (arg0 + 0xAC), (void *) (arg0 + 0xD0));
+            ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(arg0 + 0xAC, arg0 + 0xD0);
             if ((u32) *(u32 *)((s8 *)arg0 + 0x7C) != 2U) {
                 change_ai_state(1);
             }
         } else {
-            ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)((void *) (arg0 + 0xAC), (void *) (*(s32 *)((s8 *)(*(void **)((s8 *)arg0 + 0x78)) + 0x94) + 0x38));
+            ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(arg0 + 0xAC, (void *) (*(s32 *)((s8 *)(*(void **)((s8 *)arg0 + 0x78)) + 0x94) + 0x38));
         }
         return 1;
     }
@@ -2413,20 +2413,20 @@ s32 TNpcPlayer::calc_follow_goal() {
                 temp_f1 = temp_f2 - *(f32 *)((s8 *)temp_r4 + 0x40);
                 stack.spC = 0.0f;
                 stack.sp10 = temp_f1;
-                if (0.0f != ((f32 (*)(void *, int, f32, f32))vector_length)((void *) (&stack.sp8), (int) (temp_r4), (f32) (temp_f1), (f32) (temp_f2))) {
-                    ((s32 (*)(void *))normalize_vector)((void *) (&stack.sp8));
+                if (0.0f != ((f32 (*)(void *, int, f32, f32))vector_length)((void *)&stack.sp8, (int)temp_r4, (f32)temp_f1, (f32)temp_f2)) {
+                    ((s32 (*)(void *))normalize_vector)(&stack.sp8);
                 }
                 *(f32 *)((s8 *)arg0 + 0xDC) = (f32) -((*(f32 *)((s8 *)arg0 + 0x54) * stack.sp8) - *(f32 *)((s8 *)arg0 + 0xDC));
                 *(f32 *)((s8 *)arg0 + 0xE4) = (f32) -((*(f32 *)((s8 *)arg0 + 0x54) * stack.sp10) - *(f32 *)((s8 *)arg0 + 0xE4));
                 *(f32 *)((s8 *)arg0 + 0xE0) = (f32) *(f32 *)((s8 *)(*(void **)((s8 *)(*(u8 **)((s8 *)arg0 + 0x78)) + 0x94)) + 0x300);
             } else {
-                ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)((void *) (arg0 + 0xDC), (void *) (*(s32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x74)) + 0x94) + 0x2FC));
+                ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(arg0 + 0xDC, (void *) (*(s32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x74)) + 0x94) + 0x2FC));
             }
         } else {
-            ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)((void *) (arg0 + 0xDC), (void *) (*(s32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x74)) + 0x94) + 0x2FC));
+            ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(arg0 + 0xDC, (void *) (*(s32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x74)) + 0x94) + 0x2FC));
         }
     } else {
-        ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)((void *) (arg0 + 0xDC), (void *) (*(s32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x74)) + 0x94) + 0x2FC));
+        ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(arg0 + 0xDC, (void *) (*(s32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x74)) + 0x94) + 0x2FC));
     }
     return 1;
 }
@@ -2798,7 +2798,7 @@ void partner_observe_surroundings(TNpcPlayer *npc_player) {
     u8 *temp_r3;
     u8 *temp_r3_3;
     temp_r5 = *(s32 *)((s8 *)(*(u8 **)((s8 *)npc_player + 0x74)) + 0x94);
-    *(f32 *)((s8 *)npc_player + 0x58) = ((f32 (*)(void *, void *, int))horizontal_distance_squared)((void *) (temp_r5 + 0x38), (void *) (*(s32 *)((s8 *)(*(u8 **)((s8 *)npc_player + 0x78)) + 0x94) + 0x38), (int) (temp_r5));
+    *(f32 *)((s8 *)npc_player + 0x58) = ((f32 (*)(void *, void *, int))horizontal_distance_squared)((void *)(temp_r5 + 0x38), (void *) (*(s32 *)((s8 *)(*(u8 **)((s8 *)npc_player + 0x78)) + 0x94) + 0x38), (int)temp_r5);
     if ((s32) *(s32 *)((s8 *)npc_player + 0x84) != 0) {
         ((s32 (*)(void *, void *, f32))try_update_target_flag__10TNpcPlayerFPvi)((void *) (*(u8 **)((s8 *)npc_player + 0x78)), (void *) (get_npc_type__10TNpcPlayerFPv((void *) (*(u8 **)((s8 *)npc_player + 0x74)))), (f32) (*(f32 *)((s8 *)npc_player + 0x38)));
     } else {
@@ -2807,7 +2807,7 @@ void partner_observe_surroundings(TNpcPlayer *npc_player) {
     ((s32 (*)(s32))partner_view_update_conditions)((s32)((void *) (*(u8 **)((s8 *)npc_player + 0x78))));
     temp_f3 = *(f32 *)((s8 *)npc_player + 0xDC);
     temp_r3 = (u8 *)(*(void **)((s8 *)(*(u8 **)((s8 *)npc_player + 0x78)) + 0x94));
-    *(s32 *)((s8 *)(*(u8 **)((s8 *)npc_player + 0x78)) + 0x98) = (s32) (10430.38043493439 * atan2_float((int) (temp_r3), (f32) (temp_f3 - *(f32 *)((s8 *)temp_r3 + 0x38)), (f32) (*(f32 *)((s8 *)npc_player + 0xE4) - *(f32 *)((s8 *)temp_r3 + 0x40)), (f32) (temp_f3)));
+    *(s32 *)((s8 *)(*(u8 **)((s8 *)npc_player + 0x78)) + 0x98) = (s32) (10430.38043493439 * atan2_float((int)temp_r3, (f32) (temp_f3 - *(f32 *)((s8 *)temp_r3 + 0x38)), (f32) (*(f32 *)((s8 *)npc_player + 0xE4) - *(f32 *)((s8 *)temp_r3 + 0x40)), (f32)temp_f3));
     ((s32 (*)(void *))partner_probe_obstacles)((void *) (*(u8 **)((s8 *)npc_player + 0x78)));
     if (partner_view_update_hp_change((void *) (*(u8 **)((s8 *)npc_player + 0x78))) != 0) {
         if (((TNpcPlayer *)(*(u8 **)((s8 *)npc_player + 0x78)))->get_condition() & 0x40) {
@@ -2842,7 +2842,7 @@ void partner_observe_surroundings(TNpcPlayer *npc_player) {
         }
     } else {
         temp_r3_3 = (u8 *)(*(u8 **)((s8 *)npc_player + 0x78));
-        ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)((void *) (temp_r3_3 + 0x9C), (void *) (*(u8 **)((s8 *)temp_r3_3 + 0x94) + 0x44));
+        ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(temp_r3_3 + 0x9C, (void *) (*(u8 **)((s8 *)temp_r3_3 + 0x94) + 0x44));
         *(u8 *)((s8 *)npc_player + 0x8C) = 0U;
         *(u8 *)((s8 *)npc_player + 0x8D) = 0U;
     }
@@ -2998,7 +2998,7 @@ s32 needs_movement__10TNpcPlayerFPvPvi(u8 *arg0, void * _w1, int _w2) {
     if (var_f31 >= 40.0f) {
         var_f31 = 40.0f;
     }
-    temp_f1 = ((f32 (*)(void *, void *, int))horizontal_distance_squared)((void *)((void *) ((u8 *)(arg0) + 0xDC)), (void *)((void *) (*(s32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x78)) + 0x94) + 0x38)), (int)(_w2));
+    temp_f1 = ((f32 (*)(void *, void *, int))horizontal_distance_squared)((void *)((void *) (arg0 + 0xDC)), (void *)((void *) (*(s32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x78)) + 0x94) + 0x38)), _w2);
     *(f32 *)((s8 *)arg0 + 0x88) = temp_f1;
     if (temp_f1 >= (var_f31 * var_f31)) {
         return 1;
@@ -3027,22 +3027,22 @@ void TNpcPlayer::render() {  }
 s32 TNpcPlayer::check_movement_progress() {
     u8 *arg0 = (u8 *)this;
     s8 temp_r3;
-    if (((f32 (*)(void *, void *))horizontal_distance_squared)((void *) (arg0 + 0xAC), (void *) (arg0 + 0xD0)) <= 100.0f) {
+    if (((f32 (*)(void *, void *))horizontal_distance_squared)(arg0 + 0xAC, arg0 + 0xD0) <= 100.0f) {
         return 0;
     }
     temp_r3 = *(s8 *)((s8 *)arg0 + 0x8C);
     if (temp_r3 > 0x1E) {
         *(u8 *)((s8 *)arg0 + 0x8C) = 0x1EU;
         *(s32 *)((s8 *)arg0 + 0x80) = (s32) (*(s32 *)((s8 *)arg0 + 0x80) | 0x4000);
-        if (((s16 (*)(void *, int))get_partner_counter)((void *) (arg0 + 0x5C), 7) == 0) {
+        if (((s16 (*)(void *, int))get_partner_counter)(arg0 + 0x5C, 7) == 0) {
             request_chatter(7);
         }
-        ((s32 (*)(void *, int))increment_partner_counter)((void *) (arg0 + 0x5C), 7);
-        ((s32 (*)(void *, int, int))npc_counter_reset_if_reached)((void *) (arg0 + 0x5C), 7, 0x12C);
+        ((s32 (*)(void *, int))increment_partner_counter)(arg0 + 0x5C, 7);
+        ((s32 (*)(void *, int, int))npc_counter_reset_if_reached)(arg0 + 0x5C, 7, 0x12C);
         return 0;
     }
     if ((temp_r3 == 0) && (*(s32 *)((s8 *)arg0 + 0x80) & 0x4000)) {
-        ((s32 (*)(void *, int))reset_partner_counter)((void *) (arg0 + 0x5C), 7);
+        ((s32 (*)(void *, int))reset_partner_counter)(arg0 + 0x5C, 7);
         request_chatter(0x18);
         *(s32 *)((s8 *)arg0 + 0x80) = (s32) (*(s32 *)((s8 *)arg0 + 0x80) & 0xFFFFBFFF);
     }
@@ -3064,7 +3064,7 @@ s32 partner_view_check_moved(u8 *arg0) {
     stack.spC = *(f32 *)((s8 *)temp_r3 + 4) - *(f32 *)((s8 *)temp_r31 + 4);
     temp_f1 = *(f32 *)((s8 *)temp_r3 + 8);
     stack.sp10 = temp_f1 - *(f32 *)((s8 *)temp_r31 + 8);
-    if (((f32 (*)(void *, f32))vector_length)((void *) (&stack.sp8), (f32) (temp_f1)) > 0.4f) {
+    if (((f32 (*)(void *, f32))vector_length)(&stack.sp8, temp_f1) > 0.4f) {
         *(s32 *)((s8 *)arg0 + 0x8C) = (s32) (*(s32 *)((s8 *)arg0 + 0x8C) | 1);
         return 1;
     }
@@ -3183,7 +3183,7 @@ s32 partner_view_update_hp_change(void *arg0) {
     }
     temp_r4 = *(s16 *)((s8 *)arg0 + 0x88);
     temp_r0 = (s16)(temp_r4 - temp_r31);
-    if (temp_r4 >= (s32) (temp_r31 - 1)) {
+    if (temp_r4 >= (temp_r31 - 1)) {
         if ((f32) temp_r0 > (0.3f * (f32) temp_r3)) {
             *(s32 *)((s8 *)arg0 + 0x90) = (s32) (*(s32 *)((s8 *)arg0 + 0x90) | 0x40);
         } else if ((f32) temp_r0 > (0.2f * (f32) temp_r3)) {
@@ -3274,10 +3274,10 @@ void *TNpcPlayer::dt(s16 arg1) {
 bool is_target_line_clear__10TNpcPlayerFPvUs(u8 *arg0, u16 arg1) {
     Stack_8014F728 stack;
     u8 *temp_r3;
-    VecCopy__FP3VecPC3Vec((void *)((void *) (&stack.sp8)), (int)((void *) (find_active_entity_by_id((void *) (arg1)) + 0x2FC)));
+    VecCopy__FP3VecPC3Vec((void *)((void *)&stack.sp8), (int)((void *) (find_active_entity_by_id((void *)arg1) + 0x2FC)));
     temp_r3 = (u8 *)(*(u8 **)((s8 *)arg0 + 0x94));
     stack.spC = *(f32 *)((s8 *)temp_r3 + 0x300);
-    return ((s32)csnVector((s32)((void *) (temp_r3 + 0x2FC)), (s32)((void *) (&stack.sp8)), 0x2100)) == 0;
+    return ((s32)csnVector((s32)(temp_r3 + 0x2FC), (s32)(&stack.sp8), 0x2100)) == 0;
 }
 
 s32 scan_nearby_enemies__10TNpcPlayerFPvPvf(View_8014F57C *view, void *pos, f32 range) {
@@ -3369,8 +3369,8 @@ void TNpcPlayer::quick_sort(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
 
     if (arg2 < arg3) {
         temp_r3 = ((s32 (*)(void))partition_sort_entries__10TNpcPlayerFiPvii)();
-        TNpcPlayer::quick_sort((s32)(arg0), (s32)(arg1), (s32)(arg2), (s32)(temp_r3 - 1));
-        TNpcPlayer::quick_sort((s32)(arg0), (s32)(arg1), (s32)(temp_r3 + 1), (s32)(arg3));
+        TNpcPlayer::quick_sort(arg0, arg1, arg2, temp_r3 - 1);
+        TNpcPlayer::quick_sort(arg0, arg1, temp_r3 + 1, arg3);
     }
 }
 
@@ -3440,8 +3440,8 @@ s32 partner_find_wall_segment(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) 
     u8 *temp_r3;
     temp_r3 = (u8 *)(csnVector(arg1, arg2, 0x2100));
     if (temp_r3 != NULL) {
-        VecCopy__FP3VecPC3Vec((void *) (arg3), (int) (*(s32 *)((s8 *)temp_r3 + 4)));
-        VecCopy__FP3VecPC3Vec((void *) (arg4), (int) (*(s32 *)((s8 *)temp_r3 + 4) + 0xC));
+        VecCopy__FP3VecPC3Vec((void *)arg3, (int) (*(s32 *)((s8 *)temp_r3 + 4)));
+        VecCopy__FP3VecPC3Vec((void *)arg4, (int) (*(s32 *)((s8 *)temp_r3 + 4) + 0xC));
         return 1;
     }
     return 0;
@@ -3796,7 +3796,7 @@ void TNpcPlayer::request_chatter(u32 arg1) {
   {
     new_var2 = 0x24;
     block_4:
-    reset_partner_counter((s32) (arg0 + 0x5C), 0);
+    reset_partner_counter((s32)(arg0 + 0x5C), 0);
     if (arg1 != ((u32) (*((u32 *) (((s8 *) arg0) + new_var2)))))
     {
       *new_var = arg1;
@@ -3876,7 +3876,7 @@ void TNpcPlayer::change_ai_state(u32 arg1) {
     switch (arg1) {
     case 0:
         *(s32 *)((s8 *)arg0 + 0x80) = (s32) (*(s32 *)((s8 *)arg0 + 0x80) & 0xFFFFFFCF);
-        VecCopy__FP3VecPC3Vec((void *)((void *) ((u8 *)(arg0) + 0xDC)), (int)((void *) (*(s32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x78)) + 0x94) + 0x2FC)));
+        VecCopy__FP3VecPC3Vec((void *)((void *) (arg0 + 0xDC)), (int)((void *) (*(s32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x78)) + 0x94) + 0x2FC)));
         return;
     case 1:
         *(s32 *)((s8 *)arg0 + 0x80) = (s32) (*(s32 *)((s8 *)arg0 + 0x80) & 0xFFFFFFEF);
@@ -3887,7 +3887,7 @@ void TNpcPlayer::change_ai_state(u32 arg1) {
         *(s32 *)((s8 *)arg0 + 0x80) = (s32) (*(s32 *)((s8 *)arg0 + 0x80) | 0x10);
         return;
     case 8:
-        VecCopy__FP3VecPC3Vec((void *)((void *) ((u8 *)(arg0) + 0xDC)), (int)((void *) (*(s32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x78)) + 0x94) + 0x2FC)));
+        VecCopy__FP3VecPC3Vec((void *)((void *) (arg0 + 0xDC)), (int)((void *) (*(s32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x78)) + 0x94) + 0x2FC)));
         return;
     case 16:
         *(s32 *)((s8 *)arg0 + 0x80) = (s32) (*(s32 *)((s8 *)arg0 + 0x80) & 0xFFFFFFEF);
@@ -3901,7 +3901,7 @@ void TNpcPlayer::dispatch_action(s32 arg1) {
     switch (arg1) {
     case 0:
         if (((TNpcPlayer *)(*(s32 *)((s8 *)this + 0x78)))->get_condition() & 0x20) {
-            handle_action((s32)(arg1));
+            handle_action(arg1);
         } else {
             ((s32 (*)(void *, s32))request_technique_cast__10TNpcPlayerFPvi)(this, 0xF);
         }
@@ -3911,20 +3911,20 @@ void TNpcPlayer::dispatch_action(s32 arg1) {
         return;
     case 1:
         if (((TNpcPlayer *)(*(s32 *)((s8 *)this + 0x78)))->get_condition() & 0x20) {
-            handle_action((s32)(arg1));
+            handle_action(arg1);
             return;
         }
         break;
     case 2:
         if (((TNpcPlayer *)(*(s32 *)((s8 *)this + 0x78)))->get_condition() & 0x20) {
-            handle_action((s32)(arg1));
+            handle_action(arg1);
             return;
         }
         ((s32 (*)(void *, s32))request_technique_cast__10TNpcPlayerFPvi)(this, 0x10);
         return;
     case 3:
         if (((TNpcPlayer *)(*(s32 *)((s8 *)this + 0x78)))->get_condition() & 0x20) {
-            handle_action((s32)(arg1));
+            handle_action(arg1);
             return;
         }
         ((s32 (*)(void *, s32))request_technique_cast__10TNpcPlayerFPvi)(this, 0x11);

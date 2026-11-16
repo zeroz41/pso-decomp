@@ -543,10 +543,10 @@ s32 TLobby__sub_803FA7B0(u8 *self, u8 *src, void *h)
   self = self;
   new_var = *((u8 **) (self + 0x30));
   m = new_var;
-  cnt = *((s16 *) (src + 2));
+  cnt = *((s16 *)(src + 2));
   state = 2;
   blk = 0;
-  *((s16 *) (m + 0x50)) = 0;
+  *((s16 *)(m + 0x50)) = 0;
   while ((cnt > 0) && (((s16) read_2_bytes(pair, &h)) != (-1)))
   {
     cnt -= pair[1];
@@ -571,7 +571,7 @@ s32 TLobby__sub_803FA7B0(u8 *self, u8 *src, void *h)
     if (res != 4)
     {
       sh = optbit_803FA318(pair[0]);
-      *((s16 *) (m + 0x50)) |= 1 << sh;
+      *((s16 *)(m + 0x50)) |= 1 << sh;
     }
     TLobby__sub_803FADA0(&blk, (A_803FADA0 *) (m + 0x50), pair[0], pair[1], &h);
     if (res > 3)

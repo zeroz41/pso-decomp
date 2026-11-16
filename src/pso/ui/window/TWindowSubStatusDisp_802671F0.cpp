@@ -651,7 +651,7 @@ void TWindowMenuIconLine::clamp_item_list_scroll() {
         if ((u32) this->status_display != 0U) {
             stack.spC = temp_f1 - 6.0f;
         }
-        clamp_list_scroll_offset((int) (this->unk_84), (void *) (((u8 *)this) + 0x68), &stack.sp8);
+        clamp_list_scroll_offset((int)this->unk_84, (void *) (((u8 *)this) + 0x68), &stack.sp8);
     }
 }
 
@@ -685,7 +685,7 @@ void TWindowMenuIconLine::draw_selected_list_entry(s32 window_key_board_soft) {
     u16 *temp_r3;
 
     if (!(this->state_flags & 0x80)) {
-        temp_r3 = ((u16 *(*)(void *, s16))get_array_entry__11TWindowBaseFi)(this, (s16)(this->cursor));
+        temp_r3 = ((u16 *(*)(void *, s16))get_array_entry__11TWindowBaseFi)(this, this->cursor);
         if (*temp_r3 & 1) {
             draw_selection_bar((u8 *)window_key_board_soft, (u8 *)temp_r3, is_decided__19TWindowMenuIconLineFv(this));
         }

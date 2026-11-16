@@ -59,7 +59,7 @@ void TObjCMHexTile::run_task() {
     frame = temp_r6;
     temp_r5_2 = state;
     if (temp_r6 >= state_end_frame[temp_r5_2]) {
-        state = (s32)(temp_r5_2 + 1);
+        state = (temp_r5_2 + 1);
         if ((s32) state == 3) {
             queue_destruction();
         }

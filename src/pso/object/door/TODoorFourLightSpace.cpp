@@ -198,7 +198,7 @@ void TODoorFourLightRuins::render() {
             set_global_param__8TObjFishFl();
             post_translate_matrix((u8 *)&this->position);
             rotate_matrix_y(0, this->rotation_y);
-            draw_ginja_object((void *)(this->m_d4));
+            draw_ginja_object((void *)this->m_d4);
             pop_matrix();
             break;
         }
@@ -410,7 +410,7 @@ void TODoorFourLightSpace::render() {
             set_global_param__8TObjFishFl();
             post_translate_matrix((u8 *)&this->position);
             rotate_matrix_y(0, this->rotation_y);
-            draw_ginja_object((void *)(this->m_d4));
+            draw_ginja_object((void *)this->m_d4);
             pop_matrix();
             break;
         }

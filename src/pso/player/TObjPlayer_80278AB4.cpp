@@ -32,7 +32,7 @@ void TObjPlayer::build_shop_item_list() {
                 ((TShopJudgmentItemWindow *)((u8 *)this))->add_list_entry(temp_r3_2, spC[i]);
             }
         }
-        temp_r3_3 = TObjPlayer::get_slot_value((s32 *)(player + 0xD04), 6);
+        temp_r3_3 = TObjPlayer::get_slot_value(player + 0xD04, 6);
         if (temp_r3_3 != 0) {
             temp_r5 = get_item_id__5TItemFv();
             ((TShopJudgmentItemWindow *)((u8 *)this))->add_list_entry(temp_r3_3, temp_r5);

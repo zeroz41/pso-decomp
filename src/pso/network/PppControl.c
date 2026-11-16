@@ -156,10 +156,10 @@ s32 TLobby__sub_80403B04(u8 *arg0, u8 *arg1, s32 arg2) {
         }
         return -0x11;
     }
-    set_flags_and_state((void *)(g + 0x6C));
+    set_flags_and_state(g + 0x6C);
     st = lbl_805D7A7C;
     if (st == 6 || st == 0) {
-        set_flags_and_state((void *)(g + 0xD4));
+        set_flags_and_state(g + 0xD4);
     }
     return 0;
 }
@@ -180,10 +180,10 @@ s32 TLobby__sub_80403BA8(u8 *arg0, u8 *arg1, s32 arg2) {
         }
         return -0x11;
     }
-    set_flags_and_state((void *)(g + 0x6C));
+    set_flags_and_state(g + 0x6C);
     st = lbl_805D7A7C;
     if (st == 6 || st == 0) {
-        set_flags_and_state((void *)(g + 0xD4));
+        set_flags_and_state(g + 0xD4);
     }
     return 0;
 }
@@ -238,7 +238,7 @@ s32 TLobby__sub_80403D28(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 a
     lbl_805C0638[5].active = 0;
     lbl_805C0638[6].active = 0;
     lbl_805C0638[7].active = 0;
-    temp_r31 = TLobby__sub_80403DA8((void *) (arg1), (void *) (arg2), (void *) (arg3), (void *) (arg4), (void *) (arg5), (void *) (arg6), (void *) (arg7));
+    temp_r31 = TLobby__sub_80403DA8(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
     TLobby__sub_804062A0(0x82);
     return temp_r31;
 }

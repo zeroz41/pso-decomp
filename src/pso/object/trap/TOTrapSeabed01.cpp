@@ -316,8 +316,8 @@ void TOTrapSeabed01::trigger_by_id(u32 node) {
 
 void TOTrapSeabed01::vfunc_81() {
     frame += play_speed;
-    if (frame > (f32)(current_motion->nbFrame - 1)) {
-        frame = (f32)(current_motion->nbFrame - 1);
+    if (frame > (current_motion->nbFrame - 1)) {
+        frame = (current_motion->nbFrame - 1);
         mode = 3;
         calc_attach_pos();
         clear_player_status_flag(0, 0x08001F04);

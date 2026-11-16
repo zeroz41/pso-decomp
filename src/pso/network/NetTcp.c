@@ -697,8 +697,8 @@ s32 TLobby__sub_8041B3D4(void* a, void* b, s16 c, s16 d, s32 e, s32 f, u8 g_m) {
     NetPacket *pkt;
     u8 buf[0x10];
 
-    NetMemset((void *)(buf), 0, 0x10);
-    if (!TLobby__sub_8040DA54((u8 *)(a), (u8 *)(b))) {
+    NetMemset(buf, 0, 0x10);
+    if (!TLobby__sub_8040DA54(a, b)) {
         return -1;
     }
     src.s0 = c;
@@ -725,19 +725,19 @@ s32 TLobby__sub_8041B3D4(void* a, void* b, s16 c, s16 d, s32 e, s32 f, u8 g_m) {
     pkt->fragment_count = 1;
     pkt->total_bytes = 0x14;
     pkt->fragments[0].length = 0x14;
-    NetMemcpy((void *)(&hdr.s0), (void *)(&src.s0), 2);
-    NetMemcpy((void *)(&hdr.s1), p1, 2);
-    NetMemcpy((void *)(&hdr.w0), p2, 4);
-    NetMemcpy((void *)(&hdr.w1), p3, 4);
-    NetMemcpy((void *)(&hdr.b0), p4, 1);
-    NetMemcpy((void *)(&hdr.b1), p5, 1);
-    NetMemcpy((void *)(&hdr.h0), p6, 2);
+    NetMemcpy(&hdr.s0, &src.s0, 2);
+    NetMemcpy(&hdr.s1, p1, 2);
+    NetMemcpy(&hdr.w0, p2, 4);
+    NetMemcpy(&hdr.w1, p3, 4);
+    NetMemcpy(&hdr.b0, p4, 1);
+    NetMemcpy(&hdr.b1, p5, 1);
+    NetMemcpy(&hdr.h0, p6, 2);
     ph = &hdr.h1;
     NetMemcpy(ph, p7, 2);
-    NetMemcpy((void *)(&hdr.h2), p8, 2);
+    NetMemcpy(&hdr.h2, p8, 2);
     set_value_and_enable(&pkt->fragments[0].buffer, (s32)&hdr);
-    src.h1 = ((s16)TLobby__sub_8040D8F0((u8 *)(b), (u8 *)(a), (s8)(6), (u8 *)pkt, (s16)(1)));
-    NetMemcpy(ph, (void *)(&src.h1), 2);
+    src.h1 = ((s16)TLobby__sub_8040D8F0(b, a, (s8)(6), (u8 *)pkt, (s16)(1)));
+    NetMemcpy(ph, &src.h1, 2);
     if (dispatch_by_addr_family((s32)pkt, (NetworkAddress *)a, (NetworkAddress *)b, buf + 4, buf + 4, (void *)6) < 0) {
         release_entry(pkt);
         return -1;

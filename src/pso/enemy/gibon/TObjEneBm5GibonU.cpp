@@ -862,9 +862,9 @@ void TObjEneBm5GibonU::state_cast_technique(s32 arg1) {
                     switch (m_468) {
                     case 1:
                         if (r < ((AttackParams *)m_318)->get_attack_angle() / 2 && m_390 != 0) {
-                            TTecMegid::create((s32)this, (s32)&p, (s32)(&m_394), (s32)(get_clamped_level()));
+                            TTecMegid::create((s32)this, (s32)&p, (s32)&m_394, (s32)(get_clamped_level()));
                         } else {
-                            TTecMegid::create_ex((s32)this, (s32)&p, (s32)(rotation_y), (s32)(get_clamped_level()));
+                            TTecMegid::create_ex((s32)this, (s32)&p, rotation_y, (s32)(get_clamped_level()));
                         }
                         play_sound_effect((void *)0x4002A60B, &p, 0, 0);
                         break;
@@ -897,13 +897,13 @@ void TObjEneBm5GibonU::state_cast_technique(s32 arg1) {
                 } else {
                     switch (m_468) {
                     case 1:
-                        ((TTecGiBarta *)this)->create_ex(&p, (void *)(rotation_y), (void *)(get_clamped_level()));
+                        ((TTecGiBarta *)this)->create_ex(&p, (void *)rotation_y, (void *)(get_clamped_level()));
                         break;
                     default:
                         if (r < ((AttackParams *)m_318)->get_attack_angle() / 2 && m_390 != 0) {
                             TTecFoie::create_ex((void *)this, &p, (void *)&m_390->m_2fc, (void *)(get_clamped_level()));
                         } else {
-                            TTecFoie::create((void *)this, &p, (void *)(rotation_y), (void *)(get_clamped_level()));
+                            TTecFoie::create((void *)this, &p, (void *)rotation_y, (void *)(get_clamped_level()));
                         }
                         break;
                     }
@@ -1432,14 +1432,14 @@ void TObjEneBm5GibonU__sub_800CEBD8(TObjEneBm5GibonU *self, s32 arg1) {
                 }
             }
             self->approach_target(0.1f);
-            self->rotation_y = approach_angle_limited((s32)((int) (self->rotation_y)), (s32)((int) (self->m_528)), 0x1000);
+            self->rotation_y = approach_angle_limited((s32)(self->rotation_y), (s32)(self->m_528), 0x1000);
             self->rotation_y = (s32) (s16) self->rotation_y;
             turn_toward_angle__16TObjEneBm5GibonUFPvi(self, self->rotation_y);
             if (self->frame <= 28.0f) {
-                self->move_with_wall_slide_on_ground((f32) (self->m_3a0), (f32) (self->m_3a8), (f32) (self->m_498));
+                self->move_with_wall_slide_on_ground(self->m_3a0, self->m_3a8, self->m_498);
             } else if ((s32) self->m_564 == 0) {
                 self->m_498 *= 0.8f;
-                self->move_with_wall_slide_on_ground((f32) (self->m_3a0), (f32) (self->m_3a8), (f32) (self->m_498));
+                self->move_with_wall_slide_on_ground(self->m_3a0, self->m_3a8, self->m_498);
             }
             break;
         }
@@ -2003,7 +2003,7 @@ void TObjEneBm5GibonU__sub_800CFFBC(TObjEneBm5GibonU *self, s32 arg1) {
       self->m_518 = 0;
       return;
     case 3:
-      if (((s32) (self->m_518)) > 0x3C)
+      if ((self->m_518) > 0x3C)
     {
       self->transition_enemy_state(8);
     }
@@ -2045,7 +2045,7 @@ void TObjEneBm5GibonU__sub_800D00F0(TObjEneBm5GibonU *self, s32 arg1) {
       return;
       self->m_518 = (s32) (((s32) (60.0f * self->random_ratio())) + 0xA);
     case 3:
-      if (((s32) (self->m_518)) <= 0)
+      if ((self->m_518) <= 0)
     {
       self->set_anim_by_state();
     }
@@ -2079,7 +2079,7 @@ void TObjEneBm5GibonU__sub_800D01DC(TObjEneBm5GibonU *self, s32 arg1) {
       self->transition_enemy_state(5);
       return;
     }
-      if (((u32) (self->m_390)) != 0U)
+      if ((self->m_390) != 0U)
     {
       self->enemy_copy_target_destination();
       self->set_anim_by_state();
@@ -2326,7 +2326,7 @@ s32 TObjEneBm5GibonU__sub_800D0968(TObjEneBm5GibonU *self, int _w1) {
     f32 temp_f4;
     f32 temp_f5;
     f32 var_f0;
-    if (transform_relative_position__9TObjEneDDFPv(self, (int) (self->m_390)) != 0) {
+    if (transform_relative_position__9TObjEneDDFPv(self, (int)self->m_390) != 0) {
         self->enemy_copy_target_destination();
         self->update_velocity();
         if (is_active__16TObjEneBm5GibonUFPv(self) != 0) {
@@ -2341,9 +2341,9 @@ s32 TObjEneBm5GibonU__sub_800D0968(TObjEneBm5GibonU *self, int _w1) {
         self->update_velocity();
         return (s32) (10430.38043493439 * atan2_float((f64) self->m_3a0, (f64) self->m_3a8));
     }
-    self->m_3a0 = sin_table_lookup((int) (self->rotation_y));
+    self->m_3a0 = sin_table_lookup(self->rotation_y);
     self->m_3a4 = (f32) 0.0f;
-    self->m_3a8 = cos_table_lookup((int) (self->rotation_y));
+    self->m_3a8 = cos_table_lookup(self->rotation_y);
     VecCopy(&self->m_394, &self->position);
     self->m_394.x = (f32) ((30.0f * self->m_3a0) + self->m_394.x);
     self->m_394.z = (f32) ((30.0f * self->m_3a8) + self->m_394.z);

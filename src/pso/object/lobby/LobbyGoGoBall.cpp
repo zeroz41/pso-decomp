@@ -1150,9 +1150,9 @@ extern "C" {
 void TUnk_804B8DE8::render() {
     if ((((u32) gogo_ball_bml_resource != 0U) || ((u32) lobby_gvm_texture_handles[4] != 0U)) && ((u16) *(u16 *)((s8 *)&gogo_ball_configuration + 0x48) != 6)) {
         if (this->unk_50 == 1) {
-            TObjFish::set_global_param((int) (lobby_gvm_texture_handles[4]));
+            TObjFish::set_global_param(lobby_gvm_texture_handles[4]);
         } else {
-            TObjFish::set_global_param((int) (lobby_gvm_texture_handles[5]));
+            TObjFish::set_global_param(lobby_gvm_texture_handles[5]);
         }
         push_matrix();
         post_translate_matrix(&this->pos);
@@ -1296,9 +1296,9 @@ void TUnk_804B8DD0::render() {
     bml_model = (u8 *)(get_bml_model((void *)gogo_ball_bml_resource, 1));
     if (bml_model != NULL) {
         if ((s32) this->m_28 != 0) {
-            TObjFish::set_global_param((int) (lobby_gvm_texture_handles[7]));
+            TObjFish::set_global_param(lobby_gvm_texture_handles[7]);
         } else {
-            TObjFish::set_global_param((int) (lobby_gvm_texture_handles[8]));
+            TObjFish::set_global_param(lobby_gvm_texture_handles[8]);
         }
         push_matrix();
         post_translate_matrix((u8 *)&this->pos);

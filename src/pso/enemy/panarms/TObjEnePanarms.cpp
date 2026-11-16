@@ -868,12 +868,12 @@ void TObjEnePanBARA::update_offset_from_parent() {
     f32 c;
     x = panarms_parent_offset_table[this->m_380].x;
     z = panarms_parent_offset_table[this->m_380].z;
-    s = sin_table_lookup(*(s32 *)((s8 *)(this->m_39c) + 0x60));
-    c = cos_table_lookup(*(s32 *)((s8 *)(this->m_39c) + 0x60));
+    s = sin_table_lookup(*(s32 *)(this->m_39c + 0x60));
+    c = cos_table_lookup(*(s32 *)(this->m_39c + 0x60));
     VecCopy((Vec *)&this->m_38c, (const Vec *)(this->m_39c + 0x38));
     this->m_38c.x += x * c + z * s;
     this->m_38c.z += -x * s + z * c;
-    this->m_398 = *(s32 *)((s8 *)(this->m_39c) + 0x60);
+    this->m_398 = *(s32 *)(this->m_39c + 0x60);
     this->m_398 += lbl_8043CD78[this->m_380];
 }
 #pragma pop
@@ -1030,7 +1030,7 @@ void TObjEnePanBARA::init_split() {
     *(s32 *)((s8 *)temp_r7 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r7 + 0x18) & 0xFFFFFFFE);
     this->m_384 = 1;
     this->m_388 = 0;
-    this->hp = (s16) (((*(s16 *)((s8 *)(this->m_39c) + 0x32C)) + 1) / 2);
+    this->hp = (s16) (((*(s16 *)(this->m_39c + 0x32C)) + 1) / 2);
     this->m_3bc = (s32) this->hp;
     *(s32 *)&this->unk_3C0 = 0;
     clear_motion_flags(0x10);
@@ -1157,7 +1157,7 @@ void TObjEnePanBARA::sub_800E10D0() {
 void TObjEnePanBARA::init_state_1() {
     u8 *arg0 = (u8 *)this;
     u8 *temp_r5;
-    temp_r5 = (u8 *)(this->collision_body_parts);
+    temp_r5 = (u8 *)this->collision_body_parts;
     *(s32 *)((s8 *)temp_r5 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r5 + 0x18) | 1);
     this->motion_flags = (s32) (this->motion_flags & 0xFFFFFFFE);
     ((TObjMotion *)arg0)->set_field_b8(1);
@@ -1185,7 +1185,7 @@ void TObjEnePanBARA::update_move_to_target() {
     } else {
         normalize_vector(&sp8);
     }
-    if (*(s32 *)((s8 *)(this->collision_body_parts) + 0x18) & 0x01C00000) {
+    if (*(s32 *)((s8 *)this->collision_body_parts + 0x18) & 0x01C00000) {
         f32 t = sp8.x;
         sp8.x = sp8.z;
         sp8.z = -t;
@@ -1211,7 +1211,7 @@ void TObjEnePanBARA::update_move_to_target() {
 void TObjEnePanBARA::init_state_16() {
     u8 *arg0 = (u8 *)this;
     u8 *temp_r6;
-    temp_r6 = (u8 *)(this->collision_body_parts);
+    temp_r6 = (u8 *)this->collision_body_parts;
     *(s32 *)((s8 *)temp_r6 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r6 + 0x18) | 1);
     this->action_timer = 0x16;
     this->motion_flags = (s32) (this->motion_flags & 0xFFFFFFFE);
@@ -1244,7 +1244,7 @@ void TObjEnePanBARA::sub_800E0D1C() {
         stack.spC *= temp_f31;
         stack.sp10 *= temp_f31;
         vec3_add_to(&position, &stack.sp8);
-        this->rotation_y = (s32) ((temp_f31 * (f32) angle_diff_s16((int) (this->rotation_y), (int) (*(s32 *)((s8 *)this + 0x398)))) + (f32) this->rotation_y);
+        this->rotation_y = (s32) ((temp_f31 * (f32) angle_diff_s16(this->rotation_y, (int) (*(s32 *)((s8 *)this + 0x398)))) + (f32) this->rotation_y);
     } else if (temp_r0 == 0) {
         ((TObjMotion *)this)->set_field_b8(0);
     }
@@ -1255,10 +1255,10 @@ void TObjEnePanBARA::sub_800E0D1C() {
 void TObjEnePanBARA::restore_from_linked_object() {
     u8 *arg0 = (u8 *)this;
     u8 *temp_r4;
-    temp_r4 = (u8 *)(this->collision_body_parts);
+    temp_r4 = (u8 *)this->collision_body_parts;
     *(s32 *)((s8 *)temp_r4 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r4 + 0x18) & 0xFFFFFFFE);
     VecCopy((Vec *)(arg0 + 0x38), (const Vec *)(this->m_39c + 0x38));
-    this->rotation_y = (s32) *(s32 *)((s8 *)((u8 *)(this->m_39c)) + 0x60);
+    this->rotation_y = (s32) *(s32 *)((s8 *)(this->m_39c) + 0x60);
     this->motion_flags = (s32) (this->motion_flags | 1);
     ((TObjMotion *)arg0)->set_field_b8(8);
 }
@@ -1350,7 +1350,7 @@ void TObjEnePanBARA::sub_800E092C() {  }
 void TObjEnePanBARA::init_state_2() {
     u8 *arg0 = (u8 *)this;
     u8 *temp_r7;
-    temp_r7 = (u8 *)(this->collision_body_parts);
+    temp_r7 = (u8 *)this->collision_body_parts;
     *(s32 *)((s8 *)temp_r7 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r7 + 0x18) | 1);
     this->m_384 = 1;
     this->m_388 = 1;
@@ -1526,7 +1526,7 @@ void TObjEnePanBARA::sub_800E0214() {
         TObjEnePanarms__sub_800E1C98((u8 *)this, 2);
         return;
     }
-    this->rotation_y = approach_angle_limited((int) (this->rotation_y), (int) ((s32) ((6144.0f * sin_table_lookup((int) (this->action_timer << 0xC))) + (f32) this->m_3d4)), 0x1111);
+    this->rotation_y = approach_angle_limited(this->rotation_y, (int) ((s32) ((6144.0f * sin_table_lookup((int) (this->action_timer << 0xC))) + (f32) this->m_3d4)), 0x1111);
     if (!(this->action_timer & 0x3F)) {
         play_sound_effect(this->remap_sound_for_area(0x4003BC2D), (u8 *)this + 0x38, 0, 0);
     }
@@ -1538,7 +1538,7 @@ void TObjEnePanBARA::start_phase2_timer150() {
     u8 *arg0 = (u8 *)this;
     u8 *temp_r7;
     if ((s32) this->m_380 != 0) {
-        temp_r7 = (u8 *)(this->collision_body_parts);
+        temp_r7 = (u8 *)this->collision_body_parts;
         *(s32 *)((s8 *)temp_r7 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r7 + 0x18) | 1);
         this->m_384 = 1;
         this->m_388 = 1;
@@ -1586,7 +1586,7 @@ void TObjEnePanBARA::start_phase3_timer12() {
     u8 *arg0 = (u8 *)this;
     u8 *temp_r7;
     if ((s32) this->m_380 != 0) {
-        temp_r7 = (u8 *)(this->collision_body_parts);
+        temp_r7 = (u8 *)this->collision_body_parts;
         *(s32 *)((s8 *)temp_r7 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r7 + 0x18) | 1);
         this->m_384 = 1;
         this->m_388 = 1;
@@ -1617,7 +1617,7 @@ void TObjEnePanBARA::init_open_state() {
     u8 *arg0 = (u8 *)this;
     u8 *temp_r7;
     if ((s32) this->m_380 != 1) {
-        temp_r7 = (u8 *)(this->collision_body_parts);
+        temp_r7 = (u8 *)this->collision_body_parts;
         *(s32 *)((s8 *)temp_r7 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r7 + 0x18) | 1);
         this->m_384 = 1;
         this->m_388 = 1;

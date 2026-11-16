@@ -38,7 +38,7 @@ void TChCrEffFade::update_fade() {
         alpha = 1.0f;
         return;
     }
-    alpha = (f32) (1.0f - ((temp_r6 - 3) / (f32) (length - 3)));
+    alpha = (f32) (1.0f - ((temp_r6 - 3) / (f32)(length - 3)));
 }
 
 void TChCrEffFade::run_task() {

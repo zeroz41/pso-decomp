@@ -393,7 +393,7 @@ void TOVS2::render() {
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
         TObjFish::set_global_param(this->texlist);
-        draw_ginja_object((void *)(this->model));
+        draw_ginja_object(this->model);
         pop_matrix();
     }
 }

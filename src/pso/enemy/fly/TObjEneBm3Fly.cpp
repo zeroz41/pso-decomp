@@ -960,9 +960,9 @@ void TObjEneBm3Fly__sub_800B02C8(TObjEneBm3Fly *arg0, s32 arg1) {
         arg0->m_428 |= 2;
         arg0->actorFlags |= 0x01000000;
         arg0->sub_800B1634();
-        arg0->m_394.x = (f32) (((3e+01f) * sin_table_lookup((int) (arg0->m_448))) + arg0->m_41c.x);
+        arg0->m_394.x = (f32) (((3e+01f) * sin_table_lookup(arg0->m_448)) + arg0->m_41c.x);
         arg0->m_394.y = (f32) arg0->m_444;
-        arg0->m_394.z = (f32) (((3e+01f) * cos_table_lookup((int) (arg0->m_448))) + arg0->m_41c.z);
+        arg0->m_394.z = (f32) (((3e+01f) * cos_table_lookup(arg0->m_448)) + arg0->m_41c.z);
         params = (Bm3FlyMovementParameters *)arg0->movementParameters;
         arg0->m_3e0 = 2.0f + calc_scaled_value__15TObjBoss2TunnelFlf(params->unknown_08, (int)params, params->unknown_04, 3e+01f);
         arg0->update_velocity();
@@ -1059,7 +1059,7 @@ void action__13TObjEneBm3FlyFPvi(TObjEneBm3Fly *arg0, s32 arg1) {
         TBoss8Dragon__sub_800BB7DC(arg0);
         TBoss8Dragon__sub_800BB7D8(arg0, 0xF1, (1.0f));
         play_sound_effect(arg0->remap_sound_for_area(0x4003E425), &arg0->position, 0, 0);
-        TBoss3Volopt::create_breakup_mdl((s32)TObjEneBm3Fly__breakup_model, (s32)&bm3_fly_breakup_params, (s32)(arg0->texlist), (s32)&arg0->m_2fc, (s32)(arg0->rotation_y));
+        TBoss3Volopt::create_breakup_mdl((s32)TObjEneBm3Fly__breakup_model, (s32)&bm3_fly_breakup_params, arg0->texlist, (s32)&arg0->m_2fc, arg0->rotation_y);
         arg0->m_3c0 = 0;
         return;
     case 3:

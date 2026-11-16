@@ -562,7 +562,7 @@ void TOMine::update_float_height() {
             this->m_340 = (s32) (this->m_340 | 2);
         }
     } else {
-        this->rotation_x = (s32) (this->rotation_x + 0x800);
+        this->rotation_x = (this->rotation_x + 0x800);
         float_position.y = (f32) (float_position.y + sin_table_lookup(this->rotation_x));
     }
 }

@@ -315,7 +315,7 @@ void TObjEneDelDepth::init() {
     VecCopy(&this->prev_position, (const Vec *)(VecCopy(&this->home_position, (const Vec *)(VecCopy(&this->center, &this->position)))));
     this->collisionBody = (CollisionBody *)init_collision_body_parts(arg0, TObjEneDelDepth_collision_body_parts, 1);
     ((TObjMotion *)arg0)->set_field_d8((s32)lbl_804E8194);
-    ((TObjMotion *)arg0)->set_field_dc((int) (TObjEneDelDepth__shared_resource->motions));
+    ((TObjMotion *)arg0)->set_field_dc((int)TObjEneDelDepth__shared_resource->motions);
     ((TObjMotion *)arg0)->set_animation(0);
     ((TObjMotion *)arg0)->set_field_b8(0);
     VecCopy((Vec *)((u8 *)&this->m_2fc), &this->position);
@@ -581,7 +581,7 @@ void TObjEneDelDepth::fn_80314EC4() {
     temp_f1_2 = var_f31 * (lbl_805DF250 * sin_table_lookup(ene_del_depth->timer << 0xC));
     ene_del_depth->drawScale.x = (f32) (ene_del_depth->drawScale.x * (TObjEneDelDepth__data_805DF260 + temp_f1_2));
     ene_del_depth->drawScale.z = (f32) (ene_del_depth->drawScale.z * (TObjEneDelDepth__data_805DF260 - temp_f1_2));
-    ene_del_depth->timer = (s32) (ene_del_depth->timer + 1);
+    ene_del_depth->timer = (ene_del_depth->timer + 1);
     temp_f1_3 = ene_del_depth->m_38c;
     if (temp_f1_3 >= TObjEneDelDepth__data_805DF298) {
         ene_del_depth->opacity = (f32) TObjEneDelDepth__data_805DF260;
@@ -952,7 +952,7 @@ void TObjEneDelDepth::update_bomb_drop() {
     Vec out;
     s32 temp_r0;
     s32 temp_r0_2;
-    this->attackTimer = (s32) (this->attackTimer - 1);
+    this->attackTimer = (this->attackTimer - 1);
     temp_r0 = this->attackTimer;
     if ((temp_r0 <= 0) && (temp_r0 == 0)) {
         set_motion_packed_rotation();
@@ -994,13 +994,13 @@ void TObjEneDelDepth::update_attack_cast() {
     s32 temp_r0;
     s32 temp_r0_2;
 
-    this->attackTimer = (s32) (this->attackTimer - 1);
+    this->attackTimer = (this->attackTimer - 1);
     temp_r0 = this->attackTimer;
     if ((temp_r0 <= 0) && (temp_r0 == 0)) {
         if ((s32) game_difficulty_selection == 3) {
-            TTecMegid::create_ex((s32)arg0, (s32)((u8 *)&this->position), (s32)((int)this->rotation_y), (s32)((int) (TObjEneDelDepth__tune_params->techniqueLevel)));
+            TTecMegid::create_ex((s32)arg0, (s32)((u8 *)&this->position), (s32)((int)this->rotation_y), (s32)(TObjEneDelDepth__tune_params->techniqueLevel));
         } else {
-            ((TTecBarta *)arg0)->create_ex((u8 *)&this->position, (void *)this->rotation_y, (void *)(TObjEneDelDepth__tune_params->techniqueLevel));
+            ((TTecBarta *)arg0)->create_ex((u8 *)&this->position, (void *)this->rotation_y, (void *)TObjEneDelDepth__tune_params->techniqueLevel);
         }
     }
     temp_r0_2 = this->timer - 1;

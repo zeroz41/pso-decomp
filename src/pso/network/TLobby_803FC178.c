@@ -227,13 +227,13 @@ void dispatch_received_packet(void *self, s32 arg1) {
         TLobby__sub_80401CAC((PppFrame **)&arg1, hdr.len);
         switch (hdr.type) {
         case 1:
-            TLobby__sub_803FCC10((void *) (arg0), (void *)&hdr, (int) (arg1));
+            TLobby__sub_803FCC10(arg0, (void *)&hdr, arg1);
             return;
         case 2:
-            if (TLobby__sub_803FC820((void *) (arg0), (void *)&hdr, (int) (arg1)) == 0) {
+            if (TLobby__sub_803FC820((void *)arg0, (void *)&hdr, (int)arg1) == 0) {
                 if (lbl_805D7A90 & 2) {
                     temp_r30 = (u8 *)(*(u8 **)((s8 *)arg0 + 0xC));
-                    TLobby__sub_80405304((void *) ((u8 *)(arg0) + 0x10));
+                    TLobby__sub_80405304((void *) (arg0 + 0x10));
                     temp_r0 = *(u8 *)((s8 *)arg0 + 2) & 0xFFFFFFEF;
                     *(u8 *)((s8 *)arg0 + 2) = temp_r0;
                     if (!(temp_r0 & 0x10)) {
@@ -245,7 +245,7 @@ void dispatch_received_packet(void *self, s32 arg1) {
                     return;
                 }
                 temp_r30_2 = (u8 *)(*(u8 **)((s8 *)arg0 + 0xC));
-                TLobby__sub_80405304((void *) ((u8 *)(arg0) + 0x10));
+                TLobby__sub_80405304((void *) (arg0 + 0x10));
                 temp_r0_2 = *(u8 *)((s8 *)arg0 + 2) & 0xFFFFFFDF;
                 *(u8 *)((s8 *)arg0 + 2) = temp_r0_2;
                 if (!(temp_r0_2 & 0x10)) {
@@ -257,9 +257,9 @@ void dispatch_received_packet(void *self, s32 arg1) {
             }
             break;
         case 3:
-            TLobby__sub_80405304((void *) ((u8 *)(arg0) + 0x10));
+            TLobby__sub_80405304((void *) (arg0 + 0x10));
             temp_r30_3 = (u8 *)(*(u8 **)((s8 *)arg0 + 0xC));
-            TLobby__sub_80405304((void *) ((u8 *)(arg0) + 0x10));
+            TLobby__sub_80405304((void *) (arg0 + 0x10));
             temp_r0_3 = *(u8 *)((s8 *)arg0 + 2) & 0xFFFFFFEF;
             *(u8 *)((s8 *)arg0 + 2) = temp_r0_3;
             if (!(temp_r0_3 & 0x10)) {
@@ -270,10 +270,10 @@ void dispatch_received_packet(void *self, s32 arg1) {
             TLobby__sub_80400ACC((O_80400ACC *) (temp_r30_3));
             return;
         case 4:
-            TLobby__sub_80405304((void *) ((u8 *)(arg0) + 0x10));
+            TLobby__sub_80405304((void *) (arg0 + 0x10));
             temp_r30_4 = (u8 *)(*(u8 **)((s8 *)arg0 + 0xC));
-            update_connection_state((int) ((u8 *)(temp_r30_4) + 0xA0));
-            update_connection_state((int) ((u8 *)(temp_r30_4) + 4));
+            update_connection_state((int) (temp_r30_4 + 0xA0));
+            update_connection_state((int) (temp_r30_4 + 4));
             *(s16 *)((s8 *)arg0 + 8) = 1;
             lbl_805D7A80 = 1;
             break;
@@ -304,11 +304,11 @@ void TLobby__sub_803FC728(Conn_804004DC *c) {
 
     if (chap->active != 0) {
         if (c->retries != 0) {
-            chap->msg = (void *)(lbl_8047FDE0);
+            chap->msg = (void *)lbl_8047FDE0;
             TLobby__sub_803FE658((u8 *)c);
             return;
         }
-        chap->msg = (void *)(lbl_8047FDF0);
+        chap->msg = (void *)lbl_8047FDF0;
         sub = c->sub;
         update_connection_state((int)(sub + 0xA0));
         update_connection_state((int)(sub + 4));
@@ -486,12 +486,12 @@ extern void TLobby__sub_803FCC10(void *self_, void *src_, int v)
   u32 l1;
   u16 rem;
   u16 r22;
-  g = (u8 *) (&lbl_805C0180);
+  g = (u8 *)&lbl_805C0180;
   new_var3 = self_;
   src = (u8 *) src_;
   dst1 = 0;
   r28 = *((u8 **) (((u8 *) new_var3) + 0x30));
-  len = *((s16 *) (src + 2));
+  len = *((s16 *)(src + 2));
   cnt = (TLobby__sub_80401BCC((PppFrame **) (&v), &lbl_805D7A98, 1) != 1) ? (-1) : ((s16) lbl_805D7A98);
   if (cnt != (-1))
   {
@@ -532,15 +532,15 @@ extern void TLobby__sub_803FCC10(void *self_, void *src_, int v)
   n = l1 + 1;
   NetMemcpy((*pp) + n, dst1, cnt);
   pq = (u8 **) (g + 0x16c);
-  NetMemset(*pq, 0, *((s16 *) (g + 0x182)));
+  NetMemset(*pq, 0, *((s16 *)(g + 0x182)));
   *(*pq) = 0x10;
   init_md5_state(&ctx);
   TLobby__sub_80401EB8(&ctx, *pp, (u32) (n + cnt));
   TLobby__sub_80401D2C((*pq) + 1, &ctx);
   NetMemcpy((*pq) + 0x11, *((void **) r28), r22);
   r28[0xe] = src[1];
-  *((u16 *) (r28 + 0x10)) = r22 + 0x11;
-  ent = TLobby__sub_80401B20(*pq, *((u16 *) (r28 + 0x10)));
+  *((u16 *)(r28 + 0x10)) = r22 + 0x11;
+  ent = TLobby__sub_80401B20(*pq, *((u16 *)(r28 + 0x10)));
   TLobby__sub_803FE6CC((u8 *) new_var3, 2, r28[0xe], ent);
   TLobby__sub_80405328(((u8 *) new_var3) + 0x10);
   ((u8 *) new_var3)[3] -= 1;
@@ -551,8 +551,8 @@ extern void TLobby__sub_803FCC10(void *self_, void *src_, int v)
   else
   {
     u8 *cc = new_var = *((u8 **) (((u8 *) new_var3) + 0xc));
-    update_connection_state((int) (cc + 0xa0));
-    update_connection_state((int) (cc + 4));
+    update_connection_state((int)(cc + 0xa0));
+    update_connection_state((int)(cc + 4));
   }
 }
 #pragma pop

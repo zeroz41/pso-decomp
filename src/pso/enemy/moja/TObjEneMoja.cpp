@@ -685,7 +685,7 @@ void TObjEneMoja::render() {
         push_matrix();
         translate_matrix(0, 0.0f, sinkOffset, 0.0f);
         post_translate_matrix(&position);
-        rotate_matrix_y(0, (int)(rotation_y));
+        rotate_matrix_y(0, rotation_y);
         if (TObjPlayer::check_demo_mode() == 1) {
             draw_chunk_object((s32)model);
         } else {
@@ -1106,7 +1106,7 @@ s32 TObjEneMoja::update_approach_state() {
             if (*(f32 *)((s8 *)((this->movementParameters)) + 0) * *(f32 *)((s8 *)((this->movementParameters)) + 0) < enemy_pursue_point(arg0, *(s32 *)((s8 *)((this->movementParameters)) + 8), &v3, temp_r4, *(f32 *)((s8 *)temp_r4 + 8), 30.0f)) {
                 this->target = NULL;
             }
-            if (horizontal_distance_squared((int)(arg0 + 0x29C), (void *)(arg0 + 0x38)) < (*(f32 *)((s8 *)((this->movementParameters)) + 4) + *(f32 *)((s8 *)(this->bodies) + 0xC)) * (*(f32 *)((s8 *)((this->movementParameters)) + 4) + *(f32 *)((s8 *)(this->bodies) + 0xC))
+            if (horizontal_distance_squared((int)(arg0 + 0x29C), (void *)(arg0 + 0x38)) < (*(f32 *)((s8 *)((this->movementParameters)) + 4) + *(f32 *)((s8 *)this->bodies + 0xC)) * (*(f32 *)((s8 *)((this->movementParameters)) + 4) + *(f32 *)((s8 *)this->bodies + 0xC))
                 || --(this->timer) < 0) {
                 this->attackSequence = 0;
             }

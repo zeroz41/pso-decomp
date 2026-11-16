@@ -79,13 +79,13 @@ void TUnk_804A1A48::emit_marker_effects() {
 
 void TUnk_804A1A48::update_weapon() {
     if (this->swing_rising != 0) {
-        this->swing_angle = (s32) (this->swing_angle + 0x38E);
+        this->swing_angle = (this->swing_angle + 0x38E);
         if (this->swing_angle >= 0x1555) {
             this->swing_angle = 0x1555;
             this->swing_rising = 0;
         }
     } else {
-        this->swing_angle = (s32) (this->swing_angle - 0x38E);
+        this->swing_angle = (this->swing_angle - 0x38E);
         if (this->swing_angle <= 0) {
             this->swing_angle = 0x1555;
             this->swing_rising = 1;

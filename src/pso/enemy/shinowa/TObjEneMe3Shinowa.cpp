@@ -938,7 +938,7 @@ void TObjEneMe3ShinowaMirage::state_chase_target(s32 arg1) {
         if ((u32) m_390 == 0U) {
             vfunc_111();
             transition_enemy_state(0xB);
-        } else if (((s32 (*)(f32))check_in_range__23TObjEneMe3ShinowaMirageFPv)((f32) (m_414)) != 0) {
+        } else if (((s32 (*)(f32))check_in_range__23TObjEneMe3ShinowaMirageFPv)(m_414) != 0) {
             transition_enemy_state(6);
         } else if (can_hit_same_target() != 0) {
             transition_enemy_state(5);
@@ -956,7 +956,7 @@ void TObjEneMe3ShinowaMirage::state_chase_target(s32 arg1) {
                 turn_toward_target_direction(0x500);
                 vfunc_102();
             } else {
-                enemy_turn_and_move_on_ground((u8 *)this, 0x500, (f32) (m_410));
+                enemy_turn_and_move_on_ground((u8 *)this, 0x500, m_410);
             }
             vfunc_89();
         }
@@ -1708,8 +1708,8 @@ void TObjEneMe3Shinowa::vfunc_118() {
             at_frame = parameters[3];
             if (at_frame < 0.0f) {
                 at_frame = 0.0f;
-            } else if (at_frame > (f32)(motion->frameCount - 1)) {
-                at_frame = (f32)(motion->frameCount - 1);
+            } else if (at_frame > (motion->frameCount - 1)) {
+                at_frame = (motion->frameCount - 1);
             }
             set_motion_packed_rotation();
             draw_model_motion(model, motion, at_frame);

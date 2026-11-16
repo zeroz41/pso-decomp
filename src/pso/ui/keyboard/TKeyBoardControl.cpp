@@ -695,13 +695,13 @@ void TWindowKeyBoardSoft__sub_802616BC(TWindowKeyBoardSoft *self, TWindowKeyBoar
 
     key = calc_key_index__19TWindowKeyBoardSoftFiii(self, 2, 0);
     for (i = 0; i < 12; i++, key++) {
-        q.x = 1.0f + (1.0f + (19.0f * (f32)(i + 2) + ctx->x));
+        q.x = 1.0f + (1.0f + (19.0f * (i + 2) + ctx->x));
         q.y = 1.0f + (26.0f + ctx->y);
         q.x2 = 18.0f + q.x;
         q.y2 = 18.0f + q.y;
         q.u = 18.0f * (f32)i / 256.0f;
         q.v = 0.0f;
-        q.u2 = 18.0f * (f32)(i + 1) / 256.0f;
+        q.u2 = 18.0f * (i + 1) / 256.0f;
         q.v2 = 18.0f / 256.0f;
         if (self->hit_test_relative((u8 *)ctx, (u8 *)&q) != 0) {
             set_constant_material_color(key == cursor ? 0xFF000000 : 0xFF999999);
@@ -731,7 +731,7 @@ void TWindowKeyBoardSoft__sub_802616BC(TWindowKeyBoardSoft *self, TWindowKeyBoar
         q.u = 0.0f;
         q.v = 18.0f * (f32)page / 128.0f;
         q.u2 = ((f32)layout->tab_width - 2.0f) / 128.0f;
-        q.v2 = 18.0f * (f32)(page + 1) / 128.0f;
+        q.v2 = 18.0f * (page + 1) / 128.0f;
         if (self->hit_test_relative((u8 *)ctx, (u8 *)&q) != 0) {
             apply_context_transform_to_rect(ctx, &q);
             set_constant_material_color(tab_color);
@@ -925,7 +925,7 @@ void TWindowKeyBoardSoft__sub_8026227C(TWindowKeyBoardSoft *self, TWindowKeyBoar
             }
             frame = 0;
         }
-        TWindowKeyBoardSoft::draw_key_frame(self, (f32 *)ctx, tab_x, -1.0f, (f32)(layout->tab_width + 1), depth, color, frame);
+        TWindowKeyBoardSoft::draw_key_frame(self, (f32 *)ctx, tab_x, -1.0f, layout->tab_width + 1, depth, color, frame);
         tab_x += (f32)layout->tab_width;
     }
 

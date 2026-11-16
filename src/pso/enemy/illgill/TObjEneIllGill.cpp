@@ -555,7 +555,7 @@ void TObjEneIllGill::update_death_fall() {
       if (((TObjMotion *)arg0)->is_passing_frame((f32)(52.0f)) != 0)
     {
       play_sound_effect(0x4003A358, (u8 *)&this->position, 0, 0);
-      TObjPlayer::apply_effect_variant_b((s32)(&position), 0xA);
+      TObjPlayer::apply_effect_variant_b((s32)&position, 0xA);
       fn_800D911C(&position);
       this->phase = 4;
       this->deathTimer = 0xA;
@@ -709,7 +709,7 @@ void TObjEneIllGill::update_weapon_attack() {
     default:
         this->phase = 0;
     case 0:
-        temp_r6 = (u8 *)(this->target);
+        temp_r6 = this->target;
         if (temp_r6 == NULL) {
             this->actorFlags = (s32) (this->actorFlags & 0xFFDFFFFF);
             this->actionTimer = 0;
@@ -785,33 +785,33 @@ void TObjEneIllGill::update_weapon_attack() {
         }
         if (((TObjMotion *)actor)->is_passing_frame((f32)((f32) this->hitFrame)) != 0) {
             this->hitFrame = 0;
-            temp_r3_3 = (u8 *)(this->target);
+            temp_r3_3 = this->target;
             if ((temp_r3_3 != NULL) && (((TObjChara *)(temp_r3_3))->select_melee_contact_body(actor, 1.0f) != 0)) {
                 switch (this->weaponSpecial) {
                 case 1:
                     ((TObjPlayer *)actor)->set_model_id(7);
                     ((TObjPlayer *)actor)->set_model_param((int) ((s16) illGillAttackBehavior->specialParameter));
-                    ((TObjChara *)((u8 *)(this->target)))->receive_weapon_special_attack(actor, 0);
+                    ((TObjChara *)(this->target))->receive_weapon_special_attack(actor, 0);
                     play_sound_effect(0x40039E54, &position, 0, 0);
                     break;
                 case 2:
                     ((TObjPlayer *)actor)->set_model_id(0xA);
                     ((TObjPlayer *)actor)->set_model_param((int) ((s16) illGillAttackBehavior->specialParameter));
-                    ((TObjChara *)((u8 *)(this->target)))->receive_weapon_special_attack(actor, 0);
+                    ((TObjChara *)(this->target))->receive_weapon_special_attack(actor, 0);
                     play_sound_effect(0x40039E54, &position, 0, 0);
                     break;
                 case 3:
                     ((TObjPlayer *)actor)->set_model_id(0xB);
                     ((TObjPlayer *)actor)->set_model_param((int) ((s16) illGillAttackBehavior->thirdSpecialParameter));
-                    if (((TObjChara *)((u8 *)(this->target)))->receive_weapon_special_attack(actor, 0) <= 0.0f) {
-                        ((TObjChara *)((u8 *)(this->target)))->receive_physical_attack(actor, 1.0f);
+                    if (((TObjChara *)(this->target))->receive_weapon_special_attack(actor, 0) <= 0.0f) {
+                        ((TObjChara *)(this->target))->receive_physical_attack(actor, 1.0f);
                     }
                     play_sound_effect(0x40039E55, &position, 0, 0);
                     break;
                 default:
-                    temp_f31 = ((TObjChara *)((u8 *)(this->target)))->receive_physical_attack(actor, 1.0f);
+                    temp_f31 = ((TObjChara *)(this->target))->receive_physical_attack(actor, 1.0f);
                     play_sound_effect(0x40039E54, &position, 0, 0);
-                    ((TObjChara *)((u8 *)(this->target)))->apply_knockback_from_attacker(actor, temp_f31);
+                    ((TObjChara *)(this->target))->apply_knockback_from_attacker(actor, temp_f31);
                     break;
                 }
             }
@@ -837,7 +837,7 @@ void TObjEneIllGill::update_weapon_attack() {
         break;
     case 3:
         apply_actor_gravity(actor, 0, 0.0f);
-        this->actionTimer = (s32) (this->actionTimer - 1);
+        this->actionTimer = (this->actionTimer - 1);
         if ((s32) this->actionTimer < 0) {
             this->actorFlags = (s32) (this->actorFlags & 0xFFDFFFFF);
             this->actionTimer = 0;
@@ -887,7 +887,7 @@ s32 TObjEneIllGill::is_target_in_attack_range() {
     if (this->target != NULL && this->m_318 != 0 && !(((TObjChara *)this->target)->actorFlags & 0x02000800)) {
         if (obj_testFlags30(0x2000) != 0) {
             this->attackType = 3;
-            bind_enemy_combat_stats((u8 *)0, (u8 *)(ill_gill_combat_parameter_variants[this->attackType]), (u8 *)0);
+            bind_enemy_combat_stats((u8 *)0, (u8 *)ill_gill_combat_parameter_variants[this->attackType], (u8 *)0);
             return 1;
         }
         dist = calc_xz_distance_sq(this, this->target, &v);
@@ -907,7 +907,7 @@ s32 TObjEneIllGill::is_target_in_attack_range() {
                 if (dist <= (rad + ((AttackParams *)(this->m_318))->get_attack_range()) * (rad + ((AttackParams *)(this->m_318))->get_attack_range()) &&
                     ang <= ((AttackParams *)(this->m_318))->get_attack_angle()) {
                     this->attackType = 0;
-                    bind_enemy_combat_stats((u8 *)0, (u8 *)(ill_gill_combat_parameter_variants[this->attackType]), (u8 *)0);
+                    bind_enemy_combat_stats((u8 *)0, (u8 *)ill_gill_combat_parameter_variants[this->attackType], (u8 *)0);
                     return 1;
                 }
                 return 0;
@@ -920,7 +920,7 @@ s32 TObjEneIllGill::is_target_in_attack_range() {
                 m = ((AttackParams *)(this->m_318))->get_attack_angle();
                 if (dist <= r2 && ang <= m) {
                     this->attackType = i;
-                    bind_enemy_combat_stats((u8 *)0, (u8 *)(ill_gill_combat_parameter_variants[this->attackType]), (u8 *)0);
+                    bind_enemy_combat_stats((u8 *)0, (u8 *)ill_gill_combat_parameter_variants[this->attackType], (u8 *)0);
                     return 1;
                 }
             }
@@ -929,7 +929,7 @@ s32 TObjEneIllGill::is_target_in_attack_range() {
             if (dist <= (rad + ((AttackParams *)(this->m_318))->get_attack_range()) * (rad + ((AttackParams *)(this->m_318))->get_attack_range()) &&
                 ang <= ((AttackParams *)(this->m_318))->get_attack_angle()) {
                 this->attackType = 0;
-                bind_enemy_combat_stats((u8 *)0, (u8 *)(ill_gill_combat_parameter_variants[this->attackType]), (u8 *)0);
+                bind_enemy_combat_stats((u8 *)0, (u8 *)ill_gill_combat_parameter_variants[this->attackType], (u8 *)0);
                 return 1;
             }
         }
@@ -1484,7 +1484,7 @@ void TObjEneIllGill::load_shared_resources() {
         IllGillSharedMotionSetup pos = lbl_8047A318;
         resource = illGillResource;
         pos.motions = resource->motions;
-        TLobby::spawn_npc_enemy((s16)0x43, (s32)(resource->models->model), (NJS_TEXLIST *)(resource->models->m_c), &pos, illGillCollisionBody.radius, 0.0f);
+        TLobby::spawn_npc_enemy((s16)0x43, resource->models->model, (NJS_TEXLIST *)(resource->models->m_c), &pos, illGillCollisionBody.radius, 0.0f);
     }
 }
 

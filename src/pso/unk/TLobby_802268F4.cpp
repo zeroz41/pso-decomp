@@ -406,7 +406,7 @@ void TLobby::set_target_id(s32 arg0) {
 
 void stop_cue_stream(void) {
     if ((u32) lbl_804CB850[2] != 0U) {
-        stop_audio_stream((u8 *)(lbl_804CB850[2]));
+        stop_audio_stream((u8 *)lbl_804CB850[2]);
     }
 }
 

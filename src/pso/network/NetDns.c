@@ -1021,7 +1021,7 @@ s32 TLobby__sub_8040B8BC(DnsQuery *self)
       return -1;
 
     case 0:
-      if ((*((u16 *) (hdr + 6))) == 0)
+      if ((*((u16 *)(hdr + 6))) == 0)
     {
       s->timer = 1;
       return -1;
@@ -1032,7 +1032,7 @@ s32 TLobby__sub_8040B8BC(DnsQuery *self)
 
   cur = hdr + 0xc;
   len -= 0xc;
-  t = *((u16 *) (hdr + 4));
+  t = *((u16 *)(hdr + 4));
   if (t != 0)
   {
     n = t;
@@ -1046,7 +1046,7 @@ s32 TLobby__sub_8040B8BC(DnsQuery *self)
     }
 
   }
-  cnt = *((u16 *) (hdr + 6));
+  cnt = *((u16 *)(hdr + 6));
   if (cnt != 0)
   {
     while (((s16) cnt) > 0)
@@ -1486,7 +1486,7 @@ r = -1;
 }
 else
 {
-r = NetMemcmp((void *)(node->addr.address), (void *)(key), 4);
+r = NetMemcmp(node->addr.address, key, 4);
 }
 break;
 case 6:
@@ -1496,7 +1496,7 @@ r = -1;
 }
 else
 {
-r = NetMemcmp((void *)(node->addr.address), (void *)(key), 0x10);
+r = NetMemcmp(node->addr.address, key, 0x10);
 }
 break;
 case 0:
@@ -1757,7 +1757,7 @@ s32 TLobby__sub_8040C9E0(DnsAddr *arg0, DnsAddr *arg1) {
     s32 var_r5;
     u8 *var_r3;
     u8 *var_r4;
-    switch ((s32) (arg0->rtype)) {
+    switch (arg0->rtype) {
     case 1:
         if ((u16) arg1->rtype != 1) {
             var_r3 = (u8 *)((void *)-1);
@@ -1772,7 +1772,7 @@ s32 TLobby__sub_8040C9E0(DnsAddr *arg0, DnsAddr *arg1) {
             var_r3 = arg0->addr.address;
             var_r4 = arg1->addr.address;
             var_r5 = 4;
-            return NetMemcmp((void *)(var_r3), (void *)(var_r4), 4);
+            return NetMemcmp(var_r3, var_r4, 4);
         case 6:
             if ((u32) arg1->addr.family != 6U) {
                 var_r3 = (u8 *)((void *)-1);
@@ -1781,7 +1781,7 @@ s32 TLobby__sub_8040C9E0(DnsAddr *arg0, DnsAddr *arg1) {
             var_r3 = arg0->addr.address;
             var_r4 = arg1->addr.address;
             var_r5 = 0x10;
-            return NetMemcmp((void *)(var_r3), (void *)(var_r4), 0x10);
+            return NetMemcmp(var_r3, var_r4, 0x10);
         default:
         case 0:
             var_r3 = (u8 *)((void *)-1);
@@ -1802,7 +1802,7 @@ s32 TLobby__sub_8040C9E0(DnsAddr *arg0, DnsAddr *arg1) {
             var_r3 = arg0->addr.address;
             var_r4 = arg1->addr.address;
             var_r5 = 4;
-            return NetMemcmp((void *)(var_r3), (void *)(var_r4), 4);
+            return NetMemcmp(var_r3, var_r4, 4);
         case 6:
             if ((u32) arg1->addr.family != 6U) {
                 var_r3 = (u8 *)((void *)-1);
@@ -1811,7 +1811,7 @@ s32 TLobby__sub_8040C9E0(DnsAddr *arg0, DnsAddr *arg1) {
             var_r3 = arg0->addr.address;
             var_r4 = arg1->addr.address;
             var_r5 = 0x10;
-            return NetMemcmp((void *)(var_r3), (void *)(var_r4), 0x10);
+            return NetMemcmp(var_r3, var_r4, 0x10);
         default:
         case 0:
             var_r3 = (u8 *)((void *)-1);

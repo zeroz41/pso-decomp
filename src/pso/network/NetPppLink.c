@@ -17,7 +17,7 @@ extern u8 lbl_805C0038[];
 void TLobby__sub_803F7980(void *);
 void TLobby__sub_803FD0C0(void) {
     PppLink *g = &lobby_net_buffer_desc_b;
-    clear_table_entry_locked((s16)(g->id));
+    clear_table_entry_locked(g->id);
     g->id = -1;
     g->count = 0;
     TLobby__sub_803F7980(g);

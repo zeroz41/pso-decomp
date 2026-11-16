@@ -192,7 +192,7 @@ void TObjEneBm3FlyNest_CarryFly::run_task() {
     f32 v;
     f32 spd;
 
-    lim = (f32)(motion->frameCount - 1);
+    lim = (motion->frameCount - 1);
     frame += 0.8f;
     if (frame > lim) {
         frame -= lim;

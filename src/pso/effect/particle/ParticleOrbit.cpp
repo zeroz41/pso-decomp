@@ -408,7 +408,7 @@ void TUnk_8048E790::run_task() {
     unk_2C *= unk_A8;
     if (motion != NULL) {
         motion_frame += unk_C0;
-        if ((f32)(motion->nbFrame - 1) <= motion_frame) {
+        if ((motion->nbFrame - 1) <= motion_frame) {
             motion_frame = motion->nbFrame - 1;
         }
     }

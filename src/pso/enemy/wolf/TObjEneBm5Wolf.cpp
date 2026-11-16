@@ -505,7 +505,7 @@ void TObjEneBm5Wolf::vfunc_88() {
 }
 
 void TObjEneBm5Wolf::select_subtype() {
-    this->m_3dc = (s32) floor_to_float((f32) (this->parameters[0]));
+    this->m_3dc = (s32) floor_to_float(this->parameters[0]);
     if (this->parameters[1] >= 1.0f) {
         this->m_3d8 = 1;
         this->model = (void *)TObjEneBm5Wolf__bml_resource->models[1].model;
@@ -1574,13 +1574,13 @@ void TObjEneBm5Wolf::update_lunge(s32 arg1) {
             this->rotation_y = (s32) (s16) this->rotation_y;
             advance_pose_turn__14TObjEneBm5WolfFPvi(this, this->rotation_y);
             if (this->frame <= 30.0f) {
-                this->move_with_wall_slide_on_ground((f32) (this->destinationDirection.x), (f32) (this->destinationDirection.z), this->currentSpeed);
+                this->move_with_wall_slide_on_ground(this->destinationDirection.x, this->destinationDirection.z, this->currentSpeed);
                 temp_f2 = this->frame - 15.0f;
                 this->m_40c = (f32) ((this->stoppingDistance + ((this->m_438 * (temp_f2 * temp_f2)) + 20.0f)) - this->position.y);
             } else {
                 if (this->nearTarget == 0) {
                     this->currentSpeed *= 0.8f;
-                    this->move_with_wall_slide_on_ground((f32) (this->destinationDirection.x), (f32) (this->destinationDirection.z), this->currentSpeed);
+                    this->move_with_wall_slide_on_ground(this->destinationDirection.x, this->destinationDirection.z, this->currentSpeed);
                 }
                 this->m_40c = (f32) (0.0f);
             }
@@ -1594,7 +1594,7 @@ void TObjEneBm5Wolf::update_lunge(s32 arg1) {
             advance_pose_turn__14TObjEneBm5WolfFPvi(this, this->rotation_y);
             if (this->nearTarget == 0) {
                 this->currentSpeed *= 0.8f;
-                this->move_with_wall_slide_on_ground((f32) (this->destinationDirection.x), (f32) (this->destinationDirection.z), this->currentSpeed);
+                this->move_with_wall_slide_on_ground(this->destinationDirection.x, this->destinationDirection.z, this->currentSpeed);
             }
             break;
         }

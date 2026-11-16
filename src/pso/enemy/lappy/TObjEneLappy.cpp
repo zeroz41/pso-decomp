@@ -750,10 +750,10 @@ void TObjEneLappy::update_attacking() {
     ((TObjMotion *)arg0)->advance_animation();
     switch (this->phase) {
     case 0:
-        enemy_turn_toward_dest(arg0, (void *) *(s32 *)((s8 *)(this->movementParameters) + 8));
+        enemy_turn_toward_dest(arg0, (void *) *(s32 *)((s8 *)this->movementParameters + 8));
         apply_actor_gravity(arg0, 0, 0.0f);
         if (((TObjMotion *)arg0)->is_passing_frame(11.0f) != 0) {
-            enemy_set_heading_velocity(*(f32 *)((s8 *)(this->movementParameters) + 4), (TObjEnemy *)(arg0), this->rotation_y);
+            enemy_set_heading_velocity(*(f32 *)((s8 *)this->movementParameters + 4), (TObjEnemy *)(arg0), this->rotation_y);
             *(f32 *)((s8 *)arg0 + 0x30C) = 0.0f;
             this->phase = 1;
         }

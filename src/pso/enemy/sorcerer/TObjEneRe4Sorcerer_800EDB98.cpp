@@ -51,7 +51,7 @@ void TObjEneRe4Sorcerer::vfunc_106() {
         post_translate_matrix(&position);
         translate_matrix(0, 0.0f, 22.0f, 0.0f);
         rotate_matrix_y(0, rotation_y);
-        m_3c0 = (s16)(m_3c0 + 5);
+        m_3c0 = (m_3c0 + 5);
         scroll_strip_uvs(TObjEneRe4Sorcerer__uv_scroll_buffer, m_3c0, 0);
         m_3c4 += 0.01f;
         model_render_flags |= 0x20000;

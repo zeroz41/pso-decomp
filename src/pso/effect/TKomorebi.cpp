@@ -70,7 +70,7 @@ void TKomorebi::render() {
     if ((((VObj_80192174*)arg0)->m8(400.0f, 20.0f) != 0) && !(xz_distance_squared((u8 *)&this->position, camera_ctrl_instance + 0x178) < 1600.0f)) {
         TParticleCtrl::begin_effect_render();
         if ((s32) actor_frame_tick != (s32) komorebi_last_uv_update_frame) {
-            scroll_ginja_mesh_uvs(*(s32 *)((s8 *)(this->model) + 4), 0, (s32) this->scale.x, 0, 1);
+            scroll_ginja_mesh_uvs(*(s32 *)((s8 *)this->model + 4), 0, (s32) this->scale.x, 0, 1);
             komorebi_last_uv_update_frame = actor_frame_tick;
         }
         push_matrix();

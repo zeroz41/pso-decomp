@@ -1338,7 +1338,7 @@ void TObjEneMe3SinowZoa__sub_8031884C(TObjEneMe3SinowZoa *self, s32 arg1) {
             self->enemy_copy_target_destination();
             self->update_velocity();
             self->m_43c = (s32) (RADIANS_TO_ANGLE * atan2_float(self->m_3a0.x, self->m_3a0.z));
-            if (self->check_body_collision_at((int) (self->m_43c + 0x8000), 80.0f) == 0) {
+            if (self->check_body_collision_at(self->m_43c + 0x8000, 80.0f) == 0) {
                 self->m_3a0.x *= -1.0f;
                 self->m_3a0.z *= -1.0f;
                 self->m_434 = 0;
@@ -1627,7 +1627,7 @@ void TObjEneMe3SinowZoa__sub_80317F90(TObjEneMe3SinowZoa *self, s32 arg1) {
             if (self->m_438 >= 0x14) {
                 self->m_434 = 2;
                 self->m_3cc |= 2;
-                TBoss3Volopt::create_breakup_mdl((s32)TObjEneMe3SinowZoa__breakup_model, (s32)&sinow_zoa_breakup_params, (s32)(self->texlist), (s32)(&self->position), self->rotation_y);
+                TBoss3Volopt::create_breakup_mdl((s32)TObjEneMe3SinowZoa__breakup_model, (s32)&sinow_zoa_breakup_params, (s32)self->texlist, (s32)&self->position, self->rotation_y);
                 VecCopy(&p, &self->position);
                 p.x += 20.0f * sin_table_lookup(self->rotation_y);
                 p.z += 20.0f * cos_table_lookup(self->rotation_y);
@@ -1834,9 +1834,9 @@ extern "C" {
 s32 TObjEneMe3SinowZoa::render_model_if_visible() {
     if (get_mode__11TCameraCtrlFPv(((s32 *)&main_task)) & 0x20) {
         if (push_reflection_matrix(&this->m_3d4) != 0) {
-            TObjFish::set_global_param((int) (this->texlist));
+            TObjFish::set_global_param(this->texlist);
             push_matrix();
-            post_translate_matrix((void *) (&this->position));
+            post_translate_matrix(&this->position);
             translate_matrix(0, TObjEneMe3SinowZoa__data_805DF31C, this->m_3e4, TObjEneMe3SinowZoa__data_805DF31C);
             rotate_matrix_y(0, this->rotation_y);
             this->draw();

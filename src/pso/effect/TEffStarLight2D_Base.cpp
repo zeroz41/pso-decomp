@@ -250,7 +250,7 @@ void TEffStarLight2D::draw_segment(ColorLineVertex *a, ColorLineVertex *b,
     u8 alpha = parameters.color.channels.a;
     f32 step = parameters.alpha_step;
     f32 start_alpha = (f32)index * step + (f32)alpha;
-    f32 end_alpha = (f32)(index + 1) * step + (f32)alpha;
+    f32 end_alpha = (index + 1) * step + (f32)alpha;
     f32 clamped_start = start_alpha < 0.0f ? 0.0f
         : start_alpha < 255.0f ? start_alpha : 255.0f;
     f32 clamped_end = end_alpha < 0.0f ? 0.0f

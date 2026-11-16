@@ -564,8 +564,8 @@ void TBoss6Type2::sub_802BEB78() {
     play_sound_effect(0x68A25, &position, 0, 1);
     TBoss6Type2__sub_802BB768(this);
     if (m_464 != 0xFFFF) {
-        create_flow_soul(this, (u8 *)this + 0x620, (void *)m_464, (void *)(state_duration));
-        ((TBoss6EffHyoui *)m_464)->create((void *)0, (void *)(state_duration));
+        create_flow_soul(this, (u8 *)this + 0x620, (void *)m_464, (void *)state_duration);
+        ((TBoss6EffHyoui *)m_464)->create((void *)0, (void *)state_duration);
     }
 }
 

@@ -199,7 +199,7 @@ void TUnk_804A2164::vfunc_60() {
     if (player_list == 4) {
         if (second_model != 0U) {
             if ((s32) *(s32 *)((s8 *)this + 0x1F8) == 1) {
-                draw_ginja_object((void *)(second_model));
+                draw_ginja_object(second_model);
             }
         }
     }

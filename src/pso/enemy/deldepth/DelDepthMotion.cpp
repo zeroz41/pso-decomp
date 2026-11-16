@@ -53,17 +53,17 @@ void DelDepthMotion::draw_model_part() {
             return;
         }
         if (temp_r0 < 0xA) {
-            TObjFish::set_global_param((int) (texture));
+            TObjFish::set_global_param(texture);
             set_motion_packed_rotation();
-            draw_model_motion((void *)(model), (void *)(animation), (f32) (frame));
+            draw_model_motion(model, animation, frame);
             clear_motion_packed_rotation();
             return;
         }
         set_motion_packed_rotation();
-        TObjFish::set_global_param((int) (texture));
-        draw_model_motion((void *)(model), (void *)(animation), (f32) (frame));
-        TObjFish::set_global_param((int) (secondTexture));
-        draw_model_motion((void *)(secondModel), (void *)(secondAnimation), (f32) (frame));
+        TObjFish::set_global_param(texture);
+        draw_model_motion(model, animation, frame);
+        TObjFish::set_global_param(secondTexture);
+        draw_model_motion(secondModel, secondAnimation, frame);
         clear_motion_packed_rotation();
     }
 }

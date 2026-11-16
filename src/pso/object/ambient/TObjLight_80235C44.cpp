@@ -477,7 +477,7 @@ void TUnk_804CC148::find_area_contact(s32 arg1) {
 }
 
 void TObjPlayer::collect_body_contacts_for_target(s32 player) {
-    collect_body_contacts((int)((int) (this->blend.motion[1])), (u8 *)&this->previous_action, (void *)player);
+    collect_body_contacts((int)(this->blend.motion[1]), (u8 *)&this->previous_action, (void *)player);
 }
 
 void TObjPlayer::find_support_technique_contact_for_target(s32 arg1) {

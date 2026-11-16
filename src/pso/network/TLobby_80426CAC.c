@@ -224,7 +224,7 @@ s16 TLobby__sub_80426D80(PppoeSlot *e) {
     switch (e->state) {
     case 0:
     case 1:
-        n = TLobby__sub_804270C0((u8 *)(e));
+        n = TLobby__sub_804270C0((u8 *)e);
         if (n >= 0) {
             src = e->m_16;
             type = 0x8863;
@@ -440,7 +440,7 @@ void TLobby__sub_80427378(PppoeSlot *self) {
                     }
                 }
                 *(u16 *)(s + 2) = 0;
-                r = TLobby__sub_80426D80((void *)(s));
+                r = TLobby__sub_80426D80((void *)s);
                 if (r < 0) {
                     return;
                 }
@@ -466,7 +466,7 @@ void TLobby__sub_80427378(PppoeSlot *self) {
     case 3:
         if (*(s16 *)(s + 6) > 0) {
             u16 h;
-            r = TLobby__sub_80426D80((void *)(s));
+            r = TLobby__sub_80426D80((void *)s);
             if (r >= 0) {
                 h = *(u16 *)(s + 0x824);
                 post_send_message(s + 0x23a, h);

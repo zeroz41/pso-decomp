@@ -498,7 +498,7 @@ void TContainerAncient01::init_positions() {
     this->m_33c = (f32) (3e+02f + (this->scale.x - TContainerAncient01__data_805DBD10[0]));
     *(f32 *)&this->unk_340 = (f32) (2.1e+02f + (this->scale.y - TContainerAncient01__data_805DBD10[0]));
     this->m_344 = (f32) (4e+02f + (this->scale.z - TContainerAncient01__data_805DBD10[0]));
-    *(s32 *)((s8 *)arg0 + 0x370) = (s32) (this->set_params[2] + 4);
+    *(s32 *)((s8 *)arg0 + 0x370) = (this->set_params[2] + 4);
     VecCopy((Vec *)&this->unk_348, (const Vec *)&this->position);
     this->m_34c = (f32) (this->m_34c + *(f32 *)((s8 *)&TContainerAncient01__collision_body_parts.value + 4));
     VecCopy((Vec *)&this->m_354, (const Vec *)&this->unk_348);

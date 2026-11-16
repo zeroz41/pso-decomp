@@ -178,7 +178,7 @@ void PADRead(u8 *self, s32 arg1)
   Hdr_803FC4B4 hdr;
   PapOptions *opts;
   opts = (PapOptions *)((PppFsm *)self)->opts;
-  if (TLobby__sub_803FE8BC((u8 *) (&hdr), &arg1))
+  if (TLobby__sub_803FE8BC((u8 *)&hdr, &arg1))
   {
     return;
   }
@@ -187,7 +187,7 @@ void PADRead(u8 *self, s32 arg1)
   switch (hdr.type)
   {
     case 1:
-      if (TLobby__sub_80403308(self, (u8 *) (&hdr), (PppFrame *) arg1))
+      if (TLobby__sub_80403308(self, (u8 *)&hdr, (PppFrame *) arg1))
     {
       return;
     }
@@ -210,7 +210,7 @@ void PADRead(u8 *self, s32 arg1)
       TLobby__sub_80405304(self + 0x10);
       opts->peer_id = NULL;
       opts->password = NULL;
-      *((s16 *) (self + 8)) = 1;
+      *((s16 *)(self + 8)) = 1;
       self[0] = 0;
       lbl_805D7A80 = 1;
       return;
@@ -227,13 +227,13 @@ s32 TLobby__sub_80403168(u8 *arg0, u8 *arg1, u8 *arg2) {
     u32 m;
     opts = (PapOptions *)((PppFsm *)arg2)->opts;
     g = &lbl_805C04D8;
-    n = NetStringLength((const char *)((void *)(arg0)));
+    n = NetStringLength((const char *)(arg0));
     if (n >= 0x80) {
         n = 0x7F;
     }
     NetMemcpy(g->a, arg0, n);
     g->a[n] = 0;
-    m = NetStringLength((const char *)((void *)(arg1)));
+    m = NetStringLength((const char *)(arg1));
     if (m >= 0x80) {
         m = 0x7F;
     }
@@ -368,7 +368,7 @@ zero:
     }
     n = (s16)NetStringLength((const char *)(ptr));
     ent = (u8 *)TLobby__sub_80401B20(ptr, n);
-    *(*(u8 **)ent) = (u8)(n - 1);
+    *(*(u8 **)ent) = (n - 1);
     TLobby__sub_803FE6CC(self, st, src[1], ent);
 
     if (st == 3) {

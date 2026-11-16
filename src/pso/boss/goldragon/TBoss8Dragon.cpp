@@ -4121,7 +4121,7 @@ void TBoss8Dragon::sub_802FA16C(s32 arg1) {
     case 8:
         this->try_spawn_trap();
         ((s32 (*)(void *))update_linked_position__12TBoss8DragonFv)(this);
-        this->m_84c = (s32) (this->m_84c + 1);
+        this->m_84c = (this->m_84c + 1);
         if ((s32) (this->m_84c % 20) == 0x13) {
             if (enemy_validate_retained_target(this) != 0) {
                 this->enemy_copy_target_destination();
@@ -4405,7 +4405,7 @@ void TBoss8Dragon::sub_802F9850(s32 arg1) {
     case 11:
         *(s32 *)((s8 *)((u8 *)this) + 0x754) = 0;
         if ((s32) *(s32 *)((s8 *)((u8 *)this) + 0x850) >= 0x28) {
-            ((s32 (*)(void *, int))send_action_packet__12TBoss8DragonFPvi)((void *) (this), 0x1A);
+            ((s32 (*)(void *, int))send_action_packet__12TBoss8DragonFPvi)(this, 0x1A);
         }
         return;
     case 9:
@@ -4423,10 +4423,10 @@ void TBoss8Dragon::sub_802F9850(s32 arg1) {
     case 0:
         this->advance_animation();
         if (this->is_passing_frame(14.0f) != 0) {
-            ((s32 (*)(void *, s32))spawn_effect__12TBoss8DragonFii)((void *) (this), 0x4003A804);
+            ((s32 (*)(void *, s32))spawn_effect__12TBoss8DragonFii)(this, 0x4003A804);
         }
         if (this->is_passing_frame(42.0f) != 0) {
-            ((s32 (*)(void *, s32))spawn_effect__12TBoss8DragonFii)((void *) (this), 0x4003A803);
+            ((s32 (*)(void *, s32))spawn_effect__12TBoss8DragonFii)(this, 0x4003A803);
         }
         if (this->is_passing_frame(46.0f) != 0) {
             this->spawn_ground_effect();
@@ -6303,7 +6303,7 @@ void TBoss8Dragon::handle_walk_state(s32 arg1) {
         }
         return;
     case 8:
-        this->m_84c = (s32) (this->m_84c + 1);
+        this->m_84c = (this->m_84c + 1);
         if ((s32) this->m_84c >= 0x1E) {
             this->m_84c = 0;
             temp_r4 = (u8 *)(*(u8 **)((s8 *)this + 0x6D8));
@@ -6324,8 +6324,8 @@ void TBoss8Dragon::handle_walk_state(s32 arg1) {
         this->set_speed(this->rotation_y);
         return;
     case 0:
-        temp_f31 = sin_table_lookup((int) (this->rotation_y));
-        temp_f1 = cos_table_lookup((int) (this->rotation_y));
+        temp_f31 = sin_table_lookup(this->rotation_y);
+        temp_f1 = cos_table_lookup(this->rotation_y);
         f32 speed = 4.0f;
         *(f32 *)((s8 *)this + 0x38) = (f32) ((temp_f31 * speed) + *(f32 *)((s8 *)this + 0x38));
         this->position.z = (f32) ((temp_f1 * speed) + this->position.z);
@@ -6409,7 +6409,7 @@ void TBoss8Dragon::sub_802F5644(s32 arg1) {
         this->m_3a4 = 0.0f;
         this->m_3a8 = (f32) -this->position.z;
         normalize_vector_xz__FP3Vec((u8 *)this + 0x3A0);
-        this->rotation_y = (s32) (RADIANS_TO_ANGLE * atan2_float((f32) (*(f32 *)((s8 *)this + 0x3A0)), (f32) (this->m_3a8)));
+        this->rotation_y = (s32) (RADIANS_TO_ANGLE * atan2_float((f32) (*(f32 *)((s8 *)this + 0x3A0)), this->m_3a8));
         return;
     case 2:
     case 11:
@@ -6471,7 +6471,7 @@ void TBoss8Dragon::sub_802F5434(s32 arg1) {
         return;
     case 8:
         ((s32 (*)(void))update_linked_position__12TBoss8DragonFv)();
-        this->m_84c = (s32) (this->m_84c + 1);
+        this->m_84c = (this->m_84c + 1);
         if ((s32) (this->m_84c % 20) == 0x13) {
             if (enemy_validate_retained_target(this) != 0) {
                 this->enemy_copy_target_destination();

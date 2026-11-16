@@ -232,7 +232,7 @@ void TLogo::run_task() {
         state = 4U;
         return;
     case 4:
-        if (((s32)is_sega_logo_done((int)((int) (sega_logo)))) != 0) {
+        if (((s32)is_sega_logo_done((int)(sega_logo))) != 0) {
             ((TObject *)sega_logo)->queue_destruction();
             sega_logo = 0U;
             var_r0_7 = __nw__7TObjectFUl(0x20);
@@ -245,7 +245,7 @@ void TLogo::run_task() {
         }
         break;
     case 5:
-        if (((s32)is_logo_exit_requested((int)((int) (sonic_logo)))) != 0) {
+        if (((s32)is_logo_exit_requested((int)(sonic_logo))) != 0) {
             ((TObject *)sonic_logo)->queue_destruction();
             sonic_logo = 0U;
             var_r0_8 = __nw__7TObjectFUl(0x20);
@@ -258,7 +258,7 @@ void TLogo::run_task() {
         }
         break;
     case 6:
-        if (((s32)TLogo__sub_8013F7E8((int)((int) (adx_logo)))) != 0) {
+        if (((s32)TLogo__sub_8013F7E8((int)(adx_logo))) != 0) {
             ((TObject *)adx_logo)->queue_destruction();
             adx_logo = 0U;
             state = 7U;

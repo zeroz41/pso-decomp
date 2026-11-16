@@ -583,7 +583,7 @@ void TItemWeapon::fire_shot_at_target(void *origin, void *model, s32 angle) {
         TObjPlayer__sub_802E449C(&atk);
         ((TObjPlayer *)((u8 *)this))->fill_status_info(&atk);
         VecCopy((Vec *)&atk, (const Vec *)((Vec_8011EB84 *)origin));
-        atk.angle = *(s32 *)((s8 *)(this->owner) + 0x60) + angle;
+        atk.angle = *(s32 *)((s8 *)this->owner + 0x60) + angle;
         atk.f3C = *scale;
         atk.f38 = shot_speed;
         atk.owner = model;
@@ -1123,7 +1123,7 @@ void TItemWeapon::perform_action() {
         if(!((TItemWeapon *)self)->test_weapon_flags(2)) {
             if(((TItemWeapon *)self)->test_weapon_flags(0x8000)) {
                 ((TItemWeapon *)self)->get_gun_point(&gun_point);
-                ((TItemWeapon *)self)->fire_shot_at_target((void *)(&gun_point), (void *)(self->second_model), 0);
+                ((TItemWeapon *)self)->fire_shot_at_target(&gun_point, self->second_model, 0);
                 return;
             }
             if(((TItemWeapon *)self)->test_weapon_flags(0x20000)) {

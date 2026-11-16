@@ -1184,7 +1184,7 @@ void TObjGrass::sub_800BDD70() {
         } else {
             VecCopy((Vec *)&sp8, (const Vec *)(this->target + 0x2FC));
             subtract_vector(&sp8, (u8 *)&this->m_2fc);
-            ang = ((TObjEnemy *)arg0)->turn_toward_direction(*(s32 *)((s8 *)(this->movementParameters) + 8), (Vec *)&sp8);
+            ang = ((TObjEnemy *)arg0)->turn_toward_direction(*(s32 *)((s8 *)this->movementParameters + 8), (Vec *)&sp8);
             apply_actor_gravity(arg0, 0, (0.0f));
             if (ang < ((AttackParams *)(this->m_318))->get_attack_angle()) {
                 this->phase = 1;

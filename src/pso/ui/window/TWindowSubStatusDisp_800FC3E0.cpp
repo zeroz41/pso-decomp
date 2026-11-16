@@ -106,7 +106,7 @@ void TFontSmallHelp::render() {
     }
     screen[0] -= lbl_805DA9C8 * text_width;
     fade = (f32)age_ticks;
-    if (lifetime_ticks > 0 && fade > (f32)(lifetime_ticks - 6)) {
+    if (lifetime_ticks > 0 && fade > (lifetime_ticks - 6)) {
         fade = (f32)(lifetime_ticks - age_ticks);
     }
     if (fade < lbl_805DA9CC) {

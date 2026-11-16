@@ -258,8 +258,8 @@ void TObjDoaEx01::draw_model() {
     if (((VObj_18_26a62c *)(this))->m8(4e+02f, 2e+01f) != 0) {
         ((TObjDoorJung *)(*(s32 *)((s8 *)TObjDoaEx01__alpha_model_node + 4)))->free_children((void *)0);
         ((TObjDoorJung *)(*(s32 *)((s8 *)TObjDoaEx01__alpha_model_sibling + 4)))->free_children((void *)0);
-        temp_r31 = (s32)get_bml_model((void *)(TObjDoaEx01__resource_bundle), 0);
-        TObjFish__sub_8001EDB0((void *)(TObjDoaEx01__resource_bundle), 0);
+        temp_r31 = (s32)get_bml_model((void *)TObjDoaEx01__resource_bundle, 0);
+        TObjFish__sub_8001EDB0((void *)TObjDoaEx01__resource_bundle, 0);
         set_global_param__8TObjFishFl();
         push_matrix();
         post_translate_matrix((void *) (((u8 *)this) + 0x38));
@@ -267,7 +267,7 @@ void TObjDoaEx01::draw_model() {
         temp_f31 = this->animation_frame;
         if (temp_f31 > 0.0f) {
             temp_r31 = get_bml_motion((TObjDoaEx01__resource_bundle), 0);
-            draw_ginja_model_with_motion((s32)get_bml_model((void *)(TObjDoaEx01__resource_bundle), 0), temp_r31, temp_f31);
+            draw_ginja_model_with_motion((s32)get_bml_model((void *)TObjDoaEx01__resource_bundle, 0), temp_r31, temp_f31);
         } else {
             this->draw_object_tree((temp_r31));
         }

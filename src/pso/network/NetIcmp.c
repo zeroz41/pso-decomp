@@ -130,7 +130,7 @@ s16 TLobby__sub_8040CB44(u8 *self, u32 d, u32 c)
 
       case 2:
         NetMemcpy(addr, hdr + 4, 4);
-        a = *((u32 *) (ip + 16));
+        a = *((u32 *)(ip + 16));
         net = ((a & 0x80000000) == 0) ? (a & 0xFF000000) : (((a & 0xC0000000) == 0x80000000) ? (a & 0xFFFF0000) : (((a & 0xE0000000) == 0xC0000000) ? (a & 0xFFFFFF00) : (0)));
         new_var = (u32 *) addr;
         mask = ((a & 0x80000000) == 0) ? (0xFF000000) : (((a & 0xC0000000) == 0x80000000) ? (0xFFFF0000) : (((a & 0xE0000000) == 0xC0000000) ? (0xFFFFFF00) : (0)));
@@ -141,7 +141,7 @@ s16 TLobby__sub_8040CB44(u8 *self, u32 d, u32 c)
 
       case 3:
         NetMemcpy(addr, hdr + 4, 4);
-        TLobby__sub_8040F8A4(*((u32 *) (ip + 16)), (void *) (*((u32 *) addr)), -1, 6, d);
+        TLobby__sub_8040F8A4(*((u32 *)(ip + 16)), (void *) (*((u32 *) addr)), -1, 6, d);
         break;
 
     }
@@ -162,11 +162,11 @@ s32 TUdpSocket__sub_8040CE58(u8 *p, u8 *b, s16 x, s16 id)
   NetPacket *pkt;
   s32 lim;
   s32 r;
-  if ((NetIPv4IsUnspecified(*((u32 *) (b + 0xc))) || NetIPv4IsLoopback(*((s32 *) (b + 0xc)))) || (TLobby__sub_8040FDA0(*((u32 *) (b + 0xc)), id) != 0))
+  if ((NetIPv4IsUnspecified(*((u32 *)(b + 0xc))) || NetIPv4IsLoopback(*((s32 *)(b + 0xc)))) || (TLobby__sub_8040FDA0(*((u32 *)(b + 0xc)), id) != 0))
   {
     return -1;
   }
-  if (TLobby__sub_8040FDA0(*((u32 *) (b + 0x10)), id))
+  if (TLobby__sub_8040FDA0(*((u32 *)(b + 0x10)), id))
   {
     return -1;
   }
@@ -187,9 +187,9 @@ s32 TUdpSocket__sub_8040CE58(u8 *p, u8 *b, s16 x, s16 id)
   pkt->fragments[pkt->fragment_count].length = 8;
   set_value_and_enable(&pkt->fragments[pkt->fragment_count].buffer, (s32) p);
   pkt->fragment_count += 1;
-  *((u16 *) (p + 2)) = 0;
-  *((u16 *) (p + 2)) = calc_ip_checksum(pkt, 1);
-  r = TLobby__sub_8040E780((u8 *) pkt, *((u32 *) (b + 0xc)), *((u32 *) (b + 0x10)), 0, 0, 0, (void *) 1);
+  *((u16 *)(p + 2)) = 0;
+  *((u16 *)(p + 2)) = calc_ip_checksum(pkt, 1);
+  r = TLobby__sub_8040E780((u8 *) pkt, *((u32 *)(b + 0xc)), *((u32 *)(b + 0x10)), 0, 0, 0, (void *) 1);
   release_entry(pkt);
   return r;
 }

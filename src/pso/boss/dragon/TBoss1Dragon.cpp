@@ -739,7 +739,7 @@ void TBoss1Dragon::render_shadows() {
             post_translate_matrix((void *)&this->position);
             rotate_matrix_y(0, (int) (((TBoss1Dragon *)((u8 *)this))->rotation_y));
             scale_matrix(0, (2.0f), (2.0f), (2.0f));
-            rotate_matrix_x(0, (int) (this->rotation_x));
+            rotate_matrix_x(0, this->rotation_x);
             rotate_matrix_z(0, (int) (((TBoss1Dragon *)((u8 *)this))->rotation_z));
             temp_r31 = *(s32 *)&this->model;
             temp_r4 = (u8 *)((DragonResource *)TBoss1Dragon__data_805D4B08)->model;
@@ -2293,7 +2293,7 @@ void TBoss1Dragon__sub_80023A2C(TBoss1Dragon *arg0, u32 arg1) {
                 arg0->stateStep = 1;
                 ((TBoss8Dragon *)arg0->m_6d8)->set_field_3c();
                 ((TBoss1Dragon *)arg0)->restorePosition();
-                arg0->m_874 = (s32) (boss1_dragon_angle_units_per_radian * atan2_float((f32) (arg0->position.x), (f32) (arg0->position.z)));
+                arg0->m_874 = (s32) (boss1_dragon_angle_units_per_radian * atan2_float(arg0->position.x, arg0->position.z));
                 return;
             }
             break;
@@ -2423,7 +2423,7 @@ void TBoss1Dragon::update_burrow_inward_run(u32 arg1, s32 arg2) {
         if (arg2 == 0x10) {
             this->m_6dc = 0;
         } else {
-            this->m_6dc = (s32) (this->m_6dc + 1);
+            this->m_6dc = (this->m_6dc + 1);
         }
         fill_value_array((s32)this->m_688);
         this->stateStep = 0;
@@ -2463,7 +2463,7 @@ void TBoss1Dragon::update_burrow_inward_run(u32 arg1, s32 arg2) {
                 this->stateStep = 1;
                 ((TBoss8Dragon *)this->m_6d8)->set_field_1c();
                 this->restorePosition();
-                this->rotation_y = (s32) ((s32) (boss1_dragon_angle_units_per_radian * atan2_float((f32) (this->position.x), (f32) (this->position.z))) + 0x8000);
+                this->rotation_y = (s32) ((s32) (boss1_dragon_angle_units_per_radian * atan2_float(this->position.x, this->position.z)) + 0x8000);
                 this->m_3a0.x = sin_table_lookup(this->rotation_y);
                 this->m_3a0.z = cos_table_lookup(this->rotation_y);
             }
@@ -3584,7 +3584,7 @@ void TBoss1Dragon::update_breath_attack_state(u32 arg1) {
         case 0:
             update_velocity__9TObjEneDDFv(arg0);
             calc_target_vector__12TBoss1DragonFPv(arg0);
-            this->rotation_y = approach_angle_limited(this->rotation_y, ((s32) (boss1_dragon_angle_units_per_radian * atan2_float((f32) (this->m_3a0.x), (f32) (this->m_3a0.z)))), 0xA0);
+            this->rotation_y = approach_angle_limited(this->rotation_y, ((s32) (boss1_dragon_angle_units_per_radian * atan2_float(this->m_3a0.x, this->m_3a0.z))), 0xA0);
             this->rotation_y = (s32) (s16) this->rotation_y;
             if (((TObjEneDD *)arg0)->get_flag_b4() != 0) {
                 this->requested_action = 5;
@@ -3593,7 +3593,7 @@ void TBoss1Dragon::update_breath_attack_state(u32 arg1) {
             }
             break;
         case 1:
-            this->m_86c = (s32) (this->m_86c + 1);
+            this->m_86c = (this->m_86c + 1);
             if ((s32) this->m_86c >= 0x78) {
                 this->requested_action = 6;
                 if (this->m_8ac != 0) {
@@ -3624,7 +3624,7 @@ void TBoss1Dragon::update_breath_attack_state(u32 arg1) {
                     this->impactAge = 0;
                 }
                 if (this->m_8ac == 0) {
-                    this->m_8ac = (TParticleCtrl *)spawn_particle_effect_with_rotation(&this->m_40c, &rotation, (void *) (this->effectResource->particle_ids[4]), 0x40);
+                    this->m_8ac = (TParticleCtrl *)spawn_particle_effect_with_rotation(&this->m_40c, &rotation, (void *)this->effectResource->particle_ids[4], 0x40);
                     if (this->m_8ac != 0) {
                         this->m_8ac->enable();
                     }
@@ -3633,7 +3633,7 @@ void TBoss1Dragon::update_breath_attack_state(u32 arg1) {
                     this->m_8ac->set_direction(&rotation);
                 }
                 if (this->m_8b4 == 0) {
-                    this->m_8b4 = (TParticleCtrl *)spawn_particle_effect_with_rotation(&this->m_40c, &rotation, (void *) (this->effectResource->particle_ids[5]), 0x40);
+                    this->m_8b4 = (TParticleCtrl *)spawn_particle_effect_with_rotation(&this->m_40c, &rotation, (void *)this->effectResource->particle_ids[5], 0x40);
                     if (this->m_8b4 != 0) {
                         this->m_8b4->enable();
                         return;
@@ -4109,7 +4109,7 @@ void TBoss1Dragon::hold_captured_player() {
     s32 temp_r31;
     s32 temp_r3b;
     u8 *temp_r3;
-    temp_r3 = ((u8 *)get_player_by_client_id((s32)(this->target_client_id)));
+    temp_r3 = ((u8 *)get_player_by_client_id(this->target_client_id));
     if (temp_r3 != NULL) {
         temp_r31 = get_current_floor();
         temp_r3b = ((TObjPlayer *)temp_r3)->get_floor();

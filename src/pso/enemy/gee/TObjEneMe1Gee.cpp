@@ -423,12 +423,12 @@ void TObjEneMe1Gee::vfunc_88() {
 #pragma opt_common_subs off
 extern "C" {
 void TObjEneMe1Gee::sub_800CC0C4() {
-    if ((s32) floor_to_float((f32) (this->parameters[0])) == 0) {
+    if ((s32) floor_to_float(this->parameters[0]) == 0) {
         this->sub_800CB5D4();
     } else {
         this->sub_800CB5B8();
     }
-    if ((s32) floor_to_float((f32) (this->parameters[1])) == 0) {
+    if ((s32) floor_to_float(this->parameters[1]) == 0) {
         this->sub_800CB60C();
     } else {
         this->sub_800CB5F0();
@@ -1621,7 +1621,7 @@ void TObjEneMe1Gee::sub_800C9964(s32 arg1) {
         this->update_velocity();
         this->update_angle();
         this->set_move_speed_x();
-        this->move_with_wall_slide_commit(this->m_3a0.x, (f32) (this->m_3a0.z), lbl_805DA0D0);
+        this->move_with_wall_slide_commit(this->m_3a0.x, this->m_3a0.z, lbl_805DA0D0);
         this->vfunc_88();
         break;
     }
@@ -1888,15 +1888,15 @@ void TObjEneMe1Gee::render() {
             this->draw_ground_shadow(0, 0);
         }
         this->update_secondary_light();
-        TObjFish::set_global_param((int) (this->texlist));
+        TObjFish::set_global_param(this->texlist);
         saved_model_render_flags = model_render_flags;
         TObjEneDD::clear_global_flag_400();
         TObjPlayer::toggle_particle_effect();
         this->vfunc_113();
         push_matrix();
         post_translate_matrix(&this->position);
-        translate_matrix(0, TObjEneMe1Gee__data_805DA0B4, (f32) (this->m_3f4), TObjEneMe1Gee__data_805DA0B4);
-        rotate_matrix_y(0, (int) (this->rotation_y));
+        translate_matrix(0, TObjEneMe1Gee__data_805DA0B4, this->m_3f4, TObjEneMe1Gee__data_805DA0B4);
+        rotate_matrix_y(0, this->rotation_y);
         temp_r0 = this->mode;
         var_r29 = 1;
         if ((temp_r0 == 1) || (temp_r0 == 0xC)) {
@@ -1925,7 +1925,7 @@ void TObjEneMe1Gee::render() {
                 TObjEneMe1Gee__render_node_index = -1;
                 gee_camera_ctrl_step_ptr = (s32)this->m_414;
                 set_chunk_model_node_callback((s32)((void *)TObjEneMe1Gee::advance_camera_ctrl_step));
-                this->draw_with_alt_model((int) (this->m_410));
+                this->draw_with_alt_model(this->m_410);
                 set_chunk_model_node_callback((s32)NULL);
             }
         }
@@ -1978,7 +1978,7 @@ void TObjEneMe1Gee::vfunc_115() {
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
         TObjEneDD::clear_global_flag_400();
-        draw_chunk_object((void *)(this->model));
+        draw_chunk_object(this->model);
         pop_matrix();
         TParticleCtrl::end_effect_render();
     }

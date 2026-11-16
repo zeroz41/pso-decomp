@@ -1426,7 +1426,7 @@ void TObjEneSlimeOne::sub_800EA820() {
     temp_f1_2 = var_f31 * (0.1f * sin_table_lookup(this->state_timer << 0xC));
     this->draw_scale.x = (f32) (this->draw_scale.x * (1.0f + temp_f1_2));
     this->draw_scale.z = (f32) (this->draw_scale.z * (1.0f - temp_f1_2));
-    this->state_timer = (s32) (this->state_timer + 1);
+    this->state_timer = (this->state_timer + 1);
     temp_f1_3 = this->m_398;
     if (temp_f1_3 >= 0.5f) {
         this->alpha = (f32) 1.0f;
@@ -1460,7 +1460,7 @@ void TObjEneSlimeOne::sub_800EA678() {
     temp_f1_2 = var_f31 * (0.15f * sin_table_lookup(this->state_timer << 0xA));
     this->draw_scale.x = (f32) (this->draw_scale.x * (1.0f + temp_f1_2));
     this->draw_scale.z = (f32) (this->draw_scale.z * (1.0f - temp_f1_2));
-    this->state_timer = (s32) (this->state_timer + 1);
+    this->state_timer = (this->state_timer + 1);
     temp_f1_3 = this->m_398;
     if (temp_f1_3 >= 0.5f) {
         this->alpha = (f32) 1.0f;
@@ -1625,7 +1625,7 @@ void TObjEneSlimeOne::sub_800E9EFC() {
             sp8.x = 1.0f;
             sp8.y = 0.0f;
             sp8.z = 0.0f;
-            TObjPlayer::calc_distance_to_client((s32)this, (u16)(this->target_client_id), (u32)&sp8);
+            TObjPlayer::calc_distance_to_client((s32)this, this->target_client_id, (u32)&sp8);
             this->rotation_y = approach_angle_limited(this->rotation_y, (s32)(10430.38043493439 * ((f32 (*)(f32, f32))atan2_float)(sp8.x, sp8.z)), 0x280);
         }
         if (this->state_timer > n) {

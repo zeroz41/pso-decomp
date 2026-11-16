@@ -387,7 +387,7 @@ TObjEneMe1Canadin::TObjEneMe1Canadin(TObject *parent, void *set_data, s32 kind) 
 TObjEneMe1Canadin::TObjEneMe1Canadin(TObject *parent, TObjEneMe1Canadin *leader, Vec *pos, s32 id, s32 sub_id) : TObjEneDD_ST(parent) {
     m_name = TObjEneMe1Canadin__class_name;
     m_3C0 = leader;
-    init_common_from((u8 *)(m_3C0));
+    init_common_from((u8 *)m_3C0);
     entity_id = id;
     set_index = sub_id;
     calc_move_vector((int)m_3C0, &position);
@@ -1904,7 +1904,7 @@ void TObjEneMe1Canadin::vfunc_112(s32 arg1) {
             m_3C0 = (TObjEneMe1Canadin *)find_entity_by_id(m_4C8);
             m_3C0->vfunc_117((u32)this);
         }
-        TBoss3Volopt::create_breakup_mdl((s32)lbl_805D4FE0, 0, (s32)((int) (texlist)), (s32)&m_2fc, (s32)((int) (rotation_y)));
+        TBoss3Volopt::create_breakup_mdl((s32)lbl_805D4FE0, 0, (s32)(texlist), (s32)&m_2fc, (s32)(rotation_y));
         m_3C8 |= 0x400000;
         VecCopy(&pos, (const Vec *)&m_2fc);
         temp_f1 = pos.y;
@@ -1932,7 +1932,7 @@ void TObjEneMe1Canadin::update_walk_animation(s32 arg1) {
         m_470 += 1;
         if (m_470 > 0x5A) {
             m_470 = 0;
-            requested_action = (s16) (requested_action + 1);
+            requested_action = (requested_action + 1);
             if ((s16) requested_action >= 7) {
                 requested_action = 0;
             }
@@ -2020,7 +2020,7 @@ void TObjEneMe1Canadin::render() {
             draw_ground_shadow(0, 0);
         }
         update_secondary_light();
-        TObjFish::set_global_param((int) (texlist));
+        TObjFish::set_global_param(texlist);
         saved_model_render_flags = model_render_flags;
         TObjEneDD::clear_global_flag_400();
         TObjPlayer::toggle_particle_effect();
@@ -2028,7 +2028,7 @@ void TObjEneMe1Canadin::render() {
         push_matrix();
         post_translate_matrix(&position);
         translate_matrix(0, 0.0f, m_3F4, 0.0f);
-        rotate_matrix_y(0, (int) (rotation_y));
+        rotate_matrix_y(0, rotation_y);
         temp_r0 = mode;
         var_r29 = 1;
         if ((temp_r0 == 1) || (temp_r0 == 0xB)) {
@@ -2057,7 +2057,7 @@ void TObjEneMe1Canadin::render() {
                 VecCopy(&m_414[3], &lbl_8043A268);
                 VecCopy(&m_414[1], &lbl_8043A274);
                 set_chunk_model_node_callback((s32)&fn_8009BD00);
-                this->draw_with_alt_model((int) (m_410));
+                this->draw_with_alt_model(m_410);
                 set_chunk_model_node_callback(NULL);
             }
         }
@@ -2098,10 +2098,10 @@ void TObjEneMe1Canadin::render_canadin_model_with_debug_type() {
     if (update_object_view_visibility(400.0f, 15.0f) != 0) {
         draw_ground_shadow(0, 0);
         TObjPlayer::toggle_particle_effect();
-        TObjFish::set_global_param((int) (texlist));
+        TObjFish::set_global_param(texlist);
         push_matrix();
         post_translate_matrix(&position);
-        rotate_matrix_y(0, (int) (rotation_y));
+        rotate_matrix_y(0, rotation_y);
         TObjEneDD::clear_global_flag_400();
         draw_chunk_object((void *)model);
         pop_matrix();
