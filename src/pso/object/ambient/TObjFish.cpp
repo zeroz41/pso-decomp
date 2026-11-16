@@ -130,18 +130,6 @@ extern const char TObjFish__class_name_string[] = "TObjFish";
 }
 
 struct VBase_18_26a62c { char pad[0x18]; };
-struct VObj_18_26a62c : VBase_18_26a62c {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual s32 m8(f32, f32);
-};
-
 struct SVec_8029D5C8 { s16 x, y, z; };
 struct Fish_8029D5C8 {
     f32 x, y, z;
@@ -180,7 +168,7 @@ void render__8TObjFishFv(u8 *arg0) {
     struct { f32 x, y, z; } d;
 
     if (TMainTask::get_render_pass() != 1 &&
-        ((VObj_18_26a62c *)arg0)->m8(400.0f, 200.0f) != 0 &&
+        ((TObjFish *)arg0)->update_object_view_visibility(400.0f, 200.0f) != 0 &&
         F(Fish_8029D5C8 *, 0xA0) != NULL && ((s32 (*)(void *))update_state__8TObjFishFv)(arg0) != 0) {
         f = F(Fish_8029D5C8 *, 0xA0);
         n = F(s32, 0x94);

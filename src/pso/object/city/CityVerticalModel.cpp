@@ -66,7 +66,7 @@ void TUnk_804B5C08::render() {
   new_var = ((s32) ((RecoveredFields_80182E90_arg0 *) arg0)->field_90) != 0;
   if (new_var)
   {
-    if ((((VObj_18_26a62c *)(arg0))->m8((600.0f), (50.0f))) == 0)
+    if ((this->update_object_view_visibility((600.0f), (50.0f))) == 0)
     {
       ((RecoveredFields_80182E90_arg0 *) arg0)->field_9C = ((RecoveredFields_80182E90_arg0 *) arg0)->field_9C;
       return;

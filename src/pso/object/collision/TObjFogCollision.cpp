@@ -47,20 +47,6 @@ struct VObj_801537CC : VBase_801537CC {
 
 struct O_801538D4 { u8 pad[0x8C]; s32 v; };
 
-struct VBase_18_26a62c { char pad[0x18]; };
-
-struct VObj_18_26a62c : VBase_18_26a62c {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual s32 m8(f32, f32);
-};
-
 struct O_80153D98 { u8 pad[0x88]; s32 mode; };
 
 extern TObject *tl_05;
@@ -207,7 +193,7 @@ void TObjFogCollision::render() {
 void TObjFogCollision::draw_volume() {
     u8 *arg0 = (u8 *)this;
     f32 s;
-    if (((VObj_18_26a62c *)(arg0))->m8(1.5e+02f, this->scale.x) != 0) {
+    if (this->update_object_view_visibility(1.5e+02f, this->scale.x) != 0) {
         NJS_ARGB c0 = {0.7f, 0.5f, 0.5f, 0.5f};
         NJS_ARGB c3 = {0.2f, 0.5f, 0.5f, 0.5f};
         NJS_ARGB cd = {0.5f, 0.5f, 1.0f, 1.0f};

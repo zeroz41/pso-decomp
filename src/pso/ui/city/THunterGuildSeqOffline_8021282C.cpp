@@ -17,35 +17,6 @@
 #include "pso/quest/TQuestThread.h"
 #include "pso/system/task/TObject.h"
 
-#define CAT2(a, b) a##b
-#define CAT(a, b) CAT2(a, b)
-#define PAD_VIRT virtual void CAT(pv, __LINE__)();
-struct Base_A_8021282C { char pad[0x18]; };
-struct V_A_8021282C : Base_A_8021282C {
-    virtual void m0();
-    PAD_VIRT
-    PAD_VIRT
-    PAD_VIRT
-    PAD_VIRT
-    PAD_VIRT
-    PAD_VIRT
-    virtual s32 m7(s32, s32);
-    virtual s32 m8();
-};
-
-struct VBase_18_97738d { char pad[0x18]; };
-
-struct VObj_18_97738d : VBase_18_97738d {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual s32 m7(s32, s32);
-};
-
 struct RecoveredGlobal_802128B0_THunterGuildSeqOffline__data_80513DC8 {
     s32 value;
     u8 remaining[0xC];
@@ -131,7 +102,7 @@ void THunterGuildSeqOffline::handle_cancel_choice() {
             if (selected_menu_value == 0) {
                 ((TWindowBase *)this->m_2c)->close();
                 this->m_2c = NULL;
-                ((VObj_18_97738d *)(arg0))->m7(9, 1);
+                this->display_guild_message(9, 1);
                 *(s32 *)&this->unk_38 = 1;
                 if ((s32) *(s32 *)((s8 *)&THunterGuildSeqOffline__quest_result_callbacks.value + 8) != -1) {
                     this->m_34 = (s32)TQuestThread::create_in_root(*(s32 *)((s8 *)&THunterGuildSeqOffline__quest_result_callbacks.value + 8));
@@ -142,7 +113,7 @@ void THunterGuildSeqOffline::handle_cancel_choice() {
             if (selected_menu_value == 1) {
                 ((TWindowBase *)this->m_2c)->close();
                 this->m_2c = NULL;
-                ((VObj_18_97738d *)(arg0))->m7(0xA, 1);
+                this->display_guild_message(0xA, 1);
                 *(s32 *)&this->unk_38 = 0;
                 ((TShopWindowBase *)arg0)->set_field_20(5);
                 return;
@@ -153,7 +124,7 @@ block_8:
         if (((TWindowMenu *)(this->m_2c))->is_cancelled() != 0) {
             ((TWindowBase *)this->m_2c)->close();
             this->m_2c = NULL;
-            ((VObj_18_97738d *)(arg0))->m7(0xA, 1);
+            this->display_guild_message(0xA, 1);
             *(s32 *)&this->unk_38 = 0;
             ((TShopWindowBase *)arg0)->set_field_20(5);
         }
@@ -265,7 +236,7 @@ void THunterGuildSeqOffline::handle_window_input() {
     } else {
 block_3:
         if ((this->vfunc_10() != 0) && ((sub_80223A48() != 0) || (sub_802239EC__13TShopSequenceFv(this) != 0))) {
-            ((V_A_8021282C *) this)->m7(0xC, 1);
+            this->display_guild_message(0xC, 1);
             *(s32 *)&this->unk_38 = 1;
             set_field_20(5);
         }

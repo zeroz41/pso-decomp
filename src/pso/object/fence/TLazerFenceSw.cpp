@@ -35,20 +35,6 @@ extern const char *fe_obj_switch_laz_motion_names[3];
 extern BmlResourceDescriptor laser_fence_switch_resource_descriptor;
 
 
-struct VBase_18_26a62c { char pad[0x18]; };
-
-struct VObj_18_26a62c : VBase_18_26a62c {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual s32 m8(f32, f32);
-};
-
 struct VBase_14_aa9368 { char pad[0x14]; };
 
 struct VObj_14_aa9368 : VBase_14_aa9368 {
@@ -180,7 +166,7 @@ void TLazerFenceSw::draw_laser_beam() {
 }
 void TLazerFenceSw::render() {
     u8 *arg0 = (u8 *)this;
-    if (((VObj_18_26a62c *)(arg0))->m8(4e+02f, 2e+01f) != 0) {
+    if (this->update_object_view_visibility(4e+02f, 2e+01f) != 0) {
         if (TMainTask::get_render_pass() != 1) {
             set_draw_list_mask(3);
             set_material_alpha_compare_reference(0x80);

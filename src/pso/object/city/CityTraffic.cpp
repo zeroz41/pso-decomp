@@ -29,20 +29,6 @@
 #include "pso/render/render_util.h"
 #include "pso/system/task/TObject.h"
 
-struct VBase_18_26a62c { char pad[0x18]; };
-
-struct VObj_18_26a62c : VBase_18_26a62c {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual s32 m8(f32, f32);
-};
-
 struct Rec16_80180D18 { s32 f0; s32 f4; s32 f8; s32 fc; };
 
 extern "C" {
@@ -530,7 +516,7 @@ void TObjCityAirCar_Car::run_task() {
 void TObjCityAirCar_Car::render() {
     s32 temp_r31;
     u8 *temp_r3;
-    if (((VObj_18_26a62c *)(this))->m8(800.0f, 50.0f) != 0) {
+    if (this->update_object_view_visibility(800.0f, 50.0f) != 0) {
         TParticleCtrl::end_effect_render();
         push_matrix();
         post_translate_matrix((void *) ((u8 *)this + 0x38));

@@ -90,18 +90,6 @@ const char *TOMineTrapDisp__name = "TOMineTrapDisp";
 BmlResource *lbl_805D5A50; // bm_o_mine.bml, loaded by TOMine::load_static_resource
 int mine_trap_count;
 
-struct VBase_8016EFB4 { u8 pad[0x18]; };
-struct VObj_8016EFB4 : VBase_8016EFB4 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual s32 m8(f32, f32);
-};
 extern "C" {
 s32 is_locally_controlled__10TObjPlayerFPv(void);
 f32 horizontal_distance_squared(void *, void *);
@@ -1439,7 +1427,7 @@ void TOMineDisp::render() {
     if (*(s32 *)&this->m_a4 != 2) {
         return;
     }
-    if (((VObj_8016EFB4 *)((u8 *)this))->m8(400.0f, 20.0f) == 0) {
+    if (this->update_object_view_visibility(400.0f, 20.0f) == 0) {
         return;
     }
     push_matrix();

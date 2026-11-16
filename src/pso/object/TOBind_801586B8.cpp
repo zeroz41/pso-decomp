@@ -38,19 +38,6 @@ s32 __ct__14TObjCollidableFP7TObject(void *, int);
 extern s32 __vt__6TOBind[];
 const char *lbl_805D2EA8 = "TOBind";
 extern s32 tl_05;
-struct BindBase_801586B8 { char pad[0x18]; };
-struct BindObj_801586B8 : BindBase_801586B8 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual s32 m8(f32, f32);
-};
-
 void free_bin_model_request(void*, int);
 s32 post_translate_matrix(void *);
 s32 draw_ginja_model_with_motion(s32, s32, f32);
@@ -61,7 +48,7 @@ void *__nw__7TObjectFUl(int);
 
 void TOBind::render() {
     u8 *arg0 = (u8 *)this;
-    if (((BindObj_801586B8*)arg0)->m8(*(f32 *)&this->unk_D0, this->m_d4) != 0) {
+    if (this->update_object_view_visibility(*(f32 *)&this->unk_D0, this->m_d4) != 0) {
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);

@@ -397,9 +397,9 @@ void TBoss2Joint::run_task() {
         VecCopy((Vec *)(arg0 + 0x38), (const Vec *)((int) (*(s32 *)((s8 *)arg0 + 0x390))));
         this->vfunc_83();
         if (((VObj_18 *)(arg0))->m84() == 0) {
-            ((VObj_18 *)(arg0))->m85(this->mode, 3);
+            this->dispatch_action(this->mode, 3);
         }
-        ((VObj_18 *)(arg0))->m85(this->mode, 0);
+        this->dispatch_action(this->mode, 0);
         ((TObjEneDD *)arg0)->sub_800BBA0C();
         ((TBoss2Joint *)arg0)->sub_80036940();
         update_position_history();

@@ -34,20 +34,6 @@ struct VObj_18_551843 : VBase_18_551843 {
 struct RecoveredGlobal_80196D50___vt__16TObjQuestColBase { s32 value; u8 remaining[0x44]; };
 typedef char RecoveredGlobal_80196D50___vt__16TObjQuestColBase_size[sizeof(RecoveredGlobal_80196D50___vt__16TObjQuestColBase) == 0x48 ? 1 : -1];
 
-struct VBase_18_26a62c { char pad[0x18]; };
-
-struct VObj_18_26a62c : VBase_18_26a62c {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual s32 m8(f32, f32);
-};
-
 struct VBase_18_1a504b
 {
   char pad[0x18];
@@ -112,7 +98,7 @@ s32 TObjQuestColBase::is_within_range(f32 farg0) {
 
 void TObjQuestColBase::update_room_id_check() {
     u8 *arg0 = (u8 *)this;
-    if (((VObj_18_26a62c *)(arg0))->m8(lbl_805DBEF8, lbl_805DBEFC) != 0) {
+    if (this->update_object_view_visibility(lbl_805DBEF8, lbl_805DBEFC) != 0) {
         debug_draw_sphere(&position, &debug_color_green_half_alpha, lbl_805DBF00 * *(f32 *)&this->unk_AC);
     }
 }

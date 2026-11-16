@@ -64,13 +64,6 @@ void TObjWarpLobby::debug_print_area_num() {
 
 }
 
-struct WarpLobbyBase_801A07F8 { char pad[0x18]; };
-struct WarpLobbyVObj_801A07F8 : WarpLobbyBase_801A07F8 {
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3();
-    virtual void m4(); virtual void m5(); virtual void m6(); virtual void m7();
-    virtual s32 m8(f32, f32);
-};
-
 struct VB_801A0894 { char pad[0x18]; };
 
 struct VO_801A0894 : VB_801A0894 {
@@ -115,7 +108,7 @@ void TObjWarpLobby::open_lobby_menu() {
 
 void TObjWarpLobby::render() {
     u8 *arg0 = (u8 *)this;
-    if (((s32) *(s32 *)((s8 *)arg0 + 0xCC) != 0) && (((WarpLobbyVObj_801A07F8*)arg0)->m8(4e+02f, 2e+01f) != 0)) {
+    if (((s32) *(s32 *)((s8 *)arg0 + 0xCC) != 0) && (this->update_object_view_visibility(4e+02f, 2e+01f) != 0)) {
         TObjFish::set_global_param(lbl_805D5CCC);
         push_matrix();
         post_translate_matrix((u8 *)&this->position);

@@ -9,115 +9,6 @@
 #include "pso/player/TObjPlayer.h"
 
 
-struct VBase_18 { char pad[0x18]; };
-struct VObj_18 : VBase_18 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual void m23();
-    virtual void m24();
-    virtual void m25();
-    virtual void m26();
-    virtual void m27();
-    virtual void m28();
-    virtual void m29();
-    virtual void m30();
-    virtual void m31();
-    virtual void m32();
-    virtual void m33();
-    virtual void m34();
-    virtual void m35();
-    virtual void m36();
-    virtual void m37();
-    virtual void m38();
-    virtual s32 m39();
-    virtual s32 m40();
-    virtual void m41();
-    virtual void m42();
-    virtual void m43();
-    virtual void m44();
-    virtual void m45();
-    virtual void m46();
-    virtual void m47();
-    virtual void m48();
-    virtual void m49();
-    virtual void m50();
-    virtual void m51();
-    virtual void m52();
-    virtual void m53();
-    virtual void m54();
-    virtual void m55();
-    virtual void m56();
-    virtual void m57();
-    virtual void m58();
-    virtual void m59();
-    virtual void m60();
-    virtual void m61();
-    virtual void m62();
-    virtual void m63();
-    virtual void m64();
-    virtual void m65();
-    virtual void m66();
-    virtual void m67();
-    virtual void m68();
-    virtual void m69();
-    virtual void m70();
-    virtual void m71();
-    virtual void m72();
-    virtual void m73();
-    virtual void m74();
-    virtual void m75();
-    virtual void m76();
-    virtual void m77();
-    virtual void m78();
-    virtual void m79();
-    virtual void m80();
-    virtual void m81();
-    virtual void m82();
-    virtual void m83();
-    virtual void m84();
-    virtual s32 m85(s16, s32);
-    virtual s32 m86();
-    virtual void m87();
-    virtual void m88();
-    virtual void m89();
-    virtual void m90();
-    virtual void m91();
-    virtual void m92();
-    virtual void m93();
-    virtual void m94();
-    virtual void m95();
-    virtual void m96();
-    virtual void m97();
-    virtual void m98();
-    virtual void m99();
-    virtual void m100();
-    virtual void m101();
-    virtual void m102();
-    virtual s32 m103();
-};
-
-
 extern "C" {
 s32 query_teammate_state__9TObjEneDDFv();
 s32 add_radar_scaled_marker(void *, int, int, int, f32);
@@ -132,7 +23,7 @@ void TUnk_804F1A78::run_task() {
     s32 temp_r30;
     s32 temp_r30_2;
     if (TObjPlayer::check_demo_mode() != 0) {
-        ((VObj_18 *)(boss8_dragon))->m103();
+        this->vfunc_105();
         return;
     }
     if (*(s32 *)((s8 *)boss8_dragon + 0x3C0) & 8) {
@@ -155,8 +46,8 @@ void TUnk_804F1A78::run_task() {
         }
     }
     temp_r30_2 = query_teammate_state__9TObjEneDDFv();
-    ((VObj_18 *)(boss8_dragon))->m39();
-    ((VObj_18 *)(boss8_dragon))->m40();
+    this->update_attack_stat_status();
+    this->update_defense_stat_status();
     if (temp_r30_2 == 0) {
         temp_r0 = *(s16 *)((s8 *)boss8_dragon + 0x326);
         if ((temp_r0 == 0x15) || (temp_r0 == 0x17)) {
@@ -171,31 +62,31 @@ void TUnk_804F1A78::run_task() {
                 } else {
                     ((TBoss8Dragon *)boss8_dragon)->check_death();
                 }
-                ((VObj_18 *)(boss8_dragon))->m85(*(s16 *)((s8 *)boss8_dragon + 0x326), 8);
-                ((VObj_18 *)(boss8_dragon))->m85(*(s16 *)((s8 *)boss8_dragon + 0x326), 0);
+                this->dispatch_action(*(s16 *)((s8 *)boss8_dragon + 0x326), 8);
+                this->dispatch_action(*(s16 *)((s8 *)boss8_dragon + 0x326), 0);
             } else {
                 if ((s32) TBoss8Dragon__data_805D69B8 == 0) {
                     release_grabbed_player__12TBoss8DragonFPv((TBoss8Dragon *)(boss8_dragon));
                 }
-                ((VObj_18 *)(boss8_dragon))->m85(*(s16 *)((s8 *)boss8_dragon + 0x326), 0);
+                this->dispatch_action(*(s16 *)((s8 *)boss8_dragon + 0x326), 0);
             }
         } else {
             temp_r0_2 = *(s32 *)((s8 *)boss8_dragon + 0x3E0);
             if (temp_r0_2 != 1) {
                 if (temp_r0_2 == 2) {
-                    ((VObj_18 *)(boss8_dragon))->m85(*(s16 *)((s8 *)boss8_dragon + 0x326), 2);
+                    this->dispatch_action(*(s16 *)((s8 *)boss8_dragon + 0x326), 2);
                 } else {
                     ((TBoss8Dragon *)boss8_dragon)->select_next_action();
                 }
-                ((VObj_18 *)(boss8_dragon))->m85(*(s16 *)((s8 *)boss8_dragon + 0x326), 8);
-                ((VObj_18 *)(boss8_dragon))->m85(*(s16 *)((s8 *)boss8_dragon + 0x326), 0);
+                this->dispatch_action(*(s16 *)((s8 *)boss8_dragon + 0x326), 8);
+                this->dispatch_action(*(s16 *)((s8 *)boss8_dragon + 0x326), 0);
             } else {
-                ((VObj_18 *)(boss8_dragon))->m85(*(s16 *)((s8 *)boss8_dragon + 0x326), 0);
+                this->dispatch_action(*(s16 *)((s8 *)boss8_dragon + 0x326), 0);
             }
         }
     }
     ((TObjEneDD *)boss8_dragon)->sub_800BBA0C();
-    ((VObj_18 *)(boss8_dragon))->m86();
+    this->vfunc_88();
     ((TBoss8Dragon *)boss8_dragon)->store_position();
     ((TObjEnemy *)boss8_dragon)->submit_default_cursor_candidate();
     add_radar_scaled_marker(boss8_dragon + 0x38, -0x5DB4, 1, 1, 2.0f);

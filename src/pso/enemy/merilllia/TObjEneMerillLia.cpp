@@ -983,7 +983,7 @@ void TObjEneMerillLia::render() {
   s16 temp_r0;
   s32 temp_r3;
   s32 var_r29;
-  temp_r3 = (((VObj_18_ca64a0 *)(this))->m9(200.0f, 400.0f, 30.0f));
+  temp_r3 = (this->classify_actor_view_detail(200.0f, 400.0f, 30.0f));
   if (temp_r3 != 0)
   {
     saved_model_render_flags = model_render_flags;

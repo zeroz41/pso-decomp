@@ -14,20 +14,6 @@
 
 struct RecoveredGlobal_80165EE8___vt__16TODummyKeyCave01 { s32 value; u8 remaining[0x34]; };
 
-struct VBase_80165B50 { char pad[0x18]; };
-
-struct VObj_80165B50 : VBase_80165B50 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual s32 m8(f32, f32);
-};
-
 struct Obj_80165C84 {
     u8 pad0[0x24];
     s32 f24;
@@ -72,7 +58,7 @@ void TODummyKeyCave01::render() {
     u32 v;
     u8 *node;
     s32 id;
-    if (((VObj_80165B50 *)arg0)->m8((4e+02f), (2e+01f)) != 0 && *(void **)(arg0 + 0x34) != NULL &&
+    if (this->update_object_view_visibility((4e+02f), (2e+01f)) != 0 && *(void **)(arg0 + 0x34) != NULL &&
         (v = *(u32 *)(arg0 + 0x24)) != 0) {
         set_texlist(v);
         push_matrix();

@@ -187,21 +187,6 @@ struct VObj_14_fddec9 : VBase_14_fddec9 {
     virtual s32 m8();
 };
 
-struct VBase_18_ca64a0 { char pad[0x18]; };
-
-struct VObj_18_ca64a0 : VBase_18_ca64a0 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual s32 m9(f32, f32, f32);
-};
-
 struct Self_800AA334 { u8 pad[0x3B0]; VObj_14_fddec9 sub; };
 
 
@@ -702,7 +687,7 @@ void TObjEneDubchik::render() {
     s32 var_r29;
     u8 *arg0 = (u8 *)this;
     if (!(((TObjEneDubchik *)arg0)->actorFlags & 0x02000000)) {
-        temp_r3 = ((VObj_18_ca64a0 *)(arg0))->m9(120.0f, 400.0f, 20.0f);
+        temp_r3 = this->classify_actor_view_detail(120.0f, 400.0f, 20.0f);
         if (temp_r3 != 0) {
             select_actor_lighting((s32)arg0);
             TObjPlayer::toggle_particle_effect();

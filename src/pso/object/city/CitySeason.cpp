@@ -426,13 +426,6 @@ u8 *TObjCity_Season_FireWorkCtrl__ct(u8 *city_season_fire_work_ctrl, s32 parent,
 
 #include "types.h"
 
-struct Fn801838D4Base_801838d4 { char pad[0x18]; };
-struct Fn801838D4VObj_801838d4 : Fn801838D4Base_801838d4 {
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3();
-    virtual void m4(); virtual void m5(); virtual void m6(); virtual void m7();
-    virtual s32 m8(f32, f32);
-};
-
 extern "C" {
 
 s32 post_translate_matrix(void *);
@@ -447,7 +440,7 @@ extern s32 lbl_805D5B48;
 
 void TObjCity_Season_Board::render() {
     u8 *arg0 = (u8 *)this;
-    if (((u32) lbl_805D5B38 != 0U) && (((Fn801838D4VObj_801838d4*)arg0)->m8(800.0f, 200.0f) != 0)) {
+    if (((u32) lbl_805D5B38 != 0U) && (this->update_object_view_visibility(800.0f, 200.0f) != 0)) {
         TObjFish::set_global_param(lbl_805D5B44);
         scroll_strip_uvs(lbl_805D5B48, (s16) *(s32 *)&this->unk_90, 0);
         push_matrix();
@@ -728,7 +721,7 @@ void TObjCity_Season_21_21::render() {
     u8 *temp_r3;
     temp_r3 = (u8 *)(((u8 * (*)())get_anim_frame__13TUnk_804B5E48Fv)());
     if (temp_r3 != NULL) {
-        if (((VObj_18_26a62c *)(arg0))->m8(800.0f, 60.0f) != 0) {
+        if (this->update_object_view_visibility(800.0f, 60.0f) != 0) {
             TObjFish::set_global_param((int) (*(s32 *)((s8 *)(&(*(RecoveredGlobal_80183D4C_lbl_8050DC50 *)&city_season_xmas_model_table).value) + 0x10)));
             ((s32 (*)(void *, int, int))scroll_strip_uvs)((void *)lbl_805D5B34, 0, (int) ((s16) *(s32 *)((s8 *)arg0 + 0xB4)));
             push_matrix();
@@ -875,7 +868,7 @@ void TObjCity_Season_HalloweenPumpkin::render() {
     u8 *arg0 = (u8 *)this;
     u8 *temp_r31;
     temp_r31 = (u8 *)(*(u8 **)((s8 *)(&(*(RecoveredGlobal_80183FC0_lbl_8050DC38 *)&city_season_easter_egg_model_table).value) + 0xC));
-    if ((temp_r31 != NULL) && (((VObj_18_26a62c *)(arg0))->m8(800.0f, 80.0f) != 0)) {
+    if ((temp_r31 != NULL) && (this->update_object_view_visibility(800.0f, 80.0f) != 0)) {
         TObjFish::set_global_param((int) (*(s32 *)((s8 *)(&(*(RecoveredGlobal_80183FC0_lbl_8050DC50 *)&city_season_xmas_model_table).value) + 0xC)));
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
@@ -1006,7 +999,7 @@ void TObjCity_Season_XmasWreath::render() {
     u8 *arg0 = (u8 *)this;
     u8 *temp_r31;
     temp_r31 = (u8 *)(*(u8 **)((s8 *)(&(*(RecoveredGlobal_8018417C_lbl_8050DC38 *)&city_season_easter_egg_model_table).value) + 8));
-    if ((temp_r31 != NULL) && (((VObj_18_26a62c *)(arg0))->m8(400.0f, 20.0f) != 0)) {
+    if ((temp_r31 != NULL) && (this->update_object_view_visibility(400.0f, 20.0f) != 0)) {
         TObjFish::set_global_param((int) (*(s32 *)((s8 *)(&(*(RecoveredGlobal_8018417C_lbl_8050DC50 *)&city_season_xmas_model_table).value) + 8)));
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
@@ -1029,9 +1022,6 @@ void TObjCity_Season_XmasWreath::render() {
 #pragma push
 
 #include "types.h"
-
-struct Base_80184314_80184210 { char pad[0x18]; };
-struct VObj_80184314_80184210 : Base_80184314_80184210 { virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3(); virtual void m4(); virtual void m5(); virtual void m6(); virtual void m7(); virtual s32 m8(f32, f32); };
 
 struct VBase_18_1a504b { char pad[0x18]; };
 
@@ -1103,7 +1093,7 @@ void TObjCity_Season_XmasTree::render() {
     u8 *temp_r3;
 
     temp_r3 = ((u8 * (*)())get_anim_frame__13TUnk_804B5E48Fv)();
-    if ((temp_r3 != NULL) && (((VObj_80184314_80184210 *)arg0)->m8(800.0f, 50.0f) != 0)) {
+    if ((temp_r3 != NULL) && (this->update_object_view_visibility(800.0f, 50.0f) != 0)) {
         TObjFish::set_global_param(*(s32 *)((s8 *)city_season_xmas_model_table + 8));
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
@@ -1148,13 +1138,6 @@ extern s32 TObjCity_Season_XmasTree__name;
 }
 
 extern "C" {
-
-struct VBase_8018455c_80184408 { char pad[0x18]; };
-struct VObj_8018455c_80184408 : VBase_8018455c_80184408 {
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3();
-    virtual void m4(); virtual void m5(); virtual void m6(); virtual void m7();
-    virtual s32 m8(f32, f32);
-};
 
 s32 post_translate_matrix(void *);
 
@@ -1209,7 +1192,7 @@ void TObjCity_Season_ValentineHeart::render() {
     u8 *temp_r3;
 
     temp_r3 = ((u8 * (*)(void *))get_anim_frame__13TUnk_804B5E48Fv)(arg0);
-    if ((temp_r3 != NULL) && (((VObj_8018455c_80184408*)arg0)->m8(800.0f, 50.0f) != 0)) {
+    if ((temp_r3 != NULL) && (this->update_object_view_visibility(800.0f, 50.0f) != 0)) {
         TObjFish::set_global_param(*(s32 *)((s8 *)city_season_xmas_model_table + 4));
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
@@ -1249,13 +1232,6 @@ extern s32 TObjCity_Season_ValentineHeart__name;
 }
 
 extern "C" {
-
-struct VBase_8018455c_80184620 { char pad[0x18]; };
-struct VObj_8018455c_80184620 : VBase_8018455c_80184620 {
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3();
-    virtual void m4(); virtual void m5(); virtual void m6(); virtual void m7();
-    virtual s32 m8(f32, f32);
-};
 
 s32 post_translate_matrix(void *);
 s32 push_matrix();
@@ -1309,7 +1285,7 @@ void TObjCity_Season_EasterEgg::render() {
     u8 *temp_r3;
 
     temp_r3 = ((u8 * (*)(void *))get_anim_frame__13TUnk_804B5E48Fv)(arg0);
-    if ((temp_r3 != NULL) && (((VObj_8018455c_80184620*)arg0)->m8(800.0f, 50.0f) != 0)) {
+    if ((temp_r3 != NULL) && (this->update_object_view_visibility(800.0f, 50.0f) != 0)) {
         TObjFish::set_global_param(city_season_xmas_model_table[0]);
         push_matrix();
         post_translate_matrix((u8 *)&this->position);

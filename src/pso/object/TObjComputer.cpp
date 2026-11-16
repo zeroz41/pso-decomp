@@ -25,19 +25,7 @@
 #include "pso/render/GinjaMaterial.h"
 #include "pso/system/task/TObject.h"
 
-#define CAT2(a, b) a##b
-#define CAT(a, b) CAT2(a, b)
-#define PADV4 virtual void CAT(pa, __LINE__)(); virtual void CAT(pb, __LINE__)(); virtual void CAT(pc, __LINE__)(); virtual void CAT(pd, __LINE__)();
-struct Base_TOC_801881D4 { char pad[0x18]; };
-struct V_TOC_801881D4 : Base_TOC_801881D4 {
-    PADV4
-    PADV4
-    virtual s32 m8(f32, f32);
-};
-
 struct Obj_80188884 { u8 pad0[0x38]; u8 pos[0x28]; s32 id; u8 pad1[0x326 - 0x64]; s16 state; };
-
-struct Obj_80188814 { u8 pad0[0x38]; u8 pos[0x4c]; s32 id; };
 
 struct Obj_801884A0 {
     const char *unk0;
@@ -73,8 +61,6 @@ struct Computer_8018807C {
     f32 time_c0;
     u32 tick_c4;
 };
-
-struct Obj_80188768 { u8 pad0[0x1C]; u16 f1C; u8 pad1[0x62]; u32 f80; s32 f84; };
 
 struct Pkt_80188768 { u16 a; u16 b; s32 c; s32 d; s32 e; };
 
@@ -265,7 +251,7 @@ void TObjComputer::clear_ref_if_destroyed() {
 
 void TObjComputer::render() {
     u8 *arg0 = (u8 *)this;
-    if (((V_TOC_801881D4 *)arg0)->m8(400.0f, 20.0f) != 0) {
+    if (this->update_object_view_visibility(400.0f, 20.0f) != 0) {
         draw_model();
     }
 }
@@ -335,7 +321,7 @@ void TObjGbAdvance::vfunc_14() {
 }
 
 void TObjGbAdvance::render() {
-    if (((V_TOC_801881D4 *)this)->m8(400.0f, 20.0f) != 0) {
+    if (this->update_object_view_visibility(400.0f, 20.0f) != 0) {
         TObjFish::set_global_param(TObjFish__sub_8001EDB0((void *)TObjGbAdvance__data_805D5B74, 0));
         push_matrix();
         post_translate_matrix(&this->position);

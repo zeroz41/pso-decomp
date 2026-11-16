@@ -229,23 +229,11 @@ s32 post_translate_matrix(void *);
 s32 rotate_matrix_y(s32, s32);
 s32 push_matrix();
 
-struct TOTrapBase { char pad[0x18]; };
-struct TOTrapVObj : TOTrapBase {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual s32 m8(f32, f32);
-};
 #pragma explicit_unused_unused_members on
 void TOTrap::render() {
     u8 *arg0 = (u8 *)this;
     if (TObjPlayer::is_any_teammate_in_state() == 0) {
-        this->m_340 = ((TOTrapVObj*)arg0)->m8(4e+02f, 2e+01f);
+        this->m_340 = this->update_object_view_visibility(4e+02f, 2e+01f);
         if (this->m_340 == 1) {
             push_matrix();
             post_translate_matrix((u8 *)&this->position);

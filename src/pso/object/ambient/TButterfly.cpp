@@ -20,9 +20,6 @@ BmlResourceDescriptor bm_o_abe_butterfly_resource_descriptor = {
 };
 const char *TButterfly__name = "TButterfly";
 
-struct Base_8017E978 { char pad[0x18]; };
-struct VObj_8017E978 : Base_8017E978 { virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3(); virtual void m4(); virtual void m5(); virtual void m6(); virtual void m7(); virtual s32 m8(f32, f32); };
-
 struct Butterfly_8017EA74 {
     u8 pad0[0x38];
     Vec pos;
@@ -73,7 +70,7 @@ void TButterfly::init_motion() {
 }
 
 void TButterfly::render() {
-    if (((VObj_8017E978*)this)->m8((4e+02f), (2e+01f)) != 0) {
+    if (this->update_object_view_visibility((4e+02f), (2e+01f)) != 0) {
         TObjFish__sub_8001EDB0(butterfly_bml_resource, 0);
         set_global_param__8TObjFishFl();
         draw_model();

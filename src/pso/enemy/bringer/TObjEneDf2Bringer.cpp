@@ -446,117 +446,6 @@ struct VObj_14_aa9368 : VBase_14_aa9368 {
     virtual s32 m7();
 };
 
-struct VBase_18_1fdb47 { char pad[0x18]; };
-
-struct VObj_18_1fdb47 : VBase_18_1fdb47 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual s32 m8(f32, f32);
-    virtual s32 m9(f32, f32, f32);
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual void m23();
-    virtual void m24();
-    virtual void m25();
-    virtual void m26();
-    virtual void m27();
-    virtual void m28();
-    virtual void m29();
-    virtual void m30();
-    virtual void m31();
-    virtual void m32();
-    virtual void m33();
-    virtual void m34();
-    virtual void m35();
-    virtual void m36();
-    virtual void m37();
-    virtual void m38();
-    virtual void m39();
-    virtual void m40();
-    virtual void m41();
-    virtual void m42();
-    virtual void m43();
-    virtual void m44();
-    virtual void m45();
-    virtual void m46();
-    virtual void m47();
-    virtual void m48();
-    virtual void m49();
-    virtual void m50();
-    virtual void m51();
-    virtual void m52();
-    virtual void m53();
-    virtual void m54();
-    virtual void m55();
-    virtual void m56();
-    virtual void m57();
-    virtual void m58();
-    virtual void m59();
-    virtual void m60();
-    virtual void m61();
-    virtual void m62();
-    virtual void m63();
-    virtual void m64();
-    virtual void m65();
-    virtual void m66();
-    virtual void m67();
-    virtual void m68();
-    virtual void m69();
-    virtual void m70();
-    virtual void m71();
-    virtual void m72();
-    virtual void m73();
-    virtual void m74();
-    virtual void m75();
-    virtual void m76();
-    virtual void m77();
-    virtual void m78();
-    virtual void m79();
-    virtual void m80();
-    virtual void m81();
-    virtual void m82();
-    virtual void m83();
-    virtual void m84();
-    virtual void m85();
-    virtual void m86();
-    virtual void m87();
-    virtual void m88();
-    virtual void m89();
-    virtual void m90();
-    virtual void m91();
-    virtual void m92();
-    virtual void m93();
-    virtual void m94();
-    virtual void m95();
-    virtual void m96();
-    virtual void m97();
-    virtual void m98();
-    virtual void m99();
-    virtual void m100();
-    virtual void m101();
-    virtual void m102();
-    virtual void m103();
-    virtual s32 m104();
-};
-
-
 struct Ent_800972B0 { s32 a, b, c; };
 
 struct Fade_800972B0 { u8 pad[0x1C]; };
@@ -1056,118 +945,6 @@ void enemy_set_target_id(void *, u16);
 f32 horizontal_distance_squared(void *, void *);
 void check_can_act__10TObjPlayerFii(void *, s16);
 s16 get_actor_tp(u8 *p);
-struct Base_80098E4C_80098DB0 { char pad[0x18]; };
-struct VObj_80098E4C_80098DB0 : Base_80098E4C_80098DB0 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual void m23();
-    virtual void m24();
-    virtual void m25();
-    virtual void m26();
-    virtual void m27();
-    virtual void m28();
-    virtual void m29();
-    virtual void m30();
-    virtual void m31();
-    virtual void m32();
-    virtual void m33();
-    virtual void m34();
-    virtual void m35();
-    virtual void m36();
-    virtual void m37();
-    virtual void m38();
-    virtual void m39();
-    virtual void m40();
-    virtual void m41();
-    virtual void m42();
-    virtual void m43();
-    virtual void m44();
-    virtual void m45();
-    virtual void m46();
-    virtual void m47();
-    virtual void m48();
-    virtual void m49();
-    virtual void m50();
-    virtual void m51();
-    virtual void m52();
-    virtual void m53();
-    virtual void m54();
-    virtual void m55();
-    virtual void m56();
-    virtual void m57();
-    virtual void m58();
-    virtual void m59();
-    virtual void m60();
-    virtual void m61();
-    virtual void m62();
-    virtual void m63();
-    virtual void m64();
-    virtual void m65();
-    virtual void m66();
-    virtual void m67();
-    virtual void m68();
-    virtual void m69();
-    virtual void m70();
-    virtual void m71();
-    virtual void m72();
-    virtual void m73();
-    virtual void m74();
-    virtual void m75();
-    virtual void m76();
-    virtual void m77();
-    virtual void m78();
-    virtual void m79();
-    virtual void m80();
-    virtual void m81();
-    virtual void m82();
-    virtual void m83();
-    virtual void m84();
-    virtual void m85();
-    virtual void m86();
-    virtual void m87();
-    virtual void m88();
-    virtual void m89();
-    virtual void m90();
-    virtual void m91();
-    virtual void m92();
-    virtual void m93();
-    virtual void m94();
-    virtual void m95();
-    virtual void m96();
-    virtual int m97();
-};
-
-
-
-
-
-
-
-
-
-
-
 s32 check_enemy_body_collisions(void *);
 s32 obj_is_hit_receivable(void);
 s32 attack_target_history_add(s32, TObjPlayer *);
@@ -1299,96 +1076,6 @@ struct VObj_14_fa0828 : VBase_14_fa0828 {
     virtual void m2();
     virtual s32 m3();
 };
-struct VBase_18_be4a70 { char pad[0x18]; };
-struct VObj_18_be4a70 : VBase_18_be4a70 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual void m23();
-    virtual void m24();
-    virtual void m25();
-    virtual void m26();
-    virtual void m27();
-    virtual void m28();
-    virtual void m29();
-    virtual void m30();
-    virtual void m31();
-    virtual void m32();
-    virtual void m33();
-    virtual void m34();
-    virtual void m35();
-    virtual void m36();
-    virtual void m37();
-    virtual void m38();
-    virtual void m39();
-    virtual void m40();
-    virtual void m41();
-    virtual void m42();
-    virtual void m43();
-    virtual void m44();
-    virtual void m45();
-    virtual void m46();
-    virtual void m47();
-    virtual void m48();
-    virtual void m49();
-    virtual void m50();
-    virtual void m51();
-    virtual void m52();
-    virtual void m53();
-    virtual void m54();
-    virtual void m55();
-    virtual void m56();
-    virtual void m57();
-    virtual void m58();
-    virtual void m59();
-    virtual void m60();
-    virtual void m61();
-    virtual void m62();
-    virtual void m63();
-    virtual void m64();
-    virtual void m65();
-    virtual void m66();
-    virtual void m67();
-    virtual void m68();
-    virtual void m69();
-    virtual void m70();
-    virtual void m71();
-    virtual void m72();
-    virtual void m73();
-    virtual void m74();
-    virtual void m75();
-    virtual void m76();
-    virtual void m77();
-    virtual void m78();
-    virtual void m79();
-    virtual void m80();
-    virtual void m81();
-    virtual void m82();
-    virtual void m83();
-    virtual void m84();
-    virtual s32 m85(s16, s32);
-};
-
 extern "C" {
 void *__ct__17TObjEneDf2BringerFP7TObjectPv(void *arg0, void *arg1, void *arg2);
 void free_bin_model_request(void*, int);
@@ -1673,7 +1360,7 @@ void TObjEneDf2Bringer::init_enemy() {
     *(f32 *)((s8 *)arg0 + 0x4C0) = 0.0f;
     *(s32 *)((s8 *)arg0 + 0x4C4) = 0;
     *(s16 *)((s8 *)arg0 + 0x326) = 1;
-    ((VObj_18_be4a70 *)(arg0))->m85(*(s16 *)((s8 *)arg0 + 0x326), 4);
+    this->dispatch_action(*(s16 *)((s8 *)arg0 + 0x326), 4);
 }
 
 }
@@ -1922,7 +1609,7 @@ void TObjEneDf2Bringer__sub_80098EB4(s32 arg0) {
 }
 
 s32 TObjEneDf2Bringer::vfunc_104(f32 farg0) {
-    if (((VObj_80098E4C_80098DB0 *)this)->m97() != 0) {
+    if (this->vfunc_99() != 0) {
         ((TObjEneDD_ST *)this)->select_and_apply_target(farg0);
         return;
     }
@@ -2686,8 +2373,8 @@ void render__17TObjEneDf2BringerFv(u8 *arg0) {
     if (*(s32 *)((s8 *)arg0 + 0x3C0) & 1) {
         var_r31 = 0;
     } else if (TObjEneDD::is_main_phase_15() != 0) {
-        var_r31 = ((VObj_18_1fdb47 *)(arg0))->m9(lbl_805D9E88, lbl_805D9E84, 15.0f);
-    } else if (((VObj_18_1fdb47 *)(arg0))->m8(400.0f, 15.0f) != 0) {
+        var_r31 = ((TObjEneDf2Bringer *)(arg0))->classify_actor_view_detail(lbl_805D9E88, lbl_805D9E84, 15.0f);
+    } else if (((TObjEneDf2Bringer *)(arg0))->update_object_view_visibility(400.0f, 15.0f) != 0) {
         var_r31 = 1;
     } else {
         var_r31 = 0;
@@ -2714,7 +2401,7 @@ void render__17TObjEneDf2BringerFv(u8 *arg0) {
                 var_r27 = 0;
             }
         } else if (temp_r29 != 0) {
-            ((VObj_14_aa9368 *)(temp_r28))->m6();
+            ((RenderFadeState *)(temp_r28))->set_flags_and_apply_damage_color();
             if (((TObject *)arg0)->defer_render() != 0) {
                 var_r27 = 0;
             }
@@ -2744,7 +2431,7 @@ void render__17TObjEneDf2BringerFv(u8 *arg0) {
         if (*(s32 *)((s8 *)arg0 + 0x3C0) & 2) {
             ((VObj_14_aa9368 *)(arg0 + (964)))->m7();
         } else if (temp_r29 != 0) {
-            ((VObj_14_aa9368 *)(temp_r28))->m7();
+            ((RenderFadeState *)(temp_r28))->clear_flag_and_notify();
         }
         TParticleCtrl::end_effect_render();
         model_render_flags = saved_model_render_flags;

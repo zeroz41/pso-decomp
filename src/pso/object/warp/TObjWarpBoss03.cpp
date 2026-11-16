@@ -9,25 +9,11 @@
 
 #pragma readonly_strings on
 
-struct VBase_18_26a62c { char pad[0x18]; };
-
-struct VObj_18_26a62c : VBase_18_26a62c {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual s32 m8(f32, f32);
-};
-
 extern "C" {
 
 void TObjWarpBoss03::sub_8019F9E4() {
     u8 *arg0 = (u8 *)this;
-    if (((VObj_18_26a62c *)(arg0))->m8(4e+02f, 2e+01f) != 0) {
+    if (this->update_object_view_visibility(4e+02f, 2e+01f) != 0) {
         debug_draw_sphere(&position, &debug_color_green_half_alpha, 2.0f * *(f32 *)(arg0 + 0xAC));
     }
 }

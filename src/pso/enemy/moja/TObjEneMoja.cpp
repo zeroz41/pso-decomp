@@ -176,14 +176,6 @@ struct Fade_800AF080 : FadeBase_800AF080 {
 
 struct Body_800AF080 { u8 pad[0x39C]; Fade_800AF080 fades[4]; };
 
-struct EneBase_800AF080 { u8 pad[0x18]; };
-
-struct Ene_800AF080 : EneBase_800AF080 {
-    virtual void v0(); virtual void v1(); virtual void v2(); virtual void v3();
-    virtual void v4(); virtual void v5(); virtual void v6(); virtual void v7();
-    virtual void v8(); virtual s32 m9(f32, f32, f32);
-};
-
 struct Vec_800AE450 { f32 x, y, z; };
 
 struct Hit_800AE450 {
@@ -656,7 +648,7 @@ void TObjEneMoja::render() {
     if (is_split_screen() != 0) {
         cam = TCameraCtrl::get_camera_mode();
     }
-    vis = ((Ene_800AF080 *)this)->m9(250.0f, 500.0f, 30.0f);
+    vis = this->classify_actor_view_detail(250.0f, 500.0f, 30.0f);
     if (vis == 0) {
         return;
     }

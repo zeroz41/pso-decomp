@@ -49,19 +49,6 @@ void *TOJungleDesign__create(void *arg0) {
 
 extern "C" void *__ct__14TObjCollidableFP7TObject(void *, s32);
 
-struct JDBase_802feeb4 { char pad[0x18]; };
-struct JDVObj_802feeb4 : JDBase_802feeb4 {
-    virtual s32 m0();
-    virtual s32 m1();
-    virtual s32 m2();
-    virtual s32 m3();
-    virtual s32 m4();
-    virtual s32 m5();
-    virtual s32 m6();
-    virtual s32 m7();
-    virtual s32 m8(f32, f32);
-};
-
 struct RecoveredGlobal_802FEF98___vt__14TOJungleDesign {
     s32 value;
     u8 remaining[0x38];
@@ -85,7 +72,7 @@ void __dl__7TObjectFPv(void *);
 
 void TOJungleDesign::render() {
     u8 *arg0 = (u8 *)this;
-    if (((JDVObj_802feeb4 *)arg0)->m8(400.0f, 40.0f) == 1) {
+    if (this->update_object_view_visibility(400.0f, 40.0f) == 1) {
         TObjFish::set_global_param(this->texlist);
         push_matrix();
         post_translate_matrix((u8 *)&this->position);

@@ -30,20 +30,6 @@
 
 // ---- pso/unk/text_80120908
 
-struct VBase_18_26a62c { char pad[0x18]; };
-
-struct VObj_18_26a62c : VBase_18_26a62c {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual s32 m8(f32, f32);
-};
-
 extern "C" {
 s32 get_attach_joint__14TItemEquipBaseFv(void *);
 void draw_weapon_at_joint(s32 arg0, s8 arg1);
@@ -68,7 +54,7 @@ s32 TItemWeapon::draw_weapon_model() {
         if (this->has_no_defer_render() != 0) {
             var_r30 = 1;
         } else {
-            var_r30 = ((VObj_18_26a62c *)(this))->m8(400.0f, 20.0f);
+            var_r30 = this->update_object_view_visibility(400.0f, 20.0f);
         }
         set_texlist((int) (*(s32 *)((s8 *)this + 0x24)));
         push_matrix_from((void *)((TObjMotion *)(this->owner))->get_item_ptr((s32)((void *) ((s8)get_attach_joint()))));

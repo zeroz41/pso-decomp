@@ -225,21 +225,6 @@ struct Panarms_800E2200 {
 
 
 
-struct VBase_18_26a62c { char pad[0x18]; };
-
-struct VObj_18_26a62c : VBase_18_26a62c {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual s32 m8(f32, f32);
-};
-
-
 struct O_800E2FB4 { u8 pad[0x378]; s32 state; };
 
 struct Vec_800E06DC { f32 x, y, z; };
@@ -639,7 +624,7 @@ void TObjEnePanBARA::render() {
     s32 var_r31;
     VObj_14_aa9368 *temp_r31;
     s32 var_r30;
-    if ((((VObj_18_26a62c *)(this))->m8(500.0f, 20.0f) == 0) || ((s32) this->m_384 == 0)) {
+    if ((this->update_object_view_visibility(500.0f, 20.0f) == 0) || ((s32) this->m_384 == 0)) {
         *(f32 *)&this->unk_3AC = 0.0f;
         this->m_3a8 = 0.0f;
         *(f32 *)&this->unk_3A4 = 0.0f;

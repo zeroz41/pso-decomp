@@ -124,36 +124,6 @@ struct VObj_802C9600 : Base_802C9600 {
 };
 typedef void (VObj_802C9600::*Act_802C9600)();
 
-struct VBase_18_52534d { char pad[0x18]; };
-
-struct VObj_18_52534d : VBase_18_52534d {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual s32 m8(f32, f32);
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual s32 m23();
-};
-
-
 typedef struct F4_802C8FF8 { f32 v[4]; } F4_802C8FF8;
 
 typedef struct S_802C9124 { u8 pad0[0xD8]; s32 f[4]; } S_802C9124;
@@ -749,7 +719,7 @@ void TOTrapChainSaw::vfunc_14() {  }
 
 void TOTrapChainSaw::render() {
     u8 *arg0 = (u8 *)this;
-    if (((VObj_18_52534d *)(arg0))->m8((4e+02f), (5e+01f)) == 1) {
+    if (this->update_object_view_visibility((4e+02f), (5e+01f)) == 1) {
         this->vfunc_25();
         ((TOTrapChainSaw *)arg0)->update_demo();
     }

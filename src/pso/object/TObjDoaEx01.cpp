@@ -158,20 +158,6 @@ struct NjObj_8018DD0C {
     NjObj_8018DD0C *sibling;
 };
 
-struct VBase_18_26a62c { char pad[0x18]; };
-
-struct VObj_18_26a62c : VBase_18_26a62c {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual s32 m8(f32, f32);
-};
-
 extern "C" {
 s32 rotate_matrix_by_node_angles(void *, int);
 s32 push_matrix();
@@ -185,19 +171,6 @@ s32 get_bml_motion(s32, s32);
 s32 rotate_matrix_y(s32, s32);
 s32 set_global_param__8TObjFishFl();
 s32 draw_ginja_model_with_motion(s32, s32, f32);
-
-struct TObjDoaEx01_base { char pad[0x18]; };
-struct TObjDoaEx01_VObj : TObjDoaEx01_base {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual s32 m8(f32, f32);
-};
 
 s32 TObjDoaEx01::draw_object_tree(s32 arg1) {
     NjObj_8018DD0C *obj = (NjObj_8018DD0C *)arg1;
@@ -239,7 +212,7 @@ void TObjDoaEx01::try_open() {
     s32 bml_model;
 
     bml_model = (s32)get_bml_model((void *)TObjDoaEx01__resource_bundle, 0);
-    if (((TObjDoaEx01_VObj*)((u8 *)this))->m8(4e+02f, 2e+01f) != 0) {
+    if (this->update_object_view_visibility(4e+02f, 2e+01f) != 0) {
         ((TObjDoorJung *)(*(s32 *)((s8 *)TObjDoaEx01__alpha_model_node + 4)))->free_children((void *)1);
         ((TObjDoorJung *)(*(s32 *)((s8 *)TObjDoaEx01__alpha_model_sibling + 4)))->free_children((void *)1);
         TObjFish__sub_8001EDB0((void *)TObjDoaEx01__resource_bundle, 0);
@@ -255,7 +228,7 @@ void TObjDoaEx01::draw_model() {
     f32 temp_f31;
     s32 temp_r31;
     s32 temp_r31_2;
-    if (((VObj_18_26a62c *)(this))->m8(4e+02f, 2e+01f) != 0) {
+    if (this->update_object_view_visibility(4e+02f, 2e+01f) != 0) {
         ((TObjDoorJung *)(*(s32 *)((s8 *)TObjDoaEx01__alpha_model_node + 4)))->free_children((void *)0);
         ((TObjDoorJung *)(*(s32 *)((s8 *)TObjDoaEx01__alpha_model_sibling + 4)))->free_children((void *)0);
         temp_r31 = (s32)get_bml_model((void *)TObjDoaEx01__resource_bundle, 0);

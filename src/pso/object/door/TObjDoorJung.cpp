@@ -38,13 +38,6 @@ struct RecoveredGlobal_8018F9CC___vt__12TObjDoorJung {
     u8 remaining[0x54];
 };
 
-struct VBase_8018F644 { char pad[0x18]; };
-struct VObj_8018F644 : VBase_8018F644 {
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3();
-    virtual void m4(); virtual void m5(); virtual void m6(); virtual void m7();
-    virtual s32 m8(f32, f32);
-};
-
 struct Jung_8018F808 { u8 pad0[0xC8]; s32 fC8; u8 padCC[4]; u32 fD0; s32 fD4; };
 
 extern "C" {
@@ -142,7 +135,7 @@ void TObjDoorJung::render() {
     s32 i;
     s32 j;
 
-    if (((VObj_8018F644 *)arg0)->m8(650.0f, 30.0f) != 0) {
+    if (this->update_object_view_visibility(650.0f, 30.0f) != 0) {
         if (this->door_flags & 1) {
             if (lbl_805D5BF0 >= 0) {
                 free_children__12TObjDoorJungFPv(door_jung_child_list, lbl_805D5BF0);

@@ -105,75 +105,6 @@ typedef struct Ene_800D1E4C {
 
 #pragma dont_inline off
 
-struct VBase_18_5c0ed3 { char pad[0x18]; };
-
-struct VObj_18_5c0ed3 : VBase_18_5c0ed3 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual void m23();
-    virtual void m24();
-    virtual void m25();
-    virtual void m26();
-    virtual void m27();
-    virtual void m28();
-    virtual void m29();
-    virtual void m30();
-    virtual void m31();
-    virtual void m32();
-    virtual void m33();
-    virtual void m34();
-    virtual void m35();
-    virtual void m36();
-    virtual void m37();
-    virtual void m38();
-    virtual void m39();
-    virtual void m40();
-    virtual void m41();
-    virtual void m42();
-    virtual void m43();
-    virtual void m44();
-    virtual void m45();
-    virtual void m46();
-    virtual void m47();
-    virtual void m48();
-    virtual void m49();
-    virtual void m50();
-    virtual void m51();
-    virtual void m52();
-    virtual void m53();
-    virtual void m54();
-    virtual void m55();
-    virtual void m56();
-    virtual void m57();
-    virtual void m58();
-    virtual void m59();
-    virtual void m60();
-    virtual void m61();
-    virtual void m62();
-    virtual s32 m63(s16, f32 *);
-};
-
 struct Vec_800D2900 { f32 x, y, z; };
 
 struct Inner_800D2900 { u8 pad[0x3c]; s32 x3c; };
@@ -360,75 +291,6 @@ s32 TBoss3Volopt__sub_800D8D88(void *, s32);
 
 struct Vec_800D3314 { f32 x, y, z; };
 
-struct VBase_800D3314 { char pad[0x18]; };
-
-struct VObj_800D3314 : VBase_800D3314 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual void m23();
-    virtual void m24();
-    virtual void m25();
-    virtual void m26();
-    virtual void m27();
-    virtual void m28();
-    virtual void m29();
-    virtual void m30();
-    virtual void m31();
-    virtual void m32();
-    virtual void m33();
-    virtual void m34();
-    virtual void m35();
-    virtual void m36();
-    virtual void m37();
-    virtual void m38();
-    virtual void m39();
-    virtual void m40();
-    virtual void m41();
-    virtual void m42();
-    virtual void m43();
-    virtual void m44();
-    virtual void m45();
-    virtual void m46();
-    virtual void m47();
-    virtual void m48();
-    virtual void m49();
-    virtual void m50();
-    virtual void m51();
-    virtual void m52();
-    virtual void m53();
-    virtual void m54();
-    virtual void m55();
-    virtual void m56();
-    virtual void m57();
-    virtual void m58();
-    virtual void m59();
-    virtual void m60();
-    virtual void m61();
-    virtual void m62();
-    virtual void m63(int, void *);
-};
-
 #include <stddef.h>
 
 #include "pso/unk/TLobby.h"
@@ -541,21 +403,6 @@ struct VObj_14_fddec9 : VBase_14_fddec9 {
     virtual s32 m6();
     virtual s32 m7();
     virtual s32 m8();
-};
-
-struct VBase_18_ca64a0 { char pad[0x18]; };
-
-struct VObj_18_ca64a0 : VBase_18_ca64a0 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual s32 m9(f32, f32, f32);
 };
 
 struct Elem_800D35D8 { u8 pad[0x1C]; };
@@ -1239,7 +1086,7 @@ void TObjEneGyaranzo::render() {
             var_r30 = TCameraCtrl::get_camera_mode();
         }
         var_r29 = 1;
-        temp_r3 = ((VObj_18_ca64a0 *)(this))->m9(200.0f, 400.0f, 40.0f);
+        temp_r3 = this->classify_actor_view_detail(200.0f, 400.0f, 40.0f);
         if (temp_r3 != 0) {
             saved_model_render_flags = model_render_flags;
             var_r30 = (s32)&((Obj_800D35D8 *)((u8 *)this))->arr[var_r30];
@@ -1339,9 +1186,9 @@ void TObjPlayer__sub_800D3314(u8 *arg0) {
         }
         if (!(actor_frame_tick & 3)) {
             ((TObjEnemyCustom *)arg0)->render_anim_model_at_pos();
-            ((VObj_800D3314 *)arg0)->m63(0x1F, &v);
+            ((TObjEnemyCustom *)arg0)->get_anim_node_position(0x1F, (Vec *)&v);
             spawn_particle_effect(&v, 0xF3);
-            ((VObj_800D3314 *)arg0)->m63(0x27, &v);
+            ((TObjEnemyCustom *)arg0)->get_anim_node_position(0x27, (Vec *)&v);
             spawn_particle_effect(&v, 0xF3);
         }
         ((TObjPlayer *)arg0)->update_collisions();
@@ -1540,7 +1387,7 @@ void TObjEneGyaranzo::spawn_missile() {
     Vec launch_position;
     s32 temp_r31;
     render_anim_model_at_pos();
-    ((VObj_18_f1aa6a *)(this))->m63(0x18, &launch_position);
+    this->get_anim_node_position(0x18, &launch_position);
     temp_r31 = (s32) (182.04445f * ((240.0f * random_ratio()) - 120.0f));
     new TUnk_8049442C(this, &launch_position, rotation_y, temp_r31);
     spawn_particle_effect((void *)((s32) &launch_position), 0xF3);
@@ -1600,7 +1447,7 @@ void TObjEneGyaranzo::sub_800D2900() {
         render_anim_model_at_pos();
         for (i = start; i < end; i++) {
             idx = gyaranzo_flagged_resource_index_table[i];
-            ((VObj_18_5c0ed3 *)(this))->m63(gyaranzo_resource_index_table[idx], &v.x);
+            this->get_anim_node_position(gyaranzo_resource_index_table[idx], (Vec *)&v.x);
             {
                 TObjChipParams p = {
                     {0.5f, 0.03f, 0.15f}, {0.0f, 0.0f, 0.0f}, {3.5f, 5.0f, 3.5f},

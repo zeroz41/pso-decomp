@@ -215,21 +215,6 @@ VA
     virtual void m48();
 };
 
-struct VBase_18_ca64a0 { char pad[0x18]; };
-
-struct VObj_18_ca64a0 : VBase_18_ca64a0 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual s32 m9(f32, f32, f32);
-};
-
 #include <stddef.h>
 struct VPad18 { char pad[0x18]; };
 
@@ -580,7 +565,7 @@ void TObjEneLappy::render() {
         } else {
             *rappy_visibility_node |= 8;
         }
-        temp_r3 = ((VObj_18_ca64a0 *)(this))->m9(150.0f, 400.0f, 10.0f);
+        temp_r3 = this->classify_actor_view_detail(150.0f, 400.0f, 10.0f);
         if (temp_r3 != 0) {
             set_speed_params__12TObjEneLappyFl(this, this->variant);
             set_global_param__8TObjFishFl(this->texlist);

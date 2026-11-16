@@ -14,13 +14,6 @@
 
 #pragma readonly_strings on
 
-struct Base_8016E9F4_8016E998 { char pad[0x18]; };
-struct VObj_8016E9F4_8016E998 : Base_8016E9F4_8016E998 {
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3();
-    virtual void m4(); virtual void m5(); virtual void m6(); virtual void m7();
-    virtual s32 m8(f32, f32);
-};
-
 const char *bm_o_light_machine01_motion_names[1] = {0};
 const char *bm_o_light_machine01_model_names[3] = { "fs_obj_light.gj", "fs_obj_toudai.gj", NULL };
 BmlResourceDescriptor light_machine01_resource_desc = { "bm_o_light_machine01.bml", bm_o_light_machine01_model_names, bm_o_light_machine01_motion_names, 2, 0 };
@@ -54,7 +47,7 @@ void TOLightMachine01::run_task() {
 
 void TOLightMachine01::render() {
     u8 *arg0 = (u8 *)this;
-    if (((VObj_8016E9F4_8016E998 *)arg0)->m8(*(f32 *)&this->unk_90, this->m_94) != 0) {
+    if (this->update_object_view_visibility(*(f32 *)&this->unk_90, this->m_94) != 0) {
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);

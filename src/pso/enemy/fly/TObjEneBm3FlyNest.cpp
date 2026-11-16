@@ -41,20 +41,6 @@
 
 extern "C" {
 
-struct VBase_18_800B23A0 { char pad[0x18]; };
-
-struct VObj_18_800B23A0 : VBase_18_800B23A0 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual s32 m8(f32, f32);
-};
-
 struct Ent_800B23A0 { s32 a; u32 count; };
 
 struct Pair_800B23A0 { s32 k; Ent_800B23A0 *e; };
@@ -1131,7 +1117,7 @@ void TObjEneBm3FlyNest::render_with_state_debug() {
         var_f31 = var_r30->count - 1;
         break;
     }
-    if (((VObj_18_800B23A0 *)arg0)->m8(500.0f, 120.0f) != 0) {
+    if (this->update_object_view_visibility(500.0f, 120.0f) != 0) {
         Vec v = {5.0f, 1.0f, 5.0f};
         ((TObjEneDD *)(arg0))->draw_ground_shadow(&v, 1);
         TObjFish::set_global_param(this->texlist);

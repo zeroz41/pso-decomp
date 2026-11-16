@@ -271,19 +271,6 @@ extern s32 saved_model_render_flags;
 s32 minimap_render_dot(void *, s32, s32, s32);
 }
 
-struct VObj_18_800DEF5C {
-    u8 pad[0x18];
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual s32 m8(f32, f32);
-};
-
 struct Obj_800DEF5C { u8 pad[0x400]; RenderFadeState fades[4]; };
 
 /* The 0x40-byte set entry the constructor copies for each half it creates. */
@@ -438,7 +425,7 @@ void TObjEnePanarms::render() {
     s32 cam;
     RenderFadeState *fade;
     s32 draw;
-    if (((VObj_18_800DEF5C *)this)->m8(500.0f, 20.0f) == 0) {
+    if (this->update_object_view_visibility(500.0f, 20.0f) == 0) {
         return;
     }
     cam = 0;

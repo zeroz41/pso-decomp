@@ -1052,8 +1052,8 @@ void render__13TObjEneMorfosFv(u8 *ene_morfos) {
     if (*(u32 *)((s8 *)ene_morfos + 0x3C0) & 1) {
         vis = 0;
     } else if (TObjEneDD::is_main_phase_15() != 0) {
-        vis = ((VObj_80332850 *)ene_morfos)->m9(lbl_805D9E88, lbl_805D9E84, 15.0f);
-    } else if (((VObj_80332850 *)ene_morfos)->m8(400.0f, 15.0f) != 0) {
+        vis = ((TObjEneMorfos *)ene_morfos)->classify_actor_view_detail(lbl_805D9E88, lbl_805D9E84, 15.0f);
+    } else if (((TObjEneMorfos *)ene_morfos)->update_object_view_visibility(400.0f, 15.0f) != 0) {
         vis = 1;
     } else {
         vis = 0;

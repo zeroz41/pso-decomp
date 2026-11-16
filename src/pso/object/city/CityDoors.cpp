@@ -148,14 +148,6 @@ struct RecoveredGlobal_8019A880___vt__8TObjTank {
     u8 remaining[0x38];
 };
 
-struct Base_80181AE8 { char pad[0x18]; };
-
-struct VObj_80181AE8 : Base_80181AE8 {
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3();
-    virtual void m4(); virtual void m5(); virtual void m6(); virtual void m7();
-    virtual s32 m8(f32, f32);
-};
-
 extern u8 *city_common_model_archive;
 extern s32 city_common_texture_list;
 extern "C" {
@@ -202,7 +194,7 @@ extern "C" {
 void TObjCityDoor_Lobby::render() { if (is_phase_e__9TObjEneDDFPv(this) != 0) { process_lobby_action_14(); } }
 void TObjCityDoor_Lobby::process_lobby_action_14() {
     u8 *arg0 = (u8 *)this;
-    if (((VObj_80181AE8 *)arg0)->m8(400.0f, 70.0f) != 0) {
+    if (this->update_object_view_visibility(400.0f, 70.0f) != 0) {
         TObjFish::set_global_param((*(s32 *)&city_common_texture_list));
         push_matrix();
         post_translate_matrix((u8 *)&this->position);

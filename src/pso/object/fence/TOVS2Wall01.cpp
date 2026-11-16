@@ -247,18 +247,6 @@ f32 take_hit__11TOVS2Wall01FPvUi(u8 *ovs2_wall01, void *attacker) {
 }
 
 // ---- TOVS2Wall01_8017BE08
-struct VBase_18_26a62c { char pad[0x18]; };
-struct VObj_18_26a62c : VBase_18_26a62c {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual s32 m8(f32, f32);
-};
 struct VBase_14_1eb8da { char pad[0x14]; };
 struct VObj_14_1eb8da : VBase_14_1eb8da {
     virtual void m0();
@@ -308,18 +296,6 @@ void __dl__7TObjectFPv(void *);
 void *__nw__7TObjectFUl(int);
 extern s32 __vt__12TOVS2Wreck02[];
 // ---- TOVS2Wreck01
-struct Base_8017C640 { char pad[0x18]; };
-struct VObj_8017C640 : Base_8017C640 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual s32 m8(f32, f32);
-};
 void __dl__7TObjectFPv(void *);
 void *__nw__7TObjectFUl(int);
 extern s32 __vt__12TOVS2Wreck01[];
@@ -387,7 +363,7 @@ void TOVS2Wall01::release_model() {
 }
 void TOVS2::render() {
     u8 *arg0 = (u8 *)this;
-    this->m_cc = ((VObj_8017C640 *)arg0)->m8(this->view_range, this->model_radius);
+    this->m_cc = this->update_object_view_visibility(this->view_range, this->model_radius);
     if ((s32) this->m_cc == 1) {
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
@@ -548,7 +524,7 @@ void TOVS2Wall01::render() {
     u8 *arg0 = (u8 *)this;
     s32 var_r31;
     ((RenderFadeState *)((u8 *)&this->m_340))->update();
-    *(s32 *)&this->m_35c = ((VObj_18_26a62c *)(arg0))->m8(*(f32 *)&this->unk_334, this->m_338);
+    *(s32 *)&this->m_35c = this->update_object_view_visibility(*(f32 *)&this->unk_334, this->m_338);
     if ((s32) this->m_35c == 1) {
         if (TRaderMapCore::is_not_split_screen() == 1) {
             var_r31 = 0;

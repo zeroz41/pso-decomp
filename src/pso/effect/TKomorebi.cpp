@@ -18,19 +18,6 @@ extern const char *bm_fe_obj_komo_model_names[2];
 extern BmlResourceDescriptor TKomorebi__resource_descriptor;
 extern const char *bm_fe_obj_komo_motion_names[1];
 
-struct VObjBase_80192174 { char pad[0x18]; };
-struct VObj_80192174 : VObjBase_80192174 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual s32 m8(f32, f32);
-};
-
 struct RecoveredGlobal_801922C4___vt__9TKomorebi {
     s32 value;
     u8 remaining[0x34];
@@ -67,7 +54,7 @@ void TKomorebi::render() {
     u8 *arg0 = (u8 *)this;
     f32 temp_f1;
 
-    if ((((VObj_80192174*)arg0)->m8(400.0f, 20.0f) != 0) && !(xz_distance_squared((u8 *)&this->position, camera_ctrl_instance + 0x178) < 1600.0f)) {
+    if ((this->update_object_view_visibility(400.0f, 20.0f) != 0) && !(xz_distance_squared((u8 *)&this->position, camera_ctrl_instance + 0x178) < 1600.0f)) {
         TParticleCtrl::begin_effect_render();
         if ((s32) actor_frame_tick != (s32) komorebi_last_uv_update_frame) {
             scroll_ginja_mesh_uvs(*(s32 *)((s8 *)this->model + 4), 0, (s32) this->scale.x, 0, 1);

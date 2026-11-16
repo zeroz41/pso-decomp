@@ -23,13 +23,6 @@ BmlResourceDescriptor bm_butterfly_lobby_resource_descriptor = {
 /* inferred: TObject name the constructor stores */
 const char *TObjButterflyLobby__name = "TObjButterflyLobby";
 
-struct ButterflyLobbyBase_80350958 { char pad[0x18]; };
-struct ButterflyLobbyVObj_80350958 : ButterflyLobbyBase_80350958 {
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3();
-    virtual void m4(); virtual void m5(); virtual void m6(); virtual void m7();
-    virtual s32 m8(f32, f32);
-};
-
 struct Obj_80350AE4 { u8 pad[0x90]; s32 state; f32 val; };
 
 struct Vec_80350BC4 { f32 x, y, z; };
@@ -96,7 +89,7 @@ void TObjButterflyLobby::init_params() {
 }
 
 void TObjButterflyLobby::render() {
-    if ((((ButterflyLobbyVObj_80350958*)this)->m8(400.0f, 20.0f) != 0) && ((s32) this->m_90 != 0)) {
+    if ((this->update_object_view_visibility(400.0f, 20.0f) != 0) && ((s32) this->m_90 != 0)) {
         TObjFish::set_global_param(this->m_c8);
         render__18TObjButterflyLobbyFPv((TObjButterflyLobby *)((u8 *)this));
     }

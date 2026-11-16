@@ -28,43 +28,6 @@ namespace part0 {
 #define CAT2(a,b) a##b
 #define CAT(a,b) CAT2(a,b)
 #define PADV virtual void CAT(f,__LINE__)();
-struct Base_A_80213788 { char pad[0x18]; };
-struct V_A_80213788 : Base_A_80213788 {
-    PADV
-    PADV
-    PADV
-    PADV
-    PADV
-    PADV
-    PADV
-    virtual void m7(s32, s32);
-    virtual s32 m8();
-};
-struct Base_A_8021383c_80213788 { char pad[0x18]; };
-struct V_A_8021383c_80213788 : public Base_A_8021383c_80213788 {
-    virtual void CAT(f,__LINE__)();
-    virtual void CAT(f,__LINE__)();
-    virtual void CAT(f,__LINE__)();
-    virtual void CAT(f,__LINE__)();
-    virtual void CAT(f,__LINE__)();
-    virtual void CAT(f,__LINE__)();
-    virtual void CAT(f,__LINE__)();
-    virtual void m7(int, int);
-    virtual s32 m8();
-};
-struct Base_802138F0_80213788 { char pad[0x18]; };
-struct VObj_802138F0_80213788 : Base_802138F0_80213788 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7(s32, s32);
-    virtual s32 m8();
-};
-
 struct VBase_18_97738d { char pad[0x18]; };
 
 struct VObj_18_97738d : VBase_18_97738d {
@@ -169,7 +132,7 @@ void update_shop_close__22THunterGuildSeqOfflineFPv(void *shop_sequence) {
     } else {
 block_3:
         if ((((TShopWindowBase *)shop_sequence)->vfunc_10() != 0) && ((((TShopWindowBase *)shop_sequence)->sub_80223A48() != 0) || (sub_802239EC__13TShopSequenceFv(shop_sequence) != 0))) {
-            ((V_A_80213788 *) shop_sequence)->m7(0xC, 1);
+            ((THunterGuildSeqOffline *)shop_sequence)->display_guild_message(0xC, 1);
             *(s32 *)((s8 *)shop_sequence + 0x34) = 1;
             ((TShopWindowBase *)shop_sequence)->set_field_20(0xC);
         }
@@ -186,7 +149,7 @@ void update_close_shop__22THunterGuildSeqOfflineFPv(void *shop_sequence) {
     } else {
 block_3:
         if ((((TShopWindowBase *)shop_sequence)->vfunc_10() != 0) && ((((TShopWindowBase *)shop_sequence)->sub_80223A48() != 0) || (sub_802239EC__13TShopSequenceFv(shop_sequence) != 0))) {
-            ((V_A_8021383c_80213788 *) shop_sequence)->m7(0xC, 1);
+            ((THunterGuildSeqOffline *)shop_sequence)->display_guild_message(0xC, 1);
             *(s32 *)((s8 *)shop_sequence + 0x34) = 1;
             ((TShopWindowBase *)shop_sequence)->set_field_20(0xC);
         }
@@ -195,7 +158,7 @@ block_3:
 
 void handle_close__22THunterGuildSeqOfflineFPv(void *shop_sequence) {
     if ((((TShopWindowBase *)shop_sequence)->vfunc_10() != 0) && ((((TShopWindowBase *)shop_sequence)->sub_80223A48() != 0) || (sub_802239EC__13TShopSequenceFv(shop_sequence) != 0))) {
-        ((VObj_802138F0_80213788 *)shop_sequence)->m7(0xC, 1);
+        ((THunterGuildSeqOffline *)shop_sequence)->display_guild_message(0xC, 1);
         *(s32 *)((s8 *)shop_sequence + 0x34) = 0;
         ((TShopWindowBase *)shop_sequence)->set_field_20(0xC);
     }
@@ -605,7 +568,7 @@ void fn_80214254(u8 *shop_window_base) {
         case 0:
             ((TWindowBase *)(*(u8 **)((s8 *)shop_window_base + 0x38)))->close();
             *(u8 **)((s8 *)shop_window_base + 0x38) = NULL;
-            ((VObj_18_97738d *)(shop_window_base))->m7(9, 1);
+            ((TShopWindowBase *)(shop_window_base))->display_guild_message(9, 1);
             *(s32 *)((s8 *)shop_window_base + 0x34) = 1;
             if ((s32) *(s32 *)((s8 *)&THunterGuildSeqOffline__quest_result_callbacks.value + 8) != -1) {
                 *(s32 *)((s8 *)shop_window_base + 0x3C) = (s32)TQuestThread::create_in_root(*(s32 *)((s8 *)&THunterGuildSeqOffline__quest_result_callbacks.value + 8));
@@ -615,7 +578,7 @@ void fn_80214254(u8 *shop_window_base) {
         case 1:
             ((TWindowBase *)(*(u8 **)((s8 *)shop_window_base + 0x38)))->close();
             *(u8 **)((s8 *)shop_window_base + 0x38) = NULL;
-            ((VObj_18_97738d *)(shop_window_base))->m7(0xA, 1);
+            ((TShopWindowBase *)(shop_window_base))->display_guild_message(0xA, 1);
             *(s32 *)((s8 *)shop_window_base + 0x34) = 0;
             ((TShopWindowBase *)shop_window_base)->set_field_20(0xC);
             break;
@@ -625,7 +588,7 @@ void fn_80214254(u8 *shop_window_base) {
     if ((window_sub_com_card != NULL) && (((TWindowMenu *)window_sub_com_card)->is_cancelled() != 0)) {
         ((TWindowBase *)(*(u8 **)((s8 *)shop_window_base + 0x38)))->close();
         *(u8 **)((s8 *)shop_window_base + 0x38) = NULL;
-        ((VObj_18_97738d *)(shop_window_base))->m7(0xA, 1);
+        ((TShopWindowBase *)(shop_window_base))->display_guild_message(0xA, 1);
         *(s32 *)((s8 *)shop_window_base + 0x34) = 0;
         ((TShopWindowBase *)shop_window_base)->set_field_20(0xC);
     }
@@ -647,26 +610,6 @@ struct VObj_802143AC : Base_802143AC {
     virtual void m7(s32, s32);
     virtual s32 m8r();
 };
-struct Base_A_80214490_802143AC { char pad[0x18]; };
-struct V_A_80214490_802143AC : Base_A_80214490_802143AC {
-    virtual void m0();   virtual void m1();   virtual void m2();   virtual void m3();
-    virtual void m4();   virtual void m5();   virtual void m6();
-    virtual s32 m7(s32, s32);
-    virtual s32 m8();
-};
-struct Base_A_80214544_802143AC { char pad[0x18]; };
-struct V_A_80214544_802143AC : Base_A_80214544_802143AC {
-    virtual void f0();
-    virtual void f1();
-    virtual void f2();
-    virtual void f3();
-    virtual void f4();
-    virtual void f5();
-    virtual void f6();
-    virtual void m7(s32, s32);
-    virtual s32 m8();
-};
-
 struct VBase_18_97738d { char pad[0x18]; };
 
 struct VObj_18_97738d : VBase_18_97738d {
@@ -737,7 +680,7 @@ void update__15TShopWindowBaseFPv(void *shop_sequence) {
     } else {
 block_3:
         if ((((TShopWindowBase *)shop_sequence)->vfunc_10() != 0) && ((((TShopWindowBase *)shop_sequence)->sub_80223A48() != 0) || (sub_802239EC__13TShopSequenceFv(shop_sequence) != 0))) {
-            ((V_A_80214490_802143AC *) shop_sequence)->m7(0xC, 1);
+            ((TShopWindowBase *)shop_sequence)->display_guild_message(0xC, 1);
             *(s32 *)((s8 *)shop_sequence + 0x34) = 1;
             ((TShopWindowBase *)shop_sequence)->set_field_20(0xC);
         }
@@ -754,7 +697,7 @@ void update_confirm_input__15TShopWindowBaseFPv(void *shop_sequence) {
     } else {
 block_3:
         if ((((TShopWindowBase *)shop_sequence)->vfunc_10() != 0) && ((((TShopWindowBase *)shop_sequence)->sub_80223A48() != 0) || (sub_802239EC__13TShopSequenceFv(shop_sequence) != 0))) {
-            ((V_A_80214544_802143AC *) shop_sequence)->m7(0xC, 1);
+            ((TShopWindowBase *)shop_sequence)->display_guild_message(0xC, 1);
             *(s32 *)((s8 *)shop_sequence + 0x34) = 1;
             ((TShopWindowBase *)shop_sequence)->set_field_20(0xC);
         }
@@ -780,11 +723,11 @@ void THunterGuildSeqOffline__sub_802145F8(u8 *shop_sequence) {
                     *(s32 *)((s8 *)shop_sequence + 0x30) = 2;
                     return;
                 case 0:
-                    ((VObj_18 *)(shop_sequence))->m7(0x11, 1);
+                    ((TShopSequence *)(shop_sequence))->display_guild_message(0x11, 1);
                     *(s32 *)((s8 *)shop_sequence + 0x30) = 1;
                     return;
                 case 2:
-                    ((VObj_18 *)(shop_sequence))->m7(0xD, 1);
+                    ((TShopSequence *)(shop_sequence))->display_guild_message(0xD, 1);
                     *(s32 *)((s8 *)shop_sequence + 0x30) = 1;
                     return;
                 }
@@ -794,7 +737,7 @@ void THunterGuildSeqOffline__sub_802145F8(u8 *shop_sequence) {
                     *(s32 *)((s8 *)shop_sequence + 0x30) = 2;
                 }
                 if (sub_802239EC__13TShopSequenceFv(shop_sequence) != 0) {
-                    ((VObj_18 *)(shop_sequence))->m7(0x10, 1);
+                    ((TShopSequence *)(shop_sequence))->display_guild_message(0x10, 1);
                     ((TShopWindowBase *)shop_sequence)->set_field_20(0xD);
                     return;
                 }
@@ -802,7 +745,7 @@ void THunterGuildSeqOffline__sub_802145F8(u8 *shop_sequence) {
             case 2:
                 if (is_quest_active() != 0) {
                     if (TQuestThread::get_register((u8 *)quest_mission_manager, 0xFF) != 0) {
-                        ((VObj_18 *)(shop_sequence))->m7(0xB, 1);
+                        ((TShopSequence *)(shop_sequence))->display_guild_message(0xB, 1);
                         if (THunterGuildSeqOffline__quest_result_callbacks[1] != -1) {
                             *(s32 *)((s8 *)shop_sequence + 0x3C) = (s32)TQuestThread::create_in_root(THunterGuildSeqOffline__quest_result_callbacks[1]);
                         }
@@ -810,18 +753,18 @@ void THunterGuildSeqOffline__sub_802145F8(u8 *shop_sequence) {
                         return;
                     }
                     if (TQuestThread::get_register((u8 *)quest_mission_manager, 0xFD) != 0) {
-                        ((VObj_18 *)(shop_sequence))->m7(0x12, 1);
+                        ((TShopSequence *)(shop_sequence))->display_guild_message(0x12, 1);
                         if (THunterGuildSeqOffline__quest_result_callbacks[0] != -1) {
                             *(s32 *)((s8 *)shop_sequence + 0x3C) = (s32)TQuestThread::create_in_root(THunterGuildSeqOffline__quest_result_callbacks[0]);
                         }
                         ((TShopWindowBase *)shop_sequence)->set_field_20(5);
                         return;
                     }
-                    ((VObj_18 *)(shop_sequence))->m7(2, 1);
+                    ((TShopSequence *)(shop_sequence))->display_guild_message(2, 1);
                     ((TShopWindowBase *)shop_sequence)->set_field_20(6);
                     return;
                 }
-                ((VObj_18 *)(shop_sequence))->m7(4, 1);
+                ((TShopSequence *)(shop_sequence))->display_guild_message(4, 1);
                 *(s32 *)((s8 *)shop_sequence + 0x30) = 0;
                 ((TShopWindowBase *)shop_sequence)->set_field_20(8);
                 break;

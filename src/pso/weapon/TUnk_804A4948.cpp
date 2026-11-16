@@ -131,9 +131,6 @@ s32 resolve_hittable_target(s32, s32);
 }
 typedef struct VBase_18_24931d VBase_18_24931d;
 typedef struct VObj_18_24931d VObj_18_24931d;
-#define PSO_VCALL_VObj_18_24931d_m60(_self) (((VObj_18_24931d *)(_self))->m60())
-#define PSO_VCALL_VObj_18_24931d_m30(_self) (((VObj_18_24931d *)(_self))->m30())
-#define PSO_VCALL_VObj_18_24931d_m49(_self, _arg0, _arg1, _arg2, _arg3) (((VObj_18_24931d *)(_self))->m49((_arg0), (_arg1), (_arg2), (_arg3)))
 
 
 extern "C" {
@@ -239,8 +236,8 @@ void TUnk_804A4948::emit_marker_effects() {
   s32 temp_r0;
   s32 temp_r3;
   s32 new_var;
-  PSO_VCALL_VObj_18_24931d_m60(arg0);
-  temp_r3 = PSO_VCALL_VObj_18_24931d_m30(arg0);
+  (this->vfunc_62());
+  temp_r3 = (this->get_attack_flags());
   if (temp_r3 & 1)
   {
     temp_r0 = *((s32 *) (((s8 *) arg0) + 0x1F8));
@@ -268,7 +265,7 @@ void TUnk_804A4948::emit_marker_effects() {
   if ((new_var = temp_r3) & 2)
   {
     ((TItemWeapon *)arg0)->get_gun_point(&sp8);
-    PSO_VCALL_VObj_18_24931d_m49(arg0, &sp8, 0, 0, 1);
+    (this->launch_shot((u8 *)(&sp8), (0), (0), (1)));
   }
 }
 

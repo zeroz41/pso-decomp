@@ -68,20 +68,6 @@ void send_statistic_aa(VObj_18_801D9FA0 *obj, s16 a, s16 c, s16 d, u32 *src) {
 #include "pso/network/TProtocol_801DA054.h"
 #include "pso/network/protocol/protocol.h"
 
-struct VBase_18 { char pad[0x18]; };
-
-struct VObj_18 : VBase_18 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual s32 m8(s8 *, s32);
-};
-
 struct Cfg_801DA054 { u32 w[8]; };
 
 struct Pkt_801DA054 { u8 cmd; u8 flag; u16 size; struct Cfg_801DA054 cfg; };
@@ -97,7 +83,7 @@ void handle_cmd_9F__9TProtocolFR6packet(u8 *arg0) {
     pkt.size = 0x24;
     __as__16TPlyClientConfigFRC16TPlyClientConfig(&pkt.cfg, arg0 + 0x3FAC);
     ((TProtocol *)(&pkt))->bswap_packet_header();
-    ((VObj_18 *)(arg0))->m8((s8 *)&pkt, 0x24);
+    ((TProtocol *)(arg0))->send((u8 *)((s8 *)&pkt), 0x24);
 }
 
 void handle_cmd_DA__9TProtocolFR6packet(u8 *arg0, s32 *arg1) {

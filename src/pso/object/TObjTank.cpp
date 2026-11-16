@@ -42,22 +42,10 @@ s32 free_collision_body_parts(void *);
 s32 __dl__7TObjectFPv(void *);
 void *__nw__7TObjectFUl(int);
 
-struct Base { char pad[0x18]; };
-struct VObj : Base {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual s32 m8(f32, f32);
-};
 void TObjTank::render() {
     u8 *arg0 = (u8 *)this;
     void *p;
-    if ((((VObj *)arg0)->m8(400.0f, 20.0f) != 0) && (p = (*(void * *)&TObjTank__texture_list))) {
+    if ((this->update_object_view_visibility(400.0f, 20.0f) != 0) && (p = (*(void * *)&TObjTank__texture_list))) {
         TObjFish::set_global_param((u32)p);
         push_matrix();
         post_translate_matrix((u8 *)&this->position);

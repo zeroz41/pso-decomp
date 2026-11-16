@@ -64,20 +64,6 @@
 // and "%xF" in first-use order) comes out exactly as in the original .sdata2.
 #pragma defer_codegen on
 
-struct VObjBase_8019B124 { char pad[0x18]; };
-
-struct VObj_8019B124 : VObjBase_8019B124 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual s32 m8(f32, f32);
-};
-
 struct Warp_8019B170 { u8 pad0[0x8C]; s32 f8C; };
 
 struct RecoveredGlobal_8019B854___vt__14TObjWarpString {
@@ -115,20 +101,6 @@ struct Ids_8019BD84 { u16 id[2]; };
 struct Warp_8019BD84 { u8 pad0[0x38]; f32 pos[3]; u8 pad44[0x1C]; s32 f60; u8 pad64[0x28]; s32 f8C; u8 pad90[0x34]; f32 fC4; s32 fC8; Node_8019BD84 *fCC; Node_8019BD84 *fD0; s32 fD4; s32 fD8; };
 
 
-struct VBase_8019C250 { char pad[0x18]; };
-
-struct VObj_8019C250 : VBase_8019C250 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual s32 m8(f32, f32);
-};
-
 struct Node_8019C250 {
     u8 pad0[4];
     void *f4;
@@ -157,20 +129,6 @@ struct Obj_8019C250 {
 };
 
 struct Colors_8019C250 { u16 c[2]; };
-
-struct VBase_8019C604 { char pad[0x18]; };
-
-struct VObj_8019C604 : VBase_8019C604 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual s32 m8(f32, f32);
-};
 
 struct Node_8019C604 {
     u8 pad0[4];
@@ -218,14 +176,6 @@ struct Obj_8019C144 {
     s32 f8C;
     u8 pad2[0xC4 - 0x90];
     s32 fC4;
-};
-
-struct VBase8019CF38_8019CCF0 { char pad[0x18]; };
-
-struct VObj8019CF38_8019CCF0 : VBase8019CF38_8019CCF0 {
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3();
-    virtual void m4(); virtual void m5(); virtual void m6(); virtual void m7();
-    virtual s32 m8(f32, f32);
 };
 
 struct RecoveredGlobal_8019CA24_lbl_80515BA0 {
@@ -706,8 +656,8 @@ void TObjMapWarp::process_player_warps() {
                 }
                 t = find_warp_player_in_range(this, i, d->fAC);
                 if (t != NULL) {
-                    ((VObj_8019D250 *)this)->m13(get_entity_id(t));
-                    if (((TObjPlayer *)t)->is_target_valid() != 0 && ((VObj_8019D250 *)this)->m16(((TRaderMapCore *)t)->get_map_id()) != 0) {
+                    this->open_confirm_window(get_entity_id(t));
+                    if (((TObjPlayer *)t)->is_target_valid() != 0 && this->vfunc_18(((TRaderMapCore *)t)->get_map_id()) != 0) {
                         for (j = 0; j < 4; j++) {
                             if (test_player_body_overlap_at(this, t, &d->ends[j]) == 0) {
                                 send_6x55_intra_map_warp(get_entity_id(t), &d->ends[j], this->set_params[0]);
@@ -735,8 +685,8 @@ void TObjMapWarp::process_player_warps() {
         }
         t2 = find_warp_player_in_range(((VObj_8019D250 *)this), local_client_id, d->fAC);
         if (t2 != NULL) {
-            ((VObj_8019D250 *)this)->m13(local_client_id);
-            if (((TObjPlayer *)t2)->is_target_valid() != 0 && ((VObj_8019D250 *)this)->m16(((TRaderMapCore *)t2)->get_map_id()) != 0) {
+            this->open_confirm_window(local_client_id);
+            if (((TObjPlayer *)t2)->is_target_valid() != 0 && this->vfunc_18(((TRaderMapCore *)t2)->get_map_id()) != 0) {
                 for (j2 = 0; j2 < 4; j2++) {
                     if (test_player_body_overlap_at(((VObj_8019D250 *)this), t2, &d->ends[j2]) == 0) {
                         send_6x55_intra_map_warp(get_entity_id(t2), &d->ends[j2], this->set_params[0]);
@@ -801,7 +751,7 @@ void TObjMapWarpForest::run_task() {
 
 void TObjMapWarpForest::render() {
     u8 *arg0 = (u8 *)this;
-    if (((VObj8019CF38_8019CCF0 *) arg0)->m8(400.0f, 20.0f) != 0) {
+    if (this->update_object_view_visibility(400.0f, 20.0f) != 0) {
         TObjFish::set_global_param(textures);
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
@@ -905,11 +855,11 @@ void TObjAreaWarp::handle_area_selection() {
                 if (t != NULL) {
                     found = 1;
                     if (d->fC0 != NULL) {
-                        ((VObj_8019CAB0 *)this)->m13(find_active_player__12TObjAreaWarpFv(d->fC0));
+                        this->open_confirm_window(find_active_player__12TObjAreaWarpFv(d->fC0));
                     } else {
-                        ((VObj_8019CAB0 *)this)->m13(get_entity_id(t));
+                        this->open_confirm_window(get_entity_id(t));
                     }
-                    if (((VObj_8019CAB0 *)this)->m16(i) != 0) {
+                    if (this->vfunc_18(i) != 0) {
                         this->vfunc_14();
                         this->confirm_area_transfer(t);
                     }
@@ -921,8 +871,8 @@ void TObjAreaWarp::handle_area_selection() {
         } else {
             void *t2 = find_warp_player_in_range(((VObj_8019CAB0 *)this), local_client_id, d->fAC);
             if (t2 != NULL) {
-                ((VObj_8019CAB0 *)this)->m13(local_client_id);
-                if (((VObj_8019CAB0 *)this)->m16(((TRaderMapCore *)t2)->get_map_id()) != 0) {
+                this->open_confirm_window(local_client_id);
+                if (this->vfunc_18(((TRaderMapCore *)t2)->get_map_id()) != 0) {
                     this->vfunc_14();
                     this->confirm_area_transfer(t2);
                 }
@@ -1017,7 +967,7 @@ void TObjAreaWarpForest::render() {
     Obj_8019C604 *self = (Obj_8019C604 *)this;
     Node_8019C604 *m;
     Node_8019C604 *n;
-    if (((VObj_8019C604 *)self)->m8(400.0f, 20.0f) != 0) {
+    if (this->update_object_view_visibility(400.0f, 20.0f) != 0) {
         Colors_8019C604 cols = {3, 2};
         n = self->fD4->next2C;
         while (n != NULL) {
@@ -1118,7 +1068,7 @@ void TObjAreaWarpQuest::render() {
     Obj_8019C250 *self = (Obj_8019C250 *)this;
     Node_8019C250 *m;
     Node_8019C250 *n;
-    if (((VObj_8019C250 *)self)->m8(400.0f, 20.0f) != 0) {
+    if (this->update_object_view_visibility(400.0f, 20.0f) != 0) {
         Colors_8019C250 cols = {3, 2};
         n = self->fD4->next2C;
         while (n != NULL) {
@@ -1565,7 +1515,7 @@ void TObjAreaWarpEndingJung::run_task() {
 void TObjAreaWarpEndingJung::render() {
     u8 *arg0 = (u8 *)this;
 
-    if (((VObj_8019B124*)arg0)->m8(400.0f, 20.0f) != 0) {
+    if (this->update_object_view_visibility(400.0f, 20.0f) != 0) {
         if (TObjWarpJung::update_warp_display() != 0) {
             PPCSync();
         }

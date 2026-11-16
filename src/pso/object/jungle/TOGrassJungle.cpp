@@ -66,19 +66,6 @@ void TOGrassJungle::load_resources() {
 
 s32 __ct__8TObjBaseFP7TObject(void *, void *);
 extern s32 __vt__13TOGrassJungle[];
-struct Base_8029CD90 { char pad[0x18]; };
-struct VObj_8029CD90 : Base_8029CD90 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual s32 m8(f32, f32);
-};
-
 s32 post_translate_matrix(void *);
 s32 draw_ginja_object();
 s32 rotate_matrix_y(s32, s32);
@@ -87,7 +74,7 @@ void __dl__7TObjectFPv(void *);
 
 void TOGrassJungle::render() {
     u8 *arg0 = (u8 *)this;
-    if (((VObj_8029CD90 *)arg0)->m8(400.0f, 20.0f) == 1) {
+    if (this->update_object_view_visibility(400.0f, 20.0f) == 1) {
         TObjFish::set_global_param(TOGrassJungle__grass_gvm_texture);
         push_matrix();
         post_translate_matrix((u8 *)&this->position);

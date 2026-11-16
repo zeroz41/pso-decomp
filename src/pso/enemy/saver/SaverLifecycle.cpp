@@ -1398,16 +1398,6 @@ struct VObj_800A6C54_a : VBase_800A6C54_a {
     virtual s32 m8();
 };
 
-struct VBase_800A6C54_b { char pad[0x18]; };
-
-struct VObj_800A6C54_b : VBase_800A6C54_b {
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3();
-    virtual void m4(); virtual void m5(); virtual void m6(); virtual void m7();
-    virtual void m8();
-    virtual s32 m9(f32, f32, f32);
-};
-
-
 struct VBase_800A677C { char pad[0x18]; };
 
 struct VObj_800A677C : VBase_800A677C {
@@ -1833,7 +1823,7 @@ void TObjPlayer::step_cutscene_frame() {
 void TObjEneSaver::render() {
     s32 v;
     u8 *arg0 = (u8 *)this;
-    v = ((VObj_800A6C54_b *)arg0)->m9(300.0f, 600.0f, 30.0f);
+    v = this->classify_actor_view_detail(300.0f, 600.0f, 30.0f);
     if (v != 0) {
         select_actor_lighting((s32)arg0);
         TObjFish::set_global_param(((TObjEneSaver *)arg0)->texlist);

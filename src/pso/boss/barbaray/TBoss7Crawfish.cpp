@@ -63,20 +63,6 @@ struct Stack_80308B38 {
     s16 spE;
 };
 
-struct VBase_18_26a62c { char pad[0x18]; };
-
-struct VObj_18_26a62c : VBase_18_26a62c {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual s32 m8(f32, f32);
-};
-
 struct RecoveredGlobal_80308840_main_task {
     s32 value;
     u8 remaining[0x30];
@@ -186,7 +172,7 @@ s32 TBoss7Crawfish::is_visible() {
         }
         goto block_5;
     }
-    if (((VObj_18_26a62c *)(this))->m8(400.0f, 20.0f) == 0) {
+    if (this->update_object_view_visibility(400.0f, 20.0f) == 0) {
         return 0;
     }
 block_5:
@@ -215,8 +201,8 @@ s32 apply_hit_to_target__14TBoss7CrawfishFPvPv(void *arg0_, void *arg1_) {
     if (arg1 != NULL) {
         temp_r31 = (u8 *)(*(u8 **)((s8 *)arg1 + 0));
         if (((TBoss7Crawfish *)arg0_)->sub_80308AA8() != 0) {
-            if (((VObj_18_405891 *)(temp_r31))->m18(arg0, 1.0f) != 0) {
-                ((VObj_18_405891 *)(temp_r31))->m20(arg0, 1.0f);
+            if (((TObjChara *)(temp_r31))->select_melee_contact_body((void *)arg0, 1.0f) != 0) {
+                ((TObjChara *)(temp_r31))->receive_physical_attack((void *)arg0, 1.0f);
             }
         } else if (((TObjChara *)temp_r31)->obj_isState2_324() == 0) {
             if ((s32) game_difficulty_selection == 3) {

@@ -47,13 +47,6 @@ CollisionBody laser_fence4_collision_body_sets[2][5] = {
 const char *lazer_fence4_class_name = "TObjLazerFence4";
 
 
-struct LazerFence4Base_801930E8 { char pad[0x18]; };
-struct LazerFence4VObj_801930E8 : LazerFence4Base_801930E8 {
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3();
-    virtual void m4(); virtual void m5(); virtual void m6(); virtual void m7();
-    virtual s32 m8(f32, f32);
-};
-
 struct Cnt_801933C8 { s32 pad0; s32 f4; };
 
 struct Obj_801933C8 { u8 padA0[0xAC]; s32 fAC; f32 fB0; u8 padB4[6]; u16 fBA; u8 padBC[8]; Cnt_801933C8 *fC4; };
@@ -173,7 +166,7 @@ void TObjLazerFence4::sub_801933C8() {
 
 void TObjLazerFence4::render() {
 
-    if (((LazerFence4VObj_801930E8*)this)->m8(3e+02f, 6e+01f) != 0) {
+    if (this->update_object_view_visibility(3e+02f, 6e+01f) != 0) {
         switch (this->m_ac) {
         case 0:
             draw_model();

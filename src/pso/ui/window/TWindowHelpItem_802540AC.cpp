@@ -15,26 +15,6 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 
-struct VBase_18_eecf68 { char pad[0x18]; };
-
-struct VObj_18_eecf68 : VBase_18_eecf68 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual s32 m14();
-};
-
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
@@ -767,7 +747,7 @@ void update_level_requirement__15TWindowHelpItemFPv(u8 *arg0) {
             } else {
 block_4:
                 if ((u8) *(u8 *)((s8 *)item_pmt_record + 0x10) != 0) {
-                    *(s32 *)((s8 *)temp_r30 + 0x20) = (s32) (((VObj_18_eecf68 *)(player))->m14() + 1);
+                    *(s32 *)((s8 *)temp_r30 + 0x20) = (s32) (((TObjPlayer *)(player))->get_actor_level_index() + 1);
                 }
             }
         }

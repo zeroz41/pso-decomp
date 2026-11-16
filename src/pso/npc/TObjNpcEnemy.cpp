@@ -51,14 +51,6 @@ u8 *TObjNpcEnemy__ct(u8 *arg0, s32 arg1, s32 arg2);
 s32 draw_debug_info__11TObjNpcBaseFv();
 void debug_printf_at(s32, const char *, ...);
 void *memmove(void *, const void *, u32);
-struct NpcBase_802d7748_802D745C { char pad[0x18]; };
-struct NpcV_802d7748_802D745C : NpcBase_802d7748_802D745C {
-    virtual s32 m0(); virtual s32 m1(); virtual s32 m2();
-    virtual s32 m3(); virtual s32 m4(); virtual s32 m5();
-    virtual s32 m6(); virtual s32 m7();
-    virtual s32 m8(f32 a, f32 b);
-};
-
 void * TObjNpcEnemy__create(void *arg0);
 void *__dt__12TObjNpcEnemyFv(void *arg0, s16 arg1);
 void *__ct__11TObjControlFP7TObject(void *, void *);
@@ -237,7 +229,7 @@ void TObjNpcEnemy::render() {
     u8 *arg0 = (u8 *)this;
     u8 *temp_r4;
 
-    if (((void *) this->m_3b8 != NULL) && (((NpcV_802d7748_802D745C *)arg0)->m8(this->m_398, this->m_39c) != 0) && ((s32) this->m_390 == 1)) {
+    if (((void *) this->m_3b8 != NULL) && (this->update_object_view_visibility(this->m_398, this->m_39c) != 0) && ((s32) this->m_390 == 1)) {
         select_actor_lighting((s32)arg0);
         if (((TObjNpcEnemy *)arg0)->sub_802D7444() != 0) {
             model_render_flags |= 1;

@@ -61,26 +61,6 @@ struct Atk_8011EB84 {
     u8 pad4C[0x78 - 0x4C];
 };
 
-struct Base_8011EB84 { u8 pad[0x18]; };
-
-struct Wpn_8011EB84 : Base_8011EB84 {
-    virtual void v0(); virtual void v1(); virtual void v2(); virtual void v3();
-    virtual void v4(); virtual void v5(); virtual void v6(); virtual void v7();
-    virtual void v8(); virtual void v9(); virtual void v10(); virtual void v11();
-    virtual void v12(); virtual void v13(); virtual void v14(); virtual void v15();
-    virtual void v16(); virtual void v17(); virtual void v18(); virtual void v19();
-    virtual void v20(); virtual void v21(); virtual void v22(); virtual void v23();
-    virtual void v24(); virtual void v25(); virtual void v26(); virtual void v27();
-    virtual void v28(); virtual void v29(); virtual void v30(); virtual void v31();
-    virtual void v32(); virtual s32 m33(); virtual void v34(); virtual void v35();
-    virtual void v36(); virtual void v37(); virtual void v38(); virtual void v39();
-    virtual void v40(); virtual void v41(); virtual void v42(); virtual void v43();
-    virtual void v44(); virtual void v45(); virtual void v46(); virtual void v47();
-    virtual void v48(); virtual void v49(); virtual void v50(); virtual void v51();
-    virtual void v52(); virtual void v53(); virtual void v54(); virtual void v55();
-    virtual void v56(); virtual void m57(Atk_8011EB84 *);
-};
-
 struct Node_8011EB84 { u8 b[0x2C]; };
 
 struct Skel_8011EB84 { u8 pad[0x1C]; Node_8011EB84 n[1]; };
@@ -114,42 +94,6 @@ u32 __nw__7TObjectFUl(u32);
 void construct_actor_light_task(u32, void *, void *, s32, s32, s32, f32);
 extern A12_8011E3E8 lbl_8043E838[];
 extern A16_8011E3E8 lbl_8043E844[];
-struct VBase_8011E2AC { char pad[0x18]; };
-
-struct VObj_8011E2AC : VBase_8011E2AC {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual void m23();
-    virtual void m24();
-    virtual void m25();
-    virtual void m26();
-    virtual void m27();
-    virtual void m28();
-    virtual void m29();
-    virtual s32 m30();
-};
-
 struct Stack_8011E56C {
     s32 sp8;
     f32 spC;
@@ -356,7 +300,7 @@ f32 xyz_distance(void *, void *);
 extern const f32 lbl_805DAC98;
 
 void TItemWeapon::set_weapon_category_flags() {
-    s32 r = ((VObj_8011E2AC *)((u8 *)this))->m30();
+    s32 r = this->get_attack_flags();
     u32 flags = 0x10000;
     if (r & 1) {
         flags = 0x20000;
@@ -585,7 +529,7 @@ void TItemWeapon::fire_shot_at_target(void *origin, void *model, s32 angle) {
         atk.f38 = shot_speed;
         atk.owner = model;
         atk.id = *(s32 *)((s8 *)((u8 *)this) + 0x24);
-        ((Wpn_8011EB84 *)((u8 *)this))->m57(&atk);
+        this->init_weapon_effect_descriptor((Desc_8011E5C4 *)&atk);
         remap_extra_attack_type();
         hit = trace_from_owner((u8 *)origin);
         if (hit != NULL) {
@@ -604,7 +548,7 @@ void TItemWeapon::fire_shot_at_target(void *origin, void *model, s32 angle) {
                 }
             }
         }
-        if (atk.type == 2 && ((Wpn_8011EB84 *)((u8 *)this))->m33() == 0) {
+        if (atk.type == 2 && this->is_identified() == 0) {
             atk.scale *= lbl_805DAC94;
         }
         TItemAttackCol::create((void *)tl_05, &atk);
@@ -1060,7 +1004,7 @@ void TItemWeapon::deliver_hit(s32 arg1, u8 *arg2, s32 arg3, s32 arg4, f32 farg0)
         temp_r3 = (u8 *)this->owner;
         if ((temp_r3 != NULL) && (arg2 != NULL)) {
             attack_accuracy_scale = get_attack_accuracy_scale((s16 *)(temp_r3 + 0x7CC));
-            if ((arg3 == 2) && (((VObj_18_f8c4e0 *)(this))->m33() == 0)) {
+            if ((arg3 == 2) && (this->is_identified() == 0)) {
                 attack_accuracy_scale *= lbl_805DAC94;
             }
             temp_r31 = arg4 * 0x2C;
@@ -1279,71 +1223,6 @@ void TItemWeapon::on_model_loaded() { set_weapon_flags(4); }
 
 // ---- pso/unk/text_80120150
 
-struct WeaponCallbackBase { u8 padding[0x18]; };
-
-struct WeaponCallbackObject : WeaponCallbackBase {
-    virtual void callback0();
-    virtual void callback1();
-    virtual void callback2();
-    virtual void callback3();
-    virtual void callback4();
-    virtual void callback5();
-    virtual void callback6();
-    virtual void callback7();
-    virtual void callback8();
-    virtual void callback9();
-    virtual void callback10();
-    virtual void callback11();
-    virtual void callback12();
-    virtual void callback13();
-    virtual void callback14();
-    virtual void callback15();
-    virtual void callback16();
-    virtual void callback17();
-    virtual void callback18();
-    virtual void callback19();
-    virtual void callback20();
-    virtual void callback21();
-    virtual void callback22();
-    virtual void callback23();
-    virtual void callback24();
-    virtual void callback25();
-    virtual void callback26();
-    virtual void callback27();
-    virtual void callback28();
-    virtual void callback29();
-    virtual void callback30();
-    virtual void callback31();
-    virtual void callback32();
-    virtual void callback33();
-    virtual void callback34();
-    virtual void callback35();
-    virtual void callback36();
-    virtual void callback37();
-    virtual void callback38();
-    virtual void callback39();
-    virtual void callback40();
-    virtual void callback41();
-    virtual void callback42();
-    virtual void callback43();
-    virtual void callback44();
-    virtual void callback45();
-    virtual void callback46();
-    virtual void callback47();
-    virtual void callback48();
-    virtual void callback49();
-    virtual void callback50();
-    virtual void callback51();
-    virtual void callback52();
-    virtual void callback53();
-    virtual void callback54();
-    virtual void callback55();
-    virtual void callback56();
-    virtual void callback57();
-    virtual void materialCallback();
-};
-
-
 struct WeaponColorDescriptor_80120304 { s32 mode; WeaponArgb first, second; };
 
 extern const f32 lbl_805DAC98;
@@ -1363,7 +1242,7 @@ void apply_weapon_node_material() {
     TItem::end_effect_render();
     ((TItem *)weapon_render_callback_object)->end_particle_tev();
     ((TItem *)weapon_render_callback_object)->end_shield_tev();
-    ((WeaponCallbackObject*)weapon_render_callback_object)->materialCallback();
+    ((TItemWeapon *)weapon_render_callback_object)->vfunc_60();
     if(node == weapon_node_material_index) {
         WeaponArgb color = get_weapon_color__11TItemWeaponFPv((TItemWeapon *)weapon_render_callback_object);
         TItem::begin_constant_material_color((const NJS_ARGB *)&color);

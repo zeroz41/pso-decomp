@@ -52,218 +52,9 @@
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/render/MaterialAlphaCompare.h"
 
-struct VBase_18 { char pad[0x18]; };
-
-struct VObj_18 : VBase_18 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual void m23();
-    virtual void m24();
-    virtual void m25();
-    virtual void m26();
-    virtual void m27();
-    virtual void m28();
-    virtual void m29();
-    virtual s32 m30();
-    virtual void m31();
-    virtual void m32();
-    virtual void m33();
-    virtual void m34();
-    virtual void m35();
-    virtual void m36();
-    virtual void m37();
-    virtual void m38();
-    virtual s32 m39();
-    virtual s32 m40();
-    virtual void m41();
-    virtual void m42();
-    virtual void m43();
-    virtual void m44();
-    virtual void m45();
-    virtual void m46();
-    virtual void m47();
-    virtual void m48();
-    virtual void m49();
-    virtual void m50();
-    virtual void m51();
-    virtual void m52();
-    virtual void m53();
-    virtual void m54();
-    virtual void m55();
-    virtual void m56();
-    virtual void m57();
-    virtual void m58();
-    virtual void m59();
-    virtual void m60();
-    virtual void m61();
-    virtual void m62();
-    virtual void m63();
-    virtual void m64();
-    virtual void m65();
-    virtual void m66();
-    virtual void m67();
-    virtual void m68();
-    virtual void m69();
-    virtual void m70();
-    virtual void m71();
-    virtual void m72();
-    virtual void m73();
-    virtual void m74();
-    virtual void m75();
-    virtual void m76();
-    virtual void m77();
-    virtual void m78();
-    virtual void m79();
-    virtual void m80();
-    virtual void m81();
-    virtual void m82();
-    virtual void m83();
-    virtual void m84();
-    virtual s32 m85(s16, s32);
-    virtual s32 m86();
-    virtual void m87();
-    virtual void m88();
-    virtual void m89();
-    virtual void m90();
-    virtual void m91();
-    virtual void m92();
-    virtual void m93();
-    virtual void m94();
-    virtual void m95();
-    virtual void m96();
-    virtual void m97();
-    virtual void m98();
-    virtual void m99();
-    virtual void m100();
-    virtual void m101();
-    virtual void m102();
-    virtual s32 m103();
-};
-
 struct FadeE_802FCF00 { u8 b[0x1C]; };
 
 struct Fade_802FCF00 { u8 pad[0x6DC]; FadeE_802FCF00 e[4]; };
-
-struct VBase_18_dc1f7f { char pad[0x18]; };
-
-struct VObj_18_dc1f7f : VBase_18_dc1f7f {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual void m23();
-    virtual void m24();
-    virtual void m25();
-    virtual void m26();
-    virtual void m27();
-    virtual void m28();
-    virtual void m29();
-    virtual void m30();
-    virtual void m31();
-    virtual void m32();
-    virtual void m33();
-    virtual void m34();
-    virtual void m35();
-    virtual void m36();
-    virtual void m37();
-    virtual void m38();
-    virtual void m39();
-    virtual void m40();
-    virtual void m41();
-    virtual void m42();
-    virtual void m43();
-    virtual void m44();
-    virtual void m45();
-    virtual void m46();
-    virtual void m47();
-    virtual void m48();
-    virtual void m49();
-    virtual void m50();
-    virtual void m51();
-    virtual void m52();
-    virtual void m53();
-    virtual void m54();
-    virtual void m55();
-    virtual void m56();
-    virtual void m57();
-    virtual void m58();
-    virtual void m59();
-    virtual void m60();
-    virtual void m61();
-    virtual void m62();
-    virtual void m63();
-    virtual void m64();
-    virtual void m65();
-    virtual void m66();
-    virtual void m67();
-    virtual void m68();
-    virtual void m69();
-    virtual void m70();
-    virtual void m71();
-    virtual void m72();
-    virtual void m73();
-    virtual void m74();
-    virtual void m75();
-    virtual void m76();
-    virtual void m77();
-    virtual void m78();
-    virtual void m79();
-    virtual void m80();
-    virtual void m81();
-    virtual void m82();
-    virtual void m83();
-    virtual void m84();
-    virtual void m85();
-    virtual void m86();
-    virtual void m87();
-    virtual void m88();
-    virtual s32 m89();
-    virtual s32 m90();
-    virtual void m91();
-    virtual void m92();
-    virtual void m93();
-    virtual s32 m94();
-};
 
 struct Vec_802F7808 { f32 x, y, z; };
 
@@ -363,105 +154,6 @@ s32 TBoss8Dragon__sub_802FC674(Obj_802FC674 *self, f32 *out);
 s32 TBoss8Dragon__sub_802F46F4(s32 arg0);
 void TBoss8Dragon__sub_802FB1B0(TBoss8Dragon *dragon, int x, f32 c);
 void TBoss8Dragon__sub_802FB220(void *o, int x, u32 a);
-struct VBase_18_574b0f { char pad[0x18]; };
-
-struct VObj_18_574b0f : VBase_18_574b0f {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual void m23();
-    virtual void m24();
-    virtual void m25();
-    virtual void m26();
-    virtual void m27();
-    virtual void m28();
-    virtual void m29();
-    virtual void m30();
-    virtual void m31();
-    virtual void m32();
-    virtual void m33();
-    virtual void m34();
-    virtual void m35();
-    virtual void m36();
-    virtual void m37();
-    virtual void m38();
-    virtual void m39();
-    virtual void m40();
-    virtual void m41();
-    virtual void m42();
-    virtual void m43();
-    virtual void m44();
-    virtual void m45();
-    virtual void m46();
-    virtual void m47();
-    virtual void m48();
-    virtual void m49();
-    virtual void m50();
-    virtual void m51();
-    virtual void m52();
-    virtual void m53();
-    virtual void m54();
-    virtual void m55();
-    virtual void m56();
-    virtual void m57();
-    virtual void m58();
-    virtual void m59();
-    virtual void m60();
-    virtual void m61();
-    virtual void m62();
-    virtual void m63();
-    virtual void m64();
-    virtual void m65();
-    virtual void m66();
-    virtual void m67();
-    virtual void m68();
-    virtual void m69();
-    virtual void m70();
-    virtual void m71();
-    virtual void m72();
-    virtual void m73();
-    virtual void m74();
-    virtual void m75();
-    virtual void m76();
-    virtual void m77();
-    virtual void m78();
-    virtual void m79();
-    virtual void m80();
-    virtual void m81();
-    virtual void m82();
-    virtual void m83();
-    virtual void m84();
-    virtual void m85();
-    virtual void m86();
-    virtual void m87();
-    virtual void m88();
-    virtual s32 m89();
-    virtual s32 m90();
-    virtual void m91();
-    virtual void m92();
-    virtual s32 m93();
-};
-
 struct RecoveredGlobal_802F45A0_lbl_80541DE8 { Vec value; };
 
 typedef char RecoveredGlobal_802F45A0_lbl_80541DE8_size[sizeof(RecoveredGlobal_802F45A0_lbl_80541DE8) == 0xC ? 1 : -1];
@@ -671,106 +363,6 @@ struct VObj_14_df5984 : VBase_14_df5984 {
 };
 
 struct Self_802F5434 { u8 pad[0x6DC]; VObj_14_df5984 arr[4]; };
-
-struct VBase_18_2fe63c { char pad[0x18]; };
-
-struct VObj_18_2fe63c : VBase_18_2fe63c {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual void m23();
-    virtual void m24();
-    virtual void m25();
-    virtual void m26();
-    virtual void m27();
-    virtual void m28();
-    virtual void m29();
-    virtual void m30();
-    virtual void m31();
-    virtual void m32();
-    virtual void m33();
-    virtual void m34();
-    virtual void m35();
-    virtual void m36();
-    virtual void m37();
-    virtual void m38();
-    virtual void m39();
-    virtual void m40();
-    virtual void m41();
-    virtual void m42();
-    virtual void m43();
-    virtual void m44();
-    virtual void m45();
-    virtual void m46();
-    virtual void m47();
-    virtual void m48();
-    virtual void m49();
-    virtual void m50();
-    virtual void m51();
-    virtual void m52();
-    virtual void m53();
-    virtual void m54();
-    virtual void m55();
-    virtual void m56();
-    virtual void m57();
-    virtual void m58();
-    virtual void m59();
-    virtual void m60();
-    virtual void m61();
-    virtual void m62();
-    virtual void m63();
-    virtual void m64();
-    virtual void m65();
-    virtual void m66();
-    virtual void m67();
-    virtual void m68();
-    virtual void m69();
-    virtual void m70();
-    virtual void m71();
-    virtual void m72();
-    virtual void m73();
-    virtual void m74();
-    virtual void m75();
-    virtual void m76();
-    virtual void m77();
-    virtual void m78();
-    virtual void m79();
-    virtual void m80();
-    virtual void m81();
-    virtual void m82();
-    virtual void m83();
-    virtual void m84();
-    virtual void m85();
-    virtual void m86();
-    virtual void m87();
-    virtual void m88();
-    virtual s32 m89();
-    virtual void m90();
-    virtual void m91();
-    virtual s32 m92();
-    virtual void m93();
-    virtual s32 m94();
-};
 
 struct VBase_18_667c9b { char pad[0x18]; };
 
@@ -1139,203 +731,13 @@ struct V_802FC910 { f32 x, y, z; };
 
 struct Boss_802FC910 { u8 pad[0x394]; V_802FC910 pos; };
 
-struct D_A { char pad[0x18]; };
-
-struct D_V : D_A {
-    virtual void pv164();
-    virtual void pv165();
-    virtual void pv166();
-    virtual void pv167();
-    virtual void pv168();
-    virtual void pv169();
-    virtual void pv170();
-    virtual void pv171();
-    virtual void pv172();
-    virtual void pv173();
-    virtual void pv174();
-    virtual void pv175();
-    virtual void pv176();
-    virtual void pv177();
-    virtual void pv178();
-    virtual void pv179();
-    virtual void pv180();
-    virtual void pv181();
-    virtual void pv182();
-    virtual void pv183();
-    virtual void pv184();
-    virtual void pv185();
-    virtual void pv186();
-    virtual void pv187();
-    virtual void pv188();
-    virtual void pv189();
-    virtual void pv190();
-    virtual void pv191();
-    virtual void pv192();
-    virtual void pv193();
-    virtual void pv194();
-    virtual void pv195();
-    virtual void pv196();
-    virtual void pv197();
-    virtual void pv198();
-    virtual void pv199();
-    virtual void pv200();
-    virtual void pv201();
-    virtual void pv202();
-    virtual void pv203();
-    virtual void pv204();
-    virtual void pv205();
-    virtual void pv206();
-    virtual void pv207();
-    virtual void pv208();
-    virtual void pv209();
-    virtual void pv210();
-    virtual void pv211();
-    virtual void pv212();
-    virtual void pv213();
-    virtual void pv214();
-    virtual void pv215();
-    virtual void pv216();
-    virtual void pv217();
-    virtual void pv218();
-    virtual void pv219();
-    virtual void pv220();
-    virtual void pv221();
-    virtual void pv222();
-    virtual void pv223();
-    virtual void pv224();
-    virtual void pv225();
-    virtual void pv226();
-    virtual void pv227();
-    virtual void pv228();
-    virtual void pv229();
-    virtual void pv230();
-    virtual void pv231();
-    virtual void pv232();
-    virtual void pv233();
-    virtual void pv234();
-    virtual void pv235();
-    virtual void pv236();
-    virtual void pv237();
-    virtual void pv238();
-    virtual void pv239();
-    virtual void pv240();
-    virtual void pv241();
-    virtual void pv242();
-    virtual void pv243();
-    virtual void pv244();
-    virtual void pv245();
-    virtual void pv246();
-    virtual void pv247();
-    virtual void pv248();
-    virtual void m85(s16, s32);
-};
-
-struct DelBase_802FD354 { char pad[0x18]; };
-
-struct Del_802FD354 : DelBase_802FD354 {
-    virtual ~Del_802FD354();
-};
-
 struct Pkt_802FBBFC { u8 hdr[2]; u16 a; s16 b; s16 c; s32 d; f32 e; f32 f; s8 g; };
-
-struct VB_802FBBFC { u8 pad[0x18]; };
-
-struct V_802FBBFC : VB_802FBBFC {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual void m23();
-    virtual void m24();
-    virtual void m25();
-    virtual void m26();
-    virtual void m27();
-    virtual void m28();
-    virtual void m29();
-    virtual void m30();
-    virtual void m31();
-    virtual void m32();
-    virtual void m33();
-    virtual void m34();
-    virtual void m35();
-    virtual void m36();
-    virtual void m37();
-    virtual void m38();
-    virtual void m39();
-    virtual void m40();
-    virtual void m41();
-    virtual void m42();
-    virtual void m43();
-    virtual void m44();
-    virtual void m45();
-    virtual void m46();
-    virtual void m47();
-    virtual void m48();
-    virtual void m49();
-    virtual void m50();
-    virtual void m51();
-    virtual void m52();
-    virtual void m53();
-    virtual void m54();
-    virtual void m55();
-    virtual void m56();
-    virtual void m57();
-    virtual void m58();
-    virtual void m59();
-    virtual void m60();
-    virtual void m61();
-    virtual void m62();
-    virtual void m63();
-    virtual void m64();
-    virtual void m65();
-    virtual void m66();
-    virtual void m67();
-    virtual void m68();
-    virtual void m69();
-    virtual void m70();
-    virtual void m71();
-    virtual void m72();
-    virtual void m73();
-    virtual void m74();
-    virtual void m75();
-    virtual void m76();
-    virtual void m77();
-    virtual void m78();
-    virtual void m79();
-    virtual void m80();
-    virtual void m81();
-    virtual void m82();
-    virtual void m83();
-    virtual void m84();
-    virtual void m85(s32, int);
-};
 
 struct Pkt_802FBCBC { u8 hdr[2]; u16 a; s16 b; s16 c; s32 d; f32 e; f32 f; s8 g; };
 
 typedef struct Vec_802FC380 { f32 x, y, z; } Vec_802FC380;
 
 struct Vec_802FCA58 { f32 x, y, z; };
-
-struct Part_802FCA58 { u8 pad0[4]; f32 f4; u8 pad8[0x20]; f32 f28; };
 
 struct Cfg_802FCA58 { u8 pad[0x18]; s32 i18; s32 i1C; s32 i20; };
 
@@ -1756,200 +1158,6 @@ void create_boss8_piller_ctrl(s32 arg0, s32 arg1, f32 farg0);
 extern s32 tl_01;
 extern "C" {
 struct Obj_802FAC08;
-struct VBase_18_599a64 { char pad[0x18]; };
-struct VObj_18_599a64 : VBase_18_599a64 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual void m23();
-    virtual void m24();
-    virtual void m25();
-    virtual void m26();
-    virtual void m27();
-    virtual void m28();
-    virtual void m29();
-    virtual void m30();
-    virtual void m31();
-    virtual void m32();
-    virtual void m33();
-    virtual void m34();
-    virtual void m35();
-    virtual void m36();
-    virtual void m37();
-    virtual void m38();
-    virtual void m39();
-    virtual void m40();
-    virtual void m41();
-    virtual void m42();
-    virtual void m43();
-    virtual void m44();
-    virtual void m45();
-    virtual void m46();
-    virtual void m47();
-    virtual void m48();
-    virtual void m49();
-    virtual void m50();
-    virtual void m51();
-    virtual void m52();
-    virtual void m53();
-    virtual void m54();
-    virtual void m55();
-    virtual void m56();
-    virtual void m57();
-    virtual void m58();
-    virtual void m59();
-    virtual void m60();
-    virtual void m61();
-    virtual void m62();
-    virtual void m63();
-    virtual void m64();
-    virtual void m65();
-    virtual void m66();
-    virtual void m67();
-    virtual void m68();
-    virtual void m69();
-    virtual void m70();
-    virtual void m71();
-    virtual void m72();
-    virtual void m73();
-    virtual void m74();
-    virtual void m75();
-    virtual void m76();
-    virtual void m77();
-    virtual void m78();
-    virtual void m79();
-    virtual void m80();
-    virtual void m81();
-    virtual void m82();
-    virtual void m83();
-    virtual void m84();
-    virtual void m85();
-    virtual void m86();
-    virtual void m87();
-    virtual void m88();
-    virtual void m89();
-    virtual void m90();
-    virtual void m91();
-    virtual void m92();
-    virtual s32 m93();
-};
-struct VBase_18_81e212 { char pad[0x18]; };
-struct VObj_18_81e212 : VBase_18_81e212 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual void m23();
-    virtual void m24();
-    virtual void m25();
-    virtual void m26();
-    virtual void m27();
-    virtual void m28();
-    virtual void m29();
-    virtual void m30();
-    virtual void m31();
-    virtual void m32();
-    virtual void m33();
-    virtual void m34();
-    virtual void m35();
-    virtual void m36();
-    virtual void m37();
-    virtual void m38();
-    virtual void m39();
-    virtual void m40();
-    virtual void m41();
-    virtual void m42();
-    virtual void m43();
-    virtual void m44();
-    virtual void m45();
-    virtual void m46();
-    virtual void m47();
-    virtual void m48();
-    virtual void m49();
-    virtual void m50();
-    virtual void m51();
-    virtual void m52();
-    virtual void m53();
-    virtual void m54();
-    virtual void m55();
-    virtual void m56();
-    virtual void m57();
-    virtual void m58();
-    virtual void m59();
-    virtual void m60();
-    virtual void m61();
-    virtual void m62();
-    virtual void m63();
-    virtual void m64();
-    virtual void m65();
-    virtual void m66();
-    virtual void m67();
-    virtual void m68();
-    virtual void m69();
-    virtual void m70();
-    virtual void m71();
-    virtual s32 m72(s32);
-    virtual void m73();
-    virtual void m74();
-    virtual void m75();
-    virtual void m76();
-    virtual void m77();
-    virtual void m78();
-    virtual void m79();
-    virtual void m80();
-    virtual void m81();
-    virtual void m82();
-    virtual void m83();
-    virtual void m84();
-    virtual void m85();
-    virtual void m86();
-    virtual void m87();
-    virtual void m88();
-    virtual void m89();
-    virtual void m90();
-    virtual void m91();
-    virtual void m92();
-    virtual s32 m93();
-};
 struct Vec_802F6838 { f32 x, y, z; };
 struct Rot_802F6838 { s32 x, y, z; };
 s32 restore_player_cameras(void);
@@ -2408,18 +1616,6 @@ s32 TBoss8Dragon__data_805D69B8;
 u16 TBoss8Dragon__data_805D69BC;
 }
 // (from _802FDDD4)
-struct VBase_18_26a62c { char pad[0x18]; };
-struct VObj_18_26a62c : VBase_18_26a62c {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual s32 m8(f32, f32);
-};
 typedef struct A_802F3D6C { u8 pad0[4]; s32 idx; u8 pad8[8]; } A_802F3D6C;
 typedef struct Anim_802F3D6C { u8 pad0[4]; u32 nframes; } Anim_802F3D6C;
 typedef struct B_802F3D6C { u8 pad0[4]; Anim_802F3D6C *anim; } B_802F3D6C;
@@ -2835,7 +2031,7 @@ void TBoss8Dragon::run_task() {
     s32 temp_r30_2;
     s32 i;
     if (TObjPlayer::check_demo_mode() != 0) {
-        ((VObj_18 *)(arg0))->m103();
+        this->vfunc_105();
         return;
     }
     if (*(s32 *)&this->m_3c0 & 8) {
@@ -2858,8 +2054,8 @@ void TBoss8Dragon::run_task() {
         }
     }
     temp_r30_2 = query_teammate_state__9TObjEneDDFv();
-    ((VObj_18 *)(arg0))->m39();
-    ((VObj_18 *)(arg0))->m40();
+    this->update_attack_stat_status();
+    this->update_defense_stat_status();
     if (temp_r30_2 == 0) {
         if (this->mode == 0x15 || this->mode == 0x16 || this->mode == 0x17) {
             *(s32 *)&this->actorFlags = (s32) (*(s32 *)&this->actorFlags | 0x800);
@@ -2868,7 +2064,7 @@ void TBoss8Dragon::run_task() {
         }
         if ((s32) *(s32 *)&this->m_74c != 0) {
             if ((s32) this->m_750 == (s32) local_client_id) {
-                if ((((VObj_18 *)(arg0))->m30() != 0) && (is_health_low__12TBoss8DragonFPv((TBoss8Dragon *)arg0) != 0)) {
+                if ((this->test_flag30_512() != 0) && (is_health_low__12TBoss8DragonFPv((TBoss8Dragon *)arg0) != 0)) {
                     if ((s16) this->hp < (s16) *(s16 *)&this->m_67a) {
                         this->hp = *(s16 *)&this->m_67a;
                     }
@@ -2879,10 +2075,10 @@ void TBoss8Dragon::run_task() {
                 } else {
                     ((TBoss8Dragon *)arg0)->check_death();
                 }
-                ((VObj_18 *)(arg0))->m85(this->mode, 8);
-                ((VObj_18 *)(arg0))->m85(this->mode, 0);
+                this->dispatch_action(this->mode, 8);
+                this->dispatch_action(this->mode, 0);
             } else {
-                if ((((VObj_18 *)(arg0))->m30() != 0) && (is_health_low__12TBoss8DragonFPv((TBoss8Dragon *)arg0) != 0)) {
+                if ((this->test_flag30_512() != 0) && (is_health_low__12TBoss8DragonFPv((TBoss8Dragon *)arg0) != 0)) {
                     if ((s16) this->hp < (s16) *(s16 *)&this->m_67a) {
                         this->hp = *(s16 *)&this->m_67a;
                     }
@@ -2891,15 +2087,15 @@ void TBoss8Dragon::run_task() {
                 if ((s32) TBoss8Dragon__data_805D69B8 == 0) {
                     release_grabbed_player__12TBoss8DragonFPv((TBoss8Dragon *)arg0);
                 }
-                ((VObj_18 *)(arg0))->m85(this->mode, 0);
+                this->dispatch_action(this->mode, 0);
             }
         } else {
             temp_r0_2 = *(s32 *)&this->m_3e0;
             if (temp_r0_2 != 1) {
                 if (temp_r0_2 == 2) {
-                    ((VObj_18 *)(arg0))->m85(this->mode, 2);
+                    this->dispatch_action(this->mode, 2);
                 } else {
-                    if ((((VObj_18 *)(arg0))->m30() != 0) && (is_health_low__12TBoss8DragonFPv((TBoss8Dragon *)arg0) != 0)) {
+                    if ((this->test_flag30_512() != 0) && (is_health_low__12TBoss8DragonFPv((TBoss8Dragon *)arg0) != 0)) {
                         if ((s16) this->hp < (s16) *(s16 *)&this->m_67a) {
                             this->hp = *(s16 *)&this->m_67a;
                         }
@@ -2907,21 +2103,21 @@ void TBoss8Dragon::run_task() {
                     }
                     ((TBoss8Dragon *)arg0)->select_next_action();
                 }
-                ((VObj_18 *)(arg0))->m85(this->mode, 8);
-                ((VObj_18 *)(arg0))->m85(this->mode, 0);
+                this->dispatch_action(this->mode, 8);
+                this->dispatch_action(this->mode, 0);
             } else {
-                if ((((VObj_18 *)(arg0))->m30() != 0) && (is_health_low__12TBoss8DragonFPv((TBoss8Dragon *)arg0) != 0)) {
+                if ((this->test_flag30_512() != 0) && (is_health_low__12TBoss8DragonFPv((TBoss8Dragon *)arg0) != 0)) {
                     if ((s16) this->hp < (s16) *(s16 *)&this->m_67a) {
                         this->hp = *(s16 *)&this->m_67a;
                     }
                     ((TObjEneDD *)arg0)->clear_attack_receipts();
                 }
-                ((VObj_18 *)(arg0))->m85(this->mode, 0);
+                this->dispatch_action(this->mode, 0);
             }
         }
     }
     ((TObjEneDD *)arg0)->sub_800BBA0C();
-    ((VObj_18 *)(arg0))->m86();
+    this->vfunc_88();
     ((TBoss8Dragon *)arg0)->store_position();
     ((TObjEnemy *)arg0)->submit_default_cursor_candidate();
     add_radar_scaled_marker((u8 *)&this->position, -0x5DB4, 1, 1, 2.0f);
@@ -2970,14 +2166,14 @@ void TBoss8Dragon::select_next_action() {
         }
 block_14:
         if ((s32) lbl_805D69B4 != 0) {
-            ((VObj_18 *)(arg0))->m85(this->mode, 2);
+            this->dispatch_action(this->mode, 2);
             return;
         }
         if ((s32) this->m_74c != 0) {
-            ((VObj_18 *)(arg0))->m85(this->mode, 0xB);
+            this->dispatch_action(this->mode, 0xB);
             return;
         }
-        ((VObj_18 *)(arg0))->m85(this->mode, 9);
+        this->dispatch_action(this->mode, 9);
     }
 }
 
@@ -2997,7 +2193,7 @@ void TBoss8Dragon::check_death() {
         return;
     }
 block_8:
-    ((D_V *) this)->m85(this->mode, 0xB);
+    this->dispatch_action(this->mode, 0xB);
 }
 
 void TBoss8Dragon::vfunc_28() {  }
@@ -3391,7 +2587,7 @@ void apply_6xA8_action__12TBoss8DragonFPvPv(u8 *boss8_dragon, u8 *arg1) {
   new_var2 = (s8 *) boss8_dragon;
   *((f32 *)(new_var2 + 0x690)) = (f32) (*((f32 *) (((s8 *) arg1) + 0xC)));
   *((f32 *)(new_var2 + 0x694)) = (f32) (*((f32 *) (((s8 *) arg1) + 0x10)));
-  (((VObj_18_be4a70 *)(boss8_dragon))->m85((*((s16 *) (((s8 *) arg1) + 4))), 7));
+  (((TBoss8Dragon *)(boss8_dragon))->dispatch_action((*((s16 *) (((s8 *) arg1) + 4))), 7));
   set_mode_params__12TBoss8DragonFSc(boss8_dragon, (s8) (*((u8 *) (((s8 *) arg1) + 0x14))));
   temp_r4 = *((s16 *) (((s8 *) arg1) + 4));
   if (((s16) (((TBoss8Dragon *)boss8_dragon)->mode)) != temp_r4)
@@ -3418,7 +2614,7 @@ void TBoss8Dragon::send_6xA8_action() {
 void send_action_packet__12TBoss8DragonFPvi(u8 *boss8_dragon, s32 arg1) {
     Pkt_802FBBFC p;
     f32 t;
-    ((V_802FBBFC *)boss8_dragon)->m85(arg1, 6);
+    ((TBoss8Dragon *)boss8_dragon)->dispatch_action(arg1, 6);
     build_6xA8_gol_dragon_boss_actions(&p);
     p.a = *(u16 *)((s8 *)boss8_dragon + 0x1C);
     p.b = arg1;
@@ -4149,7 +3345,7 @@ void TBoss8Dragon::state_breath_attack(s32 arg1) {
     switch (arg1) {
     case 4:
         F(s16, 0xB8) = 4;
-        ((VObj_18_444bc5 *)(this))->m94();
+        this->vfunc_96();
         this->reset_timer();
         this->set_active_flag();
         F(s32, 0x3C0) &= ~0x36;
@@ -4294,7 +3490,7 @@ void TBoss8Dragon::handle_tail_attack_state(s32 arg1) {
     switch (arg1) {
     case 4:
         *(s16 *)((s8 *)this + 0xB8) = 7;
-        ((VObj_802F9B8C *)this)->m94();
+        this->vfunc_96();
         this->reset_timer();
         this->set_active_flag();
         *(s32 *)((s8 *)this + 0x3C0) &= ~0x34;
@@ -4382,7 +3578,7 @@ void TBoss8Dragon::sub_802F9850(s32 arg1) {
     case 4:
         *(s16 *)((s8 *)((u8 *)this) + 0xB8) = 0xF;
         this->advance_animation();
-        ((VObj_18_444bc5 *)(this))->m94();
+        this->vfunc_96();
         this->reset_timer();
         this->set_active_flag();
         *(s32 *)((s8 *)((u8 *)this) + 0x3C0) = (s32) (*(s32 *)((s8 *)((u8 *)this) + 0x3C0) & ~0x36);
@@ -4989,7 +4185,7 @@ void TBoss8Dragon::sub_802F8270(s32 arg1) {
     switch (arg1) {
     case 4:
         *(s16 *)((s8 *)this + 0xB8) = 8;
-        ((VObj_18_444bc5 *)(this))->m94();
+        this->vfunc_96();
         this->reset_timer();
         this->set_active_flag();
         *(s32 *)((s8 *)this + 0x3C0) = (s32) (*(s32 *)((s8 *)this + 0x3C0) | 0x16);
@@ -5078,12 +4274,12 @@ void TBoss8Dragon::sub_802F8150(s32 arg1) {
     switch (arg1) {
     case 4:
         *(s16 *)((s8 *)this + 0xB8) = 2;
-        ((VObj_18_574b0f *)(this))->m93();
+        this->vfunc_95();
         this->reset_timer();
         this->set_active_flag();
         *(s32 *)((s8 *)this + 0x3C0) = (s32) (*(s32 *)((s8 *)this + 0x3C0) | 0x30);
         *(s32 *)((s8 *)this + 0x3C0) = (s32) (*(s32 *)((s8 *)this + 0x3C0) & 0xFFFFFFF9);
-        ((VObj_18_574b0f *)(this))->m89();
+        this->vfunc_91();
         break;
     case 2:
     case 11:
@@ -5109,7 +4305,7 @@ void TBoss8Dragon::sub_802F8150(s32 arg1) {
         }
         break;
     case 5:
-        ((VObj_18_574b0f *)(this))->m90();
+        this->vfunc_92();
         break;
     }
 }
@@ -5119,13 +4315,13 @@ void TBoss8Dragon::state_roar(s32 arg1) {
     switch (arg1) {
     case 4:
         this->requested_action = 0x10;
-        ((VObj_18_dc1f7f *)this)->m94();
+        this->vfunc_96();
         this->set_state();
         this->activate_attack();
         this->m_3c0 = (s32) (this->m_3c0 | 0x30);
         this->m_3c0 = (s32) (this->m_3c0 & 0xFFFFFFF9);
         play_cue_stream_file((s32)"draroar.adx");
-        ((VObj_18_dc1f7f *)this)->m89();
+        this->vfunc_91();
         this->m_84c = 0;
         break;
     case 9:
@@ -5147,7 +4343,7 @@ void TBoss8Dragon::state_roar(s32 arg1) {
         TBoss8Dragon__sub_802FB09C((s32)this);
         break;
     case 5:
-        ((VObj_18_dc1f7f *)this)->m90();
+        this->vfunc_92();
         break;
     case 11:
         break;
@@ -5388,13 +4584,13 @@ void TBoss8Dragon::sub_802F75C8(s32 arg1) {
     struct { f32 x, y, z; } sp8;
     switch (arg1) {
     case 4:
-        ((VObj_18_667c9b *)(this))->m94();
+        this->vfunc_96();
         this->set_action_state();
         this->reset_action();
         *(s32 *)((s8 *)this + 0x3C0) = (s32) (*(s32 *)((s8 *)this + 0x3C0) | 0x30);
         *(s32 *)((s8 *)this + 0x3C0) = (s32) (*(s32 *)((s8 *)this + 0x3C0) & 0xFFFFFFF8);
-        ((VObj_18_667c9b *)(this))->m89();
-        ((VObj_18_667c9b *)(this))->m92();
+        this->vfunc_91();
+        this->vfunc_94();
         *(s32 *)((s8 *)this + 0x84C) = 0;
         *(s32 *)((s8 *)this + 0x850) = 0;
         *(f32 *)((s8 *)this + 0x868) = this->calc_step_value();
@@ -5439,8 +4635,8 @@ void TBoss8Dragon::sub_802F75C8(s32 arg1) {
         ((s32 (*)(void *, int))spawn_trap__12TBoss8DragonFii)(this, 0x4003AD11);
         return;
     case 5:
-        ((VObj_18_667c9b *)(this))->m90();
-        ((VObj_18_667c9b *)(this))->m91();
+        this->vfunc_92();
+        this->vfunc_93();
         break;
     }
 }
@@ -5687,7 +4883,7 @@ void TBoss8Dragon::sub_802F6838(s32 arg1) {
     switch (arg1) {
     case 4: {
         *(s16 *)((s8 *)this + 0xB8) = 0x13;
-        ((VObj_18_81e212 *)(this))->m93();
+        this->vfunc_95();
         this->reset_timer();
         this->set_active_flag();
         *(s32 *)((s8 *)this + 0x3C0) |= 0x36;
@@ -5791,7 +4987,7 @@ void TBoss8Dragon::sub_802F6838(s32 arg1) {
         refresh_and_send_entity_flags__9TObjEnemyFv();
         TBoss4DarkFalz::dispatch_by_main_phase(0x4F);
         *(s32 *)((s8 *)this + 0x30) = 0x12008;
-        ((VObj_18_81e212 *)(this))->m72(0);
+        this->vfunc_74(0);
         TWindowCtrl::init_all_slots2();
         restore_player_cameras();
         if (*(void **)((s8 *)this + 0x894) != 0) {
@@ -5816,7 +5012,7 @@ void TBoss8Dragon::sub_802F6708(s32 arg1) {
 
     switch (arg1) {
     case 4:
-        ((VObj_18_599a64 *)(this))->m93();
+        this->vfunc_95();
         this->reset_timer();
         this->set_active_flag();
         *(s32 *)((s8 *)this + 0x3C0) = (s32) (*(s32 *)((s8 *)this + 0x3C0) | 0xB6);
@@ -5858,7 +5054,7 @@ void TBoss8Dragon::sub_802F6618(s32 event) {
     switch (event) {
     case 4:
         this->requested_action = 0x13;
-        ((VObj_18_599a64 *)this)->m93();
+        this->vfunc_95();
         this->reset_timer();
         this->set_active_flag();
         this->m_3c0 |= 0x136;
@@ -5888,7 +5084,7 @@ void TBoss8Dragon::sub_802F645C(s32 arg1) {
     switch (arg1) {
     case 4:
         this->requested_action = 0;
-        ((VObj_18_444bc5 *)(this))->m94();
+        this->vfunc_96();
         this->reset_timer();
         this->set_active_flag();
         this->m_3c0 = (s32) (this->m_3c0 & ~0x36);
@@ -5956,7 +5152,7 @@ void TBoss8Dragon::sub_802F610C(s32 arg1) {
     switch (arg1) {
     case 4:
         *(s16 *)((s8 *)this + 0xB8) = 1;
-        ((VObj_18_444bc5 *)(this))->m94();
+        this->vfunc_96();
         this->reset_timer();
         this->set_active_flag();
         *(s32 *)((s8 *)this + 0x3C0) &= ~0x36;
@@ -6061,7 +5257,7 @@ void TBoss8Dragon::sub_802F5F64(s32 arg1) {
     switch (arg1) {
     case 4:
         this->requested_action = 0x10;
-        ((VObj_18_444bc5 *)(this))->m94();
+        this->vfunc_96();
         this->set_state();
         this->activate_attack();
         this->m_3c0 = (s32) (this->m_3c0 & ~0x36);
@@ -6128,7 +5324,7 @@ void TBoss8Dragon::sub_802F5CC8(s32 arg1) {
     switch (arg1) {
     case 4:
         *(s16 *)((s8 *)this + 0xB8) = 0x10;
-        ((VObj_18_444bc5 *)(this))->m94();
+        this->vfunc_96();
         this->set_state();
         this->activate_attack();
         *(s32 *)((s8 *)this + 0x3C0) &= ~0x36;
@@ -6212,13 +5408,13 @@ void TBoss8Dragon::sub_802F5BA0(s32 arg1) {
     u8 *temp_r3;
     switch (arg1) {
     case 4:
-        ((VObj_18_2fe63c *)this)->m94();
+        this->vfunc_96();
         this->set_action_state();
         this->reset_action();
         this->m_3c0 = (s32) (this->m_3c0 | 0x30);
         this->m_3c0 = (s32) (this->m_3c0 & 0xFFFFFFF8);
-        ((VObj_18_2fe63c *)this)->m89();
-        ((VObj_18_2fe63c *)this)->m92();
+        this->vfunc_91();
+        this->vfunc_94();
         this->m_84c = 0;
         break;
     case 2:
@@ -6266,13 +5462,13 @@ void TBoss8Dragon::handle_walk_state(s32 arg1) {
     switch (arg1) {
     case 4:
         this->requested_action = 0x11;
-        ((VObj_18_2fe63c *)(this))->m94();
+        this->vfunc_96();
         this->set_action_state();
         this->reset_action();
         this->m_3c0 = (s32) (this->m_3c0 | 0x30);
         this->m_3c0 = (s32) (this->m_3c0 & 0xFFFFFFF8);
-        ((VObj_18_2fe63c *)(this))->m89();
-        ((VObj_18_2fe63c *)(this))->m92();
+        this->vfunc_91();
+        this->vfunc_94();
         VecCopy__FP3VecPC3Vec(temp_r30, ((u8 *)this) + 0x38);
         this->m_84c = 0x64;
         this->m_850 = 0;
@@ -6332,13 +5528,13 @@ void TBoss8Dragon::sub_802F57E4(s32 arg1) {
     switch (arg1) {
     case 4:
         *(s16 *)((s8 *)this + 0xB8) = 0x11;
-        ((VObj_18_2fe63c *)(this))->m94();
+        this->vfunc_96();
         this->set_action_state();
         this->reset_action();
         *(s32 *)((s8 *)this + 0x3C0) = (s32) (*(s32 *)((s8 *)this + 0x3C0) | 0x30);
         *(s32 *)((s8 *)this + 0x3C0) = (s32) (*(s32 *)((s8 *)this + 0x3C0) & 0xFFFFFFF8);
-        ((VObj_18_2fe63c *)(this))->m89();
-        ((VObj_18_2fe63c *)(this))->m92();
+        this->vfunc_91();
+        this->vfunc_94();
         this->calc_velocity_from_angle();
         return;
     case 2:
@@ -6385,13 +5581,13 @@ void TBoss8Dragon::sub_802F5644(s32 arg1) {
     switch (arg1) {
     case 4:
         this->requested_action = 0x11;
-        ((VObj_18_2fe63c *)(this))->m94();
+        this->vfunc_96();
         this->set_action_state();
         this->reset_action();
         this->m_3c0 = (s32) (this->m_3c0 | 0x30);
         this->m_3c0 = (s32) (this->m_3c0 & 0xFFFFFFF8);
-        ((VObj_18_2fe63c *)(this))->m89();
-        ((VObj_18_2fe63c *)(this))->m92();
+        this->vfunc_91();
+        this->vfunc_94();
         *(f32 *)((s8 *)this + 0x864) = 0.0f;
         *(f32 *)((s8 *)this + 0x3A0) = (f32) -*(f32 *)((s8 *)this + 0x38);
         this->m_3a4 = 0.0f;
@@ -6508,7 +5704,7 @@ void TBoss8Dragon::sub_802F51DC(s32 arg1) {
     switch (arg1) {
     case 4:
         *(s16 *)((s8 *)this + 0xB8) = 1;
-        ((VObj_18_444bc5 *)(this))->m94();
+        this->vfunc_96();
         this->reset_timer();
         this->set_active_flag();
         *(s32 *)((s8 *)this + 0x3C0) = (s32) (*(s32 *)((s8 *)this + 0x3C0) & ~0x36);
@@ -6742,13 +5938,13 @@ void TBoss8Dragon::sub_802F4B90(s32 arg1) {
 
     switch (arg1) {
     case 4:
-        ((VObj_18_667c9b *)(this))->m94();
+        this->vfunc_96();
         this->set_action_state();
         this->reset_action();
         *(s32 *)((u8 *)this + 0x3C0) |= 0x30;
         *(s32 *)((u8 *)this + 0x3C0) &= ~7;
-        ((VObj_18_667c9b *)(this))->m89();
-        ((VObj_18_667c9b *)(this))->m92();
+        this->vfunc_91();
+        this->vfunc_94();
         break;
     case 2:
     case 11:
@@ -6769,8 +5965,8 @@ void TBoss8Dragon::sub_802F4B90(s32 arg1) {
     }
     case 5:
         ((TBoss8Dragon *)(*(s32 *)(TBoss8Dragon__data_80541DDC[0] + 0x28)))->place_parts_in_ring(*(s32 *)(TBoss8Dragon__data_80541DDC[0] + 0x24), *p);
-        ((VObj_18_667c9b *)(this))->m90();
-        ((VObj_18_667c9b *)(this))->m91();
+        this->vfunc_92();
+        this->vfunc_93();
         break;
     }
 }
@@ -7120,7 +6316,7 @@ void TBoss8Dragon::draw_motion_model() {
     f32 f;
     s32 idx;
     Anim_802F3D6C *anim;
-    if (((VObj_18_26a62c *)(arg0))->m8(400.0f, 20.0f) != 0) {
+    if (this->update_object_view_visibility(400.0f, 20.0f) != 0) {
         TObjFish::set_global_param(*(s32 *)(arg0 + 0x24));
         push_matrix();
         post_translate_matrix((u8 *)&this->position);

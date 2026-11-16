@@ -75,12 +75,6 @@ Obj_8018FA6C *fn_8018FA6C(u16 id) {
 }
 
 
-struct TObjDoorKeyBase_8018FAEC { char pad[0x18]; };
-struct TObjDoorKeyVObj_8018FAEC : TObjDoorKeyBase_8018FAEC {
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3();
-    virtual void m4(); virtual void m5(); virtual void m6(); virtual void m7();
-    virtual s32 m8(f32, f32);
-};
 struct Base_8018FF74_8018FAEC { char pad[0x18]; };
 struct VObj_8018FF74_8018FAEC : Base_8018FF74_8018FAEC {
     virtual void m0();
@@ -153,7 +147,7 @@ void TObjDoorKey__sub_8018FAEC(u16 id, u16) {
 
 void TObjDoorKey::render() {
 
-    if (((TObjDoorKeyVObj_8018FAEC*)this)->m8(400.0f, 20.0f) == 0) {
+    if (this->update_object_view_visibility(400.0f, 20.0f) == 0) {
         if ((u32) this->m_f8 != 0U) {
             ((TParticleCtrl *)(this->m_f8))->enable();
         }

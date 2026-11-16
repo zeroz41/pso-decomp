@@ -1089,20 +1089,6 @@ struct Mot_8005D708 { u32 f0; Cnt_8005D708 *p; };
 
 struct Anm_8005D708 { u32 f0; s32 idx; u32 f8; u32 fc; };
 
-struct VBase_8005D708 { char pad[0x18]; };
-
-struct VObj_8005D708 : VBase_8005D708 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual s32 m8(f32, f32);
-};
-
 struct Obj_8005D708 {
     u8 pad0[0x24];
     s32 f24;
@@ -1128,7 +1114,7 @@ int TBoss5Gryphon::vfunc_105() {
     Cnt_8005D708 *c;
     f32 f;
     s32 idx;
-    if (((VObj_8005D708 *)this)->m8(400.0f, 20.0f) != 0) {
+    if (this->update_object_view_visibility(400.0f, 20.0f) != 0) {
         TObjFish::set_global_param(o->f24);
         push_matrix();
         post_translate_matrix((u8 *)this + 0x38);

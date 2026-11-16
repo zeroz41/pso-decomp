@@ -15,20 +15,6 @@ typedef char RecoveredGlobal_80195BEC_lbl_80445E84_size[sizeof(RecoveredGlobal_8
 struct RecoveredGlobal_80195BEC___vt__18TObjQuestColALock2 { s32 value; u8 remaining[0x40]; };
 typedef char RecoveredGlobal_80195BEC___vt__18TObjQuestColALock2_size[sizeof(RecoveredGlobal_80195BEC___vt__18TObjQuestColALock2) == 0x44 ? 1 : -1];
 
-struct VBase_18_26a62c { char pad[0x18]; };
-
-struct VObj_18_26a62c : VBase_18_26a62c {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual s32 m8(f32, f32);
-};
-
 struct RecoveredGlobal_801959A0_lbl_804A7428 {
     s32 value;
     u8 remaining[0xC];
@@ -79,7 +65,7 @@ typedef char RecoveredGlobal_801959A0_lbl_804A7428_size[sizeof(RecoveredGlobal_8
 void TObjQuestColALock2::update_room_id_check() {
     u8 *arg0 = (u8 *)this;
     u8 *temp_r5;
-    if (((VObj_18_26a62c *)(arg0))->m8(lbl_805DBEF8, lbl_805DBEFC) != 0) {
+    if (this->update_object_view_visibility(lbl_805DBEF8, lbl_805DBEFC) != 0) {
         debug_draw_sphere(&position, &debug_color_green_half_alpha, lbl_805DBF00 * *(f32 *)&this->unk_AC);
         temp_r5 = (u8 *)this->bodies;
         fn_80141CBC((u8 *)&this->position, &debug_color_purple_half_alpha.value, (int)temp_r5, (f32) (lbl_805DBF00 * *(f32 *)((s8 *)temp_r5 + 0xC)));

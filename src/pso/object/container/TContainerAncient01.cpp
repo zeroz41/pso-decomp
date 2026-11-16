@@ -51,13 +51,6 @@ struct VObj_8018AC68_8018A584 : Base_8018AC68_8018A584 {
     virtual void m19();
     virtual void m20(s32, f32);
 };
-struct VBase8018AD04_8018A584 { char pad[0x18]; };
-struct VObj8018AD04_8018A584 : VBase8018AD04_8018A584 {
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3();
-    virtual void m4(); virtual void m5(); virtual void m6(); virtual void m7();
-    virtual s32 m8(f32, f32);
-};
-
 struct RecoveredGlobal_8018A9D8_TContainerAncient01__data_804B6DC0 { s32 value; u8 remaining[0x28]; };
 
 struct Obj_8018AB44 { u8 pad0[0x38]; u8 pos[0x328]; s32 f360; };
@@ -577,7 +570,7 @@ s32 is_within_range__19TContainerAncient01Fii(s32 arg0, s32 arg1) {
 
 void TContainerAncient01R::render() {
     u8 *arg0 = (u8 *)this;
-    if (((VObj8018AD04_8018A584 *) arg0)->m8(3e+02f, 2e+01f) != 0) {
+    if (this->update_object_view_visibility(3e+02f, 2e+01f) != 0) {
         TObjFish::set_global_param(this->texlist);
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
@@ -889,13 +882,6 @@ struct VObj_8018B820_8018B79C : Base_8018B820_8018B79C {
     virtual void m19();
     virtual void m20(s32, f32);
 };
-struct VBase8018B8BC_8018B79C { char pad[0x18]; };
-struct VObj8018B8BC_8018B79C : VBase8018B8BC_8018B79C {
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3();
-    virtual void m4(); virtual void m5(); virtual void m6(); virtual void m7();
-    virtual s32 m8(f32, f32);
-};
-
 extern "C" {
 u32 get_bml_motion(int, int);
 s32 get_bml_model(int, int);
@@ -942,7 +928,7 @@ s32 TContainerAncient01::select_melee_contact_body(void *target, f32) {
 
 void TContainerAncient01::render() {
     u8 *arg0 = (u8 *)this;
-    if (((VObj8018B8BC_8018B79C *) arg0)->m8(3e+02f, 2e+01f) != 0) {
+    if (this->update_object_view_visibility(3e+02f, 2e+01f) != 0) {
         TObjFish::set_global_param(this->texlist);
         push_matrix();
         post_translate_matrix((u8 *)&this->position);

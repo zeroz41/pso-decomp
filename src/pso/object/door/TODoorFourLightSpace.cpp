@@ -62,19 +62,6 @@ u8 is_current_floor_switch_set(u16);
 s32 post_translate_matrix(void *);
 s32 push_matrix();
 s32 set_global_param__8TObjFishFl();
-struct Base_802898E8 { char pad[0x18]; };
-struct VObj_802898E8 : Base_802898E8 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual s32 m8(f32, f32);
-};
-
 void *__dt__20TODoorFourLightSpaceFv(void *arg0, s16 arg1);
 void fn_802898E8(void);
 void fn_802898EC(void);
@@ -86,19 +73,6 @@ s32 get_main_phase();
 }
 
 extern "C" {
-
-struct Base_8028A030 { char pad[0x18]; };
-struct VObj_8028A030 : Base_8028A030 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual s32 m8(f32, f32);
-};
 
 void *__dt__20TODoorFourLightRuinsFv(void *arg0, s16 arg1);
 
@@ -166,7 +140,7 @@ void TODoorFourLightRuins::render() {
     u8 *arg0 = (u8 *)this;
     s32 cc;
 
-    if ((((VObj_8028A030 *)arg0)->m8(this->view_range, this->model_radius) == 1) && (((TObjMapObject *)arg0)->is_in_view_depth(30.0f) == 1)) {
+    if ((this->update_object_view_visibility(this->view_range, this->model_radius) == 1) && (((TObjMapObject *)arg0)->is_in_view_depth(30.0f) == 1)) {
         switch (this->object_state) {
         case 1:
         case 3:
@@ -378,7 +352,7 @@ void TODoorFourLightSpace::render() {
     u8 *arg0 = (u8 *)this;
     s32 cc;
 
-    if ((((VObj_802898E8 *)arg0)->m8(this->view_range, this->model_radius) == 1) && (((TObjMapObject *)arg0)->is_in_view_depth(30.0f) == 1)) {
+    if ((this->update_object_view_visibility(this->view_range, this->model_radius) == 1) && (((TObjMapObject *)arg0)->is_in_view_depth(30.0f) == 1)) {
         switch (this->object_state) {
         case 1:
         case 3:

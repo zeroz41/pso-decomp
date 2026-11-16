@@ -86,18 +86,6 @@ s32 TObjContainerIdo::update_object_view_visibility(f32 farg0, f32 farg1) {
 }
 #pragma pop
 
-struct VOuter_8018C06C {
-    char pad[0x18];
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual s32 m8(f32, f32);
-};
 struct VMem_8018C06C {
     char pad[0x14];
     virtual void m0();
@@ -122,7 +110,7 @@ u32 TObjContainerIdo__model_resource;
 void render__16TObjContainerIdoFv(u8 *container_ido) {
     s32 var_r31;
 
-    if (((VOuter_8018C06C*)container_ido)->m8(4e+02f, 2e+02f) != 0) {
+    if (((TObjContainerIdo *)container_ido)->update_object_view_visibility(4e+02f, 2e+02f) != 0) {
         var_r31 = 0;
         if (TRaderMapCore::is_not_split_screen() == 0) {
             var_r31 = ((RenderFadeState*)(container_ido + 0xF0))->updateFromCamera((const f32*)(container_ido + 0x38));
@@ -156,12 +144,6 @@ void render__16TObjContainerIdoFv(u8 *container_ido) {
 }
 
 struct Vec3_8018C18C { f32 x, y, z; };
-struct VObj_8018C18C {
-    char pad[0x18];
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3();
-    virtual void m4(); virtual void m5(); virtual void m6(); virtual void m7();
-    virtual s32 m8(f32, f32);
-};
 struct Ido_8018C18C {
     u8 pad0[0x38];
     Vec3_8018C18C pos;
@@ -250,7 +232,7 @@ void run_task__16TObjContainerIdoFv(Ido_8018C18C *self) {
         }
     }
     if (!(self->e0 & 0x08000000) && (self->e0 & 0x04000000)) {
-        if (3.0517578e-05f * (f32)rand() < 0.4f && ((VObj_8018C18C *)self)->m8(4e+02f, 1e+02f) != 0) {
+        if (3.0517578e-05f * (f32)rand() < 0.4f && ((TObjContainerIdo *)self)->update_object_view_visibility(4e+02f, 1e+02f) != 0) {
             Vec3_8018C18C a;
             Vec3_8018C18C b;
             Vec3_8018C18C out;

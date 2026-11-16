@@ -54,20 +54,6 @@ struct Vec_800EAD84 { f32 x, y, z; };
 
 struct Obj_800EAD84 { u8 pad0[0x38]; Vec_800EAD84 pos; };
 
-struct VBase_18_26a62c { char pad[0x18]; };
-
-struct VObj_18_26a62c : VBase_18_26a62c {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual s32 m8(f32, f32);
-};
-
 struct Vec_800EAEE8 { f32 x, y, z; };
 extern "C" {
 
@@ -673,91 +659,6 @@ s32 spawn_slime_in_slot(Obj_800EB7BC *origin, s32 arg1, Vec_800EB654 *arg2, Vec_
 #include "pso/enemy/slime/TObjEneSlime.h"
 #include "pso/player/TObjPlayer.h"
 
-#define CAT2(a,b) a##b
-#define CAT(a,b) CAT2(a,b)
-#define VA virtual void CAT(f,__LINE__)();
-struct Base_800EBB18_800EB9F0 { char pad[0x18]; };
-struct VObj_800EBB18_800EB9F0 : Base_800EBB18_800EB9F0 {
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-VA
-    virtual void m77(s32 *);
-};
-
 struct Slot_800EB910 { s32 state; void *obj; };
 
 struct Obj_800EB910 { u8 pad[0x3b8]; Slot_800EB910 slots[4]; };
@@ -947,7 +848,7 @@ void TObjEneSlime::run_task() {
         sp8 = 0x800;
         send_6x0A_enemy_state(&sp8);
         exchange_object_state((s32)&sp8, (s16)0);
-        ((VObj_800EBB18_800EB9F0 *)this)->m77(&sp8);
+        this->vfunc_79(&sp8);
         send_entity_set_flags();
         queue_destruction();
     }
@@ -1265,7 +1166,7 @@ void TObjEneSlimeOne::run_task() {
 }
 void render__15TObjEneSlimeOneFv(TObjEneSlimeOne *ene_slime_one) {
     s32 temp_r31;
-    if ((TObjPlayer::check_demo_mode() == 0) && !(ene_slime_one->alpha <= 0.0f) && (((VObj_18_26a62c *)(ene_slime_one))->m8(500.0f, 20.0f) != 0)) {
+    if ((TObjPlayer::check_demo_mode() == 0) && !(ene_slime_one->alpha <= 0.0f) && (((TObjEneSlimeOne *)(ene_slime_one))->update_object_view_visibility(500.0f, 20.0f) != 0)) {
         temp_r31 = ene_slime_one->defer_render();
         if (ene_slime_one->alpha < 1.0f) {
             TObjPlayer__sub_800EBE48(ene_slime_one->alpha);
