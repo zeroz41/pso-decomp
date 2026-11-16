@@ -1358,72 +1358,6 @@ extern s32 TLobby__sub_80413934(u8 *addr, s16 idx) {
     return 0;
 }
 
-s16 TLobby__sub_80413F0C(self, id)
-    void *self;
-    s16 id;
-{
-    Ipv6State *base = &ipv6_address_routing_state;
-    u8 *e = NULL;
-    s16 i;
-    u8 *p;
-    u8 buf[16];
-    s16 c;
-    s32 r;
-    s16 ok;
-
-    if (*(u8 *)self == 0xff) {
-        ok = 1;
-    } else {
-        ok = 0;
-    }
-    if (!ok) {
-        return 0;
-    }
-    if (id < 0 || (s16)id >= base->count) {
-        e = NULL;
-    } else {
-        e = (u8 *)base->ifaces;
-        e += (s16)id * sizeof(Ipv6Iface);
-        if (*(s16 *)e != 1) {
-            e = NULL;
-        }
-    }
-    if (e == NULL) {
-        return 0;
-    }
-    NetIPv6MakeSolicitedNodeMulticastAddress(buf, e + offsetof(Ipv6Iface, addr));
-    r = NetMemcmp(buf, self, 16);
-    if (r < 0) {
-        c = -1;
-    } else if (r > 0) {
-        c = 1;
-    } else {
-        c = 0;
-    }
-    if (c == 0) {
-        return 1;
-    }
-    p = *(u8 **)(e + offsetof(Ipv6Iface, addrs));
-    i = 0;
-    while (p != NULL && i < base->max_addrs) {
-        NetIPv6MakeSolicitedNodeMulticastAddress(buf, p + offsetof(Ipv6AddrNode, addr));
-        r = NetMemcmp(buf, self, 16);
-        if (r < 0) {
-            c = -1;
-        } else if (r > 0) {
-            c = 1;
-        } else {
-            c = 0;
-        }
-        if (c == 0) {
-            return 1;
-        }
-        p = *(u8 **)(p + offsetof(Ipv6AddrNode, next));
-        i++;
-    }
-    return 0;
-}
-
 s16 TLobby__sub_80413AA0(self, id) void *self; s16 id; {
     u8 *tbl = (u8 *)&ipv6_address_routing_state;
     u8 *e = NULL;
@@ -1597,6 +1531,72 @@ s16 idx;
             if ((*(s16 *)(p + offsetof(Ipv6AddrNode, f18)) & 1) == 0) {
                 return 0;
             }
+            return 1;
+        }
+        p = *(u8 **)(p + offsetof(Ipv6AddrNode, next));
+        i++;
+    }
+    return 0;
+}
+
+s16 TLobby__sub_80413F0C(self, id)
+    void *self;
+    s16 id;
+{
+    Ipv6State *base = &ipv6_address_routing_state;
+    u8 *e = NULL;
+    s16 i;
+    u8 *p;
+    u8 buf[16];
+    s16 c;
+    s32 r;
+    s16 ok;
+
+    if (*(u8 *)self == 0xff) {
+        ok = 1;
+    } else {
+        ok = 0;
+    }
+    if (!ok) {
+        return 0;
+    }
+    if (id < 0 || (s16)id >= base->count) {
+        e = NULL;
+    } else {
+        e = (u8 *)base->ifaces;
+        e += (s16)id * sizeof(Ipv6Iface);
+        if (*(s16 *)e != 1) {
+            e = NULL;
+        }
+    }
+    if (e == NULL) {
+        return 0;
+    }
+    NetIPv6MakeSolicitedNodeMulticastAddress(buf, e + offsetof(Ipv6Iface, addr));
+    r = NetMemcmp(buf, self, 16);
+    if (r < 0) {
+        c = -1;
+    } else if (r > 0) {
+        c = 1;
+    } else {
+        c = 0;
+    }
+    if (c == 0) {
+        return 1;
+    }
+    p = *(u8 **)(e + offsetof(Ipv6Iface, addrs));
+    i = 0;
+    while (p != NULL && i < base->max_addrs) {
+        NetIPv6MakeSolicitedNodeMulticastAddress(buf, p + offsetof(Ipv6AddrNode, addr));
+        r = NetMemcmp(buf, self, 16);
+        if (r < 0) {
+            c = -1;
+        } else if (r > 0) {
+            c = 1;
+        } else {
+            c = 0;
+        }
+        if (c == 0) {
             return 1;
         }
         p = *(u8 **)(p + offsetof(Ipv6AddrNode, next));
