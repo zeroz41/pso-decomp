@@ -73,30 +73,22 @@ s32 TUdpSocket__sub_8040DE4C(u8 *ip, s16 x, s16 id)
   s16 r;
   s16 n;
   s16 found;
+  s16 frag;
   s16 i;
   u32 tl;
   s32 rr;
   u32 fl;
-  int new_var2;
+  NetPacket *pkt;
   unsigned char mf;
+  u16 off;
   u32 s;
   s32 TLobby__sub_80418C40(u8* self, void* p1, s16 p2, u8 p3, u32 p4, void* p5, u16 p6, u8 p7, s16 p8);
   s16 TLobby__sub_8041B974(void *, void *, void *); /* declared here with void * parameters; the definition takes (u8 *, u8 *, u8 *) */
   s16 udp_input(void *, void *, void *, s16); /* declared s16 here; the definition is s32 (O_80420DE4 *, NetworkAddress *, NetworkAddress *, s32) */
   s32 TLobby__sub_80421AD8(u8 *, u32, u32, u32, s16); /* declared here with other parameter types; the definition is s32 (u8 *, s32, s32, u32, s32) */
   u16 ones_complement_sum(void *, s16);
-  struct 
-  {
-    s32 t;
-    u32 a;
-    u8 pad[0xC];
-  } src;
-  struct 
-  {
-    s32 t;
-    u32 a;
-    u8 pad[0xC];
-  } dst;
+  NetworkAddress src;
+  NetworkAddress dst;
   struct 
   {
     u8 type;
@@ -112,10 +104,10 @@ s32 TUdpSocket__sub_8040DE4C(u8 *ip, s16 x, s16 id)
   {
     return -1;
   }
-  src.t = 4;
-  NetMemcpy(&src.a, ip + 12, 4);
-  dst.t = 4;
-  NetMemcpy(&dst.a, ip + 16, 4);
+  src.family = 4;
+  NetMemcpy(&src.ipv4, ip + 12, 4);
+  dst.family = 4;
+  NetMemcpy(&dst.ipv4, ip + 16, 4);
   hl = (ip[0] << 2) & 0x3C;
   tl = *((u16 *)(ip + 2));
   n = tl - hl;
@@ -140,13 +132,13 @@ s32 TUdpSocket__sub_8040DE4C(u8 *ip, s16 x, s16 id)
   }
   if (id != 0)
   {
-    if (TLobby__sub_8040FCEC(dst.a) < 0)
+    if (TLobby__sub_8040FCEC(dst.ipv4) < 0)
     {
-      if (TLobby__sub_8040FDA0(dst.a, id) == 0)
+      if (TLobby__sub_8040FDA0(dst.ipv4, id) == 0)
       {
         if (TLobby__sub_8040FE40(id) != 0)
         {
-          r = TUdpSocket__sub_8040E354((u8 *) dst.a, src.a, ip, x, id);
+          r = TUdpSocket__sub_8040E354((u8 *) dst.ipv4, src.ipv4, ip, x, id);
           if (0 > r)
           {
             return -1;
@@ -159,80 +151,80 @@ s32 TUdpSocket__sub_8040DE4C(u8 *ip, s16 x, s16 id)
   fl = *((u16 *)(ip + 6));
   if (fl & (~0x4000))
   {
-    mf = (fl & 0x2000) ? (1) : (0);
-    ip = (u8 *) TLobby__sub_80418C40(ip, (void *) hl, n, ip[8], *((u16 *)(ip + 4)), &src, fl & 0x1FFF, mf, id);
-    if (ip == 0)
+    if (fl & 0x2000)
+    {
+      mf = 1;
+    }
+    else
+    {
+      mf = 0;
+    }
+    off = fl & 0x1FFF;
+    pkt = (NetPacket *) TLobby__sub_80418C40(ip, (void *) hl, n, ip[8], *((u16 *)(ip + 4)), &src, off, mf, id);
+    if (pkt == 0)
     {
       return 0;
     }
-    n = 1;
+    frag = 1;
   }
   else
   {
-    ip = (u8 *) alloc_free_entry();
-    if (ip == 0)
+    pkt = alloc_free_entry();
+    if (pkt == 0)
     {
       return -257;
     }
-    *((s32 *)(ip + 4)) = (new_var2 = 0);
-    *((s32 *)(ip + 8)) = tl;
-    ((struct 
-    {
-      s16 v;
-      u8 pad[10];
-    } *) (ip + 0xc))[*((s32 *)(ip + 4))].v = hl;
-    set_value_and_enable((ip + 0x10) + ((*((s32 *)(ip + 4))) * 12), (s32) ip);
-    *((s32 *)(ip + 4)) += 1;
-    ((struct 
-    {
-      s16 v;
-      u8 pad[10];
-    } *) (ip + 0xc))[*((s32 *)(ip + 4))].v = n;
-    set_value_and_enable((ip + 0x10) + ((*((s32 *)(ip + 4))) * 12), (s32) (ip + hl));
-    *((s32 *)(ip + 4)) += 1;
-    n = 0;
+    pkt->fragment_count = 0;
+    pkt->total_bytes = tl;
+    pkt->fragments[pkt->fragment_count].length = hl;
+    set_value_and_enable(&pkt->fragments[pkt->fragment_count].buffer, (s32) ip);
+    pkt->fragment_count++;
+    pkt->fragments[pkt->fragment_count].length = n;
+    set_value_and_enable(&pkt->fragments[pkt->fragment_count].buffer, (s32) (ip + hl));
+    pkt->fragment_count++;
+    frag = 0;
   }
   switch (ip[9])
   {
     case 1:
       found = 1;
-      r = TLobby__sub_8040CB44(ip, src.a, dst.a);
+      r = TLobby__sub_8040CB44((u8 *) pkt, src.ipv4, dst.ipv4);
       if (r < 0)
     {
-      if (n == 1)
+      if (frag == 1)
       {
-        TUdpSocket__sub_80418BD8((NetPacket *) ip);
+        TUdpSocket__sub_80418BD8(pkt);
       }
-      release_entry((NetPacket *) ip);
+      release_entry(pkt);
       return -1;
     }
-      if (n == 1)
+      if (frag == 1)
     {
-      TUdpSocket__sub_80418BD8((NetPacket *) ip);
+      TUdpSocket__sub_80418BD8(pkt);
     }
-      release_entry((NetPacket *) ip);
+      release_entry(pkt);
       break;
 
     case 6:
-      r = TLobby__sub_8041B974(ip, &src, &dst);
+      r = TLobby__sub_8041B974(pkt, &src, &dst);
       if (r < 0)
     {
-      if (n == 1)
+      if (frag == 1)
       {
-        TUdpSocket__sub_80418BD8((NetPacket *) ip);
+        TUdpSocket__sub_80418BD8(pkt);
       }
-      release_entry((NetPacket *) ip);
+      release_entry(pkt);
       return -1;
     }
-      if (n == 1)
+      if (frag == 1)
     {
-      TUdpSocket__sub_80418BD8((NetPacket *) ip);
+      TUdpSocket__sub_80418BD8(pkt);
     }
-      release_entry((NetPacket *) ip);
+      release_entry(pkt);
       return 0;
 
     case 17:
-      r = udp_input(ip, &src, &dst, id);
+      r = udp_input(pkt, &src, &dst, id);
       if (r < 0)
     {
       switch (r)
@@ -242,29 +234,29 @@ s32 TUdpSocket__sub_8040DE4C(u8 *ip, s16 x, s16 id)
           ic.code = 3;
           ic.w = 0;
           rr = TUdpSocket__sub_8040CE58((u8 *)&ic, ip, x, id);
-          if (n == 1)
+          if (frag == 1)
         {
-          TUdpSocket__sub_80418BD8((NetPacket *) ip);
+          TUdpSocket__sub_80418BD8(pkt);
         }
-          release_entry((NetPacket *) ip);
+          release_entry(pkt);
           return rr;
 
         default:
-          if (n == 1)
+          if (frag == 1)
         {
-          TUdpSocket__sub_80418BD8((NetPacket *) ip);
+          TUdpSocket__sub_80418BD8(pkt);
         }
-          release_entry((NetPacket *) ip);
+          release_entry(pkt);
           return -1;
 
       }
 
     }
-      if (n == 1)
+      if (frag == 1)
     {
-      TUdpSocket__sub_80418BD8((NetPacket *) ip);
+      TUdpSocket__sub_80418BD8(pkt);
     }
-      release_entry((NetPacket *) ip);
+      release_entry(pkt);
       return 0;
 
     default:
@@ -279,13 +271,13 @@ s32 TUdpSocket__sub_8040DE4C(u8 *ip, s16 x, s16 id)
   {
     if ((*((u16 *)(p + 4))) == 1)
     {
-      if (((*((u32 *)(p + 8))) == 0) || ((*((u32 *)(p + 8))) == src.a))
+      if (((*((u32 *)(p + 8))) == 0) || ((*((u32 *)(p + 8))) == src.ipv4))
       {
         if ((*((u8 *)(p + 24))) == ip[9])
         {
           if ((*((u32 *)(p + 16))) != 0)
           {
-            TLobby__sub_80421AD8(ip, src.a, dst.a, *((u32 *)(p + 16)), i);
+            TLobby__sub_80421AD8((u8 *) pkt, src.ipv4, dst.ipv4, *((u32 *)(p + 16)), i);
             found = 1;
           }
         }
@@ -296,22 +288,22 @@ s32 TUdpSocket__sub_8040DE4C(u8 *ip, s16 x, s16 id)
 
   if (found == 1)
   {
-    if (n == 1)
+    if (frag == 1)
     {
-      TUdpSocket__sub_80418BD8((NetPacket *) ip);
+      TUdpSocket__sub_80418BD8(pkt);
     }
-    release_entry((NetPacket *) ip);
+    release_entry(pkt);
     return 0;
   }
   ic.type = 3;
   ic.code = 2;
   ic.w = 0;
   TUdpSocket__sub_8040CE58((u8 *)&ic, ip, x, id);
-  if (n == 1)
+  if (frag == 1)
   {
-    TUdpSocket__sub_80418BD8((NetPacket *) ip);
+    TUdpSocket__sub_80418BD8(pkt);
   }
-  release_entry((NetPacket *) ip);
+  release_entry(pkt);
   return -1;
 }
 

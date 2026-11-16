@@ -358,7 +358,6 @@ s32 TLobby__sub_80405700()
   u32 b;
   u16 id;
   u8 c;
-  PppFrame **new_var;
   u16 st;
   u16 n;
   PppBuffers *base;
@@ -376,8 +375,7 @@ s32 TLobby__sub_80405700()
     base = &lbl_805C04A8;
     for (;;)
     {
-      new_var = &base->frame_in;
-      ppp_rx_frame_ptr = (frame = *new_var);
+      ppp_rx_frame_ptr = (frame = base->frame_in);
       ppp_rx_frame_ptr->data = ((u8 *) frame) + ((base->headroom + 0x83) & (~3));
       ppp_rx_frame_ptr->len = 0;
       if ((recv_network_frame(0x5d6, ppp_rx_frame_ptr->data, &ppp_rx_frame_ptr->len) != 0) || (ppp_rx_frame_ptr->len < 1))
