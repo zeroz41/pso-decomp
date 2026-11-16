@@ -53,9 +53,7 @@ extern TObject *tl_05;
 
 extern "C" {
 
-s32 __ct__8TObjBaseFP7TObject(void *);
-extern s32 __vt__16TObjFogCollision[];
-u8 *TObjFogCollision__ct(u8 *fog_collision, void *parent, void *set);
+u8 *__ct__16TObjFogCollisionFP7TObjectPv(u8 *fog_collision, void *parent, void *set);
 void *TObjFogCollision__create(void *set);
 void *__nw__7TObjectFUl(int);
 
@@ -87,25 +85,18 @@ s32 is_split_screen();
 
 // Function definitions in reverse address order (-inline deferred emits them reversed).
 void *TObjFogCollision__create(void *set) {
-    void *o = __nw__7TObjectFUl(0x98);
-    if (o != NULL) {
-        o = TObjFogCollision__ct((u8 *)o, tl_05, set);
-    }
+    void *o = (void *)new TObjFogCollision(tl_05, set);
     return o;
 }
 
 typedef char RecoveredGlobal_80153FD0___vt__16TObjFogCollision_size[sizeof(RecoveredGlobal_80153FD0___vt__16TObjFogCollision) == 0x40 ? 1 : -1];
-u8 *TObjFogCollision__ct(u8 *fog_collision, void *parent, void *set) {
-    __ct__8TObjBaseFP7TObject(fog_collision);
-    *(s32 **)((s8 *)fog_collision + 0x18) = &(*(RecoveredGlobal_80153FD0___vt__16TObjFogCollision *)&__vt__16TObjFogCollision).value;
-    ((TObject *)fog_collision)->m_name = TObjFogCollision__name;
-    ((TObjFogCollision *)(fog_collision))->apply_object_set_data(set);
-    ((TObjFogCollision *)fog_collision)->m_90 = 0;
-    ((TObjFogCollision *)fog_collision)->m_94 = 0;
-    ((TObject *)(fog_collision))->disallow_rendering();
-    return fog_collision;
 }
-
+TObjFogCollision::TObjFogCollision(TObject *parent, void *set) : TObjBase(parent) {
+    ((TObject *)this)->m_name = TObjFogCollision__name;
+    ((TObjFogCollision *)(((u8 *)this)))->apply_object_set_data(set);
+    this->m_90 = 0;
+    this->m_94 = 0;
+    ((TObject *)(((u8 *)this)))->disallow_rendering();
 }
 
 TObjFogCollision::~TObjFogCollision() {
@@ -231,7 +222,7 @@ void *TObjFogCollisionSwitch__create(void *set) {
 }
 
 void *TObjFogCollisionSwitch__ct(void *fog_collision_switch, void *parent, void *set) {
-    TObjFogCollision__ct((u8 *)fog_collision_switch, parent, set);
+    __ct__16TObjFogCollisionFP7TObjectPv((u8 *)fog_collision_switch, parent, set);
     *(s32 **)((s8 *)fog_collision_switch + 0x18) = __vt__22TObjFogCollisionSwitch;
     ((TObjFogCollisionSwitch *)fog_collision_switch)->m_name = TObjFogCollisionSwitch__name;
     return fog_collision_switch;

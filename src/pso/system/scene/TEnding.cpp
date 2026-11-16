@@ -16,7 +16,7 @@ void TAdRicoRingCtrl__sub_8001B4A0(TAdRicoRingCtrl *, f32);
 s32 get_end_text_font_loaded_flag();
 u32 __cvt_fp2unsigned(f32);
 int TKeyBoardControl__sub_8000F828(void);
-u8 *__ct__10TEndingPicFv(u8 *arg0, u8 *arg1);
+u8 *__ct__10TEndingPicFP7TObject(u8 *arg0, u8 *arg1);
 u8 *TAdRicoRingCtrl__ct(TAdRicoRingCtrl *arg0, s32 arg1);
 extern u32 ending_frame_counter;
 extern s32 ending_scene_active;
@@ -75,9 +75,9 @@ TEnding::TEnding() : TObject(tl_window) {
     case 1: timing_rate = 25; break;
     }
     void *picture = TObject::operator new(0xF0);
-    if (picture != NULL) __ct__10TEndingPicFv((u8 *)picture, (u8 *)tl_01);
+    if (picture != NULL) __ct__10TEndingPicFP7TObject((u8 *)picture, (u8 *)tl_01);
     void *first = TObject::operator new(0xF0);
-    if (first != NULL) __ct__9TEndingABFv((u8 *)first, (u8 *)this);
+    if (first != NULL) __ct__9TEndingABFP7TObject((u8 *)first, (u8 *)this);
     void *second = TObject::operator new(0x9C);
     if (second != NULL) __ct__8TEndingCFv((u8 *)second, (u8 *)this);
     ending_frame_counter = 0;

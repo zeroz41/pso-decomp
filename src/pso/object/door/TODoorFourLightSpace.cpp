@@ -55,9 +55,6 @@ struct Door_8028A28C {
 
 extern "C" {
 s32 init_collision_body_parts(void *, void *, int);
-s32 __ct__10TODoorBaseFP7TObject();
-extern s32 __vt__20TODoorFourLightSpace[];
-u8 *TODoorFourLightSpace__ct(u8 *arg0, s32 arg1, s32 arg2);
 u8 is_current_floor_switch_set(u16);
 s32 post_translate_matrix(void *);
 s32 push_matrix();
@@ -70,7 +67,6 @@ s32 get_main_phase();
 
 }
 
-extern s32 __vt__20TODoorFourLightRuins[];
 
 struct Tbl_8028A5C4 { s32 v[8]; };
 struct Door_8028A5C4 { u8 pad[0xD8]; s32 sw[8]; };
@@ -85,31 +81,25 @@ const Tbl_80289EE0 door_four_light_space_index_table = {4, 6, 8, 10, 5, 7, 9, 11
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-extern "C" {
-u8 *TODoorFourLightRuins__ct(u8 *arg0, s32 arg1, s32 arg2) {
+TODoorFourLightRuins::TODoorFourLightRuins(s32 arg1, s32 arg2) : TODoorBase((TObject *)arg1) {
     s32 i;
-
-    __ct__10TODoorBaseFP7TObject();
-    *(s32 **)((s8 *)arg0 + 0x18) = __vt__20TODoorFourLightRuins;
-    *(s32 *)((s8 *)arg0 + 0) = (s32) TODoorFourLightRuins__class_name;
-    ((TODoorFourLightRuins *)(arg0))->apply_object_set_data((void *)arg2);
-    ((TODoorFourLightRuins *)(arg0))->init_door_switch_binding();
-    init_collision_body_parts(arg0, &TODoorFourLight__collision_body_params, 1);
-    ((TObjCollidable *)arg0)->refresh_collision_body_centers();
-    ((TObjPlayer *)arg0)->register_object_by_id();
-    ((TODoorFourLightRuins *)arg0)->m_d4 = (s32)fn_8028A78C(0);
-    ((TODoorFourLightRuins *)arg0)->texlist = (s32)fn_8028A750(0);
-    *(u8 **)((s8 *)arg0 + 0xBC) = fn_8028A714(0);
-    ((TODoorFourLightRuins *)arg0)->animation_end_frame = (f32) ((f32) *(u32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0xBC)) + 4) - 1.0f);
-    ((TODoorFourLightRuins *)arg0)->animation_step = 0.5f;
+    *(s32 *)((s8 *)this + 0) = (s32) TODoorFourLightRuins__class_name;
+    ((TODoorFourLightRuins *)(((u8 *)this)))->apply_object_set_data((void *)arg2);
+    ((TODoorFourLightRuins *)(((u8 *)this)))->init_door_switch_binding();
+    init_collision_body_parts(((u8 *)this), &TODoorFourLight__collision_body_params, 1);
+    ((TObjCollidable *)this)->refresh_collision_body_centers();
+    ((TObjPlayer *)this)->register_object_by_id();
+    this->m_d4 = (s32)fn_8028A78C(0);
+    this->texlist = (s32)fn_8028A750(0);
+    *(u8 **)((s8 *)this + 0xBC) = fn_8028A714(0);
+    this->animation_end_frame = (f32) ((f32) *(u32 *)((s8 *)(*(u8 **)((s8 *)this + 0xBC)) + 4) - 1.0f);
+    this->animation_step = 0.5f;
     {
         Tbl_8028A5C4 t = door_four_light_ruins_index_table;
         for (i = 0; i < 8; i++) {
-            ((Door_8028A5C4 *)arg0)->sw[i] = (s32)find_object_node((NJS_OBJECT *)(((TODoorFourLightRuins *)arg0)->m_d4), t.v[i]);
+            ((Door_8028A5C4 *)this)->sw[i] = (s32)find_object_node((NJS_OBJECT *)(this->m_d4), t.v[i]);
         }
     }
-    return arg0;
-}
 }
 
 #pragma pop
@@ -301,28 +291,25 @@ s32 TODoorFourLightRuins::init_door_switch_binding() {
 }
 
 
-u8 *TODoorFourLightSpace__ct(u8 *arg0, s32 arg1, s32 arg2) {
+TODoorFourLightSpace::TODoorFourLightSpace(s32 arg1, s32 arg2) : TODoorBase((TObject *)arg1) {
     s32 i;
-    __ct__10TODoorBaseFP7TObject();
-    *(s32 **)((s8 *)arg0 + 0x18) = __vt__20TODoorFourLightSpace;
-    *(s32 *)((s8 *)arg0 + 0) = (s32) TODoorFourLightSpace__class_name;
-    ((TODoorFourLightSpace *)(arg0))->apply_object_set_data((void *)arg2);
-    ((TODoorFourLightSpace *)(arg0))->init_door_switch_binding();
-    init_collision_body_parts(arg0, &TODoorFourLight__collision_body_params, 1);
-    ((TObjCollidable *)arg0)->refresh_collision_body_centers();
-    ((TObjPlayer *)arg0)->register_object_by_id();
-    ((TODoorFourLightSpace *)arg0)->m_d4 = (s32)fn_8028A78C(0);
-    ((TODoorFourLightSpace *)arg0)->texlist = (s32)fn_8028A750(0);
-    *(u8 **)((s8 *)arg0 + 0xBC) = fn_8028A714(0);
-    ((TODoorFourLightSpace *)arg0)->animation_end_frame = (f32) ((f32) *(u32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0xBC)) + 4) - 1.0f);
-    ((TODoorFourLightSpace *)arg0)->animation_step = 0.5f;
+    *(s32 *)((s8 *)this + 0) = (s32) TODoorFourLightSpace__class_name;
+    ((TODoorFourLightSpace *)(((u8 *)this)))->apply_object_set_data((void *)arg2);
+    ((TODoorFourLightSpace *)(((u8 *)this)))->init_door_switch_binding();
+    init_collision_body_parts(((u8 *)this), &TODoorFourLight__collision_body_params, 1);
+    ((TObjCollidable *)this)->refresh_collision_body_centers();
+    ((TObjPlayer *)this)->register_object_by_id();
+    this->m_d4 = (s32)fn_8028A78C(0);
+    this->texlist = (s32)fn_8028A750(0);
+    *(u8 **)((s8 *)this + 0xBC) = fn_8028A714(0);
+    this->animation_end_frame = (f32) ((f32) *(u32 *)((s8 *)(*(u8 **)((s8 *)this + 0xBC)) + 4) - 1.0f);
+    this->animation_step = 0.5f;
     {
         Tbl_80289EE0 t = door_four_light_space_index_table;
         for (i = 0; i < 8; i++) {
-            ((Door_80289EE0 *)arg0)->sw[i] = (s32)find_object_node((NJS_OBJECT *)(((TODoorFourLightSpace *)arg0)->m_d4), t.v[i]);
+            ((Door_80289EE0 *)this)->sw[i] = (s32)find_object_node((NJS_OBJECT *)(this->m_d4), t.v[i]);
         }
     }
-    return arg0;
 }
 
 TODoorFourLightSpace::~TODoorFourLightSpace() {

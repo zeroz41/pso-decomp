@@ -5,6 +5,7 @@
 #include "pso/object/base/TObjMotion.h"
 
 struct TObjIllGillKage : public TObjBase {
+    TObjIllGillKage(s32, u32);
     virtual ~TObjIllGillKage();
     virtual void render();
     virtual void run_task();

@@ -5,7 +5,6 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/map/TObjMapCsn.h"
 #include "pso/player/TObjPlayer.h"
-extern "C" void *__ct__14TObjCollidableFP7TObject(void *, s32);
 
 struct RecoveredGlobal_80194988___vt__10TObjMapCsn { s32 value; u8 remaining[0x38]; };
 typedef char RecoveredGlobal_80194988___vt__10TObjMapCsn_size[sizeof(RecoveredGlobal_80194988___vt__10TObjMapCsn) == 0x3C ? 1 : -1];
@@ -50,11 +49,8 @@ Vec map_csn_box_face_normals[8] = {
 s32 map_csn_collision_flag_table[5] = {0, 0x8000, 0x8900, 0x800, 0x2000};
 
 extern "C" {
-s32 __dl__7TObjectFPv(void *);
-extern RecoveredGlobal_80194988___vt__10TObjMapCsn __vt__10TObjMapCsn;
-u8 *__dt__10TObjMapCsnFv(u8 *arg0, s16 arg1);
 extern s32 TObjMapCsn__class_name;
-u8 *TObjMapCsn__ct(TObjMapCsn *arg0, s32 arg1, s32 arg2);
+u8 *__ct__10TObjMapCsnFll(TObjMapCsn *arg0, s32 arg1, s32 arg2);
 s32 matrix_mult_vec(int, void *, void *);
 s32 translate_matrix_vec3(int, void *);
 s32 rotate_vector_by_matrix(int, void *, void *);
@@ -162,47 +158,35 @@ s32 TObjMapCsn::create(s32 arg0) {
 
     map_csn = __nw__7TObjectFUl(0x254);
     if (map_csn != 0) {
-        map_csn = ((s32)TObjMapCsn__ct((TObjMapCsn *)((u8 *)map_csn), (s32)(TObjMapCsn::get_map_count()), (s32)arg0));
+        map_csn = ((s32)__ct__10TObjMapCsnFll((TObjMapCsn *)((u8 *)map_csn), (s32)(TObjMapCsn::get_map_count()), (s32)arg0));
     }
     return map_csn;
 }
-u8 *__dt__10TObjMapCsnFv(u8 *collidable, s16 arg1) {
-    if (collidable != NULL) {
-        *(s32 **)((s8 *)collidable + 0x18) = &__vt__10TObjMapCsn.value;
-        if (((u32)TObjMapCsn::get_map_count()) != 0U) {
-            fn_80140DFC((((u32)TObjMapCsn::get_map_count())), (s32)collidable);
-        }
-        __dt__14TObjCollidableFv(collidable, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(collidable);
-        }
-    }
-    return collidable;
 }
-u8 *TObjMapCsn__ct(TObjMapCsn *map_csn, s32 arg1, s32 arg2) {
+TObjMapCsn::~TObjMapCsn() {
+    if (((u32)TObjMapCsn::get_map_count()) != 0U) {
+        fn_80140DFC((((u32)TObjMapCsn::get_map_count())), (s32)((u8 *)this));
+    }
+}
+TObjMapCsn::TObjMapCsn(s32 arg1, s32 arg2) : TObjCollidable((TObject *)arg1) {
     f32 temp_f0;
     f32 temp_f1;
-    __ct__14TObjCollidableFP7TObject(map_csn, arg1);
-    *(s32 **)((s8 *)map_csn + 0x18) = &(*(RecoveredGlobal_801949FC___vt__10TObjMapCsn *)&__vt__10TObjMapCsn).value;
-    *(s32 *)((s8 *)map_csn + 0) = (s32) TObjMapCsn__class_name;
-    ((TObjMapCsn *)(map_csn))->apply_object_set_data((void *)arg2);
-    map_csn->actorFlags = (s32) (map_csn->actorFlags | 0x40000000);
-    map_csn->update_state();
-    map_csn->build_box_triangles();
-    map_csn->m_c4 = 8;
-    *(u8 **)((s8 *)map_csn + 0xC8) = (unsigned char *) ((u8 *)map_csn + 0x1F4);
-    map_csn->m_cc = 8;
-    *(u8 **)((s8 *)map_csn + 0xD0) = (unsigned char *) ((u8 *)map_csn + 0xD4);
-    *(u8 **)((s8 *)map_csn + 0xAC) = (unsigned char *) ((u8 *)map_csn + 0xC4);
-    VecCopy((Vec *)((u8 *)map_csn + 0xB0), (const Vec *)((u8 *)map_csn + 0x38));
-    temp_f1 = (0.5f) * map_csn->scale.x;
-    temp_f0 = (0.5f) * *(f32 *)((s8 *)map_csn + 0x70);
-    map_csn->m_bc = (f32) ((temp_f1 * temp_f1) + (temp_f0 * temp_f0));
-    map_csn->m_c0 = (s32) *(s32 *)((s8 *)map_csn + 0x88);
+    *(s32 *)((s8 *)this + 0) = (s32) TObjMapCsn__class_name;
+    ((TObjMapCsn *)(this))->apply_object_set_data((void *)arg2);
+    this->actorFlags = (s32) (this->actorFlags | 0x40000000);
+    this->update_state();
+    this->build_box_triangles();
+    this->m_c4 = 8;
+    *(u8 **)((s8 *)this + 0xC8) = (unsigned char *) ((u8 *)this + 0x1F4);
+    this->m_cc = 8;
+    *(u8 **)((s8 *)this + 0xD0) = (unsigned char *) ((u8 *)this + 0xD4);
+    *(u8 **)((s8 *)this + 0xAC) = (unsigned char *) ((u8 *)this + 0xC4);
+    VecCopy((Vec *)((u8 *)this + 0xB0), (const Vec *)((u8 *)this + 0x38));
+    temp_f1 = (0.5f) * this->scale.x;
+    temp_f0 = (0.5f) * *(f32 *)((s8 *)this + 0x70);
+    this->m_bc = (f32) ((temp_f1 * temp_f1) + (temp_f0 * temp_f0));
+    this->m_c0 = (s32) *(s32 *)((s8 *)this + 0x88);
     if (((u32)TObjMapCsn::get_map_count()) != 0U) {
-        fn_80140EA8((((u32)TObjMapCsn::get_map_count())), (s32)map_csn);
+        fn_80140EA8((((u32)TObjMapCsn::get_map_count())), (s32)this);
     }
-    return (u8 *)map_csn;
-}
-
 }

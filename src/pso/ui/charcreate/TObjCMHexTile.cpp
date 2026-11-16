@@ -72,33 +72,29 @@ TObjCMHexTile::~TObjCMHexTile() {}
 #pragma fp_contract on
 extern "C" {
 
-void __ct__7TObjectFP7TObject(void *, void *);
 int rand(void);
-extern void *__vt__13TObjCMHexTile[];
 extern const char *TObjCMHexTile__name;
 
 #pragma push
 #pragma opt_lifetimes off
-TObjCMHexTile *__ct__13TObjCMHexTileFv(TObjCMHexTile *self, TObject *parent, void *pos) {
-    s32 v;
-
-    __ct__7TObjectFP7TObject(self, parent);
-    *(void ***)((u8 *)self + 0x18) = __vt__13TObjCMHexTile;
-    self->m_name = TObjCMHexTile__name;
-    self->state_end_frame[0] = v = 22.0f * (0.000030517578f * (f32)rand()) + 7.0f;
-    self->state_end_frame[1] = v = (f32)v + (7.0f * (0.000030517578f * (f32)rand()) + 22.0f);
-    v = (f32)v + (45.0f * (0.000030517578f * (f32)rand()) + 30.0f);
-    self->state_end_frame[2] = v;
-    self->m_44 = 0.033333335f * (0.000030517578f * (f32)rand()) + 0.008333334f;
-    self->m_2c.x = 20.0f * (0.000030517578f * (f32)rand()) - 10.0f;
-    self->m_2c.y = 20.0f * (0.000030517578f * (f32)rand()) - 10.0f;
-    ((TWindowSubSymbolChatPartsSet *)&self->pos)->copy_vec2(pos);
-    self->alpha = 0.0f;
-    self->scale = 1.0f;
-    self->frame = 0;
-    self->state = 0;
-    return self;
 }
+TObjCMHexTile::TObjCMHexTile(TObject *parent, void *pos) : TObject(parent) {
+    s32 v;
+    this->m_name = TObjCMHexTile__name;
+    this->state_end_frame[0] = v = 22.0f * (0.000030517578f * (f32)rand()) + 7.0f;
+    this->state_end_frame[1] = v = (f32)v + (7.0f * (0.000030517578f * (f32)rand()) + 22.0f);
+    v = (f32)v + (45.0f * (0.000030517578f * (f32)rand()) + 30.0f);
+    this->state_end_frame[2] = v;
+    this->m_44 = 0.033333335f * (0.000030517578f * (f32)rand()) + 0.008333334f;
+    this->m_2c.x = 20.0f * (0.000030517578f * (f32)rand()) - 10.0f;
+    this->m_2c.y = 20.0f * (0.000030517578f * (f32)rand()) - 10.0f;
+    ((TWindowSubSymbolChatPartsSet *)&this->pos)->copy_vec2(pos);
+    this->alpha = 0.0f;
+    this->scale = 1.0f;
+    this->frame = 0;
+    this->state = 0;
+}
+extern "C" {
 #pragma pop
 
 #pragma pop

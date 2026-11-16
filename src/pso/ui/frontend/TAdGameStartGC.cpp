@@ -51,7 +51,7 @@ struct GS_802E655C { u8 pad0[0x1C]; Slot_802E655C slots[8]; s32 count; s32 activ
 
 extern "C" {
 u32 __nw__7TObjectFUl(int);
-u8 *__ct__18TAdGameStartBackGCFv(u8 *arg0, u8 *arg1);
+u8 *__ct__18TAdGameStartBackGCFP7TObject(u8 *arg0, u8 *arg1);
 u32 __ct__20TAdGameStartShadowGCFv(int, void *);
 u32 __ct__18TAdGameStartLineGCFv(int, void *);
 u32 __ct__19TAdGameStartShineGCFv(int, void *);
@@ -140,7 +140,7 @@ void create_effects__14TAdGameStartGCFPv(u8 *parent) {
     object = __nw__7TObjectFUl(0x80);
     var_r0_2 = object;
     if (var_r0_2 != 0U) {
-        var_r0_2 = (u32)__ct__18TAdGameStartBackGCFv((u8 *)object, (u8 *)parent);
+        var_r0_2 = (u32)__ct__18TAdGameStartBackGCFP7TObject((u8 *)object, (u8 *)parent);
     }
     *(u32 *)((s8 *)parent + 0xC8) = var_r0_2;
     temp_r3_7 = __nw__7TObjectFUl(0x160);

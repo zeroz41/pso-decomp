@@ -14,12 +14,9 @@ struct RecoveredGlobal_800677D4_lbl_804887C8 {
 };
 
 extern "C" {
-void *__nw__7TObjectFUl(int);
 f32 vector_length(void *, int, f32, f32);
 s32 normalize_vector(void *);
-u8 * __ct__13TUnk_80488A28Fv(void *);
 void *get_player_by_client_id(s32 i);
-extern s32 __vt__13TUnk_804887C8[];
 
 void TUnk_80488A28::vfunc_6() {  }
 void TUnk_80488A28::reset_state() {  }
@@ -29,10 +26,7 @@ void TUnk_80488A28::vfunc_10() {  }
 
 void * TCameraCtrl__vt11(void) {
     void *o;
-    o = __nw__7TObjectFUl(0x6C);
-    if (o != NULL) {
-        o = TCameraCtrl__sub_800677D4((u8 *)o);
-    }
+    o = (void *)new TUnk_804887C8();
     return o;
 }
 
@@ -73,11 +67,8 @@ TUnk_804887C8::~TUnk_804887C8() {
 }
 
 typedef char RecoveredGlobal_800677D4_lbl_804887C8_size[sizeof(RecoveredGlobal_800677D4_lbl_804887C8) == 0x30 ? 1 : -1];
-u8 *TCameraCtrl__sub_800677D4(u8 *arg0) {
-    __ct__13TUnk_80488A28Fv(arg0);
-    *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_800677D4_lbl_804887C8 *)&__vt__13TUnk_804887C8).value;
-    ((TUnk_804887C8 *)arg0)->m_38 = 5;
-    ((TUnk_80488A28 *)arg0)->set_target((u32)get_player_by_client_id(0U));
-    return arg0;
+TUnk_804887C8::TUnk_804887C8() : TUnk_80488A28() {
+    this->m_38 = 5;
+    ((TUnk_80488A28 *)this)->set_target((u32)get_player_by_client_id(0U));
 }
 

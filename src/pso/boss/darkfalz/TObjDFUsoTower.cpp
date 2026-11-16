@@ -18,13 +18,11 @@ struct RecoveredGlobal_80052200___vt__14TObjDFUsoTower {
 };
 
 extern "C" {
-u8 * __ct__8TObjBaseFP7TObject(void *);
 extern RecoveredGlobal_80052200_lbl_804858A8 lbl_804858A8;
 extern s32 __vt__14TObjDFUsoTower[];
 extern s32 TObjDFUsoTower__name;
 extern const f32 lbl_805D8A30;
 void __dl__7TObjectFPv(void *);
-void *__nw__7TObjectFUl(int);
 
 void *__dt__14TObjDFUsoTowerFv(void *base, s16 arg1) {
     if (base != NULL) {
@@ -39,23 +37,19 @@ void *__dt__14TObjDFUsoTowerFv(void *base, s16 arg1) {
 
 typedef char RecoveredGlobal_80052200_lbl_804858A8_size[sizeof(RecoveredGlobal_80052200_lbl_804858A8) == 0xC ? 1 : -1];
 typedef char RecoveredGlobal_80052200___vt__14TObjDFUsoTower_size[sizeof(RecoveredGlobal_80052200___vt__14TObjDFUsoTower) == 0x34 ? 1 : -1];
-u8 *TObjDFUsoTower__ct(u8 *obj_df_uso_tower, s32 _w1) {
-    __ct__8TObjBaseFP7TObject(obj_df_uso_tower);
-    *(s32 **)((s8 *)obj_df_uso_tower + 0x18) = &(*(RecoveredGlobal_80052200___vt__14TObjDFUsoTower *)&__vt__14TObjDFUsoTower).value;
-    *(s32 *)((s8 *)obj_df_uso_tower + 0) = (s32) TObjDFUsoTower__name;
-    *(s32 *)((s8 *)obj_df_uso_tower + 0x34) = get_bml_model(TOBoss4::model_resource, 5);
-    ((TObjDFUsoTower *)obj_df_uso_tower)->texlist = get_bml_texlist(TOBoss4::model_resource, 5);
-    VecCopy((Vec *)(obj_df_uso_tower + 0x38), (const Vec *)&lbl_804858A8.value);
-    *(f32 *)((s8 *)obj_df_uso_tower + 0x94) = (f32) lbl_805D8A30;
-    ((TObjDFUsoTower *)obj_df_uso_tower)->m_90 = 0;
-    return obj_df_uso_tower;
 }
+TObjDFUsoTower::TObjDFUsoTower(s32 _w1) : TObjBase((TObject *)_w1) {
+    *(s32 *)((s8 *)this + 0) = (s32) TObjDFUsoTower__name;
+    *(s32 *)((s8 *)this + 0x34) = get_bml_model(TOBoss4::model_resource, 5);
+    this->texlist = get_bml_texlist(TOBoss4::model_resource, 5);
+    VecCopy((Vec *)(((u8 *)this) + 0x38), (const Vec *)&lbl_804858A8.value);
+    *(f32 *)((s8 *)this + 0x94) = (f32) lbl_805D8A30;
+    this->m_90 = 0;
+}
+extern "C" {
 
 void *TObjDFUsoTower::create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0x98);
-    if (o != NULL) {
-        o = TObjDFUsoTower__ct((u8 *)o, (s32)arg0);
-    }
+    void *o = (void *)new TObjDFUsoTower((s32)arg0);
     return o;
 }
 s32 TBoss4Type2::pick_weighted_random(s32 n, f32 *w, s32 *t) {

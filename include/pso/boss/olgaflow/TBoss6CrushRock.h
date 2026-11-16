@@ -6,6 +6,7 @@
 
 class TBoss6CrushRock : public TObject {
 public:
+    TBoss6CrushRock(s32, s32, s32);
     virtual ~TBoss6CrushRock();
     virtual void run_task();
     virtual void render();
@@ -14,7 +15,7 @@ public:
 };
 
 extern "C" {
-u8 *__ct__15TBoss6CrushRockFv(u8 *object, s32 arg1, s32 arg2, s32 arg3);
+u8 *__ct__15TBoss6CrushRockFlll(u8 *object, s32 arg1, s32 arg2, s32 arg3);
 }
 
 #endif

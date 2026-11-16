@@ -200,7 +200,6 @@ extern "C" {
 s32 sub_8022397C__15TShopWindowBaseFv(void *);
 extern s32 __vt__20TShopArmorListWindow[];
 const char *TShopArmorListWindow__class_name = "TShopArmorListWindow";
-u8 *TShopArmorListWindow__ct(u8 *arg0, s32 arg1, s32 arg2, s32 arg3);
 void queue_destruction__7TObjectFv(void *arg0);
 int set_field_20__15TShopWindowBaseFl(void*, int);
 int obj_getPtr2B0_20(u8 *p);
@@ -592,25 +591,22 @@ void *__dt__20TShopArmorListWindowFv(TShopArmorListWindow *arg0, s16 arg1) {
     return arg0;
 }
 typedef char RecoveredGlobal_8021B1CC___vt__20TShopArmorListWindow_size[sizeof(RecoveredGlobal_8021B1CC___vt__20TShopArmorListWindow) == 0x30 ? 1 : -1];
-u8 *TShopArmorListWindow__ct(u8 *shop_armor_list_window, s32 parent, s32 arg2, s32 arg3) {
-    s32 sp8;
-    __ct__15TShopWindowBaseFP7TObject(shop_armor_list_window, (TObject *)parent);
-    *(s32 **)((s8 *)shop_armor_list_window + 0x18) = &(*(RecoveredGlobal_8021B1CC___vt__20TShopArmorListWindow *)&__vt__20TShopArmorListWindow).value;
-    ((TShopArmorListWindow *)shop_armor_list_window)->m_name = TShopArmorListWindow__class_name;
-    ((TShopArmorListWindow *)shop_armor_list_window)->m_24 = arg3;
-    ((TShopArmorListWindow *)shop_armor_list_window)->m_28 = arg2;
-    ((TShopArmorListWindow *)shop_armor_list_window)->m_2c = 0;
-    ((TShopArmorListWindow *)shop_armor_list_window)->m_30 = 0;
-    ((TShopArmorListWindow *)shop_armor_list_window)->m_34 = 0;
-    ((TShopArmorListWindow *)shop_armor_list_window)->m_38 = 0;
-    ((TShopArmorListWindow *)shop_armor_list_window)->m_3c = 0;
-    ((TShopArmorListWindow *)shop_armor_list_window)->m_40 = 0;
-    ((TShopArmorListWindow *)shop_armor_list_window)->m_20 = 0;
-    ((TShopArmorListWindow *)shop_armor_list_window)->m_48 = 0;
-    ((TShopArmorListWindow *)shop_armor_list_window)->m_1f4 = 0;
-    ((TShopArmorListWindow *)shop_armor_list_window)->m_1f0 = 0;
-    ((TShopGetItemWindow *)(((TShopArmorListWindow *)shop_armor_list_window)->m_24))->calc_item_count(&sp8);
-    TLobby::set_shop_armor_list_flag((int)((void *) (sub_8022397C__15TShopWindowBaseFv(shop_armor_list_window))), sp8);
-    return shop_armor_list_window;
 }
+TShopArmorListWindow::TShopArmorListWindow(s32 parent, s32 arg2, s32 arg3) : TShopWindowBase((TObject *)parent) {
+    s32 sp8;
+    this->m_name = TShopArmorListWindow__class_name;
+    this->m_24 = arg3;
+    this->m_28 = arg2;
+    this->m_2c = 0;
+    this->m_30 = 0;
+    this->m_34 = 0;
+    this->m_38 = 0;
+    this->m_3c = 0;
+    this->m_40 = 0;
+    this->m_20 = 0;
+    this->m_48 = 0;
+    this->m_1f4 = 0;
+    this->m_1f0 = 0;
+    ((TShopGetItemWindow *)(this->m_24))->calc_item_count(&sp8);
+    TLobby::set_shop_armor_list_flag((int)((void *) (sub_8022397C__15TShopWindowBaseFv(((u8 *)this)))), sp8);
 }

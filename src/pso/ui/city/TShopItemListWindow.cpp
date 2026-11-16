@@ -142,7 +142,6 @@ extern "C" {
 s32 sub_8022397C__15TShopWindowBaseFv(void *);
 extern s32 __vt__19TShopItemListWindow[];
 const char *TShopItemListWindow__class_name = "TShopItemListWindow";
-u8 *TShopItemListWindow__ct(u8 *arg0, s32 arg1, s32 arg2, s32 arg3);
 s32 sub_802239EC__13TShopSequenceFv(void *);
 s32 play_sound_effect(int, int, int, int);
 s32 get_item_count__24TShopEquipmentSellWindowFv(void *a, s32 b);
@@ -493,28 +492,24 @@ void *__dt__19TShopItemListWindowFv(TShopItemListWindow *arg0, s16 arg1) {
     return arg0;
 }
 typedef char RecoveredGlobal_8021FDC8___vt__19TShopItemListWindow_size[sizeof(RecoveredGlobal_8021FDC8___vt__19TShopItemListWindow) == 0x30 ? 1 : -1];
-u8 *TShopItemListWindow__ct(u8 *shop_item_list_window, s32 parent, s32 arg2, s32 arg3) {
-    s32 sp8;
-    __ct__15TShopWindowBaseFP7TObject(shop_item_list_window, (TObject *)parent);
-    *(s32 **)((s8 *)shop_item_list_window + 0x18) = &(*(RecoveredGlobal_8021FDC8___vt__19TShopItemListWindow *)&__vt__19TShopItemListWindow).value;
-    ((TShopItemListWindow *)shop_item_list_window)->m_name = TShopItemListWindow__class_name;
-    ((TShopItemListWindow *)shop_item_list_window)->m_24 = arg3;
-    ((TShopItemListWindow *)shop_item_list_window)->m_2c = arg2;
-    ((TShopItemListWindow *)shop_item_list_window)->m_28 = 0;
-    ((TShopItemListWindow *)shop_item_list_window)->m_30 = 0;
-    ((TShopItemListWindow *)shop_item_list_window)->m_34 = 0;
-    ((TShopItemListWindow *)shop_item_list_window)->m_38 = 0;
-    ((TShopItemListWindow *)shop_item_list_window)->m_3c = 0;
-    ((TShopItemListWindow *)shop_item_list_window)->m_40 = 0;
-    ((TShopItemListWindow *)shop_item_list_window)->m_44 = 0;
-    ((TShopItemListWindow *)shop_item_list_window)->m_50 = 0;
-    ((TShopItemListWindow *)shop_item_list_window)->m_20 = 0;
-    ((TShopItemListWindow *)shop_item_list_window)->m_1c0 = 0;
-    ((TShopItemListWindow *)shop_item_list_window)->m_4c = 0;
-    ((TShopItemListWindow *)shop_item_list_window)->m_54 = 0;
-    ((TShopGetItemWindow *)(((TShopItemListWindow *)shop_item_list_window)->m_24))->calc_item_count(&sp8);
-    TLobby::set_6264_and_call_2244B0((int)((void *) (sub_8022397C__15TShopWindowBaseFv(shop_item_list_window))), sp8);
-    return shop_item_list_window;
 }
-
+TShopItemListWindow::TShopItemListWindow(s32 parent, s32 arg2, s32 arg3) : TShopWindowBase((TObject *)parent) {
+    s32 sp8;
+    this->m_name = TShopItemListWindow__class_name;
+    this->m_24 = arg3;
+    this->m_2c = arg2;
+    this->m_28 = 0;
+    this->m_30 = 0;
+    this->m_34 = 0;
+    this->m_38 = 0;
+    this->m_3c = 0;
+    this->m_40 = 0;
+    this->m_44 = 0;
+    this->m_50 = 0;
+    this->m_20 = 0;
+    this->m_1c0 = 0;
+    this->m_4c = 0;
+    this->m_54 = 0;
+    ((TShopGetItemWindow *)(this->m_24))->calc_item_count(&sp8);
+    TLobby::set_6264_and_call_2244B0((int)((void *) (sub_8022397C__15TShopWindowBaseFv(((u8 *)this)))), sp8);
 }

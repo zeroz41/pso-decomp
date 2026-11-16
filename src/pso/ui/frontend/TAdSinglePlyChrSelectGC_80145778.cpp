@@ -63,7 +63,6 @@ typedef struct Font_80145804 {
 extern "C" {
 s32 set_stream_and_load_file__6TLobbyFi(void *);
 void *mem_alloc(u32);
-void *__nw__7TObjectFUl(u32);
 void set_texture_name(void *, void *, u32, u32);
 void load_texture_list(void *);
 extern u8 lbl_8043F3D8[];
@@ -137,10 +136,7 @@ void load_menu_font(void) {
     }
     lbl_805D56C0 = 0;
     menu_font_upload_flags = 3;
-    f = __nw__7TObjectFUl(0x1C);
-    if (f != NULL) {
-        f = TNECFontEORFunction__ct((u8 *)f);
-    }
+    f = (void *)new TNECFontEORFunction();
     menu_font_object = (TObject *)f;
 }
 #pragma pop

@@ -133,7 +133,7 @@ Self_8032537C *__ct__25TBoss5GryphonLightningEffFv(Self_8032537C *self, void *pa
     Vec v;
     f32 denom;
     s32 i;
-    __ct__12TTecZondeEffFv((u8 *)self, (u8 *)parent, 0x30000000, 4, (f32)scale);
+    __ct__12TTecZondeEffFP7TObjectllf((u8 *)self, (u8 *)parent, 0x30000000, 4, (f32)scale);
     self->vt = __vt__25TBoss5GryphonLightningEff;
     self->f0 = lbl_805D4188;
     self->f260 = 0;

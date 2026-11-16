@@ -4,14 +4,14 @@
 
 extern "C" {
 
-void *__ct__11TObjDFYutaiFv(void *, void *, void *, void *);
+void *__ct__11TObjDFYutaiFlls(void *, void *, void *, void *);
 void *__nw__7TObjectFUl(int);
 
 void *TBoss4Type3::create_yutai(void *arg0, void *arg1, void *arg2) {
     void *o;
     o = __nw__7TObjectFUl(0x2C);
     if (o != NULL) {
-        o = __ct__11TObjDFYutaiFv(o, arg0, arg1, arg2);
+        o = __ct__11TObjDFYutaiFlls(o, arg0, arg1, arg2);
     }
     return o;
 }

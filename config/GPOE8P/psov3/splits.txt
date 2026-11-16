@@ -4439,6 +4439,7 @@ pso/object/switch/TOSwitchTimer_801782A0.cpp:
 pso/object/switch/TOSwitchTimer.cpp:
 	.text       start:0x801783BC end:0x8017866C
 	.rodata     start:0x80442C90 end:0x80442CA0
+	.data       start:0x804B4518 end:0x804B454C
 	.sdata      start:0x805D3188 end:0x805D3190
 	.sdata2     start:0x805DBA18 end:0x805DBA28
 
@@ -4771,7 +4772,7 @@ pso/object/ambient/TObjLight.cpp:
 
 pso/map/TObjMapCsn.cpp:
 	.text       start:0x80194670 end:0x80194AEC
-	.data       start:0x804B8448 end:0x804B84D4
+	.data       start:0x804B8448 end:0x804B850C
 	.sdata2     start:0x805DBEC0 end:0x805DBECC
 
 pso/object/TObjMesBase.cpp:
@@ -5978,6 +5979,7 @@ pso/system/scene/TScene.cpp:
 pso/system/scene/TSceneSora.cpp:
 	.text       start:0x802071B4 end:0x80207644
 	.rodata     start:0x8044A9B8 end:0x8044A9D0
+	.data       start:0x804C8C28 end:0x804C8C5C
 	.sdata      start:0x805D3620 end:0x805D3628
 	.sbss       start:0x805D6050 end:0x805D6060
 	.sdata2     start:0x805DC608 end:0x805DC610

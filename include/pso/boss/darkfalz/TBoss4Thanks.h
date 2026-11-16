@@ -5,6 +5,7 @@
 #include "pso/system/task/TObject.h"
 
 struct TBoss4Thanks : public TObject {
+    TBoss4Thanks(TObject *);
     virtual ~TBoss4Thanks();
     void render();
     s32 state;

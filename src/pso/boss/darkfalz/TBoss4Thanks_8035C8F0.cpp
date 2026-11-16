@@ -8,16 +8,11 @@
 extern "C" {
 s32 fn_8035C2B4();
 int is_door_0x97_open__12TBoss4ThanksFv(void*);
-u8 *TBoss4Thanks__ct(u8 *arg0, u8 *arg1);
-void *__nw__7TObjectFUl(int);
 
 extern void *tl_02;
 
 void *TBoss4Thanks::create() {
-    void *o = __nw__7TObjectFUl(0x54);
-    if (o != NULL) {
-        o = TBoss4Thanks__ct((u8 *)o, (u8 *)tl_02);
-    }
+    void *o = (void *)new TBoss4Thanks((TObject *)(u8 *)tl_02);
     return o;
 }
 

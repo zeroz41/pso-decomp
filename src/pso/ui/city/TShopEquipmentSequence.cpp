@@ -113,7 +113,6 @@ u8 *lbl_805D6228;
 s32 lbl_805D622C;
 s32 lbl_805D6230;
 s32 restore_player_state__13TShopSequenceFv(void *);
-void *__nw__7TObjectFUl(u32);
 extern void *tl_05;
 u16 get_entity_id(void *);
 void align_menu_entry_positions(void *w);
@@ -176,10 +175,7 @@ void TShopEquipmentSequence::open_sell_window() {
 }
 
 void TShopEquipmentSequence::open_buy_window() {
-    W_8021D750 *o = (W_8021D750 *)__nw__7TObjectFUl(0x194);
-    if (o != 0) {
-        o = (W_8021D750 *)(TShopEquipmentListWindow__ct((u8 *)o, (s32)tl_05, (s32)((S_8021D750 *)this), (s32)(((S_8021D750 *)this)->f24)));
-    }
+    W_8021D750 *o = (W_8021D750 *)new TShopEquipmentListWindow((s32)tl_05, (s32)((S_8021D750 *)this), (s32)(((S_8021D750 *)this)->f24));
     o->cb0 = (void *)exit__22TShopEquipmentSequenceFPv;
     reset_controller_input_state();
     set_field_20__15TShopWindowBaseFl(this, 7);

@@ -14,8 +14,6 @@ typedef char RecoveredGlobal_80352F6C___vt__10TEndingPic_size[sizeof(RecoveredGl
 
 extern "C" {
 int TKeyBoardControl__sub_8000F828(void);
-void __ct__7TObjectFP7TObject(void *, void *);
-extern RecoveredGlobal_80352F6C___vt__10TEndingPic __vt__10TEndingPic;
 const char *lbl_805D4378 = "TEndingPic";
 s32 TEndingPic__animation_state;
 s32 ending_pic_wall_texture_list;
@@ -118,27 +116,24 @@ void TEndingPic::run_task() { advance_animation_state(); }
     extern int ending_ab_wall_texture_list;
 
 TEndingPic::~TEndingPic() {}
-u8 *__ct__10TEndingPicFv(u8 *ending_pic, u8 *arg1) {
-    __ct__7TObjectFP7TObject(ending_pic, arg1);
-    *(s32 **)((s8 *)ending_pic + 0x18) = &__vt__10TEndingPic.value;
-    ((TEndingPic *)ending_pic)->m_name = lbl_805D4378;
-    *(s32 *)((s8 *)ending_pic + 0x1C) = -1;
+}
+TEndingPic::TEndingPic(TObject *arg1) : TObject(arg1) {
+    this->m_name = lbl_805D4378;
+    *(s32 *)((s8 *)this + 0x1C) = -1;
     TEndingPic__animation_state = 0;
-    *(s32 *)((s8 *)ending_pic + 0x20) = 0xFF;
-    *(s32 *)((s8 *)ending_pic + 0x28) = 0;
-    *(s32 *)((s8 *)ending_pic + 0x24) = 0;
+    *(s32 *)((s8 *)this + 0x20) = 0xFF;
+    *(s32 *)((s8 *)this + 0x28) = 0;
+    *(s32 *)((s8 *)this + 0x24) = 0;
     ending_pic_wall_texture_list = ((s32)get_ending_ab_wall_texture_list());
-    ((TEndingPic *)ending_pic)->init_positions();
+    this->init_positions();
     switch (TKeyBoardControl__sub_8000F828()) {
     case 0:
-        *(s32 *)((s8 *)ending_pic + 0xEC) = 0x1E;
+        *(s32 *)((s8 *)this + 0xEC) = 0x1E;
         break;
     case 1:
-        *(s32 *)((s8 *)ending_pic + 0xEC) = 0x19;
+        *(s32 *)((s8 *)this + 0xEC) = 0x19;
         break;
     }
-    return ending_pic;
-}
 }
 
 int get_ending_ab_wall_texture_list(void) {  return ending_ab_wall_texture_list; }

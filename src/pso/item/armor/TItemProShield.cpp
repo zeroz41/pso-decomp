@@ -46,7 +46,7 @@ void init_item_timer_event__13TUnk_804A0648Fv(void *event, TItemHeapObject *pare
 void construct_timer_event__13TUnk_804A0628Fv(void *event, TItemHeapObject *parent, u16 client, s32 duration);
 // Called with the client unextended and the item index widened to int, as
 // this TU saw TItemEffShield::ct_init and the TUnk_8049F130 constructor.
-void ct_init__14TItemEffShieldFPUcs(void *effect, TItemHeapObject *parent, u16 client);
+void __ct__13TUnk_8049F148FP7TObjects(void *effect, TItemHeapObject *parent, u16 client);
 void __ct__13TUnk_8049F130FP7TObjectsUc(void *object, TItemHeapObject *parent, u16 client, int index);
 }
 
@@ -158,7 +158,7 @@ void TItemProShield::on_equip() {
             if (effect_objects != NULL) {
                 event = TObject::operator new(0x2C);
                 if (event != NULL) {
-                    ct_init__14TItemEffShieldFPUcs(event, effect_objects, get_owner_client());
+                    __ct__13TUnk_8049F148FP7TObjects(event, effect_objects, get_owner_client());
                 }
             }
             break;

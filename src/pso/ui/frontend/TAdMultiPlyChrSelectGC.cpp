@@ -15,10 +15,8 @@ extern "C" {
 u8 *__nw__7TObjectFUl(s32);
 extern u8 *TAdMultiPlyChrSelectGC__instance;
 u8 *get_or_create__22TAdMultiPlyChrSelectGCFii(s32 arg0, s32 arg1);
-void __ct__7TObjectFP7TObject(void *, void *);
-extern RecoveredGlobal_802DFF0C___vt__22TAdMultiPlyChrSelectGC __vt__22TAdMultiPlyChrSelectGC;
 extern s32 lbl_805D3F68;
-u8 *TAdMultiPlyChrSelectGC__ct(TAdMultiPlyChrSelectGC *arg0, u8 *arg1, s32 arg2);
+u8 *__ct__22TAdMultiPlyChrSelectGCFP7TObjectl(TAdMultiPlyChrSelectGC *arg0, u8 *arg1, s32 arg2);
 extern s32 multi_ply_chr_select_active_player;
 s32 TAdMultiPlyChrSelectGC__sub_802DFFE8(O_802DFFE8 *self);
 void TAdMultiPlyChrSelectGC__sub_802E0024(O_802E0024 *self, s32 v);
@@ -177,15 +175,14 @@ TAdMultiPlyChrSelectGC::~TAdMultiPlyChrSelectGC() {
     }
 }
 
-u8 *TAdMultiPlyChrSelectGC__ct(TAdMultiPlyChrSelectGC *ad_multi_ply_chr_select_gc, u8 *arg1, s32 arg2) {
-    __ct__7TObjectFP7TObject(ad_multi_ply_chr_select_gc, arg1);
-    *(s32 **)((s8 *)ad_multi_ply_chr_select_gc + 0x18) = &__vt__22TAdMultiPlyChrSelectGC.value;
-    *(s32 *)((s8 *)ad_multi_ply_chr_select_gc + 0) = (s32) lbl_805D3F68;
-    ad_multi_ply_chr_select_gc->initialize_selection_state(arg2);
-    ad_multi_ply_chr_select_gc->create_widgets();
-    ad_multi_ply_chr_select_gc->handle_event(TAdMultiPlyChrSelectGC::get_select_flag());
-    return (u8 *)ad_multi_ply_chr_select_gc;
 }
+TAdMultiPlyChrSelectGC::TAdMultiPlyChrSelectGC(TObject *arg1, s32 arg2) : TObject(arg1) {
+    *(s32 *)((s8 *)this + 0) = (s32) lbl_805D3F68;
+    this->initialize_selection_state(arg2);
+    this->create_widgets();
+    this->handle_event(TAdMultiPlyChrSelectGC::get_select_flag());
+}
+extern "C" {
 
 u8 *get_or_create__22TAdMultiPlyChrSelectGCFii(s32 arg0, s32 arg1) {
     u8 *ad_multi_ply_chr_select_gc;
@@ -196,7 +193,7 @@ u8 *get_or_create__22TAdMultiPlyChrSelectGCFii(s32 arg0, s32 arg1) {
     ad_multi_ply_chr_select_gc = (u8 *)(__nw__7TObjectFUl(0xA0));
     var_r0 = ad_multi_ply_chr_select_gc;
     if (var_r0 != NULL) {
-        var_r0 = (u8 *)(TAdMultiPlyChrSelectGC__ct((TAdMultiPlyChrSelectGC *)((u8 *)ad_multi_ply_chr_select_gc), (u8 *)((u8 *)arg0), (s32)((s32)arg1)));
+        var_r0 = (u8 *)(__ct__22TAdMultiPlyChrSelectGCFP7TObjectl((TAdMultiPlyChrSelectGC *)((u8 *)ad_multi_ply_chr_select_gc), (u8 *)((u8 *)arg0), (s32)((s32)arg1)));
     }
     TAdMultiPlyChrSelectGC__instance = var_r0;
     return var_r0;

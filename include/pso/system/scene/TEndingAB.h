@@ -6,6 +6,7 @@
 
 class TEndingAB : public TObject {
 public:
+    TEndingAB(TObject *);
     virtual ~TEndingAB();
     virtual void run_task();
     virtual void render();
@@ -19,7 +20,7 @@ public:
 
 extern "C" {
 void TEndingAB__sub_8008CCC0(TEndingAB *self);
-u8 *__ct__9TEndingABFv(u8 *ending_ab, u8 *arg1);
+u8 *__ct__9TEndingABFP7TObject(u8 *ending_ab, u8 *arg1);
 }
 
 #endif

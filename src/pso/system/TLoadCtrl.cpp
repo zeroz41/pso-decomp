@@ -34,13 +34,10 @@ struct Obj_8001C620 { u8 pad[0x1C]; s32 f1c; s32 f20; };
 
 extern "C" {
 s32 __nw__7TObjectFUl(int);
-s32 __ct__7TObjectFP7TObject(void *, void *);
 s32 __ct__9TAdFadeGCFP7TObjectPv(int, int, int);
-extern RecoveredGlobal_8001C828___vt__9TLoadCtrl __vt__9TLoadCtrl;
 s32 TLoadCtrl__loading_mode;
 s32 TLoadCtrl__fade_task;
 extern s32 tl_fade;
-u8 *TLoadCtrl__ct(TLoadCtrl *arg0, s32 arg1);
 bool TLoadCtrl__sub_8001C60C(void);
 void TNowLoading__sub_8001D4D4(void);
 u8 *TCameraCtrl__ct(u8 *arg0, void *parent);
@@ -132,15 +129,14 @@ TLoadCtrl::~TLoadCtrl() {
     }
 }
 
-u8 *TLoadCtrl__ct(TLoadCtrl *load_ctrl, s32 arg1) {
+}
+TLoadCtrl::TLoadCtrl(s32 arg1) : TObject((TObject *)((void *)arg1)) {
     s32 temp_r3;
     s32 var_r0;
-    __ct__7TObjectFP7TObject((void *)load_ctrl, (void *)arg1);
-    *(s32 **)((s8 *)load_ctrl + 0x18) = &__vt__9TLoadCtrl.value;
-    load_ctrl->m_1c = 1;
+    this->m_1c = 1;
     TLoadCtrl__fade_task = 0;
-    load_ctrl->m_20 = 0;
-    load_ctrl->m_name = TLoadCtrl__class_name;
+    this->m_20 = 0;
+    this->m_name = TLoadCtrl__class_name;
     if (((u32) (*(u32 *)&TLoadCtrl__loading_mode) == 0U) || ((u32) (*(u32 *)&TLoadCtrl__loading_mode) == 1U)) {
         temp_r3 = __nw__7TObjectFUl(0x38);
         var_r0 = temp_r3;
@@ -149,8 +145,8 @@ u8 *TLoadCtrl__ct(TLoadCtrl *load_ctrl, s32 arg1) {
         }
         TLoadCtrl__fade_task = var_r0;
     }
-    return (u8 *)load_ctrl;
 }
+extern "C" {
 
 void TLoadCtrl::cleanup_scene() {
     u32 t;
@@ -239,10 +235,7 @@ void TLoadCtrl::start_loading(u32 arg0) {
     if (temp_cam != NULL) {
         TCameraCtrl__ct(temp_cam, (void *)tl_camera);
     }
-    load_ctrl = (u8 *) __nw__7TObjectFUl(0x24);
-    if (load_ctrl != NULL) {
-        load_ctrl = TLoadCtrl__ct((TLoadCtrl *)load_ctrl, tl_su);
-    }
+    load_ctrl = (u8 *)new TLoadCtrl(tl_su);
     TLoadCtrl__instance = (u32) load_ctrl;
 }
 

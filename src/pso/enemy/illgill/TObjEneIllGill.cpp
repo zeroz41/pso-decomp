@@ -57,8 +57,6 @@ s32 angle_difference_abs(s32, s32);
 void *get_player_by_client_id(s32 i);
 s32 minimap_render_dot(void *, int, int, int);
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
-void *__nw__7TObjectFUl(int);
-u8 *TObjIllGillKage__ct(u8 *ill_gill_kage, s32 arg1, u32 arg2);
 void subtract_vector(void *, void *);
 extern s32 tl_05;
 s32 obj_setFlags30(void *, int);
@@ -455,10 +453,7 @@ void TObjEneIllGill::update_shadow_attack() {
                 atan2_float(w.z, newton_sqrtf(w.x * w.x + w.y * w.y));
                 atan2_float(w.x, w.y);
                 if (this->action_flags != 4 && ((TObjCollidable *)target)->obj_testFlags30(0x04000000) == 0) {
-                    void *m = __nw__7TObjectFUl(0x9C);
-                    if (m != NULL) {
-                        TObjIllGillKage__ct((u8 *)m, tl_05, (u32)this->target);
-                    }
+                    void *m = (void *)new TObjIllGillKage(tl_05, (u32)this->target);
                 }
             } else {
                 this->action_flags &= ~4;

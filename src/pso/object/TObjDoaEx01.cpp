@@ -274,12 +274,9 @@ struct RecoveredGlobal_8018E064___vt__11TObjDoaEx01 {
 extern "C" {
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 s32 init_collision_body_parts(void *, void *, int);
-void *__ct__10TODoorBaseFP7TObject(void *a0);
-extern s32 __vt__11TObjDoaEx01[];
 
 void free_bin_model_request(void*, int);
 s32 free_collision_body_parts(void *);
-void *__nw__7TObjectFUl(int);
 
 }
 TObjDoaEx01::~TObjDoaEx01() {
@@ -291,31 +288,25 @@ TObjDoaEx01::~TObjDoaEx01() {
 extern void *tl_05;
 
 typedef char RecoveredGlobal_8018E064___vt__11TObjDoaEx01_size[sizeof(RecoveredGlobal_8018E064___vt__11TObjDoaEx01) == 0x54 ? 1 : -1];
-u8 *TObjDoaEx01__ct(u8 *arg0, s32 arg1, s32 arg2) {
-    __ct__10TODoorBaseFP7TObject((arg0));
-    *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_8018E064___vt__11TObjDoaEx01 *)&__vt__11TObjDoaEx01).value;
-    *(s32 *)((s8 *)arg0 + 0) = (s32) TObjDoaEx01__name;
-    ((TObjDoaEx01 *)(arg0))->apply_object_set_data((void *)arg2);
-    ((TObjDoaEx01 *)(arg0))->init_door_switch_binding();
-    init_collision_body_parts(arg0, &TObjDoaEx01__collision_body_parts, 1);
-    ((TObjCollidable *)arg0)->refresh_collision_body_centers();
-    ((TObjPlayer *)arg0)->register_object_by_id();
-    ((TObjDoaEx01 *)arg0)->animation_frame = 0.0f;
-    ((TObjDoaEx01 *)arg0)->animation_step = 0.5f;
-    ((TObjDoaEx01 *)arg0)->animation_end_frame = (f32) *(u32 *)((s8 *)(get_bml_motion((*(s32 *)&TObjDoaEx01__resource_bundle), 0)) + 4);
-    ((TObjDoaEx01 *)arg0)->door_flags = 0x100001;
-    *(f32 *)((s8 *)arg0 + 0xD4) = 1.0f;
-    ((TObjDoaEx01 *)arg0)->m_d8 = 1.0f;
-    *(f32 *)((s8 *)arg0 + 0xDC) = 1.0f;
-    ((TObjDoaEx01 *)arg0)->m_e0 = 1.0f;
-    return arg0;
+TObjDoaEx01::TObjDoaEx01(s32 arg1, s32 arg2) : TODoorBase((TObject *)arg1) {
+    *(s32 *)((s8 *)this + 0) = (s32) TObjDoaEx01__name;
+    ((TObjDoaEx01 *)(((u8 *)this)))->apply_object_set_data((void *)arg2);
+    ((TObjDoaEx01 *)(((u8 *)this)))->init_door_switch_binding();
+    init_collision_body_parts(((u8 *)this), &TObjDoaEx01__collision_body_parts, 1);
+    ((TObjCollidable *)this)->refresh_collision_body_centers();
+    ((TObjPlayer *)this)->register_object_by_id();
+    this->animation_frame = 0.0f;
+    this->animation_step = 0.5f;
+    this->animation_end_frame = (f32) *(u32 *)((s8 *)(get_bml_motion((*(s32 *)&TObjDoaEx01__resource_bundle), 0)) + 4);
+    this->door_flags = 0x100001;
+    *(f32 *)((s8 *)this + 0xD4) = 1.0f;
+    this->m_d8 = 1.0f;
+    *(f32 *)((s8 *)this + 0xDC) = 1.0f;
+    this->m_e0 = 1.0f;
 }
 
 void *TObjDoaEx01__create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0xE4);
-    if (o != NULL) {
-        o = TObjDoaEx01__ct((u8 *)o, (s32)tl_05, (s32)arg0);
-    }
+    void *o = (void *)new TObjDoaEx01((s32)tl_05, (s32)arg0);
     return o;
 }
 

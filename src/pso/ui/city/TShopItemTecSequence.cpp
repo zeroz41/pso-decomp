@@ -115,7 +115,6 @@ s32 lbl_805D6250;
 u8 *TShopSequence__ct(u8 *arg0);
 const char *TShopItemTecSequence__class_name = "TShopItemTecSequence";
 s32 restore_player_state__13TShopSequenceFv(void *);
-void *__nw__7TObjectFUl(u32);
 extern void *tl_05;
 s32 get_entity_id(void *);
 s32 get_shop_text(s32 arg0);
@@ -183,10 +182,7 @@ void TShopItemTecSequence::open_sell_window() {
 }
 
 void TShopItemTecSequence::open_item_list_window() {
-    W_802200A8 *o = (W_802200A8 *)__nw__7TObjectFUl(0x1c4);
-    if (o != 0) {
-        o = (W_802200A8 *)(TShopItemListWindow__ct((u8 *)o, (s32)tl_05, (s32)((S_802200A8 *)this), (s32)(((S_802200A8 *)this)->f24)));
-    }
+    W_802200A8 *o = (W_802200A8 *)new TShopItemListWindow((s32)tl_05, (s32)((S_802200A8 *)this), (s32)(((S_802200A8 *)this)->f24));
     o->cb0 = (void *)close__20TShopItemTecSequenceFPv;
     reset_controller_input_state();
     this->set_field_20(5);

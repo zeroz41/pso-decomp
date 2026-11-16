@@ -23,12 +23,8 @@ struct RecoveredGlobal_80178604___vt__13TOSwitchTimer {
 
 void clear_floor_switch_flag(u32 id, s16 floor);
 extern "C" {
-void __dl__7TObjectFPv(s32);
-extern RecoveredGlobal_8017858C___vt__13TOSwitchTimer __vt__13TOSwitchTimer;
-s32 __ct__8TObjBaseFP7TObject(void *);
 extern const char *TOSwitchTimer__name;
 u8 is_current_floor_switch_set(s32 id);
-void *__nw__7TObjectFUl(int);
 
 void TOSwitchTimer::render() {
     if (TObjPlayer::check_demo_mode() == 1) {
@@ -82,35 +78,23 @@ void TOSwitchTimer::run_task() {
 extern void *tl_05;
 
 void *TOSwitchTimer::create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0xB8);
-    if (o != NULL) {
-        o = TOSwitchTimer__ct((u8 *)o, (s32)tl_05, (s32)arg0);
-    }
+    void *o = (void *)new TOSwitchTimer((s32)tl_05, (s32)arg0);
     return o;
 }
 
 void TOSwitchTimer__sub_80178584(void) {  }
 void TOSwitchTimer__sub_80178588(void) {  }
-u8 *__dt__13TOSwitchTimerFv(u8 *switch_timer, s16 arg1) {
-    if (switch_timer != NULL) {
-        *(s32 **)((s8 *)switch_timer + 0x18) = &__vt__13TOSwitchTimer.value;
-        if ((u32) ((TOSwitchTimer *)switch_timer)->m_98 == 0U) {
-            clear_floor_switch_flag(((TOSwitchTimer *)switch_timer)->m_a8, (s16) ((TOSwitchTimer *)switch_timer)->m_b4);
-        }
-        __dt__8TObjBaseFv(switch_timer, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv((s32) switch_timer);
-        }
+}
+TOSwitchTimer::~TOSwitchTimer() {
+    if ((u32) this->m_98 == 0U) {
+        clear_floor_switch_flag(this->m_a8, (s16) this->m_b4);
     }
-    return switch_timer;
 }
+extern "C" {
 typedef char RecoveredGlobal_80178604___vt__13TOSwitchTimer_size[sizeof(RecoveredGlobal_80178604___vt__13TOSwitchTimer) == 0x38 ? 1 : -1];
-u8 *TOSwitchTimer__ct(u8 *switch_timer, s32 arg1, s32 arg2) {
-    __ct__8TObjBaseFP7TObject(switch_timer);
-    *(s32 **)((s8 *)switch_timer + 0x18) = &(*(RecoveredGlobal_80178604___vt__13TOSwitchTimer *)&__vt__13TOSwitchTimer).value;
-    *(s32 *)((s8 *)switch_timer + 0) = (s32) ((s32)TOSwitchTimer__name);
-    ((TOSwitchTimer *)(switch_timer))->apply_object_set_data((void *)arg2);
-    ((TOSwitchTimer *)switch_timer)->sub_801782A0();
-    return switch_timer;
 }
+TOSwitchTimer::TOSwitchTimer(s32 arg1, s32 arg2) : TObjBase((TObject *)arg1) {
+    *(s32 *)((s8 *)this + 0) = (s32) ((s32)TOSwitchTimer__name);
+    ((TOSwitchTimer *)(((u8 *)this)))->apply_object_set_data((void *)arg2);
+    this->sub_801782A0();
 }

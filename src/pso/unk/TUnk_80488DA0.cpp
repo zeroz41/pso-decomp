@@ -29,7 +29,6 @@ struct Cam_8006C964 {
 };
 
 extern "C" {
-void *__nw__7TObjectFUl(int);
 Vec get_target_position__11TCameraCtrlFv(void);
 s32 TWindowShortListCtrl__check_controller_button(void *, s32);
 s32 is_on_current_screen__11TCameraCtrlFv(void *, s32);
@@ -37,16 +36,12 @@ f32 sin_table_lookup(s32);
 f32 cos_table_lookup(s32);
 void debug_printf_at(s32, const char *, ...);
 extern Ctl_8006C964 controller_input_state;
-int __ct__13TUnk_80488A28Fv(void);
 
 extern unsigned char __vt__13TUnk_80488DA0[];
 
 void * TCameraCtrl__vt6(void) {
     void *o;
-    o = __nw__7TObjectFUl(0x70);
-    if (o != NULL) {
-        o = TCameraCtrl__sub_8006CC30(o);
-    }
+    o = (void *)new TUnk_80488DA0();
     return o;
 }
 
@@ -108,7 +103,10 @@ TUnk_80488DA0::~TUnk_80488DA0() {
 }
 
 
-void* TCameraCtrl__sub_8006CC30(void* a0) { __ct__13TUnk_80488A28Fv(); *(int*)((char*)a0 + 0x18) = (int)__vt__13TUnk_80488DA0; *(float*)((char*)a0 + 0x6c) = (2e+01f); ((TUnk_80488DA0 *)a0)->m_38 = 0; return a0; }
+TUnk_80488DA0::TUnk_80488DA0() : TUnk_80488A28() {
+    *(float*)((char*)this + 0x6c) = (2e+01f);
+    this->m_38 = 0;
+}
 
 struct O_8006CC7C { u8 pad[0x1c]; Vec pos; };
 extern O_8006CC7C *demo_camera_controller_table[];

@@ -65,8 +65,6 @@ struct RecoveredGlobal_8030B708___vt__14TObjLiveCamera {
 };
 extern "C" {
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-s32 __ct__8TObjBaseFP7TObject(void *, void *);
-extern s32 __vt__14TObjLiveCamera[];
 int free_bin_model_request(void*, void*);
 extern void *tl_05;
 typedef char RecoveredGlobal_8030B708___vt__14TObjLiveCamera_size[sizeof(RecoveredGlobal_8030B708___vt__14TObjLiveCamera) == 0x34 ? 1 : -1];
@@ -350,19 +348,13 @@ void fn_8030B7B8(void) {  }
 void fn_8030B7B4(void) {  }
 
 void *TObjLiveCamera__create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0x90);
-    if (o != NULL) {
-        o = TObjLiveCamera__ct((u8 *)o, (s32)tl_05, (s32)arg0);
-    }
+    void *o = (void *)new TObjLiveCamera((s32)tl_05, (s32)arg0);
     return o;
 }
 
-u8 *TObjLiveCamera__ct(u8 *live_camera, s32 parent, s32 arg2) {
-    __ct__8TObjBaseFP7TObject((void *)live_camera, (void *)parent);
-    *(s32 **)((s8 *)live_camera + 0x18) = &(*(RecoveredGlobal_8030B708___vt__14TObjLiveCamera *)&__vt__14TObjLiveCamera).value;
-    *(s32 *)((s8 *)live_camera + 0) = (s32) TObjLiveCamera__class_name;
-    ((TObjLiveCamera *)(live_camera))->apply_object_set_data((void *)arg2);
-    return live_camera;
+TObjLiveCamera::TObjLiveCamera(s32 parent, s32 arg2) : TObjBase((TObject *)((void *)parent)) {
+    *(s32 *)((s8 *)this + 0) = (s32) TObjLiveCamera__class_name;
+    ((TObjLiveCamera *)(((u8 *)this)))->apply_object_set_data((void *)arg2);
 }
 
 TObjLiveCamera::~TObjLiveCamera() {}

@@ -294,8 +294,6 @@ void TEndingAB::render() {
 }
 
 extern "C" {
-void __ct__7TObjectFP7TObject(void *, void *);
-extern RecoveredGlobal_8008CE80___vt__9TEndingAB __vt__9TEndingAB;
 
 void bind_gvm_texture_list(const char *, void *);
 
@@ -304,26 +302,25 @@ void release_texture_list(void*);
 void TEndingAB::run_task() { advance_fade_sequence(); }
 
 TEndingAB::~TEndingAB() {}
-u8 *__ct__9TEndingABFv(u8 *ending_ab, u8 *arg1) {
-    __ct__7TObjectFP7TObject(ending_ab, arg1);
-    *(s32 **)((s8 *)ending_ab + 0x18) = &__vt__9TEndingAB.value;
-    *(s32 *)((s8 *)ending_ab + 0) = (s32) ending_ab_class_name;
-    *(s32 *)((s8 *)ending_ab + 0x1C) = -1;
+}
+TEndingAB::TEndingAB(TObject *arg1) : TObject(arg1) {
+    *(s32 *)((s8 *)this + 0) = (s32) ending_ab_class_name;
+    *(s32 *)((s8 *)this + 0x1C) = -1;
     TEndingAB__fade_sequence_state = 0;
-    *(s32 *)((s8 *)ending_ab + 0x20) = 0xFF;
-    *(s32 *)((s8 *)ending_ab + 0x28) = 0;
-    *(s32 *)((s8 *)ending_ab + 0x24) = 0;
-    ((TEndingAB *)ending_ab)->init_float_table();
+    *(s32 *)((s8 *)this + 0x20) = 0xFF;
+    *(s32 *)((s8 *)this + 0x28) = 0;
+    *(s32 *)((s8 *)this + 0x24) = 0;
+    this->init_float_table();
     switch (TKeyBoardControl__sub_8000F828()) {
     case 0:
-        *(s32 *)((s8 *)ending_ab + 0xEC) = 0x1E;
+        *(s32 *)((s8 *)this + 0xEC) = 0x1E;
         break;
     case 1:
-        *(s32 *)((s8 *)ending_ab + 0xEC) = 0x19;
+        *(s32 *)((s8 *)this + 0xEC) = 0x19;
         break;
     }
-    return ending_ab;
 }
+extern "C" {
 
 void TEndingAB::destroy_instance() {
     if ((u32) ending_ab_wall_texture_list != 0U) {

@@ -5,6 +5,7 @@
 #include "pso/object/base/TObjMotion.h"
 
 struct TOJungleDesign : public TObjCollidable {
+    TOJungleDesign(s32, s32);
     virtual ~TOJungleDesign();
     u32 m_ac;
     u32 m_b0;

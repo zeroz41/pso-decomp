@@ -4,13 +4,9 @@
 
 extern "C" {
 extern u8 *text_language_group_table;
-void *__nw__7TObjectFUl(int);
 
 void *TObjBagWarnWin::create(void *bag_warn_win) {
-    void *o = __nw__7TObjectFUl(0xA4);
-    if (o != NULL) {
-        o = __ct__14TObjBagWarnWinFv(o, bag_warn_win);
-    }
+    void *o = (void *)new TObjBagWarnWin((TObject *)bag_warn_win);
     return o;
 }
 s32 get_message_text(s32 arg0) {

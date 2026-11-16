@@ -1,4 +1,6 @@
 #include "types.h"
+#include "pso/object/door/TODoorFourLightRuins.h"
+#include "pso/object/door/TODoorFourLightSpace.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/collision/TObjInfoCol.h"
 #include "pso/unk/text_801A2710.h"
@@ -12,10 +14,8 @@
 #include "pso/object/warp/TObjMapForceWarp.h"
 
 extern "C" {
-u8 *TODoorFourLightRuins__ct(u8 *arg0, s32 arg1, s32 arg2);
 void *TODoorFourLightSeabedU__ct(void *, void *, void *);
 void *TODoorFourLightSeabed__ct(void *, void *, void *);
-u8 *TODoorFourLightSpace__ct(u8 *arg0, s32 arg1, s32 arg2);
 void *TODoorLaboNormal__ct(void *, void *, void *);
 void *TODoorLabo__ct(void *, void *, void *);
 void *__nw__7TObjectFUl(int);
@@ -55,26 +55,17 @@ void *TODoorLaboNormal__create(void *arg0) {
 }
 
 void *TODoorFourLightRuins__create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0xF8);
-    if (o != NULL) {
-        o = TODoorFourLightRuins__ct((u8 *)o, (s32)tl_05, (s32)arg0);
-    }
+    void *o = (void *)new TODoorFourLightRuins((s32)tl_05, (s32)arg0);
     return o;
 }
 
 void *TODoorFourLightSpace__create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0xF8);
-    if (o != NULL) {
-        o = TODoorFourLightSpace__ct((u8 *)o, (s32)tl_05, (s32)arg0);
-    }
+    void *o = (void *)new TODoorFourLightSpace((s32)tl_05, (s32)arg0);
     return o;
 }
 
 void *TObjInfoCol__create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0xB0);
-    if (o != NULL) {
-        o = TObjInfoCol__ct((u8 *)o, (s32)tl_05, (s32)arg0);
-    }
+    void *o = (void *)new TObjInfoCol((s32)tl_05, (s32)arg0);
     return o;
 }
 

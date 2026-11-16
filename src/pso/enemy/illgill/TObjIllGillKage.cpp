@@ -15,10 +15,8 @@ extern "C" {
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
 u16 get_entity_id(void *);
 int queue_destruction__7TObjectFv(void*);
-s32 __ct__8TObjBaseFP7TObject(void *);
 extern s32 __vt__15TObjIllGillKage[];
 extern const char *TObjIllGillKage__class_name;
-u8 *TObjIllGillKage__ct(u8 *arg0, s32 arg1, u32 arg2);
 void *__dt__15TObjIllGillKageFv(void *arg0, s16 arg1);
 s32 is_locally_controlled__10TObjPlayerFPv();
 void __dl__7TObjectFPv(void *);
@@ -71,20 +69,16 @@ void *__dt__15TObjIllGillKageFv(void *base, s16 arg1) {
     }
     return base;
 }
-u8 *TObjIllGillKage__ct(u8 *ill_gill_kage, s32 arg1, u32 arg2) {
-    __ct__8TObjBaseFP7TObject(ill_gill_kage);
-    *(s32 **)((s8 *)ill_gill_kage + 0x18) = &(*(RecoveredGlobal_803655F8___vt__15TObjIllGillKage *)&__vt__15TObjIllGillKage).value;
-    *(s32 *)((s8 *)ill_gill_kage + 0) = (s32) TObjIllGillKage__class_name;
-    if (arg2 != 0U) {
-        VecCopy((Vec *)(ill_gill_kage + 0x38), (const Vec *)(arg2 + 0x38));
-        ((TObjIllGillKage *)ill_gill_kage)->m_98 = get_entity_id((void *)arg2);
-        ((TObjIllGillKage *)ill_gill_kage)->m_94 = 0xB4;
-        ((TObjIllGillKage *)ill_gill_kage)->m_90 = 0;
-    } else {
-        ((TObjIllGillKage *)ill_gill_kage)->m_98 = 0xFFFFU;
-        ((TObject *)ill_gill_kage)->queue_destruction();
-    }
-    return ill_gill_kage;
 }
-
+TObjIllGillKage::TObjIllGillKage(s32 arg1, u32 arg2) : TObjBase((TObject *)arg1) {
+    *(s32 *)((s8 *)this + 0) = (s32) TObjIllGillKage__class_name;
+    if (arg2 != 0U) {
+        VecCopy((Vec *)(((u8 *)this) + 0x38), (const Vec *)(arg2 + 0x38));
+        this->m_98 = get_entity_id((void *)arg2);
+        this->m_94 = 0xB4;
+        this->m_90 = 0;
+    } else {
+        this->m_98 = 0xFFFFU;
+        ((TObject *)this)->queue_destruction();
+    }
 }

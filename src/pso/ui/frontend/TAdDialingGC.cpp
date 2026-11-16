@@ -47,30 +47,25 @@ u8 *__dt__12TAdDialingGCFv(u8 *object, s16 arg1) {
 
 #pragma readonly_strings on
 const char *TAdDialingGC__name = "TAdDialingGC";
-s32 __ct__7TObjectFP7TObject();
 
 extern const char *TAdDialingGC__name;
 
-void *TAdDialingGC__ct(TAdDialingGC *ad_dialing_gc, TObject *parent) {
-    __ct__7TObjectFP7TObject();
-    *(s32 **)((s8 *)ad_dialing_gc + 0x18) = __vt__12TAdDialingGC;
-    *(s32 *)((s8 *)ad_dialing_gc + 0) = (s32) ((s32)TAdDialingGC__name);
-    TAdDialingGC__instance = ad_dialing_gc;
-    if (TLobby::is_state_active() != 0) {
-        ad_dialing_gc->m_1c = 1;
-    } else if (TLobby__sub_8014618C() == 1) {
-        ad_dialing_gc->m_1c = 2;
-    } else {
-        ad_dialing_gc->m_1c = 0;
-    }
-    ad_dialing_gc->m_20 = 0;
-    ad_dialing_gc->m_24 = 0;
-    ad_dialing_gc->m_28 = 0;
-    ad_dialing_gc->m_30 = 0;
-    ad_dialing_gc->m_68 = 0;
-    ad_dialing_gc->m_a0 = 0;
-    ad_dialing_gc->m_a4 = 0;
-    return ad_dialing_gc;
 }
-
+TAdDialingGC::TAdDialingGC(TObject *parent) : TObject(parent) {
+    *(s32 *)((s8 *)this + 0) = (s32) ((s32)TAdDialingGC__name);
+    TAdDialingGC__instance = this;
+    if (TLobby::is_state_active() != 0) {
+        this->m_1c = 1;
+    } else if (TLobby__sub_8014618C() == 1) {
+        this->m_1c = 2;
+    } else {
+        this->m_1c = 0;
+    }
+    this->m_20 = 0;
+    this->m_24 = 0;
+    this->m_28 = 0;
+    this->m_30 = 0;
+    this->m_68 = 0;
+    this->m_a0 = 0;
+    this->m_a4 = 0;
 }

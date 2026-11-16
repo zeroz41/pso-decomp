@@ -26,8 +26,6 @@ s32 TWindowShortListCtrl__check_controller_button(void *, int);
 s32 check_flag_100__10TObjPlayerFPv();
 extern RecoveredGlobal_80191E28_lbl_8050E208 controller_input_state;
 extern s32 local_client_id;
-s32 __ct__14TObjCollidableFP7TObject(void *, void *);
-extern s32 __vt__11TObjInfoCol[];
 const char *TObjInfoCol__class_name = "TObjInfoCol";
 f32 xyz_distance_squared(u8 *arg0, u8 *arg1);
 
@@ -60,13 +58,10 @@ void TObjInfoCol::run_task() {
 }
 
 typedef char RecoveredGlobal_80191EC0___vt__11TObjInfoCol_size[sizeof(RecoveredGlobal_80191EC0___vt__11TObjInfoCol) == 0x38 ? 1 : -1];
-u8 *TObjInfoCol__ct(u8 *info_col, s32 arg1, s32 arg2) {
-    __ct__14TObjCollidableFP7TObject((void *)info_col, (void *)arg1);
-    *(s32 **)((s8 *)info_col + 0x18) = &(*(RecoveredGlobal_80191EC0___vt__11TObjInfoCol *)&__vt__11TObjInfoCol).value;
-    ((TObjInfoCol *)info_col)->m_name = TObjInfoCol__class_name;
-    ((TObjInfoCol *)(info_col))->apply_object_set_data((void *)arg2);
-    ((TObjInfoCol *)info_col)->interaction_radius = (f32) ((TObjInfoCol *)info_col)->scale.x;
-    return info_col;
+TObjInfoCol::TObjInfoCol(s32 arg1, s32 arg2) : TObjCollidable((TObject *)((void *)arg1)) {
+    this->m_name = TObjInfoCol__class_name;
+    ((TObjInfoCol *)(((u8 *)this)))->apply_object_set_data((void *)arg2);
+    this->interaction_radius = (f32) this->scale.x;
 }
 
 TObjInfoCol::~TObjInfoCol() {

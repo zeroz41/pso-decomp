@@ -5,6 +5,7 @@
 #include "pso/ui/city/TShopWindowBase.h"
 
 struct TShopArmorListWindow : public TShopWindowBase {
+    TShopArmorListWindow(s32 parent, s32, s32);
     virtual ~TShopArmorListWindow();
     virtual void vfunc_11();
     virtual void display_message(const char *text, s32 flags);

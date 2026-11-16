@@ -34,20 +34,15 @@ void TOJungleDesign::init_design_variant() {
 
 extern "C" {
 
-void *__nw__7TObjectFUl(int);
 
 
 void *TOJungleDesign__create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0xB4);
-    if (o != NULL) {
-        o = TOJungleDesign__ct((u8 *)o, (s32)tl_05, (s32)arg0);
-    }
+    void *o = (void *)new TOJungleDesign((s32)tl_05, (s32)arg0);
     return o;
 }
 
 }
 
-extern "C" void *__ct__14TObjCollidableFP7TObject(void *, s32);
 
 struct RecoveredGlobal_802FEF98___vt__14TOJungleDesign {
     s32 value;
@@ -63,7 +58,6 @@ CollisionBody TOJungleDesign__collision_desc_table[3] = {
 
 extern "C" {
 s32 init_collision_body_parts(void *, int, int);
-extern s32 __vt__14TOJungleDesign[];
 s32 post_translate_matrix(void *);
 void free_collision_body_parts(void *);
 s32 push_matrix();
@@ -87,16 +81,15 @@ TOJungleDesign::~TOJungleDesign() {
 }
 extern "C" {
 typedef char RecoveredGlobal_802FEF98___vt__14TOJungleDesign_size[sizeof(RecoveredGlobal_802FEF98___vt__14TOJungleDesign) == 0x3C ? 1 : -1];
-u8 *TOJungleDesign__ct(u8 *arg0, s32 arg1, s32 arg2) {
-    __ct__14TObjCollidableFP7TObject(arg0, arg1);
-    *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_802FEF98___vt__14TOJungleDesign *)&__vt__14TOJungleDesign).value;
-    ((TOJungleDesign *)arg0)->m_name = TOJungleDesign__name;
-    ((TOJungleDesign *)(arg0))->apply_object_set_data((void *)arg2);
-    ((TOJungleDesign *)arg0)->init_design_variant();
-    init_collision_body_parts(arg0, (int)&TOJungleDesign__collision_desc_table[((TOJungleDesign *)arg0)->m_b0], 1);
-    ((TObjPlayer *)arg0)->register_object_by_id();
-    return arg0;
 }
+TOJungleDesign::TOJungleDesign(s32 arg1, s32 arg2) : TObjCollidable((TObject *)arg1) {
+    this->m_name = TOJungleDesign__name;
+    ((TOJungleDesign *)(((u8 *)this)))->apply_object_set_data((void *)arg2);
+    this->init_design_variant();
+    init_collision_body_parts(((u8 *)this), (int)&TOJungleDesign__collision_desc_table[this->m_b0], 1);
+    ((TObjPlayer *)this)->register_object_by_id();
+}
+extern "C" {
 
 u8 * get_bml_texlist(void *, int);
 u8 * get_bml_model(void *, int);

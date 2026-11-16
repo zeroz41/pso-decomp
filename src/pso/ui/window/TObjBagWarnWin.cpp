@@ -67,56 +67,47 @@ s32 TObjBagWarnWin::should_show_warning(void *arg0) {
 }
 
 void TObjBagWarnWin::run_task() {
-    u8 *arg0 = (u8 *)this;
     s32 temp_r0;
-    if ((u32) *(u32 *)((s8 *)arg0 + 0x1C) == 0U) {
+    if (message_window == NULL) {
         if (has_window_task_root() != 0) {
-            if (TObjBagWarnWin::should_show_warning(arg0) != 0) {
-                temp_r0 = *(s32 *)((s8 *)arg0 + 0xA0) - 1;
-                *(s32 *)((s8 *)arg0 + 0xA0) = temp_r0;
+            if (TObjBagWarnWin::should_show_warning(this) != 0) {
+                temp_r0 = open_delay - 1;
+                open_delay = temp_r0;
                 if (temp_r0 < 0) {
-                    *(s32 *)((s8 *)arg0 + 0xA0) = 0;
+                    open_delay = 0;
                 }
             } else {
-                *(s32 *)((s8 *)arg0 + 0xA0) = 0x1E;
+                open_delay = 0x1E;
             }
-            if ((s32) *(s32 *)((s8 *)arg0 + 0xA0) == 0) {
+            if (open_delay == 0) {
                 open_message_window();
             }
         }
-    } else if (TObjBagWarnWin::should_show_warning(arg0) == 0) {
-        ((TWindowBase *)(*(u32 *)((s8 *)arg0 + 0x1C)))->close();
-        *(u32 *)((s8 *)arg0 + 0x1C) = 0U;
-        *(s32 *)((s8 *)arg0 + 0xA0) = 0x1E;
+    } else if (TObjBagWarnWin::should_show_warning(this) == 0) {
+        message_window->close();
+        message_window = NULL;
+        open_delay = 0x1E;
     }
 }
 void TObjBagWarnWin::open_message_window() {
-    u8 *arg0 = (u8 *)this;
-    *(u32 *)((s8 *)arg0 + 0x1C) = create__14TWindowMessageFPvll(get_window_layout_position(0x38), TObjBagWarnWin__message_window_size, 1);
-    if ((u32) *(u32 *)((s8 *)arg0 + 0x1C) != 0U) {
-        ((TWindowBase *)(*(u32 *)((s8 *)arg0 + 0x1C)))->set_depth(70200.0f);
+    message_window = (TWindowMessage *)create__14TWindowMessageFPvll(get_window_layout_position(0x38), TObjBagWarnWin__message_window_size, 1);
+    if (message_window != NULL) {
+        message_window->set_depth(70200.0f);
         if (TCameraCtrl::get_camera_id() == 4) {
-            ((TWindowAddition *)(*(u32 *)((s8 *)arg0 + 0x1C)))->set_position_xy(0.8f, 0.8f);
+            message_window->set_position_xy(0.8f, 0.8f);
         }
-        strncpy(arg0 + 0x20, get_message_text(0x59), 0x7F);
-        *(s8 *)((s8 *)arg0 + 0x9F) = 0;
-        ((TWindowMessage *)(*(u32 *)((s8 *)arg0 + 0x1C)))->append_line((int)(arg0 + 0x20), (int)0);
+        strncpy(message_text, get_message_text(0x59), 0x7F);
+        message_text[0x7F] = 0;
+        message_window->append_line((int)message_text, (int)0);
     }
 }
 TObjBagWarnWin::~TObjBagWarnWin() {}
 
-void __ct__7TObjectFP7TObject(void *, void *);
-
-extern s32 __vt__14TObjBagWarnWin[];
 const char *TObjBagWarnWin__name = "TObjBagWarnWin";
 
-void *__ct__14TObjBagWarnWinFv(void *bag_warn_win, void *parent) {
-    __ct__7TObjectFP7TObject(bag_warn_win, parent);
-    *(s32 **)((s8 *)bag_warn_win + 0x18) = __vt__14TObjBagWarnWin;
-    ((TObjBagWarnWin *)bag_warn_win)->m_name = TObjBagWarnWin__name;
-    *(u32 *)((s8 *)bag_warn_win + 0x1C) = 0;
-    *(u32 *)((s8 *)bag_warn_win + 0xA0) = 0;
-    return bag_warn_win;
 }
-
+TObjBagWarnWin::TObjBagWarnWin(TObject *parent) : TObject(parent) {
+    this->m_name = TObjBagWarnWin__name;
+    message_window = NULL;
+    open_delay = 0;
 }

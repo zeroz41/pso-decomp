@@ -72,11 +72,8 @@ extern s32 lbl_805D55C0;
 void run_task__14TShopGeneratorFv(u8 *self);
 void TMedicalCenterMes__sub_80216260(void);
 void *TShopGenerator__create(void *arg0);
-void *TShopGenerator__ct(void *arg0, s32 arg1);
 void *__dt__14TShopGeneratorFv(void *arg0, s16 arg1);
-s32 __ct__8TObjBaseFP7TObject(void *, s32);
 void __dl__7TObjectFPv(void *);
-void *__nw__7TObjectFUl(int);
 
 extern s32 __vt__14TShopGenerator[];
 
@@ -187,29 +184,27 @@ void *__dt__14TShopGeneratorFv(void *base, s16 arg1) {
     return base;
 }
 
-extern s32 TShopGenerator__class_name;
+extern const char *TShopGenerator__class_name;
 extern s32 tl_05;
 
-void *TShopGenerator__ct(void *shop_generator, s32 arg1) {
+}
+TShopGenerator::TShopGenerator(s32 arg1) : TObjBase((TObject *)tl_05) {
     s32 temp_r0;
-
-    __ct__8TObjBaseFP7TObject(shop_generator, tl_05);
-    *(s32 **)((s8 *)shop_generator + 0x18) = __vt__14TShopGenerator;
-    *(s32 *)((s8 *)shop_generator + 0) = (s32) TShopGenerator__class_name;
-    ((TShopGenerator *)shop_generator)->apply_object_set_data((void *)arg1);
-    ((TShopGenerator *)shop_generator)->m_90 = 0;
-    ((TShopGenerator *)shop_generator)->m_94 = 5;
-    temp_r0 = ((TShopGenerator *)shop_generator)->set_params[0];
+    m_name = TShopGenerator__class_name;
+    this->apply_object_set_data((void *)arg1);
+    this->m_90 = 0;
+    this->m_94 = 5;
+    temp_r0 = this->set_params[0];
     if (temp_r0 < 0) {
-        ((TObject *)shop_generator)->queue_destruction();
-        return shop_generator;
+        queue_destruction();
+        return;
     }
     if (temp_r0 > 6) {
-        ((TObject *)shop_generator)->queue_destruction();
-        return shop_generator;
+        queue_destruction();
+        return;
     }
-    return shop_generator;
 }
+extern "C" {
 
 typedef char RecoveredGlobal_8021E110_TShopGenerator__data_80513ED0_size[sizeof(RecoveredGlobal_8021E110_TShopGenerator__data_80513ED0) == 0x10 ? 1 : -1];
 u8 is_slot_active__14TShopGeneratorFi(s32 arg0) {
@@ -227,10 +222,7 @@ void THunterGuildSeqOffline__sub_8021E180(s32 arg0) {
 }
 
 void *TShopGenerator__create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0x98);
-    if (o != NULL) {
-        o = TShopGenerator__ct((void *)o, (s32)arg0);
-    }
+    void *o = (void *)new TShopGenerator((s32)arg0);
     return o;
 }
 void TShopGenerator::run_fn_table_reverse() {

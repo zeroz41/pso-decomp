@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/ui/city/TShopArmorListWindow.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/ui/city/TShopEquipmentGearSequence.h"
 #include "pso/ui/city/TShopWindowBase.h"
@@ -162,11 +163,9 @@ s32 lbl_805D6220;
 u8 *TShopSequence__ct(u8 *arg0);
 const char *TShopEquipmentGearSequence__class_name = "TShopEquipmentGearSequence";
 s32 restore_player_state__13TShopSequenceFv(void *);
-void *__nw__7TObjectFUl(u32);
 void enter_quest_list__26TShopEquipmentGearSequenceFv(void *);
 void open_gear_shop__26TShopEquipmentGearSequenceFv(void *);
 extern void *tl_05;
-u8 *TShopArmorListWindow__ct(u8 *arg0, s32 arg1, s32 arg2, s32 arg3);
 s32 get_entity_id(s32);
 s32 get_shop_text(s32);
 s32 align_menu_entry_positions(void *);
@@ -186,10 +185,7 @@ void TShopEquipmentGearSequence::open_sell_window() {
 }
 
 void TShopEquipmentGearSequence::open_armor_list_window() {
-    W_8021B4B0 *o = (W_8021B4B0 *)__nw__7TObjectFUl(0x1f8);
-    if (o != 0) {
-        o = (W_8021B4B0 *)(TShopArmorListWindow__ct((u8 *)o, (s32)tl_05, (s32)((S_8021B4B0 *)this), (s32)(((S_8021B4B0 *)this)->f24)));
-    }
+    W_8021B4B0 *o = (W_8021B4B0 *)new TShopArmorListWindow((s32)tl_05, (s32)((S_8021B4B0 *)this), (s32)(((S_8021B4B0 *)this)->f24));
     o->cb0 = (void *)enter_quest_list__26TShopEquipmentGearSequenceFv;
     reset_controller_input_state();
     this->set_field_20(5);

@@ -50,9 +50,6 @@ extern "C" {
 s32 get_bml_motion(void *, s32);
 s32 get_bml_texlist(void *, s32);
 s32 get_bml_model(void *, s32);
-void __ct__7TObjectFP7TObject(void *, void *);
-extern RecoveredGlobal_8035C83C___vt__12TBoss4Thanks __vt__12TBoss4Thanks;
-u8 *TBoss4Thanks__ct(u8 *arg0, u8 *arg1);
 void TBoss4Thanks__sub_8035C480(s32 arg0);
 const char *TBoss4Thanks__class_name = "TBoss4Thanks";
 // Position of the emitters and of the proximity check (x, y, z).
@@ -225,22 +222,19 @@ TBoss4Thanks::~TBoss4Thanks() {
     ((TBoss4Thanks *)this)->destroy_effects();
 }
 
-u8 *TBoss4Thanks__ct(u8 *object, u8 *arg1) {
+TBoss4Thanks::TBoss4Thanks(TObject *arg1) : TObject(arg1) {
     u8 *instance_count;
-    __ct__7TObjectFP7TObject(object, arg1);
-    *(s32 **)((s8 *)object + 0x18) = &__vt__12TBoss4Thanks.value;
-    *(s32 *)((s8 *)object + 0) = (s32) TBoss4Thanks__class_name;
+    *(s32 *)((s8 *)this + 0) = (s32) TBoss4Thanks__class_name;
     instance_count = (u8 *)(TBoss4Uro::get_instance_count());
-    ((TBoss4Thanks *)object)->model = get_bml_model(instance_count, 1);
-    ((TBoss4Thanks *)object)->texture_list = get_bml_texlist(instance_count, 1);
-    *(s32 *)((s8 *)object + 0x3C) = get_bml_motion(instance_count, 0x46);
-    *(s32 *)((s8 *)object + 0x40) = get_bml_motion(instance_count, 0x47);
-    TBoss4Thanks__sub_8035C480((s32)((s32) object));
-    ((TBoss4Thanks *)object)->state = 0;
-    ((TBoss4Thanks *)object)->next_motion = 0;
-    ((TBoss4Thanks *)object)->current_motion = 0;
-    ((TBoss4Thanks *)object)->motion_frame = 0.0f;
-    ((TBoss4Thanks *)object)->fade_amount = 0.99f;
-    ((TBoss4Thanks *)object)->fade_frame = 0;
-    return object;
+    this->model = get_bml_model(instance_count, 1);
+    this->texture_list = get_bml_texlist(instance_count, 1);
+    *(s32 *)((s8 *)this + 0x3C) = get_bml_motion(instance_count, 0x46);
+    *(s32 *)((s8 *)this + 0x40) = get_bml_motion(instance_count, 0x47);
+    TBoss4Thanks__sub_8035C480((s32)((s32) ((u8 *)this)));
+    this->state = 0;
+    this->next_motion = 0;
+    this->current_motion = 0;
+    this->motion_frame = 0.0f;
+    this->fade_amount = 0.99f;
+    this->fade_frame = 0;
 }

@@ -23,8 +23,6 @@ struct RecoveredGlobal_802AF7C0___vt__12TObjMistCtrl {
 
 
 extern "C" {
-s32 __ct__8TObjBaseFP7TObject(void *, void *);
-extern s32 __vt__12TObjMistCtrl[];
 const char *lbl_805D3E80 = "TObjMistCtrl";
 
 void TObjMistCtrl::run_task() { { (void)(sub_802AF64C()); return; } }
@@ -36,15 +34,12 @@ TObjMistCtrl::~TObjMistCtrl() {
 
 
 typedef char RecoveredGlobal_802AF7C0___vt__12TObjMistCtrl_size[sizeof(RecoveredGlobal_802AF7C0___vt__12TObjMistCtrl) == 0x38 ? 1 : -1];
-u8 *TObjMistCtrl__ct(u8 *mist_ctrl, s32 parent, u32 arg2) {
-    __ct__8TObjBaseFP7TObject((void *)mist_ctrl, (void *)parent);
-    *(s32 **)((s8 *)mist_ctrl + 0x18) = &(*(RecoveredGlobal_802AF7C0___vt__12TObjMistCtrl *)&__vt__12TObjMistCtrl).value;
-    ((TObjMistCtrl *)mist_ctrl)->m_name = lbl_805D3E80;
+TObjMistCtrl::TObjMistCtrl(s32 parent, u32 arg2) : TObjBase((TObject *)((void *)parent)) {
+    this->m_name = lbl_805D3E80;
     if (arg2 != 0U) {
-        ((TObjMistCtrl *)(mist_ctrl))->apply_object_set_data((void *)arg2);
+        ((TObjMistCtrl *)(((u8 *)this)))->apply_object_set_data((void *)arg2);
     }
-    *(s32 *)((s8 *)mist_ctrl + 0x90) = (s32)spawn_continuous_particle_effect_with_flags((mist_ctrl + 0x38), 0x200, 0x800);
-    return mist_ctrl;
+    *(s32 *)((s8 *)this + 0x90) = (s32)spawn_continuous_particle_effect_with_flags((((u8 *)this) + 0x38), 0x200, 0x800);
 }
 
 
