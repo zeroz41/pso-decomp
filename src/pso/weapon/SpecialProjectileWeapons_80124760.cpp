@@ -209,7 +209,7 @@ void TUnk_804A2164::update_weapon() {
     void *temp_r4;
     void *temp_r4_2;
     this->m_1fc = (this->m_1fc + 0x1999);
-    temp_r4 = *(void * *)&this->second_model;
+    temp_r4 = this->second_model;
     if (temp_r4 != NULL) {
         temp_r4_2 = *(void **)((s8 *)temp_r4 + 0x2C);
         *(s32 *)((s8 *)temp_r4_2 + 0) = (s32) (*(s32 *)((s8 *)temp_r4_2 + 0) & 0xFFFFFFFD);

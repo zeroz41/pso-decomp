@@ -7,7 +7,7 @@ extern "C" {
 void send_star_atomizer_targets(void *arg0);
 }
 
-void TUnk_8049FB08::apply_use_effect() { send_star_atomizer_targets(*(void* *)&this->owner); }
+void TUnk_8049FB08::apply_use_effect() { send_star_atomizer_targets(this->owner); }
 
 TUnk_8049FB08::~TUnk_8049FB08() {}
 

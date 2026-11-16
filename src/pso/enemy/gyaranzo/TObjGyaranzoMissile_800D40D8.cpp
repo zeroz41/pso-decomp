@@ -148,7 +148,7 @@ void TUnk_8049442C::sub_800D4200() {
     TObjPlayer::init_all_slots();
     ((TObjPlayer *)arg0)->check_object_collisions();
     check_enemy_body_collisions(arg0);
-    if ((*(Info_800D4200 * *)&((TUnk_8049442C *)arg0)->bodies)->flags & 0x180000) {
+    if ((((TUnk_8049442C *)arg0)->bodies)->flags & 0x180000) {
         for (i = 0; i < 0x10; i++) {
             t = get_battle_param__10TObjPlayerFi(i);
             if (t == NULL) {

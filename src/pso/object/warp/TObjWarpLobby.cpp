@@ -44,9 +44,9 @@ void TObjWarpLobby::debug_print_area_num() {
         this->set_params[1] = 0;
     }
     if ((s32) this->set_params[1] > 1) {
-        *(s32 *)&this->set_params[1] = 1;
+        this->set_params[1] = 1;
     }
-    switch (*(s32 *)&this->set_params[1]) {
+    switch (this->set_params[1]) {
     case 0:
         *(s32 *)((s8 *)this + 0xCC) = 1;
         break;

@@ -138,7 +138,7 @@ TBoss3VoloptP01::TBoss3VoloptP01(TBoss3Volopt *parent, s32 index, u16 id, s32 an
     entity_id = id;
     *(s16 *)&set_index = angle_param;
     set_entry = NULL;
-    *(s16 *)&room = *(s16 *)&parent->room;
+    *(s16 *)&room = parent->room;
     *((s16 *)&room + 1) = *((s16 *)&parent->room + 1);
     init_params();
     angle = (s32)(182.04445f * (f32)(index * 60));

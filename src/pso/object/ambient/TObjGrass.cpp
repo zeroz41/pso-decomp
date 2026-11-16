@@ -1179,14 +1179,14 @@ void TObjGrass::sub_800BDD70() {
         this->phase = 0;
     case 0:
         if (this->target == NULL) {
-            *(s32 *)&this->actorFlags &= ~0x200000;
-            *(s16 *)&this->timer = 0;
+            this->actorFlags &= ~0x200000;
+            this->timer = 0;
         } else {
             VecCopy((Vec *)&sp8, (const Vec *)(this->target + 0x2FC));
             subtract_vector(&sp8, (u8 *)&this->m_2fc);
-            ang = ((TObjEnemy *)arg0)->turn_toward_direction(*(s32 *)((s8 *)(*(u8 * *)&this->movementParameters) + 8), (Vec *)&sp8);
+            ang = ((TObjEnemy *)arg0)->turn_toward_direction(*(s32 *)((s8 *)(this->movementParameters) + 8), (Vec *)&sp8);
             apply_actor_gravity(arg0, 0, (0.0f));
-            if (ang < ((AttackParams *)(*(s32 *)&this->m_318))->get_attack_angle()) {
+            if (ang < ((AttackParams *)(this->m_318))->get_attack_angle()) {
                 this->phase = 1;
                 if ((0.5f) < ((TObjChara *)arg0)->random_ratio()) {
                     this->requested_action = 2;
@@ -1253,15 +1253,15 @@ void TObjGrass::sub_800BDD70() {
         if (this->action_flags != 4U) {
             this->phase = 2;
             this->requested_action = 0;
-            *(s16 *)&this->timer = 0xF;
+            this->timer = 0xF;
         }
         break;
     case 2:
         apply_actor_gravity(arg0, 0, (0.0f));
-        (*(s16 *)&this->timer)--;
-        if (*(s16 *)&this->timer < 0) {
-            *(s32 *)&this->actorFlags &= ~0x200000;
-            *(s16 *)&this->timer = 0;
+        (this->timer)--;
+        if (this->timer < 0) {
+            this->actorFlags &= ~0x200000;
+            this->timer = 0;
         }
         break;
     }
@@ -1552,17 +1552,17 @@ s32 TObjGrass::update() {
 
     ((TObjBase *)arg0)->obj_clearFlags30((u32)(0x04040000));
     ((TObjMotion *)arg0)->advance_animation();
-    if (!(*(s32 *)&this->actorFlags & 0x800000)) {
+    if (!(this->actorFlags & 0x800000)) {
         apply_actor_gravity(arg0, 0, (0.0f));
     }
     ((TObjPlayer *)arg0)->update_collisions();
     play_persistent_sound(((TObjEnemy *)(arg0))->remap_sound_for_area(0x4003A801), arg0, (u8 *)&this->position, 0, 0);
     TObjPlayer::play_effect_if_v2(-0x200);
-    temp_r4 = *(s16 *)&this->timer;
-    *(s16 *)&this->timer = (temp_r4 - 1);
+    temp_r4 = this->timer;
+    this->timer = (temp_r4 - 1);
     if (temp_r4 < 0) {
-        *(s32 *)&this->actorFlags = (s32) (*(s32 *)&this->actorFlags & 0xFFFFFEFF);
-        *(s16 *)&this->timer = (s16) *(s16 *)&this->resetTimer;
+        this->actorFlags = (s32) (this->actorFlags & 0xFFFFFEFF);
+        this->timer = (s16) this->resetTimer;
         this->referenceHp = (s16) this->hp;
     }
     minimap_render_dot((u8 *)&this->position, -0x5DB4, 1, 0);

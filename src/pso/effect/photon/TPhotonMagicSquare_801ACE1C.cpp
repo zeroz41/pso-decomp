@@ -231,7 +231,7 @@ TPhotonMagicSquare::TPhotonMagicSquare(TObject *parent, s32 color, u16 owner_id)
     *(s32 *)&this->model = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)photon_blast_shared_resource + 0x42C)) + 0x28);
     *(u8 * *)&this->m_90 = (unsigned char *) ((void *) *(void **)((s8 *)(*(u8 **)((s8 *)photon_blast_shared_resource + 0x430)) + 0x14));
     *(f32 *)&this->unk_9C = 0.0f;
-    *(f32 *)((s8 *)((u8 *)this) + 0x94) = (f32) ((f32) *(u32 *)((s8 *)(*(u8 * *)&this->m_90) + 4) - (1.0f));
+    *(f32 *)((s8 *)((u8 *)this) + 0x94) = (f32) ((f32) *(u32 *)((s8 *)(this->m_90) + 4) - (1.0f));
     this->m_98 = 0.1f;
     this->texlist = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)photon_blast_shared_resource + 0x42C)) + 0x2C);
     this->scale.x = 0.0f;
@@ -243,10 +243,10 @@ TPhotonMagicSquare::TPhotonMagicSquare(TObject *parent, s32 color, u16 owner_id)
         VecCopy((Vec *)(((u8 *)this) + 0xB8), &entity->position);
     }
     *(f32 *)((s8 *)((u8 *)this) + 0xBC) += (2.0f);
-    *(s32 *)&this->m_b0 = 0;
-    *(s32 *)&this->m_b4 = 0;
-    *(s32 *)&this->m_c4 = 0x37;
+    this->m_b0 = 0;
+    this->m_b4 = 0;
+    this->m_c4 = 0x37;
     *(f32 *)&this->_padC8 = 0.1f;
-    *(s32 *)&this->m_cc = 2;
+    this->m_cc = 2;
     play_sound_effect(0x4002AD2E, 0, 0, 0);
 }

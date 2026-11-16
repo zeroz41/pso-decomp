@@ -454,7 +454,7 @@ void TBoss4DarkFalz::update_intro_demo() {
     temp_r3 = *(s32 *)((s8 *)this + 0x380);
     if (temp_r3 > 0x145) {
         if ((u32) this->m_394 != 0U) {
-            ((TObject *)(*(void * *)&this->m_394))->queue_destruction();
+            ((TObject *)(this->m_394))->queue_destruction();
             this->m_394 = 0U;
         }
         TBoss4DarkFalz::dispatch_by_main_phase(0x32);

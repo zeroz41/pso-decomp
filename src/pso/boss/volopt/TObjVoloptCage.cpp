@@ -276,7 +276,7 @@ TObjVoloptCage::TObjVoloptCage(TObjEnemy *boss, u16 target, u16 id, s32 group) :
     entity_id = id;
     *(s16 *)&set_index = group;
     set_entry = 0;
-    *(s16 *)&room = *(s16 *)&boss->room;
+    *(s16 *)&room = boss->room;
     *((s16 *)&room + 1) = *((s16 *)&boss->room + 1);
     ((TBoss3Volopt *)this)->reset_photon_effect();
     set_param(0x2E);

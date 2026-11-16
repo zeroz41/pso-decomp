@@ -47,19 +47,19 @@ void TAdMcCheckGC::run_task() {
     if (TAdPlayerLoadGC::probe_card_slot(this->m_28) == 0) {
         this->m_1c = 0;
         if ((u32) this->m_2c != 0U) {
-            ((TObject *)(*(void * *)&this->m_2c))->queue_destruction();
+            ((TObject *)(this->m_2c))->queue_destruction();
             this->m_2c = 0U;
         }
         if ((u32) this->m_34 != 0U) {
-            ((TObject *)(*(void * *)&this->m_34))->queue_destruction();
+            ((TObject *)(this->m_34))->queue_destruction();
             this->m_34 = 0U;
         }
         if ((u32) this->m_30 != 0U) {
-            ((TObject *)(*(void * *)&this->m_30))->queue_destruction();
+            ((TObject *)(this->m_30))->queue_destruction();
             this->m_30 = 0U;
         }
         if ((u32) this->m_38 != 0U) {
-            ((TObject *)(*(void * *)&this->m_38))->queue_destruction();
+            ((TObject *)(this->m_38))->queue_destruction();
             this->m_38 = 0U;
         }
     }
@@ -77,7 +77,7 @@ void TAdMcCheckGC::run_task() {
         } else {
             this->m_1c = 2;
             if ((u32) this->m_2c != 0U) {
-                ((TObject *)(*(void * *)&this->m_2c))->queue_destruction();
+                ((TObject *)(this->m_2c))->queue_destruction();
                 this->m_2c = 0U;
             }
         }
@@ -90,7 +90,7 @@ void TAdMcCheckGC::run_task() {
         } else {
             this->m_1c = 3;
             if ((u32) this->m_30 != 0U) {
-                ((TObject *)(*(void * *)&this->m_30))->queue_destruction();
+                ((TObject *)(this->m_30))->queue_destruction();
                 this->m_30 = 0U;
             }
         }
@@ -103,7 +103,7 @@ void TAdMcCheckGC::run_task() {
                 this->m_1c = 4;
             }
             if ((u32) this->m_34 != 0U) {
-                ((TObject *)(*(void * *)&this->m_34))->queue_destruction();
+                ((TObject *)(this->m_34))->queue_destruction();
                 this->m_34 = 0U;
             }
         } else if (((s32) this->m_24 > 0xA) && ((u32) this->m_34 == 0U)) {
@@ -114,7 +114,7 @@ void TAdMcCheckGC::run_task() {
         if (TAdPlayerLoadGC::check_memcard_status(this->m_28) == 0) {
             this->m_1c = 5;
             if ((u32) this->m_38 != 0U) {
-                ((TObject *)(*(void * *)&this->m_38))->queue_destruction();
+                ((TObject *)(this->m_38))->queue_destruction();
                 this->m_38 = 0U;
             }
         } else if (((s32) this->m_24 > 0xA) && ((u32) this->m_38 == 0U)) {

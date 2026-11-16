@@ -342,7 +342,7 @@ void TObjEneSaver::sub_800A435C() {
         calc_move_state__12TObjEneSaverFv(this);
     case 0x107:
     case 0x10E:
-        if (!(*(s32 *)&this->m_374 & 4)) {
+        if (!(this->m_374 & 4)) {
             if ((u32) *(u32 *)((s8 *)((u8 *)this) + 0x3A0) != 0U) {
                 ((TEneParticleCtrl *)(*(void **)((s8 *)((u8 *)this) + 0x3A0)))->free_particle_ctrl();
             }
@@ -524,7 +524,7 @@ void TObjEneSaver::update_knockback_state() {
         }
         if ((u32) this->action_flags != 0x20U) {
             if ((s32) *(s16 *)((s8 *)((u8 *)this) + 0x388) <= 0) {
-                *(s32 *)&this->m_374 = (s32) (*(s32 *)&this->m_374 | 8);
+                this->m_374 = (s32) (this->m_374 | 8);
             }
             this->actorFlags = (s32) (this->actorFlags & 0xFFFFF9FF);
             this->referenceHp = (s16) this->hp;
@@ -1243,7 +1243,7 @@ s32 TObjEneSaver::is_target_in_attack_range() {
             } else {
                 var_f29 = 10.0f;
             }
-            flags = *(s32 *)&this->m_374;
+            flags = this->m_374;
             if (flags & 8) {
                 *(s16 *)((s8 *)arg0 + 0x37C) = 2;
                 if (dist <= (var_f29 + ((AttackParams *)(player_object_ptr_array[*(s16 *)((s8 *)arg0 + 0x37C)]))->get_attack_range()) * (var_f29 + ((AttackParams *)(player_object_ptr_array[*(s16 *)((s8 *)arg0 + 0x37C)]))->get_attack_range()) && ang <= ((AttackParams *)(player_object_ptr_array[*(s16 *)((s8 *)arg0 + 0x37C)]))->get_attack_angle()) {
@@ -1293,9 +1293,9 @@ void TObjEneSaver::update_move_toward_target() {
             enemy_move_toward(this, *(s32 *)((s8 *)this->movementParameters + 8), &v3, 0, lbl_805D504C, lbl_805D504C[2]);
             temp_f1 = horizontal_distance_squared((int) (((u8 *)this) + 0x29C), (void *) (((u8 *)this) + 0x38));
             if (temp_f1 < 22500.0f) {
-                *(s32 *)&this->m_374 &= ~0x10;
+                this->m_374 &= ~0x10;
             } else {
-                *(s32 *)&this->m_374 |= 0x10;
+                this->m_374 |= 0x10;
             }
             temp_f0 = *(f32 *)((s8 *)this->movementParameters + 4) + *(f32 *)((s8 *)this->bodies + 0xC);
             if (temp_f1 < (temp_f0 * temp_f0)) {
@@ -1304,7 +1304,7 @@ void TObjEneSaver::update_move_toward_target() {
             break;
         }
         case 2:
-            *(s32 *)&this->m_374 &= ~0x10;
+            this->m_374 &= ~0x10;
             this->phase = 0;
             break;
         }
@@ -1362,8 +1362,8 @@ void TObjEneSaver::advance_motion_state() {
         }
         return;
     case 2:
-        *(s32 *)&this->m_374 = (s32) (*(s32 *)&this->m_374 & 0xFFFF0000);
-        *(s32 *)&this->m_374 = (s32) (*(s32 *)&this->m_374 | 2);
+        this->m_374 = (s32) (this->m_374 & 0xFFFF0000);
+        this->m_374 = (s32) (this->m_374 | 2);
         break;
     }
 }
@@ -1484,7 +1484,7 @@ void TObjEneSaver::vfunc_59() {
 
     switch (this->mode) {
     default:
-        temp_r4 = *(s32 *)&this->m_374;
+        temp_r4 = this->m_374;
         if (temp_r4 & 4) {
             this->mode = 3;
             this->phase = 0;
@@ -1499,14 +1499,14 @@ void TObjEneSaver::vfunc_59() {
         *(s32 *)((s8 *)temp_r3 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r3 + 0x18) | 1);
         return;
     case 1:
-        if (*(s32 *)&this->m_374 & 2) {
+        if (this->m_374 & 2) {
             this->mode = 2;
             this->phase = 0;
             this->actorFlags = (s32) (this->actorFlags | 0x06040000);
         }
         return;
     case 2:
-        if (*(s32 *)&this->m_374 & 4) {
+        if (this->m_374 & 4) {
             this->mode = 3;
             this->phase = 0;
             this->requested_action = 1;
@@ -1515,12 +1515,12 @@ void TObjEneSaver::vfunc_59() {
         }
         break;
     case 3:
-        if (*(s32 *)&this->m_374 & 3) {
+        if (this->m_374 & 3) {
             this->mode = 1;
             this->phase = 0;
             this->actorFlags = (s32) (this->actorFlags | 0x06040000);
-            *(s32 *)&this->m_374 = (s32) (*(s32 *)&this->m_374 & 0xFFFF0000);
-            *(s32 *)&this->m_374 = (s32) (*(s32 *)&this->m_374 | 1);
+            this->m_374 = (s32) (this->m_374 & 0xFFFF0000);
+            this->m_374 = (s32) (this->m_374 | 1);
             temp_r3_2 = this->bodies;
             *(s32 *)((s8 *)temp_r3_2 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r3_2 + 0x18) | 1);
             return;
@@ -1543,9 +1543,9 @@ struct VObj62D4 : VBase62D4 {
 void TObjEneSaver::sub_800A62D4() {
     s16 temp_r4_2;
 
-    *(s32 *)&this->actorFlags = (s32) (*(s32 *)&this->actorFlags & 0xFFDFFFFF);
-    *(s32 *)&this->actorFlags = (s32) (*(s32 *)&this->actorFlags | 0x06040000);
-    *(s32 *)&this->m_374 = (s32) (*(s32 *)&this->m_374 & 0xFFFFFFF8);
+    this->actorFlags = (s32) (this->actorFlags & 0xFFDFFFFF);
+    this->actorFlags = (s32) (this->actorFlags | 0x06040000);
+    this->m_374 = (s32) (this->m_374 & 0xFFFFFFF8);
     *(s32 *)((s8 *)this->bodies + 0x18) = (s32) (*(s32 *)((s8 *)this->bodies + 0x18) & 0xFFFFFFFE);
     this->advance_animation();
     switch (this->phase) {
@@ -1581,8 +1581,8 @@ void TObjEneSaver::sub_800A62D4() {
         this->scale.z = (f32) 1.0f;
         this->scale.y = (f32) 1.0f;
         this->scale.x = (f32) 1.0f;
-        *(s32 *)&this->m_374 = (s32) (*(s32 *)&this->m_374 & 0xFFFF0000);
-        *(s32 *)&this->m_374 = (s32) (*(s32 *)&this->m_374 | 1);
+        this->m_374 = (s32) (this->m_374 & 0xFFFF0000);
+        this->m_374 = (s32) (this->m_374 | 1);
         break;
     }
     minimap_render_dot((void *) (((u8 *)this) + 0x38), -0x5DB4, 1, 0);
@@ -1613,14 +1613,14 @@ void TObjEneSaver::vfunc_58() {
             this->requested_action = 0;
             ((TObjBase *)arg0)->obj_clearFlags30(0x200000);
             obj_setFlags30(arg0, 0x06040000);
-            *(s32 *)&this->m_374 = (s32) (*(s32 *)&this->m_374 & 0xFFFF0000);
-            *(s32 *)&this->m_374 = (s32) (*(s32 *)&this->m_374 | 0x40);
+            this->m_374 = (s32) (this->m_374 & 0xFFFF0000);
+            this->m_374 = (s32) (this->m_374 | 0x40);
             temp_r3 = (unsigned char *) (this->bodies);
             *(s32 *)((s8 *)temp_r3 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r3 + 0x18) & 0xFFFFFFFE);
         }
         return;
     case 11:
-        if (!(*(s32 *)&this->m_374 & 0x40)) {
+        if (!(this->m_374 & 0x40)) {
             this->mode = 0;
             return;
         }
@@ -1631,8 +1631,8 @@ void TObjEneSaver::vfunc_58() {
         this->requested_action = 0;
         ((TObjBase *)arg0)->obj_clearFlags30(0x200000);
         obj_setFlags30(arg0, 0x06040000);
-        *(s32 *)&this->m_374 = (s32) (*(s32 *)&this->m_374 & 0xFFFF0000);
-        *(s32 *)&this->m_374 = (s32) (*(s32 *)&this->m_374 | 0x40);
+        this->m_374 = (s32) (this->m_374 & 0xFFFF0000);
+        this->m_374 = (s32) (this->m_374 | 0x40);
         break;
     }
 }
@@ -1648,8 +1648,8 @@ s32 TObjEneSaver::update_movement_status() {
         case 2:
         case 0xB:
             if (((VObj14 *)(arg0 + 0x3A4))->m5() == 1) {
-                *(s32 *)&this->m_374 &= ~0x43;
-                *(s32 *)&this->m_374 |= 4;
+                this->m_374 &= ~0x43;
+                this->m_374 |= 4;
                 this->mode = 3;
                 this->phase = 0;
                 this->requested_action = 1;
@@ -1671,8 +1671,8 @@ s32 TObjEneSaver::update_action_hold_status() {
         case 2:
         case 0xB:
             if (((VObj14 *)(arg0 + 0x3A4))->m5() == 1) {
-                *(s32 *)&this->m_374 &= ~0x43;
-                *(s32 *)&this->m_374 |= 4;
+                this->m_374 &= ~0x43;
+                this->m_374 |= 4;
                 this->mode = 3;
                 this->phase = 0;
                 this->requested_action = 1;

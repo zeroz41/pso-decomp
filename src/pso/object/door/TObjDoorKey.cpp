@@ -289,20 +289,20 @@ TObjDoorKey::TObjDoorKey(TObject *arg1, void *arg2) : TOKey(arg1) {
     this->m_f0 = 0;
     *(s32 *)((s8 *)this + 0xEC) = 0x14;
     *(s32 *)((s8 *)this + 0xF4) = 0;
-    *(s32 *)&this->m_f8 = 0;
+    this->m_f8 = 0;
     this->m_id = (*(u16 *)&door_key_id_counter)++;
-    if (*(s32 *)&this->set_params[2] < 0) {
-        *(s32 *)&this->set_params[2] = 0;
+    if (this->set_params[2] < 0) {
+        this->set_params[2] = 0;
     }
-    if (*(s32 *)&this->set_params[2] > 9) {
-        *(s32 *)&this->set_params[2] = 9;
+    if (this->set_params[2] > 9) {
+        this->set_params[2] = 9;
     }
     init_collision_body_parts(this, TObjDoorKey__collision_body_parts, 1);
-    *(s32 *)&this->actorFlags |= 0x40000000;
+    this->actorFlags |= 0x40000000;
     this->register_object_by_id();
     Vec_80190020 pos = *(Vec_80190020 *)((s8 *)this + 0x38);
     pos.y += 10.0f;
-    *(s32 *)&this->m_f8 = (s32)spawn_continuous_particle_effect_with_flags(&pos, 0x60, 0x40);
+    this->m_f8 = (s32)spawn_continuous_particle_effect_with_flags(&pos, 0x60, 0x40);
     this->cursor_action.set_use();
 }
 extern "C" {

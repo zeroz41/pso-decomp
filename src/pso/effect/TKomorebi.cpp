@@ -70,16 +70,16 @@ void TKomorebi::render() {
     if ((((VObj_80192174*)arg0)->m8(400.0f, 20.0f) != 0) && !(xz_distance_squared((u8 *)&this->position, camera_ctrl_instance + 0x178) < 1600.0f)) {
         TParticleCtrl::begin_effect_render();
         if ((s32) actor_frame_tick != (s32) komorebi_last_uv_update_frame) {
-            scroll_ginja_mesh_uvs(*(s32 *)((s8 *)(*(void * *)&this->model) + 4), 0, (s32) this->scale.x, 0, 1);
+            scroll_ginja_mesh_uvs(*(s32 *)((s8 *)(this->model) + 4), 0, (s32) this->scale.x, 0, 1);
             komorebi_last_uv_update_frame = actor_frame_tick;
         }
         push_matrix();
         TObjFish::set_global_param(this->texlist);
         post_translate_matrix((u8 *)&this->position);
-        rotate_matrix_yxz(0, *(s32 *)&this->rotation_x, this->rotation_y, this->rotation_z);
+        rotate_matrix_yxz(0, this->rotation_x, this->rotation_y, this->rotation_z);
         temp_f1 = this->scale.z;
         scale_matrix(0, temp_f1, this->scale.y, temp_f1);
-        draw_ginja_object(*(void * *)&this->model);
+        draw_ginja_object(this->model);
         pop_matrix();
         TParticleCtrl::end_effect_render();
     }
@@ -136,7 +136,7 @@ void TObjLazerFenceExtra::init_models() {
     s32 i;
     Node_80192434 *node;
     s32 j;
-    if (*(s32 *)&this->set_params[2] % 2 == 0) {
+    if (this->set_params[2] % 2 == 0) {
         arg0->fBC = (Node_80192434 *)get_bml_model((void *)lazer_fence_norm_bml_resource, 1);
         arg0->fC0 = (Node_80192434 *)get_bml_model((void *)lazer_fence_norm_bml_resource, 0);
         this->m_c4 = get_bml_motion(lazer_fence_norm_bml_resource, 0);

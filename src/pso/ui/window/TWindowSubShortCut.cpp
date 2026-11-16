@@ -115,7 +115,7 @@ void TWindowSubShortCut::run_task() {
     case 0:
     case 1:
         if ((u32) this->m_38 != 0U) {
-            ((TObject *)(*(void * *)&this->m_38))->queue_destruction();
+            ((TObject *)(this->m_38))->queue_destruction();
             this->m_38 = 0U;
         }
         if ((u32) this->m_34 != 0U) {
@@ -197,7 +197,7 @@ void TWindowSubShortCut::run_task() {
         break;
     case 7:
         if ((u32) this->m_38 != 0U) {
-            ((TObject *)(*(void * *)&this->m_38))->queue_destruction();
+            ((TObject *)(this->m_38))->queue_destruction();
             this->m_38 = 0U;
         }
         if ((u32) this->m_3c == 0U) {

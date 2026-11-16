@@ -55,7 +55,7 @@ void TWindowMessageLog::clamp_scroll_offset() {
     Stack_8026A434 stack;
     f32 temp_f1;
     stack.sp8 = 0.0f;
-    temp_f1 = *(f32 *)&this->m_4c;
+    temp_f1 = this->m_4c;
     stack.spC = temp_f1 - 20.0f;
     if (clamp_list_scroll_offset((int) (*(s32 *)((s8 *)((u8 *)this) + 0x90)), (void *) (((u8 *)this) + 0x68), &stack.sp8, temp_f1) != 0) {
         this->m_84 = (f32) this->m_6c;
@@ -90,9 +90,9 @@ void TWindowMessageLog::update_fade_offset() {
     f32 temp_f1;
     f32 temp_f31;
 
-    temp_f31 = *(f32 *)&this->m_4c;
+    temp_f31 = this->m_4c;
     update_fade__11TWindowBaseFv();
-    temp_f1 = *(f32 *)&this->m_4c - temp_f31;
+    temp_f1 = this->m_4c - temp_f31;
     if (0.0f != temp_f1) {
         this->m_84 = (f32) (this->m_84 - temp_f1);
         this->m_6c = (f32) (this->m_6c - temp_f1);

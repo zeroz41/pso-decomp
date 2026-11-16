@@ -74,15 +74,15 @@ void TObjMapCsn::update_state() {
     temp_r0 = this->set_params[0];
     if (temp_r0 == 0) {
         if ((s32) this->set_params[1] == 0) {
-            *(s32 *)&this->set_params[1] = 1;
+            this->set_params[1] = 1;
         }
     } else {
         if ((u32) temp_r0 > 5U) {
             this->set_params[0] = 1;
         }
-        *(s32 *)&this->set_params[1] = (s32) map_csn_collision_flag_table[this->set_params[0]];
+        this->set_params[1] = (s32) map_csn_collision_flag_table[this->set_params[0]];
     }
-    *(s32 *)&this->set_params[1] = (s32) (*(s32 *)&this->set_params[1] | 0x40000000);
+    this->set_params[1] = (s32) (this->set_params[1] | 0x40000000);
 }
 
 s32 TObjMapCsn::build_box_triangles() {

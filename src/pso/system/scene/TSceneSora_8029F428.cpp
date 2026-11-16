@@ -146,7 +146,7 @@ void *TUnk_804DC7C4::destroy(s16 arg1) {
         scene_sora_recon_active_flag = 0;
         lbl_805D65F0 = 0;
         if ((u32) this->m_20 != 0U) {
-            ((TObject *)(*(void * *)&this->m_20))->queue_destruction();
+            ((TObject *)(this->m_20))->queue_destruction();
             this->m_20 = 0U;
         }
         TScene::set_id(0);

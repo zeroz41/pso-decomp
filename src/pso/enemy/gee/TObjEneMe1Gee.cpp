@@ -348,7 +348,7 @@ void TObjEneMe1Gee::init_state() {
     set_part_position__9TObjEneDDFPvPvi(this, (int)this->bodies, 0);
     this->mode = 0;
     this->dispatch_action(this->mode, 4);
-    if (*(void **)&this->m_3c0 != NULL) {
+    if (this->m_3c0 != NULL) {
         this->m_48c = get_entity_id(this->m_3c0);
         return;
     }

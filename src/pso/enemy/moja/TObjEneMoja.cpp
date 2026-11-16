@@ -1083,7 +1083,7 @@ s32 TObjEneMoja::update_approach_state() {
             TObjPlayer::play_effect_if_v2(-0x200);
         }
         if (this->action_flags != 0x20U) {
-            ((TObjEnemy *)arg0)->sub_800A7798(*(f32 *)((s8 *)lbl_805D50D4[(*(s32 *)&this->variant)] + 0xC));
+            ((TObjEnemy *)arg0)->sub_800A7798(*(f32 *)((s8 *)lbl_805D50D4[(this->variant)] + 0xC));
             this->requested_action = 2;
             {
             Vec_800AE18C v = *(Vec_800AE18C *)(this->target + 0x2FC);
@@ -1094,7 +1094,7 @@ s32 TObjEneMoja::update_approach_state() {
             }
             this->phase = 1;
             this->roar = 0;
-            (*(s16 *)&this->timer) = 0x96;
+            (this->timer) = 0x96;
         }
         break;
     case 1:
@@ -1102,12 +1102,12 @@ s32 TObjEneMoja::update_approach_state() {
         temp_r7 = this->target;
         if (temp_r7 != NULL) {
             Vec_800AE18C v3 = *(Vec_800AE18C *)(temp_r7 + 0x2FC);
-            temp_r4 = (u8 *)lbl_805D50D4[(*(s32 *)&this->variant)];
-            if (*(f32 *)((s8 *)((*(u8 * *)&this->movementParameters)) + 0) * *(f32 *)((s8 *)((*(u8 * *)&this->movementParameters)) + 0) < enemy_pursue_point(arg0, *(s32 *)((s8 *)((*(u8 * *)&this->movementParameters)) + 8), &v3, temp_r4, *(f32 *)((s8 *)temp_r4 + 8), 30.0f)) {
+            temp_r4 = (u8 *)lbl_805D50D4[(this->variant)];
+            if (*(f32 *)((s8 *)((this->movementParameters)) + 0) * *(f32 *)((s8 *)((this->movementParameters)) + 0) < enemy_pursue_point(arg0, *(s32 *)((s8 *)((this->movementParameters)) + 8), &v3, temp_r4, *(f32 *)((s8 *)temp_r4 + 8), 30.0f)) {
                 this->target = NULL;
             }
-            if (horizontal_distance_squared((int)(arg0 + 0x29C), (void *)(arg0 + 0x38)) < (*(f32 *)((s8 *)((*(u8 * *)&this->movementParameters)) + 4) + *(f32 *)((s8 *)(*(u8 * *)&this->bodies) + 0xC)) * (*(f32 *)((s8 *)((*(u8 * *)&this->movementParameters)) + 4) + *(f32 *)((s8 *)(*(u8 * *)&this->bodies) + 0xC))
-                || --(*(s16 *)&this->timer) < 0) {
+            if (horizontal_distance_squared((int)(arg0 + 0x29C), (void *)(arg0 + 0x38)) < (*(f32 *)((s8 *)((this->movementParameters)) + 4) + *(f32 *)((s8 *)(this->bodies) + 0xC)) * (*(f32 *)((s8 *)((this->movementParameters)) + 4) + *(f32 *)((s8 *)(this->bodies) + 0xC))
+                || --(this->timer) < 0) {
                 this->attackSequence = 0;
             }
         }
@@ -1564,7 +1564,7 @@ void TObjEneMoja::vfunc_61() {
     switch (mode) {
     case 4:
         (this->actorFlags) &= 0xFFFFFEFF;
-        ((*(MojaCollisionState * *)&this->bodies))->flags |= lbl_805D9BFC;
+        ((this->bodies))->flags |= lbl_805D9BFC;
         referenceHp = (s16) hp;
         roar = 0;
         break;

@@ -92,7 +92,7 @@ void TUnk_804A1E28::update_weapon() {
             this->scale_step = (temp_r3_2 - 1);
         }
     }
-    temp_r3_3 = get_actor_tp(*(u8 * *)&this->owner);
+    temp_r3_3 = get_actor_tp(this->owner);
     temp_r0 = this->cached_tp - temp_r3_3;
     if (temp_r0 < 0) {
         this->cached_tp = temp_r3_3;
@@ -100,7 +100,7 @@ void TUnk_804A1E28::update_weapon() {
     }
     if (temp_r0 > 0) {
         add_actor_tp(*(u8 * *)&this->owner, (0.1f * (f32) temp_r0));
-        this->cached_tp = get_actor_tp(*(u8 * *)&this->owner);
+        this->cached_tp = get_actor_tp(this->owner);
     }
 }
 

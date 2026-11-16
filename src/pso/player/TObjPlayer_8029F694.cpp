@@ -17,10 +17,10 @@ void TObjPlayer::init_render_target() {
     s32 sp8[12];
 
     *(s32 *)((s8 *)arg0 + 0x1C) = (s32)(arg0 + 0x10);
-    (*(s32 *)&this->m_20) = 1;
+    (this->m_20) = 1;
     ((TObjPlayer *)sp8)->set_render_rect(0, 4, 0x280, 0x1E0);
     set_texture_name(*(s32 *)((s8 *)arg0 + 0x1C), sp8, 0x901, 0x08800000);
-    *(s32 *)&this->texlist = load_texture_list((u8 *)&this->entity_id);
+    this->texlist = load_texture_list((u8 *)&this->entity_id);
 }
 
 }

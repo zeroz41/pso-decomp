@@ -871,7 +871,7 @@ void TQuestVmDownLoadServer::handle_confirm_window() {
 
     if ((u32) this->m_290 != 0U) {
         if (((TWindowMenu *)(this->m_290))->is_decided() != 0) {
-            selected_menu_value = ((TWindowMenu *)(*(u32 *)&this->m_290))->get_selected_value();
+            selected_menu_value = ((TWindowMenu *)(this->m_290))->get_selected_value();
             if (selected_menu_value == 0) {
                 if ((u32) this->m_290 != 0U) {
                     ((TWindowBase *)this->m_290)->close();

@@ -193,7 +193,7 @@ block_5:
     return 1;
 }
 
-void TBoss7Crawfish::free_child() { if (*(unsigned int *)&this->m_3cc != 0) { ((TObject *)(*(void* *)&this->m_3cc))->queue_destruction(); *(int *)&this->m_3cc = 0; } }
+void TBoss7Crawfish::free_child() { if (this->m_3cc != 0) { ((TObject *)(this->m_3cc))->queue_destruction(); this->m_3cc = 0; } }
 
 void TBoss7Crawfish::spawn_ground_effects() {
     u8 *arg0 = (u8 *)this;

@@ -50,7 +50,7 @@ void TUnk_804D0948::render() {
     if (p != NULL) {
         forward_render__20TWindowSubStatusDispFv(p, temp_r3);
     }
-    p = *(void * *)&this->unk_84;
+    p = this->unk_84;
     if (p != NULL) {
         draw_window_scrollbar(p, temp_r3, (u8 *)&this->m_68);
     }

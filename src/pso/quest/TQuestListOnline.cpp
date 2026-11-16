@@ -351,25 +351,25 @@ void TQuestListOnline::handle_quest_confirm() {
     s32 v;
     s32 n;
     if (this->confirm_window != NULL && ((TWindowMenu *)(this->confirm_window))->is_decided() != 0) {
-        v = ((TWindowMenu *)(*(void * *)&this->confirm_window))->get_selected_value();
+        v = ((TWindowMenu *)(this->confirm_window))->get_selected_value();
         if (v == 0) {
             if (THunterGuildSeqOffline::check_party_gathered() == 1) {
                 if (this->sequence != NULL) {
                     (*(VObj_18_802178E4 * *)&this->sequence)->m7(0x14, 1);
                 }
                 send_action__9TProtocolFR13GameListEntryUcPcPc(TLobby__protocol_instance, selected_entry, 0, "", "");
-                ((TObject *)(*(void * *)&this->confirm_window))->queue_destruction();
+                ((TObject *)(this->confirm_window))->queue_destruction();
                 this->confirm_window = NULL;
                 if (this->info_window != NULL) {
-                    ((TObject *)(*(void * *)&this->info_window))->queue_destruction();
+                    ((TObject *)(this->info_window))->queue_destruction();
                     this->info_window = NULL;
                 }
                 if (this->description_window != NULL) {
-                    ((TObject *)(*(void * *)&this->description_window))->queue_destruction();
+                    ((TObject *)(this->description_window))->queue_destruction();
                     this->description_window = NULL;
                 }
                 if (this->list_window != NULL) {
-                    ((TObject *)(*(void * *)&this->list_window))->queue_destruction();
+                    ((TObject *)(this->list_window))->queue_destruction();
                     this->list_window = NULL;
                 }
                 set_field_20(0xC);

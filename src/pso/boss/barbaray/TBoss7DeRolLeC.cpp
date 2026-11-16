@@ -1836,8 +1836,8 @@ void TBoss7DeRolLeC::vfunc_88() {
         clr = 7;
     }
     for (i = 0; i != this->body_count; i++) {
-        (*(Elem_802ED73C * *)&this->bodies)[i].flags |= set;
-        (*(Elem_802ED73C * *)&this->bodies)[i].flags &= ~clr;
+        (this->bodies)[i].flags |= set;
+        (this->bodies)[i].flags &= ~clr;
     }
 }
 

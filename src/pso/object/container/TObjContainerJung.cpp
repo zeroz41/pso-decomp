@@ -449,7 +449,7 @@ void *TObjContainerJungEnemy::create(void *set_data) {
 
 void TObjContainerJungEnemy::load_models() {
     s32 var_r0;
-    s32 temp_r3 = *(s32 *)&this->set_params[1];
+    s32 temp_r3 = this->set_params[1];
     if (temp_r3 < 0) {
         var_r0 = 0;
     } else {

@@ -454,10 +454,10 @@ void TODoorJungleMain::vfunc_6(s16 *arg1, s32 arg2) {
     if ((arg1 != NULL) && ((s16) *arg1 == 1)) {
         this->door_flags = (s32) (this->door_flags | 1);
         if (arg2 == 0) {
-            *(f32 *)&this->animation_end_frame = (f32) (*(u32 *)((s8 *)(*(void * *)&this->motion) + 4) - 1);
+            this->animation_end_frame = (f32) (*(u32 *)((s8 *)(this->motion) + 4) - 1);
             set_indexed_flags(0, 8);
             if ((u32) this->m_dc != 0U) {
-                ((TObject *)(*(void * *)&this->m_dc))->queue_destruction();
+                ((TObject *)(this->m_dc))->queue_destruction();
                 this->m_dc = 0U;
             }
         }

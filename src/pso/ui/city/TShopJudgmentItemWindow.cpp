@@ -270,7 +270,7 @@ void TShopJudgmentItemWindow::handle_pay_confirm() {
                     this->m_15c = 0U;
                 }
                 if ((u32) this->m_50 != 0U) {
-                    ((TObject *)(*(void * *)&this->m_50))->queue_destruction();
+                    ((TObject *)(this->m_50))->queue_destruction();
                     this->m_50 = 0U;
                 }
                 *(s32 *)&this->_pad14C = 3;
@@ -617,7 +617,7 @@ s32 TShopJudgmentItemWindow::build_item_list(void *arg0) {
 }
 #undef W
 
-void TShopJudgmentItemWindow::close() { if (*(unsigned int *)&this->m_50 != 0) { ((TObject *)(*(void* *)&this->m_50))->queue_destruction(); *(int *)&this->m_50 = 0; } }
+void TShopJudgmentItemWindow::close() { if (this->m_50 != 0) { ((TObject *)(this->m_50))->queue_destruction(); this->m_50 = 0; } }
 
 extern s32 __vt__23TShopJudgmentItemWindow[];
 

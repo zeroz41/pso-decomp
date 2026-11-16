@@ -402,7 +402,7 @@ void TUnk_804F0AF8::vfunc_60() {
     player_list = TObjPlayer::get_player_list();
     switch (player_list) {
     case 2:
-        rotate_matrix_z(0, *(s32 *)&this->unk_1F8);
+        rotate_matrix_z(0, this->unk_1F8);
         return;
     case 8:
         rotate_matrix_z(0, this->m_1fc);
@@ -436,16 +436,16 @@ void TUnk_804F0A00::vfunc_60() {
     player_list = TObjPlayer::get_player_list();
     switch (player_list) {
     case 2:
-        rotate_matrix_x(0, *(s32 *)&this->unk_1F8);
+        rotate_matrix_x(0, this->unk_1F8);
         return;
     case 3:
         rotate_matrix_x(0, this->m_1fc);
         return;
     case 5:
-        rotate_matrix_z(0, *(s32 *)&this->unk_200);
+        rotate_matrix_z(0, this->unk_200);
         return;
     case 4:
-        rotate_matrix_z(0, -*(s32 *)&this->unk_200);
+        rotate_matrix_z(0, -this->unk_200);
         return;
     }
 }

@@ -1976,8 +1976,8 @@ void TObjEneGibbles::vfunc_59() {
 
 void TObjEneGibbles::sub_802DA7A4() {
     u8 *temp_r4;
-    *(s32 *)&this->actorFlags = (s32) (*(s32 *)&this->actorFlags & 0xFFDFFFFF);
-    *(s32 *)&this->actorFlags = (s32) (*(s32 *)&this->actorFlags | 0x06040000);
+    this->actorFlags = (s32) (this->actorFlags & 0xFFDFFFFF);
+    this->actorFlags = (s32) (this->actorFlags | 0x06040000);
     this->m_374 = (s32) (this->m_374 & ~0x107);
     temp_r4 = (unsigned char *) (this->bodies);
     *(s32 *)((s8 *)temp_r4 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r4 + 0x18) & 0xFFFFFFFE);

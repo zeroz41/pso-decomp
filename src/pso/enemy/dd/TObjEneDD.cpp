@@ -854,7 +854,7 @@ int TObjEneDD::get_target_info() { return fn_800FD8A0(this); }
 
 void TObjEneDD::init_common_from(u8 *arg1) {
     reset_state_fields();
-    *(s16 *)&this->room = (s16) *(s16 *)((s8 *)arg1 + 0x28);
+    this->room = (s16) *(s16 *)((s8 *)arg1 + 0x28);
     *(s16 *)((s8 *)((u8 *)this) + 0x2A) = (s16) *(s16 *)((s8 *)arg1 + 0x2A);
     subtractive_rng_seed((void *) (((u8 *)this) + 0x160), (int) (this->entity_id + area_random_seed));
 }

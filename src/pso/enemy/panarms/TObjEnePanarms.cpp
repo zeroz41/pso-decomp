@@ -639,7 +639,7 @@ void TObjEnePanBARA::render() {
     s32 var_r31;
     VObj_14_aa9368 *temp_r31;
     s32 var_r30;
-    if ((((VObj_18_26a62c *)(this))->m8(500.0f, 20.0f) == 0) || ((s32) *(s32 *)&this->m_384 == 0)) {
+    if ((((VObj_18_26a62c *)(this))->m8(500.0f, 20.0f) == 0) || ((s32) this->m_384 == 0)) {
         *(f32 *)&this->unk_3AC = 0.0f;
         this->m_3a8 = 0.0f;
         *(f32 *)&this->unk_3A4 = 0.0f;
@@ -868,12 +868,12 @@ void TObjEnePanBARA::update_offset_from_parent() {
     f32 c;
     x = panarms_parent_offset_table[this->m_380].x;
     z = panarms_parent_offset_table[this->m_380].z;
-    s = sin_table_lookup(*(s32 *)((s8 *)(*(u8 * *)&this->m_39c) + 0x60));
-    c = cos_table_lookup(*(s32 *)((s8 *)(*(u8 * *)&this->m_39c) + 0x60));
-    VecCopy((Vec *)&this->m_38c, (const Vec *)(*(u8 * *)&this->m_39c + 0x38));
+    s = sin_table_lookup(*(s32 *)((s8 *)(this->m_39c) + 0x60));
+    c = cos_table_lookup(*(s32 *)((s8 *)(this->m_39c) + 0x60));
+    VecCopy((Vec *)&this->m_38c, (const Vec *)(this->m_39c + 0x38));
     this->m_38c.x += x * c + z * s;
     this->m_38c.z += -x * s + z * c;
-    this->m_398 = *(s32 *)((s8 *)(*(u8 * *)&this->m_39c) + 0x60);
+    this->m_398 = *(s32 *)((s8 *)(this->m_39c) + 0x60);
     this->m_398 += lbl_8043CD78[this->m_380];
 }
 #pragma pop
@@ -1013,7 +1013,7 @@ void TObjEnePanBARA::spawn_periodic_particle() {
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-void TObjEnePanBARA::reset_state() { *(int*)((char*)*(int *)&this->collision_body_parts + 0x18) = (*(int*)((char*)*(int *)&this->collision_body_parts + 0x18) & 0xfffffffe); *(float *)&this->m_3b0 = 0.0f; *(int *)&this->m_384 = 0; *(int *)&this->m_388 = 0; }
+void TObjEnePanBARA::reset_state() { *(int*)((char*)this->collision_body_parts + 0x18) = (*(int*)((char*)this->collision_body_parts + 0x18) & 0xfffffffe); this->m_3b0 = 0.0f; this->m_384 = 0; this->m_388 = 0; }
 #pragma pop
 
 void TObjEnePanBARA::snap_to_parent_position() {
@@ -1026,15 +1026,15 @@ void TObjEnePanBARA::snap_to_parent_position() {
 void TObjEnePanBARA::init_split() {
     void *temp_r7;
 
-    temp_r7 = *(void * *)&this->collision_body_parts;
+    temp_r7 = this->collision_body_parts;
     *(s32 *)((s8 *)temp_r7 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r7 + 0x18) & 0xFFFFFFFE);
-    *(s32 *)&this->m_384 = 1;
+    this->m_384 = 1;
     this->m_388 = 0;
-    this->hp = (s16) (((*(s16 *)((s8 *)(*(void * *)&this->m_39c) + 0x32C)) + 1) / 2);
+    this->hp = (s16) (((*(s16 *)((s8 *)(this->m_39c) + 0x32C)) + 1) / 2);
     this->m_3bc = (s32) this->hp;
     *(s32 *)&this->unk_3C0 = 0;
     clear_motion_flags(0x10);
-    *(s32 *)&this->motion_flags = (s32) (*(s32 *)&this->motion_flags | 1);
+    this->motion_flags = (s32) (this->motion_flags | 1);
     set_field_b8(9);
 }
 
@@ -1049,13 +1049,13 @@ void TObjEnePanBARA::start_action() {
     void *temp_r4;
 
     this->set_random_action_timer(0xF, 0x3C);
-    temp_r4 = *(void * *)&this->collision_body_parts;
+    temp_r4 = this->collision_body_parts;
     *(s32 *)((s8 *)temp_r4 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r4 + 0x18) | 1);
     this->m_388 = 1;
     if (this->state == 1) {
-        *(s32 *)&this->motion_flags = (s32) (*(s32 *)&this->motion_flags | 1);
+        this->motion_flags = (s32) (this->motion_flags | 1);
     } else {
-        *(s32 *)&this->motion_flags = (s32) (*(s32 *)&this->motion_flags & 0xFFFFFFFE);
+        this->motion_flags = (s32) (this->motion_flags & 0xFFFFFFFE);
     }
     set_field_b8(0);
 }
@@ -1157,9 +1157,9 @@ void TObjEnePanBARA::sub_800E10D0() {
 void TObjEnePanBARA::init_state_1() {
     u8 *arg0 = (u8 *)this;
     u8 *temp_r5;
-    temp_r5 = (u8 *)(*(u8 * *)&this->collision_body_parts);
+    temp_r5 = (u8 *)(this->collision_body_parts);
     *(s32 *)((s8 *)temp_r5 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r5 + 0x18) | 1);
-    *(s32 *)&this->motion_flags = (s32) (*(s32 *)&this->motion_flags & 0xFFFFFFFE);
+    this->motion_flags = (s32) (this->motion_flags & 0xFFFFFFFE);
     ((TObjMotion *)arg0)->set_field_b8(1);
 }
 
@@ -1185,7 +1185,7 @@ void TObjEnePanBARA::update_move_to_target() {
     } else {
         normalize_vector(&sp8);
     }
-    if (*(s32 *)((s8 *)(*(u8 * *)&this->collision_body_parts) + 0x18) & 0x01C00000) {
+    if (*(s32 *)((s8 *)(this->collision_body_parts) + 0x18) & 0x01C00000) {
         f32 t = sp8.x;
         sp8.x = sp8.z;
         sp8.z = -t;
@@ -1211,10 +1211,10 @@ void TObjEnePanBARA::update_move_to_target() {
 void TObjEnePanBARA::init_state_16() {
     u8 *arg0 = (u8 *)this;
     u8 *temp_r6;
-    temp_r6 = (u8 *)(*(u8 * *)&this->collision_body_parts);
+    temp_r6 = (u8 *)(this->collision_body_parts);
     *(s32 *)((s8 *)temp_r6 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r6 + 0x18) | 1);
     this->action_timer = 0x16;
-    *(s32 *)&this->motion_flags = (s32) (*(s32 *)&this->motion_flags & 0xFFFFFFFE);
+    this->motion_flags = (s32) (this->motion_flags & 0xFFFFFFFE);
     ((TObjMotion *)arg0)->set_field_b8(1);
 }
 
@@ -1255,11 +1255,11 @@ void TObjEnePanBARA::sub_800E0D1C() {
 void TObjEnePanBARA::restore_from_linked_object() {
     u8 *arg0 = (u8 *)this;
     u8 *temp_r4;
-    temp_r4 = (u8 *)(*(u8 * *)&this->collision_body_parts);
+    temp_r4 = (u8 *)(this->collision_body_parts);
     *(s32 *)((s8 *)temp_r4 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r4 + 0x18) & 0xFFFFFFFE);
-    VecCopy((Vec *)(arg0 + 0x38), (const Vec *)(*(u8 * *)&this->m_39c + 0x38));
-    this->rotation_y = (s32) *(s32 *)((s8 *)((u8 *)(*(u8 * *)&this->m_39c)) + 0x60);
-    *(s32 *)&this->motion_flags = (s32) (*(s32 *)&this->motion_flags | 1);
+    VecCopy((Vec *)(arg0 + 0x38), (const Vec *)(this->m_39c + 0x38));
+    this->rotation_y = (s32) *(s32 *)((s8 *)((u8 *)(this->m_39c)) + 0x60);
+    this->motion_flags = (s32) (this->motion_flags | 1);
     ((TObjMotion *)arg0)->set_field_b8(8);
 }
 
@@ -1283,7 +1283,7 @@ void TObjEnePanBARA::sub_800E0B9C() {
 }
 
 void TObjEnePanBARA::apply_effect_if_flagged() {
-    if (*(s32 *)&this->motion_flags & 0x10) {
+    if (this->motion_flags & 0x10) {
         TObjEnePanarms__sub_800E1C98(this, this->state);
     }
 }
@@ -1350,12 +1350,12 @@ void TObjEnePanBARA::sub_800E092C() {  }
 void TObjEnePanBARA::init_state_2() {
     u8 *arg0 = (u8 *)this;
     u8 *temp_r7;
-    temp_r7 = (u8 *)(*(u8 * *)&this->collision_body_parts);
+    temp_r7 = (u8 *)(this->collision_body_parts);
     *(s32 *)((s8 *)temp_r7 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r7 + 0x18) | 1);
-    *(s32 *)&this->m_384 = 1;
+    this->m_384 = 1;
     this->m_388 = 1;
     this->action_timer = 0x5A;
-    *(s32 *)&this->motion_flags = (s32) (*(s32 *)&this->motion_flags & 0xFFFFFFFE);
+    this->motion_flags = (s32) (this->motion_flags & 0xFFFFFFFE);
     ((TObjMotion *)arg0)->set_field_b8(2);
 }
 
@@ -1412,13 +1412,13 @@ void TObjEnePanBARA::update_chase_target() {
 }
 
 void TObjEnePanBARA::init_action() {
-    void* t = *(void* *)&this->collision_body_parts;
+    void* t = this->collision_body_parts;
     *(int*)((char*)t + 0x18) = (*(int*)((char*)t + 0x18) | 0x1);
     this->set_random_action_timer(0xF, 0x1E);
-    *(int *)&this->m_384 = 1;
-    *(int *)&this->m_388 = 1;
-    *(float *)&this->m_3b0 = 0.0f;
-    *(int *)&this->motion_flags = (*(int *)&this->motion_flags & 0xfffffffe);
+    this->m_384 = 1;
+    this->m_388 = 1;
+    this->m_3b0 = 0.0f;
+    this->motion_flags = (this->motion_flags & 0xfffffffe);
     set_field_b8(2);
 }
 
@@ -1457,7 +1457,7 @@ void TObjEnePanBARA::sub_800E055C() {
 void TObjEnePanBARA::init_attack_state2() {
     int *r7 = *(int* *)&this->collision_body_parts;
     r7[6] = r7[6] | 0x1;
-    *(int *)&this->m_384 = 1;
+    this->m_384 = 1;
     this->m_388 = 1;
     this->m_3b0 = 0.0f;
     this->action_timer = 12;
@@ -1538,13 +1538,13 @@ void TObjEnePanBARA::start_phase2_timer150() {
     u8 *arg0 = (u8 *)this;
     u8 *temp_r7;
     if ((s32) this->m_380 != 0) {
-        temp_r7 = (u8 *)(*(u8 * *)&this->collision_body_parts);
+        temp_r7 = (u8 *)(this->collision_body_parts);
         *(s32 *)((s8 *)temp_r7 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r7 + 0x18) | 1);
-        *(s32 *)&this->m_384 = 1;
+        this->m_384 = 1;
         this->m_388 = 1;
         this->m_3b0 = 0.0f;
         this->action_timer = 0x96;
-        *(s32 *)&this->motion_flags = (s32) (*(s32 *)&this->motion_flags & 0xFFFFFFFE);
+        this->motion_flags = (s32) (this->motion_flags & 0xFFFFFFFE);
         ((TObjMotion *)arg0)->set_field_b8(2);
     }
 }
@@ -1586,13 +1586,13 @@ void TObjEnePanBARA::start_phase3_timer12() {
     u8 *arg0 = (u8 *)this;
     u8 *temp_r7;
     if ((s32) this->m_380 != 0) {
-        temp_r7 = (u8 *)(*(u8 * *)&this->collision_body_parts);
+        temp_r7 = (u8 *)(this->collision_body_parts);
         *(s32 *)((s8 *)temp_r7 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r7 + 0x18) | 1);
-        *(s32 *)&this->m_384 = 1;
+        this->m_384 = 1;
         this->m_388 = 1;
         this->m_3b0 = 0.0f;
         this->action_timer = 0xC;
-        *(s32 *)&this->motion_flags = (s32) (*(s32 *)&this->motion_flags & 0xFFFFFFFE);
+        this->motion_flags = (s32) (this->motion_flags & 0xFFFFFFFE);
         ((TObjMotion *)arg0)->set_field_b8(3);
     }
 }
@@ -1617,13 +1617,13 @@ void TObjEnePanBARA::init_open_state() {
     u8 *arg0 = (u8 *)this;
     u8 *temp_r7;
     if ((s32) this->m_380 != 1) {
-        temp_r7 = (u8 *)(*(u8 * *)&this->collision_body_parts);
+        temp_r7 = (u8 *)(this->collision_body_parts);
         *(s32 *)((s8 *)temp_r7 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r7 + 0x18) | 1);
-        *(s32 *)&this->m_384 = 1;
+        this->m_384 = 1;
         this->m_388 = 1;
         this->m_3b0 = 0.0f;
         this->action_timer = 6;
-        *(s32 *)&this->motion_flags = (s32) (*(s32 *)&this->motion_flags & 0xFFFFFFFE);
+        this->motion_flags = (s32) (this->motion_flags & 0xFFFFFFFE);
         ((s32 (*)(void *, s32))set_field_b8__10TObjMotionFs)(arg0, 0);
     }
 }
@@ -1652,9 +1652,9 @@ void TObjEnePanBARA::sub_800DFE08() {
 void TObjEnePanBARA::init_attack_state() {
     void *temp_r5;
 
-    temp_r5 = *(void * *)&this->collision_body_parts;
+    temp_r5 = this->collision_body_parts;
     *(s32 *)((s8 *)temp_r5 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r5 + 0x18) | 1);
-    *(s32 *)&this->m_384 = 1;
+    this->m_384 = 1;
     this->m_388 = 1;
     this->m_3b0 = 0.0f;
     this->action_timer = 0x3C;
@@ -1666,7 +1666,7 @@ void TObjEnePanBARA::init_attack_state() {
             this->rotation_y = (this->m_3d4 + 0x2000);
         }
     }
-    *(s32 *)&this->motion_flags = (s32) (*(s32 *)&this->motion_flags & 0xFFFFFFFE);
+    this->motion_flags = (s32) (this->motion_flags & 0xFFFFFFFE);
     ((s32 (*)(void *, s32))set_field_b8__10TObjMotionFs)(this, 2);
 }
 

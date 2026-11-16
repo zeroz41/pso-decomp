@@ -820,7 +820,7 @@ void TObjEnePanarms::set_hidden_flags() {
     this->move_velocity.z = 0.0f;
     *(s32 *)&this->unk_3E0 = 1;
     *(s32 *)&this->m_3dc = 1;
-    temp_r5 = (u8 *)(*(u8 * *)&this->collision_body_parts);
+    temp_r5 = (u8 *)(this->collision_body_parts);
     *(s32 *)((s8 *)temp_r5 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r5 + 0x18) & 0xFFFFFFFE);
     obj_clearFlags30(0x40000U);
     obj_setFlags30(this, (int)(0x04000000U));

@@ -109,7 +109,7 @@ void TMCFormatSequence::process_format_result() {
         return;
     }
     if (((u32) this->m_38 != 0U) && (((TWindowMenu *)(this->m_38))->is_decided() != 0)) {
-        selected_menu_value = ((TWindowMenu *)(*(u32 *)&this->m_38))->get_selected_value();
+        selected_menu_value = ((TWindowMenu *)(this->m_38))->get_selected_value();
         if (selected_menu_value == 0) {
             if (TAdPlayerLoadGC__sub_801E24F8(*(s32 *)((s8 *)this + 0x28), 0, 0, 0, 0) == 0) {
                 this->m_24 = 2;

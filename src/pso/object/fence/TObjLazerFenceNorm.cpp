@@ -262,12 +262,12 @@ void TObjLazerFenceNorm::select_models() {
     s32 i;
     Node_80192A3C *node;
     s32 j;
-    if (*(s32 *)&this->set_params[2] % 2 == 0) {
-        *(Node_80192A3C * *)&this->m_bc = get_bml_model(lazer_fence_norm_bml_resource, 1);
+    if (this->set_params[2] % 2 == 0) {
+        this->m_bc = get_bml_model(lazer_fence_norm_bml_resource, 1);
         arg0->fC0 = get_bml_model(lazer_fence_norm_bml_resource, 0);
         this->m_c4 = get_bml_motion(lazer_fence_norm_bml_resource, 0);
     } else {
-        *(Node_80192A3C * *)&this->m_bc = get_bml_model(lazer_fence_norm_bml_resource, 3);
+        this->m_bc = get_bml_model(lazer_fence_norm_bml_resource, 3);
         arg0->fC0 = get_bml_model(lazer_fence_norm_bml_resource, 2);
         this->m_c4 = get_bml_motion(lazer_fence_norm_bml_resource, 1);
     }

@@ -3312,11 +3312,11 @@ void TBoss8Dragon::set_state() { this->m_3e4 = 1; }
 
 void TBoss8Dragon::set_action_state() { this->m_3e4 = 2; }
 
-void TBoss8Dragon::set_active_flag() { *(int *)&this->m_3c0 = (*(int *)&this->m_3c0 | 0x1); this->position.y = 0.0f; }
+void TBoss8Dragon::set_active_flag() { this->m_3c0 = (this->m_3c0 | 0x1); this->position.y = 0.0f; }
 
-void TBoss8Dragon::activate_attack() { *(int *)&this->m_3c0 = (*(int *)&this->m_3c0 | 0x1); this->position.y = 180.0f; }
+void TBoss8Dragon::activate_attack() { this->m_3c0 = (this->m_3c0 | 0x1); this->position.y = 180.0f; }
 
-void TBoss8Dragon::reset_action() { *(int *)&this->m_3c0 = (*(int *)&this->m_3c0 & 0xfffffffe); this->position.y = -400.0f; }
+void TBoss8Dragon::reset_action() { this->m_3c0 = (this->m_3c0 & 0xfffffffe); this->position.y = -400.0f; }
 
 void TBoss8Dragon::check_hit_result(s32 arg1, s32 arg2) {
     if (angle_diff_s16(arg1, arg2) >= 0) {
@@ -3416,7 +3416,7 @@ void TBoss8Dragon::send_6xA8_action() {
     Pkt_802FBCBC p;
     f32 t;
     build_6xA8_gol_dragon_boss_actions(&p);
-    p.a = *(u16 *)&this->entity_id;
+    p.a = this->entity_id;
     p.b = this->mode;
     p.c = this->m_674;
     p.d = this->m_38c;
@@ -3949,7 +3949,7 @@ u8 check_attack_ready__12TBoss8DragonFPv(void *arg0) {
 }
 
 void TBoss8Dragon::calc_velocity_from_angle() {
-    this->position.x = (f32) (330.0f * sin_table_lookup(*(s32 *)&this->m_758));
+    this->position.x = (f32) (330.0f * sin_table_lookup(this->m_758));
     this->position.z = (f32) (330.0f * cos_table_lookup(this->m_758));
 }
 
@@ -4091,8 +4091,8 @@ void TBoss8Dragon::sub_802FA16C(s32 arg1) {
         this->vfunc_96();
         this->reset_timer();
         this->set_active_flag();
-        *(s32 *)&this->m_3c0 = (s32) (*(s32 *)&this->m_3c0 & ~0x36);
-        *(s32 *)&this->m_84c = 0;
+        this->m_3c0 = (s32) (this->m_3c0 & ~0x36);
+        this->m_84c = 0;
         temp_f1 = *(f32 *)((s8 *)TBoss8Dragon__data_80541DDC[0] + 0x10);
         *(f32 *)((s8 *)this + 0x864) = (f32) (5.0f + TObjBoss2Tunnel::calc_scaled_value((s32) (320.0f * temp_f1), temp_f1));
         return;
@@ -4101,14 +4101,14 @@ void TBoss8Dragon::sub_802FA16C(s32 arg1) {
         ((s32 (*)(void *, int))send_action_packet__12TBoss8DragonFPvi)(this, 0x18);
         return;
     case 9:
-        temp_r4_2 = *(s32 *)&this->m_84c;
+        temp_r4_2 = this->m_84c;
         var_r30 = 0;
         if ((temp_r4_2 >= 0x96) && ((u32) this->m_390 != 0U)) {
             if (*(f32 *)((s8 *)this + 0x3AC) < *(f32 *)((s8 *)this + 0x864)) {
                 var_r30 = 1;
             } else if (this->is_near_target() != 0) {
                 var_r30 = 1;
-            } else if ((s32) *(s32 *)&this->m_84c >= 0x258) {
+            } else if ((s32) this->m_84c >= 0x258) {
                 var_r30 = 1;
             }
         } else if (temp_r4_2 >= 0x12C) {
@@ -4121,8 +4121,8 @@ void TBoss8Dragon::sub_802FA16C(s32 arg1) {
     case 8:
         this->try_spawn_trap();
         ((s32 (*)(void *))update_linked_position__12TBoss8DragonFv)(this);
-        *(s32 *)&this->m_84c = (s32) (*(s32 *)&this->m_84c + 1);
-        if ((s32) (*(s32 *)&this->m_84c % 20) == 0x13) {
+        this->m_84c = (s32) (this->m_84c + 1);
+        if ((s32) (this->m_84c % 20) == 0x13) {
             if (enemy_validate_retained_target(this) != 0) {
                 this->enemy_copy_target_destination();
             } else {
@@ -6451,12 +6451,12 @@ void TBoss8Dragon::sub_802F5434(s32 arg1) {
         this->vfunc_96();
         this->reset_timer();
         this->set_active_flag();
-        *(s32 *)&this->m_3c0 = (s32) (*(s32 *)&this->m_3c0 & ~0x36);
+        this->m_3c0 = (s32) (this->m_3c0 & ~0x36);
         for (i = 0; i < 4; i++) {
             ((TBoss8Dragon *)(&((Self_802F5434 *)this)->arr[i]))->set_speed(0.02f);
         }
-        *(s32 *)&this->m_3c0 = (*(s32 *)&this->m_3c0 | 0x100);
-        *(s32 *)&this->m_84c = 0;
+        this->m_3c0 = (this->m_3c0 | 0x100);
+        this->m_84c = 0;
         temp_f1 = *(f32 *)((s8 *)TBoss8Dragon__data_80541DDC[0] + 0x10);
         *(f32 *)((s8 *)this + 0x864) = (f32) (5.0f + TObjBoss2Tunnel::calc_scaled_value((s32) (320.0f * temp_f1), temp_f1));
         return;
@@ -6471,8 +6471,8 @@ void TBoss8Dragon::sub_802F5434(s32 arg1) {
         return;
     case 8:
         ((s32 (*)(void))update_linked_position__12TBoss8DragonFv)();
-        *(s32 *)&this->m_84c = (s32) (*(s32 *)&this->m_84c + 1);
-        if ((s32) (*(s32 *)&this->m_84c % 20) == 0x13) {
+        this->m_84c = (s32) (this->m_84c + 1);
+        if ((s32) (this->m_84c % 20) == 0x13) {
             if (enemy_validate_retained_target(this) != 0) {
                 this->enemy_copy_target_destination();
             } else {
@@ -6502,7 +6502,7 @@ void TBoss8Dragon::sub_802F5434(s32 arg1) {
         }
         return;
     case 5:
-        *(s32 *)&this->m_3c0 = (s32) (*(s32 *)&this->m_3c0 & 0xFFFFFEFF);
+        this->m_3c0 = (s32) (this->m_3c0 & 0xFFFFFEFF);
         break;
     }
 }

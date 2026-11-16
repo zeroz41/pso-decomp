@@ -134,7 +134,7 @@ void TWindowSubInformationBoard::run_task() {
         break;
     case 11:
         if ((u32) this->m_3c != 0U) {
-            ((TObject *)(*(void * *)&this->m_3c))->queue_destruction();
+            ((TObject *)(this->m_3c))->queue_destruction();
             this->m_3c = 0U;
         }
         this->m_1c = 1U;

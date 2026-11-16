@@ -448,7 +448,7 @@ void TODoorFourLightBase::clamp_light_index() {
         this->set_params[1] = 0;
     }
     if ((s32) this->set_params[1] > 4) {
-        *(s32 *)&this->set_params[1] = 4;
+        this->set_params[1] = 4;
     }
     this->m_f8 = (s32) this->set_params[1];
 }
@@ -691,13 +691,13 @@ s32 TODoorLabo::vfunc_22() {
 
 void TODoorLabo::init_model_by_type() {
     s32 tbl[2] = {0, 1};
-    if (*(s32 *)&this->set_params[1] < 0) {
+    if (this->set_params[1] < 0) {
         this->set_params[1] = 0;
     }
-    if (*(s32 *)&this->set_params[1] > 1) {
-        *(s32 *)&this->set_params[1] = 1;
+    if (this->set_params[1] > 1) {
+        this->set_params[1] = 1;
     }
-    *(s32 *)&this->m_d4 = get_bml_model(TODoorLabo__bml_resource, tbl[*(s32 *)&this->set_params[1]]);
+    this->m_d4 = get_bml_model(TODoorLabo__bml_resource, tbl[this->set_params[1]]);
 }
 
 void TODoorLabo::load_resources() {

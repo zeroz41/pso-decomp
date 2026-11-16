@@ -387,13 +387,13 @@ void TOVS2Wall01::release_model() {
 }
 void TOVS2::render() {
     u8 *arg0 = (u8 *)this;
-    this->m_cc = ((VObj_8017C640 *)arg0)->m8(this->view_range, *(f32 *)&this->model_radius);
+    this->m_cc = ((VObj_8017C640 *)arg0)->m8(this->view_range, this->model_radius);
     if ((s32) this->m_cc == 1) {
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
         TObjFish::set_global_param(this->texlist);
-        draw_ginja_object((void *)(*(s32 *)&this->model));
+        draw_ginja_object((void *)(this->model));
         pop_matrix();
     }
 }

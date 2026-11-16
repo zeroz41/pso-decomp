@@ -157,7 +157,7 @@ void TWindowCtrl::update_trade_request_window() {
 
     if ((is_trade_active() == 0) || (has_player_active_menu__11TWindowCtrlFv(local_client_id) != 0) || (is_slot_visible__11TWindowCtrlFv(local_client_id) != 0) || ((u32) this->m_3c != 0U) || (((u32) *(void * *)&this->m_38 != 0U) && (TWindowCtrl__sub_8024701C(*(void * *)&this->m_38) != 0))) {
         if ((u32) this->m_40 != 0U) {
-            ((TObject *)(*(void * *)&this->m_40))->queue_destruction();
+            ((TObject *)(this->m_40))->queue_destruction();
             this->m_40 = 0U;
         }
     } else if ((u32) this->m_40 == 0U) {

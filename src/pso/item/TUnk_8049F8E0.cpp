@@ -17,7 +17,7 @@ s32 send_6x33_revive_player(s32, s32);
 void TUnk_8049F8E0::apply_use_effect() {
     s32 temp_r3;
     u32 temp_r424;
-    if (sub_801A1DDC__10TObjPlayerFv(*(void * *)&this->owner) != 0) {
+    if (sub_801A1DDC__10TObjPlayerFv(this->owner) != 0) {
         temp_r424 = (u32)this->owner->m_424;
         if (temp_r424 != 0U) {
             temp_r3 = ((TMainCursor *)temp_r424)->find_by_pos(4, 9);
@@ -25,7 +25,7 @@ void TUnk_8049F8E0::apply_use_effect() {
                 TObjPlayer__sub_80116620(temp_r3 + 0x9C, 0);
                 if ((u16) get_type_id__10TObjPlayerFv() != 0xffffU) {
                     TObjPlayer__sub_80116620(temp_r3 + 0x9C, 0);
-                    send_6x33_revive_player(get_entity_id(*(void * *)&this->owner), get_type_id__10TObjPlayerFv());
+                    send_6x33_revive_player(get_entity_id(this->owner), get_type_id__10TObjPlayerFv());
                 }
             }
         }

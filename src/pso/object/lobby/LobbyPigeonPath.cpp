@@ -1330,7 +1330,7 @@ void TUnk_804E0898::select_lobby_pigeon_model() {
     } else {
         this->m_a0 = 1;
     }
-    temp_r3 = *(s32 *)&this->set_params[1];
+    temp_r3 = this->set_params[1];
     if (temp_r3 < 1) {
         *(s32 *)((s8 *)this + 0xA4) = 0;
     } else if ((s32) this->m_a0 == 0) {

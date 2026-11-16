@@ -723,15 +723,15 @@ void TObjEneLappy::update_invuln_timer() {
     u8 *arg0 = (u8 *)this;
     s16 temp_r4;
     ((TObjMotion *)arg0)->advance_animation();
-    if (!(*(s32 *)&this->actorFlags & 0x800000)) {
+    if (!(this->actorFlags & 0x800000)) {
         apply_actor_gravity(arg0, NULL, 0.0f);
     }
     ((TObjPlayer *)arg0)->update_collisions();
-    temp_r4 = *(s16 *)&this->timer;
-    *(s16 *)&this->timer = (temp_r4 - 1);
+    temp_r4 = this->timer;
+    this->timer = (temp_r4 - 1);
     if (temp_r4 < 0) {
-        *(s32 *)&this->actorFlags = (s32) (*(s32 *)&this->actorFlags & 0xFFFFFEFF);
-        *(s16 *)&this->timer = (s16) *(s16 *)&this->resetTimer;
+        this->actorFlags = (s32) (this->actorFlags & 0xFFFFFEFF);
+        this->timer = (s16) this->resetTimer;
         this->referenceHp = (s16) this->hp;
     }
 }
@@ -750,10 +750,10 @@ void TObjEneLappy::update_attacking() {
     ((TObjMotion *)arg0)->advance_animation();
     switch (this->phase) {
     case 0:
-        enemy_turn_toward_dest(arg0, (void *) *(s32 *)((s8 *)(*(u8 * *)&this->movementParameters) + 8));
+        enemy_turn_toward_dest(arg0, (void *) *(s32 *)((s8 *)(this->movementParameters) + 8));
         apply_actor_gravity(arg0, 0, 0.0f);
         if (((TObjMotion *)arg0)->is_passing_frame(11.0f) != 0) {
-            enemy_set_heading_velocity(*(f32 *)((s8 *)(*(u8 * *)&this->movementParameters) + 4), (TObjEnemy *)(arg0), this->rotation_y);
+            enemy_set_heading_velocity(*(f32 *)((s8 *)(this->movementParameters) + 4), (TObjEnemy *)(arg0), this->rotation_y);
             *(f32 *)((s8 *)arg0 + 0x30C) = 0.0f;
             this->phase = 1;
         }
@@ -773,13 +773,13 @@ void TObjEneLappy::update_attacking() {
             }
             play_sound_effect(remap_area_sound_id(0x3BC0D, 5), (u32)(arg0 + 0x38), 0, 0);
             this->phase = 2;
-            *(s16 *)&this->timer = 0x1E;
+            this->timer = 0x1E;
         }
         break;
     case 2:
         apply_actor_gravity(arg0, 0, 0.0f);
-        (*(s16 *)&this->timer)--;
-        if (*(s16 *)&this->timer < 0) {
+        (this->timer)--;
+        if (this->timer < 0) {
             this->phase = 3;
         }
         break;
@@ -790,9 +790,9 @@ void TObjEneLappy::update_attacking() {
         apply_actor_gravity(arg0, 0, 0.0f);
         if (this->action_flags != 4U) {
             *(f32 *)((s8 *)arg0 + 0x308) = *(f32 *)((s8 *)arg0 + 0x30C) = this->m_310 = 0.0f;
-            *(s32 *)&this->actorFlags &= 0xFFDFFFFF;
+            this->actorFlags &= 0xFFDFFFFF;
             this->vfunc_59();
-            *(s16 *)&this->timer = 0;
+            this->timer = 0;
         }
         break;
     }

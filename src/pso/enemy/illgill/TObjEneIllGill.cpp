@@ -1095,7 +1095,7 @@ void TObjEneIllGill::move_toward_dest_with_detour() {
     TObjEneIllGill *o = this;
     s32 ang;
     VecCopy((Vec *)(Vec *)&o->m_29c, (const Vec *)&o->home_position);
-    VecCopy((Vec *)&(*(Vec *)&o->m_290), (const Vec *)(Vec *)&o->m_2fc);
+    VecCopy((Vec *)&(o->m_290), (const Vec *)(Vec *)&o->m_2fc);
     VecCopy((Vec *)&o->prev_position, (const Vec *)&o->position);
     VecCopy((Vec *)&scratch_vec, (const Vec *)&o->home_position);
     subtract_vector(&scratch_vec, &o->position);

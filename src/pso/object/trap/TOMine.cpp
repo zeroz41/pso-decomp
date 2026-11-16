@@ -562,8 +562,8 @@ void TOMine::update_float_height() {
             this->m_340 = (s32) (this->m_340 | 2);
         }
     } else {
-        *(s32 *)&this->rotation_x = (s32) (*(s32 *)&this->rotation_x + 0x800);
-        float_position.y = (f32) (float_position.y + sin_table_lookup(*(s32 *)&this->rotation_x));
+        this->rotation_x = (s32) (this->rotation_x + 0x800);
+        float_position.y = (f32) (float_position.y + sin_table_lookup(this->rotation_x));
     }
 }
 }
@@ -799,19 +799,19 @@ void TOMine::update_state() {
     *(s32 *)((s8 *)this + 0x348) = (s32) this->scale.z;
     temp_r0 = *(s32 *)((s8 *)this + 0x348);
     if (temp_r0 < 0) {
-        *(s32 *)&this->m_344 = 0;
+        this->m_344 = 0;
         return;
     }
     if (temp_r0 > 0) {
-        *(s32 *)&this->m_344 = 1;
+        this->m_344 = 1;
         return;
     }
     if (get_main_phase() == 0xE) {
-        *(s32 *)&this->m_344 = 0;
-        *(s32 *)&this->set_params[2] = 0x1E;
+        this->m_344 = 0;
+        this->set_params[2] = 0x1E;
         return;
     }
-    *(s32 *)&this->m_344 = 2;
+    this->m_344 = 2;
 }
 }
 

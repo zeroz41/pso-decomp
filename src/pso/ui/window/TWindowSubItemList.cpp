@@ -53,11 +53,11 @@ void TWindowSubItemList::render() {
     ((TWindowMenuIconLine *)arg0)->draw_selected_list_entry(window_key_board_soft);
     ((TWindowSubItemList *)arg0)->sub_8027ACF8((u8 *)window_key_board_soft);
     draw_item_list_capacity(arg0, window_key_board_soft, this->m_8c, 0x1E);
-    if ((u32) *(u32 *)&this->status_display != 0U) {
+    if ((u32) this->status_display != 0U) {
         forward_render__20TWindowSubStatusDispFv(this->status_display, window_key_board_soft);
     }
-    if ((u32) *(u32 *)&this->unk_84 != 0U) {
-        draw_window_scrollbar(*(void * *)&this->unk_84, window_key_board_soft, (u8 *)&this->m_68);
+    if ((u32) this->unk_84 != 0U) {
+        draw_window_scrollbar(this->unk_84, window_key_board_soft, (u8 *)&this->m_68);
     }
 }
 #pragma pop

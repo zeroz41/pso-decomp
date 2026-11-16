@@ -204,7 +204,7 @@ extern "C" {
 }
 
 s32 TWindowMenuIconLine::get_cursor_value() {
-    get_array_entry__11TWindowBaseFi(this, *(s16 *)&this->cursor);
+    get_array_entry__11TWindowBaseFi(this, this->cursor);
     return get_cursor_pos__14TWindowSubItemFv();
 }
 
@@ -488,7 +488,7 @@ void TWindowMenuIconLine::set_flag4() {
 
 void TWindowMenuIconLine::handle_open() {
     s32 temp_r31;
-    temp_r31 = get_array_entry__11TWindowBaseFi(this, *(s16 *)&this->cursor);
+    temp_r31 = get_array_entry__11TWindowBaseFi(this, this->cursor);
     if ((is_flag_4_set__20TWindowSubStatusDispFv() == 0) || (is_flag80_set__20TWindowSubStatusDispFv(temp_r31) != 0)) {
         play_sound_effect(0x53F06, 0, 0, 0);
         return;
@@ -506,7 +506,7 @@ void TWindowMenuIconLine::move_cursor_next() {
     s16 var_r31;
 
     play_sound_effect(0x54100, 0, 0, 0);
-    var_r31 = *(s16 *)&this->cursor;
+    var_r31 = this->cursor;
 loop_1:
     var_r31 += 1;
     if (var_r31 >= (s16) this->entry_capacity) {
@@ -516,9 +516,9 @@ loop_1:
         }
     } else {
 block_4:
-        if (var_r31 != (s16) *(s16 *)&this->cursor) {
+        if (var_r31 != (s16) this->cursor) {
             if (sub_80266B18(var_r31) != 0) {
-                *(s16 *)&this->cursor = var_r31;
+                this->cursor = var_r31;
             } else {
                 goto loop_1;
             }
@@ -530,7 +530,7 @@ void TWindowMenuIconLine::move_cursor() {
     s16 var_r31;
 
     play_sound_effect(0x54100, 0, 0, 0);
-    var_r31 = *(s16 *)&this->cursor;
+    var_r31 = this->cursor;
 loop_1:
     var_r31 -= 1;
     if (var_r31 < 0) {
@@ -540,9 +540,9 @@ loop_1:
         }
     } else {
 block_4:
-        if (var_r31 != (s16) *(s16 *)&this->cursor) {
+        if (var_r31 != (s16) this->cursor) {
             if (sub_80266B18(var_r31) != 0) {
-                *(s16 *)&this->cursor = var_r31;
+                this->cursor = var_r31;
             } else {
                 goto loop_1;
             }
@@ -573,7 +573,7 @@ void TWindowMenuIconLine::create_menu_scroll_bar() {
     f32 temp_f1;
     u32 temp_r3;
     u32 var_r0;
-    if ((u32) *(u32 *)&this->unk_84 == 0U) {
+    if ((u32) this->unk_84 == 0U) {
         temp_f1 = this->m_38 - 8.0f;
         stack.spC = 0.0f;
         stack.sp8 = temp_f1;
@@ -632,9 +632,9 @@ void TWindowSubStatusDisp::init_scroll_pos() {
 void TWindowMenuIconLine::center_list_selection() {
     f32 target;
 
-    if ((*(u32 *)&this->unk_84 != 0U) && (*(u32 *)((s8 *)((u8 *)this) + 0x50) == 0U)) {
+    if ((this->unk_84 != 0U) && (*(u32 *)((s8 *)((u8 *)this) + 0x50) == 0U)) {
         f32 t = (*(f32 *)&this->m_4c - 16.0f) - 10.0f;
-        target = 9.0f + (f32) (*(s16 *)&this->cursor * 0x14);
+        target = 9.0f + (f32) (this->cursor * 0x14);
         target -= 0.5f * t;
         *(f32 *)&this->unk_6C += target - *(f32 *)&this->unk_6C;
     }
@@ -644,14 +644,14 @@ void TWindowMenuIconLine::center_list_selection() {
 void TWindowMenuIconLine::clamp_item_list_scroll() {
     Stack_80267D14 stack;
     f32 temp_f1;
-    if ((u32) *(u32 *)&this->unk_84 != 0U) {
+    if ((u32) this->unk_84 != 0U) {
         stack.sp8 = 0.0f;
         temp_f1 = *(f32 *)&this->m_4c - 20.0f;
         stack.spC = temp_f1;
-        if ((u32) *(u32 *)&this->status_display != 0U) {
+        if ((u32) this->status_display != 0U) {
             stack.spC = temp_f1 - 6.0f;
         }
-        clamp_list_scroll_offset((int) (*(u32 *)&this->unk_84), (void *) (((u8 *)this) + 0x68), &stack.sp8);
+        clamp_list_scroll_offset((int) (this->unk_84), (void *) (((u8 *)this) + 0x68), &stack.sp8);
     }
 }
 
@@ -685,7 +685,7 @@ void TWindowMenuIconLine::draw_selected_list_entry(s32 window_key_board_soft) {
     u16 *temp_r3;
 
     if (!(this->state_flags & 0x80)) {
-        temp_r3 = ((u16 *(*)(void *, s16))get_array_entry__11TWindowBaseFi)(this, (s16)(*(s16 *)&this->cursor));
+        temp_r3 = ((u16 *(*)(void *, s16))get_array_entry__11TWindowBaseFi)(this, (s16)(this->cursor));
         if (*temp_r3 & 1) {
             draw_selection_bar((u8 *)window_key_board_soft, (u8 *)temp_r3, is_decided__19TWindowMenuIconLineFv(this));
         }

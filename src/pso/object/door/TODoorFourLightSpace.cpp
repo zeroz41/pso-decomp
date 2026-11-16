@@ -166,8 +166,8 @@ void TODoorFourLightRuins::render() {
     u8 *arg0 = (u8 *)this;
     s32 cc;
 
-    if ((((VObj_8028A030 *)arg0)->m8(this->view_range, *(f32 *)&this->model_radius) == 1) && (((TObjMapObject *)arg0)->is_in_view_depth(30.0f) == 1)) {
-        switch (*(s32 *)&this->object_state) {
+    if ((((VObj_8028A030 *)arg0)->m8(this->view_range, this->model_radius) == 1) && (((TObjMapObject *)arg0)->is_in_view_depth(30.0f) == 1)) {
+        switch (this->object_state) {
         case 1:
         case 3:
             push_matrix();
@@ -198,7 +198,7 @@ void TODoorFourLightRuins::render() {
             set_global_param__8TObjFishFl();
             post_translate_matrix((u8 *)&this->position);
             rotate_matrix_y(0, this->rotation_y);
-            draw_ginja_object((void *)(*(s32 *)&this->m_d4));
+            draw_ginja_object((void *)(this->m_d4));
             pop_matrix();
             break;
         }
@@ -276,7 +276,7 @@ void TODoorFourLightRuins::update_door_switch_state() {
         break;
     case 2:
         off = 0;
-        for (i = 0; i < *(s32 *)&this->set_params[1]; i++) {
+        for (i = 0; i < this->set_params[1]; i++) {
             if (is_current_floor_switch_set(this->switch_id + i) == 0) {
                 off = 1;
             }
@@ -293,7 +293,7 @@ void TODoorFourLightRuins::update_door_switch_state() {
             break;
         }
         off2 = 0;
-        for (j = 0; j < *(s32 *)&this->set_params[1]; j++) {
+        for (j = 0; j < this->set_params[1]; j++) {
             if (is_current_floor_switch_set(this->switch_id + j) == 0) {
                 off2 = 1;
             }
@@ -378,8 +378,8 @@ void TODoorFourLightSpace::render() {
     u8 *arg0 = (u8 *)this;
     s32 cc;
 
-    if ((((VObj_802898E8 *)arg0)->m8(this->view_range, *(f32 *)&this->model_radius) == 1) && (((TObjMapObject *)arg0)->is_in_view_depth(30.0f) == 1)) {
-        switch (*(s32 *)&this->object_state) {
+    if ((((VObj_802898E8 *)arg0)->m8(this->view_range, this->model_radius) == 1) && (((TObjMapObject *)arg0)->is_in_view_depth(30.0f) == 1)) {
+        switch (this->object_state) {
         case 1:
         case 3:
             push_matrix();
@@ -410,7 +410,7 @@ void TODoorFourLightSpace::render() {
             set_global_param__8TObjFishFl();
             post_translate_matrix((u8 *)&this->position);
             rotate_matrix_y(0, this->rotation_y);
-            draw_ginja_object((void *)(*(s32 *)&this->m_d4));
+            draw_ginja_object((void *)(this->m_d4));
             pop_matrix();
             break;
         }
@@ -429,7 +429,7 @@ s32 TODoorFourLightSpace::draw_lights() {
     }
     if (!(this->door_flags & 1)) {
         s32 j;
-        for (j = 0; j < *(s32 *)&this->set_params[1]; j++) {
+        for (j = 0; j < this->set_params[1]; j++) {
             if (is_current_floor_switch_set(this->switch_id + j) == 1) {
                 flags[j] = 1;
             } else {
@@ -494,7 +494,7 @@ void TODoorFourLightSpace::update_door_switch_state() {
         break;
     case 2:
         fail = 0;
-        for (i = 0; i < *(s32 *)&this->set_params[1]; i++) {
+        for (i = 0; i < this->set_params[1]; i++) {
             if (is_current_floor_switch_set(this->switch_id + i) == 0) {
                 fail = 1;
             }
@@ -511,7 +511,7 @@ void TODoorFourLightSpace::update_door_switch_state() {
             s32 bad;
             s32 j;
             bad = 0;
-            for (j = 0; j < *(s32 *)&this->set_params[1]; j++) {
+            for (j = 0; j < this->set_params[1]; j++) {
                 if (is_current_floor_switch_set(this->switch_id + j) == 0) {
                     bad = 1;
                 }

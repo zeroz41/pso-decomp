@@ -56,7 +56,7 @@ extern void *tl_camera;
 TAdDialingMessageWindow::TAdDialingMessageWindow(void *arg1, void *arg2) : TObject((TObject *)tl_fadeafter) {
     void *o;
     void *o2;
-    *(const char **)&this->m_name = TAdDialingMessageWindow__name;
+    this->m_name = TAdDialingMessageWindow__name;
     this->m_1c = 0;
     *(void **)((s8 *)this + 0x20) = arg1;
     o = __nw__7TObjectFUl(0x24);
