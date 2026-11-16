@@ -315,7 +315,7 @@ void *__nw__7TObjectFUl(int);
 
 }
 TObjDoaEx01::~TObjDoaEx01() {
-    ((TObjCollidable *)this)->unregister_object_by_id();
+    this->unregister_object_by_id();
     free_collision_body_parts(this);
 }
 extern "C" {

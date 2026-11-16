@@ -2057,7 +2057,7 @@ void TObjEneMe1Canadin::render() {
                 VecCopy(&m_414[3], &lbl_8043A268);
                 VecCopy(&m_414[1], &lbl_8043A274);
                 set_chunk_model_node_callback((s32)&fn_8009BD00);
-                ((TObjEneDD_ST *)this)->draw_with_alt_model((int) (m_410));
+                this->draw_with_alt_model((int) (m_410));
                 set_chunk_model_node_callback(NULL);
             }
         }

@@ -271,7 +271,7 @@ u8 *TODoorJungleMain__ct(TODoorJungleMain *arg0, s32 arg1, s32 arg2) {
 
 TODoorJungleMain::~TODoorJungleMain() {
     if (*(void **)((s8 *)this + 0xDC) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0xDC)))->queue_destruction(); this->m_dc = 0; }
-    ((TObjCollidable *)this)->unregister_object_by_id();
+    this->unregister_object_by_id();
     free_collision_body_parts(this);
 }
 

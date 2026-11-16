@@ -1081,7 +1081,7 @@ void TObjEnePanBARA::sub_800E10D0() {
     }
     if (*(s32 *)((s8 *)this + 0x3B4) == 0) {
         this->motion_flags &= ~1;
-        ((TObjMotion *)this)->set_field_b8(1);
+        this->set_field_b8(1);
     }
     if (*(s32 *)((s8 *)this + 0x380) == 1 && ((s32 (*)(s32))is_phase_12__14TObjEnePanarmsFPv)(*(s32 *)((s8 *)this + 0x3A0)) != 0) {
         if (*(f32 *)((s8 *)this + 0x3D8) < 27.5f) {
@@ -1503,7 +1503,7 @@ void TObjEnePanBARA::sub_800E0344() {
         *(s32 *)((s8 *)this + 0x3C0) = 1;
         play_sound_effect((s32)((void *) (((s32)this->remap_sound_for_area(0x4003BC2D)))), (u8 *)this + 0x38, 0, 0);
         this->motion_flags = (s32) (this->motion_flags & 0xFFFFFFFE);
-        ((TObjMotion *)this)->set_field_b8(2);
+        this->set_field_b8(2);
     }
 }
 

@@ -259,7 +259,7 @@ void *TObjLazerFence4::create() {
 
 }
 TObjLazerFence4::~TObjLazerFence4() {
-    ((TObjCollidable *)this)->unregister_object_by_id();
+    this->unregister_object_by_id();
     free_collision_body_parts(this);
 }
 extern "C" {

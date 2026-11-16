@@ -165,10 +165,10 @@ TJudgmentSequence::~TJudgmentSequence() {
         ((TObject *)(*(void **)((s8 *)this + 0x30)))->queue_destruction();
         *(u32 *)((s8 *)this + 0x30) = 0U;
     }
-    ((TShopSequence *)this)->close_message_window();
-    if ((u32) ((TJudgmentSequence *)this)->m_2c != 0U) {
+    this->close_message_window();
+    if ((u32) this->m_2c != 0U) {
         ((TWindowBase *)(*(void **)((s8 *)this + 0x2C)))->close();
-        ((TJudgmentSequence *)this)->m_2c = 0U;
+        this->m_2c = 0U;
     }
     judgment_sequence_instance = 0;
     *(s32 *)((s8 *)&TJudgmentSequence__slot_flags.value + (sub_8022397C__15TShopWindowBaseFv(this) * 4)) = 0;

@@ -922,10 +922,10 @@ TBoss4DarkFalz::~TBoss4DarkFalz() {
     case 10:
     case 14:
     case 15:
-        ((TObjEnemy *)this)->send_entity_set_flags();
+        this->send_entity_set_flags();
         break;
     }
-    TBoss4DarkFalz::end_player_camera_pans(((u8 *)this));
+    TBoss4DarkFalz::end_player_camera_pans(this);
     restore_player_cameras();
     if (TBoss4DarkFalz::is_ending_or_split_screen() == 0) {
         TLobby::stop_audio_streams();

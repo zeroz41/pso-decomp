@@ -103,8 +103,8 @@ u8 *TLobby__sub_8019118C(u8 *arg0, s32 arg1, s32 arg2) {
 }
 
 TUnk_804B7C1C::~TUnk_804B7C1C() {
-    ((TObjCollidable *)this)->unregister_object_by_id();
-    free_collision_body_parts(((Obj_801910F4 *)this));
+    this->unregister_object_by_id();
+    free_collision_body_parts(this);
     u32 id = ((Obj_801910F4 *)this)->fAC;
     if (id != 0xFFFF) {
         Ctrl_801910F4 *c = (Ctrl_801910F4 *)get_player_by_client_id(id);

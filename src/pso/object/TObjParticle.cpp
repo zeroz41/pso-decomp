@@ -90,7 +90,7 @@ void TObjParticle::run_task() {
 }
 TObjParticle::~TObjParticle() {
     if (*(void **)((s8 *)this + 0x90) != NULL) { ((TObject *)((void *)(*(void **)((s8 *)this + 0x90))))->queue_destruction(); this->m_90 = 0; }
-    ((TObjBase *)this)->mask_object_set_row_flags(-3);
+    this->mask_object_set_row_flags(-3);
 }
 extern "C" {
 

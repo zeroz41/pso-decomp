@@ -275,7 +275,7 @@ void TObjDoorKey::run_task() {
 
 }
 TObjDoorKey::~TObjDoorKey() {
-    ((TObjCollidable *)this)->unregister_object_by_id();
+    this->unregister_object_by_id();
     free_collision_body_parts(this);
     if ((u32) this->m_f8 != 0U) {
         ((TObject *)(*(void **)((s8 *)this + 0xF8)))->queue_destruction();
@@ -299,7 +299,7 @@ TObjDoorKey::TObjDoorKey(TObject *arg1, void *arg2) : TOKey(arg1) {
     }
     init_collision_body_parts(this, TObjDoorKey__collision_body_parts, 1);
     *(s32 *)&this->actorFlags |= 0x40000000;
-    ((TObjPlayer *)this)->register_object_by_id();
+    this->register_object_by_id();
     Vec_80190020 pos = *(Vec_80190020 *)((s8 *)this + 0x38);
     pos.y += 10.0f;
     *(s32 *)&this->m_f8 = (s32)spawn_continuous_particle_effect_with_flags(&pos, 0x60, 0x40);

@@ -485,7 +485,7 @@ void TObjCityAirCar_Car::run_task() {
     f32 t;
     t = ((Car_80180E70 *)this)->frame;
     ((Car_80180E70 *)this)->frame = t + ((Car_80180E70 *)this)->speed;
-    if (((TObjCityAirCar_Car *)this)->update_path_motion() == 0) {
+    if (this->update_path_motion() == 0) {
         queue_destruction();
     }
     if ((((Car_80180E70 *)this)->path == 1 && ((Car_80180E70 *)this)->frame >= 15.5f && ((Car_80180E70 *)this)->frame <= 35.5f) ||

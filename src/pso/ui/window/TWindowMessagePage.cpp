@@ -79,7 +79,7 @@ void TWindowMessagePage::set_text(s32 a, s32 b, s32 c) {
     TWindowMessagePage::create(a, b, c, local_client_id);
 }
 
-void TWindowMessagePage::render() { { (void)(((TWindowMessage *)this)->TWindowMessage::render()); return; } }
+void TWindowMessagePage::render() { { (void)(this->TWindowMessage::render()); return; } }
 
 typedef char RecoveredGlobal_8026AF24_lbl_8050E208_size[sizeof(RecoveredGlobal_8026AF24_lbl_8050E208) == 0x1B0 ? 1 : -1];
 void TWindowMessagePage::run_task() {

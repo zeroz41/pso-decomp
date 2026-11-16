@@ -527,7 +527,7 @@ void TOMine::detonate() {
     set_indexed_flags(0, 2);
     *(f32 *)(*(u8 * *)&this->bodies + 0xC) = this->m_350;
     TObjPlayer::init_all_slots();
-    ((TObjPlayer *)((u8 *)this))->check_object_collisions();
+    this->check_object_collisions();
     check_enemy_body_collisions(this);
     for (i = 0; i < 0x10; i++) {
         obj = get_battle_param__10TObjPlayerFi(i);
@@ -1485,7 +1485,7 @@ void TOMineTrapDisp::run_task() {
                     if (fn_80171314(pl) != 0 ||
                         (TTecCtrl::is_technique_ready() != 0 && m_ac == (u16)get_entity_id(pl))) {
                         if (!(horizontal_distance_squared(&position, pl + 0x38) <= 40000.0f)) {
-                            if ((s16)((TObjBase *)pl)->get_room() != (s16)((TObjBase *)this)->get_room()) {
+                            if ((s16)((TObjBase *)pl)->get_room() != (s16)this->get_room()) {
                                 continue;
                             }
                         }

@@ -151,7 +151,7 @@ TOTrapAncient02::TOTrapAncient02(TObject *parent, void *set_data) : TOTrap(paren
     init_collision_body_parts(this, &trap_ancient02_collision_body, 1);
     refresh_collision_body_centers();
     actorFlags |= 0x60000000;
-    ((TObjPlayer *)this)->register_object_by_id();
+    this->register_object_by_id();
     h348 = 0.0f;
     h344 = 0.0f;
     spin_angle = 0;

@@ -2899,7 +2899,7 @@ void TBoss7DeRolLeC::sub_802EB270(u32 event, s32 mode, s32 next_mode) {
 
     switch (event) {
     case 4:
-        ((TObjMotion *)this)->set_field_b8(1);
+        this->set_field_b8(1);
         TObjFish__sub_802ECBDC((Fish_802ECBDC *)this);
         unk_628 &= ~4;
         unk_628 |= 0x100;
@@ -3046,7 +3046,7 @@ void TBoss7DeRolLeC::sub_802EB270(u32 event, s32 mode, s32 next_mode) {
         }
         break;
     case 0:
-        ((TObjMotion *)this)->advance_animation();
+        this->advance_animation();
         TObjFish__sub_802EC32C(this);
         done = 0;
         switch (unk_72C) {
@@ -4904,7 +4904,7 @@ void TObjFish__sub_802E7B40(Fish_802E7B40* o) {
 
 void TBoss7DeRolLeC::render_shadows() {
     if (*(s32 *)((s8 *)this->bodies + 0x18) & 1) {
-        ((TObjEnemy *)this)->TObjEnemy::render_shadows();
+        this->TObjEnemy::render_shadows();
     }
 }
 }

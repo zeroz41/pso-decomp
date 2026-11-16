@@ -94,7 +94,7 @@ void TObjVoloptPillar::run_task() {
             state = 3;
             bodies->flags |= 2;
             TObjPlayer::init_all_slots();
-            ((TObjPlayer *)this)->check_object_collisions();
+            this->check_object_collisions();
             if (bodies->flags & 0x80000) {
                 for (i = 0; i < 16; i++) {
                     target = (TObjChara *)TObjPlayer::get_battle_param(i);

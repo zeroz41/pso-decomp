@@ -1290,7 +1290,7 @@ void TObjEneDD::vfunc_88() {  }
 
 void TObjEneDD::vfunc_89() {
     this->vfunc_88();
-    ((TObjPlayer *)this)->check_object_collisions();
+    this->check_object_collisions();
     check_enemy_body_collisions(this);
 }
 
@@ -1750,7 +1750,7 @@ s32 TObjEneDD_ST::enemy_tick_target_acquisition(s32 *counter, s32 limit, f32 sca
 }
 
 s32 TObjEneDD_ST::update_linked_position(f32 scale) {
-    return ((TObjEneDD_ST *)this)->enemy_tick_target_acquisition((s32 *)((u8 *)this + 0x3B0), *(s32 *)((s8 *)this + 0x3B4), scale);
+    return this->enemy_tick_target_acquisition((s32 *)((u8 *)this + 0x3B0), *(s32 *)((s8 *)this + 0x3B4), scale);
 }
 
 void TObjEneDD_ST::enemy_copy_target_destination() {

@@ -258,7 +258,7 @@ void TQuestListOnline::show_info_window() {
     if (TQuestListOnline__selected_quest_info != NULL) {
         append_line__14TWindowMessageFii(info_window, TQuestListOnline__selected_quest_info + 4, 0x80);
     }
-    ((TShopWindowBase *)this)->set_field_20(3);
+    this->set_field_20(3);
 }
 
 void TQuestListOnline::handle_list_selection() {

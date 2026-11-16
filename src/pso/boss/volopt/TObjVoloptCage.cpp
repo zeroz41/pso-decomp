@@ -118,7 +118,7 @@ void TObjVoloptCage::update_collision_state() {
     case 1:
         count = countdown;
         countdown = count - 1;
-        ((TObjPlayer *)this)->check_object_collisions();
+        this->check_object_collisions();
         if ((timer -= 1) <= 0) {
             actorFlags &= ~0x200;
             referenceHp = hp;

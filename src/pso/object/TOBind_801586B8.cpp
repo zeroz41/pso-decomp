@@ -105,7 +105,7 @@ void TOBind::load_static_resource() {
 
 }
 TOBind::~TOBind() {
-    ((TObjCollidable *)this)->unregister_object_by_id();
+    this->unregister_object_by_id();
     free_collision_body_parts(this);
 }
 extern "C" {

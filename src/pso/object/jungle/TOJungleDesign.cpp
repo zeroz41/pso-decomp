@@ -97,7 +97,7 @@ void TOJungleDesign::render() {
 
 }
 TOJungleDesign::~TOJungleDesign() {
-    ((TObjCollidable *)this)->unregister_object_by_id();
+    this->unregister_object_by_id();
     free_collision_body_parts(this);
 }
 extern "C" {

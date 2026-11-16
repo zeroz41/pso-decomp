@@ -72,7 +72,7 @@ void TObjTank::run_task() {  }
 
 }
 TObjTank::~TObjTank() {
-    ((TObjCollidable *)this)->unregister_object_by_id();
+    this->unregister_object_by_id();
     free_collision_body_parts(this);
 }
 extern "C" {

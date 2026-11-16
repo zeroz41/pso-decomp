@@ -488,6 +488,6 @@ TBoss6GravBall::TBoss6GravBall(s32 arg1, void *arg2) : TObjCollidable((TObject *
     ((Obj_80323D20 *)this)->fC4 = 0;
     TBoss6GravBall__sub_80323320((T_80323320 *)this);
     for (i = 0; i < 2; i++) {
-        ((TBoss6GravBall *)((Obj_80323D20 *)this))->create_emitter(lbl_8047667C[i]);
+        ((TBoss6GravBall *)this)->create_emitter(lbl_8047667C[i]);
     }
 }

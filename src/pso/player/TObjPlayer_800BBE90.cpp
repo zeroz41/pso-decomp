@@ -149,7 +149,7 @@ void TUnk_804928CC::area_attack_receive_direct(void *dst, f32 *recoil, void *des
     for (i = 0; i < ((Actor_800BBF08 *)dst)->nrecs; i++) {
         rec = &((Actor_800BBF08 *)dst)->recs[i];
         if (rec->flags & 0x04000000) {
-            ((Actor_800BBF08 *)dst)->m21(((Actor_800BBF08 *)this)->owner, *((Desc_800BBF08 *)desc), rec, -1, -1);
+            ((Actor_800BBF08 *)dst)->m21(this->owner, *((Desc_800BBF08 *)desc), rec, -1, -1);
             if (((TObjChara *)((Actor_800BBF08 *)dst))->obj_isState2_324() == 0) {
                 ((Actor_800BBF08 *)this)->m18(((Actor_800BBF08 *)dst), *recoil);
             }

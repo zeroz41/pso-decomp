@@ -2424,7 +2424,7 @@ void TObjPlayer::update_warp_relocation() {
             var_f31 = 0.0f;
             this->phase = 3;
             this->rotation_y = *(s32 *)((s8 *)((u8 *)this) + 0x65C);
-            ((TObjBase *)((u8 *)this))->set_position_from(((u8 *)this) + 0x660);
+            this->set_position_from(((u8 *)this) + 0x660);
             refresh_equipment_slot();
             this->clear_flag_4000();
             this->update_actor_ground_y();

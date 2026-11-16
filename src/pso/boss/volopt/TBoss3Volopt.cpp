@@ -378,7 +378,7 @@ s32 TBoss3Volopt::get_field_3e0() {
 }
 
 void TBoss3Volopt::reset_photon_effect() {
-    ((TObjPlayer *)this)->register_object_by_id();
+    this->register_object_by_id();
 }
 
 TBoss3Volopt::TBoss3Volopt(void *set_data) : TObjEnemyCustom(tl_04) {

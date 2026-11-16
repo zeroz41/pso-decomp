@@ -650,7 +650,7 @@ void TCMCharacter::update_chara_preview() {
     }
     }
     blend_creation_proportion_shapes(&((CharacterAppearanceFields *)creation_player_character)->width);
-    ((TObjMotion *)this)->advance_animation();
+    this->advance_animation();
 }
 
 void request_creation_motion(s32 arg0) {

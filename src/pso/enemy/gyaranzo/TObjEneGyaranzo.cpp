@@ -1548,7 +1548,7 @@ void TObjEneGyaranzo::spawn_missile() {
     temp_r31 = (s32) (182.04445f * ((240.0f * random_ratio__9TObjCharaFv((s32) this)) - 120.0f));
     new TUnk_8049442C(this, &launch_position, rotation_y, temp_r31);
     spawn_particle_effect((void *)((s32) &launch_position), 0xF3);
-    play_sound_effect((void *)(((TObjEnemy *)(this))->remap_sound_for_area(0x4003B20D)), &position, 0, 0);
+    play_sound_effect((void *)(this->remap_sound_for_area(0x4003B20D)), &position, 0, 0);
 }
 #pragma pop
 

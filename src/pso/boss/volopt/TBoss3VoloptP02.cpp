@@ -452,7 +452,7 @@ void TBoss3VoloptP02::run_state() {
 }
 
 void TBoss3VoloptP02::render() {
-    if (!(actorFlags & 0x02000000) && (((ViewCulledObject *)this)->update_object_view_visibility(400.0f, 40.0f) != 0)) {
+    if (!(actorFlags & 0x02000000) && (this->update_object_view_visibility(400.0f, 40.0f) != 0)) {
         if (fade.updateFromCamera((const f32 *)&m_2fc) != 0) {
             fade.set_flags_and_apply_damage_color();
         }
@@ -488,7 +488,7 @@ void TBoss3VoloptP02::check_and_trigger() {
     if ((obj_testFlags30(0x800) == 0) && !(m_388 & 0x40000)) {
         check_and_notify();
         m_388 &= ~1;
-        ((TObjEnemyCustom *)this)->update_if_active(0xB);
+        this->update_if_active(0xB);
     }
 }
 
@@ -496,7 +496,7 @@ void TBoss3VoloptP02::set_motion(u16 target_id) {
     if ((obj_testFlags30(0x800) == 0) && !(m_388 & 0x10000) && (mode != 9)) {
         targetId = target_id;
         m_388 &= ~1;
-        ((TObjEnemyCustom *)this)->update_if_active(9);
+        this->update_if_active(9);
     }
 }
 
@@ -506,7 +506,7 @@ void TBoss3VoloptP02::set_action_wait(u16 target_id) {
         if (target_id != 0xFFFF) {
             targetId = target_id;
             m_388 &= ~1;
-            ((TObjEnemyCustom *)this)->update_if_active(0xA);
+            this->update_if_active(0xA);
         }
     }
 }
@@ -1572,7 +1572,7 @@ void TBoss3VoloptP02::apply_hit_reaction(f32 delay) {
         check_and_notify();
         ring_radius = 55.0f + delay;
         m_388 &= ~1;
-        ((TObjEnemyCustom *)this)->update_if_active(0xC);
+        this->update_if_active(0xC);
     }
 }
 

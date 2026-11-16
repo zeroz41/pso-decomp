@@ -44,14 +44,14 @@ void TUnk_804A1A48::reserved_53() {
         *(s32 *)((s8 *)temp_r29 + 0) = (s32) (*(s32 *)((s8 *)temp_r29 + 0) & 0xFFFFFFF7);
         TObjPlayer__sub_80364198();
         model_render_flags &= 0xFFFFFFEF;
-        ((TItem *)this)->get_owner_alpha();
+        this->get_owner_alpha();
         set_model_fade_alpha__10TObjPlayerFf();
         *(s32 *)((s8 *)temp_r31 + 0) = (s32) (*(s32 *)((s8 *)temp_r31 + 0) | 1);
         *(s32 *)((s8 *)temp_r30 + 0) = (s32) (*(s32 *)((s8 *)temp_r30 + 0) & 0xFFFFFFFD);
         *(s32 *)((s8 *)temp_r30 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r30 + 0x18) + this->swing_angle);
         *(s32 *)((s8 *)temp_r29 + 0) = (s32) (*(s32 *)((s8 *)temp_r29 + 0) & 0xFFFFFFFD);
         *(s32 *)((s8 *)temp_r29 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r29 + 0x18) - this->swing_angle);
-        if (((TItemWeapon *)this)->get_joint_position(1, &sp8) != 0) {
+        if (this->get_joint_position(1, &sp8) != 0) {
             push_matrix();
             post_translate_matrix(&sp8);
             rotate_matrix_y(0, *(s32 *)((s8 *)(*(void * *)&(*(NJS_MOTION_LINK *)((u8 *)this + 0xE4)).frame[1]) + 0x60));

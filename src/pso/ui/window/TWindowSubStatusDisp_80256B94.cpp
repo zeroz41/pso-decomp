@@ -78,12 +78,12 @@ void TUnk_804CF930::calc_bar_width() {
     f32 target;
     f32 max = ((struct Bar_80256C00 *)this)->max;
     f32 v;
-    if (max <= 0.0f || (target = ((struct Bar_80256C00 *)this)->target) <= 0.0f) {
+    if (max <= 0.0f || (target = this->target) <= 0.0f) {
         v = 0.0f;
     } else {
-        v = (target * ((struct Bar_80256C00 *)this)->scale) / max;
+        v = (target * this->scale) / max;
     }
-    ((struct Bar_80256C00 *)this)->width = v;
+    this->width = v;
 }
 
 void TWindowSubStatusDisp__sub_80256C40(TUnk_804CF930 *self, TWindowKeyBoardSoft *ctx, Pos_80256E0C *pos, f32 depth) {

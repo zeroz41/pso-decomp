@@ -974,14 +974,14 @@ S_8005AD50 *__dt__11TBoss4Type3Fv(S_8005AD50 *o, s16 flag) {
 void TBoss4Type3::vfunc_62() {
     *(s32 *)((s8 *)((u8 *)this) + 0x30) = (s32) (*(s32 *)((s8 *)((u8 *)this) + 0x30) & 0xFFFFFDFF);
     *(f32 *)((s8 *)((u8 *)this) + 0x3E8) = (f32) 1.0f;
-    ((s32 (*)(int, void *, int, int, void *))play_sound_effect)(0x4003B734, ((u8 *)this) + 0x38, 0, 1, ((u8 *)this));
+    ((s32 (*)(int, void *, int, int, void *))play_sound_effect)(0x4003B734, ((u8 *)this) + 0x38, 0, 1, this);
 }
 
 void TBoss4Type3::vfunc_63() {
     if (((Obj_8005ACBC *)this)->f374 != 3 && ((Obj_8005ACBC *)this)->f374 != 2) {
         ((Obj_8005ACBC *)this)->f3b8 = 0xFFFF;
         ((Obj_8005ACBC *)this)->f3ba = 0xFFFF;
-        ((TBoss4Type3 *)((Obj_8005ACBC *)this))->set_action_from_table(3);
+        ((TBoss4Type3 *)this)->set_action_from_table(3);
     }
 }
 

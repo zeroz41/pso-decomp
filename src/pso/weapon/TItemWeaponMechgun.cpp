@@ -51,7 +51,7 @@ void TUnk_804A3260::reserved_53() {
 }
 
 TUnk_804A3260::TUnk_804A3260(s32 parent, u8 *item) : TItemWeapon((TObject *)((void *)parent), item) {
-    ((TItemWeapon *)this)->set_weapon_flags(0x203);
+    this->set_weapon_flags(0x203);
     *(void (**)())((s8 *)this + 0x1EC) = &spawn_weapon_impact_effect;
     this->effectJoint = -1;
     *(s32 *)((s8 *)this + 0x214) = 0;

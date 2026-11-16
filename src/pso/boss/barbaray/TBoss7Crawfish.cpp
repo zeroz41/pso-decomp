@@ -490,8 +490,8 @@ void TBoss7Crawfish::run_task() {
 
 }
 TBoss7Crawfish::~TBoss7Crawfish() {
-    ((TObjCollidable *)this)->unregister_object_by_id();
-    ((TObjCollidable *)this)->clear_collision_bodies();
+    this->unregister_object_by_id();
+    this->clear_collision_bodies();
     this->free_child();
 }
 extern "C" {

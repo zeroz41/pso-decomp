@@ -25,7 +25,7 @@ void TUnk_804F1320::activate_effect(s32 item) {
         temp_r31 = ((TObjPlayer *)(this->owner))->get_floor();
         {
         s32 t = get_current_floor();
-        if ((t == temp_r31) && (((TItem *)this)->get_mode() == 2)) {
+        if ((t == temp_r31) && (this->get_mode() == 2)) {
             spawn_pg_effect((void *)(*(u32 *)&this->owner + 0x2FC), (s32)item, (f32)(*(f32 *)&this->unk_1F8));
         }
         }

@@ -53,7 +53,7 @@ void TWindowSubEquipList::render() {
 }
 #pragma pop
 
-void TWindowSubEquipList::run_task() { { (void)(((TWindowMenuIconLine *)this)->TWindowMenuIconLine::run_task()); return; } }
+void TWindowSubEquipList::run_task() { { (void)(this->TWindowMenuIconLine::run_task()); return; } }
 
 void *__dt__19TWindowSubEquipListFv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {

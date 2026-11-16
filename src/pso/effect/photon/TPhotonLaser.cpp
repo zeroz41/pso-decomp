@@ -124,7 +124,7 @@ void run_task__12TPhotonLaserFv(Laser_801AC17C *o) {
 
 }
 TPhotonLaser::~TPhotonLaser() {
-    ((TObjCollidable *)this)->unregister_object_by_id();
+    this->unregister_object_by_id();
     free_collision_body_parts(this);
     if ((u32) this->m_364 != 0U) {
         ((TObject *)(*(void **)((s8 *)this + 0x364)))->queue_destruction();

@@ -135,7 +135,7 @@ void TLobby::roll_item_grind_bonus() {
     s32 n;
     s32 c;
     s32 r;
-    if (TItemData::is_rare_item(((Item_8021587C *)this)) == 0) {
+    if (TItemData::is_rare_item(this) == 0) {
         ((TLobby *)buf)->reset_counter_64();
         Tbl_8021587C *t = (*(G_8021587C **)&item_appraisal_rules)->t;
         n = t->count;

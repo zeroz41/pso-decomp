@@ -96,7 +96,7 @@ void TObjGyaranzoMissile::sub_800D47B4() {
     owner = find_entity_by_id(owner_id);
     collision->radius = 6.0f;
     init_all_slots__10TObjPlayerFv(owner);
-    ((TObjPlayer *)this)->check_object_collisions();
+    this->check_object_collisions();
     check_enemy_body_collisions(this);
     if (collision->flags & 0x180000) {
         for (i = 0; i < 0x10; i++) {
@@ -159,7 +159,7 @@ void TObjGyaranzoMissile::run_task() {
             if (position.y - p.y < 22.0f) {
                 collision->flags |= 2;
                 collision->flags &= ~4;
-                ((TObjPlayer *)this)->check_object_collisions();
+                this->check_object_collisions();
                 check_enemy_body_collisions(this);
                 if (collision->flags & 0x180000) {
                     sub_800D47B4();

@@ -100,7 +100,7 @@ s32 TUnk_804909C4::sub_800A3290(s32 id) {
     }
     other->sub->flags &= ~1;
     TObjPlayer::init_all_slots();
-    ((TObjPlayer *)this)->check_object_collisions();
+    this->check_object_collisions();
     check_enemy_body_collisions(this);
     other->sub->flags |= 1;
     if (((Obj_800A3290 *)this)->sub->flags & 0x180000) {
@@ -154,7 +154,7 @@ TUnk_804909C4::~TUnk_804909C4() {
 TUnk_804909C4::TUnk_804909C4(u8 *player, s32 arg2, s32 arg3) : TObjCollidable((TObject *)tl_04) {
     s32 var_r0;
     u8 *temp_r3;
-    init_collision_body_parts(((u8 *)this), lbl_80490998, 1);
+    init_collision_body_parts(this, lbl_80490998, 1);
     *(f32 *)((s8 *)(this->bodies) + 0xC) = 0.75f * player_scale_factor;
     *(s16 *)((s8 *)this + 0xC8) = get_entity_id(player, 0.75f);
     if (((TObjPlayer *)player)->is_flag_set_388_bit26() != 0) {

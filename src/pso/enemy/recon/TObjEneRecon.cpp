@@ -2137,7 +2137,7 @@ void TObjEneRecon::init_state() {
 }
 #pragma pop
 TObjEneRecon::~TObjEneRecon() {
-    ((TObjEnemy *)this)->send_entity_set_flags();
+    this->send_entity_set_flags();
     free_collision_body_parts(this);
     if (*(void **)((s8 *)this + 0x478) != NULL) { queue_destruction__7TObjectFv(*(void **)((s8 *)this + 0x478)); this->m_494 = 0; }
     __dt__13TUnk_80494938Fv((s8 *)this + 0x480, -1);

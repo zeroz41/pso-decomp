@@ -112,7 +112,7 @@ f32 post_translate_matrix(void *);
 extern RecoveredGlobal_80362FB4_lbl_80479FC8 lbl_80479FC8;
 
 void TUnk_804F27E0::update_weapon() {
-    if (((TItemWeapon *)this)->get_attack_stage() == 2) {
+    if (this->get_attack_stage() == 2) {
         (*(s32 *)((u8 *)this + 0x1FC)) = (s32) ((*(s32 *)((u8 *)this + 0x1FC)) | 1);
         return;
     }
@@ -155,11 +155,11 @@ void TUnk_804F27E0::vfunc_60() {
         if (*(s32 *)((s8 *)((u8 *)this) + 0x1FC) & 1) {
             push_matrix();
             rotate_matrix_x(0, 0x2AAA);
-            ((TItem *)((u8 *)this))->draw_model();
+            this->draw_model();
             pop_matrix();
             push_matrix();
             rotate_matrix_x(0, -0x2AAA);
-            ((TItem *)((u8 *)this))->draw_model();
+            this->draw_model();
             pop_matrix();
         }
     }

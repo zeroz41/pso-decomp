@@ -390,7 +390,7 @@ void TObjEneBm3FlyNest::run_task() {
     }
     this->vfunc_88();
     this->copy_pos();
-    ((TObjEnemy *)((u8 *)this))->submit_default_cursor_candidate();
+    this->submit_default_cursor_candidate();
     this->vfunc_100();
 }
 #pragma pop

@@ -209,7 +209,7 @@ void TUnk_804A204C::update_weapon() {
     if (((s32) this->m_204 != temp_r3) && ((u32) *(u32 *)((s8 *)this + 0xF4) != 0U)) {
         this->m_204 = temp_r3;
         if (is_item_area_enabled() != 0) {
-            create_icon__10TObjPlayerFiii(tl_05, (s32)((s32)(((TItem *)this)->get_item_id())), 5);
+            create_icon__10TObjPlayerFiii(tl_05, (s32)((s32)(this->get_item_id())), 5);
         }
     }
 }
@@ -242,7 +242,7 @@ void TUnk_804A204C::reserved_53() {
     s32 temp_r3;
     void *temp_r31;
     void *temp_r5;
-    if (((void *) *(void **)((s8 *)this + 0xF4) != NULL) && (((TItem *)this)->is_hidden() == 0)) {
+    if (((void *) *(void **)((s8 *)this + 0xF4) != NULL) && (this->is_hidden() == 0)) {
         temp_r5 = *(void **)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)this + 0xF4)) + 0x2C)) + 0x30);
         temp_r31 = *(void **)((s8 *)temp_r5 + 0x30);
         *(s32 *)((s8 *)temp_r31 + 0) = (s32) (*(s32 *)((s8 *)temp_r31 + 0) | 0x18);
@@ -252,7 +252,7 @@ void TUnk_804A204C::reserved_53() {
             push_matrix();
             TObjPlayer__sub_80364198();
             model_render_flags &= 0xFFFFFFEF;
-            ((TItem *)this)->get_owner_alpha();
+            this->get_owner_alpha();
             set_model_fade_alpha__10TObjPlayerFf();
             post_translate_matrix(&sp8);
             rotate_matrix_y(0, (int)(*(s32 *)((s8 *)this->owner + 0x60)));

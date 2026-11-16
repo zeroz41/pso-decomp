@@ -349,7 +349,7 @@ void TObjContainerIdo::load_resources() {
 
 }
 TObjContainerIdo::~TObjContainerIdo() {
-    ((TObjCollidable *)this)->unregister_object_by_id();
+    this->unregister_object_by_id();
     free_collision_body_parts(this);
     __dt__15RenderFadeStateFv((s8 *)this + 0xF0, -1);
 }

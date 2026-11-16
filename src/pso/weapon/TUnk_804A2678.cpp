@@ -121,13 +121,13 @@ void TUnk_804A2678::vfunc_57() {
             ct__13TUnk_804A0688Fv(temp_r3, *(u32 *)((s8 *)this + 0x174), get_owner_client__5TItemFv(this), 0x5A);
         }
     }
-    ((TItemWeapon *)this)->roll_technique();
-    ((TItemWeapon *)this)->roll_technique();
+    this->roll_technique();
+    this->roll_technique();
 }
 void TUnk_804A2678::update_weapon() {
     s32 area;
     area = get_current_floor_area();
-    if ((area != floor_area) && (((TItem *)this)->is_model_shown() != 0)) {
+    if ((area != floor_area) && (this->is_model_shown() != 0)) {
         floor_area = area;
         if (is_item_area_enabled(area) != 0) {
             spawn_item_follow_effect((s32)tl_05, (u32)this, 1, 0x1AE);

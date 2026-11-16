@@ -457,7 +457,7 @@ void TObjEneSaver::update_entry_motion() {
         this->referenceHp = (s16) this->hp;
         break;
     }
-    ((TObjPlayer *)((u8 *)this))->check_object_collisions();
+    this->check_object_collisions();
     check_enemy_body_collisions((this));
     minimap_render_dot((void *) (((u8 *)this) + 0x38), -0x5DB4, 1, 0);
     submit_cursor_candidate(this, -1);
@@ -531,7 +531,7 @@ void TObjEneSaver::update_knockback_state() {
         }
         break;
     }
-    ((TObjPlayer *)((u8 *)this))->check_object_collisions();
+    this->check_object_collisions();
     check_enemy_body_collisions(this);
     minimap_render_dot(((u8 *)this) + 0x38, -0x5DB4, 1, 0);
     submit_cursor_candidate(this, -1);
@@ -1310,7 +1310,7 @@ void TObjEneSaver::update_move_toward_target() {
         }
         advance_animation();
         turn_toward_target__12TObjEneSaverFv(this);
-        ((TObjPlayer *)((u8 *)this))->check_object_collisions();
+        this->check_object_collisions();
         check_enemy_body_collisions((this));
         minimap_render_dot((void *) (((u8 *)this) + 0x38), -0x5DB4, 1, 0);
         submit_cursor_candidate(this, -1);
@@ -1547,7 +1547,7 @@ void TObjEneSaver::sub_800A62D4() {
     *(s32 *)&this->actorFlags = (s32) (*(s32 *)&this->actorFlags | 0x06040000);
     *(s32 *)&this->m_374 = (s32) (*(s32 *)&this->m_374 & 0xFFFFFFF8);
     *(s32 *)((s8 *)this->bodies + 0x18) = (s32) (*(s32 *)((s8 *)this->bodies + 0x18) & 0xFFFFFFFE);
-    ((TObjMotion *)this)->advance_animation();
+    this->advance_animation();
     switch (this->phase) {
     case 0:
     default:
@@ -1576,7 +1576,7 @@ void TObjEneSaver::sub_800A62D4() {
         }
         break;
     case 2:
-        ((TObjBase *)((u8 *)this))->set_position_from((void *) (((u8 *)this) + 0x50));
+        this->set_position_from((void *) (((u8 *)this) + 0x50));
         this->update_prev_position();
         this->scale.z = (f32) 1.0f;
         this->scale.y = (f32) 1.0f;

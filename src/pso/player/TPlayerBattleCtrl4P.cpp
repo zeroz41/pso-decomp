@@ -295,7 +295,7 @@ TPlayerBattleCtrl4P* TPlayerBattleCtrl4P::construct(TObject* parent) {
     s32 i;
     const char **p;
 
-    __ct__7TObjectFP7TObject(((void *)this), parent);
+    __ct__7TObjectFP7TObject(this, parent);
     *(void **)((s8 *)((void *)this) + 0x18) = __vt__19TPlayerBattleCtrl4P;
     m_name = TPlayerBattleCtrl4P__name;
     set_split_screen_battle_phase(0);
@@ -319,7 +319,7 @@ TPlayerBattleCtrl4P* TPlayerBattleCtrl4P::construct(TObject* parent) {
 }
 
 TPlayerBattleCtrl4P* TPlayerBattleCtrl4P::destroy(s16 should_free) {
-    if (((void *)this) != NULL) {
+    if (this != NULL) {
         *(void ***)((s8 *)((void *)this) + 0x18) = __vt__19TPlayerBattleCtrl4P;
         if ((u32) this->intro_window != 0U) {
             ((TWindowBase *)this->intro_window)->close();
@@ -331,9 +331,9 @@ TPlayerBattleCtrl4P* TPlayerBattleCtrl4P::destroy(s16 should_free) {
         }
         close_player_windows();
         TPlayerBattleCtrl4P__instance = 0;
-        __dt__7TObjectFv(((void *)this), 0);
+        __dt__7TObjectFv(this, 0);
         if (should_free > 0) {
-            __dl__7TObjectFPv(((void *)this));
+            __dl__7TObjectFPv(this);
         }
     }
     return this;
@@ -381,9 +381,9 @@ void *__vt__19TPlayerBattleCtrl4P[6] = {
 };
 
 void TPlayerBattleCtrl4P::open_intro_window() {
-    if (((BattleIntroWindowState *)this)->intro_window == NULL) {
+    if (this->intro_window == NULL) {
         BattleIntroWindowSize size = {328.0f, 166.0f};
-        ((BattleIntroWindowState *)this)->intro_window = create__14TWindowMessageFPvll(
+        this->intro_window = create__14TWindowMessageFPvll(
             get_window_layout_position(0x52), &size, 1);
     }
     lbl_805D6AB0 = 0;

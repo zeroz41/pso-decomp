@@ -906,7 +906,7 @@ void TCameraCtrl::setup_default_view(void *arg1_arg) {
     if (0.0f == d.x && 0.0f == d.z) {
         pat->z += 1.0f;
     }
-    set_perspective_projection_from_fov(((Obj_8006AF9C *)this)->fov, 1.1333334f, 1.0f, 21000.0f);
+    set_perspective_projection_from_fov(this->fov, 1.1333334f, 1.0f, 21000.0f);
     set_camera_look_at((u8 *)&eye, (u8 *)&at, (u8 *)TCameraCtrl__up_vector);
 }
 #undef self

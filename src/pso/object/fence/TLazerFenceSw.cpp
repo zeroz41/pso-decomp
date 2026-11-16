@@ -214,14 +214,14 @@ void TLazerFenceSw::debug_draw_key_id() {
 }
 
 void TLazerFenceSw::trigger_activate_sound() {
-    ((TOKey *)this)->TOKey::trigger_activate_sound();
-    ((TLazerFenceSw *)this)->animation_frame = 0.0f;
+    this->TOKey::trigger_activate_sound();
+    this->animation_frame = 0.0f;
     *(f32 *)((s8 *)this + 0xEC) = 0.0f;
 }
 
 void TLazerFenceSw::trigger_deactivate_sound() {
-    ((TOKey *)this)->TOKey::trigger_deactivate_sound();
-    ((TLazerFenceSw *)this)->animation_frame = 0.0f;
+    this->TOKey::trigger_deactivate_sound();
+    this->animation_frame = 0.0f;
     *(f32 *)((s8 *)this + 0xEC) = 0.0f;
 }
 
@@ -326,7 +326,7 @@ void TLazerFenceSw::load_resources() {
 
 }
 TLazerFenceSw::~TLazerFenceSw() {
-    ((TObjCollidable *)this)->unregister_object_by_id();
+    this->unregister_object_by_id();
     free_collision_body_parts(this);
     ((CameraDistanceFade *)((s8 *)this + 0xF0))->CameraDistanceFade::~CameraDistanceFade();
 }
@@ -346,7 +346,7 @@ TLazerFenceSw::TLazerFenceSw(TObject *arg1, void *arg2) : TOKey(arg1) {
     *(f32 *)((s8 *)this + 0xEC) = 0.0f;
     init_collision_body_parts(this, lazer_fence_sw_collision_body_part, 1);
     *(s32 *)((s8 *)this + 0x30) |= 0x40000000;
-    ((TObjPlayer *)this)->register_object_by_id();
+    this->register_object_by_id();
     ((CameraDistanceFade *)((u8 *)this + 0xF0))->reset();
     TLazerFenceSw__sub_8018A554((u8 *)this + 0xF0, 2.9e+02f);
     *(f32 *)((s8 *)this + 0x110) = 0.0f;

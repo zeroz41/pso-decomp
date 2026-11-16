@@ -683,7 +683,7 @@ s32 TBoss3VoloptP01::update_sink() {
 
 void TBoss3VoloptP01::sub_80042F84() {
     if (obj_testFlags30(0x04000800) == 0) {
-        ((TObjEnemyCustom *)this)->update_if_active(9);
+        this->update_if_active(9);
     }
 }
 
@@ -729,7 +729,7 @@ void TBoss3VoloptP01::push_nearby_players() {
 void TBoss3VoloptP01::set_primary(s32 primary) {
     if (obj_testFlags30(0x800) == 0) {
         m_388 &= ~1;
-        ((TObjEnemyCustom *)this)->update_if_active(2);
+        this->update_if_active(2);
         is_primary = primary;
     }
 }

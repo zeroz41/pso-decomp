@@ -1257,7 +1257,7 @@ void TObjEnePanarms::update_timed_action() {
         return;
     }
     if ((s32) this->m_388 == 0x13) {
-        play_sound_effect(((TObjEnemy *)(this))->remap_sound_for_area(0x4003BC32), ((u8 *)this) + 0x38, 0, 0);
+        play_sound_effect(this->remap_sound_for_area(0x4003BC32), ((u8 *)this) + 0x38, 0, 0);
     }
 }
 

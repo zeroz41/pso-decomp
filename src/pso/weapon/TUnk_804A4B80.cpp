@@ -244,7 +244,7 @@ void TUnk_804A4B80::emit_marker_effects() {
     s32 var_r31;
     if (is_mode_two_and_ready() != 0) {
         copy_attack_targets((u32 *)((void *) (((u8 *)this) + 0x1F8)), (u32 *)((int) (((TObjPlayer *)(this->owner))->get_extended_state())));
-        ((TItemWeapon *)((u8 *)this))->get_gun_point(((void *) (((u8 *)this) + 0x224)));
+        this->get_gun_point(((void *) (((u8 *)this) + 0x224)));
         var_r31 = 0;
         if (!((TLobby::get_internet_beat() / 100) & 1)) {
             var_r31 = 1;
@@ -252,7 +252,7 @@ void TUnk_804A4B80::emit_marker_effects() {
         send_activate_effect(var_r31);
         return;
     }
-    ((TItemWeapon *)((u8 *)this))->get_gun_point(&sp8);
+    this->get_gun_point(&sp8);
     ((VObj_18 *)(this))->m49(&sp8, 0, 0, 1);
 }
 u32 *copy_attack_targets(u32 *dst, u32 *src) {

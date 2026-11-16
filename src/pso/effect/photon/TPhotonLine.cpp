@@ -125,7 +125,7 @@ void run_task__11TPhotonLineFv(Line_801ACB14 *self) {
 
 }
 TPhotonLine::~TPhotonLine() {
-    ((TObjCollidable *)this)->unregister_object_by_id();
+    this->unregister_object_by_id();
     free_collision_body_parts(this);
 }
 extern "C" {

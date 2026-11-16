@@ -147,7 +147,7 @@ TObjWarpJungMain::TObjWarpJungMain(TObject *parent, void *set_data) : TObjAreaWa
     m_c4 = 0.0f;
     set_params[2] = fabs_float(set_params[2] % 2);
     if (get_game_play_mode() == 1 && set_params[2] == 0) {
-        ((TObject *)this)->queue_destruction();
+        this->queue_destruction();
         return;
     }
     warp_range = 15.0f;
@@ -208,7 +208,7 @@ TObjWarpJung::TObjWarpJung(TObject *parent, void *set_data) : TObjAreaWarp(paren
     beam_frame = 0.0f;
     set_params[2] = fabs_float(set_params[2] % 2);
     if (get_game_play_mode() == 1 && set_params[2] == 1) {
-        ((TObject *)this)->queue_destruction();
+        this->queue_destruction();
         return;
     }
     warp_range = 15.0f;

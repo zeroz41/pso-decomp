@@ -768,7 +768,7 @@ void TObjEneDubchik::sub_800AA10C() {
     case 8:
     case 0:
         if ((this->is_actor_cadence_frame(0x1E) != 0) && (find_target_in_range(this->search_range) != 0)) {
-            ((TObjEnemyCustom *)((u8 *)this))->update_if_active(1);
+            this->update_if_active(1);
         }
         break;
     case 1:
@@ -777,16 +777,16 @@ void TObjEneDubchik::sub_800AA10C() {
         }
         temp_r0_2 = *(u32 *)((s8 *)((u8 *)this) + 0x2A8);
         if (temp_r0_2 == 0U) {
-            ((TObjEnemyCustom *)((u8 *)this))->update_if_active(8);
+            this->update_if_active(8);
             return;
         }
         if (this->chase_distance >= 80.0f) {
             this->chase_distance = 0.0f;
-            if ((*(f32 *)((s8 *)((u8 *)this) + 0x354) >= 0.0f) && (((TObjChara *)this)->random_ratio() < 0.35f)) {
+            if ((*(f32 *)((s8 *)((u8 *)this) + 0x354) >= 0.0f) && (this->random_ratio() < 0.35f)) {
                 this->targetId = pick_random_nearby_player(150.0f);
                 if (this->targetId != 0xFFFF) {
                     *(u32 *)((s8 *)((u8 *)this) + 0x2A8) = find_active_entity_by_id(this->targetId);
-                    ((TObjEnemyCustom *)((u8 *)this))->update_if_active(9);
+                    this->update_if_active(9);
                     return;
                 }
                 find_target_in_range((f32) (50.0f + this->search_range));
@@ -799,11 +799,11 @@ void TObjEneDubchik::sub_800AA10C() {
                     this->attack_count = 0;
                     this->target_nearest_player(40.0f);
                 }
-                ((TObjEnemyCustom *)((u8 *)this))->update_if_active(2);
+                this->update_if_active(2);
                 return;
             }
         } else if (this->is_actor_cadence_frame(0x1E) != 0) {
-            ((TObjEnemyCustom *)this)->find_target_in_range((f32) (50.0f + this->search_range));
+            this->find_target_in_range((f32) (50.0f + this->search_range));
         }
         break;
     }

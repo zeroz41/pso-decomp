@@ -277,7 +277,7 @@ void TUnk_80493450::vfunc_60() {
     default:
         this->mode = 5;
         this->phase = 1;
-        if (BEAST_ATTACK_CHOICE_THRESHOLD < ((TObjChara *)this)->random_ratio()) {
+        if (BEAST_ATTACK_CHOICE_THRESHOLD < this->random_ratio()) {
             this->requested_action = 3;
         } else {
             this->requested_action = 4;
@@ -632,7 +632,7 @@ void TUnk_80493450::vfunc_58() {
             this->mode = 1;
         }
         this->phase = 0;
-        ((TUnk_80493450 *)this)->request_stand_action();
+        this->request_stand_action();
         obj_setFlags30(this, 0x04040000);
         set_indexed_flags(0, 0x0A000000);
         break;

@@ -509,7 +509,7 @@ void TObjEneDellBiter::update_attack_effect() {
         TObjEneGibbles__sub_800D8988((s32)&position);
         return;
     }
-    play_sound_effect(((TObjEnemy *)(this))->remap_sound_for_area((s32)((void *)0x40039E11)), &position, 0, 0);
+    play_sound_effect(this->remap_sound_for_area((s32)((void *)0x40039E11)), &position, 0, 0);
 }
 
 void TObjEneDellBiter::spawn_front_particle() {
@@ -572,7 +572,7 @@ void TObjEneDellBiter::fn_8030591C() {
             fn_800D8830(this, &position);
             return;
         }
-        play_persistent_sound(((TObjEnemy *)(this))->remap_sound_for_area((s32)((void *)0x40039E13)), (s32)this, (u32)&position, 0, 0);
+        play_persistent_sound(this->remap_sound_for_area((s32)((void *)0x40039E13)), (s32)this, (u32)&position, 0, 0);
         spawn_particle_effect(&position, 0xF0);
     }
 }
@@ -793,7 +793,7 @@ void TObjEneDellBiter::fn_80305034(s32 reason) {
         VecCopy((Vec *)(&m_2fc), &position);
         field_488 = 0;
         field_48c = 0;
-        play_sound_effect(((TObjEnemy *)(this))->remap_sound_for_area((s32)((void *)0x40039E12)), &position, 0, 0);
+        play_sound_effect(this->remap_sound_for_area((s32)((void *)0x40039E12)), &position, 0, 0);
         return;
     case 3:
         if ((s32) field_4d0 == 2) {
@@ -809,7 +809,7 @@ void TObjEneDellBiter::fn_80305034(s32 reason) {
             if ((s32) state_timer > 0x14) {
                 field_4d0 = 1;
                 this->requested_action = 3;
-                play_sound_effect(((TObjEnemy *)(this))->remap_sound_for_area((s32)((void *)0x40039B14)), &position, 0, 0);
+                play_sound_effect(this->remap_sound_for_area((s32)((void *)0x40039B14)), &position, 0, 0);
             }
             fn_8030591C();
             this->move_with_wall_slide_on_ground((f32) (target_direction.x), (f32) (target_direction.z), 1.2f);
@@ -847,7 +847,7 @@ void TObjEneDellBiter::fn_80304D10(s32 reason) {
         fade.reset_obstruction_fade();
         field_4dc = TObjEneDellBiter__movement_params->rush_speed;
         field_4d0 = 0;
-        play_sound_effect(((TObjEnemy *)(this))->remap_sound_for_area((s32)((void *)0x40039E12)), &position, 0, 0);
+        play_sound_effect(this->remap_sound_for_area((s32)((void *)0x40039E12)), &position, 0, 0);
         VecCopy(&position, &home_position);
         VecCopy(&prev_position, &position);
         VecCopy((Vec *)(&m_2fc), &position);
@@ -877,7 +877,7 @@ void TObjEneDellBiter::fn_80304D10(s32 reason) {
                 state_timer = 0;
                 flags &= ~4;
                 this->set_field_378(5);
-                play_sound_effect(((TObjEnemy *)(this))->remap_sound_for_area((s32)((void *)0x40039B14)), &position, 0, 0);
+                play_sound_effect(this->remap_sound_for_area((s32)((void *)0x40039B14)), &position, 0, 0);
             }
             vfunc_102();
             break;
@@ -1034,7 +1034,7 @@ void TObjEneDellBiter::fn_803044AC(s32 reason) {
         switch (state_timer) {
         case 0:
             if (is_passing_frame(16.0f) != 0 || is_passing_frame(26.0f) != 0) {
-                play_sound_effect(((TObjEnemy *)(this))->remap_sound_for_area((s32)((void *)0x40039E12)), &position, 0, 0);
+                play_sound_effect(this->remap_sound_for_area((s32)((void *)0x40039E12)), &position, 0, 0);
                 this->spawn_front_particle();
             }
             if (this->get_flag_b4() != 0) {
@@ -1086,7 +1086,7 @@ void TObjEneDellBiter::fn_803044AC(s32 reason) {
                 state_timer = 2;
                 field_4d0 = 0;
                 this->set_field_378(5);
-                play_sound_effect(((TObjEnemy *)(this))->remap_sound_for_area((s32)((void *)0x40039B14)), &position, 0, 0);
+                play_sound_effect(this->remap_sound_for_area((s32)((void *)0x40039B14)), &position, 0, 0);
             }
             break;
         case 2:
@@ -1153,7 +1153,7 @@ void TObjEneDellBiter::fn_803042B0(s32 reason) {
             }
             update_contact_attacks();
             if (is_passing_frame(10.8f) != 0) {
-                play_sound_effect((int) (((TObjEnemy *)(this))->remap_sound_for_area((s32)((void *) (0x40039E16)))), &position, 0, 0);
+                play_sound_effect((int) (this->remap_sound_for_area((s32)((void *) (0x40039E16)))), &position, 0, 0);
             }
             if (this->get_flag_b4() != 0) {
                 this->requested_action = 0;
@@ -1215,7 +1215,7 @@ void TObjEneDellBiter::fn_803040D0(s32 reason) {
             }
             if (is_passing_frame(11.0f) != 0) {
                 this->fn_80305688();
-                play_sound_effect((int)((void *) (((TObjEnemy *)(this))->remap_sound_for_area((s32)((void *)(0x40039E15))))), &position, 0, 0);
+                play_sound_effect((int)((void *) (this->remap_sound_for_area((s32)((void *)(0x40039E15))))), &position, 0, 0);
             }
         }
         this->vfunc_102();
@@ -1262,7 +1262,7 @@ void TObjEneDellBiter::fn_80303F04(s32 reason) {
             }
         }
         if (is_passing_frame(11.0f) != 0) {
-            play_sound_effect(((TObjEnemy *)(this))->remap_sound_for_area((s32)((void *)0x40039E15)), &position, 0, 0);
+            play_sound_effect(this->remap_sound_for_area((s32)((void *)0x40039E15)), &position, 0, 0);
         }
         if (this->get_flag_b4() != 0) {
             state_timer = 1;
@@ -1346,7 +1346,7 @@ void TObjEneDellBiter::fn_80303BC0(s32 reason) {
                     var_f31 *= 1.5f;
                 }
                 new TObjEneDellBiter_Eff_TpAbsorb1(this, this, &part_positions[0], field_4d8, attack_history, var_f31);
-                play_sound_effect(((TObjEnemy *)(this))->remap_sound_for_area((s32)((void *)0x40039F17)), &position, 0, 0);
+                play_sound_effect(this->remap_sound_for_area((s32)((void *)0x40039F17)), &position, 0, 0);
             }
             if (is_passing_frame(1.0f) != 0) {
                 spawn_particle_effect(&part_positions[0], 0x21F);
@@ -1405,7 +1405,7 @@ void TObjEneDellBiter::state_death(s32 reason) {
         if (get_current_floor_area() == AREA_TOWER) {
             play_sound_effect(0x4003A358, &position, 0, 0);
         } else {
-            play_sound_effect((int)(((TObjEnemy *)(this))->remap_sound_for_area((s32)((void *)(0x4003A31A)))), &position, 0, 0);
+            play_sound_effect((int)(this->remap_sound_for_area((s32)((void *)(0x4003A31A)))), &position, 0, 0);
         }
         state_timer = 0;
         return;

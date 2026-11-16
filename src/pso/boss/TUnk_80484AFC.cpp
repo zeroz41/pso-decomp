@@ -56,7 +56,7 @@ void TUnk_80484AFC::explode_and_destroy() {
     play_sound_effect(0x4001C112, &position, 0, 0);
     bodies->radius = 15.0f;
     TObjPlayer::init_all_slots();
-    ((TObjPlayer *)this)->check_object_collisions();
+    this->check_object_collisions();
     if (bodies->flags & 0x80000) {
         for (i = 0; i < 16; i++) {
             target = (TObjChara *)TObjPlayer::get_battle_param(i);
@@ -117,7 +117,7 @@ void TUnk_80484AFC::run_task() {
     } else {
         bodies->flags |= 4;
     }
-    ((TObjPlayer *)this)->check_object_collisions();
+    this->check_object_collisions();
     check_enemy_body_collisions(this);
     if (bodies->flags & 0x180000) {
         explode_and_destroy();

@@ -38,7 +38,7 @@ void *TObjCollision::create(void *arg0) {
 }
 TObjCollision::~TObjCollision() {
     free_collision_body_parts(this);
-    ((TObjCollidable *)this)->unregister_object_by_id();
+    this->unregister_object_by_id();
 }
 extern "C" {
 u8 *TObjCollision__ct(u8 *arg0, s32 arg1, s32 arg2) {

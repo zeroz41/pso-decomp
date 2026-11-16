@@ -160,7 +160,7 @@ TOTrapAncient01::TOTrapAncient01(TObject *parent, void *set_data) : TOTrap(paren
     refresh_collision_body_centers();
     actorFlags |= 0x60040000;
     get_or_assign_entity_id(0);
-    ((TObjPlayer *)this)->register_object_by_id();
+    this->register_object_by_id();
     for (i = 0; i < 4; i++) {
         fades[i].activate_and_dispatch();
     }
@@ -316,7 +316,7 @@ void TOTrapAncient01::vfunc_82() {
         ((Trap_801797D4 *)this)->fA4->fC = 15.0f;
         set_indexed_flags(0, 0x100);
         TObjPlayer::init_all_slots();
-        ((TObjPlayer *)this)->check_object_collisions();
+        this->check_object_collisions();
         for (i = 0; i < 16; i++) {
             p = get_battle_param__10TObjPlayerFi(i);
             if (p == 0) {

@@ -4540,10 +4540,10 @@ s32 TBoss1Dragon::update_max_hp_phase() {
 
 void TBoss1Dragon::remap_sequence_after_recovery() {
     if ((s32) this->m_760 != 0) {
-        next_sequence_action__12TBoss1DragonFv(((u8 *)this));
+        next_sequence_action__12TBoss1DragonFv(this);
         return;
     }
-    if (((TBoss1Dragon *)((u8 *)this))->update_max_hp_phase() == 0) {
+    if (this->update_max_hp_phase() == 0) {
         switch (isV2Mode__12TBoss1DragonFv()) {
         case 0:
             this->sequenceCursor = boss1_dragon_sequence_remap_table[this->sequenceCursor];
@@ -4552,7 +4552,7 @@ void TBoss1Dragon::remap_sequence_after_recovery() {
             this->sequenceCursor = lbl_80480D48[this->sequenceCursor];
             break;
         }
-        next_sequence_action__12TBoss1DragonFv(((u8 *)this));
+        next_sequence_action__12TBoss1DragonFv(this);
     }
 }
 

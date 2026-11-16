@@ -499,7 +499,7 @@ void TWindowSubComCardList::update_layout_height(f32 x) {
     f32 sum = 0.0f;
     u32 i;
     for (i = 0; i < ((Win_80265E60 *)this)->count; i++) {
-        Ent_80265E60 *e = ((Ent_80265E60 *)((TWindowBase *)this)->TWindowBase::get_array_entry(i));
+        Ent_80265E60 *e = ((Ent_80265E60 *)this->TWindowBase::get_array_entry(i));
         if (get_field_20__17TWindowSubComCardFv(e) != 0) {
             if (!(e->h <= lbl_8044F330)) {
                 sum += 2.0f + e->h;

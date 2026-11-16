@@ -208,9 +208,9 @@ void TObjLazerFenceNorm::reset_by_door() {
 }
 
 void TObjLazerFenceNorm::update_closed() {
-    ((TObjLazerFenceNorm_80192CCC *)this)->frame += 0.9f;
+    this->frame += 0.9f;
     if ((f32)(((TObjLazerFenceNorm_80192CCC *)this)->motion->frames - 1) < ((TObjLazerFenceNorm_80192CCC *)this)->frame) {
-        ((TObjLazerFenceNorm_80192CCC *)this)->frame = lbl_805DBE58[0];
+        this->frame = lbl_805DBE58[0];
     }
     if (is_current_floor_switch_set((u16)((TObjLazerFenceNorm_80192CCC *)this)->switchId) == 1) {
         clear_player_status_flag(0, 1);
@@ -350,9 +350,9 @@ void TObjLazerFenceExtra::reset_by_door() {
 }
 
 void TObjLazerFenceExtra::update_wait_switch() {
-    ((TObjLazerFenceExtra_801926D0 *)this)->frame += 0.9f;
+    this->frame += 0.9f;
     if ((f32)(((TObjLazerFenceExtra_801926D0 *)this)->motion->frames - 1) < ((TObjLazerFenceExtra_801926D0 *)this)->frame) {
-        ((TObjLazerFenceExtra_801926D0 *)this)->frame = lbl_805DBE58[0];
+        this->frame = lbl_805DBE58[0];
     }
     if (is_current_floor_switch_set((u16)((TObjLazerFenceExtra_801926D0 *)this)->switchId) == 1) {
         clear_player_status_flag(0, 1);

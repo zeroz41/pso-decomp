@@ -62,7 +62,7 @@ void TWindowSubItemList::render() {
 }
 #pragma pop
 
-void TWindowSubItemList::run_task() { { (void)(((TWindowMenuIconLine *)this)->TWindowMenuIconLine::run_task()); return; } }
+void TWindowSubItemList::run_task() { { (void)(this->TWindowMenuIconLine::run_task()); return; } }
 
 void *__dt__18TWindowSubItemListFv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {

@@ -70,8 +70,8 @@ void TAdLoadQuestPrtTxtGC::run_task() {
 }
 TAdLoadQuestPrtTxtGC::~TAdLoadQuestPrtTxtGC() {
     s32 i;
-    if (((u32 *)&quest_load_prt_txt_by_slot)[((T_8034A198 *)this)->slot] != 0) {
-        ((u32 *)&quest_load_prt_txt_by_slot)[((T_8034A198 *)this)->slot] = 0;
+    if (((u32 *)&quest_load_prt_txt_by_slot)[this->slot] != 0) {
+        ((u32 *)&quest_load_prt_txt_by_slot)[this->slot] = 0;
     }
     for (i = 0; i < ((T_8034A198 *)this)->count; i++) {
         if (((T_8034A198 *)this)->objs[i] != NULL) {

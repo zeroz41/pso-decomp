@@ -928,7 +928,7 @@ void TBoss6Type2::restore_target_player_state() {
     if (id != 0xFFFF) {
         player = get_player_by_client_id(id);
         if (player == NULL) {
-            ((TBoss6Type2 *)((Obj_802BA158 *)this))->reset_fish_fields();
+            ((TBoss6Type2 *)this)->reset_fish_fields();
             return;
         }
         ((TBoss6Type2 *)(player + 0xCF4))->copy_vec2((void*)((void *) (((u8 *)this) + 0x574)));
@@ -937,7 +937,7 @@ void TBoss6Type2::restore_target_player_state() {
         *(s32 *)((s8 *)player + 0x8B0) = (s32) *(s32 *)((s8 *)((u8 *)this) + 0x590);
         *(s32 *)((s8 *)player + 0x8AC) = (s32) *(s32 *)((s8 *)((u8 *)this) + 0x594);
         *(s32 *)((s8 *)player + 0x8B4) = (s32) *(s32 *)((s8 *)((u8 *)this) + 0x598);
-        ((TBoss6Type2 *)((Obj_802BA158 *)this))->reset_fish_fields();
+        ((TBoss6Type2 *)this)->reset_fish_fields();
     }
 }
 

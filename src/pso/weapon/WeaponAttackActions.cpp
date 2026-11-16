@@ -454,7 +454,7 @@ void TObjPlayer::set_flag_8_if_check_passes() {
     u8 *var_r31;
     if (this != NULL) {
         var_r31 = (u8 *)this;
-        if (((TItem *)(((u8 *)this)))->get_mode() != 0) {
+        if (((TItem *)(this))->get_mode() != 0) {
             ((TItemWeapon *)var_r31)->set_flag_8();
         }
     }
@@ -766,7 +766,7 @@ s32 TItemWeapon::launch_shot(u8 *arg1, s32 i, s32 arg3, s32 arg4) {
                         hit.kind = (s32) ((s16 (*)(void *))is_status_subsystem_ready__10TObjPlayerFv)((void *)this->owner);
                         hit.source = get_entity_id((void *)this->owner);
                         hit.target = get_entity_id(var_r29);
-                        hit.weapon = ((TItem *)((u8 *)this))->get_item_id();
+                        hit.weapon = this->get_item_id();
                         hit.collider = get_captured_target_collider_index(temp_r22_3);
                         hit.damage = ((f32 (*)(void *))query_extended_state__10TObjPlayerFv)((void *)this->owner);
                         spawn_item_attacker((s32)tl_05, (u32)arg1, ((s32) var_f31), (u8 *)&hit.reserved);
@@ -802,7 +802,7 @@ void TUnk_804A69DC::for_each_target_in_range(f32 range) {
     s32 ready;
     if (is_active_in_game() != 0) {
         remap_extra_attack_type();
-        state = ((TObjPlayer *)(((PlSelf_8011F474 *)this)->owner))->get_extended_state();
+        state = ((TObjPlayer *)(this->owner))->get_extended_state();
         if (state != NULL) {
             for (i = 0; i != get_captured_target_count((s32 *)state); i++) {
                 ent = get_captured_target_entry(state, i);
@@ -810,8 +810,8 @@ void TUnk_804A69DC::for_each_target_in_range(f32 range) {
                 id = get_captured_target_collider_index(ent);
                 obj = resolve_hittable_target(uid, id);
                 if (obj != NULL && horizontal_distance_squared(((PlSelf_8011F474 *)this)->owner->pos, obj->pos) < range) {
-                    ready = ((s16 (*)(void *))is_status_subsystem_ready__10TObjPlayerFv)(((PlSelf_8011F474 *)this)->owner);
-                    ((TObjPlayer *)(((PlSelf_8011F474 *)this)->owner))->query_extended_state();
+                    ready = ((s16 (*)(void *))is_status_subsystem_ready__10TObjPlayerFv)(this->owner);
+                    ((TObjPlayer *)(this->owner))->query_extended_state();
                     ((PlSelf_8011F474 *)this)->on_near(((PlSelf_8011F474 *)this)->owner, obj, ready, id);
                 }
             }
@@ -862,10 +862,10 @@ struct VObj_8011F578 : Base_8011F578 {
 
 void TUnk_804A4D70::apply_scale_if_active(f32 farg0) {
 
-    if (((TItemWeapon *)this)->is_active_in_game() != 0) {
-        ((TItemWeapon *)this)->remap_extra_attack_type();
+    if (this->is_active_in_game() != 0) {
+        this->remap_extra_attack_type();
         ((VObj_8011F578 *)(this->owner))->m65(farg0);
-        ((TItemWeapon *)this)->restore_action_type();
+        this->restore_action_type();
     }
 }
 
@@ -1035,7 +1035,7 @@ s32 add_weapon_grind(Obj_8011F710 *arg0, s32 arg1) {
 u32 TItemWeapon::get_attack_flags() {
     u32 flags = 0;
     Item_8011F760 *it;
-    if (((TItem *)this)->get_icon_index() == 3) {
+    if (this->get_icon_index() == 3) {
         flags |= 2;
     } else {
         flags |= 1;
@@ -1089,8 +1089,8 @@ void TItemWeapon::deliver_hit(s32 arg1, u8 *arg2, s32 arg3, s32 arg4, f32 farg0)
                 ((VObj_18_f8c4e0 *)(this->owner))->m73();
                 apply_camera_shake__10TObjPlayerFiii((s32)this->owner, (s32)arg2, (s32)temp_r31_2);
                 ((TObjPlayer *)(&stack.sp8))->reset_status_block();
-                stack.sp8 = ((TItem *)((u8 *)this))->get_item_group();
-                stack.sp9 = ((TItem *)((u8 *)this))->get_item_index();
+                stack.sp8 = this->get_item_group();
+                stack.sp9 = this->get_item_index();
                 stack.spC = (u8 *)this->owner;
                 stack.sp14 = arg2;
                 stack.sp18 = arg4;

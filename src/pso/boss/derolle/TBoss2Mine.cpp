@@ -754,7 +754,7 @@ TBoss2Mine::TBoss2Mine(TObject *parent, u16 entity_id, s32 set_index, s32 varian
     *(s32 *)((s8 *)this + 0) = (s32) TBoss2Mine__name;
     temp_r3 = get_instance__13TBoss2DeRolLeFv();
     if (temp_r3 != 0) {
-        ((TObjEneDD *)this)->init_common_from((u8 *)temp_r3);
+        this->init_common_from((u8 *)temp_r3);
     }
     this->entity_id = entity_id;
     this->set_index = set_index;

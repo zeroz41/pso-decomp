@@ -395,7 +395,7 @@ s32 TShopEquipmentListWindow::handle_confirm() {
     if (o->m8() != 0 && (sub_80223A48__15TShopWindowBaseFv(this) != 0 || sub_802239EC__13TShopSequenceFv(this) != 0)) {
         o->m4(0xB, 1);
         ((TWindowMenuIconLine *)(this->m_30))->clear_decided();
-        ((TShopWindowBase *)this)->TShopWindowBase::set_field_20(1);
+        this->TShopWindowBase::set_field_20(1);
     }
 }
 
@@ -404,7 +404,7 @@ s32 TShopEquipmentListWindow::handle_select() {
     if (o->m8() != 0 && (sub_80223A48__15TShopWindowBaseFv(this) != 0 || sub_802239EC__13TShopSequenceFv(this) != 0)) {
         o->m4(0xB, 1);
         ((TWindowMenuIconLine *)(this->m_30))->clear_decided();
-        ((TShopWindowBase *)this)->TShopWindowBase::set_field_20(1);
+        this->TShopWindowBase::set_field_20(1);
     }
 }
 

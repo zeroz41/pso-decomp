@@ -929,7 +929,7 @@ void TItem::set_mode(s8 new_mode) {
 void TItem::register_in_world(s32 clear_status) {
     if (get_entity_id(this) == 0xFFFF) {
         set_entity_id(pop_free_entity_id());
-        ((TObjPlayer *)this)->register_object_by_id();
+        this->register_object_by_id();
         if (clear_status != 0) {
             clear_player_status_flag(0, 1);
         }

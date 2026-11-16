@@ -422,7 +422,7 @@ s32 TBoss3VoloptCore::check_target_collision() {
     }
     found = 0;
     TObjPlayer::init_all_slots();
-    ((TObjPlayer *)this)->check_object_collisions();
+    this->check_object_collisions();
     if (bodies->flags & 0x80000) {
         for (i = 0; i < 0x10; i++) {
             object = (TBoss3VoloptCoreTarget *)TObjPlayer::get_battle_param(i);

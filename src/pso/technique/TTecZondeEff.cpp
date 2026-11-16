@@ -518,7 +518,7 @@ u8 *TTecZonde::construct_bolt_effect(u8 *arg1, u8 *arg2, u8 *arg3, s32 arg4, s32
     *(s16 *)((s8 *)((u8 *)this) + 0x25C) = 0;
     *(s32 *)((s8 *)((u8 *)this) + 0x38) = 0xD;
     ((TTecZondeEff *)((u8 *)this))->init_bolt_points();
-    ((TTecZondeEff *)((Obj_8023D4A8 *)(this)))->randomize_bolt_jitter();
+    ((TTecZondeEff *)this)->randomize_bolt_jitter();
     *(s32 *)((s8 *)((u8 *)this) + 0x248) = 0;
     *(s32 *)((s8 *)((u8 *)this) + 0x24C) = 0xFF000000;
     *(s16 *)((s8 *)((u8 *)this) + 0x25E) = 0;
@@ -539,7 +539,7 @@ u8 *TTecZondeEff::construct(u8 *arg1, u8 *arg2, u8 *arg3, f32 farg0) {
     *(s16 *)((s8 *)((u8 *)this) + 0x25C) = 0;
     *(s32 *)((s8 *)((u8 *)this) + 0x38) = 0xD;
     this->init_bolt_points();
-    ((TTecZondeEff *)((Obj_8023D4A8 *)(this)))->randomize_bolt_jitter();
+    ((TTecZondeEff *)this)->randomize_bolt_jitter();
     *(s32 *)((s8 *)((u8 *)this) + 0x248) = 0;
     *(s32 *)((s8 *)((u8 *)this) + 0x24C) = 0xFF000000;
     *(s16 *)((s8 *)((u8 *)this) + 0x25E) = 0;

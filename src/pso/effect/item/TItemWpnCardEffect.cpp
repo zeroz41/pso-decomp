@@ -443,15 +443,15 @@ extern "C" {
 void TUnk_804EDC28::emit_marker_effects() {
     s32 sp8;
 
-    ((TItemWeapon *)this)->get_joint_position(4, &sp8);
+    this->get_joint_position(4, &sp8);
     if (get_validated_attack_stage((u8 *)(*(s32 *)&(*(NJS_MOTION_LINK *)((u8 *)this + 0xE4)).frame[1] + 0x7CC)) == 2) {
-        ((TItemWeapon *)this)->fire_shot_at_target(&sp8, (void *)*(s32 *)&(*(s16 *)((u8 *)this + 0xF4)), 0);
-        ((TItemWeapon *)this)->fire_shot_at_target(&sp8, (void *)*(s32 *)&(*(s16 *)((u8 *)this + 0xF4)), 0x1555);
-        ((TItemWeapon *)this)->fire_shot_at_target(&sp8, (void *)*(s32 *)&(*(s16 *)((u8 *)this + 0xF4)), -0x1555);
+        this->fire_shot_at_target(&sp8, (void *)*(s32 *)&(*(s16 *)((u8 *)this + 0xF4)), 0);
+        this->fire_shot_at_target(&sp8, (void *)*(s32 *)&(*(s16 *)((u8 *)this + 0xF4)), 0x1555);
+        this->fire_shot_at_target(&sp8, (void *)*(s32 *)&(*(s16 *)((u8 *)this + 0xF4)), -0x1555);
     } else {
-        ((TItemWeapon *)this)->fire_shot_at_target(&sp8, (void *)*(s32 *)&(*(s16 *)((u8 *)this + 0xF4)), 0);
+        this->fire_shot_at_target(&sp8, (void *)*(s32 *)&(*(s16 *)((u8 *)this + 0xF4)), 0);
     }
-    if (((TItemWeapon *)this)->get_attack_stage() == 0) {
+    if (this->get_attack_stage() == 0) {
         ((TObjPlayer *)tl_05)->spawn_cane_effect((TItem*)this, 4);
     }
 }

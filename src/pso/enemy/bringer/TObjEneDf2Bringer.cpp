@@ -1715,7 +1715,7 @@ TObjEneDf2Bringer::~TObjEneDf2Bringer() {
         o->m0(1);
     }
     *(void **)((s8 *)this + 0x498) = NULL;
-    free_collision_body_parts(((u8 *)this));
+    free_collision_body_parts(this);
     __destroy_arr(((u8 *)this) + 0x3E0, __dt__15RenderFadeStateFv, 0x1C, 4);
     __dt__13TUnk_80490470Fv(((u8 *)this) + 0x3C4, -1);
 }

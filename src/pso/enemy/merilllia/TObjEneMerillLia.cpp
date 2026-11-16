@@ -1011,7 +1011,7 @@ void TObjEneMerillLia::render() {
       if (var_r29 != 0)
       {
         (((VObj_14_fddec9 *)(((u8 *) ((u8 *)this)) + 936))->m6());
-        if (((TObject *)this)->defer_render() != 0)
+        if (this->defer_render() != 0)
         {
           var_r30 = 0;
         }
@@ -1353,11 +1353,11 @@ void TObjEneMerillLia__sub_800D5BCC(u8 *arg0) {
 void TObjEneMerillLia::beast_update_hurt() {
     Vec_800D5BCC pos;
 
-    ((TObjMotion *)((u8 *)this))->advance_animation();
+    this->advance_animation();
     VecCopy((Vec *)&pos, (const Vec *)(((u8 *)this) + 0x2FC));
     scratch_vec.y = 0.0f;
     scratch_vec.x = 0.0f;
-    scratch_vec.z = get_collision_body_radius(((u8 *)this), 0);
+    scratch_vec.z = get_collision_body_radius(this, 0);
     push_matrix_from(&identity_matrix);
     rotate_matrix_y(0, -*(s32 *)((s8 *)((u8 *)this) + 0x60));
     rotate_vector_by_matrix(0, &scratch_vec, &scratch_vec);
@@ -1365,7 +1365,7 @@ void TObjEneMerillLia::beast_update_hurt() {
     vec3_add_to(&pos, &scratch_vec);
     pos.x = pos.x + *(f32 *)((s8 *)((u8 *)this) + 0x308);
     pos.z = pos.z + *(f32 *)((s8 *)((u8 *)this) + 0x310);
-    if (check_path_obstructed(((u8 *)this), &pos) == 0) {
+    if (check_path_obstructed(this, &pos) == 0) {
         move_with_wall_slide(((u8 *)this));
         *(f32 *)((s8 *)((u8 *)this) + 0x308) *= 0.5f;
         *(f32 *)((s8 *)((u8 *)this) + 0x310) *= 0.5f;
@@ -1374,15 +1374,15 @@ void TObjEneMerillLia::beast_update_hurt() {
         *(f32 *)((s8 *)((u8 *)this) + 0x308) = 0.0f;
     }
     ((TObjPlayer *)((u8 *)this))->update_collisions();
-    ((TObjPlayer *)((u8 *)this))->update_enemy_collision_flags();
-    if (((TObjMotion *)((u8 *)this))->is_passing_frame(0.0f) != 0) {
-        ((TObjEneMerillLia *)((u8 *)this))->vfunc_97();
+    this->update_enemy_collision_flags();
+    if (this->is_passing_frame(0.0f) != 0) {
+        this->vfunc_97();
     }
     if (*(u32 *)((s8 *)((u8 *)this) + 0xB4) != 8) {
-        ((TObjBase *)((u8 *)this))->obj_clearFlags30(0x600);
-        ((TObjCollidable *)((u8 *)this))->clear_player_status_flag(0, 0x04000000);
+        this->obj_clearFlags30(0x600);
+        this->clear_player_status_flag(0, 0x04000000);
         if ((f32)*(s16 *)((s8 *)((u8 *)this) + 0x32C) <= (f32)*(s16 *)((s8 *)((u8 *)this) + 0x2B8) * *(f32 *)((s8 *)((u8 *)this) + 0x3CC)) {
-            ((TObjEneMerillLia *)((u8 *)this))->select_action_by_distance();
+            this->select_action_by_distance();
         }
         *(s16 *)((s8 *)((u8 *)this) + 0x33E) = *(s16 *)((s8 *)((u8 *)this) + 0x32C);
     }

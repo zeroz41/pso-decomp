@@ -189,7 +189,7 @@ TMedicalCenterSequence::~TMedicalCenterSequence() {
         ((TObject *)(*(void **)((s8 *)this + 0x34)))->queue_destruction();
         *(u32 *)((s8 *)this + 0x34) = 0U;
     }
-    ((TShopSequence *)this)->close_message_window();
+    this->close_message_window();
     if ((u32) this->m_2c != 0U) {
         ((TWindowBase *)(*(void **)((s8 *)this + 0x2C)))->close();
         this->m_2c = 0U;

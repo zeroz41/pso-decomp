@@ -1069,7 +1069,7 @@ void TObjEneRecobox::run_task() {
     }
     this->vfunc_88();
     ((TObjEneRecon *)((u8 *)this))->restore_position();
-    ((TObjEnemy *)((u8 *)this))->submit_default_cursor_candidate();
+    this->submit_default_cursor_candidate();
     this->vfunc_100();
     this->update_floor_probe();
 }

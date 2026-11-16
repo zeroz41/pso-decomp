@@ -1160,7 +1160,7 @@ void TObjEneDarkGunner::vfunc_62() {
             trigger_targets_action__10TObjPlayerFv();
             return;
         }
-        ((TObjEnemyCustom *)this)->set_state(4);
+        this->set_state(4);
     }
 }
 

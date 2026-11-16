@@ -567,9 +567,9 @@ void TShopJudgmentItemWindow::handle_input() {
         play_sound_effect(0x52D01, 0, 0, 0);
         return;
     }
-    if (((TShopWindowBase *)this)->TShopWindowBase::sub_80223A48() != 0) {
+    if (this->TShopWindowBase::sub_80223A48() != 0) {
         this->m_158 = (s32)create_yes_no_window(get_window_layout_position(0x2B), (u16)get_entity_id(this->m_24), 0, 0);
-        ((TWindowAddition *)(this->m_158))->set_position_xy(((TShopWindowBase *)this)->TShopWindowBase::get_scale(), ((TShopWindowBase *)this)->TShopWindowBase::get_scale());
+        ((TWindowAddition *)(this->m_158))->set_position_xy(this->TShopWindowBase::get_scale(), this->TShopWindowBase::get_scale());
         ((VObj_80221344_802205E4 *)this)->m6(3, 1);
         set_field_20(2);
         play_sound_effect(0x52D01, 0, 0, 0);

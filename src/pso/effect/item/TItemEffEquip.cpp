@@ -214,8 +214,8 @@ TUnk_8049F038::TUnk_8049F038(TObject *parent, s16 a, s32 b) : TObjCollidable(par
         set_entity_id(pop_free_entity_id());
     }
     ((TObjCollidable *)this)->set_collision_body(((Obj_80108C90 *)this)->sub);
-    ((TObjPlayer *)this)->register_object_by_id();
-    ((TObject *)this)->disallow_rendering();
+    this->register_object_by_id();
+    this->disallow_rendering();
 }
 
 TUnk_8049F038::~TUnk_8049F038() {
@@ -284,7 +284,7 @@ void *TItemEffEquip__ct(void *arg0, void *arg1, void *arg2, void *arg3, void *ar
 }
 #undef self
 TItemEffEquip::~TItemEffEquip() {
-    TParticleCtrl::release(((Equip_Self *)this)->m_20);
+    TParticleCtrl::release(this->m_20);
 }
 
 extern "C" {

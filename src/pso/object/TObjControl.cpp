@@ -781,7 +781,7 @@ u8 *get_enemy_entity(u16 arg0) {
     return 0;
 }
 
-void TObjPlayer::refresh_lobby_state() { ((TObjEnemy *)((TObjPlayer_800F6B68 *)(this)))->distribute_experience(); query_lobby_state(); }
+void TObjPlayer::refresh_lobby_state() { ((TObjEnemy *)this)->distribute_experience(); query_lobby_state(); }
 
 int TObjPlayer::query_lobby_state() { return send_6x60_standard_drop_item_request(this); }
 

@@ -325,7 +325,7 @@ void TTecBarta::run_task() {
     s32 i;
     this->source = (u32)find_entity_by_id(this->sourceId);
     if (this->source == NULL) {
-        ((TObject *)((TechniqueParticleEmitter *)this))->queue_destruction();
+        ((TObject *)this)->queue_destruction();
         return;
     }
     for (i = 0; i < TTecBarta__emitter_bands[this->band].count; i++) {

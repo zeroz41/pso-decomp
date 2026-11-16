@@ -206,15 +206,15 @@ void TOSymbolchatColli::load_symbol_chat_data() {
 
 }
 TOSymbolchatColli::~TOSymbolchatColli() {
-    ((TObjCollidable *)this)->unregister_object_by_id();
+    this->unregister_object_by_id();
     free_collision_body_parts(this);
 }
 TOSymbolchatColli::TOSymbolchatColli(TObject *arg1, s32 arg2) : TObjChara(arg1) {
     s32 i;
     *(s32 *)this = TOSymbolchatColli__name;
     ((Obj_80178AD4 *)this)->v5(arg2);
-    init_collision_body_parts(((Obj_80178AD4 *)this), lbl_804B4550, 1);
-    ((TObjPlayer *)this)->register_object_by_id();
+    init_collision_body_parts(this, lbl_804B4550, 1);
+    this->register_object_by_id();
     this->init_collision_params();
     for (i = 0; i < 4; i++) {
         ((Obj_80178AD4 *)this)->arr[i] = 0;

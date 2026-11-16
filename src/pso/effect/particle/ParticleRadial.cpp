@@ -501,8 +501,8 @@ u8 *TParticleCtrl::init_random_particle(u8 *arg1, u8 *arg2, s32 arg3) {
     }
     ((Fields_arg0*)((u8 *)this))->field_68 = (f32) ((((Fields_arg1*)arg1)->field_38 * (3.0517578e-05f * (f32) rand())) + ((Fields_arg1*)arg1)->field_30);
     ((Fields_arg0*)((u8 *)this))->field_3C = 0.0f;
-    ((Fields_arg0*)((u8 *)this))->field_40 = 0.0f;
-    ((Fields_arg0*)((u8 *)this))->field_44 = 0.0f;
+    this->field_40 = 0.0f;
+    this->field_44 = 0.0f;
     if (((Fields_arg0*)((u8 *)this))->field_24 & 0x2000) {
         request_indirect_effect(0x1F);
     }

@@ -880,7 +880,7 @@ u32 TObjEneGibbles::resolve_sound_id(u32 sound_id) {
     }
   }
   else {
-    pvVar2 = (u32)(((TObjEnemy *)(this))->remap_sound_for_area((s32)(sound_id)));
+    pvVar2 = (u32)(this->remap_sound_for_area((s32)(sound_id)));
   }
   return pvVar2;
 }
@@ -1825,9 +1825,9 @@ void TObjEneGibbles::sub_802DA0BC() {
     TObjEneGibbles__sub_802D7DAC((s32)this);
     advance_animation();
     turn_toward_target();
-    ((TObjPlayer *)((u8 *)this))->check_object_collisions();
+    this->check_object_collisions();
     check_enemy_body_collisions(this);
-    ((TObjPlayer *)((u8 *)this))->update_enemy_collision_flags();
+    this->update_enemy_collision_flags();
     minimap_render_dot(((u8 *)this) + 0x38, -0x5DB4, 1, 0);
     submit_cursor_candidate(this, -1);
 }
@@ -2009,7 +2009,7 @@ void TObjEneGibbles::sub_802DA7A4() {
         }
         break;
     case 3:
-        ((TObjBase *)((u8 *)this))->set_position_from((void *) (((u8 *)this) + 0x50));
+        this->set_position_from((void *) (((u8 *)this) + 0x50));
         this->update_prev_position();
         this->scale.z = 1.0f;
         this->scale.y = 1.0f;
@@ -2031,7 +2031,7 @@ void TObjEneGibbles::update_wander() {
     u8 *var_r3;
     u8 *var_r4;
     var_r31 = (u8 *)(this);
-    ((TObjMotion *)this)->advance_animation();
+    this->advance_animation();
     if ((u32) *(u32 *)((s8 *)var_r31 + 0x2A8) != 0U) {
         var_r3 = (u8 *)((void *)3);
         *(s16 *)((s8 *)var_r31 + 0x326) = 3;

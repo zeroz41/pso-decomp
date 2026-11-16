@@ -196,7 +196,7 @@ void TObjLight::run_task() {
 
 }
 TObjLight::~TObjLight() {
-    ((TObjBase *)this)->mask_object_set_row_flags(-3);
+    this->mask_object_set_row_flags(-3);
 }
 extern "C" {
 

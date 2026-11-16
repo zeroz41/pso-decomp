@@ -39,7 +39,7 @@ s32 TUnk_80484A94::try_capture_target() {
     TObjChara *target;
     TObject *owner;
     TObjPlayer::init_all_slots();
-    ((TObjPlayer *)this)->check_object_collisions();
+    this->check_object_collisions();
     if (bodies->flags & 0x80000) {
         for (i = 0; i < 16; i++) {
             target = (TObjChara *)TObjPlayer::get_battle_param(i);

@@ -509,7 +509,7 @@ void run_task__8TObjDoorFv(VObj_8018EF70 *self) {
 }
 }
 TObjDoor::~TObjDoor() {
-    ((TObjCollidable *)this)->unregister_object_by_id();
+    this->unregister_object_by_id();
     free_collision_body_parts(this);
 }
 extern "C" {
