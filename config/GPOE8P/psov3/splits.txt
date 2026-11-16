@@ -1944,7 +1944,7 @@ pso/enemy/stelth/TObjEneMe3Stelth.cpp:
 	.bss        start:0x805010E0 end:0x80501130
 	.sdata      start:0x805D2AF8 end:0x805D2B00
 	.sbss       start:0x805D5300 end:0x805D5318
-	.sdata2     start:0x805DA828 end:0x805DA8C0
+	.sdata2     start:0x805DA808 end:0x805DA8C0
 
 pso/render/ChunkTextureStripCollector.cpp:
 	.text       start:0x800F58A4 end:0x800F5BC0
