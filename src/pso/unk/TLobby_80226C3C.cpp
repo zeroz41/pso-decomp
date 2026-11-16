@@ -6,27 +6,12 @@
 #include "pso/system/memory.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
-const u32 lbl_805DC748 = 1;
-
-struct Ent_802269B4 {
-    s32 flags;
-    s32 f4;
-    u32 f8;
-    u8 pad[0x18 - 0xC];
-    s16 timer;
-    u8 pad2[0x28 - 0x1A];
-};
-
 struct Passage_80226FA0 { s16 first, repeat, count, transition, next; };
 
 struct Program_80226FA0 { char archive[32]; s32 count, ntsc, pal; Passage_80226FA0 *modes[2]; };
 
 extern "C" {
-int TLobby__sub_80226308(void);
-    extern int lbl_805D62B0;
-    extern int lbl_805D62B4;
     extern int lbl_805D62B8;
-int TLobby__sub_80226B64(void);
 int set_and_notify__6TLobbyFi(void*);
 void start_audio_stream_file(s32, char *);
 void play_cue_stream_file(s32 arg0);
@@ -40,10 +25,6 @@ void set_field_40_and_notify__6TLobbyFs(s32, s32);
 void set_cue_stream_gain(s32 arg0);
 extern "C" {
 void TLobby__sub_8022733C(void);
-void *get_player_by_client_id(s32 i);
-void stop_sound_request(s32 idx);
-s32 fn_802264B8(s32 slot, s32);
-s32 TLobby__sub_8023F880(s32 arg0);
 s32 TLobby__sub_803C5D00(void *);
 s32 TLobby__sub_803C97B8(u8 *arg0);
 }
@@ -57,12 +38,6 @@ void stop_cue_stream(void);
 extern u8 *lobby_current_slot_entry;
 void set_music_streams_volume(s32 arg0);
 void update_music_fade(void);
-extern Ent_802269B4 lbl_805145F0[];
-extern f32 lbl_80514C50[];
-extern u32 camera_ctrl_instance;
-extern s32 local_client_id;
-extern s8 lbl_805D6279;
-void update_sound_request_slots(void);
 void append_music_stream_segment(u8 *arg0, s32 arg1, s32 arg2);
 extern s32 lbl_805D62E0;
 extern s32 lbl_805D62F0;
@@ -76,139 +51,6 @@ extern s32 music_sequencer_fade_state;
 extern s32 music_sequencer_timer;
 extern s16 lbl_805D6334;
 void update_music_sequencer(void);
-extern "C" {
-void TLobby__sub_8022644C(void);
-
-void TLobby::update_lobby_subsystems() { TLobby__sub_8022644C(); stop_cue_stream(); }
-
-// Dead-stripped from the DOL: no code of it survives. The TU's .sdata2 pool opens
-// with 0.0 (0x805DC74C) ahead of check_sound_admission_range's 90000/40/260/127
-// although that function loads 0.0 last, so a function before it used 0.0 first.
-// Minimal body: it clears the sound listener position (lbl_80514C50) the way
-// update_sound_request_slots does when there is neither a player nor a camera.
-// Name inferred from that role.
-void clear_sound_listener_position(void) {
-    lbl_80514C50[2] = 0.0f;
-    lbl_80514C50[1] = 0.0f;
-    lbl_80514C50[0] = 0.0f;
-}
-
-f32 xz_distance_squared(const Vec *a, const Vec *b);
-f32 newton_sqrtf(f32 x);
-}
-
-s32 check_sound_admission_range(const Vec *pos) {
-    if (pos == NULL) {
-        return 0;
-    }
-    if (camera_ctrl_instance == 0U) {
-        return 0;
-    }
-    f32 dist_sq = xz_distance_squared(pos, (const Vec *)lbl_80514C50);
-    if (dist_sq < 90000.0f) {
-        f32 t = (newton_sqrtf(dist_sq) - 40.0f) / 260.0f;
-        return (s32)-(127.0f * (t > 0.0f ? t : 0.0f));
-    }
-    return -0x100;
-}
-
-void update_sound_request_slots(void) {
-    s32 i;
-    s32 r;
-    u32 p;
-    Ent_802269B4 *e;
-    s16 *t;
-    if (lbl_805D62B0 != 0) {
-        p = (u32)get_player_by_client_id((local_client_id));
-        if (p != 0U) {
-            VecCopy((Vec *)lbl_80514C50, (const Vec *)(p + 0x38));
-        } else if (camera_ctrl_instance != 0U) {
-            VecCopy((Vec *)lbl_80514C50, (const Vec *)(camera_ctrl_instance + 0x178));
-        } else {
-            lbl_80514C50[2] = 0.0f;
-            lbl_80514C50[1] = 0.0f;
-            lbl_80514C50[0] = 0.0f;
-        }
-        if (lbl_805D6279 == 0) {
-            for (i = 0; i < 0x28; i++) {
-                r = TLobby__sub_8023F880(i);
-                if (r == -1 || r == 1) {
-                    e = &lbl_805145F0[i];
-                    t = &e->timer;
-                    e->flags &= ~0x200;
-                    if (*t > 0) {
-                        (*t)--;
-                        if ((e->flags & 0x1000) && e->f8 != 0U && fn_802264B8(i, 1) == 0) {
-                            *t = 0;
-                            stop_sound_request(i);
-                            e->flags &= ~0x400;
-                        }
-                    } else {
-                        stop_sound_request(i);
-                        e->flags &= ~0x400;
-                    }
-                } else {
-                    e = &lbl_805145F0[i];
-                    if (!(e->flags & 0x200)) {
-                        e->flags &= ~0x400;
-                    } else {
-                        e->timer--;
-                        if (e->timer <= 0) {
-                            e->flags &= ~0x600;
-                            stop_sound_request(i);
-                        }
-                    }
-                }
-            }
-        }
-        update_music_fade();
-    }
-}
-
-int TLobby__sub_80226B64(void) { TLobby::update_lobby_subsystems(); TLobby::init_layout_positions(); TLobby__sub_80226308(); lbl_805D62B4 = 0; lbl_805D62B8 = 0; lbl_805D62B0 = 1; return 0; }
-
-extern "C" {
-extern s8 lbl_805D6278;
-extern s32 lbl_805D6280;
-extern s32 lbl_805D6294;
-extern s32 lbl_805D62A8;
-extern s32 lbl_805D62BC;
-extern s32 lbl_805D62C0;
-extern s32 lbl_805D62C4;
-extern s32 lbl_805D62C8;
-extern s16 lbl_805D62CC;
-extern s8 lbl_805D62CE;
-extern s8 lbl_805D62CF;
-extern s8 lbl_805D62D0;
-extern s8 lbl_805D62D1;
-extern u8 lbl_80514C30[0x20];
-
-s32 TLobby__sub_80226BA4(void) {
-    s32 i;
-    lbl_805D6278 = 0;
-    lbl_805D62C4 = 0;
-    lbl_805D62CC = 0;
-    lbl_805D62C8 = 0;
-    lbl_805D62C0 = 0;
-    lbl_805D62BC = 0;
-    lbl_805D62D0 = 0;
-    lbl_805D62CE = 0;
-    lbl_805D62CF = 0;
-    lbl_805D62D1 = 0;
-    lbl_805D62B0 = 1;
-    lbl_805D6279 = 0;
-    lbl_805D62B8 = 0;
-    lbl_80514C30[0] = 0;
-    lbl_805D6280 = 0;
-    lbl_805D62A8 = 0;
-    lbl_805D6294 = 0;
-    TLobby::init_layout_positions();
-    for (i = 0; i < 40; i++) {
-        lbl_805145F0[i].flags = 1;
-    }
-    return 1;
-}
-}
 
 extern "C" char lbl_80514D00[2][0x20];
 u8 *TLobby::get_current_slot_entry() {

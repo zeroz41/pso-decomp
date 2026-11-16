@@ -906,7 +906,7 @@ pso/unk/TLobby_80221820.cpp
 pso/unk/text_80222C28.cpp
 pso/unk/TLobby_802230F8.cpp
 pso/unk/TLobby_80226070.cpp
-pso/unk/TLobby_802268F4.cpp
+pso/unk/TLobby_80226C3C.cpp
 pso/unk/TLobby_80228C84.cpp
 pso/unk/TLobby_8023F734.cpp
 pso/unk/TLobby_802409AC.cpp
@@ -1942,6 +1942,7 @@ pso/player/TObjPlayer_803DC834.cpp
 pso/player/TObjPlayer_803E18C0.cpp
 pso/player/TObjPlayer_803E1A58.cpp
 pso/player/TObjPlayer_803E21B8.cpp
+pso/player/TObjPlayer_803E2810.cpp
 pso/player/TObjPlayer_803E4954.cpp
 pso/player/TObjPlayer_803E5470.cpp
 pso/player/TPlyItem.cpp

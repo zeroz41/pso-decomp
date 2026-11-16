@@ -6429,19 +6429,18 @@ pso/ui/window/TWindowSubComCard_80225E0C.cpp:
 	.data       start:0x804CA3A0 end:0x804CB7C8
 
 pso/unk/TLobby_80226070.cpp:
-	.text       start:0x8022602C end:0x802268F4
+	.text       start:0x8022602C end:0x80226C3C
 	.rodata     start:0x8044C850 end:0x8044C858
 	.bss        start:0x805145F0 end:0x80514C60
 	.sdata      start:0x805D3708 end:0x805D3710
-	.sdata2     start:0x805DC740 end:0x805DC748
+	.sdata2     start:0x805DC740 end:0x805DC760
 
-pso/unk/TLobby_802268F4.cpp:
-	.text       start:0x802268F4 end:0x80227A2C
+pso/unk/TLobby_80226C3C.cpp:
+	.text       start:0x80226C3C end:0x80227A2C
 	.rodata     start:0x8044C860 end:0x8044C8D0
 	.data       start:0x804CB838 end:0x804CBE98
 	.bss        start:0x80514C60 end:0x80514F58
 	.sbss       start:0x805D62D8 end:0x805D62E0
-	.sdata2     start:0x805DC748 end:0x805DC760
 
 pso/unk/TLobby_80227A2C.cpp:
 	.text       start:0x80227A2C end:0x80227AA0
@@ -12478,8 +12477,13 @@ pso/player/TObjPlayer_803E20B0.cpp:
 	.sdata2     start:0x805E1058 end:0x805E1070
 
 pso/player/TObjPlayer_803E21B8.cpp:
-	.text       start:0x803E21B8 end:0x803E29B0
+	.text       start:0x803E21B8 end:0x803E2810
 	.bss        start:0x8058DBB0 end:0x8058DBD0
+	.sdata2     start:0x805E1070 end:0x805E1074
+
+pso/player/TObjPlayer_803E2810.cpp:
+	.text       start:0x803E2810 end:0x803E29B0
+	.sdata2     start:0x805E1078 end:0x805E107C
 
 pso/unk/text_803E29B0.cpp:
 	.text       start:0x803E29B0 end:0x803E29FC

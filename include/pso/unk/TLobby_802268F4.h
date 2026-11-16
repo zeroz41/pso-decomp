@@ -3,7 +3,7 @@
 
 #include "types.h"
 
-// sound-request flag mask, read from memory by TLobby_80226070 and TOTrapAncient01_80226534
+// sound-request flag mask, defined in TLobby_80226070.cpp and read from memory there
 extern const u32 lbl_805DC748;
 extern "C" {
 void clear_sound_listener_position(void);
