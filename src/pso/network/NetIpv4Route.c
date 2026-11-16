@@ -291,8 +291,6 @@ extern s16 TLobby__sub_8040F454(u32 addr, u32 mask, u32 broadcast, s16 idx) {
     s16 err;
     s16 found;
     u32 gateway;
-    s16 invoke_socket_callback(s16, s32); /* declared s16 here; the definition returns s32 */
-    s16 TLobby__sub_8040A044(s16, u32, s32, u32 *); /* declared s16 here; the definition returns s32 */
 
     if (idx < 0 || idx >= *(pn = &g->nifaces)) {
         return -0x109;

@@ -498,7 +498,7 @@ s16 TLobby__sub_80407F20(s16 a, s16 b, s16 c, s16 d, s16 e, s32 f, s16 g, s32 h)
     ArpIface *slot;
     s16 res;
     s16 idx;
-    s16 TLobby__sub_8040A044(s16, u32, s16, u32 *); /* declared here with an s16 result and 3rd argument; the definition is s32 (s16, u32, s32, u32 *) */
+    s16 TLobby__sub_8040A044(s16, u32, s16, u32 *); /* declared here with an s16 3rd argument; the definition takes s32 */
     s32 call_entry_callback(s16, s16); /* declared here with an s16 2nd argument; the definition takes s32 */
 
     if (a < 0) {

@@ -198,7 +198,7 @@ s16 TLobby__sub_8041123C(s32 arg0, s32 arg1, s16 arg2);
 s16 TLobby__sub_804136EC(void *self);
 s16 TLobby__sub_8041579C(NetBufferRef *self);
 s16 TLobby__sub_80415954(void *out_, int size, s16 owner);
-s32 NetCompareBitsBackward(u8 *arg0, u8 *arg1, s16 arg2);
+s16 NetCompareBitsBackward(u8 *arg0, u8 *arg1, s16 arg2);
 s16 NetCompareBitPrefix(u8 *a, u8 *b, s16 bits);
 s16 NetIPv6GetAddressScopeClass(u8 *a);
 s16 TLobby__sub_8041347C(u8 *src, s16 id, u8 *key, s16 a, s16 b, s16 c);
