@@ -2,6 +2,7 @@
 #include "pso/system/ControllerInputState.h"
 
 #include "types.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 
 struct E_803403F8 { f32 a; f32 b; f32 c; f32 d; f32 e; s32 f; };
 
@@ -79,7 +80,6 @@ extern const f32 lbl_805DFC2C = 50040.0f;
 
 extern "C" {
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, void *);
-s32 TWindowShortListCtrl__check_controller_button(void *, void *);
 s32 apply_choice__20TWindowChoiceSettingFllll(void *, void *, int, int);
 
 void TWindowDD::reset_entries(f32 v, s32) {
@@ -150,5 +150,5 @@ s32 TWindowDD::apply_both_choices(s32 arg0, s32 arg1) {
 #pragma pop
 
 s32 TWindowDD_check_input_mask(void *input_context, s32 arg1) {
-  return TWindowShortListCtrl__check_controller_button((void *) ((u8 *)&controller_input_state + 0x20), (void *) arg1) | test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) ((u8 *)&controller_input_state + 0x160), (void *) arg1);
+  return TWindowShortListCtrl__check_controller_button((void *) ((u8 *)&controller_input_state + 0x20), arg1) | test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) ((u8 *)&controller_input_state + 0x160), (void *) arg1);
 }

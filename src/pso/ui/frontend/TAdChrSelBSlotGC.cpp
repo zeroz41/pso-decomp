@@ -23,6 +23,7 @@
 #include "pso/ui/frontend/TAdSubPlyItemGC.h"
 #include "pso/unk/TLobby.h"
 #include "pso/system/task/TObject.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 
 static const ChrSelPlateLayout chr_sel_b_slot_plate_layout = { 180.0f, 38.0f, { 0xBC, 0x98, 0x36, 0x00 }, 0 };
 // Plate positions of the four entries
@@ -39,7 +40,6 @@ struct S_8030E3BC { s32 x; s32 y; };
 
 extern "C" {
 u32 TAdChrSelASlotGC__sub_8030CB08(TAdChrSelASlotGC *arg0, s32 kind, s32 text);
-s32 TWindowShortListCtrl__check_controller_button(int, int);
 s32 push_plate_position__19TAdPlyChrSelPlateGCFv(int, void *);
 s32 get_global_state__16TAdChrSelBSlotGCFv(void *);
 extern G_8030E3BC chr_select_b_slot_entry;
@@ -280,16 +280,15 @@ void TAdChrSelBSlotGC__sub_8030EB14(u8 *ad_chr_sel_b_slot_gc) {
 void TAdChrSelBSlotGC__sub_8030EBD0(u8 *arg0) {
   u32 temp_r3;
   u32 temp_r3_2;
-  u8 *context;
+  ControllerInputContext *context;
   temp_r3 = *((u32 *) (((s8 *) arg0) + 0x70));
   if (temp_r3 != 0U)
   {
     ((TWindowSubComCard *)temp_r3)->close();
     *((u32 *) (((s8 *) arg0) + 0x70)) = 0U;
   }
-  context = (u8 *)&controller_physical_port_bank + (((TAdMultiPlyChrSelectGC *)((int) TAdMultiPlyChrSelectGC::get_state()))->get_state_result() * 0x50);
-  context = context + 0x20;
-  if ((((TWindowShortListCtrl__check_controller_button((int) context, 4) != 0) || (TWindowShortListCtrl__check_controller_button((int) context, 2) != 0)) || (TWindowShortListCtrl__check_controller_button((int) context, 0x400) != 0)) || (TWindowShortListCtrl__check_controller_button((int) context, 0x200) != 0))
+  context = &controller_physical_port_bank.controllers[((TAdMultiPlyChrSelectGC *)((int) TAdMultiPlyChrSelectGC::get_state()))->get_state_result()];
+  if ((((TWindowShortListCtrl__check_controller_button(context, 4) != 0) || (TWindowShortListCtrl__check_controller_button(context, 2) != 0)) || (TWindowShortListCtrl__check_controller_button(context, 0x400) != 0)) || (TWindowShortListCtrl__check_controller_button(context, 0x200) != 0))
   {
     *((s32 *) (((s8 *) arg0) + 0x1C)) = 1;
     return;
@@ -309,10 +308,8 @@ void TAdChrSelBSlotGC::check_cancel_and_close() {
     u8 *arg0 = (u8 *)this;
   u32 temp_r3;
   s32 new_var;
-  u8 *context;
   new_var = ((TAdMultiPlyChrSelectGC *)((int) TAdMultiPlyChrSelectGC::get_state()))->get_state_result();
-  context = ((u8 *)&controller_physical_port_bank + (new_var * 0x50)) + 0x20;
-  if ((((TWindowShortListCtrl__check_controller_button((int) context, 4) != 0) || (TWindowShortListCtrl__check_controller_button((int) context, 2) != 0)) || (TWindowShortListCtrl__check_controller_button((int) context, 0x400) != 0)) || (TWindowShortListCtrl__check_controller_button((int) context, 0x200) != 0))
+  if ((((TWindowShortListCtrl__check_controller_button(&controller_physical_port_bank.controllers[new_var], 4) != 0) || (TWindowShortListCtrl__check_controller_button(&controller_physical_port_bank.controllers[new_var], 2) != 0)) || (TWindowShortListCtrl__check_controller_button(&controller_physical_port_bank.controllers[new_var], 0x400) != 0)) || (TWindowShortListCtrl__check_controller_button(&controller_physical_port_bank.controllers[new_var], 0x200) != 0))
   {
     this->m_1c = 1;
     return;

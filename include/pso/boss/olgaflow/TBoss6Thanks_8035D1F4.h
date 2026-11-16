@@ -4,7 +4,8 @@
 #include "types.h"
 
 extern "C" {
-int TBoss6Thanks__sub_8035D270(void *p);
+// Takes no argument: the body calls check_ship_door() without setting r3.
+s32 TBoss6Thanks__sub_8035D270(void);
 }
 
 #endif

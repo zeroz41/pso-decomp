@@ -12,6 +12,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/NinjaTypes.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 
 struct Self_80133068 { u8 pad[0x20]; s32 f20; s32 f24; };
 
@@ -37,7 +38,6 @@ const char *level_select_class_name = "TLevelSelect";
 
 extern "C" {
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, s32);
-s32 TWindowShortListCtrl__check_controller_button(void *, s32);
 extern u8 controller_input_state[];
 extern u8 controller_physical_port_bank[];
 s32 game_difficulty_selection;

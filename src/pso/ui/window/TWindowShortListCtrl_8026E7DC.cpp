@@ -25,13 +25,13 @@
 #include "pso/system/ControllerInputState.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/technique/TTecCtrl.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 
 
 extern "C" {
 s32 canSetMenuCursorAction(s32, s32, u8, u8);
 void TMainCursor__sub_8013DFC4(u8 *arg0);
 s32 fn_8002AE08(int);
-s32 TWindowShortListCtrl__check_controller_button(ControllerInputContext *, int);
 s32 is_player_input_active(s32 param_1);
 s32 get_character_save_record(u32 arg0);
 void align_menu_entry_positions(void *);

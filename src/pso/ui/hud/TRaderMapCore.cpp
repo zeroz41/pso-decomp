@@ -32,6 +32,7 @@
 #include "pso/system/TLanguage_801E4874.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/hud/TRaderMapCore_801FB964.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 struct Stack_801FA9D8 {
     s32 sp8;
     s32 spC;
@@ -317,7 +318,6 @@ extern s32 local_client_id;
 NJS_POINT2 TRaderMapCore__sub_801F9D38(TRaderMapCore *self);
 extern const NJS_POINT2 lbl_8044A78C;
 s32 has_flag__13TRaderMapCoreFv(void *, s32);
-s32 TWindowShortListCtrl__check_controller_button(void *, s32);
 s32 is_on_current_screen__11TCameraCtrlFv(void *, s32);
 s32 apply_packed_flags__13TRaderMapCoreFllll(void *, s32, s32, s32);
 extern Pad_801FAF24 controller_input_state[];

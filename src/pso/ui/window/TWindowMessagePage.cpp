@@ -4,6 +4,7 @@
 #include "pso/ui/window/TWindowCtrl_8024A054.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
 #include "pso/ui/window/TWindowMessage.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 
 
 #pragma readonly_strings on
@@ -21,7 +22,6 @@ u8 *TWindowMessage__ct(u8 *arg0, s32 arg1, u32 arg2, s32 arg3);
 extern s32 __vt__18TWindowMessagePage[];
 extern const char *TWindowMessagePage__name;
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
-s32 TWindowShortListCtrl__check_controller_button(void *, int, int);
 s32 run_task__14TWindowMessageFv();
 s32 *get_shared_text_buffer(void);
 u32 copy_message_page_text__20TWindowSubStatusDispFv(u32);
@@ -76,7 +76,7 @@ void TWindowMessagePage::run_task() {
     s32 temp_r5;
     run_task__14TWindowMessageFv();
     temp_r5 = is_player_input_active((this->m_20)) * 0x50;
-    if ((TWindowShortListCtrl__check_controller_button((void *) ((u8 *)&controller_input_state + temp_r5 + 0x20), 4, temp_r5) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) ((u8 *)&controller_input_state + 0x160), 4) != 0)) {
+    if ((TWindowShortListCtrl__check_controller_button((void *) ((u8 *)&controller_input_state + temp_r5 + 0x20), 4) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) ((u8 *)&controller_input_state + 0x160), 4) != 0)) {
         if (((TWindowMessagePage *)arg0)->is_message_window_ready() != 0) {
             update_message();
             return;

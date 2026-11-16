@@ -12,6 +12,7 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/unk/TLobby_8030A6A8.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 
 #pragma readonly_strings on
 
@@ -271,7 +272,6 @@ s32 TLobby::handle_main_phase(s32 arg0) {
 
 extern "C" {
 s32 get_nth_view_player_id__11TCameraCtrlFl(s32);
-s32 TWindowShortListCtrl__check_controller_button(void *, s32);
 s32 get_map_id__13TRaderMapCoreFv();
 s32 is_active__19THunterGuildWarningFv();
 s32 THunterGuildSeqOffline__sub_80211FEC(s32);

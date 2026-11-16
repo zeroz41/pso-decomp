@@ -25,6 +25,7 @@
 
 
 #include "pso/system/task/TObject.h"
+#include "pso/boss/darkfalz/TBoss4Thanks_8035C8F0.h"
 
 #pragma readonly_strings on
 
@@ -384,7 +385,6 @@ void TBoss4DarkFalz__sub_8004B730(u8 *arg0, s32 arg1, f32 farg0);
 struct DarkFalzStateTable { s32 value; u8 remaining[0x33C]; };
 extern DarkFalzStateTable dark_falz_state_table;
 void release_all_players_control_lock(void);
-s32 TBoss4Thanks__sub_8035C96C();
 
 void TBoss4DarkFalz__sub_8004B5A0(void);
 void TBoss4DarkFalz__sub_8004B4F0(void *, void *);

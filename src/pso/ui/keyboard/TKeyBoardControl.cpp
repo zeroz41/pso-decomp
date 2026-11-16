@@ -19,6 +19,7 @@
 #include "pso/unk/text_8026C664.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/ui/window/TWindowBase.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 
 
 struct UV_80262038 {
@@ -54,7 +55,6 @@ struct RecoveredFields_8026088C_arg0 {
 };
 
 extern "C" {
-s32 TWindowShortListCtrl__check_controller_button(void *, int, int);
 
 struct Win_802605DC { u8 p0[0x65]; s8 f65; s8 f66; };
 
@@ -245,7 +245,7 @@ void TWindowKeyBoardSoft__sub_80260760(void *self, s32 key, s32 *count, u32 *col
 void TWindowKeyBoardSoft::sub_80260808(s32 arg1) {
     s32 temp_r5;
     temp_r5 = arg1 * 0x50;
-    if ((TWindowShortListCtrl__check_controller_button((void *) ((u8 *)&controller_input_state + temp_r5 + 0x20), 2, temp_r5) != 0) && ((u32) *(u32 *)((s8 *)((u8 *)this) + 0x6C) != 0U)) {
+    if ((TWindowShortListCtrl__check_controller_button((void *) ((u8 *)&controller_input_state + temp_r5 + 0x20), 2) != 0) && ((u32) *(u32 *)((s8 *)((u8 *)this) + 0x6C) != 0U)) {
         this->m_7c = (s32) (this->m_7c & 0xFFFFFFEF);
         play_sound_effect(0x52F16, 0, 0, 0);
         ((TWindowKeyBoardSoft *)(*(u32 *)((s8 *)((u8 *)this) + 0x6C)))->handle_backspace();
@@ -257,7 +257,7 @@ typedef char RecoveredFields_8026088C_arg0_60_offset[offsetof(RecoveredFields_80
 typedef char RecoveredFields_8026088C_arg0_6C_offset[offsetof(RecoveredFields_8026088C_arg0, field_6C) == 0x6C ? 1 : -1];
 void TWindowKeyBoardSoft::update_keyboard_child_input_from_controller(s32 arg1) {
     u32 temp_r3;
-    if (((s32 (*)(void *, int))TWindowShortListCtrl__check_controller_button)((void *)((void *) ((u8 *)&controller_input_state + (arg1 * 0x50) + 0x20)), 0x400) != 0) {
+    if (TWindowShortListCtrl__check_controller_button((void *)((void *) ((u8 *)&controller_input_state + (arg1 * 0x50) + 0x20)), 0x400) != 0) {
         temp_r3 = ((RecoveredFields_8026088C_arg0 *)((u8 *)this))->field_6C;
         if (temp_r3 != 0U) {
             ((TWindowKeyBoardSoft *)temp_r3)->update_input_state2();
@@ -302,7 +302,7 @@ void TWindowKeyBoardSoft__sub_80260904(void *self, s32 port) {
     };
     u16 code;
 
-    if (TWindowShortListCtrl__check_controller_button((u8 *)&controller_input_state + port * 0x50 + 0x20, 4, port * 0x50) == 0) {
+    if (TWindowShortListCtrl__check_controller_button((u8 *)&controller_input_state + port * 0x50 + 0x20, 4) == 0) {
         return;
     }
     if (kb->child == NULL) {
@@ -478,14 +478,14 @@ void TWindowKeyBoardSoft::handle_page_cycle_input(s32 arg1) {
     s32 sp8;
     u8 *temp_r30;
     temp_r30 = (u8 *)&controller_input_state + (arg1 * 0x50) + 0x20;
-    if (((s32 (*)(int, int))TWindowShortListCtrl__check_controller_button)((int)temp_r30, 0x30000) != 0) {
+    if (TWindowShortListCtrl__check_controller_button(temp_r30, 0x30000) != 0) {
         play_sound_effect(0x54100, 0, 0, 0);
         calc_cursor_step(&spC, &sp8);
-        if (((s32 (*)(int, int))TWindowShortListCtrl__check_controller_button)((int)temp_r30, 0x10000) != 0) {
+        if (TWindowShortListCtrl__check_controller_button(temp_r30, 0x10000) != 0) {
             *(f32 *)((s8 *)((u8 *)this) + 0x68) = 10.0f;
             *(u8 *)((s8 *)((u8 *)this) + 0x64) = (u8) (*(u8 *)((s8 *)((u8 *)this) + 0x64) + 1);
         }
-        if (((s32 (*)(int, int))TWindowShortListCtrl__check_controller_button)((int)temp_r30, 0x20000) != 0) {
+        if (TWindowShortListCtrl__check_controller_button(temp_r30, 0x20000) != 0) {
             *(f32 *)((s8 *)((u8 *)this) + 0x68) = -10.0f;
             *(u8 *)((s8 *)((u8 *)this) + 0x64) = (u8) (*(u8 *)((s8 *)((u8 *)this) + 0x64) - 1);
         }

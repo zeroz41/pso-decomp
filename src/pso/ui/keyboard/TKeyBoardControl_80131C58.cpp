@@ -18,6 +18,7 @@
 #include "pso/ui/window/TWindowKeyBoardSoft_80261440.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8025CB70.h"
 #include "pso/unk/text_8025FF8C.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 
 struct Obj_8013206C { s8 f0; u8 pad1[3]; u8 f4; };
 
@@ -49,7 +50,6 @@ struct Kb_80132650 {
 
 struct K_8013276C;
 extern "C" {
-s32 TWindowShortListCtrl__check_controller_button(void *, int, int);
 TKeyBoardControlGlobalKeyState TKeyBoardControl__global_key_state;
 u8 TKeyBoardControl__sub_8013239C(K_8013239C *arg0, u8 arg1);
 s32 TKeyBoardControl__sub_801323C8(K_801323C8 *arg0, u8 arg1);
@@ -65,7 +65,7 @@ void run_task__16TKeyBoardControlFv(TKeyBoardControl *key_board_control) {
     temp_r3 = is_player_input_active((key_board_control->m_1e));
     if (key_board_control->m_1c & 1) {
         temp_r5 = temp_r3 * 0x50;
-        if (TWindowShortListCtrl__check_controller_button((void *) ((u8 *)&controller_input_state + temp_r5 + 0x20), 0x200, temp_r5) != 0) {
+        if (TWindowShortListCtrl__check_controller_button((void *) ((u8 *)&controller_input_state + temp_r5 + 0x20), 0x200) != 0) {
             key_board_control->m_1c = (u16) (key_board_control->m_1c & 0xFFFE);
             TKeyBoardControl__sub_8025EC04((u8 *)key_board_control->m_24);
             if ((u32) key_board_control->m_28 != 0U) {

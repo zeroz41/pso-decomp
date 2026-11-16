@@ -21,6 +21,7 @@
 #include "pso/map/FloorArea.h"
 #include "pso/system/task/TObject.h"
 #include "pso/item/TItemData.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 
 struct Stack_8034B158 {
     s8 sp8;
@@ -60,7 +61,6 @@ extern "C" {
 s32 get_localized_text_entry(s32, s32);
 s32 is_active__11TBoss4Type2Fv();
 
-s32 TWindowShortListCtrl__check_controller_button(void *, s32, s32);
 s32 get_map_id__13TRaderMapCoreFv();
 u32 get_player_by_client_id(int);
 extern u8 controller_input_state[];
@@ -148,7 +148,7 @@ void TChallenge4PResult::update_input() {
         }
         if (get_player_by_client_id(this->slot_index) != 0U) {
             temp_r5 = get_map_id__13TRaderMapCoreFv() * 0x50;
-            if (TWindowShortListCtrl__check_controller_button(controller_input_state + temp_r5 + 0x20, 4, temp_r5) != 0) {
+            if (TWindowShortListCtrl__check_controller_button(controller_input_state + temp_r5 + 0x20, 4) != 0) {
                 this->state_1c = 1;
             }
         } else {
@@ -190,7 +190,7 @@ void TChallenge4PResult::update_wait_input() {
     s32 temp_r5;
     if (get_player_by_client_id(this->slot_index) != 0U) {
         temp_r5 = get_map_id__13TRaderMapCoreFv() * 0x50;
-        if (TWindowShortListCtrl__check_controller_button((void *)((void *) ((u8 *)&controller_input_state + temp_r5 + 0x20)), 4, temp_r5) != 0) {
+        if (TWindowShortListCtrl__check_controller_button((void *)((void *) ((u8 *)&controller_input_state + temp_r5 + 0x20)), 4) != 0) {
             this->state_1c = 3;
         }
     } else {

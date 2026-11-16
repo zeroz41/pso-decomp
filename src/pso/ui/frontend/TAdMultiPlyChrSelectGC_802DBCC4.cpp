@@ -13,6 +13,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/ui/frontend/TAdChrMoveEffectGC.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 
 typedef struct S_802DC294 { u8 pad0[0x5C]; s32 f5C; } S_802DC294;
 
@@ -59,7 +60,6 @@ int request_scene_change__21TAdMultiChgGameModeGCFv(void*);
 
 u8 player_number_text_buffer[0x80];
 extern "C" {
-s32 TWindowShortListCtrl__check_controller_button(void *, s32);
 s32 play_sound_effect(s32, s32, s32, s32);
 s32 TAdMultiPlyChrSelectGC__sub_802DBEC4(void *, s32 *);
 extern s8 lbl_80472880[];

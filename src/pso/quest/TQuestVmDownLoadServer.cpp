@@ -14,6 +14,7 @@
 
 
 #include "types.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 
 
 extern "C" {
@@ -23,7 +24,6 @@ s32 check_memcard_load_result__17TMCFormatSequenceFv();
 s32 process_format_result__17TMCFormatSequenceFv();
 s32 open_windows__17TMCFormatSequenceFv();
 char TQuestVmDownLoadServer__data_804C8690[0xC] = "\xB8\xB4\xBD\xC4\xCC\xA7\xB2\xD9";
-s32 TWindowShortListCtrl__check_controller_button(void*, s32);
 void TQuestVmDownLoadServer__sub_801F6B98(void);
 }
 extern void *TMCFormatSequence__class_name;

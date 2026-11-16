@@ -10,6 +10,7 @@
 #include "pso/ui/TLevelSelect.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/frontend/TAdEnterSerialAccessGC.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 
 struct RecoveredGlobal_802DCA20_lbl_804727E8 {
     s32 value;
@@ -21,7 +22,6 @@ struct Ent_802DC8A0 { u8 d[0x50]; };
 struct Pair_802DC8A0 { u8 d[8]; };
 
 extern "C" {
-s32 TWindowShortListCtrl__check_controller_button(void *, s32);
 s32 play_sound_effect(s32, s32, s32, s32);
 s32 TAdMultiPlyChrSelectGC__sub_802C5A44(int, void *, int);
 extern RecoveredGlobal_802DCA20_lbl_804727E8 multi_chr_select_item_rect_table;

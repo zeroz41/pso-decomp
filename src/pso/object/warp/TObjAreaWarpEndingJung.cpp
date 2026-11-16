@@ -59,6 +59,7 @@
 #include "pso/system/ControllerInputState.h"
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/system/byteswap.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 
 // The original TU was built with deferred codegen: functions below are in reverse
 // address order, and the pool (three {3, 2} initializers, then the float literals
@@ -368,7 +369,6 @@ struct VObj_8019D880_8019D4E4 : Base_8019D880_8019D4E4 {
 
 extern "C" {
 
-s32 TWindowShortListCtrl__check_controller_button(ControllerInputContext *context, s32 button);
 void fn_8019DD24(void *p, u32 v);
 
 int is_flag_400_set__10TObjPlayerFPv(void *p);

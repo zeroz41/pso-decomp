@@ -16,6 +16,7 @@
 #include "pso/system/memory.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/system/ControllerInputState.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 
 struct RecoveredGlobal_8014672C_lbl_8050C0A8 {
     s32 value;
@@ -204,9 +205,6 @@ void TLobby::set_battle_flag(s32 arg0) {
 }
 
 void get_link_state(s16 *state, s16 *reason);
-extern "C" {
-s32 TWindowShortListCtrl__check_controller_button(ControllerInputContext *, int);
-}
 
 s32 connect_pppoe(s32 *out_value) {
     NetConnectCfg cfg;

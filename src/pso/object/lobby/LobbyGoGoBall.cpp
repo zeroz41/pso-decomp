@@ -41,6 +41,7 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/system/task/TObject.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
@@ -224,7 +225,6 @@ s32 scale_current_matrix(void *);
 extern u32 blob_shadow_texture_list;
 void TObjPlayer__sub_801994DC(s32 arg0, void *arg1, void *arg2, s32 arg3, void *arg4, f32 farg0);
 f32 fabs_float(f32);
-s32 TWindowShortListCtrl__check_controller_button(void *, int);
 struct E54_801990B4 { u8 b[0x54]; };
 }
 void handle_6x79_gogo_ball(u8 *arg0);

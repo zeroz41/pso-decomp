@@ -17,6 +17,16 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/task/TObject.h"
+#include "pso/boss/olgaflow/TBoss6Thanks_8035D1F4.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/unk/text_8035D2EC.h"
+#include "pso/system/NinjaTypes.h"
+#include "pso/ui/hud/TRaderMapCore.h"
+#include "pso/boss/derolle/TBoss2DeRolLe.h"
+#include "pso/unk/text_8035D444.h"
+#include "pso/item/TItem.h"
+#include "pso/item/armor/TItemProShield.h"
+#include "pso/object/switch/TOSwitchItem.h"
 
 
 typedef char Thanks_current_motion[offsetof(TBoss6Thanks,current_motion)==0x20?1:-1];
@@ -83,14 +93,13 @@ u8 *TBoss6Thanks__ct(TBoss6Thanks *arg0, u8 *arg1);
 int TBoss6Thanks__sub_8035CB40(void);
 void TBoss6Thanks__sub_8035CCAC(s32 arg0);
 f32 xyz_distance(const void *, const void *);
-u8 fn_8035CAE0(void);
 int dispatch_by_main_phase__14TBoss4DarkFalzFUs(void*);
 
-u8 fn_8035CAE0(void) {
-    return (u8) (get_story_flag(0x9A) != 0);
+s32 fn_8035CAE0(void) {
+    return get_story_flag(0x9A) != 0;
 }
-u8 TBoss6Thanks::check_ship_door() {
-    return (u8) (get_story_flag(0x98) != 0);
+s32 TBoss6Thanks::check_ship_door() {
+    return get_story_flag(0x98) != 0;
 }
 int TBoss6Thanks__sub_8035CB40(void) { return dispatch_by_main_phase__14TBoss4DarkFalzFUs((void*)(154)); }
 int TBoss6Thanks::dispatch_darkfalz_phase() { return dispatch_by_main_phase__14TBoss4DarkFalzFUs((void*)(152)); }
@@ -271,3 +280,73 @@ u8 *TBoss6Thanks__ct(TBoss6Thanks *boss6_thanks, u8 *arg1) {
     return (u8 *)boss6_thanks;
 }
 
+extern "C" {
+void *__nw__7TObjectFUl(int);
+
+extern void *tl_02;
+
+void *TBoss6Thanks::create() {
+    void *o = __nw__7TObjectFUl(0x64);
+    if (o != NULL) {
+        o = TBoss6Thanks__ct((TBoss6Thanks *)((u8 *)o), (u8 *)tl_02);
+    }
+    return o;
+}
+
+s32 TBoss6Thanks::is_ship_door_ready() {
+    if ((check_ship_door() != 0) && (fn_8035CAE0() == 0)) {
+        return 1;
+    }
+    return 0;
+}
+
+s32 TBoss6Thanks__sub_8035D270(void) { return TBoss6Thanks::check_ship_door(); }
+
+extern s32 game_difficulty_selection;
+
+s32 TBoss6Thanks::try_dispatch_darkfalz_phase() {
+    if (((s32) game_difficulty_selection == 0) || ((get_main_phase() == 0xE) && (is_split_screen() == 0)) || (any_player_has_listed_equipment() == 0)) {
+        return 0;
+    }
+    TBoss6Thanks::dispatch_darkfalz_phase();
+    return 1;
+}
+
+}
+
+extern "C" {
+extern const u8 listed_equipment_table[][3];
+void get_weapon_color__11TItemWeaponFPv(void *, void *);
+}
+s32 any_player_has_listed_equipment(void) {
+    s32 n = TLobby::get_game_mode();
+    s32 i;
+    for (i = 0; i < n; i++) {
+        void *pl = (void *)TObjPlayer::get_player_data(i);
+        if (pl != NULL && ((TBoss6PlotFalz *)pl)->is_active() != 0) {
+            s32 j;
+            for (j = 0; j < 10; j++) {
+                const u8 *e = listed_equipment_table[j];
+                s32 k;
+                for (k = 0; k < 13; k++) {
+                    void *it = ((TObjPlayer *)pl)->get_equipped_item(k);
+                    if (it != NULL && e[0] == ((TItem *)it)->get_item_type() &&
+                        e[1] == ((TItem *)it)->get_item_group() &&
+                        e[2] == ((TItem *)it)->get_item_index()) {
+                        return 1;
+                    }
+                }
+            }
+        }
+    }
+    return 0;
+}
+
+void TUnk_804F1EC8::init_weapon_effect_descriptor(Desc_8011E5C4 *desc) {
+    f32 sp8[4];
+    desc->flags |= 0x1C;
+    get_weapon_color__11TItemWeaponFPv(sp8, this);
+    copy_argb((NJS_ARGB *)desc->color, (NJS_ARGB *)sp8);
+    desc->model = second_model;
+    desc->pad_70 = (void *)TObjPlayer::forward_item_effect_callback;
+}

@@ -12,6 +12,7 @@
 #include "pso/unk/TLobby.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/system/task/TObject.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 
 struct MCFmt_801F68FC {
     u8 pad0[0x24];
@@ -26,7 +27,6 @@ struct MCFmt_801F68FC {
 struct Pair_801F68FC { s32 a; s32 b; };
 
 extern "C" {
-s32 TWindowShortListCtrl__check_controller_button(void *, s32);
 s32 is_message_window_ready__18TWindowMessagePageFv();
 extern s8 controller_input_state[];
 s32 init_shop_judgment_window();

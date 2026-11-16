@@ -27,6 +27,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/render/render_util.h"
 #include "pso/system/task/TObject.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 
 #pragma readonly_strings on
 
@@ -147,7 +148,6 @@ extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
-s32 TWindowShortListCtrl__check_controller_button(int, int);
 s32 play_sound_effect(int, int, int, int);
 extern RecoveredGlobal_80335A58_lbl_8050E208 controller_input_state;
 extern RecoveredGlobal_80335A58_lbl_8050E3B8 controller_physical_port_bank;
@@ -171,7 +171,7 @@ typedef struct RecoveredGlobal_80335974_lbl_8050E3B8 RecoveredGlobal_80335974_lb
 void TAdTrialAgreementGC::update_title_prompt() {
     u8 *arg0 = (u8 *)this;
   float new_var;
-  if ((TWindowShortListCtrl__check_controller_button((int)((void *) (((u8 *) (&(*(RecoveredGlobal_80335974_lbl_8050E3B8 *)&controller_physical_port_bank).value)) + 0x20)), 8) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) (((u8 *) (&(*(RecoveredGlobal_80335974_lbl_8050E208 *)&controller_input_state).value)) + 0x160), 4) != 0))
+  if ((TWindowShortListCtrl__check_controller_button(((void *) (((u8 *) (&(*(RecoveredGlobal_80335974_lbl_8050E3B8 *)&controller_physical_port_bank).value)) + 0x20)), 8) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) (((u8 *) (&(*(RecoveredGlobal_80335974_lbl_8050E208 *)&controller_input_state).value)) + 0x160), 4) != 0))
   {
     play_sound_effect(0x52D01, 0, 0, 0);
     *(s32 *)&this->m_24 = 1;
@@ -198,7 +198,7 @@ void TAdTrialAgreementGC::handle_cursor_input() {
         }
         play_sound_effect(0x54100, 0, 0, 0);
     }
-    if ((TWindowShortListCtrl__check_controller_button((int)input, 4) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) ((u8 *)&controller_input_state.value + 0x160), 4) != 0)) {
+    if ((TWindowShortListCtrl__check_controller_button(input, 4) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) ((u8 *)&controller_input_state.value + 0x160), 4) != 0)) {
         *(s32 *)&this->m_24 = 2;
         play_sound_effect(0x40042309, 0, 0, 0);
     }

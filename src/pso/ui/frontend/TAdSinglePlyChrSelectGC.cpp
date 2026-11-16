@@ -27,6 +27,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/math/TMath.h"
 #include "pso/system/NinjaTypes.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 
 struct RecoveredGlobal_802D4730_lbl_804C89BC { s32 value; u8 remaining[0x74]; };
 typedef char RecoveredGlobal_802D4730_lbl_804C89BC_size[sizeof(RecoveredGlobal_802D4730_lbl_804C89BC) == 0x78 ? 1 : -1];
@@ -47,7 +48,6 @@ extern const T_802D4F2C single_chr_select_position_table;
 extern "C" {
 void *__nw__7TObjectFUl(u32);
 s32 play_sound_effect(s32, s32, s32, s32);
-s32 TWindowShortListCtrl__check_controller_button(void *, s32);
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, s32);
 extern char controller_input_state[];
 s32 poll_memcard_result(s32 chan);

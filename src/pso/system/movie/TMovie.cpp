@@ -13,6 +13,7 @@
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/system/TLoadCtrl_80227390.h"
 #include "pso/ui/frontend/TAdEndText.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 
 struct MovieState;
 
@@ -30,7 +31,6 @@ u8 *__nw__7TObjectFUl(s32);
 void queue_destruction__7TObjectFv(void *arg0);
 s32 fn_80320358(u32, s32);
 s32 DVDCheckDisk();
-s32 TWindowShortListCtrl__check_controller_button(void *, s32);
 s32 set_queued_main_phase(s32);
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, s32);
 s8 get_opening_movie_purpose();

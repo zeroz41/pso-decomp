@@ -17,6 +17,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 
 
 struct S8_802C4944 { f32 a, b; };
@@ -36,7 +37,6 @@ extern "C" {
 int enable_camera__19TAdSelectGameModeGCFv(void);
 s32 free_sub_ctrls__19TAdSelectGameModeGCFv();
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
-s32 TWindowShortListCtrl__check_controller_button(void *, int);
 s32 play_sound_effect(int, int, int, int);
 extern s32 TAdSelectGameModeGC__cached_mode_value;
 void *__nw__7TObjectFUl(int);

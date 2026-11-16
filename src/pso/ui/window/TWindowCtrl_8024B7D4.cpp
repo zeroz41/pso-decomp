@@ -19,6 +19,7 @@
 #include "pso/npc/TNpcPlayer.h"
 #include "pso/map/FloorArea.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 
 
 typedef struct Ctrl_8024B8A0 {
@@ -87,7 +88,6 @@ void TWindowCtrl::update_pulse_color() {
 s32 has_player_active_menu__11TWindowCtrlFv(s32);
 s32 TWindowCtrl__sub_8024B000(void *, s32);
 s32 is_slot_visible__11TWindowCtrlFv(s32);
-s32 TWindowShortListCtrl__check_controller_button(void *, s32, s32 *);
 s32 is_split_screen();
 s32 fn_8002AE08(s32);
 
@@ -117,7 +117,7 @@ extern u8 controller_input_state[];
 
 void TWindowCtrl::handle_controller() {
     s32 arg0 = (s32)this;
-    if ((get_current_floor_area() == AREA_LOBBY) && (is_slot_visible__11TWindowCtrlFv(local_client_id) == 0) && (TWindowCtrl__sub_8024B000((void *)arg0, (s32)local_client_id) == 0) && (has_player_active_menu__11TWindowCtrlFv(local_client_id) == 0) && (TWindowShortListCtrl__check_controller_button(controller_input_state + 0x20, fn_8002AE08(local_client_id), (s32 *)controller_input_state) != 0)) {
+    if ((get_current_floor_area() == AREA_LOBBY) && (is_slot_visible__11TWindowCtrlFv(local_client_id) == 0) && (TWindowCtrl__sub_8024B000((void *)arg0, (s32)local_client_id) == 0) && (has_player_active_menu__11TWindowCtrlFv(local_client_id) == 0) && (TWindowShortListCtrl__check_controller_button(controller_input_state + 0x20, fn_8002AE08(local_client_id)) != 0)) {
         TWindowCtrlMain::advance_card_status(local_client_id);
     }
 }

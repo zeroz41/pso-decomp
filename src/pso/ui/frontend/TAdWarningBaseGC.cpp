@@ -5,6 +5,7 @@
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/ui/frontend/TAdWarningBaseGC.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 
 const char *lbl_805D4208 = "TAdWarningBaseGC";
 static const f32 lbl_80477334[2] = {46.0f, 131.0f};
@@ -24,7 +25,6 @@ struct V_8032D214 : B_8032D214 {
 extern "C" {
 s32 update_window_mode_from_progress__6TLobbyFPv(void *, void *);
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
-s32 TWindowShortListCtrl__check_controller_button(void *, int);
 void play_sound_effect(int, int, int, int);
 extern u8 controller_input_state[];
 extern u8 controller_physical_port_bank[];

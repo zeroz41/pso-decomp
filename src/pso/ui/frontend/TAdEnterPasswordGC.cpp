@@ -15,6 +15,7 @@
 #include "pso/unk/TLobby_8032BD20.h"
 #include "pso/unk/TUnk_804EDAC0.h"
 #include "pso/unk/TLobby.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 
 
 struct Elt80364258_80364258 { s32 f0; };
@@ -81,7 +82,6 @@ void clear_password__18TAdEnterPasswordGCFPv(T_8032BBF0 *self);
 void update_children__18TAdEnterPasswordGCFPv(O_8032BC1C *arg0);
 void mem_free(void *p);
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
-s32 TWindowShortListCtrl__check_controller_button(void *, int);
 s32 get_field_118__22TAdEnterSerialAccessGCFv(void);
 s32 play_sound_effect(int, int, int, int);
 s32 forward_input__22TAdEnterSerialAccessGCFPv(void *, int, s32);

@@ -8,6 +8,7 @@
 #include "pso/object/ambient/TObjFish.h"
 
 #include "pso/unk/WindowLayoutRecord.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 
 struct Quad_8028429C { f32 x, y, x2, y2, u0, v0, u1, v1; };
 
@@ -47,7 +48,6 @@ extern "C" {
 s32 draw_default_entry__9TWindowDDFl();
 u8 * get_window_layout_position(s32);
 extern s32 __vt__24TWindowSubSymbolChatHelp[];
-s32 TWindowShortListCtrl__check_controller_button(void *, s32);
 extern s8 controller_input_state[];
 int TWindowSubSymbolChatHelp__sub_80247EE8(int);
 void apply_context_transform_to_rect(void *, void *);

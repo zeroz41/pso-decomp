@@ -30,6 +30,7 @@
 #include "pso/ui/frontend/TAdScrollWinGC.h"
 #include "pso/ui/window/TWindowRoom.h"
 #include "pso/ui/Language.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 
 struct Entry_8013634C {
     u8 tag[8];
@@ -1419,7 +1420,6 @@ void update_scroll_close__6TLobbyFv(void);
 void handle_short_list_input__6TLobbyFv(void);
 void update_short_list__6TLobbyFv(void);
 void close_all_windows__6TLobbyFv(void);
-s32 TWindowShortListCtrl__check_controller_button(void *, s32);
 s32 reset_controller_input_state();
 s32 send_message_box_closed__9TProtocolFv(s32);
 
@@ -1504,7 +1504,6 @@ s8 TLobby__sub_8013AD6C(u32);
 s32 TLobby__sub_8013AD74(u32);
 s32 TWindowMakeTeam__sub_80264B24(u32);
 s32 TWindowMakeTeam__sub_80264B38(u32);
-s32 TWindowShortListCtrl__check_controller_button(void *, s32);
 void close_all_windows__6TLobbyFv(void);
 s32 send_server_time_accepted__9TProtocolFv(s32);
 s8 get_mode__6TLobbyFv(u32);

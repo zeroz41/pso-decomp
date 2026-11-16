@@ -10,6 +10,7 @@
 #include "pso/quest/TQuestListVM_8007EAF8.h"
 #include "pso/ui/window/TWindowSubComCardList_8026CB08.h"
 #include "pso/ui/window/TWindowSubComCardList.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 
 struct Stack_8026C708
 {
@@ -159,7 +160,6 @@ struct Pad_8026C9DC {
 };
 
 extern "C" {
-s32 TWindowShortListCtrl__check_controller_button(void *, u32);
 void play_sound_effect(s32, s32, s32, s32);
 extern Pad_8026C9DC controller_input_state[];
 

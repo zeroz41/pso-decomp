@@ -11,6 +11,7 @@
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/ui/city/TMedicalCenterMes.h"
 #include "pso/object/base/TObjMotion.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 struct Stack_8021DC30 {
     s32 sp8;
     s32 spC;
@@ -48,7 +49,6 @@ void THunterGuildSeqOffline__sub_8021E180(s32 arg0);
 extern Tbl_8021E1FC TShopGenerator__service_dispatch_table;
 s32 get_entity_id(s32);
 s8 get_chr_select_state__23TAdSinglePlyChrSelectGCFv(void);
-s32 TWindowShortListCtrl__check_controller_button(void *, int);
 int is_flag_400_set__10TObjPlayerFPv(void *p);
 int check_flag_100__10TObjPlayerFPv(void *p);
 s32 poll_memcard_result(s32);

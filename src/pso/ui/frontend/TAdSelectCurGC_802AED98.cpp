@@ -6,6 +6,7 @@
 #include "pso/ui/window/TWindowChoiceSetting.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
 #include "types.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 class TAdSelectCurGC : public TObject {
 public:
     virtual ~TAdSelectCurGC();
@@ -61,7 +62,6 @@ GinjaTextureList *menu_selection_cursor_texture_list;
 extern "C" {
 extern const s32 current_language;
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
-s32 TWindowShortListCtrl__check_controller_button(void *, int);
 s32 check_flag_0x48__14TAdSelectCurGCFv(void *, int);
 void play_sound_effect(int, int, int, int);
 void fn_802AEAA4(void *, s32);

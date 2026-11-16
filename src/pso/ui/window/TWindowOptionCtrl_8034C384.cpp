@@ -9,11 +9,11 @@
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/window/TWindowSubComCard.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 
 extern "C" {
 s32 get_localized_text_entry(s32);
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
-s32 TWindowShortListCtrl__check_controller_button(void *, int);
 s32 poll_memcard_result(s32 chan);
 s32 start_memcard_format(int, int, int, int, int);
 s32 play_sound_effect(int, int, int, int);

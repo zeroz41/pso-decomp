@@ -9051,14 +9051,8 @@ pso/ui/frontend/TAdMultiPlyChrSelectGC_802DCB80.cpp:
 	.text       start:0x802DCB80 end:0x802DCD14
 
 pso/ui/frontend/TAdMultiPlyChrSelectGC_802DCD14.cpp:
-	.text       start:0x802DCD14 end:0x802DD4B8
+	.text       start:0x802DCD14 end:0x802DD8E0
 	.rodata     start:0x804728B0 end:0x804728B8
-
-pso/ui/frontend/TAdMultiPlyChrSelectGC_802DD4B8.cpp:
-	.text       start:0x802DD4B8 end:0x802DD714
-
-pso/ui/frontend/TAdMultiPlyChrSelectGC_802DD714.cpp:
-	.text       start:0x802DD714 end:0x802DD8E0
 
 pso/ui/frontend/TAdMultiPlyChrSelectGC_802DD8E0.cpp:
 	.text       start:0x802DD8E0 end:0x802DE094
@@ -10771,30 +10765,18 @@ pso/boss/goldragon/TObjBoss8PillerCtrl.cpp:
 	.sdata2     start:0x805E0168 end:0x805E0180
 
 pso/boss/darkfalz/TBoss4Thanks.cpp:
-	.text       start:0x8035C2B4 end:0x8035C8F0
+	.text       start:0x8035C2B4 end:0x8035CAE0
 	.rodata     start:0x80479B30 end:0x80479B98
 	.data       start:0x804F1E98 end:0x804F1EB0
 	.sdata      start:0x805D4438 end:0x805D4440
 	.sdata2     start:0x805E0180 end:0x805E0198
 
-pso/boss/darkfalz/TBoss4Thanks_8035C8F0.cpp:
-	.text       start:0x8035C8F0 end:0x8035C9E8
-
-pso/unk/text_8035C9E8.cpp:
-	.text       start:0x8035C9E8 end:0x8035CAE0
-
 pso/boss/olgaflow/TBoss6Thanks.cpp:
-	.text       start:0x8035CAE0 end:0x8035D1F4
+	.text       start:0x8035CAE0 end:0x8035D444
 	.rodata     start:0x80479B98 end:0x80479C18
 	.data       start:0x804F1EB0 end:0x804F1EC8
 	.sdata      start:0x805D4440 end:0x805D4444
 	.sdata2     start:0x805E0198 end:0x805E01B8
-
-pso/boss/olgaflow/TBoss6Thanks_8035D1F4.cpp:
-	.text       start:0x8035D1F4 end:0x8035D2EC
-
-pso/unk/text_8035D2EC.cpp:
-	.text       start:0x8035D2EC end:0x8035D444
 
 pso/unk/text_8035D444.cpp:
 	.text       start:0x8035D444 end:0x8035D540

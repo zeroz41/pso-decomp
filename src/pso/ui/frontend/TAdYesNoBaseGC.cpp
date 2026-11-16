@@ -10,6 +10,7 @@
 
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/system/task/TObject.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 
 struct VBase_18 { char pad[0x18]; };
 struct VObj_18 : VBase_18 {
@@ -45,7 +46,6 @@ struct VtObj8032C1C8_8032C188 : VtBase8032C1C8_8032C188 {
 };
 
 void *TAdYesNoBaseGC__ct(TAdYesNoBaseGC *arg0);
-s32 TWindowShortListCtrl__check_controller_button(void *, s32);
 void *__ct__12TAdBackTxtGCFv(void *, void *);
 void __ct__7TObjectFP7TObject(void *);
 void *__ct__9TAdBackGCFv(void *, void *);

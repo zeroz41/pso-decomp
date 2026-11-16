@@ -236,7 +236,6 @@ pso/boss/darkfalz/TBoss4DarkFalz_8004C93C.cpp
 pso/boss/darkfalz/TBoss4DarkFalz_8004D8C8.cpp
 pso/boss/darkfalz/TBoss4Fade.cpp
 pso/boss/darkfalz/TBoss4Thanks.cpp
-pso/boss/darkfalz/TBoss4Thanks_8035C8F0.cpp
 pso/boss/darkfalz/TBoss4Type1.cpp
 pso/boss/darkfalz/TBoss4Type2_8004A978.cpp
 pso/boss/darkfalz/TBoss4Type2_80086C44.cpp
@@ -276,7 +275,6 @@ pso/boss/olgaflow/TBoss6Rock.cpp
 pso/boss/olgaflow/TBoss6RockChase.cpp
 pso/boss/olgaflow/TBoss6SwordShot.cpp
 pso/boss/olgaflow/TBoss6Thanks.cpp
-pso/boss/olgaflow/TBoss6Thanks_8035D1F4.cpp
 pso/boss/olgaflow/TBoss6Tube.cpp
 pso/boss/olgaflow/TBoss6Type1.cpp
 pso/boss/olgaflow/TBoss6Type1_802B20C0.cpp
@@ -2059,8 +2057,6 @@ pso/ui/frontend/TAdMultiPlyChrSelectGC_802DBCC4.cpp
 pso/ui/frontend/TAdMultiPlyChrSelectGC_802DC760.cpp
 pso/ui/frontend/TAdMultiPlyChrSelectGC_802DCB80.cpp
 pso/ui/frontend/TAdMultiPlyChrSelectGC_802DCD14.cpp
-pso/ui/frontend/TAdMultiPlyChrSelectGC_802DD4B8.cpp
-pso/ui/frontend/TAdMultiPlyChrSelectGC_802DD714.cpp
 pso/ui/frontend/TAdMultiPlyChrSelectGC_802DD8E0.cpp
 pso/ui/frontend/TAdMultiPlyChrSelectGC_802DE094.cpp
 pso/ui/frontend/TAdMultiPlyChrSelectGC_802DEC44.cpp
@@ -2468,8 +2464,6 @@ pso/unk/text_8035AF18.cpp
 pso/unk/text_8035B00C.cpp
 pso/unk/text_8035B6B0.cpp
 pso/unk/text_8035B750.cpp
-pso/unk/text_8035C9E8.cpp
-pso/unk/text_8035D2EC.cpp
 pso/unk/text_8035D444.cpp
 pso/unk/text_803626A8.cpp
 pso/unk/text_8036A3CC.cpp

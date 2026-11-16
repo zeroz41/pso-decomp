@@ -14,6 +14,7 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/unk/text_8014618C.h"
 #include "pso/unk/TLobby.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 
 struct Stack_803286AC {
     s32 sp8;
@@ -31,7 +32,6 @@ extern "C" {
 s32 create_guide_button(void *, void *, f32);
 s32 init_guide_button_params(void *);
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
-s32 TWindowShortListCtrl__check_controller_button(void *, int);
 extern TAdDialingGC *TAdDialingGC__instance;
 void init_dialog__12TAdDialingGCFv(void *);
 void draw_dialing_status__12TAdDialingGCFv(void *);

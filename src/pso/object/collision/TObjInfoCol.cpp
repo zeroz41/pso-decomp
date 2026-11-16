@@ -8,12 +8,12 @@
 
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 
 #pragma readonly_strings on
 
 extern "C" {
 s32 is_idle__6TLobbyFv();
-s32 TWindowShortListCtrl__check_controller_button(void *, int);
 s32 check_flag_100__10TObjPlayerFPv();
 extern s32 local_client_id;
 const char *TObjInfoCol__class_name = "TObjInfoCol";

@@ -14,6 +14,7 @@
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/task/TObject.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 
 struct Obj_802C3288 { u8 pad[0x1C]; s32 f1C; s32 f20; };
 
@@ -30,7 +31,6 @@ const char *TAdStorySelectGC__class_name = TAdStorySelectGC__class_name_string;
 
 extern "C" {
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, s32);
-s32 TWindowShortListCtrl__check_controller_button(void *, s32);
 void play_sound_effect(s32, s32, s32, s32);
 extern u8 controller_input_state[];
 void *__nw__7TObjectFUl(u32);

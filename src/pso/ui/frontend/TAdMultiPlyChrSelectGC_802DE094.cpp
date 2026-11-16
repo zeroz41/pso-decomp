@@ -10,6 +10,7 @@
 #include "pso/ui/frontend/TAdChrSelASlotGC.h"
 #include "pso/ui/frontend/TAdChrSelPlyPlateGC.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 
 struct Stack_802DE7D0 {
     s32 sp8;
@@ -18,7 +19,6 @@ struct Stack_802DE7D0 {
 
 extern "C" {
 s32 queue_destruction__7TObjectFv(void *);
-s32 TWindowShortListCtrl__check_controller_button(void *, s32, s32);
 void load_tables(int a0);
 s32 *TAdSinglePlyChrSelectGC__sub_801FE4BC(u32 i);
 s32 is_slot_active__23TAdSinglePlyChrSelectGCFUi(u32 arg0);
@@ -306,10 +306,10 @@ void TAdMultiPlyChrSelectGC__sub_802DE7D0(void *ad_multi_ply_chr_select_gc) {
     }
     if (TAdMultiPlyChrSelectGC__sub_802C6558() > 0) {
         temp_r5 = TAdMultiPlyChrSelectGC__sub_802C6920() * 0x50;
-        var_r3 = TWindowShortListCtrl__check_controller_button((s8 *)controller_physical_port_bank + temp_r5 + 0x20, 2, temp_r5);
+        var_r3 = TWindowShortListCtrl__check_controller_button((s8 *)controller_physical_port_bank + temp_r5 + 0x20, 2);
     } else {
         temp_r5_2 = ((s32)TAdMultiPlyChrSelectGC::get_clamped_cursor()) * 0x50;
-        var_r3 = TWindowShortListCtrl__check_controller_button((s8 *)controller_physical_port_bank + temp_r5_2 + 0x20, 2, temp_r5_2);
+        var_r3 = TWindowShortListCtrl__check_controller_button((s8 *)controller_physical_port_bank + temp_r5_2 + 0x20, 2);
     }
     if (var_r3 != 0) {
         play_sound_effect(0x52F16, 0, 0, 0);

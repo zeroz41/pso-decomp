@@ -5,6 +5,7 @@
 
 #include "pso/ui/window/TWindowSubAreaMapDisp.h"
 #include "pso/ui/hud/TRaderMapCore.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 
 #pragma readonly_strings on
 
@@ -33,7 +34,6 @@ struct RecoveredGlobal_802715F0_lbl_8050E208 {
 
 extern "C" {
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
-s32 TWindowShortListCtrl__check_controller_button(void *, int);
 s32 play_sound_effect(int, int, int, int);
 extern RecoveredGlobal_80271480_lbl_8050E208 controller_input_state;
 s32 is_flag_set__11TLoadingCurFv(void *, int);

@@ -21,6 +21,7 @@
 #include "pso/object/base/TObjMotion.h"
 
 #include "pso/system/TLoadCtrl_80227390.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 
 extern "C" {
 s32 get_main_phase();
@@ -293,7 +294,6 @@ void TObjChallenge4PRetry::handle_retry_menu_select() {
 
 s32 has_window_task_root();
 
-s32 TWindowShortListCtrl__check_controller_button(void *, s32);
 s32 check_flag_100__10TObjPlayerFPv();
 
 extern s8 controller_input_state[];

@@ -9,6 +9,7 @@
 #include "pso/unk/TLobby.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 
 struct RecoveredFields_802FFCE4_arg0
 {
@@ -40,7 +41,6 @@ struct Obj_802FFE58 {
 
 extern "C" {
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
-s32 TWindowShortListCtrl__check_controller_button(void *, int);
 s32 lbl_805D69E8;
 void *__nw__7TObjectFUl(u32);
 void __ct__7TObjectFP7TObject(void *);

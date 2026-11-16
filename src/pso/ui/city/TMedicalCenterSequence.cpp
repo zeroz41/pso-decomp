@@ -10,6 +10,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "types.h"
 #include "pso/system/task/TObject.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 
 extern "C" {
 s32 TShopGenerator__sub_80222DAC(s32);
@@ -17,7 +18,6 @@ s32 get_entity_id(s32);
 void *get_player_by_client_id(s32);
 void THunterGuildSeqOffline__sub_8021E180(s32);
 s32 get_window_layout_position(int, f32);
-s32 TWindowShortListCtrl__check_controller_button(void *, s32);
 void TMedicalCenterMes__sub_80216260(void);
 
 const char *TMedicalCenterSequence__class_name = "TMedicalCenterSequence";

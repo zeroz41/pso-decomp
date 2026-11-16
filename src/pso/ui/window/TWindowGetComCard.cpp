@@ -18,6 +18,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/system/task/TObject.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 
 struct Pad_80252CCC { u8 pad[0x20]; u8 m20[0x30]; };
 
@@ -46,7 +47,6 @@ extern s32 local_client_id;
 u8 *TWindowGetComCard__ct(TWindowGetComCard *arg0);
 void start_player_data_load__17TWindowSubComCardFl(void);
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, s32);
-s32 TWindowShortListCtrl__check_controller_button(void *, s32);
 void play_sound_effect(s32, s32, s32, s32);
 s32 is_player_input_active(s32);
 u8 *init_shop_judgment_window(void *p);

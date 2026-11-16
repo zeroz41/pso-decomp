@@ -14,6 +14,7 @@
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/frontend/TAdPlyStatusGC.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 
 struct RecoveredGlobal_8033FB8C___vt__14TAdPlyStatusGC { s32 value; u8 remaining[0x14]; };
 
@@ -58,7 +59,6 @@ struct Save_8033F6A8 { u8 pad[0xC]; u32 fC; };
 
 extern "C" {
 s32 allow_rendering__7TObjectFv();
-s32 TWindowShortListCtrl__check_controller_button(void *, int, int);
 extern s32 TAdPlyStatusGC__window_offset_index;
 extern s32 TAdPlyStatusGC__is_shown;
 void update_hidden__14TAdPlyStatusGCFv(u8 *arg0);
@@ -275,7 +275,7 @@ void update_hidden__14TAdPlyStatusGCFv(u8 *arg0) {
             ((TAdGuideButtonGC *)player_index)->setup_button((GuideButtonSpec *)(arg0 + 0x48));
         }
         temp_r5 = TAdMultiPlyChrSelectGC::get_status() * 0x50;
-        if (TWindowShortListCtrl__check_controller_button((void *) ((u8 *)&controller_physical_port_bank + temp_r5 + 0x20), 0x400, temp_r5) != 0) {
+        if (TWindowShortListCtrl__check_controller_button((void *) ((u8 *)&controller_physical_port_bank + temp_r5 + 0x20), 0x400) != 0) {
             *(s32 *)((s8 *)arg0 + 0x1C) = 1;
         }
     }
@@ -295,7 +295,7 @@ void update_shown__14TAdPlyStatusGCFv(struct RecoveredFields_8033F9DC_arg0 *arg0
             ((TAdGuideButtonGC *)player_index)->setup_button((GuideButtonSpec *)(&arg0->unknown_20[4]));
         }
         temp_r5 = TAdMultiPlyChrSelectGC::get_status() * 0x50;
-        if (TWindowShortListCtrl__check_controller_button((u8 *)(((u8 *)&controller_physical_port_bank + temp_r5)) + 0x20, 0x400, temp_r5) != 0) {
+        if (TWindowShortListCtrl__check_controller_button((u8 *)(((u8 *)&controller_physical_port_bank + temp_r5)) + 0x20, 0x400) != 0) {
             arg0->field_1C = 2;
         }
     }

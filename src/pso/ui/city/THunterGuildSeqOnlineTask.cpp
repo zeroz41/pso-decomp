@@ -19,6 +19,7 @@
 #include "pso/ui/window/TWindowAddition.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/unk/text_800F9B84.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 
 
 struct Pkt_80214F80 {
@@ -66,7 +67,6 @@ void *memcpy(void *, const void *, u32);
 extern s32 TLobby__protocol_instance;
 extern s32 quest_download_received_bytes;
 extern s32 quest_download_graph_current_bytes;
-s32 TWindowShortListCtrl__check_controller_button(int, int);
 extern s32 controller_input_state[];
 }
 
@@ -74,8 +74,8 @@ void THunterGuildSeqOnlineTask::run_task() {
     u8 *p;
     if (TQuestListOnline__quest_info_window != 0) {
         p = (u8 *)controller_input_state + 0x20;
-        if (TWindowShortListCtrl__check_controller_button((int)p, 4) != 0 ||
-            TWindowShortListCtrl__check_controller_button((int)p, 2) != 0) {
+        if (TWindowShortListCtrl__check_controller_button(p, 4) != 0 ||
+            TWindowShortListCtrl__check_controller_button(p, 2) != 0) {
             ((TWindowBase *)TQuestListOnline__quest_info_window)->close();
             TQuestListOnline__quest_info_window = 0;
             ((TWindowCtrl *)local_client_id)->unsuppress_slot();

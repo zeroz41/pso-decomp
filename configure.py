@@ -1017,6 +1017,8 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/boss/goldragon/TBoss8DragonEffTail.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/boss/dragon/ObjBoss1CommonJResource.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/boss/barbaray/TBoss7Joint.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    # TBoss4Thanks.cpp holds the class's door tests and any_player_has_listed_item: the table that
+    # function reads (boss4_thanks_listed_item_table) sits in this TU's .rodata ahead of the emitter table.
     "pso/boss/darkfalz/TBoss4Thanks.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/boss/olgaflow/TBoss6Zanzo.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # TBoss7TentacleNeedle's vtable precedes TBoss7Tentacle's although every Needle virtual comes
@@ -1210,7 +1212,8 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # TObjRoomId.cpp keeps its class name and debug label strings in .rodata (-str readonly) and
     # reaches each .rodata object with its own lis/addi: -pool off.
     # TBoss6Thanks.cpp keeps its class name string in .rodata (-str readonly) and reaches each
-    # .rodata object with its own lis/addi: -pool off.
+    # .rodata object with its own lis/addi: -pool off. It also holds any_player_has_listed_equipment:
+    # the table it reads (listed_equipment_table) sits in this TU's .rodata.
     "pso/boss/olgaflow/TBoss6Thanks.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-pool off")},
     # text_8034960C.cpp keeps TAdLoadQuestCellGC's name string in .rodata (-str readonly) and
     # reaches each .rodata table with its own lis/addi: -pool off.

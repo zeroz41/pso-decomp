@@ -27,6 +27,7 @@
 #include "pso/unk/TLobby_80132ED0.h"
 #include "pso/unk/TLobby_80226070.h"
 #include "pso/unk/text_8023F160.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 
 // Functions and data of other units that have no shared declaration with the signature these calls use.
 extern "C" {
@@ -35,7 +36,6 @@ s32 poll_memcard_result(s32 chan);
 s32 start_memcard_format(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
 s32 query_memcard_capacity__15TAdPlayerLoadGCFl(s32 chan, s32 arg1);
 s32 poll_load_status__15TAdPlayerLoadGCFl(s32 chan, const char *name);
-s32 TWindowShortListCtrl__check_controller_button(ControllerInputContext *context, s32 mask);
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(ControllerInputContext *context, s32 mask);
 TWindowMessage *update_window_mode_from_progress__6TLobbyFPv(const f32 *pos, const f32 *size);
 TWindowMenu *check_room_seq_4__16TAdChrSelASlotGCFl(const f32 *pos, s32 arg1);
