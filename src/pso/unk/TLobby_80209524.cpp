@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/unk/TLobby_80209524.h"
 #include "pso/system/memory.h"
 #include "pso/unk/TLobby.h"
 #include "pso/unk/TLobby_8007C550.h"
@@ -366,8 +367,6 @@ Hdr_80209C58 *find_header_by_id__6TLobbyFPvi(Hdr_80209C58 *arg, s32 id) {
 
 // ---- pso/unk/TLobby_80209CF8
 
-extern "C" {
-}
 
 // A random value in [0, max) from the item drop RNG, raised to at least min.
 u32 TLobby::clamp_min_drop(u32 min, u32 max) {
@@ -423,7 +422,6 @@ struct SpawnRecord_8020A9C4 {
 
 extern "C" {
 void reserve_enemy_set_actor_ids(SpawnRecord_8020A9C4 *slots, s32 count, s32 floor);
-void TLobby__sub_80209D34(s32 floor);
 s32 init_floor_enemy_count__6TLobbyFlPUcUl(s32 floor, u8 *slots, s32 size);
 u8 *alloc_heap_slot__6TLobbyFll(s32 floor, s32 size);
 }

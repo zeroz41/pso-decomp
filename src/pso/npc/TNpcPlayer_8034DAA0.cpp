@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/npc/TNpcPlayer_8034DAA0.h"
 #include "pso/unk/text_8034DAA0.h"
 #include "pso/npc/TNpcPlayer_8034DC20.h"
 #include "pso/unk/TUnk_804F07C8.h"
@@ -262,11 +263,8 @@ s32 set_arrival_override_coords(s32, s32, f32, f32, f32);
 void send_6x21_inter_level_warp(void *obj, s32 value);
 s32 get_entity_id(s32);
 void send_6x24_teleport_player(u16 slot, void *pos, s32 heading);
-void TNpcPlayer__sub_8034EDB8(void);
 s32 end_camera_pan__10TObjPlayerFv();
 void set_npc_control_flag__10TNpcPlayerFPvs(void* p, s16 v);
-void build_6x69_npc_control(void* p);
-void clear_partner_dialogue_flags(void);
 int sprintf(char *, const char *, ...);
 char *strcpy(char *, const char *);
 u32 strlen(const char *);

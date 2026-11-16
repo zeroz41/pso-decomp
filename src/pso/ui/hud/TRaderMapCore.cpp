@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/NinjaTypes.h"
+#include "pso/camera/TCameraCtrl_803D676C.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "types.h"
 #include "pso/render/MaterialColorFade.h"
@@ -348,7 +349,6 @@ s32 minimap_render_gate(Vec *pos, u32 color, u16 rot, s16 kind, s32 flags);
 s32 add_radar_scaled_marker(Vec_801F9B8C *arg0, s32 arg1, s16 arg2, s32 arg3, f32 scale);
 s32 add_radar_scaled_gate(Vec_801F9B8C *pos, s32 color, u16 rot, s16 kind, s32 flags, f32 scale);
 void update_radar_auto_discovery(TRaderMapCore *core, s32 arg1, void *arg2);
-void set_perspective_projection_from_fov(s32, f32, f32, f32);
 void rotate_vector_by_matrix(void *, Vec3_801F9314 *, Vec3_801F9314 *);
 void rotate_matrix_y(void *, s32);
 s32 push_matrix_from(void *src);

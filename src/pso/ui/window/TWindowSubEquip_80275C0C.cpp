@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/ui/window/TWindowMainMenu_80263AB0.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/unk/TUnk_804D1160.h"
 #include "pso/ui/window/TWindowSubEquip.h"
@@ -21,8 +22,6 @@ extern "C" {
 void *__nw__7TObjectFUl(u32);
 void __ct__7TObjectFP7TObject(void *, void *);
 void set_depth__11TWindowBaseFf(void *);
-void call_if_split_screen(u32 object, s32 client_id);
-f32 TWindowSubEquip__sub_80263AF8(u8 *arg0, u32 arg1);
 void *create__14TWindowMessageFlPCfUll(void *, void *, s32, s32);
 void *get_window_layout_position(s32);
 void *TWindowSubCustomEquip__ct(void *, s32);

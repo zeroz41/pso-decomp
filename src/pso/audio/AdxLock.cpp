@@ -1,5 +1,6 @@
 // CRI adx_crs.c: the ADX critical section (ADXCRS_Unlock, ADXCRS_Lock, ADXCRS_Init).
 #include "types.h"
+#include "pso/audio/AdxLock.h"
 #include "pso/unk/text_803D31A4.h"
 #include "pso/unk/TLobby.h"
 #include "pso/audio/LscStream.h"

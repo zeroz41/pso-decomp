@@ -16,4 +16,11 @@ public:
 
 typedef char TChCrTagOccHeader_size[sizeof(TChCrTagOccHeader) == 0x40 ? 1 : -1];
 
+// --- C functions defined in TChCrTagOccHeader.cpp ---
+extern "C" {
+TChCrTagOccHeader *__dt__17TChCrTagOccHeaderFv(TChCrTagOccHeader *tag, s16 free);
+void fn_802A2A00(TChCrTag *tag);
+}
+// --- end of C functions
+
 #endif

@@ -14,4 +14,10 @@ extern "C" {
 void *TObjTagChallenge__ct(void *tag_challenge);
 }
 
+// --- C functions defined in TObjTagChallenge.cpp ---
+extern "C" {
+void *TObjTagChallenge__ct(void *tag_challenge);
+}
+// --- end of C functions
+
 #endif

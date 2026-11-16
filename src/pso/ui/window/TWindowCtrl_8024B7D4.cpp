@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/ui/window/TWindowCtrl_8024B048.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/ui/window/TWindowCtrl_8024B7D4.h"
 #include "pso/ui/window/TWindowCtrl.h"
@@ -266,7 +267,6 @@ void *get_player_by_client_id(s32);
 void window_request_show(void *);
 extern "C" {
 s32 has_player_active_menu__11TWindowCtrlFv(s32);
-int TWindowCtrl__sub_8024B048(void *p);
 s32 is_slot_visible__11TWindowCtrlFv(s32);
 f32 get_target_distance__13TWindowLockOnFv(s32);
 extern s32 local_client_id;

@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/map/FloorResourceCallbacks.h"
+#include "pso/unk/TLobby_80299C4C.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/object/TObjChallenge4PRetry.h"
@@ -27,7 +28,6 @@ s32 is_split_screen();
 s32 is_quest_active();
 s32 load_floor_sound_bank();
 extern void *tl_05;
-s32 init_jungle_area(void);
 s32 TLobby__sub_801403B4(s32);
 u32 __nw__7TObjectFUl(s32);
 s32 create_instance__10TSceneSoraFPv(void*, s32);
@@ -110,10 +110,6 @@ extern "C" {
 
 const char *TObjChallenge4PRetry__class_name = "TObjChallenge4PRetry";
 
-void send_giveup_to_all_players__6TLobbyFv(void);
-void close_giveup_window__6TLobbyFPv(void* a0);
-void play_all_players_effect__6TLobbyFPv(void* a0);
-void play_effect_all_players__6TLobbyFPv(void*);
 u32 check_room_seq_4__16TAdChrSelASlotGCFl(s32, s32);
 s32 check_player_flag1__6TLobbyFv();
 s32 TLobby__sub_8024AC20(int);
@@ -205,7 +201,6 @@ void play_effect_all_players__6TLobbyFPv(void*) {
     } while (var_r31 < 4);
 }
 
-u8 TLobby__sub_8029A16C(void);
 
 extern s32 TLobby__designated_client_id;
 

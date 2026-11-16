@@ -1,4 +1,8 @@
 #include <dolphin/os/OSThread.h>
+#include "pso/audio/AdxFsServer.h"
+#include "pso/audio/AdxManager.h"
+#include "pso/audio/AdxTalk.h"
+#include "pso/system/movie/Mfci.h"
 #include <dolphin/os/OSInterrupt.h>
 #include "pso/unk/TLobby.h"
 #include "pso/audio/AdxStreamRuntime.h"
@@ -9,13 +13,6 @@
 #include "types.h"
 #include "pso/unk/text_803D31A4.h"
 
-extern "C" {
-void ARAlloc(void);
-void TLobby__sub_803C9608(void);
-s32 TLobby__sub_803CB844();
-void TLobby__sub_803CBA38(void);
-
-}
 
 typedef struct Cb_803CBA58 {
     void (*fn)(s32);
@@ -32,14 +29,9 @@ typedef struct Cfg_803CBA58 {
 
 extern "C" {
 s32 VIWaitForRetrace();
-void TLobby__sub_803CB7F8(s32 arg0, s32 arg1);
 void TLobby__sub_803CE544(void *, int);
 void TLobby__sub_803CFAA8(const char *, void *, int);
-char *TLobby__sub_803D43B8(void);
-void TLobby__sub_803CB74C(s32 *arg0);
 s32 run_worker_callbacks_slot5__6TLobbyFv(int);
-void TLobby__sub_803CBA18(void);
-void TLobby__sub_803CBB14(void);
 s32 set_callback_params__6TLobbyFll();
 extern s32 lbl_805D7540;
 

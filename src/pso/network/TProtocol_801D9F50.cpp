@@ -1,5 +1,6 @@
 // ---- pso/network/TProtocol_801D9F50
 #include "types.h"
+#include "pso/network/TProtocol_801D9F50.h"
 #include <string.h>
 #include "pso/network/TProtocol.h"
 

@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/unk/TLobby_80227AA0.h"
 #include "pso/unk/text_8023F160.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/player/TObjPlayer_801A5AEC.h"
@@ -39,7 +40,6 @@ void apply_phase_keyboard_mode(void);
 void run_load_callback_table(void *, s32);
 void init_menu_scene_lights(void *, s32);
 void set_copy_clear_color_argb(s32, s32, s32);
-void load_floor_sound_bank(s32);
 void *__nw__7TObjectFUl(u32);
 f32 sin_table_lookup(s32);
 f32 cos_table_lookup(s32);

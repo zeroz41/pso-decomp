@@ -1,5 +1,6 @@
 // ---- pso/unk/TLobby_8020EED8
 #include "types.h"
+#include "pso/unk/TLobby_8020EED8.h"
 #include "pso/unk/TLobby.h"
 
 s32 TLobby::pop_byte() {

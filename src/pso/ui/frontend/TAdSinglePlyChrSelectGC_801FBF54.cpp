@@ -1,4 +1,7 @@
 #include "types.h"
+#include "pso/ui/window/TWindowKeyBoardHard_801A529C.h"
+#include "pso/ui/window/TWindowShortListCtrl_8026E7DC.h"
+#include "pso/unk/text_801F498C.h"
 #include "pso/technique/TTecCtrl.h"
 #include "pso/system/PadRumble.h"
 #include "pso/system/date.h"
@@ -3687,11 +3690,8 @@ extern s32 card_load_followup_pending;
 void run_save_load_sequence__23TAdSinglePlyChrSelectGCFv(void);
 s32 TLobby__sub_80146D50(s32);
 s32 get_account_entry(s32);
-void set_fresh_card_flag(void *arg0);
-void clear_all_story_flags();
 Card_80201354 *get_character_save_record(u32);
 void *get_char_index__23TAdSinglePlyChrSelectGCFUi(u32);
-void TWindowShortListCtrl__sub_8026E884(s16 *dst);
 void TAdSinglePlyChrSelectGC__sub_8028DC1C();
 void *memcpy(void *, s32, s32);
 s32 memset(s32, s32, s32);

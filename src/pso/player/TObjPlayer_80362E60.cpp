@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/player/TObjPlayer_80362E60.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/weapon/TItemWeapon.h"
@@ -104,7 +105,6 @@ struct RecoveredGlobal_80362FB4_lbl_80479FC8 {
 extern "C" {
 s16 get_validated_attack_stage(u8 *arg0);
 u8 *__nw__5TItemFUl(s32);
-u8 *TObjPlayer__sub_803630F0(u8 *arg0);
 s32 rotate_matrix_x(int, int);
 s32 push_matrix();
 s32 pop_matrix();

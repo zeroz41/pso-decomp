@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/camera/TCameraCtrl_803D676C.h"
 #include <stddef.h>
 #include <string.h>
 #include "pso/system/movie/TMovie.h"
@@ -36,7 +37,6 @@ s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, s32);
 s8 get_opening_movie_purpose();
 s8 func_801A5E54__Fv();
 u8 *load_rel_module(u8 *arg0, s32 arg1);
-void set_perspective_projection_from_fov(s32 arg0, f32 farg0, f32 farg1, f32 farg2);
 void func_803DCDFC__Fv(void);
 
 extern void *__vt__6TMovie[];

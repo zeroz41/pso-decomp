@@ -1,4 +1,6 @@
 #include <dolphin/os/OSThread.h>
+#include "pso/audio/AdxExpand.h"
+#include "pso/audio/AdxHeader.h"
 #include "pso/unk/TLobby.h"
 #include "pso/audio/AdxStreamRuntime.h"
 #include "pso/audio/AdxmThreadStorage.h"
@@ -24,11 +26,8 @@ struct Ch_803CB5C4 {
 };
 
 extern "C" {
-void calc_adx_predictor_coeffs(s32 cutoff, s32 rate, s16 *k0, s16 *k1);
 extern Ch_803CB5C4 adx_decoder_channel_pool[16];
 
-void TLobby__sub_803CB4A4(u8 *arg0);
-void TLobby__sub_803CB570(u8 *arg0, u8 *arg1, s16 *arg2);
 u32 decode_adx_mono_blocks(int, int, int, void *, int, int);
 u32 dispatch_receive_update__6TLobbyFv(int, int, int, void *, int, void *, int, int);
 

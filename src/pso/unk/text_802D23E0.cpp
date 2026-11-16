@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/unk/text_802D23E0.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
 #include "pso/unk/TLobby.h"
@@ -24,11 +25,9 @@ struct Half_802D26C8 { u8 b[0xF8]; };
 struct Pair_802D26C8 { Half_802D26C8 h[2]; };
 
 extern "C" {
-u8 * copy_struct_f8__6TLobbyFii(s32 arg0, s32 arg1);
 s32 *get_shared_text_buffer(void);
 s32 refresh_player_status__6TLobbyFv(int);
 s32 text_builder_append();
-void TLobby__sub_802D268C(void);
 void *get_player_by_client_id(s32 i);
 }
 void text_builder_reset(void);

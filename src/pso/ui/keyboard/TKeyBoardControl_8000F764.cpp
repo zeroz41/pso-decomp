@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/unk/TLobby_80227AA0.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F764.h"
 #include "pso/system/PadRumble.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
@@ -16,7 +17,6 @@ int clear_split_screen_fog__8TFogCtrlFv(void*);
 extern RecoveredGlobal_8000F764_TKeyBoardControl__data_80506270 TKeyBoardControl__global_key_state;
 void update_music_sequencer(void);
 extern "C" {
-void update_global_sound_frame(void);
 void TObjPlayer__sub_80083FB0(void);
 
 extern s32 lbl_805D62B0;

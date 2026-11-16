@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/map/TSetManager_8020D918.h"
 #include "pso/map/TSetManager.h"
 #include "pso/unk/TLobby.h"
 #include "pso/unk/TLobby_8001D6A0.h"
@@ -40,10 +41,8 @@ struct Map_8020D9A0 { Grp_8020D9A0 *grp; s32 count; };
 struct Rec_8020D9A0 { u8 pad0[2]; s16 f2; s16 f4; u8 pad6[2]; u16 f8; u8 padA[0x3A]; };
 
 extern "C" {
-void TLobby__sub_8020D94C(void);
 extern s16 TLobby__data_805D6134;
 s32 get_current_floor(void);
-void clear_floor_population(void);
 Archive_8020E08C TLobby__data_80513A40[18];
 Floor_8020E08C TLobby__floor_enemy_group_table[18];
 u32 TLobby__data_80513C80[18];
@@ -59,7 +58,6 @@ extern s32 lbl_805D6100;
 extern void *TLobby__data_805D6104;
 extern THeap *TLobby__data_805D6108;
 void archive_pool_free(void *pool, void *node);
-void depart_floor_population(int unused);
 s32 lookup_scene_object__6TLobbyFPv(s32, void *);
 void *memset(void *, int, unsigned long);
 extern Rec12_8020E228 *TLobby__data_805D6144;

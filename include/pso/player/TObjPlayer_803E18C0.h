@@ -12,4 +12,10 @@ extern "C" {
 f32 project_point_onto_line(V_803E18C0 *p, Line_803E18C0 *l, V_803E18C0 *out);
 }
 
+// --- C functions defined in TObjPlayer_803E18C0.cpp ---
+extern "C" {
+f32 project_point_onto_line(V_803E18C0 *p, Line_803E18C0 *l, V_803E18C0 *out);
+}
+// --- end of C functions
+
 #endif

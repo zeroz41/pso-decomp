@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/object/base/TObjBase.h"
 #include "pso/map/FloorArea.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/task/TMainTask.h"

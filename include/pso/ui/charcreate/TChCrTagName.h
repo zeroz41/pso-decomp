@@ -37,4 +37,12 @@ void run_task__12TChCrTagNameFv(TChCrTagName *tag);
 void update_slide_in__12TChCrTagNameFv(TChCrTagName *tag);
 }
 
+// --- C functions defined in TChCrTagName.cpp ---
+extern "C" {
+s32 TChCrTagName__vt4(TChCrTagName *tag);
+void render__12TChCrTagNameFv(TChCrTagName *tag);
+void run_task__12TChCrTagNameFv(TChCrTagName *tag);
+}
+// --- end of C functions
+
 #endif

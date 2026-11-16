@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/unk/text_800DC420.h"
 #include "pso/object/TObjControl.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
@@ -26,8 +27,6 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/math/MatrixVector.h"
 
-extern "C" s32 TObjPlayer__sub_800DC420(void *self, s32 i);
-extern "C" f32 TObjPlayer__sub_800DC434(s32 arg0, s32 arg1);
 extern "C" f32 lbl_805D525C;
 extern "C" f32 lbl_805D5260;
 extern "C" f32 lbl_805D5264;
@@ -94,7 +93,6 @@ extern "C" s32 construct_beam_effect__10TObjPlayerFPvPvPviPv(u32, void *, void *
 extern "C" s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
 extern "C" s32 check_path_obstructed(void *, Vec *);
 extern "C" void calc_velocity_toward_destination(void *, Vec, Vec, f32);
-extern "C" s32 TObjPlayer__sub_800DC478(u8 *arg0, s32 arg1, f32 farg0);
 extern "C" void project_actor_to_ground(void *, void *, s32);
 extern "C" void TObjPlayer__sub_800D92BC(s32 point, s32 delay);
 extern "C" s32 refresh_lobby_state__10TObjPlayerFv();
@@ -146,7 +144,6 @@ extern "C" void free_bin_model_request(void*, int);
 extern "C" u8 * load_resource_from_descriptor(void *, s32, s32 *, s32, s32, s32);
 extern "C" s32 find_active_entity_by_id(int);
 
-extern "C" void TObjPlayer__sub_800DC444(void);
 
 int initialize_enemy_photon_effect(void *p);
 

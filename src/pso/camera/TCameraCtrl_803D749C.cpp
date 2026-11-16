@@ -1,4 +1,5 @@
 #include "pso/animation/MotionContext.h"
+#include "pso/camera/TCameraCtrl_803D749C.h"
 #include "types.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/camera/TCameraCtrl_803D6538.h"

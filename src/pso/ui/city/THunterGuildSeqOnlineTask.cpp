@@ -1,4 +1,5 @@
 #include "pso/system/task/TMainTask.h"
+#include "pso/player/TPlyGuildCardTag_8013ABCC.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/city/THunterGuildSeqOnlineTask.h"
 #include "pso/ui/window/TWindowMessage.h"
@@ -41,7 +42,6 @@ const char *THunterGuildSeqOnline_Client__name = "THunterGuildSeqOnline_Client";
 
 extern "C" {
 void TKeyBoardControl__sub_8000F95C();
-void TQuestListOnline__sub_8013ACF4(s32);
 void mem_free(void *);
 extern unsigned char TQuestListOnline__dat_download_state[];
 extern unsigned char TQuestListOnline__bin_download_state[];
@@ -275,7 +275,6 @@ struct Ent_802150E8 { u8 pad[0x28]; char name[0x10]; s32 size; };
 
 
 extern "C" {
-void TQuestListOnline__sub_8013ACF4(s32);
 extern u32 TQuestListOnline__quest_list_buffer;
 int memset(void*, void*, void*);
 extern unsigned char TQuestListOnline__dat_download_state[];

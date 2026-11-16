@@ -1,5 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/boss/darkfalz/TBoss4DarkFalz_8004C93C.h"
+#include "pso/object/ending/TObjOnlineEnding_802E4B80.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/system/vector.h"
 #include "pso/system/BmlResourceDescriptor.h"
@@ -235,8 +237,6 @@ extern "C" {
 s16 get_entity_id(void *);
 s32 TBoss4Type3__sub_8005254C(s16);
 
-int TBoss4DarkFalz__sub_8004C1AC(void);
-s32 TBoss4DarkFalz__sub_8004C1B4(void);
 s32 get_action_state__14TBoss4DarkFalzFv();
 s32 get_phase__14TBoss4DarkFalzFv();
 s32 get_state__14TBoss4DarkFalzFv();
@@ -863,7 +863,6 @@ typedef struct Msg_8004BFA4 {
 extern "C" {
 s32 query_teammate_state__9TObjEneDDFv();
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-void fn_802E52AC(void);
 extern int darkfalz_dat_resource;
 void TBoss4Type2__sub_80056EA8(void *, s32);
 void TBoss4Type3__sub_80059DCC(TBoss4Type3 *self, u32 packed);

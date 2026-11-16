@@ -36,6 +36,7 @@ void render__22TWindowLoadItemTextureFv(TWindowLoadItemTexture *arg0);
 extern "C" {
 void *TWindowLoadItemTexture__ct(TWindowLoadItemTexture *window_load_item_texture, void *arg1, void *arg2, void *arg3);
 void *__dt__22TWindowLoadItemTextureFv(void *arg0, s16 arg1);
+TWindowLoadItemTexture *fn_802628C0(void *layout, void *table, void *id);
 void fn_80262C2C(void *p);
 void render__22TWindowLoadItemTextureFv(TWindowLoadItemTexture *arg0);
 }

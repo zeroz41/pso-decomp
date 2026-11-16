@@ -1,5 +1,6 @@
 // ---- pso/player/TObjPlayer_801D9B18
 #include "types.h"
+#include "pso/player/TObjPlayer_801D9B18.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer.h"
 

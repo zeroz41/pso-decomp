@@ -29,4 +29,11 @@ TChCrTagOccupation *__dt__18TChCrTagOccupationFv(TChCrTagOccupation *tag, s16 fr
 void create_all_ch_cr_tag_headers(void);
 void *create_ch_cr_tag_occ_header(void *arg0);
 
+// --- C functions defined in TChCrTagOccupation.cpp ---
+extern "C" {
+int TChCrTagOccupation__vt4(TChCrTagOccupation *tag);
+TChCrTagOccupation *__dt__18TChCrTagOccupationFv(TChCrTagOccupation *tag, s16 free);
+}
+// --- end of C functions
+
 #endif

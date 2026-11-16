@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/unk/TLobby_8036B204.h"
 #include "pso/unk/text_80076E84.h"
 #include "pso/ui/chat/TWindowSubSymbolChat.h"
 
@@ -9,7 +10,6 @@ extern u8 *text_language_group_table;
 s32 get_entity_id(s32);
 void *get_player_by_client_id(s32 i);
 void open_balloon__11TWindowCtrlFUsPUcll(s32, void *, s32, s32);
-void dispatch_by_index__6TLobbyFUsi(u16 arg0, s32 src);
 u8 symbol_chat_receive_buffer[0x58];
 extern s8 pending_symbol_chat_count;
 extern s32 local_client_id;

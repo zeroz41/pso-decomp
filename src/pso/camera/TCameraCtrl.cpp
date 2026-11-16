@@ -1,4 +1,8 @@
 #include "types.h"
+#include "pso/camera/TCameraCtrl_8006B3D8.h"
+#include "pso/camera/TCameraCtrl_8006C7C4.h"
+#include "pso/unk/TUnk_80488838.h"
+#include "pso/unk/TUnk_80488DA0.h"
 #include "pso/system/vector.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/unk/TUnk_80488A28.h"
@@ -710,7 +714,6 @@ int set_fixed_position_and_target__11TCameraCtrlFPUcPUc(void*);
 
 void *TCameraCtrl__vt0(void);
 
-void *TCameraCtrl__vt10(void);
 
 void *TCameraCtrl__vt11(void);
 
@@ -720,11 +723,8 @@ void *TCameraCtrl__vt4(void);
 
 void *TCameraCtrl__vt5(void);
 
-void *TCameraCtrl__vt6(void);
 
-void *TCameraCtrl__vt7(void);
 
-void *TCameraCtrl__vt9(void);
 
 void render_shadows__7TObjectFv();
 void __ct__7TObjectFP7TObject(void *, void *);

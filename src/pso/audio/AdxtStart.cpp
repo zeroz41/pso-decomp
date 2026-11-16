@@ -1,4 +1,5 @@
 #include <dolphin/os/OSThread.h>
+#include "pso/audio/SjMemoryBuffer.h"
 #include "pso/unk/TLobby.h"
 #include "pso/audio/AdxStreamRuntime.h"
 #include "pso/audio/AdxmThreadStorage.h"
@@ -81,7 +82,6 @@ extern "C" {
 void configure_audio_stream_output(Stream_803C9FCC *self);
 void start_audio_stream_file(Stream_803CA824 *self, const char *name);
 struct SjMemoryBuffer;
-SjMemoryBuffer *sj_memory_buffer_create(void *arg0, s32 arg1);
 
 }
 void stop_audio_stream(u8 *arg0);

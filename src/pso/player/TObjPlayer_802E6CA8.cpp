@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/render/ChunkMaterialState.h"
+#include "pso/player/TObjPlayer_802E6CA8.h"
 #include "types.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/render/MaterialColorFade.h"
@@ -81,7 +82,6 @@ extern const float lbl_805DE9F0;
 extern const f32 lbl_805DE9FC;
 extern const f32 lbl_805DEA00;
 extern const f32 lbl_805DEA04;
-s32 TObjPlayer__sub_802E76C8(u8 *arg0);
 void mem_free(void *p);
 void __dl__7TObjectFPv(void *);
 extern s32 __vt__13TUnk_804E3BD8[];
@@ -122,12 +122,6 @@ extern const f32 lbl_805DE9F8;
 extern s32 lbl_80472C68[6];
 extern s32 lbl_804E3BC0[];
 Obj_802E72DC *TObjPlayer__sub_802E72DC(Obj_802E72DC *arg0, s32 arg1, Vec_802E72DC *arg2, s32 arg3);
-void *__dt__13TUnk_804E3BA8Fv(void *arg0, s16 arg1);
-void TObjPlayer__sub_802E7084(void);
-void TObjPlayer__sub_802E7088(void);
-void *__dt__13TUnk_804E3BC0Fv(void *arg0, s16 arg1);
-void TObjPlayer__sub_802E746C(void);
-void TObjPlayer__sub_802E7470(void);
 s32 *init_from_model__11TBreakUpMdlFl(s32 *, s32);
 s32 scale_matrix(int, f32, f32, f32);
 extern const f32 lbl_805DE9E4;

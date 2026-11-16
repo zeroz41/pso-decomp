@@ -28,6 +28,8 @@ void TAdSinglePlyChrSelectGC__sub_801C5108(int a0);
 u16 TAdSinglePlyChrSelectGC__sub_801C5114(void);
 void TAdSinglePlyChrSelectGC__sub_801C5120(void);
 void TAdSinglePlyChrSelectGC__sub_801C5158(void);
+u8 *__dt__13TUnk_804C3F48Fv(u8 *arg0, s16 arg1);
+u8 *fn_801C5380(u8 *arg0, s32 arg1);
 }
 // --- end of C functions
 

@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/ui/frontend/TAdBackGC_8029A6EC.h"
 #include "pso/ui/frontend/TAdBackGC.h"
 #include "pso/ui/frontend/TAdBackGC_8029A7B0.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_8029A914.h"

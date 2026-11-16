@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/unk/text_800DC420.h"
 #include "pso/unk/TUnk_80494E10.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/system/vector.h"
@@ -65,11 +66,8 @@ struct Vec_800DC83C { f32 x, y, z; };
 struct Ang_800DC83C { s32 x, y, z; };
 
 extern "C" {
-s32 TObjPlayer__sub_800DC478(u8 *arg0, s32 arg1, f32 farg0);
 s32 *csnVecterUnder(s32 origin, s32 mask);
 extern s32 lbl_805D5254;
-f32 TObjPlayer__sub_800DC434(s32 arg0, s32 arg1);
-s32 TObjPlayer__sub_800DC420(void *self, s32 i);
 extern D_800DC448 *nano_drago_entry_params_resource;
 u16 get_entity_id(void *);
 s32 is_split_screen();
@@ -93,7 +91,6 @@ s32 subtract_vector(void *, void *);
 extern s32 __vt__13TUnk_80494E10[];
 extern s32 tl_06;
 u8 *construct_beam_effect__10TObjPlayerFPvPvPviPv(u8 *arg0, Vec_800DC83C *arg1, Vec_800DC83C *arg2, s32 arg3, void *arg4);
-void TObjPlayer__sub_800DC444(void);
 void *__dt__13TUnk_80494E10Fv(void *arg0, s16 arg1);
 void __dl__7TObjectFPv(void *);
 

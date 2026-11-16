@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/ui/frontend/TAdMultiPlyChrSelectGC_802E0064.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC_802DEC44.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
 
@@ -26,7 +27,6 @@ s32 is_multiplayer_character_slot_selected(s32 arg0);
 s32 TAdMultiPlyChrSelectGC__sub_802C6558();
 s32 TAdMultiPlyChrSelectGC__sub_802C658C(s32 arg0);
 s32 TAdMultiPlyChrSelectGC__sub_802C6660(int);
-void TAdMultiPlyChrSelectGC__sub_802E006C(u8 *arg0, s32 arg1, s32 arg2);
 extern RecoveredGlobal_802DEDA8_TAdMultiPlyChrSelectGC__data_804727B0 TAdMultiPlyChrSelectGC__character_slot_positions;
 extern RecoveredGlobal_802DEDA8_lbl_804727D0 multi_play_chr_select_slot_positions;
 extern s8 controller_physical_port_bank[];

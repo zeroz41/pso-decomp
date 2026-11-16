@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/boss/olgaflow/TBoss6Type2_8036A92C.h"
 #include "pso/unk/text_80087278.h"
 #include "pso/boss/olgaflow/TBoss6EffHyoui.h"
 #include "pso/camera/TCameraCtrl.h"
@@ -95,7 +96,6 @@ s32 TBoss6Type2__sub_802BB768(void *);
 s32 VecCopy__FP3VecPC3Vec(void *, void *);
 extern const f32 lbl_805DE3F8;
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
-s32 spawn_flow_soul__11TBoss6Type2Fiii(s32 arg0, s32 arg1, s32 arg2);
 extern const f32 lbl_805DE404;
 extern const f32 lbl_805DE400;
 void TBoss6Type2__sub_802BA598(TBoss6Type2 *self, s32 elapsed, s32 duration);

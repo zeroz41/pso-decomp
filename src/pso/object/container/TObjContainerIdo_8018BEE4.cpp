@@ -1,4 +1,5 @@
 #include "pso/render/RenderFadeState.h"
+#include "pso/object/container/TObjContainerIdo_8018BEE4.h"
 #include "pso/object/container/TObjContainerIdo.h"
 #include "pso/system/vector.h"
 #include "pso/ui/hud/TRaderMapCore.h"
@@ -98,8 +99,6 @@ struct VMem_8018C06C {
     virtual void m7();
 };
 
-u8 *TObjContainerIdo__ct(u8 *arg0, s32 arg1, s32 arg2);
-void render__16TObjContainerIdoFv(u8 *arg0);
 s32 post_translate_matrix(void *);
 s32 rotate_matrix_x(s32, s32);
 s32 push_matrix();

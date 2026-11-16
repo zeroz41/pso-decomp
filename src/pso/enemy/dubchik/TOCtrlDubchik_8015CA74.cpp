@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/enemy/dubchik/TOCtrlDubchik_8015CA74.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/system/vector.h"
 #include "pso/object/base/TObjMotion.h"
@@ -55,7 +56,6 @@ extern s32 lbl_805D5870;
 void dubchik_start_dying(u8 *arg0);
 void free_bin_model_request(void*, int);
 s32 select_melee_contact_body__9TObjCharaFPvf();
-void TOCtrlDubchik__sub_8015C9D0(u8 *);
 
 void TOCtrlDubchik::apply_knockback_from_attacker(u8 *, f32) {  }
 

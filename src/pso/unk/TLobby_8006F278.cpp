@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/unk/TLobby_80070A00.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80071774.h"
@@ -85,7 +86,6 @@ s32 TLobby__sub_8006F5B0(s32 arg0);
 s32 strncpy(void *, void *, int);
 RecoveredGlobal_8006F848_lbl_804FF800 lobby_name_string_buffer;
 s32 decode_slot__6TLobbyFUi(u32 id);
-u32 TLobby__sub_80071640(u32 c);
 s32 strncmp(void *, void *, int);
 void TLobby__sub_8006F48C(void);
 s32 calc_layout_hash__20TWindowSubStatusDispFv(int);

@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/player/TObjPlayer_801D84CC.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/item/TItem.h"
 #include "pso/player/TPlyCharData.h"
@@ -28,8 +29,6 @@ struct Src_801D88C8;
 struct Rec_801D86F8 { s32 a[0x50 / 4]; s32 b[0x38 / 4]; s32 c[0x40 / 4]; };
 
 extern "C" {
-void process_trade_target__10TObjPlayerFiPv(s32 arg0, void *arg1);
-void TObjPlayer__sub_801D8664(s32 arg0, s8 arg1, s8 arg2);
 void copy_data__6TLobbyFPvPv(void *arg0, void *arg1);
 s32 copy_player_visual_record(void *, void *);
 s32 fn_801D40D4(void *, void *, void *);
@@ -98,8 +97,6 @@ void save_render_material_state(u8 *arg0);
 extern "C" {
 void translate_matrix_vec3(u8 *arg0, u8 *arg1);
 s32 rotate_matrix_y(int, int);
-void TObjPlayer__sub_801D877C(u8 *arg0);
-void TObjPlayer__sub_801D8864(void);
 
 int TUnk_804C4540::set_position_from(void *pos) { return TObjBase::set_position_from(pos); }
 void TUnk_804C4540::set_animation_default(s16 index) { set_animation(index); }
@@ -183,7 +180,6 @@ void TObjPlayer__ct(void *, void *);
 extern s32 ending_sequence_player_vtable[];
 extern u8 *TObjPlayer__shared_model_buffer;
 void *__dt__13TUnk_804C4540Fv(void *arg0, s16 arg1);
-void TObjPlayer__sub_801D8A38(void* a0);
 void TObjPlayer__sub_801BFF80(u8 *arg0);
 void __dl__7TObjectFPv(void *);
 void *__dt__10TObjPlayerFv(void *arg0, s16 arg1);

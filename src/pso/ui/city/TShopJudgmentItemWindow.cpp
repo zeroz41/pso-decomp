@@ -1,5 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/unk/text_80104FCC.h"
+#include "pso/ui/city/THunterGuildSeqOnlineTask_802156A0.h"
+#include "pso/ui/window/TWindowShortListCtrl_80221828.h"
 #include "pso/ui/city/TShopJudgmentItemWindow.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -170,10 +172,8 @@ struct VObj_802209D8 : VBase_802209D8 {
 
 extern "C" {
 int obj_getPtr2B0_20(u8 *p);
-void update_all__6TLobbyFi(s32 arg0);
 void play_cue_stream_file(s32 name);
 u16 get_entity_id(s32);
-void fn_80221838(u8 *arg0, s32 arg1, s32 arg2);
 }
 s32 get_appraisal_text(s32 arg0);
 extern "C" {

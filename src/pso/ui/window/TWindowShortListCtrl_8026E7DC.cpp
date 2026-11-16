@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/ui/window/TWindowShortListCtrl_8026E7DC.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowSubItem.h"
 #include "pso/ui/window/TWindowSubTechnique.h"
@@ -52,7 +53,6 @@ s32 TWindowCtrl__sub_8024A1A8();
 s32 has_player_active_menu__11TWindowCtrlFv(s32);
 s32 TWindowHelpItem__set_displayed_item_by_id(void *);
 s32 set_flag70_bit10__21TWindowSubComCardListFv();
-void TWindowShortListCtrl__sub_8026E884(s16 *dst);
 }
 
 // The class name TObject::m_name points at.

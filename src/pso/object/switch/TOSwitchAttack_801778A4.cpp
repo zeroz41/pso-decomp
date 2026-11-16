@@ -1,4 +1,5 @@
 #include "pso/network/protocol/protocol_types.h"
+#include "pso/object/switch/TOSwitchAttack_801778A4.h"
 #include "types.h"
 #include "pso/object/switch/TOSwitchAttack.h"
 #include "pso/object/switch/TOSwitchAttack.h"
@@ -61,11 +62,8 @@ extern "C" {
 s32 __ct__8TObjBaseFP7TObject(void *);
 extern s32 __vt__14TOSwitchAttack[];
 extern const char *TOSwitchAttack__name;
-u8 *TOSwitchAttack__ct(u8 *arg0, s32 arg1, s32 arg2);
 f32 horizontal_distance_squared(void *, void *);
 u8 is_current_floor_switch_set(s32 id);
-void TOSwitchAttack__sub_80177C20(void);
-void TOSwitchAttack__sub_80177C24(void);
 void *__dt__14TOSwitchAttackFv(void *arg0, s16 arg1);
 void __dl__7TObjectFPv(void *);
 void *__nw__7TObjectFUl(int);

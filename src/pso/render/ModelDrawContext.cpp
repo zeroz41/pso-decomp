@@ -1,4 +1,5 @@
 #include "pso/system/NinjaTypes.h"
+#include "pso/camera/TCameraCtrl_803D749C.h"
 #include "pso/system/ModelDrawCallback.h"
 #include "pso/animation/MotionContext.h"
 #include "types.h"
@@ -37,7 +38,6 @@ extern RecoveredGlobal_803DCBD8_lbl_8058D380 render_contexts;
 extern u8 *current_render_context;
 extern "C" {
 void select_render_context(s32 arg0);
-void compose_motion_node_matrix(void *arg0);
 s32 push_matrix();
 s32 pop_matrix();
 s32 queue_model_draw_matrix(int, void *);

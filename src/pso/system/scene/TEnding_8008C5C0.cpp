@@ -1,4 +1,5 @@
 #include "pso/system/task/TMainTask.h"
+#include "pso/unk/TLobby_802A7290.h"
 #include "pso/system/scene/TEndingC.h"
 #include "types.h"
 #include "pso/unk/text_8008C4F4.h"
@@ -37,7 +38,6 @@ s32 TKeyBoardControl__sub_8000F92C();
 void TKeyBoardControl__sub_8000F9CC(s32 arg0);
 void func_803DCDFC__Fv(void);
 void reset__11TCameraCtrlFv(void);
-void disable_and_free_boss4rock_buffer(void);
 }
 void create_player_ending_motion(void);
 

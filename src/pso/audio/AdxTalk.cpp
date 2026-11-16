@@ -1,4 +1,8 @@
 #include <dolphin/os/OSThread.h>
+#include "pso/audio/AdxHeader.h"
+#include "pso/audio/AdxStream.h"
+#include "pso/audio/AdxTalk.h"
+#include "pso/unk/TLobby_803BFE50.h"
 #include "pso/unk/TLobby.h"
 #include "pso/audio/AdxStreamRuntime.h"
 #include "pso/audio/AdxmThreadStorage.h"
@@ -39,13 +43,6 @@ s32 TLobby__sub_803C9104(Obj_803C9104 *arg0, s32 arg1, s32 arg2);
 }
 
 extern "C" {
-void TLobby__sub_803C89C4(u8 *arg0);
-void TLobby__sub_803C8B38(u8 *arg0);
-void TLobby__sub_803C9DB4(u8 *arg0);
-s32 ARStartDMA(u8 *arg0, s32 arg1, s16 *arg2, u8 *arg3, s8 *arg4, s8 *arg5, u8 *arg6, s32 *arg7, s32 *arg8, s32 *arg9);
-s32 adx_get_data_start_offset(u16 *arg0, s32 arg1, s32 *arg2);
-s32 set_range__6TLobbyFPvii(u8 *arg0, s32 arg1, s32 arg2);
-void TLobby__sub_803C9608(void);
 s32 set_global_805D7520__6TLobbyFl();
 
 }
@@ -268,19 +265,13 @@ extern s32 lbl_805D7540;
 extern "C" {
 s32 TLobby__sub_803CC030(int, int);
 s32 dispatch_packet__6TLobbyFv(int, int);
-s8 TLobby__sub_803C9CB0(u8 *arg0);
-void TLobby__sub_803C0758(u8 *arg0);
 void configure_audio_stream_output(Stream_803C9FCC *self);
 s16 TLobby__sub_803C96E0(Obj_803C96E0 *self, s32 i);
 s32 TLobby__sub_803CBF50(void *);
-void GXFlush(void);
 void TLobby__sub_803CA8B4(Ent_803C9608 *);
 extern Ent_803C9608 adx_stream_player_pool[16];
 
-void TLobby__sub_803C97F4(u8 *arg0, s32 *pos, s32 *rate);
 s32 TLobby__sub_803CBF10(int);
-s32 TLobby__sub_803C9358(u8 *arg0);
-void TLobby__sub_803C94DC(u8 *arg0, s32 arg1);
 void TLobby__sub_803C9E38(Obj_803C9E38 *arg0, VObj_803C9E38 *arg1);
 s32 lbl_805D7560;
 s32 lbl_805D7564;
@@ -292,13 +283,6 @@ void TLobby__sub_803CA194(Obj_803CA194 *arg0);
 void *TLobby__sub_803C0848(void *, s32, void *);
 void *run_step_5210__6TLobbyFv(void *, s32);
 Ch_803CA3C4 *adx_create_stream_player(s32 n, s32 base, s32 size);
-void TLobby__sub_803C9350(u8 *arg0, s32 arg1);
-void TLobby__sub_803C94B8(void);
-void TLobby__sub_803C94D8(void);
-void TLobby__sub_803C96A8(u8 *arg0, s32 arg1);
-s16 TLobby__sub_803C96B0(u8 *arg0);
-s32 TLobby__sub_803C9740(u8 *arg0);
-s32 TLobby__sub_803C97B8(u8 *arg0);
 s32 notify_field_4__6TLobbyFv(int);
 s32 send_packet_by_id__6TLobbyFv(int);
 s32 send_with_offset4__6TLobbyFv(int);
@@ -488,7 +472,6 @@ struct Adxt_803C97F4 {
 };
 
 extern "C" {
-s32 TLobby__sub_803C0010(u8 *arg0);
 s32 send_packet_by_id_2__6TLobbyFv(int);
 s32 query_available_size__6TLobbyFv(int);
 u32 lbl_805D4678 = 1;
@@ -879,10 +862,5 @@ Ch_803CA3C4 *adx_create_stream_player(s32 n, s32 base, s32 size) {
 
 s32 send_packet_by_id_2__6TLobbyFv(int);
 
-extern "C" {
-
-s32 TLobby__sub_803C0010(u8 *arg0);
-
-}
 
 }

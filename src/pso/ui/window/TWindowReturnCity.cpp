@@ -1,5 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/unk/text_8024AC64.h"
+#include "pso/unk/text_8024ACA8.h"
 #include "pso/ui/window/TWindowReturnCity.h"
 #include "pso/ui/window/TWindowMessageYesNo.h"
 
@@ -42,7 +44,6 @@ s32 prepare_hospital_return__10TObjPlayerFv();
 s32 set_area__6TLobbyFl(void *, int, int);
 s32 send_inter_level_warp_all__10TNpcPlayerFl();
 s32 __ct__7TObjectFP7TObject(void *, void *);
-void fn_8024AC64(s32 arg0);
 s32 get_window_layout_position(int);
 void TWindowCtrl__sub_8026D4E8(void);
 s32 free_member__17TWindowSubComCardFv(int, int);
@@ -52,7 +53,6 @@ extern s32 __vt__17TWindowReturnCity[];
 extern s32 TWindowReturnCity__class_name;
 u8 *TWindowReturnCity__ct(TWindowReturnCity *arg0, s32 arg1, s32 arg2);
 u32 __nw__7TObjectFUl(s32);
-void TWindowReturnCity__sub_8024ACA8(s32 arg0);
 extern s32 tl_00;
 void TWindowReturnCity__sub_8026D4BC(void);
 void TWindowReturnCity__sub_8026D4C0(void);

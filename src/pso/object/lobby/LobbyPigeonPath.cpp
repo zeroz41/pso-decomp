@@ -1,4 +1,5 @@
 #include "pso/animation/MotionContext.h"
+#include "pso/object/lobby/LobbyPigeonPath.h"
 
 #include "types.h"
 #include "pso/player/TObjPlayer_803E4954.h"
@@ -171,7 +172,6 @@ void vec3_add_to(void *, void *);
 s32 get_bml_model(void *, s32);
 s32 get_bml_motion(void *, s32);
 
-void draw_line_strip__10TObjPlayerFPviif(u8 *arg0, s32 arg1, s32 arg2, f32 farg0);
 s32 push_matrix();
 s32 post_translate_matrix(void *);
 s32 rotate_matrix_z(s32, s32);
@@ -378,10 +378,7 @@ s32 debug_draw_line(s32 *, s32 *, s32, s32);
 
 u8 *load_gvm_texture_file(s32 arg0);
 
-void * create__10TObjPlayerFPv(void *arg0);
 s32 sub_802C1BFC__13TUnk_804E0910Fv(Obj_802C1BFC *self);
-void * TObjPlayer__sub_802C28B4(void *arg0);
-void TObjPlayer__sub_802C2900(void);
 void matrix_mult_vec(void *, void *, void *);
 
 s32 release_texture_list(void*);
@@ -396,9 +393,6 @@ s32 sample_motion_node_transform(void *arg0, void *arg1, void *arg2, void *arg3,
 #include "pso/ui/frontend/TAdStorySelectGC.h"
 #include "pso/object/base/TObjMotion.h"
 
-extern "C" {
-
-}
 
 
 #pragma push

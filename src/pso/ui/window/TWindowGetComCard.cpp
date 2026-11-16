@@ -1,5 +1,8 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/ui/window/TWindowGetComCard_8007B54C.h"
+#include "pso/unk/text_8024AC64.h"
+#include "pso/unk/text_8024ACA8.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowGetComCard.h"
 #include "pso/ui/window/TWindowMessage.h"
@@ -34,13 +37,11 @@ struct GetCard_80252CCC {
 extern "C" {
 s32 *get_shared_text_buffer(void);
 s32 init_com_card__17TWindowSubComCardFv();
-s32 *TWindowGetComCard__sub_8007B594(void);
 s32 reset_equip_slots__10TObjPlayerFv();
 void *get_player_by_client_id(s32 i);
 s32 text_builder_append();
 s32 __ct__7TObjectFP7TObject();
 void TObjPlayer__sub_8024ABDC(s32 arg0);
-void fn_8024AC64(s32 arg0);
 s32 create__14TWindowMessageFPvll(void *, void *, int);
 extern s32 lbl_8044ED94[];
 extern s32 lbl_8044ED9C[];
@@ -49,7 +50,6 @@ const char *TWindowGetComCard__name = "TWindowGetComCard";
 extern s32 local_client_id;
 u8 *TWindowGetComCard__ct(TWindowGetComCard *arg0);
 void start_player_data_load__17TWindowSubComCardFl(void);
-void TWindowGetComCard__sub_8007B54C(void);
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, s32);
 s32 TWindowShortListCtrl__check_controller_button(void *, s32);
 void play_sound_effect(s32, s32, s32, s32);
@@ -62,7 +62,6 @@ void TWindowFukidasi__sub_80252C38(void* p);
 int fn_80252CBC(void* p);
 void TLobby__sub_8024AC20(s32 arg0);
 s32 TWindowCtrl__sub_8024A314();
-void TWindowReturnCity__sub_8024ACA8(s32 arg0);
 s32 init_parts__10TObjPlayerFv();
 
 void TWindowFukidasi__sub_80252C38(void* p) { *(u8*)((char*)p + 0x71) |= 0x4; }

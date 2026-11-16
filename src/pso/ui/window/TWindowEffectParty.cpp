@@ -17,7 +17,6 @@ extern const f64 lbl_8044ECF0;
 void *__nw__7TObjectFUl(u32);
 void *__ct__18TWindowEffectPartyFP7TObjectScScPv(void *, void *, u16, u16, s32);
 extern s32 local_client_id;
-void *TWindowCtrl__sub_8024FB80(s8);
 s32 get_window_layout_position(s32);
 f32 get_scale__15TWindowCtrlMainFv(s32);
 

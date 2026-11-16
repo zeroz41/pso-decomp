@@ -1,5 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/object/TObjWarnChime.h"
+#include "pso/quest/challenge/ChallengeMode.h"
+#include "pso/unk/text_80072230.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/window/TObjSoloPlayWin.h"
 #include "pso/map/FloorArea.h"
@@ -84,8 +86,6 @@ struct L_80070078 { u8 pad[0x2C]; s32 x2C; };
 extern "C" {
 s32 get_character_save_record(u32);
 extern s32 local_client_id;
-void TLobby__sub_80070358(void);
-void clear_four_slots__6TLobbyFv(void);
 void TLobby__sub_800738F4(void *, s32);
 s32 get_main_phase(void);
 s32 get_current_floor(void);
@@ -94,7 +94,6 @@ void *create_obj_tag_challenge(void *arg0);
 extern s32 tl_07;
 void *create_ch_time_win(void *arg0);
 extern "C" {
-void TLobby__sub_80070170(void *arg0);
 Info_800703D0 *TLobby__sub_800703D0(Info_800703D0 *dst, Info_800703D0 *src);
 s32 send_6x7c_reset__6TLobbyFv(void *);
 void *get_player_by_client_id(s32 i);
@@ -104,8 +103,6 @@ void render__10TChallengeFv(void);
 
 int is_quest_active(void);
 s32 update_card_save_info__6TLobbyFv(void *);
-void TLobby__sub_800722AC(s32 arg0);
-void TLobby__sub_80072618(void);
 s32 TLobby__sub_800739BC(void *);
 s32 TLobby__sub_8026A328();
 s32 check_player_state_flag_2__6TLobbyFv();

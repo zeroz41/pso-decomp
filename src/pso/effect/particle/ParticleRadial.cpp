@@ -1,5 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/effect/particle/ParticleRadial.h"
+#include "pso/effect/particle/TParticleCtrl_80085EE4.h"
 #include "pso/render/render_util.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/object/base/TObjMotion.h"
@@ -93,12 +95,9 @@ struct Scr_8008BAF8 { f32 x, y; };
 extern "C" {
 void *alloc_particle_memory(int);
 f32 vec_squared_length(u8 *arg0);
-u8 *__dt__13TUnk_8048E728Fv(u8 *arg0, s16 arg1);
-u8 *create_radial_particle(u8 *arg0, u8 *arg1, s32 arg2, u16 arg3, s16 arg4);
 void *__dt__13TUnk_8048E7A8Fv(void *arg0, s16 arg1);
 void TKeyBoardControl__sub_8000F91C(s32 arg0);
 void TKeyBoardControl__sub_8000F9CC(s32 arg0);
-void destroy_keyboard_objects(void * _w0);
 s32 rand(void);
 s32 is_split_screen();
 s32 is_particle_sprite_additive__13TUnk_8048E728Fv(void *, s32);

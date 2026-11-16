@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/camera/TCameraCtrl_8006C7C4.h"
 #include "pso/unk/TUnk_80488D70.h"
 #include "pso/unk/TUnk_80488B38.h"
 #include "pso/unk/TUnk_80488B68.h"
@@ -65,7 +66,6 @@ struct CameraMotionData;
 
 extern "C" {
 
-void *TCameraCtrl__vt10(void);
 void *__dt__13TUnk_80488D70Fv(void *arg0, s16 arg1);
 void *get_player_by_client_id(s32);
 void *__nw__7TObjectFUl(int);

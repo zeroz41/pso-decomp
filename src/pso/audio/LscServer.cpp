@@ -1,5 +1,7 @@
 #pragma readonly_strings on
 #include "pso/audio/LscStream.h"
+#include "pso/audio/AdxStream.h"
+#include "pso/audio/LscServer.h"
 #include "pso/audio/AdxStreamRuntime.h"
 #include "pso/unk/TLobby.h"
 #include <string.h>
@@ -8,7 +10,6 @@ static char lsc_repeat_filename[0x28];
 
 extern "C" {
 AdxStreamFile *adxstm_open_fname_range_ex_rt__6TLobbyFPviiii(const char *name, s32 mode, s32 offset, s32 length, s32 stream);
-s32 set_range__6TLobbyFPvii(u8 *file, s32 min_bytes, s32 capacity);
 
 // The three per-status steps are separate functions inlined into lsc_poll (inferred: CRI lsc_svr shape).
 // Entry being read (status 1): follow the stream until it ends.

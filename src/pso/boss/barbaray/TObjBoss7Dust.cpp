@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/boss/barbaray/TObjBoss7Dust.h"
+#include "pso/boss/derolle/TObjBoss2Tunnel_802F1A58.h"
 #include "pso/unk/text_802F0E24.h"
 #include "pso/system/vector.h"
 
@@ -16,9 +17,6 @@ extern "C" {
 s32 __ct__7TObjectFP7TObject(void *, void *);
 extern RecoveredGlobal_802F119C___vt__13TObjBoss7Dust __vt__13TObjBoss7Dust;
 extern s32 TObjBoss7Dust__name;
-void TObjBoss2Tunnel__sub_802F2C4C(void);
-void TObjBoss2Tunnel__sub_802F2C50(void);
-void TObjBoss2Tunnel__sub_802F2C84(void);
 void TObjBoss7DustCtrl__sub_802F1450(void);
 void boss7_dust_draw_at(s32 *arg0, s32 arg1);
 void fn_802F1454(void);

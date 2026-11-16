@@ -3,6 +3,7 @@
 // constants where the original has them (before the pulse constants of render_util.cpp), so it
 // reads the three doubles by address.
 #include "pso/render/render_util.h"
+#include "pso/render/render_util_tail.h"
 #include "pso/render/model_render_state.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/render/ModelDrawContext.h"

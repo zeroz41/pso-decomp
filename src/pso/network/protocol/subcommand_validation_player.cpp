@@ -1,4 +1,5 @@
 #include "pso/network/protocol/subcommand_validation.h"
+#include "pso/network/protocol/subcommand_validation_player.h"
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/render/render_util.h"
 #include "types.h"

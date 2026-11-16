@@ -12,4 +12,11 @@ public:
 };
 typedef char TUnk_80488DA0_size[sizeof(TUnk_80488DA0) == 0x70 ? 1 : -1];
 
+// --- C functions defined in TUnk_80488DA0.cpp ---
+extern "C" {
+void *TCameraCtrl__sub_8006CC30(void *a0);
+void *TCameraCtrl__vt6(void);
+}
+// --- end of C functions
+
 #endif

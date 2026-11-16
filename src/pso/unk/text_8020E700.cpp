@@ -40,8 +40,6 @@ void push_shop_pool_entry(Ctr_8020E934 *, u8);
 void init__9TItemDataFv(Item_8020E934 *);
 s32 is_duplicate_shop_shield_or_unit(Item_8020E934 *, s32);
 s32 is_duplicate_shop_armor(Rec_8020E700 *arg0, s32 arg1);
-void generate_shop_armor_pool(s32 arg0);
-void generate_shop_unit_pool(s32 arg0);
 s32 is_duplicate_shop_armor(Rec_8020E700 *arg0, s32 arg1) {
     s32 i;
     Rec_8020E700 *tbl = (Rec_8020E700 *)lbl_80513D78[arg1];
@@ -253,7 +251,6 @@ void TLobby::copy_armor_shop_entry(s32 arg1, s32 arg2) {
 
 extern "C" {
 
-void generate_armor_shop_stock(s32 arg0);
 
 void TLobby::set_shop_armor_list_flag(int a0, int a1) { lbl_805D615C = a1; generate_armor_shop_stock(a0); }
 
@@ -265,8 +262,6 @@ void TLobby::set_shop_armor_list_flag(int a0, int a1) { lbl_805D615C = a1; gener
 #include "pso/unk/text_8020ED44.h"
 
 extern "C" {
-void generate_shop_unit_pool(s32);
-void generate_shop_armor_pool(s32);
 void generate_armor_shop_stock(s32 arg0) {
     if (lbl_805D6158 != NULL) {
         if (shop_armor_stock_generated_flags[arg0] == 0) {

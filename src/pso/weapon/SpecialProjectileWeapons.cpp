@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/TEffStarLight2D.h"
+#include "pso/weapon/SpecialProjectileWeapons_80124760.h"
 #include "pso/technique/TTecMegid.h"
 #include "pso/weapon/TUnk_804A204C.h"
 #include "pso/weapon/shoot/TUnk_804A2148.h"
@@ -70,8 +71,6 @@ void __ct__11TItemWeaponFP7TObjectPUc(void *);
 u8 *__nw__5TItemFUl(s32);
 void __dl__7TObjectFPv(void *);
 void *__dt__15TItemShootModelFv(void *self, s16 flag);
-void increment_burst_counter(u8 *arg0);
-s32 get_burst_counter(void* p);
 s32 get_owner_client__5TItemFv(void *);
 s32 __nw__15TItemHeapObjectFUl(s32);
 s32 init_vtable__13TUnk_804A0668Fv(s32, u32, s32, s32);

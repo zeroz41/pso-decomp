@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/object/TObjLiveMonitorSmall.h"
+#include "pso/unk/text_8020BFE4.h"
 #include "pso/object/TObjLiveMonitor.h"
 #include "types.h"
 #include "pso/player/TObjPlayer.h"
@@ -102,7 +103,6 @@ s32 get_current_floor();
 void subtractive_rng_seed(void *, s32);
 s32 __ct__14SubtractiveRngFv(void *);
 u8 *fn_800832EC(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0);
-s32 is_room_enemy_set_cleared(s32 floor, s16 room);
 extern s32 tl_particlemodel;
 s32 memset(s32 *, s32, s32);
 }

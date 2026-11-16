@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/boss/darkfalz/TBoss4DarkFalz_8004C93C.h"
 #include "pso/system/vector.h"
 #include "pso/boss/darkfalz/TObjDFHorming.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
@@ -179,7 +180,6 @@ struct Ang_80050808 { s32 x, y, z; };
 extern "C" {
 u16 find_nearest_visible_player(void *, int, f32);
 s32 is_boss_active__13TObjDFHormingFv();
-int TBoss4DarkFalz__sub_8004C1AC(void);
 int queue_destruction__13TObjDFHormingFPv(void* p);
 s32 query_teammate_state__9TObjEneDDFv();
 }
@@ -267,7 +267,6 @@ s16 get_entity_id(void *);
 f32 atan2_float(f32 y, f32 x);
 f32 newton_sqrtf(f32);
 s32 is_state_ready__14TBoss4DarkFalzFv();
-s32 TBoss4DarkFalz__sub_8004C1B4();
 S_80050A68 * __dt__13TObjDFHormingFv(S_80050A68 *o, s16 flag);
 u8 * TObjDFHorming__ct(u8 *arg0, s32 arg1, s32 arg2, u16 arg3);
 void damage_players_near_point(s32 arg0, Vec *arg1);

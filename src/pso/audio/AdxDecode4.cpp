@@ -1,5 +1,6 @@
 // CRI adx_dcd5.c: the 4-bit ADX block decoders (mono, stereo, stereo as mono).
 #include "types.h"
+#include "pso/audio/AdxDecode4.h"
 #include "pso/unk/TLobby.h"
 #include "pso/unk/TLobby_803C4698.h"
 

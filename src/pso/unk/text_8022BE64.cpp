@@ -2,6 +2,7 @@
 #pragma push
 
 #include "pso/render/render_util.h"
+#include "pso/unk/text_8022BE64.h"
 #include "pso/system/NinjaTypes.h"
 #include "types.h"
 #include "pso/effect/TUnk_804CC148.h"
@@ -121,7 +122,6 @@ void *__ct__7TEffectFv(void *);
 s32 init_collision_body_parts(u32, void *, s32);
 u32 __ct__14TObjCollidableFP7TObject(u32, void *);
 u32 __nw__7TObjectFUl(s32);
-u8 *construct_area_technique_base(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
 
 }
 TUnk_804CC148::TUnk_804CC148(s32 arg1, s32 arg2, s32 arg4) : TEffect() {

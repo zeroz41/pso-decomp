@@ -1,4 +1,5 @@
 #include "pso/effect/TEffStarLight2D.h"
+#include "pso/weapon/SpecialProjectileWeapons_80124760.h"
 #include "pso/weapon/TUnk_804A204C.h"
 #include "pso/weapon/shoot/TUnk_804A2148.h"
 #include "pso/weapon/TUnk_804A2164.h"
@@ -66,8 +67,6 @@ void *__dt__13TUnk_804A2164Fv(void *arg0, s16 arg1);
 void __ct__11TItemWeaponFP7TObjectPUc(void *);
 u8 *__nw__5TItemFUl(s32);
 void *__dt__15TItemShootModelFv(void *self, s16 flag);
-void increment_burst_counter(u8 *arg0);
-s32 get_burst_counter(void* p);
 s32 post_translate_matrix(void *);
 void draw_weapon_at_joint(s32 arg0, s8 arg1);
 s32 push_matrix();

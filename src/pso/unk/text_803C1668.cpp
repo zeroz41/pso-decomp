@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/unk/text_803C1780.h"
 struct Hdl_803C1668 {
     u8 pad0[2];
     s16 f2;
@@ -45,7 +46,6 @@ struct Hdl_803C1668 {
 };
 
 extern "C" {
-s32 TLobby__sub_803C1780(s32 buf, s32 len, s16 *data_offset, s8 *marker, s8 *bits, s8 *block_align, s8 *channels, s32 *sample_rate, s32 *sample_count, s32 *samples_per_block, s16 *encoding);
 void *memset(void *, int, u32);
 s16 DVDReadPrio(Hdl_803C1668 *h, s32 arg1, s32 arg2);
 s16 DVDReadPrio(Hdl_803C1668 *h, s32 arg1, s32 arg2) {

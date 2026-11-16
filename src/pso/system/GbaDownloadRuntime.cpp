@@ -10,7 +10,6 @@
 #include "pso/system/task/TObject.h"
 
 extern "C" {
-void TLobby__sub_8032CB6C(void);
 extern s32 TLobby__data_805D6CCC;
 extern const f32 TLobby__data_805DF7A4;
 

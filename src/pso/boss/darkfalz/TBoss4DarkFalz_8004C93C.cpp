@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/network/protocol/protocol_types.h"
+#include "pso/boss/darkfalz/TBoss4DarkFalz_8004C93C.h"
 #include "pso/unk/TLobby_801E43E4.h"
 #include "types.h"
 #include "pso/boss/darkfalz/TBoss4Type1.h"
@@ -66,8 +67,6 @@ extern s32 game_difficulty_selection;
 s32 TBoss4DarkFalz__sub_8004B730(void *, f32, int);
 void TBoss4DarkFalz__sub_8004B4F0(void *arg0p, void *arg1p);
 extern RecoveredGlobal_8004C5E8_TBoss4DarkFalz__data_804FF1E8 TBoss4DarkFalz__data_804FF1E8;
-int TBoss4DarkFalz__sub_8004C1AC(void);
-s32 TBoss4DarkFalz__sub_8004C1B4(void);
 int bswap_16__FPUs(void*);
 int bswap_32__FPUl(void*);
 

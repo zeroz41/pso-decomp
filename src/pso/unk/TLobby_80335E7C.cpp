@@ -1,5 +1,6 @@
 // ---- pso/misc/TLobby_80335E08 [0x80335E7C-0x80336054): separate TU (own .sdata2 pool 0x805DF8C8-0x805DF8E8)
 #include "types.h"
+#include "pso/unk/TLobby_80335E7C.h"
 #include "pso/unk/TUnk_804EE470.h"
 #include "pso/unk/TUnk_804EE470.h"
 #include "pso/ui/TUnk_804EE458.h"

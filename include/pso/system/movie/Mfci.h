@@ -40,4 +40,12 @@ void TLobby__sub_803D43A8(void);
 char *TLobby__sub_803D43B8(void);
 }
 
+// --- C functions defined in Mfci.cpp ---
+extern "C" {
+void TLobby__sub_803D43A8(void);
+char *TLobby__sub_803D43B8(void);
+s32 mfci_request_read(void *handle, s32 sectors, void *buffer);
+}
+// --- end of C functions
+
 #endif

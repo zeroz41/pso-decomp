@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/npc/TNpcPlayer_8014DADC.h"
 #include "pso/render/render_util.h"
 #include "pso/npc/TNpcPlayer.h"
 #include "pso/player/TObjPlayer.h"
@@ -35,8 +36,6 @@ void init_6x44_attack_packet(void *);
 void init_6x43_attack_packet(void *);
 void set_field2__10TNpcPlayerFs(void *, s32);
 void set_field_0__10TNpcPlayerFs(void *, s32);
-void TNpcPlayer__sub_8014DC30(void);
-int TNpcPlayer__sub_8014DC3C(void* p);
 int request_technique_cast__10TNpcPlayerFl(void*);
 s32 set_technique_seed_level(s32, s32, u8);
 void clamp_and_set_unit_value__10TObjPlayerFiUci(s32 arg0, u8 arg1, s32 i);

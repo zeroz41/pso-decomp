@@ -1,5 +1,6 @@
 // CRI adx_baif.c: the AIFF decoder (ADXB_ExecOneAiff and its 8/16-bit steps, header check and parse).
 #include "types.h"
+#include "pso/audio/AdxAiff.h"
 #include "pso/unk/TLobby_803C1A58.h"
 #include "pso/unk/TLobby.h"
 #include "pso/audio/AdxbDecoder.h"

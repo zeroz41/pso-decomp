@@ -1,4 +1,5 @@
 #include "pso/enemy/deldepth/DelDepthData.h"
+#include "pso/unk/TLobby_8001EF5C.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/animation/ActorAnimationState.h"
 #include "types.h"
@@ -65,12 +66,10 @@ extern const f32 TObjEneDelDepth__data_805DF298;
 extern const f32 lbl_805DF2A4;
 extern const f32 lbl_805DF2A8;
 extern const f32 lbl_805DF2AC;
-AnimationMotion *get_bml_motion(BmlResource *resource, s32 index);
 
 extern const f32 lbl_805DF29C;
 extern const f32 lbl_805DF294;
 
-s32 TObjFish__sub_8001EDB0(BmlResource *resource, s32 index);
 
 s32 get_mode__11TCameraCtrlFPv(void *);
 void draw_blob_shadow(s32 arg0);

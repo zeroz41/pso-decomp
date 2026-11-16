@@ -15,7 +15,6 @@ void render_shadows__7TObjectFv();
 extern "C" {
 extern void *__vt__18TChCrTagOccupation[];
 const char *chcr_tag_occupation_class_name = "TChCrTagOccupation";
-int TChCrTagOccupation__vt4(TChCrTagOccupation *tag);
 #pragma push
 #pragma fp_contract on
 void TChCrTagOccupation::sub_802A2DF4() {

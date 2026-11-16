@@ -1,4 +1,6 @@
 #include "pso/animation/MotionContext.h"
+#include "pso/camera/TCameraCtrl_803D749C.h"
+#include "pso/unk/TLobby_80227AA0.h"
 #include "pso/render/DebugFont.h"
 #include "pso/render/render_util.h"
 #include "pso/unk/TLobby_801E2F94.h"
@@ -506,14 +508,12 @@ s32 read_afs_toc__6TLobbyFl(void *);
 s32 adxf_open_file__6TLobbyFiPviPv(void *, void *, int, void *);
 s32 TLobby__sub_801E3E9C(s32 arg0, s32 arg1, s32 arg2);
 s32 disable_disconnected_ports__16TKeyBoardControlFv(void *);
-void update_global_sound_frame(void);
 extern RecoveredGlobal_801E3E24_TKeyBoardControl__data_80506270 TKeyBoardControl__global_key_state;
 s32 TKeyBoardControl__sub_801E3E24(s32 arg0, s32 arg1, s32 arg2);
 s32 GXSetViewport(f32, f32, f32, f32, f32, f32);
 s32 GXSetZMode(s32, s32, s32);
 extern s32 (*chunk_model_node_callback)(void *);
 void TKeyBoardControl__sub_8000F7FC(void);
-void compose_motion_node_matrix(void *arg0);
 
 s32 push_matrix();
 s32 pop_matrix();

@@ -1,5 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/TEffStarLight2D.h"
+#include "pso/weapon/shoot/TItemShootGun_dtor.h"
+#include "pso/weapon/shoot/TItemShootModelRotZ_dtor.h"
 #include "pso/weapon/shoot/TItemShoot.h"
 #include "pso/item/TItem.h"
 #include "pso/weapon/shoot/TItemShootGun.h"
@@ -26,10 +28,8 @@ extern "C" const char* TItemShoot__class_name;
 extern "C" const f64   lbl_8043E7A0[];
 
 extern "C" {
-void *__dt__19TItemShootModelRotZFv(void *self, s16 flag);
 void render__19TItemShootModelRotZFv();
 void hook__19TItemShootModelRotZFv();
-void *__dt__13TItemShootGunFv(void *self, s16 flag);
 void render__13TItemShootGunFv();
 void hook__13TItemShootGunFv();
 void __dt__18TItemShootParticleFv();

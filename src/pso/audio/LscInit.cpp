@@ -1,5 +1,6 @@
 // CRI LSC init and finish (lsc_ini.c in other CRI builds): the stream table and the build string.
 #include "pso/audio/LscStream.h"
+#include "pso/audio/LscInit.h"
 #include "pso/unk/TLobby.h"
 #include <string.h>
 

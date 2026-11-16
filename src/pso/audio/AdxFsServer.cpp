@@ -1,5 +1,6 @@
 // CRI adx_fsvr.c: ADXT_ExecFsSvr, one pass of the file-system servers.
 #include "types.h"
+#include "pso/audio/AdxFsServer.h"
 #include "pso/unk/text_803D31A4.h"
 #include "pso/unk/TLobby.h"
 #include "pso/audio/LscStream.h"

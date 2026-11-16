@@ -1,4 +1,5 @@
 #include "pso/render/render_util.h"
+#include "pso/effect/particle/TParticleCtrl_80085EE4.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "types.h"
@@ -182,7 +183,6 @@ extern s32 tl_particle;
 extern RecoveredGlobal_800861F4_TParticleCtrl__data_80511F70 TParticleCtrl__data_80511F70;
 u8 * __dt__7TObjectFv(void *, s16);
 extern RecoveredGlobal_8008655C_lbl_8048E728 lbl_8048E728;
-u8 *__dt__13TUnk_8048E728Fv(u8 *arg0, s16 arg1);
 s32 __ct__8TObjBaseFP7TObject(void *, void *);
 extern s32 __vt__13TUnk_8048E6A8[];
 extern s32 __vt__13TUnk_8048E6DC[];

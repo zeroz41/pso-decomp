@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/ui/window/TWindowMainMenu_80263AB0.h"
 #include "pso/unk/text_80263A20.h"
 #include "pso/ui/window/TWindowHelpItem_80255AB4.h"
 #include "pso/ui/window/TWindowSubComCardList_8026CB08.h"
@@ -23,7 +24,6 @@ extern s32 TWindowHelpItem__object_vtable[];
 extern u32 window_help_item_class_name;
 extern TWindowHelpItem::CallbackWords __ptmf_null;
 void *init__21TWindowSubComCardListFiii(void *p, s32 a, s32 b, s32 c);
-void call_if_split_screen(u32 object, s32 client_id);
 
 s32 handle_list_page_flip_input(s32);
 s32 draw_visible_window_entries(void *, void *, int);

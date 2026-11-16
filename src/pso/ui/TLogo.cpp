@@ -1,5 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/object/base/TObjMotion.h"
+#include "pso/ui/frontend/TAdBackGC_8029A6EC.h"
+#include "pso/ui/frontend/TAdSoniclogo.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/TLogo.h"
 #include "pso/ui/TLogo_8001C134.h"
@@ -54,9 +56,8 @@ const char *TLogo__class_name = "TLogo";
 
 extern "C" {
 void reset_view_state__11TCameraCtrlFv(); void reset__11TCameraCtrlFv(); void TCameraCtrl::init_default_view(); void TCameraCtrl::reset_default_view();
-void register_texture_f256_ad_pic_2(); void TAdSinglePlyChrSelectGC::free_global();
+void TAdSinglePlyChrSelectGC::free_global();
 void register_texture_f256_backtext(); void TAdSinglePlyChrSelectGC::free_singleton_805D65C0();
-void TLogo__sub_8001C364(); void TLogo__sub_8001C360();
 void TWindowCtrlMain__sub_8024D838(); void TWindowCtrlMain::free_all_windows();
 void *logo_load_callback_table[18] = {
     (void *)reset_view_state__11TCameraCtrlFv, (void *)reset__11TCameraCtrlFv,

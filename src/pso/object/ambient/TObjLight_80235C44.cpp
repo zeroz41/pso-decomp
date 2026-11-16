@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/NinjaTypes.h"
+#include "pso/object/ambient/TObjLight_80235C44.h"
 #include "types.h"
 #include "pso/effect/TEffect.h"
 #include "pso/object/TUnk_804CCAA8.h"
@@ -63,7 +64,6 @@ u16 get_entity_id(void *);
 s32 __ct__7TObjectFP7TObject(void *, void *);
 extern s32 __vt__13TUnk_804CCAA8[];
 
-u8 *construct_actor_light_task(u8 *arg0, NJS_ARGB *arg1, u8 *arg2, s32 arg3, u8 *arg4, u8 *arg5, f32 farg0);
 void publish_actor_light_scalars(u32 arg0, f32 farg0, f32 farg1);
 void publish_light_direction_color(u32 id, void *dir, void *color);
 s32 approach_vector_fixed_distance(void *, void *, void *, f32);

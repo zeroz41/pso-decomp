@@ -1,5 +1,8 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/map/TSetEvtDestroy.h"
+#include "pso/unk/TLobby_801C25B4.h"
+#include "pso/unk/TLobby_801C4F80.h"
+#include "pso/unk/text_801C5454.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/item/TItem.h"
 #include "types.h"
@@ -113,7 +116,6 @@ void TObjPlayer__send_selected_spawn_position(void *self, u16 id);
 s32 obj_set_flag_20000();
 s64 OSGetTime(void);
 void obj_clear_flag30_20000(TObjBase *actor);
-void *init_with_name__6TLobbyFPvPvPvPv(void *object, void *arg1, void *arg2, void *arg3);
 s32 TObjEneRe4Sorcerer__sub_801E3F14(int);
 void TObjEneRe4Sorcerer__sub_801E3F18(void);
 extern s32 TLobby__battle_ctrl_default_value;
@@ -147,15 +149,12 @@ extern const f32 lbl_805D3550;
 extern const f32 lbl_805D5DC4;
 extern const f32 lbl_805D5DC8;
 u16 get_entity_id(void *);
-void TLobby__sub_801C36E4(void *arg0, void *arg1);
-s32 TLobby__sub_801C4FC4(void *p);
 void TLobby__sub_801B09A4(void);
 void play_cue_stream_file(s32 name);
 void show_duel_result_window(s32 arg0, s32 arg1);
 void TLobby__sub_8020BB18(void);
 void TLobby__sub_8020BCE4(void);
 void end_player_keyboard_hold(s32 arg0);
-void clear_trap_counts(s8 *arg0);
 void begin_player_keyboard_hold(s32 arg0);
 s32 release_attached_resource__10TObjPlayerFv();
 void request_active_window_close(void);

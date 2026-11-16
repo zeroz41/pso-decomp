@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/player/TObjPlayer_800666B0.h"
 #include "pso/unk/TUnk_80488B68.h"
 #include "pso/camera/TCameraCtrl_80067FC0.h"
 #include "pso/camera/TCameraCtrl_8006C254.h"
@@ -81,7 +82,6 @@ struct Stack_8006C28C {
 
 void sample_camera_motion(u8 *arg0, s32 arg1, u8 *arg2, f32 farg0);
 extern "C" {
-void set_camera_capture_overlay_alpha(int);
 f32 vec_squared_length(u8 *arg0);
 void normalize_vector(Vec_8006C28C *);
 s32 push_matrix_from(void *src);

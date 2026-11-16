@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/unk/TLobby_80070A00.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/system/vector.h"
 #include "pso/camera/TCameraCtrl.h"
@@ -278,7 +279,6 @@ u16 get_entity_id(void *);
 s32 is_split_screen();
 s32 get_current_floor();
 s32 get_split_screen_view_index__11TCameraCtrlFUs(void *);
-u32 TLobby__sub_80070AD8(s32 arg0);
 s32 get_floor_destination_name();
 s32 get_localized_text_entry(s32, s32);
 s32 debug_draw_line(void *, void *, u32, u32);

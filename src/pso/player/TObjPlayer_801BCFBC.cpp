@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/player/TObjPlayer_801BCFBC.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TPlyPhotonChair.h"
 #include "pso/object/base/TObjMotion.h"

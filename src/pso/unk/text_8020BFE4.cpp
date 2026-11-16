@@ -1,4 +1,5 @@
 #include "pso/enemy/EnemyFactoryTables.h"
+#include "pso/unk/text_8020BFE4.h"
 #include "pso/object/base/ObjectFactoryTables.h"
 
 #include "types.h"
@@ -21,11 +22,8 @@ s32 get_current_floor(void);
 extern QuestSavedEnemyFloor_8020C1F0 TLobby__floor_enemy_group_table[];
 extern QuestEnemyRow_8020C1F0 *TLobby__data_805D6114;
 extern s32 TLobby__current_floor_enemy_set_count;
-s32 is_room_enemy_set_cleared(s32 floor, s16 room);
-s32 get_enemy_factory_child_count(s32 arg0, s16 *arg1);
 extern Ent_8020C07C *TLobby__data_805D610C;
 extern s32 TLobby__current_floor_object_set_count;
-void TLobby__sub_8020C07C(s32 pl, s16 b, s16 a, s32 mask, s32 set);
 
 s32 get_enemy_factory_child_count(s32 arg0, s16 *arg1) {
     Ent_8020BFE4 *base = enemy_factory_area_table[arg0];

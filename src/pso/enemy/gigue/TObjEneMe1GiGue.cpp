@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/player/PlayerAttackParams.h"
+#include "pso/unk/text_800DC420.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include <dolphin/mtx.h>
@@ -86,7 +87,6 @@ s32 create_instance__9TTecZaruaFllll(void *, void *, void *, s32);
 void check_enemy_body_collisions(void *arg0);
 s32 check_path_obstructed(void *, Vec *);
 void *find_entity_by_id(u16 id);
-s32 TObjPlayer__sub_800DC478(u8 *arg0, s32 arg1, f32 farg0);
 s32 enemy_turn_half_toward_dest(void *);
 s32 is_split_screen();
 s32 register_object__6TLobbyFl(int);

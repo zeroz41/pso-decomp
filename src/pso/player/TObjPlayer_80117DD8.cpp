@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/player/TObjPlayer_80117DD8.h"
 #include "pso/item/TItem.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/TItemData.h"

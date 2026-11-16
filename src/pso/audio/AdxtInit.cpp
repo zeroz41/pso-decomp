@@ -1,5 +1,6 @@
 // CRI adx_inis.c: ADXT_Finish, ADXT_Init and the SVM server callbacks they register.
 #include "pso/unk/text_803D31A4.h"
+#include "pso/unk/text_803CE240.h"
 #include "pso/unk/TLobby.h"
 #include "pso/audio/LscStream.h"
 #include "pso/unk/TLobby_803C4698.h"
@@ -20,7 +21,6 @@ s32 TLobby_init_ref_count;
 s32 TLobby__svm_cb_svr_handle;
 s32 lbl_805D7540;
 static const char *const volatile lbl_805E0D30 = "\nADXT/GC Ver.8.05 Build:Jun 13 2002 19:01:36\n";
-void TLobby__sub_803CE240(void);
 }
 
 Ent_803C9608 adx_stream_player_pool[16];

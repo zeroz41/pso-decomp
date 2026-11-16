@@ -1,4 +1,7 @@
 #include "types.h"
+#include "pso/audio/AdxManager.h"
+#include "pso/unk/TLobby_80227AA0.h"
+#include "pso/unk/text_8023F660.h"
 #include "pso/unk/TLobby.h"
 #include "pso/item/TUnk_804CC048.h"
 #include "pso/map/FloorArea.h"
@@ -11,8 +14,6 @@ struct RecoveredGlobal_80227AA8_lbl_80514F64 {
 };
 
 extern "C" {
-void get_menu_field_280__6TLobbyFv(void);
-void fn_8023F660(void *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5);
 
     extern int music_stream_base_gain;
 int get_music_base_gain(void) {  return music_stream_base_gain; }
@@ -184,15 +185,6 @@ struct RecoveredGlobal_80069A6C_TCameraCtrl__data_804FF628 {
 };
 
 extern "C" {
-void apply_clamped_field_27c__6TLobbyFv(f32 value);
-void is_sound_enabled(void);
-s32 is_special_sound_id(u32 x);
-s32 normalize_sound_request(u32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
-s32 play_packed_sound_once(u32 arg0, s32 arg1, s32 arg2, s32 arg3);
-void TLobby__sub_80227AF8(s32 arg0, s32 arg1);
-void release_sound_with_fade(s32 slot);
-void TLobby__sub_80227D38(void);
-void handle_6xB2_play_sound_from_player(void *arg0);
 s32 play_sound_effect(s32, s32, s32, s32);
 u16 TCameraCtrl__sub_8006A5DC();
 void *get_player_by_client_id(s32 i);
@@ -418,7 +410,6 @@ s32 update_sound_frame(SoundControlState *self);
 int render_tick__Fv(void);
 s32 init_sound_aux_effects(SoundControlState *self);
 void TLobby__sub_803382E4(void);
-void TLobby__sub_803CB81C(void);
 s32 TLobby__sub_80226B64(int);
 extern const s32 floor_sound_bank_table[36] = {
     1, 2, 2, 4, 4, 4, 6, 6, 8, 8, 8, 3,

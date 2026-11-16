@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/camera/TCameraCtrl_8006B3D8.h"
 #include "pso/unk/TUnk_80488AD8.h"
 #include "pso/system/vector.h"
 #include "pso/unk/TUnk_80488B08.h"
@@ -124,12 +125,8 @@ f32 vector_length(void *);
 void normalize_vector(void *);
 f32 xyz_distance(void *, void *);
 extern s32 lbl_80488AF0[];
-s32 TCameraCtrl__sub_8006B798(void *p, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
-s32 TCameraCtrl__sub_8006BADC(void);
 void approach_vector_fixed_distance(Vec_8006B6A8 *, Vec_8006B6A8 *, Vec_8006B6A8 *, f32);
-void *TCameraCtrl__vt9(void);
 s32 restore_player_cameras();
-void *TCameraCtrl__sub_8006BA68(void *);
 s32 activate_body_collision__10TObjPlayerFv();
 s32 deactivate_body_collision__10TObjPlayerFv();
 void *get_player_by_client_id(s32 i);

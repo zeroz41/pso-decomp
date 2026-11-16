@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/unk/text_8022BE64.h"
 #include "pso/technique/TTecRaBarta.h"
 #include "types.h"
 #include "pso/technique/TTecRaBarta.h"
@@ -383,7 +384,6 @@ extern "C" {
 void *find_entity_by_id(u16 id);
 s32 apply_technique_to_area_targets__13TUnk_804CC148Fv(void *, int);
 
-u8 *construct_area_technique_base(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
 
 extern s32 __vt__11TTecRaBarta[];
 struct Profile_80237A94 { void *entries; u32 count; };

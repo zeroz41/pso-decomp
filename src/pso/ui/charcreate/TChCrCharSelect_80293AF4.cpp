@@ -1,10 +1,10 @@
 #include "types.h"
+#include "pso/ui/charcreate/TObjCMIcon_80299488.h"
 #include "pso/ui/charcreate/TObjCMIcon.h"
 #include "pso/ui/charcreate/TChCrCharSelect.h"
 
 extern "C" {
 
-void TObjCMIcon__sub_802994C8(s32 arg0, s32 *arg1);
 const s32 lbl_80464E90[2] = {0, 4};
 s32 TChCrCharSelect__input_mode;
 const s32 lbl_805DD9D8[1] = {4};

@@ -1,4 +1,6 @@
 #include "pso/map/FloorLifecycleTables.h"
+#include "pso/object/lobby/LobbyPigeonPath.h"
+#include "pso/object/switch/TOSwitchAttack_801778A4.h"
 #include "pso/quest/TQuestThread.h"
 #include "pso/object/door/TODoorLabo.h"
 #include "pso/object/cave/TODragonflyCave01.h"
@@ -127,8 +129,6 @@ void TMainCursor__sub_80154094();
 void free_ancient_container_resources();
 void TODummyKeyCave01__sub_80165E88();
 void TODummyKeyCave01__sub_80165E8C();
-void TOSwitchAttack__sub_80177C20();
-void TOSwitchAttack__sub_80177C24();
 void TOSwitchTimer__sub_80178584();
 void TOSwitchTimer__sub_80178588();
 void TContainerAncient01R__sub_8018AF74();
@@ -141,7 +141,6 @@ void TObjFish__sub_8019F72C();
 void TObjWarpLobby__sub_801A0B38();
 void TLanguage__sub_8029FF0C();
 void TLanguage__sub_802A0204();
-void TObjPlayer__sub_802C2900();
 void fn_8030B7B4();
 void fn_8030B7B8();
 void load_lobby_butterfly_bml_resource();

@@ -1,4 +1,6 @@
 #include "types.h"
+#include "pso/unk/TLobby_80228154.h"
+#include "pso/unk/TLobby_80299C4C.h"
 #include "pso/unk/TLobby.h"
 #include "pso/item/TUnk_804CC048.h"
 #include "pso/map/FloorArea.h"
@@ -24,12 +26,7 @@ s32 load_dragon2_scene();
 
 
 extern "C" {
-s32 select_area_entrance(void *arg0);
 s32 lookup_scene_object__6TLobbyFPv(s32, void *);
-s32 init_jungle_area(void);
-void run_area_scene_cleanup(u8 *arg0);
-void promote_area_floor(u8 *arg0);
-void load_area_scene_and_init(u8 *arg0);
 s32 get_floor_map_terrain(s32);
 
 

@@ -1,4 +1,7 @@
 #include "pso/network/TGameProtocol.h"
+#include "pso/ui/window/TWindowKeyBoardHard_801A529C.h"
+#include "pso/unk/TLobby_801C25B4.h"
+#include "pso/unk/TLobby_80227AA0.h"
 #include "pso/quest/TQuestThread.h"
 #include "pso/network/TPacket.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
@@ -31,7 +34,6 @@ struct Head_801E4260 {
 
 extern "C" {
 void TLobby__sub_8007EB20(const char *, ...);
-void TLobby__sub_801A54E8(u8 *arg0);
 void dispatch_pso_data_commands(void *);
 extern char lbl_80449784[];
 }
@@ -141,8 +143,6 @@ extern "C" void handle_6x7A_enable_stealth_suit_effect(void *arg0);
 extern "C" void handle_6x7B_disable_stealth_suit_effect(void *arg0);
 extern "C" void handle_6x7C_set_challenge_records();
 extern "C" void handle_6x7D_set_battle_mode_data();
-extern "C" void handle_6x7E();
-extern "C" void handle_6x7F_battle_scores(s32 arg0);
 extern "C" void handle_6x80_trigger_trap();
 extern "C" void handle_6x81_disable_drop_weapon_on_death(void *arg0);
 extern "C" void handle_6x82_enable_drop_weapon_on_death(void *arg0);
@@ -191,7 +191,6 @@ extern "C" void handle_6xAE_set_animation_state(void *arg0);
 extern "C" void handle_6xAF_turn_or_move_lobby_chair(void *arg0);
 extern "C" void handle_6xB0_turn_or_move_lobby_chair(void *arg0);
 extern "C" void handle_6xB1();
-extern "C" void handle_6xB2_play_sound_from_player(void *arg0);
 u8 subcommand_area_masks[36] = {
     2, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4,
     4, 4, 4, 1, 4, 4, 2, 4, 4, 4, 4, 4,

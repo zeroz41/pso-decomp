@@ -4,6 +4,7 @@
 // .data 0x804E1BB0-0x804E24F0 in text order, which -inline off,deferred only
 // gives with the source written last to first (as below).
 #include "types.h"
+#include "pso/player/TObjPlayer_802D5174.h"
 #include "pso/item/TItemEquipBase.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/NinjaTypes.h"
@@ -50,7 +51,6 @@ struct S_802D5B78 {
 };
 
 extern "C" {
-void TObjPlayer__sub_802D5B78(void *arg0, void *arg1, void *arg2);
 void spawn_hit_particles__10TObjPlayerFiPv(s32 pos, const Vec *dir);
 s16 get_validated_attack_stage(u8 *arg0);
 void get_weapon_color__11TItemWeaponFPv(void *, void *);

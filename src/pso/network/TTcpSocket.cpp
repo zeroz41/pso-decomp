@@ -1,4 +1,5 @@
 #include "pso/network/NetworkRuntime.h"
+#include "pso/unk/TLobby_801461EC.h"
 #include "pso/network/TLobby_804050DC.h"
 #pragma readonly_strings on
 #include "types.h"
@@ -47,7 +48,6 @@ struct Sock_80078264 { u8 pad[0x28]; s16 x28; };
 extern "C" {
 struct Rec_8007841C *copy_udp_socket_event_record(struct Rec_8007841C *dst, struct Rec_8007841C *src);
 extern RecoveredGlobal_80078378_lbl_8048D3B8 udp_socket_slots;
-void TLobby__sub_8014672C(s32 *arg0);
 void TUdpSocket__sub_80421BAC(int, void *, void *, int, void *, int, void *);
 void TUdpSocket__sub_80078110(Sock_80078110 *arg0, s32 arg1, s16 arg2);
 void TUdpSocket__sub_800781B8(Sock_800781B8 *arg0, s32 arg1);

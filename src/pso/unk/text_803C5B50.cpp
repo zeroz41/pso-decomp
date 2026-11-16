@@ -1,5 +1,6 @@
 #define PSO_SDK_COMPACT_MATH
 #include <dolphin/os/OSThread.h>
+#include "pso/unk/text_803C5B50.h"
 #include "pso/unk/TLobby.h"
 #undef PSO_SDK_COMPACT_MATH
 #include <string.h>

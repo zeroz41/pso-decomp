@@ -1,4 +1,5 @@
 #include "pso/render/ChunkMaterialState.h"
+#include "pso/object/TObjHMS_EZRope_Player_800FEFCC.h"
 #include "types.h"
 #include "pso/render/MaterialColorFade.h"
 #include "pso/system/vector.h"
@@ -65,13 +66,9 @@ struct Obj_800FF2D0 {
 };
 
 extern "C" {
-void TObjPlayer__sub_800FF220(s32 *arg0, s32 *arg1);
-void TObjPlayer__sub_800FF1FC(f32 *arg0, f32 *arg1);
-void TObjPlayer__sub_800FF244(u8 *arg0, u8 *arg1);
 void *TObjEZRopeBase__ct(void *);
 extern u8 ezrope_chunk_material_color_table[];
 extern s32 TObjHMS_EZRope_Player__name;
-void *TObjHMS_EZRope_Player__ct(void *arg0, void *arg1, void *arg2, void *arg3);
 f32 get_scale_factor__10TObjPlayerFv(f32);
 void translate_matrix_vec3(u8 *arg0, u8 *arg1);
 void normalize_vector(Vec *v);
@@ -83,7 +80,6 @@ extern s32 saved_chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_and_mask;
 extern s32 model_render_flags;
-void *__dt__21TObjHMS_EZRope_PlayerFv(TObjHMS_EZRope_Player *arg0, s16 arg1);
 void __dl__7TObjectFPv(void *);
 void __dt__14TObjEZRopeBaseFv(void *, int);
 void *__nw__7TObjectFUl(int);

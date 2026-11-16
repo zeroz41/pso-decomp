@@ -78,10 +78,8 @@ extern "C" {
 s32 update_battle_controller__10TObjPlayerFv();
 s32 __ct__7TObjectFP7TObject(void *, void *);
 extern RecoveredGlobal_801C5380_lbl_804C3F48 lbl_804C3F48;
-u8 *fn_801C5380(u8 *arg0, s32 arg1);
 u8 * __dt__7TObjectFv(void *, s16);
 void __dl__7TObjectFPv(s32);
-u8 *__dt__13TUnk_804C3F48Fv(u8 *arg0, s16 arg1);
 f32 newton_sqrtf(f32);
 f32 xz_distance_squared(void *, void *);
 void *get_player_by_client_id(s32 i);

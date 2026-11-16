@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/object/city/CityDoors.h"
 #include "pso/render/render_util.h"
 #include "pso/system/task/TObject.h"
 #include "pso/player/TObjPlayer.h"
@@ -153,7 +154,6 @@ extern s32 city_common_texture_list;
 extern "C" {
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 u8 * load_gvm_texture_file(s32);
-int is_phase_e__9TObjEneDDFPv(void*);
 void render__18TObjCityDoor_LobbyFv(void* p);
 }
 extern RecoveredGlobal_8019A9B8_lbl_804B8F60 bm_obj_city_common_resource_descriptor;
@@ -207,7 +207,6 @@ void TObjCityDoor_Lobby::process_lobby_action_14() {
 
 void run_task__18TObjCityDoor_LobbyFv(void);
 void dispatch_lobby_action__18TObjCityDoor_LobbyFv(s32 arg0);
-int is_phase_e__9TObjEneDDFPv(void *);
 
 void TObjCityDoor_Lobby::run_task() {  }
 void TObjCityDoor_Lobby::dispatch_lobby_action() {
@@ -316,8 +315,6 @@ s32 TObjCityDoor_Lobby::build_door_collision_triangles() {
 Obj_80181F10 *TObjCityDoor_Lobby__ct(Obj_80181F10 *, void *, s32);
 void *__nw__7TObjectFUl(int);
 extern void *tl_05;
-u8 *TObjCityDoor_Lobby__create(s32 arg0);
-int is_phase_e__9TObjEneDDFPv(void* p);
 int is_phase_e__9TObjEneDDFv(void*);
 
 int is_phase_e__9TObjEneDDFPv(void* p) { return is_phase_e__9TObjEneDDFv(p); }
@@ -335,7 +332,6 @@ u8 *TObjCityDoor_Lobby__create(s32 arg0) {
     return var_r0;
 }
 
-u8 *__dt__18TObjCityDoor_LobbyFPvs(u8 *arg0, s16 arg1);
 u32 get_map_count__10TObjMapCsnFv();
 void __dl__7TObjectFPv(void *);
 }
@@ -491,16 +487,11 @@ void TObjCityDoor_Med::run_task() {
     o->m19();
 }
 
-void *TObjCityDoor_Med__create(void *arg0);
-void *dt__16TObjCityDoor_MedFPvs(void *arg0, s16 arg1);
-s32 TLobby__sub_80182E60();
 s32 get_game_play_mode();
-void *TObjCityDoor_Med__ct(void *, void *, void *);
 }
 s32 is_rader_map_active(void);
 u8 *init_city_door(u8 *, s32, s32, u8 *);
 extern "C" {
-void *TObjPlayer__sub_80182D24(void *, s16);
 
 void *TObjCityDoor_Med__create(void *set) {
     void *o = __nw__7TObjectFUl(0xBC);
@@ -630,7 +621,6 @@ void TObjCityDoor_Warp::city_door_tick_opening() {
 }
 #pragma pop
 
-u8 *TObjCityDoor_Shop__ct(u8 *arg0, s32 arg1, s32 arg2);
 }
 #define FOLD_F(o,t,p) (*(t*)((u8*)(o)+(p)))
 struct Base_80182600_8018245C { char pad[0x18]; };
@@ -685,10 +675,7 @@ struct VObj_8018257c_8018245C : Base_8018257c_8018245C {
 };
 
 void run_task__18TObjCityDoor_GuildFv(void *arg0);
-void *TObjCityDoor_Warp__create(void *arg0);
-void *dt__17TObjCityDoor_WarpFPvs(void *arg0, s16 arg1);
 void render__18TObjCityDoor_GuildFv(u8 *arg0);
-void *TObjCityDoor_Warp__ct(void *, void *, void *);
 
 void *TObjCityDoor_Warp__create(void *set) {
     void *o = __nw__7TObjectFUl(0xBC);
@@ -774,11 +761,8 @@ struct VObj_801827CC_8018262C : Base_801827CC_8018262C {
 
 extern "C" {
 
-void *TObjCityDoor_Guild__create(void *arg0);
 void run_task__17TObjCityDoor_ShopFv(void *arg0);
-void *dt__18TObjCityDoor_GuildFPvs(void *arg0, s16 arg1);
 void render__17TObjCityDoor_ShopFv(u8 *arg0);
-void *TObjCityDoor_Guild__ct(void *, void *, void *);
 
 void *TObjCityDoor_Guild__create(void *set) {
     void *o = __nw__7TObjectFUl(0xBC);
@@ -838,8 +822,6 @@ extern "C" {
 extern RecoveredGlobal_8018289C_lbl_80443F4C TObjCityDoor_Shop__params;
 extern RecoveredGlobal_8018289C_lbl_804B5B4C __vt__17TObjCityDoor_Shop;
 __declspec(section ".sdata") extern const char *TObjCityDoor_Shop__name;
-void *TObjCityDoor_Shop__create(void *arg0);
-void *dt__17TObjCityDoor_ShopFPvs(void *arg0, s16 arg1);
 
 void *TObjCityDoor_Shop__create(void *arg0) {
     void *o = __nw__7TObjectFUl(0xBC);
@@ -946,9 +928,7 @@ extern "C" {
 s32 check_player_in_range__13TUnk_804B5BA8Flf(void *arg0, s32 _w1, f32 _w2);
 s32 free_collision_body_parts(void *);
 extern s32 city_door_base_vtable[];
-void *TObjPlayer__sub_80182D24(void *arg0, s16 arg1);
 extern void *challenge_task;
-s32 TLobby__sub_80182E60(void);
 s32 init_collision_body_parts(void *, void *, int, int);
 s32 __ct__14TObjCollidableFP7TObject();
 }

@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/unk/text_8033F314.h"
 #include "pso/ui/frontend/TAdChrSelSlotGC.h"
 #include "pso/ui/frontend/TAdMcSelectGC.h"
 #include "pso/ui/frontend/TAdMcSelectCursorGC.h"
@@ -34,7 +35,6 @@ void *__ct__12TAdBackTxtGCFv(void *, void *);
 void *__ct__10TAdTitleGCFP7TObjectl(void *, void *, s32);
 void *__ct__15TAdChrSelSlotGCFP7TObject(void *, void *);
 void TAdMcSelectGC__sub_8032A180(void *, s32);
-s32 fn_8033F314(s32 arg0, s32 arg1);
 extern s32 __vt__13TAdMcSelectGC[];
 
 void TAdMcSelectGC::render() {

@@ -17,4 +17,10 @@ extern "C" {
 void fn_800740DC(void);
 }
 
+// --- C functions defined in TObjNewFloorWin.cpp ---
+extern "C" {
+void fn_800740DC(void);
+}
+// --- end of C functions
+
 #endif

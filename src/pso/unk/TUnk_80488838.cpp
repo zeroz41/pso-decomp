@@ -47,7 +47,6 @@ struct Obj_80067D20 {
 extern "C" {
 s32 set_target_pos__13TUnk_80488DA0FPv(void *, void *, f32);
 void *get_player_by_client_id(s32 i);
-void target_player0__11TCameraCtrlFi(s32 arg0);
 s32 matrix_mult_vec(int, void *, void *);
 s32 rotate_matrix_y(int, int);
 s32 push_matrix_from(void *);

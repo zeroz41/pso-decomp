@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/unk/text_8001C388.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/object/ambient/TObjFish.h"

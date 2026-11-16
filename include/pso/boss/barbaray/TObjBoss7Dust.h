@@ -18,4 +18,11 @@ void fn_802F1084(void);
 }
 void init_scene_boss2_tunnel(void);
 
+// --- C functions defined in TObjBoss7Dust.cpp ---
+extern "C" {
+void fn_802F105C(void);
+void fn_802F1084(void);
+}
+// --- end of C functions
+
 #endif
