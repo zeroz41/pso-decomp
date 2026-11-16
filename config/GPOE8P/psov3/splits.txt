@@ -6595,15 +6595,10 @@ pso/technique/TTecGiFoie.cpp:
 	.sdata      start:0x805D37C0 end:0x805D37C4
 	.sdata2     start:0x805DC810 end:0x805DC828
 
-pso/technique/TTecGiZonde_80231AF0.cpp:
-	.text       start:0x80231AF0 end:0x80231BF4
-	.rodata     start:0x8044D378 end:0x8044D380
-
-pso/technique/TTecGiZonde_80231BF4.cpp:
-	.text       start:0x80231BF4 end:0x80231C58
-
 pso/technique/TTecGiZonde.cpp:
-	.text       start:0x80231C58 end:0x80232830
+	.text       start:0x80231AF0 end:0x80232830
+	.rodata     start:0x8044D368 end:0x8044D380
+	.sdata      start:0x805D37C8 end:0x805D37D0
 	.sdata2     start:0x805DC828 end:0x805DC83C
 
 pso/unk/TUnk_804CC870.cpp:
@@ -9176,17 +9171,12 @@ pso/ui/frontend/TAdTimeSetGC.cpp:
 pso/ui/frontend/TAdSinglePlyChrSelectGC_802E3AE4.cpp:
 	.text       start:0x802E3AE4 end:0x802E3AF4
 
-pso/weapon/TItemAttackCol_802E3AF4.cpp:
-	.text       start:0x802E3AF4 end:0x802E3BA8
-
-pso/unk/text_802E3BA8.cpp:
-	.text       start:0x802E3BA8 end:0x802E3BFC
-
 pso/weapon/TItemAttackCol.cpp:
-	.text       start:0x802E3BFC end:0x802E4B80
+	.text       start:0x802E3AF4 end:0x802E4B80
 	.rodata     start:0x80472998 end:0x804729C8
 	.data       start:0x804E3530 end:0x804E3578
 	.sdata      start:0x805D3F88 end:0x805D3F90
+	.sbss       start:0x805D68E8 end:0x805D68F0
 	.sdata2     start:0x805DE910 end:0x805DE930
 
 pso/object/ending/TObjOnlineEnding_802E4B80.cpp:
@@ -9372,7 +9362,9 @@ pso/boss/goldragon/TBoss8DragonEffBreath.cpp:
 
 pso/boss/goldragon/TBoss8DragonEffBullet.cpp:
 	.text       start:0x802FE0E0 end:0x802FE48C
+	.rodata     start:0x80474B68 end:0x80474BA8
 	.data       start:0x804E5E90 end:0x804E5EA8
+	.sdata      start:0x805D4018 end:0x805D4020
 	.sdata2     start:0x805DEF00 end:0x805DEF08
 
 pso/boss/goldragon/TBoss8DragonEffTail.cpp:
@@ -10179,13 +10171,15 @@ pso/ui/window/TWindowSubStatusDisp_80338740.cpp:
 	.sdata2     start:0x805DF9C0 end:0x805DF9E4
 
 pso/effect/enemy/TEneParticleCtrl.cpp:
-	.text       start:0x80338BB4 end:0x80338E9C
-	.rodata     start:0x80477C00 end:0x80477C20
+	.text       start:0x80338BB4 end:0x80338D58
+	.rodata     start:0x80477BE8 end:0x80477C00
 	.data       start:0x804EF458 end:0x804EF484
-	.sdata      start:0x805D4260 end:0x805D4268
+	.sdata      start:0x805D4258 end:0x805D4260
 
 pso/unk/TLobby_80338E9C.cpp:
-	.text       start:0x80338E9C end:0x80338F9C
+	.text       start:0x80338D58 end:0x80338F9C
+	.rodata     start:0x80477C00 end:0x80477C20
+	.sdata      start:0x805D4260 end:0x805D4268
 
 pso/ui/frontend/TAdEnterPPPPassGC.cpp:
 	.text       start:0x80338F9C end:0x80339658

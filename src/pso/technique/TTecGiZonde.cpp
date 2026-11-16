@@ -3,6 +3,8 @@
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/technique/TTecZonde.h"
 #include "pso/technique/TTecGiZonde.h"
+#include "pso/technique/TTecAnti.h"
+#include "pso/technique/TTecCtrl.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
 
@@ -52,6 +54,97 @@ struct Chain_80231C58 {
     Target_80231C58 targets[1];
 };
 
+struct RecoveredGlobal_8023C558_lbl_804CC510
+{
+  s32 value;
+  u8 remaining[0x48];
+};
+
+struct RecoveredGlobal_8023C558_lbl_804CC55C
+{
+  s32 value;
+  u8 remaining[0x94];
+};
+
+struct RecoveredFields_8023C558_arg0
+{
+  u8 unknown_0[0xC4];
+  s16 field_C4;
+  u8 unknown_C6[0x6];
+  f32 field_CC;
+  u8 unknown_D0[0x20];
+  s16 field_F0;
+};
+
+extern "C" {
+s32 calc_technique_parameters(int, int, int);
+extern RecoveredGlobal_8023C558_lbl_804CC510 tech_high_level_linear_power_table;
+extern RecoveredGlobal_8023C558_lbl_804CC55C lbl_804CC55C;
+typedef struct RecoveredFields_8023C558_arg0 RecoveredFields_8023C558_arg0;
+typedef struct RecoveredGlobal_8023C558_lbl_804CC510 RecoveredGlobal_8023C558_lbl_804CC510;
+typedef struct RecoveredGlobal_8023C558_lbl_804CC55C RecoveredGlobal_8023C558_lbl_804CC55C;
+typedef char RecoveredGlobal_8023C558_lbl_804CC510_size[((sizeof(RecoveredGlobal_8023C558_lbl_804CC510)) == 0x4C) ? (1) : (-1)];
+typedef char RecoveredGlobal_8023C558_lbl_804CC55C_size[((sizeof(RecoveredGlobal_8023C558_lbl_804CC55C)) == 0x98) ? (1) : (-1)];
+#pragma readonly_strings on
+
+const char *TTecGiZonde_name_ref = "TTecGiZonde";
+
+void TTecGiZonde::init_parameters() {
+    u8 *arg0 = (u8 *)this;
+  s32 new_var;
+  new_var = calc_technique_parameters(0x7, (int) ((RecoveredFields_8023C558_arg0 *) arg0)->field_C4, 0xFFFF);
+  ((TTecAnti *)(arg0 + 0xCC))->copy_params((u8 *)new_var);
+  if ((((s16) ((RecoveredFields_8023C558_arg0 *) arg0)->field_C4) >= 0xF) && (TTecCtrl::is_technique_ready() == 0))
+  {
+    ((RecoveredFields_8023C558_arg0 *) arg0)->field_CC = (f32) ((*((s16 *) (((s8 *)&tech_high_level_linear_power_table.value) + 0x1c))) + ((*((s16 *) (((s8 *)&tech_high_level_linear_power_table.value) + 0x1e))) * ((RecoveredFields_8023C558_arg0 *) arg0)->field_C4));
+    return;
+  }
+  ((RecoveredFields_8023C558_arg0 *) arg0)->field_CC = (f32) (((RecoveredFields_8023C558_arg0 *) arg0)->field_CC + ((f32) (((RecoveredFields_8023C558_arg0 *) arg0)->field_F0 * ((RecoveredFields_8023C558_arg0 *) arg0)->field_C4)));
+  if (TTecCtrl::is_technique_ready())
+  {
+    ((RecoveredFields_8023C558_arg0 *) arg0)->field_CC = (f32) (((RecoveredFields_8023C558_arg0 *) arg0)->field_CC * (*((f32 *) (((s8 *)&lbl_804CC55C.value) + 0x38))));
+  }
+}
+
+}
+
+struct Elec_80238E14 { s32 type; f32 val; };
+
+struct VBase_18_9c98dd { char pad[0x18]; };
+
+struct VObj_18_9c98dd : VBase_18_9c98dd {
+    virtual void m0();
+    virtual void m1();
+    virtual void m2();
+    virtual void m3();
+    virtual void m4();
+    virtual void m5();
+    virtual void m6();
+    virtual void m7();
+    virtual void m8();
+    virtual void m9();
+    virtual void m10();
+    virtual void m11();
+    virtual void m12();
+    virtual void m13();
+    virtual void m14();
+    virtual void m15();
+    virtual void m16();
+    virtual void m17();
+    virtual void m18();
+    virtual void m19();
+    virtual void m20();
+    virtual s32 m21(s32, Elec_80238E14, s32, s32, s32);
+};
+
+void TTecGiZonde::vfunc_8(void *arg1_arg) {
+    u8 *arg1 = (u8 *)arg1_arg;
+    Elec_80238E14 d;
+    d.type = 3;
+    d.val = this->power;
+    ((VObj_18_9c98dd *)(arg1))->m21(this->source, d, 0, 0x7, -1);
+}
+
 extern "C" {
 void *find_entity_by_id(u16 id);
 s32 is_parents_unqueued__9TTecLukerFUl();
@@ -61,7 +154,6 @@ s32 play_sound_effect(s32, void *, s32, s32);
 s32 copy_technique_target_list(void *, void *);
 s32 construct_facing_technique__10TObjPlayerFPviPvii(void *, void *, void *, s32);
 extern s32 __vt__11TTecGiZonde[];
-extern s32 TTecGiZonde_name_ref;
 u8 *TTecGiZonde__ct(u8 *arg0, void *arg1, void *arg2, void *arg3, void * _w4);
 f32 vector_length(Vec_80231C58 *);
 void normalize_vector(Vec_80231C58 *);
@@ -308,7 +400,7 @@ u8 *TTecGiZonde__ct(u8 *arg0, void *arg1, void *arg2, void *arg3, void * _w4) {
     construct_facing_technique__10TObjPlayerFPviPvii(arg0, arg1, arg2, 0);
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__11TTecGiZonde;
     ((TObjPlayer *)(arg0 + 0x130))->construct_target_cursor_records();
-    *(s32 *)((s8 *)arg0 + 0) = TTecGiZonde_name_ref;
+    ((TObject *)arg0)->m_name = TTecGiZonde_name_ref;
     ((TTecGiZonde *)arg0)->init_parameters();
     copy_technique_target_list(arg0 + 0x130, arg3);
     switch (((TTecGiZonde *)arg0)->band) {

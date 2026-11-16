@@ -9,20 +9,7 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/unk/text_80087278.h"
 
-struct RecoveredGlobal_802FE378_lbl_80474B68 {
-    s32 value;
-    u8 remaining[0x8];
-};
-
-struct RecoveredGlobal_802FE378_lbl_80474B74 {
-    s32 value;
-    u8 remaining[0x8];
-};
-
-struct RecoveredGlobal_802FE378_lbl_80474B80 {
-    s32 value;
-    u8 remaining[0x8];
-};
+#pragma readonly_strings on
 
 struct RecoveredGlobal_802FE378___vt__21TBoss8DragonEffBullet {
     s32 value;
@@ -52,11 +39,12 @@ struct RecoveredFields_802FE0E4_arg0 {
 extern "C" {
 s32 __ct__7TObjectFP7TObject(void *, void *);
 f32 subtract_vector(void *, void *);
-extern RecoveredGlobal_802FE378_lbl_80474B68 lbl_80474B68;
-extern RecoveredGlobal_802FE378_lbl_80474B74 lbl_80474B74;
-extern RecoveredGlobal_802FE378_lbl_80474B80 lbl_80474B80;
+// Three id tables; the constructor stores the one m_44 (1-3) selects at +0x54.
+static const s32 lbl_80474B68[3] = {548, 550, 553};
+static const s32 lbl_80474B74[3] = {538, 536, 553};
+static const s32 lbl_80474B80[3] = {522, 518, 521};
 extern s32 __vt__21TBoss8DragonEffBullet[];
-extern s32 TBoss8DragonEffBullet__name;
+const char *TBoss8DragonEffBullet__name = "TBoss8DragonEffBullet";
 u8 *get_enemy_entity(u16 arg0);
 void TBoss8Dragon__sub_802FB220(void *o, int x, u32 a);
 
@@ -141,9 +129,6 @@ TBoss8DragonEffBullet::~TBoss8DragonEffBullet() {
     if (*(void **)((s8 *)this + 0x4C) != NULL) { queue_destruction__7TObjectFv(*(void **)((s8 *)this + 0x4C)); this->m_4c = 0; }
 }
 
-typedef char RecoveredGlobal_802FE378_lbl_80474B68_size[sizeof(RecoveredGlobal_802FE378_lbl_80474B68) == 0xC ? 1 : -1];
-typedef char RecoveredGlobal_802FE378_lbl_80474B74_size[sizeof(RecoveredGlobal_802FE378_lbl_80474B74) == 0xC ? 1 : -1];
-typedef char RecoveredGlobal_802FE378_lbl_80474B80_size[sizeof(RecoveredGlobal_802FE378_lbl_80474B80) == 0xC ? 1 : -1];
 typedef char RecoveredGlobal_802FE378___vt__21TBoss8DragonEffBullet_size[sizeof(RecoveredGlobal_802FE378___vt__21TBoss8DragonEffBullet) == 0x18 ? 1 : -1];
 u8 *TBoss8DragonEffBullet__ct(u8 *boss8_dragon_eff_bullet, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s16 arg5) {
     __ct__7TObjectFP7TObject((void *)boss8_dragon_eff_bullet, (void *)arg1);
@@ -163,13 +148,13 @@ u8 *TBoss8DragonEffBullet__ct(u8 *boss8_dragon_eff_bullet, s32 arg1, s32 arg2, s
     play_sound_effect(0x4003B20B, boss8_dragon_eff_bullet + 0x1C, 0, 0);
     switch (((TBoss8DragonEffBullet *)boss8_dragon_eff_bullet)->m_44) {
     case 1:
-        *(s32 **)((s8 *)boss8_dragon_eff_bullet + 0x54) = &lbl_80474B68.value;
+        *(const s32 **)((s8 *)boss8_dragon_eff_bullet + 0x54) = lbl_80474B68;
         break;
     case 2:
-        *(s32 **)((s8 *)boss8_dragon_eff_bullet + 0x54) = &lbl_80474B74.value;
+        *(const s32 **)((s8 *)boss8_dragon_eff_bullet + 0x54) = lbl_80474B74;
         break;
     case 3:
-        *(s32 **)((s8 *)boss8_dragon_eff_bullet + 0x54) = &lbl_80474B80.value;
+        *(const s32 **)((s8 *)boss8_dragon_eff_bullet + 0x54) = lbl_80474B80;
         break;
     }
     return boss8_dragon_eff_bullet;

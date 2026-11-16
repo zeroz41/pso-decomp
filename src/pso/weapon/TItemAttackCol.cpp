@@ -6,6 +6,7 @@
 #include "types.h"
 #include "pso/system/data/FlagWord.h"
 #include "pso/system/MatrixOps.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/vector.h"
@@ -153,22 +154,15 @@ Hit_802E3D8C *csnVector(void *, void *, s32);
 
 s32 all_parents_unqueued_for_destruction__7TObjectFv();
 
-s32 rotate_matrix_by_node_angles(void *, int);
+// The collider render() is drawing, and how many of its model's nodes have been drawn.
+TItemAttackCol *attack_collider_render_owner;
 
-s32 push_matrix();
-
-s32 scale_current_matrix(void *);
-
-s32 post_translate_matrix(void *);
-
-extern int attack_collider_render_owner;
-
-extern int attack_collider_active_count;
+int attack_collider_active_count;
 
 void* TObjPlayer__sub_802E449C(void* a0);
 
 
-int fn_802E3BA8(void*, void*);
+void fn_802E3BA8(TItemAttackCol *col, void *node);
 
 extern "C" f32 normalize_vector(Vec *v);
 
@@ -190,7 +184,6 @@ void TObjPlayer__sub_8015431C(u8 *arg0);
 
 void reset_global_table(void);
 
-Hit_802E4798 *get_attack_entry__16TObjOnlineEndingFi(int);
 }
 
 TUnk_804E355C::TUnk_804E355C(TObject *parent, S_802E451C *params) : TObject(parent) {
@@ -235,7 +228,7 @@ TUnk_804E355C::~TUnk_804E355C() {}
 
 void TUnk_804E355C::check_hits() {
     s32 i;
-    Hit_802E4798 *e;
+    void *e;
     u8 *arg0 = (u8 *)this;
     reset_global_table();
     TObjPlayer__sub_801542F4((s32)&this->bodies);
@@ -246,9 +239,9 @@ void TUnk_804E355C::check_hits() {
         TObjPlayer::apply_status_effect((s32)(arg0 + 0x1C));
     }
     for (i = 0; i != TObjOnlineEnding::get_instance(); i++) {
-        e = get_attack_entry__16TObjOnlineEndingFi(i);
+        e = TObjOnlineEnding::get_attack_entry(i);
         if (((TUnk_804E355C *)arg0)->try_add_hit_target(e) != 0) {
-            ((TUnk_804E355C *)arg0)->vfunc_6((s32 *)((s32)e));
+            ((TUnk_804E355C *)arg0)->vfunc_6((s32 *)e);
             ((TUnk_804E355C *)arg0)->hits_left -= 1;
             if (((TUnk_804E355C *)arg0)->hits_left == 0) {
                 ((TObject *)arg0)->queue_destruction();
@@ -524,13 +517,13 @@ void TItemAttackCol::render() {
                 set_texlist(texlist);
             }
             TParticleCtrl::begin_effect_render();
-            attack_collider_render_owner = (int)this;
+            attack_collider_render_owner = this;
             attack_collider_active_count = 0;
             push_matrix();
-            post_translate_matrix((u8 *)&position);
-            rotate_matrix_by_node_angles((u8 *)rotation, 1);
-            rotate_matrix_by_node_angles((u8 *)spin, 1);
-            scale_current_matrix((u8 *)&scale);
+            post_translate_matrix(&position.x);
+            rotate_matrix_by_node_angles(rotation, 1);
+            rotate_matrix_by_node_angles(spin, 1);
+            scale_current_matrix(&scale.x);
             draw_node_tree_with_callback((NJS_OBJECT *)model, (void (*)(NJS_OBJECT *))TItemAttackCol::add_to_active_list);
             pop_matrix();
             attack_collider_render_owner = 0;
@@ -590,4 +583,33 @@ void TItemAttackCol::shift_collision_bounds() {
     pad_114[2] -= 0xCCC;
 }
 
-void TItemAttackCol::add_to_active_list(void* a0) { fn_802E3BA8((void*)attack_collider_render_owner, a0); attack_collider_active_count = (attack_collider_active_count + 0x1); }
+void TItemAttackCol::add_to_active_list(void* a0) { fn_802E3BA8(attack_collider_render_owner, a0); attack_collider_active_count = (attack_collider_active_count + 0x1); }
+
+// Called for each node of the model before add_to_active_list counts it:
+// with flag 8 the second node drawn gets the collider's extra rotation and scale.
+void fn_802E3BA8(TItemAttackCol *col, void *node) {
+    if ((col->flags & 8) && attack_collider_active_count == 1) {
+        rotate_matrix_by_node_angles(col->pad_114, 1);
+        scale_current_matrix(col->pad_120);
+    }
+}
+
+void TItemAttackCol::check_object_hits() {
+    s32 i;
+    void *e;
+    reset_global_table();
+    TObjPlayer__sub_8015431C((u8 *)&this->bodies);
+    for (i = 0; i != TObjOnlineEnding::get_instance(); i++) {
+        e = TObjOnlineEnding::get_attack_entry(i);
+        if (try_add_hit_target(e) != 0) {
+            this->vfunc_6((s32 *)e);
+            this->hits_left -= 1;
+            if (this->hits_left == 0) {
+                queue_destruction();
+                reset_global_table();
+                return;
+            }
+        }
+    }
+    reset_global_table();
+}

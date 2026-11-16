@@ -2353,8 +2353,6 @@ pso/unk/text_8022BE64.cpp
 pso/unk/text_8022F258.cpp
 pso/technique/TTecFoie_8022FB70.cpp
 pso/technique/TTecFoie_8022FC94.cpp
-pso/technique/TTecGiZonde_80231AF0.cpp
-pso/technique/TTecGiZonde_80231BF4.cpp
 pso/unk/text_80236EE8.cpp
 pso/effect/TUnk_804CCC68_8023A434.cpp
 pso/unk/text_8023DCB8.cpp
@@ -2451,8 +2449,6 @@ pso/unk/text_802D1C84.cpp
 pso/unk/text_802D1D48.cpp
 pso/unk/text_802D23E0.cpp
 pso/unk/text_802E10D8.cpp
-pso/weapon/TItemAttackCol_802E3AF4.cpp
-pso/unk/text_802E3BA8.cpp
 pso/unk/text_802F0E24.cpp
 pso/unk/text_802F0F04.cpp
 pso/unk/text_802F190C.cpp
