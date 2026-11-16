@@ -9045,23 +9045,16 @@ pso/unk/text_802F0E24.cpp:
 	.bss        start:0x80541928 end:0x80541948
 	.sbss       start:0x805D6950 end:0x805D6958
 
-pso/boss/barbaray/Boss7DustData.cpp:
-	.rodata     start:0x80474360 end:0x80474388
-	.sdata      start:0x805D3FE0 end:0x805D3FE8
-
 pso/unk/text_802F0F04.cpp:
 	.text       start:0x802F0F04 end:0x802F105C
 	.data       start:0x804E48D8 end:0x804E4930
 
 pso/boss/barbaray/TObjBoss7Dust.cpp:
-	.text       start:0x802F105C end:0x802F1200
-	.data       start:0x804E4930 end:0x804E4948
-
-pso/boss/barbaray/TObjBoss7DustCtrl.cpp:
-	.text       start:0x802F1200 end:0x802F15D4
-	.rodata     start:0x80474388 end:0x80474390
-	.data       start:0x804E4948 end:0x804E4960
+	.text       start:0x802F105C end:0x802F15D4
+	.rodata     start:0x80474360 end:0x80474390
+	.data       start:0x804E4930 end:0x804E4960
 	.bss        start:0x80541948 end:0x80541DC8
+	.sdata      start:0x805D3FE0 end:0x805D3FE8
 	.sbss       start:0x805D6958 end:0x805D695C
 
 pso/boss/barbaray/TObjBoss7RaftSplash.cpp:

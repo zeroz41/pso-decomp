@@ -1022,8 +1022,10 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/boss/olgaflow/Boss6Type2Data.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # Boss7TentacleData.cpp keeps its two class-name strings in .rodata after the angle tables.
     "pso/boss/barbaray/Boss7TentacleData.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
-    # Boss7DustData.cpp keeps both class-name strings in .rodata, in definition order.
-    "pso/boss/barbaray/Boss7DustData.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    # TObjBoss7Dust.cpp holds TObjBoss7Dust and TObjBoss7DustCtrl: Dust's code comes first in .text,
+    # yet DustCtrl's class name precedes Dust's in .sdata/.rodata and Dust's vtable precedes
+    # DustCtrl's: deferred, written from the unit's last function back.
+    "pso/boss/barbaray/TObjBoss7Dust.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     "pso/boss/goldragon/TBoss8DragonEffTail.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/boss/dragon/ObjBoss1CommonJResource.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/boss/barbaray/TBoss7Joint.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
