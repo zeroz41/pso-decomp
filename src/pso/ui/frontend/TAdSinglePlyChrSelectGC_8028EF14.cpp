@@ -24,9 +24,9 @@ struct Opaque_80290088;
 
 s32 find_shape_triangle_region(u8 *arg0);
 TChCrLoadAfsTextureReq *create_ch_cr_load_afs_texture_req(void *figure, void *list, void *slot, void *index);
-extern "C" {
 void calc_shape_region_coefficients(f32 *point);
 s32 blend_shape_chunk_vertices(void);
+extern "C" {
 f32 vector_length(f32 *v);
 s32 normalize_vector(f32 *v);
 }

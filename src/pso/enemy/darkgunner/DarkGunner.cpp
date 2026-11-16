@@ -129,8 +129,8 @@ struct P_800A2390 {
     s32 f3AC;
 };
 
-extern "C" {
 void apply_actor_gravity(TObjEnemy *enemy, s32 *arg1, f32 farg0);
+extern "C" {
 s32 minimap_render_dot(void *, s32, s32, s32);
 void TObjPlayer__sub_800A16C4(u8 *arg0);
 void queue_destruction__7TObjectFv(void *arg0);
@@ -140,7 +140,9 @@ u8 *TObjPlayer__sub_800A4204(u8 *arg0, u8 *arg1, s32 arg2, s32 arg3, s32 arg4);
 s32 submit_cursor_candidate(void *, s32);
 void * __nw__7TObjectFUl(int);
 s32 TObjPlayer__sub_800A1FEC(void *arg0);
+}
 void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
+extern "C" {
 f32 TObjPlayer__sub_800A3200(s32 arg0);
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
 extern s32 actor_frame_tick;

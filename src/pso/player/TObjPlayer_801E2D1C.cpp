@@ -16,7 +16,9 @@ s32 GXLoadPosMtxImm(s32, s32);
 extern s32 (*model_node_callback)(void *);
 s32 PSMTXInverse(s32, s32 *);
 s32 PSMTXTranspose(s32 *, s32 *);
+}
 void compose_motion_node_matrix(void *arg0);
+extern "C" {
 s32 push_matrix();
 s32 pop_matrix();
 
@@ -58,6 +60,7 @@ void draw_ginja_motion(NJS_OBJECT *model, NJS_MOTION *motion, f32 frame) {
     TObjPlayer::render_matrix_chain(model);
     end_ginja_model_draw();
 }
+}
 
 void TObjPlayer::render_matrix_chain(void *arg0) {
     s32 sp38[12];
@@ -84,5 +87,4 @@ void TObjPlayer::render_matrix_chain(void *arg0) {
         pop_matrix();
         var_r31 = *(void **)((s8 *)var_r31 + 0x30);
     } while (var_r31 != NULL);
-}
 }

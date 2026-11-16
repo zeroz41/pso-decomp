@@ -348,7 +348,9 @@ s32 minimap_render_dot(Vec_801F9B8C *arg0, s32 arg1, s16 arg2, s32 arg3);
 s32 minimap_render_gate(Vec *pos, u32 color, u16 rot, s16 kind, s32 flags);
 s32 add_radar_scaled_marker(Vec_801F9B8C *arg0, s32 arg1, s16 arg2, s32 arg3, f32 scale);
 s32 add_radar_scaled_gate(Vec_801F9B8C *pos, s32 color, u16 rot, s16 kind, s32 flags, f32 scale);
+}
 void update_radar_auto_discovery(TRaderMapCore *core, s32 arg1, void *arg2);
+extern "C" {
 void rotate_vector_by_matrix(void *, Vec3_801F9314 *, Vec3_801F9314 *);
 void rotate_matrix_y(void *, s32);
 s32 push_matrix_from(void *src);
@@ -358,7 +360,9 @@ extern u8 identity_matrix[];
 extern f32 lbl_805D3608;
 extern f32 radar_overhead_projection_scale;
 void setup_overhead_projection__13TRaderMapCoreFv(s32 arg0, Cam_801F9314 *arg1);
+}
 void rotate_matrix_zyx(void *m, s32 x, s32 y, s32 z);
+extern "C" {
 void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
 void push_matrix(void);
 void draw_ginja_model(s32);
@@ -414,6 +418,7 @@ s32 should_show_map__13TRaderMapCoreFv(void) {
     }
     return TTecCtrl::is_technique_ready();
 }
+}
 void TRaderMapCore::reset_counter() { this->m_184 = 0; }
 
 void TRaderMapCore::hide_radar() {
@@ -428,7 +433,6 @@ void TRaderMapCore::show_radar() {
         ((TRaderMapCore *)(*(u8 * *)&TRaderMapCore__instance))->reset_counter();
         ((TObject *)(*(u8 * *)&TRaderMapCore__instance))->allow_rendering();
     }
-}
 }
 void set_camera_look_at(u8 *eye, u8 *target, u8 *up);
 #pragma fp_contract on
@@ -474,7 +478,7 @@ void setup_overhead_projection__13TRaderMapCoreFv(s32 arg0, Cam_801F9314 *arg1) 
     rotate_matrix_y(0, 0x8000 - arg1->rot);
     rotate_vector_by_matrix(0, &up, &up);
     pop_matrix();
-    set_perspective_projection_from_fov((s32)(182.04445f * radar_overhead_projection_scale), 1.1333334f, 1.0f, 10000.0f);
+    set_perspective_projection_from_fov((182.04445f * radar_overhead_projection_scale), 1.1333334f, 1.0f, 10000.0f);
     set_camera_look_at((u8 *)&eye, (u8 *)&at, (u8 *)&up);
 }
 
@@ -1610,8 +1614,11 @@ struct Ent_801FB798 { s32 a; char *name; };
 extern "C" {
 void copy_name(s32 arg0);
 s32 replace_file_extension__6TLobbyFPvPvPv(char *arg0, char *arg1, char *arg2);
+}
 s32 get_floor_scene_table(s32 arg0);
+extern "C" {
 void bind_gvm_texture_list(char *, u8 *);
+}
 extern s32 lbl_805D49B4;
 extern s8 lbl_805D5F34;
 extern s32 lbl_805D5F38;
@@ -1683,7 +1690,6 @@ s32 TRaderMapCore::apply_compass_param(s32 *counter) {
         return 1;
     }
     return -1;
-}
 }
 
 struct RecoveredGlobal_8019A9B8_lbl_804B8F60 {

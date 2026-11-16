@@ -223,6 +223,7 @@ extern "C" {
 
 void __ct__11TItemWeaponFP7TObjectPUc(void *, s32, s32);
 Obj_8012AF00 *TObjPlayer__sub_8012AF00(Obj_8012AF00 *self);
+}
 
 extern s32 __vt__13TUnk_804A4B80[];
 
@@ -233,6 +234,7 @@ void *heaven_punisher_ct(void *player, s32 parent, s32 item) {
     ((TItemWeapon *)player)->set_weapon_flags(34);
     return player;
 }
+extern "C" {
 
 u8 *__nw__5TItemFUl(s32);
 }

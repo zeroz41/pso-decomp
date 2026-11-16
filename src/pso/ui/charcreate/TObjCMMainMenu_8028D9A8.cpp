@@ -9,8 +9,10 @@ extern "C" {
 u8 * copy_player_visual_record(void *, void *);
 extern CharacterAppearanceFields character_creation_visual_record;
 s32 strncpy(void *, void *, int);
+}
 extern char character_creation_name_buffer[0x18];
 CharacterAppearanceFields *get_class_appearance_preset(s32 arg0);
+extern "C" {
 s32 TAdEndText__sub_8001B3EC(s32);
 
 CharacterAppearanceFields *TObjCMMainMenu__sub_8028D9A8(void) {
@@ -92,5 +94,4 @@ void fn_8028DBC4(s32 _w0) {
 }
 int TAdSinglePlyChrSelectGC__sub_8028DC14(void) { return 1; }
 int TAdSinglePlyChrSelectGC__sub_8028DC1C(void* p) { fn_8028DBC4((s32)p); return 1; }
-
 }

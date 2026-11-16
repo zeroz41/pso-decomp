@@ -102,12 +102,14 @@ void TWindowSubTradeMain::draw_request(void *arg0, void *arg1) {
     }
 }
 
-extern "C" {
 Half_802D38B4 TLobby__trade_window_state[2];
+extern "C" {
 s32 try_spend_actor_meseta(u8 *arg0, s32 arg1);
 void send_6x29_delete_item__10TObjPlayerFPvii(void *obj, s32 a, s32 b);
 s32 check_player_action_allowed();
+}
 void remove_list_entry_by_id(s32 arg0);
+extern "C" {
 s32 fn_801D4270(s32);
 s32 load_character_from_card__23TAdSinglePlyChrSelectGCFv();
 extern s32 local_client_id;
@@ -167,6 +169,7 @@ s32 TLobby__sub_802D2A50(u32 arg0) {
     TLobby__data_805D6894 = arg0;
     return 1;
 }
+}
 void TLobby::apply_trade_items() {
     s32 allowed;
     struct E_802D2A70 *list;
@@ -206,8 +209,6 @@ void TLobby::apply_trade_items() {
             }
         }
     }
-}
-
 }
 
 typedef struct E_802D2BC0 { u8 p[0x14]; } E_802D2BC0;

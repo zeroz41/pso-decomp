@@ -98,9 +98,9 @@ Prt_8034ADE0 *TAdFloorLoadPrtGC__ct(Prt_8034ADE0 *arg0) {
     for (i = 0; i < 12; i++) {
         VecCopy((Vec *)&arg0->slots[i].pos, (const Vec *)(p = &floor_load_particle_positions[i]));
         copy_xyz(&arg0->slots[i].ang, (void *)(a = &TAdFloorLoadPrtGC__emitter_angles[i]));
-        arg0->slots[i].ctrl = create_particle_controller_with_angles((void *)p, (void *)a, 0x65, 1, 0x40);
+        arg0->slots[i].ctrl = create_particle_controller_with_angles((void *)p, (void *)a, (s32)(0x65), (s32)(1), (u16)(0x40));
     }
-    arg0->bg = create_particle_controller_with_angles((void *)lbl_80478B48, (void *)lbl_80478B54, 0x2F, 1, 0x40);
+    arg0->bg = create_particle_controller_with_angles((void *)lbl_80478B48, (void *)lbl_80478B54, (s32)(0x2F), (s32)(1), (u16)(0x40));
     return arg0;
 }
 #pragma pop

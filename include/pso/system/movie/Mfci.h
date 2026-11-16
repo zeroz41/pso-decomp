@@ -34,8 +34,8 @@ MfciFileEntry* mfci_open(const char* name, s32 entry, s32 mode);
 u32 mfci_parse_file_size(char* name);
 void mfci_set_error_callback(s32 arg0, s32 arg1);
 
-extern "C" {
 s32 mfci_request_read(void *handle, s32 sectors, void *buffer);
+extern "C" {
 void TLobby__sub_803D43A8(void);
 char *TLobby__sub_803D43B8(void);
 }
@@ -44,8 +44,8 @@ char *TLobby__sub_803D43B8(void);
 extern "C" {
 void TLobby__sub_803D43A8(void);
 char *TLobby__sub_803D43B8(void);
-s32 mfci_request_read(void *handle, s32 sectors, void *buffer);
 }
+s32 mfci_request_read(void *handle, s32 sectors, void *buffer);
 // --- end of C functions
 
 #endif

@@ -110,6 +110,7 @@ P_8028DCCC character_proportion_height_table[12] = {
 extern "C" {
 void TCharaMaking__bind_appearance_texture_lists(TextureOutput *arg0, TextureOutput *arg1, TextureOutput *arg2, CharacterAppearanceFields *arg3);
 s32 TCharaMaking__sub_8028E3A0(f32 *arg0);
+}
 CharacterAppearanceFields *get_class_appearance_preset(s32 arg0);
 extern s32 saved_model_render_flags;
 extern s32 saved_chunk_polygon_flags_and_mask;
@@ -117,6 +118,7 @@ extern s32 saved_chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_and_mask;
 extern s32 model_render_flags;
+extern "C" {
 s32 calc_section_id_from_name(s8 *arg0);
 s32 release_texture_list(void *);
 
@@ -422,6 +424,7 @@ s32 TCharaMaking::get_display_index() {
 }
 
 unsigned int strlen(u8 *); u8 *strncpy(u8 *,u8 *,unsigned int);
+}
 void TCharaMaking::build_appearance_texture_names(CharacterAppearanceFields *appearance, CharacterClassAppearance *definition, CharacterTextureList *source) {
     if (source->count <= 8) {
         int index;
@@ -495,6 +498,7 @@ void request_chara_making_archives(void) {
         }
     }
 }
+extern "C" {
 
 void *__nw__7TObjectFUl(int);
 void *TCMCharacter__ct(void *arg0, void *arg1);
@@ -505,6 +509,7 @@ s32 is_state_3__14TObjCMMainMenuFv(s32);
 s32 is_state_4__14TObjCMMainMenuFv(s32);
 
 void TCharaMaking__sub_8028E790(void) {  }
+}
 
 extern s32 tl_03;
 extern s32 creation_dressing_room_mode_flag;
@@ -547,8 +552,6 @@ void TCharaMaking::run_task() {
 void *TCharaMaking::create(void *arg0, void *arg1) {
     creation_player_character = arg1;
     return new TCharaMaking((TObject *)arg0);
-}
-
 }
 
 TCharaMaking::~TCharaMaking() {

@@ -886,6 +886,7 @@ typedef char RecoveredGlobal_8002F61C_lbl_804FE31C_size[sizeof(RecoveredGlobal_8
 
 }
 
+void *create_particle_controller_with_angles(void *arg0, void *arg1, s32 arg2, s32 arg3, u16 arg4);
 namespace behavior_view {
 
 struct Obj_80034034;
@@ -1218,8 +1219,6 @@ s32 VecCopy__FP3VecPC3Vec(int, void *);
 f32 fabs_float(f32);
 
 void TBoss2DeRolLe__sub_80033A80(s32 arg0, s32 arg1);
-
-void *create_particle_controller_with_angles(void *arg0, void *arg1, s32 arg2, s32 arg3, u16 arg4);
 
 extern s32 boss2_derolle_particle_node_indices[];
 
@@ -1787,6 +1786,8 @@ f32 fabs_float(f32);
 
 }
 
+void compose_motion_node_matrix(void *arg0);
+void compose_motion_node_matrix(void *arg0);
 namespace joint_state_view {
 
 struct VBase18 { char pad[0x18]; };
@@ -1943,8 +1944,6 @@ f32 subtract_vector(void *, void *);
 
 void set_move_target_point__13TBoss2DeRolLeFPvi(u8 *arg0, s32 arg1);
 
-void compose_motion_node_matrix(void *arg0);
-
 s32 matrix_mult_vec(int, void *, void *);
 
 s32 set_matrix_identity(int);
@@ -1952,8 +1951,6 @@ s32 set_matrix_identity(int);
 s32 push_matrix();
 
 void get_node_world_pos__13TBoss2DeRolLeFPvPv(u8 *arg0, u8 *arg1);
-
-void compose_motion_node_matrix(void *arg0);
 
 s32 matrix_mult_vec(int, void *, void *);
 

@@ -529,6 +529,7 @@ void TLobby__sub_8023F754(s32 arg0, s32 arg1) {
     s32 *p = (s32 *)&lbl_805162EC;
     p[arg0 * 40 + 34] = arg1;
 }
+}
 
 void set_sound_slot_special_scale(s32 slot, f32 scale) {
     if (slot < 0 || slot >= 32) return;
@@ -538,6 +539,7 @@ void set_sound_slot_special_scale(s32 slot, f32 scale) {
 f32 TLobby::get_field_2a4() { return *(f32*)((char*)this + 0x2a4); }
 s32 TLobby::get_field_0x280() { return *(s32*)((char*)this + 0x280); }
 void TLobby::set_menu_index(s32 v) { *(s32*)((char*)this + 0x280) = v; }
+extern "C" {
 void set_mode__6TLobbyFPvi(void *arg0, s32 arg1) {
     switch (arg1) {
     case 0:
@@ -582,15 +584,18 @@ s32 TLobby__sub_8023F880(s32 arg0) {
   }
   return -9;
 }
+}
 void fade_out_sound_slot(s32 slot, s32 step) {
     if (slot < 0 || slot >= 32) return;
     ((void (*)(void*, s32))start_voice_fade)(&lbl_805162EC[slot], step);
 }
+extern "C" {
 void set_sound_slot_pitch(s32 slot, s32 pitch, s32 duration) {
     if (slot < 0 || slot >= 0x20) {
         return;
     }
     set_voice_pitch_slide((u8 *)&lbl_805162EC[slot], (s32)((u32)pitch << 13) / 3072, duration);
+}
 }
 #pragma push
 #pragma opt_common_subs on
@@ -659,6 +664,7 @@ found:
 #pragma opt_common_subs off
 #pragma opt_propagation off
 #pragma opt_dead_assignments off
+extern "C" {
 s32 resolve_sound_effect_bank(Owner_8023FBBC *owner, s32 kind, s32 bank, s32 index) {
     u8 *t = (u8 *)&sound_bank_file_sizes;
     s32 result = -1;
@@ -859,7 +865,6 @@ fail:
     }
     return ret;
 }
-
 }
 
 
@@ -877,9 +882,12 @@ struct Mgr_802405B0 {
 extern "C" {
 s32 sndPopGroup();
 s32 OSGetTick();
+}
 s32 update_sound_frame(SoundControlState *self);
+extern "C" {
 
 int TLobby__sub_802401C8(SoundControlState *self) { return 0; }
+}
 
 s32 update_sound_frame(SoundControlState *self) {
     s32 t;
@@ -1056,7 +1064,9 @@ s32 TLobby::pop_sound_groups(void *p, s32 arg1) {
 #pragma push
 
 #pragma fp_contract on
+extern "C" {
 s32 sndVolume(s32, s32, s32);
+}
 
 s32 TLobby::validate_and_set_selection(s32 arg1) {
     if ((arg1 < 0) || (arg1 >= 0x16)) {
@@ -1079,9 +1089,6 @@ s32 TLobby::validate_and_set_selection(s32 arg1) {
 }
 
 #pragma pop
-
-
-}
 
 SoundControlState::~SoundControlState() {
     f294 = 0;

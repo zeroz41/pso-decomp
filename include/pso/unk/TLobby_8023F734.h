@@ -77,7 +77,9 @@ s32 resolve_sound_effect_bank(struct Owner_8023FBBC *owner, s32 kind, s32 bank, 
 s32 start_voice_fade(struct Voice_80241FD8 *v, s32 step);
 void clamp_field9c__6TLobbyFf(void *arg0, f32 farg0);
 void clamp_params__6TLobbyFv(void *arg0);
+}
 void fade_out_sound_slot(s32 slot, s32 step);
+extern "C" {
 void fade_voice_channels__6TLobbyFl(s32 arg0);
 void find_and_load_com_card__6TLobbyFUl(u32 arg0);
 int forward_8024273C__6TLobbyFPv(void *p);
@@ -102,7 +104,9 @@ void set_field0__6TLobbyFPv(struct SoundRequestVoice *voice, void *owner);
 void set_menu_index__6TLobbyFl(void *p, s32 v);
 void set_mode__6TLobbyFPvi(void *arg0, s32 arg1);
 void set_sound_slot_pitch(s32 slot, s32 pitch, s32 duration);
+}
 void set_sound_slot_special_scale(s32 slot, f32 scale);
+extern "C" {
 char *skip_to_comma_field__6TLobbyFPcll(char *s, s32 a, s32 b);
 void update__6TLobbyFPv(void *arg0);
 u16 update_crc16_ccitt__6TLobbyFUsUc(u16 crc, u8 c);
@@ -126,10 +130,14 @@ void TLobby__sub_802422EC(void *arg0, void *arg1);
 void TLobby__sub_8024259C(s32 arg0);
 void TLobby__sub_8024285C(void *p);
 s32 advance_rng__6TLobbyFv(void *arg0);
+}
 s32 alloc_looping_sound_slot(u32 id, s32 actor, const void *position, s32 base, s32 flags);
 s32 alloc_one_shot_sound_slot(u32 id, const void *position, s32 base, s32 flags);
+extern "C" {
 char *build_text_from_comma_list__6TLobbyFv(char *list);
+}
 void fade_out_sound_slot(s32 slot, s32 step);
+extern "C" {
 void fade_voice_channels__6TLobbyFl(s32 arg0);
 void find_and_load_com_card__6TLobbyFUl(u32 arg0);
 int forward_8024273C__6TLobbyFPv(void *p);
@@ -152,7 +160,9 @@ void set_clamped_field27c__6TLobbyFf(void *arg0, f32 farg0);
 void set_menu_index__6TLobbyFl(void *p, s32 v);
 void set_mode__6TLobbyFPvi(void *arg0, s32 arg1);
 void set_sound_slot_pitch(s32 slot, s32 pitch, s32 duration);
+}
 void set_sound_slot_special_scale(s32 slot, f32 scale);
+extern "C" {
 char *skip_to_comma_field__6TLobbyFPcll(char *s, s32 a, s32 b);
 s32 validate_and_set_selection__6TLobbyFl(void *arg0, s32 arg1);
 }

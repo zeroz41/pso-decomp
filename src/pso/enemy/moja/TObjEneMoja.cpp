@@ -38,13 +38,15 @@
 
 extern "C" {
 s32 spawn_particle_effect(s32, s32);
+}
 struct Vec_800ACB58 { f32 x, y, z; };
-s32 apply_actor_gravity(void *, int, f32);
+void apply_actor_gravity(TObjEnemy *enemy, s32 *arg1, f32 farg0);
+extern "C" {
 s32 spawn_dead_spot_scale15(void *, int);
 s32 vec3_add_to(void *, void *);
 s32 rotate_vector_by_matrix(int, void *, void *);
-extern u8 identity_matrix[];
 }
+extern u8 identity_matrix[];
 void move_with_wall_slide(u8 *arg0);
 typedef struct MojaCollision_800ADE48 {
     u8 pad[0x18];
@@ -316,10 +318,12 @@ extern s32 chunk_polygon_flags_and_mask;
 extern s32 model_render_flags;
 
 s32 approach_angle_limited(s32, s32, s32);
+}
 
 extern Vec_800AE450 scratch_vec;
 
 void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
+extern "C" {
 
 void *spawn_directional_particle(void *pos, void *dir, s32 id);
 
@@ -328,8 +332,8 @@ extern s32 tl_07;
 
 void *__ct__11TObjControlFP7TObject(void *, void *);
 void *__nw__7TObjectFUl(int);
-extern void *tl_04;
 }
+extern void *tl_04;
 
 // The Moja's models and motions, and the archive that holds them; the second
 // set is the one Ultimate loads.
@@ -940,7 +944,7 @@ void TObjEneMoja::update_appearance_jump() {
         TObjPlayer::play_effect_if_v2(-0x300);
         break;
     case 2:
-        ((s32 (*)(void *, s32, f32))apply_actor_gravity)(this, 0, 0.0f);
+        apply_actor_gravity(this, 0, 0.0f);
         if (action_flags != 4) {
             actorFlags &= 0xF9DFFFFF;
             bodies->flags |= 1;
@@ -1020,7 +1024,7 @@ void TObjEneMoja::update_appearance_drop() {
         TObjPlayer::play_effect_if_v2(-0x300);
         break;
     case 2:
-        ((s32 (*)(void *, s32, f32))apply_actor_gravity)(this, 0, 0.0f);
+        apply_actor_gravity(this, 0, 0.0f);
         if (action_flags != 4) {
             actorFlags &= 0xF9DFFFFF;
             bodies->flags |= 1;
@@ -1061,7 +1065,7 @@ s32 TObjEneMoja::update_approach_state() {
     u8 *temp_r7;
     switch (this->phase) {
     case 0:
-        ((s32 (*)(void *, s32, f32))apply_actor_gravity)((void *) arg0, 0, 0.0f);
+        apply_actor_gravity((TObjEnemy *)arg0, (s32 *)(0), 0.0f);
         if (((TObjMotion *)arg0)->is_passing_frame(0.0f) != 0) {
             ((s32 (*)(void *, void *, int, int))play_sound_effect)((void *)((TObjEnemy *)(arg0))->remap_sound_for_area(0x3AD0A), (u8 *)&this->position, 0, 0);
             TObjPlayer::play_effect_if_v2(-0x200);
@@ -1293,7 +1297,7 @@ s32 TObjEneMoja::update_punch_attack(void *self_800ADAAC) {
         }
         break;
     }
-    ((s32 (*)(void *, s32, f32))apply_actor_gravity)(arg0, 0, 0.0f);
+    apply_actor_gravity((TObjEnemy *)arg0, (s32 *)(0), 0.0f);
     ((TObjPlayer *)arg0)->update_collisions();
 }
 #undef arg0
@@ -1461,7 +1465,7 @@ s32 TObjEneMoja::update_technique_state(void *self_800AD3D8) {
         }
         break;
     }
-    ((s32 (*)(void *, s32, f32))apply_actor_gravity)(self, 0, 0.0f);
+    apply_actor_gravity((TObjEnemy *)self, (s32 *)(0), 0.0f);
     ((TObjPlayer *)self)->update_collisions();
 }
 #undef self
@@ -1479,7 +1483,7 @@ void TObjEneMoja::update_attack_jump() {
     switch (phase) {
     case 0:
     default:
-        ((s32 (*)(void *, s32, f32))apply_actor_gravity)(this, 0, 0.0f);
+        apply_actor_gravity(this, 0, 0.0f);
         if (is_passing_frame(8.0f) != 0) {
             if (target != NULL) {
                 Vec_800ACFE8 dest = *(Vec_800ACFE8 *)(target + 0x2FC);
@@ -1532,7 +1536,7 @@ void TObjEneMoja::update_attack_jump() {
         }
         break;
     case 2:
-        ((s32 (*)(void *, s32, f32))apply_actor_gravity)(this, 0, 0.0f);
+        apply_actor_gravity(this, 0, 0.0f);
         if (action_flags != 4) {
             actorFlags &= ~0x06200000;
             bodies->flags |= 1;
@@ -1568,7 +1572,7 @@ void TObjPlayer::update_invincibility() {
 
     advance_animation();
     if (!(this->actorFlags & 0x800000)) {
-        ((s32 (*)(void *, s32, f32))apply_actor_gravity)(this, 0, 0.0f);
+        apply_actor_gravity((TObjEnemy *)this, (s32 *)(0), 0.0f);
     }
     update_collisions();
     temp_r4 = *(s16 *)&this->unk_33C;
@@ -1612,7 +1616,7 @@ void TObjPlayer::update_ground_effect() {
     }
     this->m_310 = 0.0f;
     *(f32 *)&this->unk_308 = 0.0f;
-    apply_actor_gravity(this, 0, 0.0f);
+    apply_actor_gravity((TObjEnemy *)this, (s32 *)(0), 0.0f);
     this->update_collisions();
     if ((u32) this->action_flags != 8U) {
         this->actorFlags = (s32) (this->actorFlags & 0xFBFFF9FF);
@@ -1666,7 +1670,7 @@ void TObjEneMoja::update_death_state() {
         (*(f32 *)&this->unk_308) *= 0.5f;
         this->m_310 *= 0.5f;
     } else if (!((this->actorFlags) & 0x800000)) {
-        apply_actor_gravity(arg0, 0, 0.0f);
+        apply_actor_gravity((TObjEnemy *)arg0, (s32 *)(0), 0.0f);
     }
     this->sinkOffset -= 0.1f;
     if (this->sinkOffset < -20.0f) {

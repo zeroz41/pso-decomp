@@ -17,8 +17,8 @@ struct Base_801A2E00 { u8 pad0[0x18]; };
 
 struct Ctrl_801A2E00 : Base_801A2E00 { virtual void v0(int); };
 
-extern "C" {
 s32 is_multiplayer_character_slot_selected(s32);
+extern "C" {
 s32 create_player_object(s32, s32, u32);
 u32 get_char_index__23TAdSinglePlyChrSelectGCFUi(s32);
 s32 is_split_screen();
@@ -51,6 +51,7 @@ void TLobby__sub_801A2E00(void) {
         }
         }
     }
+}
 }
 
 void TLobby::apply_char_to_players() {
@@ -93,6 +94,4 @@ void TLobby::reset_quest_state() {
     TLobby::set_cleanup_flag();
     TLobby::reset_quest_counter();
     TLobby::clear_quest_state();
-}
-
 }

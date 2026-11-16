@@ -377,8 +377,8 @@ extern const f32 lbl_805D9F9C;
 
 extern "C" {
 s32 remap_area_sound_id(s32, s32);
-void apply_actor_gravity(TObjEnemy *enemy, s32 *arg1, f32 farg0);
 }
+void apply_actor_gravity(TObjEnemy *enemy, s32 *arg1, f32 farg0);
 void move_with_wall_slide(u8 *arg0);
 extern "C" {
 void sub_800C20B0__12TObjEneLappyFv(void *arg0);
@@ -424,8 +424,10 @@ u32 csnVector(void *, void *, s32);
 s32 project_actor_to_ground(void *, void *, s32);
 s32 vec3_add_to(void *, void *);
 s32 rotate_vector_by_matrix(s32, void *, void *);
+}
 extern f32 identity_matrix[3][4];
 void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
+extern "C" {
 s32 select_enemy_destination(void *, struct Sp800C0D3C *, s32);
 void vfunc_59__12TObjEneLappyFv(void *arg0);
 void vfunc_58__12TObjEneLappyFv(void *arg0);
@@ -1205,6 +1207,7 @@ struct Set_800C1C4C;
 u8 * TObjEneLappy__ct(u8 *self, s32 arg1, Set_800C1C4C *set);
 #define TObjEneLappy__ct (*(void * (*)(void *, void *, void *))&TObjEneLappy__ct)
 void *__nw__7TObjectFUl(int);
+}
 
 extern void *tl_04;
 
@@ -1220,7 +1223,6 @@ void *TObjEneLappy::create(void *arg0) {
         o2 = TObjEneLappy__ct(o2, o, arg0);
     }
     return o2;
-}
 }
 
 #undef TObjEneLappy__ct
@@ -1388,6 +1390,7 @@ s32 register_object__6TLobbyFl(s32);
 s32 dispatch_shared_handler_b__6TLobbyFl(s32);
 s32 register_boss__6TLobbyFl(s32);
 s32 load_resource_from_descriptor(s32, int, void *, int, int, int);
+}
 u8 *load_gvm_texture_file(s32 arg0);
 extern u8 lbl_8043BA28[];
 extern u8 lbl_8043BA44[];
@@ -1535,6 +1538,7 @@ void TObjEneLappy::load_resources() {
 }
 
 #undef RES_800C17B8
+extern "C" {
 
 void *__dt__12TObjEneLappyFv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
@@ -1637,6 +1641,7 @@ u8 *TObjEneLappy__ct(u8 *self, s32 arg1, Set_800C1C4C *set) {
     ((TObjEneLappy *)self)->clear_lobby_object_state();
     return self;
 }
+}
 
 int TObjEneLappy::test_flag_256() { return 0; }
 
@@ -1673,7 +1678,7 @@ extern "C" {
 __declspec(section ".sdata2") extern const f32 lbl_805D9F9C = 0.0f;
 }
 
-}
+
 
 #undef toggle_particle_effect__10TObjPlayerFv
 #undef end_effect_render__13TParticleCtrlFv

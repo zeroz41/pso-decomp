@@ -512,6 +512,7 @@ void set_dark_falz_music_request(s32 arg0);
 extern "C" {
 int check_demo_mode__10TObjPlayerFv(void*);
 int create__14TObjDFUsoTowerFPv(void);
+}
 void unlock_music_flag(s32 flag);
 
 void TBoss4DarkFalz::init_timer() { *(int*)((char*)this + 0x380) = 30; dark_falz_form_index = 1; this->m_394 = create__14TObjDFUsoTowerFPv(); TBoss4DarkFalz::refresh_player_equipment(this); }
@@ -589,4 +590,4 @@ RecoveredGlobal_8004CBC0_lbl_80485448 lbl_80485448 = { 0 };
 s32 lbl_80485454[3] = { 0, 0, 0 };
 }
 
-}
+

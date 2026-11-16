@@ -267,7 +267,9 @@ f32 newton_sqrtf(f32);
 s32 is_state_ready__14TBoss4DarkFalzFv();
 S_80050A68 * __dt__13TObjDFHormingFv(S_80050A68 *o, s16 flag);
 u8 * TObjDFHorming__ct(u8 *arg0, s32 arg1, s32 arg2, u16 arg3);
+}
 void damage_players_near_point(s32 arg0, Vec *arg1);
+extern "C" {
 void fn_spawn_particle_f3_with_flags(s32 arg0, s32 arg1);
 u8 * TObjDFJisin__ct(u8 *arg0, u8 *arg1, s32 arg2);
 void * TObjDFBeamCursor__ct(void *arg0, void *arg1, void *arg2);
@@ -416,6 +418,7 @@ u8 *TObjDFHorming__ct(u8 *arg0, s32 parent, s32 arg2, u16 arg3) {
     *(s32 *)&((TObjDFHorming *)arg0)->m_368 = 0;
     return arg0;
 }
+}
 #pragma pop
 
 void *TBoss4Type3::create_horming(void *arg0, void *arg1, void *arg2) {
@@ -447,6 +450,7 @@ void damage_players_near_point(s32 arg0, Vec *arg1) {
         }
     }
 }
+extern "C" {
 
 void fn_spawn_particle_f3_with_flags(s32 arg0, s32 arg1) {
     Vec position;

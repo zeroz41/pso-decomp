@@ -115,7 +115,9 @@ void *spawn_particle_effect(const void *pos, s32 id);
 void *find_entity_by_id(u16 id);
 u8 *TPhotonMagicSquare__ct(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0);
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
+}
 void queue_photon_blast_hit(u32 identity, s32 kind, s32 allow_duplicate, f32 scale);
+extern "C" {
 s32 clear_render_context__10TObjPlayerFv(void *);
 s32 rotate_matrix_y(int, int);
 s32 push_matrix();
@@ -123,6 +125,7 @@ s32 pop_matrix();
 void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
 void set_material_alpha_compare_reference(s32 reference);
 void set_chunk_material_override_pair(s32 arg0, s32 arg1);
+}
 extern Color_801AD4C0 saved_model_draw_color;
 extern Color_801AD4C0 model_material_color;
 extern s32 saved_model_render_flags;
@@ -132,6 +135,7 @@ extern s32 chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_and_mask;
 extern s32 model_render_flags;
 void spawn_photon_blast_opening_effects(s32 arg0, s32 arg1);
+extern "C" {
 void *__ct__13TUnk_804C3248Fv(void *arg0);
 void sub_801AD4A8__12TPhotonMyllaFv(void* a0);
 void TPhotonRainbow__ct(void *, void *, void *, s32);
@@ -377,5 +381,4 @@ int lbl_805D5D50;
 void TObjPlayer__sub_801ADC6C(void) { lbl_805D5D50 = 0; }
 
 void TObjPlayer__sub_801ADC78(void) {  }
-
 }

@@ -188,8 +188,10 @@ bool TTecLuker__sub_8023401C(u8 *arg0);
 u32 recovery_technique_charge_particle_ids[2] = { 0xB7, 0xB8 };
 void* spawn_particle_effect(float*,u32);
 void TTecLuker__updateRecoveryTechniqueCharge(TechniqueChargeEmitter* state);
+}
 u8 TTecLuker__visit_counts[4] = { 0, 0, 0, 0 };
 void reset_telepipe_visit_counts(void);
+extern "C" {
 void TTecLuker__sub_80234F08(void);
 void reset_telepipe_record(O_802340A0 *o);
 void TTecLuker__sub_80234F48(void);
@@ -250,9 +252,11 @@ s32 construct_area_technique_base(void *, void *, void *);
 s32 matrix_mult_vec(int, void *, void *);
 s32 rotate_matrix_y(int, s32);
 s32 push_matrix_from(void *);
-s32 pop_matrices(int);
+}
+s32 pop_matrices(s32 arg0);
 extern void* __vt__9TTecLuker[];
 extern u8 identity_matrix[];
+extern "C" {
 void *TTecLuker__ct(void *arg0, void *arg1, void *arg2, void *arg3, void *arg4);
 s32 mark_area_change_pending();
 s32 send_6x21_inter_level_warp(void *, s32);

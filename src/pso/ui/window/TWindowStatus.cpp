@@ -47,9 +47,11 @@ void TWindowSimpleStatus__ct(void *, s32, void *, const WindowDescriptor *);
 s32 get_window_layout_position(s32);
 
 void update_lockon_window(u8 *arg0);
+}
 void update_status_help_item(s32 arg0);
 extern const f32 lbl_805DD470;
 extern const f32 lbl_805DD474;
+extern "C" {
 
 s32 is_split_screen();
 s32 create__19TWindowSimpleStatusFPv(int, void *);

@@ -36,7 +36,9 @@ struct Tec_801293FC {
 extern "C" {
 s16 get_entity_id(void *);
 void TObjPlayer__sub_80128A70(void);
+}
 void init_slicer_launch_state(void *);
+extern "C" {
 s16 get_validated_attack_stage(u8 *arg0);
 s16 TObjPlayer__sub_801D2F4C(s16 *arg0);
 }

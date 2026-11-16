@@ -23,6 +23,7 @@ extern "C" {
 s32 isV2Mode__12TBoss1DragonFv(void);
 s32 load_enemy_bml_resource_named(s32 arg0, s32 arg1);
 s32 load_enemy_bml_resource(u8 *arg0);
+}
 u8 *load_gvm_texture_file(s32 arg0);
 s32 lbl_805D4B50;
 s32 dragon_common_texture_list;
@@ -39,8 +40,6 @@ void load_dragon_ground_assets(void) {
         dragon_common_texture_list = (s32)load_gvm_texture_file((s32)dragon_common_alternate_texture_filename);
         break;
     }
-}
-
 }
 
 struct Arg_8002C288 { s32 a; f32 b; f32 c; s32 d[2]; };

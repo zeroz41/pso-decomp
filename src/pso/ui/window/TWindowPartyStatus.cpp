@@ -54,6 +54,7 @@ extern const char *TWindowPartyStatus__name;
 extern s32 local_client_id;
 u8 *TWindowPartyStatus__ct(u8 *arg0, s32 arg1, s32 arg2);
 s32 update_lockon_window();
+}
 void update_status_help_item(s32 arg0);
 
 struct PartyStatusWindowLayout {
@@ -117,12 +118,14 @@ void TWindowPartyStatus::draw_background(u8 *arg1) {
         TWindowSubComCard__sub_802452DC(0xB);
     }
 }
+extern "C" {
 
 void render__18TWindowPartyStatusFv(s32 arg0) {
     s32 ctx;
     ctx = draw_default_entry__9TWindowDDFl();
     ((TWindowPartyStatus *)arg0)->draw_background((u8 *)ctx);
     draw_visible_window_entries((void *)arg0, (void *)(arg0 + 0x24), (int)ctx);
+}
 }
 
 void TWindowPartyStatus::run_task() {
@@ -135,8 +138,6 @@ void TWindowPartyStatus::run_task() {
     ((TWindowBase *)arg0)->update_fade();
     ((TWindowBase *)arg0)->update_window_entry_list((void *)(arg0 + 0x24));
     ((TWindowSimpleStatus *)arg0)->apply_random_shake();
-}
-
 }
 TWindowPartyStatus::~TWindowPartyStatus() {
 

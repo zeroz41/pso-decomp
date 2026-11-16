@@ -159,7 +159,9 @@ void matrix_mult_vec(s32, Vec_8023D128 *, Vec_8023D128 *);
 extern Cam_8023D128 lbl_8058D4F8;
 s32 project_lightning_points(Obj_8023D128 *self, Vec_8023D128 *out, f32 *a, f32 *b);
 f32 newton_sqrtf(f32);
+}
 void clear_zonde_beam_vertex_pointer(void);
+extern "C" {
 f32 fabs_float(f32);
 
 struct Vec_8023D294 { f32 x, y, z; };
@@ -498,6 +500,7 @@ u8 *__ct__12TTecZondeEffFv(u8 *object, u8 *arg1, s32 arg2, s32 arg3, f32 farg0) 
     *(s16 *)((s8 *)object + 0x25E) = 0;
     return object;
 }
+}
 
 typedef char RecoveredGlobal_8023DADC___vt__12TTecZondeEff_size[sizeof(RecoveredGlobal_8023DADC___vt__12TTecZondeEff) == 0x18 ? 1 : -1];
 
@@ -551,6 +554,4 @@ void TTecZondeEff::init_resources() {
     tec_zonde_effect_task_list.vt = lbl_804CC8C8;
     tec_zonde_effect_task_list.n = 0x10;
     TTecZondeEff__beam_vertex_data = shared_effect_texture_list.entries[16].texture->surface->id;
-}
-
 }

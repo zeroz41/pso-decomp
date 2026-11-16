@@ -11,7 +11,6 @@
 #include "types.h"
 
 
-extern "C" {
 extern char floor_map_name_acity00[];
 extern char floor_map_name_acity00_00[];
 extern char floor_map_name_aforest01[];
@@ -204,6 +203,7 @@ extern char floor_map_name_forest02[];
 extern char floor_map_name_forest01[];
 extern char floor_map_name_city00_00[];
 extern char floor_map_name_city00[];
+extern "C" {
 __declspec(section ".data") const char *lbl_804C8C60[2] = { floor_map_name_city00, floor_map_name_city00_00 };
 __declspec(section ".data") const char *lbl_804C8C68[2] = { floor_map_name_forest01, floor_map_name_forest01 };
 __declspec(section ".data") const char *lbl_804C8C70[2] = { floor_map_name_forest02, floor_map_name_forest02 };
@@ -260,9 +260,11 @@ const char *lbl_804C9230[10] = { floor_map_name_aancient03, floor_map_name_aanci
 __declspec(section ".data") const char *lbl_804C9258[2] = { floor_map_name_aboss01, floor_map_name_aboss01 };
 __declspec(section ".data") const char *lbl_804C9260[2] = { floor_map_name_aboss02, floor_map_name_aboss02 };
 __declspec(section ".data") const char *lbl_804C9268[2] = { floor_map_name_aboss03, floor_map_name_aboss03 };
+}
 FloorSceneEntry floor_scene_table[36] = { { lbl_804C90E0, 1 }, { lbl_804C90E8, 1 }, { lbl_804C90F0, 1 }, { lbl_804C90F8, 6 }, { lbl_804C9128, 5 }, { lbl_804C9150, 6 }, { lbl_804C9180, 6 }, { lbl_804C91B0, 6 }, { lbl_804C91E0, 5 }, { lbl_804C9208, 5 }, { lbl_804C9230, 5 }, { lbl_804C9258, 1 }, { lbl_804C9260, 1 }, { lbl_804C9268, 1 }, { lbl_804C8DF0, 1 }, { lbl_804C8DF8, 15 }, { lbl_804C8E70, 3 }, { lbl_804C8E88, 3 }, { lbl_804C8EA0, 1 }, { lbl_804C8ED8, 3 }, { lbl_804C8EF0, 3 }, { lbl_804C8EA8, 3 }, { lbl_804C8EC0, 3 }, { lbl_804C8F08, 1 }, { lbl_804C8F10, 1 }, { lbl_804C8F18, 1 }, { lbl_804C8F20, 3 }, { lbl_804C8F38, 1 }, { lbl_804C8F70, 3 }, { lbl_804C8F88, 3 }, { lbl_804C8FA0, 1 }, { lbl_804C8FA8, 1 }, { lbl_804C8FB0, 1 }, { lbl_804C8FB8, 1 }, { lbl_804C8F40, 1 }, { lbl_804C8F48, 5 } };
 s32 forest_rel_filename_table[6] = { (s32)"SetDataTableOff.rel", (s32)"SetDataTableOffUlti.rel", (s32)"SetDataTableOn.rel", (s32)"SetDataTableOnUlti.rel", (s32)"SetDataTable_TGS2001.rel", 0 };
 s32 get_floor_scene_table(s32 arg0);
+extern "C" {
 void reset_story_select__6TLobbyFv(void);
 int TLobby__sub_80207E24(void* p);
 void TLobby__sub_80207E44(void);
@@ -289,6 +291,7 @@ s32 TLobby::is_scene_ready() {
 int TLobby__sub_80207E24(void* p) { return copy_table_entries__6TLobbyFUl(p); }
 void TLobby__sub_80207E44(void) {  }
 int TLobby__sub_80207E48(void* p) { return randomize_adventure_maps(p); }
+}
 int TLobby::lookup_scene_object(void* p) { return ((int (*)(void*))get_floor_map_selection)(p); }
 s32 get_floor_scene_table(s32 arg0) {
     if (arg0 > 0x23) {
@@ -299,12 +302,12 @@ s32 get_floor_scene_table(s32 arg0) {
     }
     return (s32)lbl_804C8FC0[arg0].names;
 }
+extern "C" {
 
 int TLobby__sub_80207F10(void* p);
 
 int TLobby::reset_story_select(void* p) { return ((int (*)(void*))reset_story_select__6TLobbyFv)(p); }
 int TLobby__sub_80207F10(void* p) { return ((int (*)(void*))reset_story_select__6TLobbyFv)(p); }
-
 }
 
 struct R_80207F30 { s16 a; s16 b; u16 c; };

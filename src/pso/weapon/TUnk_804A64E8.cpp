@@ -32,8 +32,6 @@ void TUnk_804A64E8::update_attack() {
     scale.x = scale.y = scale.z = 10.0f;
 }
 
-extern "C" {
-
 struct Owner_8012F704 { u8 pad[0x60]; s32 f60; };
 struct Self_8012F704 { u8 pad0[0x24]; s32 f24; u8 pad28[0xF0 - 0x28]; Owner_8012F704 *owner; u8 padF4[0x188 - 0xF4]; s32 f188; };
 struct Vec_8012F704 { f32 x, y, z; };
@@ -55,12 +53,16 @@ struct Tec_8012F704 {
     Vec_8012F704 pos;
     Vec_8012F704 dir;
 };
+extern "C" {
 
 s16 get_entity_id(void *);
+}
 struct SlicerState_801295FC;
 void init_slicer_launch_state(void *arg0);
+extern "C" {
 s16 get_validated_attack_stage(u8 *arg0);
 s16 TObjPlayer__sub_801D2F4C(s16 *arg0);
+}
 
 
 void TUnk_804A64E8::emit_marker_effects() {
@@ -82,8 +84,6 @@ void TUnk_804A64E8::emit_marker_effects() {
     get_joint_position(5, &tec.pos);
     get_joint_position(4, &tec.dir);
     TTecSlicer::create((u16*)&tec);
-}
-
 }
 
 

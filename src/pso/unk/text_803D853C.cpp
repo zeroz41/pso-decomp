@@ -145,6 +145,7 @@ static inline void put_debug_text_vertex(s32 x, s32 y, u32 color, s32 s, s32 t) 
     GXColor1u32(color);
     GXTexCoord2s16(s, t);
 }
+}
 
 void render_debug_text(u32 enabled) {
     GC_Mtx texMtx;
@@ -206,6 +207,7 @@ void render_debug_text(u32 enabled) {
     debug_text_pool_cursor = lbl_805D76D0;
 }
 #pragma pop
+extern "C" {
 
 asm void vec3_add_to(Vec *dst, const Vec *src) {
 #include "orig_asm/pso/unk/text_803D853C/vec3_add_to.inc"
@@ -219,6 +221,7 @@ void matrix_mult_vec(f32 (*m)[4], const Vec *src, Vec *dst) {
     }
     PSMTXMultVec(m, src, dst);
 }
+}
 #pragma pop
 
 #pragma push
@@ -230,7 +233,6 @@ void TObjPlayer::mult_vec_array(u32 arg0, s32 arg1) {
         var_r3 = (u32) current_matrix;
     }
     PSMTXMultVecArray((s32) var_r3, arg1);
-}
 }
 #pragma pop
 

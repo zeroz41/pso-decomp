@@ -35,12 +35,11 @@ u32 __ct__7TObjectFP7TObject(int, int);
 extern u32 TObjBgmColCtrl__instance;
 extern s32 tl_05;
 s32 is_active__14TObjBgmColCtrlFv();
+}
 int get_quest_bgm_issued_flag(void);
 
 extern s32 local_client_id;
 extern s32 lbl_805D5B04;
-
-}
 
 struct Vec_8017E550 { f32 x, y, z; };
 

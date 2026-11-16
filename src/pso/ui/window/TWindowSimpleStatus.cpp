@@ -481,6 +481,7 @@ s32 update_photon_blast_player_marker(s32 arg0, s32 arg1) {
         }
     }
 }
+}
 
 void update_status_help_item(s32 arg0) {
     s32 var_r31;
@@ -495,6 +496,7 @@ void update_status_help_item(s32 arg0) {
 #pragma push
 #pragma fp_contract on
 #pragma opt_common_subs off
+extern "C" {
 void draw_photon_blast_gauge_ring(s32 arg0, Params_80270244 *arg1, const Vec2_80270244 *arg2, f32 farg0, f32 farg1) {
     Vec2_80270244 p;
     u32 n;
@@ -509,6 +511,7 @@ void draw_photon_blast_gauge_ring(s32 arg0, Params_80270244 *arg1, const Vec2_80
         draw_photon_blast_fan(arg0, &p, arg1, photon_blast_gauge_ring_color_table[n], 0.0f, 0, 0xD700, farg1);
         draw_photon_blast_fan(arg0, &p, arg1, photon_blast_gauge_ring_color_table[++n], 0.1f, 55040.0f - 0.01f * (55040.0f * farg0), 0xD700, farg1);
     }
+}
 }
 #pragma pop
 
@@ -550,7 +553,6 @@ void TWindowSimpleStatus::draw_background(u8 *arg1) {
         TWindowSubComCard__sub_80245320(&r, arg1);
         TWindowSubComCard__sub_802452DC(0xB);
     }
-}
 }
 
 struct SS_802705D8 { u8 pad0[0x18]; void *vt; u8 pad1c[0x64 - 0x1c]; void *w[4]; };

@@ -6,6 +6,7 @@
 
 extern "C" {
 s32 spawn_shoot_particle__10TObjPlayerFUlllf(u32, s32, s32, f32);
+}
 s32 create_shoot_model_with_particles(u32 owner, s32 arg1, s32 arg2, f32 farg0) {
     s32 temp_r30;
     s32 temp_r31;
@@ -20,6 +21,4 @@ s32 create_shoot_model_with_particles(u32 owner, s32 arg1, s32 arg2, f32 farg0) 
         ((TObject *)temp_r30)->set_parent((TObject *)temp_r31);
     }
     return temp_r31;
-}
-
 }

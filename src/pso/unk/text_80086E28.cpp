@@ -12,6 +12,7 @@ extern s32 particle_pool_limit;
 extern Rec_80086E28 *particle_global_entry_table;
 extern Rec_80086E28 *particle_area_entry_table;
 void *__ct__13TParticleCtrlFv(void *, void *, void *, void *, s32, s32, s32, s32, u16);
+}
 void *TAdLoadQuestPrtTxtGC::create_particle(void *position, s32 arg1, s32 use_self) {
     void *o;
     if (particle_pool_limit > arg1) {
@@ -49,6 +50,4 @@ void *create_particle_controller_with_angles(void *arg0, void *arg1, s32 arg2, s
         return o;
     }
     return NULL;
-}
-
 }

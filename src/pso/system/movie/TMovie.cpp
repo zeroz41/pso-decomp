@@ -20,8 +20,10 @@ struct Vec_80144778 { f32 x, y, z; };
 extern "C" {
 void TMovie__sub_80144324(MovieState *movie, const s8 *name);
 void run_task__6TMovieFv(TMovie *movie);
+}
 int get_opening_movie_selector(void);
 void activate_main_menu_scene(void);
+extern "C" {
 void fn_801449F0(void);
 
 s32 is_playback_finished__6TMovieFv(s32);
@@ -38,6 +40,7 @@ s8 get_opening_movie_purpose();
 s8 func_801A5E54__Fv();
 u8 *load_rel_module(u8 *arg0, s32 arg1);
 void func_803DCDFC__Fv(void);
+}
 
 extern void *__vt__6TMovie[];
 extern s8 controller_input_state[];
@@ -47,7 +50,6 @@ extern s32 video_initial_display_framebuffer;
 extern int opening_movie_selector;
 extern unsigned char main_menu_scene_active_flag;
 extern int ending_movie_active_flag;
-}
 
 const char *TMovie__name = "TMovie";
 // inferred: the eye, target and up vectors run_task passes to set_camera_look_at

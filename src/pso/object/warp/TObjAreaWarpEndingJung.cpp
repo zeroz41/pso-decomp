@@ -318,17 +318,19 @@ int sprintf(char *, const char *, ...);
 void strncpy(s32, s32, s32);
 void debug_printf_at(s32 id, const char *fmt, ...);
 s32 matrix_mult_vec(int, void *, void *);
+}
 void rotate_matrix_zyx(void *m, s32 x, s32 y, s32 z);
+extern "C" {
 void rotate_matrix_x(int, s32);
 void push_matrix();
 s32 post_translate_matrix(void *);
 void draw_ginja_model_with_motion(void *model, void *motion, f32 frame);
+}
 
 extern RecoveredGlobal_8019B854___vt__14TObjWarpString __vt__14TObjWarpString;
 extern RecoveredGlobal_8019CA24_lbl_80515BA0 lbl_80515BA0;
 extern u8 identity_matrix[];
 extern s32 local_client_id;
-}
 
 void *create_TObjWarpString(char *text, u16 client_id);
 void bswap_6x94_inter_level_warp(void *);

@@ -67,8 +67,8 @@ struct Key_803E500C { u32 frame; f32 *data; };
 
 u8 *lbl_805D7818;
 extern RecoveredGlobal_803E5458_lbl_8058DC00 lbl_8058DC00;
-extern "C" {
 void compose_motion_node_matrix(void *arg0);
+extern "C" {
 void push_matrix(void);
 s32 pop_matrix(void);
 void update_render_state__10TObjPlayerFv(s32 *, s32 *);

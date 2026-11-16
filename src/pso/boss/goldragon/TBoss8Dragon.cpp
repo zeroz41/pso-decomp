@@ -134,9 +134,11 @@ s32 fn_8002AE08(void *p);
 s32 approach_angle_limited(s32 from, s32 to, s32 max_step);
 u8 TBoss8Dragon__sub_802FABB4(void *arg0);
 void TBoss8Dragon__sub_802FBBC8(u8 *arg0, s32 *arg1);
+}
 extern u16 TBoss8Dragon__data_805D69BC;
 f32 sample_acceleration_curve(AccelerationCurve *c, f32 t);
 void init_acceleration_curve(AccelerationCurve *c, f32 a, f32 d, f32 length, f32 speed);
+extern "C" {
 s32 angle_diff_s16(s32, s32);
 void apply_ground_movement__12TBoss8DragonFPvPv(u8 *arg0, f32 *arg1);
 void sync_target_pos__12TBoss8DragonFPv(void* p);
@@ -799,6 +801,7 @@ s32 push_matrix();
 s32 scale_current_matrix(void *);
 s32 post_translate_matrix(void *);
 s32 scale_matrix(int, f32, f32, f32);
+}
 
 extern s32 TBoss8Dragon__data_80541DC8[];
 extern Boss8DragonBmlRes *TBoss8Dragon__data_805D6988;
@@ -1013,8 +1016,6 @@ struct Dragon_802F951C : VObj_18_444bc5 {
     u8 pad860[0x864 - 0x860];
     f32 field_864;
 };
-
-}
 
 void direction_to_rotation_xz(u8 *arg0, s32 *arg1, s32 *arg2);
 void set_collider_contact_low(u8 *arg0);

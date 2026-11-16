@@ -17,6 +17,7 @@ char *strcpy(char *dst, const char *src);
 u32 strlen(const char *s);
 s32 debug_printf_at(u32, void *, ...);
 void memset(void *, int, int);
+}
 
 Obj_80515BA0::Obj_80515BA0() {
     init_range(0);
@@ -152,6 +153,4 @@ void TLobby::trim_whitespace() {
         }
         strcpy(s, s + i);
     }
-}
-
 }

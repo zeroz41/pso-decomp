@@ -23,7 +23,9 @@ s32 TWindowShortListCtrl__check_controller_button(void *, s32);
 s32 is_slot_active__23TAdSinglePlyChrSelectGCFUi();
 s32 play_sound_effect(s32, s32, s32, s32);
 s32 TAdMultiPlyChrSelectGC__sub_802C5A44(int, void *, int);
+}
 s32 is_multiplayer_character_slot_selected(s32 arg0);
+extern "C" {
 s32 TAdMultiPlyChrSelectGC__sub_802C6558();
 s32 TAdMultiPlyChrSelectGC__sub_802C658C(s32 arg0);
 s32 TAdMultiPlyChrSelectGC__sub_802C6660(int);
@@ -102,5 +104,4 @@ void TAdMultiPlyChrSelectGC__sub_802DEDA8(u8 *arg0) {
     TAdMultiPlyChrSelectGC__sub_802C6660((int) (*(s32 *)((s8 *)arg0 + 0x5C)));
     *(s32 *)((s8 *)arg0 + 0x20) = 3;
 }
-
 }

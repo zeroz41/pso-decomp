@@ -132,7 +132,9 @@ s32 render_tick__Fv();
 s32 run_save_load_sequence__23TAdSinglePlyChrSelectGCFv();
 s32 func_803DCDFC__Fv();
 s32 cleanup__6TLobbyFv();
+}
 void run_area_scene_cleanup(u8 *arg0);
+extern "C" {
 s32 PPCSync();
 extern s32 lbl_805D5718;
 void __construct_array(void *, void *, int, int, int);
@@ -142,9 +144,11 @@ s32 handle_game_join__6TLobbyFPv(void *);
 char *strcpy(char *, const char *);
 void *memset(void *, int, u32);
 void get_team_state__6TLobbyFPv();
+}
 void clear_floor_population();
 extern s32 TLobby__designated_client_id;
 extern s32 game_protocol_instance;
+extern "C" {
 s32 __dt__7TObjectFv(void *, s32);
 s32 get_current_floor();
 s32 find_leader_section_id(void *, s32);
@@ -156,7 +160,9 @@ s32 TObjPlayer__sub_801B1BA4();
 s32 TObjPlayer__sub_801B1C8C();
 void *get_player_by_client_id(s32);
 s32 load_area_scene_and_init(void *);
-s32 promote_area_floor(void *);
+}
+void promote_area_floor(u8 *arg0);
+extern "C" {
 void *__nw__7TObjectFUl(s32);
 s32 __ct__7TObjectFP7TObject(void *, s32);
 s32 is_area_transfer_pending();

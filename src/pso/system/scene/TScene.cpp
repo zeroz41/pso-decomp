@@ -264,18 +264,16 @@ struct Task_80204688 { u8 pad[0x1C]; s32 count; };
 struct Model_80204688 { u8 pad[0x14]; f32 x, y, z; };
 
 struct Node_80204688 { u32 flags; Model_80204688 *model; f32 x, y, z; };
-extern "C" {
-
-
 extern Vec_80204024 lbl_8044A84C[];
 
-void pop_matrices(s32);
+s32 pop_matrices(s32 arg0);
+extern "C" {
 
 s32 is_split_screen(void);
+}
 #define CAM ((Cam_80204688 *)camera_ctrl_instance)
 #define TEST ((s32 (*)(f32, void *, void *, void *, Vec_80204024 *))TScene__sub_80204024)
 #define VIS ((s32 (*)(void *, void *, f32, f32))is_in_view_depth__6TSceneFf)
-}
 
 struct Ent_80205AA8 { u16 id; u8 pad[6]; };
 

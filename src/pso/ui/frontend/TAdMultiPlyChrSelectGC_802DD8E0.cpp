@@ -33,7 +33,9 @@ struct RecoveredGlobal_802DDBA8_lbl_8050E3B8 {
 extern "C" {
 s32 queue_destruction__7TObjectFv(void *);
 s32 is_slot_active__23TAdSinglePlyChrSelectGCFUi();
+}
 s32 is_multiplayer_character_slot_selected(s32);
+extern "C" {
 s32 TAdMultiPlyChrSelectGC__sub_802C6558();
 s32 TAdMultiPlyChrSelectGC__sub_802C658C();
 int TAdMultiPlyChrSelectGC__sub_802C6920(void);
@@ -238,6 +240,7 @@ void TAdMultiPlyChrSelectGC__sub_802DDD08(u8 *arg0) {
         }
     }
 }
+}
 
 void TAdMultiPlyChrSelectGC::reset_to_select() {
     Stack_802DDF40 stack;
@@ -280,6 +283,4 @@ void TAdMultiPlyChrSelectGC::reset_to_select() {
         }
     }
     *(s32 *)&this->m_20 = 0;
-}
-
 }

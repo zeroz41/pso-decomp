@@ -58,13 +58,13 @@ struct Date_801E21A8 { u16 year; u8 mon; u8 mday; u8 hour; u8 min; u8 sec; u8 pa
 
 struct Info_801E21A8 { u32 length; s16 blocks; u8 f6; u8 f7; s16 f8; u16 year; u8 mon; u8 mday; u8 hour; u8 min; u8 sec; u8 pad; };
 
-extern "C" {
 u32 TAdPlayerLoadGC__card_slot_state_flags;
 s32 lbl_805D5E34;
 s32 TAdPlayerLoadGC__banner_file_buf;
 s32 lbl_805D5E3C;
 s32 TAdPlayerLoadGC__card_result_code;
     int lbl_805D5E44;
+extern "C" {
 s32 TAdPlayerLoadGC__sub_801E101C(s32);
 s32 CARDProbeEx(s32, s32 *, s32 *);
 s32 TAdPlayerLoadGC__sub_801E1B50(s32);
@@ -85,7 +85,9 @@ void *memset(void *, int, u32);
 s32 build_save_file_image__15TAdPlayerLoadGCFPvPv(u8 *arg0, Src_801E17F4 *arg1);
 s32 CARDGetStatus(s32, s32, CARDStat_801E2048 *);
 int strncmp(const char *, const char *, u32);
+}
 void fill_date_from_seconds(u32 secs, DateStamp *out);
+extern "C" {
 int strcmp(const char *s1, const char *s2);
 s32 get_card_file_info__15TAdPlayerLoadGCFiPvPv(s32 chan, const char *name, Info_801E21A8 *info);
 s32 CARDGetSerialNo();
@@ -982,10 +984,9 @@ s32 TAdPlayerLoadGC__sub_801E26DC(s32 chan, const char *name, void *buf, u32 siz
         }
     }
 }
+}
 
 RecoveredGlobal_801E14E8_TAdPlayerLoadGC__data_80511ED0 TAdPlayerLoadGC__banner_buffers;
 CARDFileInfo_801E15A4 TAdPlayerLoadGC__data_80511EE8;
 CARDStat_801E2048 lbl_80511EFC;
 u8 *lbl_80511F68[2];
-
-}

@@ -1208,8 +1208,10 @@ s32 weapon_has_extra_attack();
 void set_action_type__10TObjPlayerFs(void *p, s16 v);
 int get_captured_target_entry(void*, int);
 s32 get_captured_target_count(s32 *arg0);
+}
 void increment_burst_counter(u8 *arg0);
 s32 get_burst_counter(void *);
+extern "C" {
 s32 copy_attack_targets(void *, void *);
 int TObjPlayer__sub_8012AF00(void*);
 void TObjPlayer__sub_8012AF80(void *);
@@ -1465,7 +1467,9 @@ void release_control_lock__10TObjPlayerFPv(void* p);
 void TObjPlayer__sub_801D0F70(void* p);
 int copy_position__10TObjPlayerFPv(void* p);
 int query_field_340__10TObjPlayerFPv(void* p);
+}
 int is_android_player(void* p);
+extern "C" {
 void TObjPlayer__sub_801D1024(void* p, s32 v);
 void TObjPlayer__sub_801D102C(void* p, s32 v);
 s32 TObjPlayer__sub_801D1034(void* p);
@@ -1623,6 +1627,7 @@ s32 validate_6x4B_hit_by_enemy(void *);
 s32 validate_6x48_cast_technique_complete(void *);
 s32 validate_6x8D_set_technique_level_override(void *);
 s32 validate_6x46_attack_finished(void *);
+}
 s32 validate_6x45_attack(G_ClientIDHeader *packet);
 s32 validate_6x44_attack(G_ClientIDHeader *packet);
 s32 validate_6x43_attack(G_ClientIDHeader *packet);
@@ -1632,6 +1637,7 @@ s32 validate_6x3F_set_position(G_ClientIDHeader *packet);
 s32 validate_6x3E_stop_at_position(G_ClientIDHeader *packet);
 s32 validate_6x37_photon_blast(G_ClientIDHeader *packet);
 s32 validate_6x33_revive_player(G_ClientIDHeader *packet);
+extern "C" {
 void __construct_array(void *, void *, int, int, int);
 f32 sin_table_lookup(s32);
 f32 cos_table_lookup(s32);
@@ -3921,6 +3927,7 @@ void run_guard_reaction_phase__10TObjPlayerFis(s32 arg0, s16 arg1) {
     }
   }
 }
+}
 
 void TObjPlayer::create_photon_blast_party_effects(s32 arg0) {
     if ((void *) TObjPlayer__shared_photon_blast_state != NULL) {
@@ -3940,7 +3947,6 @@ s32 TObjPlayer::get_current_target_id() {
         return find_first_valid_target_id__10TObjPlayerFv((void*)(*(u32 *)&TObjPlayer__shared_photon_blast_state));
     }
     return 0xFFFF;
-}
 }
 
 void remove_photon_blast_participant(s32 id) {
@@ -5355,7 +5361,7 @@ void TObjPlayer::update_anim_action() {
             if (is_passing_frame(select_normal_attack_marker()) != 0) {
                 send_attack_target_packet();
                 increment_burst_counter((u8 *)&this->attack_state);
-                if (get_burst_counter((u8 *)&this->attack_state) >= 3) {
+                if (get_burst_counter(&this->attack_state) >= 3) {
                     ((FlagWord *)(((s32 (*)(void *))get_anim_field_c__10TObjPlayerFPv)(arg0 + 0x7CC)))->set(8);
                     ((s32 (*)(void *, void *))apply_anim_action__10TObjPlayerFPvi)(arg0 + 0x7CC, arg0);
                     set_action_flag_40();
@@ -6350,8 +6356,10 @@ void TObjPlayer::set_float_param(s16 arg1) {
 }
 
 int query_field_340__10TObjPlayerFPv(void* p) { return ((TObjPlayer *)((char*)p + 0x340))->update_action_palette(); }
+}
 
 int is_android_player(void* p) { return (((TObjPlayer *)p)->class_flags & CLASS_FLAG_ANDROID) != 0; }
+extern "C" {
 
 void TObjPlayer__sub_801D1024(void* p, s32 v) { *(s32*)((char*)p + 0x10) = v; }
 

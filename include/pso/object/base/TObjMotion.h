@@ -96,7 +96,7 @@ struct CollisionBody {
     f32 unk_28;
 };
 // *dst = *src, the copy CodeWarrior 1.3.2 generates (TBoss1DragonColli's TU).
-extern "C" void copy_collision_body(CollisionBody *dst, const CollisionBody *src);
+void copy_collision_body(CollisionBody *dst, const CollisionBody *src);
 
 class TObjCollidable : public TObjBase {
 public:

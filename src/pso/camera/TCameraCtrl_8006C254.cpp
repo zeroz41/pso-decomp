@@ -84,6 +84,7 @@ void normalize_vector(Vec_8006C28C *);
 s32 push_matrix_from(void *src);
 void rotate_matrix_y(int, s32);
 void matrix_mult_vec(int, Vec_8006C28C *, Vec_8006C28C *);
+}
 s32 pop_matrices(s32 arg0);
 extern u8 identity_matrix[];
 
@@ -155,7 +156,6 @@ void TUnk_80488B68::run_task() {
         s->frame = (s->motion->frames - 1);
         s->flags |= 1;
     }
-}
 }
 #pragma pop
 

@@ -848,7 +848,9 @@ s32 add_actor_tp_bonus(O_80011274 *self, s32 x);
 s32 add_actor_hp_bonus(O_80011378 *self, s32 x);
 u16 find_nearest_visible_player(u8 *arg0, Vec_800115C4 *arg1, f32 farg0);
 s32 is_actor_cadence_frame__9TObjCharaFl(O_80011704 *self, s32 x);
+}
 void apply_actor_gravity(TObjEnemy *arg0, s32 *arg1, f32 farg0);
+extern "C" {
 void apply_knockback_from_attacker__9TObjCharaFPUcf(u8 *arg0, u8 *arg1);
 int vfunc_67__9TObjCharaFf(void);
 int vfunc_66__9TObjCharaFv(void);
@@ -870,7 +872,9 @@ s32 is_target_in_attack_range__9TObjCharaFv(Player_8001745C *p);
 f32 step_toward_destination__10TObjPlayerFPvPvf(Obj_80017804 *arg0, Vec_800180E8 *arg1, f32 farg0);
 f32 enemy_pursue_point(u8 *arg0, s32 arg1, Vec_800180E8 arg2, f32 farg0, f32 farg1);
 f32 enemy_backstep_from_point(Obj_80017ABC *arg0, Vec_800180E8 arg1, f32 farg0);
+}
 void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
+extern "C" {
 void calc_velocity_toward_destination(Obj_800180E8 *self, Vec_800180E8 *pos, Vec_800180E8 *dest, f32 speed);
 s32 TObjPlayer__sub_800181DC(u8 *arg0, Vec_800180E8 arg1);
 s32 select_enemy_destination(Obj_800182A0 *self, Vec_800182A0 *arg1, int flags);
@@ -1466,8 +1470,6 @@ void record_local_damage_if_enabled(void *mine_trap, void *arg1, s32 arg2) {
   }
 }
 #pragma pop
-extern "C" {
-
 void TObjChara::vfunc_78(s32) {  }
 
 void TObjChara::vfunc_77() {  }
@@ -1475,6 +1477,7 @@ void TObjChara::vfunc_77() {  }
 void TObjChara::vfunc_76(f32) {  }
 
 void TObjChara::vfunc_75(f32) {  }
+extern "C" {
 
 void assign_slots_from_list(void *arg0, s32 arg1) {
     s32 var_r31;
@@ -1803,6 +1806,7 @@ u16 find_nearest_visible_player(u8 *arg0, Vec_800115C4 *arg1, f32 farg0) {
         }
     }
     return result;
+}
 }
 
 s32 TObjChara::is_actor_cadence_frame(s32 x) {
@@ -3476,6 +3480,7 @@ void TObjPlayer::spawn_recovery_effect() {
         create_timed_particle_emitter_with_flags(((u8 *)&this->m_2fc), 0x10A, 0, 0xA, 0x40);
     }
 }
+extern "C" {
 
 void trigger_switch_attack__10TObjPlayerFPvi(void *chara, s32 arg1) {
 
@@ -3495,6 +3500,7 @@ void trigger_switch_attack__10TObjPlayerFPvi(void *chara, s32 arg1) {
             break;
         }
     }
+}
 }
 
 void TObjPlayer::set_attribute_entry(s32 i, void *q) {
@@ -3545,7 +3551,6 @@ int TObjChara::calc_distance_accuracy_penalty(void *attacker, void *body_arg, vo
         ((RangedActor*)this)->flags|=0x100;VecCopy__FP3VecPC3Vec(&delta,&body->center);show_miss_popup__9TObjCharaFPCf(((RangedActor*)this),&delta);
     }
     return 0;
-}
 }
 
 #undef get_ata__10TObjPlayerFv

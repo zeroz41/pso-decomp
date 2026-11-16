@@ -195,6 +195,7 @@ s32 TBoss1DragonColli_C__ct(int arg0, void *arg1, int arg2, void *arg3, f32 scal
     ((TBoss1DragonColli_C *)self)->clear_segment_flags();
     return arg0;
 }
+}
 #undef self
 
 // *dst = *src. In the original this is the compiler-generated CollisionBody
@@ -208,6 +209,7 @@ void copy_collision_body(CollisionBody *dst, const CollisionBody *src) {
     *dst = *src;
 }
 #pragma pop
+extern "C" {
 
 void __dt__17TBoss1DragonColliFv();
 void run_task__7TObjectFv();
@@ -221,6 +223,7 @@ void update_object_view_visibility__8TObjBaseFff();
 void classify_actor_view_detail__8TObjBaseFfff();
 void get_name__8TObjBaseFv();
 void interact__14TObjCollidableFl();
+}
 CollisionBody TBoss1DragonColli_sphere_chain_desc = {
     {0.0f, 0.0f, 0.0f}, 25.0f, 0.0f, 0, 0x8003,
 };
@@ -249,4 +252,3 @@ s32 __vt__19TBoss1DragonColli_C[] = {
     (s32)interact__14TObjCollidableFl,
     0,
 };
-}

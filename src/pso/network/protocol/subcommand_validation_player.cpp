@@ -16,6 +16,7 @@ void *find_entity_by_id(u16 id);
 s32 validate_attack_target_entry(void *parameters) {
     return ((u32) *(s16 *)((s8 *)parameters + 2) >> 0x1FU) ^ 1;
 }
+}
 
 s32 validate_6x45_attack(G_ClientIDHeader *packet) {
     s16 temp_r3;
@@ -96,6 +97,7 @@ s32 validate_6x3E_stop_at_position(G_ClientIDHeader *packet) {
     }
     return vec_has_nonfinite((Vec *)((u8 *)packet + 0xC)) ? 0 : 1;
 }
+extern "C" {
 
 s32 validate_6x88_restore_shrunken_player(G_ClientIDHeader *packet) {
     return validate_subcommand_client(packet) ? 1 : 0;

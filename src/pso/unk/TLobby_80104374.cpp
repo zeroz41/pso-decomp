@@ -519,8 +519,11 @@ struct Rec_80104DAC { u8 pad0[6]; u8 b6; u8 b7; u8 b8; u8 b9; u8 bA; u8 bB; u8 b
 extern "C" {
 s32 get_actor_section_id__15TPlyPhotonChairFv(void *);
 void init__9TItemDataFv(void *);
+}
 Rec_80104DAC *find_item_combination_recipe(u8 *, void *);
+extern "C" {
 void *lookup_item_pmt_record(u8 *);
+}
 
 u8 TItemData::is_item_usable(s32 arg0, u8 *item) {
     if (TItemData::is_wrapped(item) != 0) {
@@ -533,7 +536,6 @@ u8 TItemData::is_item_usable(s32 arg0, u8 *item) {
         return (u8) (find_eligible_combination_recipe(arg0, item) != 0);
     }
     return (u8) (find_eligible_combination_recipe(arg0, item) != 0);
-}
 }
 #define o ((Obj_80104DAC *)arg0)
 s32 find_eligible_combination_recipe(s32 arg0, u8 *item) {
@@ -902,7 +904,7 @@ s32 check_equip_requirements(void *self, TItemData *p, s32 *out) {
       case 2:
         r = ((u8 *) p)[4];
       {
-        u8 lim = ((u8 (*)(u8, u8)) get_technique_learn_limit)(*((u8 *) (((u8 *) new_var2) + 0x88d)), r);
+        u8 lim = get_technique_learn_limit(*((u8 *) (((u8 *) new_var2) + 0x88d)), r);
         if ((lim == 0xff) || (lim < ((u8 *) p)[2]))
         {
           flags |= 1;

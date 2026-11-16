@@ -76,11 +76,15 @@ s32 project_actor_to_ground(void *, void *, s32);
 extern s32 registered_player_count;
 f32 atan2_float(f32 y, f32 x);
 s16 get_entity_id(void *);
+}
 void apply_actor_gravity(TObjEnemy *enemy, s32 *arg1, f32 farg0);
+extern "C" {
 s32 calc_velocity_toward_destination(void *, Vec, Vec, f32);
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
 s32 play_sound_effect(s32, void *, s32, s32);
+}
 void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
+extern "C" {
 u16 find_nearest_visible_player(void *, int, f32);
 s32 create__9TTecJelinFllll(void *, void *, void *, s32);
 s32 create_instance__9TTecZaruaFllll(void *, void *, void *, s32);
@@ -195,6 +199,7 @@ void has_flag_0x800__9TObjCharaFv();
 void test_flag30_512__9TObjCharaFv();
 void test_flag_1000__9TObjCharaFv();
 void test_flag_256__9TObjCharaFv();
+}
 
 // What movementParameters points at: EnemyMoveParams and four more words.
 struct GiGueMoveParams {
@@ -278,8 +283,6 @@ void *lbl_804E135C[83] = {
     (void *)&vfunc_76__9TObjCharaFf, (void *)&vfunc_77__9TObjCharaFv, (void *)&vfunc_78__9TObjCharaFl, (void *)&vfunc_79__15TObjEnemyCustomFPl,
     (void *)&apply_hit_message_flags__9TObjEnemyFPv, (void *)&apply_set_data__9TObjEnemyFPv, (void *)&clear_lobby_object_state__9TObjEnemyFv,
 };
-
-}
 
 void TObjEneMe1GiGue::load_params_from_table(s32 i) {
     model = (void *)TObjEneMe1GiGue__data_805D6838->models[i].model;

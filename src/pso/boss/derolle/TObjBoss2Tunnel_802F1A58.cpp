@@ -102,8 +102,10 @@ void TObjBoss2Tunnel__sub_802F2C84(void);
 void TObjBoss2Tunnel__sub_802F22DC(void);
 void TObjBoss2Tunnel__sub_802F22C4(void);
 s32 query_teammate_state__9TObjEneDDFv();
+}
 void draw_particle_effect(void *a0);
 void draw_tunnel_segment(u8 *arg0);
+extern "C" {
 void fn_802F1DAC(u8 *arg0);
 void fn_802F1E54(u8 *arg0);
 s32 reset_floats__15TObjBoss2TunnelFv(void *);
@@ -556,7 +558,6 @@ void fn_802F1DAC(u8 *arg0) {
 }
 }
 
-extern "C" {
 void draw_tunnel_segment(u8 *boss7_tunnel_col) {
     s32 var_r31;
     u8 *var_r30;
@@ -585,7 +586,6 @@ void draw_tunnel_segment(u8 *boss7_tunnel_col) {
         TParticleCtrl::end_effect_render();
         restore_draw_list_mask();
     }
-}
 }
 
 s32 TObjBoss7TunnelCol::is_in_camera_range() {

@@ -316,12 +316,14 @@ extern s32 TCameraCtrl__pose_snap_flags;
 s32 GXSetViewport(f32, f32, f32, f32, f32, f32);
 s32 GXSetScissor(int, int, int, int);
 s32 GXSetScissorBoxOffset(int, int);
+}
 s16 TCameraCtrl__viewport_size = 640;
 s16 TCameraCtrl__viewport_height = 480;
 const char *lbl_805D283C = "TCameraCtrl";
 extern s16 TCameraCtrl__viewport_x;
 extern s16 TCameraCtrl__viewport_y;
-s32 set_perspective_projection_from_fov(int, f32, f32, f32);
+void set_perspective_projection_from_fov(s32 arg0, f32 farg0, f32 farg1, f32 farg2);
+extern "C" {
 s32 get_entity_id(void *);
 s32 TCameraCtrl__sub_8006B358(void *p);
 extern void *camera_controller_registry[13];
@@ -369,6 +371,7 @@ inline void viewport_80068B34(void) {
     GXSetViewport(TCameraCtrl__viewport_x, TCameraCtrl__viewport_y, TCameraCtrl__viewport_size, TCameraCtrl__viewport_height, 0.0f, 1.0f);
     GXSetScissor(TCameraCtrl__viewport_x, TCameraCtrl__viewport_y, TCameraCtrl__viewport_size, TCameraCtrl__viewport_height);
 }
+}
 
 typedef char RecoveredGlobal_800691C8_main_task_size[sizeof(RecoveredGlobal_800691C8_main_task) == 0x34 ? 1 : -1];
 
@@ -403,7 +406,6 @@ typedef struct VObj_18_f8ef8c VObj_18_f8ef8c;
 typedef char RecoveredGlobal_80069E7C_camera_controller_registry_size[((sizeof(RecoveredGlobal_80069E7C_camera_controller_registry)) == 0x68) ? (1) : (-1)];
 typedef char RecoveredGlobal_80069E7C_TCameraCtrl__data_804FF628_size[((sizeof(RecoveredGlobal_80069E7C_TCameraCtrl__data_804FF628)) == 0xC) ? (1) : (-1)];
 #define PSO_VCALL_VObj_18_f8ef8c_m5(_self) (((VObj_18_f8ef8c *)(_self))->m5())
-}
 void reset_cameras_to_actor(void *actor, s32 arg1);
 struct O_8006A044 { u8 pad[0x1c0]; s32 shake_timer; f32 shake_amplitude; };
 

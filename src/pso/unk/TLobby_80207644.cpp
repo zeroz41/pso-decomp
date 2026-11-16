@@ -332,8 +332,11 @@ s32 memset(void *, int, int);
 void TLobby__sub_80207BB0(void);
 s32 get_current_floor();
 s32 get_game_play_mode();
+}
 s32 get_boss_warp_destination(void);
+extern "C" {
 s32 get_floor_map_terrain(s32 arg0);
+}
 struct Buf12_80207718_80207644 { s32 a, b, c; };
 
     extern int story_select_current;
@@ -350,8 +353,6 @@ s32 get_boss_warp_destination(void) {
     s32 i = TLobby::get_instance();
     s32 p = get_current_floor();
     return a.w[i][p];
-}
-
 }
 
 s32 get_floor_area(s32 floor) {

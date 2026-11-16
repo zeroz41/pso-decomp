@@ -36,7 +36,9 @@ s32 sprintf(void *, const void *, ...);
 s32 TAdMultiPlyChrSelectGC__sub_802DFFE8(s32);
 s32 TAdMultiPlyChrSelectGC__sub_802DC294(S_802DC294 *arg0, s32 arg1);
 s32 copy_selected_characters__23TAdSinglePlyChrSelectGCFPv(void *);
+}
 s32 is_multiplayer_character_slot_selected(s32 arg0);
+extern "C" {
 s32 TAdMultiPlyChrSelectGC__sub_802C6558();
 s32 TAdMultiPlyChrSelectGC__sub_802C658C(s32 arg0);
 s32 set_entry_value__22TAdMultiPlyChrSelectGCFlUl(int, int, void *);
@@ -213,7 +215,6 @@ void TAdMultiPlyChrSelectGC__sub_802DC310(void *arg0) {
         ((TAdMultiPlyChrSelectGC *)(*(s32 *)((s8 *)arg0 + 0x6C)))->set_field_1c(1);
     }
 }
-
 }
 
 u8 player_number_text_buffer[0x80];

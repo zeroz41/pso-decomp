@@ -54,19 +54,23 @@ s32 build_npc_player_record__10TNpcPlayerFl(s32);
 void send_6x24_teleport_player(u16 slot, void *pos, s32 heading);
 u8 *create_player_object(u16, s32, s32);
 s32 queue_player_injured_pose();
+}
 void set_player_quest_control_flag(TObjPlayer *player);
 
 #pragma defer_codegen on
 extern void *tl_05;
 int hashi_versus2_flag;
+extern "C" {
 
 void TObjHashiVersus2__sub_801912B0(void) { hashi_versus2_flag = 0; }
 
 void TObjHashiVersus2__sub_801912A4(void) { hashi_versus2_flag = 1; }
+}
 
 void set_player_quest_control_flag(TObjPlayer *player) {
     player->set_state_flags(0x8000);
 }
+extern "C" {
 
 void TLobby__sub_80191270(void) { npc_proximity_target_id = -1; }
 

@@ -16,6 +16,7 @@ s32 lbl_805D5D04;
 void *get_character_save_record();
 s32 memcpy(s32, void *, u16);
 s32 memset(s32, s32, s32);
+}
 
 s32 TWindowKeyBoardHard::test_card_flag(s32 arg1, s32 arg2) {
     void *character_save_record;
@@ -58,8 +59,6 @@ void TLobby::drain_deferred_packets() {
         handle_command__9TProtocolFP6packet(TLobby__protocol_instance, p);
         deferred_packet_buffer_used += n;
     }
-}
-
 }
 void copy_packet(packet *arg0) {
     s32 len;

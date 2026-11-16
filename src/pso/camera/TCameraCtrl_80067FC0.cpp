@@ -56,7 +56,9 @@ struct Cam_8006809C { u8 pad0[0x1C]; Obj_8006809C *obj; u8 pad20[0x60 - 0x20]; V
 
 extern "C" {
 Vec_8006835C *get_target__11TCameraCtrlFv(void *);
+}
 void direction_to_pitch_yaw(u8 *arg0, s32 *arg1, s32 *arg2);
+extern "C" {
 void set_viewport_scissor__11TCameraCtrlFiPv(s32, void *);
 void GXSetScissorBoxOffset(s32, s32);
 f32 vector_length(void *);
@@ -76,12 +78,11 @@ s32 matrix_mult_vec(int, void *, void *);
 s32 vec3_dot(void *, void *);
 s32 rotate_matrix_y(int, s32);
 s32 push_matrix_from(void *);
-s32 pop_matrices(int);
+}
+s32 pop_matrices(s32 arg0);
 const Vec_8006835C lbl_80438168 = {0.0f, 0.0f, -1.0f};
 const Vec_8006835C lbl_80438174 = {0.0f, 0.0f, -1.0f};
 extern u8 identity_matrix[];
-
-}
 void set_camera_look_at(u8 *eye, u8 *target, u8 *up);
 
 #pragma push

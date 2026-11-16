@@ -129,7 +129,9 @@ struct Lim_8014854C { u8 pad0[8]; s32 lim; };
 extern "C" {
 s32 approach_angle_limited(s32, s32, s32);
 f32 random_ratio__9TObjCharaFv();
+}
 void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
+extern "C" {
 void select_enemy_destination(void *, void *, s32);
 f32 horizontal_distance_squared(void *, void *);
 void vec3_add_to(void *, void *);

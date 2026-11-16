@@ -185,7 +185,9 @@ struct TObjEneDD;
 extern "C" {
 void TBoss7DeRolLeC__handle_crawfish_spawn_state(u8 *self, u32 event, s32 variant);
 void TBoss7DeRolLeC__sub_802EC994(void *p);
+}
 s32 TBoss7Joint_get_shell_max_hp(void);
+extern "C" {
 void TBoss7LaserPtcl__sub_802E8FCC(u8 *arg0, u32 arg1);
 void TBoss7LaserPtcl__sub_802ECE28(u8 *arg0);
 void TBoss7PhotonBullet__sub_802ED5A0(void *arg0, int arg1);

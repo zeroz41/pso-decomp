@@ -966,8 +966,10 @@ f32 calc_elapsed_scaled__9TObjEneDDFv(void *);
 void spawn_particle_201__8TObjFishFii(s32 arg1, s32 arg2);
 
 void TObjFish__sub_802EAAC8(u8 *arg0, u32 arg1, s32 arg2, s32 arg3);
+}
 
 void *create_particle_controller_with_angles(void *arg0, void *arg1, s32 arg2, s32 arg3, u16 arg4);
+extern "C" {
 
 void fn_802EC52C(s32 arg0, s32 arg1);
 
@@ -1258,13 +1260,13 @@ extern RecoveredGlobal_802EC468_lbl_804FF5E8 lbl_804FF5E8;
 struct Boss_802E83E8 { u8 pad[0x728]; s32 timer; s32 count; u8 pad730[0x7CC - 0x730]; u16 targets[4]; };
 
 void *TBoss7TentacleNeedle__ct(void *o, void *boss, void *pos);
+}
 
 struct Fish_802ECBDC;
 
 struct Fish_802ECC44;
 
 struct Fish_802E8AD4;
-}
 void calc_laser_ray_hit_point(u8 *arg0, u8 *arg1);
 
 void *create_timed_particle_emitter_with_flags(void *pos, s32 id, s32 a, s32 b, s32 c);
@@ -1278,15 +1280,15 @@ void handle_6xA9_barba_ray_boss_actions(void *arg0);
 struct Boss_802ECE90 { u8 pad[0x530]; Vec pads[16]; u8 pad5F0[0x690 - 0x5F0]; u8 nodes[0x6C0 - 0x690]; s32 mode; };
 
 struct Vec_802ED3E4 { f32 x, y, z; };
-extern "C" {
 void compose_motion_node_matrix(void *arg0);
+extern "C" {
 
 s32 scale_matrix(int, f32, f32, f32);
+}
 
 extern u8 identity_matrix[];
 
 s32 TBoss7Joint_get_shell_max_hp(void);
-}
 
 #undef set_state_and_send__14TBoss7DeRolLeCFl
 #undef TObjFish__sub_802E7B40

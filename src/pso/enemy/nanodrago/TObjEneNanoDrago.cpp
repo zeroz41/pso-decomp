@@ -37,7 +37,7 @@ extern "C" s32 scale_matrix(int, f32, f32, f32);
 extern "C" s32 translate_matrix(int, f32, f32, f32);
 extern "C" Mtx34 identity_matrix;
 extern "C" s32 registered_player_count;
-extern "C" void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
+void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
 extern "C" s32 lbl_805D5870;
 extern "C" f32 atan2_float(f32, f32);
 extern "C" void vec3_add_to(void *, void *);
@@ -73,7 +73,7 @@ typedef char NanoDrago_speed_offset[offsetof(TObjEneNanoDrago, speed) == 0x3d8 ?
 typedef char NanoDrago_toggle_offset[offsetof(TObjEneNanoDrago, alternateBeam) == 0x3e0 ? 1 : -1];
 
 extern "C" u16 find_nearest_visible_player(void *, s32, f32);
-extern "C" void apply_actor_gravity(TObjEnemy *enemy, s32 *arg1, f32 farg0);
+void apply_actor_gravity(TObjEnemy *enemy, s32 *arg1, f32 farg0);
 extern "C" f32 atan2_float(f32 y, f32 x);
 extern "C" void check_enemy_body_collisions(void *arg0);
 

@@ -121,11 +121,13 @@ struct Node_800AA82C { u32 flags; u8 pad[0x30 - 4]; s32 f30; };
 
 struct Desc_800AA82C { s32 a; void *b; s32 c; s32 d; };
 
-extern "C" {
 void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
+extern "C" {
 s32 check_path_obstructed(void *, void *);
 s32 TObjPlayer__sub_800AAF98(void *, s32);
+}
 void apply_actor_gravity(TObjEnemy *arg0, s32 *arg1, f32 farg0);
+extern "C" {
 s32 __ct__13TUnk_80491460FPvlll(void *, void *, s32, void *, s32);
 s32 render_anim_model_at_pos__15TObjEnemyCustomFv();
 void *__nw__7TObjectFUl(int);
@@ -146,10 +148,12 @@ AnimationMotion *get_bml_motion(BmlResource *resource, s32 index);
 void *load_resource_from_descriptor(void *, int, void *, int, int, int);
 void TObjPlayer__sub_800A4294(void);
 s32 load_enemy_bml_resource_named(s32 arg0, s32 arg1);
+}
 u8 *load_gvm_texture_file(s32 arg0);
 Node_800AA82C *lbl_805D509C;
 Node_800AA82C *lbl_805D50A0;
 void *breakup_model_ptr;
+extern "C" {
 void TObjPlayer__sub_800AA82C(void);
 }
 #define CAT2(a, b) a##b
@@ -875,7 +879,7 @@ extern "C" void TObjPlayer__sub_800A9C38(void *arg0_) {
             *(s32 *)((s8 *)arg0 + 0x37C) = -1;
         } else {
             *(s16 *)((s8 *)arg0 + 0xB8) = 3;
-            enemy_set_heading_velocity(-7.0f, (TObjEnemy *)arg0, (s32)(*(s32 *)((s8 *)arg0 + 0x60)));
+            enemy_set_heading_velocity(-7.0f, (TObjEnemy *)arg0, (*(s32 *)((s8 *)arg0 + 0x60)));
             *(s32 *)((s8 *)arg0 + 0x37C) = 1;
             play_sound_effect(((TObjEnemy *)(arg0))->remap_sound_for_area(0x4003A806), arg0 + 0x38, 0, 0);
             *(s32 *)((s8 *)arg0 + 0x3CC) = TObjPlayer__sub_800AAF98(arg0, 2);

@@ -69,10 +69,12 @@ void TLobby::init_layout_positions() {
     TLobby::reset_global();
 }
 s32 OSSetSoundMode(int);
+}
 extern SndEnt_8022675C lbl_805145F0[];
 extern const u32 lbl_805DC748;
 extern s32 lbl_805D62B0;
-int release_sound_with_fade(void *p);
+void release_sound_with_fade(s32 slot);
+extern "C" {
 void stop_sound_request(s32 idx);
 u32 OSGetSoundMode();
 int TLobby__sub_80227D38(void);
@@ -123,7 +125,7 @@ void TTecRaFoie::update_technique_slot(s32 arg0) {
 
 void stop_sound_request(s32 idx) {
     if (lbl_805D62B0 != 0 && idx >= 0 && idx < 0x28) {
-        release_sound_with_fade((void *)idx);
+        release_sound_with_fade(idx);
         lbl_805145F0[idx].flags &= lbl_805DC748;
         lbl_805145F0[idx].prio = 0;
         lbl_805145F0[idx].src = 0;
@@ -186,7 +188,9 @@ void TLobby__sub_8022644C(void) {
         lbl_805145F0[i].src = 0;
     }
 }
+}
 s32 check_sound_admission_range(const Vec *pos);
+extern "C" {
 s32 fn_802264B8(s32 slot, s32) {
     s32 r;
     if (lbl_805145F0[slot].flags & 0x2000) {
@@ -251,7 +255,7 @@ s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags) {
             e->src = (Vec_8022675C *)src;
             e->x1a = a3;
             e->prio = 5;
-            idx = normalize_sound_request(id, e->x1c, (s32)e->src, e->x1a, flags);
+            idx = normalize_sound_request((u32)id, (s32)e->x1c, (s32)e->src, (s32)e->x1a, (s32)flags);
         }
         return idx;
     }
@@ -318,5 +322,4 @@ s32 play_sound_effect(s32 id, Vec_8022675C *src, s32 a2, s32 flags) {
     }
     return -1;
 }
-
 }

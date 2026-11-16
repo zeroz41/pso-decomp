@@ -32,7 +32,9 @@ void debug_printf_at(s32 id, const char *fmt, ...);
 f32 vec3_dot(const struct Vec *a, const struct Vec *b);
 // out = a x b; returns |out| (hand-written assembly, estimate precision).
 f32 vec3_cross(const struct Vec *a, const struct Vec *b, struct Vec *out);
+}
 void rotate_matrix_zyx(void *m, s32 x, s32 y, s32 z);
+extern "C" {
 // vsprintf into a 128-byte buffer queued as debug text at pos.
 void debug_printf_at(s32 pos, const char *format, ...);
 }

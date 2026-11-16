@@ -70,12 +70,12 @@ s32 minimap_render_dot(void *, int, int, int);
 s32 vec3_add_to(void *, void *);
 s32 rotate_matrix_y(int, int);
 s32 subtract_vector(void *, void *);
+}
 extern Vec scratch_vec;
 extern Vec lbl_8050BF00;
 extern u8 identity_matrix[];
 
 void apply_actor_gravity(TObjEnemy *enemy, s32 *arg1, f32 farg0);
-}
 void move_with_wall_slide(u8 *arg0);
 extern "C" {
 s32 obj_setFlags30(void *, s32);

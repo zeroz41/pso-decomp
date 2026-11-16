@@ -223,8 +223,8 @@ struct Cfg_80198F14 { f32 f0; f32 f4; f32 f8; s32 fC; u8 pad10[2]; s16 f12; u8 p
 struct Pair_80198F14 { s32 a; s32 b; };
 extern "C" {
 void *load_resource_from_descriptor(void *, int, void *, int, int, int);
-u8 *load_gvm_texture_file(s32 arg0);
 }
+u8 *load_gvm_texture_file(s32 arg0);
 struct ByteBlock_C { u8 bytes[0xc]; };
 struct RecoveredGlobal_80199470_lbl_8050DDAC {
     s32 value;

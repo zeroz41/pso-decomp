@@ -137,8 +137,8 @@ extern "C" {
 void TObjPlayer__sub_800A4294(void);
 s32 TObjPlayer__sub_800A7774(void *, void *);
 void sub_800A435C__12TObjEneSaverFv(u8 *arg0);
-void apply_actor_gravity(TObjEnemy *arg0, s32 *arg1, f32 farg0);
 }
+void apply_actor_gravity(TObjEnemy *arg0, s32 *arg1, f32 farg0);
 void move_with_wall_slide(u8 *arg0);
 extern "C" {
 s32 TObjPlayer__sub_800A04F0(void *);
@@ -673,7 +673,9 @@ s32 copy_position_if_valid__10TObjPlayerFii(s32 arg0, s32 arg1);
 f32 horizontal_distance_squared(int, void *);
 
 void update_move_toward_target__12TObjEneSaverFv(u8 *arg0);
+}
 void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
+extern "C" {
 s32 calc_velocity_toward_destination(void *, Vec_800A5DC4, Vec_800A5DC4, f32);
 s32 get_current_floor();
 s32 get_floor__10TObjPlayerFv(void *);
@@ -1180,6 +1182,7 @@ void TObjPlayer__sub_800A5960(void *arg0) {
         }
     }
 }
+}
 
 void TObjEneSaver::vfunc_60() {
     Obj_800A5A68 *self = (Obj_800A5A68 *)this;
@@ -1361,8 +1364,6 @@ void TObjEneSaver::advance_motion_state() {
         this->m_374 = (s32) (this->m_374 | 2);
         break;
     }
-}
-
 }
 
 #undef turn_toward_target__12TObjEneSaverFv

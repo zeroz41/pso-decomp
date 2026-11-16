@@ -178,7 +178,9 @@ extern s32 __vt__16TODoorLaboNormal[];
 extern s32 __vt__10TODoorLabo[];
 Self_8029F7E0 *TODoorLaboNormal__ct(Self_8029F7E0 *self, void *parent, s32 arg);
 s32 load_resource_from_descriptor(s32, int, void *, int, int, int);
+}
 u8 *load_gvm_texture_file(s32 arg0);
+extern "C" {
 s32 get_bml_model(BmlResource *resource, s32 index);
 Door_8029FAE4 *TODoorLabo__ct(Door_8029FAE4 *arg0, void *parent, s32 arg);
 void free_bin_model_request(void*, int);

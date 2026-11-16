@@ -154,15 +154,16 @@ struct Door_8029B428 : VObj_8029B428 {
     s32 count;
 };
 
-extern "C" {
-
 u32 TODoorJungleMain__bml_resource;
 
 u32 door_jungle_main_gvm_texture;
+extern "C" {
 
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
+}
 
 u8 * load_gvm_texture_file(s32);
+extern "C" {
 
 s32 get_bml_motion(void *, s32);
 
@@ -183,7 +184,6 @@ int post_translate_matrix(void *);
 void *set_global_param__8TObjFishFl(void *);
 
 s32 draw_ginja_model_with_motion(void *, int, f32);
-
 }
 
 struct Door_8029B524 {

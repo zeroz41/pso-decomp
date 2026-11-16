@@ -193,7 +193,9 @@ s32 mem_alloc(s32);
 u8 *create_ballistic_particle(u8 *arg0, u8 *arg1, u8 *arg2, s32 arg3, u16 arg4, s16 arg5);
 u8 *create_orbit_particle(u8 *arg0, u8 *arg1, u8 *arg2, s32 arg3, u16 arg4, s16 arg5);
 void *load_resource_from_descriptor(void *, int, void *, int, int, int);
+}
 u8 *load_gvm_texture_file(s32 arg0);
+extern "C" {
 int sprintf(char *, const char *, ...);
 char *strcpy(char *, const char *);
 void *memset(void *, int, u32);
@@ -630,6 +632,7 @@ void set_particle_tint_color(u8 *arg0, void *arg1) {
 }
 
 void set_particle_draw_scale(void* p, f32 a, f32 b) { *(f32*)((char*)p + 0xa4) = a; *(f32*)((char*)p + 0xa8) = b; }
+}
 
 void TParticleCtrl::free_system() { mem_free((void *)particle_global_entry_table); particle_global_entry_table = 0; }
 void TParticleCtrl::free_all() {
@@ -658,7 +661,6 @@ s32 TParticleCtrl::get_particle_by_index(s32 arg0) {
         return particle_area_entry_table + ((arg0 - 0x200) * 0x98);
     }
     return (*(s32 *)&particle_global_entry_table) + (arg0 * 0x98);
-}
 }
 void load_particle_entry_resources(void);
 extern char lbl_80439494[];

@@ -92,8 +92,10 @@ s32 play_sound_effect(s32, void *, s32, s32);
 void play_weapon_owner_sounds(Ctx_8011C7C8 *c);
 void play_weapon_hit_sound(Ctx_8011C7C8 *c);
 u16 get_entity_id(void *);
+}
 extern s32 weapon_special_roll_channel_table[];
 Rule_8011C0B8 *find_item_combination_recipe(u8 *id, void *item);
+extern "C" {
 void play_shield_sound_cue(Obj_8011C59C *arg0);
 void *get_item_pmt_record__10TObjPlayerFii(u8, u8);
 void *get_armor_pmt_record(u8, u8);

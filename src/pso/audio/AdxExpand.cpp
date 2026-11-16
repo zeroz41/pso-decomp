@@ -150,7 +150,7 @@ Ch_803CB5C4 *adx_allocate_decoder_channel(void) {
     c->id = i;
     c->f8 = 0;
     c->fC = 0;
-    calc_adx_predictor_coeffs((s32)((void *)500), (s32)((void *)44100), (s16 *)&c->c0, (s16 *)&c->c1);
+    calc_adx_predictor_coeffs((s32)((void *)500), (s32)((void *)44100), (s16 *)((s16 *)&c->c0), (s16 *)((s16 *)&c->c1));
     memset(c->f28, 0, 8);
     return c;
 }

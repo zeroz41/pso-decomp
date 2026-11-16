@@ -92,7 +92,9 @@ extern s32 model_render_flags;
 void render__8TObjDoorFPv(Door_8018E40C *arg0);
 s32 draw_closed__8TObjDoorFPv(Door_8018E5F4 *arg0);
 u8 *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
+}
 u8 *load_gvm_texture_file(s32 arg0);
+extern "C" {
 s32 get_bml_model(s32, s32);
 s32 get_bml_motion(s32, s32);
 s32 draw_locked__8TObjDoorFPv(Door_8018E74C *arg0);

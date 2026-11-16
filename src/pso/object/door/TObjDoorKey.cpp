@@ -118,7 +118,9 @@ extern "C" {
 void debug_draw_key_id__5TOKeyFv();
 s32 get_bml_model(s32, int);
 s32 load_resource_from_descriptor(s32, int, void *, int, int, int);
+}
 u8 *load_gvm_texture_file(s32 arg0);
+extern "C" {
 void scroll_ginja_mesh_uvs(void *, int, int, int, int);
 void PPCSync();
 void push_matrix();
@@ -138,6 +140,7 @@ void TObjDoorKey__sub_8018FAEC(u16 id, u16) {
     if (temp_r3 != NULL) {
         *(s32 *)((s8 *)temp_r3 + 0xE8) = 1;
     }
+}
 }
 
 
@@ -261,8 +264,6 @@ void TObjDoorKey::update_armed_switch() { TOKey::update_armed_switch(); }
 void TObjDoorKey::run_task() {
     struct VObj_8018FF74_8018FAEC *o = (struct VObj_8018FF74_8018FAEC *)this;
     o->m22();
-}
-
 }
 TObjDoorKey::~TObjDoorKey() {
     this->unregister_object_by_id();

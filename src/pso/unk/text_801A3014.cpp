@@ -116,16 +116,20 @@ struct PV_801A39BC : PVB_801A39BC {
 extern "C" {
 s32 is_split_screen(void);
 s32 TLobby__sub_801A3B98();
-s32 run_area_scene_cleanup(void *);
+}
+void run_area_scene_cleanup(u8 *arg0);
 extern RecoveredGlobal_801A3540_lbl_804C1F68 offline_game_scene_callbacks;
 extern RecoveredGlobal_801A3540_lbl_80515BA0 lbl_80515BA0;
+extern "C" {
 void __dt__7TObjectFv(void *, int);
 s32 get_current_floor();
 void find_leader_section_id(void *, s32);
 void unlock_main_warp_destination(s32);
 void reset_controller_input_state();
 void load_area_scene_and_init(void *);
-void promote_area_floor(void *);
+}
+void promote_area_floor(u8 *arg0);
+extern "C" {
 void __ct__7TObjectFP7TObject(void *, void *);
 s32 is_area_transfer_pending();
 s32 apply_phase_keyboard_mode();
@@ -136,7 +140,9 @@ s32 for_each_player_slot__10TObjPlayerFv(void *);
 s32 rebuild_player_inventory(void *);
 s32 TLobby__sub_80207E48();
 s32 get_team_state__6TLobbyFPv();
-s32 clear_floor_population();
+}
+void clear_floor_population(void);
+extern "C" {
 s32 get_game_play_mode();
 s32 TKeyBoardControl__sub_8000F95C();
 s32 clear_keyboard_key_state();
@@ -223,7 +229,7 @@ void TLobby::reload_offline_area() {
     }
     TLobby::reset_quest_state();
     main_task.delete_layer_children();
-    promote_area_floor(&lbl_80515BA0);
+    promote_area_floor((u8 *)&lbl_80515BA0);
     TLobby::backup_story_select();
     TKeyBoardControl::update();
     get_team_state__6TLobbyFPv();
@@ -281,7 +287,7 @@ void TLobby::rebuild_area_keep_players() {
         }
     }
     main_task.delete_layer_children();
-    promote_area_floor(&lbl_80515BA0);
+    promote_area_floor((u8 *)&lbl_80515BA0);
     TLobby::sync_story_select();
     TAdStorySelectGC::set_state(0);
     TKeyBoardControl::update();
@@ -353,7 +359,7 @@ void run_offline_area_transfer(void) {
         }
     }
     main_task.delete_layer_children();
-    promote_area_floor(&lbl_80515BA0.value);
+    promote_area_floor((u8 *)&lbl_80515BA0.value);
     TKeyBoardControl::update();
     TLobby::create_map_csn_ctrl();
     TParticleCtrl::create_quad_sprites();
@@ -391,7 +397,7 @@ void TLobby::teardown_scene() {
     main_task.delete_layer_children();
     main_task.resume_layers();
     ((TObject *)tl_su)->delete_children();
-    run_area_scene_cleanup(&lbl_80515BA0.value);
+    run_area_scene_cleanup((u8 *)&lbl_80515BA0.value);
     TLobby::call_funcs_reverse(&offline_game_scene_callbacks.value, 0x180);
     clear_resource_load_tasks();
     TKeyBoardControl::update();

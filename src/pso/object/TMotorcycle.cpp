@@ -34,7 +34,9 @@ s32 draw_ginja_object();
 u32 TMotorcycle__bml_resource;
 u32 TMotorcycle__texture_list;
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
+}
 u8 * load_gvm_texture_file(s32);
+extern "C" {
 s32 init_collision_body_parts(void *, void *, int);
 void *TObjMesBase__ct(TObjMesBase *arg0, s32 arg1, s32 arg2);
 extern const s32 lbl_80445DF4[];
@@ -148,5 +150,4 @@ void *TMotorcycle__ct(void *arg0, void *arg1, void *arg2) {
     ((TObjPlayer *)arg0)->register_object_by_id();
     return arg0;
 }
-
 }

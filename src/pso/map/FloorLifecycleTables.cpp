@@ -144,8 +144,8 @@ void TLanguage__sub_802A0204();
 void fn_8030B7B4();
 void fn_8030B7B8();
 void load_lobby_butterfly_bml_resource();
-void load_labo_design_object_table();
 }
+void load_labo_design_object_table();
 void load_forest_box_resources();
 void load_chat_sensor();
 void load_turiten_singo_resources();

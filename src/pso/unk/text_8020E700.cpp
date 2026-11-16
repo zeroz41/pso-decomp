@@ -255,7 +255,6 @@ void TLobby::set_shop_armor_list_flag(int a0, int a1) { lbl_805D615C = a1; gener
 
 #include "pso/unk/text_8020ED44.h"
 
-extern "C" {
 void generate_armor_shop_stock(s32 arg0) {
     if (lbl_805D6158 != NULL) {
         if (shop_armor_stock_generated_flags[arg0] == 0) {
@@ -267,9 +266,11 @@ void generate_armor_shop_stock(s32 arg0) {
         }
     }
 }
+extern "C" {
 
 // ---- pso/unk/TLobby_8020EDBC
 void mem_free(void *p);
+}
 
 void TLobby::free_rocks() {
     s32 var_r28 = 3;
@@ -289,8 +290,6 @@ void TLobby::free_rocks() {
         TLobby::free_nodes_with_id((u32)lbl_805D6158);
         lbl_805D6158 = (Tbl_8020E934 **)var_r30;
     }
-}
-
 }
 
 // ---- pso/unk/text_8020EE2C

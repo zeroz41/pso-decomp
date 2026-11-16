@@ -60,7 +60,9 @@ void *__ct__14TAdSelectCurGCFv(void *, void *, void *, void *);
 void *__ct__13TAdGuideTxtGCFv(void *, void *);
 extern void *__vt__21TAdMultiChgGameModeGC[];
 Obj_802FFE58 *__ct__21TAdMultiChgGameModeGCFv(Obj_802FFE58 *self);
+}
 s32 is_multiplayer_character_slot_selected(s32 arg0);
+extern "C" {
 s32 TAdMultiPlyChrSelectGC__sub_802C658C(s32 arg0);
 const char *TAdMultiChgGameModeGC__name = "TAdMultiChgGameModeGC";
 
@@ -189,5 +191,4 @@ Obj_802FFE58 *__ct__21TAdMultiChgGameModeGCFv(Obj_802FFE58 *self) {
     create_draw_line_ctrl__13TAdMcSelectGCFiif((s32)self, 0xF, 0.0f);
     return self;
 }
-
 }

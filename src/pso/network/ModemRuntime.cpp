@@ -166,7 +166,9 @@ static ModemRecvState modem_recv_state;
 s32 TAdSinglePlyChrSelectGC__sub_8042E184(void);
 unsigned long strlen(const char *);
 int memcmp(const void *, const void *, unsigned long);
+}
 s32 modem_wait_ok_or_error(void);
+extern "C" {
 void TAdSinglePlyChrSelectGC__sub_8042D604(void);
 void TAdSinglePlyChrSelectGC__sub_8042E488(s32 value);
 
@@ -204,7 +206,9 @@ static OSResetFunctionInfo modem_reset_function_info = {
 
 void TAdSinglePlyChrSelectGC__sub_8042BF6C(s32 length);
 void TAdSinglePlyChrSelectGC__sub_8042C124(s32 chan, OSContext *context);
+}
 void parse_modem_command_response(void);
+extern "C" {
 void TAdSinglePlyChrSelectGC__sub_8042DF4C(s32 chan, OSContext *context);
 
 // Modem register access over EXI channel 0, device 2: a read sends the register number in the
@@ -430,6 +434,7 @@ void TAdSinglePlyChrSelectGC__sub_8042C2E4(s32 chan, OSContext *context) {
         }
     }
 }
+}
 
 void parse_modem_command_response(void) {
     u8 *p;
@@ -563,6 +568,7 @@ s32 modem_wait_ok_or_error(void) {
         }
     }
 }
+extern "C" {
 
 s32 TAdSinglePlyChrSelectGC__sub_8042CEF8(char *country)
 {
@@ -1181,5 +1187,4 @@ block_5:
 s32 fn_8042E8B8(void) {
     return 0x80003100;
 }
-
 }

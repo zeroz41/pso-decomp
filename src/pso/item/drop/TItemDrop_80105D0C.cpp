@@ -16,7 +16,6 @@ struct Item_80105EA4 { u8 type; u8 b1; u8 b2; };
 
 struct Names_80105DB0 { char *n[4]; };
 
-extern "C" {
 s32 TItemDrop__relocatable_load_buffer;
 s32 TItemDrop__second_relocatable_load_buffer;
 void *TItemDrop__common_probability_table;
@@ -25,6 +24,7 @@ u8 *TItemDrop__unit_star_classes;
 u8 *TItemDrop__unit_star_bucket_counts;
 s32 TItemDrop__drop_table_mode_flags;
 s32 TItemDrop__section_id;
+extern "C" {
 
 s32 get_game_play_mode();
 s32 get_drop_table_mode_flags(void);
@@ -50,7 +50,9 @@ extern s32 game_difficulty_selection;
 void format_drop_table_filename(void *out, s32 arg1);
 u32 roll_channel_below__9TItemDropFPviUi(u8 *arg0, s32 count, u32 arg2);
 void *lookup_item_pmt_record(u8 *item);
+}
 void init_item_drop_globals(void);
+extern "C" {
 u8 is_enabled__9TItemDropFv(void);
 u8 is_not_special__9TItemDropFv(void);
 s8 select_weighted_byte__9TItemDropFiiiii(s32, s32, s32, s32, s32);

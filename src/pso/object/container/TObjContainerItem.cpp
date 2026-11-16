@@ -305,26 +305,30 @@ extern BmlResource *container_breakup_model_archive;
 extern s32 lbl_805D5B8C;
 extern const f32 lbl_805DBCF8;
 u32 init_collision_body_parts(void *, void *, s32);
+}
 u8 *load_gvm_texture_file(s32 arg0);
 extern s32 local_client_id;
 extern const f32 lbl_805DBCF4;
+extern "C" {
 u8 *__ct__8TObjChipFP7TObjectPC14TObjChipParams(u8 *arg0, u8 *arg1, u8 *arg2);
 s32 dispatch_fish_event__6TLobbyFPv(void *a0);
 void *__nw__7TObjectFUl(int);
 s32 release_texture_list(void*);
 s32 free_collision_body_parts(void *);
+}
 s32 get_container_param(s32 index);
 extern TObjChipParams *lbl_805D5B80;
 extern TObjChipParams *lbl_805D5B84;
 extern BmlResource *lbl_805D5B78;
 extern const f32 lbl_805DBCFC;
 extern const f32 lbl_805DBD0C;
+extern "C" {
 s32 request_box_item_drop__9TObjCharaFPvs(s32, void *, s32, void *);
+}
 extern const f32 lbl_805DBCF0;
 extern const f32 lbl_805DBD00;
 extern const f32 lbl_805DBD04;
 extern const f32 lbl_805DBD08;
-}
 
 // ---- TObjComputer
 
@@ -375,7 +379,7 @@ void load_forest_box_resources(void) {
             bundle = load_resource_from_descriptor(bundle, 5, &fe_obj_hako01_hahen02_resource_descriptor, 0, 0, 0);
         }
         lbl_805D5B78 = (BmlResource *)bundle;
-        lbl_805D5B7C = TLobby::is_online_ready() != 0 ? (s32)load_gvm_texture_file((s32)forest_box_texture_filename_a) : (s32)load_gvm_texture_file((s32)forest_box_texture_filename_n);
+        lbl_805D5B7C = TLobby::is_online_ready() != 0 ? (s32)load_gvm_texture_file((s32)forest_box_texture_filename_a) : (s32)load_gvm_texture_file((s32)((s32)forest_box_texture_filename_n));
         lbl_805D5B80 = &forest_box_break_params[0];
         lbl_805D5B84 = &forest_box_break_params[1];
         break;

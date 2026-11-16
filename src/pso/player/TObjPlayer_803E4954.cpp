@@ -16,16 +16,20 @@ struct Node_803E49FC {
 
 extern "C" {
 s32 setup_model_draw_state__10TObjPlayerFPv();
+}
 struct B_803E4BDC { u8 pad[0x28]; s32 f28; };
 void draw_motion_tree(NJS_OBJECT *model, NJS_MOTION *motion, f32 frame, ModelDrawCallback draw_model);
 extern s32 motion_angle_sampler_table[];
 extern B_803E4BDC *current_motion_context;
+extern "C" {
 void draw_model_motion(void *arg0, void *arg1, f32 farg0);
+}
 void draw_chunk_model_with_shape_motion(void *arg0, void *arg1, NJS_MOTION *arg2, f32 farg0);
+extern "C" {
 s32 push_matrix();
 s32 pop_matrix();
-void compose_motion_node_matrix(void *arg0);
 }
+void compose_motion_node_matrix(void *arg0);
 void select_motion_context(s32 arg0);
 void draw_model_blend_motion(void *arg0, void *arg1, f32 farg0);
 extern RecoveredCallback_1268626c296b chunk_model_node_callback;

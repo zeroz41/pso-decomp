@@ -232,13 +232,17 @@ void __ct__13TUnk_804CCC68FlPUcPUcl();
 u8 *TTecMegid__ct(TTecMegid *arg0, s32 _w1, s32 _w2, s32 _w3, s32 _w4);
 void construct_facing_technique__10TObjPlayerFPviPvii();
 s32 play_sound_effect(s32, s32, s32, s32);
+}
 u32 get_technique_caster_flags(s32 technique, u16 actor);
+extern "C" {
 void TTecMegid__vt6(Obj_80235490 *self, VObj_80235490 *target);
 void *find_entity_by_id(u16);
 s32 push_matrix_from(void *src);
 void rotate_matrix_y(s32, s32);
 void matrix_mult_vec(s32, Vec_80235740 *, Vec_80235740 *);
+}
 s32 pop_matrices(s32 arg0);
+extern "C" {
 void dispatch_technique_contact__13TUnk_804CCC68Fv(Obj_80235740 *, s32);
 extern u8 identity_matrix[];
 void run_task__9TTecMegidFv(Obj_80235740 *self);
@@ -480,6 +484,7 @@ u8 *TTecMegid__ct(TTecMegid *tec_megid, s32 _w1, s32 _w2, s32 _w3, s32 _w4) {
     }
     return (u8 *)tec_megid;
 }
+}
 
 u8 *TTecMegid::construct_facing(s32 _w1, s32 _w2, s32 _w3, s32 _w4) {
     u8 *arg0 = (u8 *)this;
@@ -506,8 +511,6 @@ void TUnk_804CCA78::run_task() {
     if ((s16) this->m_1e > (s16) *(s16 *)&this->unk_1C) {
         queue_destruction();
     }
-}
-
 }
 
 // ---- pso/unk/text_80235A20

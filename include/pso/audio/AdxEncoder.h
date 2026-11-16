@@ -27,9 +27,9 @@ typedef struct S_803C6138 {
     u8 *f84;
 } S_803C6138;
 
-extern "C" {
 // Defined in TLobby_803C4698.cpp: predictor coefficients for a high-pass cutoff at a sample rate.
 void calc_adx_predictor_coeffs(s32 cutoff, s32 rate, s16 *k0, s16 *k1);
+extern "C" {
 void TLobby__sub_803C5E78(void);
 void adx_process_encoder_output(u8 *arg0p);
 void TLobby__sub_803C60F0(u8 *arg0, s32 arg1, s32 arg2, s32 arg3);

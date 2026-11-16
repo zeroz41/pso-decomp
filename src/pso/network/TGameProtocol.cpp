@@ -45,7 +45,7 @@ void handle_6x05_write_switch_flag(void *arg0);
 void handle_6x06_send_guild_card(s32 arg0);
 extern "C" void handle_6x07_symbol_chat();
 extern "C" void handle_6x0A_update_enemy_state();
-extern "C" void handle_6x0B_update_object_state(G_UpdateObjectState_6x0B *packet);
+void handle_6x0B_update_object_state(G_UpdateObjectState_6x0B *packet);
 extern "C" void handle_6x0C_add_or_remove_status_effect(void *arg0);
 extern "C" void handle_6x0D_add_or_remove_status_effect(void *arg0);
 extern "C" void handle_6x0E_clear_negative_status_effects(s32 arg0);

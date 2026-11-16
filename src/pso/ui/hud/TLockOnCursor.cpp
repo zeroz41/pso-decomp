@@ -71,9 +71,11 @@ s32 lock_on_cursor_model;
 s32 TLockOnCursor__target_cursor_model;
 s32 get_bml_model(void *, s32);
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
+}
 extern RecoveredGlobal_8013DC38_lbl_804A7140 target_cursor_resource_descriptor;
 s32 main_cursor_model;
 void load_target_cursor_models(void);
+extern "C" {
 Obj_8013DCCC *release_target__13TLockOnCursorFv(void *);
 Obj_8013DCCC *cleanup_field__13TLockOnCursorFv(void *);
 Obj_8013DCCC *cleanup_field_3c__13TLockOnCursorFv(void *);
@@ -85,7 +87,9 @@ extern s32 __vt__13TLockOnCursor[];
 s32 init_lockon__14TLOC_ListClearFv(s32, s32, s32);
 s32 init_vtable__8TLOC_EndFv(s32, s32, s32);
 s32 init__10TLOC_StartFv(s32, s32, s32);
+}
 void reset_nearest_target_record(void *);
+extern "C" {
 s32 get_target_id__13TLockOnCursorFv(s32);
 void TLockOnCursor__sub_8013EC1C(void *);
 s32 __nw__7TObjectFUl(s32);
@@ -150,6 +154,7 @@ void render__13TLockOnCursorFv(s32 arg0) {
             }
         }
     }
+}
 }
 #pragma pop
 
@@ -223,8 +228,6 @@ void load_target_cursor_models(void) {
             main_cursor_model = get_bml_model(lock_on_cursor_bml_resource, 2);
         }
     }
-}
-
 }
 TLockOnCursor::~TLockOnCursor() {
     Obj_8013DCCC *p;
@@ -386,6 +389,7 @@ void TMainCursor__sub_8013E1C0(void* p, s32 v) { *(s32*)((char*)p + 0x4) = v; }
 extern "C" {
 
 int TObjPlayer__sub_8013A820(void* a0 = 0);
+}
 extern const f32 TMainCursor__data_805DB0C0;
 extern const f32 lbl_805DB0C4;
 extern s32 main_cursor_model;
@@ -406,6 +410,7 @@ void reset_nearest_target_record(void *p) {
 }
 
 void TMainCursor::set_sub_cursor_value(s32 a1) { TMainCursor__sub_8013E290((void*)((char*)this + 0x3c), a1); }
+extern "C" {
 void TMainCursor__sub_8013E290(void* p, s32 v) { *(s32*)((char*)p + 0x0) = v; }
 s16 TMainCursor__sub_8013E298(void* p) { return *(s16*)((char*)p + 0x0); }
 s32 TMainCursor__sub_8013E2A0(void* p) { return *(s32*)((char*)p + 0x0); }
@@ -444,7 +449,6 @@ int TMainCursor::is_same_target(void *b) {
 int TMainCursor__sub_8013E40C(TMainCursor *main_cursor, u16 arg1) {
     return (u8) (arg1 == main_cursor->get_id());
 }
-
 }
 
 void*TMainCursor::get_list() { return (char*)this + 0xc; }

@@ -43,20 +43,19 @@ const char *TAdSEGAlogo__class_name = "TAdSEGAlogo";
 
 struct Obj_8001BFCC { u8 pad[0x1c]; s32 f1c; };
 
-extern "C" {
 int render_logo_with_default(void *p, int a1, int a2, f32 a3);
 extern void* logo_texture_e_handle;
 extern int TAdSEGAlogo__state;
 extern void *tl_00;
+extern "C" {
 void *__nw__7TObjectFUl(u32 size);
 int queue_destruction__7TObjectFv(void);
+}
 
     extern int sega_logo_done_flag;
 void TAdSEGAlogo::destroy_and_mark_done() { queue_destruction__7TObjectFv(); sega_logo_done_flag = 1; }
 
 void TAdSEGAlogo::request_destroy() { queue_destruction__7TObjectFv(); TAdSEGAlogo__state = 1; }
-
-}
 
 void TAdSEGAlogo::render() {
     render_logo_with_default(logo_texture_e_handle, 8, -1, -150.0f);

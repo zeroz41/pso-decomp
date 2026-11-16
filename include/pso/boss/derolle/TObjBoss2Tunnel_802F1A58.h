@@ -15,7 +15,9 @@ void TObjBoss2Tunnel__sub_802F2C4C(void);
 void TObjBoss2Tunnel__sub_802F2C50(void);
 void TObjBoss2Tunnel__sub_802F2C84(void);
 void *TObjBoss7TunnelCol__ct(void *arg0, TObject *parent);
+}
 void draw_tunnel_segment(u8 *boss7_tunnel_col);
+extern "C" {
 void fn_802F1DAC(u8 *arg0);
 void fn_802F1E54(u8 *arg0);
 }

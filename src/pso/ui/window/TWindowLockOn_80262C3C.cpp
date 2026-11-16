@@ -151,7 +151,9 @@ s32 get_window_layout_position(int);
 s32 obj_testFlag_2E4__9TObjCharaFUl(TObjChara *, int);
 s32 is_split_screen(void);
 s32 get_message_10__20TWindowSubStatusDispFl(int);
-s32 enemy_name_for_rt_index(int);
+}
+s32 enemy_name_for_rt_index(s32 arg0);
+extern "C" {
 u32 calc_text_width(int);
 }
 s32 get_status_effect_icon_index(u32);

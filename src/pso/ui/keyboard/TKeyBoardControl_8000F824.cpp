@@ -59,11 +59,17 @@ void init_char_select_globals__23TAdSinglePlyChrSelectGCFv(void);
 void reset_story_select__6TLobbyFv(void);
 void TLobby__sub_8020E3C0(void);
 s32 TLobby__sub_80226BA4();
+}
 void init_adx_audio_system(void);
+extern "C" {
 void init_buffers(void);
+}
 void request_chara_making_archives(void);
+extern "C" {
 void TCharaMaking__sub_8028E790(void);
+}
 s32 verify_game_file_integrity();
+extern "C" {
 s32 TLobby__sub_8032C91C();
 u32 OSInitAlloc(u32, u32, int);
 s32 VIInit();
@@ -71,11 +77,17 @@ s32 PADInit();
 s32 PADSetSpec(int);
 s32 GXSetPixelFmt(int, int);
 s32 init_debug_text_buffer(s32, int, int);
+}
 void set_debug_text_scale(u16 arg0);
+extern "C" {
 void set_matrix_identity(u8 *arg0);
+}
 void init_record_and_slot_arrays(s32 arg0, s32 arg1, void *arg2, void *arg3);
+extern "C" {
 u32 calc_framebuffer_size_bytes(int, void *);
+}
 void init_system_heap_and_global_allocator(u8 *start, s32 size);
+extern "C" {
 s32 xmalloc__FUl(u32);
 s32 init_pad_slots_and_read__16TKeyBoardControlFv(int, int, int);
 void TObjPlayer__sub_803E492C(s32 a, s32 b);
@@ -274,7 +286,7 @@ void init_game_systems(void) {
     cfg.heap = OSInitAlloc(cfg.fb[2] + 0x40000, hi, 2);
     cfg.heapsize = 0x518000;
     start = cfg.heap + 0x518000;
-    init_system_heap_and_global_allocator((u8 *)start, hi - start);
+    init_system_heap_and_global_allocator((u8 *)start, (s32)(hi - start));
     init_video_and_gx(&cfg);
     OSSetArenaLo(hi);
     lbl_805D49A0 = xmalloc__FUl(0x4560);

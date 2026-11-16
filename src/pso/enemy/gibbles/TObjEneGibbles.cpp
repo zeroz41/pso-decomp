@@ -120,7 +120,9 @@ f32 atan2_float(f32 y, f32 x);
 s32 angle_difference_abs(s32, s32);
 extern u32 gibbles_combat_stat_entries;
 s32 is_target_in_attack_range__14TObjEneGibblesFv(u8 *arg0);
+}
 void apply_actor_gravity(TObjEnemy *arg0, s32 *arg1, f32 farg0);
+extern "C" {
 s16 get_attack_params_atp_min(void *);
 s32 get_current_floor();
 s32 get_enemy_entity();
@@ -149,7 +151,9 @@ s32 check_path_obstructed(void *, void *);
 int get_player_data__10TObjPlayerFi(int a0);
 u16 get_entity_id(void *);
 s32 is_valid_and_active__10TObjPlayerFUl();
+}
 void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
+extern "C" {
 void calc_velocity_toward_destination(void *, Vec_802DA0BC, Vec_802DA0BC, f32);
 f32 newton_sqrtf(f32);
 s32 TObjEneGibbles__sub_800D8988(void *);

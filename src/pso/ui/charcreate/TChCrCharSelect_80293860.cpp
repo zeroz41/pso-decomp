@@ -9,10 +9,10 @@
 #include "pso/ui/charcreate/TCharaMaking.h"
 #include "pso/ui/charcreate/CharacterAppearance.h"
 
-extern "C" {
-
 CharacterAppearanceFields *get_class_appearance_preset(s32 arg0);
+extern "C" {
 s32 copy_player_visual_record(void *, void *);
+}
 
 extern s32 TChCrCharSelect__selected_slot_index;
 extern s32 tl_03;
@@ -31,6 +31,4 @@ void TChCrCharSelect::tick_and_apply_selection() {
         TCharaMaking::create((void *)tl_03, character_appearance_fields);
         queue_destruction();
     }
-}
-
 }

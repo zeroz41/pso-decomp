@@ -19,7 +19,9 @@ void activate_switch_attacks__10TObjPlayerFii(s32 arg0, s32 arg1);
 s32 add_actor_hp(u8 *arg0, s16 arg1);
 s32 add_actor_tp(u8 *arg0, s16 arg1);
 void add_id_to_slots__10TObjPlayerFiUs(s32 arg0, u16 arg1);
+}
 void apply_actor_gravity(TObjEnemy *enemy, s32 *arg1, f32 farg0);
+extern "C" {
 void assign_slots_from_list(void *arg0, s32 arg1);
 f32 atan2_float(f32 y, f32 x);
 void attach_mine_trap__10TObjPlayerFiUi(s32 arg0, u32 arg1);
@@ -29,7 +31,9 @@ f32 calc_xz_distance_sq(TObjBase *actor, TObjBase *other, Vec *offset);
 s32 check_can_act__10TObjPlayerFii(s32 arg0, s32 arg1);
 s32 copy_position_if_valid__10TObjPlayerFii(s32 arg0, s32 arg1);
 s32 damage_hp__10TObjPlayerFii(s32 arg0, s32 arg1);
+}
 void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
+extern "C" {
 f32 fabs_float(f32 x);
 u16 fn_80010F4C(void *p);
 s16 get_attack_params_atp_max(void *p);

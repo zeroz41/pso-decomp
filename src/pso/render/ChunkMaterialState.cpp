@@ -32,8 +32,8 @@ typedef struct Pad_803DEA18
 } Pad_803DEA18;
 
 
-extern "C" {
 extern RecoveredGlobal_803DEB74_lbl_8058D8E0 keyboard_control_pad_slots;
+extern "C" {
 s32 Dolphin_PADRead(void *, void *);
 extern s32 keyboard_pad_status_buffer[];
 extern s32 TKeyBoardControl__pad_status_buffer[];
@@ -151,6 +151,7 @@ u8 *TKeyBoardControl__sub_803DEB74(u32 arg0) {
     }
     return (u8 *)&keyboard_control_pad_slots.value + (var_r5 * 0x34);
 }
+}
 #pragma pop
 
 s32 TKeyBoardControl::map_pad_buttons(u16 arg0) {
@@ -211,8 +212,6 @@ void init_light_globals(s32, s32) {
     light_position_distance = 100000000.0f;
     GXInitLightAttnK(TObjLight__gx_light_objects, 1.0f, 0.0f, 0.0f);
     reset_scene_fog();
-}
-
 }
 
 void set_model_render_flags(u32 flags) {

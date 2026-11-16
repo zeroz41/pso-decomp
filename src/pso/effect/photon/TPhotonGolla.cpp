@@ -149,12 +149,14 @@ void rotate_vector_by_matrix(int, void *, void *);
 void subtract_vector(void *, void *);
 void normalize_vector(void *);
 s32 push_matrix_from(void *src);
+}
 s32 pop_matrices(s32 arg0);
 const char *TPhotonGolla__class_name = "TPhotonGolla";
 extern const Packet_801AB6A0 photon_golla_concentrate_packet = {
     { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 500.0f, 5.0f, 30.0f }, NULL, 0
 };
 extern u8 identity_matrix[];
+extern "C" {
 
 Target_801AB868 *get_battle_param__10TObjPlayerFi(s32);
 f32 vec_squared_length(u8 *arg0);

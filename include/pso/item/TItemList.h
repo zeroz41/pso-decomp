@@ -35,9 +35,9 @@ void copy_position__9TItemListFPv(void *p, const Vec *v);
 void *get_ptr_0x44__9TItemListFPv(void *p);
 }
 void clear_placement_search_slot(TItemList *arg0, s32 arg1);
-extern "C" {
 // Inventory walks over the TItemList nodes below root (TObjPlayer_801D5220.cpp).
 void *find_matching_inventory_item_node(TObject *root);
+extern "C" {
 void TObjPlayer__sub_801D52A8(TObject *root);
 // TObjPlayer_801D4890.cpp: r3 = the inventory (player + 0xD00, its s16 at 0x1C counts the
 // items), r4 = the player that may have the item equipped, r5 = the inventory node.

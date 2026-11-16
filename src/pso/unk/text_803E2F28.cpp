@@ -104,10 +104,12 @@ struct ChunkBuffer_803E44D4 { void *vertices; s32 bytes; };
 struct ChunkRecording_803E44D4 { ChunkBuffer_803E44D4 buffers[32]; s32 index; };
 void OSReport(const char*, ...);
 void* memmove(void*, const void*, unsigned long);
+}
 void dispatch_chunk_polygon_list(s16 *list, s32 buffer);
 extern const char lbl_804FC810[];
 extern u32 lbl_805D77E4;
 extern ChunkRecording_803E44D4* chunk_vertex_cache_state;
+extern "C" {
 void PSMTXConcat(const Mtx_803E4354, const Mtx_803E4354, Mtx_803E4354);
 void PSMTXTrans(Mtx_803E4354, f32, f32, f32);
 void PSMTXScale(Mtx_803E4354, f32, f32, f32);

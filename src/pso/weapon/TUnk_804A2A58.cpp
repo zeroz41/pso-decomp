@@ -16,6 +16,7 @@ u32 spawn_shoot_particle__10TObjPlayerFUlllf(void *, s32, s32, f32);
 u32 create_shoot_model__10TObjPlayerFUiiif();
 int get_player_list__10TObjPlayerFv(void*);
 int rotate_matrix_y(void*, void*);
+}
 
 u32 baranz_launcher_create_shot(void *player, s32 arg1, s32 arg2, f32 farg0) {
     u32 temp_r31;
@@ -34,7 +35,6 @@ u32 baranz_launcher_create_shot(void *player, s32 arg1, s32 arg2, f32 farg0) {
         ((TObject *)temp_r30)->set_parent((TObject *)temp_r31);
     }
     return temp_r31;
-}
 }
 
 // Baranz Launcher (inferred)

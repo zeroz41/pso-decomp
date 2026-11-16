@@ -21,7 +21,9 @@ s32 get_instance__22TAdMultiPlyChrSelectGCFv(s32);
 extern s8 controller_physical_port_bank[];
 s32 clear_entries__18TAdChrMoveEffectGCFv();
 void create_effects__14TAdGameStartGCFPv(u8 *parent);
+}
 s32 is_multiplayer_character_slot_selected(s32);
+extern "C" {
 s32 TAdMultiPlyChrSelectGC__sub_802C6558();
 u32 TAdMultiPlyChrSelectGC__sub_802DBE4C(void *, s32 *);
 s32 TAdMultiPlyChrSelectGC__sub_802DBEC4(void *, s32 *);
@@ -274,5 +276,4 @@ block_2:
         *(s32 *)((s8 *)arg0 + 0x20) = 0xB;
     }
 }
-
 }

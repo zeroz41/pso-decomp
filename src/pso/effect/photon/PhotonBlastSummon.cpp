@@ -206,8 +206,10 @@ void *find_entity_by_id(u16 id);
 void matrix_mult_vec(s32, Vec_801A7428 *, Vec_801A7428 *);
 void rotate_matrix_y(s32, s32);
 s32 push_matrix_from(void *src);
+}
 s32 pop_matrices(s32 arg0);
 extern Group_801A7428 photon_blast_attachment_table[];
+extern "C" {
 void update_photon_blast_camera_pose(struct PbCamera_801A73B0 *self) {
     struct PbCameraParams_801A73B0 parameters;
     approach_vector_fixed_distance(&self->position, &self->destination_position, &self->position, 0.48f);
@@ -216,6 +218,7 @@ void update_photon_blast_camera_pose(struct PbCamera_801A73B0 *self) {
     VecCopy((Vec *)&parameters.target, (const Vec *)&self->target);
     parameters.projection = 0x4222;
     set_active_camera_pose_from_params((u8 *)&parameters);
+}
 }
 
 void spawn_photon_blast_opening_effects(s32 arg0, s32 arg1) {
@@ -247,7 +250,6 @@ void spawn_photon_blast_opening_effects(s32 arg0, s32 arg1) {
         pos.z += obj->pos.z;
         create_timed_particle_emitter(&pos, rec.a, rec.b, rec.c);
     }
-}
 }
 
 void copy_effect_params(u8 *arg0, u8 *arg1) {

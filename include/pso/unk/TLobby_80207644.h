@@ -5,7 +5,9 @@
 
 extern "C" {
 void TLobby__sub_80207BB0(void);
+}
 s32 get_boss_warp_destination(void);
+extern "C" {
 s32 get_floor_map_selection(s32 arg0, u8 *arg1);
 s32 get_floor_map_terrain(s32 arg0);
 }
@@ -21,7 +23,9 @@ void set_floor_map_variant(s32 arg0, s32 arg1);
 // --- C functions defined in TLobby_80207644.cpp ---
 extern "C" {
 void TLobby__sub_80207BB0(void);
+}
 s32 get_boss_warp_destination(void);
+extern "C" {
 s32 get_floor_map_selection(s32 arg0, u8 *arg1);
 s32 get_floor_map_terrain(s32 arg0);
 void randomize_adventure_maps(void);

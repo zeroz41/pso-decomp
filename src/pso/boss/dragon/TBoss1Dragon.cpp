@@ -189,9 +189,9 @@ extern f32 boss1_dragon_gravity;
 extern const f32 lbl_805D4B40;
 extern s32 tl_05;
 
-extern "C" {
 f32 sample_acceleration_curve(AccelerationCurve *c, f32 t);
 void init_acceleration_curve(AccelerationCurve *c, f32 a, f32 d, f32 length, f32 speed);
+extern "C" {
 s32 get_random_scaled__9TObjEneDDFv(void *);
 
 void rotate_vec_xz(void *, void *, s32);
@@ -313,8 +313,10 @@ extern "C" void dispatch_action__12TBoss1DragonFUll();
 void send_6x2F_change_player_hp(s32 arg0, s32 arg1, s32 arg2);
 s32 TBoss1Dragon__sub_80027514(TBoss1Dragon *arg0, s32 arg1, u8 *arg2, s32 arg3);
 void TBoss1Dragon__sub_800277D8(TBoss1Dragon *arg0);
+}
 extern const f32 TBoss1Dragon__gravity_accel;
 void compose_motion_node_matrix(void *arg0);
+extern "C" {
 s32 matrix_mult_vec(int, void *, void *);
 extern u8 identity_matrix[];
 f32 TBoss1Dragon__sub_80027010(TBoss1Dragon *arg0, f32 farg0, f32 farg1, f32 farg2);
@@ -623,8 +625,10 @@ s32 approach_angle_limited(s32 from, s32 to, s32 max_step);
 
 f32 atan2_float(f32 y, f32 x);
 void TBoss1Dragon__sub_80028AFC(TBoss1Dragon *);
+}
 
 void disable_dragon_blocking_bodies(TBoss1DragonColli *self);
+extern "C" {
 s32 enable_dragon_blocking_bodies(TBoss1DragonColli *, void *, int);
 
 extern const f32 lbl_805D4AF0;

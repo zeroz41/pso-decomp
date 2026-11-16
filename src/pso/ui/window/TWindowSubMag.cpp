@@ -120,7 +120,9 @@ extern Pad_8027B888 controller_input_state[];
 void *TWindowSubMag__ct(TWindowSubMag *arg0, s32 arg1, s32 arg2);
 void *__dt__13TWindowSubMagFv(TWindowSubMag *arg0, s16 arg1);
 void TWindowHelpItem__set_displayed_item_by_id(u8 *arg0, s32 arg1);
+}
 s32 get_help_text_string(s32 arg0);
+extern "C" {
 s32 create_equip_kind_window(s32, const f32 *, s32);
 s32 __ct__7TObjectFP7TObject();
 s32 __dl__7TObjectFPv(void *);

@@ -144,6 +144,7 @@ struct Pl_8013B0F0 {
 extern "C" {
 u16 TMainCursor__sub_8013E03C(void *p);
 void set_target_index__11TMainCursorFs(void *, s32);
+}
 void reset_nearest_target_record(void *p);
 extern Pl_8013B0F0 *player_slot_table[12];
 
@@ -178,6 +179,7 @@ void TLOC_Start::run_task() {
         submit_cursor_candidate(pl, -1);
     }
 }
+extern "C" {
 
 u8 *__dt__10TLOC_StartFv(u8 *arg0, s16 arg1);
 
@@ -196,7 +198,6 @@ u8 *__dt__10TLOC_StartFv(u8 *arg0, s16 arg1) {
     }
     return arg0;
 }
-
 }
 
 struct Ent_8013B2C8 { s32 w; };

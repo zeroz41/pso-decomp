@@ -189,6 +189,7 @@ s32 bswap_6xB2_play_sound();
 s32 on_set_mode__6TLobbyFv(s32);
 
 void TLobby__sub_80227AF8(s32 arg0, s32 arg1) { TLobby__sub_8023F754(arg0, arg1); }
+}
 
 extern s32 local_client_id;
 
@@ -203,9 +204,11 @@ s32 is_special_sound_id(u32 x) {
     }
     return 0;
 }
+extern "C" {
 
 void apply_clamped_field_27c__6TLobbyFv(f32 value) {
     ((TLobby *)(&sound_control_state))->set_clamped_field27c(value);
+}
 }
 typedef char RecoveredGlobal_8000F90C_lbl_804FE120_size[sizeof(RecoveredGlobal_8000F90C_lbl_804FE120) == 0x18 ? 1 : -1];
 typedef char RecoveredGlobal_8000F8FC_lbl_804FE120_size[sizeof(RecoveredGlobal_8000F8FC_lbl_804FE120) == 0x18 ? 1 : -1];
@@ -251,9 +254,11 @@ void TLobby::set_mode(s32 arg0) {
     }
     set_mode__6TLobbyFPvi((s32 *)&sound_control_state, arg0);
 }
+extern "C" {
 
 void get_menu_field_280__6TLobbyFv(void) {
     ((TLobby *)(&(*(RecoveredGlobal_8000F7FC_lbl_80515F48 *)&sound_control_state).value))->get_field_0x280();
+}
 }
 
 typedef char RecoveredGlobal_80069094_camera_controller_registry_size[sizeof(RecoveredGlobal_80069094_camera_controller_registry) == 0x68 ? 1 : -1];
@@ -285,7 +290,9 @@ typedef char RecoveredGlobal_80069D04_camera_controller_registry_size[sizeof(Rec
 typedef char RecoveredGlobal_80069D04_TCameraCtrl__data_804FF628_size[sizeof(RecoveredGlobal_80069D04_TCameraCtrl__data_804FF628) == 0xC ? 1 : -1];
 
 void release_sound_with_fade(s32 slot) { fade_out_sound_slot(slot, 64); }
+extern "C" {
 void TLobby__sub_80227D38(void) { TLobby::fade_voice_channels(0); }
+}
 
 s32 normalize_sound_request(u32 arg0, s32 actor, s32 position, s32 arg3, s32 arg4) {
     s32 r;
@@ -374,11 +381,11 @@ s32 play_packed_sound_once(u32 arg0, s32 position, s32 arg2, s32 arg3) {
     }
     return -1;
 }
+extern "C" {
 
 void is_sound_enabled(void) {
     is_ready__6TLobbyFPv(&sound_control_state);
 }
-
 }
 
 
@@ -402,10 +409,12 @@ struct RecoveredGlobal_802280C4_lbl_80514F64 {
     u8 remaining[0xC38];
 };
 
-extern "C" {
 s32 update_sound_frame(SoundControlState *self);
+extern "C" {
 int render_tick__Fv(void);
+}
 s32 init_sound_aux_effects(SoundControlState *self);
+extern "C" {
 void TLobby__sub_803382E4(void);
 s32 TLobby__sub_80226B64(int);
 extern const s32 floor_sound_bank_table[36] = {
@@ -457,6 +466,7 @@ typedef char RecoveredGlobal_8022809C_lbl_80514F64_size[sizeof(RecoveredGlobal_8
 void TLobby__sub_8022809C(void) {
     ((TLobby *)(&(*(RecoveredGlobal_8022809C_lbl_80514F64 *)&sound_control_state).value))->reset_sound_state();
 }
+}
 
 typedef char RecoveredGlobal_802280C4_lbl_80514F64_size[sizeof(RecoveredGlobal_802280C4_lbl_80514F64) == 0xC3C ? 1 : -1];
 void TLobby::wait_for_sound_init() {
@@ -468,7 +478,6 @@ void TLobby::wait_for_sound_init() {
         TLobby__sub_803CB81C();
         render_tick__Fv();
     } while (((s32 (*)())is_sound_enabled)() == 0);
-}
 }
 
 SoundControlState sound_control_state;

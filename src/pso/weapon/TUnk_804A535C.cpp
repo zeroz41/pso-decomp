@@ -35,6 +35,7 @@ struct Mylla_8012C384 { u8 pad[0xa4]; Ent_8012C384 *ents; s32 count; };
 
 extern "C" {
 Mylla_8012C384 *find_entity_by_id(u32);
+}
 
 void rocket_punch_target_impact(void *self, u32 a, u32 b, s32 idx) {
     Mylla_8012C384 *m;
@@ -52,10 +53,12 @@ void rocket_punch_wall_impact(u32 arg0, u32 arg1, u32 arg2, u32 arg3) {
         play_sound_effect(0x4001C112, 0, 0, 0);
     }
 }
+extern "C" {
 
 s32 post_translate_matrix(void *);
 s32 push_matrix();
 s32 is_owner_alive__15TItemShootModelFv();
+}
 
 
 extern "C" {
@@ -75,7 +78,7 @@ void TUnk_804A5340::render() {
 
 }
 
-}
+
 
 void TUnk_804A5340::hook() {  }
 
@@ -94,6 +97,7 @@ Obj_8012C4E4 *TObjPlayer__sub_8012C4E4(Obj_8012C4E4 *self, void *owner, const vo
 
 u32 spawn_shoot_particle__10TObjPlayerFUlllf(s32, s32, s32, f32);
 u32 __nw__7TObjectFUl(s32);
+}
 
 u32 rocket_punch_create_shot(s32 owner, s32 arg1, s32 arg2, f32 farg0) {
     u32 var_r31;
@@ -112,8 +116,6 @@ u32 rocket_punch_create_shot(s32 owner, s32 arg1, s32 arg2, f32 farg0) {
         }
     }
     return var_r31;
-}
-
 }
 
 struct Obj_8012C714 { u8 pad[0x184]; void *f184; void *f188; u8 pad2[0x1f8 - 0x18c]; u8 f1f8[4]; };

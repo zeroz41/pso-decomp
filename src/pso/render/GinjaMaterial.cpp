@@ -81,7 +81,9 @@ extern s32 ginja_vertex_component_types[];
 void GXSetVtxAttrFmt(s32, s32, s32, s32, u8);
 void GXSetArray(s32, void *, u8);
 void set_ginja_vertex_arrays(Arr_803DC3BC *arg0);
+}
 void apply_ginja_material_params(GinjaDrawRecord *);
+extern "C" {
 s32 GXCallDisplayList(void *, u32);
 extern u32 ginja_draw_list_state, ginja_draw_flags;
 extern s32 ginja_draw_list_mask;

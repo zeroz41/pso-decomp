@@ -365,6 +365,7 @@ void TLobby::update_guild_or_quest_phase() {
 
 void *__nw__7TObjectFUl(int);
 void *THunterGuildSeqOnline_Client__ct(void *, void *, void *);
+}
 
 void *create_lobby_object_05(void *arg0) {
     void *o = __nw__7TObjectFUl(0x40);
@@ -373,8 +374,10 @@ void *create_lobby_object_05(void *arg0) {
     }
     return o;
 }
+extern "C" {
 
 void *THunterGuildSeqOffline__sub_80214B3C(void *, void *, void *);
+}
 
 void *TLobby::create_tl05_object(void *arg0) {
     void *o = __nw__7TObjectFUl(0x44);
@@ -382,5 +385,4 @@ void *TLobby::create_tl05_object(void *arg0) {
         o = THunterGuildSeqOffline__sub_80214B3C(o, tl_05, arg0);
     }
     return o;
-}
 }

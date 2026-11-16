@@ -36,7 +36,9 @@ extern s32 lbl_805D62E4;
 extern s32 music_fade_slot_index;
 void TLobby__sub_802272B4(void);
 void set_field_40_and_notify__6TLobbyFs(s32, s32);
+}
 void set_cue_stream_gain(s32 arg0);
+extern "C" {
 void TLobby__sub_8022733C(void);
 void *get_player_by_client_id(s32 i);
 void stop_sound_request(s32 idx);
@@ -93,6 +95,7 @@ void clear_sound_listener_position(void) {
 
 f32 xz_distance_squared(const Vec *a, const Vec *b);
 f32 newton_sqrtf(f32 x);
+}
 
 s32 check_sound_admission_range(const Vec *pos) {
     if (pos == NULL) {
@@ -107,7 +110,6 @@ s32 check_sound_admission_range(const Vec *pos) {
         return (s32)-(127.0f * (t > 0.0f ? t : 0.0f));
     }
     return -0x100;
-}
 }
 
 void update_sound_request_slots(void) {
@@ -280,8 +282,8 @@ __declspec(section ".data") char lbl_80514D00[2][0x20];
 u8 lbl_80514D40[0x218];
 }
 
-extern "C" {
 void unlock_sequencer_flag(s32 arg0);
+extern "C" {
 int TKeyBoardControl__sub_8000F828(void);
 s32 TKeyBoardControl__sub_801E3E24(s32 id, const char *name, void *buf, s32 size);
 void TLobby__sub_803C5D24(u8 *arg0);
@@ -469,13 +471,13 @@ void sndSetHooks(SndHooks *hooks);
 s32 sndInit(u8 voices, u8 music, u8 sfx, u8 studios, u32 flags, u32 aram_size);
 int TLobby__sub_80227A70(void *p);
 void TLobby__sub_80227A90(void);
+}
 void init_adx_audio_system(void);
 extern const SndHooks lbl_8044C858;
 extern u32 lbl_804CB838[6];
 void *lbl_805D62D8;
 extern s32 lbl_805D62F8;
 extern s32 lbl_805D62FC;
-}
 extern RecoveredGlobal_8000F7FC_lbl_80515F48 TLobby__sub_80227A6C;
 s32 lbl_804CB850[3] = { 0, 0, 0 };
 

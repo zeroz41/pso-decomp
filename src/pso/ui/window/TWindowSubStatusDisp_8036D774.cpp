@@ -16,8 +16,8 @@
 
 struct Desc_8036D774 { f32 *pos; u32 *col; s32 a; s32 n; };
 
-extern "C" {
 s32 TBGMulti__textures;
+extern "C" {
 void TCameraCtrl__sub_80068EF0(void);
 s32 split_screen_hud_animation_frame;
 
@@ -113,6 +113,7 @@ void TWindowSubStatusDisp__sub_8036D994(void) {
         set_default_alpha_blend();
     }
 }
+}
 #pragma pop
 
 void TWindowSubStatusDisp::draw_bottom_bar() {
@@ -167,6 +168,7 @@ void TWindowSubStatusDisp::draw_split_screen_hud() {
 #pragma readonly_strings on
 #pragma pool_data off
 u8 *load_gvm_texture_file(s32 arg0);
+extern "C" {
 void set_global_param__8TObjFishFl();
 extern s32 split_screen_hud_animation_frame;
 s32 release_texture_list(void*);
@@ -190,5 +192,4 @@ void TBGMulti__ct(void) {
     }
     split_screen_hud_animation_frame = 0x384;
 }
-
 }

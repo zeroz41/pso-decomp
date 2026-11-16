@@ -89,6 +89,7 @@ struct Ctrl_8024B440 { u8 pad[0x84]; void *win[4]; };
 
 extern "C" {
 s32 acquire_balloon_slot__11TWindowCtrlFPviiPv(s32, u16, s32, s32);
+}
 
 void TWindowCtrl::close_windows_by_flags(u16 arg0) {
     u32 i;
@@ -142,6 +143,4 @@ s32 TWindowCtrl::open_balloon(u16 arg0, u8 *arg1, s32 arg2, s32 arg3) {
     }
     open__15TWindowFukidasiFPvPvi((u8 *)temp_r3, (u32 *)arg1, arg2);
     return temp_r3;
-}
-
 }

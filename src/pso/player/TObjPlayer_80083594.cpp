@@ -242,9 +242,13 @@ struct G_80082FCC { s32 value; s32 v4; f32 f8; f32 fC; };
 extern "C" {
 s32 is_split_screen();
 s32 TCameraCtrl__sub_80068EF0();
-s32 direction_to_pitch_yaw(void *, void *, void *);
+}
+void direction_to_pitch_yaw(u8 *arg0, s32 *arg1, s32 *arg2);
+extern "C" {
 s32 GXSetZMode(int, int, int);
-s32 set_perspective_projection_from_fov(int, f32, f32, f32);
+}
+void set_perspective_projection_from_fov(s32 arg0, f32 farg0, f32 farg1, f32 farg2);
+extern "C" {
 void __dl__7TObjectFPv(void *);
 void __dt__7TObjectFv(void *, int);
 }
@@ -291,7 +295,7 @@ void TUnk_8048E5DC::render_shadows() {
         GXSetViewport(0.0f, 0.0f, 640.0f, 480.0f, 0.0f, 1.0f);
         GXSetScissor(0, 0, 0x280, 0x1E0);
         Vec up = {0.0f, 1.0f, 0.0f};
-        set_perspective_projection_from_fov((int) (((TCameraCtrl *)camera_ctrl_instance)->fov), 1.1333334f, 1.0f, 21000.0f);
+        set_perspective_projection_from_fov((((TCameraCtrl *)camera_ctrl_instance)->fov), 1.1333334f, 1.0f, 21000.0f);
         set_camera_look_at((u8 *)&this->m_20, (u8 *)&this->unk_2C, (u8 *)&up);
         if ((void *) camera_ctrl_instance != NULL) {
             Vec dir;
@@ -300,7 +304,7 @@ void TUnk_8048E5DC::render_shadows() {
             dir.x = *(f32 *)&this->unk_2C - this->m_20;
             dir.y = this->m_30 - *(f32 *)&this->unk_24;
             dir.z = *(f32 *)((s8 *)arg0 + 0x34) - this->m_28;
-            direction_to_pitch_yaw(&dir, &pitch, &yaw);
+            direction_to_pitch_yaw((u8 *)&dir, &pitch, &yaw);
             TCameraCtrl::calc_axes_from_angles((s32)camera_ctrl_instance, pitch, yaw);
         }
         TObjPlayer__sub_80084754();

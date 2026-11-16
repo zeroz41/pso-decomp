@@ -372,19 +372,20 @@ typedef struct { u8 pad[4]; u32 n; } Anim_802C17FC;
 
 void free_bin_model_request(void*, int);
 s32 debug_draw_line(s32 *, s32 *, s32, s32);
+}
 
 u8 *load_gvm_texture_file(s32 arg0);
+extern "C" {
 
 s32 sub_802C1BFC__13TUnk_804E0910Fv(Obj_802C1BFC *self);
 void matrix_mult_vec(void *, void *, void *);
 
 s32 release_texture_list(void*);
+}
 
 struct Pl_802C26E4;
 struct Ent_802C26E4;
 struct Vec_802C1660;
-
-}
 s32 sample_motion_node_transform(void *arg0, void *arg1, void *arg2, void *arg3, void *arg4);
 
 #include "pso/ui/frontend/TAdStorySelectGC.h"

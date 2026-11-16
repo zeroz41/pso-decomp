@@ -95,12 +95,14 @@ s32 TPhotonLine__ct(void *, void *, void *, u16);
 s32 rotate_vector_by_matrix(int, void *, void *);
 s32 rotate_matrix_y(int, int);
 s32 push_matrix_from(void *);
+}
 s32 pop_matrices(s32 arg0);
 const char *TPhotonEstlla__class_name = "TPhotonEstlla";
 extern const Packet_801AA710 photon_estlla_line_packet_init = {
     { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, 10.0f, 0.0f
 };
 extern u8 identity_matrix[];
+extern "C" {
 
 s32 scroll_strip_uvs(void *, s16, int);
 s32 clear_render_context__10TObjPlayerFv(void *);
@@ -108,6 +110,7 @@ s32 push_matrix();
 s32 pop_matrix();
 void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
 void set_chunk_material_override_pair(s32 arg0, s32 arg1);
+}
 extern Color_801AA818 saved_model_draw_color;
 extern Color_801AA818 model_material_color;
 extern s32 saved_model_render_flags;
@@ -223,7 +226,6 @@ void TPhotonEstlla::run_task() {
     if ((s32) *(s32 *)&this->m_19c != 0) {
         play_persistent_sound(0x4002462F, (s32)arg0, 0, 0, 0);
     }
-}
 }
 
 TPhotonEstlla::~TPhotonEstlla() {

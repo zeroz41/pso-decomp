@@ -89,11 +89,11 @@ struct S_802C50EC {
     s32 b[4][3];
 };
 
-extern "C" {
     extern int multi_ply_chr_select_active_player;
 extern s32 TAdMultiPlyChrSelectGC__select_mode;
 extern s32 TAdMultiPlyChrSelectGC__selected_slot;
 extern s32 multi_ply_chr_select_slot_table[][5];
+extern "C" {
 void copy_vec2__28TWindowSubSymbolChatPartsSetFPv(void *);
 s32 get_field_20__22TAdMultiPlyChrSelectGCFv();
 s32 lbl_805D67D0;
@@ -424,6 +424,7 @@ s32 TAdMultiPlyChrSelectGC__sub_802C6558(void) {
     }
     return n;
 }
+}
 
 s32 TAdMultiPlyChrSelectGC::count_ready() {
     s32 var_r31;
@@ -525,6 +526,7 @@ void TAdChrSelPlyPlateGC::update_option_cursor() {
         unk_4f8 = 1;
     }
 }
+extern "C" {
 
 s32 TAdMultiPlyChrSelectGC__sub_802C5F1C(void *arg0) {
     S_802C50EC *self = (S_802C50EC *)arg0;
@@ -924,6 +926,5 @@ void TAdMultiPlyChrSelectGC__sub_802C50EC(s32 arg0) {
         }
     }
 }
-#pragma pop
-
 }
+#pragma pop

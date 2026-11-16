@@ -270,8 +270,10 @@ void request_follow_camera_offsets(void *arg0, void *arg1, u16 arg2);
 void push_matrix_from(void *);
 void rotate_matrix_y(s32, s32);
 void matrix_mult_vec(s32, void *, void *);
-void pop_matrices(s32);
+}
+s32 pop_matrices(s32 arg0);
 extern u8 identity_matrix[];
+extern "C" {
 int __ct__13TUnk_80488A28Fv(void);
 void TCameraCtrl__sub_8006E804(void* a0);
 extern s32 follow_camera_vtable[];

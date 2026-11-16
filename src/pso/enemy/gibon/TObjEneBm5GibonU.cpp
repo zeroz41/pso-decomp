@@ -493,8 +493,8 @@ void TObjEneBm5GibonU__sub_800CDB98(TObjEneBm5GibonU *self, s32 arg1);
 void direction_to_rotation_xz(u8 *arg0, s32 *arg1, s32 *arg2);
 void enemy_turn_and_move_on_ground(u8 *arg0, s32 arg1, f32 farg0);
 void move_with_wall_slide(u8 *arg0);
-extern "C" {
 void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
+extern "C" {
 s32 select_enemy_destination(void *, Vec, s32);
 void copy_position_if_valid__10TObjPlayerFii(void *, Vec);
 f32 newton_sqrtf(f32);
@@ -1831,7 +1831,6 @@ void TObjEneBm5GibonU__sub_800CF7CC(TObjEneBm5GibonU *self, s32 arg1) {
         break;
     }
 }
-
 }
 s32 actor_rand_int(s32 actor, s32 range);
 extern "C" {

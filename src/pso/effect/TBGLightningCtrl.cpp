@@ -67,7 +67,9 @@ extern "C" {
 s32 VecCopy__FP3VecPC3Vec(void *, s32, s8, f32, f32);
 s32 queue_destruction__7TObjectFv();
 s32 __ct__8TObjBaseFP7TObject(void *, void *);
+}
 u8 *load_gvm_texture_file(s32 arg0);
+extern "C" {
 void __dl__7TObjectFPv(void *);
 void * __nw__7TObjectFUl(int);
 s32 __ct__7TObjectFP7TObject(u8 *, void *);
@@ -155,6 +157,7 @@ void *TBGLightningCtrl__create(void *arg0) {
     }
     return o;
 }
+}
 
 void TBGLightningCtrl::destroy_instance() {
     if ((u32) (*(u32 *)&bg_lightning_texture_handle) != 0U) {
@@ -162,7 +165,6 @@ void TBGLightningCtrl::destroy_instance() {
         TAdSinglePlyChrSelectGC::safe_free((*(u32 *)&bg_lightning_texture_handle));
         (*(u32 *)&bg_lightning_texture_handle) = 0U;
     }
-}
 }
 
 void load_bg_lightning(void) { bg_lightning_texture_handle = (int)load_gvm_texture_file((s32)lbl_8046FCA0); }

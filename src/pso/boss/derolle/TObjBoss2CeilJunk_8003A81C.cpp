@@ -42,10 +42,10 @@ BmlResourceDescriptor bm_obj_boss2_common_resource_descriptor = {
     0,
 };
 
-extern "C" {
 extern void *lbl_804FE9C8[];
 extern void *lbl_805D4BEC;
 extern void *boss2_tunnel_instance;
+extern "C" {
 void release_texture_list(void *);
 void free_bin_model_request(void *, int);
 void *TObjBoss2CeilJunk__ct(void *, void *, void *);
@@ -74,6 +74,7 @@ void TLobby__sub_8003A874(void) {
     free_bin_model_request(boss2_tunnel_instance, 1);
     boss2_tunnel_instance = 0;
 }
+}
 
 void load_boss2_common_resource(void) {
     void *p = (void *)::operator new(0x440);
@@ -90,7 +91,5 @@ void load_boss2_common_resource(void) {
 }
 
 void *lbl_804FE9C8[7];
-
-}
 
 __declspec(section ".ctors") static void *const __sinit_TObjBoss2CeilJunk_8003A81C_cpp_ref = (void *)__sinit_TObjBoss2CeilJunk_8003A81C_cpp;

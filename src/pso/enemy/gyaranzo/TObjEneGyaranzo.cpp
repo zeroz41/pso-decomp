@@ -117,6 +117,7 @@ extern "C" {
 void * __nw__7TObjectFUl(int);
 
 u8 *__ct__8TObjChipFP7TObjectPC14TObjChipParams(u8 *arg0, u8 *arg1, u8 *arg2);
+}
 
 
 u32 *gyaranzo_model_resources[0x16];
@@ -130,7 +131,8 @@ extern u32 gyaranzo_bml_resource;
 extern u8 *tl_05;
 
 
-void apply_actor_gravity(void *, int, f32);
+void apply_actor_gravity(TObjEnemy *enemy, s32 *arg1, f32 farg0);
+extern "C" {
 
 void calc_velocity_toward_destination(void *, Vec_800D1E4C, Vec_800D1E4C, f32);
 
@@ -1123,7 +1125,7 @@ void TObjPlayer__sub_800D3314(u8 *arg0) {
         ((void (*)(void *, Vec_800D3314, f32, f32))move_along_ground_avoiding_walls__15TObjEnemyCustomF3Vecff)(arg0, *(Vec_800D3314 *)((s8 *)arg0 + 0x390), *(f32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x350)) + 4), *(f32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0xA4)) + 0xC));
         *(f32 *)((s8 *)arg0 + 0x39C) += *(f32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x350)) + 4);
         ((TObjMotion *)arg0)->advance_animation();
-        apply_actor_gravity(arg0, 0, 0.0f);
+        apply_actor_gravity((TObjEnemy *)arg0, (s32 *)(0), 0.0f);
         if (*(s16 *)((s8 *)arg0 + 0x326) == 9) {
             *(f32 *)((s8 *)arg0 + 0x3A4) += *(f32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x350)) + 4);
             if (*(f32 *)((s8 *)arg0 + 0x3A4) >= 20.0f) {
@@ -1207,7 +1209,7 @@ void TObjPlayer__sub_800D30A8(Obj_800D30A8 *enemy) {
         }
         enemy->vel.x *= 0.5f;
         enemy->vel.z *= 0.5f;
-        apply_actor_gravity(enemy, 0, 0.0f);
+        apply_actor_gravity((TObjEnemy *)enemy, (s32 *)(0), 0.0f);
         ((TObjPlayer *)enemy)->update_collisions();
         if (enemy->fB4 != 8) {
             enemy->state = -1;
@@ -1324,7 +1326,7 @@ void TObjPlayer::update_aim_and_fire() {
         break;
     }
     advance_animation();
-    apply_actor_gravity(this, 0, 0.0f);
+    apply_actor_gravity((TObjEnemy *)this, (s32 *)(0), 0.0f);
     update_collisions();
 }
 
@@ -1608,7 +1610,7 @@ void update_walk_to_target__10TObjPlayerFPv(Ene_800D1E4C *arg0) {
         arg0->state = 1;
     case 1:
         ((TObjMotion *)arg0)->advance_animation();
-        apply_actor_gravity(arg0, 0, 0.0f);
+        apply_actor_gravity((TObjEnemy *)arg0, (s32 *)(0), 0.0f);
         VecCopy((Vec *)&arg0->v290, (const Vec *)&arg0->v2FC);
         calc_velocity_toward_destination(arg0, arg0->v290, arg0->v29C, arg0->param->speed);
         ((TObjEnemy *)arg0)->turn_toward_direction(arg0->param->turn, (Vec *)arg0->v308);

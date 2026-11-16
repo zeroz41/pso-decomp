@@ -4,9 +4,7 @@
 #include "types.h"
 
 // --- C functions defined in TLobby_80228818.cpp ---
-extern "C" {
 void clear_work_buffer(u8 *arg0);
-}
 // --- end of C functions
 
 #endif

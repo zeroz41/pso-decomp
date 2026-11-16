@@ -72,8 +72,8 @@ struct Obj_8030095C {
     void *f40;
 };
 
-extern "C" {
 s32 is_multiplayer_character_slot_selected(s32 arg0);
+extern "C" {
 Ent_80300850 *get_char_table_entry__23TAdSinglePlyChrSelectGCFi(int);
 void *__nw__7TObjectFUl(u32);
 void __ct__7TObjectFP7TObject(void *);

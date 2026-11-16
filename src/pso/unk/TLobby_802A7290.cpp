@@ -2664,7 +2664,9 @@ s32 forward_801C210C__10TObjPlayerFv(void *, s32);
 void mem_free(void*);
 void TLobby__sub_802A7640(void);
 void *mem_alloc(u32 size);
+}
 void disable_and_free_boss4rock_buffer(void);
+extern "C" {
 s32 vfunc_3__13TUnk_804DDD28Fs(s32, s32 *);
 void free__10TObjPlayerFPv(void *a0);
 extern s32 lbl_804DDBF0[];
@@ -2754,12 +2756,14 @@ void TLobby__sub_802A7640(void) {
         (*(u32 *)&player_action_motion_buffer) = 0U;
     }
 }
+}
 void TLobby::alloc_boss4rock_buffer() {
     player_action_motion_buffer = (s32)mem_alloc(0x100000);
 }
 // inferred: unload half of enable_and_refresh in ending_scene_callbacks (frees what alloc_boss4rock_buffer allocated)
 void disable_and_free_boss4rock_buffer(void) { TLobby__sub_802A7640(); TLobby::set_photon_chair_flag(0); }
 void TLobby::enable_and_refresh() { TLobby::set_photon_chair_flag(1); TLobby::alloc_boss4rock_buffer(); }
+extern "C" {
 void *__dt__6TLobbyFPvs(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 8) = lbl_804DDBF0;
@@ -2777,6 +2781,5 @@ void *TUnk_804DDBF0::ct_variant() {
 }
 void* TLobby__sub_802A7780(void* p) { return (char*)p + 0xc; }
 void* TLobby__sub_802A7788(void* p) { return (char*)p + 0xc; }
-int TUnk_804DDBF0::vfunc_4() {  return (*(int *)&player_action_motion_buffer); }
-
 }
+int TUnk_804DDBF0::vfunc_4() {  return (*(int *)&player_action_motion_buffer); }

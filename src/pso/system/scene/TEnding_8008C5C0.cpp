@@ -106,6 +106,7 @@ u8 *TCameraCtrl__ct(u8 *arg0, void *parent);
 void run_load_callback_table(void *, int);
 void set_copy_clear_color_argb(int, int, int);
 void *__nw__7TObjectFUl(int);
+}
 extern u8 default_scene_light_config[];
 extern s32 ending_scene_active;
 
@@ -141,6 +142,5 @@ void TEnding::start_ending_scene() {
 // inferred: the empty load/unload pair in ending_scene_callbacks
 void ending_scene_nop_release() {}
 void ending_scene_nop_load() {}
-}
 
 void TEnding::render() {}

@@ -178,7 +178,9 @@ struct Tris_801E3784 {
 extern "C" {
 void GXBegin(s32, s32, u16);
 void GXSetLineWidth(s32, s32);
+}
 void reset_line_width(void);
+extern "C" {
 void draw_line_list(Lines_801E341C *l, s32 n, u32 flags);
 }
 void setup_opaque_color_draw(void);

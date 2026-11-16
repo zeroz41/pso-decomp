@@ -153,13 +153,16 @@ extern u8 *city_common_model_archive;
 extern s32 city_common_texture_list;
 extern "C" {
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
+}
 u8 * load_gvm_texture_file(s32);
+extern "C" {
 void render__18TObjCityDoor_LobbyFv(void* p);
 s32 post_translate_matrix(void *);
 s32 draw_ginja_object();
 s32 push_matrix();
 s32 free_bin_model_request(s32, s32);
 s32 release_texture_list(void*);
+}
 
 void TLobby::free_map_resources() {
     if ((u32) city_common_texture_list != 0U) {
@@ -169,7 +172,6 @@ void TLobby::free_map_resources() {
     }
     free_bin_model_request((s32)city_common_model_archive, 1);
     city_common_model_archive = 0;
-}
 }
 extern RecoveredGlobal_8019A9B8_lbl_804B8F60 bm_obj_city_common_resource_descriptor;
 void load_city_common_resources(void);
@@ -463,7 +465,9 @@ extern "C" {
 
 void run_task__16TObjCityDoor_MedFv(void *arg0);
 void render__16TObjCityDoor_MedFv(u8 *arg0);
+}
 s32 get_city_common_motion(s32);
+extern "C" {
 void draw_ginja_model_with_motion(void *model, void *motion, f32 frame);
 
 void TObjCityDoor_Med::render() {

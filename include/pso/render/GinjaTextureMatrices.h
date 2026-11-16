@@ -14,8 +14,8 @@ extern u32 model_render_flags;
 extern GinjaModelQueue model_draw_queue_state;
 extern GinjaMatrix model_draw_queue_texture_matrices[10];
 extern void* model_draw_queue_models[10];
-extern "C" {
 void init_model_draw_queue(ModelDrawCallback draw);
+extern "C" {
 void queue_model_draw_matrix(void* model, const GinjaMatrix matrix);
 }
 void flush_model_draw_queue();

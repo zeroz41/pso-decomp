@@ -44,8 +44,10 @@ struct IllGillEffectRotation { s32 x, y, z; };
 
 extern "C" {
 f32 calc_xz_distance_sq(s32 arg0, u32 arg1, void *arg2);
+}
 extern int enable_v2_features;
 void apply_actor_gravity(TObjEnemy *enemy, s32 *arg1, f32 farg0);
+extern "C" {
 s32 get_current_floor(void);
 f32 atan2_float(f32 y, f32 x);
 f32 newton_sqrtf(f32);
@@ -62,7 +64,9 @@ extern s32 tl_05;
 s32 obj_setFlags30(void *, int);
 
 u16 get_entity_id(void *);
+}
 void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
+extern "C" {
 f32 horizontal_distance_squared(void *, void *);
 
 s32 select_enemy_destination(void *, Vec, int);
@@ -76,8 +80,6 @@ s32 lbl_805D6FD8;
 IllGillAttackBehavior * illGillAttackBehavior;
 s32 illGillModelNodeIndex;
 s32 init_collision_body_parts(void *, void *, int);
-
-
 }
 void move_with_wall_slide(u8 *arg0);
 

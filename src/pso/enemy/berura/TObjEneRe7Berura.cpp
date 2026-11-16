@@ -118,9 +118,11 @@ s32 angle_diff_s16(s32);
 void mem_free(void*);
 void *mem_alloc(u32 size);
 void free_collision_body_parts(void *);
+}
 
 
 void compose_motion_node_matrix(void *arg0);
+extern "C" {
 s32 matrix_mult_vec(int, void *, void *);
 void copy_matrix__10TObjPlayerFUlUl(int, void *);
 s32 concat_matrix__10TObjPlayerFUlUl(s32, void *);

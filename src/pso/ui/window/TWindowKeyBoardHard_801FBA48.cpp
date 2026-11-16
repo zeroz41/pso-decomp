@@ -28,6 +28,7 @@ void *memcpy(void *, const void *, u32);
 extern char memory_card_character_dir_name[];
 extern s32 lbl_805D49B4;
 void poll_load_status__15TAdPlayerLoadGCFl(s32, void *);
+}
 extern char pso_character_card_filename[];
 extern char pso_guildcard_card_filename[];
 extern char pso_system_card_filename[];
@@ -67,6 +68,7 @@ void draw_ginja_box_tree(u8 *arg0) {
         var_r30 = (u8 *)(*(u8 **)((s8 *)var_r30 + 0x30));
     } while (var_r30 != NULL);
 }
+extern "C" {
 
 void TAdSinglePlyChrSelectGC__sub_801FBB1C(void) {
     s32 r;
@@ -121,6 +123,7 @@ void TAdSinglePlyChrSelectGC__sub_801FBC3C(void *arg0) {
     subtractive_rng_seed(chr_select_rng_state, TAdSinglePlyChrSelectGC__sub_80202A68((u8 *)arg0));
     subtractive_rng_xor_buffer((s32 *)chr_select_rng_state, (u32 *)arg0, 0x194AC);
 }
+}
 
 u8 TAdSinglePlyChrSelectGC::load_and_verify_character_save(char *desc) {
     s32 sum;
@@ -171,6 +174,4 @@ s32 TAdSinglePlyChrSelectGC::wait_for_card_load(s32 arg0) {
         render_tick();
     }
     return 1;
-}
-
 }

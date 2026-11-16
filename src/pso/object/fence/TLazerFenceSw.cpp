@@ -65,12 +65,14 @@ void debug_printf_at(int, void *, ...);
 extern u8 lbl_80445CD8[];
 
 void *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
+}
 u8 *load_gvm_texture_file(s32 arg0);
 
 extern s32 game_difficulty_selection;
 extern u8 lbl_80445CF0[];
 extern u8 lbl_80445D08[];
 extern u8 lbl_80445D20[];
+extern "C" {
 s32 free_bin_model_request(void *, s32);
 void *__ct__18CameraDistanceFadeFv(void *self);
 
@@ -253,6 +255,7 @@ void TLazerFenceSw__sub_80193C5C(void) {
     TObjPlayer::free_if_valid(TLazerFenceSw__texture_list);
     TLazerFenceSw__texture_list = 0;
 }
+}
 
 #pragma push
 #pragma opt_propagation off
@@ -305,8 +308,6 @@ void TLazerFenceSw::load_resources() {
     lazer_fence_switch_scroll_node = (u8 *)find_object_node((NJS_OBJECT *)lazer_fence_sw_ginja_model_table[1], 3);
 }
 #pragma pop
-
-}
 TLazerFenceSw::~TLazerFenceSw() {
     this->unregister_object_by_id();
     free_collision_body_parts(this);

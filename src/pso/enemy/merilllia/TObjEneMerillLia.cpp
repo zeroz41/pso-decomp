@@ -493,7 +493,9 @@ void vfunc_60__16TObjEneMerillLiaFv(Ene_800D52DC *arg0);
 s32 minimap_render_dot(void *, int, int, int);
 s32 create__9TTecKafunFlllllff(void *, void *, int, int, int, f32, f32);
 s32 matrix_mult_vec(int, void *, void *);
+}
 void apply_actor_gravity(TObjEnemy *enemy, s32 *arg1, f32 farg0);
+extern "C" {
 s32 enemy_move_toward(void *, s32, void *, int, f32);
 f32 horizontal_distance_squared(void *, void *);
 s32 test_elt_flag__13TUnk_80493450Fll(void *, int, int);
@@ -1770,7 +1772,6 @@ void spawn_ground_effect__16TObjEneMerillLiaFPv(u8 *motion) {
         }
     }
 }
+}
 
 void TObjEneMerillLia::vfunc_101() {  }
-
-}

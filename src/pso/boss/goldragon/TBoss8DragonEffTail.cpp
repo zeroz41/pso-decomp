@@ -108,8 +108,8 @@ CollisionBody boss8_dragon_eff_tail_init_data[17] = { { { 0.0f, 0.0f, 0.0f }, 10
 s32 boss8_eff_tail_bml_resource;
 u32 dragon_tail_gvm_texture_handle;
 
-extern "C" {
 extern s32 __vt__19TBoss8DragonEffTail[];
+extern "C" {
 EffTail_8002C06C *TBoss8DragonEffTail__ct(EffTail_8002C06C *arg0, s32 arg1, s32 arg2);
 void matrix_mult_vec(s32, void *, void *);
 s32 free_bin_model_request(s32, s32);
@@ -202,6 +202,7 @@ EffTail_8002C06C *TBoss8DragonEffTail__ct(EffTail_8002C06C *arg0, s32 arg1, s32 
     arg0->unkC8 = 0.0f;
     return arg0;
 }
+}
 
 void TBoss8DragonEffTail::free_statics() {
     if ((u32) dragon_tail_gvm_texture_handle != 0U) {
@@ -214,7 +215,6 @@ void TBoss8DragonEffTail::free_statics() {
 }
 
 u8 *load_gvm_texture_file(s32 arg0);
-}
 
 void TBoss8DragonEffTail::load_statics() {
     boss8_eff_tail_bml_resource = load_enemy_bml_resource((u8 *)&bm_obj_boss1_common_j_resource_descriptor);

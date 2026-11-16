@@ -304,9 +304,9 @@ struct PiecewiseCurve {
     f32 decelPos;
     f32 dist;
 };
-extern "C" {
 f32 sample_acceleration_curve(AccelerationCurve *c, f32 t);
 void init_acceleration_curve(AccelerationCurve *c, f32 a, f32 d, f32 length, f32 speed);
+extern "C" {
 void __dl__FPv(void);
 s32 reset_floats__15TObjBoss2TunnelFv();
 s32 get_view_matrix__11TCameraCtrlFv();
@@ -686,6 +686,7 @@ void init_piecewise_curve(PiecewiseCurve *c, f32 accel, f32 decel, f32 dist, f32
         c->end = c->decelStart + (-c->peak / c->decel);
     }
 }
+}
 
 #pragma push
 #pragma fp_contract on
@@ -735,8 +736,6 @@ s32 sample_piecewise_curve(PiecewiseCurve *c, f32 *out, f32 t) {
         *out = c->dist;
     }
     return done;
-}
-
 }
 #pragma pop
 s32 TObjBoss2Tunnel::advance_phase(f32 *out) {

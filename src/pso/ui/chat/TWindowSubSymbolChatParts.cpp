@@ -190,6 +190,7 @@ void fn_80284C04(u8 *arg0) {
     stack.spC = (40.0f * (f32) (s8) (u8) *(s8 *)((s8 *)arg0 + 0x74)) + 18.0f;
     ((TWindowMenu *)(*(u8 **)((s8 *)arg0 + 0x8C)))->copy_position(&stack.sp8);
 }
+}
 #pragma pop
 
 void select_symbol_chat_slot(TWindowSubSymbolChatParts *parts) {
@@ -339,6 +340,7 @@ void TWindowSubSymbolChatParts::sub_80285274(u8 *ctx) {
 
 #pragma push
 #pragma fp_contract on
+extern "C" {
 void fn_80285314(Win_802857C4 *self, Rect_802857C4 *ctx) {
     s32 n;
     s32 i;
@@ -614,5 +616,4 @@ Parts_80285D38 *TWindowSubSymbolChatParts__ct(Parts_80285D38 *arg0, void *arg1, 
     arg0->sub8C = q;
     return arg0;
 }
-
 }

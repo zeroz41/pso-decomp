@@ -62,12 +62,16 @@ extern s32 lobby_dns_server_addr2;
 extern s32 lobby_connect_battle_flag;
 s32 TLobby__sub_80146588(s32 *arg0);
 u8 *TLobby__sub_80146D14(void);
+}
 char *get_modem_phone_number(s32 idx);
+extern "C" {
 char *TLobby__sub_80146D44(void);
 char *TLobby__sub_80146D50(s32 idx);
 s32 TLobby__sub_801466F4(u32 arg0);
 s32 TLobby__sub_80145EE4(void);
+}
 s32 connect_pppoe(s32 *);
+extern "C" {
 s32 TLobby__sub_801465C0(s32 *);
 void fn_80147A68(void);
 void TLobby__sub_804073B8(void);
@@ -77,9 +81,9 @@ s32 lobby_net_session_id = -1;
 extern s32 TLobby__connect_pending_flags;
 extern s32 lobby_connect_active_flag;
 s32 TLobby__sub_801478C4(s32 arg0);
+}
 s32 connect_modem(s32 idx, s16 id);
 extern s32 actor_frame_tick;
-}
 
 struct Sub_801465C0 {
     u8 pad0[0x1C];
@@ -176,6 +180,7 @@ u32 lbl_8050C684[64];
 AccountEntry lobby_account_entries[3]; /* cleared by TLobby::init_account_entries, filled by load_network_configs; [2] is the modem account */
 u32 lbl_8050CCE8[73];
 __declspec(section ".data") s32 lbl_8050CE0C[2];
+}
 char lbl_8050CE14[0x20];
 char lbl_8050CE34[0x20];
 u8 lbl_8050CE54[0x114];
@@ -221,7 +226,9 @@ void TLobby::set_battle_flag(s32 arg0) {
 }
 
 void get_link_state(s16 *state, s16 *reason);
+extern "C" {
 s32 TWindowShortListCtrl__check_controller_button(ControllerInputContext *, int);
+}
 
 s32 connect_pppoe(s32 *out_value) {
     NetConnectCfg cfg;
@@ -323,6 +330,7 @@ s32 connect_pppoe(s32 *out_value) {
 }
 
 typedef char RecoveredGlobal_80146588_lbl_8050CCE8_size[sizeof(RecoveredGlobal_80146588_lbl_8050CCE8) == 0x12C ? 1 : -1];
+extern "C" {
 s32 TLobby__sub_80146588(s32 *arg0) {
     lobby_local_ip_addr = *(s32 *)((s8 *)(&(*(RecoveredGlobal_80146588_lbl_8050CCE8 *)&lbl_8050CCE8).value) + 4);
     *(s32 *)((s8 *)arg0 + 0) = *(s32 *)((s8 *)(&(*(RecoveredGlobal_80146588_lbl_8050CCE8 *)&lbl_8050CCE8).value) + 8);
@@ -394,12 +402,11 @@ s32 TLobby::query_task_active() {
 }
 
 int TLobby__sub_8014677C(void) { return TLobby__sub_80145DB4(1); }
+}
 int TLobby::get_link_status_value() { return TLobby__sub_80145DB4(4); }
 
 extern u32 lbl_805D5700;
 extern s32 TLobby__net_session_mode;
-
-}
 int get_link_status() {
     NetLinkStatus link;
     if (TLobby__net_session_mode == 0) {
@@ -426,8 +433,6 @@ int get_link_status() {
     }
     return 1;
 }
-extern "C" {
-
 void TLobby::cleanup() {
     if ((s32) TLobby__net_session_mode != 0) {
         TLobby__sub_801469B8(this);
@@ -443,6 +448,7 @@ void TLobby::cleanup() {
         lbl_805D5700 = 0U;
     }
 }
+extern "C" {
 s32 TLobby__sub_80146908() {
     NetTransportParams params;
     s32 size;
@@ -466,6 +472,7 @@ s32 TLobby__sub_80146908() {
     return TLobby__sub_801478C4(init_net_session());
 }
 void TLobby__sub_801469B8(void* p) { TLobby::flush_pending_flags(); }
+}
 void TLobby::flush_pending_flags() {
     NetLinkStatus status;
     NetWaitParam stop;
@@ -580,6 +587,7 @@ void TLobby::set_ppp_password(s32 arg0) {
 }
 
 typedef char RecoveredGlobal_80146D14_lbl_8050CCE8_size[sizeof(RecoveredGlobal_80146D14_lbl_8050CCE8) == 0x12C ? 1 : -1];
+extern "C" {
 u8 *TLobby__sub_80146D14(void) {
     TLobby__sub_8014618C();
     TLobby::is_state_active();
@@ -671,13 +679,13 @@ void TLobby::load_network_configs() {
 #undef A_80146D7C
 #undef C_80146D7C
 void TLobby__sub_8014715C(void* p, void* q) { *(u32*)((char*)p + 0x0) = *(u32*)((char*)q + 0x0); }
+}
 void TLobby::teardown_boss2() {
     if ((s32) lbl_805D570C != 0) {
         clear_all_used_records();
         TLobby__sub_8040A3C0();
         lbl_805D570C = 0;
     }
-}
 }
 
 #undef lbl_8050C0A8
@@ -743,6 +751,7 @@ s32 TLobby__sub_80147284(void) {
     TLobby::teardown_boss2();
     lobby_net_session_id = -1;
     return 0;
+}
 }
 
 void get_link_state(s16 *state, s16 *reason) {
@@ -961,6 +970,7 @@ s32 connect_modem(s32 idx, s16 id) {
         return 4;
     }
 }
+extern "C" {
 
 s32 TLobby__sub_801478C4(s32 id) {
     s32 count;

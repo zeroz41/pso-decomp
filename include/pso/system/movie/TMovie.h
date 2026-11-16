@@ -58,12 +58,10 @@ struct MovieFramePlanes {
     u32 uv_pitch;
 };
 
-extern "C" {
 extern void *movie_current_frame_buffer;
 extern s32 lbl_805D56A4;
 extern s32 lbl_805D56A8;
 
 void pack_movie_frame(MovieFramePlanes *planes);
-}
 
 #endif

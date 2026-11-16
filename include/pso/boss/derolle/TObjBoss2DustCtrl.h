@@ -16,7 +16,9 @@ extern "C" {
 void *TObjBoss2DustCtrl__ct(void *arg0);
 void TObjBoss2DustCtrl__sub_8003AB5C(void);
 void TObjBoss2DustCtrl__sub_8003AD50(void);
+}
 void boss2_dust_draw_at(s32 *arg0, s32 arg1);
+extern "C" {
 void fn_8003AD54(void);
 }
 

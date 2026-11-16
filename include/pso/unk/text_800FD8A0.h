@@ -5,7 +5,7 @@
 
 extern "C" {
 bool fn_800FD8A0(s32 arg0);
-s32 is_current_room(void *object);
 }
+s32 is_current_room(void *object);
 
 #endif

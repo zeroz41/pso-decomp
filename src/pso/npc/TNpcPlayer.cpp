@@ -25,6 +25,7 @@ extern "C" {
 s32 VecCopy__FP3VecPC3Vec(void *, int);
 void rotate_matrix_y(s32, s32);
 s32 push_matrix_from(void *src);
+}
 s32 pop_matrices(s32 arg0);
 extern u8 identity_matrix[];
 struct Stack_8014F728 {
@@ -391,6 +392,7 @@ struct Obj_80152F28 { u16 a; u16 b; };
 struct N_80152C8C { u8 pad0[7]; s8 count; u32 pos[1]; };
 
 struct Line_8014E488 { Vec_8014E3B0 p; Vec_8014E3B0 d; };
+extern "C" {
 
 s16 get_actor_tp(u8 *p);
 s16 obj_getS16_2BA(u8 *p);
@@ -496,6 +498,7 @@ const char *TNpcPlayer__name = "TNpcPlayer";
 // of this file, which no compiler-generated __sinit reproduces.
 void __sinit_TNpcPlayer_cpp();
 __declspec(section ".ctors") static void *const npc_player_global_initializer = (void *)__sinit_TNpcPlayer_cpp;
+}
 extern void *lbl_804AC690[35];
 extern void *lbl_804AC71C[35];
 extern void *lbl_804AC7A8[35];
@@ -1629,7 +1632,7 @@ extern "C" {
 void calc_box_escape_axis__10TNpcPlayerFv(void *, Vec_8014E3B0 *, Vec_8014E3B0 *, Vec_8014E3B0 *, Vec_8014E3B0 *, Vec_8014E3B0 *, Vec_8014E3B0 *, f32 *);
 s32 route_around_object__10TNpcPlayerFv(Self_8014E7A0 *self, Vec_8014E3B0 *out);
 }
-}
+
 s32 partner_clip_path_point(void *self, f32 *from, f32 *to, f32 *out);
 s32 partner_find_wall_segment(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
 s32 refresh_npc_view_actor_lost(void *arg0);

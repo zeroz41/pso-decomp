@@ -85,7 +85,9 @@ s32 push_matrix();
 s32 post_translate_matrix(void *);
 s32 select_enemy_destination(void *, Vec, int);
 s32 copy_position_if_valid__10TObjPlayerFii(void *, Vec);
+}
 void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
+extern "C" {
 void create__11TTecRaBartaFPvPvPvPv(void *, void *, void *, s32);
 s32 matrix_mult_vec(int, void *, void *);
 void TObjEneMe3SinowZoa__sub_80316C3C(TObjEneMe3SinowZoa *self, s32 arg1);
@@ -116,13 +118,16 @@ void TObjEneMe3SinowZoa__sub_80318C0C(TObjEneMe3SinowZoa *self, s32);
 void TObjEneMe3SinowZoa__sub_80318F7C(TObjEneMe3SinowZoa *self, s32);
 void TObjEneMe3SinowZoa__sub_80319748(TObjEneMe3SinowZoa *self, s32 arg1);
 void TObjEneMe3SinowZoa__sub_80319B8C(TObjEneMe3SinowZoa *self, s32 arg1);
+}
 void compose_motion_node_matrix(void *arg0);
+extern "C" {
 f64 atan2_float(f32, f32);
 s32 enemy_validate_retained_target(u8 *arg0);
 s32 free_bin_model_request(u32, s32);
 void mem_free(void *p);
 void *mem_alloc(u32 size);
 BOOL is_split_screen(void);
+}
 
 extern const f32 TObjEneMe3SinowZoa__data_805DF2FC;
 extern const f32 lbl_805DF300;
@@ -190,8 +195,6 @@ TObjMotionAction lbl_804E8880[13] = {
     { 3, 0, 3, 0.7f, 0x0 },
     { 3, 0, 8, 1.0f, 0x0 },
 };
-
-}
 
 struct ChunkModel {
     void *vlist;

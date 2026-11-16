@@ -93,9 +93,11 @@ void create__9TTecRestaFPvPvPvPv(void *, void *, void *, int);
 void matrix_mult_vec(int, void *, void *);
 void rotate_matrix_y(int, int);
 void push_matrix_from(void *);
-void pop_matrices(int);
+}
+s32 pop_matrices(s32 arg0);
 extern u8 identity_matrix[];
 extern s32 local_client_id;
+extern "C" {
 void launch_technique__10TObjPlayerFv(s32 tech, s32 unused, Player_8022D27C *pl);
 void *__nw__7TObjectFUl(u32);
 void *construct_actor_light__9TObjLightFlllllfffl(void *, Col_8022C738 *, Vec *, s32, void *, s32, f32, f32, f32);
@@ -105,9 +107,9 @@ void *__ct__13TUnk_804CCD0CFll(void *, void *, s32);
 void *construct_resta_charge_sound(void *, void *, s32);
 void *__ct__13TUnk_804CCAC8Fll(void *, void *, s32);
 void *__ct__13TUnk_804CC74CFll(void *, void *, s32);
+}
 extern LightData_8022C738 TObjLight__scene_light_state;
 extern s32 tl_07;
-}
 
 // The technique effects' models and motions, and the archive that holds them.
 const char *bm_technic_model_names[13] = {
@@ -186,9 +188,13 @@ extern RecoveredGlobal_8022F068_lbl_804CC934 technique_ringwave_texture_list;
 extern u8 *technique_effect_bml;
 extern void **lbl_805D63B0;
 u8 *load_resource_from_descriptor(u8 *, s32, void *, s32, s32, s32);
+}
 u8 *load_gvm_texture_file(s32 arg0);
+extern "C" {
 void bind_gvm_texture_list(const char *, void *);
+}
 void reset_telepipe_visit_counts(void);
+extern "C" {
 void __ct__7TObjectFP7TObject(void *);
 }
 
@@ -836,7 +842,6 @@ f32 calc_technique_boost(s32 technique, u16 actor) {
     return sum;
 }
 
-extern "C" {
 u32 get_technique_caster_flags(s32 technique, u16 actor) {
     u32 flags;
     void *player;
@@ -863,7 +868,6 @@ u32 get_technique_caster_flags(s32 technique, u16 actor) {
         }
     }
     return flags;
-}
 }
 
 s32 TTecCtrl::classify_distance_band(s32 technique, s32 arg1, u16 arg2) {

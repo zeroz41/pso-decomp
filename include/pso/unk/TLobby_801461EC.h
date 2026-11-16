@@ -21,14 +21,16 @@ void TLobby__sub_8014715C(void *p, void *q);
 s32 TLobby__sub_80147284(void);
 s32 TLobby__sub_801478C4(s32 arg0);
 void TLobby__sub_80147978(void);
+}
 s32 connect_modem(s32 idx, s16 id);
 s32 connect_pppoe(s32 *out_value);
+extern "C" {
 void fn_80147A60(int a0);
 void fn_80147A68(void);
 void *get_account_entry(int idx);
+}
 void get_link_state(s16 *state, s16 *reason);
 char *get_modem_phone_number(s32 idx);
-}
 // --- end of C functions
 
 #endif

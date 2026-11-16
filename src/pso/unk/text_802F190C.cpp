@@ -48,6 +48,7 @@ void fn_802F19C0(void) {
     }
     lbl_805D6960 = o;
 }
+}
 
 extern int boss7_common_texture_list;
 
@@ -63,6 +64,4 @@ void draw_particle_effect(void* a0) {
     clear_motion_packed_rotation();
     TParticleCtrl::end_effect_render();
     restore_draw_list_mask();
-}
-
 } // extern "C"

@@ -145,6 +145,7 @@ void TLobby__sub_80228154(Sprite_80228154 *sprite, s32 frame_index, s32 flags, f
     draw_textured_quad_at_depth(&quad.x0, depth);
     TWindowSubStatusDisp::get_player();
 }
+}
 
 void TLobby::clear_ready_flag_unless_locked() {
     if (get_current_floor_area() != AREA_LOBBY) {
@@ -248,6 +249,7 @@ void run_area_scene_cleanup(u8 *arg0) {
     *(s32 *)((s8 *)var_r31 + 8) = 0;
     *(s32 *)((s8 *)var_r31 + 0xC) = 0;
 }
+extern "C" {
 
 void load_area_scene_and_init(u8 *arg0) {
     s32 sp8;
@@ -267,6 +269,7 @@ void load_area_scene_and_init(u8 *arg0) {
     }
     area_initializer_dispatch_table[*(s32 *)((s8 *)var_r31 + 4)].init();
 }
+}
 
 void promote_area_floor(u8 *arg0) {
     s32 sp8;
@@ -283,7 +286,6 @@ void promote_area_floor(u8 *arg0) {
     *(s32 *)((s8 *)var_r31 + 4) = (s32) *(s32 *)((s8 *)var_r31 + 0xC);
     *(s32 *)((s8 *)var_r31 + 0x10) = (s32) *(s32 *)((s8 *)var_r31 + 0x18);
     TLobby::reset_story_select_state();
-}
 }
 
 Obj_80515BA0 lbl_80515BA0;

@@ -129,7 +129,9 @@ struct RecoveredGlobal_8034FCF0_lbl_804F0BF0 {
 extern "C" {
 u8 *TObjPlayer__sub_8034F1AC(u8 *item);
 s32 rotate_matrix_z(s32, s32);
+}
 void init_slicer_launch_state(void *arg0);
+extern "C" {
 u16 get_entity_id(void *);
 s16 TObjPlayer__sub_801D2F4C(s16 *arg0);
 s16 get_validated_attack_stage(u8 *arg0);
@@ -153,6 +155,7 @@ s32 rotate_matrix_y(int, int);
 s32 push_matrix();
 s32 scale_current_matrix(void *);
 s32 post_translate_matrix(void *);
+}
 extern s32 saved_model_draw_color[];
 extern s32 model_material_color[];
 extern s32 saved_model_render_flags;
@@ -166,7 +169,6 @@ extern s32 model_render_flags;
 // The functions from 0x8034FE28 on were a separate unit; their literals continue
 // this TU's .sdata2 pool at 0x805DFE14 (a 4-mod-8 address, so no TU starts there).
 const char *TItemEffPG__name = "TItemEffPG";
-}
 
 S_8035016C *S_8035016C::init_params() {
     TObjPlayer__sub_802E451C(this);

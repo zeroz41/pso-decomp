@@ -186,9 +186,9 @@ void draw_small_font_text(void *color, const char *s, f32 x, f32 y, f32 scale) {
     }
     TWindowSubStatusDisp::get_player();
 }
+}
 
 u32 get_name_text_width(void* p) { return ((u32 (*)(void*))calc_small_font_text_width)(p); }
-}
 
 u32 calc_small_font_text_width(const char *s) {
     f32 max = (0.0f);

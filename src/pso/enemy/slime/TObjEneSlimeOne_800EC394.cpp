@@ -70,9 +70,11 @@ extern s8 slime_one_animation_end_initialized;
 extern f32 slime_one_animation_end_frame;
 s32 TObjFish__sub_8001EDB0(s32, s32);
 void draw_model_motion(void *arg0, void *arg1, f32 farg0);
+}
 void draw_chunk_model_with_shape_motion(void *child, void *arg1, NJS_MOTION *arg2, f32 farg0);
 extern s32 slime_one_part_texture_index_table[];
 extern s32 model_render_flags;
+extern "C" {
 s32 get_bml_motion(s32, s32);
 s32 get_bml_model(s32, s32);
 extern void *lbl_80496C68[10];
@@ -320,8 +322,7 @@ void *fn_800ECA28(void *arg0, s32 arg1) {
     *(s32 *)((s8 *)arg0 + 4) = -1;
     return arg0;
 }
+}
 
 void TObjEneRe4Bit::vfunc_106() {  }
 void TObjEneRe4Bit::vfunc_105() {  }
-
-}

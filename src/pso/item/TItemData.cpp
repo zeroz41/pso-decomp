@@ -96,7 +96,9 @@ s32 check_equip_requirements(void *self, TItemData *p, s32 *out);
 int check_class_equip_permission(TObjPlayer *player, s32 perm);
 void *lookup_item_pmt_record(u8 *item);
 s32 update_player_field__9TItemDataFv(void *);
+}
 u8 get_technique_learn_limit(u8, u8);
+extern "C" {
 void *get_player_by_client_id(s32 i);
 s16 *get_class_stat_entry__10TObjPlayerFPUc(void *);
 u8 get_cast_technique_level(void *, int);
@@ -848,7 +850,9 @@ extern "C" {
 void *get_armor_pmt_record(int type, int id);
 s32 get_item_star_count(s32);
 s32 is_rare_item__9TItemDataFPv(u8 *item);
+}
 int get_item_chunk_buffer(int a0);
+extern "C" {
 s32 get_item_description_text(s32);
 int sprintf(char *, const char *, ...);
 }

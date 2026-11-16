@@ -489,6 +489,7 @@ extern "C" s32 update_defense_stat_status__9TObjCharaFv(u8 *player);
 extern "C" void update_flag30_timer__9TObjCharaFv();
 extern "C" void update_object_view_visibility__8TObjBaseFff();
 extern "C" void update_poison_status__9TObjCharaFv();
+}
 const char *beast_model_name_table[4] = {
     "re8_b_beast_wola_body.nj", "re8_b_rdbeast_wola_body.nj", "re8_b_srdbeast_wola_body.nj", NULL,
 };
@@ -673,6 +674,7 @@ void TObjEneBeast::load_resources() {
 }
 
 #pragma pop
+extern "C" {
 // Archive loaded instead of beast_resource_descriptor's when TObjEneDD::check_v2_mode() is set. Defined after
 // load_resources (it follows that function's initialisers and is not pooled there); the declaration above it would
 // otherwise send it to .data.
@@ -785,7 +787,6 @@ void *TObjEneBeast__ct(void *arg0v, void *arg1, void *arg2) {
     ((VObj_800927DC *)arg0)->m80();
     return arg0;
 }
+}
 #undef arg0
 #undef F
-
-}

@@ -3,8 +3,8 @@
 
 #include "types.h"
 
-extern "C" {
 void init_item_drop_globals(void);
+extern "C" {
 u8 *TItemDrop__sub_80107840(u8 *arg0, s16 arg1);
 int TItemDrop__sub_80107B04(void);
 void TItemDrop__vt0(void);
@@ -42,8 +42,8 @@ s32 try_generate_rare_item__9TItemDropFiPvPv(s32 arg0, u8 *arg1, u8 *arg2);
 }
 
 // --- C functions defined in TItemDrop_80105D0C.cpp ---
-extern "C" {
 void init_item_drop_globals(void);
+extern "C" {
 u8 *TItemDrop__sub_80107840(u8 *arg0, s16 arg1);
 int TItemDrop__sub_80107B04(void);
 void TItemDrop__vt0(void);

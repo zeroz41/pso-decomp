@@ -4,9 +4,7 @@
 #include "types.h"
 
 // --- C functions defined in render_util_tail.cpp ---
-extern "C" {
 void set_global_draw_flag_bits(void *owner, u32 bits);
-}
 // --- end of C functions
 
 #endif

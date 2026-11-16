@@ -111,11 +111,11 @@ struct QFrameCtx_80245808
   f32 scaleY;
 };
 
-extern "C" {
 void reset_line_width(void);
 void set_line_width(int a0);
 struct Vec2_80245A10 { f32 x, y; };
 struct Lines_80245A10 { Vec2_80245A10 *verts; u32 *colors; s32 f8; s32 count; };
+extern "C" {
 void TWindowSubComCard__sub_80245A10(u8 *arg0, s32 arg1, TWindowKeyBoardSoft *r, f32 len);
 void draw_color_lines(Lines_80245A10 *l, s32 n, s32 flags, f32 scale);
 void begin_screen_draw(s32);
@@ -234,6 +234,7 @@ void fn_802449E0(u8 *object) {
     *(s16 *)((s8 *)object + 0x22) = 0;
     ((TObject *)object)->disallow_rendering();
 }
+}
 
 void TWindowBase::close() {
     ((TWindowLockOn *)this)->request_close();
@@ -260,7 +261,6 @@ void TWindowLockOn::request_close() {
 
 s32 TWindowBase::is_window_reveal_complete() {
     return (f32) *(s32 *)((s8 *)((u8 *)this) + 0x5C) >= 7.5f;
-}
 }
 extern u16 window_ui_theme_index;
 extern s16 lbl_805D63F6;

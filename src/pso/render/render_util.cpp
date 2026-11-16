@@ -236,6 +236,7 @@ f32 horizontal_distance_squared(const Vec *a, const Vec *b) {
     f32 dz = b->z - a->z;
     return dx * dx + dz * dz;
 }
+}
 
 // Normalizes v and returns 1, or returns 0 when v is (nearly) zero.
 s32 normalize_if_nonzero(Vec *v) {
@@ -244,8 +245,6 @@ s32 normalize_if_nonzero(Vec *v) {
     }
     normalize_vector(v);
     return 1;
-}
-
 }
 
 void calc_direction_vector(s32 angle, Vec *out, f32 length) {
@@ -264,8 +263,6 @@ s32 calc_angle_to(Vec *from, Vec *to) {
     return RAD_TO_ANGLE * atan2_float(to->x - from->x, to->z - from->z);
 }
 
-extern "C" {
-
 s32 f32_bits(f32 value) {
     union {
         f32 f;
@@ -282,8 +279,6 @@ f32 bits_to_f32(s32 bits) {
     } u;
     u.i = bits;
     return u.f;
-}
-
 }
 
 void set_inverse_alpha_blend() { set_color_blending_mode(0, 5); set_color_blending_mode(1, 6); }

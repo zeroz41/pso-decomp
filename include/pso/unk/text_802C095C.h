@@ -3,14 +3,10 @@
 
 #include "types.h"
 
-extern "C" {
 void *create_lobby_pigeon(void *source);
-}
 
 // --- C functions defined in text_802C095C.cpp ---
-extern "C" {
 void *create_lobby_pigeon(void *source);
-}
 // --- end of C functions
 
 #endif

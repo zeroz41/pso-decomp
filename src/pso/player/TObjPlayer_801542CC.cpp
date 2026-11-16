@@ -138,9 +138,9 @@ extern Vec_80155294 scratch_vec;
 f32 atan2_float(f32 y, f32 x);
 s32 angle_difference_abs(s32, s32);
 void *find_entity_by_id(u16 id);
+}
 extern s32 quest_object_entries;
 void handle_6x0B_update_object_state(G_UpdateObjectState_6x0B *packet);
-}
 s32 resolve_player_box_contact(u8 *arg0, u8 *arg1, u8 *arg2);
 struct Obj_80156844 { u8 pad[0x1C]; u16 room; u8 pad2[0x90 - 0x1E]; void *f90; };
 
@@ -380,6 +380,7 @@ void *resolve_hittable_target(u16 actorId, s16 collider) {
     }
     return target;
 }
+}
 
 void handle_6x0B_update_object_state(G_UpdateObjectState_6x0B *packet) {
     ObjectSavedState_801548A8 state;
@@ -469,6 +470,7 @@ void TObjCollidable::register_object_by_id() {
 
 #define o ((Obj_80154B60 *)ov)
 #define TBL ((Obj_80154B60 **)TObjPlayer__data_8050D460)
+extern "C" {
 u16 register_entity_by_id(void *ov) {
     u16 id;
     s32 lo;

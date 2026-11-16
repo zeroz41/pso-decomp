@@ -23,9 +23,7 @@ struct RecoveredGlobal_8006C03C_lbl_804FF5E8 {
     u8 remaining[0x24];
 };
 
-extern "C" {
 void direction_to_pitch_yaw(u8 *arg0, s32 *arg1, s32 *arg2);
-}
 void set_camera_look_at(u8 *eye, u8 *target, u8 *up);
 extern RecoveredGlobal_8006C03C_lbl_804FF5E8 lbl_804FF5E8;
 extern TCameraCtrl *camera_ctrl_instance;

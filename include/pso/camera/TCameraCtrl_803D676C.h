@@ -4,9 +4,7 @@
 #include "types.h"
 
 // --- C functions defined in TCameraCtrl_803D676C.cpp ---
-extern "C" {
 void set_perspective_projection_from_fov(s32 arg0, f32 farg0, f32 farg1, f32 farg2);
-}
 // --- end of C functions
 
 #endif

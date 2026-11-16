@@ -73,8 +73,10 @@ void vec3_add_to(void *, void *);
 void rotate_vector_by_matrix(int, void *, void *);
 void rotate_matrix_y(int, int);
 s32 push_matrix_from(void *);
+}
 s32 pop_matrices(s32 arg0);
 extern u8 identity_matrix[];
+extern "C" {
 void run_task__12TPhotonLaserFv(Laser_801AC17C *o);
 s32 free_collision_body_parts(void *);
 
@@ -118,7 +120,6 @@ void run_task__12TPhotonLaserFv(Laser_801AC17C *o) {
         ((TObject *)o)->queue_destruction();
     }
 }
-
 }
 TPhotonLaser::~TPhotonLaser() {
     this->unregister_object_by_id();

@@ -140,8 +140,10 @@ void TObjPlayer__sub_80079108(void);
 s32 TObjPlayer__sub_80079118(const char *);
 void TObjPlayer__sub_8007911C(void);
 void TObjPlayer__sub_80079120(s32);
+}
 s32 evaluate_ground_triangles(Vec *origin, u32 mask, CsnGroup **groups);
 extern s32 lbl_80500140[];
+extern "C" {
 s32 *csnVectorUnder(Vec *arg0, u32 *arg1, s32 arg2);
 void TObjPlayer__sub_80079120(s32 _w0);
 extern u32 lbl_804FFD40[];
@@ -229,6 +231,7 @@ s32 calc_segment_xz_distance_sq(Vec_8007A138 *c, Vec_8007A138 *o, Vec_8007A138 *
 #define GT_EPS_NY (1e-5f)    /* skip walls (normal y) */
 #define GT_EPS_EDGE (-1e-4f) /* edge test tolerance */
 void vsub(void *, void *, void *);
+}
 s32 evaluate_ground_triangles(Vec *origin_arg, u32 mask_arg, CsnGroup **list_arg) {
   CsnVector *origin = (CsnVector *) origin_arg;
   u32 mask = mask_arg;
@@ -407,7 +410,6 @@ s32 evaluate_ground_triangles(Vec *origin_arg, u32 mask_arg, CsnGroup **list_arg
   }
 
   return hdr[0] & 1;
-}
 }
 #undef GT_DOWN
 #undef GT_TMAX

@@ -18,7 +18,9 @@ s32 __ct__7TObjectFP7TObject(void *, void *);
 extern RecoveredGlobal_802F119C___vt__13TObjBoss7Dust __vt__13TObjBoss7Dust;
 extern s32 TObjBoss7Dust__name;
 void TObjBoss7DustCtrl__sub_802F1450(void);
+}
 void boss7_dust_draw_at(s32 *arg0, s32 arg1);
+extern "C" {
 void fn_802F1454(void);
 void fn_802F19C0(void);
 s32 queue_destruction__7TObjectFv();
