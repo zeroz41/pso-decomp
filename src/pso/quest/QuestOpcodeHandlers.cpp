@@ -6071,7 +6071,7 @@ void qst_op_bgm(void) {
 }
 
 void qst_op_se(void) {
-    play_sound_effect(quest_sound_effect_ids[qst_args[0]], (Vec *)0, 0, 0);
+    play_sound_effect(quest_sound_effect_ids[qst_args[0]], NULL, 0, 0);
 }
 
 void qst_op_fadeout(void) {
