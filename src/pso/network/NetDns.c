@@ -368,124 +368,121 @@ s32 TLobby__sub_8040A8B0(char *name, s16 idx, s32 type)
     return -0x40;
   }
   e->kind = 1;
+  e->req.lookup.family = type;
+  t = &e->req.lookup;
+  p = find_host_8040A8B0(base, name, idx);
+  if (p != ((void *) 0))
   {
-    s32 len = idx;
-    e->req.lookup.family = type;
-    t = &e->req.lookup;
-    p = find_host_8040A8B0(base, name, len);
-    if (p != ((void *) 0))
+    e->status = 0;
+    t->host = p;
+    ty = t->family;
+    if (ty == 0)
     {
-      e->status = 0;
-      t->host = p;
-      ty = t->family;
-      if (ty == 0)
+      if (p->naddrs > 0)
       {
-        if (p->naddrs > 0)
+        return e->index;
+      }
+    }
+    else
+    {
+      DnsAddr *node;
+      for (node = p->addrs; node != ((void *) 0); node = node->next)
+      {
+        if (node->addr.family == ty)
         {
           return e->index;
         }
       }
+
+    }
+  }
+  m = grab_slot_8040A8B0(base);
+  e->msg = m;
+  if (m == ((void *) 0))
+  {
+    close_and_reset_connection(e);
+    return -0x43;
+  }
+  e->id = base->next_id++;
+  e->timer = base->timeouts[0];
+  e->server = base->server;
+  e->status = 0;
+  base = (DnsResolverState *) fnar_8040B1C4(base, e);
+  if (base == ((void *) 0))
+  {
+    close_and_reset_connection(e);
+    return -0x44;
+  }
+  e->socket = udp_open(0, 0, 0, 0x35, complete_pending_request, TLobby__sub_8040B4BC);
+  i = e->socket;
+  if (i < 0)
+  {
+    close_and_reset_connection(e);
+    return i;
+  }
+  if (t->host == ((void *) 0))
+  {
+    p = TLobby__sub_8040C09C();
+    p->name_len = idx;
+    NetMemcpy(p->name, name, idx);
+    t->host = p;
+  }
+  switch (t->family)
+  {
+    case 0:
+    {
+      send_buffs buf;
+      build_dns_query_aaaa(e, name, idx);
+      buf.len = e->msg->len;
+      buf.buff = e->msg->data;
+      i = udp_send(e->socket, (void *) 0, base, 0, (void *) 0, 1, &buf);
+      if (i < 0)
+      {
+        e->timer = 1;
+        e->status = e->status + 1;
+      }
       else
       {
-        DnsAddr *node;
-        for (node = p->addrs; node != ((void *) 0); node = node->next)
-        {
-          if (node->addr.family == ty)
-          {
-            return e->index;
-          }
-        }
-
+        e->timer = 2;
+        e->outstanding = 1;
       }
+      break;
     }
-    m = grab_slot_8040A8B0(base);
-    e->msg = m;
-    if (m == ((void *) 0))
+
+    case 4:
     {
-      close_and_reset_connection(e);
-      return -0x43;
-    }
-    e->id = base->next_id++;
-    e->timer = base->timeouts[0];
-    e->server = base->server;
-    e->status = 0;
-    base = (DnsResolverState *) fnar_8040B1C4(base, e);
-    if (base == ((void *) 0))
-    {
-      close_and_reset_connection(e);
-      return -0x44;
-    }
-    e->socket = udp_open(0, 0, 0, 0x35, complete_pending_request, TLobby__sub_8040B4BC);
-    i = e->socket;
-    if (i < 0)
-    {
-      close_and_reset_connection(e);
-      return i;
-    }
-    if (t->host == ((void *) 0))
-    {
-      p = TLobby__sub_8040C09C();
-      p->name_len = idx;
-      NetMemcpy(p->name, name, len);
-      t->host = p;
-    }
-    switch (t->family)
-    {
-      case 0:
+      send_buffs buf;
+      build_dns_query_a(e, name, idx);
+      buf.len = e->msg->len;
+      buf.buff = e->msg->data;
+      i = udp_send(e->socket, (void *) 0, base, 0, (void *) 0, 1, &buf);
+      if (i < 0)
       {
-        send_buffs buf;
-        build_dns_query_aaaa(e, name, idx);
-        buf.len = e->msg->len;
-        buf.buff = e->msg->data;
-        i = udp_send(e->socket, (void *) 0, base, 0, (void *) 0, 1, &buf);
-        if (i < 0)
-        {
-          e->timer = 1;
-          e->status = e->status + 1;
-        }
-        else
-        {
-          e->timer = 2;
-          e->outstanding = 1;
-        }
-        break;
+        e->timer = 1;
       }
-
-      case 4:
-      {
-        send_buffs buf;
-        build_dns_query_a(e, name, idx);
-        buf.len = e->msg->len;
-        buf.buff = e->msg->data;
-        i = udp_send(e->socket, (void *) 0, base, 0, (void *) 0, 1, &buf);
-        if (i < 0)
-        {
-          e->timer = 1;
-        }
-        e->status = e->status + 1;
-        break;
-      }
-
-      case 6:
-      {
-        send_buffs buf;
-        build_dns_query_aaaa(e, name, idx);
-        buf.len = e->msg->len;
-        buf.buff = e->msg->data;
-        i = udp_send(e->socket, (void *) 0, base, 0, (void *) 0, 1, &buf);
-        if (i < 0)
-        {
-          e->timer = 1;
-        }
-        e->status = e->status + 1;
-        break;
-      }
-
+      e->status = e->status + 1;
+      break;
     }
 
+    case 6:
     {
-      u32 pad[4];
+      send_buffs buf;
+      build_dns_query_aaaa(e, name, idx);
+      buf.len = e->msg->len;
+      buf.buff = e->msg->data;
+      i = udp_send(e->socket, (void *) 0, base, 0, (void *) 0, 1, &buf);
+      if (i < 0)
+      {
+        e->timer = 1;
+      }
+      e->status = e->status + 1;
+      break;
     }
+
+  }
+
+  {
+    u32 pad[4];
   }
   return e->index;
 }
