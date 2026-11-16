@@ -768,7 +768,7 @@ void vfunc_83__13TBoss5GryphonFv();
 }
 extern "C" {
 s32 is_split_screen();
-void TBoss8Dragon__sub_8005DF60(TBoss5Gryphon *self);
+void render__13TBoss5GryphonFv(TBoss5Gryphon *self);
 }
 extern "C" {
 void matrix_mult_vec(s32 mtx, void *in, void *out);
@@ -1350,25 +1350,25 @@ void TBoss5Gryphon::render_model() {
 
 void TBoss5Gryphon::render_shadows() { if (check_demo_mode__10TObjPlayerFv(this) == 0) { render_model(); } }
 
-void TBoss8Dragon__sub_8005DF60(TBoss5Gryphon *self) {
+void TBoss5Gryphon::render() {
     s32 view = 0;
     if (TObjPlayer::check_demo_mode() != 0) {
-        self->vfunc_105();
+        this->vfunc_105();
         return;
     }
     if (is_split_screen() != 0) {
         view = TCameraCtrl::get_camera_mode();
     }
-    if (self->defer_render() != 0) {
-        TBoss8Dragon__sub_8005E040(self);
-        self->draw_body();
-        self->copy_bone_positions();
-        if (self->renderFadeStates[view].isFading() == 0) {
-            self->render_with_fade(view);
+    if (this->defer_render() != 0) {
+        TBoss8Dragon__sub_8005E040(this);
+        this->draw_body();
+        this->copy_bone_positions();
+        if (this->renderFadeStates[view].isFading() == 0) {
+            this->render_with_fade(view);
         }
-        self->render_nodes_with_flag();
-    } else if (self->renderFadeStates[view].isFading() != 0) {
-        self->render_with_fade(view);
+        this->render_nodes_with_flag();
+    } else if (this->renderFadeStates[view].isFading() != 0) {
+        this->render_with_fade(view);
     }
 }
 
@@ -1801,7 +1801,7 @@ void *gryphon_particle_position_vec[3] = {
 };
 void *__vt__13TBoss5Gryphon[107] = {
     (void *)0x0, (void *)0x0, (void *)&__dt__13TBoss5GryphonFv, (void *)&run_task__13TBoss5GryphonFv,
-    (void *)&TBoss8Dragon__sub_8005DF60, (void *)&render_shadows__13TBoss5GryphonFv, (void *)&vfunc_6__8TObjBaseFPsl, (void *)&apply_object_set_data__8TObjBaseFPv,
+    (void *)&render__13TBoss5GryphonFv, (void *)&render_shadows__13TBoss5GryphonFv, (void *)&vfunc_6__8TObjBaseFPsl, (void *)&apply_object_set_data__8TObjBaseFPv,
     (void *)&reset_motion_fields__9TObjCharaFv, (void *)&get_center__9TObjCharaFv, (void *)&update_object_view_visibility__8TObjBaseFff, (void *)&classify_actor_view_detail__8TObjBaseFfff,
     (void *)&get_name__9TObjEnemyFv, (void *)&interact__14TObjCollidableFl, (void *)&add_actor_exp__9TObjCharaFl, (void *)&consume_timer_field__9TObjCharaFl,
     (void *)&get_actor_level_index__9TObjCharaFv, (void *)&update_actor_ground_y__9TObjCharaFv, (void *)&vfunc_18__9TObjCharaFPUc, (void *)&is_actor_cadence_frame__9TObjCharaFl,

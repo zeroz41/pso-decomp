@@ -143,7 +143,7 @@ s32 update__15RenderFadeStateFv(void *);
 void restore_scene_lighting(void);
 void select_actor_lighting(s32 obj);
 s32 defer_render__7TObjectFv(void *);
-void draw_model__14TObjEneGibblesFPv(TObjEneGibbles *arg0);
+void render__14TObjEneGibblesFv(TObjEneGibbles *arg0);
 f32 subtract_vector(void *, void *);
 s32 check_path_obstructed(void *, void *);
 u8 * get_player_data__10TObjPlayerFi(s32);
@@ -672,7 +672,7 @@ void *lbl_804E296C[33] = {
 };
 void *lbl_804E29F0[83] = {
     (void *)0x0, (void *)0x0, (void *)&TObjEneGibbles__sub_802DB920, (void *)&run_task__14TObjEneGibblesFv,
-    (void *)&draw_model__14TObjEneGibblesFPv, (void *)&render_shadows__9TObjEnemyFv, (void *)&vfunc_6__8TObjBaseFPsl, (void *)&apply_object_set_data__8TObjBaseFPv,
+    (void *)&render__14TObjEneGibblesFv, (void *)&render_shadows__9TObjEnemyFv, (void *)&vfunc_6__8TObjBaseFPsl, (void *)&apply_object_set_data__8TObjBaseFPv,
     (void *)&reset_motion_fields__9TObjCharaFv, (void *)&get_center__14TObjEneGibblesFv, (void *)&update_object_view_visibility__8TObjBaseFff, (void *)&classify_actor_view_detail__8TObjBaseFfff,
     (void *)&get_name__9TObjEnemyFv, (void *)&interact__14TObjCollidableFl, (void *)&add_actor_exp__9TObjCharaFl, (void *)&consume_timer_field__9TObjCharaFl,
     (void *)&get_actor_level_index__9TObjCharaFv, (void *)&update_actor_ground_y__9TObjCharaFv, (void *)&vfunc_18__9TObjCharaFPUc, (void *)&is_actor_cadence_frame__9TObjCharaFl,
@@ -2311,8 +2311,8 @@ void gibbles_render_node_callback(void) {
 }
 extern "C" {
 
-void draw_model__14TObjEneGibblesFPv(TObjEneGibbles *arg0) {
-    Obj_802DB200 *self = (Obj_802DB200 *)arg0;
+void TObjEneGibbles::render() {
+    Obj_802DB200 *self = (Obj_802DB200 *)this;
     Vec_800A6B14 v;
     s32 fade;
     s32 vis;
@@ -2328,26 +2328,26 @@ void draw_model__14TObjEneGibblesFPv(TObjEneGibbles *arg0) {
     }
     if (vis != 0) {
         update__15RenderFadeStateFv(&self->fades[cam]);
-        fade = ((RenderFadeState *)(&self->fades[cam]))->updateFromCamera((const f32*)((u8 *)arg0 + 0x2FC));
-        select_actor_lighting((s32)arg0);
-        TObjFish::set_global_param(arg0->texlist);
+        fade = ((RenderFadeState *)(&self->fades[cam]))->updateFromCamera((const f32*)((u8 *)this + 0x2FC));
+        select_actor_lighting((s32)this);
+        TObjFish::set_global_param(this->texlist);
         push_matrix_from(0);
-        VecCopy((Vec *)&v, (const Vec *)((Vec_800A6B14 *)((u8 *)arg0 + 0x38)));
-        switch (arg0->mode) {
+        VecCopy((Vec *)&v, (const Vec *)((Vec_800A6B14 *)((u8 *)this + 0x38)));
+        switch (this->mode) {
         case 2:
         case 6:
         case 10:
-            v.y += arg0->m_38c;
+            v.y += this->m_38c;
             break;
         }
         translate_matrix_vec3((u8 *)(0), (u8 *)&v);
-        rotate_matrix_y(0, arg0->rotation_y);
-        scale_matrix_vec3(0, (u8 *)arg0 + 0x68);
+        rotate_matrix_y(0, this->rotation_y);
+        scale_matrix_vec3(0, (u8 *)this + 0x68);
         TObjEneGibbles__render_node_index = 0;
-        TObjEneGibbles__render_rotation_x = arg0->m_3bc;
+        TObjEneGibbles__render_rotation_x = this->m_3bc;
         set_chunk_model_node_callback((s32)((void *)gibbles_render_node_callback));
         TObjPlayer::toggle_particle_effect();
-        switch (arg0->mode) {
+        switch (this->mode) {
         case 0:
             break;
         case 1:
@@ -2359,8 +2359,8 @@ void draw_model__14TObjEneGibblesFPv(TObjEneGibbles *arg0) {
                 saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
                 model_render_flags |= 1;
                 self->sub.m6();
-                if (defer_render__7TObjectFv(arg0) == 0) {
-                    ((TObjMotion *)arg0)->draw();
+                if (defer_render__7TObjectFv(this) == 0) {
+                    ((TObjMotion *)this)->draw();
                 }
                 self->sub.m7();
                 chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
@@ -2374,11 +2374,11 @@ void draw_model__14TObjEneGibblesFPv(TObjEneGibbles *arg0) {
                 saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
                 saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
                 self->fades[cam].m6();
-                if (defer_render__7TObjectFv(arg0) == 0) {
+                if (defer_render__7TObjectFv(this) == 0) {
                     if (vis == 1) {
-                        ((TObjMotion *)arg0)->draw();
+                        ((TObjMotion *)this)->draw();
                     } else {
-                        ((TObjEnemy *)arg0)->draw_motion_model();
+                        ((TObjEnemy *)this)->draw_motion_model();
                     }
                 }
                 self->fades[cam].m7();
@@ -2386,9 +2386,9 @@ void draw_model__14TObjEneGibblesFPv(TObjEneGibbles *arg0) {
                 chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
                 model_render_flags = saved_model_render_flags;
             } else if (vis == 1) {
-                ((TObjMotion *)arg0)->draw();
+                ((TObjMotion *)this)->draw();
             } else {
-                ((TObjEnemy *)arg0)->draw_motion_model();
+                ((TObjEnemy *)this)->draw_motion_model();
             }
             break;
         }
@@ -2396,11 +2396,11 @@ void draw_model__14TObjEneGibblesFPv(TObjEneGibbles *arg0) {
         set_chunk_model_node_callback((s32)NULL);
         pop_matrix();
         restore_scene_lighting();
-        if (!(arg0->m_374 & 1)) {
-            ((TObjEnemy *)arg0)->draw_ground_shadow(0, 0);
+        if (!(this->m_374 & 1)) {
+            ((TObjEnemy *)this)->draw_ground_shadow(0, 0);
         }
     } else {
-        arg0->update_position();
+        this->update_position();
     }
 }
 

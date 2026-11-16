@@ -1532,7 +1532,6 @@ struct TObjPlayer : public TObjChara {
     s32 m_db4;
     void revive_or_spawn_marker();
     static void spawn_dead_spot(s32 point, s32 selector, s32 delay, f32 farg0);
-    void update_homing_shot();
     static s32 find_or_alloc_slot(u32 arg0);
     void apply_luck_reward(u8 arg1);
     void add_dfp_material(u8 arg1);

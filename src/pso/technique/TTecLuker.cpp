@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/network/protocol/protocol_types.h"
+#include "pso/unk/TUnk_804CC9D4.h"
 #include "pso/unk/TLobby_801E43E4.h"
 #include "types.h"
 #include "pso/map/FloorArea.h"
@@ -314,10 +315,10 @@ u8 *construct_resta_charge_sound(u8 *arg0, s32 arg1, s32 arg2) {
 
 void TUnk_804CC9D4::interact(s32) { this->m_b0 = 1; }
 
-void TTecLuker::update_player_target() {
+void TUnk_804CC9D4::run_task() {
     u8 *arg0 = (u8 *)this;
     if (is_split_screen() != 0) {
-        if ((s32) this->m_ac != 0) {
+        if ((s32) (*(s32 *)((u8 *)this + 0xAC)) != 0) {
             submit_cursor_candidate(arg0, -1);
             return;
         }

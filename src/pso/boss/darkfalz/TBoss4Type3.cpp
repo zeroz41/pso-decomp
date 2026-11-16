@@ -402,7 +402,7 @@ void TBoss4Type3__sub_80059F64(Obj_80059F64 *self, s32 arg1);
 
 void TBoss4Type3__sub_8005A150(TBoss4Type3 *self);
 void TBoss4Type3__sub_80059DCC(TBoss4Type3 *self, u32 packed);
-void TBoss4Type3__sub_8005A86C(void* p);
+void render__11TBoss4Type3Fv(void* p);
 void vfunc_63__11TBoss4Type3Fv(Obj_8005ACBC *self);
 void vfunc_62__11TBoss4Type3Fv(u8 *arg0);
 S_8005AD50 * __dt__11TBoss4Type3Fv(S_8005AD50 *o, s16 flag);
@@ -734,7 +734,7 @@ void *boss4_type3_radar_marker_colors[4] = {
 };
 void *__vt__11TBoss4Type3[83] = {
     (void *)0x0, (void *)0x0, (void *)&__dt__11TBoss4Type3Fv, (void *)&run_task__11TBoss4Type3Fv,
-    (void *)&TBoss4Type3__sub_8005A86C, (void *)&render_shadows__9TObjEnemyFv, (void *)&vfunc_6__8TObjBaseFPsl, (void *)&apply_object_set_data__8TObjBaseFPv,
+    (void *)&render__11TBoss4Type3Fv, (void *)&render_shadows__9TObjEnemyFv, (void *)&vfunc_6__8TObjBaseFPsl, (void *)&apply_object_set_data__8TObjBaseFPv,
     (void *)&reset_motion_fields__9TObjCharaFv, (void *)&get_center__9TObjCharaFv, (void *)&update_object_view_visibility__8TObjBaseFff, (void *)&classify_actor_view_detail__8TObjBaseFfff,
     (void *)&get_name__9TObjEnemyFv, (void *)&interact__14TObjCollidableFl, (void *)&add_actor_exp__9TObjCharaFl, (void *)&consume_timer_field__9TObjCharaFl,
     (void *)&get_actor_level_index__9TObjCharaFv, (void *)&update_actor_ground_y__9TObjCharaFv, (void *)&vfunc_18__9TObjCharaFPUc, (void *)&is_actor_cadence_frame__9TObjCharaFl,
@@ -1080,7 +1080,7 @@ void TBoss4Type3::run_task() {
 }
 #pragma pop
 
-void TBoss4Type3__sub_8005A86C(void* p) { ((TBoss4Type3 *)p)->draw(); }
+void TBoss4Type3::render() { ((TBoss4Type3 *)this)->draw(); }
 
 void TBoss4Type3::advance_afterimage() {
     VecCopy__FP3VecPC3Vec(((u8 *)this) + 0x2FC, ((u8 *)this) + 0x38);

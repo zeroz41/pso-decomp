@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+extern "C" void render__22TAdEnterSerialAccessGCFv();
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/system/task/TMainTask.h"
@@ -229,11 +230,11 @@ void render_shadows__7TObjectFv(void *);
 s32 __vt__22TAdEnterSerialAccessGC[6] = {
     0, 0, (s32)__dt__22TAdEnterSerialAccessGCFv,
     (s32)run_task__22TAdEnterSerialAccessGCFv,
-    (s32)TAdEnterSerialAccessGC::render,
+    (s32)&render__22TAdEnterSerialAccessGCFv,
     (s32)render_shadows__7TObjectFv
 };
 
-void TAdEnterSerialAccessGC::render(void *self) {
+void TAdEnterSerialAccessGC::render() {
     if (TMainTask::get_render_pass() == 1) { return;
     }
 }

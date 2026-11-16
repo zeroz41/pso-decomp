@@ -6,6 +6,7 @@
 
 struct TAdEnterSerialAccessGC : public TAdEnterBaseGC {
     virtual ~TAdEnterSerialAccessGC();
+    virtual void render();
     virtual void run_task();
     u8 unk_38[0x4];
     s32 m_3c; // 0x3C
@@ -19,7 +20,6 @@ struct TAdEnterSerialAccessGC : public TAdEnterBaseGC {
     u32 m_5c;
     u32 m_60;
     u32 m_64;
-    static void render(void *self);
     static void draw_screen(void *arg0, void *arg1);
     static void draw_serial_separators();
     static void draw_serial_plates();

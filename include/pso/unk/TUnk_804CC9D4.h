@@ -6,6 +6,7 @@
 class TUnk_804CC9D4 : public TObjCollidable {
 public:
     virtual ~TUnk_804CC9D4();
+    virtual void run_task();
     virtual void interact(s32 client);
     u8 unk_AC[0x4];
     s32 m_b0;

@@ -47,7 +47,7 @@ void *TWindowSubStatusDisp::refresh_with_default_list(s32 a, s32 b) {
     return TWindowSubStatusDisp__sub_80248BE8(a, b, local_client_id);
 }
 
-void TWindowSubStatusDisp::render_status_and_children() {
+void TUnk_804CE7E8::render() {
     s32 temp_r3;
 
     temp_r3 = get_draw_context__11TWindowBaseFPv();
@@ -65,7 +65,7 @@ void TWindowSubStatusDisp::render_status_and_children() {
 extern s32 status_disp_window_dispatch_table[];
 
 typedef char RecoveredGlobal_80248CF4_lbl_8050E208_size[sizeof(RecoveredGlobal_80248CF4_lbl_8050E208) == 0x1B0 ? 1 : -1];
-void TWindowSubStatusDisp::handle_input() {
+void TUnk_804CE7E8::run_task() {
     u8 *arg0 = (u8 *)this;
     s32 temp_r31;
     u32 temp_r3;
@@ -113,7 +113,7 @@ void TWindowSubStatusDisp::handle_input() {
     }
     ((TWindowDD *)arg0)->initialize_subwindow();
     ((TWindowBase *)arg0)->update_fade();
-    ((TWindowBase *)arg0)->update_window_entry_list((u8 *)&this->m_24);
+    ((TWindowBase *)arg0)->update_window_entry_list((u8 *)&(*(void * *)((u8 *)this + 0x24)));
 }
 
 void *__dt__13TUnk_804CE7E8Fv(void *arg0, s16 arg1) {

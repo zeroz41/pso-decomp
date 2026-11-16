@@ -100,22 +100,22 @@ int render__17TChCrTagOccHeaderFv(void* p);
 
 void TChCrTagOccHeader::render() { fn_802A2A00(this); }
 
-s32 TChCrTagOccHeader__vt4(TChCrTagOccHeader *tag);
+s32 vt4__17TChCrTagOccHeaderFv(TChCrTagOccHeader *tag);
 void run_task__17TChCrTagOccHeaderFv(TChCrTagOccHeader *tag);
 
 void TChCrTagOccHeader::run_task() {
     update_fade__8TChCrTagFPv(this);
     m_3c = m_3c + 1;
 }
-s32 TChCrTagOccHeader__vt4(TChCrTagOccHeader *tag) {
+s32 TChCrTagOccHeader::vt4() {
     switch (TChCrCharSelect::get_selected_index()) {
     case 0:
-        if (tag->m_20 < 3 && tag->m_20 == TChCrCharSelect::get_selected_char()) {
+        if (this->m_20 < 3 && this->m_20 == TChCrCharSelect::get_selected_char()) {
             return 1;
         }
         break;
     default:
-        if (tag->m_20 >= 3 && tag->m_20 - 3 == TChCrCharSelect::get_instance()) {
+        if (this->m_20 >= 3 && this->m_20 - 3 == TChCrCharSelect::get_instance()) {
             return 1;
         }
         break;
@@ -142,7 +142,7 @@ void *__vt__17TChCrTagOccHeader[] = {
     (void *)run_task__17TChCrTagOccHeaderFv,
     (void *)render__17TChCrTagOccHeaderFv,
     (void *)render_shadows__7TObjectFv,
-    (void *)TChCrTagOccHeader__vt4,
+    (void *)vt4__17TChCrTagOccHeaderFv,
     0,
 };
 

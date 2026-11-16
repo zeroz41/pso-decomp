@@ -229,25 +229,25 @@ s32 draw_window_scrollbar(s32, s32, void *);
 void __dl__7TObjectFPv(void *);
 s32 forward_render__20TWindowSubStatusDispFv(s32, s32);
 
-void TWindowSubStatusDisp__sub_80268C80(u8 *arg0) {
+void TUnk_804D0658::render() {
     s32 temp_r3;
 
     temp_r3 = get_draw_context__11TWindowBaseFPv();
-    ((TWindowBase *)arg0)->draw_window_frame((void *)temp_r3);
-    draw_visible_window_entries(arg0, arg0 + 0x24, temp_r3);
-    ((TUnk_804D0658 *)arg0)->draw_setting(temp_r3);
-    if ((u32) ((TUnk_804D0658 *)arg0)->m_78 != 0U) {
-        forward_render__20TWindowSubStatusDispFv(((TUnk_804D0658 *)arg0)->m_78, temp_r3);
+    ((TWindowBase *)((u8 *)this))->draw_window_frame((void *)temp_r3);
+    draw_visible_window_entries(((u8 *)this), ((u8 *)this) + 0x24, temp_r3);
+    ((TUnk_804D0658 *)((u8 *)this))->draw_setting(temp_r3);
+    if ((u32) ((TUnk_804D0658 *)((u8 *)this))->m_78 != 0U) {
+        forward_render__20TWindowSubStatusDispFv(((TUnk_804D0658 *)((u8 *)this))->m_78, temp_r3);
     }
-    if ((u32) *(u32 *)((s8 *)arg0 + 0x7C) != 0U) {
-        draw_window_scrollbar(*(u32 *)((s8 *)arg0 + 0x7C), temp_r3, arg0 + 0x68);
+    if ((u32) *(u32 *)((s8 *)((u8 *)this) + 0x7C) != 0U) {
+        draw_window_scrollbar(*(u32 *)((s8 *)((u8 *)this) + 0x7C), temp_r3, ((u8 *)this) + 0x68);
     }
 }
 
 extern s32 choice_setting_popup_vtable[];
 
 typedef char RecoveredGlobal_80268D08_lbl_8050E208_size[sizeof(RecoveredGlobal_80268D08_lbl_8050E208) == 0x1B0 ? 1 : -1];
-void TWindowSubStatusDisp::handle_choice_input() {
+void TUnk_804D0658::run_task() {
     u8 *arg0 = (u8 *)this;
     u32 temp_r3;
     u32 temp_r3_2;
@@ -294,7 +294,7 @@ void TWindowSubStatusDisp::handle_choice_input() {
     ((TWindowAddition *)arg0)->step_window_tween();
     ((TUnk_804D0658 *)arg0)->update_scroll_offset();
     ((TUnk_804D0658 *)arg0)->clamp_scroll();
-    ((TWindowBase *)arg0)->update_window_entry_list((u8 *)&this->m_24);
+    ((TWindowBase *)arg0)->update_window_entry_list((u8 *)&(*(void * *)((u8 *)this + 0x24)));
 }
 
 void *TUnk_804D0658::destroy_children(s16 arg1) {

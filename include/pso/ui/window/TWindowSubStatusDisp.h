@@ -63,7 +63,6 @@ struct TWindowSubStatusDisp : public TWindowBase {
     void dispatch_page_update();
     void dispatch_page_init();
     void set_count_ratio_text(s32 arg1, s32 arg2);
-    void handle_choice_input();
     void clear_visible_flag();
     void increment_counter();
     static s32 destroy_allocation(s32 arg0, s16 arg1);
@@ -95,7 +94,6 @@ struct TWindowSubStatusDisp : public TWindowBase {
     static void draw_status(s32 arg1, s32 arg2, s32 arg3);
     static void dispatch_without_flags(s32 arg1, s32 arg2, s32 arg3);
     static void *refresh_with_default_list(s32 a, s32 b);
-    void handle_input();
     int is_flag_4_set();
     s8 get_type();
     void set_input_mode(u8 v);
@@ -163,7 +161,6 @@ struct TWindowSubStatusDisp : public TWindowBase {
     static s32 calc_entry_offset();
     static s32 get_layout_id();
     static s32 resolve_player_slot(s32 slot);
-    void render_status_and_children();
     u8 *init_layout_entry_copy(u8 *arg1);
     u8 *init_layout_entry_rect(u8 *arg1, s32 arg2);
     void advance_state();

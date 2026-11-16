@@ -1,5 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/unk/SampledMotionPoints.h"
+extern "C" void render__12TObjEneBeastFv();
+#include "pso/enemy/beast/TObjEneBeast.h"
 #include "pso/effect/TUnk_80494968.h"
 #include "types.h"
 #include "pso/enemy/balclaw/TObjEneBalClaw.h"
@@ -261,7 +263,7 @@ void TObjEneBeast::vfunc_83() {
     }
     ((TObjMotion *)arg0)->advance_animation();
 }
-void render__12TObjEneBeastFPv(Obj_8009211C *o) {
+void TObjEneBeast::render() {
     s32 drawMode;
     s32 fade;
     s32 cam;
@@ -271,54 +273,54 @@ void render__12TObjEneBeastFPv(Obj_8009211C *o) {
     if (is_split_screen() != 0) {
         cam = TCameraCtrl::get_camera_mode();
     }
-    drawMode = o->m9(2e+02f, 4e+02f, 3e+01f);
+    drawMode = ((Obj_8009211C *)this)->m9(2e+02f, 4e+02f, 3e+01f);
     if (drawMode == 0) {
         return;
     }
     fade = 0;
     if (TObjEneDD::check_v2_mode() != 0) {
-        fade = (s32)&o->fades[cam];
+        fade = (s32)&((Obj_8009211C *)this)->fades[cam];
         ((RenderFadeState *)fade)->update();
-        fade = ((RenderFadeState *)fade)->updateFromCamera((const f32*)(&o->f2FC));
+        fade = ((RenderFadeState *)fade)->updateFromCamera((const f32*)(&((Obj_8009211C *)this)->f2FC));
     }
     saved_model_render_flags = model_render_flags;
-    select_actor_lighting(o);
-    TObjFish::set_global_param(o->f24);
+    select_actor_lighting(((Obj_8009211C *)this));
+    TObjFish::set_global_param(((Obj_8009211C *)this)->f24);
     push_matrix();
-    translate_matrix(0, 0.0f, o->f380, 0.0f);
-    post_translate_matrix(o->f38);
-    rotate_matrix_y(0, o->f60);
+    translate_matrix(0, 0.0f, ((Obj_8009211C *)this)->f380, 0.0f);
+    post_translate_matrix(((Obj_8009211C *)this)->f38);
+    rotate_matrix_y(0, ((Obj_8009211C *)this)->f60);
     if (TObjPlayer::check_demo_mode() == 1) {
-        draw_chunk_object(o->f34);
+        draw_chunk_object(((Obj_8009211C *)this)->f34);
     } else {
         TObjPlayer::toggle_particle_effect();
         doDraw = 1;
         if (fade != 0) {
-            o->fades[cam].m6();
-            if (((TObject *)o)->defer_render() != 0) {
+            ((Obj_8009211C *)this)->fades[cam].m6();
+            if (((TObject *)((Obj_8009211C *)this))->defer_render() != 0) {
                 doDraw = 0;
             }
         }
         if (doDraw != 0) {
             if (drawMode == 1) {
-                ((TObjMotion *)o)->draw();
+                ((TObjMotion *)((Obj_8009211C *)this))->draw();
             } else {
-                ((TObjEnemy *)o)->draw_motion_model();
+                ((TObjEnemy *)((Obj_8009211C *)this))->draw_motion_model();
             }
         }
         TParticleCtrl::end_effect_render();
         if (fade != 0) {
-            o->fades[cam].m7();
+            ((Obj_8009211C *)this)->fades[cam].m7();
         }
     }
     pop_matrix();
     restore_scene_lighting();
-    if (o->f326 >= 10 || o->f326 < 8) {
+    if (((Obj_8009211C *)this)->f326 >= 10 || ((Obj_8009211C *)this)->f326 < 8) {
         Vec v;
         v.x = 1.5f;
         v.y = 1.0f;
         v.z = 2.0f;
-        ((TObjEnemy *)o)->draw_ground_shadow(&v, 0);
+        ((TObjEnemy *)((Obj_8009211C *)this))->draw_ground_shadow(&v, 0);
     }
 }
 
@@ -541,7 +543,7 @@ void *beast_collision_body_table[33] = {
 };
 void *__vt__12TObjEneBeast[103] = {
     (void *)0x0, (void *)0x0, (void *)&TObjPlayer__sub_80092724, (void *)&run_task__13TUnk_80493450Fv,
-    (void *)&render__12TObjEneBeastFPv, (void *)&render_shadows__9TObjEnemyFv, (void *)&vfunc_6__8TObjBaseFPsl, (void *)&apply_object_set_data__8TObjBaseFPv,
+    (void *)&render__12TObjEneBeastFv, (void *)&render_shadows__9TObjEnemyFv, (void *)&vfunc_6__8TObjBaseFPsl, (void *)&apply_object_set_data__8TObjBaseFPv,
     (void *)&reset_motion_fields__9TObjCharaFv, (void *)&get_center__9TObjCharaFv, (void *)&update_object_view_visibility__8TObjBaseFff, (void *)&classify_actor_view_detail__8TObjBaseFfff,
     (void *)&get_name__9TObjEnemyFv, (void *)&interact__14TObjCollidableFl, (void *)&add_actor_exp__9TObjCharaFl, (void *)&consume_timer_field__9TObjCharaFl,
     (void *)&get_actor_level_index__9TObjCharaFv, (void *)&update_actor_ground_y__9TObjCharaFv, (void *)&vfunc_18__9TObjCharaFPUc, (void *)&is_actor_cadence_frame__9TObjCharaFl,

@@ -6,6 +6,7 @@
 
 struct TObjEneGibbles : public TObjEnemy {
     virtual ~TObjEneGibbles();
+    virtual void render();
     virtual void vfunc_62();
     virtual void run_task();
     void sub_802DBC94(s32);
@@ -74,7 +75,7 @@ void TObjEneGibbles__sub_802D7E3C(void);
 void TObjEneGibbles__sub_802D8034(void);
 void TObjEneGibbles__sub_802D8E8C(u8 *arg0);
 s32 TObjEneGibbles__sub_802D9A04(void *target);
-void draw_model__14TObjEneGibblesFPv(TObjEneGibbles *arg0);
+void render__14TObjEneGibblesFv(TObjEneGibbles *arg0);
 }
 void gibbles_render_node_callback(void);
 extern "C" {

@@ -210,7 +210,7 @@ void TAdTrialAgreementGC::handle_cursor_input() {
     }
 }
 
-void TAdTrialAgreementGC::render_screen() {
+void TUnk_804EE458::render() {
     u8 *arg0 = (u8 *)this;
     s32 temp_r0;
     s32 temp_r31;
@@ -220,13 +220,13 @@ void TAdTrialAgreementGC::render_screen() {
         TCameraCtrl::restore_full_screen_view();
         saved_model_render_flags = model_render_flags;
         copy_argb((NJS_ARGB *)&saved_model_draw_color.value, (NJS_ARGB *)&model_material_color.value);
-        if ((s32) this->m_24 == 0) {
+        if ((s32) (*(u32 *)((u8 *)this + 0x24)) == 0) {
             model_render_flags |= 0x10;
             set_constant_material((const NJS_ARGB *)((arg0 + 0x28)));
             bind_title_texture_list();
             TLobby::draw_with_camera((int) (TLobby::get_record(0xA)), 0xA, 0x22, (-1e+01f));
         }
-        temp_r0 = this->m_24;
+        temp_r0 = (*(u32 *)((u8 *)this + 0x24));
         if ((temp_r0 == 1) || (temp_r0 == 2)) {
             var_r31 = 0xB;
             do {
@@ -236,12 +236,12 @@ void TAdTrialAgreementGC::render_screen() {
             bind_title_texture_list();
             set_additive_blend();
             temp_r31 = ((TUnk_804EE458 *)arg0)->sub_8033596C();
-            if ((s32) this->m_24 == 1) {
+            if ((s32) (*(u32 *)((u8 *)this + 0x24)) == 1) {
                 draw_record_with_camera__19TAdTrialAgreementGCFlll(arg0, (void *)(temp_r31 + 0xF), 0xF);
                 draw_record_with_camera__19TAdTrialAgreementGCFlll(arg0, (void *)(temp_r31 + 0x13), 0x13);
                 draw_record_with_camera__19TAdTrialAgreementGCFlll(arg0, (void *)(temp_r31 + 0x17), 0x17);
             }
-            if ((s32) this->m_24 == 2) {
+            if ((s32) (*(u32 *)((u8 *)this + 0x24)) == 2) {
                 draw_record_with_camera__19TAdTrialAgreementGCFlll(arg0, (void *)(temp_r31 + 0x1B), 0x1B);
                 draw_record_with_camera__19TAdTrialAgreementGCFlll(arg0, (void *)(temp_r31 + 0x1F), 0x1F);
                 draw_record_with_camera__19TAdTrialAgreementGCFlll(arg0, (void *)(temp_r31 + 0x23), 0x23);

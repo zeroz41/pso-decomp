@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/unk/TUnk_804CF918.h"
 #include "pso/system/memory.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/unk/TUnk_804CF930.h"
@@ -51,7 +52,7 @@ void step_gauge_bar_width(Gauge_802571B4 *g);
 s32 try_open__19TWindowKeyBoardSoftFii(void *, void *);
 void draw_textured_quad_at_depth(f32 *q, f32 depth);
 void TWindowSubStatusDisp__sub_80256BF8(void);
-void TWindowSubStatusDisp__sub_80256BFC(void);
+void render__13TUnk_804CF918FP19TWindowKeyBoardSoft(void);
 void *destroy__13TUnk_804CF930Fs(void *arg0, s16 arg1);
 
 void *TUnk_804CF930::destroy(s16 arg1) {
@@ -73,7 +74,7 @@ void TUnk_804CF930::sub_80256BDC(s32 arg1) {
 }
 
 void TWindowSubStatusDisp__sub_80256BF8(void) {  }
-void TWindowSubStatusDisp__sub_80256BFC(void) {  }
+void TUnk_804CF918::render(TWindowKeyBoardSoft *) {  }
 void TUnk_804CF930::calc_bar_width() {
     f32 target;
     f32 max = ((struct Bar_80256C00 *)this)->max;
@@ -182,19 +183,19 @@ void TUnk_804CF930::draw_status_gauge_bar(void *ctx, void *pos_arg, f32 depth, f
     }
 }
 
-void TWindowSubStatusDisp__sub_80257024(TUnk_804CF930 *self, TWindowKeyBoardSoft *ctx) {
+void TUnk_804CF930::render(TWindowKeyBoardSoft *ctx) {
     Pos_80256E0C pos;
     f32 depth;
     f32 len;
     f32 width;
-    f32 used = self->y / 21.0f + self->x / ctx->inner_w;
+    f32 used = this->y / 21.0f + this->x / ctx->inner_w;
     used *= 7.5f;
     f32 avail = 17.0f * ((f32)ctx->open_tick - used);
     if (avail <= 0.0f) {
         return;
     }
-    width = self->width;
-    if (width <= 0.0f && !(self->flags & 8)) {
+    width = this->width;
+    if (width <= 0.0f && !(this->flags & 8)) {
         return;
     }
     if (width > avail) {
@@ -202,18 +203,18 @@ void TWindowSubStatusDisp__sub_80257024(TUnk_804CF930 *self, TWindowKeyBoardSoft
     } else {
         len = width;
     }
-    pos.x = ctx->inner_x + self->x;
-    pos.y = ctx->inner_y + self->y;
-    depth = -1.0f / (0.299f * self->depth + ctx->depth);
+    pos.x = ctx->inner_x + this->x;
+    pos.y = ctx->inner_y + this->y;
+    depth = -1.0f / (0.299f * this->depth + ctx->depth);
     begin_screen_draw(1);
     TObjFish::set_global_param(lbl_805D63F0);
     set_draw_texture_and_color(11, -1);
-    if (self->flags & 8) {
-        TWindowSubStatusDisp__sub_80256C40(self, ctx, &pos, depth);
+    if (this->flags & 8) {
+        TWindowSubStatusDisp__sub_80256C40(this, ctx, &pos, depth);
     }
     if (avail > 0.0f) {
-        set_constant_material_color(self->color);
-        self->draw_status_gauge_bar(ctx, &pos, depth, len);
+        set_constant_material_color(this->color);
+        this->draw_status_gauge_bar(ctx, &pos, depth, len);
     }
     TWindowSubStatusDisp::get_player();
 }

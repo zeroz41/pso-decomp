@@ -59,7 +59,7 @@ extern const f32 lbl_805D5260;
 extern const f32 lbl_805D5268;
 extern s32 lbl_805D5270;
 extern s32 local_client_id;
-void TObjPlayer::update_homing_shot() {
+void TUnk_80494E48::run_task() {
     Vec_800DC9EC dir;
     void *att;
     Obj_800DC4B4 *obj;
@@ -70,13 +70,13 @@ void TObjPlayer::update_homing_shot() {
         return;
     }
     obj = find_active_entity_by_id(arg0->owner);
-    switch (this->m_fc) {
+    switch ((*(int *)((u8 *)this + 0xFC))) {
     case 0:
         arg0->timer--;
         if (arg0->timer <= 0) {
             arg0->timer = 0;
             VecCopy((Vec *)&arg0->pos, (const Vec *)arg0->target);
-            this->m_fc = 1;
+            (*(int *)((u8 *)this + 0xFC)) = 1;
             play_sound_effect(0x4003A328, &arg0->pos, 0, 0);
             return;
         }

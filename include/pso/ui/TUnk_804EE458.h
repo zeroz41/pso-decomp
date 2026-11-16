@@ -7,6 +7,7 @@ class TUnk_804EE458 : public TObject {
 public:
     TUnk_804EE458(int a1);
     virtual ~TUnk_804EE458();
+    virtual void render();
     s32 sub_8033596C();
     u8 unk_1C[0x4];
     int m_20;

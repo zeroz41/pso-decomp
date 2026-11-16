@@ -315,10 +315,10 @@ void interact__14TObjCollidableFl();
 }
 struct VObj_18_800A28A4;
 extern "C" {
-void TObjPlayer__sub_800A1978(VObj_18_800A28A4 *self);
+void render__17TObjEneDarkGunnerFv(VObj_18_800A28A4 *self);
 }
 extern "C" {
-void TObjPlayer__sub_800A28A4(VObj_18_800A28A4 *self);
+void run_task__17TObjEneDarkGunnerFv(VObj_18_800A28A4 *self);
 }
 extern "C" {
 void vfunc_74__9TObjEnemyFl();
@@ -578,8 +578,8 @@ Vec lbl_804907BC[4] = {
     {0.0f, 10.0f, 2.0f}, {0.0f, 10.0f, -2.0f}, {2.0f, 10.0f, 0.0f}, {-2.0f, 10.0f, 0.0f},
 };
 void *__vt__17TObjEneDarkGunner[83] = {
-    (void *)0x0, (void *)0x0, (void *)&TObjPlayer__sub_800A2EDC, (void *)&TObjPlayer__sub_800A28A4,
-    (void *)&TObjPlayer__sub_800A1978, (void *)&render_shadows__9TObjEnemyFv, (void *)&vfunc_6__8TObjBaseFPsl, (void *)&apply_object_set_data__8TObjBaseFPv,
+    (void *)0x0, (void *)0x0, (void *)&TObjPlayer__sub_800A2EDC, (void *)&run_task__17TObjEneDarkGunnerFv,
+    (void *)&render__17TObjEneDarkGunnerFv, (void *)&render_shadows__9TObjEnemyFv, (void *)&vfunc_6__8TObjBaseFPsl, (void *)&apply_object_set_data__8TObjBaseFPv,
     (void *)&reset_motion_fields__9TObjCharaFv, (void *)&get_center__9TObjCharaFv, (void *)&update_object_view_visibility__8TObjBaseFff, (void *)&classify_actor_view_detail__8TObjBaseFfff,
     (void *)&get_name__9TObjEnemyFv, (void *)&interact__14TObjCollidableFl, (void *)&add_actor_exp__9TObjCharaFl, (void *)&consume_timer_field__9TObjCharaFl,
     (void *)&get_actor_level_index__9TObjCharaFv, (void *)&update_actor_ground_y__9TObjCharaFv, (void *)&vfunc_18__9TObjCharaFPUc, (void *)&is_actor_cadence_frame__9TObjCharaFl,
@@ -974,12 +974,13 @@ void TObjPlayer__sub_8023DEE0(s16 *p, s16 a, s16 b, u16 id);
 }
 
 
-void TObjPlayer__sub_800A1978(VObj_18_800A28A4 *self) {
+void TObjEneDarkGunner::render() {
     s32 view;
     s32 drawn;
     s32 visible;
     BOOL cancel;
     s32 i;
+    VObj_18_800A28A4 *self = (VObj_18_800A28A4 *)this;
 
     if (((TObjEnemy *)self)->obj_testFlags30(0x02000000) == 0) {
         view = self->m9(150.0f, 400.0f, 15.0f);
@@ -1448,86 +1449,86 @@ inline f32 fmax_800A28A4(f32 a, f32 b) {
     }
     return b;
 }
-void TObjPlayer__sub_800A28A4(VObj_18_800A28A4 *self) {
+void TObjEneDarkGunner::run_task() {
     if (lbl_805D5020 != actor_frame_tick) {
         lbl_805D5020 = actor_frame_tick;
         TObjPlayer__sub_8023DEE0((s16 *)lbl_805D5024, 8, 0, 1);
         TObjPlayer__sub_8023DEE0((s16 *)lbl_805D5028, 8, 0, 0);
     }
     if (TObjPlayer::check_demo_mode() == 1) {
-        ((void (*)(VObj_18_800A28A4 *))init_scale_global__10TObjPlayerFv)(self);
-        TObjPlayer__sub_800A1974(self);
+        ((void (*)(VObj_18_800A28A4 *))init_scale_global__10TObjPlayerFv)(((VObj_18_800A28A4 *)this));
+        TObjPlayer__sub_800A1974(((VObj_18_800A28A4 *)this));
         return;
     }
-    self->m36();
-    if (self->m31() != 0) {
-        self->m61();
-    } else if (self->m30() != 0) {
-        self->m60();
-    } else if (((TObjEnemy *)self)->obj_testFlags30(0x100) != 0) {
-        self->m59();
+    ((VObj_18_800A28A4 *)this)->m36();
+    if (((VObj_18_800A28A4 *)this)->m31() != 0) {
+        ((VObj_18_800A28A4 *)this)->m61();
+    } else if (((VObj_18_800A28A4 *)this)->m30() != 0) {
+        ((VObj_18_800A28A4 *)this)->m60();
+    } else if (((TObjEnemy *)((VObj_18_800A28A4 *)this))->obj_testFlags30(0x100) != 0) {
+        ((VObj_18_800A28A4 *)this)->m59();
     }
-    self->m39();
-    self->m40();
-    if ((self->flags & 0x400000) && ((TObjEnemy *)self)->obj_testFlags30(0x22) == 0) {
-        s32 phase = self->material_phase;
-        self->material_phase = phase + 0x800;
-        self->motion->blend = ((s32 (*)(s32, s32))TObjPlayer__sub_800A3210)(2, phase);
+    ((VObj_18_800A28A4 *)this)->m39();
+    ((VObj_18_800A28A4 *)this)->m40();
+    if ((((VObj_18_800A28A4 *)this)->flags & 0x400000) && ((TObjEnemy *)((VObj_18_800A28A4 *)this))->obj_testFlags30(0x22) == 0) {
+        s32 phase = ((VObj_18_800A28A4 *)this)->material_phase;
+        ((VObj_18_800A28A4 *)this)->material_phase = phase + 0x800;
+        ((VObj_18_800A28A4 *)this)->motion->blend = ((s32 (*)(s32, s32))TObjPlayer__sub_800A3210)(2, phase);
     } else {
-        self->motion->blend = 0.0f;
+        ((VObj_18_800A28A4 *)this)->motion->blend = 0.0f;
     }
-    if ((self->flags & 0x800000) && ((TObjEnemy *)self)->obj_testFlags30(0x22) == 0) {
-        if (self->glow_emitter == NULL) {
-            self->glow_emitter = create_particle_emitter(&self->ground_pos, 0xDB);
+    if ((((VObj_18_800A28A4 *)this)->flags & 0x800000) && ((TObjEnemy *)((VObj_18_800A28A4 *)this))->obj_testFlags30(0x22) == 0) {
+        if (((VObj_18_800A28A4 *)this)->glow_emitter == NULL) {
+            ((VObj_18_800A28A4 *)this)->glow_emitter = create_particle_emitter(&((VObj_18_800A28A4 *)this)->ground_pos, 0xDB);
         } else {
-            self->glow_emitter->set_position(&self->ground_pos);
+            ((VObj_18_800A28A4 *)this)->glow_emitter->set_position(&((VObj_18_800A28A4 *)this)->ground_pos);
         }
-    } else if (self->glow_emitter != NULL) {
-        queue_destruction__7TObjectFv(self->glow_emitter);
-        self->glow_emitter = NULL;
+    } else if (((VObj_18_800A28A4 *)this)->glow_emitter != NULL) {
+        queue_destruction__7TObjectFv(((VObj_18_800A28A4 *)this)->glow_emitter);
+        ((VObj_18_800A28A4 *)this)->glow_emitter = NULL;
     }
-    if ((self->flags & 0x200000) && ((TObjEnemy *)self)->obj_testFlags30(0x22) == 0) {
-        if (self->trail_emitter == NULL) {
-            if (((TObjPlayer *)self)->is_flag_set_388_bit26() != 0) {
-                self->trail_emitter = create_particle_emitter(&self->shadow_pos, 0xD9);
+    if ((((VObj_18_800A28A4 *)this)->flags & 0x200000) && ((TObjEnemy *)((VObj_18_800A28A4 *)this))->obj_testFlags30(0x22) == 0) {
+        if (((VObj_18_800A28A4 *)this)->trail_emitter == NULL) {
+            if (((TObjPlayer *)((VObj_18_800A28A4 *)this))->is_flag_set_388_bit26() != 0) {
+                ((VObj_18_800A28A4 *)this)->trail_emitter = create_particle_emitter(&((VObj_18_800A28A4 *)this)->shadow_pos, 0xD9);
             } else {
-                self->trail_emitter = create_particle_emitter(&self->shadow_pos, 0xD4);
+                ((VObj_18_800A28A4 *)this)->trail_emitter = create_particle_emitter(&((VObj_18_800A28A4 *)this)->shadow_pos, 0xD4);
             }
         } else {
-            self->trail_emitter->set_position(&self->shadow_pos);
+            ((VObj_18_800A28A4 *)this)->trail_emitter->set_position(&((VObj_18_800A28A4 *)this)->shadow_pos);
         }
-    } else if (self->trail_emitter != NULL) {
-        queue_destruction__7TObjectFv(self->trail_emitter);
-        self->trail_emitter = NULL;
+    } else if (((VObj_18_800A28A4 *)this)->trail_emitter != NULL) {
+        queue_destruction__7TObjectFv(((VObj_18_800A28A4 *)this)->trail_emitter);
+        ((VObj_18_800A28A4 *)this)->trail_emitter = NULL;
     }
-    if (self->m34() != 0 || self->m38() != 0 || self->m37() != 0) {
-        submit_cursor_candidate(self, -1);
-        minimap_render_dot(&self->pos, -0x5DB4, 1, 0);
+    if (((VObj_18_800A28A4 *)this)->m34() != 0 || ((VObj_18_800A28A4 *)this)->m38() != 0 || ((VObj_18_800A28A4 *)this)->m37() != 0) {
+        submit_cursor_candidate(((VObj_18_800A28A4 *)this), -1);
+        minimap_render_dot(&((VObj_18_800A28A4 *)this)->pos, -0x5DB4, 1, 0);
         return;
     }
-    if (self->action != self->next_action) {
-        if (self->state != -1) {
-            self->state = -1;
-            ((TObjEneDarkGunner *)self)->sub_800A1520();
+    if (((VObj_18_800A28A4 *)this)->action != ((VObj_18_800A28A4 *)this)->next_action) {
+        if (((VObj_18_800A28A4 *)this)->state != -1) {
+            ((VObj_18_800A28A4 *)this)->state = -1;
+            ((TObjEneDarkGunner *)((VObj_18_800A28A4 *)this))->sub_800A1520();
         }
-        self->action = self->next_action;
-        self->state = 0;
+        ((VObj_18_800A28A4 *)this)->action = ((VObj_18_800A28A4 *)this)->next_action;
+        ((VObj_18_800A28A4 *)this)->state = 0;
     }
-    ((TObjEneDarkGunner *)self)->sub_800A1520();
-    ((TObjEnemy *)self)->update_prev_position();
-    self->ground_pos.y += self->render_y_offset;
-    VecCopy((Vec *)&self->prev_pos, (const Vec *)&self->shadow_pos);
-    if (self->flags & 0x80000) {
-        self->render_y_offset = fmin_800A28A4(0.5f + self->render_y_offset, 10.0f);
+    ((TObjEneDarkGunner *)((VObj_18_800A28A4 *)this))->sub_800A1520();
+    ((TObjEnemy *)((VObj_18_800A28A4 *)this))->update_prev_position();
+    ((VObj_18_800A28A4 *)this)->ground_pos.y += ((VObj_18_800A28A4 *)this)->render_y_offset;
+    VecCopy((Vec *)&((VObj_18_800A28A4 *)this)->prev_pos, (const Vec *)&((VObj_18_800A28A4 *)this)->shadow_pos);
+    if (((VObj_18_800A28A4 *)this)->flags & 0x80000) {
+        ((VObj_18_800A28A4 *)this)->render_y_offset = fmin_800A28A4(0.5f + ((VObj_18_800A28A4 *)this)->render_y_offset, 10.0f);
     } else {
-        self->render_y_offset = fmax_800A28A4(self->render_y_offset - 0.5f, 0.0f);
+        ((VObj_18_800A28A4 *)this)->render_y_offset = fmax_800A28A4(((VObj_18_800A28A4 *)this)->render_y_offset - 0.5f, 0.0f);
     }
-    ((TObjEneDarkGunner *)self)->sub_800A159C();
-    self->motion->speed = 4.0f + self->render_y_offset;
-    if ((actor_frame_tick & 3) == 0 && (self->flags & 0x400000) && ((TObjEnemy *)self)->obj_testFlags30(0x22) == 0 &&
-        self->m9(150.0f, 400.0f, 15.0f) != 0) {
-        Vec p = self->pos;
-        p.y += self->render_y_offset;
+    ((TObjEneDarkGunner *)((VObj_18_800A28A4 *)this))->sub_800A159C();
+    ((VObj_18_800A28A4 *)this)->motion->speed = 4.0f + ((VObj_18_800A28A4 *)this)->render_y_offset;
+    if ((actor_frame_tick & 3) == 0 && (((VObj_18_800A28A4 *)this)->flags & 0x400000) && ((TObjEnemy *)((VObj_18_800A28A4 *)this))->obj_testFlags30(0x22) == 0 &&
+        ((VObj_18_800A28A4 *)this)->m9(150.0f, 400.0f, 15.0f) != 0) {
+        Vec p = ((VObj_18_800A28A4 *)this)->pos;
+        p.y += ((VObj_18_800A28A4 *)this)->render_y_offset;
         spawn_particle_effect(&p, 0xD6);
     }
 }

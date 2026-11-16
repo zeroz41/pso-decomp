@@ -158,16 +158,16 @@ void *init__9TDeadSpotFPv(void *arg0, u8 * _w1, u8 * _w2, s32 _w3, f32 _w4) {
     return arg0;
 }
 
-void update_lifetime__9TDeadSpotFPv(void *arg0) {
-    u32 tmp34 = ((TUnk_804949F4 *)arg0)->m_34;
+void TUnk_804949F4::run_task() {
+    u32 tmp34 = ((TUnk_804949F4 *)this)->m_34;
     if ((tmp34 == 0U) || (((TObject *)tmp34)->all_parents_unqueued_for_destruction() == 0)) {
-        ((TObject *)arg0)->queue_destruction();
+        ((TObject *)this)->queue_destruction();
         return;
     }
-    *(s32 *)((s8 *)arg0 + 0x2C) = (s32) (*(s32 *)((s8 *)arg0 + 0x2C) + 1);
-    if ((s32) *(s32 *)((s8 *)arg0 + 0x2C) >= (s32) ((TUnk_804949F4 *)arg0)->m_30) {
-        *(s32 *)((s8 *)arg0 + 0x2C) = 0;
-        ((TUnk_804949F4 *)arg0)->vfunc_6();
+    *(s32 *)((s8 *)this + 0x2C) = (s32) (*(s32 *)((s8 *)this + 0x2C) + 1);
+    if ((s32) *(s32 *)((s8 *)this + 0x2C) >= (s32) ((TUnk_804949F4 *)this)->m_30) {
+        *(s32 *)((s8 *)this + 0x2C) = 0;
+        ((TUnk_804949F4 *)this)->vfunc_6();
     }
 }
 

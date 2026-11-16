@@ -166,7 +166,7 @@ extern "C" void update_colliders_from_offsets__13TBoss2DeRolLeFi(s32 arg0);
 
 extern "C" void vfunc_61__13TBoss2DeRolLeFv();
 
-extern "C" void apply_damage_taken__13TBoss2DeRolLeFPv(TBoss2DeRolLe *arg0);
+extern "C" void vfunc_62__13TBoss2DeRolLeFv(TBoss2DeRolLe *arg0);
 
 extern "C" void vfunc_63__13TBoss2DeRolLeFv();
 
@@ -498,7 +498,7 @@ void *__vt__13TBoss2DeRolLe[107] = {
     (void *)&apply_movement_ailment__13TBoss2DeRolLeFl, (void *)&apply_shock_status__13TBoss2DeRolLeFv, (void *)&clear_harmful_statuses__13TBoss2DeRolLeFv, (void *)&apply_attack_stat_status__9TObjCharaFPv,
     (void *)&apply_defense_stat_status__9TObjCharaFPv, (void *)&cure_poison_ailment__9TObjCharaFv, (void *)&cure_paralysis__9TObjCharaFv, (void *)&clear_all_status_effects__9TObjCharaFv,
     (void *)&apply_action_hold_status__9TObjCharaFf, (void *)&apply_anti_technique__9TObjCharaFl, (void *)&vfunc_58__9TObjCharaFv, (void *)&vfunc_59__9TObjCharaFv,
-    (void *)&vfunc_60__9TObjCharaFv, (void *)&vfunc_61__13TBoss2DeRolLeFv, (void *)&apply_damage_taken__13TBoss2DeRolLeFPv, (void *)&vfunc_63__13TBoss2DeRolLeFv,
+    (void *)&vfunc_60__9TObjCharaFv, (void *)&vfunc_61__13TBoss2DeRolLeFv, (void *)&vfunc_62__13TBoss2DeRolLeFv, (void *)&vfunc_63__13TBoss2DeRolLeFv,
     (void *)&reset_pose__9TObjCharaFv, (void *)&get_anim_node_position__9TObjCharaFlP3Vec, (void *)&vfunc_66__9TObjCharaFv, (void *)&vfunc_67__9TObjCharaFf,
     (void *)&get_pos__9TObjCharaFl, (void *)&apply_switch_attack__9TObjCharaFv, (void *)&enemy_spawn_jellen_effect__9TObjCharaFv, (void *)&trigger_switch_attack__9TObjCharaFv,
     (void *)&enemy_spawn_zalure_effect__9TObjCharaFv, (void *)&recalc_stats__9TObjCharaFv, (void *)&vfunc_74__9TObjEnemyFl, (void *)&vfunc_75__9TObjCharaFf,
@@ -1937,7 +1937,7 @@ void spawn_offset_particle__13TBoss2DeRolLeFiff(s32, f32, f32);
 
 void set_flags_play_sound__13TBoss2DeRolLeFPv(u8 *arg0);
 
-void apply_damage_taken__13TBoss2DeRolLeFPv(TBoss2DeRolLe *arg0);
+void vfunc_62__13TBoss2DeRolLeFv(TBoss2DeRolLe *arg0);
 
 s32 VecCopy__FP3VecPC3Vec(s32, s32);
 
@@ -2624,7 +2624,7 @@ extern "C" void update_colliders_from_offsets__13TBoss2DeRolLeFi(s32 arg0);
 
 extern "C" void vfunc_61__13TBoss2DeRolLeFv();
 
-extern "C" void apply_damage_taken__13TBoss2DeRolLeFPv(TBoss2DeRolLe *arg0);
+extern "C" void vfunc_62__13TBoss2DeRolLeFv(TBoss2DeRolLe *arg0);
 
 extern "C" void vfunc_63__13TBoss2DeRolLeFv();
 
@@ -3587,22 +3587,22 @@ namespace joint_state_view {
 
 extern "C" {
 
-void apply_damage_taken__13TBoss2DeRolLeFPv(TBoss2DeRolLe *arg0) {
+void TBoss2DeRolLe::vfunc_62() {
     s32 temp_r4;
-    temp_r4 = arg0->hpmax - arg0->hp;
-    if (*(s32 *)((s8 *)arg0 + 0x3C0) & 8) {
-        arg0->m_6c8 = (s32) (arg0->m_6c8 - temp_r4);
-        spawn_offset_particle__13TBoss2DeRolLeFiff(*(s32 *)((s8 *)arg0 + 0xA4) + 0x1C, 2.0f, 8.0f);
-        play_sound((void *)0x4003A80F, (s32)((u8 *)arg0 + 0x518));
+    temp_r4 = this->hpmax - this->hp;
+    if (*(s32 *)((s8 *)this + 0x3C0) & 8) {
+        this->m_6c8 = (s32) (this->m_6c8 - temp_r4);
+        spawn_offset_particle__13TBoss2DeRolLeFiff(*(s32 *)((s8 *)this + 0xA4) + 0x1C, 2.0f, 8.0f);
+        play_sound((void *)0x4003A80F, (s32)((u8 *)this + 0x518));
     } else {
-        arg0->m_6cc = (s32) (arg0->m_6cc - temp_r4);
-        if ((s32) arg0->m_6cc < 0) {
-            arg0->m_6cc = 0;
-            set_flags_play_sound__13TBoss2DeRolLeFPv((u8 *)arg0);
+        this->m_6cc = (s32) (this->m_6cc - temp_r4);
+        if ((s32) this->m_6cc < 0) {
+            this->m_6cc = 0;
+            set_flags_play_sound__13TBoss2DeRolLeFPv((u8 *)this);
         }
     }
-    arg0->hp = (s16) arg0->hpmax;
-    ((TObjEneDD *)arg0)->clear_attack_receipts();
+    this->hp = (s16) this->hpmax;
+    ((TObjEneDD *)this)->clear_attack_receipts();
 }
 
 void TBoss2DeRolLe::vfunc_61() {  }

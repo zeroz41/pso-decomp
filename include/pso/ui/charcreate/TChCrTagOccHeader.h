@@ -7,6 +7,7 @@ class TChCrTagOccHeader : public TChCrTag {
 public:
     TChCrTagOccHeader(TObject *parent, void *arg);
     virtual ~TChCrTagOccHeader();
+    virtual s32 vt4();
     virtual void run_task();
     virtual void render();
 

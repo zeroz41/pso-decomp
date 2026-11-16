@@ -6,7 +6,7 @@
 
 struct TObjEneBeast : public TUnk_80493450 {
     virtual ~TObjEneBeast();
-    void render(void *);
+    virtual void render();
     void vfunc_83();
     void vfunc_101();
     void vfunc_99();
