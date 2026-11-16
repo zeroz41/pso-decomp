@@ -18,7 +18,9 @@ public:
     void *destroy_children(s16);
     int is_selected();
     int is_open();
-    u8 unk_1C[0x10];
+    u8 unk_1C[0x8];
+    void * m_24; // 0x24
+    u8 unk_28[0x4];
     s32 m_2c;
     u8 unk_30[0xC];
     f32 m_3c;

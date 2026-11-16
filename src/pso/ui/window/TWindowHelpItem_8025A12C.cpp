@@ -180,7 +180,7 @@ void tick_display_timer__15TWindowHelpItemFPv(void *arg0) {
 void *destroy__15TWindowHelpItemFPvs(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(void ***)((s8 *)arg0 + 4) = lbl_804CF9F8;
-        mem_free((void *)(*(s32 *)((s8 *)arg0 + 0x18)));
+        mem_free((void *)(*(s32 *)&((TUnk_804CF930 *)arg0)->color));
         ((TUnk_804CF930 *)arg0)->destroy((s16)(0));
         if (arg1 > 0) {
             ::operator delete(arg0);
@@ -196,7 +196,7 @@ u8 *TWindowHelpItem__sub_8025A594(u8 *arg0, s32 arg1, s32 arg2) {
     ((TWindowSubSymbolChatPartsSet *)(arg0 + 8))->copy_vec2((void *)(arg1 + 4));
     *(s32 *)((s8 *)arg0 + 0x10) = -1;
     *(s32 *)((s8 *)arg0 + 0x14) = 0;
-    *(s32 *)((s8 *)arg0 + 0x18) = 0;
+    *(s32 *)&((TUnk_804CF930 *)arg0)->color = 0;
     *(s32 *)((s8 *)arg0 + 0x1C) = 0;
     *(s32 *)((s8 *)arg0 + 0x20) = 0;
     return arg0;

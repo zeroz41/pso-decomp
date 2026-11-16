@@ -11,7 +11,7 @@ u16 TObjAreaWarp::find_active_player() {
     s32 var_r30;
 
     if ((s32) *(s32 *)&this->m_down != 0) {
-        temp_r31 = *(s32 *)&this->entity_id & *(s32 *)((s8 *)this + 0x20);
+        temp_r31 = *(s32 *)&this->entity_id & this->m_20;
         var_r30 = 0;
 loop_2:
         if (!((temp_r31 >> var_r30) & 1) && (get_player_by_client_id(var_r30) != 0U)) {

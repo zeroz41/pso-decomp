@@ -72,7 +72,6 @@ s32 rotate_matrix_y(s32, s32);
 s32 push_matrix();
 
 void TOGrassJungle::render() {
-    u8 *arg0 = (u8 *)this;
     if (this->update_object_view_visibility(400.0f, 20.0f) == 1) {
         TObjFish::set_global_param(TOGrassJungle__grass_gvm_texture);
         push_matrix();

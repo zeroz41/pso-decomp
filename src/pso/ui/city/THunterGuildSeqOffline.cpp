@@ -241,7 +241,7 @@ typedef char RecoveredGlobal_802132F0_THunterGuildSeqOffline__data_80513DD8_size
 u8 *THunterGuildSeqOffline__ct(u8 *hunter_guild_seq_offline, s32 arg1, s32 arg2) {
     TShopSequence__ct((hunter_guild_seq_offline));
     *(s32 **)((s8 *)hunter_guild_seq_offline + 0x18) = &(*(RecoveredGlobal_802132F0___vt__22THunterGuildSeqOffline *)&__vt__22THunterGuildSeqOffline).value;
-    *(const char **)((s8 *)hunter_guild_seq_offline + 0) = lbl_805D3658;
+    ((THunterGuildSeqOffline *)hunter_guild_seq_offline)->m_name = lbl_805D3658;
     *(s32 *)((s8 *)hunter_guild_seq_offline + 0x20) = 0;
     *(s32 *)((s8 *)hunter_guild_seq_offline + 0x2C) = 0;
     ((THunterGuildSeqOffline *)hunter_guild_seq_offline)->m_24 = arg2;

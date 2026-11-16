@@ -50,13 +50,13 @@ TParticleCtrl *create_particle_emitter(const void *pos, s32 id) {
 
 void TParticleCtrl::set_param_ptr(s32 index) {
     *(f32 *)((s8 *)this + 0x1C) = 0.0f;
-    *(s32 *)((s8 *)this + 0x20) = 0;
+    this->m_20 = 0;
     *(f32 *)((s8 *)this + 0x24) = 1.0f;
     if (index >= 0x200) {
-        *(s32 *)((s8 *)this + 0x28) = (s32) (particle_area_entry_table + ((index - 0x200) * 0x98));
+        this->m_28 = (s32) (particle_area_entry_table + ((index - 0x200) * 0x98));
         return;
     }
-    *(s32 *)((s8 *)this + 0x28) = (s32) (particle_global_entry_table + (index * 0x98));
+    this->m_28 = (s32) (particle_global_entry_table + (index * 0x98));
 }
 
 void TParticleCtrl::set_direction(void *dir) {
@@ -67,9 +67,9 @@ void TParticleCtrl::set_direction(void *dir) {
 void TParticleCtrl::set_flags(u16 flags) { *(u16 *)((char *)this + 0x2C) |= flags; }
 
 void TParticleCtrl::set_owner_id(u16 id) {
-    O_80087638 *self = (O_80087638 *)this;
+    TParticleCtrl *self = this;
     if (id != 0xFFFF) {
-        self->x2e = id;
+        self->m_2e = id;
     }
 }
 

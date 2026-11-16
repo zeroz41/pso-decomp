@@ -207,7 +207,7 @@ u8 *TWindowSubAreaMapDisp__ct(TWindowSubAreaMapDisp *window_sub_area_map_disp) {
     u8 *var_r30;
     ((TWindowDD *)window_sub_area_map_disp)->construct_base((u8 *)&TWindowSubAreaMapDisp__window_parameters, (s16)((void *) ((s16) local_client_id)), (u8 *)(get_window_layout_position(0x59)));
     *(s32 **)((s8 *)window_sub_area_map_disp + 0x18) = &(*(RecoveredGlobal_80271D00___vt__21TWindowSubAreaMapDisp *)&__vt__21TWindowSubAreaMapDisp).value;
-    *(const char **)((s8 *)window_sub_area_map_disp + 0) = TWindowSubAreaMapDisp__name;
+    ((TWindowSubAreaMapDisp *)window_sub_area_map_disp)->m_name = TWindowSubAreaMapDisp__name;
     if (get_game_play_mode() == 1) {
         text_builder_reset();
         text_builder_append((u8 *)(TQuestVmDownLoadServer__sub_8006EF6C(0x67)));

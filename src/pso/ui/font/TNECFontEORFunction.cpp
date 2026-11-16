@@ -57,7 +57,7 @@ typedef char RecoveredGlobal_80144AC8___vt__19TNECFontEORFunction_size[sizeof(Re
 u8 *TNECFontEORFunction__ct(u8 *object) {
     __ct__7TObjectFP7TObject(object, &end_of_render_root);
     *(s32 **)((s8 *)object + 0x18) = &__vt__19TNECFontEORFunction.value;
-    *(const char **)((s8 *)object + 0) = TNECFontEORFunction__name;
+    ((TNECFontEORFunction *)object)->m_name = TNECFontEORFunction__name;
     return object;
 }
 

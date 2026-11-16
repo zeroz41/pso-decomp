@@ -17,11 +17,11 @@ struct Obj_8028C8A8 { u8 pad[0x6c]; s32 f6c; };
 s32 chr_select_slot_state;
 
 void TChCrLoadGmNjReq::sub_8028C8A8() {
-    Obj_8028C8A8 *o = (Obj_8028C8A8 *)this;
+    TChCrLoadGmNjReq *o = this;
     if (chr_select_slot_state < 0 || chr_select_slot_state > 1) return;
-    if (o->f6c == 0) return;
+    if (o->m_6c == 0) return;
     chr_select_slot_state--;
-    o->f6c = 0;
+    o->m_6c = 0;
 }
 
 struct Cm_8028CB6C { u8 pad[0x3E]; s16 f3e; };

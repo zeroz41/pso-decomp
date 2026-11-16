@@ -18,8 +18,8 @@ int TBoss7Joint::is_part_active() { return *(u32*)((char*)this + 0x3bc) & 0x1; }
 void TBoss7Joint::init_boss_stats() {
     *(s32 *)((s8 *)((u8 *)this) + 0x3BC) = *(s32 *)((s8 *)((u8 *)this) + 0x3BC) | 1;
     reload_stats_keep_hp_tp__9TObjEneDDFv(this, register_boss__6TLobbyFl(0x10), dispatch_shared_handler_b__6TLobbyFl(0xF), register_object__6TLobbyFl(0x10));
-    *(s16 *)((s8 *)((u8 *)this) + 0x32C) = 0x4E20;
-    *(s16 *)((s8 *)((u8 *)this) + 0x2B8) = 0x4E20;
+    this->hp = 0x4E20;
+    this->hpmax = 0x4E20;
     u32 p = __nw__7TObjectFUl(0x2C);
     if (p != 0U) {
         TObjPlayer__sub_802E72DC((void *)p, this, ((u8 *)this) + 0x38, index);

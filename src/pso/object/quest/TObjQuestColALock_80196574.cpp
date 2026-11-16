@@ -17,7 +17,6 @@ extern const f32 lbl_805DBEFC;
 extern const f32 lbl_805DBF00;
 typedef char RecoveredGlobal_80196574_lbl_804A7428_size[sizeof(RecoveredGlobal_80196574_lbl_804A7428) == 0x10 ? 1 : -1];
 void TObjQuestColALock::update_room_id_check() {
-    u8 *arg0 = (u8 *)this;
     u8 *temp_r5;
     if (this->update_object_view_visibility(lbl_805DBEF8, lbl_805DBEFC) != 0) {
         debug_draw_sphere(&position, &debug_color_green_half_alpha, lbl_805DBF00 * *(f32 *)&this->unk_AC);

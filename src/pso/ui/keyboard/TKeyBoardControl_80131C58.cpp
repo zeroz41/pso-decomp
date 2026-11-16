@@ -128,7 +128,7 @@ TKeyBoardControl *TKeyBoardControl__ct(TKeyBoardControl *self, TObject *parent, 
     __ct__7TObjectFP7TObject(self, parent);
     kb = self;
     *(s32 **)((u8 *)kb + 0x18) = __vt__16TKeyBoardControl;
-    *(const char **)((u8 *)self + 0x0) = TKeyBoardControl__class_name;
+    ((TKeyBoardControl *)self)->m_name = TKeyBoardControl__class_name;
     self->m_1c = 0;
     self->m_1e = client;
     o = __nw__7TObjectFUl(0xB8);

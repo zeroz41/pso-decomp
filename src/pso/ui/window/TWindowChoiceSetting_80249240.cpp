@@ -90,7 +90,7 @@ void TWindowChoiceSetting::run_task() {
     ((TWindowAddition *)arg0)->step_window_tween();
     ((TUnk_804D0658 *)arg0)->update_scroll_offset();
     ((TUnk_804D0658 *)arg0)->clamp_scroll();
-    ((TWindowBase *)arg0)->update_window_entry_list(arg0 + 0x24);
+    ((TWindowBase *)arg0)->update_window_entry_list((u8 *)&this->m_24);
 }
 
 void *__dt__20TWindowChoiceSettingFv(void *arg0, s16 arg1) {

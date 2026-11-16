@@ -78,18 +78,18 @@ void render_numeric_digit_entries(u8 *arg0, u8 *window_key_board_soft) {
   f32 h;
   h = *((f32 *) (((s8 *) arg0) + 0xC));
   w = *((f32 *) (((s8 *) arg0) + 8));
-  t = (h / 21.0f) + (w / (*((f32 *) (((s8 *) window_key_board_soft) + 0x18))));
+  t = (h / 21.0f) + (w / (((TWindowKeyBoardSoft *)window_key_board_soft)->inner_w));
   t *= 7.5f;
-  t = 17.0f * (((f32) (*((s32 *) (((s8 *) window_key_board_soft) + 0x30)))) - t);
+  t = 17.0f * (((f32) (((TWindowKeyBoardSoft *)window_key_board_soft)->open_tick)) - t);
   if (t <= 0.0f)
   {
     return;
   }
   mode = ((*((u16 *) (((s8 *) arg0) + 0))) >> 2) & 1;
   n = *((s32 *) (((s8 *) arg0) + 0x20));
-  x = (*((f32 *) (((s8 *) window_key_board_soft) + 0x10))) + w;
-  y = (*((f32 *) (((s8 *) window_key_board_soft) + 0x14))) + h;
-  scale = (-1.0f) / ((0.299f * (*((f32 *) (((s8 *) arg0) + 0x18)))) + (*((f32 *) (((s8 *) window_key_board_soft) + 0x38))));
+  x = (((TWindowKeyBoardSoft *)window_key_board_soft)->inner_x) + w;
+  y = (((TWindowKeyBoardSoft *)window_key_board_soft)->inner_y) + h;
+  scale = (-1.0f) / ((0.299f * (*((f32 *) (((s8 *) arg0) + 0x18)))) + (((TWindowKeyBoardSoft *)window_key_board_soft)->depth));
   switch (mode)
   {
     case 0:

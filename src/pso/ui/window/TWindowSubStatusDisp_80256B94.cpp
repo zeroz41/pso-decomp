@@ -65,7 +65,7 @@ typedef char RecoveredGlobal_80256BDC_lbl_804CF918_size[sizeof(RecoveredGlobal_8
 void TUnk_804CF930::sub_80256BDC(s32 arg1) {
     u8 *arg0 = (u8 *)this;
     *(s32 **)((s8 *)arg0 + 4) = &(*(RecoveredGlobal_80256BDC_lbl_804CF918 *)&lbl_804CF918).value;
-    *(s16 *)((s8 *)arg0 + 0) = 0;
+    *(s16 *)&this->flags = 0;
     this->m_2 = arg1;
 }
 
@@ -261,7 +261,7 @@ typedef char RecoveredGlobal_80257B4C_lbl_804CF948_size[sizeof(RecoveredGlobal_8
 typedef void *(*Ctor_80257D44)(void *, void *, s32);
 
 
-void*TUnk_804CF930::init_from(void*a1, int a2) { sub_80256BDC(a2); *(int*)((char*)this + 0x4) = (int)lbl_804CF930; *(float*)((char*)this + 0x1c) = 0.0f; *(float*)((char*)this + 0xc) = *(float*)((char*)a1 + 0x4); *(float*)((char*)this + 0x10) = *(float*)((char*)a1 + 0x8); *(float*)((char*)this + 0x8) = *(float*)((char*)a1 + 0xc); *(float*)((char*)this + 0x14) = *(float*)((char*)a1 + 0x18); *(int*)((char*)this + 0x18) = *(int*)((char*)a1 + 0x10); *(short*)((char*)this + 0x0) = *(int*)((char*)a1 + 0x14); *(float*)((char*)this + 0x20) = *(float*)((char*)a1 + 0x1c); *(float*)((char*)this + 0x24) = *(float*)((char*)a1 + 0x20); return this; }
+void*TUnk_804CF930::init_from(void*a1, int a2) { sub_80256BDC(a2); *(int*)((char*)this + 0x4) = (int)lbl_804CF930; *(float *)&this->width = 0.0f; *(float *)&this->x = *(float*)((char*)a1 + 0x4); *(float *)&this->y = *(float*)((char*)a1 + 0x8); *(float *)&this->depth = *(float*)((char*)a1 + 0xc); *(float *)&this->scale = *(float*)((char*)a1 + 0x18); *(int *)&this->color = *(int*)((char*)a1 + 0x10); *(short *)&this->flags = *(int*)((char*)a1 + 0x14); *(float *)&this->maximum = *(float*)((char*)a1 + 0x1c); *(float *)&this->target = *(float*)((char*)a1 + 0x20); return this; }
 
 }
 

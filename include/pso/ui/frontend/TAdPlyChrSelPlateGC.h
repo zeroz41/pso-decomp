@@ -21,7 +21,9 @@ public:
     s32 plate_shown[32];       // 0x228: non-zero when the plate is drawn (inferred)
     f32 pad_2A8[32];
     NJS_COLOR plate_color[32]; // 0x328
-    u8 pad_3A8[0xC];
+    u8 unk_3A8[0x4];
+    s32 m_3ac; // 0x3AC
+    u8 unk_3B0[0x4];
 };
 
 // Plate size (then four bytes the plate copies and a word) passed to the TAdPlyChrSelPlateGC ctor

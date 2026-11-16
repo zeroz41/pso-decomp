@@ -78,7 +78,7 @@ void TWindowMessage::scroll_up_line(u8 *arg1) {
     d = 2.0f + *(f32 *)(arg1 + 0x14);
     this->m_84 -= d;
     this->m_6c -= d;
-    *(f32 *)(((u8 *)this) + 0x80) -= d;
+    this->unk_80 -= d;
     for (; i < this->line_count; i++) {
         e = get_array_entry__11TWindowBaseFi(this, i);
         *(f32 *)(e + 0xC) -= d;
@@ -415,7 +415,7 @@ void TWindowMessage::run_task() {
 void *__dt__14TWindowMessageFv(void *window_addition, s16 arg1) {
     if (window_addition != NULL) {
         *(s32 **)((s8 *)window_addition + 0x18) = __vt__14TWindowMessage;
-        if (*(void **)((s8 *)window_addition + 0x7C) != NULL) { mem_free(*(void **)((s8 *)window_addition + 0x7C)); }
+        if (*(void * *)&((TWindowMessage *)window_addition)->lines != NULL) { mem_free(*(void * *)&((TWindowMessage *)window_addition)->lines); }
         ((TWindowAddition *)window_addition)->destroy_window(0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(window_addition);

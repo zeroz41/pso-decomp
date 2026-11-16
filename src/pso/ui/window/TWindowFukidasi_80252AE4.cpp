@@ -20,7 +20,7 @@ u8 *__dt__13TUnk_804CF0B8Fv(u8 *arg0, s16 arg1) {
             TWindowCtrl::release_slot((s8 *)(arg0 + 0x73));
         }
         if ((u32) *(u32 *)((s8 *)arg0 + 0x78) != 0U) {
-            mem_free(*(void **)((s8 *)arg0 + 0x78));
+            mem_free(*(void * *)&((TUnk_804CF0B8 *)arg0)->name);
             *(u32 *)((s8 *)arg0 + 0x78) = 0U;
         }
         ((TWindowAddition *)arg0)->destroy_window(0);

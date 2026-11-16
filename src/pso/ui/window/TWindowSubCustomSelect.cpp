@@ -296,7 +296,7 @@ u8 *TWindowSubCustomSelect__ct(TWindowSubCustomSelect *window_sub_custom_select,
     void *o;
     construct_with_parent__15TWindowAdditionFPv(window_sub_custom_select, &TWindowSubCustomSelect__window_settings, arg1, get_window_layout_position(0x10));
     *(s32 **)((s8 *)window_sub_custom_select + 0x18) = __vt__22TWindowSubCustomSelect;
-    *(const char **)((s8 *)window_sub_custom_select + 0) = TWindowSubCustomSelect__class_name;
+    ((TWindowSubCustomSelect *)window_sub_custom_select)->m_name = TWindowSubCustomSelect__class_name;
     window_sub_custom_select->m_20 = arg1;
     p = (Big_80277AEC *)get_player_by_client_id(window_sub_custom_select->m_20);
     if (p == NULL) {

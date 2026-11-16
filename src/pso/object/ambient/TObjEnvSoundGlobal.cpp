@@ -237,7 +237,7 @@ s32 TObjEnvSound::is_sound_enabled(void *self, s32 cue) {
 u8 *TObjEnvSoundEx__ct(u8 *env_sound_ex, s32 arg1, s32 arg2) {
     ((s32 (*)(void *))__ct__8TObjBaseFP7TObject)(env_sound_ex);
     *(s32 **)((s8 *)env_sound_ex + 0x18) = &(*(RecoveredGlobal_8019080C___vt__14TObjEnvSoundEx *)&__vt__14TObjEnvSoundEx).value;
-    *(const char **)((s8 *)env_sound_ex + 0) = TObjEnvSoundEx__class_name;
+    ((TObjEnvSoundEx *)env_sound_ex)->m_name = TObjEnvSoundEx__class_name;
     ((TObjEnvSoundEx *)(env_sound_ex))->apply_object_set_data((void *)arg2);
     ((TObjEnvSoundEx *)env_sound_ex)->init_sound_params();
     *(f32 *)((s8 *)env_sound_ex + 0x94) = -127.0f;
@@ -330,7 +330,7 @@ void * TObjEnvSoundEx__create(void *rader_map_core) {
 u8 *TObjEnvSoundGlobal__ct(u8 *env_sound_global, s32 parent, s32 arg2) {
     __ct__8TObjBaseFP7TObject((void *)env_sound_global, (void *)parent);
     *(s32 **)((s8 *)env_sound_global + 0x18) = &(*(RecoveredGlobal_80190484___vt__18TObjEnvSoundGlobal *)&__vt__18TObjEnvSoundGlobal).value;
-    *(const char **)((s8 *)env_sound_global + 0) = TObjEnvSoundGlobal__class_name;
+    ((TObjEnvSoundGlobal *)env_sound_global)->m_name = TObjEnvSoundGlobal__class_name;
     ((TObjEnvSoundGlobal *)(env_sound_global))->apply_object_set_data((void *)arg2);
     ((TObjEnvSoundGlobal *)env_sound_global)->setup_sound();
     return env_sound_global;

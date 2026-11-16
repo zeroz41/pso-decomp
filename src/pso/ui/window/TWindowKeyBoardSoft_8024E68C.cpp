@@ -98,33 +98,32 @@ void apply_window_closing_stretch(u8 *arg0, int arg1) {
 #pragma opt_common_subs off
 
 void TWindowKeyBoardSoft::set_open_tick(s32 arg1) {
-    u8 *arg0 = (u8 *)this;
     s32 temp_r0;
-    *(s32 *)((s8 *)arg0 + 0x30) = arg1;
-    temp_r0 = *(s32 *)((s8 *)arg0 + 0x30);
+    this->open_tick = arg1;
+    temp_r0 = this->open_tick;
     if (temp_r0 < 0) {
-        *(s32 *)((s8 *)arg0 + 0x34) = (s32) ((__cvt_fp2unsigned(255.0f * ((7.5f + (f32) temp_r0) / 7.5f)) << 0x18) | 0xFF0000 | 0xFFFF);
+        *(s32 *)&this->color = (s32) ((__cvt_fp2unsigned(255.0f * ((7.5f + (f32) temp_r0) / 7.5f)) << 0x18) | 0xFF0000 | 0xFFFF);
     }
 }
 #pragma pop
 
-void TWindowKeyBoardSoft::set_bounds(f32 a, f32 b, f32 c, f32 d) { *(f32*)((char*)this + 0x3c) = a; *(f32*)((char*)this + 0x40) = b; *(f32*)((char*)this + 0x44) = c; *(f32*)((char*)this + 0x48) = d; }
+void TWindowKeyBoardSoft::set_bounds(f32 a, f32 b, f32 c, f32 d) { *(f32*)((char*)this + 0x3c) = a; this->m_40 = b; *(f32*)((char*)this + 0x44) = c; *(f32*)((char*)this + 0x48) = d; }
 
 
 void TWindowKeyBoardSoft::shrink_clip_right() {
-    *(f32 *)((s8 *)this + 0x18) = (f32) (*(f32 *)((s8 *)this + 0x18) - 5.0f);
+    this->inner_w = (f32) (this->inner_w - 5.0f);
     *(f32 *)((s8 *)this + 0x44) = (f32) (*(f32 *)((s8 *)this + 0x44) - 5.0f);
 }
 
 
 void TWindowKeyBoardSoft::animate_scale() {
-    *(f32 *)((s8 *)this + 0x14) += 6.0f;
-    *(f32 *)((s8 *)this + 0x1C) -= 6.0f;
-    *(f32 *)((s8 *)this + 0x40) += 6.0f;
+    this->inner_y += 6.0f;
+    this->inner_h -= 6.0f;
+    this->m_40 += 6.0f;
 }
 
 s32 TWindowKeyBoardSoft::is_point_in_bounds(void *arg1) {
-    if ((*(f32 *)((s8 *)arg1 + 8) < *(f32 *)((s8 *)this + 0x3C)) || (*(f32 *)((s8 *)arg1 + 0xC) < *(f32 *)((s8 *)this + 0x40)) || (*(f32 *)((s8 *)arg1 + 0) > *(f32 *)((s8 *)this + 0x44)) || (*(f32 *)((s8 *)arg1 + 4) > *(f32 *)((s8 *)this + 0x48))) {
+    if ((*(f32 *)((s8 *)arg1 + 8) < *(f32 *)((s8 *)this + 0x3C)) || (*(f32 *)((s8 *)arg1 + 0xC) < this->m_40) || (*(f32 *)((s8 *)arg1 + 0) > *(f32 *)((s8 *)this + 0x44)) || (*(f32 *)((s8 *)arg1 + 4) > *(f32 *)((s8 *)this + 0x48))) {
         return 0;
     }
     return 1;
@@ -296,7 +295,7 @@ u32 TWindowKeyBoardSoft::free_singleton(u32 arg0, s16 arg1) {
     return arg0;
 }
 
-u32 TWindowKeyBoardSoft::init_layout() { *(float*)((char*)this + 0x0) = 0.0f; *(float*)((char*)this + 0x4) = 0.0f; *(float*)((char*)this + 0x8) = 0.0f; *(float*)((char*)this + 0xc) = 0.0f; *(float*)((char*)this + 0x10) = 0.0f; *(float*)((char*)this + 0x14) = 0.0f; *(float*)((char*)this + 0x18) = 0.0f; *(float*)((char*)this + 0x1c) = 0.0f; *(float*)((char*)this + 0x3c) = 0.0f; *(float*)((char*)this + 0x40) = 0.0f; *(float*)((char*)this + 0x44) = 0.0f; *(float*)((char*)this + 0x48) = 0.0f; *(float*)((char*)this + 0x20) = 0.0f; *(float*)((char*)this + 0x24) = 0.0f; *(float*)((char*)this + 0x28) = 1.0f; *(float*)((char*)this + 0x2c) = 1.0f; *(int*)((char*)this + 0x30) = 0; *(int*)((char*)this + 0x34) = -1; *(float*)((char*)this + 0x38) = 0.0f; }
+u32 TWindowKeyBoardSoft::init_layout() { *(float *)&this->x = 0.0f; *(float *)&this->y = 0.0f; *(float *)&this->w = 0.0f; *(float *)&this->h = 0.0f; *(float *)&this->inner_x = 0.0f; *(float *)&this->inner_y = 0.0f; *(float *)&this->inner_w = 0.0f; *(float *)&this->inner_h = 0.0f; *(float*)((char*)this + 0x3c) = 0.0f; *(float *)&this->m_40 = 0.0f; *(float*)((char*)this + 0x44) = 0.0f; *(float*)((char*)this + 0x48) = 0.0f; *(float*)((char*)this + 0x20) = 0.0f; *(float*)((char*)this + 0x24) = 0.0f; *(float*)((char*)this + 0x28) = 1.0f; *(float*)((char*)this + 0x2c) = 1.0f; *(int *)&this->open_tick = 0; *(int *)&this->color = -1; *(float *)&this->depth = 0.0f; }
 
 void TWindowCtrlMain::free_keyboard_soft() {
     if ((u32) soft_keyboard_instance != 0U) {

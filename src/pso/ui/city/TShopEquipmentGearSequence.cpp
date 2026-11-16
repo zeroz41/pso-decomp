@@ -305,7 +305,7 @@ typedef char RecoveredGlobal_8021B89C_TShopEquipmentGearSequence__data_80513EB0_
 u8 *TShopEquipmentGearSequence__ct(u8 *shop_equipment_gear_sequence, s32 arg1, s32 arg2) {
     TShopSequence__ct((shop_equipment_gear_sequence));
     *(s32 **)((s8 *)shop_equipment_gear_sequence + 0x18) = &(*(RecoveredGlobal_8021B89C___vt__26TShopEquipmentGearSequence *)&__vt__26TShopEquipmentGearSequence).value;
-    *(const char **)((s8 *)shop_equipment_gear_sequence + 0) = TShopEquipmentGearSequence__class_name;
+    ((TShopEquipmentGearSequence *)shop_equipment_gear_sequence)->m_name = TShopEquipmentGearSequence__class_name;
     ((TShopEquipmentGearSequence *)shop_equipment_gear_sequence)->m_20 = 0;
     *(s32 *)((s8 *)shop_equipment_gear_sequence + 0x24) = arg2;
     ((TShopEquipmentGearSequence *)shop_equipment_gear_sequence)->m_2c = 0;

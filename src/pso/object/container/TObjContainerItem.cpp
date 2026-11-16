@@ -1112,7 +1112,7 @@ f32 TObjContainerAbeEnemy::receive_physical_attack(void *, f32) {
 #pragma opt_propagation off
 void TObjContainerAbeEnemy::vfunc_79() const {
     const Obj_8018860C *self = (const Obj_8018860C *)this;
-    if (self->state != 1) {
+    if (this->mode != 1) {
         TObjChipParams a = lbl_80444E5C;
         f32 za;
         f32 ya;

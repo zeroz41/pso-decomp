@@ -64,7 +64,7 @@ void * TCameraCtrl__vt7(void) {
 #pragma fp_contract on
 void TUnk_80488838::update_orbit_camera() {
     Obj_80067D20 *arg0 = (Obj_80067D20 *)this;
-    Pad_80067D20 *pad = arg0->pad;
+    Pad_80067D20 *pad = *(Pad_80067D20 * *)&this->controller;
     f32 d = this->m_70;
     u32 btn = pad->buttons;
     s16 sx = pad->sx;
