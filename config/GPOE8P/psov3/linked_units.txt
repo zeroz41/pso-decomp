@@ -1419,8 +1419,6 @@ pso/ui/window/TWindowMainMenu_802AD538.cpp
 pso/ui/window/TWindowMainMenu_802AE928.cpp
 pso/ui/window/TWindowMakeTeam.cpp
 pso/ui/window/TWindowMakeTeam_80131A5C.cpp
-pso/ui/window/TWindowMakeTeam_80264DF4.cpp
-pso/ui/window/TWindowMakeTeam_80265298.cpp
 pso/ui/window/TWindowMenuMainMenu.cpp
 pso/ui/window/TWindowMeseta.cpp
 pso/ui/window/TWindowMeseta_802690B4.cpp
@@ -1997,7 +1995,6 @@ pso/system/TMemberCheck.cpp
 pso/ui/font/TNECFontEORFunction.cpp
 pso/object/switch/TOChatSensorCapture.cpp
 pso/object/switch/TOChatSensorFolder.cpp
-pso/object/key/TODummyKeyCave01Sound.cpp
 pso/object/switch/TOSwitchAttackSub.cpp
 pso/map/TSetEvtDestroy.cpp
 pso/ui/frontend/TAdADXlogo.cpp
@@ -2259,7 +2256,6 @@ pso/unk/text_80140D50.cpp
 pso/unk/text_80145A44.cpp
 pso/unk/text_80145A94.cpp
 pso/unk/text_8014618C.cpp
-pso/object/key/TODummyKeyCave01_80165940.cpp
 pso/object/switch/TOSwitchTimer_801782A0.cpp
 pso/unk/text_8017866C.cpp
 pso/unk/text_8018E258.cpp

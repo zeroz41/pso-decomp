@@ -1,19 +1,52 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
-#include "pso/object/key/TODummyKeyCave01.h"
-#include "pso/render/MaterialColorFade.h"
 #include "pso/object/key/TODummyKeyCave01Sound.h"
+#include "pso/system/task/TObject_80019A50.h"
+#include "pso/system/task/TObject.h"
+#include "pso/object/key/TODummyKeyCave01.h"
+#include "pso/object/key/TOKeyAncient03.h"
+#include "pso/object/key/TOKeyCave01.h"
+#include "pso/object/key/TOKeyMachine01.h"
+#include "pso/object/switch/TSwitch.h"
+#include "pso/system/BmlResource.h"
+#include "pso/map/FloorArea.h"
+#include "pso/render/MaterialColorFade.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/object/base/TObjMotion.h"
-
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_8023E480.h"
 
-struct RecoveredGlobal_80165EE8___vt__16TODummyKeyCave01 { s32 value; u8 remaining[0x34]; };
+const char *TODummyKeyCave01__class_name = "TODummyKeyCave01";
+const char *TODummyKeyCave01Sound__class_name = "TODummyKeyCave01Sound";
+extern "C" {
+s32 __ct__7TObjectFP7TObject();
+extern s32 __vt__21TODummyKeyCave01Sound[];
+}
+typedef struct Key_80165940 {
+    u8 pad0[0x34];
+    void *f34;
+    u8 pad38[0x84 - 0x38];
+    u32 f84;
+    u32 f88;
+    u32 f8C;
+    u32 f90;
+    u32 f94;
+    u16 f98;
+    u16 f9A;
+    u8 pad9C[0xBC - 0x9C];
+    s32 fBC;
+    s32 fC0;
+    s32 fC4;
+    s32 fC8;
+    u8 padCC[4];
+    s32 fD0;
+} Key_80165940;
 
+struct RecoveredGlobal_80165EE8___vt__16TODummyKeyCave01 { s32 value; u8 remaining[0x34]; };
 struct Obj_80165C84 {
     u8 pad0[0x24];
     s32 f24;
@@ -39,7 +72,6 @@ extern "C" {
 u8 * __ct__8TObjBaseFP7TObject(void *);
 s32 sub_80165940__16TODummyKeyCave01Fv(void *, f32);
 extern s32 __vt__16TODummyKeyCave01[];
-extern s32 TODummyKeyCave01__class_name;
 s32 rotate_matrix_y(s32, s32);
 s32 push_matrix();
 s32 scale_current_matrix(void *);
@@ -49,48 +81,40 @@ extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 u8 is_current_floor_switch_set(s32 id);
 void *__nw__7TObjectFUl(int);
-
 extern void *tl_05;
+}
 
-void TODummyKeyCave01::render() {
-    u8 *arg0 = (u8 *)this;
-    u32 v;
-    u8 *node;
-    s32 id;
-    if (this->update_object_view_visibility((4e+02f), (2e+01f)) != 0 && *(void **)(arg0 + 0x34) != NULL &&
-        (v = *(u32 *)(arg0 + 0x24)) != 0) {
-        set_texlist(v);
-        push_matrix();
-        post_translate_matrix((u8 *)&this->position);
-        rotate_matrix_zyx(0, *(s32 *)(arg0 + 0x5C), *(s32 *)(arg0 + 0x60), *(s32 *)(arg0 + 0x64));
-        scale_current_matrix((u8 *)&this->scale);
-        node = *(u8 **)(arg0 + 0x34);
-        draw_ginja_model(*(s32 *)(node + 4));
-        if (*(u16 *)(arg0 + 0x9A) == 0) {
-            id = model_render_flags;
-            saved_model_render_flags = id;
-            model_render_flags = id | 0x10;
-            set_constant_material((const NJS_ARGB *)(((f32 *)&this->m_9c)));
-        }
-        TParticleCtrl::begin_effect_render();
-        node = *(u8 **)(node + 0x2C);
-        if (*(s32 *)(arg0 + 0xD0) != 0) {
-            rotate_matrix_y(0, *(s32 *)(arg0 + 0xCC));
-        } else {
-            post_translate_matrix((u8 *)&this->m_ac);
-        }
-        post_translate_matrix(node + 8);
-        draw_ginja_model(*(s32 *)(node + 4));
-        node = *(u8 **)(node + 0x2C);
-        post_translate_matrix(node + 8);
-        draw_ginja_model(*(s32 *)(node + 4));
-        if (*(u16 *)(arg0 + 0x9A) == 0) {
-            set_constant_material((const NJS_ARGB *)chunk_material_color_half_alpha_f32);
-            model_render_flags = saved_model_render_flags;
-        }
-        TParticleCtrl::end_effect_render();
-        pop_matrix();
+u8 *TODummyKeyCave01__ct(u8 *dummy_key_cave01, s32 arg1, s32 arg2) {
+    __ct__8TObjBaseFP7TObject(dummy_key_cave01);
+    *(s32 **)((s8 *)dummy_key_cave01 + 0x18) = &(*(RecoveredGlobal_80165EE8___vt__16TODummyKeyCave01 *)&__vt__16TODummyKeyCave01).value;
+    ((TObject *)dummy_key_cave01)->m_name = TODummyKeyCave01__class_name;
+    ((TODummyKeyCave01 *)(dummy_key_cave01))->apply_object_set_data((void *)arg2);
+    *(f32 *)((s8 *)dummy_key_cave01 + 0xA8) = 1.0f;
+    ((TODummyKeyCave01 *)dummy_key_cave01)->m_a4 = 1.0f;
+    *(f32 *)((s8 *)dummy_key_cave01 + 0xA0) = 1.0f;
+    *(f32 *)((s8 *)dummy_key_cave01 + 0x9C) = 1.0f;
+    ((TODummyKeyCave01 *)dummy_key_cave01)->m_b4 = 0.0f;
+    *(f32 *)((s8 *)dummy_key_cave01 + 0xB0) = 0.0f;
+    *(f32 *)((s8 *)dummy_key_cave01 + 0xAC) = 0.0f;
+    ((TODummyKeyCave01 *)dummy_key_cave01)->m_b8 = 1;
+    sub_80165940__16TODummyKeyCave01Fv(dummy_key_cave01, 1.0f);
+    ((TODummyKeyCave01 *)dummy_key_cave01)->m_cc = 0;
+    return dummy_key_cave01;
+}
+
+TODummyKeyCave01::~TODummyKeyCave01() {
+
+}
+
+extern "C" {
+void TODummyKeyCave01__sub_80165E8C(void) {  }
+void TODummyKeyCave01__sub_80165E88(void) {  }
+void *TODummyKeyCave01::create(void *arg0) {
+    void *o = __nw__7TObjectFUl(0xD4);
+    if (o != NULL) {
+        o = TODummyKeyCave01__ct((u8 *)o, (s32)tl_05, (s32)arg0);
     }
+    return o;
 }
 
 void TODummyKeyCave01::run_task() {
@@ -156,37 +180,151 @@ void TODummyKeyCave01::run_task() {
     }
 }
 
-void *TODummyKeyCave01::create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0xD4);
-    if (o != NULL) {
-        o = TODummyKeyCave01__ct((u8 *)o, (s32)tl_05, (s32)arg0);
+void TODummyKeyCave01::render() {
+    u8 *arg0 = (u8 *)this;
+    u32 v;
+    u8 *node;
+    s32 id;
+    if (this->update_object_view_visibility((4e+02f), (2e+01f)) != 0 && *(void **)(arg0 + 0x34) != NULL &&
+        (v = *(u32 *)(arg0 + 0x24)) != 0) {
+        set_texlist(v);
+        push_matrix();
+        post_translate_matrix((u8 *)&this->position);
+        rotate_matrix_zyx(0, *(s32 *)(arg0 + 0x5C), *(s32 *)(arg0 + 0x60), *(s32 *)(arg0 + 0x64));
+        scale_current_matrix((u8 *)&this->scale);
+        node = *(u8 **)(arg0 + 0x34);
+        draw_ginja_model(*(s32 *)(node + 4));
+        if (*(u16 *)(arg0 + 0x9A) == 0) {
+            id = model_render_flags;
+            saved_model_render_flags = id;
+            model_render_flags = id | 0x10;
+            set_constant_material((const NJS_ARGB *)(((f32 *)&this->m_9c)));
+        }
+        TParticleCtrl::begin_effect_render();
+        node = *(u8 **)(node + 0x2C);
+        if (*(s32 *)(arg0 + 0xD0) != 0) {
+            rotate_matrix_y(0, *(s32 *)(arg0 + 0xCC));
+        } else {
+            post_translate_matrix((u8 *)&this->m_ac);
+        }
+        post_translate_matrix(node + 8);
+        draw_ginja_model(*(s32 *)(node + 4));
+        node = *(u8 **)(node + 0x2C);
+        post_translate_matrix(node + 8);
+        draw_ginja_model(*(s32 *)(node + 4));
+        if (*(u16 *)(arg0 + 0x9A) == 0) {
+            set_constant_material((const NJS_ARGB *)chunk_material_color_half_alpha_f32);
+            model_render_flags = saved_model_render_flags;
+        }
+        TParticleCtrl::end_effect_render();
+        pop_matrix();
     }
-    return o;
 }
 
-void TODummyKeyCave01__sub_80165E88(void) {  }
-void TODummyKeyCave01__sub_80165E8C(void) {  }
+}
+void TODummyKeyCave01::sub_80165940() {
+    Key_80165940 *self = (Key_80165940 *)this;
+    self->fD0 = 0;
+    self->f98 = self->f84;
+    if (self->f98 < 0x100) {
+        self->f9A = is_current_floor_switch_set(self->f98);
+    } else {
+        self->f98 = 0xFFFF;
+        self->f9A = 1;
+    }
+    self->fBC = self->f88 & 0xFFFF;
+    self->fC8 = self->f88 >> 16;
+    self->fC0 = self->f8C & 0xFFFF;
+    if (self->fC0 > 6) {
+        self->fC0 = 0;
+    }
+    self->fC4 = self->f8C >> 16;
+    if (self->fC4 > 1) {
+        self->fC4 = 0;
+    }
+    switch (get_current_floor_area()) {
+    case AREA_CAVE1:
+    case AREA_CAVE2:
+    case AREA_CAVE3:
+        self->f34 = (void *)get_bml_model(TOKeyCave01__resource_bundle, 0);
+        self->f90 = TOKeyCave01__texture_lists[0];
+        self->f94 = TOKeyCave01__texture_lists[1];
+        break;
+    case AREA_FOREST1:
+    case AREA_FOREST2:
+    case AREA_MINE1:
+    case AREA_MINE2:
+        self->f34 = (void *)get_bml_model(TOKeyMachine01__resource_bundle, 0);
+        self->f90 = TOKeyMachine01__texture_lists[0];
+        self->f94 = TOKeyMachine01__texture_lists[1];
+        break;
+    case AREA_RUINS1:
+    case AREA_RUINS2:
+    case AREA_RUINS3:
+        self->f34 = (void *)get_bml_model(TOKeyAncient03__model_archive, 0);
+        self->f90 = TOKeyAncient03__texture_variants[0];
+        self->f94 = TOKeyAncient03__texture_variants[1];
+        break;
+    case AREA_BATTLE1:
+    case AREA_BATTLE2:
+    case AREA_VR_TEMPLE_ALPHA:
+    case AREA_VR_TEMPLE_BETA:
+    case AREA_VR_SPACESHIP_ALPHA:
+    case AREA_VR_SPACESHIP_BETA:
+        if (self->fBC == 0) {
+            self->f34 = (void *)get_bml_model(TOKeyCave01__resource_bundle, 0);
+            self->f90 = TOKeyCave01__texture_lists[0];
+            self->f94 = TOKeyCave01__texture_lists[1];
+        } else {
+            self->f34 = (void *)get_bml_model(TOKeyMachine01__resource_bundle, 0);
+            self->f90 = TOKeyMachine01__texture_lists[0];
+            self->f94 = TOKeyMachine01__texture_lists[1];
+        }
+        break;
+    case AREA_CENTRAL_CONTROL_AREA:
+    case AREA_JUNGLE_NORTH:
+    case AREA_JUNGLE_EAST:
+    case AREA_MOUNTAIN:
+    case AREA_SEASIDE:
+    case AREA_SEABED_UPPER:
+    case AREA_SEABED_LOWER:
+    case AREA_SEASIDE_NIGHT:
+    case AREA_TOWER:
+        self->f34 = (void *)get_bml_model(TOKeyCave01__resource_bundle, 0);
+        self->f90 = TOKeyCave01__texture_lists[0];
+        self->f94 = TOKeyCave01__texture_lists[1];
+        self->fD0 = 1;
+        break;
+    default:
+        self->f34 = 0;
+        self->f90 = 0;
+        self->f94 = 0;
+        break;
+    }
+}
+
+extern "C" {
+void *TODummyKeyCave01Sound__ct(void *dummy_key_cave01_sound, s32 arg1, s32 arg2, s32 arg3) {
+    __ct__7TObjectFP7TObject();
+    *(s32 **)((s8 *)dummy_key_cave01_sound + 0x18) = __vt__21TODummyKeyCave01Sound;
+    ((TObject *)dummy_key_cave01_sound)->m_name = TODummyKeyCave01Sound__class_name;
+    ((TODummyKeyCave01Sound *)dummy_key_cave01_sound)->delay_frames = arg3;
+    ((TODummyKeyCave01Sound *)dummy_key_cave01_sound)->sound_kind = arg2;
+    if ((s32) ((TODummyKeyCave01Sound *)dummy_key_cave01_sound)->delay_frames <= 0) {
+        ((TODummyKeyCave01Sound *)dummy_key_cave01_sound)->play_cave01_key_sound();
+        ((TObject *)dummy_key_cave01_sound)->queue_destruction();
+    }
+    return dummy_key_cave01_sound;
+}
+
+TODummyKeyCave01Sound::~TODummyKeyCave01Sound() {}
+void TODummyKeyCave01Sound::run_task() {
+    u8 *arg0 = (u8 *)this;
+    this->delay_frames = (s32) (this->delay_frames - 1);
+    if ((s32) this->delay_frames == 0) {
+        ((TODummyKeyCave01Sound *)arg0)->play_cave01_key_sound();
+        ((TObject *)arg0)->queue_destruction();
+    }
+}
 
 }
-TODummyKeyCave01::~TODummyKeyCave01() {
-
-}
-
-u8 *TODummyKeyCave01__ct(u8 *dummy_key_cave01, s32 arg1, s32 arg2) {
-    __ct__8TObjBaseFP7TObject(dummy_key_cave01);
-    *(s32 **)((s8 *)dummy_key_cave01 + 0x18) = &(*(RecoveredGlobal_80165EE8___vt__16TODummyKeyCave01 *)&__vt__16TODummyKeyCave01).value;
-    *(s32 *)((s8 *)dummy_key_cave01 + 0) = (s32) TODummyKeyCave01__class_name;
-    ((TODummyKeyCave01 *)(dummy_key_cave01))->apply_object_set_data((void *)arg2);
-    *(f32 *)((s8 *)dummy_key_cave01 + 0xA8) = 1.0f;
-    ((TODummyKeyCave01 *)dummy_key_cave01)->m_a4 = 1.0f;
-    *(f32 *)((s8 *)dummy_key_cave01 + 0xA0) = 1.0f;
-    *(f32 *)((s8 *)dummy_key_cave01 + 0x9C) = 1.0f;
-    ((TODummyKeyCave01 *)dummy_key_cave01)->m_b4 = 0.0f;
-    *(f32 *)((s8 *)dummy_key_cave01 + 0xB0) = 0.0f;
-    *(f32 *)((s8 *)dummy_key_cave01 + 0xAC) = 0.0f;
-    ((TODummyKeyCave01 *)dummy_key_cave01)->m_b8 = 1;
-    sub_80165940__16TODummyKeyCave01Fv(dummy_key_cave01, 1.0f);
-    ((TODummyKeyCave01 *)dummy_key_cave01)->m_cc = 0;
-    return dummy_key_cave01;
-}
-

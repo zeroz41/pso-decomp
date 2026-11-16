@@ -4115,17 +4115,11 @@ pso/object/mine/TODragonflyMachine01.cpp:
 	.sbss       start:0x805D5998 end:0x805D59A4
 	.sdata2     start:0x805DB598 end:0x805DB5D0
 
-pso/object/key/TODummyKeyCave01Sound.cpp:
-	.text       start:0x8016582C end:0x80165940
-	.data       start:0x804B1998 end:0x804B19B0
-
-pso/object/key/TODummyKeyCave01_80165940.cpp:
-	.text       start:0x80165940 end:0x80165B50
-	.data       start:0x804B19B0 end:0x804B1A40
-
 pso/object/key/TODummyKeyCave01.cpp:
-	.text       start:0x80165B50 end:0x80165F84
-	.data       start:0x804B1A40 end:0x804B1A74
+	.text       start:0x8016582C end:0x80165F84
+	.rodata     start:0x80441238 end:0x80441268
+	.data       start:0x804B1998 end:0x804B1A74
+	.sdata      start:0x805D2FA8 end:0x805D2FB0
 	.sdata2     start:0x805DB5D0 end:0x805DB5F0
 
 pso/object/trap/TOExplosiveMachine.cpp:
@@ -7338,14 +7332,11 @@ pso/ui/window/TWindowMainMenu.cpp:
 	.text       start:0x802644D4 end:0x80264A90
 
 pso/ui/window/TWindowMakeTeam.cpp:
-	.text       start:0x80264A90 end:0x80264DF4
-
-pso/ui/window/TWindowMakeTeam_80264DF4.cpp:
-	.text       start:0x80264DF4 end:0x80265298
-	.data       start:0x804D0578 end:0x804D05A8
-
-pso/ui/window/TWindowMakeTeam_80265298.cpp:
-	.text       start:0x80265298 end:0x80265410
+	.text       start:0x80264A90 end:0x80265410
+	.rodata     start:0x8044F2F0 end:0x8044F310
+	.data       start:0x804D0560 end:0x804D05A8
+	.sdata      start:0x805D3958 end:0x805D3960
+	.sdata2     start:0x805DD140 end:0x805DD148
 
 pso/ui/window/TWindowSubComCard_80265410.cpp:
 	.text       start:0x80265410 end:0x80266BC4
