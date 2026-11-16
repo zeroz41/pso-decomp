@@ -669,7 +669,7 @@ break;
 }
 while ((rem--) > 0)
 {
-if (((s16) (TLobby__sub_80401BCC((void *)((u8 *) flag), (void *)(&(*(u8*)&lobby_read_byte_buffer)), (int)(1)))) != 1)
+if (((s16) (TLobby__sub_80401BCC((void *)((u8 *) flag), (void *)(&(*(u8*)&lobby_read_byte_buffer)), 1))) != 1)
 {
 c = -1;
 }

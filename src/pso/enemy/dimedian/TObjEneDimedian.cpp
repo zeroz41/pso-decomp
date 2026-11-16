@@ -162,25 +162,25 @@ void TObjEneDimedian::vfunc_101() {  }
 
 void TObjEneDimedian::vfunc_99() {
     s32 arg0 = (s32)this;
-    play_sound_effect((s32)((void *) (((s32)((TObjEnemy *)(arg0))->remap_sound_for_area((s32)(0x4003AD40))))), arg0 + 0x38, 0, 0);
+    play_sound_effect((s32)((void *) (((s32)((TObjEnemy *)(arg0))->remap_sound_for_area(0x4003AD40)))), arg0 + 0x38, 0, 0);
     TObjPlayer::play_effect_if_v2(-0x100);
 }
 
 void TObjEneDimedian::vfunc_98() {
     s32 arg0 = (s32)this;
-    play_sound_effect((s32)((void *) (((s32)((TObjEnemy *)(arg0))->remap_sound_for_area((s32)(0x4003AD3D))))), arg0 + 0x38, 0, 0);
+    play_sound_effect((s32)((void *) (((s32)((TObjEnemy *)(arg0))->remap_sound_for_area(0x4003AD3D)))), arg0 + 0x38, 0, 0);
     TObjPlayer::play_effect_if_v2(-0x100);
 }
 
 void TObjEneDimedian::vfunc_97() {
     s32 arg0 = (s32)this;
-    play_sound_effect((s32)((void *) (((s32)((TObjEnemy *)(arg0))->remap_sound_for_area((s32)(0x4003A83E))))), arg0 + 0x38, 0, 0);
+    play_sound_effect((s32)((void *) (((s32)((TObjEnemy *)(arg0))->remap_sound_for_area(0x4003A83E)))), arg0 + 0x38, 0, 0);
     TObjPlayer::play_effect_if_v2(-0x100);
 }
 
 void TObjEneDimedian::vfunc_96() {
     s32 arg0 = (s32)this;
-    play_sound_effect((s32)((void *) (((s32)((TObjEnemy *)(arg0))->remap_sound_for_area((s32)(0x4003A83F))))), arg0 + 0x38, 0, 0);
+    play_sound_effect((s32)((void *) (((s32)((TObjEnemy *)(arg0))->remap_sound_for_area(0x4003A83F)))), arg0 + 0x38, 0, 0);
     TObjPlayer::play_effect_if_v2(-0x100);
 }
 
@@ -188,10 +188,10 @@ void TObjEneDimedian::vfunc_95() {
     s32 arg0 = (s32)this;
     s32 temp_r3;
     if (random_ratio() < 0.5f) {
-        temp_r3 = ((TObjEnemy *)(arg0))->remap_sound_for_area((s32)(0x4003B23B));
+        temp_r3 = ((TObjEnemy *)(arg0))->remap_sound_for_area(0x4003B23B);
         play_sound_effect(temp_r3, arg0 + 0x38, 0, 0);
     } else {
-        temp_r3 = ((TObjEnemy *)(arg0))->remap_sound_for_area((s32)(0x4003B23C));
+        temp_r3 = ((TObjEnemy *)(arg0))->remap_sound_for_area(0x4003B23C);
         play_sound_effect(temp_r3, arg0 + 0x38, 0, 0);
     }
     TObjPlayer::play_effect_if_v2(-0x100);
@@ -207,7 +207,7 @@ void TObjEneDimedian::vfunc_94() {
         play_sound_effect(0x3AD3F, arg0 + 0x38, 0, 0);
         return;
     }
-    play_sound_effect((s32)(((s32)((TObjEnemy *)(arg0))->remap_sound_for_area((s32)(0x4003AD25)))), arg0 + 0x38, 0, 0);
+    play_sound_effect((s32)(((s32)((TObjEnemy *)(arg0))->remap_sound_for_area(0x4003AD25))), arg0 + 0x38, 0, 0);
 }
 
 void TObjEneDimedian::vfunc_93() {

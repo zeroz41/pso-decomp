@@ -832,7 +832,7 @@ extern "C" void TObjPlayer__sub_800A9E9C(void *arg0_) {
             }
             *(s32 *)((s8 *)arg0 + 0x37C) = 2;
         } else {
-            play_sound_effect(((TObjEnemy *)(arg0))->remap_sound_for_area((s32)(0x4003B205)), arg0 + 0x38, 0, 0);
+            play_sound_effect(((TObjEnemy *)(arg0))->remap_sound_for_area(0x4003B205), arg0 + 0x38, 0, 0);
             *(s32 *)((s8 *)arg0 + 0x37C) = 1;
         }
         if (*(u8 **)((s8 *)arg0 + 0x2A8) != NULL) {
@@ -856,9 +856,9 @@ extern "C" void TObjPlayer__sub_800A9E9C(void *arg0_) {
     case 2:
         ((TObjMotion *)arg0)->advance_animation();
         if (*(s16 *)((s8 *)arg0 + 0x392) != 0) {
-            var_r0 = ((TObjEnemy *)(arg0))->remap_sound_for_area((s32)(0x4003A801));
+            var_r0 = ((TObjEnemy *)(arg0))->remap_sound_for_area(0x4003A801);
         } else {
-            var_r0 = ((TObjEnemy *)(arg0))->remap_sound_for_area((s32)(0x4003B200));
+            var_r0 = ((TObjEnemy *)(arg0))->remap_sound_for_area(0x4003B200);
         }
         play_persistent_sound((s32)var_r0, (s32)arg0, (u32)(arg0 + 0x38), 0, 0);
         if (*(u8 **)((s8 *)arg0 + 0x2A8) != NULL) {
@@ -894,7 +894,7 @@ extern "C" void TObjPlayer__sub_800A9C38(void *arg0_) {
             *(s16 *)((s8 *)arg0 + 0xB8) = 3;
             enemy_set_heading_velocity(-7.0f, (TObjEnemy *)arg0, (s32)(*(s32 *)((s8 *)arg0 + 0x60)));
             *(s32 *)((s8 *)arg0 + 0x37C) = 1;
-            play_sound_effect(((TObjEnemy *)(arg0))->remap_sound_for_area((s32)(0x4003A806)), arg0 + 0x38, 0, 0);
+            play_sound_effect(((TObjEnemy *)(arg0))->remap_sound_for_area(0x4003A806), arg0 + 0x38, 0, 0);
             *(s32 *)((s8 *)arg0 + 0x3CC) = TObjPlayer__sub_800AAF98(arg0, 2);
         }
         *(u32 *)((s8 *)arg0 + 0x30) &= ~0x200000;
@@ -1115,7 +1115,7 @@ extern "C" void TObjPlayer__sub_800A93E4(void *arg0_) {
             act = 3;
         }
         if (act >= 0) {
-            play_sound_effect(((TObjEnemy *)(arg0))->remap_sound_for_area((s32)(0x4003AD03)), &e->pos, 0, 0);
+            play_sound_effect(((TObjEnemy *)(arg0))->remap_sound_for_area(0x4003AD03), &e->pos, 0, 0);
             if (e->target != NULL && e->target->m18(arg0, 1.0f) != 0) {
                 e->target->m20(arg0, 1.0f);
                 e->target->m23(arg0, 3.0f);
@@ -1234,7 +1234,7 @@ extern "C" void TObjPlayer__sub_800A8FB4(void *arg0_) {
                 ((TObject *)(*(void **)((s8 *)arg0 + 0x3A8)))->queue_destruction();
                 *(u32 *)((s8 *)arg0 + 0x3A8) = 0U;
             }
-            play_sound_effect(((TObjEnemy *)(arg0))->remap_sound_for_area((s32)(0x4003AD04)), arg0 + 0x38, 0, 0);
+            play_sound_effect(((TObjEnemy *)(arg0))->remap_sound_for_area(0x4003AD04), arg0 + 0x38, 0, 0);
         }
         break;
     case 4:
@@ -1471,7 +1471,7 @@ extern "C" void dubchik_update_dying(u8 *arg0) {
     }
     else
     {
-      play_sound_effect(((TObjEnemy *)((void *) arg0))->remap_sound_for_area((s32)(0x4003AD16)), arg0 + 0x38, 0, 0);
+      play_sound_effect(((TObjEnemy *)((void *) arg0))->remap_sound_for_area(0x4003AD16), arg0 + 0x38, 0, 0);
     }
     TBoss3Volopt::create_breakup_mdl((s32)breakup_model_ptr, (s32)&lbl_80491260, (s32)((int) (*((s32 *) (((s8 *) arg0) + 0x24)))), (s32)(arg0 + 0x2FC), (s32)((int) (*((s32 *) (((s8 *) arg0) + 0x60)))));
     ((TObjPlayer *)arg0)->refresh_lobby_state();

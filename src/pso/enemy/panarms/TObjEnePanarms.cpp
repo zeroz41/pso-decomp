@@ -1480,7 +1480,7 @@ void TObjEnePanBARA::update_attack() {
     this->action_timer = temp_r0;
     if (temp_r0 == 0) {
         ((TObjEnePanBARA *)arg0)->attack_target_player(*(s32 *)&this->unk_3B8);
-        play_sound_effect(((TObjEnemy *)(arg0))->remap_sound_for_area((s32)(0x4003B72F)), (u8 *)&this->position, 0, 0);
+        play_sound_effect(((TObjEnemy *)(arg0))->remap_sound_for_area(0x4003B72F), (u8 *)&this->position, 0, 0);
     }
     if (this->frame < 5.0f) {
         temp_f3 = *(f32 *)((s8 *)entity + 0x38);
@@ -1501,7 +1501,7 @@ void TObjEnePanBARA::sub_800E0344() {
         this->m_3b0 = 0.0f;
         this->action_timer = 0x96;
         *(s32 *)((s8 *)this + 0x3C0) = 1;
-        play_sound_effect((s32)((void *) (((s32)this->remap_sound_for_area((s32)(0x4003BC2D))))), (u8 *)this + 0x38, 0, 0);
+        play_sound_effect((s32)((void *) (((s32)this->remap_sound_for_area(0x4003BC2D)))), (u8 *)this + 0x38, 0, 0);
         this->motion_flags = (s32) (this->motion_flags & 0xFFFFFFFE);
         ((TObjMotion *)this)->set_field_b8(2);
     }
@@ -1528,7 +1528,7 @@ void TObjEnePanBARA::sub_800E0214() {
     }
     this->rotation_y = approach_angle_limited((int) (this->rotation_y), (int) ((s32) ((6144.0f * sin_table_lookup((int) (this->action_timer << 0xC))) + (f32) this->m_3d4)), 0x1111);
     if (!(this->action_timer & 0x3F)) {
-        play_sound_effect(this->remap_sound_for_area((s32)(0x4003BC2D)), (u8 *)this + 0x38, 0, 0);
+        play_sound_effect(this->remap_sound_for_area(0x4003BC2D), (u8 *)this + 0x38, 0, 0);
     }
     this->spawn_periodic_particle();
 }
@@ -1608,7 +1608,7 @@ void TObjEnePanBARA::update_move_timer() {
     temp_r0 = this->action_timer - 1;
     this->action_timer = temp_r0;
     if (temp_r0 == 0) {
-        play_sound_effect(((TObjEnemy *)(arg0))->remap_sound_for_area((s32)(0x4003B72F)), (u8 *)&this->position, 0, 0);
+        play_sound_effect(((TObjEnemy *)(arg0))->remap_sound_for_area(0x4003B72F), (u8 *)&this->position, 0, 0);
     }
     this->rotation_y = approach_angle_limited(this->rotation_y, this->m_3d4 - 0x800, 0x200);
 }
@@ -1642,7 +1642,7 @@ void TObjEnePanBARA::sub_800DFE08() {
             var_r5 = 0;
         }
         TTecResta::create((void *)this, &position, (void *)var_r5);
-        ((s32 (*)(void *, void *, int, int))play_sound_effect)((void *) (this->remap_sound_for_area((s32)(0x4003BC31))), &position, 0, 0);
+        ((s32 (*)(void *, void *, int, int))play_sound_effect)((void *) (this->remap_sound_for_area(0x4003BC31)), &position, 0, 0);
     }
     if (*(s32 *)((s8 *)this + 0xB0) & 0x10) {
         ((s32 (*)(void *, int))TObjEnePanarms__sub_800E1C98)((u8 *)this, 2);

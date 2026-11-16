@@ -1005,7 +1005,7 @@ void TObjEneBm3Fly::update_recoil_state(s32 arg1) {
         this->m_428 |= 2;
         this->set_field_378(this->mode);
         noop__12TBoss8DragonFv(this);
-        play_sound_effect(this->remap_sound_for_area((s32)(0x4003E425)), &this->position, 0, 0);
+        play_sound_effect(this->remap_sound_for_area(0x4003E425), &this->position, 0, 0);
         this->m_3c0 = 0;
         break;
     case 3:
@@ -1058,7 +1058,7 @@ void action__13TObjEneBm3FlyFPvi(TObjEneBm3Fly *arg0, s32 arg1) {
         }
         TBoss8Dragon__sub_800BB7DC(arg0);
         TBoss8Dragon__sub_800BB7D8(arg0, 0xF1, (1.0f));
-        play_sound_effect(arg0->remap_sound_for_area((s32)(0x4003E425)), &arg0->position, 0, 0);
+        play_sound_effect(arg0->remap_sound_for_area(0x4003E425), &arg0->position, 0, 0);
         TBoss3Volopt::create_breakup_mdl((s32)TObjEneBm3Fly__breakup_model, (s32)&bm3_fly_breakup_params, (s32)(arg0->texlist), (s32)&arg0->m_2fc, (s32)(arg0->rotation_y));
         arg0->m_3c0 = 0;
         return;
@@ -1095,7 +1095,7 @@ void TObjEneBm3Fly::state_death_fall(s32 arg1) {
         this->m_430.x = (f32) this->x_speed;
         this->m_430.z = (f32) this->m_310;
         this->m_3e4 = normalize_vector_xz(&this->m_430);
-        temp_copy = this->remap_sound_for_area((s32)(0x4003E425));
+        temp_copy = this->remap_sound_for_area(0x4003E425);
         play_sound_effect(temp_copy, &this->position, 0, 0);
         return;
     case 3:

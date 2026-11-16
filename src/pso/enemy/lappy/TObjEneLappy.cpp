@@ -936,7 +936,7 @@ void TObjEneLappy::update_moving() {
                     spawn_particle_effect((u8 *)&this->position, 0xF3);
                     *(s16 *)&this->m_396 = 2;
                 }
-                play_persistent_sound(((TObjEnemy *)(arg0))->remap_sound_for_area((s32)(0x3AF12)), arg0, (u8 *)&this->position, 0, 0);
+                play_persistent_sound(((TObjEnemy *)(arg0))->remap_sound_for_area(0x3AF12), arg0, (u8 *)&this->position, 0, 0);
                 goto block_47;
             }
 block_47:

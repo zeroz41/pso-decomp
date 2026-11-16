@@ -1486,7 +1486,7 @@ r = -1;
 }
 else
 {
-r = NetMemcmp((void *)(node->addr.address), (void *)(key), (int)(4));
+r = NetMemcmp((void *)(node->addr.address), (void *)(key), 4);
 }
 break;
 case 6:
@@ -1496,7 +1496,7 @@ r = -1;
 }
 else
 {
-r = NetMemcmp((void *)(node->addr.address), (void *)(key), (int)(0x10));
+r = NetMemcmp((void *)(node->addr.address), (void *)(key), 0x10);
 }
 break;
 case 0:

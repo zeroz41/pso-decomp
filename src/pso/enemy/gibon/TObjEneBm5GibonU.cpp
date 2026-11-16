@@ -583,7 +583,7 @@ int TObjEneBm5GibonU::spawn_landing_effect(Vec *pos) {
         }
         return fn_800D88E4(&position);
     }
-    return ((s32)play_sound_effect((void *)((void *)((s32)remap_sound_for_area((s32)(0x3BC21)))), &position, 0, 0));
+    return ((s32)play_sound_effect((void *)((void *)((s32)remap_sound_for_area(0x3BC21))), &position, 0, 0));
 }
 
 #pragma push
@@ -1002,7 +1002,7 @@ void TObjEneBm5GibonU__sub_800CDB98(TObjEneBm5GibonU *self, s32 arg1) {
             }
             TObjEneBm5GibonU__sub_800CCD8C(self);
             if (self->is_passing_frame(8.0f) != 0) {
-                play_sound_effect((void *)self->remap_sound_for_area((s32)(0x3B22A)), &self->position, 0, 0);
+                play_sound_effect((void *)self->remap_sound_for_area(0x3B22A), &self->position, 0, 0);
             }
             if (self->is_passing_frame(33.0f) != 0) {
                 self->vfunc_92();
@@ -1051,7 +1051,7 @@ void TObjEneBm5GibonU__sub_800CE060(TObjEneBm5GibonU *self, s32 arg1) {
     case 4:
         self->vfunc_96();
         self->refresh_and_send_entity_flags();
-        play_sound_effect((void *)self->remap_sound_for_area((s32)(0x3A826)), &self->position, 0, 0);
+        play_sound_effect((void *)self->remap_sound_for_area(0x3A826), &self->position, 0, 0);
         self->requested_action = 0xB;
         TBoss8Dragon__sub_800BB7D4(self, 0xF1);
         self->m_518 = 0;
@@ -1137,7 +1137,7 @@ void TObjEneBm5GibonU__sub_800CE370(TObjEneBm5GibonU *self, s32 arg1) {
         self->requested_action = 6;
         self->m_518 = 0;
         if (self->referenceHp - self->hp < 0x14) {
-            play_sound_effect((void *) self->remap_sound_for_area((s32)(0x3A824)), &self->position, 0, 0);
+            play_sound_effect((void *) self->remap_sound_for_area(0x3A824), &self->position, 0, 0);
         }
         self->set_active();
         break;
@@ -1206,7 +1206,7 @@ void action__16TObjEneBm5GibonUFPvi(TObjEneBm5GibonU *self, s32 arg1) {
         self->advance_animation();
         turn_toward_angle__16TObjEneBm5GibonUFPvi(self, self->rotation_y);
         if (self->is_passing_frame(10.0f) != 0) {
-            play_sound_effect((void *)self->remap_sound_for_area((s32)(0x3AA22)), &self->position, 0, 0);
+            play_sound_effect((void *)self->remap_sound_for_area(0x3AA22), &self->position, 0, 0);
         }
         self->m_518++;
         temp_r0 = self->m_518;
@@ -1409,10 +1409,10 @@ void TObjEneBm5GibonU__sub_800CEBD8(TObjEneBm5GibonU *self, s32 arg1) {
             }
             TObjEneBm5GibonU__sub_800CCD8C(self);
             if (self->is_passing_frame(8.0f) != 0) {
-                play_sound_effect((void *)(self->remap_sound_for_area((s32)(0x3A828))), &self->position, 0, 0);
+                play_sound_effect((void *)(self->remap_sound_for_area(0x3A828)), &self->position, 0, 0);
             }
             if (self->is_passing_frame(22.0f) != 0) {
-                play_sound_effect((void *)(self->remap_sound_for_area((s32)(0x3A529))), &self->position, 0, 0);
+                play_sound_effect((void *)(self->remap_sound_for_area(0x3A529)), &self->position, 0, 0);
             }
             if (self->is_passing_frame(22.0f) != 0) {
                 self->m_564 = 0;
@@ -1968,7 +1968,7 @@ void TObjEneBm5GibonU__sub_800CFE34(TObjEneBm5GibonU *self, s32 arg1) {
         (self->m_518)++;
         self->advance_animation();
         if (self->is_passing_frame(20.0f) != 0) {
-            play_sound_effect((void *)self->remap_sound_for_area((s32)(0x3A523)), &self->position, 0, 0);
+            play_sound_effect((void *)self->remap_sound_for_area(0x3A523), &self->position, 0, 0);
         }
         if (self->m_518 == 0x3C) {
             for (n = ((TObjEneBm5GibonUList *)TObjEneBm5GibonU__enemy_list)->head; n != NULL; n = n->next) {
@@ -2169,10 +2169,10 @@ void TObjEneBm5GibonU__sub_800D0420(TObjEneBm5GibonU *self, s32 arg1) {
         if (!(self->motion_flags & 4)) {
             TObjEneBm5GibonU__sub_800CCD8C(self);
             if (self->is_passing_frame(8.0f) != 0) {
-                play_sound_effect((void *) self->remap_sound_for_area((s32)(0x3A828)), &self->position, 0, 0);
+                play_sound_effect((void *) self->remap_sound_for_area(0x3A828), &self->position, 0, 0);
             }
             if (self->is_passing_frame(22.0f) != 0) {
-                play_sound_effect((void *) self->remap_sound_for_area((s32)(0x3A529)), &self->position, 0, 0);
+                play_sound_effect((void *) self->remap_sound_for_area(0x3A529), &self->position, 0, 0);
             }
             if (self->frame > 28.0f) {
                 self->m_530 *= 0.8f;
