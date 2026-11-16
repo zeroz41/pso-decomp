@@ -92,8 +92,10 @@ s32 play_sound_effect(s32, void *, s32, s32);
 void play_weapon_owner_sounds(Ctx_8011C7C8 *c);
 void play_weapon_hit_sound(Ctx_8011C7C8 *c);
 u16 get_entity_id(void *);
+}
 extern s32 weapon_special_roll_channel_table[];
 Rule_8011C0B8 *find_item_combination_recipe(u8 *id, void *item);
+extern "C" {
 void play_shield_sound_cue(Obj_8011C59C *arg0);
 void *get_item_pmt_record__10TObjPlayerFii(u8, u8);
 void *get_armor_pmt_record(u8, u8);
@@ -208,7 +210,7 @@ f32 TObjPlayer::get_drop_random_float(u32 arg0) {
 
 void roll_item_channel_below(u32 count, s32 arg1) {
     if ((u32) (*(u32 *)&item_mgr) != 0U) {
-        roll_channel_below__9TItemDropFPviUi((u8 *)((*(u32 *)&item_mgr)), count, arg1);
+        ((TItemDrop *)(*(u32 *)&item_mgr))->roll_channel_below(count, arg1);
         return;
     }
     __cvt_fp2unsigned((f32) count * TObjPlayer::get_drop_random_float(arg1));
@@ -244,7 +246,7 @@ void TObjPlayer::drop_meseta_from_slot(s32 arg0, s32 arg1) {
         normalize_drop_area(&sp8);
         temp_r4 = sp8 - 1;
         sp8 = temp_r4;
-        generate_drop_item__9TItemDropFPviPv((u8 *)(*(u32 *)&item_mgr), (s32)temp_r4, (u8 *)arg1);
+        ((TItemDrop *)(*(u32 *)&item_mgr))->generate_drop_item((s32)temp_r4, (u8 *)arg1);
     }
 }
 

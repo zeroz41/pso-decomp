@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_8001ED80.h"
@@ -5,6 +6,7 @@
 #include "pso/ui/charcreate/TChCrLoadGmNjReq.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/system/task/TObject.h"
 
 // The argument block create passes to the second constructor.
 struct TChCrLoadAfsTextureReqArgs {
@@ -17,12 +19,11 @@ struct TChCrLoadAfsTextureReqArgs {
 typedef void (TChCrLoadAfsTextureReq::*TChCrLoadAfsTextureReqHandler)();
 
 extern "C" {
-void queue_destruction__7TObjectFv(void *);
-u32 get_bml_model(void *, int);
+s32 get_bml_model(BmlResource *resource, s32 index);
 s32 free_bin_model_request(void *, int);
 void *init_bin_model_request(void *, int, char **, u32 *, int, int, int);
 extern const char *lbl_805D3B50;
-s32 TLobby__sub_803CC4C0(s32);
+s32 adxf_get_stat(s32);
 f64 log();
 
 void TChCrLoadAfsTextureReq::try_begin_load() {
@@ -46,7 +47,7 @@ void TChCrLoadAfsTextureReq::run_task() {
         &TChCrLoadAfsTextureReq::update_loading,
     };
     if (state < 0 || state >= 3) {
-        queue_destruction__7TObjectFv(this);
+        queue_destruction();
         return;
     }
     (this->*tbl[state])();
@@ -81,7 +82,7 @@ s32 TChCrLoadAfsTextureReq::try_acquire_load_slot() {
 TChCrLoadAfsTextureReq::~TChCrLoadAfsTextureReq() {
     s32 i;
     if (this->m_1c == 0 && this->buffers[0] != 0) {
-        if (TLobby__sub_803CC4C0(this->load_handle) == 2) {
+        if (adxf_get_stat(this->load_handle) == 2) {
             ((TLobby *)this->load_handle)->adxf_stop();
         }
         ((TLobby *)this->load_handle)->close_adxf_handle();
@@ -171,7 +172,7 @@ void TLobby::update_model_load() {
             req->m_74 = 0x12C;
         }
     } else if (fn_8001ED90(req->m_68) != 0) {
-        bml_model = get_bml_model(req->m_68, 0);
+        bml_model = get_bml_model((BmlResource *)req->m_68, 0);
         *req->m_1c = bml_model;
         if (bml_model != 0U) {
             req->m_24->alloc_load_buffer(TLobby__sub_8001ED88(req->m_68));
@@ -179,7 +180,7 @@ void TLobby::update_model_load() {
             req->m_68 = NULL;
             req->sub_8028C8A8();
             *req->m_28 &= ~req->m_20;
-            queue_destruction__7TObjectFv(this);
+            queue_destruction();
         }
     }
 }

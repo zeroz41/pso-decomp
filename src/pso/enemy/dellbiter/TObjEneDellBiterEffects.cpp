@@ -10,10 +10,7 @@
 #include "pso/math/AngleLookup.h"
 #include "pso/map/CsnQuery.h"
 
-extern "C" {
 void *create_particle_controller_with_angles(void *, void *, s32, s32, u16);
-}
-
 extern "C" {
 s32 is_player_entity_id(u16);
 s32 is_vec_xz_cross_negative(void *, void *);

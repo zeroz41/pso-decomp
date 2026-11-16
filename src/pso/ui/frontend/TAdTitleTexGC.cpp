@@ -32,8 +32,6 @@ const char *TAdTitleTexGC__name = "TAdTitleTexGC";
 
 s32 lbl_805D6668;
 
-struct V_802A4EF4 { f32 x, y; };
-
 struct B_802A4EF4 {
     f32 x, y, x2, y2;
     u8 pad[0x10];
@@ -44,7 +42,7 @@ struct Obj_802A4EF4 {
     B_802A4EF4 b[3];
     u8 pad7C[4];
     s32 f80;
-    V_802A4EF4 a[3];
+    NJS_POINT2 a[3];
 };
 
 extern "C" {
@@ -59,7 +57,7 @@ void release_texture_list(void*);
 
 extern const s32 current_language;
 
-void TLobby__sub_8023E4B4(s32, s32);
+s32 load_streamed_prs_texture(s32 arg0, s32 arg1);
 
 void TLobby__sub_802A5154(void) {
     if (lbl_805D6668 != 0U) {
@@ -75,7 +73,7 @@ void TLobby__sub_802A5154(void) {
     };
     s32 list = (s32)lists[current_language];
     lbl_805D6668 = list;
-    TLobby__sub_8023E4B4((s32)files[current_language], list);
+    load_streamed_prs_texture((s32)files[current_language], list);
 }
 
 void TLobby::free_dialing_gc() {
@@ -129,7 +127,7 @@ void TAdTitleTexGC::run_task() {
 }
 
 void update_title_tex_positions__13TAdTitleTexGCFPv(Obj_802A4EF4 *arg0) {
-    V_802A4EF4 sp[3];
+    NJS_POINT2 sp[3];
     s32 i;
     for (i = 0; i < 3; i++) {
         s32 t = 0x14 - arg0->f80;
@@ -169,9 +167,9 @@ void TAdTitleTexGC::render_status_pair(s32 arg1) {
 
 #pragma push
 #pragma opt_common_subs off
-void TAdTitleTexGC::sub_802A4D74(s32 arg1, u8 *arg2, u8 *arg3) {
+void TAdTitleTexGC::sub_802A4D74(s32 arg1, u8 *text, u8 *arg3) {
     u8 *arg0 = (u8 *)this;
-    draw_menu_text(22.0f + *(f32 *)((s8 *)arg0 + 0x1C), 1.0f + *(f32 *)((s8 *)arg0 + 0x20), (const char *)arg2, arg1);
+    draw_menu_text(22.0f + *(f32 *)((s8 *)arg0 + 0x1C), 1.0f + *(f32 *)((s8 *)arg0 + 0x20), (const char *)text, arg1);
     draw_menu_text(22.0f + *(f32 *)((s8 *)arg0 + 0x3C), 1.0f + *(f32 *)((s8 *)arg0 + 0x40), (const char *)arg3, arg1);
 }
 #pragma pop

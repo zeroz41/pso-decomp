@@ -59,7 +59,7 @@ s32 __ct__7TObjectFP7TObject();
 void TObjPlayer__sub_8024ABDC(s32 arg0);
 void fn_8024AC64(s32 arg0);
 s32 forward_slot_selection__16TAdChrSelASlotGCFPvPv(int, int, int, f32);
-extern s32 lbl_805D3F70;
+const char *lbl_805D3F70 = "TWindowTradeRequest";
 u8 *TWindowTradeRequest__ct(TWindowTradeRequest *arg0);
 void TWindowTradeRequest::render() {  }
 

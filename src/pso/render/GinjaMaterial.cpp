@@ -7,6 +7,7 @@
 #include "pso/render/GinjaModel.h"
 #include "types.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/enemy/stelth/TObjEneMe3Stelth_803DC82C.h"
 
 #pragma scheduling off
 #pragma scheduling off
@@ -80,7 +81,9 @@ extern s32 ginja_vertex_component_types[];
 void GXSetVtxAttrFmt(s32, s32, s32, s32, u8);
 void GXSetArray(s32, void *, u8);
 void set_ginja_vertex_arrays(Arr_803DC3BC *arg0);
+}
 void apply_ginja_material_params(GinjaDrawRecord *);
+extern "C" {
 s32 GXCallDisplayList(void *, u32);
 extern u32 ginja_draw_list_state, ginja_draw_flags;
 extern s32 ginja_draw_list_mask;
@@ -678,3 +681,7 @@ s32 ginja_texture_matrix_ids[11] = {
     0x2a, 0x2d, 0x30, 0x33,
     0x36, 0x39, 0x3c,
 };
+
+void set_ginja_draw_list_mask(s32 arg0) {
+    ginja_draw_list_mask = arg0;
+}

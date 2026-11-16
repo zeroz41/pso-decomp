@@ -13,6 +13,7 @@
 #include "pso/system/memory.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 const char *bm_ene_common_all_model_names[2] = { "ene_common_all.nj", NULL };
 const char *bm_ene_common_all_motion_names[1] = { NULL };
@@ -191,7 +192,6 @@ void TObjPlayer::set_field_e4(s32 arg1, s32 arg2) {
 #undef create_dead_spot__10TObjPlayerFiiif
 
 
-
 void create_dead_spot__10TObjPlayerFiiif(s32 arg0, s32 arg1, s32 arg2, f32 farg0) {
     s32 temp_r3;
 
@@ -296,7 +296,6 @@ void TObjPlayer::spawn_dead_spot(s32 point, s32 selector, s32 delay, f32 farg0) 
         __ct__9TDeadSpotFv(obj, tl_05, point, *(s32 *)((s8 *)(*(void **)((s8 *)player_corpse_mark_resource + 0x42C)) + 0xC), selector, delay, farg0);
     }
 }
-
 
 
 void TObjPlayer::destroy_static_lobby() {

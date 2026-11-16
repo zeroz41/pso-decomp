@@ -10,21 +10,14 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/system/task/TObject.h"
 
-struct Stack_80351DA8 {
-    f32 sp8;
-    f32 spC;
-    f32 sp10;
-};
-
 #include <stddef.h>
 #include "pso/unk/TLobby.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 
 #pragma readonly_strings on
 
-extern "C" {
+
 const char *TBoss5GryphonLightningWing__name = "TBoss5GryphonLightningWing";
-}
 
 
 #pragma opt_lifetimes off
@@ -33,9 +26,7 @@ struct Stack_80351A80 {
     u8 trailing_storage[0x8];
 };
 
-struct Vec_80351C18 { f32 x, y, z; };
-
-struct Pt_80351C18 { Vec_80351C18 v; f32 w; };
+struct Pt_80351C18 { Vec v; f32 w; };
 
 struct Wing_80351C18 {
     s32 x0;
@@ -110,9 +101,9 @@ s32 __ct__26TBoss5GryphonLightningWingFv(int arg0, void *arg1, void *a, void *mi
     VecCopy((Vec *)(&((Wing_80351C18 *)arg0)->pts[0]), (const Vec *)a);
     VecCopy((Vec *)(&((Wing_80351C18 *)arg0)->pts[((Wing_80351C18 *)arg0)->n - 1]), (const Vec *)b);
     for (i = 1; i < ((Wing_80351C18 *)arg0)->n - 1; i++) {
-        ((Wing_80351C18 *)arg0)->pts[i].v.x = ((Vec_80351C18 *)mid)->x;
-        ((Wing_80351C18 *)arg0)->pts[i].v.y = ((Vec_80351C18 *)mid)->y;
-        ((Wing_80351C18 *)arg0)->pts[i].v.z = ((Vec_80351C18 *)mid)->z;
+        ((Wing_80351C18 *)arg0)->pts[i].v.x = ((Vec *)mid)->x;
+        ((Wing_80351C18 *)arg0)->pts[i].v.y = ((Vec *)mid)->y;
+        ((Wing_80351C18 *)arg0)->pts[i].v.z = ((Vec *)mid)->z;
     }
     return arg0;
 }
@@ -144,11 +135,11 @@ s32 spawn_lightning_wing__12TBoss8DragonFiiiiii(s32 arg0, s32 arg1, s32 mid, s32
 }
 
 void fn_80351DA8(s32 arg0, u8 *pos, u8 *out, s32 arg3, s32 arg4) {
-    Stack_80351DA8 stack;
-    stack.sp8 = *(f32 *)((s8 *)out + 0);
-    stack.spC = *(f32 *)((s8 *)pos + 4);
-    stack.sp10 = *(f32 *)((s8 *)out + 8);
-    spawn_lightning_wing__12TBoss8DragonFiiiiii(arg0, (s32)((s32) pos), (s32)((s32) &stack.sp8), (s32)((s32) out), arg3, arg4);
+    Vec stack;
+    stack.x = *(f32 *)((s8 *)out + 0);
+    stack.y = *(f32 *)((s8 *)pos + 4);
+    stack.z = *(f32 *)((s8 *)out + 8);
+    spawn_lightning_wing__12TBoss8DragonFiiiiii(arg0, (s32)((s32) pos), (s32)((s32) &stack.x), (s32)((s32) out), arg3, arg4);
 }
 
 }

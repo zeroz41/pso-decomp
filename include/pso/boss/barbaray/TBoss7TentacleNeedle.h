@@ -52,4 +52,8 @@ void run_task__14TBoss7TentacleFv(u8 *arg0);
 void update_retract_state__14TBoss7TentacleFPv(TBoss7Tentacle *arg0);
 }
 
+// boss7_tentacle_needle_target_state: layout known from its uses only.
+struct Boss7TentacleNeedleTargetState { s32 value; u8 remaining[0xC]; };
+extern Boss7TentacleNeedleTargetState boss7_tentacle_needle_target_state;
+
 #endif

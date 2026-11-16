@@ -10,17 +10,7 @@
 #include "pso/map/FloorArea.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 
-struct Vec_8029EA4C { f32 x, y, z; };
-
 #include <stddef.h>
-struct Stack_8029E960 {
-    f32 sp8;
-    f32 spC;
-    f32 sp10;
-    f32 sp14;
-    f32 sp18;
-    f32 sp1C;
-};
 
 extern "C" {
 s32 GXSetScissor(s32, s32, s32, s32);
@@ -102,7 +92,7 @@ extern u32 scene_sora_instance;
 extern "C" {
 
 s32 TObjEneRecon__sub_8029EA4C(void *arg0, s32 _w1) {
-    Vec_8029EA4C v;
+    Vec v;
     if (scene_sora_reflect_active == 0) {
         return 1;
     }

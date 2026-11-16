@@ -9,7 +9,7 @@
 #include "pso/ui/font/TFontSmallLobby.h"
 #include "pso/ui/window/TWindowCtrlMain.h"
 #include "pso/system/task/TObject.h"
-#include "pso/ui/font/TFontSmallHelp.h"
+
 #include "pso/ui/window/TWindowShortListCtrl.h"
 
 struct VBase_18_7b3651 { char pad[0x18]; };
@@ -40,7 +40,7 @@ char *TWindowSubStatusDisp__sub_80071820(char *);
 s32 get_card_status_bits__20TWindowShortListCtrlFv();
 s32 TObjPlayer__sub_801AFD8C(void *);
 VObj_18_7b3651 *get_player_by_client_id(s32);
-void TWindowSubStatusDisp__sub_80228F5C(s32);
+void text_builder_append_int(s32);
 void text_builder_append(void *);
 }
 void append_text_space(void);
@@ -57,9 +57,6 @@ extern char lbl_805DA9F4[4];
 extern char lbl_805DA9F8[4];
 extern "C" {
 
-void __dl__7TObjectFPv(void *);
-void __dt__14TFontSmallHelpFv(void *, int);
-void *__nw__7TObjectFUl(int);
 s32 get_status_index_or_default__20TWindowSubStatusDispFPUs(void *, s32);
 
     extern int TWindowCtrlMain__instance;
@@ -109,9 +106,9 @@ s32 TWindowSubStatusDisp::build_status_text(s32 arg0) {
             return 0;
         }
         text_builder_append(lbl_805DA9F4);
-        TWindowSubStatusDisp__sub_80228F5C(lobby_player_status_records[arg0].a);
+        text_builder_append_int(lobby_player_status_records[arg0].a);
         text_builder_append(lbl_805DA9F8);
-        TWindowSubStatusDisp__sub_80228F5C(lobby_player_status_records[arg0].b);
+        text_builder_append_int(lobby_player_status_records[arg0].b);
         break;
     case 3:
         if ((s8)info[0x33] < 2) {
@@ -126,7 +123,7 @@ s32 TWindowSubStatusDisp::build_status_text(s32 arg0) {
 }
 
 void *TFontSmallLobby::create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0x64);
+    void *o = TObject::operator new(0x64);
     if (o != NULL) {
         o = fn_800FCC78((u8 *)o, (s32)arg0);
     }

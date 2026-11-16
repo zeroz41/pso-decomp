@@ -247,7 +247,7 @@ void *pp;
     return -2;
   }
   t = 1;
-  if ((h = *((void **) (e + offsetof(Ipv6Iface, f28)))) != 0)
+  if ((h = *((void **) (e + offsetof(Ipv6Iface, callback)))) != 0)
   {
     t = TLobby__sub_8042325C(id, n, p, h);
   }
@@ -571,11 +571,11 @@ extern s32 TLobby__sub_80412058(s16 id, u8 *self, s32 len, u8 *out) {
     rec.kind = 6;
     NetMemcpy(rec.addr, ent + offsetof(Ipv6Iface, addr), 0x10);
     rec.a = *(s16 *)(ent + offsetof(Ipv6Iface, prefix_len));
-    rec.b = *(s16 *)(ent + offsetof(Ipv6Iface, f1A));
-    rec.c = *(u32 *)(ent + offsetof(Ipv6Iface, f28));
+    rec.b = *(s16 *)(ent + offsetof(Ipv6Iface, flags));
+    rec.c = *(u32 *)(ent + offsetof(Ipv6Iface, callback));
     set_value_and_enable((void *)ref, (s32)&rec);
     netbuf_copy_by_ref(self, ref, 0x1C);
-    TLobby__sub_80406EB8((NetBufferRef *)self, 0x1C);
+    netbuf_ref_advance((NetBufferRef *)self, 0x1C);
     cur = *(u8 **)(ent + offsetof(Ipv6Iface, addrs));
     i = 1;
     n = 0;
@@ -588,7 +588,7 @@ extern s32 TLobby__sub_80412058(s16 id, u8 *self, s32 len, u8 *out) {
         rec.c = 0;
         set_value_and_enable((void *)ref, (s32)&rec);
         netbuf_copy_by_ref(self, ref, 0x1C);
-        TLobby__sub_80406EB8((NetBufferRef *)self, 0x1C);
+        netbuf_ref_advance((NetBufferRef *)self, 0x1C);
         cur = *(u8 **)(cur + offsetof(Ipv6AddrNode, next));
         i++;
         n++;
@@ -724,7 +724,7 @@ s16 TLobby__sub_80412210(s16 idx) {
     NetMemset(ifc->addr, 0, 16);
     ifc->prefix_len = 0;
     ifc->addrs = NULL;
-    ifc->f28 = 0;
+    ifc->callback = 0;
     return 0;
 }
 
@@ -989,216 +989,138 @@ s16 idx;
   return r;
 }
 
-inline s16 cmp16_80412CA4(void *a, void *b) {
-    s32 t = NetMemcmp(a, b, 16);
-    if (t < 0) {
-        return -1;
-    }
-    if (t > 0) {
-        return 1;
-    }
-    return 0;
-}
+s16 TLobby__sub_80412CA4(u8 *addr, s16 plen, s16 x, s16 idx, s32 y)
+{
+    Ipv6State *g = &ipv6_address_routing_state;
+    s16 *pn;
+    Ipv6Iface **pifs;
+    Ipv6Iface *e;
+    s16 r;
+    s16 ret;
+    s16 found;
+    s16 fl;
+    s16 n8;
+    s16 rem;
+    u8 *q;
+    u8 mask;
+    u8 tmp[16];
+    u8 ll[16];
+    u8 mcast[16];
+    s32 err; /* release-path callback result, never checked (80411604 keeps such results too) */
 
-inline s16 getaddr_80412CA4(s16 *n, u8 **ents, void *out) {
-    if (*n <= 0) {
-        return 0;
+    if (idx < 0 || idx >= *(pn = &g->count)) {
+        return -266;
     }
-    if (*(s16 *)*ents != 1) {
-        return 0;
+    e = *(pifs = &g->ifaces);
+    e += idx;
+    if (e->state == 1) {
+        return -2;
     }
-    NetMemcpy(out, *ents + 4, 16);
-    return 1;
-}
-
-inline void remove_80412CA4(Ipv6State *g, s16 len, void *grp, void *src) {
-    s16 n = g->route_count;
-    Ipv6Route *e = g->routes;
-    for (; n > 0; n--, e++) {
-        if (e->state == 1 && e->prefix_len == len && cmp16_80412CA4(e->prefix, grp) == 0 && cmp16_80412CA4(e->gateway, src) == 0) {
+    e->state = 1;
+    NetMemset(tmp, 0, 16);
+    if (NetCompareBitsBackward(tmp + 15, addr + 15, 128 - plen) != 0) {
+        NetMemcpy(tmp, addr, 16);
+    } else {
+        r = TLobby__sub_8040A0C0(idx, tmp + 8);
+        if (r < 0) {
             e->state = 0;
-            return;
+            return r;
+        }
+        if (plen > 0) {
+            n8 = plen / 8;
+            NetMemcpy(tmp, addr, n8);
+            rem = plen % 8;
+            if (rem != 0) {
+                q = tmp + n8;
+                mask = 255 >> rem;
+                *q = (mask & *q) | (addr[n8] & ~mask);
+            }
         }
     }
-}
-
-s16 TLobby__sub_80412CA4(u8 *addr, s32 plen, s16 x, s16 idx, s32 y)
-{
-  s16 TLobby__sub_8040A044(s16, u32, s32, u32 *); /* declared s16 here; the definition returns s32 */
-  s16 invoke_socket_callback(s16); /* declared with 1 parameter, so calls here pass 1 argument; the definition is s32 (s16, s32) */
-  s16 is_slot_flag_0x40_set(s16); /* declared s16 here; the definition returns s32 */
-  s16 NetCompareBitsBackward(u8 *, u8 *, s16); /* declared s16 here; the definition returns s32 */
-  void TLobby__sub_80414B98(u8 *, s32, u8 *); /* declared here with an s32 2nd argument; the definition takes s16 */
-  int new_var2;
-  Ipv6State *g = &ipv6_address_routing_state;
-  u8 **pe;
-  int new_var3;
-  u8 *e;
-  s16 r;
-  s16 found;
-  s16 new_var[2];
-  s16 fl;
-  s16 rem;
-  s16 *pn;
-  u8 *q;
-  u8 mask;
-  u8 tmp[16];
-  u8 a76[16];
-  u8 a60[16];
-  s32 h;
-  u8 a40[16];
-  u8 a24[16];
-  if ((idx < 0) || (idx >= (*(pn = &g->count))))
-  {
-    return -266;
-  }
-  e = *(pe = (u8 **) (((u8 *) g) + offsetof(Ipv6State, ifaces)));
-  e += idx * 48;
-  if ((*((s16 *) e)) == 1)
-  {
-    return -2;
-  }
-  *((s16 *) e) = 1;
-  NetMemset(tmp, 0, 16);
-  new_var[1] = plen;
-  if (NetCompareBitsBackward(tmp + 15, addr + 15, 128 - new_var[1]) != 0)
-  {
-    NetMemcpy(tmp, addr, 16);
-  }
-  else
-  {
-    r = TLobby__sub_8040A0C0(idx, tmp + 8);
-    if (r < 0)
-    {
-      *((s16 *) e) = 0;
-      return r;
+    e->handle = TLobby__sub_8040A044(idx, 0x86DD, 16, (u32 *)tmp);
+    if (e->handle < 0) {
+        e->state = 0;
+        return e->handle;
     }
-    if (((s16) (plen & 0xFFFFFFFFFFFFFFFFu)) > 0)
-    {
-      new_var[0] = new_var[1] / 8;
-      NetMemcpy(tmp, addr, new_var[0]);
-      if ((rem = new_var[1] % 8) != 0)
-      {
-        q = tmp + new_var[0];
-        mask = 255 >> rem;
-        *q = (mask & (*q)) | (addr[new_var[0]] & (~mask));
-      }
+    r = invoke_socket_callback(idx, e->handle);
+    if (r < g->min_mtu) {
+        e->state = 0;
+        return -6;
     }
-  }
-  *((s16 *) (e + offsetof(Ipv6Iface, handle))) = TLobby__sub_8040A044(idx, 0x86DD, 16, (u32 *) tmp);
-  h = *((s16 *) (e + offsetof(Ipv6Iface, handle)));
-  if (((s16) h) < 0)
-  {
-    *((s16 *) e) = 0;
-    return *((s16 *) (e + offsetof(Ipv6Iface, handle)));
-  }
-  r = invoke_socket_callback(idx);
-  if (r < (*((s16 *) (((u8 *) g) + offsetof(Ipv6State, min_mtu)))))
-  {
-    *((s16 *) e) = 0;
-    return -6;
-  }
-  *((s16 *) (e + offsetof(Ipv6Iface, mtu))) = r;
-  NetMemcpy(e + offsetof(Ipv6Iface, addr), tmp, 16);
-  *((s16 *) (e + offsetof(Ipv6Iface, prefix_len))) = new_var[1];
-  found = 0;
-  *((s16 *) (e + offsetof(Ipv6Iface, f18))) = 0;
-  *((s16 *) (e + offsetof(Ipv6Iface, f1A))) = x;
-  *((s16 *) (e + offsetof(Ipv6Iface, scope))) = NetIPv6GetAddressScopeClass(tmp);
-  if (is_entry_flag10_set(idx) != 0)
-  {
-    *((s16 *) (e + offsetof(Ipv6Iface, dad_state))) = 1;
-    fl = 0;
-    *((s16 *) (e + offsetof(Ipv6Iface, dad_count))) = *((s16 *) (((u8 *) g) + offsetof(Ipv6State, dad_count_init)));
-    *((s16 *) (e + offsetof(Ipv6Iface, dad_timer))) = *((s16 *) (((u8 *) g) + offsetof(Ipv6State, dad_timer_init)));
-  }
-  else
-  {
-    *((s16 *) (e + offsetof(Ipv6Iface, dad_state))) = 4;
-    fl = 1;
-    *((s16 *) (e + offsetof(Ipv6Iface, dad_count))) = found;
-    *((s16 *) (e + offsetof(Ipv6Iface, dad_timer))) = found;
-  }
-  if (is_slot_flag_0x40_set(idx) != 0)
-  {
-    *((s16 *) (e + offsetof(Ipv6Iface, rs_count))) = *((s16 *) (((u8 *) g) + offsetof(Ipv6State, rs_count_init)));
-    *((s16 *) (e + offsetof(Ipv6Iface, rs_timer))) = *((s16 *) (((u8 *) g) + offsetof(Ipv6State, rs_timer_init)));
-  }
-  else
-  {
-    *((s16 *) (e + offsetof(Ipv6Iface, rs_count))) = 0;
-    *((s16 *) (e - (-36))) = 0;
-  }
-  *((s32 *) (e + offsetof(Ipv6Iface, f28))) = y;
-  found = 0;
-  *((s32 *) (e + offsetof(Ipv6Iface, addrs))) = found;
-  if (is_socket_flag_set(idx) == 0)
-  {
-    found = getaddr_80412CA4(pn, pe, a76);
-    if (found != 0)
-    {
-      r = TLobby__sub_8041347C(tmp, 128, a76, 0, 3, 1);
-      if (r < 0)
-      {
-        goto L337;
-      }
+    e->mtu = r;
+    NetMemcpy(e->addr, tmp, 16);
+    e->prefix_len = plen;
+    e->f18 = 0;
+    e->flags = x;
+    e->scope = NetIPv6GetAddressScopeClass(tmp);
+    if (is_entry_flag10_set(idx)) {
+        e->dad_state = 1;
+        fl = 0;
+        e->dad_count = g->dad_count_init;
+        e->dad_timer = g->dad_timer_init;
+    } else {
+        e->dad_state = 4;
+        fl = 1;
+        e->dad_count = 0;
+        e->dad_timer = 0;
     }
-    r = TLobby__sub_8041347C(tmp, new_var[1], tmp, idx, fl, 1);
-    if (r < 0)
-    {
-      goto L285;
+    if (is_slot_flag_0x40_set(idx)) {
+        e->rs_count = g->rs_count_init;
+        e->rs_timer = g->rs_timer_init;
+    } else {
+        e->rs_count = 0;
+        e->rs_timer = 0;
     }
-  }
-  else
-  {
-    r = TLobby__sub_8041347C(tmp, new_var[1], tmp, idx, fl, 1);
-    if (r < 0)
-    {
-      goto L285;
+    e->callback = (void *)y;
+    e->addrs = NULL;
+    if (!is_socket_flag_set(idx)) {
+        found = getaddr_80412210(pn, pifs, ll);
+        if (found) {
+            ret = TLobby__sub_8041347C(tmp, 128, ll, 0, 3, 1);
+            if (ret < 0) {
+                goto release;
+            }
+        }
+        ret = TLobby__sub_8041347C(tmp, plen, tmp, idx, fl, 1);
+        if (ret < 0) {
+            goto remove_ll;
+        }
+    } else {
+        ret = TLobby__sub_8041347C(tmp, plen, tmp, idx, fl, 1);
+        if (ret < 0) {
+            goto remove_ll;
+        }
     }
-  }
-  init_ipv6_all_nodes_multicast_address(a60, 1);
-  r = TLobby__sub_80409CE0(idx, *((s16 *) (e + offsetof(Ipv6Iface, handle))), 1, a60);
-  if (r < 0)
-  {
-    goto L236;
-  }
-  init_ipv6_all_nodes_multicast_address(a60, 2);
-  r = TLobby__sub_80409CE0(idx, *((s16 *) (e + offsetof(Ipv6Iface, handle))), 1, a60);
-  if (r < 0)
-  {
-    goto L236;
-  }
-  NetIPv6MakeSolicitedNodeMulticastAddress(a60, tmp);
-  r = TLobby__sub_80409CE0(idx, *((s16 *) (e + offsetof(Ipv6Iface, handle))), 1, a60);
-  new_var3 = r < 0;
-  if (new_var3)
-  {
-    goto L236;
-  }
-  return 0;
-  L236:
-  TLobby__sub_80414B98(a40, plen, tmp);
-
-  remove_80412CA4(g, plen, a40, tmp);
-  L285:
-  if (is_socket_flag_set(idx) == 0)
-  {
-    TLobby__sub_80414B98(a24, 128, tmp);
-    remove_80412CA4(g, 128, a24, a76);
-  }
-
-  L337:
-  call_entry_callback(idx, *((s16 *) (e + offsetof(Ipv6Iface, handle))));
-
-  found = 0;
-  *((s16 *) e) = found;
-  *((s16 *) (e + offsetof(Ipv6Iface, handle))) = found;
-  *((s16 *) (e + offsetof(Ipv6Iface, mtu))) = found;
-  new_var2 = 4;
-  NetMemset(e + new_var2, 0, 16);
-  *((s16 *) (e + offsetof(Ipv6Iface, prefix_len))) = found;
-  return r;
+    init_ipv6_all_nodes_multicast_address(mcast, 1);
+    ret = TLobby__sub_80409CE0(idx, e->handle, 1, mcast);
+    if (ret < 0) {
+        goto remove;
+    }
+    init_ipv6_all_nodes_multicast_address(mcast, 2);
+    ret = TLobby__sub_80409CE0(idx, e->handle, 1, mcast);
+    if (ret < 0) {
+        goto remove;
+    }
+    NetIPv6MakeSolicitedNodeMulticastAddress(mcast, tmp);
+    ret = TLobby__sub_80409CE0(idx, e->handle, 1, mcast);
+    if (ret >= 0) {
+        return 0;
+    }
+remove:
+    remove_80412618(g, plen, tmp, tmp);
+remove_ll:
+    if (!is_socket_flag_set(idx)) {
+        remove_80412618(g, 128, tmp, ll);
+    }
+release:
+    /* result never read: the original frame keeps its 4-byte slot (release-dead check) */
+    err = call_entry_callback(idx, e->handle);
+    e->state = 0;
+    e->handle = 0;
+    e->mtu = 0;
+    NetMemset(e->addr, 0, 16);
+    e->prefix_len = 0;
+    return ret;
 }
 
 s16 TLobby__sub_80413230(u8 *arg0, s32 arg1) {
@@ -1659,7 +1581,7 @@ s16 idx;
         c = 0;
     }
     if (c == 0) {
-        if ((*(s16 *)(e + offsetof(Ipv6Iface, f1A)) & 1) == 0) {
+        if ((*(s16 *)(e + offsetof(Ipv6Iface, flags)) & 1) == 0) {
             return 0;
         }
         return 1;
@@ -2104,9 +2026,6 @@ void TLobby__sub_80414B98(u8 *dst, s16 bits, u8 *src)
     return;
   }
   n = b / 8;
-  if ((!i) && (!i))
-  {
-  }
   rem = b % 8;
   i = 0;
   if (n > 0)
@@ -2181,7 +2100,7 @@ void TLobby__sub_80414B98(u8 *dst, s16 bits, u8 *src)
 
 }
 
-s32 NetCompareBitsBackward(u8 *arg0, u8 *arg1, s16 arg2) {
+s16 NetCompareBitsBackward(u8 *arg0, u8 *arg1, s16 arg2) {
     s16 n;
     s16 rem;
     s32 a;

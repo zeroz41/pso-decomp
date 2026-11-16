@@ -21,4 +21,9 @@ struct TObjNpcEnemy : public TObjNpcBase {
 };
 
 typedef char TObjNpcEnemy_size[sizeof(TObjNpcEnemy) == 0x3BC ? 1 : -1];
+
+// TObjNpcEnemy__entry_table: layout known from its uses only.
+struct TObjNpcEnemyEntryTable { s32 value; u8 remaining[0x23C]; };
+extern TObjNpcEnemyEntryTable TObjNpcEnemy__entry_table;
+
 #endif

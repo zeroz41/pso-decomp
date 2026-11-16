@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/weapon/TItemWeapon.h"
 #include "pso/weapon/TUnk_804A4D70.h"
 #include "pso/item/TItem.h"
 #include "pso/effect/item/TItemEffOrgaFlowShot.h"
@@ -22,11 +23,11 @@ void TUnk_804A4D70::emit_marker_effects() {
             spawn_particle_effect(&owner->m_2fc, 0x66);
             spawn_particle_effect(&owner->m_2fc, 0x66);
         } else {
-            ((TObjPlayer *)this)->update_active_game_effect();
+            ((TItemWeapon *)this)->update_active_game_effect();
         }
         break;
     default:
-        ((TObjPlayer *)this)->update_active_game_effect();
+        ((TItemWeapon *)this)->update_active_game_effect();
         break;
     }
 }

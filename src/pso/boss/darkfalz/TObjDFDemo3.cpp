@@ -24,8 +24,8 @@
 #include "pso/unk/text_80087278.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
-#include "pso/object/ambient/TObjFish.h"
-#include "pso/system/task/TObject.h"
+
+
 #pragma readonly_strings on
 
 extern "C" {
@@ -34,13 +34,11 @@ s32 push_matrix();
 s32 post_translate_matrix(void *);
 void render__11TObjDFDemo3Fv(u8 *arg0);
 s32 get_bml_motion(s32, s32);
-s32 TObjFish__sub_8001EDB0(s32, s32);
+s32 get_bml_texlist(s32, s32);
 s32 get_bml_model(s32, s32);
 void set_scripted_camera_pose(void *, void *, void *);
 s32 __ct__8TObjBaseFP7TObject(void *, void *);
 }
-
-struct Vec_8004F030 { f32 x, y, z; };
 
 struct IVec_8004F030 { s32 x, y, z; };
 
@@ -55,7 +53,6 @@ struct S_EF94 {
 
 extern "C" {
 void __dl__7TObjectFPv(void *);
-void *__nw__7TObjectFUl(int);
 s32 vec3_add_to(void *, void *);
 f32 vector_length(void *);
 s32 normalize_vector(void *);
@@ -190,46 +187,46 @@ S_EF94 *__dt__11TObjDFDemo3Fv(S_EF94 *o, s16 flag) {
 }
 
 #define lbl_804856C0 ((u8 *)lbl_804856C0)
-u8 *TObjDFDemo3__ct(u8 *arg0, s32 parent, s32 arg2, s32 arg3) {
+u8 *TObjDFDemo3__ct(u8 *base, s32 parent, s32 arg2, s32 arg3) {
     s32 cnt;
-    __ct__8TObjBaseFP7TObject(arg0, (void *)parent);
-    *(void **)((s8 *)arg0 + 0x18) = (void *)__vt__11TObjDFDemo3;
-    *(s32 *)((s8 *)arg0 + 0) = (s32) TObjDFDemo3__name;
-    VecCopy((Vec *)(arg0 + 0xA0), (const Vec *)arg2);
-    *(f32 *)((s8 *)arg0 + 0xA4) = 0.0f;
+    __ct__8TObjBaseFP7TObject(base, (void *)parent);
+    *(void **)((s8 *)base + 0x18) = (void *)__vt__11TObjDFDemo3;
+    *(s32 *)((s8 *)base + 0) = (s32) TObjDFDemo3__name;
+    VecCopy((Vec *)(base + 0xA0), (const Vec *)arg2);
+    *(f32 *)((s8 *)base + 0xA4) = 0.0f;
     {
-        Vec_8004F030 v = *(Vec_8004F030 *)(arg0 + 0xA0);
+        Vec v = *(Vec *)(base + 0xA0);
         v.y = 0.0f;
         if (!(vector_length(&v) <= 0.01f)) {
             normalize_vector(&v);
             v.x *= -50.0f;
             v.z *= -50.0f;
-            vec3_add_to(arg0 + 0xA0, &v);
+            vec3_add_to(base + 0xA0, &v);
         }
     }
-    *(s32 *)((s8 *)arg0 + 0xAC) = arg3;
+    *(s32 *)((s8 *)base + 0xAC) = arg3;
     cnt = TBoss4Uro::get_instance_count();
-    *(s32 *)((s8 *)arg0 + 0x94) = get_bml_model(cnt, 0x12);
-    *(s32 *)((s8 *)arg0 + 0x98) = TObjFish__sub_8001EDB0(cnt, 0x12);
-    *(s32 *)((s8 *)arg0 + 0x9C) = get_bml_motion(cnt, 0x45);
-    *(f32 *)((s8 *)arg0 + 0xB4) = -1.0f;
-    *(s32 *)((s8 *)arg0 + 0x90) = 0;
+    *(s32 *)((s8 *)base + 0x94) = get_bml_model(cnt, 0x12);
+    *(s32 *)((s8 *)base + 0x98) = get_bml_texlist(cnt, 0x12);
+    *(s32 *)((s8 *)base + 0x9C) = get_bml_motion(cnt, 0x45);
+    *(f32 *)((s8 *)base + 0xB4) = -1.0f;
+    *(s32 *)((s8 *)base + 0x90) = 0;
     activate_camera_mode(5);
     {
         IVec_8004F030 c = lbl_804373A4;
-        c.y = *(s32 *)((s8 *)arg0 + 0xAC);
-        set_scripted_camera_pose(arg0 + 0xA0, arg0 + 0xA0, &c);
+        c.y = *(s32 *)((s8 *)base + 0xAC);
+        set_scripted_camera_pose(base + 0xA0, base + 0xA0, &c);
     }
     lbl_804856E0.cache_target_and_forward(0x1555);
-    *(s32 *)((s8 *)arg0 + 0xB8) = TObjFish__sub_800E3124(lbl_804856C0, (s32)(arg0 + 0xBC));
-    *(s32 *)((s8 *)arg0 + 0xB0) = 0;
-    return arg0;
+    *(s32 *)((s8 *)base + 0xB8) = TObjFish__sub_800E3124(lbl_804856C0, (s32)(base + 0xBC));
+    *(s32 *)((s8 *)base + 0xB0) = 0;
+    return base;
 }
 #undef lbl_804856C0
 
 void *TObjDFDemo3::create(void *arg0, void *arg1, void *arg2) {
     void *o;
-    o = __nw__7TObjectFUl(0xC8);
+    o = TObject::operator new(0xC8);
     if (o != NULL) {
         o = ((void *(*)(void *, void *, void *, void *))TObjDFDemo3__ct)(o, arg0, arg1, arg2);
     }

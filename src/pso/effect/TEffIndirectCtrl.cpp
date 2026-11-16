@@ -19,7 +19,7 @@
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/system/memory.h"
-#include "pso/system/task/TObject.h"
+
 
 struct E_802A9568 { s32 a; s32 b; };
 
@@ -79,9 +79,9 @@ void load_texture_list(void *);
 void release_texture_list(void *);
 Ctrl_802A8B58 *TEffIndirectCtrl__ct(Ctrl_802A8B58 *self, s32 kind, void *parent);
 void __ct__7TObjectFP7TObject(void *, void *);
+}
 extern s32 __vt__16TEffIndirectCtrl[];
 E_802A9568 *get_indirect_recipe(s32 i);
-}
 void load_list_texture(s32, s32, s32, s32);
 
 const char *indirect_dat_filename = "indirect.dat";

@@ -3,8 +3,6 @@
 
 #include "types.h"
 
-extern "C" {
 void load_dragon_ground_assets(void);
-}
 
 #endif

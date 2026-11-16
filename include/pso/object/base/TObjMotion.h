@@ -96,12 +96,13 @@ struct CollisionBody {
     f32 unk_28;
 };
 // *dst = *src, the copy CodeWarrior 1.3.2 generates (TBoss1DragonColli's TU).
-extern "C" void copy_collision_body(CollisionBody *dst, const CollisionBody *src);
+void copy_collision_body(CollisionBody *dst, const CollisionBody *src);
 
 class TObjCollidable : public TObjBase {
 public:
     TObjCollidable(TObject *parent);
     virtual ~TObjCollidable();
+    f32 get_collision_body_radius(s32);
     virtual void reset_motion_fields();
     void*find_actor_body_contact(u8*, f32);
     void set_indexed_flags(s32, s32);
@@ -221,18 +222,13 @@ public:
     int is_motion_held();
     // True on the frame the motion passes `frame` (not while blending).
     int is_passing_frame(f32 at_frame);
-    f32 get_frame();
     // frame, or 0 while blending.
-    f32 get_motion_frame();
     // How far the root node moves forward between this frame and the next,
     // split along the actor's facing into *dx and *dz.
     f32 get_root_motion_step(f32 *dx, f32 *dz);
     // Walk the model through a motion without drawing, storing every
     // node's matrix (into anim_model_matrix_array for the current motion).
-    s32 calc_joint_matrices(f32 frame);
-    s32 calc_joint_matrices(NJS_MOTION *motion, f32 frame, s32 matrices);
     // Draw the model in its current motion (blended if blending).
-    void draw_motion_model();
     void draw_ginja_motion_model();
     // ... storing every node's matrix into joint_matrices as it goes.
     void draw_saving_joints();

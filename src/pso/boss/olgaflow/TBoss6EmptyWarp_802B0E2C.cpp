@@ -85,12 +85,11 @@ void *TBoss6EmptyWarp__ct(void *boss6_empty_warp) {
     return boss6_empty_warp;
 }
 
-void *__nw__7TObjectFUl(int);
 
 extern void *tl_02;
 
 void *TBoss6EmptyWarp::create() {
-    void *o = __nw__7TObjectFUl(0x20);
+    void *o = TObject::operator new(0x20);
     if (o != NULL) {
         o = ((void *(*)(void *, void *))TBoss6EmptyWarp__ct)(o, tl_02);
     }

@@ -5,6 +5,17 @@
 #include "pso/ui/window/TMessageWindowController.h"
 #include "types.h"
 
+struct Ent_803E9DE0;
+struct Hdr_803EA384;
+struct Info_803F0138;
+struct N_803E9FA4;
+struct Node_803EA384;
+struct Node_803EB328;
+struct Node_803EB420;
+struct Node_803EB894;
+struct Out_803E8C2C;
+struct Req_803EEF2C;
+
 class TQuestVmDownLoadServer : public TObject, public TMessageWindowController {
 public:
     s32 m_22c;
@@ -138,6 +149,17 @@ public:
     void encrypt_download_data(s32 size);
     static void unshuffle_and_decrypt(void *data, s32 size);
     s32 find_name_index();
+public:
+    static u8 *get_cached_page(s32 page);
+    s32 lookup_name_entry(s16 name_len, Out_803E8C2C *out);
+    void append_message_text(s32 size, Req_803EEF2C *msg, u8 attr);
+    const Ent_803E9DE0 *find_longest_match_entry(s32 arg1, s32 *arg2);
+    N_803E9FA4 *insert_sorted_node(N_803E9FA4 *arg1);
+    static Node_803EA384 *build_item_list(s32 arg0, Hdr_803EA384 *arg1);
+    static s32 count_fitting_entries(Node_803EB328 *arg0);
+    Node_803EB420 *advance_nodes(s32 n);
+    Node_803EB894 *detach_node_chain();
+    s32 find_symbol_entry(s16 len, Info_803F0138 *out);
 };
 typedef char TQuestVmDownLoadServer_size_check[sizeof(TQuestVmDownLoadServer) == 0x2A4 ? 1 : -1];
 
@@ -146,5 +168,9 @@ typedef char TQuestVmDownLoadServer_size_check[sizeof(TQuestVmDownLoadServer) ==
 extern __declspec(section ".data") u32 download_rng_seed_pair[2];
 
 void seed_download_rng(s32 seed);
+
+// quest_download_file_header: layout known from its uses only.
+struct QuestDownloadFileHeader { s32 value; u8 remaining[0x38]; };
+extern QuestDownloadFileHeader quest_download_file_header;
 
 #endif

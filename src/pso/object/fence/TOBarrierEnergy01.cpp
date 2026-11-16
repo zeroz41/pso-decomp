@@ -18,6 +18,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/render/ModelDrawContext.h"
 #include "pso/unk/text_803D8F74.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 // This unit is compiled with deferred code generation (its vtable comes ahead
 // of play_ambient_loop_sound's switch table), which emits the functions in
@@ -80,8 +81,8 @@ void TOBarrierEnergy01::load_resources() {
     barrier_energy_model = (void *)get_bml_model(archive, 0);
     barrier_energy_texlists = (s32 *)mem_alloc(3 * sizeof(s32));
     barrier_energy_texlists[0] = (s32)load_gvm_texture_file((s32)"fs_obj_laz_guard_r.gvm");
-    barrier_energy_texlists[1] = TObjFish__sub_8001EDB0(barrier_energy_shared_bml_archive, 1);
-    barrier_energy_texlists[2] = TObjFish__sub_8001EDB0(barrier_energy_shared_bml_archive, 0);
+    barrier_energy_texlists[1] = get_bml_texlist(barrier_energy_shared_bml_archive, 1);
+    barrier_energy_texlists[2] = get_bml_texlist(barrier_energy_shared_bml_archive, 0);
 }
 
 void TOBarrierEnergy01::free_resources() {

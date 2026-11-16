@@ -19,11 +19,6 @@ struct Stack_80237194 {
     s32 sp10;
 };
 
-struct RecoveredGlobal_80237194_lbl_8044D8EC {
-    s32 value;
-    u8 remaining[0x8];
-};
-
 struct Owner_80237310
 {
   u8 pad[0x30];
@@ -64,13 +59,6 @@ struct Obj_80237310
   void *fdc;
 };
 
-typedef struct Vec_80237494
-{
-  f32 x;
-  f32 y;
-  f32 z;
-} Vec_80237494;
-
 typedef struct Emitter_80237494
 {
   u32 entry;
@@ -95,18 +83,17 @@ typedef struct Rabarta_80237494
 } Rabarta_80237494;
 
 extern "C" {
-extern RecoveredGlobal_80237194_lbl_8044D8EC lbl_8044D8EC;
+struct RecoveredGlobal_lbl_8044D8EC { s32 value; u8 remaining[0x8]; };
+extern RecoveredGlobal_lbl_8044D8EC lbl_8044D8EC;
 u16 get_entity_id(void *);
 void __ct__7TEffectFv(void *);
 void init_collision_body_parts(void *, f32 *, s32);
 void *__ct__14TObjCollidableFP7TObject(void *, void *);
-void *__nw__7TObjectFUl(u32);
 extern s32 __vt__19TTecPlayerInfluence[];
 extern s32 lbl_805D37F0;
 Obj_80237310 *TTecPlayerInfluence__ct(Obj_80237310 *self, Owner_80237310 *owner, void *pos, s32 level);
 void free_collision_body_parts(void *);
 
-typedef char RecoveredGlobal_80237194_lbl_8044D8EC_size[sizeof(RecoveredGlobal_80237194_lbl_8044D8EC) == 0xC ? 1 : -1];
 void TTecPlayerInfluence::render() {
     u8 *arg0 = (u8 *)this;
     typedef char sp8_offset[(offsetof(Stack_80237194, sp8) == 0x0) ? 1 : -1];
@@ -182,7 +169,7 @@ Obj_80237310 *TTecPlayerInfluence__ct(Obj_80237310 *self, Owner_80237310 *owner,
   self->fc0 = (1.0f);
   self->fc4 = 0;
   self->fc8 = 0x40107;
-  p = __nw__7TObjectFUl(0xAC);
+  p = TObject::operator new(0xAC);
   if (p != 0)
   {
     p = __ct__14TObjCollidableFP7TObject(p, self);
@@ -205,5 +192,4 @@ void TTecPlayerInfluence::vfunc_7(void *) {  }
 typedef struct Emitter_80237494 Emitter_80237494;
 typedef struct Profile_80237494 Profile_80237494;
 typedef struct Rabarta_80237494 Rabarta_80237494;
-typedef struct Vec_80237494 Vec_80237494;
 

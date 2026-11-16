@@ -7,6 +7,8 @@
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/chat/TWindowSubSymbolChat.h"
+#include "pso/system/NinjaTypes.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 
 struct Rec_80285E10 { u8 a, b, c, d; };
 
@@ -198,10 +200,8 @@ typedef struct T_802869BC {
     f32 f94;
 } T_802869BC;
 
-struct V2_80286120 { f32 x, y; };
-
 const char *TWindowSubSymbolChatPartsSet__name = "TWindowSubSymbolChatPartsSet";
-static const V2_80286120 lbl_8044FC30 = {178.0f, 188.0f};
+static const NJS_POINT2 lbl_8044FC30 = {178.0f, 188.0f};
 
 struct Pt_80286120 { u8 pad[8]; f32 f8; f32 fc; };
 
@@ -209,7 +209,6 @@ struct Ps_80286120 { u8 pad[0x69]; s8 f69; u8 pad6a[0xA]; s32 f74; };
 
 extern "C" {
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
-s32 TWindowShortListCtrl__check_controller_button(int, int);
 extern RecoveredGlobal_80286824_lbl_8050E208 controller_input_state;
 u16 *get_entry_offset_d__28TWindowSubSymbolChatPartsSetFl(void *, s32);
 void setup_part_sprites__28TWindowSubSymbolChatPartsSetFPvPvPvUsiiii(void *, void *, void *, u16, s32, s32, s32, s32);
@@ -220,7 +219,6 @@ s32 get_message_10__20TWindowSubStatusDispFl(s32);
 extern s32 __vt__28TWindowSubSymbolChatPartsSet[];
 T_802869BC *TWindowSubSymbolChatPartsSet__ct(T_802869BC *self, void *parent, s16 arg2, s32 arg3, s32 arg4);
 void TWindowSubSymbolChatFaceType__sub_80283C84(void *, void *, f32, f32);
-struct Vec2_80286708_802861AC { f32 x; f32 y; };
 
 void render__28TWindowSubSymbolChatPartsSetFv(TWindowSubSymbolChatPartsSet *arg0);
 s32 play_sound_effect(s32, s32, s32, s32);
@@ -228,9 +226,9 @@ s32 draw_visible_window_entries(void *, void *, int, f32);
 u8 *draw_default_entry__9TWindowDDFl();
 s32 forward_render__20TWindowSubStatusDispFv(int, int);
 
-s32 TWindowSubSymbolChatPartsSet::draw_selected_part_cursor(int arg1) {
+s32 TWindowSubSymbolChatPartsSet::draw_selected_part_cursor(int ctx) {
 #define arg0 ((Ps_80286120 *)this)
-    V2_80286120 sp;
+    NJS_POINT2 sp;
     Pt_80286120 *e;
     switch (arg0->f69) {
     case 1:
@@ -238,7 +236,7 @@ s32 TWindowSubSymbolChatPartsSet::draw_selected_part_cursor(int arg1) {
         e = (Pt_80286120 *)get_parts_entry__28TWindowSubSymbolChatPartsSetFii(arg0, arg0->f74);
         sp.x = e->f8 - 3.0f;
         sp.y = e->fc - 3.0f;
-        TWindowSubSymbolChatFaceType__sub_80283C84((void *)arg1, &sp, 38.0f, 0.1f);
+        TWindowSubSymbolChatFaceType__sub_80283C84((void *)ctx, &sp, 38.0f, 0.1f);
         break;
     case 0:
     case 2:
@@ -303,7 +301,7 @@ void TWindowSubSymbolChatPartsSet::toggle_selected_part() {
     switch (arg0->f69) {
     case 0:
     case 2:
-        if (arg0->f78 < 12 && TWindowShortListCtrl__check_controller_button((int)((u8 *)&controller_input_state.value + 0x20), 0x400) != 0) {
+        if (arg0->f78 < 12 && TWindowShortListCtrl__check_controller_button(((u8 *)&controller_input_state.value + 0x20), 0x400) != 0) {
             if (*arg0->f84 != 0) {
                 *arg0->f84 = 0;
             } else {
@@ -376,8 +374,8 @@ void TWindowSubSymbolChatPartsSet::handle_cursor_input() {
 }
 
 void render__28TWindowSubSymbolChatPartsSetFv(TWindowSubSymbolChatPartsSet *window_sub_symbol_chat_parts_set) {
-    struct Vec2_80286708_802861AC sp10;
-    struct Vec2_80286708_802861AC sp8;
+    NJS_POINT2 sp10;
+    NJS_POINT2 sp8;
     f32 ctx;
     u8 *c_arg;
 
@@ -404,17 +402,15 @@ void render__28TWindowSubSymbolChatPartsSetFv(TWindowSubSymbolChatPartsSet *wind
 typedef char RecoveredGlobal_80286824_lbl_8050E208_size[sizeof(RecoveredGlobal_80286824_lbl_8050E208) == 0x1B0 ? 1 : -1];
 void TWindowSubSymbolChatPartsSet::run_task() {
     u8 *arg0 = (u8 *)this;
-    u8 *temp_r31;
     if (!(this->m_2c & 2)) {
         *(s32 *)&this->m_5c = 0x01000000;
     }
     if (((TWindowSubSymbolChatPartsSet *)arg0)->is_active() == 0) {
         handle_cursor_input();
-        temp_r31 = (u8 *)&controller_input_state.value + 0x20;
-        if ((TWindowShortListCtrl__check_controller_button((int)temp_r31, 4) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) ((u8 *)&controller_input_state.value + 0x160), 4) != 0)) {
+        if ((TWindowShortListCtrl__check_controller_button((u8 *)&controller_input_state.value + 0x20, 4) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) ((u8 *)&controller_input_state.value + 0x160), 4) != 0)) {
             handle_decide();
         }
-        if ((TWindowShortListCtrl__check_controller_button((int)temp_r31, 2) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) ((u8 *)&controller_input_state.value + 0x160), 2) != 0)) {
+        if ((TWindowShortListCtrl__check_controller_button((u8 *)&controller_input_state.value + 0x20, 2) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) ((u8 *)&controller_input_state.value + 0x160), 2) != 0)) {
             handle_cancel();
         }
     }

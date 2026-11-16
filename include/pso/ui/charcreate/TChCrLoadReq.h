@@ -13,7 +13,7 @@ public:
     TChCrLoadReq(TObject *arg1, void *arg2);
     TChCrLoadReq(TObjPlayer *player);
     virtual ~TChCrLoadReq();
-    void sub_8028CEEC(s32 *);
+    void release_load_slot();
 public:
     u8 unk_1C[0x1C];
     CharacterAppearanceFields *m_38;

@@ -25,8 +25,9 @@
 #include "pso/ui/window/TWindowSubStatusDisp_8027FD88.h"
 #include "pso/ui/window/TWindowAddition.h"
 #include "pso/system/task/TObject.h"
-#include "pso/ui/window/TWindowSubComCard.h"
-#include "pso/ui/window/TWindowSubStatusDisp.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+
 
 class TChCrTagPlBack;
 
@@ -42,7 +43,6 @@ s32 get_window_layout_position(s32);
 s32 create_confirm_menu_window__19TWindowSubShortMailFv();
 s32 align_menu_entry_positions(s32);
 s32 build_menu__19TWindowSubShortMailFv();
-int get_cursor_value__19TWindowMenuIconLineFv(void *);
 u8 get_field_cc__19TWindowSubShortMailFPv(void *);
 s32 open_confirm_prompt__19TWindowSubShortMailFPvi(void *, s32);
 s32 create_keyboard__19TWindowSubShortMailFv();
@@ -52,21 +52,16 @@ s32 create_window__19TWindowSubShortMailFv();
 s32 open_confirm_dialog__19TWindowSubShortMailFv(void *);
 s32 open_delete_confirm_dialog__19TWindowSubShortMailFv(void *);
 s32 open_menu__19TWindowSubShortMailFv();
-void *find_short_mail_by_id__6TLobbyFUi(u32 id);
 int get_card_entry__17TWindowSubComCardFi();
 void TWindowSubShortMail__sub_8027FAD0(u8 *);
-void mem_free(void *p);
 s32 get_card_window_area__6TLobbyFv();
 void * get_mail_ptr__19TWindowSubShortMailFPv(void *);
 s32 realloc_buffer__17TWindowSubComCardFv(s32);
 s32 check_room_seq_4__16TAdChrSelASlotGCFl(s32, s32);
-s32 get_main_phase();
 s32 draw_card_icon__17TWindowSubComCardFll(s32, s32, s32);
 s32 fn_8007B83C(s32);
 void *TLobby__sub_8022598C(int a0);
-u32 get_lobby_id__6TLobbyFPv();
-int get_short_mail_ctrl__6TLobbyFv(void);
-void clear_lobby_flag__6TLobbyFv(void);
+u32 get_lobby_id__6TLobbyFv();
 s32 add_status_entry__20TWindowSubStatusDispFScll(void *, s32, s32, u32);
 void *create__14TWindowMessageFPvll(s32, void *, s32);
 s32 create__19TWindowMessageYesNoFPvPvPvPv(void *, s32, s32, s32);
@@ -74,30 +69,28 @@ s32 free_member__17TWindowSubComCardFv(s32, s32);
 void open_yes_no_prompt(TChCrTagPlBack *arg0, u32 arg1, s32 arg2, s32 arg3, f32 farg0);
 void TWindowSubShortMail__sub_8027E620(void* p);
 s32 TKeyBoardControl__ct(s32, s32, s32, s32, s32, s32);
-s32 get_shared_text_buffer();
-void send_simple_mail__6TLobbyFiPv(s32 arg0, void *arg1);
-int send_find_user_self_tag__6TLobbyFi(void*);
+s32 *get_shared_text_buffer(void);
 s32 __nw__7TObjectFUl(s32);
 int get_flag_bit0__6TLobbyFv(void);
 }
 void update_chat_window(void *p);
 
-void TWindowSubShortMail__sub_8027E620(void* p) { ((TWindowMenuIconLine *)(*(void**)((char*)p + 0x38)))->get_cursor_value(); get_card_entry__17TWindowSubComCardFi(); send_find_user_self_tag__6TLobbyFi(*(void**)((char*)p + 0x2c)); }
+void TWindowSubShortMail__sub_8027E620(void* p) { ((TWindowMenuIconLine *)(*(void**)((char*)p + 0x38)))->get_cursor_value(); get_card_entry__17TWindowSubComCardFi(); TLobby::send_find_user_self_tag((s32)(*(void**)((char*)p + 0x2c))); }
 
 void TWindowSubShortMail::close() {
-    s32 temp_r31;
-    s32 temp_r31_2;
+    s32 src;
+    s32 short_mail_ctrl;
     s32 temp_r30;
     s32 var_r29;
 
-    temp_r31 = ((TWindowSubComCard *)this->m_5c)->realloc_buffer();
-    TWindowSubComCard::mask_profanity_words((char *)temp_r31, (char *)get_shared_text_buffer());
-    send_simple_mail__6TLobbyFiPv(this->m_2c, (void *)(get_shared_text_buffer()));
-    mem_free((void *)temp_r31);
-    temp_r31_2 = get_short_mail_ctrl__6TLobbyFv();
-    for (var_r29 = 0; var_r29 < temp_r31_2; var_r29 += 1) {
+    src = ((TWindowSubComCard *)this->m_5c)->realloc_buffer();
+    TWindowSubComCard::mask_profanity_words((char *)src, (char *)get_shared_text_buffer());
+    TLobby::send_simple_mail(this->m_2c, (void *)(get_shared_text_buffer()));
+    mem_free((void *)src);
+    short_mail_ctrl = TLobby::get_short_mail_ctrl();
+    for (var_r29 = 0; var_r29 < short_mail_ctrl; var_r29 += 1) {
         temp_r30 = (s32)TLobby__sub_8022598C(var_r29);
-        if ((u32) this->m_30 == get_lobby_id__6TLobbyFPv()) {
+        if ((u32) this->m_30 == get_lobby_id__6TLobbyFv()) {
             ((s32 (*)(s32)) TWindowSubShortMail__sub_8027FAD0)(temp_r30);
             return;
         }
@@ -111,7 +104,7 @@ void TWindowSubShortMail::update_mail_count() {
         temp_r3 = ((TWindowMenuIconLine *)this->m_38)->get_cursor_value();
         if ((s32) this->m_24 != temp_r3) {
             this->m_24 = temp_r3;
-            if (find_short_mail_by_id__6TLobbyFUi(this->m_24) != 0U) {
+            if (TLobby::find_short_mail_by_id(this->m_24) != 0U) {
                 ((TWindowMessage *)(this->m_3c))->append_line(((s32 (*)()) get_mail_ptr__19TWindowSubShortMailFPv)(), 0x482);
             }
         }
@@ -239,7 +232,7 @@ s32 create_menu__19TWindowSubShortMailFv(void) {
     } else {
         TWindowSubComCard::draw_text_gray(temp_r31, get_message_10__20TWindowSubStatusDispFl(0x57), 6, 3);
     }
-    if (get_short_mail_ctrl__6TLobbyFv() > 0) {
+    if (TLobby::get_short_mail_ctrl() > 0) {
         forward_trade_action_default__16TObjCityMainWarpFPviii((void *)temp_r31, (int)(TWindowSubStatusDisp::get_message_10(0xCE)), 6, 7);
     } else {
         TWindowSubComCard::draw_text_gray(temp_r31, get_message_10__20TWindowSubStatusDispFl(0xCE), 6, 7);
@@ -261,17 +254,17 @@ s32 TWindowSubShortMail::refresh_mail_list(void *arg1) {
     s32 i;
     s16 sel;
     s32 e;
-    id = get_cursor_value__19TWindowMenuIconLineFv(arg1);
+    id = ((TWindowMenuIconLine *)arg1)->get_cursor_value();
     sel = -1;
-    clear_lobby_flag__6TLobbyFv();
+    TLobby::clear_lobby_flag();
     ((TShopArmorListWindow *)arg1)->save_cursor_selection();
     ((TWindowMenuIconLine *)arg1)->reset_list();
-    n = get_short_mail_ctrl__6TLobbyFv();
+    n = TLobby::get_short_mail_ctrl();
     i = n - 1;
     while (i >= 0) {
         e = (s32)TLobby__sub_8022598C(i);
-        add_status_entry__20TWindowSubStatusDispFScll(arg1, ((s32 (*)(s32)) get_field_cc__19TWindowSubShortMailFPv)(e), fn_8007B83C(e), ((u32 (*)(s32))get_lobby_id__6TLobbyFPv)(e));
-        if (id == ((u32 (*)(s32))get_lobby_id__6TLobbyFPv)(e)) {
+        add_status_entry__20TWindowSubStatusDispFScll(arg1, ((s32 (*)(s32)) get_field_cc__19TWindowSubShortMailFPv)(e), fn_8007B83C(e), ((u32 (*)(s32))get_lobby_id__6TLobbyFv)(e));
+        if (id == ((u32 (*)(s32))get_lobby_id__6TLobbyFv)(e)) {
             sel = (n - 1) - i;
         }
         i--;
@@ -462,8 +455,8 @@ void TWindowSubShortMail::run_task() {
             o->state = 7;
         } else if (((TWindowMenu *)(o->w44))->is_decided() != 0) {
             void *p;
-            o->f30 = ((s32 (*)(void *)) get_cursor_value__19TWindowMenuIconLineFv)(o->w38);
-            p = find_short_mail_by_id__6TLobbyFUi(o->f30);
+            o->f30 = ((TWindowMenuIconLine *)(o->w38))->get_cursor_value();
+            p = TLobby::find_short_mail_by_id(o->f30);
             if (p != NULL) {
                 o->f2c = TWindowSubShortMail__sub_8007B834(p);
             }
@@ -526,7 +519,7 @@ void TWindowSubShortMail::run_task() {
             o->state = 9;
         } else if (((TWindowMessageYesNo *)(o->w50))->is_child_visible() != 0) {
             if (((TWindowSubComCard *)(o->w50))->get_slot_or_neg1() == 0) {
-                remove_short_mail_by_id(((s32 (*)(void *)) get_cursor_value__19TWindowMenuIconLineFv)(o->w38));
+                remove_short_mail_by_id(((TWindowMenuIconLine *)(o->w38))->get_cursor_value());
                 o->state = 7;
             } else {
                 o->state = 9;
@@ -620,57 +613,57 @@ void TWindowSubShortMail::run_task() {
     }
 }
 
-void *__dt__19TWindowSubShortMailFv(TWindowSubShortMail *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__19TWindowSubShortMail;
-        if ((u32) arg0->m_50 != 0U) {
-            ((TWindowSubComCard *)(*(void **)((s8 *)arg0 + 0x50)))->close();
-            arg0->m_50 = 0U;
+void *__dt__19TWindowSubShortMailFv(TWindowSubShortMail *window_sub_short_mail, s16 arg1) {
+    if (window_sub_short_mail != NULL) {
+        *(s32 **)((s8 *)window_sub_short_mail + 0x18) = __vt__19TWindowSubShortMail;
+        if ((u32) window_sub_short_mail->m_50 != 0U) {
+            ((TWindowSubComCard *)(*(void **)((s8 *)window_sub_short_mail + 0x50)))->close();
+            window_sub_short_mail->m_50 = 0U;
         }
-        if ((u32) arg0->m_5c != 0U) {
-            ((TObject *)(*(void **)((s8 *)arg0 + 0x5C)))->queue_destruction();
-            arg0->m_5c = 0U;
+        if ((u32) window_sub_short_mail->m_5c != 0U) {
+            ((TObject *)(*(void **)((s8 *)window_sub_short_mail + 0x5C)))->queue_destruction();
+            window_sub_short_mail->m_5c = 0U;
         }
-        if ((u32) arg0->m_4c != 0U) {
-            ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x4C)))->close();
-            arg0->m_4c = 0U;
+        if ((u32) window_sub_short_mail->m_4c != 0U) {
+            ((TWindowBase *)(*(void **)((s8 *)window_sub_short_mail + 0x4C)))->close();
+            window_sub_short_mail->m_4c = 0U;
         }
-        if ((u32) arg0->m_48 != 0U) {
-            ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x48)))->close();
-            arg0->m_48 = 0U;
+        if ((u32) window_sub_short_mail->m_48 != 0U) {
+            ((TWindowBase *)(*(void **)((s8 *)window_sub_short_mail + 0x48)))->close();
+            window_sub_short_mail->m_48 = 0U;
         }
-        if ((u32) arg0->m_44 != 0U) {
-            ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x44)))->close();
-            arg0->m_44 = 0U;
+        if ((u32) window_sub_short_mail->m_44 != 0U) {
+            ((TWindowBase *)(*(void **)((s8 *)window_sub_short_mail + 0x44)))->close();
+            window_sub_short_mail->m_44 = 0U;
         }
-        if ((u32) arg0->m_3c != 0U) {
-            ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x3C)))->close();
-            arg0->m_3c = 0U;
+        if ((u32) window_sub_short_mail->m_3c != 0U) {
+            ((TWindowBase *)(*(void **)((s8 *)window_sub_short_mail + 0x3C)))->close();
+            window_sub_short_mail->m_3c = 0U;
         }
-        if ((u32) arg0->m_38 != 0U) {
-            ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x38)))->close();
-            arg0->m_38 = 0U;
+        if ((u32) window_sub_short_mail->m_38 != 0U) {
+            ((TWindowBase *)(*(void **)((s8 *)window_sub_short_mail + 0x38)))->close();
+            window_sub_short_mail->m_38 = 0U;
         }
-        if ((u32) arg0->m_58 != 0U) {
-            ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x58)))->close();
-            arg0->m_58 = 0U;
+        if ((u32) window_sub_short_mail->m_58 != 0U) {
+            ((TWindowBase *)(*(void **)((s8 *)window_sub_short_mail + 0x58)))->close();
+            window_sub_short_mail->m_58 = 0U;
         }
-        if ((u32) arg0->m_54 != 0U) {
-            ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x54)))->close();
-            arg0->m_54 = 0U;
+        if ((u32) window_sub_short_mail->m_54 != 0U) {
+            ((TWindowBase *)(*(void **)((s8 *)window_sub_short_mail + 0x54)))->close();
+            window_sub_short_mail->m_54 = 0U;
         }
-        if ((u32) arg0->m_40 != 0U) {
-            ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x40)))->close();
-            arg0->m_40 = 0U;
+        if ((u32) window_sub_short_mail->m_40 != 0U) {
+            ((TWindowBase *)(*(void **)((s8 *)window_sub_short_mail + 0x40)))->close();
+            window_sub_short_mail->m_40 = 0U;
         }
         TLobby__sub_802258C8();
         TLobby::sync_auto_reply_state();
-        __dt__7TObjectFv(arg0, 0);
+        __dt__7TObjectFv(window_sub_short_mail, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(window_sub_short_mail);
         }
     }
-    return arg0;
+    return window_sub_short_mail;
 }
 }
 

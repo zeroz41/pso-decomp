@@ -6,7 +6,7 @@
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/system/task/TObject.h"
+
 
 struct Scroll_8026D790 { u8 pad0[4]; f32 height; s32 frame; };
 
@@ -65,7 +65,7 @@ extern "C" {
 s32 *get_shared_text_buffer(void);
 void __dl__FPv(void);
 void *get_player_by_client_id(s32 i);
-void TWindowSubStatusDisp__sub_80228F5C(s32);
+void text_builder_append_int(s32);
 void text_builder_append(u8 *str);
 void __ct__7TObjectFP7TObject(void *);
 void apply_context_transform_to_rect(void *, Quad_8026D790 *);
@@ -201,7 +201,7 @@ void TWindowSetLevelUp::update_stat_messages() {
         pl = (VObj_8026DA44 *)get_player_by_client_id(self->client);
         if (pl != NULL && ((TObjPlayer *)pl)->get_stats() != 0) {
             text_builder_append((u8 *)lbl_8044F534);
-            TWindowSubStatusDisp__sub_80228F5C(pl->get_level() + 1);
+            text_builder_append_int(pl->get_level() + 1);
             ((TWindowCtrl *)(self->client))->set_window_flags_off((s32)get_shared_text_buffer());
             self->state = 2;
         }
@@ -209,7 +209,7 @@ void TWindowSetLevelUp::update_stat_messages() {
     case 2:
         if (self->d3a > 0) {
             text_builder_append((u8 *)lbl_8044F53C);
-            TWindowSubStatusDisp__sub_80228F5C(self->d3a);
+            text_builder_append_int(self->d3a);
             ((TWindowCtrl *)(self->client))->set_window_flags_off((s32)get_shared_text_buffer());
             self->state = 3;
             break;
@@ -217,7 +217,7 @@ void TWindowSetLevelUp::update_stat_messages() {
     case 3:
         if (self->d3c > 0) {
             text_builder_append((u8 *)lbl_8044F544);
-            TWindowSubStatusDisp__sub_80228F5C(self->d3c);
+            text_builder_append_int(self->d3c);
             ((TWindowCtrl *)(self->client))->set_window_flags_off((s32)get_shared_text_buffer());
             self->state = 4;
             break;
@@ -226,7 +226,7 @@ void TWindowSetLevelUp::update_stat_messages() {
         if (self->d24 > 0) {
             text_builder_append((u8 *)(TWindowSubStatusDisp::get_message_10(0x83)));
             text_builder_append((u8 *)lbl_805DD338);
-            TWindowSubStatusDisp__sub_80228F5C(self->d24);
+            text_builder_append_int(self->d24);
             ((TWindowCtrl *)(self->client))->set_window_flags_off((s32)get_shared_text_buffer());
             self->state = 5;
             break;
@@ -235,7 +235,7 @@ void TWindowSetLevelUp::update_stat_messages() {
         if (self->d26 > 0) {
             text_builder_append((u8 *)(TWindowSubStatusDisp::get_message_10(0x84)));
             text_builder_append((u8 *)lbl_805DD338);
-            TWindowSubStatusDisp__sub_80228F5C(self->d26);
+            text_builder_append_int(self->d26);
             ((TWindowCtrl *)(self->client))->set_window_flags_off((s32)get_shared_text_buffer());
             self->state = 6;
             break;
@@ -244,7 +244,7 @@ void TWindowSetLevelUp::update_stat_messages() {
         if (self->d28 > 0) {
             text_builder_append((u8 *)(TWindowSubStatusDisp::get_message_10(0x85)));
             text_builder_append((u8 *)lbl_805DD338);
-            TWindowSubStatusDisp__sub_80228F5C(self->d28);
+            text_builder_append_int(self->d28);
             ((TWindowCtrl *)(self->client))->set_window_flags_off((s32)get_shared_text_buffer());
             self->state = 7;
             break;
@@ -253,7 +253,7 @@ void TWindowSetLevelUp::update_stat_messages() {
         if (self->d2a > 0) {
             text_builder_append((u8 *)(TWindowSubStatusDisp::get_message_10(0x86)));
             text_builder_append((u8 *)lbl_805DD338);
-            TWindowSubStatusDisp__sub_80228F5C(self->d2a);
+            text_builder_append_int(self->d2a);
             ((TWindowCtrl *)(self->client))->set_window_flags_off((s32)get_shared_text_buffer());
             self->state = 8;
             break;
@@ -262,7 +262,7 @@ void TWindowSetLevelUp::update_stat_messages() {
         if (self->d2c > 0) {
             text_builder_append((u8 *)(TWindowSubStatusDisp::get_message_10(0x87)));
             text_builder_append((u8 *)lbl_805DD338);
-            TWindowSubStatusDisp__sub_80228F5C(self->d2c);
+            text_builder_append_int(self->d2c);
             ((TWindowCtrl *)(self->client))->set_window_flags_off((s32)get_shared_text_buffer());
             self->state = 9;
             break;
@@ -299,15 +299,15 @@ void run_task__17TWindowSetLevelUpFv(u8 *arg0) {
 #pragma inline_depth(1)
 #pragma auto_inline on
 #pragma dont_inline off
-void *__dt__17TWindowSetLevelUpFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = (s32 *)__vt__17TWindowSetLevelUp;
-        __dt__7TObjectFv(arg0, 0);
+void *__dt__17TWindowSetLevelUpFv(void *object, s16 arg1) {
+    if (object != NULL) {
+        *(s32 **)((s8 *)object + 0x18) = (s32 *)__vt__17TWindowSetLevelUp;
+        __dt__7TObjectFv(object, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(object);
         }
     }
-    return arg0;
+    return object;
 }
 #pragma pop
 

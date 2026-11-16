@@ -19,4 +19,8 @@ void reset_state__16TKeyBoardControlFi(s32 arg0);
 void run_task__16TKeyBoardControlFv(TKeyBoardControl *arg0);
 }
 
+// TKeyBoardControl__global_key_state: layout known from its uses only.
+struct TKeyBoardControlGlobalKeyState { s32 value; u8 remaining[0xAC]; };
+extern TKeyBoardControlGlobalKeyState TKeyBoardControl__global_key_state;
+
 #endif

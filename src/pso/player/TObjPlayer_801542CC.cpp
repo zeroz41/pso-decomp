@@ -7,8 +7,8 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/collision/ActorBodyContact.h"
 #include "pso/math/AngleLookup.h"
-#include "pso/object/base/TObjMotion.h"
-#include "pso/player/TObjPlayer.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
+
 
 struct Elt_801542CC { char pad[0x18]; s32 f18; char pad2[0x2C - 0x1C]; };
 
@@ -30,15 +30,10 @@ struct Stack_80155050 {
     f32 sp14;
 };
 
-struct Vec_801550DC { f32 x, y, z; };
-
-struct CollisionVector_80155FBC { f32 x,y,z; };
-
 struct CollisionBody_80155FBC { void* colliders; s32 count; Vec position; s32 facing; };
-struct CollisionVector_80155C54 { f32 x,y,z; };
-struct Collider_80155C54 { CollisionVector_80155C54 offset; f32 radius; u32 unknown10; s32 shape; s32 flags; CollisionVector_80155C54 world; u32 unknown28; };
+struct Collider_80155C54 { Vec offset; f32 radius; u32 unknown10; s32 shape; s32 flags; Vec world; u32 unknown28; };
 struct CollisionBox_80155C54 { f32 data[24]; };
-struct CollisionSphere_80155C54 { CollisionVector_80155C54 center; f32 radius; };
+struct CollisionSphere_80155C54 { Vec center; f32 radius; };
 
 struct E_801547E0 { u8 pad[0xc]; f32 f; u8 pad2[0x2c - 0x10]; };
 
@@ -74,23 +69,16 @@ struct Flg_8015610C { u8 pad[0x18]; u32 flags; };
 struct P_8015610C { u8 pad[0xA4]; Flg_8015610C *f; };
 
 
-struct Vec_80156844 { f32 x, y, z; };
-
-struct Hit_80156844 { u32 f0; Vec_80156844 *v; };
+struct Hit_80156844 { u32 f0; Vec *v; };
 
 struct Obj_80154B60 { u8 pad[0x1C]; u16 id; };
-struct Obj_801559D0 { u8 pad38[0x38]; CollisionVector_80155FBC pos; u8 pad44[0x60 - 0x44]; s32 f60; u8 pad64[0xA4 - 0x64]; u32 a4; s32 a8; };
-struct Obj_80156268 { u8 pad0[0x30]; u32 flags; u8 pad34[4]; CollisionVector_80155FBC pos; u8 pad44[0x60 - 0x44]; s32 f60; u8 pad64[0xA4 - 0x64]; void *a4; s32 a8; };
+struct Obj_801559D0 { u8 pad38[0x38]; Vec pos; u8 pad44[0x60 - 0x44]; s32 f60; u8 pad64[0xA4 - 0x64]; u32 a4; s32 a8; };
+struct Obj_80156268 { u8 pad0[0x30]; u32 flags; u8 pad34[4]; Vec pos; u8 pad44[0x60 - 0x44]; s32 f60; u8 pad64[0xA4 - 0x64]; void *a4; s32 a8; };
 
-struct V3_80154E3C { f32 x, y, z; };
+struct Ent_80154E3C { u8 pad0[0x1C]; Vec v; u8 pad[0x2C - 0x28]; };
 
-struct Ent_80154E3C { u8 pad0[0x1C]; V3_80154E3C v; u8 pad[0x2C - 0x28]; };
+struct Obj_80154E3C { u8 pad0[0x38]; Vec pos; u8 pad44[0x60 - 0x44]; s32 f60; u8 pad64[0xA4 - 0x64]; Ent_80154E3C *ents; s32 count; };
 
-struct Obj_80154E3C { u8 pad0[0x38]; V3_80154E3C pos; u8 pad44[0x60 - 0x44]; s32 f60; u8 pad64[0xA4 - 0x64]; Ent_80154E3C *ents; s32 count; };
-
-struct Vec_80154EF8 { f32 x, y, z; };
-
-struct Box_80154EF8 { u8 pad[0xC]; f32 hx; f32 hz; u8 pad2[0x1C - 0x14]; Vec_80154EF8 pos; };
 
 struct Obj_801547E0;
 #define SHIFT_80155294(yaw)                                              \
@@ -103,7 +91,6 @@ struct Obj_801547E0;
         VecCopy__FP3VecPC3Vec(arg0 + 0x38, &v);                          \
         moved = 1;                                                       \
     }
-struct Vec_80155294 { f32 x, y, z; };
 
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/system/task/TObject.h"
@@ -124,7 +111,7 @@ struct StateObject_801548A8 : ObjectBase_801548A8 {
 };
 
 extern "C" {
-s32 test_player_overlap_with_players(void *arg0, Obj_801559D0 *self, CollisionVector_80155FBC *pos, void *out);
+s32 test_player_overlap_with_players(void *arg0, Obj_801559D0 *self, Vec *pos, void *out);
 s32 VecCopy__FP3VecPC3Vec(void *, void *);
 s32 vec3_add_to(void *, void *);
 s32 rotate_matrix_y(int, int);
@@ -136,14 +123,13 @@ u8 * TObjPlayer__sub_80155028(s32 arg0, s32 arg1);
 s32 build_collision_box_corners(Vec pos, s32 facing, CollisionBody *body, CollisionBox_80155C54 *out);
 s32 subtract_vector(void *, void *);
 extern s32 enable_v2_features;
-f32 get_collision_body_radius(Obj_801547E0 *self, s32 i);
-extern Vec_80155294 scratch_vec;
-f64 atan2_float(f32, f32);
+extern Vec scratch_vec;
+f32 atan2_float(f32 y, f32 x);
 s32 angle_difference_abs(s32, s32);
 void *find_entity_by_id(u16 id);
+}
 extern s32 quest_object_entries;
 void handle_6x0B_update_object_state(G_UpdateObjectState_6x0B *packet);
-}
 s32 resolve_player_box_contact(u8 *arg0, u8 *arg1, u8 *arg2);
 struct Obj_80156844 { u8 pad[0x1C]; u16 room; u8 pad2[0x90 - 0x1E]; void *f90; };
 
@@ -163,7 +149,6 @@ s32 angle_diff_s16(s32 a, s32 b);
 s32 normalize_vector(void *);
 void* refresh_actor_body_spheres(CollisionBody_80155FBC, CollisionBody_80155FBC);
 extern s32 TObjPlayer__data_8050D460[];
-void *mem_alloc(u32 size);
 void *__construct_new_array(void *, void (*)(void *), void *, s32, s32);
 Part_80156780 *init_collision_body_parts(Obj_80156780 *self, Part_80156780 *src, s32 count);
 void *get_player_by_client_id(u32 id);
@@ -171,15 +156,13 @@ void TLobby__sub_80156BA8(void *p);
 void check_enemy_body_collisions(void *arg0);
 extern unsigned char lbl_8050DAD0[];
 extern int player_unique_pair_entry_count;
-void mem_free(void *p);
 void free_collision_body_parts(G_80156720 *arg0);
 u16 get_entity_id(int);
 void *memcpy(void *, const void *, u32);
 s32 *csnVectorUnder(s32 arg0, u32 *arg1, s32 arg2);
 s32 *csnVecterUnder(s32 origin, s32 mask);
 u16 TObjRoomId__sub_801A1DB8(u16);
-s32 project_actor_to_ground(Obj_80156844 *self, Vec_80156844 *pos, Vec_80156844 *normal);
-s32 test_box_overlap__10TObjPlayerFPvPv(CollisionBox_80155C54*,CollisionBox_80155C54*);
+s32 project_actor_to_ground(Obj_80156844 *self, Vec *pos, Vec *normal);
 s32 test_box_sphere_contact(CollisionBox_80155C54*,CollisionSphere_80155C54*);
 }
 s32 test_collider_sphere_overlap_xz(s32 arg0, u8 *arg1, u32 arg2);
@@ -192,7 +175,7 @@ void TOTrapAncient02R__sub_80154D78(void);
 void TObjPlayer__sub_801542F4(s32 a);
 void reset_global_table(void);
 u8 test_elt_flag__13TUnk_80493450Fll(void *arg0, s32 arg1, s32 arg2);
-s32 obj_is_hit_receivable(void *);
+s32 obj_is_hit_receivable(u8 *arg0);
 void *resolve_hittable_target(u16 actorId, s16 collider);
 u16 register_entity_by_id(void*);
 int memset(void*, void*, void*);
@@ -280,7 +263,7 @@ void TObjPlayer__sub_8015434C(CollisionBody_80155FBC *set, s32 start, s32 count)
                         if (other_body->shape == 1) {
                             build_collision_box_corners(other_pos, other_facing, other_body, &other_box);
                             if (shape == 1) {
-                                if (test_box_overlap__10TObjPlayerFPvPv(&box, &other_box)) {
+                                if (((TObjPlayer *)(&box))->test_box_overlap((Vec_803E1B1C *)(&other_box))) {
                                     hit = other_body;
                                 }
                             } else if (test_box_sphere_contact(&other_box, &sphere)) {
@@ -361,9 +344,9 @@ u8 TUnk_80493450::test_elt_flag(s32 arg1, s32 arg2) {
     return 0U;
 }
 
-f32 get_collision_body_radius(Obj_801547E0 *self, s32 i) {
-    if (self->arr != 0) {
-        return self->arr[i].f;
+f32 TObjCollidable::get_collision_body_radius(s32 i) {
+    if (((Obj_801547E0 *)this)->arr != 0) {
+        return ((Obj_801547E0 *)this)->arr[i].f;
     }
     return 0.0f;
 }
@@ -379,10 +362,11 @@ void *resolve_hittable_target(u16 actorId, s16 collider) {
     if (((s32 (*)(void *, s32, s32))test_elt_flag__13TUnk_80493450Fll)(target, collider, 1) == 0) {
         return NULL;
     }
-    if (obj_is_hit_receivable(target) == 0) {
+    if (obj_is_hit_receivable((u8 *)target) == 0) {
         return NULL;
     }
     return target;
+}
 }
 
 void handle_6x0B_update_object_state(G_UpdateObjectState_6x0B *packet) {
@@ -473,6 +457,7 @@ void TObjCollidable::register_object_by_id() {
 
 #define o ((Obj_80154B60 *)ov)
 #define TBL ((Obj_80154B60 **)TObjPlayer__data_8050D460)
+extern "C" {
 u16 register_entity_by_id(void *ov) {
     u16 id;
     s32 lo;
@@ -576,7 +561,7 @@ int TObjPlayer__sub_80154E28(int a0, int a1) {
 
 void TObjCollidable::refresh_collision_body_centers() {
     Obj_80154E3C *arg0 = (Obj_80154E3C *)this;
-    V3_80154E3C sp8;
+    Vec sp8;
     s32 n;
     s32 i;
     if (arg0 != NULL && this->bodies != NULL && ((TObject *)arg0)->all_parents_unqueued_for_destruction() != 0) {
@@ -594,8 +579,8 @@ void TObjCollidable::refresh_collision_body_centers() {
 }
 
 s32 build_collision_box_corners(Vec origin, s32 facing, CollisionBody *body, CollisionBox_80155C54 *out) {
-    Vec_80154EF8 pos;
-    Vec_80154EF8 c[8];
+    Vec pos;
+    Vec c[8];
     s32 i;
     f32 y, nx, nz, ny, x, z;
     VecCopy__FP3VecPC3Vec(&pos, &body->center);
@@ -671,7 +656,7 @@ void TObjPlayer__sub_801550B8(u8 *arg0, u8 *arg1) {
 }
 
 s32 resolve_actor_sphere_contact(u8 *arg0, s32 arg1, s32 arg2) {
-    Vec_801550DC displacement;
+    Vec displacement;
     f32 tangentScale;
     s32 var_r31;
     u16 temp_r3;
@@ -703,13 +688,13 @@ block_7:
             displacement.x = (displacement.x * tangentScale);
             displacement.z *= tangentScale;
             vec3_add_to(&displacement, arg0 + 0x44);
-            if (project_actor_to_ground((Obj_80156844 *)(arg0), (Vec_80156844 *)(&displacement), (Vec_80156844 *)(0)) != 0) {
+            if (project_actor_to_ground((Obj_80156844 *)(arg0), (Vec *)(&displacement), (Vec *)(0)) != 0) {
                 VecCopy__FP3VecPC3Vec(arg0 + 0x38, &displacement);
                 return 1;
             }
         }
     }
-    if (project_actor_to_ground((Obj_80156844 *)(arg0), (Vec_80156844 *)(arg0 + 0x44), (Vec_80156844 *)(0)) != 0) {
+    if (project_actor_to_ground((Obj_80156844 *)(arg0), (Vec *)(arg0 + 0x44), (Vec *)(0)) != 0) {
         VecCopy__FP3VecPC3Vec(arg0 + 0x38, arg0 + 0x44);
         return 1;
     }
@@ -719,11 +704,10 @@ block_7:
 #pragma push
 #pragma fp_contract on
 struct Obj_80156844;
-struct Vec_80156844;
 #define PATG_80155294 ((s32 (*)(void *, void *, int))project_actor_to_ground)
 s32 resolve_player_box_contact(u8 *arg0, u8 *arg1, u8 *arg2) {
-    Vec_80155294 radial;
-    Vec_80155294 v;
+    Vec radial;
+    Vec v;
     s32 moved;
     if (arg1 == NULL || arg2 == NULL) {
         return 0;
@@ -740,8 +724,8 @@ s32 resolve_player_box_contact(u8 *arg0, u8 *arg1, u8 *arg2) {
         f32 dx;
         f32 dz;
         moved = 0;
-        xl = hw * hw + get_collision_body_radius((Obj_801547E0 *)arg0, 0);
-        zl = hd * hd + get_collision_body_radius((Obj_801547E0 *)arg0, 0);
+        xl = hw * hw + ((TObjCollidable *)arg0)->get_collision_body_radius(0);
+        zl = hd * hd + ((TObjCollidable *)arg0)->get_collision_body_radius(0);
         VecCopy__FP3VecPC3Vec(&scratch_vec, &radial);
         push_matrix_from(identity_matrix);
         rotate_matrix_y(0, -*(s32 *)(arg1 + 0x60));
@@ -871,7 +855,7 @@ s32 TObjPlayer::check_flags(s32 arg0, s32 arg1) {
     }
     return 1;
 }
-s32 test_player_overlap_with_players(void *arg0, Obj_801559D0 *self, CollisionVector_80155FBC *pos, void *out) {
+s32 test_player_overlap_with_players(void *arg0, Obj_801559D0 *self, Vec *pos, void *out) {
     CollisionBody_80155FBC a;
     CollisionBody_80155FBC b;
     s32 i;
@@ -931,11 +915,11 @@ s32 test_player_body_overlap_at(s32 arg0, u8 *self, void *pos) {
     }
     return 0;
 }
-#define build_collision_box_corners ((void (*)(CollisionVector_80155C54,s32,Collider_80155C54*,CollisionBox_80155C54*))build_collision_box_corners)
-#define test_collider_sphere_overlap_xz ((void (*)(CollisionVector_80155C54,Collider_80155C54*,CollisionSphere_80155C54*))test_collider_sphere_overlap_xz)
+#define build_collision_box_corners ((void (*)(Vec,s32,Collider_80155C54*,CollisionBox_80155C54*))build_collision_box_corners)
+#define test_collider_sphere_overlap_xz ((void (*)(Vec,Collider_80155C54*,CollisionSphere_80155C54*))test_collider_sphere_overlap_xz)
 void* refresh_actor_body_spheres(CollisionBody_80155FBC a,CollisionBody_80155FBC b) {
     CollisionBox_80155C54 boxAA,boxBB,boxAB,boxBA;
-    CollisionVector_80155C54 worldA,worldB,offsetA,offsetB;
+    Vec worldA,worldB,offsetA,offsetB;
     CollisionSphere_80155C54 sphereAB,sphereBA,sphereAA,sphereBB;
     Collider_80155C54* source;
     Collider_80155C54* destination;
@@ -975,7 +959,7 @@ void* refresh_actor_body_spheres(CollisionBody_80155FBC a,CollisionBody_80155FBC
                     case 1:
                         build_collision_box_corners(worldA,facingA,source,&boxAA);
                         build_collision_box_corners(worldB,facingB,destination,&boxBB);
-                        if (test_box_overlap__10TObjPlayerFPvPv(&boxAA,&boxBB)) return destination;
+                        if (((TObjPlayer *)(&boxAA))->test_box_overlap((Vec_803E1B1C *)(&boxBB))) return destination;
                         break;
                     case 0: default:
                         build_collision_box_corners(worldA,facingA,source,&boxAB);
@@ -1215,8 +1199,8 @@ Part_80156780 *init_collision_body_parts(Obj_80156780 *self, Part_80156780 *src,
     return self->parts;
 }
 
-s32 project_actor_to_ground(Obj_80156844 *self, Vec_80156844 *pos, Vec_80156844 *normal) {
-    Vec_80156844 v;
+s32 project_actor_to_ground(Obj_80156844 *self, Vec *pos, Vec *normal) {
+    Vec v;
     Hit_80156844 *hit;
     u16 r;
     void *coll;

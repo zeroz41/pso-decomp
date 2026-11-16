@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/system/task/TMainTask.h"
@@ -27,7 +28,6 @@ extern "C" {
 
 struct Obj_8003B250;
 void release_children__15TObjBoss2TunnelFPvf(Obj_8003B250 *arg0, f32 farg0);
-void *__nw__7TObjectFUl(s32);
 
 
 }
@@ -55,11 +55,7 @@ struct S_8003C108 {
     u32 ptr[4];
 };
 
-struct Rec_8003C108 { f32 x, y, z; };
-
-struct Vec_8003B2EC { f32 x, y, z; };
-
-static const Vec_8003B2EC boss2_tunnel_raft_splash_offsets[2] = {{3.0f, 0.0f, -5.0f}, {-3.0f, 0.0f, -5.0f}};
+static const Vec boss2_tunnel_raft_splash_offsets[2] = {{3.0f, 0.0f, -5.0f}, {-3.0f, 0.0f, -5.0f}};
 const char *lbl_805D2708 = "TObjBoss2Tunnel";
 
 struct Model_8003B2EC { s32 a; s32 b; s32 obj; s32 c; };
@@ -128,10 +124,6 @@ typedef struct Col_8003B6E8 {
     f32 b;
 } Col_8003B6E8;
 
-typedef struct Vec_8003B6E8 {
-    f32 x, y, z;
-} Vec_8003B6E8;
-
 extern "C" {
 s32 create_particle__20TAdLoadQuestPrtTxtGCFPvll(void *, s32, s32);
 extern const f32 lbl_805D85B0;
@@ -157,7 +149,7 @@ struct Obj_8003C2A0;
 void shift_queue_push_next__15TObjBoss2TunnelFPv(Obj_8003C2A0 *self);
 void * init__13TUnk_804835D8Fv(void *arg0);
 f32 rand_signed_unit(void);
-void *__ct__13TObjBoss2DustFv(void *, void *, Vec_8003B6E8 *);
+void *__ct__13TObjBoss2DustFv(void *, void *, Vec *);
 void play_persistent_sound(int, void *, int, int, int);
 void enable_fog__15TObjBoss2TunnelFv(void);
 void enable_fog__15TObjBoss2TunnelFPv(TObjBoss2Tunnel *arg0);
@@ -166,8 +158,6 @@ extern u32 TObjBoss2Tunnel__global_flags;
 void run_task__15TObjBoss2TunnelFv(Tunnel_8003B6E8 *o);
 void TObjBoss2Tunnel__sub_8003B2B0(void);
 void *__ct__7TObjectFP7TObject(void *, void *);
-
-
 
 
 struct S_8003C108;
@@ -214,7 +204,7 @@ static f32 boss2_tunnel_raft_splash_positions[2][3] = {
     {78.0f, lbl_805D825C, 83.0f},
     {-78.0f, lbl_805D825C, 83.0f},
 };
-static Rec_8003C108 boss2_tunnel_particle_pos_table[4] = {
+static Vec boss2_tunnel_particle_pos_table[4] = {
     {26.0f, -19.0f, 62.0f},
     {-26.0f, -19.0f, 62.0f},
     {26.0f, -19.0f, 0.0f},
@@ -236,7 +226,6 @@ extern "C" {
 s32 TObjBoss2Tunnel__sub_8003C1C8(void);
 
 
-
 }
 
 struct Obj_8003C374 { u8 pad[0x28]; s32 start; s32 q[6]; };
@@ -248,12 +237,6 @@ struct S_8003C2E4 {
     s32 f28;
     s32 t[6];
 };
-
-
-
-
-
-
 
 
 struct Tunnel_8003C45C {
@@ -292,7 +275,6 @@ struct Tunnel_8003C45C {
 };
 
 extern "C" {
-void queue_destruction__7TObjectFv(void *);
 extern s32 *lbl_805D4C04;
 extern s32 *lbl_805D4C08;
 void TObjBoss2Tunnel__sub_8003C5F8(void);
@@ -302,32 +284,9 @@ void reset_floats__15TObjBoss2TunnelFv(void *a0);
 extern s32 __vt__15TObjBoss2Tunnel[];
 void *TObjBoss2Tunnel__ct(void *arg0, void *arg1);
 void TObjBoss2Tunnel__sub_8003C648(void);
-void *__dt__15TObjBoss2TunnelFv(void *arg0, s16 arg1);
-void __dl__7TObjectFPv(void *);
-void __dt__7TObjectFv(void *, int);
 
 }
-extern "C" {
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 extern s32 __vt__13TUnk_804835D8[];
-
-
-
-
-}
 
 
 #undef boss2_tunnel_instance
@@ -335,7 +294,7 @@ extern s32 __vt__13TUnk_804835D8[];
 
 #define init_queue_from_start__15TObjBoss2TunnelFv ((void (*)(Tunnel_8003C45C *))init_queue_from_start__15TObjBoss2TunnelFv)
 #define __ct__7TObjectFP7TObject ((void (*)(void *))__ct__7TObjectFP7TObject)
-extern "C" {
+
 void *TUnk_804835D8::init() {
     __ct__7TObjectFP7TObject(this);
     *(s32 **)((s8 *)this + 0x18) = __vt__13TUnk_804835D8;
@@ -346,10 +305,8 @@ void *TUnk_804835D8::init() {
 
 TUnk_804835D8::~TUnk_804835D8() {}
 
-}
 #pragma push
 #pragma opt_common_subs off
-extern "C" {
 void TUnk_804835D8::run_task() {
     u8 *arg0 = (u8 *)this;
     f32 temp_f1;
@@ -359,7 +316,7 @@ void TUnk_804835D8::run_task() {
         temp_f1 = this->m_20;
         if (temp_f1 > (7e+01f)) {
             this->m_20 = (f32) (7e+01f);
-            queue_destruction__7TObjectFv(arg0);
+            ((TObject *)arg0)->queue_destruction();
             return;
         }
         *(f32 *)((s8 *)(*(u8 * *)&lbl_805D4C04) + 8) = (f32) -temp_f1;
@@ -367,9 +324,7 @@ void TUnk_804835D8::run_task() {
     }
 }
 
-}
 #pragma pop
-extern "C" {
 void TObjBoss2Tunnel::clear_target_flags() {
     s32 *temp_r3;
     s32 *temp_r3_2;
@@ -384,7 +339,7 @@ void TObjBoss2Tunnel::clear_target_flags() {
 }
 
 void *TObjBoss2Tunnel::create() {
-    void *o = __nw__7TObjectFUl(0xDC);
+    void *o = TObject::operator new(0xDC);
     if (o != NULL) {
         o = TObjBoss2Tunnel__ct(o, tl_02);
     }
@@ -462,7 +417,7 @@ void *TObjBoss2Tunnel__ct(void *object, void *arg1) {
     self->iA8 = 0;
     self->fAC = (0.0f);
     for (i = 0; i < 2; i++) {
-        u8 *o = (u8 *)__nw__7TObjectFUl(0x40);
+        u8 *o = (u8 *)TObject::operator new(0x40);
         if (o != NULL) {
             o = TObjBoss2RaftSplash__ct(o, (u8 *)self, boss2_tunnel_raft_splash_positions[i], (u8 *)&boss2_tunnel_raft_splash_offsets[i], &self->f20);
         }
@@ -475,7 +430,6 @@ void *TObjBoss2Tunnel__ct(void *object, void *arg1) {
     return self;
 }
 
-}
 TObjBoss2Tunnel::~TObjBoss2Tunnel() {
     TObjBoss2Tunnel::dt((s32)((s8 *)this + 0x68), (s16)(-1));
 }
@@ -530,7 +484,7 @@ void enable_fog__15TObjBoss2TunnelFPv(TObjBoss2Tunnel *boss2_tunnel) {
     (*(s32 *)&TObjBoss2Tunnel__global_flags) |= 4;
 }
 
-extern "C" {
+
 u8 *TObjBoss2Tunnel::sub_8003C21C() {
     if (((O_8003C21C *)this)->p == 0) {
         return 0;
@@ -587,10 +541,8 @@ void TObjBoss2Tunnel::update_particles() {
     }
 }
 
-}
 #pragma push
 #pragma fp_contract on
-extern "C" {
 void run_task__15TObjBoss2TunnelFv(Tunnel_8003B6E8 *o) {
     f32 tmp;
     s32 flag;
@@ -700,19 +652,19 @@ void run_task__15TObjBoss2TunnelFv(Tunnel_8003B6E8 *o) {
             o->f4c = o->f1c;
             o->f54 = o->f20;
             o->f48 = 0;
-            p = __nw__7TObjectFUl(0x24);
+            p = TObject::operator new(0x24);
             if (p != 0) {
                 init__13TUnk_804835D8Fv(p, o);
             }
         }
         o->fd8--;
         if (o->fd8 <= 0) {
-            Vec_8003B6E8 v;
+            Vec v;
             void *p;
             v.x = (2e+02f) * rand_signed_unit();
             v.y = (9e+01f) * ((3.0517578e-05f) * (f32)rand()) + (1e+01f);
             v.z = (6e+02f);
-            p = __nw__7TObjectFUl(0x30);
+            p = TObject::operator new(0x30);
             if (p != 0) {
                 __ct__13TObjBoss2DustFv(p, tl_05, &v);
             }
@@ -844,17 +796,15 @@ void run_task__15TObjBoss2TunnelFv(Tunnel_8003B6E8 *o) {
     }
 }
 
-}
 #pragma pop
 #undef boss2_tunnel_color_table
 #undef boss2_tunnel_color
 #undef lbl_80483480
-extern "C" {
 void render__15TObjBoss2TunnelFv(u8 *arg0) {
     s32 saved;
     s32 i;
     Tunnel_8003B2EC *o = (Tunnel_8003B2EC *)arg0;
-    Vec_8003B2EC v = {0.0f, 0.0f, 0.0f};
+    Vec v = {0.0f, 0.0f, 0.0f};
     if (TObjPlayer::is_any_teammate_in_state() == 0 && TMainTask::get_render_pass() == 0) {
     push_matrix();
     {
@@ -945,7 +895,7 @@ void render__15TObjBoss2TunnelFv(u8 *arg0) {
 
 void TObjBoss2Tunnel__sub_8003B2B0(void) {
     void *o;
-    o = __nw__7TObjectFUl(0x1C);
+    o = TObject::operator new(0x1C);
     if (o != NULL) {
         o = __ct__7TObjectFP7TObject(o, tl_07);
     }
@@ -984,7 +934,7 @@ void TObjBoss2Tunnel__sub_8003B1D8(void) {
 void TObjBoss2Tunnel::create_particle_effect(s32 position, s32 arg1, f32 farg0) {
     void *var_r31;
 
-    var_r31 = __nw__7TObjectFUl(0x78);
+    var_r31 = TObject::operator new(0x78);
     if (var_r31 != NULL) {
         var_r31 = ((TParticleCtrl *)var_r31)->initialize_with_flags((const void *)position, (s32)(TParticleCtrl::get_particle_by_index(arg1)), 1, 0, 0, 1, (u16)0x40);
     }
@@ -995,5 +945,4 @@ void TObjBoss2Tunnel::create_particle_effect(s32 position, s32 arg1, f32 farg0) 
     }
 }
 
-}
 #undef release_children__15TObjBoss2TunnelFPvf

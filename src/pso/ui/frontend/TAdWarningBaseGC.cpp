@@ -1,9 +1,12 @@
 #include "types.h"
+#include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowSubComCard_80244774.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/ui/frontend/TAdWarningBaseGC.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/task/TObject.h"
 
 const char *lbl_805D4208 = "TAdWarningBaseGC";
 static const f32 lbl_80477334[2] = {46.0f, 131.0f};
@@ -21,19 +24,14 @@ struct V_8032D214 : B_8032D214 {
 };
 
 extern "C" {
-void append_line__14TWindowMessageFii(s32, void *, int);
 s32 update_window_mode_from_progress__6TLobbyFPv(void *, void *);
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
-s32 TWindowShortListCtrl__check_controller_button(void *, int);
 void play_sound_effect(int, int, int, int);
 extern u8 controller_input_state[];
 extern u8 controller_physical_port_bank[];
 void *__ct__12TAdBackTxtGCFv(void *, void *);
 void __ct__7TObjectFP7TObject(void *);
 void *__ct__9TAdBackGCFv(void *, void *);
-void __dl__7TObjectFPv(void *);
-void __dt__7TObjectFv(void *, int);
-void *__nw__7TObjectFUl(int);
 
     extern int aram_request_busy_flag;
 void clear_aram_request_busy(void) { aram_request_busy_flag = 0; }
@@ -48,7 +46,7 @@ void TAdWarningBaseGC::vfunc_9() {
 s32 TAdWarningBaseGC::sub_8032D214() {
     V_8032D214 *arg0 = (V_8032D214 *)this;
     s32 r = update_window_mode_from_progress__6TLobbyFPv((void *)lbl_80477334, (void *)lbl_8047733C);
-    append_line__14TWindowMessageFii(r, arg0->m5(), 3);
+    ((TWindowMessage *)r)->append_line((int)(arg0->m5()), (int)3);
     return r;
 }
 
@@ -111,11 +109,11 @@ void *TAdWarningBaseGC__ct(TAdWarningBaseGC *ad_warning_base_gc) {
     ad_warning_base_gc->m_1c = 0;
     ad_warning_base_gc->m_24 = 0;
     ad_warning_base_gc->m_2c = 0;
-    o = __nw__7TObjectFUl(0x24);
+    o = TObject::operator new(0x24);
     if (o != NULL) {
         __ct__9TAdBackGCFv(o, ad_warning_base_gc);
     }
-    o2 = __nw__7TObjectFUl(0x28);
+    o2 = TObject::operator new(0x28);
     if (o2 != NULL) {
         __ct__12TAdBackTxtGCFv(o2, ad_warning_base_gc);
     }

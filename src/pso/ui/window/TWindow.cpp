@@ -14,8 +14,7 @@
 #include "pso/unk/TLobby.h"
 #include "pso/quest/TQuestListVM.h"
 #include "pso/ui/window/TWindowSubComCard.h"
-#include "pso/ui/city/TShopWindowBase.h"
-#include "pso/ui/window/TWindowMenuIconLine.h"
+
 
 struct Base_80216BCC_80216B44 { char pad[0x18]; };
 struct VObj_80216BCC_80216B44 : Base_80216BCC_80216B44 {

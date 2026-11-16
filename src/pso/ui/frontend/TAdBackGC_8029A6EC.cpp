@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/ui/frontend/TAdBackGC_8029A6EC.h"
 #include "pso/ui/frontend/TAdBackGC.h"
 #include "pso/ui/frontend/TAdBackGC_8029A7B0.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_8029A914.h"
@@ -91,9 +92,6 @@ void *__ct__9TAdBackGCFv(void *ad_back_gc) {
     return ad_back_gc;
 }
 
-}
-
-extern "C" {
 u32 chr_select_ad_pic_texture;
 void release_texture_list(void*);
 
@@ -103,6 +101,6 @@ void TAdSinglePlyChrSelectGC::free_global() {
         chr_select_ad_pic_texture = 0U;
     }
 }
-void register_texture_f256_ad_pic_2(void) { (*(int *)&chr_select_ad_pic_texture) = (int)&chr_select_ad_pic_2_texture_descriptor; TLobby__sub_8023E4B4((s32)"f256_ad_pic_2", (s32)&chr_select_ad_pic_2_texture_descriptor); }
+void register_texture_f256_ad_pic_2(void) { (*(int *)&chr_select_ad_pic_texture) = (int)&chr_select_ad_pic_2_texture_descriptor; load_streamed_prs_texture((s32)"f256_ad_pic_2", (s32)&chr_select_ad_pic_2_texture_descriptor); }
 
 }

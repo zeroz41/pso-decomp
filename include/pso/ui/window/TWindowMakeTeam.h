@@ -8,12 +8,12 @@ struct TWindowMakeTeam : public TObject {
     virtual ~TWindowMakeTeam();
     u8 m_1c;
     u8 m_1d;
-    u8 m_1e;
-    u8 m_1f;
+    s8 m_1e;
+    s8 m_1f;
     u32 m_20;
     u32 m_24;
     u32 m_28;
-    u32 m_2c;
+    u32 m_menu; // 0x2C: the window create_menu() returns; its entries are marked, disabled and named
     u32 m_30;
     u32 m_34;
     static s32 draw_entry_0x110(s8 arg0);

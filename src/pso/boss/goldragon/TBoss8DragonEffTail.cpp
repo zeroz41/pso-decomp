@@ -62,8 +62,6 @@ typedef struct EffTail_8002C06C {
 
 struct P8_802FE494 { f32 a; s32 b; };
 
-struct V3_802FE494 { f32 x, y, z; };
-
 struct VB_802FE494 { u8 pad0[0x18]; };
 
 struct Obj_802FE494 : VB_802FE494 {
@@ -93,7 +91,7 @@ struct Obj_802FE494 : VB_802FE494 {
     u8 *xA4;
     u8 padA8[0xB0 - 0xA8];
     u8 *xB0;
-    V3_802FE494 *xB4;
+    Vec *xB4;
     s32 xB8;
     s32 xBC;
     f32 xC0;
@@ -108,13 +106,12 @@ CollisionBody boss8_dragon_eff_tail_init_data[17] = { { { 0.0f, 0.0f, 0.0f }, 10
 s32 boss8_eff_tail_bml_resource;
 u32 dragon_tail_gvm_texture_handle;
 
-extern "C" {
 extern s32 __vt__19TBoss8DragonEffTail[];
+extern "C" {
 EffTail_8002C06C *TBoss8DragonEffTail__ct(EffTail_8002C06C *arg0, s32 arg1, s32 arg2);
 void matrix_mult_vec(s32, void *, void *);
 s32 free_bin_model_request(s32, s32);
 s32 release_texture_list(void*);
-void __dl__7TObjectFPv(void *);
 int fill_value_array(void*);
 
 void fn_802FE48C(void) {  }
@@ -123,7 +120,7 @@ void TBoss8DragonEffTail::render() {  }
 void run_task__19TBoss8DragonEffTailFv(u8 *arg0p) {
     s32 off;
     u8 *e;
-    V3_802FE494 *p;
+    Vec *p;
     s32 i;
     Obj_802FE494 *self = (Obj_802FE494 *)arg0p;
     VecCopy((Vec *)(arg0p + 0x38), (const Vec *)((u8 *)self->xB4 + 0x24));
@@ -203,6 +200,7 @@ EffTail_8002C06C *TBoss8DragonEffTail__ct(EffTail_8002C06C *arg0, s32 arg1, s32 
     arg0->unkC8 = 0.0f;
     return arg0;
 }
+}
 
 void TBoss8DragonEffTail::free_statics() {
     if ((u32) dragon_tail_gvm_texture_handle != 0U) {
@@ -214,11 +212,7 @@ void TBoss8DragonEffTail::free_statics() {
     boss8_eff_tail_bml_resource = 0;
 }
 
-}
-
-extern "C" {
 u8 *load_gvm_texture_file(s32 arg0);
-}
 
 void TBoss8DragonEffTail::load_statics() {
     boss8_eff_tail_bml_resource = load_enemy_bml_resource((u8 *)&bm_obj_boss1_common_j_resource_descriptor);

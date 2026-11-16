@@ -18,7 +18,7 @@ struct Scene_80081A30 {
 };
 
 struct Wave_80081A30 {
-    void *name;
+    const char *name;
     u8 pad4[0x14];
     void *vtable;
     void *wave;
@@ -45,7 +45,7 @@ extern "C" {
 void __ct__7TObjectFP7TObject(void *, void *);
 void *construct_texture_wave(void *, void *);
 extern u8 __vt__11TEF_PvrWave[];
-extern void *TEF_PvrWave__class_name;
+const char *TEF_PvrWave__class_name = "TEF_PvrWave";
 Wave_80081A30 *construct_pvr_wave__6TSceneFPvPvPvii(Wave_80081A30 *self, void *parent, void *image, s32 size, s32 index);
 extern Scene_80081A30 *TScene__data_805D5FCC;
 

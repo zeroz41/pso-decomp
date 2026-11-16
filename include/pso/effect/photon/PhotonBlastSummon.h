@@ -27,14 +27,14 @@ void *__dt__13TUnk_804C3248Fv(void *arg0, s16 arg1);
 }
 void publish_photon_blast_joint_origins(void);
 void queue_deferred_photon_blast_hit(u32 arg0, s32 arg1, s32 arg2);
-extern "C" {
 void queue_deferred_photon_blast_support(u32 identity, s32 kind, s32 allow_duplicate);
 void queue_photon_blast_hit(u32 identity, s32 kind, s32 allow_duplicate, f32 scale);
-}
 void queue_photon_blast_support(void);
 extern "C" {
 void reset_state__10TSceneSoraFv(s32 _w0);
+}
 void spawn_photon_blast_opening_effects(s32 arg0, s32 arg1);
+extern "C" {
 int update_all_default__8TFogCtrlFv(void);
 }
 

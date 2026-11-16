@@ -41,15 +41,6 @@ const NJS_ARGB TPlyPhotonChair__section_id_color_table[10] = {
     { 1.0f, 1.0f, 1.0f, 1.0f },
 };
 
-struct RecoveredGlobal_8035B2DC_lbl_804F1CB8 { s32 value; u8 remaining[0xC]; };
-typedef char RecoveredGlobal_8035B2DC_lbl_804F1CB8_size[sizeof(RecoveredGlobal_8035B2DC_lbl_804F1CB8) == 0x10 ? 1 : -1];
-
-
-
-struct RecoveredGlobal_8035B3C0___vt__15TPlyPhotonChair { s32 value; u8 remaining[0x34]; };
-
-struct Vec_8035B058 { f32 x, y, z; };
-
 struct Quat_8035B058 { f32 w, x, y, z; };
 
 struct PBase_8035B058 { char pad[0x18]; };
@@ -118,7 +109,7 @@ struct Player_8035B058 : PBase_8035B058 {
     virtual void m60();
     virtual void m61();
     virtual void m62();
-    virtual void m63(s32, Vec_8035B058 *);
+    virtual void m63(s32, Vec *);
 };
 
 struct SBase_8035B058 { char pad[4]; };
@@ -132,7 +123,7 @@ struct Chair_8035B058 {
     u8 pad0[0x24];
     s32 x24;
     u8 pad28[0x38 - 0x28];
-    Vec_8035B058 pos;
+    Vec pos;
     u8 pad44[0x5C - 0x44];
     u8 rot[4];
     s32 x60;
@@ -152,7 +143,7 @@ void TPlyPhotonChair__sub_8035B56C(void* p, f32 v);
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 extern u32 TPlyPhotonChair__shared_model_resource;
 s32 get_bml_motion(int, int);
-s32 TObjFish__sub_8001EDB0(int, int);
+s32 get_bml_texlist(int, int);
 s32 get_bml_model(int, int);
 s32 get_actor_section_id__15TPlyPhotonChairFv(int);
 s32 get_rader_map__11TMainCursorFv(void *, void *);
@@ -164,13 +155,11 @@ int push_matrix();
 int scale_current_matrix(void *);
 int post_translate_matrix(void *);
 int TPlyPhotonChair__sub_8035B520(void* p);
-void *__dt__15TPlyPhotonChairFv(void *arg0, s16 arg1);
 void free_bin_model_request(void*, int);
-void __dl__7TObjectFPv(void *);
 
 void TPlyPhotonChair::render() {
     Chair_8035B058 *self = (Chair_8035B058 *)this;
-    Vec_8035B058 out;
+    Vec out;
     Quat_8035B058 q;
     Quat_8035B058 q2;
     Player_8035B058 *pl;
@@ -264,12 +253,12 @@ TPlyPhotonChair::~TPlyPhotonChair() {
     ((TUnk_804A7478 *)((s8 *)this + 0xB4))->TUnk_804A7478::~TUnk_804A7478();
     ((TUnk_804A7478 *)((s8 *)this + 0x98))->TUnk_804A7478::~TUnk_804A7478();
 }
-extern "C" {
+
 
 u8 *TPlyPhotonChair__ct(u8 *ply_photon_chair, s32 arg1, s32 parent) {
     u32 player;
     __ct__8TObjBaseFP7TObject((void *)ply_photon_chair, (void *)parent);
-    *(s32 **)((s8 *)ply_photon_chair + 0x18) = &(*(RecoveredGlobal_8035B3C0___vt__15TPlyPhotonChair *)&__vt__15TPlyPhotonChair).value;
+    *(s32 **)((s8 *)ply_photon_chair + 0x18) = __vt__15TPlyPhotonChair;
     ((TUnk_804A7478 *)(ply_photon_chair + 0x98))->init();
     ((TUnk_804A7478 *)(ply_photon_chair + 0xB4))->init();
     TMainCursor__sub_8013F1F0((ply_photon_chair + 0xD0));
@@ -283,7 +272,7 @@ u8 *TPlyPhotonChair__ct(u8 *ply_photon_chair, s32 arg1, s32 parent) {
         return ply_photon_chair;
     }
     get_rader_map__11TMainCursorFv(ply_photon_chair + 0xD0, (void *)&TPlyPhotonChair__section_id_color_table[get_actor_section_id__15TPlyPhotonChairFv(player)]);
-    ((TPlyPhotonChair *)ply_photon_chair)->texlist = TObjFish__sub_8001EDB0((int) ((*(s32 *)&TPlyPhotonChair__shared_model_resource)), 1);
+    ((TPlyPhotonChair *)ply_photon_chair)->texlist = get_bml_texlist((int) ((*(s32 *)&TPlyPhotonChair__shared_model_resource)), 1);
     ((TPlyPhotonChair *)(ply_photon_chair + 0x98))->set_type((s32)((int) (get_bml_model((int) ((*(s32 *)&TPlyPhotonChair__shared_model_resource)), 1))));
     ((TPlyPhotonChair *)(ply_photon_chair + 0x98))->set_field_8((s32)((int) (get_bml_motion((int) ((*(s32 *)&TPlyPhotonChair__shared_model_resource)), 1))));
     ((TPlyPhotonChair *)(ply_photon_chair + 0x98))->sync_field10_from_child();
@@ -352,4 +341,3 @@ void TPlyPhotonChair::free_instance() {
 
 
 u32 TPlyPhotonChair__shared_model_resource;
-}

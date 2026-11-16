@@ -3,15 +3,15 @@
 #include "pso/ui/city/TShopItemTecSequence.h"
 #include "pso/ui/city/TShopEquipmentGearSequence_8021E3A4.h"
 #include "pso/ui/city/TShopEquipmentGearSequence.h"
+#include "pso/system/task/TObject.h"
 
 extern "C" {
 
-void *__nw__7TObjectFUl(int);
 
 extern void *tl_05;
 
 void *TShopEquipmentGearSequence::create_instance(void *arg0) {
-    void *o = __nw__7TObjectFUl(0x38);
+    void *o = TObject::operator new(0x38);
     if (o != NULL) {
         o = TShopEquipmentGearSequence__ct((u8 *)o, (s32)tl_05, (s32)arg0);
     }
@@ -23,7 +23,7 @@ void *TShopEquipmentGearSequence::create_instance(void *arg0) {
 int get_equipment_gear_shop_window_slot(int a0) {  return TShopEquipmentGearSequence__window_slot_table[a0]; }
 
 void *create_shop_item_tec_sequence(void *arg0) {
-    void *o = __nw__7TObjectFUl(0x38);
+    void *o = TObject::operator new(0x38);
     if (o != NULL) {
         o = TShopItemTecSequence__ct((u8 *)o, (s32)tl_05, (s32)arg0);
     }

@@ -13,21 +13,15 @@
 #include "pso/unk/TUnk_80488D70.h"
 #include "pso/system/scene/TScene.h"
 #include "pso/map/FloorArea.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 #pragma push
 #pragma fp_contract on
 #pragma pop
 
-struct RecoveredGlobal_8006C03C_lbl_804FF5E8 {
-    s32 value;
-    u8 remaining[0x24];
-};
-
-extern "C" {
 void direction_to_pitch_yaw(u8 *arg0, s32 *arg1, s32 *arg2);
-}
 void set_camera_look_at(u8 *eye, u8 *target, u8 *up);
-extern RecoveredGlobal_8006C03C_lbl_804FF5E8 lbl_804FF5E8;
+extern f32 lbl_804FF5E8[];
 extern TCameraCtrl *camera_ctrl_instance;
 extern void* camera_controller_registry[];
 void* camera_controller_registry[];
@@ -53,9 +47,6 @@ f32 vector_length(const Vec*);
 void approach_vector_fixed_distance(const Vec*, const Vec*, Vec*, f32);
 
 u16 TCameraCtrl__sub_8006A5DC();
-f32 fabs_float(f32);
-f32 atan2_float(f32 y, f32 x);
-f32 newton_sqrtf(f32);
 s32 angle_difference_abs(s32, s32);
 s32 approach_angle_limited(s32, s32, s32);
 
@@ -143,7 +134,6 @@ void set_scripted_camera_pose(const Vec* position, const Vec* target, const Came
 extern s32 TCameraCtrl__saved_projection_angle;
 extern s32 scripted_camera_projection_angle;
 
-typedef char RecoveredGlobal_8006C03C_lbl_804FF5E8_size[sizeof(RecoveredGlobal_8006C03C_lbl_804FF5E8) == 0x28 ? 1 : -1];
 void TUnk_80488B68::post_update_view() {
     Vec at;
     Vec dir;
@@ -156,9 +146,9 @@ void TUnk_80488B68::post_update_view() {
     at.z = camera_ctrl_instance->tgt_z;
     Vec up = {0.0f, 1.0f, 0.0f};
     set_camera_look_at((u8 *)&camera_ctrl_instance->pos_x, (u8 *)&at, (u8 *)&up);
-    *(f32 *)((s8 *)&lbl_804FF5E8.value + 0) = camera_ctrl_instance->pos_x;
-    *(f32 *)((s8 *)&lbl_804FF5E8.value + 4) = camera_ctrl_instance->pos_y;
-    *(f32 *)((s8 *)&lbl_804FF5E8.value + 8) = camera_ctrl_instance->pos_z;
+    *(f32 *)((s8 *)&lbl_804FF5E8 + 0) = camera_ctrl_instance->pos_x;
+    *(f32 *)((s8 *)&lbl_804FF5E8 + 4) = camera_ctrl_instance->pos_y;
+    *(f32 *)((s8 *)&lbl_804FF5E8 + 8) = camera_ctrl_instance->pos_z;
 }
 
 void CameraPlayback::cache_target_and_forward(s32 angle) const {

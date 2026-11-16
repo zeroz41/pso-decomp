@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/object/TObjMesBase.h"
 #include "pso/object/TMotorcycle.h"
-#include "pso/object/TObjMesBase.h"
+
 #include "pso/object/base/TObjMotion.h"
 #include "pso/quest/TQuestThread.h"
 
@@ -9,18 +9,15 @@
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_80011014.h"
-#include "pso/object/base/TObjMotion.h"
+
 #include "pso/unk/text_803D853C.h"
 
 extern "C" {
 extern void* quest_mission_manager;
 extern void* quest_area_manager;
 extern void* tl_00;
-void* __nw__7TObjectFUl(unsigned long);
 void *TObjMesBase__ct(TObjMesBase *arg0, s32 arg1, s32 arg2);
-void *__dt__11TObjMesBaseFv(void *arg0, s16 arg1);
 s32 __ct__14TObjCollidableFP7TObject();
-void __dl__7TObjectFPv(void *);
 
 const char *TObjMesBase__class_name = "TObjMesBase";
 
@@ -87,7 +84,7 @@ extern s32 __vt__11TObjMesBase[];
 TObjMesBase::~TObjMesBase() {
 
 }
-extern "C" {
+
 
 void *TObjMesBase__ct(TObjMesBase *mes_base, s32 arg1, s32 arg2) {
     __ct__14TObjCollidableFP7TObject();
@@ -108,4 +105,3 @@ void *TObjMesBase__ct(TObjMesBase *mes_base, s32 arg1, s32 arg2) {
 }
 
 
-}

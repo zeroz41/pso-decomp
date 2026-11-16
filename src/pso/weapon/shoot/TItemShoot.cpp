@@ -1,5 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/TEffStarLight2D.h"
+#include "pso/weapon/shoot/TItemShootGun_dtor.h"
+#include "pso/weapon/shoot/TItemShootModelRotZ_dtor.h"
 #include "pso/weapon/shoot/TItemShoot.h"
 #include "pso/item/TItem.h"
 #include "pso/weapon/shoot/TItemShootGun.h"
@@ -14,10 +16,6 @@
 #include "pso/math/MatrixVector.h"
 #include "pso/system/task/TObject.h"
 
-extern "C" void disallow_rendering__7TObjectFv(TObject *arg0);
-extern "C" void allow_rendering__7TObjectFv(TObject *arg0);
-extern "C" void queue_destruction__7TObjectFv(void *arg0);
-
 
 extern "C" void  normalize_vector(Vec*);
 void direction_to_rotation_xz(u8 *arg0, s32 *arg1, s32 *arg2);
@@ -27,10 +25,8 @@ extern "C" const char* TItemShoot__class_name;
 extern "C" const f64   lbl_8043E7A0[];
 
 extern "C" {
-void *__dt__19TItemShootModelRotZFv(void *self, s16 flag);
 void render__19TItemShootModelRotZFv();
 void hook__19TItemShootModelRotZFv();
-void *__dt__13TItemShootGunFv(void *self, s16 flag);
 void render__13TItemShootGunFv();
 void hook__13TItemShootGunFv();
 void __dt__18TItemShootParticleFv();

@@ -24,24 +24,21 @@
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/unk/text_801AE1F8.h"
 #include "pso/map/FloorArea.h"
+#include "pso/system/MatrixStack.h"
 
 typedef struct { f32 x; f32 y; f32 z; } Vec3;
-
-struct Color_801ADDDC { f32 a, r, g, b; };
-
-struct Vec_801ADDDC { f32 x, y, z; };
 
 struct Self_801ADDDC {
     u8 pad0[0x24];
     s32 f24;
     u8 pad1[0x38 - 0x28];
-    Vec_801ADDDC pos;
+    Vec pos;
     u8 pad2[0x60 - 0x44];
     s32 f60;
     u8 pad3[0x14C - 0x64];
     s16 f14C;
     u8 pad4[0x180 - 0x14E];
-    Color_801ADDDC color;
+    NJS_ARGB color;
     u8 pad5[0x1A4 - 0x190];
     s32 started;
 };
@@ -60,9 +57,8 @@ extern "C" {
 s32 scroll_strip_uvs(void *, s16, int);
 s32 clear_render_context__10TObjPlayerFv(void *);
 s32 rotate_matrix_y(int, int);
-s32 push_matrix();
-extern Color_801ADDDC saved_model_draw_color;
-extern Color_801ADDDC model_material_color;
+extern NJS_ARGB saved_model_draw_color;
+extern NJS_ARGB model_material_color;
 extern s32 saved_model_render_flags;
 extern s32 saved_chunk_polygon_flags_and_mask;
 extern s32 saved_chunk_polygon_flags_or_mask;
@@ -70,7 +66,6 @@ extern s32 chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_and_mask;
 extern s32 model_render_flags;
 void TPhotonLaser__ct(void *, void *, void *, u16);
-void *__nw__7TObjectFUl(u32);
 void vec3_add_to(void *, void *);
 const char *TPhotonPilla__class_name = "TPhotonPilla";
 void *pilla_photon_buffer_pair;
@@ -80,7 +75,6 @@ extern const Packet_801ADD10 photon_pilla_laser_packet = {
 extern void *photon_pilla_laser_offset_table[];
 
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
-s32 spawn_photon_blast_attachment_effects(void *, s32);
 u8 *TPhotonMagicSquare__ct(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0);
 void *find_entity_by_id(u16 id);
 u32 get_entity_id();
@@ -115,7 +109,7 @@ void TPhotonPilla::spawn_laser() {
     packet.pos.x = position.x;
     packet.pos.y = position.y;
     packet.pos.z = position.z;
-    laser = (u8 *) __nw__7TObjectFUl(0x380);
+    laser = (u8 *) TObject::operator new(0x380);
     if (laser != NULL) {
         TPhotonLaser__ct(laser, &packet, this, this->m_17c);
     }
@@ -165,7 +159,7 @@ void TPhotonPilla::run_task() {
             VecCopy((Vec *)&sp8, (const Vec *)(entity + 0x38));
         }
         sp8.y += 3e+01f;
-        entity = (s32)__nw__7TObjectFUl(0xD0);
+        entity = (s32)TObject::operator new(0xD0);
         if (entity != 0U) {
             TPhotonMagicSquare__ct((u8 *)entity, (s32)this, 3, (s32)&sp8, 0xD2, 0.5f);
         }
@@ -174,7 +168,7 @@ void TPhotonPilla::run_task() {
         begin_photon_summon_camera(4);
         *(s32 *)((s8 *)this + 0x1A8) = 0;
         this->set_field_b8(0);
-        spawn_photon_blast_attachment_effects(this, 3);
+        spawn_photon_blast_attachment_effects(3);
     }
     this->m_198 = (s16) this->requested_action;
     update_state();
@@ -194,39 +188,30 @@ void TPhotonPilla::run_task() {
     }
 }
 
-}
-
-extern "C" {
-
 s32 free_collision_body_parts(void *);
 s32 __dl__7TObjectFPv(void *);
 
 extern void *lbl_804C3ACC[];
 
-void *destroy__12TPhotonPillaFPvs(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = (s32 *)lbl_804C3ACC;
-        ((TPhotonPilla *)arg0)->update_if_active();
-        ((TUnk_804C3248 *)arg0)->free_photon();
-        ((TObjCollidable *)arg0)->unregister_object_by_id();
-        free_collision_body_parts(arg0);
-        __dt__13TUnk_804C3248Fv(arg0, 0);
+void *destroy__12TPhotonPillaFPvs(void *photon_pilla, s16 arg1) {
+    if (photon_pilla != NULL) {
+        *(s32 **)((s8 *)photon_pilla + 0x18) = (s32 *)lbl_804C3ACC;
+        ((TPhotonPilla *)photon_pilla)->update_if_active();
+        ((TUnk_804C3248 *)photon_pilla)->free_photon();
+        ((TObjCollidable *)photon_pilla)->unregister_object_by_id();
+        free_collision_body_parts(photon_pilla);
+        __dt__13TUnk_804C3248Fv(photon_pilla, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(photon_pilla);
         }
     }
-    return arg0;
+    return photon_pilla;
 }
 
 }
-
-struct Vec_801AE1F8 { f32 x, y, z; };
 
 extern "C" {
-void *find_entity_by_id(u16 id);
 s32 init_collision_body_parts(void *, void *, int);
-s32 spawn_photon_blast_attachment_effects(void *, s32);
-u8 *TPhotonMagicSquare__ct(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0);
 void sub_801ADC7C__12TPhotonPillaFv(void *, u8);
 u8 *TPhotonRainbow__ct(void *, void *, void *, s32);
 extern u8 *photon_blast_shared_resource;
@@ -273,7 +258,7 @@ u8 *TPhotonPilla__ct(u8 *photon_rainbow, u8 *arg1) {
     void *mem;
     __ct__13TUnk_804C3248Fv(photon_rainbow);
     *(u8 **)((s8 *)photon_rainbow + 0x18) = (u8 *)lbl_804C3ACC;
-    *(const char **)((s8 *)photon_rainbow + 0) = TPhotonPilla__class_name;
+    ((TPhotonPilla *)photon_rainbow)->m_name = TPhotonPilla__class_name;
     *(s32 *)((s8 *)photon_rainbow + 0x138) = 3;
     VecCopy((Vec *)(photon_rainbow + 0x38), (const Vec *)arg1);
     ((TPhotonPilla *)photon_rainbow)->m_17c = *(u16 *)((s8 *)arg1 + 0xC);
@@ -305,13 +290,13 @@ u8 *TPhotonPilla__ct(u8 *photon_rainbow, u8 *arg1) {
     case AREA_DE_ROL_LE:
     case AREA_VOL_OPT:
     case AREA_DARK_FALZ:
-        mem = __nw__7TObjectFUl(0xAC);
+        mem = TObject::operator new(0xAC);
         if (mem != NULL) {
             TPhotonRainbow__ct(mem, photon_rainbow, photon_rainbow + 0x38, 1);
         }
         break;
     default:
-        mem = __nw__7TObjectFUl(0xAC);
+        mem = TObject::operator new(0xAC);
         if (mem != NULL) {
             TPhotonRainbow__ct(mem, photon_rainbow, photon_rainbow + 0x38, 0);
         }
@@ -330,14 +315,14 @@ u8 *TPhotonPilla__ct(u8 *photon_rainbow, u8 *arg1) {
         ((TPhotonPilla *)photon_rainbow)->m_198 = 0;
         ((TPhotonPilla *)photon_rainbow)->m_1a4 = 1;
         {
-        Vec_801AE1F8 pos = *(Vec_801AE1F8 *)((s8 *)photon_rainbow + 0x38);
+        Vec pos = *(Vec *)((s8 *)photon_rainbow + 0x38);
         pos.y += 4e+01f;
-        mem = __nw__7TObjectFUl(0xD0);
+        mem = TObject::operator new(0xD0);
         if (mem != NULL) {
             TPhotonMagicSquare__ct((u8 *)mem, (s32)photon_rainbow, 3, (s32)&pos, 0xAA, 0.5f);
         }
         }
-        spawn_photon_blast_attachment_effects(photon_rainbow, 3);
+        ((TUnk_804C3248 *)photon_rainbow)->spawn_photon_blast_attachment_effects(3);
         play_cue_stream_file((s32)"paila2.adx");
     } else {
         spawn_photon_blast_opening_effects(3, ((TPhotonPilla *)photon_rainbow)->m_17c);

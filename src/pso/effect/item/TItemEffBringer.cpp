@@ -7,10 +7,10 @@
 #include "types.h"
 #include "dolphin/mtx.h"
 #include "pso/system/task/TObject.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/math/AngleLookup.h"
 
 const char *TItemEffBringer__class_name = "TItemEffBringer";
-
-struct Vec_8010834C { f32 x, y, z; };
 
 struct Bringer_8010834C {
     const char *f0;
@@ -19,24 +19,22 @@ struct Bringer_8010834C {
     u8 pad1C[0x2C - 0x1C];
     s32 f2C;
     u8 pad30[0x38 - 0x30];
-    Vec_8010834C f38;
+    Vec f38;
     u8 pad44[0x58 - 0x44];
     s32 m_particles[10];
     s32 m_particle_count;
-    Vec_8010834C m_84;
+    Vec m_84;
 };
 
 extern "C" {
-f32 atan2_float(f32 y, f32 x);
 void *__ct__10TItemShootFPvPC3VecPC3Vecf(void *, u32, s32, s32, f32);
-f32 sin_table_lookup(s32);
 void subtract_vector(Vec*, Vec*);
 void transform_point_by_current_matrix(void *, void *);
 void push_matrix(void);
 s32 pop_matrix(void);
 extern void *__vt__15TItemEffBringer[];
-void *__ct__15TItemEffBringerFv(Bringer_8010834C *self, u32 arg1, Vec_8010834C *src, s32 arg3, f32 farg0);
-void *spawn_particle_effect(void *pos, s32 id);
+void *__ct__15TItemEffBringerFv(Bringer_8010834C *self, u32 arg1, Vec *src, s32 arg3, f32 farg0);
+void *spawn_particle_effect(const void *pos, s32 id);
 }
 void TItemEffBringer::hook() {
     Vec work = this->m_pos;
@@ -56,14 +54,13 @@ TItemEffBringer::~TItemEffBringer() {
 
 extern "C" {
 
-void *__nw__7TObjectFUl(s32);
 
 #pragma push
 #pragma fp_contract on
-void *__ct__15TItemEffBringerFv(Bringer_8010834C *self, u32 arg1, Vec_8010834C *src, s32 arg3, f32 farg0) {
-    Vec_8010834C w;
-    Vec_8010834C out;
-    Vec_8010834C z;
+void *__ct__15TItemEffBringerFv(Bringer_8010834C *self, u32 arg1, Vec *src, s32 arg3, f32 farg0) {
+    Vec w;
+    Vec out;
+    Vec z;
     f32 r;
     f32 n;
     s32 i;
@@ -97,9 +94,9 @@ void *__ct__15TItemEffBringerFv(Bringer_8010834C *self, u32 arg1, Vec_8010834C *
 
 void *TItemEffBringer::create(u32 arg0, s32 src, s32 arg2, f32 farg0) {
     if ((0.0f != farg0) && (arg0 != 0U)) {
-        void *obj = __nw__7TObjectFUl(0x90);
+        void *obj = TObject::operator new(0x90);
         if (obj != NULL) {
-            obj = __ct__15TItemEffBringerFv((Bringer_8010834C *)(obj), arg0, (Vec_8010834C *)(src), arg2, farg0);
+            obj = __ct__15TItemEffBringerFv((Bringer_8010834C *)(obj), arg0, (Vec *)(src), arg2, farg0);
         }
         return obj;
     }

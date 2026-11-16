@@ -68,8 +68,6 @@ struct Pk_8015BAE0 { u8 pad[2]; u16 id; s32 a; s32 b; s32 c; };
 
 void play_container_break_sound(s32 arg0);
 
-extern "C" {
-
 
 extern const f32 lbl_805DB398;
 extern const f32 lbl_805DB39C;
@@ -114,11 +112,11 @@ static const TObjChipParams ancient_enemy_break_debris_desc_b = {
 // Built with -inline off,deferred: the compiler emits the functions (and the
 // vtables) last-to-first, so the definitions below run backwards from the
 // original code order.
-}
 
 void TLobby::init_packet_67_04() { *(u8 *)&this->m_name = 103; *(u8*)((char*)this + 0x1) = 4; }
 
-extern "C" void byteswap_event_packet__6TLobbyFi(s32 packet) {
+void TLobby::byteswap_event_packet() {
+    s32 packet = (s32)this;
     ((G_ClientIDHeader *)packet)->bswap();
     bswap_32((u32 *)(packet + 4));
     bswap_32((u32 *)(packet + 8));
@@ -127,7 +125,7 @@ extern "C" void byteswap_event_packet__6TLobbyFi(s32 packet) {
 
 void TLobby::byteswap_and_send() {
     s32 arg0 = (s32)this;
-    byteswap_event_packet__6TLobbyFi(arg0);
+    ((TLobby *)arg0)->byteswap_event_packet();
     send_subcommand((u8 *)arg0);
 }
 
@@ -229,7 +227,7 @@ TUnk_804B08BC::TUnk_804B08BC(void *set_data) : TUnk_804B6C24(tl_05, set_data) {
     VecCopy((Vec *)&m_2fc, &position);
     center.y += TOContainerAncientEnemy__collision_body_params.offset.y;
     model = (void *)get_bml_model(ancient_container_resource_bundle, 0);
-    texlist = TObjFish__sub_8001EDB0(ancient_container_resource_bundle, 0);
+    texlist = get_bml_texlist(ancient_container_resource_bundle, 0);
 }
 
 TUnk_804B08BC::~TUnk_804B08BC() {
@@ -293,14 +291,14 @@ void TUnk_804B08BC::vfunc_79() const {
     a.pos[2] = this->position.z;
     a.pad_38[0] = a.pos[1];
     a.model = get_bml_model((BmlResource *)ancient_container_resource_bundle, 1);
-    a.textures = TObjFish__sub_8001EDB0((BmlResource *)ancient_container_resource_bundle, 1);
+    a.textures = get_bml_texlist((BmlResource *)ancient_container_resource_bundle, 1);
     TObjChipParams b = lbl_8044074C;
     b.pos[0] = this->position.x;
     b.pos[1] = this->position.y;
     b.pos[2] = this->position.z;
     b.pad_38[0] = b.pos[1];
     b.model = get_bml_model((BmlResource *)ancient_container_resource_bundle, 2);
-    b.textures = TObjFish__sub_8001EDB0((BmlResource *)ancient_container_resource_bundle, 2);
+    b.textures = get_bml_texlist((BmlResource *)ancient_container_resource_bundle, 2);
     if (check_value_equals((s32)TOContainerAncientItemRare__name) != 0) {
         a.textures = ancient_container_fragment_texture_lists[1];
         b.textures = ancient_container_fragment_texture_lists[2];
@@ -391,7 +389,7 @@ TOContainerAncientEnemy::TOContainerAncientEnemy(void *set_data) : TUnk_804B6C24
     VecCopy((Vec *)&m_2fc, &position);
     center.y += TOContainerAncientEnemy__collision_body_params.offset.y;
     model = (void *)get_bml_model(ancient_container_resource_bundle, 0);
-    texlist = TObjFish__sub_8001EDB0(ancient_container_resource_bundle, 0);
+    texlist = get_bml_texlist(ancient_container_resource_bundle, 0);
 }
 
 TOContainerAncientEnemy::~TOContainerAncientEnemy() {
@@ -477,14 +475,14 @@ void TOContainerAncientEnemy::vfunc_79() const {
         a.pos[2] = this->position.z;
         a.pad_38[0] = this->position.y;
         a.model = get_bml_model((BmlResource *)ancient_container_resource_bundle, 1);
-        a.textures = TObjFish__sub_8001EDB0((BmlResource *)ancient_container_resource_bundle, 1);
+        a.textures = get_bml_texlist((BmlResource *)ancient_container_resource_bundle, 1);
         TObjChipParams b = ancient_enemy_break_debris_desc_b;
         b.pos[0] = this->position.x;
         b.pos[1] = this->position.y;
         b.pos[2] = this->position.z;
         b.pad_38[0] = this->position.y;
         b.model = get_bml_model((BmlResource *)ancient_container_resource_bundle, 2);
-        b.textures = TObjFish__sub_8001EDB0((BmlResource *)ancient_container_resource_bundle, 2);
+        b.textures = get_bml_texlist((BmlResource *)ancient_container_resource_bundle, 2);
         if (check_value_equals((s32)lbl_805D2F10) != 0) {
             a.textures = ancient_container_fragment_texture_lists[1];
             b.textures = ancient_container_fragment_texture_lists[2];

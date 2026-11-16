@@ -74,7 +74,7 @@ TBoss6Demo11_TYPE1_DEAD::TBoss6Demo11_TYPE1_DEAD(TObject *parent, void *arg) : T
     for (i = 0; i < 2; i++) {
         model_id = lbl_804DF614[i];
         parts[i].model = get_bml_model(resource, model_id);
-        parts[i].texture = TObjFish__sub_8001EDB0(resource, model_id);
+        parts[i].texture = get_bml_texlist(resource, model_id);
         parts[i].motion = get_bml_motion(resource, lbl_804EF9D8[i]);
     }
     node_effect = (TObjFish *)TObjFish__sub_800E3124((u8 *)dead_effect_nodes(), (s32)effect_points);

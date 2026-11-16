@@ -18,7 +18,7 @@ void refresh_battle_stat_list(void *arg0) {
         var_r31 += 1;
     } while (var_r31 < 5U);
     if (*(s16 *)((s8 *)arg0 + 0x72) <= 0) {
-        advance_status_disp_entry(arg0, -1);
+        advance_status_disp_entry((TWindowBase *)arg0, -1);
     }
     TWindowSubEquip__sub_80279044(arg0);
     ((TWindowMenuIconLine *)arg0)->calc_content_extent();

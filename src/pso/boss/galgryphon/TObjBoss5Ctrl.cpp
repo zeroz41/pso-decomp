@@ -44,7 +44,7 @@ void *TObjBoss5Ctrl__ct(void *boss5_pillar_ctrl, void *parent) {
 
     __ct__7TObjectFP7TObject(boss5_pillar_ctrl, parent);
     *(void **)((s8 *)boss5_pillar_ctrl + 0x18) = __vt__13TObjBoss5Ctrl;
-    *(const char **)((s8 *)boss5_pillar_ctrl + 0) = lbl_805D2828;
+    ((TObjBoss5Ctrl *)boss5_pillar_ctrl)->m_name = lbl_805D2828;
     *(u32 *)((s8 *)boss5_pillar_ctrl + 0x1C) = 0U;
     *(u32 *)((s8 *)boss5_pillar_ctrl + 0x20) = 0U;
     *(u32 *)((s8 *)boss5_pillar_ctrl + 0x24) = 0U;

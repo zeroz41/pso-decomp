@@ -28,16 +28,16 @@ void TObjLight__updateFireTechniqueCharge(TechniqueChargeEmitter* state) {
     else if(state->age>=180)((TObject *)state)->queue_destruction();
 }
 
-void *__dt__13TUnk_804CC794Fv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__13TUnk_804CC794;
-        stop_sound_request((s32)(*(void **)((s8 *)arg0 + 0x30)));
-        __dt__7TObjectFv(arg0, 0);
+void *__dt__13TUnk_804CC794Fv(void *object, s16 arg1) {
+    if (object != NULL) {
+        *(s32 **)((s8 *)object + 0x18) = __vt__13TUnk_804CC794;
+        stop_sound_request((s32)(*(void **)((s8 *)object + 0x30)));
+        __dt__7TObjectFv(object, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(object);
         }
     }
-    return arg0;
+    return object;
 }
 
 }

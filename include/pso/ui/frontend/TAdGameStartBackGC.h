@@ -6,6 +6,7 @@
 
 class TAdGameStartBackGC : public TObject {
 public:
+    TAdGameStartBackGC(TObject *);
     virtual ~TAdGameStartBackGC();
     virtual void run_task();
     virtual void render();
@@ -14,7 +15,7 @@ public:
 };
 
 extern "C" {
-u8 *__ct__18TAdGameStartBackGCFv(u8 *arg0, u8 *arg1);
+u8 *__ct__18TAdGameStartBackGCFP7TObject(u8 *arg0, u8 *arg1);
 }
 
 #endif

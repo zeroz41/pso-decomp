@@ -3,7 +3,7 @@
 #include "pso/system/TLanguage_801E4874.h"
 #include "pso/unk/text_800F9B84.h"
 #include "pso/npc/TUnk_804A9F50.h"
-#include "pso/npc/TUnk_804A9F50.h"
+
 #include "pso/npc/TObjNpcHFW00.h"
 #include "pso/unk/TLobby.h"
 #include "pso/npc/TObjNpcBase.h"
@@ -12,6 +12,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
 #include "pso/system/BmlResourceDescriptor.h"
+#include "pso/system/task/TObject.h"
 
 #pragma readonly_strings on
 
@@ -24,28 +25,21 @@ const char *TObjNpcGovernorBase__name = "TObjNpcGovernorBase";
 u32 TObjNpcGovernorBase__shared_resource;
 
 
-struct RecoveredGlobal_8014AC6C___vt__19TObjNpcGovernorBase {
-    s32 value;
-    u8 remaining[0x174];
-};
-
 extern void *tl_04;
 extern "C" {
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 extern s32 __vt__19TObjNpcGovernorBase[];
 void free_bin_model_request(void*, int);
 void *__ct__11TObjControlFP7TObject(void *, void *);
-void __dl__7TObjectFPv(void *);
-void *__nw__7TObjectFUl(int);
 
 void * TObjNpcGovernorBase__create(void *arg0) {
     void *o;
     void *o2;
-    o = __nw__7TObjectFUl(0x20);
+    o = TObject::operator new(0x20);
     if (o != NULL) {
         o = __ct__11TObjControlFP7TObject(o, tl_04);
     }
-    o2 = __nw__7TObjectFUl(0x3B8);
+    o2 = TObject::operator new(0x3B8);
     if (o2 != NULL) {
         o2 = TObjNpcGovernorBase__ct((u8 *)o2, (s32)o, (s32)arg0);
     }
@@ -72,12 +66,11 @@ void TObjNpcGovernorBase::load_shared_resource() {
 
 }
 TObjNpcGovernorBase::~TObjNpcGovernorBase() {}
-extern "C" {
 
-typedef char RecoveredGlobal_8014AC6C___vt__19TObjNpcGovernorBase_size[sizeof(RecoveredGlobal_8014AC6C___vt__19TObjNpcGovernorBase) == 0x178 ? 1 : -1];
+
 u8 *TObjNpcGovernorBase__ct(u8 *player, s32 arg1, s32 arg2) {
     ((TUnk_804A9F50 *)player)->construct_male_npc_base();
-    *(s32 **)((s8 *)player + 0x18) = &(*(RecoveredGlobal_8014AC6C___vt__19TObjNpcGovernorBase *)&__vt__19TObjNpcGovernorBase).value;
+    *(s32 **)((s8 *)player + 0x18) = __vt__19TObjNpcGovernorBase;
     ((TObject *)player)->m_name = TObjNpcGovernorBase__name;
     ((TObjNpcGovernorBase *)(player))->apply_set_data((void *)arg2);
     ((TObjPlayer *)player)->init_position_vectors();
@@ -87,4 +80,3 @@ u8 *TObjNpcGovernorBase__ct(u8 *player, s32 arg1, s32 arg2) {
     return player;
 }
 
-}

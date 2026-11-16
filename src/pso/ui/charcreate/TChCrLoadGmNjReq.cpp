@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/ui/charcreate/TChCrLoadGmNjReq.h"
+#include "pso/system/task/TObject.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/unk/TLobby.h"
 
@@ -22,7 +23,6 @@ struct TChCrLoadGmNjReqArgs {
 };
 
 extern "C" {
-s32 queue_destruction__7TObjectFv(void *);
 
 void strncpy(void *, const void *, int);
 
@@ -31,7 +31,7 @@ void TChCrLoadGmNjReq::run_task() {
     timer = m_70 - 1;
     m_70 = timer;
     if (timer < 0) {
-        queue_destruction__7TObjectFv(this);
+        queue_destruction();
         return;
     }
     switch (state) {

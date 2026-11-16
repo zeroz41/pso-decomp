@@ -5,7 +5,7 @@
 
 extern "C" {
 void *__ct__13TLazerFenceSwFP7TObjectPv(void *arg0, void *arg1, void *arg2);
-void TLazerFenceSw__sub_80193C5C(void);
+void free_lazer_fence_switch_resources(void);
 void vfunc_16__13TLazerFenceSwFv(u8 *arg0);
 void vfunc_17__13TLazerFenceSwFv(u8 *arg0);
 void trigger_activate_sound__13TLazerFenceSwFv(void *arg0);

@@ -21,7 +21,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/darkfalz/TObjDFDemo0.h"
-#include "pso/system/task/TObject.h"
+
 
 const char *TObjDFDemo0__name = "TObjDFDemo0";
 const ModelNodeSpec TObjDFDemo0__model_node_entries[7] = {
@@ -66,7 +66,6 @@ void fn_8004D9A8(u8 *arg0) {
 
 }
 
-typedef struct { f32 x, y, z; } Vec_8004DA7C;
 struct Self_8004DA7C { u8 pad[0x90]; s32 t; ModelNodeTables node_tables; void *p[5]; u8 padbc[0x48]; f32 f104; f32 f108; f32 f10c; };
 
 struct Ent_8004DA7C { s32 arg; s32 start; s32 end; u8 data[0xC]; };
@@ -103,7 +102,7 @@ void *lbl_80485514[15] = {
     (void *)0x0, (void *)0xc1f00000, (void *)0x0, (void *)0x42700000,
     (void *)0x0, (void *)0x42f00000, (void *)0x0,
 };
-#define V90 (*(Vec_8004DA7C *)lbl_804854F0)
+#define V90 (*(Vec *)lbl_804854F0)
 void TBoss3Volopt__sub_8004DA7C(u8 *self) {
     s32 i;
     Self_8004DA7C *S = (Self_8004DA7C *)self;
@@ -127,8 +126,8 @@ void TBoss3Volopt__sub_8004DA7C(u8 *self) {
             case 1: case 2: case 3: {
                 u8 *p = (u8 *)((Self_8004DA7C *)self)->p[i];
                 if (p != NULL) {
-                    Vec_8004DA7C a = *(Vec_8004DA7C *)(p + 0x60);
-                    Vec_8004DA7C b = V90;
+                    Vec a = *(Vec *)(p + 0x60);
+                    Vec b = V90;
                     subtract_vector(&b, &a);
                     b.y = (0.0f);
                     normalize_vector(&b);
@@ -146,8 +145,8 @@ void TBoss3Volopt__sub_8004DA7C(u8 *self) {
         s32 t = *(s32 *)((s8 *)self + 0x90);
         if (t >= 0x8C && t < 0x91) {
             void *p;
-            Vec_8004DA7C c = V90;
-            vec3_add_to(&c, &((Vec_8004DA7C *)lbl_80485514)[t - 0x8C]);
+            Vec c = V90;
+            vec3_add_to(&c, &((Vec *)lbl_80485514)[t - 0x8C]);
             p = spawn_particle_effect(&c, 0x14A);
             if (p != NULL) {
                 ((TParticleCtrl *)p)->set_flags(0x40);
@@ -268,8 +267,8 @@ typedef struct Data_8004DEE0 {
 } Data_8004DEE0;
 
 s32 get_bml_motion(s32, s32);
-s32 TObjFish__sub_8001EDB0(s32, s32);
-s32 get_bml_model(s32, s32);
+s32 get_bml_texlist(BmlResource *resource, s32 index);
+s32 get_bml_model(BmlResource *resource, s32 index);
 void set_scripted_camera_pose(void *, void *, void *);
 void __ct__8TObjBaseFP7TObject(void *, void *);
 extern s32 lbl_80485EB0[];
@@ -301,15 +300,15 @@ Obj_8004DEE0 *TObjDFDemo0__ct(void *arg0, void *parent) {
 
     __ct__8TObjBaseFP7TObject(self, parent);
     self->vt = (void *)__vt__11TObjDFDemo0;
-    self->name = TObjDFDemo0__name;
+    ((TObjBase *)self)->m_name = TObjDFDemo0__name;
     h = TBoss4Uro::get_instance_count();
     for (i = 0; i < 6; i++) {
         {
             s32 t = lbl_80485EB0[i];
             k = t;
-            self->fbc[0][i] = get_bml_model(h, t);
+            self->fbc[0][i] = get_bml_model((BmlResource *)h, t);
         }
-        self->fbc[1][i] = TObjFish__sub_8001EDB0(h, k);
+        self->fbc[1][i] = get_bml_texlist((BmlResource *)h, k);
         self->fbc[2][i] = get_bml_motion(h, ((s32 *)lbl_804854D8)[i]);
     }
     self->f104 = (-0.5f);

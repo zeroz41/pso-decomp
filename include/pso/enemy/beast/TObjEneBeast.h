@@ -6,7 +6,7 @@
 
 struct TObjEneBeast : public TUnk_80493450 {
     virtual ~TObjEneBeast();
-    void render(void *);
+    virtual void render();
     void vfunc_83();
     void vfunc_101();
     void vfunc_99();
@@ -31,7 +31,7 @@ typedef char BeastEmbeddedObjects[(offsetof(TObjEneBeast, m_3b0) == 0x3B0) ? 1 :
 
 extern "C" {
 void *TObjEneBeast__ct(void *arg0v, void *arg1, void *arg2);
-void free_boss4_rock_pool(void);
 }
+void free_boss4_rock_pool(void);
 
 #endif

@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/object/fence/TLazerFenceSw.h"
-#include "pso/object/fence/TLazerFenceSw.h"
+
 #include "pso/render/NinjaUtil.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/render/GinjaMaterial.h"
@@ -13,7 +13,7 @@
 #include "pso/camera/CameraDistanceFade.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/BmlResourceDescriptor.h"
-#include "pso/object/fence/TLazerFenceSw.h"
+
 #include "pso/object/fence/TObjLazerFence4.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
@@ -25,29 +25,15 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/map/FloorArea.h"
 #include "pso/player/TObjPlayer_801542CC.h"
-#include "pso/object/key/TOKey.h"
 
-extern "C" { void rotate_matrix_y(int, void *); s32 pop_matrix(void); void draw_ginja_object(void *); s32 get_bml_motion(s32, s32); s32 get_bml_model(s32, s32); }
+
+extern "C" { void rotate_matrix_y(int, void *); s32 pop_matrix(void); void draw_ginja_object(void *); AnimationMotion *get_bml_motion(BmlResource *resource, s32 index); s32 get_bml_model(BmlResource *resource, s32 index); }
 extern s32 model_render_flags;
 
 extern const char *fe_obj_switch_laz_model_names[4];
 extern const char *fe_obj_switch_laz_motion_names[3];
 extern BmlResourceDescriptor laser_fence_switch_resource_descriptor;
 
-
-struct VBase_18_26a62c { char pad[0x18]; };
-
-struct VObj_18_26a62c : VBase_18_26a62c {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual s32 m8(f32, f32);
-};
 
 struct VBase_14_aa9368 { char pad[0x14]; };
 
@@ -77,19 +63,17 @@ extern "C" {
 void debug_draw_key_id__5TOKeyFv();
 void debug_printf_at(int, void *, ...);
 extern u8 lbl_80445CD8[];
-void debug_draw_key_id__13TLazerFenceSwFv(Sw_80193978 *arg0);
-void *__ct__5TOKeyFP7TObject(TOKey *arg0);
-extern s32 __vt__13TLazerFenceSw[];
 
 void *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
+}
 u8 *load_gvm_texture_file(s32 arg0);
 
 extern s32 game_difficulty_selection;
 extern u8 lbl_80445CF0[];
 extern u8 lbl_80445D08[];
 extern u8 lbl_80445D20[];
+extern "C" {
 s32 free_bin_model_request(void *, s32);
-void *__dt__5TOKeyFv(void *arg0, s16 arg1);
 void *__ct__18CameraDistanceFadeFv(void *self);
 
 __declspec(section ".data") u32 lazer_fence_sw_ginja_model_table[2];
@@ -135,7 +119,7 @@ void PPCSync(void);
 void push_matrix(void);
 void post_translate_matrix(void *);
 
-s32 draw_ginja_model_with_motion(s32, s32, f32);
+void draw_ginja_model_with_motion(void *model, void *motion, f32 frame);
 extern u32 actor_frame_tick;
 
 void TLazerFenceSw::draw_laser_beam() {
@@ -160,7 +144,7 @@ void TLazerFenceSw::draw_laser_beam() {
         draw_ginja_object((void *)lazer_fence_sw_ginja_model_table[1]);
         TParticleCtrl::begin_effect_render();
         model_render_flags |= 0x01000000;
-        draw_ginja_model_with_motion(lazer_fence_sw_ginja_model_table[0], lazer_fence_beam_motions[0], self->fB0);
+        draw_ginja_model_with_motion((void *)lazer_fence_sw_ginja_model_table[0], (void *)lazer_fence_beam_motions[0], (f32)self->fB0);
         model_render_flags &= ~0x01000000;
         TParticleCtrl::end_effect_render();
         pop_matrix();
@@ -169,10 +153,10 @@ void TLazerFenceSw::draw_laser_beam() {
         push_matrix();
         post_translate_matrix(self->pos);
         rotate_matrix_y(0, (void *)self->f60);
-        draw_ginja_model_with_motion(lazer_fence_sw_ginja_model_table[1], lazer_fence_beam_motions[1], self->fEC);
+        draw_ginja_model_with_motion((void *)lazer_fence_sw_ginja_model_table[1], (void *)lazer_fence_beam_motions[1], (f32)self->fEC);
         TParticleCtrl::begin_effect_render();
         model_render_flags |= 0x01000000;
-        draw_ginja_model_with_motion(lazer_fence_sw_ginja_model_table[0], lazer_fence_beam_motions[0], self->fB0);
+        draw_ginja_model_with_motion((void *)lazer_fence_sw_ginja_model_table[0], (void *)lazer_fence_beam_motions[0], (f32)self->fB0);
         model_render_flags &= ~0x01000000;
         TParticleCtrl::end_effect_render();
         pop_matrix();
@@ -181,7 +165,7 @@ void TLazerFenceSw::draw_laser_beam() {
 }
 void TLazerFenceSw::render() {
     u8 *arg0 = (u8 *)this;
-    if (((VObj_18_26a62c *)(arg0))->m8(4e+02f, 2e+01f) != 0) {
+    if (this->update_object_view_visibility(4e+02f, 2e+01f) != 0) {
         if (TMainTask::get_render_pass() != 1) {
             set_draw_list_mask(3);
             set_material_alpha_compare_reference(0x80);
@@ -214,14 +198,14 @@ void TLazerFenceSw::debug_draw_key_id() {
 }
 
 void TLazerFenceSw::trigger_activate_sound() {
-    ((TOKey *)this)->TOKey::trigger_activate_sound();
-    ((TLazerFenceSw *)this)->animation_frame = 0.0f;
+    this->TOKey::trigger_activate_sound();
+    this->animation_frame = 0.0f;
     *(f32 *)((s8 *)this + 0xEC) = 0.0f;
 }
 
 void TLazerFenceSw::trigger_deactivate_sound() {
-    ((TOKey *)this)->TOKey::trigger_deactivate_sound();
-    ((TLazerFenceSw *)this)->animation_frame = 0.0f;
+    this->TOKey::trigger_deactivate_sound();
+    this->animation_frame = 0.0f;
     *(f32 *)((s8 *)this + 0xEC) = 0.0f;
 }
 
@@ -263,13 +247,14 @@ void *TLazerFenceSw::create() {
     return o;
 }
 
-void TLazerFenceSw__sub_80193C5C(void) {
+void free_lazer_fence_switch_resources(void) {
     if (lazer_fence_switch_bml_resource != 0) {
         free_bin_model_request(lazer_fence_switch_bml_resource, 1);
         lazer_fence_switch_bml_resource = 0;
     }
     TObjPlayer::free_if_valid(TLazerFenceSw__texture_list);
     TLazerFenceSw__texture_list = 0;
+}
 }
 
 #pragma push
@@ -301,10 +286,10 @@ void TLazerFenceSw::load_resources() {
             TLazerFenceSw__texture_list = (s32)load_gvm_texture_file((s32)lbl_80445D20);
         }
     }
-    lazer_fence_sw_ginja_model_table[0] = (s32)get_bml_model((s32)lazer_fence_switch_bml_resource, 0);
-    lazer_fence_sw_ginja_model_table[1] = (s32)get_bml_model((s32)lazer_fence_switch_bml_resource, 1);
-    lazer_fence_beam_motions[0] = get_bml_motion((s32)lazer_fence_switch_bml_resource, 0);
-    lazer_fence_beam_motions[1] = get_bml_motion((s32)lazer_fence_switch_bml_resource, 1);
+    lazer_fence_sw_ginja_model_table[0] = (s32)get_bml_model((BmlResource *)lazer_fence_switch_bml_resource, 0);
+    lazer_fence_sw_ginja_model_table[1] = (s32)get_bml_model((BmlResource *)lazer_fence_switch_bml_resource, 1);
+    lazer_fence_beam_motions[0] = (u32)get_bml_motion((BmlResource *)lazer_fence_switch_bml_resource, 0);
+    lazer_fence_beam_motions[1] = (u32)get_bml_motion((BmlResource *)lazer_fence_switch_bml_resource, 1);
     for (j = 0; j < 3; j++) {
         lazer_fence_beam_node_table[j] = 0;
     }
@@ -323,17 +308,14 @@ void TLazerFenceSw::load_resources() {
     lazer_fence_switch_scroll_node = (u8 *)find_object_node((NJS_OBJECT *)lazer_fence_sw_ginja_model_table[1], 3);
 }
 #pragma pop
-
-}
 TLazerFenceSw::~TLazerFenceSw() {
-    ((TObjCollidable *)this)->unregister_object_by_id();
+    this->unregister_object_by_id();
     free_collision_body_parts(this);
     ((CameraDistanceFade *)((s8 *)this + 0xF0))->CameraDistanceFade::~CameraDistanceFade();
 }
-extern "C" {
+
 #pragma push
 #pragma opt_common_subs off
-}
 TLazerFenceSw::TLazerFenceSw(TObject *arg1, void *arg2) : TOKey(arg1) {
     __ct__18CameraDistanceFadeFv((u8 *)this + 0xF0);
     *(s32 *)((s8 *)this + 0) = (s32)TLazerFenceSw__class_name;
@@ -342,17 +324,16 @@ TLazerFenceSw::TLazerFenceSw(TObject *arg1, void *arg2) : TOKey(arg1) {
         *(s32 *)((s8 *)this + 0x8C) = 0;
     }
     *(u16 *)((s8 *)this + 0xE8) = lbl_80445CB8[*(s32 *)((s8 *)this + 0x8C) % 4];
-    *(f32 *)((s8 *)this + 0xB8) = 2.0f;
+    this->animation_step = 2.0f;
     *(f32 *)((s8 *)this + 0xEC) = 0.0f;
     init_collision_body_parts(this, lazer_fence_sw_collision_body_part, 1);
     *(s32 *)((s8 *)this + 0x30) |= 0x40000000;
-    ((TObjPlayer *)this)->register_object_by_id();
+    this->register_object_by_id();
     ((CameraDistanceFade *)((u8 *)this + 0xF0))->reset();
     TLazerFenceSw__sub_8018A554((u8 *)this + 0xF0, 2.9e+02f);
     *(f32 *)((s8 *)this + 0x110) = 0.0f;
     *(s32 *)((s8 *)this + 0x114) = 0;
 }
-extern "C" {
+
 #pragma pop
 
-}

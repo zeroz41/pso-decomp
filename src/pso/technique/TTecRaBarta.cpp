@@ -1,12 +1,12 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/unk/text_8022BE64.h"
 #include "pso/technique/TTecRaBarta.h"
 #include "types.h"
-#include "pso/technique/TTecRaBarta.h"
+
 #include "pso/system/task/TObject.h"
 #include "pso/technique/TTecCtrl.h"
-#include "pso/technique/TTecRaBarta.h"
-extern "C" void *__dt__13TUnk_804CC148Fv(void *, s16);
+
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/unk/TLobby_80226070.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -23,11 +23,6 @@ extern "C" void *__dt__13TUnk_804CC148Fv(void *, s16);
 #include "pso/technique/TTecLuker.h"
 #include "pso/technique/TTecPlayerInfluence.h"
 #include "pso/player/TObjPlayer.h"
-
-struct RecoveredGlobal_80237194_lbl_8044D8EC {
-    s32 value;
-    u8 remaining[0x8];
-};
 
 struct HitInfo_80237900 { s32 type; f32 power; };
 
@@ -110,13 +105,6 @@ struct Obj_80237310
   void *fdc;
 };
 
-typedef struct Vec_80237494
-{
-  f32 x;
-  f32 y;
-  f32 z;
-} Vec_80237494;
-
 typedef struct Emitter_80237494
 {
   u32 entry;
@@ -156,7 +144,6 @@ struct RaBarta_802377FC {
 extern "C" {
 u16 get_entity_id(void *);
 
-void *__nw__7TObjectFUl(u32);
 void *get_bml_motion(void *, int);
 void *get_bml_model(void *, int);
 void attach_particle_model(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0);
@@ -170,10 +157,7 @@ extern Scale_802377FC lbl_804CC55C;
 void calc_parameters__11TTecRaBartaFv(RaBarta_802377FC *self);
 
 s32 play_sound_effect(s32, s32, s32, s32);
-void __dl__7TObjectFPv(void *);
 s32 update_technique_slot__10TTecRaFoieFl(s32, s32, s32);
-
-typedef char RecoveredGlobal_80237194_lbl_8044D8EC_size[sizeof(RecoveredGlobal_80237194_lbl_8044D8EC) == 0xC ? 1 : -1];
 
 typedef struct Obj_80237310 Obj_80237310;
 typedef struct Owner_80237310 Owner_80237310;
@@ -196,11 +180,10 @@ __declspec(section ".sdata2") extern const f32 lbl_805DC8C4;
 typedef struct Emitter_80237494 Emitter_80237494;
 typedef struct Profile_80237494 Profile_80237494;
 typedef struct Rabarta_80237494 Rabarta_80237494;
-typedef struct Vec_80237494 Vec_80237494;
 void TTecRaBarta::vfunc_8(void *pos) {
     Rabarta_80237494 *self = (Rabarta_80237494 *)this;
   u32 i;
-  Vec_80237494 point;
+  Vec point;
   Emitter_80237494 *binding;
   self->emitters = (void **)mem_alloc(rabarta_band_emitter_table[self->band].count * 4);
   for (i = 0; i < rabarta_band_emitter_table[self->band].count; i++)
@@ -227,7 +210,7 @@ void TTecRaBarta::vfunc_8(void *pos) {
   }
   if (self->band == 5)
   {
-    Vec_80237494 point2;
+    Vec point2;
     Emitter_80237494 *b2 = (Emitter_80237494 *)&lbl_8044DA28;
     f32 dy = lbl_805DC8C4;
     u32 id;
@@ -333,15 +316,11 @@ void TTecRaBarta::vfunc_6(void *target) {
 #define TTecRaBarta_class_name ((u32)TTecRaBarta_class_name)
 #define calc_parameters__11TTecRaBartaFv ((void (*)(void *))calc_parameters__11TTecRaBartaFv)
 
-struct Vec_80237DAC { f32 x, y, z; };
-
 typedef struct Ids_80237CCC { u8 pad[0xF8]; u16 ids[32]; } Ids_80237CCC;
-
-typedef struct Vec_80237FB8 { f32 x, y, z; } Vec_80237FB8;
 
 typedef struct TTecRaFoie_80237FB8 {
     u8 pad0[0x7C];
-    Vec_80237FB8 target;
+    Vec target;
     u8 pad1[0xEC - 0x88];
     s32 target_count;
     u16 first_id;
@@ -351,7 +330,7 @@ typedef struct TTecRaFoie_80237FB8 {
 
 typedef struct TObjPlayer_80237FB8 {
     u8 pad0[0x2FC];
-    Vec_80237FB8 pos;
+    Vec pos;
 } TObjPlayer_80237FB8;
 
 struct Eff_80237BD8 { u8 pad[0xc]; f32 scale; };
@@ -383,10 +362,8 @@ extern "C" {
 void *find_entity_by_id(u16 id);
 s32 apply_technique_to_area_targets__13TUnk_804CC148Fv(void *, int);
 
-u8 *construct_area_technique_base(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
 
 extern s32 __vt__11TTecRaBarta[];
-struct Profile_80237A94 { void *entries; u32 count; };
 struct Self_80237A94 {
     u8 pad0[0x18];
     void *vtable;
@@ -405,7 +382,7 @@ void create__11TTecRaBartaFPvPvPvPv(void *arg0, void *arg1, void *arg2, void *ar
 
 void create__11TTecRaBartaFPvPvPvPv(void *source, void *origin, void *pos, void *level) {
     void *o;
-    o = __nw__7TObjectFUl(0x13C);
+    o = TObject::operator new(0x13C);
     if (o != NULL) {
         TTecRaBarta__ct(o, source, origin, pos, level);
     }
@@ -413,7 +390,7 @@ void create__11TTecRaBartaFPvPvPvPv(void *source, void *origin, void *pos, void 
 
 void TTecRaBarta::create(void *arg1, void *arg2) {
     void *o;
-    o = __nw__7TObjectFUl(0x13C);
+    o = TObject::operator new(0x13C);
     if (o != NULL) {
         ((TTecRaBarta *)o)->construct_area(this, arg1, arg2);
     }
@@ -432,7 +409,7 @@ TTecRaBarta::~TTecRaBarta() {
     stop_sound_request((s32)((struct Self_80237A94 *)this)->emitters);
     mem_free(((struct Self_80237A94 *)this)->objs);
 }
-extern "C" {
+
 
 void TTecRaBarta::render() {  }
 
@@ -458,12 +435,11 @@ void TTecRaBarta::run_task() {
 
 #pragma push
 #pragma opt_common_subs off
-struct Vec_80237DAC;
 
 #define self ((Self_80237BD8 *)self_)
 void *TTecRaBarta__ct(void *self_, void *source, void *origin, void *pos, void *level) {
     s32 i;
-    typedef Vec_80237DAC *(*VecCopyFn_80237BD8)(void *, void *);
+    typedef Vec *(*VecCopyFn_80237BD8)(void *, void *);
     construct_area_technique_base((u8 *)self_, (s32)source, (s32)origin, (s32)pos, (s32)level);
     self->vt = __vt__11TTecRaBarta;
     self->f0 = TTecRaBarta_class_name;
@@ -509,7 +485,6 @@ void *TTecRaBarta::construct_area(void *source, void *origin, void *level) {
     return this;
 }
 
-}
 
 #undef calc_parameters__11TTecRaBartaFv
 

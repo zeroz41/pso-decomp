@@ -23,6 +23,6 @@ u8 *sealed_j_sword_create(u8 *item);
 
 // Constructs the slow curse timer event (vtable 0x804A05A8) on a weapon's
 // effect objects.
-extern "C" s32 slow_curse_timer_ct(s32 event, u32 effect_objects, u16 owner_client, s32 duration, f32 rate);
+s32 slow_curse_timer_ct(s32 event, u32 effect_objects, u16 owner_client, s32 duration, f32 rate);
 
 #endif

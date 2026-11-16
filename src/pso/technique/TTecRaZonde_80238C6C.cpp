@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/unk/text_8022BE64.h"
 #include "pso/technique/TTecRaZonde.h"
 #include "pso/system/vector.h"
 #include "pso/technique/TTecZonde.h"
@@ -20,11 +21,8 @@
 #include "pso/technique/TTecRaFoie.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
-
-struct RecoveredGlobal_80238388_lbl_8044DAF0 {
-    s32 value;
-    u8 remaining[0xC];
-};
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
+#include "pso/math/AngleLookup.h"
 
 struct RecoveredGlobal_80230D9C_lbl_804CC510
 {
@@ -49,7 +47,6 @@ struct RecoveredFields_80230D9C_arg0
 };
 
 #pragma fp_contract on
-struct Vec_80239070 { f32 x, y, z; };
 
 struct Eff_80239070 { u8 pad[0xC]; f32 scale; };
 
@@ -60,7 +57,7 @@ struct Self_80239070 {
     u8 pad4[0x18 - 0x4];
     void *vt;
     void *source;
-    Vec_80239070 pos;
+    Vec pos;
     u8 pad2c[0x78 - 0x2C];
     s16 level;
     s16 band;
@@ -71,7 +68,7 @@ struct Self_80239070 {
     u8 padb6[0xE8 - 0xB6];
     Holder_80239070 *holder;
     u8 padec[0xF0 - 0xEC];
-    Vec_80239070 pts[8];
+    Vec pts[8];
 };
 
 extern "C" {
@@ -81,10 +78,6 @@ extern RecoveredGlobal_80230D9C_lbl_804CC55C lbl_804CC55C;
 u16 get_entity_id(void *);
 void update_technique_slot__10TTecRaFoieFl(s32 handle, s32 pitch, s32 c);
 s32 play_sound_effect(s32 id, void *pos, s32 a, s32 b);
-void *__nw__7TObjectFUl(int);
-u8 *construct_area_technique_base(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
-f32 sin_table_lookup(s32);
-f32 cos_table_lookup(s32);
 f32 vector_length(void *);
 void normalize_vector(void *);
 extern void *__vt__11TTecRaZonde[];
@@ -92,7 +85,6 @@ extern s32 tl_07;
 void *TTecRaZonde__ct(void *self_, void *source, void *origin, void *level);
 #pragma push
 #pragma opt_common_subs off
-typedef char RecoveredGlobal_80238388_lbl_8044DAF0_size[sizeof(RecoveredGlobal_80238388_lbl_8044DAF0) == 0x10 ? 1 : -1];
 
 typedef struct RecoveredFields_80230D9C_arg0 RecoveredFields_80230D9C_arg0;
 typedef struct RecoveredGlobal_80230D9C_lbl_804CC510 RecoveredGlobal_80230D9C_lbl_804CC510;
@@ -104,25 +96,6 @@ typedef char RecoveredGlobal_80230D9C_lbl_804CC55C_size[((sizeof(RecoveredGlobal
 
 
 }
-struct RecoveredGlobal_802384E0_lbl_804CCB28;
-
-struct RecoveredGlobal_802384E0_lbl_804CCB28 { s32 value; u8 remaining[0x14]; };
-typedef char RecoveredGlobal_802384E0_lbl_804CCB28_size[sizeof(RecoveredGlobal_802384E0_lbl_804CCB28) == 0x18 ? 1 : -1];
-
-struct RecoveredGlobal_802385EC_lbl_804CCB28 { s32 value; u8 remaining[0x14]; };
-typedef char RecoveredGlobal_802385EC_lbl_804CCB28_size[sizeof(RecoveredGlobal_802385EC_lbl_804CCB28) == 0x18 ? 1 : -1];
-
-struct RecoveredGlobal_80238D10_lbl_804CC510
-{
-  s32 value;
-  u8 remaining[0x48];
-};
-
-struct RecoveredGlobal_80238D10_lbl_804CC55C
-{
-  s32 value;
-  u8 remaining[0x94];
-};
 
 struct RecoveredFields_80238D10_arg0
 {
@@ -133,8 +106,6 @@ struct RecoveredFields_80238D10_arg0
   u8 unknown_8C[0x20];
   s16 field_AC;
 };
-
-typedef struct Point_80238C6C { f32 x, y, z; } Point_80238C6C;
 
 struct Entry_80238C6C { s32 entry; u8 pad[8]; };
 
@@ -154,7 +125,7 @@ struct Self_80238C6C {
     s16 band;
     u8 pad1[0xEC - 0x7C];
     s32 *emitters;
-    Point_80238C6C points[8];
+    Vec points[8];
 };
 
 struct Elec_80238E14 { s32 type; f32 val; };
@@ -190,14 +161,9 @@ extern "C" {
 void *find_entity_by_id(u16 id);
 void update_technique_slot__10TTecRaFoieFl(s32, s32, s32);
 s32 play_sound_effect(s32, void *, s32, s32);
-void *create_particle_emitter(void *pos, s32 id);
-void *mem_alloc(u32 size);
+TParticleCtrl *create_particle_emitter(const void *pos, s32 id);
 
 typedef struct RecoveredFields_80238D10_arg0 RecoveredFields_80238D10_arg0;
-typedef struct RecoveredGlobal_80238D10_lbl_804CC510 RecoveredGlobal_80238D10_lbl_804CC510;
-typedef struct RecoveredGlobal_80238D10_lbl_804CC55C RecoveredGlobal_80238D10_lbl_804CC55C;
-typedef char RecoveredGlobal_80238D10_lbl_804CC510_size[((sizeof(RecoveredGlobal_80238D10_lbl_804CC510)) == 0x4C) ? (1) : (-1)];
-typedef char RecoveredGlobal_80238D10_lbl_804CC55C_size[((sizeof(RecoveredGlobal_80238D10_lbl_804CC55C)) == 0x98) ? (1) : (-1)];
 
 #pragma push
 #pragma opt_common_subs off
@@ -261,7 +227,7 @@ void spawn_particle_effect(void *, s32, void *);
 void run_task__11TTecRaZondeFv(Obj_80238F84 *self);
 void TTecRaZonde::create(void *origin, void *level) {
     void *o;
-    o = __nw__7TObjectFUl(0x150);
+    o = TObject::operator new(0x150);
     if (o != NULL) {
         TTecRaZonde__ct(o, this, origin, level);
     }
@@ -276,10 +242,6 @@ struct Self_80238EC8 {
     u8 pad2[0xEC - 0x7C];
     void **objs;
 };
-extern "C" {
-void mem_free(void *);
-
-}
 TTecRaZonde::~TTecRaZonde() {
     u32 i;
     for (i = 0; i < ((RProfile_80238F84 *)TTecRaZonde__band_profile_table)[((Self_80238EC8 *)this)->band].count; i++) {
@@ -328,8 +290,8 @@ void *TTecRaZonde__ct(void *self_, void *source, void *origin, void *level) {
     s32 j;
     f32 r;
     f32 len;
-    Vec_80239070 a;
-    Vec_80239070 b;
+    Vec a;
+    Vec b;
     construct_area_technique_base((u8 *)self_, (s32)source, (s32)origin, (s32)origin, (s32)level);
     self->vt = __vt__11TTecRaZonde;
     self->f0 = (u32)TTecRaZonde_class_name;
@@ -365,13 +327,13 @@ void *TTecRaZonde__ct(void *self_, void *source, void *origin, void *level) {
             normalize_vector(&b);
         }
         {
-            u8 *o = (u8 *)__nw__7TObjectFUl(0x260);
+            u8 *o = (u8 *)TObject::operator new(0x260);
             if (o != 0) {
                 ((TTecZonde *)o)->construct_bolt_effect((u8 *)tl_07, (u8 *)&a, (u8 *)&b, 0x14000000, 6, len, (5.0f));
             }
         }
         if (self->band == 5) {
-            u8 *o = (u8 *)__nw__7TObjectFUl(0x260);
+            u8 *o = (u8 *)TObject::operator new(0x260);
             if (o != 0) {
                 ((TTecZonde *)o)->construct_bolt_effect((u8 *)tl_07, (u8 *)&a, (u8 *)&b, 0x14000000, 6, len, (0.5f));
             }

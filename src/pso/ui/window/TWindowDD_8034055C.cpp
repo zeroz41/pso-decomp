@@ -17,11 +17,6 @@ extern const f32 lbl_805DFC04;
 extern const f32 lbl_805DFC08;
 extern const f32 lbl_805DFC2C;
 void __dl__7TObjectFPv(void *);
-void *__nw__7TObjectFUl(int);
-}
-
-extern "C" {
-
 void TWindowDD__sub_803489B8(void *ctx, E_803403F8 *points, s32 row);
 extern s32 lbl_805D63F0;
 extern const f32 TWindowDD__data_805DFB20;
@@ -180,7 +175,7 @@ void TWindowDD::set_clamped_selection(s32 arg1) {
 void *__dt__13TUnk_804EFBACFv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = lbl_804EFBAC;
-        ((TWindowDD *)arg0)->destroy_window_base(0);
+        __dt__11TWindowBaseFv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
         }
@@ -202,7 +197,7 @@ void *TWindowDD::construct_variant_a(void *arg0v) {
 }
 
 void *TWindowDD::create() {
-    void *o = __nw__7TObjectFUl(0x6C);
+    void *o = TObject::operator new(0x6C);
     if (o != NULL) {
         o = TWindowDD::construct_variant_a(o);
     }

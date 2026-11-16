@@ -21,8 +21,8 @@
 #include "pso/boss/olgaflow/TBoss6Demo20_TYPE2_APPEAR.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/unk/text_80087278.h"
-#include "pso/system/task/TObject.h"
-#include "pso/object/ambient/TObjFish.h"
+
+
 struct RecoveredGlobal_8033DCA8_lbl_80477F2C { s32 value; u8 remaining[8]; };
 struct RecoveredGlobal_8033DCA8_lbl_804EFA08 { s32 value; u8 remaining[8]; };
 extern const RecoveredGlobal_8033DCA8_lbl_80477F2C boss6_type2_appear_origin;
@@ -170,11 +170,9 @@ void render__25TBoss6Demo20_TYPE2_APPEARFv(void* p) { ((TBoss6Demo20_TYPE2_APPEA
 
 struct O_8033D9E4 { u8 pad[0x18]; void *f18; u8 pad2[0x7C - 0x1C]; void *f7c; void *h[9]; };
 
-typedef struct Vec_8033D6DC { f32 x, y, z; } Vec_8033D6DC;
-
 typedef struct O_8033D6DC {
     u8 pad0[0x1C];
-    Vec_8033D6DC pos[3];
+    Vec pos[3];
     u8 obj40[0x30];
     u8 obj70[0x10];
     void *h[9];
@@ -299,8 +297,8 @@ O_8033D9E4 *__dt__25TBoss6Demo20_TYPE2_APPEARFv(O_8033D9E4 *arg0, s16 arg1) {
 
 extern "C" {
 s32 get_bml_motion(int, int);
-s32 TObjFish__sub_8001EDB0(int, int);
-s32 get_bml_model(int, int);
+s32 get_bml_texlist(BmlResource *resource, s32 index);
+s32 get_bml_model(BmlResource *resource, s32 index);
 void set_scripted_camera_pose(void *, void *, void *);
 void __ct__7TObjectFP7TObject(void *);
 extern const u8 boss6_type2_appear_model_node_descriptors[];
@@ -311,7 +309,6 @@ extern s32 lbl_804DF614[];
 __declspec(section ".data") extern s32 boss6_type2_appear_motion_indices[];
 struct AppearanceClassTag { const char *value; u32 padding; };
 __declspec(section ".sdata") extern AppearanceClassTag TBoss6Demo20_TYPE2_APPEAR__name;
-void *__nw__7TObjectFUl(int);
 
 #pragma push
 #pragma opt_lifetimes off
@@ -339,19 +336,19 @@ u8 *TBoss6Demo20_TYPE2_APPEAR__ct(TBoss6Demo20_TYPE2_APPEAR *boss6_demo20_type2_
         {
             s32 t = lbl_804DF614[i];
             v = t;
-            self->t[i].a = get_bml_model(count, t);
+            self->t[i].a = get_bml_model((BmlResource *)count, t);
         }
-        self->t[i].b = TObjFish__sub_8001EDB0(count, v);
+        self->t[i].b = get_bml_texlist((BmlResource *)count, v);
         self->t[i].c = get_bml_motion(count, boss6_type2_appear_motion_indices[i]);
     }
-    boss6_demo20_type2_appear->m_bc = get_bml_model(count, 4);
-    *(s32 *)((s8 *)boss6_demo20_type2_appear + 0xC0) = TObjFish__sub_8001EDB0(count, 4);
+    boss6_demo20_type2_appear->m_bc = get_bml_model((BmlResource *)count, 4);
+    *(s32 *)((s8 *)boss6_demo20_type2_appear + 0xC0) = get_bml_texlist((BmlResource *)count, 4);
     boss6_demo20_type2_appear->m_c4 = get_bml_motion(count, 0x20);
-    *(s32 *)((s8 *)boss6_demo20_type2_appear + 0xC8) = get_bml_model(count, 1);
-    boss6_demo20_type2_appear->m_cc = TObjFish__sub_8001EDB0(count, 1);
+    *(s32 *)((s8 *)boss6_demo20_type2_appear + 0xC8) = get_bml_model((BmlResource *)count, 1);
+    boss6_demo20_type2_appear->m_cc = get_bml_texlist((BmlResource *)count, 1);
     *(s32 *)((s8 *)boss6_demo20_type2_appear + 0xD0) = get_bml_motion(count, 0x36);
-    boss6_demo20_type2_appear->m_d4 = get_bml_model(count, 0xC);
-    *(s32 *)((s8 *)boss6_demo20_type2_appear + 0xD8) = TObjFish__sub_8001EDB0(count, 0xC);
+    boss6_demo20_type2_appear->m_d4 = get_bml_model((BmlResource *)count, 0xC);
+    *(s32 *)((s8 *)boss6_demo20_type2_appear + 0xD8) = get_bml_texlist((BmlResource *)count, 0xC);
     boss6_demo20_type2_appear->m_dc = get_bml_motion(count, 0x22);
     boss6_demo20_type2_appear->m_7c = TObjFish__sub_800E3124((u8 *)boss6_type2_appear_model_node_descriptors, (s32)((u8 *)boss6_demo20_type2_appear + 0x1C));
     for (i = 0; i < 9; i++) {
@@ -369,7 +366,7 @@ u8 *TBoss6Demo20_TYPE2_APPEAR__ct(TBoss6Demo20_TYPE2_APPEAR *boss6_demo20_type2_
 #pragma pop
 
 void *create_boss6_type2_appearance(void *arg0) {
-    void *o = __nw__7TObjectFUl(0xF0);
+    void *o = TObject::operator new(0xF0);
     if (o != NULL) {
         o = TBoss6Demo20_TYPE2_APPEAR__ct((TBoss6Demo20_TYPE2_APPEAR *)((u8 *)o), (s32)arg0);
     }

@@ -12,11 +12,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/quest/TQuestThread.h"
 #include "pso/system/task/TObject.h"
-
-struct RecoveredGlobal_80339480_lbl_804EF500 {
-    s32 value;
-    u8 remaining[0x94];
-};
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 
 static const f32 TAdEnterPPPPassGC__selection_positions[4][2] = {{155.0f, 231.0f}, {155.0f, 251.0f}, {87.0f, 231.0f}, {87.0f, 251.0f}};
 const char *TAdEnterPPPPassGC__name = "TAdEnterPPPPassGC";
@@ -46,7 +42,7 @@ void strncpy(s32, s32, s32);
 s32 memset(void *, int, int);
 extern TAdEnterBaseGC::Position password_screen_status_line_position[];
 s32 create_default_callback__22TAdEnterSerialAccessGCFv(void *);
-void TKeyBoardControl__sub_8000F9CC(int);
+void request_main_phase(int);
 s32 TLobby__sub_80145A94(void);
 s32 TLobby__sub_80145DB4(int);
 s8 *TLobby__sub_80146D14(void);
@@ -58,7 +54,6 @@ T_8033954C *TAdEnterPPPPassGC__ct(T_8033954C *arg0);
 char *realloc_buffer__17TWindowSubComCardFv(u8 *);
 void mem_free(void *);
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
-s32 TWindowShortListCtrl__check_controller_button(void *, int);
 void play_sound_effect(int, int, int, int);
 s32 forward_input__22TAdEnterSerialAccessGCFPv(void *, int, char *);
 s32 strlen(const char *);
@@ -101,9 +96,6 @@ void close_windows_and_advance__17TAdEnterPPPPassGCFPv(u8 *arg0) {
 
 int forward_chg_game_mode__17TAdEnterPPPPassGCFPv(void* p) { return reset_mode_state__21TAdMultiChgGameModeGCFv(p); }
 int request_transition__17TAdEnterPPPPassGCFPv(void* p) { return request_transition__21TAdMultiChgGameModeGCFv(p); }
-
-typedef char RecoveredGlobal_80339480_lbl_804EF500_size[sizeof(RecoveredGlobal_80339480_lbl_804EF500) == 0x98 ? 1 : -1];
-
 
 void update_password_input__17TAdEnterPPPPassGCFPv(u8 *ad_enter_serial_access_gc) {
     char *buf;
@@ -208,15 +200,15 @@ void set_password__17TAdEnterPPPPassGCFi(s32 arg0) {
     strncpy((s32) ppp_password_buffer, arg0, 0x1F);
 }
 
-void *__dt__17TAdEnterPPPPassGCFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__17TAdEnterPPPPassGC;
-        __dt__14TAdEnterBaseGCFv(arg0, 0);
+void *__dt__17TAdEnterPPPPassGCFv(void *ad_enter_base_gc, s16 arg1) {
+    if (ad_enter_base_gc != NULL) {
+        *(s32 **)((s8 *)ad_enter_base_gc + 0x18) = __vt__17TAdEnterPPPPassGC;
+        __dt__14TAdEnterBaseGCFv(ad_enter_base_gc, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(ad_enter_base_gc);
         }
     }
-    return arg0;
+    return ad_enter_base_gc;
 }
 T_8033954C *TAdEnterPPPPassGC__ct(T_8033954C *ad_enter_base_gc) {
     s32 ok;
@@ -229,7 +221,7 @@ T_8033954C *TAdEnterPPPPassGC__ct(T_8033954C *ad_enter_base_gc) {
     if (TLobby__sub_80145A94() != 0) {
         TLobby::init_account_entries();
     } else {
-        TKeyBoardControl__sub_8000F9CC(0x13);
+        request_main_phase(0x13);
         ((TObject *)ad_enter_base_gc)->queue_destruction();
         return ad_enter_base_gc;
     }

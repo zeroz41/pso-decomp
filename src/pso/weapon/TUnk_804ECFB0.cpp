@@ -67,9 +67,9 @@ TUnk_804ECFB0::TUnk_804ECFB0(TObject *parent, u8 *item) : TItemWeapon(parent, it
     pad_1f8 = 0;
 }
 
-u8 *dark_bridge_create(u8 *arg0) {
-    if (arg0 != NULL) {
-        return (u8 *)new TUnk_804ECFB0(tl_05, arg0);
+u8 *dark_bridge_create(u8 *item) {
+    if (item != NULL) {
+        return (u8 *)new TUnk_804ECFB0(tl_05, item);
     }
     return NULL;
 }

@@ -1,4 +1,6 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/object/base/TObjMotion.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/enemy/balclaw/TObjEneBalClaw.h"
@@ -18,22 +20,21 @@
 #include "pso/unk/TLobby.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/unk/text_803D96A8.h"
+#include "pso/system/task/TObject.h"
 
 
 extern "C" {
-void obj_clearFlags30__8TObjBaseFUl(void *, u32);
 int update_if_active__15TObjEnemyCustomFl(void *, int);
 void move_along_ground_avoiding_walls__15TObjEnemyCustomF3Vecff(void *, Vec, void *, f32, f32);
 void select_enemy_destination(void *, Vec *, s32);
 void enemy_turn_half_toward_dest(void *);
 u8 *get_enemy_entity(u16 arg0);
 s32 post_translate_matrix(void *);
-s32 draw_chunk_object(s32);
-s32 restore_scene_lighting();
-s32 select_actor_lighting(void *);
+void draw_chunk_object(void *child);
+void restore_scene_lighting(void);
+void select_actor_lighting(s32 obj);
 s32 push_matrix();
 extern s32 model_render_flags;
-void queue_destruction__7TObjectFv(void *);
 void TObjPlayer__sub_800A04F0(void *);
 void TObjEneBalClawClaw__sub_80091134(TObjEneBalClawClaw *claw);
 s32 check_path_obstructed(void *, void *);
@@ -72,7 +73,7 @@ const char *balclaw_claw_class_name = "TObjEneBalClawClaw";
 
 TObjEneBalClawClaw::TObjEneBalClawClaw(TObject *parent, void *set_data) : TObjEneBalClaw(parent) {
     apply_set_data(set_data);
-    TObjEneBalClawClaw__ct(this);
+    sub_80091A38();
     if (*(s16 *)((s8 *)set_data + 0xA) != 0) {
         sub_800C7860();
     }
@@ -91,7 +92,7 @@ TObjEneBalClawClaw::TObjEneBalClawClaw(TObject *parent, TObjEneBalClaw *body, s3
     rotation_z = 0;
     rotation_x = 0;
     rotation_y = rot_y;
-    TObjEneBalClawClaw__ct(this);
+    sub_80091A38();
     set_entry = NULL;
     m_3b8 = body->m_3b8;
     m_3bc = body->m_3bc;
@@ -99,35 +100,35 @@ TObjEneBalClawClaw::TObjEneBalClawClaw(TObject *parent, TObjEneBalClaw *body, s3
     sub_80090798();
 }
 
-void TObjEneBalClawClaw__ct(TObjEneBalClawClaw *claw) {
-    claw->m_name = balclaw_claw_class_name;
-    claw->motion_list = lbl_805D4F20->motions;
-    claw->action_table = balclaw_claw_model_node_desc;
-    claw->set_field_d8((s32)claw->action_table);
-    init_collision_body_parts(claw, &TObjEneBalClawClaw__collision_body_template, 1);
-    claw->variant = 0;
-    claw->movementParameters = &lbl_8048F100;
-    claw->bind_enemy_combat_stats(lbl_805D4F28, lbl_805D4F2C, lbl_805D4F30);
-    claw->sub_80090824();
-    claw->requested_action = 0;
-    claw->set_animation(claw->requested_action);
-    claw->set_field_b8(claw->requested_action);
-    claw->hp = claw->hpmax;
-    claw->tp = claw->tpmax;
-    claw->referenceHp = claw->hp;
-    claw->set_param(0x26);
-    VecCopy((Vec *)&claw->m_2fc, &claw->position);
-    claw->m_300 += 5.0f;
-    ((TBoss3Volopt *)claw)->reset_photon_effect();
-    claw->sub_80090418(2);
-    claw->m_3b8 = 0;
-    claw->m_3bc = 0.0f;
-    claw->m_3ac = 15.0f;
-    claw->m_3b0 = 40.0f;
-    claw->m_3b4 = claw->m_3ac;
-    claw->clear_attack_flag();
-    VecCopy((Vec *)&claw->m_290, (const Vec *)VecCopy((Vec *)&claw->m_29c, &claw->position));
-    claw->clear_lobby_object_state();
+void TObjEneBalClawClaw::sub_80091A38() {
+    this->m_name = balclaw_claw_class_name;
+    this->motion_list = lbl_805D4F20->motions;
+    this->action_table = balclaw_claw_model_node_desc;
+    this->set_field_d8((s32)this->action_table);
+    init_collision_body_parts(this, &TObjEneBalClawClaw__collision_body_template, 1);
+    this->variant = 0;
+    this->movementParameters = &lbl_8048F100;
+    this->bind_enemy_combat_stats(lbl_805D4F28, lbl_805D4F2C, lbl_805D4F30);
+    this->sub_80090824();
+    this->requested_action = 0;
+    this->set_animation(this->requested_action);
+    this->set_field_b8(this->requested_action);
+    this->hp = this->hpmax;
+    this->tp = this->tpmax;
+    this->referenceHp = this->hp;
+    this->set_param(0x26);
+    VecCopy((Vec *)&this->m_2fc, &this->position);
+    this->m_300 += 5.0f;
+    ((TBoss3Volopt *)this)->reset_photon_effect();
+    this->sub_80090418(2);
+    this->m_3b8 = 0;
+    this->m_3bc = 0.0f;
+    this->m_3ac = 15.0f;
+    this->m_3b0 = 40.0f;
+    this->m_3b4 = this->m_3ac;
+    this->clear_attack_flag();
+    VecCopy((Vec *)&this->m_290, (const Vec *)VecCopy((Vec *)&this->m_29c, &this->position));
+    this->clear_lobby_object_state();
 }
 
 TObjEneBalClawClaw::~TObjEneBalClawClaw() {
@@ -397,7 +398,7 @@ void TObjEneBalClawClaw__sub_80091134(TObjEneBalClawClaw *claw) {
         if (claw->fade.decay_value_toward_floor() == 1) {
             TObjPlayer::apply_effect_variant_a((s32)&claw->position, 0);
             claw->send_entity_set_flags();
-            queue_destruction__7TObjectFv(claw);
+            claw->queue_destruction();
         }
         break;
     case -1:
@@ -524,7 +525,7 @@ void TObjEneBalClawClaw::render() {
         if (detail != 0) {
             shadow = 1;
             TObjFish::set_global_param(texlist);
-            select_actor_lighting(this);
+            select_actor_lighting((s32)this);
             TObjPlayer::toggle_particle_effect();
             push_matrix();
             model_render_flags &= 0xFFFFFBFF;
@@ -532,7 +533,7 @@ void TObjEneBalClawClaw::render() {
                 post_translate_matrix(&position);
                 rotate_matrix_x(0, rotation_x);
                 rotate_matrix_y(0, rotation_y);
-                draw_chunk_object((s32)model);
+                draw_chunk_object(model);
             } else {
                 translate_matrix(0, 0.0f, m_3b4 + m_3bc, 0.0f);
                 post_translate_matrix(&position);
@@ -671,7 +672,7 @@ void TObjEneBalClawClaw::set_claw_flags() {
 
 void TObjEneBalClawClaw::sub_80090798() {
     m_388 &= 0xEFFFFFFF;
-    obj_clearFlags30__8TObjBaseFUl(this, 0x06040000);
+    obj_clearFlags30(0x06040000);
     next_action = 0xB;
 }
 

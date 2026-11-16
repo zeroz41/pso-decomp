@@ -222,7 +222,6 @@ public:
     void set_field_1c();
     void spawn_child_object();
     static void free_resources();
-    int get_flag_bit6();
     void fill_follow_camera_params(u8 *arg1, u8 *arg2);
     static int get_instance_count();
     void init_color();
@@ -249,7 +248,7 @@ public:
     void send_swapped_packet();
     void bswap_packet();
     void copy_position(s32 arg1);
-    int queue_destruction();
+    void queue_destruction();
     static void trigger_switches_in_range(void *arg0, void *arg1, void *arg2);
     static s32 calc_binomial_coefficient(s32 n, s32 k);
     void play_animation_index(s32 arg1);
@@ -310,5 +309,18 @@ typedef char TBoss8DragonFadeOffset[(offsetof(TBoss8Dragon, renderFadeStates) ==
 typedef char TBoss8DragonSize[(sizeof(TBoss8Dragon) == 0x8A4) ? 1 : -1];
 typedef char TBoss8DragonSubTasksOffset[(offsetof(TBoss8Dragon, sub_tasks) == 0x3C4) ? 1 : -1];
 typedef char TBoss8DragonAfterFadeOffset[(offsetof(TBoss8Dragon, m_74c) == 0x74C) ? 1 : -1];
+
+// boss8_dragon_reference_pos_vec: layout known from its uses only.
+struct Boss8DragonReferencePosVec { s32 value; u8 remaining[0x8]; };
+extern Boss8DragonReferencePosVec boss8_dragon_reference_pos_vec;
+// dragon_forward_reference_vec: layout known from its uses only.
+struct DragonForwardReferenceVec { s32 value; u8 remaining[0x8]; };
+extern DragonForwardReferenceVec dragon_forward_reference_vec;
+// lbl_80541DE8: layout known from its uses only.
+struct RecoveredGlobal_lbl_80541DE8 { Vec value; };
+extern RecoveredGlobal_lbl_80541DE8 lbl_80541DE8;
+// lbl_80541DF4: layout known from its uses only.
+struct RecoveredGlobal_lbl_80541DF4 { Vec value; Vec unkC; Vec unk18; };
+extern RecoveredGlobal_lbl_80541DF4 lbl_80541DF4;
 
 #endif

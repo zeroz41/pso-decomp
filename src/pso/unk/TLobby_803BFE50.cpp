@@ -1,17 +1,8 @@
 #include "types.h"
+#include "pso/unk/TLobby_803BFE50.h"
 #include "pso/audio/SjRingBuffer.h"
 #include "pso/unk/TLobby.h"
-#include "pso/unk/TLobby.h"
 
-struct RecoveredGlobal_803C0B08_lbl_80570AC0 {
-    s32 value;
-    u8 remaining[0x9BC];
-};
-
-struct RecoveredGlobal_803C0AD8_lbl_80570AC0 {
-    s32 value;
-    u8 remaining[0x9BC];
-};
 
 struct Obj_803C07E8 { u8 a; s8 b; };
 
@@ -154,7 +145,7 @@ void TLobby__sub_803C39CC(u8 *arg0);
 void TLobby__sub_803C0758(u8 *arg0);
 s32 TLobby__sub_803C1A00(int);
 s32 memset(void *, int, int);
-RecoveredGlobal_803C0B08_lbl_80570AC0 lbl_80570AC0;
+RecoveredGlobal_lbl_80570AC0 lbl_80570AC0;
 void TLobby__sub_803C406C(void);
 void TLobby__sub_803C133C(Snd_803C0BE8 *arg0);
 void TLobby__sub_803C0B3C(u8 *arg0);
@@ -167,11 +158,11 @@ void TLobby__sub_803C0628(void *arg0_, s32 *arg1, s32 *arg2, s32 *arg3);
 void EXIGetID(Snd_803C0BE8 *arg0);
 void GXFlush(void);
 void TLobby__sub_803C0238(AudioStreamInputState *st);
-s32 TLobby__sub_803C3B68(TLobby *decoder, u16 *hdr, s32 size);
+s32 TLobby__sub_803C3B68(s32 arg0, u16 *hdr, s32 size);
 void TLobby__sub_803D3130(SjChunk *chunk, s32 size, SjChunk *head, SjChunk *tail);
 void *memcpy(void *, const void *, u32);
 void process_audio_stream_input(AudioStreamInputState *arg0);
-TLobby *alloc_record__6TLobbyFiiii(s32 channels, u8 *buffer, s32 size, s32 total);
+TLobby *alloc_record__6TLobbyFllll(s32 channels, u8 *buffer, s32 size, s32 total);
 void TLobby__sub_803C3B5C(TLobby *decoder, void (*callback)(void *, s32 *, s32 *, s32 *), void *context);
 AudioStreamInputState *TLobby__sub_803C0848(AudioStreamSource *source, s32 channels, SjRingBuffer **rings);
 s32 TLobby::get_offset_58() {
@@ -267,7 +258,7 @@ inline void parse_audio_stream_input_header(AudioStreamInputState *st) {
         s->vt->unget_chunk(s, 1, &b);
         return;
     }
-    n = TLobby__sub_803C3B68(h, (u16 *)b.data, b.size);
+    n = TLobby__sub_803C3B68((s32)h, (u16 *)b.data, b.size);
     if (n == 0 || n > b.size) {
         s->vt->unget_chunk(s, 1, &b);
         return;
@@ -480,7 +471,7 @@ AudioStreamInputState *TLobby__sub_803C0848(AudioStreamSource *source, s32 chann
     st = &((AudioStreamInputState *)&lbl_80570AC0)[i];
     buffer = sj_ring_buffer_get_buffer(ring);
     size = sj_ring_buffer_get_buffer_size(ring) / 2;
-    st->decoder = alloc_record__6TLobbyFiiii(channels, buffer, size, size + sj_ring_buffer_get_extra_buffer_size(ring) / 2);
+    st->decoder = alloc_record__6TLobbyFllll(channels, buffer, size, size + sj_ring_buffer_get_extra_buffer_size(ring) / 2);
     if (st->decoder == NULL) {
         return NULL;
     }
@@ -509,7 +500,7 @@ AudioStreamInputState *TLobby__sub_803C0848(AudioStreamSource *source, s32 chann
 }
 
 void TLobby::clear_session_buffer() {
-    memset((void *) (&(*(RecoveredGlobal_803C0AD8_lbl_80570AC0 *)&lbl_80570AC0).value), 0, 0x9C0);
+    memset((void *) (&lbl_80570AC0.value), 0, 0x9C0);
 }
 void TLobby::reset_sound_buffers() {
     TLobby__sub_803C406C();
@@ -649,8 +640,5 @@ void TLobby__sub_803C133C(Snd_803C0BE8 *arg0) {
         arg0->state = 3;
     }
 }
-
-typedef char RecoveredGlobal_803C0B08_lbl_80570AC0_size[sizeof(RecoveredGlobal_803C0B08_lbl_80570AC0) == 0x9C0 ? 1 : -1];
-typedef char RecoveredGlobal_803C0AD8_lbl_80570AC0_size[sizeof(RecoveredGlobal_803C0AD8_lbl_80570AC0) == 0x9C0 ? 1 : -1];
 
 }

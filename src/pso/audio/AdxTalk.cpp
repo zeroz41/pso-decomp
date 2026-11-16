@@ -1,4 +1,8 @@
 #include <dolphin/os/OSThread.h>
+#include "pso/audio/AdxHeader.h"
+#include "pso/audio/AdxStream.h"
+#include "pso/audio/AdxTalk.h"
+#include "pso/unk/TLobby_803BFE50.h"
 #include "pso/unk/TLobby.h"
 #include "pso/audio/AdxStreamRuntime.h"
 #include "pso/audio/AdxmThreadStorage.h"
@@ -36,21 +40,7 @@ extern "C" {
 s32 TLobby__sub_803D3130(void *, s32, Pair_803C8678 *, Pair_803C8678 *);
 s32 memset(void *, int, int);
 s32 TLobby__sub_803C9104(Obj_803C9104 *arg0, s32 arg1, s32 arg2);
-}
-
-extern "C" {
-void TLobby__sub_803C89C4(u8 *arg0);
-void TLobby__sub_803C8B38(u8 *arg0);
-void TLobby__sub_803C9DB4(u8 *arg0);
-s32 ARStartDMA(u8 *arg0, s32 arg1, s16 *arg2, u8 *arg3, s8 *arg4, s8 *arg5, u8 *arg6, s32 *arg7, s32 *arg8, s32 *arg9);
-s32 adx_get_data_start_offset(u16 *arg0, s32 arg1, s32 *arg2);
-s32 set_range__6TLobbyFPvii(u8 *arg0, s32 arg1, s32 arg2);
-void TLobby__sub_803C9608(void);
 s32 set_global_805D7520__6TLobbyFl();
-
-}
-
-extern "C" {
 
 void TLobby::on_set_mode() {
     set_global_805D7520__6TLobbyFl();
@@ -97,7 +87,7 @@ s32 TLobby::check_packet_header_8001(u16 *p, s32 size, s32 *out) {
     *out = size;
     return 1;
 }
-s32 adx_get_data_start_offset(u16 *arg0, s32 arg1, s32 *arg2) {
+s32 adx_get_data_start_offset(u16 *hdr, s32 size, s32 *arg2) {
     s32 a7;
     s32 a8;
     s32 a9;
@@ -106,13 +96,13 @@ s32 adx_get_data_start_offset(u16 *arg0, s32 arg1, s32 *arg2) {
     s8 b4;
     s8 b5;
     u8 b6;
-    if (arg1 < 2) {
+    if (size < 2) {
         return 0;
     }
-    if (*arg0 != 0x8000) {
+    if (*hdr != 0x8000) {
         return 0;
     }
-    if (ARStartDMA((u8 *)arg0, arg1, &len, &b3, &b4, &b5, &b6, &a7, &a8, &a9) < 0) {
+    if (ARStartDMA((u8 *)hdr, size, &len, &b3, &b4, &b5, &b6, &a7, &a8, &a9) < 0) {
         return 0;
     }
     *arg2 = len;
@@ -260,27 +250,18 @@ struct Ch_803CA3C4 {
     u8 pad99[0xA8 - 0x99];
 };
 
-extern "C" {
-
 extern s32 lbl_805D7540;
-}
 
 extern "C" {
 s32 TLobby__sub_803CC030(int, int);
 s32 dispatch_packet__6TLobbyFv(int, int);
-s8 TLobby__sub_803C9CB0(u8 *arg0);
-void TLobby__sub_803C0758(u8 *arg0);
 void configure_audio_stream_output(Stream_803C9FCC *self);
 s16 TLobby__sub_803C96E0(Obj_803C96E0 *self, s32 i);
 s32 TLobby__sub_803CBF50(void *);
-void GXFlush(void);
 void TLobby__sub_803CA8B4(Ent_803C9608 *);
 extern Ent_803C9608 adx_stream_player_pool[16];
 
-void TLobby__sub_803C97F4(u8 *arg0, s32 *pos, s32 *rate);
 s32 TLobby__sub_803CBF10(int);
-s32 TLobby__sub_803C9358(u8 *arg0);
-void TLobby__sub_803C94DC(u8 *arg0, s32 arg1);
 void TLobby__sub_803C9E38(Obj_803C9E38 *arg0, VObj_803C9E38 *arg1);
 s32 lbl_805D7560;
 s32 lbl_805D7564;
@@ -292,13 +273,6 @@ void TLobby__sub_803CA194(Obj_803CA194 *arg0);
 void *TLobby__sub_803C0848(void *, s32, void *);
 void *run_step_5210__6TLobbyFv(void *, s32);
 Ch_803CA3C4 *adx_create_stream_player(s32 n, s32 base, s32 size);
-void TLobby__sub_803C9350(u8 *arg0, s32 arg1);
-void TLobby__sub_803C94B8(void);
-void TLobby__sub_803C94D8(void);
-void TLobby__sub_803C96A8(u8 *arg0, s32 arg1);
-s16 TLobby__sub_803C96B0(u8 *arg0);
-s32 TLobby__sub_803C9740(u8 *arg0);
-s32 TLobby__sub_803C97B8(u8 *arg0);
 s32 notify_field_4__6TLobbyFv(int);
 s32 send_packet_by_id__6TLobbyFv(int);
 s32 send_with_offset4__6TLobbyFv(int);
@@ -488,7 +462,6 @@ struct Adxt_803C97F4 {
 };
 
 extern "C" {
-s32 TLobby__sub_803C0010(u8 *arg0);
 s32 send_packet_by_id_2__6TLobbyFv(int);
 s32 query_available_size__6TLobbyFv(int);
 u32 lbl_805D4678 = 1;
@@ -620,7 +593,7 @@ void stop_audio_stream(u8 *arg0) {
     TLobby::release_ref();
 }
 #pragma pop
-extern "C" {
+
 
 void TLobby__sub_803C9DB4(u8 *arg0) {
     void **temp_r3;
@@ -877,12 +850,4 @@ Ch_803CA3C4 *adx_create_stream_player(s32 n, s32 base, s32 size) {
     return c;
 }
 
-s32 send_packet_by_id_2__6TLobbyFv(int);
 
-extern "C" {
-
-s32 TLobby__sub_803C0010(u8 *arg0);
-
-}
-
-}

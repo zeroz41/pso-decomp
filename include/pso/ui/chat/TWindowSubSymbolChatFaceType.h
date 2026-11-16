@@ -32,16 +32,6 @@ struct TWindowSubSymbolChatFaceType : public TWindowBase {
 typedef char TWindowSubSymbolChatFaceType_size[sizeof(TWindowSubSymbolChatFaceType) == 0x6C ? 1 : -1];
 
 extern "C" {
-void *__dt__28TWindowSubSymbolChatFaceTypeFv(void *arg0, s16 arg1);
-}
-
-// --- C functions defined in TWindowSubSymbolChatFaceType.cpp ---
-extern "C" {
-void *__dt__28TWindowSubSymbolChatFaceTypeFv(void *arg0, s16 arg1);
-}
-// --- end of C functions
-
-extern "C" {
 u8 *TWindowSubSymbolChatFaceType__ct(TWindowSubSymbolChatFaceType *arg0, s32 arg1, s32 arg2);
 }
 

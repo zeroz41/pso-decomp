@@ -13,20 +13,11 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/map/FloorArea.h"
-
-struct RecoveredGlobal_802072E0___vt__10TSceneSora {
-    s32 value;
-    u8 remaining[0x34];
-};
+#include "pso/system/MatrixStack.h"
 
 struct RecoveredGlobal_802075F8_lbl_80515BA0 {
     s32 value;
     u8 remaining[0x24];
-};
-
-struct RecoveredGlobal_80207340___vt__10TSceneSora {
-    s32 value;
-    u8 remaining[0x34];
 };
 
 struct SkyMotion_80207238 { u32 rows; u32 frame_count; };
@@ -58,17 +49,12 @@ s32 TSceneSora__has_sky_motion;
 
 u8 * free_bin_model_request(void *, s16);
 void TSceneSora__sub_80207430(void);
-s32 __dl__7TObjectFPv(void *);
-extern RecoveredGlobal_802072E0___vt__10TSceneSora __vt__10TSceneSora;
-u8 *__dt__10TSceneSoraFv(u8 *arg0, s16 arg1);
 s32 get_bml_motion(int, int);
-s32 TObjFish__sub_8001EDB0(int, int);
+s32 get_bml_texlist(int, int);
 s32 get_bml_model(int, int);
-s32 __ct__8TObjBaseFP7TObject(void *);
-u8 *TSceneSora__ct(TSceneSora *arg0, s32 _w1);
-s32 draw_ginja_model_with_motion(int, int, f32);
+u8 *__ct__10TSceneSoraFl(TSceneSora *arg0, s32 _w1);
+void draw_ginja_model_with_motion(void *model, void *motion, f32 frame);
 s32 rotate_matrix_y(int, int);
-s32 push_matrix();
 s32 set_global_param__8TObjFishFl();
 void *get_current_floor();
 u32 init_bin_model_request(void *, int, Res_80207478 *, Res_80207478 *, int, int, int);
@@ -82,17 +68,15 @@ s32 __nw__7TObjectFUl(s32);
 
 extern s32 tl_05;
 
-typedef char RecoveredGlobal_802072E0___vt__10TSceneSora_size[sizeof(RecoveredGlobal_802072E0___vt__10TSceneSora) == 0x38 ? 1 : -1];
-
 void TSceneSora::render() {
     if ((s32) TSceneSora__sky_active_flag != 0) {
         TParticleCtrl::begin_effect_render();
-        TObjFish__sub_8001EDB0((int) ((*(s32 *)&TSceneSora__sky_bml_resource)), 0);
+        get_bml_texlist((int) ((*(s32 *)&TSceneSora__sky_bml_resource)), 0);
         set_global_param__8TObjFishFl();
         push_matrix();
         rotate_matrix_y(0, this->rotation_y);
         if ((u32) this->m_94 != 0U) {
-            draw_ginja_model_with_motion(this->m_90, this->m_94, this->m_a0);
+            draw_ginja_model_with_motion((void *)this->m_90, (void *)this->m_94, (f32)this->m_a0);
         } else {
             draw_ginja_object((void *)this->m_90);
         }
@@ -118,34 +102,23 @@ void TSceneSora::run_task() {
     }
 }
 
-u8 *__dt__10TSceneSoraFv(u8 *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = &__vt__10TSceneSora.value;
-        TSceneSora__instance = 0;
-        __dt__8TObjBaseFv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
 }
-
-typedef char RecoveredGlobal_80207340___vt__10TSceneSora_size[sizeof(RecoveredGlobal_80207340___vt__10TSceneSora) == 0x38 ? 1 : -1];
-u8 *TSceneSora__ct(TSceneSora *scene_sora, s32 _w1) {
-    __ct__8TObjBaseFP7TObject(scene_sora);
-    *(s32 **)((s8 *)scene_sora + 0x18) = &(*(RecoveredGlobal_80207340___vt__10TSceneSora *)&__vt__10TSceneSora).value;
-    scene_sora->m_name = TSceneSora__name;
-    scene_sora->m_90 = get_bml_model((int) ((*(s32 *)&TSceneSora__sky_bml_resource)), 0);
+TSceneSora::~TSceneSora() {
+    TSceneSora__instance = 0;
+}
+TSceneSora::TSceneSora(s32 _w1) : TObjBase((TObject *)_w1) {
+    this->m_name = TSceneSora__name;
+    this->m_90 = get_bml_model((int) ((*(s32 *)&TSceneSora__sky_bml_resource)), 0);
     if (TSceneSora__has_sky_motion != 0) {
-        scene_sora->m_94 = get_bml_motion((int) ((*(s32 *)&TSceneSora__sky_bml_resource)), 0);
+        this->m_94 = get_bml_motion((int) ((*(s32 *)&TSceneSora__sky_bml_resource)), 0);
     } else {
-        scene_sora->m_94 = 0;
+        this->m_94 = 0;
     }
-    scene_sora->m_98 = TObjFish__sub_8001EDB0((int) ((*(s32 *)&TSceneSora__sky_bml_resource)), 0);
-    *(f32 *)((s8 *)scene_sora + 0x9C) = 0.1f;
-    scene_sora->m_a0 = 0.0f;
-    return (u8 *)scene_sora;
+    this->m_98 = get_bml_texlist((int) ((*(s32 *)&TSceneSora__sky_bml_resource)), 0);
+    *(f32 *)((s8 *)this + 0x9C) = 0.1f;
+    this->m_a0 = 0.0f;
 }
+extern "C" {
 
 void TSceneSora::create_instance() {
     s32 scene_sora;
@@ -153,7 +126,7 @@ void TSceneSora::create_instance() {
     if ((u32) TSceneSora__sky_bml_resource != 0U) {
         scene_sora = __nw__7TObjectFUl(0xA4);
         if (scene_sora != 0) {
-            scene_sora = ((s32)TSceneSora__ct((TSceneSora *)((u8 *)scene_sora), (s32)tl_05));
+            scene_sora = ((s32)__ct__10TSceneSoraFl((TSceneSora *)((u8 *)scene_sora), (s32)tl_05));
         }
         TSceneSora__instance = scene_sora;
         return;

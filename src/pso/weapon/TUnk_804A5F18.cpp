@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/weapon/TItemWeapon.h"
 #include "pso/weapon/TUnk_804A5F18.h"
 #include "pso/item/TItem.h"
 #include "pso/player/TObjPlayer.h"
@@ -9,7 +10,7 @@
 
 void TUnk_804A5F18::emit_marker_effects() {
     if (is_mode_two_and_ready() != 0) {
-        if (((TObjPlayer *)this)->get_tp() == 0) {
+        if (((TItemWeapon *)this)->get_tp() == 0) {
             TTecDeband::create((s32)owner, (s32)&owner->position, 2);
         } else {
             TTecSifta::create(owner, &owner->position, (void *)2);
@@ -17,7 +18,7 @@ void TUnk_804A5F18::emit_marker_effects() {
         roll_technique();
         return;
     }
-    ((TObjPlayer *)this)->update_active_game_effect();
+    ((TItemWeapon *)this)->update_active_game_effect();
 }
 
 void TUnk_804A5F18::update_idle() {

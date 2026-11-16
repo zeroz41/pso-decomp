@@ -15,7 +15,7 @@ BmlResourceDescriptor bm_n_efm_i_body_resource_descriptor = { "bm_n_efm_i_body.b
 const char *TObjNpcMaleFat__name = "TObjNpcMaleFat";
 BmlResource *TObjNpcMaleFat__static_model_resource;
 
-extern "C" s32 __vt__14TObjNpcMaleFat[];
+s32 __vt__14TObjNpcMaleFat[];
 
 void *TObjNpcMaleFat__create(void *set_data) {
     TObjControl *control = new TObjControl(tl_04);

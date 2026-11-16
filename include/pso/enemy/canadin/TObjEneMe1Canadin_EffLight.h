@@ -32,6 +32,6 @@ public:
 };
 typedef char TObjEneMe1Canadin_EffLight_size[sizeof(TObjEneMe1Canadin_EffLight) == 0x38 ? 1 : -1];
 
-extern "C" s32 fade_alpha_step__17TObjEneMe1CanadinFPvif(TObjEneMe1Canadin_EffLightPoint *point, f32 scale, s32 step);
+extern "C" s32 fade_alpha_step__17TObjEneMe1CanadinFfl(TObjEneMe1Canadin_EffLightPoint *point, f32 scale, s32 step);
 
 #endif

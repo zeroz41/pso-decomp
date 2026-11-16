@@ -9,25 +9,13 @@
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/TUnk_804CE964.h"
-#include "pso/system/task/TObject.h"
-#include "pso/ui/window/TWindowDD.h"
 
-struct RecoveredGlobal_80249BA8_lbl_804CE8D0 {
-    s32 value;
-    u8 remaining[0x10];
-};
-
-struct RecoveredGlobal_80249BA8___vt__14TWindowComCard {
-    s32 value;
-    u8 remaining[0x18];
-};
 
 extern "C" {
 s32 draw_default_entry__9TWindowDDFl();
 s32 draw_visible_window_entries(void *, void *, int);
 void render__14TWindowComCardFv(s32 arg0);
 s32 TWindowSubComCard__sub_8007B070(s32);
-void *__nw__7TObjectFUl(int);
 extern s32 local_client_id;
 s32 update_com_card_display(s32, s32);
 u8 *TWindowComCard__ct(u8 *arg0, s32 arg1, s32 arg2);
@@ -94,7 +82,6 @@ void *lbl_804CE964[6] = {
     (void *)0x0, (void *)0x0, (void *)&TWindowComCard__sub_80249E80, (void *)&run_task__13TUnk_804CE964Fv,
     (void *)&render__13TUnk_804CE964Fv, (void *)&render_shadows__7TObjectFv,
 };
-#define TWindowComCard__window_desc (*(RecoveredGlobal_80249BA8_lbl_804CE8D0 *)TWindowComCard__window_desc)
 #define __vt__14TWindowComCard ((s32 *)__vt__14TWindowComCard)
 #define lbl_804CE964 ((s32 *)lbl_804CE964)
 
@@ -128,7 +115,7 @@ u8 *TWindowComCard::create_for_card(s32 arg0, s32 arg1, s32 arg2) {
     }
     var_r3 = (u8 *)((void *)0x60);
     var_r31 = arg2 + (arg1 * 0x90);
-    window_dd = (u8 *)(((u8 *)__nw__7TObjectFUl(0x60)));
+    window_dd = (u8 *)(((u8 *)TObject::operator new(0x60)));
     var_r0 = window_dd;
     if (var_r0 != NULL) {
         var_r4 = var_r30;
@@ -146,7 +133,7 @@ void *TWindowComCard::create(void *arg0, void *arg1) {
     if (x0 == NULL) {
         return NULL;
     }
-    o = __nw__7TObjectFUl(0x60);
+    o = TObject::operator new(0x60);
     if (o != NULL) {
         o = TWindowComCard__ct((u8 *)o, (s32)arg0, (s32)x0);
     }
@@ -164,7 +151,7 @@ s32 TWindowSubComCard::create_com_card_window(s32 arg0) {
     if (TWindowSubComCard__sub_8007B070(keyboard_mode) != 0) {
         ((TWindowSubComCard *)keyboard_mode)->clear_and_init((void *)local_client_id);
     }
-    window_dd = ((s32)__nw__7TObjectFUl(0x60));
+    window_dd = ((s32)TObject::operator new(0x60));
     var_r0 = window_dd;
     if (var_r0 != 0) {
         var_r0 = ((s32)TWindowComCard__ct((u8 *)window_dd, (s32)arg0, (s32)keyboard_mode));
@@ -184,7 +171,7 @@ void run_task__14TWindowComCardFv(void* p) { ((TWindowDD *)p)->initialize_subwin
 void *__dt__14TWindowComCardFv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__14TWindowComCard;
-        ((TWindowDD *)arg0)->destroy_window_base(0);
+        __dt__11TWindowBaseFv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
         }
@@ -192,10 +179,8 @@ void *__dt__14TWindowComCardFv(void *arg0, s16 arg1) {
     return arg0;
 }
 
-typedef char RecoveredGlobal_80249BA8_lbl_804CE8D0_size[sizeof(RecoveredGlobal_80249BA8_lbl_804CE8D0) == 0x14 ? 1 : -1];
-typedef char RecoveredGlobal_80249BA8___vt__14TWindowComCard_size[sizeof(RecoveredGlobal_80249BA8___vt__14TWindowComCard) == 0x1C ? 1 : -1];
 u8 *TWindowComCard__ct(u8 *window_dd, s32 arg1, s32 arg2) {
-    ((TWindowDD *)window_dd)->construct_base((u8 *)((s32) &TWindowComCard__window_desc.value), (s16)4, (u8 *)arg1);
+    ((TWindowDD *)window_dd)->construct_base((u8 *)&TWindowComCard__window_desc, (s16)4, (u8 *)arg1);
     *(s32 **)((s8 *)window_dd + 0x18) = (s32 *)__vt__14TWindowComCard;
     *(s32 *)((s8 *)window_dd + 0) = (s32) TWindowComCard__class_name;
     update_com_card_display((s32)(window_dd + 0x24), arg2);
@@ -287,6 +272,7 @@ void TWindowComCard__sub_80249D7C(u8 *arg0, s32 arg1) {
 #pragma pop
 
 #include "pso/ui/window/TWindowTradeRequest.h"
+#include "pso/system/NinjaTypes.h"
 
 extern "C" {
 typedef struct Parent_80249ED8 {
@@ -294,11 +280,6 @@ typedef struct Parent_80249ED8 {
     f32 x;
     f32 y;
 } Parent_80249ED8;
-
-typedef struct Vec2_80249ED8 {
-    f32 x;
-    f32 y;
-} Vec2_80249ED8;
 
 typedef struct Win_80249ED8 {
     u8 pad0[0x18];
@@ -308,7 +289,7 @@ typedef struct Win_80249ED8 {
     f32 y;
     u8 pad38[0x60 - 0x38];
     Parent_80249ED8 *parent;
-    Vec2_80249ED8 ofs;
+    NJS_POINT2 ofs;
     s32 col;
     s32 mode;
 } Win_80249ED8;
@@ -341,7 +322,7 @@ void TUnk_804CE964::run_task() {
 void *TWindowComCard__sub_80249E80(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = lbl_804CE964;
-        ((TWindowDD *)arg0)->destroy_window_base(0);
+        __dt__11TWindowBaseFv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
         }
@@ -351,7 +332,7 @@ void *TWindowComCard__sub_80249E80(void *arg0, s16 arg1) {
 
 #pragma push
 #pragma fp_contract on
-Win_80249ED8 *TWindowComCard__sub_80249ED8(Win_80249ED8 *o, Parent_80249ED8 *parent, Vec2_80249ED8 *ofs, s32 col, s32 mode, s32 arg5) {
+Win_80249ED8 *TWindowComCard__sub_80249ED8(Win_80249ED8 *o, Parent_80249ED8 *parent, NJS_POINT2 *ofs, s32 col, s32 mode, s32 arg5) {
     ((TWindowDD *)o)->construct_base((u8 *)TWindowComCard__window_desc_b, (s16)arg5, (u8 *)(get_zero_vec2()));
     o->vtbl = (s32 *)lbl_804CE964;
     o->parent = parent;

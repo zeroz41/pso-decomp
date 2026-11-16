@@ -1,10 +1,12 @@
 #include "types.h"
+#include "pso/unk/text_8033F314.h"
 #include "pso/ui/frontend/TAdChrSelSlotGC.h"
 #include "pso/ui/frontend/TAdMcSelectGC.h"
 #include "pso/ui/frontend/TAdMcSelectCursorGC.h"
 #include "pso/ui/frontend/TAdMcSelectMcGC.h"
 
 #include "pso/system/task/TMainTask.h"
+#include "pso/system/task/TObject.h"
 
 // Screen positions of the two memory card slots, passed to TAdChrSelSlotGC::init_slot by the ctor.
 static const f32 lbl_804770F8[2] = { 95.0f, 118.0f };
@@ -26,7 +28,6 @@ struct Self_80329EC8 {
 
 extern "C" {
 void *create_draw_line_ctrl__13TAdMcSelectGCFiif(void *, s32, f32);
-void *__nw__7TObjectFUl(u32);
 struct Self_80329EC8 *TAdMcSelectGC__ct(struct Self_80329EC8 *self, void *parent);
 void __ct__7TObjectFP7TObject(void *, void *);
 void *__ct__9TAdBackGCFv(void *, void *);
@@ -34,7 +35,6 @@ void *__ct__12TAdBackTxtGCFv(void *, void *);
 void *__ct__10TAdTitleGCFP7TObjectl(void *, void *, s32);
 void *__ct__15TAdChrSelSlotGCFP7TObject(void *, void *);
 void TAdMcSelectGC__sub_8032A180(void *, s32);
-s32 fn_8033F314(s32 arg0, s32 arg1);
 extern s32 __vt__13TAdMcSelectGC[];
 
 void TAdMcSelectGC::render() {
@@ -99,11 +99,11 @@ Self_80329EC8 *TAdMcSelectGC__ct(Self_80329EC8 *self, void *parent) {
     self->f24 = 0;
     self->f2C = 0;
     self->f30 = 0;
-    back = __nw__7TObjectFUl(0x24);
+    back = TObject::operator new(0x24);
     if (back != NULL) {
         back = __ct__9TAdBackGCFv(back, self);
     }
-    txt = __nw__7TObjectFUl(0x28);
+    txt = TObject::operator new(0x28);
     if (txt != NULL) {
         txt = __ct__12TAdBackTxtGCFv(txt, self);
     }
@@ -111,14 +111,14 @@ Self_80329EC8 *TAdMcSelectGC__ct(Self_80329EC8 *self, void *parent) {
     ((TAdMcSelectGC *)back)->set_field_20(0);
     ((TAdMcSelectGC *)txt)->set_field20(0.006666667f);
     ((TAdMcSelectGC *)txt)->set_field_24(0);
-    p = __nw__7TObjectFUl(0x138);
+    p = TObject::operator new(0x138);
     if (p != NULL) {
         p = __ct__10TAdTitleGCFP7TObjectl(p, self, 0xD);
     }
     ((TAdMcSelectGC *)p)->set_field_134(0);
     TAdMcSelectGC__sub_8032A180(create_draw_line_ctrl__13TAdMcSelectGCFiif(self, 0x16, 0.0f), 0);
     TAdMcSelectGC__sub_8032A180(create_draw_line_ctrl__13TAdMcSelectGCFiif(self, 0x17, 0.0f), 0);
-    p = __nw__7TObjectFUl(0x128);
+    p = TObject::operator new(0x128);
     if (p != NULL) {
         p = __ct__15TAdChrSelSlotGCFP7TObject(p, self);
     }
@@ -138,11 +138,9 @@ Self_80329EC8 *TAdMcSelectGC__ct(Self_80329EC8 *self, void *parent) {
 }
 
 
-extern "C" {
-
 void *TAdMcSelectGC::create(void *arg0) {
     void *o;
-    o = __nw__7TObjectFUl(0x34);
+    o = TObject::operator new(0x34);
     if (o != NULL) {
         o = TAdMcSelectGC__ct((Self_80329EC8 *)o, arg0);
     }
@@ -175,4 +173,3 @@ void TAdMcSelectGC::set_field20(f32 v) { *(f32 *)&this->_pad20 = v; }
 void TAdMcSelectGC::set_field_20(s32 v) { *(s32 *)&this->_pad20 = v; }
 void TAdMcSelectGC::set_float_1c(f32 v) { *(f32 *)&this->m_1c = v; }
 
-}

@@ -2,7 +2,7 @@
 #include "pso/ui/window/TWindowHelpItem.h"
 #include "pso/item/TItem.h"
 
-extern "C" {
+
 void TWindowHelpItem::refresh_copied_items() {
     u8 *arg0 = (u8 *)this;
     s32 temp_r3;
@@ -25,4 +25,3 @@ void TWindowHelpItem::refresh_copied_items() {
     }
 }
 
-}

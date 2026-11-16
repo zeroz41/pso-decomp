@@ -7,7 +7,7 @@
 #include <stdlib.h>
 #include "pso/unk/text_803E2D70.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/system/task/TObject.h"
+
 class TObjChip : public TObject {
 public:
     virtual void render_shadows();
@@ -17,7 +17,7 @@ public:
 #include "types.h"
 
 extern "C" {
-void draw_ginja_object(int);
+void draw_ginja_object(void *child);
 void set_color_blend_mode(int, int, int, int, s32, s32);
 }
 
@@ -70,11 +70,6 @@ struct VObj_18_6eb662 : VBase_18_6eb662 {
     virtual s32 m5(void *, f32);
 };
 
-struct RecoveredGlobal_80180AA4___vt__8TObjChip {
-    s32 value;
-    u8 remaining[0x34];
-};
-
 struct VBase_18_2a3247 { char pad[0x18]; };
 
 struct VObj_18_2a3247 : VBase_18_2a3247 {
@@ -85,22 +80,11 @@ struct VObj_18_2a3247 : VBase_18_2a3247 {
     virtual s32 m4(f32);
 };
 
-struct RecoveredGlobal_80180BD4___vt__8TObjChip {
-    s32 value;
-    u8 remaining[0x34];
-};
-
-struct Vec_8018085C { f32 x, y, z; };
-
-struct Out_8018085C { f32 x, y; };
-
-struct Vec_801803C0 { f32 x, y, z; };
-
 struct IVec_801803C0 { s32 x, y, z; };
 
 struct Chip_801803C0 {
-    Vec_801803C0 pos;
-    Vec_801803C0 vel;
+    Vec pos;
+    Vec vel;
     IVec_801803C0 rot;
     IVec_801803C0 angvel;
     f32 alpha;
@@ -109,8 +93,8 @@ struct Chip_801803C0 {
 
 struct Task_801803C0 {
     u8 pad0[0x30];
-    Vec_801803C0 origin;
-    Vec_801803C0 vel;
+    Vec origin;
+    Vec vel;
     IVec_801803C0 angvel;
     s32 count;
     s32 life;
@@ -118,13 +102,11 @@ struct Task_801803C0 {
     Chip_801803C0 chips[8];
 };
 
-struct Vec_80180614 { f32 x, y, z; };
-
 struct IVec_80180614 { s32 x, y, z; };
 
 struct Chip_80180614 {
-    Vec_80180614 pos;
-    Vec_80180614 vel;
+    Vec pos;
+    Vec vel;
     IVec_80180614 rot;
     IVec_80180614 angvel;
     f32 alpha;
@@ -133,8 +115,8 @@ struct Chip_80180614 {
 
 struct Task_80180614 {
     u8 pad0[0x30];
-    Vec_80180614 origin;
-    Vec_80180614 vel;
+    Vec origin;
+    Vec vel;
     IVec_80180614 angvel;
     s32 count;
     s32 life;
@@ -142,13 +124,11 @@ struct Task_80180614 {
     Chip_80180614 chips[8];
 };
 
-struct Vec_8018019C { f32 x, y, z; };
-
 struct IVec_8018019C { s32 x, y, z; };
 
 struct Chip_8018019C {
-    Vec_8018019C pos;
-    Vec_8018019C vel;
+    Vec pos;
+    Vec vel;
     IVec_8018019C rot;
     IVec_8018019C angvel;
     f32 alpha;
@@ -201,16 +181,13 @@ u8 *__ct__8TObjChipFP7TObjectP19TObjChipSpawnParams(u8 *arg0, u8 *arg1, u8 *arg2
 u8 *__ct__8TObjChipFP7TObjectPC14TObjChipParams(u8 *arg0, u8 *arg1, u8 *arg2);
 s32 push_matrix();
 s32 post_translate_matrix(void *);
-void matrix_mult_vec(int, Vec_8018085C *, Vec_8018085C *);
-void project_world_to_screen(int, Vec_8018085C *, Out_8018085C *, Vec_8018085C *);
-extern Vec_8018085C camera_right;
-s32 vfunc_10__8TObjChipFP3Vec(s32 arg0, Vec_8018085C *arg1, f32 farg0, f32 farg1);
+void matrix_mult_vec(int, Vec *, Vec *);
+void project_world_to_screen(int, Vec *, NJS_POINT2 *, Vec *);
+extern Vec camera_right;
+s32 vfunc_10__8TObjChipFP3Vec(s32 arg0, Vec *arg1, f32 farg0, f32 farg1);
 s32 spawn_chips__8TObjChipFPv(u8 *arg0, u8 *arg1);
 s32 init_chips__8TObjChipFv(u8 *arg0);
 void tick_chips__8TObjChipFv(u8 *arg0);
-}
-void rotate_matrix_yxz(s32 matrix, s32 arg1, s32 arg2, s32 arg3);
-extern "C" {
 void set_chunk_material_override_pair(s32 arg0, s32 arg1);
 extern u8 chunk_material_color_half_alpha_f32[];
 extern s32 saved_model_render_flags;
@@ -234,16 +211,6 @@ void run_task__8TObjChipFv(void *arg0);
 #pragma readonly_strings on
 const char *obj_chip_class_name_ptr = "TObjChip";
 
-}
-
-extern "C" {
-
-typedef char RecoveredGlobal_80180AA4___vt__8TObjChip_size[sizeof(RecoveredGlobal_80180AA4___vt__8TObjChip) == 0x38 ? 1 : -1];
-
-typedef char RecoveredGlobal_80180BD4___vt__8TObjChip_size[sizeof(RecoveredGlobal_80180BD4___vt__8TObjChip) == 0x38 ? 1 : -1];
-}
-
-extern "C" {
 u8 *copy_transform__8TObjChipFPvPv(u8 *arg0, u8 *arg1) {
     *(f32 *)((s8 *)arg0 + 0) = (f32) *(f32 *)((s8 *)arg1 + 0);
     *(f32 *)((s8 *)arg0 + 4) = (f32) *(f32 *)((s8 *)arg1 + 4);
@@ -263,9 +230,6 @@ u8 *copy_transform__8TObjChipFPvPv(u8 *arg0, u8 *arg1) {
     *(s32 *)((s8 *)arg0 + 0x4C) = 0;
     return arg0;
 }
-}
-
-extern "C" {
 u8 *__ct__8TObjChipFP7TObjectPC14TObjChipParams(u8 *object, u8 *arg1, u8 *arg2) {
     __ct__7TObjectFP7TObject(object, arg1);
     *(s32 **)((s8 *)object + 0x18) = (s32 *)__vt__8TObjChip;
@@ -279,9 +243,6 @@ u8 *__ct__8TObjChipFP7TObjectPC14TObjChipParams(u8 *object, u8 *arg1, u8 *arg2) 
     }
     return object;
 }
-}
-
-extern "C" {
 void copy_debris_params__8TObjChipFPvPv(u8 *arg0, u8 *arg1) {
     *(f32 *)((s8 *)arg0 + 0) = (f32) *(f32 *)((s8 *)arg1 + 0);
     *(f32 *)((s8 *)arg0 + 4) = (f32) *(f32 *)((s8 *)arg1 + 4);
@@ -297,9 +258,6 @@ void copy_debris_params__8TObjChipFPvPv(u8 *arg0, u8 *arg1) {
     *(s32 *)((s8 *)arg0 + 0x44) = (s32) *(s32 *)((s8 *)arg1 + 0x44);
     *(s32 *)((s8 *)arg0 + 0x48) = (s32) *(s32 *)((s8 *)arg1 + 0x48);
 }
-}
-
-extern "C" {
 u8 *__ct__8TObjChipFP7TObjectP19TObjChipSpawnParams(u8 *object, u8 *arg1, u8 *arg2) {
     __ct__7TObjectFP7TObject(object, arg1);
     *(s32 **)((s8 *)object + 0x18) = (s32 *)__vt__8TObjChip;
@@ -314,7 +272,7 @@ u8 *__ct__8TObjChipFP7TObjectP19TObjChipSpawnParams(u8 *object, u8 *arg1, u8 *ar
     return object;
 }
 }
-
+void rotate_matrix_yxz(s32 matrix, s32 arg1, s32 arg2, s32 arg3);
 TObjChip::~TObjChip() {}
 
 extern "C" {
@@ -325,26 +283,17 @@ void run_task__8TObjChipFv(void *object) {
         ((TObject *)object)->queue_destruction();
     }
 }
-}
-
-extern "C" {
 void render__8TObjChipFv(void *arg0) {
     struct VObj_801809C4_801809B4 *o = (struct VObj_801809C4_801809B4 *)arg0;
     o->m9();
 }
-}
-
-extern "C" {
 int vfunc_8__8TObjChipFv(void* p) { return *(u32*)((char*)p + 0x230) == 0; }
-}
-
-extern "C" {
 #pragma push
 #pragma fp_contract on
-s32 vfunc_10__8TObjChipFP3Vec(s32 arg0, Vec_8018085C *arg1, f32 farg0, f32 farg1) {
-    Vec_8018085C v;
-    Out_8018085C o1;
-    Out_8018085C o2;
+s32 vfunc_10__8TObjChipFP3Vec(s32 arg0, Vec *arg1, f32 farg0, f32 farg1) {
+    Vec v;
+    NJS_POINT2 o1;
+    NJS_POINT2 o2;
     matrix_mult_vec(0, arg1, &v);
     if (v.z > 0.0f) {
         return 0;
@@ -372,9 +321,6 @@ s32 vfunc_10__8TObjChipFP3Vec(s32 arg0, Vec_8018085C *arg1, f32 farg0, f32 farg1
     return 1;
 }
 #pragma pop
-}
-
-extern "C" {
 #pragma push
 #pragma fp_contract on
 s32 init_chips__8TObjChipFv(u8 *arg0) {
@@ -403,9 +349,6 @@ s32 init_chips__8TObjChipFv(u8 *arg0) {
     return 1;
 }
 #pragma pop
-}
-
-extern "C" {
 #pragma push
 #pragma fp_contract on
 s32 spawn_chips__8TObjChipFPv(u8 *arg0, u8 *arg1) {
@@ -437,9 +380,6 @@ s32 spawn_chips__8TObjChipFPv(u8 *arg0, u8 *arg1) {
     return 1;
 }
 #pragma pop
-}
-
-extern "C" {
 #pragma push
 #pragma fp_contract on
 void tick_chips__8TObjChipFv(u8 *arg0) {
@@ -486,9 +426,6 @@ void tick_chips__8TObjChipFv(u8 *arg0) {
     }
 }
 #pragma pop
-}
-
-extern "C" {
 void render_chips__8TObjChipFv(u8 *arg0) {
     TObjFish::set_global_param((int) (*(s32 *)((s8 *)arg0 + 0x68)));
     if (*(s32 *)((s8 *)arg0 + 0x6C) & 0x10) {
@@ -497,9 +434,6 @@ void render_chips__8TObjChipFv(u8 *arg0) {
     }
     ((VObj_18 *)(arg0))->m11();
 }
-}
-
-extern "C" {
 void draw_chips__8TObjChipFv(Obj_8017FE58 *o) {
     Chip_8017FE58 *c = o->chips;
     if (o->flags & 8) {
@@ -566,9 +500,6 @@ void draw_chips__8TObjChipFv(Obj_8017FE58 *o) {
         }
     }
 }
-}
-
-extern "C" {
 void vfunc_12__8TObjChipFv(u8 *arg0) {
     Chip_8017FE58 *p = (Chip_8017FE58 *)(arg0 + 0x70);
     s32 i;
@@ -586,7 +517,7 @@ void vfunc_12__8TObjChipFv(u8 *arg0) {
             post_translate_matrix(p);
             rotate_matrix_yxz(0, p->rx, p->ry, p->rz);
             scale_matrix(0, *(f32 *)(arg0 + 0x60), *(f32 *)(arg0 + 0x60), *(f32 *)(arg0 + 0x60));
-            draw_ginja_object(*(s32 *)(arg0 + 0x64));
+            draw_ginja_object((void *)(*(s32 *)(arg0 + 0x64)));
             pop_matrix();
             set_constant_material((const NJS_ARGB *)chunk_material_color_half_alpha_f32);
         }
@@ -599,14 +530,11 @@ void vfunc_12__8TObjChipFv(u8 *arg0) {
             post_translate_matrix(p);
             rotate_matrix_yxz(0, p->rx, p->ry, p->rz);
             scale_matrix(0, *(f32 *)(arg0 + 0x60), *(f32 *)(arg0 + 0x60), *(f32 *)(arg0 + 0x60));
-            draw_ginja_object(*(s32 *)(arg0 + 0x64));
+            draw_ginja_object((void *)(*(s32 *)(arg0 + 0x64)));
             pop_matrix();
         }
     }
 }
-}
-
-extern "C" {
 void __dt__8TObjChipFv();
 void render_shadows__7TObjectFv();
 void *__vt__8TObjChip[] = {

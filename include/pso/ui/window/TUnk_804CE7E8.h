@@ -6,6 +6,8 @@
 class TUnk_804CE7E8 : public TWindowMenuIconLine {
 public:
     virtual ~TUnk_804CE7E8();
+    virtual void run_task();
+    virtual void render();
     void advance_all_entries(s32);
     void sub_80248B7C(s16);
     void sync_level_field();

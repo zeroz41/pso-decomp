@@ -387,7 +387,7 @@ void TBoss3VoloptMonitor::sub_80041E88() {
     case 1:
         if (--*(s16 *)&timer <= 0) {
             obj_clearFlags30(0x200200);
-            ((TObjEnemyCustom *)this)->update_if_active(0);
+            this->update_if_active(0);
             m_388 &= ~1;
         }
         break;

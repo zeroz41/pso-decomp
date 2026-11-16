@@ -34,7 +34,7 @@ struct WindowSize {
 };
 
 extern "C" {
-s32 TAdPlayerLoadGC__sub_801E1B50(s32 card_slot);
+s32 poll_memcard_result(s32 card_slot);
 s32 TAdPlayerLoadGC__sub_801E1538(CardFileRead *file, void *buffer);
 void *get_window_layout_position(s32 index);
 extern s32 evt2_random_enemies_mode;
@@ -127,7 +127,7 @@ TQuestListVM::~TQuestListVM() {
 
 void TQuestListVM::vfunc_11() {
     if (update_load_status() != 0) {
-        display_message((const char *)TQuestVmDownLoadServer__sub_8006EF6C(0x44), 1);
+        display_message((const char *)get_message_text(0x44), 1);
         set_field_20(0x12);
     }
     switch (state) {
@@ -212,7 +212,7 @@ void TQuestListVM::load_quest_vm() {
         decrypted_quest_buffer = tmp_buffer;
         decompression_capacity = 0x40000;
         set_field_20(2);
-        display_message((const char *)TQuestVmDownLoadServer__sub_8006EF6C(0x3F), 1);
+        display_message((const char *)get_message_text(0x3F), 1);
     }
 }
 
@@ -279,7 +279,7 @@ void TQuestListVM::scan_memcard_quest_files() {
             return;
         }
         if (scan_card_error != 0) {
-            display_message((const char *)TQuestVmDownLoadServer__sub_8006EF6C(0x66), 1);
+            display_message((const char *)get_message_text(0x66), 1);
             set_state_after_message(5);
             return;
         }
@@ -293,17 +293,17 @@ void TQuestListVM::scan_memcard_quest_files() {
         return;
     }
     if (scan_card_error != 0) {
-        display_message((const char *)TQuestVmDownLoadServer__sub_8006EF6C(0x66), 1);
+        display_message((const char *)get_message_text(0x66), 1);
         set_field_20(0x12);
         return;
     }
-    display_message((const char *)TQuestVmDownLoadServer__sub_8006EF6C(0x44), 1);
+    display_message((const char *)get_message_text(0x44), 1);
     set_field_20(0x12);
 }
 
 void TQuestListVM::load_selected_player_slot() {
     if (card_buffer != NULL) {
-        if (TAdPlayerLoadGC__sub_801E1B50(entries[entry_count].card_slot) == 0) {
+        if (poll_memcard_result(entries[entry_count].card_slot) == 0) {
             if (TAdSinglePlyChrSelectGC::load_player_slot(entries[entry_count].card_slot,
                                                           entries[entry_count].file_name, card_buffer) == 0) {
                 set_field_20(4);
@@ -321,7 +321,7 @@ void TQuestListVM::process_download_entry() {
     CardFileRead file;
     QuestBinHeader *header;
 
-    if (TAdPlayerLoadGC__sub_801E1B50(entries[entry_count].card_slot) == 0) {
+    if (poll_memcard_result(entries[entry_count].card_slot) == 0) {
         switch (TAdPlayerLoadGC__sub_801E1538(&file, card_buffer)) {
         case 0:
             seed_download_rng(get_download_seed());
@@ -461,7 +461,7 @@ void TQuestListVM::load_selected_bin() {
     s32 index;
     if (list_window != NULL && card_buffer != NULL) {
         index = list_window->get_cursor_value();
-        if (TAdPlayerLoadGC__sub_801E1B50(entries[index].card_slot) == 0) {
+        if (poll_memcard_result(entries[index].card_slot) == 0) {
             if (TAdSinglePlyChrSelectGC::load_player_slot(entries[index].card_slot, entries[index].file_name,
                                                           card_buffer) == 0) {
                 set_field_20(9);
@@ -478,7 +478,7 @@ void TQuestListVM::poll_quest_download() {
     CardFileRead file;
     u32 size;
     if (list_window != NULL) {
-        if (TAdPlayerLoadGC__sub_801E1B50(entries[list_window->get_cursor_value()].card_slot) == 0) {
+        if (poll_memcard_result(entries[list_window->get_cursor_value()].card_slot) == 0) {
             switch (TAdPlayerLoadGC__sub_801E1538(&file, card_buffer)) {
             case 0:
                 seed_download_rng(get_download_seed());
@@ -591,7 +591,7 @@ void TQuestListVM::load_selected_slot() {
     memset(file_name, 0, 0xD);
     if (list_window != NULL && card_buffer != NULL) {
         index = list_window->get_cursor_value();
-        if (TAdPlayerLoadGC__sub_801E1B50(entries[index].card_slot) == 0) {
+        if (poll_memcard_result(entries[index].card_slot) == 0) {
             sprintf(file_name, quest_file_name_format, quest_file_prefix, entries[index].file_index + 1);
             if (TAdSinglePlyChrSelectGC::load_player_slot(entries[index].card_slot, file_name, card_buffer) == 0) {
                 set_field_20(0xC);
@@ -608,7 +608,7 @@ void TQuestListVM::load_downloaded_quest() {
     CardFileRead file;
     u32 size;
     if (list_window != NULL) {
-        if (TAdPlayerLoadGC__sub_801E1B50(entries[list_window->get_cursor_value()].card_slot) == 0) {
+        if (poll_memcard_result(entries[list_window->get_cursor_value()].card_slot) == 0) {
             switch (TAdPlayerLoadGC__sub_801E1538(&file, card_buffer)) {
             case 0:
                 seed_download_rng(get_download_seed());

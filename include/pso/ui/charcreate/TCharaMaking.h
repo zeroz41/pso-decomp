@@ -17,6 +17,9 @@ extern "C" {
 void TCharaMaking__sub_8028E790(void);
 }
 
+struct CharacterClassAppearance;
+struct CharacterTextureList;
+
 struct TCharaMaking : public TObject {
     TCharaMaking(TObject *parent);
     virtual ~TCharaMaking();
@@ -34,6 +37,7 @@ struct TCharaMaking : public TObject {
     virtual void run_task();
     static void *create(void *arg0, void *arg1);
     static s32 update_main_menu(s32 arg0);
+    void build_appearance_texture_names(CharacterAppearanceFields *appearance, CharacterClassAppearance *definition, CharacterTextureList *source);
 };
 
 typedef char TCharaMaking_size[sizeof(TCharaMaking) == 0x24 ? 1 : -1];

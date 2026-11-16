@@ -127,13 +127,9 @@ s32 get_captured_target_count(s32 *arg0);
 s32 resolve_hittable_target(s32, s32);
 
 
-
 }
 typedef struct VBase_18_24931d VBase_18_24931d;
 typedef struct VObj_18_24931d VObj_18_24931d;
-#define PSO_VCALL_VObj_18_24931d_m60(_self) (((VObj_18_24931d *)(_self))->m60())
-#define PSO_VCALL_VObj_18_24931d_m30(_self) (((VObj_18_24931d *)(_self))->m30())
-#define PSO_VCALL_VObj_18_24931d_m49(_self, _arg0, _arg1, _arg2, _arg3) (((VObj_18_24931d *)(_self))->m49((_arg0), (_arg1), (_arg2), (_arg3)))
 
 
 extern "C" {
@@ -142,10 +138,6 @@ s32 init_item_timer_event__13TUnk_804A0648Fv(s32, s32, s32, s32);
 s32 __nw__15TItemHeapObjectFUl(s32);
 s32 construct_timer_event__13TUnk_804A0628Fv(s32, s32, s32, s32);
 }
-
-
-
-
 
 
 u8 *TObjPlayer::create_srank_common_weapon() {
@@ -214,14 +206,14 @@ TUnk_804A4948::TUnk_804A4948(TObject *parent, u8 *item) : TItemWeapon(parent, it
 TUnk_804A4948::~TUnk_804A4948() {}
 
 void TUnk_804A4948::vfunc_57() {
-    s32 temp_r3;
+    s32 event;
     s32 temp_r3_2;
 
     switch (kind) {
     case 3:
-        temp_r3 = __nw__15TItemHeapObjectFUl(0x2C);
-        if (temp_r3 != 0) {
-            init_item_timer_event__13TUnk_804A0648Fv(temp_r3, *(s32 *)((s8 *)this + 0x174), get_owner_client__5TItemFv(this), 0x5A);
+        event = __nw__15TItemHeapObjectFUl(0x2C);
+        if (event != 0) {
+            init_item_timer_event__13TUnk_804A0648Fv(event, *(s32 *)((s8 *)this + 0x174), get_owner_client__5TItemFv(this), 0x5A);
         }
         return;
     case 4:
@@ -237,13 +229,13 @@ void TUnk_804A4948::emit_marker_effects() {
     u8 *arg0 = (u8 *)this;
   s32 sp8;
   s32 temp_r0;
-  s32 temp_r3;
+  s32 attack_flags;
   s32 new_var;
-  PSO_VCALL_VObj_18_24931d_m60(arg0);
-  temp_r3 = PSO_VCALL_VObj_18_24931d_m30(arg0);
-  if (temp_r3 & 1)
+  (this->vfunc_62());
+  attack_flags = (this->get_attack_flags());
+  if (attack_flags & 1)
   {
-    temp_r0 = *((s32 *) (((s8 *) arg0) + 0x1F8));
+    temp_r0 = this->kind;
     if (temp_r0 < 3)
     {
       if (temp_r0 < 1)
@@ -258,17 +250,17 @@ void TUnk_804A4948::emit_marker_effects() {
         ((TUnk_804A4948 *)arg0)->send_srank_stat_extra_to_locks();
         return;
       }
-      ((TObjPlayer *)arg0)->update_active_game_effect();
+      ((TItemWeapon *)arg0)->update_active_game_effect();
       return;
     }
     block_7:
-    ((TObjPlayer *)arg0)->update_active_game_effect();
+    ((TItemWeapon *)arg0)->update_active_game_effect();
     return;
   }
-  if ((new_var = temp_r3) & 2)
+  if ((new_var = attack_flags) & 2)
   {
     ((TItemWeapon *)arg0)->get_gun_point(&sp8);
-    PSO_VCALL_VObj_18_24931d_m49(arg0, &sp8, 0, 0, 1);
+    (this->launch_shot((u8 *)(&sp8), (0), (0), (1)));
   }
 }
 
@@ -294,7 +286,7 @@ void TUnk_804A4948::deliver_hit(s32 arg1, u8 *arg2, s32 arg3, s32 arg4, f32 farg
     }
 }
 
-extern "C" {
+
 s32 TUnk_804A4948::send_srank_stat_extra(u32 arg1, s32 arg2) {
     Self_8012A508 *self = (Self_8012A508 *)this;
     VObj_8012A508 *obj = (VObj_8012A508 *)arg1;
@@ -320,9 +312,6 @@ s32 TUnk_804A4948::send_srank_stat_extra(u32 arg1, s32 arg2) {
         }
     }
 }
-}
-
-extern "C" {
 void TUnk_804A4948::send_srank_stat_extra_to_locks() {
   s32 st;
   s32 i;
@@ -344,5 +333,4 @@ void TUnk_804A4948::send_srank_stat_extra_to_locks() {
       }
     }
   }
-}
 }

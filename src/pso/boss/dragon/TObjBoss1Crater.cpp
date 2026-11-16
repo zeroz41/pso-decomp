@@ -17,12 +17,13 @@
 #include <stdlib.h>
 #include "pso/unk/text_803E2D70.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/system/task/TObject.h"
+
 
 extern "C" {
 s32 isV2Mode__12TBoss1DragonFv(void);
-s32 load_enemy_bml_resource_named(void *, const char *);
+s32 load_enemy_bml_resource_named(s32 arg0, s32 arg1);
 s32 load_enemy_bml_resource(u8 *arg0);
+}
 u8 *load_gvm_texture_file(s32 arg0);
 s32 lbl_805D4B50;
 s32 dragon_common_texture_list;
@@ -35,12 +36,10 @@ void load_dragon_ground_assets(void) {
         dragon_common_texture_list = (s32)load_gvm_texture_file((s32)dragon_common_texture_filename);
         break;
     case 1:
-        lbl_805D4B50 = load_enemy_bml_resource_named(&dragon_ground_resource_descriptor, dragon_common_alternate_bml_filename);
+        lbl_805D4B50 = load_enemy_bml_resource_named((s32)&dragon_ground_resource_descriptor, (s32)dragon_common_alternate_bml_filename);
         dragon_common_texture_list = (s32)load_gvm_texture_file((s32)dragon_common_alternate_texture_filename);
         break;
     }
-}
-
 }
 
 struct Arg_8002C288 { s32 a; f32 b; f32 c; s32 d[2]; };
@@ -145,7 +144,6 @@ void attack_target_list_remove(u8 *arg0, s32 arg1);
 extern "C" {
 s32 post_translate_matrix(void *);
 s32 push_matrix();
-void __dl__7TObjectFPv(void *);
 
 extern s32 model_render_flags;
 
@@ -222,10 +220,10 @@ void TObjBoss1Crater::area_attack_receive_direct(void *self_arg, f32 *arg2, void
 
 }
 TObjBoss1Crater::~TObjBoss1Crater() {
-    if (this->m_b4 != NULL) { __dt__17AreaAttackHistoryFv((s32)(this->m_b4), 1); *(s32 *)((s8 *)this + 0xB4) = 0; }
+    if (this->m_b4 != NULL) { __dt__17AreaAttackHistoryFv((s32)this->m_b4, 1); *(s32 *)((s8 *)this + 0xB4) = 0; }
     if (*(void **)((s8 *)this + 0xB0) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0xB0)))->queue_destruction(); *(s32 *)((s8 *)this + 0xB0) = 0; }
 }
-extern "C" {
+
 
 Crater_8002C544 *TObjBoss1Crater__ct(Crater_8002C544 *self, void *arg1, void *arg2, void *arg3) {
     f32 r;
@@ -264,7 +262,6 @@ Crater_8002C544 *TObjBoss1Crater__ct(Crater_8002C544 *self, void *arg1, void *ar
 s32 TObjBoss1Crater::is_count_below_limit() {
     return TObjBoss1Crater__instance_count < 0x14;
 }
-}
 
 
 struct Ent_8002C730 { u8 pad0[0x38]; f32 f38; u8 pad3c[4]; f32 f40; };
@@ -273,7 +270,6 @@ struct Obj_8002C730 { f32 x; u8 pad[4]; f32 z; };
 
 extern "C" {
 f32 calc_nearest_crater_distance(Obj_8002C730 *self);
-void *__nw__7TObjectFUl(int);
 void *get_instance__12TBoss1DragonFv(void);
 int is_count_below_limit__15TObjBoss1CraterFv(void *, void *);
 
@@ -287,7 +283,7 @@ void *TObjBoss1Crater::create(void *arg1) {
     if (x1 == NULL) {
         return NULL;
     }
-    o = __nw__7TObjectFUl(0xCC);
+    o = TObject::operator new(0xCC);
     if (o != NULL) {
         o = TObjBoss1Crater__ct((Crater_8002C544 *)o, this, x1, arg1);
     }

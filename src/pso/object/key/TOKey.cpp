@@ -22,10 +22,8 @@
 #include "pso/system/vector.h"
 #include "pso/network/TProtocol.h"
 #include "pso/unk/text_803D853C.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 
-extern "C" {
-s32 TWindowShortListCtrl__check_controller_button(ControllerInputContext *context, s32 button);
-}
 
 const char *TOKey__class_name = "TOKey";
 

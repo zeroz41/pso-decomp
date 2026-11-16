@@ -1,4 +1,8 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/player/PlayerAttackParams.h"
+#include "pso/camera/TCameraCtrl.h"
+#include "pso/render/RenderFadeState.h"
+#include "pso/system/task/TObject.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/effect/particle/TParticleCtrl.h"
@@ -14,6 +18,8 @@
 #include "pso/unk/text_80087278.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/math/MatrixVector.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
 extern "C" void test_flag_1000__9TObjCharaFv();
@@ -26,14 +32,10 @@ extern "C" void test_flag_1000__9TObjCharaFv();
 #include "pso/enemy/sinowzoa/TObjEneMe3SinowZoa.h"
 #include "pso/enemy/panarms/TObjEnePanarms.h"
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
-#include "pso/render/RenderFadeState.h"
+
 #include "pso/unk/TLobby.h"
 #include "pso/object/ambient/TObjFish.h"
 extern "C" TObjEnemy *__ct__9TObjEnemyFP7TObject(void *, void *);
-
-struct Vec_802D9EB4 { f32 x, y, z; };
-
-struct Vec_802D7ACC { f32 x, y, z; };
 
 struct V_802DA7A4Base { u8 pad[0x14]; };
 
@@ -112,12 +114,14 @@ struct VObj14 : Base14 {
 };
 
 extern "C" {
-f32 calc_xz_distance_sq(void *, void *, Vec_802D9EB4 *);
-f64 atan2_float(f32, f32);
+f32 calc_xz_distance_sq(s32 arg0, u32 arg1, void *arg2);
+f32 atan2_float(f32 y, f32 x);
 s32 angle_difference_abs(s32, s32);
 extern u32 gibbles_combat_stat_entries;
 s32 is_target_in_attack_range__14TObjEneGibblesFv(u8 *arg0);
+}
 void apply_actor_gravity(TObjEnemy *arg0, s32 *arg1, f32 farg0);
+extern "C" {
 s16 get_attack_params_atp_min(void *);
 s32 get_current_floor();
 s32 get_enemy_entity();
@@ -138,19 +142,16 @@ s32 copy_position_if_valid__10TObjPlayerFii(s32 arg0, s32 arg1);
 f32 horizontal_distance_squared(int, void *);
 extern u8 *TObjEneGibbles__ai_parameters;
 s32 is_split_screen();
-s32 get_camera_mode__11TCameraCtrlFv();
-s32 update__15RenderFadeStateFv(void *);
 void restore_scene_lighting(void);
 void select_actor_lighting(s32 obj);
-s32 defer_render__7TObjectFv(void *);
-void draw_model__14TObjEneGibblesFPv(TObjEneGibbles *arg0);
+void render__14TObjEneGibblesFv(TObjEneGibbles *arg0);
 f32 subtract_vector(void *, void *);
 s32 check_path_obstructed(void *, void *);
-u8 * get_player_data__10TObjPlayerFi(s32);
-s32 obj_testFlags30__14TObjCollidableFUl(void *, int);
 u16 get_entity_id(void *);
 s32 is_valid_and_active__10TObjPlayerFUl();
+}
 void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
+extern "C" {
 void calc_velocity_toward_destination(void *, Vec_802DA0BC, Vec_802DA0BC, f32);
 f32 newton_sqrtf(f32);
 s32 TObjEneGibbles__sub_800D8988(void *);
@@ -161,14 +162,12 @@ s32 register_object__6TLobbyFl(int);
 s32 dispatch_shared_handler_b__6TLobbyFl(int);
 s32 register_boss__6TLobbyFl(int);
 u8 *load_resource_from_descriptor(void *, int, void *, int, int, int);
-void *mem_alloc(u32 size);
 extern s32 gibbles_boss_stat_handle;
 extern s32 gibbles_combat_stats_handle;
 extern u32 TObjEneGibbles__resource_bundle;
 void copy_position__20TBoss3VoloptHiraisinFv(s32 arg0);
 void init_collision_body_parts(void *, void *, int);
 void *__ct__14TObjCollidableFP7TObject(void *, int);
-void * __nw__7TObjectFUl(int);
 void __construct_array(void *, void *, void *, int, int);
 void *__dt__15RenderFadeStateFv(void *arg0, s16 arg1);
 void __ct__15RenderFadeStateFv(void);
@@ -180,13 +179,6 @@ s32 update_action_hold_status__14TObjEneGibblesFv(u8 *arg0);
 struct Stack_802D7BE0 {
     s32 sp8;
     f32 spC;
-};
-
-struct Stack_802D8140
-{
-  f32 sp8;
-  f32 spC;
-  f32 sp10;
 };
 
 struct Stack_802D7ED4 {
@@ -209,8 +201,6 @@ struct RecoveredGlobal_802D7ED4_lbl_8058D490 {
 typedef char RecoveredGlobal_802D7ED4_lbl_80472780_size[sizeof(RecoveredGlobal_802D7ED4_lbl_80472780) == 0x10 ? 1 : -1];
 
 typedef char RecoveredGlobal_802D7ED4_lbl_8058D490_size[sizeof(RecoveredGlobal_802D7ED4_lbl_8058D490) == 0x30 ? 1 : -1];
-
-typedef struct Stack_802D8140 Stack_802D8140;
 
 struct GibBase_802da394_802D87D8 { char pad[0x14]; };
 
@@ -237,35 +227,13 @@ struct G_802DBC94 { u8 pad[0x42c]; E_802DBC94 *e; };
 
 struct O_802DBC94 { u8 pad[0x24]; s32 f24; u8 pad2[0xc]; s32 f34; };
 
-struct RecoveredGlobal_800A6BE0_lbl_804FF5E8 {
-    s32 value;
-    u8 remaining[0x24];
-};
-
-struct RecoveredGlobal_800A6BE0_lbl_80500978 {
-    s32 value;
-    u8 remaining[0xC];
-};
-
-struct Vec_800A6B14 { f32 x, y, z; };
-
-struct Tgt_800A6B14 { u8 pad[0x2fc]; Vec_800A6B14 pos; };
+struct Tgt_800A6B14 { u8 pad[0x2fc]; Vec pos; };
 
 struct Obj_800A6B14 {
     u8 pad[0x60]; s32 angle;
     u8 pad2[0x2a8 - 0x64]; Tgt_800A6B14 *target;
-    u8 pad3[0x2fc - 0x2ac]; Vec_800A6B14 pos;
+    u8 pad3[0x2fc - 0x2ac]; Vec pos;
 };
-
-struct Vec_800A6B14;
-
-struct Vec_802D8828 { f32 x, y, z; };
-
-struct Vec_802D9D64 { f32 x, y, z; };
-
-typedef char RecoveredGlobal_800A6BE0_lbl_804FF5E8_size[sizeof(RecoveredGlobal_800A6BE0_lbl_804FF5E8) == 0x28 ? 1 : -1];
-
-typedef char RecoveredGlobal_800A6BE0_lbl_80500978_size[sizeof(RecoveredGlobal_800A6BE0_lbl_80500978) == 0x10 ? 1 : -1];
 
 struct Arg_802D9A04 { s32 a; f32 b; };
 
@@ -284,8 +252,6 @@ struct VObj_802D9A04 : VBase_802D9A04 {
 };
 
 struct Hit_802D9B80 { s32 x; f32 y; };
-
-struct Vec_802D9B80 { f32 x, y, z; };
 
 struct VBase_18_22e4b0 { char pad[0x18]; };
 
@@ -316,26 +282,21 @@ struct VObj_18_22e4b0 : VBase_18_22e4b0 {
     virtual s32 m23(s32);
 };
 
-s32 get_main_phase();
-f32 calc_distance_to_client__10TObjPlayerFlUsUl(void *, u16, Vec_802D8828 *);
+f32 calc_distance_to_client__10TObjPlayerFlUsUl(void *, u16, Vec *);
 s32 obj_setFlags30(void *, int);
-s32 queue_destruction__7TObjectFv();
 void free_bin_model_request(void*, int);
-void TCameraCtrl__sub_8006A044(s32, f32);
+void start_camera_shake(s32, f32);
 s32 *csnVecterUnder(s32 origin, s32 mask);
 s32 rotate_xz_pair_by_angle(f32 *, f32 *, s32, f32);
-s32 test_action_mask__10TObjPlayerFl(void *, int);
 void TObjPlayer__sub_800D93C4(s32 point, s32 delay);
 void * __ct__11TObjControlFP7TObject(void *, void *);
 s32 angle_diff_s16(s32, s32);
 s32 lerp_angle_half__Fll(s32, s32);
-void mem_free(void*);
 s32 get_room__8TObjBaseFv(void *);
 void TObjEneGibbles__sub_802D7E3C(void);
 void render_and_get_joint_pos__14TObjEneGibblesFPvii(u8 *arg0, s32 arg1, s32 arg2);
 void TObjEneGibbles__sub_802D8034(void);
 void vfunc_63__14TObjEneGibblesFv(void *arg0);
-void TObjEneGibbles__sub_802D8580(TObjEneGibbles *self);
 void vfunc_61__14TObjEneGibblesFv(void *arg0);
 s32 test_flag_256__14TObjEneGibblesFv(u8 *arg0);
 struct Gib_802D9110;
@@ -361,7 +322,7 @@ struct Obj_802DAD50 : VObj_802DAD50 {
     u8 pad34[0x2A8 - 0x34];
     u8 *target;
     u8 pad2AC[0x2FC - 0x2AC];
-    Vec_800A6B14 pos;
+    Vec pos;
     u8 pad308[0x338 - 0x308];
     u16 f338;
     u8 pad33A[0x350 - 0x33A];
@@ -375,7 +336,7 @@ struct Gib_802D8984 {
     u8 pad0[0x30];
     u32 f30;
     u8 pad34[4];
-    Vec_800A6B14 pos;
+    Vec pos;
     u8 pad44[0x60 - 0x44];
     s32 angle;
     u8 pad64[0xA4 - 0x64];
@@ -650,9 +611,9 @@ const char *TObjEneGibbles__class_name = "TObjEneGibbles";
 
 const Spawn_802DB7C0 gibbles_resource_binding_desc = {0, gibbles_action_table, 1, 10, 0};
 
-const Vec_800A6B14 lbl_80472768 = {0.0f, 0.0f, 0.0f};
+const Vec lbl_80472768 = {0.0f, 0.0f, 0.0f};
 
-const Vec_800A6B14 lbl_80472774 = {0.0f, 0.0f, 0.0f};
+const Vec lbl_80472774 = {0.0f, 0.0f, 0.0f};
 
 const RecoveredGlobal_802D7ED4_lbl_80472780 gibbles_joint_zero_vec = {0};
 void *lbl_804E2950[7] = {
@@ -672,7 +633,7 @@ void *lbl_804E296C[33] = {
 };
 void *lbl_804E29F0[83] = {
     (void *)0x0, (void *)0x0, (void *)&TObjEneGibbles__sub_802DB920, (void *)&run_task__14TObjEneGibblesFv,
-    (void *)&draw_model__14TObjEneGibblesFPv, (void *)&render_shadows__9TObjEnemyFv, (void *)&vfunc_6__8TObjBaseFPsl, (void *)&apply_object_set_data__8TObjBaseFPv,
+    (void *)&render__14TObjEneGibblesFv, (void *)&render_shadows__9TObjEnemyFv, (void *)&vfunc_6__8TObjBaseFPsl, (void *)&apply_object_set_data__8TObjBaseFPv,
     (void *)&reset_motion_fields__9TObjCharaFv, (void *)&get_center__14TObjEneGibblesFv, (void *)&update_object_view_visibility__8TObjBaseFff, (void *)&classify_actor_view_detail__8TObjBaseFfff,
     (void *)&get_name__9TObjEnemyFv, (void *)&interact__14TObjCollidableFl, (void *)&add_actor_exp__9TObjCharaFl, (void *)&consume_timer_field__9TObjCharaFl,
     (void *)&get_actor_level_index__9TObjCharaFv, (void *)&update_actor_ground_y__9TObjCharaFv, (void *)&vfunc_18__9TObjCharaFPUc, (void *)&is_actor_cadence_frame__9TObjCharaFl,
@@ -712,20 +673,20 @@ void TObjEneGibbles__sub_802D7A54(void *arg0) {
         t = get_room__8TObjBaseFv((void *)r);
         u = get_room__8TObjBaseFv(arg0);
         if (u == t) {
-            TCameraCtrl__sub_8006A044(0x1E, 0.1f);
+            start_camera_shake(0x1E, 0.1f);
         }
     }
 }
 
 s32 TObjEneGibbles::spawn_ground_impact_effects(void *pos, f32 farg0) {
-    Vec_802D7ACC v;
+    Vec v;
     f32 y;
     s32 *hit;
     u8 *p;
     if (farg0 <= 0.0f) {
         return 0;
     }
-    VecCopy((Vec *)((Vec_800A6B14 *)&v), (const Vec *)((const Vec_800A6B14 *)pos));
+    VecCopy((Vec *)((Vec *)&v), (const Vec *)((const Vec *)pos));
     y = v.y;
     v.y += 15.0f;
     hit = (s32 *)csnVectorUnder((s32 *)&v, (s32)this + 0x120, 5, y);
@@ -880,7 +841,7 @@ u32 TObjEneGibbles::resolve_sound_id(u32 sound_id) {
     }
   }
   else {
-    pvVar2 = (u32)(((TObjEnemy *)(this))->remap_sound_for_area((s32)(sound_id)));
+    pvVar2 = (u32)(this->remap_sound_for_area((s32)(sound_id)));
   }
   return pvVar2;
 }
@@ -930,7 +891,7 @@ void TObjEneGibbles::update_move_state() {
 }
 
 void TObjEneGibbles::sub_802D8140() {
-  Stack_802D8140 stack;
+  Vec stack;
   switch (this->phase)
   {
     case 0:
@@ -944,13 +905,13 @@ void TObjEneGibbles::sub_802D8140() {
       if ((this->motion_flags) & 0x10)
     {
       this->phase = 4;
-      stack.sp8 = 0.0f;
-      stack.spC = 0.0f;
-      stack.sp10 = -10.0f;
-      rotate_xz_pair_by_angle(&stack.sp8, &stack.sp10, this->rotation_y, 0.0f);
-      vec3_add_to(&stack.sp8, ((u8 *)this) + 0x38);
-      TObjPlayer__sub_800D93C4((s32)&stack.sp8, 0xA);
-      ((TObjPlayer *)(&stack.sp8))->spawn_effect_at_ground(0x46);
+      stack.x = 0.0f;
+      stack.y = 0.0f;
+      stack.z = -10.0f;
+      rotate_xz_pair_by_angle(&stack.x, &stack.z, this->rotation_y, 0.0f);
+      vec3_add_to(&stack.x, ((u8 *)this) + 0x38);
+      TObjPlayer__sub_800D93C4((s32)&stack.x, 0xA);
+      ((TObjPlayer *)(&stack.x))->spawn_effect_at_ground(0x46);
     }
     case 2:
       return;
@@ -964,7 +925,7 @@ void TObjEneGibbles::sub_802D8140() {
     }
       break;
     case 3:
-      queue_destruction__7TObjectFv();
+      queue_destruction();
       break;
     return;
   }
@@ -1061,53 +1022,53 @@ s16 TObjPlayer__sub_800A776C(void *p);
 
 #pragma push
 #pragma fp_contract on
-void TObjEneGibbles__sub_802D8580(TObjEneGibbles *self) {
-    self->advance_animation();
-    self->clamp_angle(0);
-    if (!(self->actorFlags & 0x800000)) {
-        apply_actor_gravity(self, (s32 *)0, 0.0f);
+void TObjEneGibbles::sub_802D8580() {
+    this->advance_animation();
+    this->clamp_angle(0);
+    if (!(this->actorFlags & 0x800000)) {
+        apply_actor_gravity(this, (s32 *)0, 0.0f);
     }
-    switch (self->phase) {
+    switch (this->phase) {
     case 0:
-        self->phase = 1;
-        apply_actor_gravity(self, (s32 *)0, 0.0f);
-        if (self->m_3b0 != NULL) {
-            self->m_388 = (s16)((f32)self->m_388 - 0.2f * (f32)(((TObjPlayer *)self->m_3b0)->get_field_2c8() + ((TObjChara *)self->m_3b0)->get_actor_attack_params_atp_min() + TObjPlayer__sub_800A776C(self->m_3b0) - *(s16 *)((u8 *)self + 0x2CE)));
-            if (self->m_388 <= 0) {
-                self->m_388 = 0;
-                self->m_374 |= 8;
+        this->phase = 1;
+        apply_actor_gravity(this, (s32 *)0, 0.0f);
+        if (this->m_3b0 != NULL) {
+            this->m_388 = (s16)((f32)this->m_388 - 0.2f * (f32)(((TObjPlayer *)this->m_3b0)->get_field_2c8() + ((TObjChara *)this->m_3b0)->get_actor_attack_params_atp_min() + TObjPlayer__sub_800A776C(this->m_3b0) - *(s16 *)((u8 *)this + 0x2CE)));
+            if (this->m_388 <= 0) {
+                this->m_388 = 0;
+                this->m_374 |= 8;
             }
         }
-        self->actorFlags |= 0x04000000;
-        play_sound_effect(self->resolve_sound_id(0x3A330), (u8 *)self + 0x38, 0, 0);
+        this->actorFlags |= 0x04000000;
+        play_sound_effect(this->resolve_sound_id(0x3A330), (u8 *)this + 0x38, 0, 0);
         break;
     case 1:
-        if (self->is_passing_frame(5.0f) != 0) {
-            self->m_380 = 0x107;
+        if (this->is_passing_frame(5.0f) != 0) {
+            this->m_380 = 0x107;
         }
-        if (self->is_passing_frame(12.0f) != 0) {
-            self->actorFlags &= 0xFBFFFEFF;
-            self->m_374 &= ~0x20;
-            if (self->test_flag_256() != 0) {
-                self->phase = 0;
-                self->frame = 0.0f;
+        if (this->is_passing_frame(12.0f) != 0) {
+            this->actorFlags &= 0xFBFFFEFF;
+            this->m_374 &= ~0x20;
+            if (this->test_flag_256() != 0) {
+                this->phase = 0;
+                this->frame = 0.0f;
             } else {
-                self->phase = 3;
+                this->phase = 3;
             }
-            self->update_move_state();
+            this->update_move_state();
         }
         break;
     case 3:
     default:
-        self->actorFlags &= 0xFBFFFEFF;
-        self->m_374 &= ~0x20;
+        this->actorFlags &= 0xFBFFFEFF;
+        this->m_374 &= ~0x20;
         break;
     }
-    ((TObjPlayer *)self)->check_object_collisions();
-    check_enemy_body_collisions(self);
-    ((TObjPlayer *)self)->update_enemy_collision_flags();
-    minimap_render_dot((u8 *)self + 0x38, -0x5DB4, 1, 0);
-    self->actorFlags &= 0xFFDFFFFF;
+    ((TObjPlayer *)this)->check_object_collisions();
+    check_enemy_body_collisions(this);
+    ((TObjPlayer *)this)->update_enemy_collision_flags();
+    minimap_render_dot((u8 *)this + 0x38, -0x5DB4, 1, 0);
+    this->actorFlags &= 0xFFDFFFFF;
 }
 #pragma pop
 
@@ -1129,7 +1090,7 @@ void TObjEneGibbles::vfunc_61() {
 
 int TObjEneGibbles::test_flag_256() {
     u8 *arg0 = (u8 *)this;
-    Vec_802D8828 v;
+    Vec v;
     u8 *pl;
     s32 i;
     s32 flags;
@@ -1139,12 +1100,12 @@ int TObjEneGibbles::test_flag_256() {
     }
     if ((flags & 4) && this->mode != 6 && this->m_388 > 0) {
         for (i = 0; i < registered_player_count; i++) {
-            pl = get_player_data__10TObjPlayerFi(i);
+            pl = (u8 *)TObjPlayer::get_player_data(i);
             if (pl != NULL && !(((TObjPlayer *)pl)->actorFlags & 0x800)
                 && calc_distance_to_client__10TObjPlayerFlUsUl(arg0, i, &v) < 900.0f
                 && angle_difference_abs(this->rotation_y, (s32) (10430.38043493439 * atan2_float(v.x, v.z))) < 0x2AAA
-                && test_action_mask__10TObjPlayerFl(pl, 0xE0) != 0) {
-                VecCopy((Vec *)((Vec_800A6B14 *) &v), (const Vec *)((Vec_800A6B14 *) (arg0 + 0x2FC)));
+                && ((TObjPlayer *)pl)->test_action_mask(0xE0) != 0) {
+                VecCopy((Vec *)((Vec *) &v), (const Vec *)((Vec *) (arg0 + 0x2FC)));
                 subtract_vector(&v, pl + 0x2FC);
                 if (angle_difference_abs(((TObjPlayer *)pl)->rotation_y, (s32) (10430.38043493439 * atan2_float(v.x, v.z))) < 0x2AAA) {
                     this->m_3b0 = pl;
@@ -1216,7 +1177,7 @@ void TObjEneGibbles::sub_802D8984() {
         o->f3A4++;
         if (o->f3A4 >= o->f3A8) {
             if (o->target != NULL) {
-                Vec_800A6B14 v;
+                Vec v;
                 Vec_802DA0BC t = o->target->f2FC;
                 if (select_enemy_destination(o, &t, 1) != 0) {
                     f32 dist;
@@ -1225,7 +1186,7 @@ void TObjEneGibbles::sub_802D8984() {
                         Vec_802DA0BC q = o->f2FC;
                         copy_position_if_valid__10TObjPlayerFii((s32)o, (s32)&q);
                     }
-                    VecCopy((Vec *)&v, (const Vec *)((Vec_800A6B14 *)&o->f29C));
+                    VecCopy((Vec *)&v, (const Vec *)((Vec *)&o->f29C));
                     subtract_vector(&v, &o->f2FC);
                     dist = newton_sqrtf(v.x * v.x + v.z * v.z);
                     dist -= 15.0f;
@@ -1357,7 +1318,6 @@ void TObjEneGibbles__sub_802D8E8C(u8 *arg0) {
     submit_cursor_candidate(arg0, -1);
 }
 
-struct Vec_802D9110 { f32 x, y, z; };
 struct Param_802D9110 { u8 pad0[4]; f32 speed; s32 turn; };
 struct Gib_802D9110 {
     u8 pad0[0x30];
@@ -1374,8 +1334,8 @@ struct Gib_802D9110 {
     u8 padCC[0x2A8 - 0xCC];
     Gib_802D9110 *target;
     u8 pad2AC[0x2FC - 0x2AC];
-    Vec_802D9110 pos;
-    Vec_802D9110 vel;
+    Vec pos;
+    Vec vel;
     u8 pad314[0x328 - 0x314];
     s16 state;
     u8 pad32A[0x338 - 0x32A];
@@ -1415,9 +1375,9 @@ void TObjEneGibbles__sub_802D9110(Gib_802D9110 *self) {
             self->flags30 &= 0xFFDFFFFF;
             self->timer = 0;
         } else {
-            Vec_802D9110 d;
+            Vec d;
             s32 diff;
-            VecCopy((Vec *)((Vec_800A6B14 *)&d), (const Vec *)((const Vec_800A6B14 *)&self->target->pos));
+            VecCopy((Vec *)((Vec *)&d), (const Vec *)((const Vec *)&self->target->pos));
             subtract_vector(&d, &self->pos);
             diff = ((TObjEnemy *)self)->turn_toward_direction(self->param->turn, (Vec *)&d);
             if (!(self->flags30 & 0x800000)) {
@@ -1430,7 +1390,7 @@ void TObjEneGibbles__sub_802D9110(Gib_802D9110 *self) {
                 if (check_path_obstructed(self, &self->target->pos) == 1) {
                     self->vel.x = self->vel.y = self->vel.z = 0.0f;
                 } else {
-                    ((void (*)(void *, Vec_802D9110, Vec_802D9110, f32))calc_velocity_toward_destination)(self, self->pos, self->target->pos, self->param->speed);
+                    ((void (*)(void *, Vec, Vec, f32))calc_velocity_toward_destination)(self, self->pos, self->target->pos, self->param->speed);
                 }
             }
         }
@@ -1522,7 +1482,7 @@ void TObjEneGibbles__sub_802D9110(Gib_802D9110 *self) {
     submit_cursor_candidate(self, -1);
 }
 
-extern "C" s32 obj_is_hit_receivable(void *);
+extern "C" s32 obj_is_hit_receivable(u8 *arg0);
 extern s32 actor_frame_tick;
 
 extern "C" s32 TObjEneGibbles__sub_802D9644(void *self, s32 arg, f32 scale) {
@@ -1544,7 +1504,7 @@ extern "C" s32 TObjEneGibbles__sub_802D9644(void *self, s32 arg, f32 scale) {
             if (!obj) {
                 break;
             }
-            if (!obj_is_hit_receivable(obj)) {
+            if (!obj_is_hit_receivable((u8 *)obj)) {
                 continue;
             }
             g = (TObjEneGibbles *)self;
@@ -1590,7 +1550,7 @@ extern "C" s32 TObjEneGibbles__sub_802D9824(void *self, s32 arg, f32 scale) {
             if (!obj) {
                 break;
             }
-            if (!obj_is_hit_receivable(obj)) {
+            if (!obj_is_hit_receivable((u8 *)obj)) {
                 continue;
             }
             g = (TObjEneGibbles *)self;
@@ -1622,7 +1582,7 @@ s32 TObjEneGibbles__sub_802D9A04(void *target) {
     VObj_802D9A04 *pl;
 
     for (i = 0; i < lbl_805D5868; i++) {
-        pl = ((VObj_802D9A04 * (*)(s32))get_player_data__10TObjPlayerFi)(i);
+        pl = (VObj_802D9A04 *)TObjPlayer::get_player_data(i);
         if (is_valid_and_active__10TObjPlayerFUl() != 0 && get_entity_id(pl) < 0x1000U) {
             f32 dist = horizontal_distance_squared((int) ((u8 *) pl + 0x2FC), (void *) ((s32) target + 0x38));
             if (dist <= ((AttackParams *)(*(void **)((s8 *)gibbles_combat_stat_entries + 4)))->get_damage_radius() * ((AttackParams *)(*(void **)((s8 *)gibbles_combat_stat_entries + 4)))->get_damage_radius()) {
@@ -1643,7 +1603,7 @@ s32 TObjEneGibbles__sub_802D9A04(void *target) {
 #pragma pop
 
 void TObjEneGibbles::slam_damage_players(s32 arg1) {
-    Vec_802D9B80 v;
+    Vec v;
     Hit_802D9B80 a;
     f32 d;
     s32 i;
@@ -1664,7 +1624,7 @@ void TObjEneGibbles::slam_damage_players(s32 arg1) {
             spawn_particle_effect(&v, 0x64);
         }
         for (i = 0; i < lbl_805D5868; i++) {
-            p = get_player_data__10TObjPlayerFi(i);
+            p = (u8 *)TObjPlayer::get_player_data(i);
             if (((s32 (*)(void *))is_valid_and_active__10TObjPlayerFUl)(p) != 0 && get_entity_id(p) < 0x1000) {
                 d = horizontal_distance_squared((int)(p + 0x2FC), &v);
                 if (d <= ((AttackParams *)(*(void **)gibbles_combat_stat_entries))->get_damage_radius() * ((AttackParams *)(*(void **)gibbles_combat_stat_entries))->get_damage_radius()) {
@@ -1681,11 +1641,11 @@ void TObjEneGibbles::slam_damage_players(s32 arg1) {
 
 void TObjEneGibbles::vfunc_60() {
     u8 *arg0 = (u8 *)this;
-    Vec_802D9D64 v;
+    Vec v;
     switch (this->m_37c) {
     case 0:
     default: {
-        VecCopy((Vec *)((Vec_800A6B14 *) &v), (const Vec *)((Vec_800A6B14 *) (this->target + 0x2FC)));
+        VecCopy((Vec *)((Vec *) &v), (const Vec *)((Vec *) (this->target + 0x2FC)));
         subtract_vector(&v, (u8 *)&this->m_2fc);
         f64 t = atan2_float(v.x, v.z);
         this->mode = 4;
@@ -1719,7 +1679,7 @@ void TObjEneGibbles::vfunc_60() {
 #define TGT_802D9EB4 (((void **)gibbles_combat_stat_entries)[(*(s16 *)(arg0 + 0x37C))])
 s32 TObjEneGibbles::is_target_in_attack_range() {
     u8 *arg0 = (u8 *)this;
-    Vec_802D9EB4 v;
+    Vec v;
     f32 rad;
     f32 dist;
     s32 ang;
@@ -1728,7 +1688,7 @@ s32 TObjEneGibbles::is_target_in_attack_range() {
     if (this->mode >= 3) {
         obj = this->target;
         if (obj != NULL && this->m_318 != 0 && !(*(s32 *)((s8 *)obj + 0x30) & 0x02000800)) {
-            dist = calc_xz_distance_sq(arg0, obj, &v);
+            dist = calc_xz_distance_sq((s32)arg0, (u32)obj, (void *)&v);
             ang = angle_difference_abs(this->rotation_y, (s32)(10430.38043493439 * atan2_float(v.x, v.z)));
             sub = *(u8 **)(this->target + 0xA4);
             if (sub != NULL) {
@@ -1825,9 +1785,9 @@ void TObjEneGibbles::sub_802DA0BC() {
     TObjEneGibbles__sub_802D7DAC((s32)this);
     advance_animation();
     turn_toward_target();
-    ((TObjPlayer *)((u8 *)this))->check_object_collisions();
+    this->check_object_collisions();
     check_enemy_body_collisions(this);
-    ((TObjPlayer *)((u8 *)this))->update_enemy_collision_flags();
+    this->update_enemy_collision_flags();
     minimap_render_dot(((u8 *)this) + 0x38, -0x5DB4, 1, 0);
     submit_cursor_candidate(this, -1);
 }
@@ -1976,8 +1936,8 @@ void TObjEneGibbles::vfunc_59() {
 
 void TObjEneGibbles::sub_802DA7A4() {
     u8 *temp_r4;
-    *(s32 *)&this->actorFlags = (s32) (*(s32 *)&this->actorFlags & 0xFFDFFFFF);
-    *(s32 *)&this->actorFlags = (s32) (*(s32 *)&this->actorFlags | 0x06040000);
+    this->actorFlags = (s32) (this->actorFlags & 0xFFDFFFFF);
+    this->actorFlags = (s32) (this->actorFlags | 0x06040000);
     this->m_374 = (s32) (this->m_374 & ~0x107);
     temp_r4 = (unsigned char *) (this->bodies);
     *(s32 *)((s8 *)temp_r4 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r4 + 0x18) & 0xFFFFFFFE);
@@ -2009,7 +1969,7 @@ void TObjEneGibbles::sub_802DA7A4() {
         }
         break;
     case 3:
-        ((TObjBase *)((u8 *)this))->set_position_from((void *) (((u8 *)this) + 0x50));
+        this->set_position_from((void *) (((u8 *)this) + 0x50));
         this->update_prev_position();
         this->scale.z = 1.0f;
         this->scale.y = 1.0f;
@@ -2031,7 +1991,7 @@ void TObjEneGibbles::update_wander() {
     u8 *var_r3;
     u8 *var_r4;
     var_r31 = (u8 *)(this);
-    ((TObjMotion *)this)->advance_animation();
+    this->advance_animation();
     if ((u32) *(u32 *)((s8 *)var_r31 + 0x2A8) != 0U) {
         var_r3 = (u8 *)((void *)3);
         *(s16 *)((s8 *)var_r31 + 0x326) = 3;
@@ -2179,7 +2139,7 @@ void update_target__14TObjEneGibblesFPv(Obj_802DAD50 *self) {
     if (self->m17(0x1E) == 0) {
         return;
     }
-    if (obj_testFlags30__14TObjCollidableFUl(self, 0x10) != 0) {
+    if (((TObjCollidable *)self)->obj_testFlags30(0x10) != 0) {
         s32 best_id;
         s32 i;
         u8 *p;
@@ -2189,14 +2149,14 @@ void update_target__14TObjEneGibblesFPv(Obj_802DAD50 *self) {
         u16 tid;
         i = 0;
         best_id = 0xFFFF;
-        Vec_800A6B14 v = lbl_80472768;
+        Vec v = lbl_80472768;
         best = *self->range * *self->range;
         for (; i < registered_player_count + lbl_805D5870; i++) {
-            p = get_player_data__10TObjPlayerFi(i);
+            p = (u8 *)TObjPlayer::get_player_data(i);
             if (((s32 (*)(u8 *))is_valid_and_active__10TObjPlayerFUl)(p) != 0 && p != (u8 *)self) {
                 id = ((s32 (*)(void *))get_entity_id)(p);
                 if ((u16)id < 0x4000 && (u16)id != self->f1C && !(P_802DAD50(p)->f30 & 0x02000800)) {
-                    VecCopy((Vec *)&v, (const Vec *)((Vec_800A6B14 *)(p + 0x2FC)));
+                    VecCopy((Vec *)&v, (const Vec *)((Vec *)(p + 0x2FC)));
                     subtract_vector(&v, &self->pos);
                     d = v.x * v.x + v.z * v.z;
                     if (d < best && check_path_obstructed(self, p + 0x2FC) != 1) {
@@ -2234,7 +2194,7 @@ void update_target__14TObjEneGibblesFPv(Obj_802DAD50 *self) {
         f32 best2;
         f32 best;
         f32 d;
-        Vec_800A6B14 v = lbl_80472774;
+        Vec v = lbl_80472774;
         best_id = 0xFFFF;
         best_p2 = NULL;
         best_id2 = best_id;
@@ -2243,12 +2203,12 @@ void update_target__14TObjEneGibblesFPv(Obj_802DAD50 *self) {
         best = *self->range * *self->range;
         best2 = best;
         for (; i < registered_player_count; i++) {
-            p = get_player_data__10TObjPlayerFi(i);
+            p = (u8 *)TObjPlayer::get_player_data(i);
             if (p == NULL) continue;
             if ((u16)((s32 (*)(void *))get_entity_id)(p) >= 0x1000) continue;
             if (((TObjPlayer *)p)->get_floor() != get_current_floor()) continue;
             if (P_802DAD50(p)->f30 & 0x02000800) continue;
-            VecCopy((Vec *)&v, (const Vec *)((Vec_800A6B14 *)(p + 0x2FC)));
+            VecCopy((Vec *)&v, (const Vec *)((Vec *)(p + 0x2FC)));
             subtract_vector(&v, &self->pos);
             d = v.x * v.x + v.z * v.z;
             if ((((TObjPlayer *)p)->class_flags & self->target_class_mask) && d < best &&
@@ -2284,7 +2244,7 @@ void update_target__14TObjEneGibblesFPv(Obj_802DAD50 *self) {
 }
 
 void TObjEneGibbles::turn_toward_target() {
-    Vec_800A6B14 d;
+    Vec d;
     VecCopy((Vec *)&d, (const Vec *)(&((Obj_800A6B14 *)this)->target->pos));
     subtract_vector(&d, &((Obj_800A6B14 *)this)->pos);
     ((TObjEneGibbles *)((Obj_800A6B14 *)this))->clamp_angle(angle_diff_s16(((Obj_800A6B14 *)this)->angle, (s32)(10430.38043493439 * atan2_float(d.x, d.z))));
@@ -2311,15 +2271,15 @@ void gibbles_render_node_callback(void) {
 }
 extern "C" {
 
-void draw_model__14TObjEneGibblesFPv(TObjEneGibbles *arg0) {
-    Obj_802DB200 *self = (Obj_802DB200 *)arg0;
-    Vec_800A6B14 v;
+void TObjEneGibbles::render() {
+    Obj_802DB200 *self = (Obj_802DB200 *)this;
+    Vec v;
     s32 fade;
     s32 vis;
     s32 cam;
     cam = 0;
     if (is_split_screen() != 0) {
-        cam = get_camera_mode__11TCameraCtrlFv();
+        cam = TCameraCtrl::get_camera_mode();
     }
     if (get_current_floor_area() == AREA_TOWER) {
         vis = self->m9(600.0f, 600.0f, 30.0f);
@@ -2327,27 +2287,27 @@ void draw_model__14TObjEneGibblesFPv(TObjEneGibbles *arg0) {
         vis = self->m9(300.0f, 600.0f, 30.0f);
     }
     if (vis != 0) {
-        update__15RenderFadeStateFv(&self->fades[cam]);
-        fade = ((RenderFadeState *)(&self->fades[cam]))->updateFromCamera((const f32*)((u8 *)arg0 + 0x2FC));
-        select_actor_lighting((s32)arg0);
-        TObjFish::set_global_param(arg0->texlist);
+        ((RenderFadeState *)(&self->fades[cam]))->update();
+        fade = ((RenderFadeState *)(&self->fades[cam]))->updateFromCamera((const f32*)((u8 *)this + 0x2FC));
+        select_actor_lighting((s32)this);
+        TObjFish::set_global_param(this->texlist);
         push_matrix_from(0);
-        VecCopy((Vec *)&v, (const Vec *)((Vec_800A6B14 *)((u8 *)arg0 + 0x38)));
-        switch (arg0->mode) {
+        VecCopy((Vec *)&v, (const Vec *)((Vec *)((u8 *)this + 0x38)));
+        switch (this->mode) {
         case 2:
         case 6:
         case 10:
-            v.y += arg0->m_38c;
+            v.y += this->m_38c;
             break;
         }
         translate_matrix_vec3((u8 *)(0), (u8 *)&v);
-        rotate_matrix_y(0, arg0->rotation_y);
-        scale_matrix_vec3(0, (u8 *)arg0 + 0x68);
+        rotate_matrix_y(0, this->rotation_y);
+        scale_matrix_vec3(0, (u8 *)this + 0x68);
         TObjEneGibbles__render_node_index = 0;
-        TObjEneGibbles__render_rotation_x = arg0->m_3bc;
+        TObjEneGibbles__render_rotation_x = this->m_3bc;
         set_chunk_model_node_callback((s32)((void *)gibbles_render_node_callback));
         TObjPlayer::toggle_particle_effect();
-        switch (arg0->mode) {
+        switch (this->mode) {
         case 0:
             break;
         case 1:
@@ -2359,8 +2319,8 @@ void draw_model__14TObjEneGibblesFPv(TObjEneGibbles *arg0) {
                 saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
                 model_render_flags |= 1;
                 self->sub.m6();
-                if (defer_render__7TObjectFv(arg0) == 0) {
-                    ((TObjMotion *)arg0)->draw();
+                if (defer_render() == 0) {
+                    ((TObjMotion *)this)->draw();
                 }
                 self->sub.m7();
                 chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
@@ -2374,11 +2334,11 @@ void draw_model__14TObjEneGibblesFPv(TObjEneGibbles *arg0) {
                 saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
                 saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
                 self->fades[cam].m6();
-                if (defer_render__7TObjectFv(arg0) == 0) {
+                if (defer_render() == 0) {
                     if (vis == 1) {
-                        ((TObjMotion *)arg0)->draw();
+                        ((TObjMotion *)this)->draw();
                     } else {
-                        ((TObjEnemy *)arg0)->draw_motion_model();
+                        ((TObjEnemy *)this)->draw_motion_model();
                     }
                 }
                 self->fades[cam].m7();
@@ -2386,9 +2346,9 @@ void draw_model__14TObjEneGibblesFPv(TObjEneGibbles *arg0) {
                 chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
                 model_render_flags = saved_model_render_flags;
             } else if (vis == 1) {
-                ((TObjMotion *)arg0)->draw();
+                ((TObjMotion *)this)->draw();
             } else {
-                ((TObjEnemy *)arg0)->draw_motion_model();
+                ((TObjEnemy *)this)->draw_motion_model();
             }
             break;
         }
@@ -2396,11 +2356,11 @@ void draw_model__14TObjEneGibblesFPv(TObjEneGibbles *arg0) {
         set_chunk_model_node_callback((s32)NULL);
         pop_matrix();
         restore_scene_lighting();
-        if (!(arg0->m_374 & 1)) {
-            ((TObjEnemy *)arg0)->draw_ground_shadow(0, 0);
+        if (!(this->m_374 & 1)) {
+            ((TObjEnemy *)this)->draw_ground_shadow(0, 0);
         }
     } else {
-        arg0->update_position();
+        this->update_position();
     }
 }
 
@@ -2435,7 +2395,7 @@ void TObjEneGibbles::run_task() {
             this->sub_802D8984();
             break;
         case 7:
-            TObjEneGibbles__sub_802D8580(this);
+            sub_802D8580();
             break;
         case 8:
             this->update_action_state();
@@ -2488,11 +2448,11 @@ void TObjEneGibbles::init_params() {
 void *TObjEneGibbles::create(void *arg0) {
     void *o;
     void *o2;
-    o = __nw__7TObjectFUl(0x20);
+    o = TObject::operator new(0x20);
     if (o != NULL) {
         o = __ct__11TObjControlFP7TObject(o, tl_04);
     }
-    o2 = __nw__7TObjectFUl(0x44C);
+    o2 = TObject::operator new(0x44C);
     if (o2 != NULL) {
         o2 = TObjEneGibbles__ct((u8 *)o2, (void *)o, (s32)arg0);
     }
@@ -2626,13 +2586,13 @@ u8 *TObjEneGibbles__ct(u8 *arg0, void *parent, s32 arg2) {
     ((TObjEneGibbles *)arg0)->actorFlags |= 0x06040000;
     ((TObjEneGibbles *)arg0)->m_380 = 0x101;
     *(s32 *)((s8 *)arg0 + 0x384) = 0x101;
-    p = __nw__7TObjectFUl(0xAC);
+    p = TObject::operator new(0xAC);
     if (p != NULL) {
         p = __ct__14TObjCollidableFP7TObject(p, 0);
     }
     *(void **)((s8 *)arg0 + 0x3B4) = p;
     init_collision_body_parts(*(void **)((s8 *)arg0 + 0x3B4), (u8 *)lbl_804E296C + 0x2C, 1);
-    p = __nw__7TObjectFUl(0xAC);
+    p = TObject::operator new(0xAC);
     if (p != NULL) {
         p = __ct__14TObjCollidableFP7TObject(p, 0);
     }
@@ -2652,9 +2612,6 @@ void TObjEneGibbles::sub_802DBC94(s32 i) {
     ((O_802DBC94 *)this)->f34 = (*(G_802DBC94 * *)&TObjEneGibbles__resource_bundle)->e[i].c;
     ((O_802DBC94 *)this)->f24 = (*(G_802DBC94 * *)&TObjEneGibbles__resource_bundle)->e[i].d;
 }
-}
-
-extern "C" {
 s32 gibbles_boss_stat_handle;
 u32 gibbles_combat_stat_entries;
 s32 gibbles_combat_stats_handle;

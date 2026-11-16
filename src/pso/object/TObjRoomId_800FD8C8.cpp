@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/object/TObjRoomId_800FD8C8.h"
 #include "pso/unk/text_800FD8A0.h"
 #include "pso/object/TObjRoomId.h"
 #include "pso/npc/TObjNpcEnemy.h"

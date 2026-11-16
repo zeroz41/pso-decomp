@@ -3,14 +3,10 @@
 
 #include "types.h"
 
-extern "C" {
 void reset_download_graph(void);
-}
 
 // --- C functions defined in TQuestVmDownLoadServer_801F9010.cpp ---
-extern "C" {
 void reset_download_graph(void);
-}
 // --- end of C functions
 
 #endif

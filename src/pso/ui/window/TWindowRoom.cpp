@@ -5,15 +5,9 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowBase.h"
-#include "pso/ui/window/TWindowDD.h"
+
 #include "pso/unk/WindowLayoutRecord.h"
-
-struct RecoveredGlobal_8026D674___vt__11TWindowRoom {
-    s32 value;
-    u8 remaining[0x14];
-};
-
-struct Pos_8026D740 { f32 x; f32 y; };
+#include "pso/system/NinjaTypes.h"
 
 struct RoomTitleEntry {
     u8 unknown00[8];
@@ -43,8 +37,8 @@ void construct_base__9TWindowDDFPUcsPUc(void *, void *, s16, void *);
 void refresh_status_display__9TWindowDDFv(void *);
 s32 get_window_layout_position(int);
 extern s32 __vt__11TWindowRoom[];
-extern s32 TWindowRoom__class_name;
-s32 clamp_list_scroll_offset(struct Pos_8026D740 *a, struct Pos_8026D740 *b, struct Pos_8026D740 *c);
+const char *TWindowRoom__class_name = "TWindowRoom";
+s32 clamp_list_scroll_offset(NJS_POINT2 *a, NJS_POINT2 *b, NJS_POINT2 *c);
 s32 draw_visible_window_entries(s32, s32, s32);
 s32 draw_window_tab(s32, s32, s32, f32);
 void __dl__7TObjectFPv(void *);
@@ -77,14 +71,13 @@ void TWindowRoom::run_task() { ((TWindowDD *)this)->initialize_subwindow(); ((TW
 void *__dt__11TWindowRoomFv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         ((TWindowRoom *)arg0)->objectVtable = __vt__11TWindowRoom;
-        ((TWindowDD *)arg0)->destroy_window_base(0);
+        __dt__11TWindowBaseFv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
         }
     }
     return arg0;
 }
-typedef char RecoveredGlobal_8026D674___vt__11TWindowRoom_size[sizeof(RecoveredGlobal_8026D674___vt__11TWindowRoom) == 0x18 ? 1 : -1];
 
 TWindowRoom::TWindowRoom(char *title) {
     RoomTitleEntry *entry;
@@ -101,7 +94,7 @@ TWindowRoom::TWindowRoom(char *title) {
     tabParameter = TWindowSubStatusDisp__sub_802877A4(unknown48 - 16.0f);
 }
 
-s32 clamp_list_scroll_offset(struct Pos_8026D740 *a, struct Pos_8026D740 *b, struct Pos_8026D740 *c) {
+s32 clamp_list_scroll_offset(NJS_POINT2 *a, NJS_POINT2 *b, NJS_POINT2 *c) {
     f32 room;
     if (a->y < c->y || b->y < 0.0f) {
         b->y = 0.0f;

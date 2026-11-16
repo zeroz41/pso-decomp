@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/ui/window/TObjDeadListWin.h"
+#include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowSubComCard_80244774.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -7,13 +8,13 @@
 #include "pso/map/FloorArea.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjMotion.h"
+#include "pso/player/TObjPlayer_80011014.h"
 extern "C" {
 s32 get_player_by_client_id(s32);
-s32 TWindowCtrlMain__sub_8024CE58();
+s32 has_window_task_root();
 char* strncpy(char*, const char*, int);
 char* strcat(char*, const char*);
 void* get_window_layout_position(s32);
-void append_line__14TWindowMessageFii(u32, void*, s32);
 u32 create__14TWindowMessageFPvll(void*, void*, s32);
 extern s32 local_client_id;
 extern const char TObjDeadListWin_class_name[] = "TObjDeadListWin";
@@ -38,19 +39,19 @@ void TObjDeadListWin::build_dead_list_window() {
             }
             i += 1;
         } while (i < 4);
-        append_line__14TWindowMessageFii(m_window_handle, text, 2);
+        ((TWindowMessage *)m_window_handle)->append_line((int)text, (int)2);
     }
 }
 
 void TObjDeadListWin::update_countdown() {
     s32 temp_r0;
-    s32 temp_r3;
-    temp_r3 = get_player_by_client_id(local_client_id);
-    if ((temp_r3 == 0) || (((TObjCollidable *)temp_r3)->obj_testFlags30(0x02000000) != 0)) {
+    s32 player;
+    player = get_player_by_client_id(local_client_id);
+    if ((player == 0) || (((TObjCollidable *)player)->obj_testFlags30(0x02000000) != 0)) {
         queue_destruction();
         return;
     }
-    if ((((TLobby *)temp_r3)->check_player_flag1() == 0) && (m_countdown > 0x5A)) m_countdown = 0x5A;
+    if ((((TLobby *)player)->check_player_flag1() == 0) && (m_countdown > 0x5A)) m_countdown = 0x5A;
     temp_r0 = m_countdown - 1;
     m_countdown = temp_r0;
     if (temp_r0 < 0) {
@@ -75,7 +76,7 @@ void TObjDeadListWin::refresh_names() {
     }
     me = (u8*)get_player_by_client_id(local_client_id);
     if ((get_current_floor_area() == AREA_PIONEER2_EP1 || get_current_floor_area() == AREA_PIONEER2_EP2)
-        && TWindowCtrlMain__sub_8024CE58() != 0 && me != NULL
+        && has_window_task_root() != 0 && me != NULL
         && ((TObjCollidable *)me)->obj_testFlags30(0x02000000) == 0) {
         build_dead_list_window();
         m_phase = 1;

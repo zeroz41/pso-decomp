@@ -94,7 +94,6 @@ u32 init_collision_body_parts(void *, s32, s32);
 s32 free_collision_body_parts(void *);
 s32 post_translate_matrix(void *);
 s32 push_matrix();
-void *__nw__7TObjectFUl(int);
 u8 *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 extern s32 local_client_id;
 u8 *__ct__8TObjChipFP7TObjectPC14TObjChipParams(u8 *arg0, u8 *arg1, u8 *arg2);
@@ -109,24 +108,21 @@ void play_container_break_sound(s32 arg0);
 struct Obj_8018CBF0 { u8 pad0[0x84]; s32 id; };
 struct Obj_8018CB44 { u8 pad0[0x1C]; u16 f1C; u8 pad1[0x62]; u32 f80; s32 f84; };
 struct Pkt_8018CB44 { u16 a; u16 b; s32 c; s32 d; s32 e; };
-struct Vec_8018C9F0 { f32 x, y, z; };
 struct Obj_8018C9F0 {
     u8 pad0[0x24];
     s32 f24;
     u8 pad28[0x10];
-    Vec_8018C9F0 pos;
+    Vec pos;
     u8 pad44[0x326 - 0x44];
     s16 f326;
     u8 pad328[0x36C - 0x328];
     s32 f36c;
     s32 f370;
 };
-struct Vec_8018CFD4 { f32 x, y, z; };
-struct Obj_8018CFD4 { u8 pad[0x38]; Vec_8018CFD4 pos; };
-struct Vec_8018D4DC { f32 x, y, z; };
+struct Obj_8018CFD4 { u8 pad[0x38]; Vec pos; };
 struct Obj_8018D4DC {
     u8 pad0[0x38];
-    Vec_8018D4DC pos;
+    Vec pos;
     u8 pad44[0x326 - 0x44];
     s16 f326;
 };
@@ -160,7 +156,7 @@ u8 *TObjContainerJungEx::get_model(s32 index) {
 
 s32 TObjContainerJungEx__sub_8018D900(s32 index) {
     if (TObjContainerJungEx__resource_bundle != NULL) {
-        return TObjFish__sub_8001EDB0((BmlResource *)TObjContainerJungEx__resource_bundle, index);
+        return get_bml_texlist((BmlResource *)TObjContainerJungEx__resource_bundle, index);
     }
     return 0;
 }
@@ -267,11 +263,11 @@ void TObjContainerJung::vfunc_79() const {
         b.textures = TObjContainerJung__bml_aux_handle;
         spawn_particle_effect_with_flags(&self->pos, 0x45, 0x40);
         spawn_particle_effect_with_flags(&self->pos, 0x46, 0x40);
-        o = __nw__7TObjectFUl(0x234);
+        o = TObject::operator new(0x234);
         if (o != 0) {
             __ct__8TObjChipFP7TObjectPC14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&a);
         }
-        o = __nw__7TObjectFUl(0x234);
+        o = TObject::operator new(0x234);
         if (o != 0) {
             __ct__8TObjChipFP7TObjectPC14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&b);
         }
@@ -289,7 +285,7 @@ void TObjContainerJung::load_resources() {
         var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 5, &TObjContainerJung__resource_descriptor, 0, 0, 0));
     }
     (*(u8 * *)&TObjContainerJung__bml_model_resource) = (unsigned char *) ((void *) var_r0);
-    TObjContainerJung__bml_aux_handle = TObjFish__sub_8001EDB0((BmlResource *) var_r0, 0);
+    TObjContainerJung__bml_aux_handle = get_bml_texlist((BmlResource *) var_r0, 0);
 }
 
 void TObjContainerJung::release() {
@@ -410,11 +406,11 @@ void TObjContainerJungEx::vfunc_79() const {
     b.textures = TObjContainerJungEx__sub_8018D900(0);
     spawn_particle_effect_with_flags(&self->pos, 0x45, 0x40);
     spawn_particle_effect_with_flags(&self->pos, 0x46, 0x40);
-    void *o = __nw__7TObjectFUl(0x234);
+    void *o = TObject::operator new(0x234);
     if (o != NULL) {
         __ct__8TObjChipFP7TObjectPC14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&a);
     }
-    o = __nw__7TObjectFUl(0x234);
+    o = TObject::operator new(0x234);
     if (o != NULL) {
         __ct__8TObjChipFP7TObjectPC14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&b);
     }
@@ -449,7 +445,7 @@ void *TObjContainerJungEnemy::create(void *set_data) {
 
 void TObjContainerJungEnemy::load_models() {
     s32 var_r0;
-    s32 temp_r3 = *(s32 *)&this->set_params[1];
+    s32 temp_r3 = this->set_params[1];
     if (temp_r3 < 0) {
         var_r0 = 0;
     } else {
@@ -568,11 +564,11 @@ void TObjContainerJungEnemy::vfunc_79() const {
         b.textures = self->f24;
         spawn_particle_effect_with_flags(&self->pos, 0x45, 0x40);
         spawn_particle_effect_with_flags(&self->pos, 0x46, 0x40);
-        void *o = __nw__7TObjectFUl(0x234);
+        void *o = TObject::operator new(0x234);
         if (o != 0) {
             __ct__8TObjChipFP7TObjectPC14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&a);
         }
-        o = __nw__7TObjectFUl(0x234);
+        o = TObject::operator new(0x234);
         if (o != 0) {
             __ct__8TObjChipFP7TObjectPC14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&b);
         }

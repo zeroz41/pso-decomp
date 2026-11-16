@@ -13,8 +13,8 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/boss/darkfalz/TBoss4Type3.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 
-extern "C" {
 Vec *lbl_805D5230;
 s32 lbl_805D5234;
 s32 motion_trail_node_index;
@@ -22,7 +22,6 @@ const s32 *lbl_805D523C;
 const Vec *TBoss4Type3__motion_trail_points;
 extern Vec lbl_80500F80;
 s32 transform_motion_node_points(SampledMotionPoints *arg0, NJS_OBJECT *node, s32 idx);
-}
 
 Vec *SampledMotionPoints::lookup(f32 frame) {
     f32 first = start;
@@ -36,8 +35,8 @@ Vec *SampledMotionPoints::lookup(f32 frame) {
     return points + points_per_sample * index;
 }
 
-extern "C" {
-s32 transform_motion_node_points(SampledMotionPoints *arg0, NJS_OBJECT *node, s32 idx) {
+
+s32 transform_motion_node_points(SampledMotionPoints *sampled_motion_points, NJS_OBJECT *node, s32 idx) {
     u32 flags;
     do {
         push_matrix();
@@ -54,13 +53,12 @@ s32 transform_motion_node_points(SampledMotionPoints *arg0, NJS_OBJECT *node, s3
         }
         idx++;
         if (!(flags & 0x10)) {
-            idx = transform_motion_node_points(arg0, node->child, idx);
+            idx = transform_motion_node_points(sampled_motion_points, node->child, idx);
         }
         pop_matrix();
         node = node->sibling;
     } while (node != NULL && motion_trail_node_index < lbl_805D5234);
     return idx;
-}
 }
 
 extern Vec TObjEneMe3ShinowaMirage_motion_trail_points[2];
@@ -78,8 +76,6 @@ extern "C" {
 Vec lbl_80500F80;
 Vec TObjEneMe3ShinowaMirage_motion_trail_points[2];
 s32 lbl_80500FA4[3];
-void *mem_alloc(u32 size);
-void mem_free(void *p);
 
 void SampledMotionPoints::sample_two_nodes(NJS_OBJECT *model, NJS_MOTION *motion, s32 first_node, s32 second_node) {
     lbl_80500FA4[0] = first_node;

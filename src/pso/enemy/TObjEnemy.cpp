@@ -3,14 +3,11 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/object/base/TObjMotion.h"
 
-#include "pso/enemy/TObjEnemy.h"
+
 #include "pso/player/TObjPlayer.h"
 extern "C" {
-extern s32 __vt__9TObjEnemy[];
 extern void* TObjEnemy_class_name;
-void *__dt__9TObjEnemyFv(TObjEnemy *arg0, s16 arg1);
 int unregister_object_by_id__14TObjCollidableFv(void*);
-s32 __dl__7TObjectFPv(void *);
 s32 copy_header__6TLobbyFPv(s32);
 
 }
@@ -25,11 +22,7 @@ TObjEnemy::~TObjEnemy() {
         }
     }
 }
-extern "C" {
-
 extern s32 TLobby__data_805D6144;
-
-}
 
 TObjEnemy::TObjEnemy(TObject *parent) : TObjChara(parent) {
     m_name = (const char *)TObjEnemy_class_name;

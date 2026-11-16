@@ -9,6 +9,7 @@ struct TBoss2Joint : public TObjEneDD {
     TBoss2Joint(TObject *parent, u16 entity_id, s32 set_index, const Vec *anchor, s32 joint_node,
                 s32 color_target);
     virtual ~TBoss2Joint();
+    void sub_80036940();
     virtual void run_task();
     virtual void render();
     virtual void vfunc_28();

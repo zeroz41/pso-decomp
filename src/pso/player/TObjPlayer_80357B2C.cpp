@@ -13,22 +13,18 @@
 #include <stddef.h>
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/item/TItem.h"
-#include "pso/map/FloorArea.h"
-#include "pso/effect/particle/TParticleCtrl.h"
 
-struct Vec_8035862C { f32 x, y, z; };
+#include "pso/effect/particle/TParticleCtrl.h"
 
 struct InwardOrbitDir { s32 x, y, z; };
 
-static const Vec_8035862C lbl_804793D8 = {0.0f, -1.0f, 0.0f};
+static const Vec lbl_804793D8 = {0.0f, -1.0f, 0.0f};
 static const InwardOrbitDir lbl_804793E4 = {0, 0, 0x4000};
 
 
-struct Vec_80357B2C { f32 x, y, z; };
-
 struct Strike_80357B2C {
-    Vec_80357B2C pos;
-    Vec_80357B2C dir;
+    Vec pos;
+    Vec dir;
     f32 len;
 };
 
@@ -39,14 +35,14 @@ int get_item_field_6__10TObjPlayerFPv(void *p);
 u8 get_item_type__5TItemFv();
 void dispatch_weapon_special_effect(TObjPlayer *player, TObjBase *target, Vec *pos, s32 phase);
 void *spawn_continuous_particle_with_direction(void *pos, void *dir, s32 id);
-void *spawn_particle_effect(void *pos, s32 id);
+void *spawn_particle_effect(const void *pos, s32 id);
 u32 __nw__7TObjectFUl(s32);
 u32 create_fire_explosion_effect(u32, s32, s32, s32, f32);
 int rand(void);
 f32 vector_length(void *);
 s32 normalize_vector(void *);
 void *create_timed_particle_emitter(void *owner, s32 id, s32 b, s32 c);
-void *spawn_particle_effect_with_flags(void *pos, s32 id, s32 flags);
+void *spawn_particle_effect_with_flags(const void *pos, s32 id, s32 flags);
 s32 get_bml_motion(s32, s32);
 s32 get_bml_model(s32, s32);
 void attach_particle_model(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0);
@@ -57,10 +53,10 @@ void *create_timed_particle_emitter_with_flags(void *pos, s32 id, s32 a, s32 b, 
 #pragma push
 #pragma fp_contract on
 void spawn_scattered_lightning_strikes(u8 *arg0, s32 arg1) {
-    Vec_80357B2C *p = (Vec_80357B2C *)arg0;
+    Vec *p = (Vec *)arg0;
     Strike_80357B2C strikes[14];
     Strike_80357B2C *s;
-    Vec_80357B2C *d;
+    Vec *d;
     s32 i;
     u32 obj;
     f32 scale;
@@ -358,7 +354,7 @@ extern s32 lbl_805D63B0;
 
 void weapon_special_lightning_bolt_effect(TObjPlayer *player, TObjBase *target, Vec *pos, s32 phase) {
     Vec node;
-    Vec_8035862C v;
+    Vec v;
     u32 obj;
     if (phase == 0) {
         player->get_anim_node_position(0x30, &node);
@@ -368,7 +364,7 @@ void weapon_special_lightning_bolt_effect(TObjPlayer *player, TObjBase *target, 
         VecCopy((Vec *)&v, pos);
         v.y += 100.0f;
         {
-            Vec_8035862C t = lbl_804793D8;
+            Vec t = lbl_804793D8;
             obj = __nw__7TObjectFUl(0x260);
             if (obj != 0U) {
                 ((TTecZonde *)obj)->construct_bolt_effect((u8 *)tl_07, (u8 *)&v, (u8 *)&t, 0x14000000, 0x14, 100.0f, 1.8f);

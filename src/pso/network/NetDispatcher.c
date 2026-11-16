@@ -19,8 +19,8 @@ struct Self_803FD85C;
 #include "pso/network/NetStackTypes.h"
 s32 TLobby__sub_803F8E9C(void);
 s32 TLobby__sub_80419A34(void);
-void TLobby__sub_803F97E8(int);
-void TLobby__sub_803F9344(s32, void *, s32);
+void net_sleep_ms(s32 ms);
+void TLobby__sub_803F9344(u32 handle, void *source, s32 size);
 void NetEnqueueProtocolMessage(s32 payload, s16 detail, s16 first, s16 second, u16 protocol);
 
 struct Self_803FDA68;
@@ -32,7 +32,7 @@ NetworkDispatchState network_dispatch_state;
 s32 NetUnregisterTimer(void* p);
 
 void TLobby__sub_80419A00(void) {
-    NetMemset((void *) (&network_dispatch_state.lock_handle), 0, offsetof(NetworkDispatchState, unknown_F4));
+    NetMemset(&network_dispatch_state.lock_handle, 0, offsetof(NetworkDispatchState, unknown_F4));
     cancel_pending_alarms();
 }
 s32 TLobby__sub_80419A34(void) {
@@ -108,7 +108,7 @@ extern void NetRunTimerDispatchLoop(void) {
     u32 next;
 
     for (;;) {
-        TLobby__sub_803F97E8(network_dispatch_state.interval);
+        net_sleep_ms(network_dispatch_state.interval);
         for (i = 0; i < 10; i++) {
             if (g->timers[i].active == 0 || g->timers[i].fn == NULL) {
                 continue;
@@ -231,7 +231,7 @@ void NetEnqueueProtocolMessage(s32 payload, s16 detail, s16 first, s16 second, u
     TLobby__sub_803F9344(network_dispatch_state.queue_handle, &message, 0xC);
 }
 
-s32 dispatch_handler_by_id(s16 a, s32 b, void* e); /* declared here with other parameter types; the definition is s32 (s16, s32, s32) */
+s32 dispatch_handler_by_id(s16 arg0, s32 arg1, s32 arg2); /* declared here with other parameter types; the definition is s32 (s16, s32, s32) */
 void NetRunProtocolDispatchLoop(void) {
     NetProtocolMessage msg;
     s16 i;
@@ -248,7 +248,7 @@ void NetRunProtocolDispatchLoop(void) {
             }
         }
         unlock_mutex(network_dispatch_state.lock_handle);
-        dispatch_handler_by_id(msg.first, msg.second, (void *)msg.payload);
+        dispatch_handler_by_id(msg.first, msg.second, msg.payload);
         NetYieldThread();
     }
 }

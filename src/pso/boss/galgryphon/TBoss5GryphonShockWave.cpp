@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/boss/galgryphon/TBoss5Gryphon.h"
 #include "pso/boss/goldragon/TBoss8Dragon_8005D700.h"
 #include "pso/boss/galgryphon/TBoss5GryphonShockWave.h"
 #include "pso/boss/galgryphon/Boss5GryphonBehavior.h"
@@ -38,7 +39,7 @@ void TBoss5GryphonShockWave::run_task() {
     s32 temp_r30;
     s32 temp_r3;
     s32 particle_effect_with_flags;
-    if (((TBoss8Dragon *)(*(s32 *)&this->m_38))->get_flag_bit6() != 0) {
+    if (((TBoss5Gryphon *)(*(s32 *)&this->m_38))->get_flag_bit6() != 0) {
         ((TObject *)arg0)->queue_destruction();
         return;
     }

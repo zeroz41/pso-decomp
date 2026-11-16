@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/ui/charcreate/TChCrLoadAfsTextureReq.h"
 #include "pso/ui/charcreate/TChCrLoadGmNjReq.h"
 #include "pso/unk/TLobby_801E2F94.h"
 #include "pso/unk/TLobby_8028D714.h"
@@ -102,9 +103,8 @@ struct Sel_8028CD18 {
 extern "C" {
 s32 is_selection_done__23TAdSinglePlyChrSelectGCFPv(void *);
 void start_preview_loads__23TAdSinglePlyChrSelectGCFPv(Gc_8028CB6C *arg0);
-void *create__22TChCrLoadAfsTextureReqFPvPv(void *arg0, void *arg1);
 s32 is_node_tree_valid(u32, s32);
-void blend_creation_proportion_shapes(void *);
+void blend_creation_proportion_shapes(f32 *point);
 extern s32 chr_select_preview_stride_table[];
 extern s32 chr_select_preview_base_offset_table[];
 
@@ -178,7 +178,7 @@ s32 TAdSinglePlyChrSelectGC::load_preview_models() {
         s.z[i] = bufs[i + 3];
     }
     ((TAdSinglePlyChrSelectGC *)(&s))->reset_creation_parts();
-    blend_creation_proportion_shapes(self->f38 + 0x48);
+    blend_creation_proportion_shapes((f32 *)(self->f38 + 0x48));
     for (j = 0; j < 6; j++) TAdSinglePlyChrSelectGC::safe_free(bufs[j]);
 }
 
@@ -214,7 +214,7 @@ void TAdSinglePlyChrSelectGC::request_texture_loads() {
     r1.type = 4;
     r1.flags = arg0->flags;
     r1.index = idx;
-    if (create__22TChCrLoadAfsTextureReqFPvPv(arg0, &r1) == 0) {
+    if (TChCrLoadAfsTextureReq::create(arg0, &r1) == 0) {
         return;
     }
     if (arg0->info->a != 0 || arg0->info->b != 0) {
@@ -222,7 +222,7 @@ void TAdSinglePlyChrSelectGC::request_texture_loads() {
         r2.type = 1;
         r2.flags = arg0->flags;
         r2.index = idx;
-        if (create__22TChCrLoadAfsTextureReqFPvPv(arg0, &r2) == 0) {
+        if (TChCrLoadAfsTextureReq::create(arg0, &r2) == 0) {
             return;
         }
     } else {
@@ -232,7 +232,7 @@ void TAdSinglePlyChrSelectGC::request_texture_loads() {
     r3.type = 2;
     r3.flags = arg0->flags;
     r3.index = idx;
-    if (create__22TChCrLoadAfsTextureReqFPvPv(arg0, &r3) == 0) {
+    if (TChCrLoadAfsTextureReq::create(arg0, &r3) == 0) {
         return;
     }
 }
@@ -287,7 +287,7 @@ void TAdSinglePlyChrSelectGC::request_model_loads() {
     if (create_ch_cr_load_gm_nj_req(this, &r4) == 0) return;
 }
 
-void TChCrLoadReq::sub_8028CEEC(s32 *) {
+void TChCrLoadReq::release_load_slot() {
     if (((s32) chr_select_load_slot_count <= 1) && ((s32) this->m_8c != 0)) {
         this->m_8c = 0;
         if (--chr_select_load_slot_count == 0) {
@@ -330,7 +330,7 @@ void close_and_destroy__12TChCrLoadReqFv(void *arg0) {
         ((TAdSinglePlyChrSelectGC *)arg0)->load_preview_models();
         temp_r4 = *(s32 **)((s8 *)arg0 + 0x3C);
         *temp_r4 &= 0xFFFFFF7F;
-        ((TChCrLoadReq *)arg0)->sub_8028CEEC(temp_r4);
+        ((TChCrLoadReq *)arg0)->release_load_slot();
         ((TObject *)arg0)->queue_destruction();
     }
 }

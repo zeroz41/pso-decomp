@@ -10,32 +10,20 @@
 #include "pso/ui/TLevelSelect.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/frontend/TAdEnterSerialAccessGC.h"
-
-struct RecoveredGlobal_802DCA20_TAdMultiPlyChrSelectGC__data_804727B0 {
-    s32 value;
-    u8 remaining[0x1C];
-};
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 
 struct RecoveredGlobal_802DCA20_lbl_804727E8 {
     s32 value;
     u8 remaining[0x1C];
 };
 
-struct RecoveredGlobal_802DCA20_lbl_8050E3B8 {
-    s32 value;
-    u8 remaining[0x1AC];
-};
-
-struct RecoveredGlobal_802DCA20_TAdMultiPlyChrSelectGC__data_804727B0;
 struct Ent_802DC8A0 { u8 d[0x50]; };
 
 struct Pair_802DC8A0 { u8 d[8]; };
 
 extern "C" {
-s32 TWindowShortListCtrl__check_controller_button(void *, s32);
 s32 play_sound_effect(s32, s32, s32, s32);
 s32 TAdMultiPlyChrSelectGC__sub_802C5A44(int, void *, int);
-extern RecoveredGlobal_802DCA20_TAdMultiPlyChrSelectGC__data_804727B0 TAdMultiPlyChrSelectGC__character_slot_positions;
 extern RecoveredGlobal_802DCA20_lbl_804727E8 multi_chr_select_item_rect_table;
 extern s32 controller_physical_port_bank[];
 s32 get_instance__22TAdMultiPlyChrSelectGCFv(s32);
@@ -78,9 +66,7 @@ void TAdMultiPlyChrSelectGC::update_input_state() {
         }
     }
 }
-typedef char RecoveredGlobal_802DCA20_TAdMultiPlyChrSelectGC__data_804727B0_size[sizeof(RecoveredGlobal_802DCA20_TAdMultiPlyChrSelectGC__data_804727B0) == 0x20 ? 1 : -1];
 typedef char RecoveredGlobal_802DCA20_lbl_804727E8_size[sizeof(RecoveredGlobal_802DCA20_lbl_804727E8) == 0x20 ? 1 : -1];
-typedef char RecoveredGlobal_802DCA20_lbl_8050E3B8_size[sizeof(RecoveredGlobal_802DCA20_lbl_8050E3B8) == 0x1B0 ? 1 : -1];
 
 void TAdMultiPlyChrSelectGC__sub_802DC8A0(void *arg0) {
     u32 i;
@@ -129,7 +115,7 @@ void TAdMultiPlyChrSelectGC__sub_802DC8A0(void *arg0) {
 
 void TAdMultiPlyChrSelectGC__sub_802DCA20(u8 *arg0) {
     ((TAdMultiPlyChrSelectGC *)(*(s32 *)((s8 *)arg0 + 0x60)))->set_index_and_close_status(2);
-    if (TWindowShortListCtrl__check_controller_button((void *)((void *) ((u8 *)&(*(RecoveredGlobal_802DCA20_lbl_8050E3B8 *)&controller_physical_port_bank).value + 0x20)), 2) != 0) {
+    if (TWindowShortListCtrl__check_controller_button((void *)((void *) ((u8 *)&controller_physical_port_bank + 0x20)), 2) != 0) {
         play_sound_effect(0x52F16, 0, 0, 0);
         *(s32 *)((s8 *)arg0 + 0x28) = 0x1B;
         *(s32 *)((s8 *)arg0 + 0x20) = 0x1A;

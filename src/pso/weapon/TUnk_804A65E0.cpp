@@ -41,12 +41,12 @@ void TUnk_804A65E0::emit_marker_effects() {
                 i += 1;
             } while (i != 0xA);
             if (targets.count != 0) {
-                ((TTecGiZonde *)owner)->create(&cast_point, &targets, (void *)((TObjPlayer *)this)->get_tp());
+                ((TTecGiZonde *)owner)->create(&cast_point, &targets, (void *)((TItemWeapon *)this)->get_tp());
             }
             roll_technique();
         }
     } else {
-        ((TObjPlayer *)this)->update_active_game_effect();
+        ((TItemWeapon *)this)->update_active_game_effect();
     }
 }
 

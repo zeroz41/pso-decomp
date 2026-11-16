@@ -15,7 +15,7 @@ BmlResourceDescriptor TObjNpcSoldierBase__body_resource_desc = { "bm_n_gunb2_i_b
 const char *TObjNpcSoldierBase__name = "TObjNpcSoldierBase";
 BmlResource *TObjNpcSoldierBase__shared_model_resource;
 
-extern "C" s32 __vt__18TObjNpcSoldierBase[];
+s32 __vt__18TObjNpcSoldierBase[];
 
 void *TObjNpcSoldierBase__create(void *set_data) {
     TObjControl *control = new TObjControl(tl_04);

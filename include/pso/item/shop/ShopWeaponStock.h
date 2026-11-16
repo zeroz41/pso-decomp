@@ -30,4 +30,8 @@ void TLobby__sub_80225238(int a0, int a1);
 }
 // --- end of C functions
 
+// shop_weapon_stock_generated_flags: layout known from its uses only.
+struct ShopWeaponStockGeneratedFlags { s32 value; u8 remaining[0xC]; };
+extern ShopWeaponStockGeneratedFlags shop_weapon_stock_generated_flags;
+
 #endif

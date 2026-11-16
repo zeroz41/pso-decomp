@@ -20,8 +20,6 @@ struct TORockJungleS01 : public TORockCaveBrakable {
 
 typedef char TORockJungleS01_size[sizeof(TORockJungleS01) == 0xC0 ? 1 : -1];
 
-extern "C" {
 s32 get_jungle_rock_texture_resource(s32 index);
-}
 
 #endif

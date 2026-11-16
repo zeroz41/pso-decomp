@@ -10,13 +10,10 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/render_util.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/math/AngleLookup.h"
 
 #pragma readonly_strings on
-
-struct RecoveredGlobal_800A4204_lbl_80490A18 {
-    s32 value;
-    u8 remaining[0x14];
-};
 
 typedef struct Hamon_800A36A8 {
     u8 pad0[0x1C];
@@ -29,8 +26,6 @@ typedef struct Hamon_800A36A8 {
     u8 color50[0x10];
 } Hamon_800A36A8;
 
-struct Vec_800A4064 { f32 x, y, z; };
-
 struct Inner_800A4064 { u8 pad0[0xC]; s32 *p; };
 
 struct Entry_800A4064 { u8 pad0[8]; Inner_800A4064 *inner; };
@@ -38,9 +33,9 @@ struct Entry_800A4064 { u8 pad0[8]; Inner_800A4064 *inner; };
 struct Obj_800A4064 {
     u8 pad0[0x38];
     s32 count;
-    Vec_800A4064 base[(0x108 - 0x3C) / 12];
-    Vec_800A4064 out[(0x1D4 - 0x108) / 12];
-    Vec_800A4064 dir[22];
+    Vec base[(0x108 - 0x3C) / 12];
+    Vec out[(0x1D4 - 0x108) / 12];
+    Vec dir[22];
     u8 pad2DC[8];
     f32 scale[(0x328 - 0x2E4) / 4];
     s32 timer;
@@ -52,15 +47,13 @@ struct Obj_800A4064 {
 
 typedef struct Cam_800A3D1C { u8 pad0[8]; f32 cx; f32 cy; u8 pad10[8]; f32 sw; f32 aspect; } Cam_800A3D1C;
 
-struct Vec_800A3D1C { f32 x, y, z; };
-
 struct Vtx_800A3D1C { f32 x, y, z, u, v; u32 color; };
 
 struct Obj_800A3D1C {
     u8 pad0[0x38];
     s32 count;
     u8 pad3C[0x108 - 0x3C];
-    Vec_800A3D1C pts[17];
+    Vec pts[17];
     u8 pad1D4[0x32C - 0x1D4];
     u32 color;
     u8 pad330[0x10];
@@ -75,37 +68,33 @@ const char *lbl_805D29E0 = "TeneFakeTecThunderEff";
 u8 *TObjPlayer__sub_800A4204(u8 *arg0, u8 *arg1, s32 arg2, s32 arg3, s32 arg4);
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
-f32 sin_table_lookup(s32);
 extern Entry_800A4064 *player_effect_task_list[];
 extern s32 TObjPlayer__effect_count;
 extern const f32 lbl_805D99F8;
 extern const f32 lbl_805D9A04;
 extern const f32 lbl_805D9A08;
-f32 newton_sqrtf(f32);
 s32 matrix_mult_vec(int, void *, void *);
 extern Cam_800A3D1C lbl_8058D4F8;
 extern const f32 lbl_805D99F0;
 extern const f32 lbl_805D99FC;
 extern const f32 lbl_805D9A00;
 
-struct Vec_800A39A8 { f32 x, y, z; };
 struct Obj_800A39A8 {
     u8 pad0[0x1C];
-    Vec_800A39A8 a;
-    Vec_800A39A8 d;
+    Vec a;
+    Vec d;
     f32 step;
     s32 count;
-    Vec_800A39A8 pts[34];
-    Vec_800A39A8 dirs[17];
+    Vec pts[34];
+    Vec dirs[17];
     f32 t[17];
     f32 r[21];
-    Vec_800A39A8 *from;
-    Vec_800A39A8 *to;
+    Vec *from;
+    Vec *to;
     u8 pad340[4];
     s32 n;
 };
 
-f32 fabs_float(f32);
 f32 rand_signed_unit();
 s32 update_scale__15TObjBoss2TunnelFv(void *);
 f32 vector_length(void *);
@@ -126,7 +115,7 @@ void build_beam_points__12TTecZondeEffFPv(Obj_800A39A8 *o) {
     f32 fx;
     f32 fy;
     f32 fz;
-    Vec_800A39A8 *p;
+    Vec *p;
 
     VecCopy((Vec *)&o->a, (const Vec *)o->from);
     VecCopy((Vec *)&o->d, (const Vec *)o->to);
@@ -246,10 +235,10 @@ void build_beam_points__12TTecZondeEffFPv(Obj_800A39A8 *o) {
 void TeneFakeTecThunderEff::render() {
     Obj_800A3D1C *o = (Obj_800A3D1C *)this;
     Vtx_800A3D1C verts[34];
-    Vec_800A3D1C out[17];
+    Vec out[17];
     f32 sa[17];
     f32 sb[17];
-    Vec_800A3D1C v;
+    Vec v;
     f32 sw;
     f32 sh;
     f32 cy;
@@ -271,7 +260,7 @@ void TeneFakeTecThunderEff::render() {
     f32 nx;
     f32 ny;
     u32 color;
-    Vec_800A3D1C *q;
+    Vec *q;
     Vtx_800A3D1C *p;
     s32 i;
     s32 j;
@@ -385,11 +374,10 @@ TeneFakeTecThunderEff::~TeneFakeTecThunderEff() {
 
 }
 
-typedef char RecoveredGlobal_800A4204_lbl_80490A18_size[sizeof(RecoveredGlobal_800A4204_lbl_80490A18) == 0x18 ? 1 : -1];
 u8 *TObjPlayer__sub_800A4204(u8 *arg0, u8 *arg1, s32 arg2, s32 arg3, s32 arg4) {
     __ct__7TObjectFP7TObject(arg0, arg1);
-    *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_800A4204_lbl_80490A18 *)&__vt__21TeneFakeTecThunderEff).value;
-    *(const char **)((s8 *)arg0 + 0) = lbl_805D29E0;
+    *(s32 **)((s8 *)arg0 + 0x18) = __vt__21TeneFakeTecThunderEff;
+    ((TeneFakeTecThunderEff *)arg0)->m_name = lbl_805D29E0;
     ((TeneFakeTecThunderEff *)arg0)->m_338 = arg2;
     *(s32 *)((s8 *)arg0 + 0x33C) = arg3;
     ((TeneFakeTecThunderEff *)arg0)->m_330 = 0;

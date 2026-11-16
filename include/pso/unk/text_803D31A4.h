@@ -27,4 +27,11 @@ void TLobby__sub_803D3988(void);
 void TLobby__sub_803D39C0(void);
 }
 
+// svm_callback_counts: layout known from its uses only.
+struct SvmCallbackCounts { s32 value; u8 remaining[0x18]; };
+extern SvmCallbackCounts svm_callback_counts;
+// worker_callback_flag_table: layout known from its uses only.
+struct WorkerCallbackFlagTable { s32 value; u8 remaining[0x18]; };
+extern WorkerCallbackFlagTable worker_callback_flag_table;
+
 #endif

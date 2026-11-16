@@ -67,7 +67,7 @@ const char *option_name_table[49] = {
 };
 
 // Stream file of each song, same order as option_name_table.
-const char *bgm_adx_filename_table[49] = {
+char *bgm_adx_filename_table[49] = {
     "title.adx",
     "opening.adx",
     "advr.adx",
@@ -143,7 +143,6 @@ const FlagLink_8036A514 music_flag_link_table[] = {
 
 const s32 music_sequencer_flag_ids[9] = {11, 14, 17, 21, 22, 42, 45, 36, 39};
 
-extern "C" {
 
 u32 *get_flag_word_mask(s32 arg0, u32 *mask) {
     s32 word;
@@ -171,7 +170,6 @@ void unlock_sequencer_flag(s32 arg0) {
     }
 }
 
-}
 
 void TObjBgmColCtrl::update_all_zones(s32 arg0) {
     s32 var_r31;
@@ -179,7 +177,7 @@ void TObjBgmColCtrl::update_all_zones(s32 arg0) {
     var_r31 = 0;
     do {
         if (check_flag_index_set(var_r31) != 1) {
-            if (strcmp((const char *)get_bgm_filename(var_r31), (const char *)arg0) == 0) {
+            if (strcmp(get_bgm_filename(var_r31), (const char *)arg0) == 0) {
                 unlock_music_flag(var_r31);
             }
         }
@@ -207,7 +205,7 @@ void unlock_music_flag(s32 flag) {
 
 s32 check_flag_index_set(s32 arg0) {
     s32 sp8;
-    s32 *temp_r3;
+    s32 *flag_word_mask;
 
     if (arg0 < 0) {
         return 0;
@@ -215,14 +213,13 @@ s32 check_flag_index_set(s32 arg0) {
     if (arg0 >= 0x31) {
         return 0;
     }
-    temp_r3 = (s32 *)get_flag_word_mask(arg0, (u32 *)&sp8);
-    if (temp_r3 == NULL) {
+    flag_word_mask = (s32 *)get_flag_word_mask(arg0, (u32 *)&sp8);
+    if (flag_word_mask == NULL) {
         return 0;
     }
-    return (*temp_r3 & sp8) != 0;
+    return (*flag_word_mask & sp8) != 0;
 }
 
-extern "C" {
 
 s32 is_music_flag_unlocked_stub(s32 idx) {
     if (check_flag_index_set(idx) == 0) {
@@ -231,17 +228,16 @@ s32 is_music_flag_unlocked_stub(s32 idx) {
     return 1;
 }
 
-s32 get_bgm_filename(s32 arg0) {
+char *get_bgm_filename(s32 arg0) {
     if (arg0 < 0) {
-        return 0;
+        return NULL;
     }
     if (arg0 >= 0x31) {
-        return 0;
+        return NULL;
     }
-    return (s32)bgm_adx_filename_table[arg0];
+    return bgm_adx_filename_table[arg0];
 }
 
-}
 
 s32 get_option_table_entry(s32 arg0) {
     if (arg0 < 0) {

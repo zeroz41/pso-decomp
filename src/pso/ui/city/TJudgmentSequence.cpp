@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/ui/city/TShopWindowBase.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/city/TJudgmentSequence.h"
 #include "pso/system/task/TObject.h"
@@ -9,7 +10,6 @@ struct TShopJudgmentItemWindow;
 #include "pso/unk/text_8026934C.h"
 #include "pso/ui/city/TShopSequence.h"
 
-#include "pso/ui/city/TShopWindowBase.h"
 
 #pragma readonly_strings on
 
@@ -49,11 +49,6 @@ struct RecoveredGlobal_80215EF8___vt__17TJudgmentSequence {
     u8 remaining[0x34];
 };
 
-struct RecoveredGlobal_80215EF8_TJudgmentSequence__data_80513E80 {
-    s32 value;
-    u8 remaining[0xC];
-};
-
 struct Win_80215CB8 { u8 pad[0x16c]; void *cb0; void *cb1; void *cb2; };
 
 struct Seq_80215CB8 { u8 pad[0x24]; s32 f24; };
@@ -63,13 +58,12 @@ s32 set_service_counter_camera(void *, int);
 s32 get_window_layout_position(int, f32);
 s32 sub_8022397C__15TShopWindowBaseFv(void *);
 extern RecoveredGlobal_80215EF8___vt__17TJudgmentSequence __vt__17TJudgmentSequence;
-RecoveredGlobal_80215EF8_TJudgmentSequence__data_80513E80 TJudgmentSequence__slot_flags;
+struct TJudgmentSequenceSlotFlags { s32 value; u8 remaining[0xC]; };
+TJudgmentSequenceSlotFlags TJudgmentSequence__slot_flags;
 s32 judgment_sequence_instance;
-void *__nw__7TObjectFUl(u32);
 void *__ct__23TShopJudgmentItemWindowFPvPvPv(TShopJudgmentItemWindow *arg0, void *arg1, void *arg2, void *arg3);
 extern void *tl_05;
 s32 sub_802239EC__13TShopSequenceFv(void *);
-s32 sub_80223A48__15TShopWindowBaseFv(void *);
 s32 close_window__13TShopSequenceFv(void *);
 int restore_player_state__13TShopSequenceFv(void*);
 
@@ -94,14 +88,14 @@ void TJudgmentSequence__sub_80215BF8(void *shop_window_base) {
 }
 
 void TJudgmentSequence::handle_close_input() {
-    if ((this->vfunc_10() != 0) && ((sub_80223A48__15TShopWindowBaseFv(this) != 0) || (sub_802239EC__13TShopSequenceFv(this) != 0))) {
+    if ((this->vfunc_10() != 0) && ((sub_80223A48() != 0) || (sub_802239EC__13TShopSequenceFv(this) != 0))) {
         close_window__13TShopSequenceFv(this);
         queue_destruction();
     }
 }
 
 void TJudgmentSequence::open_judgment_window() {
-    Win_80215CB8 *o = (Win_80215CB8 *)__nw__7TObjectFUl(0x178);
+    Win_80215CB8 *o = (Win_80215CB8 *)TObject::operator new(0x178);
     if (o != 0) {
         o = (Win_80215CB8 *)__ct__23TShopJudgmentItemWindowFPvPvPv((TShopJudgmentItemWindow *)((void *)o), (void *)((void *)tl_05), (void *)((Seq_80215CB8 *)this), (void *)(((Seq_80215CB8 *)this)->f24));
     }
@@ -112,7 +106,7 @@ void TJudgmentSequence::open_judgment_window() {
 }
 
 void TJudgmentSequence::handle_confirm() {
-    if ((this->vfunc_10() != 0) && ((sub_80223A48__15TShopWindowBaseFv(this) != 0) || (sub_802239EC__13TShopSequenceFv(this) != 0))) {
+    if ((this->vfunc_10() != 0) && ((sub_80223A48() != 0) || (sub_802239EC__13TShopSequenceFv(this) != 0))) {
         set_field_20((s32)((void*)(3)));
     }
 }
@@ -136,7 +130,6 @@ void TJudgmentSequence::setup_counter_camera() {
 
 void TJudgmentSequence::restore_player_state() { restore_player_state__13TShopSequenceFv(this); set_field_20((s32)((void*)((void*)1))); }
 typedef char RecoveredGlobal_80215EF8___vt__17TJudgmentSequence_size[sizeof(RecoveredGlobal_80215EF8___vt__17TJudgmentSequence) == 0x38 ? 1 : -1];
-typedef char RecoveredGlobal_80215EF8_TJudgmentSequence__data_80513E80_size[sizeof(RecoveredGlobal_80215EF8_TJudgmentSequence__data_80513E80) == 0x10 ? 1 : -1];
 
 struct Seq_80215CB8;
 void TJudgmentSequence::vfunc_11() {
@@ -165,10 +158,10 @@ TJudgmentSequence::~TJudgmentSequence() {
         ((TObject *)(*(void **)((s8 *)this + 0x30)))->queue_destruction();
         *(u32 *)((s8 *)this + 0x30) = 0U;
     }
-    ((TShopSequence *)this)->close_message_window();
-    if ((u32) ((TJudgmentSequence *)this)->m_2c != 0U) {
+    this->close_message_window();
+    if ((u32) this->m_2c != 0U) {
         ((TWindowBase *)(*(void **)((s8 *)this + 0x2C)))->close();
-        ((TJudgmentSequence *)this)->m_2c = 0U;
+        this->m_2c = 0U;
     }
     judgment_sequence_instance = 0;
     *(s32 *)((s8 *)&TJudgmentSequence__slot_flags.value + (sub_8022397C__15TShopWindowBaseFv(this) * 4)) = 0;
@@ -180,7 +173,7 @@ const char *TJudgmentSequence__class_name = "TJudgmentSequence";
 u8 *TJudgmentSequence__ct(u8 *judgment_sequence, s32 arg1, s32 arg2) {
     TShopSequence__ct((judgment_sequence));
     *(s32 **)((s8 *)judgment_sequence + 0x18) = &__vt__17TJudgmentSequence.value;
-    *(const char **)((s8 *)judgment_sequence + 0) = TJudgmentSequence__class_name;
+    ((TJudgmentSequence *)judgment_sequence)->m_name = TJudgmentSequence__class_name;
     *(s32 *)((s8 *)judgment_sequence + 0x24) = arg2;
     ((TJudgmentSequence *)judgment_sequence)->m_2c = 0;
     *(s32 *)((s8 *)judgment_sequence + 0x30) = 0;

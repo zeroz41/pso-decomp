@@ -13,7 +13,7 @@ struct TObjGoalWarpAncient : public TObjAreaWarp {
     void render();
     void run_task();
     static void load_resources();
-    static s32 register_warp_object(s32 index);  // TObjFish__sub_8001EDB0 of bm_o_warp_ancient.bml's model `index`
+    static s32 register_warp_object(s32 index);  // get_bml_texlist of bm_o_warp_ancient.bml's model `index`
     static s32 get_instance();                   // the de_obj2_swarp_beam_r.gvm texture load_resources loads
     static AnimationMotion *register_warp(s32 index);  // get_bml_motion of bm_o_warp_ancient.bml
     // Indices are into bm_o_warp_ancient.bml's model and motion name tables (TObjMapWarpAncient.cpp);

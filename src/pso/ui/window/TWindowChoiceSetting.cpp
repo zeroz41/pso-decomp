@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/system/ControllerInputState.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
 #include "pso/ui/window/TWindowAddition.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -10,8 +11,10 @@
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/ui/window/TWindowBase.h"
+
 #include "pso/unk/WindowLayoutRecord.h"
+#include "pso/system/NinjaTypes.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 
 const char *lbl_805D3970 = "TWindowMenuInfomation";
 static const f32 lbl_8044F3A0[2] = {425.0f, 188.0f};
@@ -174,7 +177,6 @@ void TWindowMenuInfomation__ct(u8 *lobby, u32 arg1) {
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-struct V_80268C5C { f32 x; f32 y; };
 
 // inferred: choice_setting_popup_layout_entries, the layout table choice_setting_popup_window_descriptor
 // points at (one type-9 record; fn_80268C5C fills in the row count).
@@ -190,7 +192,7 @@ WindowDescriptor choice_setting_popup_window_descriptor = {
 struct Obj_80269004 { u8 p0[0x18]; void *f18; };
 
 extern "C" {
-void fn_80268C5C(V_80268C5C v, s32 x);
+void fn_80268C5C(NJS_POINT2 v, s32 x);
 s32 __nw__7TObjectFUl(s32);
 Obj_80269004 *fn_80269004(Obj_80269004 *self, void *parent, void *arg2);
 s32 get_window_layout_position(s32);
@@ -207,21 +209,14 @@ s32 create_information_counter_window(s32 arg0) {
     return var_r31;
 }
 
-void fn_80268C5C(V_80268C5C v, s32 x) {
+void fn_80268C5C(NJS_POINT2 v, s32 x) {
     choice_setting_popup_window_descriptor.pad_00[0] = v.x;
     choice_setting_popup_window_descriptor.pad_00[1] = v.y;
     choice_setting_popup_layout_entries.rows = x;
 }
 
-struct RecoveredGlobal_80268D08_lbl_8050E208 {
-    s32 value;
-    u8 remaining[0x1AC];
-};
-
 extern "C" {
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
-s32 TWindowShortListCtrl__check_controller_button(int, int);
-extern RecoveredGlobal_80268D08_lbl_8050E208 controller_input_state;
 extern const f32 lbl_805DD1F8;
 s32 get_draw_context__11TWindowBaseFPv();
 s32 draw_visible_window_entries(void *, void *, s32);
@@ -229,54 +224,53 @@ s32 draw_window_scrollbar(s32, s32, void *);
 void __dl__7TObjectFPv(void *);
 s32 forward_render__20TWindowSubStatusDispFv(s32, s32);
 
-void TWindowSubStatusDisp__sub_80268C80(u8 *arg0) {
+void TUnk_804D0658::render() {
     s32 temp_r3;
 
     temp_r3 = get_draw_context__11TWindowBaseFPv();
-    ((TWindowBase *)arg0)->draw_window_frame((void *)temp_r3);
-    draw_visible_window_entries(arg0, arg0 + 0x24, temp_r3);
-    ((TUnk_804D0658 *)arg0)->draw_setting(temp_r3);
-    if ((u32) ((TUnk_804D0658 *)arg0)->m_78 != 0U) {
-        forward_render__20TWindowSubStatusDispFv(((TUnk_804D0658 *)arg0)->m_78, temp_r3);
+    ((TWindowBase *)((u8 *)this))->draw_window_frame((void *)temp_r3);
+    draw_visible_window_entries(((u8 *)this), ((u8 *)this) + 0x24, temp_r3);
+    ((TUnk_804D0658 *)((u8 *)this))->draw_setting(temp_r3);
+    if ((u32) ((TUnk_804D0658 *)((u8 *)this))->m_78 != 0U) {
+        forward_render__20TWindowSubStatusDispFv(((TUnk_804D0658 *)((u8 *)this))->m_78, temp_r3);
     }
-    if ((u32) *(u32 *)((s8 *)arg0 + 0x7C) != 0U) {
-        draw_window_scrollbar(*(u32 *)((s8 *)arg0 + 0x7C), temp_r3, arg0 + 0x68);
+    if ((u32) *(u32 *)((s8 *)((u8 *)this) + 0x7C) != 0U) {
+        draw_window_scrollbar(*(u32 *)((s8 *)((u8 *)this) + 0x7C), temp_r3, ((u8 *)this) + 0x68);
     }
 }
 
 extern s32 choice_setting_popup_vtable[];
 
-typedef char RecoveredGlobal_80268D08_lbl_8050E208_size[sizeof(RecoveredGlobal_80268D08_lbl_8050E208) == 0x1B0 ? 1 : -1];
-void TWindowSubStatusDisp::handle_choice_input() {
+void TUnk_804D0658::run_task() {
     u8 *arg0 = (u8 *)this;
     u32 temp_r3;
     u32 temp_r3_2;
     u8 *input;
     u8 *temp_r30_2;
-    u8 *temp_r30_3;
+    u8 *context;
     if ((((TUnk_804D0658 *)arg0)->is_selected() == 0) && (((s32 (*)(void *))is_open__13TUnk_804D0658Fv)(arg0) == 0)) {
         if (*(u16 *)((s8 *)arg0 + 0x70) & 0x10) {
-            input = (u8 *)&controller_input_state.value + 0x20;
-            if ((TWindowChoiceSetting::apply_choice((s32)input, 0x10, 6, 1) != 0) || (TWindowChoiceSetting::apply_choice((s32)((void *) ((u8 *)&controller_input_state.value + 0x160)), 0x10, 6, 1) != 0)) {
+            input = (u8 *)&controller_input_state + 0x20;
+            if ((TWindowChoiceSetting::apply_choice((s32)input, 0x10, 6, 1) != 0) || (TWindowChoiceSetting::apply_choice((s32)((void *) ((u8 *)&controller_input_state + 0x160)), 0x10, 6, 1) != 0)) {
                 ((TUnk_804D0658 *)arg0)->move_cursor_prev();
             }
-            if ((TWindowChoiceSetting::apply_choice((s32)input, 0x20, 6, 1) != 0) || (TWindowChoiceSetting::apply_choice((s32)((void *) ((u8 *)&controller_input_state.value + 0x160)), 0x20, 6, 1) != 0)) {
+            if ((TWindowChoiceSetting::apply_choice((s32)input, 0x20, 6, 1) != 0) || (TWindowChoiceSetting::apply_choice((s32)((void *) ((u8 *)&controller_input_state + 0x160)), 0x20, 6, 1) != 0)) {
                 ((TUnk_804D0658 *)arg0)->move_next_choice();
             }
         } else {
-            temp_r30_2 = (u8 *)&controller_input_state.value + 0x20;
-            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((int)temp_r30_2, 0x10, 6, 1) != 0) || (TWindowChoiceSetting::apply_choice((s32)((void *) ((u8 *)&controller_input_state.value + 0x160)), 0x10, 6, 1) != 0)) {
+            temp_r30_2 = (u8 *)&controller_input_state + 0x20;
+            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((int)temp_r30_2, 0x10, 6, 1) != 0) || (TWindowChoiceSetting::apply_choice((s32)((void *) ((u8 *)&controller_input_state + 0x160)), 0x10, 6, 1) != 0)) {
                 ((TUnk_804D0658 *)arg0)->move_cursor_prev();
             }
-            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((int)temp_r30_2, 0x20, 6, 1) != 0) || (TWindowChoiceSetting::apply_choice((s32)((void *) ((u8 *)&controller_input_state.value + 0x160)), 0x20, 6, 1) != 0)) {
+            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((int)temp_r30_2, 0x20, 6, 1) != 0) || (TWindowChoiceSetting::apply_choice((s32)((void *) ((u8 *)&controller_input_state + 0x160)), 0x20, 6, 1) != 0)) {
                 ((TUnk_804D0658 *)arg0)->move_next_choice();
             }
         }
-        temp_r30_3 = (u8 *)&controller_input_state.value + 0x20;
-        if ((TWindowShortListCtrl__check_controller_button((int)temp_r30_3, 4) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) ((u8 *)&controller_input_state.value + 0x160), 4) != 0)) {
+        context = (u8 *)&controller_input_state + 0x20;
+        if ((TWindowShortListCtrl__check_controller_button(context, 4) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) ((u8 *)&controller_input_state + 0x160), 4) != 0)) {
             ((TUnk_804D0658 *)arg0)->draw();
         }
-        if ((TWindowShortListCtrl__check_controller_button((int)temp_r30_3, 2) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) ((u8 *)&controller_input_state.value + 0x160), 2) != 0)) {
+        if ((TWindowShortListCtrl__check_controller_button(context, 2) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) ((u8 *)&controller_input_state + 0x160), 2) != 0)) {
             ((TUnk_804D0658 *)arg0)->request_close();
         }
     }
@@ -294,7 +288,7 @@ void TWindowSubStatusDisp::handle_choice_input() {
     ((TWindowAddition *)arg0)->step_window_tween();
     ((TUnk_804D0658 *)arg0)->update_scroll_offset();
     ((TUnk_804D0658 *)arg0)->clamp_scroll();
-    ((TWindowBase *)arg0)->update_window_entry_list((u8 *)&this->m_24);
+    ((TWindowBase *)arg0)->update_window_entry_list((u8 *)&(*(void * *)((u8 *)this + 0x24)));
 }
 
 void *TUnk_804D0658::destroy_children(s16 arg1) {
@@ -302,7 +296,7 @@ void *TUnk_804D0658::destroy_children(s16 arg1) {
         *(s32 **)((s8 *)this + 0x18) = choice_setting_popup_vtable;
         TWindowSubStatusDisp::destroy_allocation((s32)(*(void * *)&this->unk_7C), (s16)1);
         TWindowSubStatusDisp::destroy_status_display((s32)(*(void * *)&this->m_78), (s16)1);
-        destroy_window(0);
+        __dt__15TWindowAdditionFv(this, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(this);
         }
@@ -310,9 +304,6 @@ void *TUnk_804D0658::destroy_children(s16 arg1) {
     return this;
 }
 
-}
-
-extern "C" {
 void construct_with_parent__15TWindowAdditionFPv(void *, void *, s32, void *);
 void TWindowMenuInfomation__ct(u8 *arg0, u32 arg1);
 Obj_80269004 *fn_80269004(Obj_80269004 *self, void *parent, void *arg2) {

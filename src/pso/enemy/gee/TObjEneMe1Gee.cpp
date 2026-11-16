@@ -25,7 +25,7 @@
 #include "pso/unk/text_803E2D70.h"
 #include "pso/unk/text_803D96A8.h"
 
-#include "pso/object/base/TObjMotion.h"
+
 #include "pso/system/task/TObject.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
@@ -46,7 +46,6 @@
 extern "C" {
 void queue_destruction__7TObjectFv(void *arg0);
 
-void * __nw__7TObjectFUl(u32);
 
 BmlResource * TObjEneMe1Gee__resource_bundle;
 u8 * lbl_805D51B4;
@@ -55,9 +54,6 @@ s32 gee_camera_ctrl_step_ptr;
 TUnk_8048FA00 * TObjEneMe1Gee__data_805D51C0;
 TUnk_8048FA00 * TObjEneMe1Gee__data_805D51C4;
 s32 gee_resource_bundle_ptr;
-}
-
-extern "C" {
 GeeMovementParameters me1_gee_init_params = {225.0f, 0.0f, 0x600};
 
 CollisionBody lbl_8049379C = {
@@ -111,14 +107,11 @@ static TObjEneMe1GeeParams *gee_shared_handler_a_table[3];
 static f32 gee_camera_ctrl_vec[4];
 extern const f32 TObjEneMe1Gee__data_805DA0A8;
 extern const f32 lbl_805DA0AC;
-}
-
-extern "C" {
 extern const f32 TObjEneMe1Gee__data_805DA0B4;
 extern const f32 TObjEneMe1Gee__data_805DA0C8;
 extern const f32 TObjEneMe1Gee__data_805DA0D4;
 extern const f32 lbl_805DA0B0;
-f64 atan2_float(f32, f32);
+f32 atan2_float(f32 y, f32 x);
 f32 calc_elapsed_scaled__9TObjEneDDFv(void *);
 void rotate_xz_pair_by_angle(f32 *arg0, f32 *arg1, s32 arg2);
 s32 play_sound_effect(s32, u32, s16, s32);
@@ -142,7 +135,6 @@ struct TargetCandidate {
 };
 
 f32 newton_sqrtf(f32);
-s32 is_main_phase_15__9TObjEneDDFv();
 
 void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
 extern s32 saved_model_render_flags;
@@ -168,17 +160,10 @@ extern const f32 lbl_805DA0BC;
 extern const f32 lbl_805DA0C4;
 extern const f32 lbl_805DA0CC;
 extern const f32 lbl_805DA0D0;
-}
-
-extern "C" {
 void TObjEneEpsilon__sub_800B92AC(u8 *arg0, s32 arg1, f32 farg0);
-}
-
-extern "C" {
 void free_bin_model_request(void *, s32);
 extern void *tl_04;
 s32 is_split_screen();
-s32 dispatch_shared_handler_a__6TLobbyFl(s32);
 s32 register_object__6TLobbyFl(s32);
 s32 dispatch_shared_handler_b__6TLobbyFl(s32);
 s32 register_boss__6TLobbyFl(s32);
@@ -210,7 +195,7 @@ void TObjEneMe1Gee::load_resources() {
         gee_boss_stat_handle_table[i] = register_boss__6TLobbyFl(lbl_8043BCD8[i]);
         gee_shared_handler_b_table[i] = dispatch_shared_handler_b__6TLobbyFl(lbl_8043BCE4[i]);
         gee_object_handle_table[i] = register_object__6TLobbyFl(lbl_8043BCF0[i]);
-        gee_shared_handler_a_table[i] = (TObjEneMe1GeeParams *)dispatch_shared_handler_a__6TLobbyFl(lbl_8043BCFC[i]);
+        gee_shared_handler_a_table[i] = (TObjEneMe1GeeParams *)TLobby::dispatch_shared_handler_a(lbl_8043BCFC[i]);
     }
     TObjEneMe1Gee__render_node_index = 0;
     p = (TUnk_8048FA00 *)::operator new(0x10);
@@ -281,12 +266,9 @@ TObjEneMe1Gee::TObjEneMe1Gee(TObject *parent, TObjEneMe1Gee *leader, Vec *pos, u
     m_3c4 = 1;
     init_state();
 }
-}
-
 #pragma push
 #pragma fp_contract on
 #pragma opt_loop_invariants off
-extern "C" {
 void TObjEneMe1Gee::init_state() {
     s32 temp_r0;
     s32 i;
@@ -348,16 +330,13 @@ void TObjEneMe1Gee::init_state() {
     set_part_position__9TObjEneDDFPvPvi(this, (int)this->bodies, 0);
     this->mode = 0;
     this->dispatch_action(this->mode, 4);
-    if (*(void **)&this->m_3c0 != NULL) {
+    if (this->m_3c0 != NULL) {
         this->m_48c = get_entity_id(this->m_3c0);
         return;
     }
     this->m_48c = 0xFFFF;
 }
-}
-
 #pragma pop
-extern "C" {
 TObjEneMe1Gee::~TObjEneMe1Gee() {
     if (m_464 != NULL) {
         m_464->queue_destruction();
@@ -417,18 +396,15 @@ void TObjEneMe1Gee::vfunc_88() {
     }
     this->bodies->offset.y = this->m_3f4;
 }
-}
-
 #pragma push
 #pragma opt_common_subs off
-extern "C" {
 void TObjEneMe1Gee::sub_800CC0C4() {
-    if ((s32) floor_to_float((f32) (this->parameters[0])) == 0) {
+    if ((s32) floor_to_float(this->parameters[0]) == 0) {
         this->sub_800CB5D4();
     } else {
         this->sub_800CB5B8();
     }
-    if ((s32) floor_to_float((f32) (this->parameters[1])) == 0) {
+    if ((s32) floor_to_float(this->parameters[1]) == 0) {
         this->sub_800CB60C();
     } else {
         this->sub_800CB5F0();
@@ -442,19 +418,13 @@ void TObjEneMe1Gee::sub_800CC0C4() {
         this->m_400 = 1.0f;
     }
 }
-}
-
 #pragma pop
-extern "C" {
 void TObjEneMe1Gee::vfunc_106() {
     this->model = (void *)TObjEneMe1Gee__resource_bundle->models->model;
     this->texlist = TObjEneMe1Gee__resource_bundle->models->m_c;
 }
-}
-
 #pragma push
 #pragma fp_contract on
-extern "C" {
 void TObjEneMe1Gee::calc_position(Vec *out) {
     s32 angle = TObjEneDD::get_random_scaled();
     f32 radius = 30.0f * this->random_ratio() + lbl_805DA0B8;
@@ -463,10 +433,7 @@ void TObjEneMe1Gee::calc_position(Vec *out) {
     out->z = radius * cos_table_lookup(angle);
     vec3_add_to(out, &this->position);
 }
-}
-
 #pragma pop
-extern "C" {
 u8 *TObjEneMe1Gee::vfunc_101(u8 *) {
     if (vfunc_101__9TObjEneDDFPUc() == 0U) {
         this->m_3c8 &= 0xFEFFFFFF;
@@ -711,11 +678,8 @@ void TObjEneMe1Gee::destroy_subobj(const NJS_ARGB *color) {
     copy_argb(&this->m_468, (NJS_ARGB *)color);
     this->update_packed_color();
 }
-}
-
 #pragma push
 #pragma opt_common_subs off
-extern "C" {
 void TObjEneMe1Gee::update_packed_color() {
     u8 g = (u32)(255.0f * this->m_468.g);
     u8 b = (u32)(lbl_805DA0D0 * (255.0f * this->m_468.b));
@@ -723,10 +687,7 @@ void TObjEneMe1Gee::update_packed_color() {
     u8 a = (u32)(255.0f * this->m_468.a);
     this->m_478 = (b << 24) | (g << 16) | (r << 8) | a;
 }
-}
-
 #pragma pop
-extern "C" {
 void TObjEneMe1Gee::vfunc_113() {
     if ((s32 *) (*(s32 **)&gee_resource_bundle_ptr) != NULL) {
         *(*(s32 **)&gee_resource_bundle_ptr) = this->m_478;
@@ -892,7 +853,6 @@ void TObjEneMe1Gee::state_attack_loop(s32 arg1) {
 }
 
 void TObjEneMe1Gee::state_move(s32 arg1) {
-    s32 temp_r4;
 
     switch (arg1) {
     case 4:
@@ -900,8 +860,7 @@ void TObjEneMe1Gee::state_move(s32 arg1) {
         set_field_378(3);
         this->m_3c8 &= 0xFFBFFFFF;
         this->vfunc_95();
-        temp_r4 = this->actorFlags & 0xFEFFFFFF;
-        this->actorFlags = temp_r4;
+        this->actorFlags = (this->actorFlags & 0xFEFFFFFF);
         this->m_47c = 1;
         fade.start_fade_in();
         ((TBoss3Volopt *)&this->position)->play_area_sound_effect();
@@ -1173,13 +1132,10 @@ void TObjEneMe1Gee::state_attack(s32 arg1) {
         break;
     }
 }
-}
-
 #pragma push
 #pragma fp_contract on
 #pragma opt_common_subs off
 #pragma pool_data off
-extern "C" {
 void TObjEneMe1Gee::sub_800CA454(s32 arg1) {
     Vec *dir = &this->m_454;
     switch (arg1) {
@@ -1286,7 +1242,7 @@ void TObjEneMe1Gee::sub_800CA454(s32 arg1) {
                     matrix_mult_vec(0, &in, &out);
                     pop_matrix();
                     out.y += this->m_3e8;
-                    p = __nw__7TObjectFUl(0xC4);
+                    p = TObject::operator new(0xC4);
                     if (p != NULL) {
                         TObjEneMe1Gee_NEEDLE__ct((TObjEneMe1Gee_NEEDLE *)p, this, &out, dir, this->m_3fc, this->m_42c->m_4);
                     }
@@ -1322,11 +1278,8 @@ void TObjEneMe1Gee::sub_800CA454(s32 arg1) {
         break;
     }
 }
-}
-
 #pragma push
 #pragma fp_contract on
-extern "C" {
 void TObjEneMe1Gee::sub_800C9DF8(s32 arg1) {
     f32 dist;
 
@@ -1496,13 +1449,10 @@ void TObjEneMe1Gee::sub_800C9DF8(s32 arg1) {
         break;
     }
 }
-}
-
 #pragma pop
 #pragma pop
 #pragma push
 #pragma fp_contract on
-extern "C" {
 void TObjEneMe1Gee::sub_800C9A94(s32 arg1) {
     Vec *dir = &this->m_454;
     switch (arg1) {
@@ -1594,10 +1544,7 @@ void TObjEneMe1Gee::sub_800C9A94(s32 arg1) {
         break;
     }
 }
-}
-
 #pragma pop
-extern "C" {
 void TObjEneMe1Gee::sub_800C9964(s32 arg1) {
     switch (arg1) {
     case 4:
@@ -1623,7 +1570,7 @@ void TObjEneMe1Gee::sub_800C9964(s32 arg1) {
         this->update_velocity();
         this->update_angle();
         this->set_move_speed_x();
-        this->move_with_wall_slide_commit(this->m_3a0.x, (f32) (this->m_3a0.z), lbl_805DA0D0);
+        this->move_with_wall_slide_commit(this->m_3a0.x, this->m_3a0.z, lbl_805DA0D0);
         this->vfunc_88();
         break;
     }
@@ -1703,11 +1650,8 @@ void TObjEneMe1Gee::sub_800C96B4(s32 mode) {
         break;
     }
 }
-}
-
 #pragma push
 #pragma opt_common_subs off
-extern "C" {
 void TObjEneMe1Gee::sub_800C9580(s32 arg1) {
     switch (arg1) {
     case 4:
@@ -1734,10 +1678,7 @@ void TObjEneMe1Gee::sub_800C9580(s32 arg1) {
         return;
     }
 }
-}
-
 #pragma pop
-extern "C" {
 void TObjEneMe1Gee::state_return_home(s32 arg1) {
 
     switch (arg1) {
@@ -1878,7 +1819,7 @@ void TObjEneMe1Gee::render() {
     }
     if (this->m_3c8 & 0x400000) {
         var_r30 = 0;
-    } else if (is_main_phase_15__9TObjEneDDFv() != 0) {
+    } else if (TObjEneDD::is_main_phase_15() != 0) {
         var_r30 = this->classify_actor_view_detail(lbl_805D9E88, lbl_805D9E84, TObjEneMe1Gee__data_805DA0C0);
     } else if (this->update_object_view_visibility(lbl_805DA0BC, TObjEneMe1Gee__data_805DA0C0) != 0) {
         var_r30 = 1;
@@ -1890,15 +1831,15 @@ void TObjEneMe1Gee::render() {
             this->draw_ground_shadow(0, 0);
         }
         this->update_secondary_light();
-        TObjFish::set_global_param((int) (this->texlist));
+        TObjFish::set_global_param(this->texlist);
         saved_model_render_flags = model_render_flags;
         TObjEneDD::clear_global_flag_400();
         TObjPlayer::toggle_particle_effect();
         this->vfunc_113();
         push_matrix();
         post_translate_matrix(&this->position);
-        translate_matrix(0, TObjEneMe1Gee__data_805DA0B4, (f32) (this->m_3f4), TObjEneMe1Gee__data_805DA0B4);
-        rotate_matrix_y(0, (int) (this->rotation_y));
+        translate_matrix(0, TObjEneMe1Gee__data_805DA0B4, this->m_3f4, TObjEneMe1Gee__data_805DA0B4);
+        rotate_matrix_y(0, this->rotation_y);
         temp_r0 = this->mode;
         var_r29 = 1;
         if ((temp_r0 == 1) || (temp_r0 == 0xC)) {
@@ -1927,7 +1868,7 @@ void TObjEneMe1Gee::render() {
                 TObjEneMe1Gee__render_node_index = -1;
                 gee_camera_ctrl_step_ptr = (s32)this->m_414;
                 set_chunk_model_node_callback((s32)((void *)TObjEneMe1Gee::advance_camera_ctrl_step));
-                this->draw_with_alt_model((int) (this->m_410));
+                this->draw_with_alt_model(this->m_410);
                 set_chunk_model_node_callback((s32)NULL);
             }
         }
@@ -1980,7 +1921,7 @@ void TObjEneMe1Gee::vfunc_115() {
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
         TObjEneDD::clear_global_flag_400();
-        draw_chunk_object((void *)(this->model));
+        draw_chunk_object(this->model);
         pop_matrix();
         TParticleCtrl::end_effect_render();
     }

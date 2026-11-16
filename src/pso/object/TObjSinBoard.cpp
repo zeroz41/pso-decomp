@@ -18,6 +18,7 @@
 #include "pso/unk/text_802432F0.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/unk/text_803DA798.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 // The lobby signboard: a textured quad showing the picture load_memcard_file reads from memory card file PSO______099.
 
@@ -31,7 +32,7 @@ struct Desc_8019806C { Pos_8019806C *pos; Uv_8019806C *uv; s16 *col; s32 count; 
 
 extern "C" {
 s32 TAdPlayerLoadGC__sub_801E1538(Hdr_80197E64 *, void *);
-s32 TAdPlayerLoadGC__sub_801E1B50(s32);
+s32 poll_memcard_result(s32);
 s32 get_card_file_info__15TAdPlayerLoadGCFiPvPv(s32, const char *, Stat_80197E64 *);
 void memset(void *, int, int);
 void set_texture_name(void *, void *, int, int);
@@ -85,7 +86,7 @@ void load_memcard_file(void) {
     }
     memset(buf, 0, stat.blocks << 13);
     TAdSinglePlyChrSelectGC::load_player_slot(slot, memcard_file_099_name, buf);
-    while (TAdPlayerLoadGC__sub_801E1B50(slot) != 0) {
+    while (poll_memcard_result(slot) != 0) {
         TLobby::run_frame();
     }
     if (TAdPlayerLoadGC__sub_801E1538(&hdr, buf) != 0) {

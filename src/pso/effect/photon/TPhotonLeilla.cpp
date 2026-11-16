@@ -1,4 +1,6 @@
 #include "pso/system/NinjaTypes.h"
+#include "pso/unk/TUnk_804C3248.h"
+#include "pso/system/MatrixStack.h"
 
 const char *TPhotonLeilla__class_name = "TPhotonLeilla";
 
@@ -9,7 +11,7 @@ const char *TPhotonLeilla__class_name = "TPhotonLeilla";
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/render/MaterialColorFade.h"
 #include "pso/system/vector.h"
-#include "pso/unk/TUnk_804C3248.h"
+
 #include "pso/object/base/TObjMotion.h"
 #include <stddef.h>
 #include "pso/effect/photon/PhotonBlastSummon.h"
@@ -24,10 +26,9 @@ const char *TPhotonLeilla__class_name = "TPhotonLeilla";
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/map/FloorArea.h"
 
-extern "C" {
+
 void TObjPlayer__sub_801AC43C(void) {  }
 void TObjPlayer__sub_801AC440(void) {  }
-}
 
 void TPhotonLeilla::sub_801AC444() { *(float *)&this->m_180 = 0.0f; *(float*)((char*)this + 0x184) = 0.0f; this->m_188 = 0.0f; *(float *)&this->unk_18C = 0.0f; }
 
@@ -37,21 +38,17 @@ struct Stack_801AC574 {
     u8 trailing_storage[0x4];
 };
 
-struct Color_801AC45C { f32 a, r, g, b; };
-
-struct Vec_801AC45C { f32 x, y, z; };
-
 struct Self_801AC45C {
     u8 pad0[0x24];
     s32 f24;
     u8 pad1[0x38 - 0x28];
-    Vec_801AC45C pos;
+    Vec pos;
     u8 pad2[0x60 - 0x44];
     s32 f60;
     u8 pad3[0x14C - 0x64];
     s16 f14C;
     u8 pad4[0x180 - 0x14E];
-    Color_801AC45C color;
+    NJS_ARGB color;
     u8 pad5[0x19C - 0x190];
     s32 started;
 };
@@ -63,18 +60,15 @@ void *find_entity_by_id(u16 id);
 u8 *construct_photon_magic_square_normal(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
 extern "C" {
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
-s32 spawn_photon_blast_attachment_effects(void *, int);
 u8 *__nw__7TObjectFUl(s32, f32);
 
 s32 scroll_strip_uvs(void *, s16, int);
 s32 clear_render_context__10TObjPlayerFv(void *);
 s32 rotate_matrix_y(int, int);
-s32 push_matrix();
-s32 pop_matrix();
 void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
 void set_chunk_material_override_pair(s32 arg0, s32 arg1);
-extern Color_801AC45C saved_model_draw_color;
-extern Color_801AC45C model_material_color;
+extern NJS_ARGB saved_model_draw_color;
+extern NJS_ARGB model_material_color;
 extern s32 saved_model_render_flags;
 extern s32 saved_chunk_polygon_flags_and_mask;
 extern s32 saved_chunk_polygon_flags_or_mask;
@@ -142,7 +136,7 @@ void TPhotonLeilla::run_task() {
         ((TUnk_804C3248 *)arg0)->begin_photon_summon_camera(2);
         *(s32 *)&this->m_1ac = 0;
         ((TObjMotion *)arg0)->set_field_b8(0);
-        spawn_photon_blast_attachment_effects(arg0, 4);
+        ((TUnk_804C3248 *)arg0)->spawn_photon_blast_attachment_effects(4);
     }
     *(s16 *)&this->m_190 = (s16) this->requested_action;
     ((TUnk_804C3248 *)arg0)->update_state();
@@ -153,7 +147,7 @@ void TPhotonLeilla::run_task() {
     if (1.3e+02f == (f32) *(s32 *)&this->m_1ac) {
         temp_r3_3 = (u8 *)(find_entity_by_id(this->m_17c));
         if (temp_r3_3 != NULL) {
-            queue_photon_blast_hit((int) (get_entity_id(temp_r3_3)), 4, 0, this->m_150);
+            queue_photon_blast_hit((get_entity_id(temp_r3_3)), 4, 0, this->m_150);
         }
     }
     if ((f32) *(s32 *)&this->m_1ac > 109.0f) {
@@ -175,9 +169,8 @@ TPhotonLeilla::~TPhotonLeilla() {
 
 #define NEW_801AC808(n) (((u8 *(*)(int))__nw__7TObjectFUl)(n))
 #define F_801AC808(o, t, off) (*(t *)((u8 *)(o) + (off)))
-struct Vec_801AC808 { f32 x, y, z; };
 struct Pkt_801AC808 {
-    Vec_801AC808 pos;
+    Vec pos;
     u16 owner;
     s32 first;
     s32 more;
@@ -192,20 +185,14 @@ struct Leilla_801AC808 : VBase_801AC808 {
     virtual void m8(); virtual void m9(); virtual void m10(); virtual void m11();
     virtual void m12();
     u8 pad1C[0x38 - 0x1C];
-    Vec_801AC808 pos;
+    Vec pos;
 };
 struct Res_801AC808 { u8 pad[0x18]; s32 f18; s32 f1C; };
 struct Game_801AC808 { u8 pad[0x42C]; Res_801AC808 *res; s32 f430; };
 
 extern "C" {
-void *find_entity_by_id(u16 id);
-s32 spawn_photon_blast_attachment_effects(void *, int);
 void sub_801AC444__13TPhotonLeillaFv(void *, u8);
-}
-u8 *construct_photon_magic_square_normal(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
-extern "C" {
 void TPhotonRainbow__ct(void *, void *, void *, s32);
-u8 *__nw__7TObjectFUl(s32, f32);
 extern s32 __vt__13TPhotonLeilla[];
 extern Game_801AC808 *photon_blast_shared_resource;
 
@@ -215,7 +202,7 @@ TObjMotionAction photon_blast_leilla_params[2] = {
 };
 
 void *TPhotonLeilla__ct(Leilla_801AC808 *self, Pkt_801AC808 *pkt) {
-    Vec_801AC808 v;
+    Vec v;
     u8 *o;
     u8 *owner;
     __ct__13TUnk_804C3248Fv(self);
@@ -279,7 +266,7 @@ void *TPhotonLeilla__ct(Leilla_801AC808 *self, Pkt_801AC808 *pkt) {
         if (o != NULL) {
             construct_photon_magic_square_normal((u8 *)o, (s32)self, 4, (s32)&v, 0x78);
         }
-        spawn_photon_blast_attachment_effects(self, 4);
+        ((TUnk_804C3248 *)self)->spawn_photon_blast_attachment_effects(4);
         play_cue_stream_file((s32)"reila2.adx");
     } else {
         spawn_photon_blast_opening_effects(4, F_801AC808(self, u16, 0x17C));

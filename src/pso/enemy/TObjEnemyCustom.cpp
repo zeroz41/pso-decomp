@@ -1,4 +1,6 @@
 #include "pso/enemy/TObjEnemy.h"
+#include "pso/enemy/balclaw/TObjEneBalClawBody.h"
+#include "pso/enemy/dubchik/TObjEneDubchik.h"
 #include "pso/enemy/TObjEnemyCustom.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
@@ -184,7 +186,7 @@ void TObjEnemyCustom::update() {
         actorFlags |= 0x200000;
         state = 1;
     case 1:
-        enemy_turn_toward_dest(this, ((EnemyMoveParams *)movementParameters)->turn_speed);
+        enemy_turn_toward_dest(((EnemyMoveParams *)movementParameters)->turn_speed);
         advance_animation();
         if (is_passing_frame(10.0f) != 0) {
             if (((TObjEnemyCustomVictim *)target)->select_melee_contact_body(this, 1.0f) != 0) {
@@ -388,7 +390,7 @@ s32 TObjEnemyCustom::turn_toward_point(Vec *point, s32 max_step, s32 angle_offse
     return angle_difference_abs(rotation_y, angle_offset);
 }
 
-void TObjEnemyCustom::sub_800C73F4() {
+void TObjEneBalClawBody::sub_800C73F4() {
     if (xz_distance_squared(&position, &home_position) > 100.0f) {
         this->update_if_active(8);
         return;
@@ -520,7 +522,7 @@ u16 TObjEnemyCustom::find_nearest_enemy(Vec *out, f32 radius) {
     return best;
 }
 
-void TObjEnemyCustom::target_nearest_player(f32 radius) {
+void TObjEneDubchik::target_nearest_player(f32 radius) {
     s32 count;
     u16 best;
     s32 i;

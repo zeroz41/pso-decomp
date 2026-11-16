@@ -26,6 +26,7 @@
 #include "pso/technique/TTecReverser.h"
 #include "pso/technique/TTecSifta.h"
 #include "pso/technique/TTecZondeEff.h"
+#include "pso/system/MatrixStack.h"
 
 TechniqueParams lbl_80515F90;
 // Per player: the technique boosts of the equipped weapon and shield.
@@ -93,11 +94,12 @@ void create__9TTecRestaFPvPvPvPv(void *, void *, void *, int);
 void matrix_mult_vec(int, void *, void *);
 void rotate_matrix_y(int, int);
 void push_matrix_from(void *);
-void pop_matrices(int);
+}
+s32 pop_matrices(s32 arg0);
 extern u8 identity_matrix[];
 extern s32 local_client_id;
+extern "C" {
 void launch_technique__10TObjPlayerFv(s32 tech, s32 unused, Player_8022D27C *pl);
-s32 is_locally_controlled__10TObjPlayerFPv(void *);
 void *__nw__7TObjectFUl(u32);
 void *construct_actor_light__9TObjLightFlllllfffl(void *, Col_8022C738 *, Vec *, s32, void *, s32, f32, f32, f32);
 void *__ct__13TUnk_804CC794Fll(void *, void *, s32);
@@ -106,9 +108,9 @@ void *__ct__13TUnk_804CCD0CFll(void *, void *, s32);
 void *construct_resta_charge_sound(void *, void *, s32);
 void *__ct__13TUnk_804CCAC8Fll(void *, void *, s32);
 void *__ct__13TUnk_804CC74CFll(void *, void *, s32);
+}
 extern LightData_8022C738 TObjLight__scene_light_state;
 extern s32 tl_07;
-}
 
 // The technique effects' models and motions, and the archive that holds them.
 const char *bm_technic_model_names[13] = {
@@ -175,27 +177,26 @@ TechniqueCostScale lbl_804CC55C[19] = {
     {0.1f, 5.0f}, {1.0f, 10.0f}, {1.0f, 30.0f}, {0.3f, 5.0f},
 };
 
-struct RecoveredGlobal_8022F068_lbl_804CC934 {
-    u8 * value;
-    u8 remaining[0x8];
-};
-
 extern "C" {
 u8 * free_bin_model_request(void *, s16);
 s32 release_texture_list(void *, s32);
-extern RecoveredGlobal_8022F068_lbl_804CC934 technique_ringwave_texture_list;
+struct TechniqueRingwaveTextureList { u8 * value; u8 remaining[0x8]; };
+extern TechniqueRingwaveTextureList technique_ringwave_texture_list;
 extern u8 *technique_effect_bml;
 extern void **lbl_805D63B0;
 u8 *load_resource_from_descriptor(u8 *, s32, void *, s32, s32, s32);
+}
 u8 *load_gvm_texture_file(s32 arg0);
+extern "C" {
 void bind_gvm_texture_list(const char *, void *);
+}
 void reset_telepipe_visit_counts(void);
+extern "C" {
 void __ct__7TObjectFP7TObject(void *);
 }
 
 extern s8 lbl_805D63A8;
 extern s32 __vt__8TTecCtrl[];
-typedef char RecoveredGlobal_8022F068_lbl_804CC934_size[sizeof(RecoveredGlobal_8022F068_lbl_804CC934) == 0xC ? 1 : -1];
 
 #define ONE_SLOT()                                                                       \
     if (((TObjPlayer *)(TObjPlayer__sub_80116620(c->list, 0)))->get_type_id() != 0xFFFF) { \
@@ -739,7 +740,7 @@ void capture_technique_targets__10TObjPlayerFv(int kind, Owner_8022CDE8 *owner) 
                  construct_actor_light__9TObjLightFlllllfffl)(0.1f, 0.35f, TObjLight__scene_light_state.f1C, \
                                           o, &c, &v, base, owner, tl_07);                        \
         }                                                                                        \
-        if (is_locally_controlled__10TObjPlayerFPv(owner) != 0) {                                \
+        if (TObjPlayer::is_locally_controlled(owner) != 0) {                                \
             o = __nw__7TObjectFUl(0x34);                                                         \
             if (o != NULL) {                                                                     \
                 INIT(o, owner, tl_07);                                                           \
@@ -837,7 +838,6 @@ f32 calc_technique_boost(s32 technique, u16 actor) {
     return sum;
 }
 
-extern "C" {
 u32 get_technique_caster_flags(s32 technique, u16 actor) {
     u32 flags;
     void *player;
@@ -865,16 +865,15 @@ u32 get_technique_caster_flags(s32 technique, u16 actor) {
     }
     return flags;
 }
-}
 
-s32 TTecCtrl::classify_distance_band(s32 arg0, s32 arg1, u16 arg2) {
+s32 TTecCtrl::classify_distance_band(s32 technique, s32 arg1, u16 arg2) {
     f32 temp_f1;
 
-    calc_technique_parameters(arg0, arg1, arg2);
+    calc_technique_parameters(technique, arg1, arg2);
     if ((arg1 == 0) || (arg1 == 1)) {
         return 0;
     }
-    temp_f1 = calc_technique_boost(arg0, arg2);
+    temp_f1 = calc_technique_boost(technique, arg2);
     if (temp_f1 < 1.0f) {
         return 1;
     }

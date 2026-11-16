@@ -47,7 +47,6 @@ struct RecoveredGlobal_80107DF0_lbl_8058D4C0 {
 };
 
 extern "C" {
-u16 get_entity_id(void *);
 
 void __ct__7TObjectFP7TObject(void *, void *);
 extern RecoveredGlobal_80107DA4_lbl_8049EFB8 __vt__13TUnk_8049EFB8;
@@ -55,7 +54,7 @@ s32 scale_matrix(int, f32, f32, f32);
 s32 rotate_matrix_y(int, int);
 s32 push_matrix();
 s32 post_translate_matrix(void *);
-s32 draw_ginja_model_with_motion(int, int, f32);
+void draw_ginja_model_with_motion(void *model, void *motion, f32 frame);
 extern RecoveredGlobal_80107DF0_lbl_8050BEC0 saved_model_draw_color;
 extern RecoveredGlobal_80107DF0_lbl_8058D4C0 model_material_color;
 extern s32 saved_model_render_flags;
@@ -67,8 +66,6 @@ typedef char RecoveredGlobal_80107DF0_lbl_8050BEC0_size[sizeof(RecoveredGlobal_8
 typedef char RecoveredGlobal_80107DF0_lbl_8058D4C0_size[sizeof(RecoveredGlobal_80107DF0_lbl_8058D4C0) == 0x10 ? 1 : -1];
 
 }
-
-struct Vec_80108164 { f32 x, y, z; };
 
 struct Base_80108164 { u8 pad[0x18]; };
 
@@ -136,12 +133,10 @@ struct Player_80108164 : Base_80108164 {
     virtual void m60();
     virtual void m61();
     virtual void m62();
-    virtual void get_pos(s32 id, Vec_80108164 *out);
+    virtual void get_pos(s32 id, Vec *out);
 };
 
 struct Quest_80108164 { u8 pad[0x10]; f32 f10; };
-
-struct Vec_80108020 { f32 x, y, z; };
 
 struct Parm_80108020 { u8 pad[0x1c]; f32 f1C; f32 f20; };
 
@@ -168,10 +163,9 @@ struct Self_80108020 {
 
 extern "C" {
 void play_sound_effect(u32, void *, s32, s32);
-f32 xyz_distance(Vec_80108164 *, Vec_80108164 *);
-void *__nw__7TObjectFUl(u32);
+f32 xyz_distance(Vec *, Vec *);
 
-void *create_particle_emitter(void *pos, s32 id);
+TParticleCtrl *create_particle_emitter(const void *pos, s32 id);
 
 void construct_actor_light_task(void *, void *, void *, s32, u8 *, f32, s32);
 extern void *__vt__13TItemEffArmor[];
@@ -194,14 +188,14 @@ void TObjPlayer::spawn_appearance_effect(u16 client) {
         Quest_80108164 *q = (Quest_80108164 *)((TObjPlayer *)p)->get_stats();
         if (q != 0) {
             f32 v = q->f10;
-            Vec_80108164 a;
-            Vec_80108164 b;
+            Vec a;
+            Vec b;
             f32 s;
             void *o;
             p->get_pos(0x28, &a);
             p->get_pos(0x1B, &b);
             s = 1.2f * (xyz_distance(&a, &b) / 2e+01f);
-            o = __nw__7TObjectFUl(0x7C);
+            o = TObject::operator new(0x7C);
             if (o != 0) {
                 TItemEffArmor__ct((Self_80108020 *)(o), (u8 *)p, s, v);
             }
@@ -227,8 +221,8 @@ Self_80108020 *TItemEffArmor__ct(Self_80108020 *self, u8 *obj, f32 a, f32 b) {
     self->f1C = (s32)create_particle_emitter(self->f6C + 0x38, 0x1BA);
     copy_argb((NJS_ARGB *)self->v38, (NJS_ARGB *)&lbl_8043E140);
     {
-        Vec_80108020 v = { 0.0f, 1.0f, 0.0f };
-        p = __nw__7TObjectFUl(0x64);
+        Vec v = { 0.0f, 1.0f, 0.0f };
+        p = TObject::operator new(0x64);
         if (p != NULL) {
             construct_actor_light_task(p, (void *)&lbl_8043E140, &v, 0x3A, obj, 0.2f, tl_07);
         }
@@ -271,7 +265,6 @@ void TItemEffArmor::run_task() {
 }
 
 void TItemEffArmor::render() {
-    u8 *arg0 = (u8 *)this;
     f32 temp_f1;
     push_matrix();
     post_translate_matrix((u8 *)&this->m_2c);
@@ -281,9 +274,9 @@ void TItemEffArmor::render() {
     saved_model_render_flags = model_render_flags;
     model_render_flags |= 0x10;
     copy_argb((NJS_ARGB *)&saved_model_draw_color.value, (NJS_ARGB *)&model_material_color.value);
-    set_constant_material((const NJS_ARGB *)((arg0 + 0x38)));
+    set_constant_material((const NJS_ARGB *)(((u8 *)&this->m_38)));
     set_texlist(this->m_78);
-    draw_ginja_model_with_motion(this->m_70, this->m_74, this->m_24);
+    draw_ginja_model_with_motion((void *)this->m_70, (void *)this->m_74, (f32)this->m_24);
     copy_argb((NJS_ARGB *)&model_material_color.value, (NJS_ARGB *)&saved_model_draw_color.value);
     model_render_flags = saved_model_render_flags;
     pop_matrix();

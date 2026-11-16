@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/ui/window/TWindowShortListCtrl_8026E7DC.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowSubItem.h"
 #include "pso/ui/window/TWindowSubTechnique.h"
@@ -24,13 +25,14 @@
 #include "pso/system/ControllerInputState.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/technique/TTecCtrl.h"
-#include "pso/ui/window/TWindowMenuIconLine.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/task/TObject.h"
+
 
 extern "C" {
 s32 canSetMenuCursorAction(s32, s32, u8, u8);
 void TMainCursor__sub_8013DFC4(u8 *arg0);
 s32 fn_8002AE08(int);
-s32 TWindowShortListCtrl__check_controller_button(ControllerInputContext *, int);
 s32 is_player_input_active(s32 param_1);
 s32 get_character_save_record(u32 arg0);
 void align_menu_entry_positions(void *);
@@ -39,7 +41,6 @@ s32 try_send_6x27_use_item(void *arg0, s32 arg1);
 s32 decrement_clamped(s32 *arg0, s32 arg1);
 s32 try_equip_item__10TObjPlayerFii(u8 *, s32);
 void play_sound_effect(int, int, int, int);
-void *__nw__7TObjectFUl(u32);
 s32 TWindowCtrl__sub_8024A228(s32);
 void *__ct__15TWindowHelpItemFPvUs(void *, s32, s32);
 s32 get_window_layout_position(int);
@@ -52,7 +53,6 @@ s32 TWindowCtrl__sub_8024A1A8();
 s32 has_player_active_menu__11TWindowCtrlFv(s32);
 s32 TWindowHelpItem__set_displayed_item_by_id(void *);
 s32 set_flag70_bit10__21TWindowSubComCardListFv();
-void TWindowShortListCtrl__sub_8026E884(s16 *dst);
 }
 
 // The class name TObject::m_name points at.
@@ -158,7 +158,7 @@ void TWindowShortListCtrl::run_task() {
     case 1:
         if (TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[idx], 0x400) != 0) {
             if (help_window == NULL) {
-                void *w = __nw__7TObjectFUl(0xBC);
+                void *w = TObject::operator new(0xBC);
                 if (w != NULL) {
                     w = __ct__15TWindowHelpItemFPvUs(w, get_window_layout_position(2), client_id);
                 }

@@ -3,16 +3,6 @@
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "dolphin/os/OSReset.h"
 
-struct RecoveredGlobal_803F1548_lbl_805A2720 {
-    s32 value;
-    u8 remaining[0x19C];
-};
-
-struct RecoveredGlobal_803F0CF4_lbl_805A2720 {
-    s32 value;
-    u8 remaining[0x19C];
-};
-
 struct K_803F119C { u8 pad0[0x10]; s32 f10; s32 f14; u8 pad1[0x18]; s32 f30; u8 pad2[0x34]; };
 
 struct Pad_803F0C50 {
@@ -120,7 +110,7 @@ struct Kb_803F1604 {
     u8 pad64[4];
 };
 
-RecoveredGlobal_803F1548_lbl_805A2720 keyboard_pad_state_table;
+KeyboardPadStateTable keyboard_pad_state_table;
 extern "C" {
 s32 SIDisablePolling(u32);
 extern s32 TKeyBoardControl__polling_channel_mask;
@@ -144,7 +134,6 @@ s32 SIGetResponse(s32, void *);
 void *memmove(void *, const void *, u32);
 s32 SIIsChanBusy(s32);
 u32 SIGetStatus(s32);
-typedef char RecoveredGlobal_803F0CF4_lbl_805A2720_size[sizeof(RecoveredGlobal_803F0CF4_lbl_805A2720) == 0x1A0 ? 1 : -1];
 
 static OSResetFunctionInfo lbl_804FCD38 = {
     (OSResetFunction)TKeyBoardControl::disable_all_channels, 127
@@ -175,7 +164,7 @@ void TKeyBoardControl::parse_pad_event(s32 arg0, u32 arg1) {
     u8 *temp_r4;
     temp_r6 = arg1 >> 0x10U;
     temp_r0 = (arg1 >> 0x10U) & 0xFFF0;
-    temp_r4 = (u8 *)&(*(RecoveredGlobal_803F0CF4_lbl_805A2720 *)&keyboard_pad_state_table).value + (arg0 * 0x68);
+    temp_r4 = (u8 *)&keyboard_pad_state_table.value + (arg0 * 0x68);
     switch (temp_r0) {
     case 0x820:
         ((Fields_temp_r4*)temp_r4)->field_0 = 1;
@@ -241,7 +230,6 @@ void TKeyBoardControl::detect_device_type(s32 chan) {
 void TKeyBoardControl__sub_803F0E8C(void) {
 
 }
-typedef char RecoveredGlobal_803F1548_lbl_805A2720_size[sizeof(RecoveredGlobal_803F1548_lbl_805A2720) == 0x1A0 ? 1 : -1];
 
 s32 TKeyBoardControl__sub_803F0E90(s32 arg0, void *arg1) {
     Pad_803F0E90 *p = &((Pad_803F0E90 *)&keyboard_pad_state_table)[arg0];

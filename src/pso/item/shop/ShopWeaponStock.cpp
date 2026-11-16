@@ -8,13 +8,9 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include <stdlib.h>
 #include "pso/item/TItemData.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 struct SRock_80224544_8022448C;
-
-struct RecoveredGlobal_8022559C_lbl_80513F50 {
-    s32 value;
-    u8 remaining[0xC];
-};
 
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -94,11 +90,8 @@ typedef struct Hdr_8022525C
 
 extern "C" {
 s32 memset(void *, int, int);
-extern RecoveredGlobal_8022559C_lbl_80513F50 shop_weapon_stock_generated_flags;
 extern G_80225550 shop_weapon_stock_buffers;
 void get_shop_weapon_stock_item(C14_80225550 *dst, s32 idx, s32 tbl);
-s32 mem_alloc(s32);
-void mem_free(void *p);
 extern u32 lobby_weapon_random_tables_ptr;
 s32 memcmp(const void *, const void *, u32);
 extern Cnt_80224B7C shop_weapon_stock_counts[];
@@ -512,7 +505,6 @@ void roll_shop_weapon_grind(Item_80225064 *it) {
 void TLobby__sub_80225238(int a0, int a1) { shop_weapon_stock_level = a1; generate_shop_weapon_stock(a0); }
 }
 s32 create_named_object(s32 arg0);
-typedef char RecoveredGlobal_8022559C_lbl_80513F50_size[sizeof(RecoveredGlobal_8022559C_lbl_80513F50) == 0x10 ? 1 : -1];
 
 #pragma push
 #pragma optimization_level 1
@@ -524,7 +516,7 @@ typedef struct Pool_8022525C Pool_8022525C;
 typedef struct Tier_8022525C Tier_8022525C;
 s32 shop_weapon_stock_target_counts[4];
 Cnt_80224B7C shop_weapon_stock_counts[4];
-RecoveredGlobal_8022559C_lbl_80513F50 shop_weapon_stock_generated_flags;
+ShopWeaponStockGeneratedFlags shop_weapon_stock_generated_flags;
 G_80225550 shop_weapon_stock_buffers;
 void generate_shop_weapon_stock(s32 tbl) {
   long long new_var;
@@ -682,10 +674,10 @@ void load_weapon_random_tables(void) {
     }
     if (is_split_screen() == 1) {
         for (i = 0; i < 4; i++) {
-            ((s32 *)&shop_weapon_stock_buffers)[i] = mem_alloc(0x140);
+            ((s32 *)&shop_weapon_stock_buffers)[i] = (s32)mem_alloc(0x140);
         }
     } else {
-        ((s32 *)&shop_weapon_stock_buffers)[0] = mem_alloc(0x140);
+        ((s32 *)&shop_weapon_stock_buffers)[0] = (s32)mem_alloc(0x140);
     }
     shop_weapon_stock_level = 0;
 }

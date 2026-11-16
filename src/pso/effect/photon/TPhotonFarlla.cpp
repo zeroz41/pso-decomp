@@ -1,4 +1,9 @@
 #include "pso/system/NinjaTypes.h"
+#include "pso/effect/photon/TPhotonFarlla.h"
+#include "pso/object/base/TObjMotion.h"
+#include "pso/system/task/TObject.h"
+#include "pso/unk/TUnk_804C3248.h"
+#include "pso/system/MatrixStack.h"
 
 const char *TPhotonFarlla__class_name = "TPhotonFarlla";
 
@@ -12,9 +17,8 @@ const char *TPhotonFarlla__class_name = "TPhotonFarlla";
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/unk/text_800F5BC0.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/unk/TUnk_804C3248.h"
-#include "pso/object/base/TObjMotion.h"
-#include "pso/effect/photon/TPhotonFarlla.h"
+
+
 #include "pso/player/TObjPlayer.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
@@ -26,27 +30,23 @@ const char *TPhotonFarlla__class_name = "TPhotonFarlla";
 #include "pso/system/vector.h"
 #include <stddef.h>
 #include "pso/enemy/panarms/TObjEnePanarms.h"
-#include "pso/system/task/TObject.h"
+
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/effect/photon/TPhotonRainbow_801AE640.h"
 #include "pso/unk/text_801AB370.h"
 #include "pso/map/FloorArea.h"
 
-struct Color_801AAF00 { f32 a, r, g, b; };
-
-struct Vec_801AAF00 { f32 x, y, z; };
-
 struct Self_801AAF00 {
     u8 pad0[0x24];
     s32 f24;
     u8 pad1[0x38 - 0x28];
-    Vec_801AAF00 pos;
+    Vec pos;
     u8 pad2[0x60 - 0x44];
     s32 f60;
     u8 pad3[0x14C - 0x64];
     s16 f14C;
     u8 pad4[0x184 - 0x14E];
-    Color_801AAF00 color;
+    NJS_ARGB color;
     u8 pad5[0x1A0 - 0x194];
     s32 started;
 };
@@ -56,9 +56,8 @@ extern "C" {
 s32 scroll_strip_uvs(void *, s16, int);
 s32 clear_render_context__10TObjPlayerFv(void *);
 s32 rotate_matrix_y(int, int);
-s32 push_matrix();
-extern Color_801AAF00 saved_model_draw_color;
-extern Color_801AAF00 model_material_color;
+extern NJS_ARGB saved_model_draw_color;
+extern NJS_ARGB model_material_color;
 extern s32 saved_model_render_flags;
 extern s32 saved_chunk_polygon_flags_and_mask;
 extern s32 saved_chunk_polygon_flags_or_mask;
@@ -132,7 +131,6 @@ struct Stack_801AB018 {
 
 extern "C" {
 void *find_entity_by_id(u16 id);
-s32 spawn_photon_blast_attachment_effects(void *, int);
 }
 u8 *construct_photon_magic_square_normal(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
 extern "C" {
@@ -173,7 +171,7 @@ void TPhotonFarlla::run_task() {
         ((TUnk_804C3248 *)arg0)->begin_photon_summon_camera(1);
         *(s32 *)&this->unk_1A4 = 0;
         ((TObjMotion *)arg0)->set_field_b8(0);
-        spawn_photon_blast_attachment_effects(arg0, 0);
+        ((TUnk_804C3248 *)arg0)->spawn_photon_blast_attachment_effects(0);
     }
     this->m_194 = (s16) this->requested_action;
     ((TUnk_804C3248 *)arg0)->update_state();
@@ -213,46 +211,33 @@ void TPhotonFarlla::run_task() {
         play_persistent_sound(0x4002462F, (s32)arg0, 0, 0, 0);
     }
 }
-}
 #pragma pop
-
-extern "C" {
-
 s32 free_collision_body_parts(void *);
 s32 __dl__7TObjectFPv(void *);
 
 extern void *lbl_804C3564[];
 
-void *destroy__13TPhotonFarllaFPvs(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = (s32 *)lbl_804C3564;
-        ((TPhotonFarlla *)arg0)->update_if_active();
-        ((TUnk_804C3248 *)arg0)->free_photon();
-        ((TObjCollidable *)arg0)->unregister_object_by_id();
-        free_collision_body_parts(arg0);
-        __dt__13TUnk_804C3248Fv(arg0, 0);
+void *destroy__13TPhotonFarllaFPvs(void *photon_farlla, s16 arg1) {
+    if (photon_farlla != NULL) {
+        *(s32 **)((s8 *)photon_farlla + 0x18) = (s32 *)lbl_804C3564;
+        ((TPhotonFarlla *)photon_farlla)->update_if_active();
+        ((TUnk_804C3248 *)photon_farlla)->free_photon();
+        ((TObjCollidable *)photon_farlla)->unregister_object_by_id();
+        free_collision_body_parts(photon_farlla);
+        __dt__13TUnk_804C3248Fv(photon_farlla, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(photon_farlla);
         }
     }
-    return arg0;
+    return photon_farlla;
 }
 
 }
-
-struct Stack_801AB370 { f32 x, y, z; };
 
 extern "C" {
-void *find_entity_by_id(u16 id);
 s32 init_collision_body_parts(void *, void *, int);
 
 s32 sub_801AAE6C__13TPhotonFarllaFv(void *, int);
-}
-u8 *construct_photon_magic_square_normal(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
-extern "C" {
-
-extern u8 *photon_blast_shared_resource;
-
 extern "C" void vfunc_6__8TObjBaseFPsl();
 extern "C" void interact__14TObjCollidableFl();
 extern "C" void get_name__8TObjBaseFv();
@@ -285,12 +270,12 @@ void *lbl_804C3564[17] = {
     (void *)0x0,
 };
 u8 *TPhotonFarlla__ct(u8 *arg0, u8 *arg1) {
-    Stack_801AB370 pos;
+    Vec pos;
     u8 *e;
     void *p;
     __ct__13TUnk_804C3248Fv(arg0);
     *(u8 **)((s8 *)arg0 + 0x18) = (u8 *)lbl_804C3564;
-    *(const char **)((s8 *)arg0 + 0) = TPhotonFarlla__class_name;
+    ((TPhotonFarlla *)arg0)->m_name = TPhotonFarlla__class_name;
     *(s32 *)((s8 *)arg0 + 0x138) = 0;
     VecCopy((Vec *)(arg0 + 0x38), (const Vec *)arg1);
     ((TPhotonFarlla *)arg0)->m_17c = *(u16 *)((s8 *)arg1 + 0xC);
@@ -351,7 +336,7 @@ u8 *TPhotonFarlla__ct(u8 *arg0, u8 *arg1) {
         if (p != NULL) {
             construct_photon_magic_square_normal((u8 *)p, (s32)arg0, 0, (s32)&pos, 0x78);
         }
-        spawn_photon_blast_attachment_effects(arg0, 0);
+        ((TUnk_804C3248 *)arg0)->spawn_photon_blast_attachment_effects(0);
         play_cue_stream_file((s32)"farla2.adx");
     } else {
         spawn_photon_blast_opening_effects(0, ((TPhotonFarlla *)arg0)->m_17c);

@@ -21,4 +21,8 @@ void step_angle_clamped__10TObjPlayerFPvi(void *arg0, s32 arg1);
 void update_collapse_and_destroy__12TObjEneSaverFv(u8 *arg0);
 }
 
+// lbl_80500978: layout known from its uses only.
+struct RecoveredGlobal_lbl_80500978 { s32 value; u8 remaining[0xC]; };
+extern RecoveredGlobal_lbl_80500978 lbl_80500978;
+
 #endif

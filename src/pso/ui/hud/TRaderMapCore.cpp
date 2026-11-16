@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/NinjaTypes.h"
+#include "pso/camera/TCameraCtrl_803D676C.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "types.h"
 #include "pso/render/MaterialColorFade.h"
@@ -9,18 +10,8 @@
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/map/FloorArea.h"
 #include "pso/render/render_util.h"
-#include "pso/system/task/TObject.h"
+
 #include "pso/technique/TTecCtrl.h"
-
-struct RecoveredGlobal_801FA964_lbl_804C8784 {
-    s32 value;
-    u8 remaining[0x2C];
-};
-
-struct RecoveredGlobal_801F9720_TRaderMapCore__data_80513708 {
-    s32 value;
-    u8 remaining[0x74];
-};
 
 #include <stddef.h>
 #include "pso/system/THeap.h"
@@ -41,6 +32,9 @@ struct RecoveredGlobal_801F9720_TRaderMapCore__data_80513708 {
 #include "pso/system/TLanguage_801E4874.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/hud/TRaderMapCore_801FB964.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/math/AngleLookup.h"
 struct Stack_801FA9D8 {
     s32 sp8;
     s32 spC;
@@ -50,31 +44,6 @@ struct Stack_801FA9D8 {
     s32 sp1C;
     s32 sp20;
     RadarViewportParameters viewport;
-};
-
-struct RecoveredGlobal_801FA9D8_lbl_8044A770 {
-    s32 value;
-    u8 remaining[0x8];
-};
-
-struct RecoveredGlobal_801FA9D8_lbl_8044A77C {
-    s32 value;
-    u8 remaining[0xC];
-};
-
-struct RecoveredGlobal_801FA9D8_lbl_804C8748 {
-    s32 value;
-    u8 remaining[0x38];
-};
-
-struct RecoveredGlobal_801FA9D8_lbl_804C8784 {
-    s32 value;
-    u8 remaining[0x2C];
-};
-
-struct RecoveredGlobal_801FA9D8_TRaderMapCore__data_80513708 {
-    s32 value;
-    u8 remaining[0x74];
 };
 
 typedef struct RadarInitPiece_801F9474 {
@@ -137,18 +106,9 @@ struct Radar_801FADF0 {
     u32 f184;
 };
 
-struct RecoveredGlobal_801F9B8C_TRaderMapCore__data_80512D08 {
-    s32 value;
-    u8 remaining[0x9FC];
-};
-
-typedef Vec Vec_801F9B8C;
-
 struct Dot_801F9B8C { f32 x, z, w; s16 c; s16 type; s32 color; };
 
-struct Vec_801F9D84 { f32 x, y, z; };
-
-struct Model_801F9D84 { u8 pad[8]; Vec_801F9D84 a; Vec_801F9D84 b; };
+struct Model_801F9D84 { u8 pad[8]; Vec a; Vec b; };
 
 struct ModelRef_801F9D84 { void *p0; Model_801F9D84 *m; };
 
@@ -159,9 +119,7 @@ struct Region_801F9D84 {
 
 struct Map_801F9D84 { Region_801F9D84 *regions; void *textures; s32 count; };
 
-struct Vec3_801F9314 { f32 x, y, z; };
-
-struct Cam_801F9314 { Vec3_801F9314 dir; Vec3_801F9314 pos; s32 rot; };
+struct Cam_801F9314 { Vec dir; Vec pos; s32 rot; };
 
 struct Color_801FAAEC { f32 r, g, b, a; };
 
@@ -178,32 +136,7 @@ struct Rec_801FAAEC {
 
 struct Map_801FAAEC { Rec_801FAAEC *recs; u32 tex; s32 count; };
 
-struct RecoveredGlobal_801FA1E0_lbl_8050BEC0 {
-    s32 value;
-    u8 remaining[0x1C];
-};
-
-struct RecoveredGlobal_801FA1E0_TRaderMapCore__data_80512D08 {
-    s32 value;
-    u8 remaining[0x9FC];
-};
-
 struct Gate_801FA1E0 { f32 x; f32 z; f32 scale; u16 rot; s16 kind; s32 color; };
-
-struct RecoveredGlobal_801FA1E0_lbl_8058D4C0 {
-    s32 value;
-    u8 remaining[0xC];
-};
-
-struct RecoveredGlobal_801FA350_lbl_8050BEC0 {
-    s32 value;
-    u8 remaining[0x1C];
-};
-
-struct RecoveredGlobal_801FA350_lbl_8058D4C0 {
-    s32 value;
-    u8 remaining[0xC];
-};
 
 typedef struct Vec4_801F9E9C {
     f32 v[4];
@@ -252,8 +185,6 @@ struct Glob_801F986C {
     f32 f30;
     u8 rest[0x44];
 };
-
-struct Pair_801F9770 { f32 x; f32 y; };
 
 struct Glob_801F9770 {
     u8 pad0[0x28];
@@ -304,10 +235,8 @@ struct RadarFanDesc_801FA880 {
     s32 n;
 };
 
-struct RadarVec2_801FA880 { f32 x, y; };
-
 extern "C" {
-s32 TCameraCtrl__sub_80068EF0();
+void TCameraCtrl__sub_80068EF0(void);
 extern u32 TRaderMapCore__data_805D5F4C;
 extern RadarSpriteFrame_801FA6CC lbl_804C87E4[];
 extern f32 lbl_804C87B4[][4];
@@ -321,12 +250,15 @@ void TCameraCtrl__sub_801E32D8(f32 farg0, f32 farg1);
 s32 GXSetScissorBoxOffset(int, int);
 extern Rect_801F9228 radar_map_view_scissor_table[3];
 extern s32 camera_ctrl_instance;
-extern RecoveredGlobal_801F9720_TRaderMapCore__data_80513708 TRaderMapCore__map_view_state;
+struct TRaderMapCoreMapViewState { s32 value; u8 remaining[0x74]; };
+extern TRaderMapCoreMapViewState TRaderMapCore__map_view_state;
 extern f32 lbl_805D35F4;
 extern f32 lbl_805D35F8;
 s32 memset(void *, int, int);
-extern RecoveredGlobal_801FA9D8_lbl_8044A770 lbl_8044A770;
-extern RecoveredGlobal_801FA9D8_lbl_8044A77C lbl_8044A77C;
+struct RecoveredGlobal_lbl_8044A770 { s32 value; u8 remaining[0x8]; };
+extern RecoveredGlobal_lbl_8044A770 lbl_8044A770;
+struct RecoveredGlobal_lbl_8044A77C { s32 value; u8 remaining[0xC]; };
+extern RecoveredGlobal_lbl_8044A77C lbl_8044A77C;
 extern RadarViewRect_801FA9D8 radar_map_view_rect_table[3];
 void begin_map_view__13TRaderMapCoreFii(s32 arg0, s32 arg1);
 extern s16 *TRaderMapCore__floor_discovery_table[];
@@ -343,24 +275,25 @@ extern u8 TCameraCtrl__view_state[];
 extern s32 TRaderMapCore__render_mode;
 f32 xz_distance_squared(void *, void *);
 extern Gate_801FA1E0 TRaderMapCore__marker_buffer[128];
-s32 minimap_render_dot(Vec_801F9B8C *arg0, s32 arg1, s16 arg2, s32 arg3);
+s32 minimap_render_dot(Vec *arg0, s32 arg1, s16 arg2, s32 arg3);
 s32 minimap_render_gate(Vec *pos, u32 color, u16 rot, s16 kind, s32 flags);
-s32 add_radar_scaled_marker(Vec_801F9B8C *arg0, s32 arg1, s16 arg2, s32 arg3, f32 scale);
-s32 add_radar_scaled_gate(Vec_801F9B8C *pos, s32 color, u16 rot, s16 kind, s32 flags, f32 scale);
+s32 add_radar_scaled_marker(Vec *arg0, s32 arg1, s16 arg2, s32 arg3, f32 scale);
+s32 add_radar_scaled_gate(Vec *pos, s32 color, u16 rot, s16 kind, s32 flags, f32 scale);
+}
 void update_radar_auto_discovery(TRaderMapCore *core, s32 arg1, void *arg2);
-void set_perspective_projection_from_fov(s32, f32, f32, f32);
-void rotate_vector_by_matrix(void *, Vec3_801F9314 *, Vec3_801F9314 *);
+extern "C" {
+void rotate_vector_by_matrix(void *, Vec *, Vec *);
 void rotate_matrix_y(void *, s32);
 s32 push_matrix_from(void *src);
-s32 pop_matrix(void);
-extern Vec3_801F9314 lbl_8044A794;
+extern Vec lbl_8044A794;
 extern u8 identity_matrix[];
 extern f32 lbl_805D3608;
 extern f32 radar_overhead_projection_scale;
 void setup_overhead_projection__13TRaderMapCoreFv(s32 arg0, Cam_801F9314 *arg1);
+}
 void rotate_matrix_zyx(void *m, s32 x, s32 y, s32 z);
+extern "C" {
 void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
-void push_matrix(void);
 void draw_ginja_model(s32);
 void set_chunk_material_override_pair(s32, s32);
 extern Color_801FAAEC radar_map_backdrop_color;
@@ -382,10 +315,9 @@ s32 TLobby__sub_801C19D0(void *);
 s32 should_show_map__13TRaderMapCoreFv(void);
 extern Vec4_801F9E9C radar_player_slot_color_table[];
 extern s32 local_client_id;
-Pair_801F9770 TRaderMapCore__sub_801F9D38(TRaderMapCore *self);
-extern const Pair_801F9770 lbl_8044A78C;
+NJS_POINT2 TRaderMapCore__sub_801F9D38(TRaderMapCore *self);
+extern const NJS_POINT2 lbl_8044A78C;
 s32 has_flag__13TRaderMapCoreFv(void *, s32);
-s32 TWindowShortListCtrl__check_controller_button(void *, s32);
 s32 is_on_current_screen__11TCameraCtrlFv(void *, s32);
 s32 apply_packed_flags__13TRaderMapCoreFllll(void *, s32, s32, s32);
 extern Pad_801FAF24 controller_input_state[];
@@ -414,6 +346,7 @@ s32 should_show_map__13TRaderMapCoreFv(void) {
     }
     return TTecCtrl::is_technique_ready();
 }
+}
 void TRaderMapCore::reset_counter() { this->m_184 = 0; }
 
 void TRaderMapCore::hide_radar() {
@@ -428,7 +361,6 @@ void TRaderMapCore::show_radar() {
         ((TRaderMapCore *)(*(u8 * *)&TRaderMapCore__instance))->reset_counter();
         ((TObject *)(*(u8 * *)&TRaderMapCore__instance))->allow_rendering();
     }
-}
 }
 void set_camera_look_at(u8 *eye, u8 *target, u8 *up);
 #pragma fp_contract on
@@ -461,9 +393,9 @@ s32 TRaderMapCore::set_view_scissor(void *self, int mode, void *arg2) {
 #pragma fp_contract reset
 
 void setup_overhead_projection__13TRaderMapCoreFv(s32 arg0, Cam_801F9314 *arg1) {
-    Vec3_801F9314 up = lbl_8044A794;
-    Vec3_801F9314 eye;
-    Vec3_801F9314 at;
+    Vec up = lbl_8044A794;
+    Vec eye;
+    Vec at;
     eye.x = arg1->dir.x * lbl_805D3608;
     eye.y = arg1->dir.y * lbl_805D3608;
     eye.z = arg1->dir.z * lbl_805D3608;
@@ -474,7 +406,7 @@ void setup_overhead_projection__13TRaderMapCoreFv(s32 arg0, Cam_801F9314 *arg1) 
     rotate_matrix_y(0, 0x8000 - arg1->rot);
     rotate_vector_by_matrix(0, &up, &up);
     pop_matrix();
-    set_perspective_projection_from_fov((s32)(182.04445f * radar_overhead_projection_scale), 1.1333334f, 1.0f, 10000.0f);
+    set_perspective_projection_from_fov((182.04445f * radar_overhead_projection_scale), 1.1333334f, 1.0f, 10000.0f);
     set_camera_look_at((u8 *)&eye, (u8 *)&at, (u8 *)&up);
 }
 
@@ -530,8 +462,6 @@ void TRaderMapCore::free_map_data() {
 
 void TRaderMapCore::free_heap() { __dt__5THeapFv((void*)TRaderMapCore__map_heap, (void*)1); TRaderMapCore__map_heap = 0; }
 
-typedef char RecoveredGlobal_801F9720_TRaderMapCore__data_80513708_size[sizeof(RecoveredGlobal_801F9720_TRaderMapCore__data_80513708) == 0x78 ? 1 : -1];
-
 void TRaderMapCore__sub_801F95CC(void) {
     s32 i;
     void* p = __nw__5THeapFUl(0x14);
@@ -582,13 +512,11 @@ void TRaderMapCore::add_zoom_distance(f32 farg0) {
 
 #define MAP_801F9C54 ((struct Map_801F9C54 *) TRaderMapCore__floor_map_resource)
 
-typedef char RecoveredGlobal_801F9B8C_TRaderMapCore__data_80512D08_size[sizeof(RecoveredGlobal_801F9B8C_TRaderMapCore__data_80512D08) == 0xA00 ? 1 : -1];
-
 void TRaderMapCore::open_free_map_view() {
     s32 g = (s32)&TRaderMapCore__map_view_state;
     TRaderMapCore__view_mode = 1;
     {
-        Pair_801F9770 p = TRaderMapCore__sub_801F9D38((TRaderMapCore *)TRaderMapCore__instance);
+        NJS_POINT2 p = TRaderMapCore__sub_801F9D38((TRaderMapCore *)TRaderMapCore__instance);
         ((Glob_801F9770 *)g)->f28 = p.x;
         ((Glob_801F9770 *)g)->f30 = p.y;
     }
@@ -647,9 +575,9 @@ void TRaderMapCore::reset_marker_scale() {
     }
 }
 
-s32 add_radar_scaled_gate(Vec_801F9B8C *pos, s32 color, u16 rot, s16 kind, s32 flags, f32 scale) {
-    Vec_801F9B8C *cam = (Vec_801F9B8C *)&TRaderMapCore__map_view_state;
-    Vec_801F9B8C v;
+s32 add_radar_scaled_gate(Vec *pos, s32 color, u16 rot, s16 kind, s32 flags, f32 scale) {
+    Vec *cam = (Vec *)&TRaderMapCore__map_view_state;
+    Vec v;
     if (TRaderMapCore__data_805D5F30 > 0x7F) {
         return 0;
     }
@@ -670,9 +598,9 @@ s32 add_radar_scaled_gate(Vec_801F9B8C *pos, s32 color, u16 rot, s16 kind, s32 f
     return 1;
 }
 
-s32 add_radar_scaled_marker(Vec_801F9B8C *pos, s32 arg1, s16 arg2, s32 arg3, f32 scale) {
-    Vec_801F9B8C *cam = (Vec_801F9B8C *)&TRaderMapCore__map_view_state;
-    Vec_801F9B8C v;
+s32 add_radar_scaled_marker(Vec *pos, s32 arg1, s16 arg2, s32 arg3, f32 scale) {
+    Vec *cam = (Vec *)&TRaderMapCore__map_view_state;
+    Vec v;
     u8 pad[0x10];
     Dot_801F9B8C *d;
     if (TRaderMapCore__data_805D5F30 > 0x7F) {
@@ -697,8 +625,8 @@ s32 add_radar_scaled_marker(Vec_801F9B8C *pos, s32 arg1, s16 arg2, s32 arg3, f32
 }
 
 s32 minimap_render_gate(Vec *pos, u32 color, u16 rot, s16 kind, s32 flags) {
-    Vec_801F9B8C *cam = (Vec_801F9B8C *)&TRaderMapCore__map_view_state;
-    Vec_801F9B8C v;
+    Vec *cam = (Vec *)&TRaderMapCore__map_view_state;
+    Vec v;
     u8 pad[0x10];
     if (TRaderMapCore__data_805D5F30 > 0x7F) {
         return 0;
@@ -720,9 +648,9 @@ s32 minimap_render_gate(Vec *pos, u32 color, u16 rot, s16 kind, s32 flags) {
     return 1;
 }
 
-s32 minimap_render_dot(Vec_801F9B8C *pos, s32 arg1, s16 arg2, s32 arg3) {
-    Vec_801F9B8C *cam = (Vec_801F9B8C *)&TRaderMapCore__map_view_state;
-    Vec_801F9B8C v;
+s32 minimap_render_dot(Vec *pos, s32 arg1, s16 arg2, s32 arg3) {
+    Vec *cam = (Vec *)&TRaderMapCore__map_view_state;
+    Vec v;
     u8 pad[0x10];
     Dot_801F9B8C *d;
     if (TRaderMapCore__data_805D5F30 > 0x7F) {
@@ -777,8 +705,8 @@ s32 TRaderMapCore::reveal_region_by_id(s16 id) {
 }
 
 #define MAP_801F9D84 ((Map_801F9D84 *) TRaderMapCore__floor_map_resource)
-Pair_801F9770 TRaderMapCore__sub_801F9D38(TRaderMapCore *self) {
-    Pair_801F9770 p = lbl_8044A78C;
+NJS_POINT2 TRaderMapCore__sub_801F9D38(TRaderMapCore *self) {
+    NJS_POINT2 p = lbl_8044A78C;
     if (self->m_134 >= 0) {
         p.x = ((Core_801F9E9C *)self)->e[self->m_134].x;
         p.y = ((Core_801F9E9C *)self)->e[self->m_134].z;
@@ -787,7 +715,7 @@ Pair_801F9770 TRaderMapCore__sub_801F9D38(TRaderMapCore *self) {
 }
 
 void update_radar_auto_discovery(TRaderMapCore *core, s32 arg1, void *pos) {
-    Vec_801F9D84 v;
+    Vec v;
     Region_801F9D84 *r;
     s32 i;
     if (MAP_801F9D84 != NULL) {
@@ -824,10 +752,6 @@ extern const u32 lbl_805DC56C = 1;
 void TRaderMapCore::set_marker_shown(s32 slot, s32 shown) {
     player_marker_records[slot].y = shown ? 10.0f : -10.0f;
 }
-
-typedef char RecoveredGlobal_801FA1E0_lbl_8050BEC0_size[sizeof(RecoveredGlobal_801FA1E0_lbl_8050BEC0) == 0x20 ? 1 : -1];
-typedef char RecoveredGlobal_801FA1E0_TRaderMapCore__data_80512D08_size[sizeof(RecoveredGlobal_801FA1E0_TRaderMapCore__data_80512D08) == 0xA00 ? 1 : -1];
-typedef char RecoveredGlobal_801FA1E0_lbl_8058D4C0_size[sizeof(RecoveredGlobal_801FA1E0_lbl_8058D4C0) == 0x10 ? 1 : -1];
 
 #define SHOW(t) ((s32 (*)(void *))should_show_map__13TRaderMapCoreFv)(t)
 void TRaderMapCore::gather_player_markers() {
@@ -931,7 +855,7 @@ void TRaderMapCore::draw_enemy_gate_markers() {
     Gate_801FA1E0 *g;
     s32 i;
     saved_model_render_flags = model_render_flags;
-    copy_argb((NJS_ARGB *)(&(*(RecoveredGlobal_801FA1E0_lbl_8050BEC0 *)&saved_model_draw_color).value), (NJS_ARGB *)(&(*(RecoveredGlobal_801FA1E0_lbl_8058D4C0 *)&model_material_color).value));
+    copy_argb((NJS_ARGB *)&saved_model_draw_color, (NJS_ARGB *)&model_material_color);
     saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
     saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
     model_render_flags |= this->m_194;
@@ -956,17 +880,15 @@ void TRaderMapCore::draw_enemy_gate_markers() {
     set_constant_material(&chunk_material_color_half_alpha_f32);
     chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
     chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
-    copy_argb((NJS_ARGB *)(&(*(RecoveredGlobal_801FA1E0_lbl_8058D4C0 *)&model_material_color).value), (NJS_ARGB *)(&(*(RecoveredGlobal_801FA1E0_lbl_8050BEC0 *)&saved_model_draw_color).value));
+    copy_argb((NJS_ARGB *)&model_material_color, (NJS_ARGB *)&saved_model_draw_color);
     model_render_flags = saved_model_render_flags;
 }
 
-typedef char RecoveredGlobal_801FA350_lbl_8050BEC0_size[sizeof(RecoveredGlobal_801FA350_lbl_8050BEC0) == 0x20 ? 1 : -1];
-typedef char RecoveredGlobal_801FA350_lbl_8058D4C0_size[sizeof(RecoveredGlobal_801FA350_lbl_8058D4C0) == 0x10 ? 1 : -1];
 void TRaderMapCore::draw_player_markers() {
     u8 *var_r31;
     s32 var_r30;
     saved_model_render_flags = model_render_flags;
-    copy_argb((NJS_ARGB *)(&(*(RecoveredGlobal_801FA350_lbl_8050BEC0 *)&saved_model_draw_color).value), (NJS_ARGB *)(&(*(RecoveredGlobal_801FA350_lbl_8058D4C0 *)&model_material_color).value));
+    copy_argb((NJS_ARGB *)&saved_model_draw_color, (NJS_ARGB *)&model_material_color);
     saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
     saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
     model_render_flags |= this->m_194;
@@ -989,7 +911,7 @@ void TRaderMapCore::draw_player_markers() {
     } while (var_r30 < 4);
     chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
     chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
-    copy_argb((NJS_ARGB *)(&(*(RecoveredGlobal_801FA350_lbl_8058D4C0 *)&model_material_color).value), (NJS_ARGB *)(&(*(RecoveredGlobal_801FA350_lbl_8050BEC0 *)&saved_model_draw_color).value));
+    copy_argb((NJS_ARGB *)&model_material_color, (NJS_ARGB *)&saved_model_draw_color);
     model_render_flags = saved_model_render_flags;
 }
 
@@ -1130,8 +1052,8 @@ void TRaderMapCore::draw_compass(s32 mode) {
     }
 }
 
-static RadarVec2_801FA880 radar_backdrop_origin[3] = { { 480.0f, 64.0f }, { 32.0f, 288.0f }, { 96.0f, 176.0f } };
-static RadarVec2_801FA880 radar_backdrop_size[3] = { { 128.0f, 128.0f }, { 448.0f, 128.0f }, { 448.0f, 128.0f } };
+static NJS_POINT2 radar_backdrop_origin[3] = { { 480.0f, 64.0f }, { 32.0f, 288.0f }, { 96.0f, 176.0f } };
+static NJS_POINT2 radar_backdrop_size[3] = { { 128.0f, 128.0f }, { 448.0f, 128.0f }, { 448.0f, 128.0f } };
 static f32 radar_backdrop_alpha[3] = { 64.0f, 64.0f, 128.0f };
 
 void TRaderMapCore::draw_backdrop(TRaderMapCore *self, s32 mode) {
@@ -1139,8 +1061,8 @@ void TRaderMapCore::draw_backdrop(TRaderMapCore *self, s32 mode) {
     RadarFanDesc_801FA880 desc;
     u32 colors[4];
     u32 color;
-    RadarVec2_801FA880 *origin;
-    RadarVec2_801FA880 *size;
+    NJS_POINT2 *origin;
+    NJS_POINT2 *size;
     desc.pos = pos;
     desc.col = colors;
     desc.a = 0;
@@ -1168,7 +1090,6 @@ void TRaderMapCore::draw_backdrop(TRaderMapCore *self, s32 mode) {
 }
 
 
-typedef char RecoveredGlobal_801FA964_lbl_804C8784_size[sizeof(RecoveredGlobal_801FA964_lbl_804C8784) == 0x30 ? 1 : -1];
 void TRaderMapCore::setup_view(s32 arg1) {
     s32 arg0 = (s32)this;
     GXSetScissorBoxOffset(0, 0);
@@ -1181,11 +1102,6 @@ void TRaderMapCore::setup_view(s32 arg1) {
 
 #pragma push
 #pragma opt_common_subs off
-typedef char RecoveredGlobal_801FA9D8_lbl_8044A770_size[sizeof(RecoveredGlobal_801FA9D8_lbl_8044A770) == 0xC ? 1 : -1];
-typedef char RecoveredGlobal_801FA9D8_lbl_8044A77C_size[sizeof(RecoveredGlobal_801FA9D8_lbl_8044A77C) == 0x10 ? 1 : -1];
-typedef char RecoveredGlobal_801FA9D8_lbl_804C8748_size[sizeof(RecoveredGlobal_801FA9D8_lbl_804C8748) == 0x3C ? 1 : -1];
-typedef char RecoveredGlobal_801FA9D8_lbl_804C8784_size[sizeof(RecoveredGlobal_801FA9D8_lbl_804C8784) == 0x30 ? 1 : -1];
-typedef char RecoveredGlobal_801FA9D8_TRaderMapCore__data_80513708_size[sizeof(RecoveredGlobal_801FA9D8_TRaderMapCore__data_80513708) == 0x78 ? 1 : -1];
 void begin_map_view__13TRaderMapCoreFii(s32 arg0, s32 arg1) {
     typedef char sp8_offset[(offsetof(Stack_801FA9D8, sp8) == 0x0) ? 1 : -1];
     typedef char spC_offset[(offsetof(Stack_801FA9D8, spC) == 0x4) ? 1 : -1];
@@ -1206,8 +1122,8 @@ void begin_map_view__13TRaderMapCoreFii(s32 arg0, s32 arg1) {
     stack.viewport.screen_height = *(f32 *)((s8 *)temp_r5 + 0xC);
     stack.viewport.value18 = *(f32 *)((s8 *)temp_r5 + 0x10);
     ((TRaderMapCore*)arg0)->configure_viewport(&stack.viewport);
-    TRaderMapCore::set_view_scissor((void *)arg0, 2, (void *)((void *) ((u8 *)&(*(RecoveredGlobal_801FA9D8_lbl_804C8784 *)&radar_map_view_scissor_table).value + (arg1 * 0x10))));
-    setup_overhead_projection__13TRaderMapCoreFv((s32)arg0, (Cam_801F9314 *)((void *) ((u8 *)&(*(RecoveredGlobal_801FA9D8_TRaderMapCore__data_80513708 *)&TRaderMapCore__map_view_state).value + (arg1 * 0x28))));
+    TRaderMapCore::set_view_scissor((void *)arg0, 2, (void *)((void *) ((u8 *)&radar_map_view_scissor_table + (arg1 * 0x10))));
+    setup_overhead_projection__13TRaderMapCoreFv((s32)arg0, (Cam_801F9314 *)((void *) ((u8 *)&TRaderMapCore__map_view_state.value + (arg1 * 0x28))));
     stack.sp18 = *(s32 *)((s8 *)&lbl_8044A770.value + 0);
     stack.sp1C = *(s32 *)((s8 *)&lbl_8044A770.value + 4);
     stack.sp20 = *(s32 *)((s8 *)&lbl_8044A770.value + 8);
@@ -1432,7 +1348,7 @@ void TRaderMapCore::update_target() {
 }
 
 Gate_801FA1E0 TRaderMapCore__marker_buffer[128];
-RecoveredGlobal_801F9720_TRaderMapCore__data_80513708 TRaderMapCore__map_view_state;
+TRaderMapCoreMapViewState TRaderMapCore__map_view_state;
 s16 *TRaderMapCore__floor_discovery_table[18];
 
 #pragma fp_contract on
@@ -1474,11 +1390,9 @@ extern RecoveredGlobal_801FB430___vt__13TRaderMapCore __vt__13TRaderMapCore;
 s32 __ct__8TObjBaseFP7TObject(void *, void *);
 s32 init_map_ptr__13TRaderMapCoreFv(void *, int);
 s32 fn_803D64F8(void *);
-extern f32 lbl_805D35F0;
 extern f32 lbl_805D35FC;
 extern s32 rader_map_core_name_ptr;
 Core_801FB490 *TRaderMapCore__ct(Core_801FB490 *arg0, void *parent);
-f32 sin_table_lookup(s32);
 
 
 void TRaderMapCore::advance_scroll() {
@@ -1527,16 +1441,16 @@ void run_task__13TRaderMapCoreFv(TRaderMapCore *rader_map_core) {
     }
 }
 typedef char RecoveredGlobal_801FB430___vt__13TRaderMapCore_size[sizeof(RecoveredGlobal_801FB430___vt__13TRaderMapCore) == 0x34 ? 1 : -1];
-u8 *__dt__13TRaderMapCoreFv(u8 *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = &__vt__13TRaderMapCore.value;
+u8 *__dt__13TRaderMapCoreFv(u8 *base, s16 arg1) {
+    if (base != NULL) {
+        *(s32 **)((s8 *)base + 0x18) = &__vt__13TRaderMapCore.value;
         TRaderMapCore__instance = 0;
-        __dt__8TObjBaseFv(arg0, 0);
+        __dt__8TObjBaseFv(base, 0);
         if (arg1 > 0) {
-            TObject::operator delete(arg0);
+            TObject::operator delete(base);
         }
     }
-    return arg0;
+    return base;
 }
 #pragma push
 #pragma opt_common_subs off
@@ -1609,14 +1523,14 @@ Core_801FB490 *TRaderMapCore__ct(Core_801FB490 *arg0, void *parent) {
 struct Ent_801FB798 { s32 a; char *name; };
 
 extern "C" {
-extern u32 TRaderMapCore__data_805D5F4C;
-extern s32 TRaderMapCore__render_mode;
 void copy_name(s32 arg0);
 s32 replace_file_extension__6TLobbyFPvPvPv(char *arg0, char *arg1, char *arg2);
+}
 s32 get_floor_scene_table(s32 arg0);
+extern "C" {
 void bind_gvm_texture_list(char *, u8 *);
+}
 extern s32 lbl_805D49B4;
-extern s32 TRaderMapCore__data_805D5F30;
 extern s8 lbl_805D5F34;
 extern s32 lbl_805D5F38;
 
@@ -1688,17 +1602,12 @@ s32 TRaderMapCore::apply_compass_param(s32 *counter) {
     }
     return -1;
 }
-}
-
-struct RecoveredGlobal_8019A9B8_lbl_804B8F60 {
-    s32 value;
-    u8 remaining[0xC];
-};
 
 extern "C" {
 extern u32 TRaderMapCore__frame_model_resource;
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-extern RecoveredGlobal_8019A9B8_lbl_804B8F60 obj_f_enemy_resource_descriptor;
+struct ObjFEnemyResourceDescriptor { s32 value; u8 remaining[0xC]; };
+extern ObjFEnemyResourceDescriptor obj_f_enemy_resource_descriptor;
 void free_bin_model_request(void*, int);
 
 void TRaderMapCore::free_statics() {
@@ -1712,7 +1621,6 @@ void TRaderMapCore::free_statics() {
         TRaderMapCore__frame_model_resource = 0U;
     }
 }
-typedef char RecoveredGlobal_8019A9B8_lbl_804B8F60_size[sizeof(RecoveredGlobal_8019A9B8_lbl_804B8F60) == 0x10 ? 1 : -1];
 void TRaderMapCore::load_frame_texture() {
     s32 temp_r3;
     s32 var_r0;
@@ -1724,10 +1632,6 @@ void TRaderMapCore::load_frame_texture() {
     (*(s32 *)&TRaderMapCore__frame_model_resource) = var_r0;
     (*(u8 * *)&TRaderMapCore__data_805D5F4C) = load_gvm_texture_file((s32)"RaderMapFrame.gvm");
 }
-
-}
-
-extern "C" {
 
 s32 get_bml_model(s32);
 void __dt__7TObjectFv(void *, int);
@@ -1741,15 +1645,15 @@ void TRaderMapCore::init_map_ptr() {
 
 extern s32 lbl_804C88A8[];
 
-void *__dt__13TUnk_804C88A8Fv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = lbl_804C88A8;
-        __dt__7TObjectFv(arg0, 0);
+void *__dt__13TUnk_804C88A8Fv(void *object, s16 arg1) {
+    if (object != NULL) {
+        *(s32 **)((s8 *)object + 0x18) = lbl_804C88A8;
+        __dt__7TObjectFv(object, 0);
         if (arg1 > 0) {
-            TObject::operator delete(arg0);
+            TObject::operator delete(object);
         }
     }
-    return arg0;
+    return object;
 }
 
 }

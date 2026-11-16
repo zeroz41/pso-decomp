@@ -22,6 +22,7 @@
 #include "pso/ui/charcreate/TChCrEffCtrlPl.h"
 #include "pso/ui/charcreate/TChCrEffTag.h"
 #include "pso/ui/charcreate/TObjCMIcon.h"
+#include "pso/ui/charcreate/TObjCMIcon_80299488.h"
 #include "pso/system/task/TObject.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/charcreate/TCharaMaking.h"
@@ -33,7 +34,9 @@
 #include "pso/object/TObjLuker.h"
 #include "pso/unk/TLobby_801E2F94.h"
 #include "pso/unk/text_801E3F24.h"
-#include "pso/system/task/TObject.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
+
 
 struct Menu_80296D68
 {
@@ -68,10 +71,8 @@ struct Menu_80297B18 {
     f32 tmax;
 };
 
-extern "C" {
 extern const char *lbl_804DBC0C[];
 extern s32 lbl_804DBC40[];
-}
 
 typedef void (TObjCMMainMenu::*MenuFn_802987AC)();
 
@@ -101,16 +102,13 @@ struct Auto_802952E0
 };
 
 extern "C" {
-s32 queue_destruction__7TObjectFv(void *);
 s32 play_sound_effect(s32, s32, s32, s32);
 void run_task__16TObjCMAssignMenuFv(void *arg0);
-f32 fabs_float(f32);
 void TCameraCtrl__sub_80068EF0(void);
-s32 TQuestVmDownLoadServer__sub_8006EF6C(s32 arg0);
+s32 get_message_text(s32 arg0);
 u32 calc_text_width(char *s);
 s32 is_active__23TAdSinglePlyChrSelectGCFv();
-void TObjCMIcon__sub_802994C8(s32 arg0, s32 *arg1);
-s32 TAdSinglePlyChrSelectGC__sub_802905B8();
+int TAdSinglePlyChrSelectGC__sub_802905B8(void);
 s32 rand();
 void TObjCMMainMenu__sub_80298DA0(int a0);
 }
@@ -243,17 +241,10 @@ struct CreationMenuEntry {
     void (TObjCMMainMenu::*select)(void *);
 };
 
-struct RecoveredGlobal_80298DD4_lbl_8051C07C {
-    s32 value;
-    u8 remaining[0x14];
-};
-
 struct CreationMenuModeList {
     s32 count;
     s32 *entries;
 };
-
-typedef char RecoveredGlobal_80298DD4_lbl_8051C07C_size[sizeof(RecoveredGlobal_80298DD4_lbl_8051C07C) == 0x18 ? 1 : -1];
 
 struct Menu_802975DC {
     u8 pad0[0x1C];
@@ -273,9 +264,6 @@ struct M_80298450 { u8 pad[0x38]; f32 f38; };
 extern "C" {
 void copy_player_visual_record(void *, void *);
 void * get_char_index__23TAdSinglePlyChrSelectGCFUi(s32);
-s32 __dl__7TObjectFPv(void *);
-void * __nw__7TObjectFUl(int);
-s32 __dt__7TObjectFv(void *, s32);
 void __ct__7TObjectFP7TObject(void *);
 u8 calc_section_id_from_name();
 s32 get_creation_sprite_id__14TObjCMMainMenuFl(int);
@@ -283,10 +271,8 @@ void fn_802947A8(void);
 int TObjCMName__sub_802948F4(TObjCMName *, char *);
 TKeyBoardControl *TKeyBoardControl__ct(void *, TObject *, s32, s32, s32, s32);
 int get_keyboard_field_6c__15TWindowMakeTeamFv(TKeyBoardControl *, char *);
-void mem_free(void *p);
 Hair_802964B0 * __ct__14TObjCMHairMenuFv(Hair_802964B0 *arg0, void *arg1);
 void render__16TObjCMAssignMenuFv(Menu_80296928 *self);
-void * create__16TObjCMAssignMenuFPvPv(void *arg0, void *arg1);
 void * __ct__16TObjCMAssignMenuFv(void *arg0, void *parent, void *kind);
 void fn_802972BC(void);
 void fn_802972C0(void);
@@ -294,7 +280,6 @@ void TObjCMMainMenu__sub_80298310(void);
 u8 is_not_dressing_room_mode__14TObjCMMainMenuFv(void);
 s32 * TObjCMMainMenu__sub_80298DD4(void);
 void fn_802993F0(void);
-void fn_8029945C(const vec2f *position);
 u32 __cvt_fp2unsigned(f32);
 char * strncpy(char *, const char *, u32);
 extern u8 __vt__14TObjCMHairMenu[];
@@ -303,7 +288,8 @@ extern Ent_802964B0 class_appearance_table[];
 extern Cols_80297DB8 footer_divider_colors[2];
 extern Quad_80297DB8 footer_divider_vertices[2];
 extern vec2f lbl_804DBCC8[];
-extern RecoveredGlobal_80298DD4_lbl_8051C07C character_creation_name_buffer;
+struct CharacterCreationNameBuffer { s32 value; u8 remaining[0x14]; };
+extern CharacterCreationNameBuffer character_creation_name_buffer;
 extern f32 ui_sprite_scale;
 extern s32 creation_dressing_room_mode_flag;
 extern int creation_figure_rotation_y;
@@ -369,7 +355,6 @@ extern vec2f lbl_804DBCD0[3];
 
 extern "C" {
 void restore_saved_depth_alpha_state();
-void render_nodes__7TObjectFv(void*);
 void update_menu_reveal__14TObjCMMainMenuFv(M_80298450 *self);
 }
 
@@ -701,7 +686,7 @@ void TObjCMMainMenu::render() {
     draw_footer_divider();
     sub_80297B18();
     sub_802979BC();
-    render_nodes__7TObjectFv(nodes);
+    ((TObject *)nodes)->render_nodes();
     draw_root_menu();
     static void (TObjCMMainMenu::*table[7])() = {
         &TObjCMMainMenu::sub_802981BC, 0, &TObjCMMainMenu::sub_80297EF4,
@@ -788,7 +773,7 @@ Quad_80297DB8 footer_divider_vertices[2] = {
     {{{400.0f, 0.0f}, {640.0f, 0.0f}, {640.0f, 0.0f}, {400.0f, 0.0f}}},
 };
 
-extern "C" {
+
 void TObjCMMainMenu::draw_footer_divider() {
     Menu_80297DB8 *self = (Menu_80297DB8 *)this;
     Prim_80297DB8 prim;
@@ -818,12 +803,8 @@ void TObjCMMainMenu::draw_footer_divider() {
         ((TWindowCtrlMain *)(&prim))->draw_strip_swap_color(4, 6, -1.8125f);
     }
 }
-}
-
 #pragma push
 #pragma fp_contract on
-
-extern "C" {
 void TObjCMMainMenu::sub_80297B18() {
     Menu_80297B18 *m = (Menu_80297B18 *)this;
     u32 color;
@@ -837,7 +818,7 @@ void TObjCMMainMenu::sub_80297B18() {
         step = 19.0f * s;
         y = 396.0f * s - step;
         for (i = 0; i < 2; i++) {
-            const char *str = (const char *)TQuestVmDownLoadServer__sub_8006EF6C(i + 0x3B);
+            const char *str = (const char *)get_message_text(i + 0x3B);
             f32 x = 604.0f - (f32)calc_text_width((char *)str);
             TCameraCtrl::restore_full_screen_view();
             draw_menu_text(x, y, str, color);
@@ -888,11 +869,7 @@ void TObjCMMainMenu::sub_80297B18() {
         break;
     }
 }
-}
-
 #pragma pop
-
-extern "C" {
 void TObjCMMainMenu::sub_802979BC() {
     char *name = character->name;
     if ((TObjCMMainMenu__data_805D659C == 0 ||
@@ -921,7 +898,6 @@ void TObjCMMainMenu::sub_802979BC() {
     draw_menu_text(x, 396.0f * get_scale(), name, color);
     TCameraCtrl__sub_80068EF0();
 }
-}
 
 const s32 char_creation_root_menu_tab_table[15] = {
     0xA7, 0xB4, 0xC1, 0xCE, 0xDB, 0xE7, 0xF3, 0x101, 0x10F, 0x11C, 0x129, 0x136, 0x143, 0x14F, 0x15B,
@@ -930,7 +906,7 @@ const s32 char_creation_root_menu_tab_table[15] = {
 #pragma push
 #pragma fp_contract on
 
-extern "C" {
+
 void TObjCMMainMenu::draw_root_menu() {
     u8 *arg0 = (u8 *)this;
     Menu_802975DC *m = (Menu_802975DC *)arg0;
@@ -978,7 +954,7 @@ void TObjCMMainMenu::draw_root_menu() {
             a.x = 115.0f;
             if (is_active__23TAdSinglePlyChrSelectGCFv() != 0 && i == m->sel) {
                 k = 2;
-                a.x += 9.0f * ((f32 (*)(int))sin_table_lookup)(m->pulse << 10);
+                a.x += 9.0f * sin_table_lookup(m->pulse << 10);
             }
             b.x = (x - a.x) / 48.0f;
             draw_ui_sprite_opaque(k + 6, &a, &b, -2.125f);
@@ -1018,7 +994,7 @@ void TObjCMMainMenu::draw_root_menu() {
             }
             r = flag;
             if (is_active__23TAdSinglePlyChrSelectGCFv() != 0 && q == m->sel) {
-                s = ((f32 (*)(int))sin_table_lookup)(m->pulse << 10);
+                s = sin_table_lookup(m->pulse << 10);
                 s = 0.25f * s + 1.0f;
                 if (s > 1.0f) {
                     s = 1.0f;
@@ -1039,15 +1015,11 @@ void TObjCMMainMenu::draw_root_menu() {
         }
     }
 }
-}
-
 #pragma pop
-
-extern "C" {
 void TObjCMMainMenu::open_assign_menu(void *) {
     play_sound_effect(0x52D01, 0, 0, 0);
     TObjCMMainMenu__data_805D659C = 1;
-    create__16TObjCMAssignMenuFPvPv(nodes, (void *)TObjCMMainMenu__data_804DB9C8[entries[selected_entry]].kind);
+    TObjCMAssignMenu::create(nodes, (void *)TObjCMMainMenu__data_804DB9C8[entries[selected_entry]].kind);
 }
 
 void TObjCMMainMenu::open_hair_menu(void *) {
@@ -1162,13 +1134,12 @@ void *__ct__16TObjCMAssignMenuFv(void *obj_cm_assign_menu, void *parent, void *k
     }
     return obj_cm_assign_menu;
 }
-}
 
 TObjCMAssignMenu::~TObjCMAssignMenu() {}
 
-void * create__16TObjCMAssignMenuFPvPv(void *parent, void *kind) {
+void *TObjCMAssignMenu::create(void *parent, void *kind) {
     void *o;
-    o = __nw__7TObjectFUl(0x5C);
+    o = TObject::operator new(0x5C);
     if (o != NULL) {
         o = __ct__16TObjCMAssignMenuFv(o, parent, kind);
     }
@@ -1586,7 +1557,7 @@ Hair_802964B0 *__ct__14TObjCMHairMenuFv(Hair_802964B0 *arg0, void *arg1) {
 TObjCMHairMenu::~TObjCMHairMenu() {}
 
 void *TObjCMHairMenu::create() {
-    void *o = __nw__7TObjectFUl(0x44);
+    void *o = TObject::operator new(0x44);
     if (o != NULL) {
         o = __ct__14TObjCMHairMenuFv((Hair_802964B0 *)(o), this);
     }
@@ -1609,7 +1580,7 @@ void TObjCMHairMenu::run_task() {
     if (active == 0) {
         if ((fade += -0.083333336f) <= 0.0f) {
             fade = 0.0f;
-            queue_destruction__7TObjectFv(this);
+            queue_destruction();
         }
     } else {
         if ((fade += 0.16666667f) > 1.0f) {
@@ -1918,7 +1889,7 @@ void TObjCMAutoMkData::run_task() {
     if ((self->fade += -0.083333336f) <= 0.0f)
     {
       self->fade = 0.0f;
-      queue_destruction__7TObjectFv(self);
+      ((TObject *)self)->queue_destruction();
     }
     return;
   }
@@ -2075,7 +2046,7 @@ void TObjCMProportion::run_task() {
     if ((s32) arg0->active == 0) {
         if ((arg0->fade += -0.083333336f) <= 0.0f) {
             arg0->fade = 0.0f;
-            ((void (*)(TObject*))queue_destruction__7TObjectFv)(arg0);
+            ((TObject *)arg0)->queue_destruction();
         }
     } else {
         if ((arg0->fade += 0.16666667f) > 1.0f) {
@@ -2184,7 +2155,7 @@ TObjCMName *TObjCMName::create(TObject *parent) {
     return new TObjCMName(parent);
 }
 
-extern "C" {
+
 void TObjCMName::run_task() {
     f32 pos[2];
     char name[13];
@@ -2245,7 +2216,6 @@ void TObjCMName::run_task() {
         }
     }
 }
-}
 
 #pragma push
 #pragma fp_contract on
@@ -2281,6 +2251,5 @@ void TObjCMName::render()
 
 #pragma pop
 
-extern "C" {
+
 int TObjCMName__sub_802948F4(TObjCMName *, char *) { return 0; }
-}

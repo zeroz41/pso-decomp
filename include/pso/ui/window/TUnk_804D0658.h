@@ -6,6 +6,8 @@
 class TUnk_804D0658 : public TWindowAddition {
 public:
     virtual ~TUnk_804D0658();
+    virtual void run_task();
+    virtual void render();
     void draw();
     void draw_setting(s32);
     void clamp_scroll();

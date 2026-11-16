@@ -180,10 +180,6 @@ void TObjEneBm9Mericarol_Bomb::run_task() {
     }
 }
 
-}
-
-extern "C" {
-
 s16 get_entity_id(void *);
 s32 normalize_vector(Vec *);
 

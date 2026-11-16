@@ -134,15 +134,15 @@ inline s32 NameRecordId_80591EC8(NameCache_80591EC8 *cache, void *rec) {
     return ((off / 1024) << 12) | (off % 1024);
 }
 
-s32 lookup_name_entry__22TQuestVmDownLoadServerFPvsPv(char *name, s16 name_len, Out_803E8C2C *out) {
+s32 TQuestVmDownLoadServer::lookup_name_entry(s16 name_len, Out_803E8C2C *out) {
     Node_803E8B1C *n;
     s32 r;
     u8 len;
     Ent_803E8B1C *e;
-    for (n = lbl_80593EC8.hash[Hash_80591EC8(name)]; n != NULL; n = n->next) {
+    for (n = lbl_80593EC8.hash[Hash_80591EC8(((char *)this))]; n != NULL; n = n->next) {
         e = n->ent;
         len = e->len;
-        r = strncmp(e->name, name, (s16)len);
+        r = strncmp(e->name, ((char *)this), (s16)len);
         if (r == 0) {
             if ((s16)len == name_len) {
                 break;
@@ -275,17 +275,17 @@ s32 TQuestVmDownLoadServer__sub_803E8DA0(char *name, Req_803EEF2C *req, s32 attr
     return 0;
 }
 
-void append_message_text__22TQuestVmDownLoadServerFPviPvUc(u8 *rec, s32 size, Req_803EEF2C *msg, u8 attr) {
+void TQuestVmDownLoadServer::append_message_text(s32 size, Req_803EEF2C *msg, u8 attr) {
     u16 cur;
     s32 v;
     u8 *p;
     u8 *s;
-    cur = rec[0];
-    cur += rec[1] << 8;
+    cur = ((u8 *)this)[0];
+    cur += ((u8 *)this)[1] << 8;
     v = size + cur;
-    rec[0] = v % 256;
-    rec[1] = v / 256;
-    p = rec + cur;
+    ((u8 *)this)[0] = v % 256;
+    ((u8 *)this)[1] = v / 256;
+    p = ((u8 *)this) + cur;
     *p++ = msg->x7;
     *p++ = attr;
     if (msg->x8 != 0 || msg->x7 >= 0x2D) {

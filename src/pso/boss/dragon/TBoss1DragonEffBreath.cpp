@@ -38,7 +38,7 @@ TBoss1DragonEffBreath::~TBoss1DragonEffBreath() {
 }
 TBoss1DragonEffBreath::TBoss1DragonEffBreath(TObject *object, void *arg2, void *arg3) : TObject(object) {
     void *p;
-    *(const char **)((s8 *)this + 0) = TBoss1DragonEffBreath__name;
+    this->m_name = TBoss1DragonEffBreath__name;
     VecCopy((Vec *)(((u8 *)this) + 0x1C), (const Vec *)arg2);
     VecCopy((Vec *)(((u8 *)this) + 0x28), (const Vec *)arg3);
     *(f32 *)((s8 *)this + 0x28) *= 5.0f;

@@ -6,11 +6,11 @@
 #include "pso/system/task/TObject.h"
 
 extern "C" {
-s32 TWindowCtrlMain__sub_8024CE58(void);
+s32 has_window_task_root(void);
 }
 
 void TObjTagChallenge::run_task() {
-    if (TWindowCtrlMain__sub_8024CE58() != 0) {
+    if (has_window_task_root() != 0) {
         TWindowCtrl::close_active_window();
         fn_800740DC();
         TWindowCtrl::open_status_111();
@@ -40,11 +40,10 @@ void *TObjTagChallenge__ct(void *tag_challenge) {
 
 #define TObjTagChallenge__ct (*(void * (*)(void *, void *))&TObjTagChallenge__ct)
 
-void *__nw__7TObjectFUl(int);
 }
 
 void *create_obj_tag_challenge(void *tag_challenge) {
-    void *o = __nw__7TObjectFUl(0x1C);
+    void *o = TObject::operator new(0x1C);
     if (o != NULL) {
         o = TObjTagChallenge__ct(o, tag_challenge);
     }

@@ -24,7 +24,7 @@ u32 decrypt_quest_data(void *src, s32 size, void *dst, u32 capacity) {
     }
     __ct__14SubtractiveRngFv(&rng[0]);
     subtractive_rng_seed(&rng[0], seed);
-    ((TAdSinglePlyChrSelectGC *)(&rng[0]))->crypt_data_be((u32 *)file->data, (s32)(size - 8));
+    ((TAdSinglePlyChrSelectGC *)(&rng[0]))->crypt_data_be((u32 *)file->data, size - 8);
     prs_decompress_buffer((s32)file->data, (s32)dst);
     return decompressed_size;
 }

@@ -68,7 +68,7 @@ f32 random_ratio__9TObjCharaFv(TObject *actor);
 f32 fabs_float(f32 x);
 f32 newton_sqrtf(f32 x);
 s32 get_current_floor(void);
-s16 get_actor_hp(u8 *p);
+s16 get_actor_hp__9TObjCharaFv(u8 *p);
 s32 play_persistent_sound(u32 id, TObject *source, f32 *pos, s32, s32);
 u16 find_nearest_visible_player(TObject *self, s32 flags, f32 range);
 s32 is_local_client_floor_leader();
@@ -240,7 +240,7 @@ static Vec boss3_volopt_seq4_camera_position;
 static Vec boss3_volopt_seq4_camera_target;
 TObjPlayer *TBoss3Volopt::candidate_players[5];
 
-extern "C" TBoss3VoloptCore *fn_8003F468(TBoss3Volopt *parent, u16 id, s32 group) {
+TBoss3VoloptCore *fn_8003F468(TBoss3Volopt *parent, u16 id, s32 group) {
     return new TBoss3VoloptCore(parent, id, group);
 }
 
@@ -378,7 +378,7 @@ s32 TBoss3Volopt::get_field_3e0() {
 }
 
 void TBoss3Volopt::reset_photon_effect() {
-    ((TObjPlayer *)this)->register_object_by_id();
+    this->register_object_by_id();
 }
 
 TBoss3Volopt::TBoss3Volopt(void *set_data) : TObjEnemyCustom(tl_04) {
@@ -1056,7 +1056,7 @@ void TBoss3Volopt::update_phase1() {
         break;
     case 2: {
         m_384 = 0x96;
-        TCameraCtrl__sub_8006A044(0xB4, 0.03f);
+        start_camera_shake(0xB4, 0.03f);
         for (i = 0; i < 6; i++) {
             TObject *p01 = (TObject *)find_entity_by_id(volopt_target_entity_ids[i]);
             if (p01 != NULL) {
@@ -1551,7 +1551,7 @@ u16 TBoss3Volopt::find_strongest_player() {
     for (i = 0; i < volopt_candidate_count; i++) {
         player = candidate_players[i];
         if (player != NULL) {
-            s16 hp = get_actor_hp((u8 *)player);
+            s16 hp = get_actor_hp__9TObjCharaFv((u8 *)player);
             if (hp > best_hp) {
                 best_hp = hp;
                 best = player;

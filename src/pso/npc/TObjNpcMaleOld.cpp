@@ -15,7 +15,7 @@ BmlResourceDescriptor bm_n_eom_i_body_resource_descriptor = { "bm_n_eom_i_body.b
 const char *TObjNpcMaleOld__name = "TObjNpcMaleOld";
 BmlResource *TObjNpcMaleOld__shared_model_resource;
 
-extern "C" s32 __vt__14TObjNpcMaleOld[];
+s32 __vt__14TObjNpcMaleOld[];
 
 void *TObjNpcMaleOld__create(void *set_data) {
     TObjControl *control = new TObjControl(tl_04);

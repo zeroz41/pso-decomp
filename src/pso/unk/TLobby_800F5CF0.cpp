@@ -6,6 +6,7 @@
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/enemy/lappy/TObjEneLappy.h"
 #include "pso/ui/window/TWindowLockOn.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 struct Stack_800F5D80 {
     s32 sp8;
     u8 pad_C[0x2];
@@ -14,7 +15,6 @@ struct Stack_800F5D80 {
 
 extern "C" {
 s32 exchange_object_state__9TObjEnemyFls(void *, void *, int);
-void *mem_alloc(u32 size);
 s32 collect_model_strips_by_texture(void *, s32, s32, s32);
 s32 count_model_strips_by_texture();
 
@@ -22,7 +22,7 @@ extern s32 plist_strip_write_ptr;
 extern s32 plist_strip_uv_write_ptr;
 extern s32 plist_texture_matches_filter;
 
-void *TLobby::alloc_tables(s32 arg1, s32 arg2) {
+void *TLobby::alloc_tables(s32 ctx, s32 arg2) {
     s32 temp_r6;
 
     *(s32 *)&this->m_flags = 0;
@@ -35,7 +35,7 @@ void *TLobby::alloc_tables(s32 arg1, s32 arg2) {
     temp_r6 = *(s32 *)&this->m_next;
     plist_strip_uv_write_ptr = temp_r6;
     plist_texture_matches_filter = 0;
-    collect_model_strips_by_texture(this, arg1, arg2, temp_r6);
+    collect_model_strips_by_texture(this, ctx, arg2, temp_r6);
     return this;
 }
 void TObjEnemy::clear_lobby_object_state() {

@@ -4,10 +4,8 @@
 #include <stdlib.h>
 #include "pso/player/TObjPlayer.h"
 
-extern "C" {
 extern const f32 lbl_805D8244;
 extern const f32 lbl_805D8248;
-}
 
 s32 TObjPlayer::calc_random_scaled() {
     return (s32) (lbl_805D8248 * (lbl_805D8244 * (f32) rand()));

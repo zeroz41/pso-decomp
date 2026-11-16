@@ -3,8 +3,7 @@
 #include "pso/ui/window/TWindowDD_WS_String.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowDD.h"
-
-struct Src_80348A9C { f32 x; f32 y; };
+#include "pso/system/NinjaTypes.h"
 
 struct Dst_80348A9C { u8 pad[0xc]; f32 x; f32 y; u8 pad2[4]; };
 
@@ -14,7 +13,7 @@ struct B_803489B8 { u8 pad0[4]; f32 f4; u8 pad8[0x14]; f32 f1C; u8 pad20[0x10]; 
 
 extern "C" {
 extern f32 lbl_805DFB1C;
-Src_80348A9C TWindowDD__data_805434E8[7][8];
+NJS_POINT2 TWindowDD__data_805434E8[7][8];
 extern s32 *TWindowDD__player_name_buffers;
 extern s32 *TWindowDD__data_805D6E28;
 extern s16 *lbl_805D6E34;
@@ -42,15 +41,15 @@ void TWindowDD::append_string(s32 arg0, s32 arg1, s32 *arg2) {
 
 extern s32 lbl_805D63F0;
 
-void TWindowDD_WS_String::draw(s32 arg1, s32 idx, f32 farg0) {
+void TWindowDD_WS_String::draw(s32 ctx, s32 idx, f32 farg0) {
     Buf sp8;
     s32 temp_r31;
 
     temp_r31 = TWindowDD::get_draw_count((void **)(lbl_805D63F0));
     ((TWindowDD *)(&sp8))->reset_entries(TWindowDD__sub_80348AD4(*(f32 *)&(this->m_54), farg0), -1);
     ((TWindowDD *)(&sp8))->copy_point_table(idx);
-    TWindowDD__sub_80348A2C((void *)arg1, &sp8);
-    TWindowDD__sub_803489B8((A_803489B8 *)(arg1), (B_803489B8 *)(&sp8), 0);
+    TWindowDD__sub_80348A2C((void *)ctx, &sp8);
+    TWindowDD__sub_803489B8((A_803489B8 *)(ctx), (B_803489B8 *)(&sp8), 0);
     ((TWindowDD *)(&sp8))->draw_transformed_primitive(8, temp_r31, 1);
 }
 
@@ -120,7 +119,7 @@ void TWindowDD__sub_80348A2C(void *arg0, void *arg1) {
 void TWindowDD::copy_point_table(s32 idx) {
     Dst_80348A9C *self = (Dst_80348A9C *)this;
     s32 i;
-    Src_80348A9C *s = TWindowDD__data_805434E8[idx];
+    NJS_POINT2 *s = TWindowDD__data_805434E8[idx];
     for (i = 0; i < 8; i++) {
         self->x = s->x;
         self->y = s->y;
@@ -174,7 +173,7 @@ void TWindowBase::calc_inner_rect(u8 *arg1) {
 }
 #pragma pop
 
-s32 TWindowDD__sub_80348B70(s16 arg0) {
+s32 get_word_select_token_text(s16 arg0) {
     s32 *t = TWindowDD__player_name_buffers;
     if (arg0 >= 0x68C && arg0 <= 0x697) {
         return t[arg0 - 0x68C];

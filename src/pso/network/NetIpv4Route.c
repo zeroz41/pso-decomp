@@ -22,7 +22,6 @@ s16 NetIPv4AddRoute(u32, u32, u32, s16, u8, u16);
 #include <stddef.h>
 
 
-
 #include "pso/network/IPv6Send.h"
 #include "pso/network/NetStackTypes.h"
 
@@ -193,7 +192,7 @@ extern s32 TLobby__sub_8040F00C(s16 idx, NetBufferRef *out, s16 len, s32 arg3) {
     rec.broadcast = ifc->broadcast;
     set_value_and_enable((&ref), (s32)&rec);
     netbuf_copy_by_ref(out, &ref, sizeof(rec));
-    TLobby__sub_80406EB8(out, sizeof(rec));
+    netbuf_ref_advance(out, sizeof(rec));
     alias = ifc->aliases;
     count = 1;
     n = 0;
@@ -205,7 +204,7 @@ extern s32 TLobby__sub_8040F00C(s16 idx, NetBufferRef *out, s16 len, s32 arg3) {
         rec.broadcast = alias->broadcast;
         set_value_and_enable((&ref), (s32)&rec);
         netbuf_copy_by_ref(out, &ref, sizeof(rec));
-        TLobby__sub_80406EB8(out, sizeof(rec));
+        netbuf_ref_advance(out, sizeof(rec));
         alias = alias->next;
         count++;
         n++;
@@ -292,8 +291,6 @@ extern s16 TLobby__sub_8040F454(u32 addr, u32 mask, u32 broadcast, s16 idx) {
     s16 err;
     s16 found;
     u32 gateway;
-    s16 invoke_socket_callback(s16, s32); /* declared s16 here; the definition returns s32 */
-    s16 TLobby__sub_8040A044(s16, u32, s32, u32 *); /* declared s16 here; the definition returns s32 */
 
     if (idx < 0 || idx >= *(pn = &g->nifaces)) {
         return -0x109;

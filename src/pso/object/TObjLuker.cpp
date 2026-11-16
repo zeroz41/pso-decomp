@@ -1,5 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/object/base/TObjChara.h"
+#include "pso/player/TObjPlayer.h"
 #include "pso/object/TObjLuker.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/object/base/TObjMotion.h"
@@ -7,7 +9,7 @@
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/TWindowSubComCardList.h"
 #include "pso/system/task/TObject.h"
-#include "pso/object/TObjLuker.h"
+
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/unk/TLobby.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
@@ -18,13 +20,13 @@
 #include "pso/ui/frontend/TAdChrSelASlotGC.h"
 #include "pso/unk/TLobby_80207644.h"
 #include "pso/unk/text_80087278.h"
-#include "pso/system/task/TObject.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+
 
 #pragma readonly_strings on
 
-extern "C" {
+
 const char *TObjLuker__name = "TObjLuker";
-}
 
 
 struct Win_801A0DB4 { u8 pad[4]; u16 flags; };
@@ -91,25 +93,19 @@ void *check_room_seq_4__16TAdChrSelASlotGCFl(void *p, s32 a);
 s32 get_floor_destination_name(s32 f);
 void align_menu_entry_positions(void *w);
 void hide_part__9TObjLukerFPvUs(Obj_801A0C38 *self, u16 i);
-void __dl__7TObjectFPv(void *);
 extern u8 __vt__9TObjLuker[];
-Luker_801A16D8 *__dt__9TObjLukerFv(Luker_801A16D8 *arg0, s16 arg1);
 void __ct__8TObjBaseFP7TObject(void *, void *);
 extern const char *TObjLuker__name;
 void *TObjLuker__ct(void *arg0, void *arg1, void *arg2);
 f32 horizontal_distance_squared(void *, void *);
-s32 TWindowShortListCtrl__check_controller_button(void *, int);
 s32 check_flag_100__10TObjPlayerFPv(void *);
-s32 play_effect_default__10TObjPlayerFii(void *, int);
 s32 play_persistent_sound(int, void *, void *, int, int);
-void *__nw__7TObjectFUl(int);
 s32 TTecLuker__sub_8023401C(void *);
 void *create_telepipe_visual(void *, void *, int, int);
 s32 get_entity_id(int);
 s32 is_player_in_range__9TObjLukerFv(s32 arg0, f32 farg0);
 s32 get_main_phase();
 s32 mark_area_change_pending();
-s32 obj_isState3_324__9TObjCharaFv(int);
 s32 send_6x21_inter_level_warp(int, void *);
 s32 set_area__6TLobbyFl(void *, int, int);
 s32 init_fields__9TTecLukerFs(void *, int);
@@ -344,7 +340,7 @@ void TObjLuker::transfer_to_town() {
         flag = 1;
       }
       else
-        if (obj_isState3_324__9TObjCharaFv((int) p) != 0)
+        if (((TObjChara *)p)->obj_isState3_324() != 0)
       {
         flag = 1;
       }
@@ -412,7 +408,7 @@ void TObjLuker::run_task() {
         if (TTecLuker__sub_8023401C(p + 0x830) != 0) {
             *(s16 *)&this->m_ae = 1;
             if (*(s32 *)&this->m_b4 != 0 && *(void * *)&this->m_a4 == NULL) {
-                o = __nw__7TObjectFUl(0x44);
+                o = TObject::operator new(0x44);
                 if (o != NULL) {
                     o = create_telepipe_visual(o, (u8 *)&this->position, this->m_a8, tl_07);
                 }
@@ -443,7 +439,7 @@ void TObjLuker::run_task() {
                         spawn_particle_effect(spC, 0xB3);
                         p = PBC_801A1418(local_client_id);
                         if (p != NULL) {
-                            play_effect_default__10TObjPlayerFii(p, 0xA);
+                            TObjPlayer::play_effect_default((int)p, (int)0xA);
                             play_sound_effect(0x40022D1A, (u32)(arg0 + 0x38), 0, 0);
                         }
                         TWindowCtrl::init_all_slots();
@@ -514,7 +510,7 @@ void *TObjLuker__ct(void *arg0, void *parent, void *arg2) {
 #undef self
 
 void *TObjLuker__create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0xBC);
+    void *o = TObject::operator new(0xBC);
     if (o != NULL) {
         o = TObjLuker__ct(o, tl_05, arg0);
     }

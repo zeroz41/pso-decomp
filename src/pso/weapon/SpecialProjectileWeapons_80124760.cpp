@@ -1,4 +1,5 @@
 #include "pso/effect/TEffStarLight2D.h"
+#include "pso/weapon/SpecialProjectileWeapons_80124760.h"
 #include "pso/weapon/TUnk_804A204C.h"
 #include "pso/weapon/shoot/TUnk_804A2148.h"
 #include "pso/weapon/TUnk_804A2164.h"
@@ -8,9 +9,7 @@
 #include "pso/weapon/shoot/TItemShoot.h"
 #include "pso/system/task/TObject.h"
 
-#include "pso/weapon/TUnk_804A204C.h"
-#include "pso/weapon/shoot/TUnk_804A2148.h"
-#include "pso/weapon/TUnk_804A2164.h"
+
 #include "pso/weapon/TItemWeapon.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/player/TObjPlayer.h"
@@ -22,7 +21,7 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/render/GinjaMaterial.h"
-#include "pso/player/TObjPlayer.h"
+
 struct TItemEquipBase;
 #include "pso/weapon/shoot/TItemShootParticle.h"
 
@@ -62,18 +61,17 @@ typedef char StarLightFollowerExtent[sizeof(StarLightFollowerView) == 0x2C ? 1 :
 
 extern "C" {
 
-void *__dt__13TUnk_804A2164Fv(void *arg0, s16 arg1);
 void __ct__11TItemWeaponFP7TObjectPUc(void *);
 u8 *__nw__5TItemFUl(s32);
-void *__dt__15TItemShootModelFv(void *self, s16 flag);
-void increment_burst_counter(u8 *arg0);
-s32 get_burst_counter(void* p);
 s32 post_translate_matrix(void *);
-s32 draw_weapon_at_joint(void *, s32, void *);
 s32 push_matrix();
-extern s32 model_render_flags;
-s32 is_item_area_enabled();
 s32 __nw__7TObjectFUl(s32);
+s32 is_owner_alive__15TItemShootModelFv();
+
+void __ct__15TItemShootModelFPvPC3VecPC3Vecf(void *);
+u32 spawn_shoot_particle__10TObjPlayerFUlllf(s32, s32, s32, f32);
+typedef u8 *(*Fn_80124694_3)(void *, s32, void *);
+typedef s32 (*Fn_80124810_5)(s32, s32, s32, s32, f32);
 }
 s32 drill_launcher_create_shot(s32 arg0, s32 arg1, s32 arg2, f32 farg0);
 
@@ -81,35 +79,9 @@ void* drill_launcher_ct(void* a0, s32, void *);
 extern s32 tl_05;
 u8 *create_drill_launcher(u8 *arg0);
 void drill_launcher_return_timer(void *arg0);
-int get_item_system_generation(void);
-u8 *spawn_star_light_2d(s32 arg0, s32 arg1, s32 arg2);
-extern "C" {
-StarLightFollowerView *__ct__13TUnk_804A2018FP7TObjectll(StarLightFollowerView *self, void *parent, s32 a, s32 b);
-void *TObjPlayer__sub_8012417C(void *arg0, s16 arg1);
-
-void *__dt__13TUnk_804A204CFv(void *arg0, s16 arg1);
-void *TObjPlayer__sub_80124694(TObjPlayer *arg0);
-u8 *TObjPlayer__sub_80124708(u8 *arg0);
-s32 is_owner_alive__15TItemShootModelFv();
-
-void __ct__15TItemShootModelFPvPC3VecPC3Vecf(void *);
-u32 spawn_shoot_particle__10TObjPlayerFUlllf(s32, s32, s32, f32);
-typedef u8 *(*Fn_80124694_3)(void *, s32, void *);
-typedef s32 (*Fn_80124810_5)(s32, s32, s32, s32, f32);
-
-
-}
-extern "C" {
-
-
-
-extern void *__vt__13TUnk_804A204C[];
 extern void *__vt__13TUnk_804A2148[];
 extern void *__vt__13TUnk_804A2164[];
 #define __vt__13TUnk_804A2148 ((s32 *)__vt__13TUnk_804A2148)
-
-}
-extern "C" {
 
 
 void TUnk_804A2148::render() {
@@ -141,7 +113,6 @@ void *ct_shoot_model__10TObjPlayerFPv(void *item_shoot_model) {
     __ct__15TItemShootModelFPvPC3VecPC3Vecf(item_shoot_model);
     *(s32 **)((s8 *)item_shoot_model + 0x18) = __vt__13TUnk_804A2148;
     return item_shoot_model;
-}
 }
 
 s32 drill_launcher_create_shot(s32 arg0, s32 arg1, s32 arg2, f32 farg0) {
@@ -184,7 +155,7 @@ void TUnk_804A2164::emit_marker_effects() {
     }
     ((TItemWeapon *)((RecoilWeaponView *)this))->get_gun_point(&sp8);
     if (((RecoilWeaponView *)this)->is_mode_two_and_ready() != 0) {
-        ((TObjPlayer *)((RecoilWeaponView *)this))->launch_rare_weapon_special(&sp8, 1, (f32) (1.0f));
+        ((TItemWeapon *)((RecoilWeaponView *)this))->launch_rare_weapon_special(&sp8, 1, (f32) (1.0f));
         return;
     }
     ((RecoilWeaponView *)this)->launch_shot((u8 *)&sp8, 0, 0, 1);
@@ -199,7 +170,7 @@ void TUnk_804A2164::vfunc_60() {
     if (player_list == 4) {
         if (second_model != 0U) {
             if ((s32) *(s32 *)((s8 *)this + 0x1F8) == 1) {
-                draw_ginja_object((void *)(second_model));
+                draw_ginja_object(second_model);
             }
         }
     }
@@ -209,7 +180,7 @@ void TUnk_804A2164::update_weapon() {
     void *temp_r4;
     void *temp_r4_2;
     this->m_1fc = (this->m_1fc + 0x1999);
-    temp_r4 = *(void * *)&this->second_model;
+    temp_r4 = this->second_model;
     if (temp_r4 != NULL) {
         temp_r4_2 = *(void **)((s8 *)temp_r4 + 0x2C);
         *(s32 *)((s8 *)temp_r4_2 + 0) = (s32) (*(s32 *)((s8 *)temp_r4_2 + 0) & 0xFFFFFFFD);

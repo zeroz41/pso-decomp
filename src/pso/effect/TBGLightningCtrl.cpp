@@ -5,7 +5,8 @@
 #include "pso/effect/TBGLightningCtrl.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/render/render_util.h"
-#include "pso/system/task/TObject.h"
+#include "pso/math/AngleLookup.h"
+
 extern "C" void render__16TBGLightningCtrlFv();
 #include "pso/unk/text_803DA798.h"
 
@@ -20,65 +21,41 @@ public:
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
-struct RecoveredGlobal_802A9C24___vt__16TBGLightningCtrl {
-    s32 value;
-    u8 remaining[0x30];
-};
-
-typedef char RecoveredGlobal_802A9C24___vt__16TBGLightningCtrl_size[sizeof(RecoveredGlobal_802A9C24___vt__16TBGLightningCtrl) == 0x34 ? 1 : -1];
-
-struct Stack_802AA0A4 {
-    f32 sp8;
-    f32 spC;
-    f32 sp10;
-};
-
 struct Vtx_802A9D40 { f32 x, y, z, u, v; s32 c; };
-
-struct Vec_802A9DF4 { f32 x, y, z; };
 
 struct Obj_802A9DF4 {
     u8 pad0[0x1C];
     s8 f1c;
     s8 f1d;
     u8 pad1e[2];
-    Vec_802A9DF4 pos;
+    Vec pos;
     f32 f2c;
 };
-
-struct Vec_802A9F48 { f32 x, y, z; };
 
 struct Obj_802A9F48 {
     u8 pad0[0x1C];
     s8 f1c;
     s8 f1d;
     u8 pad1e[2];
-    Vec_802A9F48 pos;
+    Vec pos;
     f32 f2c;
 };
 
-struct Stack_802A9A2C {
-    f32 sp8;
-    f32 spC;
-    f32 sp10;
-};
 extern "C" {
 
 s32 VecCopy__FP3VecPC3Vec(void *, s32, s8, f32, f32);
-s32 queue_destruction__7TObjectFv();
 s32 __ct__8TObjBaseFP7TObject(void *, void *);
+}
 u8 *load_gvm_texture_file(s32 arg0);
+extern "C" {
 void __dl__7TObjectFPv(void *);
-void * __nw__7TObjectFUl(int);
 s32 __ct__7TObjectFP7TObject(u8 *, void *);
-void fn_802A9DF4(Obj_802A9DF4 *self, Vec_802A9DF4 *dir);
-void fn_802A9F48(Obj_802A9F48 *self, Vec_802A9F48 *dir);
+void fn_802A9DF4(Obj_802A9DF4 *self, Vec *dir);
+void fn_802A9F48(Obj_802A9F48 *self, Vec *dir);
 u32 __cvt_fp2unsigned(f32);
 s32 rand();
-f32 sin_table_lookup(s32);
-f32 cos_table_lookup(s32);
 s32 release_texture_list(void*);
-void TParticleCtrl__sub_803E2A1C(void *, int);
+void emit_particle_strip_vertices(void *, int);
 
 extern void *__vt__12TBGLightning[];
 extern void *__vt__16TBGLightningCtrl[];
@@ -96,15 +73,12 @@ void TBGLightningCtrl__sub_802A9A08(void) { TObjFish::set_global_param(bg_lightn
 #pragma push
 #pragma fp_contract on
 void TBGLightningCtrl::spawn_lightning_at_angle(s32 arg1) {
-    typedef char sp8_offset[(offsetof(Stack_802A9A2C, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_802A9A2C, spC) == 0x4) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_802A9A2C, sp10) == 0x8) ? 1 : -1];
-    Stack_802A9A2C stack;
+    Vec stack;
 
-    stack.sp8 = this->scale.x * sin_table_lookup(arg1);
-    stack.spC = this->scale.y;
-    stack.sp10 = this->scale.x * cos_table_lookup(arg1);
-    ((s32 (*)(s32, s32, f32))create__12TBGLightningFiif)((s32) this, (s32) &stack.sp8, *(f32 *)((s8 *)this + 0x70) * (((0.3f) * ((3.0517578e-05f) * (f32) rand())) + (1.0f)));
+    stack.x = this->scale.x * sin_table_lookup(arg1);
+    stack.y = this->scale.y;
+    stack.z = this->scale.x * cos_table_lookup(arg1);
+    ((s32 (*)(s32, s32, f32))create__12TBGLightningFiif)((s32) this, (s32) &stack.x, *(f32 *)((s8 *)this + 0x70) * (((0.3f) * ((3.0517578e-05f) * (f32) rand())) + (1.0f)));
 }
 #pragma pop
 
@@ -128,15 +102,15 @@ void TBGLightningCtrl::run_task() {
 }
 #pragma pop
 
-void *__dt__16TBGLightningCtrlFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = (s32 *)__vt__16TBGLightningCtrl;
-        __dt__8TObjBaseFv(arg0, 0);
+void *__dt__16TBGLightningCtrlFv(void *base, s16 arg1) {
+    if (base != NULL) {
+        *(s32 **)((s8 *)base + 0x18) = (s32 *)__vt__16TBGLightningCtrl;
+        __dt__8TObjBaseFv(base, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(base);
         }
     }
-    return arg0;
+    return base;
 }
 
 u8 *TBGLightningCtrl__ct(u8 *bg_lightning_ctrl, s32 parent, s32 arg2) {
@@ -149,11 +123,12 @@ u8 *TBGLightningCtrl__ct(u8 *bg_lightning_ctrl, s32 parent, s32 arg2) {
 }
 
 void *TBGLightningCtrl__create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0x94);
+    void *o = TObject::operator new(0x94);
     if (o != NULL) {
         o = ((void * (*)(void *, void *, void *))TBGLightningCtrl__ct)(o, tl_05, arg0);
     }
     return o;
+}
 }
 
 void TBGLightningCtrl::destroy_instance() {
@@ -162,7 +137,6 @@ void TBGLightningCtrl::destroy_instance() {
         TAdSinglePlyChrSelectGC::safe_free((*(u32 *)&bg_lightning_texture_handle));
         (*(u32 *)&bg_lightning_texture_handle) = 0U;
     }
-}
 }
 
 void load_bg_lightning(void) { bg_lightning_texture_handle = (int)load_gvm_texture_file((s32)lbl_8046FCA0); }
@@ -184,15 +158,15 @@ void submit_particle_quad(void *arg0, f32 *p, f32 *d, s32 c) {
     r[1].x = x; r[1].y = yd = y + d[1]; r[1].z = z; r[1].u = hi; r[1].v = lo; r[1].c = c;
     r[2].x = x + d[0]; r[2].y = y; r[2].z = z + d[2]; r[2].u = lo; r[2].v = hi; r[2].c = c;
     r[3].x = x + d[0]; r[3].y = yd; r[3].z = z + d[2]; r[3].u = lo; r[3].v = lo; r[3].c = c;
-    TParticleCtrl__sub_803E2A1C(r, 4);
+    emit_particle_strip_vertices(r, 4);
 }
 
 #pragma push
 #pragma fp_contract on
 
-void fn_802A9DF4(Obj_802A9DF4 *self, Vec_802A9DF4 *dir) {
-    Vec_802A9DF4 p;
-    Vec_802A9DF4 d;
+void fn_802A9DF4(Obj_802A9DF4 *self, Vec *dir) {
+    Vec p;
+    Vec d;
     f32 scale;
     s32 idx;
     f32 s;
@@ -229,9 +203,9 @@ void fn_802A9DF4(Obj_802A9DF4 *self, Vec_802A9DF4 *dir) {
 
 #pragma push
 #pragma fp_contract on
-void fn_802A9F48(Obj_802A9F48 *self, Vec_802A9F48 *dir) {
-    Vec_802A9F48 p;
-    Vec_802A9F48 d;
+void fn_802A9F48(Obj_802A9F48 *self, Vec *dir) {
+    Vec p;
+    Vec d;
     f32 scale;
     switch (self->f1d) {
     case 0:
@@ -261,17 +235,17 @@ void fn_802A9F48(Obj_802A9F48 *self, Vec_802A9F48 *dir) {
 #pragma pop
 
 void render__12TBGLightningFv(s32 arg0) {
-    Stack_802AA0A4 stack;
+    Vec stack;
     s32 temp_r31;
     if (TMainTask::get_render_pass() != 0) {
         temp_r31 = *(s32 *)((s8 *)camera_ctrl_instance + 0x194) + 0x4000;
-        stack.sp8 = sin_table_lookup(temp_r31);
-        stack.spC = (-1.0f);
-        stack.sp10 = cos_table_lookup(temp_r31);
+        stack.x = sin_table_lookup(temp_r31);
+        stack.y = (-1.0f);
+        stack.z = cos_table_lookup(temp_r31);
         TParticleCtrl::begin_effect_render();
         set_additive_blend();
-        ((s32 (*)(s32, f32 *))fn_802A9F48)(arg0, &stack.sp8);
-        ((s32 (*)(s32, f32 *))fn_802A9DF4)(arg0, &stack.sp8);
+        ((s32 (*)(s32, f32 *))fn_802A9F48)(arg0, &stack.x);
+        ((s32 (*)(s32, f32 *))fn_802A9DF4)(arg0, &stack.x);
         set_default_alpha_blend();
         TParticleCtrl::end_effect_render();
     }
@@ -283,14 +257,14 @@ void run_task__12TBGLightningFv(void *arg0) {
     temp_r4 = *(u8 *)((s8 *)arg0 + 0x1D) + 1;
     *(u8 *)((s8 *)arg0 + 0x1D) = (u8) temp_r4;
     if ((s8) temp_r4 >= 0xC) {
-        queue_destruction__7TObjectFv();
+        ((TObject *)arg0)->queue_destruction();
     }
 }
 
 u8 *create__12TBGLightningFiif(s32 arg0, s32 arg1, f32 farg0) {
     u8 *bg_lightning;
     u8 *var_r0;
-    bg_lightning = (u8 *)(((u8 * (*)(s32))__nw__7TObjectFUl)(0x30));
+    bg_lightning = (u8 *)(TObject::operator new(0x30));
     var_r0 = bg_lightning;
     if (var_r0 != NULL) {
         var_r0 = (u8 *)(__ct__12TBGLightningFv((u8 *)bg_lightning, (void *)arg0, (s32)arg1, farg0));

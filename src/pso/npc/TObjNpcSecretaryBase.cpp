@@ -15,7 +15,7 @@ BmlResourceDescriptor secretary_body_resource_descriptor = { "bm_n_hisyo_i_body.
 const char *TObjNpcSecretaryBase__name = "TObjNpcSecretaryBase";
 BmlResource *TObjNpcSecretaryBase__static_model_resource;
 
-extern "C" s32 __vt__20TObjNpcSecretaryBase[];
+s32 __vt__20TObjNpcSecretaryBase[];
 
 void *TObjNpcSecretaryBase__create(void *set_data) {
     TObjControl *control = new TObjControl(tl_04);

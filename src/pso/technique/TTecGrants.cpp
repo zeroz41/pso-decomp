@@ -6,30 +6,9 @@
 #include "pso/effect/TUnk_804CC148.h"
 #include "pso/system/task/TObject.h"
 
-struct RecoveredGlobal_80233350___vt__10TTecGrants {
-    s32 value;
-    u8 remaining[0x24];
-};
-
 #include <stddef.h>
 #include "pso/technique/TTecLuker.h"
 #include "pso/player/TObjPlayer.h"
-
-struct RecoveredGlobal_802384E0_lbl_804CCB28 { s32 value; u8 remaining[0x14]; };
-
-struct RecoveredGlobal_802385EC_lbl_804CCB28 { s32 value; u8 remaining[0x14]; };
-
-struct RecoveredGlobal_80238D10_lbl_804CC510
-{
-  s32 value;
-  u8 remaining[0x48];
-};
-
-struct RecoveredGlobal_80238D10_lbl_804CC55C
-{
-  s32 value;
-  u8 remaining[0x94];
-};
 
 struct RecoveredFields_80238D10_arg0
 {
@@ -73,7 +52,6 @@ struct VObj_802386F8 : VBase_802386F8 {
 extern "C" {
 void *find_entity_by_id(u16 id);
 u8 * __ct__13TUnk_804CC888FPUclP7TObject(void *, s32, s32, s32);
-void *__nw__7TObjectFUl(int);
 extern s32 tl_07;
 void run_task__10TTecGrantsFv(TTecGrants *arg0);
 s32 get_entity_id(int);
@@ -85,8 +63,6 @@ u8 *TTecGrants__ct(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
 
 void TTecGrants::render() {  }
 
-typedef char RecoveredGlobal_802384E0_lbl_804CCB28_size[sizeof(RecoveredGlobal_802384E0_lbl_804CCB28) == 0x18 ? 1 : -1];
-typedef char RecoveredGlobal_802385EC_lbl_804CCB28_size[sizeof(RecoveredGlobal_802385EC_lbl_804CCB28) == 0x18 ? 1 : -1];
 void TTecGrants::vfunc_6(void *target_arg) {
     u8 *self = (u8 *)this;
     u8 *target = (u8 *)target_arg;
@@ -96,14 +72,10 @@ void TTecGrants::vfunc_6(void *target_arg) {
     ((VObj_802386F8 *)target)->m21(*(s32 *)(self + 0x1C), d, *(s32 *)(self + 0xB8), 0x9, -1, self);
 }
 typedef struct RecoveredFields_80238D10_arg0 RecoveredFields_80238D10_arg0;
-typedef struct RecoveredGlobal_80238D10_lbl_804CC510 RecoveredGlobal_80238D10_lbl_804CC510;
-typedef struct RecoveredGlobal_80238D10_lbl_804CC55C RecoveredGlobal_80238D10_lbl_804CC55C;
-typedef char RecoveredGlobal_80238D10_lbl_804CC510_size[((sizeof(RecoveredGlobal_80238D10_lbl_804CC510)) == 0x4C) ? (1) : (-1)];
-typedef char RecoveredGlobal_80238D10_lbl_804CC55C_size[((sizeof(RecoveredGlobal_80238D10_lbl_804CC55C)) == 0x98) ? (1) : (-1)];
 
 void TTecGrants::create(void *arg0, void *arg1, void *arg2, void *arg3) {
     void *o;
-    o = __nw__7TObjectFUl(0x14C);
+    o = TObject::operator new(0x14C);
     if (o != NULL) {
         TTecGrants__ct((u8 *)o, (s32)arg0, (s32)arg1, (s32)arg2, (s32)arg3);
     }
@@ -123,7 +95,7 @@ void run_task__10TTecGrantsFv(TTecGrants *tec_grants) {
     }
     entity = (unsigned long) (find_entity_by_id(tec_grants->m_f0));
     if ((TTecLuker::is_parents_unqueued(entity) != 0) && (TObjPlayer::is_valid_and_active(entity) != 0) && ((s32) tec_grants->m_148 == 0)) {
-        temp_r3_2 = (u8 *)(((u8 *)__nw__7TObjectFUl(0x3C)));
+        temp_r3_2 = (u8 *)(((u8 *)TObject::operator new(0x3C)));
         if (temp_r3_2 != NULL) {
             __ct__13TUnk_804CC888FPUclP7TObject(temp_r3_2, (s32) entity, (s32) tec_grants->m_78, tl_07);
         }
@@ -142,11 +114,10 @@ TTecGrants::~TTecGrants() {
 
 }
 
-typedef char RecoveredGlobal_80233350___vt__10TTecGrants_size[sizeof(RecoveredGlobal_80233350___vt__10TTecGrants) == 0x28 ? 1 : -1];
 u8 *TTecGrants__ct(u8 *tec_grants, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
     u32 temp_r3;
     __ct__13TUnk_804CC148Flll((void *)tec_grants, (void *)arg1, (void *)arg2, (void *)arg4);
-    *(s32 **)((s8 *)tec_grants + 0x18) = &(*(RecoveredGlobal_80233350___vt__10TTecGrants *)&__vt__10TTecGrants).value;
+    *(s32 **)((s8 *)tec_grants + 0x18) = __vt__10TTecGrants;
     ((TObjPlayer *)(tec_grants + 0xEC))->construct_target_cursor_records();
     *(s32 *)((s8 *)tec_grants + 0) = (s32) tec_grants_class_name;
     ((TTecGrants *)tec_grants)->init_parameters();

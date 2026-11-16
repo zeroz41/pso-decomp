@@ -52,14 +52,12 @@ struct Pl_8035D924 : PBase_8035D924 {
     virtual void v21(s32, void *, int, int, int);
 };
 
-struct Vec_8035D924 { f32 x, y, z; };
-
 struct Dmg_8035D924 { s32 a; s32 b; s32 c; f32 d; };
 
 struct Shower_8035D924 {
     u8 pad0[0x1C];
     s32 owner;
-    Vec_8035D924 pos;
+    Vec pos;
     f32 radius;
     u8 pad30[4];
     s32 power;
@@ -69,7 +67,6 @@ struct Shower_8035D924 {
 extern "C" {
 extern s32 tl_02;
 
-u8 *__nw__7TObjectFUl(s32);
 
 s32 play_sound_effect(s32, u32, int, s32);
 s32 __ct__7TObjectFP7TObject(void *, void *);
@@ -92,7 +89,7 @@ void TBoss6DPB::sub_8035D8B0() {
 #pragma opt_common_subs off
 void TBoss6DPB::apply_shower_damage_to_players() {
     Shower_8035D924 *arg0 = (Shower_8035D924 *)this;
-    Vec_8035D924 v;
+    Vec v;
     Dmg_8035D924 dmg;
     s32 n;
     s32 i;
@@ -170,7 +167,7 @@ u8 *__ct__9TBoss6DPBFv(u8 *object, s32 arg1, s32 arg2, f32 farg0) {
 u8 *TBoss6Type2::create_dpb(s32 arg0, s32 arg1, f32 farg0) {
     u8 *boss6_dpb;
     u8 *var_r0;
-    boss6_dpb = (u8 *)(__nw__7TObjectFUl(0x3C));
+    boss6_dpb = (u8 *)(TObject::operator new(0x3C));
     var_r0 = boss6_dpb;
     if (var_r0 != NULL) {
         var_r0 = (u8 *)(__ct__9TBoss6DPBFv(boss6_dpb, arg0, arg1, farg0));

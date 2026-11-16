@@ -7,8 +7,9 @@
 #include "pso/ui/window/TWindowQuantity.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/ui/window/TWindowDD.h"
+
 #include "pso/unk/WindowLayoutRecord.h"
+#include "pso/system/task/TObject.h"
 
 struct Quantity_8026D000 {
     s32 f0;
@@ -48,8 +49,6 @@ s32 get_window_layout_position(s32);
 extern s32 __vt__15TWindowQuantity[];
 extern s32 lbl_805D39B0;
 s32 draw_window_tab(s32, s32, s32, f32);
-void __dl__7TObjectFPv(void *);
-void *__nw__7TObjectFUl(int);
 
 void TWindowQuantity::set_position(s32 arg1) {
     draw_window_tab(arg1, arg1 + 0x10, 3, this->m_60);
@@ -64,16 +63,7 @@ void render__15TWindowQuantityFv(s32 arg0) {
 
 void TWindowQuantity::run_task() { ((TWindowDD *)this)->initialize_subwindow(); update_window_entry_list((char*)this + 0x24); }
 
-void *__dt__15TWindowQuantityFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__15TWindowQuantity;
-        ((TWindowDD *)arg0)->destroy_window_base(0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
-}
+TWindowQuantity::~TWindowQuantity() {}
 
 void *TWindowQuantity__ct(void *arg0, void *arg1) {
 #define self ((Quantity_8026D000 *)arg0)
@@ -84,7 +74,7 @@ void *TWindowQuantity__ct(void *arg0, void *arg1) {
     ((TWindowDD *)arg0)->construct_base((u8 *)&quantity_window_layout, (s16)((s16)(s32)arg1), (u8 *)(get_window_layout_position(0x2A)));
     self->vt = ((void * *)&__vt__15TWindowQuantity);
     self->f0 = lbl_805D39B0;
-    id = TQuestVmDownLoadServer__sub_8006EF6C(1);
+    id = get_message_text(1);
     n = (f32)calc_text_width();
     self->f60 = TWindowSubStatusDisp__sub_802877A4(24.0f + (12.0f + n));
     e0 = get_array_entry__11TWindowBaseFi(arg0, 0);
@@ -105,7 +95,7 @@ void *TWindowQuantity__ct(void *arg0, void *arg1) {
 }
 
 void *create_window_quantity(void *arg0) {
-    void *o = __nw__7TObjectFUl(0x6C);
+    void *o = TObject::operator new(0x6C);
     if (o != NULL) {
         o = TWindowQuantity__ct(o, arg0);
     }

@@ -9,7 +9,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp_8025A9B4.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8025B050.h"
 #include "pso/ui/chat/TWindowChat.h"
-#include "pso/ui/chat/TWindowChatSymbol.h"
+
 #include "pso/ui/chat/TWindowChatSymbol_802486A8.h"
 #include "pso/ui/chat/TWindowSubSymbolChat.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
@@ -57,11 +57,6 @@ ShortCutWindowLayout window_short_cut_layout_entries = {
 };
 WindowDescriptor window_short_cut_layout = {
     {405.0f, 188.0f}, 50100.0f, &window_short_cut_layout_entries, 0x63,
-};
-
-struct RecoveredGlobal_8026E728___vt__15TWindowShortCut {
-    s32 value;
-    u8 remaining[0x18];
 };
 
 extern "C" {
@@ -194,7 +189,6 @@ void TWindowShortCut::show_shortcut(s32 index, s32 *shortcut) {
 }
 #pragma pop
 
-extern "C" {
 
 void render__15TWindowShortCutFv(u8 *arg0) {
     s32 temp_r3;
@@ -206,30 +200,21 @@ void render__15TWindowShortCutFv(u8 *arg0) {
 
 void TWindowShortCut::run_task() { ((TWindowSubStatusDisp *)(this->heading))->update_subwindow(); ((TWindowDD *)this)->initialize_subwindow(); update_fade(); update_window_entry_list((char*)this + 0x24); }
 
-void *__dt__15TWindowShortCutFv(TWindowShortCut *self, s16 arg1) {
-    if (self != NULL) {
-        *(s32 **)((s8 *)self + 0x18) = __vt__15TWindowShortCut;
-        if (self->symbol_preview != NULL) {
-            ((TWindowBase *)self->symbol_preview)->close();
-            self->symbol_preview = NULL;
-        }
-        if (self->preview_window != NULL) {
-            self->preview_window->close();
-            self->preview_window = NULL;
-        }
-        TWindowSubStatusDisp::destroy_status_display(self->heading, 1);
-        ((TWindowDD *)self)->destroy_window_base(0);
-        if (arg1 > 0) {
-            TObject::operator delete(self);
-        }
+TWindowShortCut::~TWindowShortCut() {
+    if (this->symbol_preview != NULL) {
+        ((TWindowBase *)this->symbol_preview)->close();
+        this->symbol_preview = NULL;
     }
-    return self;
+    if (this->preview_window != NULL) {
+        this->preview_window->close();
+        this->preview_window = NULL;
+    }
+    TWindowSubStatusDisp::destroy_status_display(this->heading, 1);
 }
-typedef char RecoveredGlobal_8026E728___vt__15TWindowShortCut_size[sizeof(RecoveredGlobal_8026E728___vt__15TWindowShortCut) == 0x1C ? 1 : -1];
 u8 *TWindowShortCut__ct(TWindowShortCut *window_short_cut, s32 arg1, s32 index, s32 *chat_shortcut) {
     s32 var_r31;
     ((TWindowDD *)window_short_cut)->construct_base((u8 *)&window_short_cut_layout, (s16)4, (u8 *)arg1);
-    *(s32 **)((s8 *)window_short_cut + 0x18) = &(*(RecoveredGlobal_8026E728___vt__15TWindowShortCut *)&__vt__15TWindowShortCut).value;
+    *(s32 **)((s8 *)window_short_cut + 0x18) = __vt__15TWindowShortCut;
     *(s32 *)((s8 *)window_short_cut + 0) = (s32) TWindowShortCut__name;
     var_r31 = (int)::operator new(0x24);
     if (var_r31 != 0) {
@@ -244,4 +229,3 @@ u8 *TWindowShortCut__ct(TWindowShortCut *window_short_cut, s32 arg1, s32 index, 
     return (u8 *)window_short_cut;
 }
 
-}

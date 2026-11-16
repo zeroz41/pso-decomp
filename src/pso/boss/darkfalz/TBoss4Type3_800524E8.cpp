@@ -7,7 +7,7 @@
 
 struct Player_8005254C { u8 pad[0x30]; u32 flags; };
 
-extern "C" {
+
 extern const f32 lbl_805D8AE0;
 
 extern const f32 lbl_805D8AE4;
@@ -36,4 +36,3 @@ s32 TBoss4Type3__sub_8005254C(u16 id) {
     return 0;
 }
 
-}

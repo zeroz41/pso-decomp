@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/city/TShopJudgmentItemWindow_8026DF00.h"
 #include "pso/player/TPlyGuildCardTag_8007B434.h"
@@ -24,8 +25,7 @@
 #include "pso/network/TPlyJoinLobbyEntry.h"
 #include "pso/quest/TQuestListVM.h"
 #include "pso/system/task/TObject.h"
-#include "pso/ui/city/TShopWindowBase.h"
-#include "pso/unk/TLobby.h"
+
 
 // A window's width and height.
 struct WindowSize {
@@ -51,10 +51,8 @@ s32 online_quest_list_state;
 
 struct S217 { char pad[0x38]; void *f38; };
 
-extern "C" {
 extern u8 *TQuestListOnline__quest_list_buffer;
 extern u8 *TQuestListOnline__selected_quest_info;
-}
 
 struct VBase_18_80217F88 { char pad[0x18]; };
 
@@ -107,7 +105,6 @@ struct T_80217B30 { u8 pad[0x38]; s32 f38; };
 extern "C" {
 s32 get_entity_id(int);
 int set_field_20__15TShopWindowBaseFl(void*, int);
-s32 append_line__14TWindowMessageFii(int, void *, int);
 u32 create__14TWindowMessageFlPCfUll(int, void *, int, int);
 s32 get_window_layout_position(int);
 u32 create__14TWindowMessageFPvll(s32, void *, int);
@@ -127,14 +124,12 @@ extern T_80217B30 TQuestListOnline__dat_download_state;
 
 struct Obj_802181B0 { u8 pad[0x20]; u32 state; };
 
-extern "C" {
 extern s32 __vt__16TQuestListOnline[];
 struct VOff_80218310_arg0 { char pad_0[0x4C]; char f_4C[1]; };
-}
 
-void *TQuestListOnline__ct(TQuestListOnline *quest_list_online, void *arg1, void *arg2, void *arg3) {
+void *TQuestListOnline__ct(TQuestListOnline *quest_list_online, void *parent, void *arg2, void *arg3) {
     struct VOff_80218310_arg0 *self = (struct VOff_80218310_arg0 *)quest_list_online;
-    __ct__15TShopWindowBaseFP7TObject(quest_list_online, (TObject *)arg1);
+    __ct__15TShopWindowBaseFP7TObject(quest_list_online, (TObject *)parent);
     *(s32 **)((s8 *)quest_list_online + 0x18) = __vt__16TQuestListOnline;
     __ct__13GameListEntryFv((s32)self->f_4C);
     quest_list_online->m_name = TQuestListOnline__class_name;
@@ -235,9 +230,9 @@ void TQuestListOnline::build_list_window() {
         if (description_window == 0U) {
             WindowSize size = online_description_window_size;
             description_window = create__14TWindowMessageFPvll(get_window_layout_position(0x2D), &size, 1);
-            append_line__14TWindowMessageFii(description_window, TQuestListOnline__quest_list_buffer + 0x2C, 0x80);
+            ((TWindowMessage *)description_window)->append_line((int)(TQuestListOnline__quest_list_buffer + 0x2C), (int)0x80);
         } else {
-            append_line__14TWindowMessageFii(description_window, TQuestListOnline__quest_list_buffer + 0x2C, 0x80);
+            ((TWindowMessage *)description_window)->append_line((int)(TQuestListOnline__quest_list_buffer + 0x2C), (int)0x80);
         }
         selected_index = 0;
         set_field_20(3);
@@ -256,9 +251,9 @@ void TQuestListOnline::show_info_window() {
         }
     }
     if (TQuestListOnline__selected_quest_info != NULL) {
-        append_line__14TWindowMessageFii(info_window, TQuestListOnline__selected_quest_info + 4, 0x80);
+        ((TWindowMessage *)info_window)->append_line((int)(TQuestListOnline__selected_quest_info + 4), (int)0x80);
     }
-    ((TShopWindowBase *)this)->set_field_20(3);
+    this->set_field_20(3);
 }
 
 void TQuestListOnline::handle_list_selection() {
@@ -268,7 +263,7 @@ void TQuestListOnline::handle_list_selection() {
     if (list_window != 0) {
         s32 sel = ((TWindowMenuIconLine *)list_window)->get_cursor_value();
         if (description_window != 0 && sel != selected_index) {
-            append_line__14TWindowMessageFii(description_window, QL_80217C1C->ents[sel].name, 0x80);
+            ((TWindowMessage *)description_window)->append_line((int)(QL_80217C1C->ents[sel].name), (int)0x80);
         }
         if (info_window != 0 && sel != selected_index) {
             ((TWindowBase *)info_window)->close();
@@ -351,25 +346,25 @@ void TQuestListOnline::handle_quest_confirm() {
     s32 v;
     s32 n;
     if (this->confirm_window != NULL && ((TWindowMenu *)(this->confirm_window))->is_decided() != 0) {
-        v = ((TWindowMenu *)(*(void * *)&this->confirm_window))->get_selected_value();
+        v = ((TWindowMenu *)(this->confirm_window))->get_selected_value();
         if (v == 0) {
             if (THunterGuildSeqOffline::check_party_gathered() == 1) {
                 if (this->sequence != NULL) {
                     (*(VObj_18_802178E4 * *)&this->sequence)->m7(0x14, 1);
                 }
                 send_action__9TProtocolFR13GameListEntryUcPcPc(TLobby__protocol_instance, selected_entry, 0, "", "");
-                ((TObject *)(*(void * *)&this->confirm_window))->queue_destruction();
+                ((TObject *)(this->confirm_window))->queue_destruction();
                 this->confirm_window = NULL;
                 if (this->info_window != NULL) {
-                    ((TObject *)(*(void * *)&this->info_window))->queue_destruction();
+                    ((TObject *)(this->info_window))->queue_destruction();
                     this->info_window = NULL;
                 }
                 if (this->description_window != NULL) {
-                    ((TObject *)(*(void * *)&this->description_window))->queue_destruction();
+                    ((TObject *)(this->description_window))->queue_destruction();
                     this->description_window = NULL;
                 }
                 if (this->list_window != NULL) {
-                    ((TObject *)(*(void * *)&this->list_window))->queue_destruction();
+                    ((TObject *)(this->list_window))->queue_destruction();
                     this->list_window = NULL;
                 }
                 set_field_20(0xC);

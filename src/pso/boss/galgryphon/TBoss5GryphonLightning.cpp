@@ -4,6 +4,7 @@
 #include "types.h"
 #include "pso/unk/text_80087278.h"
 #include "pso/system/task/TObject.h"
+#include <dolphin/mtx/GeoTypes.h>
 
 TBoss5GryphonLightning::~TBoss5GryphonLightning() {
     if (m_44 != nullptr) { ((TObject *)m_44)->queue_destruction(); m_44 = nullptr; }
@@ -12,17 +13,15 @@ TBoss5GryphonLightning::~TBoss5GryphonLightning() {
     if (m_38 != nullptr) { ((TObject *)m_38)->queue_destruction(); m_38 = nullptr; }
 }
 
-struct Vec_80324F4C { f32 x, y, z; };
-
-struct Seg_80324F4C { Vec_80324F4C v; f32 f; };
+struct Seg_80324F4C { Vec v; f32 f; };
 
 struct Self_80324F4C {
-    s32 f0;
+    const char *f0;
     char pad4[0x14];
     void *vt;
     f32 scale;
-    Vec_80324F4C v20;
-    Vec_80324F4C v2c;
+    Vec v20;
+    Vec v2c;
     void *eff38;
     void *eff3c;
     void *eff40;
@@ -43,10 +42,10 @@ extern "C" {
 void __ct__7TObjectFP7TObject(void *, void *);
 int VecCopy__FP3VecPC3Vec(void *, void *);
 extern s32 __vt__22TBoss5GryphonLightning[];
-extern s32 lbl_805D4180;
+const char *lbl_805D4180 = "TBoss5GryphonLightning";
 
 Self_80324F4C *TBoss5GryphonLightning__ct(Self_80324F4C *self, void *parent,
-                                          Vec_80324F4C *pos, f32 p_scale) {
+                                          Vec *pos, f32 p_scale) {
     register s32 dpos, dlen;
     s32 i;
     __ct__7TObjectFP7TObject(self, parent);

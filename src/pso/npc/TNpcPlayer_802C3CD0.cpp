@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/object/base/TObjChara.h"
 #include "pso/unk/TLobby_8001D6A0.h"
 #include "pso/npc/TNpcPlayer_802C3CD0.h"
 #include "pso/npc/TNpcPlayer.h"
@@ -44,7 +45,6 @@ struct Item_802C3F74 : VBase_802C3F74 {
 
 extern "C" {
 s16 get_actor_tp(void *);
-s16 get_actor_hp(void *);
 void copy_player_visual_record(void *, void *);
 void TObjPlayer__sub_8013A748(void *, void *);
 void clamp_stats__10TObjPlayerFiPv(void *, void *, s32);
@@ -83,7 +83,7 @@ void export_character_data__10TObjPlayerFPvPv(u8 *arg0, u8 *arg1) {
     s32 k;
     ((TObjPlayer *)arg0)->set_flag_80000();
     *(s8 *)((s8 *)arg1 + 0) = query_state_if_present__10TObjPlayerFPv(arg0, get_ptr_4__10TObjPlayerFv((s8 *)arg1));
-    hp = get_actor_hp(arg0);
+    hp = ((TObjChara *)arg0)->get_actor_hp();
     facing = get_actor_tp(arg0);
     for (i = 0; i != 0xD; i++) {
         eq = ((TObjPlayer *)arg0)->get_equipped_item(i);
@@ -138,7 +138,7 @@ void export_state_to_record__10TObjPlayerFPvPv(u8 *arg0, s8 *arg1) {
     s32 m;
     ((TObjPlayer *)arg0)->set_flag_80000();
     arg1[0] = query_state_if_present__10TObjPlayerFPv(arg0, get_ptr_4__10TObjPlayerFv(arg1));
-    hp = get_actor_hp(arg0);
+    hp = ((TObjChara *)arg0)->get_actor_hp();
     facing = get_actor_tp(arg0);
     p = items;
     for (i = 0; i < 30; i++) {

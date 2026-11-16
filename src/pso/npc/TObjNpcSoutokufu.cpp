@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/npc/TObjNpcSoutokufu.h"
 #include "pso/npc/TUnk_804A9F50.h"
-#include "pso/npc/TUnk_804A9F50.h"
+
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 #include "pso/npc/TObjNpcBase.h"
 #include "pso/npc/TObjNpcLappy.h"
@@ -22,14 +22,6 @@ u32 TObjNpcSoutokufu__shared_model_resource;
 }
 
 
-struct RecoveredGlobal_802895D8_lbl_804D3320 { s32 value; u8 remaining[0xC]; };
-typedef char RecoveredGlobal_802895D8_lbl_804D3320_size[sizeof(RecoveredGlobal_802895D8_lbl_804D3320) == 0x10 ? 1 : -1];
-
-struct RecoveredGlobal_80289680___vt__16TObjNpcSoutokufu {
-    s32 value;
-    u8 remaining[0x174];
-};
-
 struct Nd_80289710 { u32 flags; u8 pad4[4]; f32 f8; f32 fc; f32 f10; u8 pad14[0x1C]; Nd_80289710 *next; };
 
 struct Ls_80289710 { u8 pad[0x2C]; Nd_80289710 *head; };
@@ -40,13 +32,12 @@ struct Gl_80289710 { u8 pad[0x42C]; Ow_80289710 *owner; };
 
 extern "C" {
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-s32 TObjFish__sub_8001EDB0(int, int);
+s32 get_bml_texlist(int, int);
 s32 get_bml_model(int, int);
 extern s32 __vt__16TObjNpcSoutokufu[];
 f32 calc_sq_offset__12TBoss8DragonFf(void *, void *, f32);
 extern void *lbl_805D4DD8;
 void free_bin_model_request(void*, int);
-void __dl__7TObjectFPv(void *);
 
 void TObjNpcSoutokufu::close_dialog_window() {
     if ((u32) TObjNpcSoutokufu__shared_model_resource != 0U) {
@@ -68,18 +59,16 @@ void TObjNpcSoutokufu::load_shared_resource() {
 
 }
 TObjNpcSoutokufu::~TObjNpcSoutokufu() {}
-extern "C" {
 
 
-typedef char RecoveredGlobal_80289680___vt__16TObjNpcSoutokufu_size[sizeof(RecoveredGlobal_80289680___vt__16TObjNpcSoutokufu) == 0x178 ? 1 : -1];
 u8 *TObjNpcSoutokufu__ct(u8 *player, s32 arg1, s32 arg2) {
     ((TUnk_804A9F50 *)player)->construct_male_npc_base();
-    *(s32 **)((s8 *)player + 0x18) = &(*(RecoveredGlobal_80289680___vt__16TObjNpcSoutokufu *)&__vt__16TObjNpcSoutokufu).value;
+    *(s32 **)((s8 *)player + 0x18) = __vt__16TObjNpcSoutokufu;
     *(s32 *)((s8 *)player + 0) = (s32) TObjNpcSoutokufu__name;
     ((TObjNpcSoutokufu *)(player))->apply_set_data((void *)arg2);
     ((TObjPlayer *)player)->init_position_vectors();
     *(s32 *)((s8 *)player + 0x34) = get_bml_model((int) ((*(s32 *)&TObjNpcSoutokufu__shared_model_resource)), 0);
-    ((TObjNpcSoutokufu *)player)->texlist = TObjFish__sub_8001EDB0((int) ((*(s32 *)&TObjNpcSoutokufu__shared_model_resource)), 0);
+    ((TObjNpcSoutokufu *)player)->texlist = get_bml_texlist((int) ((*(s32 *)&TObjNpcSoutokufu__shared_model_resource)), 0);
     ((TObjNpcBase *)player)->setup_common();
     return player;
 }
@@ -105,4 +94,3 @@ void TBoss8Dragon::trigger_switches_in_range(void *arg0, void *arg1, void *arg2)
     }
 }
 
-}

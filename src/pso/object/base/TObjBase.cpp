@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/object/base/TObjBase.h"
 #include "pso/map/FloorArea.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/task/TMainTask.h"
@@ -10,6 +11,7 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/system/vector.h"
 #include <stddef.h>
+#include "pso/player/TObjPlayer_80011014.h"
 
 // A camera-space probe point and where it lands on screen.
 struct ViewProbe {

@@ -4,33 +4,26 @@
 #include "pso/npc/TObjNpcARW00.h"
 #include "pso/unk/text_800F9B84.h"
 #include "pso/npc/TUnk_804A9F50.h"
-#include "pso/npc/TUnk_804A9F50.h"
+
 #include "pso/unk/TLobby.h"
 #include "pso/npc/TObjNpcBase.h"
 #include "pso/npc/TObjNpcLappy.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/system/task/TObject.h"
 
 #pragma readonly_strings on
 
-extern "C" {
+
 const char *TObjNpcARM00__name = "TObjNpcARM00";
 u32 TObjNpcARM00__model_resource;
 u32 TObjNpcARM00__texture_list;
-}
-
-struct RecoveredGlobal_80147E2C___vt__12TObjNpcARM00 {
-    s32 value;
-    u8 remaining[0x174];
-};
 
 extern "C" {
 extern s32 __vt__12TObjNpcARM00[];
 s32 play_sound_effect(s32, s32, s32, s32);
 void release_texture_list(void*);
 void *__ct__11TObjControlFP7TObject(void *, void *);
-void __dl__7TObjectFPv(void *);
-void *__nw__7TObjectFUl(int);
 
 void TObjNpcARM00::free_resources() {
     if ((u32) TObjNpcARM00__texture_list != 0U) {
@@ -51,12 +44,11 @@ void TObjNpcARM00::load_resources() {
 
 }
 TObjNpcARM00::~TObjNpcARM00() {}
-extern "C" {
 
-typedef char RecoveredGlobal_80147E2C___vt__12TObjNpcARM00_size[sizeof(RecoveredGlobal_80147E2C___vt__12TObjNpcARM00) == 0x178 ? 1 : -1];
+
 u8 *TObjNpcARM00__ct(u8 *player, s32 arg1, s32 arg2) {
     ((TUnk_804A9F50 *)player)->construct_male_npc_base();
-    *(s32 **)((s8 *)player + 0x18) = &(*(RecoveredGlobal_80147E2C___vt__12TObjNpcARM00 *)&__vt__12TObjNpcARM00).value;
+    *(s32 **)((s8 *)player + 0x18) = __vt__12TObjNpcARM00;
     *(s32 *)((s8 *)player + 0) = (s32) TObjNpcARM00__name;
     ((TObjNpcARM00 *)(player))->apply_set_data((void *)arg2);
     ((TObjPlayer *)player)->init_position_vectors();
@@ -76,15 +68,14 @@ extern void *tl_04;
 void * TObjNpcARW00__create(void *arg0) {
     void *o;
     void *o2;
-    o = __nw__7TObjectFUl(0x20);
+    o = TObject::operator new(0x20);
     if (o != NULL) {
         o = __ct__11TObjControlFP7TObject(o, tl_04);
     }
-    o2 = __nw__7TObjectFUl(0x3B8);
+    o2 = TObject::operator new(0x3B8);
     if (o2 != NULL) {
         o2 = TObjNpcARW00__ct((u8 *)o2, (s32)o, (s32)arg0);
     }
     return o2;
 }
 
-}

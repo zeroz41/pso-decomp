@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/weapon/TItemWeapon.h"
 #include <stdlib.h>
 #include "pso/weapon/TUnk_804A4F60.h"
 #include "pso/player/TObjPlayer.h"
@@ -80,7 +81,7 @@ void TUnk_804A4F60::emit_marker_effects() {
         psycho_wand_roll_extra();
         return;
     }
-    ((TObjPlayer *)this)->update_active_game_effect();
+    ((TItemWeapon *)this)->update_active_game_effect();
 }
 
 void TUnk_804A4F60::vfunc_60() {

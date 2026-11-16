@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/player/TObjPlayer_80117DD8.h"
 #include "pso/item/TItem.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/TItemData.h"
@@ -9,8 +10,6 @@ struct Pl_80117F14 { u8 pad0[0x38]; f32 pos[3]; };
 extern "C" {
 f32 horizontal_distance_squared(void *, void *);
 void *get_player_by_client_id(s32 i);
-extern const f64 lbl_8043E650[];
-extern const f64 lbl_8043E648[];
 s32 TObjPlayer__sub_80117E50(u16 idx) {
     TObjPlayer *me;
     s32 mask;
@@ -26,7 +25,7 @@ s32 TObjPlayer__sub_80117E50(u16 idx) {
             if (i != idx) {
                 other = (TObjPlayer *)get_player_by_client_id(i);
                 if (other != NULL && (other->class_flags & mask) && floor == other->get_floor() &&
-                    horizontal_distance_squared(&me->position, &other->position) < lbl_8043E648[0]) {
+                    horizontal_distance_squared(&me->position, &other->position) < 400.0) {
                     found = 1;
                     break;
                 }
@@ -50,7 +49,7 @@ s32 TObjPlayer::count_nearby_players_with_shield(u16 idx, u8 *item) {
             if (i != idx) {
                 other = (Pl_80117F14 *)get_player_by_client_id(i);
                 if (other != NULL && key == ((TObjPlayer *)other)->get_floor() &&
-                    horizontal_distance_squared(me->pos, other->pos) < lbl_8043E650[0] &&
+                    horizontal_distance_squared(me->pos, other->pos) < 2500.0 &&
                     (it = (void *)((TItemData *)other)->test_flag3()) != NULL &&
                     item[2] == ((TItem *)it)->get_item_index()) {
                     count++;

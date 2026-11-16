@@ -6,17 +6,11 @@
 #include <stddef.h>
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/player/TObjPlayer.h"
-struct RecoveredGlobal_803D662C_lbl_8058D4D0 {
-    s32 value;
-    u8 remaining[0x24];
-};
-
-struct V_803D6558 { f32 x, y, z; };
 
 struct G_803D6688 { f32 f0, f4, pad8[2], f10, f14, f18, f1c, f20, f24; };
 
 extern "C" {
-extern RecoveredGlobal_803D662C_lbl_8058D4D0 camera_clip_parameters;
+extern f32 camera_clip_parameters[];
 extern G_803D6688 lbl_8058D4F8;
 void C_MTXLookAt(void *, void *, void *, void *);
 extern u8 *current_matrix;
@@ -31,7 +25,7 @@ void TCameraCtrl::update_camera_state(f32 _w0, f32 _w1, f32 _w2) {
 
 void TCameraCtrl::look_at_position(f32 farg0, f32 farg1, f32 farg2) {
     u8 eye[0x14];
-    V_803D6558 v;
+    Vec v;
     TCameraCtrl__sub_803D65F8(eye);
     v.x = farg0;
     v.y = farg1;
@@ -61,7 +55,6 @@ void set_camera_look_at(u8* eye, u8* target, u8* up) {
 #pragma push
 #pragma opt_common_subs off
 #pragma scheduling off
-typedef char RecoveredGlobal_803D662C_lbl_8058D4D0_size[sizeof(RecoveredGlobal_803D662C_lbl_8058D4D0) == 0x28 ? 1 : -1];
 
 void TCameraCtrl::set_clamped_offsets(f32 farg0, f32 farg1) {
     f32 var_f1;
@@ -80,8 +73,8 @@ void TCameraCtrl::set_clamped_offsets(f32 farg0, f32 farg1) {
     if (var_f2 < -65535.0f) {
         var_f2 = -65535.0f;
     }
-    *(f32 *)((s8 *)&camera_clip_parameters.value + 4) = (f32) -var_f1;
-    *(f32 *)((s8 *)&camera_clip_parameters.value + 0) = (f32) -var_f2;
+    *(f32 *)((s8 *)&camera_clip_parameters + 4) = (f32) -var_f1;
+    *(f32 *)((s8 *)&camera_clip_parameters + 0) = (f32) -var_f2;
 }
 #pragma pop
 

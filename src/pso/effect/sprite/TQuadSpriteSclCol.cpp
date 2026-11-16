@@ -9,16 +9,14 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/render_util.h"
 
-typedef struct Vec_801E5C24 { f32 x, y, z; } Vec_801E5C24;
-
 typedef struct Col_801E5C24 { f32 r, g, b, a; } Col_801E5C24;
 
 typedef struct Quad_801E5C24 { f32 x0, y0, x1, y1; Col_801E5C24 col; } Quad_801E5C24;
 
 typedef struct Node_801E5C24 {
     struct Node_801E5C24 *next;
-    Vec_801E5C24 pos;
-    Vec_801E5C24 ofs;
+    Vec pos;
+    Vec ofs;
     f32 sx;
     f32 sy;
     s32 tex;
@@ -70,8 +68,8 @@ extern s32 __vt__17TQuadSpriteSclCol[];
 #pragma fp_contract on
 void render__17TQuadSpriteSclColFv(Self_801E5C24 *self) {
     Quad_801E5C24 q;
-    Vec_801E5C24 out;
-    Vec_801E5C24 pos;
+    Vec out;
+    Vec pos;
     u32 flags;
     f32 one;
     f32 sw;
@@ -166,11 +164,11 @@ TQuadSpriteSclCol::~TQuadSpriteSclCol() {
 }
 
 
-extern void *TQuadSpriteSclCol__class_name;
+const char *TQuadSpriteSclCol__class_name = "TQuadSpriteSclCol";
 
 void *TQuadSpriteSclCol__ct(void *quad_sprite_scl_col) {
     quad_sprite_base_ct(quad_sprite_scl_col);
     *(s32 **)((s8 *)quad_sprite_scl_col + 0x18) = __vt__17TQuadSpriteSclCol;
-    *(void * *)&((TQuadSpriteSclCol *)quad_sprite_scl_col)->m_name = TQuadSpriteSclCol__class_name;
+    ((TQuadSpriteSclCol *)quad_sprite_scl_col)->m_name = TQuadSpriteSclCol__class_name;
     return quad_sprite_scl_col;
 }

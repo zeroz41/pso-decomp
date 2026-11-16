@@ -16,8 +16,9 @@
 #include "pso/technique/TTecGiFoie.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
-#include "pso/system/task/TObject.h"
+
 #include "pso/object/base/TObjMotion.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 extern "C" s32 is_item_area_enabled(s32 area);
 
@@ -41,7 +42,7 @@ s32 item_follow_effect_vtable[6] = { 0, 0, (s32)&destroy_item_follow_effect, (s3
 void TUnk_804A2660::run_task() {
     s32 sp8[5];
     s32 var_r31;
-    s32 var_r30;
+    s32 item;
 
     if ((u32) this->m_28 != get_item_system_generation()) {
         queue_destruction();
@@ -49,12 +50,12 @@ void TUnk_804A2660::run_task() {
     }
     var_r31 = 0;
     if ((u32) *(u32 *)&this->unk_24 != 0U) {
-        var_r30 = (s32)find_item_by_id(*(s32 *)&this->unk_1C);
-        if ((var_r30 != 0) && (get_mode__5TItemFv() == 2)) {
+        item = (s32)find_item_by_id(*(s32 *)&this->unk_1C);
+        if ((item != 0) && (get_mode__5TItemFv() == 2)) {
             var_r31 = 1;
-            if (((TItemWeapon *)var_r30)->get_joint_position(this->m_20, sp8) != 0) {
+            if (((TItemWeapon *)item)->get_joint_position(this->m_20, sp8) != 0) {
                 ((TParticleCtrl *)*(u32 *)&this->unk_24)->set_position(sp8);
-                if ((((TItem *)var_r30)->is_hidden() == 0) || (((TObjCollidable *)var_r30)->obj_testFlags30(0x08000000) == 0)) {
+                if ((((TItem *)item)->is_hidden() == 0) || (((TObjCollidable *)item)->obj_testFlags30(0x08000000) == 0)) {
                     ((TParticleCtrl *)(*(u32 *)&this->unk_24))->clear_active_flag();
                 } else {
                     ((TParticleCtrl *)(*(u32 *)&this->unk_24))->enable();
@@ -70,16 +71,16 @@ void TUnk_804A2660::run_task() {
 }
 }
 
-void *destroy_item_follow_effect(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = item_follow_effect_vtable;
-        if (*(void **)((s8 *)arg0 + 0x24) != NULL) { ((TObject *)((void *)(*(void **)((s8 *)arg0 + 0x24))))->queue_destruction(); }
-        __dt__7TObjectFv(arg0, 0);
+void *destroy_item_follow_effect(void *object, s16 arg1) {
+    if (object != NULL) {
+        *(s32 **)((s8 *)object + 0x18) = item_follow_effect_vtable;
+        if (*(void **)((s8 *)object + 0x24) != NULL) { ((TObject *)((void *)(*(void **)((s8 *)object + 0x24))))->queue_destruction(); }
+        __dt__7TObjectFv(object, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(object);
         }
     }
-    return arg0;
+    return object;
 }
 u8 *construct_item_follow_effect(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
     Vec position;
@@ -104,30 +105,30 @@ void TUnk_804A2678::emit_marker_effects() {
     s32 sp8;
     if (is_mode_two_and_ready() != 0) {
         if ((((TObjPlayer *)((u8 *)this->owner + 0x7CC))->get_stage_strike_count() == 0) && (get_joint_position(0, &sp8) != 0)) {
-            TTecGiFoie::create(this->owner, &sp8, (void *)(((TObjPlayer *)this)->get_tp()));
+            TTecGiFoie::create(this->owner, &sp8, (void *)(((TItemWeapon *)this)->get_tp()));
             roll_technique();
         }
     } else {
-        ((TObjPlayer *)this)->update_active_game_effect();
+        ((TItemWeapon *)this)->update_active_game_effect();
     }
 }
 void TUnk_804A2678::vfunc_58() { floor_area = -1; }
 void TUnk_804A2678::vfunc_57() {
-    s32 temp_r3;
+    s32 event;
     floor_area = -1;
     if ((u32) *(u32 *)((s8 *)this + 0x174) != 0U) {
-        temp_r3 = __nw__15TItemHeapObjectFUl(0x2C);
-        if (temp_r3 != 0) {
-            ct__13TUnk_804A0688Fv(temp_r3, *(u32 *)((s8 *)this + 0x174), get_owner_client__5TItemFv(this), 0x5A);
+        event = __nw__15TItemHeapObjectFUl(0x2C);
+        if (event != 0) {
+            ct__13TUnk_804A0688Fv(event, *(u32 *)((s8 *)this + 0x174), get_owner_client__5TItemFv(this), 0x5A);
         }
     }
-    ((TItemWeapon *)this)->roll_technique();
-    ((TItemWeapon *)this)->roll_technique();
+    this->roll_technique();
+    this->roll_technique();
 }
 void TUnk_804A2678::update_weapon() {
     s32 area;
     area = get_current_floor_area();
-    if ((area != floor_area) && (((TItem *)this)->is_model_shown() != 0)) {
+    if ((area != floor_area) && (this->is_model_shown() != 0)) {
         floor_area = area;
         if (is_item_area_enabled(area) != 0) {
             spawn_item_follow_effect((s32)tl_05, (u32)this, 1, 0x1AE);

@@ -5,24 +5,22 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/effect/photon/TPhotonLeilla.h"
-#include "pso/effect/photon/TPhotonLaser.h"
+
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/MatrixStack.h"
 
 #pragma readonly_strings on
 
-extern "C" {
+
 const char *TPhotonLaser__name = "TPhotonLaser";
-}
 
-
-typedef struct Vec_801AC36C { f32 x, y, z; } Vec_801AC36C;
 
 struct Params_801AC36C {
-    Vec_801AC36C pos;
+    Vec pos;
     u8 padC[0x18 - 0xC];
-    Vec_801AC36C dir;
+    Vec dir;
     f32 f24;
     f32 scale;
     f32 f2C;
@@ -33,9 +31,9 @@ struct Laser_801AC36C {
     u8 pad4[0x18 - 4];
     void *vt18;
     u8 pad1C[0x334 - 0x1C];
-    Vec_801AC36C f334;
-    Vec_801AC36C f340;
-    Vec_801AC36C f34C;
+    Vec f334;
+    Vec f340;
+    Vec f34C;
     f32 f358;
     f32 f35C;
     u8 pad360[4];
@@ -50,9 +48,9 @@ struct Laser_801AC17C {
     u8 pad4[0x18 - 4];
     void *vt18;
     u8 pad1C[0x334 - 0x1C];
-    Vec_801AC36C f334;
-    Vec_801AC36C f340;
-    Vec_801AC36C f34C;
+    Vec f334;
+    Vec f340;
+    Vec f34C;
     f32 f358;
     f32 f35C;
     u8 pad360[4];
@@ -64,28 +62,28 @@ struct Laser_801AC17C {
 
 extern "C" {
 void __ct__9TObjCharaFP7TObject(void *, void *);
-void *create_particle_emitter(void *pos, s32 id);
+TParticleCtrl *create_particle_emitter(const void *pos, s32 id);
 extern s32 __vt__12TPhotonLaser[];
 extern const char *TPhotonLaser__name;
 Laser_801AC36C *TPhotonLaser__ct(Laser_801AC36C *self, Params_801AC36C *p, void *parent, s16 arg3);
-void *spawn_particle_effect(void *pos, s32 id);
+void *spawn_particle_effect(const void *pos, s32 id);
 void *find_entity_by_id(u16);
 void vec3_add_to(void *, void *);
 void rotate_vector_by_matrix(int, void *, void *);
 void rotate_matrix_y(int, int);
 s32 push_matrix_from(void *);
+}
 s32 pop_matrices(s32 arg0);
 extern u8 identity_matrix[];
+extern "C" {
 void run_task__12TPhotonLaserFv(Laser_801AC17C *o);
-void *__dt__12TPhotonLaserFv(void *arg0, s16 arg1);
 s32 free_collision_body_parts(void *);
-s32 __dl__7TObjectFPv(void *);
 
 void TPhotonLaser::render() { TParticleCtrl::begin_effect_render(); TParticleCtrl::end_effect_render(); }
 
 void run_task__12TPhotonLaserFv(Laser_801AC17C *o) {
-    Vec_801AC36C in;
-    Vec_801AC36C out;
+    Vec in;
+    Vec out;
     void *owner;
     o->f368 += 1.0f;
     in.y = in.x = 0.0f;
@@ -121,17 +119,16 @@ void run_task__12TPhotonLaserFv(Laser_801AC17C *o) {
         ((TObject *)o)->queue_destruction();
     }
 }
-
 }
 TPhotonLaser::~TPhotonLaser() {
-    ((TObjCollidable *)this)->unregister_object_by_id();
+    this->unregister_object_by_id();
     free_collision_body_parts(this);
     if ((u32) this->m_364 != 0U) {
         ((TObject *)(*(void **)((s8 *)this + 0x364)))->queue_destruction();
         this->m_364 = 0U;
     }
 }
-extern "C" {
+
 
 Laser_801AC36C *TPhotonLaser__ct(Laser_801AC36C *self, Params_801AC36C *p, void *parent, s16 arg3) {
     __ct__9TObjCharaFP7TObject(self, parent);
@@ -151,5 +148,3 @@ Laser_801AC36C *TPhotonLaser__ct(Laser_801AC36C *self, Params_801AC36C *p, void 
 }
 
 
-
-}

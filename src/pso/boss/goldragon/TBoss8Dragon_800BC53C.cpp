@@ -5,12 +5,11 @@
 #include "pso/object/ambient/TObjGrassWeb.h"
 
 #include "pso/enemy/AttackTargetHistory.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 
 extern "C" {
-void *mem_alloc(u32 size);
-s32 fill_value_array(void *);
-void mem_free(void *p);
+void fill_value_array(s32 address);
 
 s32 attack_target_history_add(s32 object, s32 target) {
     if ((fn_800BC758((u8 *)object) != 0) && (((s32)attack_target_history_contains((void*)((void *)((void *)object)), (void*)((void *)((void *)target)))) == 0)) {
@@ -33,7 +32,7 @@ PointerBuffer::PointerBuffer(s32 capacity, void *empty) {
     this->empty = empty;
     count = 0;
     this->capacity = capacity;
-    fill_value_array(this);
+    fill_value_array((s32)this);
 }
 
 PointerBuffer::~PointerBuffer() {

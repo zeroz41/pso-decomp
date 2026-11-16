@@ -68,8 +68,8 @@ u8 *copy_drop_node(u8 *arg0, u8 *arg1) {
 }
 
 void fn_801D371C(void* p, void* q) { *(u32*)((char*)p + 0x0) = *(u32*)((char*)q + 0x0); }
-void start_placement_search(s32 arg0, s32 arg1, s32 arg2) {
-    TItemList__sub_801D5838(((void *)((s32)TItemList__sub_801D5868((void*)arg0, (void*)(0)))));
-    TItemList__sub_801D3B00((void *)arg0, (void *)arg2, (void *)arg1, 0);
-    TItemList__sub_801D5804((s32 *)arg0);
+void start_placement_search(s32 list, s32 pos, s32 source) {
+    TItemList__sub_801D5838(((void *)((s32)TItemList__sub_801D5868((void*)list, (void*)(0)))));
+    TItemList__sub_801D3B00((void *)list, (void *)source, (void *)pos, 0);
+    TItemList__sub_801D5804((s32 *)list);
 }

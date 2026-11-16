@@ -24,12 +24,15 @@ struct ProtectionTimer {
     s32 frames;
 };
 
+struct Vec_803E1B1C;
+
 struct TObjPlayer : public TObjChara {
     TObjPlayer(TObject *arg1, void *arg2);
     // The key function: __vt__10TObjPlayer is emitted with the TU at 0x801AF290
     // (TObjPlayer_801AF2F0.cpp), which defines this; the destructor is in a later fragment.
     virtual void reset_motion_fields();
     virtual ~TObjPlayer();
+    s32 calc_joint_matrices(NJS_MOTION *, f32, s32);
     virtual const char *get_name();
     void update_swim_flag(void *);
     void draw_weapon_if_not_hidden(void *);
@@ -284,7 +287,6 @@ struct TObjPlayer : public TObjChara {
     player_class_type get_class_type();
     static void add_angle_clamped(s32 *arg0, s32 arg1, s32 arg2);
     static void step_angle_clamped(void *actor, int arg1);
-    void drain_owner_hp_fraction(f32 farg0);
     void call_callback_1ec(s32 arg1, s32 arg2);
     void copy_wall_polygon(u8 *arg1);
     static void copy_matrix(u32 arg0, u32 arg1);
@@ -493,7 +495,6 @@ struct TObjPlayer : public TObjChara {
     void reset_status_block();
     void set_flag_10000();
     void set_state_flags(u32 v);
-    void update_active_game_effect();
     void draw_status_icons(void* a1, void* a2);
     void set_model_param(s16 v);
     void set_model_id(s16 v);
@@ -504,7 +505,6 @@ struct TObjPlayer : public TObjChara {
     void set_action_type(s16 v);
     void*get_state_ptr();
     static int get_player_list();
-    s32 get_tp();
     void set_effect_state(s32 v);
     void set_atp(s16 v);
     s16 get_stage_strike_count();
@@ -1208,8 +1208,6 @@ struct TObjPlayer : public TObjChara {
     static void update_particle_by_phase();
     void draw_blob_shadows();
     void set_flag_8_if_check_passes();
-    void fill_status_info(void *arg1);
-    void launch_rare_weapon_special(void *origin, s32 enable, f32 scale);
     static void clear_render_context();
     u8 *construct_freeze_shell(u8 *arg1, u8 *arg2);
     static void create_tec_zonde(void *arg0, void *arg1, void *arg2, void *arg3);
@@ -1224,7 +1222,6 @@ struct TObjPlayer : public TObjChara {
     static void load_jungle_ebi_resources();
     static void load_seabed_dolphin();
     static void new_child_object(s32 arg0);
-    void clamp_stat_354();
     void update_ground_effect();
     void create_item_eff_cane(TItem* item, s32 attachment, s32 effect_id);
     void spawn_cane_effect(TItem* item, s32 attachment);
@@ -1532,7 +1529,6 @@ struct TObjPlayer : public TObjChara {
     s32 m_db4;
     void revive_or_spawn_marker();
     static void spawn_dead_spot(s32 point, s32 selector, s32 delay, f32 farg0);
-    void update_homing_shot();
     static s32 find_or_alloc_slot(u32 arg0);
     void apply_luck_reward(u8 arg1);
     void add_dfp_material(u8 arg1);
@@ -1558,6 +1554,31 @@ struct TObjPlayer : public TObjChara {
     void check_idle_movement_request();
     void push_to_list(s32 arg1);
     static s32 run_and_return_arg(s32 arg0);
+    s32 init_state();
+    u8 get_mag_level();
+    const Vec *get_guild_return_position();
+    void spawn_item();
+    static void spawn_hit_particles_at(s32 arg0, s32 arg1, s32 arg2);
+    static void spawn_hit_particles_at_vec(s32 arg0, s32 arg1, s32 arg2);
+    s32 get_quest_thread_id();
+    s32 test_box_overlap(Vec_803E1B1C *boxB);
+    void remove_equipped_item(s32 arg1, void *arg2);
+    u16 get_obj_type();
+    void set_ring_action(s32 v);
+    int set_lock_flag();
+    void clear_target_lock_flag();
+    void set_lock_timer(s32 v);
+    static void heap_alloc(void* a0);
+    static u8 *create_lobby_marker(s16 arg0, s8 arg1);
+    void handle_6x87_shrink(f32 farg0);
+    int clear_shrink_flag();
+    void reset_stat_scale_and_ring();
+    static void apply_stats_and_update(void* p);
+    static void apply_stat_multipliers_and_reset(void* p);
+    int set_action_flag16();
+    int test_flag_8();
+    s32 can_guard();
+    void *set_mode_and_refresh_object(s32 item_data);
 };
 
 #include <stddef.h>

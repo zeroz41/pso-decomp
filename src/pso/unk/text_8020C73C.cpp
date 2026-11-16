@@ -1,5 +1,6 @@
 #include "types.h"
 #include "pso/unk/TLobby.h"
+#include "pso/player/TObjPlayer_80011014.h"
 struct Set_8020C73C {
     s16 f0;
     s16 flags;
@@ -43,7 +44,6 @@ struct Obj_8020C73C : ObjBase_8020C73C {
 };
 
 extern "C" {
-s32 get_current_floor();
 s32 set_flags_on_matching_entries__6TLobbyFlssl(s32, s32, s32, s32);
 Set_8020C73C *resolve_matching_object__6TLobbyFv(s32);
 }

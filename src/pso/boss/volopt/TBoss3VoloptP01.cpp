@@ -112,11 +112,11 @@ int TObjPlayer::construct_target_cursor_records() {
     TargetCursorList *list = (TargetCursorList *)this;
 
     __construct_array(list->records, (void *)fn_8004438C, NULL, sizeof(TargetCursorRecord), 11);
-    fn_80044330(list);
+    clear_target_cursor_list(list);
     return (int)list;
 }
 
-void fn_80044330(TargetCursorList *list) {
+void clear_target_cursor_list(TargetCursorList *list) {
     list->count = 0;
 }
 
@@ -138,7 +138,7 @@ TBoss3VoloptP01::TBoss3VoloptP01(TBoss3Volopt *parent, s32 index, u16 id, s32 an
     entity_id = id;
     *(s16 *)&set_index = angle_param;
     set_entry = NULL;
-    *(s16 *)&room = *(s16 *)&parent->room;
+    *(s16 *)&room = parent->room;
     *((s16 *)&room + 1) = *((s16 *)&parent->room + 1);
     init_params();
     angle = (s32)(182.04445f * (f32)(index * 60));
@@ -683,7 +683,7 @@ s32 TBoss3VoloptP01::update_sink() {
 
 void TBoss3VoloptP01::sub_80042F84() {
     if (obj_testFlags30(0x04000800) == 0) {
-        ((TObjEnemyCustom *)this)->update_if_active(9);
+        this->update_if_active(9);
     }
 }
 
@@ -729,7 +729,7 @@ void TBoss3VoloptP01::push_nearby_players() {
 void TBoss3VoloptP01::set_primary(s32 primary) {
     if (obj_testFlags30(0x800) == 0) {
         m_388 &= ~1;
-        ((TObjEnemyCustom *)this)->update_if_active(2);
+        this->update_if_active(2);
         is_primary = primary;
     }
 }
@@ -810,7 +810,7 @@ void TBoss3VoloptP01::cast_tech_on_players() {
     get_node_position(12, &pos);
     switch (volopt_p01_tech) {
     case 0:
-        fn_80044330(&targets);
+        clear_target_cursor_list(&targets);
         n = 0;
         for (i = 0; i < registered_player_count; i++) {
             player = TObjPlayer::get_player_data(i);

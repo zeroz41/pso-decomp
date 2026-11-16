@@ -18,7 +18,6 @@ struct TTecLuker : public TUnk_804CC148 {
     u32 m_108;
     u32 m_10c;
     void *destroy(s16 arg1);
-    void update_player_target();
     static void apply_all_players();
     static void create_for_player(int arg0, s32 arg1);
     void init_fields(s16 arg1);

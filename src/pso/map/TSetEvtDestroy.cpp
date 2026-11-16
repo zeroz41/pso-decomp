@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/enemy/TEnemyTaskList.h"
+#include "pso/unk/TLobby_80207DA8.h"
 #include "pso/item/drop/TItemDrop_80105D0C.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/unk/TLobby.h"
@@ -9,12 +10,9 @@
 #include "pso/system/task/TObject.h"
 #include "pso/player/TUnk_804B6C24.h"
 
-extern "C" void queue_destruction__7TObjectFv(void*);
 
-extern "C" {
 extern const char TSetEvtDestroy_class_name[] = "TSetEvtDestroy";
 const char* TSetEvtDestroy_name = TSetEvtDestroy_class_name;
-}
 
 void queue_destroy_event_descendants(TObject* root) {
     TObject* p = root->m_down;
@@ -83,19 +81,11 @@ TSetEvtDestroy::~TSetEvtDestroy() {
 
 #include "types.h"
 
-struct RecoveredGlobal_802093EC_lbl_805139F8 {
-    s32 value;
-    u8 remaining[0x44];
-};
-
-extern RecoveredGlobal_802093EC_lbl_805139F8 lobby_slot_ptr_table;
 s32 get_area_event_data(s32 arg0);
 s32 next_event_shuffle_entry(EventShuffleTable *s);
 
-void queue_destruction__7TObjectFv(void *);
 void init_event_shuffle_table(EventShuffleTable *arg0, s32 arg1);
 void shuffle_event_entries(EventShuffleTable *arg0);
-typedef char RecoveredGlobal_802093EC_lbl_805139F8_size[sizeof(RecoveredGlobal_802093EC_lbl_805139F8) == 0x48 ? 1 : -1];
 
 TSetEvtDestroy::TSetEvtDestroy(TObject* parent, SetDestroyEventRecord* event) : TObject(parent) {
     s32* p;

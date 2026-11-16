@@ -18,9 +18,11 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801334D4.h"
 #include "pso/ui/frontend/TAdSelectTxtGC.h"
 #include "pso/ui/window/TWindowMenu.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/task/TObject.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 extern "C" {
-s32 is_split_screen(void);
 s32 TAdMultiSelGameModeGC__data_805D69F0;
 void fn_803000C8(void) {
     if (is_split_screen() != 0) {
@@ -72,10 +74,9 @@ struct Obj_8030095C {
     void *f40;
 };
 
+s32 is_multiplayer_character_slot_selected(s32 arg0);
 extern "C" {
-s32 is_multiplayer_character_slot_selected(u32);
 Ent_80300850 *get_char_table_entry__23TAdSinglePlyChrSelectGCFi(int);
-void *__nw__7TObjectFUl(u32);
 void __ct__7TObjectFP7TObject(void *);
 void __ct__9TAdBackGCFv(void *, void *);
 void __ct__12TAdBackTxtGCFv(void *, void *);
@@ -92,9 +93,7 @@ Obj_8030095C *__ct__21TAdMultiSelGameModeGCFv(Obj_8030095C *self, s32 parent, s3
 s32 set_default_camera__21TAdMultiChgGameModeGCFv(void *);
 }
 
-typedef struct Pos_803001B4 { f32 x, y; } Pos_803001B4;
-
-typedef struct Pos3_803001B4 { Pos_803001B4 p[3]; } Pos3_803001B4;
+typedef struct Pos3_803001B4 { NJS_POINT2 p[3]; } Pos3_803001B4;
 
 typedef struct Arr3_803001B4 { s32 v[3]; } Arr3_803001B4;
 
@@ -103,7 +102,6 @@ void align_menu_entry_positions(s32);
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
 s32 check_room_seq_4__16TAdChrSelASlotGCFl(void *, u32);
 extern u8 controller_input_state[];
-s32 TWindowShortListCtrl__check_controller_button(void *, s32);
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, s32);
 
 static const TxtSlot_8030095C lbl_80474E40[7] = {
@@ -161,7 +159,7 @@ s32 TAdMultiSelGameModeGC::build_mode_menu(s32 arg1) {
     }
 }
 
-void TAdMultiSelGameModeGC::exit_keyboard_mode() { TObjEneDolmOlm::reset_count(); TKeyBoardControl__sub_8000F9CC(14); }
+void TAdMultiSelGameModeGC::exit_keyboard_mode() { TObjEneDolmOlm::reset_count(); request_main_phase(14); }
 void TAdMultiSelGameModeGC::update_transition_state() {
 
     switch (*(s32 *)((s8 *)this + 0x20)) {
@@ -338,31 +336,31 @@ Obj_8030095C *__ct__21TAdMultiSelGameModeGCFv(Obj_8030095C *self, s32 parent, s3
         TAdStorySelectGC::set_state(1);
         break;
     }
-    if ((p = __nw__7TObjectFUl(0x24)) != NULL) {
+    if ((p = TObject::operator new(0x24)) != NULL) {
         __ct__9TAdBackGCFv(p, self);
     }
-    if ((p = __nw__7TObjectFUl(0x28)) != NULL) {
+    if ((p = TObject::operator new(0x28)) != NULL) {
         __ct__12TAdBackTxtGCFv(p, self);
     }
-    if ((p = __nw__7TObjectFUl(0x24)) != NULL) {
+    if ((p = TObject::operator new(0x24)) != NULL) {
         __ct__8TAdRayGCFv(p, self);
     }
-    if ((p = __nw__7TObjectFUl(0x138)) != NULL) {
+    if ((p = TObject::operator new(0x138)) != NULL) {
         __ct__10TAdTitleGCFP7TObjectl(p, self, 0xE);
     }
-    if ((p = __nw__7TObjectFUl(0x9C)) != NULL) {
+    if ((p = TObject::operator new(0x9C)) != NULL) {
         __ct__13TAdTitleTexGCFv(p, self);
     }
-    if ((p = __nw__7TObjectFUl(0xE0)) != NULL) {
+    if ((p = TObject::operator new(0xE0)) != NULL) {
         __ct__14TAdSelectTxtGCFP7TObjectPvPv(p, self, &lbl_80474E40[0], 0x10);
     }
-    if ((p = __nw__7TObjectFUl(0xE0)) != NULL) {
+    if ((p = TObject::operator new(0xE0)) != NULL) {
         __ct__14TAdSelectTxtGCFP7TObjectPvPv(p, self, &lbl_80474E40[1], 0x11);
     }
-    if ((p = __nw__7TObjectFUl(0xE0)) != NULL) {
+    if ((p = TObject::operator new(0xE0)) != NULL) {
         __ct__14TAdSelectTxtGCFP7TObjectPvPv(p, self, &lbl_80474E40[2], 0x8);
     }
-    if ((p = __nw__7TObjectFUl(0xE0)) != NULL) {
+    if ((p = TObject::operator new(0xE0)) != NULL) {
         __ct__14TAdSelectTxtGCFP7TObjectPvPv(p, self, &lbl_80474E40[3], 0xF);
     }
     {
@@ -372,17 +370,17 @@ Obj_8030095C *__ct__21TAdMultiSelGameModeGCFv(Obj_8030095C *self, s32 parent, s3
     if (TAdMultiSelGameModeGC__data_805D69F0 == 2) {
         game_difficulty_selection = 0;
     }
-    p = __nw__7TObjectFUl(0xE0);
+    p = TObject::operator new(0xE0);
     if (p != NULL) {
         p = __ct__14TAdSelectTxtGCFP7TObjectPvPv(p, self, &lbl_80474E40[4], game_difficulty_selection);
     }
     self->f30 = p;
-    p = __nw__7TObjectFUl(0xE0);
+    p = TObject::operator new(0xE0);
     if (p != NULL) {
         p = __ct__14TAdSelectTxtGCFP7TObjectPvPv(p, self, &lbl_80474E40[5], TAdMultiSelGameModeGC__data_805D69F0 + 9);
     }
     self->f34 = p;
-    p = __nw__7TObjectFUl(0xE0);
+    p = TObject::operator new(0xE0);
     if (p != NULL) {
         p = __ct__14TAdSelectTxtGCFP7TObjectPvPv(p, self, &lbl_80474E40[6], lbl_805D69F4 + 4);
     }
@@ -390,7 +388,7 @@ Obj_8030095C *__ct__21TAdMultiSelGameModeGCFv(Obj_8030095C *self, s32 parent, s3
     {
         Cur_8030095C cur = { { 442.0f, 28.0f } };
         Pos_8030095C pos = { { 144.0f, 146.0f, 114.0f, 198.0f, 84.0f, 250.0f, 54.0f, 302.0f } };
-        p = __nw__7TObjectFUl(0x708);
+        p = TObject::operator new(0x708);
         if (p != NULL) {
             p = __ct__14TAdSelectCurGCFv(p, self, &pos, &cur);
         }
@@ -401,7 +399,7 @@ Obj_8030095C *__ct__21TAdMultiSelGameModeGCFv(Obj_8030095C *self, s32 parent, s3
         ((TLevelSelect *)(self->f3C))->add_item_rect(&pos.v[6]);
     }
     ((TLobby *)(self->f3C))->set_ad_field(self->f24);
-    p = __nw__7TObjectFUl(0x44);
+    p = TObject::operator new(0x44);
     if (p != NULL) {
         p = __ct__13TAdGuideTxtGCFv(p, self);
     }

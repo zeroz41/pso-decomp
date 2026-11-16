@@ -1,12 +1,11 @@
 #include "pso/object/switch/TOChatSensorCapture.h"
 #include "pso/ui/Language.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 extern "C" {
 s32 find_chat_keyword(char *, char (*)[0x20], s32);
 char *strncpy(char *, const char *, size_t);
 void *memset(void *, int, size_t);
-void mem_free(void *);
-void *mem_alloc(u32 size);
 TOChatSensorCapture *TOChatSensorCapture__instance;
 extern const char TOChatSensorCapture__class_name_string[];
 const char *TOChatSensorCapture__class_name = TOChatSensorCapture__class_name_string;

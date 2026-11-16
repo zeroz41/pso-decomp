@@ -7,35 +7,29 @@
 #include "pso/npc/TObjNpcBase.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/system/task/TObject.h"
 
 #pragma readonly_strings on
 
-extern "C" {
+
 const char *TObjNpcHFW00__name = "TObjNpcHFW00";
 u32 TObjNpcHFW00__shared_resource_obj;
 u32 TObjNpcHFW00__texture_handle;
-}
-
-struct RecoveredGlobal_8014AE4C___vt__12TObjNpcHFW00 {
-    s32 value;
-    u8 remaining[0x174];
-};
 
 extern void *tl_04;
 extern "C" {
 extern s32 __vt__12TObjNpcHFW00[];
 void release_texture_list(void*);
 void *__ct__11TObjControlFP7TObject(void *, void *);
-void *__nw__7TObjectFUl(int);
 
 void * TObjNpcHFW00__create(void *arg0) {
     void *o;
     void *o2;
-    o = __nw__7TObjectFUl(0x20);
+    o = TObject::operator new(0x20);
     if (o != NULL) {
         o = __ct__11TObjControlFP7TObject(o, tl_04);
     }
-    o2 = __nw__7TObjectFUl(0x3B8);
+    o2 = TObject::operator new(0x3B8);
     if (o2 != NULL) {
         o2 = TObjNpcHFW00__ct((u8 *)o2, (s32)o, (s32)arg0);
     }
@@ -61,12 +55,11 @@ void TObjNpcHFW00::load_resources() {
 
 }
 TObjNpcHFW00::~TObjNpcHFW00() {}
-extern "C" {
 
-typedef char RecoveredGlobal_8014AE4C___vt__12TObjNpcHFW00_size[sizeof(RecoveredGlobal_8014AE4C___vt__12TObjNpcHFW00) == 0x178 ? 1 : -1];
+
 u8 *TObjNpcHFW00__ct(u8 *player, s32 arg1, s32 arg2) {
     ((TUnk_804A92A8 *)player)->fn_8014AAC4();
-    *(s32 **)((s8 *)player + 0x18) = &(*(RecoveredGlobal_8014AE4C___vt__12TObjNpcHFW00 *)&__vt__12TObjNpcHFW00).value;
+    *(s32 **)((s8 *)player + 0x18) = __vt__12TObjNpcHFW00;
     *(s32 *)((s8 *)player + 0) = (s32) TObjNpcHFW00__name;
     ((TObjNpcHFW00 *)(player))->apply_set_data((void *)arg2);
     ((TObjPlayer *)player)->init_position_vectors();
@@ -76,4 +69,3 @@ u8 *TObjNpcHFW00__ct(u8 *player, s32 arg1, s32 arg2) {
     return player;
 }
 
-}

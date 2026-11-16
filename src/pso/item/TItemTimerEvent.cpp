@@ -12,12 +12,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/object/base/TObjMotion.h"
-#include "pso/player/TObjPlayer.h"
 
-struct RecoveredGlobal_8011DC90___vt__15TItemTimerEvent {
-    s32 value;
-    u8 remaining[0x1C];
-};
 
 extern "C" {
 u32 get_player_by_client_id(u16);
@@ -94,10 +89,9 @@ void *__dt__15TItemTimerEventFv(void *item_heap_object, s16 arg1) {
 
 extern s32 lbl_804A0568[];
 
-typedef char RecoveredGlobal_8011DC90___vt__15TItemTimerEvent_size[sizeof(RecoveredGlobal_8011DC90___vt__15TItemTimerEvent) == 0x20 ? 1 : -1];
 u8 *TItemTimerEvent__ct(TItemTimerEvent *item_timer_event, s32 arg1, s16 arg2, s32 arg3) {
     __ct__15TItemHeapObjectFP7TObject(item_timer_event);
-    *(s32 **)((s8 *)item_timer_event + 0x18) = &(*(RecoveredGlobal_8011DC90___vt__15TItemTimerEvent *)&__vt__15TItemTimerEvent).value;
+    *(s32 **)((s8 *)item_timer_event + 0x18) = __vt__15TItemTimerEvent;
     *(s32 *)((s8 *)item_timer_event + 0) = (s32) TItemTimerEvent__class_name;
     *(s16 *)&item_timer_event->m_1c = arg2;
     *(s32 *)&item_timer_event->m_28 = 0;
@@ -265,15 +259,10 @@ void TItemTimerEvent::clear_active() {
     item_timer_event_instance = NULL;
 }
 
-}
-
-extern "C" {
-void *__nw__7TObjectFUl(int);
-
 
 void TItemLockCountCtrl::create_instance() {
     void *o;
-    o = __nw__7TObjectFUl(0x2C);
+    o = TObject::operator new(0x2C);
     if (o != NULL) {
         o = TItemLockCountCtrl__ct((void *)o, 0, 12, TItemTimerEvent::notify_if_active, TItemTimerEvent::check_battle_ctrl);
     }

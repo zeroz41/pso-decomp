@@ -5,11 +5,6 @@
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/player/TObjPlayer.h"
 
-struct RecoveredGlobal_801A5EC4_TKeyBoardControl__data_80506270 {
-    s32 value;
-    u8 remaining[0xAC];
-};
-
 struct Pad_801A5C4C {
     u8 pad0[0x20];
     u32 hold;
@@ -63,7 +58,6 @@ extern "C" {
 s32 is_split_screen();
 s32 TKeyBoardControl__sub_80132650(void *);
 s32 update_button_hold_counters(int);
-extern RecoveredGlobal_801A5EC4_TKeyBoardControl__data_80506270 TKeyBoardControl__global_key_state;
 extern ControllerInputState controller_input_state;
 s32 TKeyBoardControl__sub_80132310(s32);
 u8 TKeyBoardControl__sub_8013239C(void *, u8);
@@ -110,10 +104,6 @@ s32 lbl_805D34C8 = 1;
 ControllerInputState controller_input_state;
 u8 controller_physical_port_bank[0x1B0];
 u32 pad_recalibration_counters[4];
-}
-
-
-extern "C" {
 s32 OSGetResetButtonState();
 s32 TKeyBoardControl__sub_801323C8(void *, void *);
 
@@ -346,7 +336,6 @@ s32 func_801A5E54__Fv(void) {
 s32 TKeyBoardControl::read_key_checked(u8 arg0) {
     return TKeyBoardControl::check_and_read((s32)(arg0));
 }
-typedef char RecoveredGlobal_801A5EC4_TKeyBoardControl__data_80506270_size[sizeof(RecoveredGlobal_801A5EC4_TKeyBoardControl__data_80506270) == 0xB0 ? 1 : -1];
 typedef char ControllerInputState_size[sizeof(ControllerInputState) == 0x1B0 ? 1 : -1];
 void TKeyBoardControl::update_input_frame() {
     u8 *key_board_control;

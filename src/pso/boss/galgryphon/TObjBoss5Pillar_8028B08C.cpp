@@ -2,11 +2,11 @@
 #include "pso/boss/galgryphon/TObjBoss5Pillar.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 #include "pso/boss/galgryphon/TObjBoss5PillarCtrl.h"
+#include "pso/system/task/TObject.h"
 
 extern "C" {
 
 void *TObjBoss5PillarSmoke__ct(void *, void *, void *);
-void *__nw__7TObjectFUl(int);
 
 struct Nd_8028B0DC { u8 pad[0x2C]; Nd_8028B0DC *head; Nd_8028B0DC *next; };
 typedef Nd_8028B0DC Ls_8028B0DC;
@@ -16,7 +16,7 @@ struct Pc_8028B0DC { u8 pad[0x1C]; s32 count; void **a; };
 extern Gl_8028B0DC *lbl_805D4DD8;
 void *TObjBoss5Pillar::create_smoke(void *arg0, void *arg1) {
     void *o;
-    o = __nw__7TObjectFUl(0x28);
+    o = TObject::operator new(0x28);
     if (o != NULL) {
         o = TObjBoss5PillarSmoke__ct(o, arg0, arg1);
     }

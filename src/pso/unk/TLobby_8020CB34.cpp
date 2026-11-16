@@ -23,13 +23,13 @@ s32 TLobby::spawn_objects_at_pos(s16 arg0, s16 arg1) {
     s32 obj_table_entry;
     s32 var_r30;
     u8 *var_r29;
-    s32 var_r28;
+    s32 k;
     u8 *set_object;
 
     var_r30 = 0;
     var_r29 = (u8 *)get_object_count__6TLobbyFPv((void *)TLobby__data_805D60FC);
     obj_table_entry = TLobby::get_obj_table_entry(TLobby__data_805D60FC);
-    for (var_r28 = 0; var_r28 < obj_table_entry; var_r28++, var_r29 += 0x44) {
+    for (k = 0; k < obj_table_entry; k++, var_r29 += 0x44) {
         temp_r3 = *(s16 *)((s8 *)var_r29 + 2);
         if (!(temp_r3 & 8) && !(temp_r3 & 2) && ((s16) *(s16 *)((s8 *)var_r29 + 0xC) == arg0) && ((s16) *(s16 *)((s8 *)var_r29 + 0xA) == arg1)) {
             set_object = create_set_object_from_row(var_r29);

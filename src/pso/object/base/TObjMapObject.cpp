@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/object/base/TObjMotion.h"
 #include "pso/object/base/TObjMapObject.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/render/render_util.h"
@@ -25,7 +26,7 @@ void TObjMapObject::update_anim_phase() {
 s32 TObjMapObject::is_in_view_depth(f32 min_radius) {
     Vec view;
     if (bodies != NULL) {
-        f32 radius = get_collision_body_radius(this, 0);
+        f32 radius = get_collision_body_radius(0);
         if (radius < min_radius) {
             radius = min_radius;
         }

@@ -1,5 +1,6 @@
 // CRI adx_dcd5.c: the 4-bit ADX block decoders (mono, stereo, stereo as mono).
 #include "types.h"
+#include "pso/audio/AdxDecode4.h"
 #include "pso/unk/TLobby.h"
 #include "pso/unk/TLobby_803C4698.h"
 
@@ -8,14 +9,13 @@ struct AdxFrame {
     s8 nibbles[16];
 };
 
-extern "C" {
+
 // Sign-extend the low four bits in the same way as the high nibble.
 extern const s32 adx_signed_nibbles[16] = {
     0, 1, 2, 3, 4, 5, 6, 7, -8, -7, -6, -5, -4, -3, -2, -1,
 };
 
 s32 lbl_805D7520;
-}
 
 void TLobby::set_global_805D7520(s32 arg0) {
     lbl_805D7520 = arg0;

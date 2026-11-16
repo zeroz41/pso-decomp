@@ -14,6 +14,8 @@ u8 *create_conversation_camera(s32 arg0);
 // --- C functions defined in TCameraCtrl_8006B3D8.cpp ---
 extern "C" {
 s32 TCameraCtrl__sub_8006B798(void *p, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
+void *TCameraCtrl__sub_8006BA68(void *a0);
+s32 TCameraCtrl__sub_8006BADC(void);
 void *TCameraCtrl__vt9(void);
 }
 // --- end of C functions

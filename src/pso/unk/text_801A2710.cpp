@@ -1,4 +1,6 @@
 #include "types.h"
+#include "pso/object/door/TODoorFourLightRuins.h"
+#include "pso/object/door/TODoorFourLightSpace.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/collision/TObjInfoCol.h"
 #include "pso/unk/text_801A2710.h"
@@ -10,20 +12,18 @@
 #include "pso/object/warp/TObjAreaWarpForest.h"
 #include "pso/object/warp/TObjMapWarpForest.h"
 #include "pso/object/warp/TObjMapForceWarp.h"
+#include "pso/system/task/TObject.h"
 
 extern "C" {
-u8 *TODoorFourLightRuins__ct(u8 *arg0, s32 arg1, s32 arg2);
 void *TODoorFourLightSeabedU__ct(void *, void *, void *);
 void *TODoorFourLightSeabed__ct(void *, void *, void *);
-u8 *TODoorFourLightSpace__ct(u8 *arg0, s32 arg1, s32 arg2);
 void *TODoorLaboNormal__ct(void *, void *, void *);
 void *TODoorLabo__ct(void *, void *, void *);
-void *__nw__7TObjectFUl(int);
 
 
 }
 void *TODoorFourLightSeabed__create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0xFC);
+    void *o = TObject::operator new(0xFC);
     if (o != NULL) {
         o = TODoorFourLightSeabed__ct(o, tl_05, arg0);
     }
@@ -31,7 +31,7 @@ void *TODoorFourLightSeabed__create(void *arg0) {
 }
 
 void *TODoorFourLightSeabedU__create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0xFC);
+    void *o = TObject::operator new(0xFC);
     if (o != NULL) {
         o = TODoorFourLightSeabedU__ct(o, tl_05, arg0);
     }
@@ -39,7 +39,7 @@ void *TODoorFourLightSeabedU__create(void *arg0) {
 }
 
 void *TODoorLabo__create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0xFC);
+    void *o = TObject::operator new(0xFC);
     if (o != NULL) {
         o = TODoorLabo__ct(o, tl_05, arg0);
     }
@@ -47,7 +47,7 @@ void *TODoorLabo__create(void *arg0) {
 }
 
 void *TODoorLaboNormal__create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0xFC);
+    void *o = TObject::operator new(0xFC);
     if (o != NULL) {
         o = TODoorLaboNormal__ct(o, tl_05, arg0);
     }
@@ -55,50 +55,41 @@ void *TODoorLaboNormal__create(void *arg0) {
 }
 
 void *TODoorFourLightRuins__create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0xF8);
-    if (o != NULL) {
-        o = TODoorFourLightRuins__ct((u8 *)o, (s32)tl_05, (s32)arg0);
-    }
+    void *o = (void *)new TODoorFourLightRuins((s32)tl_05, (s32)arg0);
     return o;
 }
 
 void *TODoorFourLightSpace__create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0xF8);
-    if (o != NULL) {
-        o = TODoorFourLightSpace__ct((u8 *)o, (s32)tl_05, (s32)arg0);
-    }
+    void *o = (void *)new TODoorFourLightSpace((s32)tl_05, (s32)arg0);
     return o;
 }
 
 void *TObjInfoCol__create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0xB0);
-    if (o != NULL) {
-        o = TObjInfoCol__ct((u8 *)o, (s32)tl_05, (s32)arg0);
-    }
+    void *o = (void *)new TObjInfoCol((s32)tl_05, (s32)arg0);
     return o;
 }
 
-void *TObjWarpLobby__create(void *arg0) {
-    return new TObjWarpLobby(tl_05, arg0);
+void *TObjWarpLobby__create(void *set_data) {
+    return new TObjWarpLobby(tl_05, set_data);
 }
 
-void *TObjAreaWarpEnding__create(void *arg0) {
-    return new TObjAreaWarpEnding(tl_05, arg0);
+void *TObjAreaWarpEnding__create(void *set_data) {
+    return new TObjAreaWarpEnding(tl_05, set_data);
 }
 
-void *TObjAreaWarpQuest__create(void *arg0) {
-    return new TObjAreaWarpQuest(tl_05, arg0);
+void *TObjAreaWarpQuest__create(void *set_data) {
+    return new TObjAreaWarpQuest(tl_05, set_data);
 }
 
-void *TObjAreaWarpForest__create(void *arg0) {
-    return new TObjAreaWarpForest(tl_05, arg0);
+void *TObjAreaWarpForest__create(void *set_data) {
+    return new TObjAreaWarpForest(tl_05, set_data);
 }
 
-void *TObjMapWarpForest__create(void *arg0) {
-    return new TObjMapWarpForest(tl_05, arg0);
+void *TObjMapWarpForest__create(void *set_data) {
+    return new TObjMapWarpForest(tl_05, set_data);
 }
 
-void *TObjMapForceWarp__create(void *arg0) {
-    return new TObjMapForceWarp(tl_05, arg0);
+void *TObjMapForceWarp__create(void *set_data) {
+    return new TObjMapForceWarp(tl_05, set_data);
 }
 

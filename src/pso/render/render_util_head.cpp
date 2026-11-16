@@ -1,8 +1,8 @@
 // One original TU runs from calc_triangle_normal (0x801412D0) to the weak inline copies at
 // 0x80142624-0x80142770, but its out-of-line copy of sqrt_double sits at the TU end while the
 // copy's constants sit between the tev tables and the pulse constants. No compiler here emits
-// that (a copy follows its first caller, its constants with it), so the TU is built as three
-// units: this one (to set_tev_swap_channels), render_util.cpp and render_util_tail.cpp.
+// that (a copy follows its first caller, its constants with it), so the TU is built as two
+// units: this one (to set_tev_swap_channels) and render_util.cpp (the rest, copies included).
 
 #include "pso/render/render_util.h"
 #include <dolphin/gx.h>

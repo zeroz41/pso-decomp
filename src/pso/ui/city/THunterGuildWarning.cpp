@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/ui/city/THunterGuildSeqOffline.h"
 #include "pso/ui/city/THunterGuildWarning.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
@@ -11,6 +12,7 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/unk/TLobby_8030A6A8.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 
 #pragma readonly_strings on
 
@@ -71,7 +73,7 @@ void THunterGuildWarning::sub_80211774(void *) {
             windows[id] = (TWindowMessage *)TWindowMessage::create(get_window_layout_position(0x31), size, 1, id);
         }
         if (windows[id] != NULL) {
-            windows[id]->append_line(TQuestVmDownLoadServer__sub_8006EF6C(99), 0x81);
+            windows[id]->append_line(get_message_text(99), 0x81);
             windows[id]->set_position_xy(scale[0], scale[1]);
         }
         break;
@@ -81,7 +83,7 @@ void THunterGuildWarning::sub_80211774(void *) {
             windows[id] = (TWindowMessage *)TWindowMessage::create(get_window_layout_position(0x31), size, 1, id);
         }
         if (windows[id] != NULL) {
-            windows[id]->append_line(TQuestVmDownLoadServer__sub_8006EF6C(104), 0x81);
+            windows[id]->append_line(get_message_text(104), 0x81);
             windows[id]->set_position_xy(scale[0], scale[1]);
         }
         break;
@@ -97,7 +99,7 @@ void THunterGuildWarning::sub_80211774(void *) {
                     windows[i] = (TWindowMessage *)TWindowMessage::create(get_window_layout_position(0x31), size, 1, i);
                 }
                 if (windows[i] != NULL) {
-                    windows[i]->append_line(TQuestVmDownLoadServer__sub_8006EF6C(text), 0x81);
+                    windows[i]->append_line(get_message_text(text), 0x81);
                     windows[i]->set_position_xy(scale[0], scale[1]);
                 }
             }
@@ -106,7 +108,7 @@ void THunterGuildWarning::sub_80211774(void *) {
     }
 }
 
-extern "C" void THunterGuildWarning__sub_802119CC(THunterGuildWarning *self) {
+void THunterGuildWarning__sub_802119CC(THunterGuildWarning *self) {
     s32 i;
     for (i = 0; i < 4; i++) self->windows[i] = NULL;
 }
@@ -138,13 +140,13 @@ THunterGuildWarning::THunterGuildWarning(TObject *object, void *arg2) : TObject(
     THunterGuildWarning__instance = this;
 }
 
-#include "types.h"
+
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TPlayerBattleCtrl4P.h"
 
 extern "C" {
 TObjPlayer *get_player_by_client_id(s32 id);
-s32 check_flag_100__10TObjPlayerFPv(TObjPlayer *player);
+int check_flag_100__10TObjPlayerFPv(void *p);
 f32 xz_distance_squared(const f32 *a, const f32 *b);
 
 #pragma push
@@ -191,7 +193,7 @@ s32 TPlayerBattleCtrl4P::fn_80211B10(s32 id) {
 }
 
 // ---- pso/unk/TLobby_80211C1C
-#include "types.h"
+
 #include "pso/unk/TLobby.h"
 
 extern "C" {
@@ -203,7 +205,7 @@ int TLobby::get_selected_quest_id() { return get_selected_quest_id__16TQuestList
 }
 
 // ---- pso/unk/text_80211C3C
-#include "types.h"
+
 #include "pso/unk/text_80211C3C.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/quest/TQuestListOnline.h"
@@ -239,9 +241,8 @@ s32 TLobby__sub_80211C3C(void) {
 }
 
 // ---- pso/unk/TLobby_80211CE0
-#include "types.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
-#include "pso/unk/TLobby.h"
+
+
 #include "pso/unk/TLobby_80211F0C.h"
 
 extern "C" {
@@ -264,16 +265,13 @@ s32 TLobby::handle_main_phase(s32 arg0) {
 }
 
 // ---- pso/unk/text_80211D58
-#include "types.h"
-#include "pso/player/TPlayerBattleCtrl4P.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
-#include "pso/unk/TLobby_8030A6A8.h"
+
+
 #include "pso/unk/text_80211D58.h"
-#include "pso/ui/city/THunterGuildWarning.h"
-#include "pso/ui/hud/TRaderMapCore.h"
+
+
 extern "C" {
 s32 get_nth_view_player_id__11TCameraCtrlFl(s32);
-s32 TWindowShortListCtrl__check_controller_button(void *, s32);
 s32 get_map_id__13TRaderMapCoreFv();
 s32 is_active__19THunterGuildWarningFv();
 s32 THunterGuildSeqOffline__sub_80211FEC(s32);
@@ -332,14 +330,12 @@ s32 TLobby__sub_80211D58(s32 arg0) {
 }
 
 // ---- pso/unk/TLobby_80211F0C
-#include "types.h"
+
 #include "pso/ui/city/THunterGuildSeqOffline_80213788.h"
-#include "pso/ui/city/THunterGuildWarning.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
-#include "pso/unk/TLobby_80211F0C.h"
-#include "pso/unk/TLobby.h"
+
+
 #include "pso/ui/city/THunterGuildSeqOffline.h"
-#include "pso/quest/TQuestListOnline.h"
+
 
 void update_hunter_guild_phase(void) {
     if (get_main_phase() == 0xE) {
@@ -347,8 +343,8 @@ void update_hunter_guild_phase(void) {
         THunterGuildSeqOffline::clear_instance_table();
     }
     if (get_main_phase() == 0xF) {
-        clear_slots__22THunterGuildSeqOfflineFv();
-        clear_slot_flags__22THunterGuildSeqOfflineFv();
+        THunterGuildSeqOffline::clear_slots();
+        THunterGuildSeqOffline::clear_slot_flags();
         TQuestListOnline::release_resources();
     }
 }
@@ -363,29 +359,30 @@ void TLobby::update_guild_or_quest_phase() {
     }
     if (get_main_phase() == 0xF) {
         TQuestListOnline::init_download_buffers();
-        zero_four_slots__22THunterGuildSeqOfflineFv();
+        THunterGuildSeqOffline::zero_four_slots();
         THunterGuildSeqOffline__sub_80213CA4();
     }
 }
 
-void *__nw__7TObjectFUl(int);
 void *THunterGuildSeqOnline_Client__ct(void *, void *, void *);
+}
 
 void *create_lobby_object_05(void *arg0) {
-    void *o = __nw__7TObjectFUl(0x40);
+    void *o = TObject::operator new(0x40);
     if (o != NULL) {
         o = THunterGuildSeqOnline_Client__ct(o, tl_05, arg0);
     }
     return o;
 }
+extern "C" {
 
 void *THunterGuildSeqOffline__sub_80214B3C(void *, void *, void *);
+}
 
 void *TLobby::create_tl05_object(void *arg0) {
-    void *o = __nw__7TObjectFUl(0x44);
+    void *o = TObject::operator new(0x44);
     if (o != NULL) {
         o = THunterGuildSeqOffline__sub_80214B3C(o, tl_05, arg0);
     }
     return o;
-}
 }

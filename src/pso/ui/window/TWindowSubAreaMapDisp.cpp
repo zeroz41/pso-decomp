@@ -14,6 +14,8 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/map/FloorArea.h"
 #include "pso/unk/WindowLayoutRecord.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 #pragma readonly_strings on
 
@@ -57,12 +59,9 @@ WindowDescriptor TWindowSubAreaMapDisp__window_parameters = {
 };
 
 extern "C" {
-void mem_free(void *p);
-s32 __dl__7TObjectFPv(void *);
 extern RecoveredGlobal_80271C6C___vt__21TWindowSubAreaMapDisp __vt__21TWindowSubAreaMapDisp;
-s32 TQuestVmDownLoadServer__sub_8006EF6C(s32 arg0);
+s32 get_message_text(s32 arg0);
 u8 *get_floor_destination_name(s32);
-void *mem_alloc(u32 size);
 s32 measure_string_len__20TWindowSubStatusDispFv(int);
 void text_builder_append(u8 *str);
 }
@@ -76,11 +75,6 @@ const char *TWindowSubAreaMapDisp__name = "TWindowSubAreaMapDisp";
 extern s32 local_client_id;
 void apply_context_transform_to_rect(void *, void *);
 extern s32 lbl_805D63F0;
-
-struct Vec2_80271A6C {
-    f32 x;
-    f32 y;
-};
 
 s32 draw_default_entry__9TWindowDDFl();
 s32 forward_render__20TWindowSubStatusDispFv(s32, s32);
@@ -141,7 +135,7 @@ void fn_80271848(s32 arg0, u8 *arg1) {
 }
 
 void TWindowSubStatusDisp__sub_80271A6C(s32 arg0, u8 *arg1) {
-    Vec2_80271A6C pos;
+    NJS_POINT2 pos;
     s32 color;
     f32 scale;
 
@@ -180,24 +174,16 @@ void TWindowSubAreaMapDisp::run_task() {
         ((TWindowSubStatusDisp *)(*(u8 * *)&this->m_70))->update_subwindow();
     }
 }
-u8 *__dt__21TWindowSubAreaMapDispFv(TWindowSubAreaMapDisp *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = &__vt__21TWindowSubAreaMapDisp.value;
-        if ((u32) arg0->m_74 != 0U) {
-            mem_free(*(void **)((s8 *)arg0 + 0x74));
-            arg0->m_74 = 0U;
-        }
-        if ((s32) arg0->m_6c != 0) {
-            TWindowCtrl::clear_active_flag();
-            TRaderMapCore::clear();
-        }
-        TWindowSubStatusDisp::destroy_status_display(arg0->m_70, 1);
-        ((TWindowDD *)arg0)->destroy_window_base(0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
+TWindowSubAreaMapDisp::~TWindowSubAreaMapDisp() {
+    if ((u32) this->m_74 != 0U) {
+        mem_free(*(void **)((s8 *)this + 0x74));
+        this->m_74 = 0U;
     }
-    return (u8 *)arg0;
+    if ((s32) this->m_6c != 0) {
+        TWindowCtrl::clear_active_flag();
+        TRaderMapCore::clear();
+    }
+    TWindowSubStatusDisp::destroy_status_display(this->m_70, 1);
 }
 typedef char RecoveredGlobal_80271D00___vt__21TWindowSubAreaMapDisp_size[sizeof(RecoveredGlobal_80271D00___vt__21TWindowSubAreaMapDisp) == 0x1C ? 1 : -1];
 u8 *TWindowSubAreaMapDisp__ct(TWindowSubAreaMapDisp *window_sub_area_map_disp) {
@@ -207,10 +193,10 @@ u8 *TWindowSubAreaMapDisp__ct(TWindowSubAreaMapDisp *window_sub_area_map_disp) {
     u8 *var_r30;
     ((TWindowDD *)window_sub_area_map_disp)->construct_base((u8 *)&TWindowSubAreaMapDisp__window_parameters, (s16)((void *) ((s16) local_client_id)), (u8 *)(get_window_layout_position(0x59)));
     *(s32 **)((s8 *)window_sub_area_map_disp + 0x18) = &(*(RecoveredGlobal_80271D00___vt__21TWindowSubAreaMapDisp *)&__vt__21TWindowSubAreaMapDisp).value;
-    *(const char **)((s8 *)window_sub_area_map_disp + 0) = TWindowSubAreaMapDisp__name;
+    ((TWindowSubAreaMapDisp *)window_sub_area_map_disp)->m_name = TWindowSubAreaMapDisp__name;
     if (get_game_play_mode() == 1) {
         text_builder_reset();
-        text_builder_append((u8 *)(TQuestVmDownLoadServer__sub_8006EF6C(0x67)));
+        text_builder_append((u8 *)(get_message_text(0x67)));
         append_text_space();
         append_padded_number((get_window_count_ratio_value()), (2U));
         var_r30 = (u8 *)(get_shared_text_buffer());

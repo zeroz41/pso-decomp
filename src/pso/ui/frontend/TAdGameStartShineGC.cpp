@@ -8,6 +8,8 @@
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/player/TObjPlayer.h"
 
+#pragma readonly_strings on
+
 s32 lbl_805D6E88;
 
 void TAdGameStartShineGC::render_status_box() {
@@ -20,7 +22,7 @@ void TAdGameStartShineGC::render_status_box() {
 }
 
 struct Shine_8034AB4C {
-    s32 name;
+    const char *name;
     u8 pad4[0x18 - 4];
     void *vt;
     f32 f1C;
@@ -51,7 +53,7 @@ void __ct__7TObjectFP7TObject(void *);
 extern f32 lbl_804789E8[];
 extern const f32 lbl_804789F0[];
 extern s32 __vt__19TAdGameStartShineGC[];
-extern s32 lbl_805D4320;
+const char *lbl_805D4320 = "TAdGameStartShineGC"; // TAdGameStartShineGC__name
 extern const f32 lbl_805DFD6C;
 extern const f32 lbl_805DFD70;
 extern const f32 lbl_805DFD74;

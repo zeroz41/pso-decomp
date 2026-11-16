@@ -104,10 +104,12 @@ struct ChunkBuffer_803E44D4 { void *vertices; s32 bytes; };
 struct ChunkRecording_803E44D4 { ChunkBuffer_803E44D4 buffers[32]; s32 index; };
 void OSReport(const char*, ...);
 void* memmove(void*, const void*, unsigned long);
+}
 void dispatch_chunk_polygon_list(s16 *list, s32 buffer);
 extern const char lbl_804FC810[];
 extern u32 lbl_805D77E4;
 extern ChunkRecording_803E44D4* chunk_vertex_cache_state;
+extern "C" {
 void PSMTXConcat(const Mtx_803E4354, const Mtx_803E4354, Mtx_803E4354);
 void PSMTXTrans(Mtx_803E4354, f32, f32, f32);
 void PSMTXScale(Mtx_803E4354, f32, f32, f32);
@@ -753,7 +755,7 @@ void draw_chunk_model(void *arg0) {
 
 #pragma push
 #pragma scheduling off
-extern "C" {
+
 void draw_chunk_object(void *child) {
     TObjPlayer::setup_model_draw_state(child);
     transform_chunk_object_tree(child, (void (*)(void *))draw_chunk_vertices_cached__10TObjPlayerFPv);
@@ -849,7 +851,6 @@ void TObjPlayer__sub_803E492C(s32 a, s32 b) {
 }
 #pragma pop
 
-}
 
 void set_chunk_render_flags(u32 flags) {
     chunk_render_flags = flags;
@@ -859,6 +860,5 @@ void clear_chunk_render_flags() {
     chunk_render_flags = 0;
 }
 
-extern "C" {
+
 u8 chunk_object_current_matrix[0x30];
-}

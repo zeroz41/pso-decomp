@@ -249,6 +249,12 @@ struct TBoss1Dragon : public TObjEneDD_ST {
     void update_air_fire_state(u32 arg1);
     void remap_sequence_after_recovery();
     void update_emergence_state(u32 arg1);
+    void update_death_state(u32 arg1);
+    void update_dive_state(u32 arg1);
+    static s32 filter_input_flags(s32 arg1, s32 arg2, s32 arg3);
+    void clear_work();
+    f32 calc_burrow_speed();
+    void calc_target_vector();
 };
 
 #include <stddef.h>

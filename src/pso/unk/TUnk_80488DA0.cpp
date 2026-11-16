@@ -3,16 +3,16 @@
 #include "pso/camera/TCameraCtrl_80067FC0.h"
 #include "pso/camera/TCameraCtrl_8006C8E4.h"
 #include "pso/system/vector.h"
-#include "pso/unk/TUnk_80488DA0.h"
+
 #include "pso/unk/TUnk_80488D70.h"
 #include "pso/camera/TCameraCtrl.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/math/AngleLookup.h"
 
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-struct Vec_8006C964 { f32 x, y, z; };
-struct V_8006CC7C { f32 x, y, z; };
-static const V_8006CC7C default_target_position = {0.0f, 0.0f, 0.0f};
+static const Vec default_target_position = {0.0f, 0.0f, 0.0f};
 
 struct Pad_8006C964 { u8 pad0[0x14]; s16 sx; s16 sy; };
 
@@ -23,41 +23,32 @@ struct Cam_8006C964 {
     s32 pitch;
     s32 yaw;
     u8 pad34[8];
-    Vec_8006C964 eye;
-    Vec_8006C964 center;
+    Vec eye;
+    Vec center;
     s32 x54;
     u8 pad58[0x6C - 0x58];
     f32 dist;
 };
 
 extern "C" {
-void *__nw__7TObjectFUl(int);
-V_8006CC7C get_target_position__11TCameraCtrlFv(void);
-s32 TWindowShortListCtrl__check_controller_button(void *, s32);
+Vec get_target_position__11TCameraCtrlFv(void);
 s32 is_on_current_screen__11TCameraCtrlFv(void *, s32);
-f32 sin_table_lookup(s32);
-f32 cos_table_lookup(s32);
 void debug_printf_at(s32, const char *, ...);
 extern Ctl_8006C964 controller_input_state;
-int __ct__13TUnk_80488A28Fv(void);
-void __dl__7TObjectFPv(void *);
 
 extern unsigned char __vt__13TUnk_80488DA0[];
 
 void * TCameraCtrl__vt6(void) {
     void *o;
-    o = __nw__7TObjectFUl(0x70);
-    if (o != NULL) {
-        o = TCameraCtrl__sub_8006CC30(o);
-    }
+    o = (void *)new TUnk_80488DA0();
     return o;
 }
 
 #pragma push
 #pragma fp_contract on
 void TUnk_80488DA0::run_task() {
-    Vec_8006C964 target = {0.0f, 0.0f, 0.0f};
-    Vec_8006C964 v;
+    Vec target = {0.0f, 0.0f, 0.0f};
+    Vec v;
     Pad_8006C964 *pad = &controller_input_state.pad;
     s16 sx = controller_input_state.pad.sx;
     s16 sy = controller_input_state.pad.sy;
@@ -109,16 +100,19 @@ void TUnk_80488DA0::run_task() {
 TUnk_80488DA0::~TUnk_80488DA0() {
 
 }
-extern "C" {
 
-void* TCameraCtrl__sub_8006CC30(void* a0) { __ct__13TUnk_80488A28Fv(); *(int*)((char*)a0 + 0x18) = (int)__vt__13TUnk_80488DA0; *(float*)((char*)a0 + 0x6c) = (2e+01f); ((TUnk_80488DA0 *)a0)->m_38 = 0; return a0; }
 
-struct O_8006CC7C { u8 pad[0x1c]; V_8006CC7C pos; };
+TUnk_80488DA0::TUnk_80488DA0() : TUnk_80488A28() {
+    *(float*)((char*)this + 0x6c) = (2e+01f);
+    this->m_38 = 0;
+}
+
+struct O_8006CC7C { u8 pad[0x1c]; Vec pos; };
 extern O_8006CC7C *demo_camera_controller_table[];
 extern s16 demo_camera_controller_index;
 
-V_8006CC7C get_target_position__11TCameraCtrlFv(void) {
-    V_8006CC7C def = default_target_position;
+Vec get_target_position__11TCameraCtrlFv(void) {
+    Vec def = default_target_position;
     O_8006CC7C *o = demo_camera_controller_table[demo_camera_controller_index];
     if (o != 0) {
         return o->pos;
@@ -126,4 +120,3 @@ V_8006CC7C get_target_position__11TCameraCtrlFv(void) {
     return def;
 }
 
-}

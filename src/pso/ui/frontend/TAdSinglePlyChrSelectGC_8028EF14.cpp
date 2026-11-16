@@ -16,6 +16,7 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/render_util.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 struct W_80290250 { u8 pad[0xfc]; s32 bufp; s32 rc; u8 data[4]; };
 
@@ -24,9 +25,9 @@ struct Opaque_80290088;
 
 s32 find_shape_triangle_region(u8 *arg0);
 TChCrLoadAfsTextureReq *create_ch_cr_load_afs_texture_req(void *figure, void *list, void *slot, void *index);
-extern "C" {
 void calc_shape_region_coefficients(f32 *point);
 s32 blend_shape_chunk_vertices(void);
+extern "C" {
 f32 vector_length(f32 *v);
 s32 normalize_vector(f32 *v);
 }
@@ -64,7 +65,6 @@ void TAdSinglePlyChrSelectGC__sub_8028ED54(void);
 void blend_creation_proportion_shapes(f32 *);
 s32 free_bin_model_request(void *, int);
 void *__dt__10TObjMotionFv(void *arg0, s16 arg1);
-void mem_free(void *p);
 s32 __dl__7TObjectFPv(void *);
 void TAdSinglePlyChrSelectGC__sub_8028F084(CreationTextureCacheEntry *entry, TCharaMaking *appearance);
 void TCharaMaking__bind_appearance_texture_lists(s32 *hair, s32 *head, s32 *body, TCharaMaking *appearance);
@@ -290,7 +290,6 @@ struct Sel_802902CC {
 
 s32 load_resource_from_descriptor(s32, s32, s32, s32, s32, s32);
 s32 __ct__10TObjMotionFP7TObject(void *, void *);
-void *mem_alloc(u32 size);
 }
 extern u32 creation_figure_object;
 void request_creation_motion(s32 arg0);
@@ -311,9 +310,6 @@ void TCharaMaking__bind_body_shape_nodes(CharacterAppearanceFields *appearance, 
 void *TCMCharacter__ct(void *arg0, void *arg1);
 extern s32 creation_region_sample_index_table[24]; extern CreationShapePoint lbl_804D400C[9]; extern void* lbl_804D4054[21];
 #pragma defer_codegen on
-}
-
-extern "C" {
 void *TCMCharacter__ct(void *motion, void *arg1) {
     CreationTextureCacheEntry *p;
     s32 res;
@@ -321,7 +317,7 @@ void *TCMCharacter__ct(void *motion, void *arg1) {
 
     __ct__10TObjMotionFP7TObject(motion, arg1);
     *(void **)((s8 *)motion + 0x18) = (void *)lbl_804D4054;
-    *(const char **)((s8 *)motion + 0) = TCMCharacter__name;
+    ((TObjMotion *)motion)->m_name = TCMCharacter__name;
     lbl_805D49B4 = 1;
     cm = creation_player_character;
     char_select_active_flag = 0;
@@ -354,7 +350,7 @@ void *TCMCharacter__ct(void *motion, void *arg1) {
     *(f32 *)((s8 *)motion + 0x38) = 0.0f;
     ((TObjMotion *)motion)->rotation_z = 0;
     ((TObjMotion *)motion)->rotation_y = 0;
-    *(s32 *)((s8 *)motion + 0x5C) = 0;
+    ((TObjMotion *)motion)->rotation_x = 0;
     load_creation_shape_rel((W_80290250 *)motion);
     reset_character_creation_figure_rotation();
     creation_resource_ready_state = 0;
@@ -650,7 +646,7 @@ void TCMCharacter::update_chara_preview() {
     }
     }
     blend_creation_proportion_shapes(&((CharacterAppearanceFields *)creation_player_character)->width);
-    ((TObjMotion *)this)->advance_animation();
+    this->advance_animation();
 }
 
 void request_creation_motion(s32 arg0) {

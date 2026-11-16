@@ -22,8 +22,6 @@
 #include "pso/boss/darkfalz/TBoss4Type2.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
-extern "C" {
-
 
 f32 TUnk_8048E1A4::receive_physical_attack(void *arg1, f32) {
     if (arg1 != 0U) {
@@ -37,7 +35,6 @@ f32 TUnk_8048E1A4::receive_physical_attack(void *arg1, f32) {
 
 void TObjPlayer::queue_destruction() { TObject::queue_destruction(); }
 
-}
 
 void TUnk_8048E1A4::update_freeze_shell_timer() {
     u8 *arg0 = (u8 *)this;
@@ -47,12 +44,6 @@ void TUnk_8048E1A4::update_freeze_shell_timer() {
         this->m_340 = (f32) -1.0f;
     }
 }
-
-struct Stack_80081CD0 {
-    f32 sp8;
-    f32 spC;
-    f32 sp10;
-};
 
 struct RecoveredGlobal_80081CD0_lbl_8058D490 { s32 value; u8 remaining[0x2C]; };
 typedef char RecoveredGlobal_80081CD0_lbl_8058D490_size[sizeof(RecoveredGlobal_80081CD0_lbl_8058D490) == 0x30 ? 1 : -1];
@@ -79,9 +70,9 @@ s32 rotate_vector_by_matrix(int, void *, void *);
 s32 rotate_matrix_y(int, int);
 extern RecoveredGlobal_80081CD0_lbl_8058D490 identity_matrix;
 s32 get_bml_motion(s32, s32);
-s32 TObjFish__sub_8001EDB0(s32, s32);
+s32 get_bml_texlist(s32, s32);
 s32 get_bml_model(s32, s32);
-void *spawn_particle_effect(void *pos, s32 id);
+void *spawn_particle_effect(const void *pos, s32 id);
 s32 freeze_shell_bml_resource;
 extern s32 technique_effect_bml;
 extern s32 lbl_805D63B0;
@@ -112,7 +103,7 @@ s32 TUnk_8048E1A4::freeze_shell_hold() {
     }
     p = (s32)spawn_particle_effect((u8 *)this + 0x38, 0x33);
     if (p != 0) {
-        attach_particle_model((u8 *)p, (s32)(get_bml_model(freeze_shell_bml_resource, 0)), (s32)(TObjFish__sub_8001EDB0(freeze_shell_bml_resource, 1)), (s32)(get_bml_motion(freeze_shell_bml_resource, 0)), 0, 1.0f);
+        attach_particle_model((u8 *)p, (s32)(get_bml_model(freeze_shell_bml_resource, 0)), (s32)(get_bml_texlist(freeze_shell_bml_resource, 1)), (s32)(get_bml_motion(freeze_shell_bml_resource, 0)), 0, 1.0f);
         ((TParticleCtrl *)p)->set_scale(this->scale.x, this->scale.y);
     }
     this->frame = 0.0f;
@@ -120,10 +111,7 @@ s32 TUnk_8048E1A4::freeze_shell_hold() {
 
 void TUnk_8048E1A4::freeze_shell_grow() {
     u8 *arg0 = (u8 *)this;
-    typedef char sp8_offset[(offsetof(Stack_80081CD0, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_80081CD0, spC) == 0x4) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_80081CD0, sp10) == 0x8) ? 1 : -1];
-    Stack_80081CD0 stack;
+    Vec stack;
     f32 temp_f0;
     this->rotation_y = (this->rotation_y + 0x1000);
     this->scale.z += 0.1f;
@@ -135,15 +123,15 @@ void TUnk_8048E1A4::freeze_shell_grow() {
     }
     *(s32 *)((s8 *)arg0 + 0x33C) = (s32) (*(s32 *)((s8 *)arg0 + 0x33C) + 1);
     if ((*(s32 *)((s8 *)arg0 + 0x33C) % 3) == 0) {
-        stack.sp8 = 0.0f;
-        stack.spC = 0.0f;
-        stack.sp10 = 10.0f * this->scale.x;
+        stack.x = 0.0f;
+        stack.y = 0.0f;
+        stack.z = 10.0f * this->scale.x;
         push_matrix_from(&identity_matrix.value);
         rotate_matrix_y(0, (int) (this->rotation_y * 2));
-        rotate_vector_by_matrix(0, &stack.sp8, &stack.sp8);
+        rotate_vector_by_matrix(0, &stack.x, &stack.x);
         pop_matrix();
-        vec3_add_to(&stack.sp8, (u8 *)&this->position);
-        create_timed_particle_emitter((&stack.sp8), 0x12D, 0, 0xA);
+        vec3_add_to(&stack.x, (u8 *)&this->position);
+        create_timed_particle_emitter((&stack.x), 0x12D, 0, 0xA);
     }
 }
 
@@ -190,7 +178,7 @@ void TUnk_8048E1A4::render() {
         ok = p->m8(400.0f, 20.0f);
     }
     if (ok != 0) {
-        TObjFish__sub_8001EDB0((s32)((void *)freeze_shell_bml_resource), 1);
+        get_bml_texlist((s32)((void *)freeze_shell_bml_resource), 1);
         set_global_param__8TObjFishFl();
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
@@ -216,21 +204,17 @@ void TUnk_8048E1A4::render() {
     }
 }
 
-}
-
-extern "C" {
-
 s32 __ct__13TUnk_8048E1A4FPUcPUc(u32, u32, s32, s32);
 u32 __nw__7TObjectFUl(s32);
 u16 get_entity_id(void *);
 
 void create__10TObjPlayerFUiii(u32 arg0, s32 arg1, s32 arg2) {
-    u16 temp_r3;
+    u16 entity_id;
 
     u32 obj;
     if ((is_current_area_item_enabled() != 0) && (arg0 != 0U)) {
-        temp_r3 = get_entity_id((void *)arg0);
-        if (((u16) temp_r3 != 0xFFFF) && ((u16) temp_r3 < 0x4000U) && ((obj = __nw__7TObjectFUl(0x368)) != 0U)) {
+        entity_id = get_entity_id((void *)arg0);
+        if (((u16) entity_id != 0xFFFF) && ((u16) entity_id < 0x4000U) && ((obj = __nw__7TObjectFUl(0x368)) != 0U)) {
             __ct__13TUnk_8048E1A4FPUcPUc(obj, arg0, arg1, arg2);
         }
     }
@@ -241,9 +225,6 @@ void create__10TObjPlayerFUiii(u32 arg0, s32 arg1, s32 arg2) {
 extern const char *bm_eff_ice_model_names[3];
 extern const char *bm_eff_ice_motion_names[2];
 extern BmlResourceDescriptor enemy_freeze_ice_resource_descriptor;
-
-struct RecoveredGlobal_80082080_lbl_8048E194 { s32 value; u8 remaining[0xC]; };
-typedef char RecoveredGlobal_80082080_lbl_8048E194_size[sizeof(RecoveredGlobal_80082080_lbl_8048E194) == 0x10 ? 1 : -1];
 
 struct RecoveredFields_8008213C_arg0 {
     u8 unknown_0[0x18];
@@ -288,12 +269,9 @@ struct RecoveredFields_8008213C_temp_r3 {
 
 extern "C" {
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-s32 __ct__9TObjCharaFP7TObject(void *, void *);
-void *create_particle_emitter(void *pos, s32 id);
-extern s32 __vt__13TUnk_8048E1A4[];
+TParticleCtrl *create_particle_emitter(const void *pos, s32 id);
 extern s32 tl_05;
 void free_bin_model_request(void*, int);
-void __dl__7TObjectFPv(void *);
 
 void TLobby::destroy_global_singleton() {
     if ((u32) freeze_shell_bml_resource != 0U) {
@@ -317,7 +295,7 @@ void TLobby::load_freeze_ice_resource() {
 TUnk_8048E1A4::~TUnk_8048E1A4() {
     if (this->m_350 != NULL) { TParticleCtrl::release(this->m_350); }
 }
-extern "C" {
+
 
 #pragma push
 #pragma fp_contract on
@@ -341,30 +319,29 @@ typedef char RecoveredFields_8008213C_arg2_C_offset[offsetof(RecoveredFields_800
 typedef char RecoveredFields_8008213C_arg1_60_offset[offsetof(RecoveredFields_8008213C_arg1, field_60) == 0x60 ? 1 : -1];
 typedef char RecoveredFields_8008213C_arg1_A4_offset[offsetof(RecoveredFields_8008213C_arg1, field_A4) == 0xA4 ? 1 : -1];
 typedef char RecoveredFields_8008213C_temp_r3_10_offset[offsetof(RecoveredFields_8008213C_temp_r3, field_10) == 0x10 ? 1 : -1];
-}
-TUnk_8048E1A4::TUnk_8048E1A4(u8 *arg1, u8 *arg2) : TObjChara((TObject *)((void *)tl_05)) {
+TUnk_8048E1A4::TUnk_8048E1A4(u8 *chara, u8 *arg2) : TObjChara((TObject *)((void *)tl_05)) {
     u8 *temp_r3;
     ((RecoveredFields_8008213C_arg0 *)((u8 *)this))->field_34 = get_bml_model(freeze_shell_bml_resource, 1);
-    if (arg1 != NULL) {
-        ((RecoveredFields_8008213C_arg0 *)((u8 *)this))->field_358 = get_entity_id(arg1);
-        VecCopy((Vec *)(((u8 *)this) + 0x35C), (const Vec *)(arg1 + 0x38));
+    if (chara != NULL) {
+        ((RecoveredFields_8008213C_arg0 *)((u8 *)this))->field_358 = get_entity_id(chara);
+        VecCopy((Vec *)(((u8 *)this) + 0x35C), (const Vec *)(chara + 0x38));
         if (arg2 != NULL) {
             VecCopy((Vec *)(((u8 *)this) + 0x38), (const Vec *)(arg2 + 0x1C));
             ((RecoveredFields_8008213C_arg0 *)((u8 *)this))->field_338 = (f32) (0.15f * ((RecoveredFields_8008213C_arg2 *)arg2)->field_C);
-        } else if ((void *) ((RecoveredFields_8008213C_arg1 *)arg1)->field_A4 != NULL) {
-            ((TObjCollidable *)arg1)->refresh_collision_body_centers();
-            VecCopy((Vec *)(((u8 *)this) + 0x38), (const Vec *)(((RecoveredFields_8008213C_arg1 *)arg1)->field_A4 + 0x1C));
-            ((RecoveredFields_8008213C_arg0 *)((u8 *)this))->field_338 = (f32) (0.15f * *(f32 *)((s8 *)(((RecoveredFields_8008213C_arg1 *)arg1)->field_A4) + 0xC));
+        } else if ((void *) ((RecoveredFields_8008213C_arg1 *)chara)->field_A4 != NULL) {
+            ((TObjCollidable *)chara)->refresh_collision_body_centers();
+            VecCopy((Vec *)(((u8 *)this) + 0x38), (const Vec *)(((RecoveredFields_8008213C_arg1 *)chara)->field_A4 + 0x1C));
+            ((RecoveredFields_8008213C_arg0 *)((u8 *)this))->field_338 = (f32) (0.15f * *(f32 *)((s8 *)(((RecoveredFields_8008213C_arg1 *)chara)->field_A4) + 0xC));
         } else {
-            VecCopy((Vec *)(((u8 *)this) + 0x38), (const Vec *)(arg1 + 0x2FC));
-            temp_r3 = ((TObjChara *)arg1)->get_stats();
+            VecCopy((Vec *)(((u8 *)this) + 0x38), (const Vec *)(chara + 0x2FC));
+            temp_r3 = ((TObjChara *)chara)->get_stats();
             if (temp_r3 != NULL) {
                 ((RecoveredFields_8008213C_arg0 *)((u8 *)this))->field_338 = (f32) (0.075f * ((RecoveredFields_8008213C_temp_r3 *)temp_r3)->field_10);
             } else {
                 ((RecoveredFields_8008213C_arg0 *)((u8 *)this))->field_338 = 1.5f;
             }
         }
-        ((RecoveredFields_8008213C_arg0 *)((u8 *)this))->field_60 = (s32) ((RecoveredFields_8008213C_arg1 *)arg1)->field_60;
+        ((RecoveredFields_8008213C_arg0 *)((u8 *)this))->field_60 = (s32) ((RecoveredFields_8008213C_arg1 *)chara)->field_60;
         ((RecoveredFields_8008213C_arg0 *)((u8 *)this))->field_70 = 0.0f;
         ((RecoveredFields_8008213C_arg0 *)((u8 *)this))->field_6C = 0.0f;
         ((RecoveredFields_8008213C_arg0 *)((u8 *)this))->field_68 = 0.0f;
@@ -403,7 +380,7 @@ BmlResourceDescriptor enemy_freeze_ice_resource_descriptor = { "bm_eff_ice.bml",
 void TUnk_8048E1A4::apply_knockback_from_attacker(u8 *, f32) {  }
 void TParticleCtrl::set_scale(f32 a, f32 b) { field_40 = a; field_44 = b; }
 
-f32 TObjMotion::get_frame() { return this->frame; }
+f32 TObjChara::get_frame() { return this->frame; }
 
 s32 TObjPlayer::test_action_mask(s32 arg1) {
     return (u8) (((*(s32 *)&this->unk_31C[4]) & arg1) != 0);

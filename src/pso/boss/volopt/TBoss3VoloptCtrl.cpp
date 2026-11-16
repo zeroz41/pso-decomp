@@ -1,5 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/unk/text_8020BFE4.h"
+#include "pso/unk/text_8020C9C8.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/boss/TUnk_80483B88.h"
 #include "pso/boss/volopt/TBoss3VoloptCtrl.h"
@@ -17,8 +19,6 @@
 
 extern "C" {
 extern s32 local_client_id;
-s32 unhide_room_set_objects(s32 floor, s32, s32);
-void TLobby__sub_8020C07C(s32 floor, s16, s16, s32 mask, s32 set);
 void TObjPlayer__sub_801BA42C(void);
 }
 

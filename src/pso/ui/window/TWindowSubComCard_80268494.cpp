@@ -7,7 +7,7 @@
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/window/TWindowBase.h"
-#include "pso/ui/window/TWindowSubComCard.h"
+
 
 extern "C" {
 

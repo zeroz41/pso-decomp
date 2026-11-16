@@ -7,12 +7,7 @@
 
 #include "types.h"
 #include "pso/system/MatrixOps.h"
-
-extern "C" {
-
-typedef struct Vec_802F127C {
-    f32 x, y, z;
-} Vec_802F127C;
+#include "pso/system/task/TObject.h"
 
 typedef struct Rot_802F127C {
     s32 a;
@@ -24,17 +19,18 @@ typedef struct Out_802F127C {
 } Out_802F127C;
 
 typedef struct Dust_802F127C {
-    Vec_802F127C pts[6];
+    Vec pts[6];
     Rot_802F127C rot[10];
     Out_802F127C out[60];
     s32 ang[10];
 } Dust_802F127C;
+extern "C" {
 
 f32 sin_table_lookup(int);
 f32 cos_table_lookup(int, f32);
-void matrix_mult_vec(s32, Vec_802F127C *, Out_802F127C *);
+void matrix_mult_vec(s32, Vec *, Out_802F127C *);
 void push_matrix(void);
-Vec_802F127C TObjBoss7DustCtrl__helix_points[6];
+Vec TObjBoss7DustCtrl__helix_points[6];
 Rot_802F127C TObjBoss7DustCtrl__rotation_pairs[10];
 Out_802F127C TObjBoss7DustCtrl__transformed_vertices[60];
 s32 TObjBoss7DustCtrl__vertical_phase_angles[10];
@@ -45,6 +41,7 @@ extern const f32 lbl_805DEC78;
 extern const f32 lbl_805DEC7C;
 extern const f32 lbl_805DEC80;
 s32 post_translate_matrix(int);
+}
 
 void boss7_dust_draw_at(s32 *arg0, s32 arg1) {
     s32 *var_r30;
@@ -68,6 +65,7 @@ void boss7_dust_draw_at(s32 *arg0, s32 arg1) {
 }
 
 s32 lbl_805D6958;
+extern "C" {
 s32 TObjBoss7DustCtrl__sub_802F125C(void) {
     s32 index = lbl_805D6958;
 
@@ -76,6 +74,7 @@ s32 TObjBoss7DustCtrl__sub_802F125C(void) {
         lbl_805D6958 = 0;
     }
     return index;
+}
 }
 #pragma push
 #pragma opt_propagation off
@@ -113,8 +112,6 @@ void TObjBoss7DustCtrl::run_task() {
 }
 #pragma pop
 
-}
-
 TObjBoss7DustCtrl::~TObjBoss7DustCtrl() {}
 
 extern "C" {
@@ -130,12 +127,11 @@ void *TObjBoss7DustCtrl__ct(void *boss7_dust_ctrl) {
     return boss7_dust_ctrl;
 }
 
-void* __nw__7TObjectFUl(u32);
 
 extern s32 tl_05;
 
 void TObjBoss7DustCtrl::create() {
-    void* obj = __nw__7TObjectFUl(0x1C);
+    void* obj = TObject::operator new(0x1C);
     if (obj != 0) {
         ((void *(*)(void *, s32))TObjBoss7DustCtrl__ct)(obj, tl_05);
     }

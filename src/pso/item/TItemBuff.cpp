@@ -1,10 +1,10 @@
 #include "types.h"
 #include "pso/weapon/TItemAttacker.h"
 #include "pso/item/TItemBuff.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 extern "C" {
 
-void mem_free(void *p);
 
 extern s32 item_nj_chunk_buffer_table[];
 

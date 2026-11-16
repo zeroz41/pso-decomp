@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/unk/TLobby_80209524.h"
 #include "pso/system/memory.h"
 #include "pso/unk/TLobby.h"
 #include "pso/unk/TLobby_8007C550.h"
@@ -30,12 +31,12 @@
 #include "pso/unk/text_800F8A0C.h"
 #include "pso/system/TGStream.h"
 #include "pso/unk/TLobby_8020B334.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 // ---- pso/unk/TLobby_80209524
 
 extern "C" {
 
-void mem_free(void *p);
 
 void *TLobby::free_boss4rock(s16 arg1) {
     if (this != NULL) {
@@ -76,7 +77,6 @@ struct Hdr_802095EC { s32 type; s32 size; s32 id; s32 x; };
 struct Hdr_8020967C { s32 type; s32 size; s32 id; s32 x; };
 
 extern "C" {
-void *mem_alloc(u32 size);
 u8 *TLobby__sub_80209584(u8 *arg0, s32 arg1) {
     s32 temp_r3;
     s32 var_r0;
@@ -312,7 +312,6 @@ void TLobby::pick_weighted_entry(s32 *arg0, s32 *arg1) {
 
 // ---- pso/unk/TLobby_80209BD8
 
-extern "C" {
 
 extern const s32 lobby_random_slot_id_table[42] = {
     68, 67, 65, 66, 64, 96, 97, 98, 99, 100, 101, 128, 129, 130,
@@ -334,7 +333,6 @@ s32 pick_random_slot__6TLobbyFPv(s16 *arg0) {
     return 1;
 }
 
-}
 
 // ---- pso/unk/text_80209C58
 struct Hdr_80209C58 { s32 type; s32 size; s32 id; s32 x; };
@@ -366,8 +364,6 @@ Hdr_80209C58 *find_header_by_id__6TLobbyFPvi(Hdr_80209C58 *arg, s32 id) {
 
 // ---- pso/unk/TLobby_80209CF8
 
-extern "C" {
-}
 
 // A random value in [0, max) from the item drop RNG, raised to at least min.
 u32 TLobby::clamp_min_drop(u32 min, u32 max) {
@@ -423,7 +419,6 @@ struct SpawnRecord_8020A9C4 {
 
 extern "C" {
 void reserve_enemy_set_actor_ids(SpawnRecord_8020A9C4 *slots, s32 count, s32 floor);
-void TLobby__sub_80209D34(s32 floor);
 s32 init_floor_enemy_count__6TLobbyFlPUcUl(s32 floor, u8 *slots, s32 size);
 u8 *alloc_heap_slot__6TLobbyFll(s32 floor, s32 size);
 }
@@ -586,11 +581,7 @@ void init_buffers__6TLobbyFii(s32 id, s32 arg1) {
 
 void TLobby::free_boss4rock() { ((TLobby *)lbl_805D60A4)->free_boss4rock(1); lbl_805D60A4 = 0; ::operator delete((void *)item_drop_rng); item_drop_rng = 0; }
 
-}
-
 // ---- pso/unk/text_8020A2AC
-
-extern "C" {
 s32 run_step__9TItemDropFl(int, void *);
 s32 __cvt_fp2unsigned(f32);
 s32 rand();
@@ -874,12 +865,7 @@ void TLobby::assign_object_ids(s32 arg1, void *lobby) {
     }
 }
 
-}
-
 // ---- pso/unk/TLobby_8020AB30
-
-extern "C" {
-
 int clear_record_flags_a__6TLobbyFv(void*);
 
 int TLobby::rebuild_entry() { return clear_record_flags_a__6TLobbyFv(this); }
@@ -1111,7 +1097,6 @@ void clear_map_set_data(void) {
 }
 
 
-
 // Saved set-flag row of a floor's object or enemy list.
 struct SetFlagRow_8020B47C {
     u16 id;
@@ -1130,12 +1115,10 @@ struct FloorSetFlags_8020B47C {
     SetFlagRow_8020B47C *enemy_rows;
 };
 
-extern "C" {
 // Per-floor enemy and object row counts (written by init_floor_enemy_count and load_object_set_entries).
 extern s32 TLobby__data_80513CC8[];
 extern s32 TLobby__data_80513C80[];
 extern FloorSetFlags_8020B47C TLobby__floor_enemy_group_table[18];
-}
 void TLobby::load_set_gsl_files() {
     map_set_data_handle_a = 0;
     map_set_data_handle_b = 0;
@@ -1228,11 +1211,7 @@ int get_object_count__6TLobbyFv(void*);
 int TLobby::resolve_matching_object() { return get_matching_object__6TLobbyFv(this); }
 int get_object_count__6TLobbyFPv(void* p) { return get_object_count__6TLobbyFv(p); }
 
-}
-
 // ---- pso/unk/text_8020B374
-
-extern "C" {
 s32 load_floor_enemy_group_entries__6TLobbyFiPvUi(s32, void *, u32);
 s32 init_quest_floor_enemies(s32, void *, u32);
 s32 TLobby::init_floor_enemy_count(s32 arg0, u8 *arg1, u32 arg2) {

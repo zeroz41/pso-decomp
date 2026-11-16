@@ -10,15 +10,15 @@
 #include "pso/unk/text_80087278.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
-#include "pso/object/base/TObjChara.h"
-#include "pso/player/TObjPlayer.h"
+
+
 #include "pso/system/task/TObject.h"
 extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
 extern "C" void test_flag_1000__9TObjCharaFv();
 extern "C" void test_flag_256__9TObjCharaFv();
 #include "pso/boss/darkfalz/TBoss4Type3.h"
-#include "pso/object/base/TObjChara.h"
+
 #pragma defer_codegen on
 #pragma push
 #pragma dont_inline off
@@ -57,11 +57,7 @@ extern "C" {
 
 #include "types.h"
 
-struct V_8005BB5C { f32 x, y, z; };
-
-struct Obj_8005BB5C { u8 pad[0x38]; V_8005BB5C pos; V_8005BB5C prev; u8 pad50[0x37C - 0x50]; s32 f37c; };
-
-struct V_8005BF68 { f32 x, y, z; };
+struct Obj_8005BB5C { u8 pad[0x38]; Vec pos; Vec prev; u8 pad50[0x37C - 0x50]; s32 f37c; };
 
 struct V2_8005BF68 { f32 x, z; };
 
@@ -74,7 +70,7 @@ struct Obj_8005BF68 {
     u16 pad1c;
     u16 f1c_unused;
     u8 pad20[0x18];
-    V_8005BF68 pos;
+    Vec pos;
     u8 pad44[0x374 - 0x44];
     s32 f374;
     u8 pad378[4];
@@ -82,34 +78,30 @@ struct Obj_8005BF68 {
     u8 pad380[4];
     Ctl_8005BF68 *ctl;
     u8 pad388[4];
-    V_8005BF68 vel;
+    Vec vel;
     f32 f398;
     u8 pad39c[4];
     f32 f3a0;
 };
-
-struct V_8005C218 { f32 x, y, z; };
 
 struct Obj_8005C218 {
     u8 pad0[0x1C];
     u16 f1c;
     u8 pad1e[0x1A];
-    V_8005C218 pos;
+    Vec pos;
     u8 pad44[0x388 - 0x44];
     s32 f388;
-    V_8005C218 vel;
+    Vec vel;
     f32 f398;
     u8 pad39c[4];
     f32 f3a0;
     u8 pad3a4[0x3C4 - 0x3A4];
-    V_8005C218 home;
+    Vec home;
 };
-
-struct Vec_8005BC4C { f32 x, y, z; };
 
 struct TBoss4Bishi {
     u8 pad0[0x38];
-    Vec_8005BC4C pos;
+    Vec pos;
     u8 pad44[0x5C - 0x44];
     s32 f5C;
     s32 f60;
@@ -190,16 +182,12 @@ static s8 TBoss4Zako_state_handlers_initialized;
 
 extern s32 tl_04;
 
-struct Vec_8005C6E4 { f32 x, y, z; };
-
 struct Obj_8005C6E4 {
     u8 pad0[0x38];
-    Vec_8005C6E4 pos;
+    Vec pos;
     u8 pad44[0x378 - 0x44];
     void *f378;
 };
-
-struct Vec_8005C858 { f32 x, y, z; };
 
 struct Ctl_8005C858 {
     u8 pad0[0x18];
@@ -211,13 +199,13 @@ struct Obj_8005C858 {
     u8 pad4[0x18 - 0x4];
     void *vt;
     u8 pad1c[0x38 - 0x1c];
-    Vec_8005C858 pos;
+    Vec pos;
     u8 pad44[0x374 - 0x44];
     s32 f374;
     u8 pad378[0x384 - 0x378];
     Ctl_8005C858 *f384;
     s32 f388;
-    Vec_8005C858 dir;
+    Vec dir;
     f32 f398;
     u8 pad39c[0x3c4 - 0x39c];
     f32 f3c4;
@@ -232,11 +220,9 @@ void TBoss4Uro__vt61(void* p);
 void *__dt__9TBoss4UroFv(void *arg0, s16 arg1);
 s32 create__9TBoss4UroFi(s32 arg0);
 
-struct Vec_8005C49C { f32 x, y, z; };
-
 struct TBoss4Uro {
     u8 pad0[0x38];
-    Vec_8005C49C pos;
+    Vec pos;
     u8 pad44[0x5C - 0x44];
     s32 f5C;
     s32 f60;
@@ -260,10 +246,7 @@ typedef void (TBoss4Uro::*Act_8005C49C)();
 void run_task__9TBoss4UroFv(TBoss4Uro *self);
 void TBoss4Zako__sub_8005BC4C(TBoss4Bishi *self);
 
-struct V_8005CBA4 { f32 x, y, z; };
-
-struct Pl_8005CBA4 { u8 pad0[0x38]; V_8005CBA4 pos; };
-
+struct Pl_8005CBA4 { u8 pad0[0x38]; Vec pos; };
 
 
 void render__9TBoss4UroFv(void);
@@ -273,7 +256,7 @@ void render__9TBoss4UroFv(void);
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 #include "pso/enemy/lappy/TObjEneLappy.h"
 #include "pso/ui/hud/TNowLoading.h"
-#include "pso/player/TObjPlayer.h"
+
 #include "pso/effect/particle/TParticleCtrl.h"
 
 #pragma readonly_strings on
@@ -508,11 +491,10 @@ void TBoss4Zako::run_task() {
 }
 #pragma pop
 
-extern "C" {
+
 #pragma push
 void render__9TBoss4UroFv(void) {  }
 #pragma pop
-}
 
 #pragma push
 void TBoss4Zako::update_rise_state() {
@@ -634,7 +616,7 @@ void TBoss4Zako::update_sink_state() {
 }
 #pragma pop
 
-extern "C" {
+
 #pragma push
 void TBoss4Zako::set_state3() {
     TBoss4Uro__sub_8005D6D4(this->m_378);
@@ -642,7 +624,6 @@ void TBoss4Zako::set_state3() {
     this->m_374 = 3;
 }
 #pragma pop
-}
 
 #pragma push
 #pragma dont_inline off
@@ -738,8 +719,8 @@ void TBoss4Uro__vt61(void* p) { if (*(int*)((char*)p + 0x374) != 3) { ((TObjEnem
 #pragma push
 #pragma fp_contract on
 void clamp_min_player_distance__9TBoss4UroFPv(Obj_8005C6E4 *arg0) {
-    Vec_8005C6E4 target;
-    Vec_8005C6E4 d;
+    Vec target;
+    Vec d;
     f32 len;
     if (arg0->f378 == 0) {
         return;
@@ -798,7 +779,7 @@ void run_task__9TBoss4UroFv(TBoss4Uro *self) {
             self->pos.y = 0.099999994f * sin_table_lookup(self->f3BC) + self->pos.y;
             self->f3BC += self->f3C0;
         }
-        Vec_8005C49C v = self->pos;
+        Vec v = self->pos;
         if (((TBoss4Zako *)self)->sub_8005D698() != 0) {
             v.y += 10.0f;
         } else {
@@ -836,7 +817,7 @@ void vt4__9TBoss4UroFv(void *actor) {
 #pragma fp_contract on
 void TBoss4Zako::update_target_position() {
     s32 temp_r31;
-    s32 temp_r3;
+    s32 instance;
     u8 *actor = (u8 *)this;
     if (!(*(s32 *)((s8 *)actor + 0x3B8) & 0x7F)) {
         if (*(s32 *)((s8 *)actor + 0x388) == 0xFFFF) {
@@ -845,10 +826,10 @@ void TBoss4Zako::update_target_position() {
         }
         *(u32 *)((s8 *)actor + 0x388) = 0xFFFFU;
         if ((u32) *(u32 *)((s8 *)actor + 0x378) != 0U) {
-            temp_r3 = TBoss4DarkFalz::get_instance();
-            if (temp_r3 != 0) {
+            instance = TBoss4DarkFalz::get_instance();
+            if (instance != 0) {
                 temp_r31 = (s32) (65536.0f * ((TObjChara *)actor)->random_ratio());
-                VecCopy__FP3VecPC3Vec(actor + 0x3C4, (void *)(((TObjPlayer *)temp_r3)->get_position_ptr()));
+                VecCopy__FP3VecPC3Vec(actor + 0x3C4, (void *)(((TObjPlayer *)instance)->get_position_ptr()));
                 *(f32 *)((s8 *)actor + 0x3C8) = 0.0f;
                 *(f32 *)((s8 *)actor + 0x3C4) = (f32) ((110.0f * sin_table_lookup(temp_r31)) + *(f32 *)((s8 *)actor + 0x3C4));
                 *(f32 *)((s8 *)actor + 0x3CC) = (f32) ((110.0f * cos_table_lookup(temp_r31)) + *(f32 *)((s8 *)actor + 0x3CC));
@@ -898,16 +879,16 @@ void TBoss4Zako::update_orbit_velocity() {
 }
 #pragma pop
 #pragma push
-void vt5__9TBoss4UroFv(u8 *arg0) {
+void vt5__9TBoss4UroFv(u8 *object) {
     f32 temp_f1;
-    *(f32 *)((s8 *)arg0 + 0x3C) += -0.33333334f;
-    temp_f1 = *(f32 *)((s8 *)arg0 + 0x3C);
+    *(f32 *)((s8 *)object + 0x3C) += -0.33333334f;
+    temp_f1 = *(f32 *)((s8 *)object + 0x3C);
     if ((temp_f1 < 0.0f) && (temp_f1 >= -0.33333334f)) {
-        spawn_particle_effect((arg0 + 0x38), 0xF3);
+        spawn_particle_effect((object + 0x38), 0xF3);
     }
-    *(s32 *)((s8 *)arg0 + 0x5C) = (s32) (*(s32 *)((s8 *)arg0 + 0x5C) + 0x111);
-    if (*(f32 *)((s8 *)arg0 + 0x3C) < -13.0f) {
-        ((TObject *)arg0)->queue_destruction();
+    *(s32 *)((s8 *)object + 0x5C) = (s32) (*(s32 *)((s8 *)object + 0x5C) + 0x111);
+    if (*(f32 *)((s8 *)object + 0x3C) < -13.0f) {
+        ((TObject *)object)->queue_destruction();
     }
 }
 #pragma pop
@@ -1026,7 +1007,7 @@ void TBoss4Zako__sub_8005BC4C(TBoss4Bishi *self) {
             self->pos.y = 0.099999994f * sin_table_lookup(self->f3BC) + self->pos.y;
             self->f3BC += self->f3C0;
         }
-        Vec_8005BC4C v = self->pos;
+        Vec v = self->pos;
         if (((TBoss4Zako *)self)->sub_8005D698() != 0) {
             v.y += 10.0f;
         } else {
@@ -1063,7 +1044,7 @@ void vt0__11TBoss4BishiFv(u8 *arg0) {
 void vt1__11TBoss4BishiFv(Obj_8005BB5C *self) {
     VecCopy__FP3VecPC3Vec(&self->prev, &self->pos);
     vec3_add_to(&self->pos, (u8 *)self + 0x38C);
-    V_8005BB5C v = self->pos;
+    Vec v = self->pos;
     v.y = 0.0f;
     if (--self->f37c < 0 || vector_length(&v) > 260.0f) {
         enter_state_3__11TBoss4BishiFPv(self);
@@ -1071,16 +1052,16 @@ void vt1__11TBoss4BishiFv(Obj_8005BB5C *self) {
 }
 #pragma pop
 #pragma push
-void vt2__11TBoss4BishiFv(u8 *arg0) {
+void vt2__11TBoss4BishiFv(u8 *object) {
     f32 temp_f1;
-    *(f32 *)((s8 *)arg0 + 0x3C) += -0.33333334f;
-    temp_f1 = *(f32 *)((s8 *)arg0 + 0x3C);
+    *(f32 *)((s8 *)object + 0x3C) += -0.33333334f;
+    temp_f1 = *(f32 *)((s8 *)object + 0x3C);
     if ((temp_f1 < 0.0f) && (temp_f1 >= -0.33333334f)) {
-        spawn_particle_effect((arg0 + 0x38), 0xF3);
+        spawn_particle_effect((object + 0x38), 0xF3);
     }
-    *(s32 *)((s8 *)arg0 + 0x5C) = (s32) (*(s32 *)((s8 *)arg0 + 0x5C) + 0x111);
-    if (*(f32 *)((s8 *)arg0 + 0x3C) < -13.0f) {
-        ((TObject *)arg0)->queue_destruction();
+    *(s32 *)((s8 *)object + 0x5C) = (s32) (*(s32 *)((s8 *)object + 0x5C) + 0x111);
+    if (*(f32 *)((s8 *)object + 0x3C) < -13.0f) {
+        ((TObject *)object)->queue_destruction();
     }
 }
 #pragma pop
@@ -1105,14 +1086,9 @@ void TBoss4Type3::apply_paralysis() {  }
 #pragma push
 void TBoss4Type3::apply_poison_status() {  }
 #pragma pop
-}
-
 #pragma dont_inline off
 #pragma auto_inline off
 #pragma inline_depth(2)
-
-
-extern "C" {
 void vfunc_29__9TObjCharaFv();
 void apply_anti_technique__9TObjCharaFl();
 void recalc_stats__9TObjCharaFv();

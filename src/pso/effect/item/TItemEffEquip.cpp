@@ -11,9 +11,7 @@
 #include "pso/unk/text_80087278.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
 #include "pso/object/base/TObjMotion.h"
-#include "pso/item/TUnk_8049F038.h"
-#include "pso/object/base/TObjMotion.h"
-#include "pso/system/task/TObject.h"
+
 
 // The collision sphere TUnk_8049F038 copies into its own body (radius 3).
 extern const CollisionBody lbl_8043E1A0 = {
@@ -22,12 +20,7 @@ extern const CollisionBody lbl_8043E1A0 = {
 const char *TItemEffEquip__class_name = "TItemEffEquip";
 
 struct Equip_Self { u8 pad0[0x18]; void *vt; void *m_1c; void *m_20; };
-extern "C" {
 extern void *__vt__13TItemEffEquip[];
-void __dt__7TObjectFv(void *, s16);
-s32 __dl__7TObjectFPv(void *);
-
-}
 #include "types.h"
 #include "pso/unk/text_801036CC.h"
 
@@ -43,15 +36,12 @@ struct Obj_80108C90 {
     s32 f_B0;
     u8 sub[0x10];
 };
-void __ct__14TObjCollidableFP7TObject(void *, void *);
 
 #include "pso/weapon/TItemAttacker.h"
 #pragma defer_codegen on
 
 extern "C" {
 
-s32 play_sound_effect(s32, s32, s32, s32);
-void *__nw__7TObjectFUl(int);
 struct Equip_80108A20 { const char *x0; u8 pad4[0x18 - 4]; void *vt; void *src; s32 x20; void *x24; };
 s32 __ct__7TObjectFP7TObject(void *, void *);
 extern s32 retire_equipment_effect[];
@@ -197,15 +187,14 @@ struct VObj80108BB0_80108bb0 : VBase0x18_2_80108bb0 {
 };
 
 
-
 }
 }
 
 
 extern "C" void run_task__13TItemEffEquipFv(Equip_Self *self);
-extern "C" void *TItemEffEquip__ct(void *arg0, void *arg1, void *arg2, void *arg3, void *arg4, void *arg5);
+void *TItemEffEquip__ct(void *arg0, void *arg1, void *arg2, void *arg3, void *arg4, void *arg5);
 
-extern "C" {
+
 TUnk_8049F038::TUnk_8049F038(TObject *parent, s16 a, s32 b) : TObjCollidable(parent) {
     ((Obj_80108C90 *)this)->f_AC = a;
     ((Obj_80108C90 *)this)->f_B0 = b;
@@ -214,8 +203,8 @@ TUnk_8049F038::TUnk_8049F038(TObject *parent, s16 a, s32 b) : TObjCollidable(par
         set_entity_id(pop_free_entity_id());
     }
     ((TObjCollidable *)this)->set_collision_body(((Obj_80108C90 *)this)->sub);
-    ((TObjPlayer *)this)->register_object_by_id();
-    ((TObject *)this)->disallow_rendering();
+    this->register_object_by_id();
+    this->disallow_rendering();
 }
 
 TUnk_8049F038::~TUnk_8049F038() {
@@ -250,7 +239,7 @@ void *TUnk_8049F038::get_center() {
 
 void TItemEffEquip::create(void *arg0, void *arg1, void *arg2, void *arg3, void *arg4) {
     void *o;
-    o = __nw__7TObjectFUl(0x28);
+    o = TObject::operator new(0x28);
     if (o != NULL) {
         TItemEffEquip__ct(o, arg0, arg1, arg2, arg3, arg4);
     }
@@ -264,7 +253,7 @@ void *TItemEffEquip__ct(void *arg0, void *arg1, void *arg2, void *arg3, void *ar
     self->vt = __vt__13TItemEffEquip;
     self->x0 = TItemEffEquip__class_name;
     ((TObject *)arg0)->disallow_rendering();
-    mem = __nw__7TObjectFUl(0xE0);
+    mem = TObject::operator new(0xE0);
     if (mem != NULL) {
         mem = ((void *(*)(void *, void *, void *, void *))__ct__13TUnk_8049F038FP7TObjectsl)(mem, arg0, arg2, arg3);
     }
@@ -281,13 +270,12 @@ void *TItemEffEquip__ct(void *arg0, void *arg1, void *arg2, void *arg3, void *ar
     return arg0;
 }
 
-}
 #undef self
 TItemEffEquip::~TItemEffEquip() {
-    TParticleCtrl::release(((Equip_Self *)this)->m_20);
+    TParticleCtrl::release(this->m_20);
 }
 
-extern "C" {
+
 void run_task__13TItemEffEquipFv(Equip_Self *self) {
     if (((TObject *)((TObject*)self->m_1c))->all_parents_unqueued_for_destruction() == 0) {
         self->m_1c = NULL;
@@ -295,4 +283,3 @@ void run_task__13TItemEffEquipFv(Equip_Self *self) {
     }
 }
 
-}

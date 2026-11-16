@@ -1,4 +1,5 @@
 #include "pso/render/render_util.h"
+#include "pso/effect/particle/TParticleCtrl_80085EE4.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "types.h"
@@ -14,47 +15,12 @@
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/render/render_util.h"
+
 #include "pso/effect/particle/TParticleCtrl_80327D30.h"
 #include "pso/player/TObjPlayer_80083594.h"
-
-struct RecoveredGlobal_800861F4_TParticleCtrl__data_80511F70 {
-    s32 value;
-    u8 remaining[0x1AC];
-};
-
-struct RecoveredGlobal_8008655C_lbl_8048E728 {
-    s32 value;
-    u8 remaining[0x14];
-};
-
-struct VBase_18_1a504b { char pad[0x18]; };
-
-struct VObj_18_1a504b : VBase_18_1a504b {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual s32 m5(s32);
-};
-
-struct RecoveredGlobal_800858D0_lbl_8048E6A8 {
-    s32 value;
-    u8 remaining[0x30];
-};
-
-struct RecoveredGlobal_80085E78_lbl_8048E6DC {
-    s32 value;
-    u8 remaining[0x30];
-};
-
-
-struct Obj_80085798 { u8 pad[0x38]; u8 target[0x10]; };
+#include "pso/player/TObjPlayer_80011014.h"
 
 struct Col_80086418 { u8 a, r, g, b; };
-
-struct FCol_80086418 { f32 a, r, g, b; };
 
 struct Ctrl_80086418 {
     u8 pad0[0x90];
@@ -94,8 +60,6 @@ struct Particle_800865BC {
     f32 fBC;
 };
 
-struct Vec_80086248 { f32 x, y, z; };
-
 struct Vtx_80086248 { f32 x, y, z, u, v; u32 color; };
 
 struct UV_80086248 { f32 u0, v0, u1, v1; };
@@ -112,7 +76,6 @@ struct Tex_80086248 {
     u8 pad20[8];
 };
 
-typedef struct Vec_80085EE4 { f32 x, y, z; } Vec_80085EE4;
 typedef struct Quad_80085EE4 { f32 x, y, z, ax, ay, bx, by, pad1C; f32 u, v, du, k0, k1, dv; f32 pad38[2]; } Quad_80085EE4;
 
 typedef struct Cam_80085EE4 {
@@ -126,8 +89,8 @@ typedef struct Cam_80085EE4 {
 
 typedef struct Particle_80085EE4 {
     u8 pad0[0x70];
-    Vec_80085EE4 pos;
-    Vec_80085EE4 off;
+    Vec pos;
+    Vec off;
     f32 f88;
     f32 f8C;
     s32 f90;
@@ -140,53 +103,21 @@ struct Ctrl_80086248 {
     u8 pad0[0x1C];
     u16 tex;
     u8 pad1E[0x70 - 0x1E];
-    Vec_80086248 pos;
-    Vec_80086248 ofs;
+    Vec pos;
+    Vec ofs;
     f32 w;
     f32 h;
     u32 color;
     s8 frame;
 };
 
-struct Vec_80085CB0 { f32 x, y, z; };
-
-struct Player_80085CB0 {
-    u8 pad0[0x178];
-    Vec_80085CB0 pos;
-    u8 pad184[0x194 - 0x184];
-    s32 f194;
-};
-
-struct Ctrl_80085CB0 {
-    u8 pad0[0x38];
-    Vec_80085CB0 pos;
-    u8 pad44[0x68 - 0x44];
-    f32 f68;
-    u8 pad6C[0x90 - 0x6C];
-    f32 f90;
-    f32 f94;
-    s32 f98;
-    f32 screen_x;
-    f32 screen_y;
-    f32 alpha;
-};
-
-struct Color_800859EC { u8 a, r, g, b; };
-
-struct Quad_800859EC { f32 x0, y0, x1, y1, u0, v0, u1, v1; };
 
 extern "C" {
-s32 is_split_screen(void);
-u8 *__nw__7TObjectFUl(s32);
-extern s32 tl_particle;
-extern RecoveredGlobal_800861F4_TParticleCtrl__data_80511F70 TParticleCtrl__data_80511F70;
+struct RecoveredGlobal_TParticleCtrl__data_80511F70 { s32 value; u8 remaining[0x1AC]; };
+extern RecoveredGlobal_TParticleCtrl__data_80511F70 TParticleCtrl__data_80511F70;
 u8 * __dt__7TObjectFv(void *, s16);
-extern RecoveredGlobal_8008655C_lbl_8048E728 lbl_8048E728;
-u8 *__dt__13TUnk_8048E728Fv(u8 *arg0, s16 arg1);
-s32 __ct__8TObjBaseFP7TObject(void *, void *);
-extern s32 __vt__13TUnk_8048E6A8[];
-extern s32 __vt__13TUnk_8048E6DC[];
-extern s32 lbl_805D2930;
+struct RecoveredGlobal_lbl_8048E728 { s32 value; u8 remaining[0x14]; };
+extern RecoveredGlobal_lbl_8048E728 lbl_8048E728;
 void set_color_blend_mode(s32 a, s32 b, s32 c, s32 d);
 void __ct__7TObjectFP7TObject(void *, void *);
 s32 GXSetNumTexGens(int);
@@ -197,7 +128,7 @@ s32 rotate_matrix_x(int, s32);
 s32 push_matrix();
 s32 pop_matrix();
 s32 post_translate_matrix(void *);
-s32 TParticleCtrl__sub_803E2A1C(void *, int);
+s32 emit_particle_strip_vertices(void *, int);
 extern Tex_80086248 lbl_804C5820[];
 extern u8 *camera_ctrl_instance;
 void set_inverse_alpha_blend(void);
@@ -215,30 +146,14 @@ s32 set_texture_num(s32 i);
 void set_inverse_color_blend(void);
 void set_constant_material_color(u32 x);
 extern Cam_80085EE4 lbl_8058D4F8;
-extern "C" {
-f32 fabs_float(f32);
-u32 csnVector(void *, void *, int);
-f32 vec3_dot(void *, void *);
-f32 vec_squared_length(u8 *arg0);
-s32 rotate_vector_by_matrix(int, void *, void *);
-s32 normalize_vector(void *);
-s32 push_matrix_from(void *);
-extern s32 identity_matrix[];
-void project_world_to_screen(s32, void *, void *);
-void *__dt__13TUnk_8048E6A8Fv(void *arg0, s16 arg1);
-void *__dt__13TUnk_8048E6DCFv(void *arg0, s16 arg1);
-void *get_player_by_client_id(s32 i);
-void __dl__7TObjectFPv(void *);
-
-extern s32 local_client_id;
 
 
 #pragma push
 #pragma fp_contract on
 void TUnk_8048E778::draw_sprite_quad(s32 kind) {
     Particle_80085EE4 *p = (Particle_80085EE4 *)this;
-    Vec_80085EE4 view;
-    Vec_80085EE4 world;
+    Vec view;
+    Vec world;
     Quad_80085EE4 quad;
     UV_80086248 *uv;
     f32 sx;
@@ -329,19 +244,17 @@ void TUnk_8048E778::draw_sprite_quad(s32 kind) {
 #pragma pop
 
 s32 TUnk_8048E728::is_particle_sprite_additive() {
-    u8 *arg0 = (u8 *)this;
-    return **(s32 **)((s8 *)(*(s32 *)((s8 *)&TParticleCtrl__data_80511F70.value + (*(u16 *)((s8 *)arg0 + 0x1C) * 4))) + 0x28) & 1;
+    return **(s32 **)((s8 *)(*(s32 *)((s8 *)&TParticleCtrl__data_80511F70.value + (this->sprite_index * 4))) + 0x28) & 1;
 }
 
 void TParticleCtrl::mark_active() {
     *(u16 *)((s8 *)this + 0x24) = (u16) (*(u16 *)((s8 *)this + 0x24) | 0x2000);
     request_indirect_effect(0x1F);
 }
-typedef char RecoveredGlobal_8008655C_lbl_8048E728_size[sizeof(RecoveredGlobal_8008655C_lbl_8048E728) == 0x18 ? 1 : -1];
 
 void TUnk_8048E728::draw_particle_refraction_quad() {
     Ctrl_80086248 *self = (Ctrl_80086248 *)this;
-    Vec_80086248 p;
+    Vec p;
     Vtx_80086248 v[4];
     s32 frame;
     UV_80086248 *uv;
@@ -371,7 +284,7 @@ void TUnk_8048E728::draw_particle_refraction_quad() {
     GXSetTevOp(0, 0);
     play_indirect_effect_recipe(0x1F, 0, 1);
     TObjPlayer::setup_tev_stage();
-    TParticleCtrl__sub_803E2A1C(v, 4);
+    emit_particle_strip_vertices(v, 4);
     TParticleCtrl::reset_particles();
     reset_particle_tev();
     reset_indirect_tev(1);
@@ -381,7 +294,7 @@ void TUnk_8048E728::draw_particle_refraction_quad() {
 
 void TUnk_8048E728::apply_particle_model_fade_color(s32 mode) {
     Ctrl_80086418 *self = (Ctrl_80086418 *)this;
-    FCol_80086418 f;
+    NJS_ARGB f;
     if (mode != 0) {
         set_color_blend_mode(1, 4, 1, 0);
         Col_80086418 c = self->color;
@@ -410,7 +323,6 @@ u8 *__dt__13TUnk_8048E728Fv(u8 *arg0, s16 arg1) {
         }
     }
     return arg0;
-}
 }
 void *init_particle_base(void *object, void *arg1, s32 arg2) {
     Particle_800865BC *p = (Particle_800865BC *)object;

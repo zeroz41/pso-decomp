@@ -24,7 +24,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include <stdlib.h>
-#include "pso/player/TObjPlayer.h"
+
 
 // TBreakUpMdl.h still derives TBreakUpMdl from TObject; the real class keeps
 // its vtable at +0xC, which only this view of it can delete through.
@@ -118,7 +118,7 @@ void TObjVoloptCage::update_collision_state() {
     case 1:
         count = countdown;
         countdown = count - 1;
-        ((TObjPlayer *)this)->check_object_collisions();
+        this->check_object_collisions();
         if ((timer -= 1) <= 0) {
             actorFlags &= ~0x200;
             referenceHp = hp;
@@ -276,7 +276,7 @@ TObjVoloptCage::TObjVoloptCage(TObjEnemy *boss, u16 target, u16 id, s32 group) :
     entity_id = id;
     *(s16 *)&set_index = group;
     set_entry = 0;
-    *(s16 *)&room = *(s16 *)&boss->room;
+    *(s16 *)&room = boss->room;
     *((s16 *)&room + 1) = *((s16 *)&boss->room + 1);
     ((TBoss3Volopt *)this)->reset_photon_effect();
     set_param(0x2E);

@@ -24,8 +24,6 @@
 struct RecoveredGlobal_80327698___vt__14TAdScrollWinGC { s32 value; u8 remaining[0x14]; };
 
 extern "C" {
-u8 * __dt__7TObjectFv(void *, s16);
-void __dl__7TObjectFPv(s32);
 extern RecoveredGlobal_80327698___vt__14TAdScrollWinGC __vt__14TAdScrollWinGC;
 extern u8 controller_physical_port_bank[];
 void __ct__7TObjectFP7TObject(void *, void *);
@@ -34,7 +32,7 @@ void __ct__7TObjectFP7TObject(void *, void *);
 s32 scroll_win_texture_handle;
 
 // Functions are written last-to-first: with -inline off,deferred CodeWarrior emits them in reverse source order.
-extern "C" {
+
 
 void *TAdScrollWinGC__ct(TAdScrollWinGC *ad_scroll_win_gc, void *arg1, s32 arg2, s32 arg3) {
     static const f32 pos[2] = { 44.0f, 131.0f };
@@ -75,28 +73,18 @@ void *TAdScrollWinGC__ct(TAdScrollWinGC *ad_scroll_win_gc, void *arg1, s32 arg2,
     return ad_scroll_win_gc;
 }
 
-}
 
 const char *TAdScrollWinGC__class_name = "TAdScrollWinGC";
 
-extern "C" {
 
-u8 *__dt__14TAdScrollWinGCFv(u8 *arg0, s16 arg1) {
+TAdScrollWinGC::~TAdScrollWinGC() {
     u8 *object;
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = &__vt__14TAdScrollWinGC.value;
-        object = (u8 *)(*(u8 **)((s8 *)arg0 + 0x40));
-        if (object != NULL) {
-            ((TObject *)object)->queue_destruction();
-            *(u8 **)((s8 *)arg0 + 0x40) = NULL;
-        }
-        fn_8026A14C();
-        __dt__7TObjectFv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv((s32) arg0);
-        }
+    object = (u8 *)(*(u8 **)((s8 *)this + 0x40));
+    if (object != NULL) {
+        ((TObject *)object)->queue_destruction();
+        *(u8 **)((s8 *)this + 0x40) = NULL;
     }
-    return arg0;
+    fn_8026A14C();
 }
 
 void TAdScrollWinGC::run_task() {
@@ -170,4 +158,3 @@ void TAdScrollWinGC::render_status_value() {
     TWindowSubStatusDisp::get_player();
 }
 
-}

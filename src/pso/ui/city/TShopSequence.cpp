@@ -124,7 +124,7 @@ u8 *TShopSequence__ct(u8 *shop_window_base, TObject *parent) {
     s32 var_r0;
     __ct__15TShopWindowBaseFP7TObject(shop_window_base, parent);
     *(s32 **)((s8 *)shop_window_base + 0x18) = &__vt__13TShopSequence.value;
-    *(const char **)((s8 *)shop_window_base + 0) = TShopSequence__class_name;
+    ((TShopSequence *)shop_window_base)->m_name = TShopSequence__class_name;
     temp_r3 = (int)::operator new(0x210);
     var_r0 = temp_r3;
     if (var_r0 != 0) {

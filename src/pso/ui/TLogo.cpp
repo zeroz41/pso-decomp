@@ -1,5 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/object/base/TObjMotion.h"
+#include "pso/ui/frontend/TAdBackGC_8029A6EC.h"
+#include "pso/ui/frontend/TAdSoniclogo.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/TLogo.h"
 #include "pso/ui/TLogo_8001C134.h"
@@ -18,7 +20,7 @@
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/ui/window/TWindowCtrlMain.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/system/task/TObject.h"
+
 
 extern "C" {
 s32 TKeyBoardControl__sub_8000F90C(int);
@@ -31,8 +33,7 @@ s32 reset_controller_input_state();
 s32 set_copy_clear_color_argb(int, int, int);
 s32 __ct__15TWindowCtrlMainFv(u32);
 extern u8 default_scene_light_config[];
-s32 call_funcs_reverse__6TLobbyFPvUi(void *, int);
-void TKeyBoardControl__sub_8000F9CC(s32 arg0);
+void request_main_phase(s32 arg0);
 u32 __ct__10TAdADXlogoFP7TObject(void *, void *);
 u32 __ct__11TAdSEGAlogoFv(void *, void *);
 u32 __ct__12TAdSoniclogoFP7TObject(void *, void *);
@@ -43,21 +44,14 @@ s32 TKeyBoardControl__sub_8000F92C();
 s32 set_active_camera_pose(void *, void *);
 s32 activate_camera_mode(s32 arg0);
 s8 func_801A5E54__Fv();
-}
-int is_logo_exit_requested(int);
-int is_sega_logo_done(int);
-void process_async_file_reads(void);
-void update_sound_request_slots(void);
-extern "C" {
 void func_803DCDFC__Fv(void);
 
 const char *TLogo__class_name = "TLogo";
 
 extern "C" {
 void reset_view_state__11TCameraCtrlFv(); void reset__11TCameraCtrlFv(); void TCameraCtrl::init_default_view(); void TCameraCtrl::reset_default_view();
-void register_texture_f256_ad_pic_2(); void TAdSinglePlyChrSelectGC::free_global();
+void TAdSinglePlyChrSelectGC::free_global();
 void register_texture_f256_backtext(); void TAdSinglePlyChrSelectGC::free_singleton_805D65C0();
-void TLogo__sub_8001C364(); void TLogo__sub_8001C360();
 void TWindowCtrlMain__sub_8024D838(); void TWindowCtrlMain::free_all_windows();
 void *logo_load_callback_table[18] = {
     (void *)reset_view_state__11TCameraCtrlFv, (void *)reset__11TCameraCtrlFv,
@@ -72,7 +66,10 @@ void *logo_load_callback_table[18] = {
 };
 }
 }
-
+int is_logo_exit_requested(int);
+int is_sega_logo_done(int);
+void process_async_file_reads(void);
+void update_sound_request_slots(void);
 extern int TLogo__exit_requested_flag;
 extern int sega_logo_done_flag;
 extern int logo_clear_flag;
@@ -144,14 +141,14 @@ void TLogo::run_frame() {
         TKeyBoardControl__sub_8000F92C();
     }
     if (TQuestVmDownLoadServer::is_ready() != 0) {
-        TKeyBoardControl__sub_8000F9CC(0);
+        request_main_phase(0);
     }
     render_tick();
 }
 
 void TLogo__sub_8013F5AC() {
     main_task.delete_layer_children();
-    call_funcs_reverse__6TLobbyFPvUi(logo_load_callback_table, sizeof(logo_load_callback_table));
+    TLobby::call_funcs_reverse(logo_load_callback_table, sizeof(logo_load_callback_table));
     render_tick();
 }
 
@@ -232,7 +229,7 @@ void TLogo::run_task() {
         state = 4U;
         return;
     case 4:
-        if (((s32)is_sega_logo_done((int)((int) (sega_logo)))) != 0) {
+        if (((s32)is_sega_logo_done((int)(sega_logo))) != 0) {
             ((TObject *)sega_logo)->queue_destruction();
             sega_logo = 0U;
             var_r0_7 = __nw__7TObjectFUl(0x20);
@@ -245,7 +242,7 @@ void TLogo::run_task() {
         }
         break;
     case 5:
-        if (((s32)is_logo_exit_requested((int)((int) (sonic_logo)))) != 0) {
+        if (((s32)is_logo_exit_requested((int)(sonic_logo))) != 0) {
             ((TObject *)sonic_logo)->queue_destruction();
             sonic_logo = 0U;
             var_r0_8 = __nw__7TObjectFUl(0x20);
@@ -258,7 +255,7 @@ void TLogo::run_task() {
         }
         break;
     case 6:
-        if (((s32)TLogo__sub_8013F7E8((int)((int) (adx_logo)))) != 0) {
+        if (((s32)TLogo__sub_8013F7E8((int)(adx_logo))) != 0) {
             ((TObject *)adx_logo)->queue_destruction();
             adx_logo = 0U;
             state = 7U;
@@ -266,7 +263,7 @@ void TLogo::run_task() {
         }
         break;
     case 7:
-        TKeyBoardControl__sub_8000F9CC(0xA);
+        request_main_phase(0xA);
         break;
     }
 }

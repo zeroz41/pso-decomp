@@ -29,9 +29,10 @@
 #include "pso/map/CsnQuery.h"
 #include "pso/render/render_util.h"
 #include "pso/player/TObjPlayer_80011014.h"
-#include "pso/player/TObjPlayer.h"
+
 #include "pso/player/TUnk_804B6C24.h"
 #include "pso/technique/TTecCtrl.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 struct Shape_801D3C38 {
     u8 pad0[0xC];
@@ -63,7 +64,7 @@ struct Req_801D3780 {
 struct Ground_801D3C38 { u8 pad0[4]; Vec *pos; };
 extern "C" {
 void send_6x29_delete_item__10TObjPlayerFPvii(void *, s32, s32);
-s32 TAdPlayerLoadGC__sub_801E1B50(s32);
+s32 poll_memcard_result(s32);
 // The callers sign-extend the result (extsb), the header's member returns u8.
 s8 get_chr_select_state__23TAdSinglePlyChrSelectGCFv();
 void *refresh_actor_body_spheres(Body_801D3E20, Body_801D3E20);
@@ -134,14 +135,12 @@ typedef struct Node_801D56D0 {
 } Node_801D56D0;
 extern "C" {
 u8 *get_ptr_4__10TObjPlayerFv();
-void mem_free(void *p);
-void *mem_alloc(u32 size);
 s32 __construct_new_array(void *, void *, int, int, int);
 void fn_801C1BA8(void *, void *);
 s32 fn_801D40D4(s32 arg0, Rec_801D40D4 *arg1, u8 *arg2);
 s32 is_both_confirmed__23TAdSinglePlyChrSelectGCFv(void *);
 void memcpy(void *, void *, s32);
-s32 is_quest_active();
+int is_quest_active(void);
 int memset(void*, int, int);
 u8 *__nw__FUl(u32);
 void TLobby__sub_801D4C28(void* a0, int a1, int a2, int a3);
@@ -210,7 +209,7 @@ void *TObjPlayer::find_inventory_item_by_field_d8() {
     return NULL;
 }
 
-extern "C" void *find_matching_inventory_item_node(TObject *root) {
+void *find_matching_inventory_item_node(TObject *root) {
     s32 data[8];
     TObject *node;
     void *found;
@@ -328,7 +327,7 @@ void TObjPlayer::collect_item_owners_recursive() {
     }
 }
 
-extern "C" void TObjPlayer__sub_801D52A8(TObject *root) {
+void TObjPlayer__sub_801D52A8(TObject *root) {
     TObject *n;
     s32 o;
     for (n = root->m_down; n != NULL; n = n->m_next) {
@@ -444,7 +443,7 @@ void TObjPlayer::destroy_subobjects_recursive() {
 
 void TObjPlayer::destroy_subobjects(int a1) { item_reduce_target_player = a1; inventory_walk_progress_count = 0; ((TObjPlayer *)this->unk_1C4)->destroy_subobjects_recursive(); this->unk_1C4->queue_destruction(); ((TObject *)(this->m_1c8))->run_tasks(); ((TObject *)(this->m_1c8))->run_tasks(); ((TObject *)(this->m_1c8))->queue_destruction(); }
 
-extern "C" void *set_mode_and_refresh_object__10TObjPlayerFPvi(void *player, s32 item_data) { inventory_search_item_data = item_data; return find_matching_inventory_item_node(((TObjPlayer *)player)->unk_1C4); }
+void *TObjPlayer::set_mode_and_refresh_object(s32 item_data) { inventory_search_item_data = item_data; return find_matching_inventory_item_node(((TObjPlayer *)this)->unk_1C4); }
 
 void TObjPlayer::find_first_inventory_entry(int a1) { inventory_search_item_data = a1; ((TObjPlayer *)this->unk_1C4)->find_inventory_item_matching_data(); }
 
@@ -453,7 +452,7 @@ s32 TObjPlayer::count_items_by_id(s32 arg1) {
     TItem *item;
 
     if (lookup_item_def__9TItemDataFPv(arg1) != 0) {
-        node = set_mode_and_refresh_object__10TObjPlayerFPvi(this, arg1);
+        node = set_mode_and_refresh_object(arg1);
         if (node != NULL) {
             item = (TItem *)((TObjPlayer *)node)->get_owner_if_alive();
             if ((item != NULL) && (item->all_parents_unqueued_for_destruction() != 0)) {
@@ -478,16 +477,16 @@ int TLobby::set_globals_and_notify(int a1, int a2) { player_item_collect_cursor 
 
 void TLobby::set_globals_and_update(int a1, int a2) { item_reduce_target_player = a1; item_reduce_owner_match_field_ec = a2; ((TLobby *)(*(int*)((char*)this + 0x1c4)))->reduce_child_item_amounts(); }
 
-extern "C" void TLobby__sub_801D4C28(void* a0, int a1, int a2, int a3) { item_reduce_target_player = a1; item_reduce_owner_match_field_ec = a2; reduce_owner_match_id = a3; ((TLobby *)(*(int*)((char*)a0 + 0x1c4)))->reduce_owner_matched_items(); }
+void TLobby__sub_801D4C28(void* a0, int a1, int a2, int a3) { item_reduce_target_player = a1; item_reduce_owner_match_field_ec = a2; reduce_owner_match_id = a3; ((TLobby *)(*(int*)((char*)a0 + 0x1c4)))->reduce_owner_matched_items(); }
 
-s32 TLobby::use_item(s32 arg1, s32 arg2, s32 arg3) {
+s32 TLobby::use_item(s32 arg1, s32 key, s32 arg3) {
     void *node;
 
-    if (arg2 == -1) {
+    if (key == -1) {
         try_spend_actor_meseta((u8 *)arg1, arg3);
         return 1;
     }
-    node = ((TObjPlayer *)this)->start_inventory_update(arg2);
+    node = ((TObjPlayer *)this)->start_inventory_update(key);
     if (node == NULL) {
         return 0;
     }
@@ -495,7 +494,7 @@ s32 TLobby::use_item(s32 arg1, s32 arg2, s32 arg3) {
     return 1;
 }
 
-void TLobby::reduce_item_amount(s32 arg1, s32 arg2, s32 arg3) {
+void TLobby::reduce_item_amount(s32 player, s32 arg2, s32 arg3) {
     s16 count;
     TItem *item;
 
@@ -506,6 +505,22 @@ void TLobby::reduce_item_amount(s32 arg1, s32 arg2, s32 arg3) {
             return;
         }
         if (is_item_equipped(item) != 0) {
+            unequip_item__10TObjPlayerFiPv(player, item);
+        }
+        count = *(s16 *)((s8 *)this + 0x1C);
+        *(s16 *)((s8 *)this + 0x1C) = (count - 1);
+        item->destroy();
+        ((TObject *)arg2)->queue_destruction();
+    }
+}
+
+void TObjPlayer::remove_equipped_item(s32 arg1, void *arg2) {
+    s16 count;
+    TItem *item;
+
+    item = (TItem *)((TObjPlayer *)arg2)->get_owner_if_alive();
+    if (item != NULL) {
+        if (is_item_equipped(item) != 0) {
             unequip_item__10TObjPlayerFiPv(arg1, item);
         }
         count = *(s16 *)((s8 *)this + 0x1C);
@@ -515,23 +530,7 @@ void TLobby::reduce_item_amount(s32 arg1, s32 arg2, s32 arg3) {
     }
 }
 
-void remove_equipped_item__10TObjPlayerFPvii(void *arg0, s32 arg1, void *arg2) {
-    s16 count;
-    TItem *item;
-
-    item = (TItem *)((TObjPlayer *)arg2)->get_owner_if_alive();
-    if (item != NULL) {
-        if (is_item_equipped(item) != 0) {
-            unequip_item__10TObjPlayerFiPv(arg1, item);
-        }
-        count = *(s16 *)((s8 *)arg0 + 0x1C);
-        *(s16 *)((s8 *)arg0 + 0x1C) = (count - 1);
-        item->destroy();
-        ((TObject *)arg2)->queue_destruction();
-    }
-}
-
-extern "C" s32 TObjPlayer__sub_801D49F4(void *inventory, s32 player, s32 *arg2, s32 arg3) {
+s32 TObjPlayer__sub_801D49F4(void *inventory, s32 player, s32 *arg2, s32 arg3) {
     s32 i;
     void *node;
     for (i = 0; i < arg3; arg2++, i++) {
@@ -539,7 +538,7 @@ extern "C" s32 TObjPlayer__sub_801D49F4(void *inventory, s32 player, s32 *arg2, 
         if (node == NULL) {
             return 0;
         }
-        remove_equipped_item__10TObjPlayerFPvii(inventory, player, node);
+        ((TObjPlayer *)inventory)->remove_equipped_item(player, node);
     }
     return 1;
 }
@@ -579,12 +578,12 @@ int TObjPlayer::run_state_query(int a1) { owned_item_export_cursor = a1; invento
 
 int TObjPlayer::run_and_get_result(int a1) { TObjPlayer__owner_field_write_cursor = (s32 *)a1; inventory_walk_visit_count = 0; ((TObjPlayer *)this->unk_1C4)->collect_owner_fields_recursive(); return inventory_walk_visit_count; }
 
-extern "C" s32 TObjPlayer__sub_801D47EC(s32 arg0, s32 arg1, s32 arg2) {
+s32 TObjPlayer__sub_801D47EC(s32 arg0, s32 key, s32 arg2) {
     TObjPlayer *node_a;
     TObjPlayer *node_b;
     s32 item_a;
     s32 item_b;
-    node_a = (TObjPlayer *)((TObjPlayer *)arg0)->start_inventory_update(arg1);
+    node_a = (TObjPlayer *)((TObjPlayer *)arg0)->start_inventory_update(key);
     if (node_a == NULL) {
         return 0;
     }
@@ -605,7 +604,7 @@ extern "C" s32 TObjPlayer__sub_801D47EC(s32 arg0, s32 arg1, s32 arg2) {
     return 1;
 }
 
-extern "C" void TObjPlayer__sub_801D47D8(void* p, void* q) { *(u32*)((char*)p + 0x0) = *(u32*)((char*)q + 0x0); *(u32*)((char*)p + 0x4) = *(u32*)((char*)q + 0x4); }
+void TObjPlayer__sub_801D47D8(void* p, void* q) { *(u32*)((char*)p + 0x0) = *(u32*)((char*)q + 0x0); *(u32*)((char*)p + 0x4) = *(u32*)((char*)q + 0x4); }
 
 void TObjPlayer::sort_by_key() {
     List_801D4744 *arg0 = (List_801D4744 *)this;
@@ -629,9 +628,9 @@ void TObjPlayer::sort_by_key() {
     }
 }
 
-extern "C" void TObjPlayer__sub_801D4730(void* p) { *(s32*)((char*)p + 0x0) = -1; *(s32*)((char*)p + 0x4) = 0; }
+void TObjPlayer__sub_801D4730(void* p) { *(s32*)((char*)p + 0x0) = -1; *(s32*)((char*)p + 0x4) = 0; }
 
-extern "C" u8 *TObjPlayer__sub_801D46D4(u8 *arg0, s32 arg1) {
+u8 *TObjPlayer__sub_801D46D4(u8 *arg0, s32 arg1) {
     s32 n;
     *(s32 *)arg0 = arg1;
     n = *(s32 *)arg0;
@@ -639,7 +638,7 @@ extern "C" u8 *TObjPlayer__sub_801D46D4(u8 *arg0, s32 arg1) {
     return arg0;
 }
 
-extern "C" u8 *TObjPlayer__sub_801D4678(u8 *arg0, s16 arg1) {
+u8 *TObjPlayer__sub_801D4678(u8 *arg0, s16 arg1) {
     u8 *q;
     if (arg0 != NULL) {
         q = *(u8 **)(arg0 + 4);
@@ -655,23 +654,23 @@ extern "C" u8 *TObjPlayer__sub_801D4678(u8 *arg0, s16 arg1) {
     return arg0;
 }
 
-extern "C" void TObjPlayer__sub_801D45B0(s32 *arg0, s32 arg1) {
+void TObjPlayer__sub_801D45B0(s32 *arg0, s32 item) {
     s32 temp_r4;
     *arg0 = 0;
-    temp_r4 = ((TItem *)arg1)->get_item_type() << 0x19;
+    temp_r4 = ((TItem *)item)->get_item_type() << 0x19;
     *arg0 |= temp_r4;
-    if (((TItem *)arg1)->get_item_type() == 1) {
-        *arg0 |= (((TItem *)arg1)->get_item_group() << 0x11) & 0x01FE0000;
+    if (((TItem *)item)->get_item_type() == 1) {
+        *arg0 |= (((TItem *)item)->get_item_group() << 0x11) & 0x01FE0000;
     } else {
-        *arg0 |= (((TItem *)arg1)->get_item_group() << 8) & 0xFF00;
+        *arg0 |= (((TItem *)item)->get_item_group() << 8) & 0xFF00;
     }
-    *arg0 |= ((TItem *)arg1)->get_item_index();
-    if (is_item_equipped((TItem *)arg1) == 0) {
+    *arg0 |= ((TItem *)item)->get_item_index();
+    if (is_item_equipped((TItem *)item) == 0) {
         *arg0 |= 0x10000;
     }
 }
 
-extern "C" s32 TObjPlayer__sub_801D4368(TObjPlayer *arg0) {
+extern "C" s32 TObjPlayer__sub_801D4368(TObjPlayer *player) {
     u8 *obj;
     s32 cnt_2;
     u32 *rec;
@@ -685,18 +684,18 @@ extern "C" s32 TObjPlayer__sub_801D4368(TObjPlayer *arg0) {
     void *down;
     s32 cnt_3;
 
-    if (*(void **)((s8 *)arg0 + 0x1c4) == NULL) {
+    if (*(void **)((s8 *)player + 0x1c4) == NULL) {
         return 0;
     }
-    if (TItemList::is_item_valid((s32)*(void **)((s8 *)arg0 + 0x1c4)) == 0) {
+    if (TItemList::is_item_valid((s32)*(void **)((s8 *)player + 0x1c4)) == 0) {
         return 0;
     }
-    if (*(s16 *)((s8 *)arg0 + 0x1c) > 0x1e || *(s16 *)((s8 *)arg0 + 0x1c) < 1) {
+    if (*(s16 *)((s8 *)player + 0x1c) > 0x1e || *(s16 *)((s8 *)player + 0x1c) < 1) {
         return 0;
     }
     obj = __nw__FUl(8);
     if (obj != NULL) {
-        obj = TObjPlayer__sub_801D46D4(obj, *(s16 *)((s8 *)arg0 + 0x1c));
+        obj = TObjPlayer__sub_801D46D4(obj, *(s16 *)((s8 *)player + 0x1c));
     }
     if (obj == NULL) {
         return 0;
@@ -706,20 +705,20 @@ extern "C" s32 TObjPlayer__sub_801D4368(TObjPlayer *arg0) {
         return 0;
     }
     cnt = 0;
-    down = *(void **)((s8 *)*(s32 *)((s8 *)arg0 + 0x1c4) + 0x14);
+    down = *(void **)((s8 *)*(s32 *)((s8 *)player + 0x1c4) + 0x14);
     while (down != NULL) {
         if (TItemList::is_item_valid((s32)down) != 0 && ((TObjPlayer *)down)->get_owner_if_alive() != 0U) {
             cnt++;
         }
         down = *(void **)((s8 *)down + 0xC);
     }
-    if (cnt != *(s16 *)((s8 *)arg0 + 0x1c)) {
+    if (cnt != *(s16 *)((s8 *)player + 0x1c)) {
         TObjPlayer__sub_801D4678(obj, 1);
         return 0;
     }
     cnt_2 = 0;
     rec = (u32 *)*(s32 *)(obj + 4);
-    down_2 = *(void **)((s8 *)*(s32 *)((s8 *)arg0 + 0x1c4) + 0x14);
+    down_2 = *(void **)((s8 *)*(s32 *)((s8 *)player + 0x1c4) + 0x14);
     while (down_2 != NULL) {
         if (TItemList::is_item_valid((s32)down_2) != 0 && (owner = ((TObjPlayer *)down_2)->get_owner_if_alive()) != 0U) {
             rec[1] = owner;
@@ -731,7 +730,7 @@ extern "C" s32 TObjPlayer__sub_801D4368(TObjPlayer *arg0) {
     }
     ((TObjPlayer *)obj)->sort_by_key();
     cnt_3 = 0;
-    down_3 = *(void **)((s8 *)*(s32 *)((s8 *)arg0 + 0x1c4) + 0x14);
+    down_3 = *(void **)((s8 *)*(s32 *)((s8 *)player + 0x1c4) + 0x14);
     rec_2 = (u32 *)*(s32 *)(obj + 4);
     while (down_3 != NULL) {
         if (TItemList::is_item_valid((s32)down_3) != 0 && ((TObjPlayer *)down_3)->get_owner_if_alive() != 0U && rec_2[1] != 0) {
@@ -745,7 +744,7 @@ extern "C" s32 TObjPlayer__sub_801D4368(TObjPlayer *arg0) {
         return 0;
     }
     rec_3 = (u32 *)*(s32 *)(obj + 4);
-    down_4 = *(void **)((s8 *)*(s32 *)((s8 *)arg0 + 0x1c4) + 0x14);
+    down_4 = *(void **)((s8 *)*(s32 *)((s8 *)player + 0x1c4) + 0x14);
     while (down_4 != NULL) {
         if (TItemList::is_item_valid((s32)down_4) != 0 && ((TObjPlayer *)down_4)->get_owner_if_alive() != 0U) {
             if (rec_3[1] != 0) {
@@ -759,7 +758,7 @@ extern "C" s32 TObjPlayer__sub_801D4368(TObjPlayer *arg0) {
     return 1;
 }
 
-extern "C" s32 export_inventory_entry__10TObjPlayerFiPv(s32 arg0, u8 *arg1) {
+s32 export_inventory_entry__10TObjPlayerFiPv(s32 arg0, u8 *arg1) {
     if (((TItem *)arg0)->copy_to_item_data((TItemData *)(arg1 + 8)) != 0) {
         *(s8 *)((s8 *)arg1 + 0) = ((TItem *)arg0)->get_mode();
         *(s32 *)((s8 *)arg1 + 4) = ((TItem *)arg0)->get_item_flags();
@@ -768,9 +767,9 @@ extern "C" s32 export_inventory_entry__10TObjPlayerFiPv(s32 arg0, u8 *arg1) {
     return 0;
 }
 
-extern "C" int reset(void* p) { return memset(p, 0, 28); }
+int reset(void* p) { return memset(p, 0, 28); }
 
-extern "C" s32 fn_801D4270(s32 arg0) {
+s32 fn_801D4270(s32 arg0) {
     s32 i;
     u8 *p;
     if ((u32)get_char_index__23TAdSinglePlyChrSelectGCFUi(0xFFFF) == 0) {
@@ -785,7 +784,7 @@ extern "C" s32 fn_801D4270(s32 arg0) {
     return 0;
 }
 
-extern "C" void remove_list_entry_by_id(s32 arg0) {
+void remove_list_entry_by_id(s32 arg0) {
     u8 *cnt;
     s32 i;
     s32 n;
@@ -813,14 +812,14 @@ extern "C" void remove_list_entry_by_id(s32 arg0) {
     }
 }
 
-extern "C" s32 check_player_action_allowed(void) {
+s32 check_player_action_allowed(void) {
     if ((get_main_phase() == 0xE) || (TTecCtrl::is_technique_ready() != 0) || ((is_quest_active() == 1) && (get_game_play_mode() == 1))) {
         return 0;
     }
     return TAdSinglePlyChrSelectGC::get_game_mode();
 }
 
-extern "C" s32 fn_801D40D4(s32 arg0, Rec_801D40D4 *arg1, u8 *arg2) {
+s32 fn_801D40D4(s32 arg0, Rec_801D40D4 *arg1, u8 *arg2) {
     s32 i;
     for (i = 0; i < arg0; i++) {
         if (arg1->flags & 8) {
@@ -869,7 +868,7 @@ s32 TUnk_804C4498::reset_placement_search_ring() {
     this->radius = 6.0f * this->ring;
 }
 
-extern "C" void *find_placement_obstruction(void *self, Body_801D3E20 *s) {
+void *find_placement_obstruction(void *self, Body_801D3E20 *s) {
     s32 end = TLobby::get_lobby_flag();
     s32 i;
     for (i = TLobby::get_game_mode() + TObjEneDD::get_enemy_count(); i < end; i++) {
@@ -931,7 +930,7 @@ s32 TUnk_804C4498::step_placement_search() {
         return 0;
     }
     if (check_player_action_allowed() != 0 && this->online != 0 &&
-        TAdPlayerLoadGC__sub_801E1B50(get_chr_select_state__23TAdSinglePlyChrSelectGCFv()) != 0) {
+        poll_memcard_result(get_chr_select_state__23TAdSinglePlyChrSelectGCFv()) != 0) {
         return 0;
     }
     return 1;
@@ -950,8 +949,8 @@ TUnk_804C4480::~TUnk_804C4480() {
     decrement_placement_search_pending(this, (void *)this->unk_54);
 }
 
-extern "C" void *TItemList__sub_801D3B00(void *arg0, void *arg1, void *arg2, s8 arg3) {
-    return new TUnk_804C4480((TObject *)tl_07, (s32)arg0, (TObjBase *)arg1, (const Vec *)arg2, arg3);
+void *TItemList__sub_801D3B00(void *list, void *source, void *pos, s8 arg3) {
+    return new TUnk_804C4480((TObject *)tl_07, (s32)list, (TObjBase *)source, (const Vec *)pos, arg3);
 }
 
 void TUnk_804C4480::run_task() {
@@ -993,8 +992,8 @@ TUnk_804C4468::~TUnk_804C4468() {
     decrement_placement_search_pending(this, (void *)this->unk_54);
 }
 
-void *TItemList::create_node(void *arg0, void *arg1, void *arg2, s8 arg3) {
-    return new TUnk_804C4468((TObject *)tl_07, (s32)arg0, (TObjBase *)arg1, (const Vec *)arg2, arg3);
+void *TItemList::create_node(void *list, void *source, void *pos, s8 arg3) {
+    return new TUnk_804C4468((TObject *)tl_07, (s32)list, (TObjBase *)source, (const Vec *)pos, arg3);
 }
 
 void TUnk_804C4468::run_task() {
@@ -1053,7 +1052,7 @@ TItemList::TItemList(TObject *parent) : TObject(parent) {
     disallow_rendering();
 }
 
-extern "C" {
+
 void TItemList__sub_801D5804(s32 *arg0) {
     *arg0 += 1;
 }
@@ -1099,7 +1098,6 @@ void TItemList__sub_801D59A0(TItemList *item_list, s32 arg1) {
 }
 
 void TItemList__sub_801D59DC(void* p) { *(s32*)((char*)p + 0x0) = 2; }
-}
 
 void decrement_placement_search_pending(void* p, void* a1) { TItemList__sub_801D5A0C((s32 *)a1); }
 

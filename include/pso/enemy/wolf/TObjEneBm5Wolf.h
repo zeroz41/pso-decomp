@@ -118,6 +118,21 @@ struct TObjEneBm5Wolf : public TObjEneDD_ST {
     void update(void* a1);
     void apply_to_position(void* a1);
     void set_field8_from_obj(s32 arg1);
+    s32 get_group_id();
+    static TObjEneBm5Wolf *find_pack_leader(s32 id);
+    void advance_pose_turn(s32 target);
+    void approach_target(f32 step);
+    void set_state_by_timer();
+    s32 select_death_direction(s32 *heading);
+    s32 select_target();
+    s32 play_variant_sound();
+    void play_footsteps();
+    f32 calc_death_slide_speed(f32 speed);
+    int get_flag_bit0();
+    s32 calc_lunge_aim();
+    void schedule_pack_reaction(s32 delay, u16 value);
+    void appearing_state(s32 arg1);
+    void returning_state(s32 arg1);
 };
 
 typedef char WolfOffset_target[offsetof(TObjEneBm5Wolf, target) == 0x390 ? 1 : -1];
@@ -143,18 +158,18 @@ s32 __dt__14TObjEneBm5WolfFis(s32 arg0, s16 arg1);
 }
 s32 actor_rand_int(s32 actor, s32 arg1);
 extern "C" {
-void approach_target__14TObjEneBm5WolfFPvf(TObjEneBm5Wolf *wolf, f32 step);
-s32 calc_lunge_aim__14TObjEneBm5WolfFPv(TObjEneBm5Wolf *wolf);
+void approach_target__14TObjEneBm5WolfFf(TObjEneBm5Wolf *wolf, f32 step);
+s32 calc_lunge_aim__14TObjEneBm5WolfFv(TObjEneBm5Wolf *wolf);
 void calc_rotated_vector__14TObjEneBm5WolfFPviPvPv(TObjEneBm5Wolf *wolf, s32 angle, Vec *out, s32 *heading);
-int get_flag_bit0__14TObjEneBm5WolfFPv(TObjEneBm5Wolf *wolf);
-s32 get_group_id__14TObjEneBm5WolfFPv(TObjEneBm5Wolf *wolf);
-void play_footsteps__14TObjEneBm5WolfFPv(TObjEneBm5Wolf *wolf);
+int get_flag_bit0__14TObjEneBm5WolfFv(TObjEneBm5Wolf *wolf);
+s32 get_group_id__14TObjEneBm5WolfFv(TObjEneBm5Wolf *wolf);
+void play_footsteps__14TObjEneBm5WolfFv(TObjEneBm5Wolf *wolf);
 TObjEneBm5Wolf *play_sound__14TObjEneBm5WolfFPv(TObjEneBm5WolfListNode *node);
-s32 play_variant_sound__14TObjEneBm5WolfFPv(TObjEneBm5Wolf *wolf);
-void returning_state__14TObjEneBm5WolfFPvi(TObjEneBm5Wolf *actor, s32 arg1);
-void schedule_pack_reaction__14TObjEneBm5WolfFPvis(TObjEneBm5Wolf *wolf, s32 delay, u16 value);
-s32 select_target__14TObjEneBm5WolfFPv(TObjEneBm5Wolf *wolf);
-void set_state_by_timer__14TObjEneBm5WolfFi(TObjEneBm5Wolf *wolf);
+s32 play_variant_sound__14TObjEneBm5WolfFv(TObjEneBm5Wolf *wolf);
+void returning_state__14TObjEneBm5WolfFl(TObjEneBm5Wolf *actor, s32 arg1);
+void schedule_pack_reaction__14TObjEneBm5WolfFlUs(TObjEneBm5Wolf *wolf, s32 delay, u16 value);
+s32 select_target__14TObjEneBm5WolfFv(TObjEneBm5Wolf *wolf);
+void set_state_by_timer__14TObjEneBm5WolfFv(TObjEneBm5Wolf *wolf);
 void spawn_recoil_dust__14TObjEneBm5WolfFiPv(TObjEneBm5Wolf *wolf, Vec *dir);
 }
 

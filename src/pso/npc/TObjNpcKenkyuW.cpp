@@ -4,18 +4,12 @@
 #include "pso/npc/TObjNpcKenkyuW.h"
 #include "pso/system/vector.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/npc/TUnk_804A9F50.h"
+
 #include "pso/enemy/TNeedleShoot.h"
-#include "pso/player/TObjPlayer.h"
 
-
-struct RecoveredGlobal_802A3CD8___vt__14TObjNpcKenkyuW {
-    s32 value;
-    u8 remaining[0x174];
-};
 
 #include "pso/technique/TechniqueContact.h"
-#include "pso/enemy/TNeedleShoot.h"
+
 #include "pso/unk/TLobby.h"
 #include "pso/npc/TObjNpcBase.h"
 #include "pso/npc/TObjNpcLappy.h"
@@ -34,8 +28,6 @@ const char *TObjNpcKenkyuW__name = "TObjNpcKenkyuW";
 TechniqueContactList technique_contact_list;
 u32 TObjNpcKenkyuW__model_resource;
 
-struct Vec_802A3DE8 { f32 x; f32 y; f32 z; };
-
 struct Pl_802A3DE8 {
     u8 pad0[0x30];
     u32 flags;
@@ -44,12 +36,10 @@ struct Pl_802A3DE8 {
 struct Obj_802A3DE8 {
     u8 pad0[0x68];
     u8 *body;
-    Vec_802A3DE8 pos;
+    Vec pos;
     u8 pad78[0xA0 - 0x78];
-    Vec_802A3DE8 fA0;
+    Vec fA0;
 };
-
-struct Vec_802A41CC { f32 x; f32 y; f32 z; };
 
 struct Pl_802A41CC {
     u8 pad0[0x30];
@@ -59,12 +49,10 @@ struct Pl_802A41CC {
 struct Obj_802A41CC {
     u8 pad0[0x68];
     u8 *body;
-    Vec_802A41CC pos;
+    Vec pos;
     u8 pad78[0xA0 - 0x78];
-    Vec_802A41CC fA0;
+    Vec fA0;
 };
-
-struct Vec_802A3FDC { f32 x; f32 y; f32 z; };
 
 struct Pl_802A3FDC {
     u8 pad0[0x30];
@@ -74,18 +62,18 @@ struct Pl_802A3FDC {
 struct Obj_802A3FDC {
     u8 pad0[0x68];
     u8 *body;
-    Vec_802A3FDC pos;
+    Vec pos;
     u8 pad78[0xA0 - 0x78];
-    Vec_802A3FDC fA0;
+    Vec fA0;
 };
 
 extern "C" {
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-s32 TObjFish__sub_8001EDB0(int, int);
+s32 get_bml_texlist(int, int);
 s32 get_bml_model(int, int);
 extern s32 __vt__14TObjNpcKenkyuW[];
-s32 obj_is_hit_receivable(void *);
-Vec_802A3DE8 *get_shoot_data__12TNeedleShootFv(void *);
+s32 obj_is_hit_receivable(u8 *arg0);
+Vec *get_shoot_data__12TNeedleShootFv(void *);
 void vector_length(void *);
 s32 get_entity_id(void *);
 TechniqueContactList *TObjPlayer__sub_802A3DE8(Obj_802A3DE8 *self, void *src);
@@ -114,17 +102,16 @@ void TObjNpcKenkyuW::load_resource_instance() {
 
 }
 TObjNpcKenkyuW::~TObjNpcKenkyuW() {}
-extern "C" {
 
-typedef char RecoveredGlobal_802A3CD8___vt__14TObjNpcKenkyuW_size[sizeof(RecoveredGlobal_802A3CD8___vt__14TObjNpcKenkyuW) == 0x178 ? 1 : -1];
+
 u8 *TObjNpcKenkyuW__ct(u8 *player, s32 arg1, s32 arg2) {
     ((TUnk_804A9F50 *)player)->construct_male_npc_base();
-    *(s32 **)((s8 *)player + 0x18) = &(*(RecoveredGlobal_802A3CD8___vt__14TObjNpcKenkyuW *)&__vt__14TObjNpcKenkyuW).value;
+    *(s32 **)((s8 *)player + 0x18) = __vt__14TObjNpcKenkyuW;
     ((TObject *)player)->m_name = TObjNpcKenkyuW__name;
     ((TObjNpcKenkyuW *)(player))->apply_set_data((void *)arg2);
     ((TObjPlayer *)player)->init_position_vectors();
     *(s32 *)((s8 *)player + 0x34) = get_bml_model((int) ((*(s32 *)&TObjNpcKenkyuW__model_resource)), 0);
-    ((TObjNpcKenkyuW *)player)->texlist = TObjFish__sub_8001EDB0((int) ((*(s32 *)&TObjNpcKenkyuW__model_resource)), 0);
+    ((TObjNpcKenkyuW *)player)->texlist = get_bml_texlist((int) ((*(s32 *)&TObjNpcKenkyuW__model_resource)), 0);
     ((TObjNpcBase *)player)->setup_common();
     return player;
 }
@@ -141,13 +128,13 @@ s32 TObjPlayer::is_hit_receivable_target(s32 arg0, u32 arg1) {
     if (arg1 == 0U) {
         return FALSE;
     }
-    return obj_is_hit_receivable((void *)arg1) ? TRUE : FALSE;
+    return obj_is_hit_receivable((u8 *)arg1) ? TRUE : FALSE;
 }
 #define L_802A3DE8 technique_contact_list
 TechniqueContactList *TObjPlayer__sub_802A3DE8(Obj_802A3DE8 *self, void *src) {
-    Vec_802A3DE8 a;
-    Vec_802A3DE8 d;
-    Vec_802A3DE8 *sd;
+    Vec a;
+    Vec d;
+    Vec *sd;
     Pl_802A3DE8 *p;
     s32 i;
     TechniqueContactBody *r;
@@ -183,23 +170,22 @@ TechniqueContactList *TObjPlayer__sub_802A3DE8(Obj_802A3DE8 *self, void *src) {
     }
     return &L_802A3DE8;
 }
-struct Vec_802A3DE8;
 struct Pl_802A3DE8;
 #define L_802A41CC technique_contact_list
 
 #define L_802A3FDC technique_contact_list
 TechniqueContactList *TObjPlayer__sub_802A3FDC(Obj_802A3FDC *self, void *src) {
-    Vec_802A3FDC a;
-    Vec_802A3FDC d;
+    Vec a;
+    Vec d;
     s32 i;
-    Vec_802A3FDC *sd;
+    Vec *sd;
     u32 id;
     Pl_802A3FDC *p;
     TechniqueContactBody *r;
     VecCopy((Vec *)&a, (const Vec *)&self->pos);
     ((void (*)(void *))clear_technique_contacts__10TObjPlayerFv)(self);
     if (self->body == 0) return &L_802A3FDC;
-    sd = ((Vec_802A3FDC *)((TNeedleShoot *)self)->get_shoot_data());
+    sd = ((Vec *)((TNeedleShoot *)self)->get_shoot_data());
     d.x = a.x - sd->x;
     d.y = a.y - sd->y;
     d.z = a.z - sd->z;
@@ -232,9 +218,9 @@ TechniqueContactList *TObjPlayer__sub_802A3FDC(Obj_802A3FDC *self, void *src) {
 }
 
 TechniqueContactList *TObjPlayer::collect_technique_contacts(void *src) {
-    Vec_802A41CC a;
-    Vec_802A41CC d;
-    Vec_802A41CC *sd;
+    Vec a;
+    Vec d;
+    Vec *sd;
     Pl_802A41CC *p;
     s32 i;
     s32 n;
@@ -242,7 +228,7 @@ TechniqueContactList *TObjPlayer::collect_technique_contacts(void *src) {
     VecCopy((Vec *)&a, (const Vec *)(&((Obj_802A41CC *)this)->pos));
     ((void (*)(void *))clear_technique_contacts__10TObjPlayerFv)(this);
     if (((Obj_802A41CC *)this)->body == 0) return &L_802A41CC;
-    sd = (Vec_802A41CC *)((TNeedleShoot *)this)->get_shoot_data();
+    sd = (Vec *)((TNeedleShoot *)this)->get_shoot_data();
     d.x = a.x - sd->x;
     d.y = a.y - sd->y;
     d.z = a.z - sd->z;
@@ -290,7 +276,6 @@ TechniqueContactList *TObjPlayer::collect_technique_contacts(void *src) {
     return &L_802A41CC;
 }
 
-}
 
 #pragma push
 #pragma scheduling off

@@ -717,7 +717,7 @@ void TQuestVmDownLoadServer::set_active() {
     *(s32 *)((s8 *)file_page_cache_head + 4) = 1;
 }
 
-u8 *get_cached_page__22TQuestVmDownLoadServerFi(s32 page) {
+u8 *TQuestVmDownLoadServer::get_cached_page(s32 page) {
     u8 unused[0x38];
     Page_803E7B9C *prev = NULL;
     Page_803E7B9C *p = HEAD_803E7B9C;

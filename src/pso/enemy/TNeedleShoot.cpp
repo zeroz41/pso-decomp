@@ -34,10 +34,6 @@ struct VObj_802A4668 : Base_802A4668 {
     virtual void m5();
 };
 
-struct Vec_802A47C8 {
-    f32 x, y, z;
-};
-
 struct TNeedleShoot_802A47C8 {
     const char *f0;
     u8 pad04[0x18 - 0x04];
@@ -57,12 +53,12 @@ struct TNeedleShoot_802A47C8 {
     s32 f54;
     u8 pad58[0x68 - 0x58];
     void *f68;
-    Vec_802A47C8 pos;
+    Vec pos;
     u8 pad78[0x88 - 0x78];
     f32 f88;
     f32 f8c;
     f32 f90;
-    Vec_802A47C8 dir;
+    Vec dir;
     s32 fa0;
     s32 fa4;
     s32 fa8;
@@ -76,13 +72,12 @@ extern "C" {
 u8 *csnVector(f32 *, f32 *, s32);
 void init_collision_body_parts(void *, void *, int);
 void *__ct__14TObjCollidableFP7TObject(void *, void *);
-void *__nw__7TObjectFUl(u32);
 void __ct__7TObjectFP7TObject(void *, void *);
-f32 vector_length(Vec_802A47C8 *);
-void normalize_vector(Vec_802A47C8 *);
+f32 vector_length(Vec *);
+void normalize_vector(Vec *);
 extern s32 __vt__12TNeedleShoot[];
 extern void *tl_06;
-TNeedleShoot_802A47C8 *TNeedleShoot__ct(TNeedleShoot_802A47C8 *self, s32 arg1, Vec_802A47C8 *from, Vec_802A47C8 *to);
+TNeedleShoot_802A47C8 *TNeedleShoot__ct(TNeedleShoot_802A47C8 *self, s32 arg1, Vec *from, Vec *to);
 void free_collision_body_parts(void *);
 
 void TNeedleShoot::vfunc_8() {  }
@@ -160,7 +155,7 @@ TNeedleShoot::~TNeedleShoot() {
 }
 
 
-TNeedleShoot_802A47C8 *TNeedleShoot__ct(TNeedleShoot_802A47C8 *self, s32 arg1, Vec_802A47C8 *from, Vec_802A47C8 *to) {
+TNeedleShoot_802A47C8 *TNeedleShoot__ct(TNeedleShoot_802A47C8 *self, s32 arg1, Vec *from, Vec *to) {
     f32 dx;
     f32 dz;
     f32 dy;
@@ -201,7 +196,7 @@ TNeedleShoot_802A47C8 *TNeedleShoot__ct(TNeedleShoot_802A47C8 *self, s32 arg1, V
     self->f4c = 1.0f;
     self->f50 = 1;
     self->f54 = 0x40007;
-    p = __nw__7TObjectFUl(0xAC);
+    p = TObject::operator new(0xAC);
     if (p != NULL) {
         p = __ct__14TObjCollidableFP7TObject(p, self);
     }

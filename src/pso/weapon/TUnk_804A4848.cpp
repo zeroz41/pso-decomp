@@ -25,7 +25,7 @@ void TUnk_804A4848::reserved_53() {
             *temp_r31 |= 0x10;
         }
         draw_weapon_model();
-        ((TItemWeapon *)this)->update_trail_slot(0);
+        this->update_trail_slot(0);
         if (blend_off == 0) {
             *temp_r31 &= 0xFFFFFFEF;
         }

@@ -8,11 +8,9 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
-#include "pso/player/TObjPlayer.h"
 
-struct Vec_8034009C { f32 x, y, z; };
 
-struct E_8034009C { Vec_8034009C a; Vec_8034009C b; s32 f18; };
+struct E_8034009C { Vec a; Vec b; s32 f18; };
 
 static const Vec lbl_80478430 = {-10000.0f, 0.0f, 0.0f};
 // Ten map CSN objects created by fn_8034009C: position, scale, angle.
@@ -78,19 +76,17 @@ void TObjPlayer__sub_8033FDB0(s32 arg0) {
 }
 
 // ---- pso/player/TObjPlayer_8033FE28
-#include "types.h"
-#include "pso/player/TObjPlayer.h"
+
 
 s32 TObjPlayer::get_plot_state() { return this->texlist; }
 
 // ---- pso/boss/olgaflow/TBoss6Demo15_TYPE2_WAIT_8033FE30
-#include "types.h"
+
 #include "pso/system/vector.h"
 #include "pso/boss/olgaflow/TBoss6Demo15_TYPE2_WAIT.h"
 #include "pso/math/AngleLookup.h"
 
 
-extern "C" {
 #pragma push
 #pragma fp_contract on
 void TBoss6Demo15_TYPE2_WAIT::sub_8033FE30() {
@@ -108,12 +104,11 @@ void TBoss6Demo15_TYPE2_WAIT::sub_8033FE30() {
 }
 #pragma pop
 
-}
 
 // ---- pso/boss/darkfalz/TBoss4Type2_8033FEEC
-#include "types.h"
+
 #include "pso/boss/darkfalz/TBoss4Type2_8033FEEC.h"
-#include "pso/boss/olgaflow/TBoss6Demo15_TYPE2_WAIT.h"
+
 #include "pso/boss/darkfalz/TBoss4Type2.h"
 
 
@@ -125,26 +120,24 @@ void TBoss6Demo15_TYPE2_WAIT::advance_offset() {
 void TObjFish__sub_8033FF64(void* p) { *(s32*)((char*)p + 0x58) = 24576; *(s32*)((char*)p + 0x5c) = 0; }
 
 // ---- pso/unk/text_8033FF78
-#include "types.h"
+
 #include "pso/system/task/TObject_80019A50.h"
-#include "pso/system/vector.h"
-#include "pso/boss/olgaflow/TBoss6Demo15_TYPE2_WAIT.h"
+
+
 #include "pso/boss/olgaflow/TBoss6PlotFalz.h"
 #include "pso/unk/TLobby.h"
 
-struct Vec_8033FF78 { f32 x, y, z; };
+struct O_8033FF78 { u8 pad[0x24]; s32 f24; u8 pad28[0x40 - 0x28]; Vec pos; };
 
-struct O_8033FF78 { u8 pad[0x24]; s32 f24; u8 pad28[0x40 - 0x28]; Vec_8033FF78 pos; };
-
-struct P_8033FF78 { u8 pad[0x38]; Vec_8033FF78 pos; };
+struct P_8033FF78 { u8 pad[0x38]; Vec pos; };
 
 struct P_8034009C {
     u8 pad0[0xC];
-    Vec_8034009C a;
+    Vec a;
     s32 f18;
     s32 f1c;
     s32 f20;
-    Vec_8034009C b;
+    Vec b;
     s32 f30;
     s32 f34;
 };
@@ -159,7 +152,7 @@ void fn_8034009C(TBoss6Demo15_TYPE2_WAIT *arg0);
 
 void TBoss6Demo15_TYPE2_WAIT::check_any_player_near() {
     O_8033FF78 *arg0 = (O_8033FF78 *)this;
-    Vec_8033FF78 v;
+    Vec v;
     s32 n;
     s32 i;
     f32 lim;
@@ -183,21 +176,21 @@ void TBoss6Demo15_TYPE2_WAIT::check_any_player_near() {
     }
 }
 
-void fn_80340040(TBoss6Demo15_TYPE2_WAIT *arg0) {
+void fn_80340040(TBoss6Demo15_TYPE2_WAIT *boss6_demo15_type2_wait) {
     s32 i;
     for (i = 0; i < 10; i++) {
-        if (arg0->csn_objects[i] != 0) {
-            arg0->csn_objects[i]->queue_destruction();
-            arg0->csn_objects[i] = 0;
+        if (boss6_demo15_type2_wait->csn_objects[i] != 0) {
+            boss6_demo15_type2_wait->csn_objects[i]->queue_destruction();
+            boss6_demo15_type2_wait->csn_objects[i] = 0;
         }
     }
 }
-void fn_8034009C(TBoss6Demo15_TYPE2_WAIT *arg0) {
+void fn_8034009C(TBoss6Demo15_TYPE2_WAIT *boss6_demo15_type2_wait) {
     P_8034009C prm;
     s32 i;
     s32 j;
     for (j = 0; j < 10; j++) {
-        arg0->csn_objects[j] = 0;
+        boss6_demo15_type2_wait->csn_objects[j] = 0;
     }
     prm.f30 = 2;
     prm.f34 = 0;
@@ -208,24 +201,20 @@ void fn_8034009C(TBoss6Demo15_TYPE2_WAIT *arg0) {
         prm.f1c = e->f18;
         prm.f20 = 0;
         VecCopy((Vec *)&prm.b, (const Vec *)&e->b);
-        arg0->csn_objects[i] = (TObject *)create__10TObjMapCsnFl(&prm);
+        boss6_demo15_type2_wait->csn_objects[i] = (TObject *)create__10TObjMapCsnFl(&prm);
     }
 }
 
 }
 
 // ---- pso/boss/darkfalz/TBoss4Type2_80340160
-#include "types.h"
+
 #include "pso/object/trap/TOTrapAncient01_80226534.h"
-#include "pso/ui/frontend/TAdPlyStatusGC_8033FD48.h"
-#include "pso/system/task/TObject_80019A50.h"
-#include "pso/system/vector.h"
-#include "pso/boss/olgaflow/TBoss6Demo15_TYPE2_WAIT.h"
-#include "pso/boss/darkfalz/TBoss4Type2.h"
-#include "pso/object/ambient/TObjFish.h"
+
+
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/ui/hud/TNowLoading.h"
-#include "pso/boss/darkfalz/TBoss4Type2_8033FEEC.h"
+
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 
@@ -292,7 +281,7 @@ extern const char *lbl_805D42C8;
 extern s32 lbl_804DF614[];
 __declspec(section ".data") s32 lbl_804EFB70[2] = {0x1F, 0x21};
 s32 get_bml_model(s32 bml, s32 index);
-s32 TObjFish__sub_8001EDB0(s32 bml, s32 index);
+s32 get_bml_texlist(s32 bml, s32 index);
 s32 get_bml_motion(s32 bml, s32 index);
 
 #pragma push
@@ -314,7 +303,7 @@ void *TObjFish__sub_8034029C(TBoss6Demo15_TYPE2_WAIT *wait, TObjFish *fish) {
             v = t;
             self->parts[i].model = get_bml_model(bml, t);
         }
-        self->parts[i].model_aux = TObjFish__sub_8001EDB0(bml, v);
+        self->parts[i].model_aux = get_bml_texlist(bml, v);
         self->parts[i].motion = get_bml_motion(bml, lbl_804EFB70[i]);
     }
     fn_8034009C(wait);

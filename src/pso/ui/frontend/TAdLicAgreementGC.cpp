@@ -4,6 +4,7 @@
 #include "pso/ui/frontend/TAdScrollWinGC_80327504.h"
 
 #include "pso/ui/frontend/TAdScrollWinGC.h"
+#include "pso/system/task/TObject.h"
 
 #pragma readonly_strings on
 
@@ -38,7 +39,6 @@ struct VObj_80329C84_80329BB8 : Base_80329C84_80329BB8 {
 extern "C" {
 
 void TAdAgreementBaseGC__ct(void *);
-void *__nw__7TObjectFUl(int);
 int request_scene_change__21TAdMultiChgGameModeGCFv(void*);
 int set_game_mode__21TAdMultiChgGameModeGCFv(void*);
 int set_mode_1c__21TAdMultiChgGameModeGCFv(void*);
@@ -75,7 +75,7 @@ void *TAdLicAgreementGC__ct(void *ad_lic_agreement_gc) {
     ((TAdLicAgreementGC *)ad_lic_agreement_gc)->m_name = lbl_805D41C0;
     ((TAdLicAgreementGC *)ad_lic_agreement_gc)->m_34 = 0;
     ((TAdLicAgreementGC *)ad_lic_agreement_gc)->m_38 = 0;
-    o = __nw__7TObjectFUl(0x54);
+    o = TObject::operator new(0x54);
     if (o != NULL) {
         o = TAdScrollWinGC__ct((TAdScrollWinGC *)o, ad_lic_agreement_gc, 0, 0);
     }

@@ -10,7 +10,7 @@ class TParticleCtrl;
 
 class TBoss6Demo11_TYPE1_DEAD : public TObject {
 public:
-    // One drawn body part: get_bml_model / TObjFish__sub_8001EDB0 / get_bml_motion results (ctor loop).
+    // One drawn body part: get_bml_model / get_bml_texlist / get_bml_motion results (ctor loop).
     struct Part {
         s32 model;
         s32 texture;

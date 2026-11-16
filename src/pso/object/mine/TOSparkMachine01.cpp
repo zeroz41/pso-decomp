@@ -2,12 +2,13 @@
 #include "pso/object/mine/TOSparkMachine01.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/object/mine/TOSparkMachine01.h"
+
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include <stdlib.h>
+#include "pso/system/task/TObject.h"
 
 #pragma readonly_strings on
 
@@ -21,9 +22,6 @@ const char *TOSparkMachine01__name = "TOSparkMachine01";
 u32 TOSparkMachine01__static_resource;
 }
 
-
-struct RecoveredGlobal_80177330_lbl_804B43F0 { s32 value; u8 remaining[0xC]; };
-typedef char RecoveredGlobal_80177330_lbl_804B43F0_size[sizeof(RecoveredGlobal_80177330_lbl_804B43F0) == 0x10 ? 1 : -1];
 
 struct VBase_801773D8 { u8 pad[0x18]; };
 
@@ -99,8 +97,6 @@ void rotate_matrix_y(int, int);
 void push_matrix();
 void post_translate_matrix(void *);
 void free_bin_model_request(void*, int);
-void __dl__7TObjectFPv(void *);
-void *__nw__7TObjectFUl(int);
 
 void TOSparkMachine01::update_spark_toggle(s32 i) {
     Obj_80177088 *self = (Obj_80177088 *)this;
@@ -168,7 +164,7 @@ void TOSparkMachine01::render() {
 }
 
 void *TOSparkMachine01::create() {
-    void *o = __nw__7TObjectFUl(0xB0);
+    void *o = TObject::operator new(0xB0);
     if (o != NULL) {
         o = TOSparkMachine01__ct(o, this);
     }
@@ -197,7 +193,7 @@ void TOSparkMachine01::load_static_resource() {
 TOSparkMachine01::~TOSparkMachine01() {
 
 }
-extern "C" {
+
 void *TOSparkMachine01__ct(void *arg0, void *arg1) {
     Obj_801773D8 *self = (Obj_801773D8 *)arg0;
     s32 i;
@@ -218,4 +214,3 @@ void *TOSparkMachine01__ct(void *arg0, void *arg1) {
     return self;
 }
 
-}

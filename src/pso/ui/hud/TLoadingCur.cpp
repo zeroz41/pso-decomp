@@ -10,6 +10,7 @@
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/task/TObject.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 struct Stack_8001CAD4 {
     s32 sp8;
@@ -22,21 +23,14 @@ struct RecoveredGlobal_8001CAD4_lbl_804349FC {
     u8 remaining[0x8];
 };
 
-struct RecoveredGlobal_8001CAD4_lbl_804FF5E8 {
-    s32 value;
-    u8 remaining[0x24];
-};
-
 struct RecoveredGlobal_8001CAD4_lbl_8058D490 {
     s32 value;
     u8 remaining[0x2C];
 };
 
-struct Vec_8001CBC4 { f32 x, y, z; };
+struct Tbl_8001CBC4 { Vec base; Vec dir; };
 
-struct Tbl_8001CBC4 { Vec_8001CBC4 base; Vec_8001CBC4 dir; };
-
-struct Obj_8001CBC4 { u8 pad[0x44]; Vec_8001CBC4 pos; };
+struct Obj_8001CBC4 { u8 pad[0x44]; Vec pos; };
 
 extern "C" {
 f32 vec3_add_to(void *, void *);
@@ -48,12 +42,11 @@ s32 rotate_matrix_x(int, int);
 const char *TLoadingCur__class_name = "TLoadingCur";
 #pragma pop
 extern const RecoveredGlobal_8001CAD4_lbl_804349FC lbl_804349FC = {0};
-extern RecoveredGlobal_8001CAD4_lbl_804FF5E8 lbl_804FF5E8;
+extern f32 lbl_804FF5E8[];
 extern RecoveredGlobal_8001CAD4_lbl_8058D490 identity_matrix;
 extern u32 camera_ctrl_instance;
 
 typedef char RecoveredGlobal_8001CAD4_lbl_804349FC_size[sizeof(RecoveredGlobal_8001CAD4_lbl_804349FC) == 0xC ? 1 : -1];
-typedef char RecoveredGlobal_8001CAD4_lbl_804FF5E8_size[sizeof(RecoveredGlobal_8001CAD4_lbl_804FF5E8) == 0x28 ? 1 : -1];
 typedef char RecoveredGlobal_8001CAD4_lbl_8058D490_size[sizeof(RecoveredGlobal_8001CAD4_lbl_8058D490) == 0x30 ? 1 : -1];
 void TLoadingCur::update_camera_facing_offset() {
     u8 *arg0 = (u8 *)this;
@@ -66,14 +59,14 @@ void TLoadingCur::update_camera_facing_offset() {
         stack.sp8 = *(s32 *)((s8 *)&lbl_804349FC.value + 0);
         stack.spC = *(s32 *)((s8 *)&lbl_804349FC.value + 4);
         stack.sp10 = *(s32 *)((s8 *)&lbl_804349FC.value + 8);
-        *(f32 *)((s8 *)arg0 + 0x50) = (f32) -*(f32 *)((s8 *)&lbl_804FF5E8.value + 0xC);
-        this->m_54 = (f32) -*(f32 *)((s8 *)&lbl_804FF5E8.value + 0x10);
-        *(f32 *)&this->unk_58 = (f32) -*(f32 *)((s8 *)&lbl_804FF5E8.value + 0x14);
+        *(f32 *)((s8 *)arg0 + 0x50) = (f32) -*(f32 *)((s8 *)&lbl_804FF5E8 + 0xC);
+        this->m_54 = (f32) -*(f32 *)((s8 *)&lbl_804FF5E8 + 0x10);
+        *(f32 *)&this->unk_58 = (f32) -*(f32 *)((s8 *)&lbl_804FF5E8 + 0x14);
         direction_to_rotation_xy((arg0 + 0x50), (&stack.sp8), (&stack.spC));
         push_matrix_from((void *)&identity_matrix.value);
         rotate_matrix_y(0, stack.spC);
         rotate_matrix_x(0, stack.sp8);
-        rotate_vector_by_matrix(0, arg0 + 0x20, (u8 *)&this->_pad48);
+        rotate_vector_by_matrix(0, (u8 *)&this->m_20, (u8 *)&this->_pad48);
         pop_matrices(1);
         vec3_add_to((u8 *)&this->_pad48, arg0 + 0x44);
         ((TParticleCtrl *)*(u32 *)((s8 *)arg0 + 0x1C))->set_position((u8 *)&this->_pad48);
@@ -81,7 +74,7 @@ void TLoadingCur::update_camera_facing_offset() {
 }
 #pragma push
 #pragma fp_contract on
-Vec_8001CBC4 calc_loading_cursor_pos(Obj_8001CBC4 *o) {
+Vec calc_loading_cursor_pos(Obj_8001CBC4 *o) {
     if (camera_ctrl_instance != 0) {
         o->pos.x = 1e+02f * (*(Tbl_8001CBC4 *)&lbl_804FF5E8).dir.x + (*(Tbl_8001CBC4 *)&lbl_804FF5E8).base.x;
         o->pos.y = 1e+02f * (*(Tbl_8001CBC4 *)&lbl_804FF5E8).dir.y + (*(Tbl_8001CBC4 *)&lbl_804FF5E8).base.y;
@@ -97,16 +90,6 @@ struct Stack_8001D0A0 {
     s32 sp8;
     s32 spC;
     s32 sp10;
-};
-
-struct RecoveredGlobal_8001D0A0___vt__11TLoadingCur {
-    s32 value;
-    u8 remaining[0x14];
-};
-
-struct RecoveredGlobal_8001D0A0_lbl_804FF5E8 {
-    s32 value;
-    u8 remaining[0x24];
 };
 
 struct Pad_8001CD90 {
@@ -135,15 +118,11 @@ struct Self_8001CD90 {
 
 struct Obj_8001CCD4 { u8 pad0[0x38]; f32 f38; f32 f3c; f32 f40; };
 
-struct V2_8001CCD4 { f32 x, y; };
-
 extern "C" {
 
 s32 __ct__7TObjectFP7TObject(void *, void *);
 extern s32 __vt__11TLoadingCur[];
 
-
-s32 is_split_screen(void);
 
 s32 is_flag_set__11TLoadingCurFv(void *, s32);
 s32 play_persistent_sound(int, void *, void *, int, int);
@@ -181,7 +160,7 @@ s32 TLoadingCur::calc_clamp_offset(s32 arg0, u8 *arg1, u8 *arg2) {
 int TLoadingCur::sub_8001CCD4() {
     Obj_8001CCD4 *self = (Obj_8001CCD4 *)this;
     f32 sp10[2];
-    V2_8001CCD4 v;
+    NJS_POINT2 v;
     push_matrix();
     project_world_to_screen(0, (u8 *)self + 0x2c, sp10);
     pop_matrix();
@@ -271,15 +250,13 @@ TLoadingCur::~TLoadingCur() {
 
 #pragma push
 #pragma fp_contract on
-typedef char RecoveredGlobal_8001D0A0___vt__11TLoadingCur_size[sizeof(RecoveredGlobal_8001D0A0___vt__11TLoadingCur) == 0x18 ? 1 : -1];
-typedef char RecoveredGlobal_8001D0A0_lbl_804FF5E8_size[sizeof(RecoveredGlobal_8001D0A0_lbl_804FF5E8) == 0x28 ? 1 : -1];
 u8 *TLoadingCur__ct(u8 *object, s32 arg1) {
     typedef char sp8_offset[(offsetof(Stack_8001D0A0, sp8) == 0x0) ? 1 : -1];
     typedef char spC_offset[(offsetof(Stack_8001D0A0, spC) == 0x4) ? 1 : -1];
     typedef char sp10_offset[(offsetof(Stack_8001D0A0, sp10) == 0x8) ? 1 : -1];
     Stack_8001D0A0 stack;
     __ct__7TObjectFP7TObject((void *)object, (void *)arg1);
-    *(s32 **)((s8 *)object + 0x18) = &(*(RecoveredGlobal_8001D0A0___vt__11TLoadingCur *)&__vt__11TLoadingCur).value;
+    *(s32 **)((s8 *)object + 0x18) = __vt__11TLoadingCur;
     *(s32 *)((s8 *)object + 0) = (s32) TLoadingCur__class_name;
     *(f32 *)((s8 *)object + 0x20) = 0.0f;
     *(f32 *)((s8 *)object + 0x24) = 0.0f;
@@ -287,12 +264,12 @@ u8 *TLoadingCur__ct(u8 *object, s32 arg1) {
     *(f32 *)((s8 *)object + 0x38) = 0.0f;
     *(f32 *)((s8 *)object + 0x3C) = 0.0f;
     *(f32 *)((s8 *)object + 0x40) = 0.0f;
-    *(f32 *)((s8 *)object + 0x44) = (f32) ((1e+02f * *(f32 *)((s8 *)&lbl_804FF5E8.value + 0xC)) + *(f32 *)((s8 *)&lbl_804FF5E8.value + 0));
-    *(f32 *)((s8 *)object + 0x48) = (f32) ((1e+02f * *(f32 *)((s8 *)&lbl_804FF5E8.value + 0x10)) + *(f32 *)((s8 *)&lbl_804FF5E8.value + 4));
-    *(f32 *)((s8 *)object + 0x4C) = (f32) ((1e+02f * *(f32 *)((s8 *)&lbl_804FF5E8.value + 0x14)) + *(f32 *)((s8 *)&lbl_804FF5E8.value + 8));
-    *(f32 *)((s8 *)object + 0x50) = (f32) -*(f32 *)((s8 *)&lbl_804FF5E8.value + 0xC);
-    *(f32 *)((s8 *)object + 0x54) = (f32) -*(f32 *)((s8 *)&lbl_804FF5E8.value + 0x10);
-    *(f32 *)((s8 *)object + 0x58) = (f32) -*(f32 *)((s8 *)&lbl_804FF5E8.value + 0x14);
+    *(f32 *)((s8 *)object + 0x44) = (f32) ((1e+02f * *(f32 *)((s8 *)&lbl_804FF5E8 + 0xC)) + *(f32 *)((s8 *)&lbl_804FF5E8 + 0));
+    *(f32 *)((s8 *)object + 0x48) = (f32) ((1e+02f * *(f32 *)((s8 *)&lbl_804FF5E8 + 0x10)) + *(f32 *)((s8 *)&lbl_804FF5E8 + 4));
+    *(f32 *)((s8 *)object + 0x4C) = (f32) ((1e+02f * *(f32 *)((s8 *)&lbl_804FF5E8 + 0x14)) + *(f32 *)((s8 *)&lbl_804FF5E8 + 8));
+    *(f32 *)((s8 *)object + 0x50) = (f32) -*(f32 *)((s8 *)&lbl_804FF5E8 + 0xC);
+    *(f32 *)((s8 *)object + 0x54) = (f32) -*(f32 *)((s8 *)&lbl_804FF5E8 + 0x10);
+    *(f32 *)((s8 *)object + 0x58) = (f32) -*(f32 *)((s8 *)&lbl_804FF5E8 + 0x14);
     stack.sp8 = 0;
     stack.spC = 0;
     stack.sp10 = 0;

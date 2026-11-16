@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/object/city/CityDoors.h"
 #include "pso/render/render_util.h"
 #include "pso/system/task/TObject.h"
 #include "pso/player/TObjPlayer.h"
@@ -22,7 +23,7 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/map/TObjMapCsn.h"
-#include "pso/object/TUnk_804B5BA8.h"
+
 
 struct RecoveredGlobal_8018289C_lbl_80443F4C
 {
@@ -33,7 +34,6 @@ struct RecoveredGlobal_80182D8C_lbl_80443F20 {
     s32 value;
     u8 remaining[0x28];
 };
-typedef struct { f32 x, y, z; } Vec_80181BAC;
 extern "C" {
 extern const char city_door_asset_de_obj_bigbeam_gj[];
 __declspec(section ".rodata") const char city_door_asset_de_obj_bigbeam_gj[] ATTRIBUTE_ALIGN(4) = "de_obj_bigbeam.gj";
@@ -114,7 +114,7 @@ __declspec(section ".rodata") RecoveredGlobal_8018289C_lbl_80443F4C TObjCityDoor
 __declspec(section ".rodata") u8 TObjCityDoor_Guild__params[] = {0x40, 0x00, 0x00, 0x00, 0x45, 0x61, 0x00, 0x00, 0x45, 0xC8, 0x00, 0x00, 0x40, 0x00, 0x00, 0x00, 0x41, 0xC0, 0x00, 0x00, 0x44, 0x48, 0x00, 0x00, 0x41, 0xF0, 0x00, 0x00};
 __declspec(section ".rodata") u8 city_door_warp_params[] = {0x3F, 0x80, 0x00, 0x00, 0x45, 0xFD, 0x20, 0x00, 0x46, 0x61, 0x00, 0x00, 0x42, 0x48, 0x00, 0x00, 0x40, 0xD0, 0x00, 0x00, 0x44, 0x48, 0x00, 0x00, 0x42, 0x8C, 0x00, 0x00};
 __declspec(section ".rodata") u8 city_door_med_params[] = {0x3F, 0x80, 0x00, 0x00, 0x45, 0x61, 0x00, 0x00, 0x45, 0xC8, 0x00, 0x00, 0x40, 0x80, 0x00, 0x00, 0x41, 0xC8, 0x00, 0x00, 0x44, 0x48, 0x00, 0x00, 0x41, 0xF0, 0x00, 0x00};
-__declspec(section ".rodata") Vec_80181BAC city_door_lobby_collision_vertices[] = {{-14.0f, 0.0f, -38.0f}, {-14.0f, 40.0f, -38.0f}, {-10.0f, 0.0f, -12.0f}, {-10.0f, 40.0f, -12.0f}, {-2.0f, 0.0f, 2.0f}, {-2.0f, 40.0f, 2.0f}, {12.0f, 0.0f, 12.0f}, {12.0f, 40.0f, 12.0f}, {38.0f, 0.0f, 16.0f}, {38.0f, 40.0f, 16.0f}};
+__declspec(section ".rodata") Vec city_door_lobby_collision_vertices[] = {{-14.0f, 0.0f, -38.0f}, {-14.0f, 40.0f, -38.0f}, {-10.0f, 0.0f, -12.0f}, {-10.0f, 40.0f, -12.0f}, {-2.0f, 0.0f, 2.0f}, {-2.0f, 40.0f, 2.0f}, {12.0f, 0.0f, 12.0f}, {12.0f, 40.0f, 12.0f}, {38.0f, 0.0f, 16.0f}, {38.0f, 40.0f, 16.0f}};
 extern const u16 city_door_lobby_quad_triangle_indices[];
 __declspec(section ".rodata") const u16 city_door_lobby_quad_triangle_indices[] = {1, 0, 3, 3, 0, 2};
 extern const char TObjCityDoor_Shop__class_name[];
@@ -130,49 +130,20 @@ __declspec(section ".rodata") const char TObjCityDoor_Lobby__class_name[] ATTRIB
 }
 struct Obj_80181F10;
 
-struct RecoveredGlobal_8019A9B8_lbl_804B8F60 {
-    const char *value;
-    const char **models;
-    const char **motions;
-    u32 counts;
-    u32 padding;
-};
-
-struct RecoveredGlobal_8019A880_lbl_804B8F70 {
-    s32 value;
-    u8 remaining[0x28];
-};
-
-struct RecoveredGlobal_8019A880___vt__8TObjTank {
-    s32 value;
-    u8 remaining[0x38];
-};
-
-struct Base_80181AE8 { char pad[0x18]; };
-
-struct VObj_80181AE8 : Base_80181AE8 {
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3();
-    virtual void m4(); virtual void m5(); virtual void m6(); virtual void m7();
-    virtual s32 m8(f32, f32);
-};
-
 extern u8 *city_common_model_archive;
 extern s32 city_common_texture_list;
 extern "C" {
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-u8 * load_gvm_texture_file(s32);
-int is_phase_e__9TObjEneDDFPv(void*);
-void render__18TObjCityDoor_LobbyFv(void* p);
 }
-extern RecoveredGlobal_8019A9B8_lbl_804B8F60 bm_obj_city_common_resource_descriptor;
-void load_city_common_resources(void);
-s32 get_city_common_model(s32);
+u8 * load_gvm_texture_file(s32);
 extern "C" {
+void render__18TObjCityDoor_LobbyFv(void* p);
 s32 post_translate_matrix(void *);
 s32 draw_ginja_object();
 s32 push_matrix();
 s32 free_bin_model_request(s32, s32);
 s32 release_texture_list(void*);
+}
 
 void TLobby::free_map_resources() {
     if ((u32) city_common_texture_list != 0U) {
@@ -183,10 +154,10 @@ void TLobby::free_map_resources() {
     free_bin_model_request((s32)city_common_model_archive, 1);
     city_common_model_archive = 0;
 }
-}
-typedef char RecoveredGlobal_8019A880_lbl_804B8F70_size[sizeof(RecoveredGlobal_8019A880_lbl_804B8F70) == 0x2C ? 1 : -1];
-typedef char RecoveredGlobal_8019A880___vt__8TObjTank_size[sizeof(RecoveredGlobal_8019A880___vt__8TObjTank) == 0x3C ? 1 : -1];
-typedef char RecoveredGlobal_8019A9B8_lbl_804B8F60_size[sizeof(RecoveredGlobal_8019A9B8_lbl_804B8F60) == 0x14 ? 1 : -1];
+struct BmObjCityCommonResourceDescriptor { const char * value; const char * * models; const char * * motions; u32 counts; u32 padding; };
+extern BmObjCityCommonResourceDescriptor bm_obj_city_common_resource_descriptor;
+void load_city_common_resources(void);
+s32 get_city_common_model(s32);
 void load_city_common_resources(void) {
     s32 temp_r3;
     s32 var_r0;
@@ -201,8 +172,7 @@ void load_city_common_resources(void) {
 extern "C" {
 void TObjCityDoor_Lobby::render() { if (is_phase_e__9TObjEneDDFPv(this) != 0) { process_lobby_action_14(); } }
 void TObjCityDoor_Lobby::process_lobby_action_14() {
-    u8 *arg0 = (u8 *)this;
-    if (((VObj_80181AE8 *)arg0)->m8(400.0f, 70.0f) != 0) {
+    if (this->update_object_view_visibility(400.0f, 70.0f) != 0) {
         TObjFish::set_global_param((*(s32 *)&city_common_texture_list));
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
@@ -215,7 +185,6 @@ void TObjCityDoor_Lobby::process_lobby_action_14() {
 
 void run_task__18TObjCityDoor_LobbyFv(void);
 void dispatch_lobby_action__18TObjCityDoor_LobbyFv(s32 arg0);
-int is_phase_e__9TObjEneDDFPv(void *);
 
 void TObjCityDoor_Lobby::run_task() {  }
 void TObjCityDoor_Lobby::dispatch_lobby_action() {
@@ -233,8 +202,8 @@ void TObjCityDoor_Lobby::dispatch_lobby_action() {
 typedef struct {
     u16 idx[3];
     s16 f6;
-    Vec_80181BAC normal;
-    Vec_80181BAC center;
+    Vec normal;
+    Vec center;
     f32 dist;
 } Tri_80181BAC;
 
@@ -243,23 +212,23 @@ typedef struct {
     u8 f38[0x60 - 0x38];
     s32 f60;
     u8 pad64[0x94 - 0x64];
-    Vec_80181BAC f94;
+    Vec f94;
     u8 padA0[0xB8 - 0xA0];
     Tri_80181BAC tris[8];
-    Vec_80181BAC verts[10];
+    Vec verts[10];
 } Obj_80181BAC;
 
-void vec3_add_to(Vec_80181BAC *, Vec_80181BAC *);
-void mult_vec_array__10TObjPlayerFUll(s32, Vec_80181BAC *, Vec_80181BAC *, s32);
+void vec3_add_to(Vec *, Vec *);
+void mult_vec_array__10TObjPlayerFUll(s32, Vec *, Vec *, s32);
 s32 push_matrix(void);
-extern Vec_80181BAC city_door_lobby_collision_vertices[];
+extern Vec city_door_lobby_collision_vertices[];
 
 #define self ((Obj_80181BAC *)arg0)
 
 s32 TObjCityDoor_Lobby::build_door_collision_triangles() {
     s32 arg0 = (s32)this;
-    Vec_80181BAC v[3];
-    Vec_80181BAC sum;
+    Vec v[3];
+    Vec sum;
     Tri_80181BAC *t1;
     Tri_80181BAC *t;
     s32 m;
@@ -322,10 +291,7 @@ s32 TObjCityDoor_Lobby::build_door_collision_triangles() {
 #pragma pop
 
 Obj_80181F10 *TObjCityDoor_Lobby__ct(Obj_80181F10 *, void *, s32);
-void *__nw__7TObjectFUl(int);
 extern void *tl_05;
-u8 *TObjCityDoor_Lobby__create(s32 arg0);
-int is_phase_e__9TObjEneDDFPv(void* p);
 int is_phase_e__9TObjEneDDFv(void*);
 
 int is_phase_e__9TObjEneDDFPv(void* p) { return is_phase_e__9TObjEneDDFv(p); }
@@ -335,7 +301,7 @@ u8 *TObjCityDoor_Lobby__create(s32 arg0) {
     if (is_split_screen() != 0) {
         return NULL;
     }
-    temp_r3 = (u8 *)(__nw__7TObjectFUl(0x254));
+    temp_r3 = (u8 *)(TObject::operator new(0x254));
     var_r0 = (u8 *)(temp_r3);
     if (var_r0 != NULL) {
         var_r0 = (u8 *)(TObjCityDoor_Lobby__ct((Obj_80181F10 *)temp_r3, tl_05, arg0));
@@ -343,31 +309,27 @@ u8 *TObjCityDoor_Lobby__create(s32 arg0) {
     return var_r0;
 }
 
-u8 *__dt__18TObjCityDoor_LobbyFPvs(u8 *arg0, s16 arg1);
 u32 get_map_count__10TObjMapCsnFv();
 void __dl__7TObjectFPv(void *);
 }
 void remove_value_from_id_list(s32 arg0, u32 arg1);
 
 extern s32 __vt__18TObjCityDoor_Lobby[];
-extern "C" {
 
-u8 *__dt__18TObjCityDoor_LobbyFPvs(u8 *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__18TObjCityDoor_Lobby;
-        if (((s32) ((TObjCityDoor_Lobby *)arg0)->m_250 != 0) && (TObjMapCsn::get_map_count() != 0U)) {
-            remove_value_from_id_list(TObjMapCsn::get_map_count(), (u32)(arg0 + 0x90));
+
+u8 *__dt__18TObjCityDoor_LobbyFPvs(u8 *city_door_lobby, s16 arg1) {
+    if (city_door_lobby != NULL) {
+        *(s32 **)((s8 *)city_door_lobby + 0x18) = __vt__18TObjCityDoor_Lobby;
+        if (((s32) ((TObjCityDoor_Lobby *)city_door_lobby)->m_250 != 0) && (TObjMapCsn::get_map_count() != 0U)) {
+            remove_value_from_id_list(TObjMapCsn::get_map_count(), (u32)(city_door_lobby + 0x90));
         }
-        __dt__8TObjBaseFv(arg0, 0);
+        __dt__8TObjBaseFv(city_door_lobby, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(city_door_lobby);
         }
     }
-    return arg0;
+    return city_door_lobby;
 }
-}
-
-struct Vec_80181F10 { f32 x, y, z; };
 
 struct VBase_80181F10 { u8 pad[0x18]; };
 
@@ -379,10 +341,10 @@ struct Obj_80181F10 : VBase_80181F10 {
     virtual void m4();
     virtual void m5(s32);
     u8 pad1c[0x38 - 0x1C];
-    Vec_80181F10 pos;
+    Vec pos;
     u8 pad44[0x90 - 0x44];
     void *x90;
-    Vec_80181F10 pos94;
+    Vec pos94;
     f32 xa0;
     s32 xa4;
     s32 xa8;
@@ -478,8 +440,10 @@ extern "C" {
 
 void run_task__16TObjCityDoor_MedFv(void *arg0);
 void render__16TObjCityDoor_MedFv(u8 *arg0);
+}
 s32 get_city_common_motion(s32);
-s32 draw_ginja_model_with_motion(s32, s32, f32);
+extern "C" {
+void draw_ginja_model_with_motion(void *model, void *motion, f32 frame);
 
 void TObjCityDoor_Med::render() {
     u8 *arg0 = (u8 *)this;
@@ -489,7 +453,7 @@ void TObjCityDoor_Med::render() {
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
         translate_matrix(0, 0.0f, 0.0f, -80.0f);
-        draw_ginja_model_with_motion(get_city_common_model(0x14), get_city_common_motion(0xB), this->m_b4);
+        draw_ginja_model_with_motion((void *)(get_city_common_model(0x14)), (void *)(get_city_common_motion(0xB)), this->m_b4);
         pop_matrix();
     }
 }
@@ -499,19 +463,14 @@ void TObjCityDoor_Med::run_task() {
     o->m19();
 }
 
-void *TObjCityDoor_Med__create(void *arg0);
-void *dt__16TObjCityDoor_MedFPvs(void *arg0, s16 arg1);
-s32 TLobby__sub_80182E60();
 s32 get_game_play_mode();
-void *TObjCityDoor_Med__ct(void *, void *, void *);
 }
 s32 is_rader_map_active(void);
 u8 *init_city_door(u8 *, s32, s32, u8 *);
-extern "C" {
-void *TObjPlayer__sub_80182D24(void *, s16);
+
 
 void *TObjCityDoor_Med__create(void *set) {
-    void *o = __nw__7TObjectFUl(0xBC);
+    void *o = TObject::operator new(0xBC);
     if (o != NULL) {
         o = TObjCityDoor_Med__ct(o, tl_05, set);
     }
@@ -520,15 +479,15 @@ void *TObjCityDoor_Med__create(void *set) {
 
 extern s32 __vt__16TObjCityDoor_Med[];
 
-void *dt__16TObjCityDoor_MedFPvs(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__16TObjCityDoor_Med;
-        TObjPlayer__sub_80182D24(arg0, 0);
+void *dt__16TObjCityDoor_MedFPvs(void *object, s16 arg1) {
+    if (object != NULL) {
+        *(s32 **)((s8 *)object + 0x18) = __vt__16TObjCityDoor_Med;
+        TObjPlayer__sub_80182D24(object, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(object);
         }
     }
-    return arg0;
+    return object;
 }
 
 extern u8 city_door_med_params[]; __declspec(section ".sdata") extern const char *TObjCityDoor_Med__name;
@@ -537,7 +496,6 @@ void *TObjCityDoor_Med__ct(void *o, void *parent, void *set) {
  *(s32 **)((u8 *)o + 0x18)=__vt__16TObjCityDoor_Med;*(s32 *)((u8 *)o + 0)=(s32)TObjCityDoor_Med__name;
  ((TObjCityDoor_Med *)o)->m_b0=(f32)(*(u32 *)((u8 *)get_city_common_motion(11) + 4)-1);
  return o;
-}
 }
 
 s32 is_rader_map_active(void) {
@@ -587,8 +545,8 @@ void TObjCityDoor_Warp::render() {
  if(((CityDoorProbe*)this)->visible()!=0) {
   TObjFish::set_global_param(city_common_texture_list);push_matrix();
   post_translate_matrix((u8*)this+0x38);rotate_matrix_y(0,F(this,s32,0x60));
-  draw_ginja_model_with_motion(get_city_common_model(9),get_city_common_motion(8),F(this,f32,0xB4));
-  draw_ginja_model_with_motion(get_city_common_model(10),get_city_common_motion(9),F(this,f32,0xB4));
+  draw_ginja_model_with_motion((void *)(get_city_common_model(9)), (void *)(get_city_common_motion(8)), F(this,f32,0xB4));
+  draw_ginja_model_with_motion((void *)(get_city_common_model(10)), (void *)(get_city_common_motion(9)), F(this,f32,0xB4));
   pop_matrix();
  }
 }
@@ -638,7 +596,6 @@ void TObjCityDoor_Warp::city_door_tick_opening() {
 }
 #pragma pop
 
-u8 *TObjCityDoor_Shop__ct(u8 *arg0, s32 arg1, s32 arg2);
 }
 #define FOLD_F(o,t,p) (*(t*)((u8*)(o)+(p)))
 struct Base_80182600_8018245C { char pad[0x18]; };
@@ -693,13 +650,10 @@ struct VObj_8018257c_8018245C : Base_8018257c_8018245C {
 };
 
 void run_task__18TObjCityDoor_GuildFv(void *arg0);
-void *TObjCityDoor_Warp__create(void *arg0);
-void *dt__17TObjCityDoor_WarpFPvs(void *arg0, s16 arg1);
 void render__18TObjCityDoor_GuildFv(u8 *arg0);
-void *TObjCityDoor_Warp__ct(void *, void *, void *);
 
 void *TObjCityDoor_Warp__create(void *set) {
-    void *o = __nw__7TObjectFUl(0xBC);
+    void *o = TObject::operator new(0xBC);
     if (o != NULL) {
         o = TObjCityDoor_Warp__ct(o, tl_05, set);
     }
@@ -708,15 +662,15 @@ void *TObjCityDoor_Warp__create(void *set) {
 
 extern s32 __vt__17TObjCityDoor_Warp[];
 
-void *dt__17TObjCityDoor_WarpFPvs(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__17TObjCityDoor_Warp;
-        TObjPlayer__sub_80182D24(arg0, 0);
+void *dt__17TObjCityDoor_WarpFPvs(void *object, s16 arg1) {
+    if (object != NULL) {
+        *(s32 **)((s8 *)object + 0x18) = __vt__17TObjCityDoor_Warp;
+        TObjPlayer__sub_80182D24(object, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(object);
         }
     }
-    return arg0;
+    return object;
 }
 
 extern u8 city_door_warp_params[]; __declspec(section ".sdata") extern const char *TObjCityDoor_Warp__name;
@@ -735,7 +689,7 @@ void TObjCityDoor_Guild::render() {
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
-        draw_ginja_model_with_motion(get_city_common_model(0x15), get_city_common_motion(0xC), this->m_b4);
+        draw_ginja_model_with_motion((void *)(get_city_common_model(0x15)), (void *)(get_city_common_motion(0xC)), this->m_b4);
         pop_matrix();
     }
 }
@@ -782,14 +736,11 @@ struct VObj_801827CC_8018262C : Base_801827CC_8018262C {
 
 extern "C" {
 
-void *TObjCityDoor_Guild__create(void *arg0);
 void run_task__17TObjCityDoor_ShopFv(void *arg0);
-void *dt__18TObjCityDoor_GuildFPvs(void *arg0, s16 arg1);
 void render__17TObjCityDoor_ShopFv(u8 *arg0);
-void *TObjCityDoor_Guild__ct(void *, void *, void *);
 
 void *TObjCityDoor_Guild__create(void *set) {
-    void *o = __nw__7TObjectFUl(0xBC);
+    void *o = TObject::operator new(0xBC);
     if (o != NULL) {
         o = TObjCityDoor_Guild__ct(o, tl_05, set);
     }
@@ -798,15 +749,15 @@ void *TObjCityDoor_Guild__create(void *set) {
 
 extern s32 __vt__18TObjCityDoor_Guild[];
 
-void *dt__18TObjCityDoor_GuildFPvs(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__18TObjCityDoor_Guild;
-        TObjPlayer__sub_80182D24(arg0, 0);
+void *dt__18TObjCityDoor_GuildFPvs(void *object, s16 arg1) {
+    if (object != NULL) {
+        *(s32 **)((s8 *)object + 0x18) = __vt__18TObjCityDoor_Guild;
+        TObjPlayer__sub_80182D24(object, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(object);
         }
     }
-    return arg0;
+    return object;
 }
 
 extern u8 TObjCityDoor_Guild__params[]; __declspec(section ".sdata") extern const char *TObjCityDoor_Guild__name;
@@ -824,7 +775,7 @@ void TObjCityDoor_Shop::render() {
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
-        draw_ginja_model_with_motion(*(s32 *)((s8 *)(*(void **)((s8 *)city_common_model_archive + 0x42C)) + 0xB8), *(s32 *)((s8 *)(*(void **)((s8 *)city_common_model_archive + 0x430)) + 0x54), this->m_b4);
+        draw_ginja_model_with_motion((void *)(*(s32 *)((s8 *)(*(void **)((s8 *)city_common_model_archive + 0x42C)) + 0xB8)), (void *)(*(s32 *)((s8 *)(*(void **)((s8 *)city_common_model_archive + 0x430)) + 0x54)), this->m_b4);
         pop_matrix();
     }
 }
@@ -842,30 +793,28 @@ struct RecoveredGlobal_8018289C_lbl_804B5B4C
   s32 remaining[22];
 };
 
-extern "C" {
+
 extern RecoveredGlobal_8018289C_lbl_80443F4C TObjCityDoor_Shop__params;
 extern RecoveredGlobal_8018289C_lbl_804B5B4C __vt__17TObjCityDoor_Shop;
 __declspec(section ".sdata") extern const char *TObjCityDoor_Shop__name;
-void *TObjCityDoor_Shop__create(void *arg0);
-void *dt__17TObjCityDoor_ShopFPvs(void *arg0, s16 arg1);
 
 void *TObjCityDoor_Shop__create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0xBC);
+    void *o = TObject::operator new(0xBC);
     if (o != NULL) {
         o = ((void *(*)(void *, void *, void *))TObjCityDoor_Shop__ct)(o, tl_05, arg0);
     }
     return o;
 }
 
-void *dt__17TObjCityDoor_ShopFPvs(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = (s32 *)&__vt__17TObjCityDoor_Shop;
-        TObjPlayer__sub_80182D24(arg0, 0);
+void *dt__17TObjCityDoor_ShopFPvs(void *object, s16 arg1) {
+    if (object != NULL) {
+        *(s32 **)((s8 *)object + 0x18) = (s32 *)&__vt__17TObjCityDoor_Shop;
+        TObjPlayer__sub_80182D24(object, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(object);
         }
     }
-    return arg0;
+    return object;
 }
 
 typedef struct RecoveredGlobal_8018289C_lbl_80443F4C RecoveredGlobal_8018289C_lbl_80443F4C;
@@ -884,9 +833,6 @@ u8 *TObjCityDoor_Shop__ct(u8 *city_door_shop, s32 arg1, s32 arg2) {
   return city_door_shop;
 }
 
-}
-
-#include "pso/player/TObjPlayer.h"
 
 struct Base_80182A58_8018291C { char pad[0x18]; };
 struct VObj_80182A58_8018291C : Base_80182A58_8018291C {
@@ -914,11 +860,6 @@ struct VObj_80182A58_8018291C : Base_80182A58_8018291C {
 #pragma auto_inline off
 #pragma dont_inline off
 struct ByteBlock_2C { u8 bytes[0x2c]; };
-
-struct RecoveredGlobal_80182D8C_lbl_804B5BA8 {
-    s32 value;
-    u8 remaining[0x5C];
-};
 
 #define F(o,t,p) (*(t*)((u8*)(o)+(p)))
 struct CityDoorProbe3Base {char pad[0x18];};
@@ -954,15 +895,9 @@ extern "C" {
 s32 check_player_in_range__13TUnk_804B5BA8Flf(void *arg0, s32 _w1, f32 _w2);
 s32 free_collision_body_parts(void *);
 extern s32 city_door_base_vtable[];
-void *TObjPlayer__sub_80182D24(void *arg0, s16 arg1);
 extern void *challenge_task;
-s32 TLobby__sub_80182E60(void);
 s32 init_collision_body_parts(void *, void *, int, int);
 s32 __ct__14TObjCollidableFP7TObject();
-}
-extern RecoveredGlobal_80182D8C_lbl_80443F20 city_door_init_params;
-u8 *init_city_door(u8 *arg0, s32 arg1, s32 arg2, u8 *arg3);
-extern "C" {
 void city_door_tick_opening__13TUnk_804B5BA8Fv(void* o);
 void city_door_tick_closing__13TUnk_804B5BA8Fv(void* o);
 struct Vec_8018291C { char pad14[0x14]; f32 x; f32 y; };
@@ -1098,29 +1033,29 @@ loop_1:
     goto loop_1;
 }
 s32 TUnk_804B5BA8::check_player_in_range(s32 _w1, f32 _w2) { return TObjPlayer::is_player_in_range((s32)(this), (s32)((s8 *)this + 0x38), _w2); }
-void *TObjPlayer__sub_80182D24(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = city_door_base_vtable;
-        ((TObjCollidable *)arg0)->unregister_object_by_id();
-        free_collision_body_parts(arg0);
-        __dt__14TObjCollidableFv(arg0, 0);
+void *TObjPlayer__sub_80182D24(void *collidable, s16 arg1) {
+    if (collidable != NULL) {
+        *(s32 **)((s8 *)collidable + 0x18) = city_door_base_vtable;
+        ((TObjCollidable *)collidable)->unregister_object_by_id();
+        free_collision_body_parts(collidable);
+        __dt__14TObjCollidableFv(collidable, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(collidable);
         }
     }
-    return arg0;
+    return collidable;
 }
 }
-
+extern RecoveredGlobal_80182D8C_lbl_80443F20 city_door_init_params;
+u8 *init_city_door(u8 *arg0, s32 arg1, s32 arg2, u8 *arg3);
 typedef char RecoveredGlobal_80182D8C_lbl_80443F20_size[sizeof(RecoveredGlobal_80182D8C_lbl_80443F20) == 0x2C ? 1 : -1];
-typedef char RecoveredGlobal_80182D8C_lbl_804B5BA8_size[sizeof(RecoveredGlobal_80182D8C_lbl_804B5BA8) == 0x60 ? 1 : -1];
 u8 *init_city_door(u8 *arg0, s32 arg1, s32 arg2, u8 *arg3) {
     struct CopyStack_80182D8C { u8 bytes[0x2C]; };
     CopyStack_80182D8C copy_storage_80182D8C;
     u8 *temp_r4;
     u8 *count;
     __ct__14TObjCollidableFP7TObject();
-    *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_80182D8C_lbl_804B5BA8 *)&city_door_base_vtable).value;
+    *(s32 **)((s8 *)arg0 + 0x18) = city_door_base_vtable;
     ((TUnk_804B5BA8 *)(arg0))->apply_object_set_data((void *)arg2);
     *(s32 *)((s8 *)arg0 + 0xAC) = 0;
     temp_r4 = (u8 *)&city_door_init_params.value - 4;
@@ -1158,7 +1093,7 @@ void render__7TObjectFv();
 void run_task__7TObjectFv();
 const char *bm_obj_city_common_model_names[] = {city_door_asset_de_obj_bigbeam_gj, city_door_asset_de_obj_citybeam_gj, city_door_asset_de_obj_o_aircar02_light_gj, city_door_asset_de_obj_smallbeam_gj, city_door_asset_ds_obj_o_aircar01_light_gj, city_door_asset_ds_obj_o_aircar03_light_gj, city_door_asset_ds_obj_o_aircar04_light_gj, city_door_asset_ds_obj_o_aircar05_light_gj, city_door_asset_fd_obj_n_elv_bmerge4_gj, city_door_asset_fd_obj_n_tobira_shut_sita_gj, city_door_asset_fd_obj_n_tobira_shut_ue_gj, city_door_asset_fd_obj_shopdoor_01_gj, city_door_asset_fd_obj_warp_big_gj, city_door_asset_fd_obj_warp_small_gj, city_door_asset_fe_hntdoor_fusagi_gj, city_door_asset_fe_obj_o_aircar01_nj, city_door_asset_fe_obj_o_aircar02_nj, city_door_asset_fe_obj_o_aircar03_nj, city_door_asset_fe_obj_o_aircar04_nj, city_door_asset_fe_obj_o_aircar05_nj, city_door_asset_fe_obj_o_medical_door01l_gj, city_door_asset_hunter_door_gj, 0};
 const char *bm_obj_city_common_motion_names[] = {city_door_asset_aircar_path1_njm, city_door_asset_aircar_path2_njm, city_door_asset_aircar_path3_njm, city_door_asset_aircar_path4_njm, city_door_asset_aircar_path5_njm, city_door_asset_de_obj_bigbeam_njm, city_door_asset_de_obj_citybeam_njm, city_door_asset_de_obj_smallbeam_njm, city_door_asset_fd_obj_n_tobira_shut_sita_njm, city_door_asset_fd_obj_n_tobira_shut_ue_njm, city_door_asset_fd_obj_shopdoor_01_njm, city_door_asset_fe_obj_o_medical_door01l_njm, city_door_asset_hunter_door_njm, 0};
-RecoveredGlobal_8019A9B8_lbl_804B8F60 bm_obj_city_common_resource_descriptor = {city_common_model_archive_filename, bm_obj_city_common_model_names, bm_obj_city_common_motion_names, 0x0016000D, 0};
+BmObjCityCommonResourceDescriptor bm_obj_city_common_resource_descriptor = {city_common_model_archive_filename, bm_obj_city_common_model_names, bm_obj_city_common_motion_names, 0x0016000D, 0};
 s32 __vt__18TObjCityDoor_Lobby[] = {0, 0, (s32)__dt__18TObjCityDoor_LobbyFPvs, (s32)run_task__18TObjCityDoor_LobbyFv, (s32)render__18TObjCityDoor_LobbyFv, (s32)render_shadows__7TObjectFv, (s32)vfunc_6__8TObjBaseFPsl, (s32)apply_object_set_data__8TObjBaseFPv, (s32)reset_motion_fields__8TObjBaseFv, (s32)get_center__8TObjBaseFv, (s32)update_object_view_visibility__8TObjBaseFff, (s32)classify_actor_view_detail__8TObjBaseFfff, (s32)get_name__8TObjBaseFv, (s32)dispatch_lobby_action__18TObjCityDoor_LobbyFv};
 s32 __vt__16TObjCityDoor_Med[] = {0, 0, (s32)dt__16TObjCityDoor_MedFPvs, (s32)run_task__16TObjCityDoor_MedFv, (s32)render__16TObjCityDoor_MedFv, (s32)render_shadows__7TObjectFv, (s32)vfunc_6__8TObjBaseFPsl, (s32)apply_object_set_data__8TObjBaseFPv, (s32)reset_motion_fields__14TObjCollidableFv, (s32)get_center__8TObjBaseFv, (s32)update_object_view_visibility__8TObjBaseFff, (s32)classify_actor_view_detail__8TObjBaseFfff, (s32)get_name__8TObjBaseFv, (s32)interact__14TObjCollidableFl, (s32)check_player_in_range__13TUnk_804B5BA8Flf, (s32)begin_state_1__13TUnk_804B5BA8Fv, (s32)city_door_tick_closing__13TUnk_804B5BA8Fv, (s32)city_door_tick_opening__13TUnk_804B5BA8Fv, (s32)check_ground_or_fall__13TUnk_804B5BA8Fv, (s32)city_door_play_close_sound__13TUnk_804B5BA8Fv, (s32)city_door_play_open_sound__13TUnk_804B5BA8Fv, (s32)dispatch_state__13TUnk_804B5BA8Fv, (s32)vfunc_22__13TUnk_804B5BA8Fv};
 s32 __vt__17TObjCityDoor_Warp[] = {0, 0, (s32)dt__17TObjCityDoor_WarpFPvs, (s32)run_task__17TObjCityDoor_WarpFv, (s32)render__17TObjCityDoor_WarpFv, (s32)render_shadows__7TObjectFv, (s32)vfunc_6__8TObjBaseFPsl, (s32)apply_object_set_data__8TObjBaseFPv, (s32)reset_motion_fields__14TObjCollidableFv, (s32)get_center__8TObjBaseFv, (s32)update_object_view_visibility__8TObjBaseFff, (s32)classify_actor_view_detail__8TObjBaseFfff, (s32)get_name__8TObjBaseFv, (s32)interact__14TObjCollidableFl, (s32)check_player_in_range__13TUnk_804B5BA8Flf, (s32)begin_state_1__13TUnk_804B5BA8Fv, (s32)city_door_tick_closing__13TUnk_804B5BA8Fv, (s32)city_door_tick_opening__17TObjCityDoor_WarpFv, (s32)check_ground_or_fall__13TUnk_804B5BA8Fv, (s32)city_door_play_close_sound__17TObjCityDoor_WarpFv, (s32)city_door_play_open_sound__17TObjCityDoor_WarpFv, (s32)dispatch_state__13TUnk_804B5BA8Fv, (s32)vfunc_22__13TUnk_804B5BA8Fv};

@@ -1,4 +1,5 @@
 #include "pso/render/render_util.h"
+#include "pso/effect/particle/TParticleCtrl_80085EE4.h"
 #include "pso/unk/TUnk_8048E6A8.h"
 #include "pso/unk/TUnk_8048E6DC.h"
 #include "pso/system/NinjaTypes.h"
@@ -8,26 +9,18 @@
 #include "pso/system/vector.h"
 #include "pso/unk/TUnk_8048E728.h"
 #include "pso/unk/TUnk_8048E778.h"
-#include "pso/unk/TUnk_8048E6DC.h"
-#include "pso/unk/TUnk_8048E6A8.h"
+
+
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjMotion.h"
-#include "pso/render/render_util.h"
+#include "pso/system/task/TObject.h"
+#include "pso/player/TObjPlayer_80011014.h"
+
 #pragma defer_codegen on
-
-struct RecoveredGlobal_800861F4_TParticleCtrl__data_80511F70 {
-    s32 value;
-    u8 remaining[0x1AC];
-};
-
-struct RecoveredGlobal_8008655C_lbl_8048E728 {
-    s32 value;
-    u8 remaining[0x14];
-};
 
 struct VBase_18_1a504b { char pad[0x18]; };
 
@@ -40,64 +33,8 @@ struct VObj_18_1a504b : VBase_18_1a504b {
     virtual s32 m5(s32);
 };
 
-struct RecoveredGlobal_800858D0_lbl_8048E6A8 {
-    s32 value;
-    u8 remaining[0x30];
-};
-
-struct RecoveredGlobal_80085E78_lbl_8048E6DC {
-    s32 value;
-    u8 remaining[0x30];
-};
-
-
 struct Obj_80085798 { u8 pad[0x38]; u8 target[0x10]; };
 
-struct Col_80086418 { u8 a, r, g, b; };
-
-struct FCol_80086418 { f32 a, r, g, b; };
-
-struct Ctrl_80086418 {
-    u8 pad0[0x90];
-    Col_80086418 color;
-};
-
-struct Src_800865BC {
-    u8 pad0[0x14];
-    s32 texId;
-    u8 pad18[0x58 - 0x18];
-    f32 f58;
-    f32 f5C;
-};
-
-struct Particle_800865BC {
-    u8 pad0[0x18];
-    void *vt;
-    s16 tex;
-    u8 pad1E[0x20 - 0x1E];
-    Src_800865BC *src;
-    s16 f24;
-    u16 f26;
-    f32 f28, f2C;
-    u8 pad30[0x3C - 0x30];
-    f32 f3C, f40, f44, f48, f4C, f50, f54, f58, f5C, f60, f64;
-    u8 pad68[0x6C - 0x68];
-    s32 f6C;
-    f32 f70, f74, f78, f7C, f80, f84, f88, f8C;
-    s32 f90;
-    s8 f94;
-    s8 f95;
-    s16 f96;
-    s32 f98, f9C, fA0;
-    f32 fA4, fA8;
-    u8 padAC[0xB0 - 0xAC];
-    s32 fB0, fB4, fB8;
-    f32 fBC;
-};
-
-struct Vec_80086248 { f32 x, y, z; };
-
-struct Vtx_80086248 { f32 x, y, z, u, v; u32 color; };
 
 struct UV_80086248 { f32 u0, v0, u1, v1; };
 
@@ -113,7 +50,6 @@ struct Tex_80086248 {
     u8 pad20[8];
 };
 
-typedef struct Vec_80085EE4 { f32 x, y, z; } Vec_80085EE4;
 typedef struct Quad_80085EE4 { f32 x, y, z, ax, ay, bx, by, pad1C; f32 u, v, du, k0, k1, dv; f32 pad38[2]; } Quad_80085EE4;
 
 typedef struct Cam_80085EE4 {
@@ -127,8 +63,8 @@ typedef struct Cam_80085EE4 {
 
 typedef struct Particle_80085EE4 {
     u8 pad0[0x70];
-    Vec_80085EE4 pos;
-    Vec_80085EE4 off;
+    Vec pos;
+    Vec off;
     f32 f88;
     f32 f8C;
     s32 f90;
@@ -137,30 +73,17 @@ typedef struct Particle_80085EE4 {
     s16 f96;
 } Particle_80085EE4;
 
-struct Ctrl_80086248 {
-    u8 pad0[0x1C];
-    u16 tex;
-    u8 pad1E[0x70 - 0x1E];
-    Vec_80086248 pos;
-    Vec_80086248 ofs;
-    f32 w;
-    f32 h;
-    u32 color;
-    s8 frame;
-};
-
-struct Vec_80085CB0 { f32 x, y, z; };
 
 struct Player_80085CB0 {
     u8 pad0[0x178];
-    Vec_80085CB0 pos;
+    Vec pos;
     u8 pad184[0x194 - 0x184];
     s32 f194;
 };
 
 struct Ctrl_80085CB0 {
     u8 pad0[0x38];
-    Vec_80085CB0 pos;
+    Vec pos;
     u8 pad44[0x68 - 0x44];
     f32 f68;
     u8 pad6C[0x90 - 0x6C];
@@ -177,47 +100,17 @@ struct Color_800859EC { u8 a, r, g, b; };
 struct Quad_800859EC { f32 x0, y0, x1, y1, u0, v0, u1, v1; };
 
 extern "C" {
-s32 is_split_screen(void);
-u8 *__nw__7TObjectFUl(s32);
 extern s32 tl_particle;
-extern RecoveredGlobal_800861F4_TParticleCtrl__data_80511F70 TParticleCtrl__data_80511F70;
-u8 * __dt__7TObjectFv(void *, s16);
-extern RecoveredGlobal_8008655C_lbl_8048E728 lbl_8048E728;
-u8 *__dt__13TUnk_8048E728Fv(u8 *arg0, s16 arg1);
 s32 __ct__8TObjBaseFP7TObject(void *, void *);
 extern s32 __vt__13TUnk_8048E6A8[];
 extern s32 __vt__13TUnk_8048E6DC[];
 s32 lbl_805D2930 = 1;
-void set_color_blend_mode(s32 a, s32 b, s32 c, s32 d);
-void __ct__7TObjectFP7TObject(void *, void *);
-s32 GXSetNumTexGens(int);
-s32 GXSetTevOp(int, int);
-s32 GXSetNumTevStages(int);
 s32 rotate_matrix_y(int, s32);
-s32 rotate_matrix_x(int, s32);
-s32 push_matrix();
 s32 pop_matrix();
-s32 post_translate_matrix(void *);
-s32 TParticleCtrl__sub_803E2A1C(void *, int);
 extern Tex_80086248 lbl_804C5820[];
 extern u8 *camera_ctrl_instance;
-void set_inverse_alpha_blend(void);
-f32 sin_table_lookup(int);
-f32 cos_table_lookup(int);
-s32 matrix_mult_vec(int, void *, void *);
 void begin_screen_draw(s32 arg0);
-void DVDConvertEntrynumToPath(f32 *q);
 void set_draw_texture_and_color(s32 idx, s32 arg1);
-}
-void *init_particle_base(void *arg0, void *arg1, s32 arg2);
-void load_projected_texture_matrix(f32 farg0);
-void play_indirect_effect_recipe(u8 arg0, u16 sampler, s32 second);
-s32 set_texture_num(s32 i);
-void set_inverse_color_blend(void);
-void set_constant_material_color(u32 x);
-extern Cam_80085EE4 lbl_8058D4F8;
-extern "C" {
-f32 fabs_float(f32);
 u32 csnVector(void *, void *, int);
 f32 vec3_dot(void *, void *);
 f32 vec_squared_length(u8 *arg0);
@@ -226,22 +119,15 @@ s32 normalize_vector(void *);
 s32 push_matrix_from(void *);
 extern s32 identity_matrix[];
 void project_world_to_screen(s32, void *, void *);
-void *__dt__13TUnk_8048E6A8Fv(void *arg0, s16 arg1);
-void *__dt__13TUnk_8048E6DCFv(void *arg0, s16 arg1);
 void *get_player_by_client_id(s32 i);
-void __dl__7TObjectFPv(void *);
 
 extern s32 local_client_id;
-
 }
-
-typedef char RecoveredGlobal_800858D0_lbl_8048E6A8_size[sizeof(RecoveredGlobal_800858D0_lbl_8048E6A8) == 0x34 ? 1 : -1];
-typedef char RecoveredGlobal_800861F4_TParticleCtrl__data_80511F70_size[sizeof(RecoveredGlobal_800861F4_TParticleCtrl__data_80511F70) == 0x1B0 ? 1 : -1];
-typedef char RecoveredGlobal_80085E78_lbl_8048E6DC_size[sizeof(RecoveredGlobal_80085E78_lbl_8048E6DC) == 0x34 ? 1 : -1];
+void set_constant_material_color(u32 x);
 
 u8 *TParticleCtrl::init_particle_obj(s32 arg1, s32 arg2) {
     __ct__8TObjBaseFP7TObject(this, (void *)arg2);
-    *(s32 **)((s8 *)((u8 *)this) + 0x18) = &(*(RecoveredGlobal_80085E78_lbl_8048E6DC *)&__vt__13TUnk_8048E6DC).value;
+    *(s32 **)((s8 *)((u8 *)this) + 0x18) = __vt__13TUnk_8048E6DC;
     ((VObj_18_1a504b *)(this))->m5(arg1);
     *(f32 *)((s8 *)((u8 *)this) + 0xA4) = 225.0f;
     lbl_805D2930 = 1;
@@ -255,8 +141,8 @@ TUnk_8048E6DC::~TUnk_8048E6DC() {
 #pragma fp_contract on
 void TUnk_8048E6DC::run_task() {
     Ctrl_80085CB0 *self = (Ctrl_80085CB0 *)this;
-    Vec_80085CB0 out;
-    Vec_80085CB0 d;
+    Vec out;
+    Vec d;
     f32 v;
     f32 r;
     if ((*(Player_80085CB0 * *)&camera_ctrl_instance) != NULL) {
@@ -267,7 +153,7 @@ void TUnk_8048E6DC::run_task() {
             normalize_vector(&d);
         }
         push_matrix_from(identity_matrix);
-        Vec_80085CB0 t = { 0.0f, 0.0f, -1.0f };
+        Vec t = { 0.0f, 0.0f, -1.0f };
         rotate_matrix_y(0, (s32)((*(Player_80085CB0 * *)&camera_ctrl_instance)->f194));
         rotate_vector_by_matrix(0, &t, &out);
         pop_matrix();
@@ -282,7 +168,7 @@ void TUnk_8048E6DC::run_task() {
             v = 0.0f;
         }
         self->f90 = 50.0f * v + 25.0f;
-        Vec_80085CB0 p = (*(Player_80085CB0 * *)&camera_ctrl_instance)->pos;
+        Vec p = (*(Player_80085CB0 * *)&camera_ctrl_instance)->pos;
         if (csnVector(&p, &self->pos, 0x100) != 0) {
             self->f98 = 1;
         } else {
@@ -382,7 +268,7 @@ u8 *TParticleCtrl::create_particle_obj_ac(s32 arg0) {
     if (is_split_screen() != 0) {
         return NULL;
     }
-    particle_ctrl = (u8 *)(__nw__7TObjectFUl(0xAC));
+    particle_ctrl = (u8 *)(TObject::operator new(0xAC));
     var_r0 = particle_ctrl;
     if (var_r0 != NULL) {
         var_r0 = (u8 *)(((TParticleCtrl *)particle_ctrl)->init_particle_obj(arg0, tl_particle));
@@ -396,7 +282,7 @@ u8 *TParticleCtrl::create_particle_obj_90(s32 arg0) {
     if (is_split_screen() != 0) {
         return NULL;
     }
-    particle_ctrl = (u8 *)(__nw__7TObjectFUl(0x90));
+    particle_ctrl = (u8 *)(TObject::operator new(0x90));
     var_r0 = particle_ctrl;
     if (var_r0 != NULL) {
         var_r0 = (u8 *)(((TParticleCtrl *)particle_ctrl)->construct_particle_obj(arg0, tl_particle));
@@ -406,7 +292,7 @@ u8 *TParticleCtrl::create_particle_obj_90(s32 arg0) {
 
 u8 *TParticleCtrl::construct_particle_obj(s32 arg1, s32 arg2) {
     __ct__8TObjBaseFP7TObject(this, (void *)arg2);
-    *(s32 **)((s8 *)((u8 *)this) + 0x18) = &(*(RecoveredGlobal_800858D0_lbl_8048E6A8 *)&__vt__13TUnk_8048E6A8).value;
+    *(s32 **)((s8 *)((u8 *)this) + 0x18) = __vt__13TUnk_8048E6A8;
     ((VObj_18_1a504b *)(this))->m5(arg1);
     return ((u8 *)this);
 }

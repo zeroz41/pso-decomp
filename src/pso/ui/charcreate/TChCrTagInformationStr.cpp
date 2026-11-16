@@ -14,8 +14,8 @@ struct TagTextOrigin {
 
 extern "C" {
 void TCameraCtrl__sub_80068EF0(void);
-void queue_destruction__7TObjectFv(void *);
-extern s32 char_creation_tag_info_selected_index;
+const char *TChCrTagInformationStr__class_name = "TChCrTagInformationStr";
+s32 char_creation_tag_info_selected_index = -1;
 
 void *TChCrTagInformationStr::create(void *arg0, void *arg1) {
     return new TChCrTagInformationStr((TObject *)arg0, (s32)arg1);
@@ -63,8 +63,6 @@ void TChCrTagInformationStr::render() {
     }
 }
 
-extern "C" {
-extern const char *TChCrTagInformationStr__class_name;
 
 #pragma push
 #pragma opt_common_subs off
@@ -99,7 +97,7 @@ void TChCrTagInformationStr::run_task() {
         }
         if (alpha <= 0.0f) {
             alpha = 0.0f;
-            queue_destruction__7TObjectFv(this);
+            queue_destruction();
         }
         break;
     }
@@ -108,7 +106,6 @@ void TChCrTagInformationStr::run_task() {
 
 TChCrTagInformationStr::~TChCrTagInformationStr() {}
 
-}
 
 TChCrTagInformationStr::TChCrTagInformationStr(TObject *parent, s32 tag_index) : TObject(parent) {
     m_name = TChCrTagInformationStr__class_name;

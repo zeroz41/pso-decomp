@@ -14,26 +14,9 @@
 
 #pragma readonly_strings on
 
-extern "C" {
+
 const char *TTecZarua__name = "TTecZarua";
-}
 
-
-struct RecoveredGlobal_802384E0_lbl_804CCB28 { s32 value; u8 remaining[0x14]; };
-
-struct RecoveredGlobal_802385EC_lbl_804CCB28 { s32 value; u8 remaining[0x14]; };
-
-struct RecoveredGlobal_80238D10_lbl_804CC510
-{
-  s32 value;
-  u8 remaining[0x48];
-};
-
-struct RecoveredGlobal_80238D10_lbl_804CC55C
-{
-  s32 value;
-  u8 remaining[0x94];
-};
 
 struct RecoveredFields_80238D10_arg0
 {
@@ -87,8 +70,6 @@ struct Self_8023C1B8 {
     struct Entry_8023C1B8 entries[1];
 };
 
-struct Vec_8023C420 { f32 x, y, z; };
-
 struct Eff_8023C420 { u8 pad[0xc]; f32 scale; };
 
 struct Holder_8023C420 { u8 pad[0xa4]; Eff_8023C420 *eff; };
@@ -98,10 +79,10 @@ struct Zarua_8023C420 {
     u8 pad4[0x18 - 4];
     void *vt;
     void *source;
-    Vec_8023C420 pos;
+    Vec pos;
     u8 pad2c[0x7a - 0x2c];
     s16 level;
-    Vec_8023C420 src_pos;
+    Vec src_pos;
     u8 pad88[0x90 - 0x88];
     f32 range;
     u8 pad94[0xb4 - 0x94];
@@ -112,8 +93,6 @@ struct Zarua_8023C420 {
     u8 sub[4];
 };
 
-struct Vec_8023C420;
-struct Vec_8023C2D0 { f32 x, y, z; };
 
 struct Eff_8023C2D0 { u8 pad[0xc]; f32 scale; };
 
@@ -124,7 +103,7 @@ struct Zarua_8023C2D0 {
     u8 pad4[0x18 - 4];
     void *vt;
     void *source;
-    Vec_8023C2D0 pos;
+    Vec pos;
     u8 pad2c[0x7a - 0x2c];
     s16 level;
     u8 pad7c[0x90 - 0x7c];
@@ -164,8 +143,6 @@ void TTecZarua::calc_range() {
     this->m_88 = (f32) (*(s16 *)&this->m_ac * this->m_78);
 }
 
-typedef char RecoveredGlobal_802384E0_lbl_804CCB28_size[sizeof(RecoveredGlobal_802384E0_lbl_804CCB28) == 0x18 ? 1 : -1];
-typedef char RecoveredGlobal_802385EC_lbl_804CCB28_size[sizeof(RecoveredGlobal_802385EC_lbl_804CCB28) == 0x18 ? 1 : -1];
 void TTecZarua::vfunc_6(void *target_arg) {
     u8 *self = (u8 *)this;
     u8 *target = (u8 *)target_arg;
@@ -175,10 +152,6 @@ void TTecZarua::vfunc_6(void *target_arg) {
     ((VObj_802386F8 *)target)->m21(*(s32 *)(self + 0x1C), d, *(s32 *)(self + 0xB8), 0xc, -1, self);
 }
 typedef struct RecoveredFields_80238D10_arg0 RecoveredFields_80238D10_arg0;
-typedef struct RecoveredGlobal_80238D10_lbl_804CC510 RecoveredGlobal_80238D10_lbl_804CC510;
-typedef struct RecoveredGlobal_80238D10_lbl_804CC55C RecoveredGlobal_80238D10_lbl_804CC55C;
-typedef char RecoveredGlobal_80238D10_lbl_804CC510_size[((sizeof(RecoveredGlobal_80238D10_lbl_804CC510)) == 0x4C) ? (1) : (-1)];
-typedef char RecoveredGlobal_80238D10_lbl_804CC55C_size[((sizeof(RecoveredGlobal_80238D10_lbl_804CC55C)) == 0x98) ? (1) : (-1)];
 
 void TTecZarua::create_instance(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     u32 obj;
@@ -225,7 +198,7 @@ Zarua_8023C2D0 *TTecZarua__ct(Zarua_8023C2D0 *self, void *_w1, void *_w2, void *
     self->fec = 1;
     copy_technique_target_list(self->sub, _w3);
     ((TTecZarua *)self)->calc_range();
-    VecCopy((Vec *)((Vec_8023C420 *)&self->pos), (const Vec *)((Vec_8023C420 *)_w2));
+    VecCopy((Vec *)((Vec *)&self->pos), (const Vec *)((Vec *)_w2));
     if (self->holder != 0) {
         self->holder->eff->scale = self->range;
     }

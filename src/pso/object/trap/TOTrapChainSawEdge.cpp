@@ -12,7 +12,7 @@
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/object/trap/TOTrapChainSaw.h"
+
 extern "C" void vfunc_28__20TOTrapChainSawDamageFv();
 extern "C" void vfunc_16__18TOTrapChainSawEdgeFv();
 extern "C" void vfunc_25__18TOTrapChainSawEdgeFv();
@@ -124,36 +124,6 @@ struct VObj_802C9600 : Base_802C9600 {
 };
 typedef void (VObj_802C9600::*Act_802C9600)();
 
-struct VBase_18_52534d { char pad[0x18]; };
-
-struct VObj_18_52534d : VBase_18_52534d {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual s32 m8(f32, f32);
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual s32 m23();
-};
-
-
 typedef struct F4_802C8FF8 { f32 v[4]; } F4_802C8FF8;
 
 typedef struct S_802C9124 { u8 pad0[0xD8]; s32 f[4]; } S_802C9124;
@@ -194,9 +164,8 @@ s32 TOTrapAncient02R__sub_80154D78(void *);
 void free_collision_body_parts(void *);
 s32 init_collision_body_parts(void *, int, int);
 s32 play_persistent_sound(void *, void *, void *, int, int);
-u8 is_current_floor_switch_set(u16);
+u8 is_current_floor_switch_set(s32 id);
 void __dl__7TObjectFPv(void *);
-void * __nw__7TObjectFUl(int);
 void update_sweep__18TOTrapChainSawEdgeFv(void *arg0);
 void update_extension__18TOTrapChainSawEdgeFv(void *arg0);
 void * __dt__18TOTrapChainSawEdgeFv(void *arg0, s16 arg1);
@@ -371,15 +340,15 @@ void TOTrapChainSawEdge::update_extension() {
     }
 }
 
-void *__dt__18TOTrapChainSawEdgeFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__18TOTrapChainSawEdge;
-        ((void (*)(void *, int))__dt__14TOTrapChainSawFv)(arg0, 0);
+void *__dt__18TOTrapChainSawEdgeFv(void *object, s16 arg1) {
+    if (object != NULL) {
+        *(s32 **)((s8 *)object + 0x18) = __vt__18TOTrapChainSawEdge;
+        ((void (*)(void *, int))__dt__14TOTrapChainSawFv)(object, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(object);
         }
     }
-    return arg0;
+    return object;
 }
 
 u8 *TOTrapChainSawEdge__ct(u8 *trap_chain_saw_edge) {
@@ -486,24 +455,24 @@ void TOTrapChainSawKey::vfunc_16() {
 void TOTrapChainSawKey::decode_params() { ((int (*)(void*))decode_params__14TOTrapChainSawFv)(this); }
 
 void *TOTrapChainSawKey::create() {
-    void *o = __nw__7TObjectFUl(0x10C);
+    void *o = TObject::operator new(0x10C);
     if (o != NULL) {
         o = TOTrapChainSawKey__ct((u8 *)o, (void *)tl_05, (void *)this);
     }
     return o;
 }
 
-void *__dt__17TOTrapChainSawKeyFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__17TOTrapChainSawKey;
-        ((TObjCollidable *)arg0)->unregister_object_by_id();
-        free_collision_body_parts(arg0);
-        ((void (*)(void *, int))__dt__14TOTrapChainSawFv)(arg0, 0);
+void *__dt__17TOTrapChainSawKeyFv(void *collidable, s16 arg1) {
+    if (collidable != NULL) {
+        *(s32 **)((s8 *)collidable + 0x18) = __vt__17TOTrapChainSawKey;
+        ((TObjCollidable *)collidable)->unregister_object_by_id();
+        free_collision_body_parts(collidable);
+        ((void (*)(void *, int))__dt__14TOTrapChainSawFv)(collidable, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(collidable);
         }
     }
-    return arg0;
+    return collidable;
 }
 
 u8 *TOTrapChainSawKey__ct(u8 *arg0, void * _w1, void * _w2) {
@@ -641,7 +610,7 @@ void TOTrapChainSawDamage::decode_params() {
 #pragma dont_inline off
 #pragma inline_depth(1)
 void *TOTrapChainSawDamage::create() {
-    void *o = __nw__7TObjectFUl(0x10C);
+    void *o = TObject::operator new(0x10C);
     if (o != NULL) {
         o = TOTrapChainSawDamage__ct(o, tl_05, this);
     }
@@ -656,17 +625,17 @@ void *TOTrapChainSawDamage::create() {
 #pragma auto_inline off
 #pragma dont_inline off
 #pragma inline_depth(1)
-void *__dt__20TOTrapChainSawDamageFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__20TOTrapChainSawDamage;
-        ((TObjCollidable *)arg0)->unregister_object_by_id();
-        free_collision_body_parts(arg0);
-        ((void (*)(void *, int))__dt__14TOTrapChainSawFv)(arg0, 0);
+void *__dt__20TOTrapChainSawDamageFv(void *collidable, s16 arg1) {
+    if (collidable != NULL) {
+        *(s32 **)((s8 *)collidable + 0x18) = __vt__20TOTrapChainSawDamage;
+        ((TObjCollidable *)collidable)->unregister_object_by_id();
+        free_collision_body_parts(collidable);
+        ((void (*)(void *, int))__dt__14TOTrapChainSawFv)(collidable, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(collidable);
         }
     }
-    return arg0;
+    return collidable;
 }
 #pragma pop
 
@@ -691,13 +660,13 @@ void *TOTrapChainSawDamage__ct(void *arg0, void *arg1, void *arg2) {
     {
         Copy_802C8E24 c = *(Copy_802C8E24 *)arg2;
         *(f32 *)((u8 *)&c + 0x10) += (1e+01f);
-        o = __nw__7TObjectFUl(0x108);
+        o = TObject::operator new(0x108);
         if (o != NULL) {
             o = ((void * (*)(void *, void *, void *))TOTrapChainSawEdge__ct)(o, arg0, &c);
         }
         *(void **)(((u8 *)arg0) + 0x104) = o;
         *(f32 *)((u8 *)&c + 0x10) += (5.0f);
-        o = __nw__7TObjectFUl(0x108);
+        o = TObject::operator new(0x108);
         if (o != NULL) {
             o = ((void * (*)(void *, void *, void *))TOTrapChainSawEdge__ct)(o, arg0, &c);
         }
@@ -749,7 +718,7 @@ void TOTrapChainSaw::vfunc_14() {  }
 
 void TOTrapChainSaw::render() {
     u8 *arg0 = (u8 *)this;
-    if (((VObj_18_52534d *)(arg0))->m8((4e+02f), (5e+01f)) == 1) {
+    if (this->update_object_view_visibility((4e+02f), (5e+01f)) == 1) {
         this->vfunc_25();
         ((TOTrapChainSaw *)arg0)->update_demo();
     }
@@ -955,8 +924,6 @@ void vfunc_26__14TOTrapChainSawFv();
 void vfunc_27__14TOTrapChainSawFv();
 void vfunc_28__14TOTrapChainSawFv();
 void vfunc_29__14TOTrapChainSawFv();
-void vfunc_16__14TOTrapChainSawFv();
-void vfunc_25__14TOTrapChainSawFv();
 void scale_by_level__14TOTrapChainSawFf();
 s32 __vt__18TOTrapChainSawEdge[31] = {
     0,
@@ -1058,23 +1025,14 @@ s32 __vt__20TOTrapChainSawDamage[31] = {
     (s32)&scale_by_level__14TOTrapChainSawFf
 };
 
-}
-#include "types.h"
-
-extern "C" {
-u8 * TObjFish__sub_8001EDB0(void *, int);
+u8 * get_bml_texlist(void *, int);
 u8 *fn_802C9924(s32 arg0) {
     if ((void *) lbl_805D6808 != NULL) {
-        return TObjFish__sub_8001EDB0(lbl_805D6808, arg0);
+        return get_bml_texlist(lbl_805D6808, arg0);
     }
     return NULL;
 }
 
-}
-#include "types.h"
-#include "pso/object/trap/TOTrapChainSawKey.h"
-
-extern "C" {
 u8 * get_bml_motion(void *, int);
 u8 * get_bml_model(void *, int);
 u8 *TOTrapChainSawKey::get_motion(s32 arg0) {
@@ -1090,10 +1048,6 @@ u8 *TOTrapChainSawKey::get_model(s32 arg0) {
     return NULL;
 }
 
-}
-#include "types.h"
-
-extern "C" {
 void free_bin_model_request(void *, int);
 
 void TOTrapChainSaw::unload_static_data() {
@@ -1111,12 +1065,12 @@ void TOTrapChainSaw::unload_static_data() {
 }
 
 }
-#include "types.h"
+
 #include "pso/render/NinjaUtil.h"
-#include "pso/object/trap/TOTrapChainSaw.h"
-#include "pso/object/trap/TOTrapChainSawEdge.h"
+
+
 #include "pso/object/seabed/TObjSeabedSuisoBrakable.h"
-#include "pso/object/trap/TOTrapChainSawDamage.h"
+
 
 extern "C" {
 void *load_resource_from_descriptor(void *, int, void *, int, int, int);
@@ -1156,20 +1110,14 @@ void TOTrapChainSaw::load_shared_resource() {
 int TOTrapChainSawEdge::check_player_contact() {  }
 
 }
-#include "types.h"
-#include "pso/object/trap/TOTrapChainSawEdge.h"
-#include "pso/object/trap/TOTrapChainSaw.h"
-#include "pso/object/trap/TOTrapChainSawDamage.h"
+
 
 void TOTrapChainSaw::vfunc_18() {  }
 void TOTrapChainSaw::vfunc_26() {  }
 void TOTrapChainSaw::vfunc_27() {  }
 void TOTrapChainSaw::vfunc_28() {  }
 void TOTrapChainSaw::vfunc_29() {  }
-#include "types.h"
-#include "pso/object/trap/TOTrapChainSawEdge.h"
-#include "pso/object/trap/TOTrapChainSaw.h"
-#include "pso/object/trap/TOTrapChainSawDamage.h"
+
 
 void TOTrapChainSawDamage::set_damage(s32 v) { this->m_f8 = v; }
 

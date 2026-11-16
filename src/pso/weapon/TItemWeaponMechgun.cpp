@@ -10,14 +10,11 @@ extern "C" {
 s32 rotate_matrix_y(s32, s32);
 
 void TUnk_804A3260::vfunc_60() {
-    if ((s32) *(s32 *)((s8 *)this + 0x210) == TObjPlayer::get_player_list()) {
-        rotate_matrix_y(0, *(s32 *)((s8 *)this + 0x214));
+    if ((s32) this->effectJoint == TObjPlayer::get_player_list()) {
+        rotate_matrix_y(0, this->effectAngle);
     }
 }
 
-}
-
-extern "C" {
 u8 *__nw__5TItemFUl(s32);
 extern s32 tl_05;
 void spawn_weapon_impact_effect();
@@ -51,12 +48,12 @@ void TUnk_804A3260::reserved_53() {
 }
 
 TUnk_804A3260::TUnk_804A3260(s32 parent, u8 *item) : TItemWeapon((TObject *)((void *)parent), item) {
-    ((TItemWeapon *)this)->set_weapon_flags(0x203);
+    this->set_weapon_flags(0x203);
     *(void (**)())((s8 *)this + 0x1EC) = &spawn_weapon_impact_effect;
     this->effectJoint = -1;
-    *(s32 *)((s8 *)this + 0x214) = 0;
+    this->effectAngle = 0;
     this->effectScaleJoint = -1;
-    *(s32 *)((s8 *)this + 0x21C) = 0;
+    this->effectFrame = 0;
     switch ((s32) (*(u8 *)((s8 *)item + 2))) {
     case 6:
         break;

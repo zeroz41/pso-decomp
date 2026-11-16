@@ -74,6 +74,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
 #include "pso/item/drop/TItemDropSub_80107B74.h"
 #include "pso/ui/window/TWindowSubComCard_80077788.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 
 // ---- TLobby_80104374.cpp
 
@@ -132,7 +133,7 @@ void *item_tool_factory_table[24] = {
 };
 
 void normalize_drop_area(s32 *p);
-extern "C" {
+
 void TLobby::set_boss_buf_entry(int a0, int a1) { item_sync_counter_table[(unsigned short)(a1)] = a0; }
 int TLobby::get_sync_counter(int a0) {  return item_sync_counter_table[(unsigned short)(a0)]; }
 s32 TLobby::get_item_data(u32 arg0) {
@@ -176,7 +177,6 @@ void TLobby::handle_select_confirm() {
             fn_801058E8(chr);
         }
     }
-}
 }
 
 void normalize_drop_area(s32 *p) {
@@ -316,7 +316,6 @@ s32 is_local_player_off_current_floor() {
     return 0;
 }
 
-extern "C" {
 
 u8 TObjPlayer::find_adjacent_matching_slot(u8 arg0) {
     s16 spC;
@@ -389,7 +388,6 @@ s32 item_identity_matches(u8 *arg0, u8 *arg1) {
   }
   return 0;
 }
-}
 s32 compare_item_data_masked(void *arg0, void *arg1, s32 arg2) {
     u8 *a = (u8 *)arg0;
     u8 *b = (u8 *)arg1;
@@ -454,10 +452,8 @@ s32 compare_item_data_masked(void *arg0, void *arg1, s32 arg2) {
 extern "C" {
 
 void TEnding__sub_8008C9F8(void);
-s32 get_current_floor();
 s32 get_game_play_mode();
 
-s32 get_main_phase();
 
 }
 
@@ -522,8 +518,11 @@ struct Rec_80104DAC { u8 pad0[6]; u8 b6; u8 b7; u8 b8; u8 b9; u8 bA; u8 bB; u8 b
 extern "C" {
 s32 get_actor_section_id__15TPlyPhotonChairFv(void *);
 void init__9TItemDataFv(void *);
+}
 Rec_80104DAC *find_item_combination_recipe(u8 *, void *);
+extern "C" {
 void *lookup_item_pmt_record(u8 *);
+}
 
 u8 TItemData::is_item_usable(s32 arg0, u8 *item) {
     if (TItemData::is_wrapped(item) != 0) {
@@ -536,7 +535,6 @@ u8 TItemData::is_item_usable(s32 arg0, u8 *item) {
         return (u8) (find_eligible_combination_recipe(arg0, item) != 0);
     }
     return (u8) (find_eligible_combination_recipe(arg0, item) != 0);
-}
 }
 #define o ((Obj_80104DAC *)arg0)
 s32 find_eligible_combination_recipe(s32 arg0, u8 *item) {
@@ -697,8 +695,6 @@ struct Pkt_80105538 {
     s8 f14;
 };
 
-struct Vec_80105538 { f32 x, y, z; };
-
 struct Obj_80105538 {
     u8 pad[0x28];
     s16 f28;
@@ -723,24 +719,14 @@ Fn_8010542C item_create_fn_table[5] = {
     (Fn_8010542C)create_weapon_for_item, TLobby__sub_801054E0, TItemMag::create, TItemObject::create_tool,
     (Fn_8010542C)TItemMoney::create,
 };
-extern s32 TLobby__designated_client_id;
 extern Entry_8010567C *quest_object_entries;
-extern s32 local_client_id;
 int check_class_equip_permission(TObjPlayer *player, s32 perm);
 s32 *csnVecterUnder(s32 origin, s32 mask);
+void send_6x60_standard_drop_item_request(Obj_80105538 *self);
 }
 void *build_6x06_send_guild_card(void *arg0);
 extern Rec_80105538 *TLobby__data_805D6144;
-extern "C" {
-void send_6x60_standard_drop_item_request(Obj_80105538 *self);
-
-}
-
-
-extern "C" s32 obj_isState3_324__9TObjCharaFv(void *);
 extern "C" s32 is_script_controlled__10TObjPlayerFv(void *);
-extern "C" s32 query_flag__13TItemMenuCtrlFl(s32);
-extern "C" int clear_fields__20TWindowSubStatusDispFv(void *);
 s32 check_equip_requirements(void *self, TItemData *p, s32 *out) {
   void *new_var;
   s32 flags;
@@ -765,7 +751,7 @@ s32 check_equip_requirements(void *self, TItemData *p, s32 *out) {
     return 0;
   }
   new_var2 = self;
-  if ((obj_isState3_324__9TObjCharaFv(new_var2) != 0) || (is_script_controlled__10TObjPlayerFv(new_var = new_var2) != 0))
+  if ((((TObjChara *)new_var2)->obj_isState3_324() != 0) || (is_script_controlled__10TObjPlayerFv(new_var = new_var2) != 0))
   {
     if (out != 0)
     {
@@ -807,7 +793,7 @@ s32 check_equip_requirements(void *self, TItemData *p, s32 *out) {
 
     }
 
-    if ((k != 0) && (query_flag__13TItemMenuCtrlFl(k) == 1))
+    if ((k != 0) && (TItemMenuCtrl::query_flag(k) == 1))
     {
       return 0;
     }
@@ -822,7 +808,7 @@ s32 check_equip_requirements(void *self, TItemData *p, s32 *out) {
       {
         flags |= 1;
       }
-      clear_fields__20TWindowSubStatusDispFv(&st);
+      ((TWindowSubStatusDisp *)(&st))->clear_fields();
       build_player_equipment_requirement_stats((TObjPlayer *) new_var, (PlayerRequirementStats *) (&st));
       if (st.a < (*((u16 *) ((u8 *) p + 0xe))))
       {
@@ -915,7 +901,7 @@ s32 check_equip_requirements(void *self, TItemData *p, s32 *out) {
       case 2:
         r = ((u8 *) p)[4];
       {
-        u8 lim = ((u8 (*)(u8, u8)) get_technique_learn_limit)(*((u8 *) (((u8 *) new_var2) + 0x88d)), r);
+        u8 lim = get_technique_learn_limit(*((u8 *) (((u8 *) new_var2) + 0x88d)), r);
         if ((lim == 0xff) || (lim < ((u8 *) p)[2]))
         {
           flags |= 1;
@@ -955,7 +941,7 @@ s32 check_equip_requirements(void *self, TItemData *p, s32 *out) {
   return 0;
 }
 
-extern "C" {
+
 int check_class_equip_permission(TObjPlayer *player, s32 perm) {
     s32 t = player->class_flags;
     if (t & CLASS_FLAG_HUNTER) {
@@ -981,7 +967,6 @@ int check_class_equip_permission(TObjPlayer *player, s32 perm) {
 }
 
 u8 roll_weapon_special_channel15(u8 arg0) { return roll_weapon_special_for_stars(arg0); }
-}
 
 TItem *construct_item(TItemData *data) {
     Item_8010542C *src = (Item_8010542C *)data;
@@ -1018,7 +1003,7 @@ TItem *TLobby__sub_801054E0(u8 *item) {
 // Dead-stripped by the linker: its 0.0f is the only trace left. The DOL pools 0.0f (0x805DAAB0)
 // ahead of send_6x60_standard_drop_item_request's 100.0f, so a 0.0f user came first in this TU.
 // inferred: minimal body, the real function is unknown.
-void clear_drop_request_position(Vec_80105538 *v) {
+void clear_drop_request_position(Vec *v) {
     v->x = 0.0f;
     v->y = 0.0f;
     v->z = 0.0f;
@@ -1046,7 +1031,7 @@ void send_6x60_standard_drop_item_request(Obj_80105538 *self) {
                         pkt.z = self->z;
                         pkt.f10 = self->f28;
                         pkt.f14 = get_current_floor_area();
-                        Vec_80105538 v;
+                        Vec v;
                         v.x = pkt.x;
                         v.y = 100.0f;
                         v.z = pkt.z;
@@ -1070,8 +1055,8 @@ void TObjChara::request_box_item_drop(void *unused, s16 arg2) {
         if (p1 != 0 && p2 != 0 && TObjPlayer__sub_80104840(get_current_floor_area()) != AREA_PIONEER2_EP1 &&
             (((TObjPlayer *)p1)->get_floor() != ((TObjPlayer *)p2)->get_floor() ||
              TLobby__designated_client_id == local_client_id)) {
-            if (self->f2c != -1) {
-                Entry_8010567C e = quest_object_entries[self->f2c];
+            if (this->set_index != -1) {
+                Entry_8010567C e = quest_object_entries[this->set_index];
                 if (e.b != 0xFFFF) {
                     Pkt_8010567C pkt;
                     ((TLobby *)(&pkt))->build_6x06_guild_card_packet();
@@ -1081,7 +1066,7 @@ void TObjChara::request_box_item_drop(void *unused, s16 arg2) {
                     pkt.z = self->z;
                     pkt.f10 = self->f28;
                     pkt.f12 = arg2;
-                    pkt.f6 = self->f2c;
+                    pkt.f6 = this->set_index;
                     pkt.f14 = get_current_floor_area();
                     pkt.f18 = self->f70;
                     pkt.f1c = this->set_params[0];
@@ -1145,9 +1130,6 @@ Item_801057A8 *spawn_dropped_item_from_msg(Msg_801057A8 *arg0, s32 arg1) {
     return item;
 }
 
-}
-
-extern "C" {
 s32 create_load_unload_set(ItemClassLoadUnloadEntry *table);
 
 void TObjPlayer::free_item_globals() { TItemDrop__sub_8010F168((void *)item_class_load_handle, (s16)((void*)1)); item_class_load_handle = 0; TItemLoad::free_all(); TItemBuff::free_all_and_init(); }
@@ -1166,10 +1148,6 @@ s32 TObjPlayer::is_script_controlled() {
 }
 
 int TObjPlayer::activate_d04_slot() { return TObjPlayer::get_slot_value((s32 *)((char*)this + 0xd04), 1); }
-
-}
-
-extern "C" {
 
 int TItemData::test_flag3() { return TObjPlayer::get_slot_value((s32 *)((char*)this + 0xd04), 3); }
 int TItemData::get_item_field_2() { return TObjPlayer::get_slot_value((s32 *)((char*)this + 0xd04), 2); }

@@ -4,6 +4,6 @@
 #include "types.h"
 
 /* PppBuffer.c (inferred module name): the PPP packet buffers and their readers. */
-s16 TLobby__sub_80401BCC(void *self, void *dst, u16 n);
+s16 ppp_buffer_read(void *self, void *dst, u16 n);
 
 #endif

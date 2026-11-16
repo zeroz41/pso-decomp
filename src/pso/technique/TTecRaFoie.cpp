@@ -1,4 +1,7 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/effect/TUnk_804CC148.h"
+#include "pso/technique/TTecCtrl.h"
 #include "pso/technique/TTecRaFoie.h"
 #include "pso/unk/TUnk_804CCB28.h"
 #include "pso/render/ChunkMaterialState.h"
@@ -14,12 +17,11 @@
 #include "pso/technique/TTecRaBarta.h"
 #include "pso/technique/TTecRaZonde.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/technique/TTecRaFoie.h"
-#include "pso/unk/TUnk_804CCB28.h"
-#include "pso/map/FloorArea.h"
-#pragma readonly_strings on
 
-struct Vec_80237DAC { f32 x, y, z; };
+
+#include "pso/map/FloorArea.h"
+#include "pso/system/task/TObject.h"
+#pragma readonly_strings on
 
 struct RafoieBurst_80237DAC { s32 entry; s32 flags; f32 scale; };
 
@@ -29,14 +31,12 @@ struct Obj_80237DAC {
     u8 pad0[0x20];
     u16 band;
     u8 pad22[0x28 - 0x22];
-    Vec_80237DAC position;
+    Vec position;
 };
-
-typedef struct Vec_80237FB8 { f32 x, y, z; } Vec_80237FB8;
 
 typedef struct TTecRaFoie_80237FB8 {
     u8 pad0[0x7C];
-    Vec_80237FB8 target;
+    Vec target;
     u8 pad1[0xEC - 0x88];
     s32 target_count;
     u16 first_id;
@@ -46,39 +46,13 @@ typedef struct TTecRaFoie_80237FB8 {
 
 typedef struct TObjPlayer_80237FB8 {
     u8 pad0[0x2FC];
-    Vec_80237FB8 pos;
+    Vec pos;
 } TObjPlayer_80237FB8;
 
-struct Eff_80237BD8 { u8 pad[0xc]; f32 scale; };
-
-struct Holder_80237BD8 { u8 pad[0xa4]; Eff_80237BD8 *eff; };
-
-struct Self_80237BD8 {
-    u32 f0;
-    u8 pad4[0x18 - 4];
-    void *vt;
-    void *source;
-    u8 pos[0xc];
-    u8 pad2c[0x7c - 0x2c];
-    u8 src_pos[0xc];
-    u8 pad88[0x90 - 0x88];
-    f32 range;
-    u8 pad94[0xb4 - 0x94];
-    u16 fb4;
-    u8 padb6[0xe8 - 0xb6];
-    Holder_80237BD8 *holder;
-    u8 padec[4];
-    s32 ff0;
-    u8 padf4[4];
-    u16 ids[32];
-    s32 f138;
-};
 
 extern "C" {
-void queue_destruction__7TObjectFv(void *arg0);
 u32 find_entity_by_id(int);
-void apply_technique_to_area_targets__13TUnk_804CC148Fv(void *);
-void *spawn_particle_effect_with_flags(void *pos, s32 id, s32 flags);
+void *spawn_particle_effect_with_flags(const void *pos, s32 id, s32 flags);
 void spawn_rafoie_explosion_bursts__13TUnk_804CCB28Fv(Obj_80237DAC *self);
 
 u16 get_entity_id(void *);
@@ -88,18 +62,15 @@ void get_bml_model(void *, s32);
 #define get_bml_model ((void * (*)(void *, int))get_bml_model)
 void attach_particle_model(void *, void *, void *, int, int, f32);
 void spawn_particle_effect(void *, s32, void *);
-#define spawn_particle_effect ((void * (*)(Vec_80237FB8 *, int))spawn_particle_effect)
+#define spawn_particle_effect ((void * (*)(Vec *, int))spawn_particle_effect)
 s32 is_parents_unqueued__9TTecLukerFUl();
 s32 is_valid_and_active__10TObjPlayerFUl(int);
 #define is_valid_and_active__10TObjPlayerFUl ((s32 (*)(TObjPlayer_80237FB8 *))is_valid_and_active__10TObjPlayerFUl)
 extern void *technique_effect_bml;
 extern void *lbl_805D63B0;
 
-void __dl__7TObjectFPv(void *);
-void __dt__13TUnk_804CC148Fv(void *, int);
 s32 play_sound_effect(s32 id, void *pos, s32 a, s32 b);
 #define play_sound_effect ((s32 (*)(s32, s32, s32, s32))play_sound_effect)
-void *__nw__7TObjectFUl(int);
 void update_technique_slot__10TTecRaFoieFl(s32 handle, s32 pitch, s32 c);
 
 struct RecoveredGlobal_80238388_lbl_8044DAF0 {
@@ -121,13 +92,12 @@ extern const RecoveredGlobal_80238388_lbl_8044DAF0 lbl_8044DAF0 = {0};
 
 #pragma push
 #pragma opt_common_subs off
-struct Vec_80237DAC;
 
 #pragma pop
 
 void TUnk_804CCB28::spawn_rafoie_explosion_bursts() {
     Obj_80237DAC *self = (Obj_80237DAC *)this;
-    Vec_80237DAC higher;
+    Vec higher;
     u32 i;
     VecCopy((Vec *)&higher, (const Vec *)&self->position);
     higher.y = (8.0f) + self->position.y;
@@ -204,7 +174,7 @@ void TTecRaFoie::vfunc_8(void *) {
     if (self->target_count != 0) {
         target = (TObjPlayer_80237FB8 *) find_entity_by_id(self->first_id);
         if (is_parents_unqueued__9TTecLukerFUl() != 0 && is_valid_and_active__10TObjPlayerFUl(target) != 0) {
-            Vec_80237FB8 point = target->pos;
+            Vec point = target->pos;
             spawn_particle_effect(&point, 0x39);
             emitter = spawn_particle_effect(&point, 0x1A);
             if (emitter != NULL) {
@@ -272,34 +242,10 @@ struct RaFoie_802381F8 {
 };
 
 #pragma fp_contract on
-struct Vec_80239070 { f32 x, y, z; };
 
-struct Eff_80239070 { u8 pad[0xC]; f32 scale; };
-
-struct Holder_80239070 { u8 pad[0xA4]; Eff_80239070 *eff; };
-
-struct Self_80239070 {
-    u32 f0;
-    u8 pad4[0x18 - 0x4];
-    void *vt;
-    void *source;
-    Vec_80239070 pos;
-    u8 pad2c[0x78 - 0x2C];
-    s16 level;
-    s16 band;
-    u8 pad7c[0x90 - 0x7C];
-    f32 range;
-    u8 pad94[0xB4 - 0x94];
-    u16 fb4;
-    u8 padb6[0xE8 - 0xB6];
-    Holder_80239070 *holder;
-    u8 padec[0xF0 - 0xEC];
-    Vec_80239070 pts[8];
-};
 
 extern "C" {
 s32 calc_technique_parameters(int, int, int);
-s32 is_technique_ready__8TTecCtrlFv();
 extern RecoveredGlobal_80230D9C_lbl_804CC510 tech_high_level_linear_power_table;
 extern RecoveredGlobal_80230D9C_lbl_804CC55C lbl_804CC55C;
 void scale_matrix(s32, f32, f32, f32);
@@ -323,9 +269,9 @@ typedef char RecoveredGlobal_80230D9C_lbl_804CC55C_size[((sizeof(RecoveredGlobal
 void TTecRaFoie::calc_area_parameters() {
     u8 *arg0 = (u8 *)this;
   int new_var;
- new_var = (int) calc_technique_parameters(0x2, (int) ((RecoveredFields_80230D9C_arg0 *) arg0)->field_78, 0xFFFF); do { ((TTecAnti *)(arg0 + ((0, 0x88))))->copy_params((u8 *)new_var); if ((((s16) ((RecoveredFields_80230D9C_arg0 *) arg0)->field_78) >= 0xF) && (is_technique_ready__8TTecCtrlFv() == 0)) { ((RecoveredFields_80230D9C_arg0 *) arg0)->field_88 = (f32) ((*((s16 *) (((s8 *)&tech_high_level_linear_power_table.value) + 0x8))) + ((*((s16 *) (((s8 *)&tech_high_level_linear_power_table.value) + 0xa))) * ((RecoveredFields_80230D9C_arg0 *) arg0)->field_78)); return; } } while (0);
+ new_var = (int) calc_technique_parameters(0x2, (int) ((RecoveredFields_80230D9C_arg0 *) arg0)->field_78, 0xFFFF); do { ((TTecAnti *)(arg0 + ((0, 0x88))))->copy_params((u8 *)new_var); if ((((s16) ((RecoveredFields_80230D9C_arg0 *) arg0)->field_78) >= 0xF) && (TTecCtrl::is_technique_ready() == 0)) { ((RecoveredFields_80230D9C_arg0 *) arg0)->field_88 = (f32) ((*((s16 *) (((s8 *)&tech_high_level_linear_power_table.value) + 0x8))) + ((*((s16 *) (((s8 *)&tech_high_level_linear_power_table.value) + 0xa))) * ((RecoveredFields_80230D9C_arg0 *) arg0)->field_78)); return; } } while (0);
   ((RecoveredFields_80230D9C_arg0 *) arg0)->field_88 = (f32) (((RecoveredFields_80230D9C_arg0 *) arg0)->field_88 + ((f32) (((RecoveredFields_80230D9C_arg0 *) arg0)->field_AC * ((RecoveredFields_80230D9C_arg0 *) arg0)->field_78)));
-  if (is_technique_ready__8TTecCtrlFv())
+  if (TTecCtrl::is_technique_ready())
   {
     ((RecoveredFields_80230D9C_arg0 *) arg0)->field_88 = (f32) (((RecoveredFields_80230D9C_arg0 *) arg0)->field_88 * (*((f32 *) (((s8 *)&lbl_804CC55C.value) + 0x10))));
   }
@@ -399,7 +345,7 @@ void TUnk_804CCB28::run_task() {
         *(s32 *)&this->unk_5C = 0;
     }
     if ((s32) this->m_58 > 0x6E) {
-        queue_destruction__7TObjectFv((arg0));
+        ((TObject *)arg0)->queue_destruction();
     }
     stack.sp8 = *(s32 *)((s8 *)&lbl_8044DAF0.value + 0);
     stack.spC = *(s32 *)((s8 *)&lbl_8044DAF0.value + 4);
@@ -421,8 +367,6 @@ void TUnk_804CCB28::run_task() {
 }
 #pragma pop
 
-void *__dt__13TUnk_804CCB28Fv(void *arg0, s16 arg1);
-void __dt__7TObjectFv(void *, int);
 
 }
 struct RecoveredGlobal_802384E0_lbl_804CCB28;
@@ -446,21 +390,6 @@ struct Stack_802385EC {
     s32 sp8;
     f32 spC;
     u8 trailing_storage[0x4];
-};
-
-struct RecoveredGlobal_802385EC_lbl_804CCB28 { s32 value; u8 remaining[0x14]; };
-typedef char RecoveredGlobal_802385EC_lbl_804CCB28_size[sizeof(RecoveredGlobal_802385EC_lbl_804CCB28) == 0x18 ? 1 : -1];
-
-struct RecoveredGlobal_80238D10_lbl_804CC510
-{
-  s32 value;
-  u8 remaining[0x48];
-};
-
-struct RecoveredGlobal_80238D10_lbl_804CC55C
-{
-  s32 value;
-  u8 remaining[0x94];
 };
 
 struct RecoveredFields_80238D10_arg0
@@ -513,8 +442,6 @@ struct VObj_802386F8 : VBase_802386F8 {
     virtual s32 m21(s32, Damage_802386F8, s32, s32, s32, void *);
 };
 
-typedef struct Point_80238C6C { f32 x, y, z; } Point_80238C6C;
-
 struct VBase_18_acd6eb { char pad[0x18]; };
 
 struct VObj_18_acd6eb : VBase_18_acd6eb {
@@ -544,9 +471,8 @@ u8 *create_fire_explosion_effect(u8 *arg0, s32 *arg1, s16 arg2, s32 arg3, f32 fa
 void copy_technique_target_list(void *, void *);
 extern s32 __vt__10TTecRaFoie[];
 u8 *construct_targeted__10TTecRaFoieFPvPvPvPvi(u8 *self, void *source, void *origin, void *targets, int level);
-void fn_80044330(void *);
+void clear_target_cursor_list(void *);
 Obj_80238AE8 *TTecRaFoie__ct(Obj_80238AE8 *arg0, void * _w1, void * _w2, void * _w3, int _w4);
-void *__dt__10TTecRaFoieFv(void *arg0, s16 arg1);
 }
 
 u8 *create_rafoie_explosion(u8 *arg0, s32 *arg1, s16 arg2, s16 arg3, s32 arg4, f32 farg0);
@@ -622,12 +548,12 @@ void TTecRaFoie::render() {  }
 void run_task__10TTecRaFoieFv(TTecRaFoie *tec_ra_foie) {
     u32 entity;
     if ((u32) tec_ra_foie->m_e8 == 0U) {
-        queue_destruction__7TObjectFv((tec_ra_foie));
+        tec_ra_foie->queue_destruction();
         return;
     }
     tec_ra_foie->source = find_entity_by_id(tec_ra_foie->m_b4);
     if ((u32) tec_ra_foie->source == 0U) {
-        queue_destruction__7TObjectFv((tec_ra_foie));
+        tec_ra_foie->queue_destruction();
         return;
     }
     if ((s32) tec_ra_foie->m_148 == 1) {
@@ -635,7 +561,7 @@ void run_task__10TTecRaFoieFv(TTecRaFoie *tec_ra_foie) {
         return;
     }
     if ((s32) tec_ra_foie->m_ec == 0) {
-        queue_destruction__7TObjectFv((tec_ra_foie));
+        tec_ra_foie->queue_destruction();
         return;
     }
     entity = find_entity_by_id(tec_ra_foie->m_f0);
@@ -654,7 +580,7 @@ void TTecRaFoie::update_detonation(void *arg1) {
     if (self->age != 10) {
         return;
     }
-    p = __nw__7TObjectFUl(0x64);
+    p = TObject::operator new(0x64);
     if (p != NULL) {
         create_rafoie_explosion((u8 *)p, (s32 *)self->target, self->band, 10, tl_particle, (f32)self->level);
     }
@@ -688,13 +614,13 @@ void TTecRaFoie::update_detonation(void *arg1) {
         }
         break;
     }
-    apply_technique_to_area_targets__13TUnk_804CC148Fv(self);
-    queue_destruction__7TObjectFv(self);
+    ((TUnk_804CC148 *)self)->apply_technique_to_area_targets();
+    ((TObject *)self)->queue_destruction();
 }
 
 void TTecRaFoie::create(void *arg1, void *arg2, void *arg3) {
     void *o;
-    o = __nw__7TObjectFUl(0x14C);
+    o = TObject::operator new(0x14C);
     if (o != NULL) {
         TTecRaFoie__ct((Obj_80238AE8 *)(o), (void *)this, (void *)arg1, (void *)arg2, (int)arg3);
     }
@@ -702,7 +628,7 @@ void TTecRaFoie::create(void *arg1, void *arg2, void *arg3) {
 
 void TTecRaFoie::create_ex(void *origin, void *targets, void *level) {
     void *o;
-    o = __nw__7TObjectFUl(0x14C);
+    o = TObject::operator new(0x14C);
     if (o != NULL) {
         construct_targeted__10TTecRaFoieFPvPvPvPvi((u8 *)o, (void *)this, (void *)origin, (void *)targets, (int)level);
     }
@@ -712,10 +638,6 @@ TTecRaFoie::~TTecRaFoie() {
 
 }
 typedef struct RecoveredFields_80238D10_arg0 RecoveredFields_80238D10_arg0;
-typedef struct RecoveredGlobal_80238D10_lbl_804CC510 RecoveredGlobal_80238D10_lbl_804CC510;
-typedef struct RecoveredGlobal_80238D10_lbl_804CC55C RecoveredGlobal_80238D10_lbl_804CC55C;
-typedef char RecoveredGlobal_80238D10_lbl_804CC510_size[((sizeof(RecoveredGlobal_80238D10_lbl_804CC510)) == 0x4C) ? (1) : (-1)];
-typedef char RecoveredGlobal_80238D10_lbl_804CC55C_size[((sizeof(RecoveredGlobal_80238D10_lbl_804CC55C)) == 0x98) ? (1) : (-1)];
 
 #pragma push
 #pragma opt_common_subs off
@@ -726,7 +648,7 @@ Obj_80238AE8 *TTecRaFoie__ct(Obj_80238AE8 *arg0, void * _w1, void * _w2, void * 
     ((TObjPlayer *)((u8 *)arg0 + 0xEC))->construct_target_cursor_records();
     *(u32 *)((s8 *)arg0 + 0) = (u32)TTecRaFoie_class_name;
     ((TTecRaFoie *)arg0)->calc_area_parameters();
-    fn_80044330((u8 *)arg0 + 0xEC);
+    clear_target_cursor_list((u8 *)arg0 + 0xEC);
     ((TTecRaFoie *)arg0)->m_148 = 1;
     t = *(Sub_80238AE8 **)((s8 *)arg0 + 0xE8);
     if (t != NULL) {

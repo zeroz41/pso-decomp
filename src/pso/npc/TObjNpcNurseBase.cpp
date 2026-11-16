@@ -15,7 +15,7 @@ BmlResourceDescriptor bm_n_nurse_i_body_resource_descriptor = { "bm_n_nurse_i_bo
 const char *TObjNpcNurseBase__name = "TObjNpcNurseBase";
 BmlResource *TObjNpcNurseBase__shared_model_resource;
 
-extern "C" s32 __vt__16TObjNpcNurseBase[];
+s32 __vt__16TObjNpcNurseBase[];
 
 void *TObjNpcNurseBase__create(void *set_data) {
     TObjControl *control = new TObjControl(tl_04);

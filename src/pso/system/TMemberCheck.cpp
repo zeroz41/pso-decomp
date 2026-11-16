@@ -8,10 +8,6 @@
 extern "C" {
 const char *member_check_name_ptr = "TMemberCheck";
 s32 TMemberCheck__previous_member_count;
-}
-
-
-extern "C" {
 void* memset(void*, int, unsigned long);
 extern const char *member_check_name_ptr;
 extern s32 TMemberCheck__previous_member_count;

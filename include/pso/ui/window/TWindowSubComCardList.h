@@ -6,6 +6,7 @@
 
 struct TWindowSubComCardList : public TWindowMenu {
     virtual ~TWindowSubComCardList();
+    void sub_80275360();
     void draw_card_list_selection(u8 *);
     s16 get_field_72();
     s16 get_selected_index();

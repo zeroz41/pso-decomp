@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/weapon/TItemWeapon.h"
 #include "pso/weapon/TUnk_804A5838.h"
 #include "pso/item/TItem.h"
 #include "pso/item/TItemHeapObject.h"
@@ -96,10 +97,10 @@ void TUnk_804A5838::emit_marker_effects() {
         if (is_mode_two_and_ready() != 0) {
             if (get_joint_position(2, &pos) != 0) {
                 TTecMegid::create_ex((s32)owner, (s32)&pos, owner->rotation_y, 0);
-                ((TObjPlayer *)this)->drain_owner_hp_fraction(0.07f);
+                ((TItemWeapon *)this)->drain_owner_hp_fraction(0.07f);
             }
         } else {
-            ((TObjPlayer *)this)->update_active_game_effect();
+            ((TItemWeapon *)this)->update_active_game_effect();
         }
     }
 }

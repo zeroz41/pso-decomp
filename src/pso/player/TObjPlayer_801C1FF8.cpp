@@ -32,7 +32,7 @@ void __construct_array(void *, void *, void *, int, int);
 void init_arrays__10TObjPlayerFv(void);
 extern const f32 TObjPlayer__data_805DC278;
 S_801C20A4 *init_player_telepipe_record(S_801C20A4 *arg0);
-int test_flags_any(void*, int);
+s32 test_flags_any(s32 *flags, s32 mask);
 void TObjPlayer__sub_8012AF00(void *);
 int fn_8035B00C(void*);
 
@@ -120,7 +120,7 @@ u8 TObjPlayer__sub_801C223C(void* p) { return *(u8*)((char*)p + 0xe7); }
 void TObjPlayer__sub_801C2244(void* p, s16 v) { *(s16*)((char*)p + 0x2) = v; }
 void*TObjPlayer::setup_ctrl() { fn_8035B00C(this); return this; }
 
-int TObjPlayer::check_flag_at_428() { return test_flags_any((char*)this + 0x428, 1); }
+int TObjPlayer::check_flag_at_428() { return test_flags_any((s32 *)((char*)this + 0x428), 1); }
 void*TObjPlayer::get_sub_obj() { return (char*)this + 0x4; }
 void*TObjPlayer::get_char_data() { return (char*)this + 0xc; }
 s32 TObjPlayer__sub_801C22B4(void* p) { return *(s32*)((char*)p + 0x0); }

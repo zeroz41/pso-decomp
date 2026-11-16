@@ -33,4 +33,8 @@ void set_scene_light_diffuse(void *_w0);
 void submit_scene_ambient_color(void);
 void submit_scene_light_direction(void *_w0);
 
+// TObjLight__scene_light_state: layout known from its uses only.
+struct TObjLightSceneLightState { s32 value; u8 remaining[0x4C]; };
+extern TObjLightSceneLightState TObjLight__scene_light_state;
+
 #endif

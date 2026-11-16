@@ -1,4 +1,5 @@
 #include "pso/ui/window/TWindowDD.h"
+#include "pso/unk/TLobby.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowDD_80348304.h"
 #include "pso/ui/window/TWindowDD_8034AF68.h"
@@ -7,7 +8,8 @@
 
 #include "types.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/map/FloorArea.h"
+#include "pso/player/TObjPlayer_80011014.h"
+
 
 struct W_80348520 {
     u8 pad0[0x24];
@@ -22,7 +24,6 @@ struct W_80348520 {
 extern "C" {
 s32 copy_chat_entry__9TWindowDDFPvPv(int, void *);
 s32 reset_selection__9TWindowDDFv(void *, void *);
-s32 is_flag_set__6TLobbyFv();
 s32 TWindowDD__sub_8034435C();
 s32 TWindowDD__sub_80344568();
 s32 TWindowDD__sub_80344774();
@@ -70,7 +71,7 @@ s32 TWindowDD::get_word_select_context() {
     if (TObjPlayer::get_player_count() != 0) {
         return 4;
     }
-    if (is_flag_set__6TLobbyFv() != 0) {
+    if (TLobby::is_flag_set() != 0) {
         return 5;
     }
     return (this->m_bc != 0 ? 1 : 0) + 2;

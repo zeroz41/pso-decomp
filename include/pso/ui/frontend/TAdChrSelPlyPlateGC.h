@@ -52,7 +52,7 @@ void TAdMultiPlyChrSelectGC__sub_802C65C0(s32 arg0);
 s32 TAdMultiPlyChrSelectGC__sub_802C6848(s32 arg0);
 int TAdMultiPlyChrSelectGC__sub_802C6920(void);
 u32 get_multiplayer_controller_active_index(int param_1);
-s32 is_multiplayer_character_slot_selected(s32 arg0);
 }
+s32 is_multiplayer_character_slot_selected(s32 arg0);
 
 #endif

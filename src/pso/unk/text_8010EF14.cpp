@@ -16,7 +16,7 @@ struct O_8010EF14 { s32 count; s32 f4; u8 *buf; };
 
 extern "C" {
 void fn_8010EFE8(O_8010EFE8 *self);
-s32 test_flags_any(void *, s32);
+s32 test_flags_any(s32 *flags, s32 mask);
 s32 rand();
 void fn_8010EF14(O_8010EF14 *self);
 
@@ -50,7 +50,7 @@ void fn_8010EFE8(O_8010EFE8 *self) {
 void fn_8010F018(Set_8010F0C0 *s) {
     s32 i;
     Fn_801Fn f;
-    if (test_flags_any((u8 *)s + 0xC, 1) != 0) {
+    if (test_flags_any((s32 *)((u8 *)s + 0xC), 1) != 0) {
         for (i = s->count - 1; i >= 0; i--) {
             if (s->order != 0) {
                 f = s->ents[s->order[i]].b;
@@ -68,7 +68,7 @@ void fn_8010F018(Set_8010F0C0 *s) {
 void fn_8010F0C0(Set_8010F0C0 *s) {
     s32 i;
     Fn_801Fn f;
-    if (test_flags_any((u8 *)s + 0xC, 1) == 0) {
+    if (test_flags_any((s32 *)((u8 *)s + 0xC), 1) == 0) {
         fn_8010EF14((O_8010EF14 *)(s));
         for (i = 0; i != s->count; i++) {
             if (s->order != 0) {

@@ -4,7 +4,7 @@
 #include "types.h"
 
 extern "C" {
-s32 TQuestVmDownLoadServer__sub_8006EF6C(s32 arg0);
+s32 get_message_text(s32 arg0);
 }
 
 #endif

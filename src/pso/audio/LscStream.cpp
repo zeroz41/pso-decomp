@@ -30,9 +30,6 @@ void lsc_notify_queue_empty(void) {
         lsc_queue_empty_callback(lsc_queue_empty_object, lsc_queue_empty_param);
     }
 }
-}
-
-extern "C" {
 char *strncpy(char *dest, const char *src, unsigned long num);
 void *memset(void *dst, int val, unsigned long n);
 extern LscStream lsc_slot_table[];

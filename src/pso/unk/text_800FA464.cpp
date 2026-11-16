@@ -16,7 +16,7 @@ struct AsyncFileReadRequest {
 };
 
 extern "C" {
-s32 TLobby__sub_803CC4C0(u32);
+s32 adxf_get_stat(u32);
 u32 adxf_open__6TLobbyFUii(void *, s32);
 void load_gvm_texture_archive(u32, s32);
 }
@@ -62,7 +62,7 @@ void process_async_file_reads(void) {
             TLobby::destroy_instance();
             TLobby::pop_and_close();
             async_file_read_state = 0;
-        } else if (TLobby__sub_803CC4C0(lobby_download_state_ptr) == 3) {
+        } else if (adxf_get_stat(lobby_download_state_ptr) == 3) {
             TLobby::read_checked_align(lobby_download_state_ptr, 1, async_file_read_sector_buffer);
             async_file_read_state = 2;
         }
@@ -72,7 +72,7 @@ void process_async_file_reads(void) {
             TLobby::destroy_instance();
             TLobby::pop_and_close();
             async_file_read_state = 0;
-        } else if (TLobby__sub_803CC4C0(lobby_download_state_ptr) == 3) {
+        } else if (adxf_get_stat(lobby_download_state_ptr) == 3) {
             u8 *dst = async_file_read_current_request->dst + ((async_file_read_current_request->count - 1) << 11);
             s32 n = async_file_read_current_request->size % 2048;
             if (n == 0) {
@@ -98,7 +98,7 @@ void process_async_file_reads(void) {
             TLobby::destroy_instance();
             TLobby::pop_and_close();
             async_file_read_state = 0;
-        } else if (TLobby__sub_803CC4C0(lobby_download_state_ptr) == 3) {
+        } else if (adxf_get_stat(lobby_download_state_ptr) == 3) {
             load_gvm_texture_archive(async_file_read_texture_buffer, async_file_read_current_request->tex);
             TLobby::tmp_buf_release("FSVR_READPVM");
             TLobby::notify_and_close();

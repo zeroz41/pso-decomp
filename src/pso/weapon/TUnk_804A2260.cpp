@@ -89,7 +89,7 @@ void TUnk_804A2260::sub_80124C90() {
             atk.b = 1;
             atk.id0 = get_entity_id(me->pl);
             atk.id1 = get_entity_id(t);
-            atk.d8 = ((TItem *)((u8 *)this))->get_item_id();
+            atk.d8 = this->get_item_id();
             atk.idx = get_captured_target_collider_index(e2);
             atk.f = ((TObjPlayer *)me->pl)->query_extended_state();
             spawn_item_attacker((s32)tl_05, (u32)&me->pl->pos38, (s32)(xyz_distance(pos, &part->v) / me->scale), (u8 *)&atk);
@@ -116,18 +116,14 @@ void TUnk_804A2260::sub_80124C90() {
         }
     }
 }
-}
-
-extern "C" {
-
 void TUnk_804A2260::emit_marker_effects() {
     if (is_mode_two_and_ready() != 0) {
         if (((TObjPlayer *)((u8 *)this->owner + 0x7CC))->get_stage_strike_count() == 0) {
-            ((TObjPlayer *)this)->drain_owner_hp_fraction(0.05f);
+            ((TItemWeapon *)this)->drain_owner_hp_fraction(0.05f);
             sub_80124C90();
         }
     } else {
-        ((TObjPlayer *)this)->update_active_game_effect();
+        ((TItemWeapon *)this)->update_active_game_effect();
     }
 }
 
@@ -170,9 +166,6 @@ u8 *TObjPlayer::create_state_80125154(u8 *item) {
     return NULL;
 }
 
-extern "C" {
-
 
 s16 TObjPlayer::get_stage_strike_count() { return *(s16*)((char*)this + 0x12); }
 
-}

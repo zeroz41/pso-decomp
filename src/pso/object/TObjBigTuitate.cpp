@@ -9,17 +9,17 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/BmlResourceDescriptor.h"
-#include "pso/object/TObjBigTuitate.h"
+
 #include "pso/render/RenderFadeState.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/map/TObjMapCsn.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/text_8019AD50.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/object/TObjTuitate.h"
+
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/task/TObject.h"
-#include "pso/render/RenderFadeState.h"
+
 
 struct FadeBase_8019AA18 { char pad[0x14]; };
 
@@ -48,8 +48,6 @@ struct Obj_8019AA18 : ObjBase_8019AA18 {
     virtual s32 is_visible(f32, f32);
 };
 
-struct Vec_8019AA18 { f32 x, y, z; };
-
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
@@ -57,7 +55,7 @@ struct ByteBlock_3C { u8 bytes[0x3c]; };
 
 extern "C" {
 void __ct__15RenderFadeStateFv(void *);
-s32 TObjFish__sub_8001EDB0(s32, s32);
+s32 get_bml_texlist(s32, s32);
 s32 get_bml_model(s32, s32);
 s32 matrix_mult_vec(int, void *, void *);
 void push_matrix(void);
@@ -92,27 +90,11 @@ extern s32 __vt__14TObjBigTuitate[];
 void free_bin_model_request(void*, int);
 void free_collision_body_parts(void *);
 void __dl__7TObjectFPv(void *);
-void *__nw__7TObjectFUl(int);
 
 
-
-}
-extern "C" {
-
-extern void *tl_05;
-
-
-
-
-}
-
-
-extern "C" {
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-
-
 }
-
+extern void *tl_05;
 struct FadeBase_8019ADA0 { char pad[0x14]; };
 
 struct Fade_8019ADA0 : FadeBase_8019ADA0 {
@@ -140,41 +122,12 @@ struct Obj_8019ADA0 : ObjBase_8019ADA0 {
     virtual s32 is_visible(f32, f32);
 };
 
-struct Vec_8019ADA0 { f32 x, y, z; };
-
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
 
-extern "C" {
-s32 TObjFish__sub_8001EDB0(s32, s32);
-s32 get_bml_model(s32, s32);
-s32 matrix_mult_vec(int, void *, void *);
-void push_matrix(void);
-void post_translate_matrix(void *);
-void set_global_param__8TObjFishFl(void);
-void draw_ginja_object(void);
 
-s32 init_collision_body_parts(void *, void *, int);
-s32 __ct__14TObjCollidableFP7TObject();
 extern s32 __vt__11TObjTuitate[];
-
-void free_bin_model_request(void*, int);
-void free_collision_body_parts(void *);
-void __dl__7TObjectFPv(void *);
-void *__nw__7TObjectFUl(int);
-
-
-
-}
-extern "C" {
-
-extern void *tl_05;
-
-
-
-
-}
 
 
 void load_tuitate_bml_resource(void) {
@@ -196,7 +149,7 @@ void free_tuitate_bml_resource(void) {
 }
 
 void *TObjTuitate__create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0xCC);
+    void *o = TObject::operator new(0xCC);
     if (o != NULL) {
         o = TObjTuitate__ct(o, tl_05, arg0);
     }
@@ -228,7 +181,7 @@ void *TObjTuitate__ct(void *arg0, void *arg1, void *arg2) {
 
 TObjTuitate::~TObjTuitate() {
     if (*(void **)((s8 *)this + 0xC8) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0xC8)))->queue_destruction(); *(s32 *)((s8 *)this + 0xC8) = 0; }
-    ((TObjCollidable *)this)->unregister_object_by_id();
+    this->unregister_object_by_id();
     free_collision_body_parts(this);
     __dt__15RenderFadeStateFv((s8 *)this + 0xAC, -1);
 }
@@ -238,7 +191,7 @@ void TObjTuitate::run_task() { { (void)(((RenderFadeState *)((char*)this + 0xac)
 void TObjTuitate::render() {
     Obj_8019ADA0 *self = (Obj_8019ADA0 *)this;
     u8 *arg0 = (u8 *)self;
-    Vec_8019ADA0 v;
+    Vec v;
     s32 fading;
     if (self->is_visible(4e+02f, 2e+01f) == 0) {
         return;
@@ -258,7 +211,7 @@ void TObjTuitate::render() {
     if (fading != 0) {
         ((Fade_8019ADA0 *)(arg0 + 0xAC))->begin();
     }
-    TObjFish__sub_8001EDB0((*(s32 *)&TObjTuitate__bml_resource), 0);
+    get_bml_texlist((*(s32 *)&TObjTuitate__bml_resource), 0);
     set_global_param__8TObjFishFl();
     push_matrix();
     post_translate_matrix(arg0 + 0x38);
@@ -291,7 +244,7 @@ void TObjBigTuitate::free_instance() {
 }
 
 void *TObjBigTuitate__create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0xCC);
+    void *o = TObject::operator new(0xCC);
     if (o != NULL) {
         o = TObjBigTuitate__ct(o, tl_05, arg0);
     }
@@ -323,7 +276,7 @@ void *TObjBigTuitate__ct(void *arg0, void *arg1, void *arg2) {
 
 TObjBigTuitate::~TObjBigTuitate() {
     if (*(void **)((s8 *)this + 0xC8) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0xC8)))->queue_destruction(); *(s32 *)((s8 *)this + 0xC8) = 0; }
-    ((TObjCollidable *)this)->unregister_object_by_id();
+    this->unregister_object_by_id();
     free_collision_body_parts(this);
     __dt__15RenderFadeStateFv((s8 *)this + 0xAC, -1);
 }
@@ -333,7 +286,7 @@ void TObjBigTuitate::run_task() { { (void)(((RenderFadeState *)((char*)this + 0x
 void TObjBigTuitate::render() {
     Obj_8019AA18 *self = (Obj_8019AA18 *)this;
     u8 *arg0 = (u8 *)self;
-    Vec_8019AA18 v;
+    Vec v;
     s32 fading;
     if (self->is_visible(4e+02f, 2e+01f) == 0) {
         return;
@@ -353,7 +306,7 @@ void TObjBigTuitate::render() {
     if (fading != 0) {
         ((Fade_8019AA18 *)(arg0 + 0xAC))->begin();
     }
-    TObjFish__sub_8001EDB0((*(s32 *)&TObjBigTuitate__bml_resource), 0);
+    get_bml_texlist((*(s32 *)&TObjBigTuitate__bml_resource), 0);
     set_global_param__8TObjFishFl();
     push_matrix();
     post_translate_matrix(arg0 + 0x38);

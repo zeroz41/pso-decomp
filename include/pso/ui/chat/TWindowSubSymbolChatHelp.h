@@ -26,7 +26,6 @@ typedef char TWindowSubSymbolChatHelp_size[sizeof(TWindowSubSymbolChatHelp) == 0
 
 extern "C" {
 u8 *TWindowSubSymbolChatHelp__ct(TWindowSubSymbolChatHelp *arg0, s32 arg1, s32 arg2);
-void *__dt__24TWindowSubSymbolChatHelpFv(void *arg0, s16 arg1);
 }
 
 #endif

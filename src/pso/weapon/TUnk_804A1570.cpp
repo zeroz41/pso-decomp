@@ -35,7 +35,7 @@ void TUnk_804A1570::update_attack() {
     }
 }
 
-extern "C" {
+
 void TUnk_804A1570::reserved_53() {
   s32 temp_r31;
   s32 new_var;
@@ -47,7 +47,6 @@ void TUnk_804A1570::reserved_53() {
   *((s32 *) (((s8 *) ((u8 *)this)) + 0xF4)) = (s32)this->second_model;
   draw_weapon_at_joint(new_var, 0x22);
   *((s32 *) (((s8 *) ((u8 *)this)) + 0xF4)) = temp_r31;
-}
 }
 
 TUnk_804A1570::~TUnk_804A1570() {}

@@ -110,6 +110,7 @@ struct TMainCursor : public TObject {
     void set_flag_bit(s32 arg1, u16 arg2);
     static s32 find_action_slot(s32 arg0, void *arg1, s16 arg2, s32 arg3, s32 arg4);
     s32 check_can_pickup();
+    void setup_action_channel(u8 *player, s32 slot, s32 kind, s32 id);
 };
 
 typedef char TMainCursor_size[sizeof(TMainCursor) == 0x68 ? 1 : -1];

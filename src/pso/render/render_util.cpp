@@ -1,9 +1,8 @@
 // One original TU runs from calc_triangle_normal (0x801412D0) to the weak inline copies at
 // 0x80142624-0x80142770, but its out-of-line copy of sqrt_double sits at the TU end while the
 // copy's constants sit between the tev tables and the pulse constants. No compiler here emits
-// that (a copy follows its first caller, its constants with it), so the TU is built as three
-// units: render_util_head.cpp, this one (set_cull_none to save_model_draw_state) and
-// render_util_tail.cpp.
+// that (a copy follows its first caller, its constants with it), so the TU is built as two
+// units: render_util_head.cpp and this one (set_cull_none to the weak copies at the end).
 
 #include "pso/render/render_util.h"
 #include <dolphin/gx.h>
@@ -19,10 +18,11 @@
 #include "pso/render/ModelDrawContext.h"
 
 #define RAD_TO_ANGLE (32768.0 / 3.141592f)
+#include "pso/render/render_util_tail.h"
 
 extern "C" {
 void normalize_vector(Vec *v);
-s32 TCameraCtrl__sub_8006B370(f32 value);
+int is_float_nonfinite(f32 farg0);
 }
 
 NJS_ARGB chunk_material_color_half_alpha_f32 = {0.5f, 0.0f, 0.0f, 0.0f};
@@ -236,6 +236,7 @@ f32 horizontal_distance_squared(const Vec *a, const Vec *b) {
     f32 dz = b->z - a->z;
     return dx * dx + dz * dz;
 }
+}
 
 // Normalizes v and returns 1, or returns 0 when v is (nearly) zero.
 s32 normalize_if_nonzero(Vec *v) {
@@ -244,8 +245,6 @@ s32 normalize_if_nonzero(Vec *v) {
     }
     normalize_vector(v);
     return 1;
-}
-
 }
 
 void calc_direction_vector(s32 angle, Vec *out, f32 length) {
@@ -264,8 +263,6 @@ s32 calc_angle_to(Vec *from, Vec *to) {
     return RAD_TO_ANGLE * atan2_float(to->x - from->x, to->z - from->z);
 }
 
-extern "C" {
-
 s32 f32_bits(f32 value) {
     union {
         f32 f;
@@ -282,8 +279,6 @@ f32 bits_to_f32(s32 bits) {
     } u;
     u.i = bits;
     return u.f;
-}
-
 }
 
 void set_inverse_alpha_blend() { set_color_blending_mode(0, 5); set_color_blending_mode(1, 6); }
@@ -442,8 +437,8 @@ s32 is_near_zero(f32 value) {
 
 s32 vec_has_nonfinite(Vec *v) {
     bool result = false;
-    if (TCameraCtrl__sub_8006B370(v->x) != 0 || TCameraCtrl__sub_8006B370(v->y) != 0 ||
-        TCameraCtrl__sub_8006B370(v->z) != 0) {
+    if (is_float_nonfinite(v->x) != 0 || is_float_nonfinite(v->y) != 0 ||
+        is_float_nonfinite(v->z) != 0) {
         result = true;
     }
     return result;
@@ -483,3 +478,57 @@ void save_model_draw_state(void *owner) {
     save_model_material_color(owner);
     save_chunk_polygon_masks(owner);
 }
+
+// The end of the TU: the original's out-of-line copies of its inline helpers, in definition
+// order. sqrt_double cannot pool its constants where the original has them (before the pulse
+// constants above), so it reads the three doubles by address.
+extern const f32 __float_nan[];
+extern const f32 __float_huge[];
+extern const f64 lbl_8043F298[]; // 0.0
+extern const f64 lbl_8043F2A0[]; // 0.5
+extern const f64 lbl_8043F2A8[]; // 3.0
+
+// MSL's double sqrt.
+f64 sqrt_double(f64 x) {
+    if (x > lbl_8043F298[0]) {
+        f64 guess = __frsqrte(x);
+        guess = lbl_8043F2A0[0] * guess * (lbl_8043F2A8[0] - x * (guess * guess));
+        guess = lbl_8043F2A0[0] * guess * (lbl_8043F2A8[0] - x * (guess * guess));
+        guess = lbl_8043F2A0[0] * guess * (lbl_8043F2A8[0] - x * (guess * guess));
+        guess = lbl_8043F2A0[0] * guess * (lbl_8043F2A8[0] - x * (guess * guess));
+        return x * guess;
+    }
+    if (lbl_8043F298[0] == x) {
+        return lbl_8043F298[0];
+    }
+    if (x != lbl_8043F298[0]) {
+        return __float_nan[0];
+    }
+    return __float_huge[0];
+}
+
+void set_global_draw_flag_bits(void *owner, u32 bits) {
+    model_render_flags |= bits;
+}
+
+void restore_model_render_flags(void *owner) { model_render_flags = color_draw_saved_render_flags; }
+
+void restore_model_material_color(void *owner) {
+    copy_argb(&model_material_color, &color_draw_saved_color);
+}
+
+void restore_chunk_polygon_masks(void *owner) {
+    chunk_polygon_flags_and_mask = color_draw_saved_and_mask;
+    chunk_polygon_flags_or_mask = color_draw_saved_or_mask;
+}
+
+void save_chunk_polygon_masks(void *owner) {
+    color_draw_saved_and_mask = chunk_polygon_flags_and_mask;
+    color_draw_saved_or_mask = chunk_polygon_flags_or_mask;
+}
+
+void save_model_material_color(void *owner) {
+    copy_argb(&color_draw_saved_color, &model_material_color);
+}
+
+void save_model_render_flags(void *owner) { color_draw_saved_render_flags = model_render_flags; }

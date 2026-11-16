@@ -4,11 +4,14 @@
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 class TChCrTagPlBack;
 #include "pso/ui/window/TWindowSubTrade.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/chat/TWindowSubShortMail.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
+
+#pragma readonly_strings on
 
 struct VBase_18_f23ffb { char pad[0x18]; };
 
@@ -43,7 +46,7 @@ struct VObj_802B1B80 : VBase_802B1B80 {
 };
 
 extern "C" {
-s32 get_shared_text_buffer();
+s32 *get_shared_text_buffer(void);
 s32 text_builder_append();
 }
 void text_builder_reset(void);
@@ -52,8 +55,10 @@ s32 get_window_layout_position(int);
 s32 free_member__17TWindowSubComCardFv(int, int);
 void open_yes_no_prompt(TChCrTagPlBack *arg0, u32 arg1, s32 arg2, s32 arg3, f32 farg0);
 s32 create__19TWindowMessageYesNoFPvPvPvPv(void *, int, int, int);
-s32 create__14TWindowMessageFlPCfUll(s32, void *, int, int);
-extern u8 lbl_80470AA8[];
+s32 create__14TWindowMessageFlPCfUll(s32, const f32 *, int, int);
+const char *lbl_805D3EA8 = "TWindowSubTrade"; // TWindowSubTrade__name
+// Player message window position (x, y).
+extern const f32 lbl_80470AA8[2] = {384.0f, 120.0f};
 s32 TWindowSubTrade::open_trade_confirm_prompt(s32 arg1) {
     u8 *arg0 = (u8 *)this;
     s32 temp_r29;
@@ -82,18 +87,18 @@ s32 TWindowSubTrade::open_player_message_window(s32 arg1, s32 arg2) {
     }
     ((s32 (*)(s32))text_builder_append)(arg2);
     r = create__14TWindowMessageFlPCfUll(get_window_layout_position(0x5B), lbl_80470AA8, 1, this->m_20);
-    ((TWindowMessage *)r)->append_line(get_shared_text_buffer(), 0x82);
+    ((TWindowMessage *)r)->append_line((int)get_shared_text_buffer(), 0x82);
     return r;
 }
 }
 
 // ---- pso/unk/text_802B1C1C
-#include "types.h"
-#include "pso/ui/window/TWindowSubStatusDisp.h"
+
+
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/TWindowSubComCardList.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
-#include "pso/player/TObjPlayer.h"
+
 
 extern "C" {
 TWindowSubComCardList *draw_card_icon__17TWindowSubComCardFll(s32 layout, s32 kind, void *title);
@@ -139,20 +144,17 @@ TWindowSubComCardList *TWindowSubComCard__sub_802B1C1C(TWindowSubTrade *) {
 }
 
 // ---- pso/ui/window/TWindowSubTrade
-#include "types.h"
+
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowCtrl_8024A054.h"
 #include "pso/ui/window/TWindowSubComCard_80244774.h"
 #include "pso/network/TradeSession.h"
 #include "pso/unk/text_802D298C.h"
-#include "pso/ui/window/TWindowSubTrade.h"
-#include "pso/unk/TLobby.h"
+
+
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowMessageYesNo.h"
-#include "pso/ui/window/TWindowSubComCard.h"
-#include "pso/ui/window/TWindowSubStatusDisp.h"
 
-struct RecoveredGlobal_802B1F98___vt__15TWindowSubTrade { s32 value; u8 remaining[0x14]; };
 
 struct VBase_18_204a81 { char pad[0x18]; };
 
@@ -172,13 +174,11 @@ void __dl__7TObjectFPv(s32);
 s32 __dt__7TObjectFv(void *, int);
 extern s32 __vt__15TWindowSubTrade[];
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
-s32 TWindowShortListCtrl__check_controller_button(void *, int, int);
 s32 play_sound_effect(int, int, int, int);
 extern s32 controller_input_state[];
 
 void TWindowSubTrade::render() {  }
 
-extern void *lbl_805D3EA8;
 
 void TWindowSubTrade::run_task() {
     u8 *arg0 = (u8 *)this;
@@ -240,7 +240,7 @@ void TWindowSubTrade::run_task() {
         this->m_1c = 6U;
     case 6:
         temp_r5 = temp_r30 * 0x50;
-        if ((TWindowShortListCtrl__check_controller_button((void *) ((u8 *)(((u8 *)controller_input_state + temp_r5)) + 0x20), 2, (int)temp_r5) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) ((u8 *)controller_input_state + 0x160), 2) != 0)) {
+        if ((TWindowShortListCtrl__check_controller_button((void *) ((u8 *)(((u8 *)controller_input_state + temp_r5)) + 0x20), 2) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) ((u8 *)controller_input_state + 0x160), 2) != 0)) {
             play_sound_effect(0x52F16, 0, 0, 0);
             TLobby::cancel_trade();
             this->m_1c = 1U;
@@ -251,40 +251,40 @@ void TWindowSubTrade::run_task() {
     }
 }
 
-u8 *__dt__15TWindowSubTradeFv(u8 *arg0, s16 arg1) {
+u8 *__dt__15TWindowSubTradeFv(u8 *object, s16 arg1) {
     u8 *window_sub_com_card;
     u8 *temp_r3_2;
     u8 *temp_r3_3;
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_802B1F98___vt__15TWindowSubTrade *)&__vt__15TWindowSubTrade).value;
-        TLobby__sub_802D2A2C((u32) arg0);
+    if (object != NULL) {
+        *(s32 **)((s8 *)object + 0x18) = __vt__15TWindowSubTrade;
+        TLobby__sub_802D2A2C((u32) object);
         TLobby::check_flags_and_proceed();
-        window_sub_com_card = (u8 *)(*(u8 **)((s8 *)arg0 + 0x34));
+        window_sub_com_card = (u8 *)(*(u8 **)((s8 *)object + 0x34));
         if (window_sub_com_card != NULL) {
             ((TWindowSubComCard *)window_sub_com_card)->close();
-            *(u8 **)((s8 *)arg0 + 0x34) = NULL;
+            *(u8 **)((s8 *)object + 0x34) = NULL;
         }
-        temp_r3_2 = (u8 *)(*(u8 **)((s8 *)arg0 + 0x30));
+        temp_r3_2 = (u8 *)(*(u8 **)((s8 *)object + 0x30));
         if (temp_r3_2 != NULL) {
             ((TWindowBase *)temp_r3_2)->close();
-            *(u8 **)((s8 *)arg0 + 0x30) = NULL;
+            *(u8 **)((s8 *)object + 0x30) = NULL;
         }
-        temp_r3_3 = (u8 *)(*(u8 **)((s8 *)arg0 + 0x2C));
+        temp_r3_3 = (u8 *)(*(u8 **)((s8 *)object + 0x2C));
         if (temp_r3_3 != NULL) {
             ((TWindowBase *)temp_r3_3)->close();
-            *(u8 **)((s8 *)arg0 + 0x2C) = NULL;
+            *(u8 **)((s8 *)object + 0x2C) = NULL;
         }
-        __dt__7TObjectFv(arg0, 0);
+        __dt__7TObjectFv(object, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv((s32) arg0);
+            __dl__7TObjectFPv((s32) object);
         }
     }
-    return arg0;
+    return object;
 }
 
 }
 TWindowSubTrade::TWindowSubTrade(TObject *object, void *arg2) : TObject(object) {
-    *(void * *)&this->m_name = lbl_805D3EA8;
+    this->m_name = lbl_805D3EA8;
     *(void **)((s8 *)this + 0x28) = object;
     *(void **)((s8 *)this + 0x20) = arg2;
     this->m_24 = 4;

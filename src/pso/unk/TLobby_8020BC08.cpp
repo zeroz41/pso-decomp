@@ -2,12 +2,12 @@
 #include "types.h"
 #include "pso/quest/TQuestThread.h"
 #include "pso/system/task/TObject.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 struct Obj_8020BBA0 { u8 pad[0xC]; Obj_8020BBA0 *next; u8 pad2[4]; Obj_8020BBA0 *child; };
 
 extern "C" {
 void destroy_child_recursive__6TLobbyFPvPv(Obj_8020BBA0 *arg0, Obj_8020BBA0 *arg1);
-s32 get_current_floor(void);
 void clear_floor_event_flags(void);
 int create_objects__6TLobbyFl(void);
 int attach_objects_by_id__6TLobbyFl(void);

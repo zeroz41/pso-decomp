@@ -6,6 +6,7 @@
 extern "C" {
 
 s32 spawn_shoot_particle__10TObjPlayerFUlllf();
+}
 
 s32 spawn_shoot_particle_9f(void) {
     s32 temp_r3;
@@ -16,6 +17,4 @@ s32 spawn_shoot_particle_9f(void) {
         ((TItemShootParticle *)temp_r3)->spawn_slot_emitter(0x9F, 0);
     }
     return temp_r3;
-}
-
 }

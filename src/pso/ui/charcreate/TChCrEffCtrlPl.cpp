@@ -7,6 +7,7 @@
 extern "C" {
 
 int TAdMultiPlyChrSelectGC__sub_80299454(void*);
+}
 
 s32 get_creation_pad(void) {
     return ((s32 *)controller_physical_port_bank.unknown_00)[TChCrEffCtrlPl::get_clamped_player_index()];
@@ -21,6 +22,6 @@ s32 TChCrEffCtrlPl::get_clamped_player_index() {
     }
     return var_r3;
 }
+extern "C" {
 int TChCrEffCtrlPl__sub_80298F6C(void* p) { return TAdMultiPlyChrSelectGC__sub_80299454(p); }
-
 }

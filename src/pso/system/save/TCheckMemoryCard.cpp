@@ -16,7 +16,7 @@
 #include "pso/unk/TLobby_80132ED0.h"
 
 extern "C" {
-s32 TAdPlayerLoadGC__sub_801E1B50(s32 chan);
+s32 poll_memcard_result(s32 chan);
 TWindowMessage *update_window_mode_from_progress__6TLobbyFPv(const f32 *pos, const f32 *size);
 TWindowMenu *check_room_seq_4__16TAdChrSelASlotGCFl(const f32 *pos, s32 arg1);
 s32 align_menu_entry_positions(TWindowMenu *menu);
@@ -79,7 +79,7 @@ s32 TCheckMemoryCard::check_card() {
         status_checked = 0;
         return 4;
     }
-    if (TAdPlayerLoadGC__sub_801E1B50(0) != 0) {
+    if (poll_memcard_result(0) != 0) {
         busy_count++;
         status_checked = 0;
         return 2;
@@ -127,7 +127,7 @@ void TCheckMemoryCard::create_card_message(s32 kind, s32 sel, s32 sub_entry, s32
     if (use_main_ctrl != 0) {
         entry = 0x6E;
     }
-    if (TKeyBoardControl__sub_8000F8EC() == 0xF) {
+    if (get_previous_main_phase() == 0xF) {
         entry = check_memory_card_text[kind].keyboard_entry;
     }
     text = get_localized_text_entry(group, entry);
@@ -278,17 +278,17 @@ void TCheckMemoryCard::enter_prompt_state() {
     s32 text;
     s32 first_entry;
 
-    if (TKeyBoardControl__sub_8000F8EC() == 0xF) {
-        text = TQuestVmDownLoadServer__sub_8006EF6C(0xA);
-        first_entry = TQuestVmDownLoadServer__sub_8006EF6C(0xE);
+    if (get_previous_main_phase() == 0xF) {
+        text = get_message_text(0xA);
+        first_entry = get_message_text(0xE);
         recreate_message_and_menu(text, -2, first_entry, 0);
         return;
     }
-    text = TQuestVmDownLoadServer__sub_8006EF6C(0x62);
-    first_entry = TQuestVmDownLoadServer__sub_8006EF6C(0xE);
+    text = get_message_text(0x62);
+    first_entry = get_message_text(0xE);
     if (status & 0x20) {
-        text = TQuestVmDownLoadServer__sub_8006EF6C(0x6D);
-        first_entry = TQuestVmDownLoadServer__sub_8006EF6C(0xE);
+        text = get_message_text(0x6D);
+        first_entry = get_message_text(0xE);
     }
     recreate_message_and_menu(text, -2, first_entry, 0);
 }

@@ -34,38 +34,15 @@ void TOJungleDesign::init_design_variant() {
 
 extern "C" {
 
-void *__nw__7TObjectFUl(int);
 
 
 void *TOJungleDesign__create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0xB4);
-    if (o != NULL) {
-        o = TOJungleDesign__ct((u8 *)o, (s32)tl_05, (s32)arg0);
-    }
+    void *o = (void *)new TOJungleDesign((s32)tl_05, (s32)arg0);
     return o;
 }
 
 }
 
-extern "C" void *__ct__14TObjCollidableFP7TObject(void *, s32);
-
-struct JDBase_802feeb4 { char pad[0x18]; };
-struct JDVObj_802feeb4 : JDBase_802feeb4 {
-    virtual s32 m0();
-    virtual s32 m1();
-    virtual s32 m2();
-    virtual s32 m3();
-    virtual s32 m4();
-    virtual s32 m5();
-    virtual s32 m6();
-    virtual s32 m7();
-    virtual s32 m8(f32, f32);
-};
-
-struct RecoveredGlobal_802FEF98___vt__14TOJungleDesign {
-    s32 value;
-    u8 remaining[0x38];
-};
 
 // One box per design variant (m_b0).
 CollisionBody TOJungleDesign__collision_desc_table[3] = {
@@ -76,20 +53,17 @@ CollisionBody TOJungleDesign__collision_desc_table[3] = {
 
 extern "C" {
 s32 init_collision_body_parts(void *, int, int);
-extern s32 __vt__14TOJungleDesign[];
 s32 post_translate_matrix(void *);
 void free_collision_body_parts(void *);
 s32 push_matrix();
-void __dl__7TObjectFPv(void *);
 
 
 void TOJungleDesign::render() {
-    u8 *arg0 = (u8 *)this;
-    if (((JDVObj_802feeb4 *)arg0)->m8(400.0f, 40.0f) == 1) {
+    if (this->update_object_view_visibility(400.0f, 40.0f) == 1) {
         TObjFish::set_global_param(this->texlist);
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
-        rotate_matrix_yxz(0, (*(s32 *)&this->rotation_x), (this->rotation_y), (this->rotation_z));
+        rotate_matrix_yxz(0, (this->rotation_x), (this->rotation_y), (this->rotation_z));
         draw_ginja_object((void *)this->m_ac);
         pop_matrix();
     }
@@ -97,30 +71,25 @@ void TOJungleDesign::render() {
 
 }
 TOJungleDesign::~TOJungleDesign() {
-    ((TObjCollidable *)this)->unregister_object_by_id();
+    this->unregister_object_by_id();
     free_collision_body_parts(this);
 }
 extern "C" {
-typedef char RecoveredGlobal_802FEF98___vt__14TOJungleDesign_size[sizeof(RecoveredGlobal_802FEF98___vt__14TOJungleDesign) == 0x3C ? 1 : -1];
-u8 *TOJungleDesign__ct(u8 *arg0, s32 arg1, s32 arg2) {
-    __ct__14TObjCollidableFP7TObject(arg0, arg1);
-    *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_802FEF98___vt__14TOJungleDesign *)&__vt__14TOJungleDesign).value;
-    ((TOJungleDesign *)arg0)->m_name = TOJungleDesign__name;
-    ((TOJungleDesign *)(arg0))->apply_object_set_data((void *)arg2);
-    ((TOJungleDesign *)arg0)->init_design_variant();
-    init_collision_body_parts(arg0, (int)&TOJungleDesign__collision_desc_table[((TOJungleDesign *)arg0)->m_b0], 1);
-    ((TObjPlayer *)arg0)->register_object_by_id();
-    return arg0;
 }
-
+TOJungleDesign::TOJungleDesign(s32 arg1, s32 arg2) : TObjCollidable((TObject *)arg1) {
+    this->m_name = TOJungleDesign__name;
+    ((TOJungleDesign *)(((u8 *)this)))->apply_object_set_data((void *)arg2);
+    this->init_design_variant();
+    init_collision_body_parts(((u8 *)this), (int)&TOJungleDesign__collision_desc_table[this->m_b0], 1);
+    ((TObjPlayer *)this)->register_object_by_id();
 }
-
 extern "C" {
-u8 * TObjFish__sub_8001EDB0(void *, int);
+
+u8 * get_bml_texlist(void *, int);
 u8 * get_bml_model(void *, int);
 u8 *fn_802FF028(s32 arg0) {
     if ((void *) TOJungleDesign__shared_model_resource != NULL) {
-        return TObjFish__sub_8001EDB0(TOJungleDesign__shared_model_resource, arg0);
+        return get_bml_texlist(TOJungleDesign__shared_model_resource, arg0);
     }
     return NULL;
 }
@@ -131,9 +100,6 @@ u8 *fn_802FF064(s32 arg0) {
     return NULL;
 }
 
-}
-
-extern "C" {
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 void free_bin_model_request(void*, int);
 

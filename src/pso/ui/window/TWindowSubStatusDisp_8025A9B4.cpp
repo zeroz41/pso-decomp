@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/unk/TUnk_804CFA28.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8024FBA8.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8025A9B4.h"
 #include "pso/system/memory.h"
@@ -7,6 +8,8 @@
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/Language.h"
+#include "pso/system/NinjaTypes.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 #pragma readonly_strings on
 
 struct Msg_8025A9C0 {
@@ -18,18 +21,11 @@ struct Msg_8025A9C0 {
     s8 *text;
 };
 
-struct RecoveredGlobal_8025AF90_lbl_804CFA28 { s32 value; u8 remaining[0x14]; };
-typedef char RecoveredGlobal_8025AF90_lbl_804CFA28_size[sizeof(RecoveredGlobal_8025AF90_lbl_804CFA28) == 0x18 ? 1 : -1];
-
 struct Win_8025AD5C { u16 flags; u8 pad2[6]; f32 f8; f32 fC; u8 pad10[8]; f32 f18; f32 f1C; s8 *text; s32 i24; };
 
 struct Ref_8025AD5C { u8 pad0[0x10]; f32 f10; f32 f14; f32 f18; u8 pad1c[0x30 - 0x1C]; s32 i30; u8 pad34[4]; f32 f38; u8 pad3c[8]; f32 f44; };
 
-struct Pt_8025AD5C { f32 x; f32 y; };
-
 extern "C" {
-void mem_free(void *p);
-void *mem_alloc(u32 size);
 s32 strncpy(s32, u32, s32);
 u8 get_small_font_glyph_width(u8);
 s32 TWindowSubStatusDisp__sub_800FC248(u8);
@@ -37,7 +33,7 @@ s8 *parse_text_control_codes(s8 *, s32 *, s32);
 u8 get_font_char_advance(u16);
 u16 map_char_to_font_code(u16);
 void measure_message_text_width(Msg_8025A9C0 *msg, f32 maxw);
-s32 reset_entry__20TWindowSubStatusDispFPv(void *, void *);
+void *reset_entry__20TWindowSubStatusDispFPv(void *a0, s32 _w1);
 void render_text_entry(Win_8025AD5C *arg0, Ref_8025AD5C *arg1);
 s32 deleting_destructor__20TWindowSubStatusDispFs(void *, s32);
 
@@ -199,7 +195,7 @@ void render_text_entry(Win_8025AD5C *arg0, Ref_8025AD5C *arg1) {
     f32 t;
     f32 a;
     f32 len;
-    Pt_8025AD5C pt;
+    NJS_POINT2 pt;
     f32 scale;
     f32 alpha;
     s32 r;
@@ -252,9 +248,9 @@ void *TWindowSubStatusDisp__sub_8025AF0C(void *window_sub_status_disp, s16 arg1)
     if (window_sub_status_disp != NULL) {
         *(void ***)((s8 *)window_sub_status_disp + 4) = lbl_804CFA28;
         if ((u32) *(u32 *)((s8 *)window_sub_status_disp + 0x20) != 0U) {
-            temp_r3 = *(u16 *)((s8 *)window_sub_status_disp + 0);
+            temp_r3 = ((TUnk_804CFA28 *)window_sub_status_disp)->flags;
             if (temp_r3 & 0x20) {
-                *(u16 *)((s8 *)window_sub_status_disp + 0) = (u16) (temp_r3 & 0xFFFFFFDF);
+                ((TUnk_804CFA28 *)window_sub_status_disp)->flags = (u16) (temp_r3 & 0xFFFFFFDF);
                 mem_free((void *)(*(u32 *)((s8 *)window_sub_status_disp + 0x20)));
             }
         }
@@ -267,8 +263,8 @@ void *TWindowSubStatusDisp__sub_8025AF0C(void *window_sub_status_disp, s16 arg1)
 }
 
 u8 *construct_text_entry(u8 *arg0, u8 *arg1, s32 arg2) {
-    reset_entry__20TWindowSubStatusDispFPv((void *)arg0, (void *)arg2);
-    *(s32 **)((s8 *)arg0 + 4) = &(*(RecoveredGlobal_8025AF90_lbl_804CFA28 *)&lbl_804CFA28).value;
+    reset_entry__20TWindowSubStatusDispFPv(arg0, arg2);
+    *(s32 **)((s8 *)arg0 + 4) = ((s32 *)&lbl_804CFA28);
     *(f32 *)((s8 *)arg0 + 8) = (f32) *(f32 *)((s8 *)arg1 + 4);
     *(f32 *)((s8 *)arg0 + 0xC) = (f32) *(f32 *)((s8 *)arg1 + 8);
     *(f32 *)((s8 *)arg0 + 0x18) = (f32) *(f32 *)((s8 *)arg1 + 0xC);

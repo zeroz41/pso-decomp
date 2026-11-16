@@ -10,7 +10,6 @@
 
 #pragma readonly_strings on
 
-extern "C" {
 
 extern void *lbl_805D4DD8;
 extern s32 boss5_common_texture_list;
@@ -27,7 +26,6 @@ void TObjBoss5FloorGrass::render() {
 
 void TObjBoss5FloorGrass::run_task() {  }
 
-}
 
 TObjBoss5FloorGrass::~TObjBoss5FloorGrass() {}
 

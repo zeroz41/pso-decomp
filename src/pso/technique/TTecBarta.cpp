@@ -86,8 +86,6 @@ struct Obj_8022BCB8 {
     u16 ids[32];
 };
 
-struct Vec_8022BA98 { f32 x; f32 y; f32 z; };
-
 struct List_8022BD74 { u32 ids[16]; s32 vals[16]; s32 count; };
 
 struct VBase_8022BD74 { u8 pad[0x18]; };
@@ -158,13 +156,12 @@ extern s32 lbl_805D63B0;
 extern "C" {
 s32 get_bml_motion(s32, s32);
 void *spawn_continuous_particle_with_direction(void *pos, void *dir, s32 id);
-void *create_particle_emitter(void *pos, s32 id);
+TParticleCtrl *create_particle_emitter(const void *pos, s32 id);
 void *mem_alloc(u32 size);
 s32 get_type__10TObjPlayerFPv(void *);
 List_8022BD74 *find_area_contact__13TUnk_804CC148Fl(Tec_8022BD74 *, void *);
 List_8022BD74 *collect_body_contacts_for_target__10TObjPlayerFl(Tec_8022BD74 *, void *);
 s32 play_sound_effect(s32, s32, s32, s32);
-void *__nw__7TObjectFUl(int);
 s32 update_technique_slot__10TTecRaFoieFl(s32, s32, s32);
 
 void TTecBarta::update_technique_by_state() {
@@ -262,13 +259,13 @@ void TTecBarta::init_parameters() {
       this->power = (f32) ((this->power) * (*((f32 *) (((s8 *)&lbl_804CC55C.value) + 0x18))));
     }
   }
-  *((f32 *) (((s8 *) arg0) + 0x64)) = (f32) ((*((f32 *) (((s8 *) arg0) + 0xD0))) + ((f32) (((this->level) / 5) * 2)));
+  this->speed = (f32) ((*((f32 *) (((s8 *) arg0) + 0xD0))) + ((f32) (((this->level) / 5) * 2)));
   this->range = (f32) (*((f32 *) (((s8 *) arg0) + 0xD4)));
 }
 
 void TTecBarta::create(void *arg1, void *arg2, void *arg3) {
     void *o;
-    o = __nw__7TObjectFUl(0x178);
+    o = TObject::operator new(0x178);
     if (o != NULL) {
         TTecBarta__ct((TTecBarta_8022BC10 *)(o), this, arg1, arg2, arg3);
     }
@@ -276,7 +273,7 @@ void TTecBarta::create(void *arg1, void *arg2, void *arg3) {
 
 void TTecBarta::create_ex(void *arg1, void *arg2, void *arg3) {
     void *o;
-    o = __nw__7TObjectFUl(0x178);
+    o = TObject::operator new(0x178);
     if (o != NULL) {
         construct_tec_barta_facing((TTecBarta *)((u8 *)o), (void *)this, (void *)((void *)arg1), (void *)((void *)arg2), (void *)((void *)arg3));
     }
@@ -325,11 +322,11 @@ void TTecBarta::run_task() {
     s32 i;
     this->source = (u32)find_entity_by_id(this->sourceId);
     if (this->source == NULL) {
-        ((TObject *)((TechniqueParticleEmitter *)this))->queue_destruction();
+        ((TObject *)this)->queue_destruction();
         return;
     }
     for (i = 0; i < TTecBarta__emitter_bands[this->band].count; i++) {
-        Vec_8022BA98 pos = *(Vec_8022BA98 *)&this->position;
+        Vec pos = *(Vec *)&this->position;
         if (TTecBarta__emitter_bands[this->band].rows[i].flags & 0x20) {
             pos.y -= 10.0f;
         }
@@ -377,7 +374,7 @@ u8 *construct_tec_barta_facing(TTecBarta *tec_barta, void * _w1, void * _w2, voi
     s32 i;
     construct_facing_technique__10TObjPlayerFPviPvii();
     *(void **)((s8 *)tec_barta + 0x18) = ((u8 *)&__vt__9TTecBarta);
-    *(const char **)((s8 *)tec_barta + 0) = TTecBarta__class_name;
+    tec_barta->m_name = TTecBarta__class_name;
     tec_barta->init_parameters();
     for (i = 0; i < 0x20; i++) {
         ((Obj_8022BCB8 *)tec_barta)->ids[i] = 0xFFFF;

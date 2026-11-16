@@ -13,7 +13,7 @@
 #include "pso/system/vector.h"
 #include "pso/unk/TUnk_804C3248.h"
 #include "pso/object/base/TObjMotion.h"
-#include "pso/effect/photon/TPhotonYoulla.h"
+
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
 #include "pso/ui/hud/TRaderMapCore.h"
@@ -23,25 +23,20 @@
 
 #pragma readonly_strings on
 
-extern "C" {
+
 const char *TPhotonYoulla__name = "TPhotonYoulla";
 int lbl_805D5D60;
-}
 
-
-struct Color_801AE744 { f32 a, r, g, b; };
-
-struct Vec_801AE744 { f32 x, y, z; };
 
 struct Self_801AE744 {
     u8 pad0[0x24];
     s32 f24;
     u8 pad1[0x38 - 0x28];
-    Vec_801AE744 pos;
+    Vec pos;
     u8 pad2[0x60 - 0x44];
     s32 f60;
     u8 pad3[0x184 - 0x64];
-    Color_801AE744 color;
+    NJS_ARGB color;
     u8 pad4[0x1A0 - 0x194];
     s32 started;
 };
@@ -51,8 +46,8 @@ s32 clear_render_context__10TObjPlayerFv(void *);
 s32 rotate_matrix_y(int, int);
 s32 push_matrix();
 s32 post_translate_matrix(void *);
-extern Color_801AE744 saved_model_draw_color;
-extern Color_801AE744 model_material_color;
+extern NJS_ARGB saved_model_draw_color;
+extern NJS_ARGB model_material_color;
 extern s32 saved_model_render_flags;
 extern s32 saved_chunk_polygon_flags_and_mask;
 extern s32 saved_chunk_polygon_flags_or_mask;
@@ -60,7 +55,6 @@ extern s32 chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_and_mask;
 extern s32 model_render_flags;
 void *find_entity_by_id(u16 id);
-s32 spawn_photon_blast_attachment_effects(void *, s32);
 TObjMotionAction photon_blast_youlla_params[2] = {
     {3, 0, 7, 1.0f, 0},
     {1, 0, 14, 1.0f, 0},
@@ -110,7 +104,7 @@ void TPhotonYoulla::run_task() {
         *(s32 *)&this->m_1a0 = 1;
     }
     if ((100.0f == (f32) *(s32 *)&this->m_1a4) && ((s16) this->requested_action == 1)) {
-        spawn_photon_blast_attachment_effects(this, 6);
+        spawn_photon_blast_attachment_effects(6);
         *(s32 *)&this->m_1a4 = 0;
         set_field_b8(0);
     }
@@ -168,7 +162,7 @@ u8 *TPhotonYoulla__ct(TPhotonYoulla *photon_youlla, u8 *arg1) {
         photon_youlla->m_198 = 1;
         photon_youlla->m_194 = 0;
         photon_youlla->m_1a0 = 1;
-        spawn_photon_blast_attachment_effects(photon_youlla, 6);
+        ((TUnk_804C3248 *)photon_youlla)->spawn_photon_blast_attachment_effects(6);
     } else {
         spawn_photon_blast_opening_effects(6, (photon_youlla->m_17c));
     }

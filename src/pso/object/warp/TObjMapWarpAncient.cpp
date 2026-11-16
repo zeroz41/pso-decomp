@@ -58,7 +58,7 @@ s32 TObjGoalWarpAncient::get_instance() {
 }
 
 s32 TObjGoalWarpAncient::register_warp_object(s32 index) {
-    return TObjFish__sub_8001EDB0(ancient_warp_shared_resource, index);
+    return get_bml_texlist(ancient_warp_shared_resource, index);
 }
 
 void TObjGoalWarpAncient::load_resources() {
@@ -96,7 +96,7 @@ TObjMapWarpAncient::~TObjMapWarpAncient() {}
 void TObjMapWarpAncient::run_task() {
     if ((s32)set_params[1] >= 0) {
         beam_frame += 4.0f;
-        if ((f32)(beam_motion->frameCount - 1) < beam_frame) {
+        if ((beam_motion->frameCount - 1) < beam_frame) {
             beam_frame = 0.0f;
         }
         process_player_warps();
@@ -173,11 +173,11 @@ TObjGoalWarpAncient::~TObjGoalWarpAncient() {}
 
 void TObjGoalWarpAncient::run_task() {
     beam_frame += 4.0f;
-    if ((f32)(beam_motion->frameCount - 1) < beam_frame) {
+    if ((beam_motion->frameCount - 1) < beam_frame) {
         beam_frame = 0.0f;
     }
     naka_frame += 0.25f;
-    if ((f32)(naka_motion->frameCount - 1) < naka_frame) {
+    if ((naka_motion->frameCount - 1) < naka_frame) {
         naka_frame = 0.0f;
     }
     handle_area_selection();

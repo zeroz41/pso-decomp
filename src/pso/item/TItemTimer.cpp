@@ -14,7 +14,7 @@
 #include <stdlib.h>
 #include "pso/unk/text_80087278.h"
 #include "pso/system/task/TObject.h"
-#include "pso/object/base/TObjChara.h"
+
 #include "pso/object/base/TObjMotion.h"
 
 void TItemTimer::run_task() {
@@ -30,7 +30,7 @@ void TItemTimer::run_task() {
 TItemTimer::~TItemTimer() {}
 
 #include "types.h"
-#include "pso/system/task/TObject.h"
+
 #include "pso/boss/volopt/TBoss3Volopt.h"
 
 struct Base_8011D94C_8011D414 { char pad[0x18]; };
@@ -77,9 +77,7 @@ s32 add_actor_tp(u8 *arg0, s32 arg1);
 s32 set_owner_id__13TParticleCtrlFUs(s32, s32);
 s32 is_item_area_enabled();
 s32 __ct__7TObjectFP7TObject();
-s32 is_flag_20000_set__10TObjPlayerFv(s32);
 s32 get_entity_id(s32);
-s32 obj_testFlags30__14TObjCollidableFUl(void *, s32);
 
 extern s32 __vt__10TItemTimer[];
 extern s32 lbl_805D2C88;
@@ -156,9 +154,9 @@ void TUnk_804A05A8::vfunc_6() {
 void TUnk_804A05C8::vfunc_6() {
     s32 particle_effect_with_flags;
 
-    if ((((TObjPlayer *)this->m_28)->is_body_collision_inactive() == 0) && (is_flag_20000_set__10TObjPlayerFv(this->m_28) == 0)) {
+    if ((((TObjPlayer *)this->m_28)->is_body_collision_inactive() == 0) && (((TObjPlayer *)(this->m_28))->is_flag_20000_set() == 0)) {
         ((TBoss3Volopt *)(this->m_28))->get_field_3e0();
-        if ((is_item_area_enabled() == 1) && (obj_testFlags30__14TObjCollidableFUl((void *)this->m_28, 0x800) == 0)) {
+        if ((is_item_area_enabled() == 1) && (((TObjCollidable *)((void *)this->m_28))->obj_testFlags30(0x800) == 0)) {
             particle_effect_with_flags = (s32)spawn_particle_effect_with_flags((void *)(*(s32 *)&this->m_28 + 0x2FC), *(s32 *)&this->unk_2C, 0x10);
             if (particle_effect_with_flags != 0) {
                 set_owner_id__13TParticleCtrlFUs(particle_effect_with_flags, get_entity_id(this->m_28));
@@ -169,7 +167,7 @@ void TUnk_804A05C8::vfunc_6() {
 
 void TUnk_804A05E8::vfunc_6() {
 
-    if (((TObjChara *)(*(void * *)&this->m_28))->obj_isState2_324() == 0) {
+    if (((TObjChara *)(this->m_28))->obj_isState2_324() == 0) {
         if (((TObjPlayer *)this->m_28)->has_flag_0x800() == 0) {
             ((TBoss3Volopt *)(this->m_28))->get_field_3e0();
             if ((is_item_area_enabled() == 1) && ((3.0517578e-05f * (f32) rand()) < *(f32 *)&this->unk_2C)) {
@@ -180,14 +178,13 @@ void TUnk_804A05E8::vfunc_6() {
     }
 }
 
-extern f32 lbl_805DAC80;
 
 void TUnk_804A0608::vfunc_6() {
     struct VObj_8011D94C_8011D414 *o;
 
     if (((TObjCollidable *)this->m_28)->obj_testFlags30(0x800) == 0) {
         o = (struct VObj_8011D94C_8011D414 *)this->m_28;
-        o->m73(lbl_805DAC80);
+        o->m73(1.0f);
     }
 }
 

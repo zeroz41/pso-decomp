@@ -8,12 +8,10 @@
 
 #pragma readonly_strings on
 
-struct V3_80037264 { f32 x, y, z; };
-
 struct S_80037264 {
     u8 pad0[0x18];
     void *vt;
-    V3_80037264 recs[20];
+    Vec recs[20];
     s32 a10c, a110, a114, a118, a11c, a120;
 };
 
@@ -29,8 +27,7 @@ struct Obj_800372F0 {
 };
 
 extern "C" {
-s32 noop_laser__23TAdSinglePlyChrSelectGCFv(void *);
-s32 TAdSinglePlyChrSelectGC__sub_80133508(void *);
+void TAdSinglePlyChrSelectGC__sub_80133508(void *light);
 const char *lbl_805D26C8 = "TBoss2LaserLight";
 extern void *__vt__16TBoss2LaserLight[];
 void __ct__7TObjectFP7TObject(TObject *self, TObject *parent);
@@ -49,7 +46,7 @@ struct LaserLightParams_80037500 {
     f32 f3C;
 };
 
-extern "C" TBoss2LaserLight *TBoss2LaserLight__ct(TBoss2LaserLight *self, TObject *parent, u32 arg2) {
+TBoss2LaserLight *TBoss2LaserLight__ct(TBoss2LaserLight *self, TObject *parent, u32 arg2) {
     LaserLightParams_80037500 *p = (LaserLightParams_80037500 *)self;
 
     __ct__7TObjectFP7TObject(self, parent);
@@ -69,7 +66,7 @@ extern "C" TBoss2LaserLight *TBoss2LaserLight__ct(TBoss2LaserLight *self, TObjec
         self->queue_destruction();
         return self;
     }
-    noop_laser__23TAdSinglePlyChrSelectGCFv((void *)self->m_40);
+    ((TAdSinglePlyChrSelectGC *)((void *)self->m_40))->noop_laser();
     ((TAdSinglePlyChrSelectGC *)self->m_40)->set_position(&p->position);
     ((TAdSinglePlyChrSelectGC *)self->m_40)->forward_to_field_0x14(&p->f38);
     return self;
@@ -126,7 +123,7 @@ void TBoss2LaserLight::run_task() {
         if (v <= 0.0f) {
             v = 0.0f;
             self->state = 0;
-            noop_laser__23TAdSinglePlyChrSelectGCFv(self->light);
+            ((TAdSinglePlyChrSelectGC *)(self->light))->noop_laser();
         }
         self->f38 = v;
         self->f3C = 40.0f + v;
@@ -159,7 +156,7 @@ TUnk_80482C58::~TUnk_80482C58() {
 
 /* Pushes into the TUnk_80482C58 trail ring (the 20 records the ctor above clears); its 5.0f opens this
    file's .sdata2 pool, so it is this translation unit's first function. */
-extern "C" void push_trail_position__13TBoss2DeRolLeFPvPv(S_80037264 *self, V3_80037264 *src) {
+extern "C" void push_trail_position__13TBoss2DeRolLeFPvPv(S_80037264 *self, Vec *src) {
     VecCopy((Vec *)&self->recs[self->a10c], (const Vec *)src);
     self->recs[self->a10c].y += 5.0f;
     self->a10c++;

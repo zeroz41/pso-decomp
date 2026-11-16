@@ -27,9 +27,11 @@ struct TitleQuad {
 extern "C" {
 f32 sin_table_lookup(void *);
 f32 cos_table_lookup(void *);
-void draw_title_background_layer(void *,s32,s32,f32);
-void render_logo_with_default(void *,s32,s32,f32);
+}
+int draw_title_background_layer(void *p, int a1, int a2, f32 a3);
+int render_logo_with_default(void *p, int a1, int a2, f32 a3);
 int lobby_global_flags;
+extern "C" {
 
 void TCameraCtrl__sub_80068EF0(void);
 }

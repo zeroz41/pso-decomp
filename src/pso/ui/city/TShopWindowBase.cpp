@@ -1,4 +1,5 @@
 #include "pso/ui/city/TShopWindowBase.h"
+#include "pso/system/ControllerInputState.h"
 #include "pso/system/task/TObject.h"
 #include "pso/unk/text_80222C28.h"
 #include "pso/camera/TCameraCtrl.h"
@@ -9,20 +10,9 @@
 
 #pragma readonly_strings on
 
-struct RecoveredGlobal_802239EC_lbl_8050E208 {
-    s32 value;
-    u8 remaining[0x1AC];
-};
-
-struct RecoveredGlobal_80223A48_lbl_8050E208 {
-    s32 value;
-    u8 remaining[0x1AC];
-};
-
 extern "C" {
 s32 get_entity_id(void *);
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
-extern RecoveredGlobal_802239EC_lbl_8050E208 controller_input_state;
 
 void TShopWindowBase::vfunc_11() {  }
 
@@ -54,21 +44,19 @@ s32 TShopSequence::get_child_field1c() {
 
 extern s32 lbl_805D55C0;
 
-typedef char RecoveredGlobal_802239EC_lbl_8050E208_size[sizeof(RecoveredGlobal_802239EC_lbl_8050E208) == 0x1B0 ? 1 : -1];
 bool TShopSequence::sub_802239EC() {
-    if (*(s32 *)((s8 *)((u8 *)&controller_input_state.value + (((TRaderMapCore *)(*(s32 *)((s8 *)((u8 *)this) + 0x24)))->get_map_id() * 0x50)) + 0x28) & 2) {
+    if (*(s32 *)((s8 *)((u8 *)&controller_input_state + (((TRaderMapCore *)(*(s32 *)((s8 *)((u8 *)this) + 0x24)))->get_map_id() * 0x50)) + 0x28) & 2) {
         return 1;
     }
-    return test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) ((u8 *)&controller_input_state.value + 0x160), 2) != 0;
+    return test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) ((u8 *)&controller_input_state + 0x160), 2) != 0;
 }
 
-typedef char RecoveredGlobal_80223A48_lbl_8050E208_size[sizeof(RecoveredGlobal_80223A48_lbl_8050E208) == 0x1B0 ? 1 : -1];
 s32 TShopWindowBase::sub_80223A48() {
     u8 *arg0 = (u8 *)this;
-    if (*(s32 *)((s8 *)((u8 *)&(*(RecoveredGlobal_80223A48_lbl_8050E208 *)&controller_input_state).value + (((TRaderMapCore *)(*(s32 *)((s8 *)arg0 + 0x24)))->get_map_id() * 0x50)) + 0x28) & 4) {
+    if (*(s32 *)((s8 *)((u8 *)&controller_input_state + (((TRaderMapCore *)(*(s32 *)((s8 *)arg0 + 0x24)))->get_map_id() * 0x50)) + 0x28) & 4) {
         return 1;
     }
-    if (test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) ((u8 *)&(*(RecoveredGlobal_80223A48_lbl_8050E208 *)&controller_input_state).value + 0x160), 4) != 0) {
+    if (test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) ((u8 *)&controller_input_state + 0x160), 4) != 0) {
         return 1;
     }
     return 0;

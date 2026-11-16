@@ -8,6 +8,7 @@ struct TObjEneBalClawClaw : public TObjEneBalClaw {
     TObjEneBalClawClaw(TObject *parent, TObjEneBalClaw *body, s32 id, s32 index, Vec *pos, s32 rot_y, s32);
     TObjEneBalClawClaw(TObject *parent, void *set_data);
     virtual ~TObjEneBalClawClaw();
+    void sub_80091A38();
     virtual void run_task();
     virtual void render();
     void update_attack_distance_state();
@@ -43,7 +44,7 @@ struct TObjEneBalClawClaw : public TObjEneBalClaw {
 typedef char TObjEneBalClawClaw_size[sizeof(TObjEneBalClawClaw) == 0x428 ? 1 : -1];
 
 extern "C" {
-void TObjEneBalClawClaw__ct(TObjEneBalClawClaw *claw);
+void sub_80091A38__18TObjEneBalClawClawFv(TObjEneBalClawClaw *claw);
 void TObjEneBalClawClaw__sub_80090A10(TObjEneBalClawClaw *claw, Vec *pos, s32 rot_y, s16 hp);
 void spawn_lobby_npc_enemy(void);
 }

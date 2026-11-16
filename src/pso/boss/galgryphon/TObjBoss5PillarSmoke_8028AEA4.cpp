@@ -4,12 +4,12 @@
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/text_80087278.h"
 #include "pso/system/task/TObject.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 #pragma readonly_strings on
 
-extern "C" {
+
 const char *TObjBoss5PillarSmoke__name = "TObjBoss5PillarSmoke";
-}
 
 struct Smoke_8028AEA4 {
     u8 pad[0x18];
@@ -31,9 +31,7 @@ struct Smoke_8028AF6C {
 };
 
 extern "C" {
-void mem_free(void *);
 extern s32 __vt__20TObjBoss5PillarSmoke[];
-void *mem_alloc(u32 size);
 void __ct__7TObjectFP7TObject(void *, void *);
 extern u8 lbl_80450CD0[];
 extern const char *TObjBoss5PillarSmoke__name;

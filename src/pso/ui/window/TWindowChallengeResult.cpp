@@ -1,18 +1,29 @@
 #include "types.h"
+#include "pso/ui/window/TWindowChallengeResult.h"
+#include "pso/ui/window/TWindowChallengeResult_80246CE8.h"
+#include "pso/ui/window/TWindowBase.h"
 #include "pso/system/task/TObject.h"
 #include "pso/unk/TLobby_8001D6A0.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8025A9B4.h"
-#include "pso/ui/window/TWindowChallengeResult.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
-#include "pso/ui/window/TWindowChallengeResult_80246CE8.h"
 #include "pso/camera/TCameraCtrl.h"
-#include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowDD.h"
-#include "pso/ui/window/TWindowBase.h"
-
 #pragma push
 #pragma readonly_strings on
+
+extern "C" {
+s32 draw_visible_window_entries(void *, void *, int);
+void TWindowChallengeResult::render() {
+    s32 temp_r3;
+    s32 arg0 = (s32)this;
+    temp_r3 = ((TWindowBase *)arg0)->setup_window_draw_context(arg0 + 0x60);
+    ((TWindowBase *)arg0)->draw_window_frame((void *)temp_r3);
+    draw_visible_window_entries((void *)arg0, (void *)(arg0 + 0x24), (int)temp_r3);
+}
+
+}
+
 const char *lbl_805D3898 = "TWindowChallengeResult";
 #pragma pop
 
@@ -80,7 +91,7 @@ void init_subwindow__22TWindowChallengeResultFPv(void* p) { ((TWindowDD *)p)->in
 void *dt__22TWindowChallengeResultFPvs(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = lbl_804CE2B8;
-        ((TWindowDD *)arg0)->destroy_window_base(0);
+        __dt__11TWindowBaseFv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
         }

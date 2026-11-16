@@ -4,6 +4,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/unk/text_803E2D70.h"
+#include "pso/system/MatrixStack.h"
 
 typedef void (*RecoveredCallback_1268626c296b)(void *);
 struct Node_803E49FC {
@@ -16,16 +17,16 @@ struct Node_803E49FC {
 
 extern "C" {
 s32 setup_model_draw_state__10TObjPlayerFPv();
+}
 struct B_803E4BDC { u8 pad[0x28]; s32 f28; };
 void draw_motion_tree(NJS_OBJECT *model, NJS_MOTION *motion, f32 frame, ModelDrawCallback draw_model);
 extern s32 motion_angle_sampler_table[];
 extern B_803E4BDC *current_motion_context;
+extern "C" {
 void draw_model_motion(void *arg0, void *arg1, f32 farg0);
-void draw_chunk_model_with_shape_motion(void *arg0, void *arg1, void *arg2, f32 farg0);
-s32 push_matrix();
-s32 pop_matrix();
-void compose_motion_node_matrix(void *arg0);
 }
+void draw_chunk_model_with_shape_motion(void *arg0, void *arg1, NJS_MOTION *arg2, f32 farg0);
+void compose_motion_node_matrix(void *arg0);
 void select_motion_context(s32 arg0);
 void draw_model_blend_motion(void *arg0, void *arg1, f32 farg0);
 extern RecoveredCallback_1268626c296b chunk_model_node_callback;
@@ -78,21 +79,21 @@ void draw_object_tree_recursive(void *arg) {
     } while (arg0 != NULL);
 }
 
-void draw_model_blend_motion(void *arg0, void *arg1, f32 farg0) {
+void draw_model_blend_motion(void *model, void *motion, f32 blend_factor) {
     setup_model_draw_state__10TObjPlayerFPv();
-    draw_blend_motion_tree((NJS_OBJECT *)arg0, (NJS_MOTION_LINK *)arg1, farg0, draw_chunk_vertices_cached__10TObjPlayerFPv);
+    draw_blend_motion_tree((NJS_OBJECT *)model, (NJS_MOTION_LINK *)motion, blend_factor, draw_chunk_vertices_cached__10TObjPlayerFPv);
     TObjPlayer::end_chunk_draw();
 }
 
-void draw_model_motion(void *arg0, void *arg1, f32 farg0) {
+void draw_model_motion(void *model, void *motion, f32 frame) {
     setup_model_draw_state__10TObjPlayerFPv();
-    draw_motion_tree((NJS_OBJECT *)arg0, (NJS_MOTION *)arg1, farg0, draw_chunk_vertices_cached__10TObjPlayerFPv);
+    draw_motion_tree((NJS_OBJECT *)model, (NJS_MOTION *)motion, frame, draw_chunk_vertices_cached__10TObjPlayerFPv);
     TObjPlayer::end_chunk_draw();
 }
 
-void draw_chunk_model_with_shape_motion(void *child, void *arg1, void *arg2, f32 farg0) {
+void draw_chunk_model_with_shape_motion(void *child, void *motion, NJS_MOTION *shape, f32 frame) {
     setup_model_draw_state__10TObjPlayerFPv();
-    draw_shape_motion_tree((NJS_OBJECT *)child, (NJS_MOTION *)arg1, (NJS_MOTION *)arg2, farg0, draw_chunk_vertices_cached__10TObjPlayerFPv);
+    draw_shape_motion_tree((NJS_OBJECT *)child, (NJS_MOTION *)motion, shape, frame, draw_chunk_vertices_cached__10TObjPlayerFPv);
     TObjPlayer::end_chunk_draw();
 }
 

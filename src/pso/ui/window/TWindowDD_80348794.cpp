@@ -3,7 +3,7 @@
 #include "pso/ui/window/TWindowDD.h"
 
 extern "C" {
-s32 TWindowDD__sub_80348B70();
+s32 get_word_select_token_text();
 void TWindowDD::maybe_scroll(void* a1) { if (count_chars_since_newline((s32 *)a1) > 15) { TWindowDD::append_char((s8)((void*)10), (s32)this, (s32 *)a1); } }
 
 s32 TWindowDD::count_chars_since_newline(s32 *len) {
@@ -28,8 +28,8 @@ void TWindowDD::append_char(s8 arg0, s32 arg1, s32 *arg2) {
     }
 }
 
-void TWindowDD__sub_8034886C(s32 arg0, s32 arg1, void *arg2) {
-    TWindowDD::append_string((s32)(TWindowDD__sub_80348B70()), (s32)arg1, (s32 *)arg2);
+void append_word_select_token(s32 arg0, s32 arg1, void *arg2) {
+    TWindowDD::append_string((s32)(get_word_select_token_text()), (s32)arg1, (s32 *)arg2);
 }
 
 }

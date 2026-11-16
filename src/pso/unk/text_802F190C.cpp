@@ -33,24 +33,20 @@ void fn_802F1960(Obj_802F1960 *o, f32 d) {
     }
 }
 
-}
-
-extern "C" {
-
-int draw_ginja_model_with_motion(void*, void*, float);
+void draw_ginja_model_with_motion(void *model, void *motion, f32 frame);
 void *__ct__7TObjectFP7TObject(void *, void *);
-void *__nw__7TObjectFUl(int);
 
 extern void *tl_07;
 extern void *lbl_805D6960;
 
 void fn_802F19C0(void) {
     void *o;
-    o = __nw__7TObjectFUl(0x1C);
+    o = TObject::operator new(0x1C);
     if (o != NULL) {
         o = __ct__7TObjectFP7TObject(o, tl_07);
     }
     lbl_805D6960 = o;
+}
 }
 
 extern int boss7_common_texture_list;
@@ -62,11 +58,9 @@ void draw_particle_effect(void* a0) {
     TObjFish::set_global_param(boss7_common_texture_list);
     set_motion_packed_rotation();
 
-    draw_ginja_model_with_motion((void*)(*(int*)((char*)a0 + 0x1c)), (void*)(*(int*)((char*)a0 + 0x20)), *(float*)((char*)a0 + 0x28));
+    draw_ginja_model_with_motion((void *)(*(int*)((char*)a0 + 0x1c)), (void *)(*(int*)((char*)a0 + 0x20)), *(float*)((char*)a0 + 0x28));
 
     clear_motion_packed_rotation();
     TParticleCtrl::end_effect_render();
     restore_draw_list_mask();
-}
-
 } // extern "C"

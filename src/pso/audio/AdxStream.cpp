@@ -1,4 +1,5 @@
 #include <dolphin/os/OSThread.h>
+#include "pso/audio/AdxStream.h"
 #include "pso/unk/TLobby.h"
 #include "pso/audio/AdxStreamRuntime.h"
 #include "pso/audio/AdxmThreadStorage.h"
@@ -57,18 +58,13 @@ struct S_803C8A14 {
 struct PointerRecords_803C8610_var_r31 { u8 bytes[0x40]; };
 
 extern "C" {
-s32 TLobby__sub_803D3130(void *, s32, Pair_803C8678 *, Pair_803C8678 *);
+void TLobby__sub_803D3130(s32 arg0, s32 arg1, u8 *arg2, u8 *arg3);
 s32 lbl_805D7550;
 s32 tlobby_stream_read_retry_limit;
 s32 lbl_805D7558;
 s32 memset(void *, int, int);
 }
 void update_active_stream_reads(void);
-
-struct RecoveredGlobal_803C90B0_lbl_80575140 {
-    s32 value;
-    u8 remaining[0x9FC];
-};
 
 struct AdxStreamFile {
     s8 used;
@@ -90,7 +86,6 @@ extern "C" {
 void TLobby__sub_803C89C4(u8 *arg0);
 void TLobby__sub_803C8B38(u8 *arg0);
 s32 TLobby__sub_803C8B2C(u8 *arg0);
-extern RecoveredGlobal_803C90B0_lbl_80575140 adx_stream_read_requests;
 s32 TLobby__sub_803C85AC(u8 *arg0, s32 *arg1);
 s32 cvFsGetFileSize(void);
 u32 cvFsOpen(const char *, int, int);
@@ -202,7 +197,7 @@ void TLobby::update_stream_read() {
         r = ((TLobby *)(s->h))->cv_fs_get_stat();
         if (r == 1) {
             n = s->nread << 11;
-            TLobby__sub_803D3130(&s->buf, n, &a, &b);
+            TLobby__sub_803D3130((s32)&s->buf, (s32)n, (u8 *)&a, (u8 *)&b);
             st->vt->submit(st, 1, &a);
             st->vt->release(st, 0, &b);
             if (s->end == pos_803C8678(s) && s->cb != NULL) {
@@ -521,7 +516,6 @@ void TLobby::si_get_type_async() {
     SIGetTypeAsync();
 }
 
-typedef char RecoveredGlobal_803C90B0_lbl_80575140_size[sizeof(RecoveredGlobal_803C90B0_lbl_80575140) == 0xA00 ? 1 : -1];
 s32 TLobby::clear_buffer_a00() {
     memset(&adx_stream_read_requests.value, 0, 0xA00);
     return 1;
@@ -529,4 +523,4 @@ s32 TLobby::clear_buffer_a00() {
 
 }
 
-RecoveredGlobal_803C90B0_lbl_80575140 adx_stream_read_requests;
+AdxStreamReadRequests adx_stream_read_requests;

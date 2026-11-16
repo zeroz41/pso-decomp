@@ -1,10 +1,14 @@
 #include "pso/network/TGameProtocol.h"
+#include "pso/ui/window/TWindowKeyBoardHard_801A529C.h"
+#include "pso/unk/TLobby_801C25B4.h"
+#include "pso/unk/TLobby_80227AA0.h"
 #include "pso/quest/TQuestThread.h"
 #include "pso/network/TPacket.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/unk/text_800C7FEC.h"
 #include "pso/item/TItem.h"
 #include "types.h"
+#include "pso/system/task/TObject.h"
 
 struct TBoss3Volopt;
 struct TBoss8Dragon;
@@ -31,7 +35,6 @@ struct Head_801E4260 {
 
 extern "C" {
 void TLobby__sub_8007EB20(const char *, ...);
-void TLobby__sub_801A54E8(u8 *arg0);
 void dispatch_pso_data_commands(void *);
 extern char lbl_80449784[];
 }
@@ -43,7 +46,7 @@ void handle_6x05_write_switch_flag(void *arg0);
 void handle_6x06_send_guild_card(s32 arg0);
 extern "C" void handle_6x07_symbol_chat();
 extern "C" void handle_6x0A_update_enemy_state();
-extern "C" void handle_6x0B_update_object_state();
+void handle_6x0B_update_object_state(G_UpdateObjectState_6x0B *packet);
 extern "C" void handle_6x0C_add_or_remove_status_effect(void *arg0);
 extern "C" void handle_6x0D_add_or_remove_status_effect(void *arg0);
 extern "C" void handle_6x0E_clear_negative_status_effects(s32 arg0);
@@ -93,7 +96,7 @@ extern "C" void handle_6x43_attack(void *src);
 extern "C" void handle_6x44_attack(void *src);
 extern "C" void handle_6x45_attack(void *src);
 extern "C" void handle_6x46_attack_finished(s32 arg0);
-extern "C" void handle_6x47_cast_technique();
+extern "C" void handle_6x47_cast_technique(u8 *self);
 extern "C" void handle_6x48_cast_technique_complete(void *arg);
 extern "C" void handle_6x49_execute_photon_blast(void *arg0);
 extern "C" void handle_6x4A_shield_attack(void *arg0);
@@ -141,8 +144,6 @@ extern "C" void handle_6x7A_enable_stealth_suit_effect(void *arg0);
 extern "C" void handle_6x7B_disable_stealth_suit_effect(void *arg0);
 extern "C" void handle_6x7C_set_challenge_records();
 extern "C" void handle_6x7D_set_battle_mode_data();
-extern "C" void handle_6x7E();
-extern "C" void handle_6x7F_battle_scores(s32 arg0);
 extern "C" void handle_6x80_trigger_trap();
 extern "C" void handle_6x81_disable_drop_weapon_on_death(void *arg0);
 extern "C" void handle_6x82_enable_drop_weapon_on_death(void *arg0);
@@ -191,7 +192,6 @@ extern "C" void handle_6xAE_set_animation_state(void *arg0);
 extern "C" void handle_6xAF_turn_or_move_lobby_chair(void *arg0);
 extern "C" void handle_6xB0_turn_or_move_lobby_chair(void *arg0);
 extern "C" void handle_6xB1();
-extern "C" void handle_6xB2_play_sound_from_player(void *arg0);
 u8 subcommand_area_masks[36] = {
     2, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4,
     4, 4, 4, 1, 4, 4, 2, 4, 4, 4, 4, 4,
@@ -307,20 +307,19 @@ TGameProtocol::~TGameProtocol() {
 extern "C" {
 
 void __ct__7TObjectFP7TObject(void *);
-void *__nw__7TObjectFUl(int);
 
 extern s32 __vt__13TGameProtocol[];
-extern void *TGameProtocol__class_name;
+const char *TGameProtocol__class_name = "TGameProtocol";
 extern void * TGameProtocol__instance;
 
 void *TGameProtocol__ct(void *game_protocol) {
     void *o;
     __ct__7TObjectFP7TObject(game_protocol);
     *(s32 **)((s8 *)game_protocol + 0x18) = __vt__13TGameProtocol;
-    *(void * *)&((TGameProtocol *)game_protocol)->m_name = TGameProtocol__class_name;
+    ((TGameProtocol *)game_protocol)->m_name = TGameProtocol__class_name;
     TGameProtocol__instance = game_protocol;
     *(u32 *)((s8 *)game_protocol + 0x1C) = 0;
-    o = __nw__7TObjectFUl(0x1C);
+    o = TObject::operator new(0x1C);
     if (o != NULL) {
         o = ((void * (*)(void *, void *))__ct__7TObjectFP7TObject)(o, game_protocol);
     }

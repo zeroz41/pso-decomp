@@ -18,9 +18,6 @@ void fn_8035B750(void) {
     }
 }
 
-}
-
-extern "C" {
 const char *bm_ene_npc_nights_model_names[2] = { "npc_nights_body.nj", NULL };
 const char *bm_ene_npc_nights_motion_names[3] = { "fly_npc_nights_body.njm", "uki_npc_nights_body.njm", NULL };
 BmlResourceDescriptor nights_npc_resource_descriptor = { "bm_ene_npc_nights.bml", bm_ene_npc_nights_model_names, bm_ene_npc_nights_motion_names, 1, 2 };

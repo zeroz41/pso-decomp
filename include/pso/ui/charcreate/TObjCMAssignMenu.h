@@ -13,6 +13,8 @@ public:
     void draw_assign_icons();
     void render_assign_slots();
     void calc_grid_layout();
+public:
+    static void *create(void *parent, void *kind);
 };
 
 #endif

@@ -35,6 +35,7 @@
 #include "pso/ui/hud/TMainCursor_8013F104.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/task/TObject.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 struct Obj_8013E240 { s32 a; u16 b; u16 c; f32 d; f32 e; };
 struct Rec_8013EB6C { u8 pad[0x124]; };
@@ -42,9 +43,6 @@ struct Obj_8013EB6C { u8 pad[0x5c]; Rec_8013EB6C recs[1]; };
 struct Obj_8013EC1C { u16 a; u16 b; u16 c; };
 
 extern "C" void __dl__FPv(void *);
-
-struct RecoveredGlobal_8013DC38_lbl_804A7140 { s32 value; u8 remaining[0xC]; };
-typedef char RecoveredGlobal_8013DC38_lbl_804A7140_size[sizeof(RecoveredGlobal_8013DC38_lbl_804A7140) == 0x10 ? 1 : -1];
 
 struct Base_8013DCCC { u8 pad[0x18]; };
 
@@ -59,11 +57,6 @@ struct Cur_8013DAB0 { u8 pad[0x5C]; Elem_8013DAB0 arr[4]; };
 
 struct Ent_8013D91C { u16 id; s16 idx; u8 pad[8]; };
 
-struct RecoveredGlobal_8013D91C_main_task {
-    s32 value;
-    u8 remaining[0x30];
-};
-
 extern "C" {
 u8 * free_bin_model_request(void *, s16);
 u8 * lock_on_cursor_bml_resource;
@@ -71,9 +64,12 @@ s32 lock_on_cursor_model;
 s32 TLockOnCursor__target_cursor_model;
 s32 get_bml_model(void *, s32);
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-extern RecoveredGlobal_8013DC38_lbl_804A7140 target_cursor_resource_descriptor;
+}
+struct TargetCursorResourceDescriptor { s32 value; u8 remaining[0xC]; };
+extern TargetCursorResourceDescriptor target_cursor_resource_descriptor;
 s32 main_cursor_model;
 void load_target_cursor_models(void);
+extern "C" {
 Obj_8013DCCC *release_target__13TLockOnCursorFv(void *);
 Obj_8013DCCC *cleanup_field__13TLockOnCursorFv(void *);
 Obj_8013DCCC *cleanup_field_3c__13TLockOnCursorFv(void *);
@@ -85,14 +81,15 @@ extern s32 __vt__13TLockOnCursor[];
 s32 init_lockon__14TLOC_ListClearFv(s32, s32, s32);
 s32 init_vtable__8TLOC_EndFv(s32, s32, s32);
 s32 init__10TLOC_StartFv(s32, s32, s32);
+}
 void reset_nearest_target_record(void *);
+extern "C" {
 s32 get_target_id__13TLockOnCursorFv(s32);
 void TLockOnCursor__sub_8013EC1C(void *);
 s32 __nw__7TObjectFUl(s32);
 extern s32 tl_loc_start;
 extern s32 tl_loc_end;
 extern s32 tl_window;
-s32 is_split_screen();
 s32 get_split_screen_view_index__11TCameraCtrlFUs(void *);
 s32 get_mode__11TCameraCtrlFPv(void *);
 Ent_8013D91C *TObjPlayer__sub_80116620(s32, s32);
@@ -115,7 +112,6 @@ void *fn_8013F0A0(void *arg0);
 
 #pragma push
 #pragma opt_loop_invariants off
-typedef char RecoveredGlobal_8013D91C_main_task_size[sizeof(RecoveredGlobal_8013D91C_main_task) == 0x34 ? 1 : -1];
 void render__13TLockOnCursorFv(s32 arg0) {
     s32 i;
     s32 j;
@@ -128,7 +124,7 @@ void render__13TLockOnCursorFv(s32 arg0) {
         if (TCameraCtrl::get_camera_no() != get_split_screen_view_index__11TCameraCtrlFUs((void *)((s32)get_target_id__13TLockOnCursorFv((s32)((void *)arg0))))) {
             return;
         }
-    } else if (get_mode__11TCameraCtrlFPv(&(*(RecoveredGlobal_8013D91C_main_task *)&main_task).value) & 0x10) {
+    } else if (get_mode__11TCameraCtrlFPv(&main_task) & 0x10) {
         return;
     }
     for (i = 0; i < 4; i++) {
@@ -150,6 +146,7 @@ void render__13TLockOnCursorFv(s32 arg0) {
             }
         }
     }
+}
 }
 #pragma pop
 
@@ -223,8 +220,6 @@ void load_target_cursor_models(void) {
             main_cursor_model = get_bml_model(lock_on_cursor_bml_resource, 2);
         }
     }
-}
-
 }
 TLockOnCursor::~TLockOnCursor() {
     Obj_8013DCCC *p;
@@ -306,7 +301,6 @@ extern "C" {
 void fn_8013E020(Obj_8013E020 *self);
 void __dl__7TObjectFPv(void *);
 void __dt__7TObjectFv(void *, int);
-void __ct__7TObjectFP7TObject(void *);
 void set_field_0__13TForceOperateFs(void *, void *);
 
 int matches_type_and_enabled__11TMainCursorFiUcUc(s32 arg0, u8 arg1, u8 arg2) {
@@ -387,6 +381,7 @@ void TMainCursor__sub_8013E1C0(void* p, s32 v) { *(s32*)((char*)p + 0x4) = v; }
 extern "C" {
 
 int TObjPlayer__sub_8013A820(void* a0 = 0);
+}
 extern const f32 TMainCursor__data_805DB0C0;
 extern const f32 lbl_805DB0C4;
 extern s32 main_cursor_model;
@@ -407,6 +402,7 @@ void reset_nearest_target_record(void *p) {
 }
 
 void TMainCursor::set_sub_cursor_value(s32 a1) { TMainCursor__sub_8013E290((void*)((char*)this + 0x3c), a1); }
+extern "C" {
 void TMainCursor__sub_8013E290(void* p, s32 v) { *(s32*)((char*)p + 0x0) = v; }
 s16 TMainCursor__sub_8013E298(void* p) { return *(s16*)((char*)p + 0x0); }
 s32 TMainCursor__sub_8013E2A0(void* p) { return *(s32*)((char*)p + 0x0); }
@@ -419,10 +415,6 @@ int TMainCursor::get_cursor_state() {  return main_cursor_model; }
 
 int TMainCursor__sub_8013E2DC(void) {  return lock_on_cursor_model; }
 
-}
-
-extern "C" {
-
 int set__8FlagWordFUl(void*, int);
 int TMainCursor__sub_8013B2A4(void*);
 int get_enabled__11TMainCursorFv(void*);
@@ -433,11 +425,6 @@ u16 TMainCursor::get_id() { return this->m_flags; }
 int TMainCursor__sub_8013E310(void* p) { return set__8FlagWordFUl((char*)p + 0x20, 2); }
 int TMainCursor__sub_8013E338(void* p) { return get_enabled__11TMainCursorFv(p); }
 int TMainCursor__sub_8013E358(void* p) { return get_type__11TMainCursorFv(p); }
-
-}
-
-extern "C" {
-int set__8FlagWordFUl(void*, int);
 
 int TMainCursor::is_same_target(void *b) {
     u8 result = 0;
@@ -454,7 +441,6 @@ int TMainCursor::is_same_target(void *b) {
 int TMainCursor__sub_8013E40C(TMainCursor *main_cursor, u16 arg1) {
     return (u8) (arg1 == main_cursor->get_id());
 }
-
 }
 
 void*TMainCursor::get_list() { return (char*)this + 0xc; }
@@ -462,24 +448,19 @@ int TMainCursor::update_target_sub() { return set__8FlagWordFUl((char*)this + 0x
 
 extern "C" {
 
-int set__8FlagWordFUl(void*, int);
-int test_flags_any(void*, int);
+s32 test_flags_any(s32 *flags, s32 mask);
 
 u16 TMainCursor::get_render_flag() { return TMainCursor__sub_8013E4A0((char*)this + 0x24); }
 u16 TMainCursor__sub_8013E4A0(void* p) { return *(u16*)((char*)p + 0x0); }
-int TMainCursor::test_flag_2_at_20() { return test_flags_any((char*)this + 0x20, 2); }
-int TMainCursor::init_render_flags() { return test_flags_any((char*)this + 0x20, 8); }
-int TMainCursor::update() { return test_flags_any((char*)this + 0x20, 4); }
-int TMainCursor::check_flag_1() { return test_flags_any((char*)this + 0x20, 1); }
+int TMainCursor::test_flag_2_at_20() { return test_flags_any((s32 *)((char*)this + 0x20), 2); }
+int TMainCursor::init_render_flags() { return test_flags_any((s32 *)((char*)this + 0x20), 8); }
+int TMainCursor::update() { return test_flags_any((s32 *)((char*)this + 0x20), 4); }
+int TMainCursor::check_flag_1() { return test_flags_any((s32 *)((char*)this + 0x20), 1); }
 u8 TMainCursor::is_position_moved() { return (u8)(TMainCursor__sub_8013E570((char*)this + 0x60)); }
 s16 TMainCursor__sub_8013E570(void* p) { return *(s16*)((char*)p + 0x6); }
 int TMainCursor::check_flag_4() { return set__8FlagWordFUl((char*)this + 0x20, 4); }
 int TMainCursor::forward_13E338_at_60() { return TMainCursor__sub_8013E338((char*)this + 0x60); }
 int TMainCursor::update_sub_60() { return TMainCursor__sub_8013E358((char*)this + 0x60); }
-
-}
-
-extern "C" {
 
 int set_slot__20TWindowActionPaletteFUc(void*);
 int set_mode__20TWindowActionPaletteFUc(void*);
@@ -534,17 +515,6 @@ s32 TMainCursor::reset() {
 
 }
 
-}
-
-extern "C" {
-
-int test_flags_any(void*, int);
-
-int get_enabled__11TMainCursorFv(void*);
-int get_type__11TMainCursorFv(void*);
-int set_slot__20TWindowActionPaletteFUc(void*);
-int set_mode__20TWindowActionPaletteFUc(void*);
-
 int set_target_index__11TMainCursorFs(void*, void* a1 = 0);
 
 void TMainCursor::reset_target() {
@@ -594,7 +564,7 @@ s16 TMainCursor__sub_8013E920(void* p) { return *(s16*)((char*)p + 0x2); }
 void TMainCursor__sub_8013E928(void* p, s16 v) { *(s16*)((char*)p + 0x2) = v; }
 void TMainCursor__sub_8013E930(void* p, s16 v) { *(s16*)((char*)p + 0x0) = v; }
 u16 TLockOnCursor::get_target_id() { return *(u16 *)&(*(void * *)((u8 *)this + 0x20)); }
-int TMainCursor::is_cursor_clear() { return (test_flags_any((char*)this + 0x1c, 1)) == 0; }
+int TMainCursor::is_cursor_clear() { return (test_flags_any((s32 *)((char*)this + 0x1c), 1)) == 0; }
 
 void TMainCursor__sub_8013E970(u8 *arg0, s16 arg1, s16 arg2, s16 arg3) {
     *(s16 *)((s8 *)arg0 + 0) = arg1;
@@ -613,25 +583,22 @@ int TMainCursor__sub_8013E9E0(void* p) { return set_mode__20TWindowActionPalette
 void TMainCursor__sub_8013EA00(void* p, s32 v) { *(s32*)((char*)p + 0x0) = v; }
 
 
-
 extern "C" {
-int test_flags_any(void*, int);
 int clear__8FlagWordFUl(void*, int);
-int set__8FlagWordFUl(void*, int);
 
-int TLockOnCursor::render_part() { return test_flags_any((char*)this + 0x8, 2); }
+int TLockOnCursor::render_part() { return test_flags_any((s32 *)((char*)this + 0x8), 2); }
 void TLockOnCursor::update_cursor_pos() { ((TMainCursor *)((char*)this + 0xc))->is_same_target((char*)this + 0x14); }
 int TLockOnCursor::set_flag_8_bit0() { return set__8FlagWordFUl((char*)this + 0x8, 1); }
 int TLockOnCursor::update_ring() { return clear__8FlagWordFUl((char*)this + 0x8, 1); }
 int TLockOnCursor::is_bit1_set() { return set__8FlagWordFUl((char*)this + 0x8, 2); }
-int TLockOnCursor::is_inactive() { return (test_flags_any((char*)this + 0x1c, 2)) == 0; }
+int TLockOnCursor::is_inactive() { return (test_flags_any((s32 *)((char*)this + 0x1c), 2)) == 0; }
 int TLockOnCursor::update_ring_sub() { return clear__8FlagWordFUl((char*)this + 0x8, 2); }
 s32 TLockOnCursor__sub_8013EB2C(void* p) { return *(s32*)((char*)p + 0x4); }
 
     extern s32 TLockOnCursor__target_cursor_model;
 int TLockOnCursor__sub_8013EB34(void) {  return TLockOnCursor__target_cursor_model; }
 
-int TLockOnCursor::test_flag_1_at_8() { return test_flags_any((char*)this + 0x8, 1); }
+int TLockOnCursor::test_flag_1_at_8() { return test_flags_any((s32 *)((char*)this + 0x8), 1); }
 s32 TLockOnCursor::get_target() { return *(s32 *)&this->m_name; }
 Rec_8013EB6C *TLockOnCursor__sub_8013EB6C(Obj_8013EB6C *self, s32 i) {
     return &self->recs[i];
@@ -642,8 +609,6 @@ Rec_8013EB6C *TLockOnCursor__sub_8013EB6C(Obj_8013EB6C *self, s32 i) {
 
 struct Obj_8013EC38 { u16 h0; s16 h2; f32 f4; u8 f8[4]; u8 fc[8]; u8 f14[8]; };
 
-extern "C" {
-extern const f32 TMainCursor__data_805DB0C0;
 
 void TLockOnCursor__sub_8013EB80(void* p) { *(s32*)((char*)p + 0x4) = 0; }
 void TLockOnCursor__sub_8013EB8C(void* p) { *(s32*)((char*)p + 0x4) = 1; }
@@ -669,12 +634,6 @@ void TLockOnCursor::reset_state() {
     self->f4 = TMainCursor__data_805DB0C0;
 }
 
-}
-
-extern "C" {
-
-s32 __dt__13TLockOnCursorFis(s32 arg0, s16 arg1);
-
 s32 TLockOnCursor::free_if_owned(s32 obj, s16 flags) {
     if ((obj != 0) && (flags > 0)) {
         __dl__FPv((void *)obj);
@@ -688,10 +647,6 @@ s32 __dt__13TLockOnCursorFis(s32 obj, s16 flags) {
     }
     return obj;
 }
-
-}
-
-extern "C" {
 
 s32 TLockOnCursor__sub_8013EDC4(s32, s16);
 
@@ -715,7 +670,6 @@ s32 TLockOnCursor__sub_8013ED68(s32 arg0, s16 arg1) {
     return arg0;
 }
 
-}
 
 s32 TLockOnCursor__sub_8013EDC4(s32 obj, s16 flags) {
     if ((obj != 0) && (flags > 0)) {
@@ -795,11 +749,6 @@ void *fn_8013F0A0(void *arg0) {
 
 }
 
-struct RecoveredGlobal_8013F1F0_lbl_804A7254 {
-    s32 value;
-    u8 remaining[0x8];
-};
-
 struct Rec_8013F154 { u8 pad[0x8]; };
 
 struct Obj_8013F154 { u8 pad[0x4]; Rec_8013F154 recs[1]; };
@@ -849,9 +798,8 @@ void *TMainCursor::destroy(s16 arg1) {
 
     extern const float TMainCursor__data_805DB0C0;
 
-typedef char RecoveredGlobal_8013F1F0_lbl_804A7254_size[sizeof(RecoveredGlobal_8013F1F0_lbl_804A7254) == 0xC ? 1 : -1];
 u8 *TMainCursor__sub_8013F1F0(u8 *arg0) {
-    *(s32 **)((s8 *)arg0 + 0x10) = &(*(RecoveredGlobal_8013F1F0_lbl_804A7254 *)&lbl_804A7254).value;
+    *(s32 **)((s8 *)arg0 + 0x10) = lbl_804A7254;
     TMainCursor__sub_8013F22C(arg0);
     return arg0;
 }

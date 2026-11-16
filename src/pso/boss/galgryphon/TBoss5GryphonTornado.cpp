@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/boss/galgryphon/TBoss5Gryphon.h"
 #include "pso/boss/galgryphon/TBoss5GryphonTornado.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
@@ -11,7 +12,7 @@
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/system/task/TObject.h"
 
-extern "C" {
+
 void TBoss5GryphonTornado::sub_803554F0(u8 *boss2_tunnel) {
     u8 *arg0 = (u8 *)this;
   unsigned short new_var;
@@ -34,14 +35,6 @@ void TBoss5GryphonTornado::sub_803554F0(u8 *boss2_tunnel) {
   }
 }
 
-}
-
-struct RecoveredGlobal_803558E4___vt__20TBoss5GryphonTornado {
-    s32 value;
-    u8 remaining[0x14];
-};
-
-struct Vec_80355570 { f32 x, y, z; };
 
 struct Inner_80355570 { u8 pad[4]; f32 f4; };
 
@@ -52,7 +45,7 @@ struct Tornado_80355570 {
     s32 state;
     s32 timer;
     u8 pad24[0x28 - 0x24];
-    Vec_80355570 pos;
+    Vec pos;
     f32 f34;
     f32 f38;
     f32 f3C;
@@ -69,11 +62,11 @@ extern s32 __vt__20TBoss5GryphonTornado[];
 extern s32 lbl_805D4398;
 s32 get_bml_motion(s32, s32);
 s32 get_bml_model(s32, s32);
-void TBoss8Dragon__sub_800640A4(s32, Vec_80355570 *);
+void TBoss8Dragon__sub_800640A4(s32, Vec *);
 void attach_particle_model(void *, s32, s32, s32, s32, f32);
-Res_80355570 *csnVecterUnder(Vec_80355570 *, s32);
-void add_radar_scaled_marker(Vec_80355570 *, s32, s32, s32, f32);
-void play_persistent_sound(s32, void *, Vec_80355570 *, s32, s32);
+Res_80355570 *csnVecterUnder(Vec *, s32);
+void add_radar_scaled_marker(Vec *, s32, s32, s32, f32);
+void play_persistent_sound(s32, void *, Vec *, s32, s32);
 extern s32 boss5_gryphon_bml_resource;
 extern s32 boss5_gryphon_texture_list;
 extern s32 *gryphon_tornado_particle_id_table;
@@ -87,10 +80,10 @@ void TBoss5GryphonTornado::render() {  }
 #pragma fp_contract on
 void TBoss5GryphonTornado::run_task() {
     Tornado_80355570 *o = (Tornado_80355570 *)this;
-    Vec_80355570 v;
+    Vec v;
     Res_80355570 *r;
     f32 h;
-    if (((TBoss8Dragon *)(o->f4C))->get_flag_bit6() != 0) {
+    if (((TBoss5Gryphon *)(o->f4C))->get_flag_bit6() != 0) {
         ((TObject *)o)->queue_destruction();
         return;
     }
@@ -174,10 +167,9 @@ TBoss5GryphonTornado::~TBoss5GryphonTornado() {
     if (*(void **)((s8 *)this + 0x50) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0x50)))->queue_destruction(); this->m_50 = 0; }
 }
 
-typedef char RecoveredGlobal_803558E4___vt__20TBoss5GryphonTornado_size[sizeof(RecoveredGlobal_803558E4___vt__20TBoss5GryphonTornado) == 0x18 ? 1 : -1];
 u8 *TBoss5GryphonTornado__ct(TBoss5GryphonTornado *boss5_gryphon_tornado, u8 *arg1, s32 arg2, u8 *arg3, s16 arg4) {
     __ct__7TObjectFP7TObject(boss5_gryphon_tornado, arg1);
-    *(s32 **)((s8 *)boss5_gryphon_tornado + 0x18) = &(*(RecoveredGlobal_803558E4___vt__20TBoss5GryphonTornado *)&__vt__20TBoss5GryphonTornado).value;
+    *(s32 **)((s8 *)boss5_gryphon_tornado + 0x18) = __vt__20TBoss5GryphonTornado;
     *(s32 *)((s8 *)boss5_gryphon_tornado + 0) = (s32) lbl_805D4398;
     VecCopy((Vec *)((u8 *)boss5_gryphon_tornado + 0x28), (const Vec *)arg3);
     boss5_gryphon_tornado->m_24 = arg4;

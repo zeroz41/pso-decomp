@@ -16,7 +16,7 @@
 #include "pso/ui/city/TShopArmorListWindow.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/city/TShopWindowBase.h"
-#include "pso/ui/city/TShopKeepItemWindow.h"
+
 #include "pso/ui/window/TWindowAddition.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/system/task/TObject.h"
@@ -79,7 +79,6 @@ s32 store_item_in_bank(u8 *item, s32 arg1, s32 slot);
 void copy_bank_to_card_window(s32 slot);
 s32 sub_8022397C__15TShopWindowBaseFv(void *);
 s32 sub_802239EC__13TShopSequenceFv(void *);
-s32 sub_80223A48__15TShopWindowBaseFv(void *);
 s32 play_sound_effect(s32, s32, s32, s32);
 void TWindowHelpItem__set_displayed_item_by_id(u32, s32);
 u32 create_item_list_window(s32, s32, u16);
@@ -213,7 +212,7 @@ void TShopKeepItemWindow::handle_deposit_list_select() {
         play_sound_effect(0x52D01, 0, 0, 0);
         return;
     }
-    if (sub_80223A48__15TShopWindowBaseFv(this) == 0) {
+    if (sub_80223A48() == 0) {
         return;
     }
     cur = ((TWindowMenuIconLine *)this->item_list_window)->get_cursor_value();
@@ -265,17 +264,13 @@ void TShopKeepItemWindow::handle_deposit_list_select() {
 }
 
 void TShopKeepItemWindow::update_number_input() {
-    f32 temp_f31;
-    u16 temp_r31;
     u32 w;
     w = this->number_window;
     if ((w != 0U) && (((TWindowInputNumber *)w)->is_confirmed() != 0)) {
         if ((u32) this->confirm_window == 0U) {
-            temp_r31 = get_entity_id(this->m_24);
-            this->confirm_window = (u32)create_yes_no_window(get_window_layout_position(0x2B), temp_r31, 0, 0);
+            this->confirm_window = (u32)create_yes_no_window(get_window_layout_position(0x2B), get_entity_id(this->m_24), 0, 0);
             ((TCheckRoomSequence *)(this->confirm_window))->set_ready_flag();
-            temp_f31 = get_scale();
-            ((TWindowAddition *)(this->confirm_window))->set_position_xy(get_scale(), temp_f31);
+            ((TWindowAddition *)(this->confirm_window))->set_position_xy(get_scale(), get_scale());
         }
         this->deposit_count = ((TShopEquipmentSellWindow *)(this->number_window))->get_result();
         ((TWindowBase *)this->number_window)->close();

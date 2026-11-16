@@ -13,7 +13,8 @@
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/task/TObject.h"
-#include "pso/object/base/TObjMotion.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
+
 
 #pragma readonly_strings on
 extern "C" void *__ct__14TObjCollidableFP7TObject(void *, s32);
@@ -40,12 +41,6 @@ TBoss5GryphonColli::~TBoss5GryphonColli() {
     }
 }
 
-struct Stack_800661E4 {
-    f32 sp8;
-    f32 spC;
-    f32 sp10;
-};
-
 struct RecoveredGlobal_800661E4___vt__18TBoss5GryphonColli {
     s32 value;
     u8 remaining[0x14];
@@ -58,22 +53,19 @@ extern const char *TBoss5GryphonColli__name;
 
 typedef char RecoveredGlobal_800661E4___vt__18TBoss5GryphonColli_size[sizeof(RecoveredGlobal_800661E4___vt__18TBoss5GryphonColli) == 0x18 ? 1 : -1];
 u8 *TBoss5GryphonColli__ct(u8 *object, s32 arg1) {
-    typedef char sp8_offset[(offsetof(Stack_800661E4, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_800661E4, spC) == 0x4) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_800661E4, sp10) == 0x8) ? 1 : -1];
-    Stack_800661E4 stack;
+    Vec stack;
     s32 temp_r3;
     s32 var_r0;
     __ct__7TObjectFP7TObject((void *)object, (void *)arg1);
     *(s32 **)((s8 *)object + 0x18) = &__vt__18TBoss5GryphonColli.value;
     *(s32 *)((s8 *)object + 0) = (s32) ((s32)TBoss5GryphonColli__name);
-    stack.sp8 = 0.0f;
-    stack.spC = 0.0f;
-    stack.sp10 = 3e+01f;
+    stack.x = 0.0f;
+    stack.y = 0.0f;
+    stack.z = 3e+01f;
     temp_r3 = __nw__7TObjectFUl(0xB8);
     var_r0 = temp_r3;
     if (var_r0 != 0) {
-        var_r0 = (s32)TBoss5GryphonDemo__sub_800663DC((TBoss5GryphonColli_C *)temp_r3, (s32)object, 1, &stack.sp8, 35.0f);
+        var_r0 = (s32)TBoss5GryphonDemo__sub_800663DC((TBoss5GryphonColli_C *)temp_r3, (s32)object, 1, &stack.x, 35.0f);
     }
     *(s32 *)((s8 *)object + 0x1C) = var_r0;
     return object;
@@ -107,7 +99,6 @@ struct Obj_800663DC {
 };
 
 extern "C" {
-void *mem_alloc(u32 size);
 extern s32 gryphon_demo_collision_body_desc[];
 extern s32 lbl_804886AC[];
 extern const char *lbl_805D2808;
@@ -115,19 +106,19 @@ extern const char *lbl_805D2808;
 void TBoss5GryphonDemo__sub_8006626C(void* p);
 int matrix_mult_vec(void*, void*, void*);
 int post_translate_matrix(void*);
-int set_matrix_identity(void*);
+void set_matrix_identity(u8 *arg0);
 int rotate_matrix_y(void*, s32);
 int push_matrix(void*);
 s32 __dl__7TObjectFPv(void *);
 
 void TBoss5GryphonColli_C::render() {  }
 void TBoss5GryphonDemo__sub_8006626C(void* p) { ((TBoss5GryphonColli_C *)p)->clear_entry_flags(); }
-void TBoss5GryphonDemo::draw_model(void* a1, s32 a2) { push_matrix(this); set_matrix_identity((void*)0); post_translate_matrix(a1); rotate_matrix_y((void*)0, a2); matrix_mult_vec((void*)0, (char*)this + 0xac, (char*)this + 0x38); pop_matrix(); *(s32*)((char*)this + 0x60) = a2; ((TObjCollidable *)this)->refresh_collision_body_centers(); set_all_entry_flags(); }
+void TBoss5GryphonDemo::draw_model(void* a1, s32 a2) { push_matrix(this); set_matrix_identity((u8 *)((void*)0)); post_translate_matrix(a1); rotate_matrix_y((void*)0, a2); matrix_mult_vec((void*)0, (char*)this + 0xac, (char*)this + 0x38); pop_matrix(); *(s32*)((char*)this + 0x60) = a2; ((TObjCollidable *)this)->refresh_collision_body_centers(); set_all_entry_flags(); }
 
 void TBoss5GryphonColli_C::clear_entry_flags() {
     Obj_800663DC *self = (Obj_800663DC *)this;
     s32 i;
-    for (i = 0; i < self->count; i++) {
+    for (i = 0; i < this->body_count; i++) {
         self->segs[i].flags &= ~1;
     }
 }
@@ -165,14 +156,14 @@ TBoss5GryphonColli_C *TBoss5GryphonDemo__sub_800663DC(TBoss5GryphonColli_C *self
     obj->f0 = ((s32)lbl_805D2808);
     obj->f1c = TLobby::alloc_actor_ids(0);
     VecCopy((Vec *)obj->posbuf, (const Vec *)arg3);
-    obj->count = arg2;
-    obj->segs = (Seg_800663DC *)mem_alloc(obj->count * 0x2C);
+    ((TObjCollidable *)obj)->body_count = arg2;
+    obj->segs = (Seg_800663DC *)mem_alloc(((TObjCollidable *)obj)->body_count * 0x2C);
     step = 2.0f * len;
     s = obj->segs;
     zero = 0.0f;
     i = 0;
-    z = len * (obj->count - 1);
-    for (; i < obj->count; i++) {
+    z = len * (((TObjCollidable *)obj)->body_count - 1);
+    for (; i < ((TObjCollidable *)obj)->body_count; i++) {
         copy_collision_body((CollisionBody *)s, (const CollisionBody *)gryphon_demo_collision_body_desc);
         s->f0 = zero;
         s->f4 = zero;

@@ -46,10 +46,6 @@ void run_task__17TObjBoss8DemoRoomFv(s32 arg0) {
 }
 TObjBoss8DemoRoom::~TObjBoss8DemoRoom() {}
 
-}
-
-
-extern "C" {
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 void free_bin_model_request(void*, int);
 void __ct__7TObjectFP7TObject(void *);

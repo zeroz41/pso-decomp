@@ -1,5 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/object/TObjWarnChime.h"
+#include "pso/quest/challenge/ChallengeMode.h"
+#include "pso/unk/text_80072230.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/window/TObjSoloPlayWin.h"
 #include "pso/map/FloorArea.h"
@@ -11,8 +13,10 @@
 #include "pso/ui/window/TObjBagWarnWin.h"
 #include "pso/quest/TQuestListOnline.h"
 #include "pso/object/TObjTombstone.h"
-#include "pso/map/FloorArea.h"
-#include "pso/system/task/TObject.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+
+
 typedef char TChallenge_state_offset[(offsetof(TChallenge, state) == 0x1C) ? 1 : -1];
 typedef char TChallenge_frame_offset[(offsetof(TChallenge, frame_count) == 0x20) ? 1 : -1];
 typedef char TChallenge_size[(sizeof(TChallenge) == 0x30) ? 1 : -1];
@@ -20,11 +24,6 @@ typedef char TChallenge_size[(sizeof(TChallenge) == 0x30) ? 1 : -1];
 s32 challenge_task;
 s32 challenge_task_created;
 s32 TLobby__data_805D4E30;
-
-struct RecoveredGlobal_80070358_lbl_8048C9D8 {
-    s32 value;
-    u8 remaining[0x744];
-};
 
 struct E_8007032C { u8 pad[0x104]; };
 
@@ -84,17 +83,12 @@ struct L_80070078 { u8 pad[0x2C]; s32 x2C; };
 extern "C" {
 s32 get_character_save_record(u32);
 extern s32 local_client_id;
-void TLobby__sub_80070358(void);
-void clear_four_slots__6TLobbyFv(void);
 void TLobby__sub_800738F4(void *, s32);
-s32 get_main_phase(void);
-s32 get_current_floor(void);
 }
 void *create_obj_tag_challenge(void *arg0);
 extern s32 tl_07;
 void *create_ch_time_win(void *arg0);
 extern "C" {
-void TLobby__sub_80070170(void *arg0);
 Info_800703D0 *TLobby__sub_800703D0(Info_800703D0 *dst, Info_800703D0 *src);
 s32 send_6x7c_reset__6TLobbyFv(void *);
 void *get_player_by_client_id(s32 i);
@@ -104,8 +98,6 @@ void render__10TChallengeFv(void);
 
 int is_quest_active(void);
 s32 update_card_save_info__6TLobbyFv(void *);
-void TLobby__sub_800722AC(s32 arg0);
-void TLobby__sub_80072618(void);
 s32 TLobby__sub_800739BC(void *);
 s32 TLobby__sub_8026A328();
 s32 check_player_state_flag_2__6TLobbyFv();
@@ -396,8 +388,6 @@ void TLobby::update_battle_cleanup_flag() {
     }
 }
 
-typedef char RecoveredGlobal_80070358_lbl_8048C9D8_size[sizeof(RecoveredGlobal_80070358_lbl_8048C9D8) == 0x748 ? 1 : -1];
-
 void TLobby::set_challenge_record_page(s32 v) {
     if (v < 0 || v >= 0x11) {
         return;
@@ -519,7 +509,7 @@ void clear_four_slots__6TLobbyFv(void) {
 void TLobby__sub_80070358(void) {
     s32 *temp_r31;
     clear_four_slots__6TLobbyFv();
-    temp_r31 = (s32 *)((u8 *)(((u8 *)(&(*(RecoveredGlobal_80070358_lbl_8048C9D8 *)&challenge_mode_state).value) + (local_client_id * 0x104))) + 0x270);
+    temp_r31 = (s32 *)((u8 *)(((u8 *)&challenge_mode_state + (local_client_id * 0x104))) + 0x270);
     if (get_character_save_record(0xFFFFU) != 0U) {
         *(s32 *)((s8 *)temp_r31 + 0) = 1;
         TLobby__sub_800703D0((Info_800703D0 *)((void *)((void *) ((u8 *)temp_r31 + 4))), (Info_800703D0 *)((void *)((void *) (get_character_save_record(0xFFFFU) + 0x21C4))));

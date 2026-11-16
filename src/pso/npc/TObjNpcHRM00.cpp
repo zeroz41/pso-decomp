@@ -15,7 +15,7 @@ const char *TObjNpcHRM00__name = "TObjNpcHRM00";
 u32 TObjNpcHRM00__named_object_resource;
 u32 TObjNpcHRM00__body_texture_gvm;
 
-extern "C" s32 __vt__12TObjNpcHRM00[];
+s32 __vt__12TObjNpcHRM00[];
 
 void *TObjNpcHRM00__create(void *set_data) {
     TObjControl *control = new TObjControl(tl_04);

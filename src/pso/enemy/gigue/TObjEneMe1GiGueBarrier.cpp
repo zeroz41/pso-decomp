@@ -26,9 +26,6 @@ TObjMotionAction TObjEneMe1GiGueBarrier__animation_definitions[3] = {
     { MOTION_MODE_LOOP, 0, 7, 1.0f, 0x0 },
     { MOTION_MODE_ONCE, 0, 8, 1.0f, 0x1 },
 };
-}
-
-extern "C" {
 void TObjEneMe1GiGueBarrier__sub_80325CC0(void);
 
 void TObjEneMe1GiGueBarrier::render() {

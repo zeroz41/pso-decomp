@@ -16,11 +16,11 @@
 extern "C" void *__ct__14TObjCollidableFP7TObject(void *, s32);
 
 #include <stddef.h>
-#include "pso/boss/olgaflow/TBoss6RockChase.h"
+
 #include "pso/boss/olgaflow/TBoss6PlotFalz.h"
 #include "pso/unk/TLobby.h"
 #include "pso/object/ambient/TObjFish.h"
-#include "pso/player/TObjPlayer.h"
+
 struct Stack_8036D6D4 {
     s32 sp8;
     f32 spC;
@@ -31,13 +31,6 @@ struct RecoveredGlobal_8036D4E0_lbl_8047ACE8 {
     s32 value;
     u8 remaining[0xC];
 };
-
-struct RecoveredGlobal_8036D4E0___vt__15TBoss6RockChase {
-    s32 value;
-    u8 remaining[0x34];
-};
-
-struct Vec_8036D1B4 { f32 x, y, z; };
 
 struct Hit_8036D1B4 {
     s32 a;
@@ -72,14 +65,14 @@ struct Player_8036D1B4 : PBase_8036D1B4 {
     virtual void m20();
     virtual void m21(s32, Hit_8036D1B4 *, s32, s32, s32);
     u8 pad1C[0x38 - 0x1C];
-    Vec_8036D1B4 pos;
+    Vec pos;
 };
 
 struct Ent_8036D1B4 { s32 id; f32 range; };
 
 struct Chase_8036D1B4 {
     u8 pad0[0x38];
-    Vec_8036D1B4 pos;
+    Vec pos;
     u8 pad44[0xAC - 0x44];
     s32 xAC;
     s32 xB0;
@@ -108,13 +101,12 @@ int rotate_matrix_z(void*, void*);
 int rotate_matrix_x(void*, void*);
 int rotate_matrix_y(void*, void*);
 int push_matrix(void*);
-void __dl__7TObjectFPv(void *);
 
 #pragma push
 #pragma opt_propagation off
 s32 TBoss6RockChase::damage_players_in_range() {
     Chase_8036D1B4 *self = (Chase_8036D1B4 *)this;
-    Vec_8036D1B4 d;
+    Vec d;
     s32 n;
     s32 dmg;
     s32 i;
@@ -188,20 +180,19 @@ void TBoss6RockChase::run_task() {
 TBoss6RockChase::~TBoss6RockChase() {
 
 }
-extern "C" {
+
 
 #pragma push
 #pragma fp_contract on
 typedef char RecoveredGlobal_8036D4E0_lbl_8047ACE8_size[sizeof(RecoveredGlobal_8036D4E0_lbl_8047ACE8) == 0x10 ? 1 : -1];
-typedef char RecoveredGlobal_8036D4E0___vt__15TBoss6RockChase_size[sizeof(RecoveredGlobal_8036D4E0___vt__15TBoss6RockChase) == 0x38 ? 1 : -1];
 u8 *TBoss6RockChase__ct(TBoss6RockChase *boss6_rock_chase, s32 arg1, s32 arg2, s32 arg3) {
     __ct__14TObjCollidableFP7TObject(boss6_rock_chase, arg1);
-    *(s32 **)((s8 *)boss6_rock_chase + 0x18) = &(*(RecoveredGlobal_8036D4E0___vt__15TBoss6RockChase *)&__vt__15TBoss6RockChase).value;
+    *(s32 **)((s8 *)boss6_rock_chase + 0x18) = __vt__15TBoss6RockChase;
     *(s32 *)((s8 *)boss6_rock_chase + 0) = (s32) lbl_805D44F0;
     boss6_rock_chase->m_ac = arg1;
     boss6_rock_chase->m_b0 = arg3;
     boss6_rock_chase->m_b4 = (s32) (15.0f * (3.0517578e-05f * (f32) rand()));
-    *(s32 *)((s8 *)boss6_rock_chase + 0x5C) = (s32) (2048.0f * ((3.0517578e-05f * (f32) rand()) - 0.5f));
+    ((TBoss6RockChase *)boss6_rock_chase)->rotation_x = (s32) (2048.0f * ((3.0517578e-05f * (f32) rand()) - 0.5f));
     boss6_rock_chase->rotation_y = (s32) (65535.0f * (3.0517578e-05f * (f32) rand()));
     boss6_rock_chase->rotation_z = (s32) (2048.0f * ((3.0517578e-05f * (f32) rand()) - 0.5f));
     boss6_rock_chase->m_bc = (s32) (8192.0f * ((3.0517578e-05f * (f32) rand()) - 0.5f));
@@ -234,4 +225,3 @@ s32 TBoss6RockChase::spawn(s32 arg0, s32 arg1) {
     return var_r0;
 }
 
-}

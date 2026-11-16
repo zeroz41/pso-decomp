@@ -21,20 +21,17 @@
 #include "pso/enemy/recon/TObjEneRecobox_8031FCB0.h"
 #include "pso/enemy/recon/TObjEneRecon.h"
 #include "pso/system/task/TObject.h"
-#include "pso/player/TObjPlayer.h"
+
 
 #pragma readonly_strings on
 
-struct Vec_8031B618 { f32 x, y, z; };
-
 struct Sub_8031B618 { u8 pad[0xC]; f32 radius; };
 
-struct Ctrl_8031B618 { u8 pad[0xA4]; Sub_8031B618 *sub; u8 pad2[0x2FC - 0xA8]; Vec_8031B618 pos; };
+struct Ctrl_8031B618 { u8 pad[0xA4]; Sub_8031B618 *sub; u8 pad2[0x2FC - 0xA8]; Vec pos; };
 
-struct Obj_8031B618 { u8 pad[0x38]; Vec_8031B618 pos; u8 pad2[0x2FC - 0x44]; Vec_8031B618 pos2; };
+struct Obj_8031B618 { u8 pad[0x38]; Vec pos; u8 pad2[0x2FC - 0x44]; Vec pos2; };
 
 struct Obj_8031B618;
-struct Vec_8031B808 { f32 x, y, z; };
 
 struct P_8031B808 { s32 a; f32 b; };
 
@@ -77,14 +74,14 @@ struct VObj_8031B808 : VBase_8031B808 {
 
 struct Obj_8031B808 {
     u8 pad0[0x38];
-    Vec_8031B808 pos;
+    Vec pos;
     u8 pad44[0x248 - 0x44];
     u8 f248[0x2FC - 0x248];
-    Vec_8031B808 pos2;
+    Vec pos2;
     u8 pad308[0x334 - 0x308];
     u32 target;
     u8 pad338[4];
-    Vec_8031B808 vel;
+    Vec vel;
     f32 f348;
     f32 range;
     f32 f350;
@@ -103,7 +100,7 @@ s32 project_actor_to_ground(void *, void *, void *);
 s32 TObjEneRecon__sub_8031C250(u32);
 s32 vec3_add_to(void *, void *);
 extern s32 lbl_805D5868;
-s32 TObjFish__sub_8001EDB0(void *, int);
+s32 get_bml_texlist(void *, int);
 s32 get_bml_model(void *, int);
 s32 rotate_matrix_z(int, int);
 s32 rotate_matrix_x(int, void *);
@@ -116,7 +113,6 @@ f32 TObjEneRecon__sub_8031C2BC(int);
 f32 TObjEneRecon__sub_8031C2C8(int);
 f32 TObjEneRecon__sub_8031C2D4(int);
 s32 __ct__9TObjCharaFP7TObject();
-void __dl__7TObjectFPv(void *);
 
 extern s32 __vt__16TObjEneReconBomb[];
 
@@ -153,10 +149,10 @@ void TObjEneReconBomb::render() {
         return;
     }
     bml_model = get_bml_model((void *)recon_bomb_bml_resource, 2);
-    temp_r30 = TObjFish__sub_8001EDB0((void *)recon_bomb_bml_resource, 2);
+    temp_r30 = get_bml_texlist((void *)recon_bomb_bml_resource, 2);
     push_matrix();
     translate_matrix(0, (f32) (*(f32 *)((s8 *)arg0 + 0x38)), (f32) ((2.0f) + *(f32 *)((s8 *)arg0 + 0x3C)), (f32) (*(f32 *)((s8 *)arg0 + 0x40)));
-    rotate_matrix_zyx(0, (*(s32 *)&this->rotation_x), (this->rotation_y), (this->rotation_z));
+    rotate_matrix_zyx(0, (this->rotation_x), (this->rotation_y), (this->rotation_z));
     TObjFish::set_global_param(temp_r30);
     draw_chunk_object((void *)bml_model);
     pop_matrix();
@@ -181,7 +177,7 @@ void TObjEneReconBomb::render() {
 
 void TObjEneReconBomb::run_task() {
     Obj_8031B808 *arg0 = (Obj_8031B808 *)this;
-    Vec_8031B808 pos;
+    Vec pos;
     s32 i;
     VObj_8031B808 *pl;
     if (arg0->target == 0) {
@@ -199,7 +195,7 @@ void TObjEneReconBomb::run_task() {
         arg0->vel.z *= 0.95f;
         ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&pos, &arg0->pos);
         vec3_add_to(&pos, &arg0->vel);
-        Vec_8031B808 g = pos;
+        Vec g = pos;
         if (project_actor_to_ground(arg0, &g, arg0->f248) != 0) {
             arg0->f348 = g.y;
             if (pos.y <= g.y) {
@@ -284,17 +280,12 @@ u8 *TObjEneReconBomb__ct(TObjEneReconBomb *ene_recon_bomb, s32 arg1, s32 arg2, s
 
 const char *TObjEneReconBomb__name = "TObjEneReconBomb";
 
-}
-
-extern "C" {
-
-void *__nw__7TObjectFUl(int);
 
 void TObjEneRecon__sub_8031BC38(void) {  }
 
 void *TObjEneRecon::create_bomb(void *arg0, void *arg1, void *arg2) {
     void *o;
-    o = __nw__7TObjectFUl(0x364);
+    o = TObject::operator new(0x364);
     if (o != NULL) {
         o = TObjEneReconBomb__ct((TObjEneReconBomb *)((u8 *)o), (s32)arg0, (s32)arg1, (s32)arg2);
     }

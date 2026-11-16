@@ -2,6 +2,7 @@
 #include "pso/system/TLanguage_801E4874.h"
 #include "pso/unk/text_8028A820.h"
 #include "pso/map/FloorArea.h"
+#include "pso/player/TObjPlayer_80011014.h"
 extern "C" {
 void *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 }

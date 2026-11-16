@@ -216,7 +216,7 @@ inline void dvd_poll_requests(void) {
     }
 }
 
-s32 TLobby__sub_803D0214(void *arg, s32 count, void *buf) {
+s32 gcCiReqRd(void *arg, s32 count, void *buf) {
     GcciRequest *r = (GcciRequest *)arg;
     s32 offset;
     s32 len;
@@ -386,9 +386,8 @@ inline GcciRequest *dvd_find_free_request(void) {
     return found;
 }
 
-GcciRequest *TLobby__sub_803D08E0(const char *name, s32 arg1, s32 mode) {
+GcciRequest *gcCiOpen(const char *name, s32 arg1, s32 mode) {
     GcciRequest *r;
-    s32 i;
     s32 size;
     u32 len;
     u32 j;

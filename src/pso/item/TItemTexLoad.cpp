@@ -3,15 +3,14 @@
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/unk/text_803CC294.h"
 #include "pso/unk/TLobby.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 extern "C" {
 void prs_decompress_alloc(void*, s32, s32);
 void load_gvm_texture_archive(s32, void*);
 u32 adxf_open_afs__6TLobbyFii(int, int);
 void *lookup_item_pmt_record(u8 *item);
-s32 TLobby__sub_803CC4C0(s32);
-void mem_free(void*);
-void* mem_alloc(u32);
+s32 adxf_get_stat(s32);
 void TObjPlayer__sub_803DD5E8(void*, void*, void*, int);
 char* strncpy(char*, const char*, u32);
 void TLobby__sub_801E3E9C(s32, const char*, void*, s32);
@@ -54,7 +53,7 @@ s32 TItemTexLoad::load_texture(s32 index) {
         }
         m_state = 1;
         {
-            s32 r = TLobby__sub_803CC53C((u8 *)m_archive_handle);
+            s32 r = adxf_get_fsize_sct((u8 *)m_archive_handle);
             if (r < 0) {
                 unload_texture();
                 return 0;
@@ -95,7 +94,7 @@ GinjaTextureList* TItemTexLoad::ready_texture_list() {
 
 void TItemTexLoad::run_task() {
     if (m_state == 1) {
-        switch (TLobby__sub_803CC4C0(m_archive_handle)) {
+        switch (adxf_get_stat(m_archive_handle)) {
         case 3:
             ((TLobby *)m_archive_handle)->close_adxf_handle();
             if (TLobby::tmp_buf_is_free() != 0) load_texture_archive();

@@ -36,7 +36,7 @@ BmlResourceDescriptor warp_lobby_resource_descriptor = {
 const char *TObjWarpLobby__name = "TObjWarpLobby";
 s32 TObjWarpLobby__instance;
 
-extern "C" {
+
 void TObjWarpLobby::debug_print_area_num() {
     s32 base;
     TObjAreaWarp::debug_print_area_num();
@@ -44,9 +44,9 @@ void TObjWarpLobby::debug_print_area_num() {
         this->set_params[1] = 0;
     }
     if ((s32) this->set_params[1] > 1) {
-        *(s32 *)&this->set_params[1] = 1;
+        this->set_params[1] = 1;
     }
-    switch (*(s32 *)&this->set_params[1]) {
+    switch (this->set_params[1]) {
     case 0:
         *(s32 *)((s8 *)this + 0xCC) = 1;
         break;
@@ -62,14 +62,6 @@ void TObjWarpLobby::debug_print_area_num() {
     TObjNpcEnemy::set_global_count(0xF0F0F0FF);
 }
 
-}
-
-struct WarpLobbyBase_801A07F8 { char pad[0x18]; };
-struct WarpLobbyVObj_801A07F8 : WarpLobbyBase_801A07F8 {
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3();
-    virtual void m4(); virtual void m5(); virtual void m6(); virtual void m7();
-    virtual s32 m8(f32, f32);
-};
 
 struct VB_801A0894 { char pad[0x18]; };
 
@@ -87,12 +79,12 @@ int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int 
 s32 check_room_seq_4__16TAdChrSelASlotGCFl(f32 *, s32, f32);
 
 s32 is_idle__6TLobbyFv();
-u32 find_warp_player_in_range(void *, u16, f32);
+void *find_warp_player_in_range(void *self, u16 client_id, f32 range);
 extern s32 local_client_id;
 
 void run_task__13TObjWarpLobbyFv(VO_801A0894 *arg0);
 s32 post_translate_matrix(void *);
-s32 draw_ginja_model_with_motion(s32, s32, f32);
+void draw_ginja_model_with_motion(void *model, void *motion, f32 frame);
 s32 rotate_matrix_y(s32, s32);
 s32 push_matrix();
 
@@ -115,13 +107,13 @@ void TObjWarpLobby::open_lobby_menu() {
 
 void TObjWarpLobby::render() {
     u8 *arg0 = (u8 *)this;
-    if (((s32) *(s32 *)((s8 *)arg0 + 0xCC) != 0) && (((WarpLobbyVObj_801A07F8*)arg0)->m8(4e+02f, 2e+01f) != 0)) {
+    if (((s32) *(s32 *)((s8 *)arg0 + 0xCC) != 0) && (this->update_object_view_visibility(4e+02f, 2e+01f) != 0)) {
         TObjFish::set_global_param(lbl_805D5CCC);
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
         TParticleCtrl::begin_effect_render();
-        draw_ginja_model_with_motion(*(s32 *)((s8 *)(*(void **)((s8 *)TObjWarpLobby__instance + 0x42C)) + 8), *(s32 *)((s8 *)(*(void **)((s8 *)TObjWarpLobby__instance + 0x430)) + 4), this->m_c8);
+        draw_ginja_model_with_motion((void *)(*(s32 *)((s8 *)(*(void **)((s8 *)TObjWarpLobby__instance + 0x42C)) + 8)), (void *)(*(s32 *)((s8 *)(*(void **)((s8 *)TObjWarpLobby__instance + 0x430)) + 4)), this->m_c8);
         TParticleCtrl::end_effect_render();
         pop_matrix();
     }
@@ -136,7 +128,7 @@ void run_task__13TObjWarpLobbyFv(VO_801A0894 *arg0) {
         ((TObjWarpLobby *)arg0)->m_c8 = 0.0f;
     }
     *(f32 *)((s8 *)arg0 + 0xC4) += 336.0f;
-    if ((find_warp_player_in_range(arg0, (u16) local_client_id, *(f32 *)((s8 *)arg0 + 0xAC)) != 0U) && (arg0->m14() != 0)) {
+    if ((find_warp_player_in_range(arg0, (u16) local_client_id, ((TObjWarpLobby *)arg0)->warp_range) != 0U) && (arg0->m14() != 0)) {
         if (((u32) ((TObjWarpLobby *)arg0)->menu_window == 0U) && (is_idle__6TLobbyFv() != 0)) {
             ((TObjWarpLobby *)arg0)->open_lobby_menu();
         }
@@ -161,10 +153,6 @@ void run_task__13TObjWarpLobbyFv(VO_801A0894 *arg0) {
 TObjWarpLobby::~TObjWarpLobby() {
 }
 
-extern "C" {
-
-
-extern s32 __vt__13TObjWarpLobby[];
 
 TObjWarpLobby::TObjWarpLobby(TObject *parent, void *set_data) : TObjAreaWarp(parent, set_data) {
 
@@ -195,7 +183,6 @@ TObjWarpLobby::TObjWarpLobby(TObject *parent, void *set_data) : TObjAreaWarp(par
     }
 }
 
-}
 
 struct Sub_801A0B38 { u8 pad[0xc]; s32 value; };
 

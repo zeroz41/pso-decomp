@@ -54,9 +54,8 @@
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/render/GinjaMaterial.h"
-#include "pso/object/warp/TObjWarpBoss.h"
-#include "pso/player/TObjPlayer.h"
-#include "pso/system/task/TObject.h"
+#include "pso/player/TObjPlayer_80011014.h"
+
 
 #pragma defer_codegen on
 const char *boss_warp_model_names[4] = {
@@ -83,20 +82,10 @@ const char *TObjWarpBoss__name = "TObjWarpBoss";
 const char *TObjWarpBossMulti__name = "TObjWarpBossMulti";
 
 
-
-
-
-
-
-
-
-
-
 extern "C" {
 s32 check_player_flag1__6TLobbyFv(void);
 s32 get_message_10__20TWindowSubStatusDispFl(s32);
 s32 fn_80248994(void *, u32, int);
-void *refresh_with_default_list__20TWindowSubStatusDispFll(s32, void *);
 void request_active_window_close(void);
 s32 get_window_layout_position(s32);
 s32 free_member__17TWindowSubComCardFv(void *, int);
@@ -113,7 +102,7 @@ s32 warp_boss_model_handle;
 s32 lbl_805D5CA4;
 extern "C" {
 extern "C" {
-void TObjFish__sub_8019F72C(void);
+void release_boss_warp_resources(void);
 s32 TObjWarpBossMulti__create(s32 arg0);
 }
 }
@@ -127,46 +116,12 @@ extern s32 lbl_805D55C0;
 
 void *init__13TAdVIConfigGCFf(void *, void *, f32);
 int check_flag_100__10TObjPlayerFPv(void *p);
-s32 get_current_floor();
 s32 align_menu_entry_positions(u32);
 u32 check_room_seq_4__16TAdChrSelASlotGCFl(s32, s32);
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
 void handle_6x6A_set_boss_warp_flags(void *arg0);
-extern "C" {
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-}
-
 // Function definitions in reverse address order (defer_codegen emits them reversed).
 
 s32 get_boss_warp_base_model(void) { return boss_warp_base_model; }
@@ -198,8 +153,8 @@ void TObjFish::load_models() {
         warp_boss_model = get_bml_model(boss_warp_resource_bundle, 1);
         warp_boss_motion = get_bml_motion(boss_warp_resource_bundle, 1);
         warp_boss_bml_motion = get_bml_motion(boss_warp_resource_bundle, 0);
-        warp_boss_model_handle = TObjFish__sub_8001EDB0(boss_warp_resource_bundle, 2);
-        lbl_805D5CA4 = TObjFish__sub_8001EDB0(boss_warp_resource_bundle, 2);
+        warp_boss_model_handle = get_bml_texlist(boss_warp_resource_bundle, 2);
+        lbl_805D5CA4 = get_bml_texlist(boss_warp_resource_bundle, 2);
         return;
     }
     if (TContainerAncient01::is_global_state_in_table() != 0 || area == AREA_SEABED_UPPER || area == AREA_SEABED_LOWER) {
@@ -213,8 +168,8 @@ void TObjFish::load_models() {
         warp_boss_model = get_bml_model(boss_warp_resource_bundle, 1);
         warp_boss_motion = get_bml_motion(boss_warp_resource_bundle, 0);
         warp_boss_bml_motion = get_bml_motion(boss_warp_resource_bundle, 0);
-        warp_boss_model_handle = TObjFish__sub_8001EDB0(boss_warp_resource_bundle, 0);
-        lbl_805D5CA4 = TObjFish__sub_8001EDB0(boss_warp_resource_bundle, 0);
+        warp_boss_model_handle = get_bml_texlist(boss_warp_resource_bundle, 0);
+        lbl_805D5CA4 = get_bml_texlist(boss_warp_resource_bundle, 0);
         return;
     }
     resource = (BmlResource *)::operator new(0x440);
@@ -227,25 +182,25 @@ void TObjFish::load_models() {
     warp_boss_model = get_bml_model(boss_warp_resource_bundle, 1);
     warp_boss_motion = get_bml_motion(boss_warp_resource_bundle, 1);
     warp_boss_bml_motion = get_bml_motion(boss_warp_resource_bundle, 0);
-    warp_boss_model_handle = TObjFish__sub_8001EDB0(boss_warp_resource_bundle, 2);
-    lbl_805D5CA4 = TObjFish__sub_8001EDB0(boss_warp_resource_bundle, 2);
+    warp_boss_model_handle = get_bml_texlist(boss_warp_resource_bundle, 2);
+    lbl_805D5CA4 = get_bml_texlist(boss_warp_resource_bundle, 2);
 }
 
-void TObjFish__sub_8019F72C(void) {
+void release_boss_warp_resources(void) {
     if (boss_warp_resource_bundle != 0) {
         free_bin_model_request(boss_warp_resource_bundle, 1);
         boss_warp_resource_bundle = 0;
     }
 }
 
-s32 TObjWarpBossMulti__create(s32 arg0) {
+s32 TObjWarpBossMulti__create(s32 set_data) {
     if ((TRaderMapCore::is_not_split_screen() == 0) && (get_main_phase() == 0xE)) {
-        return ((s32)((TObjWarpBossMulti *)arg0)->create());
+        return ((s32)((TObjWarpBossMulti *)set_data)->create());
     }
     if (TRaderMapCore::is_not_split_screen() == 1) {
-        return ((s32)((TObjWarpBossMulti *)arg0)->create());
+        return ((s32)((TObjWarpBossMulti *)set_data)->create());
     }
-    return (s32)new TObjWarpBoss(tl_05, (void *)arg0);
+    return (s32)new TObjWarpBoss(tl_05, (void *)set_data);
 }
 
 TObjWarpBoss::TObjWarpBoss(TObject *parent, void *set_data) : TObjAreaWarp(parent, set_data) {
@@ -410,7 +365,7 @@ s32 TObjWarpBoss::update_warp_dialogs() {
   {
     pos[0] = 229.0f;
     pos[1] = 104.0f;
-    player_list_window = refresh_with_default_list__20TWindowSubStatusDispFll(((s32)get_window_layout_position(0x34)), pos);
+    player_list_window = TWindowSubStatusDisp::refresh_with_default_list((s32)(((s32)get_window_layout_position(0x34))), (s32)pos);
     if (player_list_window != 0)
     {
       ((TWindowSubTradeMain *)player_list_window)->set_visible();

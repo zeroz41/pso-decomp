@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/unk/TUnk_804CF930.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8025737C.h"
 #include "pso/system/memory.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -30,14 +31,11 @@ struct Gauge_802571B4 {
 
 struct Gauge_80256E0C { u8 p0[0x14]; f32 max; };
 
-struct Pos_80256E0C { f32 x; f32 y; };
-
 extern "C" {
 void calc_bar_width__13TUnk_804CF930Fv(struct Bar_80256C00 *bar);
 extern const f32 lbl_805DCE58;
 void step_gauge_bar_width(Gauge_802571B4 *g);
-void draw_status_gauge_bar__13TUnk_804CF930FPvPvff(Gauge_80256E0C *self, void *ctx, Pos_80256E0C *pos, f32 depth, f32 len);
-void *destroy__13TUnk_804CF930Fs(void *arg0, s16 arg1);
+void draw_status_gauge_bar__13TUnk_804CF930FPvPvff(Gauge_80256E0C *self, void *ctx, NJS_POINT2 *pos, f32 depth, f32 len);
 void *TWindowSubStatusDisp__sub_80257298(void *arg0, s16 arg1);
 }
 
@@ -68,8 +66,6 @@ struct Parent_80257784 {
     f32 f38;
 };
 
-struct Pos_80257784 { f32 x, y; };
-
 extern "C" {
 s32 TWindowSubStatusDisp__sub_80256C40(void *, void *, void *, f32);
 #define draw_status_gauge_bar__13TUnk_804CF930FPvPvff ((s32 (*)(void *, void *, void *, f32, f32))draw_status_gauge_bar__13TUnk_804CF930FPvPvff)
@@ -95,13 +91,6 @@ struct Fade_802575C0 {
     u8 pad50[4];
     f32 dr, dg, db;
 };
-
-struct RecoveredGlobal_80257B4C_lbl_804CF948 {
-    s32 value;
-    u8 remaining[0x14];
-};
-
-typedef char RecoveredGlobal_80257B4C_lbl_804CF948_size[sizeof(RecoveredGlobal_80257B4C_lbl_804CF948) == 0x18 ? 1 : -1];
 
 typedef void *(*Ctor_80257D44)(void *, void *, s32);
 
@@ -218,7 +207,7 @@ void TWindowSubStatusDisp::update_disp_value() {
 #pragma push
 #pragma fp_contract on
 void draw_gauge__20TWindowSubStatusDispFPvPv(Gauge_80257784 *self, Parent_80257784 *parent) {
-    Pos_80257784 pos;
+    NJS_POINT2 pos;
     f32 scale;
     f32 lo;
     f32 hi;
@@ -322,7 +311,7 @@ void *TWindowSubStatusDisp__sub_80257AF4(void *arg0, s16 arg1) {
 
 u8 *TWindowSubStatusDisp::init_layout_entry_copy(u8 *arg1) {
     ((s32 (*)(void))init_from__13TUnk_804CF930FPvi)();
-    *(s32 * *)&this->m_flags = &(*(RecoveredGlobal_80257B4C_lbl_804CF948 *)&lbl_804CF948).value;
+    *(s32 * *)&this->m_flags = lbl_804CF948;
     *(s16 *)((s8 *)((u8 *)this) + 0x28) = (s16) *(f32 *)&this->m_24;
     *(s32 *)((s8 *)((u8 *)this) + 0x60) = (s32) *(s32 *)((s8 *)arg1 + 0x24);
     *(s32 *)((s8 *)((u8 *)this) + 0x64) = (s32) *(s32 *)((s8 *)arg1 + 0x28);

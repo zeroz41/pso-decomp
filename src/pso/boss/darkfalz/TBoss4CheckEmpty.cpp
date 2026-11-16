@@ -23,8 +23,8 @@ void TBoss4CheckEmpty::run_task() {
         ((TObject *)arg0)->queue_destruction();
         return;
     }
-    *(s32 *)((s8 *)arg0 + 0x1C) = (s32) (*(s32 *)((s8 *)arg0 + 0x1C) + 1);
-    if ((s32) *(s32 *)((s8 *)arg0 + 0x1C) > 0x5A) {
+    this->m_wait_frames = (s32) (this->m_wait_frames + 1);
+    if ((s32) this->m_wait_frames > 0x5A) {
         if (is_door_open_and_ready__12TBoss4ThanksFv() != 0) {
             TBoss4Thanks::create();
             play_area_music((char *)("T1.adx"));

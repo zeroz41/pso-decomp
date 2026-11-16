@@ -1,4 +1,5 @@
 #include "pso/render/RenderFadeState.h"
+#include "pso/object/container/TObjContainerIdo_8018BEE4.h"
 #include "pso/object/container/TObjContainerIdo.h"
 #include "pso/system/vector.h"
 #include "pso/ui/hud/TRaderMapCore.h"
@@ -7,7 +8,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/object/container/TObjContainerJungEnemy.h"
-#include "pso/object/container/TObjContainerIdo.h"
+
 #include "pso/item/TUnk_804B97C0.h"
 #include "pso/object/container/TContainerAncient01.h"
 #include "pso/object/container/TContainerAncient01R.h"
@@ -23,7 +24,8 @@
 #include "pso/unk/text_80087278.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/render/GinjaMaterial.h"
-#include "pso/render/RenderFadeState.h"
+#include "pso/system/task/TObject.h"
+
 
 extern "C" {
 __declspec(section ".data") const char *fe_obj_hako_i_rail_model_names[3] = { "fe_obj_hako_i_rail.gj", "fe_obj_hako_ido.gj", NULL };
@@ -33,8 +35,6 @@ CollisionBody container_ido_collision_parts[] = { { { 0.0f, 0.0f, 0.0f }, 20.0f,
 const char *obj_container_ido_class_name = "TObjContainerIdo";
 }
 
-struct Vec_8018BEE4 { f32 x, y, z; };
-
 extern "C" {
 void __ct__15RenderFadeStateFv(void *);
 s32 get_bml_model(int, int);
@@ -43,17 +43,16 @@ s32 init_collision_body_parts(void *, void *, int);
 f32 xyz_distance_squared(u8 *arg0, u8 *arg1);
 void matrix_mult_vec(int, void *, void *);
 void project_world_to_screen(int, void *, void *, void *);
-extern Vec_8018BEE4 camera_right;
+extern Vec camera_right;
 extern u8 *camera_ctrl_instance;
 
 s32 free_collision_body_parts(void *);
-s32 __dl__7TObjectFPv(void *);
 
 #pragma push
 #pragma fp_contract on
 s32 TObjContainerIdo::update_object_view_visibility(f32 farg0, f32 farg1) {
     u8 *arg0 = (u8 *)this;
-    Vec_8018BEE4 p;
+    Vec p;
     f32 out[2];
     matrix_mult_vec(0, (u8 *)&this->m_c0, &p);
     if (xyz_distance_squared((u8 *)&this->position, camera_ctrl_instance + 0x178) < farg1 * farg1) {
@@ -86,18 +85,6 @@ s32 TObjContainerIdo::update_object_view_visibility(f32 farg0, f32 farg1) {
 }
 #pragma pop
 
-struct VOuter_8018C06C {
-    char pad[0x18];
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual s32 m8(f32, f32);
-};
 struct VMem_8018C06C {
     char pad[0x14];
     virtual void m0();
@@ -110,19 +97,16 @@ struct VMem_8018C06C {
     virtual void m7();
 };
 
-u8 *TObjContainerIdo__ct(u8 *arg0, s32 arg1, s32 arg2);
-void render__16TObjContainerIdoFv(u8 *arg0);
 s32 post_translate_matrix(void *);
 s32 rotate_matrix_x(s32, s32);
 s32 push_matrix();
-void *__nw__7TObjectFUl(int);
 
 u32 TObjContainerIdo__model_resource;
 
 void render__16TObjContainerIdoFv(u8 *container_ido) {
     s32 var_r31;
 
-    if (((VOuter_8018C06C*)container_ido)->m8(4e+02f, 2e+02f) != 0) {
+    if (((TObjContainerIdo *)container_ido)->update_object_view_visibility(4e+02f, 2e+02f) != 0) {
         var_r31 = 0;
         if (TRaderMapCore::is_not_split_screen() == 0) {
             var_r31 = ((RenderFadeState*)(container_ido + 0xF0))->updateFromCamera((const f32*)(container_ido + 0x38));
@@ -140,13 +124,13 @@ void render__16TObjContainerIdoFv(u8 *container_ido) {
         push_matrix();
         post_translate_matrix(container_ido + 0xC0);
         rotate_matrix_y(0, ((TObjContainerIdo *)container_ido)->rotation_y);
-        rotate_matrix_x(0, *(s32 *)((s8 *)container_ido + 0x5C));
+        rotate_matrix_x(0, ((TObjContainerIdo *)container_ido)->rotation_x);
         draw_ginja_object((void *)get_bml_model(TObjContainerIdo__model_resource, 0));
         pop_matrix();
         push_matrix();
         post_translate_matrix(container_ido + 0x38);
         rotate_matrix_y(0, ((TObjContainerIdo *)container_ido)->rotation_y);
-        rotate_matrix_x(0, *(s32 *)((s8 *)container_ido + 0x5C));
+        rotate_matrix_x(0, ((TObjContainerIdo *)container_ido)->rotation_x);
         draw_ginja_object((void *)get_bml_model(TObjContainerIdo__model_resource, 1));
         pop_matrix();
         if (var_r31 != 0) {
@@ -155,21 +139,14 @@ void render__16TObjContainerIdoFv(u8 *container_ido) {
     }
 }
 
-struct Vec3_8018C18C { f32 x, y, z; };
-struct VObj_8018C18C {
-    char pad[0x18];
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3();
-    virtual void m4(); virtual void m5(); virtual void m6(); virtual void m7();
-    virtual s32 m8(f32, f32);
-};
 struct Ido_8018C18C {
     u8 pad0[0x38];
-    Vec3_8018C18C pos;
+    Vec pos;
     u8 pad44[0x5C - 0x44];
     s32 f5c;
     s32 f60;
     u8 pad64[0xC0 - 0x64];
-    Vec3_8018C18C c0;
+    Vec c0;
     s32 ids[4];
     s32 dc;
     u32 e0;
@@ -178,7 +155,7 @@ struct Ido_8018C18C {
     f32 ec;
     u8 f0[4];
 };
-u8 is_current_floor_switch_set(u16);
+u8 is_current_floor_switch_set(s32 id);
 f32 xyz_distance(void *, void *);
 void rotate_vector_by_matrix(int, void *, void *);
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
@@ -214,7 +191,7 @@ void run_task__16TObjContainerIdoFv(Ido_8018C18C *self) {
     self->e0 &= ~0x04000000;
     if (self->e0 & 0x02000000) {
         if (xyz_distance(&self->c0, &self->pos) > self->e4) {
-            Vec3_8018C18C v = { 0.0f, 0.0f, 0.0f };
+            Vec v = { 0.0f, 0.0f, 0.0f };
             v.z = -self->ec;
             push_matrix_from(identity_matrix);
             rotate_matrix_y(0, self->f60);
@@ -232,7 +209,7 @@ void run_task__16TObjContainerIdoFv(Ido_8018C18C *self) {
         }
     } else {
         if (xyz_distance(&self->c0, &self->pos) < self->e4) {
-            Vec3_8018C18C w = { 0.0f, 0.0f, 0.0f };
+            Vec w = { 0.0f, 0.0f, 0.0f };
             w.z = -self->ec;
             push_matrix_from(identity_matrix);
             rotate_matrix_y(0, self->f60);
@@ -250,10 +227,10 @@ void run_task__16TObjContainerIdoFv(Ido_8018C18C *self) {
         }
     }
     if (!(self->e0 & 0x08000000) && (self->e0 & 0x04000000)) {
-        if (3.0517578e-05f * (f32)rand() < 0.4f && ((VObj_8018C18C *)self)->m8(4e+02f, 1e+02f) != 0) {
-            Vec3_8018C18C a;
-            Vec3_8018C18C b;
-            Vec3_8018C18C out;
+        if (3.0517578e-05f * (f32)rand() < 0.4f && ((TObjContainerIdo *)self)->update_object_view_visibility(4e+02f, 1e+02f) != 0) {
+            Vec a;
+            Vec b;
+            Vec out;
             a.x = 1e+01f;
             a.y = 2.0f;
             a.z = 3e+01f * (3.0517578e-05f * (f32)rand()) - 15.0f;
@@ -278,7 +255,7 @@ void run_task__16TObjContainerIdoFv(Ido_8018C18C *self) {
 extern void *tl_05;
 
 void *TObjContainerIdo::create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0x10C);
+    void *o = TObject::operator new(0x10C);
     if (o != NULL) {
         o = TObjContainerIdo__ct((u8 *)o, (s32)tl_05, (s32)arg0);
     }
@@ -287,37 +264,19 @@ void *TObjContainerIdo::create(void *arg0) {
 
 }
 
-struct RecoveredGlobal_8019A9B8_lbl_80446184 {
-    s32 value;
-    u8 remaining[0xC];
-};
-
-struct RecoveredGlobal_8019A9B8_lbl_804B8F60 {
-    s32 value;
-    u8 remaining[0xC];
-};
-
-struct RecoveredGlobal_8019A880_lbl_804B8F70 {
-    s32 value;
-    u8 remaining[0x28];
-};
-
-struct RecoveredGlobal_8019A880___vt__8TObjTank {
-    s32 value;
-    u8 remaining[0x38];
-};
-
 struct Ido_8018C7BC { u8 pad[0xCC]; s32 ids[4]; };
 
-extern "C" {
 u32 container_ido_texture_gvm_handle;
+extern "C" {
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
+}
 u8 * load_gvm_texture_file(s32);
 extern s32 __vt__16TObjContainerIdo[];
-void *__dt__16TObjContainerIdoFv(void *arg0, s16 arg1);
+extern "C" {
 void free_bin_model_request(void*, int);
 s32 release_texture_list(void*);
 void *__dt__15RenderFadeStateFv(void *arg0, s16 arg1);
+}
 
 void TObjContainerIdo::free_resources() {
     if ((u32) container_ido_texture_gvm_handle != 0U) {
@@ -331,10 +290,6 @@ void TObjContainerIdo::free_resources() {
     }
 }
 
-typedef char RecoveredGlobal_8019A880_lbl_804B8F70_size[sizeof(RecoveredGlobal_8019A880_lbl_804B8F70) == 0x2C ? 1 : -1];
-typedef char RecoveredGlobal_8019A880___vt__8TObjTank_size[sizeof(RecoveredGlobal_8019A880___vt__8TObjTank) == 0x3C ? 1 : -1];
-typedef char RecoveredGlobal_8019A9B8_lbl_80446184_size[sizeof(RecoveredGlobal_8019A9B8_lbl_80446184) == 0x10 ? 1 : -1];
-typedef char RecoveredGlobal_8019A9B8_lbl_804B8F60_size[sizeof(RecoveredGlobal_8019A9B8_lbl_804B8F60) == 0x10 ? 1 : -1];
 void TObjContainerIdo::load_resources() {
     s32 temp_r3;
     s32 var_r0;
@@ -346,21 +301,19 @@ void TObjContainerIdo::load_resources() {
     (*(s32 *)&TObjContainerIdo__model_resource) = var_r0;
     (*(u8 * *)&container_ido_texture_gvm_handle) = load_gvm_texture_file((s32) "obj_containerido.GVM");
 }
-
-}
 TObjContainerIdo::~TObjContainerIdo() {
-    ((TObjCollidable *)this)->unregister_object_by_id();
+    this->unregister_object_by_id();
     free_collision_body_parts(this);
     __dt__15RenderFadeStateFv((s8 *)this + 0xF0, -1);
 }
-extern "C" {
+
 
 u8 *TObjContainerIdo__ct(u8 *arg0, s32 arg1, s32 arg2) {
     s32 i;
     ((TUnk_804B97C0 *)arg0)->init_positions();
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__16TObjContainerIdo;
-    __ct__15RenderFadeStateFv(((void *)(arg0 + 0xF0)));
-    *(const char **)((s8 *)arg0 + 0) = obj_container_ido_class_name;
+    __ct__15RenderFadeStateFv((arg0 + 0xF0));
+    ((TObjContainerIdo *)arg0)->m_name = obj_container_ido_class_name;
     ((TObjContainerIdo *)(arg0))->apply_object_set_data((void *)arg2);
     VecCopy((Vec *)(arg0 + 0xC0), (const Vec *)(arg0 + 0x38));
     VecCopy((Vec *)(arg0 + 0xB4), (const Vec *)(arg0 + 0x38));
@@ -391,4 +344,3 @@ u8 *TObjContainerIdo__ct(u8 *arg0, s32 arg1, s32 arg2) {
     return arg0;
 }
 
-}

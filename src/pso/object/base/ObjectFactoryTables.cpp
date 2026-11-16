@@ -250,7 +250,9 @@ void* TORockJungleL01__create(void* placement);
 void* TOGrassJungle__create(void* placement);
 void* TObjFish__create(void* placement);
 void* TBGLightningCtrl__create(void* placement);
+}
 void* create_lobby_pigeon(void* placement);
+extern "C" {
 void* create__10TObjPlayerFPv(void* placement);
 void* TObjPlayer__sub_802C28B4(void* placement);
 void* TObjTradeCollision__create(void* placement);

@@ -10,6 +10,7 @@
 #include "pso/quest/TQuestListVM_8007EAF8.h"
 #include "pso/ui/window/TWindowSubComCardList_8026CB08.h"
 #include "pso/ui/window/TWindowSubComCardList.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 
 struct Stack_8026C708
 {
@@ -65,8 +66,6 @@ void fn_8026C708(u8 *arg0, f32 farg0, f32 farg1, f32 farg2, f32 farg3) {
 
 }
 
-typedef struct Vec2_8026C800 { f32 x, y; } Vec2_8026C800;
-
 typedef struct Rect_8026C800 { f32 x, y, w, h; u8 pad10[0x20]; s32 f30; u8 pad34[4]; f32 f38; } Rect_8026C800;
 
 typedef struct Self_8026C800 { s8 page; s8 count; u8 pad2[6]; f32 phase; } Self_8026C800;
@@ -75,7 +74,7 @@ extern "C" {
 u32 calc_text_width(void);
 u8 get_font_char_advance(void);
 u16 map_char_to_font_code(u16 c);
-void TWindowSubStatusDisp__sub_80228F5C(s32);
+void text_builder_append_int(s32);
 void text_builder_append(u8 *str);
 }
 void text_builder_reset(void);
@@ -108,7 +107,7 @@ s32 fn_8026C7C0(void *arg0, s8 arg1) {
 #pragma fp_contract on
 #pragma readonly_strings on
 void draw_list_page_indicator(Self_8026C800 *self, Rect_8026C800 *r) {
-    Vec2_8026C800 pos;
+    NJS_POINT2 pos;
     f32 scale;
     if (r->f30 < 0) {
         return;
@@ -124,13 +123,13 @@ void draw_list_page_indicator(Self_8026C800 *self, Rect_8026C800 *r) {
     TWindowSubStatusDisp::get_player();
     set_text_draw_params((s32)r, 0, 1, (f32)scale, (f32)1e+05f);
     text_builder_reset();
-    TWindowSubStatusDisp__sub_80228F5C(self->page + 1);
+    text_builder_append_int(self->page + 1);
     get_shared_text_buffer();
     pos.x -= (f32)calc_text_width();
     map_char_to_font_code(0x2F);
     { u32 adv = get_font_char_advance(); pos.x -= 0.5f * (f32)adv; }
     text_builder_append((u8 *)"/");
-    TWindowSubStatusDisp__sub_80228F5C(self->count);
+    text_builder_append_int(self->count);
     draw_window_text((f32 *)&pos, (const char *)(get_shared_text_buffer()), -1, 0, (f32)1e+05f);
 }
 }
@@ -161,7 +160,6 @@ struct Pad_8026C9DC {
 };
 
 extern "C" {
-s32 TWindowShortListCtrl__check_controller_button(void *, u32);
 void play_sound_effect(s32, s32, s32, s32);
 extern Pad_8026C9DC controller_input_state[];
 

@@ -65,10 +65,10 @@ u16 TObjRoomId__sub_801A1DB8(void);
 void vec3_add_to(void *, void *);
 s32 restore_player_cameras(void);
 s32 activate_camera_mode(int, f32);
-s32 TCameraCtrl__sub_8006A044(int, f32);
+void start_camera_shake(s32 id, f32 v);
 s32 set_scripted_camera_pose(void *, void *, void *);
 u8 *get_scripted_camera_playback(s16);
-s32 TObjPlayer__sub_801BA42C();
+void TObjPlayer__sub_801BA42C(void);
 u8 *get_player_by_client_id(s32);
 extern u8 identity_matrix[];
 void TBoss3Volopt__sub_800FD344(s32 arg0, s32 arg1, s32 arg2, void *arg3, void *arg4);
@@ -113,21 +113,6 @@ struct VoloptBreakupParams {
     s32 count;
     f32 values[6];
 };
-
-class ViewCulledObject {
-public:
-    u8 pad_0[0x18];
-    virtual void vfunc_0();
-    virtual void vfunc_1();
-    virtual void vfunc_2();
-    virtual void vfunc_3();
-    virtual void vfunc_4();
-    virtual void vfunc_5();
-    virtual void vfunc_6();
-    virtual void vfunc_7();
-    virtual s32 update_object_view_visibility(f32 radius, f32 margin);
-};
-
 
 
 const char *TBoss3VoloptP02_name = "TBoss3VoloptP02";
@@ -452,7 +437,7 @@ void TBoss3VoloptP02::run_state() {
 }
 
 void TBoss3VoloptP02::render() {
-    if (!(actorFlags & 0x02000000) && (((ViewCulledObject *)this)->update_object_view_visibility(400.0f, 40.0f) != 0)) {
+    if (!(actorFlags & 0x02000000) && (this->update_object_view_visibility(400.0f, 40.0f) != 0)) {
         if (fade.updateFromCamera((const f32 *)&m_2fc) != 0) {
             fade.set_flags_and_apply_damage_color();
         }
@@ -488,7 +473,7 @@ void TBoss3VoloptP02::check_and_trigger() {
     if ((obj_testFlags30(0x800) == 0) && !(m_388 & 0x40000)) {
         check_and_notify();
         m_388 &= ~1;
-        ((TObjEnemyCustom *)this)->update_if_active(0xB);
+        this->update_if_active(0xB);
     }
 }
 
@@ -496,7 +481,7 @@ void TBoss3VoloptP02::set_motion(u16 target_id) {
     if ((obj_testFlags30(0x800) == 0) && !(m_388 & 0x10000) && (mode != 9)) {
         targetId = target_id;
         m_388 &= ~1;
-        ((TObjEnemyCustom *)this)->update_if_active(9);
+        this->update_if_active(9);
     }
 }
 
@@ -506,7 +491,7 @@ void TBoss3VoloptP02::set_action_wait(u16 target_id) {
         if (target_id != 0xFFFF) {
             targetId = target_id;
             m_388 &= ~1;
-            ((TObjEnemyCustom *)this)->update_if_active(0xA);
+            this->update_if_active(0xA);
         }
     }
 }
@@ -1111,7 +1096,7 @@ void TBoss3VoloptP02::update_death_sequence() {
         this->requested_action = 0;
         advance_animation();
         timer = 0x3C;
-        TCameraCtrl__sub_8006A044(0xB4, 0.04f);
+        start_camera_shake(0xB4, 0.04f);
         state = 1;
         TBoss3Volopt::start_rumble();
         break;
@@ -1572,7 +1557,7 @@ void TBoss3VoloptP02::apply_hit_reaction(f32 delay) {
         check_and_notify();
         ring_radius = 55.0f + delay;
         m_388 &= ~1;
-        ((TObjEnemyCustom *)this)->update_if_active(0xC);
+        this->update_if_active(0xC);
     }
 }
 

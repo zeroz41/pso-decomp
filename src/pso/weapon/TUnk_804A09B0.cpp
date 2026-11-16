@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/weapon/TItemWeapon.h"
 #include "pso/weapon/TUnk_804A09B0.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TMainTask.h"
@@ -11,7 +12,7 @@ void TUnk_804A09B0::emit_marker_effects() {
         launch_shot((u8 *)&pos, 0, 0, 1);
         return;
     }
-    ((TObjPlayer *)this)->update_active_game_effect();
+    ((TItemWeapon *)this)->update_active_game_effect();
 }
 
 TUnk_804A09B0::~TUnk_804A09B0() {}

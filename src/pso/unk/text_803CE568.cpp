@@ -711,7 +711,7 @@ inline CvFsDevIf *cvfs_add_device(char *name, CvFsDevIf *dev) {
     memcpy(cvfs_entry_table[k].name, name, strlen(name) + 1);
     return dev;
 }
-void TLobby__sub_803CFAA8(char *name, CvFsDevIf *(*getif)(void), s32 arg) {
+void cvFsAddDev(char *name, CvFsDevIf *(*getif)(void), s32 arg) {
     CvFsDevIf *dev;
     u32 n;
     u32 i;

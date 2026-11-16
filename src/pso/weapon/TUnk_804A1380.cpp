@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/weapon/TItemWeapon.h"
 #include "pso/weapon/TUnk_804A1380.h"
 #include "pso/item/TItemEquipVariant_80120CF8.h"
 #include "pso/unk/text_80087278.h"
@@ -18,7 +19,7 @@ void TUnk_804A1380::emit_marker_effects() {
         TTecFoie::create((void *)owner, &sp8, (void *)(*(s32 *)((s8 *)owner + 0x60)), (void *)3);
         return;
     }
-    ((TObjPlayer *)this)->update_active_game_effect();
+    ((TItemWeapon *)this)->update_active_game_effect();
 }
 
 TUnk_804A1380::TUnk_804A1380(TObject *parent, u8 *item) : TItemWeapon(parent, item) {

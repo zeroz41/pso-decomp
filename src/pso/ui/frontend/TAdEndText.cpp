@@ -29,28 +29,24 @@ struct RecoveredGlobal_8001B404_lbl_804F5800 {
     u8 remaining[0xFC];
 };
 
-struct Pos_8001AD8C { f32 x, y; };
-
 struct Box_8001AD8C { f32 x0, y0, x1, y1; };
 
 struct Self_8001AD8C {
     u8 pad0[0x24];
     f32 scroll;
-    Pos_8001AD8C pos[800];
+    NJS_POINT2 pos[800];
     u32 count;
     Box_8001AD8C box1;
     u8 pad193C[0x194C - 0x193C];
     Box_8001AD8C box2;
 };
 
-struct Pos_8001AF80 { f32 x, y; };
-
 struct Box_8001AF80 { f32 x0, y0, x1, y1; };
 
 struct Self_8001AF80 {
     u8 pad0[0x24];
     f32 scroll;
-    Pos_8001AF80 pos[800];
+    NJS_POINT2 pos[800];
     u32 count;
     Box_8001AF80 box1;
     u8 pad193C[0x194C - 0x193C];

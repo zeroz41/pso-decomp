@@ -6,13 +6,11 @@
 #include "pso/technique/TTecSlicer.h"
 #include "pso/weapon/TItemAttacker.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/player/TObjPlayer.h"
+
 
 struct Owner_80129648 { u8 pad[0x60]; s32 f60; };
 
 struct Self_80129648 { u8 pad0[0x24]; s32 f24; u8 pad28[0xF0 - 0x28]; Owner_80129648 *owner; u8 padF4[0x188 - 0xF4]; s32 f188; };
-
-struct Vec_80129648 { f32 x, y, z; };
 
 struct Tec_80129648 {
     s16 id;
@@ -29,14 +27,16 @@ struct Tec_80129648 {
     f32 f24;
     s32 f28;
     u8 pad2C[4];
-    Vec_80129648 pos;
-    Vec_80129648 dir;
+    Vec pos;
+    Vec dir;
 };
 
 extern "C" {
 s16 get_entity_id(void *);
 void TObjPlayer__sub_80128A70(void);
+}
 void init_slicer_launch_state(void *);
+extern "C" {
 s16 get_validated_attack_stage(u8 *arg0);
 s16 TObjPlayer__sub_801D2F4C(s16 *arg0);
 }
@@ -48,7 +48,7 @@ void TUnk_804A4338::emit_marker_effects() {
     init_slicer_launch_state(&tec);
     tec.id = get_entity_id(self->owner);
     tec.fC = ((TItem *)self)->get_item_id();
-    tec.f4 = self->f24;
+    tec.f4 = this->texlist;
     tec.f8 = self->f188;
     tec.f10 = TObjPlayer__sub_801D2F4C((s16 *)((u8 *)self->owner + 0x7CC));
     tec.f12 = get_validated_attack_stage((u8 *)self->owner + 0x7CC);

@@ -4,6 +4,7 @@
 #include "pso/unk/TLobby.h"
 #include "pso/ui/window/TWindowKeyBoardHard.h"
 #include "pso/network/TPacket.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 extern "C" {
 u16 to_be_uint16_t__FUs(u16);
@@ -16,6 +17,7 @@ s32 lbl_805D5D04;
 void *get_character_save_record();
 s32 memcpy(s32, void *, u16);
 s32 memset(s32, s32, s32);
+}
 
 s32 TWindowKeyBoardHard::test_card_flag(s32 arg1, s32 arg2) {
     void *character_save_record;
@@ -59,8 +61,6 @@ void TLobby::drain_deferred_packets() {
         deferred_packet_buffer_used += n;
     }
 }
-
-}
 void copy_packet(packet *arg0) {
     s32 len;
 
@@ -79,11 +79,9 @@ void buffer_reset(void) {
 }
 extern "C" {
 
-void mem_free(void *p);
 
 void TLobby__sub_801A5478(void) { mem_free((void *)deferred_packet_buffer); deferred_packet_buffer = 0; }
 
-void *mem_alloc(u32 size);
 
 void alloc_work_buffer(void) {
     deferred_packet_buffer_used = 0;

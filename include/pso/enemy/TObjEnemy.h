@@ -7,6 +7,9 @@ struct TObjEnemy : public TObjChara {
     void refresh_and_send_entity_flags();
     int submit_default_cursor_candidate();
     virtual ~TObjEnemy();
+    void draw_motion_model();
+    s32 calc_joint_matrices(f32);
+    s32 enemy_turn_toward_dest(s32);
     void send_6x0A_enemy_state(void *);
     s32 bind_enemy_combat_stats(u8 *, u8 *, u8 *);
     void set_param(s32);

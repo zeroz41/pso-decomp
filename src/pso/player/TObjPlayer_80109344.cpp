@@ -8,7 +8,6 @@ struct W_801093B4 { s32 a; s32 b; s32 c; };
 
 union V_801093B4 { W_801093B4 w; struct { f32 x; f32 y; f32 z; } f; };
 
-extern "C" {
 
 #pragma push
 #pragma opt_propagation off
@@ -54,4 +53,3 @@ void TObjPlayer::invoke_menu_callback_if_set(u32 arg0) {
     }
 }
 
-}

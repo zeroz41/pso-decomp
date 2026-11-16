@@ -11,7 +11,7 @@
 #include "pso/ui/window/TWindowAddition.h"
 #include "pso/ui/window/TWindowSubComCardList.h"
 #include "pso/ui/window/TWindowMenu.h"
-#include "pso/ui/city/TShopDeleteItemWindow.h"
+
 #include "pso/ui/city/TCheckRoomSequence.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/city/TShopEquipmentSellWindow.h"
@@ -27,7 +27,7 @@
 #include "pso/unk/text_80222C28.h"
 #include "pso/item/TItemData.h"
 #include "pso/system/task/TObject.h"
-#include "pso/ui/city/TShopWindowBase.h"
+
 
 struct Base_80337910 { char pad[0x18]; };
 struct VObj_80337910 : Base_80337910 {
@@ -89,17 +89,12 @@ s32 remove_bank_item_amount__18TCheckRoomSequenceFiii(int, int, int);
 s32 copy_item_record__18TCheckRoomSequenceFiPvi(int, void *, int);
 s32 copy_bank_to_card_window(int);
 s32 sub_8022397C__15TShopWindowBaseFv(void *);
-s32 get_cursor_value__19TWindowMenuIconLineFv(int);
-void TShopDeleteItemWindow__sub_80337E2C(Win_80337C2C *win);
 u16 get_entity_id(void *);
-f32 get_scale__15TShopWindowBaseFv(void *);
 u8 *create_yes_no_window(s32 arg0, s32 arg1, u32 arg2, u32 arg3);
 void *get_window_layout_position(int);
 s32 copy_bank_item_with_stack_limit(s32 idx, void *data, s32 *out, s32 slot);
 s32 sub_802239EC__13TShopSequenceFv(void *);
-s32 sub_80223A48__15TShopWindowBaseFv(void *);
 s16 get_child_field1c__13TShopSequenceFv(void *);
-void *__nw__7TObjectFUl(u32);
 void *__ct__18TWindowInputNumberFPvllls(void *, void *, int, s32, int, int);
 struct Base_80337980_80337910 { char pad[0x18]; };
 struct VObj_80337980_80337910 : Base_80337980_80337910 {
@@ -146,7 +141,7 @@ void TShopDeleteItemWindow::handle_confirm_dialog() {
         slot = sub_8022397C__15TShopWindowBaseFv(this);
         selected_menu_value = ((TWindowMenu *)this->m_34)->get_selected_value();
         if (selected_menu_value == 0) {
-            idx = get_cursor_value__19TWindowMenuIconLineFv(this->m_30);
+            idx = ((TWindowMenuIconLine *)(this->m_30))->get_cursor_value();
             if (copy_item_record__18TCheckRoomSequenceFiPvi(idx, &stack.sp8, slot) != 0) {
                 remove_bank_item_amount__18TCheckRoomSequenceFiii(idx, this->m_5c, slot);
                 compact_items__18TCheckRoomSequenceFi(slot);
@@ -219,10 +214,10 @@ s32 TShopDeleteItemWindow::update_item_select(void *arg0) {
     }
     if (sub_802239EC__13TShopSequenceFv(self) != 0) {
         ((TShopWindowBase *)self)->set_field_20(7);
-    } else if (sub_80223A48__15TShopWindowBaseFv(self) != 0) {
+    } else if (((TShopWindowBase *)self)->sub_80223A48() != 0) {
         if (copy_bank_item_with_stack_limit(((TWindowMenuIconLine *)self->f30)->get_cursor_value(), &kind, &count, base) != 0) {
             if (kind.kind == 3 && count > 1) {
-                p = __nw__7TObjectFUl(0x7C);
+                p = TObject::operator new(0x7C);
                 if (p != NULL) {
                     id = get_child_field1c__13TShopSequenceFv(self);
                     p = __ct__18TWindowInputNumberFPvllls(p, get_window_layout_position(0x2B), 1, count, 1, id);
@@ -237,7 +232,7 @@ s32 TShopDeleteItemWindow::update_item_select(void *arg0) {
                 self->f34 = create_yes_no_window((s32)(get_window_layout_position(0x2B)), id, 0, 0);
                 ((TCheckRoomSequence *)(self->f34))->set_ready_flag();
                 ((TWindowSubComCardList *)(self->f34))->set_selected_index(1);
-                ((TWindowAddition *)(self->f34))->set_position_xy(get_scale__15TShopWindowBaseFv(self), get_scale__15TShopWindowBaseFv(self));
+                ((TWindowAddition *)(self->f34))->set_position_xy(((TShopWindowBase *)self)->get_scale(), ((TShopWindowBase *)self)->get_scale());
                 ((TShopWindowBase *)self)->set_field_20(3);
                 ((VObj_80337B00 *)self)->m4(0x4D, 1);
             }
@@ -249,10 +244,11 @@ s32 TShopDeleteItemWindow::update_item_select(void *arg0) {
 
 #pragma push
 #pragma opt_loop_invariants off
-void TShopDeleteItemWindow__sub_80337E2C(Win_80337C2C *win) {
+void TShopDeleteItemWindow::sub_80337E2C() {
     s32 base;
     s32 cursor;
     s32 i;
+    Win_80337C2C *win = (Win_80337C2C *)this;
     win->f5c = 1;
     base = sub_8022397C__15TShopWindowBaseFv(win);
     win->room = TCheckRoomSequence::get_room_table_entry(base);
@@ -324,7 +320,7 @@ void TShopDeleteItemWindow::vfunc_11() {
     s32 (*temp_r12_2)(s32);
     switch (*(u32 *)((s8 *)arg0 + 0x20)) {
     case 0:
-        TShopDeleteItemWindow__sub_80337E2C((Win_80337C2C *)arg0);
+        ((TShopDeleteItemWindow *)arg0)->sub_80337E2C();
         return;
     case 1:
         TShopDeleteItemWindow::update_item_select(arg0);

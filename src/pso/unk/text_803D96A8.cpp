@@ -100,6 +100,7 @@ s32 push_matrix_from(void *src) {
     current_matrix = next;
     return 1;
 }
+}
 #pragma pop
 
 #pragma push
@@ -114,6 +115,7 @@ s32 pop_matrices(s32 arg0) {
     return 1;
 }
 #pragma pop
+extern "C" {
 
 asm void transform_point_by_current_matrix(const f32 *src, Vec *dst) {
 #include "orig_asm/pso/unk/text_803D96A8/transform_point_by_current_matrix.inc"

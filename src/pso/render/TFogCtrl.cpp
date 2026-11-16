@@ -17,16 +17,12 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/object/collision/TObjFogCollisionPoison.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/camera/TCameraCtrl.h"
-#include "pso/system/task/TObject.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
+#include "pso/math/AngleLookup.h"
 
-struct RecoveredGlobal_800FA95C_lbl_8049C700 {
-    s32 value;
-    u8 remaining[0x14];
-};
 
 extern "C" {
-void *__nw__7TObjectFUl(int);
 extern u32 fog_ctrl_instance;
 s32 request_fog__8TFogCtrlFPvii(u8 *arg0, s32 arg1, s32 arg2);
 extern s32 TFogCtrl__fog_instance_table[];
@@ -49,11 +45,10 @@ TFogCtrl_EOR::~TFogCtrl_EOR() {
 }
 
 
-typedef char RecoveredGlobal_800FA95C_lbl_8049C700_size[sizeof(RecoveredGlobal_800FA95C_lbl_8049C700) == 0x18 ? 1 : -1];
 u8 *TFogCtrl_EOR::init_object() {
     u8 *arg0 = (u8 *)this;
     __ct__7TObjectFP7TObject(arg0, &end_of_render_root);
-    *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_800FA95C_lbl_8049C700 *)&__vt__12TFogCtrl_EOR).value;
+    *(s32 **)((s8 *)arg0 + 0x18) = __vt__12TFogCtrl_EOR;
     m_name = TFogCtrl_EOR__name;
     return arg0;
 }
@@ -66,7 +61,7 @@ void TQuestVmDownLoadServer::destroy_instance() {
 }
 void TFogCtrl::create_instance() {
     void *o;
-    o = __nw__7TObjectFUl(0x1C);
+    o = TObject::operator new(0x1C);
     if (o != NULL) {
         o = ((TFogCtrl_EOR *)o)->init_object();
     }
@@ -128,11 +123,6 @@ s32 TFogCtrl::update_all(s32 arg0) {
     return 1;
 }
 
-struct RecoveredGlobal_800FAD08_TFogCtrl__data_80501188 {
-    s32 value;
-    u8 remaining[0xC];
-};
-
 struct ByteBlock_8 { u8 bytes[0x8]; };
 
 struct ByteBlock_20 { u8 bytes[0x20]; };
@@ -157,16 +147,9 @@ struct TFogCtrl_800FAE1C {
     f32 width;
 };
 
-typedef char RecoveredGlobal_800FAD08_TFogCtrl__data_80501188_size[sizeof(RecoveredGlobal_800FAD08_TFogCtrl__data_80501188) == 0x10 ? 1 : -1];
-
 struct RecoveredGlobal_800FB8A0___vt__8TFogCtrl {
     s32 value;
     u8 remaining[0x14];
-};
-
-struct RecoveredGlobal_800FB8A0_TFogCtrl__data_80501188 {
-    s32 value;
-    u8 remaining[0xC];
 };
 
 struct O_800FB400 { u8 pad[0x174]; s32 arr[1]; };
@@ -230,8 +213,6 @@ struct TFogCtrl_800FB92C {
 
 typedef char RecoveredGlobal_800FB8A0___vt__8TFogCtrl_size[sizeof(RecoveredGlobal_800FB8A0___vt__8TFogCtrl) == 0x18 ? 1 : -1];
 
-typedef char RecoveredGlobal_800FB8A0_TFogCtrl__data_80501188_size[sizeof(RecoveredGlobal_800FB8A0_TFogCtrl__data_80501188) == 0x10 ? 1 : -1];
-
 struct FogParam_800FBC5C {
     s32 f0;
     s32 f4;
@@ -286,10 +267,8 @@ struct O_800FB400;
 struct FogCtrl_800FB134;
 extern "C" {
 
-s32 is_split_screen();
 void read_disc_file(const char *, void *);
 s32 TFogCtrl__sub_800FAC84(void* p);
-s32 request_fog__8TFogCtrlFPvii(u8 *arg0, s32 arg1, s32 arg2);
 void TFogCtrl__sub_800FB400(O_800FB400 *self, s32 i, s32 j);
 u8 * __dt__8TFogCtrlFv(u8 *arg0, s16 arg1);
 TFogCtrl_800FB92C * __ct__8TFogCtrlFP7TObjectl(TFogCtrl_800FB92C *self, void *parent, s32 index);
@@ -297,14 +276,10 @@ void TFogCtrl__sub_800FBA54(void);
 void TFogCtrl__sub_800FBA58(void);
 void TFogCtrl__sub_800FBAAC(void);
 void create_area_fog_ctrl(void);
-void mem_free(void *p);
-void *mem_alloc(u32 size);
 void __dl__7TObjectFPv(s32);
-void *__nw__7TObjectFUl(int);
 u8 * __dt__7TObjectFv(void *, s16);
 void GXInitFogAdjTable(GXFogAdjTable_800FAE1C *, s32, void *);
 void GXSetFogRangeAdj(s32, s32, GXFogAdjTable_800FAE1C *);
-f32 sin_table_lookup(s32);
 
 extern RecoveredGlobal_800FB8A0___vt__8TFogCtrl __vt__8TFogCtrl;
 extern s32 area_fog_row_table[];
@@ -405,7 +380,7 @@ void*TFogCtrl::get_entry(int a0) {  return (char*)((*(int *)&fog_entry_array)) +
 void TFogCtrl::clear_split_screen_fog() {
     u32 temp_r3;
     if (is_split_screen() == 1) {
-        temp_r3 = *(s32 *)((s8 *)(&(*(RecoveredGlobal_800FAD08_TFogCtrl__data_80501188 *)&TFogCtrl__fog_instance_table).value) + ((TCameraCtrl::get_nth_view_player_id((int) (TCameraCtrl::get_camera_mode())) * 4) & 0x3FFFC));
+        temp_r3 = *(s32 *)((s8 *)&TFogCtrl__fog_instance_table + ((TCameraCtrl::get_nth_view_player_id((int) (TCameraCtrl::get_camera_mode())) * 4) & 0x3FFFC));
         if (temp_r3 != 0U) {
             ((TFogCtrl *)temp_r3)->clear_active_flag();
         }
@@ -765,22 +740,22 @@ void run_task__8TFogCtrlFv(Ctrl_800FB498 *arg0) {
 }
 #pragma pop
 
-u8 *__dt__8TFogCtrlFv(u8 *arg0, s16 arg1) {
+u8 *__dt__8TFogCtrlFv(u8 *fog_ctrl, s16 arg1) {
     s32 temp_r0;
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = &__vt__8TFogCtrl.value;
+    if (fog_ctrl != NULL) {
+        *(s32 **)((s8 *)fog_ctrl + 0x18) = &__vt__8TFogCtrl.value;
         reset_scene_fog();
         TParticleCtrl::end_effect_render();
-        temp_r0 = ((TFogCtrl *)arg0)->m_1c4;
+        temp_r0 = ((TFogCtrl *)fog_ctrl)->m_1c4;
         if ((temp_r0 >= 0) && (temp_r0 < 4)) {
-            *(s32 *)((s8 *)(&(*(RecoveredGlobal_800FB8A0_TFogCtrl__data_80501188 *)&TFogCtrl__fog_instance_table).value) + (temp_r0 * 4)) = 0;
+            *(s32 *)((s8 *)&TFogCtrl__fog_instance_table + (temp_r0 * 4)) = 0;
         }
-        __dt__7TObjectFv(arg0, 0);
+        __dt__7TObjectFv(fog_ctrl, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv((s32) arg0);
+            __dl__7TObjectFPv((s32) fog_ctrl);
         }
     }
-    return arg0;
+    return fog_ctrl;
 }
 
 #pragma push
@@ -878,7 +853,7 @@ void create_area_fog_ctrl(void) {
         var_r31 = 0;
         do {
             var_r3 = (s32 *)((u8 *)((s32 *)0x1C8));
-            temp_r3 = __nw__7TObjectFUl(0x1C8);
+            temp_r3 = TObject::operator new(0x1C8);
             if (temp_r3 != NULL) {
                 var_r4 = (s32 *)tl_02;
                 var_r5 = var_r31;
@@ -888,7 +863,7 @@ void create_area_fog_ctrl(void) {
         } while (var_r31 != 4);
     } else {
         var_r3 = (s32 *)((u8 *)((s32 *)0x1C8));
-        temp_r3_2 = __nw__7TObjectFUl(0x1C8);
+        temp_r3_2 = TObject::operator new(0x1C8);
         if (temp_r3_2 != NULL) {
             var_r4 = (s32 *)tl_02;
             var_r5 = 0;
@@ -943,7 +918,7 @@ void init_scene_fog_system(void) {
     TObjFogCollisionPoison::clear_state_array();
 }
 
-extern "C" {
+
 s32 area_fog_row_table[36] = {
     33, 1, 2, 3, 4, 5, 14, 15, 30, 31, 32, 23, 16, 34, 35, 34, 19, 47,
     96, 97, 98, 64, 65, 24, 25, 26, 27, 28, 40, 41, 66, 99, 100, 16, 73, 75,
@@ -953,4 +928,3 @@ FogParam_800FBC5C fog_default_entry;
 u32 fog_entry_array;
 s32 fog_update_flags;
 u32 fog_ctrl_instance;
-}

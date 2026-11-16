@@ -12,33 +12,33 @@
 #include "pso/ui/window/TWindowDD_WS_String.h"
 
 struct E_803403F8 { f32 a; f32 b; f32 c; f32 d; f32 e; s32 f; };
-struct Src_80348A9C { f32 x; f32 y; };
 
 extern "C" {
 
 extern s32 lbl_805D63F0;
 
-extern f32 lbl_805D6DC0;
-extern f32 lbl_805D6DC4;
-extern f32 lbl_805D6DCC;
-extern f32 lbl_805D6DD0;
-extern f32 lbl_805D6DD4;
-extern f32 lbl_805D6DD8;
-extern f32 lbl_805D6DDC;
-extern f32 lbl_805D6DE0;
-extern f32 lbl_805D6DE4;
-extern f32 lbl_805D6DE8;
-extern f32 lbl_805D6DEC;
-extern f32 lbl_805D6DF0;
-extern f32 lbl_805D6DF4;
-extern f32 lbl_805D6DF8;
-extern f32 lbl_805D6DFC;
-extern f32 lbl_805D6E00;
+f32 lbl_805D6DC0;
+f32 lbl_805D6DC4;
+f32 lbl_805D6DC8;
+f32 lbl_805D6DCC;
+f32 lbl_805D6DD0;
+f32 lbl_805D6DD4;
+f32 lbl_805D6DD8;
+f32 lbl_805D6DDC;
+f32 lbl_805D6DE0;
+f32 lbl_805D6DE4;
+f32 lbl_805D6DE8;
+f32 lbl_805D6DEC;
+f32 lbl_805D6DF0;
+f32 lbl_805D6DF4;
+f32 lbl_805D6DF8;
+f32 lbl_805D6DFC;
+f32 lbl_805D6E00;
 extern const f32 lbl_805DFB24;
 extern const f32 lbl_805DFB28;
 extern const f32 lbl_805DFB38;
 extern const f32 lbl_805DFBCC;
-extern Src_80348A9C TWindowDD__data_805434E8[7][8];
+extern NJS_POINT2 TWindowDD__data_805434E8[7][8];
 
 #pragma push
 #pragma dont_inline off
@@ -54,7 +54,7 @@ void TWindowDD__sub_80340A78(TWindowDD_WS_ScrollBar *self) {
     f32 quad[8];
     s32 tex;
     s32 i;
-    Src_80348A9C *uv;
+    NJS_POINT2 *uv;
     E_803403F8 *v;
     f32 z;
     f32 s;
@@ -186,12 +186,7 @@ void TWindowDD::set_scale(s32 arg1, s32 arg2) {
 extern "C" {
 
 void *dt__22TWindowDD_WS_ScrollBarFs(void *arg0, s16 arg1);
-s32 draw_visible_window_entries(s32, s32, void *, f32);
-int update_window_entry_list__11TWindowBaseFPv(void*, void*);
 void __dl__7TObjectFPv(void *);
-void *__nw__7TObjectFUl(int);
-void *draw_default_entry__9TWindowDDFl();
-int update_fade__11TWindowBaseFv(void*);
 
 extern "C" void init__9TWindowDDFv();
 extern "C" void render_shadows__7TObjectFv();
@@ -215,7 +210,7 @@ W_80340F00 *construct_variant_b__9TWindowDDFPv(W_80340F00 *arg0);
 void *TWindowDD_WS_ScrollBar::dt(s16 arg1) {
     if (this != NULL) {
         *(s32 **)((s8 *)this + 0x18) = lbl_804EFBE4;
-        ((TWindowDD *)this)->destroy_window_base(0);
+        __dt__11TWindowBaseFv(this, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(this);
         }
@@ -235,7 +230,7 @@ W_80340F00 *construct_variant_b__9TWindowDDFPv(W_80340F00 *arg0) {
 }
 
 void *TWindowDD__sub_80340F70(void) {
-    void *o = __nw__7TObjectFUl(0x70);
+    void *o = TObject::operator new(0x70);
     if (o != NULL) {
         o = (void *)construct_variant_b__9TWindowDDFPv((W_80340F00 *)o);
     }
@@ -243,34 +238,15 @@ void *TWindowDD__sub_80340F70(void) {
 }
 
 extern const f32 TWindowDD__data_805DFB18;
-extern const f32 lbl_805DFBCC;
 extern const f32 lbl_805DFB34;
 extern const f32 lbl_805DFB3C;
 extern const f32 lbl_805DFB2C;
-extern const f32 lbl_805DFB38;
 extern const f32 lbl_805DFB30;
 extern const f32 lbl_805DFBC4;
 extern const f32 lbl_805DFBBC;
 extern const f32 lbl_805DFBC8;
 extern const f32 lbl_805DFBC0;
 extern const f32 lbl_805DFC24;
-extern f32 lbl_805D6DC0;
-extern f32 lbl_805D6DC4;
-f32 lbl_805D6DC8;
-extern f32 lbl_805D6DCC;
-extern f32 lbl_805D6DD0;
-extern f32 lbl_805D6DD4;
-extern f32 lbl_805D6DD8;
-extern f32 lbl_805D6DDC;
-extern f32 lbl_805D6DE0;
-extern f32 lbl_805D6DE4;
-extern f32 lbl_805D6DE8;
-extern f32 lbl_805D6DEC;
-extern f32 lbl_805D6DF0;
-extern f32 lbl_805D6DF4;
-extern f32 lbl_805D6DF8;
-extern f32 lbl_805D6DFC;
-extern f32 lbl_805D6E00;
 
 void __sinit_TWindowDD_80340A78_cpp(void) {
     lbl_805D6DC0 = 17.0f + lbl_805DFBCC;

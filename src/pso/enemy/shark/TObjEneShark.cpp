@@ -1,4 +1,8 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/unk/SampledMotionPoints.h"
+#include "pso/camera/TCameraCtrl.h"
+#include "pso/render/RenderFadeState.h"
+#include "pso/system/task/TObject.h"
 #include "pso/effect/TUnk_80494968.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
 #include "types.h"
@@ -16,6 +20,7 @@
 #include "pso/unk/text_803D8F74.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/math/MatrixTransforms.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
 extern "C" void test_flag_1000__9TObjCharaFv();
@@ -31,11 +36,6 @@ extern "C" void test_flag_1000__9TObjCharaFv();
 extern "C" void test_flag_256__13TUnk_80493450Fv();
 
 #include <stddef.h>
-struct Stack_800ABA9C {
-    f32 sp8;
-    f32 spC;
-    f32 sp10;
-};
 
 struct RecoveredGlobal_800ABA9C_lbl_8058D490 { s32 value; u8 remaining[0x2C]; };
 typedef char RecoveredGlobal_800ABA9C_lbl_8058D490_size[sizeof(RecoveredGlobal_800ABA9C_lbl_8058D490) == 0x30 ? 1 : -1];
@@ -50,9 +50,6 @@ struct VObj_14_800ABCBC : VBase_14_800ABCBC {
 struct Obj_800ABCBC { u8 pad0[0x38]; u8 sub38[0x326 - 0x38]; s16 f326; s16 state; u8 pad32a[0x390 - 0x32A]; s32 f390; };
 
 struct RecoveredGlobal_800ABA9C_lbl_8058D490;
-typedef struct Vec_800AB31C {
-    f32 x, y, z;
-} Vec_800AB31C;
 
 typedef struct Rot_800AB31C {
     s32 x, y, z;
@@ -61,8 +58,8 @@ typedef struct Rot_800AB31C {
 typedef struct Obj_800AB31C {
     u8 pad0[0x18];
     void *vptr;
-    Vec_800AB31C pos;
-    Vec_800AB31C pos2;
+    Vec pos;
+    Vec pos2;
     u8 mtx34[0x58 - 0x34];
     f32 f58;
     s32 f5C;
@@ -71,10 +68,6 @@ typedef struct Obj_800AB31C {
     s32 f68;
 } Obj_800AB31C;
 
-typedef struct Vec_800ABB38 {
-    f32 x, y, z;
-} Vec_800ABB38;
-
 struct VBase_800ABB38 { char pad[0x18]; };
 
 struct VObj_800ABB38 : VBase_800ABB38 {
@@ -82,12 +75,12 @@ struct VObj_800ABB38 : VBase_800ABB38 {
     virtual void m1();
     virtual void m2();
     virtual void m3();
-    virtual void m4(Vec_800ABB38 *, Vec_800ABB38 *);
+    virtual void m4(Vec *, Vec *);
 };
 
 typedef struct Obj_800ABB38 {
     u8 pad0[0x38];
-    Vec_800ABB38 pos;
+    Vec pos;
     u8 pad44[0x60 - 0x44];
     s32 f60;
     u8 pad64[0xB8 - 0x64];
@@ -166,7 +159,7 @@ struct Owner_800ABDD8
 
 extern "C" {
 s32 post_translate_matrix(void *);
-s32 draw_chunk_object(s32);
+void draw_chunk_object(void *child);
 s32 push_matrix();
 extern s32 model_render_flags;
 void __dl__7TObjectFPv(void *);
@@ -188,12 +181,8 @@ void set_matrix_identity(u8 *arg0);
 extern u32 TObjEneShark__attack_motion_3_trail;
 extern u32 shark_attack4_trail_buffer;
 void vfunc_93__12TObjEneSharkFv(Obj_800ABB38 *o);
-void *__nw__7TObjectFUl(int);
-s32 get_camera_mode__11TCameraCtrlFv();
-s32 update__15RenderFadeStateFv(void *);
-s32 restore_scene_lighting();
-s32 select_actor_lighting(void *);
-s32 defer_render__7TObjectFv(void *);
+void restore_scene_lighting(void);
+void select_actor_lighting(s32 obj);
 extern s32 saved_model_render_flags;
 extern s32 saved_chunk_polygon_flags_and_mask;
 extern s32 saved_chunk_polygon_flags_or_mask;
@@ -208,49 +197,46 @@ void TObjEneShark::vfunc_101() {  }
 
 void TObjEneShark::vfunc_98() {
     s32 arg0 = (s32)this;
-    play_sound_effect((void *) (((TObjEnemy *)((void *)arg0))->remap_sound_for_area((s32)(0x4003A60C))), (void *)(arg0 + 0x38), 0, 0);
+    play_sound_effect((void *) (((TObjEnemy *)((void *)arg0))->remap_sound_for_area(0x4003A60C)), (void *)(arg0 + 0x38), 0, 0);
     TObjPlayer::play_effect_if_v2(-0x300);
 }
 
 void TObjEneShark::vfunc_97() {
     s32 arg0 = (s32)this;
-    play_sound_effect((void *) (((TObjEnemy *)((void *)arg0))->remap_sound_for_area((s32)(0x4003A60B))), (void *)(arg0 + 0x38), 0, 0);
+    play_sound_effect((void *) (((TObjEnemy *)((void *)arg0))->remap_sound_for_area(0x4003A60B)), (void *)(arg0 + 0x38), 0, 0);
     TObjPlayer::play_effect_if_v2(-0x300);
 }
 
 void TObjEneShark::vfunc_96() {
     s32 arg0 = (s32)this;
-    play_sound_effect((void *) (((TObjEnemy *)((void *)arg0))->remap_sound_for_area((s32)(0x4003A60D))), (void *)(arg0 + 0x38), 0, 0);
+    play_sound_effect((void *) (((TObjEnemy *)((void *)arg0))->remap_sound_for_area(0x4003A60D)), (void *)(arg0 + 0x38), 0, 0);
 }
 
 void TObjEneShark::vfunc_95() {
     s32 arg0 = (s32)this;
-    play_sound_effect((void *) (((TObjEnemy *)((void *)arg0))->remap_sound_for_area((s32)(0x4003A60B))), (void *)(arg0 + 0x38), 0, 0);
+    play_sound_effect((void *) (((TObjEnemy *)((void *)arg0))->remap_sound_for_area(0x4003A60B)), (void *)(arg0 + 0x38), 0, 0);
     TObjPlayer::play_effect_if_v2(-0x300);
 }
 
 void TObjEneShark::vfunc_94() {
     u8 *arg0 = (u8 *)this;
-    typedef char sp8_offset[(offsetof(Stack_800ABA9C, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_800ABA9C, spC) == 0x4) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_800ABA9C, sp10) == 0x8) ? 1 : -1];
-    Stack_800ABA9C stack;
-    stack.sp8 = 0.0f;
-    stack.spC = 10.0f;
-    stack.sp10 = 0.5f * *(f32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x2B0)) + 0x10);
+    Vec stack;
+    stack.x = 0.0f;
+    stack.y = 10.0f;
+    stack.z = 0.5f * *(f32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x2B0)) + 0x10);
     push_matrix_from(&identity_matrix.value);
     rotate_matrix_y(0, this->rotation_y);
-    rotate_vector_by_matrix(0, &stack.sp8, &stack.sp8);
+    rotate_vector_by_matrix(0, &stack.x, &stack.x);
     pop_matrix();
-    vec3_add_to(&stack.sp8, (u8 *)&this->position);
-    ((TObjPlayer *)(&stack.sp8))->spawn_ground_effect(0x23);
-    TObjPlayer__sub_800D92BC((s32)&stack.sp8, 0xF);
+    vec3_add_to(&stack.x, (u8 *)&this->position);
+    ((TObjPlayer *)(&stack.x))->spawn_ground_effect(0x23);
+    TObjPlayer__sub_800D92BC((s32)&stack.x, 0xF);
 }
 
 void TObjEneShark::vfunc_93() {
     Obj_800ABB38 *o = (Obj_800ABB38 *)this;
-    Vec_800ABB38 b;
-    Vec_800ABB38 a;
+    Vec b;
+    Vec a;
     u32 e;
     s32 idx;
     VObj_800ABB38 *eff;
@@ -374,7 +360,7 @@ void TObjEneShark::render() {
   mode = 0;
   if (is_split_screen() != 0)
   {
-    mode = get_camera_mode__11TCameraCtrlFv();
+    mode = TCameraCtrl::get_camera_mode();
   }
   res = PSO_VCALL_VObj_18_800ABDD8_m9(arg0, 200.0f, 400.0f, 30.0f);
   if (res == 0)
@@ -385,10 +371,10 @@ void TObjEneShark::render() {
   if (TObjEneDD::check_v2_mode() != 0)
   {
     u8 *f = (u8 *) (&((Owner_800ABDD8 *) arg0)->fades[mode]);
-    update__15RenderFadeStateFv(f);
+    ((RenderFadeState *)f)->update();
     fade = ((RenderFadeState *)f)->updateFromCamera((const f32*)(arg0 + 0x2FC));
   }
-  select_actor_lighting(arg0);
+  select_actor_lighting((s32)arg0);
   model_render_flags |= 1;
   TObjFish::set_global_param(*((s32 *) (((s8 *) arg0) + 0x24)));
   push_matrix();
@@ -397,7 +383,7 @@ void TObjEneShark::render() {
   rotate_matrix_y(0, this->rotation_y);
   if (TObjPlayer::check_demo_mode() == 1)
   {
-    draw_chunk_object(*((s32 *) (((s8 *) arg0) + 0x34)));
+    draw_chunk_object((void *)(*((s32 *) (((s8 *) arg0) + 0x34))));
   }
   else
   {
@@ -438,7 +424,7 @@ void TObjEneShark::render() {
         saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
         saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
         ((VObj_14_800ABDD8 *) (arg0 + 0x3A8))->m6();
-        if (defer_render__7TObjectFv(arg0) == 0)
+        if (((TObject *)arg0)->defer_render() == 0)
         {
           model_render_flags |= 1;
           ((TObjMotion *)arg0)->draw();
@@ -458,7 +444,7 @@ void TObjEneShark::render() {
       }
       if (fade != 0)
       {
-        if (defer_render__7TObjectFv(arg0) == 0)
+        if (((TObject *)arg0)->defer_render() == 0)
         {
           if (res == 1)
           {
@@ -526,7 +512,7 @@ void TObjEneShark::render() {
 #include "pso/enemy/beast/TObjEneBeast.h"
 #include "pso/enemy/sinowzoa/TObjEneMe3SinowZoa.h"
 #include "pso/enemy/panarms/TObjEnePanarms.h"
-#include "pso/render/RenderFadeState.h"
+
 #include "pso/ui/hud/TNowLoading.h"
 
 struct E_800AC9DC { u8 pad[8]; s32 x8; s32 xc; };
@@ -567,9 +553,8 @@ s32 dispatch_shared_handler_a__6TLobbyFl(int);
 s32 register_object__6TLobbyFl(int);
 s32 dispatch_shared_handler_b__6TLobbyFl(int);
 s32 register_boss__6TLobbyFl(int);
-u8 *load_enemy_bml_resource_named(void *, void *);
+s32 load_enemy_bml_resource_named(s32 arg0, s32 arg1);
 u8 *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-void *mem_alloc(u32 size);
 extern u8 bm_ene_bm1_shark_a_bml_filename[];
 extern u32 TObjEneShark__resource_node;
 extern u32 TObjEneShark__resource_buf;
@@ -578,7 +563,6 @@ extern u32 shark_resource_buffer;
 void vfunc_99__13TUnk_80493450Fv(void);
 void free_bin_model_request(void*, int);
 void *__ct__11TObjControlFP7TObject(void *, void *);
-void mem_free(void*);
 
 extern void *tl_04;
 
@@ -763,11 +747,11 @@ void *lbl_8049168C[103] = {
 void *TObjEneShark::create(void *arg0) {
     void *o;
     void *o2;
-    o = __nw__7TObjectFUl(0x20);
+    o = TObject::operator new(0x20);
     if (o != NULL) {
         o = __ct__11TObjControlFP7TObject(o, tl_04);
     }
-    o2 = __nw__7TObjectFUl(0x43C);
+    o2 = TObject::operator new(0x43C);
     if (o2 != NULL) {
         o2 = TObjEneShark__ct(o2, o, arg0);
     }
@@ -817,7 +801,7 @@ void TLobby::load_shark_resources() {
     void *p;
     s32 i;
     if (TObjEneDD::check_v2_mode() != 0) {
-        G_B8 = load_enemy_bml_resource_named(bm_ene_bm1_shark_resource_descriptor, bm_ene_bm1_shark_a_bml_filename);
+        G_B8 = (u8 *)load_enemy_bml_resource_named((s32)bm_ene_bm1_shark_resource_descriptor, (s32)bm_ene_bm1_shark_a_bml_filename);
     } else {
         p = ::operator new(0x440);
         if (p != NULL) {
@@ -866,7 +850,7 @@ O_800AC5EC *__dt__12TObjEneSharkFv(O_800AC5EC *arg0, s16 arg1) {
         arg0->vptr = lbl_8049168C;
         for (i = 0; i < 2; i++) {
             if (arg0->objs[i] != NULL) {
-                queue_destruction__7TObjectFv(arg0->objs[i]);
+                ((TObject *)arg0->objs[i])->queue_destruction();
                 arg0->objs[i] = NULL;
             }
         }
@@ -1000,7 +984,7 @@ void *TObjEneShark__ct(void *arg0, void *arg1, void *arg2) {
     ((TObjEnemy *)self)->update_prev_position();
     ((TBoss3VoloptHiraisin *)self)->copy_position();
     initialize_enemy_photon_effect(self);
-    self->f2AC = (s32)(182.04445f * (360.0f * random_ratio__9TObjCharaFv((s32)self)));
+    self->f2AC = (s32)(182.04445f * (360.0f * ((TObjChara *)self)->random_ratio()));
     self->f33A = 0xF;
     self->f33C = self->f33A;
     self->f328 = 0;
@@ -1083,9 +1067,6 @@ s32 TObjEneMoja::calc_technique_level() {
     }
     return v;
 }
-}
-
-extern "C" {
 const char *TObjEneShark_name_ref = TObjEneShark__class_name_string;
 
 u32 TObjEneShark__resource_node;

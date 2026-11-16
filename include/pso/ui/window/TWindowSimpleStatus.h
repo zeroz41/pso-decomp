@@ -23,7 +23,7 @@ struct TWindowSimpleStatus : public TWindowBase {
     u32 m_60;
     virtual void run_task();
     void *create(void *arg1);
-    u8 unk_64[0x14];
+    TWindowBase *w[5]; // child windows; the dtor closes the first four
 };
 
 typedef char TWindowSimpleStatus_size[sizeof(TWindowSimpleStatus) == 0x78 ? 1 : -1];

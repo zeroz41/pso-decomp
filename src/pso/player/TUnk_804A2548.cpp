@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/weapon/TItemWeapon.h"
 #include "pso/item/TUnk_804E355C.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/player/TUnk_804A2548.h"
@@ -24,9 +25,9 @@ void *TObjPlayer__sub_802E449C(void *a0);
 }
 void spawn_faust_explosion(u32 a0, const Vec &pos);
 
-u8 *create_panzer_faust(s32 arg0) {
-    if (arg0 != 0) {
-        return (u8 *)new TUnk_804A2564(tl_05, (u8 *)arg0);
+u8 *create_panzer_faust(s32 item) {
+    if (item != 0) {
+        return (u8 *)new TUnk_804A2564(tl_05, (u8 *)item);
     }
     return NULL;
 }
@@ -93,7 +94,7 @@ void spawn_faust_explosion(u32 a0, const Vec &pos) {
     if (((TItem *)a0)->get_item_index() == 1) {
         S_802E449C info;
         TObjPlayer__sub_802E449C(&info);
-        ((TObjPlayer *)a0)->fill_status_info(&info);
+        ((TItemWeapon *)a0)->fill_status_info(&info);
         VecCopy(&info.position, &pos);
         info.hits = 10;
         new TUnk_804A2548(tl_05, &info);

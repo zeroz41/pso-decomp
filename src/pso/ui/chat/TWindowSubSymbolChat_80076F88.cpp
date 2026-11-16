@@ -11,6 +11,9 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/chat/TWindowChat.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/network/protocol/protocol_types.h"
+#include "pso/unk/TLobby_801E43E4.h"
+#include "pso/system/byteswap.h"
 
 struct E_80077480 { u8 pad[0x58]; };
 
@@ -283,3 +286,21 @@ void TLobby__sub_80077608(void) {  }
     extern unsigned char symbol_chat_receive_buffer[];
     extern unsigned char pending_symbol_chat_count;
 void clear_received_symbol_chat(void) { pending_symbol_chat_count = 0; ((TWindowSubSymbolChat *)symbol_chat_receive_buffer)->clear_entries(); }
+
+
+extern "C" {
+
+
+void*TWindowSubSymbolChat::get_data_ptr() { return (char*)this + 0x1c; }
+void TWindowSubSymbolChat::bswap_symbol_chat_packet() { ((G_ClientIDHeader *)this)->bswap(); bswap_32((u32 *)((char*)this + 0x4)); ((TWindowSubSymbolChat *)((char*)this + 0x8))->byteswap_entry(); }
+void TWindowSubSymbolChat::byteswap_entry() { bswap_32((u32 *)this); { int i; for (i = 0; i < 4; i++) { bswap_16((u16 *)((char*)this + 0x4 + i * 2)); } } }
+void TWindowSubSymbolChat::send_symbol_chat() { bswap_symbol_chat_packet(); ((TLobby *)this)->update_players(); }
+void TWindowSubSymbolChat__sub_80077704(void* p) { *(u8*)((char*)p + 0x0) = 7; *(u8*)((char*)p + 0x1) = 17; }
+
+    extern int selected_symbol_chat_preset;
+int TWindowSubSymbolChat::get_instance() {  return selected_symbol_chat_preset; }
+
+int TWindowSubSymbolChat::is_initialized() { return *(u32 *)&this->m_name & 0x1; }
+void TWindowSubSymbolChat::bswap_entry() { bswap_32((u32 *)this); ((TWindowSubSymbolChat *)((char*)this + 0x1c))->byteswap_entry(); }
+
+}

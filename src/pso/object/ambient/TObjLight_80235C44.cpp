@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/NinjaTypes.h"
+#include "pso/object/ambient/TObjLight_80235C44.h"
 #include "types.h"
 #include "pso/effect/TEffect.h"
 #include "pso/object/TUnk_804CCAA8.h"
@@ -18,7 +19,7 @@
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/system/task/TObject.h"
-#include "pso/player/TObjPlayer.h"
+
 
 static const f32 lbl_805DC888[1] = {1.0f};
 static const f32 lbl_805DC88C[1] = {0.0f};
@@ -28,25 +29,13 @@ struct Stack_80235E9C {
     u8 trailing_storage[0xC];
 };
 
-struct RecoveredGlobal_80235E9C_lbl_804CCAA8 {
-    s32 value;
-    u8 remaining[0x14];
-};
-
-struct RecoveredGlobal_80235F60_lbl_804CCAA8 {
-    s32 value;
-    u8 remaining[0x14];
-};
-
-struct Vec_80235C44 { f32 x, y, z; };
-
 struct Light_80235C44 {
     u8 task[0x1C];
     s32 duration;
     u32 phase;
     NJS_ARGB color;
-    Vec_80235C44 desired;
-    Vec_80235C44 direction;
+    Vec desired;
+    Vec direction;
     s32 age;
     f32 step;
     s32 source;
@@ -63,7 +52,6 @@ u16 get_entity_id(void *);
 s32 __ct__7TObjectFP7TObject(void *, void *);
 extern s32 __vt__13TUnk_804CCAA8[];
 
-u8 *construct_actor_light_task(u8 *arg0, u8 *arg1, u8 *arg2, s32 arg3, u8 *arg4, u8 *arg5, f32 farg0);
 void publish_actor_light_scalars(u32 arg0, f32 farg0, f32 farg1);
 void publish_light_direction_color(u32 id, void *dir, void *color);
 s32 approach_vector_fixed_distance(void *, void *, void *, f32);
@@ -73,7 +61,7 @@ extern Base_80235C44 TObjLight__scene_light_state;
 #pragma fp_contract on
 void TUnk_804CCAA8::run_task() {
     Light_80235C44 *arg0 = (Light_80235C44 *)this;
-    Vec_80235C44 baseDir;
+    Vec baseDir;
     NJS_ARGB baseColor;
     NJS_ARGB unused;
     f32 mid;
@@ -117,11 +105,10 @@ TUnk_804CCAA8::~TUnk_804CCAA8() {
 
 }
 
-typedef char RecoveredGlobal_80235E9C_lbl_804CCAA8_size[sizeof(RecoveredGlobal_80235E9C_lbl_804CCAA8) == 0x18 ? 1 : -1];
 u8 *TObjLight::construct_actor_light(s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, f32 farg0, f32 farg1, f32 farg2, s32 arg_sp0) {
     Stack_80235E9C stack;
     __ct__7TObjectFP7TObject(this, (void *)arg5);
-    *(s32 **)((s8 *)((u8 *)this) + 0x18) = &(*(RecoveredGlobal_80235E9C_lbl_804CCAA8 *)&__vt__13TUnk_804CCAA8).value;
+    *(s32 **)((s8 *)((u8 *)this) + 0x18) = __vt__13TUnk_804CCAA8;
     copy_argb((NJS_ARGB *)(((u8 *)this) + 0x24), (NJS_ARGB *)arg1);
     VecCopy((Vec *)(((u8 *)this) + 0x34), (const Vec *)(arg2));
     *(s32 *)&this->entity_id = arg3;
@@ -135,12 +122,11 @@ u8 *TObjLight::construct_actor_light(s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32
     TObjLight::find_light_params((f32 *)(((u8 *)this) + 0x40), (f32 *)&stack.sp8, (u32)((int) ((s32) *(u16 *)&this->rotation_y)));
     return ((u8 *)this);
 }
-typedef char RecoveredGlobal_80235F60_lbl_804CCAA8_size[sizeof(RecoveredGlobal_80235F60_lbl_804CCAA8) == 0x18 ? 1 : -1];
-u8 *construct_actor_light_task(u8 *arg0, u8 *arg1, u8 *arg2, s32 arg3, u8 *arg4, u8 *arg5, f32 farg0) {
+u8 *construct_actor_light_task(u8 *arg0, NJS_ARGB *njs_argb, u8 *arg2, s32 arg3, u8 *arg4, u8 *arg5, f32 farg0) {
     s32 sp8;
     __ct__7TObjectFP7TObject(arg0, arg5);
-    *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_80235F60_lbl_804CCAA8 *)&__vt__13TUnk_804CCAA8).value;
-    copy_argb((NJS_ARGB *)(arg0 + 0x24), (NJS_ARGB *)arg1);
+    *(s32 **)((s8 *)arg0 + 0x18) = __vt__13TUnk_804CCAA8;
+    copy_argb((NJS_ARGB *)(arg0 + 0x24), njs_argb);
     VecCopy((Vec *)(arg0 + 0x34), (const Vec *)arg2);
     *(s32 *)((s8 *)arg0 + 0x1C) = arg3;
     ((TUnk_804CCAA8 *)arg0)->m_4c = 0;
@@ -154,12 +140,6 @@ u8 *construct_actor_light_task(u8 *arg0, u8 *arg1, u8 *arg2, s32 arg3, u8 *arg4,
     return arg0;
 }
 
-struct Stack_8023601C {
-    f32 sp8;
-    f32 spC;
-    f32 sp10;
-};
-
 extern "C" {
 f32 vec_squared_length(void *, f32);
 s32 normalize_vector(void *);
@@ -169,19 +149,19 @@ extern u8 *camera_ctrl_instance;
 #pragma push
 #pragma fp_contract on
 void offset_point_toward_camera(u8 *arg0, u8 *arg1, f32 farg0) {
-    Stack_8023601C stack;
+    Vec stack;
     f32 temp_f1;
     if ((void *) camera_ctrl_instance != NULL) {
-        stack.sp8 = *(f32 *)((s8 *)camera_ctrl_instance + 0x178) - *(f32 *)((s8 *)arg0 + 0);
-        stack.spC = *(f32 *)((s8 *)camera_ctrl_instance + 0x17C) - *(f32 *)((s8 *)arg0 + 4);
+        stack.x = *(f32 *)((s8 *)camera_ctrl_instance + 0x178) - *(f32 *)((s8 *)arg0 + 0);
+        stack.y = *(f32 *)((s8 *)camera_ctrl_instance + 0x17C) - *(f32 *)((s8 *)arg0 + 4);
         temp_f1 = *(f32 *)((s8 *)camera_ctrl_instance + 0x180);
-        stack.sp10 = temp_f1 - *(f32 *)((s8 *)arg0 + 8);
-        if (lbl_805DC88C[0] != vec_squared_length(&stack.sp8, temp_f1)) {
-            normalize_vector(&stack.sp8);
+        stack.z = temp_f1 - *(f32 *)((s8 *)arg0 + 8);
+        if (lbl_805DC88C[0] != vec_squared_length(&stack.x, temp_f1)) {
+            normalize_vector(&stack.x);
         }
-        *(f32 *)((s8 *)arg1 + 0) = (f32) ((stack.sp8 * farg0) + *(f32 *)((s8 *)arg0 + 0));
-        *(f32 *)((s8 *)arg1 + 4) = (f32) ((stack.spC * farg0) + *(f32 *)((s8 *)arg0 + 4));
-        *(f32 *)((s8 *)arg1 + 8) = (f32) ((stack.sp10 * farg0) + *(f32 *)((s8 *)arg0 + 8));
+        *(f32 *)((s8 *)arg1 + 0) = (f32) ((stack.x * farg0) + *(f32 *)((s8 *)arg0 + 0));
+        *(f32 *)((s8 *)arg1 + 4) = (f32) ((stack.y * farg0) + *(f32 *)((s8 *)arg0 + 4));
+        *(f32 *)((s8 *)arg1 + 8) = (f32) ((stack.z * farg0) + *(f32 *)((s8 *)arg0 + 8));
     }
 }
 #pragma pop
@@ -207,13 +187,6 @@ struct Stack_80236290 {
     u8 trailing_storage[0x8];
 };
 
-struct RecoveredGlobal_80236290_lbl_80516150 {
-    s32 value;
-    u8 remaining[0x84];
-};
-
-struct Vec_80236154 { f32 x, y, z; };
-
 struct Contact_80236154 { u8 pad[0x18]; u32 flags; };
 
 struct PlayerData_80236154 { u8 pad[0x30]; u32 flags; };
@@ -225,9 +198,7 @@ struct List_80236154 {
     u32 reserved84;
 };
 
-struct RecoveredGlobal_80236290_lbl_80516150;
 struct PlayerData_80236154;
-struct Vec_80236378 { f32 x, y, z; };
 
 struct Contact_80236378 { u8 pad[0x18]; u32 flags; };
 
@@ -240,8 +211,6 @@ struct List_80236378 {
     u32 reserved84;
 };
 
-struct Vec_802364D8 { f32 x, y, z; };
-
 struct Contact_802364D8 { u8 pad[0x18]; u32 flags; };
 
 struct PD_802364D8 { u8 pad[0x30]; u32 flags; };
@@ -252,8 +221,6 @@ struct List_802364D8 {
     s32 count;
     u32 reserved84;
 };
-
-struct Vec_802367D8 { f32 x, y, z; };
 
 struct Contact_802367D8 { u8 pad[0x18]; u32 flags; };
 
@@ -271,8 +238,6 @@ struct Sub_802367D8 { u8 pad[0xC]; f32 fC; f32 f10; };
 struct Proxy_802367D8 { u8 pad[0xA4]; Sub_802367D8 *a4; };
 
 struct Self_802367D8 { u8 pad[0x128]; Proxy_802367D8 *proxy; f32 f12c; };
-
-struct Vec_80236A20 { f32 x, y, z; };
 
 struct Contact_80236A20 { u8 pad[0x18]; u32 flags; };
 
@@ -307,17 +272,15 @@ s32 TObjPlayer::is_valid_and_active(u32 arg0) {
     return 0;
 }
 }
-RecoveredGlobal_80236290_lbl_80516150 technique_contact_query_results;
+TechniqueContactQueryResults technique_contact_query_results;
 
 void resetTechniqueContactQuery();
 
 s32 find_support_technique_contact(void *self, int target, void *_w2, void *_w3);
 s32 find_area_technique_contact(void *self, int target, void *_w2, void *arg3);
-typedef char RecoveredGlobal_80236290_lbl_80516150_size[sizeof(RecoveredGlobal_80236290_lbl_80516150) == 0x88 ? 1 : -1];
 
-struct RecoveredGlobal_80236290_lbl_80516150;
 s32 find_support_technique_contact(void *self, int target, void *_w2, void *_w3) {
-    Vec_80236154 pos;
+    Vec pos;
     f32 range;
     s32 i;
     PlayerData_80236154 *pd;
@@ -378,7 +341,7 @@ loop_3:
 }
 
 s32 find_area_technique_contact(void *self, int target, void *_w2, void *arg3) {
-    Vec_80236378 pos;
+    Vec pos;
     f32 range;
     PD_80236378 *pd;
     s32 i;
@@ -412,7 +375,7 @@ s32 find_area_technique_contact(void *self, int target, void *_w2, void *arg3) {
 }
 
 s32 TObjPlayer::collect_body_contacts(int target, void *_w2, void *player) {
-    Vec_802364D8 pos;
+    Vec pos;
     PD_802364D8 *e;
     PD_802364D8 *pd;
     s32 i;
@@ -477,7 +440,7 @@ void TUnk_804CC148::find_area_contact(s32 arg1) {
 }
 
 void TObjPlayer::collect_body_contacts_for_target(s32 player) {
-    collect_body_contacts((int)((int) (*(s32 *)&this->blend.motion[1])), (u8 *)&this->previous_action, (void *)player);
+    collect_body_contacts((int)(this->blend.motion[1]), (u8 *)&this->previous_action, (void *)player);
 }
 
 void TObjPlayer::find_support_technique_contact_for_target(s32 arg1) {
@@ -491,8 +454,8 @@ void TObjPlayer::gather_contacts_for_self(s32 arg1) {
 }
 
 u8 *TUnk_804CCC68::query_technique_enemy_contacts(s32 arg) {
-    Vec_802367D8 pos;
-    Vec_802367D8 d;
+    Vec pos;
+    Vec d;
     f32 range;
     f32 *pp;
     PD_802367D8 *pd;
@@ -547,8 +510,8 @@ u8 *TUnk_804CCC68::query_technique_enemy_contacts(s32 arg) {
 }
 
 u8 *TUnk_804CCC68::query_technique_player_contacts(s32 arg) {
-    Vec_80236A20 pos;
-    Vec_80236A20 d;
+    Vec pos;
+    Vec d;
     f32 range;
     f32 *pp;
     PD_80236A20 *e;

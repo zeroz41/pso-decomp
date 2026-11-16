@@ -9,6 +9,7 @@
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/unk/TLobby_800FA2A0.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 struct Obj_8001F8D8 { u8 pad0[4]; s32 f4; s32 f8; s32 fc; u8 pad10[0x418 - 0x10]; s32 f418; u8 pad41c[0x434 - 0x41c]; s32 f434; s32 f438; s32 f43c; };
 
@@ -167,19 +168,17 @@ s32 load_gvm_texture_archive(s32, s32);
 s32 set_stream_state__6TLobbyFi(s32, s32);
 s32 create_file_load_entry__6TLobbyFllUllPPv(void *, s32, void *, void *, void *);
 s32 TLobby__sub_800F9FF4(s32);
-void mem_free(void *p);
 s32 release_texture_list(void *);
 Lobby_8001FE7C *free_bin_model_request(Lobby_8001FE7C *self, s16 del);
 u32 prs_decompress_buffer(s32 arg0, s32 arg1);
-void *mem_alloc(u32 size);
 char *strncpy(char *dest, const char *src, unsigned long num);
 extern u8 *resource_decompress_buffer;
 extern s32 disc_read_filename;
 extern s32 lbl_805D2B10;
 TBinModel *load_resource_from_descriptor(TBinModel *self, s32 kind, Desc_80020004 *desc, s32 on_loaded, s32 on_loaded_arg, s32 load_buffer);
 s32 bind_bml_model(Lobby_8001FBEC *arg0, u32 arg1, s32 arg2, s32 arg3);
-s32 TLobby__sub_803CC4C0(u32);
-s32 TLobby__sub_803CC53C(void);
+s32 adxf_get_stat(u32);
+s32 adxf_get_fsize_sct(void);
 u32 adxf_open__6TLobbyFUii(void *, s32);
 void TItemDrop__sub_800FE2D8(void);
 s32 TLobby__sub_801E38A0(s32, s32, s32, s32, u32 *);
@@ -195,7 +194,7 @@ AnimationMotion *get_bml_motion(BmlResource *resource, s32 index) {
     return resource->motions[index].motion;
 }
 
-s32 TObjFish__sub_8001EDB0(BmlResource *resource, s32 index) {
+s32 get_bml_texlist(BmlResource *resource, s32 index) {
     return resource->models[index].m_c;
 }
 
@@ -247,7 +246,7 @@ s32 TLobby::tmp_buf_use_req(const char *name) {
 // ---- 0x8001EF5C-0x80020898 ----
 void TLobby::free_if_not_owner(void* a1) { if (*(unsigned int*)((char*)this + 0x424) == 0) { xfree__FPv(a1); } }
 
-s32 alloc_load_data__6TLobbyFPviii(void *arg0, s32 base, s32 arg2, s32 arg3) {
+s32 alloc_load_data__6TLobbyFPviii(void *arg0, s32 base, s32 off, s32 out) {
     u32 sp8;
     s32 buf;
     u32 temp_r4;
@@ -256,13 +255,13 @@ s32 alloc_load_data__6TLobbyFPviii(void *arg0, s32 base, s32 arg2, s32 arg3) {
     temp_r7 = *(u32 *)((s8 *)arg0 + 0x424);
     if (temp_r7 != 0U) {
         buf = temp_r7 + *(s32 *)((s8 *)arg0 + 0x428);
-        TLobby__sub_801E38A0(base, arg2, arg3, buf, &sp8);
+        TLobby__sub_801E38A0(base, off, out, buf, &sp8);
         temp_r4 = ((sp8 >> 5U) + 1) << 5;
         sp8 = temp_r4;
         *(s32 *)((s8 *)arg0 + 0x428) = (s32) (*(s32 *)((s8 *)arg0 + 0x428) + temp_r4);
         return buf;
     }
-    return load_nj_chunk_model_resource(base, arg2, arg3);
+    return load_nj_chunk_model_resource(base, off, out);
 }
 
 void TLobby::load_texture_sub(void *arg1, s32 arg2) {
@@ -326,7 +325,7 @@ s32 TLobby::load_bml_exec(u8 *arg0, u8 *arg1) {
             TLobby::reset_read_state();
             ((TLobby *)lobby_bml_file_handle)->close_adxf_handle();
             self->state = 9;
-        } else if (TLobby__sub_803CC4C0(lobby_bml_file_handle) == 3) {
+        } else if (adxf_get_stat(lobby_bml_file_handle) == 3) {
             TLobby::reset_read_state();
             switch (lbl_805D4AE0[8]) {
             case 0x50:
@@ -366,7 +365,7 @@ s32 TLobby::load_bml_exec(u8 *arg0, u8 *arg1) {
             TLobby::reset_read_state();
             ((TLobby *)lobby_bml_file_handle)->close_adxf_handle();
             self->state = 9;
-        } else if (TLobby__sub_803CC4C0(lobby_bml_file_handle) == 3) {
+        } else if (adxf_get_stat(lobby_bml_file_handle) == 3) {
             TLobby::reset_read_state();
             switch ((s8) bml_load_state) {
             case 1: {
@@ -418,7 +417,7 @@ s32 TLobby::load_bml_exec(u8 *arg0, u8 *arg1) {
             TLobby::reset_read_state();
             ((TLobby *)lobby_bml_file_handle)->close_adxf_handle();
             self->state = 9;
-        } else if (TLobby__sub_803CC4C0(lobby_bml_file_handle) == 3) {
+        } else if (adxf_get_stat(lobby_bml_file_handle) == 3) {
             TLobby::reset_read_state();
             switch ((s8) bml_load_state) {
             case 1: {
@@ -452,7 +451,7 @@ s32 TLobby::load_bml_exec(u8 *arg0, u8 *arg1) {
             change_file_extension__6TLobbyFPvPvPv((char *)(0), (char *)bml_header_record_ptr, "gvm");
             lobby_bml_file_handle = adxf_open__6TLobbyFUii(bml_header_record_ptr, 0);
             if (lobby_bml_file_handle != 0) {
-                n = TLobby__sub_803CC53C();
+                n = adxf_get_fsize_sct();
                 if (n > 0x80) {
                     TLobby::debug_print("LoadBmlExec: %s Too Large(%08x)", bml_header_record_ptr, n << 11);
                     bml_load_entry_index++;
@@ -481,7 +480,7 @@ s32 TLobby::load_bml_exec(u8 *arg0, u8 *arg1) {
             TLobby::reset_read_state();
             ((TLobby *)lobby_bml_file_handle)->close_adxf_handle();
             self->state = 9;
-        } else if (TLobby__sub_803CC4C0(lobby_bml_file_handle) == 3) {
+        } else if (adxf_get_stat(lobby_bml_file_handle) == 3) {
             TLobby::reset_read_state();
             load_gvm_texture_archive((s32) lobby_bml_read_buffer, (s32) self->entries[bml_load_entry_index].texture);
             self->entries[bml_load_entry_index].flags |= 1;

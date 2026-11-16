@@ -100,10 +100,10 @@ void init_md5_state(MD5Context *ctx) {
 #define H(x, y, z) ((x) ^ (y) ^ (z))
 #define I(x, y, z) ((y) ^ ((x) | (~z)))
 #define ROTATE_LEFT(x, n) (((x) << (n)) | ((x) >> (32 - (n))))
-#define FF(a, b, c, d, x, s, ac) { (a) += F((b), (c), (d)) + (x) + (u32)(ac); (a) = ROTATE_LEFT((a), (s)); (a) += (b); }
-#define GG(a, b, c, d, x, s, ac) { (a) += G((b), (c), (d)) + (x) + (u32)(ac); (a) = ROTATE_LEFT((a), (s)); (a) += (b); }
-#define HH(a, b, c, d, x, s, ac) { (a) += H((b), (c), (d)) + (x) + (u32)(ac); (a) = ROTATE_LEFT((a), (s)); (a) += (b); }
-#define II(a, b, c, d, x, s, ac) { (a) += I((b), (c), (d)) + (x) + (u32)(ac); (a) = ROTATE_LEFT((a), (s)); (a) += (b); }
+#define FF(a, b, c, d, x, s, ac) { (a) += F((b), (c), (d)) + (x) + ac; (a) = ROTATE_LEFT((a), (s)); (a) += (b); }
+#define GG(a, b, c, d, x, s, ac) { (a) += G((b), (c), (d)) + (x) + ac; (a) = ROTATE_LEFT((a), (s)); (a) += (b); }
+#define HH(a, b, c, d, x, s, ac) { (a) += H((b), (c), (d)) + (x) + ac; (a) = ROTATE_LEFT((a), (s)); (a) += (b); }
+#define II(a, b, c, d, x, s, ac) { (a) += I((b), (c), (d)) + (x) + ac; (a) = ROTATE_LEFT((a), (s)); (a) += (b); }
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)

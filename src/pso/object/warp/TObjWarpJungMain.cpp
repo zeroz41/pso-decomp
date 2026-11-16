@@ -56,7 +56,7 @@ void *warp_jung_beam_models[6];
 extern "C" {
 s32 PPCSync();
 s32 get_localized_text_entry(s32, s32);
-s32 request_active_window_close();
+void request_active_window_close(void);
 s32 align_menu_entry_positions(u32);
 s32 get_window_layout_position(s32);
 
@@ -134,7 +134,7 @@ void TObjWarpJungMain::open_confirm_window(s32 client_id) {
 
 void TObjWarpJungMain::run_task() {
     m_c4 += 4.0f;
-    if (m_c4 > (f32)(warp_jung_beam_motion->frameCount - 1)) {
+    if (m_c4 > (warp_jung_beam_motion->frameCount - 1)) {
         m_c4 = 0.0f;
     }
     handle_area_selection();
@@ -147,7 +147,7 @@ TObjWarpJungMain::TObjWarpJungMain(TObject *parent, void *set_data) : TObjAreaWa
     m_c4 = 0.0f;
     set_params[2] = fabs_float(set_params[2] % 2);
     if (get_game_play_mode() == 1 && set_params[2] == 0) {
-        ((TObject *)this)->queue_destruction();
+        this->queue_destruction();
         return;
     }
     warp_range = 15.0f;
@@ -162,8 +162,8 @@ TObjWarpJungMain::TObjWarpJungMain(TObject *parent, void *set_data) : TObjAreaWa
     }
 }
 
-void *TObjWarpJung__create(void *arg0) {
-    return new TObjWarpJung(tl_05, arg0);
+void *TObjWarpJung__create(void *set_data) {
+    return new TObjWarpJung(tl_05, set_data);
 }
 
 void TObjWarpJung::render() {
@@ -195,7 +195,7 @@ void TObjWarpJung::confirm_area_transfer(void *player) { TObjAreaWarp::confirm_a
 
 void TObjWarpJung::run_task() {
     beam_frame += 4.0f;
-    if (beam_frame > (f32)(warp_jung_beam_motion->frameCount - 1)) {
+    if (beam_frame > (warp_jung_beam_motion->frameCount - 1)) {
         beam_frame = 0.0f;
     }
     handle_area_selection();
@@ -208,7 +208,7 @@ TObjWarpJung::TObjWarpJung(TObject *parent, void *set_data) : TObjAreaWarp(paren
     beam_frame = 0.0f;
     set_params[2] = fabs_float(set_params[2] % 2);
     if (get_game_play_mode() == 1 && set_params[2] == 1) {
-        ((TObject *)this)->queue_destruction();
+        this->queue_destruction();
         return;
     }
     warp_range = 15.0f;
@@ -290,7 +290,7 @@ void load_warp_beam_resources(void) {
     }
     TObjWarpJung__beam_bml_resource = resource;
     warp_jung_beam_motion = get_bml_motion(resource, 0);
-    warp_jung_model_handle = TObjFish__sub_8001EDB0(TObjWarpJung__beam_bml_resource, 0);
+    warp_jung_model_handle = get_bml_texlist(TObjWarpJung__beam_bml_resource, 0);
     root = ((NJS_OBJECT *)get_bml_model(TObjWarpJung__beam_bml_resource, 1))->child;
     warp_jung_beam_models[0] = root->child->model;
     warp_jung_beam_models[1] = root->child->sibling->model;

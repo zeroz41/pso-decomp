@@ -6,6 +6,7 @@
 
 class TNECFontEORFunction : public TObject {
 public:
+    TNECFontEORFunction();
     virtual ~TNECFontEORFunction();
     virtual void run_task();
 public:

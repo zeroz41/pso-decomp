@@ -71,7 +71,6 @@ void TUnk_804A1E28::vfunc_60() {
 }
 
 void TUnk_804A1E28::update_weapon() {
-    u8 *arg0 = (u8 *)this;
     s16 temp_r0;
     s16 temp_r3_3;
     s32 temp_r3;
@@ -92,7 +91,7 @@ void TUnk_804A1E28::update_weapon() {
             this->scale_step = (temp_r3_2 - 1);
         }
     }
-    temp_r3_3 = get_actor_tp(*(u8 * *)&this->owner);
+    temp_r3_3 = get_actor_tp(this->owner);
     temp_r0 = this->cached_tp - temp_r3_3;
     if (temp_r0 < 0) {
         this->cached_tp = temp_r3_3;
@@ -100,7 +99,7 @@ void TUnk_804A1E28::update_weapon() {
     }
     if (temp_r0 > 0) {
         add_actor_tp(*(u8 * *)&this->owner, (0.1f * (f32) temp_r0));
-        this->cached_tp = get_actor_tp(*(u8 * *)&this->owner);
+        this->cached_tp = get_actor_tp(this->owner);
     }
 }
 
@@ -132,9 +131,9 @@ TUnk_804A1E28::TUnk_804A1E28(TObject *parent, u8 *item) : TItemWeapon(parent, it
     cached_tp = -1;
 }
 
-u8 *create_sorcerers_cane(u8 *arg0) {
-    if (arg0 != NULL) {
-        return (u8 *)new TUnk_804A1E28(tl_05, arg0);
+u8 *create_sorcerers_cane(u8 *item) {
+    if (item != NULL) {
+        return (u8 *)new TUnk_804A1E28(tl_05, item);
     }
     return NULL;
 }

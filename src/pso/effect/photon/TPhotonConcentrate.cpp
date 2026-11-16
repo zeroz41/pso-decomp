@@ -4,23 +4,22 @@
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/text_80087278.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/effect/photon/TPhotonConcentrate.h"
+
 #include "pso/system/vector.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/math/AngleLookup.h"
 
 const char *TPhotonConcentrate__class_name = "TPhotonConcentrate";
 
 extern "C" {
 
-void *create_particle_emitter(void *pos, s32 id);
-s32 __ct__14TObjCollidableFP7TObject(s32, s32);
+TParticleCtrl *create_particle_emitter(const void *pos, s32 id);
 s32 find_entity_by_id(s32, f32);
-void __dl__7TObjectFPv(void *);
-extern s32 __vt__18TPhotonConcentrate[];
 
 void render__18TPhotonConcentrateFv(void) { TParticleCtrl::begin_effect_render(); TParticleCtrl::end_effect_render(); }
 
@@ -32,13 +31,6 @@ extern "C" {
 
 typedef struct Owner_801A7E7C Owner_801A7E7C;
 typedef struct PC_801A7E7C PC_801A7E7C;
-typedef struct Vec_801A7E7C Vec_801A7E7C;
-typedef struct Vec_801A7E7C
-{
-  f32 x;
-  f32 y;
-  f32 z;
-} Vec_801A7E7C;
 typedef struct Owner_801A7E7C
 {
   u8 pad[0x60];
@@ -47,10 +39,10 @@ typedef struct Owner_801A7E7C
 typedef struct PC_801A7E7C
 {
   u8 pad0[0xAC];
-  Vec_801A7E7C origin;
-  Vec_801A7E7C pos;
-  Vec_801A7E7C vel;
-  Vec_801A7E7C target;
+  Vec origin;
+  Vec pos;
+  Vec vel;
+  Vec target;
   f32 dist;
   f32 total;
   f32 range;
@@ -60,7 +52,6 @@ typedef struct PC_801A7E7C
   void *emitter;
   Owner_801A7E7C *owner;
 } PC_801A7E7C;
-f32 sin_table_lookup(s32);
 void vec3_add_to(void *, void *);
 f32 vector_length(void *);
 void rotate_vector_by_matrix(void *, void *, void *);
@@ -74,7 +65,7 @@ extern const f32 lbl_805DC108;
 extern const f32 lbl_805DC10C;
 void run_task__18TPhotonConcentrateFv(PC_801A7E7C *self) {
   f32 sn;
-  Vec_801A7E7C delta;
+  Vec delta;
   float new_var;
   Owner_801A7E7C *owner;
   u32 a;
@@ -96,7 +87,7 @@ void run_task__18TPhotonConcentrateFv(PC_801A7E7C *self) {
   }
   vec3_add_to(&self->pos, &self->vel);
   {
-    Vec_801A7E7C d2 = self->target;
+    Vec d2 = self->target;
     subtract_vector(&d2, &self->origin);
     self->total = vector_length(&d2);
     if (0.0f == self->total)
@@ -107,8 +98,8 @@ void run_task__18TPhotonConcentrateFv(PC_801A7E7C *self) {
     sn = sin_table_lookup(lbl_805DC108 * ((f32) a));
     {
       f32 scale = self->total / 10.0f;
-      Vec_801A7E7C off;
-      Vec_801A7E7C xf;
+      Vec off;
+      Vec xf;
       new_var = lbl_805DC104 * scale;
       off.y = (off.z = 0.0f);
       off.x = new_var * sn;
@@ -126,7 +117,7 @@ void run_task__18TPhotonConcentrateFv(PC_801A7E7C *self) {
       }
       pop_matrices(1);
       {
-        Vec_801A7E7C posn = self->pos;
+        Vec posn = self->pos;
         vec3_add_to(&posn, &xf);
         if (self->emitter != 0)
         {

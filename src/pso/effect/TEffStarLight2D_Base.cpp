@@ -6,13 +6,12 @@
 #include "pso/effect/TEffStarLightChild.h"
 #include "types.h"
 #include "pso/ui/window/TWindowCtrlMain.h"
-#include "pso/system/NinjaTypes.h"
+
 #include "pso/system/vector.h"
 #include "pso/system/task/TObject.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
-extern "C" {
 extern TObject *tl_particle;
-}
 void set_additive_blend();
 void set_default_alpha_blend();
 
@@ -24,8 +23,6 @@ const char *TEffStarLight2D__name = TEffStarLight2D_class_name;
 __declspec(section ".rodata") NJS_ARGB star_light_2d_base_color = {0.5f, 1.0f, 1.0f, 1.0f};
 
 
-struct Vec_800851B0 { f32 x; f32 y; f32 z; };
-
 struct P2_800851B0 { f32 x; f32 z; };
 
 struct Star_800851B0 {
@@ -34,7 +31,7 @@ struct Star_800851B0 {
     f32 curZ;
     f32 prevX;
     f32 prevZ;
-    Vec_800851B0 pos;
+    Vec pos;
     f32 f38;
     f32 f3C;
 };
@@ -53,10 +50,6 @@ struct Star_80085424 {
     f32 y1;
 };
 
-struct Vec_800855F8 { f32 x, y, z; };
-
-struct Pt_800855F8 { f32 x, y; };
-
 struct Star_800855F8 {
     const char *name;
     u8 pad4[0x18 - 0x4];
@@ -69,25 +62,23 @@ struct Star_800855F8 {
 };
 
 extern "C" {
-void *__nw__7TObjectFUl(u32);
 void matrix_mult_vec(int, void *, void *);
 void __ct__7TObjectFP7TObject(void *, void *);
 void project_world_to_screen(int, void *, void *);
 f32 vector_length(void *);
 s32 normalize_vector(void *);
-f32 newton_sqrtf(f32);
 extern void *__vt__18TEffStarLightChild[];
 void run_task__15TEffStarLight2DFv(Star_800851B0 *self);
 void run_task__18TEffStarLightChildFv(Star_80085424 *self);
-Star_800855F8 *__ct__18TEffStarLightChildFv(Star_800855F8 *self, Pt_800855F8 *a, Pt_800855F8 *b, void *parent, f32 w, f32 speed);
+Star_800855F8 *__ct__18TEffStarLightChildFv(Star_800855F8 *self, NJS_POINT2 *a, NJS_POINT2 *b, void *parent, f32 w, f32 speed);
 }
 
 #pragma defer_codegen on
 
 #pragma push
 #pragma fp_contract on
-Star_800855F8 *__ct__18TEffStarLightChildFv(Star_800855F8 *self, Pt_800855F8 *a, Pt_800855F8 *b, void *parent, f32 w, f32 speed) {
-    Vec_800855F8 d;
+Star_800855F8 *__ct__18TEffStarLightChildFv(Star_800855F8 *self, NJS_POINT2 *a, NJS_POINT2 *b, void *parent, f32 w, f32 speed) {
+    Vec d;
     __ct__7TObjectFP7TObject(self, parent);
     self->vt = __vt__18TEffStarLightChild;
     self->name = TEffStarLightChild__name;
@@ -181,10 +172,10 @@ void TEffStarLight2D::copy_from(void* q) { *(f32 *)&this->m_name = *(f32*)((char
 
 void TEffStarLight2D::copy_from_subobject(void* a1) { ((TEffStarLight2D *)((char*)this + 0x38))->copy_from(a1); }
 
-extern "C" {
+
 void run_task__15TEffStarLight2DFv(Star_800851B0 *self) {
     P2_800851B0 scr;
-    Vec_800851B0 view;
+    Vec view;
     f32 dx;
     f32 dz;
     void *child;
@@ -202,13 +193,12 @@ void run_task__15TEffStarLight2DFv(Star_800851B0 *self) {
         dx = self->curX - self->prevX;
         dz = self->curZ - self->prevZ;
         if (dx * dx + dz * dz >= 1.0f) {
-            child = __nw__7TObjectFUl(0x30);
+            child = TObject::operator new(0x30);
             if (child != NULL) {
                 ((void *(*)(void *, void *, void *, void *, f32, f32))__ct__18TEffStarLightChildFv)(child, &self->prevX, &self->curX, self, self->f38, self->f3C);
             }
         }
     }
-}
 }
 
 void TEffStarLight2D::queue_child_destruction() {
@@ -250,7 +240,7 @@ void TEffStarLight2D::draw_segment(ColorLineVertex *a, ColorLineVertex *b,
     u8 alpha = parameters.color.channels.a;
     f32 step = parameters.alpha_step;
     f32 start_alpha = (f32)index * step + (f32)alpha;
-    f32 end_alpha = (f32)(index + 1) * step + (f32)alpha;
+    f32 end_alpha = (index + 1) * step + (f32)alpha;
     f32 clamped_start = start_alpha < 0.0f ? 0.0f
         : start_alpha < 255.0f ? start_alpha : 255.0f;
     f32 clamped_end = end_alpha < 0.0f ? 0.0f

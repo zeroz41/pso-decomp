@@ -4,44 +4,10 @@
 #include "pso/unk/text_803E4D8C.h"
 #include <stddef.h>
 #include "pso/player/TObjPlayer.h"
-
-struct RecoveredGlobal_803E5458_lbl_8058DC00 {
-    s32 value;
-    u8 remaining[0x44];
-};
+#include "pso/system/MatrixStack.h"
 
 struct Ctx_803E53BC { s32 f0; s32 f4; s32 f8; s32 fc; s32 f10; s32 f14; s32 f18; s32 f1c; };
 
-
-struct RecoveredGlobal_803D662C_lbl_8058D4D0 {
-    s32 value;
-    u8 remaining[0x24];
-};
-
-struct RecoveredGlobal_803D77C0_lbl_8047E3C8 {
-    s32 value;
-    u8 remaining[0xC];
-};
-
-struct RecoveredGlobal_803D77C0_lbl_804FA500 {
-    s32 value;
-    u8 remaining[0x8];
-};
-
-struct RecoveredGlobal_803D77C0_lbl_804FA50C {
-    s32 value;
-    u8 remaining[0xC];
-};
-
-struct RecoveredGlobal_803D77C0_lbl_804FA51C {
-    s32 value;
-    u8 remaining[0x20];
-};
-
-struct RecoveredGlobal_803D78A8_lbl_8058CAB8 {
-    s32 value;
-    u8 remaining[0x7C];
-};
 
 struct Node_803E4E20 {
     u32 flags;
@@ -66,11 +32,10 @@ struct G_803E4F14 {
 struct Key_803E500C { u32 frame; f32 *data; };
 
 u8 *lbl_805D7818;
-extern RecoveredGlobal_803E5458_lbl_8058DC00 lbl_8058DC00;
-extern "C" {
+struct RecoveredGlobal_lbl_8058DC00 { s32 value; u8 remaining[0x44]; };
+extern RecoveredGlobal_lbl_8058DC00 lbl_8058DC00;
 void compose_motion_node_matrix(void *arg0);
-void push_matrix(void);
-s32 pop_matrix(void);
+extern "C" {
 void update_render_state__10TObjPlayerFv(s32 *, s32 *);
 }
 void find_motion_key_interval(void *, s32, s32 count, f32 t, void *, void *, void *);
@@ -80,11 +45,6 @@ extern u32 *lbl_805D7778;
 #pragma scheduling off
 #pragma opt_common_subs off
 #pragma peephole off
-typedef char RecoveredGlobal_803D662C_lbl_8058D4D0_size[sizeof(RecoveredGlobal_803D662C_lbl_8058D4D0) == 0x28 ? 1 : -1];
-typedef char RecoveredGlobal_803D77C0_lbl_8047E3C8_size[sizeof(RecoveredGlobal_803D77C0_lbl_8047E3C8) == 0x10 ? 1 : -1];
-typedef char RecoveredGlobal_803D77C0_lbl_804FA500_size[sizeof(RecoveredGlobal_803D77C0_lbl_804FA500) == 0xC ? 1 : -1];
-typedef char RecoveredGlobal_803D77C0_lbl_804FA50C_size[sizeof(RecoveredGlobal_803D77C0_lbl_804FA50C) == 0x10 ? 1 : -1];
-typedef char RecoveredGlobal_803D77C0_lbl_804FA51C_size[sizeof(RecoveredGlobal_803D77C0_lbl_804FA51C) == 0x24 ? 1 : -1];
 
 void draw_shape_motion_tree(NJS_OBJECT *model, NJS_MOTION *motion, NJS_MOTION *shape, f32 frame, ModelDrawCallback draw_model) {
     ModelDrawContext *p = model_draw_context;
@@ -306,7 +266,6 @@ void TObjPlayer__sub_803E5378(s32 n) {
     *(s32 *)(lbl_805D7818 + 0x10) = a + *(s32 *)(lbl_805D7818 + 0x4);
     *(s32 *)(lbl_805D7818 + 0x1c) = 0;
 }
-typedef char RecoveredGlobal_803D78A8_lbl_8058CAB8_size[sizeof(RecoveredGlobal_803D78A8_lbl_8058CAB8) == 0x80 ? 1 : -1];
 #pragma pop
 
 #pragma push
@@ -333,12 +292,11 @@ void TObjPlayer__sub_803E53F8(u8 *arg0, f32 farg0) {
 }
 #pragma pop
 
-typedef char RecoveredGlobal_803E5458_lbl_8058DC00_size[sizeof(RecoveredGlobal_803E5458_lbl_8058DC00) == 0x48 ? 1 : -1];
 void TObjPlayer__sub_803E5458(s32 arg0) {
     lbl_805D7818 = (u8 *)&lbl_8058DC00.value + (arg0 * 0x24);
 }
 
-RecoveredGlobal_803E5458_lbl_8058DC00 lbl_8058DC00;
+RecoveredGlobal_lbl_8058DC00 lbl_8058DC00;
 
 extern "C" {
 

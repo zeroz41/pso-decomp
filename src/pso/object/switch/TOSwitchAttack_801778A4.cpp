@@ -1,7 +1,8 @@
 #include "pso/network/protocol/protocol_types.h"
+#include "pso/object/switch/TOSwitchAttack_801778A4.h"
 #include "types.h"
 #include "pso/object/switch/TOSwitchAttack.h"
-#include "pso/object/switch/TOSwitchAttack.h"
+
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/unk/TLobby.h"
@@ -10,20 +11,14 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/unk/text_80087278.h"
-
-struct RecoveredGlobal_80177C80___vt__14TOSwitchAttack {
-    s32 value;
-    u8 remaining[0x34];
-};
-
-struct Vec_801778A8 { f32 x, y, z; };
+#include "pso/system/task/TObject.h"
 
 struct Atk_801778A8 {
     s32 a;
     f32 v;
 };
 
-struct Rec_801778A8 { u8 pad[0x1C]; Vec_801778A8 pos; u8 pad28[4]; };
+struct Rec_801778A8 { u8 pad[0x1C]; Vec pos; u8 pad28[4]; };
 
 struct Mylla_801778A8 { u8 pad[0xA4]; Rec_801778A8 *recs; s32 count; };
 
@@ -43,7 +38,7 @@ struct Sw_801778A8 {
     u8 pad0[0x14];
     u32 f14;
     u8 pad18[0x38 - 0x18];
-    Vec_801778A8 pos;
+    Vec pos;
     u8 pad44[0x90 - 0x44];
     f32 f90;
     f32 f94;
@@ -61,14 +56,8 @@ extern "C" {
 s32 __ct__8TObjBaseFP7TObject(void *);
 extern s32 __vt__14TOSwitchAttack[];
 extern const char *TOSwitchAttack__name;
-u8 *TOSwitchAttack__ct(u8 *arg0, s32 arg1, s32 arg2);
 f32 horizontal_distance_squared(void *, void *);
-u8 is_current_floor_switch_set(u16);
-void TOSwitchAttack__sub_80177C20(void);
-void TOSwitchAttack__sub_80177C24(void);
-void *__dt__14TOSwitchAttackFv(void *arg0, s16 arg1);
-void __dl__7TObjectFPv(void *);
-void *__nw__7TObjectFUl(int);
+u8 is_current_floor_switch_set(s32 id);
 
 void TOSwitchAttack::render() {  }
 
@@ -154,7 +143,7 @@ void TOSwitchAttack::run_task() {
             break;
         case 2:
             if (o->fA8 == 0) {
-                Vec_801778A8 v = o->pos;
+                Vec v = o->pos;
                 v.y += 10.0f;
                 spawn_particle_effect_with_flags(&v, 0x1A6, 0x40);
                 spawn_particle_effect_with_flags(&v, 0x1A7, 0x40);
@@ -176,7 +165,7 @@ void TOSwitchAttack::run_task() {
 #pragma pop
 
 void *TOSwitchAttack::create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0xAC);
+    void *o = TObject::operator new(0xAC);
     if (o != NULL) {
         o = TOSwitchAttack__ct((u8 *)o, (s32)tl_05, (s32)arg0);
     }
@@ -190,12 +179,11 @@ void TOSwitchAttack__sub_80177C24(void) {  }
 TOSwitchAttack::~TOSwitchAttack() {
 
 }
-extern "C" {
-typedef char RecoveredGlobal_80177C80___vt__14TOSwitchAttack_size[sizeof(RecoveredGlobal_80177C80___vt__14TOSwitchAttack) == 0x38 ? 1 : -1];
+
 u8 *TOSwitchAttack__ct(u8 *switch_attack, s32 arg1, s32 arg2) {
     __ct__8TObjBaseFP7TObject(switch_attack);
-    *(s32 **)((s8 *)switch_attack + 0x18) = &(*(RecoveredGlobal_80177C80___vt__14TOSwitchAttack *)&__vt__14TOSwitchAttack).value;
-    *(const char **)((s8 *)switch_attack + 0) = TOSwitchAttack__name;
+    *(s32 **)((s8 *)switch_attack + 0x18) = __vt__14TOSwitchAttack;
+    ((TOSwitchAttack *)switch_attack)->m_name = TOSwitchAttack__name;
     ((TOSwitchAttack *)(switch_attack))->apply_object_set_data((void *)arg2);
     ((TOSwitchAttack *)switch_attack)->init_params();
     ((TOSwitchAttack *)switch_attack)->m_a6 = 0;
@@ -203,4 +191,3 @@ u8 *TOSwitchAttack__ct(u8 *switch_attack, s32 arg1, s32 arg2) {
     return switch_attack;
 }
 
-}

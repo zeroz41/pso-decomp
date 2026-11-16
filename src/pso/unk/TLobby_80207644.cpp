@@ -1,29 +1,14 @@
 #include "types.h"
+#include "pso/unk/TLobby_80207644.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/frontend/TAdStorySelectGC.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/map/FloorArea.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 
-struct RecoveredGlobal_80207798_lbl_80513920 {
-    s32 value;
-    u8 remaining[0xD4];
-};
+FloorMapRegistry floor_map_registry;
 
-extern "C" {
-RecoveredGlobal_80207798_lbl_80513920 floor_map_registry;
-}
-
-
-struct RecoveredGlobal_802077CC_lbl_80513920 {
-    s32 value;
-    u8 remaining[0xD4];
-};
-
-struct RecoveredGlobal_802078A4_lbl_80513920
-{
-  s32 value;
-  u8 remaining[0xD4];
-};
 
 struct Map_80207C60 { s32 map; s32 layout; s32 entities; };
 
@@ -321,20 +306,20 @@ extern const Tbl_8020765C boss_warp_destination_table_b = { {
     { 0, 14, 14, 15, 15, 12, 12, 12, 12, 12, 13, 13, 0, 0, 0, 0, 0, 0 },
 } };
 
-extern RecoveredGlobal_80207798_lbl_80513920 floor_map_registry;
 s32 set_floor_map_selection(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 extern "C" {
 s32 get_floor_map_selection(s32 arg0, u8 *arg1);
-s32 get_main_phase(void);
 s32 rand(void);
 extern int selected_episode;
 void randomize_adventure_maps(void);
 s32 memset(void *, int, int);
 void TLobby__sub_80207BB0(void);
-s32 get_current_floor();
 s32 get_game_play_mode();
+}
 s32 get_boss_warp_destination(void);
+extern "C" {
 s32 get_floor_map_terrain(s32 arg0);
+}
 struct Buf12_80207718_80207644 { s32 a, b, c; };
 
     extern int story_select_current;
@@ -351,8 +336,6 @@ s32 get_boss_warp_destination(void) {
     s32 i = TLobby::get_instance();
     s32 p = get_current_floor();
     return a.w[i][p];
-}
-
 }
 
 s32 get_floor_area(s32 floor) {
@@ -375,7 +358,6 @@ void set_floor_map_variant(s32 arg0, s32 arg1) {
 
 #pragma push
 #pragma opt_common_subs off
-typedef char RecoveredGlobal_80207798_lbl_80513920_size[sizeof(RecoveredGlobal_80207798_lbl_80513920) == 0xD8 ? 1 : -1];
 
 s32 get_floor_map_terrain(s32 arg0) {
     if (arg0 > 0x11) {
@@ -402,7 +384,6 @@ s32 set_floor_map_selection(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
 
 #pragma push
 #pragma opt_common_subs off
-typedef char RecoveredGlobal_802077CC_lbl_80513920_size[sizeof(RecoveredGlobal_802077CC_lbl_80513920) == 0xD8 ? 1 : -1];
 
 s32 get_floor_map_selection(s32 arg0, u8 *arg1) {
     s32 temp_r6;
@@ -411,16 +392,13 @@ s32 get_floor_map_selection(s32 arg0, u8 *arg1) {
         return 0;
     }
     temp_r6 = arg0 * 0xC;
-    temp_r5 = (u8 *)(&(*(RecoveredGlobal_802077CC_lbl_80513920 *)&floor_map_registry).value) + temp_r6;
-    *(s32 *)((s8 *)arg1 + 0) = (s32) *(s32 *)((s8 *)((u8 *)(&(*(RecoveredGlobal_802077CC_lbl_80513920 *)&floor_map_registry).value) + temp_r6) + 0);
+    temp_r5 = (u8 *)(&floor_map_registry.value) + temp_r6;
+    *(s32 *)((s8 *)arg1 + 0) = (s32) *(s32 *)((s8 *)((u8 *)(&floor_map_registry.value) + temp_r6) + 0);
     *(s32 *)((s8 *)arg1 + 4) = (s32) *(s32 *)((s8 *)temp_r5 + 4);
     *(s32 *)((s8 *)arg1 + 8) = (s32) *(s32 *)((s8 *)temp_r5 + 8);
     return 1;
 }
 #pragma pop
-
-typedef struct RecoveredGlobal_802078A4_lbl_80513920 RecoveredGlobal_802078A4_lbl_80513920;
-typedef char RecoveredGlobal_802078A4_lbl_80513920_size[((sizeof(RecoveredGlobal_802078A4_lbl_80513920)) == 0xD8) ? (1) : (-1)];
 
 void TLobby::copy_table_entries(u32 size) {
     s32 *src = (s32 *)this;
@@ -449,7 +427,7 @@ void randomize_adventure_maps(void) {
   s32 *var_r31;
   s32 main_phase;
   s32 var_r29;
-  var_r31 = (s32 *) (&(*(RecoveredGlobal_802078A4_lbl_80513920 *)&floor_map_registry).value);
+  var_r31 = (s32 *) (&floor_map_registry.value);
   TAdStorySelectGC::set_state((s32)((void*)((*(s32 *)&selected_episode))));
   main_phase = get_main_phase();
   if (TRaderMapCore::is_not_split_screen() == 1)

@@ -62,8 +62,8 @@ void TDuelEffectNumber::render_pair(f32 f) {
     }
 }
 
-void TDuelEffectNumber::render_number_default(f32 farg0) {
-    TDuelEffectNumber__sub_800802F8(this, &duel_number_default_layout, farg0);
+void TDuelEffectNumber::render_number_default(f32 scale) {
+    TDuelEffectNumber__sub_800802F8(this, &duel_number_default_layout, scale);
 }
 
 extern "C" {

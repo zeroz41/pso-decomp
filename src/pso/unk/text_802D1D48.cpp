@@ -32,36 +32,36 @@ s32 check_trade_offer_inventory(S_802D1D48 *arg0, s32 *arg1) {
     return empty ? 4 : 0;
 }
 
-void TLobby::transfer_trade_item_amount(u32 arg1, s32 arg2) {
+void TLobby::transfer_trade_item_amount(u32 key, s32 arg2) {
     u8 *temp_r3;
     u8 *temp_r3_2;
-    temp_r3 = (u8 *)(TLobby__sub_802D2334(this, arg1));
+    temp_r3 = (u8 *)(TLobby__sub_802D2334(this, key));
     if (temp_r3 != NULL) {
         *(s32 *)((s8 *)temp_r3 + 4) = (s32) (*(s32 *)((s8 *)temp_r3 + 4) - arg2);
         if ((s32) *(s32 *)((s8 *)temp_r3 + 4) <= 0) {
-            remove_trade_entry(arg1);
+            remove_trade_entry(key);
         }
-        temp_r3_2 = (u8 *)(TLobby__sub_802D2334(((u8 *)this) + 0xF8, arg1));
+        temp_r3_2 = (u8 *)(TLobby__sub_802D2334(((u8 *)this) + 0xF8, key));
         if (temp_r3_2 != NULL) {
             *(s32 *)((s8 *)temp_r3_2 + 4) = (s32) (*(s32 *)((s8 *)temp_r3_2 + 4) + arg2);
         }
     }
 }
-void TLobby::move_trade_item_amount(u32 arg1, s32 arg2) {
+void TLobby::move_trade_item_amount(u32 key, s32 arg2) {
   s32 var_r3;
   u8 *temp_r3;
   u8 *temp_r3_2;
-  temp_r3 = (u8 *) TLobby__sub_802D2334(((u8 *)this) + 0xF8, arg1);
+  temp_r3 = (u8 *) TLobby__sub_802D2334(((u8 *)this) + 0xF8, key);
   if (temp_r3 != 0)
   {
     *((s32 *) (((s8 *) temp_r3) + 4)) = (s32) ((*((s32 *) (((s8 *) temp_r3) + 4))) - arg2);
-    temp_r3_2 = (u8 *) TLobby__sub_802D2334(this, arg1);
+    temp_r3_2 = (u8 *) TLobby__sub_802D2334(this, key);
     if (temp_r3_2)
     {
       *((s32 *) (((s8 *) temp_r3_2) + 4)) = (s32) ((*((s32 *) (((s8 *) temp_r3_2) + 4))) + arg2);
       return;
     }
-    if (((u32) (arg1 + (0x10000 & 0xFF))) == (-0xFFU))
+    if (((u32) (key + (0x10000 & 0xFF))) == (-0xFFU))
     {
       var_r3 = get_trade_obj_ptr__6TLobbyFv((s32) this);
     }
@@ -69,7 +69,7 @@ void TLobby::move_trade_item_amount(u32 arg1, s32 arg2) {
     {
       var_r3 = (long) find_free_trade_slot__6TLobbyFPv(this);
     }
-    *((u32 *) (((s8 *) var_r3) + 0)) = arg1;
+    *((u32 *) (((s8 *) var_r3) + 0)) = key;
     *((s32 *) (((s8 *) var_r3) + 4)) = arg2;
   }
 }

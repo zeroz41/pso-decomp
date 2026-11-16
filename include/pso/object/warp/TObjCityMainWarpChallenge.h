@@ -9,6 +9,7 @@ struct AnimationMotion;
 struct TObjCityMainWarpChallenge : public TObjAreaWarp {
     TObjCityMainWarpChallenge(TObject *parent, void *set_data);
     virtual ~TObjCityMainWarpChallenge();
+    void sub_801875F8();
     void close_windows();
     virtual void debug_print_area_num();
     void count_players_in_warp_radius();

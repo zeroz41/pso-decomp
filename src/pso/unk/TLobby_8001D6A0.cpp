@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/unk/TLobby_8001D6A0.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
@@ -16,6 +17,7 @@
 #include "pso/unk/TLobby_801E2F94.h"
 #include "pso/network/TPlyJoinLobbyEntry.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 #pragma readonly_strings on
 
@@ -238,12 +240,8 @@ s32 TLobby::set_flag_bit0(s32 arg0) {
 
 }
 
-struct RecoveredGlobal_8001DC24_lbl_80515BC8 {
-    s32 value;
-    u8 remaining[0xFC];
-};
-
-extern RecoveredGlobal_8001DC24_lbl_80515BC8 text_builder_buffer;
+struct TextBuilderBuffer { s32 value; u8 remaining[0xFC]; };
+extern TextBuilderBuffer text_builder_buffer;
 extern "C" {
 
 s32 TLobby::is_active() {
@@ -259,7 +257,6 @@ void TLobby__sub_8001DC04(void* p) { TLobby__sub_8001DBD8((s32)p); }
 
     extern int TLobby__lobby_instance;
 
-typedef char RecoveredGlobal_8001DC24_lbl_80515BC8_size[sizeof(RecoveredGlobal_8001DC24_lbl_80515BC8) == 0x100 ? 1 : -1];
 s32 *get_shared_text_buffer(void) {
     return &text_builder_buffer.value;
 }
@@ -301,10 +298,7 @@ struct File_8001DC30
   Sw_8001DC30 sw[4][0x60];
   Pair_8001DC30 pairs[4][0x60];
 };
-s32 is_main_phase_15__9TObjEneDDFv(void);
 void read_disc_file(const char *, void *);
-void mem_free(void *);
-void *mem_alloc(u32 size);
 }
 extern s32 battle_param_lab_variant;
 void load_battle_param_entry(void) {
@@ -317,7 +311,7 @@ void load_battle_param_entry(void) {
   Params_8001DC30 *new_var;
   s32 off;
   name = "BattleParamEntry.dat";
-  if (is_main_phase_15__9TObjEneDDFv() != 0)
+  if (TObjEneDD::is_main_phase_15() != 0)
   {
     name = "BattleParamEntry_on.dat";
   }
@@ -328,7 +322,7 @@ void load_battle_param_entry(void) {
   if (battle_param_lab_variant == 1)
   {
     name = "BattleParamEntry_lab.dat";
-    if (is_main_phase_15__9TObjEneDDFv() != 0)
+    if (TObjEneDD::is_main_phase_15() != 0)
     {
       name = "BattleParamEntry_lab_on.dat";
     }
@@ -560,7 +554,6 @@ void set_difficulty__6TLobbyFi(s32 arg0) {
 extern u32 TLobby__battle_parameter_buffer;
 
 extern s32 game_difficulty_selection;
-void mem_free(void*);
 
 extern s32 enable_v2_features;
 
@@ -755,14 +748,13 @@ struct DateStamp_8001E8FC
   u8 pad7;
   u8 pad8[4];
 };
-u8 *get_global_state__23TAdSinglePlyChrSelectGCFv();
 s32 TLobby::get_clock_frames() {
   u8 *new_var;
   u8 *g;
   s32 base;
   DateStamp_8001E8FC d;
   new_var = &d.h;
-  g = get_global_state__23TAdSinglePlyChrSelectGCFv();
+  g = TAdSinglePlyChrSelectGC::get_global_state();
   if (g == 0)
   {
     base = default_clock_offset_frames();

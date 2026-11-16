@@ -19,17 +19,34 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/unk/text_803E2D70.h"
 #include "pso/boss/TUnk_80484888.h"
-#include "pso/unk/text_80049FD8.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/unk/text_803D853C.h"
+#include "pso/player/TObjPlayer_80011014.h"
+
+// Throws three debris chips from the pillar's position.
+void TObjVoloptPillar::sub_80049FD8() {
+    const TObjChipParams params = {
+        {0.5f, 0.03f, 0.25f},
+        {this->position.x, this->position.y, this->position.z},
+        {4.5f, -3.0f, 4.5f},
+        {0x400, 0x100, 0x400},
+        {4, 60},
+        {0.0f, 1.0f},
+        boss3_volopt_resources->models[0xE].model,
+        boss3_volopt_resources->models[0xE].m_c,
+        2,
+    };
+    new TObjChip(tl_05, (TObjChipParams *)&params);
+    new TObjChip(tl_05, (TObjChipParams *)&params);
+    new TObjChip(tl_05, (TObjChipParams *)&params);
+}
 
 extern "C" {
-f32 atan2_float(f32 y, f32 x);
-s32 obj_is_hit_receivable(TObjChara *actor);
+s32 obj_is_hit_receivable(u8 *arg0);
 s32 push_matrix(void);
 void post_translate_matrix(const Vec *v);
 extern GC_Mtx identity_matrix;
@@ -83,7 +100,7 @@ void TObjVoloptPillar::run_task() {
         state = 1;
     case 1:
         if (--timer <= 0) {
-            fn_80049FD8(this);
+            sub_80049FD8();
             state = 2;
         }
         break;
@@ -94,14 +111,14 @@ void TObjVoloptPillar::run_task() {
             state = 3;
             bodies->flags |= 2;
             TObjPlayer::init_all_slots();
-            ((TObjPlayer *)this)->check_object_collisions();
+            this->check_object_collisions();
             if (bodies->flags & 0x80000) {
                 for (i = 0; i < 16; i++) {
                     target = (TObjChara *)TObjPlayer::get_battle_param(i);
                     if (target == NULL) {
                         break;
                     }
-                    if (obj_is_hit_receivable(target) != 0) {
+                    if (obj_is_hit_receivable((u8 *)target) != 0) {
                         DirectAttackPayload attack = volopt_pillar_attack;
                         attack.power = TBoss3VoloptP02::get_int_param(1);
                         target->receive_direct_attack(owner, attack, NULL, -1, -1);
@@ -110,7 +127,7 @@ void TObjVoloptPillar::run_task() {
                             {
                                 Vec away = *&target->position;
                                 subtract_vector(&away, &boss3_volopt_spawn_pos);
-                                angle = volopt_pillar_rad_to_angle * atan2_float(away.x, away.z);
+                                angle = 10430.38043493439 * atan2_float(away.x, away.z);
                                 {
                                     Vec push = volopt_pillar_push;
                                     push.x = TBoss3VoloptP02::get_float_param(2);

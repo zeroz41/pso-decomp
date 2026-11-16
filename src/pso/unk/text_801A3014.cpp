@@ -21,26 +21,12 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/quest/TQuestThread.h"
 #include "pso/map/FloorArea.h"
-#include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
-struct RecoveredGlobal_801A3540_lbl_804C1F68 {
-    s32 value;
-    u8 remaining[0x17C];
-};
 
 struct RecoveredGlobal_801A3540_lbl_80515BA0 {
     s32 value;
     u8 remaining[0x24];
-};
-
-struct RecoveredGlobal_801A3540_main_task {
-    s32 value;
-    u8 remaining[0x30];
-};
-
-struct RecoveredGlobal_801A3770_main_task {
-    s32 value;
-    u8 remaining[0x30];
 };
 
 struct VBase_801A33DC { char pad[0x18]; };
@@ -58,7 +44,6 @@ struct VObj_801A33DC : VBase_801A33DC {
 struct Obj_801A33DC { u8 data[0x20]; };
 
 struct RecoveredGlobal_801A3540_lbl_80515BA0;
-struct RecoveredGlobal_801A3540_main_task;
 struct VBase_801A3014 { char pad[0x18]; };
 
 struct VObj_801A3014 : VBase_801A3014 {
@@ -94,19 +79,16 @@ struct VObj_801A37D0 : VBase_801A37D0 {
     virtual void m1();
 };
 
-struct Vec_801A37D0 { f32 x, y, z; };
-
 struct Cam_801A37D0 {
     u8 pad0[0x94];
     s32 yaws[4];
-    Vec_801A37D0 poss[4];
+    Vec poss[4];
     u8 padd4[0x178 - 0xD4];
-    Vec_801A37D0 pos;
+    Vec pos;
     u8 pad184[0x194 - 0x184];
     s32 yaw;
 };
 
-struct RecoveredGlobal_801A3540_lbl_804C1F68;
 struct PVB_801A39BC { char pad[0x18]; };
 
 struct PV_801A39BC : PVB_801A39BC {
@@ -114,20 +96,21 @@ struct PV_801A39BC : PVB_801A39BC {
 };
 
 extern "C" {
-s32 is_split_screen(void);
-s32 call_funcs_reverse__6TLobbyFPvUi(void *, int);
 s32 TLobby__sub_801A3B98();
-s32 run_area_scene_cleanup(void *);
-extern RecoveredGlobal_801A3540_lbl_804C1F68 offline_game_scene_callbacks;
+}
+void run_area_scene_cleanup(u8 *arg0);
+struct OfflineGameSceneCallbacks { s32 value; u8 remaining[0x17C]; };
+extern OfflineGameSceneCallbacks offline_game_scene_callbacks;
 extern RecoveredGlobal_801A3540_lbl_80515BA0 lbl_80515BA0;
+extern "C" {
 void __dt__7TObjectFv(void *, int);
-s32 get_current_floor();
 void find_leader_section_id(void *, s32);
 void unlock_main_warp_destination(s32);
 void reset_controller_input_state();
 void load_area_scene_and_init(void *);
-void promote_area_floor(void *);
-void *__nw__7TObjectFUl(u32);
+}
+void promote_area_floor(u8 *arg0);
+extern "C" {
 void __ct__7TObjectFP7TObject(void *, void *);
 s32 is_area_transfer_pending();
 s32 apply_phase_keyboard_mode();
@@ -138,11 +121,13 @@ s32 for_each_player_slot__10TObjPlayerFv(void *);
 s32 rebuild_player_inventory(void *);
 s32 TLobby__sub_80207E48();
 s32 get_team_state__6TLobbyFPv();
-s32 clear_floor_population();
+}
+void clear_floor_population(void);
+extern "C" {
 s32 get_game_play_mode();
 s32 TKeyBoardControl__sub_8000F95C();
 s32 clear_keyboard_key_state();
-s32 TKeyBoardControl__sub_8000F9CC(s32);
+s32 request_main_phase(s32);
 s32 TObjBoss2Tunnel__sub_8007D1D0();
 void TLobby__sub_8007EB20(const char *, ...);
 s8 func_801A5E54__Fv();
@@ -155,7 +140,7 @@ s8 TLobby__sub_801A3C40();
 s32 TWindowCtrlMain__sub_8024CB7C();
 s32 TWindowCtrlMain__sub_8024CB8C();
 s32 TKeyBoardControl__sub_8000F90C(s32);
-s32 TKeyBoardControl__sub_8000F91C(s32);
+s32 set_queued_main_phase(s32);
 s32 run_load_callback_table(void *, s32);
 s32 TLobby__sub_801A2DF4();
 s32 TLobby__sub_801A2DF8();
@@ -191,9 +176,7 @@ extern s32 actor_frame_tick;
 s32 lbl_805D5CE0;
 extern s32 TLobby__lobby_state_flags;
 
-typedef char RecoveredGlobal_801A3540_lbl_804C1F68_size[sizeof(RecoveredGlobal_801A3540_lbl_804C1F68) == 0x180 ? 1 : -1];
 typedef char RecoveredGlobal_801A3540_lbl_80515BA0_size[sizeof(RecoveredGlobal_801A3540_lbl_80515BA0) == 0x28 ? 1 : -1];
-typedef char RecoveredGlobal_801A3540_main_task_size[sizeof(RecoveredGlobal_801A3540_main_task) == 0x34 ? 1 : -1];
 
 void TLobby::reload_offline_area() {
     Obj_801A3014 holder;
@@ -225,7 +208,7 @@ void TLobby::reload_offline_area() {
     }
     TLobby::reset_quest_state();
     main_task.delete_layer_children();
-    promote_area_floor(&lbl_80515BA0);
+    promote_area_floor((u8 *)&lbl_80515BA0);
     TLobby::backup_story_select();
     TKeyBoardControl::update();
     get_team_state__6TLobbyFPv();
@@ -283,7 +266,7 @@ void TLobby::rebuild_area_keep_players() {
         }
     }
     main_task.delete_layer_children();
-    promote_area_floor(&lbl_80515BA0);
+    promote_area_floor((u8 *)&lbl_80515BA0);
     TLobby::sync_story_select();
     TAdStorySelectGC::set_state(0);
     TKeyBoardControl::update();
@@ -355,7 +338,7 @@ void run_offline_area_transfer(void) {
         }
     }
     main_task.delete_layer_children();
-    promote_area_floor(&lbl_80515BA0.value);
+    promote_area_floor((u8 *)&lbl_80515BA0.value);
     TKeyBoardControl::update();
     TLobby::create_map_csn_ctrl();
     TParticleCtrl::create_quad_sprites();
@@ -393,14 +376,12 @@ void TLobby::teardown_scene() {
     main_task.delete_layer_children();
     main_task.resume_layers();
     ((TObject *)tl_su)->delete_children();
-    run_area_scene_cleanup(&lbl_80515BA0.value);
-    call_funcs_reverse__6TLobbyFPvUi(&offline_game_scene_callbacks.value, 0x180);
+    run_area_scene_cleanup((u8 *)&lbl_80515BA0.value);
+    TLobby::call_funcs_reverse(&offline_game_scene_callbacks.value, 0x180);
     clear_resource_load_tasks();
     TKeyBoardControl::update();
     render_tick();
 }
-
-typedef char RecoveredGlobal_801A3770_main_task_size[sizeof(RecoveredGlobal_801A3770_main_task) == 0x34 ? 1 : -1];
 
 void run_offline_game_frame(void) {
     func_803DCDFC__Fv();
@@ -421,7 +402,7 @@ void run_offline_game_frame(void) {
         TLobby::shutdown_keyboard_control();
     }
     if (TQuestVmDownLoadServer::is_ready() != 0) {
-        TKeyBoardControl__sub_8000F9CC(0);
+        request_main_phase(0);
     }
     if (TKeyBoardControl::get_key_state() != 0) {
         run_offline_area_transfer();
@@ -455,7 +436,7 @@ void run_offline_transfer_frame(void) {
         TLobby::reset_keyboard_input();
     }
     if (TQuestVmDownLoadServer::is_ready() != 0) {
-        TKeyBoardControl__sub_8000F9CC(0);
+        request_main_phase(0);
     }
     if (TKeyBoardControl::get_input() != 0) {
         TLobby::rebuild_area_keep_players();
@@ -536,7 +517,7 @@ void dispatch_offline_main_frame(void) {
 void init_offline_game_scene(void) {
     s32 game_mode;
     s32 i;
-    void *temp_r3;
+    void *player_data;
     lbl_805D5CE0 = 0;
     TLobby__lobby_state_flags = 0;
     set_copy_clear_color_argb(0, 0, 0);
@@ -579,9 +560,9 @@ void init_offline_game_scene(void) {
     main_task.render_screen_overlay();
     game_mode = TLobby::get_game_mode();
     for (i = 0; i < game_mode; i++) {
-        temp_r3 = TObjPlayer::get_player_data(i);
-        if (temp_r3 != NULL) {
-            ((PV_801A39BC *)temp_r3)->m6();
+        player_data = TObjPlayer::get_player_data(i);
+        if (player_data != NULL) {
+            ((PV_801A39BC *)player_data)->m6();
         }
     }
     TObjPlayer__sub_801B1BA4();
@@ -596,6 +577,6 @@ void init_offline_game_scene(void) {
         }
     }
     TKeyBoardControl__sub_8000F90C(2);
-    TKeyBoardControl__sub_8000F91C(0xE);
+    set_queued_main_phase(0xE);
     render_tick();
 }

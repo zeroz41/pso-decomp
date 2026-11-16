@@ -8,6 +8,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/boss/volopt/TBoss3VoloptHiraisin.h"
+#include "pso/system/task/TObject.h"
 
 #pragma readonly_strings on
 
@@ -17,18 +18,17 @@ void *__dt__14TObjNpcBringerFv(void *arg0, s16 arg1);
 void *__ct__11TObjControlFP7TObject(void *, void *);
 void __dl__7TObjectFPv(void *);
 void *__dt__11TObjNpcBaseFv(void *arg0, s16 arg1);
-void *__nw__7TObjectFUl(int);
 
 extern void *tl_04;
 
 void *TObjNpcBringer::create(void *arg0) {
     void *o;
     void *o2;
-    o = __nw__7TObjectFUl(0x20);
+    o = TObject::operator new(0x20);
     if (o != NULL) {
         o = __ct__11TObjControlFP7TObject(o, tl_04);
     }
-    o2 = __nw__7TObjectFUl(0x3B8);
+    o2 = TObject::operator new(0x3B8);
     if (o2 != NULL) {
         o2 = TObjNpcBringer__ct((u8 *)o2, o, (s32)arg0);
     }
@@ -37,15 +37,15 @@ void *TObjNpcBringer::create(void *arg0) {
 
 extern void *__vt__14TObjNpcBringer[94];
 
-void *__dt__14TObjNpcBringerFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(void ***)((s8 *)arg0 + 0x18) = __vt__14TObjNpcBringer;
-        __dt__11TObjNpcBaseFv(arg0, 0);
+void *__dt__14TObjNpcBringerFv(void *npc_base, s16 arg1) {
+    if (npc_base != NULL) {
+        *(void ***)((s8 *)npc_base + 0x18) = __vt__14TObjNpcBringer;
+        __dt__11TObjNpcBaseFv(npc_base, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(npc_base);
         }
     }
-    return arg0;
+    return npc_base;
 }
 
 }
@@ -56,7 +56,7 @@ extern "C" void test_flag_1000__9TObjCharaFv();
 extern "C" void test_flag_256__9TObjCharaFv();
 
 extern "C" {
-s32 TObjFish__sub_8001EDB0(void *, s32);
+s32 get_bml_texlist(void *, s32);
 s32 get_bml_model(void *, s32);
 void TObjNpcBase__ct(void *, void *);
 void init_collision_body_parts(void *, void *, s32);
@@ -64,7 +64,6 @@ extern u8 npc_default_battle_stats[];
 extern u8 npc_movement_parameters[];
 extern "C" void vfunc_6__8TObjBaseFPsl();
 extern "C" void request_action__14TObjNpcBringerFl();
-extern "C" void *__dt__14TObjNpcBringerFv(void *arg0, s16 arg1);
 extern "C" void draw_debug_info__11TObjNpcBaseFv();
 extern "C" void is_target_in_attack_range__11TObjNpcBaseFv();
 extern "C" void vfunc_92__11TObjNpcBaseFv();
@@ -199,7 +198,7 @@ u8 *TObjNpcBringer__ct(u8 *self, void *parent, s32 arg2) {
     ((TObjPlayer *)self)->init_position_vectors();
     ((TObjNpcBringer *)self)->apply_set_params(0, 1);
     *(s32 *)(self + 0x34) = get_bml_model(TObjEneDf2Bringer__resource_bundle, 0);
-    *(s32 *)(self + 0x24) = TObjFish__sub_8001EDB0(TObjEneDf2Bringer__resource_bundle, 0);
+    *(s32 *)(self + 0x24) = get_bml_texlist(TObjEneDf2Bringer__resource_bundle, 0);
     ((TObjMotion *)self)->init_motion(npc_bringer_animation_table, (BmlMotionEntry *)*(s32 *)(TObjEneDf2Bringer__resource_bundle + 0x430), *(s16 *)(self + 0xB8));
     *(u8 **)(self + 0x350) = npc_movement_parameters;
     ((TObjChara *)self)->set_motion_params(npc_default_battle_stats);

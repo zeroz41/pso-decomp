@@ -13,6 +13,8 @@
 #include "pso/boss/olgaflow/TBoss6Tube_802B15F4.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/BmlResourceDescriptor.h"
+#include "pso/system/task/TObject.h"
+#include "pso/system/MatrixStack.h"
 
 const char *boss06_tube_dat_model_names[4] = { "boss06_light01.gj", "boss06_light02.gj", "boss06_tube01.gj", NULL };
 const char *boss06_tube_dat_motion_names[1] = { NULL };
@@ -35,7 +37,6 @@ s32 TBoss6Tube__previous_scroll_phase;
 f32 TBoss6Tube__scroll_delta;
 void get_bml_model(s32, s32);
 s32 query_teammate_state__9TObjEneDDFv(void);
-void push_matrix(void);
 void draw_ginja_object(void);
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
 
@@ -162,10 +163,6 @@ void TBoss6Tube::update_timer() {
     }
 }
 
-}
-
-extern "C" {
-
 s32 query_teammate_state__9TObjEneDDFv();
 
 void TBoss6Tube::run_task() {
@@ -188,9 +185,6 @@ void TBoss6Tube::run_task() {
 
 }
 
-struct RecoveredGlobal_802B1654___vt__10TBoss6Tube { s32 value; u8 remaining[0x14]; };
-typedef char RecoveredGlobal_802B1654___vt__10TBoss6Tube_size[sizeof(RecoveredGlobal_802B1654___vt__10TBoss6Tube) == 0x18 ? 1 : -1];
-
 extern "C" {
 void __ct__7TObjectFP7TObject(void *, void *);
 extern s32 __vt__10TBoss6Tube[];
@@ -202,7 +196,7 @@ TBoss6Tube::~TBoss6Tube() {
 
 u8 *TBoss6Tube__ct(TBoss6Tube *boss6_tube, u8 *arg1) {
     __ct__7TObjectFP7TObject(boss6_tube, arg1);
-    *(s32 **)((s8 *)boss6_tube + 0x18) = &(*(RecoveredGlobal_802B1654___vt__10TBoss6Tube *)&__vt__10TBoss6Tube).value;
+    *(s32 **)((s8 *)boss6_tube + 0x18) = __vt__10TBoss6Tube;
     boss6_tube->m_name = TBoss6Tube__name;
     *(u8 **)((s8 *)boss6_tube + 0x2C) = arg1;
     boss6_tube->m_24 = 0;
@@ -215,13 +209,15 @@ u8 *TBoss6Tube__ct(TBoss6Tube *boss6_tube, u8 *arg1) {
 
 extern "C" {
 s32 load_resource_from_descriptor(s32, int, void *, int, int, int);
+}
 u8 *load_gvm_texture_file(s32 arg0);
+extern "C" {
 void free_bin_model_request(void*, int);
 s32 release_texture_list(void*);
-void *__nw__7TObjectFUl(int);
+}
 
 void *TBoss6Tube::create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0x30);
+    void *o = TObject::operator new(0x30);
     if (o != NULL) {
         o = TBoss6Tube__ct((TBoss6Tube *)((u8 *)o), (u8 *)arg0);
     }
@@ -252,7 +248,5 @@ void TBoss6Tube::load_resources() {
     if (boss6_tube_bml_resource != 0 && boss6_tube_texture_list != 0) {
         return;
     }
-}
-
 }
 

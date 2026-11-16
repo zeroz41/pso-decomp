@@ -22,6 +22,7 @@ public:
     TObjEneDubchik(TObject *parent, void *set_data);
     virtual s32 update_shock_clock();
     virtual ~TObjEneDubchik();
+    void target_nearest_player(f32);
     void init_level_stats(s32);
     void sub_800AA10C();
     void sub_800A8B8C();

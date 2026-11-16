@@ -9,20 +9,10 @@ struct Stack_8024B000 {
     s32 sp10;
 };
 
-struct RecoveredGlobal_8024B000_lbl_804CE9D4 {
-    s32 value;
-    u8 remaining[0x8];
-};
-
 struct Stack_8024AFB8 {
     s32 sp8;
     s32 spC;
     s32 sp10;
-};
-
-struct RecoveredGlobal_8024AFB8_lbl_804CE9E0 {
-    s32 value;
-    u8 remaining[0x8];
 };
 
 struct Stack_8024AF74 {
@@ -31,20 +21,10 @@ struct Stack_8024AF74 {
     s32 sp10;
 };
 
-struct RecoveredGlobal_8024AF74_lbl_804CE9EC {
-    s32 value;
-    u8 remaining[0x8];
-};
-
 struct Stack_8024AEF0 {
     s32 sp8;
     s32 spC;
     s32 sp10;
-};
-
-struct RecoveredGlobal_8024AEF0_lbl_804CE9F8 {
-    s32 value;
-    u8 remaining[0x8];
 };
 
 struct Stack_8024AEAC {
@@ -53,31 +33,17 @@ struct Stack_8024AEAC {
     s32 sp10;
 };
 
-struct RecoveredGlobal_8024AEAC_lbl_804CEA04 {
-    s32 value;
-    u8 remaining[0x8];
-};
-
 extern "C" {
 s32 TWindowCtrl__sub_8024B098(void *, void *);
-extern RecoveredGlobal_8024B000_lbl_804CE9D4 lbl_804CE9D4;
-extern RecoveredGlobal_8024AFB8_lbl_804CE9E0 window_ctrl_apply_default_vec_callback_entry;
-extern RecoveredGlobal_8024AF74_lbl_804CE9EC TWindowCtrl__player_menu_query_cb;
-extern RecoveredGlobal_8024AEF0_lbl_804CE9F8 TWindowCtrl__unsuppress_slot_cb;
+struct RecoveredGlobal_lbl_804CE9D4 { s32 value; u8 remaining[0x8]; };
+extern RecoveredGlobal_lbl_804CE9D4 lbl_804CE9D4;
+struct WindowCtrlApplyDefaultVecCallbackEntry { s32 value; u8 remaining[0x8]; };
+extern WindowCtrlApplyDefaultVecCallbackEntry window_ctrl_apply_default_vec_callback_entry;
 struct Win_8024AF34 { virtual void m0(); };
 typedef void (Win_8024AF34::*Pmf_8024AF34)();
 void call_window_method__11TWindowCtrlFPvi(void *, Pmf_8024AF34);
 Win_8024AF34 *get_window__11TWindowCtrlFl(void *self);
-extern RecoveredGlobal_8024AEAC_lbl_804CEA04 TWindowCtrl__suppress_slot_cb;
-typedef char RecoveredGlobal_8024B000_lbl_804CE9D4_size[sizeof(RecoveredGlobal_8024B000_lbl_804CE9D4) == 0xC ? 1 : -1];
 
-typedef char RecoveredGlobal_8024AFB8_lbl_804CE9E0_size[sizeof(RecoveredGlobal_8024AFB8_lbl_804CE9E0) == 0xC ? 1 : -1];
-
-typedef char RecoveredGlobal_8024AF74_lbl_804CE9EC_size[sizeof(RecoveredGlobal_8024AF74_lbl_804CE9EC) == 0xC ? 1 : -1];
-
-typedef char RecoveredGlobal_8024AEF0_lbl_804CE9F8_size[sizeof(RecoveredGlobal_8024AEF0_lbl_804CE9F8) == 0xC ? 1 : -1];
-
-typedef char RecoveredGlobal_8024AEAC_lbl_804CEA04_size[sizeof(RecoveredGlobal_8024AEAC_lbl_804CEA04) == 0xC ? 1 : -1];
 void TWindowCtrl::suppress_slot() {
     s32 arg0 = (s32)this;
     typedef char sp8_offset[(offsetof(Stack_8024AEAC, sp8) == 0x0) ? 1 : -1];

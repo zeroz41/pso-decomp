@@ -2,7 +2,7 @@
 #include "pso/object/TObjDoaEx01.h"
 #include "pso/object/base/TObjMapObject.h"
 #include "pso/object/base/TObjMotion.h"
-#include "pso/object/TObjDoaEx01.h"
+
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/render/MaterialColorFade.h"
@@ -17,6 +17,7 @@
 #include "pso/object/door/TODoorAncient01.h"
 #include "pso/map/FloorArea.h"
 #include "pso/system/SoundEffect.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 __declspec(section ".data") const char *fs_obj_ex_doa01_model_names[2] = { "fs_obj_ex_doa01.gj", NULL };
 __declspec(section ".data") const char *fs_obj_ex_doa01_motion_names[2] = { "fs_obj_ex_doa01.njm", NULL };
@@ -51,7 +52,7 @@ struct Obj_8018DBCC {
 };
 
 extern "C" {
-u8 * TObjFish__sub_8001EDB0(void *, int);
+u8 * get_bml_texlist(void *, int);
 u8 * get_bml_model(void *, int);
 
 #pragma push
@@ -72,7 +73,7 @@ void TObjDoaEx01::update_open() {
     Obj_8018DA54 *self = (Obj_8018DA54 *)this;
     if (self->flags & 1) {
         if (((TObjMapObject *)self)->is_any_player_within_radius_xz((f32)1e+04f) == 0) {
-            self->state = 3;
+            this->object_state = 3;
             switch (get_current_floor_area()) {
             case AREA_VR_TEMPLE_ALPHA:
             case AREA_VR_TEMPLE_BETA:
@@ -88,7 +89,7 @@ void TObjDoaEx01::update_open() {
             }
         }
     } else {
-        self->state = 3;
+        this->object_state = 3;
         switch (get_current_floor_area()) {
         case AREA_VR_TEMPLE_ALPHA:
         case AREA_VR_TEMPLE_BETA:
@@ -106,18 +107,18 @@ void TObjDoaEx01::update_open() {
 }
 
 void TObjDoaEx01::update_opening() {
-    O_8018DB94 *self = (O_8018DB94 *)this;
-    self->pos += self->speed;
-    if (self->pos > self->max - 1.0f) {
-        self->pos = self->max - 1.0f;
-        self->state = 2;
+    TObjDoaEx01 *self = this;
+    self->animation_frame += self->animation_step;
+    if (self->animation_frame > self->animation_end_frame - 1.0f) {
+        self->animation_frame = self->animation_end_frame - 1.0f;
+        self->object_state = 2;
     }
 }
 void TObjDoaEx01::update_closed() {
     Obj_8018DBCC *self = (Obj_8018DBCC *)this;
     if (self->flags & 1) {
         if (((TObjMapObject *)self)->is_any_player_within_radius_xz(4.9e+03f) == 1) {
-            self->state = 1;
+            this->object_state = 1;
             ((TObjCollidable *)self)->set_indexed_flags(0, 8);
             switch (get_current_floor_area()) {
             case AREA_VR_TEMPLE_ALPHA:
@@ -158,20 +159,6 @@ struct NjObj_8018DD0C {
     NjObj_8018DD0C *sibling;
 };
 
-struct VBase_18_26a62c { char pad[0x18]; };
-
-struct VObj_18_26a62c : VBase_18_26a62c {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual s32 m8(f32, f32);
-};
-
 extern "C" {
 s32 rotate_matrix_by_node_angles(void *, int);
 s32 push_matrix();
@@ -185,19 +172,6 @@ s32 get_bml_motion(s32, s32);
 s32 rotate_matrix_y(s32, s32);
 s32 set_global_param__8TObjFishFl();
 s32 draw_ginja_model_with_motion(s32, s32, f32);
-
-struct TObjDoaEx01_base { char pad[0x18]; };
-struct TObjDoaEx01_VObj : TObjDoaEx01_base {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual s32 m8(f32, f32);
-};
 
 s32 TObjDoaEx01::draw_object_tree(s32 arg1) {
     NjObj_8018DD0C *obj = (NjObj_8018DD0C *)arg1;
@@ -239,10 +213,10 @@ void TObjDoaEx01::try_open() {
     s32 bml_model;
 
     bml_model = (s32)get_bml_model((void *)TObjDoaEx01__resource_bundle, 0);
-    if (((TObjDoaEx01_VObj*)((u8 *)this))->m8(4e+02f, 2e+01f) != 0) {
+    if (this->update_object_view_visibility(4e+02f, 2e+01f) != 0) {
         ((TObjDoorJung *)(*(s32 *)((s8 *)TObjDoaEx01__alpha_model_node + 4)))->free_children((void *)1);
         ((TObjDoorJung *)(*(s32 *)((s8 *)TObjDoaEx01__alpha_model_sibling + 4)))->free_children((void *)1);
-        TObjFish__sub_8001EDB0((void *)TObjDoaEx01__resource_bundle, 0);
+        get_bml_texlist((void *)TObjDoaEx01__resource_bundle, 0);
         set_global_param__8TObjFishFl();
         push_matrix();
         post_translate_matrix(((u8 *)this) + 0x38);
@@ -255,11 +229,11 @@ void TObjDoaEx01::draw_model() {
     f32 temp_f31;
     s32 temp_r31;
     s32 temp_r31_2;
-    if (((VObj_18_26a62c *)(this))->m8(4e+02f, 2e+01f) != 0) {
+    if (this->update_object_view_visibility(4e+02f, 2e+01f) != 0) {
         ((TObjDoorJung *)(*(s32 *)((s8 *)TObjDoaEx01__alpha_model_node + 4)))->free_children((void *)0);
         ((TObjDoorJung *)(*(s32 *)((s8 *)TObjDoaEx01__alpha_model_sibling + 4)))->free_children((void *)0);
-        temp_r31 = (s32)get_bml_model((void *)(TObjDoaEx01__resource_bundle), 0);
-        TObjFish__sub_8001EDB0((void *)(TObjDoaEx01__resource_bundle), 0);
+        temp_r31 = (s32)get_bml_model((void *)TObjDoaEx01__resource_bundle, 0);
+        get_bml_texlist((void *)TObjDoaEx01__resource_bundle, 0);
         set_global_param__8TObjFishFl();
         push_matrix();
         post_translate_matrix((void *) (((u8 *)this) + 0x38));
@@ -267,17 +241,13 @@ void TObjDoaEx01::draw_model() {
         temp_f31 = this->animation_frame;
         if (temp_f31 > 0.0f) {
             temp_r31 = get_bml_motion((TObjDoaEx01__resource_bundle), 0);
-            draw_ginja_model_with_motion((s32)get_bml_model((void *)(TObjDoaEx01__resource_bundle), 0), temp_r31, temp_f31);
+            draw_ginja_model_with_motion((s32)get_bml_model((void *)TObjDoaEx01__resource_bundle, 0), temp_r31, temp_f31);
         } else {
             this->draw_object_tree((temp_r31));
         }
         pop_matrix();
     }
 }
-
-}
-
-extern "C" {
 
 s32 try_open__11TObjDoaEx01Fv();
 s32 draw_model__11TObjDoaEx01Fv();
@@ -293,61 +263,41 @@ void TObjDoaEx01::render() {
 }
 
 
-struct RecoveredGlobal_8018E1E0_lbl_804B7588 { s32 value; u8 remaining[0xC]; };
-typedef char RecoveredGlobal_8018E1E0_lbl_804B7588_size[sizeof(RecoveredGlobal_8018E1E0_lbl_804B7588) == 0x10 ? 1 : -1];
-
-
-struct RecoveredGlobal_8018E064___vt__11TObjDoaEx01 {
-    s32 value;
-    u8 remaining[0x50];
-};
-
 extern "C" {
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 s32 init_collision_body_parts(void *, void *, int);
-void *__ct__10TODoorBaseFP7TObject(void *a0);
-extern s32 __vt__11TObjDoaEx01[];
 
 void free_bin_model_request(void*, int);
 s32 free_collision_body_parts(void *);
-s32 __dl__7TObjectFPv(void *);
-void *__nw__7TObjectFUl(int);
 
 }
 TObjDoaEx01::~TObjDoaEx01() {
-    ((TObjCollidable *)this)->unregister_object_by_id();
+    this->unregister_object_by_id();
     free_collision_body_parts(this);
 }
-extern "C" {
+
 
 extern void *tl_05;
 
-typedef char RecoveredGlobal_8018E064___vt__11TObjDoaEx01_size[sizeof(RecoveredGlobal_8018E064___vt__11TObjDoaEx01) == 0x54 ? 1 : -1];
-u8 *TObjDoaEx01__ct(u8 *arg0, s32 arg1, s32 arg2) {
-    __ct__10TODoorBaseFP7TObject((arg0));
-    *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_8018E064___vt__11TObjDoaEx01 *)&__vt__11TObjDoaEx01).value;
-    *(s32 *)((s8 *)arg0 + 0) = (s32) TObjDoaEx01__name;
-    ((TObjDoaEx01 *)(arg0))->apply_object_set_data((void *)arg2);
-    ((TObjDoaEx01 *)(arg0))->init_door_switch_binding();
-    init_collision_body_parts(arg0, &TObjDoaEx01__collision_body_parts, 1);
-    ((TObjCollidable *)arg0)->refresh_collision_body_centers();
-    ((TObjPlayer *)arg0)->register_object_by_id();
-    ((TObjDoaEx01 *)arg0)->animation_frame = 0.0f;
-    ((TObjDoaEx01 *)arg0)->animation_step = 0.5f;
-    *(f32 *)((s8 *)arg0 + 0xB4) = (f32) *(u32 *)((s8 *)(get_bml_motion((*(s32 *)&TObjDoaEx01__resource_bundle), 0)) + 4);
-    ((TObjDoaEx01 *)arg0)->door_flags = 0x100001;
-    *(f32 *)((s8 *)arg0 + 0xD4) = 1.0f;
-    ((TObjDoaEx01 *)arg0)->m_d8 = 1.0f;
-    *(f32 *)((s8 *)arg0 + 0xDC) = 1.0f;
-    ((TObjDoaEx01 *)arg0)->m_e0 = 1.0f;
-    return arg0;
+TObjDoaEx01::TObjDoaEx01(s32 arg1, s32 arg2) : TODoorBase((TObject *)arg1) {
+    *(s32 *)((s8 *)this + 0) = (s32) TObjDoaEx01__name;
+    ((TObjDoaEx01 *)(((u8 *)this)))->apply_object_set_data((void *)arg2);
+    ((TObjDoaEx01 *)(((u8 *)this)))->init_door_switch_binding();
+    init_collision_body_parts(((u8 *)this), &TObjDoaEx01__collision_body_parts, 1);
+    ((TObjCollidable *)this)->refresh_collision_body_centers();
+    ((TObjPlayer *)this)->register_object_by_id();
+    this->animation_frame = 0.0f;
+    this->animation_step = 0.5f;
+    this->animation_end_frame = (f32) *(u32 *)((s8 *)(get_bml_motion((*(s32 *)&TObjDoaEx01__resource_bundle), 0)) + 4);
+    this->door_flags = 0x100001;
+    *(f32 *)((s8 *)this + 0xD4) = 1.0f;
+    this->m_d8 = 1.0f;
+    *(f32 *)((s8 *)this + 0xDC) = 1.0f;
+    this->m_e0 = 1.0f;
 }
 
 void *TObjDoaEx01__create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0xE4);
-    if (o != NULL) {
-        o = TObjDoaEx01__ct((u8 *)o, (s32)tl_05, (s32)arg0);
-    }
+    void *o = (void *)new TObjDoaEx01((s32)tl_05, (s32)arg0);
     return o;
 }
 
@@ -372,4 +322,3 @@ void TObjDoaEx01::load_resources() {
     TObjDoaEx01__alpha_model_sibling = (u8 *)*(s32 *)((s8 *)temp_r3_2 + 0x30);
 }
 
-}

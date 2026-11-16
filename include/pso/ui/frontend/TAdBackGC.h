@@ -14,9 +14,7 @@ public:
     static void run_task();
 };
 
-extern "C" {
 int draw_title_background_layer(void *p, int a1, int a2, f32 a3);
 int render_logo_with_default(void *p, int a1, int a2, f32 a3);
-}
 
 #endif

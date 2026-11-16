@@ -52,6 +52,7 @@
 #include "pso/math/AngleLookup.h"
 
 #include "pso/system/NinjaTypes.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 
 // Two debug chunk models other units draw with draw_chunk_object: debug_chunk_object (TObjEneBm3FlyNest,
 // TObjEneRecobox, and TObjHMS_EZRope_Player through lbl_8048DEF4) and lbl_805D28BC (TBoss1Dragon, TBoss2Mine,
@@ -232,7 +233,6 @@ struct VObj_8007C8AC : VBase_8007C8AC {
     virtual void m1();
     virtual void m2();
 };
-struct Vec2_8007DD28 { f32 x; f32 y; };
 struct Vtx_8007D828 { f32 x; f32 y; f32 z; u32 color; };
 struct Quad_8007D828 { f32 x0; f32 y0; f32 x1; f32 y1; f32 u0; f32 v0; f32 u1; f32 v1; };
 // screen.bin / the PSO_SCREEN card file: a 256x192 capture and who was in the room.
@@ -266,7 +266,7 @@ struct G_PlaySound_6xB2 {
 extern "C" {
 s32 DCFlushRange(int, int);
 s32 TAdPlayerLoadGC__sub_801E1538(void *, void *);
-s32 TAdPlayerLoadGC__sub_801E1B50(int);
+s32 poll_memcard_result(s32 chan);
 extern s32 lbl_805D49B4;
 s32 draw_textured_screen_quad__10TObjPlayerFUlPfPfl(int, void *, void *, int, f32);
 void poll_load_status__15TAdPlayerLoadGCFl(s32 a, void *b);
@@ -278,13 +278,12 @@ s32 load_player__23TAdSinglePlyChrSelectGCFllll(s32, const char *, void *, s32);
 extern char episode_i_and_ii_card_filename[];
 VObj_8007C5C0 *create__8TDLGraphFv(void);
 s8 func_801A5E54__Fv(void);
-s32 TWindowShortListCtrl__check_controller_button(void *, s32);
 extern u32 camera_ctrl_instance;
 s32 verify_snapshot_checksum__15TObjBoss2TunnelFv();
 void set_depth_buffer_settings_1__Fv(void);
 void draw_projected_quads__15TObjBoss2TunnelFPvi(Vtx_8007D828 *, s32);
 extern s32 lbl_805D63F0;
-s32 TAdPlayerLoadGC__sub_801E0FA4(s32);
+s32 get_memcard_free_files(s32);
 s32 query_memcard_capacity__15TAdPlayerLoadGCFl(s32, s32);
 s32 set_stream_and_load_file__6TLobbyFi(const char *);
 s32 is_on_current_screen__11TCameraCtrlFv(void *, s32);
@@ -304,16 +303,14 @@ struct PiecewiseCurve {
     f32 decelPos;
     f32 dist;
 };
-extern "C" {
-}
-extern "C" {
 f32 sample_acceleration_curve(AccelerationCurve *c, f32 t);
 void init_acceleration_curve(AccelerationCurve *c, f32 a, f32 d, f32 length, f32 speed);
+extern "C" {
 void __dl__FPv(void);
 s32 reset_floats__15TObjBoss2TunnelFv();
 s32 get_view_matrix__11TCameraCtrlFv();
 int vec3_add_to(void*, void*);
-int TCameraCtrl__sub_8006B370(f32 farg0);
+int is_float_nonfinite(f32 farg0);
 f32 vec_squared_length();
 f32 normalize_vector(void *);
 }
@@ -332,7 +329,7 @@ const u8 snapshot_card_icon[16] = {0x35, 0x04, 0x08, 0x1A, 0x0A, 0x07, 0x57, 0x5
 const char screen_binary_filename_string[] = "screen.bin";
 const char *screen_binary_filename = screen_binary_filename_string;
 // Centre of the capture frame, moved with the C stick.
-Vec2_8007DD28 TObjBoss2Tunnel__data_8048DF2C = {320.0f, 240.0f};
+NJS_POINT2 TObjBoss2Tunnel__data_8048DF2C = {320.0f, 240.0f};
 
 void TObjBoss2Tunnel__sub_8007EAE4(u8 *arg0) {
     *(u8 *)((s8 *)arg0 + 0) = 0xB2;
@@ -350,7 +347,7 @@ void TObjBoss2Tunnel::finalize_and_send_60() {
     send_subcommand((u8 *)this);
 }
 
-extern "C" {
+
 f32 TObjBoss2Tunnel::update_scale() {
     f32 var_f31;
     f32 temp_f0;
@@ -358,7 +355,7 @@ f32 TObjBoss2Tunnel::update_scale() {
     var_f31 = 0.0f;
     if (0.0f != vec_squared_length()) {
         var_f31 = normalize_vector(this);
-        if (TCameraCtrl__sub_8006B370(var_f31) != 0) {
+        if (is_float_nonfinite(var_f31) != 0) {
             *(f32 *)&this->m_name = var_f31 = 0.0f;
             *(f32 *)&this->m_flags = var_f31;
             *(f32 *)&this->m_prev = var_f31;
@@ -372,7 +369,6 @@ f32 TObjBoss2Tunnel::update_scale() {
     return var_f31;
 }
 
-}
 #pragma push
 #pragma fp_contract on
 f32 normalize_vector_xz(Vec *vector) {
@@ -386,7 +382,7 @@ f32 normalize_vector_xz(Vec *vector) {
     temp_f29 = (temp_f31 * temp_f31) + (temp_f30 * temp_f30);
     if (0.0f != temp_f29) {
         temp_f28 = 1.0f / newton_sqrtf(temp_f29);
-        if (TCameraCtrl__sub_8006B370(temp_f28) != 0) {
+        if (is_float_nonfinite(temp_f28) != 0) {
             vector->x = (f32) 0.0f;
             vector->z = (f32) 0.0f;
             return 0.0f;
@@ -401,13 +397,11 @@ f32 normalize_vector_xz(Vec *vector) {
 }
 
 #pragma pop
-extern "C" {
+
 void TObjBoss2Tunnel::render(void* a1) { push_matrix(); TObjPlayer::invert_matrix_in_place((u32)((void*)0)); get_current_matrix(a1); pop_matrix(); }
 
-}
 #pragma push
 #pragma fp_contract on
-extern "C" {
 void TObjBoss2Tunnel::transform_vec_by_camera(s32 arg0, s32 arg1, s32 arg2) {
     push_matrix();
     TCameraCtrl::concat_matrix(0, get_view_matrix__11TCameraCtrlFv());
@@ -445,9 +439,7 @@ void rotate_vec_xz(void *arg0, void *arg1, s32 arg2) {
     *(f32 *)((s8 *)arg1 + 0) = (f32) ((temp_f1 * temp_f3) + (temp_f31 * temp_f0));
 }
 
-}
 #pragma pop
-extern "C" {
 f32 TObjBoss2Tunnel::calc_scaled_value(s32 arg0, f32 farg0) {
     return (0.5f * farg0) / sin_table_lookup(arg0 / 2);
 }
@@ -556,7 +548,6 @@ AccelerationCurve::AccelerationCurve() {
 
 AccelerationCurve::~AccelerationCurve() {}
 
-}
 void AccelerationCurve::reset_coords() {
     decel = 0.0f;
     accel = 0.0f;
@@ -569,7 +560,7 @@ void AccelerationCurve::reset_coords() {
     accelDist = 0.0f;
 }
 
-extern "C" {
+
 void init_acceleration_curve(AccelerationCurve *c, f32 a, f32 d, f32 length, f32 speed) {
     f32 sq;
     f32 up;
@@ -608,10 +599,8 @@ int AccelerationCurve::check_param_threshold(f32 t) {
     return t >= this->end;
 }
 
-}
 #pragma push
 #pragma fp_contract on
-extern "C" {
 f32 sample_acceleration_curve(AccelerationCurve *c, f32 t) {
     if (t < 0.0f) {
         return 0.0f;
@@ -638,9 +627,7 @@ f32 sample_acceleration_curve(AccelerationCurve *c, f32 t) {
     return c->dist;
 }
 
-}
 #pragma pop
-extern "C" {
 s32 TObjBoss2Tunnel::reset_floats(s32 arg0) {
     reset_floats__15TObjBoss2TunnelFv();
     return arg0;
@@ -653,7 +640,6 @@ s32 TObjBoss2Tunnel::dt(s32 arg0, s16 arg1) {
     return arg0;
 }
 
-}
 void TObjBoss2Tunnel::reset_floats() { *(float *)&this->m_flags = 0.0f; *(float *)&this->m_name = 0.0f; *(float *)&this->m_next = 0.0f; *(float *)&this->m_prev = 0.0f; *(float*)((char*)this + 0x18) = 0.0f; *(float *)&this->m_down = 0.0f; *(float *)&this->m_up = 0.0f; *(float *)&this->_pad1C = 0.0f; *(float *)&this->m_28 = 0.0f; *(float *)&this->m_24 = 0.0f; *(float *)&this->m_20 = 0.0f; }
 
 extern "C" {
@@ -699,11 +685,10 @@ void init_piecewise_curve(PiecewiseCurve *c, f32 accel, f32 decel, f32 dist, f32
         c->end = c->decelStart + (-c->peak / c->decel);
     }
 }
-
 }
+
 #pragma push
 #pragma fp_contract on
-extern "C" {
 f32 TObjBoss2Tunnel::eval_piecewise_curve(f32 farg0) {
     PiecewiseCurve *c = (PiecewiseCurve *)this;
     f32 t;
@@ -726,17 +711,13 @@ f32 TObjBoss2Tunnel::eval_piecewise_curve(f32 farg0) {
     return r;
 }
 
-}
 #pragma pop
-extern "C" {
 void TObjBoss2Tunnel::update_position() {
     eval_piecewise_curve(*(f32 *)&this->_pad1C);
 }
 
-}
 #pragma push
 #pragma fp_contract on
-extern "C" {
 s32 sample_piecewise_curve(PiecewiseCurve *c, f32 *out, f32 t) {
     s32 done = 0;
     if (t < 0.0f) {
@@ -754,8 +735,6 @@ s32 sample_piecewise_curve(PiecewiseCurve *c, f32 *out, f32 t) {
         *out = c->dist;
     }
     return done;
-}
-
 }
 #pragma pop
 s32 TObjBoss2Tunnel::advance_phase(f32 *out) {
@@ -1090,7 +1069,7 @@ s32 TObjBoss2Tunnel__sub_8007D1D0(void) {
                     TLobby__sub_80338534();
                     TParticleCtrl::end_effect_render();
                     render_tick();
-                } while (TAdPlayerLoadGC__sub_801E1B50(1) == 0xFFFFFFFF);
+                } while (poll_memcard_result(1) == 0xFFFFFFFF);
                 if (TAdPlayerLoadGC::get_load_result((void *)1) == 0xFFFFFF81) {
                     TObjBoss2Tunnel::show_message_and_wait(-2);
                 }
@@ -1112,7 +1091,7 @@ s32 TObjBoss2Tunnel__sub_8007D1D0(void) {
 }
 
 s32 memcard_check_snapshot(s32 arg0, s32 *arg1) {
-    s32 temp_r3;
+    s32 card_file;
 
     if (TAdPlayerLoadGC::get_instance() != 0) {
         return 0;
@@ -1145,20 +1124,20 @@ s32 memcard_check_snapshot(s32 arg0, s32 *arg1) {
         }
         return 0;
     }
-    if (TAdPlayerLoadGC__sub_801E1B50(1) != 0) {
+    if (poll_memcard_result(1) != 0) {
         if (arg1 != NULL) {
             *arg1 = -2;
         }
         return 0;
     }
-    temp_r3 = TAdPlayerLoadGC::find_card_file(1, TObjBoss2Tunnel__data_80438A08);
-    if (temp_r3 == 0) {
+    card_file = TAdPlayerLoadGC::find_card_file(1, TObjBoss2Tunnel__data_80438A08);
+    if (card_file == 0) {
         if (arg1 != NULL) {
             *arg1 = 1;
         }
         return 1;
     }
-    if ((temp_r3 + 0x10000) == 0xff41U) {
+    if ((card_file + 0x10000) == 0xff41U) {
         if (arg1 != NULL) {
             *arg1 = -9;
         }
@@ -1167,7 +1146,7 @@ s32 memcard_check_snapshot(s32 arg0, s32 *arg1) {
     if (arg0 != 1) {
         return 0;
     }
-    if (TAdPlayerLoadGC__sub_801E0FA4(1) < 1) {
+    if (get_memcard_free_files(1) < 1) {
         if (arg1 != NULL) {
             *arg1 = -7;
         }
@@ -1300,7 +1279,7 @@ s32 save_screen_snapshot(void) {
 s32 TObjBoss2Tunnel::load_snapshot() {
     Stack_8007CBC4 stack;
     s32 buf;
-    if (TAdPlayerLoadGC__sub_801E1B50(1) == 0) {
+    if (poll_memcard_result(1) == 0) {
         if (((s32) (*(u16 *)&TObjBoss2Tunnel__snapshot_state) != 0) && ((s32) (*(u16 *)&TObjBoss2Tunnel__snapshot_state) >= 0) && ((s32) (*(u16 *)&TObjBoss2Tunnel__snapshot_state) < 3)) {
             buf = TObjPlayer__sub_800845F8();
             if (TAdPlayerLoadGC__sub_801E1538(&stack.sp8, TObjBoss2Tunnel__snapshot_buffer) == 0) {

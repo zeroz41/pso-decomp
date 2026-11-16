@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/unk/text_803CD99C.h"
 #include "pso/unk/text_803CE240.h"
 #include "pso/unk/TLobby.h"
 
@@ -22,7 +23,6 @@ struct Ent_803CE240 {
 };
 
 extern "C" {
-void TLobby__sub_803CD99C();
 void TLobby__sub_803CE2A0(Ent_803CE240 *);
 s32 TLobby__sub_803CE1F4(TLobby *);
 s32 TLobby__sub_803CE1D8(TLobby *);

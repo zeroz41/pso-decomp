@@ -1,13 +1,9 @@
 #include "types.h"
+#include "pso/ui/window/TWindowSubStatusDisp_8025995C.h"
 #include "pso/ui/window/TWindowSubStatusDisp_802598E4.h"
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
 #include "pso/system/memory.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-
-struct RecoveredGlobal_80259D3C_lbl_804CF9C8 {
-    s32 value;
-    u8 remaining[0x14];
-};
 
 struct Pos_80259A84
 {
@@ -17,14 +13,14 @@ struct Pos_80259A84
 };
 
 extern "C" {
-void reset_entry__20TWindowSubStatusDispFPv(void*, int);
+void *reset_entry__20TWindowSubStatusDispFPv(void *a0, s32 _w1);
 u8 get_font_char_advance();
 s32 map_char_to_font_code(s32);
 u8 get_small_font_glyph_width();
 s32 TWindowSubStatusDisp__sub_800FC248(s32);
 s32 build_small_font_glyph_quad(s32, Pos_80259A84 *);
 s32 set_glyph_quad_extents(s32, Pos_80259A84 *);
-s32 calc_gauge_scale__20TWindowSubStatusDispFPvPvi(s32, Pos_80259A84 *, s32);
+s32 calc_gauge_scale__20TWindowSubStatusDispFUsPvl(s32, Pos_80259A84 *, s32);
 s32 try_open__19TWindowKeyBoardSoftFii(void *, Pos_80259A84 *);
 void begin_screen_draw(s32 arg0);
 s32 draw_textured_quad_at_depth(Pos_80259A84 *, f32);
@@ -77,18 +73,18 @@ void render_numeric_digit_entries(u8 *arg0, u8 *window_key_board_soft) {
   f32 h;
   h = *((f32 *) (((s8 *) arg0) + 0xC));
   w = *((f32 *) (((s8 *) arg0) + 8));
-  t = (h / 21.0f) + (w / (*((f32 *) (((s8 *) window_key_board_soft) + 0x18))));
+  t = (h / 21.0f) + (w / (((TWindowKeyBoardSoft *)window_key_board_soft)->inner_w));
   t *= 7.5f;
-  t = 17.0f * (((f32) (*((s32 *) (((s8 *) window_key_board_soft) + 0x30)))) - t);
+  t = 17.0f * (((f32) (((TWindowKeyBoardSoft *)window_key_board_soft)->open_tick)) - t);
   if (t <= 0.0f)
   {
     return;
   }
   mode = ((*((u16 *) (((s8 *) arg0) + 0))) >> 2) & 1;
   n = *((s32 *) (((s8 *) arg0) + 0x20));
-  x = (*((f32 *) (((s8 *) window_key_board_soft) + 0x10))) + w;
-  y = (*((f32 *) (((s8 *) window_key_board_soft) + 0x14))) + h;
-  scale = (-1.0f) / ((0.299f * (*((f32 *) (((s8 *) arg0) + 0x18)))) + (*((f32 *) (((s8 *) window_key_board_soft) + 0x38))));
+  x = (((TWindowKeyBoardSoft *)window_key_board_soft)->inner_x) + w;
+  y = (((TWindowKeyBoardSoft *)window_key_board_soft)->inner_y) + h;
+  scale = (-1.0f) / ((0.299f * (*((f32 *) (((s8 *) arg0) + 0x18)))) + (((TWindowKeyBoardSoft *)window_key_board_soft)->depth));
   switch (mode)
   {
     case 0:
@@ -113,7 +109,7 @@ void render_numeric_digit_entries(u8 *arg0, u8 *window_key_board_soft) {
       if (1)
       {
         case 0:
-          r = calc_gauge_scale__20TWindowSubStatusDispFPvPvi(((u8 (*)(u16)) map_char_to_font_code)(d + 0x30), &pos, *((s32 *) (((s8 *) arg0) + 0x1C)));
+          r = calc_gauge_scale__20TWindowSubStatusDispFUsPvl(((u8 (*)(u16)) map_char_to_font_code)(d + 0x30), &pos, *((s32 *) (((s8 *) arg0) + 0x1C)));
           pos.y = y;
           x -= (u8) r;
           pos.x = x;
@@ -158,10 +154,9 @@ void *TWindowSubStatusDisp__sub_80259CE4(void *window_sub_status_disp, s16 arg1)
     return window_sub_status_disp;
 }
 
-typedef char RecoveredGlobal_80259D3C_lbl_804CF9C8_size[sizeof(RecoveredGlobal_80259D3C_lbl_804CF9C8) == 0x18 ? 1 : -1];
 u8 *TWindowSubStatusDisp__sub_80259D3C(u8 *arg0, u8 *arg1, s32 arg2) {
     reset_entry__20TWindowSubStatusDispFPv(arg0, arg2);
-    *(s32 **)((s8 *)arg0 + 4) = &(*(RecoveredGlobal_80259D3C_lbl_804CF9C8 *)&lbl_804CF9C8).value;
+    *(s32 **)((s8 *)arg0 + 4) = lbl_804CF9C8;
     *(f32 *)((s8 *)arg0 + 8) = (f32) *(f32 *)((s8 *)arg1 + 4);
     *(f32 *)((s8 *)arg0 + 0xC) = (f32) *(f32 *)((s8 *)arg1 + 8);
     *(f32 *)((s8 *)arg0 + 0x18) = (f32) *(f32 *)((s8 *)arg1 + 0xC);

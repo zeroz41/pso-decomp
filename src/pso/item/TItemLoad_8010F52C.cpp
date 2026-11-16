@@ -8,10 +8,10 @@
 #include "pso/item/TItemLoad.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 
-extern "C" {
+
 u8 lbl_80506208[32];
-}
 
 
 struct Load_8010F838 { u8 pad[0x14]; void *vtbl; u8 pad18[0xC]; s32 id; s32 f28; s32 f2c[4]; s32 f3c; };
@@ -25,7 +25,6 @@ struct List_8010F68C { Ent_8010F68C *ents; u32 count; };
 struct Load_8010F68C { u8 pad[0x24]; s32 id; List_8010F68C *list; void *f2c[4]; void *f3c; };
 
 extern "C" {
-void *mem_alloc(u32 size);
 extern s32 lbl_805D2BE8;
 extern s32 lbl_805D2BEC;
 extern void *item_texture_archive_loader;
@@ -43,7 +42,6 @@ struct VObj_8010F52C : Base_8010F52C {
 };
 
 s32 load_gvm_texture_archive(s32, s32);
-void mem_free(void *p);
 
 void TItemLoad::free_all_models() {
     mem_free((void *)item_load_model_buffer);

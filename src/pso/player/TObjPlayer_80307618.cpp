@@ -16,11 +16,10 @@
 
 extern "C" {
 extern char shared_capture_texture_list[];
-void TKeyBoardControl__sub_8000F91C(s32 arg0);
-void TKeyBoardControl__sub_8000F9CC(s32 arg0);
+void set_queued_main_phase(s32 arg0);
+void request_main_phase(s32 arg0);
 s32 queue_destruction__7TObjectFv();
 void *__ct__6TMovieFP7TObjectPSclll(void *, void *, void *, void *, s32, s32, s32);
-void *__nw__7TObjectFUl(u32);
 extern u8 lbl_80475450[];
 extern s32 game_difficulty_selection;
 }
@@ -33,13 +32,13 @@ TUnk_804E71A0::TUnk_804E71A0() : TObject(tl_04) {
     case 0:
     case 1:
     case 2:
-        p = __nw__7TObjectFUl(0x4C);
+        p = TObject::operator new(0x4C);
         if (p != 0) {
             __ct__6TMovieFP7TObjectPSclll(p, tl_00, lbl_80475450, (void *)TObjPlayer::disable_keyboard_control, 0, 1, 0);
         }
         break;
     case 3:
-        p = __nw__7TObjectFUl(0x4C);
+        p = TObject::operator new(0x4C);
         if (p != 0) {
             __ct__6TMovieFP7TObjectPSclll(p, tl_00, lbl_80475450, (void *)TObjPlayer::disable_keyboard_control, 0, 0, 0);
         }
@@ -54,11 +53,11 @@ void TUnk_804E71A0::run_task() {}
 void TObjPlayer::disable_keyboard_control() {
     queue_destruction__7TObjectFv();
     if ((s32) ending_movie_active_flag != 0) {
-        TKeyBoardControl__sub_8000F9CC(2);
+        request_main_phase(2);
         return;
     }
-    TKeyBoardControl__sub_8000F91C(2);
-    TKeyBoardControl__sub_8000F9CC(0x12);
+    set_queued_main_phase(2);
+    request_main_phase(0x12);
 }
 
 void TUnk_804E71A0::render() {}
@@ -69,13 +68,12 @@ char *get_shared_capture_texture_list(void) {
 
 TUnk_804E70A8::~TUnk_804E70A8() {}
 
-extern "C" {
+
 u8 *TObjPlayer__sub_80307800(u8 *item) {
     if (item != NULL) {
         return (u8 *)new TUnk_804E70A8(tl_05, item);
     }
     return NULL;
-}
 }
 
 TUnk_804E70A8::TUnk_804E70A8(TObject *parent, u8 *item) : TItemWeapon(parent, item) {

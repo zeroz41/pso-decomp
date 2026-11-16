@@ -6,6 +6,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdChrMoveEffectGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -34,9 +35,7 @@ const char *TBoss6Zanzo__name = "TBoss6Zanzo";
 
 extern "C" {
 void VecCopy__FP3VecPC3Vec(void *, void *);
-void mem_free(void *);
 void run_task__11TBoss6ZanzoFv(Obj_803208CC *arg0);
-void *mem_alloc(u32 size);
 int set_depth_buffer_settings_1__Fv(void*);
 
 s32 fn_803204B0(void* p) { return *(s32*)((char*)p + 0x4); }

@@ -19,7 +19,7 @@
 #include "pso/unk/text_803D8F74.h"
 #include "pso/math/AngleLookup.h"
 #include <stdlib.h>
-#include "pso/system/task/TObject.h"
+
 
 class TDeadSpot : public TObject {
 public:
@@ -29,18 +29,6 @@ public:
 };
 #endif
 
-struct Stack_800D7E94
-{
-  f32 sp8;
-  f32 spC;
-  f32 sp10;
-};
-
-struct RecoveredGlobal_800D7F60_lbl_804949F4 {
-    s32 value;
-    u8 remaining[0x18];
-};
-
 #include <stddef.h>
 #include "pso/system/task/TMainTask.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
@@ -48,33 +36,22 @@ struct RecoveredGlobal_800D7F60_lbl_804949F4 {
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-struct Stack_800D7CF4 {
-    f32 sp8;
-    f32 spC;
-    f32 sp10;
-};
 
 struct E_800D7FD4 { u8 pad[0x14]; u32 col; };
 
 struct Obj_800D7FD4 { u8 pad0[0x1C]; E_800D7FD4 e[4]; u8 pad7c[0xC0 - 0x7C]; f32 c0; f32 c4; f32 c8; };
 
-struct V3_800D80E4 { f32 x; f32 y; f32 z; };
+struct E_800D80E4 { Vec v; u8 pad[8]; u32 col; };
 
-struct E_800D80E4 { V3_800D80E4 v; u8 pad[8]; u32 col; };
+struct Obj_800D80E4 { u8 pad0[0x18]; void *vt; E_800D80E4 e[4]; Vec base; Vec dir[4]; u8 padb8[8]; f32 sc; u8 padc4[4]; f32 c8; };
 
-struct Obj_800D80E4 { u8 pad0[0x18]; void *vt; E_800D80E4 e[4]; V3_800D80E4 base; V3_800D80E4 dir[4]; u8 padb8[8]; f32 sc; u8 padc4[4]; f32 c8; };
+struct E_800D8228 { Vec v; u8 pad[8]; u32 col; };
 
-struct V3_800D8228 { f32 x; f32 y; f32 z; };
+struct Obj_800D8228 { u8 pad0[0x18]; void *vt; E_800D8228 e[4]; Vec base; Vec dir[4]; u8 padb8[8]; f32 sc; f32 t; f32 c8; };
 
-struct E_800D8228 { V3_800D8228 v; u8 pad[8]; u32 col; };
+struct Vtx_800D8314 { Vec pos; f32 u; f32 v; s32 color; };
 
-struct Obj_800D8228 { u8 pad0[0x18]; void *vt; E_800D8228 e[4]; V3_800D8228 base; V3_800D8228 dir[4]; u8 padb8[8]; f32 sc; f32 t; f32 c8; };
-
-struct Vec_800D8314 { f32 x, y, z; };
-
-struct Vtx_800D8314 { Vec_800D8314 pos; f32 u; f32 v; s32 color; };
-
-struct Plane_800D8314 { Vec_800D8314 point; Vec_800D8314 normal; };
+struct Plane_800D8314 { Vec point; Vec normal; };
 
 struct Ground_800D8314 { u32 unk; Plane_800D8314 *plane; };
 
@@ -83,8 +60,8 @@ struct Mark_800D8314 {
     u8 pad4[0x18 - 0x4];
     void *vtable;
     Vtx_800D8314 vtx[4];
-    Vec_800D8314 center;
-    Vec_800D8314 corners[4];
+    Vec center;
+    Vec corners[4];
     void *texture;
     s32 selector;
     f32 maxScale;
@@ -99,7 +76,7 @@ extern s32 lbl_804949F4[];
 u32 __cvt_fp2unsigned(f32);
 void update_fade_in_alpha__9TDeadSpotFPv(Obj_800D7FD4 *arg0);
 extern s32 lbl_80494A10[];
-Obj_800D80E4 *init_corner_vertices__9TDeadSpotFPv(Obj_800D80E4 *arg0, void * _w1, Vec_800D8314 * _w2, void * _w3, s32 _w4, s32 _w5, f32 _w6);
+Obj_800D80E4 *init_corner_vertices__9TDeadSpotFPv(Obj_800D80E4 *arg0, void * _w1, Vec * _w2, void * _w3, s32 _w4, s32 _w5, f32 _w6);
 void run_task__9TDeadSpotFv(Obj_800D8228 *arg0);
 Ground_800D8314 *csnVecterUnder(void *, s32);
 }
@@ -113,7 +90,7 @@ extern void *__vt__9TDeadSpot[];
 #pragma readonly_strings on
 s32 TDeadSpot__class_name = (s32)"TDeadSpot";
 #pragma pop
-Mark_800D8314 *__ct__9TDeadSpotFv(Mark_800D8314 *self, void *parent, Vec_800D8314 *point, void *texture, s32 selector, s32 delay, f32 maxScale);
+Mark_800D8314 *__ct__9TDeadSpotFv(Mark_800D8314 *self, void *parent, Vec *point, void *texture, s32 selector, s32 delay, f32 maxScale);
 void __dl__7TObjectFPv(void *);
 void __dt__7TObjectFv(void *, int);
 void __dt__9TDeadSpotFv(void *, int);
@@ -123,32 +100,29 @@ extern s32 lbl_804949D8[];
 #pragma push
 #pragma opt_common_subs off
 void TUnk_804949D8::vfunc_6() {
-    typedef char sp8_offset[(offsetof(Stack_800D7CF4, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_800D7CF4, spC) == 0x4) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_800D7CF4, sp10) == 0x8) ? 1 : -1];
-    Stack_800D7CF4 stack;
+    Vec stack;
     f32 temp_f1;
     s32 temp_r3;
     temp_r3 = TObjPlayer::calc_random_scaled();
     temp_f1 = this->m_28 * sin_table_lookup(temp_r3);
-    stack.spC = lbl_805DA380;
-    stack.sp8 = temp_f1;
-    stack.sp10 = this->m_28 * cos_table_lookup(temp_r3);
-    vec3_add_to(&stack.sp8, (u8 *)&this->unk_1C);
-    TObjBoss2Tunnel::adjust_to_ground((s32)&stack.sp8, &stack.sp8);
-    ((TParticleCtrl *)this->m_34)->set_position(&stack.sp8);
+    stack.y = lbl_805DA380;
+    stack.x = temp_f1;
+    stack.z = this->m_28 * cos_table_lookup(temp_r3);
+    vec3_add_to(&stack.x, (u8 *)&this->unk_1C);
+    TObjBoss2Tunnel::adjust_to_ground((s32)&stack.x, &stack.x);
+    ((TParticleCtrl *)this->m_34)->set_position(&stack.x);
 }
 #pragma pop
 
-void *__dt__13TUnk_804949D8Fv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = lbl_804949D8;
-        __dt__13TUnk_804949F4Fv(arg0, (s16)(0));
+void *__dt__13TUnk_804949D8Fv(void *object, s16 arg1) {
+    if (object != NULL) {
+        *(s32 **)((s8 *)object + 0x18) = lbl_804949D8;
+        __dt__13TUnk_804949F4Fv(object, (s16)(0));
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(object);
         }
     }
-    return arg0;
+    return object;
 }
 
 void *init__9TDeadSpotFPv(void *arg0, u8 * _w1, u8 * _w2, s32 _w3, f32 _w4) {
@@ -158,50 +132,48 @@ void *init__9TDeadSpotFPv(void *arg0, u8 * _w1, u8 * _w2, s32 _w3, f32 _w4) {
     return arg0;
 }
 
-void update_lifetime__9TDeadSpotFPv(void *arg0) {
-    u32 tmp34 = ((TUnk_804949F4 *)arg0)->m_34;
+void TUnk_804949F4::run_task() {
+    u32 tmp34 = ((TUnk_804949F4 *)this)->m_34;
     if ((tmp34 == 0U) || (((TObject *)tmp34)->all_parents_unqueued_for_destruction() == 0)) {
-        ((TObject *)arg0)->queue_destruction();
+        ((TObject *)this)->queue_destruction();
         return;
     }
-    *(s32 *)((s8 *)arg0 + 0x2C) = (s32) (*(s32 *)((s8 *)arg0 + 0x2C) + 1);
-    if ((s32) *(s32 *)((s8 *)arg0 + 0x2C) >= (s32) ((TUnk_804949F4 *)arg0)->m_30) {
-        *(s32 *)((s8 *)arg0 + 0x2C) = 0;
-        ((TUnk_804949F4 *)arg0)->vfunc_6();
+    *(s32 *)((s8 *)this + 0x2C) = (s32) (*(s32 *)((s8 *)this + 0x2C) + 1);
+    if ((s32) *(s32 *)((s8 *)this + 0x2C) >= (s32) ((TUnk_804949F4 *)this)->m_30) {
+        *(s32 *)((s8 *)this + 0x2C) = 0;
+        ((TUnk_804949F4 *)this)->vfunc_6();
     }
 }
 
-typedef struct Stack_800D7E94 Stack_800D7E94;
 void TUnk_804949F4::vfunc_6() {
-  Stack_800D7E94 stack;
+  Vec stack;
   f32 temp_f1;
   s32 temp_r3;
   temp_r3 = TObjPlayer::calc_random_scaled();
   temp_f1 = (this->m_28) * sin_table_lookup((int) (temp_r3 & 0xFFFFFFFFu));
-  stack.spC = lbl_805DA380;
-  stack.sp8 = temp_f1;
-  stack.sp10 = (this->m_28) * cos_table_lookup((int) temp_r3);
-  vec3_add_to(&stack.sp8, (u8 *)&this->unk_1C);
-  ((TParticleCtrl *)this->m_34)->set_position(&stack.sp8);
+  stack.y = lbl_805DA380;
+  stack.x = temp_f1;
+  stack.z = (this->m_28) * cos_table_lookup((int) temp_r3);
+  vec3_add_to(&stack.x, (u8 *)&this->unk_1C);
+  ((TParticleCtrl *)this->m_34)->set_position(&stack.x);
 }
 
-void *__dt__13TUnk_804949F4Fv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = lbl_804949F4;
-        __dt__7TObjectFv(arg0, 0);
+void *__dt__13TUnk_804949F4Fv(void *object, s16 arg1) {
+    if (object != NULL) {
+        *(s32 **)((s8 *)object + 0x18) = lbl_804949F4;
+        __dt__7TObjectFv(object, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(object);
         }
     }
-    return arg0;
+    return object;
 }
 
 #pragma push
 #pragma fp_contract on
-typedef char RecoveredGlobal_800D7F60_lbl_804949F4_size[sizeof(RecoveredGlobal_800D7F60_lbl_804949F4) == 0x1C ? 1 : -1];
 u8 *construct_fire_base__9TDeadSpotFPvPvPvif(u8 *arg0, u8 *arg1, u8 *arg2, s32 arg3, f32 farg0) {
     __ct__7TObjectFP7TObject(arg0, arg1);
-    *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_800D7F60_lbl_804949F4 *)&lbl_804949F4).value;
+    *(s32 **)((s8 *)arg0 + 0x18) = lbl_804949F4;
     VecCopy((Vec *)(arg0 + 0x1C), (const Vec *)arg2);
     ((TUnk_804949F4 *)arg0)->m_28 = farg0;
     *(s32 *)((s8 *)arg0 + 0x2C) = 0;
@@ -235,15 +207,15 @@ void update_fade_in_alpha__9TDeadSpotFPv(Obj_800D7FD4 *arg0) {
     }
 }
 
-void *__dt__13TUnk_80494A10Fv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = lbl_80494A10;
-        __dt__9TDeadSpotFv(arg0, 0);
+void *__dt__13TUnk_80494A10Fv(void *object, s16 arg1) {
+    if (object != NULL) {
+        *(s32 **)((s8 *)object + 0x18) = lbl_80494A10;
+        __dt__9TDeadSpotFv(object, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(object);
         }
     }
-    return arg0;
+    return object;
 }
 
 extern s32 camera_ctrl_instance;
@@ -252,11 +224,11 @@ extern s32 model_render_flags;
 
 #pragma push
 #pragma fp_contract on
-Obj_800D80E4 *init_corner_vertices__9TDeadSpotFPv(Obj_800D80E4 *arg0, void * parent, Vec_800D8314 * point, void * texture, s32 selector, s32 delay, f32 _w6) {
+Obj_800D80E4 *init_corner_vertices__9TDeadSpotFPv(Obj_800D80E4 *arg0, void * parent, Vec * point, void * texture, s32 selector, s32 delay, f32 _w6) {
     E_800D80E4 *p;
     s32 i;
     f32 bx, by, bz, s;
-    __ct__9TDeadSpotFv((Mark_800D8314 *)(arg0), parent, (Vec_800D8314 *)(point), texture, selector, delay, _w6);
+    __ct__9TDeadSpotFv((Mark_800D8314 *)(arg0), parent, (Vec *)(point), texture, selector, delay, _w6);
     arg0->vt = ((u8 *)&lbl_80494A10);
     p = arg0->e;
     arg0->c8 = 0.0f;
@@ -313,10 +285,10 @@ void run_task__9TDeadSpotFv(Obj_800D8228 *arg0) {
 #pragma fp_contract on
 #pragma opt_common_subs off
 TDeadSpot::~TDeadSpot() {}
-Mark_800D8314 *__ct__9TDeadSpotFv(Mark_800D8314 *self, void *parent, Vec_800D8314 *point, void *texture, s32 selector, s32 delay, f32 maxScale) {
-    Vec_800D8314 basis[2];
-    Vec_800D8314 probe;
-    Vec_800D8314 tmp;
+Mark_800D8314 *__ct__9TDeadSpotFv(Mark_800D8314 *self, void *parent, Vec *point, void *texture, s32 selector, s32 delay, f32 maxScale) {
+    Vec basis[2];
+    Vec probe;
+    Vec tmp;
     s32 yaw;
     s32 pitch;
     Ground_800D8314 *ground;

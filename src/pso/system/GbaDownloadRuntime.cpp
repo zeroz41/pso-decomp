@@ -10,12 +10,10 @@
 #include "pso/system/task/TObject.h"
 
 extern "C" {
-void TLobby__sub_8032CB6C(void);
 extern s32 TLobby__data_805D6CCC;
 extern const f32 TLobby__data_805DF7A4;
 
 u32 create__8TDLGraphFv();
-int queue_destruction__7TObjectFv(void*);
 void xfree__FPv(void*);
 s32 xmalloc__FUl(s32);
 s32 read_disc_file(s32, u32);
@@ -172,7 +170,7 @@ void TLobby__sub_8032C9A8(s32 arg0, s32 arg1) {
             getDateStamp((DateStamp *)&ds);
             DateToSeconds((DateStamp *)&ds, (int *)&secs);
             secs = 100.0f * (3.0517578e-05f * rand()) + secs;
-            memmove(&rec.a, (void *)(st + 0x118), 4);
+            memmove(&rec.a, st + 0x118, 4);
             memmove(&rec.b, &secs, 4);
             memmove(obj + 0x2C0, &rec, 8);
         }
@@ -286,4 +284,4 @@ void TLobby__sub_8032CDD0(void* p) { *(s16*)((char*)p + 0x0) = 0; *(s16*)((char*
     extern int TAdWarningBaseGC__aram_alloc_size;
 void TLobby__sub_8032CDEC(void) { TAdWarningBaseGC__aram_alloc_size = 0; warning_aram_load_done_flag = 0; }
 
-int TAdWarningBaseGC::destroy() { return queue_destruction__7TObjectFv(this); }
+void TAdWarningBaseGC::destroy() { queue_destruction(); }

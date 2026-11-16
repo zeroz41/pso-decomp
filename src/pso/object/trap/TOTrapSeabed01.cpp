@@ -54,9 +54,7 @@ struct SeabedTrapFragmentSpawn {
     s32 angle_y;
 };
 
-extern "C" {
 extern s32 lbl_805D3530;
-}
 
 const char *seabed_trap_model_filenames[] = {
     "obj_o_seaturigane2.gj",
@@ -102,7 +100,7 @@ TOTrapSeabed01::TOTrapSeabed01(TObject *parent, void *set_data) : TOTrap(parent)
     clamp_params_and_init();
     init_collision_body_parts(this, &seabed_trap_collision_body, 1);
     refresh_collision_body_centers();
-    ((TObjPlayer *)this)->register_object_by_id();
+    this->register_object_by_id();
     actorFlags |= 0x60040000;
     pad_344 = 0;
     sound_handle = -1;
@@ -316,8 +314,8 @@ void TOTrapSeabed01::trigger_by_id(u32 node) {
 
 void TOTrapSeabed01::vfunc_81() {
     frame += play_speed;
-    if (frame > (f32)(current_motion->nbFrame - 1)) {
-        frame = (f32)(current_motion->nbFrame - 1);
+    if (frame > (current_motion->nbFrame - 1)) {
+        frame = (current_motion->nbFrame - 1);
         mode = 3;
         calc_attach_pos();
         clear_player_status_flag(0, 0x08001F04);
@@ -332,7 +330,7 @@ void TOTrapSeabed01::vfunc_82() {
         bodies->radius = 15.0f;
         set_indexed_flags(0, 0x100);
         TObjPlayer::init_all_slots();
-        ((TObjPlayer *)this)->check_object_collisions();
+        this->check_object_collisions();
         vfunc_67(1.0f);
         receive_physical_attack(target, 1.0f);
     }

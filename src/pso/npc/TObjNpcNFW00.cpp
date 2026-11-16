@@ -15,7 +15,7 @@ const char *TObjNpcNFW00__name = "TObjNpcNFW00";
 u32 TObjNpcNFW00__named_object_resource;
 u32 TObjNpcNFW00__texture_gvm_handle;
 
-extern "C" s32 __vt__12TObjNpcNFW00[];
+s32 __vt__12TObjNpcNFW00[];
 
 void *TObjNpcNFW00__create(void *set_data) {
     TObjControl *control = new TObjControl(tl_04);

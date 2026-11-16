@@ -5,9 +5,9 @@
 #include "pso/ui/frontend/TAdTimeSetGC.h"
 #include "pso/ui/frontend/TAdMultiSaveGC.h"
 #include "pso/ui/TLogo.h"
+#include "pso/system/task/TObject.h"
 
 extern "C" {
-void *__nw__7TObjectFUl(u32);
 u8 *get_or_create__22TAdMultiPlyChrSelectGCFii(s32 arg0, s32 arg1);
 void *TAdEnterPPPPassGC__ct(void *, s32);
 void *TAdEnterPasswordGC__ct(void *, s32);
@@ -130,28 +130,28 @@ void TAdMultiChgGameModeGC::create_mode_scene() {
     }
     switch (multi_chg_game_mode_state) {
     case 0:
-        p = __nw__7TObjectFUl(0x4C);
+        p = TObject::operator new(0x4C);
         if (p != NULL) {
             p = construct_title_scene__13TUnk_804EEF64Fv(p, tl_01);
         }
         game_mode_scene_instance = (s32)p;
         break;
     case 4:
-        p = __nw__7TObjectFUl(0x24);
+        p = TObject::operator new(0x24);
         if (p != NULL) {
             p = __ct__16TAdStorySelectGCFv(p, tl_01);
         }
         game_mode_scene_instance = (s32)p;
         break;
     case 5:
-        p = __nw__7TObjectFUl(0x24);
+        p = TObject::operator new(0x24);
         if (p != NULL) {
             p = __ct__19TAdSelectGameModeGCFv((u8 *)p, (void *)tl_01);
         }
         game_mode_scene_instance = (s32)p;
         break;
     case 6:
-        p = __nw__7TObjectFUl(0x60);
+        p = TObject::operator new(0x60);
         if (p != NULL) {
             p = TAdSinglePlyChrSelectGC__ct((u8 *)p, (void *)tl_01);
         }
@@ -167,28 +167,28 @@ void TAdMultiChgGameModeGC::create_mode_scene() {
         game_mode_scene_instance = (s32)new TAdMultiSaveGC((TObject *)tl_01);
         break;
     case 10:
-        p = __nw__7TObjectFUl(0x4C);
+        p = TObject::operator new(0x4C);
         if (p != NULL) {
             p = __ct__17TAdMultiConfirmGCFP7TObject(p, tl_01);
         }
         game_mode_scene_instance = (s32)p;
         break;
     case 11:
-        p = __nw__7TObjectFUl(0x30);
+        p = TObject::operator new(0x30);
         if (p != NULL) {
             p = __ct__21TAdMultiChgGameModeGCFv(p, tl_01);
         }
         game_mode_scene_instance = (s32)p;
         break;
     case 12:
-        p = __nw__7TObjectFUl(0x44);
+        p = TObject::operator new(0x44);
         if (p != NULL) {
             p = __ct__21TAdMultiSelGameModeGCFv(p, tl_01, 0);
         }
         game_mode_scene_instance = (s32)p;
         break;
     case 13:
-        p = __nw__7TObjectFUl(0x44);
+        p = TObject::operator new(0x44);
         if (p != NULL) {
             p = __ct__21TAdMultiSelGameModeGCFv(p, tl_01, 1);
         }
@@ -198,28 +198,28 @@ void TAdMultiChgGameModeGC::create_mode_scene() {
         game_mode_scene_instance = (s32)get_or_create__22TAdMultiPlyChrSelectGCFii(tl_01, 1);
         break;
     case 15:
-        p = __nw__7TObjectFUl(0x68);
+        p = TObject::operator new(0x68);
         if (p != NULL) {
             p = TAdEnterSerialAccessGC__ct(p, tl_02);
         }
         game_mode_scene_instance = (s32)p;
         break;
     case 16:
-        p = __nw__7TObjectFUl(0x44);
+        p = TObject::operator new(0x44);
         if (p != NULL) {
             p = TAdEnterPasswordGC__ct(p, tl_02);
         }
         game_mode_scene_instance = (s32)p;
         break;
     case 17:
-        p = __nw__7TObjectFUl(0x3C);
+        p = TObject::operator new(0x3C);
         if (p != NULL) {
             p = TAdLicAgreementGC__ct(p, tl_01);
         }
         game_mode_scene_instance = (s32)p;
         break;
     case 18:
-        p = __nw__7TObjectFUl(0x4C);
+        p = TObject::operator new(0x4C);
         if (p != NULL) {
             p = TAdVIConfigGC__ct(p, tl_01);
         }
@@ -230,28 +230,28 @@ void TAdMultiChgGameModeGC::create_mode_scene() {
         game_mode_scene_instance = (s32)p;
         break;
     case 20:
-        p = __nw__7TObjectFUl(0x4C);
+        p = TObject::operator new(0x4C);
         if (p != NULL) {
             p = TAdSnAkPassConfirmGC__ct(p, tl_01);
         }
         game_mode_scene_instance = (s32)p;
         break;
     case 21:
-        p = __nw__7TObjectFUl(0x30);
+        p = TObject::operator new(0x30);
         if (p != NULL) {
             p = TAdExNetConfirmGC__ct(p, tl_01);
         }
         game_mode_scene_instance = (s32)p;
         break;
     case 22:
-        p = __nw__7TObjectFUl(0x30);
+        p = TObject::operator new(0x30);
         if (p != NULL) {
             p = TAdTrialModemChkGC__ct(p, tl_01);
         }
         game_mode_scene_instance = (s32)p;
         break;
     case 23:
-        p = __nw__7TObjectFUl(0x3C);
+        p = TObject::operator new(0x3C);
         if (p != NULL) {
             p = TAdTrialAgreementGC__ct(p, tl_01);
         }
@@ -261,42 +261,42 @@ void TAdMultiChgGameModeGC::create_mode_scene() {
         game_mode_scene_instance = (s32)get_or_create__22TAdMultiPlyChrSelectGCFii(tl_01, 2);
         break;
     case 25:
-        p = __nw__7TObjectFUl(0x44);
+        p = TObject::operator new(0x44);
         if (p != NULL) {
             p = TAdEnterPPPPassGC__ct(p, tl_01);
         }
         game_mode_scene_instance = (s32)p;
         break;
     case 26:
-        p = __nw__7TObjectFUl(0x48);
+        p = TObject::operator new(0x48);
         if (p != NULL) {
             p = TAdPsoPassSaveGC__ct(p, tl_01);
         }
         game_mode_scene_instance = (s32)p;
         break;
     case 27:
-        p = __nw__7TObjectFUl(0x38);
+        p = TObject::operator new(0x38);
         if (p != NULL) {
             p = __ct__13TUnk_804F3A20FP7TObject(p, tl_01);
         }
         game_mode_scene_instance = (s32)p;
         break;
     case 28:
-        p = __nw__7TObjectFUl(0x38);
+        p = TObject::operator new(0x38);
         if (p != NULL) {
             p = TAdEp3Exist__ct(p, tl_01);
         }
         game_mode_scene_instance = (s32)p;
         break;
     case 1:
-        p = __nw__7TObjectFUl(0x28);
+        p = TObject::operator new(0x28);
         if (p != NULL) {
             p = __ct__12TLevelSelectFv(p);
         }
         game_mode_scene_instance = (s32)p;
         break;
     case 3:
-        p = __nw__7TObjectFUl(0x30);
+        p = TObject::operator new(0x30);
         if (p != NULL) {
             p = __ct__13TUnk_804C2298Fv(p);
         }

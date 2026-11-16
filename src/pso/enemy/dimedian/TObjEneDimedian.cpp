@@ -1,4 +1,7 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/unk/SampledMotionPoints.h"
+#include "pso/camera/TCameraCtrl.h"
+#include "pso/system/task/TObject.h"
 #include "pso/player/TObjPlayer_800D8FDC.h"
 #include "types.h"
 #include "pso/object/base/TObjMotion.h"
@@ -27,6 +30,7 @@
 #include "pso/unk/text_803D8F74.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/unk/text_803E2D70.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 struct VBase_14_800A7BEC { char pad[0x14]; };
 
@@ -37,10 +41,6 @@ struct VObj_14_800A7BEC : VBase_14_800A7BEC {
 
 struct Obj_800A7BEC { u8 pad0[0x38]; u8 sub38[0x326 - 0x38]; s16 f326; s16 state; u8 pad32a[0x390 - 0x32A]; s32 f390; };
 
-typedef struct Vec_800A7A14 {
-    f32 x, y, z;
-} Vec_800A7A14;
-
 struct VBase_800A7A14 { char pad[0x18]; };
 
 struct VObj_800A7A14 : VBase_800A7A14 {
@@ -48,12 +48,12 @@ struct VObj_800A7A14 : VBase_800A7A14 {
     virtual void m1();
     virtual void m2();
     virtual void m3();
-    virtual void m4(Vec_800A7A14 *, Vec_800A7A14 *);
+    virtual void m4(Vec *, Vec *);
 };
 
 typedef struct Obj_800A7A14 {
     u8 pad0[0x38];
-    Vec_800A7A14 pos;
+    Vec pos;
     u8 pad44[0x60 - 0x44];
     s32 f60;
     u8 pad64[0xB8 - 0x64];
@@ -120,12 +120,9 @@ s32 post_translate_matrix(void *);
 extern s32 dimedian_type3_object;
 extern s32 lbl_805D5088;
 
-s32 get_camera_mode__11TCameraCtrlFv();
-s32 update__15RenderFadeStateFv(void *);
-s32 restore_scene_lighting();
-s32 select_actor_lighting(void *);
-s32 defer_render__7TObjectFv(void *);
-s32 TObjPlayer__sub_8023DEE0(int, int, int, int);
+void restore_scene_lighting(void);
+void select_actor_lighting(s32 obj);
+void TObjPlayer__sub_8023DEE0(s16 *p, s16 a, s16 b, u16 id);
 extern s32 dimedian_resource_handles[];
 extern s32 dimedian_last_draw_tick[];
 extern s32 actor_frame_tick;
@@ -162,25 +159,25 @@ void TObjEneDimedian::vfunc_101() {  }
 
 void TObjEneDimedian::vfunc_99() {
     s32 arg0 = (s32)this;
-    play_sound_effect((s32)((void *) (((s32)((TObjEnemy *)(arg0))->remap_sound_for_area((s32)(0x4003AD40))))), arg0 + 0x38, 0, 0);
+    play_sound_effect((s32)((void *) (((s32)((TObjEnemy *)(arg0))->remap_sound_for_area(0x4003AD40)))), arg0 + 0x38, 0, 0);
     TObjPlayer::play_effect_if_v2(-0x100);
 }
 
 void TObjEneDimedian::vfunc_98() {
     s32 arg0 = (s32)this;
-    play_sound_effect((s32)((void *) (((s32)((TObjEnemy *)(arg0))->remap_sound_for_area((s32)(0x4003AD3D))))), arg0 + 0x38, 0, 0);
+    play_sound_effect((s32)((void *) (((s32)((TObjEnemy *)(arg0))->remap_sound_for_area(0x4003AD3D)))), arg0 + 0x38, 0, 0);
     TObjPlayer::play_effect_if_v2(-0x100);
 }
 
 void TObjEneDimedian::vfunc_97() {
     s32 arg0 = (s32)this;
-    play_sound_effect((s32)((void *) (((s32)((TObjEnemy *)(arg0))->remap_sound_for_area((s32)(0x4003A83E))))), arg0 + 0x38, 0, 0);
+    play_sound_effect((s32)((void *) (((s32)((TObjEnemy *)(arg0))->remap_sound_for_area(0x4003A83E)))), arg0 + 0x38, 0, 0);
     TObjPlayer::play_effect_if_v2(-0x100);
 }
 
 void TObjEneDimedian::vfunc_96() {
     s32 arg0 = (s32)this;
-    play_sound_effect((s32)((void *) (((s32)((TObjEnemy *)(arg0))->remap_sound_for_area((s32)(0x4003A83F))))), arg0 + 0x38, 0, 0);
+    play_sound_effect((s32)((void *) (((s32)((TObjEnemy *)(arg0))->remap_sound_for_area(0x4003A83F)))), arg0 + 0x38, 0, 0);
     TObjPlayer::play_effect_if_v2(-0x100);
 }
 
@@ -188,10 +185,10 @@ void TObjEneDimedian::vfunc_95() {
     s32 arg0 = (s32)this;
     s32 temp_r3;
     if (random_ratio() < 0.5f) {
-        temp_r3 = ((TObjEnemy *)(arg0))->remap_sound_for_area((s32)(0x4003B23B));
+        temp_r3 = ((TObjEnemy *)(arg0))->remap_sound_for_area(0x4003B23B);
         play_sound_effect(temp_r3, arg0 + 0x38, 0, 0);
     } else {
-        temp_r3 = ((TObjEnemy *)(arg0))->remap_sound_for_area((s32)(0x4003B23C));
+        temp_r3 = ((TObjEnemy *)(arg0))->remap_sound_for_area(0x4003B23C);
         play_sound_effect(temp_r3, arg0 + 0x38, 0, 0);
     }
     TObjPlayer::play_effect_if_v2(-0x100);
@@ -207,13 +204,13 @@ void TObjEneDimedian::vfunc_94() {
         play_sound_effect(0x3AD3F, arg0 + 0x38, 0, 0);
         return;
     }
-    play_sound_effect((s32)(((s32)((TObjEnemy *)(arg0))->remap_sound_for_area((s32)(0x4003AD25)))), arg0 + 0x38, 0, 0);
+    play_sound_effect((s32)(((s32)((TObjEnemy *)(arg0))->remap_sound_for_area(0x4003AD25))), arg0 + 0x38, 0, 0);
 }
 
 void TObjEneDimedian::vfunc_93() {
     Obj_800A7A14 *o = (Obj_800A7A14 *)this;
-    Vec_800A7A14 b;
-    Vec_800A7A14 a;
+    Vec b;
+    Vec a;
     u32 e;
     s32 idx;
     VObj_800A7A14 *eff;
@@ -252,7 +249,7 @@ int TObjEneDimedian::beast_retire_corpse() {
     u8 *arg0 = (u8 *)this;
     this->m_390 = 1;
     if (((A7B00Obj_800a7b00_800A7764*)(arg0 + 0x3A8))->m4() == 1) {
-        queue_destruction__7TObjectFv(arg0);
+        ((TObject *)arg0)->queue_destruction();
     }
 }
 void TObjEneDimedian::sub_800A7B54() {
@@ -314,11 +311,11 @@ void draw_actor_model__10TObjPlayerFPv(Player_800A7CA4 *self) {
     Vec pos;
     if (actor_frame_tick != dimedian_last_draw_tick[self->f368]) {
         dimedian_last_draw_tick[self->f368] = actor_frame_tick;
-        TObjPlayer__sub_8023DEE0(dimedian_resource_handles[self->f368], 0xE, 0, 0);
+        TObjPlayer__sub_8023DEE0((s16 *)dimedian_resource_handles[self->f368], 0xE, 0, 0);
     }
     mode = 0;
     if (is_split_screen() != 0) {
-        mode = get_camera_mode__11TCameraCtrlFv();
+        mode = TCameraCtrl::get_camera_mode();
     }
     vis = self->visible(2e+02f, 4e+02f, 3e+01f);
     if (vis == 0) {
@@ -326,10 +323,10 @@ void draw_actor_model__10TObjPlayerFPv(Player_800A7CA4 *self) {
     }
     fading = 0;
     if (TObjEneDD::check_v2_mode() != 0) {
-        update__15RenderFadeStateFv(&self->fades[mode]);
+        ((RenderFadeState *)(&self->fades[mode]))->update();
         fading = ((RenderFadeState *)(&self->fades[mode]))->updateFromCamera((const f32*)(self->cam));
     }
-    select_actor_lighting(self);
+    select_actor_lighting((s32)self);
     TObjFish::set_global_param(self->f24);
     push_matrix();
     post_translate_matrix(self->pos);
@@ -355,7 +352,7 @@ void draw_actor_model__10TObjPlayerFPv(Player_800A7CA4 *self) {
                 saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
                 self->sub.begin();
                 d = 1;
-                if (defer_render__7TObjectFv(self) != 0) {
+                if (((TObject *)self)->defer_render() != 0) {
                     d = 0;
                 }
                 if (d != 0) {
@@ -370,7 +367,7 @@ void draw_actor_model__10TObjPlayerFPv(Player_800A7CA4 *self) {
             doDraw = 1;
             if (fading != 0) {
                 self->fades[mode].begin();
-                if (defer_render__7TObjectFv(self) != 0) {
+                if (((TObject *)self)->defer_render() != 0) {
                     doDraw = 0;
                 }
             }
@@ -479,9 +476,8 @@ s32 dispatch_shared_handler_a__6TLobbyFl(int);
 s32 register_object__6TLobbyFl(int);
 s32 dispatch_shared_handler_b__6TLobbyFl(int);
 s32 register_boss__6TLobbyFl(int);
-u8 *load_enemy_bml_resource_named(void *, const void *);
+s32 load_enemy_bml_resource_named(s32 arg0, s32 arg1);
 u8 *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-s32 *mem_alloc(s32);
 extern const u8 lbl_8043AAA4[26];
 
 void __ct__13TUnk_80493450FP7TObject(void *);
@@ -503,8 +499,6 @@ extern u8 __dt__15RenderFadeStateFv[];
 O_800A846C *TObjPlayer__sub_800A846C(O_800A846C *arg0, s16 arg1);
 void free_bin_model_request(void*, int);
 void *__ct__11TObjControlFP7TObject(void *, void *);
-void *__nw__7TObjectFUl(int);
-void mem_free(void*);
 
 extern void *tl_04;
 
@@ -682,11 +676,11 @@ void *__vt__15TObjEneDimedian[103] = {
 void *TObjEneDimedian::create(void *arg2_) {
     void *o;
     void *o2;
-    o = __nw__7TObjectFUl(0x20);
+    o = TObject::operator new(0x20);
     if (o != NULL) {
         o = __ct__11TObjControlFP7TObject(o, tl_04);
     }
-    o2 = __nw__7TObjectFUl(0x43C);
+    o2 = TObject::operator new(0x43C);
     if (o2 != NULL) {
         o2 = TObjEneDimedian__ct(o2, o, arg2_);
     }
@@ -744,7 +738,7 @@ void TLobby::load_dimedian_resources() {
     void *p;
     s32 i;
     if (TObjEneDD::check_v2_mode() != 0) {
-        (*(u8 **)&dimedian_resource_ptr) = load_enemy_bml_resource_named(dimedian_resource_descriptor, lbl_8043AAA4);
+        (*(u8 **)&dimedian_resource_ptr) = (u8 *)load_enemy_bml_resource_named((s32)dimedian_resource_descriptor, (s32)lbl_8043AAA4);
     } else {
         p = ::operator new(0x440);
         if (p != NULL) {
@@ -765,10 +759,10 @@ void TLobby::load_dimedian_resources() {
     (*(void **)&lbl_805D5088) = p;
     ((SampledMotionPoints *)(*(void **)&dimedian_type3_object))->sample_two_nodes((NJS_OBJECT *)RES_800A8118->bodies->model, (NJS_MOTION *)RES_800A8118->motions[dimedian_action_table[3].idx].b, 5, 8);
     ((SampledMotionPoints *)(*(void **)&lbl_805D5088))->sample_two_nodes((NJS_OBJECT *)RES_800A8118->bodies->model, (NJS_MOTION *)RES_800A8118->motions[dimedian_action_table[4].idx].b, 0xA, 0xD);
-    (*(s32 **)&dimedian_boss_object_buf) = mem_alloc(0xC);
-    (*(s32 **)&lbl_805D5074) = mem_alloc(0xC);
-    (*(s32 **)&TObjEneDimedian__boss_objects) = mem_alloc(0xC);
-    (*(s32 **)&dimedian_buffer_ptr) = mem_alloc(0xC);
+    (*(s32 **)&dimedian_boss_object_buf) = (s32 *)mem_alloc(0xC);
+    (*(s32 **)&lbl_805D5074) = (s32 *)mem_alloc(0xC);
+    (*(s32 **)&TObjEneDimedian__boss_objects) = (s32 *)mem_alloc(0xC);
+    (*(s32 **)&dimedian_buffer_ptr) = (s32 *)mem_alloc(0xC);
     (*(s32 **)&dimedian_boss_object_buf)[0] = register_boss__6TLobbyFl(0x53);
     (*(s32 **)&dimedian_boss_object_buf)[1] = register_boss__6TLobbyFl(0x54);
     (*(s32 **)&dimedian_boss_object_buf)[2] = register_boss__6TLobbyFl(0x55);
@@ -803,7 +797,7 @@ O_800A846C *TObjPlayer__sub_800A846C(O_800A846C *arg0, s16 arg1) {
         arg0->vptr = __vt__15TObjEneDimedian;
         for (i = 0; i < 2; i++) {
             if (arg0->objs[i] != NULL) {
-                queue_destruction__7TObjectFv(arg0->objs[i]);
+                ((TObject *)arg0->objs[i])->queue_destruction();
                 arg0->objs[i] = NULL;
             }
         }

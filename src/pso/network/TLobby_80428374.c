@@ -34,7 +34,7 @@ extern s32 lbl_805D7BF4;
 extern s32 lobby_buffer_pool_end;
 extern s32 lbl_805D7BFC;
 
-s32 TLobby__sub_803F97E8(int);
+s32 net_sleep_ms(int);
 s16 TLobby__sub_804293B0(u8 *buf, s16 len);
 s16 TLobby__sub_804036FC(u16 *avail);
 s16 TLobby__sub_80403730(u8 *dst, u16 n);
@@ -58,7 +58,7 @@ void reset_boot_state(void) {
 
 typedef char RecoveredGlobal_8042839C_lbl_805D0A40_size[sizeof(RecoveredGlobal_8042839C_lbl_805D0A40) == 0x60 ? 1 : -1];
 s32 init_modem_session_config(void) {
-    init_modem_buffer_config((void *) (&(*(RecoveredGlobal_8042839C_lbl_805D0A40 *)&lobby_net_session_state).value));
+    init_modem_buffer_config((void *)&lobby_net_session_state);
     return 0;
 }
 
@@ -135,7 +135,7 @@ static inline s16 modem_wait_connect(void) {
             break;
         }
         unlock_mutex(lbl_805C18A0.mutex);
-        TLobby__sub_803F97E8(100);
+        net_sleep_ms(100);
         lock_mutex(lbl_805C18A0.mutex);
     }
     return ret;
@@ -237,7 +237,7 @@ s32 wait_timeout_loop(void *params) {
             break;
         }
         unlock_mutex(lbl_805C18A0.mutex);
-        TLobby__sub_803F97E8(100);
+        net_sleep_ms(100);
         lock_mutex(lbl_805C18A0.mutex);
     }
     return ret;
@@ -352,7 +352,6 @@ s16 modem_script_send(void) {
     return 0;
 }
 
-u8 *TLobby__sub_803FB110(void);
 /* Builds the dial string from the session settings (prefix, number from the profile, optional suffix) and starts the call; request: s16 +0 = use second number, s16 +2 = has suffix, s16 +4 = script index, +0xC = suffix string (layout partly guessed). */
 s16 modem_script_dial(u8 *request) {
     u8 *p;
@@ -547,7 +546,6 @@ s16 modem_script_next_token(u8 *src, u8 *dst, u8 **next) {
 }
 
 extern s32 lbl_805D7BD8;
-s32 NetCompareStringsCaseInsensitiveN(u8 *a, u8 *b, u32 n);
 s16 TLobby__sub_804290D4(s32 idx) {
     s16 *lenp;
     u8 **bufp;
@@ -669,7 +667,7 @@ s16 TLobby__sub_804293B0(u8 *buf, s16 len) {
             return -1;
         }
         unlock_mutex(lbl_805C18A0.mutex);
-        TLobby__sub_803F97E8(100);
+        net_sleep_ms(100);
         lock_mutex(lbl_805C18A0.mutex);
     }
     return 0;

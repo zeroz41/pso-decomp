@@ -1,17 +1,18 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/unk/text_800DC420.h"
 #include "pso/unk/TUnk_80494E10.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/system/vector.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/enemy/nanodrago/TObjEneNanoDrago.h"
-#include "pso/unk/TUnk_80494E10.h"
+
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/enemy/gyaranzo/TObjGyaranzoMissile.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/task/TObject.h"
-#include "pso/player/TObjPlayer.h"
+
 
 struct D_800DC420 { u8 pad[0x18]; s32 arr[1]; };
 
@@ -44,32 +45,25 @@ typedef struct Src_800DC4B4 {
     f32 pos[3];
 } Src_800DC4B4;
 
-struct Vec_800DC648 { f32 x, y, z; };
-
 struct Me_800DC648 {
     u8 pad0[0xAC];
-    Vec_800DC648 pos;
-    Vec_800DC648 vel;
+    Vec pos;
+    Vec vel;
     u8 padC4[0xDC - 0xC4];
     f32 timer;
     void *link0;
     void *link1;
-    Vec_800DC648 prev;
+    Vec prev;
     s32 trail;
     s32 cnt;
     u16 owner;
 };
 
-struct Vec_800DC83C { f32 x, y, z; };
-
 struct Ang_800DC83C { s32 x, y, z; };
 
 extern "C" {
-s32 TObjPlayer__sub_800DC478(u8 *arg0, s32 arg1, f32 farg0);
 s32 *csnVecterUnder(s32 origin, s32 mask);
 extern s32 lbl_805D5254;
-f32 TObjPlayer__sub_800DC434(s32 arg0, s32 arg1);
-s32 TObjPlayer__sub_800DC420(void *self, s32 i);
 extern D_800DC448 *nano_drago_entry_params_resource;
 u16 get_entity_id(void *);
 s32 is_split_screen();
@@ -86,16 +80,13 @@ extern s32 registered_player_count;
 extern s32 lbl_805D5870;
 f32 atan2_float(f32, f32);
 void *spawn_particle_effect_with_rotation(void *pos, void *dir, s32 id, int e);
-void *spawn_continuous_particle_effect_with_flags(void *parent, s32 idx, s32 flags);
+TParticleCtrl *spawn_continuous_particle_effect_with_flags(void *parent, s32 idx, s32 flags);
 s32 __ct__14TObjCollidableFP7TObject(void *, int);
 f32 vector_length(void *);
 s32 subtract_vector(void *, void *);
 extern s32 __vt__13TUnk_80494E10[];
 extern s32 tl_06;
-u8 *construct_beam_effect__10TObjPlayerFPvPvPviPv(u8 *arg0, Vec_800DC83C *arg1, Vec_800DC83C *arg2, s32 arg3, void *arg4);
-void TObjPlayer__sub_800DC444(void);
-void *__dt__13TUnk_80494E10Fv(void *arg0, s16 arg1);
-void __dl__7TObjectFPv(void *);
+u8 *construct_beam_effect__10TObjPlayerFPvPvPviPv(u8 *arg0, Vec *arg1, Vec *arg2, s32 arg3, void *arg4);
 
 s32 TObjPlayer__sub_800DC420(void *self, s32 i) {
     return (*(D_800DC420 * *)&lbl_805D5254)->arr[i];
@@ -167,7 +158,7 @@ void TUnk_80494E10::run_task() {
     void *att;
     s32 i;
     void *pl;
-    Vec_800DC648 old = arg0->pos;
+    Vec old = arg0->pos;
     vec3_add_to(&arg0->pos, &arg0->vel);
     if (arg0->link0 != NULL) {
         ((TParticleCtrl *)arg0->link0)->set_position(&arg0->pos);
@@ -208,8 +199,8 @@ TUnk_80494E10::~TUnk_80494E10() {
     if (*(void **)((s8 *)this + 0xE0) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0xE0)))->queue_destruction(); *(s32 *)((s8 *)this + 0xE0) = 0; }
     if (*(void **)((s8 *)this + 0xE4) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0xE4)))->queue_destruction(); this->m_e4 = 0; }
 }
-extern "C" {
-u8 *construct_beam_effect__10TObjPlayerFPvPvPviPv(u8 *arg0, Vec_800DC83C *arg1, Vec_800DC83C *arg2, s32 arg3, void *arg4) {
+
+u8 *construct_beam_effect__10TObjPlayerFPvPvPviPv(u8 *arg0, Vec *arg1, Vec *arg2, s32 arg3, void *arg4) {
     Ang_800DC83C ang;
     f32 s;
     __ct__14TObjCollidableFP7TObject(arg0, tl_06);
@@ -237,5 +228,4 @@ u8 *construct_beam_effect__10TObjPlayerFPvPvPviPv(u8 *arg0, Vec_800DC83C *arg1, 
         ((TUnk_80494E10 *)arg0)->m_e4 = 0;
     }
     return arg0;
-}
 }

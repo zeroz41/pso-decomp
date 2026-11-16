@@ -8,6 +8,7 @@ class TChCrTagPlGraphic : public TChCrTag {
 public:
     TChCrTagPlGraphic(TObject *parent, void *arg);
     virtual ~TChCrTagPlGraphic();
+    void sub_802A3230();
     virtual void render();
     virtual void run_task();
     virtual s32 vt4();

@@ -6,7 +6,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
 #include "pso/item/TItem.h"
-#include "pso/system/task/TObject.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 
 #pragma readonly_strings on
@@ -16,7 +16,6 @@ extern "C" {
 s32 get_mode__11TCameraCtrlFPv(void *p);
 void restore_saved_depth_alpha_state();
 void TObjPlayer__sub_803DF768(s32);
-void *mem_alloc(u32 size);
 extern u32 saved_model_render_flags;
 extern u32 model_render_flags;
 
@@ -24,7 +23,6 @@ void TItemEffectWeapon__sub_8036340C(void);
 void TItemEffectWeapon__sub_80363410(void);
 
 void decrement_timer__17TItemEffectWeaponFv(void *, s32);
-void mem_free(void *p);
 void* memcpy(void* destination, const void* source, size_t size);
 f32 xyz_distance(const f32 *a, const f32 *b);
 f32 normalize_vector(f32 *v);

@@ -5,6 +5,7 @@
 #include "pso/object/base/TObjMotion.h"
 
 struct TSceneSora : public TObjBase {
+    TSceneSora(s32 _w1);
     virtual ~TSceneSora();
     u32 m_90;
     u32 m_94;

@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/ui/keyboard/TKeyBoardControl_80131C58.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_80336054.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
@@ -25,11 +26,10 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/unk/TLobby_80335E08.h"
 #include "pso/unk/text_803369C8.h"
-#include "pso/system/task/TObject.h"
+
 
 extern "C" {
 
-void *__nw__7TObjectFUl(u32);
 
     extern int lobby_game_mode_state;
 int TAdSinglePlyChrSelectGC::get_data() {  return lobby_game_mode_state; }
@@ -42,7 +42,7 @@ extern s32 tl_fade;
 s32 TAdSinglePlyChrSelectGC::start_offline_seq() {
     s32 *temp_r3;
     if (!(this->m_3c & 2)) {
-        temp_r3 = (s32 *) __nw__7TObjectFUl(0x28);
+        temp_r3 = (s32 *) TObject::operator new(0x28);
         if (temp_r3 != NULL) {
             ((THunterGuildSeqOffline *)temp_r3)->init((void *)tl_fade, (void *)queue_destruction_and_cleanup__6TLobbyFv);
         }
@@ -54,8 +54,6 @@ s32 TAdSinglePlyChrSelectGC::start_offline_seq() {
 }
 
 struct TCameraCtrl;
-
-
 
 
 NJS_TEXNAME title_texture_entries[21] = {
@@ -220,7 +218,6 @@ const TitleTextureFilenameTable title_texture_filename_table = {
 };
 
 
-
 typedef struct {
     s32 pad0[2];
     f32 f8, fC;
@@ -230,16 +227,11 @@ typedef struct {
 
 struct O_8033612C { u8 pad[0x1C]; void *f1c; void *f20; void *f24; u8 pad2[0x3C - 0x28]; u32 flags; void *h[3]; };
 
-struct RecoveredGlobal_80336340_TKeyBoardControl__data_80506270 {
-    s32 value;
-    u8 remaining[0xAC];
-};
-
 struct Obj_80336340 { u8 pad[0x40]; void *objs[3]; };
 
 
 extern "C" {
-void TKeyBoardControl__sub_8000F9CC(s32 arg0);
+void request_main_phase(s32 arg0);
 s32 __dl__7TObjectFPv(void *);
 s32 __dt__7TObjectFv(void *, s32);
 extern s32 lbl_804EEF64[];
@@ -257,7 +249,6 @@ void __ct__7TObjectFP7TObject(void *);
 extern s32 tl_clipout;
 
 void TWindowOptionCtrl__sub_802273B4(s32 arg0);
-extern RecoveredGlobal_80336340_TKeyBoardControl__data_80506270 TKeyBoardControl__global_key_state;
 s32 run_load_callback_table(void *, int);
 extern const s32 current_language;
 s32 TAdTrialAgreementGC__sub_80335958(int);
@@ -269,8 +260,8 @@ void TLobby::queue_destruction_and_cleanup() {
     }
 }
 
-void TLobby::destroy_download_server(void* _w0) {
-    ((TObject *)_w0)->queue_destruction();
+void TLobby::destroy_download_server(void* object) {
+    ((TObject *)object)->queue_destruction();
     if ((u32) title_scene_instance != 0U) {
         ((TLobby *)title_scene_instance)->set_flag_and_clear_download();
     }
@@ -304,7 +295,7 @@ void TLobby::set_flag_and_clear_download() {
 }
 
 void TLobby__sub_803361FC(void) {  }
-void TLobby::open_keyboard() { lobby_game_mode_state = 3; TKeyBoardControl__sub_8000F9CC((s32)((void*)19)); }
+void TLobby::open_keyboard() { lobby_game_mode_state = 3; request_main_phase((s32)((void*)19)); }
 void TLobby::request_change_game_mode() { lobby_game_mode_state = 2; TAdMultiChgGameModeGC::set_mode_change_state(); }
 void TLobby::enter_game_mode_change() { lobby_game_mode_state = 1; TAdMultiChgGameModeGC::set_game_mode_state(); }
 void TLobby::enter_chg_game_mode() { lobby_game_mode_state = 0; TAdMultiChgGameModeGC::set_mode_0x15(); }
@@ -321,7 +312,6 @@ void TLobby__sub_803362A4(void *arg0_) {
 }
 void TUnk_804EEF64::render() {  }
 
-typedef char RecoveredGlobal_80336340_TKeyBoardControl__data_80506270_size[sizeof(RecoveredGlobal_80336340_TKeyBoardControl__data_80506270) == 0xB0 ? 1 : -1];
 void TUnk_804EEF64::run_task() {
     s32 i;
     TAdMultiChgGameModeGC::set_default_camera();
@@ -348,7 +338,7 @@ void TUnk_804EEF64::run_task() {
     if (((s32) ((TUnk_804EEF64 *)((Obj_80336340 *)this))->m_38 < (s32) *(s32 *)((s8 *)((Obj_80336340 *)this) + 0x34)) && (((TAdSinglePlyChrSelectGC *)((Obj_80336340 *)this))->start_offline_seq() != 0)) {
         TKeyBoardControl__sub_8000F90C(2);
         set_opening_movie_purpose(0);
-        TKeyBoardControl__sub_8000F9CC(3);
+        request_main_phase(3);
     }
     *(s32 *)((s8 *)((Obj_80336340 *)this) + 0x34) = (s32) (*(s32 *)((s8 *)((Obj_80336340 *)this) + 0x34) + 1);
 }
@@ -392,7 +382,7 @@ u8 *TUnk_804EEF64::construct_title_scene() {
     } else {
         this->m_38 = 0x320;
     }
-    p = __nw__7TObjectFUl(0x24);
+    p = TObject::operator new(0x24);
     if (p != 0) {
         p = ((TUnk_804EEF80 *)p)->construct(arg0);
     }
@@ -425,7 +415,7 @@ u8 *TUnk_804EEF64::construct_title_scene() {
         *(s32 *)((s8 *)arg0 + 0x44) = create_particle__20TAdLoadQuestPrtTxtGCFPvll(&v, 0x1E4, 1);
         this->m_48 = create_particle__20TAdLoadQuestPrtTxtGCFPvll(&v, 0x1E5, 1);
     }
-    p = __nw__7TObjectFUl(0x28);
+    p = TObject::operator new(0x28);
     if (p != 0) {
         ((TLobby *)p)->init_fade((void *)tl_fade, (void *)TLobby::destroy_download_server);
     }
@@ -448,7 +438,7 @@ void initialize_lobby_title_scene(void) {
     TLobby::update_menu_cursor();
     TitleTextureFilenameTable names = title_texture_filename_table;
     lobby_title_texture_list = &title_texture_list;
-    TLobby__sub_8023E4B4((s32)names.archive[current_language], (s32)&title_texture_list);
+    load_streamed_prs_texture((s32)names.archive[current_language], (s32)&title_texture_list);
     run_load_callback_table(lobby_load_callback_table, sizeof(lobby_load_callback_table));
     TLobby::reset_counter();
     set_current_floor_area(0);

@@ -1,4 +1,6 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/camera/TCameraCtrl_803D676C.h"
 #include <stddef.h>
 #include <string.h>
 #include "pso/system/movie/TMovie.h"
@@ -12,34 +14,32 @@
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/system/TLoadCtrl_80227390.h"
 #include "pso/ui/frontend/TAdEndText.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/task/TObject.h"
 
 struct MovieState;
-struct Vec_80144778 { f32 x, y, z; };
 
 extern "C" {
 void TMovie__sub_80144324(MovieState *movie, const s8 *name);
 void run_task__6TMovieFv(TMovie *movie);
+}
 int get_opening_movie_selector(void);
 void activate_main_menu_scene(void);
+extern "C" {
 void fn_801449F0(void);
 
 s32 is_playback_finished__6TMovieFv(s32);
-s32 __dl__7TObjectFPv(void *);
-s32 __dt__7TObjectFv(void *, s32);
 u8 *__nw__7TObjectFUl(s32);
-void queue_destruction__7TObjectFv(void *arg0);
 s32 fn_80320358(u32, s32);
 s32 DVDCheckDisk();
-s32 TWindowShortListCtrl__check_controller_button(void *, s32);
-s32 TKeyBoardControl__sub_8000F91C(s32);
+s32 set_queued_main_phase(s32);
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, s32);
 s8 get_opening_movie_purpose();
 s8 func_801A5E54__Fv();
 u8 *load_rel_module(u8 *arg0, s32 arg1);
-void set_perspective_projection_from_fov(s32 arg0, f32 farg0, f32 farg1, f32 farg2);
 void func_803DCDFC__Fv(void);
+}
 
-extern void *__vt__6TMovie[];
 extern s8 controller_input_state[];
 extern s8 controller_physical_port_bank[];
 extern s32 video_initial_draw_framebuffer;
@@ -47,13 +47,12 @@ extern s32 video_initial_display_framebuffer;
 extern int opening_movie_selector;
 extern unsigned char main_menu_scene_active_flag;
 extern int ending_movie_active_flag;
-}
 
 const char *TMovie__name = "TMovie";
 // inferred: the eye, target and up vectors run_task passes to set_camera_look_at
-static const Vec_80144778 movie_camera_eye = {0.0f, 0.0f, 0.0f};
-static const Vec_80144778 movie_camera_target = {0.0f, 0.0f, 1.0f};
-static const Vec_80144778 movie_camera_up = {0.0f, 1.0f, 0.0f};
+static const Vec movie_camera_eye = {0.0f, 0.0f, 0.0f};
+static const Vec movie_camera_target = {0.0f, 0.0f, 1.0f};
+static const Vec movie_camera_up = {0.0f, 1.0f, 0.0f};
 
 void set_camera_look_at(u8 *eye, u8 *target, u8 *up);
 
@@ -69,10 +68,10 @@ s32 TMovie::close(int arg0, short arg1) {
     return arg0;
 }
 
-u8 *initialize_movie_with_soundtrack(u8 *movie, s8 *arg1, s32 arg2, s32 arg3, s32 arg4) {
+u8 *initialize_movie_with_soundtrack(u8 *movie, s8 *name, s32 arg2, s32 arg3, s32 arg4) {
     *(s32 *)((s8 *)movie + 0xCC) = arg2;
     *(s32 *)((s8 *)movie + 0) = 0;
-    TMovie__sub_80144324((MovieState *)movie, arg1);
+    TMovie__sub_80144324((MovieState *)movie, name);
     ((TMovie *)movie)->init_sfd_player(arg3, arg4);
     if (arg3 != 0) {
         play_area_music("CUBE_ENDING.adx");
@@ -297,38 +296,30 @@ void TMovie__sub_80144324(MovieState *movie, const s8 *name) {
     lbl_805D6B28(&movie->frame_rate);
 }
 
-void *__dt__6TMovieFv(TMovie *arg0, s16 arg1) {
+TMovie::~TMovie() {
     s32 (*temp_r12)(void *);
     u32 t;
 
-    if (arg0 != NULL) {
-        *(void **)((s8 *)arg0 + 0x18) = __vt__6TMovie;
-        arg0->render_until_finished();
-        render_tick();
-        t = arg0->m_20;
-        if (t != 0U) {
-            TMovie::close(t, 1);
-            arg0->m_20 = 0U;
-        }
-        render_tick();
-        render_tick();
-        t = arg0->m_1c;
-        if (t != 0U) {
-            fn_80320358(t, 1);
-            arg0->m_1c = 0U;
-        }
-        render_tick();
-        temp_r12 = *(s32 (**)(void *))((s8 *)arg0 + 0x44);
-        if (temp_r12 != NULL) {
-            temp_r12(arg0);
-        }
-        TLobby::set_pre_retrace_callback();
-        __dt__7TObjectFv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
+    this->render_until_finished();
+    render_tick();
+    t = this->m_20;
+    if (t != 0U) {
+        TMovie::close(t, 1);
+        this->m_20 = 0U;
     }
-    return arg0;
+    render_tick();
+    render_tick();
+    t = this->m_1c;
+    if (t != 0U) {
+        fn_80320358(t, 1);
+        this->m_1c = 0U;
+    }
+    render_tick();
+    temp_r12 = *(s32 (**)(void *))((s8 *)this + 0x44);
+    if (temp_r12 != NULL) {
+        temp_r12(this);
+    }
+    TLobby::set_pre_retrace_callback();
 }
 
 void TMovie::render_until_finished() {
@@ -340,7 +331,7 @@ loop_1:
 }
 
 s32 TMovie::check_skip_input() {
-    void *var_r31;
+    void *context;
     s32 var_r30;
 
     if (TAdEndText__sub_8001B41C() != 0) {
@@ -354,38 +345,38 @@ s32 TMovie::check_skip_input() {
     }
     switch (get_opening_movie_purpose()) {
     case 0:
-        var_r31 = controller_physical_port_bank + 0x20;
-        if (TWindowShortListCtrl__check_controller_button(var_r31, 4) != 0) goto block_fn_8000F91C;
-        if (TWindowShortListCtrl__check_controller_button(var_r31, 2) != 0) goto block_fn_8000F91C;
-        if (TWindowShortListCtrl__check_controller_button(var_r31, 0x400) != 0) goto block_fn_8000F91C;
-        if (TWindowShortListCtrl__check_controller_button(var_r31, 0x200) != 0) goto block_fn_8000F91C;
-        if (TWindowShortListCtrl__check_controller_button(var_r31, 8) != 0) goto block_fn_8000F91C;
-        if (TWindowShortListCtrl__check_controller_button(var_r31, 0x10) != 0) goto block_fn_8000F91C;
-        if (TWindowShortListCtrl__check_controller_button(var_r31, 0x20) != 0) goto block_fn_8000F91C;
-        if (TWindowShortListCtrl__check_controller_button(var_r31, 0x40) != 0) goto block_fn_8000F91C;
-        if (TWindowShortListCtrl__check_controller_button(var_r31, 0x80) != 0) goto block_fn_8000F91C;
-        if (TWindowShortListCtrl__check_controller_button(var_r31, 0x20000) != 0) goto block_fn_8000F91C;
-        if (TWindowShortListCtrl__check_controller_button(var_r31, 0x10000) != 0) goto block_fn_8000F91C;
-        var_r31 = controller_input_state + 0x160;
-        if (test_flag_4c__23TAdSinglePlyChrSelectGCFv(var_r31, 4) != 0) goto block_fn_8000F91C;
-        if (test_flag_4c__23TAdSinglePlyChrSelectGCFv(var_r31, 2) != 0) goto block_fn_8000F91C;
+        context = controller_physical_port_bank + 0x20;
+        if (TWindowShortListCtrl__check_controller_button(context, 4) != 0) goto block_fn_8000F91C;
+        if (TWindowShortListCtrl__check_controller_button(context, 2) != 0) goto block_fn_8000F91C;
+        if (TWindowShortListCtrl__check_controller_button(context, 0x400) != 0) goto block_fn_8000F91C;
+        if (TWindowShortListCtrl__check_controller_button(context, 0x200) != 0) goto block_fn_8000F91C;
+        if (TWindowShortListCtrl__check_controller_button(context, 8) != 0) goto block_fn_8000F91C;
+        if (TWindowShortListCtrl__check_controller_button(context, 0x10) != 0) goto block_fn_8000F91C;
+        if (TWindowShortListCtrl__check_controller_button(context, 0x20) != 0) goto block_fn_8000F91C;
+        if (TWindowShortListCtrl__check_controller_button(context, 0x40) != 0) goto block_fn_8000F91C;
+        if (TWindowShortListCtrl__check_controller_button(context, 0x80) != 0) goto block_fn_8000F91C;
+        if (TWindowShortListCtrl__check_controller_button(context, 0x20000) != 0) goto block_fn_8000F91C;
+        if (TWindowShortListCtrl__check_controller_button(context, 0x10000) != 0) goto block_fn_8000F91C;
+        context = controller_input_state + 0x160;
+        if (test_flag_4c__23TAdSinglePlyChrSelectGCFv(context, 4) != 0) goto block_fn_8000F91C;
+        if (test_flag_4c__23TAdSinglePlyChrSelectGCFv(context, 2) != 0) goto block_fn_8000F91C;
         if (TLobby::run_disk_error_check() == 0) goto block_fn_8000F91C;
         if (TKeyBoardControl::check_reset_button() != 0) goto block_fn_8000F91C;
         if (is_playback_finished__6TMovieFv(this->m_20) == 0) goto block_return0;
 block_fn_8000F91C:
-        TKeyBoardControl__sub_8000F91C(9);
+        set_queued_main_phase(9);
         return 1;
     case 1:
         var_r30 = 0;
         if (TKeyBoardControl::check_reset_button() != 0) {
             var_r30 = 1;
         }
-        var_r31 = controller_physical_port_bank + 0x20;
-        if (TWindowShortListCtrl__check_controller_button(var_r31, 2) != 0) goto block_call_func;
-        if (TWindowShortListCtrl__check_controller_button(var_r31, 8) != 0) goto block_call_func;
-        var_r31 = controller_input_state + 0x160;
-        if (test_flag_4c__23TAdSinglePlyChrSelectGCFv(var_r31, 4) != 0) goto block_call_func;
-        if (test_flag_4c__23TAdSinglePlyChrSelectGCFv(var_r31, 2) != 0) goto block_call_func;
+        context = controller_physical_port_bank + 0x20;
+        if (TWindowShortListCtrl__check_controller_button(context, 2) != 0) goto block_call_func;
+        if (TWindowShortListCtrl__check_controller_button(context, 8) != 0) goto block_call_func;
+        context = controller_input_state + 0x160;
+        if (test_flag_4c__23TAdSinglePlyChrSelectGCFv(context, 4) != 0) goto block_call_func;
+        if (test_flag_4c__23TAdSinglePlyChrSelectGCFv(context, 2) != 0) goto block_call_func;
         if (TLobby::run_disk_error_check() == 0) goto block_call_func;
         if (var_r30 != 0) goto block_call_func;
         if (is_playback_finished__6TMovieFv(this->m_20) == 0) goto block_return0;
@@ -422,7 +413,7 @@ void run_task__6TMovieFv(TMovie *movie) {
     VObj_18_a28850 *txt;
     u8 *p;
     if (movie->m_1c == 0 || movie->m_20 == 0) {
-        queue_destruction__7TObjectFv(movie);
+        movie->queue_destruction();
         return;
     }
     render_tick();
@@ -448,9 +439,9 @@ void run_task__6TMovieFv(TMovie *movie) {
             ((TMovie *)(movie->m_20))->update_stop();
             TMovie::run_callback();
         } else {
-            Vec_80144778 eye = movie_camera_eye;
-            Vec_80144778 at = movie_camera_target;
-            Vec_80144778 up = movie_camera_up;
+            Vec eye = movie_camera_eye;
+            Vec at = movie_camera_target;
+            Vec up = movie_camera_up;
             set_perspective_projection_from_fov(0x4B, 1.1333334f, 1.0f, 21000.0f);
             set_camera_look_at((u8 *)&eye, (u8 *)&at, (u8 *)&up);
             ((TMovie *)(movie->m_20))->update_stop();
@@ -461,7 +452,7 @@ void run_task__6TMovieFv(TMovie *movie) {
             render_tick();
         }
     }
-    queue_destruction__7TObjectFv(movie);
+    movie->queue_destruction();
 }
 
 TMovie::TMovie(TObject *parent, s8 *name, s32 a3, s32 a4, s32 a5) : TObject(parent) {

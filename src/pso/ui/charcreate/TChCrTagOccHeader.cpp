@@ -6,15 +6,14 @@
 #include "pso/ui/charcreate/TChCrTagOccHeader.h"
 #include "pso/ui/charcreate/TChCrTagOccupation.h"
 #include "pso/ui/charcreate/TChCrCharSelect.h"
+#include "pso/math/AngleLookup.h"
 
-extern "C" {
+
 const char *chcr_tag_occ_header_class_name = "TChCrTagOccHeader";
-}
 
-extern "C" f32 sin_table_lookup(s32 angle);
 #pragma push
 #pragma fp_contract on
-extern "C" void fn_802A2A00(TChCrTag *tag) {
+void fn_802A2A00(TChCrTag *tag) {
   u8 *self = (u8 *)tag;
   vec2f pos = {393.0f, 82.0f};
   vec2f scale;
@@ -100,22 +99,22 @@ int render__17TChCrTagOccHeaderFv(void* p);
 
 void TChCrTagOccHeader::render() { fn_802A2A00(this); }
 
-s32 TChCrTagOccHeader__vt4(TChCrTagOccHeader *tag);
+s32 vt4__17TChCrTagOccHeaderFv(TChCrTagOccHeader *tag);
 void run_task__17TChCrTagOccHeaderFv(TChCrTagOccHeader *tag);
 
 void TChCrTagOccHeader::run_task() {
     update_fade__8TChCrTagFPv(this);
     m_3c = m_3c + 1;
 }
-s32 TChCrTagOccHeader__vt4(TChCrTagOccHeader *tag) {
+s32 TChCrTagOccHeader::vt4() {
     switch (TChCrCharSelect::get_selected_index()) {
     case 0:
-        if (tag->m_20 < 3 && tag->m_20 == TChCrCharSelect::get_selected_char()) {
+        if (this->m_20 < 3 && this->m_20 == TChCrCharSelect::get_selected_char()) {
             return 1;
         }
         break;
     default:
-        if (tag->m_20 >= 3 && tag->m_20 - 3 == TChCrCharSelect::get_instance()) {
+        if (this->m_20 >= 3 && this->m_20 - 3 == TChCrCharSelect::get_instance()) {
             return 1;
         }
         break;
@@ -142,7 +141,7 @@ void *__vt__17TChCrTagOccHeader[] = {
     (void *)run_task__17TChCrTagOccHeaderFv,
     (void *)render__17TChCrTagOccHeaderFv,
     (void *)render_shadows__7TObjectFv,
-    (void *)TChCrTagOccHeader__vt4,
+    (void *)vt4__17TChCrTagOccHeaderFv,
     0,
 };
 

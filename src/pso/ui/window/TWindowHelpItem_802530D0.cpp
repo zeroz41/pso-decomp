@@ -4,7 +4,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/TItem.h"
 
-extern "C" {
+
 s32 TWindowHelpItem::is_item_already_equipped() {
     s32 item;
     s32 field;
@@ -24,4 +24,3 @@ s32 TWindowHelpItem::is_item_already_equipped() {
     return (s32) ((u32) __cntlzw(diff) >> 5);
 }
 
-}

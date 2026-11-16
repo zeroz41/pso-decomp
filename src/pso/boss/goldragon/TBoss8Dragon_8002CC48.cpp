@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #pragma defer_codegen on
 
 #include "pso/system/vector.h"
@@ -18,7 +19,6 @@
 
 #include "pso/unk/text_803D96A8.h"
 
-void set_constant_material(const NJS_ARGB *color);
 
 #include "types.h"
 
@@ -45,10 +45,8 @@ void set_constant_material(const NJS_ARGB *color);
 #include "pso/enemy/dd/TObjEneDD.h"
 
 #include "pso/object/ambient/TObjFish.h"
-
-struct RecoveredGlobal_8002D41C_lbl_80482060 { s32 value; u8 remaining[0x14]; };
-
-typedef char RecoveredGlobal_8002D41C_lbl_80482060_size[sizeof(RecoveredGlobal_8002D41C_lbl_80482060) == 0x18 ? 1 : -1];
+#include "pso/system/task/TObject.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 struct UV_8002D4C0 { s16 u, v; };
 
@@ -83,14 +81,12 @@ struct Trail_8002CC48 {
     s32 f4C;
 };
 
-struct Vec_8002CFB8 { f32 x; f32 y; f32 z; };
-
 struct Trail_8002CFB8 {
     u8 pad0[0x10];
     void *f10;
     u8 pad14[0x1C - 0x14];
     s32 f1C;
-    Vec_8002CFB8 pos;
+    Vec pos;
     f32 f2C;
     f32 f30;
     f32 f34;
@@ -133,23 +129,23 @@ extern BmlResource *lbl_805D4B50;
 
 extern s32 dragon_common_texture_list;
 
-extern Unk_8002DB7C *lbl_805D4B60;
+Unk_8002DB7C *lbl_805D4B60;
 
-extern Unk_8002DB7C *lbl_805D4B64;
+Unk_8002DB7C *lbl_805D4B64;
 
-extern Unk_8002DB7C *lbl_805D4B68;
+Unk_8002DB7C *lbl_805D4B68;
 
-extern UV_8002D4C0 *lbl_805D4B6C;
+UV_8002D4C0 *lbl_805D4B6C;
 
-extern s16 *lbl_805D4B70;
+s16 *lbl_805D4B70;
 
-extern s32 lbl_805D4B74;
+s32 lbl_805D4B74;
 
-extern Ent_8002CE78 *lbl_805D4B78;
+Ent_8002CE78 *lbl_805D4B78;
 
-extern s32 dragon_trail_position_source;
+s32 dragon_trail_position_source;
 
-extern s32 dragon_trail_heading_source;
+s32 dragon_trail_heading_source;
 
 extern s32 saved_model_render_flags;
 
@@ -169,13 +165,6 @@ void post_translate_matrix(void *);
 
 void set_chunk_material_override_pair(s32, s32, s32, s32);
 
-void queue_destruction__7TObjectFv();
-
-void *__nw__7TObjectFUl(int);
-
-void mem_free(void *p);
-
-void *mem_alloc(u32);
 
 f32 calc_nearest_crater_distance(void *);
 
@@ -198,9 +187,9 @@ s32 is_dragon_trail_damaging(u8 *arg0);
 
 #pragma fp_contract on
 
-extern s16 lbl_804FE238[11];
+s16 lbl_804FE238[11];
 
-extern s16 lbl_804FE250[11];
+s16 lbl_804FE250[11];
 
 #pragma push
 #pragma fp_contract on
@@ -552,7 +541,7 @@ f32 get_velocity_scale_limit(void) {
 
 u8 *TObjBoss1MokoHill_SoloM__ct(u8 *boss1_moko_hill_solo_m, u8 *arg1, u8 *arg2, s32 arg3) {
     __ct__7TObjectFP7TObject(boss1_moko_hill_solo_m, arg1);
-    *(s32 **)((s8 *)boss1_moko_hill_solo_m + 0x18) = &(*(RecoveredGlobal_8002D41C_lbl_80482060 *)&__vt__23TObjBoss1MokoHill_SoloM).value;
+    *(s32 **)((s8 *)boss1_moko_hill_solo_m + 0x18) = __vt__23TObjBoss1MokoHill_SoloM;
     *(s32 *)((s8 *)boss1_moko_hill_solo_m + 0) = (s32) TObjBoss1MokoHill_SoloM__name;
     *(s32 *)((s8 *)boss1_moko_hill_solo_m + 0x1C) = 0;
     (*(u8 * *)&dragon_trail_position_source) = arg2;
@@ -579,7 +568,7 @@ void TBoss8Dragon::spawn_child_object() {
     *(u32 *)((u8 *)this + 0x1C) = 0;
     *(f32 *)((u8 *)this + 0x34) = -30.0f;
     *(f32 *)((u8 *)this + 0x30) = -30.0f;
-    o = __nw__7TObjectFUl(0x50);
+    o = TObject::operator new(0x50);
     if (o != NULL) {
         TObjBoss1MokoHill_Solo__ct(o, (void *)(*(void **)((u8 *)this + 0x10)), 30);
     }
@@ -629,12 +618,12 @@ void TObjBoss1MokoHill_SoloM::run_task() {
             if (self->f2C >= 10.0f) {
                 self->f2C = 0.0f;
                 if (self->f3C != 0) {
-                    o = __nw__7TObjectFUl(0x50);
+                    o = TObject::operator new(0x50);
                     if (o != NULL) {
                         TObjBoss1MokoHill_Solo__ct(o, self->f10, 0);
                     }
                 } else {
-                    o = __nw__7TObjectFUl(0x50);
+                    o = TObject::operator new(0x50);
                     if (o != NULL) {
                         TObjBoss1MokoHill_Solo__ct(o, self->f10, 0x1E);
                     }
@@ -645,17 +634,17 @@ void TObjBoss1MokoHill_SoloM::run_task() {
             c = sin_table_lookup(ang);
             {
                 f32 k = 120.0f;
-                ax = c * k + ((Vec_8002CFB8 *)dragon_trail_position_source)->x;
-                az = s * k + ((Vec_8002CFB8 *)dragon_trail_position_source)->z;
+                ax = c * k + ((Vec *)dragon_trail_position_source)->x;
+                az = s * k + ((Vec *)dragon_trail_position_source)->z;
             }
             ang += (s32)(10000.0f * rand_signed_unit());
             s = ((f32 (*)(s32))cos_table_lookup)(ang);
             c = sin_table_lookup(ang);
             {
                 f32 k = 50.0f;
-                pos.x = c * k + ((Vec_8002CFB8 *)dragon_trail_position_source)->x;
+                pos.x = c * k + ((Vec *)dragon_trail_position_source)->x;
                 pos.y = 0.0f;
-                pos.z = s * k + ((Vec_8002CFB8 *)dragon_trail_position_source)->z;
+                pos.z = s * k + ((Vec *)dragon_trail_position_source)->z;
             }
             vel.x = pos.x - ax;
             vel.z = pos.z - az;
@@ -752,7 +741,7 @@ void *TObjBoss1MokoHill_Solo__ct(void *arg0_, void *arg1, int arg2) {
 TObjBoss1MokoHill_Solo::~TObjBoss1MokoHill_Solo() {
 
 }
-extern "C" {
+
 s32 get_state__12TBoss8DragonFv(void) {
     return dragon_trail_position_source;
 }
@@ -777,9 +766,8 @@ void TObjBoss1MokoHill_Solo::run_task() {
     case 2:
         self->f34 -= 0.5f;
         if (self->f34 < -32.0f) {
-            queue_destruction__7TObjectFv();
+            queue_destruction();
         }
         break;
     }
-}
 }

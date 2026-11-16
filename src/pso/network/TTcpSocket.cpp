@@ -1,4 +1,5 @@
 #include "pso/network/NetworkRuntime.h"
+#include "pso/unk/TLobby_801461EC.h"
 #include "pso/network/TLobby_804050DC.h"
 #pragma readonly_strings on
 #include "types.h"
@@ -14,11 +15,6 @@
 #include "pso/network/TTcpSocket.h"
 #include "pso/network/TUdpSocket.h"
 #include "pso/unk/TLobby.h"
-
-struct RecoveredGlobal_80078378_lbl_8048D3B8 {
-    s32 value;
-    u8 remaining[0x3C];
-};
 
 struct Sock_80078110 { char pad[0x1c]; s32 f1c; u16 port; u8 pad22[2]; s32 addr; s16 fd; };
 
@@ -46,14 +42,12 @@ struct Sock_80078264 { u8 pad[0x28]; s16 x28; };
 
 extern "C" {
 struct Rec_8007841C *copy_udp_socket_event_record(struct Rec_8007841C *dst, struct Rec_8007841C *src);
-extern RecoveredGlobal_80078378_lbl_8048D3B8 udp_socket_slots;
-void TLobby__sub_8014672C(s32 *arg0);
-void TUdpSocket__sub_80421BAC(int, void *, void *, int, void *, int, void *);
+void udp_send(int, void *, void *, int, void *, int, void *);
 void TUdpSocket__sub_80078110(Sock_80078110 *arg0, s32 arg1, s16 arg2);
 void TUdpSocket__sub_800781B8(Sock_800781B8 *arg0, s32 arg1);
-s16 TUdpSocket__sub_80421DEC(void *, int, void *, int, int, s32 (*)(s16, u8 *));
+s16 udp_open(void *, int, void *, int, int, s32 (*)(s16, u8 *));
 s16 open_socket__10TUdpSocketFPv(Sock_800782B8 *arg0);
-s32 TLobby__sub_80421B3C(s32 a);
+s32 udp_close(s32 a);
 void free_socket_slot__10TUdpSocketFPv(Sock_80078264 *arg0);
 struct Base_80078064 { char pad[0x18]; };
 struct VObj_80078064 : Base_80078064 {
@@ -72,7 +66,7 @@ void render_shadows__7TObjectFv();
 void reset_buffer(u8 *arg0);
 TTcpSocket *tcp_socket_table[16] = {0};
 extern "C" {
-RecoveredGlobal_80078378_lbl_8048D3B8 udp_socket_slots = {0};
+UdpSocketSlots udp_socket_slots = {0};
 }
 const char *sock_status_names[17] = {
     "SUCCESS", "API_PENDING", "API_PORTFULL", "API_DUPSOCK", "API_INVALIDHANDLE",
@@ -88,17 +82,17 @@ void *__vt__10TUdpSocket[11] = {
 };
 extern "C" {
 
-void *__dt__10TUdpSocketFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        struct VObj_80078064 *o = (struct VObj_80078064 *)arg0;
-        *(s32 **)((s8 *)arg0 + 0x18) = (s32 *)__vt__10TUdpSocket;
+void *__dt__10TUdpSocketFv(void *socket, s16 arg1) {
+    if (socket != NULL) {
+        struct VObj_80078064 *o = (struct VObj_80078064 *)socket;
+        *(s32 **)((s8 *)socket + 0x18) = (s32 *)__vt__10TUdpSocket;
         o->m5();
-        __dt__7TSocketFv(arg0, 0);
+        __dt__7TSocketFv(socket, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(socket);
         }
     }
-    return arg0;
+    return socket;
 }
 }
 
@@ -106,7 +100,6 @@ void reset_buffer(u8 *arg0) {
     memset(arg0 + 0x74, 0, 0x800);
     *(s8 *)((s8 *)arg0 + 0x2B) = 1;
 }
-typedef char RecoveredGlobal_80078378_lbl_8048D3B8_size[sizeof(RecoveredGlobal_80078378_lbl_8048D3B8) == 0x40 ? 1 : -1];
 extern "C" {
 
 void TUdpSocket__sub_80078110(Sock_80078110 *arg0, s32 arg1, s16 arg2) {
@@ -128,7 +121,7 @@ void TUdpSocket__sub_80078110(Sock_80078110 *arg0, s32 arg1, s16 arg2) {
     r.a = arg2;
     port = arg0->port;
     bswap_16(&port);
-    TUdpSocket__sub_80421BAC(arg0->fd, &q2, &q1, port, &c, 1, &r);
+    udp_send(arg0->fd, &q2, &q1, port, &c, 1, &r);
 }
 
 void TUdpSocket__sub_800781B8(Sock_800781B8 *arg0, s32 arg1) {
@@ -150,12 +143,12 @@ void TUdpSocket__sub_800781B8(Sock_800781B8 *arg0, s32 arg1) {
     r.a = strlen((const char *)arg1);
     port = arg0->port;
     bswap_16(&port);
-    TUdpSocket__sub_80421BAC(arg0->fd, &q2, &q1, port, &c, 1, &r);
+    udp_send(arg0->fd, &q2, &q1, port, &c, 1, &r);
 }
 
 void free_socket_slot__10TUdpSocketFPv(Sock_80078264 *arg0) {
     if (arg0->x28 >= 0x400) {
-        TLobby__sub_80421B3C(arg0->x28);
+        udp_close(arg0->x28);
         (&udp_socket_slots.value)[arg0->x28 - 0x400] = 0;
     }
 }
@@ -176,7 +169,7 @@ s16 open_socket__10TUdpSocketFPv(Sock_800782B8 *arg0) {
     pb = arg0->port_a;
     bswap_16(&pa);
     bswap_16(&pb);
-    arg0->fd = TUdpSocket__sub_80421DEC(&q1, pa, &q2, pb, 0, TUdpSocket::handle_socket_event);
+    arg0->fd = udp_open(&q1, pa, &q2, pb, 0, TUdpSocket::handle_socket_event);
     if (arg0->fd < 0) {
         return -1;
     }
@@ -267,12 +260,12 @@ char func_801A5E54();
 void render_tick();
 void func_803DCDFC();
 extern "C" {
-short tcp_abort(short nh);
-short tcp_bind(short nh, struct at_ip_addr *addr, u16 port);
+s32 tcp_abort(s32 a);
+s32 tcp_bind(s32 a, void *addr, u16 port);
 short tcp_connect(short nh, struct at_ip_addr *addr, u16 port, struct at_ip_option *option);
-short tcp_create();
-short tcp_delete(short nh);
-short tcp_get_opt(short nh, short type, u32 *opt);
+s32 tcp_create(void);
+s32 tcp_delete(s32 a);
+s16 tcp_get_opt(s16 nh, s16 type, u32 *opt);
 short tcp_send(short nh, void (*notify)(short size, short sock_fd), char bufnum, struct send_buffs *sb);
 int tcp_stat(short nh, short *stat, short *backlog, u32 *sendwin, u32 *recvwin);
 short tcp_receive(short nh, void (*notify)(short size, short sock_fd), short len, u8 *buf);

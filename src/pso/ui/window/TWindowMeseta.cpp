@@ -1,18 +1,50 @@
 #include "types.h"
+#include "pso/ui/window/TWindowBase.h"
+#include "pso/ui/window/TWindowMeseta.h"
+#include "pso/ui/window/TWindowSubComCard.h"
+#include "pso/player/TObjPlayer.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8025A9B4.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80287570.h"
 #include "pso/camera/TCameraCtrl.h"
-#include "pso/ui/window/TWindowBase.h"
-#include "pso/ui/window/TWindowMeseta.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/unk/WindowLayoutRecord.h"
-
 #pragma readonly_strings on
 
 extern "C" {
-const char *TWindowMeseta__class_name = "TWindowMeseta";
+
+s32 draw_visible_window_entries(s32, s32, s32);
+void *get_player_by_client_id(s32 i);
+s32 draw_window_tab(s32, s32, s32, f32);
+
+s32 TWindowMeseta::get_meseta_value() {
+    TObjPlayer *player = (TObjPlayer *)get_player_by_client_id(this->m_64);
+    u8 *stats;
+
+    if (player == NULL) {
+        return 0;
+    }
+    stats = player->get_stats();
+    if (stats == NULL) {
+        return 0;
+    }
+    return *(s32 *)(stats + 0x20);
 }
+void TWindowMeseta::draw_value(s32 arg1) {
+    draw_window_tab(arg1, arg1 + 0x10, 3, this->m_60);
+}
+void TWindowMeseta::render() {
+    s32 ctx;
+    s32 arg0 = (s32)this;
+
+    ctx = ((TWindowBase *)arg0)->setup_window_draw_context(arg0 + 0x6C);
+    ((TWindowMeseta *)arg0)->draw_value(ctx);
+    draw_visible_window_entries(arg0, arg0 + 0x24, ctx);
+}
+
+}
+
+const char *TWindowMeseta__class_name = "TWindowMeseta";
 
 // inferred: window_meseta_layout_entries, the layout table TWindowMeseta__window_descriptor points at
 // (a label and the meseta counter, then an all-zero record).
@@ -56,8 +88,6 @@ s32 get_meseta_value__13TWindowMesetaFv();
 extern s32 __vt__13TWindowMeseta[];
 extern const char *TWindowMeseta__class_name;
 void *TWindowMeseta__ct(void *arg0, s32 arg1, s32 arg2, s32 arg3);
-void *__dt__13TWindowMesetaFv(void *arg0, s16 arg1);
-void __dl__7TObjectFPv(void *);
 
 
 void TWindowMeseta::run_task() {
@@ -73,16 +103,7 @@ void TWindowMeseta::run_task() {
     ((TWindowBase *)arg0)->update_window_entry_list((u8 *)&this->m_24);
 }
 
-void *__dt__13TWindowMesetaFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__13TWindowMeseta;
-        ((TWindowDD *)arg0)->destroy_window_base(0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
-}
+TWindowMeseta::~TWindowMeseta() {}
 #define self ((Meseta_80269244 *)arg0)
 void *TWindowMeseta__ct(void *arg0, s32 arg1, s32 arg2, s32 str) {
     Sub_80269244 *a;

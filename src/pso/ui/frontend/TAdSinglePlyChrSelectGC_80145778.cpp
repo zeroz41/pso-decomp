@@ -10,6 +10,7 @@
 #include "pso/system/TLanguage.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 void draw_menu_text(f32 x, f32 y, const char *text, u32 color) {
     draw_menu_font_string(text, color, 0, x, y, 0.5f);
@@ -26,7 +27,6 @@ typedef struct Glyph_80145804 {
 } Glyph_80145804;
 
 extern "C" {
-void mem_free(void *p);
 extern GinjaTextureList menu_font_texture_list[];
 extern s16 *lbl_805D56B4;
 extern Glyph_80145804 *menu_font_glyph_table;
@@ -62,8 +62,6 @@ typedef struct Font_80145804 {
 
 extern "C" {
 s32 set_stream_and_load_file__6TLobbyFi(void *);
-void *mem_alloc(u32);
-void *__nw__7TObjectFUl(u32);
 void set_texture_name(void *, void *, u32, u32);
 void load_texture_list(void *);
 extern u8 lbl_8043F3D8[];
@@ -137,10 +135,7 @@ void load_menu_font(void) {
     }
     lbl_805D56C0 = 0;
     menu_font_upload_flags = 3;
-    f = __nw__7TObjectFUl(0x1C);
-    if (f != NULL) {
-        f = TNECFontEORFunction__ct((u8 *)f);
-    }
+    f = (void *)new TNECFontEORFunction();
     menu_font_object = (TObject *)f;
 }
 #pragma pop

@@ -5,13 +5,13 @@
 
 extern "C" {
 int TKeyBoardControl__sub_8000F828(void);
-s32 TKeyBoardControl__sub_8000F8EC(void);
+s32 get_previous_main_phase(void);
 void TKeyBoardControl__sub_8000F90C(s32 arg0);
-void TKeyBoardControl__sub_8000F91C(s32 arg0);
+void set_queued_main_phase(s32 arg0);
 s32 TKeyBoardControl__sub_8000F92C(void);
 void TKeyBoardControl__sub_8000F950(void);
 void TKeyBoardControl__sub_8000F95C(void);
-void TKeyBoardControl__sub_8000F9CC(s32 arg0);
+void request_main_phase(s32 arg0);
 void TKeyBoardControl__sub_8000F9E4(void);
 }
 void activate_keyboard(void);

@@ -6,7 +6,7 @@
 #include "pso/item/TItemEquipVariant_80120CF8.h"
 #include "pso/item/TItem.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/player/TObjPlayer.h"
+
 
 struct Self_80127BE0 { u8 pad[0xF0]; s32 fF0; };
 

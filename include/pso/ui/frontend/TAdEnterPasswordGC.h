@@ -18,4 +18,8 @@ void set_password__18TAdEnterPasswordGCFi(s32 arg0);
 }
 // --- end of C functions
 
+// TAdEnterPasswordGC__input_buffer: layout known from its uses only.
+struct TAdEnterPasswordGCInputBuffer { char value; u8 remaining[8]; };
+extern TAdEnterPasswordGCInputBuffer TAdEnterPasswordGC__input_buffer;
+
 #endif

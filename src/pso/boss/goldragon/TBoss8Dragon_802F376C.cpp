@@ -10,15 +10,9 @@ struct Stack_802F3A48 {
     u8 trailing_storage[0x3C];
 };
 
-struct Vec_802F376C { f32 x, y, z; };
-
 struct Ent_802F376C { u8 pad[0x38]; f32 x; f32 y; f32 z; };
 
-struct Vec_802F3878 { f32 x, y, z; };
-
 struct Ent_802F3878 { u8 pad[0x38]; f32 x; f32 y; f32 z; };
-
-struct Vec_802F3974 { f32 x, y, z; };
 
 struct Ent_802F3974 { u8 pad[0x38]; f32 x; f32 y; f32 z; };
 
@@ -29,7 +23,7 @@ u8 *get_enemy_entity(u16 arg0);
 extern u32 boss8_dragon_leader_part;
 
 s32 TBoss8Dragon::is_closest_part() {
-    Vec_802F376C v;
+    Vec v;
     f32 len;
     s32 i;
     if (boss8_dragon_leader_part == 0) {
@@ -59,7 +53,7 @@ s32 TBoss8Dragon::is_closest_part() {
 #pragma push
 #pragma fp_contract on
 s32 TBoss8Dragon::push_apart_from_parts() {
-    Vec_802F3878 v;
+    Vec v;
     f32 d;
     s32 i;
     if (boss8_dragon_leader_part == 0) {
@@ -87,7 +81,7 @@ s32 TBoss8Dragon::push_apart_from_parts() {
 #pragma pop
 
 s32 TBoss8Dragon::is_near_other_part() {
-    Vec_802F3974 v;
+    Vec v;
     s32 i;
     if (boss8_dragon_leader_part == 0) {
         return 0;

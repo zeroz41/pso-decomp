@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/player/TObjPlayer_801BDF5C.h"
 #include "pso/item/TItem.h"
 #include "pso/player/TObjPlayer_801C1FF8.h"
 #include "pso/unk/text_801BDE60.h"
@@ -24,7 +25,8 @@
 #include "pso/item/TItemLockCountCtrl_8011E184.h"
 #include "pso/player/TObjPlayer_801BE778.h"
 #include "pso/player/TObjPlayer_801BEB0C.h"
-#include "pso/player/TObjPlayer.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
+
 
 struct VBase_801BDE60 { u8 pad[0x18]; };
 
@@ -52,23 +54,18 @@ u8 *TObjPlayer::create_player_instance(s32 arg0, s32 arg1) {
     return p;
 }
 
-u8 *create_player_object(s16 slot, s32 role, u8 *arg2) {
+u8 *create_player_object(s16 slot, s32 role, u8 *record) {
     u8 *player;
     u8 *var_r0;
-    decode_created_player_inventory(arg2);
+    decode_created_player_inventory(record);
     player = (u8 *)(__nw__7TObjectFUl(0xDB8));
     var_r0 = player;
     if (var_r0 != NULL) {
-        var_r0 = (u8 *)(((TObjPlayer *)player)->construct_player_instance(tl_03, slot, role, arg2));
+        var_r0 = (u8 *)(((TObjPlayer *)player)->construct_player_instance(tl_03, slot, role, record));
     }
     return var_r0;
 }
 
-}
-
-extern "C" {
-
-void mem_free(void*);
 
 extern u32 TObjPlayer__shared_photon_blast_state;
 extern u32 TObjPlayer__shared_model_buffer;
@@ -89,10 +86,6 @@ void TObjPlayer::free_shared_data() {
     }
 }
 
-}
-
-extern "C" {
-void *mem_alloc(u32 size);
 void *fn_801C2360(void *arg0);
 void TObjPlayer::alloc_shared_buffers() {
     s32 temp_r3;
@@ -572,18 +565,14 @@ short TObjPlayer::get_vobj_state_28() {
     extern int local_client_id;
 void TObjPlayer::update_battle_controller() { get_player_by_client_id((local_client_id)); }
 
-}
-
-extern "C" {
-
-int TFontSmallLobby__sub_801C0228(void*);
+int copy_subcommand_header(void*);
 int set_state_flags__10TObjPlayerFUl(void*, int);
 
 void TObjPlayer::set_flag_200000() {
     sub_8011E204(0x200000);
 }
 int TObjPlayer::check_flag_4() { return check_flag(4); }
-void*TObjPlayer::set_invisible() { TFontSmallLobby__sub_801C0228(this); return this; }
+void*TObjPlayer::set_invisible() { copy_subcommand_header(this); return this; }
 void TObjPlayer::clear_flag_4000_callback() { set_flag_4000(); }
 void TObjPlayer::set_flag_4000() { sub_8011E204(16384); }
 int TObjPlayer::clear_flag_4000() { return set_state_flags__10TObjPlayerFUl(this, 16384); }
@@ -591,10 +580,6 @@ void TObjPlayer::set_battle_flag(s32 v) { this->m_3b4 = v; }
 s32 TObjPlayer::get_anim_id() { return this->m_3b4; }
 int TObjPlayer::check_flag_0x40000000() { return (this->m_334 >> 30) & 0x1; }
 void TObjPlayer::clear_flag_0x2() { this->m_334 &= 0xfffffffd; }
-
-}
-
-extern "C" {
 
 int TObjPlayer__sub_801BED70(void*);
 int TObjPlayer__sub_801BED78(void*);
@@ -608,7 +593,7 @@ u8 TObjPlayer::get_battle_mode() { return *(u8*)((char*)this + 0x33a); }
 void TObjPlayer__sub_801BE794(void* p, u8 v) { *(u8*)((char*)p + 0x2cb) = v; }
 u8 TObjPlayer::get_byte_339() { return this->m_339; }
 void TObjPlayer__sub_801BE7A4(void* p, u8 v) { *(u8*)((char*)p + 0x2af) = v; }
-u8 get_mag_level__10TObjPlayerFPv(void* p) { return *(u8*)((char*)p + 0x338); }
+u8 TObjPlayer::get_mag_level() { return *(u8*)((char*)this + 0x338); }
 void TObjPlayer__sub_801BE7B4(void* p, u8 v) { *(u8*)((char*)p + 0x293) = v; }
 int TObjPlayer__sub_801BE7BC(void* p) { return TObjPlayer__sub_801BED70((char*)p + 0x374); }
 void TObjPlayer__sub_801BE7E0(void* p, u8 v) { *(u8*)((char*)p + 0x277) = v; }

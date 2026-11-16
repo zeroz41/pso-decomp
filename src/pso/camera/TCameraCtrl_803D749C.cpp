@@ -1,4 +1,5 @@
 #include "pso/animation/MotionContext.h"
+#include "pso/camera/TCameraCtrl_803D749C.h"
 #include "types.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/camera/TCameraCtrl_803D6538.h"
@@ -11,47 +12,22 @@ struct RecoveredGlobal_803D77C0_lbl_8047E3C8 {
     u8 remaining[0xC];
 };
 
-struct RecoveredGlobal_803D77C0_lbl_804FA500 {
-    s32 value;
-    u8 remaining[0x8];
-};
-
-struct RecoveredGlobal_803D77C0_lbl_804FA50C {
-    s32 value;
-    u8 remaining[0xC];
-};
-
-struct RecoveredGlobal_803D77C0_lbl_804FA51C {
-    s32 value;
-    u8 remaining[0x20];
-};
-
-struct RecoveredGlobal_803D78A8_lbl_8058CAB8 {
-    s32 value;
-    u8 remaining[0x7C];
-};
-
 struct St_803D7784 { s32 a0, a4, a8, ac, b0, b4, b8, x1c; };
 
-struct Vec_803D7504 { f32 x, y, z; };
 struct Quat_803D7504 { f32 x, y, z, w; };
-
-struct Vec_803D7CA4 { f32 x, y, z; };
 
 struct Angles_803D7CA4 { s32 x, y, z; };
 
 struct Quat_803D7CA4 { f32 x, y, z, w; };
-
-struct Vec_803D7D30 { f32 x, y, z; };
 
 struct Vec4_803D7D30 { f32 w, x, y, z; };
 
 struct Key_803D7D30 {
     u32 flags;
     u8 pad4[4];
-    Vec_803D7D30 pos;
-    Vec_803D7D30 rot;
-    Vec_803D7D30 scl;
+    Vec pos;
+    Vec rot;
+    Vec scl;
     u8 pad2c[8];
     f32 w;
 };
@@ -69,11 +45,14 @@ extern "C" {
 void blend_quaternions_nlerp(void *a, void *b, void *out, f32 t);
 f32 motion_blend_factor;
 const RecoveredGlobal_803D77C0_lbl_8047E3C8 lbl_8047E3C8 = {0};
-extern RecoveredGlobal_803D77C0_lbl_804FA500 motion_sampler_function_table;
-extern RecoveredGlobal_803D77C0_lbl_804FA50C motion_angle_sampler_table;
-extern RecoveredGlobal_803D77C0_lbl_804FA51C motion_key_sampler_table;
+struct MotionSamplerFunctionTable { s32 value; u8 remaining[0x8]; };
+extern MotionSamplerFunctionTable motion_sampler_function_table;
+struct MotionAngleSamplerTable { s32 value; u8 remaining[0xC]; };
+extern MotionAngleSamplerTable motion_angle_sampler_table;
+struct MotionKeySamplerTable { s32 value; u8 remaining[0x20]; };
+extern MotionKeySamplerTable motion_key_sampler_table;
 extern s32 motion_packed_rotation_mode;
-RecoveredGlobal_803D78A8_lbl_8058CAB8 camera_motion_context_table;
+CameraMotionContextTable camera_motion_context_table;
 // Only pointed to by model_draw_context (.sdata 0x805D4698).
 u8 lbl_8058CB38[0x10];
 void rotate_matrix_by_node_angles(void *, int);
@@ -96,16 +75,16 @@ void bind_motion_blend_channels(NJS_MOTION_LINK *motion, f32 blend_factor) {
 
 #pragma push
 #pragma use_lmw_stmw off
-#define pos ((Vec_803D7504 *)arg1)
-#define scl ((Vec_803D7504 *)arg3)
+#define pos ((Vec *)arg1)
+#define scl ((Vec *)arg3)
 s32 blend_motion_poses(void *node, void *arg1, void *unused, void *arg3, void *rot) {
-    Vec_803D7504 pb;
-    Vec_803D7504 sb;
-    Vec_803D7504 rb;
+    Vec pb;
+    Vec sb;
+    Vec rb;
     Quat_803D7504 qb;
-    Vec_803D7504 pa;
-    Vec_803D7504 sa;
-    Vec_803D7504 ra;
+    Vec pa;
+    Vec sa;
+    Vec ra;
     Quat_803D7504 qa;
     f32 u;
     f32 t;
@@ -150,9 +129,6 @@ s32 blend_motion_poses(void *node, void *arg1, void *unused, void *arg3, void *r
 #pragma scheduling off
 #pragma peephole off
 typedef char RecoveredGlobal_803D77C0_lbl_8047E3C8_size[sizeof(RecoveredGlobal_803D77C0_lbl_8047E3C8) == 0x10 ? 1 : -1];
-typedef char RecoveredGlobal_803D77C0_lbl_804FA500_size[sizeof(RecoveredGlobal_803D77C0_lbl_804FA500) == 0xC ? 1 : -1];
-typedef char RecoveredGlobal_803D77C0_lbl_804FA50C_size[sizeof(RecoveredGlobal_803D77C0_lbl_804FA50C) == 0x10 ? 1 : -1];
-typedef char RecoveredGlobal_803D77C0_lbl_804FA51C_size[sizeof(RecoveredGlobal_803D77C0_lbl_804FA51C) == 0x24 ? 1 : -1];
 
 #pragma push
 #pragma scheduling off
@@ -160,8 +136,8 @@ typedef char RecoveredGlobal_803D77C0_lbl_804FA51C_size[sizeof(RecoveredGlobal_8
 #pragma peephole off
 
 void TObjPlayer::apply_motion_node_transform() {
-    struct Vec_803D7CA4 trans;
-    struct Vec_803D7CA4 scale;
+    Vec trans;
+    Vec scale;
     struct Angles_803D7CA4 rot;
     struct Quat_803D7CA4 quat;
     s32 kind;
@@ -233,7 +209,6 @@ void select_motion_sampler(s32 *arg0, f32 farg0) {
 
 #pragma push
 #pragma scheduling off
-typedef char RecoveredGlobal_803D78A8_lbl_8058CAB8_size[sizeof(RecoveredGlobal_803D78A8_lbl_8058CAB8) == 0x80 ? 1 : -1];
 void select_motion_context(s32 arg0) {
     current_motion_context = (u8 *)&camera_motion_context_table.value + (arg0 << 6);
 }
@@ -354,8 +329,8 @@ void bind_motion_channel_samplers(int arg0, f32 farg0) {
 }
 
 void compose_motion_node_matrix(void *arg0) {
-    struct Vec_803D7CA4 trans;
-    struct Vec_803D7CA4 scale;
+    Vec trans;
+    Vec scale;
     struct Angles_803D7CA4 rot;
     struct Quat_803D7CA4 quat;
     s32 kind;
@@ -384,9 +359,9 @@ void compose_motion_node_matrix(void *arg0) {
 #pragma use_lmw_stmw off
 s32 sample_motion_node_transform(void *arg0, void *arg1, void *arg2, void *arg3, void *arg4) {
 #define kK ((Key_803D7D30 *)arg0)
-#define pP ((Vec_803D7D30 *)arg1)
-#define rR ((Vec_803D7D30 *)arg2)
-#define sS ((Vec_803D7D30 *)arg3)
+#define pP ((Vec *)arg1)
+#define rR ((Vec *)arg2)
+#define sS ((Vec *)arg3)
 #define qQ ((Vec4_803D7D30 *)arg4)
     s32 r;
     if (!(kK->flags & 0x40)) {

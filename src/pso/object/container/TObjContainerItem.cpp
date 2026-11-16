@@ -31,7 +31,7 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/item/TItem.h"
 #include "pso/render/NinjaUtil.h"
-#include "pso/system/task/TObject.h"
+
 #include "pso/object/fence/TLazerFenceSw.h"
 #include "pso/camera/CameraDistanceFade.h"
 #include "pso/object/cave/TOAirconCave01.h"
@@ -44,9 +44,8 @@
 #include "pso/object/container/TContainerAncient01.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/MatrixOps.h"
-#include "pso/ui/window/TWindowKeyBoardHard_801FBA48.h"
-#include "pso/unk/text_803D96A8.h"
-#include "pso/object/TObjChip.h"
+
+
 #include "pso/system/SoundEffect.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/player/TObjPlayer_80011014.h"
@@ -58,15 +57,13 @@ struct Obj_80188884 { u8 pad0[0x38]; u8 pos[0x28]; s32 id; u8 pad1[0x326 - 0x64]
 struct Obj_80188814 { u8 pad0[0x38]; u8 pos[0x4c]; s32 id; };
 struct Obj_80188768 { u8 pad0[0x1C]; u16 f1C; u8 pad1[0x62]; u32 f80; s32 f84; };
 struct Pkt_80188768 { u16 a; u16 b; s32 c; s32 d; s32 e; };
-struct Vec_8018860C { f32 x, y, z; };
 struct Obj_8018860C {
     u8 pad[0x38];
-    Vec_8018860C pos;
+    Vec pos;
     u8 pad44[0x326 - 0x44];
     s16 state;
 };
 struct Obj_80188C8C { u8 pad0[0x38]; u8 pos[0x28]; s32 id; u8 pad1[0x326 - 0x64]; s16 state; };
-struct Obj_80188B3C { u8 pad[0x38]; f32 x, y, z; };
 struct Obj_8018990C { u8 pad[0x38]; f32 x, y, z; u8 pad44[0x326 - 0x44]; s16 f326; };
 struct Obj_801895A4 { u8 pad0[0x38]; u8 pos[0x4c]; s32 id; };
 struct Obj_801894F8 { u8 pad0[0x1C]; u16 f1C; u8 pad1[0x62]; u32 f80; s32 f84; };
@@ -299,120 +296,39 @@ extern const char seabed_container_texture_filename[];
 extern const char forest_box_texture_filename_a[];
 extern const char forest_box_texture_filename_n[];
 void play_container_break_sound(s32 arg0);
-extern s32 lbl_805D5B7C;
+BmlResource *lbl_805D5B78;
+s32 lbl_805D5B7C;
+TObjChipParams *lbl_805D5B80;
+TObjChipParams *lbl_805D5B84;
+BmlResource *container_breakup_model_archive;
+s32 lbl_805D5B8C;
 extern "C" {
 s32 push_matrix(void);
 void post_translate_matrix(const void *);
-extern BmlResource *container_breakup_model_archive;
-extern s32 lbl_805D5B8C;
 extern const f32 lbl_805DBCF8;
 u32 init_collision_body_parts(void *, void *, s32);
+}
 u8 *load_gvm_texture_file(s32 arg0);
 extern s32 local_client_id;
 extern const f32 lbl_805DBCF4;
+extern "C" {
 u8 *__ct__8TObjChipFP7TObjectPC14TObjChipParams(u8 *arg0, u8 *arg1, u8 *arg2);
 s32 dispatch_fish_event__6TLobbyFPv(void *a0);
-void *__nw__7TObjectFUl(int);
 s32 release_texture_list(void*);
 s32 free_collision_body_parts(void *);
-s32 __dl__7TObjectFPv(void *);
+}
 s32 get_container_param(s32 index);
-extern TObjChipParams *lbl_805D5B80;
-extern TObjChipParams *lbl_805D5B84;
-extern BmlResource *lbl_805D5B78;
 extern const f32 lbl_805DBCFC;
 extern const f32 lbl_805DBD0C;
-void run_task__13TUnk_804B6C24Fv();
-void render__13TUnk_804B6C24Fv();
-void render_shadows__7TObjectFv();
-void vfunc_6__21TObjContainerAbeEnemyFPsl();
-void apply_object_set_data__8TObjBaseFPv();
-void reset_motion_fields__9TObjCharaFv();
-void get_center__9TObjCharaFv();
-void update_object_view_visibility__8TObjBaseFff();
-void classify_actor_view_detail__8TObjBaseFfff();
-void get_name__8TObjBaseFv();
-void interact__14TObjCollidableFl();
-void add_actor_exp__9TObjCharaFl();
-void consume_timer_field__9TObjCharaFl();
-void get_actor_level_index__9TObjCharaFv();
-void update_actor_ground_y__9TObjCharaFv();
-void vfunc_18__9TObjCharaFPUc();
-void is_actor_cadence_frame__9TObjCharaFl();
-void select_melee_contact_body__13TUnk_804B6C24FPvf();
-void calc_distance_accuracy_penalty__13TUnk_804B6C24FPvPvPvf();
-void receive_physical_attack__21TObjContainerAbeEnemyFPvf();
-void receive_direct_attack__13TUnk_804B6C24FPv19DirectAttackPayloadPvll();
-void receive_weapon_special_attack__13TUnk_804B6C24FPvPv();
-void apply_knockback_from_attacker__13TUnk_804B6C24FPUcf();
-void try_start_action__13TUnk_804B6C24Fll();
-void vfunc_28__9TObjCharaFv();
-void vfunc_29__9TObjCharaFv();
-void is_target_in_attack_range__9TObjCharaFv();
-void update_poison_status__9TObjCharaFv();
-void update_action_hold_status__9TObjCharaFv();
-void update_flag30_timer__9TObjCharaFv();
-void update_movement_status__9TObjCharaFv();
-void update_shock_clock__9TObjCharaFv();
-s32 update_defense_stat_status__9TObjCharaFv(u8 *arg0);
-void vfunc_43__9TObjCharaFv();
-void apply_poison_status__9TObjCharaFv();
-void apply_paralysis__9TObjCharaFv();
-void apply_slow_status__9TObjCharaFv();
-void apply_confusion_status__9TObjCharaFv();
-void apply_movement_ailment__9TObjCharaFl();
-void apply_shock_status__9TObjCharaFv();
-void clear_harmful_statuses__9TObjCharaFv();
-void apply_attack_stat_status__9TObjCharaFPv();
-void cure_poison_ailment__9TObjCharaFv();
-void apply_defense_stat_status__9TObjCharaFPv();
-void cure_paralysis__9TObjCharaFv();
-void clear_all_status_effects__9TObjCharaFv();
-void apply_action_hold_status__9TObjCharaFf();
-void apply_anti_technique__9TObjCharaFl();
-void vfunc_58__9TObjCharaFv();
-void vfunc_59__9TObjCharaFv();
-void vfunc_60__9TObjCharaFv();
-void vfunc_61__9TObjCharaFv();
-void vfunc_62__9TObjCharaFv();
-void vfunc_63__9TObjCharaFv();
-void reset_pose__9TObjCharaFv();
-void get_anim_node_position__9TObjCharaFlP3Vec();
-void vfunc_66__9TObjCharaFv();
-void vfunc_67__9TObjCharaFf();
-void get_pos__9TObjCharaFl();
-void apply_switch_attack__9TObjCharaFv();
-void enemy_spawn_jellen_effect__9TObjCharaFv();
-void trigger_switch_attack__9TObjCharaFv(s32 arg0);
-void enemy_spawn_zalure_effect__9TObjCharaFv();
-void recalc_stats__9TObjCharaFv();
-void vfunc_74__9TObjCharaFl();
-void vfunc_75__9TObjCharaFf();
-void vfunc_76__9TObjCharaFf();
-void vfunc_77__9TObjCharaFv();
-void vfunc_78__9TObjCharaFl();
-void vfunc_80__21TObjContainerAbeEnemyFv();
-void vfunc_81__21TObjContainerAbeEnemyFv();
-void debug_print_item_box_info__21TObjContainerAbeEnemyFv();
+extern "C" {
 s32 request_box_item_drop__9TObjCharaFPvs(s32, void *, s32, void *);
+}
 extern const f32 lbl_805DBCF0;
 extern const f32 lbl_805DBD00;
 extern const f32 lbl_805DBD04;
 extern const f32 lbl_805DBD08;
-}
 
 // ---- TObjComputer
-
-
-
-
-
-
-
-
-
-
-
 
 
 // Built with -inline off,deferred: the compiler emits the functions (and the
@@ -461,7 +377,7 @@ void load_forest_box_resources(void) {
             bundle = load_resource_from_descriptor(bundle, 5, &fe_obj_hako01_hahen02_resource_descriptor, 0, 0, 0);
         }
         lbl_805D5B78 = (BmlResource *)bundle;
-        lbl_805D5B7C = TLobby::is_online_ready() != 0 ? (s32)load_gvm_texture_file((s32)forest_box_texture_filename_a) : (s32)load_gvm_texture_file((s32)forest_box_texture_filename_n);
+        lbl_805D5B7C = TLobby::is_online_ready() != 0 ? (s32)load_gvm_texture_file((s32)forest_box_texture_filename_a) : (s32)load_gvm_texture_file((s32)((s32)forest_box_texture_filename_n));
         lbl_805D5B80 = &forest_box_break_params[0];
         lbl_805D5B84 = &forest_box_break_params[1];
         break;
@@ -481,7 +397,7 @@ void TLobby::free_char_select_resources() {
     }
 }
 
-extern "C" s32 get_container_param(s32 index) { return get_bml_model(lbl_805D5B78, index); }
+s32 get_container_param(s32 index) { return get_bml_model(lbl_805D5B78, index); }
 
 void TLobby::load_console_resources() {
     void *p;
@@ -746,11 +662,11 @@ void TObjContainerItem::vfunc_79() const {
         b.textures = lbl_805D5B7C;
         spawn_particle_effect_with_flags(&self->x, 0x45, 0x40);
         spawn_particle_effect_with_flags(&self->x, 0x46, 0x40);
-        o = __nw__7TObjectFUl(0x234);
+        o = TObject::operator new(0x234);
         if (o != NULL) {
             __ct__8TObjChipFP7TObjectPC14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&a);
         }
-        o = __nw__7TObjectFUl(0x234);
+        o = TObject::operator new(0x234);
         if (o != NULL) {
             __ct__8TObjChipFP7TObjectPC14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&b);
         }
@@ -872,11 +788,11 @@ void TObjContainerEnemy::vfunc_79() const {
         b.textures = lbl_805D5B7C;
         spawn_particle_effect_with_flags(&self->x, 0x45, 0x40);
         spawn_particle_effect_with_flags(&self->x, 0x46, 0x40);
-        o = __nw__7TObjectFUl(0x234);
+        o = TObject::operator new(0x234);
         if (o != NULL) {
             __ct__8TObjChipFP7TObjectPC14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&a);
         }
-        o = __nw__7TObjectFUl(0x234);
+        o = TObject::operator new(0x234);
         if (o != NULL) {
             __ct__8TObjChipFP7TObjectPC14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&b);
         }
@@ -981,11 +897,11 @@ void TObjContainerNoItem::vfunc_79() const {
         b.textures = lbl_805D5B7C;
         spawn_particle_effect_with_flags(&self->x, 0x45, 0x40);
         spawn_particle_effect_with_flags(&self->x, 0x46, 0x40);
-        o = __nw__7TObjectFUl(0x234);
+        o = TObject::operator new(0x234);
         if (o != NULL) {
             __ct__8TObjChipFP7TObjectPC14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&a);
         }
-        o = __nw__7TObjectFUl(0x234);
+        o = TObject::operator new(0x234);
         if (o != NULL) {
             __ct__8TObjChipFP7TObjectPC14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&b);
         }
@@ -1088,11 +1004,11 @@ void TObjContainerBase::vfunc_79() const {
     b.textures = lbl_805D5B8C;
     spawn_particle_effect_with_flags(&position, 0x45, 0x40);
     spawn_particle_effect_with_flags(&position, 0x46, 0x40);
-    void *o = __nw__7TObjectFUl(0x234);
+    void *o = TObject::operator new(0x234);
     if (o != NULL) {
         __ct__8TObjChipFP7TObjectPC14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&a);
     }
-    o = __nw__7TObjectFUl(0x234);
+    o = TObject::operator new(0x234);
     if (o != NULL) {
         __ct__8TObjChipFP7TObjectPC14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&b);
     }
@@ -1198,7 +1114,7 @@ f32 TObjContainerAbeEnemy::receive_physical_attack(void *, f32) {
 #pragma opt_propagation off
 void TObjContainerAbeEnemy::vfunc_79() const {
     const Obj_8018860C *self = (const Obj_8018860C *)this;
-    if (self->state != 1) {
+    if (this->mode != 1) {
         TObjChipParams a = lbl_80444E5C;
         f32 za;
         f32 ya;
@@ -1227,11 +1143,11 @@ void TObjContainerAbeEnemy::vfunc_79() const {
         b.textures = lbl_805D5B8C;
         spawn_particle_effect_with_flags(&self->pos, 0x45, 0x40);
         spawn_particle_effect_with_flags(&self->pos, 0x46, 0x40);
-        void *o = __nw__7TObjectFUl(0x234);
+        void *o = TObject::operator new(0x234);
         if (o != NULL) {
             __ct__8TObjChipFP7TObjectPC14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&a);
         }
-        o = __nw__7TObjectFUl(0x234);
+        o = TObject::operator new(0x234);
         if (o != NULL) {
             __ct__8TObjChipFP7TObjectPC14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&b);
         }

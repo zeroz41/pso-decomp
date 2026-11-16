@@ -17,7 +17,7 @@
 #include "pso/effect/particle/TPlyFollowParticleCtrl.h"
 #include "pso/player/TPlyPtclObjectLeftHand.h"
 #include "pso/player/TPlyPtclObjectRightHand.h"
-#include "pso/effect/particle/TParticleCtrl.h"
+
 const char *TPlyFollowParticleCtrl__class_name = "TPlyFollowParticleCtrl";
 const char *TPlyPtclObjectLeftHand__class_name = "TPlyPtclObjectLeftHand";
 const char *TPlyPtclObjectRightHand__class_name = "TPlyPtclObjectRightHand";
@@ -31,20 +31,17 @@ struct Stack_8030A1E4
   s32 spC;
   s32 sp10;
 };
-struct V_80309E9C { f32 x, y, z; };
-struct Fol_80309E9C { u16 a; u16 b; u8 pad[0x8]; V_80309E9C v[3]; };
+struct Fol_80309E9C { u16 a; u16 b; u8 pad[0x8]; Vec v[3]; };
 extern "C" {
 int spawn_particle_effect(void*, void*);
 s32 set_owner_id__13TParticleCtrlFUs(s32, s32);
 u32 find_entity_by_id(s32);
 s32 spawn_particle_effect_with_flags(s32, s32, s32);
 void attach_particle_model(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0);
-}
-void *create_oneshot_particle_emitter(void *pos, void *dir, s32 id, s32 flags);
-extern "C" {
 Fol_80309E9C *TObjPlayer__sub_80309E9C(Fol_80309E9C *o);
 struct VOff_80309DD0_arg0_80309dd0_80309D80 { char pad_0[0x4]; char f_4[1]; };
 }
+void *create_oneshot_particle_emitter(void *pos, void *dir, s32 id, s32 flags);
 typedef struct Stack_8030A1E4 Stack_8030A1E4;
 
 void *TPlyFollowParticleCtrl::get_center() { return 0; }
@@ -116,7 +113,7 @@ void *TPlyPtclObjectRightHand::get_center() {
     return ((TObjPlayer *)this)->get_position_ptr();
 }
 
-extern "C" s32 emit_player_particle(void* p, void* a1, void* a2) { return spawn_particle_effect(a1, a2); }
+s32 emit_player_particle(void* p, void* a1, void* a2) { return spawn_particle_effect(a1, a2); }
 
 s32 TObjPlayer::check_hit_by_id(s32 arg0, s32 arg1, s32 arg2) {
     s32 particle_effect_with_flags;
@@ -203,13 +200,12 @@ void emit_idle_water_splash(s32 owner, s32 position) {
     emit_player_model_particle(owner, position, 0xA6, 2);
 }
 
-extern "C" {
 
 s32 TObjPlayer::check_hit_by_id_431(void* p, int a1) { return TObjPlayer::check_hit_by_id((s32)p, (s32)a1, 431); }
 
 Fol_80309E9C *TObjPlayer__sub_80309E9C(Fol_80309E9C *o) {
     s32 i;
-    V_80309E9C *p;
+    Vec *p;
     ((TObjPlayer *)((u8 *)o + 4))->init_follow_particle_ctrl();
     o->b = 0xFFFF;
     o->a = 0xFFFF;
@@ -250,4 +246,3 @@ void TObjPlayer::enable_foot_stamp(s32 arg1, s32 arg2) {
     TPlayerFootStamp::create((void *)arg2, (void *)1);
 }
 
-}

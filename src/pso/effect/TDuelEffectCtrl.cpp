@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/unk/TLobby.h"
 #include "pso/unk/TLobby_801C25B4.h"
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -22,7 +23,7 @@ void TDuelEffectCtrl::update_duel_end_effect() {
     switch (m_frameCount) {
     case 0:
         new TDuelEffectString(m_effect, (void *)lbl_80438D48, (void *)1);
-        send_neg50__6TLobbyFPvPv((void *)"end.adx", (void *)0x96);
+        ((TLobby *)((void *)"end.adx"))->send_neg50((void *)0x96);
         break;
     case 30:
         queue_destruction();

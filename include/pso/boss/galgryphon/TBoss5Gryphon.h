@@ -19,6 +19,8 @@ struct Boss5GryphonMotionEntry {
 
 struct TBoss5Gryphon : public TObjEneDD_ST {
     virtual ~TBoss5Gryphon();
+    int get_flag_bit6();
+    virtual void render();
     virtual void dispatch_action(u32 state, s32 event);
     void state_action_noop();
     void update_idle_state(u32);

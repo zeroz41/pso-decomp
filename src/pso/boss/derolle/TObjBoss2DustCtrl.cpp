@@ -6,12 +6,9 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/MatrixOps.h"
+#include "pso/system/task/TObject.h"
 
 extern "C" {
-
-typedef struct Vec_8003AB7C {
-    f32 x, y, z;
-} Vec_8003AB7C;
 
 typedef struct Rot_8003AB7C {
     s32 a;
@@ -23,7 +20,7 @@ typedef struct Out_8003AB7C {
 } Out_8003AB7C;
 
 typedef struct Dust_8003AB7C {
-    Vec_8003AB7C pts[6];
+    Vec pts[6];
     Rot_8003AB7C rot[10];
     Out_8003AB7C out[60];
     s32 ang[10];
@@ -33,9 +30,9 @@ typedef struct Out_8003AD54 { f32 x, y, z; u32 c; } Out_8003AD54;
 
 f32 sin_table_lookup(int);
 f32 cos_table_lookup(int, f32);
-void matrix_mult_vec(s32, Vec_8003AB7C *, Out_8003AB7C *);
+void matrix_mult_vec(s32, Vec *, Out_8003AB7C *);
 void push_matrix(void);
-Vec_8003AB7C boss2_dust_points[6];
+Vec boss2_dust_points[6];
 s32 boss2_dust_rotation_table[20];
 Out_8003AD54 boss2_dust_output_table[60];
 s32 boss2_dust_random_angles[10];
@@ -47,7 +44,6 @@ extern const f32 lbl_805D85C8;
 s32 TObjBoss2DustCtrl_dust_counter;
 
 void __ct__7TObjectFP7TObject(void *);
-void* __nw__7TObjectFUl(s32);
 extern s32 __vt__17TObjBoss2DustCtrl[];
 extern void *TObjBoss2DustCtrl__name;
 extern s32 tl_05;
@@ -140,7 +136,7 @@ void *TObjBoss2DustCtrl__ct(void *boss2_dust_ctrl) {
 }
 
 void TObjBoss2DustCtrl::create() {
-    void* obj = __nw__7TObjectFUl(0x1C);
+    void* obj = TObject::operator new(0x1C);
     if (obj != 0) {
         ((s32 (*)(void *, s32))TObjBoss2DustCtrl__ct)(obj, tl_05);
     }

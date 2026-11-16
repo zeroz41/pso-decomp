@@ -1,4 +1,10 @@
+#include "pso/item/MagStats.h"
 #include "types.h"
+#include "pso/ui/window/TWindowSubMagPhoton.h"
+#include "pso/item/TItemData.h"
+#include "pso/item/mag/TItemMag.h"
+#include "pso/ui/window/TWindowSubCustomEquip.h"
+#include "pso/system/ControllerInputState.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/system/PadRumble.h"
 #include "pso/ui/window/TWindowCtrl_8024A054.h"
@@ -9,7 +15,6 @@
 #include "pso/ui/window/TWindowSubComCardList.h"
 #include "pso/ui/window/TWindowSubShortCutList.h"
 #include "pso/unk/TUnk_804D1818.h"
-#include "pso/ui/window/TWindowSubMagPhoton.h"
 #include "pso/boss/darkfalz/TBoss4Type3.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 #include "pso/ui/window/TWindowDD.h"
@@ -21,10 +26,45 @@
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/ui/window/TWindowSubStatusDisp.h"
-
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 #pragma push
 #pragma readonly_strings on
+
+struct Win_8027C188 { u8 pad[0x64]; s32 pb[3]; void *mag; };
+
+struct Win_8027C13C { u8 pad[0x61]; s8 sel; };
+
+extern "C" {
+void *get_array_entry__11TWindowBaseFi(void *w, s32 i);
+void draw_action_palette_icon(void *e, s32 a, u16 b);
+extern const s8 lbl_805DD678[4] = { 1, 2, 0, 0 };
+extern const u8 lbl_805DD67C[4] = { 3, 1, 2, 0 };
+
+void TWindowSubMagPhoton::get_cursor_origin(void *xy) {
+    Win_8027C13C *w = (Win_8027C13C *)this;
+    void *e = get_array_entry__11TWindowBaseFi(w, lbl_805DD67C[w->sel]);
+    ((TWindowSubCustomEquip *)xy)->set_relative_pos(e);
+}
+
+void TWindowSubMagPhoton::init_photon_blast_entries() {
+    u8 mag[16];
+    s32 i;
+    ((MagStats *)mag)->init();
+    TItemData::deserialize_mag(((Win_8027C188 *)this)->mag, mag);
+    for (i = 0; i < 3; i++) {
+        s32 blast = ((MagStats *)mag)->get_photon_blast(i);
+        ((Win_8027C188 *)this)->pb[lbl_805DD678[i]] = blast;
+        void *e = get_array_entry__11TWindowBaseFi(this, i + 1);
+        if (blast != -1) {
+            draw_action_palette_icon(e, 5, blast);
+        } else {
+            draw_action_palette_icon(e, 0, 0);
+        }
+    }
+}
+
+}
+
 const char *TWindowSubMagPhoton__class_name = "TWindowSubMagPhoton";
 #pragma pop
 
@@ -50,22 +90,6 @@ WindowDescriptor TWindowSubMagPhoton__layout_descriptor = {
     {186.0f, 160.0f}, 50050.0f, &window_sub_mag_photon_layout_entries, 3,
 };
 
-struct RecoveredGlobal_8027C56C_lbl_8050E208 {
-    s32 value;
-    u8 remaining[0x1AC];
-};
-
-
-struct RecoveredGlobal_8027C6B4___vt__19TWindowSubMagPhoton {
-    s32 value;
-    u8 remaining[0x18];
-};
-
-struct RecoveredGlobal_8027C2D0_lbl_8050E208 {
-    s32 value;
-    u8 remaining[0x1AC];
-};
-
 struct Win_8027C4C8 { u8 pad[0x62]; s16 f62; };
 
 extern "C" {
@@ -73,8 +97,6 @@ s32 draw_default_entry__9TWindowDDFl();
 s32 draw_visible_window_entries(void *, void *, int);
 void render__19TWindowSubMagPhotonFv(s32 arg0);
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
-s32 TWindowShortListCtrl__check_controller_button(int, int);
-extern RecoveredGlobal_8027C56C_lbl_8050E208 controller_input_state;
 s32 init_photon_blast_entries__19TWindowSubMagPhotonFv(void *, int);
 s32 construct_base__9TWindowDDFPUcsPUc(void *, void *, void *, void *);
 extern s32 __vt__19TWindowSubMagPhoton[];
@@ -88,9 +110,7 @@ s32 set_depth__11TWindowBaseFf(s32);
 s32 TWindowSubEquip__sub_80263AF8(s32, s32);
 s32 get_window_layout_position(s32);
 extern u8 lbl_8044FA28[];
-void *__dt__19TWindowSubMagPhotonFv(void *arg0, s16 arg1);
 s32 align_menu_entry_positions(s32);
-void __dl__7TObjectFPv(void *);
 }
 s32 create_titled_window_menu(s32, s32, s32, s32);
 extern "C" {
@@ -110,24 +130,23 @@ void TWindowSubMagPhoton::play_open_sound() {
     this->m_60 = (u8) (this->m_60 | 1);
 }
 
-typedef char RecoveredGlobal_8027C2D0_lbl_8050E208_size[sizeof(RecoveredGlobal_8027C2D0_lbl_8050E208) == 0x1B0 ? 1 : -1];
 void TWindowSubMagPhoton::update_selection_input() {
     u8 temp_r3;
     u8 temp_r3_2;
     u8 *window_choice_setting;
-    window_choice_setting = (u8 *)&(*(RecoveredGlobal_8027C2D0_lbl_8050E208 *)&controller_input_state).value + (is_player_input_active(((s32) this->m_20)) * 0x50) + 0x20;
-    if ((apply_choice__20TWindowChoiceSettingFllll(window_choice_setting, 0xF0, 6, 1) != 0) || (apply_choice__20TWindowChoiceSettingFllll((void *) ((u8 *)&(*(RecoveredGlobal_8027C2D0_lbl_8050E208 *)&controller_input_state).value + 0x160), 0xF0, 6, 1) != 0)) {
+    window_choice_setting = (u8 *)&controller_input_state + (is_player_input_active(((s32) this->m_20)) * 0x50) + 0x20;
+    if ((apply_choice__20TWindowChoiceSettingFllll(window_choice_setting, 0xF0, 6, 1) != 0) || (apply_choice__20TWindowChoiceSettingFllll((void *) ((u8 *)&controller_input_state + 0x160), 0xF0, 6, 1) != 0)) {
         play_sound_effect(0x54100, (s32)(0U), 0, 0);
-        if ((apply_choice__20TWindowChoiceSettingFllll(window_choice_setting, 0x10, 6, 1) != 0) || (apply_choice__20TWindowChoiceSettingFllll((void *) ((u8 *)&(*(RecoveredGlobal_8027C2D0_lbl_8050E208 *)&controller_input_state).value + 0x160), 0x10, 6, 1) != 0)) {
+        if ((apply_choice__20TWindowChoiceSettingFllll(window_choice_setting, 0x10, 6, 1) != 0) || (apply_choice__20TWindowChoiceSettingFllll((void *) ((u8 *)&controller_input_state + 0x160), 0x10, 6, 1) != 0)) {
             this->m_61 = (this->m_61 + 1);
         }
-        if ((apply_choice__20TWindowChoiceSettingFllll(window_choice_setting, 0x20, 6, 1) != 0) || (apply_choice__20TWindowChoiceSettingFllll((void *) ((u8 *)&(*(RecoveredGlobal_8027C2D0_lbl_8050E208 *)&controller_input_state).value + 0x160), 0x20, 6, 1) != 0)) {
+        if ((apply_choice__20TWindowChoiceSettingFllll(window_choice_setting, 0x20, 6, 1) != 0) || (apply_choice__20TWindowChoiceSettingFllll((void *) ((u8 *)&controller_input_state + 0x160), 0x20, 6, 1) != 0)) {
             this->m_61 = (this->m_61 - 1);
         }
-        if ((apply_choice__20TWindowChoiceSettingFllll(window_choice_setting, 0x80, 6, 1) != 0) || (apply_choice__20TWindowChoiceSettingFllll((void *) ((u8 *)&(*(RecoveredGlobal_8027C2D0_lbl_8050E208 *)&controller_input_state).value + 0x160), 0x80, 6, 1) != 0)) {
+        if ((apply_choice__20TWindowChoiceSettingFllll(window_choice_setting, 0x80, 6, 1) != 0) || (apply_choice__20TWindowChoiceSettingFllll((void *) ((u8 *)&controller_input_state + 0x160), 0x80, 6, 1) != 0)) {
             this->m_61 = (this->m_61 + 1);
         }
-        if ((apply_choice__20TWindowChoiceSettingFllll(window_choice_setting, 0x40, 6, 1) != 0) || (apply_choice__20TWindowChoiceSettingFllll((void *) ((u8 *)&(*(RecoveredGlobal_8027C2D0_lbl_8050E208 *)&controller_input_state).value + 0x160), 0x40, 6, 1) != 0)) {
+        if ((apply_choice__20TWindowChoiceSettingFllll(window_choice_setting, 0x40, 6, 1) != 0) || (apply_choice__20TWindowChoiceSettingFllll((void *) ((u8 *)&controller_input_state + 0x160), 0x40, 6, 1) != 0)) {
             this->m_61 = (this->m_61 - 1);
         }
         temp_r3 = this->m_61;
@@ -155,19 +174,18 @@ void render__19TWindowSubMagPhotonFv(s32 arg0) {
     ((TWindowSubMagPhoton *)arg0)->draw_cursor(temp_r3);
 }
 
-typedef char RecoveredGlobal_8027C56C_lbl_8050E208_size[sizeof(RecoveredGlobal_8027C56C_lbl_8050E208) == 0x1B0 ? 1 : -1];
 void TWindowSubMagPhoton::run_task() {
     u8 *arg0 = (u8 *)this;
     s32 temp_r31;
-    u8 *temp_r31_2;
+    u8 *context;
     temp_r31 = is_player_input_active(((s32) this->m_20));
     if (((TWindowSubMagPhoton *)arg0)->get_active_flag() == 0) {
         update_selection_input();
-        temp_r31_2 = (u8 *)&controller_input_state.value + (temp_r31 * 0x50) + 0x20;
-        if ((TWindowShortListCtrl__check_controller_button((int)temp_r31_2, 4) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) ((u8 *)&controller_input_state.value + 0x160), 4) != 0)) {
+        context = (u8 *)&controller_input_state + (temp_r31 * 0x50) + 0x20;
+        if ((TWindowShortListCtrl__check_controller_button(context, 4) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) ((u8 *)&controller_input_state + 0x160), 4) != 0)) {
             play_open_sound();
         }
-        if ((TWindowShortListCtrl__check_controller_button((int)temp_r31_2, 2) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) ((u8 *)&controller_input_state.value + 0x160), 2) != 0)) {
+        if ((TWindowShortListCtrl__check_controller_button(context, 2) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) ((u8 *)&controller_input_state + 0x160), 2) != 0)) {
             handle_cancel();
         }
     }
@@ -176,22 +194,12 @@ void TWindowSubMagPhoton::run_task() {
     this->m_62 = (this->m_62 + 1);
 }
 
-void *__dt__19TWindowSubMagPhotonFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__19TWindowSubMagPhoton;
-        ((TWindowDD *)arg0)->destroy_window_base(0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
-}
+TWindowSubMagPhoton::~TWindowSubMagPhoton() {}
 
-typedef char RecoveredGlobal_8027C6B4___vt__19TWindowSubMagPhoton_size[sizeof(RecoveredGlobal_8027C6B4___vt__19TWindowSubMagPhoton) == 0x1C ? 1 : -1];
 u8 *TWindowSubMagPhoton__ct(TWindowSubMagPhoton *window_sub_mag_photon, s32 arg1, s32 arg2, s16 arg3) {
     s16 temp_r4;
     construct_base__9TWindowDDFPUcsPUc((void *)window_sub_mag_photon, &TWindowSubMagPhoton__layout_descriptor, (void *)arg3, (void *)arg1);
-    *(s32 **)((s8 *)window_sub_mag_photon + 0x18) = &(*(RecoveredGlobal_8027C6B4___vt__19TWindowSubMagPhoton *)&__vt__19TWindowSubMagPhoton).value;
+    *(s32 **)((s8 *)window_sub_mag_photon + 0x18) = __vt__19TWindowSubMagPhoton;
     *(s32 *)((s8 *)window_sub_mag_photon + 0) = (s32) TWindowSubMagPhoton__class_name;
     ((TWindowSubSymbolChatPartsSet *)((u8 *)window_sub_mag_photon + 0x30))->copy_vec2((void *)arg1);
     ((TWindowBase *)window_sub_mag_photon)->save_position();

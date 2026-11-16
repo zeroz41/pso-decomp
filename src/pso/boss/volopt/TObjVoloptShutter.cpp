@@ -9,9 +9,9 @@
 #include "pso/render/GinjaTextureMatrices.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/unk/text_803E2D70.h"
+#include "pso/system/MatrixStack.h"
 
 extern "C" {
-s32 push_matrix(void);
 void rotate_matrix_y(s32 matrix, s32 angle);
 }
 

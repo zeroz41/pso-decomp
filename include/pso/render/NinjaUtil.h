@@ -18,8 +18,6 @@ NJS_OBJECT *find_object_node(NJS_OBJECT *root, s32 index);
 // `root` and the result are model handles as the BML resources store them.
 s32 find_model_node(u32 root, s32 index);
 
-extern "C" {
 void debug_printf_nop(const char *format, ...);
-}
 
 #endif

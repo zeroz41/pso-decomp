@@ -12,9 +12,8 @@
 
 #pragma readonly_strings on
 
-extern "C" {
+
 const char *TBoss5GryphonDemo__name = "TBoss5GryphonDemo";
-}
 
 
 struct Obj_800665FC { s32 f0; u8 pad4[0x14]; void *f18; f32 f1c; f32 f20; s32 f24; };

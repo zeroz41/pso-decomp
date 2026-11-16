@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/window/TWindowSubComCard_802A5748.h"
 #include "pso/ui/window/TWindowSubComCard.h"
@@ -9,15 +10,15 @@
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/ui/frontend/TAdChrSelASlotGC.h"
 #include "pso/quest/TQuestThread.h"
+#include "pso/system/task/TObject.h"
 
 extern "C" {
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
 u8 *create_yes_no_window(s32 arg0, s32 arg1, u32 arg2, u32 arg3);
 s32 create_window_menu(s32, s32, s32);
-int queue_destruction__7TObjectFv(void*);
 int set_selected_index__21TWindowSubComCardListFs(void*);
 
-int TWindowSubComCard::close() { return queue_destruction__7TObjectFv(this); }
+void TWindowSubComCard::close() { queue_destruction(); }
 void TWindowSubComCard::free_member() { void* m = *(void* *)&this->m_2c; if (m) set_selected_index__21TWindowSubComCardListFs(m); }
 s32 TWindowSubComCard::get_slot_or_neg1() {
     s32 v = this->m_2c;

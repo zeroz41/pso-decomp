@@ -36,11 +36,6 @@ struct RecoveredFields_80182E90_arg0
   f32 field_9C;
 };
 
-struct RecoveredGlobal_801830BC_lbl_804B5C08 {
-    s32 value;
-    u8 remaining[0x34];
-};
-
 extern "C" {
 void vfunc_13__13TUnk_804B5C08Fl(void* a0);
 s32 push_matrix();
@@ -49,7 +44,6 @@ s32 draw_ginja_object();
 extern s32 city_common_texture_list;
 void render__13TUnk_804B5C08Fv(u8 *arg0);
 void run_task__13TUnk_804B5C08Fv(u8 *arg0);
-void *__nw__7TObjectFUl(int);
 extern void *tl_05;
 void __dl__7TObjectFPv(void *);
 extern s32 city_vertical_model_vtable[];
@@ -66,7 +60,7 @@ void TUnk_804B5C08::render() {
   new_var = ((s32) ((RecoveredFields_80182E90_arg0 *) arg0)->field_90) != 0;
   if (new_var)
   {
-    if ((((VObj_18_26a62c *)(arg0))->m8((600.0f), (50.0f))) == 0)
+    if ((this->update_object_view_visibility((600.0f), (50.0f))) == 0)
     {
       ((RecoveredFields_80182E90_arg0 *) arg0)->field_9C = ((RecoveredFields_80182E90_arg0 *) arg0)->field_9C;
       return;
@@ -124,27 +118,26 @@ void TUnk_804B5C08::run_task() {
   }
 }
 void *create_city_vertical_model(void *arg0) {
-    void *o = __nw__7TObjectFUl(0xA0);
+    void *o = TObject::operator new(0xA0);
     if (o != NULL) {
         o = construct_city_vertical_model((u8 *)o, (s32)tl_05, (s32)arg0);
     }
     return o;
 }
 }
-void *destroy_city_vertical_model(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = city_vertical_model_vtable;
-        __dt__8TObjBaseFv(arg0, 0);
+void *destroy_city_vertical_model(void *base, s16 arg1) {
+    if (base != NULL) {
+        *(s32 **)((s8 *)base + 0x18) = city_vertical_model_vtable;
+        __dt__8TObjBaseFv(base, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(base);
         }
     }
-    return arg0;
+    return base;
 }
-typedef char RecoveredGlobal_801830BC_lbl_804B5C08_size[sizeof(RecoveredGlobal_801830BC_lbl_804B5C08) == 0x38 ? 1 : -1];
 u8 *construct_city_vertical_model(u8 *arg0, s32 parent, s32 arg2) {
     __ct__8TObjBaseFP7TObject((void *)arg0, (void *)parent);
-    *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_801830BC_lbl_804B5C08 *)&city_vertical_model_vtable).value;
+    *(s32 **)((s8 *)arg0 + 0x18) = city_vertical_model_vtable;
     ((TUnk_804B5C08 *)(arg0))->apply_object_set_data((void *)arg2);
     *(s32 *)((s8 *)arg0 + 0x90) = 1;
     ((TUnk_804B5C08 *)arg0)->m_94 = 2;

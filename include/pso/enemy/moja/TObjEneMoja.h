@@ -34,6 +34,7 @@ struct MojaAnimationBinding {
 struct TObjEneMoja : public TObjEnemy {
     TObjEneMoja(TObject *parent, void *setData);
     virtual ~TObjEneMoja();
+    void clamp_stat_354();
     static void load_resources();
     virtual s32 update_action_hold_status();
     virtual s32 update_movement_status();

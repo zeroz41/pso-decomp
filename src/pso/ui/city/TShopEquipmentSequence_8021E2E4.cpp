@@ -2,15 +2,15 @@
 #include "pso/ui/city/TMedicalCenterSequence.h"
 #include "pso/ui/city/TShopEquipmentSequence_8021E2E4.h"
 #include "pso/ui/city/TShopEquipmentSequence.h"
+#include "pso/system/task/TObject.h"
 
 extern "C" {
 
-void *__nw__7TObjectFUl(int);
 
 extern void *tl_05;
 
 void *TShopEquipmentSequence::create_instance(void *arg0) {
-    void *o = __nw__7TObjectFUl(0x38);
+    void *o = TObject::operator new(0x38);
     if (o != NULL) {
         o = TShopEquipmentSequence__ct((u8 *)o, (s32)tl_05, (s32)arg0);
     }
@@ -22,7 +22,7 @@ void *TShopEquipmentSequence::create_instance(void *arg0) {
 int get_equipment_shop_slot_active_flag(int a0) {  return TShopEquipmentSequence__slot_active_flags[a0]; }
 
 void *create_medical_center_sequence(void *arg0) {
-    void *o = __nw__7TObjectFUl(0x38);
+    void *o = TObject::operator new(0x38);
     if (o != NULL) {
         o = TMedicalCenterSequence__ct((u8 *)o, (s32)tl_05, (s32)arg0);
     }

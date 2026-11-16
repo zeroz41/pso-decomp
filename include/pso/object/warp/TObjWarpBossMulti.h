@@ -8,13 +8,13 @@ struct AnimationMotion;
 
 // The boss warp's models, motions and texture lists from bm_obj_warpboss.bml (or its _ancient /
 // _jungle variant by area), loaded by TObjFish::load_models; defined in TObjWarpBossMulti.cpp.
-extern "C" {
 s32 get_boss_warp_base_model(void);
 s32 get_boss_warp_confirmation_model(void);
 s32 get_boss_warp_model(void);
 AnimationMotion *get_boss_warp_motion(void);
 AnimationMotion *get_boss_warp_bml_motion(void);
 s32 get_boss_warp_model_handle(void);
+extern "C" {
 s32 fn_8019F9AC(void);
 }
 

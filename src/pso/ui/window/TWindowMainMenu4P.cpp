@@ -6,16 +6,12 @@
 
 #pragma readonly_strings on
 
-struct RecoveredGlobal_802889A8_lbl_804D04F8 { s32 value; u8 remaining[0x34]; };
-typedef char RecoveredGlobal_802889A8_lbl_804D04F8_size[sizeof(RecoveredGlobal_802889A8_lbl_804D04F8) == 0x38 ? 1 : -1];
-
-struct RecoveredGlobal_802889A8_lbl_804D0530 { s32 value; u8 remaining[0x2C]; };
-typedef char RecoveredGlobal_802889A8_lbl_804D0530_size[sizeof(RecoveredGlobal_802889A8_lbl_804D0530) == 0x30 ? 1 : -1];
-
 extern "C" {
 void *get_player_by_client_id(s32 i);
-extern RecoveredGlobal_802889A8_lbl_804D04F8 lbl_804D04F8;
-extern RecoveredGlobal_802889A8_lbl_804D0530 lbl_804D0530;
+struct RecoveredGlobal_lbl_804D04F8 { s32 value; u8 remaining[0x34]; };
+extern RecoveredGlobal_lbl_804D04F8 lbl_804D04F8;
+struct RecoveredGlobal_lbl_804D0530 { s32 value; u8 remaining[0x2C]; };
+extern RecoveredGlobal_lbl_804D0530 lbl_804D0530;
 void *TWindowMainMenu4P__ct(void *arg0);
 void TWindowMainMenu__ct(void *);
 s32 close_and_clear_flags__15TWindowMainMenuFv();

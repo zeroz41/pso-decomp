@@ -1,4 +1,7 @@
 #include "pso/animation/MotionContext.h"
+#include "pso/ui/keyboard/TKeyBoardControl_80131C58.h"
+#include "pso/camera/TCameraCtrl_803D749C.h"
+#include "pso/unk/TLobby_80227AA0.h"
 #include "pso/render/DebugFont.h"
 #include "pso/render/render_util.h"
 #include "pso/unk/TLobby_801E2F94.h"
@@ -23,15 +26,16 @@
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/camera/TCameraCtrl_803D6538.h"
+#include "pso/system/MatrixStack.h"
 
 extern "C" {
 
-s32 TCameraCtrl__sub_80068EF0();
+void TCameraCtrl__sub_80068EF0(void);
 s32 TLobby__sub_80228154(s32, s32, s32, f32);
 
-void TLobby::draw_with_camera(s32 arg0, s32 arg1, s32 arg2, f32 farg0) {
+void TLobby::draw_with_camera(s32 sprite, s32 frame_index, s32 flags, f32 depth) {
     TCameraCtrl::restore_full_screen_view();
-    TLobby__sub_80228154(arg0, arg1, arg2, farg0);
+    TLobby__sub_80228154(sprite, frame_index, flags, depth);
     TCameraCtrl__sub_80068EF0();
 }
 }
@@ -156,19 +160,15 @@ struct Ctrl_801E352C {
     u32 *data;
 };
 
-struct Vec3_801E341C { f32 x, y, z; };
-
 struct Lines_801E341C {
-    Vec3_801E341C *positions;
+    Vec *positions;
     u32 *colors;
 };
-
-struct Vec3_801E3784 { f32 x, y, z; };
 
 struct UV_801E3784 { s16 u, v; };
 
 struct Tris_801E3784 {
-    Vec3_801E3784 *positions;
+    Vec *positions;
     u32 *colors;
     UV_801E3784 *uvs;
 };
@@ -176,13 +176,15 @@ struct Tris_801E3784 {
 extern "C" {
 void GXBegin(s32, s32, u16);
 void GXSetLineWidth(s32, s32);
+}
 void reset_line_width(void);
+extern "C" {
 void draw_line_list(Lines_801E341C *l, s32 n, u32 flags);
 }
 void setup_opaque_color_draw(void);
 void setup_blended_textured_draw(void);
 void load_context_texture_obj(void);
-extern "C" {
+
 void set_line_width(int a0);
 
 void draw_color_lines(ColorLineList *l, s32 n, s32 flags, f32 scale) {
@@ -209,7 +211,7 @@ void draw_color_lines(ColorLineList *l, s32 n, s32 flags, f32 scale) {
 }
 
 void draw_line_list(Lines_801E341C *l, s32 n, u32 flags) {
-    Vec3_801E341C *p;
+    Vec *p;
     u32 *c;
     load_camera_view_matrix();
     if (flags & 4) {
@@ -319,7 +321,7 @@ void TObjCMHairMenu::draw_tri_fan_2d(s32 count, s32 flags, f32 scale) {
 }
 void TObjPlayer::draw_tri_fan_3d(s32 n, u32 flags) {
     Tris_801E3784 *t = (Tris_801E3784 *)this;
-    Vec3_801E3784 *p;
+    Vec *p;
     UV_801E3784 *uv;
     u32 *c;
     s32 i;
@@ -490,15 +492,11 @@ void TLobby__sub_801E3CF0(u32 *p) {
     *p = (v >> 24) | ((v >> 8) & 0xFF00) | ((v << 8) & 0xFF0000) | (v << 24);
 }
 
-}
 
 void draw_motion(NJS_OBJECT *model, NJS_MOTION *motion, f32 frame) {
     bind_motion_context((NJS_MOTION *)motion, frame);
     TObjPlayer::render_tree(model);
 }
-
-struct RecoveredGlobal_801E3E24_TKeyBoardControl__data_80506270 { s32 value; u8 remaining[0xAC]; };
-typedef char RecoveredGlobal_801E3E24_TKeyBoardControl__data_80506270_size[sizeof(RecoveredGlobal_801E3E24_TKeyBoardControl__data_80506270) == 0xB0 ? 1 : -1];
 
 extern "C" {
 void TLobby__sub_803382E4(void);
@@ -506,17 +504,12 @@ s32 read_afs_toc__6TLobbyFl(void *);
 s32 adxf_open_file__6TLobbyFiPviPv(void *, void *, int, void *);
 s32 TLobby__sub_801E3E9C(s32 arg0, s32 arg1, s32 arg2);
 s32 disable_disconnected_ports__16TKeyBoardControlFv(void *);
-void update_global_sound_frame(void);
-extern RecoveredGlobal_801E3E24_TKeyBoardControl__data_80506270 TKeyBoardControl__global_key_state;
 s32 TKeyBoardControl__sub_801E3E24(s32 arg0, s32 arg1, s32 arg2);
 s32 GXSetViewport(f32, f32, f32, f32, f32, f32);
 s32 GXSetZMode(s32, s32, s32);
 extern s32 (*chunk_model_node_callback)(void *);
 void TKeyBoardControl__sub_8000F7FC(void);
-void compose_motion_node_matrix(void *arg0);
 
-s32 push_matrix();
-s32 pop_matrix();
 void fn_803DCEC8(void);
 void fn_803DCF0C(void);
 

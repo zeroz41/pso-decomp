@@ -23,14 +23,12 @@ typedef char TWindowDeposit_size[sizeof(TWindowDeposit) == 0x6C ? 1 : -1];
 
 extern "C" {
 u8 *TWindowDeposit__ct(u8 *arg0, s32 arg1);
-void *__dt__14TWindowDepositFv(void *arg0, s16 arg1);
 void render__14TWindowDepositFv(s32 arg0);
 }
 
 // --- C functions defined in TWindowDeposit.cpp ---
 extern "C" {
 u8 *TWindowDeposit__ct(u8 *arg0, s32 arg1);
-void *__dt__14TWindowDepositFv(void *arg0, s16 arg1);
 void render__14TWindowDepositFv(s32 arg0);
 }
 // --- end of C functions

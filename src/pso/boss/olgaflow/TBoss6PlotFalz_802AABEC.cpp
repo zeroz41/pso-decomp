@@ -4,7 +4,6 @@
 #include "pso/boss/olgaflow/TBoss6PlotFalz.h"
 #include "pso/player/TObjPlayer_80011014.h"
 
-extern "C" {
 
 extern s32 TBoss6PlotFalz__instance;
 
@@ -16,7 +15,7 @@ s32 TBoss6PlotFalz::get_next_point(s16 *arg1, s16 *arg2) {
     if (((s32 (*)(void))TBoss6PlotFalz__sub_802AAC74)() < 1) {
         return 0;
     }
-    *arg1 = *(s16 *)&this->set_index + *(s32 *)((s8 *)this + 0x3C8);
+    *arg1 = this->set_index + *(s32 *)((s8 *)this + 0x3C8);
     *arg2 = this->entity_id + *(s32 *)((s8 *)this + 0x3C8);
     *(s32 *)((s8 *)this + 0x3C8) = (s32) (*(s32 *)((s8 *)this + 0x3C8) + 1);
     return 1;
@@ -43,4 +42,3 @@ u8 TBoss6PlotFalz::is_ending_or_split_screen() {
 }
 int TBoss6PlotFalz::is_ready() { return 0; }
 
-}

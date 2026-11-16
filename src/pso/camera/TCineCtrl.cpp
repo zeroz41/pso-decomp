@@ -7,11 +7,6 @@
 
 #pragma readonly_strings on
 
-struct RecoveredGlobal_80077FA0___vt__9TCineCtrl {
-    s32 value;
-    u8 remaining[0x14];
-};
-
 struct Obj_80077F58 { u8 pad[0x28]; s32 state; };
 
 struct VtxList_80077BC0 {
@@ -22,9 +17,6 @@ struct VtxList_80077BC0 {
 };
 
 extern "C" {
-u8 * __dt__7TObjectFv(void *, s16);
-void __dl__7TObjectFPv(s32);
-extern s32 __vt__9TCineCtrl[];
 void * TCineCtrl__instance;
 void TCameraCtrl__sub_80068EF0(void);
 
@@ -141,7 +133,6 @@ void TCineCtrl::reset(s32 arg0) {
 extern void *tl_fade;
 const char *TCineCtrl__class_name = "TCineCtrl";
 
-typedef char RecoveredGlobal_80077FA0___vt__9TCineCtrl_size[sizeof(RecoveredGlobal_80077FA0___vt__9TCineCtrl) == 0x18 ? 1 : -1];
 
 void TCineCtrl::run_task() {
     Obj_80077F58 *self = (Obj_80077F58 *)this;
@@ -157,18 +148,10 @@ void TCineCtrl::run_task() {
     }
 }
 
-u8 *__dt__9TCineCtrlFv(u8 *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_80077FA0___vt__9TCineCtrl *)&__vt__9TCineCtrl).value;
-        (*(s32 *)&TCineCtrl__instance) = 0;
-        __dt__7TObjectFv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv((s32) arg0);
-        }
-    }
-    return arg0;
 }
 
+TCineCtrl::~TCineCtrl() {
+    TCineCtrl__instance = NULL;
 }
 TCineCtrl::TCineCtrl() : TObject((TObject *)tl_fade) {
     this->m_name = TCineCtrl__class_name;

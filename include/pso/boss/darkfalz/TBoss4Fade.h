@@ -15,4 +15,10 @@ extern "C" {
 void *__ct__10TBoss4FadeFv(void *boss4_fade);
 }
 
+// --- C functions defined in TBoss4Fade.cpp ---
+extern "C" {
+void *__ct__10TBoss4FadeFv(void *boss4_fade);
+}
+// --- end of C functions
+
 #endif

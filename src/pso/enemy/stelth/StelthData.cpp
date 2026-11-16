@@ -10,7 +10,7 @@
 // .rodata 0x8043D450-0x8043D750 of the Stelth code (the SinowZoaData.cpp shape): the code
 // addresses each object on its own, so it did not compile them itself.
 
-extern "C" {
+
 extern const NJS_ARGB me3_stelth_offset_vec = {-0.8f, 0.0f, 0.0f, 0.0f};
 extern const TBoss3VoloptBreakupParams me3_stelth_breakup_params = { 0x14, { 0.07f, 2.0f, 0.97f, 0.2f, 2.0f, 1.5f } };
 // TLobby kind ids, one list per TLobby table
@@ -53,4 +53,3 @@ extern const char stelth_debug_stelth_off[] = "STELTH OFF %    (+0.1f)";
 extern const char stelth_debug_warp[] = "WARP %          (+0.5f)";
 extern const char stelth_debug_tex_spigell[] = "TEX:SINOWA=SPIGELL";
 extern const char stelth_debug_tex_berill[] = "TEX:SINOWA=BERILL";
-}

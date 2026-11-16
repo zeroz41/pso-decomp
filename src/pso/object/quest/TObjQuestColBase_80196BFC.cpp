@@ -34,20 +34,6 @@ struct VObj_18_551843 : VBase_18_551843 {
 struct RecoveredGlobal_80196D50___vt__16TObjQuestColBase { s32 value; u8 remaining[0x44]; };
 typedef char RecoveredGlobal_80196D50___vt__16TObjQuestColBase_size[sizeof(RecoveredGlobal_80196D50___vt__16TObjQuestColBase) == 0x48 ? 1 : -1];
 
-struct VBase_18_26a62c { char pad[0x18]; };
-
-struct VObj_18_26a62c : VBase_18_26a62c {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual s32 m8(f32, f32);
-};
-
 struct VBase_18_1a504b
 {
   char pad[0x18];
@@ -111,8 +97,7 @@ s32 TObjQuestColBase::is_within_range(f32 farg0) {
 }
 
 void TObjQuestColBase::update_room_id_check() {
-    u8 *arg0 = (u8 *)this;
-    if (((VObj_18_26a62c *)(arg0))->m8(lbl_805DBEF8, lbl_805DBEFC) != 0) {
+    if (this->update_object_view_visibility(lbl_805DBEF8, lbl_805DBEFC) != 0) {
         debug_draw_sphere(&position, &debug_color_green_half_alpha, lbl_805DBF00 * *(f32 *)&this->unk_AC);
     }
 }
@@ -129,16 +114,16 @@ void TObjQuestColBase::run_task() {
         *(u8 * *)&this->m_b8 = ((VObj_18_551843 *)(arg0))->m14();
     }
 }
-u8 *__dt__16TObjQuestColBaseFv(u8 *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = &__vt__16TObjQuestColBase.value;
+u8 *__dt__16TObjQuestColBaseFv(u8 *collidable, s16 arg1) {
+    if (collidable != NULL) {
+        *(s32 **)((s8 *)collidable + 0x18) = &__vt__16TObjQuestColBase.value;
         TObjQuestColBase__instance_count -= 1;
-        __dt__14TObjCollidableFv(arg0, 0);
+        __dt__14TObjCollidableFv(collidable, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(collidable);
         }
     }
-    return arg0;
+    return collidable;
 }
 typedef struct RecoveredFields_80196DB4_arg0 RecoveredFields_80196DB4_arg0;
 typedef struct RecoveredGlobal_80196DB4___vt__16TObjQuestColBase RecoveredGlobal_80196DB4___vt__16TObjQuestColBase;

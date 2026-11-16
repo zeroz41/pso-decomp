@@ -18,12 +18,8 @@
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/unk/text_80087278.h"
-#include "pso/object/base/TObjMotion.h"
-#include "pso/system/task/TObject.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 
-typedef struct Vec_800C4A5C {
-    f32 x, y, z;
-} Vec_800C4A5C;
 
 typedef struct Coll_800C4A5C {
     u8 pad0[0xC];
@@ -35,16 +31,16 @@ typedef struct Obj_800C4A5C {
     u8 pad4[0x18 - 0x4];
     void *vptr;
     u8 pad1C[0x38 - 0x1C];
-    Vec_800C4A5C pos;
+    Vec pos;
     u8 pad44[0xA4 - 0x44];
     Coll_800C4A5C *coll;
     u8 padA8[0xB0 - 0xA8];
     u16 ownerId;
     u8 padB2[0xB4 - 0xB2];
-    Vec_800C4A5C start;
-    Vec_800C4A5C velA;
-    Vec_800C4A5C velB;
-    Vec_800C4A5C accel;
+    Vec start;
+    Vec velA;
+    Vec velB;
+    Vec accel;
     f32 fE4;
     s32 fE8;
     s32 angle;
@@ -55,13 +51,9 @@ typedef struct Obj_800C4A5C {
     s32 f100;
 } Obj_800C4A5C;
 
-typedef struct Vec_800C4B78 {
-    f32 x, y, z;
-} Vec_800C4B78;
-
 typedef struct Ent_800C4B78 {
     u8 pad0[0x38];
-    Vec_800C4B78 pos;
+    Vec pos;
 } Ent_800C4B78;
 
 typedef struct Obj_800C4B78 {
@@ -86,7 +78,6 @@ s32 subtract_vector(void *, void *);
 
 void * player_render_texture_buffer;
 void release_texture_list(void *);
-void mem_free(void *);
 extern u8 *camera_ctrl_instance;
 
 extern const char TObjEneRe2Flower_EffCurse3__class_name_string[0x1C] = "TObjEneRe2Flower_EffCurse3";
@@ -95,8 +86,8 @@ s32 TObjEneRe2Flower_EffCurse3__name = (s32)TObjEneRe2Flower_EffCurse3__class_na
 #pragma fp_contract on
 void TObjEneRe2Flower_EffCurse3::run_task() {
     Obj_800C4B78 *o = (Obj_800C4B78 *)this;
-    Vec_800C4B78 a;
-    Vec_800C4B78 b;
+    Vec a;
+    Vec b;
     o->timer++;
     if (o->timer > 20) {
         ((TObject *)o)->queue_destruction();
@@ -148,7 +139,6 @@ void TObjPlayer__sub_800C4D44(void) {
     }
 }
 
-void *mem_alloc(u32 size);
 void pso_load_texture__6TLobbyFv(void *, void *);
 void set_texture_name(void *, void *, s32, s32);
 void TObjPlayer::create_render_texture() {

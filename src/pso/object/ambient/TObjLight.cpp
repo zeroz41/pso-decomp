@@ -9,38 +9,32 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/vector.h"
 #include "pso/object/base/TObjMotion.h"
-#include "pso/object/ambient/TObjLight.h"
+
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/unk/TLobby.h"
 #include "pso/map/FloorArea.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/system/task/TObject.h"
-
-struct RecoveredGlobal_80194528___vt__9TObjLight {
-    s32 value;
-    u8 remaining[0x34];
-};
+#include "pso/system/MatrixStack.h"
 
 struct RecoveredGlobal_80194528_TObjLight__data_80506320 {
     s32 value;
     u8 remaining[0x4C];
 };
 
-typedef struct Vec_80193FE8 { f32 x, y, z; } Vec_80193FE8;
-
 typedef struct Actor_80193FE8 {
     u8 pad0[0x28];
     s16 room;
     u8 pad2A[0x38 - 0x2A];
-    Vec_80193FE8 pos;
+    Vec pos;
 } Actor_80193FE8;
 
 typedef struct Light_80193FE8 {
     u8 pad0[0x28];
     s16 room;
     u8 pad2A[0x38 - 0x2A];
-    Vec_80193FE8 pos;
+    Vec pos;
     u8 pad44[0x68 - 0x44];
     f32 param[3];
     u8 pad74[0x84 - 0x74];
@@ -55,19 +49,18 @@ typedef struct Light_80193FE8 {
     u32 increment;
     f32 strength;
     u8 padAC[4];
-    Vec_80193FE8 color;
+    Vec color;
     f32 base_a;
-    Vec_80193FE8 base_color;
-    Vec_80193FE8 dir;
-    Vec_80193FE8 base_dir;
-    Vec_80193FE8 out_dir;
+    Vec base_color;
+    Vec dir;
+    Vec base_dir;
+    Vec out_dir;
     u8 padF0[4];
-    Vec_80193FE8 out_color;
+    Vec out_color;
 } Light_80193FE8;
 
 extern "C" {
 s32 is_split_screen(void);
-u8 *__nw__7TObjectFUl(s32);
 extern s32 tl_05;
 s32 __ct__8TObjBaseFP7TObject(void *);
 extern s32 __vt__9TObjLight[];
@@ -83,10 +76,9 @@ void matrix_mult_vec(void *, void *, void *);
 f32 vector_length(void *);
 void rotate_matrix_z(void *, s32);
 void normalize_vector(void *);
-extern const Vec_80193FE8 lbl_80445D44;
+extern const Vec lbl_80445D44;
 extern u8 identity_matrix[];
 extern u8 *camera_ctrl_instance;
-void __dl__7TObjectFPv(void *);
 
 void TObjLight::render() {  }
 
@@ -100,7 +92,7 @@ void TObjLight::run_task() {
         return;
     }
     {
-    Vec_80193FE8 fwd = lbl_80445D44;
+    Vec fwd = lbl_80445D44;
     VecCopy((Vec *)&self->base_dir, (const Vec *)(((u8 *)&TObjLight__scene_light_state) + 0xC));
     self->flags = 0;
     if (self->param[0] >= 10000.0f) {
@@ -196,15 +188,14 @@ void TObjLight::run_task() {
 
 }
 TObjLight::~TObjLight() {
-    ((TObjBase *)this)->mask_object_set_row_flags(-3);
+    this->mask_object_set_row_flags(-3);
 }
-extern "C" {
 
-typedef char RecoveredGlobal_80194528___vt__9TObjLight_size[sizeof(RecoveredGlobal_80194528___vt__9TObjLight) == 0x38 ? 1 : -1];
+
 typedef char RecoveredGlobal_80194528_TObjLight__data_80506320_size[sizeof(RecoveredGlobal_80194528_TObjLight__data_80506320) == 0x50 ? 1 : -1];
 u8 *TObjLight__ct(TObjLight *light, s32 arg1, u8 *arg2) {
     __ct__8TObjBaseFP7TObject(light);
-    *(s32 **)((s8 *)light + 0x18) = &(*(RecoveredGlobal_80194528___vt__9TObjLight *)&__vt__9TObjLight).value;
+    *(s32 **)((s8 *)light + 0x18) = __vt__9TObjLight;
     *(s32 *)((s8 *)light + 0) = (s32) lbl_805D33B8;
     ((TObjLight *)(light))->apply_object_set_data(arg2);
     light->m_90 = (s32) *(s16 *)((s8 *)arg2 + 8);
@@ -232,7 +223,7 @@ u8 *TObjLight__create(u8 *arg0) {
     if (is_split_screen() != 0) {
         return NULL;
     }
-    light = (u8 *)(__nw__7TObjectFUl(0x100));
+    light = (u8 *)(TObject::operator new(0x100));
     var_r0 = light;
     if (var_r0 != NULL) {
         var_r0 = (u8 *)(TObjLight__ct((TObjLight *)light, tl_05, arg0));
@@ -240,4 +231,3 @@ u8 *TObjLight__create(u8 *arg0) {
     return var_r0;
 }
 
-}

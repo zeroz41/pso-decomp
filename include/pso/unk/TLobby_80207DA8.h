@@ -27,7 +27,9 @@ void create_empty_floor_event(void);
 void dispatch_wave_event_action(s32 arg0);
 extern "C" {
 void free_team_buffers__6TLobbyFv(void);
+}
 s32 get_floor_scene_table(s32 arg0);
+extern "C" {
 int link_matching_objects__6TLobbyFPv(void *p);
 }
 s32 load_area_event_set(s32 floor, s32 area, s32 terrain, s32 entities);
@@ -54,5 +56,9 @@ extern "C" {
 int spawn_objects_at_pos__6TLobbyFPv(void *p);
 }
 void swap_object_row_endian(void *arg0);
+
+// lobby_slot_ptr_table: layout known from its uses only.
+struct LobbySlotPtrTable { s32 value; u8 remaining[0x44]; };
+extern LobbySlotPtrTable lobby_slot_ptr_table;
 
 #endif

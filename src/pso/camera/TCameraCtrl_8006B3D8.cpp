@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/camera/TCameraCtrl_8006B3D8.h"
 #include "pso/unk/TUnk_80488AD8.h"
 #include "pso/system/vector.h"
 #include "pso/unk/TUnk_80488B08.h"
@@ -7,18 +8,7 @@
 
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/system/task/TObject.h"
-
-struct RecoveredGlobal_8006BA08_lbl_80488B08 {
-    s32 value;
-    u8 remaining[0x2C];
-};
-
-
-struct RecoveredGlobal_8006B588_lbl_80488AD8
-{
-  s32 value;
-  u8 remaining[0x14];
-};
+#include "pso/player/TObjPlayer_80011014.h"
 
 struct RecoveredFields_8006B588_arg0
 {
@@ -29,12 +19,11 @@ struct RecoveredFields_8006B588_arg0
 };
 
 #define VIEW_8006B798 ((View_8006B798 *)camera_ctrl_instance)
-struct V_8006B798 { f32 x, y, z; };
 
 struct View_8006B798 {
     u8 pad0[0x178];
-    V_8006B798 pos;
-    V_8006B798 tgt;
+    Vec pos;
+    Vec tgt;
 };
 
 struct Obj_8006B798 {
@@ -45,11 +34,9 @@ struct Obj_8006B798 {
     u16 f22;
     s16 f24;
     u8 pad26[2];
-    V_8006B798 pos;
-    V_8006B798 tgt;
+    Vec pos;
+    Vec tgt;
 };
-
-struct Vec_8006B6A8 { f32 x, y, z; };
 
 struct Cam_8006B6A8 {
     u8 pad0[0x1C];
@@ -58,14 +45,10 @@ struct Cam_8006B6A8 {
     u16 f22;
     u16 f24;
     u8 pad26[2];
-    Vec_8006B6A8 v28;
-    Vec_8006B6A8 v34;
+    Vec v28;
+    Vec v34;
 };
 
-extern "C" {
-s32 is_split_screen(void);
-void *__nw__7TObjectFUl(int);
-}
 extern s32 local_client_id;
 extern s32 tl_07;
 u8 *create_conversation_camera(s32 arg0);
@@ -98,25 +81,23 @@ const NpcCameraDestination fixed_npc_camera_destination_table[20] = {
     {-10039.4f, 43.3f, -176.9f, -10063.5f, 53.8f, -212.1f},
     {-9953.2f, 42.4f, -168.1f, -9924.0f, 50.0f, -183.9f},
 };
-struct E_8006BAC8 { f32 x; f32 y; f32 z; };
 
-struct O_8006BAC8 { u8 pad[0xd4]; E_8006BAC8 arr[1]; };
+struct O_8006BAC8 { u8 pad[0xd4]; Vec arr[1]; };
 
-struct E_8006BAB4 { f32 x; f32 y; f32 z; };
-
-struct O_8006BAB4 { u8 pad[0x104]; E_8006BAB4 arr[1]; };
+struct O_8006BAB4 { u8 pad[0x104]; Vec arr[1]; };
 
 extern "C" {
 void *__dt__13TUnk_80488A28Fv(void *arg0, s16 arg1);
 void __dl__7TObjectFPv(void *);
-extern RecoveredGlobal_8006BA08_lbl_80488B08 lbl_80488B08;
+struct RecoveredGlobal_lbl_80488B08 { s32 value; u8 remaining[0x2C]; };
+extern RecoveredGlobal_lbl_80488B08 lbl_80488B08;
 extern s32 TCameraCtrl__fixed_npc_camera_active;
 u8 *__dt__13TUnk_80488B08Fv(u8 *arg0, s16 arg1);
 void set_active_camera_pose(void *, void *);
 s32 approach_camera_vector(void *, void *, f32);
 s32 activate_camera_mode(int);
-E_8006BAB4 *TCameraCtrl__sub_8006BAB4(O_8006BAB4 *self, s32 i);
-E_8006BAC8 *TCameraCtrl__sub_8006BAC8(O_8006BAC8 *self, s32 i);
+Vec *TCameraCtrl__sub_8006BAB4(O_8006BAB4 *self, s32 i);
+Vec *TCameraCtrl__sub_8006BAC8(O_8006BAC8 *self, s32 i);
 s32 __ct__7TObjectFP7TObject(void *, void *);
 extern const s32 __vt__13TUnk_80488AD8[];
 extern u32 camera_ctrl_instance;
@@ -124,12 +105,8 @@ f32 vector_length(void *);
 void normalize_vector(void *);
 f32 xyz_distance(void *, void *);
 extern s32 lbl_80488AF0[];
-s32 TCameraCtrl__sub_8006B798(void *p, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
-s32 TCameraCtrl__sub_8006BADC(void);
-void approach_vector_fixed_distance(Vec_8006B6A8 *, Vec_8006B6A8 *, Vec_8006B6A8 *, f32);
-void *TCameraCtrl__vt9(void);
+void approach_vector_fixed_distance(Vec *, Vec *, Vec *, f32);
 s32 restore_player_cameras();
-void *TCameraCtrl__sub_8006BA68(void *);
 s32 activate_body_collision__10TObjPlayerFv();
 s32 deactivate_body_collision__10TObjPlayerFv();
 void *get_player_by_client_id(s32 i);
@@ -156,7 +133,7 @@ u8 *create_conversation_camera(s32 arg0) {
         return NULL;
     }
     i = local_client_id;
-    camera_ctrl = (u8 *)(((u8 *)__nw__7TObjectFUl(0x38)));
+    camera_ctrl = (u8 *)(((u8 *)TObject::operator new(0x38)));
     var_r0 = camera_ctrl;
     if (var_r0 != NULL) {
         var_r0 = (u8 *)(((TCameraCtrl *)camera_ctrl)->init_conversation_camera(i, arg0, tl_07));
@@ -179,11 +156,10 @@ TUnk_80488AD8::~TUnk_80488AD8() {
 }
 
 typedef struct RecoveredFields_8006B588_arg0 RecoveredFields_8006B588_arg0;
-typedef struct RecoveredGlobal_8006B588_lbl_80488AD8 RecoveredGlobal_8006B588_lbl_80488AD8;
 u8 *TCameraCtrl::init_conversation_camera(s32 i, s32 arg2, s32 arg3) {
   void *new_var;
   __ct__7TObjectFP7TObject((void *) this, (void *) arg3);
-  ((RecoveredFields_8006B588_arg0 *) ((u8 *)this))->field_18 = &(*(RecoveredGlobal_8006B588_lbl_80488AD8 *)&__vt__13TUnk_80488AD8).value;
+  ((RecoveredFields_8006B588_arg0 *) ((u8 *)this))->field_18 = ((s32 *)&__vt__13TUnk_80488AD8);
   ((RecoveredFields_8006B588_arg0 *) ((u8 *)this))->field_34 = arg2;
   activate_camera_mode(9);
   if (is_split_screen() != 0)
@@ -203,7 +179,7 @@ u8 *TCameraCtrl::init_conversation_camera(s32 i, s32 arg2, s32 arg3) {
 }
 
 void TCameraCtrl::create(s32 arg0, s32 arg1, s32 arg2) {
-    void *obj = __nw__7TObjectFUl(0x40);
+    void *obj = TObject::operator new(0x40);
     if (obj != NULL) {
         TCameraCtrl__sub_8006B798(obj, arg0, arg1, arg2, tl_07);
     }
@@ -238,7 +214,7 @@ void *TCameraCtrl::destroy(s16 arg1) {
 #pragma opt_common_subs off
 s32 TCameraCtrl__sub_8006B798(void *p, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
 #define arg0 ((Obj_8006B798 *)p)
-    V_8006B798 d;
+    Vec d;
     f32 dist;
     __ct__7TObjectFP7TObject(arg0, (void *)arg4);
     arg0->vt = lbl_80488AF0;
@@ -269,7 +245,7 @@ s32 TCameraCtrl__sub_8006B798(void *p, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
 #pragma pop
 
 void *TCameraCtrl__vt9(void) {
-    void *o = __nw__7TObjectFUl(0x6C);
+    void *o = TObject::operator new(0x6C);
     if (o != NULL) {
         o = TCameraCtrl__sub_8006BA68(o);
     }
@@ -294,7 +270,6 @@ void TUnk_80488B08::vfunc_6() {
 }
 
 void TUnk_80488B08::run_task() {  }
-typedef char RecoveredGlobal_8006BA08_lbl_80488B08_size[sizeof(RecoveredGlobal_8006BA08_lbl_80488B08) == 0x30 ? 1 : -1];
 u8 *__dt__13TUnk_80488B08Fv(u8 *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = &lbl_80488B08.value;
@@ -319,11 +294,11 @@ void *TCameraCtrl__sub_8006BA68(void *a0) {
     return a0;
 }
 
-E_8006BAB4 *TCameraCtrl__sub_8006BAB4(O_8006BAB4 *self, s32 i) {
+Vec *TCameraCtrl__sub_8006BAB4(O_8006BAB4 *self, s32 i) {
     return &self->arr[i];
 }
 
-E_8006BAC8 *TCameraCtrl__sub_8006BAC8(O_8006BAC8 *self, s32 i) {
+Vec *TCameraCtrl__sub_8006BAC8(O_8006BAC8 *self, s32 i) {
     return &self->arr[i];
 }
 

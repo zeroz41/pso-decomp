@@ -3,8 +3,8 @@
 
 #include "types.h"
 
-extern "C" {
 void draw_particle_effect(void *a0);
+extern "C" {
 void fn_802F19C0(void);
 }
 

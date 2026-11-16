@@ -4,8 +4,11 @@
 void bswap_cmd_88_body(void *p);
 extern "C" {
 s32 copy_entry_table(s32 *);
+}
 void bswap_cmd_c4_body(void *p);
+extern "C" {
 s32 copy_cmd_c4_entry_table(s32 *);
+}
 
 void TProtocol::handle_cmd_88(packet &) {
     char sp8[0xC4];
@@ -29,5 +32,4 @@ void TProtocol::handle_cmd_C4(packet &) {
     if (temp_r12 != NULL) {
         temp_r12((s32 *) sp8);
     }
-}
 }

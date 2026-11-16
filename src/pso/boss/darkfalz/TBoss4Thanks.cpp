@@ -14,13 +14,16 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/system/task/TObject.h"
-#include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/boss/darkfalz/TBoss4Type3_800524E8.h"
+#include "pso/boss/darkfalz/TBoss4Thanks_8035C8F0.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/unk/text_8035C9E8.h"
+#include "pso/item/TItem.h"
+#include "pso/item/armor/TItemProShield.h"
+#include "pso/object/switch/TOSwitchItem.h"
+#include "pso/system/MatrixStack.h"
 
-
-struct RecoveredGlobal_8035C83C___vt__12TBoss4Thanks { s32 value; u8 remaining[0x14]; };
-typedef char RecoveredGlobal_8035C83C___vt__12TBoss4Thanks_size[sizeof(RecoveredGlobal_8035C83C___vt__12TBoss4Thanks) == 0x18 ? 1 : -1];
-
-struct RecoveredGlobal_8035C7D4___vt__12TBoss4Thanks { s32 value; u8 remaining[0x14]; };
 
 struct O_8035C480 { u8 pad[0x44]; s32 arr[4]; };
 
@@ -51,14 +54,8 @@ struct Thanks_8035C6FC
 
 extern "C" {
 s32 get_bml_motion(void *, s32);
-s32 TObjFish__sub_8001EDB0(void *, s32);
+s32 get_bml_texlist(void *, s32);
 s32 get_bml_model(void *, s32);
-void __ct__7TObjectFP7TObject(void *, void *);
-extern RecoveredGlobal_8035C83C___vt__12TBoss4Thanks __vt__12TBoss4Thanks;
-u8 *TBoss4Thanks__ct(u8 *arg0, u8 *arg1);
-u8 * __dt__7TObjectFv(void *, s16);
-void __dl__7TObjectFPv(s32);
-u8 *__dt__12TBoss4ThanksFv(u8 *arg0, s16 arg1);
 void TBoss4Thanks__sub_8035C480(s32 arg0);
 const char *TBoss4Thanks__class_name = "TBoss4Thanks";
 // Position of the emitters and of the proximity check (x, y, z).
@@ -68,20 +65,16 @@ extern const u8 boss4_thanks_listed_item_table[3][3] = {{0x00, 0x9D, 0x00}, {0x0
 extern const Ent_8035C35C boss4_thanks_emitter_table[4] = {
     {0x8D, 0x00, 0x32}, {0xA7, 0x1E, 0x6E}, {0x1FD, 0x32, 0x5A}, {0x1C2, 0x46, 0x78},
 };
-s32 get_entity_id(void *);
-s32 TBoss4Type3__sub_8005254C(s32);
 f32 xyz_distance(void *, const void *);
 void TObjPlayer__sub_80052390(void);
-void push_matrix(void);
 void post_translate_matrix(const f32 *);
-u8 fn_8035C2B4(void);
 int dispatch_by_main_phase__14TBoss4DarkFalzFUs(void*);
 
-u8 fn_8035C2B4(void) {
-    return (u8) (get_story_flag(0x99) != 0);
+s32 fn_8035C2B4(void) {
+    return get_story_flag(0x99) != 0;
 }
-u8 TBoss4Thanks::is_door_0x97_open() {
-    return (u8) (get_story_flag(0x97) != 0);
+s32 TBoss4Thanks::is_door_0x97_open() {
+    return get_story_flag(0x97) != 0;
 }
 int TBoss4Thanks::dispatch_main_phase_153() { return dispatch_by_main_phase__14TBoss4DarkFalzFUs((void*)(153)); }
 int TBoss4Thanks::dispatch_main_phase() { return dispatch_by_main_phase__14TBoss4DarkFalzFUs((void*)(151)); }
@@ -92,7 +85,7 @@ void TBoss4Thanks::update_particle_emitters() {
     s32 i;
     for (i = 0; i < 4; i++) {
         const Ent_8035C35C *e = &boss4_thanks_emitter_table[i];
-        if (o->x30 >= e->lo && o->x30 <= e->hi) {
+        if (this->fade_frame >= e->lo && this->fade_frame <= e->hi) {
             if (o->p[i] == NULL) {
                 o->p[i] = create_particle_emitter((void *)boss4_thanks_position, e->id);
                 if (o->p[i] != NULL) {
@@ -131,13 +124,13 @@ int TBoss4Thanks::is_player_nearby(void *arg0) {
     s32 n;
     s32 i;
     f32 lim;
-    u8 *p;
+    TObjPlayer *p;
     n = TLobby::get_game_mode();
     lim = 30.0f;
     for (i = 0; i < n; i++) {
-        p = (u8 *)TObjPlayer::get_player_data(i);
+        p = TObjPlayer::get_player_data(i);
         if (p != NULL && TBoss4Type3__sub_8005254C(get_entity_id(p)) != 0 &&
-            xyz_distance(p + 0x38, boss4_thanks_position) <= lim) {
+            xyz_distance(&p->position, boss4_thanks_position) <= lim) {
             return 1;
         }
     }
@@ -226,35 +219,78 @@ void TBoss4Thanks::run_task() {
   }
 }
 
-u8 *__dt__12TBoss4ThanksFv(u8 *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_8035C7D4___vt__12TBoss4Thanks *)&__vt__12TBoss4Thanks).value;
-        TBoss4Thanks::dispatch_main_phase_153();
-        ((TBoss4Thanks *)arg0)->destroy_effects();
-        __dt__7TObjectFv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv((s32) arg0);
-        }
-    }
-    return arg0;
+TBoss4Thanks::~TBoss4Thanks() {
+    TBoss4Thanks::dispatch_main_phase_153();
+    ((TBoss4Thanks *)this)->destroy_effects();
 }
 
-u8 *TBoss4Thanks__ct(u8 *object, u8 *arg1) {
+TBoss4Thanks::TBoss4Thanks(TObject *arg1) : TObject(arg1) {
     u8 *instance_count;
-    __ct__7TObjectFP7TObject(object, arg1);
-    *(s32 **)((s8 *)object + 0x18) = &__vt__12TBoss4Thanks.value;
-    *(s32 *)((s8 *)object + 0) = (s32) TBoss4Thanks__class_name;
+    *(s32 *)((s8 *)this + 0) = (s32) TBoss4Thanks__class_name;
     instance_count = (u8 *)(TBoss4Uro::get_instance_count());
-    *(s32 *)((s8 *)object + 0x34) = get_bml_model(instance_count, 1);
-    *(s32 *)((s8 *)object + 0x38) = TObjFish__sub_8001EDB0(instance_count, 1);
-    *(s32 *)((s8 *)object + 0x3C) = get_bml_motion(instance_count, 0x46);
-    *(s32 *)((s8 *)object + 0x40) = get_bml_motion(instance_count, 0x47);
-    TBoss4Thanks__sub_8035C480((s32)((s32) object));
-    *(s32 *)((s8 *)object + 0x1C) = 0;
-    *(s32 *)((s8 *)object + 0x24) = 0;
-    *(s32 *)((s8 *)object + 0x20) = 0;
-    *(f32 *)((s8 *)object + 0x28) = 0.0f;
-    *(f32 *)((s8 *)object + 0x2C) = 0.99f;
-    *(s32 *)((s8 *)object + 0x30) = 0;
-    return object;
+    this->model = get_bml_model(instance_count, 1);
+    this->texture_list = get_bml_texlist(instance_count, 1);
+    *(s32 *)((s8 *)this + 0x3C) = get_bml_motion(instance_count, 0x46);
+    *(s32 *)((s8 *)this + 0x40) = get_bml_motion(instance_count, 0x47);
+    TBoss4Thanks__sub_8035C480((s32)((s32) ((u8 *)this)));
+    this->state = 0;
+    this->next_motion = 0;
+    this->current_motion = 0;
+    this->motion_frame = 0.0f;
+    this->fade_amount = 0.99f;
+    this->fade_frame = 0;
+}
+
+extern "C" {
+
+extern void *tl_02;
+
+void *TBoss4Thanks::create() {
+    void *o = (void *)new TBoss4Thanks((TObject *)(u8 *)tl_02);
+    return o;
+}
+
+s32 TBoss4Thanks::is_door_open_and_ready() {
+    if ((is_door_0x97_open() != 0) && (fn_8035C2B4() == 0)) {
+        return 1;
+    }
+    return 0;
+}
+
+s32 TBoss4Thanks__sub_8035C96C(void) { return TBoss4Thanks::is_door_0x97_open(); }
+
+extern s32 game_difficulty_selection;
+
+s32 TBoss4Thanks::check_ready() {
+    if (((s32) game_difficulty_selection == 0) || ((get_main_phase() == 0xE) && (is_split_screen() == 0)) || (any_player_has_listed_item() == 0)) {
+        return 0;
+    }
+    TBoss4Thanks::dispatch_main_phase();
+    return 1;
+}
+
+}
+
+s32 any_player_has_listed_item(void) {
+    s32 n = TLobby::get_game_mode();
+    s32 i;
+    for (i = 0; i < n; i++) {
+        TObjPlayer *pl = TObjPlayer::get_player_data(i);
+        if (pl != NULL && TBoss4Type3__sub_8005254C(get_entity_id(pl)) != 0) {
+            s32 j;
+            for (j = 0; j < 3; j++) {
+                const u8 *e = boss4_thanks_listed_item_table[j];
+                s32 k;
+                for (k = 0; k < 13; k++) {
+                    void *it = pl->get_equipped_item(k);
+                    if (it != NULL && e[0] == ((TItem *)it)->get_item_type() &&
+                        e[1] == ((TItem *)it)->get_item_group() &&
+                        e[2] == ((TItem *)it)->get_item_index()) {
+                        return 1;
+                    }
+                }
+            }
+        }
+    }
+    return 0;
 }

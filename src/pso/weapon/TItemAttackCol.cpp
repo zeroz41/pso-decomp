@@ -6,6 +6,7 @@
 #include "types.h"
 #include "pso/system/data/FlagWord.h"
 #include "pso/system/MatrixOps.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/vector.h"
@@ -143,13 +144,8 @@ struct VObj_802E3C4C : VBase_802E3C4C {
 
 struct Hit_802E3D8C { s32 pad; void *pos; };
 extern "C" {
-s32 disallow_rendering__7TObjectFv(void *);
 
-s32 test_flags_any(void *, int);
-}
-
-f32 vec_distance_squared(u8 *arg0, u8 *arg1);
-extern "C" {
+s32 test_flags_any(s32 *flags, s32 mask);
 s32 play_weapon_hit_sound(void *);
 
 void apply_camera_shake__10TObjPlayerFiii(s32 arg0, s32 arg1, s32 arg2);
@@ -158,25 +154,15 @@ Hit_802E3D8C *csnVector(void *, void *, s32);
 
 s32 all_parents_unqueued_for_destruction__7TObjectFv();
 
-s32 rotate_matrix_by_node_angles(void *, int);
+// The collider render() is drawing, and how many of its model's nodes have been drawn.
+TItemAttackCol *attack_collider_render_owner;
 
-s32 push_matrix();
-
-s32 scale_current_matrix(void *);
-
-s32 post_translate_matrix(void *);
-
-extern int attack_collider_render_owner;
-
-extern int attack_collider_active_count;
+int attack_collider_active_count;
 
 void* TObjPlayer__sub_802E449C(void* a0);
 
-void __dl__7TObjectFPv(void *);
 
-void *__nw__7TObjectFUl(int);
-
-int fn_802E3BA8(void*, void*);
+void fn_802E3BA8(TItemAttackCol *col, void *node);
 
 extern "C" f32 normalize_vector(Vec *v);
 
@@ -185,7 +171,7 @@ const char *TItemAttackCol__name = "TItemAttackCol";
 // The particle's direction before the collider's heading is added.
 static ParticleAngles particle_direction = {0x4000, 0, 0x4000};
 }
-
+f32 vec_distance_squared(u8 *arg0, u8 *arg1);
 struct Hit_802E4798 { u8 *obj; s32 idx; };
 
 struct Rec_802E4798 { u8 pad[0x18]; s32 flags; u8 pad2[0x2C - 0x1C]; };
@@ -198,7 +184,6 @@ void TObjPlayer__sub_8015431C(u8 *arg0);
 
 void reset_global_table(void);
 
-Hit_802E4798 *get_attack_entry__16TObjOnlineEndingFi(int);
 }
 
 TUnk_804E355C::TUnk_804E355C(TObject *parent, S_802E451C *params) : TObject(parent) {
@@ -240,10 +225,10 @@ TUnk_804E355C::TUnk_804E355C(TObject *parent, S_802E451C *params) : TObject(pare
 }
 
 TUnk_804E355C::~TUnk_804E355C() {}
-extern "C" {
+
 void TUnk_804E355C::check_hits() {
     s32 i;
-    Hit_802E4798 *e;
+    void *e;
     u8 *arg0 = (u8 *)this;
     reset_global_table();
     TObjPlayer__sub_801542F4((s32)&this->bodies);
@@ -254,9 +239,9 @@ void TUnk_804E355C::check_hits() {
         TObjPlayer::apply_status_effect((s32)(arg0 + 0x1C));
     }
     for (i = 0; i != TObjOnlineEnding::get_instance(); i++) {
-        e = get_attack_entry__16TObjOnlineEndingFi(i);
+        e = TObjOnlineEnding::get_attack_entry(i);
         if (((TUnk_804E355C *)arg0)->try_add_hit_target(e) != 0) {
-            ((TUnk_804E355C *)arg0)->vfunc_6((s32 *)((s32)e));
+            ((TUnk_804E355C *)arg0)->vfunc_6((s32 *)e);
             ((TUnk_804E355C *)arg0)->hits_left -= 1;
             if (((TUnk_804E355C *)arg0)->hits_left == 0) {
                 ((TObject *)arg0)->queue_destruction();
@@ -285,7 +270,7 @@ s32 TUnk_804E355C::try_add_hit_target(void *arg1_arg) {
     }
     ok = 1;
     if (TTecCtrl::is_technique_ready() == 0 && ((TObjCollidable *)arg1->obj)->obj_testFlags30(0x60000000) == 0x20000000
-        && *(s16 *)((s8 *)arg0 + 0xAA) != ((TObjBase *)(arg1->obj))->get_room()) {
+        && this->room != ((TObjBase *)(arg1->obj))->get_room()) {
         ok = 0;
     }
     if (((TObjCollidable *)arg1->obj)->obj_testFlags30(0x04000000) != 0
@@ -309,14 +294,13 @@ s32 TUnk_804E355C::try_add_hit_target(void *arg1_arg) {
     }
     return 0;
 }
-}
 
 void TUnk_804E355C::vfunc_6(s32 *hit) { resolve_attack_col_hit((u8 *)hit); }
 
 s32 TUnk_804E355C::has_game_join_id() {
     return find_equipped_item(item_id) != 0;
 }
-extern "C" {
+
 s32 TUnk_804E355C::resolve_attack_col_hit(u8 *arg1) {
     u8 *arg0 = (u8 *)this;
     typedef char sp8_offset[(offsetof(Stack_802E456C, sp8) == 0x0) ? 1 : -1];
@@ -326,7 +310,7 @@ s32 TUnk_804E355C::resolve_attack_col_hit(u8 *arg1) {
     typedef char sp18_offset[(offsetof(Stack_802E456C, sp18) == 0x10) ? 1 : -1];
     Stack_802E456C stack;
     s32 temp_r31;
-    s32 temp_r31_2;
+    s32 damage;
     u8 *temp_r30;
     u8 *player;
     u32 item;
@@ -351,10 +335,10 @@ s32 TUnk_804E355C::resolve_attack_col_hit(u8 *arg1) {
             ((VObj_18_f2ea1e *)(temp_r30))->m22(player, temp_r31);
             break;
         }
-        temp_r31_2 = (s32) var_f31;
-        TObjPlayer::calc_photon_blast_charge((void *)player, temp_r31_2);
+        damage = (s32) var_f31;
+        TObjPlayer::calc_photon_blast_charge((void *)player, damage);
         ((VObj_18_f2ea1e *)(player))->m73();
-        apply_camera_shake__10TObjPlayerFiii((s32)player, (s32)temp_r30, (s32)temp_r31_2);
+        apply_camera_shake__10TObjPlayerFiii((s32)player, (s32)temp_r30, (s32)damage);
         ((TObjPlayer *)(&stack.sp8))->reset_status_block();
         stack.sp8 = ((TItem *)item)->get_item_group();
         stack.sp9 = ((TItem *)item)->get_item_index();
@@ -367,18 +351,18 @@ s32 TUnk_804E355C::resolve_attack_col_hit(u8 *arg1) {
     return 0;
 }
 
-void TObjPlayer__sub_802E451C(S_802E451C *arg0) {
-    arg0->position.x = 0.0f;
-    arg0->position.y = 0.0f;
-    arg0->position.z = 0.0f;
-    arg0->radius = 5.0f;
-    arg0->hits = 1;
-    arg0->client_id = 0xFFFF;
-    arg0->room = -1;
-    arg0->item_id = -1;
-    arg0->pad_1C = 0.0f;
-    arg0->pad_20 = 1.0f;
-    arg0->pad_24 = 0;
+void TObjPlayer__sub_802E451C(S_802E451C *s_802_e451_c) {
+    s_802_e451_c->position.x = 0.0f;
+    s_802_e451_c->position.y = 0.0f;
+    s_802_e451_c->position.z = 0.0f;
+    s_802_e451_c->radius = 5.0f;
+    s_802_e451_c->hits = 1;
+    s_802_e451_c->client_id = 0xFFFF;
+    s_802_e451_c->room = -1;
+    s_802_e451_c->item_id = -1;
+    s_802_e451_c->pad_1C = 0.0f;
+    s_802_e451_c->pad_20 = 1.0f;
+    s_802_e451_c->pad_24 = 0;
 }
 
 void* TObjPlayer__sub_802E449C(void* a0) { TObjPlayer__sub_802E451C((S_802E451C *)(a0)); *(int*)((char*)a0 + 0x40) = 0; *(int*)((char*)a0 + 0x44) = 0; *(int*)((char*)a0 + 0x48) = 0; *(float*)((char*)a0 + 0x4c) = 1.0f; *(int*)((char*)a0 + 0x50) = 0; *(int*)((char*)a0 + 0x54) = 0; *(int*)((char*)a0 + 0x58) = 0; *(float*)((char*)a0 + 0x5c) = 3.0f; *(float*)((char*)a0 + 0x60) = 1.0f; *(float*)((char*)a0 + 0x64) = 1.0f; *(float*)((char*)a0 + 0x68) = 1.0f; *(float*)((char*)a0 + 0x6c) = 1.0f; *(int*)((char*)a0 + 0x70) = 0; *(int*)((char*)a0 + 0x74) = 0; *(int*)((char*)a0 + 0x78) = -1; *(int*)((char*)a0 + 0x7c) = -1; return a0; }
@@ -518,7 +502,7 @@ void TItemAttackCol::run_task() {
         continuous_particle->set_position(&position);
     }
     check_hits();
-    if ((range_sq <= vec_distance_squared((u8 *)&position, (u8 *)&start_position)) || (test_flags_any(&hit_wall_flags, 1) != 0)) {
+    if ((range_sq <= vec_distance_squared((u8 *)&position, (u8 *)&start_position)) || (test_flags_any((s32 *)&hit_wall_flags, 1) != 0)) {
         queue_destruction();
     }
 }
@@ -533,13 +517,13 @@ void TItemAttackCol::render() {
                 set_texlist(texlist);
             }
             TParticleCtrl::begin_effect_render();
-            attack_collider_render_owner = (int)this;
+            attack_collider_render_owner = this;
             attack_collider_active_count = 0;
             push_matrix();
-            post_translate_matrix((u8 *)&position);
-            rotate_matrix_by_node_angles((u8 *)rotation, 1);
-            rotate_matrix_by_node_angles((u8 *)spin, 1);
-            scale_current_matrix((u8 *)&scale);
+            post_translate_matrix(&position.x);
+            rotate_matrix_by_node_angles(rotation, 1);
+            rotate_matrix_by_node_angles(spin, 1);
+            scale_current_matrix(&scale.x);
             draw_node_tree_with_callback((NJS_OBJECT *)model, (void (*)(NJS_OBJECT *))TItemAttackCol::add_to_active_list);
             pop_matrix();
             attack_collider_render_owner = 0;
@@ -599,5 +583,33 @@ void TItemAttackCol::shift_collision_bounds() {
     pad_114[2] -= 0xCCC;
 }
 
-void TItemAttackCol::add_to_active_list(void* a0) { fn_802E3BA8((void*)attack_collider_render_owner, a0); attack_collider_active_count = (attack_collider_active_count + 0x1); }
+void TItemAttackCol::add_to_active_list(void* a0) { fn_802E3BA8(attack_collider_render_owner, a0); attack_collider_active_count = (attack_collider_active_count + 0x1); }
+
+// Called for each node of the model before add_to_active_list counts it:
+// with flag 8 the second node drawn gets the collider's extra rotation and scale.
+void fn_802E3BA8(TItemAttackCol *col, void *node) {
+    if ((col->flags & 8) && attack_collider_active_count == 1) {
+        rotate_matrix_by_node_angles(col->pad_114, 1);
+        scale_current_matrix(col->pad_120);
+    }
+}
+
+void TItemAttackCol::check_object_hits() {
+    s32 i;
+    void *e;
+    reset_global_table();
+    TObjPlayer__sub_8015431C((u8 *)&this->bodies);
+    for (i = 0; i != TObjOnlineEnding::get_instance(); i++) {
+        e = TObjOnlineEnding::get_attack_entry(i);
+        if (try_add_hit_target(e) != 0) {
+            this->vfunc_6((s32 *)e);
+            this->hits_left -= 1;
+            if (this->hits_left == 0) {
+                queue_destruction();
+                reset_global_table();
+                return;
+            }
+        }
+    }
+    reset_global_table();
 }

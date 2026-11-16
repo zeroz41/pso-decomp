@@ -9,7 +9,6 @@ s32 __SITransfer(Vec_803E1B1C *a, Vec_803E1B1C *b);
 extern const Faces_803E0ED4 box_face_corner_index_table;
 const Faces_803E0ED4 box_face_corner_index_table = {
     {{0, 1, 2, 3}, {4, 5, 6, 7}, {0, 3, 7, 4}, {2, 1, 5, 6}, {0, 4, 5, 1}, {3, 2, 6, 7}}};
-s32 test_box_overlap__10TObjPlayerFPvPv(Vec_803E1B1C *boxA, Vec_803E1B1C *boxB);
 s32 TObjPlayer::test_aabb_overlap(u8 *arg1, u8 *arg2, u8 *arg3) {
     u8 *arg0 = (u8 *)this;
     if (*(f32 *)((s8 *)arg1 + 0) < *(f32 *)((s8 *)arg2 + 0)) {
@@ -517,7 +516,7 @@ s32 __SITransfer(Vec_803E1B1C *a, Vec_803E1B1C *b) {
     return mask;
 }
 
-s32 test_box_overlap__10TObjPlayerFPvPv(Vec_803E1B1C *boxA, Vec_803E1B1C *boxB) {
+s32 TObjPlayer::test_box_overlap(Vec_803E1B1C *boxB) {
     Vec_803E1B1C qa[4];
     Vec_803E1B1C qb[4];
     Vec_803E1B1C mnA;
@@ -531,16 +530,16 @@ s32 test_box_overlap__10TObjPlayerFPvPv(Vec_803E1B1C *boxA, Vec_803E1B1C *boxB) 
     s32 *fb;
     int k;
     mask = 0;
-    calc_bounds_min_max__10TObjPlayerFPvPvPv((struct Vec_803E1B1C *)(boxA), (struct Vec_803E1B1C *)(&mnA), (struct Vec_803E1B1C *)(&mxA));
+    calc_bounds_min_max__10TObjPlayerFPvPvPv((struct Vec_803E1B1C *)(((Vec_803E1B1C *)this)), (struct Vec_803E1B1C *)(&mnA), (struct Vec_803E1B1C *)(&mxA));
     calc_bounds_min_max__10TObjPlayerFPvPvPv((struct Vec_803E1B1C *)(boxB), (struct Vec_803E1B1C *)(&mnB), (struct Vec_803E1B1C *)(&mxB));
     if (((TObjPlayer *)((u8 *)&mnA))->test_aabb_overlap((u8 *)&mxA, (u8 *)&mnB, (u8 *)&mxB) != 0) {
     Faces_803E0ED4 faces = box_face_corner_index_table;
     for (i = 0; i < 6; i++) {
         fa = faces.v[i];
-        qa[0].x = boxA[fa[0]].x; qa[0].y = boxA[fa[0]].y; qa[0].z = boxA[fa[0]].z;
-        qa[1].x = boxA[fa[1]].x; qa[1].y = boxA[fa[1]].y; qa[1].z = boxA[fa[1]].z;
-        qa[2].x = boxA[fa[2]].x; qa[2].y = boxA[fa[2]].y; qa[2].z = boxA[fa[2]].z;
-        qa[3].x = boxA[fa[3]].x; qa[3].y = boxA[fa[3]].y; qa[3].z = boxA[fa[3]].z;
+        qa[0].x = ((Vec_803E1B1C *)this)[fa[0]].x; qa[0].y = ((Vec_803E1B1C *)this)[fa[0]].y; qa[0].z = ((Vec_803E1B1C *)this)[fa[0]].z;
+        qa[1].x = ((Vec_803E1B1C *)this)[fa[1]].x; qa[1].y = ((Vec_803E1B1C *)this)[fa[1]].y; qa[1].z = ((Vec_803E1B1C *)this)[fa[1]].z;
+        qa[2].x = ((Vec_803E1B1C *)this)[fa[2]].x; qa[2].y = ((Vec_803E1B1C *)this)[fa[2]].y; qa[2].z = ((Vec_803E1B1C *)this)[fa[2]].z;
+        qa[3].x = ((Vec_803E1B1C *)this)[fa[3]].x; qa[3].y = ((Vec_803E1B1C *)this)[fa[3]].y; qa[3].z = ((Vec_803E1B1C *)this)[fa[3]].z;
         for (j = 0; j < 6; j++) {
             fb = faces.v[j];
             qb[0].x = boxB[fb[0]].x; qb[0].y = boxB[fb[0]].y; qb[0].z = boxB[fb[0]].z;

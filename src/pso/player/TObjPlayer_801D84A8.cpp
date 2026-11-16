@@ -32,7 +32,6 @@ u32 get_item_field_6__10TObjPlayerFPv(void *);
 s32 weapon_has_extra_attack(u32);
 int check_flag_100__10TObjPlayerFPv(void *p);
 s32 validate_and_clear_slot__10TObjPlayerFv(void *, s32);
-void *set_mode_and_refresh_object__10TObjPlayerFPvi(void *, TItemData_801D8044 *);
 s32 TObjPlayer__sub_801AF694(void *, s32);
 u16 get_entity_id(void *);
 s32 TWindowCtrl__sub_8024A228(s32);
@@ -229,7 +228,7 @@ bool can_use_palette_action__10TObjPlayerFPvUcUc(TObjPlayer_801D8044 *self, u8 k
             break;
         }
         if (arg < 0xd || arg > 0x10) {
-            if (set_mode_and_refresh_object__10TObjPlayerFPvi(self->fd00, &item) == 0) {
+            if (((TObjPlayer *)((void *)self->fd00))->set_mode_and_refresh_object((s32)&item) == 0) {
                 return 0;
             }
         } else {
@@ -313,7 +312,7 @@ u8 *TObjPlayer__sub_801D84B0(s32 *arg0) {
     return (u8 *)arg0 + 0x14;
 }
 
-u32 advance_item_id_counter(s32 client);
+u32 advance_item_id_counter(u16 client);
 void equip_saved_item_if_slot_empty__10TObjPlayerFPvPv(u8 *arg0, u8 *arg1);
 
 int TObjPlayer::bswap_disp_config_field() { return bswap_16__FPUs((char*)this + 0x2); }

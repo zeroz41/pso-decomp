@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/object/TObjLiveMonitorSmall.h"
+#include "pso/unk/text_8020BFE4.h"
 #include "pso/object/TObjLiveMonitor.h"
 #include "types.h"
 #include "pso/player/TObjPlayer.h"
@@ -17,6 +18,7 @@
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/math/AngleLookup.h"
 #include <stdlib.h>
+#include "pso/system/task/TObject.h"
 
 #pragma defer_codegen on
 
@@ -27,15 +29,12 @@ s32 TObjLiveMonitor__sub_8030C050(void* p);
 s32 draw_ginja_model(void *);
 s32 get_bml_model(s32, s32);
 s32 is_split_screen();
-void *__nw__7TObjectFUl(s32);
 extern s32 __vt__20TObjLiveMonitorSmall[];
 s32 live_monitor_shared_resource;
 s32 live_camera_controller_next_slot;
 s32 TObjLiveCameraCtrl__instances;
 s32 live_monitor_small_spawned_flag;
 u8 TObjLiveMonitorSmall__fish_spawned_flag;
-}
-extern "C" {
 const char *bm_obj_boss8_monitor_model_names[4] = {
     "fe_obj_monitor_sho.gj",
     "fe_obj_monitor_dai.gj",
@@ -54,29 +53,21 @@ const char *TObjLiveMonitorSmall__name = "TObjLiveMonitorSmall";
 /* TObjLiveCameraCtrl: model ids passed to fn_800832EC, indexed by its f4c */
 const s32 lbl_804757E0[2] = { 0xF44E8, 0xF44E9 };
 extern "C" {
-s32 push_matrix();
 s32 draw_ginja_object(int);
-s32 TObjFish__sub_8001EDB0(s32, s32);
+s32 get_bml_texlist(s32, s32);
 s32 __ct__7TObjectFP7TObject();
 extern s32 __vt__15TObjLiveMonitor[];
 }
-struct RecoveredGlobal_8030B708___vt__14TObjLiveCamera {
-    s32 value;
-    u8 remaining[0x30];
-};
 extern "C" {
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-s32 __ct__8TObjBaseFP7TObject(void *, void *);
-extern s32 __vt__14TObjLiveCamera[];
 int free_bin_model_request(void*, void*);
 extern void *tl_05;
-typedef char RecoveredGlobal_8030B708___vt__14TObjLiveCamera_size[sizeof(RecoveredGlobal_8030B708___vt__14TObjLiveCamera) == 0x34 ? 1 : -1];
 int update_single_screen__11TCameraCtrlFv(void*);
 int get_global_part_count__12TBoss8DragonFl(void*);
 s32 angle_diff_s16(int);
-u8 *get_player_by_client_id(s32);
-u32 TBoss8Dragon__sub_802F3348(int);
-s32 TBoss8Dragon__sub_802FCCBC(int);
+void *get_player_by_client_id(s32 i);
+s32 TBoss8Dragon__sub_802F3348(s32 arg0);
+s32 TBoss8Dragon__sub_802FCCBC(TBoss8Dragon *boss8_dragon);
 f32 calc_random_ratio__10TObjPlayerFv(void *);
 void TObjPlayer__sub_80082CBC(void *effect);
 void TObjPlayer__sub_80082CCC(void *effect);
@@ -102,7 +93,6 @@ s32 get_current_floor();
 void subtractive_rng_seed(void *, s32);
 s32 __ct__14SubtractiveRngFv(void *);
 u8 *fn_800832EC(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0);
-s32 is_room_enemy_set_cleared(s32 floor, s16 room);
 extern s32 tl_particlemodel;
 s32 memset(s32 *, s32, s32);
 }
@@ -160,7 +150,7 @@ TObjLiveCameraCtrl::TObjLiveCameraCtrl(TObject *parent) : TObject(parent) {
         ((Cam_8030BED4 *)this)->f40[1] = 155.0f;
         ((Cam_8030BED4 *)this)->f40[2] = (-7.2e+02f);
     }
-    p = __nw__7TObjectFUl(0x3C);
+    p = TObject::operator new(0x3C);
     if (p != 0) {
         p = fn_800832EC((u8 *)p, (s32)tl_particlemodel, (s32)lbl_804757E0[((Cam_8030BED4 *)this)->f4c], (s32)(((Cam_8030BED4 *)this)->f34), (s32)(((Cam_8030BED4 *)this)->f40), 0.5f);
     }
@@ -180,7 +170,7 @@ void TObjLiveCameraCtrl::run_task() {
     }
 }
 
-extern "C" {
+
 void TObjLiveCameraCtrl::update_toggle_state() {
     if ((s32) slot_index >= TBoss8Dragon__sub_802F3638()) {
         if ((s32) pad_20 == 1) {
@@ -246,7 +236,7 @@ void TObjLiveCameraCtrl::update_live_camera() {
         break;
     case 5:
         boss8_dragon = TBoss8Dragon__sub_802F3348(0);
-        if ((boss8_dragon != 0U) && (TBoss8Dragon__sub_802FCCBC(boss8_dragon) != 0)) {
+        if ((boss8_dragon != 0U) && (TBoss8Dragon__sub_802FCCBC((TBoss8Dragon *)boss8_dragon) != 0)) {
             this->pad_1e = 0;
         }
         break;
@@ -290,7 +280,7 @@ void TObjLiveCameraCtrl::choose_next_camera_shot() {
     case 2:
         this->pad_1e = 1.8e+02f * (r = calc_random_ratio__10TObjPlayerFv(this->rng), r) + 1.8e+02f;
         *(u16 *)((s8 *)arg0 + 0x24) = ((int (*)(void *))TBoss8Dragon__sub_8030B80C)(arg0);
-        p = get_player_by_client_id(*(u16 *)((s8 *)arg0 + 0x24));
+        p = (u8 *)get_player_by_client_id(*(u16 *)((s8 *)arg0 + 0x24));
         if (p != NULL) {
             this->m_28 = *(s32 *)((s8 *)p + 0x60) - 0x8000;
         }
@@ -352,19 +342,13 @@ void fn_8030B7B8(void) {  }
 void fn_8030B7B4(void) {  }
 
 void *TObjLiveCamera__create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0x90);
-    if (o != NULL) {
-        o = TObjLiveCamera__ct((u8 *)o, (s32)tl_05, (s32)arg0);
-    }
+    void *o = (void *)new TObjLiveCamera((s32)tl_05, (s32)arg0);
     return o;
 }
 
-u8 *TObjLiveCamera__ct(u8 *live_camera, s32 parent, s32 arg2) {
-    __ct__8TObjBaseFP7TObject((void *)live_camera, (void *)parent);
-    *(s32 **)((s8 *)live_camera + 0x18) = &(*(RecoveredGlobal_8030B708___vt__14TObjLiveCamera *)&__vt__14TObjLiveCamera).value;
-    *(s32 *)((s8 *)live_camera + 0) = (s32) TObjLiveCamera__class_name;
-    ((TObjLiveCamera *)(live_camera))->apply_object_set_data((void *)arg2);
-    return live_camera;
+TObjLiveCamera::TObjLiveCamera(s32 parent, s32 arg2) : TObjBase((TObject *)((void *)parent)) {
+    *(s32 *)((s8 *)this + 0) = (s32) TObjLiveCamera__class_name;
+    ((TObjLiveCamera *)(((u8 *)this)))->apply_object_set_data((void *)arg2);
 }
 
 TObjLiveCamera::~TObjLiveCamera() {}
@@ -387,7 +371,7 @@ void TObjLiveCamera::load_static_resource() {
 void TObjLiveCamera::free_static_resource() { free_bin_model_request((void*)live_monitor_shared_resource, (void*)1); }
 
 void *TObjLiveMonitor::create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0x2C);
+    void *o = TObject::operator new(0x2C);
     if (o != NULL) {
         o = ((void *(*)(void *, void *))__ct__15TObjLiveMonitorFv)(o, arg0);
     }
@@ -399,17 +383,16 @@ void *__ct__15TObjLiveMonitorFv(void *arg0) {
     *(s32 **)((s8 *)arg0 + 0x18) = (s32 *)__vt__15TObjLiveMonitor;
     *(s32 *)((s8 *)arg0 + 0) = (s32) TObjLiveMonitor__name;
     *(s32 *)((s8 *)arg0 + 0x1C) = get_bml_model(live_monitor_shared_resource, 1);
-    *(s32 *)((s8 *)arg0 + 0x20) = TObjFish__sub_8001EDB0(live_monitor_shared_resource, 0);
+    *(s32 *)((s8 *)arg0 + 0x20) = get_bml_texlist(live_monitor_shared_resource, 0);
     *(s32 *)((s8 *)arg0 + 0x24) = 5;
-    *(s32 *)((s8 *)arg0 + 0x28) = 0;
+    ((TObjLiveMonitor *)arg0)->camera_timer = 0;
     return arg0;
 }
 
-}
 TObjLiveMonitor::~TObjLiveMonitor() {}
 
-extern "C" {
-int run_task__15TObjLiveMonitorFv(void* p) { return ((int (*)(void *))fn_8030B370)(p); }
+
+int run_task__15TObjLiveMonitorFv(void* p) { return ((int (*)(void *))sub_8030B370__15TObjLiveMonitorFv)(p); }
 
 void render__15TObjLiveMonitorFv(TObjLiveMonitor *live_monitor) {
     s32 table_entry;
@@ -428,17 +411,17 @@ void render__15TObjLiveMonitorFv(TObjLiveMonitor *live_monitor) {
 
 #pragma push
 #pragma fp_contract on
-void fn_8030B370(TObjLiveMonitor *o) {
+void TObjLiveMonitor::sub_8030B370() {
     f32 r;
-    if (o->camera_timer >= 0) {
-        if (--o->camera_timer <= 0) {
+    if (this->camera_timer >= 0) {
+        if (--this->camera_timer <= 0) {
             if (is_split_screen() != 0) {
-                o->camera_index = (u32)(3.0f * (3.0517578e-05f * (f32)rand()) + 1.0f);
+                this->camera_index = (u32)(3.0f * (3.0517578e-05f * (f32)rand()) + 1.0f);
             } else {
-                o->camera_index = (u32)(5.0f * (3.0517578e-05f * (f32)rand()));
+                this->camera_index = (u32)(5.0f * (3.0517578e-05f * (f32)rand()));
             }
             r = 3.0517578e-05f * (f32)rand();
-            o->camera_timer = (s32)(300.0f * r + 300.0f);
+            this->camera_timer = (s32)(300.0f * r + 300.0f);
         }
     }
 }
@@ -501,7 +484,7 @@ s32 TObjLiveMonitorSmall::spawn_for_each_fish() {
     var_r31 = *(void **)((s8 *)(get_bml_model(live_monitor_shared_resource, 0)) + 0x2C);
     while (var_r31 != NULL) {
         if (live_monitor_small_spawned_flag != 0) {
-            obj = __nw__7TObjectFUl(0x2C);
+            obj = TObject::operator new(0x2C);
             if (obj != NULL) {
                 __ct__20TObjLiveMonitorSmallFv((void *)obj, (void *)arg0, (void *)var_r31);
             }
@@ -521,8 +504,7 @@ void *__ct__20TObjLiveMonitorSmallFv(void *live_monitor_small, void *arg1, void 
 
 TObjLiveMonitorSmall::~TObjLiveMonitorSmall() {}
 
-void TObjLiveMonitorSmall::run_task() { fn_8030B370(this); }
+void TObjLiveMonitorSmall::run_task() { sub_8030B370__15TObjLiveMonitorFv(this); }
 
 void TObjLiveMonitorSmall::render() { this->render_live_monitor_screen(); }
 
-}

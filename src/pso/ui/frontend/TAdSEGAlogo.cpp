@@ -43,20 +43,18 @@ const char *TAdSEGAlogo__class_name = "TAdSEGAlogo";
 
 struct Obj_8001BFCC { u8 pad[0x1c]; s32 f1c; };
 
-extern "C" {
-s32 render_logo_with_default(void *, int, int, f32);
+int render_logo_with_default(void *p, int a1, int a2, f32 a3);
 extern void* logo_texture_e_handle;
 extern int TAdSEGAlogo__state;
 extern void *tl_00;
-void *__nw__7TObjectFUl(u32 size);
+extern "C" {
 int queue_destruction__7TObjectFv(void);
+}
 
     extern int sega_logo_done_flag;
 void TAdSEGAlogo::destroy_and_mark_done() { queue_destruction__7TObjectFv(); sega_logo_done_flag = 1; }
 
 void TAdSEGAlogo::request_destroy() { queue_destruction__7TObjectFv(); TAdSEGAlogo__state = 1; }
-
-}
 
 void TAdSEGAlogo::render() {
     render_logo_with_default(logo_texture_e_handle, 8, -1, -150.0f);
@@ -70,7 +68,7 @@ void TAdSEGAlogo::run_task() {
         if ((f32)++self->f1c > 60.0f) {
             void *p;
             TAdSEGAlogo__state = 2;
-            p = __nw__7TObjectFUl(0x28);
+            p = TObject::operator new(0x28);
             if (p != 0) {
                 ((THunterGuildSeqOffline *)p)->init(tl_00, (void *)TAdSEGAlogo::destroy_and_mark_done);
             }
@@ -100,7 +98,7 @@ void *__ct__11TAdSEGAlogoFv(void *ad_seg_alogo) {
     TAdSEGAlogo__state = 0;
     sega_logo_done_flag = 0;
     TAdSinglePlyChrSelectGC::init_logo_state(0);
-    o = __nw__7TObjectFUl(0x28);
+    o = TObject::operator new(0x28);
     if (o != NULL) {
         ((TLobby *)o)->init_fade(tl_00, request_destroy__11TAdSEGAlogoFv);
     }

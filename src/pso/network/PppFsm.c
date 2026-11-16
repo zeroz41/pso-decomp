@@ -175,13 +175,13 @@ static inline s16 read_packet_header(Hdr_803FC4B4 *dst, void *src, s32 with_ext)
     if (dst == 0) {
         return -1;
     }
-    if (TLobby__sub_80401BCC(src, buf, 4) < 4) {
+    if (ppp_buffer_read(src, buf, 4) < 4) {
         return -1;
     }
     dst->type = buf[0];
     dst->flag = buf[1];
     dst->len = read_network_u16_be(buf + 2);
-    if (with_ext && TLobby__sub_80401BCC(src, ext, 8) < 8) {
+    if (with_ext && ppp_buffer_read(src, ext, 8) < 8) {
         return -1;
     }
     return 0;
@@ -570,7 +570,7 @@ s32 read_2_bytes(void *self, void *src) {
     if (dst == 0) {
         return -1;
     }
-    if (TLobby__sub_80401BCC(src, buf, 2) < 2) {
+    if (ppp_buffer_read(src, buf, 2) < 2) {
         return -1;
     }
     dst[0] = buf[0];
@@ -583,7 +583,7 @@ s16 TLobby__sub_803FE8BC(u8 *dst, void *src) {
     if (dst == 0) {
         return -1;
     }
-    if (TLobby__sub_80401BCC(src, buf, 4) < 4) {
+    if (ppp_buffer_read(src, buf, 4) < 4) {
         return -1;
     }
     dst[0] = buf[0];
@@ -642,7 +642,7 @@ s32 TLobby__sub_803FEA88(A_80403F4C *out, PppFrame **src) {
     IPv4Header *wire;
 
     wire = &h;
-    if (TLobby__sub_80401BCC(src, wire, 20) != 20) {
+    if (ppp_buffer_read(src, wire, 20) != 20) {
         return 0xFFFF;
     }
     out->version = (h.ver_ihl >> 4) & 0xF;
@@ -676,7 +676,7 @@ s32 TLobby__sub_803FEA88(A_80403F4C *out, PppFrame **src) {
     }
     optlen = hl - 20;
     out->optlen = optlen;
-    if (out->optlen != 0 && TLobby__sub_80401BCC(src, out->opts, out->optlen) < out->optlen) {
+    if (out->optlen != 0 && ppp_buffer_read(src, out->opts, out->optlen) < out->optlen) {
         return 0xFFFF;
     }
     return hl;

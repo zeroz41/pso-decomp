@@ -46,8 +46,6 @@ Obj_8032A574 *TAdMcSelectCursorGC__ct(Obj_8032A574 *arg0, s32 parent);
 void play_sound_effect(s32, s32, s32, s32);
 extern u8 controller_input_state[];
 extern u8 controller_physical_port_bank[];
-s32 __dl__7TObjectFPv(void *);
-s32 __dt__7TObjectFv(void *, s32);
 void restore_saved_depth_alpha_state(void);
 s32 defer_render__7TObjectFv();
 
@@ -163,9 +161,6 @@ Obj_8032A574 *TAdMcSelectCursorGC__ct(Obj_8032A574 *arg0, s32 parent) {
     return arg0;
 }
 
-}
-
-extern "C" {
 s32 release_texture_list(void *, s32);
 u32 __nw__7TObjectFUl(s32);
 
@@ -194,7 +189,7 @@ void TAdMcSelectCursorGC::release_cursor_entry() {
     }
 }
 
-void TAdMcSelectCursorGC::init_resource() { TAdMcSelectCursorGC__texture_entry = (s32)&mc_select_cursor_texture_list; TLobby__sub_8023E4B4((s32)"f256_memorycard_select", (s32)&mc_select_cursor_texture_list); }
+void TAdMcSelectCursorGC::init_resource() { TAdMcSelectCursorGC__texture_entry = (s32)&mc_select_cursor_texture_list; load_streamed_prs_texture((s32)"f256_memorycard_select", (s32)&mc_select_cursor_texture_list); }
 
 s32 TAdMcSelectCursorGC__sub_8032A6D8(void* p) { return *(s32*)((char*)p + 0x1c); }
 

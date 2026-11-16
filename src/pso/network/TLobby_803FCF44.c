@@ -19,7 +19,7 @@ s32 set_flags_and_state(void *self);
 #include "pso/network/PppBuffer.h"
 
 inline s32 chap_rbs_803FC820(PppFrame **src) {
-    if (TLobby__sub_80401BCC(src, &lbl_805D7A98, 1) != 1) {
+    if (ppp_buffer_read(src, &lbl_805D7A98, 1) != 1) {
         return -1;
     }
     return (s16)lbl_805D7A98;
@@ -55,7 +55,7 @@ inline s32 rd_803FCC10(PppFrame **pp) {
         (*pp)->len -= 1;
         return *(*pp)->data++;
     }
-    return (TLobby__sub_80401BCC(pp, &lbl_805D7A98, 1) != 1) ? -1 : (s16)lbl_805D7A98;
+    return (ppp_buffer_read(pp, &lbl_805D7A98, 1) != 1) ? -1 : (s16)lbl_805D7A98;
 }
 void *build_avetcp_net_buffer(Conn_804004DC *c)
 {

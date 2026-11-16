@@ -9,17 +9,16 @@
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/map/FloorArea.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 extern "C" {
 s32 get_file_size__6TLobbyFv(void *);
-s32 is_split_screen();
-s32 TLobby__sub_803CC4C0(s32);
+s32 adxf_get_stat(s32);
 s32 read_checked_align__6TLobbyFlll(s32);
 s32 strcmp(void *, void *);
 s32 strlen(char *);
 s32 strncpy(char *, char *, s32);
 u32 adxf_open__6TLobbyFUii(char *, s32);
-s32 adxf_seek__6TLobbyFPvii(s32, s32, s32);
 extern u8 gstream_sector_buffer[];
 extern GslArchiveEntry gsl_archive_entries[256];
 extern char gsl_archive_filename[32];
@@ -193,7 +192,7 @@ void TGStream::read_sectors_sync(s32 sector_count, s32 destination) {
     read_checked_align__6TLobbyFlll(adxf_handle);
     TLobby::set_read_params(&adxf_handle, (int)sector_count, (int)destination);
 loop_1:
-    if (TLobby__sub_803CC4C0(adxf_handle) != 3) {
+    if (adxf_get_stat(adxf_handle) != 3) {
         TLobby::run_frame();
         goto loop_1;
     }
@@ -256,7 +255,7 @@ void open_gsl_archive(char *name) {
             ((s32 (*)(u32, s32, GslArchiveEntry *))read_checked_align__6TLobbyFlll)(TItemDrop__gsl_adxf_handle, 6, gsl_archive_entries);
             TLobby::set_read_params(&TItemDrop__gsl_adxf_handle, 6, (int)gsl_archive_entries);
             for (;;) {
-                if (((s32 (*)(u32))TLobby__sub_803CC4C0)(TItemDrop__gsl_adxf_handle) == 3) {
+                if (((s32 (*)(u32))adxf_get_stat)(TItemDrop__gsl_adxf_handle) == 3) {
                     break;
                 }
                 TLobby::run_frame();
@@ -285,7 +284,7 @@ void TLobby::read_data_sync(s32 arg0, s32 arg1, s32 arg2) {
     ((s32 (*)())read_checked_align__6TLobbyFlll)();
     TLobby::set_read_params(&sp8, (int)arg1, (int)arg2);
 loop_1:
-    if (TLobby__sub_803CC4C0(sp8) != 3) {
+    if (adxf_get_stat(sp8) != 3) {
         TLobby::run_frame();
         goto loop_1;
     }
@@ -365,7 +364,7 @@ TGStream::TGStream(void *file, s32 direct_read_mode) {
     archive_entry = find_gsl_entry(file, 1);
     if (archive_entry != NULL) {
         adxf_handle = (s32)TItemDrop__gsl_adxf_handle;
-        adxf_seek__6TLobbyFPvii(adxf_handle, archive_entry->archive_offset, 0);
+        TLobby::adxf_seek((void *)adxf_handle, (int)(archive_entry->archive_offset), (int)0);
         gstream_file_size = archive_entry->file_size;
         strncpy(name, archive_entry->name, 0x20);
     } else {

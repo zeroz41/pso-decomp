@@ -5,6 +5,7 @@
 #include "pso/object/base/TObjMotion.h"
 
 struct TObjFogCollision : public TObjBase {
+    TObjFogCollision(TObject *parent, void *set);
     virtual ~TObjFogCollision();
     virtual void vfunc_13(s32);
     virtual void vfunc_14();

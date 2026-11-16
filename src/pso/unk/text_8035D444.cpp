@@ -12,9 +12,9 @@ TUnk_804F1EC8::TUnk_804F1EC8(TObject *parent, u8 *item) : TItemWeapon(parent, it
     set_weapon_flags(0x8000);
 }
 
-u8 *alloc_and_init_obj_effect(u8 *arg0) {
-    if (arg0 != NULL) {
-        return (u8 *)new TUnk_804F1EC8(tl_05, arg0);
+u8 *alloc_and_init_obj_effect(u8 *item) {
+    if (item != NULL) {
+        return (u8 *)new TUnk_804F1EC8(tl_05, item);
     }
     return NULL;
 }
