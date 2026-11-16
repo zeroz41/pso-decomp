@@ -89,7 +89,6 @@ s32 free_member__17TWindowSubComCardFv(u8 *, int);
 s32 create_help_item__19TWindowSubTradeMainFv(void *arg0);
 s32 create_input_number__19TWindowSubTradeMainFl(void *arg0, s32 arg1);
 s32 create_list__19TWindowSubTradeMainFv(void *arg0);
-s32 TLobby__sub_802D268C();
 s32 __ct__15TWindowHelpItemFPvUs(s32, s32, s32);
 s32 TWindowHelpItem__set_displayed_item_by_id(u32);
 s32 __ct__18TWindowInputNumberFPvllls(s32, s32, s32, s32, s32, s16);

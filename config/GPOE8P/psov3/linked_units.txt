@@ -2442,7 +2442,6 @@ pso/unk/text_802CE510.cpp
 pso/enemy/mericarol/TObjEneBm9Mericarol_802CE68C.cpp
 pso/unk/text_802D1C84.cpp
 pso/unk/text_802D1D48.cpp
-pso/unk/text_802D23E0.cpp
 pso/unk/text_802E10D8.cpp
 pso/unk/text_802F0E24.cpp
 pso/unk/text_802F0F04.cpp
