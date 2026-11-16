@@ -127,9 +127,9 @@ void TLoadCtrl::run_task() {
     }
 }
 
-u8 *__dt__9TLoadCtrlFv(u8 *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_8001C7A0___vt__9TLoadCtrl *)&__vt__9TLoadCtrl).value;
+u8 *__dt__9TLoadCtrlFv(u8 *object, s16 arg1) {
+    if (object != NULL) {
+        *(s32 **)((s8 *)object + 0x18) = &(*(RecoveredGlobal_8001C7A0___vt__9TLoadCtrl *)&__vt__9TLoadCtrl).value;
         if ((void *) (*(u8 * *)&TLoadCtrl__fade_task) != NULL) {
             ((TObject *)(*(u8 * *)&TLoadCtrl__fade_task))->queue_destruction();
             (*(u8 * *)&TLoadCtrl__fade_task) = NULL;
@@ -137,12 +137,12 @@ u8 *__dt__9TLoadCtrlFv(u8 *arg0, s16 arg1) {
         if ((u32) TLoadCtrl__instance != 0U) {
             TLoadCtrl__instance = 0U;
         }
-        __dt__7TObjectFv(arg0, 0);
+        __dt__7TObjectFv(object, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv((s32) arg0);
+            __dl__7TObjectFPv((s32) object);
         }
     }
-    return arg0;
+    return object;
 }
 
 u8 *TLoadCtrl__ct(TLoadCtrl *load_ctrl, s32 arg1) {

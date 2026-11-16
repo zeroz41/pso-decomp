@@ -17,7 +17,7 @@ void TObjPlayer::build_shop_item_list() {
     s32 sp8;
     s32 temp_r5;
     u32 temp_r30;
-    s32 temp_r3_3;
+    s32 slot_value;
     u8 *player;
     s32 temp_r3_2;
     u32 i;
@@ -31,10 +31,10 @@ void TObjPlayer::build_shop_item_list() {
                 ((TShopJudgmentItemWindow *)((u8 *)this))->add_list_entry(temp_r3_2, spC[i]);
             }
         }
-        temp_r3_3 = TObjPlayer::get_slot_value(player + 0xD04, 6);
-        if (temp_r3_3 != 0) {
+        slot_value = TObjPlayer::get_slot_value(player + 0xD04, 6);
+        if (slot_value != 0) {
             temp_r5 = get_item_id__5TItemFv();
-            ((TShopJudgmentItemWindow *)((u8 *)this))->add_list_entry(temp_r3_3, temp_r5);
+            ((TShopJudgmentItemWindow *)((u8 *)this))->add_list_entry(slot_value, temp_r5);
         }
         if (*(s16 *)((s8 *)((u8 *)this) + 0x72) <= 0) {
             ((TWindowSubStatusDisp *)((u8 *)this))->add_list_entry(-1);

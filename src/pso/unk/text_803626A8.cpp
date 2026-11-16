@@ -113,9 +113,9 @@ u8 *create_s_rank_knuckle(u8 *arg0);
 
 TUnk_804F26E0::~TUnk_804F26E0() {}
 
-u8 *create_s_rank_knuckle(u8 *arg0) {
-    if (arg0 != NULL) {
-        return (u8 *)new TUnk_804F26E0(tl_05, arg0);
+u8 *create_s_rank_knuckle(u8 *item) {
+    if (item != NULL) {
+        return (u8 *)new TUnk_804F26E0(tl_05, item);
     }
     return NULL;
 }

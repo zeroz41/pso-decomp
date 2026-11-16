@@ -237,16 +237,16 @@ void *TWindowStatus__ct(void *window_status, s32 layout_pos, void *arg2, const W
 
 s32 create_status_window(s32 arg0) {
     s32 window_layout_position;
-    s32 temp_r3;
+    s32 window_status;
     s32 var_r0;
     window_layout_position = get_window_layout_position(0x1C);
     if (is_split_screen() != 0) {
         return create__19TWindowSimpleStatusFPv((int)window_layout_position, (void *)arg0);
     }
-    temp_r3 = (s32)TObject::operator new(0x78);
-    var_r0 = temp_r3;
+    window_status = (s32)TObject::operator new(0x78);
+    var_r0 = window_status;
     if (var_r0 != 0) {
-        var_r0 = (s32)TWindowStatus__ct((void *)temp_r3, window_layout_position, (void *)arg0, &status_window_settings);
+        var_r0 = (s32)TWindowStatus__ct((void *)window_status, window_layout_position, (void *)arg0, &status_window_settings);
     }
     return var_r0;
 }

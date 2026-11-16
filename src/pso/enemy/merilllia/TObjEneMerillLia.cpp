@@ -1747,16 +1747,16 @@ void TObjEneMerillLia__sub_800D4EC8(s32 arg0) {
     play_sound_effect((void *) (((TObjEnemy *)((void *)arg0))->remap_sound_for_area(0x3AD04)), (void *)(arg0 + 0x38), 0, 0);
 }
 
-void spawn_ground_effect__16TObjEneMerillLiaFPv(u8 *arg0) {
+void spawn_ground_effect__16TObjEneMerillLiaFPv(u8 *motion) {
     typedef char sp8_offset[(offsetof(Stack_800D4D74, sp8) == 0x0) ? 1 : -1];
     typedef char spC_offset[(offsetof(Stack_800D4D74, spC) == 0x4) ? 1 : -1];
     Stack_800D4D74 stack;
     s32 temp_r29;
     s32 particle_effect;
     u8 *temp_r3;
-    VecCopy((Vec *)&stack.sp8, (const Vec *)(arg0 + 0x38));
+    VecCopy((Vec *)&stack.sp8, (const Vec *)(motion + 0x38));
     stack.spC += 15.0f;
-    temp_r3 = (u8 *)(csnVectorUnder((s32)&stack.sp8, (u32 *)(arg0 + 0x120), 5));
+    temp_r3 = (u8 *)(csnVectorUnder((s32)&stack.sp8, (u32 *)(motion + 0x120), 5));
     if ((temp_r3 != NULL) && (*(s32 *)((s8 *)temp_r3 + 0) & 4)) {
         if (((s32) ((f32) actor_frame_tick * (3.0517578125e-05f * (f32) rand())) % 5) == 0) {
             particle_effect = (s32)spawn_particle_effect((void *)(*(s32 *)((s8 *)temp_r3 + 4) + 0x38), 0x49);
@@ -1765,8 +1765,8 @@ void spawn_ground_effect__16TObjEneMerillLiaFPv(u8 *arg0) {
             }
             spawn_particle_effect((void *)(*(s32 *)((s8 *)temp_r3 + 4) + 0x38), 0xA4);
         }
-        if ((((TObjMotion *)arg0)->is_passing_frame(7.0f) != 0) || (((TObjMotion *)arg0)->is_passing_frame(22.0f) != 0)) {
-            fn_800D88E4((arg0 + 0x38));
+        if ((((TObjMotion *)motion)->is_passing_frame(7.0f) != 0) || (((TObjMotion *)motion)->is_passing_frame(22.0f) != 0)) {
+            fn_800D88E4((motion + 0x38));
         }
     }
 }

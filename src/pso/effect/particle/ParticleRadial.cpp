@@ -507,4 +507,4 @@ u8 *TParticleCtrl::init_random_particle(u8 *arg1, u8 *arg2, s32 arg3) {
 }
 #pragma pop
 
-void destroy_keyboard_objects(void * _w0) { ((TObject *)_w0)->queue_destruction(); TKeyBoardControl__sub_8000F91C(2); TKeyBoardControl__sub_8000F9CC(18); TLobby::stop_audio_streams(); stop_cue_stream(); }
+void destroy_keyboard_objects(void * object) { ((TObject *)object)->queue_destruction(); TKeyBoardControl__sub_8000F91C(2); TKeyBoardControl__sub_8000F9CC(18); TLobby::stop_audio_streams(); stop_cue_stream(); }

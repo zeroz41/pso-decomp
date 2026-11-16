@@ -43,36 +43,36 @@ void TWindowSubShortCutList::refresh_entries() {
     s32 *chat_shortcut;
     s32 temp_r0;
     s32 var_r30;
-    s32 var_r29;
+    s32 index;
     save_cursor_selection__20TShopArmorListWindowFv();
     reset_list();
-    var_r29 = ((TWindowSubStatusDisp *)this->m_88)->get_type();
+    index = ((TWindowSubStatusDisp *)this->m_88)->get_type();
     var_r30 = 0;
-    var_r29 *= 4;
+    index *= 4;
     do {
-        chat_shortcut = (s32 *)get_chat_shortcut(var_r29);
+        chat_shortcut = (s32 *)get_chat_shortcut(index);
         switch (*chat_shortcut) {
         case 0:
-            draw_entry(var_r29, 0x33, 0, var_r29);
+            draw_entry(index, 0x33, 0, index);
             break;
         case 1:
             temp_r0 = (s32)fn_80076BC4(chat_shortcut + 1);
-            draw_entry(var_r29, 0x12, temp_r0, var_r29);
+            draw_entry(index, 0x12, temp_r0, index);
             break;
         case 2:
             TWindowDD::format_message(chat_shortcut + 1, (void *)get_shared_text_buffer(), (u16) local_client_id);
-            draw_entry(var_r29, 0x10, (s32)get_shared_text_buffer(), var_r29);
+            draw_entry(index, 0x10, (s32)get_shared_text_buffer(), index);
             break;
         case 3:
             TWindowChat::open_symbol_chat(chat_shortcut + 1);
             {
                 s32 d = get_symbol_chat_data__20TWindowSubSymbolChatFv();
-                draw_entry(var_r29, 0x11, d, var_r29);
+                draw_entry(index, 0x11, d, index);
             }
             break;
         }
         var_r30 += 1;
-        var_r29 += 1;
+        index += 1;
     } while (var_r30 < 4);
     ((TShopArmorListWindow *)this)->clamp_selection_to_valid_entry();
 }
@@ -109,16 +109,16 @@ void TWindowSubShortCutList::run_task() {
     }
 }
 
-void *__dt__22TWindowSubShortCutListFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__22TWindowSubShortCutList;
-        delete_if_allocated((s32)(*(void **)((s8 *)arg0 + 0x88)), 1);
-        ((TWindowSubStatusDisp *)arg0)->destroy_item_list_resources(0);
+void *__dt__22TWindowSubShortCutListFv(void *window_sub_status_disp, s16 arg1) {
+    if (window_sub_status_disp != NULL) {
+        *(s32 **)((s8 *)window_sub_status_disp + 0x18) = __vt__22TWindowSubShortCutList;
+        delete_if_allocated((s32)(*(void **)((s8 *)window_sub_status_disp + 0x88)), 1);
+        ((TWindowSubStatusDisp *)window_sub_status_disp)->destroy_item_list_resources(0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(window_sub_status_disp);
         }
     }
-    return arg0;
+    return window_sub_status_disp;
 }
 void *TWindowSubShortCutList__ct(void *window_sub_short_cut_list, void *arg1, void *arg2) {
     s32 row;

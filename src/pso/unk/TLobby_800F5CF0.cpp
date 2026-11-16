@@ -22,7 +22,7 @@ extern s32 plist_strip_write_ptr;
 extern s32 plist_strip_uv_write_ptr;
 extern s32 plist_texture_matches_filter;
 
-void *TLobby::alloc_tables(s32 arg1, s32 arg2) {
+void *TLobby::alloc_tables(s32 ctx, s32 arg2) {
     s32 temp_r6;
 
     *(s32 *)&this->m_flags = 0;
@@ -35,7 +35,7 @@ void *TLobby::alloc_tables(s32 arg1, s32 arg2) {
     temp_r6 = *(s32 *)&this->m_next;
     plist_strip_uv_write_ptr = temp_r6;
     plist_texture_matches_filter = 0;
-    collect_model_strips_by_texture(this, arg1, arg2, temp_r6);
+    collect_model_strips_by_texture(this, ctx, arg2, temp_r6);
     return this;
 }
 void TObjEnemy::clear_lobby_object_state() {

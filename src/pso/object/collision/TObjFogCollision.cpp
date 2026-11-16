@@ -223,10 +223,10 @@ void TObjFogCollision::draw_volume() {
     }
 }
 
-void *TObjFogCollisionSwitch__create(void *arg0) {
+void *TObjFogCollisionSwitch__create(void *set) {
     void *o = __nw__7TObjectFUl(0x98);
     if (o != NULL) {
-        o = TObjFogCollisionSwitch__ct(o, tl_05, arg0);
+        o = TObjFogCollisionSwitch__ct(o, tl_05, set);
     }
     return o;
 }
@@ -297,20 +297,20 @@ void *create__22TObjFogCollisionPoisonFPv(void *arg0) {
     return o;
 }
 
-void *TObjFogCollisionPoison__ct(void *arg0, void *arg1, void *arg2) {
+void *TObjFogCollisionPoison__ct(void *parent, void *arg1, void *set) {
     u16 i;
-    TObjFogCollisionSwitch__ct(arg0, arg1, arg2);
-    *(s32 **)((s8 *)arg0 + 0x18) = __vt__22TObjFogCollisionPoison;
-    ((TObject *)arg0)->m_name = TObjFogCollisionPoison__name;
-    ((VObj_801537CC *)arg0)->m11();
+    TObjFogCollisionSwitch__ct(parent, arg1, set);
+    *(s32 **)((s8 *)parent + 0x18) = __vt__22TObjFogCollisionPoison;
+    ((TObject *)parent)->m_name = TObjFogCollisionPoison__name;
+    ((VObj_801537CC *)parent)->m11();
     if (is_split_screen() != 0) {
         for (i = 0; i != 4; i++) {
-            new TUnk_804AF7B0((TObject *)arg0, i);
+            new TUnk_804AF7B0((TObject *)parent, i);
         }
     } else {
-        new TUnk_804AF7B0((TObject *)arg0, local_client_id);
+        new TUnk_804AF7B0((TObject *)parent, local_client_id);
     }
-    return arg0;
+    return parent;
 }
 
 
@@ -416,10 +416,10 @@ void TObjFogCollisionPoison::apply_poison_damage(s32 arg1) {
 }
 
 u8 TObjFogCollisionPoison::check_switch() {
-    s32 temp_r31;
+    s32 switch_mode;
 
-    temp_r31 = get_switch_mode();
-    return (u8) (temp_r31 == is_current_floor_switch_set((u16) this->set_params[2]));
+    switch_mode = get_switch_mode();
+    return (u8) (switch_mode == is_current_floor_switch_set((u16) this->set_params[2]));
 }
 
 void TObjFogCollisionPoison::vfunc_14() {
@@ -471,12 +471,12 @@ void TObjFogCollision_Manager::record_hit(s32 level, s32 link) {
     }
 }
 
-void record_fog_collision_hit(s32 arg0, s32 arg1, s32 arg2) {
+void record_fog_collision_hit(s32 arg0, s32 level, s32 link) {
     TObjFogCollision_Manager *manager;
     if ((arg0 >= 0) && (arg0 < 0xC)) {
         manager = TObjFogCollisionPoison__instances[arg0];
         if (manager != 0) {
-            manager->record_hit(arg1, arg2);
+            manager->record_hit(level, link);
         }
     }
 }

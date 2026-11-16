@@ -519,7 +519,7 @@ void *__vt__18TObjEneRe4Sorcerer[107] = {
 #define __vt__18TObjEneRe4Sorcerer ((s32 *)__vt__18TObjEneRe4Sorcerer)
 
 void TObjEneRe4Sorcerer::render() {
-    s32 var_r30;
+    s32 camera_mode;
     s32 temp_r31;
     s32 var_r28;
     s32 var_r27;
@@ -527,13 +527,13 @@ void TObjEneRe4Sorcerer::render() {
         vfunc_106();
         return;
     }
-    var_r30 = 0;
+    camera_mode = 0;
     if (is_split_screen() != 0) {
-        var_r30 = TCameraCtrl::get_camera_mode();
+        camera_mode = TCameraCtrl::get_camera_mode();
     }
-    var_r30 = (s32)&fades[var_r30];
-    ((RenderFadeState *)var_r30)->update();
-    temp_r31 = ((RenderFadeState *)var_r30)->updateFromCamera(&m_2fc);
+    camera_mode = (s32)&fades[camera_mode];
+    ((RenderFadeState *)camera_mode)->update();
+    temp_r31 = ((RenderFadeState *)camera_mode)->updateFromCamera(&m_2fc);
     if (!(m_3c8 & 2)) {
         var_r28 = 0;
     } else if (TObjEneDD::is_main_phase_15() != 0) {
@@ -562,7 +562,7 @@ void TObjEneRe4Sorcerer::render() {
                 var_r27 = 0;
             }
         } else if (temp_r31 != 0) {
-            ((RenderFadeState *)var_r30)->set_flags_and_apply_damage_color();
+            ((RenderFadeState *)camera_mode)->set_flags_and_apply_damage_color();
             if (defer_render() != 0) {
                 var_r27 = 0;
             }
@@ -590,7 +590,7 @@ void TObjEneRe4Sorcerer::render() {
         if (m_3c8 & 4) {
             fade.clear_flag_and_notify();
         } else if (temp_r31 != 0) {
-            ((RenderFadeState *)var_r30)->clear_flag_and_notify();
+            ((RenderFadeState *)camera_mode)->clear_flag_and_notify();
         }
         model_render_flags = saved_model_render_flags;
         update_primary_light();
@@ -679,7 +679,7 @@ void TObjEneRe4Sorcerer__sub_800EE0F8(TObjEneRe4Sorcerer *self, s32 arg1) {
 
 void TObjEneRe4Sorcerer__sub_800EE1CC(TObjEneRe4Sorcerer *self, s32 arg1) {
     s32 temp_r0;
-    s32 var_r3;
+    s32 state;
     TObjEneRe4Bit *bit;
 
     bit = (TObjEneRe4Bit *)find_entity_by_id(self->bit_ids[1]);
@@ -744,11 +744,11 @@ void TObjEneRe4Sorcerer__sub_800EE1CC(TObjEneRe4Sorcerer *self, s32 arg1) {
         case 3:
             if ((self->frame >= 11.0f) && (temp_r0 == 3)) {
                 if (bit != NULL) {
-                    var_r3 = bit->get_state();
+                    state = bit->get_state();
                 } else {
-                    var_r3 = 3;
+                    state = 3;
                 }
-                switch (var_r3) {
+                switch (state) {
                 case 2:
                     self->m_4e8 = 2;
                     self->cast_resta();
@@ -875,7 +875,7 @@ void TObjEneRe4Sorcerer::update_state_machine(s32 reason) {
 
 void TObjEneRe4Sorcerer__sub_800EE7DC(TObjEneRe4Sorcerer *self, s32 arg1) {
     s32 temp_r0;
-    s32 var_r3;
+    s32 state;
     TObjEneRe4Bit *bit;
     bit = (TObjEneRe4Bit *)find_entity_by_id(self->bit_ids[0]);
     switch (arg1) {
@@ -936,11 +936,11 @@ void TObjEneRe4Sorcerer__sub_800EE7DC(TObjEneRe4Sorcerer *self, s32 arg1) {
         case 3:
             if ((self->frame >= 11.0f) && (temp_r0 == 3)) {
                 if (bit != NULL) {
-                    var_r3 = bit->get_state();
+                    state = bit->get_state();
                 } else {
-                    var_r3 = 3;
+                    state = 3;
                 }
-                switch (var_r3) {
+                switch (state) {
                 case 2:
                     self->m_4e8 = 2;
                     self->cast_technique();
@@ -1222,16 +1222,16 @@ void TObjEneRe4Sorcerer::create_effect() {
 }
 
 s32 TObjEneRe4Sorcerer::cast_resta() {
-    Vec *var_r31;
+    Vec *spell_data;
 
     if (m_390->is_alive() != 0) {
         TObjEneRe4Bit *bit = (TObjEneRe4Bit *)find_entity_by_id(bit_ids[0]);
         if (bit != NULL) {
-            var_r31 = bit->get_spell_data();
+            spell_data = bit->get_spell_data();
         } else {
-            var_r31 = &position;
+            spell_data = &position;
         }
-        TTecResta::create(this, var_r31, (void *)TObjEneDD::clamp_frame_index(sorcerer_behavior_params[8]));
+        TTecResta::create(this, spell_data, (void *)TObjEneDD::clamp_frame_index(sorcerer_behavior_params[8]));
         return 1;
     }
     return 0;
@@ -1577,26 +1577,26 @@ void TObjEneRe4Sorcerer::run_task() {
     vfunc_100();
 }
 
-TObjEneRe4Sorcerer *__dt__18TObjEneRe4SorcererFv(TObjEneRe4Sorcerer *arg0, s16 arg1) {
+TObjEneRe4Sorcerer *__dt__18TObjEneRe4SorcererFv(TObjEneRe4Sorcerer *ene_re4_sorcerer, s16 arg1) {
     s32 i;
     void *p;
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__18TObjEneRe4Sorcerer;
+    if (ene_re4_sorcerer != NULL) {
+        *(s32 **)((s8 *)ene_re4_sorcerer + 0x18) = __vt__18TObjEneRe4Sorcerer;
         for (i = 0; i < 2; i++) {
-            if ((p = find_entity_by_id(arg0->bit_ids[i])) != NULL) {
+            if ((p = find_entity_by_id(ene_re4_sorcerer->bit_ids[i])) != NULL) {
                 queue_destruction__7TObjectFv(p);
             }
-            arg0->bit_ids[i] = 0xFFFF;
+            ene_re4_sorcerer->bit_ids[i] = 0xFFFF;
         }
-        free_collision_body_parts(arg0);
-        __destroy_arr(arg0->fades, __dt__15RenderFadeStateFv, sizeof(RenderFadeState), 4);
-        __dt__13TUnk_80490470Fv(&arg0->fade, -1);
-        __dt__12TObjEneDD_STFv(arg0, 0);
+        free_collision_body_parts(ene_re4_sorcerer);
+        __destroy_arr(ene_re4_sorcerer->fades, __dt__15RenderFadeStateFv, sizeof(RenderFadeState), 4);
+        __dt__13TUnk_80490470Fv(&ene_re4_sorcerer->fade, -1);
+        __dt__12TObjEneDD_STFv(ene_re4_sorcerer, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(ene_re4_sorcerer);
         }
     }
-    return arg0;
+    return ene_re4_sorcerer;
 }
 
 #pragma push
@@ -1655,14 +1655,14 @@ void TObjEneRe4Sorcerer::init_enemy() {
 }
 #pragma pop
 
-TObjEneRe4Sorcerer *TObjEneRe4Sorcerer__ct(TObjEneRe4Sorcerer *self, void *arg1, void *arg2) {
+TObjEneRe4Sorcerer *TObjEneRe4Sorcerer__ct(TObjEneRe4Sorcerer *self, void *arg1, void *set_data) {
     __ct__12TObjEneDD_STFP7TObject(self);
     *(s32 **)((s8 *)self + 0x18) = __vt__18TObjEneRe4Sorcerer;
     __ct__13TUnk_80490470Fv(&self->fade);
     ((TObjPlayer *)&self->targets)->construct_target_cursor_records();
     __construct_array(self->fades, __ct__15RenderFadeStateFv, __dt__15RenderFadeStateFv, sizeof(RenderFadeState), 4);
     self->m_name = TObjEneRe4Sorcerer__name;
-    ((TObjEneDD *)self)->invoke_initialization_hook(arg2);
+    ((TObjEneDD *)self)->invoke_initialization_hook(set_data);
     ((void (*)(void *))TObjEneRe4Sorcerer__sub_800EFE30)(self);
     self->init_enemy();
     return self;

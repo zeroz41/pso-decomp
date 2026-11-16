@@ -127,9 +127,9 @@ struct Obj_802181B0 { u8 pad[0x20]; u32 state; };
 extern s32 __vt__16TQuestListOnline[];
 struct VOff_80218310_arg0 { char pad_0[0x4C]; char f_4C[1]; };
 
-void *TQuestListOnline__ct(TQuestListOnline *quest_list_online, void *arg1, void *arg2, void *arg3) {
+void *TQuestListOnline__ct(TQuestListOnline *quest_list_online, void *parent, void *arg2, void *arg3) {
     struct VOff_80218310_arg0 *self = (struct VOff_80218310_arg0 *)quest_list_online;
-    __ct__15TShopWindowBaseFP7TObject(quest_list_online, (TObject *)arg1);
+    __ct__15TShopWindowBaseFP7TObject(quest_list_online, (TObject *)parent);
     *(s32 **)((s8 *)quest_list_online + 0x18) = __vt__16TQuestListOnline;
     __ct__13GameListEntryFv((s32)self->f_4C);
     quest_list_online->m_name = TQuestListOnline__class_name;

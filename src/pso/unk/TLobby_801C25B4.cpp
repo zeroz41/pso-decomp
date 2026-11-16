@@ -99,13 +99,13 @@ __declspec(section ".rodata") u32 lbl_80446FBC[2] = { 0, 0 };
 #define lbl_80446FBC ((Team_801C343C *)lbl_80446FBC)
 
 s32 check_all_battle_flags__6TLobbyFv(void) {
-    u32 temp_r3;
+    u32 player;
     s32 var_r31;
 
     var_r31 = 0;
 loop_1:
-    temp_r3 = get_player_by_client_id(var_r31);
-    if ((temp_r3 != 0U) && (((TObjCollidable *)temp_r3)->obj_testFlags30(0x02000000) != 0)) {
+    player = get_player_by_client_id(var_r31);
+    if ((player != 0U) && (((TObjCollidable *)player)->obj_testFlags30(0x02000000) != 0)) {
         return 0;
     }
     var_r31 += 1;
@@ -949,15 +949,15 @@ void release_ref__6TLobbyFPv(u8 *object) {
 
 extern s32 lbl_804C3E88[];
 
-void *__dt__13TUnk_804C3E88Fv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = lbl_804C3E88;
-        __dt__7TObjectFv(arg0, 0);
+void *__dt__13TUnk_804C3E88Fv(void *object, s16 arg1) {
+    if (object != NULL) {
+        *(s32 **)((s8 *)object + 0x18) = lbl_804C3E88;
+        __dt__7TObjectFv(object, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(object);
         }
     }
-    return arg0;
+    return object;
 }
 
 extern s32 lbl_804C3E88[];

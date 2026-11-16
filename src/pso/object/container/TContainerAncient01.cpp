@@ -1102,11 +1102,11 @@ TContainerAncient01::~TContainerAncient01() {
 typedef char RecoveredGlobal_8018BD00_TContainerAncient01__data_804B6DC0_size[sizeof(RecoveredGlobal_8018BD00_TContainerAncient01__data_804B6DC0) == 0x2C ? 1 : -1];
 typedef char RecoveredGlobal_8018BD00_lbl_804B6DEC_size[sizeof(RecoveredGlobal_8018BD00_lbl_804B6DEC) == 0x30 ? 1 : -1];
 typedef char RecoveredGlobal_8018BD00___vt__19TContainerAncient01_size[sizeof(RecoveredGlobal_8018BD00___vt__19TContainerAncient01) == 0x140 ? 1 : -1];
-u8 *TContainerAncient01__ct(u8 *arg0, s32 arg1, s32 arg2) {
-    __ct__9TObjCharaFP7TObject(arg0, (void *)arg1, (void *)arg2);
+u8 *TContainerAncient01__ct(u8 *arg0, s32 arg1, s32 parent) {
+    __ct__9TObjCharaFP7TObject(arg0, (void *)arg1, (void *)parent);
     *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_8018BD00___vt__19TContainerAncient01 *)&__vt__19TContainerAncient01).value;
     *(s32 *)((s8 *)arg0 + 0) = (s32) TContainerAncient01__name;
-    ((TContainerAncient01 *)(arg0))->apply_object_set_data((void *)arg2);
+    ((TContainerAncient01 *)(arg0))->apply_object_set_data((void *)parent);
     *(s32 *)((s8 *)arg0 + 0x34) = get_bml_model((int) ((*(u8 * *)&TContainerAncient01__bml_resource)), 0);
     ((TContainerAncient01 *)arg0)->texlist = TObjFish__sub_8001EDB0((int) ((*(u8 * *)&TContainerAncient01__bml_resource)), 0);
     ((TContainerAncient01 *)arg0)->action_table = TContainerAncient01__anim_table;

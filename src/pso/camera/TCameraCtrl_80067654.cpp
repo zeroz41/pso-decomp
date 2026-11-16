@@ -49,17 +49,17 @@ void TUnk_804887C8::run_task() {
     Stack_800676A0 stack;
     f32 temp_f1;
     f32 temp_f2;
-    u8 *temp_r3;
+    u8 *camera_focus;
     u8 *temp_r4;
     this->m_58 = 1.0f;
     if ((void *) *(u8 **)((s8 *)arg0 + 0x1C) != NULL) {
-        temp_r3 = (u8 *)TBoss3Volopt::get_camera_focus();
-        if (temp_r3 != NULL) {
-            VecCopy((Vec *)(arg0 + 0x48), (const Vec *)(temp_r3));
+        camera_focus = (u8 *)TBoss3Volopt::get_camera_focus();
+        if (camera_focus != NULL) {
+            VecCopy((Vec *)(arg0 + 0x48), (const Vec *)(camera_focus));
             temp_r4 = (u8 *)(*(u8 **)((s8 *)arg0 + 0x1C));
-            stack.sp8 = *(f32 *)((s8 *)temp_r4 + 0x38) - *(f32 *)((s8 *)temp_r3 + 0);
+            stack.sp8 = *(f32 *)((s8 *)temp_r4 + 0x38) - *(f32 *)((s8 *)camera_focus + 0);
             temp_f2 = *(f32 *)((s8 *)temp_r4 + 0x40);
-            temp_f1 = temp_f2 - *(f32 *)((s8 *)temp_r3 + 8);
+            temp_f1 = temp_f2 - *(f32 *)((s8 *)camera_focus + 8);
             stack.spC = 0.0f;
             stack.sp10 = temp_f1;
             if (0.0f != vector_length(&stack.sp8, (int)temp_r4, (f32)temp_f1, (f32)temp_f2)) {

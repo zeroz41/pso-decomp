@@ -1110,12 +1110,12 @@ s32 calculate_split_screen_battle_rankings(void *) {
 
 s32 TPlayerBattleCtrl4P::check_all_players_flag() {
     s32 var_r31;
-    u32 var_r3;
+    u32 player;
 
     var_r31 = 0;
 loop_1:
-    var_r3 = get_player_by_client_id(var_r31);
-    if ((var_r3 != 0U) && (((TObjCollidable *)var_r3)->obj_testFlags30(0x02000000) != 0)) {
+    player = get_player_by_client_id(var_r31);
+    if ((player != 0U) && (((TObjCollidable *)player)->obj_testFlags30(0x02000000) != 0)) {
         return 0;
     }
     var_r31 += 1;

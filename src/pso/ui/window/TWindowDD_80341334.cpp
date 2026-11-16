@@ -108,15 +108,15 @@ extern "C" {
 s32 refresh_status_display__9TWindowDDFv(int);
 extern s32 lbl_804EFC38[];
 
-void *__dt__19TWindowDD_WS_StringFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = lbl_804EFC38;
-        ((TWindowDD *)arg0)->destroy_window_base(0);
+void *__dt__19TWindowDD_WS_StringFv(void *window_dd, s16 arg1) {
+    if (window_dd != NULL) {
+        *(s32 **)((s8 *)window_dd + 0x18) = lbl_804EFC38;
+        ((TWindowDD *)window_dd)->destroy_window_base(0);
         if (arg1 > 0) {
-            TObject::operator delete(arg0);
+            TObject::operator delete(window_dd);
         }
     }
-    return arg0;
+    return window_dd;
 }
 
 TWindowDD_WS_String *TWindowDD__sub_8034138C(TWindowDD_WS_String *self, f32 *pos, f32 *size, u32 str, s32 style) {

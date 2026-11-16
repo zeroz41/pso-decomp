@@ -800,14 +800,14 @@ void TQuestVmDownLoadServer::open() {
     show_status_message(get_localized_text_entry(0x29, 1), 1);
 }
 void TQuestVmDownLoadServer::handle_confirm_input() {
-    u8 *temp_r31;
-    temp_r31 = (u8 *)&controller_input_state.value + 0x20;
-    if (TWindowShortListCtrl__check_controller_button(temp_r31, 4) != 0) {
+    u8 *context;
+    context = (u8 *)&controller_input_state.value + 0x20;
+    if (TWindowShortListCtrl__check_controller_button(context, 4) != 0) {
         TAdMcSelectGC::select_if_mc_present();
         this->state = 5;
         return;
     }
-    if (TWindowShortListCtrl__check_controller_button(temp_r31, 2) != 0) {
+    if (TWindowShortListCtrl__check_controller_button(context, 2) != 0) {
         TAdMcSelectGC::select_if_mc_present();
         this->show_status_message((s32)((int) (TQuestVmDownLoadServer__sub_8006EF6C(0x42))), 1);
         this->state = 0x14;
@@ -1175,7 +1175,7 @@ void TQuestVmDownLoadServer::close() {
 void TQuestVmDownLoadServer::check_client_connections() {
     s32 temp_r0;
     s32 temp_r3;
-    s32 var_r30;
+    s32 chan;
 
     temp_r0 = this->state;
     if ((temp_r0 == 0) || (temp_r0 == 0x15) || (temp_r0 == 0x16)) {
@@ -1190,14 +1190,14 @@ void TQuestVmDownLoadServer::check_client_connections() {
             if ((u32) this->m_29c != 0U) {
                 ((TQuestVmDownLoadServer *)(this->m_29c))->clear_flag4_bit4();
             }
-            var_r30 = 0;
+            chan = 0;
             this->m_234 = 0;
             do {
-                if (TAdPlayerLoadGC::probe_card_slot(var_r30) != 0) {
-                    this->m_234 = (s32) (this->m_234 | (1 << var_r30));
+                if (TAdPlayerLoadGC::probe_card_slot(chan) != 0) {
+                    this->m_234 = (s32) (this->m_234 | (1 << chan));
                 }
-                var_r30 += 1;
-            } while (var_r30 < 8);
+                chan += 1;
+            } while (chan < 8);
             temp_r3 = this->m_234;
             if (temp_r3 != (s32) this->m_238) {
                 this->m_238 = temp_r3;
@@ -1235,24 +1235,24 @@ void TQuestVmDownLoadServer::sub_801F6D24() {
     }
 }
 void TQuestVmDownLoadServer::handle_download_done_input() {
-    u8 *temp_r31;
-    temp_r31 = (u8 *)&controller_input_state.value + 0x20;
+    u8 *context;
+    context = (u8 *)&controller_input_state.value + 0x20;
     quest_download_in_progress = 0;
-    if (TWindowShortListCtrl__check_controller_button(temp_r31, 4) != 0) {
+    if (TWindowShortListCtrl__check_controller_button(context, 4) != 0) {
         TAdMcSelectGC::update_state();
         this->show_status_message((int) (get_localized_text_entry(0x29, 1)), 1);
         this->state = 4;
     }
-    if (TWindowShortListCtrl__check_controller_button(temp_r31, 2) != 0) {
+    if (TWindowShortListCtrl__check_controller_button(context, 2) != 0) {
         TAdMcSelectGC::select_if_mc_present();
         this->show_status_message((int) (TQuestVmDownLoadServer__sub_8006EF6C(0x42)), 1);
         this->state = 0x14;
     }
 }
 void TQuestVmDownLoadServer::check_cancel_input() {
-    u8 *temp_r31;
-    temp_r31 = (u8 *)&(*(RecoveredGlobal_801F6C74_lbl_8050E208 *)&controller_input_state).value + 0x20;
-    if ((TWindowShortListCtrl__check_controller_button(temp_r31, 4) != 0) || (TWindowShortListCtrl__check_controller_button(temp_r31, 2) != 0)) {
+    u8 *context;
+    context = (u8 *)&(*(RecoveredGlobal_801F6C74_lbl_8050E208 *)&controller_input_state).value + 0x20;
+    if ((TWindowShortListCtrl__check_controller_button(context, 4) != 0) || (TWindowShortListCtrl__check_controller_button(context, 2) != 0)) {
         return_to_main_menu__6TLobbyFv();
         this->state = 0x15;
     }

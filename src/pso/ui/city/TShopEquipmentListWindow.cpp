@@ -368,7 +368,7 @@ void TShopEquipmentListWindow::handle_buy_confirm() {
 }
 
 s32 TShopEquipmentListWindow::open_menu_window() {
-    f32 temp_f31;
+    f32 scale;
     u16 temp_r31;
 
     if ((u32) this->m_2c == 0U) {
@@ -379,8 +379,8 @@ s32 TShopEquipmentListWindow::open_menu_window() {
         ((TWindowSubComCard *)(this->m_2c))->calc_window_size();
         align_menu_entry_positions(this->m_2c);
         ((TCheckRoomSequence *)(this->m_2c))->set_ready_flag();
-        temp_f31 = get_scale();
-        ((TWindowAddition *)(this->m_2c))->set_position_xy(get_scale(), temp_f31);
+        scale = get_scale();
+        ((TWindowAddition *)(this->m_2c))->set_position_xy(get_scale(), scale);
     }
     set_field_20(2);
 }
@@ -597,9 +597,9 @@ void *__dt__24TShopEquipmentListWindowFv(TShopEquipmentListWindow *arg0, s16 arg
     extern int shop_weapon_stock_counts[];
 
 typedef char RecoveredGlobal_8021C7C0___vt__24TShopEquipmentListWindow_size[sizeof(RecoveredGlobal_8021C7C0___vt__24TShopEquipmentListWindow) == 0x30 ? 1 : -1];
-u8 *TShopEquipmentListWindow__ct(u8 *shop_equipment_list_window, s32 arg1, s32 arg2, s32 arg3) {
+u8 *TShopEquipmentListWindow__ct(u8 *shop_equipment_list_window, s32 parent, s32 arg2, s32 arg3) {
     s32 sp8;
-    __ct__15TShopWindowBaseFP7TObject(shop_equipment_list_window, (TObject *)arg1);
+    __ct__15TShopWindowBaseFP7TObject(shop_equipment_list_window, (TObject *)parent);
     *(s32 **)((s8 *)shop_equipment_list_window + 0x18) = &(*(RecoveredGlobal_8021C7C0___vt__24TShopEquipmentListWindow *)&__vt__24TShopEquipmentListWindow).value;
     *(const char **)((s8 *)shop_equipment_list_window + 0) = TShopEquipmentListWindow__class_name;
     ((TShopEquipmentListWindow *)shop_equipment_list_window)->m_24 = arg3;

@@ -987,7 +987,7 @@ void TItemWeapon::deliver_hit(s32 arg1, u8 *arg2, s32 arg3, s32 arg4, f32 farg0)
     f32 attack_accuracy_scale;
     f32 var_f31_2;
     s32 temp_r31;
-    s32 temp_r31_2;
+    s32 damage;
     u8 *temp_r3;
     if (get_mode() == 2) {
         temp_r3 = (u8 *)this->owner;
@@ -1014,10 +1014,10 @@ void TItemWeapon::deliver_hit(s32 arg1, u8 *arg2, s32 arg3, s32 arg4, f32 farg0)
                 if (hit_callback != NULL) {
                     hit_callback((s32)tl_05, this, get_entity_id(arg2), arg4);
                 }
-                temp_r31_2 = (s32) var_f31_2;
-                TObjPlayer::calc_photon_blast_charge(this->owner, temp_r31_2);
+                damage = (s32) var_f31_2;
+                TObjPlayer::calc_photon_blast_charge(this->owner, damage);
                 ((VObj_18_f8c4e0 *)(this->owner))->m73();
-                apply_camera_shake__10TObjPlayerFiii((s32)this->owner, (s32)arg2, (s32)temp_r31_2);
+                apply_camera_shake__10TObjPlayerFiii((s32)this->owner, (s32)arg2, (s32)damage);
                 ((TObjPlayer *)(&stack.sp8))->reset_status_block();
                 stack.sp8 = this->get_item_group();
                 stack.sp9 = this->get_item_index();

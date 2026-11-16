@@ -85,16 +85,16 @@ void handle_6x86_hit_destructible_object(WallHitPacket *arg0);
 
 void TOVS2Wall01__sub_8017B9AC(void *) {  }
 
-void handle_6x86_hit_destructible_object(WallHitPacket *arg0) {
+void handle_6x86_hit_destructible_object(WallHitPacket *wall_hit_packet) {
     Ent_8017B9B0 spC;
     Ent_8017B9B0 sp8;
     TOVS2Wall01 *o;
     u16 id;
-    if (arg0 == NULL) {
+    if (wall_hit_packet == NULL) {
         return;
     }
-    ((TOVS2Wall01 *)arg0)->byteswap_hit_packet();
-    id = arg0->entity_id;
+    ((TOVS2Wall01 *)wall_hit_packet)->byteswap_hit_packet();
+    id = wall_hit_packet->entity_id;
     if (id == 0xFFFF) {
         return;
     }
@@ -106,7 +106,7 @@ void handle_6x86_hit_destructible_object(WallHitPacket *arg0) {
         if (((TUnk_804B6C24 *)o)->check_value_equals((s32)TOVS2Wall01__class_name) == 0) {
             return;
         }
-        switch (arg0->m_c) {
+        switch (wall_hit_packet->m_c) {
         case 0:
             switch (o->mode) {
             case 1:
@@ -114,8 +114,8 @@ void handle_6x86_hit_destructible_object(WallHitPacket *arg0) {
             default:
                 o->mode = 0;
             case 0:
-                if (arg0->m_e < TOVS2Wall01__sub_8017CA50(o)) {
-                    TOVS2Wall01__sub_8017CA48(o, arg0->m_e);
+                if (wall_hit_packet->m_e < TOVS2Wall01__sub_8017CA50(o)) {
+                    TOVS2Wall01__sub_8017CA48(o, wall_hit_packet->m_e);
                 }
                 break;
             }
@@ -130,10 +130,10 @@ void handle_6x86_hit_destructible_object(WallHitPacket *arg0) {
         o->access_object_saved_state(&spC, 0);
         o->vfunc_6(&spC.a, 0);
     } else {
-        *(s32 *)&sp8 = *(s32 *)&quest_object_entries[arg0->m_8];
+        *(s32 *)&sp8 = *(s32 *)&quest_object_entries[wall_hit_packet->m_8];
         if (sp8.a != 1) {
-            sp8.a = arg0->state;
-            TLobby::apply_table_entry(arg0->m_8, &sp8);
+            sp8.a = wall_hit_packet->state;
+            TLobby::apply_table_entry(wall_hit_packet->m_8, &sp8);
         }
     }
 }
@@ -209,14 +209,14 @@ void TOVS2Wall01::spawn_debris(s32 index) {
 
 
 void init__11TOVS2Wall01Fi(s32 arg0) {
-    s32 var_r31;
+    s32 index;
 
     ((TObjCollidable *)arg0)->clear_player_status_flag(0, 1);
-    var_r31 = 7;
+    index = 7;
     do {
-        ((TOVS2Wall01 *)arg0)->spawn_debris(var_r31);
-        var_r31 += 1;
-    } while (var_r31 <= 0xF);
+        ((TOVS2Wall01 *)arg0)->spawn_debris(index);
+        index += 1;
+    } while (index <= 0xF);
     spawn_particle_effect((void *)(arg0 + 0x38), 0x45);
     spawn_particle_effect((void *)(arg0 + 0x38), 0x46);
     play_sound_effect(0x4004BC05, (void *)(arg0 + 0x38), 0, 0);
@@ -354,8 +354,8 @@ void TOVS2::render() {
         pop_matrix();
     }
 }
-void *TOVS2Wreck01__ct(void *arg0, void *arg1) {
-    __ct__5TOVS2FPvl(arg0, arg1, 0);
+void *TOVS2Wreck01__ct(void *arg0, void *set_data) {
+    __ct__5TOVS2FPvl(arg0, set_data, 0);
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__12TOVS2Wreck01;
     ((TOVS2Wreck01 *)arg0)->m_name = TOVS2Wreck01__class_name;
     return arg0;
@@ -371,8 +371,8 @@ void *TOVS2Wreck01__create(void *arg0) {
     }
     return o;
 }
-void *TOVS2Wreck02__ct(void *arg0, void *arg1) {
-    __ct__5TOVS2FPvl(arg0, arg1, 1);
+void *TOVS2Wreck02__ct(void *arg0, void *set_data) {
+    __ct__5TOVS2FPvl(arg0, set_data, 1);
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__12TOVS2Wreck02;
     ((TOVS2Wreck02 *)arg0)->m_name = TOVS2Wreck02__class_name;
     return arg0;
@@ -388,8 +388,8 @@ void *TOVS2Wreck02__create(void *arg0) {
     }
     return o;
 }
-void *TOVS2Wreck03__ct(void *arg0, void *arg1) {
-    __ct__5TOVS2FPvl(arg0, arg1, 2);
+void *TOVS2Wreck03__ct(void *arg0, void *set_data) {
+    __ct__5TOVS2FPvl(arg0, set_data, 2);
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__12TOVS2Wreck03;
     ((TOVS2Wreck03 *)arg0)->m_name = TOVS2Wreck03__class_name;
     return arg0;
@@ -405,8 +405,8 @@ void *TOVS2Wreck03__create(void *arg0) {
     }
     return o;
 }
-void *TOVS2Wreck04__ct(void *arg0, void *arg1) {
-    __ct__5TOVS2FPvl(arg0, arg1, 3);
+void *TOVS2Wreck04__ct(void *arg0, void *set_data) {
+    __ct__5TOVS2FPvl(arg0, set_data, 3);
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__12TOVS2Wreck04;
     ((TOVS2Wreck04 *)arg0)->m_name = TOVS2Wreck04__class_name;
     return arg0;
@@ -422,8 +422,8 @@ void *TOVS2Wreck04__create(void *arg0) {
     }
     return o;
 }
-void *TOVS2Wreck05__ct(void *arg0, void *arg1) {
-    __ct__5TOVS2FPvl(arg0, arg1, 4);
+void *TOVS2Wreck05__ct(void *arg0, void *set_data) {
+    __ct__5TOVS2FPvl(arg0, set_data, 4);
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__12TOVS2Wreck05;
     ((TOVS2Wreck05 *)arg0)->m_name = TOVS2Wreck05__class_name;
     return arg0;
@@ -439,8 +439,8 @@ void *TOVS2Wreck05__create(void *arg0) {
     }
     return o;
 }
-void *TOVS2Wreck06__ct(void *arg0, void *arg1) {
-    __ct__5TOVS2FPvl(arg0, arg1, 5);
+void *TOVS2Wreck06__ct(void *arg0, void *set_data) {
+    __ct__5TOVS2FPvl(arg0, set_data, 5);
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__12TOVS2Wreck06;
     ((TOVS2Wreck06 *)arg0)->m_name = TOVS2Wreck06__class_name;
     return arg0;

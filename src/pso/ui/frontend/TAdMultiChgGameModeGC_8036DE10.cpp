@@ -321,9 +321,9 @@ void TAdMultiChgGameModeGC__sub_8036E19C(u8 *arg0, s32 arg1) {
 }
 
 void TAdMultiChgGameModeGC::close_window_30() {
-    void *temp_r3 = *(void **)((s8 *)this + 0x30);
-    if ((u32) temp_r3 != 0U) {
-        ((TWindowBase *)temp_r3)->close();
+    void *window_base = *(void **)((s8 *)this + 0x30);
+    if ((u32) window_base != 0U) {
+        ((TWindowBase *)window_base)->close();
         *(u32 *)((s8 *)this + 0x30) = 0U;
     }
     close_window__21TAdMultiChgGameModeGCFPv(this);

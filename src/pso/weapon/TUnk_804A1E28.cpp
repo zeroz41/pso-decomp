@@ -132,9 +132,9 @@ TUnk_804A1E28::TUnk_804A1E28(TObject *parent, u8 *item) : TItemWeapon(parent, it
     cached_tp = -1;
 }
 
-u8 *create_sorcerers_cane(u8 *arg0) {
-    if (arg0 != NULL) {
-        return (u8 *)new TUnk_804A1E28(tl_05, arg0);
+u8 *create_sorcerers_cane(u8 *item) {
+    if (item != NULL) {
+        return (u8 *)new TUnk_804A1E28(tl_05, item);
     }
     return NULL;
 }

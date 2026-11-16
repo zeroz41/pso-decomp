@@ -268,10 +268,10 @@ s32 TLobby__sub_804219D0(s32 arg0, s32 arg1, s32 arg2) {
     return result;
 }
 
-s32 TLobby__sub_80421A50(s32 arg0, s32 arg1, s32 arg2) {
+s32 TLobby__sub_80421A50(s32 arg0, s32 arg1, s32 gateway) {
     s32 result;
     lock_mutex(network_dispatch_state.lock_handle);
-    result = NetIPv4AddRoute((void *)arg0, (void *)arg1, (void *)arg2, 1, (int) (0U), (int) (0U));
+    result = NetIPv4AddRoute((void *)arg0, (void *)arg1, (void *)gateway, 1, (int) (0U), (int) (0U));
     unlock_mutex(network_dispatch_state.lock_handle);
     return result;
 }
@@ -760,7 +760,7 @@ s32 tcp_abort(s32 a) {
     return r;
 }
 
-s32 TLobby__sub_80422AB8(s32 idx, void (*cb)(s16, s16, s32, s32), s16 code, s32 arg3, s32 arg4, s32 arg5) {
+s32 TLobby__sub_80422AB8(s32 idx, void (*cb)(s16, s16, s32, s32), s16 code, s32 name, s32 arg4, s32 arg5) {
     TcpTcb *s = tcp_protocol_state.tcbs;
     s16 i2;
     s16 v;
@@ -773,7 +773,7 @@ s32 TLobby__sub_80422AB8(s32 idx, void (*cb)(s16, s16, s32, s32), s16 code, s32 
         } else {
             v = code;
         }
-        cb(v, i2, arg3, arg5);
+        cb(v, i2, name, arg5);
         s->accept_cb = 0;
     } else {
         s->waits[3].status = code;

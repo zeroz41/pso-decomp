@@ -31,9 +31,9 @@ extern "C" {
 void TCameraCtrl__sub_80068EF0(void);
 s32 TLobby__sub_80228154(s32, s32, s32, f32);
 
-void TLobby::draw_with_camera(s32 arg0, s32 arg1, s32 arg2, f32 farg0) {
+void TLobby::draw_with_camera(s32 sprite, s32 frame_index, s32 flags, f32 depth) {
     TCameraCtrl::restore_full_screen_view();
-    TLobby__sub_80228154(arg0, arg1, arg2, farg0);
+    TLobby__sub_80228154(sprite, frame_index, flags, depth);
     TCameraCtrl__sub_80068EF0();
 }
 }

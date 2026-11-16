@@ -16,20 +16,20 @@ void __dt__7TObjectFv(void *, int);
 
 extern s32 __vt__15TWindowMakeTeam[];
 
-void *__dt__15TWindowMakeTeamFv(TWindowMakeTeam *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__15TWindowMakeTeam;
-        mem_free(*(void **)((s8 *)arg0 + 0x28));
-        mem_free(*(void **)((s8 *)arg0 + 0x24));
-        if (*(void **)((s8 *)arg0 + 0x34) != NULL) { ((TObject *)(*(void **)((s8 *)arg0 + 0x34)))->queue_destruction(); arg0->m_34 = 0; }
-        if (*(void **)((s8 *)arg0 + 0x30) != NULL) { ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x30)))->close(); arg0->m_30 = 0; }
-        if (*(void **)((s8 *)arg0 + 0x2C) != NULL) { ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x2C)))->close(); arg0->m_2c = 0; }
-        __dt__7TObjectFv(arg0, 0);
+void *__dt__15TWindowMakeTeamFv(TWindowMakeTeam *window_make_team, s16 arg1) {
+    if (window_make_team != NULL) {
+        *(s32 **)((s8 *)window_make_team + 0x18) = __vt__15TWindowMakeTeam;
+        mem_free(*(void **)((s8 *)window_make_team + 0x28));
+        mem_free(*(void **)((s8 *)window_make_team + 0x24));
+        if (*(void **)((s8 *)window_make_team + 0x34) != NULL) { ((TObject *)(*(void **)((s8 *)window_make_team + 0x34)))->queue_destruction(); window_make_team->m_34 = 0; }
+        if (*(void **)((s8 *)window_make_team + 0x30) != NULL) { ((TWindowBase *)(*(void **)((s8 *)window_make_team + 0x30)))->close(); window_make_team->m_30 = 0; }
+        if (*(void **)((s8 *)window_make_team + 0x2C) != NULL) { ((TWindowBase *)(*(void **)((s8 *)window_make_team + 0x2C)))->close(); window_make_team->m_2c = 0; }
+        __dt__7TObjectFv(window_make_team, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(window_make_team);
         }
     }
-    return arg0;
+    return window_make_team;
 }
 
 s32 init_status_disp__15TWindowMakeTeamFc(u8);

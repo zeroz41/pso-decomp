@@ -148,18 +148,18 @@ void TWindowSubEquip::run_task() {
     }
 }
 
-void *__dt__15TWindowSubEquipFv(TWindowSubEquip *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__15TWindowSubEquip;
-        if (*(void **)((s8 *)arg0 + 0x38) != NULL) { ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x38)))->close(); arg0->m_38 = 0; }
-        if (*(void **)((s8 *)arg0 + 0x34) != NULL) { ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x34)))->close(); arg0->m_34 = 0; }
-        if (*(void **)((s8 *)arg0 + 0x30) != NULL) { ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x30)))->close(); arg0->m_30 = 0; }
-        __dt__7TObjectFv(arg0, 0);
+void *__dt__15TWindowSubEquipFv(TWindowSubEquip *window_sub_equip, s16 arg1) {
+    if (window_sub_equip != NULL) {
+        *(s32 **)((s8 *)window_sub_equip + 0x18) = __vt__15TWindowSubEquip;
+        if (*(void **)((s8 *)window_sub_equip + 0x38) != NULL) { ((TWindowBase *)(*(void **)((s8 *)window_sub_equip + 0x38)))->close(); window_sub_equip->m_38 = 0; }
+        if (*(void **)((s8 *)window_sub_equip + 0x34) != NULL) { ((TWindowBase *)(*(void **)((s8 *)window_sub_equip + 0x34)))->close(); window_sub_equip->m_34 = 0; }
+        if (*(void **)((s8 *)window_sub_equip + 0x30) != NULL) { ((TWindowBase *)(*(void **)((s8 *)window_sub_equip + 0x30)))->close(); window_sub_equip->m_30 = 0; }
+        __dt__7TObjectFv(window_sub_equip, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(window_sub_equip);
         }
     }
-    return arg0;
+    return window_sub_equip;
 }
 }
 TWindowSubEquip::TWindowSubEquip(s32 arg1, s32 arg2) : TObject((TObject *)((void *)arg1)) {

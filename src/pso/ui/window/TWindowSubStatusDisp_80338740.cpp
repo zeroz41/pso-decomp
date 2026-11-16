@@ -91,7 +91,7 @@ s32 TWindowSubStatusDisp::get_flag_or_zero(void *arg0, s8 arg1) {
     return get_message_10__20TWindowSubStatusDispFl(arg1 + 0x10D);
 }
 
-void draw_item_row__20TWindowSubStatusDispFPvPv(Item_80338890 *arg0, Win_80338890 *arg1) {
+void draw_item_row__20TWindowSubStatusDispFPvPv(Item_80338890 *arg0, Win_80338890 *win) {
   f32 scale;
   f32 y;
   V2_80338890 pos;
@@ -100,25 +100,25 @@ void draw_item_row__20TWindowSubStatusDispFPvPv(Item_80338890 *arg0, Win_8033889
   {
     return;
   }
-  y = arg1->x14 + arg0->xc;
-  if ((arg0->x14 + y) < arg1->x40)
+  y = win->x14 + arg0->xc;
+  if ((arg0->x14 + y) < win->x40)
   {
     return;
   }
-  if ((arg1->x14 + arg0->xc) > arg1->x48)
+  if ((win->x14 + arg0->xc) > win->x48)
   {
     return;
   }
-  if (arg1->x30 < 0)
+  if (win->x30 < 0)
   {
     return;
   }
-  pos.x = arg1->x10 + arg0->x8;
-  pos.y = arg1->x14 + arg0->xc;
-  scale = -1.0f / (0.1495f + arg1->x38);
-  draw_item_list_icon(arg1, &pos, arg0->c1c, -1, scale);
+  pos.x = win->x10 + arg0->x8;
+  pos.y = win->x14 + arg0->xc;
+  scale = -1.0f / (0.1495f + win->x38);
+  draw_item_list_icon(win, &pos, arg0->c1c, -1, scale);
   pos.x += 18.0f;
-  set_text_draw_params((s32)arg1, 1, 1, (f32)scale, 100000.0f);
+  set_text_draw_params((s32)win, 1, 1, (f32)scale, 100000.0f);
   draw_window_text((f32 *)&pos, (const char *)arg0->x24, -1, 1, 100000.0f);
   pos.x += 210.0f;
   draw_window_text((f32 *)&pos, (const char *)(TWindowSubStatusDisp::get_flag_or_zero(arg0, arg0->c1d)), -1, 0, 100000.0f);

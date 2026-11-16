@@ -23,8 +23,8 @@ TObject *TWindowCtrlMain__sub_8024CDD0(s32 viewport_index);
 s32 find_overlapping_balloon__15TWindowFukidasiFPvPvPvPv(s32, s32, s32, s32);
 
 int TUnk_804D0658::is_selected() { return (this->m_70 >> 5) & 0x1; }
-void TWindowFukidasi::draw_resolved_window(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
-    find_overlapping_balloon__15TWindowFukidasiFPvPvPvPv(arg0, arg1, arg2, *(s32 *)((s8 *)(TWindowCtrlMain__sub_8024CDD0(arg3)) + 0x14));
+void TWindowFukidasi::draw_resolved_window(s32 arg0, s32 arg1, s32 arg2, s32 viewport_index) {
+    find_overlapping_balloon__15TWindowFukidasiFPvPvPvPv(arg0, arg1, arg2, *(s32 *)((s8 *)(TWindowCtrlMain__sub_8024CDD0(viewport_index)) + 0x14));
 }
 }
 

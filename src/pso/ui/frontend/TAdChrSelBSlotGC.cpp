@@ -295,16 +295,16 @@ typedef char RecoveredGlobal_8030EBD0_lbl_8050E3B8_size[((sizeof(RecoveredGlobal
 void TAdChrSelBSlotGC__sub_8030EBD0(u8 *arg0) {
   u32 temp_r3;
   u32 temp_r3_2;
-  u8 *temp_r31;
+  u8 *context;
   temp_r3 = *((u32 *) (((s8 *) arg0) + 0x70));
   if (temp_r3 != 0U)
   {
     ((TWindowSubComCard *)temp_r3)->close();
     *((u32 *) (((s8 *) arg0) + 0x70)) = 0U;
   }
-  temp_r31 = ((u8 *)&controller_physical_port_bank.value) + (((TAdMultiPlyChrSelectGC *)((int) TAdMultiPlyChrSelectGC::get_state()))->get_state_result() * 0x50);
-  temp_r31 = temp_r31 + 0x20;
-  if ((((TWindowShortListCtrl__check_controller_button((int) temp_r31, 4) != 0) || (TWindowShortListCtrl__check_controller_button((int) temp_r31, 2) != 0)) || (TWindowShortListCtrl__check_controller_button((int) temp_r31, 0x400) != 0)) || (TWindowShortListCtrl__check_controller_button((int) temp_r31, 0x200) != 0))
+  context = ((u8 *)&controller_physical_port_bank.value) + (((TAdMultiPlyChrSelectGC *)((int) TAdMultiPlyChrSelectGC::get_state()))->get_state_result() * 0x50);
+  context = context + 0x20;
+  if ((((TWindowShortListCtrl__check_controller_button((int) context, 4) != 0) || (TWindowShortListCtrl__check_controller_button((int) context, 2) != 0)) || (TWindowShortListCtrl__check_controller_button((int) context, 0x400) != 0)) || (TWindowShortListCtrl__check_controller_button((int) context, 0x200) != 0))
   {
     *((s32 *) (((s8 *) arg0) + 0x1C)) = 1;
     return;
@@ -326,10 +326,10 @@ void TAdChrSelBSlotGC::check_cancel_and_close() {
     u8 *arg0 = (u8 *)this;
   u32 temp_r3;
   s32 new_var;
-  u8 *temp_r31;
+  u8 *context;
   new_var = ((TAdMultiPlyChrSelectGC *)((int) TAdMultiPlyChrSelectGC::get_state()))->get_state_result();
-  temp_r31 = (((u8 *) (&(*(RecoveredGlobal_8030ECB8_lbl_8050E3B8 *)&controller_physical_port_bank).value)) + (new_var * 0x50)) + 0x20;
-  if ((((TWindowShortListCtrl__check_controller_button((int) temp_r31, 4) != 0) || (TWindowShortListCtrl__check_controller_button((int) temp_r31, 2) != 0)) || (TWindowShortListCtrl__check_controller_button((int) temp_r31, 0x400) != 0)) || (TWindowShortListCtrl__check_controller_button((int) temp_r31, 0x200) != 0))
+  context = (((u8 *) (&(*(RecoveredGlobal_8030ECB8_lbl_8050E3B8 *)&controller_physical_port_bank).value)) + (new_var * 0x50)) + 0x20;
+  if ((((TWindowShortListCtrl__check_controller_button((int) context, 4) != 0) || (TWindowShortListCtrl__check_controller_button((int) context, 2) != 0)) || (TWindowShortListCtrl__check_controller_button((int) context, 0x400) != 0)) || (TWindowShortListCtrl__check_controller_button((int) context, 0x200) != 0))
   {
     this->m_1c = 1;
     return;

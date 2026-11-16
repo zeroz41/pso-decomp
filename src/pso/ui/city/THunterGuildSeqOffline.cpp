@@ -204,36 +204,36 @@ void THunterGuildSeqOffline::vfunc_11() {
     }
 }
 
-u8 *__dt__22THunterGuildSeqOfflineFv(u8 *arg0, s16 arg1) {
+u8 *__dt__22THunterGuildSeqOfflineFv(u8 *hunter_guild_seq_offline, s16 arg1) {
     u32 temp_r3;
     u32 temp_r3_2;
     u32 temp_r3_3;
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = &__vt__22THunterGuildSeqOffline.value;
-        temp_r3 = *(u32 *)((s8 *)arg0 + 0x30);
+    if (hunter_guild_seq_offline != NULL) {
+        *(s32 **)((s8 *)hunter_guild_seq_offline + 0x18) = &__vt__22THunterGuildSeqOffline.value;
+        temp_r3 = *(u32 *)((s8 *)hunter_guild_seq_offline + 0x30);
         if (temp_r3 != 0U) {
             ((TObject *)temp_r3)->queue_destruction();
-            *(u32 *)((s8 *)arg0 + 0x30) = 0U;
+            *(u32 *)((s8 *)hunter_guild_seq_offline + 0x30) = 0U;
         }
-        ((TShopSequence *)arg0)->close_message_window();
-        temp_r3_2 = *(u32 *)((s8 *)arg0 + 0x2C);
+        ((TShopSequence *)hunter_guild_seq_offline)->close_message_window();
+        temp_r3_2 = *(u32 *)((s8 *)hunter_guild_seq_offline + 0x2C);
         if (temp_r3_2 != 0U) {
             ((TWindowBase *)temp_r3_2)->close();
-            *(u32 *)((s8 *)arg0 + 0x2C) = 0U;
+            *(u32 *)((s8 *)hunter_guild_seq_offline + 0x2C) = 0U;
         }
-        temp_r3_3 = ((THunterGuildSeqOffline *)arg0)->m_34;
+        temp_r3_3 = ((THunterGuildSeqOffline *)hunter_guild_seq_offline)->m_34;
         if (temp_r3_3 != 0U) {
             ((TObject *)temp_r3_3)->queue_destruction();
-            ((THunterGuildSeqOffline *)arg0)->m_34 = 0U;
+            ((THunterGuildSeqOffline *)hunter_guild_seq_offline)->m_34 = 0U;
         }
-        *(s32 *)((s8 *)&THunterGuildSeqOffline__instance_table.value + (sub_8022397C__15TShopWindowBaseFv(arg0) * 4)) = 0;
+        *(s32 *)((s8 *)&THunterGuildSeqOffline__instance_table.value + (sub_8022397C__15TShopWindowBaseFv(hunter_guild_seq_offline) * 4)) = 0;
         THunterGuildSeqOffline__active_instance = 0;
-        __dt__13TShopSequenceFv((arg0), 0);
+        __dt__13TShopSequenceFv((hunter_guild_seq_offline), 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(hunter_guild_seq_offline);
         }
     }
-    return arg0;
+    return hunter_guild_seq_offline;
 }
 
 typedef char RecoveredGlobal_802132F0___vt__22THunterGuildSeqOffline_size[sizeof(RecoveredGlobal_802132F0___vt__22THunterGuildSeqOffline) == 0x38 ? 1 : -1];

@@ -253,35 +253,35 @@ void TWindowSubTrade::run_task() {
     }
 }
 
-u8 *__dt__15TWindowSubTradeFv(u8 *arg0, s16 arg1) {
+u8 *__dt__15TWindowSubTradeFv(u8 *object, s16 arg1) {
     u8 *window_sub_com_card;
     u8 *temp_r3_2;
     u8 *temp_r3_3;
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_802B1F98___vt__15TWindowSubTrade *)&__vt__15TWindowSubTrade).value;
-        TLobby__sub_802D2A2C((u32) arg0);
+    if (object != NULL) {
+        *(s32 **)((s8 *)object + 0x18) = &(*(RecoveredGlobal_802B1F98___vt__15TWindowSubTrade *)&__vt__15TWindowSubTrade).value;
+        TLobby__sub_802D2A2C((u32) object);
         TLobby::check_flags_and_proceed();
-        window_sub_com_card = (u8 *)(*(u8 **)((s8 *)arg0 + 0x34));
+        window_sub_com_card = (u8 *)(*(u8 **)((s8 *)object + 0x34));
         if (window_sub_com_card != NULL) {
             ((TWindowSubComCard *)window_sub_com_card)->close();
-            *(u8 **)((s8 *)arg0 + 0x34) = NULL;
+            *(u8 **)((s8 *)object + 0x34) = NULL;
         }
-        temp_r3_2 = (u8 *)(*(u8 **)((s8 *)arg0 + 0x30));
+        temp_r3_2 = (u8 *)(*(u8 **)((s8 *)object + 0x30));
         if (temp_r3_2 != NULL) {
             ((TWindowBase *)temp_r3_2)->close();
-            *(u8 **)((s8 *)arg0 + 0x30) = NULL;
+            *(u8 **)((s8 *)object + 0x30) = NULL;
         }
-        temp_r3_3 = (u8 *)(*(u8 **)((s8 *)arg0 + 0x2C));
+        temp_r3_3 = (u8 *)(*(u8 **)((s8 *)object + 0x2C));
         if (temp_r3_3 != NULL) {
             ((TWindowBase *)temp_r3_3)->close();
-            *(u8 **)((s8 *)arg0 + 0x2C) = NULL;
+            *(u8 **)((s8 *)object + 0x2C) = NULL;
         }
-        __dt__7TObjectFv(arg0, 0);
+        __dt__7TObjectFv(object, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv((s32) arg0);
+            __dl__7TObjectFPv((s32) object);
         }
     }
-    return arg0;
+    return object;
 }
 
 }

@@ -206,14 +206,14 @@ TUnk_804A4948::TUnk_804A4948(TObject *parent, u8 *item) : TItemWeapon(parent, it
 TUnk_804A4948::~TUnk_804A4948() {}
 
 void TUnk_804A4948::vfunc_57() {
-    s32 temp_r3;
+    s32 event;
     s32 temp_r3_2;
 
     switch (kind) {
     case 3:
-        temp_r3 = __nw__15TItemHeapObjectFUl(0x2C);
-        if (temp_r3 != 0) {
-            init_item_timer_event__13TUnk_804A0648Fv(temp_r3, *(s32 *)((s8 *)this + 0x174), get_owner_client__5TItemFv(this), 0x5A);
+        event = __nw__15TItemHeapObjectFUl(0x2C);
+        if (event != 0) {
+            init_item_timer_event__13TUnk_804A0648Fv(event, *(s32 *)((s8 *)this + 0x174), get_owner_client__5TItemFv(this), 0x5A);
         }
         return;
     case 4:
@@ -229,11 +229,11 @@ void TUnk_804A4948::emit_marker_effects() {
     u8 *arg0 = (u8 *)this;
   s32 sp8;
   s32 temp_r0;
-  s32 temp_r3;
+  s32 attack_flags;
   s32 new_var;
   (this->vfunc_62());
-  temp_r3 = (this->get_attack_flags());
-  if (temp_r3 & 1)
+  attack_flags = (this->get_attack_flags());
+  if (attack_flags & 1)
   {
     temp_r0 = *((s32 *) (((s8 *) arg0) + 0x1F8));
     if (temp_r0 < 3)
@@ -257,7 +257,7 @@ void TUnk_804A4948::emit_marker_effects() {
     ((TItemWeapon *)arg0)->update_active_game_effect();
     return;
   }
-  if ((new_var = temp_r3) & 2)
+  if ((new_var = attack_flags) & 2)
   {
     ((TItemWeapon *)arg0)->get_gun_point(&sp8);
     (this->launch_shot((u8 *)(&sp8), (0), (0), (1)));

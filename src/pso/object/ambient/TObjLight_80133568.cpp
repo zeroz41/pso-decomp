@@ -104,15 +104,15 @@ int TLobby__sub_80134A20(void* p) { return (int)TQuestThread::create_in_root((s3
 
 extern s32 lbl_804A7008[];
 
-void *__dt__13TUnk_804A7008Fv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = lbl_804A7008;
-        __dt__7TObjectFv(arg0, 0);
+void *__dt__13TUnk_804A7008Fv(void *object, s16 arg1) {
+    if (object != NULL) {
+        *(s32 **)((s8 *)object + 0x18) = lbl_804A7008;
+        __dt__7TObjectFv(object, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(object);
         }
     }
-    return arg0;
+    return object;
 }
 
 void TObjLight::bswap_data() { bswap_32((u32 *)this); bswap_32((u32 *)((char*)this + 0x4)); bswap_32((u32 *)((char*)this + 0x8)); bswap_32((u32 *)((char*)this + 0xc)); bswap_32((u32 *)((char*)this + 0x10)); bswap_32((u32 *)((char*)this + 0x14)); bswap_32((u32 *)((char*)this + 0x18)); bswap_32((u32 *)((char*)this + 0x1c)); bswap_32((u32 *)((char*)this + 0x20)); bswap_32((u32 *)((char*)this + 0x24)); bswap_32((u32 *)((char*)this + 0x28)); bswap_32((u32 *)((char*)this + 0x2c)); bswap_32((u32 *)((char*)this + 0x30)); bswap_32((u32 *)((char*)this + 0x34)); bswap_32((u32 *)((char*)this + 0x38)); bswap_32((u32 *)((char*)this + 0x3c)); bswap_32((u32 *)((char*)this + 0x40)); }

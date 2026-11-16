@@ -222,15 +222,15 @@ void *TObjLaboDesignBase__create(void *arg0) {
     return o;
 }
 
-s16 TObjLaboDesignBase__vt8(u8 *arg0, f32 farg0, f32 farg1) {
+s16 TObjLaboDesignBase__vt8(u8 *base, f32 farg0, f32 farg1) {
     if (TMainTask::get_render_pass() == 1) {
-        return *(s16 *)((s8 *)arg0 + 0x1E);
+        return *(s16 *)((s8 *)base + 0x1E);
     }
-    if (xz_distance_squared(arg0 + 0x38, camera_ctrl_instance + 0x178) < (farg1 * farg1)) {
-        *(s16 *)((s8 *)arg0 + 0x1E) = 1;
-        return *(s16 *)((s8 *)arg0 + 0x1E);
+    if (xz_distance_squared(base + 0x38, camera_ctrl_instance + 0x178) < (farg1 * farg1)) {
+        *(s16 *)((s8 *)base + 0x1E) = 1;
+        return *(s16 *)((s8 *)base + 0x1E);
     }
-    return update_object_view_visibility__8TObjBaseFff(arg0, farg0, farg1);
+    return update_object_view_visibility__8TObjBaseFff(base, farg0, farg1);
 }
 
 void draw_node_tree__18TObjLaboDesignBaseFiPv(s32 arg0, u8 *arg1) {
@@ -301,18 +301,18 @@ void TObjLaboDesignBase::render() {
 
 void run_task__18TObjLaboDesignBaseFv(void) {  }
 
-void *__dt__18TObjLaboDesignBaseFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__18TObjLaboDesignBase;
-        if (*(void **)((s8 *)arg0 + 0xBC) != NULL) { queue_destruction__7TObjectFv(*(void **)((s8 *)arg0 + 0xBC)); *(s32 *)((s8 *)arg0 + 0xBC) = 0; }
-        ((TObjCollidable *)arg0)->unregister_object_by_id();
-        free_collision_body_parts(arg0);
-        __dt__14TObjCollidableFv(arg0, 0);
+void *__dt__18TObjLaboDesignBaseFv(void *collidable, s16 arg1) {
+    if (collidable != NULL) {
+        *(s32 **)((s8 *)collidable + 0x18) = __vt__18TObjLaboDesignBase;
+        if (*(void **)((s8 *)collidable + 0xBC) != NULL) { queue_destruction__7TObjectFv(*(void **)((s8 *)collidable + 0xBC)); *(s32 *)((s8 *)collidable + 0xBC) = 0; }
+        ((TObjCollidable *)collidable)->unregister_object_by_id();
+        free_collision_body_parts(collidable);
+        __dt__14TObjCollidableFv(collidable, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(collidable);
         }
     }
-    return arg0;
+    return collidable;
 }
 
 typedef char RecoveredGlobal_80365210___vt__18TObjLaboDesignBase_size[sizeof(RecoveredGlobal_80365210___vt__18TObjLaboDesignBase) == 0x38 ? 1 : -1];

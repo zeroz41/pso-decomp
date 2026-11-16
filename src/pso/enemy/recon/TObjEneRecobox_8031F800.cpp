@@ -832,16 +832,16 @@ u32 TObjEneRecobox::remap_area_sound_id(u32 arg0) {
     return ret;
 }
 
-u8 *TObjEneRecobox__ct(u8 *ene_recobox, s32 arg1, u8 *arg2) {
+u8 *TObjEneRecobox__ct(u8 *ene_recobox, s32 arg1, u8 *set_data) {
     Self_8031FE98 *S = (Self_8031FE98 *)ene_recobox;
     s32 i;
     s32 n;
-    __ct__12TObjEneDD_STFP7TObject(ene_recobox, arg1, arg2);
+    __ct__12TObjEneDD_STFP7TObject(ene_recobox, arg1, set_data);
     *(u8 **)((s8 *)ene_recobox + 0x18) = TObjEneRecobox__vtable;
     __ct__13TUnk_80494938Fv((ene_recobox + 0x3C0));
     __construct_array(ene_recobox + 0x460, (void *)&__ct__15RenderFadeStateFv, (void *)&__dt__15RenderFadeStateFv, 0x1C, 4);
     ((TObject *)ene_recobox)->m_name = TObjEneRecobox_name_ref;
-    ((TObjEneDD *)ene_recobox)->invoke_initialization_hook(arg2);
+    ((TObjEneDD *)ene_recobox)->invoke_initialization_hook(set_data);
     ((TObjEneDD *)ene_recobox)->init_position_vectors();
     *(s32 *)((s8 *)ene_recobox + 0x34) = *(s32 *)((s8 *)(*(u8 **)((s8 *)TObjEneRecobox__static_instance + 0x42C)) + 0x18);
     ((TObjEneRecobox *)ene_recobox)->texlist = *(s32 *)((s8 *)(*(u8 **)((s8 *)TObjEneRecobox__static_instance + 0x42C)) + 0x1C);
@@ -859,7 +859,7 @@ u8 *TObjEneRecobox__ct(u8 *ene_recobox, s32 arg1, u8 *arg2) {
     ((TObjEneDD *)ene_recobox)->initialize_enemy_state(0x43);
     ((TObjEneRecobox *)ene_recobox)->m_37c = 10.0f;
     ((TObjEneRecobox *)ene_recobox)->sub_8031F800();
-    n = *(s16 *)((s8 *)arg2 + 2);
+    n = *(s16 *)((s8 *)set_data + 2);
     if (n <= 1) {
         *(s32 *)&((TObjEneRecobox *)ene_recobox)->m_410 = 0;
     } else if (*(s32 *)&((TObjEneRecobox *)ene_recobox)->m_410 >= n) {
@@ -930,28 +930,28 @@ void TObjEneRecobox::run_task() {
     this->update_floor_probe();
 }
 
-void dispatch_state__12TObjEneReconFiUii(s32 ene_dd, u32 arg1, s32 arg2) {
+void dispatch_state__12TObjEneReconFiUii(s32 ene_dd, u32 arg1, s32 reason) {
     switch (arg1) {
     case 0:
-        ((TObjEneRecobox *)ene_dd)->sub_8031F6C0(arg2);
+        ((TObjEneRecobox *)ene_dd)->sub_8031F6C0(reason);
         return;
     case 1:
-        ((TObjEneRecon *)ene_dd)->handle_state(arg2);
+        ((TObjEneRecon *)ene_dd)->handle_state(reason);
         return;
     case 2:
-        TObjEneRecon__sub_8031F600((void *)ene_dd, (arg2));
+        TObjEneRecon__sub_8031F600((void *)ene_dd, (reason));
         return;
     case 3:
-        ((TObjEneRecon *)ene_dd)->update_state(arg2);
+        ((TObjEneRecon *)ene_dd)->update_state(reason);
         return;
     case 4:
-        ((TObjEneRecon *)ene_dd)->handle_action_state(arg2);
+        ((TObjEneRecon *)ene_dd)->handle_action_state(reason);
         return;
     case 5:
-        TObjEneRecon__sub_8031F408((void *)ene_dd, (arg2));
+        TObjEneRecon__sub_8031F408((void *)ene_dd, (reason));
         return;
     case 6:
-        ((TObjEneRecon *)ene_dd)->handle_death_state(arg2);
+        ((TObjEneRecon *)ene_dd)->handle_death_state(reason);
     default:
         return;
     }
@@ -1386,7 +1386,7 @@ void TObjEneRecobox::update_if_800BB858() { if (get_target_info() != 0) { sub_80
 void TObjEneRecobox::render() {
     s32 temp_r30;
     Fade_8031EA70 *temp_r29;
-    s32 var_r29;
+    s32 camera_mode;
     s32 var_r28;
     s32 var_r27;
     u8 *arg0 = (u8 *)this;
@@ -1394,9 +1394,9 @@ void TObjEneRecobox::render() {
         ((TObjEneRecobox *)arg0)->draw_with_debug_info();
         return;
     }
-    var_r29 = 0;
+    camera_mode = 0;
     if (is_split_screen() != 0) {
-        var_r29 = TCameraCtrl::get_camera_mode();
+        camera_mode = TCameraCtrl::get_camera_mode();
     }
     if (!(*(s32 *)((s8 *)arg0 + 0x40C) & 1)) {
         if (TObjEneDD::is_main_phase_15() != 0) {
@@ -1430,7 +1430,7 @@ void TObjEneRecobox::render() {
                     return;
                 }
 block_18:
-                temp_r29 = &((Holder_8031EA70 *)arg0)->arr[var_r29];
+                temp_r29 = &((Holder_8031EA70 *)arg0)->arr[camera_mode];
                 ((RenderFadeState *)temp_r29)->update();
                 temp_r30 = ((RenderFadeState *)temp_r29)->updateFromCamera((const f32*)(arg0 + 0x2FC));
                 if ((var_r27 == 0) && (temp_r30 != 0)) {

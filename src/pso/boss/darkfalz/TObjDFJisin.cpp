@@ -869,16 +869,16 @@ void TObjDFRecover::run_task() {
 }
 #pragma pop
 
-void *__dt__13TObjDFRecoverFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(void **)((s8 *)arg0 + 0x18) = __vt__13TObjDFRecover;
-        if (((TObjDFRecover *)arg0)->effect != 0) TParticleCtrl::release(((TObjDFRecover *)arg0)->effect);
-        __dt__7TObjectFv(arg0, 0);
+void *__dt__13TObjDFRecoverFv(void *obj_df_recover, s16 arg1) {
+    if (obj_df_recover != NULL) {
+        *(void **)((s8 *)obj_df_recover + 0x18) = __vt__13TObjDFRecover;
+        if (((TObjDFRecover *)obj_df_recover)->effect != 0) TParticleCtrl::release(((TObjDFRecover *)obj_df_recover)->effect);
+        __dt__7TObjectFv(obj_df_recover, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(obj_df_recover);
         }
     }
-    return arg0;
+    return obj_df_recover;
 }
 
 extern const char *TObjDFRecover__name;
@@ -1084,7 +1084,7 @@ void TObjPlayer::draw_player_model_by_client(u16 arg0, s32 arg1, f32 farg0, f32 
 
 }
 
-void boss6type2_draw_models(s32 arg0, s32 arg1, s32 arg2, u32 arg3, u32 arg4, u32 arg5, u32 arg6, s32 appearance, f32 alpha) {
+void boss6type2_draw_models(s32 arg0, s32 arg1, s32 arg2, u32 arg3, u32 arg4, u32 model, u32 arg6, s32 appearance, f32 alpha) {
     if (lbl_805D8A30 != alpha) {
         ((TObjDFTenchuFuru *)arg3)->draw_node_tree();
         if (alpha < lbl_805D8A34) {
@@ -1111,12 +1111,12 @@ void boss6type2_draw_models(s32 arg0, s32 arg1, s32 arg2, u32 arg3, u32 arg4, u3
         if (alpha < lbl_805D8A34) {
             TObjPlayer::sync_player_globals();
         }
-        if (arg5 != 0U) {
+        if (model != 0U) {
             TCharaMaking::enable_making();
             push_matrix();
             post_translate_matrix(&lbl_804FF228.x);
             TObjFish::set_global_param(arg1);
-            TCharaMaking__draw_colored_hair(alpha, (s32)arg5, (CharacterAppearanceFields *)appearance, 0);
+            TCharaMaking__draw_colored_hair(alpha, (s32)model, (CharacterAppearanceFields *)appearance, 0);
             pop_matrix();
             TCharaMaking::clear_flag_bit0();
         }

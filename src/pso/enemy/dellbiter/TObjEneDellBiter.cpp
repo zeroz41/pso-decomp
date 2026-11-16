@@ -945,7 +945,7 @@ void TObjEneDellBiter::fn_80304B88(s32 reason) {
 void TObjEneDellBiter::fn_8030492C(s32 reason) {
     f32 temp_f31_2;
     s32 temp_r30;
-    DelbiterMovementParameters *temp_r30_2;
+    DelbiterMovementParameters *delbiter_movement_parameters;
     switch (reason) {
     case 4:
         this->requested_action = 1;
@@ -973,14 +973,14 @@ void TObjEneDellBiter::fn_8030492C(s32 reason) {
         }
         rotation_y = approach_angle_limited(rotation_y, temp_r30 = (s32) (10430.38043493439 * atan2_float(target_direction.x, target_direction.z)), 0x300);
         part_rotation_x = turn_toward_angle_limited__15TObjBoss2TunnelFlllll(rotation_y, part_rotation_x, temp_r30, 0x200, 0x2000);
-        temp_r30_2 = TObjEneDellBiter__movement_params;
-        if (target_distance <= (f32) temp_r30_2->attack_distance) {
+        delbiter_movement_parameters = TObjEneDellBiter__movement_params;
+        if (target_distance <= (f32) delbiter_movement_parameters->attack_distance) {
             temp_f31_2 = (target_direction.x * sin_table_lookup(rotation_y)) + (target_direction.z * cos_table_lookup(rotation_y));
             if (temp_f31_2 >= cos_table_lookup(0x1800)) {
                 state_timer = 1;
             }
         } else {
-            this->move_clamped_on_ground(sin_table_lookup(rotation_y), cos_table_lookup(rotation_y), temp_r30_2->walk_speed);
+            this->move_clamped_on_ground(sin_table_lookup(rotation_y), cos_table_lookup(rotation_y), delbiter_movement_parameters->walk_speed);
         }
         this->vfunc_89();
         fn_80305684();

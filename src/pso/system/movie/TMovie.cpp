@@ -69,10 +69,10 @@ s32 TMovie::close(int arg0, short arg1) {
     return arg0;
 }
 
-u8 *initialize_movie_with_soundtrack(u8 *movie, s8 *arg1, s32 arg2, s32 arg3, s32 arg4) {
+u8 *initialize_movie_with_soundtrack(u8 *movie, s8 *name, s32 arg2, s32 arg3, s32 arg4) {
     *(s32 *)((s8 *)movie + 0xCC) = arg2;
     *(s32 *)((s8 *)movie + 0) = 0;
-    TMovie__sub_80144324((MovieState *)movie, arg1);
+    TMovie__sub_80144324((MovieState *)movie, name);
     ((TMovie *)movie)->init_sfd_player(arg3, arg4);
     if (arg3 != 0) {
         play_area_music("CUBE_ENDING.adx");
@@ -297,38 +297,38 @@ void TMovie__sub_80144324(MovieState *movie, const s8 *name) {
     lbl_805D6B28(&movie->frame_rate);
 }
 
-void *__dt__6TMovieFv(TMovie *arg0, s16 arg1) {
+void *__dt__6TMovieFv(TMovie *movie, s16 arg1) {
     s32 (*temp_r12)(void *);
     u32 t;
 
-    if (arg0 != NULL) {
-        *(void **)((s8 *)arg0 + 0x18) = __vt__6TMovie;
-        arg0->render_until_finished();
+    if (movie != NULL) {
+        *(void **)((s8 *)movie + 0x18) = __vt__6TMovie;
+        movie->render_until_finished();
         render_tick();
-        t = arg0->m_20;
+        t = movie->m_20;
         if (t != 0U) {
             TMovie::close(t, 1);
-            arg0->m_20 = 0U;
+            movie->m_20 = 0U;
         }
         render_tick();
         render_tick();
-        t = arg0->m_1c;
+        t = movie->m_1c;
         if (t != 0U) {
             fn_80320358(t, 1);
-            arg0->m_1c = 0U;
+            movie->m_1c = 0U;
         }
         render_tick();
-        temp_r12 = *(s32 (**)(void *))((s8 *)arg0 + 0x44);
+        temp_r12 = *(s32 (**)(void *))((s8 *)movie + 0x44);
         if (temp_r12 != NULL) {
-            temp_r12(arg0);
+            temp_r12(movie);
         }
         TLobby::set_pre_retrace_callback();
-        __dt__7TObjectFv(arg0, 0);
+        __dt__7TObjectFv(movie, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(movie);
         }
     }
-    return arg0;
+    return movie;
 }
 
 void TMovie::render_until_finished() {
@@ -340,7 +340,7 @@ loop_1:
 }
 
 s32 TMovie::check_skip_input() {
-    void *var_r31;
+    void *context;
     s32 var_r30;
 
     if (TAdEndText__sub_8001B41C() != 0) {
@@ -354,21 +354,21 @@ s32 TMovie::check_skip_input() {
     }
     switch (get_opening_movie_purpose()) {
     case 0:
-        var_r31 = controller_physical_port_bank + 0x20;
-        if (TWindowShortListCtrl__check_controller_button(var_r31, 4) != 0) goto block_fn_8000F91C;
-        if (TWindowShortListCtrl__check_controller_button(var_r31, 2) != 0) goto block_fn_8000F91C;
-        if (TWindowShortListCtrl__check_controller_button(var_r31, 0x400) != 0) goto block_fn_8000F91C;
-        if (TWindowShortListCtrl__check_controller_button(var_r31, 0x200) != 0) goto block_fn_8000F91C;
-        if (TWindowShortListCtrl__check_controller_button(var_r31, 8) != 0) goto block_fn_8000F91C;
-        if (TWindowShortListCtrl__check_controller_button(var_r31, 0x10) != 0) goto block_fn_8000F91C;
-        if (TWindowShortListCtrl__check_controller_button(var_r31, 0x20) != 0) goto block_fn_8000F91C;
-        if (TWindowShortListCtrl__check_controller_button(var_r31, 0x40) != 0) goto block_fn_8000F91C;
-        if (TWindowShortListCtrl__check_controller_button(var_r31, 0x80) != 0) goto block_fn_8000F91C;
-        if (TWindowShortListCtrl__check_controller_button(var_r31, 0x20000) != 0) goto block_fn_8000F91C;
-        if (TWindowShortListCtrl__check_controller_button(var_r31, 0x10000) != 0) goto block_fn_8000F91C;
-        var_r31 = controller_input_state + 0x160;
-        if (test_flag_4c__23TAdSinglePlyChrSelectGCFv(var_r31, 4) != 0) goto block_fn_8000F91C;
-        if (test_flag_4c__23TAdSinglePlyChrSelectGCFv(var_r31, 2) != 0) goto block_fn_8000F91C;
+        context = controller_physical_port_bank + 0x20;
+        if (TWindowShortListCtrl__check_controller_button(context, 4) != 0) goto block_fn_8000F91C;
+        if (TWindowShortListCtrl__check_controller_button(context, 2) != 0) goto block_fn_8000F91C;
+        if (TWindowShortListCtrl__check_controller_button(context, 0x400) != 0) goto block_fn_8000F91C;
+        if (TWindowShortListCtrl__check_controller_button(context, 0x200) != 0) goto block_fn_8000F91C;
+        if (TWindowShortListCtrl__check_controller_button(context, 8) != 0) goto block_fn_8000F91C;
+        if (TWindowShortListCtrl__check_controller_button(context, 0x10) != 0) goto block_fn_8000F91C;
+        if (TWindowShortListCtrl__check_controller_button(context, 0x20) != 0) goto block_fn_8000F91C;
+        if (TWindowShortListCtrl__check_controller_button(context, 0x40) != 0) goto block_fn_8000F91C;
+        if (TWindowShortListCtrl__check_controller_button(context, 0x80) != 0) goto block_fn_8000F91C;
+        if (TWindowShortListCtrl__check_controller_button(context, 0x20000) != 0) goto block_fn_8000F91C;
+        if (TWindowShortListCtrl__check_controller_button(context, 0x10000) != 0) goto block_fn_8000F91C;
+        context = controller_input_state + 0x160;
+        if (test_flag_4c__23TAdSinglePlyChrSelectGCFv(context, 4) != 0) goto block_fn_8000F91C;
+        if (test_flag_4c__23TAdSinglePlyChrSelectGCFv(context, 2) != 0) goto block_fn_8000F91C;
         if (TLobby::run_disk_error_check() == 0) goto block_fn_8000F91C;
         if (TKeyBoardControl::check_reset_button() != 0) goto block_fn_8000F91C;
         if (is_playback_finished__6TMovieFv(this->m_20) == 0) goto block_return0;
@@ -380,12 +380,12 @@ block_fn_8000F91C:
         if (TKeyBoardControl::check_reset_button() != 0) {
             var_r30 = 1;
         }
-        var_r31 = controller_physical_port_bank + 0x20;
-        if (TWindowShortListCtrl__check_controller_button(var_r31, 2) != 0) goto block_call_func;
-        if (TWindowShortListCtrl__check_controller_button(var_r31, 8) != 0) goto block_call_func;
-        var_r31 = controller_input_state + 0x160;
-        if (test_flag_4c__23TAdSinglePlyChrSelectGCFv(var_r31, 4) != 0) goto block_call_func;
-        if (test_flag_4c__23TAdSinglePlyChrSelectGCFv(var_r31, 2) != 0) goto block_call_func;
+        context = controller_physical_port_bank + 0x20;
+        if (TWindowShortListCtrl__check_controller_button(context, 2) != 0) goto block_call_func;
+        if (TWindowShortListCtrl__check_controller_button(context, 8) != 0) goto block_call_func;
+        context = controller_input_state + 0x160;
+        if (test_flag_4c__23TAdSinglePlyChrSelectGCFv(context, 4) != 0) goto block_call_func;
+        if (test_flag_4c__23TAdSinglePlyChrSelectGCFv(context, 2) != 0) goto block_call_func;
         if (TLobby::run_disk_error_check() == 0) goto block_call_func;
         if (var_r30 != 0) goto block_call_func;
         if (is_playback_finished__6TMovieFv(this->m_20) == 0) goto block_return0;

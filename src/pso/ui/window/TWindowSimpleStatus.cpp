@@ -175,15 +175,15 @@ void TWindowSubStatusDisp::start_hp_text_color_transition() {
 }
 
 void TWindowSubStatusDisp::init_gauge_entry() {
-    VObj3_8026f71c_more_8026f8cc_0 *temp_r3;
+    VObj3_8026f71c_more_8026f8cc_0 *array_entry;
     f32 temp_f0;
 
-    temp_r3 = (VObj3_8026f71c_more_8026f8cc_0 *) get_array_entry(3);
+    array_entry = (VObj3_8026f71c_more_8026f8cc_0 *) get_array_entry(3);
     temp_f0 = 0.0f;
-    *(f32 *)((s8 *)temp_r3 + 0x20) = temp_f0;
-    *(f32 *)((s8 *)temp_r3 + 0x24) = temp_f0;
-    temp_r3->m3();
-    start_text_color_transition(temp_r3, 0xFF00FF15, 1.0f);
+    *(f32 *)((s8 *)array_entry + 0x20) = temp_f0;
+    *(f32 *)((s8 *)array_entry + 0x24) = temp_f0;
+    array_entry->m3();
+    start_text_color_transition(array_entry, 0xFF00FF15, 1.0f);
 }
 
 void TWindowSubStatusDisp::update_status_entry() {
@@ -203,18 +203,18 @@ s32 TWindowSubStatusDisp::update_hp_gauge() {
     s32 var_r4;
     s32 var_r31;
     void *temp_r30;
-    void *temp_r3;
+    void *player;
     s32 arg0 = (s32)this;
 
     get_width__19TWindowSimpleStatusFv();
-    temp_r3 = get_player_by_client_id();
-    if (temp_r3 == NULL) {
+    player = get_player_by_client_id();
+    if (player == NULL) {
         ((TWindowSubStatusDisp *)arg0)->start_hp_text_color_transition();
         return 0xFF008CFC;
     }
     temp_r30 = get_array_entry__11TWindowBaseFi((void *)arg0, 4);
-    *(f32 *)((s8 *)temp_r30 + 0x20) = (f32) obj_getS16_2BA((u8 *)temp_r3);
-    *(f32 *)((s8 *)temp_r30 + 0x24) = (f32) *(s16 *)((s8 *)temp_r3 + 0x32E);
+    *(f32 *)((s8 *)temp_r30 + 0x20) = (f32) obj_getS16_2BA((u8 *)player);
+    *(f32 *)((s8 *)temp_r30 + 0x24) = (f32) *(s16 *)((s8 *)player + 0x32E);
     if (*(f32 *)((s8 *)temp_r30 + 0x24) > (0.2f * *(f32 *)((s8 *)temp_r30 + 0x20))) {
         var_r31 = -1;
         var_r4 = 0xFF008CFC;
@@ -229,7 +229,7 @@ s32 TWindowSubStatusDisp::update_hp_gauge() {
 s32 TWindowSubStatusDisp::update_hp_entry() {
     s32 var_r30;
     s32 var_r4;
-    u8 *temp_r31;
+    u8 *array_entry;
     u8 *player;
     get_width__19TWindowSimpleStatusFv();
     player = (u8 *)(((u8 *)get_player_by_client_id()));
@@ -237,20 +237,20 @@ s32 TWindowSubStatusDisp::update_hp_entry() {
         this->init_gauge_entry();
         return 0xFF00FF15;
     }
-    temp_r31 = (u8 *)(((u8 *)get_array_entry(3)));
-    *(f32 *)((s8 *)temp_r31 + 0x20) = (f32) ((TItemProShield *)player)->get_field_2b8();
-    if (*(f32 *)((s8 *)temp_r31 + 0x24) > (f32) *(s16 *)((s8 *)player + 0x32C)) {
+    array_entry = (u8 *)(((u8 *)get_array_entry(3)));
+    *(f32 *)((s8 *)array_entry + 0x20) = (f32) ((TItemProShield *)player)->get_field_2b8();
+    if (*(f32 *)((s8 *)array_entry + 0x24) > (f32) *(s16 *)((s8 *)player + 0x32C)) {
         *(s32 *)((s8 *)((u8 *)this) + 0x60) = 4;
     }
-    *(f32 *)((s8 *)temp_r31 + 0x24) = (f32) *(s16 *)((s8 *)player + 0x32C);
-    if (*(f32 *)((s8 *)temp_r31 + 0x24) > (0.2f * *(f32 *)((s8 *)temp_r31 + 0x20))) {
+    *(f32 *)((s8 *)array_entry + 0x24) = (f32) *(s16 *)((s8 *)player + 0x32C);
+    if (*(f32 *)((s8 *)array_entry + 0x24) > (0.2f * *(f32 *)((s8 *)array_entry + 0x20))) {
         var_r30 = -1;
         var_r4 = 0xFF00FF15;
     } else {
         var_r4 = 0xFFF2FF19;
         var_r30 = 0xFFF2FF19;
     }
-    start_text_color_transition(temp_r31, var_r4, 11.1f);
+    start_text_color_transition(array_entry, var_r4, 11.1f);
     return var_r30;
 }
 

@@ -122,16 +122,16 @@ void TUnk_804C3F48::run_task() {
 }
 #pragma pop
 
-u8 *__dt__13TUnk_804C3F48Fv(u8 *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_801C5320_lbl_804C3F48 *)&lbl_804C3F48).value;
+u8 *__dt__13TUnk_804C3F48Fv(u8 *object, s16 arg1) {
+    if (object != NULL) {
+        *(s32 **)((s8 *)object + 0x18) = &(*(RecoveredGlobal_801C5320_lbl_804C3F48 *)&lbl_804C3F48).value;
         ad_single_ply_chr_select_instance = 0;
-        __dt__7TObjectFv(arg0, 0);
+        __dt__7TObjectFv(object, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv((s32) arg0);
+            __dl__7TObjectFPv((s32) object);
         }
     }
-    return arg0;
+    return object;
 }
 
 u8 *fn_801C5380(u8 *arg0, s32 arg1) {

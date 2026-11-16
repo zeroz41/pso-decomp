@@ -873,14 +873,14 @@ int forward_message__6TLobbyFlUl(int, void*);
     extern const float lbl_805DCF08;
 
 void TWindowSubStatusDisp::set_item_info(void* a1, int a2, void* a3) {
-    int temp_r31;
+    int item_data;
     int temp_r3;
 
     *(float*)((char*)this + 0x8) = lbl_805DCF08;
     *(unsigned char *)&this->unk_1C = 51;
-    temp_r31 = TLobby::get_item_data((u32)a1);
+    item_data = TLobby::get_item_data((u32)a1);
     temp_r3 = is_wrapped__9TItemDataFPv(a1);
-    select_item_icon__20TWindowSubStatusDispFPviUcUci(this, (void*)temp_r31, (void*)(*(unsigned char*)((char*)a1 + 0x0)), (void*)(*(unsigned char*)((char*)a1 + 0x1)), (void*)temp_r3);
+    select_item_icon__20TWindowSubStatusDispFPviUcUci(this, (void*)item_data, (void*)(*(unsigned char*)((char*)a1 + 0x0)), (void*)(*(unsigned char*)((char*)a1 + 0x1)), (void*)temp_r3);
     forward_message__6TLobbyFlUl(get_shared_text_buffer(), a1);
     *(int*)((char*)this + 0x20) = replace_owned_string__20TWindowSubStatusDispFPviiii(this, (void*)get_shared_text_buffer(), (void*)(*(int*)((char*)this + 0x20)), (void*)8, (void*)1);
     update_stat_line_if_positive__20TWindowSubStatusDispFPvi(this, a3);
@@ -932,12 +932,12 @@ s32 replace_owned_string__20TWindowSubStatusDispFPviiii(void *arg0, s32 src, s32
 #define is_wrapped__9TItemDataFPv ((s32 (*)(void *))is_wrapped__9TItemDataFPv)
 
 void TWindowSubStatusDisp::set_ground_item(void *it, s32 arg2) {
-    s32 temp_r31;
+    s32 item_data;
 
     *(f32 *)((s8 *)this + 8) = (f32) lbl_805DCF08;
     *(s8 *)&this->unk_1C = 0x33;
-    temp_r31 = TLobby::get_item_data((u32)it);
-    select_item_icon__20TWindowSubStatusDispFPviUcUci(this, temp_r31, *(u8 *)((s8 *)it + 0), *(u8 *)((s8 *)it + 1), is_wrapped__9TItemDataFPv(it));
+    item_data = TLobby::get_item_data((u32)it);
+    select_item_icon__20TWindowSubStatusDispFPviUcUci(this, item_data, *(u8 *)((s8 *)it + 0), *(u8 *)((s8 *)it + 1), is_wrapped__9TItemDataFPv(it));
     forward_message__6TLobbyFlUl(get_shared_text_buffer(), it);
     *(s32 *)((s8 *)this + 0x20) = replace_owned_string__20TWindowSubStatusDispFPviiii(this, (s32)(get_shared_text_buffer()), (s32)(*(s32 *)((s8 *)this + 0x20)), 8, 1);
     if (TCameraCtrl::get_camera_id() <= 2) {

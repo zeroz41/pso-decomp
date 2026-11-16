@@ -63,15 +63,15 @@ void reinit_photon_blast_gauge(u16 *arg0);
 void handle_6x3A_clear_photon_blast_ready_flag(s32 arg0);
 void handle_6x3B_clear_temporary_photon_blast_state_flags(s32 arg0) {
     struct { s16 a; u16 b; } sp8;
-    s32 temp_r3;
+    s32 player;
     ((TFontSmallLobby *)(&sp8))->init_pkt_cmd_3B();
     TFontSmallLobby__sub_801D6804(&sp8, (void *)arg0);
     bswap_g_client_id_header((&sp8));
     if (validate_6x3B_clear_temporary_photon_blast_state_flags(&sp8) != 0) {
-        temp_r3 = (s32)get_player_by_client_id(sp8.b);
-        if (temp_r3 != 0) {
-            ((TObjPlayer *)(temp_r3 + 0x4AC))->clear_photon_blast_state();
-            if (TObjPlayer::is_locally_controlled((void *)temp_r3) != 0) {
+        player = (s32)get_player_by_client_id(sp8.b);
+        if (player != 0) {
+            ((TObjPlayer *)(player + 0x4AC))->clear_photon_blast_state();
+            if (TObjPlayer::is_locally_controlled((void *)player) != 0) {
                 TObjPlayer::update_photon_blast_state();
             }
         }

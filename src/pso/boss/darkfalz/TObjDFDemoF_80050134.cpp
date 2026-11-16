@@ -64,16 +64,16 @@ CameraPlayback lbl_80485858 = {0, 5, 0, 0.0f, 0.5f};
 void *three_part_model_translate_offset[3] = {(void *) 0xc69c4000, (void *) 0x0, (void *) 0x0};
 void *__vt__11TObjDFDemoF[14] = {(void *) 0x0, (void *) 0x0, &__dt__11TObjDFDemoFFPvs, &run_task__11TObjDFDemoFFv, &render__11TObjDFDemoFFv, &render_shadows__7TObjectFv, &vfunc_6__8TObjBaseFPsl, &apply_object_set_data__8TObjBaseFPv, &reset_motion_fields__8TObjBaseFv, &get_center__8TObjBaseFv, &update_object_view_visibility__8TObjBaseFff, &classify_actor_view_detail__8TObjBaseFfff, &get_name__8TObjBaseFv, (void *) 0x0};
 
-void *__dt__11TObjDFDemoFFPvs(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = (s32 *)__vt__11TObjDFDemoF;
+void *__dt__11TObjDFDemoFFPvs(void *base, s16 arg1) {
+    if (base != NULL) {
+        *(s32 **)((s8 *)base + 0x18) = (s32 *)__vt__11TObjDFDemoF;
         restore_player_cameras();
-        __dt__8TObjBaseFv(arg0, 0);
+        __dt__8TObjBaseFv(base, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(base);
         }
     }
-    return arg0;
+    return base;
 }
 
 #pragma opt_propagation off

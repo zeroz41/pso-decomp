@@ -534,7 +534,7 @@ void dispatch_offline_main_frame(void) {
 void init_offline_game_scene(void) {
     s32 game_mode;
     s32 i;
-    void *temp_r3;
+    void *player_data;
     lbl_805D5CE0 = 0;
     TLobby__lobby_state_flags = 0;
     set_copy_clear_color_argb(0, 0, 0);
@@ -577,9 +577,9 @@ void init_offline_game_scene(void) {
     main_task.render_screen_overlay();
     game_mode = TLobby::get_game_mode();
     for (i = 0; i < game_mode; i++) {
-        temp_r3 = TObjPlayer::get_player_data(i);
-        if (temp_r3 != NULL) {
-            ((PV_801A39BC *)temp_r3)->m6();
+        player_data = TObjPlayer::get_player_data(i);
+        if (player_data != NULL) {
+            ((PV_801A39BC *)player_data)->m6();
         }
     }
     TObjPlayer__sub_801B1BA4();

@@ -63,15 +63,15 @@ void TWindowSubItemList::render() {
 
 void TWindowSubItemList::run_task() { { (void)(this->TWindowMenuIconLine::run_task()); return; } }
 
-void *__dt__18TWindowSubItemListFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__18TWindowSubItemList;
-        ((TWindowSubStatusDisp *)arg0)->destroy_item_list_resources(0);
+void *__dt__18TWindowSubItemListFv(void *window_sub_status_disp, s16 arg1) {
+    if (window_sub_status_disp != NULL) {
+        *(s32 **)((s8 *)window_sub_status_disp + 0x18) = __vt__18TWindowSubItemList;
+        ((TWindowSubStatusDisp *)window_sub_status_disp)->destroy_item_list_resources(0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(window_sub_status_disp);
         }
     }
-    return arg0;
+    return window_sub_status_disp;
 }
 u8 *TWindowSubItemList__ct(u8 *arg0, s32 arg1, s16 arg2) {
     fn_802683F4((arg0), (arg1), 0x24, (arg2));

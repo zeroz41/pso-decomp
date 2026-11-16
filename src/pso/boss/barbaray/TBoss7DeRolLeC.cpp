@@ -2075,17 +2075,17 @@ void TBoss7LaserPtcl__sub_802ECE28(u8 *arg0) {
 }
 #pragma pop
 void TBoss7LaserPtcl::free_laser_light() {
-    void *temp_r3 = *(void **)((s8 *)this + 0x708);
-    if ((u32) temp_r3 != 0U) {
-        ((TBoss7LaserLight *)temp_r3)->turn_on();
+    void *boss7_laser_light = *(void **)((s8 *)this + 0x708);
+    if ((u32) boss7_laser_light != 0U) {
+        ((TBoss7LaserLight *)boss7_laser_light)->turn_on();
     }
     *(s32 *)((s8 *)this + 0x628) = (s32) (*(s32 *)((s8 *)this + 0x628) | 0x10);
 }
 
 void release_laser_light__15TBoss7LaserPtclFPv(void *arg0) {
-    void *temp_r3 = *(void **)((s8 *)arg0 + 0x708);
-    if ((u32) temp_r3 != 0U) {
-        ((TBoss7LaserLight *)temp_r3)->turn_off();
+    void *boss7_laser_light = *(void **)((s8 *)arg0 + 0x708);
+    if ((u32) boss7_laser_light != 0U) {
+        ((TBoss7LaserLight *)boss7_laser_light)->turn_off();
     }
     *(s32 *)((s8 *)arg0 + 0x628) = (s32) (*(s32 *)((s8 *)arg0 + 0x628) & 0xFFFFFFEF);
 }
@@ -4625,7 +4625,7 @@ void TObjPlayer__sub_802E7FC0(void *arg0) {
 void TObjPlayer__sub_802E7F30(void *unused, s32 arg1) {
   s32 *var_r4;
   s32 var_r31;
-  u8 *temp_r3;
+  u8 *model_node;
   u8 *temp_r3_2;
   u8 *var_r3;
   var_r31 = arg1;
@@ -4638,11 +4638,11 @@ void TObjPlayer__sub_802E7F30(void *unused, s32 arg1) {
     {
       var_r4 = (s32 *)lbl_804739AC;
       var_r4 = (s32 *) (*((s32 *) (((s8 *)lbl_804739AC) + var_r31)));
-      temp_r3 = (u8 *) find_model_node(queue_boss_effect__10TObjPlayerFPv(0), (s32) var_r4);
+      model_node = (u8 *) find_model_node(queue_boss_effect__10TObjPlayerFPv(0), (s32) var_r4);
     }
-    if (temp_r3 != 0)
+    if (model_node != 0)
     {
-      var_r3 = (u8 *) ((RecoveredFields_802E7F30_temp_r3 *) temp_r3)->field_4;
+      var_r3 = (u8 *) ((RecoveredFields_802E7F30_temp_r3 *) model_node)->field_4;
       ((RecoveredFields_802E7F30_var_r3 *) var_r3)->field_4 = 0;
     }
     var_r3 = (u8 *) 0;

@@ -117,39 +117,39 @@ void *TAdRicoRingCtrl::create(void *parent) {
     return o;
 }
 
-u8 *__ct__11TAdRicoRingFv(u8 *arg0, void *parent) {
-    __ct__7TObjectFP7TObject(arg0, parent);
-    *(s32 **)((s8 *)arg0 + 0x18) = &__vt__11TAdRicoRing.value;
-    __ct__8FlagWordFv((arg0 + 0x2C));
-    *(s32 *)((s8 *)arg0 + 0) = (s32) TAdRicoRing__class_name;
-    *(s32 *)((s8 *)arg0 + 0x4C) = get_bml_model((void *)TAdRicoRing__resource_bundle, 0);
-    *(s32 *)((s8 *)arg0 + 0x50) = TObjFish__sub_8001EDB0((void *)TAdRicoRing__resource_bundle, 0);
-    *(f32 *)((s8 *)arg0 + 0x28) = 0.0f;
-    *(f32 *)((s8 *)arg0 + 0x24) = 0.0f;
-    *(f32 *)((s8 *)arg0 + 0x20) = 0.0f;
-    *(f32 *)((s8 *)arg0 + 0x1C) = 0.0f;
-    *(f32 *)((s8 *)arg0 + 0x44) = 0.0f;
-    *(f32 *)((s8 *)arg0 + 0x40) = 0.0f;
-    *(f32 *)((s8 *)arg0 + 0x3C) = 0.0f;
-    *(f32 *)((s8 *)arg0 + 0x38) = 0.0f;
-    *(f32 *)((s8 *)arg0 + 0x60) = 0.0f;
-    *(f32 *)((s8 *)arg0 + 0x5C) = 0.0f;
-    *(f32 *)((s8 *)arg0 + 0x58) = 0.0f;
-    *(s32 *)((s8 *)arg0 + 0x6C) = 0;
-    *(s32 *)((s8 *)arg0 + 0x68) = 0;
-    *(s32 *)((s8 *)arg0 + 0x64) = 0;
-    *(f32 *)((s8 *)arg0 + 0x34) = 0.0f;
-    *(s32 *)((s8 *)arg0 + 0x30) = 0x5B0;
-    ((FlagWord *)(arg0 + 0x2C))->set((s32)(4U));
+u8 *__ct__11TAdRicoRingFv(u8 *object, void *parent) {
+    __ct__7TObjectFP7TObject(object, parent);
+    *(s32 **)((s8 *)object + 0x18) = &__vt__11TAdRicoRing.value;
+    __ct__8FlagWordFv((object + 0x2C));
+    *(s32 *)((s8 *)object + 0) = (s32) TAdRicoRing__class_name;
+    *(s32 *)((s8 *)object + 0x4C) = get_bml_model((void *)TAdRicoRing__resource_bundle, 0);
+    *(s32 *)((s8 *)object + 0x50) = TObjFish__sub_8001EDB0((void *)TAdRicoRing__resource_bundle, 0);
+    *(f32 *)((s8 *)object + 0x28) = 0.0f;
+    *(f32 *)((s8 *)object + 0x24) = 0.0f;
+    *(f32 *)((s8 *)object + 0x20) = 0.0f;
+    *(f32 *)((s8 *)object + 0x1C) = 0.0f;
+    *(f32 *)((s8 *)object + 0x44) = 0.0f;
+    *(f32 *)((s8 *)object + 0x40) = 0.0f;
+    *(f32 *)((s8 *)object + 0x3C) = 0.0f;
+    *(f32 *)((s8 *)object + 0x38) = 0.0f;
+    *(f32 *)((s8 *)object + 0x60) = 0.0f;
+    *(f32 *)((s8 *)object + 0x5C) = 0.0f;
+    *(f32 *)((s8 *)object + 0x58) = 0.0f;
+    *(s32 *)((s8 *)object + 0x6C) = 0;
+    *(s32 *)((s8 *)object + 0x68) = 0;
+    *(s32 *)((s8 *)object + 0x64) = 0;
+    *(f32 *)((s8 *)object + 0x34) = 0.0f;
+    *(s32 *)((s8 *)object + 0x30) = 0x5B0;
+    ((FlagWord *)(object + 0x2C))->set((s32)(4U));
     switch (TKeyBoardControl__sub_8000F828()) {
     case 0:
-        *(s32 *)((s8 *)arg0 + 0x48) = 0x12;
+        *(s32 *)((s8 *)object + 0x48) = 0x12;
         break;
     case 1:
-        *(s32 *)((s8 *)arg0 + 0x48) = 0x15;
+        *(s32 *)((s8 *)object + 0x48) = 0x15;
         break;
     }
-    return arg0;
+    return object;
 }
 
 TAdRicoRing::~TAdRicoRing() {}

@@ -1526,16 +1526,16 @@ void run_task__13TRaderMapCoreFv(TRaderMapCore *rader_map_core) {
     }
 }
 typedef char RecoveredGlobal_801FB430___vt__13TRaderMapCore_size[sizeof(RecoveredGlobal_801FB430___vt__13TRaderMapCore) == 0x34 ? 1 : -1];
-u8 *__dt__13TRaderMapCoreFv(u8 *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = &__vt__13TRaderMapCore.value;
+u8 *__dt__13TRaderMapCoreFv(u8 *base, s16 arg1) {
+    if (base != NULL) {
+        *(s32 **)((s8 *)base + 0x18) = &__vt__13TRaderMapCore.value;
         TRaderMapCore__instance = 0;
-        __dt__8TObjBaseFv(arg0, 0);
+        __dt__8TObjBaseFv(base, 0);
         if (arg1 > 0) {
-            TObject::operator delete(arg0);
+            TObject::operator delete(base);
         }
     }
-    return arg0;
+    return base;
 }
 #pragma push
 #pragma opt_common_subs off
@@ -1733,15 +1733,15 @@ void TRaderMapCore::init_map_ptr() {
 
 extern s32 lbl_804C88A8[];
 
-void *__dt__13TUnk_804C88A8Fv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = lbl_804C88A8;
-        __dt__7TObjectFv(arg0, 0);
+void *__dt__13TUnk_804C88A8Fv(void *object, s16 arg1) {
+    if (object != NULL) {
+        *(s32 **)((s8 *)object + 0x18) = lbl_804C88A8;
+        __dt__7TObjectFv(object, 0);
         if (arg1 > 0) {
-            TObject::operator delete(arg0);
+            TObject::operator delete(object);
         }
     }
-    return arg0;
+    return object;
 }
 
 }

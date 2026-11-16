@@ -94,7 +94,7 @@ s32 TItemData::update_mag_status_gauges() {
 }
 #pragma push
 #pragma fp_contract on
-void TWindowHelpItem__vt10(u8 *arg0) {
+void TWindowHelpItem__vt10(u8 *window_base) {
     s32 mag[4];
     s32 a;
     s32 b;
@@ -104,13 +104,13 @@ void TWindowHelpItem__vt10(u8 *arg0) {
     s32 iq;
     s32 up;
     ((MagStats *)mag)->init();
-    init_window_layout_entries(arg0 + 0x24, lbl_804CF30C, *(s16 *)((s8 *)arg0 + 0x20));
-    *(PM_80253D10 *)((s8 *)arg0 + 0xB0) = TWindowHelpItem__mag_growth_update_callback;
-    TItemData::deserialize_mag((void *)(*(s32 *)((s8 *)arg0 + 0x68)), (void *)mag);
-    lv = ((TWindowBase *)arg0)->get_array_entry(0);
-    sy = ((TWindowBase *)arg0)->get_array_entry(1);
-    iq = ((TWindowBase *)arg0)->get_array_entry(2);
-    up = ((TWindowBase *)arg0)->get_array_entry(0xF);
+    init_window_layout_entries(window_base + 0x24, lbl_804CF30C, *(s16 *)((s8 *)window_base + 0x20));
+    *(PM_80253D10 *)((s8 *)window_base + 0xB0) = TWindowHelpItem__mag_growth_update_callback;
+    TItemData::deserialize_mag((void *)(*(s32 *)((s8 *)window_base + 0x68)), (void *)mag);
+    lv = ((TWindowBase *)window_base)->get_array_entry(0);
+    sy = ((TWindowBase *)window_base)->get_array_entry(1);
+    iq = ((TWindowBase *)window_base)->get_array_entry(2);
+    up = ((TWindowBase *)window_base)->get_array_entry(0xF);
     set_help_text__15TWindowHelpItemFUl((void *) lv, get_message_10__20TWindowSubStatusDispFl(0xA2));
     set_help_text__15TWindowHelpItemFUl((void *) sy, get_message_10__20TWindowSubStatusDispFl(0xA3));
     set_help_text__15TWindowHelpItemFUl((void *) iq, get_message_10__20TWindowSubStatusDispFl(0xA4));
@@ -121,30 +121,30 @@ void TWindowHelpItem__vt10(u8 *arg0) {
     refresh_status_display__9TWindowDDFv((void *) up);
     *(f32 *)((s8 *)up + 8) = -(lbl_805DCDF8 * *(f32 *)((s8 *)up + 0x10) - lbl_805DCDF4);
     ((TWindowHelpItem *)up)->set_flag0_bit2();
-    a = ((TWindowBase *)arg0)->get_array_entry(3);
-    b = ((TWindowBase *)arg0)->get_array_entry(4);
-    c = ((TWindowBase *)arg0)->get_array_entry(5);
+    a = ((TWindowBase *)window_base)->get_array_entry(3);
+    b = ((TWindowBase *)window_base)->get_array_entry(4);
+    c = ((TWindowBase *)window_base)->get_array_entry(5);
     ((TWindowHelpItem *)a)->reset_float_field();
     *(s32 *)((s8 *)b + 0x20) = ((MagStats *)mag)->get_def_level();
     *(f32 *)((s8 *)c + 0x24) = (f32) ((MagStats *)(mag))->get_def_progress();
     ((VBar_80253D10 *) c)->m3();
-    a = ((TWindowBase *)arg0)->get_array_entry(6);
-    b = ((TWindowBase *)arg0)->get_array_entry(7);
-    c = ((TWindowBase *)arg0)->get_array_entry(8);
+    a = ((TWindowBase *)window_base)->get_array_entry(6);
+    b = ((TWindowBase *)window_base)->get_array_entry(7);
+    c = ((TWindowBase *)window_base)->get_array_entry(8);
     ((TWindowHelpItem *)a)->reset_float_field();
     *(s32 *)((s8 *)b + 0x20) = ((MagStats *)mag)->get_pow_level();
     *(f32 *)((s8 *)c + 0x24) = (f32) ((MagStats *)(mag))->get_pow_progress();
     ((VBar_80253D10 *) c)->m3();
-    a = ((TWindowBase *)arg0)->get_array_entry(9);
-    b = ((TWindowBase *)arg0)->get_array_entry(0xA);
-    c = ((TWindowBase *)arg0)->get_array_entry(0xB);
+    a = ((TWindowBase *)window_base)->get_array_entry(9);
+    b = ((TWindowBase *)window_base)->get_array_entry(0xA);
+    c = ((TWindowBase *)window_base)->get_array_entry(0xB);
     ((TWindowHelpItem *)a)->reset_float_field();
     *(s32 *)((s8 *)b + 0x20) = ((MagStats *)mag)->get_dex_level();
     *(f32 *)((s8 *)c + 0x24) = (f32) ((MagStats *)(mag))->get_dex_progress();
     ((VBar_80253D10 *) c)->m3();
-    a = ((TWindowBase *)arg0)->get_array_entry(0xC);
-    b = ((TWindowBase *)arg0)->get_array_entry(0xD);
-    c = ((TWindowBase *)arg0)->get_array_entry(0xE);
+    a = ((TWindowBase *)window_base)->get_array_entry(0xC);
+    b = ((TWindowBase *)window_base)->get_array_entry(0xD);
+    c = ((TWindowBase *)window_base)->get_array_entry(0xE);
     ((TWindowHelpItem *)a)->reset_float_field();
     *(s32 *)((s8 *)b + 0x20) = ((MagStats *)mag)->get_mind_level();
     *(f32 *)((s8 *)c + 0x24) = (f32) ((MagStats *)(mag))->get_mind_progress();

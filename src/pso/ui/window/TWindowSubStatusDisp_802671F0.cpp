@@ -243,12 +243,12 @@ void TWindowSubShortMail::advance_line(s32 arg1) {
     }
 }
 
-void advance_status_disp_entry(TWindowBase *arg0, s32 arg1) {
+void advance_status_disp_entry(TWindowBase *window_base, s32 arg1) {
     s16 temp_r4;
-    temp_r4 = (s16) *(s16 *)((s8 *)arg0 + 0x72);
-    if (temp_r4 < (s16) *(s16 *)((s8 *)arg0 + 0x76)) {
-        ((TWindowSubStatusDisp *)(get_array_entry__11TWindowBaseFi(arg0, temp_r4)))->setup_entry_msg_d0(arg1);
-        *(s16 *)((s8 *)arg0 + 0x72) = (s16) (*(s16 *)((s8 *)arg0 + 0x72) + 1);
+    temp_r4 = (s16) *(s16 *)((s8 *)window_base + 0x72);
+    if (temp_r4 < (s16) *(s16 *)((s8 *)window_base + 0x76)) {
+        ((TWindowSubStatusDisp *)(get_array_entry__11TWindowBaseFi(window_base, temp_r4)))->setup_entry_msg_d0(arg1);
+        *(s16 *)((s8 *)window_base + 0x72) = (s16) (*(s16 *)((s8 *)window_base + 0x72) + 1);
     }
 }
 
@@ -748,7 +748,7 @@ void TWindowMenuIconLine::run_task() {
     u32 temp_r3_2;
     u8 *input;
     u8 *temp_r29_2;
-    u8 *temp_r29_3;
+    u8 *context;
     temp_r31 = is_player_input_active(((s32) this->m_20));
     if ((this->get_flag() == 0) && (is_decided__19TWindowMenuIconLineFv(this) == 0) && (this->sub_80244994() != 0)) {
         if (this->state_flags & 0x10) {
@@ -768,11 +768,11 @@ void TWindowMenuIconLine::run_task() {
                 this->move_cursor_next();
             }
         }
-        temp_r29_3 = (u8 *)&controller_input_state.value + (temp_r31 * 0x50) + 0x20;
-        if ((TWindowShortListCtrl__check_controller_button((int)temp_r29_3, 4) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) ((u8 *)&controller_input_state.value + 0x160), 4) != 0)) {
+        context = (u8 *)&controller_input_state.value + (temp_r31 * 0x50) + 0x20;
+        if ((TWindowShortListCtrl__check_controller_button((int)context, 4) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) ((u8 *)&controller_input_state.value + 0x160), 4) != 0)) {
             this->handle_open();
         }
-        if ((TWindowShortListCtrl__check_controller_button((int)temp_r29_3, 2) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) ((u8 *)&controller_input_state.value + 0x160), 2) != 0)) {
+        if ((TWindowShortListCtrl__check_controller_button((int)context, 2) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) ((u8 *)&controller_input_state.value + 0x160), 2) != 0)) {
             this->set_flag4();
         }
     }
@@ -820,17 +820,17 @@ struct VObj_18_2ead46 : VBase_18_2ead46 {
 
 extern "C" {
 s32 construct_with_parent__15TWindowAdditionFPv(void *, void *, void *, void *);
-u8 *fn_80268384(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
-    construct_with_parent__15TWindowAdditionFPv((void *)arg0, (void *)arg4, (void *)arg3, (void *)arg1);
-    *(s32 **)((s8 *)arg0 + 0x18) = lbl_804D0618;
-    ((VObj_18_2ead46 *)(arg0))->m4(arg2, (s16) arg3);
-    return arg0;
+u8 *fn_80268384(u8 *window_addition, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
+    construct_with_parent__15TWindowAdditionFPv((void *)window_addition, (void *)arg4, (void *)arg3, (void *)arg1);
+    *(s32 **)((s8 *)window_addition + 0x18) = lbl_804D0618;
+    ((VObj_18_2ead46 *)(window_addition))->m4(arg2, (s16) arg3);
+    return window_addition;
 }
-u8 *fn_802683F4(u8 *arg0, s32 arg1, s32 arg2, s32 arg3) {
-    construct_with_parent__15TWindowAdditionFPv((void *)arg0, &lbl_804D0604, (void *)arg3, (void *)arg1);
-    *(s32 **)((s8 *)arg0 + 0x18) = lbl_804D0618;
-    ((VObj_18_2ead46 *)(arg0))->m4(arg2, (s16) arg3);
-    return arg0;
+u8 *fn_802683F4(u8 *window_addition, s32 arg1, s32 arg2, s32 arg3) {
+    construct_with_parent__15TWindowAdditionFPv((void *)window_addition, &lbl_804D0604, (void *)arg3, (void *)arg1);
+    *(s32 **)((s8 *)window_addition + 0x18) = lbl_804D0618;
+    ((VObj_18_2ead46 *)(window_addition))->m4(arg2, (s16) arg3);
+    return window_addition;
 }
 
 }

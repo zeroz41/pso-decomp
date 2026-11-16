@@ -85,9 +85,9 @@ TUnk_804A1098::TUnk_804A1098(TObject *parent, u8 *item) : TItemWeapon(parent, it
     ((TObjPlayer *)this)->set_effect_state(10);
 }
 
-u8 *TObjPlayer__sub_801228CC(u8 *arg0) {
-    if (arg0 != NULL) {
-        return (u8 *)new TUnk_804A1098(tl_05, arg0);
+u8 *TObjPlayer__sub_801228CC(u8 *item) {
+    if (item != NULL) {
+        return (u8 *)new TUnk_804A1098(tl_05, item);
     }
     return NULL;
 }

@@ -62,12 +62,12 @@ AltChunkObject *TObjPlayer__sub_800F08AC(AltChunkObject *next, s32 diffuse) {
     alt_model_object.sibling = next;
     return &alt_model_object;
 }
-void TObjEneDD_ST::draw_with_alt_model(s32 arg1) {
+void TObjEneDD_ST::draw_with_alt_model(s32 diffuse) {
     s32 temp_r31;
     temp_r31 = *(s32 *)&this->model;
     TObjPlayer::set_alt_model_flag();
     TObjPlayer__sub_800F083C();
-    *(s32 *)&this->model = (s32)TObjPlayer__sub_800F08AC((AltChunkObject *)temp_r31, arg1);
+    *(s32 *)&this->model = (s32)TObjPlayer__sub_800F08AC((AltChunkObject *)temp_r31, diffuse);
     draw();
     TObjPlayer::update_lights();
     TObjPlayer::clear_alt_model_flag();

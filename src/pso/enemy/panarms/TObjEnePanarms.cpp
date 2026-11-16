@@ -617,7 +617,7 @@ void TObjEnePanBARA::run_task() {
 
 void TObjEnePanBARA::render() {
     s32 temp_r4;
-    s32 var_r31;
+    s32 camera_mode;
     VObj_14_aa9368 *temp_r31;
     s32 var_r30;
     if ((this->update_object_view_visibility(500.0f, 20.0f) == 0) || ((s32) this->m_384 == 0)) {
@@ -626,15 +626,15 @@ void TObjEnePanBARA::render() {
         *(f32 *)&this->unk_3A4 = 0.0f;
         return;
     }
-    var_r31 = 0;
+    camera_mode = 0;
     if (is_split_screen() != 0) {
-        var_r31 = TCameraCtrl::get_camera_mode();
+        camera_mode = TCameraCtrl::get_camera_mode();
     }
     TObjPlayer::toggle_particle_effect();
     temp_r4 = model_render_flags;
     saved_model_render_flags = temp_r4;
     model_render_flags = temp_r4 | 0x01000000 | 1;
-    temp_r31 = &((Obj_800E20D0 *) ((u8 *)this))->fades[var_r31];
+    temp_r31 = &((Obj_800E20D0 *) ((u8 *)this))->fades[camera_mode];
     update__15RenderFadeStateFv((int)temp_r31, (int)temp_r4);
     if (((RenderFadeState *)temp_r31)->updateFromCamera((const f32*)(((u8 *)this) + 0x2FC)) != 0) {
         temp_r31->m6();
@@ -864,7 +864,7 @@ void TObjEnePanBARA::update_offset_from_parent() {
 #pragma auto_inline off
 #pragma dont_inline off
 #pragma fp_contract on
-s32 try_move_with_detour__14TObjEnePanarmsFPvPv(u8 *arg0, Vec_800E18B0 *arg1) {
+s32 try_move_with_detour__14TObjEnePanarmsFPvPv(u8 *player, Vec_800E18B0 *arg1) {
     Vec_800E18B0 dir = *arg1;
     Vec_800E18B0 t;
     Vec_800E18B0 p;
@@ -877,19 +877,19 @@ s32 try_move_with_detour__14TObjEnePanarmsFPvPv(u8 *arg0, Vec_800E18B0 *arg1) {
     if (0.0f == vector_length(&dir)) {
         return 0;
     }
-    VecCopy((Vec *)&t, (const Vec *)(arg0 + 0x38));
+    VecCopy((Vec *)&t, (const Vec *)(player + 0x38));
     vec3_add_to(&t, arg1);
-    if (horizontal_distance_squared(&t, arg0 + 0x50) > 250000.0f) {
+    if (horizontal_distance_squared(&t, player + 0x50) > 250000.0f) {
         return 0;
     }
     for (i = 1; i < 16; i++) {
-        VecCopy((Vec *)&p, (const Vec *)(arg0 + 0x38));
+        VecCopy((Vec *)&p, (const Vec *)(player + 0x38));
         vec3_add_to(&p, &dir);
         p.y += 10.0f;
-        if (project_actor_to_ground((TObjChara *)arg0, (Vec *)&p, 0) != 0 && csnLookAt(arg0 + 0x38, &p) == 0) {
-            VecCopy((Vec *)(arg0 + 0x44), (const Vec *)(arg0 + 0x38));
-            VecCopy((Vec *)(arg0 + 0x38), (const Vec *)&p);
-            ((TObjPlayer *)arg0)->update_collisions();
+        if (project_actor_to_ground((TObjChara *)player, (Vec *)&p, 0) != 0 && csnLookAt(player + 0x38, &p) == 0) {
+            VecCopy((Vec *)(player + 0x44), (const Vec *)(player + 0x38));
+            VecCopy((Vec *)(player + 0x38), (const Vec *)&p);
+            ((TObjPlayer *)player)->update_collisions();
             return 1;
         }
         ang = i << 12;

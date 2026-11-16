@@ -235,18 +235,18 @@ typedef char RecoveredGlobal_80277928_lbl_8050E208_size[sizeof(RecoveredGlobal_8
 void TWindowSubCustomSelect::run_task() {
     u8 *arg0 = (u8 *)this;
     s32 temp_r30;
-    u8 *temp_r30_2;
+    u8 *context;
     temp_r30 = is_player_input_active(((s32) this->m_20));
     if (!(*(s32 *)&this->m_2c & 2)) {
         *(s32 *)&this->m_5c = 0x01000000;
     }
     if (((TWindowSubCustomSelect *)arg0)->is_active() == 0) {
         handle_grid_navigation();
-        temp_r30_2 = (u8 *)&controller_input_state.value + (temp_r30 * 0x50) + 0x20;
-        if ((TWindowShortListCtrl__check_controller_button((int)temp_r30_2, 4) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) ((u8 *)&controller_input_state.value + 0x160), 4) != 0)) {
+        context = (u8 *)&controller_input_state.value + (temp_r30 * 0x50) + 0x20;
+        if ((TWindowShortListCtrl__check_controller_button((int)context, 4) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) ((u8 *)&controller_input_state.value + 0x160), 4) != 0)) {
             handle_decide();
         }
-        if ((TWindowShortListCtrl__check_controller_button((int)temp_r30_2, 2) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) ((u8 *)&controller_input_state.value + 0x160), 2) != 0)) {
+        if ((TWindowShortListCtrl__check_controller_button((int)context, 2) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) ((u8 *)&controller_input_state.value + 0x160), 2) != 0)) {
             handle_cancel();
         }
     }
@@ -260,17 +260,17 @@ void TWindowSubCustomSelect::run_task() {
     *(s32 *)&this->m_74 = (s32) (*(s32 *)&this->m_74 + 1);
 }
 
-void *__dt__22TWindowSubCustomSelectFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__22TWindowSubCustomSelect;
-        TWindowSubStatusDisp::destroy_allocation((s32)(*(void **)((s8 *)arg0 + 0x80)), (s16)1);
-        TWindowSubStatusDisp::destroy_status_display((s32)(*(void **)((s8 *)arg0 + 0x7C)), (s16)1);
-        ((TWindowAddition *)arg0)->destroy_window(0);
+void *__dt__22TWindowSubCustomSelectFv(void *window_addition, s16 arg1) {
+    if (window_addition != NULL) {
+        *(s32 **)((s8 *)window_addition + 0x18) = __vt__22TWindowSubCustomSelect;
+        TWindowSubStatusDisp::destroy_allocation((s32)(*(void **)((s8 *)window_addition + 0x80)), (s16)1);
+        TWindowSubStatusDisp::destroy_status_display((s32)(*(void **)((s8 *)window_addition + 0x7C)), (s16)1);
+        ((TWindowAddition *)window_addition)->destroy_window(0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(window_addition);
         }
     }
-    return arg0;
+    return window_addition;
 }
 const u32 custom_select_organic_action_table[40] = {
     0x20000, 0x20001, 0x20002, 0x30000, 0x30006, 0x30003, 0x30001, 0x30007,

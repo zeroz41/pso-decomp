@@ -2673,11 +2673,11 @@ TObjEneBm5GibonU *TObjEneBm5GibonU__sub_800D13B8(TObjEneBm5GibonU *self, s16 arg
     return self;
 }
 
-TObjEneBm5GibonU *TObjEneBm5GibonU__ct(TObjEneBm5GibonU *self, s32 arg1, s32 arg2) {
+TObjEneBm5GibonU *TObjEneBm5GibonU__ct(TObjEneBm5GibonU *self, s32 arg1, s32 set_data) {
     void *p;
     s32 i;
     s32 b;
-    __ct__12TObjEneDD_STFP7TObject(self, arg1, arg2);
+    __ct__12TObjEneDD_STFP7TObject(self, arg1, set_data);
     *(void **)((u8 *)self + 0x18) = lbl_80493F04;
     TObjEneBm5GibonU__sub_800D1CF8(&self->m_3c0);
     TObjEneBm5GibonU__sub_800D1CF8(&self->m_3cc);
@@ -2685,7 +2685,7 @@ TObjEneBm5GibonU *TObjEneBm5GibonU__ct(TObjEneBm5GibonU *self, s32 arg1, s32 arg
     __construct_array(self->m_3f4, (void *)&__ct__15RenderFadeStateFv, (void *)&__dt__15RenderFadeStateFv, 0x1C, 4);
     ((TObjPlayer *)&self->m_4b0)->construct_target_cursor_records();
     self->m_name = TObjEneBm5GibonU__class_name;
-    ((TObjEneDD *)self)->invoke_initialization_hook((void *)arg2);
+    ((TObjEneDD *)self)->invoke_initialization_hook((void *)set_data);
     self->sub_800D10A0();
     self->init_position_vectors();
     if (self->m_464 == 1) {

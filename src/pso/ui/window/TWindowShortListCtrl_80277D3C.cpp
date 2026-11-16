@@ -9,28 +9,28 @@ extern "C" {
 void *get_player_by_client_id(s32 i);
 void send_6x25_equip_item(void *arg0, s32 arg1, s32 arg2);
 
-void TWindowShortListCtrl::assign_shortcut(s32 arg0, s32 item, s32 arg2) {
-    u32 temp_r31;
-    s32 temp_r3;
+void TWindowShortListCtrl::assign_shortcut(s32 slot, s32 item, s32 arg2) {
+    u32 slot_value;
+    s32 player;
     s32 temp_r0;
     u32 temp_r3b;
 
-    temp_r3 = (s32)get_player_by_client_id(arg2);
-    if (temp_r3 != 0) {
-        temp_r31 = TObjPlayer::get_slot_value((s32 *)(temp_r3 + 0xD04), arg0);
+    player = (s32)get_player_by_client_id(arg2);
+    if (player != 0) {
+        slot_value = TObjPlayer::get_slot_value((s32 *)(player + 0xD04), slot);
         temp_r3b = (u32)find_item_by_id(item);
-        if (temp_r31 == temp_r3b) {
-            TObjPlayer::send_6x26_unequip_item((void *)temp_r3, (void *)item);
+        if (slot_value == temp_r3b) {
+            TObjPlayer::send_6x26_unequip_item((void *)player, (void *)item);
             return;
         }
         if (((TItem *)temp_r3b)->test_item_flags(8) != 0U) {
-            TObjPlayer::send_6x26_unequip_item((void *)temp_r3, (void *)item);
+            TObjPlayer::send_6x26_unequip_item((void *)player, (void *)item);
         }
-        if (temp_r31 != 0U) {
-            temp_r0 = ((TItem *)temp_r31)->get_item_id();
-            TObjPlayer::send_6x26_unequip_item((void *)temp_r3, (void *)temp_r0);
+        if (slot_value != 0U) {
+            temp_r0 = ((TItem *)slot_value)->get_item_id();
+            TObjPlayer::send_6x26_unequip_item((void *)player, (void *)temp_r0);
         }
-        send_6x25_equip_item((void *)temp_r3, item, arg0);
+        send_6x25_equip_item((void *)player, item, slot);
     }
 }
 

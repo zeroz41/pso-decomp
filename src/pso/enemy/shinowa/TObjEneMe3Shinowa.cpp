@@ -573,7 +573,7 @@ void TObjEneMe3Shinowa::vfunc_111() {  }
 void TObjEneMe3Shinowa::apply_effect_pair() {
     s32 sp8[8];
     u32 entry;
-    u32 temp_r3_3;
+    u32 src;
 
     push_matrix();
     set_matrix_identity(0);
@@ -584,9 +584,9 @@ void TObjEneMe3Shinowa::apply_effect_pair() {
         mult_vec_array__10TObjPlayerFUll(0, entry, &sp8, 2);
         m_3e0->vfunc_6(&sp8, &sp8[3]);
     }
-    temp_r3_3 = (s32)TObjEneMe3ShinowaMirage__data_805D52A8->lookup(frame);
-    if (temp_r3_3 != 0U) {
-        mult_vec_array__10TObjPlayerFUll(0, temp_r3_3, &sp8, 2);
+    src = (s32)TObjEneMe3ShinowaMirage__data_805D52A8->lookup(frame);
+    if (src != 0U) {
+        mult_vec_array__10TObjPlayerFUll(0, src, &sp8, 2);
         m_3e4->vfunc_6(&sp8, &sp8[3]);
     }
     pop_matrix();
@@ -816,7 +816,7 @@ void TObjEneMe3ShinowaMirage__sub_800E69F0(TObjEneMe3Shinowa *shinowa, s32 arg1)
 void TObjEneMe3ShinowaMirage__sub_800E66FC(TObjEneMe3Shinowa *shinowa, s32 arg1) {
     f32 temp_f1;
     f32 temp_f1_2;
-    f32 temp_f31;
+    f32 node_world_y;
 
     switch (arg1) {
     case 4:
@@ -843,10 +843,10 @@ void TObjEneMe3ShinowaMirage__sub_800E66FC(TObjEneMe3Shinowa *shinowa, s32 arg1)
     case 0:
         switch (shinowa->m_404) {
         case 0:
-            temp_f31 = shinowa->get_node_world_y();
+            node_world_y = shinowa->get_node_world_y();
             shinowa->advance_animation();
             shinowa->m_414 = shinowa->get_node_world_y();
-            shinowa->m_3c8 = shinowa->m_3c8 + (temp_f31 - shinowa->m_414);
+            shinowa->m_3c8 = shinowa->m_3c8 + (node_world_y - shinowa->m_414);
             shinowa->rotation_y += 0x8000;
             shinowa->m_404 = 1;
             shinowa->m_3cc = shinowa->m_3c8 - shinowa->position.y;

@@ -208,15 +208,15 @@ void set_password__17TAdEnterPPPPassGCFi(s32 arg0) {
     strncpy((s32) ppp_password_buffer, arg0, 0x1F);
 }
 
-void *__dt__17TAdEnterPPPPassGCFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__17TAdEnterPPPPassGC;
-        __dt__14TAdEnterBaseGCFv(arg0, 0);
+void *__dt__17TAdEnterPPPPassGCFv(void *ad_enter_base_gc, s16 arg1) {
+    if (ad_enter_base_gc != NULL) {
+        *(s32 **)((s8 *)ad_enter_base_gc + 0x18) = __vt__17TAdEnterPPPPassGC;
+        __dt__14TAdEnterBaseGCFv(ad_enter_base_gc, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(ad_enter_base_gc);
         }
     }
-    return arg0;
+    return ad_enter_base_gc;
 }
 T_8033954C *TAdEnterPPPPassGC__ct(T_8033954C *ad_enter_base_gc) {
     s32 ok;

@@ -89,27 +89,27 @@ s32 __ct__7TObjectFP7TObject();
 
 extern s32 __vt__14TSlicerHistory[];
 
-u8 *__ct__14TSlicerHistoryFv(u8 *arg0, u8 *arg1, s32 arg2, u8 *arg3, s32 arg4) {
+u8 *__ct__14TSlicerHistoryFv(u8 *object, u8 *tec_slicer, s32 arg2, u8 *arg3, s32 arg4) {
     __ct__7TObjectFP7TObject();
-    *(s32 **)((s8 *)arg0 + 0x18) = __vt__14TSlicerHistory;
-    ((TObject *)arg0)->m_name = TSlicerHistory__name;
-    copy_xyz(arg0 + 0x1C, arg1 + 0x5C);
-    VecCopy((Vec *)(arg0 + 0x28), (const Vec *)(arg1 + 0x38));
-    *(s32 *)((s8 *)arg0 + 0x38) = arg2;
+    *(s32 **)((s8 *)object + 0x18) = __vt__14TSlicerHistory;
+    ((TObject *)object)->m_name = TSlicerHistory__name;
+    copy_xyz(object + 0x1C, tec_slicer + 0x5C);
+    VecCopy((Vec *)(object + 0x28), (const Vec *)(tec_slicer + 0x38));
+    *(s32 *)((s8 *)object + 0x38) = arg2;
     if (arg3 != 0U) {
-        *(s32 *)((s8 *)arg0 + 0x5C) = 1;
-        copy_argb((NJS_ARGB *)(arg0 + 0x3C), (NJS_ARGB *)arg3);
+        *(s32 *)((s8 *)object + 0x5C) = 1;
+        copy_argb((NJS_ARGB *)(object + 0x3C), (NJS_ARGB *)arg3);
     } else {
-        *(s32 *)((s8 *)arg0 + 0x5C) = 0;
-        *(f32 *)((s8 *)arg0 + 0x3C) = 1.0f;
-        *(f32 *)((s8 *)arg0 + 0x40) = 0.0f;
-        *(f32 *)((s8 *)arg0 + 0x44) = 0.0f;
-        *(f32 *)((s8 *)arg0 + 0x48) = 0.0f;
+        *(s32 *)((s8 *)object + 0x5C) = 0;
+        *(f32 *)((s8 *)object + 0x3C) = 1.0f;
+        *(f32 *)((s8 *)object + 0x40) = 0.0f;
+        *(f32 *)((s8 *)object + 0x44) = 0.0f;
+        *(f32 *)((s8 *)object + 0x48) = 0.0f;
     }
-    *(s32 *)((s8 *)arg0 + 0x34) = ((TTecSlicer *)arg1)->get_field_110();
-    VecCopy((Vec *)(arg0 + 0x4C), (const Vec *)(arg1 + 0x68));
-    *(s32 *)((s8 *)arg0 + 0x58) = arg4;
-    return arg0;
+    *(s32 *)((s8 *)object + 0x34) = ((TTecSlicer *)tec_slicer)->get_field_110();
+    VecCopy((Vec *)(object + 0x4C), (const Vec *)(tec_slicer + 0x68));
+    *(s32 *)((s8 *)object + 0x58) = arg4;
+    return object;
 }
 
 }
@@ -434,19 +434,19 @@ void TTecSlicer::update() {
 }
 
 s32 TTecSlicer::create(u16 *arg0) {
-    s32 var_r0;
+    s32 object;
     s32 var_r31;
     u8 *player;
     var_r31 = 0;
     if (arg0 != NULL) {
         player = (u8 *)(((u8 *)get_player_by_client_id(*(u16 *)((s8 *)arg0 + 0))));
         if (player != NULL) {
-            var_r0 = ((s32)__nw__7TObjectFUl(0x140));
-            if (var_r0 != 0) {
-                var_r0 = TTecSlicer__ct((void *)((void *)var_r0), (void *)((void *)arg0), (void *)((void *)player), player + 0x38, (int)((int) (*(s32 *)((s8 *)player + 0x60))));
+            object = ((s32)__nw__7TObjectFUl(0x140));
+            if (object != 0) {
+                object = TTecSlicer__ct((void *)((void *)object), (void *)((void *)arg0), (void *)((void *)player), player + 0x38, (int)((int) (*(s32 *)((s8 *)player + 0x60))));
             }
-            var_r31 = var_r0;
-            TItemAttacker::spawn_item_timer((TObject *)var_r0, (ItemTimerCallback)destroy_if_set__10TTecSlicerFv, 0x5A);
+            var_r31 = object;
+            TItemAttacker::spawn_item_timer((TObject *)object, (ItemTimerCallback)destroy_if_set__10TTecSlicerFv, 0x5A);
         }
     }
     return var_r31;

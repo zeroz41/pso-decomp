@@ -270,18 +270,18 @@ void TBoss6GravBall__sub_80323544(u8 *self) {
     }
 }
 
-void TBoss6GravBall__sub_803236F8(TBoss6GravBall *arg0) {
-    Vec v = arg0->ball_position;
+void TBoss6GravBall__sub_803236F8(TBoss6GravBall *boss6_grav_ball) {
+    Vec v = boss6_grav_ball->ball_position;
     v.y = 0.0f;
     if (vector_length(&v) > 0.6666667f) {
         normalize_vector(&v);
         v.x *= 0.6666667f;
         v.z *= 0.6666667f;
-        subtract_vector(&arg0->ball_position, &v);
+        subtract_vector(&boss6_grav_ball->ball_position, &v);
     } else {
-        VecCopy(&arg0->ball_position, &lbl_80476684);
+        VecCopy(&boss6_grav_ball->ball_position, &lbl_80476684);
     }
-    arg0->clamp_to_ground();
+    boss6_grav_ball->clamp_to_ground();
 }
 
 s32 TBoss6GravBall::clamp_to_ground() {

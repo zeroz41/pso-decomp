@@ -3477,10 +3477,10 @@ void TObjPlayer::spawn_recovery_effect() {
     }
 }
 
-void trigger_switch_attack__10TObjPlayerFPvi(void *arg0, s32 arg1) {
+void trigger_switch_attack__10TObjPlayerFPvi(void *chara, s32 arg1) {
 
-    if (((s32 (*)(void *, s32))obj_testFlags30__14TObjCollidableFUl)(arg0, 0x02000000) == 0) {
-        switch (((TObjChara *)arg0)->m_2e4) {
+    if (((s32 (*)(void *, s32))obj_testFlags30__14TObjCollidableFUl)(chara, 0x02000000) == 0) {
+        switch (((TObjChara *)chara)->m_2e4) {
         case 1:
             spawn_particle_effect_with_flags(arg1, 0xF1, 0x40);
             return;
@@ -4019,13 +4019,13 @@ s32 TObjChara::is_target_in_attack_range() {
     return 0;
 }
 
-f32 enemy_move_toward(u8 *arg0, s32 arg1, Vec_800180E8 arg2, s32 arg3, f32 farg0) {
+f32 enemy_move_toward(u8 *arg0, s32 turn, Vec_800180E8 arg2, s32 arg3, f32 farg0) {
     if (horizontal_distance_squared(arg0 + 0x29C, arg0 + 0x38) < (1e-05f) || ((TObjEnemy *)(arg0))->is_actor_cadence_frame(0x1E) != 0) {
         if (((s32 (*)(void *, Vec_800180E8, int)) select_enemy_destination)(arg0, arg2, arg3) != 0) {
             ((s32 (*)(void *, Vec_800180E8)) copy_position_if_valid__10TObjPlayerFii)(arg0, *(Vec_800180E8 *)(arg0 + 0x2FC));
         }
     }
-    ((TObjEnemy *)arg0)->enemy_turn_toward_dest(arg1);
+    ((TObjEnemy *)arg0)->enemy_turn_toward_dest(turn);
     enemy_set_heading_velocity(farg0, (TObjEnemy *)arg0, ((TObjEnemy *)arg0)->rotation_y);
     move_with_wall_slide(arg0);
     return horizontal_distance_squared(&arg2, arg0 + 0x38);
@@ -4040,7 +4040,7 @@ f32 step_toward_destination__10TObjPlayerFPvPvf(Obj_80017804 *arg0, Vec_800180E8
     return horizontal_distance_squared(arg1, &arg0->pos);
 }
 
-f32 enemy_pursue_point(u8 *arg0, s32 arg1, Vec_800180E8 arg2, f32 farg0, f32 farg1) {
+f32 enemy_pursue_point(u8 *arg0, s32 turn, Vec_800180E8 arg2, f32 farg0, f32 farg1) {
     f32 d0;
     f32 d1;
     f32 d2;
@@ -4064,23 +4064,23 @@ f32 enemy_pursue_point(u8 *arg0, s32 arg1, Vec_800180E8 arg2, f32 farg0, f32 far
             ((s32 (*)(void *, Vec_800180E8)) copy_position_if_valid__10TObjPlayerFii)(arg0, *(Vec_800180E8 *)(arg0 + 0x2FC));
         }
     }
-    ((TObjEnemy *)arg0)->enemy_turn_toward_dest(arg1);
+    ((TObjEnemy *)arg0)->enemy_turn_toward_dest(turn);
     enemy_set_heading_velocity(farg0, (TObjEnemy *)arg0, ((TObjEnemy *)arg0)->rotation_y);
     move_with_wall_slide(arg0);
     return horizontal_distance_squared(&arg2, arg0 + 0x2FC);
 }
 
-f32 enemy_backstep_from_point(Obj_80017ABC *arg0, Vec_800180E8 arg1, f32 farg0) {
-    if (TObjPlayer__sub_800181DC((u8 *)((u8 *) arg0), (Vec_800180E8)(arg1)) != 0) {
-        ((s32 (*)(void *, Vec_800180E8)) copy_position_if_valid__10TObjPlayerFii)(arg0, arg0->cur);
-        ((void (*)(void *, Vec_800180E8, Vec_800180E8, f32)) calc_velocity_toward_destination)(arg0, arg0->home, arg0->dest, farg0);
-        move_with_wall_slide((u8 *)arg0);
-        return horizontal_distance_squared(&arg1, &arg0->pos);
+f32 enemy_backstep_from_point(Obj_80017ABC *actor, Vec_800180E8 arg1, f32 farg0) {
+    if (TObjPlayer__sub_800181DC((u8 *)((u8 *) actor), (Vec_800180E8)(arg1)) != 0) {
+        ((s32 (*)(void *, Vec_800180E8)) copy_position_if_valid__10TObjPlayerFii)(actor, actor->cur);
+        ((void (*)(void *, Vec_800180E8, Vec_800180E8, f32)) calc_velocity_toward_destination)(actor, actor->home, actor->dest, farg0);
+        move_with_wall_slide((u8 *)actor);
+        return horizontal_distance_squared(&arg1, &actor->pos);
     }
     return (0.0f);
 }
 
-f32 TObjEnemy::enemy_wander_home(f32 farg0, f32 farg1, f32 farg2, s32 arg1) {
+f32 TObjEnemy::enemy_wander_home(f32 farg0, f32 farg1, f32 farg2, s32 turn) {
     Vec_80017BA8 v;
     f32 var_f31;
     s32 ang;
@@ -4104,7 +4104,7 @@ f32 TObjEnemy::enemy_wander_home(f32 farg0, f32 farg1, f32 farg2, s32 arg1) {
         *(f32 *)((s8 *)arg0 + 0x308) = ((TObjEnemy *)arg0)->m_310 = (0.0f);
         ((TObjEnemy *)arg0)->m_2ac = 0;
     } else {
-        ((TObjEnemy *)arg0)->enemy_turn_toward_dest(arg1);
+        ((TObjEnemy *)arg0)->enemy_turn_toward_dest(turn);
         enemy_set_heading_velocity(farg0, (TObjEnemy *)arg0, ((TObjEnemy *)arg0)->rotation_y);
         move_with_wall_slide(arg0);
         var_f31 = horizontal_distance_squared((u8 *)&this->m_29c, (u8 *)&this->m_2fc);
@@ -4113,15 +4113,15 @@ f32 TObjEnemy::enemy_wander_home(f32 farg0, f32 farg1, f32 farg2, s32 arg1) {
     return var_f31;
 }
 
-f32 update_enemy_wander_move(Obj_80017ABC *arg0, Vec_800180E8 arg1, s32 arg2, f32 farg0) {
-    if (((TObjEneLappy *)(arg0))->is_actor_cadence_frame(0x1E) != 0) {
-        if (((s32 (*)(void *, Vec_800180E8, int)) select_enemy_destination)(arg0, arg1, arg2) != 0) {
-            ((s32 (*)(void *, Vec_800180E8)) copy_position_if_valid__10TObjPlayerFii)(arg0, arg0->cur);
+f32 update_enemy_wander_move(Obj_80017ABC *actor, Vec_800180E8 arg1, s32 arg2, f32 farg0) {
+    if (((TObjEneLappy *)(actor))->is_actor_cadence_frame(0x1E) != 0) {
+        if (((s32 (*)(void *, Vec_800180E8, int)) select_enemy_destination)(actor, arg1, arg2) != 0) {
+            ((s32 (*)(void *, Vec_800180E8)) copy_position_if_valid__10TObjPlayerFii)(actor, actor->cur);
         }
     }
-    ((void (*)(void *, Vec_800180E8, Vec_800180E8, f32)) calc_velocity_toward_destination)(arg0, arg0->home, arg0->dest, farg0);
-    move_with_wall_slide((u8 *)arg0);
-    return horizontal_distance_squared(&arg1, &arg0->pos);
+    ((void (*)(void *, Vec_800180E8, Vec_800180E8, f32)) calc_velocity_toward_destination)(actor, actor->home, actor->dest, farg0);
+    move_with_wall_slide((u8 *)actor);
+    return horizontal_distance_squared(&arg1, &actor->pos);
 }
 }
 
@@ -4633,8 +4633,8 @@ Vec *VecCopy(Vec* dst, const Vec* src) {
 #pragma push
 #pragma scheduling off
 
-u8 is_locally_controlled__10TObjPlayerFPv(u8 *arg0) {
-    return (u8) (((TObjChara *)arg0)->control_state == 1);
+u8 is_locally_controlled__10TObjPlayerFPv(u8 *chara) {
+    return (u8) (((TObjChara *)chara)->control_state == 1);
 }
 #pragma pop
 

@@ -51,13 +51,13 @@ void TCameraCtrl::update_target_follow() {
     Stack_8006786C stack;
     f32 temp_f1;
     f32 temp_f1_2;
-    u8 *temp_r3;
+    u8 *camera_focus;
     u8 *temp_r4;
-    temp_r3 = (u8 *)TBoss3Volopt::get_camera_focus();
-    if (temp_r3 != NULL) {
+    camera_focus = (u8 *)TBoss3Volopt::get_camera_focus();
+    if (camera_focus != NULL) {
         temp_r4 = *(u8 **)((s8 *)arg0 + 0x1C);
-        stack.sp8 = *(f32 *)((s8 *)temp_r4 + 0x38) - *(f32 *)((s8 *)temp_r3 + 0);
-        temp_f1 = (*(f32 *)((s8 *)temp_r4 + 0x40)) - *(f32 *)((s8 *)temp_r3 + 8);
+        stack.sp8 = *(f32 *)((s8 *)temp_r4 + 0x38) - *(f32 *)((s8 *)camera_focus + 0);
+        temp_f1 = (*(f32 *)((s8 *)temp_r4 + 0x40)) - *(f32 *)((s8 *)camera_focus + 8);
         stack.spC = 0.0f;
         stack.sp10 = temp_f1;
         temp_f1_2 = vector_length(&stack.sp8);
@@ -68,9 +68,9 @@ void TCameraCtrl::update_target_follow() {
         }
         switch (*(s32 *)((s8 *)arg0 + 0x114)) {
         case 0:
-            *(f32 *)((s8 *)arg0 + 0x48) = (f32) *(f32 *)((s8 *)temp_r3 + 0);
-            *(f32 *)((s8 *)arg0 + 0x50) = (f32) *(f32 *)((s8 *)temp_r3 + 8);
-            *(f32 *)((s8 *)arg0 + 0x4C) = (f32) *(f32 *)((s8 *)temp_r3 + 4);
+            *(f32 *)((s8 *)arg0 + 0x48) = (f32) *(f32 *)((s8 *)camera_focus + 0);
+            *(f32 *)((s8 *)arg0 + 0x50) = (f32) *(f32 *)((s8 *)camera_focus + 8);
+            *(f32 *)((s8 *)arg0 + 0x4C) = (f32) *(f32 *)((s8 *)camera_focus + 4);
             if (*(f32 *)((s8 *)arg0 + 0x4C) >= 50.0f) {
                 *(f32 *)((s8 *)arg0 + 0x4C) = 60.0f;
             }
@@ -150,15 +150,15 @@ void TCameraCtrl::init_state() {
 
 extern s32 lbl_804887F8[];
 
-void *__dt__13TUnk_804887F8Fv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = lbl_804887F8;
-        ((TCameraCtrl *)arg0)->deleting_dtor(0);
+void *__dt__13TUnk_804887F8Fv(void *camera_ctrl, s16 arg1) {
+    if (camera_ctrl != NULL) {
+        *(s32 **)((s8 *)camera_ctrl + 0x18) = lbl_804887F8;
+        ((TCameraCtrl *)camera_ctrl)->deleting_dtor(0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(camera_ctrl);
         }
     }
-    return arg0;
+    return camera_ctrl;
 }
 
 void*TUnk_804887F8::init() { TCameraCtrl::construct_view_controller(this); *(int*)((char*)this + 0x18) = (int)lbl_804887F8; this->m_38 = 21; this->m_58 = 0.65f; this->m_114 = 0; (*(int *)((u8 *)this + 0x110)) = 0; return this; }

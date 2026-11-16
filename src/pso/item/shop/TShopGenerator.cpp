@@ -176,15 +176,15 @@ void run_task__14TShopGeneratorFv(u8 *self) {
     }
 }
 
-void *__dt__14TShopGeneratorFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__14TShopGenerator;
-        __dt__8TObjBaseFv(arg0, 0);
+void *__dt__14TShopGeneratorFv(void *base, s16 arg1) {
+    if (base != NULL) {
+        *(s32 **)((s8 *)base + 0x18) = __vt__14TShopGenerator;
+        __dt__8TObjBaseFv(base, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(base);
         }
     }
-    return arg0;
+    return base;
 }
 
 extern s32 TShopGenerator__class_name;

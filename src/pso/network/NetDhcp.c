@@ -837,7 +837,7 @@ s32 TLobby__sub_8042489C(void *, void *out) {
     return 0;
 }
 
-s16 validate_slot_buffers(s32 arg0, void *arg1, void *arg2, void *arg3) {
+s16 validate_slot_buffers(s32 arg0, void *out, void *arg2, void *arg3) {
     dhcp_error = 0;
     if ((*(volatile s32 *)&dhcp_state) != 3 && (*(volatile s32 *)&dhcp_state) != 4 && (*(volatile s32 *)&dhcp_state) != 5) {
         dhcp_error = 2;
@@ -849,7 +849,7 @@ s16 validate_slot_buffers(s32 arg0, void *arg1, void *arg2, void *arg3) {
     if (TLobby__sub_804251C0(5, arg3) != 0 && dhcp_error == 0) {
         dhcp_error = 0xF;
     }
-    if (TLobby__sub_804251C0(3, arg1) != 0 && dhcp_error == 0) {
+    if (TLobby__sub_804251C0(3, out) != 0 && dhcp_error == 0) {
         dhcp_error = 0xD;
     }
     return 0;

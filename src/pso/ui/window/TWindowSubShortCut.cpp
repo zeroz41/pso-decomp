@@ -252,20 +252,20 @@ void TWindowSubShortCut::run_task() {
     }
 }
 
-void *__dt__18TWindowSubShortCutFv(TWindowSubShortCut *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__18TWindowSubShortCut;
-        if (*(void **)((s8 *)arg0 + 0x38) != NULL) { ((TObject *)(*(void **)((s8 *)arg0 + 0x38)))->queue_destruction(); arg0->m_38 = 0; }
-        if (*(void **)((s8 *)arg0 + 0x34) != NULL) { ((TWindowSubComCard *)(*(void **)((s8 *)arg0 + 0x34)))->close(); arg0->m_34 = 0; }
-        if (*(void **)((s8 *)arg0 + 0x3C) != NULL) { ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x3C)))->close(); arg0->m_3c = 0; }
-        if (*(void **)((s8 *)arg0 + 0x30) != NULL) { ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x30)))->close(); arg0->m_30 = 0; }
-        if (*(void **)((s8 *)arg0 + 0x2C) != NULL) { ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x2C)))->close(); arg0->m_2c = 0; }
-        __dt__7TObjectFv(arg0, 0);
+void *__dt__18TWindowSubShortCutFv(TWindowSubShortCut *window_sub_short_cut, s16 arg1) {
+    if (window_sub_short_cut != NULL) {
+        *(s32 **)((s8 *)window_sub_short_cut + 0x18) = __vt__18TWindowSubShortCut;
+        if (*(void **)((s8 *)window_sub_short_cut + 0x38) != NULL) { ((TObject *)(*(void **)((s8 *)window_sub_short_cut + 0x38)))->queue_destruction(); window_sub_short_cut->m_38 = 0; }
+        if (*(void **)((s8 *)window_sub_short_cut + 0x34) != NULL) { ((TWindowSubComCard *)(*(void **)((s8 *)window_sub_short_cut + 0x34)))->close(); window_sub_short_cut->m_34 = 0; }
+        if (*(void **)((s8 *)window_sub_short_cut + 0x3C) != NULL) { ((TWindowBase *)(*(void **)((s8 *)window_sub_short_cut + 0x3C)))->close(); window_sub_short_cut->m_3c = 0; }
+        if (*(void **)((s8 *)window_sub_short_cut + 0x30) != NULL) { ((TWindowBase *)(*(void **)((s8 *)window_sub_short_cut + 0x30)))->close(); window_sub_short_cut->m_30 = 0; }
+        if (*(void **)((s8 *)window_sub_short_cut + 0x2C) != NULL) { ((TWindowBase *)(*(void **)((s8 *)window_sub_short_cut + 0x2C)))->close(); window_sub_short_cut->m_2c = 0; }
+        __dt__7TObjectFv(window_sub_short_cut, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(window_sub_short_cut);
         }
     }
-    return arg0;
+    return window_sub_short_cut;
 }
 }
 

@@ -967,7 +967,7 @@ void TObjEneMe3SinowZoa::update_state_action(s32 arg1) {
 void TObjEneMe3SinowZoa__sub_80319748(TObjEneMe3SinowZoa *self, s32 arg1) {
     f32 temp_f1;
     f32 temp_f1_2;
-    f32 temp_f31;
+    f32 node_height;
 
     switch (arg1) {
     case 4:
@@ -991,10 +991,10 @@ void TObjEneMe3SinowZoa__sub_80319748(TObjEneMe3SinowZoa *self, s32 arg1) {
     case 0:
         switch (self->m_434) {
         case 0:
-            temp_f31 = self->get_node_height();
+            node_height = self->get_node_height();
             self->advance_animation();
             self->m_444 = self->get_node_height();
-            self->m_3e0 = self->m_3e0 + (temp_f31 - self->m_444);
+            self->m_3e0 = self->m_3e0 + (node_height - self->m_444);
             self->m_434 = 1;
             self->m_3e4 = self->m_3e0 - self->position.y;
             break;

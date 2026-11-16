@@ -416,12 +416,12 @@ void *lbl_804A71C4[6] = {
 };
 
 s32 TMainCursor::check_can_pickup() {
-    s32 temp_r3;
+    s32 entity;
     u32 temp_r3b;
     s32 arg0 = (s32)this;
 
-    temp_r3 = (s32)find_entity_by_id(((TMainCursor *)(arg0 + 0x60))->get_id());
-    if ((temp_r3 != 0) && ((u32) (((TObjCollidable *)temp_r3)->obj_testFlags30(0x80000000) + 0x80000000) == 0U) && ((temp_r3b = ((TMainCursor *)arg0)->check_field_24()) != 0U) && (can_pickup_item_by_id__10TObjPlayerFP5TItem(temp_r3b, temp_r3) == 0)) {
+    entity = (s32)find_entity_by_id(((TMainCursor *)(arg0 + 0x60))->get_id());
+    if ((entity != 0) && ((u32) (((TObjCollidable *)entity)->obj_testFlags30(0x80000000) + 0x80000000) == 0U) && ((temp_r3b = ((TMainCursor *)arg0)->check_field_24()) != 0U) && (can_pickup_item_by_id__10TObjPlayerFP5TItem(temp_r3b, entity) == 0)) {
         return 1;
     }
     return 0;
@@ -651,18 +651,18 @@ void TMainCursor::refresh_target_marker() {
     get_rader_map__11TMainCursorFv((void *) (((u8 *)this) + 0x4C), (void *)target_cursor_color_table[temp_r3_2]);
 }
 
-void *__dt__11TMainCursorFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__11TMainCursor;
-        destroy__11TMainCursorFis((s32)((s8 *)arg0 + 0x60), -1);
-        ((TMainCursor *)((s8 *)arg0 + 0x4C))->destroy(-1);
-        ((TMainCursor *)((s8 *)arg0 + 0x24))->delete_this(-1);
-        __dt__7TObjectFv(arg0, 0);
+void *__dt__11TMainCursorFv(void *object, s16 arg1) {
+    if (object != NULL) {
+        *(s32 **)((s8 *)object + 0x18) = __vt__11TMainCursor;
+        destroy__11TMainCursorFis((s32)((s8 *)object + 0x60), -1);
+        ((TMainCursor *)((s8 *)object + 0x4C))->destroy(-1);
+        ((TMainCursor *)((s8 *)object + 0x24))->delete_this(-1);
+        __dt__7TObjectFv(object, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(object);
         }
     }
-    return arg0;
+    return object;
 }
 
 u8 *TMainCursor__ct(u8 *main_cursor, s32 parent, s32 target_index, s32 target_id, s32 action_palette, s32 active,

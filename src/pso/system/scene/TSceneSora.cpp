@@ -118,16 +118,16 @@ void TSceneSora::run_task() {
     }
 }
 
-u8 *__dt__10TSceneSoraFv(u8 *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = &__vt__10TSceneSora.value;
+u8 *__dt__10TSceneSoraFv(u8 *base, s16 arg1) {
+    if (base != NULL) {
+        *(s32 **)((s8 *)base + 0x18) = &__vt__10TSceneSora.value;
         TSceneSora__instance = 0;
-        __dt__8TObjBaseFv(arg0, 0);
+        __dt__8TObjBaseFv(base, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(base);
         }
     }
-    return arg0;
+    return base;
 }
 
 typedef char RecoveredGlobal_80207340___vt__10TSceneSora_size[sizeof(RecoveredGlobal_80207340___vt__10TSceneSora) == 0x38 ? 1 : -1];

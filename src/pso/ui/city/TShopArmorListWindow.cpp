@@ -363,7 +363,7 @@ void handle_buy_confirm__20TShopArmorListWindowFv(Win_8021A634 *w) {
 }
 
 s32 TShopArmorListWindow::open_menu_window() {
-    f32 temp_f31;
+    f32 scale;
     u16 temp_r31;
 
     if ((u32) this->m_30 == 0U) {
@@ -374,8 +374,8 @@ s32 TShopArmorListWindow::open_menu_window() {
         ((TWindowSubComCard *)(this->m_30))->calc_window_size();
         align_menu_entry_positions(this->m_30);
         ((TCheckRoomSequence *)(this->m_30))->set_ready_flag();
-        temp_f31 = get_scale();
-        ((TWindowAddition *)(this->m_30))->set_position_xy(get_scale(), temp_f31);
+        scale = get_scale();
+        ((TWindowAddition *)(this->m_30))->set_position_xy(get_scale(), scale);
     }
     set_field_20__15TShopWindowBaseFl(this, 2);
 }
@@ -592,9 +592,9 @@ void *__dt__20TShopArmorListWindowFv(TShopArmorListWindow *arg0, s16 arg1) {
     return arg0;
 }
 typedef char RecoveredGlobal_8021B1CC___vt__20TShopArmorListWindow_size[sizeof(RecoveredGlobal_8021B1CC___vt__20TShopArmorListWindow) == 0x30 ? 1 : -1];
-u8 *TShopArmorListWindow__ct(u8 *shop_armor_list_window, s32 arg1, s32 arg2, s32 arg3) {
+u8 *TShopArmorListWindow__ct(u8 *shop_armor_list_window, s32 parent, s32 arg2, s32 arg3) {
     s32 sp8;
-    __ct__15TShopWindowBaseFP7TObject(shop_armor_list_window, (TObject *)arg1);
+    __ct__15TShopWindowBaseFP7TObject(shop_armor_list_window, (TObject *)parent);
     *(s32 **)((s8 *)shop_armor_list_window + 0x18) = &(*(RecoveredGlobal_8021B1CC___vt__20TShopArmorListWindow *)&__vt__20TShopArmorListWindow).value;
     *(const char **)((s8 *)shop_armor_list_window + 0) = TShopArmorListWindow__class_name;
     ((TShopArmorListWindow *)shop_armor_list_window)->m_24 = arg3;

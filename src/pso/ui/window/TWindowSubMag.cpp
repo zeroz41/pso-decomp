@@ -505,43 +505,43 @@ void TWindowSubMag::run_task(void *arg0) {
 }
 #undef self
 
-void *__dt__13TWindowSubMagFv(TWindowSubMag *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__13TWindowSubMag;
-        if ((u32) arg0->m_4c != 0U) {
-            ((TObject *)(*(void **)((s8 *)arg0 + 0x4C)))->queue_destruction();
-            arg0->m_4c = 0U;
+void *__dt__13TWindowSubMagFv(TWindowSubMag *window_sub_mag, s16 arg1) {
+    if (window_sub_mag != NULL) {
+        *(s32 **)((s8 *)window_sub_mag + 0x18) = __vt__13TWindowSubMag;
+        if ((u32) window_sub_mag->m_4c != 0U) {
+            ((TObject *)(*(void **)((s8 *)window_sub_mag + 0x4C)))->queue_destruction();
+            window_sub_mag->m_4c = 0U;
         }
-        if ((u32) arg0->m_48 != 0U) {
-            ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x48)))->close();
-            arg0->m_48 = 0U;
+        if ((u32) window_sub_mag->m_48 != 0U) {
+            ((TWindowBase *)(*(void **)((s8 *)window_sub_mag + 0x48)))->close();
+            window_sub_mag->m_48 = 0U;
         }
-        if ((u32) arg0->m_38 != 0U) {
-            ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x38)))->close();
-            arg0->m_38 = 0U;
+        if ((u32) window_sub_mag->m_38 != 0U) {
+            ((TWindowBase *)(*(void **)((s8 *)window_sub_mag + 0x38)))->close();
+            window_sub_mag->m_38 = 0U;
         }
-        if ((u32) arg0->m_3c != 0U) {
-            ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x3C)))->close();
-            arg0->m_3c = 0U;
+        if ((u32) window_sub_mag->m_3c != 0U) {
+            ((TWindowBase *)(*(void **)((s8 *)window_sub_mag + 0x3C)))->close();
+            window_sub_mag->m_3c = 0U;
         }
-        if ((u32) arg0->m_44 != 0U) {
-            ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x44)))->close();
-            arg0->m_44 = 0U;
+        if ((u32) window_sub_mag->m_44 != 0U) {
+            ((TWindowBase *)(*(void **)((s8 *)window_sub_mag + 0x44)))->close();
+            window_sub_mag->m_44 = 0U;
         }
-        if ((u32) arg0->m_40 != 0U) {
-            ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x40)))->close();
-            arg0->m_40 = 0U;
+        if ((u32) window_sub_mag->m_40 != 0U) {
+            ((TWindowBase *)(*(void **)((s8 *)window_sub_mag + 0x40)))->close();
+            window_sub_mag->m_40 = 0U;
         }
-        if ((u32) arg0->m_34 != 0U) {
-            ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x34)))->close();
-            arg0->m_34 = 0U;
+        if ((u32) window_sub_mag->m_34 != 0U) {
+            ((TWindowBase *)(*(void **)((s8 *)window_sub_mag + 0x34)))->close();
+            window_sub_mag->m_34 = 0U;
         }
-        __dt__7TObjectFv(arg0, 0);
+        __dt__7TObjectFv(window_sub_mag, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(window_sub_mag);
         }
     }
-    return arg0;
+    return window_sub_mag;
 }
 
 

@@ -225,17 +225,17 @@ void TBoss4Thanks::run_task() {
   }
 }
 
-u8 *__dt__12TBoss4ThanksFv(u8 *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_8035C7D4___vt__12TBoss4Thanks *)&__vt__12TBoss4Thanks).value;
+u8 *__dt__12TBoss4ThanksFv(u8 *boss4_thanks, s16 arg1) {
+    if (boss4_thanks != NULL) {
+        *(s32 **)((s8 *)boss4_thanks + 0x18) = &(*(RecoveredGlobal_8035C7D4___vt__12TBoss4Thanks *)&__vt__12TBoss4Thanks).value;
         TBoss4Thanks::dispatch_main_phase_153();
-        ((TBoss4Thanks *)arg0)->destroy_effects();
-        __dt__7TObjectFv(arg0, 0);
+        ((TBoss4Thanks *)boss4_thanks)->destroy_effects();
+        __dt__7TObjectFv(boss4_thanks, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv((s32) arg0);
+            __dl__7TObjectFPv((s32) boss4_thanks);
         }
     }
-    return arg0;
+    return boss4_thanks;
 }
 
 u8 *TBoss4Thanks__ct(u8 *object, u8 *arg1) {

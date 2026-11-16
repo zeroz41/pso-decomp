@@ -221,19 +221,19 @@ s32 __dl__7TObjectFPv(void *);
 
 extern void *lbl_804C3564[];
 
-void *destroy__13TPhotonFarllaFPvs(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = (s32 *)lbl_804C3564;
-        ((TPhotonFarlla *)arg0)->update_if_active();
-        ((TUnk_804C3248 *)arg0)->free_photon();
-        ((TObjCollidable *)arg0)->unregister_object_by_id();
-        free_collision_body_parts(arg0);
-        __dt__13TUnk_804C3248Fv(arg0, 0);
+void *destroy__13TPhotonFarllaFPvs(void *photon_farlla, s16 arg1) {
+    if (photon_farlla != NULL) {
+        *(s32 **)((s8 *)photon_farlla + 0x18) = (s32 *)lbl_804C3564;
+        ((TPhotonFarlla *)photon_farlla)->update_if_active();
+        ((TUnk_804C3248 *)photon_farlla)->free_photon();
+        ((TObjCollidable *)photon_farlla)->unregister_object_by_id();
+        free_collision_body_parts(photon_farlla);
+        __dt__13TUnk_804C3248Fv(photon_farlla, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(photon_farlla);
         }
     }
-    return arg0;
+    return photon_farlla;
 }
 
 }

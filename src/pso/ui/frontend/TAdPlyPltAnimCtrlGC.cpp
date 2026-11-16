@@ -118,33 +118,33 @@ void TAdPlyPltAnimCtrlGC::run_task() {
     }
 }
 
-void *__dt__19TAdPlyPltAnimCtrlGCFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__19TAdPlyPltAnimCtrlGC;
+void *__dt__19TAdPlyPltAnimCtrlGCFv(void *object, s16 arg1) {
+    if (object != NULL) {
+        *(s32 **)((s8 *)object + 0x18) = __vt__19TAdPlyPltAnimCtrlGC;
         if ((u32) plyplt_anim_ctrl_instance != 0U) {
             plyplt_anim_ctrl_instance = 0U;
         }
-        __dt__7TObjectFv(arg0, 0);
+        __dt__7TObjectFv(object, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(object);
         }
     }
-    return arg0;
+    return object;
 }
 
 typedef char RecoveredGlobal_80355414___vt__19TAdPlyPltAnimCtrlGC_size[sizeof(RecoveredGlobal_80355414___vt__19TAdPlyPltAnimCtrlGC) == 0x18 ? 1 : -1];
 u8 *TAdPlyPltAnimCtrlGC__ct(TAdPlyPltAnimCtrlGC *ad_ply_plt_anim_ctrl_gc, s32 arg1) {
-    s32 var_r31;
+    s32 index;
     __ct__7TObjectFP7TObject((void *)ad_ply_plt_anim_ctrl_gc, (void *)arg1);
     *(s32 **)((s8 *)ad_ply_plt_anim_ctrl_gc + 0x18) = &(*(RecoveredGlobal_80355414___vt__19TAdPlyPltAnimCtrlGC *)&__vt__19TAdPlyPltAnimCtrlGC).value;
-    var_r31 = 0;
+    index = 0;
     *(s32 *)((s8 *)ad_ply_plt_anim_ctrl_gc + 0) = lbl_805D4390;
     ad_ply_plt_anim_ctrl_gc->m_1c = 0;
     ad_ply_plt_anim_ctrl_gc->m_20 = -1;
     do {
-        TAdPlyPltAnimGC::get_or_create(ad_ply_plt_anim_ctrl_gc, var_r31);
-        var_r31 += 1;
-    } while (var_r31 < 5);
+        TAdPlyPltAnimGC::get_or_create(ad_ply_plt_anim_ctrl_gc, index);
+        index += 1;
+    } while (index < 5);
     return (u8 *)ad_ply_plt_anim_ctrl_gc;
 }
 

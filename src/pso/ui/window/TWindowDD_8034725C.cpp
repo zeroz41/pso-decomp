@@ -182,28 +182,28 @@ void TWindowDD__sub_80347474(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
   s32 temp_r0;
   s32 var_r28;
   s32 var_r29;
-  s32 var_r30;
+  s32 id;
   s32 var_r31;
   int var_r3;
   s32 var_r4;
-  s32 var_r5;
-  s32 var_r6;
+  s32 word;
+  s32 buf;
   s32 pos;
   var_r29 = arg1;
   var_r28 = arg0;
-  var_r30 = arg2;
+  id = arg2;
   var_r31 = arg3;
   var_r3 = var_r29;
-  var_r6 = TWindowDD__sub_80348B70((s32)((int) var_r3));
-  temp_r0 = var_r6;
+  buf = TWindowDD__sub_80348B70((s32)((int) var_r3));
+  temp_r0 = buf;
   var_r3 = var_r28;
-  var_r5 = temp_r0;
+  word = temp_r0;
   var_r4 = var_r29;
-  var_r6 = var_r30;
+  buf = id;
   pos = var_r31;
-  var_r30 = (int) var_r4;
+  id = (int) var_r4;
   void TWindowDD__sub_803474CC(M_80347758 *, s32, char *, s32, s32 *);
-  TWindowDD__sub_803474CC((M_80347758 *)var_r3, var_r30, (char *)var_r5, var_r6, (s32 *)pos);
+  TWindowDD__sub_803474CC((M_80347758 *)var_r3, id, (char *)word, buf, (s32 *)pos);
 }
 
 void TWindowDD__sub_803474CC(M_80347758 *entry, s16 id, char *word, s32 buf, s32 *pos) {

@@ -432,7 +432,7 @@ void TObjEneMe1GiGue::delete_barrier() {
     }
 }
 
-void *TObjEneMe1GiGue::create(void *arg0) {
+void *TObjEneMe1GiGue::create(void *set_data) {
     void *o;
     void *o2;
     o = TObject::operator new(0x20);
@@ -441,7 +441,7 @@ void *TObjEneMe1GiGue::create(void *arg0) {
     }
     o2 = TObject::operator new(0x458);
     if (o2 != NULL) {
-        o2 = TObjEneMe1GiGue__ct((TObjEneMe1GiGue *)o2, (TObject *)o, arg0);
+        o2 = TObjEneMe1GiGue__ct((TObjEneMe1GiGue *)o2, (TObject *)o, set_data);
     }
     return o2;
 }

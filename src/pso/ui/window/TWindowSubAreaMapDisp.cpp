@@ -180,24 +180,24 @@ void TWindowSubAreaMapDisp::run_task() {
         ((TWindowSubStatusDisp *)(*(u8 * *)&this->m_70))->update_subwindow();
     }
 }
-u8 *__dt__21TWindowSubAreaMapDispFv(TWindowSubAreaMapDisp *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = &__vt__21TWindowSubAreaMapDisp.value;
-        if ((u32) arg0->m_74 != 0U) {
-            mem_free(*(void **)((s8 *)arg0 + 0x74));
-            arg0->m_74 = 0U;
+u8 *__dt__21TWindowSubAreaMapDispFv(TWindowSubAreaMapDisp *window_sub_area_map_disp, s16 arg1) {
+    if (window_sub_area_map_disp != NULL) {
+        *(s32 **)((s8 *)window_sub_area_map_disp + 0x18) = &__vt__21TWindowSubAreaMapDisp.value;
+        if ((u32) window_sub_area_map_disp->m_74 != 0U) {
+            mem_free(*(void **)((s8 *)window_sub_area_map_disp + 0x74));
+            window_sub_area_map_disp->m_74 = 0U;
         }
-        if ((s32) arg0->m_6c != 0) {
+        if ((s32) window_sub_area_map_disp->m_6c != 0) {
             TWindowCtrl::clear_active_flag();
             TRaderMapCore::clear();
         }
-        TWindowSubStatusDisp::destroy_status_display(arg0->m_70, 1);
-        ((TWindowDD *)arg0)->destroy_window_base(0);
+        TWindowSubStatusDisp::destroy_status_display(window_sub_area_map_disp->m_70, 1);
+        ((TWindowDD *)window_sub_area_map_disp)->destroy_window_base(0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(window_sub_area_map_disp);
         }
     }
-    return (u8 *)arg0;
+    return (u8 *)window_sub_area_map_disp;
 }
 typedef char RecoveredGlobal_80271D00___vt__21TWindowSubAreaMapDisp_size[sizeof(RecoveredGlobal_80271D00___vt__21TWindowSubAreaMapDisp) == 0x1C ? 1 : -1];
 u8 *TWindowSubAreaMapDisp__ct(TWindowSubAreaMapDisp *window_sub_area_map_disp) {

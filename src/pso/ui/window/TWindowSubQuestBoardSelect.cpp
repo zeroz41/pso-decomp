@@ -120,7 +120,7 @@ void TWindowSubQuestBoardSelect::update_slot_display_flags() {
     s32 var_r30;
     s32 var_r29;
     u16 *temp_r31;
-    u16 *temp_r3;
+    u16 *array_entry;
 
     var_r29 = 1;
     var_r30 = 0;
@@ -134,14 +134,14 @@ void TWindowSubQuestBoardSelect::update_slot_display_flags() {
         }
         var_r30 += 1;
     } while (var_r30 < 6);
-    temp_r3 = (u16 *)get_array_entry(1);
+    array_entry = (u16 *)get_array_entry(1);
     if (var_r29 != 0) {
         *(s8 *)&this->m_61 = -1;
-        *temp_r3 |= 2;
+        *array_entry |= 2;
         this->m_60 = (u8) (this->m_60 | 4);
         return;
     }
-    *temp_r3 &= 0xFFFFFFFD;
+    *array_entry &= 0xFFFFFFFD;
     this->m_60 = (u8) (this->m_60 & 0xFFFFFFFB);
 }
 
@@ -270,25 +270,25 @@ s32 TWindowSubQuestBoardSelect::handle_page_input() {
 }
 
 void render__26TWindowSubQuestBoardSelectFv(u8 *arg0) {
-    s32 temp_r3;
-    temp_r3 = draw_default_entry__9TWindowDDFl();
-    ((TWindowBase *)arg0)->draw_window_frame((void *)temp_r3);
-    forward_render__20TWindowSubStatusDispFv((int) (((TWindowSubQuestBoardSelect *)arg0)->m_64), temp_r3);
-    TWindowSubQuestBoardSelect__sub_8027D444((TWindowSubQuestBoardSelect *)arg0, (Ctx_8027D444 *)temp_r3);
-    draw_visible_window_entries(arg0, arg0 + 0x24, temp_r3);
+    s32 ctx;
+    ctx = draw_default_entry__9TWindowDDFl();
+    ((TWindowBase *)arg0)->draw_window_frame((void *)ctx);
+    forward_render__20TWindowSubStatusDispFv((int) (((TWindowSubQuestBoardSelect *)arg0)->m_64), ctx);
+    TWindowSubQuestBoardSelect__sub_8027D444((TWindowSubQuestBoardSelect *)arg0, (Ctx_8027D444 *)ctx);
+    draw_visible_window_entries(arg0, arg0 + 0x24, ctx);
 }
 typedef char RecoveredGlobal_8027D888_lbl_8050E208_size[sizeof(RecoveredGlobal_8027D888_lbl_8050E208) == 0x1B0 ? 1 : -1];
 void TWindowSubQuestBoardSelect::run_task() {
     u8 *arg0 = (u8 *)this;
-    u8 *temp_r31;
+    u8 *context;
     if (((TWindowSubQuestBoardSelect *)arg0)->is_open() == 0) {
         ((TWindowSubQuestBoardSelect *)arg0)->select_next();
         handle_page_input();
-        temp_r31 = (u8 *)&controller_input_state.value + 0x20;
-        if ((TWindowShortListCtrl__check_controller_button((int)temp_r31, 4) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) ((u8 *)&controller_input_state.value + 0x160), 4) != 0)) {
+        context = (u8 *)&controller_input_state.value + 0x20;
+        if ((TWindowShortListCtrl__check_controller_button((int)context, 4) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) ((u8 *)&controller_input_state.value + 0x160), 4) != 0)) {
             ((TWindowSubQuestBoardSelect *)arg0)->handle_decide();
         }
-        if ((TWindowShortListCtrl__check_controller_button((int)temp_r31, 2) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) ((u8 *)&controller_input_state.value + 0x160), 2) != 0)) {
+        if ((TWindowShortListCtrl__check_controller_button((int)context, 2) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) ((u8 *)&controller_input_state.value + 0x160), 2) != 0)) {
             ((TWindowSubQuestBoardSelect *)arg0)->handle_cancel();
         }
     }

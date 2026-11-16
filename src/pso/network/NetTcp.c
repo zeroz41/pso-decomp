@@ -143,28 +143,28 @@ extern void TLobby__sub_8041A3CC(void) {
     }
 }
 
-void TLobby__sub_8041A498(TcpTcb *arg0, s16 arg1) {
-    s16 idx = arg0 - tcp_protocol_state.tcbs;
+void TLobby__sub_8041A498(TcpTcb *tcp_tcb, s16 arg1) {
+    s16 idx = tcp_tcb - tcp_protocol_state.tcbs;
 
-    if (arg0->t_state >= 3) {
-        arg0->t_state = 0;
-        TLobby__sub_8041A9AC(arg0);
+    if (tcp_tcb->t_state >= 3) {
+        tcp_tcb->t_state = 0;
+        TLobby__sub_8041A9AC(tcp_tcb);
     }
-    arg0->error = arg1;
+    tcp_tcb->error = arg1;
     switch (arg1) {
     case 4:
-        set_thread_state_and_resume(idx, arg0->send_done, -8);
-        set_slot_state_and_resume(idx, arg0->recv_done, -8);
-        NetDispatchSocketEvent(idx, arg0->event_ctx, 3, 0xB);
+        set_thread_state_and_resume(idx, tcp_tcb->send_done, -8);
+        set_slot_state_and_resume(idx, tcp_tcb->recv_done, -8);
+        NetDispatchSocketEvent(idx, tcp_tcb->event_ctx, 3, 0xB);
         break;
     default:
-        set_thread_state_and_resume(idx, arg0->send_done, -5);
-        set_slot_state_and_resume(idx, arg0->recv_done, -5);
-        NetDispatchSocketEvent(idx, arg0->event_ctx, 3, 0xA);
+        set_thread_state_and_resume(idx, tcp_tcb->send_done, -5);
+        set_slot_state_and_resume(idx, tcp_tcb->recv_done, -5);
+        NetDispatchSocketEvent(idx, tcp_tcb->event_ctx, 3, 0xA);
         break;
     }
-    if (TLobby__sub_8041B5C0(arg0) != 0) {
-        arg0->t_state = -1;
+    if (TLobby__sub_8041B5C0(tcp_tcb) != 0) {
+        tcp_tcb->t_state = -1;
     }
 }
 
@@ -2127,7 +2127,7 @@ s32 TLobby__sub_8041DE1C(s16 i, s16 opt, u32 *val) {
 
 #pragma push
 #pragma pool_data off
-s32 get_tcp_stat(s16 arg0, s16 *arg1, s16 *arg2, s32 *arg3, s32 *arg4) {
+s32 get_tcp_stat(s16 arg0, s16 *arg1, s16 *arg2, s32 *adjusted_slot_count, s32 *arg4) {
     s16 r;
     TcpTcb *e;
 
@@ -2153,8 +2153,8 @@ s32 get_tcp_stat(s16 arg0, s16 *arg1, s16 *arg2, s32 *arg3, s32 *arg4) {
             *arg2 = 0;
         }
     }
-    if (arg3 != NULL) {
-        *arg3 = get_adjusted_slot_count(e);
+    if (adjusted_slot_count != NULL) {
+        *adjusted_slot_count = get_adjusted_slot_count(e);
     }
     if (arg4 != NULL) {
         *arg4 = get_field_d8(e);

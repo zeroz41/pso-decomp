@@ -144,17 +144,17 @@ void set_all_flags__17TBoss8DragonColliFPv(O_802F3144 *self) {
     for (i = 0; i < self->count; i++) self->arr[i].flags |= 1;
 }
 
-void *destroy__17TBoss8DragonColliFPvs(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = lbl_804E4BB4;
-        ((TObjCollidable *)arg0)->unregister_object_by_id();
-        free_collision_body_parts(arg0);
-        __dt__14TObjCollidableFv(arg0, 0);
+void *destroy__17TBoss8DragonColliFPvs(void *collidable, s16 arg1) {
+    if (collidable != NULL) {
+        *(s32 **)((s8 *)collidable + 0x18) = lbl_804E4BB4;
+        ((TObjCollidable *)collidable)->unregister_object_by_id();
+        free_collision_body_parts(collidable);
+        __dt__14TObjCollidableFv(collidable, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(collidable);
         }
     }
-    return arg0;
+    return collidable;
 }
 #define self ((O_802F31E4 *)arg0)
 s32 init_collision_segments__17TBoss8DragonColliFiPviPvf(int arg0, void *arg1, int arg2, void *arg3, f32 scale) {

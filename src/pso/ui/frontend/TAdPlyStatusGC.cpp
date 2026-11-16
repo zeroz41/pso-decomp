@@ -145,14 +145,14 @@ struct Status_8033F3D8 { u8 pad[8]; u32 f8; };
 void draw_window_frame__11TWindowBaseFPv(void *);
 Status_8033F3D8 **get_status_sub__14TAdPlyStatusGCFv(s32);
 extern Vec2_8033F3D8 ply_status_window_offset_table[];
-void draw_status_window__14TAdPlyStatusGCFPvPv(void *arg0, void *arg1) {
+void draw_status_window__14TAdPlyStatusGCFPvPv(void *window_base, void *arg1) {
     Item_8033F3D8 items[3];
     Box_8033F3D8 box;
     Vec2_8033F3D8 pts[3];
     Vec2_8033F3D8 pts2[3];
     s32 i;
 
-    draw_window_frame__11TWindowBaseFPv(arg0);
+    draw_window_frame__11TWindowBaseFPv(window_base);
     if ((u32)ply_status_chcr_load_afs != 0 && ((TChCrLoadAfs *)ply_status_chcr_load_afs)->is_unloaded() != 0 && TAdPlyStatusGC__is_shown != 0 &&
         (*get_status_sub__14TAdPlyStatusGCFv(ply_status_chcr_load_afs))->f8 != 0) {
         box = TAdPlyStatusGC__status_window_box;
@@ -280,7 +280,7 @@ void TAdPlyStatusGC::set_load_state(s32 arg1) {
 }
 
 void update_hidden__14TAdPlyStatusGCFv(u8 *arg0) {
-    s32 temp_r3;
+    s32 player_index;
     s32 temp_r5;
     TAdPlyStatusGC__is_shown = 0;
     if ((u32) *(u32 *)((s8 *)arg0 + 0x6C) != 0U) {
@@ -288,10 +288,10 @@ void update_hidden__14TAdPlyStatusGCFv(u8 *arg0) {
         *(u32 *)((s8 *)arg0 + 0x6C) = 0U;
     }
     if ((s32) TAdPlyStatusGC__window_offset_index < 3) {
-        temp_r3 = ((s32)TAdPlyStatusGC::get_player_index());
-        if (temp_r3 != 0) {
+        player_index = ((s32)TAdPlyStatusGC::get_player_index());
+        if (player_index != 0) {
             allow_rendering__7TObjectFv();
-            ((TAdGuideButtonGC *)temp_r3)->setup_button((GuideButtonSpec *)(arg0 + 0x48));
+            ((TAdGuideButtonGC *)player_index)->setup_button((GuideButtonSpec *)(arg0 + 0x48));
         }
         temp_r5 = TAdMultiPlyChrSelectGC::get_status() * 0x50;
         if (TWindowShortListCtrl__check_controller_button((void *) ((u8 *)&controller_physical_port_bank.value + temp_r5 + 0x20), 0x400, temp_r5) != 0) {
@@ -303,17 +303,17 @@ void update_hidden__14TAdPlyStatusGCFv(u8 *arg0) {
 typedef char RecoveredGlobal_8033F9DC_lbl_804783E0_size[sizeof(RecoveredGlobal_8033F9DC_lbl_804783E0) == 0x18 ? 1 : -1];
 typedef char RecoveredGlobal_8033F9DC_lbl_8050E3B8_size[sizeof(RecoveredGlobal_8033F9DC_lbl_8050E3B8) == 0x1B0 ? 1 : -1];
 void update_shown__14TAdPlyStatusGCFv(struct RecoveredFields_8033F9DC_arg0 *arg0) {
-    s32 temp_r3;
+    s32 player_index;
     s32 temp_r5;
     TAdPlyStatusGC__is_shown = 1;
     if ((s32) TAdPlyStatusGC__window_offset_index < 3) {
         if ((u32) arg0->field_6C == 0) {
             arg0->field_6C = TAdPlyStatusGC__sub_8033F8B0(arg0, (void *)((s32) ((u8 *)&ply_status_window_offset_table.value + (TAdPlyStatusGC__window_offset_index * 8))));
         }
-        temp_r3 = ((s32)TAdPlyStatusGC::get_player_index());
-        if (temp_r3 != 0) {
+        player_index = ((s32)TAdPlyStatusGC::get_player_index());
+        if (player_index != 0) {
             allow_rendering__7TObjectFv();
-            ((TAdGuideButtonGC *)temp_r3)->setup_button((GuideButtonSpec *)(&arg0->unknown_20[4]));
+            ((TAdGuideButtonGC *)player_index)->setup_button((GuideButtonSpec *)(&arg0->unknown_20[4]));
         }
         temp_r5 = TAdMultiPlyChrSelectGC::get_status() * 0x50;
         if (TWindowShortListCtrl__check_controller_button((u8 *)(((u8 *)(&(*(RecoveredGlobal_8033F9DC_lbl_8050E3B8 *)&controller_physical_port_bank).value) + temp_r5)) + 0x20, 0x400, temp_r5) != 0) {
@@ -323,9 +323,9 @@ void update_shown__14TAdPlyStatusGCFv(struct RecoveredFields_8033F9DC_arg0 *arg0
 }
 
 void close_window__14TAdPlyStatusGCFv(void *arg0) {
-    void *temp_r3 = *(void **)((s8 *)arg0 + 0x6C);
-    if ((u32) temp_r3 != 0U) {
-        ((TWindowBase *)temp_r3)->close();
+    void *window_base = *(void **)((s8 *)arg0 + 0x6C);
+    if ((u32) window_base != 0U) {
+        ((TWindowBase *)window_base)->close();
         *(u32 *)((s8 *)arg0 + 0x6C) = 0U;
     }
     if (TAdPlyStatusGC::get_player_index() != 0U) {

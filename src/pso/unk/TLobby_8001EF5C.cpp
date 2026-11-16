@@ -247,7 +247,7 @@ s32 TLobby::tmp_buf_use_req(const char *name) {
 // ---- 0x8001EF5C-0x80020898 ----
 void TLobby::free_if_not_owner(void* a1) { if (*(unsigned int*)((char*)this + 0x424) == 0) { xfree__FPv(a1); } }
 
-s32 alloc_load_data__6TLobbyFPviii(void *arg0, s32 base, s32 arg2, s32 arg3) {
+s32 alloc_load_data__6TLobbyFPviii(void *arg0, s32 base, s32 off, s32 out) {
     u32 sp8;
     s32 buf;
     u32 temp_r4;
@@ -256,13 +256,13 @@ s32 alloc_load_data__6TLobbyFPviii(void *arg0, s32 base, s32 arg2, s32 arg3) {
     temp_r7 = *(u32 *)((s8 *)arg0 + 0x424);
     if (temp_r7 != 0U) {
         buf = temp_r7 + *(s32 *)((s8 *)arg0 + 0x428);
-        TLobby__sub_801E38A0(base, arg2, arg3, buf, &sp8);
+        TLobby__sub_801E38A0(base, off, out, buf, &sp8);
         temp_r4 = ((sp8 >> 5U) + 1) << 5;
         sp8 = temp_r4;
         *(s32 *)((s8 *)arg0 + 0x428) = (s32) (*(s32 *)((s8 *)arg0 + 0x428) + temp_r4);
         return buf;
     }
-    return load_nj_chunk_model_resource(base, arg2, arg3);
+    return load_nj_chunk_model_resource(base, off, out);
 }
 
 void TLobby::load_texture_sub(void *arg1, s32 arg2) {

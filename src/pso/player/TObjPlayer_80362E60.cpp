@@ -175,9 +175,9 @@ TUnk_804F27E0::TUnk_804F27E0(TObject *parent, u8 *item) : TUnk_804A4948(parent, 
     set_weapon_flags(3);
     pad_1fc = 0;
 }
-u8 *TObjPlayer__sub_803630F0(u8 *arg0) {
-    if (arg0 != NULL) {
-        return (u8 *)new TUnk_804F27E0(tl_05, arg0);
+u8 *TObjPlayer__sub_803630F0(u8 *item) {
+    if (item != NULL) {
+        return (u8 *)new TUnk_804F27E0(tl_05, item);
     }
     return NULL;
 }

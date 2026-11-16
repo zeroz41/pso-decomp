@@ -95,9 +95,9 @@ void TObjPlayer::build_6x2C_impose_hold_packet() {
 void bswap__9TItemDataFv(s32 arg0);
 
 void TObjPlayer::bswap_and_send_packet() {
-    s32 arg0 = (s32)this;
+    s32 cmd = (s32)this;
     bswap_pkt_u16x2_u32__10TObjPlayerFPv();
-    send_subcommand((u8 *)arg0);
+    send_subcommand((u8 *)cmd);
 }
 void TObjPlayer::bswap_body_dwords() {
     s32 arg0 = (s32)this;

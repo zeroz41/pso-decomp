@@ -54,22 +54,22 @@ void TWindowSubEquipList::render() {
 
 void TWindowSubEquipList::run_task() { { (void)(this->TWindowMenuIconLine::run_task()); return; } }
 
-void *__dt__19TWindowSubEquipListFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__19TWindowSubEquipList;
-        ((TWindowSubStatusDisp *)arg0)->destroy_item_list_resources(0);
+void *__dt__19TWindowSubEquipListFv(void *window_sub_status_disp, s16 arg1) {
+    if (window_sub_status_disp != NULL) {
+        *(s32 **)((s8 *)window_sub_status_disp + 0x18) = __vt__19TWindowSubEquipList;
+        ((TWindowSubStatusDisp *)window_sub_status_disp)->destroy_item_list_resources(0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(window_sub_status_disp);
         }
     }
-    return arg0;
+    return window_sub_status_disp;
 }
-u8 *TWindowSubEquipList__ct(u8 *arg0, s32 arg1, s16 arg2) {
-    fn_802683F4((arg0), (arg1), 8, (arg2));
-    *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_802793E4___vt__19TWindowSubEquipList *)&__vt__19TWindowSubEquipList).value;
-    *(s32 *)((s8 *)arg0 + 0) = (s32) ((s32)TWindowSubEquipList__class_name);
-    ((TWindowMenuIconLine *)arg0)->ensure_status_display((int) (TWindowSubStatusDisp::get_message_10(0x25)));
-    return arg0;
+u8 *TWindowSubEquipList__ct(u8 *window_menu_icon_line, s32 arg1, s16 arg2) {
+    fn_802683F4((window_menu_icon_line), (arg1), 8, (arg2));
+    *(s32 **)((s8 *)window_menu_icon_line + 0x18) = &(*(RecoveredGlobal_802793E4___vt__19TWindowSubEquipList *)&__vt__19TWindowSubEquipList).value;
+    *(s32 *)((s8 *)window_menu_icon_line + 0) = (s32) ((s32)TWindowSubEquipList__class_name);
+    ((TWindowMenuIconLine *)window_menu_icon_line)->ensure_status_display((int) (TWindowSubStatusDisp::get_message_10(0x25)));
+    return window_menu_icon_line;
 }
 
 }

@@ -412,38 +412,38 @@ void TWindowMessage::run_task() {
     ((TWindowBase *)arg0)->update_window_entry_list((u8 *)&this->m_24);
 }
 
-void *__dt__14TWindowMessageFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__14TWindowMessage;
-        if (*(void **)((s8 *)arg0 + 0x7C) != NULL) { mem_free(*(void **)((s8 *)arg0 + 0x7C)); }
-        ((TWindowAddition *)arg0)->destroy_window(0);
+void *__dt__14TWindowMessageFv(void *window_addition, s16 arg1) {
+    if (window_addition != NULL) {
+        *(s32 **)((s8 *)window_addition + 0x18) = __vt__14TWindowMessage;
+        if (*(void **)((s8 *)window_addition + 0x7C) != NULL) { mem_free(*(void **)((s8 *)window_addition + 0x7C)); }
+        ((TWindowAddition *)window_addition)->destroy_window(0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(window_addition);
         }
     }
-    return arg0;
+    return window_addition;
 }
-u8 *TWindowMessage__ct(u8 *arg0, s32 arg1, u32 arg2, s32 arg3) {
+u8 *TWindowMessage__ct(u8 *window_addition, s32 arg1, u32 arg2, s32 arg3) {
     u32 i;
     u8 *p;
-    construct_with_parent__15TWindowAdditionFPv(arg0, (u8 *)&message_window_settings, arg3, arg1);
-    *(void **)(arg0 + 0x18) = ((u8 *)&__vt__14TWindowMessage);
-    *(s32 *)arg0 = lbl_805D3980;
-    *(s32 *)(arg0 + 0x70) = 0;
-    *(s32 *)(arg0 + 0x74) = 0;
-    *(s32 *)(arg0 + 0x88) = 0;
-    *(u32 *)(arg0 + 0x8C) = arg2;
-    *(s32 *)(arg0 + 0x78) = 0xB4;
-    *(f32 *)(arg0 + 0x84) = 0.0f;
-    *(f32 *)(arg0 + 0x80) = 0.0f;
-    *(u8 **)(arg0 + 0x7C) = (u8 *)mem_alloc(arg2 * 8);
-    p = *(u8 **)(arg0 + 0x7C);
+    construct_with_parent__15TWindowAdditionFPv(window_addition, (u8 *)&message_window_settings, arg3, arg1);
+    *(void **)(window_addition + 0x18) = ((u8 *)&__vt__14TWindowMessage);
+    *(s32 *)window_addition = lbl_805D3980;
+    *(s32 *)(window_addition + 0x70) = 0;
+    *(s32 *)(window_addition + 0x74) = 0;
+    *(s32 *)(window_addition + 0x88) = 0;
+    *(u32 *)(window_addition + 0x8C) = arg2;
+    *(s32 *)(window_addition + 0x78) = 0xB4;
+    *(f32 *)(window_addition + 0x84) = 0.0f;
+    *(f32 *)(window_addition + 0x80) = 0.0f;
+    *(u8 **)(window_addition + 0x7C) = (u8 *)mem_alloc(arg2 * 8);
+    p = *(u8 **)(window_addition + 0x7C);
     for (i = 0; i < arg2; i++) {
         *(s32 *)p = 0;
         *(s32 *)(p + 4) = 0;
         p += 8;
     }
-    return arg0;
+    return window_addition;
 }
 
 }

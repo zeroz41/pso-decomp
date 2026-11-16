@@ -300,16 +300,16 @@ void draw_arrows__18TWindowInputNumberFv(TWindowInputNumber *self, Ctx_802563A0 
 #pragma pop
 
 void render__18TWindowInputNumberFv(TWindowInputNumber *arg0) {
-    s32 temp_r3;
+    s32 ctx;
 
-    temp_r3 = ((TWindowBase *)arg0)->setup_window_draw_context((s32)((u8 *)arg0 + 0x74));
-    ((TWindowBase *)arg0)->draw_window_frame((void *)temp_r3);
-    draw_visible_window_entries(arg0, (u8 *)arg0 + 0x24, temp_r3);
-    draw_arrows__18TWindowInputNumberFv(arg0, (Ctx_802563A0 *)temp_r3, (Digit_802561E8 *)((TWindowBase *)arg0)->get_array_entry(arg0->selectedDigit), arg0->is_confirmed());
+    ctx = ((TWindowBase *)arg0)->setup_window_draw_context((s32)((u8 *)arg0 + 0x74));
+    ((TWindowBase *)arg0)->draw_window_frame((void *)ctx);
+    draw_visible_window_entries(arg0, (u8 *)arg0 + 0x24, ctx);
+    draw_arrows__18TWindowInputNumberFv(arg0, (Ctx_802563A0 *)ctx, (Digit_802561E8 *)((TWindowBase *)arg0)->get_array_entry(arg0->selectedDigit), arg0->is_confirmed());
     {
         void *temp_ptr = (void *) arg0->unknown70;
         if (temp_ptr != NULL) {
-            forward_render__20TWindowSubStatusDispFv(temp_ptr, temp_r3);
+            forward_render__20TWindowSubStatusDispFv(temp_ptr, ctx);
         }
     }
 }
@@ -320,7 +320,7 @@ void TWindowInputNumber::run_task() {
     u32 temp_r3;
     u8 *input;
     u8 *temp_r29_2;
-    u8 *temp_r29_3;
+    u8 *context;
 
     temp_r30 = is_player_input_active(((s32) *(s16 *)((s8 *)arg0 + 0x20)));
     if (!(*(s32 *)((s8 *)arg0 + 0x2C) & 2)) {
@@ -356,11 +356,11 @@ void TWindowInputNumber::run_task() {
                 ((TWindowInputNumber *)arg0)->handle_decrement();
             }
         }
-        temp_r29_3 = (u8 *)controller_input_state + (temp_r30 * 0x50) + 0x20;
-        if ((TWindowShortListCtrl__check_controller_button((int)temp_r29_3, 4) != 0) || (((s32 (*)(void *, int))test_input_flag__18TWindowInputNumberFv)((void *)arg0, 4) != 0)) {
+        context = (u8 *)controller_input_state + (temp_r30 * 0x50) + 0x20;
+        if ((TWindowShortListCtrl__check_controller_button((int)context, 4) != 0) || (((s32 (*)(void *, int))test_input_flag__18TWindowInputNumberFv)((void *)arg0, 4) != 0)) {
             ((TWindowInputNumber *)arg0)->confirm_input();
         }
-        if ((TWindowShortListCtrl__check_controller_button((int)temp_r29_3, 2) != 0) || (((s32 (*)(void *, int))test_input_flag__18TWindowInputNumberFv)((void *)arg0, 2) != 0)) {
+        if ((TWindowShortListCtrl__check_controller_button((int)context, 2) != 0) || (((s32 (*)(void *, int))test_input_flag__18TWindowInputNumberFv)((void *)arg0, 2) != 0)) {
             ((TWindowInputNumber *)arg0)->mark_confirmed();
         }
     }

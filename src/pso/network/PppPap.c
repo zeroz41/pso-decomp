@@ -173,21 +173,21 @@ static inline void finish_pending_step(u8 *self, u8 bit) {
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
-void PADRead(u8 *self, s32 arg1)
+void PADRead(u8 *self, s32 src)
 {
   Hdr_803FC4B4 hdr;
   PapOptions *opts;
   opts = (PapOptions *)((PppFsm *)self)->opts;
-  if (TLobby__sub_803FE8BC((u8 *)&hdr, &arg1))
+  if (TLobby__sub_803FE8BC((u8 *)&hdr, &src))
   {
     return;
   }
   hdr.len -= 4;
-  TLobby__sub_80401CAC((PppFrame **) (&arg1), hdr.len);
+  TLobby__sub_80401CAC((PppFrame **) (&src), hdr.len);
   switch (hdr.type)
   {
     case 1:
-      if (TLobby__sub_80403308(self, (u8 *)&hdr, (PppFrame *) arg1))
+      if (TLobby__sub_80403308(self, (u8 *)&hdr, (PppFrame *) src))
     {
       return;
     }
@@ -195,7 +195,7 @@ void PADRead(u8 *self, s32 arg1)
       return;
 
     case 2:
-      if (read_text_field(self, &hdr, arg1) != 0)
+      if (read_text_field(self, &hdr, src) != 0)
     {
       return;
     }
@@ -203,7 +203,7 @@ void PADRead(u8 *self, s32 arg1)
       return;
 
     case 3:
-      if (read_text_field(self, &hdr, arg1) != 0)
+      if (read_text_field(self, &hdr, src) != 0)
     {
       return;
     }
@@ -220,12 +220,12 @@ void PADRead(u8 *self, s32 arg1)
 }
 #pragma pop
 
-s32 TLobby__sub_80403168(u8 *arg0, u8 *arg1, u8 *arg2) {
+s32 TLobby__sub_80403168(u8 *arg0, u8 *arg1, u8 *ppp_fsm) {
     Names_80403168 *g;
     PapOptions *opts;
     u32 n;
     u32 m;
-    opts = (PapOptions *)((PppFsm *)arg2)->opts;
+    opts = (PapOptions *)((PppFsm *)ppp_fsm)->opts;
     g = &lbl_805C04D8;
     n = NetStringLength((const char *)(arg0));
     if (n >= 0x80) {

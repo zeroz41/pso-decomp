@@ -245,16 +245,16 @@ void dispatch_received_packet(void *self, s32 arg1) {
     }
 }
 
-s32 TLobby__sub_803FC684(u8 *arg0, u8 *arg1, u8 *arg2) {
+s32 TLobby__sub_803FC684(u8 *source, u8 *arg1, u8 *arg2) {
     char **p = *(char ***)(arg2 + 0x30);
 
-    if (NetStringLength((const char *)((void *)arg0)) >= 0x80) {
-        arg0[0x7F] = 0;
+    if (NetStringLength((const char *)((void *)source)) >= 0x80) {
+        source[0x7F] = 0;
     }
     if (NetStringLength((const char *)((void *)arg1)) >= 0x80) {
         arg1[0x7F] = 0;
     }
-    NetCopyString((char *)((lbl_805C0180.a)), (const char *)(arg0));
+    NetCopyString((char *)((lbl_805C0180.a)), (const char *)(source));
     NetCopyString((char *)((lbl_805C0180.b)), (const char *)(arg1));
     p[0] = lbl_805C0180.a;
     p[1] = lbl_805C0180.b;

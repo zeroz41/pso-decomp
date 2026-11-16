@@ -115,16 +115,16 @@ void TObjQuestColBase::run_task() {
         *(u8 * *)&this->m_b8 = ((VObj_18_551843 *)(arg0))->m14();
     }
 }
-u8 *__dt__16TObjQuestColBaseFv(u8 *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = &__vt__16TObjQuestColBase.value;
+u8 *__dt__16TObjQuestColBaseFv(u8 *collidable, s16 arg1) {
+    if (collidable != NULL) {
+        *(s32 **)((s8 *)collidable + 0x18) = &__vt__16TObjQuestColBase.value;
         TObjQuestColBase__instance_count -= 1;
-        __dt__14TObjCollidableFv(arg0, 0);
+        __dt__14TObjCollidableFv(collidable, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(collidable);
         }
     }
-    return arg0;
+    return collidable;
 }
 typedef struct RecoveredFields_80196DB4_arg0 RecoveredFields_80196DB4_arg0;
 typedef struct RecoveredGlobal_80196DB4___vt__16TObjQuestColBase RecoveredGlobal_80196DB4___vt__16TObjQuestColBase;

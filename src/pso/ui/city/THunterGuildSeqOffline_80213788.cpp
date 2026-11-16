@@ -242,30 +242,30 @@ void THunterGuildSeqOffline__sub_80213CA4(void) {
     }
 }
 
-u8 *__dt__28THunterGuildSeqOnline_ClientFv(u8 *arg0, s16 arg1) {
+u8 *__dt__28THunterGuildSeqOnline_ClientFv(u8 *shop_sequence, s16 arg1) {
     u32 temp_r3;
     u32 temp_r3_2;
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = &__vt__28THunterGuildSeqOnline_Client.value;
-        temp_r3 = *(u32 *)((s8 *)arg0 + 0x2C);
+    if (shop_sequence != NULL) {
+        *(s32 **)((s8 *)shop_sequence + 0x18) = &__vt__28THunterGuildSeqOnline_Client.value;
+        temp_r3 = *(u32 *)((s8 *)shop_sequence + 0x2C);
         if (temp_r3 != 0U) {
             ((TObject *)temp_r3)->queue_destruction();
-            *(u32 *)((s8 *)arg0 + 0x2C) = 0U;
+            *(u32 *)((s8 *)shop_sequence + 0x2C) = 0U;
         }
-        ((TShopSequence *)arg0)->close_message_window();
-        temp_r3_2 = *(u32 *)((s8 *)arg0 + 0x3C);
+        ((TShopSequence *)shop_sequence)->close_message_window();
+        temp_r3_2 = *(u32 *)((s8 *)shop_sequence + 0x3C);
         if (temp_r3_2 != 0U) {
             ((TWindowBase *)temp_r3_2)->close();
-            *(u32 *)((s8 *)arg0 + 0x3C) = 0U;
+            *(u32 *)((s8 *)shop_sequence + 0x3C) = 0U;
         }
-        *(s32 *)((s8 *)&lbl_80513E70.value + (sub_8022397C__15TShopWindowBaseFv(arg0) * 4)) = 0;
+        *(s32 *)((s8 *)&lbl_80513E70.value + (sub_8022397C__15TShopWindowBaseFv(shop_sequence) * 4)) = 0;
         hunter_guild_seq_online_client_instance = 0;
-        __dt__13TShopSequenceFv((arg0), 0);
+        __dt__13TShopSequenceFv((shop_sequence), 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(shop_sequence);
         }
     }
-    return arg0;
+    return shop_sequence;
 }
 
 #pragma push
@@ -886,30 +886,30 @@ void zero_four_slots__22THunterGuildSeqOfflineFv(void) {
     }
 }
 
-u8 *__dt__28THunterGuildSeqOnline_ServerFv(u8 *arg0, s16 arg1) {
+u8 *__dt__28THunterGuildSeqOnline_ServerFv(u8 *shop_sequence, s16 arg1) {
     u32 temp_r3;
     u32 temp_r3_2;
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = &lbl_804C97F0.value;
-        temp_r3 = *(u32 *)((s8 *)arg0 + 0x2C);
+    if (shop_sequence != NULL) {
+        *(s32 **)((s8 *)shop_sequence + 0x18) = &lbl_804C97F0.value;
+        temp_r3 = *(u32 *)((s8 *)shop_sequence + 0x2C);
         if (temp_r3 != 0U) {
             ((TObject *)temp_r3)->queue_destruction();
-            *(u32 *)((s8 *)arg0 + 0x2C) = 0U;
+            *(u32 *)((s8 *)shop_sequence + 0x2C) = 0U;
         }
-        ((TShopSequence *)arg0)->close_message_window();
-        temp_r3_2 = *(u32 *)((s8 *)arg0 + 0x38);
+        ((TShopSequence *)shop_sequence)->close_message_window();
+        temp_r3_2 = *(u32 *)((s8 *)shop_sequence + 0x38);
         if (temp_r3_2 != 0U) {
             ((TWindowBase *)temp_r3_2)->close();
-            *(u32 *)((s8 *)arg0 + 0x38) = 0U;
+            *(u32 *)((s8 *)shop_sequence + 0x38) = 0U;
         }
-        *(s32 *)((s8 *)&lbl_80513E60.value + (sub_8022397C__15TShopWindowBaseFv(arg0) * 4)) = 0;
+        *(s32 *)((s8 *)&lbl_80513E60.value + (sub_8022397C__15TShopWindowBaseFv(shop_sequence) * 4)) = 0;
         offline_quest_list_vm = 0;
-        __dt__13TShopSequenceFv((arg0), 0);
+        __dt__13TShopSequenceFv((shop_sequence), 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(shop_sequence);
         }
     }
-    return arg0;
+    return shop_sequence;
 }
 #pragma push
 #pragma opt_propagation off

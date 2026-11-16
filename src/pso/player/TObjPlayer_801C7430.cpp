@@ -1713,13 +1713,13 @@ void TObjPlayer::update_state_group() {
 
 void TObjPlayer__sub_801C75A4(u8 *player) {
     s32 sp8;
-    f32 temp_f1;
+    f32 length;
     ((TObjPlayer *)player)->rotation_y = interpolate_angle__10TObjPlayerFPvUsUsPl((void *) (player), (int) (((TObjPlayer *)player)->rotation_y), (void *) (((s32 (*)(void *))TObjPlayer__sub_801D0DAC)((void *) (player))), (void *) (&sp8));
-    temp_f1 = ((TObjBoss2Tunnel *)(player + 0x308))->update_scale() - 0.04f;
-    if (temp_f1 < 0.04f) {
+    length = ((TObjBoss2Tunnel *)(player + 0x308))->update_scale() - 0.04f;
+    if (length < 0.04f) {
         TObjPlayer__sub_8001053C((void *) (player));
     } else {
-        calc_direction_vector((int) (((TObjPlayer *)player)->rotation_y), (Vec *)((void *) (player + 0x308)), (f32) (temp_f1));
+        calc_direction_vector((int) (((TObjPlayer *)player)->rotation_y), (Vec *)((void *) (player + 0x308)), (f32) (length));
     }
     if (resolve_move_collision__10TObjPlayerFv((void *) (player)) == 0U) {
         ((TObjPlayer *)player)->apply_velocity();
@@ -3790,8 +3790,8 @@ void run_switch_interaction_phase__10TObjPlayerFis(s32 arg0, s16 arg1) {
   }
 }
 
-s32 can_guard__10TObjPlayerFPv(u8 *arg0) {
-    if ((((TObjCollidable *)arg0)->obj_testFlags30(0x100) != 0) && (((TObjCollidable *)arg0)->obj_testFlags30(0x04000000) == 0)) {
+s32 can_guard__10TObjPlayerFPv(u8 *collidable) {
+    if ((((TObjCollidable *)collidable)->obj_testFlags30(0x100) != 0) && (((TObjCollidable *)collidable)->obj_testFlags30(0x04000000) == 0)) {
         return 1;
     }
     return 0;

@@ -425,14 +425,14 @@ void *TWindowSubStatusDisp::find_cached_glyph(u16 code) {
 }
 
 u8 TWindowSubStatusDisp::calc_gauge_scale(u16 glyph, void *arg1, s32 arg2) {
-    void *temp_r3;
+    void *cached_glyph;
 
-    temp_r3 = TWindowSubStatusDisp::find_cached_glyph(glyph);
-    *(u8 *)((s8 *)temp_r3 + 3) = (u8) lbl_805D56C0;
-    set_draw_texture_and_color((*(u8 *)((s8 *)temp_r3 + 4)), (arg2));
-    *(f32 *)((s8 *)arg1 + 0x10) = (f32) ((f32) *(u8 *)((s8 *)temp_r3 + 5) / 256.0f);
-    *(f32 *)((s8 *)arg1 + 0x14) = (f32) ((f32) *(u8 *)((s8 *)temp_r3 + 6) / 256.0f);
-    return *(u8 *)((s8 *)temp_r3 + 2);
+    cached_glyph = TWindowSubStatusDisp::find_cached_glyph(glyph);
+    *(u8 *)((s8 *)cached_glyph + 3) = (u8) lbl_805D56C0;
+    set_draw_texture_and_color((*(u8 *)((s8 *)cached_glyph + 4)), (arg2));
+    *(f32 *)((s8 *)arg1 + 0x10) = (f32) ((f32) *(u8 *)((s8 *)cached_glyph + 5) / 256.0f);
+    *(f32 *)((s8 *)arg1 + 0x14) = (f32) ((f32) *(u8 *)((s8 *)cached_glyph + 6) / 256.0f);
+    return *(u8 *)((s8 *)cached_glyph + 2);
 }
 
 typedef char RecoveredGlobal_8000F764_TKeyBoardControl__data_80506270_size[sizeof(RecoveredGlobal_8000F764_TKeyBoardControl__data_80506270) == 0xB0 ? 1 : -1];

@@ -294,15 +294,15 @@ void *TObjNpcMoja::create(void *arg2v) {
     return o2;
 }
 
-void *dt__11TObjNpcMojaFPvs(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = (s32 *)__vt__11TObjNpcMoja;
-        __dt__11TObjNpcBaseFv(arg0, 0);
+void *dt__11TObjNpcMojaFPvs(void *npc_base, s16 arg1) {
+    if (npc_base != NULL) {
+        *(s32 **)((s8 *)npc_base + 0x18) = (s32 *)__vt__11TObjNpcMoja;
+        __dt__11TObjNpcBaseFv(npc_base, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(npc_base);
         }
     }
-    return arg0;
+    return npc_base;
 }
 
 #define self ((u8 *)selfv)

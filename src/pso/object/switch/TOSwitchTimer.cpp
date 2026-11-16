@@ -91,18 +91,18 @@ void *TOSwitchTimer::create(void *arg0) {
 
 void TOSwitchTimer__sub_80178584(void) {  }
 void TOSwitchTimer__sub_80178588(void) {  }
-u8 *__dt__13TOSwitchTimerFv(u8 *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = &__vt__13TOSwitchTimer.value;
-        if ((u32) ((TOSwitchTimer *)arg0)->m_98 == 0U) {
-            clear_floor_switch_flag(((TOSwitchTimer *)arg0)->m_a8, (s16) ((TOSwitchTimer *)arg0)->m_b4);
+u8 *__dt__13TOSwitchTimerFv(u8 *switch_timer, s16 arg1) {
+    if (switch_timer != NULL) {
+        *(s32 **)((s8 *)switch_timer + 0x18) = &__vt__13TOSwitchTimer.value;
+        if ((u32) ((TOSwitchTimer *)switch_timer)->m_98 == 0U) {
+            clear_floor_switch_flag(((TOSwitchTimer *)switch_timer)->m_a8, (s16) ((TOSwitchTimer *)switch_timer)->m_b4);
         }
-        __dt__8TObjBaseFv(arg0, 0);
+        __dt__8TObjBaseFv(switch_timer, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv((s32) arg0);
+            __dl__7TObjectFPv((s32) switch_timer);
         }
     }
-    return arg0;
+    return switch_timer;
 }
 typedef char RecoveredGlobal_80178604___vt__13TOSwitchTimer_size[sizeof(RecoveredGlobal_80178604___vt__13TOSwitchTimer) == 0x38 ? 1 : -1];
 u8 *TOSwitchTimer__ct(u8 *switch_timer, s32 arg1, s32 arg2) {

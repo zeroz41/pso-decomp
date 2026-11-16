@@ -1427,15 +1427,15 @@ int TObjEneDD::update_lobby_state() { return is_local_client_floor_leader(this);
 
 int TObjEneDD::query_teammate_state() { return is_any_teammate_in_state__10TObjPlayerFv(this); }
 
-void project_sound_origin_from_camera(s32 arg0, u8 *arg1, f32 farg0) {
+void project_sound_origin_from_camera(s32 arg0, u8 *boss2_tunnel, f32 farg0) {
     f32 temp_f1;
-    VecCopy((Vec *)(arg1), (const Vec *)(arg0));
-    subtract_vector((Vec *)arg1, (const Vec *)(camera_ctrl_instance + 0x178));
-    { f32 s = ((TObjBoss2Tunnel *)arg1)->update_scale(); temp_f1 = s * farg0; }
-    *(f32 *)((s8 *)arg1 + 0) = (f32) (*(f32 *)((s8 *)arg1 + 0) * temp_f1);
-    *(f32 *)((s8 *)arg1 + 4) = (f32) (*(f32 *)((s8 *)arg1 + 4) * temp_f1);
-    *(f32 *)((s8 *)arg1 + 8) = (f32) (*(f32 *)((s8 *)arg1 + 8) * temp_f1);
-    vec3_add_to((Vec *)arg1, (const Vec *)(camera_ctrl_instance + 0x178));
+    VecCopy((Vec *)(boss2_tunnel), (const Vec *)(arg0));
+    subtract_vector((Vec *)boss2_tunnel, (const Vec *)(camera_ctrl_instance + 0x178));
+    { f32 s = ((TObjBoss2Tunnel *)boss2_tunnel)->update_scale(); temp_f1 = s * farg0; }
+    *(f32 *)((s8 *)boss2_tunnel + 0) = (f32) (*(f32 *)((s8 *)boss2_tunnel + 0) * temp_f1);
+    *(f32 *)((s8 *)boss2_tunnel + 4) = (f32) (*(f32 *)((s8 *)boss2_tunnel + 4) * temp_f1);
+    *(f32 *)((s8 *)boss2_tunnel + 8) = (f32) (*(f32 *)((s8 *)boss2_tunnel + 8) * temp_f1);
+    vec3_add_to((Vec *)boss2_tunnel, (const Vec *)(camera_ctrl_instance + 0x178));
 }
 
 int TObjEneDD::get_target_state_b() { return freeze_all_players__10TObjPlayerFv(this); }
@@ -1546,18 +1546,18 @@ s32 enemy_bind_or_clear_target(void *self, u16 x) {
     return 0;
 }
 
-s32 TObjEneDD_ST::select_and_apply_target(f32 farg0) {
+s32 TObjEneDD_ST::select_and_apply_target(f32 range) {
     u16 temp_r3;
     u16 var_r4;
 
     if (this->vfunc_99() != 0) {
-        temp_r3 = set_squared_value__9TObjEneDDFf(this, farg0);
+        temp_r3 = set_squared_value__9TObjEneDDFf(this, range);
         var_r4 = temp_r3;
         if (temp_r3 == 0xFFFF) {
-            var_r4 = enemy_find_nearest_player_in_range((u8 *)this, farg0);
+            var_r4 = enemy_find_nearest_player_in_range((u8 *)this, range);
         }
     } else {
-        var_r4 = enemy_find_nearest_player_in_range((u8 *)this, farg0);
+        var_r4 = enemy_find_nearest_player_in_range((u8 *)this, range);
     }
     return enemy_bind_or_clear_target(this, var_r4);
 }

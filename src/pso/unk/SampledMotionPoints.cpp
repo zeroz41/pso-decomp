@@ -37,7 +37,7 @@ Vec *SampledMotionPoints::lookup(f32 frame) {
 }
 
 
-s32 transform_motion_node_points(SampledMotionPoints *arg0, NJS_OBJECT *node, s32 idx) {
+s32 transform_motion_node_points(SampledMotionPoints *sampled_motion_points, NJS_OBJECT *node, s32 idx) {
     u32 flags;
     do {
         push_matrix();
@@ -54,7 +54,7 @@ s32 transform_motion_node_points(SampledMotionPoints *arg0, NJS_OBJECT *node, s3
         }
         idx++;
         if (!(flags & 0x10)) {
-            idx = transform_motion_node_points(arg0, node->child, idx);
+            idx = transform_motion_node_points(sampled_motion_points, node->child, idx);
         }
         pop_matrix();
         node = node->sibling;

@@ -171,15 +171,15 @@ s32 TQuestVmDownLoadServer__sub_803EB208(s32 mode, s32 force) {
 }
 #pragma pop
 
-s32 TQuestVmDownLoadServer::count_fitting_entries(Node_803EB328 *arg0) {
+s32 TQuestVmDownLoadServer::count_fitting_entries(Node_803EB328 *node_803_eb328) {
     s32 n;
     s32 total;
     s32 lim;
     Node_803EB328 *p;
-    if (arg0 == NULL) {
+    if (node_803_eb328 == NULL) {
         return 0;
     }
-    p = arg0;
+    p = node_803_eb328;
     total = 0;
     lim = lbl_805D78A4 - 9;
     n = 0;
@@ -439,16 +439,16 @@ void append_unique_node__22TQuestVmDownLoadServerFiPvPvPv(s32 start, Node_803EB8
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(1)
-inline s32 Conv_803EBA98(s32 start, s32 arg1, Node_803EBA98 *arg2, u16 *arg3) {
+inline s32 Conv_803EBA98(s32 start, s32 arg1, Node_803EBA98 *node_803_eba98, u16 *arg3) {
     Node_803EBA98 *p;
     s32 n;
     u16 *b = arg3;
     s32 lim = arg1;
     u8 unused[8];
-    if (arg2 == NULL || (arg2->flags & 0x80)) {
+    if (node_803_eba98 == NULL || (node_803_eba98->flags & 0x80)) {
         return TQuestVmDownLoadServer__sub_803E6970(start, lim, b, 0);
     }
-    p = arg2;
+    p = node_803_eba98;
     n = 0;
     for (;;) {
         n += TQuestVmDownLoadServer__sub_803EC95C(b + n, &p->flags + 1, 6);
@@ -458,7 +458,7 @@ inline s32 Conv_803EBA98(s32 start, s32 arg1, Node_803EBA98 *arg2, u16 *arg3) {
         p = p->next;
     }
     b += n;
-    return n + TQuestVmDownLoadServer__sub_803E6970((s32)(start + arg2->len), (s32)(lim - arg2->len), b, 0);
+    return n + TQuestVmDownLoadServer__sub_803E6970((s32)(start + node_803_eba98->len), (s32)(lim - node_803_eba98->len), b, 0);
 }
 inline Node_803EBA98 *Next_803EBA98(Node_803EBA98 *p) {
     while (p->flags & 1) {
@@ -2666,7 +2666,7 @@ s32 TQuestVmDownLoadServer__sub_803EEDC0(Req_803EEF2C *req, s32 *ids, s32 n) {
 }
 #pragma pop
 
-s32 TQuestVmDownLoadServer__sub_803EEF2C(Req_803EEF2C *arg0) {
+s32 TQuestVmDownLoadServer__sub_803EEF2C(Req_803EEF2C *req) {
     char buf[0x50];
     if (lbl_805D7900 == 0) {
         return 3;
@@ -2674,12 +2674,12 @@ s32 TQuestVmDownLoadServer__sub_803EEF2C(Req_803EEF2C *arg0) {
     if (quest_download_file_handle == -1) {
         return -3;
     }
-    strncpy(buf, arg0->name, arg0->len);
-    if (arg0->x7 == 0x28 || arg0->x7 == 0x29) {
-        arg0->x7 = 0x27;
+    strncpy(buf, req->name, req->len);
+    if (req->x7 == 0x28 || req->x7 == 0x29) {
+        req->x7 = 0x27;
     }
-    buf[arg0->len] = 0;
-    TQuestVmDownLoadServer__sub_803E8DA0(buf, arg0, 1);
+    buf[req->len] = 0;
+    TQuestVmDownLoadServer__sub_803E8DA0(buf, req, 1);
     return 3;
 }
 

@@ -911,7 +911,7 @@ void TObjEneMe3Stelth::update_state_fade_in(s32 arg1) {
     }
 }
 void TObjEneMe3Stelth::update_state_drop(s32 arg1) {
-    f32 temp_f1;
+    f32 node_world_y;
     f32 temp_f31;
 
     switch (arg1) {
@@ -953,9 +953,9 @@ void TObjEneMe3Stelth::update_state_drop(s32 arg1) {
                 m_430 = -5.0f;
             }
             m_3d0 = m_3d0 + m_430;
-            temp_f1 = get_node_world_y();
-            m_3d0 = m_3d0 - (temp_f1 - m_434);
-            m_434 = temp_f1;
+            node_world_y = get_node_world_y();
+            m_3d0 = m_3d0 - (node_world_y - m_434);
+            m_434 = node_world_y;
             if (m_3d0 < position.y) {
                 m_3d0 = position.y;
                 m_424 = 2;

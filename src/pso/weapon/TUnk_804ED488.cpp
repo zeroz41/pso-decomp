@@ -46,9 +46,9 @@ TUnk_804ED488::TUnk_804ED488(TObject *parent, u8 *item) : TItemWeapon(parent, it
     set_weapon_flags(34);
 }
 
-u8 *create_dark_flow(u8 *arg0) {
-    if (arg0 != NULL) {
-        return (u8 *)new TUnk_804ED488(tl_05, arg0);
+u8 *create_dark_flow(u8 *item) {
+    if (item != NULL) {
+        return (u8 *)new TUnk_804ED488(tl_05, item);
     }
     return NULL;
 }

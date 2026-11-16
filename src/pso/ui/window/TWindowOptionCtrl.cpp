@@ -17,12 +17,12 @@ s32 play_area_music();
 u32 create_menu__17TWindowOptionCtrlFv(void *);
 
 void TWindowOptionCtrl::set_params(void *arg0, s16 arg1, s8 arg2) {
-    void *temp_r3;
+    void *global_state;
 
-    temp_r3 = TAdSinglePlyChrSelectGC::get_global_state();
-    if (temp_r3 != NULL) {
-        *(s16 *)((s8 *)temp_r3 + 4) = arg1;
-        *(s8 *)((s8 *)temp_r3 + 6) = arg2;
+    global_state = TAdSinglePlyChrSelectGC::get_global_state();
+    if (global_state != NULL) {
+        *(s16 *)((s8 *)global_state + 4) = arg1;
+        *(s8 *)((s8 *)global_state + 6) = arg2;
     }
 }
 

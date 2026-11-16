@@ -149,17 +149,17 @@ void TBoss1DragonColli::set_elem_flags() {
     }
 }
 
-void *__dt__19TBoss1DragonColli_CFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__19TBoss1DragonColli_C;
-        ((TObjCollidable *)arg0)->unregister_object_by_id();
-        free_collision_body_parts(arg0);
-        __dt__14TObjCollidableFv(arg0, 0);
+void *__dt__19TBoss1DragonColli_CFv(void *collidable, s16 arg1) {
+    if (collidable != NULL) {
+        *(s32 **)((s8 *)collidable + 0x18) = __vt__19TBoss1DragonColli_C;
+        ((TObjCollidable *)collidable)->unregister_object_by_id();
+        free_collision_body_parts(collidable);
+        __dt__14TObjCollidableFv(collidable, 0);
         if ((s16) arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(collidable);
         }
     }
-    return arg0;
+    return collidable;
 }
 
 #define self ((O_8002B4CC *)arg0)

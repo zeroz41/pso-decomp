@@ -266,15 +266,15 @@ void TTecGiZonde::create(void *arg1, void *arg2, void *arg3) {
     }
 }
 
-void *__dt__11TTecGiZondeFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__11TTecGiZonde;
-        ((TObjPlayer *)arg0)->destroy_technique_effect_resources(0);
+void *__dt__11TTecGiZondeFv(void *player, s16 arg1) {
+    if (player != NULL) {
+        *(s32 **)((s8 *)player + 0x18) = __vt__11TTecGiZonde;
+        ((TObjPlayer *)player)->destroy_technique_effect_resources(0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(player);
         }
     }
-    return arg0;
+    return player;
 }
 
 void TTecGiZonde::deliver_chain_hits() {

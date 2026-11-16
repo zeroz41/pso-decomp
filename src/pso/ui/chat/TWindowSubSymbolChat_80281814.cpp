@@ -137,11 +137,11 @@ s32 TWindowSubSymbolChat::is_card_confirmed() {
 
 void TWindowSubSymbolChat::update_sub_window() {
     u8 *arg0 = (u8 *)this;
-    u8 *temp_r3;
+    u8 *window_base;
     if (is_card_confirmed() == 0) {
-        temp_r3 = (u8 *)(*(u8 **)((s8 *)arg0 + 0x34));
-        if (temp_r3 != NULL) {
-            ((TWindowBase *)temp_r3)->close();
+        window_base = (u8 *)(*(u8 **)((s8 *)arg0 + 0x34));
+        if (window_base != NULL) {
+            ((TWindowBase *)window_base)->close();
             *(u8 **)((s8 *)arg0 + 0x34) = NULL;
             ((TWindowSubSymbolChatPartsSet *)(*(u8 **)((s8 *)arg0 + 0x30) + 0x30))->copy_vec2((void*)(get_window_layout_position(0x7B)));
             *(s32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x30)) + 0x50) = 6;
@@ -1007,7 +1007,7 @@ void TWindowSubSymbolChat::run_task() {
     }
 }
 
-u8 *__dt__20TWindowSubSymbolChatFv(TWindowSubSymbolChat *arg0, s16 arg1) {
+u8 *__dt__20TWindowSubSymbolChatFv(TWindowSubSymbolChat *window_sub_symbol_chat, s16 arg1) {
     u32 temp_r3;
     u32 temp_r3_10;
     u32 temp_r3_11;
@@ -1020,82 +1020,82 @@ u8 *__dt__20TWindowSubSymbolChatFv(TWindowSubSymbolChat *arg0, s16 arg1) {
     u32 temp_r3_7;
     u32 temp_r3_8;
     u32 temp_r3_9;
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_8028351C___vt__20TWindowSubSymbolChat *)&__vt__20TWindowSubSymbolChat).value;
-        temp_r3 = arg0->m_58;
+    if (window_sub_symbol_chat != NULL) {
+        *(s32 **)((s8 *)window_sub_symbol_chat + 0x18) = &(*(RecoveredGlobal_8028351C___vt__20TWindowSubSymbolChat *)&__vt__20TWindowSubSymbolChat).value;
+        temp_r3 = window_sub_symbol_chat->m_58;
         if (temp_r3 != 0U) {
             ((TObject *)temp_r3)->queue_destruction();
-            arg0->m_58 = 0U;
+            window_sub_symbol_chat->m_58 = 0U;
         }
-        if ((u32) arg0->m_44 != 0U) {
-            if ((TWindowCtrlMain__sub_8024CE58() != 0) && ((u8) arg0->m_1c == 0x27)) {
-                ((TWindowSubSymbolChat *)(arg0->m_28))->set_flag_bit9((int) (update_selected_item__17TWindowOptionCtrlFv(arg0->m_44)));
+        if ((u32) window_sub_symbol_chat->m_44 != 0U) {
+            if ((TWindowCtrlMain__sub_8024CE58() != 0) && ((u8) window_sub_symbol_chat->m_1c == 0x27)) {
+                ((TWindowSubSymbolChat *)(window_sub_symbol_chat->m_28))->set_flag_bit9((int) (update_selected_item__17TWindowOptionCtrlFv(window_sub_symbol_chat->m_44)));
             }
-            ((TWindowBase *)arg0->m_44)->close();
-            arg0->m_44 = 0U;
+            ((TWindowBase *)window_sub_symbol_chat->m_44)->close();
+            window_sub_symbol_chat->m_44 = 0U;
         }
-        temp_r3_2 = arg0->m_40;
+        temp_r3_2 = window_sub_symbol_chat->m_40;
         if (temp_r3_2 != 0U) {
             ((TWindowSubComCard *)temp_r3_2)->close();
-            arg0->m_40 = 0U;
+            window_sub_symbol_chat->m_40 = 0U;
         }
-        temp_r3_3 = arg0->m_54;
+        temp_r3_3 = window_sub_symbol_chat->m_54;
         if (temp_r3_3 != 0U) {
             ((TWindowBase *)temp_r3_3)->close();
-            arg0->m_54 = 0U;
+            window_sub_symbol_chat->m_54 = 0U;
         }
-        temp_r3_4 = arg0->m_48;
+        temp_r3_4 = window_sub_symbol_chat->m_48;
         if (temp_r3_4 != 0U) {
             ((TWindowBase *)temp_r3_4)->close();
-            arg0->m_48 = 0U;
+            window_sub_symbol_chat->m_48 = 0U;
         }
-        temp_r3_5 = arg0->m_50;
+        temp_r3_5 = window_sub_symbol_chat->m_50;
         if (temp_r3_5 != 0U) {
             ((TWindowBase *)temp_r3_5)->close();
-            arg0->m_50 = 0U;
+            window_sub_symbol_chat->m_50 = 0U;
         }
-        temp_r3_6 = arg0->m_4c;
+        temp_r3_6 = window_sub_symbol_chat->m_4c;
         if (temp_r3_6 != 0U) {
             ((TWindowBase *)temp_r3_6)->close();
-            arg0->m_4c = 0U;
+            window_sub_symbol_chat->m_4c = 0U;
         }
-        temp_r3_7 = arg0->m_3c;
+        temp_r3_7 = window_sub_symbol_chat->m_3c;
         if (temp_r3_7 != 0U) {
             ((TWindowBase *)temp_r3_7)->close();
-            arg0->m_3c = 0U;
+            window_sub_symbol_chat->m_3c = 0U;
         }
-        temp_r3_8 = arg0->m_38;
+        temp_r3_8 = window_sub_symbol_chat->m_38;
         if (temp_r3_8 != 0U) {
             ((TWindowBase *)temp_r3_8)->close();
-            arg0->m_38 = 0U;
+            window_sub_symbol_chat->m_38 = 0U;
         }
-        temp_r3_9 = arg0->m_34;
+        temp_r3_9 = window_sub_symbol_chat->m_34;
         if (temp_r3_9 != 0U) {
             ((TWindowBase *)temp_r3_9)->close();
-            arg0->m_34 = 0U;
+            window_sub_symbol_chat->m_34 = 0U;
         }
-        temp_r3_10 = arg0->m_30;
+        temp_r3_10 = window_sub_symbol_chat->m_30;
         if (temp_r3_10 != 0U) {
             ((TWindowBase *)temp_r3_10)->close();
-            arg0->m_30 = 0U;
+            window_sub_symbol_chat->m_30 = 0U;
         }
-        temp_r3_11 = arg0->m_28;
+        temp_r3_11 = window_sub_symbol_chat->m_28;
         if (temp_r3_11 != 0U) {
             TWindowSubSymbolChat::clear_flag_bit2((s32 *)temp_r3_11);
-            arg0->m_28 = 0U;
+            window_sub_symbol_chat->m_28 = 0U;
         }
-        temp_r3_12 = arg0->m_5c;
+        temp_r3_12 = window_sub_symbol_chat->m_5c;
         if (temp_r3_12 != 0U) {
             ((TWindowBase *)temp_r3_12)->close();
-            arg0->m_5c = 0U;
+            window_sub_symbol_chat->m_5c = 0U;
         }
         (*(s32 *)&TWindowSubSymbolChat__instance) = 0;
-        __dt__7TObjectFv(arg0, 0);
+        __dt__7TObjectFv(window_sub_symbol_chat, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(window_sub_symbol_chat);
         }
     }
-    return (u8 *)arg0;
+    return (u8 *)window_sub_symbol_chat;
 }
 
 void *TWindowSubSymbolChat__ct(TWindowSubSymbolChat *window_sub_symbol_chat, s32 arg1, s32 arg2) {

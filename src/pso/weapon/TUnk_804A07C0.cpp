@@ -13,9 +13,9 @@ TUnk_804A07C0::TUnk_804A07C0(TObject *parent, u8 *item) : TItemWeapon(parent, it
 }
 
 
-u8 *TObjPlayer__sub_80121318(u8 *arg0) {
-    if (arg0 != NULL) {
-        return (u8 *)new TUnk_804A07C0(tl_05, arg0);
+u8 *TObjPlayer__sub_80121318(u8 *item) {
+    if (item != NULL) {
+        return (u8 *)new TUnk_804A07C0(tl_05, item);
     }
     return NULL;
 }

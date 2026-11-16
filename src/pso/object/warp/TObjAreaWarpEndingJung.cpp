@@ -1547,7 +1547,7 @@ void TObjAreaWarpEndingJung::debug_print_area_num() {
     TObjNpcEnemy::set_global_count(0xF0F0F0FF);
 }
 
-void *TObjAreaWarpEndingJung__create(void *arg0) {
-    return new TObjAreaWarpEndingJung(tl_05, arg0);
+void *TObjAreaWarpEndingJung__create(void *set_data) {
+    return new TObjAreaWarpEndingJung(tl_05, set_data);
 }
 

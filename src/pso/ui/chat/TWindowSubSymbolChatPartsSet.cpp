@@ -228,7 +228,7 @@ s32 draw_visible_window_entries(void *, void *, int, f32);
 u8 *draw_default_entry__9TWindowDDFl();
 s32 forward_render__20TWindowSubStatusDispFv(int, int);
 
-s32 TWindowSubSymbolChatPartsSet::draw_selected_part_cursor(int arg1) {
+s32 TWindowSubSymbolChatPartsSet::draw_selected_part_cursor(int ctx) {
 #define arg0 ((Ps_80286120 *)this)
     V2_80286120 sp;
     Pt_80286120 *e;
@@ -238,7 +238,7 @@ s32 TWindowSubSymbolChatPartsSet::draw_selected_part_cursor(int arg1) {
         e = (Pt_80286120 *)get_parts_entry__28TWindowSubSymbolChatPartsSetFii(arg0, arg0->f74);
         sp.x = e->f8 - 3.0f;
         sp.y = e->fc - 3.0f;
-        TWindowSubSymbolChatFaceType__sub_80283C84((void *)arg1, &sp, 38.0f, 0.1f);
+        TWindowSubSymbolChatFaceType__sub_80283C84((void *)ctx, &sp, 38.0f, 0.1f);
         break;
     case 0:
     case 2:
@@ -404,17 +404,17 @@ void render__28TWindowSubSymbolChatPartsSetFv(TWindowSubSymbolChatPartsSet *wind
 typedef char RecoveredGlobal_80286824_lbl_8050E208_size[sizeof(RecoveredGlobal_80286824_lbl_8050E208) == 0x1B0 ? 1 : -1];
 void TWindowSubSymbolChatPartsSet::run_task() {
     u8 *arg0 = (u8 *)this;
-    u8 *temp_r31;
+    u8 *context;
     if (!(this->m_2c & 2)) {
         *(s32 *)&this->m_5c = 0x01000000;
     }
     if (((TWindowSubSymbolChatPartsSet *)arg0)->is_active() == 0) {
         handle_cursor_input();
-        temp_r31 = (u8 *)&controller_input_state.value + 0x20;
-        if ((TWindowShortListCtrl__check_controller_button((int)temp_r31, 4) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) ((u8 *)&controller_input_state.value + 0x160), 4) != 0)) {
+        context = (u8 *)&controller_input_state.value + 0x20;
+        if ((TWindowShortListCtrl__check_controller_button((int)context, 4) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) ((u8 *)&controller_input_state.value + 0x160), 4) != 0)) {
             handle_decide();
         }
-        if ((TWindowShortListCtrl__check_controller_button((int)temp_r31, 2) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) ((u8 *)&controller_input_state.value + 0x160), 2) != 0)) {
+        if ((TWindowShortListCtrl__check_controller_button((int)context, 2) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) ((u8 *)&controller_input_state.value + 0x160), 2) != 0)) {
             handle_cancel();
         }
     }

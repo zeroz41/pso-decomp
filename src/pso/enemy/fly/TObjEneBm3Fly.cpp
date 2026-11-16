@@ -603,7 +603,7 @@ void TObjEneBm3Fly__sub_800B0F70(TObjEneBm3Fly *arg0, s32 arg1) {
 #pragma pop
 #pragma push
 #pragma fp_contract on
-void TObjEneBm3Fly__sub_800B0B20(TObjEneBm3Fly *arg0, s32 arg1) {
+void TObjEneBm3Fly__sub_800B0B20(TObjEneBm3Fly *ene_bm3_fly, s32 arg1) {
     Vec *pos;
     Vec *off;
     Vec *vel;
@@ -614,108 +614,108 @@ void TObjEneBm3Fly__sub_800B0B20(TObjEneBm3Fly *arg0, s32 arg1) {
     f32 s;
     f32 len;
 
-    vel = &arg0->m_3e8;
-    pos = &arg0->m_3f4;
-    off = &arg0->m_400;
+    vel = &ene_bm3_fly->m_3e8;
+    pos = &ene_bm3_fly->m_3f4;
+    off = &ene_bm3_fly->m_400;
 
     switch (arg1) {
     case 4:
-        arg0->requested_action = 1;
-        arg0->vfunc_96();
-        arg0->m_428 &= ~1;
-        arg0->m_428 |= 2;
-        arg0->actorFlags |= 0x01000000;
-        vel->x = arg0->m_430.x * arg0->m_43c;
+        ene_bm3_fly->requested_action = 1;
+        ene_bm3_fly->vfunc_96();
+        ene_bm3_fly->m_428 &= ~1;
+        ene_bm3_fly->m_428 |= 2;
+        ene_bm3_fly->actorFlags |= 0x01000000;
+        vel->x = ene_bm3_fly->m_430.x * ene_bm3_fly->m_43c;
         vel->y = (0.0f);
-        vel->z = arg0->m_430.z * arg0->m_43c;
-        if (is_vec_xz_cross_negative(&arg0->m_430, &arg0->m_3a0) != 0) {
-            arg0->m_3cc = 0x8000;
+        vel->z = ene_bm3_fly->m_430.z * ene_bm3_fly->m_43c;
+        if (is_vec_xz_cross_negative(&ene_bm3_fly->m_430, &ene_bm3_fly->m_3a0) != 0) {
+            ene_bm3_fly->m_3cc = 0x8000;
         } else {
-            arg0->m_3cc = 0;
+            ene_bm3_fly->m_3cc = 0;
         }
-        arg0->m_3c4 = 0;
+        ene_bm3_fly->m_3c4 = 0;
         off->x = (0.0f);
         off->y = (0.0f);
         off->z = (0.0f);
         pos->x = (0.0f);
-        pos->y = arg0->m_42c - arg0->position.y;
+        pos->y = ene_bm3_fly->m_42c - ene_bm3_fly->position.y;
         pos->z = (0.0f);
         break;
     case 3:
-        if (arg0->m_3ac > (4.5e+02f) || arg0->m_390 == NULL) {
-            arg0->transition_enemy_state(5);
-        } else if (arg0->m_3ac < (1e+02f)) {
-            ((TObjEneBm3Fly *)arg0)->choose_attack();
+        if (ene_bm3_fly->m_3ac > (4.5e+02f) || ene_bm3_fly->m_390 == NULL) {
+            ene_bm3_fly->transition_enemy_state(5);
+        } else if (ene_bm3_fly->m_3ac < (1e+02f)) {
+            ((TObjEneBm3Fly *)ene_bm3_fly)->choose_attack();
         }
         break;
     case 0:
-        arg0->advance_animation();
-        if (((TObjEneEpsilon *)arg0)->update_death_check() == 0 && arg0->vfunc_104(2e+02f) == 0) {
+        ene_bm3_fly->advance_animation();
+        if (((TObjEneEpsilon *)ene_bm3_fly)->update_death_check() == 0 && ene_bm3_fly->vfunc_104(2e+02f) == 0) {
             break;
         }
-        arg0->update();
-        arg0->update_velocity();
-        VecCopy(pos, (const Vec *)&arg0->m_2fc);
+        ene_bm3_fly->update();
+        ene_bm3_fly->update_velocity();
+        VecCopy(pos, (const Vec *)&ene_bm3_fly->m_2fc);
         subtract_vector(pos, off);
-        if (arg0->m_3c4 == 0) {
-            if ((0.0f) == arg0->m_430.x && (0.0f) == arg0->m_430.z) {
-                arg0->m_430.x = sin_table_lookup(arg0->rotation_y);
-                arg0->m_430.z = cos_table_lookup(arg0->rotation_y);
+        if (ene_bm3_fly->m_3c4 == 0) {
+            if ((0.0f) == ene_bm3_fly->m_430.x && (0.0f) == ene_bm3_fly->m_430.z) {
+                ene_bm3_fly->m_430.x = sin_table_lookup(ene_bm3_fly->rotation_y);
+                ene_bm3_fly->m_430.z = cos_table_lookup(ene_bm3_fly->rotation_y);
             }
-            if (vec3_dot(&arg0->m_430, &arg0->m_3a0) < (0.99f)) {
-                if (is_vec_xz_cross_negative(&arg0->m_430, &arg0->m_3a0) != 0) {
-                    x = -arg0->m_430.z;
-                    z = arg0->m_430.x;
+            if (vec3_dot(&ene_bm3_fly->m_430, &ene_bm3_fly->m_3a0) < (0.99f)) {
+                if (is_vec_xz_cross_negative(&ene_bm3_fly->m_430, &ene_bm3_fly->m_3a0) != 0) {
+                    x = -ene_bm3_fly->m_430.z;
+                    z = ene_bm3_fly->m_430.x;
                 } else {
-                    x = arg0->m_430.z;
-                    z = -arg0->m_430.x;
+                    x = ene_bm3_fly->m_430.z;
+                    z = -ene_bm3_fly->m_430.x;
                 }
                 vel->x = (0.18f) * x + vel->x;
                 vel->y = (0.0f);
                 vel->z = (0.18f) * z + vel->z;
-                VecCopy(&arg0->m_430, vel);
-                ((TObjBoss2Tunnel *)(&arg0->m_430))->update_scale();
+                VecCopy(&ene_bm3_fly->m_430, vel);
+                ((TObjBoss2Tunnel *)(&ene_bm3_fly->m_430))->update_scale();
             } else {
-                arg0->m_3c4 = 1;
-                VecCopy(&arg0->m_430, &arg0->m_3a0);
+                ene_bm3_fly->m_3c4 = 1;
+                VecCopy(&ene_bm3_fly->m_430, &ene_bm3_fly->m_3a0);
             }
         } else {
-            VecCopy(&arg0->m_430, &arg0->m_3a0);
-            s = (5.0f) * sin_table_lookup(arg0->m_3cc);
-            arg0->m_3cc += 0x600;
-            off->x = arg0->m_3a0.z * s;
+            VecCopy(&ene_bm3_fly->m_430, &ene_bm3_fly->m_3a0);
+            s = (5.0f) * sin_table_lookup(ene_bm3_fly->m_3cc);
+            ene_bm3_fly->m_3cc += 0x600;
+            off->x = ene_bm3_fly->m_3a0.z * s;
             off->y = (0.0f);
-            off->z = -arg0->m_3a0.x * s;
+            off->z = -ene_bm3_fly->m_3a0.x * s;
         }
-        if (arg0->m_43c > ((Bm3FlyMovementParameters *)arg0->movementParameters)->unknown_04) {
-            arg0->m_43c *= (0.96f);
+        if (ene_bm3_fly->m_43c > ((Bm3FlyMovementParameters *)ene_bm3_fly->movementParameters)->unknown_04) {
+            ene_bm3_fly->m_43c *= (0.96f);
         } else {
-            arg0->m_43c = ((Bm3FlyMovementParameters *)arg0->movementParameters)->unknown_04;
+            ene_bm3_fly->m_43c = ((Bm3FlyMovementParameters *)ene_bm3_fly->movementParameters)->unknown_04;
         }
-        vel->x = arg0->m_430.x * arg0->m_43c;
+        vel->x = ene_bm3_fly->m_430.x * ene_bm3_fly->m_43c;
         vel->y = (0.0f);
-        vel->z = arg0->m_430.z * arg0->m_43c;
+        vel->z = ene_bm3_fly->m_430.z * ene_bm3_fly->m_43c;
         pos->x += vel->x;
         pos->z += vel->z;
         VecCopy(&p, pos);
         vec3_add_to(&p, off);
         VecCopy(&d, &p);
-        subtract_vector(&d, &arg0->position);
+        subtract_vector(&d, &ene_bm3_fly->position);
         d.y = (0.0f);
         len = normalize_vector_xz(&d);
-        ((TObjEneBm3Fly *)arg0)->update_dd_flag(d.x, d.z, len);
-        arg0->m_42c = arg0->approach_value(pos->y, arg0->m_394.y);
-        pos->y = arg0->m_42c;
-        arg0->clamp_flight_height();
-        arg0->rotation_y = (s32)(10430.38043493439 * atan2_float(arg0->m_430.x, arg0->m_430.z));
-        arg0->vfunc_89();
-        pos->x -= arg0->position.x;
-        pos->y -= arg0->m_42c;
-        pos->z -= arg0->position.z;
-        arg0->play_pitched_cue();
+        ((TObjEneBm3Fly *)ene_bm3_fly)->update_dd_flag(d.x, d.z, len);
+        ene_bm3_fly->m_42c = ene_bm3_fly->approach_value(pos->y, ene_bm3_fly->m_394.y);
+        pos->y = ene_bm3_fly->m_42c;
+        ene_bm3_fly->clamp_flight_height();
+        ene_bm3_fly->rotation_y = (s32)(10430.38043493439 * atan2_float(ene_bm3_fly->m_430.x, ene_bm3_fly->m_430.z));
+        ene_bm3_fly->vfunc_89();
+        pos->x -= ene_bm3_fly->position.x;
+        pos->y -= ene_bm3_fly->m_42c;
+        pos->z -= ene_bm3_fly->position.z;
+        ene_bm3_fly->play_pitched_cue();
         break;
     case 5:
-        arg0->m_43c = ((Bm3FlyMovementParameters *)arg0->movementParameters)->unknown_04;
+        ene_bm3_fly->m_43c = ((Bm3FlyMovementParameters *)ene_bm3_fly->movementParameters)->unknown_04;
         break;
     }
 }
@@ -903,41 +903,41 @@ void TObjEneBm3Fly::state_circle_target(s32 arg1) {
 }
 #pragma push
 #pragma fp_contract on
-void TObjEneBm3Fly__sub_800B02C8(TObjEneBm3Fly *arg0, s32 arg1) {
+void TObjEneBm3Fly__sub_800B02C8(TObjEneBm3Fly *ene_bm3_fly, s32 arg1) {
     Bm3FlyMovementParameters *params;
     switch (arg1) {
     case 4:
-        arg0->requested_action = 1;
-        arg0->vfunc_96();
-        arg0->m_428 &= ~1;
-        arg0->m_428 |= 2;
-        arg0->actorFlags |= 0x01000000;
-        arg0->sub_800B1634();
-        arg0->m_394.x = (f32) (((3e+01f) * sin_table_lookup(arg0->m_448)) + arg0->m_41c.x);
-        arg0->m_394.y = (f32) arg0->m_444;
-        arg0->m_394.z = (f32) (((3e+01f) * cos_table_lookup(arg0->m_448)) + arg0->m_41c.z);
-        params = (Bm3FlyMovementParameters *)arg0->movementParameters;
-        arg0->m_3e0 = 2.0f + calc_scaled_value__15TObjBoss2TunnelFlf(params->unknown_08, (int)params, params->unknown_04, 3e+01f);
-        arg0->update_velocity();
+        ene_bm3_fly->requested_action = 1;
+        ene_bm3_fly->vfunc_96();
+        ene_bm3_fly->m_428 &= ~1;
+        ene_bm3_fly->m_428 |= 2;
+        ene_bm3_fly->actorFlags |= 0x01000000;
+        ene_bm3_fly->sub_800B1634();
+        ene_bm3_fly->m_394.x = (f32) (((3e+01f) * sin_table_lookup(ene_bm3_fly->m_448)) + ene_bm3_fly->m_41c.x);
+        ene_bm3_fly->m_394.y = (f32) ene_bm3_fly->m_444;
+        ene_bm3_fly->m_394.z = (f32) (((3e+01f) * cos_table_lookup(ene_bm3_fly->m_448)) + ene_bm3_fly->m_41c.z);
+        params = (Bm3FlyMovementParameters *)ene_bm3_fly->movementParameters;
+        ene_bm3_fly->m_3e0 = 2.0f + calc_scaled_value__15TObjBoss2TunnelFlf(params->unknown_08, (int)params, params->unknown_04, 3e+01f);
+        ene_bm3_fly->update_velocity();
         break;
     case 3:
-        if (arg0->update_linked_position(2e+02f) != 0) {
-            arg0->transition_enemy_state(2);
-        } else if (arg0->m_3ac < arg0->m_3e0) {
-            arg0->transition_enemy_state(1);
+        if (ene_bm3_fly->update_linked_position(2e+02f) != 0) {
+            ene_bm3_fly->transition_enemy_state(2);
+        } else if (ene_bm3_fly->m_3ac < ene_bm3_fly->m_3e0) {
+            ene_bm3_fly->transition_enemy_state(1);
         }
         break;
     case 5:
         break;
     case 0:
-        arg0->advance_animation();
-        arg0->update_velocity();
-        arg0->m_42c = arg0->approach_value(arg0->m_42c, arg0->m_394.y);
-        arg0->update_state_flag();
-        arg0->vfunc_88();
-        arg0->clamp_flight_height();
-        arg0->transform_part_positions();
-        arg0->play_pitched_cue();
+        ene_bm3_fly->advance_animation();
+        ene_bm3_fly->update_velocity();
+        ene_bm3_fly->m_42c = ene_bm3_fly->approach_value(ene_bm3_fly->m_42c, ene_bm3_fly->m_394.y);
+        ene_bm3_fly->update_state_flag();
+        ene_bm3_fly->vfunc_88();
+        ene_bm3_fly->clamp_flight_height();
+        ene_bm3_fly->transform_part_positions();
+        ene_bm3_fly->play_pitched_cue();
         break;
     }
 }
@@ -989,34 +989,34 @@ void TObjEneBm3Fly::update_recoil_state(s32 arg1) {
     }
 }
 #pragma pop
-void action__13TObjEneBm3FlyFPvi(TObjEneBm3Fly *arg0, s32 arg1) {
+void action__13TObjEneBm3FlyFPvi(TObjEneBm3Fly *child, s32 arg1) {
     TObjEneBm3FlyNest *nest;
 
     switch (arg1) {
     case 4:
-        arg0->vfunc_96();
-        arg0->m_428 |= 1;
-        arg0->m_428 &= ~2;
-        arg0->set_entry = NULL;
-        arg0->refresh_and_send_entity_flags();
-        nest = (TObjEneBm3FlyNest *)find_entity_by_id(arg0->owner_id);
+        child->vfunc_96();
+        child->m_428 |= 1;
+        child->m_428 &= ~2;
+        child->set_entry = NULL;
+        child->refresh_and_send_entity_flags();
+        nest = (TObjEneBm3FlyNest *)find_entity_by_id(child->owner_id);
         if (nest != NULL) {
-            nest->remove_child((u8 *)arg0);
+            nest->remove_child((u8 *)child);
         }
-        TBoss8Dragon__sub_800BB7DC(arg0);
-        TBoss8Dragon__sub_800BB7D8(arg0, 0xF1, (1.0f));
-        play_sound_effect(arg0->remap_sound_for_area(0x4003E425), &arg0->position, 0, 0);
-        TBoss3Volopt::create_breakup_mdl((s32)TObjEneBm3Fly__breakup_model, (s32)&bm3_fly_breakup_params, arg0->texlist, (s32)&arg0->m_2fc, arg0->rotation_y);
-        arg0->m_3c0 = 0;
+        TBoss8Dragon__sub_800BB7DC(child);
+        TBoss8Dragon__sub_800BB7D8(child, 0xF1, (1.0f));
+        play_sound_effect(child->remap_sound_for_area(0x4003E425), &child->position, 0, 0);
+        TBoss3Volopt::create_breakup_mdl((s32)TObjEneBm3Fly__breakup_model, (s32)&bm3_fly_breakup_params, child->texlist, (s32)&child->m_2fc, child->rotation_y);
+        child->m_3c0 = 0;
         return;
     case 3:
-        if (arg0->m_3c0 >= 2) {
-            arg0->transition_enemy_state(9);
+        if (child->m_3c0 >= 2) {
+            child->transition_enemy_state(9);
         }
     case 5:
         return;
     case 0:
-        arg0->m_3c0++;
+        child->m_3c0++;
         break;
     }
 }

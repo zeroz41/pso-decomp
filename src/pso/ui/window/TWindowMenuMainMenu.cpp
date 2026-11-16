@@ -19,10 +19,10 @@ extern const char *TWindowMenuMainMenu__class_name;
 void __dl__7TObjectFPv(void *);
 
 void render__19TWindowMenuMainMenuFv(s32 arg0) {
-    s32 temp_r3;
-    temp_r3 = setup_content_frame__15TWindowMainMenuFPv();
-    ((TWindowMenuMainMenu *)arg0)->draw_frame((TWindowKeyBoardSoft *)temp_r3);
-    ((TWindowMainMenu *)arg0)->draw_entries_reversed((u8 *)temp_r3);
+    s32 frame;
+    frame = setup_content_frame__15TWindowMainMenuFPv();
+    ((TWindowMenuMainMenu *)arg0)->draw_frame((TWindowKeyBoardSoft *)frame);
+    ((TWindowMainMenu *)arg0)->draw_entries_reversed((u8 *)frame);
 }
 
 void run_task__19TWindowMenuMainMenuFv(TWindowMenuMainMenu *window_menu_main_menu) {

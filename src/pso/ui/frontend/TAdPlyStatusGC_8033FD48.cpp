@@ -180,21 +180,21 @@ void TBoss6Demo15_TYPE2_WAIT::check_any_player_near() {
     }
 }
 
-void fn_80340040(TBoss6Demo15_TYPE2_WAIT *arg0) {
+void fn_80340040(TBoss6Demo15_TYPE2_WAIT *boss6_demo15_type2_wait) {
     s32 i;
     for (i = 0; i < 10; i++) {
-        if (arg0->csn_objects[i] != 0) {
-            arg0->csn_objects[i]->queue_destruction();
-            arg0->csn_objects[i] = 0;
+        if (boss6_demo15_type2_wait->csn_objects[i] != 0) {
+            boss6_demo15_type2_wait->csn_objects[i]->queue_destruction();
+            boss6_demo15_type2_wait->csn_objects[i] = 0;
         }
     }
 }
-void fn_8034009C(TBoss6Demo15_TYPE2_WAIT *arg0) {
+void fn_8034009C(TBoss6Demo15_TYPE2_WAIT *boss6_demo15_type2_wait) {
     P_8034009C prm;
     s32 i;
     s32 j;
     for (j = 0; j < 10; j++) {
-        arg0->csn_objects[j] = 0;
+        boss6_demo15_type2_wait->csn_objects[j] = 0;
     }
     prm.f30 = 2;
     prm.f34 = 0;
@@ -205,7 +205,7 @@ void fn_8034009C(TBoss6Demo15_TYPE2_WAIT *arg0) {
         prm.f1c = e->f18;
         prm.f20 = 0;
         VecCopy((Vec *)&prm.b, (const Vec *)&e->b);
-        arg0->csn_objects[i] = (TObject *)create__10TObjMapCsnFl(&prm);
+        boss6_demo15_type2_wait->csn_objects[i] = (TObject *)create__10TObjMapCsnFl(&prm);
     }
 }
 

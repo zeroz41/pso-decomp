@@ -33,17 +33,17 @@ s32 TWindowOptionCtrl::get_field_24() { return this->m_24; }
 extern s32 local_client_id;
 extern s32 tl_01;
 
-void TWindowOptionCtrl::open_confirm_dialog(s32 arg1, s32 arg2) {
+void TWindowOptionCtrl::open_confirm_dialog(s32 message, s32 arg2) {
     if ((u32) this->m_2c != 0U) {
         ((TWindowSubComCard *)(this->m_2c))->close();
         this->m_2c = 0U;
     }
     this->m_2c = create__19TWindowMessageYesNoFPvPvPvPv(tl_01, local_client_id, 0, 0);
     if (arg2 != 0) {
-        forward_slot_selection__16TAdChrSelASlotGCFPvPv(this->m_2c, arg1, get_option_entry__17TWindowOptionCtrlFi(0xCF), 470.0f);
+        forward_slot_selection__16TAdChrSelASlotGCFPvPv(this->m_2c, message, get_option_entry__17TWindowOptionCtrlFi(0xCF), 470.0f);
         return;
     }
-    initialize_option_dialog((void *)this->m_2c, arg1, (get_option_entry__17TWindowOptionCtrlFi(0xCF)), 470.0f);
+    initialize_option_dialog((void *)this->m_2c, message, (get_option_entry__17TWindowOptionCtrlFi(0xCF)), 470.0f);
 }
 
 void TWindowOptionCtrl::set_option_and_confirm(s32 arg1, s32 arg2) {

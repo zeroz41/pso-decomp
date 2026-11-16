@@ -48,10 +48,10 @@ struct Hdl_803C1668 {
 extern "C" {
 void *memset(void *, int, u32);
 s16 DVDReadPrio(Hdl_803C1668 *h, s32 arg1, s32 arg2);
-s16 DVDReadPrio(Hdl_803C1668 *h, s32 arg1, s32 arg2) {
+s16 DVDReadPrio(Hdl_803C1668 *h, s32 buf, s32 len) {
     s16 n;
     h->f2 = 1;
-    if (TLobby__sub_803C1780((s32)arg1, (s32)arg2, (s16 *)&n, (s8 *)&h->fc, (s8 *)&h->fd, (s8 *)&h->ff, (s8 *)&h->fe, (s32 *)&h->f14, (s32 *)&h->f18, (s32 *)&h->f10, (s16 *)h->faa) < 0) {
+    if (TLobby__sub_803C1780((s32)buf, (s32)len, (s16 *)&n, (s8 *)&h->fc, (s8 *)&h->fd, (s8 *)&h->ff, (s8 *)&h->fe, (s32 *)&h->f14, (s32 *)&h->f18, (s32 *)&h->f10, (s16 *)h->faa) < 0) {
         return 0;
     }
     h->f1c = 0;

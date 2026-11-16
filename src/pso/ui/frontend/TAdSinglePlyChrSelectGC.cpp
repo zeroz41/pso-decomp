@@ -142,11 +142,11 @@ void TAdSinglePlyChrSelectGC::finish_character_selection_transition() {
 
 void TAdSinglePlyChrSelectGC::close_and_change_scene() {
     s32 temp_r4;
-    u8 *temp_r3;
+    u8 *window_base;
     u8 *window_sub_com_card;
-    temp_r3 = (u8 *)(*(u8 * *)&this->unk_38);
-    if (temp_r3 != NULL) {
-        ((TWindowBase *)temp_r3)->close();
+    window_base = (u8 *)(*(u8 * *)&this->unk_38);
+    if (window_base != NULL) {
+        ((TWindowBase *)window_base)->close();
         *(u8 * *)&this->unk_38 = NULL;
     }
     window_sub_com_card = (u8 *)(*(u8 * *)&this->m_44);

@@ -35,18 +35,18 @@ void __dl__7TObjectFPv(void *);
 void TEneParticleCtrl::set_param(s32 index) { void* m = *(void* *)&this->m_c0; if (m) ((TParticleCtrl *)m)->set_param_ptr(index); }
 void TEneParticleCtrl::free_particle_ctrl() { void* m = *(void* *)&this->m_c0; if (m) ((TParticleCtrl *)m)->enable(); }
 
-void *__dt__16TEneParticleCtrlFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__16TEneParticleCtrl;
-        if (*(void **)((s8 *)arg0 + 0xC0) != NULL) { TParticleCtrl::release(*(void **)((s8 *)arg0 + 0xC0)); }
-        ((TObjCollidable *)arg0)->unregister_object_by_id();
-        free_collision_body_parts(arg0);
-        __dt__14TObjCollidableFv(arg0, 0);
+void *__dt__16TEneParticleCtrlFv(void *collidable, s16 arg1) {
+    if (collidable != NULL) {
+        *(s32 **)((s8 *)collidable + 0x18) = __vt__16TEneParticleCtrl;
+        if (*(void **)((s8 *)collidable + 0xC0) != NULL) { TParticleCtrl::release(*(void **)((s8 *)collidable + 0xC0)); }
+        ((TObjCollidable *)collidable)->unregister_object_by_id();
+        free_collision_body_parts(collidable);
+        __dt__14TObjCollidableFv(collidable, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(collidable);
         }
     }
-    return arg0;
+    return collidable;
 }
 
 typedef char RecoveredGlobal_80338C88___vt__16TEneParticleCtrl_size[sizeof(RecoveredGlobal_80338C88___vt__16TEneParticleCtrl) == 0x3C ? 1 : -1];

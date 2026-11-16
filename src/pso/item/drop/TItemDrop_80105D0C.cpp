@@ -1052,15 +1052,15 @@ u8 select_weighted_byte__9TItemDropFiiiii(s32 rng, s32 base, s32 off, s32 count,
     return 0xFF;
 }
 
-u8 *TItemDrop__sub_80107840(u8 *arg0, s16 arg1) {
+u8 *TItemDrop__sub_80107840(u8 *item_drop, s16 arg1) {
   s32 var_r30;
   s32 var_r31;
-  if (arg0 != 0)
+  if (item_drop != 0)
   {
-    *((s32 **) (((s8 *) arg0) + 0x18)) = &lbl_8049EF88.value;
-    var_r31 = (int) (((TItemDrop *)arg0)->m_1c);
+    *((s32 **) (((s8 *) item_drop) + 0x18)) = &lbl_8049EF88.value;
+    var_r31 = (int) (((TItemDrop *)item_drop)->m_1c);
     TItemDrop__sub_8010F168((void *)var_r31, 1);
-    ((TItemDrop *)arg0)->m_1c = 0;
+    ((TItemDrop *)item_drop)->m_1c = 0;
     TAdSinglePlyChrSelectGC::safe_free((int) TItemDrop__relocatable_load_buffer);
     TItemDrop__relocatable_load_buffer = 0;
     TAdSinglePlyChrSelectGC::safe_free((int) TItemDrop__second_relocatable_load_buffer);
@@ -1069,20 +1069,20 @@ u8 *TItemDrop__sub_80107840(u8 *arg0, s16 arg1) {
     TItemDrop__second_relocatable_load_buffer = 0;
     do
     {
-      ::operator delete((void *)(*((s32 *) (((s8 *) (((TItemDrop *)arg0)->m_20)) + var_r31))));
+      ::operator delete((void *)(*((s32 *) (((s8 *) (((TItemDrop *)item_drop)->m_20)) + var_r31))));
       var_r30 += 1;
       var_r31 += 4;
     }
     while (var_r30 != 0x11);
-    mem_free((void *)((int) (((TItemDrop *)arg0)->m_20)));
-    ((TItemDrop *)arg0)->m_20 = 0;
-    __dt__7TObjectFv((void *) arg0, 0);
+    mem_free((void *)((int) (((TItemDrop *)item_drop)->m_20)));
+    ((TItemDrop *)item_drop)->m_20 = 0;
+    __dt__7TObjectFv((void *) item_drop, 0);
     if (arg1 > 0)
     {
-      __dl__7TObjectFPv((void *) arg0);
+      __dl__7TObjectFPv((void *) item_drop);
     }
   }
-  return arg0;
+  return item_drop;
 }
 
 TItemDrop_80107900 *TItemDrop__ct(TItemDrop_80107900 *self, void *parent, s8 arg2) {

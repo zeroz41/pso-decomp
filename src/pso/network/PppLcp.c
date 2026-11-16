@@ -359,17 +359,17 @@ inline u32 first2_80400F1C(Obj_803FF858 *fsm) {
     loop_8040172C(&t, &o->local.got, o->local.got.mask);
     return t;
 }
-s32 TLobby__sub_80400F1C(Obj_803FF858 *arg0, Msg_803FA664 *arg1, u32 arg2) {
+s32 TLobby__sub_80400F1C(Obj_803FF858 *fsm, Msg_803FA664 *msg_803_fa664, u32 arg2) {
     s16 err;
     s16 a;
     s16 b;
     err = 0;
-    if (arg1->b1 != arg0->b1) {
+    if (msg_803_fa664->b1 != fsm->b1) {
         return -1;
     }
     {
-        u32 cur = first2_80400F1C(arg0);
-        if (arg1->h2 != get_field_4((void *)cur)) {
+        u32 cur = first2_80400F1C(fsm);
+        if (msg_803_fa664->h2 != get_field_4((void *)cur)) {
             err = 1;
         } else {
             while ((a = read_80400F1C(&cur)) != -1) {

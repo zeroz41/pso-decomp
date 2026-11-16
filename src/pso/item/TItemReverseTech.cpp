@@ -433,7 +433,7 @@ const char *TItemReverseTechPart2__name = "TItemReverseTechPart2";
 
 
 u8 *__ct__21TItemReverseTechPart2Fv(u8 *object, s32 arg1, s32 arg2) {
-    void *temp_r3;
+    void *item_reverse_tech_bg;
     __ct__7TObjectFP7TObject((void *)object, (void *)arg1);
     *(s32 **)((s8 *)object + 0x18) = &__vt__21TItemReverseTechPart2.value;
     TItemReverseTech__sub_8011A54C((object + 0x1C));
@@ -511,9 +511,9 @@ u8 *__ct__21TItemReverseTechPart2Fv(u8 *object, s32 arg1, s32 arg2) {
     *(f32 *)((s8 *)object + 0x13C) = 3.4e+02f;
     *(f32 *)((s8 *)object + 0x140) = (f32) lbl_805DAC0C[0];
     *(f32 *)((s8 *)object + 0x14C) = 0.75f;
-    temp_r3 = __nw__7TObjectFUl(0x64);
-    if (temp_r3 != NULL) {
-        __ct__18TItemReverseTechBGFv(temp_r3, (void *)object, object + 0x124);
+    item_reverse_tech_bg = __nw__7TObjectFUl(0x64);
+    if (item_reverse_tech_bg != NULL) {
+        __ct__18TItemReverseTechBGFv(item_reverse_tech_bg, (void *)object, object + 0x124);
     }
     *(s32 *)((s8 *)object + 0x150) = 0;
     *(s32 *)((s8 *)object + 0x154) = 0;
@@ -582,37 +582,37 @@ void TItemReverseTechPart2::render() {  }
 const char *TItemReverseTechBG__name = "TItemReverseTechBG";
 
 
-void *__ct__18TItemReverseTechBGFv(void *arg0, void *parent, void *arg3) {
+void *__ct__18TItemReverseTechBGFv(void *object, void *parent, void *arg3) {
     s32 temp_r3;
 
-    __ct__7TObjectFP7TObject(arg0, parent);
-    *(void **)((s8 *)arg0 + 0x18) = __vt__18TItemReverseTechBG;
-    *(s32 *)((s8 *)arg0 + 0) = (s32) TItemReverseTechBG__name;
-    *(s32 *)((s8 *)arg0 + 0x1C) = (s32) *(s32 *)((s8 *)arg3 + 0);
-    *(s32 *)((s8 *)arg0 + 0x20) = (s32) *(s32 *)((s8 *)arg3 + 4);
-    *(s32 *)((s8 *)arg0 + 0x2C) = (s32) *(s32 *)((s8 *)arg3 + 8);
-    *(s32 *)((s8 *)arg0 + 0x30) = (s32) *(s32 *)((s8 *)arg3 + 0xC);
-    *(s32 *)((s8 *)arg0 + 0x24) = 0;
-    temp_r3 = *(s32 *)((s8 *)arg0 + 0x20);
+    __ct__7TObjectFP7TObject(object, parent);
+    *(void **)((s8 *)object + 0x18) = __vt__18TItemReverseTechBG;
+    *(s32 *)((s8 *)object + 0) = (s32) TItemReverseTechBG__name;
+    *(s32 *)((s8 *)object + 0x1C) = (s32) *(s32 *)((s8 *)arg3 + 0);
+    *(s32 *)((s8 *)object + 0x20) = (s32) *(s32 *)((s8 *)arg3 + 4);
+    *(s32 *)((s8 *)object + 0x2C) = (s32) *(s32 *)((s8 *)arg3 + 8);
+    *(s32 *)((s8 *)object + 0x30) = (s32) *(s32 *)((s8 *)arg3 + 0xC);
+    *(s32 *)((s8 *)object + 0x24) = 0;
+    temp_r3 = *(s32 *)((s8 *)object + 0x20);
     if (temp_r3 != 0) {
-        *(s32 *)((s8 *)arg0 + 0x28) = (s32) (0xFF / temp_r3);
-        if ((u32) *(s32 *)((s8 *)arg0 + 0x28) == 0U) {
-            *(s32 *)((s8 *)arg0 + 0x28) = 1;
+        *(s32 *)((s8 *)object + 0x28) = (s32) (0xFF / temp_r3);
+        if ((u32) *(s32 *)((s8 *)object + 0x28) == 0U) {
+            *(s32 *)((s8 *)object + 0x28) = 1;
         }
     }
-    *(s32 *)((s8 *)arg0 + 0x34) = -1;
-    *(f32 *)((s8 *)arg0 + 0x38) = (f32) *(f32 *)((s8 *)arg3 + 0x10);
-    *(f32 *)((s8 *)arg0 + 0x3C) = (f32) *(f32 *)((s8 *)arg3 + 0x14);
-    *(f32 *)((s8 *)arg0 + 0x40) = (f32) (*(f32 *)((s8 *)arg3 + 0x10) + *(f32 *)((s8 *)arg3 + 0x18));
-    *(f32 *)((s8 *)arg0 + 0x44) = (f32) (*(f32 *)((s8 *)arg3 + 0x14) + *(f32 *)((s8 *)arg3 + 0x1C));
-    *(f32 *)((s8 *)arg0 + 0x48) = (f32) lbl_805DAC08[0];
-    *(f32 *)((s8 *)arg0 + 0x4C) = (f32) lbl_805DAC08[0];
-    *(f32 *)((s8 *)arg0 + 0x50) = (f32) *(f32 *)((s8 *)arg3 + 0x20);
-    *(f32 *)((s8 *)arg0 + 0x54) = (f32) *(f32 *)((s8 *)arg3 + 0x24);
-    *(f32 *)((s8 *)arg0 + 0x58) = (f32) *(f32 *)((s8 *)arg3 + 0x28);
-    *(s32 *)((s8 *)arg0 + 0x60) = 0;
-    *(s32 *)((s8 *)arg0 + 0x5C) = 0;
-    return arg0;
+    *(s32 *)((s8 *)object + 0x34) = -1;
+    *(f32 *)((s8 *)object + 0x38) = (f32) *(f32 *)((s8 *)arg3 + 0x10);
+    *(f32 *)((s8 *)object + 0x3C) = (f32) *(f32 *)((s8 *)arg3 + 0x14);
+    *(f32 *)((s8 *)object + 0x40) = (f32) (*(f32 *)((s8 *)arg3 + 0x10) + *(f32 *)((s8 *)arg3 + 0x18));
+    *(f32 *)((s8 *)object + 0x44) = (f32) (*(f32 *)((s8 *)arg3 + 0x14) + *(f32 *)((s8 *)arg3 + 0x1C));
+    *(f32 *)((s8 *)object + 0x48) = (f32) lbl_805DAC08[0];
+    *(f32 *)((s8 *)object + 0x4C) = (f32) lbl_805DAC08[0];
+    *(f32 *)((s8 *)object + 0x50) = (f32) *(f32 *)((s8 *)arg3 + 0x20);
+    *(f32 *)((s8 *)object + 0x54) = (f32) *(f32 *)((s8 *)arg3 + 0x24);
+    *(f32 *)((s8 *)object + 0x58) = (f32) *(f32 *)((s8 *)arg3 + 0x28);
+    *(s32 *)((s8 *)object + 0x60) = 0;
+    *(s32 *)((s8 *)object + 0x5C) = 0;
+    return object;
 }
 
 TItemReverseTechBG::~TItemReverseTechBG() {}

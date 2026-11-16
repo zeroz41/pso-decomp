@@ -37,15 +37,15 @@ void *TObjNpcBringer::create(void *arg0) {
 
 extern void *__vt__14TObjNpcBringer[94];
 
-void *__dt__14TObjNpcBringerFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(void ***)((s8 *)arg0 + 0x18) = __vt__14TObjNpcBringer;
-        __dt__11TObjNpcBaseFv(arg0, 0);
+void *__dt__14TObjNpcBringerFv(void *npc_base, s16 arg1) {
+    if (npc_base != NULL) {
+        *(void ***)((s8 *)npc_base + 0x18) = __vt__14TObjNpcBringer;
+        __dt__11TObjNpcBaseFv(npc_base, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(npc_base);
         }
     }
-    return arg0;
+    return npc_base;
 }
 
 }

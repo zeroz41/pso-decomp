@@ -338,11 +338,11 @@ u8 *TWindowSubTradeMain::open_confirm_prompt() {
     return w;
 }
 
-u8 *open_option_dialog__19TWindowSubTradeMainFPvi(u8 *window_message_yes_no, s32 arg1) {
-    u8 *temp_r31;
-    temp_r31 = (u8 *)(TWindowMessageYesNo::create(window_message_yes_no, *(u8 **)((s8 *)window_message_yes_no + 0x28), NULL, NULL));
-    initialize_option_dialog(temp_r31, arg1, get_window_layout_position(0x5F), 282.0f);
-    return temp_r31;
+u8 *open_option_dialog__19TWindowSubTradeMainFPvi(u8 *window_message_yes_no, s32 message) {
+    u8 *dialog;
+    dialog = (u8 *)(TWindowMessageYesNo::create(window_message_yes_no, *(u8 **)((s8 *)window_message_yes_no + 0x28), NULL, NULL));
+    initialize_option_dialog(dialog, message, get_window_layout_position(0x5F), 282.0f);
+    return dialog;
 }
 
 u8 * open_option_dialog_thunk__19TWindowSubTradeMainFPvPv(void* p, void* _w1) { return open_option_dialog__19TWindowSubTradeMainFPvi((u8 *)p, (s32)_w1); }
@@ -871,61 +871,61 @@ s32 TLobby__sub_802D29E8(u32 arg0);
 
 extern void* __vt__19TWindowSubTradeMain[];
 
-void *__dt__19TWindowSubTradeMainFv(TWindowSubTradeMain *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(void **)((s8 *)arg0 + 0x18) = (void *) __vt__19TWindowSubTradeMain;
-        TLobby__sub_802D29E8((u32)arg0);
+void *__dt__19TWindowSubTradeMainFv(TWindowSubTradeMain *window_sub_trade_main, s16 arg1) {
+    if (window_sub_trade_main != NULL) {
+        *(void **)((s8 *)window_sub_trade_main + 0x18) = (void *) __vt__19TWindowSubTradeMain;
+        TLobby__sub_802D29E8((u32)window_sub_trade_main);
         TLobby::check_flags_and_proceed();
-        if (get_player_by_client_id(arg0->m_28) != 0U) {
+        if (get_player_by_client_id(window_sub_trade_main->m_28) != 0U) {
             end_camera_pan__10TObjPlayerFv();
         }
-        if ((u32) arg0->m_50 != 0U) {
-            ((TObject *)(*(void **)((s8 *)arg0 + 0x50)))->queue_destruction();
-            arg0->m_50 = 0U;
+        if ((u32) window_sub_trade_main->m_50 != 0U) {
+            ((TObject *)(*(void **)((s8 *)window_sub_trade_main + 0x50)))->queue_destruction();
+            window_sub_trade_main->m_50 = 0U;
         }
-        if ((u32) arg0->m_4c != 0U) {
-            ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x4C)))->close();
-            arg0->m_4c = 0U;
+        if ((u32) window_sub_trade_main->m_4c != 0U) {
+            ((TWindowBase *)(*(void **)((s8 *)window_sub_trade_main + 0x4C)))->close();
+            window_sub_trade_main->m_4c = 0U;
         }
-        if ((u32) arg0->m_48 != 0U) {
-            ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x48)))->close();
-            arg0->m_48 = 0U;
+        if ((u32) window_sub_trade_main->m_48 != 0U) {
+            ((TWindowBase *)(*(void **)((s8 *)window_sub_trade_main + 0x48)))->close();
+            window_sub_trade_main->m_48 = 0U;
         }
-        if ((u32) arg0->m_44 != 0U) {
-            ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x44)))->close();
-            arg0->m_44 = 0U;
+        if ((u32) window_sub_trade_main->m_44 != 0U) {
+            ((TWindowBase *)(*(void **)((s8 *)window_sub_trade_main + 0x44)))->close();
+            window_sub_trade_main->m_44 = 0U;
         }
-        if ((u32) arg0->m_40 != 0U) {
-            ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x40)))->close();
-            arg0->m_40 = 0U;
+        if ((u32) window_sub_trade_main->m_40 != 0U) {
+            ((TWindowBase *)(*(void **)((s8 *)window_sub_trade_main + 0x40)))->close();
+            window_sub_trade_main->m_40 = 0U;
         }
-        if ((u32) arg0->m_3c != 0U) {
-            ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x3C)))->close();
-            arg0->m_3c = 0U;
+        if ((u32) window_sub_trade_main->m_3c != 0U) {
+            ((TWindowBase *)(*(void **)((s8 *)window_sub_trade_main + 0x3C)))->close();
+            window_sub_trade_main->m_3c = 0U;
         }
-        if ((u32) arg0->m_38 != 0U) {
-            ((TWindowSubComCard *)(*(void **)((s8 *)arg0 + 0x38)))->close();
-            arg0->m_38 = 0U;
+        if ((u32) window_sub_trade_main->m_38 != 0U) {
+            ((TWindowSubComCard *)(*(void **)((s8 *)window_sub_trade_main + 0x38)))->close();
+            window_sub_trade_main->m_38 = 0U;
         }
-        if ((u32) arg0->m_34 != 0U) {
-            ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x34)))->close();
-            arg0->m_34 = 0U;
+        if ((u32) window_sub_trade_main->m_34 != 0U) {
+            ((TWindowBase *)(*(void **)((s8 *)window_sub_trade_main + 0x34)))->close();
+            window_sub_trade_main->m_34 = 0U;
         }
-        if ((u32) arg0->m_30 != 0U) {
-            ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x30)))->close();
-            arg0->m_30 = 0U;
+        if ((u32) window_sub_trade_main->m_30 != 0U) {
+            ((TWindowBase *)(*(void **)((s8 *)window_sub_trade_main + 0x30)))->close();
+            window_sub_trade_main->m_30 = 0U;
         }
-        if ((u32) arg0->m_2c != 0U) {
-            ((TWindowSubLog *)(*(void **)((s8 *)arg0 + 0x2C)))->cleanup();
+        if ((u32) window_sub_trade_main->m_2c != 0U) {
+            ((TWindowSubLog *)(*(void **)((s8 *)window_sub_trade_main + 0x2C)))->cleanup();
         }
-        TWindowCtrl__sub_8024ADF0(arg0->m_28);
-        TWindowSubComCard__sub_8024AB98(arg0->m_28);
-        __dt__7TObjectFv(arg0, 0);
+        TWindowCtrl__sub_8024ADF0(window_sub_trade_main->m_28);
+        TWindowSubComCard__sub_8024AB98(window_sub_trade_main->m_28);
+        __dt__7TObjectFv(window_sub_trade_main, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(window_sub_trade_main);
         }
     }
-    return arg0;
+    return window_sub_trade_main;
 }
 
 void TWindowCtrl__sub_8024ADAC(s32 arg0);

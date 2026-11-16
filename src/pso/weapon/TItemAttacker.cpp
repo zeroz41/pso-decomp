@@ -134,14 +134,14 @@ void deliver_delayed_weapon_hit(u8 *arg0) {
 }
 }
 void spawn_item_attacker(s32 arg0, u32 arg1, s32 arg2, u8 *arg3);
-void spawn_item_attacker(s32 arg0, u32 arg1, s32 arg2, u8 *arg3) {
+void spawn_item_attacker(s32 arg0, u32 arg1, s32 frames, u8 *arg3) {
     s32 object;
     if ((arg0 != 0) && (arg3 != NULL) && (arg1 != 0U) && ((u16) *(u16 *)((s8 *)arg3 + 0xC) != 65535U) && ((u16) *(u16 *)((s8 *)arg3 + 0xE) != 65535U)) {
         object = __nw__7TObjectFUl(0x50);
         if (object != 0) {
-            object = (s32)__ct__13TItemAttackerFllll((u8 *)object, (s32)arg0, (s32)arg1, (s32)arg2, (s32)arg3);
+            object = (s32)__ct__13TItemAttackerFllll((u8 *)object, (s32)arg0, (s32)arg1, (s32)frames, (s32)arg3);
         }
-        TItemAttacker::spawn_item_timer((TObject *)object, (ItemTimerCallback)TItemAttacker__sub_8010349C, arg2);
+        TItemAttacker::spawn_item_timer((TObject *)object, (ItemTimerCallback)TItemAttacker__sub_8010349C, frames);
     }
 }
 

@@ -984,25 +984,25 @@ s32 TObjEneSlimeOne::create(s32 arg0, s32 arg1, s32 arg2) {
     return actor;
 }
 
-u8 *init__15TObjEneSlimeOneFPviii(u8 *arg0, s32 arg1, s32 arg2, s32 arg3) {
+u8 *init__15TObjEneSlimeOneFPviii(u8 *ene_slime_one, s32 arg1, s32 arg2, s32 arg3) {
     typedef char sp8_offset[(offsetof(Stack_800EB4A0, sp8) == 0x0) ? 1 : -1];
     typedef char spE_offset[(offsetof(Stack_800EB4A0, spE) == 0x6) ? 1 : -1];
     Stack_800EB4A0 stack;
-    __ct__9TObjEnemyFP7TObject(arg0);
-    *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_800EB4A0___vt__15TObjEneSlimeOne *)&__vt__15TObjEneSlimeOne).value;
-    *(s32 *)((s8 *)arg0 + 0) = (s32) TObjEneSlimeOne_class_name;
-    ((TObjChara *)arg0)->add_flags_2e4(2);
-    ((TObjEneSlimeOne *)(arg0))->apply_set_data((void *)arg3);
-    if (exchange_object_state__9TObjEnemyFls(arg0, &stack.sp8, 1) != 0) {
+    __ct__9TObjEnemyFP7TObject(ene_slime_one);
+    *(s32 **)((s8 *)ene_slime_one + 0x18) = &(*(RecoveredGlobal_800EB4A0___vt__15TObjEneSlimeOne *)&__vt__15TObjEneSlimeOne).value;
+    *(s32 *)((s8 *)ene_slime_one + 0) = (s32) TObjEneSlimeOne_class_name;
+    ((TObjChara *)ene_slime_one)->add_flags_2e4(2);
+    ((TObjEneSlimeOne *)(ene_slime_one))->apply_set_data((void *)arg3);
+    if (exchange_object_state__9TObjEnemyFls(ene_slime_one, &stack.sp8, 1) != 0) {
         stack.sp8 = 0;
         stack.spE = 0;
-        exchange_object_state__9TObjEnemyFls(arg0, &stack.sp8, 0);
+        exchange_object_state__9TObjEnemyFls(ene_slime_one, &stack.sp8, 0);
     }
-    ((TObjEneSlimeOne *)arg0)->parent_slime = arg2;
-    ((TObjEneSlimeOne *)arg0)->initialize_slime_instance_state();
-    project_actor_to_ground(arg0, arg0 + 0x38, 0);
-    ((TObjEneSlimeOne *)arg0)->set_state((s32)((void*)(0)));
-    return arg0;
+    ((TObjEneSlimeOne *)ene_slime_one)->parent_slime = arg2;
+    ((TObjEneSlimeOne *)ene_slime_one)->initialize_slime_instance_state();
+    project_actor_to_ground(ene_slime_one, ene_slime_one + 0x38, 0);
+    ((TObjEneSlimeOne *)ene_slime_one)->set_state((s32)((void*)(0)));
+    return ene_slime_one;
 }
 
 u8 *TObjEneSlimeOne__ct(u8 *actor, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {

@@ -961,7 +961,7 @@ s32 TWindowDD__sub_80345608(DD_803461CC *src, char *window_dd, u16 arg2) {
     return pos;
 }
 
-s32 format_english_message__9TWindowDDFPvPvUs(DD_803461CC *src, char *window_dd, u16 arg2) {
+s32 format_english_message__9TWindowDDFPvPvUs(DD_803461CC *src, char *window_dd, u16 player) {
     s32 b;
     s32 n;
     s32 i;
@@ -998,7 +998,7 @@ s32 format_english_message__9TWindowDDFPvPvUs(DD_803461CC *src, char *window_dd,
         if (n > 1) {
             struct { DD_803461CC dd; u8 pad[0x10]; } tmp;
             TWindowDD__sub_80347758(src, &tmp.dd);
-            pos = format_english_message__9TWindowDDFPvPvUs(&tmp.dd, window_dd, arg2);
+            pos = format_english_message__9TWindowDDFPvPvUs(&tmp.dd, window_dd, player);
         } else {
             TWindowDD__sub_8034886C(src->ids[0], window_dd, &pos);
         }

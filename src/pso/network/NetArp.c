@@ -56,12 +56,12 @@ void TLobby__sub_804073B8(void) {
     TUdpSocket__sub_80407508();
 }
 
-s32 dispatch_slot_a(s16 arg0, s32 arg1) {
-    return TLobby__sub_80407C60(arg0, arg1);
+s32 dispatch_slot_a(s16 id, s32 key) {
+    return TLobby__sub_80407C60(id, key);
 }
 
-s32 dispatch_slot_b(s16 arg0, s32 arg1) {
-    return TLobby__sub_80407D98(arg0, arg1);
+s32 dispatch_slot_b(s16 id, s32 pkey) {
+    return TLobby__sub_80407D98(id, pkey);
 }
 
 s32 TLobby__sub_80407418(s16 id) {
@@ -92,8 +92,8 @@ s32 TLobby__sub_80407418(s16 id) {
     return 0;
 }
 
-s16 forward_net_op(s16 arg0, u8 *arg1, u8 *arg2) {
-    return TLobby__sub_8040799C(arg0, arg1, arg2);
+s16 forward_net_op(s16 idx, u8 *name, u8 *arg2) {
+    return TLobby__sub_8040799C(idx, name, arg2);
 }
 
 void forward_net_op_5args(s16 arg0, s16 arg1, s16 arg2, s16 arg3, s16 arg4, s32 arg5, s8 arg6, s32 arg7) {
@@ -324,7 +324,7 @@ inline void Send_8040799C(ArpIface *e, void *name) {
     }
 }
 
-s16 TLobby__sub_8040799C(s16 idx, void *name, void *arg2) {
+s16 TLobby__sub_8040799C(s16 idx, void *name, void *pkt) {
     ArpState *t = &lbl_805C1AB0;
     ArpIface *e;
     ArpEntry *p;
@@ -340,13 +340,13 @@ s16 TLobby__sub_8040799C(s16 idx, void *name, void *arg2) {
     if (p != NULL) {
         p->timer = t->timeout;
         if (p->state != 1) {
-            ret = call_handler_by_index(e->handler, e->socket, 0, (s32)p->haddr, (s32)arg2);
+            ret = call_handler_by_index(e->handler, e->socket, 0, (s32)p->haddr, (s32)pkt);
         } else {
             if (p->hold != NULL) {
                 Clear_8040799C(p);
                 p->hold = NULL;
             }
-            TLobby__sub_80408060(p, arg2);
+            TLobby__sub_80408060(p, pkt);
             Send_8040799C(e, name);
             p->timer = t->retry;
         }
@@ -354,7 +354,7 @@ s16 TLobby__sub_8040799C(s16 idx, void *name, void *arg2) {
         u8 buf[6];
         NetMemset(buf, 0, 6);
         np = find_or_add_peer_entry(e->handler, e->socket, e->plen, name, e->hlen, buf, 1);
-        TLobby__sub_80408060(np, arg2);
+        TLobby__sub_80408060(np, pkt);
         Send_8040799C(e, name);
         np->timer = t->retry;
     }

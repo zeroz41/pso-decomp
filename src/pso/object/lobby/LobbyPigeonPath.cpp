@@ -419,22 +419,22 @@ void TObjPathObj::render() {
 
 #pragma push
 #pragma fp_contract on
-s32 sample_clamped_path_position(void *arg0, s32 arg1, void *arg2, s32 arg3, f32 farg0) {
+s32 sample_clamped_path_position(void *arg0, s32 arg1, void *motion, s32 arg3, f32 farg0) {
   s32 sp24[3];
   s32 sp18[3];
   s32 sp8[4];
-  f32 var_f1;
+  f32 frame;
   s32 var_r31;
   u32 temp_r7;
 
-  var_f1 = farg0;
+  frame = farg0;
   var_r31 = 1;
-  temp_r7 = *(s32 *)((s8 *)arg2 + 4) - 1;
-  if (var_f1 > (f32)temp_r7) {
+  temp_r7 = *(s32 *)((s8 *)motion + 4) - 1;
+  if (frame > (f32)temp_r7) {
     var_r31 = 0;
-    var_f1 = (f32)temp_r7;
+    frame = (f32)temp_r7;
   }
-  bind_motion_context((NJS_MOTION *)arg2, var_f1);
+  bind_motion_context((NJS_MOTION *)motion, frame);
   sample_motion_node_transform((void *)arg1, (void *)arg3, (void *)sp24, (void *)sp18, (void *)sp8);
   return var_r31;
 }
@@ -643,8 +643,8 @@ void TObjPlayer__sub_802C2900(void) {
     }
 }
 
-void *TObjPlayer__sub_802C28B4(void *arg0) {
-    return new TUnk_804E0988(tl_05, arg0);
+void *TObjPlayer__sub_802C28B4(void *set_data) {
+    return new TUnk_804E0988(tl_05, set_data);
 }
 #pragma pop
 
@@ -840,8 +840,8 @@ void TObjPlayer::free_chr_select() {
     }
 }
 
-void *TObjPlayer::create_path_obj(void *arg0) {
-    return new TUnk_804E094C(tl_05, arg0);
+void *TObjPlayer::create_path_obj(void *set_data) {
+    return new TUnk_804E094C(tl_05, set_data);
 }
 
 TUnk_804E0910::TUnk_804E0910(TObject *parent, void *set_data) : TObjPathObj(parent, set_data) {
@@ -1017,8 +1017,8 @@ void TObjPlayer::free_statics() {
 #pragma push
 #pragma fp_contract on
 
-void *create__10TObjPlayerFPv(void *arg0) {
-    return new TUnk_804E0910(tl_05, arg0);
+void *create__10TObjPlayerFPv(void *set_data) {
+    return new TUnk_804E0910(tl_05, set_data);
 }
 #pragma pop
 
@@ -1196,8 +1196,8 @@ void TObjPlayer::destroy_instance() {
     }
 }
 
-void *TObjPlayer::create_child_object(void *arg0) {
-    return new TUnk_804E08D4(tl_05, arg0);
+void *TObjPlayer::create_child_object(void *set_data) {
+    return new TUnk_804E08D4(tl_05, set_data);
 }
 
 TUnk_804E0898::TUnk_804E0898(TObject *parent, void *set_data) : TObjPathObj(parent, set_data) {

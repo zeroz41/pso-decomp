@@ -215,11 +215,11 @@ void TWindowSubSymbolChatHelp::draw_help_entries(void *arg1) {
 void TWindowSubSymbolChatHelp::handle_toggle_input() {
     s32 *temp_r3;
     s32 *temp_r3_2;
-    void *temp_r31;
+    void *context;
 
     if (this->m_60 & 4) {
-        temp_r31 = controller_input_state + 0x20;
-        if (TWindowShortListCtrl__check_controller_button(temp_r31, 0x10000) != 0) {
+        context = controller_input_state + 0x20;
+        if (TWindowShortListCtrl__check_controller_button(context, 0x10000) != 0) {
             temp_r3 = *(s32 * *)&this->m_6c;
             if ((s32) *temp_r3 != 0) {
                 *temp_r3 = 0;
@@ -227,7 +227,7 @@ void TWindowSubSymbolChatHelp::handle_toggle_input() {
                 *temp_r3 = 1;
             }
         }
-        if (TWindowShortListCtrl__check_controller_button(temp_r31, 0x20000) != 0) {
+        if (TWindowShortListCtrl__check_controller_button(context, 0x20000) != 0) {
             temp_r3_2 = *(s32 * *)&this->m_70;
             if ((s32) *temp_r3_2 != 0) {
                 *temp_r3_2 = 0;

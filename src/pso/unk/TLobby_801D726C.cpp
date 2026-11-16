@@ -212,7 +212,7 @@ void TLobby::reset_settings_to_default() {
     u8 *arg0 = (u8 *)this;
     s32 temp_r0;
     s32 var_ctr;
-    s32 var_r4;
+    s32 k;
 
     ((s32 (*)(void *, s32)) set_section_id__6TLobbyFPvUc)(arg0, ((s32 (*)()) TItemDrop__sub_80107B04)());
     ((s32 (*)(void *, s32)) set_validated_field_0x1__6TLobbyFPvUc)(arg0, ((s32 (*)(void *)) ret_801D795C)(arg0));
@@ -234,8 +234,8 @@ void TLobby::reset_settings_to_default() {
     ((TLobby *)arg0)->set_clamped_index(0);
     ((TLobby *)arg0)->set_clamped_value_1c(0xA);
     *(s8 *)((s8 *)arg0 + 0x12) = 0;
-    for (var_r4 = 0; var_r4 < 4; var_r4++) {
-        *(arg0 + var_r4 + 0x20) = 0x14;
+    for (k = 0; k < 4; k++) {
+        *(arg0 + k + 0x20) = 0x14;
     }
     *(s8 *)((s8 *)arg0 + 0xF) = 0;
 }

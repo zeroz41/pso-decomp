@@ -17,8 +17,8 @@
 s32 TLobby__sub_80403DA8();
 extern u8 lbl_805C0038[];
 
-s32 TLobby__sub_804036FC(u8 *arg0) {
-    if (TLobby__sub_803F811C((s16 *)arg0) != 0) {
+s32 TLobby__sub_804036FC(u8 *out) {
+    if (TLobby__sub_803F811C((s16 *)out) != 0) {
         return -1;
     }
     return 0;
@@ -80,24 +80,24 @@ s32 TLobby__sub_80403864(void) {
 }
 
 s32 TLobby__sub_804038F4(s32 arg0, s32 arg1, s32 arg2) {
-    u8 *temp_r31;
+    u8 *state;
     u8 *temp_r6;
     s16 clear_flag_bit4(s32 arg0, u8 *arg1);
     s16 NetIPv6CPSetInterfaceIdentifier(u8 *arg0, s32 arg1);
 
     temp_r6 = lbl_805C0038 + 0xD4;
-    temp_r31 = *(u8 **)((s8 *)temp_r6 + 0x30);
+    state = *(u8 **)((s8 *)temp_r6 + 0x30);
     set_flags_and_state((void *)temp_r6);
-    if (clear_flag_bit4(arg0, temp_r31) != 0) {
+    if (clear_flag_bit4(arg0, state) != 0) {
         return -0x11;
     }
-    if (clear_flag_bit4(arg0, temp_r31 + 0x34) != 0) {
+    if (clear_flag_bit4(arg0, state + 0x34) != 0) {
         return -0x11;
     }
-    if (NetIPv6CPSetInterfaceIdentifier(temp_r31, arg1) != 0) {
+    if (NetIPv6CPSetInterfaceIdentifier(state, arg1) != 0) {
         return -0x11;
     }
-    if (NetIPv6CPSetInterfaceIdentifier(temp_r31 + 0x34, arg2) != 0) {
+    if (NetIPv6CPSetInterfaceIdentifier(state + 0x34, arg2) != 0) {
         return -0x11;
     }
     return 0;
@@ -143,13 +143,13 @@ s32 TLobby__sub_804039C8(s16 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 a
     return 0;
 }
 
-s32 TLobby__sub_80403B04(u8 *arg0, u8 *arg1, s32 arg2) {
+s32 TLobby__sub_80403B04(u8 *arg0, u8 *arg1, s32 timeout) {
     u8 *g = lbl_805C0038;
     u8 *c = g + 0xA0;
     s16 r;
     s16 st;
     TLobby__sub_803FC684(arg0, arg1, c);
-    r = TLobby__sub_803FC1CC((Conn_804004DC *)c, arg2);
+    r = TLobby__sub_803FC1CC((Conn_804004DC *)c, timeout);
     if (r < 0) {
         if (r == -0x12) {
             return -0x12;
@@ -164,7 +164,7 @@ s32 TLobby__sub_80403B04(u8 *arg0, u8 *arg1, s32 arg2) {
     return 0;
 }
 
-s32 TLobby__sub_80403BA8(u8 *arg0, u8 *arg1, s32 arg2) {
+s32 TLobby__sub_80403BA8(u8 *arg0, u8 *arg1, s32 timeout) {
     u8 *g = lbl_805C0038;
     u8 *c = g + 0x38;
     s16 r;
@@ -173,7 +173,7 @@ s32 TLobby__sub_80403BA8(u8 *arg0, u8 *arg1, s32 arg2) {
         TLobby__sub_80403168(arg0, arg1, c);
         TLobby__sub_803FE658(c);
     }
-    r = TLobby__sub_80402BB4(c, arg2);
+    r = TLobby__sub_80402BB4(c, timeout);
     if (r < 0) {
         if (r == -0x12) {
             return -0x12;

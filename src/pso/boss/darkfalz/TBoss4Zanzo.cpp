@@ -299,8 +299,8 @@ struct Obj_80057128 {
     f32 wave;
 };
 
-s32 TBoss4Type2::create(s32 arg0) {
-    return (s32)new TUnk_80486924(new TObjControl((TObject *)tl_04), (s32 *)arg0);
+s32 TBoss4Type2::create(s32 params) {
+    return (s32)new TUnk_80486924(new TObjControl((TObject *)tl_04), (s32 *)params);
 }
 
 TUnk_80486924::TUnk_80486924(TObject *parent, s32 *params) : TObjEnemy(parent) {
@@ -1079,7 +1079,7 @@ void TBoss4Type2::tenchu_update() {
     Obj_80055BC0 *o = (Obj_80055BC0 *)this;
     Vec_80055BC0 sp14 = o->f450;
     Vec_80055BC0 sp8 = o->f45c;
-    u8 *arg0 = (u8 *)o;
+    u8 *boss4_type2 = (u8 *)o;
     f32 temp_f1;
     f32 temp_f1_2;
     s32 temp_r0;
@@ -1102,128 +1102,128 @@ void TBoss4Type2::tenchu_update() {
     u32 temp_r3_7;
     u32 temp_r3_8;
     u32 temp_r3_9;
-    temp_r0 = *(s32 *)((s8 *)arg0 + 0x398);
+    temp_r0 = *(s32 *)((s8 *)boss4_type2 + 0x398);
     if (temp_r0 == 6) {
         create_all_tenchu_furu__11TBoss4Type2Fi();
     } else if (temp_r0 == 1) {
         TBoss4Type2__sub_80054DA8();
     }
-    if ((s32) *(s32 *)((s8 *)arg0 + 0x3C8) == 8) {
-        temp_f1 = *(f32 *)((s8 *)arg0 + 0x3D0);
+    if ((s32) *(s32 *)((s8 *)boss4_type2 + 0x3C8) == 8) {
+        temp_f1 = *(f32 *)((s8 *)boss4_type2 + 0x3D0);
         if (temp_f1 > 28.0f) {
-            temp_r3 = *(u32 *)((s8 *)arg0 + 0x438);
+            temp_r3 = *(u32 *)((s8 *)boss4_type2 + 0x438);
             if (temp_r3 != 0) {
                 TParticleCtrl::release((void *)temp_r3);
-                *(u32 *)((s8 *)arg0 + 0x438) = 0U;
+                *(u32 *)((s8 *)boss4_type2 + 0x438) = 0U;
             }
-            temp_r3_2 = *(u32 *)((s8 *)arg0 + 0x440);
+            temp_r3_2 = *(u32 *)((s8 *)boss4_type2 + 0x440);
             if (temp_r3_2 != 0) {
                 TParticleCtrl::release((void *)temp_r3_2);
-                *(u32 *)((s8 *)arg0 + 0x440) = 0U;
+                *(u32 *)((s8 *)boss4_type2 + 0x440) = 0U;
             }
         } else if (temp_f1 >= 15.0f) {
-            if ((u32) *(u32 *)((s8 *)arg0 + 0x438) == 0) {
+            if ((u32) *(u32 *)((s8 *)boss4_type2 + 0x438) == 0) {
                 temp_r3_3 = (u32)create_particle_emitter(&sp14, 0x142);
-                *(u32 *)((s8 *)arg0 + 0x438) = temp_r3_3;
+                *(u32 *)((s8 *)boss4_type2 + 0x438) = temp_r3_3;
                 if (temp_r3_3 != 0) {
-                    ((TParticleCtrl *)((void *) *(u32 *)((s8 *)arg0 + 0x438)))->set_flags(0x40U);
+                    ((TParticleCtrl *)((void *) *(u32 *)((s8 *)boss4_type2 + 0x438)))->set_flags(0x40U);
                 }
             }
-            if ((u32) *(u32 *)((s8 *)arg0 + 0x440) == 0) {
+            if ((u32) *(u32 *)((s8 *)boss4_type2 + 0x440) == 0) {
                 temp_r3_4 = (u32)create_particle_emitter(&sp8, 0x142);
-                *(u32 *)((s8 *)arg0 + 0x440) = temp_r3_4;
+                *(u32 *)((s8 *)boss4_type2 + 0x440) = temp_r3_4;
                 if (temp_r3_4 != 0) {
-                    ((TParticleCtrl *)((void *) *(u32 *)((s8 *)arg0 + 0x440)))->set_flags(0x40U);
+                    ((TParticleCtrl *)((void *) *(u32 *)((s8 *)boss4_type2 + 0x440)))->set_flags(0x40U);
                 }
             }
         }
-        temp_r3_5 = *(u32 *)((s8 *)arg0 + 0x438);
+        temp_r3_5 = *(u32 *)((s8 *)boss4_type2 + 0x438);
         if (temp_r3_5 != 0) {
             ((TParticleCtrl *)temp_r3_5)->set_position(&sp14);
         }
-        temp_r3_6 = *(u32 *)((s8 *)arg0 + 0x440);
+        temp_r3_6 = *(u32 *)((s8 *)boss4_type2 + 0x440);
         if (temp_r3_6 != 0) {
             ((TParticleCtrl *)temp_r3_6)->set_position(&sp8);
         }
     }
-    if ((s32) *(s32 *)((s8 *)arg0 + 0x3C8) == 9) {
-        temp_f1_2 = *(f32 *)((s8 *)arg0 + 0x3D0);
+    if ((s32) *(s32 *)((s8 *)boss4_type2 + 0x3C8) == 9) {
+        temp_f1_2 = *(f32 *)((s8 *)boss4_type2 + 0x3D0);
         if (temp_f1_2 > 10.0f) {
-            temp_r3_7 = *(u32 *)((s8 *)arg0 + 0x438);
+            temp_r3_7 = *(u32 *)((s8 *)boss4_type2 + 0x438);
             if (temp_r3_7 != 0) {
                 TParticleCtrl::release((void *)temp_r3_7);
-                *(u32 *)((s8 *)arg0 + 0x438) = 0U;
+                *(u32 *)((s8 *)boss4_type2 + 0x438) = 0U;
             }
-            temp_r3_8 = *(u32 *)((s8 *)arg0 + 0x43C);
+            temp_r3_8 = *(u32 *)((s8 *)boss4_type2 + 0x43C);
             if (temp_r3_8 != 0) {
                 TParticleCtrl::release((void *)temp_r3_8);
-                *(u32 *)((s8 *)arg0 + 0x43C) = 0U;
+                *(u32 *)((s8 *)boss4_type2 + 0x43C) = 0U;
             }
-            temp_r3_9 = *(u32 *)((s8 *)arg0 + 0x440);
+            temp_r3_9 = *(u32 *)((s8 *)boss4_type2 + 0x440);
             if (temp_r3_9 != 0) {
                 TParticleCtrl::release((void *)temp_r3_9);
-                *(u32 *)((s8 *)arg0 + 0x440) = 0U;
+                *(u32 *)((s8 *)boss4_type2 + 0x440) = 0U;
             }
-            temp_r3_10 = *(u32 *)((s8 *)arg0 + 0x444);
+            temp_r3_10 = *(u32 *)((s8 *)boss4_type2 + 0x444);
             if (temp_r3_10 != 0) {
                 TParticleCtrl::release((void *)temp_r3_10);
-                *(u32 *)((s8 *)arg0 + 0x444) = 0U;
+                *(u32 *)((s8 *)boss4_type2 + 0x444) = 0U;
             }
         } else if (temp_f1_2 >= 2.0f) {
-            if ((u32) *(u32 *)((s8 *)arg0 + 0x438) == 0) {
+            if ((u32) *(u32 *)((s8 *)boss4_type2 + 0x438) == 0) {
                 particle_emitter = (u32)create_particle_emitter(&sp14, 0x13A);
-                *(u32 *)((s8 *)arg0 + 0x438) = particle_emitter;
+                *(u32 *)((s8 *)boss4_type2 + 0x438) = particle_emitter;
                 if (particle_emitter != 0) {
-                    ((TParticleCtrl *)((void *) *(u32 *)((s8 *)arg0 + 0x438)))->set_flags(0x40U);
+                    ((TParticleCtrl *)((void *) *(u32 *)((s8 *)boss4_type2 + 0x438)))->set_flags(0x40U);
                 }
-                play_sound_effect(0x40039717, arg0 + 0x38, 0, 1);
+                play_sound_effect(0x40039717, boss4_type2 + 0x38, 0, 1);
             }
-            if ((u32) *(u32 *)((s8 *)arg0 + 0x43C) == 0) {
+            if ((u32) *(u32 *)((s8 *)boss4_type2 + 0x43C) == 0) {
                 temp_r3_12 = (u32)create_particle_emitter(&sp14, 0x13B);
-                *(u32 *)((s8 *)arg0 + 0x43C) = temp_r3_12;
+                *(u32 *)((s8 *)boss4_type2 + 0x43C) = temp_r3_12;
                 if (temp_r3_12 != 0) {
-                    ((TParticleCtrl *)((void *) *(u32 *)((s8 *)arg0 + 0x43C)))->set_flags(0x40U);
+                    ((TParticleCtrl *)((void *) *(u32 *)((s8 *)boss4_type2 + 0x43C)))->set_flags(0x40U);
                 }
             }
-            if ((u32) *(u32 *)((s8 *)arg0 + 0x440) == 0) {
+            if ((u32) *(u32 *)((s8 *)boss4_type2 + 0x440) == 0) {
                 temp_r3_13 = (u32)create_particle_emitter(&sp8, 0x13A);
-                *(u32 *)((s8 *)arg0 + 0x440) = temp_r3_13;
+                *(u32 *)((s8 *)boss4_type2 + 0x440) = temp_r3_13;
                 if (temp_r3_13 != 0) {
-                    ((TParticleCtrl *)((void *) *(u32 *)((s8 *)arg0 + 0x440)))->set_flags(0x40U);
+                    ((TParticleCtrl *)((void *) *(u32 *)((s8 *)boss4_type2 + 0x440)))->set_flags(0x40U);
                 }
             }
-            if ((u32) *(u32 *)((s8 *)arg0 + 0x444) == 0) {
+            if ((u32) *(u32 *)((s8 *)boss4_type2 + 0x444) == 0) {
                 temp_r3_14 = (u32)create_particle_emitter(&sp8, 0x13B);
-                *(u32 *)((s8 *)arg0 + 0x444) = temp_r3_14;
+                *(u32 *)((s8 *)boss4_type2 + 0x444) = temp_r3_14;
                 if (temp_r3_14 != 0) {
-                    ((TParticleCtrl *)((void *) *(u32 *)((s8 *)arg0 + 0x444)))->set_flags(0x40U);
+                    ((TParticleCtrl *)((void *) *(u32 *)((s8 *)boss4_type2 + 0x444)))->set_flags(0x40U);
                 }
             }
         }
-        temp_r3_15 = *(u32 *)((s8 *)arg0 + 0x438);
+        temp_r3_15 = *(u32 *)((s8 *)boss4_type2 + 0x438);
         if (temp_r3_15 != 0) {
             ((TParticleCtrl *)temp_r3_15)->set_position(&sp14);
         }
-        temp_r3_16 = *(u32 *)((s8 *)arg0 + 0x43C);
+        temp_r3_16 = *(u32 *)((s8 *)boss4_type2 + 0x43C);
         if (temp_r3_16 != 0) {
             ((TParticleCtrl *)temp_r3_16)->set_position(&sp14);
         }
-        temp_r3_17 = *(u32 *)((s8 *)arg0 + 0x440);
+        temp_r3_17 = *(u32 *)((s8 *)boss4_type2 + 0x440);
         if (temp_r3_17 != 0) {
             ((TParticleCtrl *)temp_r3_17)->set_position(&sp8);
         }
-        temp_r3_18 = *(u32 *)((s8 *)arg0 + 0x444);
+        temp_r3_18 = *(u32 *)((s8 *)boss4_type2 + 0x444);
         if (temp_r3_18 != 0) {
             ((TParticleCtrl *)temp_r3_18)->set_position(&sp8);
         }
     }
-    if ((s32) *(s32 *)((s8 *)arg0 + 0x398) > 6) {
-        play_persistent_sound((s32)(0x4003AD16), (s32)arg0, (u32)(arg0 + 0x38), (s32)(0), (s32)(1));
+    if ((s32) *(s32 *)((s8 *)boss4_type2 + 0x398) > 6) {
+        play_persistent_sound((s32)(0x4003AD16), (s32)boss4_type2, (u32)(boss4_type2 + 0x38), (s32)(0), (s32)(1));
     }
-    temp_r0_2 = *(s32 *)((s8 *)arg0 + 0x398) - 1;
-    *(s32 *)((s8 *)arg0 + 0x398) = temp_r0_2;
+    temp_r0_2 = *(s32 *)((s8 *)boss4_type2 + 0x398) - 1;
+    *(s32 *)((s8 *)boss4_type2 + 0x398) = temp_r0_2;
     if (temp_r0_2 < 0) {
-        ((TBoss4Type2 *)(arg0))->change_action((int) (*(s32 *)((s8 *)arg0 + 0x424)));
+        ((TBoss4Type2 *)(boss4_type2))->change_action((int) (*(s32 *)((s8 *)boss4_type2 + 0x424)));
     }
 }
 
@@ -1348,8 +1348,8 @@ void TBoss4Type2::md_recover_update() {
   }
 }
 
-void *TBoss4Type2::create_zanzo(void *arg0, void *arg1) {
-    return new TBoss4Zanzo((TObject *)arg0, (Zanzo_8005676C *)arg1);
+void *TBoss4Type2::create_zanzo(void *parent, void *params) {
+    return new TBoss4Zanzo((TObject *)parent, (Zanzo_8005676C *)params);
 }
 
 void fn_8005586C(Zanzo_8005676C *dst, Zanzo_8005676C *src) {

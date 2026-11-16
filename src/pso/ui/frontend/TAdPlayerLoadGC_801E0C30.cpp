@@ -130,11 +130,11 @@ void TAdPlayerLoadGC::poll_card_load(s32 arg0) {
 }
 
 s32 TAdPlayerLoadGC::check_card_result_code() {
-    s32 arg0 = (s32)this;
-    if (arg0 >= 2) {
+    s32 channel = (s32)this;
+    if (channel >= 2) {
         return 0;
     }
-    switch (CARDGetResultCode((void *)arg0)) {
+    switch (CARDGetResultCode((void *)channel)) {
     case -0x80:
     case -0xE:
     case -4:
@@ -155,7 +155,7 @@ s32 TAdPlayerLoadGC::check_card_result_code() {
 
 #pragma push
 #pragma fp_contract on
-s32 TAdPlayerLoadGC::probe_and_check_card(s32 arg0) {
+s32 TAdPlayerLoadGC::probe_and_check_card(s32 channel) {
     s32 spC;
     s32 sp8;
     s32 temp_r3;
@@ -163,7 +163,7 @@ s32 TAdPlayerLoadGC::probe_and_check_card(s32 arg0) {
     s32 temp_r3_3;
     s32 temp_r3_4;
     s32 var_r0;
-    if ((TAdPlayerLoadGC__card_slot_state_flags & (0x400 << arg0)) && ((temp_r3 = CARDGetResultCode((void *)arg0), ((temp_r3 == -5) != 0)) || (temp_r3 == -2))) {
+    if ((TAdPlayerLoadGC__card_slot_state_flags & (0x400 << channel)) && ((temp_r3 = CARDGetResultCode((void *)channel), ((temp_r3 == -5) != 0)) || (temp_r3 == -2))) {
         var_r0 = -0x7F;
         if (temp_r3 == -2) {
             var_r0 = -0x7D;
@@ -172,24 +172,24 @@ s32 TAdPlayerLoadGC::probe_and_check_card(s32 arg0) {
         return 0;
     }
     do {
-        temp_r3_2 = CARDProbeEx(arg0, &spC, &sp8);
+        temp_r3_2 = CARDProbeEx(channel, &spC, &sp8);
     } while (temp_r3_2 == -1);
     if (temp_r3_2 == -2) {
         TAdPlayerLoadGC__card_result_code = -0x7D;
         return 0;
     }
     if (sp8 == 0x2000) {
-        if (!(TAdPlayerLoadGC__card_slot_state_flags & (4 << arg0))) {
-            TAdPlayerLoadGC__sub_801E101C(arg0);
-            if ((u32) TAdPlayerLoadGC::get_load_result((void *)arg0) == -0x7FU) {
+        if (!(TAdPlayerLoadGC__card_slot_state_flags & (4 << channel))) {
+            TAdPlayerLoadGC__sub_801E101C(channel);
+            if ((u32) TAdPlayerLoadGC::get_load_result((void *)channel) == -0x7FU) {
                 TAdPlayerLoadGC__card_result_code = -0x7F;
                 return 0;
             }
         }
-        temp_r3_3 = CARDCheckAsync((void *)arg0, 0);
+        temp_r3_3 = CARDCheckAsync((void *)channel, 0);
         if (temp_r3_3 == 0) {
             for (;;) {
-                temp_r3_4 = CARDGetResultCode((void *)arg0);
+                temp_r3_4 = CARDGetResultCode((void *)channel);
                 if (temp_r3_4 == -1) {
                     continue;
                 }

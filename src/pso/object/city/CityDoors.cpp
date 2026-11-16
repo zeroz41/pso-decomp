@@ -338,18 +338,18 @@ void remove_value_from_id_list(s32 arg0, u32 arg1);
 extern s32 __vt__18TObjCityDoor_Lobby[];
 
 
-u8 *__dt__18TObjCityDoor_LobbyFPvs(u8 *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__18TObjCityDoor_Lobby;
-        if (((s32) ((TObjCityDoor_Lobby *)arg0)->m_250 != 0) && (TObjMapCsn::get_map_count() != 0U)) {
-            remove_value_from_id_list(TObjMapCsn::get_map_count(), (u32)(arg0 + 0x90));
+u8 *__dt__18TObjCityDoor_LobbyFPvs(u8 *city_door_lobby, s16 arg1) {
+    if (city_door_lobby != NULL) {
+        *(s32 **)((s8 *)city_door_lobby + 0x18) = __vt__18TObjCityDoor_Lobby;
+        if (((s32) ((TObjCityDoor_Lobby *)city_door_lobby)->m_250 != 0) && (TObjMapCsn::get_map_count() != 0U)) {
+            remove_value_from_id_list(TObjMapCsn::get_map_count(), (u32)(city_door_lobby + 0x90));
         }
-        __dt__8TObjBaseFv(arg0, 0);
+        __dt__8TObjBaseFv(city_door_lobby, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(city_door_lobby);
         }
     }
-    return arg0;
+    return city_door_lobby;
 }
 
 struct Vec_80181F10 { f32 x, y, z; };
@@ -500,15 +500,15 @@ void *TObjCityDoor_Med__create(void *set) {
 
 extern s32 __vt__16TObjCityDoor_Med[];
 
-void *dt__16TObjCityDoor_MedFPvs(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__16TObjCityDoor_Med;
-        TObjPlayer__sub_80182D24(arg0, 0);
+void *dt__16TObjCityDoor_MedFPvs(void *object, s16 arg1) {
+    if (object != NULL) {
+        *(s32 **)((s8 *)object + 0x18) = __vt__16TObjCityDoor_Med;
+        TObjPlayer__sub_80182D24(object, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(object);
         }
     }
-    return arg0;
+    return object;
 }
 
 extern u8 city_door_med_params[]; __declspec(section ".sdata") extern const char *TObjCityDoor_Med__name;
@@ -683,15 +683,15 @@ void *TObjCityDoor_Warp__create(void *set) {
 
 extern s32 __vt__17TObjCityDoor_Warp[];
 
-void *dt__17TObjCityDoor_WarpFPvs(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__17TObjCityDoor_Warp;
-        TObjPlayer__sub_80182D24(arg0, 0);
+void *dt__17TObjCityDoor_WarpFPvs(void *object, s16 arg1) {
+    if (object != NULL) {
+        *(s32 **)((s8 *)object + 0x18) = __vt__17TObjCityDoor_Warp;
+        TObjPlayer__sub_80182D24(object, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(object);
         }
     }
-    return arg0;
+    return object;
 }
 
 extern u8 city_door_warp_params[]; __declspec(section ".sdata") extern const char *TObjCityDoor_Warp__name;
@@ -770,15 +770,15 @@ void *TObjCityDoor_Guild__create(void *set) {
 
 extern s32 __vt__18TObjCityDoor_Guild[];
 
-void *dt__18TObjCityDoor_GuildFPvs(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__18TObjCityDoor_Guild;
-        TObjPlayer__sub_80182D24(arg0, 0);
+void *dt__18TObjCityDoor_GuildFPvs(void *object, s16 arg1) {
+    if (object != NULL) {
+        *(s32 **)((s8 *)object + 0x18) = __vt__18TObjCityDoor_Guild;
+        TObjPlayer__sub_80182D24(object, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(object);
         }
     }
-    return arg0;
+    return object;
 }
 
 extern u8 TObjCityDoor_Guild__params[]; __declspec(section ".sdata") extern const char *TObjCityDoor_Guild__name;
@@ -827,15 +827,15 @@ void *TObjCityDoor_Shop__create(void *arg0) {
     return o;
 }
 
-void *dt__17TObjCityDoor_ShopFPvs(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = (s32 *)&__vt__17TObjCityDoor_Shop;
-        TObjPlayer__sub_80182D24(arg0, 0);
+void *dt__17TObjCityDoor_ShopFPvs(void *object, s16 arg1) {
+    if (object != NULL) {
+        *(s32 **)((s8 *)object + 0x18) = (s32 *)&__vt__17TObjCityDoor_Shop;
+        TObjPlayer__sub_80182D24(object, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(object);
         }
     }
-    return arg0;
+    return object;
 }
 
 typedef struct RecoveredGlobal_8018289C_lbl_80443F4C RecoveredGlobal_8018289C_lbl_80443F4C;
@@ -1059,17 +1059,17 @@ loop_1:
     goto loop_1;
 }
 s32 TUnk_804B5BA8::check_player_in_range(s32 _w1, f32 _w2) { return TObjPlayer::is_player_in_range((s32)(this), (s32)((s8 *)this + 0x38), _w2); }
-void *TObjPlayer__sub_80182D24(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = city_door_base_vtable;
-        ((TObjCollidable *)arg0)->unregister_object_by_id();
-        free_collision_body_parts(arg0);
-        __dt__14TObjCollidableFv(arg0, 0);
+void *TObjPlayer__sub_80182D24(void *collidable, s16 arg1) {
+    if (collidable != NULL) {
+        *(s32 **)((s8 *)collidable + 0x18) = city_door_base_vtable;
+        ((TObjCollidable *)collidable)->unregister_object_by_id();
+        free_collision_body_parts(collidable);
+        __dt__14TObjCollidableFv(collidable, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(collidable);
         }
     }
-    return arg0;
+    return collidable;
 }
 }
 extern RecoveredGlobal_80182D8C_lbl_80443F20 city_door_init_params;

@@ -168,18 +168,18 @@ s32 TObjMapCsn::create(s32 arg0) {
     }
     return map_csn;
 }
-u8 *__dt__10TObjMapCsnFv(u8 *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = &__vt__10TObjMapCsn.value;
+u8 *__dt__10TObjMapCsnFv(u8 *collidable, s16 arg1) {
+    if (collidable != NULL) {
+        *(s32 **)((s8 *)collidable + 0x18) = &__vt__10TObjMapCsn.value;
         if (((u32)TObjMapCsn::get_map_count()) != 0U) {
-            fn_80140DFC((((u32)TObjMapCsn::get_map_count())), (s32)arg0);
+            fn_80140DFC((((u32)TObjMapCsn::get_map_count())), (s32)collidable);
         }
-        __dt__14TObjCollidableFv(arg0, 0);
+        __dt__14TObjCollidableFv(collidable, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(collidable);
         }
     }
-    return arg0;
+    return collidable;
 }
 u8 *TObjMapCsn__ct(TObjMapCsn *map_csn, s32 arg1, s32 arg2) {
     f32 temp_f0;

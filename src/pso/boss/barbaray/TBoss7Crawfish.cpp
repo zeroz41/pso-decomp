@@ -196,15 +196,15 @@ void TBoss7Crawfish::spawn_ground_effects() {
 s32 apply_hit_to_target__14TBoss7CrawfishFPvPv(void *arg0_, void *arg1_) {
     Pair_8030895C p;
 
-    u8 *temp_r31;
+    u8 *chara;
 
     if (arg1 != NULL) {
-        temp_r31 = (u8 *)(*(u8 **)((s8 *)arg1 + 0));
+        chara = (u8 *)(*(u8 **)((s8 *)arg1 + 0));
         if (((TBoss7Crawfish *)arg0_)->sub_80308AA8() != 0) {
-            if (((TObjChara *)(temp_r31))->select_melee_contact_body((void *)arg0, 1.0f) != 0) {
-                ((TObjChara *)(temp_r31))->receive_physical_attack((void *)arg0, 1.0f);
+            if (((TObjChara *)(chara))->select_melee_contact_body((void *)arg0, 1.0f) != 0) {
+                ((TObjChara *)(chara))->receive_physical_attack((void *)arg0, 1.0f);
             }
-        } else if (((TObjChara *)temp_r31)->obj_isState2_324() == 0) {
+        } else if (((TObjChara *)chara)->obj_isState2_324() == 0) {
             if ((s32) game_difficulty_selection == 3) {
                 if ((3.0517578125e-05f * (f32) rand()) <= 0.5f) {
                     p.id = 0x10;
@@ -217,7 +217,7 @@ s32 apply_hit_to_target__14TBoss7CrawfishFPvPv(void *arg0_, void *arg1_) {
             p.v = 100.0f;
             {
                 Pair_8030895C q = p;
-                ((VObj_18_405891 *)(temp_r31))->m21(arg0, (s32 *)&q, *(s32 *)((s8 *)(*(u8 **)((s8 *)arg1 + 0)) + 0xA4) + (*(s32 *)((s8 *)arg1 + 4) * 0x2C), -1, -1);
+                ((VObj_18_405891 *)(chara))->m21(arg0, (s32 *)&q, *(s32 *)((s8 *)(*(u8 **)((s8 *)arg1 + 0)) + 0xA4) + (*(s32 *)((s8 *)arg1 + 4) * 0x2C), -1, -1);
             }
         }
     }

@@ -8,17 +8,17 @@ extern s32 text_language_group_table;
 extern "C" {
 s32 get_localized_text_entry(s32 arg0, s32 arg1);
 void TLobby::update_menu_cursor() {
-    void *temp_r3;
+    void *global_state;
 
-    temp_r3 = TAdSinglePlyChrSelectGC::get_global_state();
-    if (temp_r3 == NULL) {
+    global_state = TAdSinglePlyChrSelectGC::get_global_state();
+    if (global_state == NULL) {
         current_language = (language) TLanguage::get_default_language();
         return;
     }
-    if ((s8) *(u8 *)((s8 *)temp_r3 + 7) >= 5) {
-        *(u8 *)((s8 *)temp_r3 + 7) = 1U;
+    if ((s8) *(u8 *)((s8 *)global_state + 7) >= 5) {
+        *(u8 *)((s8 *)global_state + 7) = 1U;
     }
-    current_language = (language) (s8) *(u8 *)((s8 *)temp_r3 + 7);
+    current_language = (language) (s8) *(u8 *)((s8 *)global_state + 7);
 }
 s32 get_localized_text_entry(s32 arg0, s32 arg1) {
     return *(s32 *)((s8 *)(*(s32 *)((s8 *)(text_language_group_table + (arg0 * 4)) + 0) + (arg1 * 4)) + 0);

@@ -44,13 +44,13 @@ void TObjDeadListWin::build_dead_list_window() {
 
 void TObjDeadListWin::update_countdown() {
     s32 temp_r0;
-    s32 temp_r3;
-    temp_r3 = get_player_by_client_id(local_client_id);
-    if ((temp_r3 == 0) || (((TObjCollidable *)temp_r3)->obj_testFlags30(0x02000000) != 0)) {
+    s32 player;
+    player = get_player_by_client_id(local_client_id);
+    if ((player == 0) || (((TObjCollidable *)player)->obj_testFlags30(0x02000000) != 0)) {
         queue_destruction();
         return;
     }
-    if ((((TLobby *)temp_r3)->check_player_flag1() == 0) && (m_countdown > 0x5A)) m_countdown = 0x5A;
+    if ((((TLobby *)player)->check_player_flag1() == 0) && (m_countdown > 0x5A)) m_countdown = 0x5A;
     temp_r0 = m_countdown - 1;
     m_countdown = temp_r0;
     if (temp_r0 < 0) {

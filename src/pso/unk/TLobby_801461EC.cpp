@@ -962,7 +962,7 @@ s32 connect_modem(s32 idx, s16 id) {
     }
 }
 
-s32 TLobby__sub_801478C4(s32 arg0) {
+s32 TLobby__sub_801478C4(s32 id) {
     s32 count;
     s32 result;
     char name[0x81];
@@ -972,7 +972,7 @@ s32 TLobby__sub_801478C4(s32 arg0) {
         memset(name, 0, sizeof(name));
         strncpy(name, get_modem_phone_number(lbl_805D5708), sizeof(name));
         if (name[0] != 0) {
-            result = connect_modem(lbl_805D5708, arg0);
+            result = connect_modem(lbl_805D5708, id);
             if (TLobby__sub_801466F4(result) == 0) {
                 return result;
             }

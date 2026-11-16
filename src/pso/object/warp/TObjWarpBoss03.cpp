@@ -37,7 +37,7 @@ TObjWarpBoss03::TObjWarpBoss03(TObject *parent, void *set_data) : TObjAreaWarp(p
 }
 
 
-void *TObjWarpJungMain__create(void *arg0) {
-    return new TObjWarpJungMain(tl_05, arg0);
+void *TObjWarpJungMain__create(void *set_data) {
+    return new TObjWarpJungMain(tl_05, set_data);
 }
 

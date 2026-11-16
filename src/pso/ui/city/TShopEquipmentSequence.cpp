@@ -273,29 +273,29 @@ void TShopEquipmentSequence::vfunc_11() {
     }
 }
 
-u8 *__dt__22TShopEquipmentSequenceFv(TShopEquipmentSequence *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = &__vt__22TShopEquipmentSequence.value;
-        if ((u32) *(u32 *)((s8 *)arg0 + 0x34) != 0U) {
-            queue_destruction__7TObjectFv(*(void **)((s8 *)arg0 + 0x34));
-            *(u32 *)((s8 *)arg0 + 0x34) = 0U;
+u8 *__dt__22TShopEquipmentSequenceFv(TShopEquipmentSequence *shop_equipment_sequence, s16 arg1) {
+    if (shop_equipment_sequence != NULL) {
+        *(s32 **)((s8 *)shop_equipment_sequence + 0x18) = &__vt__22TShopEquipmentSequence.value;
+        if ((u32) *(u32 *)((s8 *)shop_equipment_sequence + 0x34) != 0U) {
+            queue_destruction__7TObjectFv(*(void **)((s8 *)shop_equipment_sequence + 0x34));
+            *(u32 *)((s8 *)shop_equipment_sequence + 0x34) = 0U;
         }
-        ((TShopSequence *)arg0)->close_message_window();
-        if ((u32) arg0->m_2c != 0U) {
-            ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x2C)))->close();
-            arg0->m_2c = 0U;
+        ((TShopSequence *)shop_equipment_sequence)->close_message_window();
+        if ((u32) shop_equipment_sequence->m_2c != 0U) {
+            ((TWindowBase *)(*(void **)((s8 *)shop_equipment_sequence + 0x2C)))->close();
+            shop_equipment_sequence->m_2c = 0U;
         }
-        if ((u32) arg0->m_30 != 0U) {
-            ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x30)))->close();
-            arg0->m_30 = 0U;
+        if ((u32) shop_equipment_sequence->m_30 != 0U) {
+            ((TWindowBase *)(*(void **)((s8 *)shop_equipment_sequence + 0x30)))->close();
+            shop_equipment_sequence->m_30 = 0U;
         }
-        *(s32 *)((s8 *)&TShopEquipmentSequence__slot_active_flags.value + (sub_8022397C__15TShopWindowBaseFv(arg0) * 4)) = 0;
-        __dt__13TShopSequenceFv((arg0), 0);
+        *(s32 *)((s8 *)&TShopEquipmentSequence__slot_active_flags.value + (sub_8022397C__15TShopWindowBaseFv(shop_equipment_sequence) * 4)) = 0;
+        __dt__13TShopSequenceFv((shop_equipment_sequence), 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(shop_equipment_sequence);
         }
     }
-    return (u8 *)arg0;
+    return (u8 *)shop_equipment_sequence;
 }
 typedef char RecoveredGlobal_8021DB58___vt__22TShopEquipmentSequence_size[sizeof(RecoveredGlobal_8021DB58___vt__22TShopEquipmentSequence) == 0x38 ? 1 : -1];
 typedef char RecoveredGlobal_8021DB58_TShopEquipmentSequence__data_80513EC0_size[sizeof(RecoveredGlobal_8021DB58_TShopEquipmentSequence__data_80513EC0) == 0x10 ? 1 : -1];

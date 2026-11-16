@@ -693,16 +693,16 @@ BOOL fn_801C6F2C(u8 *arg0) {
 
 namespace accessors {
 extern "C" {
-void *__dt__13TForceOperateFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__13TForceOperate;
-        TForceOperate::destroy((s32)((s8 *)arg0 + 0x1C), (s16)(-1));
-        __dt__7TObjectFv(arg0, 0);
+void *__dt__13TForceOperateFv(void *object, s16 arg1) {
+    if (object != NULL) {
+        *(s32 **)((s8 *)object + 0x18) = __vt__13TForceOperate;
+        TForceOperate::destroy((s32)((s8 *)object + 0x1C), (s16)(-1));
+        __dt__7TObjectFv(object, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(object);
         }
     }
-    return arg0;
+    return object;
 }
 
 }

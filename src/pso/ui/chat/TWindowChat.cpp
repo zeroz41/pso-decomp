@@ -329,15 +329,15 @@ void TWindowChat::handle_input() {
 void TWindowChat::handle_chat_input() {
     u8 *arg0 = (u8 *)this;
   u8 temp_r3_2;
-  u8 *temp_r30;
+  u8 *context;
   s32 player;
   player = (s32)get_player_by_client_id((s32)((void *) local_client_id));
   if (player != 0)
   {
     if (((RecoveredFields_8024775C_arg0 *) arg0)->field_1E & 2)
     {
-      temp_r30 = ((u8 *) (&(*(RecoveredGlobal_8024775C_lbl_8050E208 *)&controller_input_state).value)) + 0x20;
-      if ((TWindowShortListCtrl__check_controller_button((void *)((void *) temp_r30), 0x200) != 0) && (is_on_current_screen__11TCameraCtrlFv((void *)((int) temp_r30), (s32)((void *) fn_8002AE08((s32)((void *) local_client_id)))) == 0))
+      context = ((u8 *) (&(*(RecoveredGlobal_8024775C_lbl_8050E208 *)&controller_input_state).value)) + 0x20;
+      if ((TWindowShortListCtrl__check_controller_button((void *)((void *) context), 0x200) != 0) && (is_on_current_screen__11TCameraCtrlFv((void *)((int) context), (s32)((void *) fn_8002AE08((s32)((void *) local_client_id)))) == 0))
       {
         ((RecoveredFields_8024775C_arg0 *) arg0)->field_1E = (u16) (((RecoveredFields_8024775C_arg0 *) arg0)->field_1E & 0xFFFFFFFD);
         ((TWindowChat*)((void *) arg0))->close_all_children();

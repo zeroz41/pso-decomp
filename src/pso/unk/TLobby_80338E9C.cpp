@@ -24,15 +24,15 @@ struct RecoveredGlobal_80338F3C_lbl_804EF4E0 {
 extern RecoveredGlobal_80338F3C_lbl_804EF4E0 lbl_804EF4E0;
 typedef char RecoveredGlobal_80338F3C_lbl_804EF4E0_size[sizeof(RecoveredGlobal_80338F3C_lbl_804EF4E0) == 0x20 ? 1 : -1];
 
-void *__dt__13TUnk_804EF4E0Fv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = &lbl_804EF4E0.value;
-        ((TWindowSubStatusDisp *)arg0)->deleting_dtor(0);
+void *__dt__13TUnk_804EF4E0Fv(void *window_sub_status_disp, s16 arg1) {
+    if (window_sub_status_disp != NULL) {
+        *(s32 **)((s8 *)window_sub_status_disp + 0x18) = &lbl_804EF4E0.value;
+        ((TWindowSubStatusDisp *)window_sub_status_disp)->deleting_dtor(0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(window_sub_status_disp);
         }
     }
-    return arg0;
+    return window_sub_status_disp;
 }
 
 }

@@ -57,8 +57,8 @@ void *TChCrLoadReq::create(void *parent) {
     return new TChCrLoadReq((TObjPlayer *)parent);
 }
 
-void *create_ch_cr_load_req(void *parent, void *arg1) {
-    return new TChCrLoadReq((TObject *)parent, arg1);
+void *create_ch_cr_load_req(void *parent, void *player) {
+    return new TChCrLoadReq((TObject *)parent, player);
 }
 
 // TObjPlayer has no fields yet at 0xCF4, 0xB88 and 0xA1C.

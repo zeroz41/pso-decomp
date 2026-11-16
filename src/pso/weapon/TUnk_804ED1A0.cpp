@@ -22,9 +22,9 @@ TUnk_804ED1A0::TUnk_804ED1A0(TObject *parent, u8 *item) : TItemWeapon(parent, it
     set_weapon_flags(1);
 }
 
-u8 *create_morning_glory(u8 *arg0) {
-    if (arg0 != NULL) {
-        return (u8 *)new TUnk_804ED1A0(tl_05, arg0);
+u8 *create_morning_glory(u8 *item) {
+    if (item != NULL) {
+        return (u8 *)new TUnk_804ED1A0(tl_05, item);
     }
     return NULL;
 }

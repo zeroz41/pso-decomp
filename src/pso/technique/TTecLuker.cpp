@@ -760,10 +760,10 @@ void TTecLuker::setup_telepipe_field() {
 struct Rec_8023402C;
 struct Vec_8023402C;
 struct Pipe_802347B4;
-void run_task__9TTecLukerFv(u8 *arg0) {
+void run_task__9TTecLukerFv(u8 *tec_luker) {
     struct { f32 x, y, z; } sp8;
     s32 temp_r30;
-    u16 temp_r3;
+    u16 entity_id;
     u16 temp_r5;
     s32 var_r29;
     u8 *temp_r29;
@@ -771,82 +771,82 @@ void run_task__9TTecLukerFv(u8 *arg0) {
     u8 *owner;
     u8 *tgt;
     u16 st;
-    *(u8 **)((s8 *)arg0 + 0x1C) = find_entity_by_id(((TTecLuker *)arg0)->m_b4);
-    owner = *(u8 **)((s8 *)arg0 + 0x1C);
+    *(u8 **)((s8 *)tec_luker + 0x1C) = find_entity_by_id(((TTecLuker *)tec_luker)->m_b4);
+    owner = *(u8 **)((s8 *)tec_luker + 0x1C);
     if (owner == NULL) {
-        ((TObject *)arg0)->queue_destruction();
+        ((TObject *)tec_luker)->queue_destruction();
         return;
     }
-    switch (((TTecLuker *)arg0)->m_108) {
+    switch (((TTecLuker *)tec_luker)->m_108) {
     case 0:
-        temp_r3 = get_entity_id(owner);
-        if (temp_r3 != 0xFFFFU) {
-            if (temp_r3 > 0xCU) {
-                ((TTecLuker *)arg0)->m_108 = 4;
+        entity_id = get_entity_id(owner);
+        if (entity_id != 0xFFFFU) {
+            if (entity_id > 0xCU) {
+                ((TTecLuker *)tec_luker)->m_108 = 4;
                 return;
             }
-            tgt = *(u8 **)((s8 *)arg0 + 0xEC);
+            tgt = *(u8 **)((s8 *)tec_luker + 0xEC);
             if (tgt == NULL) {
-                ((TTecLuker *)arg0)->setup_telepipe_field();
+                ((TTecLuker *)tec_luker)->setup_telepipe_field();
                 return;
             }
             if (TTecLuker__sub_80235054(tgt) != 0) {
-                VecCopy((Vec *)(arg0 + 0xFC), (const Vec *)(*(u8 **)((s8 *)arg0 + 0x1C) + 0x38));
-                if ((telepipe_record_differs((Rec_8023402C *)(*(u8 **)((s8 *)arg0 + 0x1C) + 0x830), ((TTecLuker *)arg0)->m_f4, (Vec_8023402C *)(arg0 + 0xFC), ((TTecLuker *)arg0)->m_f6) == 0) && ((s8) *(TTecLuker__visit_counts + ((TTecLuker *)arg0)->m_b4) >= 1)) {
-                    ((TObject *)arg0)->queue_destruction();
+                VecCopy((Vec *)(tec_luker + 0xFC), (const Vec *)(*(u8 **)((s8 *)tec_luker + 0x1C) + 0x38));
+                if ((telepipe_record_differs((Rec_8023402C *)(*(u8 **)((s8 *)tec_luker + 0x1C) + 0x830), ((TTecLuker *)tec_luker)->m_f4, (Vec_8023402C *)(tec_luker + 0xFC), ((TTecLuker *)tec_luker)->m_f6) == 0) && ((s8) *(TTecLuker__visit_counts + ((TTecLuker *)tec_luker)->m_b4) >= 1)) {
+                    ((TObject *)tec_luker)->queue_destruction();
                     return;
                 }
-                ((TTecLuker *)arg0)->setup_telepipe_field();
+                ((TTecLuker *)tec_luker)->setup_telepipe_field();
             }
         }
         break;
     case 1:
-        temp_r5 = ((TTecLuker *)arg0)->m_b4;
+        temp_r5 = ((TTecLuker *)tec_luker)->m_b4;
         if (temp_r5 < 4U) {
             *(TTecLuker__visit_counts + temp_r5) = *(TTecLuker__visit_counts + temp_r5) + 1;
         }
-        if (telepipe_record_differs((Rec_8023402C *)(*(u8 **)((s8 *)arg0 + 0x1C) + 0x830), ((TTecLuker *)arg0)->m_f4, (Vec_8023402C *)(arg0 + 0xFC), ((TTecLuker *)arg0)->m_f6) != 0) {
-            ((TObject *)arg0)->queue_destruction();
+        if (telepipe_record_differs((Rec_8023402C *)(*(u8 **)((s8 *)tec_luker + 0x1C) + 0x830), ((TTecLuker *)tec_luker)->m_f4, (Vec_8023402C *)(tec_luker + 0xFC), ((TTecLuker *)tec_luker)->m_f6) != 0) {
+            ((TObject *)tec_luker)->queue_destruction();
             return;
         }
-        play_persistent_sound(0x4002B219, arg0, arg0 + 0xFC, 0, 0);
-        if ((u32) ((TTecLuker *)arg0)->m_f0 == 0U) {
-            ((TObject *)arg0)->queue_destruction();
+        play_persistent_sound(0x4002B219, tec_luker, tec_luker + 0xFC, 0, 0);
+        if ((u32) ((TTecLuker *)tec_luker)->m_f0 == 0U) {
+            ((TObject *)tec_luker)->queue_destruction();
             return;
         }
-        if ((get_player_by_client_id(((TTecLuker *)arg0)->m_f6) != 0) && (get_pipe_interaction_latch(*(void **)((s8 *)arg0 + 0xF0)) != 0) && (are_players_gathered_near(arg0 + 0xFC, 0, 10.0f) != 0)) {
-            offset_point_toward_camera(arg0 + 0xFC, (u8 *)((s32 *) &sp8), 10.0f);
+        if ((get_player_by_client_id(((TTecLuker *)tec_luker)->m_f6) != 0) && (get_pipe_interaction_latch(*(void **)((s8 *)tec_luker + 0xF0)) != 0) && (are_players_gathered_near(tec_luker + 0xFC, 0, 10.0f) != 0)) {
+            offset_point_toward_camera(tec_luker + 0xFC, (u8 *)((s32 *) &sp8), 10.0f);
             spawn_particle_effect((float *) &sp8, 0xB3);
-            player = (u8 *)get_player_by_client_id(((TTecLuker *)arg0)->m_f6);
+            player = (u8 *)get_player_by_client_id(((TTecLuker *)tec_luker)->m_f6);
             if (player != NULL) {
                 TObjPlayer::play_effect_default((int)player, (int)0xA);
                 play_sound_effect(0x40022D1A, player + 0x38, 0, 0);
             }
             TWindowCtrl::init_all_slots();
-            ((TTecLuker *)arg0)->m_108 = 2;
+            ((TTecLuker *)tec_luker)->m_108 = 2;
             return;
         }
         break;
     case 2:
-        ((TTecLuker *)arg0)->m_10c = (s32) (((TTecLuker *)arg0)->m_10c + 1);
-        if ((s32) ((TTecLuker *)arg0)->m_10c > 0xA) {
-            ((TTecLuker *)arg0)->m_108 = 3;
+        ((TTecLuker *)tec_luker)->m_10c = (s32) (((TTecLuker *)tec_luker)->m_10c + 1);
+        if ((s32) ((TTecLuker *)tec_luker)->m_10c > 0xA) {
+            ((TTecLuker *)tec_luker)->m_108 = 3;
             return;
         }
         break;
     case 3:
         temp_r30 = get_entity_id(owner);
-        temp_r29 = (u8 *)get_player_by_client_id(((TTecLuker *)arg0)->m_f6);
+        temp_r29 = (u8 *)get_player_by_client_id(((TTecLuker *)tec_luker)->m_f6);
         if ((is_split_screen() == 0) && (temp_r29 != NULL)) {
             if (*(s32 *)((s8 *)temp_r29 + 0x30) & 0x800) {
-                ((TTecLuker *)arg0)->m_108 = 1;
+                ((TTecLuker *)tec_luker)->m_108 = 1;
                 TWindowCtrl::init_all_slots2();
-                if ((u32) ((TTecLuker *)arg0)->m_f0 == 0U) {
-                    ((TObject *)arg0)->queue_destruction();
+                if ((u32) ((TTecLuker *)tec_luker)->m_f0 == 0U) {
+                    ((TObject *)tec_luker)->queue_destruction();
                     return;
                 }
-                clear_pipe_interaction_latch((void*)(*(void **)((s8 *)arg0 + 0xF0)));
-                ((TTecLuker *)arg0)->m_10c = 0;
+                clear_pipe_interaction_latch((void*)(*(void **)((s8 *)tec_luker + 0xF0)));
+                ((TTecLuker *)tec_luker)->m_10c = 0;
                 return;
             }
             ((void (*)(void *, u16))set_state__9TTecLukerFl)(temp_r29 + 0x848, temp_r30);
@@ -893,39 +893,39 @@ block_43:
         mark_area_change_pending();
         return;
     case 4:
-        ((TObject *)arg0)->queue_destruction();
+        ((TObject *)tec_luker)->queue_destruction();
         break;
     }
 }
 
-void *__dt__9TTecLukerFv(TTecLuker *arg0, s16 arg1) {
+void *__dt__9TTecLukerFv(TTecLuker *tec_luker, s16 arg1) {
     s32 temp_cr0_eq;
     void *temp_r3;
 
-    if (arg0 != NULL) {
-        *(void **)((s8 *)arg0 + 0x18) = (void *) __vt__9TTecLuker;
-        if ((u32) arg0->m_f8 != 0U) {
-            ((TObject *)(*(void **)((s8 *)arg0 + 0xF8)))->queue_destruction();
-            arg0->m_f8 = 0U;
+    if (tec_luker != NULL) {
+        *(void **)((s8 *)tec_luker + 0x18) = (void *) __vt__9TTecLuker;
+        if ((u32) tec_luker->m_f8 != 0U) {
+            ((TObject *)(*(void **)((s8 *)tec_luker + 0xF8)))->queue_destruction();
+            tec_luker->m_f8 = 0U;
         }
-        temp_r3 = *(void **)((s8 *)arg0 + 0xEC);
+        temp_r3 = *(void **)((s8 *)tec_luker + 0xEC);
         if (temp_r3 != NULL) {
             if (temp_r3 != NULL) {
                 ((struct VM_80234C90_80233B38 *) temp_r3)->m0(1);
             }
-            *(void **)((s8 *)arg0 + 0xEC) = NULL;
+            *(void **)((s8 *)tec_luker + 0xEC) = NULL;
         }
-        if ((u32) arg0->m_f0 != 0U) {
-            ((TObject *)(*(void **)((s8 *)arg0 + 0xF0)))->queue_destruction();
-            arg0->m_f0 = 0U;
+        if ((u32) tec_luker->m_f0 != 0U) {
+            ((TObject *)(*(void **)((s8 *)tec_luker + 0xF0)))->queue_destruction();
+            tec_luker->m_f0 = 0U;
         }
-        arg0->m_f0 = 0U;
-        __dt__13TUnk_804CC148Fv((void *)((TUnk_804CC148 *)arg0), 0);
+        tec_luker->m_f0 = 0U;
+        __dt__13TUnk_804CC148Fv((void *)((TUnk_804CC148 *)tec_luker), 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(tec_luker);
         }
     }
-    return arg0;
+    return tec_luker;
 }
 
 #define L ((Luker_80234D50 *)arg0)

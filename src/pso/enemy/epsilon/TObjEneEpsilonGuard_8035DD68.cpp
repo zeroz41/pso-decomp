@@ -62,9 +62,9 @@ f32 TObjEneEpsilonGuard::receive_physical_attack(void *, f32) {
     try_apply_damage((u32)&m_2fc, 0);
     return 0.0f;
 }
-f32 TObjEneEpsilonGuard__vt21(TObjEneEpsilonGuard *guard, void *attacker, DirectAttackPayload *msg, void *body, s32 tech, s32 arg5) {
+f32 TObjEneEpsilonGuard__vt21(TObjEneEpsilonGuard *guard, void *attacker, DirectAttackPayload *msg, void *body, s32 tech, s32 flags) {
     if (msg->kind == 0x14) {
-        return guard->TObjChara::receive_direct_attack(attacker, *msg, body, tech, arg5);
+        return guard->TObjChara::receive_direct_attack(attacker, *msg, body, tech, flags);
     }
     guard->try_apply_damage((u32)&guard->m_2fc, 0);
     return 0.0f;

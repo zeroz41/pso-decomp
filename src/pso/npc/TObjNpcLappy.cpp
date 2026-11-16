@@ -178,15 +178,15 @@ void *TObjNpcLappy__create(void *set_data) {
     return npc;
 }
 
-void *dt__12TObjNpcLappyFPvs(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = (s32 *)__vt__12TObjNpcLappy;
-        __dt__11TObjNpcBaseFv(arg0, 0);
+void *dt__12TObjNpcLappyFPvs(void *npc_base, s16 arg1) {
+    if (npc_base != NULL) {
+        *(s32 **)((s8 *)npc_base + 0x18) = (s32 *)__vt__12TObjNpcLappy;
+        __dt__11TObjNpcBaseFv(npc_base, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(npc_base);
         }
     }
-    return arg0;
+    return npc_base;
 }
 
 u8 *TObjNpcLappy__ct(u8 *self, void *parent, s32 arg2) {

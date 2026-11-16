@@ -341,15 +341,15 @@ void TOTrapChainSawEdge::update_extension() {
     }
 }
 
-void *__dt__18TOTrapChainSawEdgeFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__18TOTrapChainSawEdge;
-        ((void (*)(void *, int))__dt__14TOTrapChainSawFv)(arg0, 0);
+void *__dt__18TOTrapChainSawEdgeFv(void *object, s16 arg1) {
+    if (object != NULL) {
+        *(s32 **)((s8 *)object + 0x18) = __vt__18TOTrapChainSawEdge;
+        ((void (*)(void *, int))__dt__14TOTrapChainSawFv)(object, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(object);
         }
     }
-    return arg0;
+    return object;
 }
 
 u8 *TOTrapChainSawEdge__ct(u8 *trap_chain_saw_edge) {
@@ -463,17 +463,17 @@ void *TOTrapChainSawKey::create() {
     return o;
 }
 
-void *__dt__17TOTrapChainSawKeyFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__17TOTrapChainSawKey;
-        ((TObjCollidable *)arg0)->unregister_object_by_id();
-        free_collision_body_parts(arg0);
-        ((void (*)(void *, int))__dt__14TOTrapChainSawFv)(arg0, 0);
+void *__dt__17TOTrapChainSawKeyFv(void *collidable, s16 arg1) {
+    if (collidable != NULL) {
+        *(s32 **)((s8 *)collidable + 0x18) = __vt__17TOTrapChainSawKey;
+        ((TObjCollidable *)collidable)->unregister_object_by_id();
+        free_collision_body_parts(collidable);
+        ((void (*)(void *, int))__dt__14TOTrapChainSawFv)(collidable, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(collidable);
         }
     }
-    return arg0;
+    return collidable;
 }
 
 u8 *TOTrapChainSawKey__ct(u8 *arg0, void * _w1, void * _w2) {
@@ -626,17 +626,17 @@ void *TOTrapChainSawDamage::create() {
 #pragma auto_inline off
 #pragma dont_inline off
 #pragma inline_depth(1)
-void *__dt__20TOTrapChainSawDamageFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__20TOTrapChainSawDamage;
-        ((TObjCollidable *)arg0)->unregister_object_by_id();
-        free_collision_body_parts(arg0);
-        ((void (*)(void *, int))__dt__14TOTrapChainSawFv)(arg0, 0);
+void *__dt__20TOTrapChainSawDamageFv(void *collidable, s16 arg1) {
+    if (collidable != NULL) {
+        *(s32 **)((s8 *)collidable + 0x18) = __vt__20TOTrapChainSawDamage;
+        ((TObjCollidable *)collidable)->unregister_object_by_id();
+        free_collision_body_parts(collidable);
+        ((void (*)(void *, int))__dt__14TOTrapChainSawFv)(collidable, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(collidable);
         }
     }
-    return arg0;
+    return collidable;
 }
 #pragma pop
 

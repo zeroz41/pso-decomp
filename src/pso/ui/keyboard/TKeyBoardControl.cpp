@@ -189,10 +189,10 @@ f32 TWindowKeyBoardSoft::calc_key_x(s32 arg1, s32 arg2) {
   f32 new_var;
   s32 sp8;
   s32 temp_r31;
-  s32 temp_r3;
-  temp_r3 = TWindowKeyBoardSoft::calc_key_index(this, arg1, arg2);
-  temp_r31 = arg1 + TWindowKeyBoardSoft__data_8044F124[((u8 *)&TWindowKeyBoardSoft__data_804CB7C8.value)[temp_r3]];
-  TWindowKeyBoardSoft__sub_80260760((void *) this, (int) temp_r3, &sp8, NULL);
+  s32 key;
+  key = TWindowKeyBoardSoft::calc_key_index(this, arg1, arg2);
+  temp_r31 = arg1 + TWindowKeyBoardSoft__data_8044F124[((u8 *)&TWindowKeyBoardSoft__data_804CB7C8.value)[key]];
+  TWindowKeyBoardSoft__sub_80260760((void *) this, (int) key, &sp8, NULL);
   new_var = TWindowKeyBoardSoft::calc_key_coord((s32)this, sp8);
   return 1.0f + ((19.0f * ((f32) temp_r31)) + (0.5f * new_var));
 }
@@ -200,7 +200,7 @@ f32 TWindowKeyBoardSoft::calc_key_x(s32 arg1, s32 arg2) {
 
 #pragma push
 #pragma fp_contract on
-s32 TWindowKeyBoardSoft::calc_key_index(TWindowKeyBoardSoft *arg1, s32 arg2, s32 arg3) {
+s32 TWindowKeyBoardSoft::calc_key_index(TWindowKeyBoardSoft *window_key_board_soft, s32 arg2, s32 arg3) {
     return arg2 + (arg3 * 0x10);
 }
 #pragma pop
@@ -934,11 +934,11 @@ void TWindowKeyBoardSoft::sub_8026227C(TWindowKeyBoardSoft *ctx) {
 #pragma pop
 
 void TWindowKeyBoardSoft::render() {
-    s32 temp_r3;
-    temp_r3 = draw_default_entry__9TWindowDDFl();
-    sub_8026227C((TWindowKeyBoardSoft *)temp_r3);
-    TWindowKeyBoardSoft__sub_80261DD8(this, (TWindowKeyBoardSoft *)temp_r3);
-    sub_802616BC((TWindowKeyBoardSoft *)temp_r3);
+    s32 ctx;
+    ctx = draw_default_entry__9TWindowDDFl();
+    sub_8026227C((TWindowKeyBoardSoft *)ctx);
+    TWindowKeyBoardSoft__sub_80261DD8(this, (TWindowKeyBoardSoft *)ctx);
+    sub_802616BC((TWindowKeyBoardSoft *)ctx);
 }
 
 #pragma push
@@ -948,16 +948,16 @@ s32 sub_80244994__11TWindowBaseFv();
 
 void TWindowKeyBoardSoft::run_task() {
     f32 temp_f0;
-    s32 temp_r3;
+    s32 port;
 
     if ((u32) *(u32 *)((s8 *)this + 0x6C) != 0U) {
         if ((sub_80244994__11TWindowBaseFv() != 0) && (((TKeyBoardControl *)(*(u32 *)((s8 *)this + 0x6C)))->is_key_active() == 0)) {
-            temp_r3 = is_player_input_active(*(s16 *)((s8 *)this + 0x20));
-            handle_page_cycle_input(temp_r3);
-            sub_80260E30(temp_r3);
-            TWindowKeyBoardSoft__sub_80260904(this, temp_r3);
-            update_keyboard_child_input_from_controller(temp_r3);
-            sub_80260808(temp_r3);
+            port = is_player_input_active(*(s16 *)((s8 *)this + 0x20));
+            handle_page_cycle_input(port);
+            sub_80260E30(port);
+            TWindowKeyBoardSoft__sub_80260904(this, port);
+            update_keyboard_child_input_from_controller(port);
+            sub_80260808(port);
         }
         ((TWindowDD *)this)->initialize_subwindow();
         ((TWindowBase *)this)->update_fade();

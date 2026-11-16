@@ -159,15 +159,15 @@ void TWindowSubSymbolChatFaceType__sub_80283C84(Ctx_80283C84 *ctx, f32 *pos, f32
     TWindowSubStatusDisp::get_player();
 }
 
-void TWindowSubSymbolChatFaceType__sub_80283F38(u8 *arg0, u8 *arg1) {
+void TWindowSubSymbolChatFaceType__sub_80283F38(u8 *window_base, u8 *ctx) {
   int new_var;
   u8 *temp_r3;
   Stack_80283F38 stack;
-  new_var = fn_802839A4(arg0);
-  temp_r3 = (u8 *) ((TWindowBase *)arg0)->get_array_entry(new_var);
+  new_var = fn_802839A4(window_base);
+  temp_r3 = (u8 *) ((TWindowBase *)window_base)->get_array_entry(new_var);
   stack.sp8 = (*((f32 *) (((s8 *) temp_r3) + 8))) - 3.0f;
   stack.spC = (*((f32 *) (((s8 *) temp_r3) + 0xC))) - 3.0f;
-  TWindowSubSymbolChatFaceType__sub_80283C84((Ctx_80283C84 *)arg1, &stack.sp8, 66.0f, 0.3f);
+  TWindowSubSymbolChatFaceType__sub_80283C84((Ctx_80283C84 *)ctx, &stack.sp8, 66.0f, 0.3f);
 }
 
 void TWindowSubSymbolChatFaceType::update_parts_entries() {
@@ -189,17 +189,17 @@ void render__28TWindowSubSymbolChatFaceTypeFv(u8 *arg0) {
 }
 typedef char RecoveredGlobal_80284074_lbl_8050E208_size[sizeof(RecoveredGlobal_80284074_lbl_8050E208) == 0x1B0 ? 1 : -1];
 void run_task__28TWindowSubSymbolChatFaceTypeFv(TWindowSubSymbolChatFaceType *window_sub_symbol_chat_face_type) {
-    u8 *temp_r31;
+    u8 *context;
     if (!(*(s32 *)&window_sub_symbol_chat_face_type->m_2c & 2)) {
         *(s32 *)&window_sub_symbol_chat_face_type->m_5c = 0x01000000;
     }
     if (window_sub_symbol_chat_face_type->is_open() == 0) {
         window_sub_symbol_chat_face_type->handle_input();
-        temp_r31 = (u8 *)&(*(RecoveredGlobal_80284074_lbl_8050E208 *)&controller_input_state).value + 0x20;
-        if ((TWindowShortListCtrl__check_controller_button((int)temp_r31, 4) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) ((u8 *)&(*(RecoveredGlobal_80284074_lbl_8050E208 *)&controller_input_state).value + 0x160), 4) != 0)) {
+        context = (u8 *)&(*(RecoveredGlobal_80284074_lbl_8050E208 *)&controller_input_state).value + 0x20;
+        if ((TWindowShortListCtrl__check_controller_button((int)context, 4) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) ((u8 *)&(*(RecoveredGlobal_80284074_lbl_8050E208 *)&controller_input_state).value + 0x160), 4) != 0)) {
             window_sub_symbol_chat_face_type->confirm_selection();
         }
-        if ((TWindowShortListCtrl__check_controller_button((int)temp_r31, 2) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) ((u8 *)&(*(RecoveredGlobal_80284074_lbl_8050E208 *)&controller_input_state).value + 0x160), 2) != 0)) {
+        if ((TWindowShortListCtrl__check_controller_button((int)context, 2) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) ((u8 *)&(*(RecoveredGlobal_80284074_lbl_8050E208 *)&controller_input_state).value + 0x160), 2) != 0)) {
             window_sub_symbol_chat_face_type->close_when_chat_closed();
         }
     }

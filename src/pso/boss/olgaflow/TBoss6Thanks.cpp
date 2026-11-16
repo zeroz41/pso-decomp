@@ -247,17 +247,17 @@ void TBoss6Thanks::run_task() {
   }
 }
 
-u8 *__dt__12TBoss6ThanksFv(u8 *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_8035D0A4___vt__12TBoss6Thanks *)&__vt__12TBoss6Thanks).value;
+u8 *__dt__12TBoss6ThanksFv(u8 *boss6_thanks, s16 arg1) {
+    if (boss6_thanks != NULL) {
+        *(s32 **)((s8 *)boss6_thanks + 0x18) = &(*(RecoveredGlobal_8035D0A4___vt__12TBoss6Thanks *)&__vt__12TBoss6Thanks).value;
         TBoss6Thanks__sub_8035CB40();
-        ((TBoss6Thanks *)arg0)->destroy_effects();
-        __dt__7TObjectFv(arg0, 0);
+        ((TBoss6Thanks *)boss6_thanks)->destroy_effects();
+        __dt__7TObjectFv(boss6_thanks, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv((s32) arg0);
+            __dl__7TObjectFPv((s32) boss6_thanks);
         }
     }
-    return arg0;
+    return boss6_thanks;
 }
 
 u8 *TBoss6Thanks__ct(TBoss6Thanks *boss6_thanks, u8 *arg1) {

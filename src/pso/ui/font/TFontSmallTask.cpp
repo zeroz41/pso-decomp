@@ -207,11 +207,11 @@ void TFontSmallTask::run_task() {
     }
 }
 
-s32 create_font_small_task(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 *arg4, s32 arg5, s32 arg6) {
+s32 create_font_small_task(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 *str, s32 arg5, s32 arg6) {
     s32 var_r31;
 
     text_builder_reset();
-    text_builder_append((u8 *)arg4);
+    text_builder_append((u8 *)str);
     if (arg5 >= 0) {
         text_builder_append((u8 *)"+");
     }
@@ -223,11 +223,11 @@ s32 create_font_small_task(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 *arg4, s3
     return var_r31;
 }
 
-s32 create_font_small_task_default_color(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 *arg4, s32 arg5) {
+s32 create_font_small_task_default_color(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 *str, s32 arg5) {
     s32 var_r31;
 
     text_builder_reset();
-    text_builder_append((u8 *)arg4);
+    text_builder_append((u8 *)str);
     if (arg5 >= 0) {
         text_builder_append((u8 *)"+");
     }

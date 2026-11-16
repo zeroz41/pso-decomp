@@ -207,20 +207,20 @@ struct Stack_801DB998 {
     char sp7C[0x30];
 };
 
-void send_register_9c(u8 *arg0) {
+void send_register_9c(u8 *protocol) {
     Stack_801DB998 stack;
     construct_cmd_9c_send_pso_regist((&stack.sp8));
     memset(&stack.sp8, 0, 0xA4);
     stack.sp8 = 0x9C;
     stack.spA = 0xA4;
-    __as__8TPlySmthFRC8TPlySmth((s32)&stack.spC, (s32)(arg0 + 0x18F8));
-    stack.sp14 = (s32) *(u16 *)((s8 *)arg0 + 0x1908);
-    stack.sp19 = (s8) *(s32 *)((s8 *)arg0 + 0x1934);
-    strncpy(stack.sp1C, (char *)(arg0 + 0x3EDA), 0x30);
-    strncpy(stack.sp4C, (char *)(arg0 + 0x3F0A), 0x30);
-    strncpy(stack.sp7C, (char *)(arg0 + 0x3F3A), 0x30);
+    __as__8TPlySmthFRC8TPlySmth((s32)&stack.spC, (s32)(protocol + 0x18F8));
+    stack.sp14 = (s32) *(u16 *)((s8 *)protocol + 0x1908);
+    stack.sp19 = (s8) *(s32 *)((s8 *)protocol + 0x1934);
+    strncpy(stack.sp1C, (char *)(protocol + 0x3EDA), 0x30);
+    strncpy(stack.sp4C, (char *)(protocol + 0x3F0A), 0x30);
+    strncpy(stack.sp7C, (char *)(protocol + 0x3F3A), 0x30);
     bswap_cmd_9c_send_pso_regist((&stack.sp8));
-    ((TProtocol *)arg0)->send(&stack.sp8, 0xA4);
+    ((TProtocol *)protocol)->send(&stack.sp8, 0xA4);
 }
 
 // ---- pso/network/TProtocol_801DBA58

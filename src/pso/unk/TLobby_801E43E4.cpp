@@ -68,17 +68,17 @@ void send_subcommand_to_leader(void *cmd) {
     }
 }
 
-void TLobby::send_subcommand_to_client(u32 arg1) {
+void TLobby::send_subcommand_to_client(u32 flag) {
     s32 size;
     size = *(u8 *)((s8 *)this + 1) * 4;
-    if ((u32) local_client_id == arg1) {
+    if ((u32) local_client_id == flag) {
         dispatching_own_subcommand = 1;
         dispatch_6x_subcommand(this);
         dispatching_own_subcommand = 0;
         return;
     }
     if ((u32) TLobby__protocol_instance != 0U) {
-        ((TProtocol *)TLobby__protocol_instance)->send_subcommand_to_client((s32)arg1, (s8 *)this, (s32)size);
+        ((TProtocol *)TLobby__protocol_instance)->send_subcommand_to_client((s32)flag, (s8 *)this, (s32)size);
     }
 }
 
@@ -111,21 +111,21 @@ void send_subcommand(void *cmd) {
 
 void TLobby::update_players() {
     void *var_r31;
-    s32 arg0 = (s32)this;
+    s32 cmd = (s32)this;
 
     if ((s32) TLobby__join_state_flag == 1) {
-        send_subcommand((u8 *)arg0);
+        send_subcommand((u8 *)cmd);
         return;
     }
     if ((void *) game_protocol_instance != NULL) {
         var_r31 = *(void **)((s8 *)game_protocol_instance + 0x14);
         while (var_r31 != NULL) {
-            append_command_to_batch_buffer(var_r31, arg0);
+            append_command_to_batch_buffer(var_r31, cmd);
             var_r31 = *(void **)((s8 *)var_r31 + 0xC);
         }
     }
     dispatching_own_subcommand = 1;
-    dispatch_6x_subcommand((void *)arg0);
+    dispatch_6x_subcommand((void *)cmd);
     dispatching_own_subcommand = 0;
 }
 
@@ -213,7 +213,7 @@ struct VObj_801E4B68_801E4874 : Base_801E4B68_801E4874 {
     virtual void m0();
 };
 
-u8 *load_gvm_texture_file(s32 arg0) {
+u8 *load_gvm_texture_file(s32 name) {
     s32 count;
     s32 i;
     NJS_TEXLIST *res;
@@ -225,9 +225,9 @@ u8 *load_gvm_texture_file(s32 arg0) {
     GvmFileHeader hdr;
     big = 0;
     TLobby::pump_frames();
-    size = ((TLobby *)arg0)->get_resource_file_size();
+    size = ((TLobby *)name)->get_resource_file_size();
     if (size <= 0) {
-        TLobby::debug_print("LoadPvmFileTls:%s load error.", arg0);
+        TLobby::debug_print("LoadPvmFileTls:%s load error.", name);
         return NULL;
     }
     size = ((size + 0x7FF) / 2048) * 2048;
@@ -237,7 +237,7 @@ u8 *load_gvm_texture_file(s32 arg0) {
     } else {
         buf = TLobby::tmp_buf_use_req("LoadPvmFileTls");
     }
-    TGStream::load_sct_file(arg0, buf);
+    TGStream::load_sct_file(name, buf);
     count = TLanguage::read_file_header(buf, &hdr);
     if (count == 0) {
         if (big != 0) {

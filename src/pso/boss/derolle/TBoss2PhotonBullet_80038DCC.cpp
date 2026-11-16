@@ -68,45 +68,45 @@ void render__18TBoss2PhotonBulletFv(u8 *arg0) {
 }
 #pragma push
 #pragma fp_contract on
-void run_task__18TBoss2PhotonBulletFv(u8 *arg0) {
-    if (*(f32 *)((s8 *)arg0 + 0xC4) > 8.7f) {
-        *(f32 *)((s8 *)arg0 + 0xE0) += 0.05f;
-        if (*(f32 *)((s8 *)arg0 + 0xE0) >= 3.0f) {
-            *(f32 *)((s8 *)arg0 + 0xE0) = 3.0f;
+void run_task__18TBoss2PhotonBulletFv(u8 *object) {
+    if (*(f32 *)((s8 *)object + 0xC4) > 8.7f) {
+        *(f32 *)((s8 *)object + 0xE0) += 0.05f;
+        if (*(f32 *)((s8 *)object + 0xE0) >= 3.0f) {
+            *(f32 *)((s8 *)object + 0xE0) = 3.0f;
         }
-        *(f32 *)((s8 *)arg0 + 0xC4) = *(f32 *)((s8 *)arg0 + 0xC4) - *(f32 *)((s8 *)arg0 + 0xE0);
-        *(f32 *)((s8 *)arg0 + 0xC0) = 2.0f * *(f32 *)((s8 *)arg0 + 0xB4) + *(f32 *)((s8 *)arg0 + 0xC0);
-        *(f32 *)((s8 *)arg0 + 0xC8) = 2.0f * *(f32 *)((s8 *)arg0 + 0xBC) + *(f32 *)((s8 *)arg0 + 0xC8);
+        *(f32 *)((s8 *)object + 0xC4) = *(f32 *)((s8 *)object + 0xC4) - *(f32 *)((s8 *)object + 0xE0);
+        *(f32 *)((s8 *)object + 0xC0) = 2.0f * *(f32 *)((s8 *)object + 0xB4) + *(f32 *)((s8 *)object + 0xC0);
+        *(f32 *)((s8 *)object + 0xC8) = 2.0f * *(f32 *)((s8 *)object + 0xBC) + *(f32 *)((s8 *)object + 0xC8);
     } else {
-        *(f32 *)((s8 *)arg0 + 0xC4) = 8.7f;
-        *(f32 *)((s8 *)arg0 + 0xC0) = *(f32 *)((s8 *)arg0 + 0xB4) * *(f32 *)((s8 *)arg0 + 0xB0) + *(f32 *)((s8 *)arg0 + 0xC0);
-        *(f32 *)((s8 *)arg0 + 0xC8) = *(f32 *)((s8 *)arg0 + 0xBC) * *(f32 *)((s8 *)arg0 + 0xB0) + *(f32 *)((s8 *)arg0 + 0xC8);
+        *(f32 *)((s8 *)object + 0xC4) = 8.7f;
+        *(f32 *)((s8 *)object + 0xC0) = *(f32 *)((s8 *)object + 0xB4) * *(f32 *)((s8 *)object + 0xB0) + *(f32 *)((s8 *)object + 0xC0);
+        *(f32 *)((s8 *)object + 0xC8) = *(f32 *)((s8 *)object + 0xBC) * *(f32 *)((s8 *)object + 0xB0) + *(f32 *)((s8 *)object + 0xC8);
     }
-    *(f32 *)((s8 *)arg0 + 0x38) = *(f32 *)((s8 *)arg0 + 0xC0);
-    *(f32 *)((s8 *)arg0 + 0x40) = *(f32 *)((s8 *)arg0 + 0xC8);
-    if (*(u32 *)((s8 *)arg0 + 0xE4) == 0) {
-        *(u32 *)((s8 *)arg0 + 0xE4) = (u32)spawn_continuous_particle_effect_with_flags(arg0 + 0xC0, 0xDF, 0x40);
+    *(f32 *)((s8 *)object + 0x38) = *(f32 *)((s8 *)object + 0xC0);
+    *(f32 *)((s8 *)object + 0x40) = *(f32 *)((s8 *)object + 0xC8);
+    if (*(u32 *)((s8 *)object + 0xE4) == 0) {
+        *(u32 *)((s8 *)object + 0xE4) = (u32)spawn_continuous_particle_effect_with_flags(object + 0xC0, 0xDF, 0x40);
     } else {
-        ((TParticleCtrl *)(void *)*(u32 *)((s8 *)arg0 + 0xE4))->set_position(arg0 + 0xC0);
+        ((TParticleCtrl *)(void *)*(u32 *)((s8 *)object + 0xE4))->set_position(object + 0xC0);
     }
-    if (*(s32 *)((s8 *)arg0 + 0xD8) % 15 == 0) {
-        if (project_actor_to_ground(arg0, arg0 + 0x38, arg0 + 0xCC) != 0) {
-            *(s32 *)((s8 *)arg0 + 0xDC) |= 1;
+    if (*(s32 *)((s8 *)object + 0xD8) % 15 == 0) {
+        if (project_actor_to_ground(object, object + 0x38, object + 0xCC) != 0) {
+            *(s32 *)((s8 *)object + 0xDC) |= 1;
         } else {
-            *(s32 *)((s8 *)arg0 + 0xDC) &= ~1;
+            *(s32 *)((s8 *)object + 0xDC) &= ~1;
         }
     }
-    if (*(f32 *)((s8 *)arg0 + 0x38) <= lbl_805D8268 && *(f32 *)((s8 *)arg0 + 0x38) >= lbl_805D826C) {
+    if (*(f32 *)((s8 *)object + 0x38) <= lbl_805D8268 && *(f32 *)((s8 *)object + 0x38) >= lbl_805D826C) {
         Pair_80038E2C p = lbl_80435B38[0];
         p.b = TBoss2DeRolLe__sub_80034CF8();
-        if (((VObj_18_39be15 *)arg0)->m14((s32 *)lbl_80435B40, (s32 *)&p) != 0) {
-            ((TObject *)arg0)->queue_destruction();
+        if (((VObj_18_39be15 *)object)->m14((s32 *)lbl_80435B40, (s32 *)&p) != 0) {
+            ((TObject *)object)->queue_destruction();
             return;
         }
     }
-    (*(s32 *)((s8 *)arg0 + 0xD8))++;
-    if (*(s32 *)((s8 *)arg0 + 0xD8) >= 0x78) {
-        ((TObject *)arg0)->queue_destruction();
+    (*(s32 *)((s8 *)object + 0xD8))++;
+    if (*(s32 *)((s8 *)object + 0xD8) >= 0x78) {
+        ((TObject *)object)->queue_destruction();
     }
 }
 #pragma pop

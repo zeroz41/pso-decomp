@@ -493,9 +493,9 @@ void *__dt__19TShopItemListWindowFv(TShopItemListWindow *arg0, s16 arg1) {
     return arg0;
 }
 typedef char RecoveredGlobal_8021FDC8___vt__19TShopItemListWindow_size[sizeof(RecoveredGlobal_8021FDC8___vt__19TShopItemListWindow) == 0x30 ? 1 : -1];
-u8 *TShopItemListWindow__ct(u8 *shop_item_list_window, s32 arg1, s32 arg2, s32 arg3) {
+u8 *TShopItemListWindow__ct(u8 *shop_item_list_window, s32 parent, s32 arg2, s32 arg3) {
     s32 sp8;
-    __ct__15TShopWindowBaseFP7TObject(shop_item_list_window, (TObject *)arg1);
+    __ct__15TShopWindowBaseFP7TObject(shop_item_list_window, (TObject *)parent);
     *(s32 **)((s8 *)shop_item_list_window + 0x18) = &(*(RecoveredGlobal_8021FDC8___vt__19TShopItemListWindow *)&__vt__19TShopItemListWindow).value;
     *(const char **)((s8 *)shop_item_list_window + 0) = TShopItemListWindow__class_name;
     ((TShopItemListWindow *)shop_item_list_window)->m_24 = arg3;

@@ -248,9 +248,9 @@ u8 *TObjPlayer::get_hospital_position() {
     return (u8 *)hospital_position_table_by_episode[TLobby::get_instance()] + (get_entity_id(this) * 0xC);
 }
 
-s32 get_class_starting_inventory(s8 arg0) {
-    TObjPlayer__sub_801AFDBC(arg0);
-    return *(s32 *)((s8 *)class_starting_inventory_table + (arg0 * 4));
+s32 get_class_starting_inventory(s8 cls) {
+    TObjPlayer__sub_801AFDBC(cls);
+    return *(s32 *)((s8 *)class_starting_inventory_table + (cls * 4));
 }
 
 typedef char RecoveredGlobal_801D8E60_lbl_804C4980_size[sizeof(RecoveredGlobal_801D8E60_lbl_804C4980) == 0xC ? 1 : -1];
@@ -452,12 +452,12 @@ s32 TObjPlayer::get_current_state_field(s8 _w0, s32 _w1) {
 s32 TObjPlayer::get_class_state_field(s32 arg1) {
     s32 arg0 = (s32)this; return TObjPlayer::get_current_state_field(((TObjPlayer *)arg0)->get_class_index(), arg1); }
 
-s32 get_ply_level_table_row(s8 arg0, s32 arg1) {
+s32 get_ply_level_table_row(s8 cls, s32 arg1) {
   s32 temp_r30;
   s32 temp_r31;
   temp_r30 = *(*(s32 * *)&ply_level_table);
   ;
-  return (*((s32 *) (((s8 *) temp_r30) + (TObjPlayer__sub_801AFDBC(arg0) * 4)))) + (TObjPlayer::clamp_index_to_max(arg1) * 0xC);
+  return (*((s32 *) (((s8 *) temp_r30) + (TObjPlayer__sub_801AFDBC(cls) * 4)))) + (TObjPlayer::clamp_index_to_max(arg1) * 0xC);
 }
 
 void TObjPlayer__sub_801D92A4(void) { TLobby::free_nodes_with_id(ply_level_table); }
@@ -475,12 +475,12 @@ u8 *get_class_defense_template(TObjPlayer *player) {
     return (u8 *)class_defense_template_table + (player->get_class_index() << 5);
 }
 
-stats *get_class_base_stats(s8 arg0) {
-    return player_class_base_stat_tables[TObjPlayer__sub_801AFDBC(arg0)];
+stats *get_class_base_stats(s8 cls) {
+    return player_class_base_stat_tables[TObjPlayer__sub_801AFDBC(cls)];
 }
 
-player_stats *get_class_stat_caps(s8 arg0) {
-    return (player_stats*)&player_class_stat_caps[TObjPlayer__sub_801AFDBC(arg0)];
+player_stats *get_class_stat_caps(s8 cls) {
+    return (player_stats*)&player_class_stat_caps[TObjPlayer__sub_801AFDBC(cls)];
 }
 
 player_stats *TObjPlayer::get_class_stat_entry(u8 *player) {

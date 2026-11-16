@@ -77,14 +77,14 @@ extern "C" {
 s32 __as__16TPlyClientConfigFRC16TPlyClientConfig(void *, void *);
 int set_lobby_count_value(void*);
 
-void handle_cmd_9F__9TProtocolFR6packet(u8 *arg0) {
+void handle_cmd_9F__9TProtocolFR6packet(u8 *protocol) {
     struct Pkt_801DA054 pkt;
     memset(&pkt, 0, 0x24);
     pkt.cmd = 0x9F;
     pkt.size = 0x24;
-    __as__16TPlyClientConfigFRC16TPlyClientConfig(&pkt.cfg, arg0 + 0x3FAC);
+    __as__16TPlyClientConfigFRC16TPlyClientConfig(&pkt.cfg, protocol + 0x3FAC);
     ((TProtocol *)(&pkt))->bswap_packet_header();
-    ((TProtocol *)(arg0))->send((u8 *)((s8 *)&pkt), 0x24);
+    ((TProtocol *)(protocol))->send((u8 *)((s8 *)&pkt), 0x24);
 }
 
 void handle_cmd_DA__9TProtocolFR6packet(u8 *arg0, s32 *arg1) {

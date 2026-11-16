@@ -266,8 +266,8 @@ void TLobby::queue_destruction_and_cleanup() {
     }
 }
 
-void TLobby::destroy_download_server(void* _w0) {
-    ((TObject *)_w0)->queue_destruction();
+void TLobby::destroy_download_server(void* object) {
+    ((TObject *)object)->queue_destruction();
     if ((u32) title_scene_instance != 0U) {
         ((TLobby *)title_scene_instance)->set_flag_and_clear_download();
     }

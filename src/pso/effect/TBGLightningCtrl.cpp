@@ -128,15 +128,15 @@ void TBGLightningCtrl::run_task() {
 }
 #pragma pop
 
-void *__dt__16TBGLightningCtrlFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = (s32 *)__vt__16TBGLightningCtrl;
-        __dt__8TObjBaseFv(arg0, 0);
+void *__dt__16TBGLightningCtrlFv(void *base, s16 arg1) {
+    if (base != NULL) {
+        *(s32 **)((s8 *)base + 0x18) = (s32 *)__vt__16TBGLightningCtrl;
+        __dt__8TObjBaseFv(base, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(base);
         }
     }
-    return arg0;
+    return base;
 }
 
 u8 *TBGLightningCtrl__ct(u8 *bg_lightning_ctrl, s32 parent, s32 arg2) {

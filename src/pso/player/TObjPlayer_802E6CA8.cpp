@@ -229,13 +229,13 @@ TUnk_804E3BD8::~TUnk_804E3BD8() {
 }
 
 
-void TUnk_804E3BD8::alloc_breakup_model(s32 arg1) {
+void TUnk_804E3BD8::alloc_breakup_model(s32 model) {
     s32 *temp_r4;
     s32 *var_r0;
 
     var_r0 = (s32 *)::operator new(0x10);
     if (var_r0 != NULL) {
-        var_r0 = init_from_model__11TBreakUpMdlFl(var_r0, arg1);
+        var_r0 = init_from_model__11TBreakUpMdlFl(var_r0, model);
     }
     *(s32 **)((s8 *)this + 0x1C) = var_r0;
     temp_r4 = *(s32 **)((s8 *)this + 0x1C);

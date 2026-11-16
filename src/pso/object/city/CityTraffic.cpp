@@ -257,7 +257,7 @@ void free_buffer_pair_table(void) {
     }
 }
 
-s32 sample_aircar_path_position(s32 arg0, void *arg1, f32 farg0) {
+s32 sample_aircar_path_position(s32 arg0, void *arg1, f32 frame) {
     V3_80181698 sp24;
     V3_80181698 sp18;
     f32 sp8[4];
@@ -267,11 +267,11 @@ s32 sample_aircar_path_position(s32 arg0, void *arg1, f32 farg0) {
     u32 n = m->n;
     r = 1;
     lim = (n - 1);
-    if (farg0 > lim) {
-        farg0 = lim;
+    if (frame > lim) {
+        frame = lim;
         r = 0;
     }
-    bind_motion_context((NJS_MOTION *)m, farg0);
+    bind_motion_context((NJS_MOTION *)m, frame);
     void *t = ((void * (*)(s32))get_city_common_model)(city_aircar_model_indices[arg0]);
     sample_motion_node_transform(t, arg1, &sp24, &sp18, &sp8);
     return r;

@@ -845,19 +845,19 @@ TOMineTrap::~TOMineTrap() {
 
 
 void *TOMineTrap::get_mine_data_ptr() { return &float_position; }
-s32 create_placed_trap__10TOMineTrapFUiss(u32 arg0, s16 arg1, s16 arg2) {
+s32 create_placed_trap__10TOMineTrapFUiss(u32 owner, s16 kind, s16 slot) {
     u16 id;
     void *player;
     void *obj;
-    if (enable_v2_features != 1 || arg0 == 0 || (id = get_entity_id((void *)arg0)) == 0xFFFF || id >= 0x1000 ||
+    if (enable_v2_features != 1 || owner == 0 || (id = get_entity_id((void *)owner)) == 0xFFFF || id >= 0x1000 ||
         (player = (void *)get_player_by_client_id(id)) == 0 || ((TObjPlayer *)player)->get_floor() != get_current_floor() ||
-        arg1 < 0 || arg1 >= 4 || arg2 < 0 || arg2 > 0x14) {
+        kind < 0 || kind >= 4 || slot < 0 || slot > 0x14) {
         return 0;
     }
     if (is_boss_area() == 1 || is_current_area_item_enabled() == 0) {
         return 0;
     }
-    obj = new TOMineTrap((TObjBase *)arg0, arg1, arg2);
+    obj = new TOMineTrap((TObjBase *)owner, kind, slot);
     return (s32)obj;
 }
 void TOMineTrap::destroy_matching_traps() {

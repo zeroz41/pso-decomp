@@ -455,17 +455,17 @@ s32 TLobby__sub_800710D8(s32 arg0) {
 
 s32 TLobby__sub_8007119C(s32 arg0) {
     s32 temp_r3;
-    s32 var_r31;
-    var_r31 = arg0;
+    s32 clear_time;
+    clear_time = arg0;
     if ((((s32 (*)(void))is_flag_set__6TLobbyFv)() == 0) || ((s32) *(s32 *)((s8 *)(&(*(RecoveredGlobal_8007119C_lbl_8048C9D8 *)&challenge_mode_state).value) + 0) == -1) || (((u32)get_character_save_record((u32)(0xFFFF))) == 0U)) {
         *(s32 *)((s8 *)(&(*(RecoveredGlobal_8007119C_lbl_8048C9D8 *)&challenge_mode_state).value) + 0x14) = -4;
         return -4;
     }
-    fabs_float((f32) (var_r31 - *(s32 *)((s8 *)(&(*(RecoveredGlobal_8007119C_lbl_8048C9D8 *)&challenge_mode_state).value) + 0xC)));
-    if (TLobby::check_challenge_time_range(var_r31) != 0) {
-        var_r31 = 0x8C9F;
+    fabs_float((f32) (clear_time - *(s32 *)((s8 *)(&(*(RecoveredGlobal_8007119C_lbl_8048C9D8 *)&challenge_mode_state).value) + 0xC)));
+    if (TLobby::check_challenge_time_range(clear_time) != 0) {
+        clear_time = 0x8C9F;
     }
-    temp_r3 = TLobby__sub_8006F6B0(var_r31);
+    temp_r3 = TLobby__sub_8006F6B0(clear_time);
     if (temp_r3 == -1) {
         *(s32 *)((s8 *)(&(*(RecoveredGlobal_8007119C_lbl_8048C9D8 *)&challenge_mode_state).value) + 0x14) = -1;
         return -1;

@@ -317,7 +317,7 @@ s32 TUnk_804E355C::resolve_attack_col_hit(u8 *arg1) {
     typedef char sp18_offset[(offsetof(Stack_802E456C, sp18) == 0x10) ? 1 : -1];
     Stack_802E456C stack;
     s32 temp_r31;
-    s32 temp_r31_2;
+    s32 damage;
     u8 *temp_r30;
     u8 *player;
     u32 item;
@@ -342,10 +342,10 @@ s32 TUnk_804E355C::resolve_attack_col_hit(u8 *arg1) {
             ((VObj_18_f2ea1e *)(temp_r30))->m22(player, temp_r31);
             break;
         }
-        temp_r31_2 = (s32) var_f31;
-        TObjPlayer::calc_photon_blast_charge((void *)player, temp_r31_2);
+        damage = (s32) var_f31;
+        TObjPlayer::calc_photon_blast_charge((void *)player, damage);
         ((VObj_18_f2ea1e *)(player))->m73();
-        apply_camera_shake__10TObjPlayerFiii((s32)player, (s32)temp_r30, (s32)temp_r31_2);
+        apply_camera_shake__10TObjPlayerFiii((s32)player, (s32)temp_r30, (s32)damage);
         ((TObjPlayer *)(&stack.sp8))->reset_status_block();
         stack.sp8 = ((TItem *)item)->get_item_group();
         stack.sp9 = ((TItem *)item)->get_item_index();
@@ -358,18 +358,18 @@ s32 TUnk_804E355C::resolve_attack_col_hit(u8 *arg1) {
     return 0;
 }
 
-void TObjPlayer__sub_802E451C(S_802E451C *arg0) {
-    arg0->position.x = 0.0f;
-    arg0->position.y = 0.0f;
-    arg0->position.z = 0.0f;
-    arg0->radius = 5.0f;
-    arg0->hits = 1;
-    arg0->client_id = 0xFFFF;
-    arg0->room = -1;
-    arg0->item_id = -1;
-    arg0->pad_1C = 0.0f;
-    arg0->pad_20 = 1.0f;
-    arg0->pad_24 = 0;
+void TObjPlayer__sub_802E451C(S_802E451C *s_802_e451_c) {
+    s_802_e451_c->position.x = 0.0f;
+    s_802_e451_c->position.y = 0.0f;
+    s_802_e451_c->position.z = 0.0f;
+    s_802_e451_c->radius = 5.0f;
+    s_802_e451_c->hits = 1;
+    s_802_e451_c->client_id = 0xFFFF;
+    s_802_e451_c->room = -1;
+    s_802_e451_c->item_id = -1;
+    s_802_e451_c->pad_1C = 0.0f;
+    s_802_e451_c->pad_20 = 1.0f;
+    s_802_e451_c->pad_24 = 0;
 }
 
 void* TObjPlayer__sub_802E449C(void* a0) { TObjPlayer__sub_802E451C((S_802E451C *)(a0)); *(int*)((char*)a0 + 0x40) = 0; *(int*)((char*)a0 + 0x44) = 0; *(int*)((char*)a0 + 0x48) = 0; *(float*)((char*)a0 + 0x4c) = 1.0f; *(int*)((char*)a0 + 0x50) = 0; *(int*)((char*)a0 + 0x54) = 0; *(int*)((char*)a0 + 0x58) = 0; *(float*)((char*)a0 + 0x5c) = 3.0f; *(float*)((char*)a0 + 0x60) = 1.0f; *(float*)((char*)a0 + 0x64) = 1.0f; *(float*)((char*)a0 + 0x68) = 1.0f; *(float*)((char*)a0 + 0x6c) = 1.0f; *(int*)((char*)a0 + 0x70) = 0; *(int*)((char*)a0 + 0x74) = 0; *(int*)((char*)a0 + 0x78) = -1; *(int*)((char*)a0 + 0x7c) = -1; return a0; }

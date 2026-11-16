@@ -108,8 +108,8 @@ s32 alloc_buffer__15TWindowSnapShotFPv(TWindowSnapShot *window_snap_shot) {
     }
     return 1;
 }
-s32 TWindowSnapShot::open_stream(s32 arg1) {
-    *(s32 *)&this->m_next = TGStream::read_whole_file((s32)arg1, (u8 *)(*(s32 *)&this->m_prev));
+s32 TWindowSnapShot::open_stream(s32 name) {
+    *(s32 *)&this->m_next = TGStream::read_whole_file((s32)name, (u8 *)(*(s32 *)&this->m_prev));
     if (TWindowSnapShot__sub_802A605C((u8 *)this) == 0) {
         set_mode(2);
         free_buffer();

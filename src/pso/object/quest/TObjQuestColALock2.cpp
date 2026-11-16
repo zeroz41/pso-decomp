@@ -119,17 +119,17 @@ block_12:
     return 0;
 }
 
-void *__dt__18TObjQuestColALock2Fv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__18TObjQuestColALock2;
-        ((TObjCollidable *)arg0)->unregister_object_by_id();
-        free_collision_body_parts(arg0);
-        __dt__16TObjQuestColBaseFv((u8 *)arg0, 0);
+void *__dt__18TObjQuestColALock2Fv(void *quest_col_base, s16 arg1) {
+    if (quest_col_base != NULL) {
+        *(s32 **)((s8 *)quest_col_base + 0x18) = __vt__18TObjQuestColALock2;
+        ((TObjCollidable *)quest_col_base)->unregister_object_by_id();
+        free_collision_body_parts(quest_col_base);
+        __dt__16TObjQuestColBaseFv((u8 *)quest_col_base, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(quest_col_base);
         }
     }
-    return arg0;
+    return quest_col_base;
 }
 u8 *TObjQuestColALock2__ct(TObjQuestColALock2 *quest_col_a_lock2, s32 arg1, s32 _w2) {
     u8 *temp_r4;

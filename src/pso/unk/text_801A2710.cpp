@@ -78,27 +78,27 @@ void *TObjInfoCol__create(void *arg0) {
     return o;
 }
 
-void *TObjWarpLobby__create(void *arg0) {
-    return new TObjWarpLobby(tl_05, arg0);
+void *TObjWarpLobby__create(void *set_data) {
+    return new TObjWarpLobby(tl_05, set_data);
 }
 
-void *TObjAreaWarpEnding__create(void *arg0) {
-    return new TObjAreaWarpEnding(tl_05, arg0);
+void *TObjAreaWarpEnding__create(void *set_data) {
+    return new TObjAreaWarpEnding(tl_05, set_data);
 }
 
-void *TObjAreaWarpQuest__create(void *arg0) {
-    return new TObjAreaWarpQuest(tl_05, arg0);
+void *TObjAreaWarpQuest__create(void *set_data) {
+    return new TObjAreaWarpQuest(tl_05, set_data);
 }
 
-void *TObjAreaWarpForest__create(void *arg0) {
-    return new TObjAreaWarpForest(tl_05, arg0);
+void *TObjAreaWarpForest__create(void *set_data) {
+    return new TObjAreaWarpForest(tl_05, set_data);
 }
 
-void *TObjMapWarpForest__create(void *arg0) {
-    return new TObjMapWarpForest(tl_05, arg0);
+void *TObjMapWarpForest__create(void *set_data) {
+    return new TObjMapWarpForest(tl_05, set_data);
 }
 
-void *TObjMapForceWarp__create(void *arg0) {
-    return new TObjMapForceWarp(tl_05, arg0);
+void *TObjMapForceWarp__create(void *set_data) {
+    return new TObjMapForceWarp(tl_05, set_data);
 }
 

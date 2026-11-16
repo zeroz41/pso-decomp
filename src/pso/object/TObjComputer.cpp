@@ -258,15 +258,15 @@ void TObjComputer::debug_draw_label() {
     TObjNpcEnemy::set_global_count(0xF0F0F0FF);
 }
 
-u8 *TObjGbAdvance__ct(u8 *arg0, s32 arg1, s32 arg2) {
-    TObjMesBase__ct((TObjMesBase *)arg0, arg1, arg2);
-    *(s32 **)((s8 *)arg0 + 0x18) = __vt__13TObjGbAdvance;
-    *(const char **)((s8 *)arg0 + 0) = TObjGbAdvance__class_name;
-    init_collision_body_parts(arg0, &gb_advance_collision_body_parts, 1);
-    ((TObjGbAdvance *)arg0)->actorFlags = (s32) (((TObjGbAdvance *)arg0)->actorFlags | 0x40000000);
-    ((TObjPlayer *)arg0)->register_object_by_id();
-    ((TObjGbAdvance *)arg0)->cursor_action.set_use();
-    return arg0;
+u8 *TObjGbAdvance__ct(u8 *mes_base, s32 arg1, s32 arg2) {
+    TObjMesBase__ct((TObjMesBase *)mes_base, arg1, arg2);
+    *(s32 **)((s8 *)mes_base + 0x18) = __vt__13TObjGbAdvance;
+    *(const char **)((s8 *)mes_base + 0) = TObjGbAdvance__class_name;
+    init_collision_body_parts(mes_base, &gb_advance_collision_body_parts, 1);
+    ((TObjGbAdvance *)mes_base)->actorFlags = (s32) (((TObjGbAdvance *)mes_base)->actorFlags | 0x40000000);
+    ((TObjPlayer *)mes_base)->register_object_by_id();
+    ((TObjGbAdvance *)mes_base)->cursor_action.set_use();
+    return mes_base;
 }
 
 TObjGbAdvance::~TObjGbAdvance() {

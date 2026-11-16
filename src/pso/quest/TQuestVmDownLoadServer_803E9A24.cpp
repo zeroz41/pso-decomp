@@ -758,7 +758,7 @@ N_803E9FA4 *TQuestVmDownLoadServer::insert_sorted_node(N_803E9FA4 *arg1) {
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
-void *TQuestVmDownLoadServer__sub_803E9FFC(s32 arg0, s32 arg1, const Tok_803E9FFC *t) {
+void *TQuestVmDownLoadServer__sub_803E9FFC(s32 arg0, s32 end, const Tok_803E9FFC *t) {
     s32 off;
     Out_803E9FFC *head;
     Out_803E9FFC *tail;
@@ -770,7 +770,7 @@ void *TQuestVmDownLoadServer__sub_803E9FFC(s32 arg0, s32 arg1, const Tok_803E9FF
     head = NULL;
     tail = NULL;
     pos = arg0 + off;
-    s = TQuestVmDownLoadServer__sub_803E9A74(pos, arg1, t->a, t->b);
+    s = TQuestVmDownLoadServer__sub_803E9A74(pos, end, t->a, t->b);
     if ((u32)s == 0xFFFFFFFFU) {
         return (void *)-1;
     }
@@ -796,7 +796,7 @@ void *TQuestVmDownLoadServer__sub_803E9FFC(s32 arg0, s32 arg1, const Tok_803E9FF
     }
     TQuestVmDownLoadServer__sub_803ECE5C((Node_803ECE5C *)first);
     if (off > 0 && TQuestVmDownLoadServer::is_valid_item_for_slot(t->a, t->b) != 0) {
-        if (pos >= arg1 || IsX_803E9FFC(((u8 *)&quest_download_scratch_storage)[pos]) == 0) {
+        if (pos >= end || IsX_803E9FFC(((u8 *)&quest_download_scratch_storage)[pos]) == 0) {
             o = (Out_803E9FFC *)TQuestVmDownLoadServer__sub_803ECF48();
             if (o != NULL) {
                 if (head == NULL) {
@@ -892,7 +892,7 @@ s32 TQuestVmDownLoadServer__sub_803EA1A8(s32 start, s32 end) {
 }
 #pragma pop
 
-Node_803EA384 *TQuestVmDownLoadServer::build_item_list(s32 arg0, Hdr_803EA384 *arg1) {
+Node_803EA384 *TQuestVmDownLoadServer::build_item_list(s32 arg0, Hdr_803EA384 *hdr_803_ea384) {
     s16 id;
     s32 x4;
     s32 n;
@@ -901,12 +901,12 @@ Node_803EA384 *TQuestVmDownLoadServer::build_item_list(s32 arg0, Hdr_803EA384 *a
     Node_803EA384 *prev;
     Node_803EA384 *node;
     u8 unused[8];
-    it = arg1->items;
+    it = hdr_803_ea384->items;
     head = NULL;
     prev = NULL;
-    id = arg1->id;
-    x4 = arg1->x4;
-    n = arg1->count;
+    id = hdr_803_ea384->id;
+    x4 = hdr_803_ea384->x4;
+    n = hdr_803_ea384->count;
     while (n-- != 0) {
         node = TQuestVmDownLoadServer__sub_803ECF84();
         if (node == NULL) {
@@ -1383,29 +1383,29 @@ void TQuestVmDownLoadServer__sub_803EA9E8(s32 start, s32 inputEnd, s32 mode, s32
 }
 #pragma pop
 
-void TQuestVmDownLoadServer__sub_803EADD4(Obj_803EADD4 *arg0, s32 arg1) {
+void TQuestVmDownLoadServer__sub_803EADD4(Obj_803EADD4 *obj_803_eadd4, s32 arg1) {
     if (arg1 == 0) {
-        arg0->x0 = -1;
-        arg0->x18 = -1;
-        if ((u32)arg0->x4 != 0xFFFFFFFF) {
-            release_node_chain__22TQuestVmDownLoadServerFPv((Node_803ECDC4 *)(arg0->x4));
+        obj_803_eadd4->x0 = -1;
+        obj_803_eadd4->x18 = -1;
+        if ((u32)obj_803_eadd4->x4 != 0xFFFFFFFF) {
+            release_node_chain__22TQuestVmDownLoadServerFPv((Node_803ECDC4 *)(obj_803_eadd4->x4));
         }
-        arg0->x4 = NULL;
-        arg0->x17 = -1;
-        arg0->x19 = -1;
-        arg0->x16 = 0;
+        obj_803_eadd4->x4 = NULL;
+        obj_803_eadd4->x17 = -1;
+        obj_803_eadd4->x19 = -1;
+        obj_803_eadd4->x16 = 0;
     }
-    if (arg0->x8 != NULL && (u32)arg0->x8 != 0xFFFFFFFF) {
-        TQuestVmDownLoadServer__sub_803ECD8C(arg0->x8);
+    if (obj_803_eadd4->x8 != NULL && (u32)obj_803_eadd4->x8 != 0xFFFFFFFF) {
+        TQuestVmDownLoadServer__sub_803ECD8C(obj_803_eadd4->x8);
     }
-    arg0->x8 = NULL;
-    if (arg0->xc != NULL) {
-        ((TQuestVmDownLoadServer *)(arg0->xc))->free_node_list();
+    obj_803_eadd4->x8 = NULL;
+    if (obj_803_eadd4->xc != NULL) {
+        ((TQuestVmDownLoadServer *)(obj_803_eadd4->xc))->free_node_list();
     }
-    arg0->xc = NULL;
-    arg0->x10 = 0;
-    arg0->x14 = 0;
-    arg0->x15 = 0;
+    obj_803_eadd4->xc = NULL;
+    obj_803_eadd4->x10 = 0;
+    obj_803_eadd4->x14 = 0;
+    obj_803_eadd4->x15 = 0;
 }
 
 void TQuestVmDownLoadServer__sub_803EAE84(s32 arg0, s32 arg1, void *arg2) {

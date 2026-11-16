@@ -2206,11 +2206,11 @@ void qst_op_gba_write_identifiers(void) {
 
 void qst_op_get_player_level(void) {
     u8 temp_r31;
-    u8 *temp_r3;
-    temp_r3 = (u8 *)(((u8 * (*)(s32))get_player_by_client_id)(qst_args[0]));
+    u8 *player;
+    player = (u8 *)(((u8 * (*)(s32))get_player_by_client_id)(qst_args[0]));
     temp_r31 = (u8) qst_args[1];
-    if (temp_r3 != NULL) {
-        qst_registers[(u8)temp_r31] = ((TObjPlayer *)temp_r3)->get_actor_level_index() + 1;
+    if (player != NULL) {
+        qst_registers[(u8)temp_r31] = ((TObjPlayer *)player)->get_actor_level_index() + 1;
         return;
     }
     qst_registers[(u8)temp_r31] = -1;
@@ -3163,11 +3163,11 @@ void qst_op_write_flag_buf_to_event_flags(u8 arg0) {
 }
 
 void qst_op_load_serial_number_to_flag_buf() {
-    u32 temp_r3;
+    u32 serial_access;
 
-    temp_r3 = TQuestVmDownLoadServer::get_serial_access();
-    qst_flag_buf = temp_r3;
-    if (temp_r3 == 0U) {
+    serial_access = TQuestVmDownLoadServer::get_serial_access();
+    qst_flag_buf = serial_access;
+    if (serial_access == 0U) {
         qst_flag_buf = TQuestVmDownLoadServer::poll_serial_access();
     }
 }
@@ -3584,10 +3584,10 @@ void qst_op_call_image_data() {
 }
 
 void qst_op_animation_check(s32 arg0, s32 arg1) {
-    u8 *temp_r3;
-    temp_r3 = (u8 *)(((s32)((u32 (*)(int, int))get_player_by_client_id)((int)((u32) (u16) qst_registers[(u8)arg0]), (int)(arg1))));
-    if (temp_r3 != NULL) {
-        qst_registers[(u8)arg1] = ((TObjMotion *)temp_r3)->is_motion_held();
+    u8 *motion;
+    motion = (u8 *)(((s32)((u32 (*)(int, int))get_player_by_client_id)((int)((u32) (u16) qst_registers[(u8)arg0]), (int)(arg1))));
+    if (motion != NULL) {
+        qst_registers[(u8)arg1] = ((TObjMotion *)motion)->is_motion_held();
     }
 }
 
@@ -3601,10 +3601,10 @@ void qst_op_set_eventflag16() {
 }
 
 void qst_op_get_pl_job(s32 arg0) {
-    u8 *temp_r3;
-    temp_r3 = (u8 *)(((u8 *)((u32 (*)(int, int))get_player_by_client_id)((int)qst_registers[(u8)arg0], (int)qst_registers)));
-    if (temp_r3 != NULL) {
-        strncpy((void *) (&quest_player_class_name_buffer.value), (int) (TLobby::get_class_type_name((int) (((TObjPlayer *)temp_r3)->class_flags))), 0xF);
+    u8 *player;
+    player = (u8 *)(((u8 *)((u32 (*)(int, int))get_player_by_client_id)((int)qst_registers[(u8)arg0], (int)qst_registers)));
+    if (player != NULL) {
+        strncpy((void *) (&quest_player_class_name_buffer.value), (int) (TLobby::get_class_type_name((int) (((TObjPlayer *)player)->class_flags))), 0xF);
         *(s8 *)((s8 *)(&quest_player_class_name_buffer.value) + 0xF) = 0;
         qst_registers[(u8)arg0] = 1;
         return;
@@ -3613,10 +3613,10 @@ void qst_op_get_pl_job(s32 arg0) {
 }
 
 void qst_op_get_pl_name(s32 arg0) {
-    u8 *temp_r3;
-    temp_r3 = (u8 *)(((u8 *)((u32 (*)(int, int))get_player_by_client_id)((int)qst_registers[(u8)arg0], (int)qst_registers)));
-    if (temp_r3 != NULL) {
-        strncpy(((void *)(&quest_player_name_buffer.value)), (int)((TObjPlayer *)temp_r3)->get_name(), 0xF);
+    u8 *player;
+    player = (u8 *)(((u8 *)((u32 (*)(int, int))get_player_by_client_id)((int)qst_registers[(u8)arg0], (int)qst_registers)));
+    if (player != NULL) {
+        strncpy(((void *)(&quest_player_name_buffer.value)), (int)((TObjPlayer *)player)->get_name(), 0xF);
         *(s8 *)((s8 *)(&quest_player_name_buffer.value) + 0xF) = 0;
         qst_registers[(u8)arg0] = 1;
         return;
@@ -3710,10 +3710,10 @@ void qst_op_get_chara_class(s32 arg0, s32 arg1) {
 
 void qst_op_get_gender(s32 arg0, s32 arg1) {
     s32 temp_r3_2;
-    u8 *temp_r3;
-    temp_r3 = ((u8 *)((u32 (*)(int, int))get_player_by_client_id)((int)(qst_registers[(u8)arg0]), (int)(arg1)));
-    if (temp_r3 != NULL) {
-        temp_r3_2 = ((TObjPlayer *)temp_r3)->class_flags;
+    u8 *player;
+    player = ((u8 *)((u32 (*)(int, int))get_player_by_client_id)((int)(qst_registers[(u8)arg0]), (int)(arg1)));
+    if (player != NULL) {
+        temp_r3_2 = ((TObjPlayer *)player)->class_flags;
         if (temp_r3_2 & CLASS_FLAG_MALE) {
             qst_registers[(u8)arg1] = GENDER_MALE;
             return;
@@ -4253,16 +4253,16 @@ void qst_op_shrink(s32 arg0) {
 void qst_op_read_switch_flag_on_floor(s32 arg0) {
     s32 var_r31;
     s32 var_r4;
-    u8 *var_r3;
+    u8 *id;
     var_r31 = (arg0 * 4) & 0x3FC;
     var_r4 = ((s32)qst_registers);
-    var_r3 = (u8 *)(var_r4 + var_r31);
-    var_r3 = (u8 *)(*(u8 **)((s8 *)var_r3 + 4));
+    id = (u8 *)(var_r4 + var_r31);
+    id = (u8 *)(*(u8 **)((s8 *)id + 4));
     var_r4 = (s32) (s16) *(s32 *)((s8 *)var_r4 + var_r31);
-    var_r3 = (u8 *)((void *) (u16) var_r3);
-    var_r4 = (s32) is_floor_switch_set((u32)var_r3, (var_r4));
-    var_r3 = (u8 *)(((s32)qst_registers) + var_r31);
-    *(s32 *)((s8 *)var_r3 + 8) = var_r4;
+    id = (u8 *)((void *) (u16) id);
+    var_r4 = (s32) is_floor_switch_set((u32)id, (var_r4));
+    id = (u8 *)(((s32)qst_registers) + var_r31);
+    *(s32 *)((s8 *)id + 8) = var_r4;
 }
 #pragma pop
 
@@ -6368,8 +6368,8 @@ void qst_op_thread_stg(u16 arg0) {
     TQuestThread::create(arg0);
 }
 
-void qst_op_thread(u16 arg0) {
-    TQuestThread::create_in_root(arg0);
+void qst_op_thread(u16 label) {
+    TQuestThread::create_in_root(label);
 }
 
 void qst_op_sync(void) { qst_suspend_reason = QST_SUSPEND_SYNC; }

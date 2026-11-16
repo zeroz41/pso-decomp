@@ -138,9 +138,9 @@ void TLobby::bswap_6x7C_packet() {
     ((TLobby *)(arg0 + 8))->bswap_challenge_battle_records();
 }
 void TLobby::send_6x7C_packet() {
-    s32 arg0 = (s32)this;
+    s32 cmd = (s32)this;
     bswap_6x7C_packet();
-    send_subcommand((u8 *)arg0);
+    send_subcommand((u8 *)cmd);
 }
 void TLobby::init_pkt_cmd_7C() {
     *(s8 *)&this->m_name = 0x7C;
@@ -336,7 +336,7 @@ void TObjChallengeRetry::sub_8007313C() {
   s32 var_r31;
   int new_var;
   u32 var_r30;
-  u8 *temp_r3_2;
+  u8 *collidable;
   area = get_current_floor_area();
   if (area != AREA_PIONEER2_EP2)
   {
@@ -359,8 +359,8 @@ void TObjChallengeRetry::sub_8007313C() {
       var_r31 = 1;
       var_r30 = new_var;
       loop_6:
-      temp_r3_2 = (u8 *) ((s32 (*)(u32))get_player_by_client_id)(var_r30);
-      if ((temp_r3_2 != 0) && (((TObjCollidable *)temp_r3_2)->obj_testFlags30(0x02000000) != 0))
+      collidable = (u8 *) ((s32 (*)(u32))get_player_by_client_id)(var_r30);
+      if ((collidable != 0) && (((TObjCollidable *)collidable)->obj_testFlags30(0x02000000) != 0))
       {
         var_r31 = 0;
       }

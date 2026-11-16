@@ -629,11 +629,11 @@ void TObjPlayer::free_effect_resources() {
     }
 }
 
-void *TObjPlayer::create_dubchik(void *arg0) {
+void *TObjPlayer::create_dubchik(void *set_data) {
     void *o;
     void *o2;
     o = new TObjControl((TObject *)tl_04);
-    o2 = new TObjEneDubchik((TObject *)o, arg0);
+    o2 = new TObjEneDubchik((TObject *)o, set_data);
     return o2;
 }
 
@@ -1321,45 +1321,45 @@ extern "C" void TObjPlayer__sub_800A8E04(u8 *ene_me1_gi_gue) {
     }
 }
 
-extern "C" void TObjPlayer__sub_800A8C4C(u8 *arg0) {
+extern "C" void TObjPlayer__sub_800A8C4C(u8 *actor) {
     f32 var_f31;
     s32 var_r0;
-    switch (*(s32 *)((s8 *)arg0 + 0x37C)) {
+    switch (*(s32 *)((s8 *)actor + 0x37C)) {
     case -1:
         break;
     case 0:
         if (TObjEneDD::check_v2_mode() == 0) {
-            if (*(s16 *)((s8 *)arg0 + 0x392) != 0) {
+            if (*(s16 *)((s8 *)actor + 0x392) != 0) {
                 var_r0 = 7;
             } else {
-                var_r0 = *(s32 *)((s8 *)((u8 *)lbl_804910EC + (*(s32 *)((s8 *)arg0 + 0x368) * 4)) + 0);
+                var_r0 = *(s32 *)((s8 *)((u8 *)lbl_804910EC + (*(s32 *)((s8 *)actor + 0x368) * 4)) + 0);
             }
-            *(s16 *)((s8 *)arg0 + 0xB8) = (s16) var_r0;
+            *(s16 *)((s8 *)actor + 0xB8) = (s16) var_r0;
         } else {
-            *(s16 *)((s8 *)arg0 + 0xB8) = 0;
+            *(s16 *)((s8 *)actor + 0xB8) = 0;
         }
-        VecCopy((Vec *)((u8 *)arg0 + 0x29C), (const Vec *)((u8 *)arg0 + 0x50));
-        *(s32 *)((s8 *)arg0 + 0x37C) = 1;
+        VecCopy((Vec *)((u8 *)actor + 0x29C), (const Vec *)((u8 *)actor + 0x50));
+        *(s32 *)((s8 *)actor + 0x37C) = 1;
         return;
     case 1:
-        ((TObjMotion *)arg0)->advance_animation();
-        apply_actor_gravity((TObjEnemy *)((u8 *)((void *)arg0)), (s32 *)(0), 0.0f);
-        ((TObjPlayer *)arg0)->check_object_collisions();
-        check_enemy_body_collisions((TObjCollidable *)arg0);
-        if (*(s16 *)((s8 *)arg0 + 0x392) != 0) {
-            var_f31 = ((TObjEneDubchik *)arg0)->sub_800AAF78(2);
+        ((TObjMotion *)actor)->advance_animation();
+        apply_actor_gravity((TObjEnemy *)((u8 *)((void *)actor)), (s32 *)(0), 0.0f);
+        ((TObjPlayer *)actor)->check_object_collisions();
+        check_enemy_body_collisions((TObjCollidable *)actor);
+        if (*(s16 *)((s8 *)actor + 0x392) != 0) {
+            var_f31 = ((TObjEneDubchik *)actor)->sub_800AAF78(2);
         } else {
-            var_f31 = *(f32 *)((s8 *)((u8 *)lbl_804910E4 + (*(s32 *)((s8 *)arg0 + 0x368) * 4)) + 0);
+            var_f31 = *(f32 *)((s8 *)((u8 *)lbl_804910E4 + (*(s32 *)((s8 *)actor + 0x368) * 4)) + 0);
         }
-        VecCopy((Vec *)((u8 *)arg0 + 0x290), (const Vec *)((u8 *)arg0 + 0x2FC));
-        calc_velocity_toward_destination((void *)arg0, *(Vec_800A8C4C *)(arg0 + 0x290), *(Vec_800A8C4C *)(arg0 + 0x29C), var_f31);
-        ((TObjEnemy *)arg0)->turn_toward_direction(*(s32 *)((u8 *)((TObjEnemy *)arg0)->movementParameters + 8), (Vec *)((u8 *)arg0 + 0x308));
-        move_with_wall_slide((arg0));
-        if (xz_distance_squared((Vec *)((u8 *)arg0 + 0x38), (Vec *)((u8 *)arg0 + 0x50)) < 100.0f) {
-            *(s16 *)((s8 *)arg0 + 0xB8) = 5;
-            ((TObjMotion *)arg0)->advance_animation();
-            *(s32 *)((s8 *)arg0 + 0x388) = (s32) (*(s32 *)((s8 *)arg0 + 0x388) & 0xFE7FFFFF);
-            ((TObjEnemyCustom *)arg0)->update_if_active(0);
+        VecCopy((Vec *)((u8 *)actor + 0x290), (const Vec *)((u8 *)actor + 0x2FC));
+        calc_velocity_toward_destination((void *)actor, *(Vec_800A8C4C *)(actor + 0x290), *(Vec_800A8C4C *)(actor + 0x29C), var_f31);
+        ((TObjEnemy *)actor)->turn_toward_direction(*(s32 *)((u8 *)((TObjEnemy *)actor)->movementParameters + 8), (Vec *)((u8 *)actor + 0x308));
+        move_with_wall_slide((actor));
+        if (xz_distance_squared((Vec *)((u8 *)actor + 0x38), (Vec *)((u8 *)actor + 0x50)) < 100.0f) {
+            *(s16 *)((s8 *)actor + 0xB8) = 5;
+            ((TObjMotion *)actor)->advance_animation();
+            *(s32 *)((s8 *)actor + 0x388) = (s32) (*(s32 *)((s8 *)actor + 0x388) & 0xFE7FFFFF);
+            ((TObjEnemyCustom *)actor)->update_if_active(0);
         }
         return;
     }

@@ -129,15 +129,15 @@ void TUnk_804A2018::run_task() {
     queue_destruction();
 }
 
-void *TObjPlayer__sub_8012417C(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = ((s32 *)__vt__13TUnk_804A2018);
-        __dt__7TObjectFv(arg0, 0);
+void *TObjPlayer__sub_8012417C(void *object, s16 arg1) {
+    if (object != NULL) {
+        *(s32 **)((s8 *)object + 0x18) = ((s32 *)__vt__13TUnk_804A2018);
+        __dt__7TObjectFv(object, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(object);
         }
     }
-    return arg0;
+    return object;
 }
 
 }
@@ -261,12 +261,12 @@ void TUnk_804A204C::reserved_53() {
 }
 
 void TUnk_804A204C::vfunc_57() {
-    s32 temp_r3;
+    s32 event;
     m_204 = -1;
     if ((u32) *(u32 *)((s8 *)this + 0x174) != 0U) {
-        temp_r3 = __nw__15TItemHeapObjectFUl(0x2C);
-        if (temp_r3 != 0) {
-            init_vtable__13TUnk_804A0668Fv(temp_r3, *(u32 *)((s8 *)this + 0x174), get_owner_client__5TItemFv(this), 0x5A);
+        event = __nw__15TItemHeapObjectFUl(0x2C);
+        if (event != 0) {
+            init_vtable__13TUnk_804A0668Fv(event, *(u32 *)((s8 *)this + 0x174), get_owner_client__5TItemFv(this), 0x5A);
         }
     }
     roll_technique();

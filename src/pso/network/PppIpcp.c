@@ -418,17 +418,17 @@ inline s32 read_803FA664(u32 *p) {
     }
     return (s16)lcp_read_byte_buffer;
 }
-s32 TLobby__sub_803FF858(Obj_803FF858 *arg0, Msg_803FA664 *arg1, u32 arg2) {
+s32 TLobby__sub_803FF858(Obj_803FF858 *obj_803_ff858, Msg_803FA664 *msg_803_fa664, u32 arg2) {
     u32 cur;
     s16 err;
     s16 a;
     s16 b;
     err = 0;
-    if (arg1->b1 != arg0->b1) {
+    if (msg_803_fa664->b1 != obj_803_ff858->b1) {
         return -1;
     }
-    cur = first_803FA664(arg0->p30);
-    if (arg1->h2 != get_field_4((void *)cur)) {
+    cur = first_803FA664(obj_803_ff858->p30);
+    if (msg_803_fa664->h2 != get_field_4((void *)cur)) {
         err = 1;
     } else {
         while ((a = read_803FA664(&cur)) != -1) {
@@ -442,7 +442,7 @@ s32 TLobby__sub_803FF858(Obj_803FF858 *arg0, Msg_803FA664 *arg1, u32 arg2) {
     if (err != 0) {
         return -1;
     }
-    arg0->bB++;
+    obj_803_ff858->bB++;
     return 0;
 }
 #pragma pop

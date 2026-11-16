@@ -218,12 +218,12 @@ u32 __nw__7TObjectFUl(s32);
 u16 get_entity_id(void *);
 
 void create__10TObjPlayerFUiii(u32 arg0, s32 arg1, s32 arg2) {
-    u16 temp_r3;
+    u16 entity_id;
 
     u32 obj;
     if ((is_current_area_item_enabled() != 0) && (arg0 != 0U)) {
-        temp_r3 = get_entity_id((void *)arg0);
-        if (((u16) temp_r3 != 0xFFFF) && ((u16) temp_r3 < 0x4000U) && ((obj = __nw__7TObjectFUl(0x368)) != 0U)) {
+        entity_id = get_entity_id((void *)arg0);
+        if (((u16) entity_id != 0xFFFF) && ((u16) entity_id < 0x4000U) && ((obj = __nw__7TObjectFUl(0x368)) != 0U)) {
             __ct__13TUnk_8048E1A4FPUcPUc(obj, arg0, arg1, arg2);
         }
     }
@@ -331,29 +331,29 @@ typedef char RecoveredFields_8008213C_arg2_C_offset[offsetof(RecoveredFields_800
 typedef char RecoveredFields_8008213C_arg1_60_offset[offsetof(RecoveredFields_8008213C_arg1, field_60) == 0x60 ? 1 : -1];
 typedef char RecoveredFields_8008213C_arg1_A4_offset[offsetof(RecoveredFields_8008213C_arg1, field_A4) == 0xA4 ? 1 : -1];
 typedef char RecoveredFields_8008213C_temp_r3_10_offset[offsetof(RecoveredFields_8008213C_temp_r3, field_10) == 0x10 ? 1 : -1];
-TUnk_8048E1A4::TUnk_8048E1A4(u8 *arg1, u8 *arg2) : TObjChara((TObject *)((void *)tl_05)) {
+TUnk_8048E1A4::TUnk_8048E1A4(u8 *chara, u8 *arg2) : TObjChara((TObject *)((void *)tl_05)) {
     u8 *temp_r3;
     ((RecoveredFields_8008213C_arg0 *)((u8 *)this))->field_34 = get_bml_model(freeze_shell_bml_resource, 1);
-    if (arg1 != NULL) {
-        ((RecoveredFields_8008213C_arg0 *)((u8 *)this))->field_358 = get_entity_id(arg1);
-        VecCopy((Vec *)(((u8 *)this) + 0x35C), (const Vec *)(arg1 + 0x38));
+    if (chara != NULL) {
+        ((RecoveredFields_8008213C_arg0 *)((u8 *)this))->field_358 = get_entity_id(chara);
+        VecCopy((Vec *)(((u8 *)this) + 0x35C), (const Vec *)(chara + 0x38));
         if (arg2 != NULL) {
             VecCopy((Vec *)(((u8 *)this) + 0x38), (const Vec *)(arg2 + 0x1C));
             ((RecoveredFields_8008213C_arg0 *)((u8 *)this))->field_338 = (f32) (0.15f * ((RecoveredFields_8008213C_arg2 *)arg2)->field_C);
-        } else if ((void *) ((RecoveredFields_8008213C_arg1 *)arg1)->field_A4 != NULL) {
-            ((TObjCollidable *)arg1)->refresh_collision_body_centers();
-            VecCopy((Vec *)(((u8 *)this) + 0x38), (const Vec *)(((RecoveredFields_8008213C_arg1 *)arg1)->field_A4 + 0x1C));
-            ((RecoveredFields_8008213C_arg0 *)((u8 *)this))->field_338 = (f32) (0.15f * *(f32 *)((s8 *)(((RecoveredFields_8008213C_arg1 *)arg1)->field_A4) + 0xC));
+        } else if ((void *) ((RecoveredFields_8008213C_arg1 *)chara)->field_A4 != NULL) {
+            ((TObjCollidable *)chara)->refresh_collision_body_centers();
+            VecCopy((Vec *)(((u8 *)this) + 0x38), (const Vec *)(((RecoveredFields_8008213C_arg1 *)chara)->field_A4 + 0x1C));
+            ((RecoveredFields_8008213C_arg0 *)((u8 *)this))->field_338 = (f32) (0.15f * *(f32 *)((s8 *)(((RecoveredFields_8008213C_arg1 *)chara)->field_A4) + 0xC));
         } else {
-            VecCopy((Vec *)(((u8 *)this) + 0x38), (const Vec *)(arg1 + 0x2FC));
-            temp_r3 = ((TObjChara *)arg1)->get_stats();
+            VecCopy((Vec *)(((u8 *)this) + 0x38), (const Vec *)(chara + 0x2FC));
+            temp_r3 = ((TObjChara *)chara)->get_stats();
             if (temp_r3 != NULL) {
                 ((RecoveredFields_8008213C_arg0 *)((u8 *)this))->field_338 = (f32) (0.075f * ((RecoveredFields_8008213C_temp_r3 *)temp_r3)->field_10);
             } else {
                 ((RecoveredFields_8008213C_arg0 *)((u8 *)this))->field_338 = 1.5f;
             }
         }
-        ((RecoveredFields_8008213C_arg0 *)((u8 *)this))->field_60 = (s32) ((RecoveredFields_8008213C_arg1 *)arg1)->field_60;
+        ((RecoveredFields_8008213C_arg0 *)((u8 *)this))->field_60 = (s32) ((RecoveredFields_8008213C_arg1 *)chara)->field_60;
         ((RecoveredFields_8008213C_arg0 *)((u8 *)this))->field_70 = 0.0f;
         ((RecoveredFields_8008213C_arg0 *)((u8 *)this))->field_6C = 0.0f;
         ((RecoveredFields_8008213C_arg0 *)((u8 *)this))->field_68 = 0.0f;

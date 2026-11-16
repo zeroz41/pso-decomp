@@ -55,21 +55,21 @@ s32 get_item_id__5TItemFv();
 u16 get_entity_id(void *);
 
 void process_trade_target__10TObjPlayerFiPv(s32 arg0, void *player) {
-    void *temp_r3;
+    void *item;
 
     ((s32 (*)())get_entity_id)();
     *(s32 *)((s8 *)player + 0xC) = advance_item_id_counter();
-    temp_r3 = create_item((TItemData *)player);
-    if (temp_r3 != NULL) {
-        s8 val = ((VObj_84_801d859c_801D84CC *)temp_r3)->m31();
+    item = create_item((TItemData *)player);
+    if (item != NULL) {
+        s8 val = ((VObj_84_801d859c_801D84CC *)item)->m31();
         s32 val_ext = (s32)val;
         if (TObjPlayer::get_slot_value((s32 *)(arg0 + 0xD04), val_ext) != 0U) {
             send_6x29_delete_item__10TObjPlayerFPvii((void *)arg0, get_item_id__5TItemFv(), 1);
             set_equip_slot_entry(arg0 + 0xD04, val_ext, 0);
         }
-        if (pickup_item__10TObjPlayerFP5TItem((u8 *)arg0, (u8 *)temp_r3) != 0U) {
+        if (pickup_item__10TObjPlayerFP5TItem((u8 *)arg0, (u8 *)item) != 0U) {
             ((TObjPlayer *)arg0)->set_flag_20000();
-            ((TObjPlayer *)arg0)->equip_item_to_slot(temp_r3, 0);
+            ((TObjPlayer *)arg0)->equip_item_to_slot(item, 0);
             ((TObjPlayer *)arg0)->sub_801BE9A8();
         }
     }
@@ -211,15 +211,15 @@ Player_801D88C8 *create_ending_sequence_player(Player_801D88C8 *self, void *pare
     return self;
 }
 
-void *__dt__13TUnk_804C4540Fv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = ending_sequence_player_vtable;
-        __dt__10TObjPlayerFv(arg0, 0);
+void *__dt__13TUnk_804C4540Fv(void *player, s16 arg1) {
+    if (player != NULL) {
+        *(s32 **)((s8 *)player + 0x18) = ending_sequence_player_vtable;
+        __dt__10TObjPlayerFv(player, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(player);
         }
     }
-    return arg0;
+    return player;
 }
 
 void TObjPlayer__sub_801D8A38(void* a0) { *(short*)((char*)a0 + 0x0) = 1; *(float*)((char*)a0 + 0x4) = 0.0f; }

@@ -762,22 +762,22 @@ void run_task__8TFogCtrlFv(Ctrl_800FB498 *arg0) {
 }
 #pragma pop
 
-u8 *__dt__8TFogCtrlFv(u8 *arg0, s16 arg1) {
+u8 *__dt__8TFogCtrlFv(u8 *fog_ctrl, s16 arg1) {
     s32 temp_r0;
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = &__vt__8TFogCtrl.value;
+    if (fog_ctrl != NULL) {
+        *(s32 **)((s8 *)fog_ctrl + 0x18) = &__vt__8TFogCtrl.value;
         reset_scene_fog();
         TParticleCtrl::end_effect_render();
-        temp_r0 = ((TFogCtrl *)arg0)->m_1c4;
+        temp_r0 = ((TFogCtrl *)fog_ctrl)->m_1c4;
         if ((temp_r0 >= 0) && (temp_r0 < 4)) {
             *(s32 *)((s8 *)(&(*(RecoveredGlobal_800FB8A0_TFogCtrl__data_80501188 *)&TFogCtrl__fog_instance_table).value) + (temp_r0 * 4)) = 0;
         }
-        __dt__7TObjectFv(arg0, 0);
+        __dt__7TObjectFv(fog_ctrl, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv((s32) arg0);
+            __dl__7TObjectFPv((s32) fog_ctrl);
         }
     }
-    return arg0;
+    return fog_ctrl;
 }
 
 #pragma push

@@ -419,15 +419,15 @@ void TUnk_8048E5F4::render() {
 }
 void TUnk_8048E5F4::render_shadows() { if (TObjPlayer::get_camera_flag() != 0) { set_tev_swap_mode((u8)((void*)0)); } }
 void TUnk_8048E5F4::run_task() {  }
-void *__dt__13TUnk_8048E5F4Fv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__13TUnk_8048E5F4;
-        __dt__7TObjectFv(arg0, 0);
+void *__dt__13TUnk_8048E5F4Fv(void *object, s16 arg1) {
+    if (object != NULL) {
+        *(s32 **)((s8 *)object + 0x18) = __vt__13TUnk_8048E5F4;
+        __dt__7TObjectFv(object, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(object);
         }
     }
-    return arg0;
+    return object;
 }
 void *TUnk_8048E5F4::init_subobject(void *parent, void *flags) {
     __ct__7TObjectFP7TObject(this, parent);

@@ -1093,7 +1093,7 @@ s32 TObjBoss2Tunnel__sub_8007D1D0(void) {
 }
 
 s32 memcard_check_snapshot(s32 arg0, s32 *arg1) {
-    s32 temp_r3;
+    s32 card_file;
 
     if (TAdPlayerLoadGC::get_instance() != 0) {
         return 0;
@@ -1132,14 +1132,14 @@ s32 memcard_check_snapshot(s32 arg0, s32 *arg1) {
         }
         return 0;
     }
-    temp_r3 = TAdPlayerLoadGC::find_card_file(1, TObjBoss2Tunnel__data_80438A08);
-    if (temp_r3 == 0) {
+    card_file = TAdPlayerLoadGC::find_card_file(1, TObjBoss2Tunnel__data_80438A08);
+    if (card_file == 0) {
         if (arg1 != NULL) {
             *arg1 = 1;
         }
         return 1;
     }
-    if ((temp_r3 + 0x10000) == 0xff41U) {
+    if ((card_file + 0x10000) == 0xff41U) {
         if (arg1 != NULL) {
             *arg1 = -9;
         }

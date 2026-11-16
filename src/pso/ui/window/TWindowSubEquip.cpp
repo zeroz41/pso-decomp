@@ -23,12 +23,12 @@ void TWindowSubEquip::update_displayed_item() {
 void TWindowSubEquip::update() {
     s32 player;
     s32 var_r3;
-    s32 temp_r0;
+    s32 slot;
 
     player = (s32)get_player_by_client_id(this->m_28);
     if (player != 0) {
-        temp_r0 = ((TWindowMenuIconLine *)this->m_34)->get_cursor_value();
-        if (TObjPlayer::get_slot_value((s32 *)(player + 0xD04), temp_r0) == 0U) {
+        slot = ((TWindowMenuIconLine *)this->m_34)->get_cursor_value();
+        if (TObjPlayer::get_slot_value((s32 *)(player + 0xD04), slot) == 0U) {
             var_r3 = -1;
         } else {
             var_r3 = get_item_id__5TItemFv();

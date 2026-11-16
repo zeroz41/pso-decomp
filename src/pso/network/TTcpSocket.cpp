@@ -88,17 +88,17 @@ void *__vt__10TUdpSocket[11] = {
 };
 extern "C" {
 
-void *__dt__10TUdpSocketFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        struct VObj_80078064 *o = (struct VObj_80078064 *)arg0;
-        *(s32 **)((s8 *)arg0 + 0x18) = (s32 *)__vt__10TUdpSocket;
+void *__dt__10TUdpSocketFv(void *socket, s16 arg1) {
+    if (socket != NULL) {
+        struct VObj_80078064 *o = (struct VObj_80078064 *)socket;
+        *(s32 **)((s8 *)socket + 0x18) = (s32 *)__vt__10TUdpSocket;
         o->m5();
-        __dt__7TSocketFv(arg0, 0);
+        __dt__7TSocketFv(socket, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(socket);
         }
     }
-    return arg0;
+    return socket;
 }
 }
 

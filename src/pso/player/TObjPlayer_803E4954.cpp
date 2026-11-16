@@ -78,21 +78,21 @@ void draw_object_tree_recursive(void *arg) {
     } while (arg0 != NULL);
 }
 
-void draw_model_blend_motion(void *arg0, void *arg1, f32 farg0) {
+void draw_model_blend_motion(void *model, void *motion, f32 blend_factor) {
     setup_model_draw_state__10TObjPlayerFPv();
-    draw_blend_motion_tree((NJS_OBJECT *)arg0, (NJS_MOTION_LINK *)arg1, farg0, draw_chunk_vertices_cached__10TObjPlayerFPv);
+    draw_blend_motion_tree((NJS_OBJECT *)model, (NJS_MOTION_LINK *)motion, blend_factor, draw_chunk_vertices_cached__10TObjPlayerFPv);
     TObjPlayer::end_chunk_draw();
 }
 
-void draw_model_motion(void *arg0, void *arg1, f32 farg0) {
+void draw_model_motion(void *model, void *motion, f32 frame) {
     setup_model_draw_state__10TObjPlayerFPv();
-    draw_motion_tree((NJS_OBJECT *)arg0, (NJS_MOTION *)arg1, farg0, draw_chunk_vertices_cached__10TObjPlayerFPv);
+    draw_motion_tree((NJS_OBJECT *)model, (NJS_MOTION *)motion, frame, draw_chunk_vertices_cached__10TObjPlayerFPv);
     TObjPlayer::end_chunk_draw();
 }
 
-void draw_chunk_model_with_shape_motion(void *child, void *arg1, NJS_MOTION *arg2, f32 farg0) {
+void draw_chunk_model_with_shape_motion(void *child, void *motion, NJS_MOTION *shape, f32 frame) {
     setup_model_draw_state__10TObjPlayerFPv();
-    draw_shape_motion_tree((NJS_OBJECT *)child, (NJS_MOTION *)arg1, arg2, farg0, draw_chunk_vertices_cached__10TObjPlayerFPv);
+    draw_shape_motion_tree((NJS_OBJECT *)child, (NJS_MOTION *)motion, shape, frame, draw_chunk_vertices_cached__10TObjPlayerFPv);
     TObjPlayer::end_chunk_draw();
 }
 

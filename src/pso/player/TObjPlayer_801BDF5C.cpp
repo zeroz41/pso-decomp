@@ -53,14 +53,14 @@ u8 *TObjPlayer::create_player_instance(s32 arg0, s32 arg1) {
     return p;
 }
 
-u8 *create_player_object(s16 slot, s32 role, u8 *arg2) {
+u8 *create_player_object(s16 slot, s32 role, u8 *record) {
     u8 *player;
     u8 *var_r0;
-    decode_created_player_inventory(arg2);
+    decode_created_player_inventory(record);
     player = (u8 *)(__nw__7TObjectFUl(0xDB8));
     var_r0 = player;
     if (var_r0 != NULL) {
-        var_r0 = (u8 *)(((TObjPlayer *)player)->construct_player_instance(tl_03, slot, role, arg2));
+        var_r0 = (u8 *)(((TObjPlayer *)player)->construct_player_instance(tl_03, slot, role, record));
     }
     return var_r0;
 }

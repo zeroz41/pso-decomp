@@ -18,9 +18,9 @@ void TUnk_804A1F20::update_weapon() {
 TUnk_804A1F20::~TUnk_804A1F20() {}
 TUnk_804A1F20::TUnk_804A1F20(TObject *parent, u8 *item) : TItemWeapon(parent, item) {}
 
-u8 *create_delsabers_buster_weapon(u8 *arg0) {
-    if (arg0 != NULL) {
-        return (u8 *)new TUnk_804A1F20(tl_05, arg0);
+u8 *create_delsabers_buster_weapon(u8 *item) {
+    if (item != NULL) {
+        return (u8 *)new TUnk_804A1F20(tl_05, item);
     }
     return NULL;
 }

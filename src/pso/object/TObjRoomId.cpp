@@ -171,29 +171,29 @@ void TObjRoomId::run_task() {
 }
 #pragma pop
 
-void *__dt__10TObjRoomIdFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__10TObjRoomId;
-        __dt__8TObjBaseFv(arg0, 0);
+void *__dt__10TObjRoomIdFv(void *base, s16 arg1) {
+    if (base != NULL) {
+        *(s32 **)((s8 *)base + 0x18) = __vt__10TObjRoomId;
+        __dt__8TObjBaseFv(base, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(base);
         }
     }
-    return arg0;
+    return base;
 }
 
 extern void *tl_05;
 
 typedef char RecoveredGlobal_801A1CD8___vt__10TObjRoomId_size[sizeof(RecoveredGlobal_801A1CD8___vt__10TObjRoomId) == 0x38 ? 1 : -1];
-u8 *TObjRoomId__ct(u8 *arg0, s32 parent, s32 arg2) {
-    __ct__8TObjBaseFP7TObject((void *)arg0, (void *)parent);
-    *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_801A1CD8___vt__10TObjRoomId *)&__vt__10TObjRoomId).value;
-    *(const char **)((s8 *)arg0 + 0) = TObjRoomId__name;
-    ((VObj_18_1a504b *)(arg0))->m5(arg2);
-    *(f32 *)((s8 *)arg0 + 0x90) = 0.0f;
-    *(f32 *)((s8 *)arg0 + 0x94) = 0.0f;
-    *(f32 *)((s8 *)arg0 + 0x98) = 0.0f;
-    return arg0;
+u8 *TObjRoomId__ct(u8 *base, s32 parent, s32 arg2) {
+    __ct__8TObjBaseFP7TObject((void *)base, (void *)parent);
+    *(s32 **)((s8 *)base + 0x18) = &(*(RecoveredGlobal_801A1CD8___vt__10TObjRoomId *)&__vt__10TObjRoomId).value;
+    *(const char **)((s8 *)base + 0) = TObjRoomId__name;
+    ((VObj_18_1a504b *)(base))->m5(arg2);
+    *(f32 *)((s8 *)base + 0x90) = 0.0f;
+    *(f32 *)((s8 *)base + 0x94) = 0.0f;
+    *(f32 *)((s8 *)base + 0x98) = 0.0f;
+    return base;
 }
 
 void *create__10TObjRoomIdFPv(void *arg0) {

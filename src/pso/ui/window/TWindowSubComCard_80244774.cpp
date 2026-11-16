@@ -733,7 +733,7 @@ void TWindowSubComCard__sub_80245A10(u8 *card, s32 row, TWindowKeyBoardSoft *r, 
 
 #pragma push
 #pragma fp_contract on
-void draw_window_scanlines(u8 *arg0, u8 *arg1) {
+void draw_window_scanlines(u8 *card, u8 *arg1) {
     s32 n1;
     s32 i;
     s32 n2;
@@ -744,20 +744,20 @@ void draw_window_scanlines(u8 *arg0, u8 *arg1) {
     case 1:
         return;
     }
-    n1 = TWindowSubComCard::trunc_float((12.0f + *(f32 *)((s8 *)arg0 + 0x44)) / 4.0f);
-    n2 = TWindowSubComCard::trunc_float((*(f32 *)((s8 *)arg0 + 0x4C) - 24.0f) / 4.0f);
-    y = ((5.0f * ((f32)lbl_805D63F6 - 0.2f * (f32)n1) - 100.0f) - 12.0f) - *(f32 *)((s8 *)arg0 + 0x40);
+    n1 = TWindowSubComCard::trunc_float((12.0f + *(f32 *)((s8 *)card + 0x44)) / 4.0f);
+    n2 = TWindowSubComCard::trunc_float((*(f32 *)((s8 *)card + 0x4C) - 24.0f) / 4.0f);
+    y = ((5.0f * ((f32)lbl_805D63F6 - 0.2f * (f32)n1) - 100.0f) - 12.0f) - *(f32 *)((s8 *)card + 0x40);
     if (y <= 0.0f) {
         return;
     }
-    if (y - (f32)n2 >= *(f32 *)((s8 *)arg0 + 0x48) - 24.0f) {
+    if (y - (f32)n2 >= *(f32 *)((s8 *)card + 0x48) - 24.0f) {
         return;
     }
     set_line_width(12.0f * *(f32 *)((s8 *)arg1 + 0x2C));
     set_additive_blend();
     step = 1.0f;
     for (i = 0; i < n2; i++) {
-        TWindowSubComCard__sub_80245A10(arg0, i, (TWindowKeyBoardSoft *)arg1, y);
+        TWindowSubComCard__sub_80245A10(card, i, (TWindowKeyBoardSoft *)arg1, y);
         y -= step;
     }
     set_default_alpha_blend();

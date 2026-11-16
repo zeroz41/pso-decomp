@@ -369,7 +369,7 @@ void TUnk_804E4B3C::init_effect() {
 
 void TUnk_804E4B3C::sub_802F2400() {
     f32 temp_f1;
-    TObject *temp_r3;
+    TObject *object;
     update_spawn_timer((s32)boss2_tunnel_spawn_timer_table_b, 0xA, 1);
     if ((*(s32 *)&boss2_tunnel_state_flags) & 8) {
         temp_f1 = unk_78.z;
@@ -377,9 +377,9 @@ void TUnk_804E4B3C::sub_802F2400() {
             phase = 2;
             *(f32 *)((s8 *)this + 0x5C) = 0.0f;
             segment_x = (-50.0f);
-            temp_r3 = tunnel_col;
-            if (temp_r3 != NULL) {
-                queue_destruction__7TObjectFv(temp_r3);
+            object = tunnel_col;
+            if (object != NULL) {
+                queue_destruction__7TObjectFv(object);
                 tunnel_col = NULL;
             }
             (*(s32 *)&boss2_tunnel_state_flags) |= 0x8000;
@@ -607,18 +607,18 @@ void TUnk_804E4B24::update_collision() {
 }
 
 extern "C" {
-void *TObjBoss7TunnelCol__ct(void *arg0, TObject *parent) {
-    TObjBoss7TunnelCol *self = (TObjBoss7TunnelCol *)arg0;
-    __ct__14TObjCollidableFP7TObject(arg0, parent);
-    *(s32 **)((s8 *)arg0 + 0x18) = __vt__18TObjBoss7TunnelCol;
+void *TObjBoss7TunnelCol__ct(void *player, TObject *parent) {
+    TObjBoss7TunnelCol *self = (TObjBoss7TunnelCol *)player;
+    __ct__14TObjCollidableFP7TObject(player, parent);
+    *(s32 **)((s8 *)player + 0x18) = __vt__18TObjBoss7TunnelCol;
     self->m_name = TObjBoss7TunnelCol__name;
     copy_collision_body(&self->collision_body, &TObjBoss7TunnelCol__col_desc);
-    *(f32 *)((s8 *)arg0 + 0x38) = 85.0f;
-    *(f32 *)((s8 *)arg0 + 0x3C) = 0.0f;
-    *(f32 *)((s8 *)arg0 + 0x40) = 0.0f;
-    ((TObjCollidable *)arg0)->set_collision_body(&self->collision_body);
-    ((TObjPlayer *)arg0)->register_object_by_id();
-    return arg0;
+    *(f32 *)((s8 *)player + 0x38) = 85.0f;
+    *(f32 *)((s8 *)player + 0x3C) = 0.0f;
+    *(f32 *)((s8 *)player + 0x40) = 0.0f;
+    ((TObjCollidable *)player)->set_collision_body(&self->collision_body);
+    ((TObjPlayer *)player)->register_object_by_id();
+    return player;
 }
 }
 

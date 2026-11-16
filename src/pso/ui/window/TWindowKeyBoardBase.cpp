@@ -387,10 +387,10 @@ void TWindowKeyBoardSoft::update_input(void* a1) { TWindowKeyBoardSoft__sub_8025
 
 #pragma push
 #pragma optimization_level 2
-s32 TWindowKeyBoardSoft__sub_8025D378(void *arg0, void *arg1) {
+s32 TWindowKeyBoardSoft__sub_8025D378(void *arg0, void *window_sub_status_disp) {
     KbSoft_8025D264 *self = (KbSoft_8025D264 *)arg0;
     s32 len = ((KbRec_8025D264 *)self->buf)->len;
-    s32 need = measure_string_len__20TWindowSubStatusDispFv(arg1);
+    s32 need = measure_string_len__20TWindowSubStatusDispFv(window_sub_status_disp);
 
     return (self->remain >= need - len) ? 1 : 0;
 }

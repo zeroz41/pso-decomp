@@ -149,13 +149,13 @@ void TUnk_804A5D10::run_task() {
 void TUnk_804A5D10::render() {
     u8 *arg0 = (u8 *)this;
     u32 temp_r31;
-    u8 *temp_r3;
+    u8 *equipped_item;
 
-    temp_r3 = (u8 *)find_equipped_item(*(s32 *)((s8 *)arg0 + 0x1C));
-    if (temp_r3 != NULL) {
-        temp_r31 = *(u32 *)((s8 *)temp_r3 + 0x188);
+    equipped_item = (u8 *)find_equipped_item(*(s32 *)((s8 *)arg0 + 0x1C));
+    if (equipped_item != NULL) {
+        temp_r31 = *(u32 *)((s8 *)equipped_item + 0x188);
         if (temp_r31 != 0U) {
-            set_texlist(((TItem *)temp_r3)->get_texlist());
+            set_texlist(((TItem *)equipped_item)->get_texlist());
             push_matrix();
             post_translate_matrix(arg0 + 0x2C);
             rotate_matrix_y(0, *(s32 *)&this->unk_3C);

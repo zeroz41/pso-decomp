@@ -39,7 +39,7 @@ s32 TLobby::link_matching_objects(s16 arg0, s16 arg1) {
     s32 object_type;
     s32 var_r30;
     u8 *row;
-    s32 var_r28;
+    s32 k;
     u8 *temp_r3_2;
 
     var_r30 = 0;
@@ -48,7 +48,7 @@ s32 TLobby::link_matching_objects(s16 arg0, s16 arg1) {
     }
     row = resolve_matching_object__6TLobbyFv(TLobby__data_805D60FC);
     object_type = TLobby::get_object_type(TLobby__data_805D60FC);
-    for (var_r28 = 0; var_r28 < object_type; var_r28 += 1, row += 0x48) {
+    for (k = 0; k < object_type; k += 1, row += 0x48) {
         temp_r3 = *(s16 *)((s8 *)row + 2);
         if (!(temp_r3 & 8) && !(temp_r3 & 2) && ((s16) *(s16 *)((s8 *)row + 0xC) == arg0) && ((s16) *(s16 *)((s8 *)row + 0xE) == arg1)) {
             temp_r3_2 = (u8 *)construct_enemy_from_set_row(row);

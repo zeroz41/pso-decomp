@@ -236,14 +236,14 @@ void *heaven_punisher_ct(void *player, s32 parent, s32 item) {
 
 u8 *__nw__5TItemFUl(s32);
 }
-u8 *create_heaven_punisher(s32 arg0) {
-    u8 *temp_r3;
+u8 *create_heaven_punisher(s32 item) {
+    u8 *player;
     u8 *var_r0;
-    if (arg0 != 0) {
-        temp_r3 = (u8 *)(__nw__5TItemFUl(0x230));
-        var_r0 = temp_r3;
+    if (item != 0) {
+        player = (u8 *)(__nw__5TItemFUl(0x230));
+        var_r0 = player;
         if (var_r0 != NULL) {
-            var_r0 = (u8 *)(heaven_punisher_ct(temp_r3, tl_05, arg0));
+            var_r0 = (u8 *)(heaven_punisher_ct(player, tl_05, item));
         }
         return var_r0;
     }

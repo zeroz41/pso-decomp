@@ -531,15 +531,15 @@ void *lbl_804E1BB0[62] = {
     (void *)&vfunc_60__11TItemWeaponFv, (void *)&deliver_hit__11TItemWeaponFlPUcllf,
 };
 
-void *__dt__13TUnk_804E1BB0Fv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(void ***)((s8 *)arg0 + 0x18) = lbl_804E1BB0;
-        __dt__11TItemWeaponFv(arg0, 0);
+void *__dt__13TUnk_804E1BB0Fv(void *item, s16 arg1) {
+    if (item != NULL) {
+        *(void ***)((s8 *)item + 0x18) = lbl_804E1BB0;
+        __dt__11TItemWeaponFv(item, 0);
         if (arg1 > 0) {
-            TItem::operator delete(arg0);
+            TItem::operator delete(item);
         }
     }
-    return arg0;
+    return item;
 }
 
 u8 *TObjPlayer::create_state_513() {

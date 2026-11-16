@@ -4342,21 +4342,21 @@ int TBoss8Dragon::query_default() { return emit_part_attack_effect__13TBoss5Gryp
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-void TBoss8Dragon__sub_80064828(u8 *arg0) {
-    if (((TObjMotion *)arg0)->is_passing_frame((f32)lbl_805D8D80) != 0) {
-        ((TBoss8Dragon *)arg0)->query_default();
+void TBoss8Dragon__sub_80064828(u8 *boss8_dragon) {
+    if (((TObjMotion *)boss8_dragon)->is_passing_frame((f32)lbl_805D8D80) != 0) {
+        ((TBoss8Dragon *)boss8_dragon)->query_default();
         return;
     }
-    if (((TObjMotion *)arg0)->is_passing_frame(8.0f) != 0) {
-        ((TBoss8Dragon *)arg0)->attack_default();
+    if (((TObjMotion *)boss8_dragon)->is_passing_frame(8.0f) != 0) {
+        ((TBoss8Dragon *)boss8_dragon)->attack_default();
         return;
     }
-    if (((TObjMotion *)arg0)->is_passing_frame((f32)lbl_805D8E00) != 0) {
-        ((TBoss8Dragon *)arg0)->set_state_2();
+    if (((TObjMotion *)boss8_dragon)->is_passing_frame((f32)lbl_805D8E00) != 0) {
+        ((TBoss8Dragon *)boss8_dragon)->set_state_2();
         return;
     }
-    if (((TObjMotion *)arg0)->is_passing_frame((f32)lbl_805D8E0C) != 0) {
-        ((TBoss8Dragon *)arg0)->update_state_3();
+    if (((TObjMotion *)boss8_dragon)->is_passing_frame((f32)lbl_805D8E0C) != 0) {
+        ((TBoss8Dragon *)boss8_dragon)->update_state_3();
     }
 }
 #pragma pop
@@ -4365,21 +4365,21 @@ void TBoss8Dragon__sub_80064828(u8 *arg0) {
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-void TBoss8Dragon__sub_800648C8(u8 *arg0) {
-    if (((TObjMotion *)arg0)->is_passing_frame((f32)lbl_805D8EC0) != 0) {
-        ((TBoss8Dragon *)arg0)->query_default();
+void TBoss8Dragon__sub_800648C8(u8 *boss8_dragon) {
+    if (((TObjMotion *)boss8_dragon)->is_passing_frame((f32)lbl_805D8EC0) != 0) {
+        ((TBoss8Dragon *)boss8_dragon)->query_default();
         return;
     }
-    if (((TObjMotion *)arg0)->is_passing_frame((f32)lbl_805D8DF8) != 0) {
-        ((TBoss8Dragon *)arg0)->attack_default();
+    if (((TObjMotion *)boss8_dragon)->is_passing_frame((f32)lbl_805D8DF8) != 0) {
+        ((TBoss8Dragon *)boss8_dragon)->attack_default();
         return;
     }
-    if (((TObjMotion *)arg0)->is_passing_frame(20.0f) != 0) {
-        ((TBoss8Dragon *)arg0)->set_state_2();
+    if (((TObjMotion *)boss8_dragon)->is_passing_frame(20.0f) != 0) {
+        ((TBoss8Dragon *)boss8_dragon)->set_state_2();
         return;
     }
-    if (((TObjMotion *)arg0)->is_passing_frame(8.0f) != 0) {
-        ((TBoss8Dragon *)arg0)->update_state_3();
+    if (((TObjMotion *)boss8_dragon)->is_passing_frame(8.0f) != 0) {
+        ((TBoss8Dragon *)boss8_dragon)->update_state_3();
     }
 }
 #pragma pop
@@ -4576,9 +4576,9 @@ void TBoss5Gryphon::enter_ground_mode() { this->m_4e4 = 0; }
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-void TBoss8Dragon__sub_80064DB8(u8 *arg0) {
-    if ((((TObjMotion *)arg0)->is_passing_frame((f32)lbl_805D8D80) != 0) || (((TObjMotion *)arg0)->is_passing_frame(8.0f) != 0) || (((TObjMotion *)arg0)->is_passing_frame((f32)((f32)lbl_805D8E00)) != 0) || (((TObjMotion *)arg0)->is_passing_frame((f32)((f32)lbl_805D8E0C)) != 0)) {
-        ((TBoss5Gryphon *)arg0)->play_se(0x40032D08);
+void TBoss8Dragon__sub_80064DB8(u8 *boss5_gryphon) {
+    if ((((TObjMotion *)boss5_gryphon)->is_passing_frame((f32)lbl_805D8D80) != 0) || (((TObjMotion *)boss5_gryphon)->is_passing_frame(8.0f) != 0) || (((TObjMotion *)boss5_gryphon)->is_passing_frame((f32)((f32)lbl_805D8E00)) != 0) || (((TObjMotion *)boss5_gryphon)->is_passing_frame((f32)((f32)lbl_805D8E0C)) != 0)) {
+        ((TBoss5Gryphon *)boss5_gryphon)->play_se(0x40032D08);
     }
 }
 #pragma pop
@@ -4587,9 +4587,9 @@ void TBoss8Dragon__sub_80064DB8(u8 *arg0) {
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-void TBoss8Dragon__sub_80064E3C(u8 *arg0) {
-    if ((((TObjMotion *)arg0)->is_passing_frame((f32)lbl_805D8EC0) != 0) || (((TObjMotion *)arg0)->is_passing_frame((f32)((f32)lbl_805D8DF8)) != 0) || (((TObjMotion *)arg0)->is_passing_frame(20.0f) != 0) || (((TObjMotion *)arg0)->is_passing_frame(8.0f) != 0)) {
-        ((TBoss5Gryphon *)arg0)->play_se(0x40032D08);
+void TBoss8Dragon__sub_80064E3C(u8 *boss5_gryphon) {
+    if ((((TObjMotion *)boss5_gryphon)->is_passing_frame((f32)lbl_805D8EC0) != 0) || (((TObjMotion *)boss5_gryphon)->is_passing_frame((f32)((f32)lbl_805D8DF8)) != 0) || (((TObjMotion *)boss5_gryphon)->is_passing_frame(20.0f) != 0) || (((TObjMotion *)boss5_gryphon)->is_passing_frame(8.0f) != 0)) {
+        ((TBoss5Gryphon *)boss5_gryphon)->play_se(0x40032D08);
     }
 }
 #pragma pop

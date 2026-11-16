@@ -162,8 +162,8 @@ TObjWarpJungMain::TObjWarpJungMain(TObject *parent, void *set_data) : TObjAreaWa
     }
 }
 
-void *TObjWarpJung__create(void *arg0) {
-    return new TObjWarpJung(tl_05, arg0);
+void *TObjWarpJung__create(void *set_data) {
+    return new TObjWarpJung(tl_05, set_data);
 }
 
 void TObjWarpJung::render() {

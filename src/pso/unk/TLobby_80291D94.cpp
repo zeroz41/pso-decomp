@@ -1346,17 +1346,17 @@ void update_destruction_countdown__6TLobbyFPv(TLobby *lobby) {
 }
 s32 __dt__7TObjectFv(void *, s32);
 s32 __dl__7TObjectFPv(void *);
-void *TLobby__sub_802936AC(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(void **)((u8 *)arg0 + 0x18) = (void *)lbl_804DB888;
+void *TLobby__sub_802936AC(void *object, s16 arg1) {
+    if (object != NULL) {
+        *(void **)((u8 *)object + 0x18) = (void *)lbl_804DB888;
         ((TLobby *)lbl_804DB1F0)->copy_challenge_settings((u8 *)&challenge_default_settings);
         challenge_retry_object = 0;
-        __dt__7TObjectFv(arg0, 0);
+        __dt__7TObjectFv(object, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(object);
         }
     }
-    return arg0;
+    return object;
 }
 struct C_80293720 { const char *m_name; u8 pad4[0x14]; void *f18; s32 f1c; s32 f20; s32 f24; s32 f28; };
 void __ct__7TObjectFP7TObject(void *, void *);

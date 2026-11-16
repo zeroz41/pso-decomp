@@ -32,7 +32,7 @@ extern const f32 lbl_805DE6F8;
 extern const f32 lbl_805DE6FC;
 typedef struct RecoveredFields_802CE510_temp_r3 RecoveredFields_802CE510_temp_r3;
 typedef struct Stack_802CE510 Stack_802CE510;
-void fn_802CE510(int arg0) {
+void fn_802CE510(int owner) {
   Stack_802CE510 stack;
   int temp_r31_2;
   int new_var;
@@ -41,21 +41,21 @@ void fn_802CE510(int arg0) {
   unsigned int temp_r3_3;
   unsigned int temp_r3_4;
   u8 *temp_r3;
-  VecCopy((Vec *)(&stack.sp8), (const Vec *)(arg0 + 0x38));
+  VecCopy((Vec *)(&stack.sp8), (const Vec *)(owner + 0x38));
   stack.spC += 15.0f;
-  temp_r3 = (u8 *) csnVectorUnder((Vec *)&stack.sp8, (u32 *)(arg0 + 0x120), 0x15);
+  temp_r3 = (u8 *) csnVectorUnder((Vec *)&stack.sp8, (u32 *)(owner + 0x120), 0x15);
   if (temp_r3 != 0)
   {
     temp_r31 = ((RecoveredFields_802CE510_temp_r3 *) temp_r3)->field_0 & 4;
     if (temp_r31 != 0)
     {
-      fn_800D8830((void *)arg0, (void *)(arg0 + 0x38));
+      fn_800D8830((void *)owner, (void *)(owner + 0x38));
     }
     else
     {
-      play_persistent_sound((s32)((void *) ((TObjEnemy *)((void *) arg0))->remap_sound_for_area(0x3B211)), arg0, (arg0 + 0x38), 0, 0);
+      play_persistent_sound((s32)((void *) ((TObjEnemy *)((void *) owner))->remap_sound_for_area(0x3B211)), owner, (owner + 0x38), 0, 0);
     }
-    if (((((TObjMotion *)arg0)->is_passing_frame((f32)((f32) lbl_805DE6EC)) != 0) || (((TObjMotion *)arg0)->is_passing_frame((f32)(15.0f)) != 0)) || (((TObjMotion *)arg0)->is_passing_frame((f32)((f32) lbl_805DE6F0)) != 0))
+    if (((((TObjMotion *)owner)->is_passing_frame((f32)((f32) lbl_805DE6EC)) != 0) || (((TObjMotion *)owner)->is_passing_frame((f32)(15.0f)) != 0)) || (((TObjMotion *)owner)->is_passing_frame((f32)((f32) lbl_805DE6F0)) != 0))
     {
       if (temp_r31 != 0)
       {
@@ -76,7 +76,7 @@ void fn_802CE510(int arg0) {
       }
       else
       {
-        temp_r3_4 = (unsigned int)spawn_particle_effect((const void *)(arg0 + 0x38), 0xF3);
+        temp_r3_4 = (unsigned int)spawn_particle_effect((const void *)(owner + 0x38), 0xF3);
         if (temp_r3_4 != 0U)
         {
           ((TParticleCtrl *)temp_r3_4)->set_scale((f32) lbl_805DE6EC, (f32) lbl_805DE6FC);

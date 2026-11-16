@@ -2617,38 +2617,38 @@ void TBoss8Dragon::spawn_effect() {
     start_pad_rumble_at((Vec *)(arg0 + 0x38), 0xE0, arg0);
 }
 
-void TBoss8Dragon__sub_802FB828(u8 *arg0, s32 arg1) {
+void TBoss8Dragon__sub_802FB828(u8 *ene_dd, s32 arg1) {
     DragonAttackParams eff = boss8_dragon_breath_eff_params;
     u8 *a;
     u8 *b;
-    ((s32 (*)(s32))fill_value_array)(*(s32 *)(arg0 + 0x680));
+    ((s32 (*)(s32))fill_value_array)(*(s32 *)(ene_dd + 0x680));
     if (arg1 == 0) {
-        a = arg0 + 0x470;
-        b = arg0 + 0x47C;
+        a = ene_dd + 0x470;
+        b = ene_dd + 0x47C;
     } else {
-        a = arg0 + 0x458;
-        b = arg0 + 0x464;
+        a = ene_dd + 0x458;
+        b = ene_dd + 0x464;
     }
-    ((TObjEneDD *)arg0)->reset_hp((u8 *)0, (u8 *)(TBoss8Dragon__data_80541DC8[0]), (u8 *)0);
-    ((s32 (*)(void *, void *, void *, s32))emit_effect__12TBoss8DragonFPv)(arg0, a, &eff, *(s32 *)(arg0 + 0x680));
-    ((s32 (*)(void *, void *, void *, s32))emit_effect__12TBoss8DragonFPv)(arg0, b, &eff, *(s32 *)(arg0 + 0x680));
-    ((TObjEneDD *)arg0)->reset_hp((u8 *)0, (u8 *)(TBoss8Dragon__data_80541DC8[0]), (u8 *)0);
-    spawn_particle_effect_with_flags((const void *)b, (s32)(*(void **)(*(u8 **)(arg0 + 0x760) + 0x10)), (s32)(0x40));
+    ((TObjEneDD *)ene_dd)->reset_hp((u8 *)0, (u8 *)(TBoss8Dragon__data_80541DC8[0]), (u8 *)0);
+    ((s32 (*)(void *, void *, void *, s32))emit_effect__12TBoss8DragonFPv)(ene_dd, a, &eff, *(s32 *)(ene_dd + 0x680));
+    ((s32 (*)(void *, void *, void *, s32))emit_effect__12TBoss8DragonFPv)(ene_dd, b, &eff, *(s32 *)(ene_dd + 0x680));
+    ((TObjEneDD *)ene_dd)->reset_hp((u8 *)0, (u8 *)(TBoss8Dragon__data_80541DC8[0]), (u8 *)0);
+    spawn_particle_effect_with_flags((const void *)b, (s32)(*(void **)(*(u8 **)(ene_dd + 0x760) + 0x10)), (s32)(0x40));
 }
 
 int TBoss8Dragon::check_condition_default(void* p) { return ((int (*)(void*, int))TBoss8Dragon__sub_802FB828)(p, 0); }
 
 int TBoss8Dragon::set_state_1(void* p) { return ((int (*)(void*, int))TBoss8Dragon__sub_802FB828)(p, 1); }
 
-void TBoss8Dragon__sub_802FB778(s32 arg0) {
+void TBoss8Dragon__sub_802FB778(s32 dragon) {
     typedef char sp8_offset[(offsetof(Stack_802FB778, sp8) == 0x0) ? 1 : -1];
     typedef char sp10_offset[(offsetof(Stack_802FB778, sp10) == 0x8) ? 1 : -1];
     Stack_802FB778 stack;
     TBoss1Dragon__sub_80027A80((u8 *)((u8 *)&stack.sp8), (u8 *)((const u8 *)&lbl_804744B4));
     stack.sp10 = *(f32 *)((s8 *)((*(RecoveredGlobal_802FB778_TBoss8Dragon__data_80541DDC *)&TBoss8Dragon__data_80541DDC).value) + 0xC);
-    TBoss8Dragon__sub_802FBEA4((TBoss8Dragon *)arg0);
-    ((s32 (*)(void *, void *))get_state_flags__12TBoss8DragonFPv)((void *)arg0, &stack.sp8);
-    ((TBoss8Dragon *)arg0)->reload_boss_stats();
+    TBoss8Dragon__sub_802FBEA4((TBoss8Dragon *)dragon);
+    ((s32 (*)(void *, void *))get_state_flags__12TBoss8DragonFPv)((void *)dragon, &stack.sp8);
+    ((TBoss8Dragon *)dragon)->reload_boss_stats();
 }
 
 void TBoss8Dragon__sub_802FB70C(s32 arg0) {
@@ -6077,7 +6077,7 @@ void TBoss8Dragon::sub_802F4098(u8 *arg1) {
 }
 
 extern "C" {
-s32 TBoss8Dragon__sub_802F3F20(u8 *arg0) {
+s32 TBoss8Dragon__sub_802F3F20(u8 *owner) {
     Vec sp14;
     Vec sp8;
     f32 temp_f31;
@@ -6086,19 +6086,19 @@ s32 TBoss8Dragon__sub_802F3F20(u8 *arg0) {
     if (camera_ctrl_instance == 0) {
         return 0;
     }
-    if (((Obj_802F3F20 *)arg0)->x326 == 30) {
+    if (((Obj_802F3F20 *)owner)->x326 == 30) {
         return 0;
     }
-    if (((Obj_802F3F20 *)arg0)->x326 == 21) {
+    if (((Obj_802F3F20 *)owner)->x326 == 21) {
         return 0;
     }
-    if (((Obj_802F3F20 *)arg0)->x326 == 22) {
+    if (((Obj_802F3F20 *)owner)->x326 == 22) {
         return 0;
     }
-    if (((Obj_802F3F20 *)arg0)->x326 == 23) {
+    if (((Obj_802F3F20 *)owner)->x326 == 23) {
         return 1;
     }
-    if (*(s32 *)(arg0 + 0x3E4) != 0) {
+    if (*(s32 *)(owner + 0x3E4) != 0) {
         return 0;
     }
     TCameraCtrl::get_camera_target_id(-1);
@@ -6116,7 +6116,7 @@ s32 TBoss8Dragon__sub_802F3F20(u8 *arg0) {
     VecCopy((Vec *)&dragon_forward_reference_vec, (const Vec *)&sp8);
     boss8_dragon_visibility_distance = temp_f31;
     for (i = 0; i < 4; i++) {
-        if (TBoss8Dragon__sub_802F4760(arg0, &((Obj_802F3F20 *)arg0)->pts[boss8_dragon_point_index_table[i]], 12.0f) != 0) {
+        if (TBoss8Dragon__sub_802F4760(owner, &((Obj_802F3F20 *)owner)->pts[boss8_dragon_point_index_table[i]], 12.0f) != 0) {
             return 1;
         }
     }

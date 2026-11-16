@@ -54,9 +54,9 @@ TUnk_804A4548::TUnk_804A4548(TObject *parent, u8 *item) : TUnk_804A4948(parent, 
     shot_speed = 15.0f;
 }
 
-u8 *create_s_rank_bazooka(s32 arg0) {
-    if (arg0 != 0) {
-        return (u8 *)new TUnk_804A4548(tl_05, (u8 *)arg0);
+u8 *create_s_rank_bazooka(s32 item) {
+    if (item != 0) {
+        return (u8 *)new TUnk_804A4548(tl_05, (u8 *)item);
     }
     return NULL;
 }

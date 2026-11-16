@@ -87,16 +87,16 @@ void run_task__19TObjBoss8PillerCtrlFv(Self_8035C03C *self) {
     }
 }
 
-void *__dt__19TObjBoss8PillerCtrlFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__19TObjBoss8PillerCtrl;
-        if (*(void **)((s8 *)arg0 + 0x30) != NULL) { ::operator delete(*(void **)((s8 *)arg0 + 0x30)); ((TObjBoss8PillerCtrl *)arg0)->m_30 = 0; }
-        __dt__7TObjectFv(arg0, 0);
+void *__dt__19TObjBoss8PillerCtrlFv(void *boss8_piller_ctrl, s16 arg1) {
+    if (boss8_piller_ctrl != NULL) {
+        *(s32 **)((s8 *)boss8_piller_ctrl + 0x18) = __vt__19TObjBoss8PillerCtrl;
+        if (*(void **)((s8 *)boss8_piller_ctrl + 0x30) != NULL) { ::operator delete(*(void **)((s8 *)boss8_piller_ctrl + 0x30)); ((TObjBoss8PillerCtrl *)boss8_piller_ctrl)->m_30 = 0; }
+        __dt__7TObjectFv(boss8_piller_ctrl, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(boss8_piller_ctrl);
         }
     }
-    return arg0;
+    return boss8_piller_ctrl;
 }
 typedef char RecoveredGlobal_8035C22C___vt__19TObjBoss8PillerCtrl_size[sizeof(RecoveredGlobal_8035C22C___vt__19TObjBoss8PillerCtrl) == 0x18 ? 1 : -1];
 u8 *TObjBoss8PillerCtrl__ct(u8 *boss8_piller_ctrl, s32 arg1, s32 arg2, s16 arg3) {

@@ -530,15 +530,15 @@ void TWindowHelpItem__vt7(s32 arg0) {
     ((TWindowHelpItem *)temp_r31)->set_flag0_bit2();
     ((TWindowHelpItem *)temp_r31_2)->set_flag0_bit2();
 }
-void TWindowHelpItem__vt4(void *arg0) {
+void TWindowHelpItem__vt4(void *window_base) {
     void *temp_r30;
     void *temp_r31;
-    TWindowHelpItem::update_resistance_rows(arg0);
-    temp_r30 = ((void *)((TWindowBase *)arg0)->get_array_entry(5));
-    temp_r31 = ((void *)((TWindowBase *)arg0)->get_array_entry(6));
+    TWindowHelpItem::update_resistance_rows(window_base);
+    temp_r30 = ((void *)((TWindowBase *)window_base)->get_array_entry(5));
+    temp_r31 = ((void *)((TWindowBase *)window_base)->get_array_entry(6));
     TWindowDuelResult::set_default_status(temp_r30, get_message_10__20TWindowSubStatusDispFl(0xA1));
     ((TWindowHelpItem *)temp_r30)->reset_float_field();
-    *(s32 *)((s8 *)temp_r31 + 0x20) = (s32) *(u8 *)((s8 *)(*(void **)((s8 *)arg0 + 0x68)) + 5);
+    *(s32 *)((s8 *)temp_r31 + 0x20) = (s32) *(u8 *)((s8 *)(*(void **)((s8 *)window_base + 0x68)) + 5);
 }
 void set_percentage_rows__15TWindowHelpItemFPvPvi(void *self, Op_802544D8 *ops, EntryFn_802544D8 fn) {
     u32 i;
@@ -579,7 +579,7 @@ void set_percentage_rows__15TWindowHelpItemFPvPvi(void *self, Op_802544D8 *ops, 
         }
     }
 }
-void update_stat_disp2__15TWindowHelpItemFPv(void *arg0) {
+void update_stat_disp2__15TWindowHelpItemFPv(void *window_base) {
     s32 sp8;
     s32 temp_r31;
     s32 temp_r30;
@@ -588,8 +588,8 @@ void update_stat_disp2__15TWindowHelpItemFPv(void *arg0) {
     s32 temp_r27;
     s32 player;
     u32 temp_r4;
-    player = (s32)get_player_by_client_id(*(s16 *)((s8 *)arg0 + 0x20));
-    if ((player != 0) && (temp_r31 = ((TWindowBase *)arg0)->get_array_entry(0), temp_r30 = ((TWindowBase *)arg0)->get_array_entry(1), temp_r29 = ((TWindowBase *)arg0)->get_array_entry(2), temp_r28 = ((TWindowBase *)arg0)->get_array_entry(3), temp_r27 = ((TWindowBase *)arg0)->get_array_entry(4), (temp_r4 = *(u32 *)((s8 *)arg0 + 0x70), (temp_r4 == 0U) == 0))) {
+    player = (s32)get_player_by_client_id(*(s16 *)((s8 *)window_base + 0x20));
+    if ((player != 0) && (temp_r31 = ((TWindowBase *)window_base)->get_array_entry(0), temp_r30 = ((TWindowBase *)window_base)->get_array_entry(1), temp_r29 = ((TWindowBase *)window_base)->get_array_entry(2), temp_r28 = ((TWindowBase *)window_base)->get_array_entry(3), temp_r27 = ((TWindowBase *)window_base)->get_array_entry(4), (temp_r4 = *(u32 *)((s8 *)window_base + 0x70), (temp_r4 == 0U) == 0))) {
         if (check_equip_requirements((void *)player, (TItemData *)temp_r4, &sp8) != 0) {
             TWindowHelpItem::set_flag_0x10((u16 *)temp_r31, 1);
             TWindowHelpItem::set_flag_0x10((u16 *)temp_r30, 1);

@@ -240,12 +240,12 @@ s16 TLobby::get_slot() {
     return *(s16 *)((s8 *)arg0 + 0x24);
 }
 
-s32 TLobby__sub_803C3ABC(u8 *arg0) {
-    return ((AdxbDecoder *)arg0)->samples;
+s32 TLobby__sub_803C3ABC(u8 *adxb_decoder) {
+    return ((AdxbDecoder *)adxb_decoder)->samples;
 }
 
-s32 TLobby__sub_803C3AC4(u8 *arg0) {
-    return ((AdxbDecoder *)arg0)->block_samples;
+s32 TLobby__sub_803C3AC4(u8 *adxb_decoder) {
+    return ((AdxbDecoder *)adxb_decoder)->block_samples;
 }
 
 s32 TLobby::get_packet_flag_for_state() {
@@ -284,8 +284,8 @@ s8 TLobby__sub_803C3B38(u8 *arg0) {
   return (s8) (new_var & 0xFF);
 }
 
-s32 TLobby__sub_803C3B44(u8 *arg0) {
-    return ((AdxbDecoder *)arg0)->rate;
+s32 TLobby__sub_803C3B44(u8 *adxb_decoder) {
+    return ((AdxbDecoder *)adxb_decoder)->rate;
 }
 
 s32 TLobby::get_field_a8() {
@@ -304,21 +304,21 @@ void TLobby__sub_803C3B5C(u8 *arg0, s32 arg1, s32 arg2) {
     h->readArg = arg2;
 }
 
-s32 TLobby__sub_803C3B68(s32 arg0, u16 *hdr, s32 size) {
+s32 TLobby__sub_803C3B68(s32 decoder, u16 *hdr, s32 size) {
     if ((u16) *(u16 *)((s8 *)hdr + 0) == 0x8000) {
-        return TRK__write_aram((void *)arg0, hdr, (void *)size);
+        return TRK__write_aram((void *)decoder, hdr, (void *)size);
     }
     if (((TLobby *)hdr)->is_spsd_header() != 0) {
-        return TLobby__sub_803C43A8((void *)arg0, (void *)hdr, (void *)size);
+        return TLobby__sub_803C43A8((void *)decoder, (void *)hdr, (void *)size);
     }
     if (((TLobby *)hdr)->is_riff_wave() != 0) {
-        return DVDReadPrio((void *)arg0, (void *)hdr, (void *)size);
+        return DVDReadPrio((void *)decoder, (void *)hdr, (void *)size);
     }
     if (((TLobby *)hdr)->is_aiff_header() != 0) {
-        return ((TLobby *)arg0)->parse_stream_header((void *)hdr, (void *)size);
+        return ((TLobby *)decoder)->parse_stream_header((void *)hdr, (void *)size);
     }
     if (((TLobby *)hdr)->is_snd_header() != 0) {
-        return TLobby__sub_803C30E8((u8 *)arg0, (s32)hdr, (s32)size);
+        return TLobby__sub_803C30E8((u8 *)decoder, (s32)hdr, (s32)size);
     }
     return 0;
 }

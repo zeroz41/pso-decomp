@@ -140,15 +140,15 @@ void TUnk_804949D8::vfunc_6() {
 }
 #pragma pop
 
-void *__dt__13TUnk_804949D8Fv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = lbl_804949D8;
-        __dt__13TUnk_804949F4Fv(arg0, (s16)(0));
+void *__dt__13TUnk_804949D8Fv(void *object, s16 arg1) {
+    if (object != NULL) {
+        *(s32 **)((s8 *)object + 0x18) = lbl_804949D8;
+        __dt__13TUnk_804949F4Fv(object, (s16)(0));
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(object);
         }
     }
-    return arg0;
+    return object;
 }
 
 void *init__9TDeadSpotFPv(void *arg0, u8 * _w1, u8 * _w2, s32 _w3, f32 _w4) {
@@ -185,15 +185,15 @@ void TUnk_804949F4::vfunc_6() {
   ((TParticleCtrl *)this->m_34)->set_position(&stack.sp8);
 }
 
-void *__dt__13TUnk_804949F4Fv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = lbl_804949F4;
-        __dt__7TObjectFv(arg0, 0);
+void *__dt__13TUnk_804949F4Fv(void *object, s16 arg1) {
+    if (object != NULL) {
+        *(s32 **)((s8 *)object + 0x18) = lbl_804949F4;
+        __dt__7TObjectFv(object, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(object);
         }
     }
-    return arg0;
+    return object;
 }
 
 #pragma push
@@ -235,15 +235,15 @@ void update_fade_in_alpha__9TDeadSpotFPv(Obj_800D7FD4 *arg0) {
     }
 }
 
-void *__dt__13TUnk_80494A10Fv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = lbl_80494A10;
-        __dt__9TDeadSpotFv(arg0, 0);
+void *__dt__13TUnk_80494A10Fv(void *object, s16 arg1) {
+    if (object != NULL) {
+        *(s32 **)((s8 *)object + 0x18) = lbl_80494A10;
+        __dt__9TDeadSpotFv(object, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(object);
         }
     }
-    return arg0;
+    return object;
 }
 
 extern s32 camera_ctrl_instance;

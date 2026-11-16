@@ -253,15 +253,15 @@ void set_password__18TAdEnterPasswordGCFi(s32 arg0) {
     strncpy((s32) &TAdEnterPasswordGC__input_buffer.value, arg0, 9);
 }
 
-void *__dt__18TAdEnterPasswordGCFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__18TAdEnterPasswordGC;
-        __dt__14TAdEnterBaseGCFv(arg0, 0);
+void *__dt__18TAdEnterPasswordGCFv(void *ad_enter_base_gc, s16 arg1) {
+    if (ad_enter_base_gc != NULL) {
+        *(s32 **)((s8 *)ad_enter_base_gc + 0x18) = __vt__18TAdEnterPasswordGC;
+        __dt__14TAdEnterBaseGCFv(ad_enter_base_gc, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(ad_enter_base_gc);
         }
     }
-    return arg0;
+    return ad_enter_base_gc;
 }
 
 extern u32 lbl_805D6CB8;
@@ -344,16 +344,16 @@ O_8032BDC4 *TLobby__sub_8032BDC4(O_8032BDC4 *arg0);
 void TUnk_804EDAC0::render() { *(int*)((char*)this + 0x1c) = 1; update_children__18TAdEnterPasswordGCFPv((O_8032BC1C *)this); *(int*)((char*)this + 0x1c) = 0; clear_password__18TAdEnterPasswordGCFPv((T_8032BBF0 *)this); }
 
 typedef char RecoveredGlobal_8032BD64_lbl_804EDAC0_size[sizeof(RecoveredGlobal_8032BD64_lbl_804EDAC0) == 0x18 ? 1 : -1];
-u8 *__dt__13TUnk_804EDAC0Fv(u8 *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = &lbl_804EDAC0.value;
+u8 *__dt__13TUnk_804EDAC0Fv(u8 *object, s16 arg1) {
+    if (object != NULL) {
+        *(s32 **)((s8 *)object + 0x18) = &lbl_804EDAC0.value;
         lbl_805D6CB8 = 0;
-        __dt__7TObjectFv(arg0, 0);
+        __dt__7TObjectFv(object, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(object);
         }
     }
-    return arg0;
+    return object;
 }
 
 O_8032BDC4 *TLobby__sub_8032BDC4(O_8032BDC4 *arg0) {

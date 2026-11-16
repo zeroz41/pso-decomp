@@ -3118,7 +3118,7 @@ s32 partner_view_update_conditions(u8 *arg0) {
     f32 temp_f1;
     f32 temp_f2;
     f32 temp_f31;
-    f32 temp_f31_2;
+    f32 actor_tp;
     s32 temp_r3;
     s32 var_r31;
     var_r31 = 0;
@@ -3150,9 +3150,9 @@ s32 partner_view_update_conditions(u8 *arg0) {
         *(s32 *)((s8 *)arg0 + 0x90) = (s32) (*(s32 *)((s8 *)arg0 + 0x90) | 2);
         *(s32 *)((s8 *)arg0 + 0x8C) = (s32) (*(s32 *)((s8 *)arg0 + 0x8C) | 4);
     }
-    temp_f31_2 = (f32) get_actor_tp(*(u8 **)((s8 *)arg0 + 0x94));
+    actor_tp = (f32) get_actor_tp(*(u8 **)((s8 *)arg0 + 0x94));
     temp_f2 = (f32) obj_getS16_2BA(*(u8 **)((s8 *)arg0 + 0x94));
-    if (((temp_f31_2 / temp_f2) <= 0.2f) && (0.0f != temp_f2)) {
+    if (((actor_tp / temp_f2) <= 0.2f) && (0.0f != temp_f2)) {
         *(s32 *)((s8 *)arg0 + 0x8C) = (s32) (*(s32 *)((s8 *)arg0 + 0x8C) | 4);
         *(s32 *)((s8 *)arg0 + 0x90) = (s32) (*(s32 *)((s8 *)arg0 + 0x90) | 0x10);
     }

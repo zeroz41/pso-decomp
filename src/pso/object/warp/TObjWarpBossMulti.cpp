@@ -193,14 +193,14 @@ void TObjFish__sub_8019F72C(void) {
     }
 }
 
-s32 TObjWarpBossMulti__create(s32 arg0) {
+s32 TObjWarpBossMulti__create(s32 set_data) {
     if ((TRaderMapCore::is_not_split_screen() == 0) && (get_main_phase() == 0xE)) {
-        return ((s32)((TObjWarpBossMulti *)arg0)->create());
+        return ((s32)((TObjWarpBossMulti *)set_data)->create());
     }
     if (TRaderMapCore::is_not_split_screen() == 1) {
-        return ((s32)((TObjWarpBossMulti *)arg0)->create());
+        return ((s32)((TObjWarpBossMulti *)set_data)->create());
     }
-    return (s32)new TObjWarpBoss(tl_05, (void *)arg0);
+    return (s32)new TObjWarpBoss(tl_05, (void *)set_data);
 }
 
 TObjWarpBoss::TObjWarpBoss(TObject *parent, void *set_data) : TObjAreaWarp(parent, set_data) {

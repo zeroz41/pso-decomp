@@ -850,14 +850,14 @@ void TBoss6Type2::sum_offsets() {
 
 void TBoss6Type2::aim_toward_point(void *arg1_arg) {
     Boss_802B9F3C *arg0 = (Boss_802B9F3C *)this;
-    Vec_802B9A68 *arg1 = (Vec_802B9A68 *)arg1_arg;
+    Vec_802B9A68 *vec_802_b9_a68 = (Vec_802B9A68 *)arg1_arg;
     Vec_802B9A68 v;
     s32 ang;
     s32 i;
-    if (arg1 == NULL) {
+    if (vec_802_b9_a68 == NULL) {
         ang = 0;
     } else {
-        VecCopy((Vec *)&v, (const Vec *)arg1);
+        VecCopy((Vec *)&v, (const Vec *)vec_802_b9_a68);
         subtract_vector(&v, &arg0->pos);
         ang = (s16)((s32)(10430.38043493439 * atan2_float(v.x, v.z)) - this->m_60);
     }
@@ -934,32 +934,32 @@ void TBoss6Type2::restore_target_player_state() {
 void TBoss6Type2::copy_vec2(void* q) { *(u32*)((char*)this + 0x0) = *(u32*)((char*)q + 0x0); *(u32*)((char*)this + 0x4) = *(u32*)((char*)q + 0x4); }
 
 s32 grab_player__11TBoss6Type2FPvUs(u8 *arg0, u16 arg1) {
-    u8 *temp_r3;
+    u8 *player;
     if ((arg1 == 0xFFFF) || (*(u16 *)((s8 *)arg0 + 0x55C) != 0xFFFF)) {
         return 0;
     }
-    temp_r3 = (u8 *)(get_player_by_client_id(arg1));
-    if (temp_r3 == NULL) {
+    player = (u8 *)(get_player_by_client_id(arg1));
+    if (player == NULL) {
         return 0;
     }
-    if (*(s32 *)((s8 *)temp_r3 + 0x30) & 0x800) {
+    if (*(s32 *)((s8 *)player + 0x30) & 0x800) {
         return 0;
     }
     *(u16 *)((s8 *)arg0 + 0x55C) = arg1;
-    *(u8 **)((s8 *)arg0 + 0x570) = (unsigned char *) (temp_r3 + 0x85C);
-    ((TBoss6Type2 *)(arg0 + 0x574))->copy_vec2(temp_r3 + 0xCF4);
-    ((TBoss6Type2 *)(arg0 + 0x57C))->copy_vec2(temp_r3 + 0xA1C);
-    ((TBoss6Type2 *)(arg0 + 0x584))->copy_vec2(temp_r3 + 0xB88);
-    *(s32 *)((s8 *)arg0 + 0x58C) = (s32) *(s32 *)((s8 *)temp_r3 + 0x34);
-    *(s32 *)((s8 *)arg0 + 0x590) = (s32) *(s32 *)((s8 *)temp_r3 + 0x8B0);
-    *(s32 *)((s8 *)arg0 + 0x594) = (s32) *(s32 *)((s8 *)temp_r3 + 0x8AC);
-    *(s32 *)((s8 *)arg0 + 0x598) = (s32) *(s32 *)((s8 *)temp_r3 + 0x8B4);
-    ((TBoss6Type2 *)(temp_r3 + 0xCF4))->copy_vec2((void*)(*(u8 **)((s8 *)arg0 + 0x560)));
-    ((TBoss6Type2 *)(temp_r3 + 0xB88))->copy_vec2((void*)(*(u8 **)((s8 *)arg0 + 0x564)));
-    *(s32 *)((s8 *)temp_r3 + 0x34) = (s32) *(s32 *)((s8 *)arg0 + 0x568);
-    *(s32 *)((s8 *)temp_r3 + 0x8B0) = 0;
-    *(s32 *)((s8 *)temp_r3 + 0x8AC) = 0;
-    *(s32 *)((s8 *)temp_r3 + 0x8B4) = (s32) *(s32 *)((s8 *)arg0 + 0x56C);
+    *(u8 **)((s8 *)arg0 + 0x570) = (unsigned char *) (player + 0x85C);
+    ((TBoss6Type2 *)(arg0 + 0x574))->copy_vec2(player + 0xCF4);
+    ((TBoss6Type2 *)(arg0 + 0x57C))->copy_vec2(player + 0xA1C);
+    ((TBoss6Type2 *)(arg0 + 0x584))->copy_vec2(player + 0xB88);
+    *(s32 *)((s8 *)arg0 + 0x58C) = (s32) *(s32 *)((s8 *)player + 0x34);
+    *(s32 *)((s8 *)arg0 + 0x590) = (s32) *(s32 *)((s8 *)player + 0x8B0);
+    *(s32 *)((s8 *)arg0 + 0x594) = (s32) *(s32 *)((s8 *)player + 0x8AC);
+    *(s32 *)((s8 *)arg0 + 0x598) = (s32) *(s32 *)((s8 *)player + 0x8B4);
+    ((TBoss6Type2 *)(player + 0xCF4))->copy_vec2((void*)(*(u8 **)((s8 *)arg0 + 0x560)));
+    ((TBoss6Type2 *)(player + 0xB88))->copy_vec2((void*)(*(u8 **)((s8 *)arg0 + 0x564)));
+    *(s32 *)((s8 *)player + 0x34) = (s32) *(s32 *)((s8 *)arg0 + 0x568);
+    *(s32 *)((s8 *)player + 0x8B0) = 0;
+    *(s32 *)((s8 *)player + 0x8AC) = 0;
+    *(s32 *)((s8 *)player + 0x8B4) = (s32) *(s32 *)((s8 *)arg0 + 0x56C);
     return 1;
 }
 
@@ -1425,11 +1425,11 @@ void TBoss6Type2::sub_802BB498() {
 int TBoss6Type2__sub_802BB4DC(void* p) { return ((int (*)(void*, int))aim_toward_point__11TBoss6Type2FPv)(p, 0); }
 
 void TBoss6Type2::update_target() {
-    s32 temp_r3;
+    s32 player;
 
-    temp_r3 = (s32)get_player_by_client_id(this->m_466);
-    if (temp_r3 != 0) {
-        ((int (*)(void*, int))aim_toward_point__11TBoss6Type2FPv)(this, temp_r3 + 0x38);
+    player = (s32)get_player_by_client_id(this->m_466);
+    if (player != 0) {
+        ((int (*)(void*, int))aim_toward_point__11TBoss6Type2FPv)(this, player + 0x38);
         return;
     }
     ((int (*)(void*, int))aim_toward_point__11TBoss6Type2FPv)(this, 0);
@@ -1879,18 +1879,18 @@ s32 TBoss6Type2::choose_turn_motion() {
     f64 temp_f0;
     s32 var_r31;
     s32 var_r31_2;
-    void *temp_r3;
+    void *player;
 
     var_r31_2 = 0xF;
-    temp_r3 = get_player_by_client_id(this->m_466);
+    player = get_player_by_client_id(this->m_466);
     if (this->m_478 & 1) {
         var_r31_2 = 0x10;
     }
-    if (temp_r3 == NULL) {
+    if (player == NULL) {
         return var_r31_2;
     }
-    temp_f3 = *(f32 *)((s8 *)temp_r3 + 0x38);
-    temp_f0 = ((f64 (*)(f32, f32, f32))atan2_float)(temp_f3 - *(f32 *)((s8 *)this + 0x38), *(f32 *)((s8 *)temp_r3 + 0x40) - *(f32 *)((s8 *)this + 0x40), temp_f3);
+    temp_f3 = *(f32 *)((s8 *)player + 0x38);
+    temp_f0 = ((f64 (*)(f32, f32, f32))atan2_float)(temp_f3 - *(f32 *)((s8 *)this + 0x38), *(f32 *)((s8 *)player + 0x40) - *(f32 *)((s8 *)this + 0x40), temp_f3);
     var_r31 = 0xF;
     if (angle_diff_s16(this->m_60, (s32) (10430.38043493439 * temp_f0)) < 0) {
         var_r31 = 0x10;
@@ -1983,7 +1983,7 @@ void TBoss6Type2::play_sound_if_no_target() {
 
 void TBoss6Type2::update_countdown() {
     s32 temp_r0;
-    void *temp_r31;
+    void *player;
 
     if (((s32 (*)(void))is_active__11TBoss6Type2Fv)() != 0) {
         update_attack_switch();
@@ -1996,8 +1996,8 @@ void TBoss6Type2::update_countdown() {
             *(s32 *)((s8 *)this + 0x518) = -0x12C;
         }
         if (((s32) this->m_418 != 0) && ((s32) *(s32 *)((s8 *)this + 0x518) == -0x12C)) {
-            temp_r31 = get_player_by_client_id(*(u16 *)((s8 *)this + 0x55C));
-            if ((is_active__14TBoss6PlotFalzFv() != 0) && ((s16) *(s16 *)((s8 *)temp_r31 + 0x326) == 1)) {
+            player = get_player_by_client_id(*(u16 *)((s8 *)this + 0x55C));
+            if ((is_active__14TBoss6PlotFalzFv() != 0) && ((s16) *(s16 *)((s8 *)player + 0x326) == 1)) {
                 start_countdown_sound_state();
             }
         }
@@ -2625,10 +2625,10 @@ void TBoss6Type2__sub_802BD938(u8 *arg0, u8 *arg1) {
     f32 temp_f1;
     s32 temp_r29;
     s32 temp_r29_2;
-    s32 temp_r3;
-    temp_r3 = ((s32)get_player_by_client_id(((s32) *(u16 *)((s8 *)arg0 + 0x466))));
-    if (temp_r3 != 0) {
-        VecCopy((Vec *)(&stack.sp18), (const Vec *)(temp_r3 + 0x38));
+    s32 player;
+    player = ((s32)get_player_by_client_id(((s32) *(u16 *)((s8 *)arg0 + 0x466))));
+    if (player != 0) {
+        VecCopy((Vec *)(&stack.sp18), (const Vec *)(player + 0x38));
     } else {
         *(u16 *)((s8 *)arg0 + 0x466) = 0xFFFFU;
         temp_r29 = (s32) ((6144.0f * -((3.0517578e-05f * (f32) rand()) - 0.5f)) + (f32) *(s32 *)((s8 *)arg0 + 0x60));

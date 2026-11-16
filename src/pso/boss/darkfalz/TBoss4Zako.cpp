@@ -833,7 +833,7 @@ void vt4__9TBoss4UroFv(void *actor) {
 #pragma fp_contract on
 void TBoss4Zako::update_target_position() {
     s32 temp_r31;
-    s32 temp_r3;
+    s32 instance;
     u8 *actor = (u8 *)this;
     if (!(*(s32 *)((s8 *)actor + 0x3B8) & 0x7F)) {
         if (*(s32 *)((s8 *)actor + 0x388) == 0xFFFF) {
@@ -842,10 +842,10 @@ void TBoss4Zako::update_target_position() {
         }
         *(u32 *)((s8 *)actor + 0x388) = 0xFFFFU;
         if ((u32) *(u32 *)((s8 *)actor + 0x378) != 0U) {
-            temp_r3 = TBoss4DarkFalz::get_instance();
-            if (temp_r3 != 0) {
+            instance = TBoss4DarkFalz::get_instance();
+            if (instance != 0) {
                 temp_r31 = (s32) (65536.0f * ((TObjChara *)actor)->random_ratio());
-                VecCopy__FP3VecPC3Vec(actor + 0x3C4, (void *)(((TObjPlayer *)temp_r3)->get_position_ptr()));
+                VecCopy__FP3VecPC3Vec(actor + 0x3C4, (void *)(((TObjPlayer *)instance)->get_position_ptr()));
                 *(f32 *)((s8 *)actor + 0x3C8) = 0.0f;
                 *(f32 *)((s8 *)actor + 0x3C4) = (f32) ((110.0f * sin_table_lookup(temp_r31)) + *(f32 *)((s8 *)actor + 0x3C4));
                 *(f32 *)((s8 *)actor + 0x3CC) = (f32) ((110.0f * cos_table_lookup(temp_r31)) + *(f32 *)((s8 *)actor + 0x3CC));
@@ -895,16 +895,16 @@ void TBoss4Zako::update_orbit_velocity() {
 }
 #pragma pop
 #pragma push
-void vt5__9TBoss4UroFv(u8 *arg0) {
+void vt5__9TBoss4UroFv(u8 *object) {
     f32 temp_f1;
-    *(f32 *)((s8 *)arg0 + 0x3C) += -0.33333334f;
-    temp_f1 = *(f32 *)((s8 *)arg0 + 0x3C);
+    *(f32 *)((s8 *)object + 0x3C) += -0.33333334f;
+    temp_f1 = *(f32 *)((s8 *)object + 0x3C);
     if ((temp_f1 < 0.0f) && (temp_f1 >= -0.33333334f)) {
-        spawn_particle_effect((arg0 + 0x38), 0xF3);
+        spawn_particle_effect((object + 0x38), 0xF3);
     }
-    *(s32 *)((s8 *)arg0 + 0x5C) = (s32) (*(s32 *)((s8 *)arg0 + 0x5C) + 0x111);
-    if (*(f32 *)((s8 *)arg0 + 0x3C) < -13.0f) {
-        ((TObject *)arg0)->queue_destruction();
+    *(s32 *)((s8 *)object + 0x5C) = (s32) (*(s32 *)((s8 *)object + 0x5C) + 0x111);
+    if (*(f32 *)((s8 *)object + 0x3C) < -13.0f) {
+        ((TObject *)object)->queue_destruction();
     }
 }
 #pragma pop
@@ -1068,16 +1068,16 @@ void vt1__11TBoss4BishiFv(Obj_8005BB5C *self) {
 }
 #pragma pop
 #pragma push
-void vt2__11TBoss4BishiFv(u8 *arg0) {
+void vt2__11TBoss4BishiFv(u8 *object) {
     f32 temp_f1;
-    *(f32 *)((s8 *)arg0 + 0x3C) += -0.33333334f;
-    temp_f1 = *(f32 *)((s8 *)arg0 + 0x3C);
+    *(f32 *)((s8 *)object + 0x3C) += -0.33333334f;
+    temp_f1 = *(f32 *)((s8 *)object + 0x3C);
     if ((temp_f1 < 0.0f) && (temp_f1 >= -0.33333334f)) {
-        spawn_particle_effect((arg0 + 0x38), 0xF3);
+        spawn_particle_effect((object + 0x38), 0xF3);
     }
-    *(s32 *)((s8 *)arg0 + 0x5C) = (s32) (*(s32 *)((s8 *)arg0 + 0x5C) + 0x111);
-    if (*(f32 *)((s8 *)arg0 + 0x3C) < -13.0f) {
-        ((TObject *)arg0)->queue_destruction();
+    *(s32 *)((s8 *)object + 0x5C) = (s32) (*(s32 *)((s8 *)object + 0x5C) + 0x111);
+    if (*(f32 *)((s8 *)object + 0x3C) < -13.0f) {
+        ((TObject *)object)->queue_destruction();
     }
 }
 #pragma pop

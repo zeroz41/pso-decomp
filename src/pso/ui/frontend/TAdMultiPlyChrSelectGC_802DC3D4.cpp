@@ -57,7 +57,7 @@ void TAdMultiPlyChrSelectGC__sub_802DC440(void *arg0) {
 }
 
 void TAdMultiPlyChrSelectGC::handle_input() {
-    void *temp_r31;
+    void *context;
 
     if ((u32) this->m_94 != 0U) {
         ((TWindowSubComCard *)(*(void * *)&this->m_94))->close();
@@ -70,8 +70,8 @@ void TAdMultiPlyChrSelectGC::handle_input() {
         *(s32 *)&this->m_20 = 0x1D;
         return;
     }
-    temp_r31 = controller_physical_port_bank + 0x20;
-    if ((TWindowShortListCtrl__check_controller_button(temp_r31, 4) != 0) || (TWindowShortListCtrl__check_controller_button(temp_r31, 2) != 0)) {
+    context = controller_physical_port_bank + 0x20;
+    if ((TWindowShortListCtrl__check_controller_button(context, 4) != 0) || (TWindowShortListCtrl__check_controller_button(context, 2) != 0)) {
         *(s32 *)&this->m_20 = 0x1F;
     }
 }

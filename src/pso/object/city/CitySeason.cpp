@@ -769,16 +769,16 @@ void *TObjCity_Season_21_21__create(void *arg0) {
 
 extern s32 __vt__21TObjCity_Season_21_21[];
 
-void *__dt__21TObjCity_Season_21_21Fv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__21TObjCity_Season_21_21;
-        if (*(void **)((s8 *)arg0 + 0xB8) != NULL) { ((TObject *)(*(void **)((s8 *)arg0 + 0xB8)))->queue_destruction(); ((TObjCity_Season_21_21 *)arg0)->m_b8 = 0; }
-        ((TUnk_804B5E48 *)arg0)->destroy_seasonal_object(0);
+void *__dt__21TObjCity_Season_21_21Fv(void *city_season_21_21, s16 arg1) {
+    if (city_season_21_21 != NULL) {
+        *(s32 **)((s8 *)city_season_21_21 + 0x18) = __vt__21TObjCity_Season_21_21;
+        if (*(void **)((s8 *)city_season_21_21 + 0xB8) != NULL) { ((TObject *)(*(void **)((s8 *)city_season_21_21 + 0xB8)))->queue_destruction(); ((TObjCity_Season_21_21 *)city_season_21_21)->m_b8 = 0; }
+        ((TUnk_804B5E48 *)city_season_21_21)->destroy_seasonal_object(0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(city_season_21_21);
         }
     }
-    return arg0;
+    return city_season_21_21;
 }
 
 }
@@ -1357,17 +1357,17 @@ void *TObjCity_Season_EasterEgg__create(void *arg0) {
 
 extern s32 __vt__25TObjCity_Season_EasterEgg[];
 
-void *__dt__25TObjCity_Season_EasterEggFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__25TObjCity_Season_EasterEgg;
-        if (*(void **)((s8 *)arg0 + 0xB8) != NULL) { ((TObject *)(*(void **)((s8 *)arg0 + 0xB8)))->queue_destruction(); ((TObjCity_Season_EasterEgg *)arg0)->m_b8 = 0; }
-        if (*(void **)((s8 *)arg0 + 0xBC) != NULL) { ((TObject *)(*(void **)((s8 *)arg0 + 0xBC)))->queue_destruction(); *(s32 *)((s8 *)arg0 + 0xBC) = 0; }
-        ((TUnk_804B5E48 *)arg0)->destroy_seasonal_object(0);
+void *__dt__25TObjCity_Season_EasterEggFv(void *city_season_easter_egg, s16 arg1) {
+    if (city_season_easter_egg != NULL) {
+        *(s32 **)((s8 *)city_season_easter_egg + 0x18) = __vt__25TObjCity_Season_EasterEgg;
+        if (*(void **)((s8 *)city_season_easter_egg + 0xB8) != NULL) { ((TObject *)(*(void **)((s8 *)city_season_easter_egg + 0xB8)))->queue_destruction(); ((TObjCity_Season_EasterEgg *)city_season_easter_egg)->m_b8 = 0; }
+        if (*(void **)((s8 *)city_season_easter_egg + 0xBC) != NULL) { ((TObject *)(*(void **)((s8 *)city_season_easter_egg + 0xBC)))->queue_destruction(); *(s32 *)((s8 *)city_season_easter_egg + 0xBC) = 0; }
+        ((TUnk_804B5E48 *)city_season_easter_egg)->destroy_seasonal_object(0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(city_season_easter_egg);
         }
     }
-    return arg0;
+    return city_season_easter_egg;
 }
 u8 *TObjCity_Season_EasterEgg__ct(u8 *city_season_easter_egg, s32 arg1, s32 arg2) {
     typedef char sp8_offset[(offsetof(Stack_8018493C, sp8) == 0x0) ? 1 : -1];

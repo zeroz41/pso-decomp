@@ -266,13 +266,13 @@ void TUnk_804EDD44::anchor_card_effect() {
     }
   }
 }
-void TObjPlayer::create_and_init_effect(s32 arg0, u32 *arg1, s32 arg2) {
+void TObjPlayer::create_and_init_effect(s32 item_id, u32 *arg1, s32 direction) {
     if ((arg1 != NULL) && ((u32) *arg1 != 0U)) {
-        new TUnk_804EDD20(tl_05, (ActorBodyHit *)arg1, (f32 *)arg2, 0, arg0);
+        new TUnk_804EDD20(tl_05, (ActorBodyHit *)arg1, (f32 *)direction, 0, item_id);
     }
 }
-void TObjPlayer::alloc_and_init(s32 arg0, s32 arg1, s32 arg2) {
-    new TUnk_804EDD20(tl_05, (f32 *)arg1, (f32 *)arg2, 0, arg0);
+void TObjPlayer::alloc_and_init(s32 item_id, s32 arg1, s32 direction) {
+    new TUnk_804EDD20(tl_05, (f32 *)arg1, (f32 *)direction, 0, item_id);
 }
 TUnk_804EDD20::TUnk_804EDD20(TObject *parent, ActorBodyHit *hit, f32 *direction, s32 tint, s32 item_id)
     : TUnk_804EDD44(parent, hit, direction, tint, item_id) {
@@ -307,8 +307,8 @@ void TUnk_804EDD20::vfunc_8() {
 #pragma pop
 void TUnk_804EDD20::render() {
   s32 *var_r30;
-  s32 *var_r31;
-  s32 *var_r3;
+  s32 *equipped_item;
+  s32 *id;
   s32 *var_r4;
   s32 *new_var;
   f32 var_f0;
@@ -317,39 +317,39 @@ void TUnk_804EDD20::render() {
   var_r29 = (u8 *) this;
   if ((!((this->m_80) <= var_f0)) && (all_parents_unqueued_for_destruction__7TObjectFv() != 0))
   {
-    var_r3 = (s32 *) (*((s32 **) (((s8 *) var_r29) + 0x60)));
-    var_r31 = (s32 *) find_equipped_item((s32)var_r3);
-    if (var_r31 != 0)
+    id = (s32 *) (*((s32 **) (((s8 *) var_r29) + 0x60)));
+    equipped_item = (s32 *) find_equipped_item((s32)id);
+    if (equipped_item != 0)
     {
-      new_var = (s32 *) (*((s32 **) (((s8 *) var_r31) + 0x188)));
+      new_var = (s32 *) (*((s32 **) (((s8 *) equipped_item) + 0x188)));
       var_r30 = new_var;
       if (var_r30 != 0)
       {
-        var_r3 = &saved_model_draw_color.value;
+        id = &saved_model_draw_color.value;
         var_r4 = &model_material_color.value;
         saved_model_render_flags = model_render_flags;
-        var_r3 = &saved_model_draw_color.value;
+        id = &saved_model_draw_color.value;
         var_r4 = &model_material_color.value;
         copy_argb((NJS_ARGB *)&saved_model_draw_color.value, (NJS_ARGB *)&model_material_color.value);
-        var_r3 = (s32 *)(var_r29 + 0x80);
+        id = (s32 *)(var_r29 + 0x80);
         model_render_flags |= 0x20;
-        set_constant_material((const NJS_ARGB *)var_r3);
-        var_r3 = (s32 *) var_r31;
-        set_texlist(((TObjBase *)var_r3)->get_texlist());
+        set_constant_material((const NJS_ARGB *)id);
+        id = (s32 *) equipped_item;
+        set_texlist(((TObjBase *)id)->get_texlist());
         push_matrix();
-        var_r3 = (s32 *)(var_r29 + 0x64);
-        post_translate_matrix((int) var_r3);
+        id = (s32 *)(var_r29 + 0x64);
+        post_translate_matrix((int) id);
         var_r4 = (s32 *) (*((s32 **) (((s8 *) var_r29) + 0x58)));
-        var_r3 = (s32 *) ((u8 *) 0);
+        id = (s32 *) ((u8 *) 0);
         rotate_matrix_y(0, (int) var_r4);
-        var_r3 = (s32 *)(var_r29 + 0x74);
-        scale_current_matrix((int) var_r3);
-        var_r3 = (s32 *) var_r30;
-        draw_ginja_object(var_r3);
+        id = (s32 *)(var_r29 + 0x74);
+        scale_current_matrix((int) id);
+        id = (s32 *) var_r30;
+        draw_ginja_object(id);
         pop_matrix();
-        var_r3 = &model_material_color.value;
+        id = &model_material_color.value;
         var_r4 = &saved_model_draw_color.value;
-        var_r3 = &model_material_color.value;
+        id = &model_material_color.value;
         var_r4 = &saved_model_draw_color.value;
         copy_argb((NJS_ARGB *)&model_material_color.value, (NJS_ARGB *)&saved_model_draw_color.value);
         model_render_flags = saved_model_render_flags;

@@ -160,9 +160,9 @@ void handle_box_drop_directive(void *arg0) {
     }
 }
 
-void handle_6x5C_destroy_floor_item(void *arg0) {
-    ((TLobby *)arg0)->bswap_packet();
-    remove_item_condition(*(s32 *)((s8 *)arg0 + 8), *(s32 *)((s8 *)arg0 + 4));
+void handle_6x5C_destroy_floor_item(void *lobby) {
+    ((TLobby *)lobby)->bswap_packet();
+    remove_item_condition(*(s32 *)((s8 *)lobby + 8), *(s32 *)((s8 *)lobby + 4));
 }
 
 void handle_6x5A_pick_up_item_request(Msg_8011A9D8 *msg) {
@@ -242,19 +242,19 @@ void process_enemy_drop_request(s8 area, s16 source, int client, s16 room, int s
 
 #pragma push
 #pragma fp_contract on
-void handle_6xA2_specializable_item_drop_request(void *arg0) {
+void handle_6xA2_specializable_item_drop_request(void *lobby) {
     s8 temp_b;
-    ((TLobby *)arg0)->bswap_6xa2_fields();
-    temp_b = *(u8 *)((s8 *)arg0 + 5);
+    ((TLobby *)lobby)->bswap_6xa2_fields();
+    temp_b = *(u8 *)((s8 *)lobby + 5);
     if (temp_b == 0x30) {
-        if (*(s16 *)((s8 *)arg0 + 0x12) != 0) {
-            TLobby::drop_item_from_source((s16)(*(s16 *)((s8 *)arg0 + 6)), (int)(*(s8 *)((s8 *)arg0 + 4)), (s16)(*(s16 *)((s8 *)arg0 + 0x10)), (int)(*(s8 *)((s8 *)arg0 + 0x14)), *(f32 *)((s8 *)arg0 + 8), *(f32 *)((s8 *)arg0 + 0xC));
+        if (*(s16 *)((s8 *)lobby + 0x12) != 0) {
+            TLobby::drop_item_from_source((s16)(*(s16 *)((s8 *)lobby + 6)), (int)(*(s8 *)((s8 *)lobby + 4)), (s16)(*(s16 *)((s8 *)lobby + 0x10)), (int)(*(s8 *)((s8 *)lobby + 0x14)), *(f32 *)((s8 *)lobby + 8), *(f32 *)((s8 *)lobby + 0xC));
             return;
         }
-        handle_box_drop_directive(arg0);
+        handle_box_drop_directive(lobby);
         return;
     }
-    process_enemy_drop_request(temp_b, (s16)(*(s16 *)((s8 *)arg0 + 6)), (int)(*(s8 *)((s8 *)arg0 + 4)), (s16)(*(s16 *)((s8 *)arg0 + 0x10)), (int)(*(s8 *)((s8 *)arg0 + 0x14)), *(f32 *)((s8 *)arg0 + 8), *(f32 *)((s8 *)arg0 + 0xC));
+    process_enemy_drop_request(temp_b, (s16)(*(s16 *)((s8 *)lobby + 6)), (int)(*(s8 *)((s8 *)lobby + 4)), (s16)(*(s16 *)((s8 *)lobby + 0x10)), (int)(*(s8 *)((s8 *)lobby + 0x14)), *(f32 *)((s8 *)lobby + 8), *(f32 *)((s8 *)lobby + 0xC));
 }
 #pragma pop
 
