@@ -335,11 +335,11 @@ s32 TShopItemListWindow::handle_tool_list_select(void *p) {
     }
     if (sub_802239EC__13TShopSequenceFv(W) != 0) {
         *(s32 *)((u8 *)W + 0x20) = 3;
-        play_sound_effect(0x52D01, (Vec *)(0), 0, 0);
+        play_sound_effect(0x52D01, NULL, 0, 0);
         return;
     }
     if (sub_80223A48__15TShopWindowBaseFv(W) != 0) {
-        play_sound_effect(0x52D01, (Vec *)(0), 0, 0);
+        play_sound_effect(0x52D01, NULL, 0, 0);
         switch (((TShopItemListWindow *)W)->check_purchase_eligibility()) {
         case 0:
             W->base.m4(0xF, 1);

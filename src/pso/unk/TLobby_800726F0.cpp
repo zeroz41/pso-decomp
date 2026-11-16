@@ -272,7 +272,7 @@ void TObjChallengeRetry::handle_loss_sequence() {
         queue_destruction();
         return;
     case 1:
-        play_sound_effect(0x52812, (Vec *)(0), 0, 0);
+        play_sound_effect(0x52812, NULL, 0, 0);
         TLobby::send_45_and_close_windows(this);
         TLobby::play_default_effect(this);
         sub_80072B70();

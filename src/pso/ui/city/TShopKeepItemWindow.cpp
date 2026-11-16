@@ -210,7 +210,7 @@ void TShopKeepItemWindow::handle_deposit_list_select() {
     }
     if (sub_802239EC__13TShopSequenceFv(this) != 0) {
         set_field_20(5);
-        play_sound_effect(0x52D01, (Vec *)(0), 0, 0);
+        play_sound_effect(0x52D01, NULL, 0, 0);
         return;
     }
     if (sub_80223A48__15TShopWindowBaseFv(this) == 0) {
@@ -305,14 +305,14 @@ void TShopKeepItemWindow::handle_deposit_confirm() {
             if (store_item_in_bank((u8 *)&this->entries[i].data, this->deposit_count, base) != 0) {
                 get_item_record__23TShopJudgmentItemWindowFPv(this->m_24, this->entries[i].item->get_item_id(), this->deposit_count);
                 copy_bank_to_card_window(base);
-                play_sound_effect(0x52D01, (Vec *)(0), 0, 0);
+                play_sound_effect(0x52D01, NULL, 0, 0);
                 ((TWindowBase *)this->confirm_window)->close();
                 this->confirm_window = 0;
                 set_field_20(0);
                 return;
             }
             ((V_802219A0 *) this)->m4(0x3C, 1);
-            play_sound_effect(0x53F06, (Vec *)(0), 0, 0);
+            play_sound_effect(0x53F06, NULL, 0, 0);
             ((TWindowBase *)this->confirm_window)->close();
             this->confirm_window = 0;
             set_field_20(7);

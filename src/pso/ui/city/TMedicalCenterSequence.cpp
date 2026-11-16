@@ -302,7 +302,7 @@ void TMedicalCenterSequence::exec_heal() {
         set_field_20((s32)((void*)(0xA)));
         return;
     }
-    play_sound_effect(0x42D08, (Vec *)(0), 0, 0);
+    play_sound_effect(0x42D08, NULL, 0, 0);
     send_code_49_1__10TObjPlayerFi(*(s32 *)((s8 *)this + 0x24));
     send_code50_packet__10TObjPlayerFi(*(s32 *)((s8 *)this + 0x24));
     if (((TObjPlayer *)(*(s32 *)((s8 *)this + 0x24)))->is_alive_and_ready() != 0) {

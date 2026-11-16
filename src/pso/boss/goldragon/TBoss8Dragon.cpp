@@ -5971,7 +5971,7 @@ void TBoss8Dragon::sub_802F6838(s32 arg1) {
         switch (*(s32 *)((s8 *)this + 0x84C)) {
         case 0:
             if (((TObjMotion *)this)->is_passing_frame(60.0f) != 0 || ((TObjMotion *)this)->is_passing_frame(98.0f) != 0) {
-                play_sound_effect(0x4003AD07, (Vec *)(0), 0, 0);
+                play_sound_effect(0x4003AD07, NULL, 0, 0);
                 start_pad_rumble_all(0xA0, 0xF);
             }
             if (*(f32 *)((s8 *)this + 0xC0) >= 25.0f && *(f32 *)((s8 *)this + 0xC0) < 40.0f) {
@@ -6885,13 +6885,13 @@ void TBoss8Dragon::sub_802F4DD4(s32 arg1) {
             switch (step = o->step) {
             case 0:
                 if (((TObjMotion *)o)->is_passing_frame(2.0f) != 0) {
-                    play_sound_effect(0x4003A804, (Vec *)(0), 0, 0);
+                    play_sound_effect(0x4003A804, NULL, 0, 0);
                     o->step++;
                 }
                 break;
             case 1:
                 if (((TObjMotion *)o)->is_passing_frame(60.0f) != 0) {
-                    play_sound_effect(0x4003AD0E, (Vec *)(0), 0, 0);
+                    play_sound_effect(0x4003AD0E, NULL, 0, 0);
                 }
                 if (((TObjMotion *)o)->is_passing_frame(63.0f) != 0) {
                     Vec_802F4DD4 v;
@@ -6909,7 +6909,7 @@ void TBoss8Dragon::sub_802F4DD4(s32 arg1) {
                 break;
             case 2:
                 if (((TObjMotion *)o)->is_passing_frame(75.0f) != 0) {
-                    play_sound_effect(0x4003AD06, (Vec *)(0), 0, 0);
+                    play_sound_effect(0x4003AD06, NULL, 0, 0);
                     o->step++;
                     o->f850 = 0;
                 }
@@ -7432,4 +7432,3 @@ void TBoss8Dragon::set_mode_params(s8 arg1) {
 extern "C" {
 
 }
-

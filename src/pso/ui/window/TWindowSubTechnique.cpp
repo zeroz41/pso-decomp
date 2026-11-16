@@ -298,7 +298,7 @@ void TWindowSubTechnique::run_task() {
         if (TWindowSubTechnique::is_technique_available((s16)((TWindowMenu *)self->sel)->get_selected_value(), self->player) == 0 ||
             TWindowShortListCtrl__check_controller_button(controller_input_state[port].m20, 2) != 0 ||
             test_flag_4c__23TAdSinglePlyChrSelectGCFv(controller_input_state[4].m20, 2) != 0) {
-            play_sound_effect(0x52F16, (Vec *)(0), 0, 0);
+            play_sound_effect(0x52F16, NULL, 0, 0);
             rebuildTechniqueList__19TWindowSubTechniqueFll(self, self->sel, ((TWindowMenu *)self->list)->get_selected_value());
             self->state = 1;
         } else if (try_equip_item__10TObjPlayerFii(ply, (s16)((TWindowMenu *)self->sel)->get_selected_value()) != 0) {

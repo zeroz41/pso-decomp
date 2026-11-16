@@ -564,7 +564,7 @@ void TShopJudgmentItemWindow::handle_input() {
 
     if (sub_802239EC__13TShopSequenceFv(this) != 0) {
         set_field_20(0xA);
-        play_sound_effect(0x52D01, (Vec *)(0), 0, 0);
+        play_sound_effect(0x52D01, NULL, 0, 0);
         return;
     }
     if (((TShopWindowBase *)this)->TShopWindowBase::sub_80223A48() != 0) {
@@ -572,7 +572,7 @@ void TShopJudgmentItemWindow::handle_input() {
         ((TWindowAddition *)(this->m_158))->set_position_xy(((TShopWindowBase *)this)->TShopWindowBase::get_scale(), ((TShopWindowBase *)this)->TShopWindowBase::get_scale());
         ((VObj_80221344_802205E4 *)this)->m6(3, 1);
         set_field_20(2);
-        play_sound_effect(0x52D01, (Vec *)(0), 0, 0);
+        play_sound_effect(0x52D01, NULL, 0, 0);
     }
 }
 

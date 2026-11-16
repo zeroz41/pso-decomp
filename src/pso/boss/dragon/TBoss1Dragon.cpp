@@ -1066,13 +1066,13 @@ void TBoss1Dragon::update_appearance_state(u32 reason) {
             switch (this->m_86c) {
             case 0:
                 if (this->is_passing_frame((f32)(2.0f)) != 0) {
-                    play_sound_effect(0x4003A804, (Vec *)(0), 0, 0);
+                    play_sound_effect(0x4003A804, NULL, 0, 0);
                     this->m_86c++;
                 }
                 break;
             case 1:
                 if (this->is_passing_frame((f32)(32.0f)) != 0) {
-                    play_sound_effect(0x4003AD0E, (Vec *)(0), 0, 0);
+                    play_sound_effect(0x4003AD0E, NULL, 0, 0);
                 }
                 if (this->is_passing_frame((f32)(35.0f)) != 0) {
                     spawn_particle_effect_with_flags(&this->position, this->effectResource->particle_ids[2], 0x40);
@@ -1081,7 +1081,7 @@ void TBoss1Dragon::update_appearance_state(u32 reason) {
                 break;
             case 2:
                 if (this->is_passing_frame((f32)(75.0f)) != 0) {
-                    play_sound_effect(0x4003AD06, (Vec *)(0), 0, 0);
+                    play_sound_effect(0x4003AD06, NULL, 0, 0);
                     this->m_86c++;
                     this->impactAge = 0;
                 }
@@ -1134,20 +1134,20 @@ void TBoss1Dragon::update_appearance_state(u32 reason) {
             case 0:
                 if (this->is_passing_frame((f32)(9.0f)) != 0 ||
                     this->is_passing_frame((f32)(40.0f)) != 0) {
-                    play_sound_effect(0x4003A804, (Vec *)(0), 0, 0);
+                    play_sound_effect(0x4003A804, NULL, 0, 0);
                 }
                 if (this->is_passing_frame((f32)(62.0f)) != 0) {
-                    play_sound_effect(0x4003AD0E, (Vec *)(0), 0, 0);
+                    play_sound_effect(0x4003AD0E, NULL, 0, 0);
                 }
                 if (this->is_passing_frame((f32)(64.0f)) != 0) {
-                    play_sound_effect(0x4003A804, (Vec *)(0), 0, 0);
+                    play_sound_effect(0x4003A804, NULL, 0, 0);
                     spawn_particle_effect_with_flags(&this->position, this->effectResource->particle_ids[2], 0x40);
                     this->m_86c++;
                 }
                 break;
             case 1:
                 if (this->is_passing_frame((f32)(92.0f)) != 0) {
-                    play_sound_effect(0x4003AD06, (Vec *)(0), 0, 0);
+                    play_sound_effect(0x4003AD06, NULL, 0, 0);
                     this->m_86c++;
                     this->impactAge = 0;
                 }
@@ -1199,13 +1199,13 @@ void TBoss1Dragon::update_appearance_state(u32 reason) {
             switch (this->m_86c) {
             case 0:
                 if (this->is_passing_frame((f32)(2.0f)) != 0) {
-                    play_sound_effect(0x4003A804, (Vec *)(0), 0, 0);
+                    play_sound_effect(0x4003A804, NULL, 0, 0);
                     this->m_86c++;
                 }
                 break;
             case 1:
                 if (this->is_passing_frame((f32)(60.0f)) != 0) {
-                    play_sound_effect(0x4003AD0E, (Vec *)(0), 0, 0);
+                    play_sound_effect(0x4003AD0E, NULL, 0, 0);
                 }
                 if (this->is_passing_frame((f32)(63.0f)) != 0) {
                     spawn_particle_effect_with_flags(&this->position, this->effectResource->particle_ids[2], 0x40);
@@ -1215,7 +1215,7 @@ void TBoss1Dragon::update_appearance_state(u32 reason) {
                 break;
             case 2:
                 if (this->is_passing_frame((f32)(75.0f)) != 0) {
-                    play_sound_effect(0x4003AD06, (Vec *)(0), 0, 0);
+                    play_sound_effect(0x4003AD06, NULL, 0, 0);
                     this->m_86c++;
                     this->impactAge = 0;
                 }
@@ -1988,7 +1988,7 @@ void update_death_state__12TBoss1DragonFv(u8 *arg0, u32 arg1) {
         switch (((TBoss1Dragon *)arg0)->stateStep) {
         case 0:
             if (((TObjMotion *)arg0)->is_passing_frame((f32)(60.0f)) != 0 || ((TObjMotion *)arg0)->is_passing_frame((f32)((f32)(98.0f))) != 0) {
-                play_sound_effect(0x4003AD07, (Vec *)(0), 0, 0);
+                play_sound_effect(0x4003AD07, NULL, 0, 0);
                 start_pad_rumble_all(0xA0, 0xF);
             }
             if (((TBoss1Dragon *)arg0)->frame >= (25.0f) && ((TBoss1Dragon *)arg0)->frame < (40.0f)) {

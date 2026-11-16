@@ -295,7 +295,7 @@ void TShopEquipmentSellWindow::handle_selection() {
     }
     if (sub_802239EC__13TShopSequenceFv(w) != 0) {
         ((TShopWindowBase *)w)->set_field_20(8);
-        play_sound_effect(0x52D01, (Vec *)(0), 0, 0);
+        play_sound_effect(0x52D01, NULL, 0, 0);
         return;
     }
     if (sub_80223A48__15TShopWindowBaseFv(w) != 0) {

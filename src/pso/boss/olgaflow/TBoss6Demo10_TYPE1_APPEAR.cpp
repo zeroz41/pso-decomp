@@ -94,15 +94,15 @@ void run_task__25TBoss6Demo10_TYPE1_APPEARFv(TBoss6Demo10_TYPE1_APPEAR *boss6_de
     }
     ((TBoss6PlotFalz *)((u8 *)boss6_demo10_type1_appear + 0x40))->scroll_strips_uv(8, 0);
     if ((s32) boss6_demo10_type1_appear->m_38 == 0x78) {
-        play_sound_effect(0x4003A105, (Vec *)(0), 0, 0);
+        play_sound_effect(0x4003A105, NULL, 0, 0);
     }
     switch (boss6_demo10_type1_appear->m_38) {
     case 0x1B8:
     case 0xFA:
-        play_sound_effect(0x4003A811, (Vec *)(0), 0, 0);
+        play_sound_effect(0x4003A811, NULL, 0, 0);
         break;
     case 0x154:
-        play_sound_effect(0x40031222, (Vec *)(0), 0, 0);
+        play_sound_effect(0x40031222, NULL, 0, 0);
         break;
     }
     switch (boss6_demo10_type1_appear->m_38) {

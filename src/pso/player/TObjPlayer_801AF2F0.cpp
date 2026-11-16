@@ -4346,7 +4346,7 @@ s32 try_send_6x27_use_item(void *player, s32 arg1) {
         return 0;
     }
     if (((TObjPlayer *)player)->can_use_item(temp) == 0) {
-        play_sound_effect(0x3816, (Vec *)(0), 0, 0);
+        play_sound_effect(0x3816, NULL, 0, 0);
         return 0;
     }
     if ((player != NULL) && (((s32 (*)(void *))obj_isState2_324__9TObjCharaFv)(player) != 0)) {
@@ -7679,7 +7679,7 @@ extern "C" void fn_801B0480(u8 *player, void *attacker, s32 amount) {
         || ((TLobby *)lobby_rule_settings)->get_rule_field_a() != 1
         || TLobby__sub_801C19D0(player + 0x828) != TLobby__sub_801C19D0((u8 *)attacker + 0x828)) {
         accumulate_damage_stats((s32)(player + 0x75C), (s32)attacker, amount);
-        play_sound_effect(0x4004B20A, (Vec *)(0), 0, 0);
+        play_sound_effect(0x4004B20A, NULL, 0, 0);
     }
 }
 

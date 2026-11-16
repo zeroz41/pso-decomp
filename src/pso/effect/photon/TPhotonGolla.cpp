@@ -360,7 +360,7 @@ void TPhotonGolla::run_task() {
         TPhotonGolla::spawn_concentrate(arg0);
     }
     if ((s32) this->m_1c4 != 0) {
-        play_persistent_sound(0x4002462F, (s32)arg0, (Vec *)(0), 0, 0);
+        play_persistent_sound(0x4002462F, (s32)arg0, NULL, 0, 0);
     }
 }
 
