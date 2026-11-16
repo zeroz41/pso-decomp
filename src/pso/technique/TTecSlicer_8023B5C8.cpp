@@ -419,7 +419,6 @@ void TTecSlicer::init_launch_angles(s32 *arg0, s32 *arg1, s32 arg2) {
   s32 *var_r29;
   s32 *var_r30;
   s32 *var_r3;
-  s32 temp_r0;
   s32 var_r31;
   var_r29 = arg0;
   var_r30 = (s32 *) arg1;
@@ -430,8 +429,7 @@ void TTecSlicer::init_launch_angles(s32 *arg0, s32 *arg1, s32 arg2) {
   ((RecoveredFields_8023B770_var_r29 *) var_r29)->field_5C = -0x4000;
   var_r31 = (s32) ((TTecSlicer *)var_r3)->get_remain_count();
   var_r3 = (s32 *) var_r30;
-  temp_r0 = ((TObjPlayer *)var_r3)->has_valid_handle() * 3;
-  ((RecoveredFields_8023B770_var_r29 *) var_r29)->field_64 = TTecSlicer__launch_angle_table[var_r31 + temp_r0];
+  ((RecoveredFields_8023B770_var_r29 *) var_r29)->field_64 = TTecSlicer__launch_angle_table[var_r31 + (((TObjPlayer *)var_r3)->has_valid_handle() * 3)];
   pop_matrix();
 }
 

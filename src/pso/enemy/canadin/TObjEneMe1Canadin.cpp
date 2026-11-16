@@ -1945,13 +1945,11 @@ void TObjEneMe1Canadin::update_walk_animation(s32 arg1) {
 }
 
 void TObjEneMe1Canadin::update_by_state(s32 arg1) {
-    f32 temp_f1;
 
     switch (arg1) {
     case 4:
         requested_action = 0;
-        temp_f1 = position.y;
-        m_3F8 = (f32) (temp_f1 + m_3EC);
+        m_3F8 = (f32) (position.y + m_3EC);
         m_484 = sin_table_lookup(rotation_y);
         m_488 = cos_table_lookup(rotation_y);
         return;

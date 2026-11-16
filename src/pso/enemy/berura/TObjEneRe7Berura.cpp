@@ -1395,7 +1395,6 @@ void TObjEneRe7Berura::run_flash_warning_state(s32 arg1) {
 #pragma pop
 void TObjEneRe7Berura::state_patrol(void *arg0, int arg1) {
     TObjEneRe7Berura *self = (TObjEneRe7Berura *)arg0;
-    s32 temp_r4;
 
     switch (arg1) {
     case 4:
@@ -1417,8 +1416,7 @@ void TObjEneRe7Berura::state_patrol(void *arg0, int arg1) {
         if (((TObjEneRe7BeruraPunch *)self)->is_patrol_active() == 0) {
             self->play_speed = 1.6f;
         }
-        temp_r4 = self->rotation_y;
-        self->rotation_y = temp_r4 + 0x280;
+        self->rotation_y = self->rotation_y + 0x280;
         self->vfunc_102();
         self->vfunc_89();
         break;

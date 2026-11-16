@@ -25,7 +25,6 @@ extern s32 model_render_flags;
 void TUnk_804A1A48::reserved_53() {
     Sp8Type_80123524 sp8;
     s32 temp_r3;
-    s32 temp_r6;
     void *temp_r5;
     void *temp_r31;
     void *temp_r30;
@@ -51,8 +50,7 @@ void TUnk_804A1A48::reserved_53() {
         *(s32 *)((s8 *)temp_r30 + 0) = (s32) (*(s32 *)((s8 *)temp_r30 + 0) & 0xFFFFFFFD);
         *(s32 *)((s8 *)temp_r30 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r30 + 0x18) + this->swing_angle);
         *(s32 *)((s8 *)temp_r29 + 0) = (s32) (*(s32 *)((s8 *)temp_r29 + 0) & 0xFFFFFFFD);
-        temp_r6 = this->swing_angle;
-        *(s32 *)((s8 *)temp_r29 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r29 + 0x18) - temp_r6);
+        *(s32 *)((s8 *)temp_r29 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r29 + 0x18) - this->swing_angle);
         if (((TItemWeapon *)this)->get_joint_position(1, &sp8) != 0) {
             push_matrix();
             post_translate_matrix(&sp8);

@@ -1502,15 +1502,13 @@ void TObjEneBm5Wolf::circling_state(s32 arg1) {
 void TObjEneBm5Wolf::update_lunge(s32 arg1) {
     f32 temp_f2;
     f32 temp_f3;
-    s32 temp_r4;
     switch (arg1) {
     case 4:
         this->requested_action = 0xC;
         this->set_field_378(0xD);
         this->vfunc_96();
         this->m_408 = (s32) (this->m_408 & 0xFFFFFFFD);
-        temp_r4 = this->m_408 | 4;
-        this->m_408 = temp_r4;
+        this->m_408 = (this->m_408 | 4);
         this->roamingSubstate = 0;
         this->roamingTimer = 0;
         this->m_42c = calc_lunge_aim__14TObjEneBm5WolfFPv(this);

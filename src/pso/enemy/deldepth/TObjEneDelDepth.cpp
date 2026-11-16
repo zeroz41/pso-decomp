@@ -310,7 +310,6 @@ TObjEneDelDepth::TObjEneDelDepth(TObject *parent, void *setData) : TObjEnemy(par
 
 void TObjEneDelDepth::init() {
     u8 *arg0 = (u8 *)this;
-    DelDepthMotion *var_r0;
     this->texlist = TObjFish__sub_8001EDB0((u8 *)(TObjEneDelDepth__shared_resource = TObjEneDelDepth::get_data()), 0);
     this->model = (void *)get_bml_model(TObjEneDelDepth__shared_resource, 0);
     VecCopy(&this->prev_position, (const Vec *)(VecCopy(&this->home_position, (const Vec *)(VecCopy(&this->center, &this->position)))));
@@ -329,8 +328,7 @@ void TObjEneDelDepth::init() {
     ((TBoss3Volopt *)arg0)->reset_photon_effect();
     this->movementParameters = 0;
     ((TObjEnemy *)arg0)->set_param(0x47);
-    var_r0 = new DelDepthMotion(this);
-    this->motionController = var_r0;
+    this->motionController = (new DelDepthMotion(this));
     this->targetPlayer = 0xFFFF;
     this->groundFlags = 0;
     VecCopy(&this->groundPoint, &this->position);
@@ -648,7 +646,6 @@ void TObjEneDelDepth::update_scale_pulse() {
 #pragma push
 #pragma fp_contract on
 void TObjEneDelDepth::start_move_toward_player() {
-    f32 temp_f1;
     s32 temp_r31;
     u8 *actor = (u8 *)this;
     this->movementSpeed = TObjEneDelDepth__data_805DF258;
@@ -664,8 +661,7 @@ void TObjEneDelDepth::start_move_toward_player() {
         return;
     }
     normalize_vector((u8 *)&this->direction.x);
-    temp_f1 = (lbl_805DF2B8 * random_ratio()) + lbl_805DF2B4;
-    this->m_38c = temp_f1;
+    this->m_38c = ((lbl_805DF2B8 * random_ratio()) + lbl_805DF2B4);
     this->opacity = TObjEneDelDepth__data_805DF260;
     this->motionController->set_motion(7);
     this->set_draw_mode((s32)((void *)3));

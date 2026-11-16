@@ -413,7 +413,6 @@ void update_charge_effects__14TBoss6GravBallFPv(u8 *self) {
 }
 
 void update_state__14TBoss6GravBallFPv(u8 *arg0) {
-    f32 temp_f2;
     s32 temp_r3;
     s32 temp_r3_2;
     temp_r3 = clamp_to_ground__14TBoss6GravBallFv();
@@ -423,8 +422,7 @@ void update_state__14TBoss6GravBallFPv(u8 *arg0) {
     fn_80323134((Obj_80323134 *)arg0);
     if (temp_r3 != 0) {
         ((TBoss6GravBall *)arg0)->create_emitter(2);
-        temp_f2 = *(f32 *)((s8 *)arg0 + 0xBC);
-        if (temp_f2 < 1.0f) {
+        if ((*(f32 *)((s8 *)arg0 + 0xBC)) < 1.0f) {
             *(f32 *)((s8 *)arg0 + 0xBC) += 0.033333335f;
             if (*(f32 *)((s8 *)arg0 + 0xBC) > 1.0f) {
                 *(f32 *)((s8 *)arg0 + 0xBC) = 1.0f;

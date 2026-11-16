@@ -2721,7 +2721,6 @@ void TBoss1Dragon::update_roar_state(u32 arg1) {
 #define play_cue_stream_file ((s32 (*)(void *))play_cue_stream_file)
 void TBoss1Dragon::update_stretch_state(u32 arg1) {
     u8 *arg0 = (u8 *)this;
-    s32 temp_r4;
 
     switch (arg1) {
     case ENEMY_STATE_ENTER:
@@ -2730,8 +2729,7 @@ void TBoss1Dragon::update_stretch_state(u32 arg1) {
         ((TBoss1Dragon *)arg0)->clearState();
         ((TBoss1Dragon *)arg0)->beginHeightTransition();
         this->flags = (s32) (this->flags | 0xC00);
-        temp_r4 = this->flags;
-        this->flags = (s32) (temp_r4 & ~0x280);
+        this->flags = (s32) (this->flags & ~0x280);
         ((TBoss1Dragon *)(arg0))->vfunc_91();
         return;
     case 2:

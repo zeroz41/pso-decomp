@@ -1355,7 +1355,6 @@ void TObjEneRecon::sub_8031D4B0(s32 arg1) {
     f32 temp_f2;
     f32 temp_f2_2;
     f32 temp_f2_3;
-    f32 temp_f2_4;
     f32 temp_f2_5;
     f32 temp_f31;
     switch (arg1) {
@@ -1409,8 +1408,7 @@ void TObjEneRecon::sub_8031D4B0(s32 arg1) {
                         *(f32 *)((s8 *)arg0 + 0x42C) = (f32) (temp_f2_3 - temp_f1_2);
                     }
                 } else {
-                    temp_f2_4 = *(f32 *)((s8 *)arg0 + 0x42C);
-                    if (temp_f2_4 < 0.3f) {
+                    if ((*(f32 *)((s8 *)arg0 + 0x42C)) < 0.3f) {
                         *(f32 *)((s8 *)arg0 + 0x42C) += 0.1f;
                         if (*(f32 *)((s8 *)arg0 + 0x42C) > 0.3f) {
                             *(f32 *)((s8 *)arg0 + 0x42C) = 0.3f;

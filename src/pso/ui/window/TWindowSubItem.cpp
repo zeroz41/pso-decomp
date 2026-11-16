@@ -355,10 +355,8 @@ void add_item_purpose_actions(TWindowSubItem *window_sub_item, s32 arg1, s32 arg
 
 void TWindowSubItem::draw_slot(s32 arg1, s32 arg2, s32 arg3) {
     s32 temp_r31;
-    s32 temp_r3;
 
-    temp_r3 = (u32)__cntlzw(4 - (arg3 & 0xF)) >> 5;
-    temp_r31 = temp_r3 + 4;
+    temp_r31 = ((u32)__cntlzw(4 - (arg3 & 0xF)) >> 5) + 4;
     if ((is_current_area_item_enabled() == 0) || (is_boss_area() != 0)) {
         TWindowSubComCard::draw_text_gray(arg2, (s32)(get_localized_text_entry(0x10, 0xF)), 6, temp_r31);
         return;

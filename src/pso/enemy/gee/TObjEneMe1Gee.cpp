@@ -892,7 +892,6 @@ void TObjEneMe1Gee::state_attack_loop(s32 arg1) {
 }
 
 void TObjEneMe1Gee::state_move(s32 arg1) {
-    s32 temp_r4;
 
     switch (arg1) {
     case 4:
@@ -900,8 +899,7 @@ void TObjEneMe1Gee::state_move(s32 arg1) {
         set_field_378(3);
         this->m_3c8 &= 0xFFBFFFFF;
         this->vfunc_95();
-        temp_r4 = this->actorFlags & 0xFEFFFFFF;
-        this->actorFlags = temp_r4;
+        this->actorFlags = (this->actorFlags & 0xFEFFFFFF);
         this->m_47c = 1;
         fade.start_fade_in();
         ((TBoss3Volopt *)&this->position)->play_area_sound_effect();
