@@ -44,6 +44,7 @@ typedef struct Obj_80405304 { u8 pad[0x18]; u8 f18; } Obj_80405304;
 
 #include "pso/network/IPv6Send.h"
 #include "pso/network/NetStackTypes.h"
+#include "pso/network/PppLcp.h"
 
 s32 TLobby__sub_803F79AC(void *);
 
@@ -740,7 +741,7 @@ s32 TLobby__sub_804062A0(s16 arg0) {
 }
 
 s32 TLobby__sub_804048E8(void *, s32 *, s16); /* declared here with other parameter types; the definition is s32 (Obj_80403F4C *, PppFrame **, s16) */
-s32 ppp_output_frame(u8 *);
+s32 ppp_output_frame(PppFrame *);
 s32 TLobby__sub_80406328(s32 self, s16 type) {
     s32 sv = self;
     void *me = (void *)self;
@@ -769,7 +770,7 @@ s32 TLobby__sub_80406328(s32 self, s16 type) {
             (*(s16 *)(G + 0x124))++;
             return -1;
         }
-        return ppp_output_frame(t);
+        return ppp_output_frame((PppFrame *)t);
     }
     G = lbl_805C0038;
     if (G[0x6c] != 5) {
@@ -790,7 +791,7 @@ s32 TLobby__sub_80406328(s32 self, s16 type) {
             (*(s16 *)(G + 0x124))++;
             return -1;
         }
-        return ppp_output_frame(t);
+        return ppp_output_frame((PppFrame *)t);
     }
     {
         u8 *e = *(u8 **)(G + 0x9c);
@@ -839,7 +840,7 @@ skip:
                 (*(s16 *)(G + 0x124))++;
                 return -1;
             }
-            return ppp_output_frame(t2);
+            return ppp_output_frame((PppFrame *)t2);
         }
     }
 }
@@ -866,167 +867,138 @@ s32 TLobby__sub_80406624(s32 a, s32 b, u16 code, void *self) {
         *(s16 *)(lbl_805C0038 + 0x124) = *(s16 *)(lbl_805C0038 + 0x124) + 1;
         return -1;
     }
-    return ppp_output_frame(ret);
+    return ppp_output_frame((PppFrame *)ret);
 }
 
-inline s32 acfc_804066D8(s32 lcp, u8 *ctx)
-{
-  s32 r = 1;
-  if ((!lcp) && ((*((s16 *) (ctx + 0x50))) & 0x100))
-  {
-    r = 0;
-  }
-  return r;
+/* 1 while the address and control fields (LCP_OPT_ACFC) or the high protocol byte (LCP_OPT_PFC) must be sent:
+   always for LCP frames, otherwise until the peer has agreed to the compression option. */
+inline s32 ppp_keep_field(s32 is_lcp, LcpOpts *opts, s32 opt) {
+    s32 r = 1;
+    if (!is_lcp && (opts->remote.got.mask & opt)) {
+        r = 0;
+    }
+    return r;
 }
+
+inline s32 ppp_protocol_field_is_two_bytes(s32 is_lcp, LcpOpts *opts, u16 proto) {
+    s32 r = 1;
+    if (ppp_keep_field(is_lcp, opts, LCP_OPT_PFC) == 0 && proto < 0xff) {
+        r = 0;
+    }
+    return r;
+}
+
 #pragma push
 #pragma opt_propagation off
-s32 ppp_output_frame(u8 *p)
-{
-  u8 c0;
-  u8 c1;
-  u8 *st;
-  u8 *ctx;
-  s32 crc = 0xffff;
-  u32 accm = -1;
-  s32 n = 4;
-  s32 sz;
-  s16 stt;
-  s32 padx[2];
-  u8 *src;
-  u8 *out;
-  PppFrame *q;
-  u8 *buf;
-  PppBuffers *obj;
-  u16 tag;
-  s32 two;
-  unsigned short pad;
-  s32 pfc;
-  s32 acfc;
-  s32 lcp;
-  s32 d;
-  s32 skip;
-  u16 fcs;
-  st = *((u8 (*)[]) (&lbl_805C0038));
-  ctx = *((u8 **) (st + 0x34));
-  *((s32 *) (st + 0x110)) += ((u16) get_field_4(p)) + 2;
-  if ((p == ((void *) 0)) || ((*((u16 *) (p + 4))) < 4))
-  {
-    *((s16 *) (st + 0x122)) += 1;
-    return -1;
-  }
-  src = *((u8 **) p);
-  c0 = src[0];
-  c1 = src[1];
-  tag = read_network_u16_be(src + 2);
-  lcp = tag == 0xc021;
-  if ((tag != 0xc021) && ((*((s16 *) (ctx + 0x50))) & 4))
-  {
-    accm = *((u32 *) (ctx + 0x54));
-  }
-  two = 1;
-  pfc = two;
-  if ((!lcp) && ((*((s16 *) (ctx + 0x50))) & 0x80))
-  {
-    pfc = 0;
-  }
-  if ((pfc == 0) && (tag < 0xff))
-  {
-    two = 0;
-  }
-  if (two == 0)
-  {
-    n = 3;
-  }
-  if ((*((s16 *) (&lbl_805D7A7A))) != 0)
-  {
-    acfc = 0;
-  }
-  else
-  {
-    acfc = acfc_804066D8(lcp, ctx);
-  }
-  if (acfc == 0)
-  {
-    n -= 2;
-  }
-  skip = 4 - n;
-  *((u16 *) (p + 4)) -= skip;
-  *((u8 **) p) += skip;
-  out = *((u8 **) p);
-  if (acfc != 0)
-  {
-    out[0] = c0;
-    out[1] = c1;
-    out += 2;
-  }
-  if (two != 0)
-  {
-    *out = tag >> 8;
-    out++;
-  }
-  *out = tag;
-  /* The game reads obj here before setting it (the headroom of whatever the register holds). */
-  sz = obj->headroom;
-  obj = &lbl_805C04A8;
-  q = obj->frame_out;
-  q->data = ((u8 *) q) + ((sz + 3) & (~3));
-  buf = q->data;
-  if ((*((s16 *) (&lbl_805D7A7A))) != 0)
-  {
-    NetMemcpy(buf + 0x14, *((u8 **) p), *((u16 *) (p + 4)));
-    q->len = *((u16 *) (p + 4));
-  }
-  else
-  {
-    *buf = 0x7e;
-    buf++;
-    *((s32 *) (st + 0x114)) += 1;
-    while ((d = get_80405A74((PppFrame **) (&p))) != (-1))
-    {
-      crc = (u16) ((((u16) crc) >> 8) ^ ppp_fcs16_table[(((u16) crc) ^ d) & 0xff]);
-      if ((((d < 0x20) && (accm & (1 << d))) || (d == 0x7d)) || (d == 0x7e))
-      {
-        *(buf++) = 0x7d;
-        *(buf++) = d ^ 0x20;
-      }
-      else
-      {
-        *(buf++) = d;
-      }
-    }
+s32 ppp_output_frame(PppFrame *p) {
+    PppFrame *frame;
+    u8 *out;
+    u8 *hdr;
+    LcpOpts *opts;
+    PppBuffers *bufs;
+    u16 fcs;
+    s32 crc = 0xffff;
+    u8 *src;
+    u8 ctrl;
+    u8 addr;
+    s32 two;
+    s32 is_lcp;
+    s16 state;
+    u32 accm = -1;
+    s32 n = 4;
+    u8 *ppp;
+    s32 sz;
+    u16 proto;
+    s32 c;
+    s32 pfc;
+    s32 skip;
+    s32 acfc;
 
-    crc ^= 0xffff;
-    fcs = crc;
-    d = fcs & 0xff;
-    if ((((d < 0x20) && (accm & (1 << d))) || (d == 0x7d)) || (d == 0x7e))
-    {
-      *(buf++) = 0x7d;
-      *(buf++) = d ^ 0x20;
+    ppp = lbl_805C0038;
+    opts = *(LcpOpts **)(ppp + 0x34);
+    *(s32 *)(ppp + 0x110) += get_field_4(p) + 2;
+    if (p == NULL || p->len < 4) {
+        *(s16 *)(ppp + 0x122) += 1;
+        return -1;
     }
-    else
-    {
-      *(buf++) = d;
+    src = p->data;
+    addr = src[0];
+    ctrl = src[1];
+    proto = read_network_u16_be(src + 2);
+    is_lcp = proto == 0xc021;
+    if (proto != 0xc021 && (opts->remote.got.mask & LCP_OPT_ACCM)) {
+        accm = opts->remote.got.accm;
     }
-    d = fcs >> 8;
-    if ((((d < 0x20) && (accm & (1 << d))) || (d == 0x7d)) || (d == 0x7e))
-    {
-      *(buf++) = 0x7d;
-      *(buf++) = d ^ 0x20;
+    two = ppp_protocol_field_is_two_bytes(is_lcp, opts, proto);
+    if (two == 0) {
+        n = 3;
     }
-    else
-    {
-      *(buf++) = d;
+    if (lbl_805D7A7A != 0) {
+        acfc = 0;
+    } else {
+        acfc = ppp_keep_field(is_lcp, opts, LCP_OPT_ACFC);
     }
-    *(buf++) = 0x7e;
-    q->len = buf - q->data;
-  }
-  stt = *((s16 *) (&lobby_modem_connect_state));
-  if ((stt == 7) || (stt == 0))
-  {
-    return 0;
-  }
-  get_time_ms(&lbl_805D7A94);
-  return (s16) send_network_frame(q->len, q->data);
+    if (acfc == 0) {
+        n -= 2;
+    }
+    skip = 4 - n;
+    p->len -= skip;
+    p->data += skip;
+    hdr = p->data;
+    if (acfc != 0) {
+        hdr[0] = addr;
+        hdr[1] = ctrl;
+        hdr += 2;
+    }
+    if (two != 0) {
+        *hdr++ = proto >> 8;
+    }
+    *hdr++ = proto;
+    bufs = &lbl_805C04A8;
+    frame = bufs->frame_out;
+    frame->data = (u8 *)frame + ((bufs->headroom + 3) & ~3);
+    out = frame->data;
+    if (lbl_805D7A7A != 0) {
+        NetMemcpy(out + 0x14, p->data, p->len);
+        frame->len = p->len;
+    } else {
+        *out++ = 0x7e;
+        *(s32 *)(ppp + 0x114) += 1;
+        while ((c = get_80405A74(&p)) != -1) {
+            crc = (u16)(((u16)crc >> 8) ^ ppp_fcs16_table[((u16)crc ^ c) & 0xff]);
+            if ((c < 0x20 && (accm & (1 << c))) || c == 0x7d || c == 0x7e) {
+                *out++ = 0x7d;
+                *out++ = c ^ 0x20;
+            } else {
+                *out++ = c;
+            }
+        }
+
+        crc ^= 0xffff;
+        fcs = crc;
+        c = fcs & 0xff;
+        if ((c < 0x20 && (accm & (1 << c))) || c == 0x7d || c == 0x7e) {
+            *out++ = 0x7d;
+            *out++ = c ^ 0x20;
+        } else {
+            *out++ = c;
+        }
+        c = fcs >> 8;
+        if ((c < 0x20 && (accm & (1 << c))) || c == 0x7d || c == 0x7e) {
+            *out++ = 0x7d;
+            *out++ = c ^ 0x20;
+        } else {
+            *out++ = c;
+        }
+        *out++ = 0x7e;
+        frame->len = out - frame->data;
+    }
+    state = lobby_modem_connect_state;
+    if (state == 7 || state == 0) {
+        return 0;
+    }
+    get_time_ms(&lbl_805D7A94);
+    return (s16)send_network_frame(frame->len, frame->data);
 }
 #pragma pop
 
