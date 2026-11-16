@@ -1028,6 +1028,28 @@ struct TLobby : public TObject {
     static void reset_state_805D63DC(void*);
     void set_split_screen_name();
     static void create_singleton(void *arg0);
+    void byteswap_event_packet();
+    void handle_random_enemies_choice();
+    static s32 check_all_battle_flags(void *);
+    static s32 check_battle_end(void *);
+    s32 check_timeout(s32 timer);
+    void send_battle_mode_state();
+    void set_flag_270();
+    void show_score_results();
+    static s32 check_all_players_ready(void *);
+    void *init_with_name(void *arg1, void *arg2, void *arg3);
+    static s32 assign_player_id(void *);
+    void send_neg50(void* a1);
+    static void init_and_set_flag();
+    static void init_battle_ctrl(s32 arg0, s32 arg1);
+    static void init_char_slots();
+    static void send_battle_mode_params(s8 arg0, s32 arg1, s32 arg2);
+    static void apply_game_settings(s32 arg0, s32 arg1);
+    static void handle_battle_result(int arg0, s32 arg1);
+    static void close_and_play_effect(int arg0, s32 arg1);
+    void end_battle_mode_cleanup();
+    void update_timed_wait();
+    void update_battle_intro();
 };
 
 typedef char TLobby_size[sizeof(TLobby) == 0x1C ? 1 : -1];

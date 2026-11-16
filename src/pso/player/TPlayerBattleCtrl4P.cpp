@@ -807,7 +807,7 @@ void TPlayerBattleCtrl4P::start_duel() {
     name = get_current_floor_area() == AREA_BATTLE1 ? lbl_80475BAC : lbl_80475BB8;
     w = __nw__7TObjectFUl(0x40);
     if (w != NULL) {
-        init_with_name__6TLobbyFPvPvPvPv((void *)w, (void *)this, (void *)name, (void *)(0x2D));
+        ((TLobby *)w)->init_with_name((void *)this, (void *)name, (void *)(0x2D));
     }
     for (j = 0; j < 8; j++) {
         ((O_80311618 *)this)->flags[j] = 1;

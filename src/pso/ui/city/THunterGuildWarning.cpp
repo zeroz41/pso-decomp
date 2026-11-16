@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/ui/city/THunterGuildSeqOffline.h"
 #include "pso/ui/city/THunterGuildWarning.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
@@ -342,8 +343,8 @@ void update_hunter_guild_phase(void) {
         THunterGuildSeqOffline::clear_instance_table();
     }
     if (get_main_phase() == 0xF) {
-        clear_slots__22THunterGuildSeqOfflineFv();
-        clear_slot_flags__22THunterGuildSeqOfflineFv();
+        THunterGuildSeqOffline::clear_slots();
+        THunterGuildSeqOffline::clear_slot_flags();
         TQuestListOnline::release_resources();
     }
 }
@@ -358,7 +359,7 @@ void TLobby::update_guild_or_quest_phase() {
     }
     if (get_main_phase() == 0xF) {
         TQuestListOnline::init_download_buffers();
-        zero_four_slots__22THunterGuildSeqOfflineFv();
+        THunterGuildSeqOffline::zero_four_slots();
         THunterGuildSeqOffline__sub_80213CA4();
     }
 }

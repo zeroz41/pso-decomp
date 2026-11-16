@@ -661,7 +661,6 @@ struct VObj_18_217cff : VBase_18_217cff {
 extern "C" {
 s32 TObjPlayer__sub_800A0554(void *);
 f32 calc_distance_to_client__10TObjPlayerFlUsUl(void *, u16, void *);
-int get_player_data__10TObjPlayerFi(int a0);
 extern s32 registered_player_count;
 
 f32 calc_xz_distance_sq(s32 arg0, u32 arg1, void *arg2);
@@ -770,7 +769,7 @@ int TObjEneSaver::test_flag_256() {
     }
     if ((self->f374 & 4) && self->f388 > 0) {
         for (i = 0; i < registered_player_count; i++) {
-            p = (Obj_800A4C4C *)get_player_data__10TObjPlayerFi(i);
+            p = (Obj_800A4C4C *)TObjPlayer::get_player_data(i);
             if (p == NULL || (p->f30 & 0x800)) {
                 continue;
             }
@@ -1173,7 +1172,7 @@ void TObjPlayer__sub_800A5960(void *arg0) {
         limit = 0x1000;
     }
     for (i = 0; i < n; i++) {
-        p = (u8 *)get_player_data__10TObjPlayerFi(i);
+        p = (u8 *)TObjPlayer::get_player_data(i);
         if (TObjPlayer::is_valid_and_active((u32)p) != 0 && p != (u8 *)self &&
             get_entity_id(p) < limit && !(*(s32 *)(p + 0x30) & 0x02000800) &&
             ((VObj_18_217cff *)p)->m18(self, 1.0f) != 0) {
@@ -1690,7 +1689,7 @@ void find_nearest_target__10TObjPlayerFPv(Obj_800A677C *self) {
         Vec_800A6B14 v = lbl_8043A8B0;
         best = *self->range * *self->range;
         for (; i < registered_player_count + lbl_805D5870; i++) {
-            p = (u8 *)get_player_data__10TObjPlayerFi(i);
+            p = (u8 *)TObjPlayer::get_player_data(i);
             if (p != NULL && p != (u8 *)self) {
                 id = get_entity_id(p);
                 if ((u16)id < 0x4000 && (u16)id != self->f1C && !(P_800A677C(p)->f30 & 0x02000800)) {
@@ -1741,7 +1740,7 @@ void find_nearest_target__10TObjPlayerFPv(Obj_800A677C *self) {
         best = *self->range * *self->range;
         best2 = best;
         for (; i < registered_player_count; i++) {
-            p = (u8 *)get_player_data__10TObjPlayerFi(i);
+            p = (u8 *)TObjPlayer::get_player_data(i);
             if (p == NULL) continue;
             if ((u16)get_entity_id(p) >= 0x1000) continue;
             if (get_floor__10TObjPlayerFv((int)p) != get_current_floor()) continue;

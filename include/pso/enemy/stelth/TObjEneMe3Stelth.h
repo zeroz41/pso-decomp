@@ -120,6 +120,7 @@ struct TObjEneMe3Stelth : public TObjEneDD_ST {
     void create_resta_effect();
     void run_walk_state(s32 arg1);
     void exec(s32 arg1);
+    void handle_message(s32 arg1);
 };
 
 typedef char TObjEneMe3Stelth_size[sizeof(TObjEneMe3Stelth) == 0x44C ? 1 : -1];

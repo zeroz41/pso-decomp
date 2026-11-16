@@ -530,7 +530,6 @@ extern s32 model_render_flags;
 extern const f32 lbl_805D9E84;
 extern const f32 lbl_805D9E88;
 void render__13TObjEneMorfosFv(u8 *arg0);
-int get_player_data__10TObjPlayerFi(int a0);
 s32 queue_destruction__7TObjectFv(void *);
 s32 check_value_in_range__13TObjEneMorfosFPvUsUsUs(void *, int, int, int);
 s32 TObjEneMorfos__sub_803344F0(void *arg0);
@@ -1380,7 +1379,7 @@ void TObjEneMorfos::state_rotating_projectile_burst(s32 arg1) {
             F(0x60, s32) += D->f1C;
             n = TLobby::get_game_mode();
             for (i = 0; i < n; i++) {
-                pl = (u8 *)get_player_data__10TObjPlayerFi(i);
+                pl = (u8 *)TObjPlayer::get_player_data(i);
                 if (((TObjBase *)pl)->is_alive() != 0) {
                     if (((TObjBase *)arg0)->get_room() == ((TObjBase *)pl)->get_room()) {
                         ((TObjEneDD_ST *)arg0)->enemy_copy_target_destination();
@@ -1859,7 +1858,7 @@ s32 TObjEneMorfos::select_target_in_view() {
     dz = cos_table_lookup(arg0->f60);
     n = TLobby::get_game_mode();
     for (i = 0; i < n; i++) {
-        p = (u8 *)get_player_data__10TObjPlayerFi(i);
+        p = (u8 *)TObjPlayer::get_player_data(i);
         if (((TObjBase *)p)->is_alive() == 0) {
             continue;
         }

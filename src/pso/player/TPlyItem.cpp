@@ -444,7 +444,7 @@ void TObjPlayer::destroy_subobjects_recursive() {
 
 void TObjPlayer::destroy_subobjects(int a1) { item_reduce_target_player = a1; inventory_walk_progress_count = 0; ((TObjPlayer *)this->unk_1C4)->destroy_subobjects_recursive(); this->unk_1C4->queue_destruction(); ((TObject *)(this->m_1c8))->run_tasks(); ((TObject *)(this->m_1c8))->run_tasks(); ((TObject *)(this->m_1c8))->queue_destruction(); }
 
-void *set_mode_and_refresh_object__10TObjPlayerFPvi(void *player, s32 item_data) { inventory_search_item_data = item_data; return find_matching_inventory_item_node(((TObjPlayer *)player)->unk_1C4); }
+void *TObjPlayer::set_mode_and_refresh_object(s32 item_data) { inventory_search_item_data = item_data; return find_matching_inventory_item_node(((TObjPlayer *)this)->unk_1C4); }
 
 void TObjPlayer::find_first_inventory_entry(int a1) { inventory_search_item_data = a1; ((TObjPlayer *)this->unk_1C4)->find_inventory_item_matching_data(); }
 
@@ -453,7 +453,7 @@ s32 TObjPlayer::count_items_by_id(s32 arg1) {
     TItem *item;
 
     if (lookup_item_def__9TItemDataFPv(arg1) != 0) {
-        node = set_mode_and_refresh_object__10TObjPlayerFPvi(this, arg1);
+        node = set_mode_and_refresh_object(arg1);
         if (node != NULL) {
             item = (TItem *)((TObjPlayer *)node)->get_owner_if_alive();
             if ((item != NULL) && (item->all_parents_unqueued_for_destruction() != 0)) {

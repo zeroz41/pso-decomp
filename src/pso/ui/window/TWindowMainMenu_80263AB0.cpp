@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/unk/TLobby.h"
 #include "pso/ui/window/TWindowMainMenu_80263AB0.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -156,7 +157,6 @@ void TWindowMainMenu::update_selection_value() {
 
 s32 is_quest_active();
 
-s32 get_short_mail_ctrl__6TLobbyFv();
 s32 is_trade_range_bit_set(s32);
 extern s32 local_client_id;
 
@@ -220,7 +220,7 @@ s32 TWindowMainMenu::filter_menu_entry(s16 *arg1, s32 *arg2) {
         }
         break;
     case 19:
-        if (get_main_phase() != 0xF && get_short_mail_ctrl__6TLobbyFv() <= 0) {
+        if (get_main_phase() != 0xF && TLobby::get_short_mail_ctrl() <= 0) {
             *arg2 = 0;
         }
         break;

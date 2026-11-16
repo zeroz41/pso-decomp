@@ -45,6 +45,15 @@ struct THunterGuildSeqOffline : public TShopSequence {
     s32 m_34;
     u8 unk_38[0x4];
     void advance_matching_entries(s32 arg1, s32 arg2);
+    void update_shop_close();
+    void update_close_shop();
+    void handle_close();
+    void restore_and_init_quest_list();
+    static void clear_slots();
+    static void reset_quest_list_vm();
+    void init_window();
+    static void clear_slot_flags();
+    static void zero_four_slots();
 };
 
 typedef char THunterGuildSeqOffline_size[sizeof(THunterGuildSeqOffline) == 0x3C ? 1 : -1];

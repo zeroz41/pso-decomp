@@ -1564,6 +1564,22 @@ struct TObjPlayer : public TObjChara {
     s32 get_quest_thread_id();
     s32 test_box_overlap(Vec_803E1B1C *boxB);
     void remove_equipped_item(s32 arg1, void *arg2);
+    u16 get_obj_type();
+    void set_ring_action(s32 v);
+    int set_lock_flag();
+    void clear_target_lock_flag();
+    void set_lock_timer(s32 v);
+    static void heap_alloc(void* a0);
+    static u8 *create_lobby_marker(s16 arg0, s8 arg1);
+    void handle_6x87_shrink(f32 farg0);
+    int clear_shrink_flag();
+    void reset_stat_scale_and_ring();
+    static void apply_stats_and_update(void* p);
+    static void apply_stat_multipliers_and_reset(void* p);
+    int set_action_flag16();
+    int test_flag_8();
+    s32 can_guard();
+    void *set_mode_and_refresh_object(s32 item_data);
 };
 
 #include <stddef.h>

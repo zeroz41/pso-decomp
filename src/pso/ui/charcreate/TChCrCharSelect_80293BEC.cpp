@@ -6,4 +6,4 @@
 #include "pso/ui/charcreate/TChCrTagPlGraphic.h"
 #include "pso/ui/charcreate/TChCrTagInformation.h"
 
-void TChCrCharSelect::init_widgets() { TChCrTagOccupation::create_all(); create_all__12TChCrTagNameFv(); create_all_ch_cr_tag_headers(); TChCrTagPlBack::create_default(); TChCrTagPlGraphic::create_matching_tags(); TChCrTagInformation::create_default(); }
+void TChCrCharSelect::init_widgets() { TChCrTagOccupation::create_all(); TChCrTagName::create_all(); create_all_ch_cr_tag_headers(); TChCrTagPlBack::create_default(); TChCrTagPlGraphic::create_matching_tags(); TChCrTagInformation::create_default(); }

@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/unk/TLobby.h"
 #include "pso/object/ambient/TObjEnvSound.h"
 #include "pso/object/ambient/TObjEnvSoundEx.h"
 #include "pso/object/ambient/TObjEnvSoundGlobal.h"
@@ -138,7 +139,6 @@ struct Pkt_80190BA0 { u32 header; s32 target; s32 event; };
 
 extern "C" {
 
-void byteswap_event_packet__6TLobbyFi(s32 arg0);
 void handle_6x67_trigger_set_event(Pkt_80190BA0 *pkt);
 void copy_pair__18TObjEnvSoundGlobalFPvPv(void *p, void *q);
 
@@ -147,7 +147,7 @@ extern s32 __vt__12TObjEnvSound[];
 s32 set_floor_event_flags(s32 arg0, s32 arg1, s32 arg2);
 s32 activate_first_floor_event(s32 idx, s32 id);
 void handle_6x67_trigger_set_event(Pkt_80190BA0 *pkt) {
-    byteswap_event_packet__6TLobbyFi((s32)pkt);
+    ((TLobby *)pkt)->byteswap_event_packet();
     if (pkt->target != get_current_floor()) {
         set_floor_event_flags(pkt->target, pkt->event, 4);
     } else {

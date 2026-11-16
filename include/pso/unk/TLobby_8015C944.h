@@ -5,7 +5,7 @@
 
 // --- C functions defined in TLobby_8015C944.cpp ---
 extern "C" {
-void byteswap_event_packet__6TLobbyFi(s32 arg0);
+void byteswap_event_packet__6TLobbyFv(s32 arg0);
 }
 // --- end of C functions
 

@@ -32,7 +32,6 @@ u32 get_item_field_6__10TObjPlayerFPv(void *);
 s32 weapon_has_extra_attack(u32);
 int check_flag_100__10TObjPlayerFPv(void *p);
 s32 validate_and_clear_slot__10TObjPlayerFv(void *, s32);
-void *set_mode_and_refresh_object__10TObjPlayerFPvi(void *player, s32 item_data);
 s32 TObjPlayer__sub_801AF694(void *, s32);
 u16 get_entity_id(void *);
 s32 TWindowCtrl__sub_8024A228(s32);
@@ -229,7 +228,7 @@ bool can_use_palette_action__10TObjPlayerFPvUcUc(TObjPlayer_801D8044 *self, u8 k
             break;
         }
         if (arg < 0xd || arg > 0x10) {
-            if (set_mode_and_refresh_object__10TObjPlayerFPvi((void *)self->fd00, (s32)&item) == 0) {
+            if (((TObjPlayer *)((void *)self->fd00))->set_mode_and_refresh_object((s32)&item) == 0) {
                 return 0;
             }
         } else {

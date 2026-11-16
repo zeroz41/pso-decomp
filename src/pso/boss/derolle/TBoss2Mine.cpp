@@ -1,4 +1,5 @@
 #include "pso/enemy/TObjEnemy.h"
+#include "pso/unk/TLobby.h"
 #include "pso/system/vector.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "types.h"
@@ -561,11 +562,8 @@ typedef struct Tbl_80038BA0 {
 
 extern "C" {
 
-s32 register_object__6TLobbyFl(int);
 
-s32 dispatch_shared_handler_b__6TLobbyFl(int);
 
-s32 register_boss__6TLobbyFl(int);
 
 
 s32 init_model__9TObjEneDDFP13CollisionBodyl(void *, void *, int, int);
@@ -659,7 +657,7 @@ void init__10TBoss2MineFPvi(u8 *boss2_mine, s32 arg1) {
     temp_r6 = *(u8 **)((s8 *)lbl_805D4BA4 + 0x42C);
     ((TBoss2Mine *)boss2_mine)->texlist = *(s32 *)((s8 *)temp_r6 + 0x2C);
     init_model__9TObjEneDDFP13CollisionBodyl(boss2_mine, (u8 *)lbl_80482CD8, 1, (int)temp_r6);
-    ((TObjEneDD *)boss2_mine)->reset_hp((u8 *)(register_boss__6TLobbyFl(((s32 *)boss2_mine_params)[arg1])), (u8 *)(dispatch_shared_handler_b__6TLobbyFl(((s32 *)lbl_80482C90)[arg1])), (u8 *)(register_object__6TLobbyFl(((s32 *)lbl_80482C98)[arg1])));
+    ((TObjEneDD *)boss2_mine)->reset_hp((u8 *)(TLobby::register_boss(((s32 *)boss2_mine_params)[arg1])), (u8 *)(TLobby::dispatch_shared_handler_b(((s32 *)lbl_80482C90)[arg1])), (u8 *)(TLobby::register_object(((s32 *)lbl_80482C98)[arg1])));
     ((TObjEneDD *)boss2_mine)->check_state_flag_2();
     *(Rec_80038BA0 **)((s8 *)boss2_mine + 0x350) = &((Rec_80038BA0 *)lbl_80482CA0)[arg1];
     *(f32 *)((s8 *)boss2_mine + 0x37C) = (3.0f);

@@ -132,7 +132,6 @@ void TObjEneDf2Bringer__sub_80098EB4(s32 arg0);
 s32 attack_visible_players__17TObjEneDf2BringerFPv(Obj_80098EFC *self);
 s32 TObjEneDf2Bringer__sub_80098FF4(Obj_80098FF4 *self);
 void update_flag_0x3C0__17TObjEneDf2BringerFPv(void *arg0);
-void update_if_in_band__17TObjEneDf2BringerFi(s32 arg0);
 void update_attack_child__17TObjEneDf2BringerFPv(Bringer_800993E8 *obj);
 void run_task__17TObjEneDf2BringerFv(u8 *arg0);
 void * __ct__17TObjEneDf2BringerFP7TObjectPv(void *arg0, void *arg1, void *arg2);
@@ -1490,7 +1489,8 @@ void TObjEneDf2Bringer::spawn_particle_if_in_band() {
     }
 }
 
-void update_if_in_band__17TObjEneDf2BringerFi(s32 arg0) {
+void TObjEneDf2Bringer::update_if_in_band() {
+    s32 arg0 = (s32)this;
     if (((TObjMotion *)arg0)->is_passing_frame(21.0f) != 0) {
         ((TObjEneDf2Bringer *)arg0)->spawn_offset_particle();
     }
@@ -1714,7 +1714,7 @@ void TObjEneDf2Bringer::exec(s32 arg1) {
             TObjEneDf2Bringer__sub_80098EB4((s32)arg0);
             break;
         case 1:
-            update_if_in_band__17TObjEneDf2BringerFi((s32)arg0);
+            ((TObjEneDf2Bringer *)arg0)->update_if_in_band();
             if (((TObjEneDD *)arg0)->get_flag_b4() != 0) {
                 *(s32 *)((s8 *)arg0 + 0x4B0) = 2;
             }
@@ -1930,7 +1930,7 @@ void TObjEneDf2Bringer__sub_8009813C(u8 *arg0, s32 arg1) {
             F(s32, 0x4B0)++;
             if (F(s32, 0x4B0) >= 10) {
                 F(s16, 0xB8) = 3;
-                update_if_in_band__17TObjEneDf2BringerFi((s32)arg0);
+                ((TObjEneDf2Bringer *)arg0)->update_if_in_band();
                 if (((TObjEneDD *)arg0)->get_flag_b4() != 0) {
                     F(s32, 0x4AC) = 3;
                 }

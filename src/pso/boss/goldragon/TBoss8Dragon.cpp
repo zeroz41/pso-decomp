@@ -748,8 +748,6 @@ struct Vec_802FDC1C { f32 x, y, z; };
 struct Cam_802FDC1C { s32 f0; f32 *p4; f32 *p8; };
 
 s32 get_current_floor();
-s32 register_object__6TLobbyFl(int);
-s32 register_boss__6TLobbyFl(int);
 void free_bin_model_request(void*, int);
 void TBoss1Dragon__sub_80027A80(u8 *arg0, u8 *arg1);
 void *spawn_particle_effect_with_flags(const void *pos, s32 id, s32 flags);
@@ -1758,7 +1756,7 @@ TBoss8Dragon::TBoss8Dragon(TObject *parent, void *set_data) : TObjEneDD_ST(paren
     this->requested_action = 0;
     this->set_animation(this->requested_action);
     this->set_field_b8(this->requested_action);
-    reset_hp((u8 *)(register_boss__6TLobbyFl(0x12)), (u8 *)(TBoss8Dragon__data_80541DC8[TBoss8Dragon__data_804E4C28[0]]), (u8 *)(register_object__6TLobbyFl(0x12)));
+    reset_hp((u8 *)(TLobby::register_boss(0x12)), (u8 *)(TBoss8Dragon__data_80541DC8[TBoss8Dragon__data_804E4C28[0]]), (u8 *)(TLobby::register_object(0x12)));
     this->check_state_flag_1();
     *(u8 **)((s8 *)this + 0x350) = lbl_804E4C3C;
     initialize_enemy_state(0x4C);

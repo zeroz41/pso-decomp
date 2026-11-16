@@ -115,7 +115,8 @@ static const TObjChipParams ancient_enemy_break_debris_desc_b = {
 
 void TLobby::init_packet_67_04() { *(u8 *)&this->m_name = 103; *(u8*)((char*)this + 0x1) = 4; }
 
-void byteswap_event_packet__6TLobbyFi(s32 packet) {
+void TLobby::byteswap_event_packet() {
+    s32 packet = (s32)this;
     ((G_ClientIDHeader *)packet)->bswap();
     bswap_32((u32 *)(packet + 4));
     bswap_32((u32 *)(packet + 8));
@@ -124,7 +125,7 @@ void byteswap_event_packet__6TLobbyFi(s32 packet) {
 
 void TLobby::byteswap_and_send() {
     s32 arg0 = (s32)this;
-    byteswap_event_packet__6TLobbyFi(arg0);
+    ((TLobby *)arg0)->byteswap_event_packet();
     send_subcommand((u8 *)arg0);
 }
 

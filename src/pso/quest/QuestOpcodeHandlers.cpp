@@ -1517,11 +1517,9 @@ void send_6x29_delete_item__10TObjPlayerFPvii(void *obj, s32 a, s32 b);
 void send_6x21_inter_level_warp(void *obj, s32 value);
 u32 TObjPlayer__sub_801BFFA0(void *);
 int TFontSmallLobby__sub_801C013C(void *p);
-void init_battle_ctrl__6TLobbyFii(s32, s32);
 void request_player_size_restore(PlayerScaleState *state);
 void request_player_shrink(PlayerScaleState *state);
 Vec_801ECFDC * TObjPlayer__sub_801C6FDC(void *);
-void *set_mode_and_refresh_object__10TObjPlayerFPvi(void *player, s32 item_data);
 void * get_owner_if_alive__10TObjPlayerFv(void *);
 s32 send_download_head_d7(int, int, int);
 void* __ct__13TQuestBgmCtrlFP7TObject(void*, TObject *);
@@ -4533,7 +4531,7 @@ void qst_op_ba_start(void) {
         TPlayerBattleCtrl4P::init_instance_with_text((s32)&battle_rules, temp_r31);
         return;
     }
-    init_battle_ctrl__6TLobbyFii((s32)&battle_rules, temp_r31);
+    TLobby::init_battle_ctrl((s32)&battle_rules, temp_r31);
 }
 
 void qst_op_ba_teams() {
@@ -4913,7 +4911,7 @@ void qst_op_find_inventory_item_ex(u8 arg0, u8 arg1) {
         item.data[1] = qst_registers[(u8)arg0++];
         item.data[2] = qst_registers[(u8)arg0++];
         item.data[4] = qst_registers[(u8)arg0];
-        obj = set_mode_and_refresh_object__10TObjPlayerFPvi((void *)player->fD00, (s32)&item);
+        obj = ((TObjPlayer *)((void *)player->fD00))->set_mode_and_refresh_object((s32)&item);
         if (obj != NULL) {
             obj = get_owner_if_alive__10TObjPlayerFv(obj);
             if (obj != NULL) {
@@ -4940,7 +4938,7 @@ void qst_op_item_check(u32 first, u32 destination) {
         item.data[0] = qst_registers[(u8)first++];
         item.data[1] = qst_registers[(u8)first++];
         item.data[2] = qst_registers[(u8)first];
-        slot = set_mode_and_refresh_object__10TObjPlayerFPvi((void *)(*(void **)((s8 *)player + 0xD00)), (s32)&item);
+        slot = ((TObjPlayer *)(*(void **)((s8 *)player + 0xD00)))->set_mode_and_refresh_object((s32)&item);
         if (slot != 0) {
             owner = get_owner_if_alive__10TObjPlayerFv(slot);
             if (owner != 0) {
@@ -4970,7 +4968,7 @@ void qst_op_item_delete2(u32 src, u32 dst) {
         item.data[0] = qst_registers[(u8)src++];
         item.data[1] = qst_registers[(u8)src++];
         item.data[2] = qst_registers[(u8)src];
-        slot = set_mode_and_refresh_object__10TObjPlayerFPvi((void *)(*(void **)((s8 *)player + 0xD00)), (s32)&item);
+        slot = ((TObjPlayer *)(*(void **)((s8 *)player + 0xD00)))->set_mode_and_refresh_object((s32)&item);
         if (slot != 0) {
             owner = get_owner_if_alive__10TObjPlayerFv(slot);
             if (owner != 0) {

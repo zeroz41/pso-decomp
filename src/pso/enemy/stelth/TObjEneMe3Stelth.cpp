@@ -144,7 +144,6 @@ f32 fabs_float(f32);
 s32 get_item_id__5TItemFv(void);
 int select_and_apply_target__12TObjEneDD_STFf(void*);
 void TObjEneDD__sub_800BA438(void *, void *);
-void handle_message__16TObjEneMe3StelthFPvi(TObjEneMe3Stelth *stelth, s32 arg1);
 
 extern const f32 lbl_805DA894;
 extern f32 lbl_805DA898;
@@ -664,7 +663,7 @@ void TObjEneMe3Stelth::dispatch_action(u32 state, s32 reason) {
         run_walk_state(reason);
         break;
     case 13:
-        handle_message__16TObjEneMe3StelthFPvi(this, reason);
+        handle_message(reason);
         break;
     case 10:
         action__16TObjEneMe3StelthFPvi(this, reason);
@@ -1369,30 +1368,30 @@ void TObjEneMe3Stelth::update_state_resta_cast(s32 arg1) {
 #pragma pop
 }
 
-void handle_message__16TObjEneMe3StelthFPvi(TObjEneMe3Stelth *stelth, s32 arg1) {
+void TObjEneMe3Stelth::handle_message(s32 arg1) {
     switch (arg1) {
     case 4:
-        stelth->requested_action = 9;
-        stelth->set_field_378(0xD);
-        stelth->m_3cc &= ~7;
-        stelth->vfunc_95();
-        stelth->m_3ec = 0;
-        stelth->m_424 = 0;
+        this->requested_action = 9;
+        this->set_field_378(0xD);
+        this->m_3cc &= ~7;
+        this->vfunc_95();
+        this->m_3ec = 0;
+        this->m_424 = 0;
         break;
     case 3:
-        if (stelth->update_linked_position(200.0f) != 0) {
-            stelth->transition_enemy_state(6);
-        } else if (stelth->m_424 >= 0x5A) {
-            stelth->transition_enemy_state(0xA);
+        if (this->update_linked_position(200.0f) != 0) {
+            this->transition_enemy_state(6);
+        } else if (this->m_424 >= 0x5A) {
+            this->transition_enemy_state(0xA);
         }
         break;
     case 5:
         break;
     case 0:
-        stelth->m_424++;
-        stelth->advance_animation();
-        stelth->vfunc_102();
-        stelth->vfunc_89();
+        this->m_424++;
+        this->advance_animation();
+        this->vfunc_102();
+        this->vfunc_89();
         break;
     }
 
