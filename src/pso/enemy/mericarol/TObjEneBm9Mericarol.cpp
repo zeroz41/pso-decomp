@@ -355,13 +355,13 @@ void TObjEneBm9Mericarol::vfunc_62() {
 void TObjEneBm9Mericarol::vfunc_61() {  }
 
 void TObjEneBm9Mericarol::sync_center_position() {
-    VecCopy((Vec *)&m_2fc, &position);
-    m_300 = m_300 + lbl_805DE704;
-    VecCopy(&center, (Vec *)&m_2fc);
+    VecCopy(&m_2fc, &position);
+    m_2fc.y = m_2fc.y + lbl_805DE704;
+    VecCopy(&center, &m_2fc);
 }
 
 void TObjEneBm9Mericarol::vfunc_88() {
-    bodies->offset.y = m_300 - position.y;
+    bodies->offset.y = m_2fc.y - position.y;
 }
 
 void TObjEneBm9Mericarol::sub_802D0940() {  }
@@ -423,5 +423,5 @@ void TObjEneBm9Mericarol::init_size_tier_and_offsets() {
 s32 TObjEneBm9Mericarol::get_phase() { return m_45c; }
 
 void TObjEneBm9Mericarol::sub_802D073C() {
-    play_persistent_sound(remap_sound_for_area(0x3A810), this, &position, 0, 0);
+    play_persistent_sound(remap_sound_for_area(0x3A810), this, (Vec *)(&position), 0, 0);
 }

@@ -222,7 +222,7 @@ void TBoss3VoloptCore::run_task() {
         dispatch_reaction_state();
         position.y = (position.y > 7.0f) ? position.y : 7.0f;
         update_prev_position();
-        TBoss3Volopt::set_camera_focus((Vec *)&m_2fc);
+        TBoss3Volopt::set_camera_focus(&m_2fc);
         clear_all_status_effects();
     }
 }
@@ -321,7 +321,7 @@ void TBoss3VoloptCore::update_charge_state() {
             state = 4;
             return;
         }
-        VecCopy((Vec *)unk_308, (Vec *)&player->m_2fc);
+        VecCopy((Vec *)unk_308, &player->m_2fc);
         subtract_vector((Vec *)unk_308, &position);
         vec_set_length((Vec *)unk_308, 5.0f);
         turn_toward_direction(0x800, (Vec *)unk_308);
@@ -603,7 +603,7 @@ void TBoss3VoloptCore::sub_8003F81C() {
             Vec pos = *&position;
             pos.y -= 20.0f;
             effect = create_particle_emitter(&pos, 0x31);
-            play_sound_effect(0x4003AD1E, &position.x, 0, 0);
+            play_sound_effect(0x4003AD1E, &position, 0, 0);
             state = 3;
         }
         break;

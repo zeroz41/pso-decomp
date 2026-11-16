@@ -97,39 +97,35 @@ struct T1_802B8E1C { u8 pad0[0x3C]; f32 y; u8 pad40[0x438 - 0x40]; s32 f438; };
 
 struct Boss_802B5434 { u8 pad[0x378]; s32 list[32]; };
 
-struct Vec_802B54F0 { f32 x, y, z; };
 
-struct Boss_802B54F0 { u8 pad[0x38]; Vec_802B54F0 pos; };
+struct Boss_802B54F0 { u8 pad[0x38]; Vec pos; };
 
 struct Boss_802B5648 { u8 pad0[0x3C]; f32 f3C; u8 pad40[0x374 - 0x40]; u32 f374; u8 pad378[0x41C - 0x378]; s8 f41C; };
 
-struct Vec_802B5648 { f32 x, y, z; };
 
-struct Vec_802B683C { f32 x, y, z; };
 
 struct Boss_802B683C {
     u8 pad0[0x38];
-    Vec_802B683C pos;
+    Vec pos;
     u8 pad44[0x41C - 0x44];
     s8 f41C;
 };
 
-struct Vec_802B79DC { f32 x, y, z; };
 
-struct Ent_802B79DC { Vec_802B79DC m; u8 padC[0x1C - 0xC]; Vec_802B79DC n; u8 pad28[0x2C - 0x28]; };
+struct Ent_802B79DC { Vec m; u8 padC[0x1C - 0xC]; Vec n; u8 pad28[0x2C - 0x28]; };
 
 struct Tbl_802B79DC { s32 kind; s32 idx; };
 
 struct Boss_802B79DC {
     u8 pad0[0x38];
-    Vec_802B79DC pos;
+    Vec pos;
     u8 pad44[0x60 - 0x44];
     s32 rotation_y;
     u8 pad64[0xA4 - 0x64];
     Ent_802B79DC *ents;
     u8 padA8[0x578 - 0xA8];
-    Vec_802B79DC a578[11];
-    Vec_802B79DC a5FC[1];
+    Vec a578[11];
+    Vec a5FC[1];
 };
 
 class Boss_802B865C;
@@ -173,27 +169,23 @@ struct Player_802B6B34 : Base_802B6B34 {
 
 struct Boss_802B6B34 { u8 pad[0x488]; s32 f488; };
 
-struct Vec_802B73AC { f32 x, y, z; };
 
 struct Boss_802B73AC {
     u8 pad0[0x408];
     s32 f408;
     u8 pad40c[0x5D8 - 0x40C];
-    Vec_802B73AC a;
-    Vec_802B73AC b;
+    Vec a;
+    Vec b;
 };
 
-struct Vec_802B4D5C { f32 x, y, z; };
 
-struct Vec_802B57D4 { f32 x, y, z; };
 
-struct Vec_802B4EAC { f32 x, y, z; };
 
 struct Boss_802B4EAC {
     u8 pad0[0x38];
-    Vec_802B4EAC pos;
+    Vec pos;
     u8 pad44[0x420 - 0x44];
-    Vec_802B4EAC target;
+    Vec target;
 };
 
 struct T1_802B600C;
@@ -218,7 +210,7 @@ struct Boss_802B7B44 {
     s32 f4F4;
 };
 
-struct Vec_802B57D4;
+struct Vec;
 struct Player_802B6B34;
 
 struct V3_802B6C30 { s32 x; f32 y; s32 z; };
@@ -251,9 +243,8 @@ struct ArgPair_802B6C30 {
     }
 };
 
-struct Vec_802B6C30 { f32 x, y, z; };
 
-struct Line_802B6C30 { Vec_802B6C30 p; Vec_802B6C30 d; };
+struct Line_802B6C30 { Vec p; Vec d; };
 
 struct Boss_802B6C30 {
     u8 pad0[0x60];
@@ -263,9 +254,9 @@ struct Boss_802B6C30 {
     u8 pad488[0x4DC - 0x488];
     f32 f4DC;
     u8 pad4E0[0x5A8 - 0x4E0];
-    Vec_802B6C30 a;
+    Vec a;
     u8 pad5B4[0x5C0 - 0x5B4];
-    Vec_802B6C30 b;
+    Vec b;
 };
 
 struct Anim_802B81A4 { s32 id; f32 t; s32 f8; f32 blend; f32 f10; s32 prevId; f32 prevT; };
@@ -299,10 +290,9 @@ struct Boss_802B8384 {
     Anim_802B8384 anims[2];
 };
 
-struct V3_802B5AD4 { f32 x, y, z; };
 struct Boss_802B5AD4 {
     u8 pad0[0x38];
-    V3_802B5AD4 pos;
+    Vec pos;
     u8 pad44[0x438 - 0x44];
     s32 f438;
 };
@@ -373,8 +363,8 @@ s32 get_bml_motion(s32, s32);
 extern const s32 TBoss6Type1__data_805DE3C4;
 void TBoss6Type1__sub_802B909C(Boss_802B8EE0 *self, Atk_802B8EE0 *atk);
 void TBoss6Type1__sub_802B8E1C(T1_802B8E1C *arg0);
-void clamp_to_arena_radius__11TBoss6Type1FPvPvf(Boss_802B54F0 *o, Vec_802B54F0 *out, f32 _w2);
-void calc_grid_cell_position__11TBoss6Type1FPvPv(Boss_802B5648 *o, Vec_802B5648 *out);
+void clamp_to_arena_radius__11TBoss6Type1FPvPvf(Boss_802B54F0 *o, Vec *out, f32 _w2);
+void calc_grid_cell_position__11TBoss6Type1FPvPv(Boss_802B5648 *o, Vec *out);
 TObjPlayer *get_player_by_client_id(u16 client);
 s32 matrix_mult_vec(int, void *, void *);
 void set_matrix_identity(u8 *arg0);
@@ -453,9 +443,8 @@ struct ArgPair_802B7530 {
         a[0].v.i = a[1].v.i;
     }
 };
-struct Vec_802B7530 { f32 x, y, z; };
 struct W3_802B7530 { s32 x, y, z; };
-struct Line_802B7530 { Vec_802B7530 p; Vec_802B7530 d; };
+struct Line_802B7530 { Vec p; Vec d; };
 struct Boss_802B7530 {
     u8 pad0[0x3FC];
     s32 f3FC;
@@ -468,10 +457,10 @@ struct Boss_802B7530 {
     u8 pad46C[0x47C - 0x46C];
     s32 f47C;
     u8 pad480[0x56C - 0x480];
-    Vec_802B7530 f56C;
+    Vec f56C;
     u8 pad578[0x5D8 - 0x578];
-    Vec_802B7530 a;
-    Vec_802B7530 b;
+    Vec a;
+    Vec b;
 };
 
 f32 vec3_dot(void *, void *);
@@ -662,10 +651,10 @@ const u32 boss6_type1_trail_point_offsets[7] = {
     0xFFFF4000, 0xFFFFFF60, 0xFFFFFF60, 0xFFFF4000, 0xFFFFFF60, 0xFFFFFF60, 0xFFFF4000,
 };
 const s32 lbl_80470FAC[2] = {-0xC000, -0x40};
-const Vec_802B57D4 TBoss6Type1__data_80470FB4 = {0.0f, 19.8f, -5.0f};
-const Vec_802B57D4 lbl_80470FC0 = {0.0f, 25.43f, 45.42f};
-const Vec_802B57D4 lbl_80470FCC = {0.0f, -5.0f, 5.0f};
-const Vec_802B57D4 lbl_80470FD8 = {0.0f, 40.0f, 40.0f};
+const Vec TBoss6Type1__data_80470FB4 = {0.0f, 19.8f, -5.0f};
+const Vec lbl_80470FC0 = {0.0f, 25.43f, 45.42f};
+const Vec lbl_80470FCC = {0.0f, -5.0f, 5.0f};
+const Vec lbl_80470FD8 = {0.0f, 40.0f, 40.0f};
 const Vec lbl_80470FE4 = {0.0f, 24.8f, -5.0f};
 const Vec lbl_80470FF0 = {0.0f, 15.43f, 70.42f};
 const Vec lbl_80470FFC = {0.0f, 19.8f, -5.0f};
@@ -1395,19 +1384,19 @@ void TBoss6Type1::update_sway() {
 }
 
 void TBoss6Type1::update_position() {
-    VecCopy((Vec *)&this->m_2fc, &this->position);
+    VecCopy(&this->m_2fc, &this->position);
     if ((s32) this->m_438 != 0) {
-        this->m_300 = (f32) (this->m_300 - 75.0f);
+        this->m_2fc.y = (f32) (this->m_2fc.y - 75.0f);
         return;
     }
-    this->m_300 = (f32) (this->m_300 - 50.0f);
+    this->m_2fc.y = (f32) (this->m_2fc.y - 50.0f);
 }
 
 void TBoss6Type1::update_part_positions() {
     Boss_802B79DC *arg0 = (Boss_802B79DC *)this;
-    Vec_802B79DC v;
+    Vec v;
     s32 i;
-    Vec_802B79DC *base;
+    Vec *base;
     Ent_802B79DC *e;
     if (this->bodies != NULL) {
         for (i = 0; i < 7; i++) {
@@ -1495,11 +1484,11 @@ void TBoss6Type1::enable_parts() {
 void TBoss6Type1::update_beam_attack() {
     Boss_802B7530 *self = (Boss_802B7530 *)this;
     Line_802B7530 line;
-    Vec_802B7530 v;
-    Vec_802B7530 w;
-    Vec_802B7530 out;
-    Vec_802B7530 A;
-    Vec_802B7530 B;
+    Vec v;
+    Vec w;
+    Vec out;
+    Vec A;
+    Vec B;
     f32 t = self->f464;
     u32 motion = self->f460;
     s32 n;
@@ -1510,7 +1499,7 @@ void TBoss6Type1::update_beam_attack() {
     {
     f32 end = 12.5f + self->f468;
     if (t >= 12.5f && t < end) {
-        play_sound_effect(0x40039209, &self->b, 0, 0);
+        play_sound_effect(0x40039209, (Vec *)&self->b, 0, 0);
     }
     }
     ((TBoss6Type1 *)self)->init_parts();
@@ -1518,7 +1507,7 @@ void TBoss6Type1::update_beam_attack() {
     for (i = 0; i < n; i++) {
         Player_802B6B34 *p = get_player_data__10TObjPlayerFi(i);
         if (is_active__14TBoss6PlotFalzFv() != 0) {
-            Vec_802B7530 *a = &self->a;
+            Vec *a = &self->a;
             VecCopy((Vec *)&v, (const Vec *)&p->pos);
             v.y = 0.0f;
             VecCopy((Vec *)&w, (const Vec *)&self->b);
@@ -1547,7 +1536,7 @@ void TBoss6Type1::update_beam_attack() {
     if (self->f408 & 1) return;
     W3_802B7530 c = *(W3_802B7530 *)&self->b;
     W3_802B7530 e;
-    Vec_802B7530 dlt;
+    Vec dlt;
     f32 dist;
     *(f32 *)&c.y = 0.0f;
     dist = xyz_distance(&c, &self->f56C);
@@ -1575,17 +1564,17 @@ void TBoss6Type1::update_beam_attack() {
         VecCopy((Vec *)&self->f56C, (const Vec *)&c);
     }
     {
-        play_sound_effect(0x4003B00A, &c, 0, 0);
+        play_sound_effect(0x4003B00A, (Vec *)&c, 0, 0);
         TBoss6PlotFalz::apply_radial_effect_to_players(&c, 0xC0, 0xF, 100.0f);
     }
 }
 void TBoss6Type1__sub_802B73AC(Boss_802B73AC *self) {
-    Vec_802B73AC *a;
-    Vec_802B73AC *b;
+    Vec *a;
+    Vec *b;
     s32 ok;
     s32 flag;
-    Vec_802B73AC p;
-    Vec_802B73AC d;
+    Vec p;
+    Vec d;
     f32 sc;
     f32 t;
     s32 idx;
@@ -1621,7 +1610,7 @@ void TBoss6Type1__sub_802B73AC(Boss_802B73AC *self) {
         }
         fn_8035648C((s32)self, (s32)&p, flag, sc);
         if (flag != 0) {
-            play_sound_effect(0x4003B210, &p, 0, 0);
+            play_sound_effect(0x4003B210, (Vec *)&p, 0, 0);
             TBoss6PlotFalz::apply_radial_effect_to_players(&p, 0xC0, 0xF, 100.0f);
         }
     }
@@ -1645,7 +1634,7 @@ void TBoss6Type1__sub_802B715C(TBoss6Type1 *self) {
         !(frame < 10.5f || frame > 15.0f)) {
         f32 end = 10.5f + self->part_motions[0].frame_step;
         if (frame >= 10.5f && frame < end) {
-            play_sound_effect(0x40038A0E, &self->effect_points[0], 0, 0);
+            play_sound_effect(0x40038A0E, (Vec *)&self->effect_points[0], 0, 0);
         }
         self->update_effect_points();
         n = TLobby::get_game_mode();
@@ -1684,34 +1673,34 @@ void TBoss6Type1__sub_802B715C(TBoss6Type1 *self) {
 }
 void TBoss6Type1__sub_802B6C30(Boss_802B6C30 *self) {
     s32 n;
-    Vec_802B6C30 *p4;
-    Vec_802B6C30 *p3;
-    Vec_802B6C30 *p2;
-    Vec_802B6C30 *p1;
-    Vec_802B6C30 *pA;
-    Vec_802B6C30 *pB;
+    Vec *p4;
+    Vec *p3;
+    Vec *p2;
+    Vec *p1;
+    Vec *pA;
+    Vec *pB;
     s32 i;
     Player_802B6C30 *pl;
     s32 inside;
-    Vec_802B6C30 *a;
-    Vec_802B6C30 *b;
+    Vec *a;
+    Vec *b;
     s32 j;
     f32 prev;
     f32 t;
-    Vec_802B6C30 pts[5];
+    Vec pts[5];
     Line_802B6C30 line;
-    Vec_802B6C30 A;
-    Vec_802B6C30 B;
-    Vec_802B6C30 mid;
-    Vec_802B6C30 off;
-    Vec_802B6C30 e;
-    Vec_802B6C30 f;
-    Vec_802B6C30 c;
-    Vec_802B6C30 m;
-    Vec_802B6C30 d3;
-    Vec_802B6C30 d0;
-    Vec_802B6C30 q2;
-    Vec_802B6C30 q1;
+    Vec A;
+    Vec B;
+    Vec mid;
+    Vec off;
+    Vec e;
+    Vec f;
+    Vec c;
+    Vec m;
+    Vec d3;
+    Vec d0;
+    Vec q2;
+    Vec q1;
     if (0.0f == self->f4DC) {
         return;
     }
@@ -1744,8 +1733,8 @@ void TBoss6Type1__sub_802B6C30(Boss_802B6C30 *self) {
             continue;
         }
         inside = 1;
-        VecCopy((Vec *)&pts[0], (const Vec *)((void *)VecCopy((Vec *)((Vec *)p3), (const Vec *)((void *)VecCopy((Vec *)((Vec *)p4), (const Vec *)((const Vec *)pA))))));
-        VecCopy((Vec *)p1, (const Vec *)((void *)VecCopy((Vec *)((Vec *)p2), (const Vec *)((const Vec *)pB))));
+        VecCopy((Vec *)&pts[0], (const Vec *)((void *)VecCopy(p3, (const Vec *)((void *)VecCopy(p4, (const Vec *)((const Vec *)pA))))));
+        VecCopy(p1, (const Vec *)((void *)VecCopy(p2, (const Vec *)((const Vec *)pB))));
         off.x = -500.0f * sin_table_lookup(self->angle);
         off.y = 0.0f;
         off.z = -500.0f * cos_table_lookup(self->angle);
@@ -1875,10 +1864,10 @@ void TBoss6Type1__sub_802B6944(TBoss6Type1 *boss) {
         target = (target + 1) & 3;
         side += 46.25f;
     }
-    play_sound_effect(0x4003A10B, &boss->node_points[7], 0, 0);
+    play_sound_effect(0x4003A10B, (Vec *)&boss->node_points[7], 0, 0);
 }
 void TBoss6Type1::spawn_grav_ball() {
-    Vec_802B683C v;
+    Vec v;
     s32 flag;
     u8 *pl;
     s8 b;
@@ -2229,11 +2218,11 @@ void TBoss6Type1::sub_802B5CB4() {
     }
 }
 void fire_at_all_players__11TBoss6Type1FPvf(Boss_802B5AD4 *self, f32 dy) {
-    V3_802B5AD4 me;
-    V3_802B5AD4 pp;
-    V3_802B5AD4 ofs;
-    V3_802B5AD4 d;
-    V3_802B5AD4 out;
+    Vec me;
+    Vec pp;
+    Vec ofs;
+    Vec d;
+    Vec out;
     s32 n;
     s32 i;
     Player_802B6B34 *p;
@@ -2290,8 +2279,8 @@ void TBoss6Type1__sub_802B5AB0(void) {
     ((s32 (*)(f32))fire_at_all_players__11TBoss6Type1FPvf)(80.0f);
 }
 void TBoss6Type1__sub_802B59CC(TBoss6Type1 *self) {
-    Vec_802B57D4 eye = TBoss6Type1__data_80470FB4;
-    Vec_802B57D4 target = lbl_80470FC0;
+    Vec eye = TBoss6Type1__data_80470FB4;
+    Vec target = lbl_80470FC0;
     f32 t = self->m_4dc;
     if (t > 0.0f) {
         eye.x += t * lbl_80470FCC.x;
@@ -2317,7 +2306,7 @@ void TBoss6Type1::request_default_jittered_camera() {
 }
 s32 TBoss6Type1::request_jittered_camera(void *arg0, void *arg1, void *arg2, int arg3) {
     f32 dist;
-    Vec_802B57D4 off;
+    Vec off;
     if (arg1 == NULL) {
         arg1 = (void *)&TBoss6Type1__data_80470FB4;
     }
@@ -2332,7 +2321,7 @@ s32 TBoss6Type1::request_jittered_camera(void *arg0, void *arg1, void *arg2, int
     off.y = dist * (0.000030517578f * (f32)rand() - 0.5f);
     off.z = dist * (0.000030517578f * (f32)rand() - 0.5f);
     {
-        Vec_802B57D4 p = *(Vec_802B57D4 *)arg1;
+        Vec p = *(Vec *)arg1;
         vec3_add_to(&p, &off);
         request_follow_camera_offsets(&p, arg2, arg3);
     }
@@ -2352,7 +2341,7 @@ void TBoss6Type1::decode_polar_position(u8 *arg1) {
 }
 
 void TBoss6Type1::handle_6xa4_action(u8 * _w1) { ((TBoss6Type1 *)((char*)this + 0x1))->decode_polar_position(_w1); }
-void calc_grid_cell_position__11TBoss6Type1FPvPv(Boss_802B5648 *o, Vec_802B5648 *out) {
+void calc_grid_cell_position__11TBoss6Type1FPvPv(Boss_802B5648 *o, Vec *out) {
     u32 t = o->f374;
     s8 b = o->f41C;
     s32 sh = (t >> 1) & 3;
@@ -2392,14 +2381,14 @@ void TBoss6Type1__sub_802B5598(void *arg0, void *arg1) {
     *(f32 *)((s8 *)arg1 + 8) = (f32) (var_f31 * cos_table_lookup(temp_r31));
 }
 
-void clamp_to_arena_radius__11TBoss6Type1FPvPvf(Boss_802B54F0 *o, Vec_802B54F0 *out, f32 _w2) {
-    Vec_802B54F0 v = o->pos;
+void clamp_to_arena_radius__11TBoss6Type1FPvPvf(Boss_802B54F0 *o, Vec *out, f32 _w2) {
+    Vec v = o->pos;
     f32 len;
     f32 s;
     v.y = 0.0f;
     len = vector_length(&v, _w2);
     if (len <= 0.00001f) {
-        VecCopy((Vec *)(out), (const Vec *)(&o->pos));
+        VecCopy(out, (const Vec *)(&o->pos));
         return;
     }
     s = 180.0f / len;
@@ -2499,7 +2488,7 @@ void TBoss6Type1::ease_toward_target(s32 a, s32 b) {
 }
 void TBoss6Type1::interpolate_pos_to_target(s32 step, s32 total) {
     Boss_802B4EAC *self = (Boss_802B4EAC *)this;
-    Vec_802B4EAC v;
+    Vec v;
     s32 a0;
     s32 a1;
     f32 r0;
@@ -2536,7 +2525,7 @@ void TBoss6Type1::interpolate_pos_to_target(s32 step, s32 total) {
 
 void TBoss6Type1::rotate_around_center(s32 num, s32 den) {
     u8 *self = (u8 *)this;
-    Vec_802B4D5C v;
+    Vec v;
     f32 dist;
     s32 angle;
     s32 off;

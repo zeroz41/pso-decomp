@@ -192,7 +192,7 @@ u32 __ct__15TWindowHelpItemFPvUs(int, int, u16);
 u32 create__22TWindowLoadItemTextureFPv(int, u16);
 extern s32 local_client_id;
 void *__dt__23TShopJudgmentItemWindowFv(TShopJudgmentItemWindow *arg0, s16 arg1);
-s32 play_sound_effect(s32, s32, s32, s32);
+s32 play_sound_effect(s32, Vec *, s32, s32);
 s32 sub_802239EC__13TShopSequenceFv(void *);
 s32 sub_80223A48__15TShopWindowBaseFv(void *);
 void __dl__7TObjectFPv(void *);
@@ -564,7 +564,7 @@ void TShopJudgmentItemWindow::handle_input() {
 
     if (sub_802239EC__13TShopSequenceFv(this) != 0) {
         set_field_20(0xA);
-        play_sound_effect(0x52D01, 0, 0, 0);
+        play_sound_effect(0x52D01, (Vec *)(0), 0, 0);
         return;
     }
     if (((TShopWindowBase *)this)->TShopWindowBase::sub_80223A48() != 0) {
@@ -572,7 +572,7 @@ void TShopJudgmentItemWindow::handle_input() {
         ((TWindowAddition *)(this->m_158))->set_position_xy(((TShopWindowBase *)this)->TShopWindowBase::get_scale(), ((TShopWindowBase *)this)->TShopWindowBase::get_scale());
         ((VObj_80221344_802205E4 *)this)->m6(3, 1);
         set_field_20(2);
-        play_sound_effect(0x52D01, 0, 0, 0);
+        play_sound_effect(0x52D01, (Vec *)(0), 0, 0);
     }
 }
 

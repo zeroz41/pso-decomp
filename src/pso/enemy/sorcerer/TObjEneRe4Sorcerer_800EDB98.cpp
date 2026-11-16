@@ -171,8 +171,8 @@ void *destroy_buffer_pair(void *arg0, s16 arg1);
 extern "C" {
 s32 approach_angle_limited(s32, s32, s32);
 s32 free_collision_body_parts(void *);
-s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
-s32 play_sound_effect(void *, void *, int, int);
+s32 play_persistent_sound(s32 id, s32 a1, Vec *, s32 a3, s32 flags);
+s32 play_sound_effect(void *, Vec *, int, int);
 void __dl__7TObjectFPv(void *);
 void * __nw__7TObjectFUl(int);
 s32 create_ex__11TTecGiBartaFPvPvPv(void *, void *, s32, s32);
@@ -538,7 +538,7 @@ void TObjEneRe4Sorcerer::render() {
     }
     var_r30 = (s32)&fades[var_r30];
     update__15RenderFadeStateFv(var_r30);
-    temp_r31 = ((RenderFadeState *)var_r30)->updateFromCamera(&m_2fc);
+    temp_r31 = ((RenderFadeState *)var_r30)->updateFromCamera(&m_2fc.x);
     if (!(m_3c8 & 2)) {
         var_r28 = 0;
     } else if (is_main_phase_15__9TObjEneDDFv() != 0) {
@@ -637,7 +637,7 @@ void TObjEneRe4Sorcerer::handle_death_state(s32 arg1) {
         m_3c8 |= 6;
         refresh_and_send_entity_flags();
         m_4e4 = 0;
-        fn_800D911C((Vec *)&m_2fc);
+        fn_800D911C(&m_2fc);
         TObjPlayer__sub_800A04F0(&fade);
         m_3f8 = 0.0f;
         play_sound_effect((void *)remap_sound_for_area(0x4003AD19), &position, 0, 0);
@@ -743,7 +743,7 @@ void TObjEneRe4Sorcerer__sub_800EE1CC(TObjEneRe4Sorcerer *self, s32 arg1) {
                 self->requested_action = 4;
                 self->m_4e8 = 3;
             }
-            play_persistent_sound(self->remap_sound_for_area(0x4003A814), (s32)self, (u32)&self->position, 0, 0);
+            play_persistent_sound(self->remap_sound_for_area(0x4003A814), (s32)self, (Vec *)(u32)&self->position, 0, 0);
             break;
         case 2:
         case 3:
@@ -1141,7 +1141,7 @@ void TObjEneRe4Sorcerer__sub_800EEFE4(TObjEneRe4Sorcerer *self, s32 arg1) {
         set_field_378__9TObjEneDDFl(self, 1);
         VecCopy(&self->position, &self->home_position);
         VecCopy(&self->prev_position, &self->home_position);
-        VecCopy((Vec *)&self->m_2fc, &self->home_position);
+        VecCopy(&self->m_2fc, &self->home_position);
         self->vfunc_95();
         return;
     case 3:
@@ -1215,15 +1215,15 @@ void TObjEneRe4Sorcerer__vt85(TObjEneRe4Sorcerer *self, u32 state, s32 reason) {
 }
 
 void TObjEneRe4Sorcerer__sub_800EF214(TObjEneRe4Sorcerer *self) {
-    play_persistent_sound(self->remap_sound_for_area(0x4003A81D), (s32)self, (u32)&self->position, 0, 0);
+    play_persistent_sound(self->remap_sound_for_area(0x4003A81D), (s32)self, (Vec *)(u32)&self->position, 0, 0);
 }
 
 void TObjEneRe4Sorcerer::create_effect() {
     if (m_3e8 == 0) {
-        play_persistent_sound(remap_sound_for_area(0x4003A812), (s32)this, (u32)&position, 0, 0);
+        play_persistent_sound(remap_sound_for_area(0x4003A812), (s32)this, &position, 0, 0);
         return;
     }
-    play_persistent_sound(remap_sound_for_area(0x4003AB13), (s32)this, (u32)&position, 0, 0);
+    play_persistent_sound(remap_sound_for_area(0x4003AB13), (s32)this, &position, 0, 0);
 }
 
 s32 TObjEneRe4Sorcerer::cast_resta() {
@@ -1525,10 +1525,10 @@ void TObjEneRe4Sorcerer::vfunc_88() {
 }
 
 void TObjEneRe4Sorcerer::update_collision_center() {
-    m_2fc = position.x;
-    m_300 = 22.0f + position.y;
-    m_304 = position.z;
-    VecCopy(&center, (Vec *)&m_2fc);
+    m_2fc.x = position.x;
+    m_2fc.y = 22.0f + position.y;
+    m_2fc.z = position.z;
+    VecCopy(&center, &m_2fc);
 }
 
 void TObjEneRe4Sorcerer::vfunc_61() {  }

@@ -12,9 +12,7 @@ struct TObjDFDemo3 : public TObjBase {
     u32 m_94;
     u32 m_98;
     u32 m_9c;
-    u32 m_a0;
-    u32 m_a4;
-    u32 m_a8;
+    Vec m_a0;
     u32 m_ac;
     u32 m_b0;
     u8 _padB4[0x4];

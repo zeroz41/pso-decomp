@@ -1076,7 +1076,7 @@ void TOMineTrap::run_task() {
         if (find_target_in_range() == 1) {
             set_triggered();
         }
-        VecCopy((Vec *)&m_2fc, &float_position);
+        VecCopy(&m_2fc, &float_position);
         VecCopy(&bodies->center, &float_position);
         break;
     case 3:

@@ -1,4 +1,5 @@
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/unk/TLobby.h"
 #include "pso/item/TUnk_804CC048.h"
 #include "pso/map/FloorArea.h"
@@ -189,7 +190,6 @@ void is_sound_enabled(void);
 s32 is_special_sound_id(u32 x);
 s32 normalize_sound_request(u32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
 s32 play_packed_sound_once(u32 arg0, s32 arg1, s32 arg2, s32 arg3);
-void TLobby__sub_80227AF8(s32 arg0, s32 arg1);
 void release_sound_with_fade(s32 slot);
 void TLobby__sub_80227D38(void);
 void handle_6xB2_play_sound_from_player(void *arg0);
@@ -199,7 +199,9 @@ void *get_player_by_client_id(s32 i);
 s32 bswap_6xB2_play_sound();
 s32 on_set_mode__6TLobbyFv(s32);
 
-void TLobby__sub_80227AF8(s32 arg0, s32 arg1) { TLobby__sub_8023F754(arg0, arg1); }
+void TLobby__sub_80227AF8(s32 id, Vec *pos) {
+    TLobby__sub_8023F754(id, pos);
+}
 
 extern s32 local_client_id;
 

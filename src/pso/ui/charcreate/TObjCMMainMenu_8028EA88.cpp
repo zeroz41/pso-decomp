@@ -1,4 +1,5 @@
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/player/TPlyCharData.h"
 #include "pso/ui/window/TWindowCtrlMain.h"
 #include "pso/ui/keyboard/TKeyBoardControl_80131C58.h"

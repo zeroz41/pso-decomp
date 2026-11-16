@@ -595,7 +595,7 @@ void TObjEneDelDepth::fn_80314EC4() {
     if (temp_f1_4 > TObjEneDelDepth__data_805DF260) {
         if (find_nearest_visible_player(ene_del_depth, 0, TObjEneDelDepth__data_805DF26C) != 0xFFFF) {
             ene_del_depth->set_action_state(3);
-            play_sound_effect(0x4003A822, (u8 *)&ene_del_depth->position, 0, 0);
+            play_sound_effect(0x4003A822, &ene_del_depth->position, 0, 0);
         } else {
             ene_del_depth->set_action_state(2);
         }
@@ -712,7 +712,7 @@ void TObjEneDelDepth::update_movement() {
         }
     }
     this->m_38c -= fabs_float(arg0->movementSpeed);
-    VecCopy((Vec *)&arg0->prev_position, (const Vec *)&arg0->position);
+    VecCopy(&arg0->prev_position, (const Vec *)&arg0->position);
     for (k = 1; k < 15; k++) {
         f32 s;
         f32 c;
@@ -772,7 +772,7 @@ void TObjEneDelDepth::update_movement() {
         arg0->direction.z = s * arg0->direction.x + c * arg0->direction.z;
         normalize_vector(&arg0->direction);
         this->rotation_y = (s32)(TObjEneDelDepth__data_80475DD0 * atan2_float(arg0->direction.x, arg0->direction.z));
-        VecCopy((Vec *)&arg0->position, (const Vec *)&arg0->prev_position);
+        VecCopy(&arg0->position, (const Vec *)&arg0->prev_position);
     }
     if (this->m_38c <= TObjEneDelDepth__data_805DF258 && TObjEneDelDepth__data_805DF258 == arg0->movementSpeed) {
         Vec q;
@@ -790,7 +790,7 @@ void TObjEneDelDepth::enter_state8() {
     this->actorFlags = (s32) (this->actorFlags | 0x04000000);
     this->attackTimer = 8;
     this->motionController->set_motion(0xA);
-    play_sound_effect(0x4003A820, (u8 *)&this->position, 0, 0);
+    play_sound_effect(0x4003A820, &this->position, 0, 0);
     this->set_draw_mode(1);
 }
 
@@ -808,7 +808,7 @@ void TObjEneDelDepth::update_state() {
 void TObjEneDelDepth::enter_appear_state() {
     this->actorFlags = (s32) (this->actorFlags | 0x04000000);
     this->attackTimer = 0x14;
-    play_sound_effect(0x4003A820, (void *) ((u8 *)&this->position), 0, 0);
+    play_sound_effect(0x4003A820, (Vec *)(void *) ((u8 *)&this->position), 0, 0);
     this->motionController->set_motion(0xB);
     this->set_draw_mode(1);
 }
@@ -817,7 +817,7 @@ void TObjEneDelDepth::try_enter_appear() {
     if (this->motionController->is_state_complete() == 1) {
         this->actorFlags = (s32) (this->actorFlags | 0x04000000);
         this->set_action_state(3);
-        play_sound_effect(0x4003A822, (u8 *)&this->position, 0, 0);
+        play_sound_effect(0x4003A822, (Vec *)(u8 *)&this->position, 0, 0);
     }
 }
 
@@ -972,7 +972,7 @@ void TObjEneDelDepth::update_bomb_drop() {
         }
         pop_matrix();
         clear_motion_packed_rotation();
-        play_sound_effect(0x4003A81D, (u8 *)&this->position, 0, 0);
+        play_sound_effect(0x4003A81D, (Vec *)(u8 *)&this->position, 0, 0);
         TObjEneDelDepthBomb::create(this, this, (Vec *)&out, TObjEneDelDepth__tune_params->techniqueLevel);
     }
     temp_r0_2 = this->timer - 1;
@@ -1043,7 +1043,7 @@ void TObjEneDelDepth::start_attack_motion() {
     this->drawScale.z = (f32) TObjEneDelDepth__data_805DF260;
     this->drawScale.y = (f32) TObjEneDelDepth__data_805DF260;
     this->drawScale.x = (f32) TObjEneDelDepth__data_805DF260;
-    play_sound_effect(0x4003A321, (void *) ((u8 *)&this->position), 0, 0);
+    play_sound_effect(0x4003A321, (Vec *)(void *) ((u8 *)&this->position), 0, 0);
     if (this->motionController->get_type() < 6) {
         this->motionController->set_motion(4);
     } else {
@@ -1071,7 +1071,7 @@ void TObjEneDelDepth::update_ai_state() {
                 return;
             }
             this->set_action_state(3);
-            play_sound_effect(0x4003A822, (u8 *)&this->position, 0, 0);
+            play_sound_effect(0x4003A822, (Vec *)(u8 *)&this->position, 0, 0);
         }
     }
 }
@@ -1106,7 +1106,7 @@ void TObjEneDelDepth::update_death_fade() {
         this->timer = temp_r0_2;
         if (temp_r0_2 <= 0) {
             this->actionPhase = 1;
-            play_sound_effect(0x4003A321, (u8 *)&this->position, 0, 0);
+            play_sound_effect(0x4003A321, (Vec *)(u8 *)&this->position, 0, 0);
             this->timer = 5;
         }
         break;
@@ -1169,7 +1169,7 @@ void TObjEneDelDepth::update_fall_to_ground() {
         VecCopy((Vec *)&b, (const Vec *)&a);
         b.y += k + fabs_float(o->fallVelocity.y);
         if (project_actor_to_ground(o, &b, 0) != 0) {
-            VecCopy((Vec *)&o->position, (const Vec *)&a);
+            VecCopy(&o->position, (const Vec *)&a);
             if (!(o->position.y > b.y)) {
                 o->position.y = b.y;
                 done = 1;

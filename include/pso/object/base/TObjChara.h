@@ -228,9 +228,7 @@ public:
     u8 unk_2F6[0x2];
     s16 m_2f8;
     u8 unk_2FA[0x2];
-    f32 m_2fc;
-    f32 m_300;
-    f32 m_304;
+    Vec m_2fc;
     union {
         u8 unk_308[0x4];
         f32 x_speed;

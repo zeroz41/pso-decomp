@@ -546,15 +546,15 @@ void TObjEneMe3Stelth::vfunc_61() {  }
 
 extern "C" {
 void TObjEneMe3Stelth::copy_pos_with_height_offset() {
-    VecCopy((Vec *)&m_2fc, &position);
-    m_300 += lbl_805DA814 + m_3d4;
-    VecCopy(&center, (Vec *)&m_2fc);
+    VecCopy(&m_2fc, &position);
+    m_2fc.y += lbl_805DA814 + m_3d4;
+    VecCopy(&center, &m_2fc);
 }
 }
 
 extern "C" {
 void TObjEneMe3Stelth::vfunc_88() {
-    bodies->offset.y = m_300 - position.y;
+    bodies->offset.y = m_2fc.y - position.y;
 }
 }
 
@@ -659,7 +659,7 @@ void TObjEneMe3Stelth::attack_and_unequip() {
             }
         }
     }
-    play_sound_effect(0x3AA37, (u8 *)&position, 0, 0);
+    play_sound_effect(0x3AA37, &position, 0, 0);
 }
 }
 
@@ -873,7 +873,7 @@ void TObjEneMe3Stelth::vfunc_113(s32 arg1) {
         m_424 = 0;
         VecCopy(&position, &home_position);
         VecCopy(&prev_position, &home_position);
-        VecCopy((Vec *)&m_2fc, &home_position);
+        VecCopy(&m_2fc, &home_position);
         m_3d0 = position.y;
         m_3e8 = 0;
         m_3ec = 0;
@@ -1286,7 +1286,7 @@ void TObjEneMe3Stelth__sub_800F348C(TObjEneMe3Stelth *stelth, s32 arg1) {
                             stelth->m_424 = 3;
                             stelth->m_434 = (stelth->m_3ac - 20.0f) / 12.857143f;
                             stelth->vfunc_91();
-                            play_sound_effect(0x3A835, (u8 *)&stelth->position, 0, 0);
+                            play_sound_effect(0x3A835, (Vec *)(u8 *)&stelth->position, 0, 0);
                         } else {
                             stelth->m_424 = 5;
                         }
@@ -1317,7 +1317,7 @@ void TObjEneMe3Stelth__sub_800F348C(TObjEneMe3Stelth *stelth, s32 arg1) {
                         stelth->target->apply_knockback_from_attacker((u8 *)stelth, 3.0f);
                     }
                 }
-                play_sound_effect(0x3A838, (u8 *)&stelth->position, 0, 0);
+                play_sound_effect(0x3A838, (Vec *)(u8 *)&stelth->position, 0, 0);
             }
             stelth->m_434 *= 0.85f;
             stelth->move_with_wall_slide_on_ground(stelth->m_3a0, stelth->m_3a8, stelth->m_434);
@@ -1472,7 +1472,7 @@ void run_walk_state__16TObjEneMe3StelthFPvi(TObjEneMe3Stelth *stelth, s32 arg1) 
             if ((stelth->frame + stelth->play_speed) >= TObjEneMe3Stelth__data_805DA808) {
                 stelth->m_424 = 1;
                 stelth->vfunc_91();
-                play_sound_effect(0x3A835, (u8 *)&stelth->position, 0, 0);
+                play_sound_effect(0x3A835, (Vec *)(u8 *)&stelth->position, 0, 0);
             }
             stelth->vfunc_102();
             stelth->vfunc_89();
@@ -1637,7 +1637,7 @@ void TObjEneMe3Stelth__sub_800F290C(TObjEneMe3Stelth *stelth, s32 arg1) {
         stelth->requested_action = 4;
         stelth->advance_animation();
         stelth->set_active();
-        play_sound_effect(0x3A839, (u8 *)&stelth->position, 0, 0);
+        play_sound_effect(0x3A839, (Vec *)(u8 *)&stelth->position, 0, 0);
         break;
     case 3:
         if (stelth->get_flag_b4() != 0) {
@@ -1686,7 +1686,7 @@ void TObjEneMe3Stelth::handle_breakup_state(s32 arg1) {
         case 0:
             advance_animation();
             if (is_passing_frame(18.0f) != 0 || is_passing_frame(lbl_805DA818) != 0) {
-                play_sound_effect(0x3A836, (u8 *)&position, 0, 0);
+                play_sound_effect(0x3A836, (Vec *)(u8 *)&position, 0, 0);
             }
             if (get_flag_b4() != 0) {
                 m_424 = 1;
@@ -1713,7 +1713,7 @@ void TObjEneMe3Stelth::handle_breakup_state(s32 arg1) {
                 v.x += 20.0f * sin_table_lookup(rotation_y);
                 v.z += 20.0f * cos_table_lookup(rotation_y);
                 ((TObjPlayer *)(&v))->trigger_dell_biter_events();
-                play_sound_effect(0x3AD3A, (u8 *)&position, 0, 0);
+                play_sound_effect(0x3AD3A, (Vec *)(u8 *)&position, 0, 0);
             }
             vfunc_102();
             break;
@@ -2233,13 +2233,13 @@ void TObjEneMe3Stelth__sub_800F1098(TObjEneMe3Stelth *stelth, s32 arg1) {
                 if (select_enemy_destination(stelth, &dest, 1) != 0) {
                     Vec pos = *(Vec *)&stelth->m_2fc;
                     copy_position_if_valid__10TObjPlayerFii((s32)stelth, (s32)&pos);
-                    stelth->m_300 += TObjEneMe3Stelth__data_805DA820;
+                    stelth->m_2fc.y += TObjEneMe3Stelth__data_805DA820;
                     r = enemy_turn_toward_dest(stelth, ((StelthMovementParams *)stelth->movementParameters)->turn);
                     enemy_set_heading_velocity(((StelthMovementParams *)stelth->movementParameters)->speed, stelth, stelth->rotation_y);
                     move_with_wall_slide((u8 *)stelth);
                 } else {
                     VecCopy(&d, &stelth->m_394);
-                    subtract_vector(&d, (Vec *)&stelth->m_2fc);
+                    subtract_vector(&d, &stelth->m_2fc);
                     r = stelth->turn_toward_direction(((StelthMovementParams *)stelth->movementParameters)->turn, &d);
                 }
             }
@@ -2273,7 +2273,7 @@ void TObjEneMe3Stelth__sub_800F1098(TObjEneMe3Stelth *stelth, s32 arg1) {
                 pop_matrix();
                 if (stelth->target != NULL) {
                     VecCopy(&d, &stelth->m_394);
-                    subtract_vector(&d, (Vec *)&stelth->m_2fc);
+                    subtract_vector(&d, &stelth->m_2fc);
                     r = stelth->turn_toward_direction(((StelthMovementParams *)stelth->movementParameters)->turn, &d);
                 } else {
                     r = ((s32 *)stelth->m_318)[3];

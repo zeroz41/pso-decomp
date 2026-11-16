@@ -37,9 +37,9 @@ int TObjEneMe1Gee_NEEDLE::queue_destruction() {
 
 int TObjEneMe1Gee_NEEDLE::vfunc_6() {
     if (get_current_floor_area() == AREA_SEASIDE_NIGHT) {
-        play_sound_effect(0x4003B20E, &pos, 0, 0);
+        play_sound_effect(0x4003B20E, (Vec *)(&pos), 0, 0);
     } else {
-        play_sound_effect(0x3A847, &pos, 0, 0);
+        play_sound_effect(0x3A847, (Vec *)(&pos), 0, 0);
     }
     m_b8 = 0;
 }

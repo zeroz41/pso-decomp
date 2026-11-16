@@ -25,16 +25,14 @@
 
 #pragma readonly_strings on
 
-struct Vec_8031B618 { f32 x, y, z; };
 
 struct Sub_8031B618 { u8 pad[0xC]; f32 radius; };
 
-struct Ctrl_8031B618 { u8 pad[0xA4]; Sub_8031B618 *sub; u8 pad2[0x2FC - 0xA8]; Vec_8031B618 pos; };
+struct Ctrl_8031B618 { u8 pad[0xA4]; Sub_8031B618 *sub; u8 pad2[0x2FC - 0xA8]; Vec pos; };
 
-struct Obj_8031B618 { u8 pad[0x38]; Vec_8031B618 pos; u8 pad2[0x2FC - 0x44]; Vec_8031B618 pos2; };
+struct Obj_8031B618 { u8 pad[0x38]; Vec pos; u8 pad2[0x2FC - 0x44]; Vec pos2; };
 
 struct Obj_8031B618;
-struct Vec_8031B808 { f32 x, y, z; };
 
 struct P_8031B808 { s32 a; f32 b; };
 
@@ -77,14 +75,14 @@ struct VObj_8031B808 : VBase_8031B808 {
 
 struct Obj_8031B808 {
     u8 pad0[0x38];
-    Vec_8031B808 pos;
+    Vec pos;
     u8 pad44[0x248 - 0x44];
     u8 f248[0x2FC - 0x248];
-    Vec_8031B808 pos2;
+    Vec pos2;
     u8 pad308[0x334 - 0x308];
     u32 target;
     u8 pad338[4];
-    Vec_8031B808 vel;
+    Vec vel;
     f32 f348;
     f32 range;
     f32 f350;
@@ -181,7 +179,7 @@ void TObjEneReconBomb::render() {
 
 void TObjEneReconBomb::run_task() {
     Obj_8031B808 *arg0 = (Obj_8031B808 *)this;
-    Vec_8031B808 pos;
+    Vec pos;
     s32 i;
     VObj_8031B808 *pl;
     if (arg0->target == 0) {
@@ -199,7 +197,7 @@ void TObjEneReconBomb::run_task() {
         arg0->vel.z *= 0.95f;
         ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&pos, &arg0->pos);
         vec3_add_to(&pos, &arg0->vel);
-        Vec_8031B808 g = pos;
+        Vec g = pos;
         if (project_actor_to_ground(arg0, &g, arg0->f248) != 0) {
             arg0->f348 = g.y;
             if (pos.y <= g.y) {
@@ -227,7 +225,7 @@ void TObjEneReconBomb::run_task() {
         break;
     case 3:
     default:
-        play_sound_effect(TObjEneRecobox::remap_area_sound_id(0x4003A80B), &arg0->pos, 0, 0);
+        play_sound_effect(TObjEneRecobox::remap_area_sound_id(0x4003A80B), (Vec *)&arg0->pos, 0, 0);
         spawn_particle_effect_with_flags(&arg0->pos, 0x45, 0x40);
         spawn_particle_effect_with_flags(&arg0->pos, 0x46, 0x40);
         for (i = 0; i < lbl_805D5868; i++) {

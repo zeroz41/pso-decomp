@@ -234,7 +234,7 @@ void TOCtrlDubchik::run_task() {
         complete_and_destroy();
         break;
     }
-    VecCopy((Vec *)&this->m_2fc, (const Vec *)&this->position);
+    VecCopy(&this->m_2fc, (const Vec *)&this->position);
     ((TObjCollidable *)arg0)->refresh_collision_body_centers();
     submit_cursor_candidate(arg0, -1);
 }
@@ -327,7 +327,7 @@ void TOCtrlDubchik::sub_8015CA74() {
     spawn_particle_effect(&this->position, 0x46);
     area = get_current_floor_area();
     if (area >= 0x17 || area < 0x13) {
-        play_sound_effect(0x4003AD16, (u8 *)&this->position, 0, 0);
+        play_sound_effect(0x4003AD16, &this->position, 0, 0);
     }
     for (i = registered_player_count; i < registered_player_count + lbl_805D5870; i++) {
         p = (u8 *)TObjPlayer::get_player_data(i);
@@ -347,7 +347,7 @@ f32 TOCtrlDubchik::receive_weapon_special_attack(void *attacker, void *hit) {
         if (hit != NULL) {
             VecCopy(&pos, &((A_8015C9D4 *)hit)->pos);
         } else {
-            VecCopy(&pos, (Vec *)&m_2fc);
+            VecCopy(&pos, &m_2fc);
         }
         TOCtrlDubchik::create_font((s32)&pos, (s32)0xFFFF0000, 0x14, (s32)"MISS");
     }

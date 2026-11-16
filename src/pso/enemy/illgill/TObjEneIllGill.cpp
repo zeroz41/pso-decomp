@@ -54,7 +54,7 @@ s32 spawn_continuous_particle_with_direction(void *, void *, s32);
 s32 angle_difference_abs(s32, s32);
 s32 get_player_by_client_id(u16);
 s32 minimap_render_dot(void *, int, int, int);
-s32 play_persistent_sound(int, void *, void *, int, int);
+s32 play_persistent_sound(int, void *, Vec *, int, int);
 void *__nw__7TObjectFUl(int);
 void TObjIllGillKage__ct(void *, s32, void *);
 void subtract_vector(void *, void *);
@@ -223,7 +223,7 @@ void TObjEneIllGill::update_charge_attack() {
         if (o->target != NULL) {
             Vec v = *((Vec *)&((TObjChara *)o->target)->m_2fc);
             s32 d;
-            subtract_vector(&v, (Vec *)&o->m_2fc);
+            subtract_vector(&v, &o->m_2fc);
             d = o->turn_toward_direction((s32)(lbl_805E02B8 * (f32)((IllGillMovementParameters *)o->movementParameters)->turn), &v);
             if (d < ((AttackParams *)(o->m_318))->get_attack_angle()) {
                 s32 ang = (s32)(10430.38043493439 * atan2_float(v.x, v.z));
@@ -238,13 +238,13 @@ void TObjEneIllGill::update_charge_attack() {
                 rotate_matrix_y(0, ang);
                 rotate_vector_by_matrix(0, &v, &v);
                 pop_matrices(1);
-                vec3_add_to(&v, (Vec *)&o->m_2fc);
+                vec3_add_to(&v, &o->m_2fc);
                 if (select_enemy_destination(o, v, 1) != 0 || select_enemy_destination(o, *((Vec *)&((TObjChara *)o->target)->m_2fc), 1) != 0) {
                     o->phase = 1;
                     o->requested_action = 8;
                     obj_setFlags30(o, 0x4000000);
                     o->set_indexed_flags(0, 0x80);
-                    copy_position_if_valid__10TObjPlayerFii(o, (*((Vec *)&o->m_2fc)));
+                    copy_position_if_valid__10TObjPlayerFii(o, (*(&o->m_2fc)));
                     o->actionTimer = 10;
                     play_sound_effect(0x4003A34E, &o->position, 0, 0);
                 } else {
@@ -266,7 +266,7 @@ void TObjEneIllGill::update_charge_attack() {
         {
             Vec v = *((Vec *)&((TObjChara *)o->target)->m_2fc);
             s32 d;
-            subtract_vector(&v, (Vec *)&o->m_2fc);
+            subtract_vector(&v, &o->m_2fc);
             d = o->turn_toward_direction((s32)(lbl_805E02B8 * (f32)((IllGillMovementParameters *)o->movementParameters)->turn), &v);
             if (d < ((AttackParams *)(o->m_318))->get_attack_angle()) {
                 s32 ang = (s32)(10430.38043493439 * atan2_float(v.x, v.z));
@@ -281,7 +281,7 @@ void TObjEneIllGill::update_charge_attack() {
                 rotate_matrix_y(0, ang);
                 rotate_vector_by_matrix(0, &v, &v);
                 pop_matrices(1);
-                vec3_add_to(&v, (Vec *)&o->m_2fc);
+                vec3_add_to(&v, &o->m_2fc);
                 if (select_enemy_destination(o, v, 1) == 0 && select_enemy_destination(o, *((Vec *)&((TObjChara *)o->target)->m_2fc), 1) == 0) {
                     if (o->targetId == 0xFFFF) {
                         o->target = NULL;
@@ -356,7 +356,7 @@ void TObjEneIllGill::update_charge_attack() {
             enemy_turn_toward_dest(o, (s32)(lbl_805E02D0 * (f32)prm->turn));
             enemy_set_heading_velocity(spd, (TObjEnemy *)(o), o->rotation_y);
             move_with_wall_slide((u8 *)o);
-            d2 = horizontal_distance_squared((Vec *)&o->m_29c, (Vec *)&o->m_2fc);
+            d2 = horizontal_distance_squared((Vec *)&o->m_29c, &o->m_2fc);
             t = spd + o->bodies->radius;
             if (d2 < t * t || ((IllGillMovementParameters *)o->movementParameters)->range * ((IllGillMovementParameters *)o->movementParameters)->range < d2 || lbl_805E02D4 < (f32)(c = o->chargeFrames)) {
                 if (o->targetId == 0xFFFF) {
@@ -552,13 +552,13 @@ void TObjEneIllGill::update_death_fall() {
       apply_actor_gravity(arg0, 0, TObjEneIllGill__data_805E02BC);
       if (((TObjMotion *)arg0)->is_passing_frame((f32)((f32) TObjEneIllGill__data_805E02D8)) != 0)
     {
-      play_sound_effect(0x4003A351, (u8 *)&this->position, 0, 0);
+      play_sound_effect(0x4003A351, &this->position, 0, 0);
       this->phase = 2;
     }
       return;
     return;
     case 2:
-      this->m_300 = (f32) ((this->m_300) + TObjEneIllGill__data_805E02DC);
+      this->m_2fc.y = (f32) ((this->m_2fc.y) + TObjEneIllGill__data_805E02DC);
       move_with_wall_slide(arg0);
       x_speed = (f32) ((x_speed) * lbl_805E02E0);
       this->m_310 = (f32) ((this->m_310) * lbl_805E02E0);
@@ -572,7 +572,7 @@ void TObjEneIllGill::update_death_fall() {
     case 3:
       if (((TObjMotion *)arg0)->is_passing_frame((f32)((f32) lbl_805E02E4)) != 0)
     {
-      play_sound_effect(0x4003A358, (u8 *)&this->position, 0, 0);
+      play_sound_effect(0x4003A358, (Vec *)(u8 *)&this->position, 0, 0);
       TObjPlayer::apply_effect_variant_b((s32)(&position), 0xA);
       fn_800D911C(&position);
       this->phase = 4;
@@ -974,8 +974,8 @@ void TObjEneIllGill::update_chase_target() {
             this->phase = 0;
         case 0: {
             Vec dir;
-            t = this->m_300 + TObjEneIllGill__data_805E02DC;
-            this->m_300 = t;
+            t = this->m_2fc.y + TObjEneIllGill__data_805E02DC;
+            this->m_2fc.y = t;
             {
                 Vec tgt = *(Vec *)((u8 *)&((TObjChara *)target)->m_2fc);
                 d = enemy_move_toward(arg0, id, &tgt, 0, lbl_805E02F0 * r, t);
@@ -990,8 +990,8 @@ void TObjEneIllGill::update_chase_target() {
             break;
         }
         case 2: {
-            t = this->m_300;
-            this->m_300 = t + TObjEneIllGill__data_805E02DC;
+            t = this->m_2fc.y;
+            this->m_2fc.y = t + TObjEneIllGill__data_805E02DC;
             {
                 Vec tgt = *(Vec *)((u8 *)&((TObjChara *)target)->m_2fc);
                 enemy_pursue_point(arg0, id, &tgt, r, lbl_805E02F4, t);
@@ -1054,7 +1054,7 @@ void TObjEneIllGill::update_forward_movement() {
     rotate_vector_by_matrix(0, &v, &v);
     pop_matrices(1);
     vec3_add_to(&v, &home_position);
-    this->m_300 += TObjEneIllGill__data_805E02DC;
+    this->m_2fc.y += TObjEneIllGill__data_805E02DC;
     d = step_toward_destination__10TObjPlayerFPvPvf(player, v, lbl_805E02B8 * ((IllGillMovementParameters *)movementParameters)->speed);
     movement = (IllGillMovementParameters *)movementParameters;
     a = movement->range * movement->range;
@@ -1092,7 +1092,7 @@ void TObjEneIllGill::update_idle() {
         if (horizontal_distance_squared((u8 *)&this->position, (u8 *)&this->home_position) > lbl_805E02C8) {
             move_toward_dest_with_detour();
         } else {
-            this->m_300 = (f32) (this->m_300 + TObjEneIllGill__data_805E02DC);
+            this->m_2fc.y = (f32) (this->m_2fc.y + TObjEneIllGill__data_805E02DC);
             movement = (IllGillMovementParameters *)movementParameters;
             ((TObjEnemy *)arg0)->enemy_wander_home((f32) (lbl_805E02E8 * movement->speed), lbl_805E02C4, lbl_805E02FC, movement->turn);
         }
@@ -1115,14 +1115,14 @@ void TObjEneIllGill::move_toward_dest_with_detour() {
     TObjEneIllGill *o = this;
     s32 ang;
     VecCopy((Vec *)(Vec *)&o->m_29c, (const Vec *)&o->home_position);
-    VecCopy((Vec *)&(*(Vec *)&o->m_290), (const Vec *)(Vec *)&o->m_2fc);
-    VecCopy((Vec *)&o->prev_position, (const Vec *)&o->position);
+    VecCopy((Vec *)&(*(Vec *)&o->m_290), (const Vec *)&o->m_2fc);
+    VecCopy(&o->prev_position, (const Vec *)&o->position);
     VecCopy((Vec *)&scratch_vec, (const Vec *)&o->home_position);
     subtract_vector(&scratch_vec, &o->position);
     ang = (s32)(10430.38043493439 * atan2_float(scratch_vec.x, scratch_vec.z));
     if (o->project_step_to_ground(ang) == 1) {
         o->requested_action = 1;
-        VecCopy((Vec *)&o->position, (const Vec *)&lbl_8050BF00);
+        VecCopy(&o->position, (const Vec *)&lbl_8050BF00);
         o->rotation_y = approach_angle_limited(o->rotation_y, ang, ((IllGillMovementParameters *)o->movementParameters)->turn);
     } else {
         if (fabs_float(scratch_vec.x) < fabs_float(scratch_vec.z)) {
@@ -1132,7 +1132,7 @@ void TObjEneIllGill::move_toward_dest_with_detour() {
         }
         if (o->project_step_to_ground(ang) == 1) {
             o->requested_action = 1;
-            VecCopy((Vec *)&o->position, (const Vec *)&lbl_8050BF00);
+            VecCopy(&o->position, (const Vec *)&lbl_8050BF00);
             o->rotation_y = approach_angle_limited(o->rotation_y, ang, ((IllGillMovementParameters *)o->movementParameters)->turn);
         } else {
             if (fabs_float(scratch_vec.x) < fabs_float(scratch_vec.z)) {
@@ -1142,7 +1142,7 @@ void TObjEneIllGill::move_toward_dest_with_detour() {
             }
             if (o->project_step_to_ground(ang) == 1) {
                 o->requested_action = 1;
-                VecCopy((Vec *)&o->position, (const Vec *)&lbl_8050BF00);
+                VecCopy(&o->position, (const Vec *)&lbl_8050BF00);
                 o->rotation_y = approach_angle_limited(o->rotation_y, ang, ((IllGillMovementParameters *)o->movementParameters)->turn);
             } else {
                 o->requested_action = 0;
@@ -1151,7 +1151,7 @@ void TObjEneIllGill::move_toward_dest_with_detour() {
     }
     enemy_turn_toward_dest(o, ((IllGillMovementParameters *)o->movementParameters)->turn);
     enemy_set_heading_velocity(((IllGillMovementParameters *)o->movementParameters)->speed, (TObjEnemy *)(o), o->rotation_y);
-    (*((Vec *)&o->m_2fc)).y += TObjEneIllGill__data_805E02DC;
+    (*(&o->m_2fc)).y += TObjEneIllGill__data_805E02DC;
     move_with_wall_slide((u8 *)o);
 }
 

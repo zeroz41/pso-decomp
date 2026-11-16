@@ -39,9 +39,8 @@ void *__dt__10TBoss2MineFv(void *arg0, s16 arg1);
 
 }
 
-struct Vec_800375C0 { f32 x, y, z; };
 
-struct Mine_800377E8 { u8 pad[0x404]; Vec_800375C0 vel; };
+struct Mine_800377E8 { u8 pad[0x404]; Vec vel; };
 
 struct Col_80038200 { s32 a; f32 r, g, b; };
 
@@ -1326,7 +1325,7 @@ void init_launch__10TBoss2MineFPvPvii(u8 *arg0, u8 *arg1, s32 arg2, s32 arg3) {
 #pragma push
 #pragma fp_contract on
 void TUnk_80482D04::vfunc_105(s32 arg1) {
-    Vec_800375C0 v;
+    Vec v;
     f32 t;
     u8 *arg0 = (u8 *)this;
     switch (arg1) {
@@ -1352,7 +1351,7 @@ void TUnk_80482D04::vfunc_105(s32 arg1) {
             (*(s32 *)((s8 *)arg0 + 0x3CC))++;
             if (*(s32 *)((s8 *)arg0 + 0x3CC) >= 0xF) {
                 *(s32 *)((s8 *)arg0 + 0x3C8) = 1;
-                play_sound_effect(0x4003A804, arg0 + 0x2FC, 0, 0);
+                play_sound_effect(0x4003A804, (Vec *)(arg0 + 0x2FC), 0, 0);
             }
             *(f32 *)((s8 *)arg0 + 0x2FC) = *(f32 *)((s8 *)arg0 + 0x404) * *(f32 *)((s8 *)arg0 + 0x3DC) + *(f32 *)((s8 *)arg0 + 0x2FC);
             *(f32 *)((s8 *)arg0 + 0x304) = *(f32 *)((s8 *)arg0 + 0x40C) * *(f32 *)((s8 *)arg0 + 0x3DC) + *(f32 *)((s8 *)arg0 + 0x304);
@@ -1407,7 +1406,7 @@ void TUnk_80482D04::vfunc_105(s32 arg1) {
 #pragma push
 #pragma fp_contract on
 void TUnk_80482D04::vfunc_106(s32 arg1) {
-    Vec_800375C0 v;
+    Vec v;
     f32 s;
     u8 *arg0 = (u8 *)this;
     switch (arg1) {
@@ -1442,7 +1441,7 @@ void TUnk_80482D04::vfunc_106(s32 arg1) {
         s = normalize_vector_xz((Vec *)(&v));
         s *= (0.75f);
         if (s < (0.2f)) {
-            VecCopy((Vec *)(arg0 + 0x2FC), (const Vec *)((s32)&*(Vec_800375C0 *)((s8 *)arg0 + 0x390)));
+            VecCopy((Vec *)(arg0 + 0x2FC), (const Vec *)((s32)&*(Vec *)((s8 *)arg0 + 0x390)));
         } else {
             if (s > (4.0f)) {
                 s = (4.0f);

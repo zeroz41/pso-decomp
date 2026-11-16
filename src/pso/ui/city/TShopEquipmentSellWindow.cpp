@@ -172,7 +172,7 @@ void get_item_count__24TShopEquipmentSellWindowFv(void *, s32);
 f32 get_scale__15TShopWindowBaseFv(void *);
 int sub_802239EC__13TShopSequenceFv(void *);
 int sub_80223A48__15TShopWindowBaseFv(void *);
-s32 play_sound_effect(s32, s32, s32, s32);
+s32 play_sound_effect(s32, Vec *, s32, s32);
 void *__ct__18TWindowInputNumberFPvllls(void *, s32, s32, s32, s32, s16);
 s32 align_menu_entry_positions(u32);
 s32 forward_trade_action_default__16TObjCityMainWarpFPviii(u32, s32, s32, s32);
@@ -295,7 +295,7 @@ void TShopEquipmentSellWindow::handle_selection() {
     }
     if (sub_802239EC__13TShopSequenceFv(w) != 0) {
         ((TShopWindowBase *)w)->set_field_20(8);
-        play_sound_effect(0x52D01, 0, 0, 0);
+        play_sound_effect(0x52D01, (Vec *)(0), 0, 0);
         return;
     }
     if (sub_80223A48__15TShopWindowBaseFv(w) != 0) {

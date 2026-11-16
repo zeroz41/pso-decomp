@@ -45,7 +45,6 @@ typedef char RecoveredGlobal_801982D4_lbl_804B8DAC_size[sizeof(RecoveredGlobal_8
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-struct Vec_80198504 { f32 x, y, z; };
 extern "C" {
 s32 get_bml_model(void *, s32);
 s32 draw_chunk_object(s32);
@@ -88,8 +87,8 @@ typedef char RecoveredGlobal_80198960_lbl_8050DD58_size[sizeof(RecoveredGlobal_8
 struct Obj_8019978C;
 struct Pair_80198F14;
 struct RecoveredGlobal_80198DCC_lbl_8050E208;
-struct Vec_80199674;
-struct Vec_8019978C;
+struct Vec;
+struct Vec;
 extern "C" {
 extern Sys_80198A2C gogo_ball_configuration;
 extern Vec_80198E84 gogo_ball_sync_state[];
@@ -103,18 +102,17 @@ extern Pair_80198F14 gogo_ball_team_scores[];
 void bswap_6x79_gogo_ball__12TWindowTimerFi(s32);
 void TObjPlayer__sub_801994DC(s32,void*,void*,s32,void*,f32);
 int TWindowTimer__sub_8019A770(void*);
-f32 xyz_distance(Vec_80199674*,void*);
-f32 vector_length(Vec_8019978C*);
-void normalize_vector(Vec_8019978C*);
-s32 reflect_velocity_off_collision__13TUnk_804B8E18FPvPv(Obj_8019978C*,Vec_8019978C*,Vec_8019978C*);
+f32 xyz_distance(Vec*,void*);
+f32 vector_length(Vec*);
+void normalize_vector(Vec*);
+s32 reflect_velocity_off_collision__13TUnk_804B8E18FPvPv(Obj_8019978C*,Vec*,Vec*);
 }
 void draw_shadow_on_ground(u8*);
 extern void* lbl_804B8D94[];
 extern void* lbl_804B8DA0[];
-struct Vec_80198A2C { f32 x, y, z; };
 struct Obj_80198A2C {
     u8 pad0[0x1C];
-    Vec_80198A2C pos;
+    Vec pos;
     u8 pad28[0x34 - 0x28];
     s32 rot;
     u8 pad38[0x3C - 0x38];
@@ -276,18 +274,16 @@ void handle_6x79_gogo_ball(u8 *arg0);
 void direction_to_rotation_xz(u8 *arg0, s32 *arg1, s32 *arg2);
 typedef char RecoveredGlobal_80199470_lbl_8050DDAC_size[sizeof(RecoveredGlobal_80199470_lbl_8050DDAC) == 0x1C ? 1 : -1];
 extern "C" {
-struct Vec_80199674 { f32 x, y, z; };
-struct Seg_80199674 { Vec_80199674 a; Vec_80199674 b; };
+struct Seg_80199674 { Vec a; Vec b; };
 struct Hit_80199674 { u32 f0; Seg_80199674 *seg; };
 s32 *csnVectorUnder(s32 arg0, u32 *arg1, s32 arg2);
-f32 xyz_distance(Vec_80199674 *, void *);
+f32 xyz_distance(Vec *, void *);
 }
 extern u8 saved_model_draw_color[];
 extern u8 model_material_color[];
-struct Vec_8019978C { f32 x, y, z; };
 struct Tri_8019978C {
-    Vec_8019978C p;
-    Vec_8019978C n;
+    Vec p;
+    Vec n;
 };
 struct Hit_8019978C {
     u8 pad0[4];
@@ -300,12 +296,11 @@ struct Obj_8019978C {
     f32 f394;
 };
 extern "C" {
-Hit_8019978C *csnVector(Vec_8019978C *, Vec_8019978C *, s32);
-f32 vec3_dot(Vec_8019978C *, Vec_8019978C *);
-f32 vector_length(Vec_8019978C *);
-void normalize_vector(Vec_8019978C *);
-s32 reflect_velocity_off_collision__13TUnk_804B8E18FPvPv(Obj_8019978C *o, Vec_8019978C *p, Vec_8019978C *v);
-struct Vec_80199A44 { f32 x, y, z; };
+Hit_8019978C *csnVector(Vec *, Vec *, s32);
+f32 vec3_dot(Vec *, Vec *);
+f32 vector_length(Vec *);
+void normalize_vector(Vec *);
+s32 reflect_velocity_off_collision__13TUnk_804B8E18FPvPv(Obj_8019978C *o, Vec *p, Vec *v);
 struct Glob_80199A44 { u8 pad[0x1C]; f32 scale; u8 pad20[0x28]; u16 kind; };
 s32 get_bml_model(void *, s32);
 }
@@ -337,28 +332,26 @@ struct RecoveredGlobal_8019A574_lbl_8050DDAC {
 struct Pkt_8019A098 { u8 cmd; u8 size; u16 id; f32 x; f32 z; s32 flag; };
 struct Player_8019A098 { u8 pad[0x60]; s32 area; };
 struct Win_8019A44C { u8 pad0[0x50]; f32 f50[3]; u8 pad5C[0x2D8]; s32 f334; u8 pad338[0xC]; f32 f344; f32 f348; f32 f34C; u8 pad350[0x40]; f32 f390; f32 f394; f32 f398; f32 f39C; f32 f3A0; };
-struct Vec_80199F14 { f32 x, y, z; };
 struct Tbl_80199F14 { u8 pad[0x14]; s16 limit; u8 pad16[6]; f32 yofs; };
 struct Timer_80199F14 {
     u8 pad0[0x38];
-    Vec_80199F14 pos;
+    Vec pos;
     u8 pad44[0x2f8];
     f32 f33c;
     u8 pad340[4];
-    Vec_80199F14 vel;
+    Vec vel;
     s32 time;
 };
-struct Vec_8019A104 { f32 x, y, z; };
-struct Cfg_8019A104 { u8 pad0[0x1C]; f32 range; u8 pad20[0xC]; Vec_8019A104 p2C; Vec_8019A104 p38; f32 f44; u8 pad48[0xC]; };
+struct Cfg_8019A104 { u8 pad0[0x1C]; f32 range; u8 pad20[0xC]; Vec p2C; Vec p38; f32 f44; u8 pad48[0xC]; };
 struct State_8019A104 { u8 pad0[0x10]; s16 flags; u8 pad12[0xA]; };
-struct Player_8019A104 { u8 pad0[0x38]; Vec_8019A104 pos; };
+struct Player_8019A104 { u8 pad0[0x38]; Vec pos; };
 struct Timer_8019A104 {
     u8 pad0[0x30];
     u32 f30;
     u8 pad34[4];
-    Vec_8019A104 pos;
+    Vec pos;
     u8 pad44[0x300];
-    Vec_8019A104 vel;
+    Vec vel;
     s32 time;
     u8 pad354[4];
     s32 f358;
@@ -507,14 +500,14 @@ void TUnk_804B8E18::update_goal_checks(u16 id) {
             self->f360 = 1;
         }
     }
-    if (xyz_distance(&(*(Vec_8019A104 *)&lbl_804B8D94), &self->pos) <= CFG.f44 && (0.0f) == ((f32 (*)(void *))vector_length)(&self->vel)) {
+    if (xyz_distance(&(*(Vec *)&lbl_804B8D94), &self->pos) <= CFG.f44 && (0.0f) == ((f32 (*)(void *))vector_length)(&self->vel)) {
         ST.flags |= 0x10;
         if (self->f360 == 0) {
             add_gogo_ball_three_point_score(0);
             self->f360 = 1;
         }
     }
-    if (xyz_distance(&(*(Vec_8019A104 *)&lbl_804B8DA0), &self->pos) <= CFG.f44 && (0.0f) == ((f32 (*)(void *))vector_length)(&self->vel)) {
+    if (xyz_distance(&(*(Vec *)&lbl_804B8DA0), &self->pos) <= CFG.f44 && (0.0f) == ((f32 (*)(void *))vector_length)(&self->vel)) {
         ST.flags |= 0x20;
         if (self->f360 == 0) {
             add_gogo_ball_three_point_score(1);
@@ -569,8 +562,8 @@ void TWindowTimer__sub_8019A098(void) {
 
 void TUnk_804B8E18::run_task() {
     s32 i;
-    Vec_80199F14 q;
-    Vec_80199F14 p;
+    Vec q;
+    Vec p;
     i = 0;
     time = TLobby::get_clock_frames() % 2592;
     if (time >= ((Tbl_80199F14 *)&(*(RecoveredGlobal_8019A574_lbl_8050DD58 *)&gogo_ball_configuration))->limit) {
@@ -625,9 +618,9 @@ void TUnk_804B8E18::update_best_time() {
 #define vector_length ((f32 (*)(void*))vector_length)
 extern "C" {
 void TUnk_804B8E18::render() {
-    Vec_80199A44 dir;
+    Vec dir;
     Color_80199A44 color = fish_draw_color[0];
-    Vec_80199A44 pos;
+    Vec pos;
     f32 len;
     f32 rate;
     s32 step;
@@ -737,25 +730,25 @@ void TUnk_804B8E18::render() {
 #pragma fp_contract on
 extern "C" {
 s32 TUnk_804B8E18::reflect_velocity_off_collision(void *p, void *v) {
-    Vec_8019978C end;
-    Vec_8019978C dir;
-    Vec_8019978C a;
-    Vec_8019978C r;
-    Vec_8019978C q;
-    Vec_8019978C s;
+    Vec end;
+    Vec dir;
+    Vec a;
+    Vec r;
+    Vec q;
+    Vec s;
     Hit_8019978C *hit;
     Tri_8019978C *tri;
     f32 len;
     f32 d;
     f32 px, py, pz, nx, ny, nz;
-    end.x = ((Vec_8019978C *)p)->x + ((Vec_8019978C *)v)->x;
-    end.y = ((Vec_8019978C *)p)->y + ((Vec_8019978C *)v)->y;
-    end.z = ((Vec_8019978C *)p)->z + ((Vec_8019978C *)v)->z;
-    VecCopy((Vec *)&dir, (const Vec *)((Vec_8019978C *)v));
+    end.x = ((Vec *)p)->x + ((Vec *)v)->x;
+    end.y = ((Vec *)p)->y + ((Vec *)v)->y;
+    end.z = ((Vec *)p)->z + ((Vec *)v)->z;
+    VecCopy((Vec *)&dir, (const Vec *)(v));
     len = vector_length(&dir);
     if ((0.0f) != len) {
         normalize_vector(&dir);
-        VecCopy((Vec *)&a, (const Vec *)((Vec_8019978C *)p));
+        VecCopy((Vec *)&a, (const Vec *)(p));
         a.x -= (3.0f) * (dir.x * len);
         a.y -= (3.0f) * (dir.y * len);
         a.z -= (3.0f) * (dir.z * len);
@@ -771,33 +764,33 @@ s32 TUnk_804B8E18::reflect_velocity_off_collision(void *p, void *v) {
     nx = tri->n.x;
     ny = tri->n.y;
     nz = tri->n.z;
-    r.x = ((Vec_8019978C *)v)->x;
-    r.y = ((Vec_8019978C *)v)->y;
-    r.z = ((Vec_8019978C *)v)->z;
+    r.x = ((Vec *)v)->x;
+    r.y = ((Vec *)v)->y;
+    r.z = ((Vec *)v)->z;
     d = (2.0f) * vec3_dot(&r, &tri->n);
     r.x -= d * nx;
     r.y -= d * ny;
     r.z -= d * nz;
-    q.x = px - ((Vec_8019978C *)p)->x;
-    q.z = pz - ((Vec_8019978C *)p)->z;
+    q.x = px - ((Vec *)p)->x;
+    q.z = pz - ((Vec *)p)->z;
     q.y = (0.0f);
     vector_length(&q);
-    ((Vec_8019978C *)v)->x = r.x * ((Obj_8019978C *)this)->f340;
-    ((Vec_8019978C *)v)->z = r.z * ((Obj_8019978C *)this)->f340;
+    ((Vec *)v)->x = r.x * ((Obj_8019978C *)this)->f340;
+    ((Vec *)v)->z = r.z * ((Obj_8019978C *)this)->f340;
     normalize_vector(&r);
     ((Obj_8019978C *)this)->f394 *= ((Obj_8019978C *)this)->f340;
-    ((Vec_8019978C *)v)->y = r.y * ((Obj_8019978C *)this)->f394;
-    s.x = ((Vec_8019978C *)v)->x;
-    s.z = ((Vec_8019978C *)v)->z;
+    ((Vec *)v)->y = r.y * ((Obj_8019978C *)this)->f394;
+    s.x = ((Vec *)v)->x;
+    s.z = ((Vec *)v)->z;
     s.y = ((Obj_8019978C *)this)->f394;
     if (vector_length(&s) < (1.0f) - ((Obj_8019978C *)this)->f340) {
-        ((Vec_8019978C *)v)->x = (0.0f);
-        ((Vec_8019978C *)v)->y = (0.0f);
-        ((Vec_8019978C *)v)->z = (0.0f);
+        ((Vec *)v)->x = (0.0f);
+        ((Vec *)v)->y = (0.0f);
+        ((Vec *)v)->z = (0.0f);
     }
-    ((Vec_8019978C *)p)->x += ((Vec_8019978C *)v)->x;
-    ((Vec_8019978C *)p)->z += ((Vec_8019978C *)v)->z;
-    ((Vec_8019978C *)p)->y = (0.001f) * r.y + py;
+    ((Vec *)p)->x += ((Vec *)v)->x;
+    ((Vec *)p)->z += ((Vec *)v)->z;
+    ((Vec *)p)->y = (0.001f) * r.y + py;
     return 1;
     }
     return 0;
@@ -808,7 +801,7 @@ void draw_shadow_on_ground(u8 *arg0) {
     Hit_80199674 *hit;
     f32 t;
     f32 k;
-    Vec_80199674 scale;
+    Vec scale;
 
     hit = (Hit_80199674 *)csnVectorUnder((s32)(arg0 + 0x38), (u32 *)(arg0 + 0x120), 0x15);
     if (hit != 0) {
@@ -1051,10 +1044,10 @@ void TWindowTimer::throw_gogo_ball(s32 arg1, s32 arg2) {
     stack.sp14 = *(f32 *)((s8 *)((u8 *)this) + 0);
     stack.sp18 = *(f32 *)((s8 *)((u8 *)this) + 8);
     if (is_on_current_screen__11TCameraCtrlFv((void *) ((u8 *)&controller_input_state.value + 0x20), 4) != 0) {
-        play_sound_effect(0x4001A311, this, 0, 0);
+        play_sound_effect(0x4001A311, (Vec *)this, 0, 0);
         stack.sp1C = 1;
     } else {
-        play_sound_effect(0x4002A600, this, 0, 0);
+        play_sound_effect(0x4002A600, (Vec *)this, 0, 0);
         stack.sp1C = 0;
     }
     ((TWindowTimer *)((s32)&stack.sp8))->send_gogo_ball();
@@ -1104,15 +1097,15 @@ void TUnk_804B8DE8::run_task() {
     if (state == 0) {
         if (self->f50 != 0) {
             if ((*(Pad_80198A2C *)&gogo_ball_sync_state).buttons & (this->unk_54 != 0 ? 0x10 : 1)) {
-                play_sound_effect(0x4002A605, &self->pos, 0, 0);
-                play_sound_effect(0x40052D15, &self->pos, 0, 0);
+                play_sound_effect(0x4002A605, (Vec *)&self->pos, 0, 0);
+                play_sound_effect(0x40052D15, (Vec *)&self->pos, 0, 0);
                 this->state = 1;
                 return;
             }
         } else {
             if ((*(Pad_80198A2C *)&gogo_ball_sync_state).buttons & (this->unk_54 != 0 ? 0x20 : 2)) {
-                play_sound_effect(0x4002A605, &self->pos, 0, 0);
-                play_sound_effect(0x40052D15, &self->pos, 0, 0);
+                play_sound_effect(0x4002A605, (Vec *)&self->pos, 0, 0);
+                play_sound_effect(0x40052D15, (Vec *)&self->pos, 0, 0);
                 this->state = 1;
                 return;
             }
@@ -1131,7 +1124,7 @@ void TUnk_804B8DE8::run_task() {
         }
         this->rot += 0x16C;
         if (self->timer <= 0x14) {
-            Vec_80198A2C v;
+            Vec v;
             VecCopy((Vec *)&v, (const Vec *)&self->pos);
             v.y += (18.0f);
             spawn_particle_effect(&v, 0x1DB);
@@ -1188,11 +1181,11 @@ TUnk_804B8DD0::TUnk_804B8DD0(Vec *position, s32 arg2, s32 arg3, s32 lifetime, TO
 TUnk_804B8DD0::~TUnk_804B8DD0() {}
 
 void TUnk_804B8DD0::update_effects() {
-    Vec_80198504 v6;
-    Vec_80198504 v2a;
-    Vec_80198504 v2b;
-    Vec_80198504 vda;
-    Vec_80198504 vdb;
+    Vec v6;
+    Vec v2a;
+    Vec v2b;
+    Vec vda;
+    Vec vdb;
     void *o;
     if (*(u16 *)((s8 *)&gogo_ball_configuration + 0x48) == 0) {
         (this->m_30)++;
@@ -1205,7 +1198,7 @@ void TUnk_804B8DD0::update_effects() {
             VecCopy((Vec *)&v6, &this->pos);
             v6.y += 7.0f;
             spawn_particle_effect_with_flags(&v6, 0x20D, 0x40);
-            play_sound_effect(0x4001A82E, (u8 *)&this->pos, 0, 0);
+            play_sound_effect(0x4001A82E, (Vec *)(u8 *)&this->pos, 0, 0);
         }
     } else if (*(u16 *)((s8 *)&gogo_ball_configuration + 0x48) == 2) {
         (this->m_30)++;
@@ -1216,7 +1209,7 @@ void TUnk_804B8DD0::update_effects() {
                 v2a.y += 7.0f;
                 spawn_particle_effect_with_flags(&v2a, 0x45, 0x40);
                 spawn_particle_effect_with_flags(&v2a, 0x189, 0x40);
-                play_sound_effect(0x4001C112, (u8 *)&this->pos, 0, 0);
+                play_sound_effect(0x4001C112, (Vec *)(u8 *)&this->pos, 0, 0);
             }
         } else {
             if (this->m_30 == 1) {
@@ -1225,7 +1218,7 @@ void TUnk_804B8DD0::update_effects() {
                 v2b.y += 7.0f;
                 spawn_particle_effect_with_flags(&v2b, 0x45, 0x40);
                 spawn_particle_effect_with_flags(&v2b, 0x189, 0x40);
-                play_sound_effect(0x4001C112, (u8 *)&this->pos, 0, 0);
+                play_sound_effect(0x4001C112, (Vec *)(u8 *)&this->pos, 0, 0);
             }
         }
     } else if (*(u16 *)((s8 *)&gogo_ball_configuration + 0x48) != 0) {

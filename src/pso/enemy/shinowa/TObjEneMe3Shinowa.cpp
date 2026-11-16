@@ -456,7 +456,7 @@ void TObjEneMe3Shinowa::vfunc_61() {  }
 void TObjEneMe3Shinowa::copy_position_vector() { VecCopy(&center, (const Vec *)&m_2fc); }
 
 void TObjEneMe3Shinowa::vfunc_88() {
-    bodies->offset.y = m_3cc + (m_300 - position.y);
+    bodies->offset.y = m_3cc + (m_2fc.y - position.y);
 }
 
 void fn_800E762C(TObjEneMe3Shinowa *) {  }
@@ -530,7 +530,7 @@ void TObjEneMe3Shinowa::vfunc_105() {
                 }
             }
         }
-        play_sound_effect(remap_sound_for_area(0x4003AD13), &position, 0, 0);
+        play_sound_effect(remap_sound_for_area(0x4003AD13), (Vec *)(&position), 0, 0);
     }
 }
 
@@ -726,7 +726,7 @@ void TObjEneMe3Shinowa::action(s32 arg1) {
         m_404 = 0;
         VecCopy(&position, &home_position);
         VecCopy(&prev_position, &home_position);
-        VecCopy((Vec *)&m_2fc, &home_position);
+        VecCopy(&m_2fc, &home_position);
         m_3c8 = position.y;
         if (!(m_3c4 & 0x1000)) {
             m_3d0 = 0;
@@ -889,7 +889,7 @@ void TObjEneMe3ShinowaMirage__sub_800E66FC(TObjEneMe3Shinowa *shinowa, s32 arg1)
             if (shinowa->m_3c8 < shinowa->position.y) {
                 shinowa->m_3c8 = shinowa->position.y;
                 shinowa->m_404 = 2;
-                play_sound_effect(shinowa->remap_sound_for_area(0x4003AD12), &shinowa->position, 0, 0);
+                play_sound_effect(shinowa->remap_sound_for_area(0x4003AD12), (Vec *)(&shinowa->position), 0, 0);
                 spawn_particle_effect(&shinowa->position, 0xF3);
             }
             break;
@@ -1037,7 +1037,7 @@ void TObjEneMe3ShinowaMirage__sub_800E5F64(TObjEneMe3Shinowa *shinowa, s32 arg1)
                         shinowa->m_404 = 3;
                         shinowa->m_414 = (shinowa->m_3ac - 20.0f) / 12.857143f;
                         shinowa->vfunc_91();
-                        play_sound_effect(shinowa->remap_sound_for_area(0x4003AD11), &shinowa->position, 0, 0);
+                        play_sound_effect(shinowa->remap_sound_for_area(0x4003AD11), (Vec *)(&shinowa->position), 0, 0);
                     } else {
                         shinowa->m_404 = 5;
                     }
@@ -1051,7 +1051,7 @@ void TObjEneMe3ShinowaMirage__sub_800E5F64(TObjEneMe3Shinowa *shinowa, s32 arg1)
             if (shinowa->frame + shinowa->play_speed >= 23.0f) {
                 shinowa->m_404 = 4;
                 shinowa->vfunc_92();
-                play_sound_effect(shinowa->remap_sound_for_area(0x4003AD12), &shinowa->position, 0, 0);
+                play_sound_effect(shinowa->remap_sound_for_area(0x4003AD12), (Vec *)(&shinowa->position), 0, 0);
                 spawn_particle_effect(&shinowa->position, 0xF3);
             }
             shinowa->move_with_wall_slide_commit(shinowa->m_3a0.x, shinowa->m_3a0.z, shinowa->m_414);
@@ -1066,7 +1066,7 @@ void TObjEneMe3ShinowaMirage__sub_800E5F64(TObjEneMe3Shinowa *shinowa, s32 arg1)
                         shinowa->m_390->apply_knockback_from_attacker((u8 *)shinowa, 3.0f);
                     }
                 }
-                play_sound_effect(shinowa->remap_sound_for_area(0x4003AD13), &shinowa->position, 0, 0);
+                play_sound_effect(shinowa->remap_sound_for_area(0x4003AD13), (Vec *)(&shinowa->position), 0, 0);
             }
             shinowa->m_414 *= 0.85f;
             shinowa->move_with_wall_slide_on_ground(shinowa->m_3a0.x, shinowa->m_3a0.z, shinowa->m_414);
@@ -1209,7 +1209,7 @@ void TObjEneMe3ShinowaReal__sub_800E5950(TObjEneMe3Shinowa *shinowa, s32 arg1) {
             if (shinowa->frame + shinowa->play_speed >= 15.0f) {
                 shinowa->m_404 = 1;
                 shinowa->vfunc_91();
-                play_sound_effect(shinowa->remap_sound_for_area(0x4003AD11), &shinowa->position, 0, 0);
+                play_sound_effect(shinowa->remap_sound_for_area(0x4003AD11), (Vec *)(&shinowa->position), 0, 0);
             }
             shinowa->vfunc_102();
             shinowa->vfunc_89();
@@ -1218,7 +1218,7 @@ void TObjEneMe3ShinowaReal__sub_800E5950(TObjEneMe3Shinowa *shinowa, s32 arg1) {
             if (shinowa->frame + shinowa->play_speed >= 24.0f) {
                 shinowa->m_404 = 2;
                 shinowa->vfunc_92();
-                play_sound_effect(shinowa->remap_sound_for_area(0x4003AD12), &shinowa->position, 0, 0);
+                play_sound_effect(shinowa->remap_sound_for_area(0x4003AD12), (Vec *)(&shinowa->position), 0, 0);
                 spawn_particle_effect(&shinowa->position, 0xF3);
             }
             shinowa->move_clamped_on_ground(shinowa->m_3a0.x, shinowa->m_3a0.z, shinowa->m_410);
@@ -1300,20 +1300,20 @@ void TObjEneMe3ShinowaMirage__sub_800E54E8(TObjEneMe3Shinowa *shinowa, s32 arg1)
             }
         }
         VecCopy(&save_pos, &shinowa->position);
-        VecCopy(&save_center, (Vec *)&shinowa->m_2fc);
+        VecCopy(&save_center, &shinowa->m_2fc);
         VecCopy(&shinowa->position, &shinowa->m_394);
-        VecCopy((Vec *)&shinowa->m_2fc, &shinowa->position);
-        shinowa->m_300 += 20.0f;
+        VecCopy(&shinowa->m_2fc, &shinowa->position);
+        shinowa->m_2fc.y += 20.0f;
         v *= shinowa->m_410;
         calc_wall_clamped_destination(shinowa, &dest, -shinowa->m_3a0.x, -shinowa->m_3a0.z, v);
         if (shinowa->vfunc_18((u8 *)&dest) == 0) {
             shinowa->m_410 *= 0.8f;
             VecCopy(&shinowa->position, &save_pos);
-            VecCopy((Vec *)&shinowa->m_2fc, &save_center);
+            VecCopy(&shinowa->m_2fc, &save_center);
         } else {
             shinowa->m_410 = 1.0f;
             VecCopy(&shinowa->position, &save_pos);
-            VecCopy((Vec *)&shinowa->m_2fc, &save_center);
+            VecCopy(&shinowa->m_2fc, &save_center);
             subtract_vector(&dest, &shinowa->position);
             f32 len = normalize_vector_xz(&dest);
             shinowa->move_clamped_on_ground(dest.x, dest.z, len);
@@ -1538,7 +1538,7 @@ void TObjEneMe3ShinowaMirage::state_break_apart(s32 arg1) {
         case 0:
             advance_animation();
             if (is_passing_frame(13.0f) != 0 || is_passing_frame(25.0f) != 0) {
-                play_sound_effect(remap_sound_for_area(0x4003AD12), &position, 0, 0);
+                play_sound_effect(remap_sound_for_area(0x4003AD12), (Vec *)(&position), 0, 0);
             }
             if (get_flag_b4() != 0) {
                 m_404 = 1;
@@ -1560,7 +1560,7 @@ void TObjEneMe3ShinowaMirage::state_break_apart(s32 arg1) {
                 pos.x += 20.0f * sin_table_lookup(rotation_y);
                 pos.z += 20.0f * cos_table_lookup(rotation_y);
                 ((TObjPlayer *)&pos)->trigger_dell_biter_events();
-                play_sound_effect(remap_sound_for_area(0x4003AD16), &position, 0, 0);
+                play_sound_effect(remap_sound_for_area(0x4003AD16), (Vec *)(&position), 0, 0);
             }
             vfunc_102();
             break;
@@ -1640,9 +1640,9 @@ void TObjEneMe3Shinowa::render() {
         dispatch_if_active();
         model_render_flags = saved_model_render_flags;
         update_primary_light();
-        VecCopy((Vec *)&m_2fc, &lbl_80500FF4);
+        VecCopy(&m_2fc, &lbl_80500FF4);
     } else if ((get_main_phase() == 0xF) || (is_split_screen() == 0)) {
-        VecCopy((Vec *)&m_2fc, &position);
+        VecCopy(&m_2fc, &position);
     }
     TParticleCtrl::end_effect_render();
 }
@@ -1847,7 +1847,7 @@ void TObjEneMe3ShinowaReal::vfunc_114(s32 arg1) {
                     }
                 }
                 transition_enemy_state(8);
-                play_sound_effect(remap_sound_for_area(0x4003AD15), &position, 0, 0);
+                play_sound_effect(remap_sound_for_area(0x4003AD15), (Vec *)(&position), 0, 0);
             } else {
                 try_spawn_mirages();
                 transition_enemy_state(4);

@@ -27,16 +27,15 @@ const s32 lbl_8047667C[2] = {0, 1};
 const Vec lbl_80476684 = {0.0f, 0.0f, 0.0f};
 const char *TBoss6GravBall__name = TBoss6GravBall__class_name_string;
 
-struct Vec_80323134 { f32 x, y, z; };
-struct Ctl_80323134 { u8 pad[0x38]; Vec_80323134 pos; };
-struct Obj_80323134 { u8 pad[0xC8]; Vec_80323134 pos; void *items[9]; };
+struct Ctl_80323134 { u8 pad[0x38]; Vec pos; };
+struct Obj_80323134 { u8 pad[0xC8]; Vec pos; void *items[9]; };
 struct T_80323320 { u8 pad[0xD4]; s32 arr[9]; };
 
 extern "C" {
 
 void fn_80323134(Obj_80323134 *arg0) {
     s32 i;
-    Vec_80323134 v;
+    Vec v;
     Ctl_80323134 *c;
     for (i = 0; i < 9; i++) {
         if (arg0->items[i] != 0) {
@@ -129,17 +128,14 @@ void TBoss6GravBall::render() {  }
 
 struct P_80323348 { u8 pad[0x30]; u32 flags; };
 
-struct Vec_803237A0 { f32 x, y, z; };
 
-struct Obj_803237A0 { u8 pad[0xC8]; Vec_803237A0 pos; };
+struct Obj_803237A0 { u8 pad[0xC8]; Vec pos; };
 
-struct Vec_803233AC { f32 x, y, z; };
 
-struct PL_803233AC { u8 pad[0x30]; u32 flags; u8 pad34[4]; Vec_803233AC pos; };
+struct PL_803233AC { u8 pad[0x30]; u32 flags; u8 pad34[4]; Vec pos; };
 
-struct Vec_80323544 { f32 x, y, z; };
 
-struct PL_80323544 { u8 pad[0x30]; u32 flags; u8 pad34[4]; Vec_80323544 pos; };
+struct PL_80323544 { u8 pad[0x30]; u32 flags; u8 pad34[4]; Vec pos; };
 
 extern "C" {
 P_80323348 *get_player_data__10TObjPlayerFi(s32);
@@ -177,7 +173,7 @@ void TBoss6GravBall::clear_player_grav_flags() {
 }
 
 void TBoss6GravBall__sub_803233AC(u8 *self) {
-    Vec_803233AC v;
+    Vec v;
     s32 n;
     s32 i;
     PL_803233AC *pl;
@@ -223,7 +219,7 @@ void TBoss6GravBall__sub_803233AC(u8 *self) {
 }
 
 void TBoss6GravBall__sub_80323544(u8 *self) {
-    Vec_80323544 v;
+    Vec v;
     s32 n;
     s32 i;
     PL_80323544 *pl;
@@ -289,7 +285,7 @@ void TBoss6GravBall__sub_803236F8(TBoss6GravBall *arg0) {
 
 s32 TBoss6GravBall::clamp_to_ground() {
     Obj_803237A0 *arg0 = (Obj_803237A0 *)this;
-    Vec_803237A0 v = arg0->pos;
+    Vec v = arg0->pos;
     if (project_actor_to_ground(arg0, &v, 0) == 0) {
         ((TObject *)arg0)->queue_destruction();
         return 1;
@@ -341,7 +337,7 @@ s32 query_teammate_state__9TObjEneDDFv(void);
 void VecCopy__FP3VecPC3Vec(void *, void *);
 extern s32 __vt__14TBoss6GravBall[];
 
-s32 play_persistent_sound(int, void *, void *, int, int);
+s32 play_persistent_sound(int, void *, Vec *, int, int);
 void TBoss6GravBall__sub_80323544(u8 *self);
 s32 clamp_to_ground__14TBoss6GravBallFv();
 
@@ -355,7 +351,7 @@ void update_charge_effects__14TBoss6GravBallFPv(u8 *self) {
     s32 temp_r0_3;
 
     TBoss6GravBall__sub_803233AC(self);
-    play_persistent_sound(0x4003C418, self, self + 0xC8, 0, 0);
+    play_persistent_sound(0x4003C418, self, (Vec *)(self + 0xC8), 0, 0);
     temp_r0 = *(s32 *)((s8 *)self + 0xB8);
     if (temp_r0 >= 0x96) {
         if (temp_r0 == 0x96) {
@@ -404,7 +400,7 @@ void update_charge_effects__14TBoss6GravBallFPv(u8 *self) {
         *(s32 *)((s8 *)self + 0xB4) = 0;
         clear_player_grav_flags__14TBoss6GravBallFv(self);
         *(s32 *)((s8 *)self + 0xB0) = 2;
-        play_sound_effect(0x4003C417, self + 0xC8, 0, 0);
+        play_sound_effect(0x4003C417, (Vec *)(self + 0xC8), 0, 0);
         return;
     default:
         ((TObject *)self)->queue_destruction();
@@ -431,7 +427,7 @@ void update_state__14TBoss6GravBallFPv(u8 *arg0) {
             }
         }
         TBoss6GravBall__sub_80323544((arg0));
-        play_persistent_sound(0x4003B51A, arg0, arg0 + 0xC8, 0, 0);
+        play_persistent_sound(0x4003B51A, arg0, (Vec *)(arg0 + 0xC8), 0, 0);
         switch (((TBoss6GravBall *)((int) (*(s32 *)((s8 *)arg0 + 0xAC))))->get_state()) {
         case 0x27:
             return;
@@ -446,7 +442,7 @@ void update_state__14TBoss6GravBallFPv(u8 *arg0) {
             *(s32 *)((s8 *)arg0 + 0xB8) = 0;
             *(s32 *)((s8 *)arg0 + 0xB4) = 0;
             *(s32 *)((s8 *)arg0 + 0xB0) = 1;
-            play_sound_effect(0x4003B516, arg0 + 0xC8, 0, 0);
+            play_sound_effect(0x4003B516, (Vec *)(arg0 + 0xC8), 0, 0);
             break;
         case 0x20:
         default:

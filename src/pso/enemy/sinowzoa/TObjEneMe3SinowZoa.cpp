@@ -457,12 +457,12 @@ void TObjEneMe3SinowZoa::vfunc_61() {  }
 
 void TObjEneMe3SinowZoa::copy_pos_with_height_offset() {
     VecCopy(body_center(), &position);
-    this->m_300 = this->m_300 + (TObjEneMe3SinowZoa__data_805DF2FC + this->m_3e4);
+    this->m_2fc.y = this->m_2fc.y + (TObjEneMe3SinowZoa__data_805DF2FC + this->m_3e4);
     VecCopy(&center, &position);
 }
 
 void TObjEneMe3SinowZoa::vfunc_88() {
-    bodies->offset.y = this->m_300 - this->position.y;
+    bodies->offset.y = this->m_2fc.y - this->position.y;
 }
 
 void TObjEneMe3SinowZoa::vfunc_95() { TObjEneDD::vfunc_95(); sub_800F5874(38); }
@@ -1016,7 +1016,7 @@ void TObjEneMe3SinowZoa__sub_80319748(TObjEneMe3SinowZoa *self, s32 arg1) {
             if (self->m_3e0 < self->position.y) {
                 self->m_3e0 = self->position.y;
                 self->m_434 = 2;
-                play_sound_effect(0x4003A82A, &self->position, 0, 0);
+                play_sound_effect(0x4003A82A, (Vec *)(&self->position), 0, 0);
                 self->check_and_notify();
             }
             break;
@@ -1169,7 +1169,7 @@ void TObjEneMe3SinowZoa__sub_80318F7C(TObjEneMe3SinowZoa *self, s32 arg1) {
                             }
                             self->m_444 = (self->m_3ac - 20.0f) / 12.857143f;
                             self->vfunc_91();
-                            play_sound_effect(0x4003A82C, &self->position, 0, 0);
+                            play_sound_effect(0x4003A82C, (Vec *)(&self->position), 0, 0);
                         } else {
                             self->m_434 = 7;
                         }
@@ -1194,7 +1194,7 @@ void TObjEneMe3SinowZoa__sub_80318F7C(TObjEneMe3SinowZoa *self, s32 arg1) {
                     self->m_434 = 6;
                 }
                 self->vfunc_92();
-                play_sound_effect(0x4003A82A, &self->position, 0, 0);
+                play_sound_effect(0x4003A82A, (Vec *)(&self->position), 0, 0);
                 self->check_and_notify();
             }
             self->move_with_wall_slide_commit(self->m_3a0.x, self->m_3a0.z, self->m_444);
@@ -1376,7 +1376,7 @@ void TObjEneMe3SinowZoa__sub_8031884C(TObjEneMe3SinowZoa *self, s32 arg1) {
             if ((self->frame + self->play_speed) >= TObjEneMe3SinowZoa__data_805DF2F0) {
                 self->m_434 = 1;
                 self->vfunc_91();
-                play_sound_effect(0x4003A829, &self->position, 0, 0);
+                play_sound_effect(0x4003A829, (Vec *)(&self->position), 0, 0);
             }
             self->vfunc_102();
             self->vfunc_89();
@@ -1385,7 +1385,7 @@ void TObjEneMe3SinowZoa__sub_8031884C(TObjEneMe3SinowZoa *self, s32 arg1) {
             if ((self->frame + self->play_speed) >= 24.0f) {
                 self->m_434 = 2;
                 self->vfunc_92();
-                play_sound_effect(0x4003A82A, &self->position, 0, 0);
+                play_sound_effect(0x4003A82A, (Vec *)(&self->position), 0, 0);
                 self->check_and_notify();
             }
             self->move_clamped_on_ground(self->m_3a0.x, self->m_3a0.z, self->m_440);
@@ -1559,7 +1559,7 @@ void TObjEneMe3SinowZoa::state_knockback(s32 arg1) {
         this->requested_action = 4;
         this->advance_animation();
         this->set_active();
-        play_sound_effect(0x4003A82D, &this->position, 0, 0);
+        play_sound_effect(0x4003A82D, (Vec *)(&this->position), 0, 0);
         this->m_3cc &= 0xFFEFFFF8;
         break;
     case 3:
@@ -1610,7 +1610,7 @@ void TObjEneMe3SinowZoa__sub_80317F90(TObjEneMe3SinowZoa *self, s32 arg1) {
         case 0:
             self->advance_animation();
             if (self->is_passing_frame(18.0f) != 0 || self->is_passing_frame(lbl_805DF300) != 0) {
-                play_sound_effect(0x4003A82A, &self->position, 0, 0);
+                play_sound_effect(0x4003A82A, (Vec *)(&self->position), 0, 0);
             }
             if (self->get_flag_b4() != 0) {
                 self->m_434 = 1;
@@ -1632,7 +1632,7 @@ void TObjEneMe3SinowZoa__sub_80317F90(TObjEneMe3SinowZoa *self, s32 arg1) {
                 p.x += 20.0f * sin_table_lookup(self->rotation_y);
                 p.z += 20.0f * cos_table_lookup(self->rotation_y);
                 ((TObjPlayer *)(&p))->trigger_dell_biter_events();
-                play_sound_effect(0x4003AD2E, &self->position, 0, 0);
+                play_sound_effect(0x4003AD2E, (Vec *)(&self->position), 0, 0);
             }
             self->vfunc_102();
             break;
@@ -1691,7 +1691,7 @@ void TObjEneMe3SinowZoa__sub_80317B50(TObjEneMe3SinowZoa *self, s32 arg1) {
             self->advance_animation();
             if (self->get_flag_b4() != 0) {
                 self->m_3cc |= 4;
-                play_sound_effect(0x4003AD2F, &self->position, 0, 0);
+                play_sound_effect(0x4003AD2F, (Vec *)(&self->position), 0, 0);
                 self->fade.set_rate_from_divisor(0x1E);
                 VecCopy(&v, &self->position);
                 v.y = self->m_3e0 - 20.0f;
@@ -1945,7 +1945,7 @@ void TObjEneMe3SinowZoa__sub_80317254(TObjEneMe3SinowZoa *self, s32 arg1) {
         self->m_3cc &= 0xFFEFFFFD;
         self->m_3cc |= 5;
         self->fade.set_rate_from_divisor(0x1E);
-        play_sound_effect(0x4003AD2F, &self->position, 0, 0);
+        play_sound_effect(0x4003AD2F, (Vec *)(&self->position), 0, 0);
         self->m_434 = 0;
         break;
     case 3:
@@ -2005,7 +2005,7 @@ void TObjEneMe3SinowZoa__sub_803170F0(TObjEneMe3SinowZoa *self, s32 arg1) {
 
 inline s32 approach_80316C3C(TObjEneMe3SinowZoa *self) {
     copy_position_if_valid__10TObjPlayerFii(self, *self->body_center());
-    self->m_300 += TObjEneMe3SinowZoa__data_805DF308;
+    self->m_2fc.y += TObjEneMe3SinowZoa__data_805DF308;
     return enemy_turn_toward_dest(self, ((TObjEneMe3SinowZoaMoveParams *)self->movementParameters)->turn);
 }
 inline s32 seek_80316C3C(TObjEneMe3SinowZoa *self, Vec *diff) {

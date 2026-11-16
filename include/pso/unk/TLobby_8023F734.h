@@ -2,6 +2,7 @@
 #define PSO_UNK_TLOBBY_8023F734_H
 
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 
 struct Ent_8023FCC0 {
     u32 h[4];
@@ -61,7 +62,6 @@ extern SoundControlState sound_control_state;
 
 
 extern "C" {
-void TLobby__sub_8023F754(s32 arg0, s32 arg1);
 s32 TLobby__sub_8023F880(s32 arg0);
 int TLobby__sub_802401C8(SoundControlState *self);
 void TLobby__sub_802409E4(void *p);
@@ -115,7 +115,7 @@ s32 tick_sound_voice(struct SoundRequestVoice *v);
 
 // --- C functions defined in TLobby_8023F734.cpp ---
 extern "C" {
-void TLobby__sub_8023F754(s32 arg0, s32 arg1);
+void TLobby__sub_8023F754(s32 id, Vec *pos);
 s32 TLobby__sub_8023F880(s32 arg0);
 int TLobby__sub_802401C8(SoundControlState *self);
 void TLobby__sub_802409E4(void *p);

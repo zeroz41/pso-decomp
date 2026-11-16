@@ -28,18 +28,14 @@ struct RecoveredGlobal_8002BC30___vt__21TBoss1DragonEffBullet {
 
 struct RecoveredFields_8002B9D0_arg0 {
     u8 unknown_0[0x1C];
-    f32 field_1C;
-    f32 field_20;
-    f32 field_24;
-    f32 field_28;
-    f32 field_2C;
-    f32 field_30;
+    Vec position;
+    Vec field_28;
     s32 field_34;
     s32 field_38;
     f32 field_3C;
     f32 field_40;
-    u8 * field_44;
-    u8 * field_48;
+    TParticleCtrl* particle;
+    TParticleCtrl* particle_2;
 };
 
 extern "C" {
@@ -57,67 +53,67 @@ void TBoss1DragonEffBullet::render() {  }
 #pragma push
 #pragma fp_contract on
 void TBoss1DragonEffBullet::run_task() {
-    struct RecoveredFields_8002B9D0_arg0 *arg0 = (struct RecoveredFields_8002B9D0_arg0 *)this;
+    struct RecoveredFields_8002B9D0_arg0 *self = (struct RecoveredFields_8002B9D0_arg0 *)this;
     f32 temp_f0;
     f32 temp_f1;
-    f32 var_f2;
-    u8 *temp_r3;
-    u8 *temp_r3_2;
-    u8 *temp_r3_3;
-    u8 *temp_r3_4;
-    switch (arg0->field_38) {
+    f32 speed;
+    TParticleCtrl *particle;
+    TParticleCtrl *particle_2;
+    TParticleCtrl *temp_r3_3;
+    TParticleCtrl *temp_r3_4;
+    switch (self->field_38) {
     case 0:
-        var_f2 = 25.0f;
-        arg0->field_3C += var_f2;
-        temp_f0 = arg0->field_3C;
-        temp_f1 = arg0->field_40;
+        speed = 25.0f;
+        self->field_3C += speed;
+        temp_f0 = self->field_3C;
+        temp_f1 = self->field_40;
         if (temp_f0 > temp_f1) {
-            arg0->field_34 = 0;
-            var_f2 = temp_f1 - (temp_f0 - var_f2);
-            arg0->field_38 = 1;
+            self->field_34 = 0;
+            speed = temp_f1 - (temp_f0 - speed);
+            self->field_38 = 1;
         }
-        arg0->field_1C += arg0->field_28 * var_f2;
-        arg0->field_20 += arg0->field_2C * var_f2;
-        arg0->field_24 += arg0->field_30 * var_f2;
-        if ((u8 *) arg0->field_44 == NULL) {
-            arg0->field_44 = (u8 *)spawn_continuous_particle_effect_with_flags(&arg0->field_1C, *(s32 *)((s8 *)(*(u8 * *)&dragon_fireball_particle_ids) + 0), 0x40);
+        self->position.x += self->field_28.x * speed;
+        self->position.y += self->field_28.y * speed;
+        self->position.z += self->field_28.z * speed;
+        if (self->particle == NULL) {
+            self->particle = spawn_continuous_particle_effect_with_flags(&self->position, dragon_fireball_particle_ids[0], 0x40);
         }
-        temp_r3 = arg0->field_44;
-        if (temp_r3 != NULL) {
-            ((TParticleCtrl *)temp_r3)->set_position(&arg0->field_1C);
+        particle = self->particle;
+        if (particle != NULL) {
+            particle->set_position(&self->position);
         }
-        temp_r3_2 = arg0->field_48;
-        if (temp_r3_2 != NULL) {
-            ((TParticleCtrl *)temp_r3_2)->set_position(&arg0->field_1C);
+        particle_2 = self->particle_2;
+        if (particle_2 != NULL) {
+            particle_2->set_position(&self->position);
         }
         return;
     case 1:
-        arg0->field_34 += 1;
-        if ((s32) arg0->field_34 == 1) {
-            spawn_particle_effect_with_flags(&arg0->field_1C, *(s32 *)((s8 *)(*(u8 * *)&dragon_fireball_particle_ids) + 4), 0x40);
-            temp_r3_3 = arg0->field_48;
+        self->field_34 += 1;
+        if (self->field_34 == 1) {
+            spawn_particle_effect_with_flags(&self->position, dragon_fireball_particle_ids[1], 0x40);
+            temp_r3_3 = self->particle_2;
             if (temp_r3_3 != NULL) {
-                ((TObject *)temp_r3_3)->queue_destruction();
-                arg0->field_48 = NULL;
+                temp_r3_3->queue_destruction();
+                self->particle_2 = NULL;
             }
-            temp_r3_4 = arg0->field_44;
+            temp_r3_4 = self->particle;
             if (temp_r3_4 != NULL) {
-                ((TObject *)temp_r3_4)->queue_destruction();
-                arg0->field_44 = NULL;
+                temp_r3_4->queue_destruction();
+                self->particle = NULL;
             }
-            play_sound_effect(0x4003AD0C, &arg0->field_1C, 0, 0);
-            ((TBoss1Dragon *)(TBoss1Dragon::get_instance()))->apply_fireball_impact_damage((s32)&arg0->field_1C);
+            play_sound_effect(0x4003AD0C, &self->position, 0, 0);
+            ((TBoss1Dragon *)(TBoss1Dragon::get_instance()))->apply_fireball_impact_damage(&self->position);
         }
-        if ((s32) arg0->field_34 <= 2) {
-            spawn_particle_effect_with_flags(&arg0->field_1C, *(s32 *)((s8 *)(*(u8 * *)&dragon_fireball_particle_ids) + 8), 0x40);
+        if ((s32) self->field_34 <= 2) {
+            spawn_particle_effect_with_flags(&self->position, *(s32 *)((s8 *)(*(u8 * *)&dragon_fireball_particle_ids) + 8), 0x40);
             return;
         }
-        arg0->field_38 = 2;
+        self->field_38 = 2;
         return;
     case 2:
-        arg0->field_34 += 1;
-        if ((s32) arg0->field_34 > 0x64) {
-            ((TObject *)arg0)->queue_destruction();
+        self->field_34 += 1;
+        if ((s32) self->field_34 > 0x64) {
+            ((TObject *)self)->queue_destruction();
         }
         break;
     }
@@ -147,7 +143,7 @@ u8 *TBoss1DragonEffBullet__ct(u8 *boss1_dragon_eff_bullet, s32 arg1, s32 arg2, s
     ((TBoss1DragonEffBullet *)boss1_dragon_eff_bullet)->m_38 = 0;
     ((TBoss1DragonEffBullet *)boss1_dragon_eff_bullet)->m_44 = 0;
     ((TBoss1DragonEffBullet *)boss1_dragon_eff_bullet)->m_48 = 0;
-    play_sound_effect(0x4003B20B, boss1_dragon_eff_bullet + 0x1C, 0, 0);
+    play_sound_effect(0x4003B20B, (Vec *)(boss1_dragon_eff_bullet + 0x1C), 0, 0);
     return boss1_dragon_eff_bullet;
 }
 
@@ -161,4 +157,3 @@ void TBoss1Dragon::select_fireball_particle_table() {
         return;
     }
 }
-

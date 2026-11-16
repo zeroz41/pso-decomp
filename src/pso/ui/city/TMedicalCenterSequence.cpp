@@ -146,7 +146,7 @@ extern s32 TMedicalCenterSequence__class_name;
 u8 *TMedicalCenterSequence__ct(u8 *arg0, s32 arg1, s32 arg2);
 f32 get_scale__15TShopWindowBaseFv(void *);
 u8 *create_yes_no_window(s32 arg0, s32 arg1, u32 arg2, u32 arg3);
-s32 play_sound_effect(s32, s32, s32, s32);
+s32 play_sound_effect(s32, Vec *, s32, s32);
 s32 try_spend_actor_meseta(u8 *arg0, s32 arg1);
 int sub_802239EC__13TShopSequenceFv(void *);
 int sub_80223A48__15TShopWindowBaseFv(void *);
@@ -302,7 +302,7 @@ void TMedicalCenterSequence::exec_heal() {
         set_field_20((s32)((void*)(0xA)));
         return;
     }
-    play_sound_effect(0x42D08, 0, 0, 0);
+    play_sound_effect(0x42D08, (Vec *)(0), 0, 0);
     send_code_49_1__10TObjPlayerFi(*(s32 *)((s8 *)this + 0x24));
     send_code50_packet__10TObjPlayerFi(*(s32 *)((s8 *)this + 0x24));
     if (((TObjPlayer *)(*(s32 *)((s8 *)this + 0x24)))->is_alive_and_ready() != 0) {

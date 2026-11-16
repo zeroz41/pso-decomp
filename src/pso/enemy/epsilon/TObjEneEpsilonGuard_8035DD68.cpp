@@ -170,7 +170,7 @@ void render_with_fade__19TObjEneEpsilonGuardFPvi(TObjEneEpsilonGuard *guard, s32
     saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
     fade = &guard->fades[i];
     fade->update();
-    if (fade->updateFromCamera(&guard->m_2fc) != 0) {
+    if (fade->updateFromCamera(&guard->m_2fc.x) != 0) {
         fade->set_flags_and_apply_damage_color();
         if (!(get_mode__11TCameraCtrlFPv(((s32 *)&main_task)) & 0x200)) {
             model_render_flags = saved_model_render_flags;
@@ -215,7 +215,7 @@ void render_with_fade__19TObjEneEpsilonGuardFPvi(TObjEneEpsilonGuard *guard, s32
     set_chunk_model_node_callback((s32)NULL);
     pop_matrix();
     guard->update_primary_light();
-    if (fade->updateFromCamera(&guard->m_2fc) != 0) {
+    if (fade->updateFromCamera(&guard->m_2fc.x) != 0) {
         fade->clear_flag_and_notify();
     } else if (guard->mode == 3) {
         guard->fade.clear_flag_and_notify();
@@ -540,7 +540,7 @@ void TObjEneEpsilonGuard::sub_8035EA90() {
 
 void vfunc_88__19TObjEneEpsilonGuardFv(void *);
 void vfunc_89__19TObjEneEpsilonGuardFv(void *);
-s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
+s32 play_persistent_sound(s32 id, s32 a1, Vec *, s32 a3, s32 flags);
 s32 TObjEneEpsilonGuard__sub_8035F950(TObjEneEpsilonBody *body);
 
 void TObjEneEpsilonGuard::update_guard_state() {
@@ -562,12 +562,12 @@ void TObjEneEpsilonGuard::update_guard_state() {
             sub_8035EA90();
         }
         if (flags & 0x20) {
-            play_persistent_sound(0x4003A846, (s32)this, (u32)&position, 0, 0);
+            play_persistent_sound(0x4003A846, (s32)this, &position, 0, 0);
             return;
         }
         state = mode;
         if ((state != 4) && (state != 5)) {
-            play_persistent_sound(0x4003AD43, (s32)this, (u32)&position, 0, 0);
+            play_persistent_sound(0x4003AD43, (s32)this, &position, 0, 0);
         }
     }
 }
@@ -583,10 +583,10 @@ void TObjEneEpsilonGuard::vfunc_89() {
 }
 
 void TObjEneEpsilonGuard::update_center_position() {
-    m_2fc = position.x;
-    m_300 = 24.0f + position.y;
-    m_304 = position.z;
-    VecCopy(&center, (Vec *)&m_2fc);
+    m_2fc.x = position.x;
+    m_2fc.y = 24.0f + position.y;
+    m_2fc.z = position.z;
+    VecCopy(&center, &m_2fc);
 }
 void TObjEneEpsilonGuard::vfunc_88() { set_part_local_pos(&m_2fc, 0); }
 

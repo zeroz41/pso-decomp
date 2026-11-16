@@ -847,7 +847,7 @@ void TBoss3VoloptP02::fn_800465B0() {
                 for (i = 0; i < 10; i++) {
                     s32 dir = i < 5 ? 1 : -1;
                     get_anim_node_position(chain_node_ids[i], &chain_positions[i]);
-                    new TUnk_80484840(&chain_positions[i], (Vec *)&cage->m_2fc, dir, timer);
+                    new TUnk_80484840(&chain_positions[i], &cage->m_2fc, dir, timer);
                 }
                 play_sound_effect(0x4003B20D, &position, -10, 0);
             } else {

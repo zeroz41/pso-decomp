@@ -680,7 +680,7 @@ void TUnk_80493450::vfunc_28() {
                 }
                 id = get_entity_id(player);
                 if (id < 0x4000 && id != self->entity_id && player->obj_testFlags30(0x03000800) == 0) {
-                    VecCopy(&d, (Vec *)&player->m_2fc);
+                    VecCopy(&d, &player->m_2fc);
                     subtract_vector(&d, &self->m_2fc);
                     dist = d.x * d.x + d.z * d.z;
                     if (dist < best_dist && check_path_obstructed(self, &player->m_2fc) != 1 &&

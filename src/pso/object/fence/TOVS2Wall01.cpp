@@ -195,9 +195,9 @@ void TOVS2Wall01::spawn_debris(s32 index) {
         { 1024, 256, 1024 }, { 1, 20 }, { 0.0f, 0.6f }, 0, 0, 20,
     };
 
-    params.pos[0] = m_2fc;
-    params.pos[1] = m_300;
-    params.pos[2] = m_304;
+    params.pos[0] = m_2fc.x;
+    params.pos[1] = m_2fc.y;
+    params.pos[2] = m_2fc.z;
     params.pad_38[0] = position.y;
     params.model = get_bml_model(TOVS2Wall01__bml_resource, index);
     params.textures = TObjFish__sub_8001EDB0(TOVS2Wall01__bml_resource, index);
@@ -220,7 +220,7 @@ void init__11TOVS2Wall01Fi(s32 arg0) {
     } while (var_r31 <= 0xF);
     spawn_particle_effect((void *)(arg0 + 0x38), 0x45);
     spawn_particle_effect((void *)(arg0 + 0x38), 0x46);
-    play_sound_effect(0x4004BC05, (void *)(arg0 + 0x38), 0, 0);
+    play_sound_effect(0x4004BC05, (Vec *)((void *)(arg0 + 0x38)), 0, 0);
 }
 
 f32 take_hit__11TOVS2Wall01FPvUi(u8 *ovs2_wall01, void *attacker) {

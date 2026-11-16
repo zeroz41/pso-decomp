@@ -73,8 +73,8 @@ s32 set_field_e4__10TObjPlayerFll(void *, int, f32);
 void spawn_dead_spot_scale15(s32 point, s32 delay);
 void *find_entity_by_id(u16 id);
 void free_collision_body_parts(void *);
-s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
-s32 play_sound_effect(void *, void *, int, int);
+s32 play_persistent_sound(s32 id, s32 a1, Vec *, s32 a3, s32 flags);
+s32 play_sound_effect(void *, Vec *, int, int);
 s32 defer_render__7TObjectFv(void *);
 f32 sin_table_lookup(int);
 f32 cos_table_lookup(int);
@@ -216,7 +216,7 @@ void TObjEneBm3FlyNest_CarryFly::run_task() {
             arc = (-120.0f) / (distance * distance);
             height = 30.0f;
         }
-        play_persistent_sound(((TObjEneBm3FlyNest *)m_up)->copy_target_state(0x4003A828), (s32)this, (u32)origin, 0, 0);
+        play_persistent_sound(((TObjEneBm3FlyNest *)m_up)->copy_target_state(0x4003A828), (s32)this, (Vec *)((u32)origin), 0, 0);
         TObjPlayer::play_effect_if_v2(-0x400);
         break;
     case 1:
@@ -225,7 +225,7 @@ void TObjEneBm3FlyNest_CarryFly::run_task() {
             state = 2;
             velocity.y = 0.5f * distance;
         }
-        play_persistent_sound(((TObjEneBm3FlyNest *)m_up)->copy_target_state(0x4003A828), (s32)this, (u32)origin, 0, 0);
+        play_persistent_sound(((TObjEneBm3FlyNest *)m_up)->copy_target_state(0x4003A828), (s32)this, (Vec *)((u32)origin), 0, 0);
         TObjPlayer::play_effect_if_v2(-0x400);
         break;
     case 2:
@@ -244,7 +244,7 @@ void TObjEneBm3FlyNest_CarryFly::run_task() {
         v += 0.5f * distance;
         offset.x = velocity.x * v;
         offset.z = velocity.z * v;
-        play_persistent_sound(((TObjEneBm3FlyNest *)m_up)->copy_target_state(0x4003A828), (s32)this, (u32)target, 0, 0);
+        play_persistent_sound(((TObjEneBm3FlyNest *)m_up)->copy_target_state(0x4003A828), (s32)this, (Vec *)((u32)target), 0, 0);
         TObjPlayer::play_effect_if_v2(-0x400);
         break;
     }
@@ -320,7 +320,7 @@ TObjEneBm3FlyNest::TObjEneBm3FlyNest(TObject *parent, Bm3FlyNestSetData *set_dat
     model = (void *)lbl_805D5108->models[1].model;
     texlist = lbl_805D5108->models[0].m_c;
     init_model(bm3_flynest_collider_params, 1);
-    m_300 = 20.0f + position.y;
+    m_2fc.y = 20.0f + position.y;
     vfunc_88();
     set_field_d8((s32)bm3_flynest_hit_action_table);
     set_field_dc((s32)lbl_805D5108->motions);
@@ -465,7 +465,7 @@ void TObjEneBm3FlyNest::vfunc_62() {
 
 void TObjEneBm3FlyNest::vfunc_61() {  }
 
-void TObjEneBm3FlyNest::copy_pos() { VecCopy(&center, (Vec *)&m_2fc); }
+void TObjEneBm3FlyNest::copy_pos() { VecCopy(&center, &m_2fc); }
 
 void TObjEneBm3FlyNest::vfunc_88() { set_part_local_pos(&m_2fc, 0); }
 
@@ -518,7 +518,7 @@ void TObjEneBm3FlyNest::spawn_child() {
             next_child_id++;
             spawned_count++;
             spawn_particle_effect(&unk_3c8[1], 0xC8);
-            play_sound_effect((void *)remap_sound_for_area(0x4003AB27), &position, 0, 0);
+            play_sound_effect((void *)remap_sound_for_area(0x4003AB27), (Vec *)(&position), 0, 0);
             TObjPlayer::play_effect_if_v2(-0x400);
         }
     }
@@ -589,7 +589,7 @@ void TObjEneBm3FlyNest::handle_appear(s32 reason) {
                 unk_4d0 = 1;
                 unk_4c8 = 0;
                 spawn_particle_effect(&position, 0xF0);
-                play_sound_effect((void *)remap_sound_for_area(0x4003B72A), &position, 0, 0);
+                play_sound_effect((void *)remap_sound_for_area(0x4003B72A), (Vec *)(&position), 0, 0);
             }
             break;
         case 1:
@@ -755,7 +755,7 @@ void TObjEneBm3FlyNest::sub_800B318C(s32 reason) {
     case 0:
         advance_animation();
         if ((is_passing_frame(10.0f) != 0) || (is_passing_frame(28.0f) != 0)) {
-            play_sound_effect((void *)remap_sound_for_area(0x4003B72A), &position, 0, 0);
+            play_sound_effect((void *)remap_sound_for_area(0x4003B72A), (Vec *)(&position), 0, 0);
         }
         if (is_passing_frame(9.0f) != 0) {
             spawn_particle_effect(&position, 0xF0);
@@ -841,7 +841,7 @@ void TObjEneBm3FlyNest::handle_motion_event(s32 reason) {
         vfunc_96();
         noop__12TBoss8DragonFv(this);
         TBoss8Dragon__sub_800BB7D4(this, 0xF1);
-        play_sound_effect((void *)remap_sound_for_area(0x4003A829), &position, 0, 0);
+        play_sound_effect((void *)remap_sound_for_area(0x4003A829), (Vec *)(&position), 0, 0);
         if (unk_3a8 != 0) {
             requested_action = 6;
             unk_4b0 = 0.0f;
@@ -918,7 +918,7 @@ void TObjEneBm3FlyNest::state_dying(s32 reason) {
                 if (unk_4c8 >= 4) {
                     r = rand_range(5.0f, 10.0f);
                     a = get_random_scaled__9TObjEneDDFv(this);
-                    VecCopy(&p, (Vec *)&m_2fc);
+                    VecCopy(&p, &m_2fc);
                     p.x = r * sin_table_lookup(a) + p.x;
                     p.y += 5.0f;
                     p.z = r * cos_table_lookup(a) + p.z;
@@ -927,7 +927,7 @@ void TObjEneBm3FlyNest::state_dying(s32 reason) {
                 }
                 unk_4cc += 1;
                 if (unk_4cc >= 0x14) {
-                    play_sound_effect((void *)remap_sound_for_area(0x4003AD2B), &position, 0, 0);
+                    play_sound_effect((void *)remap_sound_for_area(0x4003AD2B), (Vec *)(&position), 0, 0);
                     unk_4cc = 0;
                 }
             }
@@ -1043,7 +1043,7 @@ void TObjEneBm3FlyNest::render() {
             saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
             cm = &fades[cam];
             cm->update();
-            if (cm->updateFromCamera(&m_2fc) != 0) {
+            if (cm->updateFromCamera(&m_2fc.x) != 0) {
                 cm->set_flags_and_apply_damage_color();
                 if (defer_render__7TObjectFv(this) != 0) {
                     visible = 0;
@@ -1087,7 +1087,7 @@ void TObjEneBm3FlyNest::render() {
                 pop_matrix();
             }
             update_primary_light();
-            if (cm->updateFromCamera(&m_2fc) != 0) {
+            if (cm->updateFromCamera(&m_2fc.x) != 0) {
                 cm->clear_flag_and_notify();
             }
             model_render_flags = saved_model_render_flags;
@@ -1095,7 +1095,7 @@ void TObjEneBm3FlyNest::render() {
             chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
         }
     }
-    VecCopy((Vec *)&m_2fc, &unk_3c8[0]);
+    VecCopy(&m_2fc, &unk_3c8[0]);
 }
 
 #pragma pool_data off

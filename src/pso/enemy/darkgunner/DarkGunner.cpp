@@ -141,7 +141,7 @@ void * __nw__7TObjectFUl(int);
 s32 TObjPlayer__sub_800A1FEC(void *arg0);
 void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
 f32 TObjPlayer__sub_800A3200(s32 arg0);
-s32 play_persistent_sound(int, void *, void *, int, int);
+s32 play_persistent_sound(int, void *, Vec *, int, int);
 extern s32 actor_frame_tick;
 s32 TObjPlayer__sub_800A2390(void *arg0_);
 
@@ -688,7 +688,7 @@ void TObjPlayer::step_along_ground() {
         VecCopy((Vec *)&v, (const Vec *)&this->position);
         ((void (*)(void *, void *))vec3_add_to)(&v, &dir);
         if (project_actor_to_ground(arg0, &v, 0) == 1) {
-            VecCopy((Vec *)&this->position, (const Vec *)&v);
+            VecCopy(&this->position, (const Vec *)&v);
             VecCopy((Vec *)&this->unk_308, (const Vec *)&this->position);
             ((void (*)(void *, void *))subtract_vector)(arg0 + 0x308, (u8 *)&this->prev_position);
             return;
@@ -863,7 +863,7 @@ void TObjEneDarkGunner::vfunc_61() {
     u8 *arg0 = (u8 *)this;
     ((TObjBase *)arg0)->obj_clearFlags30((s32)(0x100U));
     spawn_particle_effect(((u8 *)&this->m_2fc), 0xD7);
-    play_sound_effect(0x4003B22D, (u8 *)&this->position, 0, 0);
+    play_sound_effect(0x4003B22D, &this->position, 0, 0);
 }
 
 int TObjPlayer__sub_800A1808(void* p) { return (*(u32*)((char*)p + 0x30) >> 23) & 0x1; }
@@ -1082,7 +1082,7 @@ void TObjPlayer__sub_800A1C84(TObjPlayer *enemy) {
         TObjPlayer__sub_800A04F0((u8 *)enemy + 0x408);
         fn_800D911C((Vec *)((u8 *)enemy + 0x2FC));
         *(s32 *)((s8 *)enemy + 0x388) |= 4;
-        play_sound_effect(0x4003AD37, (u8 *)enemy + 0x38, 0, 0);
+        play_sound_effect(0x4003AD37, (Vec *)((u8 *)enemy + 0x38), 0, 0);
         enemy->m_37c = 1;
         break;
     case 1:
@@ -1174,8 +1174,8 @@ s32 TObjPlayer__sub_800A1FEC(void *arg0) {
         self->f388 &= 0xFFB7FFFF;
         self->count = 0;
         self->fB8 = 3;
-        play_sound_effect(0x4003B52F, &self->pos, 0, 0);
-        play_sound_effect(0x4003AD29, (u8 *)arg0 + 0x38, 0, 0);
+        play_sound_effect(0x4003B52F, (Vec *)&self->pos, 0, 0);
+        play_sound_effect(0x4003AD29, (Vec *)((u8 *)arg0 + 0x38), 0, 0);
         self->state = 1;
         break;
     case 1:
@@ -1186,7 +1186,7 @@ s32 TObjPlayer__sub_800A1FEC(void *arg0) {
         self->f388 |= 0x200000;
         self->timer = ((s32 (*)(s32))TObjPlayer__sub_800A3210)(0);
         self->state = 2;
-        play_sound_effect(0x4003B52A, &self->pos, 0, 0);
+        play_sound_effect(0x4003B52A, (Vec *)&self->pos, 0, 0);
         {
             s32 i;
             for (i = 0; i < 4; i++) {
@@ -1231,7 +1231,7 @@ s32 TObjPlayer__sub_800A1FEC(void *arg0) {
         {
             u8 *p = (u8 *)new TUnk_804909C4((u8 *)self, (s32)&self->f3B4, (s32)(self->target + 0x2FC));
         }
-        play_sound_effect(0x40039E2B, &self->pos, 0, 0);
+        play_sound_effect(0x40039E2B, (Vec *)&self->pos, 0, 0);
         break;
     case 4:
         self->f394 = 1.6088889f;
@@ -1372,7 +1372,7 @@ s32 TObjPlayer__sub_800A2390(void *arg0_) {
             enemy->f388 &= ~0x80000;
             enemy->state = 3;
         }
-        play_persistent_sound(0x4003AD28, enemy, (u8 *)enemy + 0x38, 0, 0);
+        play_persistent_sound(0x4003AD28, enemy, (Vec *)((u8 *)enemy + 0x38), 0, 0);
         if (enemy->f3AC > 0) {
             enemy->f3AC--;
             if (enemy->fA4->f18 & 0x300000) {

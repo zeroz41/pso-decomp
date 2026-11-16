@@ -217,7 +217,7 @@ s32 get_window_layout_position(s32);
 extern const s32 local_client_id;
 s32 sub_802239EC__13TShopSequenceFv(void *);
 s32 sub_80223A48__15TShopWindowBaseFv(void *);
-s32 play_sound_effect(int, int, int, int);
+s32 play_sound_effect(int, Vec *, int, int);
 void send_6x26_unequip_item__10TObjPlayerFPvPv(s32, s32);
 void send_6x25_equip_item(s32, s32, s32);
 void handle_buy_confirm__20TShopArmorListWindowFv(Win_8021A634 *w);
@@ -416,11 +416,11 @@ void TShopArmorListWindow::handle_selection() {
     }
     if (sub_802239EC__13TShopSequenceFv(w) != 0) {
         w->f20 = 3;
-        play_sound_effect(0x52D01, 0, 0, 0);
+        play_sound_effect(0x52D01, (Vec *)(0), 0, 0);
         return;
     }
     if (sub_80223A48__15TShopWindowBaseFv(w) != 0) {
-        play_sound_effect(0x52D01, 0, 0, 0);
+        play_sound_effect(0x52D01, (Vec *)(0), 0, 0);
         switch (check_purchase_eligibility()) {
         case 0:
             w->m4(0xF, 1);

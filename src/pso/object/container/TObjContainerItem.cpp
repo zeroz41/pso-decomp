@@ -59,10 +59,9 @@ struct Obj_80188884 { u8 pad0[0x38]; u8 pos[0x28]; s32 id; u8 pad1[0x326 - 0x64]
 struct Obj_80188814 { u8 pad0[0x38]; u8 pos[0x4c]; s32 id; };
 struct Obj_80188768 { u8 pad0[0x1C]; u16 f1C; u8 pad1[0x62]; u32 f80; s32 f84; };
 struct Pkt_80188768 { u16 a; u16 b; s32 c; s32 d; s32 e; };
-struct Vec_8018860C { f32 x, y, z; };
 struct Obj_8018860C {
     u8 pad[0x38];
-    Vec_8018860C pos;
+    Vec pos;
     u8 pad44[0x326 - 0x44];
     s16 state;
 };
@@ -1268,50 +1267,50 @@ void play_container_break_sound(s32 arg0) {
     switch (area) {
     case AREA_FOREST1:
     case AREA_FOREST2:
-        play_sound_effect(0x4BC10, (void *)(arg0 + 0x38), 0, 0);
+        play_sound_effect(0x4BC10, (Vec *)(arg0 + 0x38), 0, 0);
         return;
     case AREA_CAVE1:
     case AREA_CAVE2:
     case AREA_CAVE3:
-        play_sound_effect(0x43C0F, (void *)(arg0 + 0x38), 0, 0);
+        play_sound_effect(0x43C0F, (Vec *)(arg0 + 0x38), 0, 0);
         return;
     case AREA_MINE1:
     case AREA_MINE2:
-        play_sound_effect(0x4004BC09, (void *)(arg0 + 0x38), 0, 0);
+        play_sound_effect(0x4004BC09, (Vec *)(void *)(arg0 + 0x38), 0, 0);
         return;
     case AREA_RUINS1:
     case AREA_RUINS2:
     case AREA_RUINS3:
-        play_sound_effect(0x4004BC10, (void *)(arg0 + 0x38), 0, 0);
+        play_sound_effect(0x4004BC10, (Vec *)(void *)(arg0 + 0x38), 0, 0);
         return;
     case AREA_BATTLE1:
     case AREA_BATTLE2:
-        play_sound_effect(0x4004BC05, (void *)(arg0 + 0x38), 0, 0);
+        play_sound_effect(0x4004BC05, (Vec *)(void *)(arg0 + 0x38), 0, 0);
         return;
     case AREA_VR_TEMPLE_ALPHA:
     case AREA_VR_TEMPLE_BETA:
-        play_sound_effect(0x4BC05, (void *)(arg0 + 0x38), 0, 0);
+        play_sound_effect(0x4BC05, (Vec *)(void *)(arg0 + 0x38), 0, 0);
         return;
     case AREA_VR_SPACESHIP_ALPHA:
     case AREA_VR_SPACESHIP_BETA:
-        play_sound_effect(0x4004BC05, (void *)(arg0 + 0x38), 0, 0);
+        play_sound_effect(0x4004BC05, (Vec *)(void *)(arg0 + 0x38), 0, 0);
         return;
     case AREA_CENTRAL_CONTROL_AREA:
     case AREA_JUNGLE_NORTH:
     case AREA_JUNGLE_EAST:
     case AREA_MOUNTAIN:
     case AREA_SEASIDE:
-        play_sound_effect(0x4BC16, (void *)(arg0 + 0x38), 0, 0);
+        play_sound_effect(0x4BC16, (Vec *)(void *)(arg0 + 0x38), 0, 0);
         return;
     case AREA_SEABED_UPPER:
     case AREA_SEABED_LOWER:
-        play_sound_effect(0x4004BC16, (void *)(arg0 + 0x38), 0, 0);
+        play_sound_effect(0x4004BC16, (Vec *)(void *)(arg0 + 0x38), 0, 0);
         return;
     case AREA_SEASIDE_NIGHT:
-        play_sound_effect(0x4004BC16, (void *)(arg0 + 0x38), 0, 0);
+        play_sound_effect(0x4004BC16, (Vec *)(void *)(arg0 + 0x38), 0, 0);
         return;
     case AREA_TOWER:
-        play_sound_effect(0x4004BC16, (void *)(arg0 + 0x38), 0, 0);
+        play_sound_effect(0x4004BC16, (Vec *)(void *)(arg0 + 0x38), 0, 0);
     default:
         return;
     }

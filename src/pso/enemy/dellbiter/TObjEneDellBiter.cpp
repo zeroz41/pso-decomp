@@ -98,7 +98,7 @@ s32 attack_target_history_add(s32, void *);
 void fn_800D8830(void *owner, void *pos);
 s32 TObjEneGibbles__sub_800D8988(s32);
 f32 horizontal_distance_squared(void *, void *);
-s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
+s32 play_persistent_sound(s32 id, s32 a1, Vec *, s32 a3, s32 flags);
 void TObjPlayer__sub_8023DEE0(s16 *p, s16 a, s16 b, u16 id);
 }
 void restore_render_scissor(s32 arg0);
@@ -377,9 +377,9 @@ void TObjEneDellBiter::vfunc_62() {
 void TObjEneDellBiter::vfunc_61() {  }
 
 void TObjEneDellBiter::set_effect_pos_above_self() {
-    VecCopy((Vec *)&m_2fc, &position);
-    m_300 += 12.0f;
-    VecCopy(&center, (Vec *)&m_2fc);
+    VecCopy(&m_2fc, &position);
+    m_2fc.y += 12.0f;
+    VecCopy(&center, &m_2fc);
 }
 
 void TObjEneDellBiter::vfunc_88() {  }
@@ -572,7 +572,7 @@ void TObjEneDellBiter::fn_8030591C() {
             fn_800D8830(this, &position);
             return;
         }
-        play_persistent_sound(((TObjEnemy *)(this))->remap_sound_for_area((s32)((void *)0x40039E13)), (s32)this, (u32)&position, 0, 0);
+        play_persistent_sound(((TObjEnemy *)(this))->remap_sound_for_area((s32)((void *)0x40039E13)), (s32)this, &position, 0, 0);
         spawn_particle_effect(&position, 0xF0);
     }
 }

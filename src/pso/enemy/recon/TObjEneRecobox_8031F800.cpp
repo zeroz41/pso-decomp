@@ -379,7 +379,6 @@ struct V_Sub_8031f748 : Base_Sub_8031f748 {
     virtual s32 m5();
 };
 
-struct Vec_8031F8C4 { f32 x, y, z; };
 
 struct Recon_8031F8C4 {
     u8 pad0[0x1C];
@@ -405,13 +404,13 @@ struct Recon_8031F8C4 {
 
 extern "C" {
 
-u32 create__12TObjEneReconFPvPvPvPvPv(void *, u16, s32, Vec_8031F8C4 *, Vec_8031F8C4 *);
+u32 create__12TObjEneReconFPvPvPvPvPv(void *, u16, s32, Vec *, Vec *);
 
 s32 alloc_child_id__12TObjEneReconFv(void *);
 
 s32 remap_area_sound_id__14TObjEneRecoboxFUl(s32, s32, s32);
 
-Vec_8031F8C4 *get_field_38_ptr__12TObjEneReconFv(void *, s32);
+Vec *get_field_38_ptr__12TObjEneReconFv(void *, s32);
 
 s32 has_child_in_anim_5__12TObjEneReconFv();
 
@@ -990,7 +989,7 @@ u8 *TObjEneRecobox__ct(u8 *ene_recobox, s32 arg1, u8 *arg2) {
     *(s32 *)((s8 *)ene_recobox + 0x34) = *(s32 *)((s8 *)(*(u8 **)((s8 *)TObjEneRecobox__static_instance + 0x42C)) + 0x18);
     ((TObjEneRecobox *)ene_recobox)->texlist = *(s32 *)((s8 *)(*(u8 **)((s8 *)TObjEneRecobox__static_instance + 0x42C)) + 0x1C);
     init_model__9TObjEneDDFP13CollisionBodyl(ene_recobox, lbl_804EC684, 1);
-    ((TObjEneRecobox *)ene_recobox)->m_300 = 20.0f + *(f32 *)((s8 *)ene_recobox + 0x3C);
+    ((TObjEneRecobox *)ene_recobox)->m_2fc.y = 20.0f + *(f32 *)((s8 *)ene_recobox + 0x3C);
     ((TObjEneRecobox *)ene_recobox)->vfunc_88();
     ((TObjMotion *)ene_recobox)->set_field_d8((s32)TObjEneRecobox__animation_entries);
     ((TObjMotion *)ene_recobox)->set_field_dc(*(s32 *)((s8 *)TObjEneRecobox__static_instance + 0x430));
@@ -1125,7 +1124,7 @@ void TObjEneRecon__sub_8031FB6C(u8 *ene_recobox) {
         stack.spC += 5.0f;
     }
     temp_r3 = (u8 *)(csnVectorUnder((Vec *)&stack.sp8, (u32 *)(ene_recobox + 0x120), 0x15));
-    if ((temp_r3 == NULL) || (((TObjEneRecobox *)ene_recobox)->m_300 >= (40.0f + *(f32 *)((s8 *)(*(u8 **)((s8 *)temp_r3 + 4)) + 4)))) {
+    if ((temp_r3 == NULL) || (((TObjEneRecobox *)ene_recobox)->m_2fc.y >= (40.0f + *(f32 *)((s8 *)(*(u8 **)((s8 *)temp_r3 + 4)) + 4)))) {
         ((TObjEneRecobox *)(ene_recobox))->vfunc_97();
     }
     ((TObjEneDD *)ene_recobox)->set_part_local_pos(ene_recobox + 0x2FC, 0);
@@ -1160,8 +1159,8 @@ u8 TObjEneRecon::is_out_of_range() {
 
 void TObjEneRecon::update_child_spawn() {
     Recon_8031F8C4 *o = (Recon_8031F8C4 *)this;
-    Vec_8031F8C4 dir = {0.0f, 0.0f, 0.0f};
-    Vec_8031F8C4 pos;
+    Vec dir = {0.0f, 0.0f, 0.0f};
+    Vec pos;
     s32 id;
     s32 arg;
     s32 n;
@@ -1195,7 +1194,7 @@ void TObjEneRecon::update_child_spawn() {
     if (create__12TObjEneReconFPvPvPvPvPv(o, id, arg, &pos, &dir) != 0) {
         n = o->f410++;
         o->ids[n] = id;
-        play_sound_effect(remap_area_sound_id__14TObjEneRecoboxFUl(0x4003A80F, o->f414++, n), o->pos38, 0, 0);
+        play_sound_effect(remap_area_sound_id__14TObjEneRecoboxFUl(0x4003A80F, o->f414++, n), (Vec *)o->pos38, 0, 0);
     }
 }
 

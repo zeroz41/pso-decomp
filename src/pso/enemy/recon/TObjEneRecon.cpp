@@ -637,7 +637,7 @@ void TObjEneRecon__sub_8031C364(u8 *arg0, s32 arg1) {
         F(f32, 0x44C) = F(f32, 0x308);
         F(f32, 0x454) = F(f32, 0x310);
         F(f32, 0x3E4) = ((f32 (*)(void *))normalize_vector_xz__FP3Vec)(arg0 + 0x44C);
-        play_sound_effect(TObjEneRecobox::remap_area_sound_id(0x4003A80C), arg0 + 0x38, 0, 0);
+        play_sound_effect(TObjEneRecobox::remap_area_sound_id(0x4003A80C), (Vec *)(arg0 + 0x38), 0, 0);
         break;
     case 3:
         if (F(s32, 0x3C0) == 3) {
@@ -683,7 +683,7 @@ void TObjEneRecon__sub_8031C364(u8 *arg0, s32 arg1) {
             F(s32, 0x3C0) = 3;
             spawn_particle_effect_with_flags(arg0 + 0x38, 0x45, 0x40);
             spawn_particle_effect_with_flags(arg0 + 0x38, 0x46, 0x40);
-            play_sound_effect(TObjEneRecobox::remap_area_sound_id(0x4003A80D), arg0 + 0x38, 0, 0);
+            play_sound_effect(TObjEneRecobox::remap_area_sound_id(0x4003A80D), (Vec *)(arg0 + 0x38), 0, 0);
             TBoss3Volopt::create_breakup_mdl((s32)boss3_volopt_instance, (s32)&recon_breakup_params, (s32)(F(s32, 0x24)), (s32)(arg0 + 0x2FC), (s32)(F(s32, 0x60)));
             break;
         }
@@ -705,7 +705,7 @@ void TObjEneRecon__sub_8031C624(u8 *arg0, s32 arg1) {
         *(s32 *)((s8 *)arg0 + 0x444) |= 2;
         ((TObjEneDD *)arg0)->set_field_378(*(s16 *)((s8 *)arg0 + 0x326));
         noop__12TBoss8DragonFv(arg0);
-        play_sound_effect(TObjEneRecobox::remap_area_sound_id(0x4003E425), arg0 + 0x38, 0, 0);
+        play_sound_effect(TObjEneRecobox::remap_area_sound_id(0x4003E425), (Vec *)(arg0 + 0x38), 0, 0);
         *(s32 *)((s8 *)arg0 + 0x3C0) = 0;
         break;
     case 3:
@@ -1181,12 +1181,12 @@ void TObjEneRecon__sub_8031CCFC(u8 *arg0, s32 arg1) {
             if (*(s32 *)((s8 *)arg0 + 0x3C4) > 0xF) {
                 *(s32 *)((s8 *)arg0 + 0x3C0) = 1;
                 ((TObjEneEpsilon *)arg0)->requested_action = 3;
-                play_sound_effect(TObjEneRecobox::remap_area_sound_id(0x4003A808), arg0 + 0x38, 0, 0);
+                play_sound_effect(TObjEneRecobox::remap_area_sound_id(0x4003A808), (Vec *)(arg0 + 0x38), 0, 0);
             }
             break;
         case 1:
             if (((TObjMotion *)arg0)->is_passing_frame(10.0f) != 0) {
-                play_sound_effect(TObjEneRecobox::remap_area_sound_id(0x4003A80A), arg0 + 0x38, 0, 0);
+                play_sound_effect(TObjEneRecobox::remap_area_sound_id(0x4003A80A), (Vec *)(arg0 + 0x38), 0, 0);
                 TObjEneRecon::create_bomb(arg0, arg0, arg0 + 0x40C);
             } else if (((TObjEneDD *)arg0)->get_flag_b4() != 0) {
                 *(s32 *)((s8 *)arg0 + 0x3C0) = 2;
@@ -1262,7 +1262,7 @@ void TObjEneRecon__sub_8031CF30(u8 *arg0, s32 arg1) {
                 F(s32, 0x3C4) = 0;
                 F(s32, 0x3C0) = 2;
                 F(s16, 0xB8) = 2;
-                play_sound_effect(TObjEneRecobox::remap_area_sound_id(0x4003A808), arg0 + 0x38, 0, 0);
+                play_sound_effect(TObjEneRecobox::remap_area_sound_id(0x4003A808), (Vec *)(arg0 + 0x38), 0, 0);
             }
             ((TObjEneRecon *)arg0)->update_flag_0x444();
             break;
@@ -1272,7 +1272,7 @@ void TObjEneRecon__sub_8031CF30(u8 *arg0, s32 arg1) {
             }
             if (((TObjMotion *)arg0)->is_passing_frame(7.0f) != 0) {
                 F(s32, 0x3C8) = 1;
-                play_sound_effect(TObjEneRecobox::remap_area_sound_id(0x4003A809), arg0 + 0x38, 0, 0);
+                play_sound_effect(TObjEneRecobox::remap_area_sound_id(0x4003A809), (Vec *)(arg0 + 0x38), 0, 0);
             } else if (((TObjMotion *)arg0)->is_passing_frame(31.0f) != 0) {
                 F(s32, 0x3C8) = 0;
             }
@@ -1492,12 +1492,12 @@ s32 TObjEneRecon::vfunc_104(f32 farg0) {
 
 void TObjEneRecon::spawn_trap_a() {
     s32 arg0 = (s32)this;
-    play_persistent_sound((TObjEneRecobox::remap_area_sound_id(0x4003AD07)), (arg0), (arg0 + 0x38), 0, 0);
+    play_persistent_sound((TObjEneRecobox::remap_area_sound_id(0x4003AD07)), (arg0), (Vec *)(arg0 + 0x38), 0, 0);
 }
 
 void TObjEneRecon::spawn_trap_b() {
     s32 arg0 = (s32)this;
-    play_persistent_sound((TObjEneRecobox::remap_area_sound_id(0x4003B206)), (arg0), (arg0 + 0x38), 0, 0);
+    play_persistent_sound((TObjEneRecobox::remap_area_sound_id(0x4003B206)), (arg0), (Vec *)(arg0 + 0x38), 0, 0);
 }
 
 u16 TObjEneRecon__sub_8031D878(void *arg0) {
@@ -2198,9 +2198,9 @@ void run_task__12TObjEneReconFv(TObjEneRecon *ene_recon) {
                 }
                 temp_f31 = var_f30 * cos_table_lookup(ene_recon->rotation_y);
                 temp_f2 = var_f30 * -sin_table_lookup(ene_recon->rotation_y);
-                *(f32 *)((s8 *)(*(u8 **)((s8 *)ene_recon + 0x478)) + 0x60) = (f32) (ene_recon->m_2fc + temp_f31);
-                *(f32 *)((s8 *)(*(u8 **)((s8 *)ene_recon + 0x478)) + 0x64) = (f32) (-1.5f + ene_recon->m_300);
-                *(f32 *)((s8 *)(*(u8 **)((s8 *)ene_recon + 0x478)) + 0x68) = (f32) (ene_recon->m_304 + temp_f2);
+                *(f32 *)((s8 *)(*(u8 **)((s8 *)ene_recon + 0x478)) + 0x60) = (f32) (ene_recon->m_2fc.x + temp_f31);
+                *(f32 *)((s8 *)(*(u8 **)((s8 *)ene_recon + 0x478)) + 0x64) = (f32) (-1.5f + ene_recon->m_2fc.y);
+                *(f32 *)((s8 *)(*(u8 **)((s8 *)ene_recon + 0x478)) + 0x68) = (f32) (ene_recon->m_2fc.z + temp_f2);
             }
         }
     } else {

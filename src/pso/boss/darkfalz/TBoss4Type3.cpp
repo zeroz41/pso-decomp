@@ -1708,7 +1708,7 @@ void TBoss4Type3::update_cut() {
   if (o->f398 == 0x28)
   {
     ((s32 (*)(void *, s32, s32))create__13TObjBs4CutAtkFPvPvPv)(o, o->f3a8, (o->f374 - 4) & 1);
-    play_sound_effect(0x4003B228, o->f38, 0, 1);
+    play_sound_effect(0x4003B228, (Vec *)o->f38, 0, 1);
   }
   if ((o->f3f4 >= 3.0f) && (o->f3f4 <= 9.0f))
   {
@@ -1738,7 +1738,7 @@ void TBoss4Type3::enter_go_up() {
     this->m_3a4 = (s32) this->m_3a0;
     this->m_3a0 = 0x11;
     this->m_3ac = (s32) this->m_3a8;
-    play_sound_effect(0x4003B031, arg0 + 0x38, 0, 1);
+    play_sound_effect(0x4003B031, (Vec *)(arg0 + 0x38), 0, 1);
     this->m_52c = 1;
     this->m_398 = 0x31;
 }
@@ -1777,9 +1777,9 @@ void TBoss4Type3::enter_go_down() {
     this->m_3a4 = 0x11;
     this->m_3a0 = 0x10;
     this->m_3ac = (s32) this->m_3a8;
-    play_sound_effect(0x4003B032, arg0 + 0x38, 0, 1);
+    play_sound_effect(0x4003B032, (Vec *)(arg0 + 0x38), 0, 1);
     if ((u16) this->m_3ba == (u16)-1) {
-        play_sound_effect(0x4003C62D, (void *)(0), 0, 0);
+        play_sound_effect(0x4003C62D, (Vec *)(void *)(0), 0, 0);
     }
     this->m_52c = 0;
     this->m_398 = 0x31;
@@ -1880,7 +1880,7 @@ void TBoss4Type3::update_homing() {
         if (o->f398 == v) {
             TBoss4Type3::create_horming((void *)o, (void *)a, (void *)o->f3b8);
             TBoss4Type3::create_horming((void *)o, (void *)b, (void *)o->f3b8);
-            play_sound_effect(0x4003B229, o->f38, 0, 1);
+            play_sound_effect(0x4003B229, (Vec *)o->f38, 0, 1);
             break;
         }
         v += step;
@@ -1948,7 +1948,7 @@ void TBoss4Type3::enter_dark_magic() {
     this->m_3a0 = 0x11;
     this->m_3a4 = 0x11;
     this->m_3ac = (s32) this->m_3a8;
-    play_sound_effect(0x4003B238, (void *)(0), 0, 0);
+    play_sound_effect(0x4003B238, (Vec *)(void *)(0), 0, 0);
     this->m_52c = 1;
     this->m_398 = 0x62;
 }
@@ -1996,7 +1996,7 @@ void TBoss4Type3::update_dark_magic() {
 #pragma pop
 
 void TBoss4Type3::enter_capture() {
-    play_sound_effect(0x4003C12B, (void *)(0), 0, 0);
+    play_sound_effect(0x4003C12B, (Vec *)(void *)(0), 0, 0);
     this->m_52c = 0;
     this->m_398 = 0x62;
 }
@@ -2012,7 +2012,7 @@ void TBoss4Type3::advance_capture() {
     if ((s32) this->m_398 == 0) {
         this->m_3ba = (u16) this->m_3b8;
         this->m_3b8 = 0xFFFFU;
-        play_sound_effect(0x4003C12C, (void *)(0), 0, 0);
+        play_sound_effect(0x4003C12C, (Vec *)(void *)(0), 0, 0);
         this->m_3bc = 0;
         ((TBoss4Type3 *)arg0)->spawn_random_effect();
     }
@@ -2037,7 +2037,7 @@ void TBoss4Type3::update_capture() {
     }
     ((TBoss4Type3 *)arg0)->turn_toward_player(this->m_3b8);
     if (this->m_398 == 0x31) {
-        play_sound_effect(0x4003AA2E, 0, 0, 0);
+        play_sound_effect(0x4003AA2E, (Vec *)0, 0, 0);
         start_pad_rumble_client(0xC0, 0xF, (s16)this->m_3b8);
         ((TBoss4Type3 *)arg0)->set_anim_state(5);
     }

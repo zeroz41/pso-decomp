@@ -235,9 +235,9 @@ void TBoss3VoloptP01::run_task() {
             state = 0;
         }
         dispatch_state();
-        VecCopy((Vec *)&m_2fc, &position);
-        y = m_300;
-        m_300 = y + (18.0f + y_offset);
+        VecCopy(&m_2fc, &position);
+        y = m_2fc.y;
+        m_2fc.y = y + (18.0f + y_offset);
         ((TBoss3VoloptP01Collision *)bodies)->height = 18.0f + y_offset;
         ((TBoss3VoloptHiraisin *)this)->copy_position();
         angle = pulse_angle;
@@ -562,7 +562,7 @@ void TBoss3VoloptP01::update_attack() {
         state = 5;
     }
     case 5:
-        play_persistent_sound(0x4002B51E, (s32)this, (u32)&position, 0, 0);
+        play_persistent_sound(0x4002B51E, (s32)this, &position, 0, 0);
         if (--attack_timer <= 0) {
             if (charge_effect != NULL) {
                 charge_effect->queue_destruction();
@@ -765,7 +765,7 @@ s32 TBoss3VoloptP01::fire_zonde_at_players() {
         get_node_position(12, &pos);
         for (j = 0; j < n; j++) {
             target = list[j];
-            target_pos = (Vec *)&target->m_2fc;
+            target_pos = &target->m_2fc;
             VecCopy(&dir, target_pos);
             subtract_vector(&dir, &pos);
             len = normalize_vector(&dir);

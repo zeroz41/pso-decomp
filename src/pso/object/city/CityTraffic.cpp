@@ -55,11 +55,10 @@ s32 draw_chunk_object(int, void *);
 extern s32 city_air_car_model_index_table[];
 extern void **city_common_texture_list;
 }
-struct Vec_80180E70 { f32 x, y, z; };
 
 struct Car_80180E70 {
     u8 pad0[0x38];
-    Vec_80180E70 pos;
+    Vec pos;
     u8 pad44[0x60 - 0x44];
     s32 yaw;
     u8 pad64[0x90 - 0x64];
@@ -72,11 +71,10 @@ struct Car_80180E70 {
     u32 light;
 };
 
-struct Vec_80181074 { f32 x, y, z; };
 
 struct Car_80181074 {
     u8 pad0[0x38];
-    Vec_80181074 pos;
+    Vec pos;
     u8 pad44[0x5C - 0x44];
     s32 roll;
     s32 heading;
@@ -422,8 +420,8 @@ f32 fn_801811FC(void* p) { return *(f32*)((char*)p + 0x94); }
 struct Car_80181074;
 s32 TObjCityAirCar_Car::update_path_motion() {
     Car_80181074 *self = (Car_80181074 *)this;
-    Vec_80181074 a;
-    Vec_80181074 b;
+    Vec a;
+    Vec b;
     s32 ang;
     s32 ok;
     s32 d;
@@ -480,7 +478,7 @@ s32 TObjCityAirCar_Car::update_path_motion() {
     return ok;
 }
 void TObjCityAirCar_Car::run_task() {
-    Vec_80180E70 v;
+    Vec v;
     f32 scale;
     f32 t;
     t = ((Car_80180E70 *)this)->frame;
@@ -491,11 +489,11 @@ void TObjCityAirCar_Car::run_task() {
     if ((((Car_80180E70 *)this)->path == 1 && ((Car_80180E70 *)this)->frame >= 15.5f && ((Car_80180E70 *)this)->frame <= 35.5f) ||
         (((Car_80180E70 *)this)->path == 2 && ((Car_80180E70 *)this)->frame >= 15.0f && ((Car_80180E70 *)this)->frame <= 35.0f)) {
         if (((Car_80180E70 *)this)->model == 4) {
-            play_persistent_sound(0x4004CB02, (s32)((Car_80180E70 *)this), (u32)&((Car_80180E70 *)this)->pos, 0, 0);
+            play_persistent_sound(0x4004CB02, (s32)((Car_80180E70 *)this), (Vec *)&((Car_80180E70 *)this)->pos, 0, 0);
         } else if (((Car_80180E70 *)this)->model == 0) {
-            update_technique_slot__10TTecRaFoieFl(play_persistent_sound(0x4004C101, (s32)((Car_80180E70 *)this), (u32)&((Car_80180E70 *)this)->pos, 0, 0), -0x200, 0);
+            update_technique_slot__10TTecRaFoieFl(play_persistent_sound(0x4004C101, (s32)((Car_80180E70 *)this), (Vec *)&((Car_80180E70 *)this)->pos, 0, 0), -0x200, 0);
         } else {
-            play_persistent_sound(0x4004C101, (s32)((Car_80180E70 *)this), (u32)&((Car_80180E70 *)this)->pos, 0, 0);
+            play_persistent_sound(0x4004C101, (s32)((Car_80180E70 *)this), (Vec *)(u32)&((Car_80180E70 *)this)->pos, 0, 0);
         }
     }
     if (city_air_car_model_resource != 0) {

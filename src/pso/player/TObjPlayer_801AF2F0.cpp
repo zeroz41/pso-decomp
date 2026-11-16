@@ -443,13 +443,12 @@ struct Stack_801B15A4 {
     u8 rest[17];
 };
 
-struct Vec_801B1FA4 { f32 x, y, z; };
 
 struct pkt_801B1FA4 {
     u8 hdr[2];
     u16 slot;
     s32 heading;
-    struct Vec_801B1FA4 pos;
+    struct Vec pos;
 };
 
 typedef struct Ctx_801B1BA4 { s16 f0; s16 f2; } Ctx_801B1BA4;
@@ -834,7 +833,6 @@ struct pkt_801B5164 {
     u16 player_id;
 };
 
-struct Vec_801B5328 { f32 x, y, z; };
 
 struct Pkt_801B5328 {
     u8 hdr[2];
@@ -984,7 +982,6 @@ struct Obj_801B5DDC {
     Vec_801B5DDC f308;
 };
 
-struct Vec_801B5EA4 { f32 x, y, z; };
 
 struct Pad_801B5EA4 { u8 pad[0x18]; };
 
@@ -993,11 +990,11 @@ struct Obj_801B5EA4 : Pad_801B5EA4 {
     virtual void v4(); virtual void v5(); virtual void v6(); virtual void v7();
     virtual void v8(); virtual void v9(); virtual void v10(); virtual void v11();
     virtual void v12(); virtual void v13(); virtual void v14(); virtual void v15();
-    virtual u32 v16(Vec_801B5EA4 *);
+    virtual u32 v16(Vec *);
     u8 pad1c[0x38 - 0x1C];
-    Vec_801B5EA4 pos;
+    Vec pos;
     u8 pad44[0x308 - 0x44];
-    Vec_801B5EA4 vel;
+    Vec vel;
 };
 
 struct P_801B5FB0 { u8 pad[0x308]; f32 a; f32 pad30c; f32 b; };
@@ -1338,11 +1335,10 @@ struct DeathDropRecord {
     TItemData item;
 };
 
-struct DeathItemPosition { f32 x,y,z; };
 
 struct PlayerDeathItemFields {
     u8 before_position[0x38];
-    DeathItemPosition position;
+    Vec position;
     u8 before_inventory[0xD00-0x44];
     u8* inventory_owner;
 };
@@ -1382,7 +1378,6 @@ struct Item_801B8AF8 {
     u8 data2[4];
 };
 
-typedef struct Vec_801B8870 { f32 x, y, z; } Vec_801B8870;
 
 typedef struct Cmd_801B8870 {
     u8 cmd;
@@ -1391,7 +1386,7 @@ typedef struct Cmd_801B8870 {
     s16 b;
     s16 floor;
     s32 a;
-    Vec_801B8870 pos;
+    Vec pos;
 } Cmd_801B8870;
 
 struct Data_801B855C { u8 pad[0x20]; s32 meseta; };
@@ -1493,11 +1488,10 @@ struct Player_801B91F0 {
     Inv_801B91F0 *inv;
 };
 
-typedef struct Vec_801B92EC { f32 x, y, z; } Vec_801B92EC;
 
 struct Obj_801B92EC {
     u8 pad0[0x38];
-    Vec_801B92EC pos;
+    Vec pos;
     u8 pad44[0x60 - 0x44];
     s32 angle;
 };
@@ -1891,21 +1885,20 @@ typedef struct VObj_18_9c7036 VObj_18_9c7036;
 
 struct O_801BC050 { u16 a; u16 pad; s32 b; };
 
-struct Vec_801BBD58 { f32 x, y, z; };
 
 struct Body_801BBD58 {
-    Vec_801BBD58 offset;
+    Vec offset;
     f32 radius;
     f32 radius2;
     s32 kind;
     s32 flags;
-    Vec_801BBD58 center;
+    Vec center;
     f32 extra;
 };
 
 struct Player_801BBD58 {
     u8 pad[0x38];
-    Vec_801BBD58 pos;
+    Vec pos;
     u8 pad44[0x324 - 0x44];
     s16 control;
     u8 pad326[0x680 - 0x326];
@@ -2143,7 +2136,7 @@ void fill_player_record__10TObjPlayerFPvPv(Src_801B4CE4 *src, Dst_801B4CE4 *dst)
 Obj_801B4FD8 * init_player_join_record(Obj_801B4FD8 *self);
 void handle_6x2D_release_hold(void *arg0);
 void handle_6x2C_impose_hold(s32 arg0);
-void send_6x2C_impose_hold(s32 arg0, struct Vec_801B5328 *pos, s16 arg2, s16 arg3, f32 radius);
+void send_6x2C_impose_hold(s32 arg0, struct Vec *pos, s16 arg2, s16 arg3, f32 radius);
 void play_effect_default__10TObjPlayerFii(s32 arg0, s32 arg1);
 void set_move_mode__10TObjPlayerFi(s32 arg0);
 int check_flag_100__10TObjPlayerFPv(void* p);
@@ -2181,7 +2174,7 @@ void send_6x29_delete_item__10TObjPlayerFPvii(void *obj, s32 a, s32 b);
 void * pickup_item__10TObjPlayerFP5TItem(u8 *arg0, u8 *arg1);
 s32 can_pickup_item__10TObjPlayerFP9TItemData(void *arg0, u8 *arg1);
 void can_pickup_item_by_id__10TObjPlayerFP5TItem(s32 arg0, s32 arg1);
-bool is_target_in_facing_cone__10TObjPlayerFPv(Obj_801B92EC *self, Vec_801B92EC *target);
+bool is_target_in_facing_cone__10TObjPlayerFPv(Obj_801B92EC *self, Vec *target);
 void unequip_item__10TObjPlayerFiPv(s32 arg0, void *arg1);
 void handle_6x26_unequip_item(void *arg0);
 void send_6x26_unequip_item__10TObjPlayerFPvPv(void *self, void *item);
@@ -2378,7 +2371,7 @@ s32 check_conditions__10TObjPlayerFv(void *, s16);
 u8 *TObjPlayer__sub_801CFBFC(u8 *arg0);
 void run_action_state_phase__10TObjPlayerFisi(void *, s32, s32);
 s32 insert_item_node__10TObjPlayerFiiiii(int, void *, void *, void *, int);
-void create_drop_nodes__9TItemListFPvPvPvPvi(u8*,DeathItemPosition*,TObjPlayer*,DeathDropRecord*,s32);
+void create_drop_nodes__9TItemListFPvPvPvPvi(u8*,Vec*,TObjPlayer*,DeathDropRecord*,s32);
 s32 check_player_action_allowed();
 s32 TObjPlayer__sub_801D4368(void * a0 = 0);
 void TObjPlayer__sub_801D47EC(void *, s32, s32);
@@ -2422,7 +2415,7 @@ void update_all_units__10TObjPlayerFll(void *, u8);
 s32 TAdPlayerLoadGC__sub_801E1B50(s32);
 int is_item_area_enabled(void);
 s32 __ct__17TMedicalCenterMesFP7TObjectP10TObjPlayer(void *, void *, void *);
-s32 play_sound_effect(s32, s32, s32, s32);
+s32 play_sound_effect(s32, Vec *, s32, s32);
 void set_area__6TLobbyFl(void *, int, int);
 void TWindowSubStatusDisp__sub_80228F5C(s32 arg0);
 void text_builder_append(u8 *str);
@@ -2526,13 +2519,13 @@ extern f32 TObjPlayer__data_805DC28C;
 extern f32 TObjPlayer__data_805DC294;
 extern const f32 TObjPlayer__data_805DC2BC;
 extern RecoveredGlobal_802A1154_main_task TObjPlayer__sub_801BEABC;
-extern const Vec_801B92EC lbl_80446F2C;
+extern const Vec lbl_80446F2C;
 extern u8 lbl_80446F50[];
 extern u8 lbl_80446F5C[];
 extern const f64 lbl_80446F68;
 extern u8 main_phase_state[];
 extern Vec_801B6964 scratch_vec[];
-extern DeathItemPosition lbl_8050BF60;
+extern Vec lbl_8050BF60;
 extern Color_801B6964 player_feedback_light_color[];
 extern void *player_slot_table[];
 extern u8 lobby_rule_settings[];
@@ -3834,9 +3827,9 @@ block_17:
 #pragma push
 #pragma fp_contract on
 bool TObjPlayer::is_target_in_facing_cone(void *target_arg) {
-    Vec_801B92EC *target = (Vec_801B92EC *)target_arg;
-    Vec_801B92EC to;
-    Vec_801B92EC fwd = lbl_80446F2C;
+    Vec *target = (Vec *)target_arg;
+    Vec to;
+    Vec fwd = lbl_80446F2C;
     f32 x;
     f32 z;
     f32 dot;
@@ -3849,7 +3842,7 @@ bool TObjPlayer::is_target_in_facing_cone(void *target_arg) {
     to.y = TObjPlayer__data_805DC278;
     to.z = target->z - z;
     ((TObjBoss2Tunnel *)(&to))->update_scale();
-    dot = ((f32 (*)(Vec_801B92EC *, Vec_801B92EC *))vec3_dot)(&fwd, &to);
+    dot = ((f32 (*)(Vec *, Vec *))vec3_dot)(&fwd, &to);
     return !(dot < cos_table_lookup(0x1555));
 }
 #pragma pop
@@ -4353,7 +4346,7 @@ s32 try_send_6x27_use_item(void *player, s32 arg1) {
         return 0;
     }
     if (((TObjPlayer *)player)->can_use_item(temp) == 0) {
-        play_sound_effect(0x3816, 0, 0, 0);
+        play_sound_effect(0x3816, (Vec *)(0), 0, 0);
         return 0;
     }
     if ((player != NULL) && (((s32 (*)(void *))obj_isState2_324__9TObjCharaFv)(player) != 0)) {
@@ -5182,7 +5175,7 @@ void damp_planar_velocity(P_801B5FB0 *p) {
 }
 
 s32 TObjPlayer::resolve_move_collision() {
-    Vec_801B5EA4 p;
+    Vec p;
     p.x = ((Obj_801B5EA4 *)this)->pos.x + ((Obj_801B5EA4 *)this)->vel.x;
     p.y = ((Obj_801B5EA4 *)this)->pos.y + ((Obj_801B5EA4 *)this)->vel.y;
     p.z = ((Obj_801B5EA4 *)this)->pos.z + ((Obj_801B5EA4 *)this)->vel.z;
@@ -5272,7 +5265,7 @@ void TObjPlayer::select_contextual_pickup_action() {
                             } else {
                                 type = 0;
                                 if (check_flag_100__10TObjPlayerFPv(this) == 0 && ((TObjPlayer *)(((u8 *)this) + 0x550))->check_action_usable(4) != 0) {
-                                    play_sound_effect(0x3816, ((s32 (*)(s32))get_position_ptr__10TObjPlayerFv)(ent), 0, 1);
+                                    play_sound_effect(0x3816, (Vec *)(((s32 (*)(s32))get_position_ptr__10TObjPlayerFv)(ent)), 0, 1);
                                 }
                             }
                         }
@@ -5529,7 +5522,7 @@ void TObjPlayer::play_effect(s32 arg0, s32 arg1, s32 arg2) {
     ((s32 (*)(s32, s32, s32, s32, f32))send_6x2C_impose_hold)(arg0, get_position_ptr__10TObjPlayerFv(), arg1, arg2, (*(f32 *)&TObjPlayer__data_805DC278));
 }
 
-void send_6x2C_impose_hold(s32 arg0, struct Vec_801B5328 *pos, s16 arg2, s16 arg3, f32 radius) {
+void send_6x2C_impose_hold(s32 arg0, struct Vec *pos, s16 arg2, s16 arg3, f32 radius) {
     struct Pkt_801B5328 pkt;
     if (arg0 == 0 || obj_isState2_324__9TObjCharaFv() == 0) {
         ((TObjPlayer *)(&pkt))->build_6x2C_impose_hold_packet();
@@ -6953,7 +6946,7 @@ u8 TObjPlayer::is_in_tl03_state() {
 
 void TObjPlayer::play_sound_if_on_floor(s32 sound_id) {
     if (((s32 (*)(void))is_on_current_floor__10TObjPlayerFi)() != 0) {
-        play_sound_effect(sound_id, (s32)get_position_ptr(), 0, 0);
+        play_sound_effect(sound_id, (Vec *)((s32)get_position_ptr()), 0, 0);
     }
 }
 
@@ -7686,7 +7679,7 @@ extern "C" void fn_801B0480(u8 *player, void *attacker, s32 amount) {
         || ((TLobby *)lobby_rule_settings)->get_rule_field_a() != 1
         || TLobby__sub_801C19D0(player + 0x828) != TLobby__sub_801C19D0((u8 *)attacker + 0x828)) {
         accumulate_damage_stats((s32)(player + 0x75C), (s32)attacker, amount);
-        play_sound_effect(0x4004B20A, 0, 0, 0);
+        play_sound_effect(0x4004B20A, (Vec *)(0), 0, 0);
     }
 }
 

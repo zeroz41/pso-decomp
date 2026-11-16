@@ -39,7 +39,6 @@
 extern "C" {
 f32 random_ratio__9TObjCharaFv(s32);
 s32 spawn_particle_effect(s32, s32);
-struct Vec_800ACB58 { f32 x, y, z; };
 s32 apply_actor_gravity(void *, int, f32);
 }
 void move_with_wall_slide(u8 *arg0);
@@ -71,9 +70,7 @@ typedef struct Moja_800ADE48 {
     s32 attack_kind;
 } Moja_800ADE48;
 
-struct Vec_800AE18C { f32 x, y, z; };
 
-struct Vec_800AEE54 { f32 x, y, z; };
 
 struct V398Base_800ADAAC { char pad[0x18]; };
 
@@ -116,7 +113,6 @@ struct VObj_18_247a8e : VBase_18_247a8e {
     virtual s32 m23(void *);
 };
 
-struct Vec_800ACFE8 { f32 x, y, z; };
 struct Hit_800ACFE8 { s32 a; f32 b; };
 struct VBase_800ACFE8 { u8 pad[0x18]; };
 struct VObj_800ACFE8 : VBase_800ACFE8 {
@@ -131,7 +127,6 @@ struct VObj_800ACFE8 : VBase_800ACFE8 {
     virtual void m23(void *);
 };
 
-struct Vec_800AE7F4 { f32 x, y, z; };
 
 struct Hit_800AE7F4 {
     s32 a;
@@ -185,7 +180,6 @@ struct Ene_800AF080 : EneBase_800AF080 {
     virtual void v8(); virtual s32 m9(f32, f32, f32);
 };
 
-struct Vec_800AE450 { f32 x, y, z; };
 
 struct Hit_800AE450 {
     s32 a;
@@ -219,7 +213,7 @@ struct Tgt_800AD3D8 : TgtBase_800AD3D8 {
     virtual void m20();
     virtual void m21(void *, Hit_800ACFE8, s32, s32, s32);
     u8 pad1C[0x2FC - 0x1C];
-    Vec_800AE18C pos;
+    Vec pos;
 };
 
 struct MojaInfo_800AD3D8 { u8 pad0[4]; f32 speed; s32 turn; };
@@ -235,7 +229,7 @@ struct Moja_800AD3D8 {
     u8 padBA[0x2A8 - 0xBA];
     Tgt_800AD3D8 *target;
     u8 pad2AC[0x2FC - 0x2AC];
-    Vec_800AE18C pos;
+    Vec pos;
     u8 pad308[0x318 - 0x308];
     u32 f318;
     u8 pad31C[0x328 - 0x31C];
@@ -260,9 +254,9 @@ typedef struct Info_800AEBB8 {
 
 typedef struct Moja_800AEBB8 {
     u8 pad0[0x50];
-    Vec_800AE18C pos;
+    Vec pos;
     u8 pad5C[0x2FC - 0x5C];
-    Vec_800AE18C f2FC;
+    Vec f2FC;
     u8 pad308[0x328 - 0x308];
     s16 phase;
     u8 pad32A[0x350 - 0x32A];
@@ -275,9 +269,9 @@ extern "C" {
 s32 update_movement_status__9TObjCharaFv();
 s32 update_action_hold_status__9TObjCharaFv();
 
-f32 enemy_pursue_point(void *, s32, Vec_800AE18C *, void *, f32, f32);
-s32 select_enemy_destination(void *, Vec_800AE18C *, int);
-s32 copy_position_if_valid__10TObjPlayerFii(void *, Vec_800AE18C *);
+f32 enemy_pursue_point(void *, s32, Vec *, void *, f32, f32);
+s32 select_enemy_destination(void *, Vec *, int);
+s32 copy_position_if_valid__10TObjPlayerFii(void *, Vec *);
 
 f32 horizontal_distance_squared(int, void *);
 
@@ -295,7 +289,7 @@ s32 TObjPlayer__sub_800ACA0C(void *);
 
 s32 minimap_render_dot(void *, int, int, int, f32);
 
-f32 calc_xz_distance_sq(void *, void *, Vec_800AE18C *);
+f32 calc_xz_distance_sq(void *, void *, Vec *);
 f32 atan2_float(f32, f32);
 s32 angle_difference_abs(s32, s32);
 
@@ -306,7 +300,7 @@ void set_matrix_identity(u8 *arg0);
 s32 push_matrix();
 
 s32 post_translate_matrix(void *);
-s32 calc_velocity_toward_destination(void *, Vec_800ACFE8, Vec_800ACFE8, f32);
+s32 calc_velocity_toward_destination(void *, Vec, Vec, f32);
 s16 get_attack_params_atp_min(s32);
 s32 is_split_screen();
 f32 newton_sqrtf(f32);
@@ -329,7 +323,7 @@ extern s32 model_render_flags;
 
 s32 approach_angle_limited(s32, s32, s32);
 
-extern Vec_800AE450 scratch_vec;
+extern Vec scratch_vec;
 
 s32 enemy_turn_toward_dest(void *, s32);
 void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
@@ -737,7 +731,7 @@ void TObjEneMoja::vfunc_28() {
         if (obj_testFlags30(0x10) != 0) {
             i = 0;
             best_id = 0xFFFF;
-            Vec_800AEE54 v = { 0.0f, 0.0f, 0.0f };
+            Vec v = { 0.0f, 0.0f, 0.0f };
             best = ((MojaMovementParameters *)movementParameters)->unknown_00 * ((MojaMovementParameters *)movementParameters)->unknown_00;
             for (; i < registered_player_count + lbl_805D5870; i++) {
                 p = get_player_data__10TObjPlayerFi(i);
@@ -860,9 +854,9 @@ void TObjEneMoja::update_idle_state() {
     switch (self->phase) {
     case 0:
     default: {
-        Vec_800AE18C dest = self->pos;
+        Vec dest = self->pos;
         if (select_enemy_destination(self, &dest, 7) != 0) {
-            Vec_800AE18C cur = self->f2FC;
+            Vec cur = self->f2FC;
             copy_position_if_valid__10TObjPlayerFii(self, &cur);
         }
         switch (self->f374) {
@@ -882,9 +876,9 @@ void TObjEneMoja::update_idle_state() {
 }
 
 void TObjEneMoja::update_appearance_jump() {
-    Vec_800AE7F4 off;
-    Vec_800AE7F4 tmp;
-    Vec_800AE7F4 delta;
+    Vec off;
+    Vec tmp;
+    Vec delta;
     f32 ticks;
     f32 dist;
     VObj_800AE7F4 *p;
@@ -916,7 +910,7 @@ void TObjEneMoja::update_appearance_jump() {
         jumpSpeed = newton_sqrtf(delta.x * delta.x + delta.z * delta.z);
         ticks = 12.0f / play_speed;
         jumpSpeed = jumpSpeed / ticks;
-        ((s32 (*)(void *, Vec_800AE7F4, Vec_800AE7F4, f32))calc_velocity_toward_destination)(this, *(Vec_800AE7F4 *)&m_290, *(Vec_800AE7F4 *)&m_29c, jumpSpeed);
+        ((s32 (*)(void *, Vec, Vec, f32))calc_velocity_toward_destination)(this, *(Vec *)&m_290, *(Vec *)&m_29c, jumpSpeed);
         y_speed = delta.y / ticks;
         phase = 1;
         break;
@@ -996,7 +990,7 @@ void TObjEneMoja::update_appearance_drop() {
         jumpSpeed = newton_sqrtf(scratch_vec.x * scratch_vec.x + scratch_vec.z * scratch_vec.z);
         ticks = 12.0f / play_speed;
         jumpSpeed = jumpSpeed / ticks;
-        ((s32 (*)(void *, Vec_800AE450, Vec_800AE450, f32))calc_velocity_toward_destination)(this, *(Vec_800AE450 *)&m_290, *(Vec_800AE450 *)&m_29c, jumpSpeed);
+        ((s32 (*)(void *, Vec, Vec, f32))calc_velocity_toward_destination)(this, *(Vec *)&m_290, *(Vec *)&m_29c, jumpSpeed);
         y_speed = scratch_vec.y / ticks;
         phase = 1;
         break;
@@ -1086,9 +1080,9 @@ s32 TObjEneMoja::update_approach_state() {
             ((TObjEnemy *)arg0)->sub_800A7798(*(f32 *)((s8 *)lbl_805D50D4[(*(s32 *)&this->variant)] + 0xC));
             this->requested_action = 2;
             {
-            Vec_800AE18C v = *(Vec_800AE18C *)(this->target + 0x2FC);
+            Vec v = *(Vec *)(this->target + 0x2FC);
             if (select_enemy_destination(arg0, &v, 1) != 0) {
-                Vec_800AE18C v2 = *(Vec_800AE18C *)(arg0 + 0x2FC);
+                Vec v2 = *(Vec *)(arg0 + 0x2FC);
                 copy_position_if_valid__10TObjPlayerFii(arg0, &v2);
             }
             }
@@ -1101,7 +1095,7 @@ s32 TObjEneMoja::update_approach_state() {
     default:
         temp_r7 = this->target;
         if (temp_r7 != NULL) {
-            Vec_800AE18C v3 = *(Vec_800AE18C *)(temp_r7 + 0x2FC);
+            Vec v3 = *(Vec *)(temp_r7 + 0x2FC);
             temp_r4 = (u8 *)lbl_805D50D4[(*(s32 *)&this->variant)];
             if (*(f32 *)((s8 *)((*(u8 * *)&this->movementParameters)) + 0) * *(f32 *)((s8 *)((*(u8 * *)&this->movementParameters)) + 0) < enemy_pursue_point(arg0, *(s32 *)((s8 *)((*(u8 * *)&this->movementParameters)) + 8), &v3, temp_r4, *(f32 *)((s8 *)temp_r4 + 8), 30.0f)) {
                 this->target = NULL;
@@ -1130,7 +1124,7 @@ s32 TObjEneMoja::is_target_in_attack_range() {
     f32 radius;
     u8 *t;
     u8 *c;
-    Vec_800AE18C d;
+    Vec d;
     if (this->mode > 1 && (t = this->target) != NULL &&
         this->m_318 != 0 && !(*(u32 *)((s8 *)t + 0x30) & 0x02000800)) {
         dist = calc_xz_distance_sq(this, t, &d);
@@ -1162,11 +1156,11 @@ s32 TObjEneMoja::is_target_in_attack_range() {
                         }
                         this->attackSequence = -1;
                         {
-                            Vec_800AE18C v = *(Vec_800AE18C *)(((u8 *)this) + 0x2FC);
+                            Vec v = *(Vec *)(((u8 *)this) + 0x2FC);
                             select_enemy_destination(this, &v, 1);
                         }
                         {
-                            Vec_800AE18C v2 = *(Vec_800AE18C *)(((u8 *)this) + 0x2FC);
+                            Vec v2 = *(Vec *)(((u8 *)this) + 0x2FC);
                             copy_position_if_valid__10TObjPlayerFii(this, &v2);
                         }
                     }
@@ -1178,11 +1172,11 @@ s32 TObjEneMoja::is_target_in_attack_range() {
                         }
                         this->attackSequence = -1;
                         {
-                            Vec_800AE18C v = *(Vec_800AE18C *)(((u8 *)this) + 0x2FC);
+                            Vec v = *(Vec *)(((u8 *)this) + 0x2FC);
                             select_enemy_destination(this, &v, 1);
                         }
                         {
-                            Vec_800AE18C v2 = *(Vec_800AE18C *)(((u8 *)this) + 0x2FC);
+                            Vec v2 = *(Vec *)(((u8 *)this) + 0x2FC);
                             copy_position_if_valid__10TObjPlayerFii(this, &v2);
                         }
                     }
@@ -1319,8 +1313,8 @@ s32 TObjEneMoja::update_punch_attack(void *self_800ADAAC) {
 #pragma opt_common_subs off
 #define self ((Moja_800AD3D8 *)self_800AD3D8)
 s32 TObjEneMoja::update_technique_state(void *self_800AD3D8) {
-    Vec_800AE18C dir;
-    Vec_800AE18C pos;
+    Vec dir;
+    Vec pos;
     Ang_800AD3D8 ang;
     s32 ang2;
     void *obj;
@@ -1351,9 +1345,9 @@ s32 TObjEneMoja::update_technique_state(void *self_800AD3D8) {
             self->count = -1;
             self->flags &= 0xFFDFFFFF;
         } else {
-            Vec_800AE18C dest = self->target->pos;
+            Vec dest = self->target->pos;
             if (select_enemy_destination(self, &dest, 1) != 0) {
-                Vec_800AE18C cur = self->pos;
+                Vec cur = self->pos;
                 copy_position_if_valid__10TObjPlayerFii(self, &cur);
                 a = enemy_turn_toward_dest(self, self->info->turn);
                 enemy_set_heading_velocity(self->info->speed, (TObjEnemy *)((TObjEnemy *)((u8 *)self)), self->rot_y);
@@ -1484,7 +1478,7 @@ s32 TObjEneMoja::update_technique_state(void *self_800AD3D8) {
 #pragma pop
 
 void TObjEneMoja::update_attack_jump() {
-    Vec_800ACFE8 delta;
+    Vec delta;
     u8 *p;
     s32 i;
     f32 d;
@@ -1498,10 +1492,10 @@ void TObjEneMoja::update_attack_jump() {
         ((s32 (*)(void *, s32, f32))apply_actor_gravity)(this, 0, 0.0f);
         if (is_passing_frame(8.0f) != 0) {
             if (target != NULL) {
-                Vec_800ACFE8 dest = *(Vec_800ACFE8 *)(target + 0x2FC);
-                if (select_enemy_destination(this, (Vec_800AE18C *)&dest, 1) != 0) {
-                    Vec_800ACFE8 pos = *(Vec_800ACFE8 *)&m_2fc;
-                    copy_position_if_valid__10TObjPlayerFii(this, (Vec_800AE18C *)&pos);
+                Vec dest = *(Vec *)(target + 0x2FC);
+                if (select_enemy_destination(this, (Vec *)&dest, 1) != 0) {
+                    Vec pos = *(Vec *)&m_2fc;
+                    copy_position_if_valid__10TObjPlayerFii(this, (Vec *)&pos);
                     VecCopy((Vec *)&delta, (const Vec *)&m_29c);
                     subtract_vector(&delta, &m_2fc);
                     jumpSpeed = -20.0f + newton_sqrtf(delta.x * delta.x + delta.z * delta.z);
@@ -1518,7 +1512,7 @@ void TObjEneMoja::update_attack_jump() {
         }
         break;
     case 1:
-        calc_velocity_toward_destination(this, *(Vec_800ACFE8 *)&m_290, *(Vec_800ACFE8 *)&m_29c, jumpSpeed);
+        calc_velocity_toward_destination(this, *(Vec *)&m_290, *(Vec *)&m_29c, jumpSpeed);
         move_with_wall_slide((u8 *)this);
         if (is_passing_frame(20.0f) != 0) {
             phase = 2;
@@ -1656,11 +1650,11 @@ void TObjEneMoja::vfunc_63() {
 
 void TObjEneMoja::update_death_state() {
     u8 *arg0 = (u8 *)this;
-    Vec_800ACB58 v;
+    Vec v;
 
     ((TObjMotion *)arg0)->advance_animation();
     if (((TObjMotion *)arg0)->is_passing_frame(0.0f) != 0) {
-        play_sound_effect(((TObjEnemy *)(arg0))->remap_sound_for_area((s32)(0x3A809)), (u8 *)&this->position, 0, 0);
+        play_sound_effect(((TObjEnemy *)(arg0))->remap_sound_for_area((s32)(0x3A809)), &this->position, 0, 0);
     }
     if (((TObjMotion *)arg0)->is_passing_frame((f32)27.0f) != 0) {
         v.x = 0.0f;
@@ -1671,7 +1665,7 @@ void TObjEneMoja::update_death_state() {
         rotate_vector_by_matrix(0, &v, &v);
         pop_matrix();
         vec3_add_to(&v, (u8 *)&this->position);
-        play_sound_effect(((TObjEnemy *)(arg0))->remap_sound_for_area((s32)(0x3AD03)), &v, 0, 0);
+        play_sound_effect(((TObjEnemy *)(arg0))->remap_sound_for_area((s32)(0x3AD03)), (Vec *)&v, 0, 0);
         TObjPlayer::play_effect_if_v2(-0x300);
         spawn_particle_effect((s32) &v, 0xF0);
         spawn_dead_spot_scale15(&v, 0x14);

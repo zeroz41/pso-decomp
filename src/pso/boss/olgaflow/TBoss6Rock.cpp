@@ -509,7 +509,7 @@ s32 TBoss6Rock__sub_80353A14(s32 i, Vec *out, f32 *radius) {
         return 0;
     }
     r = kind->radius;
-    VecCopy(&a, (Vec *)&TBoss6Rock__data_805D6EF8->position);
+    VecCopy(&a, (const Vec *)&TBoss6Rock__data_805D6EF8->position);
     a.y = 0.0f;
     VecCopy(&b, &TBoss6Rock__rock_point_table[i]);
     VecCopy(&c, &b);

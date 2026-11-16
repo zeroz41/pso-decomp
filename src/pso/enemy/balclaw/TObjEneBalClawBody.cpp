@@ -88,7 +88,7 @@ TObjChara *find_active_entity_by_id(u16);
 s32 fn_80090464(void *, int);
 u8 *get_enemy_entity(u16);
 s32 minimap_render_dot(void *, int, int, int);
-s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
+s32 play_persistent_sound(s32 id, s32 a1, Vec *, s32 a3, s32 flags);
 s32 post_translate_matrix(void *);
 s32 push_matrix();
 void queue_destruction__7TObjectFv(void *arg0);
@@ -207,9 +207,9 @@ void TObjEneBalClawBody::run_task() {
     sub_8008FF50();
     update_wobble();
     update_claw_angle();
-    VecCopy((Vec *)&m_2fc, &position);
-    center_y = m_300;
-    m_300 = center_y + (m_3b4 + m_3bc);
+    VecCopy(&m_2fc, &position);
+    center_y = m_2fc.y;
+    m_2fc.y = center_y + (m_3b4 + m_3bc);
     lift = m_3b4;
     body = bodies;
     body->offset.y = lift + m_3bc;
@@ -386,7 +386,7 @@ void TObjPlayer__sub_8008FAD0(TObjEneBalClawBody *body) {
             reset_enemy_state__10TObjPlayerFv();
             break;
         }
-        play_persistent_sound(0x4003B235, (s32)body, (u32)&body->position, 0, 0);
+        play_persistent_sound(0x4003B235, (s32)body, (Vec *)(u32)&body->position, 0, 0);
         body->y_speed = 0.0f;
         {
             Vec pos = *(Vec *)&((TObjChara *)body->target)->m_2fc;
@@ -475,7 +475,7 @@ void TObjPlayer::run_death_sequence() {
             body->y_speed = body->m_3b4 / 11.666666f;
             body->state = 2;
         }
-        play_sound_effect(0x4003AD37, (u8 *)&body->position, 0, 0);
+        play_sound_effect(0x4003AD37, &body->position, 0, 0);
         break;
     case 1:
         body->advance_animation();
@@ -495,7 +495,7 @@ void TObjPlayer::run_death_sequence() {
         break;
     case 3:
         TObjPlayer__sub_800A04F0(&body->fade);
-        fn_800D911C((Vec *)&body->m_2fc);
+        fn_800D911C(&body->m_2fc);
         body->m_388 |= 4;
         body->state = 4;
     case 4:
@@ -549,7 +549,7 @@ void TObjPlayer__sub_8008F1DC(TObjEneBalClawBody *body) {
                 }
             }
             body->turn_toward_direction(((EnemyMoveParams *)body->movementParameters)->turn_speed, (Vec *)&body->x_speed);
-            body->m_3c0 = xz_distance_squared((Vec *)&body->m_2fc, (Vec *)&((TObjChara *)body->target)->m_2fc);
+            body->m_3c0 = xz_distance_squared(&body->m_2fc, (Vec *)&((TObjChara *)body->target)->m_2fc);
             if (body->m_3c0 <= ((AttackParams *)body->m_318)->get_attack_range() * ((AttackParams *)body->m_318)->get_attack_range()) {
                 body->requested_action = 7;
                 body->state = 2;
@@ -658,7 +658,7 @@ void TObjPlayer__sub_8008EDE8(TObjEneBalClawBody *body) {
                 }
             }
             body->turn_toward_direction(((EnemyMoveParams *)body->movementParameters)->turn_speed, (Vec *)&body->x_speed);
-            body->m_3c0 = xz_distance_squared((Vec *)&body->m_2fc, (Vec *)&((TObjChara *)body->target)->m_2fc);
+            body->m_3c0 = xz_distance_squared(&body->m_2fc, (Vec *)&((TObjChara *)body->target)->m_2fc);
             if (body->m_3c0 <= ((AttackParams *)body->m_318)->get_attack_range() * ((AttackParams *)body->m_318)->get_attack_range()) {
                 body->requested_action = 2;
                 body->state = 2;

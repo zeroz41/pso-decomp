@@ -79,7 +79,7 @@ s32 init_photon_blast_entries__19TWindowSubMagPhotonFv(void *, int);
 s32 construct_base__9TWindowDDFPUcsPUc(void *, void *, void *, void *);
 extern s32 __vt__19TWindowSubMagPhoton[];
 u8 *TWindowSubMagPhoton__ct(TWindowSubMagPhoton *arg0, s32 arg1, s32 arg2, s16 arg3);
-s32 play_sound_effect(s32, s32, s32, s32);
+s32 play_sound_effect(s32, Vec *, s32, s32);
 s32 apply_choice__20TWindowChoiceSettingFllll(void *, int, int, int);
 void draw_cursor_sprite__21TWindowSubCustomEquipFPvPvif(void *, void *, int, f32);
 s32 get_message_10__20TWindowSubStatusDispFl(s32);
@@ -100,13 +100,13 @@ s32 update_selected_item__17TWindowOptionCtrlFv(s32);
 
 void TWindowSubMagPhoton::handle_cancel() {
     if (get_active_flag() == 0) {
-        play_sound_effect(0x52F16, 0, 0, 0);
+        play_sound_effect(0x52F16, (Vec *)(0), 0, 0);
         this->m_60 = (u8) (this->m_60 | 2);
     }
 }
 
 void TWindowSubMagPhoton::play_open_sound() {
-    play_sound_effect(0x52D01, 0, 0, 0);
+    play_sound_effect(0x52D01, (Vec *)(0), 0, 0);
     this->m_60 = (u8) (this->m_60 | 1);
 }
 
@@ -117,7 +117,7 @@ void TWindowSubMagPhoton::update_selection_input() {
     u8 *window_choice_setting;
     window_choice_setting = (u8 *)&(*(RecoveredGlobal_8027C2D0_lbl_8050E208 *)&controller_input_state).value + (is_player_input_active(((s32) this->m_20)) * 0x50) + 0x20;
     if ((apply_choice__20TWindowChoiceSettingFllll(window_choice_setting, 0xF0, 6, 1) != 0) || (apply_choice__20TWindowChoiceSettingFllll((void *) ((u8 *)&(*(RecoveredGlobal_8027C2D0_lbl_8050E208 *)&controller_input_state).value + 0x160), 0xF0, 6, 1) != 0)) {
-        play_sound_effect(0x54100, (s32)(0U), 0, 0);
+        play_sound_effect(0x54100, (Vec *)((s32)(0U)), 0, 0);
         if ((apply_choice__20TWindowChoiceSettingFllll(window_choice_setting, 0x10, 6, 1) != 0) || (apply_choice__20TWindowChoiceSettingFllll((void *) ((u8 *)&(*(RecoveredGlobal_8027C2D0_lbl_8050E208 *)&controller_input_state).value + 0x160), 0x10, 6, 1) != 0)) {
             this->m_61 = (this->m_61 + 1);
         }

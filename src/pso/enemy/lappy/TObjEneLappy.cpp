@@ -150,9 +150,8 @@ typedef struct Desc_800C17B8 {
 
 const Desc_800C17B8 lappy_resource_binding_desc = {0, rappy_variant_speed_table, 0x10003, 0xA0000};
 
-struct Vec_800C1224 { f32 x, y, z; };
 
-const Vec_800C1224 lappy_target_zero_vec = {0.0f, 0.0f, 0.0f};
+const Vec lappy_target_zero_vec = {0.0f, 0.0f, 0.0f};
 
 extern "C" __declspec(section ".data") s32 lappy_variant_speed_ptr_table[2];
 #define lappy_variant_speed_ptr_table ((f32 * *)lappy_variant_speed_ptr_table)
@@ -356,7 +355,6 @@ struct VObj_18_800C0588 : VBase_18_800C0588 {
 
 struct Sp800C0D3C { s32 a; s32 b; s32 c; };
 
-struct Vec_800C1144 { f32 x, y, z; };
 
 struct Position_800C08A0 { f32 x, y, z; };
 
@@ -384,9 +382,8 @@ struct VObj_18_800C0E30 : VBase_18_800C0E30 {
 
 struct Vec_800C0E30 { s32 x, y, z; };
 
-struct Vec_800C0318 { f32 x, y, z; };
 
-struct Lappy_800C0318 { u8 pad0[0x2FC]; Vec_800C0318 pos; f32 vx; f32 vy; f32 vz; };
+struct Lappy_800C0318 { u8 pad0[0x2FC]; Vec pos; f32 vx; f32 vy; f32 vz; };
 
 extern const f32 lbl_805D9F9C;
 
@@ -399,7 +396,7 @@ void move_with_wall_slide(u8 *arg0);
 extern "C" {
 void sub_800C20B0__12TObjEneLappyFv(void *arg0);
 #define sub_800C20B0__12TObjEneLappyFv (*(s32 (*)())&sub_800C20B0__12TObjEneLappyFv)
-s32 play_sound_effect(s32, u32, s32, s32);
+s32 play_sound_effect(s32, Vec *, s32, s32);
 void vfunc_63__12TObjEneLappyFv(u8 *arg0);
 void vfunc_62__12TObjEneLappyFv(u8 *arg0);
 void vfunc_61__12TObjEneLappyFv(void *arg0);
@@ -453,7 +450,7 @@ f32 update_enemy_wander_move(void *, void *, int, f32);
 f64 atan2_float(f32, f32);
 s32 queue_destruction__7TObjectFv(void *);
 s32 lerp_angle_half__Fll(int, int);
-s32 play_persistent_sound(s32, void *, void *, int, int);
+s32 play_persistent_sound(s32, void *, Vec *, int, int);
 s32 update_action_hold_status__12TObjEneLappyFv(s32 arg0);
 s32 update_movement_status__12TObjEneLappyFv(s32 arg0);
 s32 update_movement_status__9TObjCharaFv();
@@ -547,7 +544,7 @@ loop_7:
         VecCopy((Vec *)&sp8, (const Vec *)&arg0->position);
         vec3_add_to(&sp8, &sp14);
         if (((s32)project_actor_to_ground(arg0, &sp8, 0)) == 1) {
-            VecCopy((Vec *)&arg0->position, (const Vec *)&sp8);
+            VecCopy(&arg0->position, (const Vec *)&sp8);
             VecCopy((Vec *)((LappyVec *)&arg0->unk_308), (const Vec *)&arg0->position);
             subtract_vector((LappyVec *)&arg0->unk_308, (LappyVec *)&arg0->prev_position);
             return 1;
@@ -571,7 +568,7 @@ loop_7:
 void TObjEneLappy::play_walk_sound() {
     u8 *arg0 = (u8 *)this;
     if (((s16) this->requested_action == 3) && ((((TObjMotion *)arg0)->is_passing_frame(10.0f) != 0) || (((TObjMotion *)arg0)->is_passing_frame(30.0f) != 0))) {
-        play_sound_effect(remap_area_sound_id(0x3D20C, 5), (u32)(arg0 + 0x38), 0, 0);
+        play_sound_effect(remap_area_sound_id(0x3D20C, 5), (Vec *)((u32)(arg0 + 0x38)), 0, 0);
     }
 }
 void TObjPlayer__sub_800BFF54(void * _w0) {  }
@@ -658,7 +655,7 @@ void TObjEneLappy::vfunc_63() {
     if (temp_r3 & 2) {
         if (!(temp_r3 & 4)) {
             this->m_374 = (s16) (temp_r3 | 4);
-            play_sound_effect((s32)(((s32)remap_area_sound_id(0x3AD13, 5))), (u32)(((u8 *)this) + 0x38), 0, 0);
+            play_sound_effect((s32)(((s32)remap_area_sound_id(0x3AD13, 5))), (Vec *)((u32)(((u8 *)this) + 0x38)), 0, 0);
             ((TObjPlayer *)((u8 *)this))->query_lobby_state();
             this->requested_action = 8;
         }
@@ -666,7 +663,7 @@ void TObjEneLappy::vfunc_63() {
         this->mode = 5;
         this->requested_action = 7;
         if (!(this->m_374 & 0x10)) {
-            play_sound_effect((s32)(((s32)remap_area_sound_id(0x3AE10, 5))), (u32)(((u8 *)this) + 0x38), 0, 0);
+            play_sound_effect((s32)(((s32)remap_area_sound_id(0x3AE10, 5))), (Vec *)((u32)(((u8 *)this) + 0x38)), 0, 0);
             this->distribute_experience();
             ((TObjPlayer *)((u8 *)this))->set_flag_and_notify();
         }
@@ -678,7 +675,7 @@ void TObjEneLappy::update_hurt() {
     u8 *arg0 = (u8 *)this;
     ((TObjMotion *)arg0)->advance_animation();
     Lappy_800C0318 *self = (Lappy_800C0318 *)arg0;
-    Vec_800C0318 v = self->pos;
+    Vec v = self->pos;
     v.x += self->vx;
     v.z += self->vz;
     if (check_path_obstructed(arg0, &v) == 0) {
@@ -715,7 +712,7 @@ void TObjEneLappy::vfunc_62() {
             this->m_374 = (s16) (this->m_374 | 2);
             ((TObjPlayer *)((u8 *)this))->set_flag_and_notify();
         }
-        play_sound_effect((s32)((void*)((s32)remap_area_sound_id(0x3B10F, 5))), (u32)(((u8 *)this) + 0x38), 0, 0);
+        play_sound_effect((s32)((void*)((s32)remap_area_sound_id(0x3B10F, 5))), (Vec *)((u32)(((u8 *)this) + 0x38)), 0, 0);
     }
 }
 
@@ -771,7 +768,7 @@ void TObjEneLappy::update_attacking() {
                 ((VObj_18_800C0588 *) this->target)->m20(arg0, 1.0f);
                 ((VObj_18_800C0588 *) this->target)->m23(arg0, 3.0f);
             }
-            play_sound_effect(remap_area_sound_id(0x3BC0D, 5), (u32)(arg0 + 0x38), 0, 0);
+            play_sound_effect(remap_area_sound_id(0x3BC0D, 5), (Vec *)((u32)(arg0 + 0x38)), 0, 0);
             this->phase = 2;
             *(s16 *)&this->timer = 0x1E;
         }
@@ -909,10 +906,10 @@ void TObjEneLappy::update_moving() {
             if ((u32) this->action_flags == 1U) {
                 *(s32 *)&this->actorFlags = (*(s32 *)&this->actorFlags & 0xFBFFFFFF);
                 *(s16 *)&this->m_37a = 4;
-                play_sound_effect(remap_area_sound_id(0x3AF12, 5), (u32)(arg0 + 0x38), 0, 0);
+                play_sound_effect(remap_area_sound_id(0x3AF12, 5), (Vec *)((u32)(arg0 + 0x38)), 0, 0);
             }
             if (((TObjMotion *)arg0)->is_passing_frame(30.0f) != 0) {
-                play_sound_effect(remap_area_sound_id(0x3AA11, 5), (u32)(arg0 + 0x38), 0, 0);
+                play_sound_effect(remap_area_sound_id(0x3AA11, 5), (Vec *)((u32)(arg0 + 0x38)), 0, 0);
             }
             goto block_48;
         case 4:
@@ -936,7 +933,7 @@ void TObjEneLappy::update_moving() {
                     spawn_particle_effect((u8 *)&this->position, 0xF3);
                     *(s16 *)&this->m_396 = 2;
                 }
-                play_persistent_sound(((TObjEnemy *)(arg0))->remap_sound_for_area((s32)(0x3AF12)), arg0, (u8 *)&this->position, 0, 0);
+                play_persistent_sound(((TObjEnemy *)(arg0))->remap_sound_for_area((s32)(0x3AF12)), arg0, (Vec *)((u8 *)&this->position), 0, 0);
                 goto block_47;
             }
 block_47:
@@ -1010,7 +1007,7 @@ void TObjEneLappy::update_idle_state(void *ov) {
         case 1:
             (*(s16 *)((s8 *)arg0 + 0x37E))--;
             if (*(s16 *)((s8 *)arg0 + 0x37E) < 0) {
-                play_sound_effect(remap_area_sound_id(0x3B20B, 5), (u32)(arg0 + 0x38), 0, 0);
+                play_sound_effect(remap_area_sound_id(0x3B20B, 5), (Vec *)((u32)(arg0 + 0x38)), 0, 0);
                 ((TObjPlayer *)arg0)->phase = 2;
             }
             break;
@@ -1032,7 +1029,7 @@ void TObjEneLappy::update_idle_state(void *ov) {
         ((TObjMotion *)arg0)->advance_animation();
         (*(s16 *)((s8 *)arg0 + 0x37E))--;
         if (*(s16 *)((s8 *)arg0 + 0x37E) < 0) {
-            play_sound_effect(remap_area_sound_id(0x3B20B, 5), (u32)(arg0 + 0x38), 0, 0);
+            play_sound_effect(remap_area_sound_id(0x3B20B, 5), (Vec *)((u32)(arg0 + 0x38)), 0, 0);
             *(s16 *)((s8 *)arg0 + 0x37E) = (s16) (30.0f * (6.0f * (1.0f + random_ratio__9TObjCharaFv(arg0))));
         }
         break;
@@ -1065,7 +1062,7 @@ void TObjEneLappy::vfunc_58() {
         if (flags & 0x20) {
             this->m_374 = flags & ~0x20;
             this->obj_clearFlags30(0x02000000);
-            Vec_800C1144 v = *(Vec_800C1144 *)((s8 *)this + 0x38);
+            Vec v = *(Vec *)((s8 *)this + 0x38);
             if (project_actor_to_ground(this, &v, 0) == 1) {
                 *(f32 *)((s8 *)this + 0x3C) = 300.0f + v.y;
             }
@@ -1104,7 +1101,7 @@ void TObjEneLappy::vfunc_28() {
         } else if (obj_testFlags30__14TObjCollidableFUl(arg0, 0x10) != 0) {
             i = 0;
             best_id = 0xFFFF;
-            Vec_800C1224 v = lappy_target_zero_vec;
+            Vec v = lappy_target_zero_vec;
             best = *(f32 *)((s8 *)(*(f32 **)((s8 *)arg0 + 0x350)) + 0) * *(f32 *)((s8 *)(*(f32 **)((s8 *)arg0 + 0x350)) + 0);
             for (; i < registered_player_count + lbl_805D5870; i++) {
                 p = (u8 *)get_player_data__10TObjPlayerFi(i);
@@ -1194,9 +1191,9 @@ void TObjEneLappy::run_task() {
         if (((RecoveredFields_800C1478_arg0 *)((u8 *)this))->field_30 & 0x800000) {
             ((RecoveredFields_800C1478_arg0 *)((u8 *)this))->field_374 = (s16) (((RecoveredFields_800C1478_arg0 *)((u8 *)this))->field_374 & 0xFFFFFFBF);
             if (TLobby::get_instance() == 1) {
-                play_sound_effect(0x3AB44, (u32)(((u8 *)this) + 0x38), 0, 0);
+                play_sound_effect(0x3AB44, (Vec *)((u32)(((u8 *)this) + 0x38)), 0, 0);
             } else {
-                play_sound_effect(0x4003AB33, (u32)(((u8 *)this) + 0x38), 0, 0);
+                play_sound_effect(0x4003AB33, (Vec *)((u32)(((u8 *)this) + 0x38)), 0, 0);
             }
             temp_r3_2 = (unsigned char *) (((RecoveredFields_800C1478_arg0 *)((u8 *)this))->field_A4);
             ((RecoveredFields_800C1478_temp_r3_2 *)temp_r3_2)->field_18 = (s32) (((RecoveredFields_800C1478_temp_r3_2 *)temp_r3_2)->field_18 | 1);

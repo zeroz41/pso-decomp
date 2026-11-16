@@ -55,9 +55,9 @@ void TObjEneMe1GiGueMissile::explode(void *pos) {
                 obj_setFlags30(p, 0x600);
             }
             if (get_current_floor_area() == AREA_TOWER) {
-                play_sound_effect(0x4003A312, &p->position, 0, 0);
+                play_sound_effect(0x4003A312, (Vec *)(&p->position), 0, 0);
             } else {
-                play_sound_effect(0x3A81F, &p->position, 0, 0);
+                play_sound_effect(0x3A81F, (Vec *)(&p->position), 0, 0);
             }
         }
     }
@@ -124,7 +124,7 @@ TObjEneMe1GiGueMissile *TObjEneMe1GiGueMissile__ct(TObjEneMe1GiGueMissile *self,
     self->m_name = lbl_805D3F20;
     self->m_c0 = power;
     *(f32 *)self->_padAC = speed;
-    play_sound_effect(0x4002A600, &self->pos, 0, 0);
+    play_sound_effect(0x4002A600, (Vec *)(&self->pos), 0, 0);
     if ((void *)self->m_1c != NULL) {
         self->m_34 = get_entity_id((void *)self->m_1c);
     }

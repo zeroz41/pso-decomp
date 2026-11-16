@@ -367,7 +367,6 @@ u8 *__dt__18TObjCityDoor_LobbyFPvs(u8 *arg0, s16 arg1) {
 }
 }
 
-struct Vec_80181F10 { f32 x, y, z; };
 
 struct VBase_80181F10 { u8 pad[0x18]; };
 
@@ -379,10 +378,10 @@ struct Obj_80181F10 : VBase_80181F10 {
     virtual void m4();
     virtual void m5(s32);
     u8 pad1c[0x38 - 0x1C];
-    Vec_80181F10 pos;
+    Vec pos;
     u8 pad44[0x90 - 0x44];
     void *x90;
-    Vec_80181F10 pos94;
+    Vec pos94;
     f32 xa0;
     s32 xa4;
     s32 xa8;
@@ -608,20 +607,20 @@ void TObjCityDoor_Warp::run_task() {
 
 void city_door_tick_opening__13TUnk_804B5BA8Fv(void *);
 s32 update_technique_slot__10TTecRaFoieFl(s32, s32, s32);
-s32 play_sound_effect(s32, s32, s32, s32);
+s32 play_sound_effect(s32, Vec *, s32, s32);
 void city_door_tick_opening__17TObjCityDoor_WarpFv(u8 *arg0);
 void city_door_play_close_sound__17TObjCityDoor_WarpFv(s32 arg0);
 void city_door_play_open_sound__17TObjCityDoor_WarpFv(s32 arg0);
 
 void TObjCityDoor_Warp::city_door_play_close_sound() {
     s32 arg0 = (s32)this;
-    update_technique_slot__10TTecRaFoieFl((s32)(play_sound_effect(0x42A05, arg0 + 0x38, 0, 0)), -0x500, 0);
+    update_technique_slot__10TTecRaFoieFl((s32)(play_sound_effect(0x42A05, (Vec *)(arg0 + 0x38), 0, 0)), -0x500, 0);
 }
 
 void TObjCityDoor_Warp::city_door_play_open_sound() {
     s32 arg0 = (s32)this;
     if (is_rader_map_active() != 0) {
-        s32 r = play_sound_effect(0x42A04, arg0 + 0x38, 0, 0);
+        s32 r = play_sound_effect(0x42A04, (Vec *)(arg0 + 0x38), 0, 0);
         update_technique_slot__10TTecRaFoieFl((s32)(r), -0x800, 0);
     }
 }
@@ -632,7 +631,7 @@ void TObjCityDoor_Warp::city_door_tick_opening() {
     f32 temp_f1;
     temp_f1 = this->m_b4;
     if ((temp_f1 >= 24.0f) && (temp_f1 <= 25.0f)) {
-        update_technique_slot__10TTecRaFoieFl((s32)(play_sound_effect(0x42A04, (s32)((void *) (arg0 + 0x38)), 0, 0)), -0x500, 0);
+        update_technique_slot__10TTecRaFoieFl((s32)(play_sound_effect(0x42A04, (Vec *)((s32)((void *) (arg0 + 0x38))), 0, 0)), -0x500, 0);
     }
     ((TUnk_804B5BA8 *)arg0)->TUnk_804B5BA8::city_door_tick_opening();
 }
@@ -1024,12 +1023,12 @@ void TUnk_804B5BA8::dispatch_state() {
 
 void TUnk_804B5BA8::city_door_play_open_sound() {
     s32 arg0 = (s32)this;
-    play_sound_effect(0x42A04, arg0 + 0x38, 0, 0);
+    play_sound_effect(0x42A04, (Vec *)(arg0 + 0x38), 0, 0);
 }
 
 void TUnk_804B5BA8::city_door_play_close_sound() {
     s32 arg0 = (s32)this;
-    play_sound_effect(0x42A05, arg0 + 0x38, 0, 0);
+    play_sound_effect(0x42A05, (Vec *)(arg0 + 0x38), 0, 0);
 }
 
 void TUnk_804B5BA8::check_ground_or_fall() {

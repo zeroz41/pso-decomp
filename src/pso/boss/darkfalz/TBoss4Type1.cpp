@@ -60,22 +60,18 @@ struct RecoveredGlobal_80052C58_lbl_80486218 {
     u8 remaining[0x8];
 };
 
-typedef struct Vec_80052CDC {
-    f32 x, y, z;
-} Vec_80052CDC;
-
 typedef struct Params_80052CDC {
     s32 owner;
     s16 a[3];
     s16 b;
     s16 c;
     u8 pad[0x14 - 0xE];
-    Vec_80052CDC pos;
+    Vec pos;
     u8 pad20[0x48 - 0x20];
 } Params_80052CDC;
 
 typedef struct Spot_80052CDC {
-    Vec_80052CDC pos;
+    Vec pos;
     u8 padc[0x18 - 0xC];
 } Spot_80052CDC;
 
@@ -127,11 +123,10 @@ struct Boss_800535A8 {
     s32 x3d8;
 };
 
-struct Vec_80053914 { f32 x, y, z; };
 
 struct O_80053914 {
     u8 pad0[0x38];
-    Vec_80053914 pos;
+    Vec pos;
 };
 
 struct Obj_80053CEC { u8 pad[0x38C]; void *target; u8 pad390[0x10]; s32 f3a0; u8 pad3a4[4]; s32 f3a8; u8 pad3ac[4]; s32 f3b0; s32 f3b4; };
@@ -167,13 +162,12 @@ typedef struct Obj_80053D4C {
     Spot_80053D4C spots[3];
 } Obj_80053D4C;
 
-struct Vec_80053E40 { f32 x, y, z; };
 
 struct XZ_80053E40 { f32 x, z; };
 
 struct Obj_80053E40 {
     u8 pad0[0x38];
-    Vec_80053E40 pos;
+    Vec pos;
     u8 pad44[0x60 - 0x44];
     void *x60;
     u8 pad64[0x3D0 - 0x64];
@@ -185,9 +179,8 @@ struct RecoveredGlobal_80054530_lbl_80485EC8 {
     u8 remaining[0x1DC];
 };
 
-struct V_80054224 { f32 x, y, z; };
 
-struct S_80054224 { u8 pad0[0x38]; V_80054224 pos; u8 pad44[0x39c - 0x44]; f32 f39c; };
+struct S_80054224 { u8 pad0[0x38]; Vec pos; u8 pad44[0x39c - 0x44]; f32 f39c; };
 
 struct Boss_800542B0 {
     u8 pad0[0x374];
@@ -267,22 +260,22 @@ void *create__16TObjDFBeamCursorFPvPv(void *arg0, void *arg1);
 s32 TBoss4Type3__sub_8005254C(u16);
 void TBoss4Type2__sub_80053504(TBoss4Type2 *arg0);
 void TBoss4Type2__sub_800535A8(Boss_800535A8 *arg0);
-void pick_target_position__13TRaderMapCoreFPvPv(O_80053914 *self, Vec_80053914 *out);
+void pick_target_position__13TRaderMapCoreFPvPv(O_80053914 *self, Vec *out);
 f32 calc_wave_offset__11TBoss4Type2Ff(f32 farg0);
-void set_pos_from_scaled_offset__11TBoss4Type2FPvPvPv(S_80054224 *o, void *src, V_80054224 *in);
+void set_pos_from_scaled_offset__11TBoss4Type2FPvPvPv(S_80054224 *o, void *src, Vec *in);
 u8 * TBoss4Type2__sub_80054384(void *self, s32 i, s32 j);
 void TBoss4Type2__sub_80054DA8(TBoss4Type2 *boss);
 void create_all_tenchu_furu__11TBoss4Type2Fi(s32 arg0);
 void TBoss4Type2__sub_80054FC0(u8 *center, f32 min_dist);
 void TBoss4Type2__sub_80055300(void);
-Vec_80053E40 * get_position_ptr__10TObjPlayerFv(void *);
+Vec * get_position_ptr__10TObjPlayerFv(void *);
 void * create__9TBoss4UroFi(Params_80052CDC *);
 int toggle_particle_effect__10TObjPlayerFv(void*);
 void *__dt__9TObjEnemyFv(TObjEnemy *arg0, s16 arg1);
 void free_collision_body_parts(void *);
 s32 project_actor_to_ground(void *, void *, int);
 s32 add_radar_scaled_marker(void *, s32, s16, s32, f32);
-s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
+s32 play_persistent_sound(s32 id, s32 a1, Vec *, s32 a3, s32 flags);
 void __dl__7TObjectFPv(void *);
 s32 __nw__7TObjectFUl(s32);
 void create__11TTecRaBartaFPvPvPvPv(void *source, void *origin, void *pos, void *level);
@@ -292,13 +285,13 @@ void subtract_vector(Vec_80053D4C *, Vec_80053D4C *);
 void normalize_vector(void *);
 int post_translate_matrix(void*);
 s32 set_global_param__8TObjFishFl();
-f32 xyz_distance(Vec_80053914 *, Vec_80053914 *);
+f32 xyz_distance(Vec *, Vec *);
 void draw_model_motion(void *arg0, void *arg1, f32 farg0);
 
 extern u8 TBoss4DarkFalz__data_804FF1E8[];
 RecoveredGlobal_80054F6C_lbl_804FF2A0 TBoss4Type2__tenchu_furu_array;
 extern s32 registered_player_count;
-struct Cam_800531C8 { u8 pad[0x178]; Vec_80053E40 pos; };
+struct Cam_800531C8 { u8 pad[0x178]; Vec pos; };
 extern Cam_800531C8 *camera_ctrl_instance;
 
 struct P2_80052E10 { s32 a, b; };
@@ -463,12 +456,12 @@ extern "C" void TBoss4Type2__sub_80054FC0(u8 *arg0, f32 arg1) {
   s32 tries;
   f32 f24;
   f32 zero;
-  Vec_80053914 w;
-  Vec_80053914 v;
+  Vec w;
+  Vec v;
   out = (u8 *) (&TBoss4Type2__tenchu_furu_array);
   for (total = 0; total < 0x40; total++, out += 0xc)
   {
-    VecCopy__FP3VecPC3Vec((Vec_80053914 *) out, lbl_80485AE0);
+    VecCopy__FP3VecPC3Vec(out, lbl_80485AE0);
   }
 
   total = 0;
@@ -503,13 +496,13 @@ extern "C" void TBoss4Type2__sub_80054FC0(u8 *arg0, f32 arg1) {
   for (k = 0; k < cnt; k++)
   {
     total++;
-    ((Vec_80053914 *) out)->x = *((f32 *) (arr[k] + 0x38));
-    ((Vec_80053914 *) out)->z = *((f32 *) (arr[k] + 0x40));
+    ((Vec *) out)->x = *((f32 *) (arr[k] + 0x38));
+    ((Vec *) out)->z = *((f32 *) (arr[k] + 0x40));
     out += 0xc;
     for (ang = 0, j = 0; j < 8; j++, ang += 0x2000)
     {
-      ((Vec_80053914 *) out)->x = (*((f32 *) (arr[k] + 0x38))) + (f24 * sin_table_lookup(ang));
-      (*((Vec_80053914 *) out)).z = (*((f32 *) (arr[k] + 0x40))) + (f24 * cos_table_lookup(ang));
+      ((Vec *) out)->x = (*((f32 *) (arr[k] + 0x38))) + (f24 * sin_table_lookup(ang));
+      ((Vec *) out)->z = (*((f32 *) (arr[k] + 0x40))) + (f24 * cos_table_lookup(ang));
       out += 0xc;
       total++;
     }
@@ -543,7 +536,7 @@ extern "C" void TBoss4Type2__sub_80054FC0(u8 *arg0, f32 arg1) {
     p = (u8 *) (&TBoss4Type2__tenchu_furu_array);
     for (m = 0; m < total; m++)
     {
-      if (xyz_distance(&w, (Vec_80053914 *) p) <= 12.5f)
+      if (xyz_distance(&w, (Vec *) p) <= 12.5f)
       {
         found = 1;
         break;
@@ -553,8 +546,8 @@ extern "C" void TBoss4Type2__sub_80054FC0(u8 *arg0, f32 arg1) {
 
     if (found == 0)
     {
-      ((Vec_80053914 *) out)->x = w.x;
-      ((Vec_80053914 *) out)->z = w.z;
+      ((Vec *) out)->x = w.x;
+      ((Vec *) out)->z = w.z;
       out += 0xc;
       total++;
     }
@@ -576,19 +569,19 @@ void create_all_tenchu_furu__11TBoss4Type2Fi(s32 arg0) {
 }
 
 void TBoss4Type2__sub_80054DA8(TBoss4Type2 *boss) {
-    Vec_80053914 *spot;
+    Vec *spot;
     s32 i;
     s32 n;
     TObjPlayer *player;
     s32 hit;
     s32 count;
-    Vec_80053914 *target;
+    Vec *target;
     s32 j;
     f32 power;
-    Vec_80053914 pos;
+    Vec pos;
 
     power = (f32)((TBoss4Type2Params *)TLobby::dispatch_shared_handler_a(0x36))->power;
-    spot = (Vec_80053914 *)&TBoss4Type2__tenchu_furu_array;
+    spot = (Vec *)&TBoss4Type2__tenchu_furu_array;
     for (i = 0; i < 0x40; i++) {
         TParticleCtrl *effect = (TParticleCtrl *)spawn_particle_effect(spot, lbl_80485B08[i & 1]);
         if (effect != NULL) {
@@ -606,7 +599,7 @@ void TBoss4Type2__sub_80054DA8(TBoss4Type2 *boss) {
         if (TBoss4Type3__sub_8005254C(get_entity_id(player)) == 0) {
             continue;
         }
-        target = (Vec_80053914 *)&TBoss4Type2__tenchu_furu_array;
+        target = (Vec *)&TBoss4Type2__tenchu_furu_array;
         VecCopy__FP3VecPC3Vec(&pos, player->get_position_ptr());
         pos.y = 0.0f;
         for (j = 0; j < 0x40; j++) {
@@ -623,7 +616,7 @@ void TBoss4Type2__sub_80054DA8(TBoss4Type2 *boss) {
             player->receive_direct_attack(boss, h, 0, -1, -1);
         }
     }
-    play_sound_effect(0x4003A818, 0, 0, 0);
+    play_sound_effect(0x4003A818, (Vec *)0, 0, 0);
     start_pad_rumble_all(0xC0, 0xF);
 }
 
@@ -649,7 +642,7 @@ TBoss4Type1::TBoss4Type1(TObject *parent, s32 *params) : TObjEnemy(parent) {
     rotation_y = 0;
     VecCopy(&prev_position, VecCopy(&home_position, VecCopy(&center, &position)));
     unk_394 = init_collision_body_parts(this, lbl_80485E2C, 3);
-    VecCopy((Vec *)&m_2fc, &position);
+    VecCopy(&m_2fc, &position);
     x_speed = y_speed = m_310 = 0.0f;
     target = 0;
     bind_enemy_combat_stats((u8 *)TLobby::register_boss(0x36), (u8 *)TLobby::dispatch_shared_handler_b(0x36), (u8 *)TLobby::register_object(0x36));
@@ -896,8 +889,8 @@ void TBoss4Type2::set_state(s32 arg1) {
     }
 }
 
-void set_pos_from_scaled_offset__11TBoss4Type2FPvPvPv(S_80054224 *o, void *src, V_80054224 *in) {
-    V_80054224 v = *in;
+void set_pos_from_scaled_offset__11TBoss4Type2FPvPvPv(S_80054224 *o, void *src, Vec *in) {
+    Vec v = *in;
     ((void (*)(void *))subtract_vector)(&v);
     v.x *= o->f39c;
     v.y *= o->f39c;
@@ -917,8 +910,8 @@ f32 calc_wave_offset__11TBoss4Type2Ff(f32 farg0) {
 void TBoss4Type1::push_players_out_of_colliders() {
     Obj_80053E40 *o = (Obj_80053E40 *)this;
     XZ_80053E40 pts[7];
-    Vec_80053E40 in;
-    Vec_80053E40 out;
+    Vec in;
+    Vec out;
     s32 i;
     s32 p;
     u8 *pl;
@@ -940,9 +933,9 @@ void TBoss4Type1::push_players_out_of_colliders() {
     for (p = 0; p < registered_player_count; p++) {
         pl = (u8 *)TObjPlayer::get_player_data(p);
         if (pl != NULL && ((TBoss3Volopt *)pl)->get_field_3e0() == 0xE) {
-            Vec_80053E40 pos = *get_position_ptr__10TObjPlayerFv(pl);
-            Vec_80053E40 d;
-            Vec_80053E40 q;
+            Vec pos = *get_position_ptr__10TObjPlayerFv(pl);
+            Vec d;
+            Vec q;
             for (j = 0; j < o->count; j++) {
                 f32 r = player_collider_radius_table[j];
                 f32 dist;
@@ -1098,7 +1091,7 @@ void TRaderMapCore::set_map_position(void *arg1) {
 #pragma push
 #pragma opt_propagation off
 extern "C" {
-void pick_target_position__13TRaderMapCoreFPvPv(O_80053914 *self, Vec_80053914 *out) {
+void pick_target_position__13TRaderMapCoreFPvPv(O_80053914 *self, Vec *out) {
     s32 a1;
     O_80053914 *found;
     s32 i;
@@ -1108,7 +1101,7 @@ void pick_target_position__13TRaderMapCoreFPvPv(O_80053914 *self, Vec_80053914 *
     f32 s;
     s32 ang;
     s32 b;
-    Vec_80053914 res;
+    Vec res;
     best = 0.0f;
     found = NULL;
     for (i = 0; i < registered_player_count; i++) {
@@ -1120,18 +1113,18 @@ void pick_target_position__13TRaderMapCoreFPvPv(O_80053914 *self, Vec_80053914 *
             continue;
         }
         {
-            Vec_80053914 v = p->pos;
+            Vec v = p->pos;
             v.y = 0.0f;
             d = xyz_distance(&v, &self->pos);
             if (d <= 460.0f && d > best) {
                 best = d;
                 found = p;
-                ((s32 (*)(Vec_80053914 *, Vec_80053914 *))VecCopy__FP3VecPC3Vec)(&res, &v);
+                ((s32 (*)(Vec *, Vec *))VecCopy__FP3VecPC3Vec)(&res, &v);
             }
         }
     }
     if (found != NULL) {
-        ((s32 (*)(Vec_80053914 *, Vec_80053914 *))VecCopy__FP3VecPC3Vec)(out, &res);
+        ((s32 (*)(Vec *, Vec *))VecCopy__FP3VecPC3Vec)(out, &res);
         return;
     }
     s = 200.625f * ((TObjChara *)self)->random_ratio();
@@ -1175,20 +1168,20 @@ void TBoss4Type1::sub_80053670() {
     var_r29 = 0;
     var_r28 = 0x25;
     do {
-        ((s32 (*)(Vec_80053914 *, Vec_80053914 *))VecCopy__FP3VecPC3Vec)((Vec_80053914 *)&stack.sp8, (Vec_80053914 *)(arg0 + 0x38));
+        ((s32 (*)(Vec *, Vec *))VecCopy__FP3VecPC3Vec)((Vec *)&stack.sp8, (Vec *)(arg0 + 0x38));
         stack.sp8 += (f32)(-var_r28) * temp_f30;
         stack.sp10 += (f32)var_r28 * temp_f29;
         add_radar_scaled_marker(&stack.sp8, -0x5DB4, 1, 1, 5.0f);
-        ((s32 (*)(Vec_80053914 *, Vec_80053914 *))VecCopy__FP3VecPC3Vec)((Vec_80053914 *)&stack.sp8, (Vec_80053914 *)(arg0 + 0x38));
+        ((s32 (*)(Vec *, Vec *))VecCopy__FP3VecPC3Vec)((Vec *)&stack.sp8, (Vec *)(arg0 + 0x38));
         stack.sp8 += (f32)var_r28 * temp_f29;
         stack.sp10 += (f32)var_r28 * temp_f30;
         add_radar_scaled_marker(&stack.sp8, -0x5DB4, 1, 1, 5.0f);
-        ((s32 (*)(Vec_80053914 *, Vec_80053914 *))VecCopy__FP3VecPC3Vec)((Vec_80053914 *)&stack.sp8, (Vec_80053914 *)(arg0 + 0x38));
+        ((s32 (*)(Vec *, Vec *))VecCopy__FP3VecPC3Vec)((Vec *)&stack.sp8, (Vec *)(arg0 + 0x38));
         stack.sp8 += (f32)var_r28 * temp_f30;
         stack.sp10 += (f32)(-var_r28) * temp_f29;
         add_radar_scaled_marker(&stack.sp8, -0x5DB4, 1, 1, 5.0f);
         if (var_r29 < 2) {
-            ((s32 (*)(Vec_80053914 *, Vec_80053914 *))VecCopy__FP3VecPC3Vec)((Vec_80053914 *)&stack.sp8, (Vec_80053914 *)(arg0 + 0x38));
+            ((s32 (*)(Vec *, Vec *))VecCopy__FP3VecPC3Vec)((Vec *)&stack.sp8, (Vec *)(arg0 + 0x38));
             stack.sp8 += (f32)(-var_r28) * temp_f29;
             stack.sp10 += (f32)(-var_r28) * temp_f30;
             add_radar_scaled_marker(&stack.sp8, -0x5DB4, 1, 1, 5.0f);
@@ -1257,7 +1250,7 @@ void TBoss4Type1::sub_80053440() {
         }
     }
     arg0->node_tables.scroll_strips();
-    play_persistent_sound(0x4003BC0E, (s32)arg0, (u32)&arg0->pos, 0x40, 2);
+    play_persistent_sound(0x4003BC0E, (s32)arg0, (Vec *)(u32)&arg0->pos, 0x40, 2);
 }
 
 }
@@ -1266,8 +1259,8 @@ extern "C" {
 void TBoss4Type1::update_follow_camera_offsets() {
     Obj_80053E40 *o = (Obj_80053E40 *)this;
     XZ_80053E40 pts[7];
-    Vec_80053E40 in;
-    Vec_80053E40 out;
+    Vec in;
+    Vec out;
     f32 best;
     s32 i;
     s32 j;
@@ -1288,8 +1281,8 @@ void TBoss4Type1::update_follow_camera_offsets() {
     }
     pop_matrix();
     {
-        Vec_80053E40 cam = camera_ctrl_instance->pos;
-        Vec_80053E40 d;
+        Vec cam = camera_ctrl_instance->pos;
+        Vec d;
         for (j = 0; j < o->count; j++) {
             f32 r = 50.0f + player_collider_radius_table[j];
             f32 len;
@@ -1306,8 +1299,8 @@ void TBoss4Type1::update_follow_camera_offsets() {
         }
     }
     {
-        Vec_80053E40 a = { 0.0f, 19.8f, -5.0f };
-        Vec_80053E40 b = { 0.0f, 12.93f, 55.42f };
+        Vec a = { 0.0f, 19.8f, -5.0f };
+        Vec b = { 0.0f, 12.93f, 55.42f };
         if (best > 40.42f) {
             best = 40.42f;
         }
@@ -1371,7 +1364,7 @@ void TBoss4Type2::sub_80052EF8() {
         ((s32 (*)(void *, Vec_80052EF8 *, Vec_80052EF8 *))set_pos_from_scaled_offset__11TBoss4Type2FPvPvPv)(this, &a, &b);
     }
     calc_scaled_field(((s32 (*)(void *, s32, s32))TBoss4Type2__sub_80054384)(this, self->f3a4, self->f3ac), ((s32 (*)(void *, s32, s32))TBoss4Type2__sub_80054384)(this, self->f3a0, self->f3a8));
-    play_persistent_sound(0x4003A80D, (s32)this, (u32)self->f38, 0, 0);
+    play_persistent_sound(0x4003A80D, (s32)this, (Vec *)(u32)self->f38, 0, 0);
     if (--self->f398 < 0) {
         self->f3a4 = self->f3a0;
         self->f3ac = self->f3a8;
@@ -1422,14 +1415,14 @@ void TBoss4Type2::update_spawn_uro() {
             VecCopy__FP3VecPC3Vec(&p.pos, s);
             if (create__9TBoss4UroFi(&p) != NULL) {
                 spawn_particle_effect(s, 0x7D);
-                play_sound_effect(0x4003A810, s, 0, 1);
+                play_sound_effect(0x4003A810, (Vec *)&s->pos, 0, 1);
                 self->count++;
             }
         }
     }
     ((TBoss4DarkFalz *)self->owner)->sub_8004D990();
     if (self->timer == 0x106) {
-        play_sound_effect(0x4003AD0F, s, 0, 1);
+        play_sound_effect(0x4003AD0F, (Vec *)s, 0, 1);
     }
     if (--self->timer < 0) {
         self->f3d0 = 5;
@@ -1465,7 +1458,7 @@ void TBoss4Type2::update_state() {
 void TBoss4Type2::update_attack_countdown() {
     s32 temp_r0;
     if ((s32) *(s32 *)((s8 *)this + 0x398) == 0x2D) {
-        play_sound_effect(0x4003AD11, (void *)(&((Foo *)this)->arr[*(s32 *)((s8 *)this + 0x3A8)]), 0, 1);
+        play_sound_effect(0x4003AD11, (Vec *)(&((Foo *)this)->arr[*(s32 *)((s8 *)this + 0x3A8)]), 0, 1);
     }
     temp_r0 = *(s32 *)((s8 *)this + 0x398) - 1;
     *(s32 *)((s8 *)this + 0x398) = temp_r0;
@@ -1515,13 +1508,13 @@ void TBoss4Type2::update_tech_charge() {
         }
     }
     if (*(f32 *)((s8 *)this + 0x3E8) >= 8.0f && *(f32 *)((s8 *)this + 0x3E8) <= 17.0f) {
-        play_persistent_sound(0x4003B512, (s32)this, (u32)this + 0x38, 0, 1);
+        play_persistent_sound(0x4003B512, (s32)this, (Vec *)((u8 *)this + 0x38), 0, 1);
     }
     if (*(s32 *)((s8 *)this + 0x398) == 0x26) {
         if ((r = ((u32 (*)(void *, s32))spawn_particle_effect)(ent, 0xFD)) != 0) {
             ((TParticleCtrl *)r)->set_flags(0x40);
         }
-        play_sound_effect(0x4003A813, (u8 *)this + 0x38, 0, 1);
+        play_sound_effect(0x4003A813, (Vec *)((u8 *)this + 0x38), 0, 1);
         if (idx == 0) {
             TBoss4Type2Params *params = (TBoss4Type2Params *)TLobby::dispatch_shared_handler_a(0x36);
             create__11TTecRaBartaFPvPvPvPv(this, (u8 *)this + 0x3B8, (u8 *)this + 0x3B8, (void *)params->rabarta_level);
@@ -1655,7 +1648,7 @@ void TBoss4Type2::sub_800525AC() {
                 if (particle_emitter != 0) {
                     ((TParticleCtrl *)((void *) *(u32 *)((s8 *)this + 0x41C)))->set_flags(0x40U);
                 }
-                play_sound_effect(0x40039717, (u8 *)this + 0x38, 0, 1);
+                play_sound_effect(0x40039717, (Vec *)((u8 *)this + 0x38), 0, 1);
             }
             if ((u32) *(u32 *)((s8 *)this + 0x420) == 0) {
                 temp_r3_12 = (u32)create_particle_emitter((temp_r31), 0x13B);

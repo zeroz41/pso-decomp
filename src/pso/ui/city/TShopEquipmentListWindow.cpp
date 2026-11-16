@@ -230,7 +230,7 @@ f32 get_scale__15TShopWindowBaseFv(void *);
 u32 create_yes_no_window(int, u16, int, int);
 s32 sub_802239EC__13TShopSequenceFv(void *);
 s32 sub_80223A48__15TShopWindowBaseFv(void *);
-void play_sound_effect(int, int, int, int);
+void play_sound_effect(int, Vec *, int, int);
 void *__dt__24TShopEquipmentListWindowFv(TShopEquipmentListWindow *arg0, s16 arg1);
 s32 create_window_menu(s32 arg0, s32 arg1, s32 arg2);
 s32 align_menu_entry_positions(u32);
@@ -424,11 +424,11 @@ void TShopEquipmentListWindow::handle_selection() {
     }
     if (sub_802239EC__13TShopSequenceFv(w) != 0) {
         set_field_20__15TShopWindowBaseFl(w, 3);
-        play_sound_effect(0x52D01, 0, 0, 0);
+        play_sound_effect(0x52D01, (Vec *)(0), 0, 0);
         return;
     }
     if (sub_80223A48__15TShopWindowBaseFv(w) != 0) {
-        play_sound_effect(0x52D01, 0, 0, 0);
+        play_sound_effect(0x52D01, (Vec *)(0), 0, 0);
         switch (check_purchase_eligibility()) {
         case 0:
             w->m4(0xF, 1);

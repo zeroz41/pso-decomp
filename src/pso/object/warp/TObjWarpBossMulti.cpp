@@ -884,7 +884,7 @@ void TObjWarpBoss::update_warp_state() {
         break;
     case 0:
         *(s32 *)((s8 *)arg0 + 0x160) = 0x12C;
-        play_sound_effect(0x40003205, arg0 + 0x38, 0, 0);
+        play_sound_effect(0x40003205, (Vec *)(arg0 + 0x38), 0, 0);
         *(s16 *)((s8 *)arg0 + 0xE0) = 1;
         *(s32 *)((s8 *)arg0 + 0xD0) = (s32) warp_boss_model;
         *(s32 *)((s8 *)arg0 + 0xD4) = (s32) warp_boss_bml_motion;

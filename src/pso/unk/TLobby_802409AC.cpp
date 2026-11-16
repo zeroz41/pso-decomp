@@ -103,7 +103,7 @@ void update__6TLobbyFPv(void *arg0) {
     }
 }
 
-#undef lbl_805162EC
+#undef sound_requests
 #pragma push
 
 

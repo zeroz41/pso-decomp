@@ -94,7 +94,7 @@ extern const f32 lbl_805D974C;
 extern const f32 lbl_805D9750;
 extern const f32 lbl_805D9754;
 extern const f32 lbl_805D9758;
-s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
+s32 play_persistent_sound(s32 id, s32 a1, Vec *, s32 a3, s32 flags);
 extern const f32 lbl_805D976C;
 void TObjEneRe7Berura__sub_8009472C(TObjEneRe7Berura *self, s32 arg1);
 void rotate_xz_pair_by_angle(f32 *arg0, f32 *arg1, s32 arg2);
@@ -581,14 +581,14 @@ void TObjEneRe7Berura::vfunc_62() {
 void TObjEneRe7Berura::vfunc_61() {  }
 
 void TObjEneRe7Berura::update_collision_center() {
-    m_2fc = position.x;
-    m_300 = TObjEneRe7Berura__data_805D9764 + position.y;
-    m_304 = position.z;
-    VecCopy__FP3VecPC3Vec(&center, (Vec *)&m_2fc);
+    m_2fc.x = position.x;
+    m_2fc.y = TObjEneRe7Berura__data_805D9764 + position.y;
+    m_2fc.z = position.z;
+    VecCopy__FP3VecPC3Vec(&center, &m_2fc);
 }
 
 void TObjEneRe7Berura::vfunc_88() {
-    bodies->offset.y = m_300 - position.y;
+    bodies->offset.y = m_2fc.y - position.y;
 }
 
 void TObjEneRe7Berura::sub_80095328() {  }
@@ -618,12 +618,12 @@ s32 TObjEneRe7Berura::acquire_target_in_view() {
         p = TObjPlayer::get_player_data(i);
         if (p->is_alive() != 0) {
             VecCopy__FP3VecPC3Vec(&v, &p->position);
-            subtract_vector(&v, (Vec *)&m_2fc);
+            subtract_vector(&v, &m_2fc);
             v.y = TObjEneRe7Berura__data_805D972C;
             d = normalize_vector_xz((Vec *)(&v));
             if (d < TObjEneRe7Berura__data_805D9724 && d > best &&
                 s * v.x + c * v.z > limit &&
-                csnLookAt((Vec *)&m_2fc, (Vec *)&p->m_2fc) == 0) {
+                csnLookAt(&m_2fc, &p->m_2fc) == 0) {
                 id = get_entity_id(p);
                 best = d;
             }
@@ -811,7 +811,7 @@ void TObjEneRe7Berura__sub_80094C68(TObjEneRe7Berura *self) {
 
 void TObjEneRe7Berura::play_band_sound() {
     if ((is_passing_frame(lbl_805D9770) != 0) || (is_passing_frame(TObjEneRe7Berura__data_805D9764) != 0)) {
-        play_sound_effect(remap_sound_for_area(0x4003BC1F), &position, 0, 0);
+        play_sound_effect(remap_sound_for_area(0x4003BC1F), (Vec *)(&position), 0, 0);
     }
 }
 
@@ -967,7 +967,7 @@ void TObjEneRe7Berura__sub_8009472C(TObjEneRe7Berura *self, s32 arg1) {
                 }
                 self->m_3c8 = var_r4_2 | ((var_r4_2 << 0x10) | 0xFF000000 | (var_r4_2 << 8));
             }
-            play_persistent_sound(self->remap_sound_for_area(0x4003C61E), (s32)self, (u32)&self->position, 0, 0);
+            play_persistent_sound(self->remap_sound_for_area(0x4003C61E), (s32)self, (Vec *)((u32)&self->position), 0, 0);
             TObjPlayer::play_effect_if_v2(-0x100);
             break;
         }
@@ -992,7 +992,7 @@ void TObjEneRe7Berura__sub_80094624(TObjEneRe7Berura *self, s32 arg1) {
         self->set_field_378(2);
         VecCopy(&self->position, &self->home_position);
         VecCopy(&self->prev_position, &self->position);
-        VecCopy((Vec *)&self->m_2fc, &self->position);
+        VecCopy(&self->m_2fc, &self->position);
         self->m_3c4 = -1;
         self->m_3c8 = 0xFF000000;
         self->m_3d4 = 1;
@@ -1177,7 +1177,7 @@ void TObjEneRe7Berura__sub_80093C80(TObjEneRe7Berura *self, s32 arg1) {
             TObjEneRe7Berura__animation_definitions[4].speed = TObjEneRe7Berura__data_805D9738;
             TObjEneRe7Berura__animation_definitions[3].speed = TObjEneRe7Berura__data_805D9738;
         }
-        play_sound_effect(self->remap_sound_for_area(0x4003BC20), &self->position, 0, 0);
+        play_sound_effect(self->remap_sound_for_area(0x4003BC20), (Vec *)(&self->position), 0, 0);
         TObjPlayer::play_effect_if_v2(-0x100);
         break;
     case 3:
@@ -1224,7 +1224,7 @@ void TObjEneRe7Berura__sub_80093C80(TObjEneRe7Berura *self, s32 arg1) {
                 launch__21TObjEneRe7BeruraPunchFll(self->m_3f8, self->m_3f4, &v, &self->m_394);
                 self->m_4c0 = 1;
                 self->destroy_parts();
-                play_sound_effect(self->remap_sound_for_area(0x4003A321), &self->position, 0, 0);
+                play_sound_effect(self->remap_sound_for_area(0x4003A321), (Vec *)(&self->position), 0, 0);
                 TObjPlayer::play_effect_if_v2(-0x100);
             }
             break;
@@ -1312,7 +1312,7 @@ void TObjEneRe7Berura__sub_80093888(TObjEneRe7Berura *actor, s32 arg1) {
             break;
         case 1:
             if (actor->is_passing_frame(lbl_805D9744) != 0) {
-                play_sound_effect(actor->remap_sound_for_area(0x4003AD22), &actor->position, 0, 0);
+                play_sound_effect(actor->remap_sound_for_area(0x4003AD22), (Vec *)(&actor->position), 0, 0);
             }
             if ((actor->is_passing_frame(lbl_805D9748) != 0) && (actor->enemy_check_target_valid() != 0)) {
                 if (actor->m_390->select_melee_contact_body(actor, lbl_805D974C) != 0) {
@@ -1404,7 +1404,7 @@ void TObjEneRe7Berura::run_flash_warning_state(s32 arg1) {
         vfunc_102();
         vfunc_89();
         ((void (*)(s32, s32, s32))update_technique_slot__10TTecRaFoieFl)(
-            play_persistent_sound(remap_sound_for_area(0x4003C61E), (s32)this, (u32)&position, 0, 0),
+            play_persistent_sound(remap_sound_for_area(0x4003C61E), (s32)this, (Vec *)((u32)&position), 0, 0),
             0x400, 0);
         break;
     case 5:
@@ -1464,7 +1464,7 @@ void TObjEneRe7Berura__sub_80093470(TObjEneRe7Berura *self, s32 mode) {
         self->vfunc_96();
         self->m_3c0 &= ~7;
         self->advance_animation();
-        play_sound_effect(self->remap_sound_for_area(0x4003A826), &self->position, 0, 0);
+        play_sound_effect(self->remap_sound_for_area(0x4003A826), (Vec *)(&self->position), 0, 0);
         self->set_active();
         break;
     case 3:
@@ -1499,10 +1499,10 @@ void TObjEneRe7Berura::update_death_state(s32 mode) {
         m_4d0 = m_3cc;
         m_4c4 = 0;
         m_4c0 = 0;
-        fn_800D911C((Vec *)&m_2fc);
+        fn_800D911C(&m_2fc);
         TObjPlayer__sub_800A04F0(&m_3d8);
         m_3c0 |= 2;
-        play_sound_effect(remap_sound_for_area(0x4003AD25), &position, 0, 0);
+        play_sound_effect(remap_sound_for_area(0x4003AD25), (Vec *)(&position), 0, 0);
         break;
     case 0:
         switch (m_4c4) {
@@ -1623,7 +1623,7 @@ void TObjEneRe7Berura::render() {
         scroll_strip_uvs(belra_uv_animation_buffer, (s16)m_3d0, 0);
         fade = &m_448[cam];
         fade->update();
-        cam = fade->updateFromCamera(&m_2fc);
+        cam = fade->updateFromCamera(&m_2fc.x);
         TObjFish::set_global_param(texlist);
         push_matrix();
         post_translate_matrix(&position);

@@ -55,7 +55,7 @@ extern s32 TLobby__designated_client_id;
 u8 is_challenge_lobby__6TLobbyFv(void);
 s32 TLobby__sub_80070DA8();
 void play_player_default_effect__6TLobbyFv(s32 _w0);
-s32 play_sound_effect(s32, s32, s32, s32);
+s32 play_sound_effect(s32, Vec *, s32, s32);
 void play_cue_stream_file(s32 name);
 s32 TWindowShortListCtrl__check_controller_button(void *, s32);
 s32 challenge_retry_cmd_table[3] = { 1, 0, 0 };
@@ -272,7 +272,7 @@ void TObjChallengeRetry::handle_loss_sequence() {
         queue_destruction();
         return;
     case 1:
-        play_sound_effect(0x52812, 0, 0, 0);
+        play_sound_effect(0x52812, (Vec *)(0), 0, 0);
         TLobby::send_45_and_close_windows(this);
         TLobby::play_default_effect(this);
         sub_80072B70();

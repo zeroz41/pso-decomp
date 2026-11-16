@@ -193,7 +193,7 @@ f32 fabs_float(f32);
 s32 TOTrapAncient02R__sub_80154D78(void *);
 void free_collision_body_parts(void *);
 s32 init_collision_body_parts(void *, int, int);
-s32 play_persistent_sound(void *, void *, void *, int, int);
+s32 play_persistent_sound(void *, void *, Vec *, int, int);
 u8 is_current_floor_switch_set(u16);
 void __dl__7TObjectFPv(void *);
 void * __nw__7TObjectFUl(int);
@@ -448,9 +448,9 @@ void TOTrapChainSawKey::update_state() {
     if (*(f32 *)((s8 *)arg0 + 0x104) > (f32) (u32) (*(s32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x100)) + 4) - 1)) {
         *(f32 *)((s8 *)arg0 + 0x104) = 0.0f;
     }
-    play_persistent_sound((void *) (((s32 (*)(void *, int))get_area_table_value__17TOTrapChainSawKeyFii)(arg0, 2)), arg0, arg0 + 0x38, 0, 0);
+    play_persistent_sound((void *) (((s32 (*)(void *, int))get_area_table_value__17TOTrapChainSawKeyFii)(arg0, 2)), arg0, (Vec *)(arg0 + 0x38), 0, 0);
     if ((s32) *(s32 *)((s8 *)arg0 + 0xF0) == 1) {
-        play_persistent_sound((void *) (((s32 (*)(void *, int))get_area_table_value__17TOTrapChainSawKeyFii)(arg0, 1)), arg0, arg0 + 0x38, 0, 0);
+        play_persistent_sound((void *) (((s32 (*)(void *, int))get_area_table_value__17TOTrapChainSawKeyFii)(arg0, 1)), arg0, (Vec *)(arg0 + 0x38), 0, 0);
     }
 }
 

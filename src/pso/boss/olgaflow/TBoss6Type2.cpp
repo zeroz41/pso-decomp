@@ -86,7 +86,6 @@ struct Ent_802BCAB8 { s32 a; s32 b; };
 
 struct Obj_802BCAB8 { u8 pad[0x400]; Ent_802BCAB8 ents[2]; };
 
-struct Vec_802BAD90 { f32 x, y, z; };
 
 struct T2_802BA000;
 struct Obj_802BC050;
@@ -200,7 +199,7 @@ extern "C" {
 s32 get_bml_model(s32, s32);
 s32 submit_cursor_candidate(void *, int);
 s32 add_radar_scaled_marker(void *, int, int, int, f32);
-s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
+s32 play_persistent_sound(s32 id, s32 a1, Vec *, s32 a3, s32 flags);
 void TObjPlayer__sub_8023DEE0(s16 *p, s16 a, s16 b, u16 id);
 void TBoss6Type2__sub_802BA7BC(u8 *o);
 void TBoss6Type2__sub_802BBE20(void *);
@@ -287,13 +286,12 @@ struct Ent_802B9B20 { u8 pad[0x18]; u32 flags; u8 pad1C[0x2C - 0x1C]; };
 
 struct Boss_802B9B20 { u8 pad[0xA4]; Ent_802B9B20 *list; };
 
-struct Vec_802B9C80 { f32 x, y, z; };
 
 struct Tb_802B9C80 { s32 a; s32 b; };
 
 struct Boss_802B9C80 {
     u8 pad0[0x38];
-    Vec_802B9C80 pos;
+    Vec pos;
     u8 pad44[0x77C - 0x44];
     u32 arr[14];
 };
@@ -313,7 +311,6 @@ struct T2_802BA000 {
 
 typedef struct Stack_802B9D90 Stack_802B9D90;
 
-typedef struct Vec_802BA3B4 { f32 x, y, z; } Vec_802BA3B4;
 
 struct Ent_802BA7BC { s32 idx; s32 arg; f32 lo; };
 
@@ -343,7 +340,6 @@ struct Ent_802BBD88 { u8 pad0[0x18]; u32 f; u8 pad1c[0x10]; };
 
 struct T1_802BBD88 { u8 pad0[0xA4]; Ent_802BBD88 *p; };
 
-struct V_802BBF54 { f32 x, y, z; };
 
 struct Ent_802BC050 { s16 f0; s16 v[5]; };
 
@@ -357,11 +353,9 @@ struct Obj_802BC050 {
     s16 min;
 };
 
-struct Vec_802BAB80 { f32 x, y, z; };
 
-struct Obj_802BAB80 { u8 pad[0x38]; Vec_802BAB80 pos; };
+struct Obj_802BAB80 { u8 pad[0x38]; Vec pos; };
 
-struct Vec_802BB920 { f32 x, y, z; };
 
 typedef char RecoveredGlobal_802BB180_lbl_804DFAC4_size[sizeof(RecoveredGlobal_802BB180_lbl_804DFAC4) == 0xC ? 1 : -1];
 
@@ -440,9 +434,8 @@ struct Stack_802BD938 {
 
 struct Obj_8004D8C8 { u8 pad[0x2D4]; u16 f2d4; u16 f2d6; };
 
-struct V_802BD378 { f32 x, y, z; };
 
-struct T2_802BD378 { u8 pad0[0x60]; s32 f60; u8 pad64[0x59C - 0x64]; V_802BD378 v[1]; };
+struct T2_802BD378 { u8 pad0[0x60]; s32 f60; u8 pad64[0x59C - 0x64]; Vec v[1]; };
 
 struct T1_802BD68C {
     u8 pad0[0x378];
@@ -762,12 +755,12 @@ void TBoss6Type2::update_part_positions() {
     Boss_802B9C80 *o = (Boss_802B9C80 *)this;
     s32 i = 0;
     do {
-        Vec_802B9C80 v = o->pos;
+        Vec v = o->pos;
         const Tb_802B9C80 *e = &((const Tb_802B9C80 *)TBoss6Type2__particle_attachment_table)[i];
         if (o->arr[i] != 0) {
             s32 idx = e->b;
             if (idx >= 0) {
-                VecCopy((Vec *)((Vec_802B9A68 *)(&v)), (const Vec *)((Vec_802B9A68 *)((Vec_802B9C80 *)((u8 *)o + idx * 0xC + 0x59C))));
+                VecCopy((Vec *)((Vec_802B9A68 *)(&v)), (const Vec *)((Vec_802B9A68 *)((Vec *)((u8 *)o + idx * 0xC + 0x59C))));
             }
             ((TParticleCtrl *)(s32)o->arr[i])->set_position(&v);
         }
@@ -990,7 +983,7 @@ s32 TBoss6Type2::check_target() {
 int TBoss6Type2::is_falz_ready() { return pick_random_active_player__14TBoss6PlotFalzFv(this); }
 
 void TBoss6Type2::update_possess_target() {
-    Vec_802BA3B4 v;
+    Vec v;
     u8 *pl;
     s32 done;
     u16 id;
@@ -1006,7 +999,7 @@ void TBoss6Type2::update_possess_target() {
             spawn_flow_soul__11TBoss6Type2Fiii((s32)this, (s32)&v, 0x1E);
             ((TBoss6EffHyoui *)(*(u16 *)((s8 *)((u8 *)this) + 0x55C)))->create((void *)1, (void *)0x1E);
             if (this->is_target_valid() == 0) {
-                play_sound_effect(0x40069E13, ((u8 *)this) + 0x38, 0, 1);
+                play_sound_effect(0x40069E13, (Vec *)(((u8 *)this) + 0x38), 0, 1);
             }
             spawn_particle_effect(pl + 0x38, 0x36);
             done = 1;
@@ -1189,7 +1182,7 @@ s32 TBoss6Type2::turn_toward_target_position() {
         m_60 = approach_angle_limited((s32)((int) ((s32)m_60)), (s32)((s32) ((s32) (10430.38043493439 * atan2_float(sp8.f.x, sp8.f.z)))), var_r31);
         if (var_r31 == angle_difference_abs(temp_r30, (int) ((s32)m_60))) {
             if ((s32) m_508 == 0) {
-                play_sound_effect(0x4006A602, &position, 0, 0);
+                play_sound_effect(0x4006A602, (Vec *)&position, 0, 0);
                 m_508 = 1;
             }
         } else {
@@ -1200,7 +1193,7 @@ s32 TBoss6Type2::turn_toward_target_position() {
 }
 
 s32 snap_to_ground__11TBoss6Type2FPv(Obj_802BAB80 *self) {
-    Vec_802BAB80 p;
+    Vec p;
     f32 t;
     VecCopy((Vec *)&p, (const Vec *)&self->pos);
     p.y += 10.0f;
@@ -1214,7 +1207,7 @@ s32 snap_to_ground__11TBoss6Type2FPv(Obj_802BAB80 *self) {
     p.y = 0.0f;
     t = 398.0f;
     {
-        Vec_802BAB80 d = p;
+        Vec d = p;
         normalize_vector(&d);
         for (; t > 0.0f; t += -2.0f) {
             p.x = t * d.x + -10000.0f;
@@ -1245,8 +1238,8 @@ void TBoss6Type2__sub_802BAD04(s32 arg0) {
 }
 
 void TBoss6Type2::spawn_rocks_around_players() {
-    Vec_802BAD90 p;
-    Vec_802BAD90 q;
+    Vec p;
+    Vec q;
     s32 n;
     s32 cnt;
     s32 i;
@@ -1275,7 +1268,7 @@ void TBoss6Type2::spawn_rocks_around_players() {
         spawn__15TBoss6RockChaseFll(this, &q);
         n++;
     }
-    play_sound_effect(0x4006AB1D, (void *)&boss6_arena_center, 0, 1);
+    play_sound_effect(0x4006AB1D, (Vec *)(void *)&boss6_arena_center, 0, 1);
 }
 
 void TBoss6Type2::drop_random_rocks(s32 arg0, s32 arg1) {
@@ -1593,9 +1586,9 @@ void TBoss6Type2__sub_802BB818(TBoss6Type2 *self, f32) {
 }
 
 s32 TBoss6Type2::push_players_away(void *target, f32 range) {
-    Vec_802BB920 dir;
-    Vec_802BB920 pos;
-    Vec_802BB920 off;
+    Vec dir;
+    Vec pos;
+    Vec off;
     s32 mask;
     s32 i;
     s32 n;
@@ -1707,7 +1700,7 @@ void TBoss6Type2__sub_802BBC74(TBoss6Type2 *self) {
         break;
     }
     TBoss6SwordWave::create((s32)self, (s32)&self->position, start_angle, end_angle, radius);
-    play_sound_effect(sound, &self->position, 0, 1);
+    play_sound_effect(sound, (Vec *)&self->position, 0, 1);
 }
 
 void TBoss6Type2::set_owner_flag_bit0() {
@@ -1752,20 +1745,19 @@ void TBoss6Type2::update_parts_flags() {
     }
 }
 
-struct Vec_802BBE20 { f32 x, y, z; };
 
-struct Ent_802BBE20 { Vec_802BBE20 m; u8 padC[0x1C - 0xC]; Vec_802BBE20 n; u8 pad28[0x2C - 0x28]; };
+struct Ent_802BBE20 { Vec m; u8 padC[0x1C - 0xC]; Vec n; u8 pad28[0x2C - 0x28]; };
 
 
 struct Boss_802BBE20 {
     u8 pad0[0x38];
-    Vec_802BBE20 pos;
+    Vec pos;
     u8 pad44[0x60 - 0x44];
     s32 f60;
     u8 pad64[0xA4 - 0x64];
     Ent_802BBE20 *ents;
     u8 padA8[0x59C - 0xA8];
-    Vec_802BBE20 rock[19];
+    Vec rock[19];
 };
 
 extern "C" {
@@ -1775,9 +1767,9 @@ void set_matrix_identity(u8 *arg0);
 
 void TBoss6Type2__sub_802BBE20(void *self) {
     Boss_802BBE20 *arg0 = (Boss_802BBE20 *)self;
-    Vec_802BBE20 v;
+    Vec v;
     s32 i;
-    Vec_802BBE20 *base;
+    Vec *base;
     Ent_802BBE20 *e;
     if (((TBoss6Type2 *)self)->m_a4 != NULL) {
         for (i = 0; i < 3; i++) {
@@ -1814,14 +1806,14 @@ void TBoss6Type2::advance_position() {
 
 void TBoss6Type2::copy_vec_array() {
     u8 *arg0 = (u8 *)this;
-    V_802BBF54 *src;
-    V_802BBF54 *end;
-    V_802BBF54 *dst;
-    src = (V_802BBF54 *)(arg0 + 0x59C);
-    dst = (V_802BBF54 *)(arg0 + 0x680);
-    end = (V_802BBF54 *)((u8 *)src + 0xE4);
+    Vec *src;
+    Vec *end;
+    Vec *dst;
+    src = (Vec *)(arg0 + 0x59C);
+    dst = (Vec *)(arg0 + 0x680);
+    end = (Vec *)((u8 *)src + 0xE4);
     for (; src < end; src++, dst++) {
-        VecCopy((Vec *)dst, (const Vec *)src);
+        VecCopy(dst, (const Vec *)src);
     }
 }
 
@@ -1980,14 +1972,14 @@ void TBoss6Type2::play_phase_sound() {
             var_r3 = 0x6852B;
             break;
         }
-        play_sound_effect(var_r3, arg0 + 0x38, 0, 1);
+        play_sound_effect(var_r3, (Vec *)(arg0 + 0x38), 0, 1);
     }
 }
 
 void TBoss6Type2::play_sound_if_no_target() {
     u8 *arg0 = (u8 *)this;
     if (is_target_valid() == 0) {
-        play_sound_effect(TBoss6Type2__no_target_sound_ids[TBoss6Type2::find_index_in_table(this->m_2e4)], arg0 + 0x38, 0, 1);
+        play_sound_effect(TBoss6Type2__no_target_sound_ids[TBoss6Type2::find_index_in_table(this->m_2e4)], (Vec *)(arg0 + 0x38), 0, 1);
     }
 }
 
@@ -2409,7 +2401,7 @@ void TBoss6Type2::run_task() {
     ((TBoss6Type2 *)arg0)->sub_802BB554();
     copy_vec_array();
     if ((s32) this->m_418 != 0) {
-        play_persistent_sound(0x4006B00C, (s32)arg0, (u32)(arg0 + 0x38), 0, 0);
+        play_persistent_sound(0x4006B00C, (s32)arg0, (Vec *)(u32)(arg0 + 0x38), 0, 0);
     }
     update_countdown();
     ((TBoss6Type2 *)arg0)->update_possess_target();

@@ -55,7 +55,7 @@ s32 TObjEneBm9Mericarol_Bomb::area_attack_deliver_direct(void *recoil, s32 arg2,
             }
             if (obj_is_hit_receivable(obj) != 0 && (u32)obj != this->owner &&
                 is_area_attack_target_eligible(this, ((TObjBase *)obj)->actorFlags) != 0 &&
-                !(fabs_float(pos.y - ((TObjChara *)obj)->m_300) > 3e+01f)) {
+                !(fabs_float(pos.y - ((TObjChara *)obj)->m_2fc.y) > 3e+01f)) {
                 ok = 1;
                 if (object != 0 && attack_target_history_add((s32)object, obj) == 0) {
                     ok = 0;

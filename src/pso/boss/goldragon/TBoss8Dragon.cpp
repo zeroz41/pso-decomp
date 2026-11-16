@@ -1345,7 +1345,6 @@ struct Part_802FCA58 { u8 pad0[4]; f32 f4; u8 pad8[0x20]; f32 f28; };
 
 struct Cfg_802FCA58 { u8 pad[0x18]; s32 i18; s32 i1C; s32 i20; };
 
-struct Vec_802FDC1C { f32 x, y, z; };
 
 struct Cam_802FDC1C { s32 f0; f32 *p4; f32 *p8; };
 
@@ -1379,8 +1378,8 @@ u8 *get_enemy_entity(u16 arg0);
 void free_collision_body_parts(void *);
 s32 check_flag_100__10TObjPlayerFPv();
 s32 start_freeze__10TObjPlayerFv(int);
-s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
-s32 play_sound_effect(s32, s32, s32, s32);
+s32 play_persistent_sound(s32 id, s32 a1, Vec *, s32 a3, s32 flags);
+s32 play_sound_effect(s32, Vec *, s32, s32);
 void __dl__7TObjectFPv(void *);
 void __dt__7TObjectFv(void *, s32);
 s32 is_closest_part__12TBoss8DragonFv();
@@ -2548,7 +2547,7 @@ void __ct__15RenderFadeStateFv(void *);
 }
 
 extern "C" {
-void get_camera_offsets__12TBoss8DragonFPvPv(Vec_802FDC1C *arg0, Vec_802FDC1C *arg1);
+void get_camera_offsets__12TBoss8DragonFPvPv(Vec *arg0, Vec *arg1);
 }
 void handle_6xA8_gol_dragon_boss_actions(void *boss8_dragon);
 
@@ -2703,7 +2702,7 @@ Node_802FDDD4 *clone_node_tree__12TBoss8DragonFPvPvi(Node_802FDDD4 *src, Node_80
 
 #define F(t, o) (*(t *)((u8 *)this + (o)))
 extern "C" {
-void get_camera_offsets__12TBoss8DragonFPvPv(Vec_802FDC1C *arg0, Vec_802FDC1C *arg1) {
+void get_camera_offsets__12TBoss8DragonFPvPv(Vec *arg0, Vec *arg1) {
     s32 mode;
     s32 idx;
 
@@ -2726,8 +2725,8 @@ void get_camera_offsets__12TBoss8DragonFPvPv(Vec_802FDC1C *arg0, Vec_802FDC1C *a
             idx = 2;
             break;
         }
-        VecCopy__FP3VecPC3Vec(arg0, (Vec_802FDC1C *) lbl_804E4FF0 + idx);
-        VecCopy__FP3VecPC3Vec(arg1, (Vec_802FDC1C *) lbl_804E5014 + idx);
+        VecCopy__FP3VecPC3Vec(arg0, (Vec *) lbl_804E4FF0 + idx);
+        VecCopy__FP3VecPC3Vec(arg1, (Vec *) lbl_804E5014 + idx);
         if (*(u32 *)((s8 *)TBoss8Dragon__data_805D69AC + 0x64C) == 1) {
             arg1->y += 10.0f;
             arg1->z += 10.0f;
@@ -3466,11 +3465,11 @@ s32 select_target_in_front__12TBoss8DragonFPv(u8 *ene_dd_st) {
 }
 
 void spawn_effect__12TBoss8DragonFii(s32 arg0, s32 arg1) {
-    play_sound_effect(arg1, arg0 + 0x634, 0, 0);
+    play_sound_effect(arg1, (Vec *)(arg0 + 0x634), 0, 0);
 }
 
 void spawn_trap__12TBoss8DragonFii(s32 arg0, s32 arg1) {
-    play_persistent_sound(arg1, arg0, arg0 + 0x634, 0, 0);
+    play_persistent_sound(arg1, arg0, (Vec *)(arg0 + 0x634), 0, 0);
 }
 
 void TBoss8Dragon::try_spawn_trap() {
@@ -5972,7 +5971,7 @@ void TBoss8Dragon::sub_802F6838(s32 arg1) {
         switch (*(s32 *)((s8 *)this + 0x84C)) {
         case 0:
             if (((TObjMotion *)this)->is_passing_frame(60.0f) != 0 || ((TObjMotion *)this)->is_passing_frame(98.0f) != 0) {
-                play_sound_effect(0x4003AD07, 0, 0, 0);
+                play_sound_effect(0x4003AD07, (Vec *)(0), 0, 0);
                 start_pad_rumble_all(0xA0, 0xF);
             }
             if (*(f32 *)((s8 *)this + 0xC0) >= 25.0f && *(f32 *)((s8 *)this + 0xC0) < 40.0f) {
@@ -6886,13 +6885,13 @@ void TBoss8Dragon::sub_802F4DD4(s32 arg1) {
             switch (step = o->step) {
             case 0:
                 if (((TObjMotion *)o)->is_passing_frame(2.0f) != 0) {
-                    play_sound_effect(0x4003A804, 0, 0, 0);
+                    play_sound_effect(0x4003A804, (Vec *)(0), 0, 0);
                     o->step++;
                 }
                 break;
             case 1:
                 if (((TObjMotion *)o)->is_passing_frame(60.0f) != 0) {
-                    play_sound_effect(0x4003AD0E, 0, 0, 0);
+                    play_sound_effect(0x4003AD0E, (Vec *)(0), 0, 0);
                 }
                 if (((TObjMotion *)o)->is_passing_frame(63.0f) != 0) {
                     Vec_802F4DD4 v;
@@ -6910,7 +6909,7 @@ void TBoss8Dragon::sub_802F4DD4(s32 arg1) {
                 break;
             case 2:
                 if (((TObjMotion *)o)->is_passing_frame(75.0f) != 0) {
-                    play_sound_effect(0x4003AD06, 0, 0, 0);
+                    play_sound_effect(0x4003AD06, (Vec *)(0), 0, 0);
                     o->step++;
                     o->f850 = 0;
                 }

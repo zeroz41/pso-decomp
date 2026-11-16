@@ -77,7 +77,7 @@ void TObjParticle::run_task() {
     if (((s32) this->set_params[2] == 1) && ((s32) this->set_params[0] == 1)) {
         var_f31 = 100000000.0f;
     }
-    if (xyz_distance_squared((Vec *)&this->position, (Vec *)(camera_ctrl_instance + 0x178)) > var_f31) {
+    if (xyz_distance_squared(&this->position, (Vec *)(camera_ctrl_instance + 0x178)) > var_f31) {
         ((TObject *)arg0)->queue_destruction();
         return;
     }

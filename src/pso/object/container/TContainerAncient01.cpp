@@ -170,7 +170,6 @@ struct Obj_8018B284 {
     u32 f36C;
 };
 
-struct Vec_8018B030 { f32 x, y, z; };
 struct Coll_8018B030 { f32 x; f32 y; };
 struct Res_8018B030 { u8 pad[0x430]; s32 x430; };
 
@@ -183,16 +182,16 @@ struct Obj_8018B030 : VBase_8018B030 {
     u8 pad28[0x30 - 0x28];
     u32 flags;
     s32 x34;
-    Vec_8018B030 pos;
+    Vec pos;
     u8 pad44[0x74 - 0x44];
-    Vec_8018B030 pos74;
+    Vec pos74;
     u8 pad80[0xB8 - 0x80];
     s16 anim;
     u8 padba[0xD8 - 0xBA];
     void *animTbl;
     s32 xdc;
     u8 pade0[0x2FC - 0xE0];
-    Vec_8018B030 pos2fc;
+    Vec pos2fc;
     u8 pad308[0x326 - 0x308];
     s16 state;
 };
@@ -415,16 +414,16 @@ s32 TContainerAncient01R::sub_8018A688() {
         case AREA_JUNGLE_EAST:
         case AREA_MOUNTAIN:
         case AREA_SEASIDE:
-            play_sound_effect(0x4BC1C, (u8 *)self + 0x38, 0, 0);
+            play_sound_effect(0x4BC1C, (Vec *)((u8 *)self + 0x38), 0, 0);
             break;
         case AREA_SEASIDE_NIGHT:
-            play_sound_effect(0x4004BC1C, (u8 *)self + 0x38, 0, 0);
+            play_sound_effect(0x4004BC1C, (Vec *)((u8 *)self + 0x38), 0, 0);
             break;
         case AREA_TOWER:
-            play_sound_effect(0x4004BC1C, (u8 *)self + 0x38, 0, 0);
+            play_sound_effect(0x4004BC1C, (Vec *)((u8 *)self + 0x38), 0, 0);
             break;
         default:
-            play_sound_effect(0x4004BC16, (u8 *)self + 0x38, 0, 0);
+            play_sound_effect(0x4004BC16, (Vec *)((u8 *)self + 0x38), 0, 0);
             break;
         }
     }
@@ -735,16 +734,16 @@ void TContainerAncient01::sub_8018B284() {
         case AREA_JUNGLE_EAST:
         case AREA_MOUNTAIN:
         case AREA_SEASIDE:
-            play_sound_effect(0x4BC1C, self->pos, 0, 0);
+            play_sound_effect(0x4BC1C, (Vec *)self->pos, 0, 0);
             break;
         case AREA_SEASIDE_NIGHT:
-            play_sound_effect(0x4004BC1C, self->pos, 0, 0);
+            play_sound_effect(0x4004BC1C, (Vec *)self->pos, 0, 0);
             break;
         case AREA_TOWER:
-            play_sound_effect(0x4004BC1C, self->pos, 0, 0);
+            play_sound_effect(0x4004BC1C, (Vec *)self->pos, 0, 0);
             break;
         default:
-            play_sound_effect(0x4004BC16, self->pos, 0, 0);
+            play_sound_effect(0x4004BC16, (Vec *)self->pos, 0, 0);
             break;
         }
     }

@@ -310,7 +310,7 @@ TOContainerAncientEnemy *TOContainerAncientEnemy__ct(TOContainerAncientEnemy *co
     init_collision_body_parts(container, &TOContainerAncientEnemy__collision_body_params, 1);
     container->register_object_by_id();
     VecCopy(&container->center, &container->position);
-    VecCopy((Vec *)&container->m_2fc, &container->position);
+    VecCopy(&container->m_2fc, &container->position);
     container->center.y += TOContainerAncientEnemy__collision_body_params.offset.y;
     container->model = (void *)get_bml_model(ancient_container_resource_bundle, 0);
     container->texlist = TObjFish__sub_8001EDB0(ancient_container_resource_bundle, 0);

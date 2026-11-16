@@ -47,7 +47,7 @@ void play_target_impact_effect(s32 unused0, s32 unused1, u16 actor_id, s16 colli
     TObjChara *target = (TObjChara *)resolve_hittable_target(actor_id, collider);
     if (target != NULL) {
         VecCopy(&pos, &target->position);
-        pos.y = target->m_300;
+        pos.y = target->m_2fc.y;
     }
     spawn_particle_effect(&pos, 0x45);
 }

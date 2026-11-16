@@ -124,7 +124,7 @@ void TBoss3VoloptHiraisin::sub_80040FDC() {
         actorFlags |= 0x40000;
         ((CollisionState *)bodies)->flags |= 4;
         ((CollisionState *)bodies)->flags &= ~2;
-        play_sound_effect(0x4003A306, &position, 0, 0);
+        play_sound_effect(0x4003A306, (Vec *)(&position), 0, 0);
         state = 1;
     case 1:
         position.y -= 0.5f;
@@ -144,8 +144,8 @@ void TBoss3VoloptHiraisin::start_attack() {
     u32 flags;
     TBoss3Volopt::create_breakup_mdl((s32)volopt_hiraisin_breakup_model, (s32)&volopt_hiraisin_breakup_params,
                                      TObjFish__sub_8001EDB0(volopt_hiraisin_resources, 0x10), (s32)&m_2fc, rotation_y);
-    ((TObjPlayer *)((Vec *)&m_2fc))->trigger_dell_biter_events();
-    play_sound_effect(0x4001C112, &position, 0, 0);
+    ((TObjPlayer *)(&m_2fc))->trigger_dell_biter_events();
+    play_sound_effect(0x4001C112, (Vec *)(&position), 0, 0);
     m_388 &= ~1;
     max_hp = hpmax;
     referenceHp = max_hp;
@@ -186,7 +186,7 @@ void TBoss3VoloptHiraisin::update_drop() {
             state = 2;
             ((CollisionState *)bodies)->flags &= ~4;
             ((CollisionState *)bodies)->flags |= 2;
-            play_sound_effect(0x4003A808, &position, 0, 0);
+            play_sound_effect(0x4003A808, (Vec *)(&position), 0, 0);
         }
         break;
     case 2:
@@ -300,9 +300,9 @@ void TBoss3VoloptHiraisin::run_task() {
             state = 0;
         }
         dispatch_state();
-        VecCopy((Vec *)&m_2fc, &position);
+        VecCopy(&m_2fc, &position);
         if (mode != 5) {
-            m_300 -= 30.0f;
+            m_2fc.y -= 30.0f;
         }
         copy_position();
         submit_cursor_candidate(this, -1);
@@ -342,8 +342,8 @@ TBoss3VoloptHiraisin::~TBoss3VoloptHiraisin() {
 }
 
 void TBoss3VoloptHiraisin::init_params() {
-    VecCopy((Vec *)&m_2fc, &position);
-    m_300 -= 30.0f;
+    VecCopy(&m_2fc, &position);
+    m_2fc.y -= 30.0f;
     copy_position();
     motion_list = volopt_hiraisin_resources->motions;
     action_table = volopt_hiraisin_motions;
@@ -387,7 +387,7 @@ TBoss3VoloptHiraisin::TBoss3VoloptHiraisin(TObject *parent, void *set_data) : TO
 }
 
 void TBoss3VoloptHiraisin::copy_position() {
-    VecCopy(&center, (Vec *)&m_2fc);
+    VecCopy(&center, &m_2fc);
 }
 
 void TBoss3VoloptHiraisin::load_params_from_table(s32 index) {

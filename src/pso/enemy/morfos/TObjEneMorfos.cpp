@@ -520,7 +520,7 @@ s32 transition_enemy_state__9TObjEneDDFl(void *, s32);
 extern int TObjEneMorfos__param_table;
 void TObjEneMorfos__sub_80333AD0(u8 *arg0, s32 arg1);
 s32 get_flag_b4__9TObjEneDDFv();
-s32 play_sound_effect(s32, u32, s16, s32);
+s32 play_sound_effect(s32, Vec *, s16, s32);
 void * __nw__7TObjectFUl(int);
 void TObjEneMorfos__sub_80333690(TObjEneMorfos *arg0, s32 arg1);
 s32 enemy_validate_retained_target(u8 *arg0);
@@ -705,9 +705,8 @@ struct RecoveredFields_803326CC_arg0 {
     s32 field_3C0;
 };
 
-struct V3_80334588 { f32 x, y, z; };
 
-struct O_80334588 { u8 pad[0x60]; s32 f60; u8 pad2[0x2FC - 0x64]; V3_80334588 pos; };
+struct O_80334588 { u8 pad[0x60]; s32 f60; u8 pad2[0x2FC - 0x64]; Vec pos; };
 
 struct Part_803329E4 : VObj_14_fddec9 { u8 pad18[4]; };
 
@@ -742,15 +741,13 @@ struct RecoveredGlobal_80334CC8___vt__13TObjEneMorfos {
     u8 remaining[0x1A8];
 };
 
-struct Vec_8033496C { f32 x, y, z; };
 
-struct Obj_8033496C { u8 pad[0x60]; s32 f60; u8 pad1[0x2D4 - 0x64]; u16 f2D4; u8 pad2[0x2FC - 0x2D6]; Vec_8033496C pos; u8 pad3[0x326 - 0x308]; s16 f326; u8 pad4[0x3C0 - 0x328]; s32 f3C0; };
+struct Obj_8033496C { u8 pad[0x60]; s32 f60; u8 pad1[0x2D4 - 0x64]; u16 f2D4; u8 pad2[0x2FC - 0x2D6]; Vec pos; u8 pad3[0x326 - 0x308]; s16 f326; u8 pad4[0x3C0 - 0x328]; s32 f3C0; };
 
-struct Pl_8033496C { u8 pad[0x2FC]; Vec_8033496C pos; };
+struct Pl_8033496C { u8 pad[0x2FC]; Vec pos; };
 
-struct Vec_80334A4C { f32 x, y, z; };
 
-struct Obj_80334A4C { u8 pad[0x60]; s32 f60; u8 pad1[0x2FC - 0x64]; Vec_80334A4C pos; u8 pad4[0x3C0 - 0x308]; s32 f3C0; u8 pad5[0x498 - 0x3C4]; u8 snd[4]; };
+struct Obj_80334A4C { u8 pad[0x60]; s32 f60; u8 pad1[0x2FC - 0x64]; Vec pos; u8 pad4[0x3C0 - 0x308]; s32 f3C0; u8 pad5[0x498 - 0x3C4]; u8 snd[4]; };
 
 typedef char RecoveredGlobal_80334CC8___vt__13TObjEneMorfos_size[sizeof(RecoveredGlobal_80334CC8___vt__13TObjEneMorfos) == 0x1AC ? 1 : -1];
 
@@ -1153,7 +1150,7 @@ void TObjEneMorfos::state_death(s32 arg1) {
         this->m_4b4 = 0;
         *(s32 *)((s8 *)arg0 + 0x4B0) = 0;
         ((TObjEneMe3SinowZoa *)(arg0 + 0x408))->init_death_params();
-        play_sound_effect(0x4003A626, (u32)(arg0 + 0x38), 0, 0);
+        play_sound_effect(0x4003A626, (Vec *)((u32)(arg0 + 0x38)), 0, 0);
         return;
     case 3:
         if ((s32) this->m_4b4 == 2) {
@@ -1169,7 +1166,7 @@ void TObjEneMorfos::state_death(s32 arg1) {
             temp_r30 = ((VObj_14_c1c33b *)(arg0 + (1032)))->m4();
             if ((((s32 (*)(void *))get_flag_b4__9TObjEneDDFv)(arg0) != 0) && (temp_r30 != 0)) {
                 fn_800D911C((Vec *)(arg0 + 0x38));
-                play_sound_effect(0x4003A830, (u32)(arg0 + 0x38), 0, 0);
+                play_sound_effect(0x4003A830, (Vec *)((u32)(arg0 + 0x38)), 0, 0);
                 TObjPlayer__sub_800A04F0((u8 *)&this->m_408);
                 *(s32 *)((s8 *)arg0 + 0x3C0) = (s32) (*(s32 *)((s8 *)arg0 + 0x3C0) | 2);
                 this->m_4b4 = 1;
@@ -1299,7 +1296,7 @@ void TObjEneMorfos__sub_80332FD4(TObjEneMorfos *arg0, s32 arg1) {
                 if (arg0->approach_value((s32) (10430.38043493439 * atan2_float(arg0->m_3a0, *(f32 *)((s8 *)arg0 + 0x3A8))), *(s32 *)((s8 *)((u8 *)TObjEneMorfos__param_table) + 0x1C)) != 0) {
                     *(s32 *)((s8 *)arg0 + 0x4B0) = 1;
                     arg0->requested_action = 1;
-                    play_sound_effect(0x4003A725, (u32)((u8 *)arg0 + 0x38), 0, 0);
+                    play_sound_effect(0x4003A725, (Vec *)((u32)((u8 *)arg0 + 0x38)), 0, 0);
                     TObjEneMorfosArm::create((void *)arg0, (void *)arg0);
                 } else if (*(f32 *)((s8 *)arg0 + 0x3AC) >= 30.0f) {
                     *(s32 *)((s8 *)arg0 + 0x4B0) = 3;
@@ -1415,7 +1412,7 @@ void TObjEneMorfos::state_rotating_projectile_burst(s32 arg1) {
             break;
         case 3:
             if (((TObjMotion *)arg0)->is_passing_frame(6.0f) != 0) {
-                play_sound_effect(0x4003AD24, (u32)(arg0 + 0x38), 0, 0);
+                play_sound_effect(0x4003AD24, (Vec *)((u32)(arg0 + 0x38)), 0, 0);
                 new TUnk_804EF130((Vec *)(arg0 + 0x498), (u16)(F(0x60, s32) + 0x8000), (TObjEneMorfos *)arg0);
                 F(0x4B0, s32) = 4;
             }
@@ -1463,7 +1460,7 @@ void TObjEneMorfos__sub_80333690(TObjEneMorfos *arg0, s32 arg1) {
             *(s32 *)((s8 *)arg0 + 0x4B0) = 0;
             arg0->m_4b4 = 0;
             arg0->requested_action = 0;
-            play_sound_effect(0x4003A528, (u32)((u8 *)arg0 + 0x38), 0, 0);
+            play_sound_effect(0x4003A528, (Vec *)((u32)((u8 *)arg0 + 0x38)), 0, 0);
             return;
         }
         *(s32 *)((s8 *)arg0 + 0x4B0) = 6;
@@ -1492,7 +1489,7 @@ void TObjEneMorfos__sub_80333690(TObjEneMorfos *arg0, s32 arg1) {
             break;
         case 2:
             if (((TObjMotion *)arg0)->is_passing_frame(6.0f) != 0) {
-                play_sound_effect(0x4003AD24, (u32)((u8 *)arg0 + 0x38), 0, 0);
+                play_sound_effect(0x4003AD24, (Vec *)((u32)((u8 *)arg0 + 0x38)), 0, 0);
                 new TUnk_804EF130((Vec *)((u8 *)arg0 + 0x498), (u16)(arg0->m_4bc + 0x8000), arg0);
                 *(s32 *)((s8 *)arg0 + 0x4B0) = 3;
             }
@@ -1516,7 +1513,7 @@ void TObjEneMorfos__sub_80333690(TObjEneMorfos *arg0, s32 arg1) {
                     if ((s32) arg0->m_4b4 >= 2) {
                         arg0->m_4bc = (s32) (10430.38043493439 * atan2_float(arg0->m_3a0, *(f32 *)((s8 *)arg0 + 0x3A8)));
                         *(s32 *)((s8 *)arg0 + 0x4B0) = 5;
-                        play_sound_effect(0x4003A528, (u32)((u8 *)arg0 + 0x38), 0, 0);
+                        play_sound_effect(0x4003A528, (Vec *)((u32)((u8 *)arg0 + 0x38)), 0, 0);
                     } else {
                         arg0->requested_action = 0;
                         *(s32 *)((s8 *)arg0 + 0x4B0) = 4;
@@ -1536,7 +1533,7 @@ void TObjEneMorfos__sub_80333690(TObjEneMorfos *arg0, s32 arg1) {
                     ((TObjEneDD *)arg0)->update_velocity();
                     arg0->m_4bc = (s32) (u16) ((s32) (10430.38043493439 * atan2_float(arg0->m_3a0, *(f32 *)((s8 *)arg0 + 0x3A8))) + 0x8000);
                     *(s32 *)((s8 *)arg0 + 0x4B0) = 0;
-                    play_sound_effect(0x4003A528, (u32)((u8 *)arg0 + 0x38), 0, 0);
+                    play_sound_effect(0x4003A528, (Vec *)((u32)((u8 *)arg0 + 0x38)), 0, 0);
                 } else {
                     *(s32 *)((s8 *)arg0 + 0x4B0) = 6;
                 }
@@ -1840,14 +1837,14 @@ s32 TObjEneMorfos__sub_803344F0(void *arg0) {
 void TObjEneMorfos::play_sound_in_band() {
     u8 *arg0 = (u8 *)this;
     if ((((TObjMotion *)arg0)->is_passing_frame(4.0f) != 0) || (((TObjMotion *)arg0)->is_passing_frame(20.0f) != 0)) {
-        play_sound_effect(0x4003A823, (u32)(arg0 + 0x38), 0, 0);
+        play_sound_effect(0x4003A823, (Vec *)((u32)(arg0 + 0x38)), 0, 0);
     }
 }
 
 #pragma push
 #pragma fp_contract on
 s32 TObjEneMorfos::select_target_in_view() {
-    V3_80334588 v;
+    Vec v;
     s32 n;
     u8 *p;
     u16 id;
@@ -1913,14 +1910,14 @@ void TObjEneMorfos::init_target_offsets() {
 #pragma pop
 
 void TObjEneMorfos::vfunc_88() {
-    *(f32 *)((s8 *)this->bodies + 4) = (f32) (this->m_300 - *(f32 *)((s8 *)this + 0x3C));
+    *(f32 *)((s8 *)this->bodies + 4) = (f32) (this->m_2fc.y - *(f32 *)((s8 *)this + 0x3C));
 }
 
 void TObjEneMorfos::set_hover_target_position() {
     u8 *arg0 = (u8 *)this;
-    this->m_2fc = (f32) *(f32 *)((s8 *)arg0 + 0x38);
-    this->m_300 = (f32) (20.0f + *(f32 *)((s8 *)arg0 + 0x3C));
-    this->m_304 = (f32) *(f32 *)((s8 *)arg0 + 0x40);
+    this->m_2fc.x = (f32) *(f32 *)((s8 *)arg0 + 0x38);
+    this->m_2fc.y = (f32) (20.0f + *(f32 *)((s8 *)arg0 + 0x3C));
+    this->m_2fc.z = (f32) *(f32 *)((s8 *)arg0 + 0x40);
     VecCopy((Vec *)(arg0 + 0x74), (const Vec *)(arg0 + 0x2FC));
 }
 
@@ -1963,7 +1960,7 @@ void TObjEneMorfos::vfunc_61() {  }
 
 void TObjEneMorfos::vfunc_62() {
     Obj_8033496C *arg0 = (Obj_8033496C *)this;
-    Vec_8033496C v;
+    Vec v;
     Pl_8033496C *pl;
     s32 d;
     if (this->mode == 0xA) {
@@ -1990,7 +1987,7 @@ void TObjEneMorfos::vfunc_62() {
 }
 
 f32 TObjEneMorfos__vt20(Obj_80334A4C *arg0, Obj_80334A4C *att, f32 scale) {
-    Vec_80334A4C v;
+    Vec v;
     f32 ret = 0.0f;
     s32 d;
     if (att != 0) {

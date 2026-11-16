@@ -494,9 +494,9 @@ void TObjEneBm5Wolf::vfunc_61() {  }
 
 void TObjEneBm5Wolf::update_collision_center() {
 
-    this->m_2fc = (f32) this->position.x;
-    this->m_300 = (f32) ((this->m_40c) + (10.0f + this->position.y));
-    this->m_304 = (f32) this->position.z;
+    this->m_2fc.x = (f32) this->position.x;
+    this->m_2fc.y = (f32) ((this->m_40c) + (10.0f + this->position.y));
+    this->m_2fc.z = (f32) this->position.z;
     VecCopy(&this->center, (const Vec *)&this->m_2fc);
 }
 
@@ -563,7 +563,7 @@ void TObjEneBm5Wolf::choose_roaming_destination() {
     temp_f3 = 120.0f * this->rand_range(0.3f, 1.0f);
     this->destination.x = (f32) ((dir.x * temp_f3) + this->groupAnchor.x);
     this->destination.z = (f32) ((dir.z * temp_f3) + this->groupAnchor.z);
-    hit = csnVector((Vec *)&this->m_2fc, &this->destination, 0x88E0U);
+    hit = csnVector(&this->m_2fc, &this->destination, 0x88E0U);
     if (hit != NULL) {
         dir.x = hit->contact->point.x - this->position.x;
         dir.z = hit->contact->point.z - this->position.z;
@@ -702,14 +702,14 @@ void spawn_recoil_dust__14TObjEneBm5WolfFiPv(TObjEneBm5Wolf *wolf, Vec *dir) {
 extern "C" {
 void play_footsteps__14TObjEneBm5WolfFPv(TObjEneBm5Wolf *wolf) {
     if ((wolf->is_passing_frame(7.0f) != 0) || (wolf->is_passing_frame(24.0f) != 0)) {
-        play_sound_effect(wolf->remap_sound_for_area(0x3C618), &wolf->position, 0, 0);
+        play_sound_effect(wolf->remap_sound_for_area(0x3C618), (Vec *)(&wolf->position), 0, 0);
         TObjPlayer::play_effect_if_v2(-0x1000);
     }
 }
 
 void TObjEneBm5Wolf::play_proximity_effect() {
     if (this->is_passing_frame(18.0f) != 0) {
-        play_sound_effect(this->remap_sound_for_area(0x3C618), &this->position, 0, 0);
+        play_sound_effect(this->remap_sound_for_area(0x3C618), (Vec *)(&this->position), 0, 0);
         TObjPlayer::play_effect_if_v2(-0x1000);
     }
 }
@@ -912,10 +912,10 @@ void appearing_state__14TObjEneBm5WolfFPvi(TObjEneBm5Wolf *o, s32 arg1) {
                 spawn_particle_effect(&o->position, 0xF3);
             }
             if (o->is_passing_frame(6.0f) != 0) {
-                play_sound_effect(o->remap_sound_for_area(0x3E420), &o->position, 0, 0);
+                play_sound_effect(o->remap_sound_for_area(0x3E420), (Vec *)(&o->position), 0, 0);
             }
             if (o->is_passing_frame(24.0f) != 0) {
-                play_sound_effect(o->remap_sound_for_area(0x4003A821), &o->position, 0, 0);
+                play_sound_effect(o->remap_sound_for_area(0x4003A821), (Vec *)(&o->position), 0, 0);
                 TObjPlayer::play_effect_if_v2(-0x500);
             }
             if (o->frame <= 30.0f) {
@@ -1070,7 +1070,7 @@ void TObjEneBm5Wolf::howling_state(s32 arg1) {
         if (this->requested_action == 0x10) {
             is_passing_frame(7.0f);
         } else if (this->requested_action == 0xB && is_passing_frame(9.0f) != 0) {
-            play_sound_effect(this->remap_sound_for_area(0x3A819), &this->position, 0, 0);
+            play_sound_effect(this->remap_sound_for_area(0x3A819), (Vec *)(&this->position), 0, 0);
             TObjPlayer::play_effect_if_v2(-0x200);
         }
         if (this->roamingSubstate == 0x3C) {
@@ -1548,10 +1548,10 @@ void TObjEneBm5Wolf::update_lunge(s32 arg1) {
                 spawn_particle_effect(&this->position, 0xF3);
             }
             if (this->is_passing_frame(6.0f) != 0) {
-                play_sound_effect(this->remap_sound_for_area(0x3E420), &this->position, 0, 0);
+                play_sound_effect(this->remap_sound_for_area(0x3E420), (Vec *)(&this->position), 0, 0);
             }
             if (this->is_passing_frame(24.0f) != 0) {
-                play_sound_effect(this->remap_sound_for_area(0x4003A821), &this->position, 0, 0);
+                play_sound_effect(this->remap_sound_for_area(0x4003A821), (Vec *)(&this->position), 0, 0);
                 TObjPlayer::play_effect_if_v2(-0x500);
             }
             if (this->is_passing_frame((f32) (20.0f)) != 0) {
@@ -1772,7 +1772,7 @@ void TObjEneBm5Wolf::action(s32 arg1) {
         this->advance_animation();
         advance_pose_turn__14TObjEneBm5WolfFPvi(this, this->rotation_y);
         if (this->is_passing_frame(10.0f) != 0) {
-            play_sound_effect(this->remap_sound_for_area(0x3AA1A), &this->position, 0, 0);
+            play_sound_effect(this->remap_sound_for_area(0x3AA1A), (Vec *)(&this->position), 0, 0);
             TObjPlayer::play_effect_if_v2(-0x100);
         }
         this->roamingSubstate = (this->roamingSubstate + 1);
@@ -1796,7 +1796,7 @@ void TObjEneBm5Wolf::hurt_state(s32 arg1) {
         this->requested_action = 6;
         this->roamingSubstate = 0;
         if (this->referenceHp - this->hp < 0x14) {
-            play_sound_effect(this->remap_sound_for_area(0x3AB1B), &this->position, 0, 0);
+            play_sound_effect(this->remap_sound_for_area(0x3AB1B), (Vec *)(&this->position), 0, 0);
             TObjPlayer::play_effect_if_v2(-0x500);
         }
         this->set_active();
@@ -1859,7 +1859,7 @@ void TObjEneBm5Wolf::update_dying_state(s32 arg1) {
     case 4:
         this->vfunc_96();
         this->refresh_and_send_entity_flags();
-        play_sound_effect(this->remap_sound_for_area(0x3AD1D), &this->position, 0, 0);
+        play_sound_effect(this->remap_sound_for_area(0x3AD1D), (Vec *)(&this->position), 0, 0);
         TObjPlayer::play_effect_if_v2(-0x300);
         if (select_death_direction__14TObjEneBm5WolfFPvPv(this, tgt) == 0) {
             this->requested_action = 0xF;

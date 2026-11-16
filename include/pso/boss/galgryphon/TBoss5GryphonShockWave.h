@@ -2,6 +2,7 @@
 #define PSO_BOSS_GALGRYPHON_TBOSS5GRYPHONSHOCKWAVE_H
 
 #include "types.h"
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/system/task/TObject.h"
 
 struct TBoss5GryphonShockWave : public TObject {
@@ -12,7 +13,7 @@ struct TBoss5GryphonShockWave : public TObject {
     u32 m_24;
     u16 m_28;
     u8 _pad2A[0x2];
-    void* m_2c;
+    Vec* m_2c;
     u8 _pad30[0x8];
     u32 m_38;
     u32 m_3c;

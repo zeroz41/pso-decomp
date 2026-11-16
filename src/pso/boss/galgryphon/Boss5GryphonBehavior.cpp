@@ -146,7 +146,6 @@ struct Obj_8005E594 {
     void *parts[16];
 };
 
-struct Vec_80062BA0 { f32 x, y, z; };
 
 struct Part_80064F50 { u8 pad0[4]; f32 f4; u8 pad8[4]; f32 fC; u8 pad10[8]; u32 flags; u8 pad1C[4]; f32 f20; u8 pad24[4]; f32 f28; };
 
@@ -154,7 +153,6 @@ struct Cfg_80064F50 { u8 pad[0x18]; s32 i18; s32 i1C; s32 i20; s32 i24; };
 
 struct Obj_80064F50 { u8 pad0[0xA4]; Part_80064F50 *parts; u8 padA8[0x4C0 - 0xA8]; u32 flags4C0; u8 pad4C4[0x4E4 - 0x4C4]; s32 mode4E4; u8 pos4E8[4]; };
 
-struct Vec_80060020 { f32 x, y, z; };
 
 struct Hit2_80060020 { u8 pad[4]; f32 y; };
 
@@ -167,7 +165,7 @@ struct Fx_80060020 { u8 pad[4]; s32 f4; };
 struct Dragon_80060020 {
     u8 prefix[0x1C];
     u8 pad1c[0x38 - 0x1C];
-    Vec_80060020 pos;
+    Vec pos;
     u8 pad44[0x5C - 0x44];
     s32 f5C;
     s32 f60;
@@ -240,7 +238,7 @@ s32 restore_player_cameras(void);
 s32 activate_camera_mode(s32 arg0);
 void set_scripted_camera_pose(void *, void *, void *);
 void play_cue_stream_file(s32 name);
-extern Vec_80062BA0 lbl_80437DB8[];
+extern Vec lbl_80437DB8[];
 extern const f32 lbl_805D8DD4;
 extern const f32 lbl_805D8E80;
 extern const f32 lbl_805D8E84;
@@ -281,13 +279,12 @@ void TBoss8Dragon__sub_80063FB8(s32 arg0, s32 arg1, f32 farg0);
 void TBoss8Dragon__sub_8006402C(s32 arg0, s32 arg1, f32 farg0, f32 farg1);
 extern GA_800640A4 lbl_80437D7C;
 void TBoss8Dragon__sub_800640A4(s32 arg0, s32 arg1);
-struct V_8005DC0C { f32 x, y, z; };
 
 struct Obj_8005DC0C {
     u8 pad0[0x326];
     s16 f326;
     u8 pad328[0x3C0 - 0x328];
-    V_8005DC0C pts[8];
+    Vec pts[8];
     u8 pad420[0x4E4 - 0x420];
     s32 f4e4;
 };
@@ -363,17 +360,16 @@ struct Obj_8005F968 { u8 pad[0x60]; s32 f60; u8 pad64[0x480 - 0x64]; s32 f480; }
 
 struct O_8005FCE4 { u8 pad[0x4c0]; u32 flags; };
 
-struct Vec_8005FBC4 { f32 x, y, z; };
 
 struct Shot_8005FBC4 { f32 v[3]; };
 
 struct Obj_8005FBC4 {
     u8 pad0[0x38];
-    Vec_8005FBC4 pos;
+    Vec pos;
     u8 pad44[0x60 - 0x44];
     s32 f60;
     u8 pad64[0x474 - 0x64];
-    Vec_8005FBC4 vel;
+    Vec vel;
     s32 f480;
     u8 pad484[0x4c0 - 0x484];
     s32 flags;
@@ -1387,8 +1383,8 @@ void TBoss5Gryphon::render_nodes_with_flag() {
 }
 
 s32 TBoss8Dragon__sub_8005DC0C(Obj_8005DC0C *arg0) {
-    V_8005DC0C cam;
-    V_8005DC0C dir;
+    Vec cam;
+    Vec dir;
     f32 len;
     u8 *pl;
     s32 i;
@@ -2246,7 +2242,7 @@ void TBoss8Dragon__sub_8005FB90(u8 *arg0) {
 
 void TBoss5Gryphon::apply_velocity() {
     Shot_8005FBC4 shot;
-    Vec_8005FBC4 v;
+    Vec v;
     f32 len;
     if (((Obj_8005FBC4 *)this)->flags & 0x10) {
         ((Obj_8005FBC4 *)this)->pos.y += ((Obj_8005FBC4 *)this)->vel.y;
@@ -2400,9 +2396,9 @@ extern const f32 lbl_805D8DF0;
 #pragma fp_contract on
 void TBoss5Gryphon::fn_80060020(u32 arg1) {
     Dragon_80060020 *self = (Dragon_80060020 *)this;
-    Vec_80060020 w;
-    Vec_80060020 v;
-    Vec_80060020 p;
+    Vec w;
+    Vec v;
+    Vec p;
     switch (arg1) {
     case ENEMY_STATE_ENTER:
         self->fB8 = 0x14;
@@ -2451,9 +2447,9 @@ void TBoss5Gryphon::fn_80060020(u32 arg1) {
                     Hit_80060020 *hit;
                     r *= lbl_805D8DD0;
                     do {
-                        v.x = r * sin_table_lookup(ang) + ((Vec_80060020 *)(pl + 0x38))->x;
-                        v.y = lbl_805D8DD0 + ((Vec_80060020 *)(pl + 0x38))->y;
-                        v.z = r * cos_table_lookup(ang) + ((Vec_80060020 *)(pl + 0x38))->z;
+                        v.x = r * sin_table_lookup(ang) + ((Vec *)(pl + 0x38))->x;
+                        v.y = lbl_805D8DD0 + ((Vec *)(pl + 0x38))->y;
+                        v.z = r * cos_table_lookup(ang) + ((Vec *)(pl + 0x38))->z;
                         hit = (Hit_80060020 *)csnVecterUnder((s32 *)&v, 0x16EF);
                         ang += 0x2000;
                     } while (hit == NULL || hit->p->y > 6.0f);
@@ -3762,17 +3758,17 @@ void TBoss5Gryphon::update_demo_state(u32 arg1) {
                     ((s32 (*)(void *, void *, int))spawn_particle_effect_with_flags)((void *)sp8, (void *) (*(s32 *)((s8 *)(*(u8 **)((s8 *)this + 0x5F0)) + 0)), 0x40);
                 }
                 if (is_passing_frame((f32)lbl_805D8E70) != 0) {
-                    play_sound_effect(0x40032A00, (void *) (0), 0, 0);
+                    play_sound_effect(0x40032A00, NULL, 0, 0);
                     start_pad_rumble_all(0xA0, 0x3C);
                 }
                 if ((is_passing_frame(100.0f) != 0) || (is_passing_frame((f32)lbl_805D8E74) != 0)) {
-                    play_sound_effect(0x40033409, (void *) (0), 0, 0);
+                    play_sound_effect(0x40033409, NULL, 0, 0);
                 }
                 if (is_passing_frame((f32)lbl_805D8E64) != 0) {
-                    play_sound_effect(0x40032D0D, (void *) (0), 0, 0);
+                    play_sound_effect(0x40032D0D, NULL, 0, 0);
                 }
                 if (is_passing_frame((f32)lbl_805D8E78) != 0) {
-                    play_sound_effect(0x40033409, (void *) (0), 0, 0);
+                    play_sound_effect(0x40033409, NULL, 0, 0);
                     start_pad_rumble_all(0x80, 7);
                 }
                 if (is_passing_frame((f32)lbl_805D8E7C) != 0) {
@@ -3807,9 +3803,9 @@ void TBoss5Gryphon::update_demo_state(u32 arg1) {
 void TBoss5Gryphon::update_death_state(u32 arg1) {
     u8 *arg0 = (u8 *)this;
     CameraPlayback cam;
-    Vec_80062BA0 v;
-    Vec_80062BA0 tmp;
-    Vec_80062BA0 *p;
+    Vec v;
+    Vec tmp;
+    Vec *p;
     switch (arg1) {
     case ENEMY_STATE_ENTER:
         F(s16, 0xB8) = 0x1A;
@@ -3820,7 +3816,7 @@ void TBoss5Gryphon::update_death_state(u32 arg1) {
         F(s32, 0x6DC) = 0;
         F(s32, 0x6E0) = 0;
         F(f32, 0x6F4) = 0.0f;
-        p = (Vec_80062BA0 *)TBoss8Dragon__sub_80065F08();
+        p = (Vec *)TBoss8Dragon__sub_80065F08();
         F(s32, 0x60) = (s32)(10430.38043493439 * atan2_float(p->x - F(f32, 0x38), p->z - F(f32, 0x40)));
         F(f32, 0x38) = p->x - lbl_805D8E80 * sin_table_lookup(F(s32, 0x60));
         F(f32, 0x3C) = lbl_805D8DD4;

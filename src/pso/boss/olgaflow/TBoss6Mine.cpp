@@ -68,13 +68,10 @@ struct VObj_18_b27ba1 : VBase_18_b27ba1 {
     virtual s32 m21(void *, void *, s32, s32, s32);
 };
 
-struct Vec_803240F8 { f32 x, y, z; };
 
 struct Hit_803240F8 { s32 a; s32 b; s32 c; f32 d; };
 
-struct Vec_80324440 { f32 x, y, z; };
 
-struct Vec_80323FA4 { f32 x, y, z; };
 
 struct Tmp_80324A00 { s32 a; u8 pad4[2]; s16 b; u8 pad8[8]; };
 
@@ -87,7 +84,7 @@ f32 vec3_add_to(void *, void *);
 f32 subtract_vector(void *, void *);
 f32 normalize_vector(void *);
 f64 TBoss5GryphonLightningWing__sub_80324CEC(f32);
-s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
+s32 play_persistent_sound(s32 id, s32 a1, Vec *, s32 a3, s32 flags);
 f32 *dispatch_shared_handler_a__6TLobbyFl(s32);
 s32 exchange_object_state__9TObjEnemyFls(void *, void *, int);
 s32 init_collision_body_parts(void *, void *, int);
@@ -151,7 +148,7 @@ void TBoss6Mine::render() { push_matrix(this); post_translate_matrix((char*)this
 
 void TBoss6Mine::update_facing_angles() {
     u8 *arg0 = (u8 *)this;
-    Vec_80323FA4 v;
+    Vec v;
     s32 a;
     s32 b;
     switch (this->state) {
@@ -193,7 +190,7 @@ void TBoss6Mine::explode_damage_players() {
     for (i = 0; i < n; i++) {
         pl = (u8 *)TObjPlayer::get_player_data(i);
         if (((TBoss6PlotFalz *)pl)->is_active() != 0) {
-            Vec_803240F8 v = *(Vec_803240F8 *) (arg0 + 0x38);
+            Vec v = *(Vec *) (arg0 + 0x38);
             subtract_vector(&v, pl + 0x38);
             v.y = 0.0f;
             if (!(vector_length(&v) > 22.5f)) {
@@ -207,7 +204,7 @@ void TBoss6Mine::explode_damage_players() {
             }
         }
     }
-    play_sound_effect(0x4003BA1E, (u8 *)&this->position, 0, 0);
+    play_sound_effect(0x4003BA1E, &this->position, 0, 0);
 }
 
 void TBoss6Mine::state_7() {
@@ -268,7 +265,7 @@ void TBoss6Mine::state_4() {
 }
 
 void TBoss6Mine::state_3() {
-    Vec_80324440 v;
+    Vec v;
     f32 len;
     f32 remaining;
     f32 radius;
@@ -303,7 +300,7 @@ void TBoss6Mine::state_2() {
         this->state_frames = 0;
         this->state = 3;
     }
-    play_persistent_sound(0x4003B21C, (s32)this, (u32)&this->position, 0, 0);
+    play_persistent_sound(0x4003B21C, (s32)this, (Vec *)(u32)&this->position, 0, 0);
 }
 
 void TBoss6Mine::state_1() {

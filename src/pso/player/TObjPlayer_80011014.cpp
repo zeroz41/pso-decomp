@@ -4475,9 +4475,9 @@ s32 TObjChara::recalc_combat_stats(void *motion_arg, void *arg2, void *bonus_arg
 void TObjChara::calc_attach_pos() {
     u8 *arg0 = (u8 *)this;
     if ((void *) this->m_2b0 != NULL) {
-        this->m_2fc = (f32) this->position.x;
-        this->m_300 = (f32) (((0.5f) * *(f32 *)(this->m_2b0 + 0x10)) + this->position.y);
-        this->m_304 = (f32) this->position.z;
+        this->m_2fc.x = this->position.x;
+        this->m_2fc.y = ((0.5f) * *(f32 *)(this->m_2b0 + 0x10)) + this->position.y;
+        this->m_2fc.z = this->position.z;
         return;
     }
     ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(arg0 + 0x2FC, (u8 *)&this->position);

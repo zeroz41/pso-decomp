@@ -83,16 +83,16 @@ void TOSensor::play_on_loop_sound() {
     case AREA_CAVE1:
     case AREA_CAVE2:
     case AREA_CAVE3:
-        play_persistent_sound(0x4411D, (s32)this, (u32)&position, 0, 0);
+        play_persistent_sound(0x4411D, (s32)this, &position, 0, 0);
         return;
     case AREA_MINE1:
     case AREA_MINE2:
-        play_persistent_sound(0x4004C114, (s32)this, (u32)&position, 0, 0);
+        play_persistent_sound(0x4004C114, (s32)this, &position, 0, 0);
         return;
     case AREA_RUINS1:
     case AREA_RUINS2:
     case AREA_RUINS3:
-        play_persistent_sound(0x4641A, (s32)this, (u32)&position, 0, 0);
+        play_persistent_sound(0x4641A, (s32)this, &position, 0, 0);
     case AREA_PIONEER2_EP1:
         return;
     case AREA_FOREST1:
@@ -117,16 +117,16 @@ void TOSensor::play_off_loop_sound() {
     case AREA_CAVE1:
     case AREA_CAVE2:
     case AREA_CAVE3:
-        play_persistent_sound(0x43C1C, (s32)this, (u32)&position, 0, 0);
+        play_persistent_sound(0x43C1C, (s32)this, &position, 0, 0);
         return;
     case AREA_MINE1:
     case AREA_MINE2:
-        play_persistent_sound(0x4004BC13, (s32)this, (u32)&position, 0, 0);
+        play_persistent_sound(0x4004BC13, (s32)this, &position, 0, 0);
         return;
     case AREA_RUINS1:
     case AREA_RUINS2:
     case AREA_RUINS3:
-        play_persistent_sound(0x46419, (s32)this, (u32)&position, 0, 0);
+        play_persistent_sound(0x46419, (s32)this, &position, 0, 0);
     case AREA_PIONEER2_EP1:
         return;
     case AREA_FOREST1:

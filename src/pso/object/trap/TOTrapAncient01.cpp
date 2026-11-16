@@ -259,20 +259,20 @@ void TOTrapAncient01::vfunc_81() {
         case AREA_CAVE1:
         case AREA_CAVE2:
         case AREA_CAVE3:
-            play_persistent_sound(0x4321A, (s32)this, (u32)&position, 0, 0);
+            play_persistent_sound(0x4321A, (s32)this, &position, 0, 0);
             break;
         case AREA_MINE1:
         case AREA_MINE2:
-            play_persistent_sound(0x4004B211, (s32)this, (u32)&position, 0, 0);
+            play_persistent_sound(0x4004B211, (s32)this, &position, 0, 0);
             break;
         case AREA_RUINS1:
         case AREA_RUINS2:
         case AREA_RUINS3:
-            play_persistent_sound(0x4004B217, (s32)this, (u32)&position, 0, 0);
+            play_persistent_sound(0x4004B217, (s32)this, &position, 0, 0);
             break;
         case AREA_VR_SPACESHIP_ALPHA:
         case AREA_VR_SPACESHIP_BETA:
-            play_persistent_sound(0x4004B212, (s32)this, (u32)&position, 0, 0);
+            play_persistent_sound(0x4004B212, (s32)this, &position, 0, 0);
             break;
         }
     } else {
@@ -343,11 +343,11 @@ void TOTrapAncient01::vfunc_82() {
     case AREA_RUINS1:
     case AREA_RUINS2:
     case AREA_RUINS3:
-        play_persistent_sound(0x4004C618, (s32)this, (u32)&position, 0, 0);
+        play_persistent_sound(0x4004C618, (s32)this, &position, 0, 0);
         break;
     case AREA_VR_SPACESHIP_ALPHA:
     case AREA_VR_SPACESHIP_BETA:
-        play_persistent_sound(0x4004C610, (s32)this, (u32)&position, 0, 0);
+        play_persistent_sound(0x4004C610, (s32)this, &position, 0, 0);
         break;
     case AREA_PIONEER2_EP1:
         return;

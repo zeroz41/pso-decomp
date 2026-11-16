@@ -102,7 +102,7 @@ void steer_homing_direction(Obj_8005063C *arg0) {
 
 void TObjDFHorming::sub_8005076C() {
     f32 temp_f1;
-    temp_f1 = *(f32 *)((s8 *)((u8 *)this) + 0x370) - this->m_300;
+    temp_f1 = *(f32 *)((s8 *)((u8 *)this) + 0x370) - this->m_2fc.y;
     if (temp_f1 > lbl_805D8A30) {
         *(f32 *)((s8 *)((u8 *)this) + 0x34C) += lbl_805D8A58;
     } else {

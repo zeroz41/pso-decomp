@@ -41,8 +41,8 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/SoundEffect.h"
 
-struct Vec_800A9C38 { f32 x, y, z; };
 struct VBase_800AA704 { u8 pad[0xC]; };
 struct VObj_800AA704 : VBase_800AA704 {
     virtual ~VObj_800AA704();
@@ -234,8 +234,8 @@ extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 s32 update_enemy_wander_move(void *, Vec_800A9E9C *, s32, f32);
 s32 sub_8004292C__15TObjEnemyCustomFv();
-s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
 void TObjPlayer__sub_800A9E9C(void *arg0_);
+s32 play_persistent_sound(s32 id, s32 a1, Vec *src, s32 a3, s32 flags);
 s32 update_shock_clock__9TObjCharaFv();
 s32 update_movement_status__9TObjCharaFv();
 
@@ -335,7 +335,6 @@ __declspec(section ".data") s16 player_model_node_index_pair[3] = { 0x14, 0x2B, 
 
 
 
-struct Vec_800A93E4 { f32 x, y, z; };
 struct Pair_800A93E4 { s32 a, b; };
 struct VB_800A93E4 { u8 pad[0x18]; };
 struct VO_800A93E4 : VB_800A93E4 {
@@ -343,7 +342,7 @@ struct VO_800A93E4 : VB_800A93E4 {
     virtual void m1();
     virtual void m2();
     virtual void m3();
-    virtual void m4(Vec_800A93E4 *, Vec_800A93E4 *);
+    virtual void m4(Vec *, Vec *);
     virtual void m5();
     virtual void m6();
     virtual void m7();
@@ -369,7 +368,7 @@ struct Ene_800A93E4 {
     u8 pad0[0x30];
     s32 flags;
     u8 pad34[4];
-    Vec_800A93E4 pos;
+    Vec pos;
     u8 pad44[0x60 - 0x44];
     s32 angle;
     u8 pad64[0xB4 - 0x64];
@@ -378,7 +377,7 @@ struct Ene_800A93E4 {
     u8 padba[0xC0 - 0xBA];
     f32 fc0;
     u8 padc4[0x29C - 0xC4];
-    Vec_800A93E4 dest;
+    Vec dest;
     VO_800A93E4 *target;
     u8 pad2ac[0x350 - 0x2AC];
     Params_800A93E4 *params;
@@ -832,7 +831,7 @@ extern "C" void TObjPlayer__sub_800A9E9C(void *arg0_) {
             }
             *(s32 *)((s8 *)arg0 + 0x37C) = 2;
         } else {
-            play_sound_effect(((TObjEnemy *)(arg0))->remap_sound_for_area((s32)(0x4003B205)), arg0 + 0x38, 0, 0);
+            play_sound_effect(((TObjEnemy *)(arg0))->remap_sound_for_area((s32)(0x4003B205)), (Vec *)(arg0 + 0x38), 0, 0);
             *(s32 *)((s8 *)arg0 + 0x37C) = 1;
         }
         if (*(u8 **)((s8 *)arg0 + 0x2A8) != NULL) {
@@ -860,7 +859,8 @@ extern "C" void TObjPlayer__sub_800A9E9C(void *arg0_) {
         } else {
             var_r0 = ((TObjEnemy *)(arg0))->remap_sound_for_area((s32)(0x4003B200));
         }
-        play_persistent_sound((s32)var_r0, (s32)arg0, (u32)(arg0 + 0x38), 0, 0);
+        Vec *position = (Vec *)((u32)(arg0 + 0x38));
+        play_persistent_sound((s32)var_r0, (s32)arg0, position, 0, 0);
         if (*(u8 **)((s8 *)arg0 + 0x2A8) != NULL) {
             if (*(s16 *)((s8 *)arg0 + 0x392) != 0) {
                 var_f31 = ((TObjEneDubchik *)arg0)->sub_800AAF78(2);
@@ -894,7 +894,7 @@ extern "C" void TObjPlayer__sub_800A9C38(void *arg0_) {
             *(s16 *)((s8 *)arg0 + 0xB8) = 3;
             enemy_set_heading_velocity(-7.0f, (TObjEnemy *)arg0, (s32)(*(s32 *)((s8 *)arg0 + 0x60)));
             *(s32 *)((s8 *)arg0 + 0x37C) = 1;
-            play_sound_effect(((TObjEnemy *)(arg0))->remap_sound_for_area((s32)(0x4003A806)), arg0 + 0x38, 0, 0);
+            play_sound_effect(((TObjEnemy *)(arg0))->remap_sound_for_area((s32)(0x4003A806)), (Vec *)(arg0 + 0x38), 0, 0);
             *(s32 *)((s8 *)arg0 + 0x3CC) = TObjPlayer__sub_800AAF98(arg0, 2);
         }
         *(u32 *)((s8 *)arg0 + 0x30) &= ~0x200000;
@@ -905,7 +905,7 @@ extern "C" void TObjPlayer__sub_800A9C38(void *arg0_) {
             ((TObjPlayer *)arg0)->set_invuln_flags();
         }
         {
-        Vec_800A9C38 pos = *(Vec_800A9C38 *)(arg0 + 0x2FC);
+        Vec pos = *(Vec *)(arg0 + 0x2FC);
         pos.x += *(f32 *)((s8 *)arg0 + 0x308);
         pos.z += *(f32 *)((s8 *)arg0 + 0x310);
         if (check_path_obstructed(arg0, &pos) == 0) {
@@ -1034,7 +1034,7 @@ void TObjEneDubchik::update_fall_apart() {
     case 3: {
         s32 all_done;
         ((TObjPlayer *)this)->render_model_and_set_attach_points();
-        play_persistent_sound(remap_sound_for_area(0x4003AD07), (s32)this, (u32)&position, 0, 0);
+        play_persistent_sound(remap_sound_for_area(0x4003AD07), (s32)this, &position, 0, 0);
         all_done = 1;
         for (i = 0; i < 3; i++) {
             if (part_hit[i] != 0 && parts[i] != NULL) {
@@ -1084,10 +1084,10 @@ extern "C" void TObjPlayer__sub_800A93E4(void *arg0_) {
     s32 act;
     u32 h0;
     u32 h1;
-    Vec_800A93E4 b2;
-    Vec_800A93E4 a2;
-    Vec_800A93E4 b1;
-    Vec_800A93E4 a1;
+    Vec b2;
+    Vec a2;
+    Vec b1;
+    Vec a1;
 
     switch (e->state) {
     case 0: {
@@ -1115,7 +1115,7 @@ extern "C" void TObjPlayer__sub_800A93E4(void *arg0_) {
             act = 3;
         }
         if (act >= 0) {
-            play_sound_effect(((TObjEnemy *)(arg0))->remap_sound_for_area((s32)(0x4003AD03)), &e->pos, 0, 0);
+            play_sound_effect(((TObjEnemy *)(arg0))->remap_sound_for_area((s32)(0x4003AD03)), (Vec *)&e->pos, 0, 0);
             if (e->target != NULL && e->target->m18(arg0, 1.0f) != 0) {
                 e->target->m20(arg0, 1.0f);
                 e->target->m23(arg0, 3.0f);
@@ -1140,7 +1140,7 @@ extern "C" void TObjPlayer__sub_800A93E4(void *arg0_) {
         if (h1 != 0) {
             s32 pa = (s32)&a2;
             mult_vec_array__10TObjPlayerFUll(0, h1, (void *)pa, 2);
-            e->model->m4((Vec_800A93E4 *)pa, &b2);
+            e->model->m4((Vec *)pa, &b2);
         }
         pop_matrix();
         if (e->fb4 != 4) {
@@ -1234,7 +1234,7 @@ extern "C" void TObjPlayer__sub_800A8FB4(void *arg0_) {
                 ((TObject *)(*(void **)((s8 *)arg0 + 0x3A8)))->queue_destruction();
                 *(u32 *)((s8 *)arg0 + 0x3A8) = 0U;
             }
-            play_sound_effect(((TObjEnemy *)(arg0))->remap_sound_for_area((s32)(0x4003AD04)), arg0 + 0x38, 0, 0);
+            play_sound_effect(((TObjEnemy *)(arg0))->remap_sound_for_area((s32)(0x4003AD04)), (Vec *)(arg0 + 0x38), 0, 0);
         }
         break;
     case 4:
@@ -1467,11 +1467,11 @@ extern "C" void dubchik_update_dying(u8 *arg0) {
   {
     if (TLobby::get_instance() != 0)
     {
-      play_sound_effect(0x4003AD10, arg0 + 0x38, 0, 0);
+      play_sound_effect(0x4003AD10, (Vec *)(arg0 + 0x38), 0, 0);
     }
     else
     {
-      play_sound_effect(((TObjEnemy *)((void *) arg0))->remap_sound_for_area((s32)(0x4003AD16)), arg0 + 0x38, 0, 0);
+      play_sound_effect(((TObjEnemy *)((void *) arg0))->remap_sound_for_area((s32)(0x4003AD16)), (Vec *)(arg0 + 0x38), 0, 0);
     }
     TBoss3Volopt::create_breakup_mdl((s32)breakup_model_ptr, (s32)&lbl_80491260, (s32)((int) (*((s32 *) (((s8 *) arg0) + 0x24)))), (s32)(arg0 + 0x2FC), (s32)((int) (*((s32 *) (((s8 *) arg0) + 0x60)))));
     ((TObjPlayer *)arg0)->refresh_lobby_state();

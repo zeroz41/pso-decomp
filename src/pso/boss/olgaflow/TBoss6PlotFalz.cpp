@@ -633,9 +633,9 @@ void TBoss6PlotFalz::award_exp_and_destroy() {
         u8 *pl = ((u8 *(*)(s32))get_player_by_client_id)(local_client_id);
         if (pl != NULL) {
             V3_802AB490 saved = *(V3_802AB490 *)(arg0 + 0x2FC);
-            VecCopy((Vec *)&this->m_2fc, (const Vec *)(pl + 0x2FC));
+            VecCopy(&this->m_2fc, (const Vec *)(pl + 0x2FC));
             ((TObjEnemy *)arg0)->distribute_experience();
-            VecCopy((Vec *)&this->m_2fc, (const Vec *)&saved);
+            VecCopy(&this->m_2fc, (const Vec *)&saved);
         }
     }
     Msg_802AB490 m;

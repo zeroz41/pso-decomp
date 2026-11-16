@@ -115,7 +115,7 @@ TItemMagSub::TItemMagSub(TObjPlayer *player, TItemMag *mag) : TItemHeapObject(ma
 #pragma pop
 
 void TItemMagSub::reset() {
-    VecCopy((Vec *)translation_offset, (Vec *)&owner->m_2fc);
+    VecCopy((Vec *)translation_offset, &owner->m_2fc);
     rotation_phase[2] = 0;
     rotation_phase[1] = 0;
     rotation_phase[0] = 0;
@@ -172,7 +172,7 @@ void TItemMagSub::update_follow() {
 
     if (motion != NULL) {
         if (motion->joint_index == -1) {
-            VecCopy(&target, (Vec *)&owner->m_2fc);
+            VecCopy(&target, &owner->m_2fc);
         } else {
             owner->get_anim_node_position(motion->joint_index, &target);
         }
@@ -224,7 +224,7 @@ void TItemMagSub::update_transition() {
 void TItemMagSub::update_special_pose() {
     if (motion != NULL) {
         if (motion->joint_index == -1) {
-            VecCopy(&follow_anchor, (Vec *)&owner->m_2fc);
+            VecCopy(&follow_anchor, &owner->m_2fc);
         } else {
             owner->get_anim_node_position(motion->joint_index, &follow_anchor);
         }
@@ -261,7 +261,7 @@ s32 TItemMagSub::resolve_owner_heading() {
 }
 
 void TItemMagSub::render() {
-    if (is_point_on_screen(&owner->m_2fc, 400.0f, 20.0f) && model != NULL) {
+    if (is_point_on_screen(&owner->m_2fc.x, 400.0f, 20.0f) && model != NULL) {
         drawing = this;
         set_texlist(textures);
         push_matrix();
@@ -459,7 +459,7 @@ void TItemMagSub::set_motion_type(s32 type) {
     if (player != NULL) {
         s32 joint = motion->joint_index;
         if (joint == -1) {
-            VecCopy(&follow_anchor, (Vec *)&player->m_2fc);
+            VecCopy(&follow_anchor, &player->m_2fc);
             return;
         }
         player->get_anim_node_position(joint, &follow_anchor);

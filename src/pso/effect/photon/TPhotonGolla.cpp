@@ -31,13 +31,12 @@ struct Stack_801ABBAC {
 
 struct Color_801ABAA0 { f32 a, r, g, b; };
 
-struct Vec_801ABAA0 { f32 x, y, z; };
 
 struct Self_801ABAA0 {
     u8 pad0[0x24];
     s32 f24;
     u8 pad1[0x38 - 0x28];
-    Vec_801ABAA0 pos;
+    Vec pos;
     u8 pad2[0x60 - 0x44];
     s32 f60;
     u8 pad3[0x14C - 0x64];
@@ -122,7 +121,7 @@ void *spawn_particle_effect(void *pos, s32 id);
 void *find_entity_by_id(u16 id);
 s32 spawn_photon_blast_attachment_effects(void *, int);
 u8 *TPhotonMagicSquare__ct(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0);
-s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
+s32 play_persistent_sound(s32 id, s32 a1, Vec *, s32 a3, s32 flags);
 u32 __nw__7TObjectFUl(int);
 
 s32 scroll_strip_uvs(void *, s16, int);
@@ -361,7 +360,7 @@ void TPhotonGolla::run_task() {
         TPhotonGolla::spawn_concentrate(arg0);
     }
     if ((s32) this->m_1c4 != 0) {
-        play_persistent_sound(0x4002462F, (s32)arg0, 0, 0, 0);
+        play_persistent_sound(0x4002462F, (s32)arg0, (Vec *)(0), 0, 0);
     }
 }
 
@@ -409,7 +408,6 @@ void *destroy__12TPhotonGollaFPvs(void *arg0, s16 arg1) {
 #include "pso/enemy/panarms/TObjEnePanarms.h"
 #include "pso/player/TObjPlayer.h"
 
-struct Stack_801ABE14 { f32 x, y, z; };
 
 extern "C" {
 void *find_entity_by_id(u16 id);
@@ -450,7 +448,7 @@ void *lbl_804C35F4[17] = {
     (void *)0x0,
 };
 u8 *TPhotonGolla__ct(u8 *arg0, u8 *arg1) {
-    Stack_801ABE14 pos;
+    Vec pos;
     u8 *e;
     void *p;
     __ct__13TUnk_804C3248Fv(arg0);

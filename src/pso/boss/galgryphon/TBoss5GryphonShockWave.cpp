@@ -66,7 +66,7 @@ void TBoss5GryphonShockWave::run_task() {
             attach_particle_model(particle_effect_with_flags, get_bml_model(boss5_gryphon_bml_resource, 0), boss5_gryphon_texture_list, get_bml_motion(boss5_gryphon_bml_resource, 0), 0, 1.0f);
         }
         spawn_particle_effect_with_flags((u8 *)&this->m_2c, gryphon_shockwave_particle_ids_ptr[2], 0x40);
-        play_sound_effect(0x40033C13, (u8 *)&this->m_2c, 0, 0);
+        play_sound_effect(0x40033C13, (Vec *)&this->m_2c, 0, 0);
         TBoss8Dragon__sub_80064114(TBoss8Dragon::get_instance_count(), (s32)&this->m_2c);
         spawn_gryphon_tornado(*(s32 *)&this->m_up, *(s32 *)&this->m_38, (u8 *)&this->m_2c, this->m_28);
         *(s32 *)&this->m_1c = 3;

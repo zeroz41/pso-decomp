@@ -119,7 +119,7 @@ void TOMonumentAncient02::run_task() {
         }
         break;
     case 2:
-        play_persistent_sound(sound_id, (s32)this, (u32)&position, 0, 0);
+        play_persistent_sound(sound_id, (s32)this, &position, 0, 0);
         break;
     }
 }

@@ -1,3 +1,4 @@
+#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/audio/SoundBankTables.h"
 
 // --- data head (folded from pso/audio/SoundBankTables.cpp) ---
@@ -509,7 +510,7 @@ typedef struct Owner_8023FBBC {
     s32 kind;
 } Owner_8023FBBC;
 
-SoundRequestVoice lbl_805162EC[0x28];
+SoundRequestVoice sound_requests[0x28];
 u8 lbl_80517BEC[0x258];   // contents of SOUND.BIN (read by init_sound_aux_effects)
 void *lbl_80517E44[0x27];  // MusyX sdir buffers per sound bank (inferred)
 u16 calculate_crc16_ccitt(const u8* bytes, s32 count);
@@ -521,17 +522,17 @@ s32 advance_rng__6TLobbyFPv(void *arg0) {
     return *(s32 *)((s8 *)arg0 + 0x2AC);
 }
 
-void TLobby__sub_8023F754(s32 arg0, s32 arg1) {
-    if (arg0 < 0 || arg0 >= 0x20) {
+void TLobby__sub_8023F754(s32 id, Vec *pos) {
+    if (id < 0 || id >= 0x20) {
         return;
     }
-    s32 *p = (s32 *)&lbl_805162EC;
-    p[arg0 * 40 + 34] = arg1;
+
+    sound_requests[id].position = pos;
 }
 
 void set_sound_slot_special_scale(s32 slot, f32 scale) {
     if (slot < 0 || slot >= 32) return;
-    clamp_field9c__6TLobbyFPvf(&lbl_805162EC[slot], scale);
+    clamp_field9c__6TLobbyFPvf(&sound_requests[slot], scale);
 }
 
 f32 get_field_2a4__6TLobbyFPv(void* p) { return *(f32*)((char*)p + 0x2a4); }
@@ -575,7 +576,7 @@ s32 TLobby__sub_8023F880(s32 arg0) {
   s8 *new_var2;
   if ((arg0 >= 0) && (arg0 < 0x28))
   {
-    new_var = (u8 *)lbl_805162EC;
+    new_var = (u8 *)sound_requests;
     new_var2 = (s8 *) (new_var + (arg0 * 0xA0));
     return *((s32 *)(new_var2 + 4));
   }
@@ -583,13 +584,13 @@ s32 TLobby__sub_8023F880(s32 arg0) {
 }
 void fade_out_sound_slot(s32 slot, s32 step) {
     if (slot < 0 || slot >= 32) return;
-    ((void (*)(void*, s32))start_voice_fade)(&lbl_805162EC[slot], step);
+    ((void (*)(void*, s32))start_voice_fade)(&sound_requests[slot], step);
 }
 void set_sound_slot_pitch(s32 slot, s32 pitch, s32 duration) {
     if (slot < 0 || slot >= 0x20) {
         return;
     }
-    set_voice_pitch_slide((u8 *)&lbl_805162EC[slot], (s32)((u32)pitch << 13) / 3072, duration);
+    set_voice_pitch_slide((u8 *)&sound_requests[slot], (s32)((u32)pitch << 13) / 3072, duration);
 }
 #pragma push
 #pragma opt_common_subs on
@@ -598,58 +599,58 @@ void set_sound_slot_pitch(s32 slot, s32 pitch, s32 duration) {
 s32 alloc_looping_sound_slot(u32 id, s32 actor, const void *position, s32 base, s32 flags) {
     s32 i;
     for (i = 0; i < 32; i++) {
-        if ((lbl_805162EC[i].state == -1 || lbl_805162EC[i].state == 1) &&
-            lbl_805162EC[i].kind == 0 && (s32)(id >> 16) == lbl_805162EC[i].bank &&
-            (s32)(id & 0xFFFF) == lbl_805162EC[i].index && actor == (s32)lbl_805162EC[i].actor &&
-            (lbl_805162EC[i].flags & 1)) {
-            TLobby__sub_802409E4(&lbl_805162EC[i]);
-            lbl_805162EC[i].position = position;
-            lbl_805162EC[i].base = base;
+        if ((sound_requests[i].state == -1 || sound_requests[i].state == 1) &&
+            sound_requests[i].kind == 0 && (s32)(id >> 16) == sound_requests[i].bank &&
+            (s32)(id & 0xFFFF) == sound_requests[i].index && actor == (s32)sound_requests[i].actor &&
+            (sound_requests[i].flags & 1)) {
+            TLobby__sub_802409E4(&sound_requests[i]);
+            sound_requests[i].position = position;
+            sound_requests[i].base = base;
             return i;
         }
     }
     for (i = 0; i < 32; i++) {
-        if (lbl_805162EC[i].state == 0) {
+        if (sound_requests[i].state == 0) {
             goto found;
         }
     }
     return -6;
 found:
-    init_sound_voice__6TLobbyFPviiii(&lbl_805162EC[i], 0, id >> 16, id & 0xFFFF, flags | 1);
-    lbl_805162EC[i].base = base;
-    lbl_805162EC[i].extra = 0;
-    lbl_805162EC[i].spatial = 0;
-    lbl_805162EC[i].position = position;
-    lbl_805162EC[i].actor = (void *)actor;
-    lbl_805162EC[i].refresh = 5;
+    init_sound_voice__6TLobbyFPviiii(&sound_requests[i], 0, id >> 16, id & 0xFFFF, flags | 1);
+    sound_requests[i].base = base;
+    sound_requests[i].extra = 0;
+    sound_requests[i].spatial = 0;
+    sound_requests[i].position = position;
+    sound_requests[i].actor = (void *)actor;
+    sound_requests[i].refresh = 5;
     return i;
 }
 
 s32 alloc_one_shot_sound_slot(u32 id, const void *position, s32 base, s32 flags) {
     s32 i;
     for (i = 0; i < 32; i++) {
-        if ((lbl_805162EC[i].state == -1 || lbl_805162EC[i].state == 1) &&
-            lbl_805162EC[i].kind == 0 && (s32)(id >> 16) == lbl_805162EC[i].bank &&
-            (s32)(id & 0xFFFF) == lbl_805162EC[i].index && lbl_805162EC[i].age <= 2) {
-            if (lbl_805162EC[i].base < base) {
-                lbl_805162EC[i].base = base;
+        if ((sound_requests[i].state == -1 || sound_requests[i].state == 1) &&
+            sound_requests[i].kind == 0 && (s32)(id >> 16) == sound_requests[i].bank &&
+            (s32)(id & 0xFFFF) == sound_requests[i].index && sound_requests[i].age <= 2) {
+            if (sound_requests[i].base < base) {
+                sound_requests[i].base = base;
             }
             return i;
         }
     }
     for (i = 0; i < 32; i++) {
-        if (lbl_805162EC[i].state == 0) {
+        if (sound_requests[i].state == 0) {
             goto found;
         }
     }
     return -6;
 found:
-    init_sound_voice__6TLobbyFPviiii(&lbl_805162EC[i], 0, id >> 16, id & 0xFFFF, flags);
-    lbl_805162EC[i].base = base;
-    lbl_805162EC[i].extra = 0;
-    lbl_805162EC[i].spatial = 0;
-    lbl_805162EC[i].position = position;
-    lbl_805162EC[i].actor = 0;
+    init_sound_voice__6TLobbyFPviiii(&sound_requests[i], 0, id >> 16, id & 0xFFFF, flags);
+    sound_requests[i].base = base;
+    sound_requests[i].extra = 0;
+    sound_requests[i].spatial = 0;
+    sound_requests[i].position = position;
+    sound_requests[i].actor = 0;
     return i;
 }
 #pragma pop
@@ -796,13 +797,13 @@ void TLobby__sub_8023FCC0(SoundControlState *self) {
 void reset_sound_group_fade__6TLobbyFv(void) {
     s32 i;
     for (i = 0; i < 0x20; i++) {
-        lbl_805162EC[i].extra = -0x100;
+        sound_requests[i].extra = -0x100;
     }
 }
 void fade_voice_channels__6TLobbyFi(s32 arg0) {
     s32 i;
     for (i = 0; i < 0x20; i++) {
-        ((void (*)(void*, s32))start_voice_fade)(&lbl_805162EC[i], arg0);
+        ((void (*)(void*, s32))start_voice_fade)(&sound_requests[i], arg0);
     }
 }
 s32 TLobby__sub_8023FFB8(SoundControlState *self, int id) {
@@ -899,16 +900,16 @@ s32 update_sound_frame(SoundControlState *self) {
     TLobby__sub_8023FCC0(self);
     advance_rng__6TLobbyFPv(self);
     for (i = 0; i < 40; i++) {
-        tick_sound_voice(&lbl_805162EC[i]);
+        tick_sound_voice(&sound_requests[i]);
     }
     n = 0;
     for (i = 0; i < 40; i++) {
-        if (lbl_805162EC[i].state != 3 && lbl_805162EC[i].index == 6 && lbl_805162EC[i].index == 0x19) {
+        if (sound_requests[i].state != 3 && sound_requests[i].index == 6 && sound_requests[i].index == 0x19) {
             n++;
         }
     }
     for (i = 0; i < 40; i++) {
-        if (lbl_805162EC[i].state != 3 && !(lbl_805162EC[i].index == 6 && lbl_805162EC[i].index == 0x19)) {
+        if (sound_requests[i].state != 3 && !(sound_requests[i].index == 6 && sound_requests[i].index == 0x19)) {
             for (j = 0; j < n; j++) {
             }
         }
@@ -938,7 +939,7 @@ s32 init_sound_aux_effects(SoundControlState *self) {
     u32 size;
 
     for (i = 0; i < 40; i++) {
-        set_field0__6TLobbyFPvi(&lbl_805162EC[i], self);
+        set_field0__6TLobbyFPvi(&sound_requests[i], self);
     }
     self->tick = OSGetTick();
     self->elapsed = 0;

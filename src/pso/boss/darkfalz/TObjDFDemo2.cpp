@@ -47,7 +47,7 @@ typedef struct Obj_8004E918 {
 typedef struct Obj_8004EA2C {
     u8 pad0[0xA8];
     s32 fa8;
-    f32 fac[3];
+    Vec fac;
     u8 padb8[4];
     s32 ftimer;
     f32 fc0;
@@ -64,7 +64,7 @@ struct Obj_8004EB78 {
     u8 pad1c[0x90 - 0x1C];
     Ent_8004EB78 ent[2];
     void *a8;
-    u8 pos[0xC];
+    Vec pos;
     void *b8;
     s32 bc;
     f32 c0;
@@ -77,7 +77,7 @@ void set_scripted_camera_pose(void *, void *, void *);
 s32 __ct__8TObjBaseFP7TObject(void *, void *);
 extern s32 boss4_zanzo_bml_index_table[];
 void *__dt__11TObjDFDemo2Fv(void *arg0, s16 arg1);
-void *TObjDFDemo2__ct(void *, void *, void *, void *, void *);
+void *TObjDFDemo2__ct(void *, void *, Vec *, void *, void *);
 void __dl__7TObjectFPv(void *);
 void *__nw__7TObjectFUl(int);
 
@@ -140,16 +140,16 @@ void TObjDFDemo2::run_task() {
     Obj_8004EA2C *arg0 = (Obj_8004EA2C *)this;
     void *e;
     if (arg0->ftimer == 0x90) {
-        e = (void *)spawn_particle_effect(arg0->fac, 0xC3);
+        e = (void *)spawn_particle_effect(&arg0->fac, 0xC3);
         if (e != NULL) {
             ((TParticleCtrl *)e)->set_flags(0x40);
         }
-        play_sound_effect(0x4003AD15, arg0->fac, 0, 1);
+        play_sound_effect(0x4003AD15, (Vec *)(&arg0->fac), 0, 1);
         start_pad_rumble_all(0xC0, 0xF);
     }
     while (arg0->ftimer >= 0xB4) {
         if (arg0->fa8 != 0 || arg0->ftimer <= 0xDC) {
-            e = (void *)spawn_particle_effect(arg0->fac, 0x14E);
+            e = (void *)spawn_particle_effect(&arg0->fac, 0x14E);
             if (e != NULL) {
                 ((TParticleCtrl *)e)->set_flags(0x40);
             }
@@ -179,7 +179,7 @@ void *__dt__11TObjDFDemo2Fv(void *arg0, s16 arg1) {
 #pragma opt_common_subs off
 #pragma opt_propagation off
 #define self ((Obj_8004EB78 *)arg0)
-void *TObjDFDemo2__ct(void *arg0, void *parent, void *arg2, void *arg3, void *arg4) {
+void *TObjDFDemo2__ct(void *arg0, void *parent, Vec *arg2, void *arg3, void *arg4) {
     s32 k;
     s32 cnt;
     s32 i;
@@ -187,7 +187,7 @@ void *TObjDFDemo2__ct(void *arg0, void *parent, void *arg2, void *arg3, void *ar
     __ct__8TObjBaseFP7TObject(self, parent);
     self->vt18 = (u8 *)__vt__11TObjDFDemo2;
     self->vt0 = (s32) TObjDFDemo2__name;
-    VecCopy((Vec *)self->pos, (const Vec *)arg2);
+    VecCopy(&self->pos, arg2);
     self->b8 = arg3;
     self->a8 = arg4;
     cnt = TBoss4Uro::get_instance_count();
@@ -203,10 +203,10 @@ void *TObjDFDemo2__ct(void *arg0, void *parent, void *arg2, void *arg3, void *ar
     {
         Pose_8004EB78 p = lbl_80437384;
         p.b = (s32) self->b8;
-        set_scripted_camera_pose(self->pos, self->pos, &p);
+        set_scripted_camera_pose(&self->pos, &self->pos, &p);
     }
     lbl_80485680.cache_target_and_forward(0x4444);
-    play_sound_effect(0x4003A325, self->pos, 0, 1);
+    play_sound_effect(0x4003A325, (Vec *)(&self->pos), 0, 1);
     self->bc = 0;
     return self;
 }
@@ -217,7 +217,7 @@ void *TBoss4DarkFalz::create_demo2(void *arg0, void *arg1, void *arg2, void *arg
     void *o;
     o = __nw__7TObjectFUl(0xC4);
     if (o != NULL) {
-        o = TObjDFDemo2__ct(o, arg0, arg1, arg2, arg3);
+        o = TObjDFDemo2__ct(o, arg0, (Vec *)arg1, arg2, arg3);
     }
     return o;
 }

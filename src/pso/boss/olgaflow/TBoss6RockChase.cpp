@@ -37,7 +37,6 @@ struct RecoveredGlobal_8036D4E0___vt__15TBoss6RockChase {
     u8 remaining[0x34];
 };
 
-struct Vec_8036D1B4 { f32 x, y, z; };
 
 struct Hit_8036D1B4 {
     s32 a;
@@ -72,14 +71,14 @@ struct Player_8036D1B4 : PBase_8036D1B4 {
     virtual void m20();
     virtual void m21(s32, Hit_8036D1B4 *, s32, s32, s32);
     u8 pad1C[0x38 - 0x1C];
-    Vec_8036D1B4 pos;
+    Vec pos;
 };
 
 struct Ent_8036D1B4 { s32 id; f32 range; };
 
 struct Chase_8036D1B4 {
     u8 pad0[0x38];
-    Vec_8036D1B4 pos;
+    Vec pos;
     u8 pad44[0xAC - 0x44];
     s32 xAC;
     s32 xB0;
@@ -114,7 +113,7 @@ void __dl__7TObjectFPv(void *);
 #pragma opt_propagation off
 s32 TBoss6RockChase::damage_players_in_range() {
     Chase_8036D1B4 *self = (Chase_8036D1B4 *)this;
-    Vec_8036D1B4 d;
+    Vec d;
     s32 n;
     s32 dmg;
     s32 i;
@@ -172,12 +171,12 @@ void TBoss6RockChase::run_task() {
             *(f32 *)((s8 *)arg0 + 0x3C) = 0.0f;
             *(f32 *)&this->_padB8 = 0.0f;
             damage_players_in_range();
-            play_sound_effect(0x4006B51E, (u8 *)&this->position, 0, 0);
+            play_sound_effect(0x4006B51E, &this->position, 0, 0);
             spawn_particle_effect(((u8 *)&this->position), 0x220);
             spawn_particle_effect(((u8 *)&this->position), 0x222);
             TBoss6PlotFalz::apply_radial_effect_to_players((u8 *)&this->position, 0xC0, 0xF, 100.0f);
             ((TBoss6Rock *)(arg0 + 0x38))->spawn_crush_rocks(this->m_b0);
-            play_sound_effect(0x4006AB1F, (u8 *)&this->position, 0, 0);
+            play_sound_effect(0x4006AB1F, &this->position, 0, 0);
             ((TObject *)arg0)->queue_destruction();
         }
     }

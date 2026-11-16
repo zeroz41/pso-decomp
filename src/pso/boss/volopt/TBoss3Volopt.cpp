@@ -386,7 +386,7 @@ TBoss3Volopt::TBoss3Volopt(void *set_data) : TObjEnemyCustom(tl_04) {
     apply_set_data(set_data);
     reset_photon_effect();
     move_to_arena(0);
-    VecCopy(&position, VecCopy((Vec *)&m_2fc, &boss3_volopt_spawn_pos));
+    VecCopy(&position, VecCopy(&m_2fc, &boss3_volopt_spawn_pos));
     actorFlags |= 0x06040000;
     volopt_cage_id = get_part_id(0x20);
     volopt_cage_group = get_part_group(0x20);
@@ -955,7 +955,7 @@ void TBoss3Volopt::start_phase2() {
         p02->sub_800C7860();
     }
     move_to_arena(1);
-    VecCopy(&position, VecCopy((Vec *)&m_2fc, &boss3_volopt_spawn_pos));
+    VecCopy(&position, VecCopy(&m_2fc, &boss3_volopt_spawn_pos));
     attack_step = 0;
     attack_delay = 0;
     clear_volopt_cage_flag();

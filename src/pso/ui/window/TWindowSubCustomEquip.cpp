@@ -305,7 +305,7 @@ u8 lbl_805D647C;
 s32 fn_8002AE08(int);
 s32 TWindowShortListCtrl__check_controller_button(int, int);
 s32 apply_choice__20TWindowChoiceSettingFllll(void *, int, int, int);
-s32 play_sound_effect(s32, s32, s32, s32);
+s32 play_sound_effect(s32, Vec *, s32, s32);
 extern RecoveredGlobal_80276D14_lbl_8050E208 controller_input_state;
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
 s32 set_help_text__15TWindowHelpItemFll(u8 *, s32);
@@ -460,13 +460,13 @@ void TWindowSubCustomEquip::update_rotate_anim() {
 
 void TWindowSubCustomEquip::handle_cancel() {
     if (is_selected() == 0) {
-        play_sound_effect(0x52F16, 0, 0, 0);
+        play_sound_effect(0x52F16, (Vec *)(0), 0, 0);
         this->m_60 = (u8) (this->m_60 | 2);
     }
 }
 
 void TWindowSubCustomEquip::handle_decide() {
-    play_sound_effect(0x52D01, 0, 0, 0);
+    play_sound_effect(0x52D01, (Vec *)(0), 0, 0);
     this->m_60 = (u8) (this->m_60 | 1);
     ((TWindowSubStatusDisp *)(this->m_6c))->set_entry_state(2);
 }
@@ -496,7 +496,7 @@ void TWindowSubCustomEquip::handle_cursor_input() {
     }
     window_choice_setting = (u8 *)&controller_input_state.value + (temp_r29 * 0x50) + 0x20;
     if ((apply_choice__20TWindowChoiceSettingFllll((void *)window_choice_setting, 0xF0, 6, 1) != 0) || (TWindowShortListCtrl__check_controller_button((int)window_choice_setting, (int) (fn_8002AE08((int)this->m_20))) != 0) || (apply_choice__20TWindowChoiceSettingFllll((void *) ((u8 *)&controller_input_state.value + 0x160), 0xF0, 6, 1) != 0)) {
-        play_sound_effect(0x54100, 0, 0, 0);
+        play_sound_effect(0x54100, (Vec *)(0), 0, 0);
         if (TWindowShortListCtrl__check_controller_button((int)window_choice_setting, (int) (fn_8002AE08((int)this->m_20))) != 0) {
             this->m_62 = (u8) (1 - this->m_62);
             this->m_63 = 3U;

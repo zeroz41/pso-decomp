@@ -82,9 +82,8 @@ struct RecoveredGlobal_80308840_main_task {
     u8 remaining[0x30];
 };
 
-struct Vec_803086A8 { f32 x; f32 y; f32 z; };
 
-struct Msg_803086A8 { void *p; s32 one; Vec_803086A8 pos; s32 id; };
+struct Msg_803086A8 { void *p; s32 one; Vec pos; s32 id; };
 
 struct Slot_803086A8 { u32 a; s32 b; };
 
@@ -129,7 +128,7 @@ Slot_803086A8 *get_attack_entry__16TObjOnlineEndingFi(s32);
 s32 apply_hit_to_target__14TBoss7CrawfishFPvPv(void *, void *);
 void TBoss7Crawfish__sub_803087D4(s32 arg0, s32 arg1);
 int TBoss7Crawfish__sub_80308BEC(void* p);
-s32 play_sound_effect(s32, s32, s32, s32);
+s32 play_sound_effect(s32, Vec *, s32, s32);
 int change_state__14TBoss7CrawfishFl(void*, int);
 int scale_current_matrix(void*);
 int post_translate_matrix(void*);
@@ -170,12 +169,12 @@ void TBoss7Crawfish::register_attack_hits() {
 }
 
 void TBoss7Crawfish__sub_803087D4(s32 arg0, s32 arg1) {
-    play_persistent_sound(arg1, arg0, arg0 + 0x38, 0, 0);
+    play_persistent_sound(arg1, arg0, (Vec *)(arg0 + 0x38), 0, 0);
 }
 
 void TBoss7Crawfish::spawn_effect(s32 arg1) {
     s32 arg0 = (s32)this;
-    play_sound_effect(arg1, arg0 + 0x38, 0, 0);
+    play_sound_effect(arg1, (Vec *)(arg0 + 0x38), 0, 0);
 }
 
 typedef char RecoveredGlobal_80308840_main_task_size[sizeof(RecoveredGlobal_80308840_main_task) == 0x34 ? 1 : -1];

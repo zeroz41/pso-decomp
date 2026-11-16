@@ -109,7 +109,7 @@ extern s32 __vt__13TUnk_8049F148[];
 extern RecoveredGlobal_8010A5E0___vt__14TItemEffShield __vt__14TItemEffShield;
 extern s32 TItemEffShield__class_name;
 void *get_player_by_client_id(s32 i);
-void play_sound_effect(s32, void *, s32, s32);
+void play_sound_effect(s32, Vec *, s32, s32);
 void run_task__14TItemEffShieldFv(Shield_8010A4C0 *self);
 
 }
@@ -164,7 +164,7 @@ void run_task__14TItemEffShieldFv(Shield_8010A4C0 *self) {
         switch (self->m_3c) {
         case 0:
             if (self->m_38 - 1 == r->m_20) {
-                play_sound_effect(0x4001A81E, self->m_1c, 0, 0);
+                play_sound_effect(0x4001A81E, (Vec *)(self->m_1c), 0, 0);
                 ((TItemEffShield *)self)->spawn_recipe_particles();
                 self->m_3c++;
                 self->m_38 = 0;

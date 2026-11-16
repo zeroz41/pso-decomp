@@ -15,9 +15,8 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
 
-struct Vec_80368C14 { f32 x, y, z; };
 
-struct Mine_80368C14 { u8 pad[0x38]; Vec_80368C14 pos; };
+struct Mine_80368C14 { u8 pad[0x38]; Vec pos; };
 
 #include <stddef.h>
 #include "pso/boss/volopt/TBoss3Volopt.h"
@@ -92,13 +91,12 @@ struct Stack_80368AB8 {
 
 struct Key_80369228 { s32 a; s16 b; s16 c; s32 d; s32 e; };
 
-struct M_80368CE4 { u8 pad[0x384]; Vec_80368C14 home; };
+struct M_80368CE4 { u8 pad[0x384]; Vec home; };
 
-struct P_80368CE4 { u8 pad[0x38]; Vec_80368C14 pos; };
+struct P_80368CE4 { u8 pad[0x38]; Vec pos; };
 
-struct Vec_80369598 { f32 x, y, z; };
 
-struct Params_80369598 { u8 pad0[6]; s16 f6; s16 f8; u8 padA[6]; Vec_80369598 pos; u8 pad1C[0x40 - 0x1C]; Vec_80369598 a; Vec_80369598 b; };
+struct Params_80369598 { u8 pad0[6]; s16 f6; s16 f8; u8 padA[6]; Vec pos; u8 pad1C[0x40 - 0x1C]; Vec a; Vec b; };
 
 extern "C" {
 void *__vt__13TBoss6MagMine[11] = {
@@ -112,8 +110,8 @@ s32 query_teammate_state__9TObjEneDDFv();
 void add_radar_scaled_marker(void *, int, int, int, f32);
 void vt2__13TBoss6MagMineFv(u8 *arg0);
 void vt1__13TBoss6MagMineFv(u8 *arg0);
-f32 vector_length(Vec_80368C14 *);
-void subtract_vector(Vec_80368C14 *, void *);
+f32 vector_length(Vec *);
+void subtract_vector(Vec *, void *);
 void explode__13TBoss6MagMineFPv(Mine_80368C14 *o);
 s32 get_field_0x42c__13TBoss6MagMineFPv(void* p);
 int TBoss6PlotFalz__sub_8036964C(void);
@@ -232,7 +230,7 @@ void explode__13TBoss6MagMineFPv(Mine_80368C14 *o) {
     for (i = 0; i < n; i++) {
         u8 *pl = (u8 *)TObjPlayer::get_player_data(i);
         if (((TBoss6PlotFalz *)pl)->is_active() != 0 && TObjPlayer::is_locally_controlled(pl) != 0) {
-            Vec_80368C14 v = o->pos;
+            Vec v = o->pos;
             subtract_vector(&v, pl + 0x38);
             v.y = 0.0f;
             if (!(vector_length(&v) > 22.5f)) {
@@ -240,12 +238,12 @@ void explode__13TBoss6MagMineFPv(Mine_80368C14 *o) {
             }
         }
     }
-    play_sound_effect(0x4003BA1E, &o->pos, 0, 0);
+    play_sound_effect(0x4003BA1E, (Vec *)&o->pos, 0, 0);
 }
 
 s32 is_player_in_range__13TBoss6MagMineFPv(void *arg0_) {
     M_80368CE4 *arg0 = (M_80368CE4 *)arg0_;
-    Vec_80368C14 d;
+    Vec d;
     s32 n;
     s32 i;
     void *p;
@@ -253,7 +251,7 @@ s32 is_player_in_range__13TBoss6MagMineFPv(void *arg0_) {
     for (i = 0; i < n; i++) {
         p = (void *)TObjPlayer::get_player_data(i);
         if (((TBoss6PlotFalz *)p)->is_active() != 0) {
-            ((void (*)(Vec_80368C14 *, Vec_80368C14 *))VecCopy__FP3VecPC3Vec)(&d, &((P_80368CE4 *)p)->pos);
+            ((void (*)(Vec *, Vec *))VecCopy__FP3VecPC3Vec)(&d, &((P_80368CE4 *)p)->pos);
             subtract_vector(&d, &arg0->home);
             d.y = 0.0f;
             if (vector_length(&d) <= 22.5f) {
@@ -308,8 +306,7 @@ void vt1__13TBoss6MagMineFv(u8 *arg0) {
 }
 #pragma pop
 
-struct Vec_80368F20 { f32 x, y, z; };
-struct Mine_80368F20 { u8 pad[0x38]; Vec_80368F20 pos; u8 pad44[0x378 - 0x44]; Vec_80368F20 vel; Vec_80368F20 home; s32 f390; };
+struct Mine_80368F20 { u8 pad[0x38]; Vec pos; u8 pad44[0x378 - 0x44]; Vec vel; Vec home; s32 f390; };
 
 void vt0__13TBoss6MagMineFv(Mine_80368F20 *m) {
     m->vel.y += -0.25f;
@@ -324,7 +321,6 @@ void vt0__13TBoss6MagMineFv(Mine_80368F20 *m) {
     }
 }
 
-struct Vec_80368FA0 { f32 x, y, z; };
 
 class TBoss6MagMine_80368FA0 {
 public:
@@ -334,8 +330,8 @@ public:
     void m3();
     void m4();
     u8 pad0[0x38];
-    Vec_80368FA0 pos;
-    Vec_80368FA0 prev;
+    Vec pos;
+    Vec prev;
     u8 pad50[0x390 - 0x50];
     s32 state;
     u8 pad394[0x3A8 - 0x394];
@@ -463,9 +459,9 @@ s32 TBoss6MagMine__ct(s32 arg0, s32 parent, s32 arg2) {
     *(s32 *)((s8 *)self + 0x394) = 0;
     *(s32 *)((s8 *)self + 0x390) = 0;
     VecCopy__FP3VecPC3Vec(arg0 + 0x378, arg0 + 0x384);
-    subtract_vector((Vec_80368C14 *) (self + 0x378), self + 0x38);
+    subtract_vector((Vec *) (self + 0x378), self + 0x38);
     *(f32 *)((s8 *)self + 0x37C) = 0.0f;
-    if (vector_length((Vec_80368C14 *) (self + 0x378)) <= 1e-05f) {
+    if (vector_length((Vec *) (self + 0x378)) <= 1e-05f) {
         *(f32 *)((s8 *)self + 0x378) = 1.0f;
     }
     normalize_vector(self + 0x378);

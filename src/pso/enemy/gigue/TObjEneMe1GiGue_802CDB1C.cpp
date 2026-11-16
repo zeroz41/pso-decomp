@@ -118,7 +118,7 @@ void TUnk_804E14E8::run_task() {
             return;
         }
         if (tgt != NULL) {
-            VecCopy(&v, (Vec *)&tgt->m_2fc);
+            VecCopy(&v, &tgt->m_2fc);
             subtract_vector(&v, &pos);
             vec_set_length(&v, speed);
             speed += lbl_805D684C;
@@ -138,7 +138,7 @@ void TUnk_804E14E8::run_task() {
             return;
         }
         if (tgt != NULL && !(tgt->actorFlags & 0x04000A00) &&
-            xyz_distance_squared(&pos, (Vec *)&tgt->m_2fc) <= lbl_805D6844 * lbl_805D6844) {
+            xyz_distance_squared(&pos, &tgt->m_2fc) <= lbl_805D6844 * lbl_805D6844) {
             DirectAttackPayload hit = {1, (f32)lbl_805D6854};
             tgt->receive_direct_attack(src, hit, 0, -1, -1);
             if (double_hit == 1) {

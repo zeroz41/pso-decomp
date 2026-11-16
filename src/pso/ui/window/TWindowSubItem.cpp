@@ -146,7 +146,7 @@ s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, s32);
 s32 TWindowShortListCtrl__check_controller_button(void *, s32);
 u32 is_action_active__10TObjPlayerFv(s32);
 void decrement_clamped(void *, s32);
-void play_sound_effect(s32, s32, s32, s32);
+void play_sound_effect(s32, Vec *, s32, s32);
 s32 __nw__7TObjectFUl(s32);
 s32 TWindowCtrl__sub_8024A228(s32);
 u32 __ct__15TWindowHelpItemFPvUs(s32, s32, s32);
@@ -507,7 +507,7 @@ void TWindowSubItem::run_task() {
             break;
         case 5:
             if (BACK_PRESSED(idx)) {
-                play_sound_effect(0x52F16, 0, 0, 0);
+                play_sound_effect(0x52F16, (Vec *)(0), 0, 0);
                 F(u8, 0x1C) = 3;
             }
             if (TWindowSubItem::is_usable(p) != 0) {
@@ -594,7 +594,7 @@ void TWindowSubItem::run_task() {
             break;
         case 14:
             if (BACK_PRESSED(idx)) {
-                play_sound_effect(0x52F16, 0, 0, 0);
+                play_sound_effect(0x52F16, (Vec *)(0), 0, 0);
                 F(u8, 0x1C) = 3;
             }
             if (TWindowSubItem::is_usable(p) != 0) {
@@ -607,7 +607,7 @@ void TWindowSubItem::run_task() {
             F(u8, 0x1C) = 0x10;
         case 16:
             if (BACK_PRESSED(idx)) {
-                play_sound_effect(0x52F16, 0, 0, 0);
+                play_sound_effect(0x52F16, (Vec *)(0), 0, 0);
                 F(u8, 0x1C) = 1;
             }
             p = get_player_by_client_id(F(s32, 0x24));
@@ -621,7 +621,7 @@ void TWindowSubItem::run_task() {
             F(u8, 0x1C) = 0x12;
         case 18:
             if (BACK_PRESSED(idx)) {
-                play_sound_effect(0x52F16, 0, 0, 0);
+                play_sound_effect(0x52F16, (Vec *)(0), 0, 0);
                 F(u8, 0x1C) = 1;
             }
             p = get_player_by_client_id(F(s32, 0x24));
@@ -667,7 +667,7 @@ void TWindowSubItem::run_task() {
             break;
         case 21:
             if (BACK_PRESSED(idx)) {
-                play_sound_effect(0x52F16, 0, 0, 0);
+                play_sound_effect(0x52F16, (Vec *)(0), 0, 0);
                 F(u8, 0x1C) = 3;
             }
             if (TWindowSubItem::is_usable(p) != 0) {

@@ -12,7 +12,6 @@
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-struct Vec_800C2628 { f32 x, y, z; };
 
 struct Prm_800C2628 { f32 a, b, c, d, e; };
 
@@ -31,7 +30,7 @@ extern const f32 lbl_805D9FC0;
 #define F(T, off) (*(T *)(arg0 + (off)))
 void TObjEneDD__sub_800C2628(u8 *arg0, s32 arg1) {
     s32 step;
-    Vec_800C2628 v;
+    Vec v;
     switch (arg1) {
     case 4:
         F(s16, 0xB8) = 1;
@@ -67,7 +66,7 @@ void TObjEneDD__sub_800C2628(u8 *arg0, s32 arg1) {
                     TObjEneDD__sub_800BA5A4(arg0, &enemy_dd_attack_param_block);
                 }
             }
-            play_sound_effect(fn_800C3A60((s32)arg0, 0x4003A311), arg0 + 0x38, 0, 0);
+            play_sound_effect(fn_800C3A60((s32)arg0, 0x4003A311), (Vec *)(arg0 + 0x38), 0, 0);
         }
         break;
     case 0:
@@ -101,7 +100,7 @@ void TObjEneDD__sub_800C2628(u8 *arg0, s32 arg1) {
                 if (F(s32, 0x3D8) > 0xFF) {
                     F(s32, 0x3D8) = 0xFF - (F(s32, 0x3D8) - 0xFF);
                     F(s32, 0x414) = 1;
-                    play_sound_effect(fn_800C3A60((s32)arg0, 0x4003AD10), arg0 + 0x38, 0, 0);
+                    play_sound_effect(fn_800C3A60((s32)arg0, 0x4003AD10), (Vec *)(arg0 + 0x38), 0, 0);
                 }
             } else {
                 F(s32, 0x3D8) -= step;
@@ -133,7 +132,7 @@ void TObjEneRe2Flower::handle_event(s32 arg1) {
         *(s32 *)((s8 *)arg0 + 0x3C4) = (s32) (*(s32 *)((s8 *)arg0 + 0x3C4) & 0xFFFFFFF7);
         ((TObjEneDD *)arg0)->set_field_378(3);
         *(s32 *)((s8 *)arg0 + 0x410) = 0;
-        play_sound_effect(fn_800C3A60((s32)arg0, 0x4003A315), (u8 *)&this->position, 0, 0);
+        play_sound_effect(fn_800C3A60((s32)arg0, 0x4003A315), (Vec *)(u8 *)&this->position, 0, 0);
         TObjPlayer::play_effect_if_v2(-0x200);
         return;
     case 3:

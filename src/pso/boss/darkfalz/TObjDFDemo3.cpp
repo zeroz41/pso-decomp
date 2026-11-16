@@ -151,7 +151,7 @@ void TObjDFDemo3::run_task() {
     }
     temp_r0 = this->m_b0;
     if ((temp_r0 == 0x28) || (temp_r0 == 0x3C)) {
-        play_sound_effect(0x4003D03A, (u8 *)&this->m_a0, 0, 1);
+        play_sound_effect(0x4003D03A, &this->m_a0, 0, 1);
     }
     if ((*(f32 *)&this->_padB4 += 1.0f) > 119.0f) {
         *(f32 *)&this->_padB4 = 119.0f;

@@ -212,7 +212,7 @@ void update_photon_blast_camera_pose(struct PbCamera_801A73B0 *self) {
     struct PbCameraParams_801A73B0 parameters;
     approach_vector_fixed_distance(&self->position, &self->destination_position, &self->position, 0.48f);
     approach_vector_fixed_distance(&self->target, &self->destination_target, &self->target, 0.55f);
-    VecCopy((Vec *)&parameters.position, (const Vec *)&self->position);
+    VecCopy(&parameters.position, (const Vec *)&self->position);
     VecCopy((Vec *)&parameters.target, (const Vec *)&self->target);
     parameters.projection = 0x4222;
     set_active_camera_pose_from_params((u8 *)&parameters);

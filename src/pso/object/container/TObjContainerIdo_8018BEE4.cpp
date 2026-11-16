@@ -155,7 +155,6 @@ void render__16TObjContainerIdoFv(u8 *container_ido) {
     }
 }
 
-struct Vec3_8018C18C { f32 x, y, z; };
 struct VObj_8018C18C {
     char pad[0x18];
     virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3();
@@ -164,12 +163,12 @@ struct VObj_8018C18C {
 };
 struct Ido_8018C18C {
     u8 pad0[0x38];
-    Vec3_8018C18C pos;
+    Vec pos;
     u8 pad44[0x5C - 0x44];
     s32 f5c;
     s32 f60;
     u8 pad64[0xC0 - 0x64];
-    Vec3_8018C18C c0;
+    Vec c0;
     s32 ids[4];
     s32 dc;
     u32 e0;
@@ -181,7 +180,7 @@ struct Ido_8018C18C {
 u8 is_current_floor_switch_set(u16);
 f32 xyz_distance(void *, void *);
 void rotate_vector_by_matrix(int, void *, void *);
-s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
+s32 play_persistent_sound(s32 id, s32 a1, Vec *, s32 a3, s32 flags);
 extern u8 identity_matrix[];
 
 #pragma push
@@ -214,7 +213,7 @@ void run_task__16TObjContainerIdoFv(Ido_8018C18C *self) {
     self->e0 &= ~0x04000000;
     if (self->e0 & 0x02000000) {
         if (xyz_distance(&self->c0, &self->pos) > self->e4) {
-            Vec3_8018C18C v = { 0.0f, 0.0f, 0.0f };
+            Vec v = { 0.0f, 0.0f, 0.0f };
             v.z = -self->ec;
             push_matrix_from(identity_matrix);
             rotate_matrix_y(0, self->f60);
@@ -225,14 +224,14 @@ void run_task__16TObjContainerIdoFv(Ido_8018C18C *self) {
             self->pos.y -= v.y;
             self->pos.z -= v.z;
             self->e0 |= 0x04000000;
-            play_persistent_sound(0x4B717, (s32)self, (u32)&self->pos, 0, 0);
+            play_persistent_sound(0x4B717, (s32)self, (Vec *)(u32)&self->pos, 0, 0);
         } else if (!(self->e0 & 0x01000000)) {
-            play_sound_effect(0x4C118, &self->pos, 0, 0);
+            play_sound_effect(0x4C118, (Vec *)&self->pos, 0, 0);
             self->e0 |= 0x01000000;
         }
     } else {
         if (xyz_distance(&self->c0, &self->pos) < self->e4) {
-            Vec3_8018C18C w = { 0.0f, 0.0f, 0.0f };
+            Vec w = { 0.0f, 0.0f, 0.0f };
             w.z = -self->ec;
             push_matrix_from(identity_matrix);
             rotate_matrix_y(0, self->f60);
@@ -243,17 +242,17 @@ void run_task__16TObjContainerIdoFv(Ido_8018C18C *self) {
             self->pos.y += w.y;
             self->pos.z += w.z;
             self->e0 |= 0x04000000;
-            play_persistent_sound(0x4B717, (s32)self, (u32)&self->pos, 0, 0);
+            play_persistent_sound(0x4B717, (s32)self, (Vec *)(u32)&self->pos, 0, 0);
         } else if (!(self->e0 & 0x01000000)) {
-            play_sound_effect(0x4C118, &self->pos, 0, 0);
+            play_sound_effect(0x4C118, (Vec *)&self->pos, 0, 0);
             self->e0 |= 0x01000000;
         }
     }
     if (!(self->e0 & 0x08000000) && (self->e0 & 0x04000000)) {
         if (3.0517578e-05f * (f32)rand() < 0.4f && ((VObj_8018C18C *)self)->m8(4e+02f, 1e+02f) != 0) {
-            Vec3_8018C18C a;
-            Vec3_8018C18C b;
-            Vec3_8018C18C out;
+            Vec a;
+            Vec b;
+            Vec out;
             a.x = 1e+01f;
             a.y = 2.0f;
             a.z = 3e+01f * (3.0517578e-05f * (f32)rand()) - 15.0f;

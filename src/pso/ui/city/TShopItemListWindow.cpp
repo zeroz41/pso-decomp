@@ -145,7 +145,7 @@ const char *TShopItemListWindow__class_name = "TShopItemListWindow";
 u8 *TShopItemListWindow__ct(u8 *arg0, s32 arg1, s32 arg2, s32 arg3);
 s32 sub_802239EC__13TShopSequenceFv(void *);
 s32 sub_80223A48__15TShopWindowBaseFv(void *);
-s32 play_sound_effect(int, int, int, int);
+s32 play_sound_effect(int, Vec *, int, int);
 s32 get_cursor_value__19TWindowMenuIconLineFv(void *);
 s32 get_item_count__24TShopEquipmentSellWindowFv(void *a, s32 b);
 int obj_getPtr2B0_20(u8 *p);
@@ -335,11 +335,11 @@ s32 TShopItemListWindow::handle_tool_list_select(void *p) {
     }
     if (sub_802239EC__13TShopSequenceFv(W) != 0) {
         *(s32 *)((u8 *)W + 0x20) = 3;
-        play_sound_effect(0x52D01, 0, 0, 0);
+        play_sound_effect(0x52D01, (Vec *)(0), 0, 0);
         return;
     }
     if (sub_80223A48__15TShopWindowBaseFv(W) != 0) {
-        play_sound_effect(0x52D01, 0, 0, 0);
+        play_sound_effect(0x52D01, (Vec *)(0), 0, 0);
         switch (((TShopItemListWindow *)W)->check_purchase_eligibility()) {
         case 0:
             W->base.m4(0xF, 1);

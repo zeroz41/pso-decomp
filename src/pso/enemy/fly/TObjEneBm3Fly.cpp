@@ -52,7 +52,7 @@ TUnk_8048FA00 * TObjEneBm3Fly__breakup_model;
 s32 vec3_add_to(void *, void *);
 f32 vec3_dot(void *, void *);
 s32 subtract_vector(void *, void *);
-s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
+s32 play_persistent_sound(s32 id, s32 a1, Vec *, s32 a3, s32 flags);
 void TObjEneBm3Fly__play_orbit_flight_sound(TObjEneBm3Fly *fly);
 f32 calc_scaled_value__15TObjBoss2TunnelFlf(int, int, f32, f32);
 void TObjEneBm3Fly__sub_800B02C8(TObjEneBm3Fly *arg0, s32 arg1);
@@ -253,9 +253,9 @@ void TObjEneBm3Fly::run_task() {
             }
             dx = side * cos_table_lookup(this->rotation_y);
             dz = side * -sin_table_lookup(this->rotation_y);
-            this->particle_effect->position.x = ((Vec *)&this->m_2fc)->x + dx;
-            this->particle_effect->position.y = -1.5f + ((Vec *)&this->m_2fc)->y;
-            this->particle_effect->position.z = ((Vec *)&this->m_2fc)->z + dz;
+            this->particle_effect->position.x = (&this->m_2fc)->x + dx;
+            this->particle_effect->position.y = -1.5f + (&this->m_2fc)->y;
+            this->particle_effect->position.z = (&this->m_2fc)->z + dz;
         }
     } else {
         effect = this->particle_effect;
@@ -372,8 +372,8 @@ void TObjEneBm3Fly::update_state_flag() {
 }
 
 void TObjEneBm3Fly::store_position() {
-    this->m_2fc = (f32) this->position.x;
-    this->m_304 = (f32) this->position.z;
+    this->m_2fc.x = (f32) this->position.x;
+    this->m_2fc.z = (f32) this->position.z;
     VecCopy(&this->center, (const Vec *)&this->m_2fc);
 }
 }
@@ -385,7 +385,7 @@ void TObjEneBm3Fly::clamp_flight_height() {
     if ((this->m_42c - this->position.y) < (1.2f)) {
         this->m_42c = (1.2f) + this->position.y;
     }
-    this->m_300 = this->m_42c;
+    this->m_2fc.y = this->m_42c;
 }
 }
 
@@ -482,12 +482,12 @@ u16 TObjEneBm3Fly::get_active_id() {
 }
 
 void TObjEneBm3Fly::play_pitched_cue() {
-    play_persistent_sound(this->remap_sound_for_area(0x40039E22), (s32)this, (u32)&this->position, 0, 0);
+    play_persistent_sound(this->remap_sound_for_area(0x40039E22), (s32)this, (Vec *)((u32)&this->position), 0, 0);
     TObjPlayer::play_effect_if_v2(-0x400);
 }
 
 void TObjEneBm3Fly__play_orbit_flight_sound(TObjEneBm3Fly *fly) {
-    play_persistent_sound(fly->remap_sound_for_area(0x4003AB23), (s32)fly, (u32)&fly->position, 0, 0);
+    play_persistent_sound(fly->remap_sound_for_area(0x4003AB23), (s32)fly, (Vec *)((u32)&fly->position), 0, 0);
     TObjPlayer::play_effect_if_v2(-0x400);
 }
 
@@ -567,8 +567,8 @@ void TObjEneBm3Fly__sub_800B1214(TObjEneBm3Fly *arg0, s32 arg1) {
             break;
         }
         arg0->update_collide_flag();
-        arg0->prev_position.x = arg0->m_2fc;
-        arg0->prev_position.z = arg0->m_304;
+        arg0->prev_position.x = arg0->m_2fc.x;
+        arg0->prev_position.z = arg0->m_2fc.z;
         arg0->clamp_flight_height();
         arg0->vfunc_88();
         break;
@@ -624,8 +624,8 @@ void TObjEneBm3Fly__sub_800B0F70(TObjEneBm3Fly *arg0, s32 arg1) {
         arg0->position.z = radius * cos_table_lookup(a) + arg0->m_41c.z;
         arg0->rotation_y = a - 0x4000;
         arg0->update_collide_flag();
-        arg0->prev_position.x = arg0->m_2fc;
-        arg0->prev_position.z = arg0->m_304;
+        arg0->prev_position.x = arg0->m_2fc.x;
+        arg0->prev_position.z = arg0->m_2fc.z;
         arg0->vfunc_88();
         TObjEneBm3Fly__play_orbit_flight_sound(arg0);
         break;
@@ -837,7 +837,7 @@ void TObjEneBm3Fly::execute_action(s32 arg1) {
                         TObjEneDD::inflict_poison((s32)this, (u8 *)this->m_390);
                     }
                 }
-                play_sound_effect(this->remap_sound_for_area(0x4003A524), &this->position, 0, 0);
+                play_sound_effect(this->remap_sound_for_area(0x4003A524), (Vec *)(&this->position), 0, 0);
                 TObjPlayer::play_effect_if_v2(-0x400);
             }
             if (this->get_flag_b4() != 0) {
@@ -1005,7 +1005,7 @@ void TObjEneBm3Fly::update_recoil_state(s32 arg1) {
         this->m_428 |= 2;
         this->set_field_378(this->mode);
         noop__12TBoss8DragonFv(this);
-        play_sound_effect(this->remap_sound_for_area((s32)(0x4003E425)), &this->position, 0, 0);
+        play_sound_effect(this->remap_sound_for_area((s32)(0x4003E425)), (Vec *)(&this->position), 0, 0);
         this->m_3c0 = 0;
         break;
     case 3:
@@ -1058,7 +1058,7 @@ void action__13TObjEneBm3FlyFPvi(TObjEneBm3Fly *arg0, s32 arg1) {
         }
         TBoss8Dragon__sub_800BB7DC(arg0);
         TBoss8Dragon__sub_800BB7D8(arg0, 0xF1, (1.0f));
-        play_sound_effect(arg0->remap_sound_for_area((s32)(0x4003E425)), &arg0->position, 0, 0);
+        play_sound_effect(arg0->remap_sound_for_area((s32)(0x4003E425)), (Vec *)(&arg0->position), 0, 0);
         TBoss3Volopt::create_breakup_mdl((s32)TObjEneBm3Fly__breakup_model, (s32)&bm3_fly_breakup_params, (s32)(arg0->texlist), (s32)&arg0->m_2fc, (s32)(arg0->rotation_y));
         arg0->m_3c0 = 0;
         return;
@@ -1096,7 +1096,7 @@ void TObjEneBm3Fly::state_death_fall(s32 arg1) {
         this->m_430.z = (f32) this->m_310;
         this->m_3e4 = normalize_vector_xz(&this->m_430);
         temp_copy = this->remap_sound_for_area((s32)(0x4003E425));
-        play_sound_effect(temp_copy, &this->position, 0, 0);
+        play_sound_effect(temp_copy, (Vec *)(&this->position), 0, 0);
         return;
     case 3:
         if ((this->m_42c - this->position.y) < (-2e+01f)) {

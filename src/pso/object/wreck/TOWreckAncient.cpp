@@ -30,16 +30,15 @@
 // 04, 01, TOWreckAncient while its strings, name pointers and vtables run the other way, so the source is
 // written last function first.
 
-struct Vec_8017D448 { f32 x, y, z; };
 
-struct Arr_8017D448 { Vec_8017D448 v[9]; };
+struct Arr_8017D448 { Vec v[9]; };
 
 // Same layout as TObjChipParams (TObjChip.h).
 struct Param_8017D448 {
     f32 f0;
     f32 f4;
     f32 f8;
-    Vec_8017D448 pos;
+    Vec pos;
     f32 f18[3];
     s32 f24[3];
     s32 f30[2];
@@ -135,8 +134,8 @@ s32 get_bml_model(void *, s32);
 void free_bin_model_request(void*, int);
 s32 post_translate_matrix(void *);
 s32 push_matrix();
-void vec3_add_to(Vec_8017D448 *, Vec_8017D448 *);
-void rotate_vector_by_matrix(int, Vec_8017D448 *, Vec_8017D448 *);
+void vec3_add_to(Vec *, Vec *);
+void rotate_vector_by_matrix(int, Vec *, Vec *);
 extern u8 identity_matrix[];
 u8 is_current_floor_switch_set(u16);
 }
@@ -303,7 +302,7 @@ void TOWreckAncientBrakable::run_task() {
         temp_r0_2 = switch_id;
         if ((temp_r0_2 >= 0) && (temp_r0_2 < 0x100) && (is_current_floor_switch_set((u16) temp_r0_2) == 1)) {
             state = 1;
-            play_sound_effect(0x43C11, (u8 *)&this->position, 0, 0);
+            play_sound_effect(0x43C11, &this->position, 0, 0);
             spawn_particle_effect(&this->position, 0x45);
             spawn_particle_effect(&this->position, 0x46);
             spawn_debris();
@@ -317,7 +316,7 @@ void TOWreckAncientBrakable::run_task() {
 }
 
 void TOWreckAncientBrakable::spawn_debris() {
-    Vec_8017D448 tmp;
+    Vec tmp;
     Arr_8017D448 arr = TOWreckAncientBrakable__debris_table;
     Param_8017D448 p = TOWreckAncientBrakable__debris_param_table;
     s32 i;

@@ -25,6 +25,7 @@
 #include "pso/unk/text_80153A7C.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/unk/text_803E2D70.h"
+#include "pso/system/SoundEffect.h"
 
 
 const char *TObjFogCollision__name = "TObjFogCollision";
@@ -389,21 +390,20 @@ s16 get_actor_hp(s32);
 s32 get_entity_id(s32);
 s32 is_valid_target__9TObjEneDDFv(s32);
 s32 send_6x2F_change_player_hp(s32, s32, s16);
-s32 play_sound_effect(s32, s32, s32, s32);
 }
 
 void TObjFogCollisionPoison__sub_801535D0(s32 arg0) {
     switch (get_current_floor_area()) {
     case AREA_VR_SPACESHIP_ALPHA:
     case AREA_VR_SPACESHIP_BETA:
-        play_sound_effect(0x4004C115, arg0 + 0x38, 0, 0);
+        play_sound_effect(0x4004C115, (Vec *)(arg0 + 0x38), 0, 0);
         break;
     case AREA_SEABED_UPPER:
     case AREA_SEABED_LOWER:
-        play_sound_effect(0x4004C123, arg0 + 0x38, 0, 0);
+        play_sound_effect(0x4004C123, (Vec *)(arg0 + 0x38), 0, 0);
         break;
     default:
-        play_sound_effect(0x4004C11B, arg0 + 0x38, 0, 0);
+        play_sound_effect(0x4004C11B, (Vec *)(arg0 + 0x38), 0, 0);
         break;
     }
 }
@@ -412,14 +412,14 @@ void TObjFogCollisionPoison__sub_80153520(s32 arg0) {
     switch (get_current_floor_area()) {
     case AREA_VR_SPACESHIP_ALPHA:
     case AREA_VR_SPACESHIP_BETA:
-        play_persistent_sound(0x4004BC16, arg0, arg0 + 0x38, 0, 0);
+        play_persistent_sound(0x4004BC16, arg0, (Vec *)(arg0 + 0x38), 0, 0);
         break;
     case AREA_SEABED_UPPER:
     case AREA_SEABED_LOWER:
-        play_persistent_sound(0x4004BC24, arg0, arg0 + 0x38, 0, 0);
+        play_persistent_sound(0x4004BC24, arg0, (Vec *)(arg0 + 0x38), 0, 0);
         break;
     default:
-        play_persistent_sound(0x4004BC1C, arg0, arg0 + 0x38, 0, 0);
+        play_persistent_sound(0x4004BC1C, arg0, (Vec *)(arg0 + 0x38), 0, 0);
         break;
     }
 }

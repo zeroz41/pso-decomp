@@ -66,6 +66,9 @@ int qst_label_address(int label);
 #include "pso/boss/dragon/TBoss1Dragon.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/ui/Language.h"
+#include "pso/system/SoundEffect.h"
+
+#define NUM_QUEST_SOUND_FX      0x1D
 
 extern "C" {
 void qst_op_va_start(void);
@@ -328,6 +331,21 @@ void append_episode_progress_string(void);
 void append_entered_item_name_pair(void);
 void append_split_screen_hero_name(void);
 }
+
+struct Pair_801F1838 { s32 a; s32 b; };
+
+__declspec(section ".rodata") extern const s32 quest_sound_effect_ids[NUM_QUEST_SOUND_FX] ATTRIBUTE_ALIGN(8) = {
+    0x00054100, 0x00052D01, 0x00052802, 0x00053703, 0x00053704, 0x00053705, 0x00053F06, 0x00053507,
+    0x00052608, 0x00052A09, 0x0005250A, 0x0005230B, 0x0005250C, 0x0005280D, 0x0005250E, 0x0005640F,
+    0x00053C10, 0x0005B211, 0x00052812, 0x00052813, 0x00052E14, 0x40052D15, 0x00052F16, 0x00052D17,
+    0x0003D20C, 0x0005051A, 0x0005251B, 0x00052B1C, 0x4005191D
+};
+
+__declspec(section ".rodata") extern const char quest_bgm_clear_filename[] ATTRIBUTE_ALIGN(4) = "clear.adx";
+
+__declspec(section ".rodata") extern const char quest_bgm_miniclear_filename[] ATTRIBUTE_ALIGN(4) = "miniclear.adx";
+
+__declspec(section ".rodata") extern Pair_801F1838 lbl_80449A38[] ATTRIBUTE_ALIGN(8) = { { 0x43C50000, 0x42A00000 } };
 
 struct Tbl_801E9AF8 { s32 w[5]; };
 
@@ -842,11 +860,6 @@ struct ItemData_801E7810 {
     u8 data2[4];
 };
 
-struct RecoveredGlobal_801F196C_lbl_804499A8 {
-    s32 value;
-    u8 remaining[0x70];
-};
-
 struct ItemData_801E8000 {
     u8 b0, b1, b2, b3, b4, b5, b6;
     s8 b7;
@@ -859,8 +872,6 @@ struct ItemData_801E8000 {
 };
 
 typedef char RecoveredGlobal_8000F7FC_lbl_80515F48_size[sizeof(RecoveredGlobal_8000F7FC_lbl_80515F48) == 0x28 ? 1 : -1];
-
-typedef char RecoveredGlobal_801F196C_lbl_804499A8_size[sizeof(RecoveredGlobal_801F196C_lbl_804499A8) == 0x74 ? 1 : -1];
 
 union U_801E8784 { s32 i; f32 f; };
 
@@ -1154,8 +1165,6 @@ struct List_801F1A0C : Base_801F1A0C {
 };
 
 struct Vec3_801F0970 { f32 x, y, z; };
-
-struct Pair_801F1838 { s32 a; s32 b; };
 
 struct Vec2_801E717C { f32 x, y; };
 
@@ -1878,7 +1887,6 @@ void unhide_room_set_objects(s32 a, s16 b, s16 c, s32 d);
 s32 TCheckRoomSequence__sub_80210D44(u8 *item, s32 slot);
 s32 handle_main_phase__6TLobbyFl();
 void try_close__6TLobbyFPv(void *p);
-s32 play_sound_effect(int, int, int, int);
 void play_cue_stream_file(s32 name);
 int TLobby__sub_802272B4(void*);
 int TLobby__sub_8022733C(void*);
@@ -1997,8 +2005,6 @@ extern s32 gba_download_data_buffer;
 extern s32 gba_download_data_size;
 extern int evt2_random_enemies_mode;
 extern RecoveredGlobal_8000F7FC_lbl_80515F48 fn_801F3480;
-extern RecoveredGlobal_801F196C_lbl_804499A8 quest_sound_effect_ids;
-extern Pair_801F1838 lbl_80449A38[];
 extern RecoveredGlobal_801ECF84_lbl_8050D3E0 lbl_8050D3E0;
 extern s32 symbolchat_colli_param_table[];
 extern E_801E93B4 controller_input_state[];
@@ -6065,10 +6071,13 @@ void qst_op_bgm(void) {
 }
 
 void qst_op_se(void) {
-    play_sound_effect((int) (*(s32 *)((s8 *)((u8 *)(&quest_sound_effect_ids.value) + (qst_args[0] * 4)) + 0)), 0, 0, 0);
+    play_sound_effect(quest_sound_effect_ids[qst_args[0]], (Vec *)0, 0, 0);
 }
 
-void qst_op_fadeout(void) { TLobby::init_fadeout_state((s32)((void*)0)); qst_suspend_reason = QST_WAIT_FADE; }
+void qst_op_fadeout(void) {
+    TLobby::init_fadeout_state((s32)((void*)0));
+    qst_suspend_reason = QST_WAIT_FADE;
+}
 
 void qst_op_fadein(void) { TLobby::set_fade_params((s32)((void*)0)); qst_suspend_reason = QST_WAIT_FADE; }
 
