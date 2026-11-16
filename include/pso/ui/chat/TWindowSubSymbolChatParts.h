@@ -42,7 +42,6 @@ struct TWindowSubSymbolChatParts : public TWindowAddition {
 typedef char TWindowSubSymbolChatParts_size[sizeof(TWindowSubSymbolChatParts) == 0x90 ? 1 : -1];
 
 extern "C" {
-void *__dt__25TWindowSubSymbolChatPartsFv(void *arg0, s16 arg1);
 void fn_80284C04(u8 *arg0);
 void render__25TWindowSubSymbolChatPartsFv(u8 *arg0);
 }
@@ -50,7 +49,6 @@ void select_symbol_chat_slot(TWindowSubSymbolChatParts *parts);
 
 // --- C functions defined in TWindowSubSymbolChatParts.cpp ---
 extern "C" {
-void *__dt__25TWindowSubSymbolChatPartsFv(void *arg0, s16 arg1);
 void fn_80284C04(u8 *arg0);
 void sub_80284FB8__25TWindowSubSymbolChatPartsFv(void *arg0);
 void render__25TWindowSubSymbolChatPartsFv(u8 *arg0);

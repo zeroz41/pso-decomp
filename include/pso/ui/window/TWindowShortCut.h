@@ -27,7 +27,6 @@ typedef char TWindowShortCut_size[sizeof(TWindowShortCut) == 0x74 ? 1 : -1];
 
 extern "C" {
 u8 *TWindowShortCut__ct(TWindowShortCut *window_short_cut, s32 arg1, s32 index, s32 *chat_shortcut);
-void *__dt__15TWindowShortCutFv(TWindowShortCut *self, s16 arg1);
 void render__15TWindowShortCutFv(u8 *arg0);
 }
 

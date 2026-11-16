@@ -55,8 +55,6 @@ s32 get_meseta_value__13TWindowMesetaFv();
 extern s32 __vt__13TWindowMeseta[];
 extern const char *TWindowMeseta__class_name;
 void *TWindowMeseta__ct(void *arg0, s32 arg1, s32 arg2, s32 arg3);
-void *__dt__13TWindowMesetaFv(void *arg0, s16 arg1);
-void __dl__7TObjectFPv(void *);
 
 
 void TWindowMeseta::run_task() {
@@ -72,16 +70,7 @@ void TWindowMeseta::run_task() {
     ((TWindowBase *)arg0)->update_window_entry_list((u8 *)&this->m_24);
 }
 
-void *__dt__13TWindowMesetaFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__13TWindowMeseta;
-        ((TWindowDD *)arg0)->destroy_window_base(0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
-}
+TWindowMeseta::~TWindowMeseta() {}
 #define self ((Meseta_80269244 *)arg0)
 void *TWindowMeseta__ct(void *arg0, s32 arg1, s32 arg2, s32 str) {
     Sub_80269244 *a;

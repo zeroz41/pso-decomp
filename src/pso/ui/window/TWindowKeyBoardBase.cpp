@@ -1019,10 +1019,8 @@ u8 *TWindowKeyBoardBase__ct(u8 *arg0);
 s32 set_stream_and_load_file__6TLobbyFi(s32 *);
 s32 Dolphin_ARAlloc(s32);
 void TQuestVmDownLoadServer__sub_803F0C04(u32 aram_addr, s32 size, u32 owner, u32 priority, u32 timeout_ms);
-void *__dt__19TWindowKeyBoardBaseFv(void *arg0, s16 arg1);
 s32 sub_8025CB10__19TWindowKeyBoardBaseFv(void *);
 s32 sub_8025EB68__19TWindowKeyBoardBaseFv();
-void __dl__7TObjectFPv(void *);
 u32 *destroy__19TWindowKeyBoardBaseFPvs(u32 *arg0, s16 arg1);
 void mem_free(void *);
 
@@ -1043,18 +1041,10 @@ void TWindowKeyBoardBase::run_task() {
     update_fade();
 }
 
-void *__dt__19TWindowKeyBoardBaseFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__19TWindowKeyBoardBase;
-        mem_free(*(void **)((s8 *)arg0 + 0x9C));
-        destroy__19TWindowKeyBoardBaseFPvs((u32 *)((s8 *)arg0 + 0x84), -1);
-        destroy__19TWindowKeyBoardBaseFPvs((u32 *)((s8 *)arg0 + 0x6C), -1);
-        ((TWindowDD *)arg0)->destroy_window_base(0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
+TWindowKeyBoardBase::~TWindowKeyBoardBase() {
+    mem_free(*(void **)((s8 *)this + 0x9C));
+    destroy__19TWindowKeyBoardBaseFPvs((u32 *)((s8 *)this + 0x84), -1);
+    destroy__19TWindowKeyBoardBaseFPvs((u32 *)((s8 *)this + 0x6C), -1);
 }
 u8 *TWindowKeyBoardBase__ct(u8 *arg0) {
     s32 temp_r31;

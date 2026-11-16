@@ -10,7 +10,6 @@ extern "C" {
 void TWindowDD__sub_803412A0(TWindowDD_WS_String *self);
 TWindowDD_WS_String *TWindowDD__sub_8034138C(TWindowDD_WS_String *self, f32 *pos, f32 *size, u32 str, s32 style);
 TWindowDD_WS_String *TWindowDD__sub_8034146C(f32 *pos, f32 *size, u32 str, s32 style, f32 width);
-void *__dt__19TWindowDD_WS_StringFv(void *arg0, s16 arg1);
 }
 // --- end of C functions
 

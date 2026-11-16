@@ -212,7 +212,7 @@ W_80340F00 *construct_variant_b__9TWindowDDFPv(W_80340F00 *arg0);
 void *TWindowDD_WS_ScrollBar::dt(s16 arg1) {
     if (this != NULL) {
         *(s32 **)((s8 *)this + 0x18) = lbl_804EFBE4;
-        ((TWindowDD *)this)->destroy_window_base(0);
+        __dt__11TWindowBaseFv(this, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(this);
         }

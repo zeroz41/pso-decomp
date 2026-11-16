@@ -195,7 +195,6 @@ s32 get_draw_context__11TWindowBaseFPv();
 s32 draw_visible_window_entries(void *, void *, s32);
 s32 draw_window_scrollbar(s32, s32, void *);
 void __dl__7TObjectFPv(void *);
-void destroy_window__15TWindowAdditionFs(void *, int);
 s32 forward_render__20TWindowSubStatusDispFv(s32, s32);
 
 void TShopJudgmentItemWindow__sub_80267F9C(V_80267F9C v, s32 x);
@@ -799,7 +798,7 @@ void *TWindowSubStatusDisp::destroy_item_list_resources(s16 arg1) {
         *(s32 **)((s8 *)this + 0x18) = lbl_804D0618;
         TWindowSubStatusDisp::destroy_allocation((s32)(*(void **)((s8 *)this + 0x84)), (s16)1);
         TWindowSubStatusDisp::destroy_status_display((s32)(*(void **)((s8 *)this + 0x80)), (s16)1);
-        destroy_window__15TWindowAdditionFs(this, 0);
+        __dt__15TWindowAdditionFv(this, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(this);
         }

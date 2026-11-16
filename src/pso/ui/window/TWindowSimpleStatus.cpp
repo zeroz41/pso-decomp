@@ -555,16 +555,12 @@ void TWindowSimpleStatus::draw_background(u8 *arg1) {
     }
 }
 
-struct SS_802705D8 { u8 pad0[0x18]; void *vt; u8 pad1c[0x64 - 0x1c]; void *w[4]; };
-
 struct SS_80270668 { const char *m_name; u8 pad4[0x14]; void *vt; s16 f1c; s16 f1e; s16 f20; u8 pad22[0x36]; f32 f58; u8 pad5c[4]; s32 f60; s32 w[5]; };
 
 extern "C" {
 s32 draw_default_entry__9TWindowDDFl();
 s32 draw_visible_window_entries(void *, void *, int);
-void __dl__7TObjectFPv(void *);
 extern u8 __vt__19TWindowSimpleStatus[];
-u8 *__dt__19TWindowSimpleStatusFv(SS_802705D8 *arg0, s16 arg1);
 SS_80270668 *TWindowSimpleStatus__ct(SS_80270668 *arg0, void *arg1, s32 arg2, void *arg3);
 s32 get_window_layout_position(s32);
 s32 update_hp_tp_level__20TWindowSubStatusDispFv();
@@ -589,22 +585,14 @@ void TWindowSimpleStatus::run_task() {
 }
 
 
-u8 *__dt__19TWindowSimpleStatusFv(SS_802705D8 *arg0, s16 arg1) {
+TWindowSimpleStatus::~TWindowSimpleStatus() {
     s32 i;
-    if (arg0 != NULL) {
-        arg0->vt = __vt__19TWindowSimpleStatus;
-        for (i = 0; i < 4; i++) {
-            if (arg0->w[i] != NULL) {
-                ((TWindowBase *)(arg0->w[i]))->close();
-                arg0->w[i] = NULL;
-            }
-        }
-        ((TWindowDD *)arg0)->destroy_window_base(0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+    for (i = 0; i < 4; i++) {
+        if (w[i] != NULL) {
+            w[i]->close();
+            w[i] = NULL;
         }
     }
-    return (u8 *)arg0;
 }
 
 SS_80270668 *TWindowSimpleStatus__ct(SS_80270668 *arg0, void *arg1, s32 arg2, void *arg3) {

@@ -491,7 +491,7 @@ void *TWindowDD_WS_Word::destroy(s16 arg1) {
     if (this != NULL) {
         *(void ***)((s8 *)this + 0x18) = lbl_804EFC90;
         if (this->m_80 != NULL) { mem_free(this->m_80); this->m_80 = 0; }
-        ((TWindowDD *)this)->destroy_window_base(0);
+        __dt__11TWindowBaseFv(this, 0);
         if (arg1 > 0) {
             TObject::operator delete(this);
         }

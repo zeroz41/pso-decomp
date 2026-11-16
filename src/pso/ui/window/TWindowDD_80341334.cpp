@@ -104,25 +104,16 @@ WindowDescriptor TWindowDD__data_804EFC24 = {
     {0.0f, 0.0f}, lbl_805DFC20, &lbl_804EFC00, 3,
 };
 
+TWindowDD_WS_String::~TWindowDD_WS_String() {}
+
 extern "C" {
 s32 refresh_status_display__9TWindowDDFv(int);
-extern s32 lbl_804EFC38[];
-
-void *__dt__19TWindowDD_WS_StringFv(void *window_dd, s16 arg1) {
-    if (window_dd != NULL) {
-        *(s32 **)((s8 *)window_dd + 0x18) = lbl_804EFC38;
-        ((TWindowDD *)window_dd)->destroy_window_base(0);
-        if (arg1 > 0) {
-            TObject::operator delete(window_dd);
-        }
-    }
-    return window_dd;
-}
+extern s32 __vt__19TWindowDD_WS_String[];
 
 TWindowDD_WS_String *TWindowDD__sub_8034138C(TWindowDD_WS_String *self, f32 *pos, f32 *size, u32 str, s32 style) {
     u8 *entry;
     ((TWindowDD *)self)->construct_base((u8 *)&TWindowDD__data_804EFC24, 4, (u8 *)pos);
-    *(s32 **)((s8 *)self + 0x18) = lbl_804EFC38;
+    *(s32 **)((s8 *)self + 0x18) = __vt__19TWindowDD_WS_String;
     self->m_name = lbl_805D42D8;
     ((TWindowSubSymbolChatPartsSet *)self->pad_64)->copy_vec2(pos);
     ((TWindowSubSymbolChatPartsSet *)self->pad_6C)->copy_vec2(size);

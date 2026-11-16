@@ -71,7 +71,6 @@ s32 TWindowSubComCard__sub_80245558(void *, void *, void *);
 s32 apply_context_transform_to_rect(void *, void *);
 extern s32 lbl_805D63F0;
 void draw_visible_window_entries(void *, void *, int);
-void __dl__7TObjectFPv(void *);
 void __destroy_arr(void *, void *, int, int);
 }
 
@@ -171,17 +170,8 @@ TWindowActionPalette *TWindowActionPalette__ct(TWindowActionPalette *self, s16 s
     return self;
 }
 
-extern "C" u8 *__dt__20TWindowActionPaletteFv(u8 *self, s16 delete_flag) {
-    if (self != NULL) {
-        *(u32 **)(self + 0x18) = __vt__20TWindowActionPalette;
-        __destroy_arr(self + 0x60,
-                               (void *)TPlyDispConfig::free_if_valid, 4, 3);
-        ((TWindowDD *)self)->destroy_window_base(0);
-        if (delete_flag > 0) {
-            __dl__7TObjectFPv(self);
-        }
-    }
-    return self;
+TWindowActionPalette::~TWindowActionPalette() {
+    __destroy_arr(resources, (void *)TPlyDispConfig::free_if_valid, 4, 3);
 }
 
 void TWindowActionPalette::run_task() {

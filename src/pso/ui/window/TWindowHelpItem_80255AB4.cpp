@@ -88,7 +88,7 @@ void *TWindowHelpItem::dt(s16 arg1) {
     if (this != NULL) {
         this->m_vtable18 = TWindowHelpItem__object_vtable;
         delete_if_allocated(this->m_64, 1);
-        ((TWindowDD *)this)->destroy_window_base(0);
+        __dt__11TWindowBaseFv(this, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(this);
         }

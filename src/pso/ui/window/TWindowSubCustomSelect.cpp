@@ -83,7 +83,6 @@ s32 clamp_list_scroll_offset(void *, void *, void *);
 s32 can_use_palette_action__10TObjPlayerFPvUcUc(s32, u8, u8);
 u8 *get_array_entry__11TWindowBaseFi(void *, s32);
 s32 draw_visible_window_entries(void *, void *, void *);
-void __dl__7TObjectFPv(void *);
 
 void TWindowSubCustomSelect::handle_cancel() {
     if (is_active() == 0) {
@@ -260,17 +259,9 @@ void TWindowSubCustomSelect::run_task() {
     *(s32 *)&this->m_74 = (s32) (*(s32 *)&this->m_74 + 1);
 }
 
-void *__dt__22TWindowSubCustomSelectFv(void *window_addition, s16 arg1) {
-    if (window_addition != NULL) {
-        *(s32 **)((s8 *)window_addition + 0x18) = __vt__22TWindowSubCustomSelect;
-        TWindowSubStatusDisp::destroy_allocation((s32)(*(void **)((s8 *)window_addition + 0x80)), (s16)1);
-        TWindowSubStatusDisp::destroy_status_display((s32)(*(void **)((s8 *)window_addition + 0x7C)), (s16)1);
-        ((TWindowAddition *)window_addition)->destroy_window(0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(window_addition);
-        }
-    }
-    return window_addition;
+TWindowSubCustomSelect::~TWindowSubCustomSelect() {
+    TWindowSubStatusDisp::destroy_allocation((s32)(*(void **)((s8 *)this + 0x80)), (s16)1);
+    TWindowSubStatusDisp::destroy_status_display((s32)(*(void **)((s8 *)this + 0x7C)), (s16)1);
 }
 const u32 custom_select_organic_action_table[40] = {
     0x20000, 0x20001, 0x20002, 0x30000, 0x30006, 0x30003, 0x30001, 0x30007,

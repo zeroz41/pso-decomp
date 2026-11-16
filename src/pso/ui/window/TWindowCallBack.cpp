@@ -2,6 +2,7 @@
 #include "pso/unk/TLobby_801E43E4.h"
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
+#include "pso/ui/window/TWindowCallBack.h"
 #include "pso/boss/olgaflow/TBoss6GravBall.h"
 #include "pso/boss/olgaflow/TBoss6Type2.h"
 #include "pso/ui/window/TWindowDD.h"
@@ -25,11 +26,9 @@ void set_field_60__15TWindowCallBackFPvi(void* p, s32 v);
 extern s32 __vt__15TWindowCallBack[];
 const char *lbl_805D3E58 = "TWindowCallBack";
 u8 *TWindowCallBack__ct(u8 *arg0, s32 arg1, u8 *arg2, s32 arg3);
-void *__dt__15TWindowCallBackFv(void *arg0, s16 arg1);
 void fn_802ACD40(void* p);
 void fn_802ACD60(void* p);
 void run_task__15TWindowCallBackFv(void* p);
-void __dl__7TObjectFPv(void *);
 
 s32 TBoss6Type2::get_state() { return this->m_374; }
 s32 TBoss6GravBall::get_state() { return *(s32*)((char*)this + 0x374); }
@@ -43,13 +42,6 @@ void build_6xA3_olga_flow_boss_actions(void* p);
 void build_6xA3_olga_flow_boss_actions(void* p) { *(u8*)((char*)p + 0x0) = 163; *(u8*)((char*)p + 0x1) = 5; }
 void set_field_60__15TWindowCallBackFPvi(void* p, s32 v) { *(s32*)((char*)p + 0x60) = v; }
 
-class TWindowCallBack {
-public:
-    u8 pad[0x60];
-    void (*callback)(TWindowCallBack *, s32);
-    void render();
-};
-
 void TWindowCallBack::render() {
     s32 r = TWindowDD::draw_default_entry((s32)this);
     if (callback != NULL) {
@@ -59,16 +51,7 @@ void TWindowCallBack::render() {
 
 void run_task__15TWindowCallBackFv(void* p) { ((TWindowDD *)p)->initialize_subwindow(); ((TWindowBase *)p)->update_fade(); }
 
-void *__dt__15TWindowCallBackFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__15TWindowCallBack;
-        ((TWindowDD *)arg0)->destroy_window_base(0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
-}
+TWindowCallBack::~TWindowCallBack() {}
 typedef char RecoveredGlobal_802ACE84___vt__15TWindowCallBack_size[sizeof(RecoveredGlobal_802ACE84___vt__15TWindowCallBack) == 0x1C ? 1 : -1];
 u8 *TWindowCallBack__ct(u8 *arg0, s32 arg1, u8 *arg2, s32 arg3) {
     ((TWindowDD *)arg0)->construct_base((u8 *)((s32) &window_callback_base_params), (s16)4, (u8 *)arg1);

@@ -64,7 +64,6 @@ s32 refresh_status_display__9TWindowDDFv(u8 *);
 extern s32 __vt__19TWindowSoundBalance[];
 const char *TWindowSoundBalance__name = "TWindowSoundBalance";
 s32 draw_visible_window_entries(s32, s32, void *);
-void __dl__7TObjectFPv(void *);
 
 void TWindowSoundBalance::set_sound_effect_gain(s16 gain) {
     if (sound_effect_gain != gain) {
@@ -192,16 +191,7 @@ void TWindowSoundBalance::run_task() {
     update_window_entry_list(&m_24);
 }
 
-void *__dt__19TWindowSoundBalanceFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__19TWindowSoundBalance;
-        ((TWindowDD *)arg0)->destroy_window_base(0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
-}
+TWindowSoundBalance::~TWindowSoundBalance() {}
 #pragma push
 #pragma fp_contract on
 u8 *TWindowSoundBalance__ct(TWindowSoundBalance *window_sound_balance, s32 arg1) {

@@ -105,7 +105,6 @@ void *mem_alloc(u32 size);
 s32 TWindowShortListCtrl__check_controller_button(int, int);
 Ent_80265C30 * get_array_entry__11TWindowBaseFi(void *w, s32 i);
 s32 play_sound_effect(s32, s32, s32, s32);
-void __dl__7TObjectFPv(void *);
 s32 __nw__7TObjectFUl(int);
 s32 get_draw_context__11TWindowBaseFPv();
 s32 construct_with_parent__15TWindowAdditionFPv(void *, void *, s16, s32);
@@ -126,7 +125,6 @@ u8 * create_yes_no_window(s32 arg0, s32 arg1, u32 arg2, u32 arg3);
 u8 * init_shop_judgment_window(void* p);
 s32 create_window_menu(s32 arg0, s32 arg1, s32 arg2);
 void render__11TWindowMenuFv(TWindowMenu *arg0);
-void * __dt__11TWindowMenuFv(void *arg0, s16 arg1);
 u8 * TWindowMenu__ct(u8 *arg0, u32 arg1, s32 arg2, s32 arg3);
 u8 test_menu_flag__11TWindowMenuFv(u8 *arg0);
 s32 clamp_list_scroll_offset(int, void *, void *);
@@ -812,18 +810,10 @@ void TWindowMenu::run_task() {
     ((TWindowBase *)arg0)->update_window_entry_list((u8 *)&this->m_24);
 }
 
-void *__dt__11TWindowMenuFv(void *window_addition, s16 arg1) {
-    if (window_addition != NULL) {
-        *(s32 **)((s8 *)window_addition + 0x18) = __vt__11TWindowMenu;
-        TWindowSubStatusDisp::destroy_allocation((s32)(*(void **)((s8 *)window_addition + 0x84)), (s16)1);
-        TWindowSubStatusDisp::destroy_status_display((s32)(*(void **)((s8 *)window_addition + 0x88)), (s16)1);
-        mem_free(*(void **)((s8 *)window_addition + 0x80));
-        ((TWindowAddition *)window_addition)->destroy_window(0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(window_addition);
-        }
-    }
-    return window_addition;
+TWindowMenu::~TWindowMenu() {
+    TWindowSubStatusDisp::destroy_allocation((s32)(*(void **)((s8 *)this + 0x84)), (s16)1);
+    TWindowSubStatusDisp::destroy_status_display((s32)(*(void **)((s8 *)this + 0x88)), (s16)1);
+    mem_free(*(void **)((s8 *)this + 0x80));
 }
 
 u8 *TWindowMenu__ct(u8 *window_menu, u32 arg1, s32 arg2, s32 arg3) {

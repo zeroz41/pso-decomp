@@ -88,9 +88,7 @@ s32 set_depth__11TWindowBaseFf(s32);
 s32 TWindowSubEquip__sub_80263AF8(s32, s32);
 s32 get_window_layout_position(s32);
 extern u8 lbl_8044FA28[];
-void *__dt__19TWindowSubMagPhotonFv(void *arg0, s16 arg1);
 s32 align_menu_entry_positions(s32);
-void __dl__7TObjectFPv(void *);
 }
 s32 create_titled_window_menu(s32, s32, s32, s32);
 extern "C" {
@@ -176,16 +174,7 @@ void TWindowSubMagPhoton::run_task() {
     this->m_62 = (this->m_62 + 1);
 }
 
-void *__dt__19TWindowSubMagPhotonFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__19TWindowSubMagPhoton;
-        ((TWindowDD *)arg0)->destroy_window_base(0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
-}
+TWindowSubMagPhoton::~TWindowSubMagPhoton() {}
 
 typedef char RecoveredGlobal_8027C6B4___vt__19TWindowSubMagPhoton_size[sizeof(RecoveredGlobal_8027C6B4___vt__19TWindowSubMagPhoton) == 0x1C ? 1 : -1];
 u8 *TWindowSubMagPhoton__ct(TWindowSubMagPhoton *window_sub_mag_photon, s32 arg1, s32 arg2, s16 arg3) {

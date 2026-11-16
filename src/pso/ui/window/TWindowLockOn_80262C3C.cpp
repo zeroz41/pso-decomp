@@ -145,7 +145,6 @@ void init_window_layout_entries(void *, void *, int);
 f32 get_target_distance__13TWindowLockOnFv(s32);
 extern s32 __vt__13TWindowLockOn[];
 s32 draw_visible_window_entries(void *, void *, int);
-void __dl__7TObjectFPv(void *);
 void *__nw__7TObjectFUl(u32);
 s32 get_window_layout_position(int);
 s32 obj_testFlag_2E4__9TObjCharaFUl(TObjChara *, int);
@@ -178,16 +177,7 @@ u8 *TWindowLockOn__ct(TWindowLockOn *self, s32 player, u16 id) {
     return (u8 *)self;
 }
 
-void *__dt__13TWindowLockOnFv(void *self, s16 flags) {
-    if (self != NULL) {
-        *(s32 **)((s8 *)self + 0x18) = __vt__13TWindowLockOn;
-        ((TWindowDD *)self)->destroy_window_base(0);
-        if (flags > 0) {
-            __dl__7TObjectFPv(self);
-        }
-    }
-    return self;
-}
+TWindowLockOn::~TWindowLockOn() {}
 
 void TWindowLockOn::run_task() {
     s32 old;

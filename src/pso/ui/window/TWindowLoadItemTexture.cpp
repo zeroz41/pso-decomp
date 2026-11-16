@@ -71,7 +71,6 @@ const char *TWindowLoadItemTexture__name = "TWindowLoadItemTexture";
 extern s32 tl_07;
 
 s32 draw_visible_window_entries(void *, void *, s32);
-void __dl__7TObjectFPv(void *);
 
 extern const f32 lbl_8044F280[2] = { 160.0f, 120.0f };
 
@@ -104,16 +103,8 @@ void render__22TWindowLoadItemTextureFv(TWindowLoadItemTexture *arg0) {
 
 void TWindowLoadItemTexture::run_task() { ((TWindowDD *)this)->initialize_subwindow(); update_fade(); update_window_entry_list((char*)this + 0x24); }
 
-void *__dt__22TWindowLoadItemTextureFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__22TWindowLoadItemTexture;
-        ((TObject *)(*(void **)((s8 *)arg0 + 0x6C)))->queue_destruction();
-        ((TWindowDD *)arg0)->destroy_window_base(0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
+TWindowLoadItemTexture::~TWindowLoadItemTexture() {
+    ((TObject *)(*(void **)((s8 *)this + 0x6C)))->queue_destruction();
 }
 
 void *TWindowLoadItemTexture__ct(TWindowLoadItemTexture *window_load_item_texture, void *arg1, void *arg2, void *arg3) {

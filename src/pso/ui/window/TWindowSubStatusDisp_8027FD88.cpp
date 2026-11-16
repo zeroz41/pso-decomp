@@ -765,7 +765,6 @@ void *get_player_by_client_id(s32 i);
 s32 draw_visible_window_entries(void *, void *, s32);
 s32 draw_list_page_indicator(s32, s32);
 void __dl__7TObjectFPv(void *);
-void destroy_window_base__9TWindowDDFs(void *, int);
 }
 s32 delete_if_allocated(s32 arg0, s16 arg1);
 #pragma defer_codegen on
@@ -859,7 +858,7 @@ void *TWindowSubStatusDisp::dt(s16 arg1) {
     if (this != NULL) {
         *(s32 **)((s8 *)this + 0x18) = __vt__20TWindowSubStatusDisp;
         delete_if_allocated(this->m_68, 1);
-        destroy_window_base__9TWindowDDFs(this, 0);
+        __dt__11TWindowBaseFv(this, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(this);
         }

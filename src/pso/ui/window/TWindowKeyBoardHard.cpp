@@ -685,7 +685,6 @@ void TWindowKeyBoardHard::render() {
 extern "C" {
 s32 get_window_layout_position(int);
 extern s32 __vt__19TWindowKeyBoardHard[];
-void __dl__7TObjectFPv(void *);
 s32 has_non_modifier_key__16TKeyBoardControlFv(void *);
 
 
@@ -718,16 +717,7 @@ void TWindowKeyBoardHard::run_task() {
     }
 }
 
-void *__dt__19TWindowKeyBoardHardFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__19TWindowKeyBoardHard;
-        ((TWindowDD *)arg0)->destroy_window_base(0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
-}
+TWindowKeyBoardHard::~TWindowKeyBoardHard() {}
 u8 *TWindowKeyBoardHard__ct(TWindowKeyBoardHard *window_key_board_hard, s32 arg1) {
     ((TWindowDD *)window_key_board_hard)->construct_base((u8 *)&lbl_804CFAD0, (s16)(4), (u8 *)(get_window_layout_position(0xB9)));
     *(s32 **)((s8 *)window_key_board_hard + 0x18) = __vt__19TWindowKeyBoardHard;

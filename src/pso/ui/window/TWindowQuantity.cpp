@@ -48,7 +48,6 @@ s32 get_window_layout_position(s32);
 extern s32 __vt__15TWindowQuantity[];
 extern s32 lbl_805D39B0;
 s32 draw_window_tab(s32, s32, s32, f32);
-void __dl__7TObjectFPv(void *);
 void *__nw__7TObjectFUl(int);
 
 void TWindowQuantity::set_position(s32 arg1) {
@@ -64,16 +63,7 @@ void render__15TWindowQuantityFv(s32 arg0) {
 
 void TWindowQuantity::run_task() { ((TWindowDD *)this)->initialize_subwindow(); update_window_entry_list((char*)this + 0x24); }
 
-void *__dt__15TWindowQuantityFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__15TWindowQuantity;
-        ((TWindowDD *)arg0)->destroy_window_base(0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
-}
+TWindowQuantity::~TWindowQuantity() {}
 
 void *TWindowQuantity__ct(void *arg0, void *arg1) {
 #define self ((Quantity_8026D000 *)arg0)

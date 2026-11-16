@@ -46,7 +46,6 @@ extern s32 __vt__14TWindowDeposit[];
 const char *TWindowDeposit__name = "TWindowDeposit";
 #pragma pop
 s32 draw_window_tab(s32, s32, s32, f32);
-void __dl__7TObjectFPv(void *);
 
 void TWindowDeposit::render_status(s32 arg1) {
     draw_window_tab(arg1, arg1 + 0x10, 3, this->m_60);
@@ -61,16 +60,7 @@ void render__14TWindowDepositFv(s32 arg0) {
 
 void TWindowDeposit::run_task() { ((TWindowDD *)this)->initialize_subwindow(); update_window_entry_list((char*)this + 0x24); }
 
-void *__dt__14TWindowDepositFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__14TWindowDeposit;
-        ((TWindowDD *)arg0)->destroy_window_base(0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
-}
+TWindowDeposit::~TWindowDeposit() {}
 typedef struct RecoveredGlobal_8024E548___vt__14TWindowDeposit RecoveredGlobal_8024E548___vt__14TWindowDeposit;
 #pragma opt_common_subs off
 #pragma opt_propagation off

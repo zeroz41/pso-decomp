@@ -298,7 +298,6 @@ extern RecoveredGlobal_802A7FB0_lbl_8050E208 controller_input_state;
 s32 verify_snapshot_checksum__15TObjBoss2TunnelFv(void);
 extern s32 __vt__15TWindowSnapShot[];
 s32 play_sound_effect(s32, s32, s32, s32);
-void __dl__7TObjectFPv(void *);
 
 void TWindowSnapShot::free_shared_instance() {
     struct VObj_802A7DDC *o;
@@ -372,16 +371,7 @@ void TWindowSnapShot::run_task() {
     ((TWindowBase *)arg0)->update_window_entry_list((u8 *)&this->m_24);
 }
 
-void *__dt__15TWindowSnapShotFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__15TWindowSnapShot;
-        ((TWindowDD *)arg0)->destroy_window_base(0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
-}
+TWindowSnapShot::~TWindowSnapShot() {}
 typedef char RecoveredGlobal_802A80A0___vt__15TWindowSnapShot_size[sizeof(RecoveredGlobal_802A80A0___vt__15TWindowSnapShot) == 0x18 ? 1 : -1];
 u8 *TWindowSnapShot__ct(TWindowSnapShot *window_snap_shot, s32 arg1) {
     s32 temp_r31;

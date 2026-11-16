@@ -75,7 +75,6 @@ struct TWindowDD
     static s32 check_all_ready(s32 arg0);
     int update_com_card();
     int initialize_subwindow();
-    void *destroy_window_base(s16 arg1);
     static void refresh_status_display();
     void set_mode_2();
     void reset_cursor();
@@ -169,6 +168,8 @@ typedef char WindowListSize[sizeof(TWindowDDValueList) == 8 ? 1 : -1];
 typedef char WindowListCountOffset[offsetof(TWindowDDValueList, count) == 4 ? 1 : -1];
 
 extern "C" {
+// TWindowBase::~TWindowBase(), called by the destructors that are still written by hand.
+void *__dt__11TWindowBaseFv(void *p, s16 flags);
 s32 TWindowDD__sub_80340820(void *p);
 void TWindowDD__sub_80340910(void *p);
 }

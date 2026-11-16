@@ -77,7 +77,7 @@ void TWindowRoom::run_task() { ((TWindowDD *)this)->initialize_subwindow(); ((TW
 void *__dt__11TWindowRoomFv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         ((TWindowRoom *)arg0)->objectVtable = __vt__11TWindowRoom;
-        ((TWindowDD *)arg0)->destroy_window_base(0);
+        __dt__11TWindowBaseFv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
         }

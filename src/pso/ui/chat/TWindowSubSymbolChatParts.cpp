@@ -164,7 +164,6 @@ s32 get_message_10__20TWindowSubStatusDispFl(s32);
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, s32);
 s32 TWindowShortListCtrl__check_controller_button(void *, s32);
 s32 play_sound_effect(s32, s32, s32, s32);
-void __dl__7TObjectFPv(void *);
 s32 get_draw_context__11TWindowBaseFPv();
 void construct_with_parent__15TWindowAdditionFPv(void *, void *, s32, void *);
 void clamp_list_scroll_offset(s32, Vec2_80284D68 *, Vec2_80284D68 *);
@@ -576,17 +575,9 @@ void run_task__25TWindowSubSymbolChatPartsFv(Parts_80285B84 *arg0) {
     ((TWindowDD *)arg0)->initialize_subwindow();
 }
 
-void *__dt__25TWindowSubSymbolChatPartsFv(void *window_addition, s16 arg1) {
-    if (window_addition != NULL) {
-        *(s32 **)((s8 *)window_addition + 0x18) = __vt__25TWindowSubSymbolChatParts;
-        TWindowSubStatusDisp::destroy_allocation((s32)(*(void **)((s8 *)window_addition + 0x8C)), (s16)1);
-        TWindowSubStatusDisp::destroy_status_display((s32)(*(void **)((s8 *)window_addition + 0x88)), (s16)1);
-        ((TWindowAddition *)window_addition)->destroy_window(0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(window_addition);
-        }
-    }
-    return window_addition;
+TWindowSubSymbolChatParts::~TWindowSubSymbolChatParts() {
+    TWindowSubStatusDisp::destroy_allocation((s32)(*(void **)((s8 *)this + 0x8C)), (s16)1);
+    TWindowSubStatusDisp::destroy_status_display((s32)(*(void **)((s8 *)this + 0x88)), (s16)1);
 }
 
 Parts_80285D38 *TWindowSubSymbolChatParts__ct(Parts_80285D38 *arg0, void *arg1, s32 arg2, s32 arg3) {

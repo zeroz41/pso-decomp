@@ -5,8 +5,6 @@
 #include "pso/ui/window/TWindowBase.h"
 
 struct TWindowUserSort : public TWindowBase {
-    // render is declared first: it is the key function that places the vtable in
-    // TWindowUserSort.cpp while the destructor still calls TWindowDD::destroy_window_base by hand.
     virtual void render();
     virtual ~TWindowUserSort();
     u8 _pad1C[0x8];

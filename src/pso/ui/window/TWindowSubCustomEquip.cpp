@@ -306,7 +306,6 @@ s32 play_sound_effect(s32, s32, s32, s32);
 extern RecoveredGlobal_80276D14_lbl_8050E208 controller_input_state;
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
 s32 set_help_text__15TWindowHelpItemFll(u8 *, s32);
-void __dl__7TObjectFPv(void *);
 
 
 void TWindowSubCustomEquip::set_relative_pos(void *arg1) {
@@ -553,16 +552,8 @@ void TWindowSubCustomEquip::run_task() {
     this->m_66 = (this->m_66 + 1);
 }
 
-void *__dt__21TWindowSubCustomEquipFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__21TWindowSubCustomEquip;
-        TWindowSubStatusDisp::destroy_status_display((s32)(*(void **)((s8 *)arg0 + 0x6C)), (s16)1);
-        ((TWindowDD *)arg0)->destroy_window_base(0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
+TWindowSubCustomEquip::~TWindowSubCustomEquip() {
+    TWindowSubStatusDisp::destroy_status_display((s32)(*(void **)((s8 *)this + 0x6C)), (s16)1);
 }
 
 u8 *get_window_layout_position(s32 index);

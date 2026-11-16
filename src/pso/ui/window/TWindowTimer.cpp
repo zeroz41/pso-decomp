@@ -47,7 +47,6 @@ extern s32 TWindowTimer__name;
 extern s32 lbl_805DD888;
 extern s32 lbl_805DD88C;
 s32 get_window_layout_position(s32);
-void __dl__7TObjectFPv(void *);
 s32 __nw__7TObjectFUl(s32);
 s32 init_timer_window_layout(s32);
 s32 init_timer_window_layout_alt(s32);
@@ -145,16 +144,7 @@ void run_task__12TWindowTimerFv(TWindowTimer *window_timer) {
  do { ((TWindowDD *)window_timer)->initialize_subwindow(); window_timer->update_chat_parts(); window_timer->ease_window_timer_position(); ((TWindowBase *)window_timer)->update_window_entry_list((u8 *)window_timer + 0x24); } while (0);
 }
 
-void *__dt__12TWindowTimerFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__12TWindowTimer;
-        ((TWindowDD *)arg0)->destroy_window_base(0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
-}
+TWindowTimer::~TWindowTimer() {}
 typedef char RecoveredGlobal_80287FBC___vt__12TWindowTimer_size[sizeof(RecoveredGlobal_80287FBC___vt__12TWindowTimer) == 0x18 ? 1 : -1];
 u8 *TWindowTimer__ct(TWindowTimer *window_timer) {
     ((TWindowDD *)window_timer)->construct_base((u8 *)&window_timer_layout, (s16)4, (u8 *)(get_zero_vec2()));

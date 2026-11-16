@@ -24,22 +24,13 @@ void sub_802443B4__15TWindowAdditionFv(void *, void *);
 void construct_base__9TWindowDDFPUcsPUc(void *);
 void __dl__7TObjectFPv(void *);
 
-extern s32 lbl_804CDFE8[];
+extern s32 __vt__15TWindowAddition[];
 
-void *TWindowAddition::destroy_window(s16 arg1) {
-    if (this != NULL) {
-        *(s32 **)((s8 *)this + 0x18) = lbl_804CDFE8;
-        ((TWindowDD *)this)->destroy_window_base(0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(this);
-        }
-    }
-    return this;
-}
+TWindowAddition::~TWindowAddition() {}
 
 void *TWindowAddition::construct_with_parent(void *arg1) {
     construct_base__9TWindowDDFPUcsPUc(this);
-    *(s32 **)((s8 *)this + 0x18) = lbl_804CDFE8;
+    *(s32 **)((s8 *)this + 0x18) = __vt__15TWindowAddition;
     sub_802443B4__15TWindowAdditionFv(this, arg1);
     return this;
 }
