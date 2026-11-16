@@ -38,7 +38,6 @@ extern s32 __vt__11TObjNpcHosa[];
 extern const char *TObjNpcHosa__name;
 void free_bin_model_request(void*, int);
 void *__ct__11TObjControlFP7TObject(void *, void *);
-void __dl__7TObjectFPv(void *);
 void *__nw__7TObjectFUl(int);
 
 void TObjNpcHosa::destroy_static_instance() {

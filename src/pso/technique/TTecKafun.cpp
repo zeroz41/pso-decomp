@@ -2,7 +2,6 @@
 #include "types.h"
 #include "pso/technique/TTecKafun.h"
 #include "pso/system/task/TObject.h"
-extern "C" void *__dt__13TUnk_804CC148Fv(void *, s16);
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/text_80087278.h"
 #include "pso/effect/TUnk_804CC148.h"
@@ -30,8 +29,6 @@ extern s32 __vt__9TTecKafun[];
 extern const char *tec_kafun_class_name_ptr;
 u8 *TTecKafun__sub_802A9948(TTecKafun *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s16 arg5, f32 farg0, f32 farg1);
 u8 *TTecKafun__ct(TTecKafun *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s16 arg6, f32 farg0, f32 farg1);
-void *__dt__9TTecKafunFv(void *arg0, s16 arg1);
-void __dl__7TObjectFPv(void *);
 
 }
 TTecKafun::~TTecKafun() {

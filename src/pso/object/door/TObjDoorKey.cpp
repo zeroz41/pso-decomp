@@ -127,11 +127,7 @@ extern u8 chunk_material_color_half_alpha_f32[];
 extern s32 actor_frame_tick;
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
-void *__ct__5TOKeyFP7TObject(TOKey *arg0);
-extern s32 __vt__11TObjDoorKey[];
 void free_bin_model_request(void*, int);
-s32 __dl__7TObjectFPv(void *);
-void *__dt__5TOKeyFv(void *arg0, s16 arg1);
 void *__nw__7TObjectFUl(int);
 int is_not_split_screen__13TRaderMapCoreFv(void *);
 

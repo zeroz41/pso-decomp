@@ -14,8 +14,6 @@ extern s32 __vt__12TOChatSensor[];
 extern s32 TOChatSensor__name;
 extern u32 chat_sensor_table;
 u32 TOChatSensor__ct(int arg0, void *arg1, void *arg2);
-void *__dt__12TOChatSensorFv(void *arg0, s16 arg1);
-void __dl__7TObjectFPv(void *);
 
 }
 TOChatSensor::~TOChatSensor() {

@@ -283,7 +283,6 @@ extern s32 __vt__11TObjDoaEx01[];
 
 void free_bin_model_request(void*, int);
 s32 free_collision_body_parts(void *);
-s32 __dl__7TObjectFPv(void *);
 void *__nw__7TObjectFUl(int);
 
 }

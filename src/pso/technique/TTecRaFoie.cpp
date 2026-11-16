@@ -51,30 +51,6 @@ typedef struct TObjPlayer_80237FB8 {
     Vec_80237FB8 pos;
 } TObjPlayer_80237FB8;
 
-struct Eff_80237BD8 { u8 pad[0xc]; f32 scale; };
-
-struct Holder_80237BD8 { u8 pad[0xa4]; Eff_80237BD8 *eff; };
-
-struct Self_80237BD8 {
-    u32 f0;
-    u8 pad4[0x18 - 4];
-    void *vt;
-    void *source;
-    u8 pos[0xc];
-    u8 pad2c[0x7c - 0x2c];
-    u8 src_pos[0xc];
-    u8 pad88[0x90 - 0x88];
-    f32 range;
-    u8 pad94[0xb4 - 0x94];
-    u16 fb4;
-    u8 padb6[0xe8 - 0xb6];
-    Holder_80237BD8 *holder;
-    u8 padec[4];
-    s32 ff0;
-    u8 padf4[4];
-    u16 ids[32];
-    s32 f138;
-};
 
 extern "C" {
 void queue_destruction__7TObjectFv(void *arg0);
@@ -96,8 +72,6 @@ s32 is_valid_and_active__10TObjPlayerFUl(int);
 extern void *technique_effect_bml;
 extern void *lbl_805D63B0;
 
-void __dl__7TObjectFPv(void *);
-void __dt__13TUnk_804CC148Fv(void *, int);
 s32 play_sound_effect(s32 id, void *pos, s32 a, s32 b);
 #define play_sound_effect ((s32 (*)(s32, s32, s32, s32))play_sound_effect)
 void *__nw__7TObjectFUl(int);
@@ -273,30 +247,7 @@ struct RaFoie_802381F8 {
 };
 
 #pragma fp_contract on
-struct Vec_80239070 { f32 x, y, z; };
 
-struct Eff_80239070 { u8 pad[0xC]; f32 scale; };
-
-struct Holder_80239070 { u8 pad[0xA4]; Eff_80239070 *eff; };
-
-struct Self_80239070 {
-    u32 f0;
-    u8 pad4[0x18 - 0x4];
-    void *vt;
-    void *source;
-    Vec_80239070 pos;
-    u8 pad2c[0x78 - 0x2C];
-    s16 level;
-    s16 band;
-    u8 pad7c[0x90 - 0x7C];
-    f32 range;
-    u8 pad94[0xB4 - 0x94];
-    u16 fb4;
-    u8 padb6[0xE8 - 0xB6];
-    Holder_80239070 *holder;
-    u8 padec[0xF0 - 0xEC];
-    Vec_80239070 pts[8];
-};
 
 extern "C" {
 s32 calc_technique_parameters(int, int, int);
@@ -421,8 +372,6 @@ void TUnk_804CCB28::run_task() {
 }
 #pragma pop
 
-void *__dt__13TUnk_804CCB28Fv(void *arg0, s16 arg1);
-void __dt__7TObjectFv(void *, int);
 
 }
 struct RecoveredGlobal_802384E0_lbl_804CCB28;
@@ -546,7 +495,6 @@ extern s32 __vt__10TTecRaFoie[];
 u8 *construct_targeted__10TTecRaFoieFPvPvPvPvi(u8 *self, void *source, void *origin, void *targets, int level);
 void fn_80044330(void *);
 Obj_80238AE8 *TTecRaFoie__ct(Obj_80238AE8 *arg0, void * _w1, void * _w2, void * _w3, int _w4);
-void *__dt__10TTecRaFoieFv(void *arg0, s16 arg1);
 }
 
 u8 *create_rafoie_explosion(u8 *arg0, s32 *arg1, s16 arg2, s16 arg3, s32 arg4, f32 farg0);

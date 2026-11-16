@@ -45,7 +45,6 @@ struct RecoveredGlobal_8035B2DC_lbl_804F1CB8 { s32 value; u8 remaining[0xC]; };
 typedef char RecoveredGlobal_8035B2DC_lbl_804F1CB8_size[sizeof(RecoveredGlobal_8035B2DC_lbl_804F1CB8) == 0x10 ? 1 : -1];
 
 
-
 struct RecoveredGlobal_8035B3C0___vt__15TPlyPhotonChair { s32 value; u8 remaining[0x34]; };
 
 struct Vec_8035B058 { f32 x, y, z; };
@@ -164,9 +163,7 @@ int push_matrix();
 int scale_current_matrix(void *);
 int post_translate_matrix(void *);
 int TPlyPhotonChair__sub_8035B520(void* p);
-void *__dt__15TPlyPhotonChairFv(void *arg0, s16 arg1);
 void free_bin_model_request(void*, int);
-void __dl__7TObjectFPv(void *);
 
 void TPlyPhotonChair::render() {
     Chair_8035B058 *self = (Chair_8035B058 *)this;

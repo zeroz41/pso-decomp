@@ -147,11 +147,9 @@ void TPhotonMagicSquare::run_task() {
 
 }
 
-struct RecoveredGlobal_801AD0F0_TPhotonMagicSquare__data_804C3940 { s32 value; u8 remaining[0x5C]; };
 
 struct RecoveredGlobal_801AD0F0___vt__18TPhotonMagicSquare { s32 value; u8 remaining[0x34]; };
 
-struct RecoveredGlobal_801AD218_TPhotonMagicSquare__data_804C3940 { s32 value; u8 remaining[0x5C]; };
 
 struct RecoveredGlobal_801AD218___vt__18TPhotonMagicSquare { s32 value; u8 remaining[0x34]; };
 
@@ -170,7 +168,6 @@ extern RecoveredGlobal_801AD0F0___vt__18TPhotonMagicSquare __vt__18TPhotonMagicS
 extern const char *TPhotonMagicSquare__data_805D3508;
 extern u8 *photon_blast_shared_resource;
 s32 play_sound_effect(int, int, int, int);
-void __dl__7TObjectFPv(void *);
 
 }
 TPhotonMagicSquare::~TPhotonMagicSquare() {

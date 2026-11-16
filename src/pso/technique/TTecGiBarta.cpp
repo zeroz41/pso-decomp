@@ -83,7 +83,6 @@ struct Obj_802309AC {
     s32 cursor;
 };
 
-struct TTecGiBartaData_80230B48 { u8 pad[4]; u32 count; };
 
 struct TTecGiBarta_80230B48 {
     u8 pad0[0x18];

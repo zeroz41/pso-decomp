@@ -48,7 +48,6 @@ s32 fn_80171314(void *);
 }
 
 
-
 // ---- the unit's data, in the original's order (.data, .sdata, .rodata, .sbss)
 // The mine models in bm_o_mine.bml: the four light models, then the four bodies.
 const char *bm_o_mine_model_names[9] = {
@@ -282,7 +281,6 @@ extern s32 model_render_flags;
 void obj_setFlags30(void *, u32);
 void free_bin_model_request(void*, int);
 int submit_target_to_player_cursor(void*);
-void __dl__7TObjectFPv(void *);
 typedef struct RecoveredFields_80170F0C_arg0 RecoveredFields_80170F0C_arg0;
 }
 

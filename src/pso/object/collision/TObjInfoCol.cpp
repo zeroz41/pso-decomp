@@ -29,7 +29,6 @@ extern s32 local_client_id;
 s32 __ct__14TObjCollidableFP7TObject(void *, void *);
 extern s32 __vt__11TObjInfoCol[];
 const char *TObjInfoCol__class_name = "TObjInfoCol";
-void __dl__7TObjectFPv(void *);
 f32 xyz_distance_squared(u8 *arg0, u8 *arg1);
 
 void TObjInfoCol::bswap_6x78() { ((G_ClientIDHeader *)this)->bswap(); bswap_16((u16 *)((char*)this + 0x4)); bswap_16((u16 *)((char*)this + 0x6)); bswap_32((u32 *)((char*)this + 0x8)); }

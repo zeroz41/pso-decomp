@@ -810,8 +810,6 @@ void qst_op_va_call(s32 arg0) {
 }
 
 
-extern "C" {
-}
 void qst_op_p_hpstat(void);
 extern "C" {
 f32 sin_table_lookup(int);

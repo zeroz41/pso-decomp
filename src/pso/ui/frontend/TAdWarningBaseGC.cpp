@@ -31,8 +31,6 @@ extern u8 controller_physical_port_bank[];
 void *__ct__12TAdBackTxtGCFv(void *, void *);
 void __ct__7TObjectFP7TObject(void *);
 void *__ct__9TAdBackGCFv(void *, void *);
-void __dl__7TObjectFPv(void *);
-void __dt__7TObjectFv(void *, int);
 void *__nw__7TObjectFUl(int);
 
     extern int aram_request_busy_flag;

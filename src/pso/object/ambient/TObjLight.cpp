@@ -86,7 +86,6 @@ void normalize_vector(void *);
 extern const Vec_80193FE8 lbl_80445D44;
 extern u8 identity_matrix[];
 extern u8 *camera_ctrl_instance;
-void __dl__7TObjectFPv(void *);
 
 void TObjLight::render() {  }
 

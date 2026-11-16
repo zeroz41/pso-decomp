@@ -58,7 +58,6 @@ struct Vec_800EAEE8 { f32 x, y, z; };
 extern "C" {
 
 
-
 f32 atan2_float(f32 y, f32 x);
 u32 csnLookAt(void *, void *);
 s32 project_actor_to_ground(void *, void *, int);
@@ -206,7 +205,6 @@ typedef struct Self_800E984C {
     Vec_800E984C dest;
 } Self_800E984C;
 
-struct Obj_800E9DC8 { u8 pad0[0x60]; s32 rotation_y; u8 pad1[0x390 - 0x64]; s32 state_timer; u8 pad2[0x3C4 - 0x394]; s32 turn_speed; };
 
 struct RecoveredGlobal_800EA678_lbl_8043D230 {
     s32 value;
@@ -672,10 +670,7 @@ s32 set_global_param__8TObjFishFl();
 extern u32 model_render_flags;
 
 
-
 void TObjEneSlime__sub_800EB9F0(void* p, void* q);
-
-
 
 
 }
@@ -720,9 +715,6 @@ extern "C" {
 void *load_resource_from_descriptor(void *, s32, s32 *, s32, s32, s32);
 
 
-
-
-
 }
 
 // ---- folded from src/pso/player/TObjPlayer_800EBE2C.cpp ----
@@ -747,8 +739,6 @@ extern int saved_chunk_polygon_flags_and_mask;
 extern int saved_chunk_polygon_flags_or_mask;
 extern int chunk_polygon_flags_or_mask;
 extern int chunk_polygon_flags_and_mask;
-s32 find_nearest_hittable_enemy__10TObjPlayerFiPvf(void *, int, f32);
-
 
 
 }

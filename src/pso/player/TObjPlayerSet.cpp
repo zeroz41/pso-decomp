@@ -22,9 +22,7 @@ extern s32 __vt__13TObjPlayerSet[];
 extern s32 TObjPlayer__player_set_class_name;
 u8 *TObjPlayerSet__ct(TObjPlayerSet *arg0, s32 arg1, s32 arg2);
 void *TObjQuestCol2__create(void *arg0);
-void *__dt__13TObjPlayerSetFv(void *arg0, s16 arg1);
 void *TObjQuestCol2__ct(void *, void *, void *);
-void __dl__7TObjectFPv(void *);
 
 void TObjPlayerSet::render() {  }
 void TObjPlayerSet::run_task() {  }

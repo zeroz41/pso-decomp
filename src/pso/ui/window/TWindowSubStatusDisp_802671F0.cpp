@@ -200,9 +200,6 @@ s32 forward_render__20TWindowSubStatusDispFv(s32, s32);
 
 void TShopJudgmentItemWindow__sub_80267F9C(V_80267F9C v, s32 x);
 
-extern "C" {
-}
-
 s32 TWindowMenuIconLine::get_cursor_value() {
     get_array_entry__11TWindowBaseFi(this, this->cursor);
     return get_cursor_pos__14TWindowSubItemFv();

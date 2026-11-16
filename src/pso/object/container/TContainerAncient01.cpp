@@ -1117,7 +1117,6 @@ extern s32 TContainerAncient01__bml_resource;
 u8 *TContainerAncient01__ct(u8 *arg0, s32 arg1, s32 arg2);
 
 s32 TContainerAncient01__sub_8018BE90(void);
-void *__dt__19TContainerAncient01Fv(void *arg0, s16 arg1);
 s32 free_collision_body_parts(void *);
 s32 __dl__7TObjectFPv(void *);
 

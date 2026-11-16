@@ -76,14 +76,12 @@ s32 project_actor_to_ground(void *, void *, int);
 int vec3_add_to(void *, void *);
 extern const f32 TObjGyaranzoMissile__max_range;
 extern s32 gyaranzo_missile_volley_end_time;
-void *__dt__19TObjGyaranzoMissileFv(void *arg0, s16 arg1);
 s32 post_translate_matrix(void *);
 void free_collision_body_parts(void *);
 s32 TObjFish__sub_8001EDB0(void *, int);
 s32 get_bml_model(void *, int);
 s32 draw_chunk_object();
 s32 push_matrix();
-void __dl__7TObjectFPv(void *);
 s32 set_global_param__8TObjFishFl();
 
 extern s32 model_render_flags;

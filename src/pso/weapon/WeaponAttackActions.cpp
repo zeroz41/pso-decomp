@@ -72,7 +72,6 @@ typedef struct A16_8011E3E8 { s32 a; s32 b; s32 c; s32 d; } A16_8011E3E8;
 typedef struct Obj_8011E3E8 { u8 pad[0xF0]; s32 f0; } Obj_8011E3E8;
 
 
-
 struct WeaponArgb { f32 alpha, red, green, blue; };
 
 extern "C" {
@@ -283,7 +282,6 @@ s32 TObjectV8047c128_subtract_hp(u8 *arg0, s16 arg1);
 s32 get_entity_id(void *);
 s32 get_mode__11TCameraCtrlFPv(void *);
 u8 * csnVector(void *, void *, s32);
-s32 init__9TItemDataFv(s32 *);
 s32 set_action_type__10TObjPlayerFs(int, int);
 f32 get_attack_accuracy_scale(s16 *arg0);
 void TObjPlayer__sub_80121228(void *p, u32 v);

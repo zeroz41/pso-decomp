@@ -168,8 +168,6 @@ void TObjBoss2Tunnel__sub_8003B2B0(void);
 void *__ct__7TObjectFP7TObject(void *, void *);
 
 
-
-
 struct S_8003C108;
 s32 boss2_tunnel_model_index_table[6] = {
     0x14, 0xe, 0xf, 0x10,
@@ -236,7 +234,6 @@ extern "C" {
 s32 TObjBoss2Tunnel__sub_8003C1C8(void);
 
 
-
 }
 
 struct Obj_8003C374 { u8 pad[0x28]; s32 start; s32 q[6]; };
@@ -248,12 +245,6 @@ struct S_8003C2E4 {
     s32 f28;
     s32 t[6];
 };
-
-
-
-
-
-
 
 
 struct Tunnel_8003C45C {
@@ -302,29 +293,12 @@ void reset_floats__15TObjBoss2TunnelFv(void *a0);
 extern s32 __vt__15TObjBoss2Tunnel[];
 void *TObjBoss2Tunnel__ct(void *arg0, void *arg1);
 void TObjBoss2Tunnel__sub_8003C648(void);
-void *__dt__15TObjBoss2TunnelFv(void *arg0, s16 arg1);
-void __dl__7TObjectFPv(void *);
-void __dt__7TObjectFv(void *, int);
 
 }
 extern "C" {
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 extern s32 __vt__13TUnk_804835D8[];
-
-
 
 
 }

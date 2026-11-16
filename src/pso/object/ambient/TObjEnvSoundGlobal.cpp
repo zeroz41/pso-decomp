@@ -68,12 +68,9 @@ f32 xz_distance_squared(void *, void *);
 extern u8 *camera_ctrl_instance;
 void run_task__14TObjEnvSoundExFv(Env_80190624 *o);
 void * TObjEnvSoundEx__create(void *arg0);
-void *__dt__18TObjEnvSoundGlobalFv(void *arg0, s16 arg1);
 void __dl__7TObjectFPv(void *);
 void *__nw__7TObjectFUl(int);
 int is_not_split_screen__13TRaderMapCoreFv(void *);
-
-
 
 
 }
@@ -85,12 +82,10 @@ typedef char RecoveredGlobal_80190484___vt__18TObjEnvSoundGlobal_size[sizeof(Rec
 
 
 extern s32 __vt__14TObjEnvSoundEx[];
-void *__dt__14TObjEnvSoundExFv(void *arg0, s16 arg1);
 struct RecoveredGlobal_8019080C___vt__14TObjEnvSoundEx {
     s32 value;
     u8 remaining[0x30];
 };
-
 
 
 #define F(o) (*(f32 *)(self + (o)))
@@ -113,7 +108,6 @@ typedef char RecoveredGlobal_8019080C___vt__14TObjEnvSoundEx_size[sizeof(Recover
 
 extern "C" {
 f32 xyz_distance_squared(void *, void *, void *);
-
 
 
 }
@@ -166,9 +160,7 @@ void copy_pair__18TObjEnvSoundGlobalFPvPv(void *p, void *q);
 
 extern s32 __vt__12TObjEnvSound[];
 
-void *__dt__12TObjEnvSoundFv(void *arg0, s16 arg1);
 void __dl__7TObjectFPv(void *);
-
 
 
 }

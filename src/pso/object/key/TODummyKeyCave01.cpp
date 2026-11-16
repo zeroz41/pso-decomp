@@ -49,7 +49,6 @@ extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 u8 is_current_floor_switch_set(s32 id);
 void *__nw__7TObjectFUl(int);
-void __dl__7TObjectFPv(void *);
 
 extern void *tl_05;
 

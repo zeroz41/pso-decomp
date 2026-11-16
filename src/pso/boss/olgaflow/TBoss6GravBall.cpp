@@ -9,7 +9,6 @@
 #include "pso/system/task/TObject.h"
 #include "pso/boss/olgaflow/TBoss6GravBall.h"
 #include "pso/player/TObjPlayer.h"
-extern "C" void *__ct__14TObjCollidableFP7TObject(void *, s32);
 
 #include "pso/boss/olgaflow/TBoss6PlotFalz.h"
 #include "pso/unk/TLobby.h"
@@ -158,9 +157,7 @@ void vec3_add_to(void *, void *);
 void TBoss6PlotFalz__sub_802AC724(void *, void *);
 
 
-
 void TBoss6GravBall__sub_803233AC(u8 *self);
-
 
 
 void TBoss6GravBall__sub_80323544(u8 *self);
@@ -339,7 +336,6 @@ extern "C" {
 s32 check_demo_mode__10TObjPlayerFv(void *);
 s32 query_teammate_state__9TObjEneDDFv(void);
 void VecCopy__FP3VecPC3Vec(void *, void *);
-extern s32 __vt__14TBoss6GravBall[];
 
 s32 play_persistent_sound(int, void *, void *, int, int);
 void TBoss6GravBall__sub_80323544(u8 *self);
@@ -347,7 +343,6 @@ s32 clamp_to_ground__14TBoss6GravBallFv();
 
 
 void clear_player_grav_flags__14TBoss6GravBallFv(void *);
-void __dl__7TObjectFPv(void *);
 
 void update_charge_effects__14TBoss6GravBallFPv(u8 *self) {
     s32 temp_r0;

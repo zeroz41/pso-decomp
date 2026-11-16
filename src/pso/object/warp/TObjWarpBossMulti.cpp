@@ -83,15 +83,6 @@ const char *TObjWarpBoss__name = "TObjWarpBoss";
 const char *TObjWarpBossMulti__name = "TObjWarpBossMulti";
 
 
-
-
-
-
-
-
-
-
-
 extern "C" {
 s32 check_player_flag1__6TLobbyFv(void);
 s32 get_message_10__20TWindowSubStatusDispFl(s32);
@@ -131,41 +122,8 @@ s32 align_menu_entry_positions(u32);
 u32 check_room_seq_4__16TAdChrSelASlotGCFl(s32, s32);
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
 void handle_6x6A_set_boss_warp_flags(void *arg0);
-extern "C" {
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-}
-
 // Function definitions in reverse address order (defer_codegen emits them reversed).
 
 s32 get_boss_warp_base_model(void) { return boss_warp_base_model; }

@@ -29,7 +29,6 @@ s32 play_sound_effect(int, void *, int, int);
 extern s32 __vt__12TObjNpcAHM01[];
 void release_texture_list(void*);
 void *__ct__11TObjControlFP7TObject(void *, void *);
-void __dl__7TObjectFPv(void *);
 void *__nw__7TObjectFUl(int);
 
 void TObjNpcAHM01::free_resources() {

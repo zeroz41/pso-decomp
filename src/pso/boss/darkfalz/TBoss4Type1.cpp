@@ -39,7 +39,6 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/technique/TTecRaFoie.h"
-extern "C" TObjEnemy *__ct__9TObjEnemyFP7TObject(void *, void *);
 
 extern "C" {
 
@@ -274,13 +273,10 @@ void TBoss4Type2__sub_80055300(void);
 Vec_80053E40 * get_position_ptr__10TObjPlayerFv(void *);
 void * create__9TBoss4UroFi(Params_80052CDC *);
 int toggle_particle_effect__10TObjPlayerFv(void*);
-void *__dt__9TObjEnemyFv(TObjEnemy *arg0, s16 arg1);
 void free_collision_body_parts(void *);
 s32 project_actor_to_ground(void *, void *, int);
 s32 add_radar_scaled_marker(void *, s32, s16, s32, f32);
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
-void __dl__7TObjectFPv(void *);
-s32 __nw__7TObjectFUl(s32);
 void create__11TTecRaBartaFPvPvPvPv(void *source, void *origin, void *pos, void *level);
 void TBoss6PlotFalz__sub_802AC008(f32 farg0, f32 farg1);
 void vec3_add_to(Vec_80053440 *, Vec_80053440 *);
@@ -434,11 +430,6 @@ extern const s32 boss4_type1_emitter_id_table[8] = { 0x144, 0x144, 0x144, 0x144,
 extern const ModelNodeSpec boss4_type1_model_node_table[7] = {
     { 9, 1, 0 }, { 7, 1, 0 }, { 5, 2, 0 }, { 4, 2, 0 }, { 6, 2, 0 }, { 3, 5, 0 }, { 3, 0x5E, 0 },
 };
-
-extern "C" {
-
-
-}
 
 extern "C" {
 void TBoss4Type2__sub_80055300(void) { TBoss4Type2__sub_80054FC0(NULL, 0.0f); }

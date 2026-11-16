@@ -80,8 +80,6 @@ s32 pop_matrices(int);
 const Vec_8006835C lbl_80438168 = {0.0f, 0.0f, -1.0f};
 const Vec_8006835C lbl_80438174 = {0.0f, 0.0f, -1.0f};
 extern u8 identity_matrix[];
-extern s32 __vt__13TUnk_80488A28[];
-void __dt__7TObjectFv(void *, int);
 
 }
 void set_camera_look_at(u8 *eye, u8 *target, u8 *up);

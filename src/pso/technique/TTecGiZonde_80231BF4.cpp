@@ -33,30 +33,6 @@ struct RecoveredFields_80230D9C_arg0
   s16 field_AC;
 };
 
-struct Vec_80239070 { f32 x, y, z; };
-
-struct Eff_80239070 { u8 pad[0xC]; f32 scale; };
-
-struct Holder_80239070 { u8 pad[0xA4]; Eff_80239070 *eff; };
-
-struct Self_80239070 {
-    u32 f0;
-    u8 pad4[0x18 - 0x4];
-    void *vt;
-    void *source;
-    Vec_80239070 pos;
-    u8 pad2c[0x78 - 0x2C];
-    s16 level;
-    s16 band;
-    u8 pad7c[0x90 - 0x7C];
-    f32 range;
-    u8 pad94[0xB4 - 0x94];
-    u16 fb4;
-    u8 padb6[0xE8 - 0xB6];
-    Holder_80239070 *holder;
-    u8 padec[0xF0 - 0xEC];
-    Vec_80239070 pts[8];
-};
 
 struct RecoveredGlobal_802384E0_lbl_804CCB28 { s32 value; u8 remaining[0x14]; };
 

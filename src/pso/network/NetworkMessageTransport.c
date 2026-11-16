@@ -30,7 +30,6 @@ s16 network_link_status_cache = -1;
 extern s32 lobby_exi_prev_status;
 extern u32 lobby_exi_stable_count;
 extern u32 lobby_exi_stable_target;
-void TAdSinglePlyChrSelectGC__sub_8042DDE4(int, int);
 s32 OSSendMessage(void *mq, void *msg, s32 flags);
 extern s32 network_message_pending_count;
 void TLobby__sub_80426190(EthernetReceiveFilter *);

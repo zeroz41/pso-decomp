@@ -60,11 +60,6 @@
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 
-extern "C" {
-
-
-}
-
 s32 get_story_flag(s32);
 
 s32 TObjCityMainWarp__enabled_destinations;
@@ -110,7 +105,6 @@ void clear_enabled_main_warps(void);
 
 s32 get_floor_warp_bit__16TObjCityMainWarpFl();
 
-void * __nw__7TObjectFUl(int);
 
 s32 align_menu_entry_positions(int);
 

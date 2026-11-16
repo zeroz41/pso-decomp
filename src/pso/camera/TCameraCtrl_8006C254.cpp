@@ -17,7 +17,6 @@
 #include "pso/map/FloorArea.h"
 
 extern "C" {
-void __dl__7TObjectFPv(void *);
 
 #pragma push
 #pragma fp_contract on
@@ -162,7 +161,6 @@ void TUnk_80488B68::run_task() {
 }
 #pragma pop
 
-extern s32 __vt__13TUnk_80488B68[];
 
 TUnk_80488B68::~TUnk_80488B68() {
 

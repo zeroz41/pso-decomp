@@ -36,7 +36,6 @@ s32 get_bml_model(int, int);
 extern s32 __vt__13TObjNpcKenkyu[];
 void free_bin_model_request(void*, int);
 void *__ct__11TObjControlFP7TObject(void *, void *);
-void __dl__7TObjectFPv(void *);
 void *__nw__7TObjectFUl(int);
 
 void TObjNpcKenkyu::free_static_model() {

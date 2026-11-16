@@ -25,7 +25,6 @@
 #include "pso/render/GinjaMaterial.h"
 #include "pso/system/task/TObject.h"
 
-struct Obj_80188884 { u8 pad0[0x38]; u8 pos[0x28]; s32 id; u8 pad1[0x326 - 0x64]; s16 state; };
 
 struct Obj_801884A0 {
     const char *unk0;
@@ -62,39 +61,11 @@ struct Computer_8018807C {
     u32 tick_c4;
 };
 
-struct Pkt_80188768 { u16 a; u16 b; s32 c; s32 d; s32 e; };
-
-struct Vec_8018860C { f32 x, y, z; };
-
-struct ChipParam_8018860C {
-    u32 x00;
-    u32 x04;
-    u32 x08;
-    Vec_8018860C pos;
-    u8 pad18[0x20];
-    f32 y2;
-    u32 pad3C;
-    s32 res;
-    s32 x44;
-    u32 x48;
-};
-
-struct Obj_8018860C {
-    u8 pad[0x38];
-    Vec_8018860C pos;
-    u8 pad44[0x326 - 0x44];
-    s16 state;
-};
 
 extern "C" {
 s32 push_matrix();
 s32 post_translate_matrix(void *);
 s32 rotate_matrix_y(s32, s32);
-void draw_ginja_box_tree(u8 *arg0);
-extern void *container_breakup_model_archive;
-extern s32 lbl_805D5B8C;
-extern char lbl_80444EF4[];
-extern const f32 lbl_805DBCF8;
 s32 get_bml_model(void *, s32);
 u32 init_collision_body_parts(void *, void *, s32);
 void *TObjMesBase__ct(TObjMesBase *arg0, s32 arg1, s32 arg2);
@@ -106,17 +77,10 @@ s32 scroll_ginja_mesh_uvs(void *, s32, s32, u16, s32);
 s32 PPCSync();
 s32 rotate_matrix_by_node_angles(void *, u32);
 extern u32 actor_frame_tick;
-s32 get_current_floor();
-extern s32 local_client_id;
-extern const f32 lbl_805DBCF4;
-u8 *__ct__8TObjChipFP7TObjectPC14TObjChipParams(u8 *arg0, u8 *arg1, u8 *arg2);
 }
 void load_computer_resources(void);
-void play_container_break_sound(s32 arg0);
 extern "C" {
 void *__nw__7TObjectFUl(int);
-extern ChipParam_8018860C lbl_80444E5C;
-extern ChipParam_8018860C lbl_80444EA8;
 extern void *tl_05;
 void free_bin_model_request(void*, int);
 s32 release_texture_list(void*);

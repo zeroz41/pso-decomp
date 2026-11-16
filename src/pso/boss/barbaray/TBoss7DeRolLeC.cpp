@@ -696,7 +696,6 @@ struct Pt_802E95F8 { f32 x, y, z; };
 
 struct Fish_802E95F8 { u8 pad[0x534]; Pt_802E95F8 pts[16]; u8 pad2[0x728 - 0x534 - 16 * 12]; s32 idx; };
 
-struct Vec_802EBBC8 { f32 x, y, z; };
 
 struct Vec_802E85E0 { f32 x, y, z; };
 
@@ -1324,7 +1323,6 @@ struct PktA_802ED62C { u8 hdr[2]; u16 a; s16 b; s16 c; s32 d; };
 
 struct PktB_802ED62C { u8 hdr[2]; u16 a; s16 b; s16 c; };
 
-struct Elem_802ED73C { u8 pad0[0x18]; s32 flags; u8 pad1C[0x2C - 0x1C]; };
 extern "C" {
 s32 register_object__6TLobbyFl(s32);
 

@@ -40,15 +40,12 @@ f32 sin_table_lookup(s32);
 f32 cos_table_lookup(s32);
 extern Pad_8006BB1C controller_input_state;
 void *TCameraCtrl__vt4(void);
-void *__dt__13TUnk_80488B38Fv(void *arg0, s16 arg1);
-void __dl__7TObjectFPv(void *);
 
 void *TCameraCtrl__vt4(void) {
     void *o = (void *)new TUnk_80488B38();
     return o;
 }
 
-extern s32 __vt__13TUnk_80488B38[];
 
 #pragma push
 #pragma fp_contract on

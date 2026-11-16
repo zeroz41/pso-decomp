@@ -36,7 +36,6 @@ extern s32 __vt__20TObjNpcCloakroomBase[];
 s32 play_sound_effect(s32, s32, s32, s32);
 void free_bin_model_request(void*, int);
 void *__ct__11TObjControlFP7TObject(void *, void *);
-void __dl__7TObjectFPv(void *);
 void *__nw__7TObjectFUl(int);
 
 void TObjNpcCloakroomBase::play_voice() {

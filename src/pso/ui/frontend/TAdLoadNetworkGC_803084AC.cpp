@@ -25,10 +25,7 @@ ParticleAngles TAdLoadNetworkGC__object_offset_table[5] = {
 };
 
 extern "C" {
-void __dt__7TObjectFv(void *, int);
-void __dl__7TObjectFPv(void *);
 extern u8 __vt__16TAdLoadNetworkGC[];
-Net_80308518 *__dt__16TAdLoadNetworkGCFv(Net_80308518 *self, s16 flag);
 void *__ct__7TObjectFP7TObject(void *, void *);
 const s32 load_network_object_id_table[5] = {19, 21, 23, 29, 110};
 extern Ray_803085A0 lbl_804FF5E8;

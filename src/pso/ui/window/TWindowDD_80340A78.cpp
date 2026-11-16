@@ -186,7 +186,6 @@ void TWindowDD::set_scale(s32 arg1, s32 arg2) {
 extern "C" {
 
 void *dt__22TWindowDD_WS_ScrollBarFs(void *arg0, s16 arg1);
-s32 draw_visible_window_entries(s32, s32, void *, f32);
 void __dl__7TObjectFPv(void *);
 void *__nw__7TObjectFUl(int);
 

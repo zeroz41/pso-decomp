@@ -159,10 +159,7 @@ void *create_title_window__19TWindowSubTechniqueFv(void *, s32);
 extern u8 lbl_8044FC54[];
 extern Pad_802870C4 controller_input_state[];
 void *TWindowSubTechnique__ct(TWindowSubTechnique *arg0, s32 arg1, s32 arg2);
-void *__dt__19TWindowSubTechniqueFv(TWindowSubTechnique *arg0, s16 arg1);
 s32 __ct__7TObjectFP7TObject();
-void __dl__7TObjectFPv(void *);
-void __dt__7TObjectFv(void *, int);
 }
 void text_builder_reset(void);
 void toggle_help_window_on_button(u32 arg0, s32 arg1);

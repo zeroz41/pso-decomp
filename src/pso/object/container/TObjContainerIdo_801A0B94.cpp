@@ -7,7 +7,6 @@
 extern "C" {
 int __ct__14TObjCollidableFP7TObject(void);
 extern s32 __vt__13TUnk_804B97C0[];
-void __dl__7TObjectFPv(void *);
 
 }
 TUnk_804B97C0::~TUnk_804B97C0() {

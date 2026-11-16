@@ -32,8 +32,6 @@ extern s32 aram_request_busy_flag;
 void DCFlushRange(void *, u32);
 extern u32 TAdWarningBaseGC__aram_capacity;
 void __ct__7TObjectFP7TObject(void *);
-void __dl__7TObjectFPv(void *);
-void __dt__7TObjectFv(void *, int);
 
 void wait_aram_request__16TAdWarningBaseGCFv(void *arg0) {
     if ((s32) aram_request_busy_flag == 0) {

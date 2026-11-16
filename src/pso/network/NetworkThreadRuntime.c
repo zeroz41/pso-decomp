@@ -18,7 +18,6 @@
 #include "pso/network/TLobby_80428374.h"
 #include "pso/network/TLobby_803FAEA0.h"
 
-s32 TLobby__sub_80428358(void);
 
 s16 TLobby__sub_80401BCC(void *self, void *dst, u16 n);
 

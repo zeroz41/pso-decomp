@@ -49,8 +49,6 @@ extern "C" {
 s32 __ct__8TObjBaseFP7TObject(void *, void *);
 extern s32 __vt__13TEF_LensFlare[];
 u8 *TEF_LensFlare__ct(u8 *arg0, s32 arg1, s32 arg2);
-void *__dt__13TEF_LensFlareFv(void *arg0, s16 arg1);
-void __dl__7TObjectFPv(void *);
 
 }
 TEF_LensFlare::~TEF_LensFlare() {

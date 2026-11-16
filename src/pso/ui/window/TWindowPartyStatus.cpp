@@ -54,9 +54,6 @@ extern s32 __vt__18TWindowPartyStatus[];
 extern const char *TWindowPartyStatus__name;
 extern s32 local_client_id;
 u8 *TWindowPartyStatus__ct(u8 *arg0, s32 arg1, s32 arg2);
-void *__dt__18TWindowPartyStatusFv(void *arg0, s16 arg1);
-void __dl__7TObjectFPv(void *);
-void __dt__19TWindowSimpleStatusFv(void *, int);
 s32 update_lockon_window();
 void update_status_help_item(s32 arg0);
 

@@ -52,12 +52,9 @@ s32 draw_debug_info__11TObjNpcBaseFv();
 void debug_printf_at(s32, const char *, ...);
 void *memmove(void *, const void *, u32);
 void * TObjNpcEnemy__create(void *arg0);
-void *__dt__12TObjNpcEnemyFv(void *arg0, s16 arg1);
 void *__ct__11TObjControlFP7TObject(void *, void *);
 s32 rotate_matrix_y(int, int);
 s32 translate_matrix(int, int, f32, f32, f32);
-void __dl__7TObjectFPv(void *);
-void *__dt__11TObjNpcBaseFv(void *arg0, s16 arg1);
 void *__nw__7TObjectFUl(int);
 s32 init_motion__10TObjMotionFP16TObjMotionActionP14BmlMotionEntrys(void *, s32, s32, s16);
 

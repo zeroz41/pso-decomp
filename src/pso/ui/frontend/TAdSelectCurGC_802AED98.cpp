@@ -71,7 +71,6 @@ void run_task__14TAdSelectCurGCFv(TAdSelectCurGC_802AED98 *o);
 void __ct__7TObjectFP7TObject(void *);
 extern void *__vt__14TAdSelectCurGC[];
 TAdSelectCurGC_802AF0E0 *__ct__14TAdSelectCurGCFv(TAdSelectCurGC_802AF0E0 *o, void *unused, void *a, void *b);
-void *__nw__7TObjectFUl(int);
 
 void run_task__14TAdSelectCurGCFv(TAdSelectCurGC_802AED98 *o) {
     s32 ok;

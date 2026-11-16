@@ -25,7 +25,6 @@ extern "C" {
 s32 is_player_outside_trade_radius__18TObjTradeCollisionFUl(void *, int);
 extern s32 __vt__18TObjTradeCollision[];
 extern const char *TObjTradeCollision__name;
-void __dl__7TObjectFPv(void *);
 void *__nw__7TObjectFUl(int);
 
 void TObjTradeCollision::render() {  }

@@ -104,7 +104,6 @@ struct RecoveredGlobal_80362FB4_lbl_80479FC8 {
 
 extern "C" {
 s16 get_validated_attack_stage(u8 *arg0);
-u8 *__nw__5TItemFUl(s32);
 s32 rotate_matrix_x(int, int);
 s32 push_matrix();
 s32 pop_matrix();

@@ -57,8 +57,6 @@ extern char lbl_805DA9F4[4];
 extern char lbl_805DA9F8[4];
 extern "C" {
 
-void __dl__7TObjectFPv(void *);
-void __dt__14TFontSmallHelpFv(void *, int);
 void *__nw__7TObjectFUl(int);
 s32 get_status_index_or_default__20TWindowSubStatusDispFPUs(void *, s32);
 

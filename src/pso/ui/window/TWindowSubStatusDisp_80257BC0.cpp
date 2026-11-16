@@ -19,32 +19,9 @@
 #include "pso/render/render_util.h"
 #include "pso/ui/ItemListRow.h"
 
-struct Bar_80256C00 {
-    u8 pad0[0x14];
-    f32 scale;
-    u8 pad1[4];
-    f32 width;
-    f32 max;
-    f32 target;
-};
-
-struct Gauge_802571B4 {
-    u16 flags;
-    u8 pad2[0x12];
-    f32 scale;
-    u8 pad18[4];
-    f32 cur;
-    f32 max;
-    f32 val;
-};
-
-struct Gauge_80256E0C { u8 p0[0x14]; f32 max; };
-
-struct Pos_80256E0C { f32 x; f32 y; };
 
 extern "C" {
 extern const f32 lbl_805DCE58;
-void step_gauge_bar_width(Gauge_802571B4 *g);
 void *destroy__13TUnk_804CF930Fs(void *arg0, s16 arg1);
 
 struct RecoveredGlobal_80257B4C_lbl_804CF948 {
@@ -312,7 +289,6 @@ void *TWindowSubStatusDisp::deleting_destructor(s16 arg1) {
 }
 
 #undef destroy__13TUnk_804CF930Fs
-
 
 
 // Screen x, y of each item icon slot (indexed by get_entry_ptr).

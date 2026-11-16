@@ -5,8 +5,6 @@
 
 extern "C" {
 
-void __dl__7TObjectFPv(void *);
-void __dt__7TObjectFv(void *, int);
 
 s16 TItemProShield::get_field_2b8() { return *(s16*)((char*)this + 0x2b8); }
 

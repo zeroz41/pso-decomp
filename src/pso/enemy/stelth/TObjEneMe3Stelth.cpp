@@ -126,9 +126,6 @@ u32 *TObjEneMe3Stelth__material_color_pointers[4];
 }
 
 extern "C" {
-}
-
-extern "C" {
 s32 dispatch_input_to_instance__18TAdEnterPasswordGCFi(void *);
 extern const f32 lbl_805D9E84;
 extern const f32 lbl_805D9E88;
@@ -137,7 +134,6 @@ extern const f32 lbl_805D9E88;
 extern "C" {
 void TObjEneMe3Stelth__sub_800F290C(TObjEneMe3Stelth *stelth, s32 arg1);
 void TObjEneMe3Stelth__sub_800F2270(TObjEneMe3Stelth *stelth, s32 arg1);
-
 
 
 void action__16TObjEneMe3StelthFPvi(TObjEneMe3Stelth *stelth, s32 arg1);
@@ -159,9 +155,6 @@ void TObjEneMe3Stelth__sub_800F348C(TObjEneMe3Stelth *stelth, s32 arg1);
 s32 move_to_shot_position__9TObjEneDDFfff(void *, int, f32, f32, f32);
 void TObjEneMe3Stelth__sub_800F3214(TObjEneMe3Stelth *stelth, s32 arg1);
 s32 create__10TTecDebandFlll(void *, void *, s32);
-
-
-
 
 
 u32 get_item_field_6__10TObjPlayerFPv(void *);

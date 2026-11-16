@@ -31,8 +31,6 @@ struct Vtx_80327D30 { f32 x, y, z, u, v; u32 color; };
 struct Obj_80327D30 { u8 pad0[0x1C]; f32 w; f32 h; u8 pos[0xC]; u8 pad30; u8 f31; u8 pad32[2]; s32 f34; s32 f38; u8 pad3c[4]; void *f40; };
 
 extern "C" {
-void __dl__7TObjectFPv(void *);
-void __dt__7TObjectFv(void *, int);
 extern s32 __vt__13TUnk_804ED598[];
 int GXSetNumIndStages(int);
 int GXSetTevDirect(int);

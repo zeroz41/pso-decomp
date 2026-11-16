@@ -7,7 +7,6 @@
 #include "pso/system/task/TObject.h"
 #include "pso/technique/TTecCtrl.h"
 #include "pso/technique/TTecRaBarta.h"
-extern "C" void *__dt__13TUnk_804CC148Fv(void *, s16);
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/unk/TLobby_80226070.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -171,7 +170,6 @@ extern Scale_802377FC lbl_804CC55C;
 void calc_parameters__11TTecRaBartaFv(RaBarta_802377FC *self);
 
 s32 play_sound_effect(s32, s32, s32, s32);
-void __dl__7TObjectFPv(void *);
 s32 update_technique_slot__10TTecRaFoieFl(s32, s32, s32);
 
 typedef char RecoveredGlobal_80237194_lbl_8044D8EC_size[sizeof(RecoveredGlobal_80237194_lbl_8044D8EC) == 0xC ? 1 : -1];
@@ -386,7 +384,6 @@ s32 apply_technique_to_area_targets__13TUnk_804CC148Fv(void *, int);
 
 
 extern s32 __vt__11TTecRaBarta[];
-struct Profile_80237A94 { void *entries; u32 count; };
 struct Self_80237A94 {
     u8 pad0[0x18];
     void *vtable;

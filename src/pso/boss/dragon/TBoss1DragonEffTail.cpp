@@ -76,7 +76,6 @@ void TBoss1Dragon__sub_8002AB6C(u8 *arg0);
 extern s32 __vt__19TBoss1DragonEffTail[];
 EffTail_8002C06C *TBoss1DragonEffTail__ct(EffTail_8002C06C *arg0, s32 arg1, s32 arg2);
 s32 matrix_mult_vec(int, void *, void *);
-void __dl__7TObjectFPv(void *);
 int fill_value_array(void*);
 
 void TBoss1DragonEffTail::render() {  }

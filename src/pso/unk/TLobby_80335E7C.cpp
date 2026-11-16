@@ -70,16 +70,7 @@ struct RecoveredGlobal_8000F91C_lbl_804FE120 {
 };
 
 extern "C" {
-void __dl__7TObjectFPv(void *);
-void __dt__7TObjectFv(void *, int);
-extern s32 __vt__13TUnk_804EE470[];
 void TCameraCtrl__sub_80068EF0(void);
-
-
-
-
-
-
 
 
 extern RecoveredGlobal_8000F7FC_lbl_80515F48 title_texture_list;

@@ -116,7 +116,6 @@ f32 TObjEneRecon__sub_8031C2BC(int);
 f32 TObjEneRecon__sub_8031C2C8(int);
 f32 TObjEneRecon__sub_8031C2D4(int);
 s32 __ct__9TObjCharaFP7TObject();
-void __dl__7TObjectFPv(void *);
 
 extern s32 __vt__16TObjEneReconBomb[];
 

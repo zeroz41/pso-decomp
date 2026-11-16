@@ -23,7 +23,6 @@ extern "C" {
 u8 is_current_floor_switch_set(s32 id);
 void *strncpy(void *, void *, s32);
 s32 find_chat_keyword(void *, void *, s32);
-void *__nw__7TObjectFUl(u32);
 extern void *quest_mission_manager;
 extern void *tl_00;
 

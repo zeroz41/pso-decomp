@@ -58,12 +58,10 @@ struct Ent_8017873C
 
 extern "C" {
 f32 newton_sqrtf(f32 x);
-void __ct__9TObjCharaFP7TObject(void *);
 void init_collision_body_parts(void *, void *, int);
 CollisionBody lbl_804B4550[1] = {
     { { 0.0f, 80.0f, 0.0f }, 1.0f, 1.0f, 0, 0x10002, { 0.0f, 0.0f, 0.0f }, 0.0f },
 };
-extern s32 __vt__17TOSymbolchatColli[];
 extern s32 TOSymbolchatColli__name;
 Obj_80178AD4 *__ct__17TOSymbolchatColliFP7TObjectl(Obj_80178AD4 *arg0, void *arg1, s32 arg2);
 s32 is_locally_controlled__10TObjPlayerFPv();
@@ -77,10 +75,8 @@ u32 symbolchat_colli_param_table[4];
 extern s32 lbl_805D3190;
 int symbol_chat_colli_entries;
 void *memset(void *, int, u32);
-void *__dt__17TOSymbolchatColliFv(void *arg0, s16 arg1);
 u8 is_current_floor_switch_set(s32 id);
 s32 free_collision_body_parts(void *);
-s32 __dl__7TObjectFPv(void *);
 void *__nw__7TObjectFUl(int);
 void mem_free(void *p);
 

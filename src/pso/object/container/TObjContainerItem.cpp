@@ -66,7 +66,6 @@ struct Obj_8018860C {
     s16 state;
 };
 struct Obj_80188C8C { u8 pad0[0x38]; u8 pos[0x28]; s32 id; u8 pad1[0x326 - 0x64]; s16 state; };
-struct Obj_80188B3C { u8 pad[0x38]; f32 x, y, z; };
 struct Obj_8018990C { u8 pad[0x38]; f32 x, y, z; u8 pad44[0x326 - 0x44]; s16 f326; };
 struct Obj_801895A4 { u8 pad0[0x38]; u8 pos[0x4c]; s32 id; };
 struct Obj_801894F8 { u8 pad0[0x1C]; u16 f1C; u8 pad1[0x62]; u32 f80; s32 f84; };
@@ -315,7 +314,6 @@ s32 dispatch_fish_event__6TLobbyFPv(void *a0);
 void *__nw__7TObjectFUl(int);
 s32 release_texture_list(void*);
 s32 free_collision_body_parts(void *);
-s32 __dl__7TObjectFPv(void *);
 s32 get_container_param(s32 index);
 extern TObjChipParams *lbl_805D5B80;
 extern TObjChipParams *lbl_805D5B84;
@@ -330,17 +328,6 @@ extern const f32 lbl_805DBD08;
 }
 
 // ---- TObjComputer
-
-
-
-
-
-
-
-
-
-
-
 
 
 // Built with -inline off,deferred: the compiler emits the functions (and the

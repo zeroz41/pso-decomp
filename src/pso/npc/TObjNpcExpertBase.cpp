@@ -32,7 +32,6 @@ extern "C" {
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 extern s32 __vt__17TObjNpcExpertBase[];
 void free_bin_model_request(void*, int);
-void __dl__7TObjectFPv(void *);
 
 void TObjNpcExpertBase::free_shared_data() {
     if ((u32) TObjNpcExpertBase__shared_resource != 0U) {

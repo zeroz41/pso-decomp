@@ -108,7 +108,6 @@ int rotate_matrix_z(void*, void*);
 int rotate_matrix_x(void*, void*);
 int rotate_matrix_y(void*, void*);
 int push_matrix(void*);
-void __dl__7TObjectFPv(void *);
 
 #pragma push
 #pragma opt_propagation off

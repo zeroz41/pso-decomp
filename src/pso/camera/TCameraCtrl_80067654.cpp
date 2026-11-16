@@ -26,7 +26,6 @@ s32 normalize_vector(void *);
 u8 * __ct__13TUnk_80488A28Fv(void *);
 void *get_player_by_client_id(s32 i);
 extern s32 __vt__13TUnk_804887C8[];
-void __dl__7TObjectFPv(void *);
 
 void TUnk_80488A28::vfunc_6() {  }
 void TUnk_80488A28::reset_state() {  }

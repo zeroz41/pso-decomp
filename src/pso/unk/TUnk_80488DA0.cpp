@@ -40,7 +40,6 @@ f32 cos_table_lookup(s32);
 void debug_printf_at(s32, const char *, ...);
 extern Ctl_8006C964 controller_input_state;
 int __ct__13TUnk_80488A28Fv(void);
-void __dl__7TObjectFPv(void *);
 
 extern unsigned char __vt__13TUnk_80488DA0[];
 

@@ -108,16 +108,9 @@ extern "C" {
 s32 push_matrix();
 s32 post_translate_matrix(void *);
 
-extern s32 __dt__15RenderFadeStateFv[];
-extern s32 __ct__15RenderFadeStateFv[];
-extern s32 __vt__25TObjEneDellBiter_Eff_Rush[];
 extern Vec dellbiter_demo_camera_vec;
-extern s32 TObjEneDellBiter_Eff_Rush__name;
 extern s32 actor_frame_tick;
 extern s32 game_difficulty_selection;
-extern const f32 lbl_805DEFAC;
-extern const f32 lbl_805DEFB0;
-extern const f32 lbl_805DEFB4;
 extern void *tl_04;
 
 extern "C" {

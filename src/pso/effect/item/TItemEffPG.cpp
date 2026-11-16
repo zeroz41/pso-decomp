@@ -162,7 +162,6 @@ extern s32 saved_chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_and_mask;
 extern s32 model_render_flags;
-void __dl__7TObjectFPv(void *);
 }
 
 // Built with -inline off,deferred: functions are written last to first, so

@@ -18,7 +18,6 @@
 
 #include "pso/unk/text_803D96A8.h"
 
-void set_constant_material(const NJS_ARGB *color);
 
 #include "types.h"
 

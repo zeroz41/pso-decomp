@@ -309,7 +309,6 @@ struct View_800698C8 {
 extern "C" {
 
 
-
 void TCameraCtrl__sub_800689E8(void);
 s32 is_split_screen();
 s32 approach_camera_vector(void *, void *, f32);
@@ -421,7 +420,6 @@ struct Sel_8006A13C { u8 busy; u8 pad1; u16 slot; u8 pad4[0x8]; };
 extern "C" {
 
 
-
 s32 TWindowShortListCtrl__check_controller_button(void *, s32);
 s32 is_on_current_screen__11TCameraCtrlFv(void *, s32);
 extern Big_8006A13C controller_input_state;
@@ -430,10 +428,6 @@ extern Big_8006A13C controller_input_state;
 
 struct Vec_8006AF9C { f32 x, y, z; };
 
-struct Obj_8006AF9C {
-    u8 pad0[0x19c];
-    s32 fov;
-};
 
 void set_camera_look_at(u8 *eye, u8 *target, u8 *up);
 extern "C" {
@@ -553,7 +547,6 @@ struct Views_8006A410
 extern "C" {
 
 
-
 s32 apply_camera_controller_pose(int);
 s32 resolve_anchor_obstruction__11TCameraCtrlFv(void *, int);
 s32 clamp_to_target_obstruction__11TCameraCtrlFv(void *, int);
@@ -611,7 +604,6 @@ struct Ctl_8006AA90 {
     virtual ~Ctl_8006AA90();
 };
 extern "C" {
-
 
 
 void __dt__7TObjectFv(void *, s32);
@@ -692,7 +684,6 @@ struct Cam_8006B0D4 {
 extern "C" {
 
 
-
 u8 * copy_view_params__11TCameraCtrlFii(C30_8006AD34 *arg0, const C30_8006AD34 *arg1);
 extern Cam_80068958 chr_select_request_buffer;
 s32 rotate_matrix_y(int, void *);
@@ -722,8 +713,6 @@ void *TCameraCtrl__vt12(void);
 void *TCameraCtrl__vt4(void);
 
 void *TCameraCtrl__vt5(void);
-
-
 
 
 void render_shadows__7TObjectFv();
@@ -1965,7 +1954,6 @@ void TCameraCtrl::restore_full_screen_view() {
         TCameraCtrl__data_805D4E0A = 0;
     }
 }
-
 
 
 void TCameraCtrl::copy_view_state(s32 src) {

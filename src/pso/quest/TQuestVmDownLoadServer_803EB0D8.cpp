@@ -2282,7 +2282,6 @@ void TQuestVmDownLoadServer__sub_803EE2F4(s32 pos, s32 end) {
 #pragma pop
 
 extern u8 lbl_8058DCE8[];
-extern u8 lbl_8058DD38[];
 extern u8 lbl_805A0698[];
 s32 TQuestVmDownLoadServer__sub_803EEDC0(Req_803EEF2C *req, s32 *ids, s32 n);
 s32 TQuestVmDownLoadServer__sub_803EF958(u32 id, u16 key, s32 *ids, s32 n);

@@ -61,7 +61,6 @@ s32 lbl_805D5748;
 u32 TObjNpcConnoisseur__instance;
 extern u8 TLobby__data_805011D8[];
 void *__ct__11TObjControlFP7TObject(void *, void *);
-void __dl__7TObjectFPv(void *);
 void *__nw__7TObjectFUl(int);
 
 void TObjNpcConnoisseur::destroy_instance() {

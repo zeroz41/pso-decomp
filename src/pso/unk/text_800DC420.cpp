@@ -91,8 +91,6 @@ s32 subtract_vector(void *, void *);
 extern s32 __vt__13TUnk_80494E10[];
 extern s32 tl_06;
 u8 *construct_beam_effect__10TObjPlayerFPvPvPviPv(u8 *arg0, Vec_800DC83C *arg1, Vec_800DC83C *arg2, s32 arg3, void *arg4);
-void *__dt__13TUnk_80494E10Fv(void *arg0, s16 arg1);
-void __dl__7TObjectFPv(void *);
 
 s32 TObjPlayer__sub_800DC420(void *self, s32 i) {
     return (*(D_800DC420 * *)&lbl_805D5254)->arr[i];

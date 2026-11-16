@@ -114,21 +114,6 @@ struct VoloptBreakupParams {
     f32 values[6];
 };
 
-class ViewCulledObject {
-public:
-    u8 pad_0[0x18];
-    virtual void vfunc_0();
-    virtual void vfunc_1();
-    virtual void vfunc_2();
-    virtual void vfunc_3();
-    virtual void vfunc_4();
-    virtual void vfunc_5();
-    virtual void vfunc_6();
-    virtual void vfunc_7();
-    virtual s32 update_object_view_visibility(f32 radius, f32 margin);
-};
-
-
 
 const char *TBoss3VoloptP02_name = "TBoss3VoloptP02";
 

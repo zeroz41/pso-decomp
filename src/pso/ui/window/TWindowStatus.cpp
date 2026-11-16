@@ -46,12 +46,9 @@ s32 draw_visible_window_entries(void *, void *, int);
 
 
 void *TWindowStatus__ct(void *arg0, s32 layout_pos, void *arg2, const WindowDescriptor *desc);
-void *__dt__13TWindowStatusFv(void *arg0, s16 arg1);
 void TWindowSimpleStatus__ct(void *, s32, void *, const WindowDescriptor *);
 s32 get_window_layout_position(s32);
 
-void __dl__7TObjectFPv(void *);
-void __dt__19TWindowSimpleStatusFv(void *, int);
 void update_lockon_window(u8 *arg0);
 void update_status_help_item(s32 arg0);
 extern const f32 lbl_805DD470;

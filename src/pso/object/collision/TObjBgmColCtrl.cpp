@@ -42,10 +42,6 @@ extern s32 lbl_805D5B04;
 
 }
 
-extern "C" {
-extern s32 __vt__14TObjBgmColCtrl[];
-}
-
 struct Vec_8017E550 { f32 x, y, z; };
 
 struct Row_8017E550 { Vec_8017E550 pos; f32 radius; s32 category; };
@@ -99,7 +95,6 @@ struct Zone_8017E748 { u8 pad[0x9C]; s32 category; };
 extern "C" {
 s32 is_within_distance__10TObjBgmColFf(f32);
 s32 __ct__8TObjBaseFP7TObject();
-void __dl__7TObjectFPv(void *);
 
 extern s32 __vt__10TObjBgmCol[];
 

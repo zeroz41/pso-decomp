@@ -25,10 +25,6 @@ struct RecoveredGlobal_800861F4_TParticleCtrl__data_80511F70 {
     u8 remaining[0x1AC];
 };
 
-struct RecoveredGlobal_8008655C_lbl_8048E728 {
-    s32 value;
-    u8 remaining[0x14];
-};
 
 struct VBase_18_1a504b { char pad[0x18]; };
 
@@ -54,51 +50,6 @@ struct RecoveredGlobal_80085E78_lbl_8048E6DC {
 
 struct Obj_80085798 { u8 pad[0x38]; u8 target[0x10]; };
 
-struct Col_80086418 { u8 a, r, g, b; };
-
-struct FCol_80086418 { f32 a, r, g, b; };
-
-struct Ctrl_80086418 {
-    u8 pad0[0x90];
-    Col_80086418 color;
-};
-
-struct Src_800865BC {
-    u8 pad0[0x14];
-    s32 texId;
-    u8 pad18[0x58 - 0x18];
-    f32 f58;
-    f32 f5C;
-};
-
-struct Particle_800865BC {
-    u8 pad0[0x18];
-    void *vt;
-    s16 tex;
-    u8 pad1E[0x20 - 0x1E];
-    Src_800865BC *src;
-    s16 f24;
-    u16 f26;
-    f32 f28, f2C;
-    u8 pad30[0x3C - 0x30];
-    f32 f3C, f40, f44, f48, f4C, f50, f54, f58, f5C, f60, f64;
-    u8 pad68[0x6C - 0x68];
-    s32 f6C;
-    f32 f70, f74, f78, f7C, f80, f84, f88, f8C;
-    s32 f90;
-    s8 f94;
-    s8 f95;
-    s16 f96;
-    s32 f98, f9C, fA0;
-    f32 fA4, fA8;
-    u8 padAC[0xB0 - 0xAC];
-    s32 fB0, fB4, fB8;
-    f32 fBC;
-};
-
-struct Vec_80086248 { f32 x, y, z; };
-
-struct Vtx_80086248 { f32 x, y, z, u, v; u32 color; };
 
 struct UV_80086248 { f32 u0, v0, u1, v1; };
 
@@ -138,17 +89,6 @@ typedef struct Particle_80085EE4 {
     s16 f96;
 } Particle_80085EE4;
 
-struct Ctrl_80086248 {
-    u8 pad0[0x1C];
-    u16 tex;
-    u8 pad1E[0x70 - 0x1E];
-    Vec_80086248 pos;
-    Vec_80086248 ofs;
-    f32 w;
-    f32 h;
-    u32 color;
-    s8 frame;
-};
 
 struct Vec_80085CB0 { f32 x, y, z; };
 
@@ -181,41 +121,18 @@ extern "C" {
 s32 is_split_screen(void);
 u8 *__nw__7TObjectFUl(s32);
 extern s32 tl_particle;
-extern RecoveredGlobal_800861F4_TParticleCtrl__data_80511F70 TParticleCtrl__data_80511F70;
-u8 * __dt__7TObjectFv(void *, s16);
-extern RecoveredGlobal_8008655C_lbl_8048E728 lbl_8048E728;
 s32 __ct__8TObjBaseFP7TObject(void *, void *);
 extern s32 __vt__13TUnk_8048E6A8[];
 extern s32 __vt__13TUnk_8048E6DC[];
 s32 lbl_805D2930 = 1;
-void set_color_blend_mode(s32 a, s32 b, s32 c, s32 d);
-void __ct__7TObjectFP7TObject(void *, void *);
-s32 GXSetNumTexGens(int);
-s32 GXSetTevOp(int, int);
-s32 GXSetNumTevStages(int);
 s32 rotate_matrix_y(int, s32);
-s32 rotate_matrix_x(int, s32);
-s32 push_matrix();
 s32 pop_matrix();
-s32 post_translate_matrix(void *);
-s32 TParticleCtrl__sub_803E2A1C(void *, int);
 extern Tex_80086248 lbl_804C5820[];
 extern u8 *camera_ctrl_instance;
-void set_inverse_alpha_blend(void);
-f32 sin_table_lookup(int);
-f32 cos_table_lookup(int);
-s32 matrix_mult_vec(int, void *, void *);
 void begin_screen_draw(s32 arg0);
-void DVDConvertEntrynumToPath(f32 *q);
 void set_draw_texture_and_color(s32 idx, s32 arg1);
 }
-void *init_particle_base(void *arg0, void *arg1, s32 arg2);
-void load_projected_texture_matrix(f32 farg0);
-void play_indirect_effect_recipe(u8 arg0, u16 sampler, s32 second);
-s32 set_texture_num(s32 i);
-void set_inverse_color_blend(void);
 void set_constant_material_color(u32 x);
-extern Cam_80085EE4 lbl_8058D4F8;
 extern "C" {
 f32 fabs_float(f32);
 u32 csnVector(void *, void *, int);
@@ -226,10 +143,7 @@ s32 normalize_vector(void *);
 s32 push_matrix_from(void *);
 extern s32 identity_matrix[];
 void project_world_to_screen(s32, void *, void *);
-void *__dt__13TUnk_8048E6A8Fv(void *arg0, s16 arg1);
-void *__dt__13TUnk_8048E6DCFv(void *arg0, s16 arg1);
 void *get_player_by_client_id(s32 i);
-void __dl__7TObjectFPv(void *);
 
 extern s32 local_client_id;
 

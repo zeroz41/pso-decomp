@@ -35,7 +35,6 @@ void update_pulse_state__10TBoss2MineFv(Mine_80038760 *self);
 
 void set_node_offsets__10TBoss2MineFv(O_80038908 *self);
 
-void *__dt__10TBoss2MineFv(void *arg0, s16 arg1);
 
 }
 
@@ -610,7 +609,6 @@ void TBoss2Mine__sub_80038D84(void);
 
 int TBoss2Mine__sub_80038D88(void* p);
 
-s32 __ct__9TObjEneDDFP7TObject(void *, s32);
 
 int TObjPlayer__sub_800F0928(void*);
 

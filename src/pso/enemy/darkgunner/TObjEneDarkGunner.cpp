@@ -9,8 +9,6 @@
 
 extern "C" {
 
-void __dl__7TObjectFPv(void *);
-void __dt__7TObjectFv(void *, int);
 
 void TObjEneMe1Canadin_EffLineFade::run_task() {
     s32 var_r31;

@@ -85,10 +85,6 @@ WindowDescriptor TWindowSubQuestBoardSelect__window_parameters = {
     {434.0f, 184.0f}, 50150.0f, &window_sub_quest_board_select_layout_entries, 3,
 };
 
-struct RecoveredGlobal_8027DA14___vt__26TWindowSubQuestBoardSelect {
-    s32 value;
-    u8 remaining[0x18];
-};
 
 typedef s32 (*SlotFlagFn)(void *, u8);
 

@@ -34,7 +34,6 @@ struct Tbl_8020335C { s32 v[8]; };
 extern struct Tbl_8020335C group_selection_area_id_table;
 
 
-
 struct FloorMapSelection {
     s32 area;
     u8 rest[0x8];
@@ -157,8 +156,6 @@ SceneMaterialNode* resolve_indirect_node_record(void*,SceneMaterialStatic*);
 SceneMaterialNode* resolve_indirect_object_record(void*,SceneMaterialAnimated*);
 
 
-
-
 extern u8 identity_matrix[];
 
 void normalize_vector(Vec_80204024 *);
@@ -186,11 +183,9 @@ void post_translate_matrix(f32 *);
 void rotate_matrix_by_node_angles(s32 *, s32);
 
 
-
 f32 fabs_float(f32);
 
 void PPCSync();
-
 
 
 void scroll_ginja_mesh_uvs(void *, s32, s32, u16, s32);
@@ -232,7 +227,6 @@ void end_ginja_model_draw(void);
 extern W_802043CC lbl_8044A858[];
 
 
-
 struct SceneFormatEntry {
     const char *name;
     s32 format;
@@ -257,15 +251,6 @@ typedef char SceneDispatchPrefix_size[sizeof(SceneDispatchPrefix) == 0x78 ? 1 : 
 struct Task_80204688;
 extern "C" {
 
-extern const char lbl_8044A7F0[];
-
-extern const char lbl_8044A7F8[];
-
-
-
-void TScene__sub_80205FD0(void);
-
-void TScene__sub_80205ECC(void);
 
 s32 TScene__sub_80205874(void*);
 
@@ -280,11 +265,6 @@ struct Model_80204688 { u8 pad[0x14]; f32 x, y, z; };
 
 struct Node_80204688 { u32 flags; Model_80204688 *model; f32 x, y, z; };
 extern "C" {
-
-
-
-
-
 
 
 extern Vec_80204024 lbl_8044A84C[];
@@ -356,11 +336,9 @@ s32 release_texture_list(u32);
 extern s32 *scene_collision_data;
 
 
-
 s32 __ct__7TObjectFP7TObject(void *, void *);
 
 extern s32 __vt__6TScene[];
-
 
 
 void bind_gvm_texture_list(s32 *, u32);
@@ -368,12 +346,7 @@ void bind_gvm_texture_list(s32 *, u32);
 s32 collect_collision_groups(u32, s32);
 
 
-
-
 s32 read_disc_file(char *, u32);
-
-
-
 
 
 struct Sp8Buf20_80206494 {
@@ -385,9 +358,6 @@ struct Sp8Buf20_80206494 {
 void TScene__sub_80205AE8(s32 *);
 
 }
-
-
-
 
 
 #pragma readonly_strings on

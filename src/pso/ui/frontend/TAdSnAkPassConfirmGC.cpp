@@ -21,8 +21,6 @@ extern u8 lbl_804772D0[];
 extern s32 __vt__20TAdSnAkPassConfirmGC[];
 extern s32 lbl_805D41F0;
 Obj_8032C004 *TAdSnAkPassConfirmGC__ct(Obj_8032C004 *arg0);
-void *__dt__14TAdYesNoBaseGCFv(void *arg0, s16 arg1);
-void __dl__7TObjectFPv(void *);
 int request_transition__21TAdMultiChgGameModeGCFv(void*);
 int set_state_0x1a__21TAdMultiChgGameModeGCFv(void*);
 

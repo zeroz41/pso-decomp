@@ -44,8 +44,6 @@ extern s32 npc_player_char_data_buffer;
 Npc_80190F3C *init_npc_player_char_loader(Npc_80190F3C *arg0, void *arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, void *arg6);
 void free_collision_body_parts(void *);
 void *get_player_by_client_id(s32 i);
-s32 __dl__7TObjectFPv(void *);
-Obj_801910F4 *__dt__13TUnk_804B7C1CFv(Obj_801910F4 *arg0, s16 arg1);
 f32 horizontal_distance_squared(void *, void *);
 void *__nw__7TObjectFUl(int);
 int npc_proximity_target_id = -1;
@@ -56,7 +54,6 @@ s32 build_npc_player_record__10TNpcPlayerFl(s32);
 void send_6x24_teleport_player(u16 slot, void *pos, s32 heading);
 u8 *create_player_object(u16, s32, s32);
 s32 queue_player_injured_pose();
-s32 __dt__7TObjectFv(void *, s32);
 void set_player_quest_control_flag(TObjPlayer *player);
 
 }

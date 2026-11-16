@@ -359,9 +359,6 @@ s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
 int play_sound_effect(void *, void *, void *, void *);
 extern s32 __vt__22TObjEnePanarmsAtkColli[];
 void *TObjEnePanarmsAtkColli__ct(Obj_800E37E4 *arg0, void *arg1, void *arg2, void *arg3, void *arg4);
-void *__dt__22TObjEnePanarmsAtkColliFv(void *arg0, s16 arg1);
-void __dl__7TObjectFPv(void *);
-void *__dt__9TObjEnemyFv(TObjEnemy *arg0, s16 arg1);
 void *__nw__7TObjectFUl(int);
 
 void TObjEnePanarmsAtkColli::run_task() {

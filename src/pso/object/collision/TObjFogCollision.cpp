@@ -57,7 +57,6 @@ s32 __ct__8TObjBaseFP7TObject(void *);
 extern s32 __vt__16TObjFogCollision[];
 u8 *TObjFogCollision__ct(u8 *fog_collision, void *parent, void *set);
 void *TObjFogCollision__create(void *set);
-void __dl__7TObjectFPv(void *);
 void *__nw__7TObjectFUl(int);
 
 extern s32 __vt__22TObjFogCollisionPoison[];

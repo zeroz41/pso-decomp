@@ -43,7 +43,6 @@ s32 scroll_ginja_mesh_uvs(s32, s32, s32, s32, s32);
 s32 post_translate_matrix(void *);
 s32 scale_matrix(s32, f32, f32, f32);
 s32 push_matrix();
-void __dl__7TObjectFPv(void *);
 void *__nw__7TObjectFUl(int);
 f32 xz_distance_squared(void *, s32);
 

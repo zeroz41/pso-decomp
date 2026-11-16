@@ -19,45 +19,13 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
 
-void initialize_option_dialog(void *dialog, s32 message, s32 position, f32 width);
-
-struct Warp_80187438 {
-    u8 pad0[0x38];
-    f32 pos[3];
-    u8 pad44[0xAC - 0x44];
-    f32 radius;
-    u8 padb0[0xBC - 0xB0];
-    s32 fbc;
-    u8 padc0[0xE4 - 0xC0];
-    char names[4][0x18];
-    s32 inside[4];
-    s32 count;
-    s32 n_inside;
-    s32 f15c;
-    u8 pad160[4];
-    u32 window;
-};
-
-struct Player_80187438 {
-    u8 pad0[0x38];
-    f32 pos[3];
-    u8 pad44[0x85C - 0x44];
-    char name[0x18];
-};
 
 extern "C" {
-f32 xz_distance_squared(void *, void *);
-char *strcpy(char *, const char *);
 extern s32 local_client_id;
 s32 is_local_client_floor_leader(s32);
 s32 find_local_player_in_range__16TObjCityMainWarpFf(void *, f32);
 s32 close_windows__25TObjCityMainWarpChallengeFv();
-void fn_80248994(TWindowBase *list, u32 color, s32 pos);
-void request_active_window_close(void);
-void begin_player_keyboard_hold(s32 arg0);
-s32 get_window_layout_position(s32);
 extern BmlResource *city_common_model_archive;
-s32 get_main_phase();
 extern s32 city_main_warp_destination_id;
 
 void TObjCityMainWarp::update_state() {

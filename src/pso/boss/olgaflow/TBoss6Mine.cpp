@@ -107,8 +107,6 @@ s32 TObjFish__sub_8001EDB0(BmlResource *resource, s32 index);
 s32 get_bml_model(BmlResource *resource, s32 index);
 int rotate_matrix_y(void*, void*);
 int push_matrix(void*);
-void __dl__7TObjectFPv(void *);
-void *__dt__9TObjEnemyFv(TObjEnemy *arg0, s16 arg1);
 s32 __nw__7TObjectFUl(s32);
 
 void TBoss6Mine::render_shadows() {

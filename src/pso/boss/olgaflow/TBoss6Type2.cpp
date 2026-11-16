@@ -263,7 +263,6 @@ struct T1_802B9C00 {
 };
 
 
-
 struct Player_802B9A68 { u8 pad[0x38]; Vec_802B9A68 pos; };
 
 
@@ -367,7 +366,6 @@ typedef char RecoveredGlobal_802BB180_lbl_804DFAC4_size[sizeof(RecoveredGlobal_8
 typedef char RecoveredGlobal_802BB180_lbl_804DFAD0_size[sizeof(RecoveredGlobal_802BB180_lbl_804DFAD0) == 0xC ? 1 : -1];
 
 
-
 struct ByteBlock_C { u8 bytes[0xc]; };
 
 struct Stack_802BDDF8 {
@@ -434,7 +432,6 @@ struct Stack_802BD938 {
     f32 sp1C;
     f32 sp20;
 };
-
 
 
 struct Obj_8004D8C8 { u8 pad[0x2D4]; u16 f2d4; u16 f2d6; };
@@ -599,9 +596,6 @@ extern Tb_802BD014 lbl_804E00DC[];
 extern s32 local_client_id;
 extern s32 game_difficulty_selection;
 extern s32 tl_04;
-
-extern "C" {
-}
 
 // Read by the TBoss6Type2_802BE588/_802BF558 units and TBoss6Rock; emitted ahead of the literal pool.
 extern const f32 lbl_805DE3F0 = 400.0f;

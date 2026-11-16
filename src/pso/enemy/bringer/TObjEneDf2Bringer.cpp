@@ -91,7 +91,6 @@ void draw_model_motion(void *arg0, void *arg1, f32 farg0);
 #include "pso/player/TObjPlayer_800D8FDC.h"
 #include "pso/effect/TUnk_80494968.h"
 #include "pso/system/vector.h"
-extern "C" void *__ct__12TObjEneDD_STFP7TObject(void *);
 #include "types.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/enemy/dd/TObjEneDD_ST.h"
@@ -120,13 +119,10 @@ struct VObj_800996EC : VBase_800996EC {
 
 extern "C" {
 void *__dt__13TUnk_80490470Fv(void *arg0, s16 arg1);
-void *__dt__12TObjEneDD_STFv(void *arg0, s16 arg1);
 s32 __dt__17AreaAttackHistoryFv(s32 arg0, s16 arg1);
 s32 free_collision_body_parts(void *);
-s32 __dl__7TObjectFPv(void *);
 s32 __destroy_arr(void *, void *, int, int);
 extern s32 __dt__15RenderFadeStateFv[];
-u8 *__dt__17TObjEneDf2BringerFv(u8 *arg0, s16 arg1);
 void render__17TObjEneDf2BringerFv(u8 *arg0);
 void TObjEneDf2Bringer__sub_80097620(u8 *arg0, s32 arg1);
 void TObjEneDf2Bringer__sub_80097714(Bringer_80097714 *obj, s32 mode);
@@ -205,7 +201,6 @@ void *lbl_8048FAF8[44] = {
     (void *)0x30000, (void *)0x3, (void *)0x3f19999a, (void *)0x0,
 };
 #define lbl_8048FAF8 (*(RecoveredGlobal_8031B170_lbl_804E8880 *)lbl_8048FAF8)
-extern void *__vt__17TObjEneDf2Bringer[];
 
 }
 
@@ -733,15 +728,11 @@ extern s32 TObjEneDf2Bringer__trail_buffer;
 }
 
 
-
-
 #define F_8009(off, T) (*(T *)(arg0 + (off)))
-
 
 
 #define F(t, o) (*(t *)(arg0 + (o)))
 #define PRM TObjEneDf2Bringer__data_805D4FB4
-
 
 
 #undef F
@@ -756,10 +747,6 @@ struct SubObj_80098970 : SubBase_80098970 {
     virtual void v4();
     virtual s32 v5();
 };
-
-
-
-
 
 
 struct Stack_800991E0 {
@@ -953,12 +940,6 @@ int get_item_field_6__10TObjPlayerFPv(void *p);
 void TObjEneDD__sub_800BA438(s32 arg0, u8 *arg1);
 
 
-
-
-
-
-
-
 }
 
 struct VBase_18_p5 { char pad[0x18]; };
@@ -1106,8 +1087,6 @@ struct Arr_80099800 { u8 pad[0x3E0]; Slot_80099800 slot[4]; Vec_80099800 v[4]; }
 extern "C" {
 
 
-
-
 typedef struct RecoveredGlobal_8031B170_lbl_804E8880 RecoveredGlobal_8031B170_lbl_804E8880;
 typedef char RecoveredGlobal_8031B170_lbl_804E8880_size[((sizeof(RecoveredGlobal_8031B170_lbl_804E8880)) == 0xD0) ? (1) : (-1)];
 
@@ -1160,7 +1139,6 @@ extern "C" {
 s32 load_enemy_bml_resource_named(s32 arg0, s32 arg1);
 s32 load_enemy_bml_resource(u8 *arg0);
 }
-
 
 
 #pragma push

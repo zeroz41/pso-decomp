@@ -29,29 +29,6 @@ struct RecoveredGlobal_8008655C_lbl_8048E728 {
     u8 remaining[0x14];
 };
 
-struct VBase_18_1a504b { char pad[0x18]; };
-
-struct VObj_18_1a504b : VBase_18_1a504b {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual s32 m5(s32);
-};
-
-struct RecoveredGlobal_800858D0_lbl_8048E6A8 {
-    s32 value;
-    u8 remaining[0x30];
-};
-
-struct RecoveredGlobal_80085E78_lbl_8048E6DC {
-    s32 value;
-    u8 remaining[0x30];
-};
-
-
-struct Obj_80085798 { u8 pad[0x38]; u8 target[0x10]; };
 
 struct Col_80086418 { u8 a, r, g, b; };
 
@@ -149,44 +126,12 @@ struct Ctrl_80086248 {
     s8 frame;
 };
 
-struct Vec_80085CB0 { f32 x, y, z; };
-
-struct Player_80085CB0 {
-    u8 pad0[0x178];
-    Vec_80085CB0 pos;
-    u8 pad184[0x194 - 0x184];
-    s32 f194;
-};
-
-struct Ctrl_80085CB0 {
-    u8 pad0[0x38];
-    Vec_80085CB0 pos;
-    u8 pad44[0x68 - 0x44];
-    f32 f68;
-    u8 pad6C[0x90 - 0x6C];
-    f32 f90;
-    f32 f94;
-    s32 f98;
-    f32 screen_x;
-    f32 screen_y;
-    f32 alpha;
-};
-
-struct Color_800859EC { u8 a, r, g, b; };
-
-struct Quad_800859EC { f32 x0, y0, x1, y1, u0, v0, u1, v1; };
 
 extern "C" {
 s32 is_split_screen(void);
-u8 *__nw__7TObjectFUl(s32);
-extern s32 tl_particle;
 extern RecoveredGlobal_800861F4_TParticleCtrl__data_80511F70 TParticleCtrl__data_80511F70;
 u8 * __dt__7TObjectFv(void *, s16);
 extern RecoveredGlobal_8008655C_lbl_8048E728 lbl_8048E728;
-s32 __ct__8TObjBaseFP7TObject(void *, void *);
-extern s32 __vt__13TUnk_8048E6A8[];
-extern s32 __vt__13TUnk_8048E6DC[];
-extern s32 lbl_805D2930;
 void set_color_blend_mode(s32 a, s32 b, s32 c, s32 d);
 void __ct__7TObjectFP7TObject(void *, void *);
 s32 GXSetNumTexGens(int);
@@ -216,21 +161,6 @@ void set_inverse_color_blend(void);
 void set_constant_material_color(u32 x);
 extern Cam_80085EE4 lbl_8058D4F8;
 extern "C" {
-f32 fabs_float(f32);
-u32 csnVector(void *, void *, int);
-f32 vec3_dot(void *, void *);
-f32 vec_squared_length(u8 *arg0);
-s32 rotate_vector_by_matrix(int, void *, void *);
-s32 normalize_vector(void *);
-s32 push_matrix_from(void *);
-extern s32 identity_matrix[];
-void project_world_to_screen(s32, void *, void *);
-void *__dt__13TUnk_8048E6A8Fv(void *arg0, s16 arg1);
-void *__dt__13TUnk_8048E6DCFv(void *arg0, s16 arg1);
-void *get_player_by_client_id(s32 i);
-void __dl__7TObjectFPv(void *);
-
-extern s32 local_client_id;
 
 
 #pragma push

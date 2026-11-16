@@ -30,7 +30,6 @@ extern s32 __vt__13TObjRaderIcon[];
 extern s32 lbl_805D3418;
 void add_radar_scaled_gate(void *, u32, u16, s32, s32, f32);
 u8 is_current_floor_switch_set(u16);
-void __dl__7TObjectFPv(void *);
 void *__nw__7TObjectFUl(int);
 
 extern void *tl_05;

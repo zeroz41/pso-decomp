@@ -359,7 +359,6 @@ void update_and_reset__6TLobbyFi(int a0) { TLobby__data_805D5EE0 = a0; populate_
 
 #include "pso/player/TObjPlayer.h"
 
-struct A_801F4340 { s16 a; s16 b; };
 
 struct B_801F4340 { s32 a; s16 b; u8 rest[6]; };
 

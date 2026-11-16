@@ -64,7 +64,6 @@ void *__dt__17TWindowOptionCtrlFv(TWindowOptionCtrl *arg0, s16 arg1) {
 extern "C" {
 
 void __ct__7TObjectFP7TObject(void *);
-void *__nw__7TObjectFUl(int);
 
 const char *lbl_805D39A8 = "TWindowOptionCtrl";
 

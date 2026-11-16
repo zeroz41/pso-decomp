@@ -99,7 +99,6 @@ s32 get_room__8TObjBaseFv(void *);
 void set_type__10TObjPlayerFs(void *, s16);
 s32 TObjPlayer__sub_801AA528(s32 arg0, s16 arg1);
 void *TObjPlayer__sub_801AA66C(void *, void *);
-void *__nw__7TObjectFUl(int);
 s16 TObjPlayer__sub_80313114(u8 *arg0);
 u8 *TPhotonLeilla__ct(u8 *self, u8 *params);
 u8 *TPhotonMylla__ct(u8 *self, u8 *params);

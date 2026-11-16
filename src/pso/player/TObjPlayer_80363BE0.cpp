@@ -26,8 +26,6 @@ extern s32 __vt__13TUnk_804F29F8[];
 extern s32 __vt__13TUnk_804F2A10[];
 u8 * lbl_805D6FB8;
 EquippedItemDrawQueue *player_item_id_list;
-void __dl__7TObjectFPv(void *);
-void __dt__7TObjectFv(void *, int);
 int __ct__7TObjectFP7TObject(void);
 void *__nw__7TObjectFUl(int);
 extern u8 *lbl_805D6FB8;

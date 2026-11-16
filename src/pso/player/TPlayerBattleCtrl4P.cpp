@@ -230,10 +230,6 @@ s32 update_all_players__19TPlayerBattleCtrl4PFv();
 s32 check_all_players_flag__19TPlayerBattleCtrl4PFv(void *);
 }
 typedef void (TPlayerBattleCtrl4P::*BattleAction)();
-struct BattleIntroWindowState {
-    u8 pad[0x20];
-    void *intro_window;
-};
 extern "C" {
 s32 lbl_805D6AB0;
 void *destroy__19TPlayerBattleCtrl4PFs(void *arg0, s16 arg1);

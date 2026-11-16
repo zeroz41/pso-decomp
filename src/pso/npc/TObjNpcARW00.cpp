@@ -22,7 +22,6 @@ extern s32 __vt__12TObjNpcARW00[];
 u32 TObjNpcARW00__static_model;
 u32 TObjNpcARW00__gvm_texture_handle;
 void release_texture_list(void*);
-void __dl__7TObjectFPv(void *);
 
 void TObjNpcARW00::free_resources() {
     if ((u32) TObjNpcARW00__gvm_texture_handle != 0U) {

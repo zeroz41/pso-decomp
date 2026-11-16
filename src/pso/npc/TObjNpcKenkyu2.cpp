@@ -32,7 +32,6 @@ extern s32 __vt__14TObjNpcKenkyu2[];
 extern const char *TObjNpcKenkyu2__name;
 void free_bin_model_request(void*, int);
 void *__ct__11TObjControlFP7TObject(void *, void *);
-void __dl__7TObjectFPv(void *);
 void *__nw__7TObjectFUl(int);
 
 void TObjNpcKenkyu2::free_static_model() {

@@ -289,7 +289,6 @@ s32 get_bml_model(void *, int);
 s32 __ct__8TObjBaseFP7TObject();
 extern s32 __vt__18TObjButterflyLobby[];
 void free_bin_model_request(void*, int);
-void __dl__7TObjectFPv(void *);
 void *__nw__7TObjectFUl(int);
 
 }

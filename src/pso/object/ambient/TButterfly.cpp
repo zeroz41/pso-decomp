@@ -41,7 +41,6 @@ struct Butterfly_8017EA74 {
 
 extern "C" {
 void rotate_vector_by_matrix(void *, Vec *, Vec *);
-void __dl__7TObjectFPv(void *);
 s32 set_global_param__8TObjFishFl();
 
 BmlResource *butterfly_bml_resource;
@@ -77,7 +76,6 @@ void TButterfly::render() {
     }
 }
 
-extern s32 __vt__10TButterfly[];
 
 #pragma push
 #pragma fp_contract on
@@ -223,13 +221,7 @@ TButterfly::~TButterfly() {
 }
 extern "C" {
 
-}
-
-extern "C" {
-
 void free_bin_model_request(void*, int);
-void __ct__8TObjBaseFP7TObject(void *);
-void *__nw__7TObjectFUl(int);
 
 
 }

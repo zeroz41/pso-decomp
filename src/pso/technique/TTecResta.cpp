@@ -145,18 +145,12 @@ extern s32 tl_07;
 extern "C" {
 s32 copy_technique_target_list(void *, void *);
 void *TTecResta__ct(TTecResta *arg0, void *arg1, void *arg2, void *arg3, void *arg4);
-void *__dt__13TUnk_804CCBC0Fv(void *arg0, s16 arg1);
-void *__dt__9TTecRestaFv(void *arg0, s16 arg1);
 void create__9TTecRestaFPvPvPvPv(void *arg0, void *arg1, void *arg2, void *arg3);
-void __dl__7TObjectFPv(void *);
-void *__dt__19TTecPlayerInfluenceFv(void *arg0, s16 arg1);
-void __dt__7TObjectFv(void *, int);
 int spawn_support_tec_range_effect(void*);
 
 
 typedef struct RecoveredGlobal_802394B0_lbl_804CC55C RecoveredGlobal_802394B0_lbl_804CC55C;
 typedef char RecoveredGlobal_802394B0_lbl_804CC55C_size[((sizeof(RecoveredGlobal_802394B0_lbl_804CC55C)) == 0x98) ? (1) : (-1)];
-
 
 
 }

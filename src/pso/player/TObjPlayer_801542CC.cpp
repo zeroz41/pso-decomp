@@ -90,7 +90,6 @@ struct Obj_80154E3C { u8 pad0[0x38]; V3_80154E3C pos; u8 pad44[0x60 - 0x44]; s32
 
 struct Vec_80154EF8 { f32 x, y, z; };
 
-struct Box_80154EF8 { u8 pad[0xC]; f32 hx; f32 hz; u8 pad2[0x1C - 0x14]; Vec_80154EF8 pos; };
 
 struct Obj_801547E0;
 #define SHIFT_80155294(yaw)                                              \

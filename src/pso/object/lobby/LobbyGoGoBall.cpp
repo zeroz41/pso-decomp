@@ -337,15 +337,6 @@ struct Player_8019A098 { u8 pad[0x60]; s32 area; };
 struct Win_8019A44C { u8 pad0[0x50]; f32 f50[3]; u8 pad5C[0x2D8]; s32 f334; u8 pad338[0xC]; f32 f344; f32 f348; f32 f34C; u8 pad350[0x40]; f32 f390; f32 f394; f32 f398; f32 f39C; f32 f3A0; };
 struct Vec_80199F14 { f32 x, y, z; };
 struct Tbl_80199F14 { u8 pad[0x14]; s16 limit; u8 pad16[6]; f32 yofs; };
-struct Timer_80199F14 {
-    u8 pad0[0x38];
-    Vec_80199F14 pos;
-    u8 pad44[0x2f8];
-    f32 f33c;
-    u8 pad340[4];
-    Vec_80199F14 vel;
-    s32 time;
-};
 struct Vec_8019A104 { f32 x, y, z; };
 struct Cfg_8019A104 { u8 pad0[0x1C]; f32 range; u8 pad20[0xC]; Vec_8019A104 p2C; Vec_8019A104 p38; f32 f44; u8 pad48[0xC]; };
 struct State_8019A104 { u8 pad0[0x10]; s16 flags; u8 pad12[0xA]; };
@@ -368,7 +359,6 @@ void bswap_6x79_gogo_ball__12TWindowTimerFi(s32 arg0);
 void TWindowTimer__sub_8019A6F8(void* p);
 int close_timer_window__11TWindowCtrlFv(void*);
 int TWindowTimer__sub_8019A770(void* p);
-u8 * __ct__9TObjCharaFP7TObject(void *);
 }
 void add_gogo_ball_three_point_score(s32 i);
 void add_gogo_ball_one_point_score(s32 i);

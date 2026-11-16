@@ -291,8 +291,6 @@ struct Obj_8005DC0C {
 struct Obj_8005DC0C;
 
 
-
-
 struct Stack_8005E1E8 {
     s32 sp8;
     f32 spC;
@@ -314,7 +312,6 @@ struct Vec_8005E058 { f32 x, y, z; };
 struct Obj_8005E058 { u8 pad0[0x3C0]; Vec_8005E058 src[10]; u8 pad438[0xB0]; Vec_8005E058 dst[10]; };
 
 struct Obj_8005E0C0 { u8 pad[0x34]; s32 f34; u8 pad38[0x24]; s32 f5c; s32 f60; s32 f64; u8 pad68[0x90]; s32 ff8; u8 pad_fc[0x3C0 - 0xFC]; u8 f3c0[0x100]; s32 f4c0; };
-
 
 
 typedef char RecoveredGlobal_8005E1E8_lbl_804FF5CC_size[sizeof(RecoveredGlobal_8005E1E8_lbl_804FF5CC) == 0xC ? 1 : -1];
@@ -417,7 +414,6 @@ struct Stack_800646F0 {
 };
 
 
-
 struct Stack_8006435C {
     s32 sp8;
     u8 pad_C[0x4];
@@ -426,15 +422,10 @@ struct Stack_8006435C {
 };
 
 
-
 struct RecoveredGlobal_80064CFC_lbl_80487848 {
     s32 value;
     u8 remaining[0xC];
 };
-
-
-
-
 
 
 struct O_80064AB0 { u8 pad[0x1c]; u16 id; u8 pad2[0x38c - 0x1e]; u16 kind; u8 pad3[6]; f32 x; u8 pad4[4]; f32 z; };
@@ -492,12 +483,6 @@ struct Obj_80063570 {
 struct Vec_80062E94 { f32 x, y, z; };
 
 
-
-
-
-
-
-
 typedef char RecoveredGlobal_80064CFC_lbl_80487848_size[sizeof(RecoveredGlobal_80064CFC_lbl_80487848) == 0x10 ? 1 : -1];
 
 
@@ -530,8 +515,6 @@ s32 calc_product__12TBoss8DragonFiiii(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 s32 rand_scaled_offset__12TBoss8DragonFiii(s32 arg0, s32 arg1, s32 arg2);
 s32 TBoss8Dragon__sub_8005E9D8(void *self, O_8005E9D8 *o, s32 i);
 f32 TBoss8Dragon__sub_8005EAD0(void *arg0, void *arg1, int arg2);
-void calc_attack_params__12TBoss8DragonFiPvi(s32 arg0, u8 *arg1, s32 arg2);
-void calc_product_and_ratio__12TBoss8DragonFiPvi(s32 arg0, u8 *arg1, s32 arg2);
 void set_animation_by_state__12TBoss8DragonFPv(TBoss8Dragon *arg0);
 void TBoss8Dragon__sub_8005F684(TBoss8Dragon *self, void *params);
 void trigger_effect__12TBoss8DragonFPvi(void *arg0, s32 arg1);

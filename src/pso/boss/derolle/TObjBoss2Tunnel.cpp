@@ -305,8 +305,6 @@ struct PiecewiseCurve {
     f32 dist;
 };
 extern "C" {
-}
-extern "C" {
 f32 sample_acceleration_curve(AccelerationCurve *c, f32 t);
 void init_acceleration_curve(AccelerationCurve *c, f32 a, f32 d, f32 length, f32 speed);
 void __dl__FPv(void);

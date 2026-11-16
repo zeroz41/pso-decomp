@@ -77,9 +77,7 @@ s32 push_matrix_from(void *);
 s32 pop_matrices(s32 arg0);
 extern u8 identity_matrix[];
 void run_task__12TPhotonLaserFv(Laser_801AC17C *o);
-void *__dt__12TPhotonLaserFv(void *arg0, s16 arg1);
 s32 free_collision_body_parts(void *);
-s32 __dl__7TObjectFPv(void *);
 
 void TPhotonLaser::render() { TParticleCtrl::begin_effect_render(); TParticleCtrl::end_effect_render(); }
 
@@ -149,7 +147,6 @@ Laser_801AC36C *TPhotonLaser__ct(Laser_801AC36C *self, Params_801AC36C *p, void 
     self->f36C = 0;
     return self;
 }
-
 
 
 }

@@ -148,7 +148,6 @@ extern "C" {
 void end_conversation_camera(void);
 void begin_conversation_camera(void);
 s32 angle_difference_abs(s32, s32);
-void *__nw__7TObjectFUl(u32);
 s32 subtract_vector(void *, void *);
 extern s32 local_client_id;
 extern u8 *quest_mission_manager;
@@ -733,7 +732,6 @@ extern s32 __vt__11TObjNpcBase[];
 void *TObjNpcBase__ct(void *arg0, void *arg1, void *arg2);
 s32 play_sound_effect(s32, s32, s32, s32);
 void free_collision_body_parts(void *);
-void __dl__7TObjectFPv(void *);
 
 }
 

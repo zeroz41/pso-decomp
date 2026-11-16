@@ -21,7 +21,6 @@
 #pragma readonly_strings on
 
 
-
 struct B_80357058 { u8 hdr[4]; u8 d[0x40]; u8 tail[8+1]; };
 
 struct Vec4_80357284 { f32 x, y, z; s32 w; };
@@ -57,8 +56,6 @@ void grid_to_world_pos__11TBoss6Type2FccPv(u8, u8, Vec_803570E4 *);
 void clear_rock_state__10TBoss6RockFl(s32 i, s32 a, s32 b);
 int olga_flow_subordinate_actions_enabled;
 void handle_6xAD_olga_flow_subordinate_boss_actions(Pkt_803570E4 *pkt);
-void __dl__7TObjectFPv(void *);
-void *__nw__7TObjectFUl(int);
 }
 
 void send_6xAD_olga_flow_subordinate_boss_actions(u8 *arg0) {

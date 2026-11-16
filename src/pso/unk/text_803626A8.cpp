@@ -1,4 +1,3 @@
-extern "C" void *__ct__12TObjEneDD_STFP7TObject(void *);
 #include "pso/system/NinjaTypes.h"
 #include "types.h"
 #include "pso/system/task/TMainTask.h"
@@ -32,7 +31,6 @@ struct RecoveredGlobal_803626A8_lbl_8058D490 {
 };
 
 
-
 struct Leaf_803627DC { u8 pad[4]; s32 v; };
 
 struct Node_803627DC {
@@ -58,7 +56,6 @@ public:
 };
 
 extern "C" {
-u8 *__nw__5TItemFUl(s32);
 s32 matrix_mult_vec(int, void *, void *);
 s32 rotate_matrix_y(int, int);
 s32 push_matrix_from(void *);
@@ -89,7 +86,6 @@ extern u8 *lbl_805D6FA0;
 extern u8 *lbl_805D6FA4;
 extern u8 *lbl_805D6FA8;
 void free_bin_model_request(void *, int);
-void __construct_array(void *, void *, void *, int, int);
 
 
 typedef char RecoveredGlobal_803626A8_lbl_8058D490_size[sizeof(RecoveredGlobal_803626A8_lbl_8058D490) == 0x30 ? 1 : -1];

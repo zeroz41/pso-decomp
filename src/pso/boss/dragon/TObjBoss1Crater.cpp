@@ -145,7 +145,6 @@ void attack_target_list_remove(u8 *arg0, s32 arg1);
 extern "C" {
 s32 post_translate_matrix(void *);
 s32 push_matrix();
-void __dl__7TObjectFPv(void *);
 
 extern s32 model_render_flags;
 

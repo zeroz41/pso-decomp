@@ -73,8 +73,6 @@ s32 obj_is_hit_receivable();
 s32 TObjPlayer__sub_800A3210(s32 i, s32 _w1, s32 _w2);
 s32 vec3_add_to(void *, void *);
 s32 free_collision_body_parts(void *);
-s32 __dl__7TObjectFPv(void *);
-s32 __ct__14TObjCollidableFP7TObject(void *, void *);
 s32 init_collision_body_parts(void *, void *, int);
 s16 get_entity_id(void *, f32);
 s32 subtract_vector(void *, void *);
@@ -83,11 +81,9 @@ void *spawn_particle_effect_with_rotation(void *pos, void *dir, s32 id, int e);
 u8 *csnVector(void *, Vec_800A34E8 *, s32);
 extern void *tl_04;
 extern f32 player_scale_factor;
-extern s32 __vt__13TUnk_804909C4[];
 CollisionBody lbl_80490998[] = {
     {{0.0f, 0.0f, 0.0f}, 0.0f, 0.0f, 0, 0x8003, {0.0f, 0.0f, 0.0f}, 0.0f}
 };
-void *__dt__13TUnk_804909C4Fv(void *arg0, s16 arg1);
 
 s32 TUnk_804909C4::sub_800A3290(s32 id) {
     Obj_800A3290 *other;

@@ -69,10 +69,6 @@
 #pragma auto_inline off
 #pragma dont_inline off
 
-struct RecoveredGlobal_8008C21C_TParticleCtrl__data_80511F70 {
-    s32 value;
-    u8 remaining[0x1AC];
-};
 
 struct Vec_8008A92C { f32 x, y, z; };
 

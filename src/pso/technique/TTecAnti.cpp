@@ -144,11 +144,6 @@ void *__nw__7TObjectFUl(int);
 u8 *construct_delayed_point_sound(u8 *arg0, u8 *arg1, s16 arg2, s32 arg3, u8 *arg4);
 extern void *tl_07;
 extern "C" {
-void *__dt__13TUnk_804CC0E8Fv(void *arg0, s16 arg1);
-void *__dt__8TTecAntiFv(void *arg0, s16 arg1);
-void __dl__7TObjectFPv(void *);
-void *__dt__19TTecPlayerInfluenceFv(void *arg0, s16 arg1);
-void __dt__7TObjectFv(void *, int);
 int spawn_support_tec_range_effect(void*);
 
 

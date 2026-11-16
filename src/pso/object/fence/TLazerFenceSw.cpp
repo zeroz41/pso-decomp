@@ -63,8 +63,6 @@ extern "C" {
 void debug_draw_key_id__5TOKeyFv();
 void debug_printf_at(int, void *, ...);
 extern u8 lbl_80445CD8[];
-void *__ct__5TOKeyFP7TObject(TOKey *arg0);
-extern s32 __vt__13TLazerFenceSw[];
 
 void *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 u8 *load_gvm_texture_file(s32 arg0);
@@ -74,7 +72,6 @@ extern u8 lbl_80445CF0[];
 extern u8 lbl_80445D08[];
 extern u8 lbl_80445D20[];
 s32 free_bin_model_request(void *, s32);
-void *__dt__5TOKeyFv(void *arg0, s16 arg1);
 void *__ct__18CameraDistanceFadeFv(void *self);
 
 __declspec(section ".data") u32 lazer_fence_sw_ginja_model_table[2];

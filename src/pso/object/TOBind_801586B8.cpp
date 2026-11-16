@@ -43,7 +43,6 @@ s32 post_translate_matrix(void *);
 void draw_ginja_model_with_motion(void *model, void *motion, f32 frame);
 s32 rotate_matrix_y(s32, s32);
 s32 push_matrix();
-s32 __dl__7TObjectFPv(void *);
 void *__nw__7TObjectFUl(int);
 
 void TOBind::render() {

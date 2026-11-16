@@ -16,9 +16,6 @@
 #include "pso/math/MatrixVector.h"
 #include "pso/system/task/TObject.h"
 
-extern "C" void disallow_rendering__7TObjectFv(TObject *arg0);
-extern "C" void allow_rendering__7TObjectFv(TObject *arg0);
-
 
 extern "C" void  normalize_vector(Vec*);
 void direction_to_rotation_xz(u8 *arg0, s32 *arg1, s32 *arg2);

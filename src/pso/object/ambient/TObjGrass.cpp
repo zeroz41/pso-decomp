@@ -273,14 +273,6 @@ struct Grass_800BD4D8 {
     VObj_18_800BD4D8 *hit[12];
 };
 
-struct VBase_14_fa0828 { char pad[0x14]; };
-
-struct VObj_14_fa0828 : VBase_14_fa0828 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual s32 m3();
-};
 
 struct E1C_800BF924 { u8 pad[0x1C]; };
 
@@ -796,7 +788,6 @@ void TObjGrass::vfunc_28() {
         }
     }
 }
-
 
 
 s32 TObjGrass::update_action_hold_status() {

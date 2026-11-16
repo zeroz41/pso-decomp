@@ -16,11 +16,8 @@ extern "C" {
 extern void* quest_mission_manager;
 extern void* quest_area_manager;
 extern void* tl_00;
-void* __nw__7TObjectFUl(unsigned long);
 void *TObjMesBase__ct(TObjMesBase *arg0, s32 arg1, s32 arg2);
-void *__dt__11TObjMesBaseFv(void *arg0, s16 arg1);
 s32 __ct__14TObjCollidableFP7TObject();
-void __dl__7TObjectFPv(void *);
 
 const char *TObjMesBase__class_name = "TObjMesBase";
 

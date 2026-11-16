@@ -755,7 +755,6 @@ void TObjEneEpsilon__sub_800B9384(u8 *arg0, s32 arg1, f32 farg0);
 s32 update_linked_position__12TObjEneDD_STFf(f32);
 void enemy_clear_target__12TObjEneDD_STFUs(void *);
 void enemy_set_target_id(void *, u16);
-void *__dt__12TObjEneDD_STFv(void *arg0, s16 arg1);
 s32 reload_stats_keep_hp_tp__9TObjEneDDFv(void *, void *, int, void *);
 void get_camera_ctrl__9TObjEneDDFv(s32, s32);
 void update_camera_sequence__9TObjEneDDFv(void);
@@ -766,15 +765,12 @@ int setup_instance__9TObjEneDDFllPUcl(void*);
 s32 is_alive__8TObjBaseFv(void);
 s32 update_local_colliders_from_world(void *, void *);
 s32 __dt__17AreaAttackHistoryFv(s32 arg0, s16 arg1);
-void *__dt__15RenderFadeStateFv(void *arg0, s16 arg1);
 u8 *get_enemy_entity(u16 arg0);
 void free_collision_body_parts(void *);
 s32 check_flag_100__10TObjPlayerFPv();
 s32 start_freeze__10TObjPlayerFv(int);
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
 s32 play_sound_effect(s32, s32, s32, s32);
-void __dl__7TObjectFPv(void *);
-void __dt__7TObjectFv(void *, s32);
 s32 is_closest_part__12TBoss8DragonFv();
 void set_mode_params__12TBoss8DragonFSc(void *, unsigned char);
 s32 TBoss8Dragon__sub_802F4760(void *owner, Vec *point, f32 farg0);
@@ -794,7 +790,6 @@ u8 TBoss8Dragon__sub_802FC88C(void *arg0);
 s32 TBoss8Dragon__sub_802FCCBC(TBoss8Dragon *arg0);
 void TBoss8Dragon__sub_802FD9D0(void);
 s32 eval_bezier_curve__12TBoss8DragonFPviiPvf(void *, int, int, void *, f32);
-void __destroy_arr(void *, void *, u32, u32);
 s32 mult_vec_array__10TObjPlayerFUll(int, void *, int, int);
 f32 vec3_dot(void *, void *);
 s32 rotate_matrix_z(s32, s32);
@@ -830,100 +825,6 @@ extern TObject *tl_04;
 extern "C" {
 struct Obj_802F7B70;
 }
-extern "C" {
-extern u8 apply_anti_technique__9TObjCharaFl[];
-}
-extern "C" {
-extern u8 enemy_spawn_zalure_effect__9TObjCharaFv[];
-}
-extern "C" {
-extern u8 enemy_spawn_jellen_effect__9TObjCharaFv[];
-}
-extern "C" {
-extern u8 get_actor_level_index__9TObjCharaFv[];
-}
-extern "C" {
-extern u8 add_actor_exp__9TObjCharaFl[];
-}
-extern "C" {
-extern u8 is_actor_cadence_frame__9TObjCharaFl[];
-}
-extern "C" {
-extern u8 receive_weapon_special_attack__9TObjCharaFPvPv[];
-}
-extern "C" {
-extern u8 apply_knockback_from_attacker__9TObjCharaFPUcf[];
-}
-extern "C" {
-extern u8 receive_physical_attack__9TObjCharaFPvf[];
-}
-extern "C" {
-extern u8 apply_action_hold_status__9TObjCharaFf[];
-}
-extern "C" {
-extern u8 clear_all_status_effects__9TObjCharaFv[];
-}
-extern "C" {
-extern u8 cure_paralysis__9TObjCharaFv[];
-}
-extern "C" {
-extern u8 cure_poison_ailment__9TObjCharaFv[];
-}
-extern "C" {
-extern u8 apply_defense_stat_status__9TObjCharaFPv[];
-}
-extern "C" {
-extern u8 apply_attack_stat_status__9TObjCharaFPv[];
-}
-extern "C" {
-extern u8 calc_distance_accuracy_penalty__9TObjCharaFPvPvPvf[];
-}
-extern "C" {
-extern u8 roll_physical_accuracy__9TObjCharaFPvlf[];
-}
-extern "C" {
-extern u8 select_melee_contact_body__9TObjCharaFPvf[];
-}
-extern "C" {
-extern u8 update_defense_stat_status__9TObjCharaFv[];
-}
-extern "C" {
-extern u8 update_attack_stat_status__9TObjCharaFv[];
-}
-extern "C" {
-extern u8 update_movement_status__9TObjCharaFv[];
-}
-extern "C" {
-extern u8 update_action_hold_status__9TObjCharaFv[];
-}
-extern "C" {
-extern u8 update_poison_status__9TObjCharaFv[];
-}
-extern "C" {
-extern u8 is_target_in_attack_range__9TObjCharaFv[];
-}
-extern "C" {
-extern u8 update_actor_ground_y__9TObjCharaFv[];
-}
-extern "C" {
-extern u8 get_center__9TObjCharaFv[];
-}
-extern "C" {
-extern u8 reset_motion_fields__9TObjCharaFv[];
-}
-extern "C" {
-extern u8 apply_set_data__9TObjEnemyFPv[];
-}
-extern "C" {
-extern u8 apply_object_set_data__8TObjBaseFPv[];
-}
-extern "C" {
-extern u8 classify_actor_view_detail__8TObjBaseFfff[];
-}
-extern "C" {
-extern u8 update_object_view_visibility__8TObjBaseFff[];
-}
-
 // Attack/effect parameter record copied to the stack and handed to get_state_flags /
 // emit_effect / setup_instance; same record and values as TBoss1Dragon's DragonAttackParams
 // (type name inferred there).
@@ -1570,14 +1471,10 @@ struct D_802FD47C {
 };
 extern "C" {
 s32 __ct__14SubtractiveRngFv(void *arg0);
-void __ct__12TObjEneDD_STFP7TObject(void *, void *, void *);
 u8 *__ct__17AreaAttackHistoryFl(u8 *arg0, s32 arg1);
-void __ct__7TObjectFP7TObject(void *, void *);
 u8 *TBoss8DragonColli__ct(u8 *arg0, s32 arg1);
 void *TBoss8Dragon__sub_802F3C24(void *arg0, void *arg1);
 void *TBoss8DragonEffTail__ct(void *, void *, void *);
-void __construct_array(void *, void *, void *, int, int);
-void __ct__15RenderFadeStateFv(void *);
 }
 
 extern "C" {
@@ -6380,7 +6277,3 @@ void TBoss8Dragon::set_mode_params(s8 arg1) {
 
 
 }
-extern "C" {
-
-}
-

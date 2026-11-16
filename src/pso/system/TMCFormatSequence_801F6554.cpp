@@ -34,7 +34,6 @@ extern "C" {
 s32 TWindowShortListCtrl__check_controller_button(void *, s32);
 s32 is_message_window_ready__18TWindowMessagePageFv();
 extern s8 controller_input_state[];
-extern RecoveredGlobal_801F6548_lbl_80512790 offline_quest_filename_buffer_a;
 s32 init_shop_judgment_window();
 s32 set_text__18TWindowMessagePageFlll(s32, void *, s32);
 s32 get_window_layout_position(s32);

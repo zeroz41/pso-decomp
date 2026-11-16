@@ -114,7 +114,6 @@ EffTail_8002C06C *TBoss8DragonEffTail__ct(EffTail_8002C06C *arg0, s32 arg1, s32 
 void matrix_mult_vec(s32, void *, void *);
 s32 free_bin_model_request(s32, s32);
 s32 release_texture_list(void*);
-void __dl__7TObjectFPv(void *);
 int fill_value_array(void*);
 
 void fn_802FE48C(void) {  }

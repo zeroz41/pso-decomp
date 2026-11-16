@@ -64,8 +64,6 @@ extern s32 __vt__14TOSwitchAttack[];
 extern const char *TOSwitchAttack__name;
 f32 horizontal_distance_squared(void *, void *);
 u8 is_current_floor_switch_set(s32 id);
-void *__dt__14TOSwitchAttackFv(void *arg0, s16 arg1);
-void __dl__7TObjectFPv(void *);
 void *__nw__7TObjectFUl(int);
 
 void TOSwitchAttack::render() {  }

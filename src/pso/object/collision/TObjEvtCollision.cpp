@@ -26,9 +26,7 @@ const char *TObjEvtCollision__class_name = "TObjEvtCollision";
 u8 *TObjEvtCollision__ct(TObjEvtCollision *arg0, s32 arg1, s32 arg2);
 extern s32 local_client_id;
 void *TObjEvtCollision__create(void *arg0);
-void *__dt__16TObjEvtCollisionFv(void *arg0, s16 arg1);
 void *get_player_by_client_id(s32 i);
-void __dl__7TObjectFPv(void *);
 void *__nw__7TObjectFUl(int);
 f32 xyz_distance_squared(s32, s32);
 

@@ -1114,7 +1114,6 @@ void refresh_players_equipment__14TBoss6PlotFalzFPv(void *self) {
 }
 }
 
-struct V_802AC538 { f32 x, y, z; };
 extern "C" {
 u8 *get_hit_data__14TBoss4DarkFalzFv(void *);
 void set_position_from__8TObjBaseFPv();

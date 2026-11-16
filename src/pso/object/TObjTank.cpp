@@ -39,7 +39,6 @@ extern s32 __vt__8TObjTank[];
 void free_bin_model_request(void*, int);
 s32 release_texture_list(void*);
 s32 free_collision_body_parts(void *);
-s32 __dl__7TObjectFPv(void *);
 void *__nw__7TObjectFUl(int);
 
 void TObjTank::render() {

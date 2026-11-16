@@ -116,14 +116,10 @@ struct RecoveredGlobal_8034DEA0_TNpcPlayer__data_804ABC90 {
 };
 
 
-
-
 extern "C" {
 s32 copy__10TNpcPlayerFPv(void *, void *, int);
 extern RecoveredGlobal_8034DEA0_TNpcPlayer__data_804ABC90 TNpcPlayer__template_table;
-s32 __dt__7TObjectFv(void *, int);
 s32 is_script_controlled__10TObjPlayerFv();
-s32 __dl__7TObjectFPv(void *);
 void construct_partner__10TNpcPlayerFPviisPv(void *, u16, u16, s32, void *);
 void *__nw__7TObjectFUl(u32);
 extern void *tl_00;
@@ -132,9 +128,6 @@ typedef struct VBase_18_dac7f3 VBase_18_dac7f3;
 typedef struct VObj_18_dac7f3 VObj_18_dac7f3;
 #pragma opt_pointer_analysis on
 #define PSO_VCALL_VObj_18_dac7f3_m0(_self, _arg0) (((VObj_18_dac7f3 *)(_self))->m0((_arg0)))
-
-
-
 
 
 typedef char RecoveredGlobal_8034DEA0_TNpcPlayer__data_804ABC90_size[sizeof(RecoveredGlobal_8034DEA0_TNpcPlayer__data_804ABC90) == 0xA00 ? 1 : -1];
@@ -154,7 +147,6 @@ extern "C" {
 
 s32 notify_field1c__10TObjPlayerFl();
 s32 send_item_pickup_request__10TObjPlayerFl();
-
 
 
 }
@@ -289,29 +281,9 @@ void notify_partner_room_cleared(s32 arg0);
 void quest_player_face_actor(u16 src, u16 dst);
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 #define SETFLAG_8034E814 ((void (*)(void *, u16))set_npc_control_flag__10TNpcPlayerFPvs)
 #define ISSTATE3_8034E814 ((s32 (*)(void *))obj_isState3_324__9TObjCharaFv)
 #define NOTIFY_8034E814 ((void (*)(void *))notify_field1c__10TObjPlayerFl)
-
-
-
-
-
-
-
-
 
 
 // Compiled with -inline off,deferred: the functions are written in reverse of their

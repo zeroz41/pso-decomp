@@ -437,8 +437,6 @@ extern s32 __vt__14TBoss7Crawfish[];
 int TBoss7Crawfish__sub_80308BEC(void *p);
 void free_bin_model_request(void*, int);
 s32 add_radar_scaled_marker(void *, int, int, int, f32);
-s32 __dl__7TObjectFPv(void *);
-void *__dt__9TObjEnemyFv(TObjEnemy *arg0, s16 arg1);
 
 void TBoss7Crawfish::run_task() {
     u8 *arg0 = (u8 *)this;

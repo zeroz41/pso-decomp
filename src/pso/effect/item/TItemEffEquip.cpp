@@ -24,8 +24,6 @@ const char *TItemEffEquip__class_name = "TItemEffEquip";
 struct Equip_Self { u8 pad0[0x18]; void *vt; void *m_1c; void *m_20; };
 extern "C" {
 extern void *__vt__13TItemEffEquip[];
-void __dt__7TObjectFv(void *, s16);
-s32 __dl__7TObjectFPv(void *);
 
 }
 #include "types.h"
@@ -43,14 +41,12 @@ struct Obj_80108C90 {
     s32 f_B0;
     u8 sub[0x10];
 };
-void __ct__14TObjCollidableFP7TObject(void *, void *);
 
 #include "pso/weapon/TItemAttacker.h"
 #pragma defer_codegen on
 
 extern "C" {
 
-s32 play_sound_effect(s32, s32, s32, s32);
 void *__nw__7TObjectFUl(int);
 struct Equip_80108A20 { const char *x0; u8 pad4[0x18 - 4]; void *vt; void *src; s32 x20; void *x24; };
 s32 __ct__7TObjectFP7TObject(void *, void *);
@@ -195,7 +191,6 @@ struct VObj80108BB0_80108bb0 : VBase0x18_2_80108bb0 {
     virtual void m62();
     virtual void m63(s32, void *);
 };
-
 
 
 }

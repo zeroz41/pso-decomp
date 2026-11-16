@@ -144,7 +144,6 @@ s32 vec3_add_to(void *, void *);
 s32 subtract_vector(void *, void *);
 extern const f32 lbl_805D4BE0;
 void run_task__17TObjBoss2CeilJunkFv(Junk_8003A314 *o);
-void __dl__7TObjectFPv(void *);
 
 typedef struct Color_8003A1B4 Color_8003A1B4;
 typedef struct Holder_8003A1B4 Holder_8003A1B4;

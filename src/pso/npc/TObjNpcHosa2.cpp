@@ -37,7 +37,6 @@ s32 get_bml_model(int, int);
 extern s32 __vt__12TObjNpcHosa2[];
 extern const char *TObjNpcHosa2__name;
 void free_bin_model_request(void*, int);
-void __dl__7TObjectFPv(void *);
 
 void TObjNpcHosa2::close_dialog_window() {
     if ((u32) TObjNpcHosa2__shared_model_resource != 0U) {

@@ -52,7 +52,6 @@ s32 __ct__8TObjBaseFP7TObject(void *, void *);
 extern s32 __vt__12TObjParticle[];
 extern s32 obj_particle_class_name;
 Part_80195400 *TObjParticle__ct(Part_80195400 *arg0, s32 arg1, Src_80195400 *arg2);
-void __dl__7TObjectFPv(void *);
 
 extern s32 camera_ctrl_instance;
 

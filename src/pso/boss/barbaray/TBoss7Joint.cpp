@@ -25,7 +25,6 @@ s32 register_boss__6TLobbyFl(int);
 struct VOff_802EE9A4_arg0_802EE9A4 { char pad_0[0x2FC]; char f_2FC[1]; };
 
 s32 apply_damage_and_set_effect__8TObjFishFl(int, int, int);
-void __dl__7TObjectFPv(void *);
 u32 is_part_active__11TBoss7JointFv(void *, int);
 
 void TBoss7Joint::store_position() {

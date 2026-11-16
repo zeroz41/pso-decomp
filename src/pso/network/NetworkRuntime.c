@@ -19,7 +19,6 @@
 
 s32 TLobby__sub_80428358(void);
 
-s16 TLobby__sub_80401BCC(void *self, void *dst, u16 n);
 
 NetworkAlarmSlot lobby_alarm_slot_table[0x40];
 NetworkMutexSlot network_mutex_slot_table[8];

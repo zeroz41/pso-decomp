@@ -288,12 +288,9 @@ struct RecoveredFields_8008213C_temp_r3 {
 
 extern "C" {
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-s32 __ct__9TObjCharaFP7TObject(void *, void *);
 TParticleCtrl *create_particle_emitter(const void *pos, s32 id);
-extern s32 __vt__13TUnk_8048E1A4[];
 extern s32 tl_05;
 void free_bin_model_request(void*, int);
-void __dl__7TObjectFPv(void *);
 
 void TLobby::destroy_global_singleton() {
     if ((u32) freeze_shell_bml_resource != 0U) {

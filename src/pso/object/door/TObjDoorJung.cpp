@@ -64,11 +64,9 @@ s32 push_matrix();
 s32 post_translate_matrix(void *);
 extern s32 actor_frame_tick;
 
-void *__dt__12TObjDoorJungFv(void *arg0, s16 arg1);
 s32 free_bin_model_request(void *, s16);
 s32 free_collision_body_parts(void *);
 s32 minimap_render_gate(void *, s32, u16, s32, s32);
-s32 __dl__7TObjectFPv(void *);
 
 void TObjDoorJung::free_buffers() {
     if (TObjDoorJung__door_scene_buffer != NULL) {

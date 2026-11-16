@@ -17,9 +17,7 @@ u32 init_collision_body_parts(void *, s32, s32);
 extern s32 __vt__13TObjCollision[];
 const char *lbl_805D2830 = "TObjCollision";
 u8 *TObjCollision__ct(u8 *arg0, s32 arg1, s32 arg2);
-void *__dt__13TObjCollisionFv(void *arg0, s16 arg1);
 void free_collision_body_parts(void *);
-void __dl__7TObjectFPv(void *);
 void *__nw__7TObjectFUl(int);
 
 void TObjCollision::render() {  }

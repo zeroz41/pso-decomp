@@ -216,7 +216,6 @@ s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
 
 s32 matrix_mult_vec(void *, void *, void *);
 
-void *__dt__16TODoorJungleMainFv(void *arg0, s16 arg1);
 
 void free_bin_model_request(void*, int);
 
@@ -224,7 +223,6 @@ s32 release_texture_list(void*);
 
 void free_collision_body_parts(void *);
 
-void __dl__7TObjectFPv(void *);
 
 typedef char RecoveredGlobal_8019A880_lbl_804B8F70_size[sizeof(RecoveredGlobal_8019A880_lbl_804B8F70) == 0x2C ? 1 : -1];
 

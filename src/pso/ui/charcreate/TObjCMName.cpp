@@ -272,9 +272,7 @@ struct M_80298450 { u8 pad[0x38]; f32 f38; };
 extern "C" {
 void copy_player_visual_record(void *, void *);
 void * get_char_index__23TAdSinglePlyChrSelectGCFUi(s32);
-s32 __dl__7TObjectFPv(void *);
 void * __nw__7TObjectFUl(int);
-s32 __dt__7TObjectFv(void *, s32);
 void __ct__7TObjectFP7TObject(void *);
 u8 calc_section_id_from_name();
 s32 get_creation_sprite_id__14TObjCMMainMenuFl(int);

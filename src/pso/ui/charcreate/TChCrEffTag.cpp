@@ -93,7 +93,6 @@ TChCrEffTag::TChCrEffTag(TObject *parent) : TObject(parent) {
 
 extern "C" {
 
-void *__nw__7TObjectFUl(int);
 
     void TChCrEffTag::set_eff_tag(int a0) { TChCrEffTag__selected_heading = a0; }
 }

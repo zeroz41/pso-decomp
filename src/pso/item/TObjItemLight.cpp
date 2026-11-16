@@ -23,10 +23,8 @@ f32 xz_distance_squared(void *, void *);
 Ply_80191F90 *get_player_by_client_id(s32);
 void run_task__13TObjItemLightFv(Light_80191F90 *arg0);
 u8 *TObjItemLight__ct(TObjItemLight *arg0, s32 arg1, s32 arg2);
-void *__dt__13TObjItemLightFv(void *arg0, s16 arg1);
 void *spawn_particle_effect_with_rotation(void *pos, void *dir, s32 id, int e);
 s32 __ct__8TObjBaseFP7TObject();
-void __dl__7TObjectFPv(void *);
 
 extern s32 __vt__13TObjItemLight[];
 

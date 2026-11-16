@@ -99,7 +99,6 @@ void rotate_matrix_y(int, int);
 void push_matrix();
 void post_translate_matrix(void *);
 void free_bin_model_request(void*, int);
-void __dl__7TObjectFPv(void *);
 void *__nw__7TObjectFUl(int);
 
 void TOSparkMachine01::update_spark_toggle(s32 i) {

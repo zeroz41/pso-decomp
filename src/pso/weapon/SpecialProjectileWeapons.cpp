@@ -66,11 +66,9 @@ typedef char StarLightFollowerExtent[sizeof(StarLightFollowerView) == 0x2C ? 1 :
 
 extern "C" {
 
-void *__dt__13TUnk_804A2164Fv(void *arg0, s16 arg1);
 void __ct__11TItemWeaponFP7TObjectPUc(void *);
 u8 *__nw__5TItemFUl(s32);
 void __dl__7TObjectFPv(void *);
-void *__dt__15TItemShootModelFv(void *self, s16 flag);
 s32 get_owner_client__5TItemFv(void *);
 s32 __nw__15TItemHeapObjectFUl(s32);
 s32 init_vtable__13TUnk_804A0668Fv(s32, u32, s32, s32);
@@ -85,12 +83,8 @@ s32 is_item_area_enabled();
 s32 __nw__7TObjectFUl(s32);
 void create_icon__10TObjPlayerFiii(s32 arg0, s32 arg1, s32 arg2);
 }
-s32 drill_launcher_create_shot(s32 arg0, s32 arg1, s32 arg2, f32 farg0);
 
-void* drill_launcher_ct(void* a0, s32, void *);
 extern s32 tl_05;
-u8 *create_drill_launcher(u8 *arg0);
-void drill_launcher_return_timer(void *arg0);
 int get_item_system_generation(void);
 u8 *spawn_star_light_2d(s32 arg0, s32 arg1, s32 arg2);
 extern "C" {
@@ -103,7 +97,6 @@ void *TObjPlayer__sub_8012417C(void *arg0, s16 arg1);
 s8 get_mode__5TItemFv();
 
 void run_task__13TUnk_804A2018Fv(void *arg0);
-void *__dt__13TUnk_804A204CFv(void *arg0, s16 arg1);
 void *TObjPlayer__sub_80124694(TObjPlayer *arg0);
 u8 *TObjPlayer__sub_80124708(u8 *arg0);
 
@@ -283,8 +276,6 @@ void TUnk_804A204C::vfunc_57() {
 }
 
 extern void *__vt__13TUnk_804A204C[];
-extern void *__vt__13TUnk_804A2148[];
-extern void *__vt__13TUnk_804A2164[];
 #define __vt__13TUnk_804A204C ((s32 *)__vt__13TUnk_804A204C)
 
 }

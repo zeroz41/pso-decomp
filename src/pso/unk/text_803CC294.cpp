@@ -23,7 +23,6 @@ struct LogEnt_803CD16C { s8 type; s8 phase; u16 seq; s32 a; s32 b; s32 c; };
 
 struct Buf_803CD16C { u8 data[0x10C]; };
 
-struct LogHdr_803CD16C { u8 pad[0x4]; u16 seq; u8 pad2[0x1A]; };
 
 struct Slot_803CD16C {
     s8 used; s8 f1; s8 f2; u8 f3; u32 f4; s32 f8; s32 fc; s32 f10; u8 pad_14[4];
@@ -32,7 +31,6 @@ struct Slot_803CD16C {
 
 struct LogHdr_803CD3A8 { u8 pad[0x2]; u16 seq; };
 
-struct LogHdr_803CC980 { u8 pad[0xA]; u16 seq; };
 
 struct Snd_803CC980 {
     u8 f0; s8 state; s8 f2; u8 f3; u32 f4; SjRingBuffer *f8; int fc; u8 pad_10[0x14 - 0x10];

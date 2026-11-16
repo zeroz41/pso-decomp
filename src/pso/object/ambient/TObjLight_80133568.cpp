@@ -76,7 +76,6 @@ extern s32 TObjLight__gx_light_objects[];
 s32 rotate_vector_by_matrix(int, void *, void *);
 extern TUnk_804A6F90 *lbl_805D5558;
 extern s32 TObjLight__actor_light_count;
-u32 __nw__7TObjectFUl(int);
 f32 vector_length(void *);
 f32 normalize_vector(void *);
 extern f32 default_scene_light_config[];

@@ -62,19 +62,11 @@ u8 is_current_floor_switch_set(u16);
 s32 post_translate_matrix(void *);
 s32 push_matrix();
 s32 set_global_param__8TObjFishFl();
-void *__dt__20TODoorFourLightSpaceFv(void *arg0, s16 arg1);
 void fn_802898E8(void);
 void fn_802898EC(void);
 void draw_ginja_model_with_motion(void *model, void *motion, f32 frame);
 void free_collision_body_parts(void *);
-void __dl__7TObjectFPv(void *);
 s32 get_main_phase();
-
-}
-
-extern "C" {
-
-void *__dt__20TODoorFourLightRuinsFv(void *arg0, s16 arg1);
 
 }
 
@@ -91,11 +83,6 @@ const char *TODoorFourLightRuins__class_name = "TODoorFourLightRuins";
 const Tbl_8028A5C4 door_four_light_ruins_index_table = {3, 4, 6, 8, 2, 5, 7, 9};
 const char *TODoorFourLightSpace__class_name = "TODoorFourLightSpace";
 const Tbl_80289EE0 door_four_light_space_index_table = {4, 6, 8, 10, 5, 7, 9, 11};
-extern "C" {
-
-
-}
-
 #pragma defer_codegen on
 
 #pragma push

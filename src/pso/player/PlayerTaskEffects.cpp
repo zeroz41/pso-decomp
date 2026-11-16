@@ -153,7 +153,6 @@ void reset_stat_scale_and_ring__10TObjPlayerFi(s32 arg0);
 int clear__8FlagWordFUl(void*, int);
 
 
-
 }
 
 
@@ -544,7 +543,6 @@ void *find_entity_by_id();
 void fn_8013E020(Obj_8013E020 *self);
 void *get_state__11TMainCursorFv(s32);
 s32 is_target_valid__10TObjPlayerFv();
-void queue_destruction__7TObjectFv(void *arg0);
 void set_field_0__13TForceOperateFs(void *, void *);
 s32 tick_battle_music_timer(Obj_801C5C38 *p);
 s32 get_current_floor();

@@ -1464,7 +1464,6 @@ s32 TObjEneRecon__sub_8031DA90(u8 *arg0) {
 extern "C" {
 
 
-
 f32 TObjEneRecon::approach_value(f32 farg0, f32 farg1) {
     f32 temp_f31;
     f32 var_f1;
@@ -1804,23 +1803,15 @@ struct VObj_14_2f517b : VBase_14_2f517b {
 };
 
 void obj_setFlags30(void *, u32);
-void *__dt__12TObjEneDD_STFv(void *arg0, s16 arg1);
 f32 calc_elapsed_scaled__9TObjEneDDFv(void *);
 s32 init_model__9TObjEneDDFP13CollisionBodyl(void *, void *, int, int);
 void *__dt__13TUnk_80494938Fv(void *arg0, s16 arg1);
 void free_collision_body_parts(void *);
-void __dl__7TObjectFPv(void *);
 s32 all_parents_unqueued_for_destruction__7TObjectFv();
 void run_task__12TObjEneReconFv(TObjEneRecon *arg0);
-void * __dt__12TObjEneReconFv(void *arg0, s16 arg1);
-
 
 
 }
-extern "C" {
-
-}
-
 #pragma push
 #pragma fp_contract on
 extern "C" {

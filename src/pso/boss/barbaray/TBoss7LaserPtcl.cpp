@@ -61,14 +61,9 @@ extern s32 __vt__15TBoss7LaserPtcl[];
 const char *TBoss7LaserPtcl__class_name = "TBoss7LaserPtcl";
 
 u8 *TBoss7LaserPtcl__ct(u8 *arg0, u8 *arg1, u8 *arg2, u8 *arg3);
-extern s32 __vt__13TUnk_804F1C88[];
 
 void reset_global_table(void);
 
-void *__dt__13TUnk_804F1C88Fv(void *arg0, s16 arg1);
-void *__dt__15TBoss7LaserPtclFv(void *arg0, s16 arg1);
-void __dl__7TObjectFPv(void *);
-void __dt__7TObjectFv(void *, int);
 
 }
 

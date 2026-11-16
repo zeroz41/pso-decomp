@@ -26,7 +26,6 @@ extern "C" {
 s32 __ct__8TObjBaseFP7TObject(void *, void *);
 extern s32 __vt__12TObjMistCtrl[];
 const char *lbl_805D3E80 = "TObjMistCtrl";
-void __dl__7TObjectFPv(void *);
 
 void TObjMistCtrl::run_task() { { (void)(sub_802AF64C()); return; } }
 

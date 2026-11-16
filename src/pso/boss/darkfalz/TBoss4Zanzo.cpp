@@ -498,7 +498,6 @@ void TBoss4Type2::update_phase_timer() {
         *(f32 *)((s8 *)arg0 + 0x3d0) = 0.0f;
     }
 }
-extern int fold_flush_4;
 #pragma pop
 
 void TBoss4Type2::set_attack_pattern_by_index(s32 arg1) {
@@ -641,7 +640,6 @@ void TBoss4Type2::calc_grid_target_position() {
     arg0->f3B8 = 0.0f;
     arg0->f3BC = 29.375f * (0.5f + (f32)arg0->i3B0) - 235.0f;
 }
-extern int fold_flush_3;
 #pragma pop
 
 void TBoss4Type2::set_grid_pos(void *arg1) {
@@ -696,7 +694,6 @@ void find_target_pos__11TBoss4Type2FPvPv(O_80056C30 *self, Vec_80056C30 *out) {
     out->y = 0.0f;
     out->z = s * cos_table_lookup(ang);
 }
-extern int fold_flush_2;
 #pragma pop
 
 void TBoss4Type2__sub_80056B3C(void *actor, s32 lo, s32 hi) {

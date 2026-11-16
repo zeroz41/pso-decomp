@@ -67,7 +67,6 @@ extern s32 __vt__14TOJungleDesign[];
 s32 post_translate_matrix(void *);
 void free_collision_body_parts(void *);
 s32 push_matrix();
-void __dl__7TObjectFPv(void *);
 
 
 void TOJungleDesign::render() {

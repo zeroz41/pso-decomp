@@ -3,7 +3,6 @@
 #include "pso/technique/TTecReverser.h"
 #include "pso/unk/TUnk_804CCC28.h"
 #include "pso/system/task/TObject.h"
-extern "C" void *__dt__13TUnk_804CC148Fv(void *, s16);
 #include "pso/system/vector.h"
 #include "pso/effect/TUnk_804CC148.h"
 #include "pso/effect/TUnk_804CCC68.h"
@@ -71,11 +70,7 @@ Entry_80239E44 revival_particle_table[3] = {
 Obj_80239E44 *construct_revival_particle_effect(Obj_80239E44 *self, Player_80239E44 *player, void *parent);
 void debug_printf_at(s32 id, const char *fmt, ...);
 s32 get_type__10TObjPlayerFPv(void *p);
-void *__dt__13TUnk_804CCC28Fv(void *arg0, s16 arg1);
-void *__dt__12TTecReverserFv(void *arg0, s16 arg1);
 void *spawn_particle_effect(const void *pos, s32 id);
-void __dl__7TObjectFPv(void *);
-void __dt__7TObjectFv(void *, int);
 void *__nw__7TObjectFUl(int);
 
 }

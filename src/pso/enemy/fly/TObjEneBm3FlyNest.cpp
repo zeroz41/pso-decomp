@@ -120,10 +120,6 @@ extern const f32 lbl_805D9E88;
 extern s32 model_render_flags;
 }
 
-extern "C" {
-
-}
-
 #pragma defer_codegen on
 
 void TObjEneBm3FlyNest::init_vertex_table() {

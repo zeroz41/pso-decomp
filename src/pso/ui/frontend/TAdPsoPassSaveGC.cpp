@@ -8,9 +8,7 @@
 extern "C" {
 
 void *TAdYesNoBaseGC__ct(TAdYesNoBaseGC *arg0);
-void *__dt__14TAdYesNoBaseGCFv(void *arg0, s16 arg1);
 void *__ct__10TAdTitleGCFP7TObjectl(void *, void *, int);
-void __dl__7TObjectFPv(void *);
 void *__nw__7TObjectFUl(int);
 
 void TAdPsoPassSaveGC::render() {

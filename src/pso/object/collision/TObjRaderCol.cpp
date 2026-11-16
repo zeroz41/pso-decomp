@@ -27,7 +27,6 @@ const char *TObjRaderCol__name = "TObjRaderCol";
 f32 xz_distance_squared(void *, void *);
 void check_any_player_in_range__12TObjRaderColFPv(Col_8019750C *arg0);
 extern s32 local_client_id;
-void __dl__7TObjectFPv(void *);
 
 void TObjRaderCol::render() {  }
 

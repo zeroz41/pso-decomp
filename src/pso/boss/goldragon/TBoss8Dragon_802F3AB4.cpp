@@ -9,10 +9,7 @@
 
     extern void* boss8_dragon_leader_part;
 extern "C" {
-extern s32 __vt__13TUnk_804E4BF0[];
 extern void *boss8_dragon_leader_part;
-s32 __dl__7TObjectFPv(void *);
-s32 __dt__7TObjectFv(void *, s32);
 
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 

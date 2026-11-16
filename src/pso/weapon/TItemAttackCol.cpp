@@ -143,7 +143,6 @@ struct VObj_802E3C4C : VBase_802E3C4C {
 
 struct Hit_802E3D8C { s32 pad; void *pos; };
 extern "C" {
-s32 disallow_rendering__7TObjectFv(void *);
 
 s32 test_flags_any(s32 *flags, s32 mask);
 }
@@ -172,9 +171,6 @@ extern int attack_collider_active_count;
 
 void* TObjPlayer__sub_802E449C(void* a0);
 
-void __dl__7TObjectFPv(void *);
-
-void *__nw__7TObjectFUl(int);
 
 int fn_802E3BA8(void*, void*);
 

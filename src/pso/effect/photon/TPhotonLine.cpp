@@ -76,9 +76,7 @@ void *spawn_particle_effect(const void *pos, s32 id);
 void queue_photon_blast_hit(u32 identity, s32 kind, s32 allow_duplicate, f32 scale);
 void vec3_add_to(Vec_801ACD14 *, Vec_801ACD14 *);
 void run_task__11TPhotonLineFv(Line_801ACB14 *self);
-void *__dt__11TPhotonLineFv(void *arg0, s16 arg1);
 s32 free_collision_body_parts(void *);
-s32 __dl__7TObjectFPv(void *);
 
 void TPhotonLine::render() { TParticleCtrl::begin_effect_render(); TParticleCtrl::end_effect_render(); }
 

@@ -501,9 +501,6 @@ void *__ct__13TAdGuideTxtGCFv(void *, void *);
 u8 *get_or_create_slot_window__22TAdMultiPlyChrSelectGCFii(s32 arg0, s32 arg1);
 extern s32 __vt__23TAdSinglePlyChrSelectGC[];
 u8 *TAdSinglePlyChrSelectGC__ct(u8 *arg0, void *parent);
-void *__dt__23TAdSinglePlyChrSelectGCFv(void *arg0, s16 arg1);
-void __dl__7TObjectFPv(void *);
-void __dt__7TObjectFv(void *, int);
 TPlyCharData *get_char_index__23TAdSinglePlyChrSelectGCFUi(u32);
 
 

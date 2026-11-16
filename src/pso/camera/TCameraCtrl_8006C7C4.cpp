@@ -40,8 +40,6 @@ Bank_8006C6CC camera_path_bank_table[36] = {
 };
 
 extern "C" {
-void *__dt__13TUnk_80488A28Fv(void *arg0, s16 arg1);
-void __dl__7TObjectFPv(void *);
 
 #pragma push
 #pragma fp_contract on
@@ -66,7 +64,6 @@ struct CameraMotionData;
 
 extern "C" {
 
-void *__dt__13TUnk_80488D70Fv(void *arg0, s16 arg1);
 void *get_player_by_client_id(s32);
 void *__nw__7TObjectFUl(int);
 

@@ -13,14 +13,6 @@
 struct Vec_8029EA4C { f32 x, y, z; };
 
 #include <stddef.h>
-struct Stack_8029E960 {
-    f32 sp8;
-    f32 spC;
-    f32 sp10;
-    f32 sp14;
-    f32 sp18;
-    f32 sp1C;
-};
 
 extern "C" {
 s32 GXSetScissor(s32, s32, s32, s32);
