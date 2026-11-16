@@ -30,8 +30,6 @@ struct RecoveredGlobal_8001C828___vt__9TLoadCtrl {
     u8 remaining[0x14];
 };
 
-struct RecoveredGlobal_8001C7A0___vt__9TLoadCtrl { s32 value; u8 remaining[0x14]; };
-
 struct Obj_8001C620 { u8 pad[0x1C]; s32 f1c; s32 f20; };
 
 extern "C" {
@@ -43,9 +41,6 @@ s32 TLoadCtrl__loading_mode;
 s32 TLoadCtrl__fade_task;
 extern s32 tl_fade;
 u8 *TLoadCtrl__ct(TLoadCtrl *arg0, s32 arg1);
-u8 * __dt__7TObjectFv(void *, s16);
-void __dl__7TObjectFPv(s32);
-u8 *__dt__9TLoadCtrlFv(u8 *arg0, s16 arg1);
 bool TLoadCtrl__sub_8001C60C(void);
 void TNowLoading__sub_8001D4D4(void);
 u8 *TCameraCtrl__ct(u8 *arg0, void *parent);
@@ -127,22 +122,14 @@ void TLoadCtrl::run_task() {
     }
 }
 
-u8 *__dt__9TLoadCtrlFv(u8 *object, s16 arg1) {
-    if (object != NULL) {
-        *(s32 **)((s8 *)object + 0x18) = &(*(RecoveredGlobal_8001C7A0___vt__9TLoadCtrl *)&__vt__9TLoadCtrl).value;
-        if ((void *) (*(u8 * *)&TLoadCtrl__fade_task) != NULL) {
-            ((TObject *)(*(u8 * *)&TLoadCtrl__fade_task))->queue_destruction();
-            (*(u8 * *)&TLoadCtrl__fade_task) = NULL;
-        }
-        if ((u32) TLoadCtrl__instance != 0U) {
-            TLoadCtrl__instance = 0U;
-        }
-        __dt__7TObjectFv(object, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv((s32) object);
-        }
+TLoadCtrl::~TLoadCtrl() {
+    if ((void *) (*(u8 * *)&TLoadCtrl__fade_task) != NULL) {
+        ((TObject *)(*(u8 * *)&TLoadCtrl__fade_task))->queue_destruction();
+        (*(u8 * *)&TLoadCtrl__fade_task) = NULL;
     }
-    return object;
+    if ((u32) TLoadCtrl__instance != 0U) {
+        TLoadCtrl__instance = 0U;
+    }
 }
 
 u8 *TLoadCtrl__ct(TLoadCtrl *load_ctrl, s32 arg1) {

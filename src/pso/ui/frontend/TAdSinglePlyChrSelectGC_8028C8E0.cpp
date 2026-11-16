@@ -287,7 +287,7 @@ void TAdSinglePlyChrSelectGC::request_model_loads() {
     if (create_ch_cr_load_gm_nj_req(this, &r4) == 0) return;
 }
 
-void TChCrLoadReq::sub_8028CEEC(s32 *) {
+void TChCrLoadReq::release_load_slot() {
     if (((s32) chr_select_load_slot_count <= 1) && ((s32) this->m_8c != 0)) {
         this->m_8c = 0;
         if (--chr_select_load_slot_count == 0) {
@@ -330,7 +330,7 @@ void close_and_destroy__12TChCrLoadReqFv(void *arg0) {
         ((TAdSinglePlyChrSelectGC *)arg0)->load_preview_models();
         temp_r4 = *(s32 **)((s8 *)arg0 + 0x3C);
         *temp_r4 &= 0xFFFFFF7F;
-        ((TChCrLoadReq *)arg0)->sub_8028CEEC(temp_r4);
+        ((TChCrLoadReq *)arg0)->release_load_slot();
         ((TObject *)arg0)->queue_destruction();
     }
 }

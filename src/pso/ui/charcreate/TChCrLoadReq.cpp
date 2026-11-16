@@ -21,10 +21,6 @@ const char *TChCrLoadReq__name = "TChCrLoadReq";
 
 extern "C" {
 u16 get_entity_id(void *);
-extern s32 __vt__12TChCrLoadReq[];
-void sub_8028CEEC__12TChCrLoadReqFPl(TChCrLoadReq *);
-void __dl__7TObjectFPv(void *);
-void __dt__7TObjectFv(void *, int);
 }
 void * create_ch_cr_load_req(void *arg0, void *arg1);
 
@@ -102,16 +98,8 @@ void TChCrLoadReq::reset_request() {
     state = 0;
 }
 
-extern "C" TChCrLoadReq *__dt__12TChCrLoadReqFv(TChCrLoadReq *req, s16 free) {
-    if (req != NULL) {
-        *(s32 **)((u8 *)req + 0x18) = __vt__12TChCrLoadReq;
-        sub_8028CEEC__12TChCrLoadReqFPl(req);
-        __dt__7TObjectFv(req, 0);
-        if (free > 0) {
-            __dl__7TObjectFPv(req);
-        }
-    }
-    return req;
+TChCrLoadReq::~TChCrLoadReq() {
+    release_load_slot();
 }
 
 void TChCrLoadReq::run_task() {

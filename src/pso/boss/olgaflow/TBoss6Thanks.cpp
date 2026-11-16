@@ -46,8 +46,6 @@ s32 post_translate_matrix(const void *);
 struct RecoveredGlobal_8035D10C___vt__12TBoss6Thanks { s32 value; u8 remaining[0x14]; };
 typedef char RecoveredGlobal_8035D10C___vt__12TBoss6Thanks_size[sizeof(RecoveredGlobal_8035D10C___vt__12TBoss6Thanks) == 0x18 ? 1 : -1];
 
-struct RecoveredGlobal_8035D0A4___vt__12TBoss6Thanks { s32 value; u8 remaining[0x14]; };
-
 struct O_8035CCAC { u8 pad[0x54]; s32 arr[4]; };
 
 struct E_8035CC50 { void *p; };
@@ -82,10 +80,7 @@ s32 get_bml_model(void *, s32);
 void __ct__7TObjectFP7TObject(void *, void *);
 extern RecoveredGlobal_8035D10C___vt__12TBoss6Thanks __vt__12TBoss6Thanks;
 u8 *TBoss6Thanks__ct(TBoss6Thanks *arg0, u8 *arg1);
-u8 * __dt__7TObjectFv(void *, s16);
-void __dl__7TObjectFPv(s32);
 int TBoss6Thanks__sub_8035CB40(void);
-u8 *__dt__12TBoss6ThanksFv(u8 *arg0, s16 arg1);
 void TBoss6Thanks__sub_8035CCAC(s32 arg0);
 f32 xyz_distance(const void *, const void *);
 u8 fn_8035CAE0(void);
@@ -247,17 +242,9 @@ void TBoss6Thanks::run_task() {
   }
 }
 
-u8 *__dt__12TBoss6ThanksFv(u8 *boss6_thanks, s16 arg1) {
-    if (boss6_thanks != NULL) {
-        *(s32 **)((s8 *)boss6_thanks + 0x18) = &(*(RecoveredGlobal_8035D0A4___vt__12TBoss6Thanks *)&__vt__12TBoss6Thanks).value;
-        TBoss6Thanks__sub_8035CB40();
-        ((TBoss6Thanks *)boss6_thanks)->destroy_effects();
-        __dt__7TObjectFv(boss6_thanks, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv((s32) boss6_thanks);
-        }
-    }
-    return boss6_thanks;
+TBoss6Thanks::~TBoss6Thanks() {
+    TBoss6Thanks__sub_8035CB40();
+    ((TBoss6Thanks *)this)->destroy_effects();
 }
 
 u8 *TBoss6Thanks__ct(TBoss6Thanks *boss6_thanks, u8 *arg1) {

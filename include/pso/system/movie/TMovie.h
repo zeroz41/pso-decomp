@@ -43,10 +43,6 @@ typedef char TMovie_size[sizeof(TMovie) == 0x4C ? 1 : -1];
 
 u8 *initialize_movie_with_soundtrack(u8 *arg0, s8 *arg1, s32 arg2, s32 arg3, s32 arg4);
 
-extern "C" {
-void *__dt__6TMovieFv(TMovie *arg0, s16 arg1);
-}
-
 // Planes of one decoded movie frame, filled by the decoder callback that
 // TMovie::flip_frame_buffer() calls (inferred from pack_movie_frame's use:
 // three 8-bit planes Y, U, V and their pitches in bytes).

@@ -24,8 +24,6 @@
 struct RecoveredGlobal_80327698___vt__14TAdScrollWinGC { s32 value; u8 remaining[0x14]; };
 
 extern "C" {
-u8 * __dt__7TObjectFv(void *, s16);
-void __dl__7TObjectFPv(s32);
 extern RecoveredGlobal_80327698___vt__14TAdScrollWinGC __vt__14TAdScrollWinGC;
 extern u8 controller_physical_port_bank[];
 void __ct__7TObjectFP7TObject(void *, void *);
@@ -79,22 +77,14 @@ void *TAdScrollWinGC__ct(TAdScrollWinGC *ad_scroll_win_gc, void *arg1, s32 arg2,
 const char *TAdScrollWinGC__class_name = "TAdScrollWinGC";
 
 
-u8 *__dt__14TAdScrollWinGCFv(u8 *arg0, s16 arg1) {
+TAdScrollWinGC::~TAdScrollWinGC() {
     u8 *object;
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = &__vt__14TAdScrollWinGC.value;
-        object = (u8 *)(*(u8 **)((s8 *)arg0 + 0x40));
-        if (object != NULL) {
-            ((TObject *)object)->queue_destruction();
-            *(u8 **)((s8 *)arg0 + 0x40) = NULL;
-        }
-        fn_8026A14C();
-        __dt__7TObjectFv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv((s32) arg0);
-        }
+    object = (u8 *)(*(u8 **)((s8 *)this + 0x40));
+    if (object != NULL) {
+        ((TObject *)object)->queue_destruction();
+        *(u8 **)((s8 *)this + 0x40) = NULL;
     }
-    return arg0;
+    fn_8026A14C();
 }
 
 void TAdScrollWinGC::run_task() {

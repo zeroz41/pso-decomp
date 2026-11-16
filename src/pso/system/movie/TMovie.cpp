@@ -27,8 +27,6 @@ extern "C" {
 void fn_801449F0(void);
 
 s32 is_playback_finished__6TMovieFv(s32);
-s32 __dl__7TObjectFPv(void *);
-s32 __dt__7TObjectFv(void *, s32);
 u8 *__nw__7TObjectFUl(s32);
 void queue_destruction__7TObjectFv(void *arg0);
 s32 fn_80320358(u32, s32);
@@ -42,7 +40,6 @@ u8 *load_rel_module(u8 *arg0, s32 arg1);
 void func_803DCDFC__Fv(void);
 }
 
-extern void *__vt__6TMovie[];
 extern s8 controller_input_state[];
 extern s8 controller_physical_port_bank[];
 extern s32 video_initial_draw_framebuffer;
@@ -299,38 +296,30 @@ void TMovie__sub_80144324(MovieState *movie, const s8 *name) {
     lbl_805D6B28(&movie->frame_rate);
 }
 
-void *__dt__6TMovieFv(TMovie *movie, s16 arg1) {
+TMovie::~TMovie() {
     s32 (*temp_r12)(void *);
     u32 t;
 
-    if (movie != NULL) {
-        *(void **)((s8 *)movie + 0x18) = __vt__6TMovie;
-        movie->render_until_finished();
-        render_tick();
-        t = movie->m_20;
-        if (t != 0U) {
-            TMovie::close(t, 1);
-            movie->m_20 = 0U;
-        }
-        render_tick();
-        render_tick();
-        t = movie->m_1c;
-        if (t != 0U) {
-            fn_80320358(t, 1);
-            movie->m_1c = 0U;
-        }
-        render_tick();
-        temp_r12 = *(s32 (**)(void *))((s8 *)movie + 0x44);
-        if (temp_r12 != NULL) {
-            temp_r12(movie);
-        }
-        TLobby::set_pre_retrace_callback();
-        __dt__7TObjectFv(movie, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(movie);
-        }
+    this->render_until_finished();
+    render_tick();
+    t = this->m_20;
+    if (t != 0U) {
+        TMovie::close(t, 1);
+        this->m_20 = 0U;
     }
-    return movie;
+    render_tick();
+    render_tick();
+    t = this->m_1c;
+    if (t != 0U) {
+        fn_80320358(t, 1);
+        this->m_1c = 0U;
+    }
+    render_tick();
+    temp_r12 = *(s32 (**)(void *))((s8 *)this + 0x44);
+    if (temp_r12 != NULL) {
+        temp_r12(this);
+    }
+    TLobby::set_pre_retrace_callback();
 }
 
 void TMovie::render_until_finished() {

@@ -498,6 +498,9 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/player/TUnk_804A2548.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     # vtables come out TUnk_804A5D10 then TUnk_804A5D28: written last to first, deferred.
     "pso/weapon/TUnk_804A5D28.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
+    # __vt__18TWindowSubShortCut (804D19D8) comes out before the run_task jump
+    # table (804D19F0): written last to first, deferred.
+    "pso/ui/window/TWindowSubShortCut.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     # vtables come out KeyQuick, Key, Normal then TUnk_804B2578: written last to first, deferred.
     "pso/object/cave/TOHangceilingCave01.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     # vtables come out TUnk_804A6F78, F90, FA8 then FC0 (text order of their key functions): written last to

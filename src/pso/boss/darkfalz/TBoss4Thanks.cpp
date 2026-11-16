@@ -19,8 +19,6 @@
 struct RecoveredGlobal_8035C83C___vt__12TBoss4Thanks { s32 value; u8 remaining[0x14]; };
 typedef char RecoveredGlobal_8035C83C___vt__12TBoss4Thanks_size[sizeof(RecoveredGlobal_8035C83C___vt__12TBoss4Thanks) == 0x18 ? 1 : -1];
 
-struct RecoveredGlobal_8035C7D4___vt__12TBoss4Thanks { s32 value; u8 remaining[0x14]; };
-
 struct O_8035C480 { u8 pad[0x44]; s32 arr[4]; };
 
 struct E_8035C424 { void *p; };
@@ -55,9 +53,6 @@ s32 get_bml_model(void *, s32);
 void __ct__7TObjectFP7TObject(void *, void *);
 extern RecoveredGlobal_8035C83C___vt__12TBoss4Thanks __vt__12TBoss4Thanks;
 u8 *TBoss4Thanks__ct(u8 *arg0, u8 *arg1);
-u8 * __dt__7TObjectFv(void *, s16);
-void __dl__7TObjectFPv(s32);
-u8 *__dt__12TBoss4ThanksFv(u8 *arg0, s16 arg1);
 void TBoss4Thanks__sub_8035C480(s32 arg0);
 const char *TBoss4Thanks__class_name = "TBoss4Thanks";
 // Position of the emitters and of the proximity check (x, y, z).
@@ -225,17 +220,9 @@ void TBoss4Thanks::run_task() {
   }
 }
 
-u8 *__dt__12TBoss4ThanksFv(u8 *boss4_thanks, s16 arg1) {
-    if (boss4_thanks != NULL) {
-        *(s32 **)((s8 *)boss4_thanks + 0x18) = &(*(RecoveredGlobal_8035C7D4___vt__12TBoss4Thanks *)&__vt__12TBoss4Thanks).value;
-        TBoss4Thanks::dispatch_main_phase_153();
-        ((TBoss4Thanks *)boss4_thanks)->destroy_effects();
-        __dt__7TObjectFv(boss4_thanks, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv((s32) boss4_thanks);
-        }
-    }
-    return boss4_thanks;
+TBoss4Thanks::~TBoss4Thanks() {
+    TBoss4Thanks::dispatch_main_phase_153();
+    ((TBoss4Thanks *)this)->destroy_effects();
 }
 
 u8 *TBoss4Thanks__ct(u8 *object, u8 *arg1) {

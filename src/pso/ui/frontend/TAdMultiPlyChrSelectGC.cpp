@@ -7,8 +7,6 @@ struct RecoveredGlobal_802DFF0C___vt__22TAdMultiPlyChrSelectGC {
     u8 remaining[0x14];
 };
 
-struct RecoveredGlobal_802DFD9C___vt__22TAdMultiPlyChrSelectGC { s32 value; u8 remaining[0x14]; };
-
 struct O_802DFFE8 { u8 pad[0x4ac]; s32 tbl[4][3]; u8 pad2[0x4ec - 0x4ac - 0x30]; s32 idx; };
 
 struct O_802E0024 { u8 pad[0x4ac]; s32 tbl[4][3]; u8 pad2[0x4ec - 0x4ac - 0x30]; s32 idx; };
@@ -21,9 +19,6 @@ void __ct__7TObjectFP7TObject(void *, void *);
 extern RecoveredGlobal_802DFF0C___vt__22TAdMultiPlyChrSelectGC __vt__22TAdMultiPlyChrSelectGC;
 extern s32 lbl_805D3F68;
 u8 *TAdMultiPlyChrSelectGC__ct(TAdMultiPlyChrSelectGC *arg0, u8 *arg1, s32 arg2);
-void __dl__7TObjectFPv(s32);
-s32 __dt__7TObjectFv(void *, int);
-u8 *__dt__22TAdMultiPlyChrSelectGCFv(u8 *arg0, s16 arg1);
 extern s32 multi_ply_chr_select_active_player;
 s32 TAdMultiPlyChrSelectGC__sub_802DFFE8(O_802DFFE8 *self);
 void TAdMultiPlyChrSelectGC__sub_802E0024(O_802E0024 *self, s32 v);
@@ -111,7 +106,7 @@ void TAdMultiPlyChrSelectGC::initialize_selection_state(s32 arg1) {
 }
 #pragma pop
 
-u8 *__dt__22TAdMultiPlyChrSelectGCFv(u8 *arg0, s16 arg1) {
+TAdMultiPlyChrSelectGC::~TAdMultiPlyChrSelectGC() {
     u8 *global_state;
     u8 *temp_r3_10;
     u8 *temp_r3_11;
@@ -123,71 +118,63 @@ u8 *__dt__22TAdMultiPlyChrSelectGCFv(u8 *arg0, s16 arg1) {
     u8 *temp_r3_7;
     u8 *temp_r3_8;
     u8 *temp_r3_9;
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_802DFD9C___vt__22TAdMultiPlyChrSelectGC *)&__vt__22TAdMultiPlyChrSelectGC).value;
-        global_state = (u8 *)(TAdMultiPlyChrSelectGC::get_global_state());
-        if (global_state != NULL) {
-            queue_destruction__7TObjectFv(global_state);
-        }
-        temp_r3_2 = (u8 *)(*(u8 **)((s8 *)arg0 + 0x5C));
-        if (temp_r3_2 != NULL) {
-            queue_destruction__7TObjectFv(temp_r3_2);
-            *(u8 **)((s8 *)arg0 + 0x5C) = NULL;
-        }
-        temp_r3_3 = (u8 *)(*(u8 **)((s8 *)arg0 + 0x78));
-        if (temp_r3_3 != NULL) {
-            queue_destruction__7TObjectFv(temp_r3_3);
-            *(u8 **)((s8 *)arg0 + 0x78) = NULL;
-        }
-        temp_r3_4 = (u8 *)(*(u8 **)((s8 *)arg0 + 0x88));
-        if (temp_r3_4 != NULL) {
-            queue_destruction__7TObjectFv(temp_r3_4);
-            *(u8 **)((s8 *)arg0 + 0x88) = NULL;
-        }
-        temp_r3_5 = (u8 *)(*(u8 **)((s8 *)arg0 + 0x8C));
-        if (temp_r3_5 != NULL) {
-            queue_destruction__7TObjectFv(temp_r3_5);
-            *(u8 **)((s8 *)arg0 + 0x8C) = NULL;
-        }
-        temp_r3_6 = (u8 *)(*(u8 **)((s8 *)arg0 + 0x90));
-        if (temp_r3_6 != NULL) {
-            queue_destruction__7TObjectFv(temp_r3_6);
-            *(u8 **)((s8 *)arg0 + 0x90) = NULL;
-        }
-        temp_r3_7 = (u8 *)(*(u8 **)((s8 *)arg0 + 0x94));
-        if (temp_r3_7 != NULL) {
-            queue_destruction__7TObjectFv(temp_r3_7);
-            *(u8 **)((s8 *)arg0 + 0x94) = NULL;
-        }
-        temp_r3_8 = (u8 *)(*(u8 **)((s8 *)arg0 + 0x98));
-        if (temp_r3_8 != NULL) {
-            queue_destruction__7TObjectFv(temp_r3_8);
-            *(u8 **)((s8 *)arg0 + 0x98) = NULL;
-        }
-        temp_r3_9 = (u8 *)(*(u8 **)((s8 *)arg0 + 0x7C));
-        if (temp_r3_9 != NULL) {
-            queue_destruction__7TObjectFv(temp_r3_9);
-            *(u8 **)((s8 *)arg0 + 0x7C) = NULL;
-        }
-        temp_r3_10 = (u8 *)(*(u8 **)((s8 *)arg0 + 0x80));
-        if (temp_r3_10 != NULL) {
-            queue_destruction__7TObjectFv(temp_r3_10);
-            *(u8 **)((s8 *)arg0 + 0x80) = NULL;
-        }
-        temp_r3_11 = (u8 *)(*(u8 **)((s8 *)arg0 + 0x84));
-        if (temp_r3_11 != NULL) {
-            queue_destruction__7TObjectFv(temp_r3_11);
-            *(u8 **)((s8 *)arg0 + 0x84) = NULL;
-        }
-        if ((u32) (*(u32 *)&TAdMultiPlyChrSelectGC__instance) != 0U) {
-            (*(u32 *)&TAdMultiPlyChrSelectGC__instance) = 0U;
-        }
-        __dt__7TObjectFv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv((s32) arg0);
-        }
+    global_state = (u8 *)(TAdMultiPlyChrSelectGC::get_global_state());
+    if (global_state != NULL) {
+        queue_destruction__7TObjectFv(global_state);
     }
-    return arg0;
+    temp_r3_2 = (u8 *)(*(u8 **)((s8 *)this + 0x5C));
+    if (temp_r3_2 != NULL) {
+        queue_destruction__7TObjectFv(temp_r3_2);
+        *(u8 **)((s8 *)this + 0x5C) = NULL;
+    }
+    temp_r3_3 = (u8 *)(*(u8 **)((s8 *)this + 0x78));
+    if (temp_r3_3 != NULL) {
+        queue_destruction__7TObjectFv(temp_r3_3);
+        *(u8 **)((s8 *)this + 0x78) = NULL;
+    }
+    temp_r3_4 = (u8 *)(*(u8 **)((s8 *)this + 0x88));
+    if (temp_r3_4 != NULL) {
+        queue_destruction__7TObjectFv(temp_r3_4);
+        *(u8 **)((s8 *)this + 0x88) = NULL;
+    }
+    temp_r3_5 = (u8 *)(*(u8 **)((s8 *)this + 0x8C));
+    if (temp_r3_5 != NULL) {
+        queue_destruction__7TObjectFv(temp_r3_5);
+        *(u8 **)((s8 *)this + 0x8C) = NULL;
+    }
+    temp_r3_6 = (u8 *)(*(u8 **)((s8 *)this + 0x90));
+    if (temp_r3_6 != NULL) {
+        queue_destruction__7TObjectFv(temp_r3_6);
+        *(u8 **)((s8 *)this + 0x90) = NULL;
+    }
+    temp_r3_7 = (u8 *)(*(u8 **)((s8 *)this + 0x94));
+    if (temp_r3_7 != NULL) {
+        queue_destruction__7TObjectFv(temp_r3_7);
+        *(u8 **)((s8 *)this + 0x94) = NULL;
+    }
+    temp_r3_8 = (u8 *)(*(u8 **)((s8 *)this + 0x98));
+    if (temp_r3_8 != NULL) {
+        queue_destruction__7TObjectFv(temp_r3_8);
+        *(u8 **)((s8 *)this + 0x98) = NULL;
+    }
+    temp_r3_9 = (u8 *)(*(u8 **)((s8 *)this + 0x7C));
+    if (temp_r3_9 != NULL) {
+        queue_destruction__7TObjectFv(temp_r3_9);
+        *(u8 **)((s8 *)this + 0x7C) = NULL;
+    }
+    temp_r3_10 = (u8 *)(*(u8 **)((s8 *)this + 0x80));
+    if (temp_r3_10 != NULL) {
+        queue_destruction__7TObjectFv(temp_r3_10);
+        *(u8 **)((s8 *)this + 0x80) = NULL;
+    }
+    temp_r3_11 = (u8 *)(*(u8 **)((s8 *)this + 0x84));
+    if (temp_r3_11 != NULL) {
+        queue_destruction__7TObjectFv(temp_r3_11);
+        *(u8 **)((s8 *)this + 0x84) = NULL;
+    }
+    if ((u32) (*(u32 *)&TAdMultiPlyChrSelectGC__instance) != 0U) {
+        (*(u32 *)&TAdMultiPlyChrSelectGC__instance) = 0U;
+    }
 }
 
 u8 *TAdMultiPlyChrSelectGC__ct(TAdMultiPlyChrSelectGC *ad_multi_ply_chr_select_gc, u8 *arg1, s32 arg2) {

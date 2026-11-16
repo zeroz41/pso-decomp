@@ -13,7 +13,6 @@ struct TWindowShortCut;
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowSubComCardList.h"
 #include "pso/ui/window/TWindowMessageYesNo.h"
-
 #include "pso/ui/window/TWindowSubQuestBoardSelect.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/window/TWindowOptionCtrl.h"
@@ -54,58 +53,36 @@ void open_com_card_list__18TWindowSubShortCutFv(void *arg0);
 u32 *get_chat_shortcut();
 s32 align_menu_entry_positions(s32);
 s32 get_window_layout_position(s32 a0 = 0);
-void __dl__7TObjectFPv(void *);
-void __dt__7TObjectFv(void *, int);
 s32 draw_card_icon__17TWindowSubComCardFll(s32, s32, s32);
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
 s32 free_member__17TWindowSubComCardFv(s32, s32);
 
-int TWindowSubQuestBoardSelect::is_shortcut_active() { return this->m_60 & 0x4; }
-
-s32 TWindowSubShortCut::open_confirm_message() {
-    s32 temp_r29;
-
-    temp_r29 = create__19TWindowMessageYesNoFPvPvPvPv(this, this->m_20, 0, 0);
-    open_yes_no_prompt((TChCrTagPlBack *)((u8 *)temp_r29), (u32)(TWindowSubStatusDisp::get_message_10(0x20)), (s32)(TWindowSubStatusDisp::get_message_10(0x3e)), (s32)(get_window_layout_position(0x76)), 205.0f);
-    free_member__17TWindowSubComCardFv(temp_r29, 1);
-    ((TWindowSubShortMail *)temp_r29)->notify_warp_flag70();
-    return temp_r29;
 }
 
-s32 TWindowSubShortCut::open_confirm_prompt() {
-    Win_8027DBB8 *arg0 = (Win_8027DBB8 *)this;
-    s32 r = create__19TWindowMessageYesNoFPvPvPvPv(arg0, arg0->f20, 0, 0);
-    open_yes_no_prompt((TChCrTagPlBack *)((u8 *)r), (u32)(TWindowSubStatusDisp::get_message_10(0x20)), (s32)(TWindowSubStatusDisp::get_message_10(0x3D)), (s32)(get_window_layout_position(0x75)), 205.0f);
-    ((TWindowSubShortMail *)r)->notify_warp_flag70();
-    return r;
+const char *TWindowSubShortCut__class_name = "TWindowSubShortCut";
+
+void TWindowSubShortCut::set_flag1e_bit80() { this->m_1e |= 0x80; }
+
+TWindowSubShortCut::TWindowSubShortCut(TObject *object, void *arg2) : TObject(object) {
+    this->m_name = TWindowSubShortCut__class_name;
+    *(void **)((s8 *)this + 0x28) = object;
+    *(void **)((s8 *)this + 0x20) = arg2;
+    this->m_2c = 0;
+    this->m_30 = 0;
+    this->m_34 = 0;
+    this->m_38 = 0;
+    this->m_3c = 0;
+    this->m_24 = 0;
+    this->m_1c = 0;
 }
 
-s32 TWindowSubShortCut::open_menu() {
-    s32 temp_r31;
-    u32 *chat_shortcut;
-
-    ((TWindowMenuIconLine *)this->m_2c)->get_cursor_value();
-    chat_shortcut = get_chat_shortcut();
-    temp_r31 = draw_card_icon__17TWindowSubComCardFll(get_window_layout_position(0x74), 2, get_message_10__20TWindowSubStatusDispFl(0x2C));
-    forward_trade_action_default__16TObjCityMainWarpFPviii((void *)temp_r31, (int)(TWindowSubStatusDisp::get_message_10(0x7E)), 6, 5);
-    if ((u32) *chat_shortcut != 0U) {
-        forward_trade_action_default__16TObjCityMainWarpFPviii((void *)temp_r31, (int)(TWindowSubStatusDisp::get_message_10(0x5A)), 6, 9);
-    } else {
-        TWindowSubComCard::draw_text_gray(temp_r31, get_message_10__20TWindowSubStatusDispFl(0x5A), 6, 9);
-    }
-    ((TWindowSubComCardList *)temp_r31)->set_flag70_bit10();
-    ((TWindowSubComCardList *)temp_r31)->update_layout_height(205.0f);
-    align_menu_entry_positions(temp_r31);
-    return temp_r31;
+TWindowSubShortCut::~TWindowSubShortCut() {
+    if (*(void **)((s8 *)this + 0x38) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0x38)))->queue_destruction(); this->m_38 = 0; }
+    if (*(void **)((s8 *)this + 0x34) != NULL) { ((TWindowSubComCard *)(*(void **)((s8 *)this + 0x34)))->close(); this->m_34 = 0; }
+    if (*(void **)((s8 *)this + 0x3C) != NULL) { ((TWindowBase *)(*(void **)((s8 *)this + 0x3C)))->close(); this->m_3c = 0; }
+    if (*(void **)((s8 *)this + 0x30) != NULL) { ((TWindowBase *)(*(void **)((s8 *)this + 0x30)))->close(); this->m_30 = 0; }
+    if (*(void **)((s8 *)this + 0x2C) != NULL) { ((TWindowBase *)(*(void **)((s8 *)this + 0x2C)))->close(); this->m_2c = 0; }
 }
-
-void TWindowSubShortCut::open_com_card_list() {
-    s32 tmp = get_window_layout_position(0x72);
-    ((TWindowSubShortCutList *)tmp)->create((void *)this->m_24);
-}
-void TWindowSubShortCut::render() {  }
-
-extern s32 __vt__18TWindowSubShortCut[];
 
 void TWindowSubShortCut::run_task() {
     u8 *arg0 = (u8 *)this;
@@ -252,35 +229,48 @@ void TWindowSubShortCut::run_task() {
     }
 }
 
-void *__dt__18TWindowSubShortCutFv(TWindowSubShortCut *window_sub_short_cut, s16 arg1) {
-    if (window_sub_short_cut != NULL) {
-        *(s32 **)((s8 *)window_sub_short_cut + 0x18) = __vt__18TWindowSubShortCut;
-        if (*(void **)((s8 *)window_sub_short_cut + 0x38) != NULL) { ((TObject *)(*(void **)((s8 *)window_sub_short_cut + 0x38)))->queue_destruction(); window_sub_short_cut->m_38 = 0; }
-        if (*(void **)((s8 *)window_sub_short_cut + 0x34) != NULL) { ((TWindowSubComCard *)(*(void **)((s8 *)window_sub_short_cut + 0x34)))->close(); window_sub_short_cut->m_34 = 0; }
-        if (*(void **)((s8 *)window_sub_short_cut + 0x3C) != NULL) { ((TWindowBase *)(*(void **)((s8 *)window_sub_short_cut + 0x3C)))->close(); window_sub_short_cut->m_3c = 0; }
-        if (*(void **)((s8 *)window_sub_short_cut + 0x30) != NULL) { ((TWindowBase *)(*(void **)((s8 *)window_sub_short_cut + 0x30)))->close(); window_sub_short_cut->m_30 = 0; }
-        if (*(void **)((s8 *)window_sub_short_cut + 0x2C) != NULL) { ((TWindowBase *)(*(void **)((s8 *)window_sub_short_cut + 0x2C)))->close(); window_sub_short_cut->m_2c = 0; }
-        __dt__7TObjectFv(window_sub_short_cut, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(window_sub_short_cut);
-        }
+void TWindowSubShortCut::render() {  }
+
+void TWindowSubShortCut::open_com_card_list() {
+    s32 tmp = get_window_layout_position(0x72);
+    ((TWindowSubShortCutList *)tmp)->create((void *)this->m_24);
+}
+
+s32 TWindowSubShortCut::open_menu() {
+    s32 temp_r31;
+    u32 *chat_shortcut;
+
+    ((TWindowMenuIconLine *)this->m_2c)->get_cursor_value();
+    chat_shortcut = get_chat_shortcut();
+    temp_r31 = draw_card_icon__17TWindowSubComCardFll(get_window_layout_position(0x74), 2, get_message_10__20TWindowSubStatusDispFl(0x2C));
+    forward_trade_action_default__16TObjCityMainWarpFPviii((void *)temp_r31, (int)(TWindowSubStatusDisp::get_message_10(0x7E)), 6, 5);
+    if ((u32) *chat_shortcut != 0U) {
+        forward_trade_action_default__16TObjCityMainWarpFPviii((void *)temp_r31, (int)(TWindowSubStatusDisp::get_message_10(0x5A)), 6, 9);
+    } else {
+        TWindowSubComCard::draw_text_gray(temp_r31, get_message_10__20TWindowSubStatusDispFl(0x5A), 6, 9);
     }
-    return window_sub_short_cut;
-}
-}
-
-const char *TWindowSubShortCut__class_name = "TWindowSubShortCut";
-TWindowSubShortCut::TWindowSubShortCut(TObject *object, void *arg2) : TObject(object) {
-    this->m_name = TWindowSubShortCut__class_name;
-    *(void **)((s8 *)this + 0x28) = object;
-    *(void **)((s8 *)this + 0x20) = arg2;
-    this->m_2c = 0;
-    this->m_30 = 0;
-    this->m_34 = 0;
-    this->m_38 = 0;
-    this->m_3c = 0;
-    this->m_24 = 0;
-    this->m_1c = 0;
+    ((TWindowSubComCardList *)temp_r31)->set_flag70_bit10();
+    ((TWindowSubComCardList *)temp_r31)->update_layout_height(205.0f);
+    align_menu_entry_positions(temp_r31);
+    return temp_r31;
 }
 
-void TWindowSubShortCut::set_flag1e_bit80() { this->m_1e |= 0x80; }
+s32 TWindowSubShortCut::open_confirm_prompt() {
+    Win_8027DBB8 *arg0 = (Win_8027DBB8 *)this;
+    s32 r = create__19TWindowMessageYesNoFPvPvPvPv(arg0, arg0->f20, 0, 0);
+    open_yes_no_prompt((TChCrTagPlBack *)((u8 *)r), (u32)(TWindowSubStatusDisp::get_message_10(0x20)), (s32)(TWindowSubStatusDisp::get_message_10(0x3D)), (s32)(get_window_layout_position(0x75)), 205.0f);
+    ((TWindowSubShortMail *)r)->notify_warp_flag70();
+    return r;
+}
+
+s32 TWindowSubShortCut::open_confirm_message() {
+    s32 temp_r29;
+
+    temp_r29 = create__19TWindowMessageYesNoFPvPvPvPv(this, this->m_20, 0, 0);
+    open_yes_no_prompt((TChCrTagPlBack *)((u8 *)temp_r29), (u32)(TWindowSubStatusDisp::get_message_10(0x20)), (s32)(TWindowSubStatusDisp::get_message_10(0x3e)), (s32)(get_window_layout_position(0x76)), 205.0f);
+    free_member__17TWindowSubComCardFv(temp_r29, 1);
+    ((TWindowSubShortMail *)temp_r29)->notify_warp_flag70();
+    return temp_r29;
+}
+
+int TWindowSubQuestBoardSelect::is_shortcut_active() { return this->m_60 & 0x4; }

@@ -136,6 +136,7 @@ pso/ui/frontend/TAdSinglePlyChrSelectGC_8001C5E8.cpp:
 pso/system/TLoadCtrl.cpp:
 	.text       start:0x8001C5F8 end:0x8001CAD4
 	.rodata     start:0x804349C0 end:0x804349F0
+	.data       start:0x80480C68 end:0x80480C80
 	.sdata      start:0x805D2630 end:0x805D2638
 	.sbss       start:0x805D4A80 end:0x805D4A90
 
@@ -1062,6 +1063,7 @@ pso/player/TPlyGuildCardTag_80077BBC.cpp:
 pso/camera/TCineCtrl.cpp:
 	.text       start:0x80077BC0 end:0x80078064
 	.rodata     start:0x80438868 end:0x80438878
+	.data       start:0x8048D360 end:0x8048D378
 	.sdata      start:0x805D28A8 end:0x805D28B0
 	.sbss       start:0x805D4E60 end:0x805D4E64
 	.sdata2     start:0x805D91D0 end:0x805D91F0
@@ -3438,6 +3440,7 @@ pso/system/movie/TMovie_80143988.cpp:
 pso/system/movie/TMovie.cpp:
 	.text       start:0x80143D9C end:0x801449FC
 	.rodata     start:0x8043F2E0 end:0x8043F390
+	.data       start:0x804A74D0 end:0x804A74E8
 	.sdata      start:0x805D2CF0 end:0x805D2CF8
 	.sdata2     start:0x805DB178 end:0x805DB18C
 
@@ -7795,7 +7798,7 @@ pso/ui/window/TWindowSubQuestBoardSelect.cpp:
 pso/ui/window/TWindowSubShortCut.cpp:
 	.text       start:0x8027DB20 end:0x8027E278
 	.rodata     start:0x8044FA78 end:0x8044FA90
-	.data       start:0x804D19F0 end:0x804D1A20
+	.data       start:0x804D19D8 end:0x804D1A20
 	.sdata      start:0x805D3A88 end:0x805D3A90
 	.sdata2     start:0x805DD6C0 end:0x805DD6C4
 
@@ -8052,7 +8055,7 @@ pso/ui/frontend/TAdSinglePlyChrSelectGC_8028C8E0.cpp:
 pso/ui/charcreate/TChCrLoadReq.cpp:
 	.text       start:0x8028D088 end:0x8028D5D4
 	.rodata     start:0x80450D60 end:0x80450D70
-	.data       start:0x804D3740 end:0x804D3820
+	.data       start:0x804D3740 end:0x804D3838
 	.sdata      start:0x805D3B60 end:0x805D3B68
 	.sbss       start:0x805D64F0 end:0x805D6518
 
@@ -9098,6 +9101,7 @@ pso/ui/frontend/TAdMultiPlyChrSelectGC_802DEF54.cpp:
 
 pso/ui/frontend/TAdMultiPlyChrSelectGC.cpp:
 	.text       start:0x802DFC0C end:0x802E0064
+	.data       start:0x804E2F38 end:0x804E2F50
 
 pso/ui/frontend/TAdMultiPlyChrSelectGC_802E0064.cpp:
 	.text       start:0x802E0064 end:0x802E0110
@@ -9859,6 +9863,7 @@ pso/weapon/TUnk_804ED488.cpp:
 pso/ui/frontend/TAdScrollWinGC.cpp:
 	.text       start:0x80327390 end:0x80327844
 	.rodata     start:0x80476770 end:0x80476798
+	.data       start:0x804ED580 end:0x804ED598
 	.sdata      start:0x805D41A8 end:0x805D41AC
 	.sbss       start:0x805D6C68 end:0x805D6C6C
 	.sdata2     start:0x805DF698 end:0x805DF6C4
@@ -10798,6 +10803,7 @@ pso/boss/goldragon/TObjBoss8PillerCtrl.cpp:
 pso/boss/darkfalz/TBoss4Thanks.cpp:
 	.text       start:0x8035C2B4 end:0x8035C8F0
 	.rodata     start:0x80479B30 end:0x80479B98
+	.data       start:0x804F1E98 end:0x804F1EB0
 	.sdata      start:0x805D4438 end:0x805D4440
 	.sdata2     start:0x805E0180 end:0x805E0198
 
@@ -10810,6 +10816,7 @@ pso/unk/text_8035C9E8.cpp:
 pso/boss/olgaflow/TBoss6Thanks.cpp:
 	.text       start:0x8035CAE0 end:0x8035D1F4
 	.rodata     start:0x80479B98 end:0x80479C18
+	.data       start:0x804F1EB0 end:0x804F1EC8
 	.sdata      start:0x805D4440 end:0x805D4444
 	.sdata2     start:0x805E0198 end:0x805E01B8
 
