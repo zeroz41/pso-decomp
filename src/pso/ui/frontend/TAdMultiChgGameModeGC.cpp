@@ -1,4 +1,5 @@
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
+#include "pso/system/ControllerInputState.h"
 #include "pso/ui/frontend/TAdDrawLineCtrl.h"
 #include "pso/unk/TLobby_80132ED0.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801334D4.h"
@@ -8,12 +9,6 @@
 #include "pso/unk/TLobby.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-
-struct RecoveredGlobal_802FFCE4_lbl_8050E208
-{
-  s32 value;
-  u8 remaining[0x1AC];
-};
 
 struct RecoveredFields_802FFCE4_arg0
 {
@@ -46,7 +41,6 @@ struct Obj_802FFE58 {
 extern "C" {
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
 s32 TWindowShortListCtrl__check_controller_button(void *, int);
-extern RecoveredGlobal_802FFCE4_lbl_8050E208 controller_input_state;
 s32 lbl_805D69E8;
 void *__nw__7TObjectFUl(u32);
 void __ct__7TObjectFP7TObject(void *);
@@ -88,7 +82,6 @@ loop_1:
     goto loop_1;
 }
 typedef struct RecoveredFields_802FFCE4_arg0 RecoveredFields_802FFCE4_arg0;
-typedef struct RecoveredGlobal_802FFCE4_lbl_8050E208 RecoveredGlobal_802FFCE4_lbl_8050E208;
 void TAdMultiChgGameModeGC::run_task() {
     RecoveredFields_802FFCE4_arg0 *arg0 = (RecoveredFields_802FFCE4_arg0 *)this;
   s32 *new_var;
@@ -101,7 +94,7 @@ void TAdMultiChgGameModeGC::run_task() {
   {
     ((TAdMultiPlyChrSelectGC *)((int) arg0->field_28))->set_entry_value(0, (int) get_localized_text_entry(0x21, arg0->field_20));
   }
-  if ((TWindowShortListCtrl__check_controller_button((void *) (((u8 *)&controller_input_state.value) + 0x20), 2) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) (((u8 *)&controller_input_state.value) + 0x160), 2) != 0))
+  if ((TWindowShortListCtrl__check_controller_button((void *) ((u8 *)&controller_input_state + 0x20), 2) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) ((u8 *)&controller_input_state + 0x160), 2) != 0))
   {
     TAdMultiChgGameModeGC::request_scene_change();
   }

@@ -61,11 +61,6 @@ struct VObj_8021AABC_8021A394 : Base_8021AABC_8021A394 {
     virtual s32 m8();
 };
 
-struct RecoveredGlobal_8021B1CC___vt__20TShopArmorListWindow {
-    s32 value;
-    u8 remaining[0x2C];
-};
-
 struct Rec_8021AD24 { u8 kind; u8 sub; u8 pad[0xe]; s32 price; };
 
 struct Win_8021AD24 {
@@ -590,7 +585,6 @@ void *__dt__20TShopArmorListWindowFv(TShopArmorListWindow *arg0, s16 arg1) {
     }
     return arg0;
 }
-typedef char RecoveredGlobal_8021B1CC___vt__20TShopArmorListWindow_size[sizeof(RecoveredGlobal_8021B1CC___vt__20TShopArmorListWindow) == 0x30 ? 1 : -1];
 }
 TShopArmorListWindow::TShopArmorListWindow(s32 parent, s32 arg2, s32 arg3) : TShopWindowBase((TObject *)parent) {
     s32 sp8;

@@ -32,4 +32,8 @@ void randomize_adventure_maps(void);
 }
 // --- end of C functions
 
+// floor_map_registry: layout known from its uses only.
+struct FloorMapRegistry { s32 value; u8 remaining[0xD4]; };
+extern FloorMapRegistry floor_map_registry;
+
 #endif

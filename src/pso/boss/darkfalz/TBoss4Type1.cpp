@@ -49,10 +49,6 @@ void translate_matrix_vec3(int, void *);
 void set_matrix_identity(int);
 int rotate_matrix_y(void *, void *);
 int push_matrix(void);
-struct RecoveredGlobal_80052C58_lbl_80486218 {
-    s32 value;
-    u8 remaining[0x8];
-};
 
 typedef struct Params_80052CDC {
     s32 owner;
@@ -90,8 +86,6 @@ struct Ent_8005294C { u8 b[0xC]; };
 struct Obj_8005294C { u8 pad[0x484]; Ent_8005294C ents[1]; };
 
 typedef struct { char pad[0x444]; struct { char b[0x18]; } arr[1]; } Foo;
-
-typedef char RecoveredGlobal_80052C58_lbl_80486218_size[sizeof(RecoveredGlobal_80052C58_lbl_80486218) == 0xC ? 1 : -1];
 
 typedef struct Obj_80053440 {
     u8 pad0[0x38];
@@ -158,11 +152,6 @@ struct Obj_80053E40 {
     s32 count;
 };
 
-struct RecoveredGlobal_80054530_lbl_80485EC8 {
-    s32 value;
-    u8 remaining[0x1DC];
-};
-
 struct S_80054224 { u8 pad0[0x38]; Vec pos; u8 pad44[0x39c - 0x44]; f32 f39c; };
 
 struct Boss_800542B0 {
@@ -182,22 +171,6 @@ struct Entry_800542B0 {
     void (TBoss4Type2::*update_idle)();
     void (TBoss4Type2::*update)();
 };
-
-struct RecoveredGlobal_8005455C_lbl_80485EC8 {
-    s32 value;
-    u8 remaining[0x1DC];
-};
-
-typedef char RecoveredGlobal_80054530_lbl_80485EC8_size[sizeof(RecoveredGlobal_80054530_lbl_80485EC8) == 0x1E0 ? 1 : -1];
-
-typedef char RecoveredGlobal_8005455C_lbl_80485EC8_size[sizeof(RecoveredGlobal_8005455C_lbl_80485EC8) == 0x1E0 ? 1 : -1];
-
-struct RecoveredGlobal_80054F6C_lbl_804FF2A0 {
-    s32 value;
-    u8 remaining[0x2FC];
-};
-
-typedef char RecoveredGlobal_80054F6C_lbl_804FF2A0_size[sizeof(RecoveredGlobal_80054F6C_lbl_804FF2A0) == 0x300 ? 1 : -1];
 
 struct O_80052EF8 {
     u8 pad0[0x38];
@@ -263,7 +236,7 @@ f32 xyz_distance(Vec *, Vec *);
 void draw_model_motion(void *arg0, void *arg1, f32 farg0);
 
 extern u8 TBoss4DarkFalz__data_804FF1E8[];
-RecoveredGlobal_80054F6C_lbl_804FF2A0 TBoss4Type2__tenchu_furu_array;
+TBoss4Type2TenchuFuruArray TBoss4Type2__tenchu_furu_array;
 extern s32 registered_player_count;
 struct Cam_800531C8 { u8 pad[0x178]; Vec pos; };
 extern Cam_800531C8 *camera_ctrl_instance;
@@ -390,13 +363,11 @@ void *boss4_type2_state_motion_index_table[3] = {
 };
 #define lbl_80485AE0 ((u8 *)lbl_80485AE0)
 #define lbl_80485EB0 ((s32 *)lbl_80485EB0)
-#define boss4_type1_motion_states (*(RecoveredGlobal_80054530_lbl_80485EC8 *)boss4_type1_motion_states)
 #define player_collider_radius_table ((f32 *)player_collider_radius_table)
 #define boss4_type1_xz_offset_table ((XZ_80053E40 *)boss4_type1_xz_offset_table)
 #define lbl_8048615C ((u8 * *)lbl_8048615C)
 #define boss4_type1_vec_table ((Vec *)boss4_type1_vec_table)
 #define boss4_type2_motion_vec_table ((Vec *)boss4_type2_motion_vec_table)
-#define boss4_type2_state_motion_index_table (*(RecoveredGlobal_80052C58_lbl_80486218 *)boss4_type2_state_motion_index_table)
 }
 
 
@@ -754,8 +725,8 @@ void TBoss4Type1::update_boss4_phase_timer() {
         break;
     case 2:
         if (*(f32 *)((s8 *)((u8 *)this) + 0x3E8) >= 29.0f) {
-            *(s32 *)((s8 *)((u8 *)this) + 0x3E4) = (s32) *(s32 *)((s8 *)((u8 *)&boss4_type1_motion_states.value + (*(s32 *)((s8 *)((u8 *)this) + 0x3E4) << 5)) + 4);
-            *(s32 *)((s8 *)((u8 *)this) + 0x3F0) = (s32) *(s32 *)((s8 *)&boss4_type1_motion_states.value + (*(s32 *)((s8 *)((u8 *)this) + 0x3E4) << 5));
+            *(s32 *)((s8 *)((u8 *)this) + 0x3E4) = (s32) *(s32 *)((s8 *)((u8 *)&boss4_type1_motion_states + (*(s32 *)((s8 *)((u8 *)this) + 0x3E4) << 5)) + 4);
+            *(s32 *)((s8 *)((u8 *)this) + 0x3F0) = (s32) *(s32 *)((s8 *)&boss4_type1_motion_states + (*(s32 *)((s8 *)((u8 *)this) + 0x3E4) << 5));
             *(f32 *)((s8 *)((u8 *)this) + 0x3E8) = (f32) 0.0f;
             *(s32 *)((s8 *)((u8 *)this) + 0x3F4) = 1;
         }
@@ -773,7 +744,7 @@ void TBoss4Type2::set_motion_index(s32 arg1) {
     if (arg1 != -1) {
         *(s32 *)((s8 *)arg0 + 0x3E4) = arg1;
         *(f32 *)((s8 *)arg0 + 0x3E8) = (f32) 0.0f;
-        *(s32 *)((s8 *)arg0 + 0x3F0) = (s32) *(s32 *)((s8 *)((u8 *)&boss4_type1_motion_states.value + (arg1 << 5)) + 0);
+        *(s32 *)((s8 *)arg0 + 0x3F0) = (s32) *(s32 *)((s8 *)((u8 *)&boss4_type1_motion_states + (arg1 << 5)) + 0);
     }
 }
 
@@ -796,17 +767,17 @@ void TBoss4Type1::draw_parts() {
             off = (i - 2) * 4 + 0x42C;
             ((TObjFish *)(*(s32 *)(arg0 + off)))->set_draw_callback_list();
             a = get_bml_model((BmlResource *)(*(s32 *)((s8 *)arg0 + 0x390)), lbl_80485EB0[i]);
-            draw_model_motion((void *)a, (void *)(get_bml_motion(*(s32 *)((s8 *)arg0 + 0x390), *(s32 *)((s8 *)((u8 *)&boss4_type1_motion_states.value + (*(s32 *)((s8 *)arg0 + 0x3E4) << 5) + i * 4) + 8))), *(f32 *)((s8 *)arg0 + 0x3E8));
+            draw_model_motion((void *)a, (void *)(get_bml_motion(*(s32 *)((s8 *)arg0 + 0x390), *(s32 *)((s8 *)((u8 *)&boss4_type1_motion_states + (*(s32 *)((s8 *)arg0 + 0x3E4) << 5) + i * 4) + 8))), *(f32 *)((s8 *)arg0 + 0x3E8));
             ((TObjFish *)(*(s32 *)(arg0 + off)))->clear_render_callback();
             TBoss6PlotFalz::update_camera_target();
             break;
         case 5:
             ((TObjFish *)(*(s32 *)((s8 *)arg0 + 0x480)))->set_draw_callback_list();
-            draw_model_motion((void *)(get_bml_model((BmlResource *)(*(s32 *)((s8 *)arg0 + 0x390)), lbl_80485EB0[i])), (void *)(get_bml_motion(*(s32 *)((s8 *)arg0 + 0x390), *(s32 *)((s8 *)((u8 *)&boss4_type1_motion_states.value + (*(s32 *)((s8 *)arg0 + 0x3E4) << 5) + i * 4) + 8))), *(f32 *)((s8 *)arg0 + 0x3E8));
+            draw_model_motion((void *)(get_bml_model((BmlResource *)(*(s32 *)((s8 *)arg0 + 0x390)), lbl_80485EB0[i])), (void *)(get_bml_motion(*(s32 *)((s8 *)arg0 + 0x390), *(s32 *)((s8 *)((u8 *)&boss4_type1_motion_states + (*(s32 *)((s8 *)arg0 + 0x3E4) << 5) + i * 4) + 8))), *(f32 *)((s8 *)arg0 + 0x3E8));
             ((TObjFish *)(*(s32 *)((s8 *)arg0 + 0x480)))->clear_render_callback();
             break;
         default:
-            draw_model_motion((void *)(get_bml_model((BmlResource *)(*(s32 *)((s8 *)arg0 + 0x390)), lbl_80485EB0[i])), (void *)(get_bml_motion(*(s32 *)((s8 *)arg0 + 0x390), *(s32 *)((s8 *)((u8 *)&boss4_type1_motion_states.value + (*(s32 *)((s8 *)arg0 + 0x3E4) << 5) + i * 4) + 8))), *(f32 *)((s8 *)arg0 + 0x3E8));
+            draw_model_motion((void *)(get_bml_model((BmlResource *)(*(s32 *)((s8 *)arg0 + 0x390)), lbl_80485EB0[i])), (void *)(get_bml_motion(*(s32 *)((s8 *)arg0 + 0x390), *(s32 *)((s8 *)((u8 *)&boss4_type1_motion_states + (*(s32 *)((s8 *)arg0 + 0x3E4) << 5) + i * 4) + 8))), *(f32 *)((s8 *)arg0 + 0x3E8));
             break;
         }
     }
@@ -1367,7 +1338,7 @@ void TBoss4Type2::tick_countdown_set_state7() {
 }
 
 void TBoss4Type2::set_motion_for_state() {
-    set_motion_index(*(s32 *)((s8 *)&boss4_type2_state_motion_index_table.value + (*(s32 *)((s8 *)this + 0x3A8) * 4)));
+    set_motion_index(*(s32 *)((s8 *)&boss4_type2_state_motion_index_table + (*(s32 *)((s8 *)this + 0x3A8) * 4)));
     *(s32 *)((s8 *)this + 0x398) = 0x3C;
 }
 

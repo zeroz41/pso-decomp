@@ -56,16 +56,6 @@ struct O_8032FFC0 {
     f32 f3ec;
 };
 
-struct RecoveredGlobal_803300C8_lbl_804EDD94 {
-    s32 value;
-    u8 remaining[0x4C];
-};
-
-struct RecoveredGlobal_8032FF24_lbl_804EDD94 {
-    s32 value;
-    u8 remaining[0x4C];
-};
-
 struct RecoveredFields_8032F174_arg0
 {
   u8 unknown_0[0x3C];
@@ -85,11 +75,6 @@ struct RecoveredFields_8032F174_arg0
 
 #include "pso/ui/hud/TNowLoading.h"
 union MemberActionStorage_803301B8 { s32 words[3]; void (TBoss6Type2::*action)(); };
-
-struct RecoveredGlobal_803301B8_lbl_804EF028 {
-    s32 value;
-    u8 remaining[0xD4];
-};
 
 struct T_8032E748 { u8 pad[0x380]; s32 phase; };
 
@@ -1020,7 +1005,6 @@ void TBoss6Mag::draw_model_motion_blend() {
 
 #pragma push
 #pragma opt_common_subs off
-typedef char RecoveredGlobal_8032FF24_lbl_804EDD94_size[sizeof(RecoveredGlobal_8032FF24_lbl_804EDD94) == 0x50 ? 1 : -1];
 void TBoss6Mag::change_motion(s32 arg1) {
     u8 *arg0 = (u8 *)this;
     s32 temp_r31;
@@ -1028,12 +1012,12 @@ void TBoss6Mag::change_motion(s32 arg1) {
     if ((arg1 != -1) && (arg1 != (s32) *(s32 *)((s8 *)arg0 + 0x3D4))) {
         *(s32 *)((s8 *)arg0 + 0x3D4) = arg1;
         temp_r31 = arg1 * 0x10;
-        *(s32 *)((s8 *)arg0 + 0x3D8) = (s32) *(s32 *)((s8 *)((u8 *)(&(*(RecoveredGlobal_8032FF24_lbl_804EDD94 *)&boss6_type2_motion_table).value) + temp_r31) + 0);
-        bml_motion = get_bml_motion((int) (*(s32 *)((s8 *)arg0 + 0x374)), (int) (*(s32 *)((s8 *)((u8 *)(&(*(RecoveredGlobal_8032FF24_lbl_804EDD94 *)&boss6_type2_motion_table).value) + temp_r31) + 8)));
+        *(s32 *)((s8 *)arg0 + 0x3D8) = (s32) *(s32 *)((s8 *)((u8 *)&boss6_type2_motion_table + temp_r31) + 0);
+        bml_motion = get_bml_motion((int) (*(s32 *)((s8 *)arg0 + 0x374)), (int) (*(s32 *)((s8 *)((u8 *)&boss6_type2_motion_table + temp_r31) + 8)));
         *(f32 *)((s8 *)arg0 + 0x3E8) = (f32) *(f32 *)((s8 *)arg0 + 0x3EC);
         *(s32 *)((s8 *)arg0 + 0x3F0) = (s32) *(s32 *)((s8 *)arg0 + 0x3DC);
         *(f32 *)((s8 *)arg0 + 0x3F4) = (f32) *(f32 *)((s8 *)arg0 + 0x3E0);
-        *(f32 *)((s8 *)arg0 + 0x3E4) = (f32) *(f32 *)((s8 *)((u8 *)(&(*(RecoveredGlobal_8032FF24_lbl_804EDD94 *)&boss6_type2_motion_table).value) + temp_r31) + 0xC);
+        *(f32 *)((s8 *)arg0 + 0x3E4) = (f32) *(f32 *)((s8 *)((u8 *)&boss6_type2_motion_table + temp_r31) + 0xC);
         *(s32 *)((s8 *)arg0 + 0x3DC) = bml_motion;
         *(f32 *)((s8 *)arg0 + 0x3E0) = 0.0f;
     }
@@ -1073,15 +1057,14 @@ void TBoss6Type2__sub_803300C8(u8 *arg0) {
     s32 bml_motion;
     copy_vec3__11TBoss6Type2Fii((s32)(arg0 + 0x3D4), (s32)&boss6_type2_zero_vec3_block.value);
     ((TBoss6Type2 *)(arg0 + 0x3DC))->copy_state((void*)&boss6_type2_initial_state.value);
-    bml_motion = get_bml_motion((int) (*(s32 *)((s8 *)arg0 + 0x374)), (int) (*(s32 *)((s8 *)(&(*(RecoveredGlobal_803300C8_lbl_804EDD94 *)boss6_type2_motion_table).value) + 8)));
+    bml_motion = get_bml_motion((int) (*(s32 *)((s8 *)arg0 + 0x374)), (int) (*(s32 *)((s8 *)&boss6_type2_motion_table + 8)));
     *(s32 *)((s8 *)arg0 + 0x3F0) = bml_motion;
     *(s32 *)((s8 *)arg0 + 0x3DC) = bml_motion;
-    *(f32 *)((s8 *)arg0 + 0x3E4) = (f32) *(f32 *)((s8 *)(&(*(RecoveredGlobal_803300C8_lbl_804EDD94 *)boss6_type2_motion_table).value) + 0xC);
+    *(f32 *)((s8 *)arg0 + 0x3E4) = (f32) *(f32 *)((s8 *)&boss6_type2_motion_table + 0xC);
 }
 void TBoss6Type2::copy_state(void* q) { *(u32*)((char*)this + 0x0) = *(u32*)((char*)q + 0x0); *(f32*)((char*)this + 0x4) = *(f32*)((char*)q + 0x4); *(f32*)((char*)this + 0x8) = *(f32*)((char*)q + 0x8); *(f32*)((char*)this + 0xc) = *(f32*)((char*)q + 0xc); *(f32*)((char*)this + 0x10) = *(f32*)((char*)q + 0x10); *(u32*)((char*)this + 0x14) = *(u32*)((char*)q + 0x14); *(f32*)((char*)this + 0x18) = *(f32*)((char*)q + 0x18); }
 
 typedef char MemberActionStorage_803301B8_size[sizeof(MemberActionStorage_803301B8) == 12 ? 1 : -1];
-typedef char RecoveredGlobal_803301B8_lbl_804EF028_size[sizeof(RecoveredGlobal_803301B8_lbl_804EF028) == 0xD8 ? 1 : -1];
 
 int copy_vec3__11TBoss6Type2Fii(s32 _w0, s32 _w1) {
     S_80330178 *d = (S_80330178 *)_w0;
@@ -1109,7 +1092,6 @@ void TBoss6Mag::set_action(s32 arg1) {
 
 typedef char RecoveredGlobal_803300C8_lbl_80477404_size[sizeof(RecoveredGlobal_803300C8_lbl_80477404) == 0x24 ? 1 : -1];
 typedef char RecoveredGlobal_803300C8_lbl_80477428_size[sizeof(RecoveredGlobal_803300C8_lbl_80477428) == 0x1C ? 1 : -1];
-typedef char RecoveredGlobal_803300C8_lbl_804EDD94_size[sizeof(RecoveredGlobal_803300C8_lbl_804EDD94) == 0x50 ? 1 : -1];
 
 f32 receive_direct_attack__9TObjCharaFPv19DirectAttackPayloadPvll(void *, void *, P_80330240, void *, void *, void *);
 s32 query_teammate_state__9TObjEneDDFv();

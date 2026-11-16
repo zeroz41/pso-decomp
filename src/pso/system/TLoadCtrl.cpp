@@ -25,11 +25,6 @@ struct VObj_8001C8B8_8001C61C : Base_8001C8B8_8001C61C {
     virtual void m0(s32);
 };
 
-struct RecoveredGlobal_8001C828___vt__9TLoadCtrl {
-    s32 value;
-    u8 remaining[0x14];
-};
-
 struct Obj_8001C620 { u8 pad[0x1C]; s32 f1c; s32 f20; };
 
 extern "C" {
@@ -67,8 +62,6 @@ const char *TLoadCtrl__class_name = "TLoadCtrl";
 const Vec now_loading_pos = {0.0f, 0.0f, -100.0f}; // inferred: TNowLoading__ct copies it to TNowLoading::pos
 
 extern void *camera_ctrl_instance;
-
-typedef char RecoveredGlobal_8001C828___vt__9TLoadCtrl_size[sizeof(RecoveredGlobal_8001C828___vt__9TLoadCtrl) == 0x18 ? 1 : -1];
 
 void TLoadCtrl::run_task() {
     Obj_8001C620 *self = (Obj_8001C620 *)this;

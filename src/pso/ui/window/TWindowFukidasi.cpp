@@ -89,14 +89,6 @@ struct Cam_80251380 {
     s32 rz;
 };
 
-struct RecoveredGlobal_80251BA0_lbl_804CF080
-{
-  s32 value;
-  u8 remaining[0x20];
-};
-
-typedef struct RecoveredGlobal_80251BA0_lbl_804CF080 RecoveredGlobal_80251BA0_lbl_804CF080;
-
 struct Fuki_802521E8;
 
 struct Fuki_80252764 {
@@ -255,7 +247,8 @@ extern const u32 TWindowFukidasi__balloon_color_table[16] = {
     0xFF90D29B, 0xFF8BB5EE, 0xFFFFB5DA, 0xFFFFFF8C, 0xFFE6E8CA, 0xFFDEFFBD, 0xFFC6C2FF, 0xFFFFE1EB,
 };
 extern const Vec fukidasi_forward_vec = {0.0f, 0.0f, -1.0f};
-extern RecoveredGlobal_80251BA0_lbl_804CF080 window_fukidasi_layout_entries;
+struct WindowFukidasiLayoutEntries { s32 value; u8 remaining[0x20]; };
+extern WindowFukidasiLayoutEntries window_fukidasi_layout_entries;
 extern u8 identity_matrix[];
 const char *window_fukidasi_class_name = TWindowFukidasi__class_name_string;
 extern Cam_80251380 *camera_ctrl_instance;

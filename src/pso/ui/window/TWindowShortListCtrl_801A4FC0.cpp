@@ -9,13 +9,9 @@
 #include "pso/ui/window/TWindowShortListCtrl.h"
 #include "pso/system/task/TObject.h"
 
-struct RecoveredGlobal_801A51C0_lbl_80446980 {
-    s32 value;
-    u8 remaining[0x14];
-};
-
 extern "C" {
-extern RecoveredGlobal_801A51C0_lbl_80446980 short_list_ctrl_interval_table;
+struct ShortListCtrlIntervalTable { s32 value; u8 remaining[0x14]; };
+extern ShortListCtrlIntervalTable short_list_ctrl_interval_table;
 void *TWindowOptionCtrl__ct(void *, void *);
 void *__ct__10TAdTitleGCFP7TObjectl(void *, void *, int);
 void *__ct__12TAdBackTxtGCFv(void *, void *);
@@ -97,7 +93,6 @@ s32 TWindowShortListCtrl::get_card_status_bits() {
     return ((u32) *(u32 *)((s8 *)character_save_record + 0x10) >> 0xDU) & 7;
 }
 
-typedef char RecoveredGlobal_801A51C0_lbl_80446980_size[sizeof(RecoveredGlobal_801A51C0_lbl_80446980) == 0x18 ? 1 : -1];
 s32 TLobby::get_table_entry_by_index() {
     return *(s32 *)((s8 *)&short_list_ctrl_interval_table.value + (fn_801A51F0() * 4));
 }

@@ -1,4 +1,5 @@
 #include "pso/enemy/nanodrago/TObjEneNanoDrago.h"
+#include "pso/unk/TLobby_80291D94.h"
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/map/FloorResourceCallbacks.h"
 #include "pso/boss/dragon/TBoss1DragonDemo.h"
@@ -118,17 +119,11 @@
 #include "pso/unk/text_800C7FEC.h"
 
 
-struct RecoveredGlobal_800F7A6C_lbl_804DB1F0 {
-    s32 value;
-    u8 remaining[0x6AC];
-};
-
 struct RecoveredGlobal_800F7A7C_lbl_8048C9D8 {
     s32 value;
     u8 remaining[0x744];
 };
 
-extern RecoveredGlobal_800F7A6C_lbl_804DB1F0 lbl_804DB1F0;
 extern RecoveredGlobal_800F7A7C_lbl_8048C9D8 challenge_mode_state;
 extern "C" {
 s32 is_area_transfer_pending();
@@ -148,7 +143,6 @@ void send_6x0A_enemy_state_packet(void* p) { ((TLobby *)p)->bswap_enemy_state();
 void init_6x0A_enemy_state_packet(void* p) { *(u8*)((char*)p + 0x0) = 10; *(u8*)((char*)p + 0x1) = 3; }
 int get_attack_credit_slot_count(void) { return 4; }
 
-typedef char RecoveredGlobal_800F7A6C_lbl_804DB1F0_size[sizeof(RecoveredGlobal_800F7A6C_lbl_804DB1F0) == 0x6B0 ? 1 : -1];
 f32 TLobby__sub_800F7A6C(void) {
     return *(f32 *)((s8 *)&lbl_804DB1F0.value + 4);
 }

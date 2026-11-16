@@ -13,14 +13,6 @@
 #include "pso/object/TObjLuker.h"
 #include "pso/player/TObjPlayer.h"
 
-struct RecoveredGlobal_801F2EF4_TLobby__data_80512220 { s32 value; u8 remaining[0x1C]; };
-typedef char RecoveredGlobal_801F2EF4_TLobby__data_80512220_size[sizeof(RecoveredGlobal_801F2EF4_TLobby__data_80512220) == 0x20 ? 1 : -1];
-
-struct RecoveredGlobal_801F3268_lbl_80512B18 {
-    s32 value;
-    u8 remaining[0xC];
-};
-
 struct Op_801F2E64 { void (*fn)(s32); u32 pad; };
 
 struct Hdr_801F3124 {
@@ -42,7 +34,8 @@ extern u8 TLobby__data_805D5EA8;
 extern u8 TLobby__data_805D5EA9;
 extern u16 TLobby__data_805D5EAA;
 extern u16 TLobby__data_805D5EAC;
-extern RecoveredGlobal_801F3268_lbl_80512B18 entered_item_name;
+struct EnteredItemName { s32 value; u8 remaining[0xC]; };
+extern EnteredItemName entered_item_name;
 extern struct Op_801F2E64 qst_opcode_table[];
 int bswap_16__FPUs(void*);
 void *memset(void *, int, u32);
@@ -184,8 +177,6 @@ void QuestVmContext::load_globals() {
 }
 
 typedef char QuestVmContext_size[sizeof(QuestVmContext) == 0x174 ? 1 : -1];
-
-typedef char RecoveredGlobal_801F3268_lbl_80512B18_size[sizeof(RecoveredGlobal_801F3268_lbl_80512B18) == 0x10 ? 1 : -1];
 
 void init_quest_script_context(Hdr_801F3124 *h, QuestVmContext *c) {
     u32 n;

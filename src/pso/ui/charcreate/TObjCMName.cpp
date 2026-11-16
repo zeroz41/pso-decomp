@@ -240,17 +240,10 @@ struct CreationMenuEntry {
     void (TObjCMMainMenu::*select)(void *);
 };
 
-struct RecoveredGlobal_80298DD4_lbl_8051C07C {
-    s32 value;
-    u8 remaining[0x14];
-};
-
 struct CreationMenuModeList {
     s32 count;
     s32 *entries;
 };
-
-typedef char RecoveredGlobal_80298DD4_lbl_8051C07C_size[sizeof(RecoveredGlobal_80298DD4_lbl_8051C07C) == 0x18 ? 1 : -1];
 
 struct Menu_802975DC {
     u8 pad0[0x1C];
@@ -297,7 +290,8 @@ extern Ent_802964B0 class_appearance_table[];
 extern Cols_80297DB8 footer_divider_colors[2];
 extern Quad_80297DB8 footer_divider_vertices[2];
 extern vec2f lbl_804DBCC8[];
-extern RecoveredGlobal_80298DD4_lbl_8051C07C character_creation_name_buffer;
+struct CharacterCreationNameBuffer { s32 value; u8 remaining[0x14]; };
+extern CharacterCreationNameBuffer character_creation_name_buffer;
 extern f32 ui_sprite_scale;
 extern s32 creation_dressing_room_mode_flag;
 extern int creation_figure_rotation_y;

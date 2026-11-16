@@ -8,11 +8,6 @@
 #include "pso/technique/TTecGiZonde.h"
 #include "pso/system/task/TObject.h"
 
-struct RecoveredGlobal_8023CE54_lbl_804CCD78 {
-    s32 value;
-    u8 remaining[0x14];
-};
-
 extern "C" {
 void __ct__7TObjectFP7TObject(void *, void *);
 extern s32 __vt__13TUnk_804CCD78[];
@@ -30,10 +25,9 @@ TUnk_804CCD78::~TUnk_804CCD78() {
 
 }
 
-typedef char RecoveredGlobal_8023CE54_lbl_804CCD78_size[sizeof(RecoveredGlobal_8023CE54_lbl_804CCD78) == 0x18 ? 1 : -1];
 u8 *construct_helper_effect__11TTecGiZondeFPvPvPvPvi(u8 *arg0, u8 *arg1, u8 *arg2, u8 *arg3, s32 arg4) {
     __ct__7TObjectFP7TObject(arg0, arg3);
-    *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_8023CE54_lbl_804CCD78 *)&__vt__13TUnk_804CCD78).value;
+    *(s32 **)((s8 *)arg0 + 0x18) = __vt__13TUnk_804CCD78;
     VecCopy((Vec *)(arg0 + 0x1C), (const Vec *)arg1);
     VecCopy((Vec *)(arg0 + 0x28), (const Vec *)arg2);
     *(s32 *)((s8 *)arg0 + 0x3C) = arg4;

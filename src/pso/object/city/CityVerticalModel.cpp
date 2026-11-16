@@ -36,11 +36,6 @@ struct RecoveredFields_80182E90_arg0
   f32 field_9C;
 };
 
-struct RecoveredGlobal_801830BC_lbl_804B5C08 {
-    s32 value;
-    u8 remaining[0x34];
-};
-
 extern "C" {
 void vfunc_13__13TUnk_804B5C08Fl(void* a0);
 s32 push_matrix();
@@ -141,10 +136,9 @@ void *destroy_city_vertical_model(void *base, s16 arg1) {
     }
     return base;
 }
-typedef char RecoveredGlobal_801830BC_lbl_804B5C08_size[sizeof(RecoveredGlobal_801830BC_lbl_804B5C08) == 0x38 ? 1 : -1];
 u8 *construct_city_vertical_model(u8 *arg0, s32 parent, s32 arg2) {
     __ct__8TObjBaseFP7TObject((void *)arg0, (void *)parent);
-    *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_801830BC_lbl_804B5C08 *)&city_vertical_model_vtable).value;
+    *(s32 **)((s8 *)arg0 + 0x18) = city_vertical_model_vtable;
     ((TUnk_804B5C08 *)(arg0))->apply_object_set_data((void *)arg2);
     *(s32 *)((s8 *)arg0 + 0x90) = 1;
     ((TUnk_804B5C08 *)arg0)->m_94 = 2;

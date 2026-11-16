@@ -41,18 +41,6 @@ struct RecoveredFields_80235348_arg0
   s16 field_F0;
 };
 
-struct RecoveredGlobal_802308A0_lbl_804CC510
-{
-  s32 value;
-  u8 remaining[0x48];
-};
-
-struct RecoveredGlobal_802308A0_lbl_804CC55C
-{
-  s32 value;
-  u8 remaining[0x94];
-};
-
 struct RecoveredFields_802308A0_arg0
 {
   u8 unknown_0[0x70];
@@ -410,10 +398,6 @@ void TTecMegid::create_ex(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
 void TTecMegid::render() {  }
 
 typedef struct RecoveredFields_802308A0_arg0 RecoveredFields_802308A0_arg0;
-typedef struct RecoveredGlobal_802308A0_lbl_804CC510 RecoveredGlobal_802308A0_lbl_804CC510;
-typedef struct RecoveredGlobal_802308A0_lbl_804CC55C RecoveredGlobal_802308A0_lbl_804CC55C;
-typedef char RecoveredGlobal_802308A0_lbl_804CC510_size[((sizeof(RecoveredGlobal_802308A0_lbl_804CC510)) == 0x4C) ? (1) : (-1)];
-typedef char RecoveredGlobal_802308A0_lbl_804CC55C_size[((sizeof(RecoveredGlobal_802308A0_lbl_804CC55C)) == 0x98) ? (1) : (-1)];
 TTecGiBarta_80230B48 *__dt__9TTecMegidFv(TTecGiBarta_80230B48 *self, s16 deleting) {
     if (self) {
         self->vtable = __vt__9TTecMegid;
@@ -510,11 +494,10 @@ void TUnk_804CCA78::run_task() {
 #include "pso/unk/TLobby_80226070.h"
 #include "pso/unk/text_80235A20.h"
 
-struct RecoveredGlobal_80235A20_lbl_804CCA78 { s32 value; u8 remaining[0x14]; };
-
 extern "C" {
 u8 * __dt__7TObjectFv(void *, s16);
-extern RecoveredGlobal_80235A20_lbl_804CCA78 lbl_804CCA78;
+struct RecoveredGlobal_lbl_804CCA78 { s32 value; u8 remaining[0x14]; };
+extern RecoveredGlobal_lbl_804CCA78 lbl_804CCA78;
 u8 *__dt__13TUnk_804CCA78Fv(u8 *arg0, s16 arg1) {
     s32 temp_r3;
     if (arg0 != NULL) {

@@ -24,4 +24,8 @@ void TWindowKeyBoardSoft__sub_803E67D4(s32 a, s32 b);
 void TWindowKeyBoardSoft__sub_803E6868(s32 a, s32 b);
 }
 
+// quest_convert_string: layout known from its uses only.
+struct QuestConvertString { s32 value; u8 remaining[0x7C]; };
+extern QuestConvertString quest_convert_string;
+
 #endif

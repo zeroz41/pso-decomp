@@ -21,11 +21,6 @@ const char *TObjTank__class_name = "TObjTank";
 
 CollisionBody tobjtank_collision_body_parts = {{0.0f, 0.0f, 0.0f}, 20.0f, 10.0f, 0, 0x10003, {0.0f, 0.0f, 0.0f}, 0.0f};
 
-struct RecoveredGlobal_8019A880___vt__8TObjTank {
-    s32 value;
-    u8 remaining[0x38];
-};
-
 extern "C" {
 s32 get_bml_model(s32, s32);
 s32 push_matrix();
@@ -65,10 +60,9 @@ TObjTank::~TObjTank() {
 
 extern void *tl_05;
 
-typedef char RecoveredGlobal_8019A880___vt__8TObjTank_size[sizeof(RecoveredGlobal_8019A880___vt__8TObjTank) == 0x3C ? 1 : -1];
 u8 *TObjTank__ct(u8 *arg0, s32 arg1, s32 arg2) {
     __ct__14TObjCollidableFP7TObject(arg0, arg1);
-    *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_8019A880___vt__8TObjTank *)&__vt__8TObjTank).value;
+    *(s32 **)((s8 *)arg0 + 0x18) = __vt__8TObjTank;
     *(s32 *)((s8 *)arg0 + 0) = (s32) TObjTank__class_name;
     VecCopy((Vec *)(arg0 + 0x38), (const Vec *)(arg2 + 0xC));
     copy_xyz(arg0 + 0x5C, (void *)(arg2 + 0x18));

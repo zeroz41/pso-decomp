@@ -8,18 +8,13 @@ struct Stack_8024B054 {
     s32 sp10;
 };
 
-struct RecoveredGlobal_8024B054_lbl_804CE9C8 {
-    s32 value;
-    u8 remaining[0x8];
-};
-
 extern "C" {
 struct Win_8024B098 { virtual s32 m0(); };
 typedef s32 (Win_8024B098::*Pmf_8024B098)();
 s32 TWindowCtrl__sub_8024B098(void *, Pmf_8024B098);
 Win_8024B098 *get_window__11TWindowCtrlFl(void *self);
-extern RecoveredGlobal_8024B054_lbl_804CE9C8 window_ctrl_is_visible_callback_entry;
-typedef char RecoveredGlobal_8024B054_lbl_804CE9C8_size[sizeof(RecoveredGlobal_8024B054_lbl_804CE9C8) == 0xC ? 1 : -1];
+struct WindowCtrlIsVisibleCallbackEntry { s32 value; u8 remaining[0x8]; };
+extern WindowCtrlIsVisibleCallbackEntry window_ctrl_is_visible_callback_entry;
 void TWindowCtrl::is_slot_visible() {
     s32 arg0 = (s32)this;
     typedef char sp8_offset[(offsetof(Stack_8024B054, sp8) == 0x0) ? 1 : -1];

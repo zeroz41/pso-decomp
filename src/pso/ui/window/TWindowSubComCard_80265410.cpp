@@ -86,20 +86,6 @@ struct Card_80265AA4 {
 
 struct Ent_80265C30;
 
-struct RecoveredGlobal_80266378_lbl_804D05A8 {
-    s32 value;
-    u8 remaining[0x20];
-};
-
-typedef char RecoveredGlobal_80266378_lbl_804D05A8_size[sizeof(RecoveredGlobal_80266378_lbl_804D05A8) == 0x24 ? 1 : -1];
-
-struct RecoveredGlobal_80266B30_lbl_8050E208 {
-    s32 value;
-    u8 remaining[0x1AC];
-};
-
-typedef char RecoveredGlobal_80266B30_lbl_8050E208_size[sizeof(RecoveredGlobal_80266B30_lbl_8050E208) == 0x1B0 ? 1 : -1];
-
 void mem_free(void *);
 void *mem_alloc(u32 size);
 s32 TWindowShortListCtrl__check_controller_button(int, int);
@@ -139,7 +125,8 @@ void update_chat_window(void* p);
 s32 create_titled_window_menu(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 extern s32 __vt__11TWindowMenu[];
 const f64 lbl_8044F330 = 0.0;
-extern RecoveredGlobal_80266378_lbl_804D05A8 lbl_804D05A8;
+struct RecoveredGlobal_lbl_804D05A8 { s32 value; u8 remaining[0x20]; };
+extern RecoveredGlobal_lbl_804D05A8 lbl_804D05A8;
 extern u8 lbl_804D05CC[];
 extern s8 controller_input_state[];
 const char *lbl_805D3960 = "TWindowMenu";
@@ -851,7 +838,7 @@ u8 TWindowMenu::test_menu_flag() {
     if (this->m_70 & 0x200) {
         return 0U;
     }
-    return ((TAdSinglePlyChrSelectGC *)((u8 *)&(*(RecoveredGlobal_80266B30_lbl_8050E208 *)&controller_input_state).value + 0x160))->test_flag_4c();
+    return ((TAdSinglePlyChrSelectGC *)((u8 *)&controller_input_state + 0x160))->test_flag_4c();
 }
 
 s32 TWindowMenu::is_locked(s32 arg1) {

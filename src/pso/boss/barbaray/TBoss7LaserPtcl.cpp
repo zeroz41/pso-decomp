@@ -44,9 +44,6 @@ void normalize_vector(void *);
 void *create_oneshot_particle_emitter(void *pos, void *dir, s32 id, s32 flags);
 void direction_to_rotation_xz(u8 *arg0, s32 *arg1, s32 *arg2);
 
-struct RecoveredGlobal_8035ACBC___vt__15TBoss7LaserPtcl { s32 value; u8 remaining[0x14]; };
-typedef char RecoveredGlobal_8035ACBC___vt__15TBoss7LaserPtcl_size[sizeof(RecoveredGlobal_8035ACBC___vt__15TBoss7LaserPtcl) == 0x18 ? 1 : -1];
-
 struct Ptcl_8035AD68 {
     u8 pad0[0x10];
     void *x10;
@@ -94,7 +91,7 @@ void TUnk_804F1C88::render() {  }
 
 u8 *TBoss7LaserPtcl__ct(u8 *boss7_laser_ptcl, u8 *arg1, u8 *arg2, u8 *arg3) {
     __ct__7TObjectFP7TObject(boss7_laser_ptcl, arg1);
-    *(s32 **)((s8 *)boss7_laser_ptcl + 0x18) = &(*(RecoveredGlobal_8035ACBC___vt__15TBoss7LaserPtcl *)&__vt__15TBoss7LaserPtcl).value;
+    *(s32 **)((s8 *)boss7_laser_ptcl + 0x18) = __vt__15TBoss7LaserPtcl;
     ((TBoss7LaserPtcl *)boss7_laser_ptcl)->m_name = TBoss7LaserPtcl__class_name;
     ((TBoss7LaserPtcl *)boss7_laser_ptcl)->travel_distance = (f32) 8e+01f;
     *(s32 *)((s8 *)boss7_laser_ptcl + 0x54) = 0;

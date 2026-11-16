@@ -18,22 +18,6 @@
 const char *tec_jelin_class_name_ptr = "TTecJelin";
 
 
-struct RecoveredGlobal_802384E0_lbl_804CCB28 { s32 value; u8 remaining[0x14]; };
-
-struct RecoveredGlobal_802385EC_lbl_804CCB28 { s32 value; u8 remaining[0x14]; };
-
-struct RecoveredGlobal_80238D10_lbl_804CC510
-{
-  s32 value;
-  u8 remaining[0x48];
-};
-
-struct RecoveredGlobal_80238D10_lbl_804CC55C
-{
-  s32 value;
-  u8 remaining[0x94];
-};
-
 struct RecoveredFields_80238D10_arg0
 {
   u8 unknown_0[0x78];
@@ -156,8 +140,6 @@ void TTecJelin::init_tech_params() {
     this->m_88 = (f32) (*(s16 *)&this->m_ac * this->m_78);
 }
 
-typedef char RecoveredGlobal_802384E0_lbl_804CCB28_size[sizeof(RecoveredGlobal_802384E0_lbl_804CCB28) == 0x18 ? 1 : -1];
-typedef char RecoveredGlobal_802385EC_lbl_804CCB28_size[sizeof(RecoveredGlobal_802385EC_lbl_804CCB28) == 0x18 ? 1 : -1];
 void TTecJelin::vfunc_6(void *target_arg) {
     u8 *self = (u8 *)this;
     u8 *target = (u8 *)target_arg;
@@ -167,10 +149,6 @@ void TTecJelin::vfunc_6(void *target_arg) {
     ((VObj_802386F8 *)target)->m21(*(s32 *)(self + 0x1C), d, *(s32 *)(self + 0xB8), 0xb, -1, self);
 }
 typedef struct RecoveredFields_80238D10_arg0 RecoveredFields_80238D10_arg0;
-typedef struct RecoveredGlobal_80238D10_lbl_804CC510 RecoveredGlobal_80238D10_lbl_804CC510;
-typedef struct RecoveredGlobal_80238D10_lbl_804CC55C RecoveredGlobal_80238D10_lbl_804CC55C;
-typedef char RecoveredGlobal_80238D10_lbl_804CC510_size[((sizeof(RecoveredGlobal_80238D10_lbl_804CC510)) == 0x4C) ? (1) : (-1)];
-typedef char RecoveredGlobal_80238D10_lbl_804CC55C_size[((sizeof(RecoveredGlobal_80238D10_lbl_804CC55C)) == 0x98) ? (1) : (-1)];
 
 void TTecJelin::create(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     u32 obj;

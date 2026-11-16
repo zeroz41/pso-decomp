@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/system/MatrixOps.h"
 #include "pso/unk/TUnk_80488838.h"
 #include "pso/unk/TUnk_80488E00.h"
 #include "pso/camera/TCameraCtrl_80067CE8.h"
@@ -8,9 +9,6 @@
 
 #include <stddef.h>
 #include "pso/camera/TCameraCtrl.h"
-
-struct RecoveredGlobal_80067E30_lbl_8058D490 { s32 value; u8 remaining[0x2C]; };
-typedef char RecoveredGlobal_80067E30_lbl_8058D490_size[sizeof(RecoveredGlobal_80067E30_lbl_8058D490) == 0x30 ? 1 : -1];
 
 struct Pad_80067D20 {
     u32 buttons;
@@ -38,7 +36,6 @@ s32 matrix_mult_vec(int, void *, void *);
 s32 rotate_matrix_y(int, int);
 s32 push_matrix_from(void *);
 s32 pop_matrix();
-extern RecoveredGlobal_80067E30_lbl_8058D490 identity_matrix;
 f32 sin_table_lookup(s32);
 f32 cos_table_lookup(s32);
 void * TCameraCtrl__vt7(void) {
@@ -90,7 +87,7 @@ void TCameraCtrl::reset_behind_player() {
         stack.x = 0.0f;
         stack.y = 0.0f;
         stack.z = this->m_70;
-        push_matrix_from(&identity_matrix.value);
+        push_matrix_from(&identity_matrix);
         rotate_matrix_y(0, this->m_30);
         matrix_mult_vec(0, &stack.x, &stack.x);
         pop_matrix();

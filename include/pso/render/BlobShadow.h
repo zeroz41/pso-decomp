@@ -12,4 +12,8 @@ void draw_blob_shadow(s32 arg0);
 void release_blob_shadow_texture(void);
 void load_ha_u032_kage(void);
 
+// blob_shadow_rect_desc: layout known from its uses only.
+struct BlobShadowRectDesc { s32 value; u8 remaining[0x14]; };
+extern BlobShadowRectDesc blob_shadow_rect_desc;
+
 #endif

@@ -114,18 +114,14 @@ void TWindowMessageLog::update_scroll_animation() {
 
 }
 
-struct RecoveredGlobal_8026A6DC_lbl_805187D8 {
-    s32 value;
-    u8 remaining[0x74];
-};
-
 extern "C" {
 u8 *heap_alloc__5THeapFUl(s32, s32);
 s32 measure_string_len__20TWindowSubStatusDispFv(void *);
 s32 strncpy(int, void *, int);
 extern s32 TAdScrollWinGC__chat_log_heap;
 extern u8 *chat_last_line_buffer;
-RecoveredGlobal_8026A6DC_lbl_805187D8 chat_log_lines;
+struct ChatLogLines { s32 value; u8 remaining[0x74]; };
+ChatLogLines chat_log_lines;
 s32 strlen();
 
 void TAdScrollWinGC__sub_8026A5F8(void* a0) { *(float*)((char*)a0 + 0x84) = 0.0f; *(float*)((char*)a0 + 0x6c) = 0.0f; *(float*)((char*)a0 + 0x94) = 0.0f; }
@@ -145,8 +141,6 @@ void TWindowSubLog__sub_8026A664(u8 *arg0, f32 farg0) {
         *(s32 *)((s8 *)arg0 + 0x50) = 3;
     }
 }
-
-typedef char RecoveredGlobal_8026A6DC_lbl_805187D8_size[sizeof(RecoveredGlobal_8026A6DC_lbl_805187D8) == 0x78 ? 1 : -1];
 
 s32 TLobby::find_free_chat_log_slot() {
     s32 i;

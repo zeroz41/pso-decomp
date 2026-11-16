@@ -19,17 +19,6 @@
 #include "pso/effect/particle/TParticleCtrl_80327D30.h"
 #include "pso/player/TObjPlayer_80083594.h"
 
-struct RecoveredGlobal_800861F4_TParticleCtrl__data_80511F70 {
-    s32 value;
-    u8 remaining[0x1AC];
-};
-
-struct RecoveredGlobal_8008655C_lbl_8048E728 {
-    s32 value;
-    u8 remaining[0x14];
-};
-
-
 struct Col_80086418 { u8 a, r, g, b; };
 
 struct Ctrl_80086418 {
@@ -124,9 +113,11 @@ struct Ctrl_80086248 {
 
 extern "C" {
 s32 is_split_screen(void);
-extern RecoveredGlobal_800861F4_TParticleCtrl__data_80511F70 TParticleCtrl__data_80511F70;
+struct RecoveredGlobal_TParticleCtrl__data_80511F70 { s32 value; u8 remaining[0x1AC]; };
+extern RecoveredGlobal_TParticleCtrl__data_80511F70 TParticleCtrl__data_80511F70;
 u8 * __dt__7TObjectFv(void *, s16);
-extern RecoveredGlobal_8008655C_lbl_8048E728 lbl_8048E728;
+struct RecoveredGlobal_lbl_8048E728 { s32 value; u8 remaining[0x14]; };
+extern RecoveredGlobal_lbl_8048E728 lbl_8048E728;
 void set_color_blend_mode(s32 a, s32 b, s32 c, s32 d);
 void __ct__7TObjectFP7TObject(void *, void *);
 s32 GXSetNumTexGens(int);
@@ -260,7 +251,6 @@ void TParticleCtrl::mark_active() {
     *(u16 *)((s8 *)this + 0x24) = (u16) (*(u16 *)((s8 *)this + 0x24) | 0x2000);
     request_indirect_effect(0x1F);
 }
-typedef char RecoveredGlobal_8008655C_lbl_8048E728_size[sizeof(RecoveredGlobal_8008655C_lbl_8048E728) == 0x18 ? 1 : -1];
 
 void TUnk_8048E728::draw_particle_refraction_quad() {
     Ctrl_80086248 *self = (Ctrl_80086248 *)this;

@@ -88,17 +88,6 @@ const char *TItemReverseTech__name = "TItemReverseTech";
 
 }
 
-struct RecoveredGlobal_8011A350_main_task {
-    s32 value;
-    u8 remaining[0x30];
-};
-
-struct RecoveredGlobal_8011A3D8_main_task
-{
-  s32 value;
-  u8 remaining[0x30];
-};
-
 struct Ent_8011A270 { int name; int a; int b; };
 
 struct Hdr_8011A270 { int entries; int x4; };
@@ -192,8 +181,6 @@ void TItemReverseTech::init_scene() {
     render_tick();
 }
 
-typedef struct RecoveredGlobal_8011A3D8_main_task RecoveredGlobal_8011A3D8_main_task;
-typedef char RecoveredGlobal_8011A3D8_main_task_size[((sizeof(RecoveredGlobal_8011A3D8_main_task)) == 0x34) ? (1) : (-1)];
 void TItemReverseTech::run_cleanup_callbacks() {
     void (*fn)(void);
     TItemReverseTechSceneHook *e;
@@ -216,17 +203,17 @@ void TItemReverseTech::run_frame() {
     s32 *var_r3;
     controller_stuff();
     TKeyBoardControl::update_input_frame();
-    var_r3 = (s32 *)(&(*(RecoveredGlobal_8011A350_main_task *)&main_task).value);
-    var_r3 = (s32 *)(&(*(RecoveredGlobal_8011A350_main_task *)&main_task).value);
+    var_r3 = (s32 *)&main_task;
+    var_r3 = (s32 *)&main_task;
     main_task.begin_frame();
-    var_r3 = (s32 *)(&(*(RecoveredGlobal_8011A350_main_task *)&main_task).value);
-    var_r3 = (s32 *)(&(*(RecoveredGlobal_8011A350_main_task *)&main_task).value);
+    var_r3 = (s32 *)&main_task;
+    var_r3 = (s32 *)&main_task;
     main_task.run_task();
-    var_r3 = (s32 *)(&(*(RecoveredGlobal_8011A350_main_task *)&main_task).value);
-    var_r3 = (s32 *)(&(*(RecoveredGlobal_8011A350_main_task *)&main_task).value);
+    var_r3 = (s32 *)&main_task;
+    var_r3 = (s32 *)&main_task;
     main_task.render();
-    var_r3 = (s32 *)(&(*(RecoveredGlobal_8011A350_main_task *)&main_task).value);
-    var_r3 = (s32 *)(&(*(RecoveredGlobal_8011A350_main_task *)&main_task).value);
+    var_r3 = (s32 *)&main_task;
+    var_r3 = (s32 *)&main_task;
     main_task.render_screen_overlay();
     process_async_file_reads();
     update_sound_request_slots();
@@ -240,8 +227,6 @@ void TItemReverseTech::run_frame() {
     }
     render_tick();
 }
-
-typedef char RecoveredGlobal_8011A350_main_task_size[sizeof(RecoveredGlobal_8011A350_main_task) == 0x34 ? 1 : -1];
 
 #pragma push
 #pragma opt_propagation off

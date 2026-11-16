@@ -62,19 +62,9 @@ struct RecoveredGlobal_8021DA90___vt__22TShopEquipmentSequence {
     u8 remaining[0x34];
 };
 
-struct RecoveredGlobal_8021DA90_TShopEquipmentSequence__data_80513EC0 {
-    s32 value;
-    u8 remaining[0xC];
-};
-
 struct RecoveredGlobal_8021DB58___vt__22TShopEquipmentSequence {
     s32 value;
     u8 remaining[0x34];
-};
-
-struct RecoveredGlobal_8021DB58_TShopEquipmentSequence__data_80513EC0 {
-    s32 value;
-    u8 remaining[0xC];
 };
 
 struct W_8021D6D8 { u8 pad[0x3a4]; void *cb0; void *cb1; };
@@ -106,7 +96,8 @@ void *__dt__13TShopSequenceFv(void *arg0, s16 arg1);
 s32 sub_8022397C__15TShopWindowBaseFv(void *);
 s32 __dl__7TObjectFPv(void *);
 extern RecoveredGlobal_8021DA90___vt__22TShopEquipmentSequence __vt__22TShopEquipmentSequence;
-RecoveredGlobal_8021DA90_TShopEquipmentSequence__data_80513EC0 TShopEquipmentSequence__slot_active_flags;
+struct TShopEquipmentSequenceSlotActiveFlags { s32 value; u8 remaining[0xC]; };
+TShopEquipmentSequenceSlotActiveFlags TShopEquipmentSequence__slot_active_flags;
 u8 *TShopSequence__ct(u8 *arg0);
 const char *TShopEquipmentSequence__class_name = "TShopEquipmentSequence";
 u8 *lbl_805D6228;
@@ -229,7 +220,6 @@ s32 TShopEquipmentSequence::open_greeting() {
   *((s32 *) (((s8 *) arg0) + 0x34)) = set_service_counter_camera((void *) arg0, 3);
 }
 typedef char RecoveredGlobal_8021DA90___vt__22TShopEquipmentSequence_size[sizeof(RecoveredGlobal_8021DA90___vt__22TShopEquipmentSequence) == 0x38 ? 1 : -1];
-typedef char RecoveredGlobal_8021DA90_TShopEquipmentSequence__data_80513EC0_size[sizeof(RecoveredGlobal_8021DA90_TShopEquipmentSequence__data_80513EC0) == 0x10 ? 1 : -1];
 
 void TShopEquipmentSequence::vfunc_11() {
     u8 *arg0 = (u8 *)this;
@@ -294,7 +284,6 @@ u8 *__dt__22TShopEquipmentSequenceFv(TShopEquipmentSequence *shop_equipment_sequ
     return (u8 *)shop_equipment_sequence;
 }
 typedef char RecoveredGlobal_8021DB58___vt__22TShopEquipmentSequence_size[sizeof(RecoveredGlobal_8021DB58___vt__22TShopEquipmentSequence) == 0x38 ? 1 : -1];
-typedef char RecoveredGlobal_8021DB58_TShopEquipmentSequence__data_80513EC0_size[sizeof(RecoveredGlobal_8021DB58_TShopEquipmentSequence__data_80513EC0) == 0x10 ? 1 : -1];
 u8 *TShopEquipmentSequence__ct(u8 *shop_equipment_sequence, s32 arg1, s32 arg2) {
     TShopSequence__ct((shop_equipment_sequence));
     *(s32 **)((s8 *)shop_equipment_sequence + 0x18) = &(*(RecoveredGlobal_8021DB58___vt__22TShopEquipmentSequence *)&__vt__22TShopEquipmentSequence).value;
@@ -307,7 +296,7 @@ u8 *TShopEquipmentSequence__ct(u8 *shop_equipment_sequence, s32 arg1, s32 arg2) 
     lbl_805D6228 = shop_equipment_sequence;
     lbl_805D622C = 0;
     lbl_805D6230 = 0;
-    *(s32 *)((s8 *)(&(*(RecoveredGlobal_8021DB58_TShopEquipmentSequence__data_80513EC0 *)&TShopEquipmentSequence__slot_active_flags).value) + (sub_8022397C__15TShopWindowBaseFv(shop_equipment_sequence) * 4)) = 1;
+    *(s32 *)((s8 *)(&TShopEquipmentSequence__slot_active_flags.value) + (sub_8022397C__15TShopWindowBaseFv(shop_equipment_sequence) * 4)) = 1;
     return shop_equipment_sequence;
 }
 

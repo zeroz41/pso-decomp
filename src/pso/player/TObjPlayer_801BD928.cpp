@@ -118,24 +118,17 @@ struct VObj_18_dac7f3 : VBase_18_dac7f3 {
     virtual s32 m0(s32);
 };
 
-struct RecoveredGlobal_801BDCF8_TObjPlayer__data_8050EA70
-{
-  s32 value;
-  u8 remaining[0x320C];
-};
-
 struct E_801BDC98 { u8 b[0x42C]; };
 
 extern "C" {
 s32 is_locally_controlled__10TObjPlayerFPv();
 void *get_player_by_client_id(s32 i);
-extern RecoveredGlobal_801BDCF8_TObjPlayer__data_8050EA70 TObjPlayer__char_data_array;
+struct TObjPlayerCharDataArray { s32 value; u8 remaining[0x320C]; };
+extern TObjPlayerCharDataArray TObjPlayer__char_data_array;
 void create__10TObjPlayerFUll(u16, void *);
-typedef struct RecoveredGlobal_801BDCF8_TObjPlayer__data_8050EA70 RecoveredGlobal_801BDCF8_TObjPlayer__data_8050EA70;
 typedef struct VBase_18_dac7f3 VBase_18_dac7f3;
 typedef struct VObj_18_dac7f3 VObj_18_dac7f3;
 #pragma opt_pointer_analysis on
-typedef char RecoveredGlobal_801BDCF8_TObjPlayer__data_8050EA70_size[((sizeof(RecoveredGlobal_801BDCF8_TObjPlayer__data_8050EA70)) == 0x3210) ? (1) : (-1)];
 #define PSO_VCALL_VObj_18_dac7f3_m0(_self, _arg0) (((VObj_18_dac7f3 *)(_self))->m0((_arg0)))
 
 extern s32 lbl_80515BA0[];

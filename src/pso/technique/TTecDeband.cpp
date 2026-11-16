@@ -15,11 +15,6 @@
 const char *tec_deband_class_name_ptr = "TTecDeband";
 
 
-struct RecoveredGlobal_8022F948___vt__10TTecDeband {
-    s32 value;
-    u8 remaining[0x1C];
-};
-
 struct Target_8022F73C {
     u16 id;
     u8 pad[6];
@@ -131,8 +126,6 @@ TTecDeband::~TTecDeband() {
 
 }
 
-typedef char RecoveredGlobal_8022F948___vt__10TTecDeband_size[sizeof(RecoveredGlobal_8022F948___vt__10TTecDeband) == 0x20 ? 1 : -1];
-
 void run_task__10TTecDebandFv(Deband_8022F73C *self) {
     u32 target;
     s32 i;
@@ -201,7 +194,7 @@ u8 *TTecDeband__sub_8022F948(TTecDeband *arg0, s32 owner, s32 pos, s32 level) {
     u32 temp_r3_2;
     u8 *temp_r3;
     TTecPlayerInfluence__ct((void *)arg0, (void *)owner, (void *)pos, (void *)level);
-    *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_8022F948___vt__10TTecDeband *)&__vt__10TTecDeband).value;
+    *(s32 **)((s8 *)arg0 + 0x18) = __vt__10TTecDeband;
     ((TObjPlayer *)((u8 *)arg0 + 0xE0))->construct_target_cursor_records();
     *(s32 *)((s8 *)arg0 + 0) = (s32) ((s32)tec_deband_class_name_ptr);
     arg0->m_13c = 0;

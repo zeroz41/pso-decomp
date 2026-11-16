@@ -58,9 +58,6 @@ TBoss8DragonColli::~TBoss8DragonColli() {
 #include <stddef.h>
 #include "pso/unk/TLobby.h"
 
-struct RecoveredGlobal_802F2F68___vt__17TBoss8DragonColli { s32 value; u8 remaining[0x14]; };
-typedef char RecoveredGlobal_802F2F68___vt__17TBoss8DragonColli_size[sizeof(RecoveredGlobal_802F2F68___vt__17TBoss8DragonColli) == 0x18 ? 1 : -1];
-
 extern "C" {
 s32 __nw__7TObjectFUl(int);
 s32 __ct__7TObjectFP7TObject(void *, void *);

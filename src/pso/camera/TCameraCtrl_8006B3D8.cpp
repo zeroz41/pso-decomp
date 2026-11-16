@@ -9,18 +9,6 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/system/task/TObject.h"
 
-struct RecoveredGlobal_8006BA08_lbl_80488B08 {
-    s32 value;
-    u8 remaining[0x2C];
-};
-
-
-struct RecoveredGlobal_8006B588_lbl_80488AD8
-{
-  s32 value;
-  u8 remaining[0x14];
-};
-
 struct RecoveredFields_8006B588_arg0
 {
   u8 unknown_0[0x18];
@@ -104,7 +92,8 @@ struct O_8006BAB4 { u8 pad[0x104]; Vec arr[1]; };
 extern "C" {
 void *__dt__13TUnk_80488A28Fv(void *arg0, s16 arg1);
 void __dl__7TObjectFPv(void *);
-extern RecoveredGlobal_8006BA08_lbl_80488B08 lbl_80488B08;
+struct RecoveredGlobal_lbl_80488B08 { s32 value; u8 remaining[0x2C]; };
+extern RecoveredGlobal_lbl_80488B08 lbl_80488B08;
 extern s32 TCameraCtrl__fixed_npc_camera_active;
 u8 *__dt__13TUnk_80488B08Fv(u8 *arg0, s16 arg1);
 void set_active_camera_pose(void *, void *);
@@ -170,11 +159,10 @@ TUnk_80488AD8::~TUnk_80488AD8() {
 }
 
 typedef struct RecoveredFields_8006B588_arg0 RecoveredFields_8006B588_arg0;
-typedef struct RecoveredGlobal_8006B588_lbl_80488AD8 RecoveredGlobal_8006B588_lbl_80488AD8;
 u8 *TCameraCtrl::init_conversation_camera(s32 i, s32 arg2, s32 arg3) {
   void *new_var;
   __ct__7TObjectFP7TObject((void *) this, (void *) arg3);
-  ((RecoveredFields_8006B588_arg0 *) ((u8 *)this))->field_18 = &(*(RecoveredGlobal_8006B588_lbl_80488AD8 *)&__vt__13TUnk_80488AD8).value;
+  ((RecoveredFields_8006B588_arg0 *) ((u8 *)this))->field_18 = ((s32 *)&__vt__13TUnk_80488AD8);
   ((RecoveredFields_8006B588_arg0 *) ((u8 *)this))->field_34 = arg2;
   activate_camera_mode(9);
   if (is_split_screen() != 0)
@@ -285,7 +273,6 @@ void TUnk_80488B08::vfunc_6() {
 }
 
 void TUnk_80488B08::run_task() {  }
-typedef char RecoveredGlobal_8006BA08_lbl_80488B08_size[sizeof(RecoveredGlobal_8006BA08_lbl_80488B08) == 0x30 ? 1 : -1];
 u8 *__dt__13TUnk_80488B08Fv(u8 *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = &lbl_80488B08.value;

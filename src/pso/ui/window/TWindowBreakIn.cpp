@@ -40,11 +40,6 @@ WindowDescriptor window_break_in_layout = {
     {112.0f, 30.0f}, 50000.0f, &window_break_in_layout_entries, 0x823,
 };
 
-struct RecoveredGlobal_80246C58___vt__14TWindowBreakIn {
-    s32 value;
-    u8 remaining[0x18];
-};
-
 extern "C" {
 u8 * get_window_layout_position(s32);
 extern s32 __vt__14TWindowBreakIn[];
@@ -60,10 +55,9 @@ void TWindowBreakIn::render() {
 void TWindowBreakIn::run_task() { ((TWindowSubStatusDisp *)this)->update_entry_visibility(); ((TWindowDD *)this)->initialize_subwindow(); update_window_entry_list((char*)this + 0x24); }
 
 TWindowBreakIn::~TWindowBreakIn() {}
-typedef char RecoveredGlobal_80246C58___vt__14TWindowBreakIn_size[sizeof(RecoveredGlobal_80246C58___vt__14TWindowBreakIn) == 0x1C ? 1 : -1];
 u8 *TWindowBreakIn__ct(u8 *window_dd) {
     ((TWindowDD *)window_dd)->construct_base((u8 *)&window_break_in_layout, (s16)(4), (u8 *)(get_window_layout_position(0xAA)));
-    *(s32 **)((s8 *)window_dd + 0x18) = &(*(RecoveredGlobal_80246C58___vt__14TWindowBreakIn *)&__vt__14TWindowBreakIn).value;
+    *(s32 **)((s8 *)window_dd + 0x18) = __vt__14TWindowBreakIn;
     *(s32 *)((s8 *)window_dd + 0) = (s32) TWindowBreakIn__name;
     return window_dd;
 }

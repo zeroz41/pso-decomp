@@ -13,9 +13,6 @@
 const char *TWindowSubEquipList__class_name = "TWindowSubEquipList";
 
 
-struct RecoveredGlobal_802793E4___vt__19TWindowSubEquipList { s32 value; u8 remaining[0x1C]; };
-typedef char RecoveredGlobal_802793E4___vt__19TWindowSubEquipList_size[sizeof(RecoveredGlobal_802793E4___vt__19TWindowSubEquipList) == 0x20 ? 1 : -1];
-
 extern "C" {
 s32 get_draw_context__11TWindowBaseFPv();
 s32 draw_visible_window_entries(void *, void *, int);
@@ -66,7 +63,7 @@ void *__dt__19TWindowSubEquipListFv(void *window_sub_status_disp, s16 arg1) {
 }
 u8 *TWindowSubEquipList__ct(u8 *window_menu_icon_line, s32 arg1, s16 arg2) {
     fn_802683F4((window_menu_icon_line), (arg1), 8, (arg2));
-    *(s32 **)((s8 *)window_menu_icon_line + 0x18) = &(*(RecoveredGlobal_802793E4___vt__19TWindowSubEquipList *)&__vt__19TWindowSubEquipList).value;
+    *(s32 **)((s8 *)window_menu_icon_line + 0x18) = __vt__19TWindowSubEquipList;
     *(s32 *)((s8 *)window_menu_icon_line + 0) = (s32) ((s32)TWindowSubEquipList__class_name);
     ((TWindowMenuIconLine *)window_menu_icon_line)->ensure_status_display((int) (TWindowSubStatusDisp::get_message_10(0x25)));
     return window_menu_icon_line;

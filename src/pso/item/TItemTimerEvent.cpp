@@ -14,11 +14,6 @@
 #include "pso/object/base/TObjMotion.h"
 
 
-struct RecoveredGlobal_8011DC90___vt__15TItemTimerEvent {
-    s32 value;
-    u8 remaining[0x1C];
-};
-
 extern "C" {
 u32 get_player_by_client_id(u16);
 void fn_8011085C(u8 *arg0, s32 arg1);
@@ -94,10 +89,9 @@ void *__dt__15TItemTimerEventFv(void *item_heap_object, s16 arg1) {
 
 extern s32 lbl_804A0568[];
 
-typedef char RecoveredGlobal_8011DC90___vt__15TItemTimerEvent_size[sizeof(RecoveredGlobal_8011DC90___vt__15TItemTimerEvent) == 0x20 ? 1 : -1];
 u8 *TItemTimerEvent__ct(TItemTimerEvent *item_timer_event, s32 arg1, s16 arg2, s32 arg3) {
     __ct__15TItemHeapObjectFP7TObject(item_timer_event);
-    *(s32 **)((s8 *)item_timer_event + 0x18) = &(*(RecoveredGlobal_8011DC90___vt__15TItemTimerEvent *)&__vt__15TItemTimerEvent).value;
+    *(s32 **)((s8 *)item_timer_event + 0x18) = __vt__15TItemTimerEvent;
     *(s32 *)((s8 *)item_timer_event + 0) = (s32) TItemTimerEvent__class_name;
     *(s16 *)&item_timer_event->m_1c = arg2;
     *(s32 *)&item_timer_event->m_28 = 0;

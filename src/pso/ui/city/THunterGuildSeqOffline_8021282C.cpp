@@ -17,11 +17,6 @@
 #include "pso/quest/TQuestThread.h"
 
 
-struct RecoveredGlobal_802128B0_THunterGuildSeqOffline__data_80513DC8 {
-    s32 value;
-    u8 remaining[0xC];
-};
-
 struct Base_80212B88 { char pad[0x18]; };
 
 struct Seq_80212B88 : Base_80212B88 {
@@ -55,7 +50,7 @@ struct Seq_802129FC : Base_802129FC {
 };
 
 extern "C" {
-extern RecoveredGlobal_802128B0_THunterGuildSeqOffline__data_80513DC8 THunterGuildSeqOffline__quest_result_callbacks;
+extern s32 THunterGuildSeqOffline__quest_result_callbacks[];
 List_80212B88 *TQuestListOffline__ct(void *, s32, Seq_80212B88 *, s32);
 void *__nw__7TObjectFUl(u32);
 extern s32 tl_05;
@@ -90,7 +85,6 @@ void THunterGuildSeqOffline::request_close() {
     }
 }
 
-typedef char RecoveredGlobal_802128B0_THunterGuildSeqOffline__data_80513DC8_size[sizeof(RecoveredGlobal_802128B0_THunterGuildSeqOffline__data_80513DC8) == 0x10 ? 1 : -1];
 void THunterGuildSeqOffline::handle_cancel_choice() {
     u8 *arg0 = (u8 *)this;
     s32 selected_menu_value;
@@ -104,8 +98,8 @@ void THunterGuildSeqOffline::handle_cancel_choice() {
                 this->m_2c = NULL;
                 this->display_guild_message(9, 1);
                 *(s32 *)&this->unk_38 = 1;
-                if ((s32) *(s32 *)((s8 *)&THunterGuildSeqOffline__quest_result_callbacks.value + 8) != -1) {
-                    this->m_34 = (s32)TQuestThread::create_in_root(*(s32 *)((s8 *)&THunterGuildSeqOffline__quest_result_callbacks.value + 8));
+                if ((s32) *(s32 *)((s8 *)&THunterGuildSeqOffline__quest_result_callbacks + 8) != -1) {
+                    this->m_34 = (s32)TQuestThread::create_in_root(*(s32 *)((s8 *)&THunterGuildSeqOffline__quest_result_callbacks + 8));
                 }
                 ((TShopWindowBase *)arg0)->set_field_20(5);
                 return;

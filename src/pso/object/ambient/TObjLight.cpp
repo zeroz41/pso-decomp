@@ -17,11 +17,6 @@
 #include "pso/math/AngleLookup.h"
 #include "pso/system/task/TObject.h"
 
-struct RecoveredGlobal_80194528___vt__9TObjLight {
-    s32 value;
-    u8 remaining[0x34];
-};
-
 struct RecoveredGlobal_80194528_TObjLight__data_80506320 {
     s32 value;
     u8 remaining[0x4C];
@@ -197,11 +192,10 @@ TObjLight::~TObjLight() {
 }
 
 
-typedef char RecoveredGlobal_80194528___vt__9TObjLight_size[sizeof(RecoveredGlobal_80194528___vt__9TObjLight) == 0x38 ? 1 : -1];
 typedef char RecoveredGlobal_80194528_TObjLight__data_80506320_size[sizeof(RecoveredGlobal_80194528_TObjLight__data_80506320) == 0x50 ? 1 : -1];
 u8 *TObjLight__ct(TObjLight *light, s32 arg1, u8 *arg2) {
     __ct__8TObjBaseFP7TObject(light);
-    *(s32 **)((s8 *)light + 0x18) = &(*(RecoveredGlobal_80194528___vt__9TObjLight *)&__vt__9TObjLight).value;
+    *(s32 **)((s8 *)light + 0x18) = __vt__9TObjLight;
     *(s32 *)((s8 *)light + 0) = (s32) lbl_805D33B8;
     ((TObjLight *)(light))->apply_object_set_data(arg2);
     light->m_90 = (s32) *(s16 *)((s8 *)arg2 + 8);

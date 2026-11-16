@@ -12,12 +12,6 @@
 #pragma scheduling off
 
 
-struct RecoveredGlobal_803DF528_TObjLight__data_8058D528 {
-    s32 value;
-    u8 remaining[0x13C];
-};
-
-
 typedef struct GXColor_803DF268 { u8 r, g, b, a; } GXColor_803DF268;
 
 
@@ -35,7 +29,8 @@ s32 light_slot_mask_table[5] = { 1, 2, 4, 8, 16 };
 extern s32 gx_chan_ctrl_light_mask;
 extern "C" {
 s32 GXLoadLightObjImm(void *, int);
-extern RecoveredGlobal_803DF528_TObjLight__data_8058D528 TObjLight__gx_light_objects;
+struct TObjLightGxLightObjects { s32 value; u8 remaining[0x13C]; };
+extern TObjLightGxLightObjects TObjLight__gx_light_objects;
 void OSPanic(char *, s32, char *, ...);
 void GXSetChanAmbColor(s32 chan, GXColor_803DF268 color);
 void GXInitLightColor(void *, GXColor_803DF268);
@@ -82,8 +77,6 @@ void submit_light0(s32 arg0, s32 arg1) {
     gx_chan_ctrl_light_mask = var_r0;
 }
 
-
-typedef char RecoveredGlobal_803DF528_TObjLight__data_8058D528_size[sizeof(RecoveredGlobal_803DF528_TObjLight__data_8058D528) == 0x140 ? 1 : -1];
 
 #pragma push
 #pragma scheduling off

@@ -12,9 +12,6 @@
 struct RecoveredGlobal_80195BEC_lbl_80445E84 { s32 value; u8 remaining[0x28]; };
 typedef char RecoveredGlobal_80195BEC_lbl_80445E84_size[sizeof(RecoveredGlobal_80195BEC_lbl_80445E84) == 0x2C ? 1 : -1];
 
-struct RecoveredGlobal_80195BEC___vt__18TObjQuestColALock2 { s32 value; u8 remaining[0x40]; };
-typedef char RecoveredGlobal_80195BEC___vt__18TObjQuestColALock2_size[sizeof(RecoveredGlobal_80195BEC___vt__18TObjQuestColALock2) == 0x44 ? 1 : -1];
-
 struct RecoveredGlobal_801959A0_lbl_804A7428 {
     s32 value;
     u8 remaining[0xC];
@@ -133,7 +130,7 @@ void *__dt__18TObjQuestColALock2Fv(void *quest_col_base, s16 arg1) {
 u8 *TObjQuestColALock2__ct(TObjQuestColALock2 *quest_col_a_lock2, s32 arg1, s32 _w2) {
     u8 *temp_r4;
     TObjQuestColBase__ct(quest_col_a_lock2, arg1);
-    *(s32 **)((s8 *)quest_col_a_lock2 + 0x18) = &(*(RecoveredGlobal_80195BEC___vt__18TObjQuestColALock2 *)&__vt__18TObjQuestColALock2).value;
+    *(s32 **)((s8 *)quest_col_a_lock2 + 0x18) = __vt__18TObjQuestColALock2;
     *(s32 *)((s8 *)quest_col_a_lock2 + 0) = (s32) TObjQuestColALock2__name;
     init_collision_body_parts(quest_col_a_lock2, (s32) &TObjQuestColALock__collision_desc.value, 1);
     ((TObjCollidable *)quest_col_a_lock2)->set_indexed_flags(0, 0xF0);

@@ -13,11 +13,6 @@
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/system/task/TObject.h"
 
-struct RecoveredGlobal_801F6548_lbl_80512790 {
-    s32 value;
-    u8 remaining[0x1C];
-};
-
 struct MCFmt_801F68FC {
     u8 pad0[0x24];
     s32 f24;
@@ -41,7 +36,6 @@ extern Pair_801F68FC lbl_8044A684[];
 s32 poll_memcard_result(s32);
 s32 start_memcard_format(s32, s32, s32, s32, s32);
 
-typedef char RecoveredGlobal_801F6548_lbl_80512790_size[sizeof(RecoveredGlobal_801F6548_lbl_80512790) == 0x20 ? 1 : -1];
 void TMCFormatSequence::close_window() { if (this->m_34 != 0) { ((TWindowBase *)this->m_34)->close(); this->m_34 = 0; } }
 
 void TMCFormatSequence::show_message(s32 arg1, s32 arg2) {

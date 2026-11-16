@@ -18,16 +18,6 @@
 #pragma auto_inline off
 #pragma dont_inline off
 
-struct RecoveredGlobal_801D2CF4_lbl_804C43CC {
-    s32 value;
-    u8 remaining[0x8];
-};
-
-struct RecoveredGlobal_801D2CF4_lbl_804C43D8 {
-    s32 value;
-    u8 remaining[0xC];
-};
-
 struct Pos_801D2964 { u8 bytes[0x8]; };
 
 struct Pkt_801D2964 { u8 hdr[4]; Pos_801D2964 pos; };
@@ -65,8 +55,6 @@ void *TObjPlayer__sub_801C092C(void *arg0, void *arg1) {
 #pragma push
 #pragma fp_contract on
 #pragma pop
-typedef char RecoveredGlobal_801D2CF4_lbl_804C43CC_size[sizeof(RecoveredGlobal_801D2CF4_lbl_804C43CC) == 0xC ? 1 : -1];
-typedef char RecoveredGlobal_801D2CF4_lbl_804C43D8_size[sizeof(RecoveredGlobal_801D2CF4_lbl_804C43D8) == 0x10 ? 1 : -1];
 
 void TObjPlayer::set_code_12_3() { *(u8*)((char*)this + 0x0) = 12; *(u8*)((char*)this + 0x1) = 3; }
 void TObjPlayer::reinit_update_sub4_and_send() { apply_status_effect__10TObjPlayerFPv(this); send_subcommand((u8 *)this); }

@@ -8,178 +8,15 @@
 #include "pso/unk/TLobby_80207644.h"
 #include "pso/unk/TLobby_8023F734.h"
 
-struct RecoveredGlobal_80227AA8_lbl_80514F64 {
-    s32 value;
-    u8 remaining[0xC38];
-};
-
-
     extern int music_stream_base_gain;
 int get_music_base_gain(void) {  return music_stream_base_gain; }
-typedef char RecoveredGlobal_80227AA8_lbl_80514F64_size[sizeof(RecoveredGlobal_80227AA8_lbl_80514F64) == 0xC3C ? 1 : -1];
 void TLobby__sub_80227AA8(s32 arg0) {
-    fn_8023F660((&(*(RecoveredGlobal_80227AA8_lbl_80514F64 *)&sound_control_state).value), (arg0), (((s32 (*)())get_menu_field_280__6TLobbyFv)() + 0x55), 0x40, 0x40, 0);
+    fn_8023F660((&sound_control_state), (arg0), (((s32 (*)())get_menu_field_280__6TLobbyFv)() + 0x55), 0x40, 0x40, 0);
 }
 
 
-struct RecoveredGlobal_8000F764_TKeyBoardControl__data_80506270 {
-    s32 value;
-    u8 remaining[0xAC];
-};
-
-struct RecoveredGlobal_8000F7FC_lbl_80515F48 {
-    s32 value;
-    u8 remaining[0x24];
-};
-
-struct RecoveredGlobal_8000F9E4_lbl_804FE120 {
-    s32 value;
-    u8 remaining[0x14];
-};
-
-struct RecoveredGlobal_8000F90C_lbl_804FE120 {
-    s32 value;
-    u8 remaining[0x14];
-};
-
-struct RecoveredGlobal_8000F9CC_lbl_804FE120 {
-    s32 value;
-    u8 remaining[0x14];
-};
-
-struct RecoveredGlobal_8000F8FC_lbl_804FE120 {
-    s32 value;
-    u8 remaining[0x14];
-};
-
-struct RecoveredGlobal_8000F8EC_lbl_804FE120 {
-    s32 value;
-    u8 remaining[0x14];
-};
-
-struct RecoveredGlobal_8000F91C_lbl_804FE120 {
-    s32 value;
-    u8 remaining[0x14];
-};
-
 #include <stddef.h>
 #include "pso/system/scene/TScene.h"
-struct RecoveredGlobal_80069094_camera_controller_registry { s32 value; u8 remaining[0x64]; };
-
-struct RecoveredGlobal_80069024_TCameraCtrl__data_804FF634 {
-    s32 value;
-    u8 remaining[0x44];
-};
-
-struct RecoveredGlobal_80069024_lbl_804FF67C {
-    s32 value;
-    u8 remaining[0x44];
-};
-
-struct RecoveredGlobal_800695E8_TCameraCtrl__data_804FF628 {
-    s32 value;
-    u8 remaining[0x8];
-};
-
-struct RecoveredGlobal_800691C8_TCameraCtrl__data_804FF6D0 {
-    s32 value;
-    u8 remaining[0x2C];
-};
-
-struct RecoveredGlobal_800691C8_TCameraCtrl__data_804FF700 {
-    s32 value;
-    u8 remaining[0xBC];
-};
-
-struct RecoveredGlobal_800691C8_main_task {
-    s32 value;
-    u8 remaining[0x30];
-};
-
-struct RecoveredGlobal_800687E4_TCameraCtrl__data_804FF6C4 {
-    s32 value;
-    u8 remaining[0x8];
-};
-
-struct RecoveredGlobal_80069148_TCameraCtrl__data_804FF6D0 {
-    s32 value;
-    u8 remaining[0x2C];
-};
-
-struct RecoveredGlobal_80069148_TCameraCtrl__data_804FF700 {
-    s32 value;
-    u8 remaining[0xBC];
-};
-
-struct RecoveredGlobal_80069C94_camera_controller_registry {
-    s32 value;
-    u8 remaining[0x64];
-};
-
-struct RecoveredGlobal_80069C94_TCameraCtrl__data_804FF628 {
-    s32 value;
-    u8 remaining[0x8];
-};
-
-struct RecoveredGlobal_80069D04_camera_controller_registry {
-    s32 value;
-    u8 remaining[0x64];
-};
-
-struct RecoveredGlobal_80069D04_TCameraCtrl__data_804FF628 {
-    s32 value;
-    u8 remaining[0x8];
-};
-
-struct RecoveredGlobal_800687C8_TCameraCtrl__data_804FF6C4 {
-    s32 value;
-    u8 remaining[0x8];
-};
-
-struct RecoveredGlobal_80069304_TCameraCtrl__data_804FF628 {
-    s32 value;
-    u8 remaining[0x8];
-};
-
-struct RecoveredGlobal_8006961C_TCameraCtrl__data_804FF628 {
-    s32 value;
-    u8 remaining[0x8];
-};
-
-struct RecoveredGlobal_8006961C_TCameraCtrl__data_804FF634 {
-    s32 value;
-    u8 remaining[0x44];
-};
-
-struct RecoveredGlobal_8006961C_lbl_8058CA60 {
-    s32 value;
-    u8 remaining[0x54];
-};
-
-struct RecoveredGlobal_80069258_TCameraCtrl__data_804FF6D0 {
-    s32 value;
-    u8 remaining[0x2C];
-};
-
-struct RecoveredGlobal_80069258_TCameraCtrl__data_804FF700 {
-    s32 value;
-    u8 remaining[0xBC];
-};
-
-struct RecoveredGlobal_80069258_main_task {
-    s32 value;
-    u8 remaining[0x30];
-};
-
-struct RecoveredGlobal_80069A6C_camera_controller_registry {
-    s32 value;
-    u8 remaining[0x64];
-};
-
-struct RecoveredGlobal_80069A6C_TCameraCtrl__data_804FF628 {
-    u8 value;
-    u8 remaining[0xB];
-};
 
 extern "C" {
 s32 play_sound_effect(s32, s32, s32, s32);
@@ -192,9 +29,6 @@ void TLobby__sub_80227AF8(s32 arg0, s32 arg1) { TLobby__sub_8023F754(arg0, arg1)
 }
 
 extern s32 local_client_id;
-
-typedef char RecoveredGlobal_8000F764_TKeyBoardControl__data_80506270_size[sizeof(RecoveredGlobal_8000F764_TKeyBoardControl__data_80506270) == 0xB0 ? 1 : -1];
-typedef char RecoveredGlobal_8000F7FC_lbl_80515F48_size[sizeof(RecoveredGlobal_8000F7FC_lbl_80515F48) == 0x28 ? 1 : -1];
 
 s32 is_special_sound_id(u32 x) {
     s32 lo = x & 0xffff;
@@ -210,12 +44,6 @@ void apply_clamped_field_27c__6TLobbyFv(f32 value) {
     ((TLobby *)(&sound_control_state))->set_clamped_field27c(value);
 }
 }
-typedef char RecoveredGlobal_8000F90C_lbl_804FE120_size[sizeof(RecoveredGlobal_8000F90C_lbl_804FE120) == 0x18 ? 1 : -1];
-typedef char RecoveredGlobal_8000F8FC_lbl_804FE120_size[sizeof(RecoveredGlobal_8000F8FC_lbl_804FE120) == 0x18 ? 1 : -1];
-typedef char RecoveredGlobal_8000F8EC_lbl_804FE120_size[sizeof(RecoveredGlobal_8000F8EC_lbl_804FE120) == 0x18 ? 1 : -1];
-typedef char RecoveredGlobal_8000F91C_lbl_804FE120_size[sizeof(RecoveredGlobal_8000F91C_lbl_804FE120) == 0x18 ? 1 : -1];
-typedef char RecoveredGlobal_8000F9E4_lbl_804FE120_size[sizeof(RecoveredGlobal_8000F9E4_lbl_804FE120) == 0x18 ? 1 : -1];
-typedef char RecoveredGlobal_8000F9CC_lbl_804FE120_size[sizeof(RecoveredGlobal_8000F9CC_lbl_804FE120) == 0x18 ? 1 : -1];
 
 void handle_6xB2_play_sound_from_player(void *arg0) {
     s32 player;
@@ -257,37 +85,13 @@ void TLobby::set_mode(s32 arg0) {
 extern "C" {
 
 void get_menu_field_280__6TLobbyFv(void) {
-    ((TLobby *)(&(*(RecoveredGlobal_8000F7FC_lbl_80515F48 *)&sound_control_state).value))->get_field_0x280();
+    ((TLobby *)&sound_control_state)->get_field_0x280();
 }
 }
 
-typedef char RecoveredGlobal_80069094_camera_controller_registry_size[sizeof(RecoveredGlobal_80069094_camera_controller_registry) == 0x68 ? 1 : -1];
-typedef char RecoveredGlobal_800687E4_TCameraCtrl__data_804FF6C4_size[sizeof(RecoveredGlobal_800687E4_TCameraCtrl__data_804FF6C4) == 0xC ? 1 : -1];
-typedef char RecoveredGlobal_800687C8_TCameraCtrl__data_804FF6C4_size[sizeof(RecoveredGlobal_800687C8_TCameraCtrl__data_804FF6C4) == 0xC ? 1 : -1];
 void TLobby::set_menu_index_main(u8 *arg0) {
-    ((TLobby *)(&(*(RecoveredGlobal_800687E4_TCameraCtrl__data_804FF6C4 *)&sound_control_state).value))->set_menu_index((s32)arg0);
+    ((TLobby *)&sound_control_state)->set_menu_index((s32)arg0);
 }
-typedef char RecoveredGlobal_80069024_TCameraCtrl__data_804FF634_size[sizeof(RecoveredGlobal_80069024_TCameraCtrl__data_804FF634) == 0x48 ? 1 : -1];
-typedef char RecoveredGlobal_80069024_lbl_804FF67C_size[sizeof(RecoveredGlobal_80069024_lbl_804FF67C) == 0x48 ? 1 : -1];
-typedef char RecoveredGlobal_800691C8_TCameraCtrl__data_804FF6D0_size[sizeof(RecoveredGlobal_800691C8_TCameraCtrl__data_804FF6D0) == 0x30 ? 1 : -1];
-typedef char RecoveredGlobal_800691C8_TCameraCtrl__data_804FF700_size[sizeof(RecoveredGlobal_800691C8_TCameraCtrl__data_804FF700) == 0xC0 ? 1 : -1];
-typedef char RecoveredGlobal_800691C8_main_task_size[sizeof(RecoveredGlobal_800691C8_main_task) == 0x34 ? 1 : -1];
-typedef char RecoveredGlobal_80069148_TCameraCtrl__data_804FF6D0_size[sizeof(RecoveredGlobal_80069148_TCameraCtrl__data_804FF6D0) == 0x30 ? 1 : -1];
-typedef char RecoveredGlobal_80069148_TCameraCtrl__data_804FF700_size[sizeof(RecoveredGlobal_80069148_TCameraCtrl__data_804FF700) == 0xC0 ? 1 : -1];
-typedef char RecoveredGlobal_80069258_TCameraCtrl__data_804FF6D0_size[sizeof(RecoveredGlobal_80069258_TCameraCtrl__data_804FF6D0) == 0x30 ? 1 : -1];
-typedef char RecoveredGlobal_80069258_TCameraCtrl__data_804FF700_size[sizeof(RecoveredGlobal_80069258_TCameraCtrl__data_804FF700) == 0xC0 ? 1 : -1];
-typedef char RecoveredGlobal_80069258_main_task_size[sizeof(RecoveredGlobal_80069258_main_task) == 0x34 ? 1 : -1];
-typedef char RecoveredGlobal_800695E8_TCameraCtrl__data_804FF628_size[sizeof(RecoveredGlobal_800695E8_TCameraCtrl__data_804FF628) == 0xC ? 1 : -1];
-typedef char RecoveredGlobal_80069304_TCameraCtrl__data_804FF628_size[sizeof(RecoveredGlobal_80069304_TCameraCtrl__data_804FF628) == 0xC ? 1 : -1];
-typedef char RecoveredGlobal_8006961C_TCameraCtrl__data_804FF628_size[sizeof(RecoveredGlobal_8006961C_TCameraCtrl__data_804FF628) == 0xC ? 1 : -1];
-typedef char RecoveredGlobal_8006961C_TCameraCtrl__data_804FF634_size[sizeof(RecoveredGlobal_8006961C_TCameraCtrl__data_804FF634) == 0x48 ? 1 : -1];
-typedef char RecoveredGlobal_8006961C_lbl_8058CA60_size[sizeof(RecoveredGlobal_8006961C_lbl_8058CA60) == 0x58 ? 1 : -1];
-typedef char RecoveredGlobal_80069A6C_camera_controller_registry_size[sizeof(RecoveredGlobal_80069A6C_camera_controller_registry) == 0x68 ? 1 : -1];
-typedef char RecoveredGlobal_80069A6C_TCameraCtrl__data_804FF628_size[sizeof(RecoveredGlobal_80069A6C_TCameraCtrl__data_804FF628) == 0xC ? 1 : -1];
-typedef char RecoveredGlobal_80069C94_camera_controller_registry_size[sizeof(RecoveredGlobal_80069C94_camera_controller_registry) == 0x68 ? 1 : -1];
-typedef char RecoveredGlobal_80069C94_TCameraCtrl__data_804FF628_size[sizeof(RecoveredGlobal_80069C94_TCameraCtrl__data_804FF628) == 0xC ? 1 : -1];
-typedef char RecoveredGlobal_80069D04_camera_controller_registry_size[sizeof(RecoveredGlobal_80069D04_camera_controller_registry) == 0x68 ? 1 : -1];
-typedef char RecoveredGlobal_80069D04_TCameraCtrl__data_804FF628_size[sizeof(RecoveredGlobal_80069D04_TCameraCtrl__data_804FF628) == 0xC ? 1 : -1];
 
 void release_sound_with_fade(s32 slot) { fade_out_sound_slot(slot, 64); }
 extern "C" {
@@ -389,26 +193,6 @@ void is_sound_enabled(void) {
 }
 
 
-struct RecoveredGlobal_8022804C_lbl_80514F64 {
-    s32 value;
-    u8 remaining[0xC38];
-};
-
-struct RecoveredGlobal_80228074_lbl_80514F64 {
-    s32 value;
-    u8 remaining[0xC38];
-};
-
-struct RecoveredGlobal_8022809C_lbl_80514F64 {
-    s32 value;
-    u8 remaining[0xC38];
-};
-
-struct RecoveredGlobal_802280C4_lbl_80514F64 {
-    s32 value;
-    u8 remaining[0xC38];
-};
-
 s32 update_sound_frame(SoundControlState *self);
 extern "C" {
 int render_tick__Fv(void);
@@ -452,26 +236,22 @@ void load_floor_sound_bank(s32 arg0) {
     }
 }
 
-typedef char RecoveredGlobal_8022804C_lbl_80514F64_size[sizeof(RecoveredGlobal_8022804C_lbl_80514F64) == 0xC3C ? 1 : -1];
 void TLobby__sub_8022804C(void) {
     TLobby__sub_802401C8(&sound_control_state);
 }
 
-typedef char RecoveredGlobal_80228074_lbl_80514F64_size[sizeof(RecoveredGlobal_80228074_lbl_80514F64) == 0xC3C ? 1 : -1];
 void update_global_sound_frame(void) {
-    update_sound_frame((SoundControlState *)(&(*(RecoveredGlobal_80228074_lbl_80514F64 *)&sound_control_state).value));
+    update_sound_frame(&sound_control_state);
 }
 
-typedef char RecoveredGlobal_8022809C_lbl_80514F64_size[sizeof(RecoveredGlobal_8022809C_lbl_80514F64) == 0xC3C ? 1 : -1];
 void TLobby__sub_8022809C(void) {
-    ((TLobby *)(&(*(RecoveredGlobal_8022809C_lbl_80514F64 *)&sound_control_state).value))->reset_sound_state();
+    ((TLobby *)&sound_control_state)->reset_sound_state();
 }
 }
 
-typedef char RecoveredGlobal_802280C4_lbl_80514F64_size[sizeof(RecoveredGlobal_802280C4_lbl_80514F64) == 0xC3C ? 1 : -1];
 void TLobby::wait_for_sound_init() {
-    init_sound_aux_effects((SoundControlState *)(&(*(RecoveredGlobal_802280C4_lbl_80514F64 *)&sound_control_state).value));
-    ((TLobby *)(&(*(RecoveredGlobal_802280C4_lbl_80514F64 *)&sound_control_state).value))->validate_and_set_selection(0);
+    init_sound_aux_effects(&sound_control_state);
+    ((TLobby *)&sound_control_state)->validate_and_set_selection(0);
     do {
         TLobby__sub_803382E4();
         TLobby::run_disk_error_check();

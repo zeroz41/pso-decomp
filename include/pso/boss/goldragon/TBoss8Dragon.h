@@ -310,4 +310,17 @@ typedef char TBoss8DragonSize[(sizeof(TBoss8Dragon) == 0x8A4) ? 1 : -1];
 typedef char TBoss8DragonSubTasksOffset[(offsetof(TBoss8Dragon, sub_tasks) == 0x3C4) ? 1 : -1];
 typedef char TBoss8DragonAfterFadeOffset[(offsetof(TBoss8Dragon, m_74c) == 0x74C) ? 1 : -1];
 
+// boss8_dragon_reference_pos_vec: layout known from its uses only.
+struct Boss8DragonReferencePosVec { s32 value; u8 remaining[0x8]; };
+extern Boss8DragonReferencePosVec boss8_dragon_reference_pos_vec;
+// dragon_forward_reference_vec: layout known from its uses only.
+struct DragonForwardReferenceVec { s32 value; u8 remaining[0x8]; };
+extern DragonForwardReferenceVec dragon_forward_reference_vec;
+// lbl_80541DE8: layout known from its uses only.
+struct RecoveredGlobal_lbl_80541DE8 { Vec value; };
+extern RecoveredGlobal_lbl_80541DE8 lbl_80541DE8;
+// lbl_80541DF4: layout known from its uses only.
+struct RecoveredGlobal_lbl_80541DF4 { Vec value; Vec unkC; Vec unk18; };
+extern RecoveredGlobal_lbl_80541DF4 lbl_80541DF4;
+
 #endif

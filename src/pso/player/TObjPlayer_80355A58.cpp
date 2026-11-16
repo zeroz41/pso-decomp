@@ -8,11 +8,6 @@
 #include "pso/map/FloorArea.h"
 
 
-struct RecoveredGlobal_80355BA0_lbl_804F1320 {
-    s32 value;
-    u8 remaining[0xF4];
-};
-
 extern "C" {
 u8 * __ct__11TItemWeaponFP7TObjectPUc(void *, void *);
 extern s32 __vt__13TUnk_804F1320[];
@@ -46,14 +41,13 @@ void TUnk_804F1320::emit_marker_effects() {
     }
     ((TItemWeapon *)arg0)->update_active_game_effect();
 }
-typedef char RecoveredGlobal_80355BA0_lbl_804F1320_size[sizeof(RecoveredGlobal_80355BA0_lbl_804F1320) == 0xF8 ? 1 : -1];
 
 }
 TUnk_804F1320::~TUnk_804F1320() {}
 
 u8 *photon_field_weapon_ct(TObjPlayer *player, u8 *arg1) {
     __ct__11TItemWeaponFP7TObjectPUc(player, arg1);
-    *(s32 **)((s8 *)player + 0x18) = &(*(RecoveredGlobal_80355BA0_lbl_804F1320 *)&__vt__13TUnk_804F1320).value;
+    *(s32 **)((s8 *)player + 0x18) = __vt__13TUnk_804F1320;
     ((TItemWeapon *)player)->set_weapon_flags(0x22);
     if (((TItem *)player)->get_item_group() == 0x3D) {
         *(f32 *)((s8 *)player + 0x1F8) = 70.0f;

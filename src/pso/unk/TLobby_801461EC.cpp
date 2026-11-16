@@ -17,29 +17,9 @@
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/system/ControllerInputState.h"
 
-struct RecoveredGlobal_80146CB8_lbl_8050CCE8 {
-    s32 value;
-    u8 remaining[0x128];
-};
-
 struct RecoveredGlobal_8014672C_lbl_8050C0A8 {
     s32 value;
     u8 remaining[0x6D8];
-};
-
-struct RecoveredGlobal_80146588_lbl_8050CCE8 {
-    s32 value;
-    u8 remaining[0x128];
-};
-
-struct RecoveredGlobal_80146D14_lbl_8050CCE8 {
-    s32 value;
-    u8 remaining[0x128];
-};
-
-struct RecoveredGlobal_80146D44_lbl_8050CE14 {
-    s32 value;
-    u8 remaining[0x150];
 };
 
 extern "C" {
@@ -186,8 +166,6 @@ char lbl_8050CE34[0x20];
 u8 lbl_8050CE54[0x114];
 extern s32 lbl_805D5714;
 #define lbl_8050C0A8 (*(RecoveredGlobal_8014672C_lbl_8050C0A8 *)lbl_8050C0A8)
-#define lbl_8050CCE8 (*(RecoveredGlobal_80146CB8_lbl_8050CCE8 *)lbl_8050CCE8)
-#define lbl_8050CE14 (*(RecoveredGlobal_80146D44_lbl_8050CE14 *)lbl_8050CE14)
 
 void TLobby::init_keyboard_buffer() { keyboard_buffer_cursor = 0; lbl_805D56CE = 0; lbl_805D56C8 = 0; get_network_config_buffer_size((s32)((void*)0)); lbl_805D56C8 = xmalloc__FUl(); TLobby__sub_80145A94(); }
 
@@ -329,14 +307,13 @@ s32 connect_pppoe(s32 *out_value) {
     }
 }
 
-typedef char RecoveredGlobal_80146588_lbl_8050CCE8_size[sizeof(RecoveredGlobal_80146588_lbl_8050CCE8) == 0x12C ? 1 : -1];
 extern "C" {
 s32 TLobby__sub_80146588(s32 *arg0) {
-    lobby_local_ip_addr = *(s32 *)((s8 *)(&(*(RecoveredGlobal_80146588_lbl_8050CCE8 *)&lbl_8050CCE8).value) + 4);
-    *(s32 *)((s8 *)arg0 + 0) = *(s32 *)((s8 *)(&(*(RecoveredGlobal_80146588_lbl_8050CCE8 *)&lbl_8050CCE8).value) + 8);
-    lobby_connect_battle_flag = *(s32 *)((s8 *)(&(*(RecoveredGlobal_80146588_lbl_8050CCE8 *)&lbl_8050CCE8).value) + 0x18);
-    lobby_dns_server_addr = *(s32 *)((s8 *)(&(*(RecoveredGlobal_80146588_lbl_8050CCE8 *)&lbl_8050CCE8).value) + 0x10);
-    lobby_dns_server_addr2 = *(s32 *)((s8 *)(&(*(RecoveredGlobal_80146588_lbl_8050CCE8 *)&lbl_8050CCE8).value) + 0x14);
+    lobby_local_ip_addr = *(s32 *)((s8 *)&lbl_8050CCE8 + 4);
+    *(s32 *)((s8 *)arg0 + 0) = *(s32 *)((s8 *)&lbl_8050CCE8 + 8);
+    lobby_connect_battle_flag = *(s32 *)((s8 *)&lbl_8050CCE8 + 0x18);
+    lobby_dns_server_addr = *(s32 *)((s8 *)&lbl_8050CCE8 + 0x10);
+    lobby_dns_server_addr2 = *(s32 *)((s8 *)&lbl_8050CCE8 + 0x14);
     return 0;
 }
 
@@ -571,8 +548,6 @@ s32 TLobby::run_connect_sequence() {
 
 void TLobby::call_146CA0_with_5708() { get_modem_phone_number(lbl_805D5708); }
 
-typedef char RecoveredGlobal_80146CB8_lbl_8050CCE8_size[sizeof(RecoveredGlobal_80146CB8_lbl_8050CCE8) == 0x12C ? 1 : -1];
-
 char *get_modem_phone_number(s32 idx) {
     return lobby_account_entries[2].phone[idx].number;
 }
@@ -581,22 +556,20 @@ void TLobby::set_ppp_password(s32 arg0) {
     u8 *temp_r31;
     TLobby__sub_8014618C();
     TLobby::is_state_active();
-    temp_r31 = (u8 *)&lbl_8050CCE8.value + 0xFC;
+    temp_r31 = (u8 *)&lbl_8050CCE8 + 0xFC;
     memset(temp_r31, 0, 0x20);
     strncpy((char *)temp_r31, (const char *)arg0, 0x1F);
 }
 
-typedef char RecoveredGlobal_80146D14_lbl_8050CCE8_size[sizeof(RecoveredGlobal_80146D14_lbl_8050CCE8) == 0x12C ? 1 : -1];
 extern "C" {
 u8 *TLobby__sub_80146D14(void) {
     TLobby__sub_8014618C();
     TLobby::is_state_active();
-    return (u8 *)&(*(RecoveredGlobal_80146D14_lbl_8050CCE8 *)&lbl_8050CCE8).value + 0xFC;
+    return (u8 *)&lbl_8050CCE8 + 0xFC;
 }
 
-typedef char RecoveredGlobal_80146D44_lbl_8050CE14_size[sizeof(RecoveredGlobal_80146D44_lbl_8050CE14) == 0x154 ? 1 : -1];
 char *TLobby__sub_80146D44(void) {
-    return (char *)&lbl_8050CE14.value;
+    return (char *)&lbl_8050CE14;
 }
 
 char *TLobby__sub_80146D50(s32 idx) {
@@ -689,17 +662,11 @@ void TLobby::teardown_boss2() {
 }
 
 #undef lbl_8050C0A8
-#undef lbl_8050CCE8
-#undef lbl_8050CE14
-
-struct RecoveredGlobal_80147A74_lbl_804EF500 {
-    s32 value;
-    u8 remaining[0x94];
-};
 
 struct Req_801471A0 { s32 type; u32 addr; u8 pad[0x18]; };
 
-extern RecoveredGlobal_80147A74_lbl_804EF500 ppp_password_buffer;
+struct PppPasswordBuffer { s32 value; u8 remaining[0x94]; };
+extern PppPasswordBuffer ppp_password_buffer;
 char *get_ppp_password_buffer(void);
 extern "C" {
 void OSReport(const char *, ...);
@@ -1016,7 +983,6 @@ void fn_80147A60(int a0) { keyboard_buffer_cursor = a0; }
 
 void fn_80147A68(void) { keyboard_buffer_cursor = 0; }
 }
-typedef char RecoveredGlobal_80147A74_lbl_804EF500_size[sizeof(RecoveredGlobal_80147A74_lbl_804EF500) == 0x98 ? 1 : -1];
 char *get_ppp_password_buffer(void) {
     return (char *)&ppp_password_buffer.value;
 }

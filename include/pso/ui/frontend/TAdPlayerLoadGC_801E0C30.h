@@ -11,4 +11,8 @@ int TAdPlayerLoadGC__sub_801E1510(void);
 s32 TAdPlayerLoadGC__sub_801E1518(void *arg0, s32 arg1, u32 arg2);
 }
 
+// TAdPlayerLoadGC__banner_buffers: layout known from its uses only.
+struct TAdPlayerLoadGCBannerBuffers { s32 value; u8 remaining[0x14]; };
+extern TAdPlayerLoadGCBannerBuffers TAdPlayerLoadGC__banner_buffers;
+
 #endif

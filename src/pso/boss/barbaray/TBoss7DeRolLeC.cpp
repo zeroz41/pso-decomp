@@ -605,11 +605,6 @@ struct RecoveredGlobal_802E80F4_lbl_8050BEC0 {
     u8 remaining[0x1C];
 };
 
-struct RecoveredGlobal_802E80F4_main_task {
-    s32 value;
-    u8 remaining[0x30];
-};
-
 struct RecoveredGlobal_802E80F4_lbl_8058D4C0 {
     s32 value;
     u8 remaining[0xC];
@@ -649,8 +644,6 @@ void TObjPlayer__sub_802E80A0(void);
 int set_global_param__8TObjFishFl(void);
 
 typedef char RecoveredGlobal_802E80F4_lbl_8050BEC0_size[sizeof(RecoveredGlobal_802E80F4_lbl_8050BEC0) == 0x20 ? 1 : -1];
-
-typedef char RecoveredGlobal_802E80F4_main_task_size[sizeof(RecoveredGlobal_802E80F4_main_task) == 0x34 ? 1 : -1];
 
 typedef char RecoveredGlobal_802E80F4_lbl_8058D4C0_size[sizeof(RecoveredGlobal_802E80F4_lbl_8058D4C0) == 0x10 ? 1 : -1];
 #pragma push
@@ -976,14 +969,7 @@ void TObjFish__sub_802EA4D8(u8 *arg0, u32 arg1);
 
 void TObjFish__sub_802EB90C(Fish_802EB90C *arg0, u32 arg1);
 
-struct RecoveredGlobal_802EC468_lbl_804FF5E8 {
-    s32 value;
-    u8 remaining[0x24];
-};
-
 struct Fish_802E8AD4 { u8 pad[0x628]; u32 flags; };
-
-typedef char RecoveredGlobal_802EC468_lbl_804FF5E8_size[sizeof(RecoveredGlobal_802EC468_lbl_804FF5E8) == 0x28 ? 1 : -1];
 
 struct Ply_802ECAA4 { u8 pad[0x326]; s16 state; };
 
@@ -1229,7 +1215,7 @@ s32 spawn_default_particle__8TObjFishFv(s32, s32);
 
 s32 TObjFish__sub_802F18E8(void *);
 
-extern RecoveredGlobal_802EC468_lbl_804FF5E8 lbl_804FF5E8;
+extern f32 lbl_804FF5E8[];
 
 struct Boss_802E83E8 { u8 pad[0x728]; s32 timer; s32 count; u8 pad730[0x7CC - 0x730]; u16 targets[4]; };
 
@@ -2338,9 +2324,9 @@ void spawn_particle_201__8TObjFishFii(s32 arg1, s32 arg2) {
 void TObjFish__sub_802EC468(s32 arg0, f32 farg0, f32 farg1) {
     Vec stack;
     VecCopy__FP3VecPC3Vec((int)((void *)&stack.x), (void *)arg0);
-    stack.x = -((*(f32 *)((s8 *)&lbl_804FF5E8.value + 0xC) * farg1) - stack.x);
-    stack.y -= (*(f32 *)((s8 *)&lbl_804FF5E8.value + 0x10) * farg1) - farg0;
-    stack.z = -((*(f32 *)((s8 *)&lbl_804FF5E8.value + 0x14) * farg1) - stack.z);
+    stack.x = -((*(f32 *)((s8 *)&lbl_804FF5E8 + 0xC) * farg1) - stack.x);
+    stack.y -= (*(f32 *)((s8 *)&lbl_804FF5E8 + 0x10) * farg1) - farg0;
+    stack.z = -((*(f32 *)((s8 *)&lbl_804FF5E8 + 0x14) * farg1) - stack.z);
     spawn_particle_effect_with_flags((&stack.x), 0x127, 0x40);
 }
 #pragma pop
@@ -4536,7 +4522,7 @@ void TBoss7DeRolLeC::sub_802E8234() {
 void TBoss7DeRolLeC::render() {
     s32 *var_r30;
     s32 var_r29;
-    if (!(get_mode__11TCameraCtrlFPv((void *) (&(*(RecoveredGlobal_802E80F4_main_task *)&main_task).value)) & 0x20) || !(*(f32 *)((s8 *)((u8 *)this) + 0x3C) < -35.0f)) {
+    if (!(get_mode__11TCameraCtrlFPv((void *)&main_task) & 0x20) || !(*(f32 *)((s8 *)((u8 *)this) + 0x3C) < -35.0f)) {
         var_r30 = (s32 *)(((u8 *)this) + 0x5F8);
         var_r29 = 0;
         do {

@@ -230,11 +230,6 @@ void TObjPlayer::copy_screen_to_texture(s32 mode, void *src) {
 #include "pso/camera/TCameraCtrl.h"
 
 
-struct RecoveredGlobal_800830B0_main_task {
-    s32 value;
-    u8 remaining[0x30];
-};
-
 struct G_80082FCC { s32 value; s32 v4; f32 f8; f32 fC; };
 
 extern "C" {
@@ -285,7 +280,6 @@ extern s32 __vt__13TUnk_8048E5DC[];
 
 #pragma push
 #pragma opt_common_subs off
-typedef char RecoveredGlobal_800830B0_main_task_size[sizeof(RecoveredGlobal_800830B0_main_task) == 0x34 ? 1 : -1];
 void TUnk_8048E5DC::render_shadows() {
     u8 *arg0 = (u8 *)this;
     if (is_split_screen() == 0) {
@@ -306,7 +300,7 @@ void TUnk_8048E5DC::render_shadows() {
             TCameraCtrl::calc_axes_from_angles((s32)camera_ctrl_instance, pitch, yaw);
         }
         TObjPlayer__sub_80084754();
-        ((TMainTask *)(&(*(RecoveredGlobal_800830B0_main_task *)&main_task).value))->render_scene_passes();
+        main_task.render_scene_passes();
         TObjPlayer__sub_80084744();
         if ((void *) (*(u8 * *)&camera_render_target_singleton) != NULL) {
             GXSetCopyClear(lbl_805E1210, 0xFFFFFF);

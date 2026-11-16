@@ -283,24 +283,10 @@ struct Stack_8005E1E8 {
     u8 trailing_storage[0x4];
 };
 
-struct RecoveredGlobal_8005E1E8_lbl_804FF5CC {
-    s32 value;
-    u8 remaining[0x8];
-};
-
-struct RecoveredGlobal_8005E1E8_lbl_804FF5D8 {
-    s32 value;
-    u8 remaining[0xC];
-};
-
 struct Obj_8005E058 { u8 pad0[0x3C0]; Vec src[10]; u8 pad438[0xB0]; Vec dst[10]; };
 
 struct Obj_8005E0C0 { u8 pad[0x34]; s32 f34; u8 pad38[0x24]; s32 f5c; s32 f60; s32 f64; u8 pad68[0x90]; s32 ff8; u8 pad_fc[0x3C0 - 0xFC]; u8 f3c0[0x100]; s32 f4c0; };
 
-
-typedef char RecoveredGlobal_8005E1E8_lbl_804FF5CC_size[sizeof(RecoveredGlobal_8005E1E8_lbl_804FF5CC) == 0xC ? 1 : -1];
-
-typedef char RecoveredGlobal_8005E1E8_lbl_804FF5D8_size[sizeof(RecoveredGlobal_8005E1E8_lbl_804FF5D8) == 0x10 ? 1 : -1];
 
 struct Obj_8005E4D4 { u8 pad[0x734]; void *parts[16]; };
 
@@ -400,12 +386,6 @@ struct Stack_8006435C {
 };
 
 
-struct RecoveredGlobal_80064CFC_lbl_80487848 {
-    s32 value;
-    u8 remaining[0xC];
-};
-
-
 struct O_80064AB0 { u8 pad[0x1c]; u16 id; u8 pad2[0x38c - 0x1e]; u16 kind; u8 pad3[6]; f32 x; u8 pad4[4]; f32 z; };
 
 struct P_80064AB0 { u16 a; u16 id; u32 kind; f32 x; f32 z; };
@@ -455,9 +435,6 @@ struct Obj_80063570 {
     u8 pad494[0x4c0 - 0x494];
     s32 flags;
 };
-
-
-typedef char RecoveredGlobal_80064CFC_lbl_80487848_size[sizeof(RecoveredGlobal_80064CFC_lbl_80487848) == 0x10 ? 1 : -1];
 
 
 struct Obj_8005D880 {
@@ -1031,7 +1008,6 @@ extern void *lbl_804880B8[3];
 extern void *gryphon_particle_enable_pos[3];
 extern void *gryphon_particle_position_vec[3];
 extern void *__vt__13TBoss5Gryphon[107];
-#define lbl_80487848 (*(RecoveredGlobal_80064CFC_lbl_80487848 *)lbl_80487848)
 #define gryphon_particle_enable_pos ((u8 *)gryphon_particle_enable_pos)
 #define gryphon_particle_position_vec ((s32 *)gryphon_particle_position_vec)
 #define __vt__13TBoss5Gryphon ((u8 *)__vt__13TBoss5Gryphon)
@@ -1361,11 +1337,11 @@ s32 TBoss8Dragon__sub_8005E1E8(f32 farg0) {
     f32 temp_f31;
     ((s32 (*)(void *))VecCopy__FP3VecPC3Vec)(&stack.sp8);
     stack.spC = 0.0f;
-    ((s32 (*)(void *, void *))subtract_vector)(&stack.sp8, (void *) (&(*(RecoveredGlobal_8005E1E8_lbl_804FF5CC *)&boss5_gryphon_camera_pos_vec).value));
+    ((s32 (*)(void *, void *))subtract_vector)(&stack.sp8, (void *)&boss5_gryphon_camera_pos_vec);
     temp_f1 = normalize_vector_xz((Vec *)(&stack.sp8));
     if ((temp_f1 + farg0) < (*(const f32 *)&lbl_805D4DC0)) {
         temp_f31 = temp_f1 * (lbl_805D8D88 / newton_sqrtf((f32) ((temp_f1 * temp_f1) + (farg0 * farg0))));
-        if (vec3_dot(&stack.sp8, (void *) (&(*(RecoveredGlobal_8005E1E8_lbl_804FF5D8 *)&boss5_gryphon_direction_vec).value)) >= temp_f31) {
+        if (vec3_dot(&stack.sp8, (void *)&boss5_gryphon_direction_vec) >= temp_f31) {
             return 1;
         }
     }
@@ -4480,7 +4456,7 @@ s32 TBoss5Gryphon::reload_stats_for_phase(void *) {
 
 void TBoss5Gryphon::reload_stats_for_type() {
     s32 arg0 = (s32)this;
-    reload_stats_keep_hp_tp__9TObjEneDDFv((void *)arg0, boss5_gryphon_base_params[*(s32 *)((s8 *)&lbl_80487848.value + 0x48)], boss5_gryphon_attack_params[*(s32 *)((s8 *)&lbl_80487848.value + 0x54)], boss5_gryphon_resistance_params[*(s32 *)((s8 *)&lbl_80487848.value + 0x60)]);
+    reload_stats_keep_hp_tp__9TObjEneDDFv((void *)arg0, boss5_gryphon_base_params[*(s32 *)((s8 *)&lbl_80487848 + 0x48)], boss5_gryphon_attack_params[*(s32 *)((s8 *)&lbl_80487848 + 0x54)], boss5_gryphon_resistance_params[*(s32 *)((s8 *)&lbl_80487848 + 0x60)]);
 }
 #pragma pop
 

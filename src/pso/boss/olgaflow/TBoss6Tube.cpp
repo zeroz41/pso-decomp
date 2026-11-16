@@ -184,9 +184,6 @@ void TBoss6Tube::run_task() {
 
 }
 
-struct RecoveredGlobal_802B1654___vt__10TBoss6Tube { s32 value; u8 remaining[0x14]; };
-typedef char RecoveredGlobal_802B1654___vt__10TBoss6Tube_size[sizeof(RecoveredGlobal_802B1654___vt__10TBoss6Tube) == 0x18 ? 1 : -1];
-
 extern "C" {
 void __ct__7TObjectFP7TObject(void *, void *);
 extern s32 __vt__10TBoss6Tube[];
@@ -198,7 +195,7 @@ TBoss6Tube::~TBoss6Tube() {
 
 u8 *TBoss6Tube__ct(TBoss6Tube *boss6_tube, u8 *arg1) {
     __ct__7TObjectFP7TObject(boss6_tube, arg1);
-    *(s32 **)((s8 *)boss6_tube + 0x18) = &(*(RecoveredGlobal_802B1654___vt__10TBoss6Tube *)&__vt__10TBoss6Tube).value;
+    *(s32 **)((s8 *)boss6_tube + 0x18) = __vt__10TBoss6Tube;
     boss6_tube->m_name = TBoss6Tube__name;
     *(u8 **)((s8 *)boss6_tube + 0x2C) = arg1;
     boss6_tube->m_24 = 0;

@@ -3,21 +3,6 @@
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC_802DEC44.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
 
-struct RecoveredGlobal_802DEDA8_TAdMultiPlyChrSelectGC__data_804727B0 {
-    s32 value;
-    u8 remaining[0x1C];
-};
-
-struct RecoveredGlobal_802DEDA8_lbl_804727D0 {
-    s32 value;
-    u8 remaining[0x14];
-};
-
-struct RecoveredGlobal_802DEDA8_lbl_8050E3B8 {
-    s32 value;
-    u8 remaining[0x1AC];
-};
-
 extern "C" {
 s32 TWindowShortListCtrl__check_controller_button(void *, s32);
 s32 is_slot_active__23TAdSinglePlyChrSelectGCFUi();
@@ -29,8 +14,8 @@ extern "C" {
 s32 TAdMultiPlyChrSelectGC__sub_802C6558();
 s32 TAdMultiPlyChrSelectGC__sub_802C658C(s32 arg0);
 s32 TAdMultiPlyChrSelectGC__sub_802C6660(int);
-extern RecoveredGlobal_802DEDA8_TAdMultiPlyChrSelectGC__data_804727B0 TAdMultiPlyChrSelectGC__character_slot_positions;
-extern RecoveredGlobal_802DEDA8_lbl_804727D0 multi_play_chr_select_slot_positions;
+struct MultiPlayChrSelectSlotPositions { s32 value; u8 remaining[0x14]; };
+extern MultiPlayChrSelectSlotPositions multi_play_chr_select_slot_positions;
 extern s8 controller_physical_port_bank[];
 s32 TAdMultiPlyChrSelectGC__sub_802C6848(s32);
 s32 get_localized_text_entry(s32 arg0, s32 arg1);
@@ -66,13 +51,10 @@ void TAdMultiPlyChrSelectGC::update_button_input() {
         *(s32 *)((s8 *)this + 0x20) = 3;
     }
 }
-typedef char RecoveredGlobal_802DEDA8_TAdMultiPlyChrSelectGC__data_804727B0_size[sizeof(RecoveredGlobal_802DEDA8_TAdMultiPlyChrSelectGC__data_804727B0) == 0x20 ? 1 : -1];
-typedef char RecoveredGlobal_802DEDA8_lbl_804727D0_size[sizeof(RecoveredGlobal_802DEDA8_lbl_804727D0) == 0x18 ? 1 : -1];
-typedef char RecoveredGlobal_802DEDA8_lbl_8050E3B8_size[sizeof(RecoveredGlobal_802DEDA8_lbl_8050E3B8) == 0x1B0 ? 1 : -1];
 void TAdMultiPlyChrSelectGC__sub_802DEDA8(u8 *arg0) {
     s32 var_r30;
     ((TAdMultiPlyChrSelectGC *)(*(s32 *)((s8 *)arg0 + 0x60)))->set_index_and_close_status(0);
-    if ((TWindowShortListCtrl__check_controller_button((void *)((void *) ((u8 *)&(*(RecoveredGlobal_802DEDA8_lbl_8050E3B8 *)&controller_physical_port_bank).value + 0x20)), 2) != 0) && (TAdMultiPlyChrSelectGC::get_chr_select_state() == 0) && (TAdMultiPlyChrSelectGC__sub_802C6558() < 1)) {
+    if ((TWindowShortListCtrl__check_controller_button((void *)((void *) ((u8 *)&controller_physical_port_bank + 0x20)), 2) != 0) && (TAdMultiPlyChrSelectGC::get_chr_select_state() == 0) && (TAdMultiPlyChrSelectGC__sub_802C6558() < 1)) {
         play_sound_effect(0x52F16, 0, 0, 0);
         *(s32 *)((s8 *)arg0 + 0x20) = 0x1B;
         return;

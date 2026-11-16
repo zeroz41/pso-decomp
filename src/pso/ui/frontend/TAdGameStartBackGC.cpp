@@ -12,11 +12,6 @@
 
 #pragma readonly_strings on
 
-struct RecoveredGlobal_803074FC___vt__18TAdGameStartBackGC {
-    s32 value;
-    u8 remaining[0x14];
-};
-
 extern "C" {
 const char *TAdGameStartBackGC__class_name = "TAdGameStartBackGC";
 s32 game_start_background_texture_list;
@@ -33,7 +28,6 @@ void TAdGameStartBackGC::render() { if (TMainTask::get_render_pass() != 1) { set
 
 #pragma push
 #pragma fp_contract on
-typedef char RecoveredGlobal_803074FC___vt__18TAdGameStartBackGC_size[sizeof(RecoveredGlobal_803074FC___vt__18TAdGameStartBackGC) == 0x18 ? 1 : -1];
 
 #pragma push
 #pragma fp_contract on

@@ -312,11 +312,6 @@ struct Stack_8004B084 {
 
 union MemberActionStorage_8004B084 { s32 words[3]; void (TBoss4DarkFalz::*action)(); };
 
-struct RecoveredGlobal_8004B084_TBoss4DarkFalz__data_80485108 {
-    s32 value;
-    u8 remaining[0x33C];
-};
-
 struct Stack_8004B0F8 {
     s32 sp8;
     s32 spC;
@@ -324,11 +319,6 @@ struct Stack_8004B0F8 {
 };
 
 union MemberActionStorage_8004B0F8 { s32 words[3]; void (TBoss4DarkFalz::*action)(); };
-
-struct RecoveredGlobal_8004B0F8_TBoss4DarkFalz__data_80485108 {
-    s32 value;
-    u8 remaining[0x33C];
-};
 
 struct Msg_8004B16C { u8 code; u8 size; u16 id; s16 a; u8 pad6[2]; s32 b; u8 padc[4]; };
 
@@ -391,7 +381,8 @@ s32 TBoss4DarkFalz__sub_8004AF5C(u8 *arg0, s16 *arg1, s16 *arg2);
 void fn_803594B4(void *, s32, f32);
 
 void TBoss4DarkFalz__sub_8004B730(u8 *arg0, s32 arg1, f32 farg0);
-extern RecoveredGlobal_8004B084_TBoss4DarkFalz__data_80485108 dark_falz_state_table;
+struct DarkFalzStateTable { s32 value; u8 remaining[0x33C]; };
+extern DarkFalzStateTable dark_falz_state_table;
 void release_all_players_control_lock(void);
 s32 TBoss4Thanks__sub_8035C96C();
 
@@ -455,7 +446,6 @@ int TBoss4DarkFalz::is_ending_or_split_screen() {
 int TBoss4DarkFalz__sub_8004B07C(void) { return 0; }
 
 typedef char MemberActionStorage_8004B084_size[sizeof(MemberActionStorage_8004B084) == 12 ? 1 : -1];
-typedef char RecoveredGlobal_8004B084_TBoss4DarkFalz__data_80485108_size[sizeof(RecoveredGlobal_8004B084_TBoss4DarkFalz__data_80485108) == 0x340 ? 1 : -1];
 void TBoss4DarkFalz::sub_8004B084() {
   MemberActionStorage_8004B084 member_action;
   Stack_8004B084 stack;
@@ -472,12 +462,11 @@ void TBoss4DarkFalz::sub_8004B084() {
 }
 
 typedef char MemberActionStorage_8004B0F8_size[sizeof(MemberActionStorage_8004B0F8) == 12 ? 1 : -1];
-typedef char RecoveredGlobal_8004B0F8_TBoss4DarkFalz__data_80485108_size[sizeof(RecoveredGlobal_8004B0F8_TBoss4DarkFalz__data_80485108) == 0x340 ? 1 : -1];
 void TBoss4DarkFalz::sub_8004B0F8() {
   MemberActionStorage_8004B0F8 member_action;
   Stack_8004B0F8 stack;
   u8 *temp_r6;
-  temp_r6 = (u8 *) (&(*(RecoveredGlobal_8004B0F8_TBoss4DarkFalz__data_80485108 *)&dark_falz_state_table).value);
+  temp_r6 = (u8 *) (&dark_falz_state_table.value);
   temp_r6 = temp_r6 + ((this->m_37c) * 0x34);
   member_action.words[0] = *((s32 *) (((s8 *) temp_r6) + 0x1C));
   member_action.words[1] = *((s32 *) (((s8 *) temp_r6) + 0x20));

@@ -39,11 +39,6 @@ u32 TLobby__trade_main_window;
 u32 trade_message_controller;
 
 // The trade window's side: the offer/final confirmation flags, the inventory snapshot and the item moves.
-struct RecoveredGlobal_802D2870_TLobby__data_80540BD0
-{
-  s32 value;
-  u8 remaining[0x3DC];
-};
 
 extern s32 local_client_id;
 
@@ -75,13 +70,10 @@ void set_local_trade_offer_confirmation(void) {
     trade_protocol_flags |= 0x10;
 }
 
-typedef struct RecoveredGlobal_802D2870_TLobby__data_80540BD0 RecoveredGlobal_802D2870_TLobby__data_80540BD0;
-typedef char RecoveredGlobal_802D2870_TLobby__data_80540BD0_size[((sizeof(RecoveredGlobal_802D2870_TLobby__data_80540BD0)) == 0x3E0) ? (1) : (-1)];
-
 void TWindowSubTradeMain__sub_802D2870(void) {
   s32 *temp_r31;
-  snapshot_player_trade_inventory((s32)(&(*(RecoveredGlobal_802D2870_TLobby__data_80540BD0 *)&TLobby__trade_window_state).value), local_client_id);
-  temp_r31 = (s32 *) ((u8 *) ((s32 *) (((u8 *) (&(*(RecoveredGlobal_802D2870_TLobby__data_80540BD0 *)&TLobby__trade_window_state).value)) + 0x1F0)));
+  snapshot_player_trade_inventory((s32)&TLobby__trade_window_state, local_client_id);
+  temp_r31 = (s32 *) ((u8 *) ((s32 *) ((u8 *)&TLobby__trade_window_state + 0x1F0)));
   snapshot_player_trade_inventory((s32)temp_r31, ((s32) ((s8) (TLobby__trade_partner_client_id & 0xFFFFFFFFFFFFFFFFu))));
   ((TLobby *)temp_r31)->set_trade_field_4(TLobby__data_805D688C);
 }

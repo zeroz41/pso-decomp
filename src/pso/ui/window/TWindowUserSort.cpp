@@ -43,23 +43,14 @@ WindowDescriptor window_user_sort_settings = {
     {243.0f, 184.0f}, 50100.0f, &window_user_sort_layout_entries, 0x23,
 };
 
-struct RecoveredGlobal_80288490_lbl_804D0460 { s32 value; u8 remaining[0x3C]; };
-typedef char RecoveredGlobal_80288490_lbl_804D0460_size[sizeof(RecoveredGlobal_80288490_lbl_804D0460) == 0x40 ? 1 : -1];
-
-struct RecoveredGlobal_80288490_lbl_804D04A0 { s32 value; u8 remaining[0x34]; };
-typedef char RecoveredGlobal_80288490_lbl_804D04A0_size[sizeof(RecoveredGlobal_80288490_lbl_804D04A0) == 0x38 ? 1 : -1];
-
-struct RecoveredGlobal_80288380___vt__15TWindowUserSort {
-    s32 value;
-    u8 remaining[0x14];
-};
-
 extern "C" {
 s32 draw_default_entry__9TWindowDDFl();
 s32 draw_visible_window_entries(void *, void *, int);
 void *get_player_by_client_id(s32 i);
-extern RecoveredGlobal_80288490_lbl_804D0460 lbl_804D0460;
-extern RecoveredGlobal_80288490_lbl_804D04A0 lbl_804D04A0;
+struct RecoveredGlobal_lbl_804D0460 { s32 value; u8 remaining[0x3C]; };
+extern RecoveredGlobal_lbl_804D0460 lbl_804D0460;
+struct RecoveredGlobal_lbl_804D04A0 { s32 value; u8 remaining[0x34]; };
+extern RecoveredGlobal_lbl_804D04A0 lbl_804D04A0;
 extern s32 __vt__15TWindowUserSort[];
 u8 *TWindowUserSort__ct(u8 *arg0, s32 arg1, s32 arg2);
 s32 close_and_clear_flags__15TWindowMainMenuFv();
@@ -75,10 +66,9 @@ void TWindowUserSort::run_task() { ((TWindowDD *)this)->initialize_subwindow(); 
 
 TWindowUserSort::~TWindowUserSort() {}
 
-typedef char RecoveredGlobal_80288380___vt__15TWindowUserSort_size[sizeof(RecoveredGlobal_80288380___vt__15TWindowUserSort) == 0x18 ? 1 : -1];
 u8 *TWindowUserSort__ct(u8 *arg0, s32 arg1, s32 arg2) {
     ((TWindowDD *)arg0)->construct_base((u8 *)&window_user_sort_settings, (s16)4, (u8 *)arg1);
-    *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_80288380___vt__15TWindowUserSort *)&__vt__15TWindowUserSort).value;
+    *(s32 **)((s8 *)arg0 + 0x18) = __vt__15TWindowUserSort;
     *(s32 *)((s8 *)arg0 + 0) = (s32) TWindowUserSort__name;
     ((TWindowUserSort *)arg0)->m_60 = arg2;
     ((TWindowSubStatusDisp *)(arg0 + 0x24))->fill_card_text_entries(arg2);

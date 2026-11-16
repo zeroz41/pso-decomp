@@ -33,11 +33,6 @@ s32 lbl_805D5BE8;
 s32 lbl_805D5BEC;
 s32 lbl_805D5BF0;
 
-struct RecoveredGlobal_8018F9CC___vt__12TObjDoorJung {
-    s32 value;
-    u8 remaining[0x54];
-};
-
 struct Jung_8018F808 { u8 pad0[0xC8]; s32 fC8; u8 padCC[4]; u32 fD0; s32 fD4; };
 
 extern "C" {
@@ -213,10 +208,9 @@ TObjDoorJung::~TObjDoorJung() {
     free_collision_body_parts(this);
 }
 
-typedef char RecoveredGlobal_8018F9CC___vt__12TObjDoorJung_size[sizeof(RecoveredGlobal_8018F9CC___vt__12TObjDoorJung) == 0x58 ? 1 : -1];
 u8 *TObjDoorJung__ct(u8 *arg0, s32 arg1, s32 arg2) {
     __ct__10TODoorBaseFP7TObject((arg0));
-    *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_8018F9CC___vt__12TObjDoorJung *)&__vt__12TObjDoorJung).value;
+    *(s32 **)((s8 *)arg0 + 0x18) = __vt__12TObjDoorJung;
     ((TObjDoorJung *)arg0)->m_name = TObjDoorJung__class_name;
     ((TObjDoorJung *)(arg0))->apply_object_set_data((void *)arg2);
     init_collision_body_parts(arg0, &TObjDoorJung__collision_desc, 1);

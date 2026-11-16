@@ -1,4 +1,5 @@
 #include "pso/network/protocol/protocol_types.h"
+#include "pso/unk/TLobby_80207DA8.h"
 #include "pso/map/FloorLifecycleTables.h"
 #include "pso/ui/frontend/TAdStorySelectGC.h"
 #include "pso/system/THeap.h"
@@ -720,11 +721,6 @@ s32 run_wave_event_actions(void) {
 #undef wave_event_stream_cursor
 #undef wave_event_stop_requested
 
-struct RecoveredGlobal_80208D28_lbl_805139F8 {
-    s32 value;
-    u8 remaining[0x44];
-};
-
 struct Ent_80208A04 { u8 pad[8]; s32 n; };
 
 struct Rec_80208B7C { s32 id; s16 f4; u8 pad[0xE]; };
@@ -757,7 +753,7 @@ void activate_triggered_floor_events(void);
 u8 * heap_alloc__5THeapFUl(void *, s32);
 }
 s32 activate_first_floor_event(s32 idx, s32 id);
-RecoveredGlobal_80208D28_lbl_805139F8 lobby_slot_ptr_table;
+LobbySlotPtrTable lobby_slot_ptr_table;
 extern u8 *area_event_set_heap;
 s32 set_floor_event_flags(s32 arg0, s32 arg1, s32 arg2);
 #define BS16 ((void (*)(void *))bswap_16__FPUs)
@@ -799,7 +795,6 @@ void TLobby::spawn_destroy_event() {
 }
 
 void create_empty_floor_event(void) {  }
-typedef char RecoveredGlobal_80208D28_lbl_805139F8_size[sizeof(RecoveredGlobal_80208D28_lbl_805139F8) == 0x48 ? 1 : -1];
 
 void bswap_floor_event_set(s32 idx) {
     Rec_80208904 *r = ((Rec_80208904 **)&lobby_slot_ptr_table)[idx];

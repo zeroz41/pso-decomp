@@ -29,4 +29,8 @@ void TLobby__sub_803C0B3C(u8 *lobby);
 }
 // --- end of C functions
 
+// lbl_80570AC0: layout known from its uses only.
+struct RecoveredGlobal_lbl_80570AC0 { s32 value; u8 remaining[0x9BC]; };
+extern RecoveredGlobal_lbl_80570AC0 lbl_80570AC0;
+
 #endif

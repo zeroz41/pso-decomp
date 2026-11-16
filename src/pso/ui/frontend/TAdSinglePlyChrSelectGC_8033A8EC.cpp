@@ -30,11 +30,6 @@ struct RecoveredGlobal_8033B264_lbl_804EF728 {
     u8 remaining[0x194];
 };
 
-struct RecoveredGlobal_8033B264_main_task {
-    s32 value;
-    u8 remaining[0x30];
-};
-
 struct O_8033AA64 { u8 pad[0x2C]; s32 f2c; u8 pad2[0x3C - 0x30]; s32 f3c; };
 
 struct O_8033AC44 { u8 pad[0x24]; s32 f24; s32 f28; s32 f2c; };
@@ -406,7 +401,7 @@ void TAdSinglePlyChrSelectGC__sub_8033B264(void) {
     main_task.delete_layer_children();
     TLobby::stop_audio_streams();
     TLobby::set_and_notify(0);
-    TLobby::call_funcs_reverse((void *) (&(*(RecoveredGlobal_8033B264_lbl_804EF728 *)&character_select_scene_resource_callbacks).value), 0x30);
+    TLobby::call_funcs_reverse((void *)&character_select_scene_resource_callbacks, 0x30);
     render_tick();
 }
 
@@ -484,7 +479,6 @@ void TAdSinglePlyChrSelectGC::init_warp() { close_window__23TAdSinglePlyChrSelec
 void TAdSinglePlyChrSelectGC::init_warps() { close_window__23TAdSinglePlyChrSelectGCFPv(this); *(int*)((char*)this + 0x3c) = check_room_seq_4__16TAdChrSelASlotGCFl((void *)lbl_80477D58, (void*)2); forward_trade_action_default__16TObjCityMainWarpFPviii((void*)(*(int*)((char*)this + 0x3c)), (void*)((int)get_message_text((s32)((void*)13))), (void*)6, (void*)0); forward_trade_action_default__16TObjCityMainWarpFPviii((void*)(*(int*)((char*)this + 0x3c)), (void*)((int)get_message_text((s32)((void*)14))), (void*)6, (void*)1); ((TWindowSubComCardList *)(*(int*)((char*)this + 0x3c)))->update_layout_height(289.0f); }
 
 typedef char RecoveredGlobal_8033B264_lbl_804EF728_size[sizeof(RecoveredGlobal_8033B264_lbl_804EF728) == 0x198 ? 1 : -1];
-typedef char RecoveredGlobal_8033B264_main_task_size[sizeof(RecoveredGlobal_8033B264_main_task) == 0x34 ? 1 : -1];
 
 #pragma pop
 

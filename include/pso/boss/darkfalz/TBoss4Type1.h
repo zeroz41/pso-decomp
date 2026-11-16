@@ -63,4 +63,8 @@ struct TBoss4Type1 : public TObjEnemy
 
 typedef char TBoss4Type1_size[sizeof(TBoss4Type1) == 0x49C ? 1 : -1];
 
+// TBoss4Type2__tenchu_furu_array: layout known from its uses only.
+struct TBoss4Type2TenchuFuruArray { s32 value; u8 remaining[0x2FC]; };
+extern TBoss4Type2TenchuFuruArray TBoss4Type2__tenchu_furu_array;
+
 #endif

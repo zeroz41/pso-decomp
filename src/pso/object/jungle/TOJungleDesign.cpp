@@ -44,11 +44,6 @@ void *TOJungleDesign__create(void *arg0) {
 }
 
 
-struct RecoveredGlobal_802FEF98___vt__14TOJungleDesign {
-    s32 value;
-    u8 remaining[0x38];
-};
-
 // One box per design variant (m_b0).
 CollisionBody TOJungleDesign__collision_desc_table[3] = {
     { { 0.0f, 0.0f, 0.0f }, 20.0f, 3.0f, 1, 0x10003, { 0.0f, 0.0f, 0.0f }, 0.0f },
@@ -80,7 +75,6 @@ TOJungleDesign::~TOJungleDesign() {
     free_collision_body_parts(this);
 }
 extern "C" {
-typedef char RecoveredGlobal_802FEF98___vt__14TOJungleDesign_size[sizeof(RecoveredGlobal_802FEF98___vt__14TOJungleDesign) == 0x3C ? 1 : -1];
 }
 TOJungleDesign::TOJungleDesign(s32 arg1, s32 arg2) : TObjCollidable((TObject *)arg1) {
     this->m_name = TOJungleDesign__name;

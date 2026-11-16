@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/ui/window/TWindowGetComCard_8007B54C.h"
 #include "pso/ui/chat/ShortMail.h"
 #include "pso/player/TPlyGuildCardTag_8007B7EC.h"
 #include "pso/ui/window/TWindowSubComCard_8007A810.h"
@@ -239,16 +240,10 @@ void forward_to_matching_card__17TWindowSubComCardFPvPvi(void *arg0, u8 *arg1, s
 
 }
 
-struct RecoveredGlobal_8007AE8C_TWindowGetComCard__data_80500158 {
-    s32 value;
-    u8 remaining[0x23C];
-};
-
 struct Card_8007B0D0;
 extern "C" {
 s32 TWindowSubComCard__sub_8007B0D0(Card_8007B0D0 *, Card_8007B0D0 *, s32);
 s32 bswap_guild_card__17TWindowSubComCardFv();
-extern RecoveredGlobal_8007AE8C_TWindowGetComCard__data_80500158 TWindowGetComCard__received_guild_card_tags;
 
 void TWindowSubComCard::start_player_data_load(s32 arg0) {
     u32 temp;
@@ -259,7 +254,6 @@ void TWindowSubComCard::start_player_data_load(s32 arg0) {
     }
 }
 }
-typedef char RecoveredGlobal_8007AE8C_TWindowGetComCard__data_80500158_size[sizeof(RecoveredGlobal_8007AE8C_TWindowGetComCard__data_80500158) == 0x240 ? 1 : -1];
 void handle_6x06_send_guild_card(s32 arg0) {
     s32 temp_r31;
     bswap_guild_card__17TWindowSubComCardFv();

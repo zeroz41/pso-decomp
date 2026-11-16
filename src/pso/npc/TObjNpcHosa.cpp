@@ -21,14 +21,6 @@ const char *TObjNpcHosa__name = "TObjNpcHosa";
 u32 TObjNpcHosa__static_model_resource;
 }
 
-struct RecoveredGlobal_802A3A58_lbl_804DCCB8 { s32 value; u8 remaining[0xC]; };
-typedef char RecoveredGlobal_802A3A58_lbl_804DCCB8_size[sizeof(RecoveredGlobal_802A3A58_lbl_804DCCB8) == 0x10 ? 1 : -1];
-
-struct RecoveredGlobal_802A3B00___vt__11TObjNpcHosa {
-    s32 value;
-    u8 remaining[0x174];
-};
-
 extern "C" {
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 
@@ -64,10 +56,9 @@ TObjNpcHosa::~TObjNpcHosa() {}
 
 extern void *tl_04;
 
-typedef char RecoveredGlobal_802A3B00___vt__11TObjNpcHosa_size[sizeof(RecoveredGlobal_802A3B00___vt__11TObjNpcHosa) == 0x178 ? 1 : -1];
 u8 *TObjNpcHosa__ct(u8 *player, s32 arg1, s32 arg2) {
     ((TUnk_804A9F50 *)player)->construct_male_npc_base();
-    *(s32 **)((s8 *)player + 0x18) = &(*(RecoveredGlobal_802A3B00___vt__11TObjNpcHosa *)&__vt__11TObjNpcHosa).value;
+    *(s32 **)((s8 *)player + 0x18) = __vt__11TObjNpcHosa;
     *(s32 *)((s8 *)player + 0) = (s32) TObjNpcHosa__name;
     ((TObjNpcHosa *)(player))->apply_set_data((void *)arg2);
     ((TObjPlayer *)player)->init_position_vectors();

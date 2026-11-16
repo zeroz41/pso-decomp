@@ -18,20 +18,6 @@
 #include "pso/render/ModelDrawContext.h"
 
 
-struct RecoveredGlobal_800F81A8_lbl_80499970 {
-    s32 value;
-    u8 remaining[0x14];
-};
-
-typedef char RecoveredGlobal_800F81A8_lbl_80499970_size[sizeof(RecoveredGlobal_800F81A8_lbl_80499970) == 0x18 ? 1 : -1];
-
-struct RecoveredGlobal_800F8428_lbl_80499988 {
-    s32 value;
-    u8 remaining[0x14];
-};
-
-typedef char RecoveredGlobal_800F8428_lbl_80499988_size[sizeof(RecoveredGlobal_800F8428_lbl_80499988) == 0x18 ? 1 : -1];
-
 struct Quad_800F7E28 {
     f32 *pos;
     u32 *col;
@@ -84,8 +70,10 @@ s32 TWindowCtrlMain__sub_8024CD5C(s32 viewport_index);
 u32 prs_decompress(int, int, int, int);
 u32 reset_counters__6TLobbyFv();
 
-extern RecoveredGlobal_800F81A8_lbl_80499970 lbl_80499970;
-extern RecoveredGlobal_800F8428_lbl_80499988 lbl_80499988;
+struct RecoveredGlobal_lbl_80499970 { s32 value; u8 remaining[0x14]; };
+extern RecoveredGlobal_lbl_80499970 lbl_80499970;
+struct RecoveredGlobal_lbl_80499988 { s32 value; u8 remaining[0x14]; };
+extern RecoveredGlobal_lbl_80499988 lbl_80499988;
 extern s32 lbl_804999A0[];
 extern s32 lbl_804999B8[];
 extern s32 lbl_804999D0[];

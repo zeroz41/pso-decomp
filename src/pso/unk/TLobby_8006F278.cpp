@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/unk/TLobby_8006F278.h"
 #include "pso/unk/TLobby_80070A00.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/unk/TLobby.h"
@@ -35,11 +36,6 @@ void TLobby::advance_state_if_flag_set() {
     }
 }
 
-
-struct RecoveredGlobal_8006F848_lbl_804FF800 {
-    s32 value;
-    u8 remaining[0x1C];
-};
 
 struct Entry_8006F48C {
     char key[12];
@@ -83,7 +79,7 @@ s32 mix_seed_checked__6TLobbyFi(s32);
 u32 get_character_save_record(int);
 s32 TLobby__sub_8006F5B0(s32 arg0);
 s32 strncpy(void *, void *, int);
-RecoveredGlobal_8006F848_lbl_804FF800 lobby_name_string_buffer;
+LobbyNameStringBuffer lobby_name_string_buffer;
 s32 decode_slot__6TLobbyFUi(u32 id);
 s32 strncmp(void *, void *, int);
 void TLobby__sub_8006F48C(void);
@@ -261,7 +257,6 @@ s32 TLobby__sub_8006F6B0(s32 clear_time) {
     }
     return ret;
 }
-typedef char RecoveredGlobal_8006F848_lbl_804FF800_size[sizeof(RecoveredGlobal_8006F848_lbl_804FF800) == 0x20 ? 1 : -1];
 void TLobby::set_name_string() {
     s32 arg0 = (s32)this;
     strncpy((void *)&lobby_name_string_buffer.value, (void *)arg0, 0x1F);

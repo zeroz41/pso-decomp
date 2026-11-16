@@ -155,8 +155,6 @@ TWindowSubComCardList *TWindowSubComCard__sub_802B1C1C(TWindowSubTrade *) {
 #include "pso/ui/window/TWindowMessageYesNo.h"
 
 
-struct RecoveredGlobal_802B1F98___vt__15TWindowSubTrade { s32 value; u8 remaining[0x14]; };
-
 struct VBase_18_204a81 { char pad[0x18]; };
 
 struct VObj_18_204a81 : VBase_18_204a81 {
@@ -258,7 +256,7 @@ u8 *__dt__15TWindowSubTradeFv(u8 *object, s16 arg1) {
     u8 *temp_r3_2;
     u8 *temp_r3_3;
     if (object != NULL) {
-        *(s32 **)((s8 *)object + 0x18) = &(*(RecoveredGlobal_802B1F98___vt__15TWindowSubTrade *)&__vt__15TWindowSubTrade).value;
+        *(s32 **)((s8 *)object + 0x18) = __vt__15TWindowSubTrade;
         TLobby__sub_802D2A2C((u32) object);
         TLobby::check_flags_and_proceed();
         window_sub_com_card = (u8 *)(*(u8 **)((s8 *)object + 0x34));

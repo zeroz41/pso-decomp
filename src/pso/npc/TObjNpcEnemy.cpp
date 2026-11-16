@@ -18,34 +18,15 @@
 CollisionBody TObjNpcEnemy__collision_body_parts = {{0.0f, 7.5f, 0.0f}, 7.0f, 0.0f, 0, 0x30203, {0.0f, 0.0f, 0.0f}, 0.0f};
 const char *TObjNpcEnemy_class_name = "TObjNpcEnemy";
 
-struct RecoveredGlobal_802D72E4_TObjNpcEnemy__data_80540FF0 {
-    s32 value;
-    u8 remaining[0x23C];
-};
-
-struct RecoveredGlobal_802D78A0_lbl_804A7CB8 {
-    s32 value;
-    u8 remaining[0x20];
-};
-
-struct RecoveredGlobal_802D78A0_lbl_804A7CDC {
-    s32 value;
-    u8 remaining[0x44];
-};
-
-struct RecoveredGlobal_802D78A0___vt__12TObjNpcEnemy {
-    s32 value;
-    u8 remaining[0x178];
-};
-
 struct Ent_802D732C { s16 id; u8 rest[0x22]; };
 
 extern "C" {
-extern RecoveredGlobal_802D72E4_TObjNpcEnemy__data_80540FF0 TObjNpcEnemy__entry_table;
 s32 TObjNpcBase__ct(void *);
 s32 init_collision_body_parts(void *, void *, int);
-extern RecoveredGlobal_802D78A0_lbl_804A7CB8 npc_default_battle_stats;
-extern RecoveredGlobal_802D78A0_lbl_804A7CDC npc_movement_parameters;
+struct NpcDefaultBattleStats { s32 value; u8 remaining[0x20]; };
+extern NpcDefaultBattleStats npc_default_battle_stats;
+struct NpcMovementParameters { s32 value; u8 remaining[0x44]; };
+extern NpcMovementParameters npc_movement_parameters;
 extern s32 __vt__12TObjNpcEnemy[];
 u8 *TObjNpcEnemy__ct(u8 *arg0, s32 arg1, s32 arg2);
 s32 draw_debug_info__11TObjNpcBaseFv();
@@ -58,7 +39,6 @@ s32 translate_matrix(int, int, f32, f32, f32);
 void *__nw__7TObjectFUl(int);
 s32 init_motion__10TObjMotionFP16TObjMotionActionP14BmlMotionEntrys(void *, s32, s32, s16);
 
-typedef char RecoveredGlobal_802D72E4_TObjNpcEnemy__data_80540FF0_size[sizeof(RecoveredGlobal_802D72E4_TObjNpcEnemy__data_80540FF0) == 0x240 ? 1 : -1];
 s16 *TObjNpcEnemy::get_entry_by_index(s16 arg0) {
     s16 *temp_r3;
     if (arg0 < 0) {
@@ -253,12 +233,9 @@ TObjNpcEnemy::~TObjNpcEnemy() {}
 
 extern void *tl_04;
 
-typedef char RecoveredGlobal_802D78A0_lbl_804A7CB8_size[sizeof(RecoveredGlobal_802D78A0_lbl_804A7CB8) == 0x24 ? 1 : -1];
-typedef char RecoveredGlobal_802D78A0_lbl_804A7CDC_size[sizeof(RecoveredGlobal_802D78A0_lbl_804A7CDC) == 0x48 ? 1 : -1];
-typedef char RecoveredGlobal_802D78A0___vt__12TObjNpcEnemy_size[sizeof(RecoveredGlobal_802D78A0___vt__12TObjNpcEnemy) == 0x17C ? 1 : -1];
 u8 *TObjNpcEnemy__ct(u8 *arg0, s32 arg1, s32 arg2) {
     TObjNpcBase__ct(arg0);
-    *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_802D78A0___vt__12TObjNpcEnemy *)&__vt__12TObjNpcEnemy).value;
+    *(s32 **)((s8 *)arg0 + 0x18) = __vt__12TObjNpcEnemy;
     ((TObject *)arg0)->m_name = TObjNpcEnemy_class_name;
     ((TObjNpcEnemy *)(arg0))->apply_set_data((void *)arg2);
     ((TObjPlayer *)arg0)->init_position_vectors();
@@ -288,4 +265,4 @@ void * TObjNpcEnemy__create(void *arg0) {
 }
 
 
-RecoveredGlobal_802D72E4_TObjNpcEnemy__data_80540FF0 TObjNpcEnemy__entry_table;
+TObjNpcEnemyEntryTable TObjNpcEnemy__entry_table;

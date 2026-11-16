@@ -189,16 +189,6 @@ struct Stack_80055918
 
 typedef struct Stack_80055918 Stack_80055918;
 
-struct RecoveredGlobal_80054530_lbl_80485EC8 {
-    s32 value;
-    u8 remaining[0x1DC];
-};
-
-struct RecoveredGlobal_8005455C_lbl_80485EC8 {
-    s32 value;
-    u8 remaining[0x1DC];
-};
-
 struct S_80058224 {
     u8 pad0[0x398];
     s32 f398;
@@ -219,10 +209,6 @@ struct Obj_8005683C {
     u8 pad0[0x38c];
     s32 f38c;
 };
-
-typedef char RecoveredGlobal_80054530_lbl_80485EC8_size[sizeof(RecoveredGlobal_80054530_lbl_80485EC8) == 0x1E0 ? 1 : -1];
-
-typedef char RecoveredGlobal_8005455C_lbl_80485EC8_size[sizeof(RecoveredGlobal_8005455C_lbl_80485EC8) == 0x1E0 ? 1 : -1];
 
 struct O_80058D70 { u8 pad[0x398]; s32 f398; u8 pad2[0x1c]; u16 f3b8; };
 

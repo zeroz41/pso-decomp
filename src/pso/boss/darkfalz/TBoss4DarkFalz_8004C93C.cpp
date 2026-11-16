@@ -48,11 +48,6 @@ struct Stack_8004C5E8 {
     u8 trailing_storage[0x36];
 };
 
-struct RecoveredGlobal_8004C5E8_TBoss4DarkFalz__data_804FF1E8 {
-    s32 value;
-    u8 remaining[0x3C];
-};
-
 extern "C" {
 int VecCopy__FP3VecPC3Vec(void*, void* a1);
 int freeze_all_players__14TBoss4DarkFalzFPv(void*);
@@ -66,7 +61,8 @@ void play_area_music(char *name);
 extern s32 game_difficulty_selection;
 s32 TBoss4DarkFalz__sub_8004B730(void *, f32, int);
 void TBoss4DarkFalz__sub_8004B4F0(void *arg0p, void *arg1p);
-extern RecoveredGlobal_8004C5E8_TBoss4DarkFalz__data_804FF1E8 TBoss4DarkFalz__data_804FF1E8;
+struct RecoveredGlobal_TBoss4DarkFalz__data_804FF1E8 { s32 value; u8 remaining[0x3C]; };
+extern RecoveredGlobal_TBoss4DarkFalz__data_804FF1E8 TBoss4DarkFalz__data_804FF1E8;
 int bswap_16__FPUs(void*);
 int bswap_32__FPUl(void*);
 
@@ -190,7 +186,6 @@ void TBoss4DarkFalz::start_phase() { TBoss4DarkFalz::end_player_camera_pans(this
 
 #pragma push
 #pragma fp_contract on
-typedef char RecoveredGlobal_8004C5E8_TBoss4DarkFalz__data_804FF1E8_size[sizeof(RecoveredGlobal_8004C5E8_TBoss4DarkFalz__data_804FF1E8) == 0x40 ? 1 : -1];
 void TBoss4DarkFalz::update_demo_warp3() {
     typedef char sp8_offset[(offsetof(Stack_8004C5E8, sp8) == 0x0) ? 1 : -1];
     typedef char spC_offset[(offsetof(Stack_8004C5E8, spC) == 0x4) ? 1 : -1];
@@ -278,11 +273,6 @@ void TBoss4DarkFalz::update_timer() {
 
 }
 
-struct RecoveredGlobal_8004CBC0_lbl_80485448 {
-    s32 value;
-    u8 remaining[0x8];
-};
-
 struct Obj_8004CD08 { u8 pad0[0x1C]; u16 id; u8 pad1e[0xE]; s16 f2c; u8 pad2e[0x352]; s32 f380; };
 
 struct Sub_8004CD08 { s16 x; u8 pad2[4]; s16 id; s16 f8; u8 pada[0x42]; };
@@ -308,7 +298,8 @@ struct S_8004CB28 {
 };
 
 extern "C" {
-extern RecoveredGlobal_8004CBC0_lbl_80485448 lbl_80485448;
+struct RecoveredGlobal_lbl_80485448 { s32 value; u8 remaining[0x8]; };
+extern RecoveredGlobal_lbl_80485448 lbl_80485448;
 void *create__11TBoss4Type2Fl(void *);
 void normalize_vector(Vec *);
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
@@ -382,7 +373,6 @@ void TBoss4DarkFalz::update_spawn_type2_countdown() {
 
 void TBoss4DarkFalz::update_leader_app_type2() {  }
 
-typedef char RecoveredGlobal_8004CBC0_lbl_80485448_size[sizeof(RecoveredGlobal_8004CBC0_lbl_80485448) == 0xC ? 1 : -1];
 void TBoss4DarkFalz::start_demo1() {
     u8 *arg0 = (u8 *)this;
     ((s32 (*)(void))freeze_all_players__14TBoss4DarkFalzFPv)();
@@ -580,7 +570,7 @@ TBoss4DarkFalzState dark_falz_state_table[16] = {
 // Zero positions passed to create_demo1 (start_demo1) and TObjDFDemo5::create (begin_defeat_sequence);
 // they follow the state table in .data.
 extern "C" {
-RecoveredGlobal_8004CBC0_lbl_80485448 lbl_80485448 = { 0 };
+RecoveredGlobal_lbl_80485448 lbl_80485448 = { 0 };
 s32 lbl_80485454[3] = { 0, 0, 0 };
 }
 

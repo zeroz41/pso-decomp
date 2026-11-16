@@ -16,9 +16,6 @@
 #include "pso/system/task/TObject.h"
 
 
-struct RecoveredGlobal_8035C83C___vt__12TBoss4Thanks { s32 value; u8 remaining[0x14]; };
-typedef char RecoveredGlobal_8035C83C___vt__12TBoss4Thanks_size[sizeof(RecoveredGlobal_8035C83C___vt__12TBoss4Thanks) == 0x18 ? 1 : -1];
-
 struct O_8035C480 { u8 pad[0x44]; s32 arr[4]; };
 
 struct E_8035C424 { void *p; };

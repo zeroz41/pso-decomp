@@ -29,16 +29,6 @@ struct Stack_80235E9C {
     u8 trailing_storage[0xC];
 };
 
-struct RecoveredGlobal_80235E9C_lbl_804CCAA8 {
-    s32 value;
-    u8 remaining[0x14];
-};
-
-struct RecoveredGlobal_80235F60_lbl_804CCAA8 {
-    s32 value;
-    u8 remaining[0x14];
-};
-
 struct Light_80235C44 {
     u8 task[0x1C];
     s32 duration;
@@ -115,11 +105,10 @@ TUnk_804CCAA8::~TUnk_804CCAA8() {
 
 }
 
-typedef char RecoveredGlobal_80235E9C_lbl_804CCAA8_size[sizeof(RecoveredGlobal_80235E9C_lbl_804CCAA8) == 0x18 ? 1 : -1];
 u8 *TObjLight::construct_actor_light(s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, f32 farg0, f32 farg1, f32 farg2, s32 arg_sp0) {
     Stack_80235E9C stack;
     __ct__7TObjectFP7TObject(this, (void *)arg5);
-    *(s32 **)((s8 *)((u8 *)this) + 0x18) = &(*(RecoveredGlobal_80235E9C_lbl_804CCAA8 *)&__vt__13TUnk_804CCAA8).value;
+    *(s32 **)((s8 *)((u8 *)this) + 0x18) = __vt__13TUnk_804CCAA8;
     copy_argb((NJS_ARGB *)(((u8 *)this) + 0x24), (NJS_ARGB *)arg1);
     VecCopy((Vec *)(((u8 *)this) + 0x34), (const Vec *)(arg2));
     *(s32 *)&this->entity_id = arg3;
@@ -133,11 +122,10 @@ u8 *TObjLight::construct_actor_light(s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32
     TObjLight::find_light_params((f32 *)(((u8 *)this) + 0x40), (f32 *)&stack.sp8, (u32)((int) ((s32) *(u16 *)&this->rotation_y)));
     return ((u8 *)this);
 }
-typedef char RecoveredGlobal_80235F60_lbl_804CCAA8_size[sizeof(RecoveredGlobal_80235F60_lbl_804CCAA8) == 0x18 ? 1 : -1];
 u8 *construct_actor_light_task(u8 *arg0, NJS_ARGB *njs_argb, u8 *arg2, s32 arg3, u8 *arg4, u8 *arg5, f32 farg0) {
     s32 sp8;
     __ct__7TObjectFP7TObject(arg0, arg5);
-    *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_80235F60_lbl_804CCAA8 *)&__vt__13TUnk_804CCAA8).value;
+    *(s32 **)((s8 *)arg0 + 0x18) = __vt__13TUnk_804CCAA8;
     copy_argb((NJS_ARGB *)(arg0 + 0x24), njs_argb);
     VecCopy((Vec *)(arg0 + 0x34), (const Vec *)arg2);
     *(s32 *)((s8 *)arg0 + 0x1C) = arg3;
@@ -199,11 +187,6 @@ struct Stack_80236290 {
     u8 trailing_storage[0x8];
 };
 
-struct RecoveredGlobal_80236290_lbl_80516150 {
-    s32 value;
-    u8 remaining[0x84];
-};
-
 struct Contact_80236154 { u8 pad[0x18]; u32 flags; };
 
 struct PlayerData_80236154 { u8 pad[0x30]; u32 flags; };
@@ -215,7 +198,6 @@ struct List_80236154 {
     u32 reserved84;
 };
 
-struct RecoveredGlobal_80236290_lbl_80516150;
 struct PlayerData_80236154;
 
 struct Contact_80236378 { u8 pad[0x18]; u32 flags; };
@@ -290,15 +272,13 @@ s32 TObjPlayer::is_valid_and_active(u32 arg0) {
     return 0;
 }
 }
-RecoveredGlobal_80236290_lbl_80516150 technique_contact_query_results;
+TechniqueContactQueryResults technique_contact_query_results;
 
 void resetTechniqueContactQuery();
 
 s32 find_support_technique_contact(void *self, int target, void *_w2, void *_w3);
 s32 find_area_technique_contact(void *self, int target, void *_w2, void *arg3);
-typedef char RecoveredGlobal_80236290_lbl_80516150_size[sizeof(RecoveredGlobal_80236290_lbl_80516150) == 0x88 ? 1 : -1];
 
-struct RecoveredGlobal_80236290_lbl_80516150;
 s32 find_support_technique_contact(void *self, int target, void *_w2, void *_w3) {
     Vec pos;
     f32 range;

@@ -23,94 +23,6 @@
 #pragma auto_inline off
 #pragma dont_inline off
 
-struct RecoveredGlobal_801D8ADC_lbl_8044929C {
-    s32 value;
-    u8 remaining[0xC];
-};
-
-struct RecoveredGlobal_801D8ADC_lbl_804492AC {
-    s32 value;
-    u8 remaining[0xC];
-};
-
-struct RecoveredGlobal_801D8ADC_lbl_804492BC {
-    s32 value;
-    u8 remaining[0xC];
-};
-
-struct RecoveredGlobal_801D8ADC_lbl_804492CC {
-    s32 value;
-    u8 remaining[0x10];
-};
-
-struct RecoveredGlobal_801D8B8C_lbl_8044925C {
-    s32 value;
-    u8 remaining[0xC];
-};
-
-struct RecoveredGlobal_801D8B8C_lbl_8044926C {
-    s32 value;
-    u8 remaining[0xC];
-};
-
-struct RecoveredGlobal_801D8B8C_lbl_8044927C {
-    s32 value;
-    u8 remaining[0xC];
-};
-
-struct RecoveredGlobal_801D8B8C_lbl_8044928C {
-    s32 value;
-    u8 remaining[0xC];
-};
-
-struct RecoveredGlobal_801D8C6C_lbl_8044923C {
-    s32 value;
-    u8 remaining[0x14];
-};
-
-struct RecoveredGlobal_801D8D8C_lbl_804C49B0 {
-    s32 value;
-    u8 remaining[0x2C];
-};
-
-struct RecoveredGlobal_801D8E60_lbl_804C4980 {
-    s32 value;
-    u8 remaining[0x8];
-};
-
-struct RecoveredGlobal_801A51C0_lbl_80446980 {
-    s32 value;
-    u8 remaining[0x14];
-};
-
-struct RecoveredGlobal_801D92F4_lbl_804475B0 {
-    s32 value;
-    u8 remaining[0x23C];
-};
-
-struct RecoveredGlobal_801D9004_lbl_80447970 {
-    s32 value;
-    u8 remaining[0x38];
-};
-
-struct RecoveredGlobal_801D8DCC_lbl_804C4998
-{
-  s32 value;
-  u8 remaining[0x14];
-};
-
-struct RecoveredGlobal_801D8E1C_lbl_804C498C
-{
-  s32 value;
-  u8 remaining[0x8];
-};
-
-struct RecoveredGlobal_801D8FB4_lbl_804C495C
-{
-  s32 value;
-  u8 remaining[0x14];
-};
-
 typedef struct Rec_801D8F0C { f32 a, b, c; } Rec_801D8F0C;
 
 typedef struct Rec_801D8F60 { f32 a, b, c; } Rec_801D8F60;
@@ -149,10 +61,6 @@ extern const Vec *hospital_position_table_by_episode[];
 extern const Vec *guild_return_position_table_by_episode[];
 
 
-typedef char RecoveredGlobal_801D8ADC_lbl_8044929C_size[sizeof(RecoveredGlobal_801D8ADC_lbl_8044929C) == 0x10 ? 1 : -1];
-typedef char RecoveredGlobal_801D8ADC_lbl_804492AC_size[sizeof(RecoveredGlobal_801D8ADC_lbl_804492AC) == 0x10 ? 1 : -1];
-typedef char RecoveredGlobal_801D8ADC_lbl_804492BC_size[sizeof(RecoveredGlobal_801D8ADC_lbl_804492BC) == 0x10 ? 1 : -1];
-typedef char RecoveredGlobal_801D8ADC_lbl_804492CC_size[sizeof(RecoveredGlobal_801D8ADC_lbl_804492CC) == 0x14 ? 1 : -1];
 s32 *TObjPlayer::get_getup_protection_ticks() {
     s32 *arg0 = (s32 *)this;
     s32 *var_r31;
@@ -184,10 +92,6 @@ s32 *TObjPlayer::get_getup_protection_ticks() {
     return var_r3;
 }
 
-typedef char RecoveredGlobal_801D8B8C_lbl_8044925C_size[sizeof(RecoveredGlobal_801D8B8C_lbl_8044925C) == 0x10 ? 1 : -1];
-typedef char RecoveredGlobal_801D8B8C_lbl_8044926C_size[sizeof(RecoveredGlobal_801D8B8C_lbl_8044926C) == 0x10 ? 1 : -1];
-typedef char RecoveredGlobal_801D8B8C_lbl_8044927C_size[sizeof(RecoveredGlobal_801D8B8C_lbl_8044927C) == 0x10 ? 1 : -1];
-typedef char RecoveredGlobal_801D8B8C_lbl_8044928C_size[sizeof(RecoveredGlobal_801D8B8C_lbl_8044928C) == 0x10 ? 1 : -1];
 s32 *TObjPlayer::get_hurt_protection_ticks() {
     s32 *arg0 = (s32 *)this;
     s32 *var_r31;
@@ -219,9 +123,6 @@ s32 *TObjPlayer::get_hurt_protection_ticks() {
     return var_r3;
 }
 
-typedef char RecoveredGlobal_801D8C6C_lbl_8044923C_size[sizeof(RecoveredGlobal_801D8C6C_lbl_8044923C) == 0x18 ? 1 : -1];
-
-typedef char RecoveredGlobal_801A51C0_lbl_80446980_size[sizeof(RecoveredGlobal_801A51C0_lbl_80446980) == 0x18 ? 1 : -1];
 s32 TObjPlayer__sub_801D8C3C(void) {
     return *(s32 *)((s8 *)lbl_80449254 + (TLobby::get_instance() * 4));
 }
@@ -229,8 +130,6 @@ s32 TObjPlayer__sub_801D8C3C(void) {
 u8 *TObjPlayer::get_lobby_entry_ptr() {
     return (u8 *)lobby_entry_table + (TLobby::get_instance() * 0xC);
 }
-
-typedef char RecoveredGlobal_801D8D8C_lbl_804C49B0_size[sizeof(RecoveredGlobal_801D8D8C_lbl_804C49B0) == 0x30 ? 1 : -1];
 
 s32 TObjPlayer::get_guild_return_yaw() {
     return *(s32 *)((s8 *)lbl_80449234 + (TLobby::get_instance() * 4));
@@ -253,10 +152,6 @@ s32 get_class_starting_inventory(s8 cls) {
     return *(s32 *)((s8 *)class_starting_inventory_table + (cls * 4));
 }
 
-typedef char RecoveredGlobal_801D8E60_lbl_804C4980_size[sizeof(RecoveredGlobal_801D8E60_lbl_804C4980) == 0xC ? 1 : -1];
-
-typedef struct RecoveredGlobal_801D8DCC_lbl_804C4998 RecoveredGlobal_801D8DCC_lbl_804C4998;
-typedef char RecoveredGlobal_801D8DCC_lbl_804C4998_size[((sizeof(RecoveredGlobal_801D8DCC_lbl_804C4998)) == 0x18) ? (1) : (-1)];
 s32 TObjPlayer__sub_801D8DCC(TObjPlayer *player) {
   s32 temp_r31;
   s8 *new_var;
@@ -265,8 +160,6 @@ s32 TObjPlayer__sub_801D8DCC(TObjPlayer *player) {
   return (*((s32 *) new_var)) + temp_r31;
 }
 
-typedef struct RecoveredGlobal_801D8E1C_lbl_804C498C RecoveredGlobal_801D8E1C_lbl_804C498C;
-typedef char RecoveredGlobal_801D8E1C_lbl_804C498C_size[((sizeof(RecoveredGlobal_801D8E1C_lbl_804C498C)) == 0xC) ? (1) : (-1)];
 long TObjPlayer::get_anim_table_entry(s32 arg1) {
     u8 *arg0 = (u8 *)this;
   int new_var;
@@ -278,11 +171,6 @@ s32 TObjPlayer::get_table_entry_by_clamped_index() {
     u8 *arg0 = (u8 *)this;
     return *(s32 *)((s8 *)player_clamped_index_table_pointers + (((TObjPlayer *)arg0)->get_clamped_index() * 4));
 }
-
-typedef char RecoveredGlobal_801D9004_lbl_80447970_size[sizeof(RecoveredGlobal_801D9004_lbl_80447970) == 0x3C ? 1 : -1];
-
-typedef struct RecoveredGlobal_801D8FB4_lbl_804C495C RecoveredGlobal_801D8FB4_lbl_804C495C;
-typedef char RecoveredGlobal_801D8FB4_lbl_804C495C_size[((sizeof(RecoveredGlobal_801D8FB4_lbl_804C495C)) == 0x18) ? (1) : (-1)];
 
 s32 TObjPlayer::get_footstep_floor_index() {
     s32 floor;
@@ -464,8 +352,6 @@ void TObjPlayer__sub_801D92A4(void) { TLobby::free_nodes_with_id(ply_level_table
 
 void load_ply_level_tbl(void) { ply_level_table = load_encrypted_archive_data("PlyLevelTbl.cpt"); }
 
-
-typedef char RecoveredGlobal_801D92F4_lbl_804475B0_size[sizeof(RecoveredGlobal_801D92F4_lbl_804475B0) == 0x240 ? 1 : -1];
 
 u8 *get_class_attack_template(TObjPlayer *player) {
     return (u8 *)class_attack_template_table + (player->get_class_index() * 0x30);

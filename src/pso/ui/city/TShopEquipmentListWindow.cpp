@@ -66,11 +66,6 @@ struct VObj_8021C0D0_8021B974 : Base_8021C0D0_8021B974 {
     virtual int  m8();
 };
 
-struct RecoveredGlobal_8021C7C0___vt__24TShopEquipmentListWindow {
-    s32 value;
-    u8 remaining[0x2C];
-};
-
 struct Rec_8021C33C { u8 kind; u8 sub; u8 pad[0xe]; s32 price; };
 
 struct Win_8021C33C {
@@ -595,7 +590,6 @@ void *__dt__24TShopEquipmentListWindowFv(TShopEquipmentListWindow *arg0, s16 arg
 
     extern int shop_weapon_stock_counts[];
 
-typedef char RecoveredGlobal_8021C7C0___vt__24TShopEquipmentListWindow_size[sizeof(RecoveredGlobal_8021C7C0___vt__24TShopEquipmentListWindow) == 0x30 ? 1 : -1];
 }
 TShopEquipmentListWindow::TShopEquipmentListWindow(s32 parent, s32 arg2, s32 arg3) : TShopWindowBase((TObject *)parent) {
     s32 sp8;

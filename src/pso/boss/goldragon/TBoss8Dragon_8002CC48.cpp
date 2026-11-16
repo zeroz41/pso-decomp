@@ -45,10 +45,6 @@
 
 #include "pso/object/ambient/TObjFish.h"
 
-struct RecoveredGlobal_8002D41C_lbl_80482060 { s32 value; u8 remaining[0x14]; };
-
-typedef char RecoveredGlobal_8002D41C_lbl_80482060_size[sizeof(RecoveredGlobal_8002D41C_lbl_80482060) == 0x18 ? 1 : -1];
-
 struct UV_8002D4C0 { s16 u, v; };
 
 struct Vtx_8002D4C0 { s16 pad; s16 u; s16 v; };
@@ -549,7 +545,7 @@ f32 get_velocity_scale_limit(void) {
 
 u8 *TObjBoss1MokoHill_SoloM__ct(u8 *boss1_moko_hill_solo_m, u8 *arg1, u8 *arg2, s32 arg3) {
     __ct__7TObjectFP7TObject(boss1_moko_hill_solo_m, arg1);
-    *(s32 **)((s8 *)boss1_moko_hill_solo_m + 0x18) = &(*(RecoveredGlobal_8002D41C_lbl_80482060 *)&__vt__23TObjBoss1MokoHill_SoloM).value;
+    *(s32 **)((s8 *)boss1_moko_hill_solo_m + 0x18) = __vt__23TObjBoss1MokoHill_SoloM;
     *(s32 *)((s8 *)boss1_moko_hill_solo_m + 0) = (s32) TObjBoss1MokoHill_SoloM__name;
     *(s32 *)((s8 *)boss1_moko_hill_solo_m + 0x1C) = 0;
     (*(u8 * *)&dragon_trail_position_source) = arg2;

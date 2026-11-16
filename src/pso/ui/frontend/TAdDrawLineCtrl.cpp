@@ -86,10 +86,8 @@ u8 *create_draw_line_ctrl__13TAdMcSelectGCFiif(s32 arg0, s32 arg1, f32 farg0) {
     return NULL;
 }
 
-struct RecoveredGlobal_80019E60_lbl_804340D8 { char value[0x13]; };
-typedef char RecoveredGlobal_80019E60_lbl_804340D8_size[sizeof(RecoveredGlobal_80019E60_lbl_804340D8) == 0x13 ? 1 : -1];
-
-extern RecoveredGlobal_80019E60_lbl_804340D8 lbl_804340D8;
+struct RecoveredGlobal_lbl_804340D8 { char value[0x13]; };
+extern RecoveredGlobal_lbl_804340D8 lbl_804340D8;
 u32 item_loader_instance;
 
 void TLobby::free_item_loader() {

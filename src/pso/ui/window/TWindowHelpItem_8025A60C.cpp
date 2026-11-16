@@ -9,11 +9,6 @@
 #include "pso/render/render_util.h"
 #pragma readonly_strings on
 
-struct RecoveredGlobal_8025A95C_lbl_804CFA10 {
-    s32 value;
-    u8 remaining[0x14];
-};
-
 struct UV_8025A650 { f32 u; f32 v; };
 
 struct Quad_8025A650 { f32 x0, y0, x1, y1, u0, v0, u1, v1; };
@@ -130,10 +125,9 @@ void *TWindowHelpItem__sub_8025A904(void *arg0, s16 arg1) {
     return arg0;
 }
 
-typedef char RecoveredGlobal_8025A95C_lbl_804CFA10_size[sizeof(RecoveredGlobal_8025A95C_lbl_804CFA10) == 0x18 ? 1 : -1];
 u8 *TWindowHelpItem__sub_8025A95C(u8 *arg0, s32 arg1, s32 arg2) {
     ((TUnk_804CF930 *)arg0)->sub_80256BDC((s32)((void *)arg2));
-    *(s32 **)((s8 *)arg0 + 4) = &(*(RecoveredGlobal_8025A95C_lbl_804CFA10 *)&lbl_804CFA10).value;
+    *(s32 **)((s8 *)arg0 + 4) = ((s32 *)&lbl_804CFA10);
     ((TWindowSubSymbolChatPartsSet *)(arg0 + 8))->copy_vec2((void *)(arg1 + 4));
     *(s32 *)((s8 *)arg0 + 0x10) = 0;
     return arg0;

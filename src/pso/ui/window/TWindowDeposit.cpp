@@ -12,12 +12,6 @@
 
 #include "pso/unk/WindowLayoutRecord.h"
 
-struct RecoveredGlobal_8024E548___vt__14TWindowDeposit
-{
-  s32 value;
-  u8 remaining[0x18];
-};
-
 // inferred: window_deposit_layout_entries, the layout table window_deposit_layout points at.
 struct DepositWindowLayout {
     u32 cols;
@@ -61,7 +55,6 @@ void render__14TWindowDepositFv(s32 arg0) {
 void TWindowDeposit::run_task() { ((TWindowDD *)this)->initialize_subwindow(); update_window_entry_list((char*)this + 0x24); }
 
 TWindowDeposit::~TWindowDeposit() {}
-typedef struct RecoveredGlobal_8024E548___vt__14TWindowDeposit RecoveredGlobal_8024E548___vt__14TWindowDeposit;
 #pragma opt_common_subs off
 #pragma opt_propagation off
 #pragma opt_dead_assignments off
@@ -74,7 +67,7 @@ u8 *TWindowDeposit__ct(u8 *arg0, s32 arg1) {
   u32 temp_r3_2;
   u8 *temp_r31;
   construct_base__9TWindowDDFPUcsPUc((void *) arg0, &window_deposit_layout, (void *) arg1, (int) get_window_layout_position(0x29));
-  *((s32 **) (((s8 *) arg0) + (((((0x18 & 0xFFFFFFFFFFFFFFFFu) & 0xFFFFFFFFFFFFFFFFu) & 0xFFFFFFFFFFFFFFFFu) & 0xFFFFFFFFFFFFFFFFu) & 0xFFFFFFFFFFFFFFFFu))) = &(*(RecoveredGlobal_8024E548___vt__14TWindowDeposit *)&__vt__14TWindowDeposit).value;
+  *((s32 **) (((s8 *) arg0) + (((((0x18 & 0xFFFFFFFFFFFFFFFFu) & 0xFFFFFFFFFFFFFFFFu) & 0xFFFFFFFFFFFFFFFFu) & 0xFFFFFFFFFFFFFFFFu) & 0xFFFFFFFFFFFFFFFFu))) = __vt__14TWindowDeposit;
   *((s32 *) (((s8 *) arg0) + 0)) = (s32) TWindowDeposit__name;
   str = get_message_text(2);
   temp_r3_2 = calc_text_width((char *)str);

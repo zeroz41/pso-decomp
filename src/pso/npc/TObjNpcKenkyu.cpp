@@ -21,14 +21,6 @@ const char *TObjNpcKenkyu__name = "TObjNpcKenkyu";
 u32 TObjNpcKenkyu__static_model;
 }
 
-struct RecoveredGlobal_80289400_lbl_804D3190 { s32 value; u8 remaining[0xC]; };
-typedef char RecoveredGlobal_80289400_lbl_804D3190_size[sizeof(RecoveredGlobal_80289400_lbl_804D3190) == 0x10 ? 1 : -1];
-
-struct RecoveredGlobal_802894A8___vt__13TObjNpcKenkyu {
-    s32 value;
-    u8 remaining[0x174];
-};
-
 extern "C" {
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 s32 get_bml_texlist(int, int);
@@ -62,10 +54,9 @@ TObjNpcKenkyu::~TObjNpcKenkyu() {}
 
 extern void *tl_04;
 
-typedef char RecoveredGlobal_802894A8___vt__13TObjNpcKenkyu_size[sizeof(RecoveredGlobal_802894A8___vt__13TObjNpcKenkyu) == 0x178 ? 1 : -1];
 u8 *TObjNpcKenkyu__ct(u8 *player, s32 arg1, s32 arg2) {
     ((TUnk_804A9F50 *)player)->construct_male_npc_base();
-    *(s32 **)((s8 *)player + 0x18) = &(*(RecoveredGlobal_802894A8___vt__13TObjNpcKenkyu *)&__vt__13TObjNpcKenkyu).value;
+    *(s32 **)((s8 *)player + 0x18) = __vt__13TObjNpcKenkyu;
     *(s32 *)((s8 *)player + 0) = (s32) TObjNpcKenkyu__name;
     ((TObjNpcKenkyu *)(player))->apply_set_data((void *)arg2);
     ((TObjPlayer *)player)->init_position_vectors();

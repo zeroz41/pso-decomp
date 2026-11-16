@@ -1,4 +1,5 @@
 #include "pso/system/RlcArchive.h"
+#include "pso/system/ControllerInputState.h"
 #include "types.h"
 #include "pso/unk/TUnk_804DDD28.h"
 #include "pso/unk/TLobby.h"
@@ -14,14 +15,6 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/unk/WindowLayoutRecord.h"
-
-struct RecoveredGlobal_802A7AF8_lbl_804DDD28 { s32 value; u8 remaining[0x134]; };
-typedef char RecoveredGlobal_802A7AF8_lbl_804DDD28_size[sizeof(RecoveredGlobal_802A7AF8_lbl_804DDD28) == 0x138 ? 1 : -1];
-
-struct RecoveredGlobal_802A7B50_lbl_804DDD28 {
-    s32 value;
-    u8 remaining[0x134];
-};
 
 struct VBase_802A7994 { char pad[0x8]; };
 
@@ -72,7 +65,8 @@ extern s32 lbl_805D669C;
 void set_slot_position__6TLobbyFii(s32 arg0, s32 arg1);
 s32 aram_dma_blocking__6TLobbyFllll(s32, s32, s32, s32, s32);
 void free__10TObjPlayerFPv(void *a0);
-extern RecoveredGlobal_802A7AF8_lbl_804DDD28 lbl_804DDD28;
+struct RecoveredGlobal_lbl_804DDD28 { s32 value; u8 remaining[0x134]; };
+extern RecoveredGlobal_lbl_804DDD28 lbl_804DDD28;
 u8 *TLobby__sub_802A7B50(u8 *arg0);
 s32 TItemDrop__sub_800F9448(s32 arg0, s32 arg1);
 void TLobby__sub_802A7848(void* p, s32 _w1);
@@ -160,9 +154,8 @@ u8 *TUnk_804DDD28::vfunc_3(s16 arg1) {
     return ((u8 *)this);
 }
 
-typedef char RecoveredGlobal_802A7B50_lbl_804DDD28_size[sizeof(RecoveredGlobal_802A7B50_lbl_804DDD28) == 0x138 ? 1 : -1];
 u8 *TLobby__sub_802A7B50(u8 *arg0) {
-    *(s32 **)((s8 *)arg0 + 8) = &(*(RecoveredGlobal_802A7B50_lbl_804DDD28 *)&lbl_804DDD28).value;
+    *(s32 **)((s8 *)arg0 + 8) = &lbl_804DDD28.value;
     ((TUnk_804DDD28 *)arg0)->sub_802A7318();
     return arg0;
 }
@@ -251,11 +244,6 @@ struct Stack_802A7F00 {
     f32 spC;
 };
 
-struct RecoveredGlobal_802A7FB0_lbl_8050E208 {
-    s32 value;
-    u8 remaining[0x1AC];
-};
-
 #pragma push
 #pragma readonly_strings on
 const char *TWindowSnapShot__name = "TWindowSnapShot";
@@ -282,11 +270,6 @@ WindowDescriptor window_snapshot_layout = {
     {512.0f, 280.0f}, 50100.0f, &window_snapshot_layout_entries, 3,
 };
 
-struct RecoveredGlobal_802A80A0___vt__15TWindowSnapShot {
-    s32 value;
-    u8 remaining[0x14];
-};
-
 extern int player_motion_data_filename_ptr;
 extern "C" {
 s32 TObjBoss2Tunnel__sub_8007CAE8(f32 *, f32);
@@ -294,7 +277,6 @@ u8 *draw_default_entry__9TWindowDDFl();
 s32 draw_visible_window_entries(void *, void *, void *);
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
 s32 TWindowShortListCtrl__check_controller_button(void *, int);
-extern RecoveredGlobal_802A7FB0_lbl_8050E208 controller_input_state;
 s32 verify_snapshot_checksum__15TObjBoss2TunnelFv(void);
 extern s32 __vt__15TWindowSnapShot[];
 s32 play_sound_effect(s32, s32, s32, s32);
@@ -357,13 +339,12 @@ void render__15TWindowSnapShotFv(u8 *arg0) {
     }
 }
 
-typedef char RecoveredGlobal_802A7FB0_lbl_8050E208_size[sizeof(RecoveredGlobal_802A7FB0_lbl_8050E208) == 0x1B0 ? 1 : -1];
 void TWindowSnapShot::run_task() {
     u8 *arg0 = (u8 *)this;
     if (!(this->m_2c & 2)) {
         this->m_5c = 0x01000000;
     }
-    if ((TWindowShortListCtrl__check_controller_button((void *) ((u8 *)&controller_input_state.value + 0x20), 2) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) ((u8 *)&controller_input_state.value + 0x160), 2) != 0)) {
+    if ((TWindowShortListCtrl__check_controller_button((void *) ((u8 *)&controller_input_state + 0x20), 2) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) ((u8 *)&controller_input_state + 0x160), 2) != 0)) {
         play_open_sound();
     }
     ((TWindowDD *)arg0)->initialize_subwindow();
@@ -372,11 +353,10 @@ void TWindowSnapShot::run_task() {
 }
 
 TWindowSnapShot::~TWindowSnapShot() {}
-typedef char RecoveredGlobal_802A80A0___vt__15TWindowSnapShot_size[sizeof(RecoveredGlobal_802A80A0___vt__15TWindowSnapShot) == 0x18 ? 1 : -1];
 u8 *TWindowSnapShot__ct(TWindowSnapShot *window_snap_shot, s32 arg1) {
     s32 temp_r31;
     ((TWindowDD *)window_snap_shot)->construct_base((u8 *)&window_snapshot_layout, (s16)4, (u8 *)arg1);
-    *(s32 **)((s8 *)window_snap_shot + 0x18) = &(*(RecoveredGlobal_802A80A0___vt__15TWindowSnapShot *)&__vt__15TWindowSnapShot).value;
+    *(s32 **)((s8 *)window_snap_shot + 0x18) = __vt__15TWindowSnapShot;
     *(s32 *)((s8 *)window_snap_shot + 0) = (s32) TWindowSnapShot__name;
     window_snap_shot->m_60 = 0U;
     if (verify_snapshot_checksum__15TObjBoss2TunnelFv() == 0) {

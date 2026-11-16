@@ -29,11 +29,6 @@ struct Stack_8030C0C4 {
     f32 sp24;
 };
 
-struct RecoveredGlobal_8030C2D8___vt__18TWindowPartyStatus {
-    s32 value;
-    u8 remaining[0x18];
-};
-
 extern "C" {
 s32 draw_default_entry__9TWindowDDFl();
 s32 draw_visible_window_entries(void *, void *, int);
@@ -143,10 +138,9 @@ TWindowPartyStatus::~TWindowPartyStatus() {
 
 }
 
-typedef char RecoveredGlobal_8030C2D8___vt__18TWindowPartyStatus_size[sizeof(RecoveredGlobal_8030C2D8___vt__18TWindowPartyStatus) == 0x1C ? 1 : -1];
 u8 *TWindowPartyStatus__ct(u8 *window_party_status, s32 arg1, s32 arg2) {
     TWindowSimpleStatus__ct((void *)window_party_status, (int) (get_window_layout_position(0xAB)), (void *)local_client_id, (void *)arg2);
-    *(s32 **)((s8 *)window_party_status + 0x18) = &(*(RecoveredGlobal_8030C2D8___vt__18TWindowPartyStatus *)&__vt__18TWindowPartyStatus).value;
+    *(s32 **)((s8 *)window_party_status + 0x18) = __vt__18TWindowPartyStatus;
     *(s32 *)((s8 *)window_party_status + 0) = (s32) ((s32)TWindowPartyStatus__name);
     ((TWindowPartyStatus *)window_party_status)->m_20 = arg1;
     return window_party_status;

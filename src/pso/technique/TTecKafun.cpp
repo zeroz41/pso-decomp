@@ -13,12 +13,6 @@
 const char *tec_kafun_class_name_ptr = "TTecKafun";
 
 
-struct RecoveredGlobal_802A9948___vt__9TTecKafun { s32 value; u8 remaining[0x24]; };
-typedef char RecoveredGlobal_802A9948___vt__9TTecKafun_size[sizeof(RecoveredGlobal_802A9948___vt__9TTecKafun) == 0x28 ? 1 : -1];
-
-struct RecoveredGlobal_802A9880___vt__9TTecKafun { s32 value; u8 remaining[0x24]; };
-typedef char RecoveredGlobal_802A9880___vt__9TTecKafun_size[sizeof(RecoveredGlobal_802A9880___vt__9TTecKafun) == 0x28 ? 1 : -1];
-
 extern "C" {
 void *find_entity_by_id(u16 id);
 u16 get_entity_id(void *);
@@ -59,7 +53,7 @@ u8 *TTecKafun__ct(TTecKafun *tec_kafun, s32 arg1, s32 arg2, s32 arg3, s32 arg4, 
     u8 *temp_r3;
     u8 *temp_r3_2;
     construct_area_technique_base(tec_kafun, arg1, arg2, arg2, arg6);
-    *(s32 **)((s8 *)tec_kafun + 0x18) = &(*(RecoveredGlobal_802A9880___vt__9TTecKafun *)&__vt__9TTecKafun).value;
+    *(s32 **)((s8 *)tec_kafun + 0x18) = __vt__9TTecKafun;
     *(s32 *)((s8 *)tec_kafun + 0) = (s32) ((s32)tec_kafun_class_name_ptr);
     *(f32 *)((s8 *)tec_kafun + 0xEC) = farg0;
     tec_kafun->m_f8 = arg3;
@@ -82,7 +76,7 @@ u8 *TTecKafun__sub_802A9948(TTecKafun *tec_kafun, s32 arg1, s32 arg2, s32 arg3, 
     u8 *temp_r3;
     u8 *temp_r3_2;
     construct_area_technique_base(tec_kafun, arg1, arg2, arg2, arg5);
-    *(s32 **)((s8 *)tec_kafun + 0x18) = &(*(RecoveredGlobal_802A9948___vt__9TTecKafun *)&__vt__9TTecKafun).value;
+    *(s32 **)((s8 *)tec_kafun + 0x18) = __vt__9TTecKafun;
     *(s32 *)((s8 *)tec_kafun + 0) = (s32) ((s32)tec_kafun_class_name_ptr);
     *(f32 *)((s8 *)tec_kafun + 0xEC) = farg0;
     tec_kafun->m_f8 = arg3;

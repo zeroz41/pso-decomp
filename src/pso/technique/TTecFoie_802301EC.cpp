@@ -12,9 +12,6 @@
 struct RecoveredGlobal_802302A0___vt__8TTecFoie { s32 value; u8 remaining[0x24]; };
 typedef char RecoveredGlobal_802302A0___vt__8TTecFoie_size[sizeof(RecoveredGlobal_802302A0___vt__8TTecFoie) == 0x28 ? 1 : -1];
 
-struct RecoveredGlobal_80230308___vt__8TTecFoie { s32 value; u8 remaining[0x24]; };
-typedef char RecoveredGlobal_80230308___vt__8TTecFoie_size[sizeof(RecoveredGlobal_80230308___vt__8TTecFoie) == 0x28 ? 1 : -1];
-
 struct Band_802301EC { void *bindings; u32 count; };
 
 struct Foie_802301EC { u8 pad[0x1C]; u32 owner; u8 pos[0xA6]; s16 band; u16 ownerId; u8 pad2[0x66]; void **emitters; };

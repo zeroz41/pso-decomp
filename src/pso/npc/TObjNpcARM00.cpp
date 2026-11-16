@@ -18,11 +18,6 @@ const char *TObjNpcARM00__name = "TObjNpcARM00";
 u32 TObjNpcARM00__model_resource;
 u32 TObjNpcARM00__texture_list;
 
-struct RecoveredGlobal_80147E2C___vt__12TObjNpcARM00 {
-    s32 value;
-    u8 remaining[0x174];
-};
-
 extern "C" {
 extern s32 __vt__12TObjNpcARM00[];
 s32 play_sound_effect(s32, s32, s32, s32);
@@ -51,10 +46,9 @@ void TObjNpcARM00::load_resources() {
 TObjNpcARM00::~TObjNpcARM00() {}
 
 
-typedef char RecoveredGlobal_80147E2C___vt__12TObjNpcARM00_size[sizeof(RecoveredGlobal_80147E2C___vt__12TObjNpcARM00) == 0x178 ? 1 : -1];
 u8 *TObjNpcARM00__ct(u8 *player, s32 arg1, s32 arg2) {
     ((TUnk_804A9F50 *)player)->construct_male_npc_base();
-    *(s32 **)((s8 *)player + 0x18) = &(*(RecoveredGlobal_80147E2C___vt__12TObjNpcARM00 *)&__vt__12TObjNpcARM00).value;
+    *(s32 **)((s8 *)player + 0x18) = __vt__12TObjNpcARM00;
     *(s32 *)((s8 *)player + 0) = (s32) TObjNpcARM00__name;
     ((TObjNpcARM00 *)(player))->apply_set_data((void *)arg2);
     ((TObjPlayer *)player)->init_position_vectors();

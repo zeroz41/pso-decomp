@@ -74,19 +74,14 @@ struct RecoveredGlobal_802E0B60_lbl_804E2F68 {
     u8 remaining[0xC];
 };
 
-struct RecoveredGlobal_802E0B60_lbl_804E3008 {
-    s32 value;
-    u8 remaining[0x34];
-};
-
 extern "C" {
 void *__dt__10TObjMotionFv(void *arg0, s16 arg1);
 void mem_free(void *p);
 s32 __dl__7TObjectFPv(void *);
 extern RecoveredGlobal_802E0B60_lbl_804E2F68 multi_chr_select_player_slot_table;
-extern RecoveredGlobal_802E0B60_lbl_804E3008 multi_chr_select_player_actor_ops;
+struct MultiChrSelectPlayerActorOps { s32 value; u8 remaining[0x34]; };
+extern MultiChrSelectPlayerActorOps multi_chr_select_player_actor_ops;
 typedef char RecoveredGlobal_802E0B60_lbl_804E2F68_size[sizeof(RecoveredGlobal_802E0B60_lbl_804E2F68) == 0x10 ? 1 : -1];
-typedef char RecoveredGlobal_802E0B60_lbl_804E3008_size[sizeof(RecoveredGlobal_802E0B60_lbl_804E3008) == 0x38 ? 1 : -1];
 
 #pragma push
 #pragma fp_contract on

@@ -7,20 +7,9 @@
 #include "pso/quest/TQuestThread.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 
-struct RecoveredGlobal_8019677C_lbl_80445E84 {
-    s32 value;
-    u8 remaining[0x28];
-};
-
-struct RecoveredGlobal_8019677C___vt__17TObjQuestColALock {
-    s32 value;
-    u8 remaining[0x40];
-};
-
 extern "C" {
 u32 init_collision_body_parts(void *, s32, s32);
 u8 * TObjQuestColBase__ct(void *, s32);
-extern RecoveredGlobal_8019677C_lbl_80445E84 TObjQuestColALock__collision_desc;
 extern s32 __vt__17TObjQuestColALock[];
 extern s32 obj_quest_col_alock_class_name;
 u8 *TObjQuestColALock__ct(TObjQuestColALock *arg0, s32 arg1);
@@ -83,12 +72,10 @@ void *__dt__17TObjQuestColALockFv(void *quest_col_base, s16 arg1) {
     }
     return quest_col_base;
 }
-typedef char RecoveredGlobal_8019677C_lbl_80445E84_size[sizeof(RecoveredGlobal_8019677C_lbl_80445E84) == 0x2C ? 1 : -1];
-typedef char RecoveredGlobal_8019677C___vt__17TObjQuestColALock_size[sizeof(RecoveredGlobal_8019677C___vt__17TObjQuestColALock) == 0x44 ? 1 : -1];
 u8 *TObjQuestColALock__ct(TObjQuestColALock *quest_col_a_lock, s32 arg1) {
     u8 *temp_r4;
     TObjQuestColBase__ct(quest_col_a_lock, arg1);
-    *(s32 **)((s8 *)quest_col_a_lock + 0x18) = &(*(RecoveredGlobal_8019677C___vt__17TObjQuestColALock *)&__vt__17TObjQuestColALock).value;
+    *(s32 **)((s8 *)quest_col_a_lock + 0x18) = __vt__17TObjQuestColALock;
     *(s32 *)((s8 *)quest_col_a_lock + 0) = (s32) obj_quest_col_alock_class_name;
     init_collision_body_parts(quest_col_a_lock, (s32) &TObjQuestColALock__collision_desc.value, 1);
     ((TObjCollidable *)quest_col_a_lock)->set_indexed_flags(0, 0xF0);

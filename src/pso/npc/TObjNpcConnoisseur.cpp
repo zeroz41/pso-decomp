@@ -50,11 +50,6 @@ BmlResourceDescriptor *tekker_descriptor_selector_table[10] = {
 const char *TObjNpcConnoisseur__name = "TObjNpcConnoisseur";
 
 
-struct RecoveredGlobal_801499DC___vt__18TObjNpcConnoisseur {
-    s32 value;
-    u8 remaining[0x174];
-};
-
 extern "C" {
 extern s32 __vt__18TObjNpcConnoisseur[];
 s32 lbl_805D5748;
@@ -86,10 +81,9 @@ TObjNpcConnoisseur::~TObjNpcConnoisseur() {}
 
 extern void *tl_04;
 
-typedef char RecoveredGlobal_801499DC___vt__18TObjNpcConnoisseur_size[sizeof(RecoveredGlobal_801499DC___vt__18TObjNpcConnoisseur) == 0x178 ? 1 : -1];
 u8 *TObjNpcConnoisseur__ct(u8 *player, s32 arg1, s32 arg2) {
     ((TUnk_804A9F50 *)player)->construct_male_npc_base();
-    *(s32 **)((s8 *)player + 0x18) = &(*(RecoveredGlobal_801499DC___vt__18TObjNpcConnoisseur *)&__vt__18TObjNpcConnoisseur).value;
+    *(s32 **)((s8 *)player + 0x18) = __vt__18TObjNpcConnoisseur;
     ((TObjNpcConnoisseur *)player)->m_name = TObjNpcConnoisseur__name;
     ((TObjNpcConnoisseur *)(player))->apply_set_data((void *)arg2);
     ((TObjPlayer *)player)->init_position_vectors();

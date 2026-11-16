@@ -36,11 +36,6 @@ void TBoss5GryphonTornado::sub_803554F0(u8 *boss2_tunnel) {
 }
 
 
-struct RecoveredGlobal_803558E4___vt__20TBoss5GryphonTornado {
-    s32 value;
-    u8 remaining[0x14];
-};
-
 struct Inner_80355570 { u8 pad[4]; f32 f4; };
 
 struct Res_80355570 { u8 pad[4]; Inner_80355570 *inner; };
@@ -172,10 +167,9 @@ TBoss5GryphonTornado::~TBoss5GryphonTornado() {
     if (*(void **)((s8 *)this + 0x50) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0x50)))->queue_destruction(); this->m_50 = 0; }
 }
 
-typedef char RecoveredGlobal_803558E4___vt__20TBoss5GryphonTornado_size[sizeof(RecoveredGlobal_803558E4___vt__20TBoss5GryphonTornado) == 0x18 ? 1 : -1];
 u8 *TBoss5GryphonTornado__ct(TBoss5GryphonTornado *boss5_gryphon_tornado, u8 *arg1, s32 arg2, u8 *arg3, s16 arg4) {
     __ct__7TObjectFP7TObject(boss5_gryphon_tornado, arg1);
-    *(s32 **)((s8 *)boss5_gryphon_tornado + 0x18) = &(*(RecoveredGlobal_803558E4___vt__20TBoss5GryphonTornado *)&__vt__20TBoss5GryphonTornado).value;
+    *(s32 **)((s8 *)boss5_gryphon_tornado + 0x18) = __vt__20TBoss5GryphonTornado;
     *(s32 *)((s8 *)boss5_gryphon_tornado + 0) = (s32) lbl_805D4398;
     VecCopy((Vec *)((u8 *)boss5_gryphon_tornado + 0x28), (const Vec *)arg3);
     boss5_gryphon_tornado->m_24 = arg4;

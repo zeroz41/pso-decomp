@@ -28,11 +28,6 @@
 #include "pso/ui/frontend/TAdEndText.h"
 #include "pso/ui/frontend/TAdRicoRingCtrl.h"
 
-struct RecoveredGlobal_8008C534_main_task {
-    s32 value;
-    u8 remaining[0x30];
-};
-
 extern "C" {
 s32 TKeyBoardControl__sub_8000F92C();
 void request_main_phase(s32 arg0);
@@ -60,8 +55,6 @@ void (*ending_scene_callbacks[26])(void) = {
 };
 
 
-typedef char RecoveredGlobal_8008C534_main_task_size[sizeof(RecoveredGlobal_8008C534_main_task) == 0x34 ? 1 : -1];
-
 void fn_8008C4F4(void) {
     TLobby::stop_audio_streams();
     main_task.delete_layer_children();
@@ -75,17 +68,17 @@ void run_game_frame(void) {
     func_803DCDFC__Fv();
     controller_stuff();
     TKeyBoardControl::update_input_frame();
-    var_r3 = (s32 *)(&(*(RecoveredGlobal_8008C534_main_task *)&main_task).value);
-    var_r3 = (s32 *)(&(*(RecoveredGlobal_8008C534_main_task *)&main_task).value);
+    var_r3 = (s32 *)&main_task;
+    var_r3 = (s32 *)&main_task;
     main_task.begin_frame();
-    var_r3 = (s32 *)(&(*(RecoveredGlobal_8008C534_main_task *)&main_task).value);
-    var_r3 = (s32 *)(&(*(RecoveredGlobal_8008C534_main_task *)&main_task).value);
+    var_r3 = (s32 *)&main_task;
+    var_r3 = (s32 *)&main_task;
     main_task.run_task();
-    var_r3 = (s32 *)(&(*(RecoveredGlobal_8008C534_main_task *)&main_task).value);
-    var_r3 = (s32 *)(&(*(RecoveredGlobal_8008C534_main_task *)&main_task).value);
+    var_r3 = (s32 *)&main_task;
+    var_r3 = (s32 *)&main_task;
     main_task.render();
-    var_r3 = (s32 *)(&(*(RecoveredGlobal_8008C534_main_task *)&main_task).value);
-    var_r3 = (s32 *)(&(*(RecoveredGlobal_8008C534_main_task *)&main_task).value);
+    var_r3 = (s32 *)&main_task;
+    var_r3 = (s32 *)&main_task;
     main_task.render_screen_overlay();
     process_async_file_reads();
     update_sound_request_slots();

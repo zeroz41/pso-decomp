@@ -13,11 +13,6 @@
 #include "pso/quest/TQuestThread.h"
 #include "pso/system/task/TObject.h"
 
-struct RecoveredGlobal_80339480_lbl_804EF500 {
-    s32 value;
-    u8 remaining[0x94];
-};
-
 static const f32 TAdEnterPPPPassGC__selection_positions[4][2] = {{155.0f, 231.0f}, {155.0f, 251.0f}, {87.0f, 231.0f}, {87.0f, 251.0f}};
 const char *TAdEnterPPPPassGC__name = "TAdEnterPPPPassGC";
 
@@ -101,9 +96,6 @@ void close_windows_and_advance__17TAdEnterPPPPassGCFPv(u8 *arg0) {
 
 int forward_chg_game_mode__17TAdEnterPPPPassGCFPv(void* p) { return reset_mode_state__21TAdMultiChgGameModeGCFv(p); }
 int request_transition__17TAdEnterPPPPassGCFPv(void* p) { return request_transition__21TAdMultiChgGameModeGCFv(p); }
-
-typedef char RecoveredGlobal_80339480_lbl_804EF500_size[sizeof(RecoveredGlobal_80339480_lbl_804EF500) == 0x98 ? 1 : -1];
-
 
 void update_password_input__17TAdEnterPPPPassGCFPv(u8 *ad_enter_serial_access_gc) {
     char *buf;

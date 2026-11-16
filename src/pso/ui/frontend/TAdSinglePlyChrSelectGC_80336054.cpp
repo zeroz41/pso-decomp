@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/ui/keyboard/TKeyBoardControl_80131C58.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_80336054.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
@@ -227,11 +228,6 @@ typedef struct {
 
 struct O_8033612C { u8 pad[0x1C]; void *f1c; void *f20; void *f24; u8 pad2[0x3C - 0x28]; u32 flags; void *h[3]; };
 
-struct RecoveredGlobal_80336340_TKeyBoardControl__data_80506270 {
-    s32 value;
-    u8 remaining[0xAC];
-};
-
 struct Obj_80336340 { u8 pad[0x40]; void *objs[3]; };
 
 
@@ -254,7 +250,6 @@ void __ct__7TObjectFP7TObject(void *);
 extern s32 tl_clipout;
 
 void TWindowOptionCtrl__sub_802273B4(s32 arg0);
-extern RecoveredGlobal_80336340_TKeyBoardControl__data_80506270 TKeyBoardControl__global_key_state;
 s32 run_load_callback_table(void *, int);
 extern const s32 current_language;
 s32 TAdTrialAgreementGC__sub_80335958(int);
@@ -318,7 +313,6 @@ void TLobby__sub_803362A4(void *arg0_) {
 }
 void TUnk_804EEF64::render() {  }
 
-typedef char RecoveredGlobal_80336340_TKeyBoardControl__data_80506270_size[sizeof(RecoveredGlobal_80336340_TKeyBoardControl__data_80506270) == 0xB0 ? 1 : -1];
 void TUnk_804EEF64::run_task() {
     s32 i;
     TAdMultiChgGameModeGC::set_default_camera();

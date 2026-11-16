@@ -56,11 +56,6 @@ struct E_8034B694 { u8 b[0x14]; };
 struct Q_8034B694 { s32 v; };
 struct W_8034B694 { u8 pad0[0x34]; E_8034B694 e[1]; u8 pad48[0x70 - 0x48]; Q_8034B694 f[1]; };
 
-struct RecoveredGlobal_8034BA68_lbl_8050E208 {
-    s32 value;
-    u8 remaining[0x1AC];
-};
-
 extern "C" {
 s32 get_localized_text_entry(s32, s32);
 s32 is_active__11TBoss4Type2Fv();
@@ -89,7 +84,6 @@ u32 __nw__7TObjectFUl(s32);
 s32 update_challenge_result_player_locks();
 void resume_challenge_result_processing(void *arg0);
 extern s32 tl_01;
-typedef char RecoveredGlobal_8034BA68_lbl_8050E208_size[sizeof(RecoveredGlobal_8034BA68_lbl_8050E208) == 0x1B0 ? 1 : -1];
 const char *challenge_4p_result_class_name = "TChallenge4PResult";
 
 #pragma defer_codegen on
@@ -196,7 +190,7 @@ void TChallenge4PResult::update_wait_input() {
     s32 temp_r5;
     if (get_player_by_client_id(this->slot_index) != 0U) {
         temp_r5 = get_map_id__13TRaderMapCoreFv() * 0x50;
-        if (TWindowShortListCtrl__check_controller_button((void *)((void *) ((u8 *)&(*(RecoveredGlobal_8034BA68_lbl_8050E208 *)&controller_input_state).value + temp_r5 + 0x20)), 4, temp_r5) != 0) {
+        if (TWindowShortListCtrl__check_controller_button((void *)((void *) ((u8 *)&controller_input_state + temp_r5 + 0x20)), 4, temp_r5) != 0) {
             this->state_1c = 3;
         }
     } else {

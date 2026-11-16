@@ -16,11 +16,6 @@
 #include "pso/network/TUdpSocket.h"
 #include "pso/unk/TLobby.h"
 
-struct RecoveredGlobal_80078378_lbl_8048D3B8 {
-    s32 value;
-    u8 remaining[0x3C];
-};
-
 struct Sock_80078110 { char pad[0x1c]; s32 f1c; u16 port; u8 pad22[2]; s32 addr; s16 fd; };
 
 struct Q_80078110 { s32 len; s32 v; u8 pad[0xc]; };
@@ -47,7 +42,6 @@ struct Sock_80078264 { u8 pad[0x28]; s16 x28; };
 
 extern "C" {
 struct Rec_8007841C *copy_udp_socket_event_record(struct Rec_8007841C *dst, struct Rec_8007841C *src);
-extern RecoveredGlobal_80078378_lbl_8048D3B8 udp_socket_slots;
 void udp_send(int, void *, void *, int, void *, int, void *);
 void TUdpSocket__sub_80078110(Sock_80078110 *arg0, s32 arg1, s16 arg2);
 void TUdpSocket__sub_800781B8(Sock_800781B8 *arg0, s32 arg1);
@@ -72,7 +66,7 @@ void render_shadows__7TObjectFv();
 void reset_buffer(u8 *arg0);
 TTcpSocket *tcp_socket_table[16] = {0};
 extern "C" {
-RecoveredGlobal_80078378_lbl_8048D3B8 udp_socket_slots = {0};
+UdpSocketSlots udp_socket_slots = {0};
 }
 const char *sock_status_names[17] = {
     "SUCCESS", "API_PENDING", "API_PORTFULL", "API_DUPSOCK", "API_INVALIDHANDLE",
@@ -106,7 +100,6 @@ void reset_buffer(u8 *arg0) {
     memset(arg0 + 0x74, 0, 0x800);
     *(s8 *)((s8 *)arg0 + 0x2B) = 1;
 }
-typedef char RecoveredGlobal_80078378_lbl_8048D3B8_size[sizeof(RecoveredGlobal_80078378_lbl_8048D3B8) == 0x40 ? 1 : -1];
 extern "C" {
 
 void TUdpSocket__sub_80078110(Sock_80078110 *arg0, s32 arg1, s16 arg2) {

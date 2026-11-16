@@ -7,52 +7,6 @@
 #include "pso/ui/Language.h"
 #include "pso/render/render_util.h"
 
-struct RecoveredGlobal_8000F764_TKeyBoardControl__data_80506270 {
-    s32 value;
-    u8 remaining[0xAC];
-};
-
-struct RecoveredGlobal_8000F7FC_lbl_80515F48 {
-    s32 value;
-    u8 remaining[0x24];
-};
-
-struct RecoveredGlobal_8000F9E4_lbl_804FE120 {
-    s32 value;
-    u8 remaining[0x14];
-};
-
-struct RecoveredGlobal_8000F90C_lbl_804FE120 {
-    s32 value;
-    u8 remaining[0x14];
-};
-
-struct RecoveredGlobal_8000F9CC_lbl_804FE120 {
-    s32 value;
-    u8 remaining[0x14];
-};
-
-struct RecoveredGlobal_8000F8FC_lbl_804FE120 {
-    s32 value;
-    u8 remaining[0x14];
-};
-
-struct RecoveredGlobal_8000F8EC_lbl_804FE120 {
-    s32 value;
-    u8 remaining[0x14];
-};
-
-struct RecoveredGlobal_8000F91C_lbl_804FE120 {
-    s32 value;
-    u8 remaining[0x14];
-};
-
-struct RecoveredGlobal_80144FCC_lbl_804A74F0
-{
-  s32 value;
-  u8 remaining[0x2F8];
-};
-
 struct Glyph_80145190 {
     u16 code;
     u8 width;
@@ -70,10 +24,12 @@ typedef struct Pos_8014556C
 } Pos_8014556C;
 
 extern u8 lbl_805D56C0;
-extern RecoveredGlobal_8000F7FC_lbl_80515F48 menu_font_texture_list;
+struct MenuFontTextureList { s32 value; u8 remaining[0x24]; };
+extern MenuFontTextureList menu_font_texture_list;
 extern "C" {
 void set_glyph_quad_extents(u8 arg0, u8 *arg1);
-extern RecoveredGlobal_80144FCC_lbl_804A74F0 menu_font_char_advance_table;
+struct MenuFontCharAdvanceTable { s32 value; u8 remaining[0x2F8]; };
+extern MenuFontCharAdvanceTable menu_font_char_advance_table;
 u32 get_font_char_advance(u16 arg0);
 u16 map_char_to_font_code(u16 c);
 extern s32 text_control_color_palette[];
@@ -118,9 +74,6 @@ void set_glyph_quad_extents(u8 arg0, u8 *arg1) {
     *(f32 *)((s8 *)arg1 + 0x1C) = (f32) (0.0703125f + *(f32 *)((s8 *)arg1 + 0x14));
 }
 #pragma pop
-
-typedef struct RecoveredGlobal_80144FCC_lbl_804A74F0 RecoveredGlobal_80144FCC_lbl_804A74F0;
-typedef char RecoveredGlobal_80144FCC_lbl_804A74F0_size[((sizeof(RecoveredGlobal_80144FCC_lbl_804A74F0)) == 0x2FC) ? (1) : (-1)];
 
 u32 TWindowSubStatusDisp::calc_text_width(char *s) {
     f32 max = 0.0f;
@@ -435,17 +388,9 @@ u8 TWindowSubStatusDisp::calc_gauge_scale(u16 glyph, void *arg1, s32 arg2) {
     return *(u8 *)((s8 *)cached_glyph + 2);
 }
 
-typedef char RecoveredGlobal_8000F764_TKeyBoardControl__data_80506270_size[sizeof(RecoveredGlobal_8000F764_TKeyBoardControl__data_80506270) == 0xB0 ? 1 : -1];
-typedef char RecoveredGlobal_8000F7FC_lbl_80515F48_size[sizeof(RecoveredGlobal_8000F7FC_lbl_80515F48) == 0x28 ? 1 : -1];
 void TWindowSubStatusDisp::set_gauge_param(s32 _w0) {
     TObjFish::set_global_param((s32)&menu_font_texture_list.value);
 }
-typedef char RecoveredGlobal_8000F90C_lbl_804FE120_size[sizeof(RecoveredGlobal_8000F90C_lbl_804FE120) == 0x18 ? 1 : -1];
-typedef char RecoveredGlobal_8000F8FC_lbl_804FE120_size[sizeof(RecoveredGlobal_8000F8FC_lbl_804FE120) == 0x18 ? 1 : -1];
-typedef char RecoveredGlobal_8000F8EC_lbl_804FE120_size[sizeof(RecoveredGlobal_8000F8EC_lbl_804FE120) == 0x18 ? 1 : -1];
-typedef char RecoveredGlobal_8000F91C_lbl_804FE120_size[sizeof(RecoveredGlobal_8000F91C_lbl_804FE120) == 0x18 ? 1 : -1];
-typedef char RecoveredGlobal_8000F9E4_lbl_804FE120_size[sizeof(RecoveredGlobal_8000F9E4_lbl_804FE120) == 0x18 ? 1 : -1];
-typedef char RecoveredGlobal_8000F9CC_lbl_804FE120_size[sizeof(RecoveredGlobal_8000F9CC_lbl_804FE120) == 0x18 ? 1 : -1];
 
 void TWindowSubStatusDisp::end_render_forward() { get_player(); }
 void TWindowSubStatusDisp::reset_gauge(void* p) { begin_screen_draw((s32)((void*)1)); TWindowSubStatusDisp::set_gauge_param((s32)p); set_draw_texture_and_color((s32)((void*)0), (s32)((void*)-1)); }

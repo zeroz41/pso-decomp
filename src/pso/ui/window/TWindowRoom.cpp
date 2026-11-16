@@ -9,11 +9,6 @@
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/system/NinjaTypes.h"
 
-struct RecoveredGlobal_8026D674___vt__11TWindowRoom {
-    s32 value;
-    u8 remaining[0x14];
-};
-
 struct RoomTitleEntry {
     u8 unknown00[8];
     f32 positionX;
@@ -83,7 +78,6 @@ void *__dt__11TWindowRoomFv(void *arg0, s16 arg1) {
     }
     return arg0;
 }
-typedef char RecoveredGlobal_8026D674___vt__11TWindowRoom_size[sizeof(RecoveredGlobal_8026D674___vt__11TWindowRoom) == 0x18 ? 1 : -1];
 
 TWindowRoom::TWindowRoom(char *title) {
     RoomTitleEntry *entry;

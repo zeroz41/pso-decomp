@@ -242,10 +242,6 @@ typedef struct {
 
 typedef char RecoveredGlobal_8013561C_lbl_805127F8_size[sizeof(RecoveredGlobal_8013561C_lbl_805127F8) == 0x200 ? 1 : -1];
 
-struct RecoveredGlobal_8013630C_main_task { s32 value; u8 remaining[0x30]; };
-
-typedef char RecoveredGlobal_8013630C_main_task_size[sizeof(RecoveredGlobal_8013630C_main_task) == 0x34 ? 1 : -1];
-
 struct Base_801361E8 { u8 pad[0x18]; };
 
 struct Obj_801361E8 : Base_801361E8 { virtual ~Obj_801361E8(); };
@@ -3226,17 +3222,17 @@ void on_game_player_add__6TLobbyFiii(s32 arg0, s32 arg1, s32 arg2) {
     ((TWindowMessage *)TLobby__current_dialog_window)->complete_reveal();
     ((TWindowSubComCard *)TLobby__current_dialog_window)->reparent_to_main_ctrl();
     main_task.begin_frame();
-    ((TMainTask *)(&(*(RecoveredGlobal_8013630C_main_task *)&main_task)))->run_tl_camera_tasks();
+    main_task.run_tl_camera_tasks();
     main_task.render();
     main_task.render_screen_overlay();
     render_tick();
     main_task.begin_frame();
-    ((TMainTask *)(&(*(RecoveredGlobal_8013630C_main_task *)&main_task)))->run_tl_camera_tasks();
+    main_task.run_tl_camera_tasks();
     main_task.render();
     main_task.render_screen_overlay();
     render_tick();
     main_task.begin_frame();
-    ((TMainTask *)(&(*(RecoveredGlobal_8013630C_main_task *)&main_task)))->run_tl_camera_tasks();
+    main_task.run_tl_camera_tasks();
     main_task.render();
     main_task.render_screen_overlay();
     render_tick();

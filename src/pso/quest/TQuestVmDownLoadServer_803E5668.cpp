@@ -6,14 +6,6 @@
 
 #pragma readonly_strings on
 
-struct RecoveredGlobal_803E5EFC_quest_convert_string {
-    s32 value;
-    u8 remaining[0x7C];
-};
-
-extern RecoveredGlobal_803E5EFC_quest_convert_string quest_convert_string;
-
-
 struct Ent_803E5670 {
     u8 pad[0xC];
     u32 c;
@@ -359,7 +351,6 @@ s32 TQuestVmDownLoadServer::reset_download_buffers() {
     quest_download_state = 0;
     return 0;
 }
-typedef char RecoveredGlobal_803E5EFC_quest_convert_string_size[sizeof(RecoveredGlobal_803E5EFC_quest_convert_string) == 0x80 ? 1 : -1];
 s32 TQuestVmDownLoadServer::poll_download_status() {
     if ((s32) quest_download_initialized == 0) {
         return -1;
@@ -574,7 +565,7 @@ u8 lbl_8058DC48[80];
 u8 lbl_8058DC98[80];
 u8 lbl_8058DCE8[80];
 u8 quest_request_text_buffer[80];
-RecoveredGlobal_803E5EFC_quest_convert_string quest_convert_string;
+QuestConvertString quest_convert_string;
 }
 
 struct Stack_803E68D0 {

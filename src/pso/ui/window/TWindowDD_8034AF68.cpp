@@ -137,14 +137,10 @@ void clear_window_dd_nodes(void) {
     lbl_804F0070.b0 = 0;
 }
 
-struct RecoveredGlobal_8034B008_lbl_80478B78 {
-    s32 value;
-    u8 remaining[0x2C];
-};
-
 struct Ent_8034B050 { s32 *list; s32 count; s32 result; };
 
-extern RecoveredGlobal_8034B008_lbl_80478B78 word_select_type_state_table;
+struct WordSelectTypeStateTable { s32 value; u8 remaining[0x2C]; };
+extern WordSelectTypeStateTable word_select_type_state_table;
 extern H_8034AF68 *TWindowDD__ws_data_base;
 extern H_8034AF68 *TWindowDD__ws_data_table;
 extern Ent_8034B050 lbl_804F0040[4];
@@ -154,7 +150,6 @@ extern s32 lbl_805DFD84;
 extern s32 lbl_805DFD88;
 extern s32 lbl_805DFD8C;
 extern s32 lbl_805DFD90;
-typedef char RecoveredGlobal_8034B008_lbl_80478B78_size[sizeof(RecoveredGlobal_8034B008_lbl_80478B78) == 0x30 ? 1 : -1];
 
 void TWindowDD::init_ws_data_tables() {
     H_8034AF68 *a = TWindowDD__ws_data_base;

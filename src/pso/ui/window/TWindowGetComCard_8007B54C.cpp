@@ -6,28 +6,11 @@
 #include "pso/unk/TLobby.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 
-struct RecoveredGlobal_8007B54C_TWindowGetComCard__data_80500158 {
-    s32 value;
-    u8 remaining[0x23C];
-};
-
-struct RecoveredGlobal_8007B594_TWindowGetComCard__data_80500158 {
-    s32 value;
-    u8 remaining[0x23C];
-};
-
-struct RecoveredGlobal_8007B60C_TWindowGetComCard__data_80500158
-{
-  s32 value;
-  u8 remaining[0x23C];
-};
-
 extern "C" {
-RecoveredGlobal_8007B54C_TWindowGetComCard__data_80500158 TWindowGetComCard__received_guild_card_tags;
+TWindowGetComCardReceivedGuildCardTags TWindowGetComCard__received_guild_card_tags;
 s32 TWindowSubComCard__sub_8007B26C(s32);
 void __construct_array(void *ptr, void *ctor, void *dtor, u32 size, u32 n);
 
-typedef char RecoveredGlobal_8007B54C_TWindowGetComCard__data_80500158_size[sizeof(RecoveredGlobal_8007B54C_TWindowGetComCard__data_80500158) == 0x240 ? 1 : -1];
 void TWindowGetComCard__sub_8007B54C(void) {
     TWindowGetComCard::remove_entry(0, (s32) &TWindowGetComCard__received_guild_card_tags.value, 4);
     if (((TWindowSubComCard *)(&TWindowGetComCard__received_guild_card_tags.value))->is_active() == 0) {
@@ -35,9 +18,8 @@ void TWindowGetComCard__sub_8007B54C(void) {
     }
 }
 
-typedef char RecoveredGlobal_8007B594_TWindowGetComCard__data_80500158_size[sizeof(RecoveredGlobal_8007B594_TWindowGetComCard__data_80500158) == 0x240 ? 1 : -1];
 s32 *TWindowGetComCard__sub_8007B594(void) {
-    return &(*(RecoveredGlobal_8007B594_TWindowGetComCard__data_80500158 *)&TWindowGetComCard__received_guild_card_tags).value;
+    return &TWindowGetComCard__received_guild_card_tags.value;
 }
 
 void TWindowGetComCard::remove_entry(s32 arg0, s32 arg1, s32 arg2) {
@@ -51,8 +33,6 @@ void TWindowGetComCard::remove_entry(s32 arg0, s32 arg1, s32 arg2) {
     TWindowSubComCard__sub_8007B26C(arg1);
 }
 
-typedef struct RecoveredGlobal_8007B60C_TWindowGetComCard__data_80500158 RecoveredGlobal_8007B60C_TWindowGetComCard__data_80500158;
-typedef char RecoveredGlobal_8007B60C_TWindowGetComCard__data_80500158_size[((sizeof(RecoveredGlobal_8007B60C_TWindowGetComCard__data_80500158)) == 0x240) ? (1) : (-1)];
 void TWindowGetComCard__sub_8007B60C(s32 _w0) {
   int new_var;
   s32 var_r29;
@@ -63,7 +43,7 @@ void TWindowGetComCard__sub_8007B60C(s32 _w0) {
   do
   {
     new_var = 0xFFFFFFFFFFFFFFFF;
-    TWindowSubComCard__sub_8007B26C((s32)((void *) (((u8 *) (&(*(RecoveredGlobal_8007B60C_TWindowGetComCard__data_80500158 *)&TWindowGetComCard__received_guild_card_tags).value)) + (var_r31 & new_var))));
+    TWindowSubComCard__sub_8007B26C((s32)((void *) (((u8 *) (&TWindowGetComCard__received_guild_card_tags.value)) + (var_r31 & new_var))));
     var_r29 += 1;
     var_r31 += 0x90;
   }

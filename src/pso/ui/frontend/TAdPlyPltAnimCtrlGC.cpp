@@ -6,11 +6,6 @@
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/player/TObjPlayer.h"
 
-struct RecoveredGlobal_80355414___vt__19TAdPlyPltAnimCtrlGC {
-    s32 value;
-    u8 remaining[0x14];
-};
-
 struct O_80355148 { u8 pad[0x1c]; s32 state; };
 
 extern "C" {
@@ -132,11 +127,10 @@ void *__dt__19TAdPlyPltAnimCtrlGCFv(void *object, s16 arg1) {
     return object;
 }
 
-typedef char RecoveredGlobal_80355414___vt__19TAdPlyPltAnimCtrlGC_size[sizeof(RecoveredGlobal_80355414___vt__19TAdPlyPltAnimCtrlGC) == 0x18 ? 1 : -1];
 u8 *TAdPlyPltAnimCtrlGC__ct(TAdPlyPltAnimCtrlGC *ad_ply_plt_anim_ctrl_gc, s32 arg1) {
     s32 index;
     __ct__7TObjectFP7TObject((void *)ad_ply_plt_anim_ctrl_gc, (void *)arg1);
-    *(s32 **)((s8 *)ad_ply_plt_anim_ctrl_gc + 0x18) = &(*(RecoveredGlobal_80355414___vt__19TAdPlyPltAnimCtrlGC *)&__vt__19TAdPlyPltAnimCtrlGC).value;
+    *(s32 **)((s8 *)ad_ply_plt_anim_ctrl_gc + 0x18) = __vt__19TAdPlyPltAnimCtrlGC;
     index = 0;
     *(s32 *)((s8 *)ad_ply_plt_anim_ctrl_gc + 0) = lbl_805D4390;
     ad_ply_plt_anim_ctrl_gc->m_1c = 0;

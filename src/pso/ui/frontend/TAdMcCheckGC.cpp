@@ -9,11 +9,6 @@
 #include "pso/ui/frontend/TAdChrSelASlotGC.h"
 #include "pso/system/task/TObject.h"
 
-struct RecoveredGlobal_8033F1C4___vt__12TAdMcCheckGC {
-    s32 value;
-    u8 remaining[0x14];
-};
-
 extern "C" {
 extern s32 memcard_cursor_instance_table[];
 s32 GXSetTexCoordGen2(s32, s32, s32, s32, s32, s32);
@@ -134,7 +129,6 @@ void TAdMcCheckGC::run_task() {
 
 const char *TAdMcCheckGC__name = "TAdMcCheckGC";
 
-typedef char RecoveredGlobal_8033F1C4___vt__12TAdMcCheckGC_size[sizeof(RecoveredGlobal_8033F1C4___vt__12TAdMcCheckGC) == 0x18 ? 1 : -1];
 TAdMcCheckGC::~TAdMcCheckGC() {
     s32 temp_r4;
     temp_r4 = this->m_28 * 4;

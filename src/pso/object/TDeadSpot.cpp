@@ -29,11 +29,6 @@ public:
 };
 #endif
 
-struct RecoveredGlobal_800D7F60_lbl_804949F4 {
-    s32 value;
-    u8 remaining[0x18];
-};
-
 #include <stddef.h>
 #include "pso/system/task/TMainTask.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
@@ -176,10 +171,9 @@ void *__dt__13TUnk_804949F4Fv(void *object, s16 arg1) {
 
 #pragma push
 #pragma fp_contract on
-typedef char RecoveredGlobal_800D7F60_lbl_804949F4_size[sizeof(RecoveredGlobal_800D7F60_lbl_804949F4) == 0x1C ? 1 : -1];
 u8 *construct_fire_base__9TDeadSpotFPvPvPvif(u8 *arg0, u8 *arg1, u8 *arg2, s32 arg3, f32 farg0) {
     __ct__7TObjectFP7TObject(arg0, arg1);
-    *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_800D7F60_lbl_804949F4 *)&lbl_804949F4).value;
+    *(s32 **)((s8 *)arg0 + 0x18) = lbl_804949F4;
     VecCopy((Vec *)(arg0 + 0x1C), (const Vec *)arg2);
     ((TUnk_804949F4 *)arg0)->m_28 = farg0;
     *(s32 *)((s8 *)arg0 + 0x2C) = 0;

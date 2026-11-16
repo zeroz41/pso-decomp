@@ -5,11 +5,6 @@
 #include "types.h"
 #include "pso/render/ModelDrawContext.h"
 
-struct RecoveredGlobal_803DCBD8_lbl_8058D380 {
-    s32 value;
-    u8 remaining[0xEC];
-};
-
 typedef s32 (*RecoveredCallback_92513335c3ed)(void *);
 typedef void (*RecoveredCallback_2be3cacebb2e)(void);
 
@@ -34,7 +29,8 @@ struct N_803DC9E4 {
     f32 f34;
 };
 
-extern RecoveredGlobal_803DCBD8_lbl_8058D380 render_contexts;
+struct RenderContexts { s32 value; u8 remaining[0xEC]; };
+extern RenderContexts render_contexts;
 extern u8 *current_render_context;
 extern "C" {
 void select_render_context(s32 arg0);
@@ -65,7 +61,6 @@ void traverse_model_node_tree(struct N_803DC9E4 *p, s32 (*cb)(s32));
 void set_model_node_callback(s32 arg0) {
     model_node_callback = arg0;
 }
-typedef char RecoveredGlobal_803DCBD8_lbl_8058D380_size[sizeof(RecoveredGlobal_803DCBD8_lbl_8058D380) == 0xF0 ? 1 : -1];
 
 void draw_ginja_model_with_motion(void *model, void *motion, f32 frame) {
     bind_motion_context((NJS_MOTION *)motion, frame);

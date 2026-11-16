@@ -63,11 +63,6 @@ struct Stack_80308B38 {
     s16 spE;
 };
 
-struct RecoveredGlobal_80308840_main_task {
-    s32 value;
-    u8 remaining[0x30];
-};
-
 struct Msg_803086A8 { void *p; s32 one; Vec pos; s32 id; };
 
 struct Slot_803086A8 { u32 a; s32 b; };
@@ -162,9 +157,8 @@ void TBoss7Crawfish::spawn_effect(s32 arg1) {
     play_sound_effect(arg1, arg0 + 0x38, 0, 0);
 }
 
-typedef char RecoveredGlobal_80308840_main_task_size[sizeof(RecoveredGlobal_80308840_main_task) == 0x34 ? 1 : -1];
 s32 TBoss7Crawfish::is_visible() {
-    if (get_mode__11TCameraCtrlFPv(&(*(RecoveredGlobal_80308840_main_task *)&main_task).value) & 0x20) {
+    if (get_mode__11TCameraCtrlFPv(&main_task) & 0x20) {
         if (3600.0f < horizontal_distance_squared(&lbl_8047559C, &position)) {
             return 0;
         }

@@ -803,13 +803,6 @@ extern s32 chunk_polygon_flags_and_mask;
 
 }
 
-struct RecoveredGlobal_8002F5AC_lbl_804FE30C {
-    s32 value;
-    u8 remaining[0xC];
-};
-
-extern RecoveredGlobal_8002F5AC_lbl_804FE30C lbl_804FE30C;
-
 extern s32 TBoss2DeRolLe__current_attack_id;
 
 extern s32 TBoss2DeRolLe__sequence_match_index;
@@ -824,21 +817,9 @@ extern s32 lbl_805D4BBC;
 
 extern s32 lbl_805D4BC0;
 
-typedef char RecoveredGlobal_8002F5AC_lbl_804FE30C_size[sizeof(RecoveredGlobal_8002F5AC_lbl_804FE30C) == 0x10 ? 1 : -1];
-
 void get_current_matrix(void *m);
 
 namespace joint_transform_view {
-
-struct RecoveredGlobal_8002F61C_lbl_804820D8 {
-    s32 value;
-    u8 remaining[0x2C];
-};
-
-struct RecoveredGlobal_8002F61C_lbl_804FE31C {
-    s32 value;
-    u8 remaining[0x8];
-};
 
 extern "C" {
 
@@ -851,10 +832,6 @@ s32 mult_vec_array__10TObjPlayerFUll(int, void *, void *, int);
 s32 subtract_vector(void *, void *);
 
 s32 push_matrix();
-
-extern RecoveredGlobal_8002F61C_lbl_804820D8 derolle_part_transform_template;
-
-extern RecoveredGlobal_8002F61C_lbl_804FE31C lbl_804FE31C;
 
 extern s32 TBoss2DeRolLe__current_attack_id;
 
@@ -871,10 +848,6 @@ extern s32 lbl_805D4BBC;
 extern s32 lbl_805D4BC0;
 
 void TObjPlayer__sub_8002F61C(void);
-
-typedef char RecoveredGlobal_8002F61C_lbl_804820D8_size[sizeof(RecoveredGlobal_8002F61C_lbl_804820D8) == 0x30 ? 1 : -1];
-
-typedef char RecoveredGlobal_8002F61C_lbl_804FE31C_size[sizeof(RecoveredGlobal_8002F61C_lbl_804FE31C) == 0xC ? 1 : -1];
 
 }
 
@@ -1360,11 +1333,6 @@ f32 calc_elapsed_scaled__9TObjEneDDFv(void *);
 
 void TBoss2DeRolLe__sub_800320B4(void *arg0, void *arg1, int arg2, int arg3);
 
-struct RecoveredGlobal_800339BC_lbl_804FF5E8 {
-    s32 value;
-    u8 remaining[0x24];
-};
-
 struct Obj_80034034 { u8 pad[0x326]; s16 f326; };
 
 struct Obj_800333F4 { u8 pad0[0xB8]; s16 f_B8; };
@@ -1408,8 +1376,6 @@ struct Obj_80030720 {
 };
 
 struct Obj_80034034;
-
-typedef char RecoveredGlobal_800339BC_lbl_804FF5E8_size[sizeof(RecoveredGlobal_800339BC_lbl_804FF5E8) == 0x28 ? 1 : -1];
 
 struct VBase_800341F0 { char pad[0x18]; };
 
@@ -1587,7 +1553,7 @@ extern s32 derolle_action_mode_sequence_table[];
 
 extern s32 derolle_action_sequence_table[];
 
-extern RecoveredGlobal_800339BC_lbl_804FF5E8 lbl_804FF5E8;
+extern f32 lbl_804FF5E8[];
 
 extern "C" {
 
@@ -4224,9 +4190,9 @@ void spawn_ceil_junk__13TBoss2DeRolLeFii(s32 arg1, s32 arg2) {
 void spawn_offset_particle__13TBoss2DeRolLeFiff(s32 arg0, f32 farg0, f32 farg1) {
     Vec stack;
     VecCopy__FP3VecPC3Vec((int)((void *)&stack.x), (void *)arg0);
-    stack.x = -((*(f32 *)((s8 *)&lbl_804FF5E8.value + 0xC) * farg1) - stack.x);
-    stack.y -= (*(f32 *)((s8 *)&lbl_804FF5E8.value + 0x10) * farg1) - farg0;
-    stack.z = -((*(f32 *)((s8 *)&lbl_804FF5E8.value + 0x14) * farg1) - stack.z);
+    stack.x = -((*(f32 *)((s8 *)&lbl_804FF5E8 + 0xC) * farg1) - stack.x);
+    stack.y -= (*(f32 *)((s8 *)&lbl_804FF5E8 + 0x10) * farg1) - farg0;
+    stack.z = -((*(f32 *)((s8 *)&lbl_804FF5E8 + 0x14) * farg1) - stack.z);
     spawn_particle_effect_with_flags((&stack.x), 0x127, 0x40);
 }
 

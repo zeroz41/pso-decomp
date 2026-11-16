@@ -16,11 +16,6 @@ void run_task__12T_OWEHMS_ExpFv();
 
 #include "types.h"
 
-struct RecoveredGlobal_800FE364_lbl_8049DC78 {
-    s32 value;
-    u8 remaining[0x10];
-};
-
 struct H_800FE32C { u8 pad[0x878]; u8 state; u8 pad879[0x88E - 0x879]; s8 flags; };
 
 extern "C" {
@@ -44,12 +39,11 @@ s32 get_move_done_result__24TObjWaitEntryHairMoveSimFPv(H_800FE32C *h) {
     return -1;
 }
 
-typedef char RecoveredGlobal_800FE364_lbl_8049DC78_size[sizeof(RecoveredGlobal_800FE364_lbl_8049DC78) == 0x14 ? 1 : -1];
 }
 void T_OWEHMS_Exp::start_bone_rotation() {
     s32 bone = (s32)player->m_8ac;
     TObjWaitEntryHairMoveSim__sub_800FE3BC(bone);
-    TObjEZBoneRotPlayer::create((void *)player, (void *)bone, (void *)((u8*)&(*(RecoveredGlobal_800FE364_lbl_8049DC78 *)&hair_bone_rotation_descriptor).value + descriptor_index * 0x14));
+    TObjEZBoneRotPlayer::create((void *)player, (void *)bone, (void *)((u8*)&hair_bone_rotation_descriptor + descriptor_index * 0x14));
 }
 
 void TObjWaitEntryHairMoveSim__sub_800FE3BC(int _w0) {  }

@@ -23,24 +23,9 @@
 #include "pso/map/FloorArea.h"
 
 
-struct RecoveredGlobal_801A3540_lbl_804C1F68 {
-    s32 value;
-    u8 remaining[0x17C];
-};
-
 struct RecoveredGlobal_801A3540_lbl_80515BA0 {
     s32 value;
     u8 remaining[0x24];
-};
-
-struct RecoveredGlobal_801A3540_main_task {
-    s32 value;
-    u8 remaining[0x30];
-};
-
-struct RecoveredGlobal_801A3770_main_task {
-    s32 value;
-    u8 remaining[0x30];
 };
 
 struct VBase_801A33DC { char pad[0x18]; };
@@ -58,7 +43,6 @@ struct VObj_801A33DC : VBase_801A33DC {
 struct Obj_801A33DC { u8 data[0x20]; };
 
 struct RecoveredGlobal_801A3540_lbl_80515BA0;
-struct RecoveredGlobal_801A3540_main_task;
 struct VBase_801A3014 { char pad[0x18]; };
 
 struct VObj_801A3014 : VBase_801A3014 {
@@ -104,7 +88,6 @@ struct Cam_801A37D0 {
     s32 yaw;
 };
 
-struct RecoveredGlobal_801A3540_lbl_804C1F68;
 struct PVB_801A39BC { char pad[0x18]; };
 
 struct PV_801A39BC : PVB_801A39BC {
@@ -116,7 +99,8 @@ s32 is_split_screen(void);
 s32 TLobby__sub_801A3B98();
 }
 void run_area_scene_cleanup(u8 *arg0);
-extern RecoveredGlobal_801A3540_lbl_804C1F68 offline_game_scene_callbacks;
+struct OfflineGameSceneCallbacks { s32 value; u8 remaining[0x17C]; };
+extern OfflineGameSceneCallbacks offline_game_scene_callbacks;
 extern RecoveredGlobal_801A3540_lbl_80515BA0 lbl_80515BA0;
 extern "C" {
 void __dt__7TObjectFv(void *, int);
@@ -193,9 +177,7 @@ extern s32 actor_frame_tick;
 s32 lbl_805D5CE0;
 extern s32 TLobby__lobby_state_flags;
 
-typedef char RecoveredGlobal_801A3540_lbl_804C1F68_size[sizeof(RecoveredGlobal_801A3540_lbl_804C1F68) == 0x180 ? 1 : -1];
 typedef char RecoveredGlobal_801A3540_lbl_80515BA0_size[sizeof(RecoveredGlobal_801A3540_lbl_80515BA0) == 0x28 ? 1 : -1];
-typedef char RecoveredGlobal_801A3540_main_task_size[sizeof(RecoveredGlobal_801A3540_main_task) == 0x34 ? 1 : -1];
 
 void TLobby::reload_offline_area() {
     Obj_801A3014 holder;
@@ -401,8 +383,6 @@ void TLobby::teardown_scene() {
     TKeyBoardControl::update();
     render_tick();
 }
-
-typedef char RecoveredGlobal_801A3770_main_task_size[sizeof(RecoveredGlobal_801A3770_main_task) == 0x34 ? 1 : -1];
 
 void run_offline_game_frame(void) {
     func_803DCDFC__Fv();

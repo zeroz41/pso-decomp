@@ -45,16 +45,6 @@ struct RecoveredFields_8003A6F4_arg0 {
  f32 field_B4;
 };
 
-struct RecoveredGlobal_8003A6F4_lbl_80435BD8 {
-    s32 value;
-    u8 remaining[0x14];
-};
-
-struct RecoveredGlobal_8003A6F4___vt__17TObjBoss2CeilJunk {
-    s32 value;
-    u8 remaining[0x34];
-};
-
 struct Color_8003A1B4
 {
   f32 a;
@@ -286,13 +276,11 @@ TObjBoss2CeilJunk::~TObjBoss2CeilJunk() {
 extern const f32 lbl_805D85A0 = 6.0f;
 #pragma push
 #pragma opt_dead_assignments off
-typedef char RecoveredGlobal_8003A6F4_lbl_80435BD8_size[sizeof(RecoveredGlobal_8003A6F4_lbl_80435BD8) == 0x18 ? 1 : -1];
-typedef char RecoveredGlobal_8003A6F4___vt__17TObjBoss2CeilJunk_size[sizeof(RecoveredGlobal_8003A6F4___vt__17TObjBoss2CeilJunk) == 0x38 ? 1 : -1];
 u8 *TObjBoss2CeilJunk__ct(struct RecoveredFields_8003A6F4_arg0 *arg0, s32 arg1, s32 arg2) {
     f32 temp_f1;
     f32 temp_f2;
     __ct__8TObjBaseFP7TObject();
-    arg0->unk18 = &(*(RecoveredGlobal_8003A6F4___vt__17TObjBoss2CeilJunk *)&__vt__17TObjBoss2CeilJunk).value;
+    arg0->unk18 = __vt__17TObjBoss2CeilJunk;
     arg0->field_0 = (s32)TObjBoss2CeilJunk__name;
     VecCopy((Vec *)&arg0->unknown_1C[0x1C], (const Vec *)arg2);
     temp_f2 = (f32) rand();

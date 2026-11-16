@@ -176,15 +176,11 @@ TechniqueCostScale lbl_804CC55C[19] = {
     {0.1f, 5.0f}, {1.0f, 10.0f}, {1.0f, 30.0f}, {0.3f, 5.0f},
 };
 
-struct RecoveredGlobal_8022F068_lbl_804CC934 {
-    u8 * value;
-    u8 remaining[0x8];
-};
-
 extern "C" {
 u8 * free_bin_model_request(void *, s16);
 s32 release_texture_list(void *, s32);
-extern RecoveredGlobal_8022F068_lbl_804CC934 technique_ringwave_texture_list;
+struct TechniqueRingwaveTextureList { u8 * value; u8 remaining[0x8]; };
+extern TechniqueRingwaveTextureList technique_ringwave_texture_list;
 extern u8 *technique_effect_bml;
 extern void **lbl_805D63B0;
 u8 *load_resource_from_descriptor(u8 *, s32, void *, s32, s32, s32);
@@ -200,7 +196,6 @@ void __ct__7TObjectFP7TObject(void *);
 
 extern s8 lbl_805D63A8;
 extern s32 __vt__8TTecCtrl[];
-typedef char RecoveredGlobal_8022F068_lbl_804CC934_size[sizeof(RecoveredGlobal_8022F068_lbl_804CC934) == 0xC ? 1 : -1];
 
 #define ONE_SLOT()                                                                       \
     if (((TObjPlayer *)(TObjPlayer__sub_80116620(c->list, 0)))->get_type_id() != 0xFFFF) { \

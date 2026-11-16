@@ -97,18 +97,14 @@ struct Stack_80362FB4 {
     s32 sp10;
 };
 
-struct RecoveredGlobal_80362FB4_lbl_80479FC8 {
-    s32 value;
-    u8 remaining[0xC];
-};
-
 extern "C" {
 s16 get_validated_attack_stage(u8 *arg0);
 s32 rotate_matrix_x(int, int);
 s32 push_matrix();
 s32 pop_matrix();
 f32 post_translate_matrix(void *);
-extern RecoveredGlobal_80362FB4_lbl_80479FC8 lbl_80479FC8;
+struct RecoveredGlobal_lbl_80479FC8 { s32 value; u8 remaining[0xC]; };
+extern RecoveredGlobal_lbl_80479FC8 lbl_80479FC8;
 
 void TUnk_804F27E0::update_weapon() {
     if (this->get_attack_stage() == 2) {
@@ -139,7 +135,6 @@ void TUnk_804F27E0::emit_marker_effects() {
     TObjPlayer::create_cane_if_ready((s32)arg0, (void *)((void *)&sp8));
 }
 
-typedef char RecoveredGlobal_80362FB4_lbl_80479FC8_size[sizeof(RecoveredGlobal_80362FB4_lbl_80479FC8) == 0x10 ? 1 : -1];
 void TUnk_804F27E0::vfunc_60() {
     typedef char sp8_offset[(offsetof(Stack_80362FB4, sp8) == 0x0) ? 1 : -1];
     typedef char spC_offset[(offsetof(Stack_80362FB4, spC) == 0x4) ? 1 : -1];

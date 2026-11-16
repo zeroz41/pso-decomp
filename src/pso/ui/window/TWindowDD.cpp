@@ -1,18 +1,7 @@
 #include "pso/ui/window/TWindowDD.h"
+#include "pso/system/ControllerInputState.h"
 
 #include "types.h"
-
-struct RecoveredGlobal_80340508_lbl_8050E208
-{
-  s32 value;
-  u8 remaining[0x1AC];
-};
-
-struct RecoveredGlobal_803404A4_lbl_8050E208
-{
-  s32 value;
-  u8 remaining[0x1AC];
-};
 
 struct E_803403F8 { f32 a; f32 b; f32 c; f32 d; f32 e; s32 f; };
 
@@ -91,7 +80,6 @@ extern const f32 lbl_805DFC2C = 50040.0f;
 extern "C" {
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, void *);
 s32 TWindowShortListCtrl__check_controller_button(void *, void *);
-extern RecoveredGlobal_80340508_lbl_8050E208 controller_input_state;
 s32 apply_choice__20TWindowChoiceSettingFllll(void *, void *, int, int);
 
 void TWindowDD::reset_entries(f32 v, s32) {
@@ -153,19 +141,14 @@ void TWindowDD::set_quad_corners_scaled(f32 farg0, f32 farg1, f32 farg2) {
   *((f32 *) (((s8 *) arg0) + 0x3C)) = temp_f5;
 }
 
-typedef struct RecoveredGlobal_80340508_lbl_8050E208 RecoveredGlobal_80340508_lbl_8050E208;
-typedef char RecoveredGlobal_80340508_lbl_8050E208_size[((sizeof(RecoveredGlobal_80340508_lbl_8050E208)) == 0x1B0) ? (1) : (-1)];
-
 #pragma push
 #pragma opt_dead_assignments off
-typedef struct RecoveredGlobal_803404A4_lbl_8050E208 RecoveredGlobal_803404A4_lbl_8050E208;
-typedef char RecoveredGlobal_803404A4_lbl_8050E208_size[((sizeof(RecoveredGlobal_803404A4_lbl_8050E208)) == 0x1B0) ? (1) : (-1)];
 s32 TWindowDD::apply_both_choices(s32 arg0, s32 arg1) {
-  return apply_choice__20TWindowChoiceSettingFllll((void *) (((u8 *) (&(*(RecoveredGlobal_803404A4_lbl_8050E208 *)&controller_input_state).value)) + 0x20), (void *) arg1, 6, 1) | apply_choice__20TWindowChoiceSettingFllll((void *) (((u8 *) (&(*(RecoveredGlobal_803404A4_lbl_8050E208 *)&controller_input_state).value)) + 0x160), (void *) arg1, 6, 1);
+  return apply_choice__20TWindowChoiceSettingFllll((void *) ((u8 *)&controller_input_state + 0x20), (void *) arg1, 6, 1) | apply_choice__20TWindowChoiceSettingFllll((void *) ((u8 *)&controller_input_state + 0x160), (void *) arg1, 6, 1);
 }
 }
 #pragma pop
 
 s32 TWindowDD_check_input_mask(void *input_context, s32 arg1) {
-  return TWindowShortListCtrl__check_controller_button((void *) (((u8 *)&controller_input_state.value) + 0x20), (void *) arg1) | test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) (((u8 *)&controller_input_state.value) + 0x160), (void *) arg1);
+  return TWindowShortListCtrl__check_controller_button((void *) ((u8 *)&controller_input_state + 0x20), (void *) arg1) | test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) ((u8 *)&controller_input_state + 0x160), (void *) arg1);
 }

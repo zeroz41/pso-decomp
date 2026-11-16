@@ -17,11 +17,6 @@
 const char *TTecSifta__name = "TTecSifta";
 
 
-struct RecoveredGlobal_8023B17C___vt__9TTecSifta {
-    s32 value;
-    u8 remaining[0x1C];
-};
-
 struct Obj_8023ACA8 { u8 pad[0xA6]; s16 state; };
 
 struct VBase_18_b27ba1 { char pad[0x18]; };
@@ -161,8 +156,6 @@ TTecSifta::~TTecSifta() {
 }
 
 
-typedef char RecoveredGlobal_8023B17C___vt__9TTecSifta_size[sizeof(RecoveredGlobal_8023B17C___vt__9TTecSifta) == 0x20 ? 1 : -1];
-
 void run_task__9TTecSiftaFv(Sifta_8023AF94 *self) {
     u32 target;
     s32 i;
@@ -228,7 +221,7 @@ u8 *TTecSifta__sub_8023B17C(TTecSifta *arg0, s32 owner, s32 pos, s32 level) {
     u32 temp_r3_2;
     u8 *temp_r3;
     TTecPlayerInfluence__ct((void *)arg0, (void *)owner, (void *)pos, (void *)level);
-    *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_8023B17C___vt__9TTecSifta *)&__vt__9TTecSifta).value;
+    *(s32 **)((s8 *)arg0 + 0x18) = __vt__9TTecSifta;
     ((TObjPlayer *)((u8 *)arg0 + 0xE0))->construct_target_cursor_records();
     *(s32 *)((s8 *)arg0 + 0) = (s32) ((s32)TTecSifta__name);
     arg0->m_13c = 0;

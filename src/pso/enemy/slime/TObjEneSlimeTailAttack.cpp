@@ -72,25 +72,6 @@ u8 *get_instance__15TObjEneSlimeOneFv();
 s32 init_collision_body_parts(void *, void *, int);
 extern void *lbl_80496368[2];
 extern void *lbl_8049639C[28];
-struct RecoveredGlobal_800E8128_lbl_80496704 {
-    s32 value;
-    u8 remaining[0x8];
-};
-
-struct RecoveredGlobal_800E8128_lbl_80496710 {
-    s32 value;
-    u8 remaining[0x8];
-};
-
-struct RecoveredGlobal_800E8128_lbl_80501010 {
-    s32 value;
-    u8 remaining[0x3C];
-};
-
-struct RecoveredGlobal_800E80C0_lbl_80501010 {
-    s32 value;
-    u8 remaining[0x3C];
-};
 
 struct B_800E80E8 { s32 w[3]; };
 
@@ -101,14 +82,6 @@ struct S_800E80E8 { B_800E80E8 a; A_800E80E8 d; };
 struct Rot_800E81B4 { s32 x, y, z; };
 
 struct Obj_800E81B4 { u8 pad[0x39C]; Vec pts[4]; };
-
-typedef char RecoveredGlobal_800E8128_lbl_80496704_size[sizeof(RecoveredGlobal_800E8128_lbl_80496704) == 0xC ? 1 : -1];
-
-typedef char RecoveredGlobal_800E8128_lbl_80496710_size[sizeof(RecoveredGlobal_800E8128_lbl_80496710) == 0xC ? 1 : -1];
-
-typedef char RecoveredGlobal_800E8128_lbl_80501010_size[sizeof(RecoveredGlobal_800E8128_lbl_80501010) == 0x40 ? 1 : -1];
-
-typedef char RecoveredGlobal_800E80C0_lbl_80501010_size[sizeof(RecoveredGlobal_800E80C0_lbl_80501010) == 0x40 ? 1 : -1];
 
 struct Hit_800E8AD0 { s32 kind; f32 dmg; };
 
@@ -205,27 +178,12 @@ struct Stack_800EB3D4 {
     u8 trailing_storage[0x4];
 };
 
-struct RecoveredGlobal_800EB3D4___vt__15TObjEneSlimeOne {
-    s32 value;
-    u8 remaining[0x148];
-};
-
 struct Stack_800EB4A0 {
     s32 sp8;
     u8 pad_C[0x2];
     s16 spE;
     u8 trailing_storage[0x4];
 };
-
-struct RecoveredGlobal_800EB4A0___vt__15TObjEneSlimeOne {
-    s32 value;
-    u8 remaining[0x148];
-};
-
-
-typedef char RecoveredGlobal_800EB3D4___vt__15TObjEneSlimeOne_size[sizeof(RecoveredGlobal_800EB3D4___vt__15TObjEneSlimeOne) == 0x14C ? 1 : -1];
-
-typedef char RecoveredGlobal_800EB4A0___vt__15TObjEneSlimeOne_size[sizeof(RecoveredGlobal_800EB4A0___vt__15TObjEneSlimeOne) == 0x14C ? 1 : -1];
 
 u16 find_nearest_visible_player(void *, void *, f32);
 f32 * dispatch_shared_handler_a__6TLobbyFl(s32);
@@ -299,7 +257,7 @@ extern const RecoveredGlobal_800EA678_lbl_8043D23C lbl_8043D23C = {0x3F800000, {
 extern const char TObjEneSlimeWaterBomb__class_name_string[] = "TObjEneSlimeWaterBomb";
 extern s32 __vt__15TObjEneSlimeOne[];
 extern s32 __vt__21TObjEneSlimeWaterBomb[];
-RecoveredGlobal_800E8128_lbl_80501010 lbl_80501010;
+RecoveredGlobal_lbl_80501010 lbl_80501010;
 void *slime_bml_resource;
 int lbl_805D52B4;
 extern s32 registered_player_count;
@@ -556,8 +514,6 @@ void *__vt__22TObjEneSlimeTailAttack[83] = {
 };
 #define slime_tail_attack_id_pair ((s32 *)slime_tail_attack_id_pair)
 #define TObjEneSlime__attack_target_param_table ((s32 *)TObjEneSlime__attack_target_param_table)
-#define slime_tail_attack_zero_vec (*(RecoveredGlobal_800E8128_lbl_80496704 *)slime_tail_attack_zero_vec)
-#define slime_tail_attack_transform (*(RecoveredGlobal_800E8128_lbl_80496710 *)slime_tail_attack_transform)
 #define __vt__22TObjEneSlimeTailAttack ((s32 *)__vt__22TObjEneSlimeTailAttack)
 
 
@@ -648,17 +604,9 @@ void TObjEneSlime__sub_800EB9F0(void* p, void* q);
 #include "pso/boss/darkfalz/TObjDFHorming.h"
 
 
-struct RecoveredGlobal_800EBC28___vt__12TObjEneSlime {
-    s32 value;
-    u8 remaining[0x14C];
-};
-
 extern "C" {
 extern s32 __vt__12TObjEneSlime[];
 void free_bin_model_request(void*, int);
-
-typedef char RecoveredGlobal_800EBC28___vt__12TObjEneSlime_size[sizeof(RecoveredGlobal_800EBC28___vt__12TObjEneSlime) == 0x150 ? 1 : -1];
-
 
 // ---- folded from src/pso/enemy/TObjEneSlime_800EBD38.cpp ----
 void *load_resource_from_descriptor(void *, s32, s32 *, s32, s32, s32);
@@ -748,7 +696,7 @@ void TObjEneSlime::free_instance() {
 u8 *TObjEneSlime__ct(TObjEneSlime *ene_slime, s32 arg1, u8 *arg2) {
     s32 temp_r0;
     __ct__9TObjEnemyFP7TObject(ene_slime);
-    *(s32 **)((s8 *)ene_slime + 0x18) = &(*(RecoveredGlobal_800EBC28___vt__12TObjEneSlime *)&__vt__12TObjEneSlime).value;
+    *(s32 **)((s8 *)ene_slime + 0x18) = __vt__12TObjEneSlime;
     *(s32 *)((s8 *)ene_slime + 0) = (s32) TObjEneSlime__name;
     ((TObjEneSlime *)(ene_slime))->apply_set_data(arg2);
     ((TObjEneSlime *)(ene_slime))->clear_lobby_object_state();
@@ -963,7 +911,7 @@ u8 *init__15TObjEneSlimeOneFPviii(u8 *ene_slime_one, s32 arg1, s32 arg2, s32 arg
     typedef char spE_offset[(offsetof(Stack_800EB4A0, spE) == 0x6) ? 1 : -1];
     Stack_800EB4A0 stack;
     __ct__9TObjEnemyFP7TObject(ene_slime_one);
-    *(s32 **)((s8 *)ene_slime_one + 0x18) = &(*(RecoveredGlobal_800EB4A0___vt__15TObjEneSlimeOne *)&__vt__15TObjEneSlimeOne).value;
+    *(s32 **)((s8 *)ene_slime_one + 0x18) = __vt__15TObjEneSlimeOne;
     *(s32 *)((s8 *)ene_slime_one + 0) = (s32) TObjEneSlimeOne_class_name;
     ((TObjChara *)ene_slime_one)->add_flags_2e4(2);
     ((TObjEneSlimeOne *)(ene_slime_one))->apply_set_data((void *)arg3);
@@ -984,7 +932,7 @@ u8 *TObjEneSlimeOne__ct(u8 *actor, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
     typedef char spE_offset[(offsetof(Stack_800EB3D4, spE) == 0x6) ? 1 : -1];
     Stack_800EB3D4 stack;
     __ct__9TObjEnemyFP7TObject(actor);
-    *(s32 **)((s8 *)actor + 0x18) = &(*(RecoveredGlobal_800EB3D4___vt__15TObjEneSlimeOne *)&__vt__15TObjEneSlimeOne).value;
+    *(s32 **)((s8 *)actor + 0x18) = __vt__15TObjEneSlimeOne;
     *(s32 *)((s8 *)actor + 0) = (s32) TObjEneSlimeOne_class_name;
     ((TObjChara *)actor)->add_flags_2e4(2);
     ((TObjEneSlimeOne *)(actor))->apply_set_data((void *)arg3);
@@ -2186,10 +2134,10 @@ void TObjPlayer::draw_blob_shadows() {
 void TObjPlayer__sub_800E81A8(void) { lbl_805D52B4 = 0; }
 void TObjPlayer__sub_800E8128(void) {
     if ((s32) (*(s32 *)&lbl_805D52B4) == 7) {
-        transform_to_view__11TCameraCtrlFii((s32) &slime_tail_attack_zero_vec.value, (s32) &lbl_80501010.value);
+        transform_to_view__11TCameraCtrlFii((s32)&slime_tail_attack_zero_vec, (s32) &lbl_80501010.value);
     }
     if (((s32) (*(s32 *)&lbl_805D52B4) >= 4) && ((s32) (*(s32 *)&lbl_805D52B4) < 8)) {
-        transform_to_view__11TCameraCtrlFii((s32) &slime_tail_attack_transform.value, (s32) ((u8 *)&lbl_80501010.value + (((*(s32 *)&lbl_805D52B4) - 4) * 0xC) + 0xC));
+        transform_to_view__11TCameraCtrlFii((s32)&slime_tail_attack_transform, (s32) ((u8 *)&lbl_80501010.value + (((*(s32 *)&lbl_805D52B4) - 4) * 0xC) + 0xC));
     }
     (*(s32 *)&lbl_805D52B4) += 1;
 }
@@ -2200,13 +2148,11 @@ S_800E80E8 *TObjPlayer__sub_800E80E8(S_800E80E8 *dst, S_800E80E8 *src) {
 }
 
 void TObjPlayer__sub_800E80C0(u8 *dst) {
-    TObjPlayer__sub_800E80E8((S_800E80E8 *)(dst), (S_800E80E8 *)(&(*(RecoveredGlobal_800E80C0_lbl_80501010 *)&lbl_80501010).value));
+    TObjPlayer__sub_800E80E8((S_800E80E8 *)(dst), (S_800E80E8 *)(&lbl_80501010.value));
 }
 }
 
 #undef lbl_80496574
 #undef slime_tail_attack_id_pair
 #undef TObjEneSlime__attack_target_param_table
-#undef slime_tail_attack_zero_vec
-#undef slime_tail_attack_transform
 #undef __vt__22TObjEneSlimeTailAttack

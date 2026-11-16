@@ -20,11 +20,6 @@
 const char *TTecResta__name = "TTecResta";
 
 
-struct RecoveredGlobal_80239C48___vt__9TTecResta {
-    s32 value;
-    u8 remaining[0x1C];
-};
-
 struct RecoveredGlobal_802394B0_lbl_804CC55C
 {
   s32 value;
@@ -145,7 +140,6 @@ typedef struct RecoveredGlobal_802394B0_lbl_804CC55C RecoveredGlobal_802394B0_lb
 typedef char RecoveredGlobal_802394B0_lbl_804CC55C_size[((sizeof(RecoveredGlobal_802394B0_lbl_804CC55C)) == 0x98) ? (1) : (-1)];
 
 
-typedef char RecoveredGlobal_80239C48___vt__9TTecResta_size[sizeof(RecoveredGlobal_80239C48___vt__9TTecResta) == 0x20 ? 1 : -1];
 }
 u8 *construct_delayed_point_sound(u8 *arg0, u8 *arg1, s16 arg2, s32 arg3, u8 *arg4);
 extern s32 tl_07;
@@ -167,7 +161,7 @@ u8 *TTecResta__sub_80239C48(TTecResta *arg0, s32 owner, s32 pos, s32 level) {
     u32 temp_r3_2;
     u8 *temp_r3;
     TTecPlayerInfluence__ct((void *)arg0, (void *)owner, (void *)pos, (void *)level);
-    *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_80239C48___vt__9TTecResta *)&__vt__9TTecResta).value;
+    *(s32 **)((s8 *)arg0 + 0x18) = __vt__9TTecResta;
     ((TObjPlayer *)((u8 *)arg0 + 0xE0))->construct_target_cursor_records();
     *(s32 *)((s8 *)arg0 + 0) = (s32) ((s32)TTecResta__name);
     arg0->m_13c = 0;

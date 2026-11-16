@@ -14,19 +14,9 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/map/FloorArea.h"
 
-struct RecoveredGlobal_802072E0___vt__10TSceneSora {
-    s32 value;
-    u8 remaining[0x34];
-};
-
 struct RecoveredGlobal_802075F8_lbl_80515BA0 {
     s32 value;
     u8 remaining[0x24];
-};
-
-struct RecoveredGlobal_80207340___vt__10TSceneSora {
-    s32 value;
-    u8 remaining[0x34];
 };
 
 struct SkyMotion_80207238 { u32 rows; u32 frame_count; };
@@ -78,8 +68,6 @@ s32 __nw__7TObjectFUl(s32);
 
 extern s32 tl_05;
 
-typedef char RecoveredGlobal_802072E0___vt__10TSceneSora_size[sizeof(RecoveredGlobal_802072E0___vt__10TSceneSora) == 0x38 ? 1 : -1];
-
 void TSceneSora::render() {
     if ((s32) TSceneSora__sky_active_flag != 0) {
         TParticleCtrl::begin_effect_render();
@@ -120,7 +108,6 @@ TSceneSora::~TSceneSora() {
 }
 extern "C" {
 
-typedef char RecoveredGlobal_80207340___vt__10TSceneSora_size[sizeof(RecoveredGlobal_80207340___vt__10TSceneSora) == 0x38 ? 1 : -1];
 }
 TSceneSora::TSceneSora(s32 _w1) : TObjBase((TObject *)_w1) {
     this->m_name = TSceneSora__name;

@@ -33,12 +33,8 @@ TMedicalCenterMesInput controller_input_state[];
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 
-struct RecoveredGlobal_802169A8_TMedicalCenterSequence__data_80513E90 {
-    s32 value;
-    u8 remaining[0xC];
-};
-
-RecoveredGlobal_802169A8_TMedicalCenterSequence__data_80513E90 TMedicalCenterSequence__data_80513E90;
+struct RecoveredGlobal_TMedicalCenterSequence__data_80513E90 { s32 value; u8 remaining[0xC]; };
+RecoveredGlobal_TMedicalCenterSequence__data_80513E90 TMedicalCenterSequence__data_80513E90;
 s32 TMedicalCenterMes__slot_flags[4];
 
 
@@ -102,11 +98,6 @@ struct RecoveredGlobal_80216A70___vt__22TMedicalCenterSequence {
     u8 remaining[0x34];
 };
 
-struct RecoveredGlobal_80216A70_TMedicalCenterSequence__data_80513E90 {
-    s32 value;
-    u8 remaining[0xC];
-};
-
 struct Base_802164A4 { char pad[0x18]; };
 
 struct VObj_802164A4 : Base_802164A4 {
@@ -137,7 +128,7 @@ s32 create_meseta_window(unsigned short);
 s32 set_service_counter_camera(void *, int);
 s32 sub_8022397C__15TShopWindowBaseFv(void *);
 extern RecoveredGlobal_802169A8___vt__22TMedicalCenterSequence __vt__22TMedicalCenterSequence;
-extern RecoveredGlobal_802169A8_TMedicalCenterSequence__data_80513E90 TMedicalCenterSequence__data_80513E90;
+extern RecoveredGlobal_TMedicalCenterSequence__data_80513E90 TMedicalCenterSequence__data_80513E90;
 u8 *TShopSequence__ct(u8 *arg0);
 u8 *TMedicalCenterSequence__ct(u8 *arg0, s32 arg1, s32 arg2);
 u8 *create_yes_no_window(s32 arg0, s32 arg1, u32 arg2, u32 arg3);
@@ -165,7 +156,6 @@ void TMedicalCenterSequence::clear_slot_data() {
 }
 
 typedef char RecoveredGlobal_80216A70___vt__22TMedicalCenterSequence_size[sizeof(RecoveredGlobal_80216A70___vt__22TMedicalCenterSequence) == 0x38 ? 1 : -1];
-typedef char RecoveredGlobal_80216A70_TMedicalCenterSequence__data_80513E90_size[sizeof(RecoveredGlobal_80216A70_TMedicalCenterSequence__data_80513E90) == 0x10 ? 1 : -1];
 u8 *TMedicalCenterSequence__ct(u8 *medical_center_sequence, s32 arg1, s32 arg2) {
     TShopSequence__ct((medical_center_sequence));
     *(s32 **)((s8 *)medical_center_sequence + 0x18) = &(*(RecoveredGlobal_80216A70___vt__22TMedicalCenterSequence *)&__vt__22TMedicalCenterSequence).value;
@@ -175,7 +165,7 @@ u8 *TMedicalCenterSequence__ct(u8 *medical_center_sequence, s32 arg1, s32 arg2) 
     ((TMedicalCenterSequence *)medical_center_sequence)->m_2c = 0;
     ((TMedicalCenterSequence *)medical_center_sequence)->m_30 = 0;
     *(s32 *)((s8 *)medical_center_sequence + 0x34) = 0;
-    *(s32 *)((s8 *)(&(*(RecoveredGlobal_80216A70_TMedicalCenterSequence__data_80513E90 *)&TMedicalCenterSequence__data_80513E90).value) + (sub_8022397C__15TShopWindowBaseFv(medical_center_sequence) * 4)) = 1;
+    *(s32 *)((s8 *)(&TMedicalCenterSequence__data_80513E90.value) + (sub_8022397C__15TShopWindowBaseFv(medical_center_sequence) * 4)) = 1;
     return medical_center_sequence;
 }
 TMedicalCenterSequence::~TMedicalCenterSequence() {
@@ -196,7 +186,6 @@ TMedicalCenterSequence::~TMedicalCenterSequence() {
 }
 
 typedef char RecoveredGlobal_802169A8___vt__22TMedicalCenterSequence_size[sizeof(RecoveredGlobal_802169A8___vt__22TMedicalCenterSequence) == 0x38 ? 1 : -1];
-typedef char RecoveredGlobal_802169A8_TMedicalCenterSequence__data_80513E90_size[sizeof(RecoveredGlobal_802169A8_TMedicalCenterSequence__data_80513E90) == 0x10 ? 1 : -1];
 
 void TMedicalCenterSequence::vfunc_11() {
     u8 *arg0 = (u8 *)this;

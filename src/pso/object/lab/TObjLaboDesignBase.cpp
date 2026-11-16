@@ -41,11 +41,6 @@ struct TObjLaboDesignBase : VBase_80365040 {
     void render(void *);
 };
 
-struct RecoveredGlobal_80365210___vt__18TObjLaboDesignBase {
-    s32 value;
-    u8 remaining[0x34];
-};
-
 extern "C" {
 s16 TObjLaboDesignBase__vt8(u8 *arg0, f32 farg0, f32 farg1);
 f32 xz_distance_squared(void *, s32);
@@ -315,13 +310,12 @@ void *__dt__18TObjLaboDesignBaseFv(void *collidable, s16 arg1) {
     return collidable;
 }
 
-typedef char RecoveredGlobal_80365210___vt__18TObjLaboDesignBase_size[sizeof(RecoveredGlobal_80365210___vt__18TObjLaboDesignBase) == 0x38 ? 1 : -1];
 u8 *TObjLaboDesignBase__ct(u8 *player, s32 arg1, s32 arg2, s32 arg3) {
     struct CopyStack_80365210 { u8 bytes[0x3C]; };
     CopyStack_80365210 copy_storage_80365210;
     s32 temp_r0;
     __ct__14TObjCollidableFP7TObject();
-    *(s32 **)((s8 *)player + 0x18) = &(*(RecoveredGlobal_80365210___vt__18TObjLaboDesignBase *)&__vt__18TObjLaboDesignBase).value;
+    *(s32 **)((s8 *)player + 0x18) = __vt__18TObjLaboDesignBase;
     *(const char **)((s8 *)player + 0) = TObjLaboDesignBase_class_name;
     ((VObj_18_1a504b *)(player))->m5(arg2);
     *(s32 *)((s8 *)player + 0xB0) = arg3;

@@ -22,11 +22,6 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 
-struct RecoveredGlobal_80238388_lbl_8044DAF0 {
-    s32 value;
-    u8 remaining[0xC];
-};
-
 struct RecoveredGlobal_80230D9C_lbl_804CC510
 {
   s32 value;
@@ -91,7 +86,6 @@ extern s32 tl_07;
 void *TTecRaZonde__ct(void *self_, void *source, void *origin, void *level);
 #pragma push
 #pragma opt_common_subs off
-typedef char RecoveredGlobal_80238388_lbl_8044DAF0_size[sizeof(RecoveredGlobal_80238388_lbl_8044DAF0) == 0x10 ? 1 : -1];
 
 typedef struct RecoveredFields_80230D9C_arg0 RecoveredFields_80230D9C_arg0;
 typedef struct RecoveredGlobal_80230D9C_lbl_804CC510 RecoveredGlobal_80230D9C_lbl_804CC510;
@@ -103,25 +97,6 @@ typedef char RecoveredGlobal_80230D9C_lbl_804CC55C_size[((sizeof(RecoveredGlobal
 
 
 }
-struct RecoveredGlobal_802384E0_lbl_804CCB28;
-
-struct RecoveredGlobal_802384E0_lbl_804CCB28 { s32 value; u8 remaining[0x14]; };
-typedef char RecoveredGlobal_802384E0_lbl_804CCB28_size[sizeof(RecoveredGlobal_802384E0_lbl_804CCB28) == 0x18 ? 1 : -1];
-
-struct RecoveredGlobal_802385EC_lbl_804CCB28 { s32 value; u8 remaining[0x14]; };
-typedef char RecoveredGlobal_802385EC_lbl_804CCB28_size[sizeof(RecoveredGlobal_802385EC_lbl_804CCB28) == 0x18 ? 1 : -1];
-
-struct RecoveredGlobal_80238D10_lbl_804CC510
-{
-  s32 value;
-  u8 remaining[0x48];
-};
-
-struct RecoveredGlobal_80238D10_lbl_804CC55C
-{
-  s32 value;
-  u8 remaining[0x94];
-};
 
 struct RecoveredFields_80238D10_arg0
 {
@@ -191,10 +166,6 @@ TParticleCtrl *create_particle_emitter(const void *pos, s32 id);
 void *mem_alloc(u32 size);
 
 typedef struct RecoveredFields_80238D10_arg0 RecoveredFields_80238D10_arg0;
-typedef struct RecoveredGlobal_80238D10_lbl_804CC510 RecoveredGlobal_80238D10_lbl_804CC510;
-typedef struct RecoveredGlobal_80238D10_lbl_804CC55C RecoveredGlobal_80238D10_lbl_804CC55C;
-typedef char RecoveredGlobal_80238D10_lbl_804CC510_size[((sizeof(RecoveredGlobal_80238D10_lbl_804CC510)) == 0x4C) ? (1) : (-1)];
-typedef char RecoveredGlobal_80238D10_lbl_804CC55C_size[((sizeof(RecoveredGlobal_80238D10_lbl_804CC55C)) == 0x98) ? (1) : (-1)];
 
 #pragma push
 #pragma opt_common_subs off

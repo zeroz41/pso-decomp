@@ -11,16 +11,6 @@
 #include "pso/system/vector.h"
 #include "pso/system/task/TObject.h"
 
-struct RecoveredGlobal_8010A404_lbl_8049F148 {
-    s32 value;
-    u8 remaining[0x14];
-};
-
-struct RecoveredGlobal_8010A5E0___vt__14TItemEffShield {
-    s32 value;
-    u8 remaining[0x14];
-};
-
 struct Base_8010A4C0 { u8 pad0[0x18]; };
 
 struct Player_8010A4C0 : Base_8010A4C0 {
@@ -115,7 +105,6 @@ TUnk_8049F148::~TUnk_8049F148() {
 }
 
 
-typedef char RecoveredGlobal_8010A404_lbl_8049F148_size[sizeof(RecoveredGlobal_8010A404_lbl_8049F148) == 0x18 ? 1 : -1];
 TUnk_8049F148::TUnk_8049F148(TObject *arg1, s16 arg2) : TObject(arg1) {
     *(s16 *)((s8 *)((u8 *)this) + 0x24) = arg2;
     *(s32 *)((s8 *)((u8 *)this) + 0x20) = -1;
@@ -145,7 +134,6 @@ void TItemEffShield::spawn_recipe_particles() {
   }
   while (var_r30 != 8);
 }
-typedef char RecoveredGlobal_8010A5E0___vt__14TItemEffShield_size[sizeof(RecoveredGlobal_8010A5E0___vt__14TItemEffShield) == 0x18 ? 1 : -1];
 
 void run_task__14TItemEffShieldFv(Shield_8010A4C0 *self) {
     Player_8010A4C0 *p = (Player_8010A4C0 *)get_player_by_client_id(self->m_44);

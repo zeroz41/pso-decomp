@@ -66,26 +66,6 @@
 #pragma auto_inline off
 #pragma dont_inline off
 
-struct RecoveredGlobal_8008C21C_TParticleCtrl__data_8048E7A8 {
-    s32 value;
-    u8 remaining[0x14];
-};
-
-struct RecoveredGlobal_8008C21C_TParticleCtrl__data_80511F70 {
-    s32 value;
-    u8 remaining[0x1AC];
-};
-
-struct RecoveredGlobal_8008BF58_TParticleCtrl__data_8048E7A8 {
-    s32 value;
-    u8 remaining[0x14];
-};
-
-struct RecoveredGlobal_8008BF58_TParticleCtrl__data_80511F70 {
-    s32 value;
-    u8 remaining[0x1AC];
-};
-
 struct Ang_8008BAF8 { s32 x, y, z; };
 
 extern "C" {
@@ -427,20 +407,16 @@ void *__dt__13TUnk_8048E7A8Fv(void *arg0, s16 arg1) {
 
 #pragma push
 #pragma fp_contract on
-typedef char RecoveredGlobal_8008C21C_TParticleCtrl__data_8048E7A8_size[sizeof(RecoveredGlobal_8008C21C_TParticleCtrl__data_8048E7A8) == 0x18 ? 1 : -1];
-typedef char RecoveredGlobal_8008C21C_TParticleCtrl__data_80511F70_size[sizeof(RecoveredGlobal_8008C21C_TParticleCtrl__data_80511F70) == 0x1B0 ? 1 : -1];
 
 #pragma push
 #pragma fp_contract on
-typedef char RecoveredGlobal_8008BF58_TParticleCtrl__data_8048E7A8_size[sizeof(RecoveredGlobal_8008BF58_TParticleCtrl__data_8048E7A8) == 0x18 ? 1 : -1];
-typedef char RecoveredGlobal_8008BF58_TParticleCtrl__data_80511F70_size[sizeof(RecoveredGlobal_8008BF58_TParticleCtrl__data_80511F70) == 0x1B0 ? 1 : -1];
 u8 *construct_radial_particle(u8 *object, u8 *arg1, u8 *arg2, s32 arg3, u16 arg4, s16 arg5) {
     struct Fields_arg0 { u8 pad_0[24]; s32 * field_18; u16 field_1C; u8 pad_1E[6]; u16 field_24; s16 field_26; f32 field_28; f32 field_2C; f32 field_30; f32 field_34; f32 field_38; f32 field_3C; f32 field_40; f32 field_44; u8 pad_48[20]; f32 field_5C; u8 pad_60[8]; f32 field_68; u8 pad_6C[4]; f32 field_70; f32 field_74; f32 field_78; u8 pad_7C[25]; s8 field_95; };
     struct Fields_arg1 { u8 pad_0[24]; f32 field_18; f32 field_1C; f32 field_20; f32 field_24; f32 field_28; u8 pad_2C[4]; f32 field_30; u8 pad_34[4]; f32 field_38; u8 pad_3C[12]; s32 field_48; s32 field_4C; u8 pad_50[56]; u8 field_88; };
     struct Fields_arg2 { f32 field_0; f32 field_4; f32 field_8; };
     s32 temp_r0;
     init_particle_base(object, arg1, arg3);
-    ((Fields_arg0*)object)->field_18 = &(*(RecoveredGlobal_8008BF58_TParticleCtrl__data_8048E7A8 *)&TParticleCtrl__data_8048E7A8).value;
+    ((Fields_arg0*)object)->field_18 = TParticleCtrl__data_8048E7A8;
     ((Fields_arg0*)object)->field_70 = (f32) ((((Fields_arg1*)arg1)->field_18 * ((3.0517578e-05f * (f32) rand()) - 0.5f)) + ((Fields_arg2*)arg2)->field_0);
     ((Fields_arg0*)object)->field_74 = (f32) ((((Fields_arg1*)arg1)->field_1C * ((3.0517578e-05f * (f32) rand()) - 0.5f)) + ((Fields_arg2*)arg2)->field_4);
     ((Fields_arg0*)object)->field_78 = (f32) ((((Fields_arg1*)arg1)->field_20 * ((3.0517578e-05f * (f32) rand()) - 0.5f)) + ((Fields_arg2*)arg2)->field_8);
@@ -456,7 +432,7 @@ u8 *construct_radial_particle(u8 *object, u8 *arg1, u8 *arg2, s32 arg3, u16 arg4
     ((Fields_arg0*)object)->field_2C = (f32) ((Fields_arg0*)object)->field_28;
     temp_r0 = (s32) (((f32) ((Fields_arg1*)arg1)->field_4C * (3.0517578e-05f * (f32) rand())) + (f32) ((Fields_arg1*)arg1)->field_48);
     if (((Fields_arg1*)arg1)->field_88 & 1) {
-        ((Fields_arg0*)object)->field_5C = (f32) (1.0f / (f32) *(s32 *)((s8 *)(*(void **)((s8 *)(*(s32 *)((s8 *)(&(*(RecoveredGlobal_8008BF58_TParticleCtrl__data_80511F70 *)&TParticleCtrl__data_80511F70).value) + (((Fields_arg0*)object)->field_1C * 4))) + 0x28)) + 0xC));
+        ((Fields_arg0*)object)->field_5C = (f32) (1.0f / (f32) *(s32 *)((s8 *)(*(void **)((s8 *)(*(s32 *)((s8 *)&TParticleCtrl__data_80511F70 + (((Fields_arg0*)object)->field_1C * 4))) + 0x28)) + 0xC));
     } else {
         ((Fields_arg0*)object)->field_5C = (f32) (1.0f / (f32) temp_r0);
     }
@@ -477,7 +453,7 @@ u8 *TParticleCtrl::init_random_particle(u8 *arg1, u8 *arg2, s32 arg3) {
     struct Fields_arg2 { f32 field_0; f32 field_4; f32 field_8; };
     s32 temp_r0;
     init_particle_base(this, arg1, arg3);
-    ((Fields_arg0*)((u8 *)this))->field_18 = &(*(RecoveredGlobal_8008C21C_TParticleCtrl__data_8048E7A8 *)&TParticleCtrl__data_8048E7A8).value;
+    ((Fields_arg0*)((u8 *)this))->field_18 = TParticleCtrl__data_8048E7A8;
     ((Fields_arg0*)((u8 *)this))->field_70 = (f32) ((((Fields_arg1*)arg1)->field_18 * ((3.0517578e-05f * (f32) rand()) - 0.5f)) + ((Fields_arg2*)arg2)->field_0);
     ((Fields_arg0*)((u8 *)this))->field_74 = (f32) ((((Fields_arg1*)arg1)->field_1C * ((3.0517578e-05f * (f32) rand()) - 0.5f)) + ((Fields_arg2*)arg2)->field_4);
     ((Fields_arg0*)((u8 *)this))->field_78 = (f32) ((((Fields_arg1*)arg1)->field_20 * ((3.0517578e-05f * (f32) rand()) - 0.5f)) + ((Fields_arg2*)arg2)->field_8);

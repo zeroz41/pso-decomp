@@ -19,20 +19,10 @@ struct Stack_8024A228 {
     s32 sp10;
 };
 
-struct RecoveredGlobal_8024A228_lbl_804CEA88 {
-    s32 value;
-    u8 remaining[0x8];
-};
-
 struct Stack_8024A1CC {
     s32 sp8;
     s32 spC;
     s32 sp10;
-};
-
-struct RecoveredGlobal_8024A1CC_lbl_804CEA94 {
-    s32 value;
-    u8 remaining[0x8];
 };
 
 struct RecoveredFields_8024A688_arg1
@@ -71,10 +61,12 @@ void TLobby__sub_8024AAA0(s32 arg0, s32 arg1);
 u32 get_window__11TWindowCtrlFl(void);
 s32 update_field28__15TWindowCtrlMainFv(u32 a0 = 0, s32 a1 = 0);
 s32 TWindowCtrl__sub_8024B098(void *, void *);
-extern RecoveredGlobal_8024A228_lbl_804CEA88 window_ctrl_main_callback_desc;
+struct WindowCtrlMainCallbackDesc { s32 value; u8 remaining[0x8]; };
+extern WindowCtrlMainCallbackDesc window_ctrl_main_callback_desc;
 void TWindowCtrl__sub_8024A228(s32 arg0);
 s32 call_window_method__11TWindowCtrlFPvi(void *, void *);
-extern RecoveredGlobal_8024A1CC_lbl_804CEA94 window_ctrl_default_call_args;
+struct WindowCtrlDefaultCallArgs { s32 value; u8 remaining[0x8]; };
+extern WindowCtrlDefaultCallArgs window_ctrl_default_call_args;
 bool TWindowCtrl__sub_8024A1A8(void);
 u8 *find_entity_by_id(u16);
 extern const f32 lbl_805DCBE0;
@@ -92,7 +84,6 @@ u32 create_area_window();
 }
 s32 create_window_area(void);
 
-typedef char RecoveredGlobal_8024A1CC_lbl_804CEA94_size[sizeof(RecoveredGlobal_8024A1CC_lbl_804CEA94) == 0xC ? 1 : -1];
 extern "C" {
 
 bool TWindowCtrl__sub_8024A1A8(void) {
@@ -120,7 +111,6 @@ void TWindowCtrl::set_field22() {
     }
 }
 
-typedef char RecoveredGlobal_8024A228_lbl_804CEA88_size[sizeof(RecoveredGlobal_8024A228_lbl_804CEA88) == 0xC ? 1 : -1];
 void TWindowCtrl__sub_8024A228(s32 arg0) {
     typedef char sp8_offset[(offsetof(Stack_8024A228, sp8) == 0x0) ? 1 : -1];
     typedef char spC_offset[(offsetof(Stack_8024A228, spC) == 0x4) ? 1 : -1];

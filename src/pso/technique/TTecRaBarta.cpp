@@ -24,11 +24,6 @@
 #include "pso/technique/TTecPlayerInfluence.h"
 #include "pso/player/TObjPlayer.h"
 
-struct RecoveredGlobal_80237194_lbl_8044D8EC {
-    s32 value;
-    u8 remaining[0x8];
-};
-
 struct HitInfo_80237900 { s32 type; f32 power; };
 
 struct VBase_80237900 { char pad[0x18]; };
@@ -164,8 +159,6 @@ void calc_parameters__11TTecRaBartaFv(RaBarta_802377FC *self);
 
 s32 play_sound_effect(s32, s32, s32, s32);
 s32 update_technique_slot__10TTecRaFoieFl(s32, s32, s32);
-
-typedef char RecoveredGlobal_80237194_lbl_8044D8EC_size[sizeof(RecoveredGlobal_80237194_lbl_8044D8EC) == 0xC ? 1 : -1];
 
 typedef struct Obj_80237310 Obj_80237310;
 typedef struct Owner_80237310 Owner_80237310;

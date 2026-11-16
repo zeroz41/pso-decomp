@@ -11,16 +11,6 @@
 #include "pso/ui/window/TUnk_804CE964.h"
 
 
-struct RecoveredGlobal_80249BA8_lbl_804CE8D0 {
-    s32 value;
-    u8 remaining[0x10];
-};
-
-struct RecoveredGlobal_80249BA8___vt__14TWindowComCard {
-    s32 value;
-    u8 remaining[0x18];
-};
-
 extern "C" {
 s32 draw_default_entry__9TWindowDDFl();
 s32 draw_visible_window_entries(void *, void *, int);
@@ -93,7 +83,6 @@ void *lbl_804CE964[6] = {
     (void *)0x0, (void *)0x0, (void *)&TWindowComCard__sub_80249E80, (void *)&run_task__13TUnk_804CE964Fv,
     (void *)&render__13TUnk_804CE964Fv, (void *)&render_shadows__7TObjectFv,
 };
-#define TWindowComCard__window_desc (*(RecoveredGlobal_80249BA8_lbl_804CE8D0 *)TWindowComCard__window_desc)
 #define __vt__14TWindowComCard ((s32 *)__vt__14TWindowComCard)
 #define lbl_804CE964 ((s32 *)lbl_804CE964)
 
@@ -191,10 +180,8 @@ void *__dt__14TWindowComCardFv(void *arg0, s16 arg1) {
     return arg0;
 }
 
-typedef char RecoveredGlobal_80249BA8_lbl_804CE8D0_size[sizeof(RecoveredGlobal_80249BA8_lbl_804CE8D0) == 0x14 ? 1 : -1];
-typedef char RecoveredGlobal_80249BA8___vt__14TWindowComCard_size[sizeof(RecoveredGlobal_80249BA8___vt__14TWindowComCard) == 0x1C ? 1 : -1];
 u8 *TWindowComCard__ct(u8 *window_dd, s32 arg1, s32 arg2) {
-    ((TWindowDD *)window_dd)->construct_base((u8 *)((s32) &TWindowComCard__window_desc.value), (s16)4, (u8 *)arg1);
+    ((TWindowDD *)window_dd)->construct_base((u8 *)&TWindowComCard__window_desc, (s16)4, (u8 *)arg1);
     *(s32 **)((s8 *)window_dd + 0x18) = (s32 *)__vt__14TWindowComCard;
     *(s32 *)((s8 *)window_dd + 0) = (s32) TWindowComCard__class_name;
     update_com_card_display((s32)(window_dd + 0x24), arg2);

@@ -20,13 +20,6 @@ public:
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
-struct RecoveredGlobal_802A9C24___vt__16TBGLightningCtrl {
-    s32 value;
-    u8 remaining[0x30];
-};
-
-typedef char RecoveredGlobal_802A9C24___vt__16TBGLightningCtrl_size[sizeof(RecoveredGlobal_802A9C24___vt__16TBGLightningCtrl) == 0x34 ? 1 : -1];
-
 struct Vtx_802A9D40 { f32 x, y, z, u, v; s32 c; };
 
 struct Obj_802A9DF4 {

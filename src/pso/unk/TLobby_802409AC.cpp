@@ -921,11 +921,6 @@ s32 TLobby::init_sound_voice(s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
 
 #pragma push
 
-struct RecoveredGlobal_8024259C_TLobby__data_8050AAAC {
-    s32 value;
-    u8 remaining[0x24];
-};
-
 typedef struct Tag_802421C4 { s32 a; s32 b; } Tag_802421C4;
 
 #pragma inline_depth(1)
@@ -953,7 +948,8 @@ typedef struct Entry_80242380 {
 
 extern "C" {
 s32 seq_jump__9TProtocolFPUcR21TPlyMeetUserExtension(int, void *, void *);
-extern RecoveredGlobal_8024259C_TLobby__data_8050AAAC TLobby__data_8050AAAC;
+struct RecoveredGlobal_TLobby__data_8050AAAC { s32 value; u8 remaining[0x24]; };
+extern RecoveredGlobal_TLobby__data_8050AAAC TLobby__data_8050AAAC;
 extern u32 TLobby__protocol_instance;
 char *get_shared_text_buffer();
 void text_builder_append(char *);
@@ -1034,7 +1030,6 @@ Entry_80242380 *copy_com_card_entry__6TLobbyFPvPv(Entry_80242380 *dst, Entry_802
 }
 
 void*TLobby::get_com_card_entry(int a0) { return &com_card_entries[a0]; }
-typedef char RecoveredGlobal_8024259C_TLobby__data_8050AAAC_size[sizeof(RecoveredGlobal_8024259C_TLobby__data_8050AAAC) == 0x28 ? 1 : -1];
 
 char *parse_csv_token__6TLobbyFPvPv(char *src, char *dst) {
     s32 i;

@@ -142,4 +142,8 @@ struct TWindowKeyBoardSoft
 typedef char TWindowKeyBoardSoft_depth_offset[offsetof(TWindowKeyBoardSoft, depth) == 0x38 ? 1 : -1];
 typedef char TWindowKeyBoardSoft_m_60_offset[offsetof(TWindowKeyBoardSoft, m_60) == 0x44 ? 1 : -1];
 
+// TWindowKeyBoardSoft__data_804CB7C8: layout known from its uses only.
+struct RecoveredGlobal_TWindowKeyBoardSoft__data_804CB7C8 { s32 value; u8 remaining[0x6C]; };
+extern RecoveredGlobal_TWindowKeyBoardSoft__data_804CB7C8 TWindowKeyBoardSoft__data_804CB7C8;
+
 #endif

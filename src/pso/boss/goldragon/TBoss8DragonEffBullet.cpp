@@ -11,11 +11,6 @@
 
 #pragma readonly_strings on
 
-struct RecoveredGlobal_802FE378___vt__21TBoss8DragonEffBullet {
-    s32 value;
-    u8 remaining[0x14];
-};
-
 struct RecoveredFields_802FE0E4_arg0 {
     u8 unknown_0[0x1C];
     f32 field_1C;
@@ -129,10 +124,9 @@ TBoss8DragonEffBullet::~TBoss8DragonEffBullet() {
     if (*(void **)((s8 *)this + 0x4C) != NULL) { queue_destruction__7TObjectFv(*(void **)((s8 *)this + 0x4C)); this->m_4c = 0; }
 }
 
-typedef char RecoveredGlobal_802FE378___vt__21TBoss8DragonEffBullet_size[sizeof(RecoveredGlobal_802FE378___vt__21TBoss8DragonEffBullet) == 0x18 ? 1 : -1];
 u8 *TBoss8DragonEffBullet__ct(u8 *boss8_dragon_eff_bullet, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s16 arg5) {
     __ct__7TObjectFP7TObject((void *)boss8_dragon_eff_bullet, (void *)arg1);
-    *(s32 **)((s8 *)boss8_dragon_eff_bullet + 0x18) = &(*(RecoveredGlobal_802FE378___vt__21TBoss8DragonEffBullet *)&__vt__21TBoss8DragonEffBullet).value;
+    *(s32 **)((s8 *)boss8_dragon_eff_bullet + 0x18) = __vt__21TBoss8DragonEffBullet;
     *(s32 *)((s8 *)boss8_dragon_eff_bullet + 0) = (s32) TBoss8DragonEffBullet__name;
     VecCopy((Vec *)(boss8_dragon_eff_bullet + 0x1C), (const Vec *)(arg2));
     VecCopy((Vec *)(boss8_dragon_eff_bullet + 0x28), (const Vec *)(arg3));

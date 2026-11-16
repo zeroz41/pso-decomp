@@ -84,11 +84,6 @@ struct Stack_80055918
 
 typedef struct Stack_80055918 Stack_80055918;
 
-struct RecoveredGlobal_8005455C_lbl_80485EC8 {
-    s32 value;
-    u8 remaining[0x1DC];
-};
-
 struct Obj_80056F38 { u8 pad[0x38C]; void *target; u8 pad390[0x10]; s32 f3a0; u8 pad3a4[8]; s32 f3ac; s32 f3b0; };
 
 struct Obj_80056F90 { u8 pad[0x38C]; void *target; u8 pad390[0x10]; s32 f3a0; u8 pad3a4[8]; s32 f3ac; s32 f3b0; u8 pad3b4[0x10]; u16 f3c4; };
@@ -174,8 +169,6 @@ struct O_80056C30 {
     u8 pad0[0x38];
     Vec pos;
 };
-
-typedef char RecoveredGlobal_8005455C_lbl_80485EC8_size[sizeof(RecoveredGlobal_8005455C_lbl_80485EC8) == 0x1E0 ? 1 : -1];
 
 struct Obj_80056DF0 { u8 pad0[0x3AC]; s32 i3AC; s32 i3B0; f32 f3B4; f32 f3B8; f32 f3BC; };
 
@@ -471,8 +464,8 @@ void TBoss4Type2::update_phase_timer() {
         break;
     case 2:
         if (*(f32 *)((s8 *)arg0 + 0x3d0) >= 29.0f) {
-            *(s32 *)((s8 *)arg0 + 0x3c8) = (s32) *(s32 *)((s8 *)((u8 *)&(*(RecoveredGlobal_8005455C_lbl_80485EC8 *)&TBoss4Type2__attack_pattern_table).value + (*(s32 *)((s8 *)arg0 + 0x3c8) << 0x4)) + 4);
-            *(s32 *)((s8 *)arg0 + 0x3dc) = (s32) *(s32 *)((s8 *)(&(*(RecoveredGlobal_8005455C_lbl_80485EC8 *)&TBoss4Type2__attack_pattern_table).value) + (*(s32 *)((s8 *)arg0 + 0x3c8) << 0x4));
+            *(s32 *)((s8 *)arg0 + 0x3c8) = (s32) *(s32 *)((s8 *)((u8 *)&TBoss4Type2__attack_pattern_table + (*(s32 *)((s8 *)arg0 + 0x3c8) << 0x4)) + 4);
+            *(s32 *)((s8 *)arg0 + 0x3dc) = (s32) *(s32 *)((s8 *)&TBoss4Type2__attack_pattern_table + (*(s32 *)((s8 *)arg0 + 0x3c8) << 0x4));
             *(f32 *)((s8 *)arg0 + 0x3d0) = 0.0f;
             *(s32 *)((s8 *)arg0 + 0x3d8) = 1;
         }

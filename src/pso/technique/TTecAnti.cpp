@@ -24,9 +24,6 @@ s32 play_sound_effect(int, void *, int, int);
 
 }
 
-struct RecoveredGlobal_8022B288___vt__8TTecAnti { s32 value; u8 remaining[0x1C]; };
-typedef char RecoveredGlobal_8022B288___vt__8TTecAnti_size[sizeof(RecoveredGlobal_8022B288___vt__8TTecAnti) == 0x20 ? 1 : -1];
-
 struct RecoveredGlobal_8022B288_lbl_804CC1CC { s32 value; u8 remaining[0x340]; };
 typedef char RecoveredGlobal_8022B288_lbl_804CC1CC_size[sizeof(RecoveredGlobal_8022B288_lbl_804CC1CC) == 0x344 ? 1 : -1];
 
@@ -173,7 +170,7 @@ u8 *TTecAnti__ct(u8 *arg0, s32 owner, s32 pos, s32 arg3, s32 level) {
     u32 temp_r3_2;
     u8 *temp_r3;
     TTecPlayerInfluence__ct((void *)arg0, (void *)owner, (void *)pos, (void *)level);
-    *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_8022B288___vt__8TTecAnti *)&__vt__8TTecAnti).value;
+    *(s32 **)((s8 *)arg0 + 0x18) = __vt__8TTecAnti;
     ((TObjPlayer *)(arg0 + 0xE0))->construct_target_cursor_records();
     *(s32 *)((s8 *)arg0 + 0) = (s32) ((s32)TTecAnti_name_ref);
     ((TTecAnti *)arg0)->m_13c = 1;

@@ -70,11 +70,6 @@ struct VObj_18_6eb662 : VBase_18_6eb662 {
     virtual s32 m5(void *, f32);
 };
 
-struct RecoveredGlobal_80180AA4___vt__8TObjChip {
-    s32 value;
-    u8 remaining[0x34];
-};
-
 struct VBase_18_2a3247 { char pad[0x18]; };
 
 struct VObj_18_2a3247 : VBase_18_2a3247 {
@@ -83,11 +78,6 @@ struct VObj_18_2a3247 : VBase_18_2a3247 {
     virtual void m2();
     virtual void m3();
     virtual s32 m4(f32);
-};
-
-struct RecoveredGlobal_80180BD4___vt__8TObjChip {
-    s32 value;
-    u8 remaining[0x34];
 };
 
 struct IVec_801803C0 { s32 x, y, z; };
@@ -221,9 +211,6 @@ void run_task__8TObjChipFv(void *arg0);
 #pragma readonly_strings on
 const char *obj_chip_class_name_ptr = "TObjChip";
 
-typedef char RecoveredGlobal_80180AA4___vt__8TObjChip_size[sizeof(RecoveredGlobal_80180AA4___vt__8TObjChip) == 0x38 ? 1 : -1];
-
-typedef char RecoveredGlobal_80180BD4___vt__8TObjChip_size[sizeof(RecoveredGlobal_80180BD4___vt__8TObjChip) == 0x38 ? 1 : -1];
 u8 *copy_transform__8TObjChipFPvPv(u8 *arg0, u8 *arg1) {
     *(f32 *)((s8 *)arg0 + 0) = (f32) *(f32 *)((s8 *)arg1 + 0);
     *(f32 *)((s8 *)arg0 + 4) = (f32) *(f32 *)((s8 *)arg1 + 4);

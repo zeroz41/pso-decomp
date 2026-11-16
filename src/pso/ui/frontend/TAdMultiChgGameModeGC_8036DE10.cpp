@@ -16,9 +16,6 @@
 struct RecoveredGlobal_8036E8DC_lbl_804C88C0 { s32 value; u8 remaining[0x50]; };
 typedef char RecoveredGlobal_8036E8DC_lbl_804C88C0_size[sizeof(RecoveredGlobal_8036E8DC_lbl_804C88C0) == 0x54 ? 1 : -1];
 
-struct RecoveredGlobal_8036E8DC_lbl_804C8914 { char value[0xB]; };
-typedef char RecoveredGlobal_8036E8DC_lbl_804C8914_size[sizeof(RecoveredGlobal_8036E8DC_lbl_804C8914) == 0xB ? 1 : -1];
-
 struct RecoveredGlobal_8036E8DC_lbl_804C89BC { s32 value; u8 remaining[0x74]; };
 typedef char RecoveredGlobal_8036E8DC_lbl_804C89BC_size[sizeof(RecoveredGlobal_8036E8DC_lbl_804C89BC) == 0x78 ? 1 : -1];
 
@@ -61,7 +58,8 @@ int request_scene_change__21TAdMultiChgGameModeGCFv(void*);
 int init_change_mode__21TAdMultiChgGameModeGCFv(void*);
 s32 poll_memcard_result(s32);
 extern RecoveredGlobal_8036E8DC_lbl_804C88C0 pso_character_card_filename;
-extern RecoveredGlobal_8036E8DC_lbl_804C8914 pso_system_card_filename;
+struct PsoSystemCardFilename { char value[0xB]; };
+extern PsoSystemCardFilename pso_system_card_filename;
 extern RecoveredGlobal_8036E8DC_lbl_804C89BC pso_guildcard_card_filename;
 u32 load_system_file_flag__23TAdSinglePlyChrSelectGCFv(void);
 u32 update_window_mode_from_progress__6TLobbyFPv(void *, const void *);

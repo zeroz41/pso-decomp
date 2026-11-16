@@ -95,9 +95,6 @@ s32 create_window_area(void) {
 #pragma pop
 
 
-struct RecoveredGlobal_8024470C___vt__11TWindowArea { s32 value; u8 remaining[0x14]; };
-typedef char RecoveredGlobal_8024470C___vt__11TWindowArea_size[sizeof(RecoveredGlobal_8024470C___vt__11TWindowArea) == 0x18 ? 1 : -1];
-
 extern "C" {
 u8 * get_window_layout_position(s32);
 u8 * __ct__11TWindowRoomFPc(void *, s32);
@@ -123,9 +120,9 @@ u8 *TWindowArea__ct(u8 *window_room) {
     window_layout_position = NULL;
     var_r31 = window_room;
     __ct__11TWindowRoomFPc(window_room, 0);
-    window_layout_position = (s32 *)(&(*(RecoveredGlobal_8024470C___vt__11TWindowArea *)&__vt__11TWindowArea).value);
+    window_layout_position = (s32 *)&__vt__11TWindowArea;
     var_r3 = (u8 *)((void *)0x25);
-    *(s32 **)((s8 *)var_r31 + 0x18) = &(*(RecoveredGlobal_8024470C___vt__11TWindowArea *)&__vt__11TWindowArea).value;
+    *(s32 **)((s8 *)var_r31 + 0x18) = __vt__11TWindowArea;
     *(s32 *)((s8 *)var_r31 + 0) = (s32) TWindowArea__name;
     var_r3 = (var_r31 + 0x40);
     window_layout_position = (s32 *)(get_window_layout_position(0x25));

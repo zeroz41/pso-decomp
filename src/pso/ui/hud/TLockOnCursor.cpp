@@ -43,9 +43,6 @@ struct Obj_8013EC1C { u16 a; u16 b; u16 c; };
 
 extern "C" void __dl__FPv(void *);
 
-struct RecoveredGlobal_8013DC38_lbl_804A7140 { s32 value; u8 remaining[0xC]; };
-typedef char RecoveredGlobal_8013DC38_lbl_804A7140_size[sizeof(RecoveredGlobal_8013DC38_lbl_804A7140) == 0x10 ? 1 : -1];
-
 struct Base_8013DCCC { u8 pad[0x18]; };
 
 struct Obj_8013DCCC : Base_8013DCCC {
@@ -59,11 +56,6 @@ struct Cur_8013DAB0 { u8 pad[0x5C]; Elem_8013DAB0 arr[4]; };
 
 struct Ent_8013D91C { u16 id; s16 idx; u8 pad[8]; };
 
-struct RecoveredGlobal_8013D91C_main_task {
-    s32 value;
-    u8 remaining[0x30];
-};
-
 extern "C" {
 u8 * free_bin_model_request(void *, s16);
 u8 * lock_on_cursor_bml_resource;
@@ -72,7 +64,8 @@ s32 TLockOnCursor__target_cursor_model;
 s32 get_bml_model(void *, s32);
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 }
-extern RecoveredGlobal_8013DC38_lbl_804A7140 target_cursor_resource_descriptor;
+struct TargetCursorResourceDescriptor { s32 value; u8 remaining[0xC]; };
+extern TargetCursorResourceDescriptor target_cursor_resource_descriptor;
 s32 main_cursor_model;
 void load_target_cursor_models(void);
 extern "C" {
@@ -119,7 +112,6 @@ void *fn_8013F0A0(void *arg0);
 
 #pragma push
 #pragma opt_loop_invariants off
-typedef char RecoveredGlobal_8013D91C_main_task_size[sizeof(RecoveredGlobal_8013D91C_main_task) == 0x34 ? 1 : -1];
 void render__13TLockOnCursorFv(s32 arg0) {
     s32 i;
     s32 j;
@@ -132,7 +124,7 @@ void render__13TLockOnCursorFv(s32 arg0) {
         if (TCameraCtrl::get_camera_no() != get_split_screen_view_index__11TCameraCtrlFUs((void *)((s32)get_target_id__13TLockOnCursorFv((s32)((void *)arg0))))) {
             return;
         }
-    } else if (get_mode__11TCameraCtrlFPv(&(*(RecoveredGlobal_8013D91C_main_task *)&main_task).value) & 0x10) {
+    } else if (get_mode__11TCameraCtrlFPv(&main_task) & 0x10) {
         return;
     }
     for (i = 0; i < 4; i++) {
@@ -757,11 +749,6 @@ void *fn_8013F0A0(void *arg0) {
 
 }
 
-struct RecoveredGlobal_8013F1F0_lbl_804A7254 {
-    s32 value;
-    u8 remaining[0x8];
-};
-
 struct Rec_8013F154 { u8 pad[0x8]; };
 
 struct Obj_8013F154 { u8 pad[0x4]; Rec_8013F154 recs[1]; };
@@ -811,9 +798,8 @@ void *TMainCursor::destroy(s16 arg1) {
 
     extern const float TMainCursor__data_805DB0C0;
 
-typedef char RecoveredGlobal_8013F1F0_lbl_804A7254_size[sizeof(RecoveredGlobal_8013F1F0_lbl_804A7254) == 0xC ? 1 : -1];
 u8 *TMainCursor__sub_8013F1F0(u8 *arg0) {
-    *(s32 **)((s8 *)arg0 + 0x10) = &(*(RecoveredGlobal_8013F1F0_lbl_804A7254 *)&lbl_804A7254).value;
+    *(s32 **)((s8 *)arg0 + 0x10) = lbl_804A7254;
     TMainCursor__sub_8013F22C(arg0);
     return arg0;
 }

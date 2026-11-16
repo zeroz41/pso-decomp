@@ -16,11 +16,6 @@
 
 #pragma readonly_strings on
 
-struct RecoveredGlobal_80287FBC___vt__12TWindowTimer {
-    s32 value;
-    u8 remaining[0x14];
-};
-
 // inferred: window_timer_layout_entries, the layout table window_timer_layout points at.
 struct TimerWindowLayout {
     u32 cols;
@@ -145,10 +140,9 @@ void run_task__12TWindowTimerFv(TWindowTimer *window_timer) {
 }
 
 TWindowTimer::~TWindowTimer() {}
-typedef char RecoveredGlobal_80287FBC___vt__12TWindowTimer_size[sizeof(RecoveredGlobal_80287FBC___vt__12TWindowTimer) == 0x18 ? 1 : -1];
 u8 *TWindowTimer__ct(TWindowTimer *window_timer) {
     ((TWindowDD *)window_timer)->construct_base((u8 *)&window_timer_layout, (s16)4, (u8 *)(get_zero_vec2()));
-    *(s32 **)((s8 *)window_timer + 0x18) = &(*(RecoveredGlobal_80287FBC___vt__12TWindowTimer *)&__vt__12TWindowTimer).value;
+    *(s32 **)((s8 *)window_timer + 0x18) = __vt__12TWindowTimer;
     *(s32 *)((s8 *)window_timer + 0) = (s32) TWindowTimer__name;
     window_timer->m_60 = 0;
     window_timer->update_chat_parts();

@@ -20,12 +20,6 @@
 
 #pragma defer_codegen on
 
-struct RecoveredGlobal_800861F4_TParticleCtrl__data_80511F70 {
-    s32 value;
-    u8 remaining[0x1AC];
-};
-
-
 struct VBase_18_1a504b { char pad[0x18]; };
 
 struct VObj_18_1a504b : VBase_18_1a504b {
@@ -36,17 +30,6 @@ struct VObj_18_1a504b : VBase_18_1a504b {
     virtual void m4();
     virtual s32 m5(s32);
 };
-
-struct RecoveredGlobal_800858D0_lbl_8048E6A8 {
-    s32 value;
-    u8 remaining[0x30];
-};
-
-struct RecoveredGlobal_80085E78_lbl_8048E6DC {
-    s32 value;
-    u8 remaining[0x30];
-};
-
 
 struct Obj_80085798 { u8 pad[0x38]; u8 target[0x10]; };
 
@@ -142,13 +125,10 @@ void *get_player_by_client_id(s32 i);
 extern s32 local_client_id;
 }
 void set_constant_material_color(u32 x);
-typedef char RecoveredGlobal_800858D0_lbl_8048E6A8_size[sizeof(RecoveredGlobal_800858D0_lbl_8048E6A8) == 0x34 ? 1 : -1];
-typedef char RecoveredGlobal_800861F4_TParticleCtrl__data_80511F70_size[sizeof(RecoveredGlobal_800861F4_TParticleCtrl__data_80511F70) == 0x1B0 ? 1 : -1];
-typedef char RecoveredGlobal_80085E78_lbl_8048E6DC_size[sizeof(RecoveredGlobal_80085E78_lbl_8048E6DC) == 0x34 ? 1 : -1];
 
 u8 *TParticleCtrl::init_particle_obj(s32 arg1, s32 arg2) {
     __ct__8TObjBaseFP7TObject(this, (void *)arg2);
-    *(s32 **)((s8 *)((u8 *)this) + 0x18) = &(*(RecoveredGlobal_80085E78_lbl_8048E6DC *)&__vt__13TUnk_8048E6DC).value;
+    *(s32 **)((s8 *)((u8 *)this) + 0x18) = __vt__13TUnk_8048E6DC;
     ((VObj_18_1a504b *)(this))->m5(arg1);
     *(f32 *)((s8 *)((u8 *)this) + 0xA4) = 225.0f;
     lbl_805D2930 = 1;
@@ -313,7 +293,7 @@ u8 *TParticleCtrl::create_particle_obj_90(s32 arg0) {
 
 u8 *TParticleCtrl::construct_particle_obj(s32 arg1, s32 arg2) {
     __ct__8TObjBaseFP7TObject(this, (void *)arg2);
-    *(s32 **)((s8 *)((u8 *)this) + 0x18) = &(*(RecoveredGlobal_800858D0_lbl_8048E6A8 *)&__vt__13TUnk_8048E6A8).value;
+    *(s32 **)((s8 *)((u8 *)this) + 0x18) = __vt__13TUnk_8048E6A8;
     ((VObj_18_1a504b *)(this))->m5(arg1);
     return ((u8 *)this);
 }

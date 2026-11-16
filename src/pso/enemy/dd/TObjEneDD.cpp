@@ -368,13 +368,10 @@ s32 VecCopy__FP3VecPC3Vec(void *, void *, s32);
 #include "pso/boss/goldragon/TBoss8Dragon_800BB650.h"
 
 
-struct RecoveredGlobal_800BB45C_lbl_80500B98 {
-    s32 value;
-    u8 remaining[0x1C];
-};
 struct Ent_800BB484 { s16 id; f32 dist; };
 extern "C" {
-RecoveredGlobal_800BB45C_lbl_80500B98 enemy_target_candidate_table;
+struct EnemyTargetCandidateTable { s32 value; u8 remaining[0x1C]; };
+EnemyTargetCandidateTable enemy_target_candidate_table;
 typedef struct Ent_800BB388 {
     u8 pad0[0x30];
     s32 flags30;
@@ -385,7 +382,6 @@ typedef struct Ent_800BB388 {
 Ent_800BB388;
 u16 enemy_nearest_visible_enemy_sq(Ent_800BB388 *self, f32 range);
 s32 collect_enemy_target_candidates(s32 arg0, Ent_800BB484 *out, f32 farg0);
-typedef char RecoveredGlobal_800BB45C_lbl_80500B98_size[sizeof(RecoveredGlobal_800BB45C_lbl_80500B98) == 0x20 ? 1 : -1];
 }
 
 

@@ -9,17 +9,13 @@ struct Stack_8008683C {
     s32 sp10;
 };
 
-struct RecoveredGlobal_8008683C_lbl_804393F0 {
-    s32 value;
-    u8 remaining[0x8];
-};
-
 struct Ent_800868C4 { u8 data[0x98]; };
 
 extern "C" {
 s32 get_bml_model(void *, s32);
 extern u8 *TParticleCtrl__regular_bml_resource;
-extern RecoveredGlobal_8008683C_lbl_804393F0 lbl_804393F0;
+struct RecoveredGlobal_lbl_804393F0 { s32 value; u8 remaining[0x8]; };
+extern RecoveredGlobal_lbl_804393F0 lbl_804393F0;
 extern s32 particle_pool_limit;
 extern Ent_800868C4 *particle_global_entry_table;
 extern Ent_800868C4 *particle_area_entry_table;
@@ -44,7 +40,6 @@ void TParticleCtrl::init_heap(void *arg0) {
 
     extern int TParticleCtrl__texture_list;
 
-typedef char RecoveredGlobal_8008683C_lbl_804393F0_size[sizeof(RecoveredGlobal_8008683C_lbl_804393F0) == 0xC ? 1 : -1];
 void TParticleCtrl::generate_child_default(s32 arg1, s32 arg2) {
     s32 arg0 = (s32)this;
     typedef char sp8_offset[(offsetof(Stack_8008683C, sp8) == 0x0) ? 1 : -1];

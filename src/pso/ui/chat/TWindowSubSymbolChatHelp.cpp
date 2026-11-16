@@ -9,17 +9,6 @@
 
 #include "pso/unk/WindowLayoutRecord.h"
 
-struct RecoveredGlobal_80284B84___vt__24TWindowSubSymbolChatHelp {
-    s32 value;
-    u8 remaining[0x18];
-};
-
-struct RecoveredGlobal_80284A28_lbl_8050E208
-{
-  s32 value;
-  u8 remaining[0x1AC];
-};
-
 struct Quad_8028429C { f32 x, y, x2, y2, u0, v0, u1, v1; };
 
 struct Win_8028429C { u8 pad[0x10]; f32 x; f32 y; u8 pad2[0x38 - 0x18]; f32 scale; };
@@ -237,14 +226,13 @@ void TWindowSubSymbolChatHelp::handle_toggle_input() {
     }
 }
 
-typedef struct RecoveredGlobal_80284A28_lbl_8050E208 RecoveredGlobal_80284A28_lbl_8050E208;
 void TWindowSubSymbolChatHelp::handle_page_input() {
     u8 *arg0 = (u8 *)this;
   u8 *temp_r4_2;
   int new_var;
   u8 temp_r3;
   new_var = 0x200;
-  if (((this->m_60) & 2) && (TWindowShortListCtrl__check_controller_button((void *)((void *) (((u8 *) (&(*(RecoveredGlobal_80284A28_lbl_8050E208 *)&controller_input_state).value)) + 0x20)), new_var) != 0))
+  if (((this->m_60) & 2) && (TWindowShortListCtrl__check_controller_button((void *)((void *) ((u8 *)&controller_input_state + 0x20)), new_var) != 0))
   {
     *((u8 *) (*((u8 **) (((s8 *) arg0) + 0x64)))) += 1;
     temp_r4_2 = (u8 *) (*((u8 **) (((s8 *) arg0) + 0x64)));
@@ -267,10 +255,9 @@ void TWindowSubSymbolChatHelp::render() {
 void TWindowSubSymbolChatHelp::run_task() { handle_page_input(); handle_toggle_input(); ((TWindowDD *)this)->initialize_subwindow(); }
 
 TWindowSubSymbolChatHelp::~TWindowSubSymbolChatHelp() {}
-typedef char RecoveredGlobal_80284B84___vt__24TWindowSubSymbolChatHelp_size[sizeof(RecoveredGlobal_80284B84___vt__24TWindowSubSymbolChatHelp) == 0x1C ? 1 : -1];
 u8 *TWindowSubSymbolChatHelp__ct(TWindowSubSymbolChatHelp *window_sub_symbol_chat_help, s32 arg1, s32 arg2) {
     ((TWindowDD *)window_sub_symbol_chat_help)->construct_base((u8 *)&symbol_chat_help_window_layout, (s16)(4), (u8 *)(get_window_layout_position(0x7E)));
-    *(s32 **)((s8 *)window_sub_symbol_chat_help + 0x18) = &(*(RecoveredGlobal_80284B84___vt__24TWindowSubSymbolChatHelp *)&__vt__24TWindowSubSymbolChatHelp).value;
+    *(s32 **)((s8 *)window_sub_symbol_chat_help + 0x18) = __vt__24TWindowSubSymbolChatHelp;
     *(s32 *)((s8 *)window_sub_symbol_chat_help + 0) = (s32) TWindowSubSymbolChatHelp__name;
     window_sub_symbol_chat_help->m_60 = 0;
     window_sub_symbol_chat_help->m_64 = arg1;

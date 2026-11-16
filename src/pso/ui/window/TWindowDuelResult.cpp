@@ -11,16 +11,6 @@
 
 #pragma readonly_strings on
 
-struct RecoveredGlobal_8024F5B0___vt__17TWindowDuelResult {
-    s32 value;
-    u8 remaining[0x70];
-};
-
-struct RecoveredGlobal_8024F5B0_lbl_804CF020 {
-    s32 value;
-    u8 remaining[0x14];
-};
-
 struct Win_8024EF40 { u8 pad[0x20]; s16 player; u8 pad22[2]; u8 sub[4]; };
 
 typedef struct Entry_8024F094 {
@@ -156,7 +146,6 @@ void *__vt__17TWindowDuelResult[5] = {
     (void *)0x43c20000, (void *)0x43240000, (void *)0x47437b00, (void *)0x0,
     (void *)0x3,
 };
-#define __vt__17TWindowDuelResult (*(RecoveredGlobal_8024F5B0___vt__17TWindowDuelResult *)__vt__17TWindowDuelResult)
 
 void sub_8024EF3C__17TWindowDuelResultFv(void) {  }
 
@@ -306,13 +295,11 @@ void *destroy__17TWindowDuelResultFPvs(void *arg0, s16 arg1) {
     }
     return arg0;
 }
-typedef char RecoveredGlobal_8024F5B0___vt__17TWindowDuelResult_size[sizeof(RecoveredGlobal_8024F5B0___vt__17TWindowDuelResult) == 0x74 ? 1 : -1];
-typedef char RecoveredGlobal_8024F5B0_lbl_804CF020_size[sizeof(RecoveredGlobal_8024F5B0_lbl_804CF020) == 0x18 ? 1 : -1];
 u8 *TWindowDuelResult__ct(u8 *arg0_, s16 arg1) {
     u8 *temp_r3;
     u8 *var_r0;
-    construct_base__9TWindowDDFPUcsPUc((void *)arg0_, &__vt__17TWindowDuelResult.value, (void *)arg1, (int) (get_window_layout_position(0x24)));
-    *(s32 **)((s8 *)arg0_ + 0x18) = &(*(RecoveredGlobal_8024F5B0_lbl_804CF020 *)lbl_804CF020).value;
+    construct_base__9TWindowDDFPUcsPUc((void *)arg0_, __vt__17TWindowDuelResult, (void *)arg1, (int) (get_window_layout_position(0x24)));
+    *(s32 **)((s8 *)arg0_ + 0x18) = ((s32 *)lbl_804CF020);
     *(s32 *)((s8 *)arg0_ + 0) = (s32) ((s32)window_duel_result_class_name);
     temp_r3 = (u8 *)((int)::operator new(0xC));
     var_r0 = temp_r3;

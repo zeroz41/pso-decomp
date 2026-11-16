@@ -11,11 +11,6 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/task/TObject.h"
 
-struct RecoveredGlobal_8001D19C_lbl_804FF5E8 {
-    s32 value;
-    u8 remaining[0x24];
-};
-
 typedef struct Cam_8001D3A8 {
     Vec eye;
     Vec dir;
@@ -31,7 +26,7 @@ typedef struct TNowLoading_8001D3A8 {
 } TNowLoading_8001D3A8;
 
 extern "C" {
-extern RecoveredGlobal_8001D19C_lbl_804FF5E8 lbl_804FF5E8;
+extern f32 lbl_804FF5E8[];
 extern u32 camera_ctrl_instance;
 void DCInvalidateRange(void *, u32);
 void ARQPostRequest(void *, u32, u32, u32, u32, u32, u32, void *);
@@ -51,7 +46,6 @@ void TNowLoading::render() {  }
 
 #pragma push
 #pragma fp_contract on
-typedef char RecoveredGlobal_8001D19C_lbl_804FF5E8_size[sizeof(RecoveredGlobal_8001D19C_lbl_804FF5E8) == 0x28 ? 1 : -1];
 void TNowLoading::run_task() {
     Vec stack;
     u32 temp_r3;
@@ -63,9 +57,9 @@ void TNowLoading::run_task() {
     u32 temp_r3_7;
     u32 temp_r3_8;
     if ((u32) camera_ctrl_instance == 0U) {
-        *(f32 *)&this->m_2c = (f32) ((65.0f * *(f32 *)((s8 *)&lbl_804FF5E8.value + 0xC)) + *(f32 *)((s8 *)&lbl_804FF5E8.value + 0));
-        *(f32 *)&this->unk_30 = (f32) ((65.0f * *(f32 *)((s8 *)&lbl_804FF5E8.value + 0x10)) + *(f32 *)((s8 *)&lbl_804FF5E8.value + 4));
-        this->m_34 = (f32) ((65.0f * *(f32 *)((s8 *)&lbl_804FF5E8.value + 0x14)) + *(f32 *)((s8 *)&lbl_804FF5E8.value + 8));
+        *(f32 *)&this->m_2c = (f32) ((65.0f * *(f32 *)((s8 *)&lbl_804FF5E8 + 0xC)) + *(f32 *)((s8 *)&lbl_804FF5E8 + 0));
+        *(f32 *)&this->unk_30 = (f32) ((65.0f * *(f32 *)((s8 *)&lbl_804FF5E8 + 0x10)) + *(f32 *)((s8 *)&lbl_804FF5E8 + 4));
+        this->m_34 = (f32) ((65.0f * *(f32 *)((s8 *)&lbl_804FF5E8 + 0x14)) + *(f32 *)((s8 *)&lbl_804FF5E8 + 8));
         temp_r3 = this->m_1c;
         if (temp_r3 != 0U) {
             ((TParticleCtrl *)temp_r3)->set_position((u8 *)&this->m_2c);
@@ -83,9 +77,9 @@ void TNowLoading::run_task() {
             ((TParticleCtrl *)temp_r3_4)->set_position((u8 *)&this->m_2c);
         }
     } else {
-        stack.x = (65.0f * *(f32 *)((s8 *)&lbl_804FF5E8.value + 0xC)) + *(f32 *)((s8 *)&lbl_804FF5E8.value + 0);
-        stack.y = (65.0f * *(f32 *)((s8 *)&lbl_804FF5E8.value + 0x10)) + *(f32 *)((s8 *)&lbl_804FF5E8.value + 4);
-        stack.z = (65.0f * *(f32 *)((s8 *)&lbl_804FF5E8.value + 0x14)) + *(f32 *)((s8 *)&lbl_804FF5E8.value + 8);
+        stack.x = (65.0f * *(f32 *)((s8 *)&lbl_804FF5E8 + 0xC)) + *(f32 *)((s8 *)&lbl_804FF5E8 + 0);
+        stack.y = (65.0f * *(f32 *)((s8 *)&lbl_804FF5E8 + 0x10)) + *(f32 *)((s8 *)&lbl_804FF5E8 + 4);
+        stack.z = (65.0f * *(f32 *)((s8 *)&lbl_804FF5E8 + 0x14)) + *(f32 *)((s8 *)&lbl_804FF5E8 + 8);
         temp_r3_5 = this->m_1c;
         if (temp_r3_5 != 0U) {
             ((TParticleCtrl *)temp_r3_5)->set_position((void *)&stack.x);
@@ -134,9 +128,9 @@ TNowLoading_8001D3A8 *TNowLoading__ct(TNowLoading_8001D3A8 *parent, void *arg1, 
     dir.y = -cam->dir.y;
     dir.z = -cam->dir.z;
     direction_to_rotation_xz((u8 *)&dir, &out[0], &out[2]);
-    parent->pos.x = 65.0f * cam->dir.x + *(f32 *)((s8 *)&lbl_804FF5E8.value + 0);
-    parent->pos.y = 65.0f * cam->dir.y + *(f32 *)((s8 *)&lbl_804FF5E8.value + 4);
-    parent->pos.z = 65.0f * cam->dir.z + *(f32 *)((s8 *)&lbl_804FF5E8.value + 8);
+    parent->pos.x = 65.0f * cam->dir.x + *(f32 *)((s8 *)&lbl_804FF5E8 + 0);
+    parent->pos.y = 65.0f * cam->dir.y + *(f32 *)((s8 *)&lbl_804FF5E8 + 4);
+    parent->pos.z = 65.0f * cam->dir.z + *(f32 *)((s8 *)&lbl_804FF5E8 + 8);
     parent->children[0] = NULL;
     parent->children[1] = NULL;
     parent->children[2] = NULL;

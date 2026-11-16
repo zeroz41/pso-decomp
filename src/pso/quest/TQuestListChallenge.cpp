@@ -45,11 +45,6 @@ public:
     virtual s32 v8();
 };
 
-struct RecoveredGlobal_80289200___vt__19TQuestListChallenge {
-    s32 value;
-    u8 remaining[0x2C];
-};
-
 struct RecoveredGlobal_80289200_lbl_8045080C {
     s32 value;
     u8 remaining[0x4C];
@@ -378,7 +373,6 @@ void *__dt__19TQuestListChallengeFv(void *arg0, s16 arg1) {
 extern s32 lbl_805D64A8;
 extern s32 lbl_805D64AC;
 
-typedef char RecoveredGlobal_80289200___vt__19TQuestListChallenge_size[sizeof(RecoveredGlobal_80289200___vt__19TQuestListChallenge) == 0x30 ? 1 : -1];
 typedef char RecoveredGlobal_80289200_lbl_8045080C_size[sizeof(RecoveredGlobal_80289200_lbl_8045080C) == 0x50 ? 1 : -1];
 typedef char RecoveredGlobal_80289200_lbl_80450910_size[sizeof(RecoveredGlobal_80289200_lbl_80450910) == 0x90 ? 1 : -1];
 typedef char RecoveredGlobal_80289200_lbl_80450A20_size[sizeof(RecoveredGlobal_80289200_lbl_80450A20) == 0x80 ? 1 : -1];
@@ -386,7 +380,7 @@ u8 *TQuestListChallenge__ct(u8 *shop_window_base, s32 parent, s32 arg2, s32 arg3
     s32 temp_r3;
     s32 var_r3;
     __ct__15TShopWindowBaseFP7TObject(shop_window_base, (TObject *)parent);
-    *(s32 **)((s8 *)shop_window_base + 0x18) = &(*(RecoveredGlobal_80289200___vt__19TQuestListChallenge *)&__vt__19TQuestListChallenge).value;
+    *(s32 **)((s8 *)shop_window_base + 0x18) = ((s32 *)&__vt__19TQuestListChallenge);
     *(s32 *)((s8 *)shop_window_base + 0) = (s32) (*(s32 *)&TQuestListChallenge__name);
     if ((void *) (*(u8 * *)&TQuestListChallenge__active_instance) != NULL) {
         return shop_window_base;

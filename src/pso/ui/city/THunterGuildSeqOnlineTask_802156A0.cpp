@@ -4,12 +4,6 @@
 #include "pso/unk/text_800F9B84.h"
 #include "pso/item/TItemData.h"
 
-struct RecoveredGlobal_80215ABC_lbl_804CA0B8 {
-    s32 value;
-    u8 remaining[0x24];
-};
-typedef char RecoveredGlobal_80215ABC_lbl_804CA0B8_size[sizeof(RecoveredGlobal_80215ABC_lbl_804CA0B8) == 0x28 ? 1 : -1];
-
 struct Pair_802156E0 { s8 key; u8 val; };
 
 struct G_802156E0 { u8 pad[0xc]; Pair_802156E0 *tbl; };
@@ -49,7 +43,8 @@ struct Ctr_80215720 { u8 buf[0x68]; };
 static const s8 item_appraisal_adjust_table[] = {-10, -5, -3, -2, -1, 0, 1, 2, 3, 5, 10, 0};
 
 extern "C" {
-extern RecoveredGlobal_80215ABC_lbl_804CA0B8 section_id_favored_grind_table;
+struct SectionIdFavoredGrindTable { s32 value; u8 remaining[0x24]; };
+extern SectionIdFavoredGrindTable section_id_favored_grind_table;
 extern s32 lbl_805D6238;
 extern G_802156E0 *item_appraisal_rules;
 u8 lookup_key_value__6TLobbyFc(s8 x);

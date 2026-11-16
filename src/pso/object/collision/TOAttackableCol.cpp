@@ -25,11 +25,6 @@ const char *TOAttackableCol__name = "TOAttackableCol";
 void set_floor_switch_flag(u32 id, s16 floor);
 
 
-struct RecoveredGlobal_80157AD8___vt__15TOAttackableCol {
-    s32 value;
-    u8 remaining[0x138];
-};
-
 struct Msg_801575AC {
     u16 cmd;
     u16 room;
@@ -321,7 +316,6 @@ TOAttackableCol::~TOAttackableCol() {
 }
 
 
-typedef char RecoveredGlobal_80157AD8___vt__15TOAttackableCol_size[sizeof(RecoveredGlobal_80157AD8___vt__15TOAttackableCol) == 0x13C ? 1 : -1];
 TOAttackableCol::TOAttackableCol(s32 arg1) : TObjChara((TObject *)tl_05) {
     ((TObject *)this)->m_name = TOAttackableCol__name;
     ((TOAttackableCol *)(((u8 *)this)))->apply_object_set_data((void *)arg1);

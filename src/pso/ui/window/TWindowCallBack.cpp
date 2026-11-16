@@ -12,11 +12,6 @@
 
 #pragma readonly_strings on
 
-struct RecoveredGlobal_802ACE84___vt__15TWindowCallBack {
-    s32 value;
-    u8 remaining[0x18];
-};
-
 WindowDescriptor window_callback_base_params = {
     {0.0f, 0.0f}, 50045.0f, NULL, 0x23,
 };
@@ -52,10 +47,9 @@ void TWindowCallBack::render() {
 void run_task__15TWindowCallBackFv(void* p) { ((TWindowDD *)p)->initialize_subwindow(); ((TWindowBase *)p)->update_fade(); }
 
 TWindowCallBack::~TWindowCallBack() {}
-typedef char RecoveredGlobal_802ACE84___vt__15TWindowCallBack_size[sizeof(RecoveredGlobal_802ACE84___vt__15TWindowCallBack) == 0x1C ? 1 : -1];
 u8 *TWindowCallBack__ct(u8 *arg0, s32 arg1, u8 *arg2, s32 arg3) {
     ((TWindowDD *)arg0)->construct_base((u8 *)((s32) &window_callback_base_params), (s16)4, (u8 *)arg1);
-    *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_802ACE84___vt__15TWindowCallBack *)&__vt__15TWindowCallBack).value;
+    *(s32 **)((s8 *)arg0 + 0x18) = __vt__15TWindowCallBack;
     *(const char **)((s8 *)arg0 + 0) = lbl_805D3E58;
     ((TWindowSubSymbolChatPartsSet *)(arg0 + 0x38))->copy_vec2(arg2);
     ((TWindowBase *)arg0)->save_position();

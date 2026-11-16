@@ -49,9 +49,6 @@ struct Stack_80213B18 {
 struct RecoveredGlobal_80213CCC_lbl_804C9740 { s32 value; u8 remaining[0x34]; };
 typedef char RecoveredGlobal_80213CCC_lbl_804C9740_size[sizeof(RecoveredGlobal_80213CCC_lbl_804C9740) == 0x38 ? 1 : -1];
 
-struct RecoveredGlobal_80213CCC_lbl_80513E70 { s32 value; u8 remaining[0xC]; };
-typedef char RecoveredGlobal_80213CCC_lbl_80513E70_size[sizeof(RecoveredGlobal_80213CCC_lbl_80513E70) == 0x10 ? 1 : -1];
-
 struct Seq_80213D84 {
     const char *name; u8 pad4[0x14]; void *vt; s32 f1c; s32 f20; s32 f24; u8 pad28[4]; s32 f2c; s32 f30; s32 f34; s32 f38; s32 f3c;
 };
@@ -100,14 +97,15 @@ void *__dt__13TShopSequenceFv(void *arg0, s16 arg1);
 s32 sub_8022397C__15TShopWindowBaseFv(void *);
 s32 __dl__7TObjectFPv(void *);
 extern RecoveredGlobal_80213CCC_lbl_804C9740 __vt__28THunterGuildSeqOnline_Client;
-extern RecoveredGlobal_80213CCC_lbl_80513E70 lbl_80513E70;
+struct RecoveredGlobal_lbl_80513E70 { s32 value; u8 remaining[0xC]; };
+extern RecoveredGlobal_lbl_80513E70 lbl_80513E70;
 extern s32 hunter_guild_seq_online_client_instance;
-extern RecoveredGlobal_80213CCC_lbl_80513E70 lbl_80513E70;
-extern RecoveredGlobal_80213CCC_lbl_80513E70 lbl_80513E70;
+extern RecoveredGlobal_lbl_80513E70 lbl_80513E70;
+extern RecoveredGlobal_lbl_80513E70 lbl_80513E70;
 u8 *TShopSequence__ct(u8 *);
 s32 sub_8022397C__15TShopWindowBaseFv(void *);
 extern RecoveredGlobal_80213CCC_lbl_804C9740 __vt__28THunterGuildSeqOnline_Client;
-extern RecoveredGlobal_80213CCC_lbl_80513E70 lbl_80513E70;
+extern RecoveredGlobal_lbl_80513E70 lbl_80513E70;
 extern s32 hunter_guild_seq_online_client_instance;
 Seq_80213D84 *THunterGuildSeqOnline_Client__ct(Seq_80213D84 *arg0, s32 arg1, s32 arg2);
 void THunterGuildSeqOffline__sub_80213BE0(Seq_80213BE0 *arg0);
@@ -746,12 +744,6 @@ void restore_shop_and_init_quest_state(void *shop_window_base) {
 
 
 
-struct RecoveredGlobal_80214A84_lbl_804C97F0 { s32 value; u8 remaining[0x34]; };
-typedef char RecoveredGlobal_80214A84_lbl_804C97F0_size[sizeof(RecoveredGlobal_80214A84_lbl_804C97F0) == 0x38 ? 1 : -1];
-
-struct RecoveredGlobal_80214A84_lbl_80513E60 { s32 value; u8 remaining[0xC]; };
-typedef char RecoveredGlobal_80214A84_lbl_80513E60_size[sizeof(RecoveredGlobal_80214A84_lbl_80513E60) == 0x10 ? 1 : -1];
-
 struct Seq_80214B3C {
     const char *name; u8 pad4[0x14]; void *vt; s32 f1c; s32 f20; s32 f24; u8 pad28[4]; s32 f2c; u8 pad30[4]; s32 f34; s32 f38; s32 f3c; s32 f40;
 };
@@ -782,15 +774,17 @@ extern "C" {
 void *__dt__13TShopSequenceFv(void *arg0, s16 arg1);
 s32 sub_8022397C__15TShopWindowBaseFv(void *);
 s32 __dl__7TObjectFPv(void *);
-extern RecoveredGlobal_80214A84_lbl_804C97F0 lbl_804C97F0;
-extern RecoveredGlobal_80214A84_lbl_80513E60 lbl_80513E60;
+struct RecoveredGlobal_lbl_804C97F0 { s32 value; u8 remaining[0x34]; };
+extern RecoveredGlobal_lbl_804C97F0 lbl_804C97F0;
+struct RecoveredGlobal_lbl_80513E60 { s32 value; u8 remaining[0xC]; };
+extern RecoveredGlobal_lbl_80513E60 lbl_80513E60;
 
-extern RecoveredGlobal_80214A84_lbl_80513E60 lbl_80513E60;
-extern RecoveredGlobal_80214A84_lbl_80513E60 lbl_80513E60;
+extern RecoveredGlobal_lbl_80513E60 lbl_80513E60;
+extern RecoveredGlobal_lbl_80513E60 lbl_80513E60;
 u8 *TShopSequence__ct(u8 *);
 s32 sub_8022397C__15TShopWindowBaseFv(void *);
-extern RecoveredGlobal_80214A84_lbl_804C97F0 lbl_804C97F0;
-extern RecoveredGlobal_80214A84_lbl_80513E60 lbl_80513E60;
+extern RecoveredGlobal_lbl_804C97F0 lbl_804C97F0;
+extern RecoveredGlobal_lbl_80513E60 lbl_80513E60;
 
 Seq_80214B3C *THunterGuildSeqOffline__sub_80214B3C(Seq_80214B3C *arg0, s32 arg1, s32 arg2);
 

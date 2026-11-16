@@ -13,14 +13,6 @@
 const char *TOSwitchTimer__name = "TOSwitchTimer";
 
 
-struct RecoveredGlobal_8017858C___vt__13TOSwitchTimer { s32 value; u8 remaining[0x34]; };
-typedef char RecoveredGlobal_8017858C___vt__13TOSwitchTimer_size[sizeof(RecoveredGlobal_8017858C___vt__13TOSwitchTimer) == 0x38 ? 1 : -1];
-
-struct RecoveredGlobal_80178604___vt__13TOSwitchTimer {
-    s32 value;
-    u8 remaining[0x34];
-};
-
 void clear_floor_switch_flag(u32 id, s16 floor);
 extern "C" {
 extern const char *TOSwitchTimer__name;
@@ -91,7 +83,6 @@ TOSwitchTimer::~TOSwitchTimer() {
     }
 }
 extern "C" {
-typedef char RecoveredGlobal_80178604___vt__13TOSwitchTimer_size[sizeof(RecoveredGlobal_80178604___vt__13TOSwitchTimer) == 0x38 ? 1 : -1];
 }
 TOSwitchTimer::TOSwitchTimer(s32 arg1, s32 arg2) : TObjBase((TObject *)arg1) {
     *(s32 *)((s8 *)this + 0) = (s32) ((s32)TOSwitchTimer__name);

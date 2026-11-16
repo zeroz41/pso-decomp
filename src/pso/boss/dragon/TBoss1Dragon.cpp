@@ -102,11 +102,6 @@ struct DragonModelState { s32 state[2]; f32 params[4]; };
 
 struct ByteBlock_10 { u8 bytes[0x10]; };
 
-struct RecoveredGlobal_8002885C_TBoss1Dragon__data_804FE168 {
-    s32 value;
-    u8 remaining[0x10];
-};
-
 struct Stack_80027E78 {
     s32 sp8;
     u8 pad_C[0x4];
@@ -114,30 +109,9 @@ struct Stack_80027E78 {
     u8 trailing_storage[0x8];
 };
 
-struct RecoveredGlobal_80027E78_TBoss1Dragon__data_804FE17C {
-    u8 * value;
-    u8 remaining[0x8];
-};
-
 struct ByteBlock_14
 {
   u8 bytes[0x14];
-};
-
-struct RecoveredGlobal_80027650_TBoss1Dragon__data_804FE17C
-{
-  u8 *value;
-  u8 remaining[0x8];
-};
-
-struct RecoveredGlobal_80027710_TBoss1Dragon__data_804FE17C {
-    f32 * value;
-    u8 remaining[0x8];
-};
-
-struct RecoveredGlobal_800277D8_TBoss1Dragon__data_804FE17C {
-    u8 * value;
-    u8 remaining[0x8];
 };
 
 struct pkt_80028530 {
@@ -4194,7 +4168,6 @@ f32 TBoss1Dragon__sub_80027634(void) {
 typedef struct CopyStack_80027650 CopyStack_80027650;
 typedef struct ByteBlock_10 ByteBlock_10;
 typedef struct ByteBlock_14 ByteBlock_14;
-typedef struct RecoveredGlobal_80027650_TBoss1Dragon__data_804FE17C RecoveredGlobal_80027650_TBoss1Dragon__data_804FE17C;
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
@@ -4205,7 +4178,7 @@ void TBoss1Dragon::apply_fireball_impact_damage(s32 arg1) {
   };
   CopyStack_80027650 copy_storage_80027650;
   *((ByteBlock_14 *) (((s32)(copy_storage_80027650.bytes - 0x4)) + 4)) = *((const ByteBlock_14 *) ((((u8 *)&dragon_fireball_impact_damage_params) - 4) + 4));
-  *((f32 *)(copy_storage_80027650.bytes + 0x4)) = *((f32 *) (((s8 *) (*(RecoveredGlobal_80027650_TBoss1Dragon__data_804FE17C *)&TBoss1Dragon__data_804FE17C).value) + 4));
+  *((f32 *)(copy_storage_80027650.bytes + 0x4)) = *((f32 *) (((s8 *) (*(u8 **)&TBoss1Dragon__data_804FE17C)) + 4));
   *((s32 *) copy_storage_80027650.bytes) = *((s32 *) (((s8 *) ((u8 *)this)) + 0x770));
   switch (isV2Mode__12TBoss1DragonFv())
   {
@@ -4222,7 +4195,7 @@ void TBoss1Dragon::deliver_breath_attack(s32 arg1, s32 arg2) {
     struct CopyStack_80027710 { u8 bytes[0x14]; };
     CopyStack_80027710 copy_storage_80027710;
     *(ByteBlock_14 *)(copy_storage_80027710.bytes) = *(const ByteBlock_14 *)((s32) ((u8 *)((void *)((u8 *)&dragon_fireball_attack_params + -4))) + 4);
-    (*(f32 *)(copy_storage_80027710.bytes + 0x4)) = *(f32 *)((s8 *)((*(RecoveredGlobal_80027710_TBoss1Dragon__data_804FE17C *)&TBoss1Dragon__data_804FE17C).value) + 0);
+    (*(f32 *)(copy_storage_80027710.bytes + 0x4)) = *(f32 *)((s8 *)((*(f32 **)&TBoss1Dragon__data_804FE17C)) + 0);
     (*(s32 *)copy_storage_80027710.bytes) = this->m_770;
     switch (isV2Mode__12TBoss1DragonFv()) {
     case 0:
@@ -4241,7 +4214,7 @@ void TBoss1Dragon__sub_800277D8(TBoss1Dragon *arg0) {
     temp_r3 = (u8 *)arg0->m_6d8;
     if ((temp_r3 != NULL) && (is_dragon_trail_damaging(temp_r3) != 0)) {
         *(ByteBlock_14 *)(copy_storage_800277D8.bytes) = *(const ByteBlock_14 *)((s32) ((u8 *)((void *)((u8 *)&dragon_breath_attack_params + -4))) + 4);
-        (*(f32 *)(copy_storage_800277D8.bytes + 0x4)) = *(f32 *)((s8 *)((*(RecoveredGlobal_800277D8_TBoss1Dragon__data_804FE17C *)&TBoss1Dragon__data_804FE17C).value) + 8);
+        (*(f32 *)(copy_storage_800277D8.bytes + 0x4)) = *(f32 *)((s8 *)((*(u8 **)&TBoss1Dragon__data_804FE17C)) + 8);
         switch (isV2Mode__12TBoss1DragonFv()) {
         case 0:
             TObjEneDD::setup_instance((s32) arg0, (s32)&arg0->position, (copy_storage_800277D8.bytes), (s32)arg0->m_688);
@@ -4408,8 +4381,8 @@ void apply_landing_attack__12TBoss1DragonFi(s32 arg0) {
     typedef char sp10_offset[(offsetof(Stack_80027E78, sp10) == 0x8) ? 1 : -1];
     Stack_80027E78 stack;
     TBoss1Dragon__sub_80027A80((u8 *)&stack.sp8, (u8 *)&boss1_dragon_attack_sphere_params);
-    stack.sp10 = *(f32 *)((s8 *)((*(RecoveredGlobal_80027E78_TBoss1Dragon__data_804FE17C *)&TBoss1Dragon__data_804FE17C).value) + 0xC);
-    ((TBoss1Dragon *)arg0)->reload_stats_for_phase((int) ((*(RecoveredGlobal_80027E78_TBoss1Dragon__data_804FE17C *)&TBoss1Dragon__data_804FE17C).value));
+    stack.sp10 = *(f32 *)((s8 *)((*(u8 **)&TBoss1Dragon__data_804FE17C)) + 0xC);
+    ((TBoss1Dragon *)arg0)->reload_stats_for_phase((int) ((*(u8 **)&TBoss1Dragon__data_804FE17C)));
     switch (isV2Mode__12TBoss1DragonFv()) {
     case 0:
         ((TObjEneDD *)arg0)->emit_effect_at_position(&stack.sp8);
@@ -4707,7 +4680,7 @@ void TBoss1Dragon::reload_stats_for_phase(int _w1) {
 
 void TBoss1Dragon::reset_tail_hp() {
     s32 arg0 = (s32)this;
-    ((TObjEneDD *)arg0)->reset_hp((u8 *)0, (u8 *)(*(s32 *)((s8 *)(&(*(RecoveredGlobal_8002885C_TBoss1Dragon__data_804FE168 *)&TBoss1Dragon__part_hp_stats).value) + 4)), (u8 *)0);
+    ((TObjEneDD *)arg0)->reset_hp((u8 *)0, (u8 *)(*(s32 *)((s8 *)&TBoss1Dragon__part_hp_stats + 4)), (u8 *)0);
 }
 
 void TBoss1Dragon::reload_difficulty_stats() {

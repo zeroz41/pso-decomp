@@ -683,11 +683,6 @@ struct VObj_14_fddec9 : VBase_14_fddec9 {
     virtual s32 m8();
 };
 
-struct RecoveredGlobal_803326CC_main_task {
-    s32 value;
-    u8 remaining[0x30];
-};
-
 struct RecoveredFields_803326CC_TObjEneMorfos__data_805D6D14 {
     u8 unknown_0[0x42C];
     u8 * field_42C;
@@ -721,8 +716,6 @@ struct Self_803329E4 {
     u8 f498[4];
 };
 
-typedef char RecoveredGlobal_803326CC_main_task_size[sizeof(RecoveredGlobal_803326CC_main_task) == 0x34 ? 1 : -1];
-
 typedef char RecoveredFields_803326CC_TObjEneMorfos__data_805D6D14_42C_offset[offsetof(RecoveredFields_803326CC_TObjEneMorfos__data_805D6D14, field_42C) == 0x42C ? 1 : -1];
 
 typedef char RecoveredFields_803326CC_arg0_60_offset[offsetof(RecoveredFields_803326CC_arg0, field_60) == 0x60 ? 1 : -1];
@@ -730,18 +723,11 @@ typedef char RecoveredFields_803326CC_arg0_60_offset[offsetof(RecoveredFields_80
 typedef char RecoveredFields_803326CC_arg0_3C0_offset[offsetof(RecoveredFields_803326CC_arg0, field_3C0) == 0x3C0 ? 1 : -1];
 
 
-struct RecoveredGlobal_80334CC8___vt__13TObjEneMorfos {
-    s32 value;
-    u8 remaining[0x1A8];
-};
-
 struct Obj_8033496C { u8 pad[0x60]; s32 f60; u8 pad1[0x2D4 - 0x64]; u16 f2D4; u8 pad2[0x2FC - 0x2D6]; Vec pos; u8 pad3[0x326 - 0x308]; s16 f326; u8 pad4[0x3C0 - 0x328]; s32 f3C0; };
 
 struct Pl_8033496C { u8 pad[0x2FC]; Vec pos; };
 
 struct Obj_80334A4C { u8 pad[0x60]; s32 f60; u8 pad1[0x2FC - 0x64]; Vec pos; u8 pad4[0x3C0 - 0x308]; s32 f3C0; u8 pad5[0x498 - 0x3C4]; u8 snd[4]; };
-
-typedef char RecoveredGlobal_80334CC8___vt__13TObjEneMorfos_size[sizeof(RecoveredGlobal_80334CC8___vt__13TObjEneMorfos) == 0x1AC ? 1 : -1];
 
 struct VBase_14_c1c33b { char pad[0x14]; };
 
@@ -992,7 +978,7 @@ int TObjEneMorfos::get_instance() {  return TObjEneMorfos__instance; }
 #pragma opt_common_subs off
 void TObjEneMorfos::draw_body() {
     u8 *arg0 = (u8 *)this;
-    if (get_mode__11TCameraCtrlFPv((void *) (&(*(RecoveredGlobal_803326CC_main_task *)((s32 *)&main_task)).value)) & 0x200) {
+    if (get_mode__11TCameraCtrlFPv((void *)&main_task) & 0x200) {
         TObjFish::set_global_param((int)((void *) (*(s32 *)((s8 *)(((RecoveredFields_803326CC_TObjEneMorfos__data_805D6D14 *)(*(u8 * *)&TObjEneMorfos__instance))->field_42C) + 0x2C))));
         push_matrix();
         post_translate_matrix(arg0 + 0x498);
@@ -2030,7 +2016,7 @@ void run_task__13TObjEneMorfosFv(u8 *ene_morfos) {
 
 u8 *__dt__13TObjEneMorfosFv(u8 *object, s16 arg1) {
     if (object != NULL) {
-        *(s32 **)((s8 *)object + 0x18) = &(*(RecoveredGlobal_80334CC8___vt__13TObjEneMorfos *)__vt__13TObjEneMorfos).value;
+        *(s32 **)((s8 *)object + 0x18) = ((s32 *)__vt__13TObjEneMorfos);
         if ((u32) *(u32 *)((s8 *)object + 0x494) != 0U) {
             queue_destruction__7TObjectFv(*(void **)((s8 *)object + 0x494));
             *(u32 *)((s8 *)object + 0x494) = 0U;

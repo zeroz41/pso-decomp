@@ -368,11 +368,6 @@ struct Stack_802AB1C8 {
 
 union MemberActionStorage_802AB1C8 { s32 words[3]; void (TBoss6PlotFalz::*action)(); };
 
-struct RecoveredGlobal_802AB1C8_TBoss6PlotFalz__data_804DE66C {
-    s32 value;
-    u8 remaining[0x1D0];
-};
-
 struct Stack_802AB14C {
     s32 sp8;
     s32 spC;
@@ -381,15 +376,11 @@ struct Stack_802AB14C {
 
 union MemberActionStorage_802AB14C { s32 words[3]; void (TBoss6PlotFalz::*action)(); };
 
-struct RecoveredGlobal_802AB14C_TBoss6PlotFalz__data_804DE66C {
-    s32 value;
-    u8 remaining[0x1D0];
-};
-
 union MemberActionStorage_802AB2B8 { s32 words[3]; void (TBoss6PlotFalz::*action)(); };
 
 extern "C" {
-extern RecoveredGlobal_802AB1C8_TBoss6PlotFalz__data_804DE66C TBoss6PlotFalz__data_804DE66C;
+struct RecoveredGlobal_TBoss6PlotFalz__data_804DE66C { s32 value; u8 remaining[0x1D0]; };
+extern RecoveredGlobal_TBoss6PlotFalz__data_804DE66C TBoss6PlotFalz__data_804DE66C;
 void TBoss6EmptyWarp__sub_802B1004(void *p);
 
 s32 is_state_1f__14TBoss6PlotFalzFUi(u32 arg0) {
@@ -400,15 +391,13 @@ s32 is_state_1f__14TBoss6PlotFalzFUi(u32 arg0) {
 }
 
 typedef char MemberActionStorage_802AB1C8_size[sizeof(MemberActionStorage_802AB1C8) == 12 ? 1 : -1];
-typedef char RecoveredGlobal_802AB1C8_TBoss6PlotFalz__data_804DE66C_size[sizeof(RecoveredGlobal_802AB1C8_TBoss6PlotFalz__data_804DE66C) == 0x1D4 ? 1 : -1];
 
 typedef char MemberActionStorage_802AB14C_size[sizeof(MemberActionStorage_802AB14C) == 12 ? 1 : -1];
-typedef char RecoveredGlobal_802AB14C_TBoss6PlotFalz__data_804DE66C_size[sizeof(RecoveredGlobal_802AB14C_TBoss6PlotFalz__data_804DE66C) == 0x1D4 ? 1 : -1];
 void TBoss6PlotFalz::run_phase_action() {
   MemberActionStorage_802AB14C member_action;
   Stack_802AB14C stack;
   u8 *temp_r6;
-  temp_r6 = (u8 *) (&(*(RecoveredGlobal_802AB14C_TBoss6PlotFalz__data_804DE66C *)&TBoss6PlotFalz__data_804DE66C).value);
+  temp_r6 = (u8 *) (&TBoss6PlotFalz__data_804DE66C.value);
   temp_r6 = temp_r6 + ((this->m_378) * 0x34);
   member_action.words[0] = *((s32 *) (((s8 *) temp_r6) + 0x28));
   member_action.words[1] = *((s32 *) (((s8 *) temp_r6) + 0x2C));
@@ -958,17 +947,7 @@ struct Obj_8004AA04 { s32 count; u8 pad[0xC]; void **items; };
 
 union MemberActionStorage_8004B084 { s32 words[3]; void (TBoss4DarkFalz::*action)(); };
 
-struct RecoveredGlobal_8004B084_TBoss4DarkFalz__data_80485108 {
-    s32 value;
-    u8 remaining[0x33C];
-};
-
 union MemberActionStorage_8004B0F8 { s32 words[3]; void (TBoss4DarkFalz::*action)(); };
-
-struct RecoveredGlobal_8004B0F8_TBoss4DarkFalz__data_80485108 {
-    s32 value;
-    u8 remaining[0x33C];
-};
 
 struct Obj_802AC1D8 { s32 count; s32 pad4; s32 x; s32 y; u32 *list; };
 
@@ -1039,9 +1018,7 @@ void TBoss6PlotFalz::free_buffer_pairs() {
     self->items = 0;
 }
 typedef char MemberActionStorage_8004B084_size[sizeof(MemberActionStorage_8004B084) == 12 ? 1 : -1];
-typedef char RecoveredGlobal_8004B084_TBoss4DarkFalz__data_80485108_size[sizeof(RecoveredGlobal_8004B084_TBoss4DarkFalz__data_80485108) == 0x340 ? 1 : -1];
 typedef char MemberActionStorage_8004B0F8_size[sizeof(MemberActionStorage_8004B0F8) == 12 ? 1 : -1];
-typedef char RecoveredGlobal_8004B0F8_TBoss4DarkFalz__data_80485108_size[sizeof(RecoveredGlobal_8004B0F8_TBoss4DarkFalz__data_80485108) == 0x340 ? 1 : -1];
 
 void build_tables__14TBoss6PlotFalzFPvPvi(Obj_8004AA80 *arg0, Rec_8004AA80 *arg1, s32 arg2) {
     s32 h;
@@ -1193,9 +1170,6 @@ typedef struct Loc_802AC9EC {
     s32 d;
     s32 e;
 } Loc_802AC9EC;
-
-struct RecoveredGlobal_802ACBE4_lbl_804DE200 { s32 value; u8 remaining[0xC]; };
-typedef char RecoveredGlobal_802ACBE4_lbl_804DE200_size[sizeof(RecoveredGlobal_802ACBE4_lbl_804DE200) == 0x10 ? 1 : -1];
 
 struct Msg_802AC7E4 { u8 pad[2]; u16 id; s8 phase; s8 mode; };
 

@@ -85,25 +85,6 @@ extern void *tl_05;
 s32 is_any_player_near(s32 arg0);
 
 void clear_story_flag_in_bank(s32 n, s32 flag);
-struct RecoveredGlobal_8019A9B8_lbl_80446184 {
-    s32 value;
-    u8 remaining[0xC];
-};
-
-struct RecoveredGlobal_8019A9B8_lbl_804B8F60 {
-    s32 value;
-    u8 remaining[0xC];
-};
-
-struct RecoveredGlobal_8019A880_lbl_804B8F70 {
-    s32 value;
-    u8 remaining[0x28];
-};
-
-struct RecoveredGlobal_8019A880___vt__8TObjTank {
-    s32 value;
-    u8 remaining[0x38];
-};
 
 #pragma inline_depth(1)
 
@@ -112,16 +93,6 @@ struct RecoveredGlobal_8019A880___vt__8TObjTank {
 #pragma dont_inline off
 
 struct ByteBlock_3C { u8 bytes[0x3c]; };
-
-struct RecoveredGlobal_8029B924_lbl_804DC014 {
-    s32 value;
-    u8 remaining[0x28];
-};
-
-struct RecoveredGlobal_8029B924___vt__16TODoorJungleMain {
-    s32 value;
-    u8 remaining[0x54];
-};
 
 struct VBase_8029B428 { char pad[0x18]; };
 
@@ -211,24 +182,12 @@ s32 release_texture_list(void*);
 void free_collision_body_parts(void *);
 
 
-typedef char RecoveredGlobal_8019A880_lbl_804B8F70_size[sizeof(RecoveredGlobal_8019A880_lbl_804B8F70) == 0x2C ? 1 : -1];
-
-typedef char RecoveredGlobal_8019A880___vt__8TObjTank_size[sizeof(RecoveredGlobal_8019A880___vt__8TObjTank) == 0x3C ? 1 : -1];
-
-typedef char RecoveredGlobal_8019A9B8_lbl_80446184_size[sizeof(RecoveredGlobal_8019A9B8_lbl_80446184) == 0x10 ? 1 : -1];
-
-typedef char RecoveredGlobal_8019A9B8_lbl_804B8F60_size[sizeof(RecoveredGlobal_8019A9B8_lbl_804B8F60) == 0x10 ? 1 : -1];
-
-typedef char RecoveredGlobal_8029B924_lbl_804DC014_size[sizeof(RecoveredGlobal_8029B924_lbl_804DC014) == 0x2C ? 1 : -1];
-
-typedef char RecoveredGlobal_8029B924___vt__16TODoorJungleMain_size[sizeof(RecoveredGlobal_8029B924___vt__16TODoorJungleMain) == 0x58 ? 1 : -1];
-
 u8 *TODoorJungleMain__ct(TODoorJungleMain *arg0, s32 arg1, s32 arg2) {
     struct CopyStack_8029B924 { u8 bytes[0x3C]; };
     CopyStack_8029B924 copy_storage_8029B924;
     s32 temp_r4;
     __ct__10TODoorBaseFP7TObject(arg0);
-    *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_8029B924___vt__16TODoorJungleMain *)&__vt__16TODoorJungleMain).value;
+    *(s32 **)((s8 *)arg0 + 0x18) = __vt__16TODoorJungleMain;
     *(s32 *)((s8 *)arg0 + 0) = (s32) TODoorJungleMain__name;
     ((TODoorJungleMain *)(arg0))->apply_object_set_data((void *)arg2);
     arg0->motion = (AnimationMotion *)get_bml_motion((*(u8 * *)&TODoorJungleMain__bml_resource), 0);

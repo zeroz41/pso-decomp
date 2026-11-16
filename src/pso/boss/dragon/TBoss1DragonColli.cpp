@@ -11,9 +11,6 @@
 
 #include <stddef.h>
 
-struct RecoveredGlobal_8002B250___vt__17TBoss1DragonColli { s32 value; u8 remaining[0x14]; };
-typedef char RecoveredGlobal_8002B250___vt__17TBoss1DragonColli_size[sizeof(RecoveredGlobal_8002B250___vt__17TBoss1DragonColli) == 0x18 ? 1 : -1];
-
 struct E_8002B3F4 { u8 pad[0x18]; u32 flags; u8 pad2[0x2c - 0x1c]; };
 
 struct O_8002B3F4 { u8 pad[0xa4]; E_8002B3F4 *elems; s32 count; };

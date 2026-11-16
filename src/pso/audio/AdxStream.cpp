@@ -1,4 +1,5 @@
 #include <dolphin/os/OSThread.h>
+#include "pso/audio/AdxStream.h"
 #include "pso/unk/TLobby.h"
 #include "pso/audio/AdxStreamRuntime.h"
 #include "pso/audio/AdxmThreadStorage.h"
@@ -65,11 +66,6 @@ s32 memset(void *, int, int);
 }
 void update_active_stream_reads(void);
 
-struct RecoveredGlobal_803C90B0_lbl_80575140 {
-    s32 value;
-    u8 remaining[0x9FC];
-};
-
 struct AdxStreamFile {
     s8 used;
     s8 b1;
@@ -90,7 +86,6 @@ extern "C" {
 void TLobby__sub_803C89C4(u8 *arg0);
 void TLobby__sub_803C8B38(u8 *arg0);
 s32 TLobby__sub_803C8B2C(u8 *arg0);
-extern RecoveredGlobal_803C90B0_lbl_80575140 adx_stream_read_requests;
 s32 TLobby__sub_803C85AC(u8 *arg0, s32 *arg1);
 s32 cvFsGetFileSize(void);
 u32 cvFsOpen(const char *, int, int);
@@ -521,7 +516,6 @@ void TLobby::si_get_type_async() {
     SIGetTypeAsync();
 }
 
-typedef char RecoveredGlobal_803C90B0_lbl_80575140_size[sizeof(RecoveredGlobal_803C90B0_lbl_80575140) == 0xA00 ? 1 : -1];
 s32 TLobby::clear_buffer_a00() {
     memset(&adx_stream_read_requests.value, 0, 0xA00);
     return 1;
@@ -529,4 +523,4 @@ s32 TLobby::clear_buffer_a00() {
 
 }
 
-RecoveredGlobal_803C90B0_lbl_80575140 adx_stream_read_requests;
+AdxStreamReadRequests adx_stream_read_requests;

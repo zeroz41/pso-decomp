@@ -7,11 +7,6 @@
 
 #pragma readonly_strings on
 
-struct RecoveredGlobal_801E14E8_TAdPlayerLoadGC__data_80511ED0 {
-    s32 value;
-    u8 remaining[0x14];
-};
-
 struct Names_801E13C4 { const char* p[6]; };
 
 struct DateStamp_801E17F4 { u8 b[0xc]; };
@@ -72,7 +67,6 @@ s32 CARDCheck(s32);
 s32 CARDFreeBlocks(s32, s32 *, s32 *);
 s32 CARDDelete();
 s32 CARDCheckAsync(void *, int);
-extern RecoveredGlobal_801E14E8_TAdPlayerLoadGC__data_80511ED0 TAdPlayerLoadGC__banner_buffers;
 s32 CARDGetResultCode(void *);
 s32 CARDUnmount();
 s32 read_disc_file(const char*, void*);
@@ -392,7 +386,6 @@ void TAdPlayerLoadGC::load_banner_files() {
 void TAdPlayerLoadGC__sub_801E14E4(void) {  }
 
 
-typedef char RecoveredGlobal_801E14E8_TAdPlayerLoadGC__data_80511ED0_size[sizeof(RecoveredGlobal_801E14E8_TAdPlayerLoadGC__data_80511ED0) == 0x18 ? 1 : -1];
 void TAdPlayerLoadGC__sub_801E14E8(u8 *arg0, s32 arg1) {
     if (arg1 < 6) {
         *(s32 *)((s8 *)arg0 + 0x44) = (s32) TAdPlayerLoadGC__banner_file_buf;
@@ -986,7 +979,7 @@ s32 open_or_create_memcard_file(s32 chan, const char *name, void *buf, u32 size)
 }
 }
 
-RecoveredGlobal_801E14E8_TAdPlayerLoadGC__data_80511ED0 TAdPlayerLoadGC__banner_buffers;
+TAdPlayerLoadGCBannerBuffers TAdPlayerLoadGC__banner_buffers;
 CARDFileInfo_801E15A4 TAdPlayerLoadGC__data_80511EE8;
 CARDStat_801E2048 lbl_80511EFC;
 u8 *lbl_80511F68[2];

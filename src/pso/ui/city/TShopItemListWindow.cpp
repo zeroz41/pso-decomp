@@ -76,11 +76,6 @@ struct VObj_8021F708_8021F134 : Base_8021F708_8021F134 {
     virtual int  m8();
 };
 
-struct RecoveredGlobal_8021FDC8___vt__19TShopItemListWindow {
-    s32 value;
-    u8 remaining[0x2C];
-};
-
 struct VBase_18_a93f07 { char pad[0x18]; };
 
 struct VObj_18_a93f07 : VBase_18_a93f07 {
@@ -491,7 +486,6 @@ void *__dt__19TShopItemListWindowFv(TShopItemListWindow *arg0, s16 arg1) {
     }
     return arg0;
 }
-typedef char RecoveredGlobal_8021FDC8___vt__19TShopItemListWindow_size[sizeof(RecoveredGlobal_8021FDC8___vt__19TShopItemListWindow) == 0x30 ? 1 : -1];
 }
 TShopItemListWindow::TShopItemListWindow(s32 parent, s32 arg2, s32 arg3) : TShopWindowBase((TObject *)parent) {
     s32 sp8;

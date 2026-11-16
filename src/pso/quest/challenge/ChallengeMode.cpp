@@ -23,11 +23,6 @@ s32 challenge_task;
 s32 challenge_task_created;
 s32 TLobby__data_805D4E30;
 
-struct RecoveredGlobal_80070358_lbl_8048C9D8 {
-    s32 value;
-    u8 remaining[0x744];
-};
-
 struct E_8007032C { u8 pad[0x104]; };
 
 struct G_8007032C { u8 pad[0x270]; E_8007032C e[4]; };
@@ -393,8 +388,6 @@ void TLobby::update_battle_cleanup_flag() {
     }
 }
 
-typedef char RecoveredGlobal_80070358_lbl_8048C9D8_size[sizeof(RecoveredGlobal_80070358_lbl_8048C9D8) == 0x748 ? 1 : -1];
-
 void TLobby::set_challenge_record_page(s32 v) {
     if (v < 0 || v >= 0x11) {
         return;
@@ -516,7 +509,7 @@ void clear_four_slots__6TLobbyFv(void) {
 void TLobby__sub_80070358(void) {
     s32 *temp_r31;
     clear_four_slots__6TLobbyFv();
-    temp_r31 = (s32 *)((u8 *)(((u8 *)(&(*(RecoveredGlobal_80070358_lbl_8048C9D8 *)&challenge_mode_state).value) + (local_client_id * 0x104))) + 0x270);
+    temp_r31 = (s32 *)((u8 *)(((u8 *)&challenge_mode_state + (local_client_id * 0x104))) + 0x270);
     if (get_character_save_record(0xFFFFU) != 0U) {
         *(s32 *)((s8 *)temp_r31 + 0) = 1;
         TLobby__sub_800703D0((Info_800703D0 *)((void *)((void *) ((u8 *)temp_r31 + 4))), (Info_800703D0 *)((void *)((void *) (get_character_save_record(0xFFFFU) + 0x21C4))));

@@ -310,16 +310,6 @@ struct T2_802BA9E4 { u8 pad0[0x38]; u8 f38[0x438]; s32 f470; };
 
 struct Boss_802BA944 { u8 pad[0x4BC]; u32 f4BC; };
 
-struct RecoveredGlobal_802BB180_lbl_804DFAC4 {
-    s32 value;
-    u8 remaining[0x8];
-};
-
-struct RecoveredGlobal_802BB180_lbl_804DFAD0 {
-    s32 value;
-    u8 remaining[0x8];
-};
-
 struct T2_802BB498 { u8 pad0[0x374]; s32 f374; };
 
 struct T2_802BB554 { u8 pad0[0x374]; s32 f374; };
@@ -345,11 +335,6 @@ struct Obj_802BC050 {
 };
 
 struct Obj_802BAB80 { u8 pad[0x38]; Vec pos; };
-
-typedef char RecoveredGlobal_802BB180_lbl_804DFAC4_size[sizeof(RecoveredGlobal_802BB180_lbl_804DFAC4) == 0xC ? 1 : -1];
-
-typedef char RecoveredGlobal_802BB180_lbl_804DFAD0_size[sizeof(RecoveredGlobal_802BB180_lbl_804DFAD0) == 0xC ? 1 : -1];
-
 
 struct ByteBlock_C { u8 bytes[0xc]; };
 
@@ -573,8 +558,10 @@ f32 vector_length(Vec *);
 void subtract_vector(Vec *, Vec *);
 f32 normalize_vector(void *);
 
-extern RecoveredGlobal_802BB180_lbl_804DFAC4 lbl_804DFAC4;
-extern RecoveredGlobal_802BB180_lbl_804DFAD0 lbl_804DFAD0;
+struct RecoveredGlobal_lbl_804DFAC4 { s32 value; u8 remaining[0x8]; };
+extern RecoveredGlobal_lbl_804DFAC4 lbl_804DFAC4;
+struct RecoveredGlobal_lbl_804DFAD0 { s32 value; u8 remaining[0x8]; };
+extern RecoveredGlobal_lbl_804DFAD0 lbl_804DFAD0;
 extern Tb_802BD014 lbl_804E00DC[];
 extern s32 local_client_id;
 extern s32 game_difficulty_selection;

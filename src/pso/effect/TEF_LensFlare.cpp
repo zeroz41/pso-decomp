@@ -23,11 +23,6 @@ struct VObj_8008194C_80081278 : Base_8008194C_80081278 {
     virtual void m1();
 };
 
-struct RecoveredGlobal_800818D8_lbl_8048E130 {
-    s32 value;
-    u8 remaining[0x34];
-};
-
 __declspec(section ".rodata") extern const char TEF_LensFlare__class_name_string[] = "TEF_LensFlare";
 const char *TEF_LensFlare__class_name = TEF_LensFlare__class_name_string;
 
@@ -290,10 +285,9 @@ void TEF_LensFlare::render() {
 #pragma pop
 
 
-typedef char RecoveredGlobal_800818D8_lbl_8048E130_size[sizeof(RecoveredGlobal_800818D8_lbl_8048E130) == 0x38 ? 1 : -1];
 u8 *TEF_LensFlare__ct(u8 *ef_lens_flare, s32 parent, s32 arg2) {
     __ct__8TObjBaseFP7TObject((void *)ef_lens_flare, (void *)parent);
-    *(s32 **)((s8 *)ef_lens_flare + 0x18) = &(*(RecoveredGlobal_800818D8_lbl_8048E130 *)&__vt__13TEF_LensFlare).value;
+    *(s32 **)((s8 *)ef_lens_flare + 0x18) = __vt__13TEF_LensFlare;
     ((TEF_LensFlare *)ef_lens_flare)->m_name = TEF_LensFlare__class_name;
     ((TEF_LensFlare *)(ef_lens_flare))->apply_object_set_data((void *)arg2);
     ((TEF_LensFlare *)ef_lens_flare)->elements = lens_flare_reflected_element_descriptors;

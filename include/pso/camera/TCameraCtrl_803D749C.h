@@ -13,4 +13,8 @@ void bind_motion_context(NJS_MOTION *motion, f32 farg0);
 void compose_motion_node_matrix(void *arg0);
 // --- end of C functions
 
+// camera_motion_context_table: layout known from its uses only.
+struct CameraMotionContextTable { s32 value; u8 remaining[0x7C]; };
+extern CameraMotionContextTable camera_motion_context_table;
+
 #endif

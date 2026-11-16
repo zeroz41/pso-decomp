@@ -20,11 +20,6 @@
 
 CollisionBody gyaranzo_missile_collision_body_b = {{0.0f, 0.0f, 0.0f}, 0.0f, 0.0f, 0, 0x8001, {0.0f, 0.0f, 0.0f}, 0.0f};
 
-struct RecoveredGlobal_800D4BD0___vt__19TObjGyaranzoMissile {
-    s32 value;
-    u8 remaining[0x38];
-};
-
 typedef struct Parm_800D47B4 {
     s32 a;
     f32 b;
@@ -182,11 +177,10 @@ TObjGyaranzoMissile::~TObjGyaranzoMissile() {
 
 #pragma push
 #pragma fp_contract on
-typedef char RecoveredGlobal_800D4BD0___vt__19TObjGyaranzoMissile_size[sizeof(RecoveredGlobal_800D4BD0___vt__19TObjGyaranzoMissile) == 0x3C ? 1 : -1];
 u8 *TObjGyaranzoMissile__ct(u8 *gyaranzo_missile, u8 *arg1, u8 *arg2, s16 arg3) {
     u8 *temp_r4;
     __ct__14TObjCollidableFP7TObject(gyaranzo_missile, tl_04);
-    *(s32 **)((s8 *)gyaranzo_missile + 0x18) = &(*(RecoveredGlobal_800D4BD0___vt__19TObjGyaranzoMissile *)&__vt__19TObjGyaranzoMissile).value;
+    *(s32 **)((s8 *)gyaranzo_missile + 0x18) = __vt__19TObjGyaranzoMissile;
     *(s32 *)((s8 *)gyaranzo_missile + 0) = (s32) lbl_805D2A80;
     init_collision_body_parts(gyaranzo_missile, &gyaranzo_missile_collision_body_b, 1);
     ((Col_800D4990 *)((TObjGyaranzoMissile *)gyaranzo_missile)->bodies)->radius = 4.0f;

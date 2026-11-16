@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/TMCFormatSequence.h"
+#include "pso/system/ControllerInputState.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -23,11 +24,9 @@ s32 process_format_result__17TMCFormatSequenceFv();
 s32 open_windows__17TMCFormatSequenceFv();
 char TQuestVmDownLoadServer__data_804C8690[0xC] = "\xB8\xB4\xBD\xC4\xCC\xA7\xB2\xD9";
 s32 TWindowShortListCtrl__check_controller_button(void*, s32);
-struct RecoveredGlobal_801F6C74_lbl_8050E208;
 void TQuestVmDownLoadServer__sub_801F6B98(void);
 }
 extern void *TMCFormatSequence__class_name;
-extern RecoveredGlobal_801F6C74_lbl_8050E208 controller_input_state;
 // This TU's .sbss, 0x805D5F00-0x805D5F28 (address order).
 s32 TQuestVmDownLoadServer__dat_download_complete;
 s32 TQuestVmDownLoadServer__bin_download_complete;
@@ -39,11 +38,6 @@ s32 quest_download_in_progress;
 s32 TQuestVmDownLoadServer__total_download_bytes;
 s32 TQuestVmDownLoadServer__received_file_bytes;
 s32 TQuestVmDownLoadServer__instance;
-
-struct RecoveredGlobal_801F6C74_lbl_8050E208 {
-    s32 value;
-    u8 remaining[0x1AC];
-};
 
 struct QVm_801F6D24 {
     u8 pad0[0x294];
@@ -57,8 +51,6 @@ s32 get_localized_text_entry(s32 arg0, s32 arg1);
 void return_to_main_menu__6TLobbyFv(void);
 s32 __ct__22TQuestVmDownLoadServerFP7TObject(void *, s32);
 void *__nw__7TObjectFUl(s32);
-typedef char RecoveredGlobal_801F6C74_lbl_8050E208_size[sizeof(RecoveredGlobal_801F6C74_lbl_8050E208) == 0x1B0 ? 1 : -1];
-typedef char RecoveredGlobal_801F6C74_lbl_8050E208_size[sizeof(RecoveredGlobal_801F6C74_lbl_8050E208) == 0x1B0 ? 1 : -1];
 }
 extern s32 tl_00;
 
@@ -88,11 +80,6 @@ struct SubtractiveRng {
     SubtractiveRng();
     s32 value;
     u8 remaining[0xE4];
-};
-
-struct RecoveredGlobal_801F84AC_lbl_80512BDC {
-    s32 value;
-    u8 remaining[0x38];
 };
 
 struct QVm_801F7890 {
@@ -164,7 +151,6 @@ void TAdPlayerLoadGC__sub_801E14E8(u8 *arg0, s32 arg1);
 char *strncpy(char *, const char *, u32);
 void *memcpy(void *, const void *, u32);
 }
-extern RecoveredGlobal_801F84AC_lbl_80512BDC quest_download_file_header;
 s32 *get_quest_download_file_header(void);
 extern const char *TQuestVmDownLoadServer__class_name;
 extern char lbl_8044A68C[];
@@ -188,7 +174,7 @@ extern "C" {
 Src_801F8A40 TQuestVmDownLoadServer__download_file_state;
 Src_801F8A40 quest_download_file_slot;
 Src_801F718C quest_download_file_info;
-RecoveredGlobal_801F84AC_lbl_80512BDC quest_download_file_header;
+QuestDownloadFileHeader quest_download_file_header;
 SubtractiveRng TQuestVmDownLoadServer__rng_cipher_state;
 __declspec(section ".data") u32 download_rng_seed_pair[2];
 u32 create__13TAdMcSelectGCFPv(s32);
@@ -197,10 +183,8 @@ s32 query_memcard_capacity__15TAdPlayerLoadGCFl(s32, int);
 u8 *init_shop_judgment_window(void *p);
 s32 TQuestVmDownLoadServer__sub_801F8538(void *data, s32 size);
 s32 draw_window_bg__23TAdSinglePlyChrSelectGCFllll(s32, void *, s32, s32);
-typedef char RecoveredGlobal_801F6C74_lbl_8050E208_size[sizeof(RecoveredGlobal_801F6C74_lbl_8050E208) == 0x1B0 ? 1 : -1];
 }
 extern s32 tl_03;
-typedef char RecoveredGlobal_801F84AC_lbl_80512BDC_size[sizeof(RecoveredGlobal_801F84AC_lbl_80512BDC) == 0x3C ? 1 : -1];
 typedef char SubtractiveRng_size[sizeof(SubtractiveRng) == 0xE8 ? 1 : -1];
 struct SubtractiveRng;
 
@@ -757,7 +741,7 @@ void TQuestVmDownLoadServer::update_mc_select() {
         if ((void *) this->m_29c != NULL) {
             TAdMcSelectGC::select_if_mc_present();
         }
-        if (TWindowShortListCtrl__check_controller_button((void *)((u8 *)&controller_input_state.value + 0x20), 2) != 0) {
+        if (TWindowShortListCtrl__check_controller_button((void *)((u8 *)&controller_input_state + 0x20), 2) != 0) {
             TAdMcSelectGC::select_if_mc_present();
             show_status_message((int) (get_message_text(0x42)), 1);
             this->state = 0x14;
@@ -801,7 +785,7 @@ void TQuestVmDownLoadServer::open() {
 }
 void TQuestVmDownLoadServer::handle_confirm_input() {
     u8 *context;
-    context = (u8 *)&controller_input_state.value + 0x20;
+    context = (u8 *)&controller_input_state + 0x20;
     if (TWindowShortListCtrl__check_controller_button(context, 4) != 0) {
         TAdMcSelectGC::select_if_mc_present();
         this->state = 5;
@@ -1236,7 +1220,7 @@ void TQuestVmDownLoadServer::sub_801F6D24() {
 }
 void TQuestVmDownLoadServer::handle_download_done_input() {
     u8 *context;
-    context = (u8 *)&controller_input_state.value + 0x20;
+    context = (u8 *)&controller_input_state + 0x20;
     quest_download_in_progress = 0;
     if (TWindowShortListCtrl__check_controller_button(context, 4) != 0) {
         TAdMcSelectGC::update_state();
@@ -1251,7 +1235,7 @@ void TQuestVmDownLoadServer::handle_download_done_input() {
 }
 void TQuestVmDownLoadServer::check_cancel_input() {
     u8 *context;
-    context = (u8 *)&(*(RecoveredGlobal_801F6C74_lbl_8050E208 *)&controller_input_state).value + 0x20;
+    context = (u8 *)&controller_input_state + 0x20;
     if ((TWindowShortListCtrl__check_controller_button(context, 4) != 0) || (TWindowShortListCtrl__check_controller_button(context, 2) != 0)) {
         return_to_main_menu__6TLobbyFv();
         this->state = 0x15;

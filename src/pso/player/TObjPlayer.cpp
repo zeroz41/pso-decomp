@@ -39,11 +39,6 @@ struct ByteBlock_8 { u8 bytes[0x8]; };
 #pragma dont_inline off
 struct ByteBlock_C { u8 bytes[0xc]; };
 
-struct RecoveredGlobal_801BF414_lbl_804C3FA8 {
-    s32 value;
-    u8 remaining[0x14];
-};
-
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
@@ -53,16 +48,6 @@ struct RecoveredGlobal_801BF414_lbl_804C3FA8 {
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-
-struct RecoveredGlobal_801D2CF4_lbl_804C43CC {
-    s32 value;
-    u8 remaining[0x8];
-};
-
-struct RecoveredGlobal_801D2CF4_lbl_804C43D8 {
-    s32 value;
-    u8 remaining[0xC];
-};
 
 struct Pos_801D2964 { u8 bytes[0x8]; };
 
@@ -189,8 +174,6 @@ void *TObjPlayer::copy_6x0d_status_effect_packet(void *arg1) {
 #pragma push
 #pragma fp_contract on
 #pragma pop
-typedef char RecoveredGlobal_801D2CF4_lbl_804C43CC_size[sizeof(RecoveredGlobal_801D2CF4_lbl_804C43CC) == 0xC ? 1 : -1];
-typedef char RecoveredGlobal_801D2CF4_lbl_804C43D8_size[sizeof(RecoveredGlobal_801D2CF4_lbl_804C43D8) == 0x10 ? 1 : -1];
 
 void TObjPlayer__sub_801BEEAC(u8 *arg0, u8 *arg1) {
     *(s16 *)((s8 *)arg0 + 0) = (s16) *(s16 *)((s8 *)arg1 + 0);
@@ -320,7 +303,6 @@ int has_water_ground_flag(void* p) { return test_flags_any(p, 4); }
 
 void TPlayerLobbyMarker::set_material_index(u8 v) { this->material_index = v; }
 
-typedef char RecoveredGlobal_801BF414_lbl_804C3FA8_size[sizeof(RecoveredGlobal_801BF414_lbl_804C3FA8) == 0x18 ? 1 : -1];
 TPlayerReadyCallback::TPlayerReadyCallback(TObject* parent, u16 id, void (*fn)(TObjPlayer*)) : TObject(parent) {
     player_id = id;
     callback = fn;
@@ -465,13 +447,8 @@ s32 TObjPlayer__sub_801BF95C(void* p) { return *(s32*)((char*)p + 0x0); }
 
 void zero_vec3(void* a0) { *(float*)((char*)a0 + 0x0) = TObjPlayer__data_805DC278; *(float*)((char*)a0 + 0x4) = TObjPlayer__data_805DC278; *(float*)((char*)a0 + 0x8) = TObjPlayer__data_805DC278; }
 
-struct RecoveredGlobal_801BF9F0_lbl_804C3E50 {
-    s32 value;
-    u8 remaining[0xC];
-};
-
-
-extern RecoveredGlobal_801BF9F0_lbl_804C3E50 lbl_804C3E50;
+struct RecoveredGlobal_lbl_804C3E50 { s32 value; u8 remaining[0xC]; };
+extern RecoveredGlobal_lbl_804C3E50 lbl_804C3E50;
 
 void TObjPlayer::init_tag() {
     s32 *arg0 = (s32 *)this;
@@ -490,7 +467,6 @@ void TObjPlayer::set_vec3_const() { *(float*)((char*)this + 0x0) = TObjPlayer__d
 void TObjPlayer__sub_801BF9E0(void* p, s16 v) { *(s16*)((char*)p + 0x0) = v; }
 void TObjPlayer::set_pos_z(f32 v) { *(f32*)((char*)this + 0x8) = v; }
 
-typedef char RecoveredGlobal_801BF9F0_lbl_804C3E50_size[sizeof(RecoveredGlobal_801BF9F0_lbl_804C3E50) == 0x10 ? 1 : -1];
 u8 *TObjPlayer__sub_801BF9F0(u8 *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 8) = &lbl_804C3E50.value;
@@ -520,12 +496,8 @@ s32 TObjPlayer::free_if_valid(s32 arg0, s16 arg1) {
     return arg0;
 }
 
-struct RecoveredGlobal_801BFBEC_lbl_804C3E38 {
-    s32 value;
-    u8 remaining[0x8];
-};
-
-extern RecoveredGlobal_801BFBEC_lbl_804C3E38 lbl_804C3E38;
+struct RecoveredGlobal_lbl_804C3E38 { s32 value; u8 remaining[0x8]; };
+extern RecoveredGlobal_lbl_804C3E38 lbl_804C3E38;
 
 void *TObjPlayer__sub_801BFAD4(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
@@ -573,7 +545,6 @@ void TObjPlayer::reset_scale_vector() {
     *(s32 *)((s8 *)this + 0) = 0;
 }
 
-typedef char RecoveredGlobal_801BFBEC_lbl_804C3E38_size[sizeof(RecoveredGlobal_801BFBEC_lbl_804C3E38) == 0xC ? 1 : -1];
 u8 *TObjPlayer::construct_hurt_timer() {
     u8 *arg0 = (u8 *)this;
     *(s32 **)((s8 *)arg0 + 4) = &lbl_804C3E38.value;

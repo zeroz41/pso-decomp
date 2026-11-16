@@ -58,7 +58,7 @@ void reset_boot_state(void) {
 
 typedef char RecoveredGlobal_8042839C_lbl_805D0A40_size[sizeof(RecoveredGlobal_8042839C_lbl_805D0A40) == 0x60 ? 1 : -1];
 s32 init_modem_session_config(void) {
-    init_modem_buffer_config((void *) (&(*(RecoveredGlobal_8042839C_lbl_805D0A40 *)&lobby_net_session_state).value));
+    init_modem_buffer_config((void *)&lobby_net_session_state);
     return 0;
 }
 

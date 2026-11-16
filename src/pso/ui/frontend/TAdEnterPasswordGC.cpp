@@ -22,16 +22,6 @@ struct Elt80364258_80364258 { s32 f0; };
 static const f32 enter_password_item_rect_table[2][2] = {{155.0f, 231.0f}, {155.0f, 251.0f}};
 const char *TAdEnterPasswordGC__class_name = "TAdEnterPasswordGC";
 
-struct RecoveredGlobal_8032BA8C_TAdEnterPasswordGC__data_804EDA20 {
-    char value;
-    u8 remaining[8];
-};
-
-struct RecoveredGlobal_8032BB34___vt__18TAdEnterPasswordGC {
-    s32 value;
-    u8 remaining[0x18];
-};
-
 struct T_8032BBF0 { u8 pad[0x20]; s32 arr[24]; s32 count; };
 
 struct B_8032BC1C { u8 pad[0x18]; };
@@ -77,13 +67,12 @@ extern "C" {
 extern TAdEnterBaseGC::Position password_screen_status_line_position[];
 extern s32 password_entry_dispatch_state;
 #pragma explicit_zero_data on
-RecoveredGlobal_8032BA8C_TAdEnterPasswordGC__data_804EDA20 TAdEnterPasswordGC__input_buffer = { 0 };
+TAdEnterPasswordGCInputBuffer TAdEnterPasswordGC__input_buffer = { 0 };
 #pragma explicit_zero_data off
 extern u8 *password_entry_keyboard_control;
 s32 create_default_callback__22TAdEnterSerialAccessGCFv(void *);
 void strncpy(s32, s32, s32);
 s32 memset(void *, int, int);
-extern RecoveredGlobal_8032BA8C_TAdEnterPasswordGC__data_804EDA20 TAdEnterPasswordGC__input_buffer;
 void request_main_phase(s32 arg0);
 u32 __nw__7TObjectFUl(int);
 s32 __ct__10TAdTitleGCFP7TObjectl(int, void *, int);
@@ -139,7 +128,6 @@ int set_multi_chg_game_mode_0x14__18TAdEnterPasswordGCFPv(void* p) { return set_
 int request_transition__18TAdEnterPasswordGCFPv(void* p) { return request_transition__21TAdMultiChgGameModeGCFv(p); }
 
 typedef struct Pw_8032B6A0 Pw_8032B6A0;
-typedef struct RecoveredGlobal_8032BA8C_TAdEnterPasswordGC__data_804EDA20 RecoveredGlobal_8032BA8C_TAdEnterPasswordGC__data_804EDA20;
 void update_password_input__18TAdEnterPasswordGCFPv(Pw_8032B6A0 *self) {
   s32 buf = ((TWindowSubComCard *)password_entry_keyboard_control)->realloc_buffer();
   s32 prev;
@@ -266,11 +254,10 @@ void *__dt__18TAdEnterPasswordGCFv(void *ad_enter_base_gc, s16 arg1) {
 
 extern u32 lbl_805D6CB8;
 
-typedef char RecoveredGlobal_8032BB34___vt__18TAdEnterPasswordGC_size[sizeof(RecoveredGlobal_8032BB34___vt__18TAdEnterPasswordGC) == 0x1C ? 1 : -1];
 u8 *TAdEnterPasswordGC__ct(u8 *parent) {
     u32 temp_r3;
     TAdEnterBaseGC__ct((parent));
-    *(s32 **)((s8 *)parent + 0x18) = &(*(RecoveredGlobal_8032BB34___vt__18TAdEnterPasswordGC *)&__vt__18TAdEnterPasswordGC).value;
+    *(s32 **)((s8 *)parent + 0x18) = __vt__18TAdEnterPasswordGC;
     *(s32 *)((s8 *)parent + 0) = (s32) TAdEnterPasswordGC__class_name;
     ((TAdEnterBaseGC *)parent)->sub_8032B460(2);
     password_entry_dispatch_state = 0;
@@ -328,22 +315,17 @@ s32 dispatch_input_to_instance__18TAdEnterPasswordGCFi(s32 arg0) {
 
 }
 
-struct RecoveredGlobal_8032BD64_lbl_804EDAC0 {
-    s32 value;
-    u8 remaining[0x14];
-};
-
 struct O_8032BDC4 { u8 pad[0x18]; void *vt; s32 f1c; s32 items[0x18]; s32 n; };
 
 extern "C" {
 u8 * __dt__7TObjectFv(void *, s16);
-extern RecoveredGlobal_8032BD64_lbl_804EDAC0 lbl_804EDAC0;
+struct RecoveredGlobal_lbl_804EDAC0 { s32 value; u8 remaining[0x14]; };
+extern RecoveredGlobal_lbl_804EDAC0 lbl_804EDAC0;
 void __ct__7TObjectFP7TObject(void *);
 O_8032BDC4 *TLobby__sub_8032BDC4(O_8032BDC4 *arg0);
 
 void TUnk_804EDAC0::render() { *(int*)((char*)this + 0x1c) = 1; update_children__18TAdEnterPasswordGCFPv((O_8032BC1C *)this); *(int*)((char*)this + 0x1c) = 0; clear_password__18TAdEnterPasswordGCFPv((T_8032BBF0 *)this); }
 
-typedef char RecoveredGlobal_8032BD64_lbl_804EDAC0_size[sizeof(RecoveredGlobal_8032BD64_lbl_804EDAC0) == 0x18 ? 1 : -1];
 u8 *__dt__13TUnk_804EDAC0Fv(u8 *object, s16 arg1) {
     if (object != NULL) {
         *(s32 **)((s8 *)object + 0x18) = &lbl_804EDAC0.value;

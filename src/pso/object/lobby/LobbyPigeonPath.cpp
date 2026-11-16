@@ -228,14 +228,6 @@ struct Obj_802C1BFC {
     s32 fC8;
 };
 
-struct RecoveredGlobal_802C20E8_lbl_80471890
-{
-  s32 value;
-  u8 remaining[0x38];
-};
-
-typedef struct RecoveredGlobal_802C20E8_lbl_80471890 RecoveredGlobal_802C20E8_lbl_80471890;
-
 struct Ent_802C1FD0 { s32 a; f32 b; f32 c; s32 d; s32 e; };
 struct Sub_802C1FD0 { s32 a; u32 n; };
 struct Pl_802C1FD0 {
@@ -273,14 +265,6 @@ struct Obj_802C2548 {
     s32 fC4;
     s32 fC8;
 };
-
-struct RecoveredGlobal_802C27FC_lbl_80471848
-{
-  s32 value;
-  u8 remaining[0x44];
-};
-
-typedef struct RecoveredGlobal_802C27FC_lbl_80471848 RecoveredGlobal_802C27FC_lbl_80471848;
 
 struct Obj_802C2958 { u8 pad[0x430]; s32 f430; };
 
@@ -323,14 +307,6 @@ struct Obj_802C2A10 {
     s32 fC4;
     s32 fC8;
 };
-
-struct RecoveredGlobal_802C2F04_lbl_804717D4
-{
-  s32 value;
-  u8 remaining[0x60];
-};
-
-typedef struct RecoveredGlobal_802C2F04_lbl_804717D4 RecoveredGlobal_802C2F04_lbl_804717D4;
 
 struct Mtx_802C0F3C { f32 m[3][4]; };
 
@@ -475,7 +451,7 @@ TUnk_804E0988::TUnk_804E0988(TObject *parent, void *set_data) : TObjPathObj(pare
     }
   }
   m_c8 = var_r0;
-  *((s32 *) (((s8 *) this) + 0xA0)) = get_bml_motion((*(u8 * *)&seabed_dolphin_bml_archive), *((s32 *) (((s8 *) (&(*(RecoveredGlobal_802C2F04_lbl_804717D4 *)&seabed_dolphin_path_profiles).value)) + ((m_c8) * 0x14))));
+  *((s32 *) (((s8 *) this) + 0xA0)) = get_bml_motion((*(u8 * *)&seabed_dolphin_bml_archive), *((s32 *) ((s8 *)&seabed_dolphin_path_profiles + ((m_c8) * 0x14))));
   m_a4 = 0.0f;
   m_a8 = 0.0f;
   sub_802C2C48();
@@ -657,7 +633,7 @@ TUnk_804E094C::TUnk_804E094C(TObject *parent, void *set_data) : TObjPathObj(pare
     }
   }
   m_c8 = var_r0;
-  *((s32 *) (((s8 *) this) + 0xA0)) = get_bml_motion((*(u8 * *)&jungle_ebi_model_resource), *((s32 *) (((s8 *) (&(*(RecoveredGlobal_802C27FC_lbl_80471848 *)&jungle_ebi_path_profiles).value)) + ((m_c8) * 0x18))));
+  *((s32 *) (((s8 *) this) + 0xA0)) = get_bml_motion((*(u8 * *)&jungle_ebi_model_resource), *((s32 *) ((s8 *)&jungle_ebi_path_profiles + ((m_c8) * 0x18))));
   m_a4 = 0.0f;
   m_a8 = 0.0f;
   sub_802C2548();
@@ -851,7 +827,7 @@ TUnk_804E0910::TUnk_804E0910(TObject *parent, void *set_data) : TObjPathObj(pare
     }
   }
   m_c8 = var_r0;
-  *((s32 *) (((s8 *) this) + 0xA0)) = get_bml_motion((*(u8 * *)&jungle_bird_bml_resource), *((s32 *) (((s8 *) (&(*(RecoveredGlobal_802C20E8_lbl_80471890 *)&lobby_pigeon_path_parameters).value)) + ((m_c8) * 0x14))));
+  *((s32 *) (((s8 *) this) + 0xA0)) = get_bml_motion((*(u8 * *)&jungle_bird_bml_resource), *((s32 *) ((s8 *)&lobby_pigeon_path_parameters + ((m_c8) * 0x14))));
   m_a4 = 0.0f;
   m_a8 = 0.0f;
   sub_802C1E34();

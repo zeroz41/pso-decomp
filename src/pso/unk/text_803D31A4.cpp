@@ -9,16 +9,6 @@ void TLobby__sub_803D3194(void) {
     lobby_callback_tables_refcount -= 1;
 }
 
-struct RecoveredGlobal_803D31A4_lbl_8058B6B8 {
-    s32 value;
-    u8 remaining[0x18];
-};
-
-struct RecoveredGlobal_803D31A4_lbl_8058B6D4 {
-    s32 value;
-    u8 remaining[0x18];
-};
-
 struct P_803D33D4 { s32 a; s32 b; };
 struct P_803D33E4 { s32 a; s32 b; };
 
@@ -37,14 +27,12 @@ char *strncpy(char *, const char *, unsigned long);
 void TLobby__sub_803D34B0(s32 arg0, void (*arg1)(s32), s32 arg2);
 int vsprintf(char *s, const char *fmt, va_list ap);
 void TLobby__sub_803D38B4(const char *fmt, ...);
-typedef char RecoveredGlobal_803D31A4_lbl_8058B6B8_size[sizeof(RecoveredGlobal_803D31A4_lbl_8058B6B8) == 0x1C ? 1 : -1];
-typedef char RecoveredGlobal_803D31A4_lbl_8058B6D4_size[sizeof(RecoveredGlobal_803D31A4_lbl_8058B6D4) == 0x1C ? 1 : -1];
 u32 worker_callback_slots[8];
 u8 svm_callback_message_buffer[0x100];
 P_803D346C svm_callback_single_table[7];
 Cb_803D3678 svm_callback_table[7][4];
-RecoveredGlobal_803D31A4_lbl_8058B6B8 worker_callback_flag_table;
-RecoveredGlobal_803D31A4_lbl_8058B6D4 svm_callback_counts;
+WorkerCallbackFlagTable worker_callback_flag_table;
+SvmCallbackCounts svm_callback_counts;
 
 void TLobby::init_callback_tables() {
     if ((s32) lobby_callback_tables_refcount == 0) {

@@ -1,4 +1,5 @@
 #include "pso/system/NinjaTypes.h"
+#include "pso/system/MatrixOps.h"
 #include "types.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/base/TObjMotion.h"
@@ -22,12 +23,6 @@ struct Stack_803626A8 {
     s32 sp8;
     s32 spC;
     s32 sp10;
-};
-
-
-struct RecoveredGlobal_803626A8_lbl_8058D490 {
-    s32 value;
-    u8 remaining[0x2C];
 };
 
 
@@ -61,7 +56,6 @@ s32 rotate_matrix_y(int, int);
 s32 push_matrix_from(void *);
 s32 pop_matrix();
 f32 post_translate_matrix(void *);
-extern RecoveredGlobal_803626A8_lbl_8058D490 identity_matrix;
 void *spawn_particle_effect(const void *pos, s32 id);
 s16 get_validated_attack_stage(u8 *arg0);
 extern s32 knuckle_marker_joint_table[];
@@ -88,7 +82,6 @@ extern u8 *lbl_805D6FA8;
 void free_bin_model_request(void *, int);
 
 
-typedef char RecoveredGlobal_803626A8_lbl_8058D490_size[sizeof(RecoveredGlobal_803626A8_lbl_8058D490) == 0x30 ? 1 : -1];
 }
 
 const char *bm_ene_epsilon_model_names[8] = {
@@ -211,7 +204,7 @@ void TObjEneEpsilonGuard::sub_803626A8(s32 arg1, s32 arg2) {
     typedef char spC_offset[(offsetof(Stack_803626A8, spC) == 0x4) ? 1 : -1];
     typedef char sp10_offset[(offsetof(Stack_803626A8, sp10) == 0x8) ? 1 : -1];
     Stack_803626A8 stack = { 0, 0, 0 };
-    push_matrix_from((void *)&identity_matrix.value);
+    push_matrix_from((void *)&identity_matrix);
     post_translate_matrix((void *) (((u8 *)this) + 0x38));
     rotate_matrix_y(0, this->rotation_y);
     this->calc_joint_matrices(this->frame);

@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/system/ControllerInputState.h"
 #include "pso/ui/frontend/TAdDrawLineCtrl.h"
 #include "pso/unk/TLobby_80132ED0.h"
 #include "pso/network/TLobby_803FAEA0.h"
@@ -20,11 +21,6 @@ struct Stack_803286AC {
     s32 sp28;
 };
 
-struct RecoveredGlobal_803284F8_lbl_8050E208 {
-    s32 value;
-    u8 remaining[0x1AC];
-};
-
 struct Obj_803285C0 { u8 pad[0x20]; s32 mode; u8 pad2[0xC]; s16 state; };
 
 extern "C" {
@@ -32,7 +28,6 @@ s32 create_guide_button(void *, void *, f32);
 s32 init_guide_button_params(void *);
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
 s32 TWindowShortListCtrl__check_controller_button(void *, int);
-extern RecoveredGlobal_803284F8_lbl_8050E208 controller_input_state;
 extern TAdDialingGC *TAdDialingGC__instance;
 void init_dialog__12TAdDialingGCFv(void *);
 void draw_dialing_status__12TAdDialingGCFv(void *);
@@ -162,9 +157,8 @@ void TAdDialingGC::spawn_title_screen() {
 
 extern s32 TLobby__net_session_mode;
 
-typedef char RecoveredGlobal_803284F8_lbl_8050E208_size[sizeof(RecoveredGlobal_803284F8_lbl_8050E208) == 0x1B0 ? 1 : -1];
 s32 TAdDialingGC__sub_803284F8(s32 _w0) {
-    if ((TWindowShortListCtrl__check_controller_button((void *) ((u8 *)&controller_input_state.value + 0x20), 0x706) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) ((u8 *)&controller_input_state.value + 0x160), 0x606) != 0)) {
+    if ((TWindowShortListCtrl__check_controller_button((void *) ((u8 *)&controller_input_state + 0x20), 0x706) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) ((u8 *)&controller_input_state + 0x160), 0x606) != 0)) {
         return 1;
     }
     return 0;

@@ -841,11 +841,6 @@ struct ItemData_801E7810 {
     u8 data2[4];
 };
 
-struct RecoveredGlobal_801F196C_lbl_804499A8 {
-    s32 value;
-    u8 remaining[0x70];
-};
-
 struct ItemData_801E8000 {
     u8 b0, b1, b2, b3, b4, b5, b6;
     s8 b7;
@@ -858,8 +853,6 @@ struct ItemData_801E8000 {
 };
 
 typedef char RecoveredGlobal_8000F7FC_lbl_80515F48_size[sizeof(RecoveredGlobal_8000F7FC_lbl_80515F48) == 0x28 ? 1 : -1];
-
-typedef char RecoveredGlobal_801F196C_lbl_804499A8_size[sizeof(RecoveredGlobal_801F196C_lbl_804499A8) == 0x74 ? 1 : -1];
 
 union U_801E8784 { s32 i; f32 f; };
 
@@ -986,21 +979,6 @@ struct Spawn_801EA388 {
 
 struct Spawn_801EA508;
 
-struct RecoveredGlobal_801EB6B8_lbl_80512350 {
-    s32 value;
-    u8 remaining[0xC];
-};
-
-struct RecoveredGlobal_801EB73C_lbl_80512340 {
-    s32 value;
-    u8 remaining[0xC];
-};
-
-struct RecoveredGlobal_801ECF84_lbl_8050D3E0 {
-    s32 value;
-    u8 remaining[0x4C];
-};
-
 struct E_801EB484 { s32 a; s32 b; };
 
 struct Pkt_801ED300 {
@@ -1032,12 +1010,6 @@ struct Ctx_801EB508 { u8 pad[0x10]; u8 buf[0xFD]; };
 struct Ctx_801EB658 { u8 pad[0x10]; u8 buf[0xFF]; };
 
 struct Item_801EC720 { s8 a; s8 b; s8 c; u8 pad[0x1D]; };
-
-typedef char RecoveredGlobal_801EB6B8_lbl_80512350_size[sizeof(RecoveredGlobal_801EB6B8_lbl_80512350) == 0x10 ? 1 : -1];
-
-typedef char RecoveredGlobal_801EB73C_lbl_80512340_size[sizeof(RecoveredGlobal_801EB73C_lbl_80512340) == 0x10 ? 1 : -1];
-
-typedef char RecoveredGlobal_801ECF84_lbl_8050D3E0_size[sizeof(RecoveredGlobal_801ECF84_lbl_8050D3E0) == 0x50 ? 1 : -1];
 
 struct Item_801ED7BC {
     u8 data[12];
@@ -1080,11 +1052,6 @@ struct Pkt_801EE330 {
     s32 b;
 };
 
-struct RecoveredGlobal_801EE5A4_lbl_805129F8 {
-    s32 value;
-    u8 remaining[0xD4];
-};
-
 struct Pkt_801EE54C {
     u8 cmd;
     u8 size;
@@ -1098,8 +1065,6 @@ struct Ent_801EE5EC {
     u8 name[0x20];
     s32 v;
 };
-
-typedef char RecoveredGlobal_801EE5A4_lbl_805129F8_size[sizeof(RecoveredGlobal_801EE5A4_lbl_805129F8) == 0xD8 ? 1 : -1];
 
 struct Item_801EE77C {
     u8 data[12];
@@ -1876,15 +1841,19 @@ extern s32 gba_download_data_buffer;
 extern s32 gba_download_data_size;
 extern int evt2_random_enemies_mode;
 extern RecoveredGlobal_8000F7FC_lbl_80515F48 fn_801F3480;
-extern RecoveredGlobal_801F196C_lbl_804499A8 quest_sound_effect_ids;
+struct QuestSoundEffectIds { s32 value; u8 remaining[0x70]; };
+extern QuestSoundEffectIds quest_sound_effect_ids;
 extern Pair_801F1838 lbl_80449A38[];
-extern RecoveredGlobal_801ECF84_lbl_8050D3E0 lbl_8050D3E0;
+struct RecoveredGlobal_lbl_8050D3E0 { s32 value; u8 remaining[0x4C]; };
+extern RecoveredGlobal_lbl_8050D3E0 lbl_8050D3E0;
 extern s32 symbolchat_colli_param_table[];
 extern E_801E93B4 controller_input_state[];
 extern s16 battle_event_second_table[];
-extern RecoveredGlobal_801EB73C_lbl_80512340 quest_player_name_buffer;
-extern RecoveredGlobal_801EB6B8_lbl_80512350 quest_player_class_name_buffer;
-extern RecoveredGlobal_801EE5A4_lbl_805129F8 quest_board_handlers;
+struct QuestPlayerNameBuffer { s32 value; u8 remaining[0xC]; };
+extern QuestPlayerNameBuffer quest_player_name_buffer;
+struct QuestPlayerClassNameBuffer { s32 value; u8 remaining[0xC]; };
+extern QuestPlayerClassNameBuffer quest_player_class_name_buffer;
+extern u8 quest_board_handlers[];
 extern f32 lbl_805D3538;
 extern f32 lbl_805D353C;
 extern f32 lbl_805D3540;
@@ -4796,7 +4765,7 @@ void qst_op_setevt(void) {
 
 void qst_op_clear_quest_board_handler(void) {
     if ((u32)qst_args[0] <= 5U) {
-        memset((void *) ((u8 *)&quest_board_handlers.value + ((u32)qst_args[0] * 0x24)), 0, 0x24);
+        memset((void *) ((u8 *)&quest_board_handlers + ((u32)qst_args[0] * 0x24)), 0, 0x24);
     }
 }
 
@@ -6593,7 +6562,7 @@ u16 read_be_u16(void) {
 
 s32 qst_args[8];
 s32 qst_call_stack[64];
-RecoveredGlobal_801EB73C_lbl_80512340 quest_player_name_buffer;
-RecoveredGlobal_801EB6B8_lbl_80512350 quest_player_class_name_buffer;
+QuestPlayerNameBuffer quest_player_name_buffer;
+QuestPlayerClassNameBuffer quest_player_class_name_buffer;
 BattleRules battle_rules;
 char qst_cstring_buffer[0x404];

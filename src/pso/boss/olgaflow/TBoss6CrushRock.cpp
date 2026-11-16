@@ -28,11 +28,6 @@ extern const f32 lbl_805E00C4;
 
 struct Vec_80359EF0 { s32 x, y, z; };
 
-struct RecoveredGlobal_8035A1A4___vt__15TBoss6CrushRock {
-    s32 value;
-    u8 remaining[0x14];
-};
-
 extern "C" {
 void *__ct__7TObjectFP7TObject(void *, void *);
 void *__nw__7TObjectFUl(int);
@@ -50,8 +45,6 @@ int rotate_matrix_x(void*, void*);
 int rotate_matrix_y(void*, void*);
 int push_matrix(void);
 }
-
-typedef char RecoveredGlobal_8035A1A4___vt__15TBoss6CrushRock_size[sizeof(RecoveredGlobal_8035A1A4___vt__15TBoss6CrushRock) == 0x18 ? 1 : -1];
 
 s32 TBoss6PlotFalz::get_hp() {
     return TBoss6PlotFalz__instance;

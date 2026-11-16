@@ -15,11 +15,6 @@ const char *TObjNpcHFW01__name = "TObjNpcHFW01";
 u32 TObjNpcHFW01__resource_node;
 u32 TObjNpcHFW01__texture_handle;
 
-struct RecoveredGlobal_8014B020___vt__12TObjNpcHFW01 {
-    s32 value;
-    u8 remaining[0x174];
-};
-
 extern void *tl_04;
 extern "C" {
 extern s32 __vt__12TObjNpcHFW01[];
@@ -62,10 +57,9 @@ void TObjNpcHFW01::load_resources() {
 TObjNpcHFW01::~TObjNpcHFW01() {}
 
 
-typedef char RecoveredGlobal_8014B020___vt__12TObjNpcHFW01_size[sizeof(RecoveredGlobal_8014B020___vt__12TObjNpcHFW01) == 0x178 ? 1 : -1];
 u8 *TObjNpcHFW01__ct(u8 *player, s32 arg1, s32 arg2) {
     ((TUnk_804A92A8 *)player)->fn_8014AAC4();
-    *(s32 **)((s8 *)player + 0x18) = &(*(RecoveredGlobal_8014B020___vt__12TObjNpcHFW01 *)&__vt__12TObjNpcHFW01).value;
+    *(s32 **)((s8 *)player + 0x18) = __vt__12TObjNpcHFW01;
     *(s32 *)((s8 *)player + 0) = (s32) TObjNpcHFW01__name;
     ((TObjNpcHFW01 *)(player))->apply_set_data((void *)arg2);
     ((TObjPlayer *)player)->init_position_vectors();

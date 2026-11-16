@@ -32,19 +32,6 @@ struct Stack_802340E4 {
     s32 sp20;
 };
 
-struct RecoveredGlobal_80233B9C_lbl_804CC990 { s32 value; u8 remaining[0x14]; };
-typedef char RecoveredGlobal_80233B9C_lbl_804CC990_size[sizeof(RecoveredGlobal_80233B9C_lbl_804CC990) == 0x18 ? 1 : -1];
-
-struct RecoveredGlobal_80233D18_lbl_804CC9A8 {
-    s32 value;
-    u8 remaining[0x28];
-};
-
-struct RecoveredGlobal_80233D18_lbl_804CC9D4 {
-    s32 value;
-    u8 remaining[0x34];
-};
-
 #include "pso/technique/TechniqueChargeEmitter.h"
 #include "pso/item/TItemList.h"
 #include "pso/player/TPlyItem.h"
@@ -160,7 +147,8 @@ u8 *construct_resta_charge_sound(u8 *arg0, s32 arg1, s32 arg2);
 s32 obj_setFlags30(void *, int);
 s32 init_collision_body_parts(void *, void *, int);
 s32 __ct__14TObjCollidableFP7TObject(void *, void *);
-extern RecoveredGlobal_80233D18_lbl_804CC9A8 telepipe_field_collision_body_template;
+struct TelepipeFieldCollisionBodyTemplate { s32 value; u8 remaining[0x28]; };
+extern TelepipeFieldCollisionBodyTemplate telepipe_field_collision_body_template;
 extern s32 telepipe_field_collider_vtable[];
 bool TTecLuker__sub_8023401C(u8 *arg0);
 u32 recovery_technique_charge_particle_ids[2] = { 0xB7, 0xB8 };
@@ -287,7 +275,7 @@ void *TTecLuker::destroy(s16 arg1) {
 
 u8 *construct_resta_charge_sound(u8 *arg0, s32 arg1, s32 arg2) {
     __ct__7TObjectFP7TObject((void *)arg0, (void *)arg2);
-    *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_80233B9C_lbl_804CC990 *)&recovery_technique_charge_vtable).value;
+    *(s32 **)((s8 *)arg0 + 0x18) = recovery_technique_charge_vtable;
     *(s32 *)((s8 *)arg0 + 0x1C) = arg1;
     VecCopy((Vec *)(arg0 + 0x20), (const Vec *)((int) (*(s32 *)((s8 *)arg0 + 0x1C) + 0x2FC)));
     ((TUnk_804CC990 *)arg0)->m_2c = 0;
@@ -326,11 +314,9 @@ void *__dt__13TUnk_804CC9D4Fv(void *arg0, s16 arg1) {
     return arg0;
 }
 
-typedef char RecoveredGlobal_80233D18_lbl_804CC9A8_size[sizeof(RecoveredGlobal_80233D18_lbl_804CC9A8) == 0x2C ? 1 : -1];
-typedef char RecoveredGlobal_80233D18_lbl_804CC9D4_size[sizeof(RecoveredGlobal_80233D18_lbl_804CC9D4) == 0x38 ? 1 : -1];
 u8 *TTecLuker::construct_field_collider(s32 arg1, s32 arg2, s32 ac) {
     __ct__14TObjCollidableFP7TObject(this, (void *)arg2);
-    *(s32 **)((s8 *)((u8 *)this) + 0x18) = &(*(RecoveredGlobal_80233D18_lbl_804CC9D4 *)&telepipe_field_collider_vtable).value;
+    *(s32 **)((s8 *)((u8 *)this) + 0x18) = telepipe_field_collider_vtable;
     VecCopy((Vec *)(((u8 *)this) + 0x38), (const Vec *)(arg1));
     init_collision_body_parts(this, &telepipe_field_collision_body_template.value, 1);
     obj_setFlags30(this, 0x40000000);

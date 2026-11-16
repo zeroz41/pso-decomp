@@ -14,11 +14,6 @@
 const char *TObjTradeCollision__name = "TObjTradeCollision";
 
 
-struct RecoveredGlobal_802C8034___vt__18TObjTradeCollision {
-    s32 value;
-    u8 remaining[0x34];
-};
-
 extern "C" {
 s32 is_player_outside_trade_radius__18TObjTradeCollisionFUl(void *, int);
 extern const char *TObjTradeCollision__name;
@@ -46,7 +41,6 @@ TObjTradeCollision::~TObjTradeCollision() {
 
 extern void *tl_05;
 
-typedef char RecoveredGlobal_802C8034___vt__18TObjTradeCollision_size[sizeof(RecoveredGlobal_802C8034___vt__18TObjTradeCollision) == 0x38 ? 1 : -1];
 TObjTradeCollision::TObjTradeCollision(s32 arg1, s32 arg2) : TObjCollidable((TObject *)arg1) {
     *(s32 *)((s8 *)this + 0) = (s32) ((s32)TObjTradeCollision__name);
     ((TObjTradeCollision *)(((u8 *)this)))->apply_object_set_data((void *)arg2);

@@ -152,9 +152,6 @@ s32 TBoss8Dragon__sub_802FC674(Obj_802FC674 *self, f32 *out);
 s32 TBoss8Dragon__sub_802F46F4(s32 arg0);
 void TBoss8Dragon__sub_802FB1B0(TBoss8Dragon *dragon, int x, f32 c);
 void TBoss8Dragon__sub_802FB220(void *o, int x, u32 a);
-struct RecoveredGlobal_802F45A0_lbl_80541DE8 { Vec value; };
-
-typedef char RecoveredGlobal_802F45A0_lbl_80541DE8_size[sizeof(RecoveredGlobal_802F45A0_lbl_80541DE8) == 0xC ? 1 : -1];
 
 // Third argument of TBoss8Dragon::clone_node_tree, stored in every cloned node.
 struct Boss8DragonNodeState {
@@ -164,12 +161,6 @@ struct Boss8DragonNodeState {
     f32 unkC;
     f32 unk10;
     f32 unk14;
-};
-
-struct RecoveredGlobal_802F45A0_lbl_80541DF4 {
-    Vec value;
-    Vec unkC;
-    Vec unk18;
 };
 
 // Dragon BML resource loaded by TBoss8Dragon__sub_802FDA78; only its model set is read here.
@@ -183,22 +174,10 @@ struct Boss8DragonBmlRes {
     Boss8DragonModelSet *models;
 };
 
-typedef char RecoveredGlobal_802F45A0_lbl_80541DF4_size[sizeof(RecoveredGlobal_802F45A0_lbl_80541DF4) == 0x24 ? 1 : -1];
-
 struct Stack_802F4760 {
     s32 sp8;
     f32 spC;
     u8 trailing_storage[0x4];
-};
-
-struct RecoveredGlobal_802F4760_lbl_80541E30 {
-    s32 value;
-    u8 remaining[0x8];
-};
-
-struct RecoveredGlobal_802F4760_lbl_80541E3C {
-    s32 value;
-    u8 remaining[0x8];
 };
 
 struct Obj_802F44D8 {
@@ -217,17 +196,13 @@ struct Obj_802F44D8 {
     u8 f434[4];
 };
 
-typedef char RecoveredGlobal_802F4760_lbl_80541E30_size[sizeof(RecoveredGlobal_802F4760_lbl_80541E30) == 0xC ? 1 : -1];
-
-typedef char RecoveredGlobal_802F4760_lbl_80541E3C_size[sizeof(RecoveredGlobal_802F4760_lbl_80541E3C) == 0xC ? 1 : -1];
-
 s32 TBoss8Dragon__data_80541DC8[5];
 u8 *TBoss8Dragon__data_80541DDC[3];
-RecoveredGlobal_802F45A0_lbl_80541DE8 lbl_80541DE8;
-RecoveredGlobal_802F45A0_lbl_80541DF4 lbl_80541DF4;
+RecoveredGlobal_lbl_80541DE8 lbl_80541DE8;
+RecoveredGlobal_lbl_80541DF4 lbl_80541DF4;
 Boss8DragonNodeState lbl_80541E18;
-RecoveredGlobal_802F4760_lbl_80541E30 boss8_dragon_reference_pos_vec;
-RecoveredGlobal_802F4760_lbl_80541E3C dragon_forward_reference_vec;
+Boss8DragonReferencePosVec boss8_dragon_reference_pos_vec;
+DragonForwardReferenceVec dragon_forward_reference_vec;
 
 struct VBase_14_f8ef8c { char pad[0x14]; };
 
@@ -582,26 +557,12 @@ struct G_802FB290 { F3_802FB290 *value; u8 rest[8]; };
 
 typedef struct Eff_802FB304 { s32 a; s32 b; f32 f; s32 c; s32 d; } Eff_802FB304;
 
-struct RecoveredGlobal_802FB70C_TBoss8Dragon__data_80541DC8 {
-    s32 value;
-    u8 remaining[0x10];
-};
-
 struct Stack_802FB778 {
     s32 sp8;
     u8 pad_C[0x4];
     f32 sp10;
     u8 trailing_storage[0x8];
 };
-
-struct RecoveredGlobal_802FB778_TBoss8Dragon__data_80541DDC {
-    u8 * value;
-    u8 remaining[0x8];
-};
-
-typedef char RecoveredGlobal_802FB70C_TBoss8Dragon__data_80541DC8_size[sizeof(RecoveredGlobal_802FB70C_TBoss8Dragon__data_80541DC8) == 0x14 ? 1 : -1];
-
-typedef char RecoveredGlobal_802FB778_TBoss8Dragon__data_80541DDC_size[sizeof(RecoveredGlobal_802FB778_TBoss8Dragon__data_80541DDC) == 0xC ? 1 : -1];
 
 struct VBase_18_be4a70
 {
@@ -701,13 +662,6 @@ typedef struct VBase_18_be4a70 VBase_18_be4a70;
 
 typedef struct VObj_18_be4a70 VObj_18_be4a70;
 
-struct RecoveredGlobal_802FBF0C_TBoss8Dragon__data_80541DC8 {
-    s32 value;
-    u8 remaining[0x10];
-};
-
-typedef char RecoveredGlobal_802FBF0C_TBoss8Dragon__data_80541DC8_size[sizeof(RecoveredGlobal_802FBF0C_TBoss8Dragon__data_80541DC8) == 0x14 ? 1 : -1];
-
 struct Obj_802FC580 {
     u8 pad0[0x698];
     s32 count;
@@ -791,10 +745,6 @@ extern s32 TBoss8Dragon__data_805D69A8;
 extern u8 *TBoss8Dragon__data_805D69AC;
 extern s32 TLobby__designated_client_id;
 extern u8 controller_input_state[];
-extern RecoveredGlobal_802F45A0_lbl_80541DE8 lbl_80541DE8;
-extern RecoveredGlobal_802F45A0_lbl_80541DF4 lbl_80541DF4;
-extern RecoveredGlobal_802F4760_lbl_80541E30 boss8_dragon_reference_pos_vec;
-extern RecoveredGlobal_802F4760_lbl_80541E3C dragon_forward_reference_vec;
 extern s32 lbl_805D6990;
 extern f32 boss8_dragon_visibility_distance;
 extern s32 lbl_805D28BC;
@@ -1491,8 +1441,6 @@ s32 render_nodes__7TObjectFv(s32, s32);
 extern s32 saved_model_render_flags;
 }
 // (from _802F3EE4)
-struct RecoveredGlobal_802F4098_main_task { s32 value; u8 remaining[0x30]; };
-typedef char RecoveredGlobal_802F4098_main_task_size[sizeof(RecoveredGlobal_802F4098_main_task) == 0x34 ? 1 : -1];
 typedef struct Obj_802F3F20 {
     u8 pad0[0x326];
     s16 x326;
@@ -1523,8 +1471,6 @@ s32 draw__10TObjMotionFv(void *, int);
 int check_demo_mode__10TObjPlayerFv(void*);
 }
 // (from _802F4324)
-struct RecoveredGlobal_802F4380_main_task { s32 value; u8 remaining[0x30]; };
-typedef char RecoveredGlobal_802F4380_main_task_size[sizeof(RecoveredGlobal_802F4380_main_task) == 0x34 ? 1 : -1];
 extern "C" {
 BOOL is_split_screen(void); // TObjPlayer_80011014.h, whose other prototypes clash here
 s32 TBoss8Dragon__sub_802F3F20(u8 *arg0); // defined further down
@@ -2403,7 +2349,7 @@ void TBoss8Dragon::reload_boss_stats() {
 
 void TBoss8Dragon::reset_tail_hp() {
     s32 arg0 = (s32)this;
-    ((TObjEneDD *)arg0)->reset_hp((u8 *)0, (u8 *)(*(s32 *)((s8 *)(&(*(RecoveredGlobal_802FBF0C_TBoss8Dragon__data_80541DC8 *)&TBoss8Dragon__data_80541DC8).value) + 4)), (u8 *)0);
+    ((TObjEneDD *)arg0)->reset_hp((u8 *)0, (u8 *)(*(s32 *)((s8 *)&TBoss8Dragon__data_80541DC8 + 4)), (u8 *)0);
 }
 
 void TBoss8Dragon__sub_802FBEA4(TBoss8Dragon *dragon) {
@@ -2615,16 +2561,16 @@ void TBoss8Dragon__sub_802FB778(s32 dragon) {
     typedef char sp10_offset[(offsetof(Stack_802FB778, sp10) == 0x8) ? 1 : -1];
     Stack_802FB778 stack;
     TBoss1Dragon__sub_80027A80((u8 *)((u8 *)&stack.sp8), (u8 *)((const u8 *)&lbl_804744B4));
-    stack.sp10 = *(f32 *)((s8 *)((*(RecoveredGlobal_802FB778_TBoss8Dragon__data_80541DDC *)&TBoss8Dragon__data_80541DDC).value) + 0xC);
+    stack.sp10 = *(f32 *)((s8 *)(TBoss8Dragon__data_80541DDC[0]) + 0xC);
     TBoss8Dragon__sub_802FBEA4((TBoss8Dragon *)dragon);
     ((s32 (*)(void *, void *))get_state_flags__12TBoss8DragonFPv)((void *)dragon, &stack.sp8);
     ((TBoss8Dragon *)dragon)->reload_boss_stats();
 }
 
 void TBoss8Dragon__sub_802FB70C(s32 arg0) {
-    ((TObjEneDD *)arg0)->reset_hp((u8 *)0, (u8 *)(*(s32 *)((s8 *)(&(*(RecoveredGlobal_802FB70C_TBoss8Dragon__data_80541DC8 *)&TBoss8Dragon__data_80541DC8).value) + 0x10)), (u8 *)0);
+    ((TObjEneDD *)arg0)->reset_hp((u8 *)0, (u8 *)(*(s32 *)((s8 *)&TBoss8Dragon__data_80541DC8 + 0x10)), (u8 *)0);
     ((s32 (*)(void *, const void *))get_state_flags__12TBoss8DragonFPv)((void *)arg0, &TBoss8Dragon__body_effect_parameters);
-    ((TObjEneDD *)arg0)->reset_hp((u8 *)0, (u8 *)(*(s32 *)((s8 *)(&(*(RecoveredGlobal_802FB70C_TBoss8Dragon__data_80541DC8 *)&TBoss8Dragon__data_80541DC8).value) + 0)), (u8 *)0);
+    ((TObjEneDD *)arg0)->reset_hp((u8 *)0, (u8 *)(*(s32 *)((s8 *)&TBoss8Dragon__data_80541DC8 + 0)), (u8 *)0);
 }
 
 #pragma push
@@ -5962,7 +5908,7 @@ void TBoss8Dragon::render() {
     }
     this->sub_802F4098(pos);
     if (defer_render() != 0) {
-        if (!(get_mode__11TCameraCtrlFPv(&(*(RecoveredGlobal_802F4380_main_task *)&main_task).value) & 0x10)) {
+        if (!(get_mode__11TCameraCtrlFPv(&main_task) & 0x10)) {
             this->render_body_model();
             this->copy_vectors();
         }
@@ -6041,7 +5987,7 @@ void TBoss8Dragon::draw_with_fade(s32 arg1, s32 arg2) {
 
 void TBoss8Dragon::sub_802F4098(u8 *arg1) {
     VecCopy((Vec *)arg1, (const Vec *)(((u8 *)this) + 0x38));
-    if ((get_mode__11TCameraCtrlFPv(&(*(RecoveredGlobal_802F4098_main_task *)&main_task).value) & 0x10) && (TBoss8Dragon__sub_802FCCBC(this) == 0) && !(this->frame > 63.0f)) {
+    if ((get_mode__11TCameraCtrlFPv(&main_task) & 0x10) && (TBoss8Dragon__sub_802FCCBC(this) == 0) && !(this->frame > 63.0f)) {
         *(f32 *)((s8 *)arg1 + 8) += -460.0f;
     }
 }

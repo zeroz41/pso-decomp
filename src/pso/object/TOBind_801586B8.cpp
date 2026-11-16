@@ -23,11 +23,6 @@ CollisionBody bind_collision_body_parts[2] = {
     {{0.0f, 20.0f, -10.0f}, 5.0f, 10.0f, 1, 0x10003, {0.0f, 0.0f, 0.0f}, 0.0f},
 };
 
-struct RecoveredGlobal_80158890___vt__6TOBind {
-    s32 value;
-    u8 remaining[0x38];
-};
-
 extern "C" {
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 u32 TOBind__static_model_resource;
@@ -95,10 +90,9 @@ TOBind::~TOBind() {
     free_collision_body_parts(this);
 }
 
-typedef char RecoveredGlobal_80158890___vt__6TOBind_size[sizeof(RecoveredGlobal_80158890___vt__6TOBind) == 0x3C ? 1 : -1];
 u8 *TOBind__ct(TOBind *bind, s32 arg1) {
     __ct__14TObjCollidableFP7TObject(bind, tl_05);
-    *(s32 **)((s8 *)bind + 0x18) = &(*(RecoveredGlobal_80158890___vt__6TOBind *)&__vt__6TOBind).value;
+    *(s32 **)((s8 *)bind + 0x18) = __vt__6TOBind;
     ((TOBind *)bind)->m_name = lbl_805D2EA8;
     ((TOBind *)(bind))->apply_object_set_data((void *)arg1);
     bind->m_b0 = 0;

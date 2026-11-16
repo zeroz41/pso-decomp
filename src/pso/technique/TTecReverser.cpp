@@ -17,9 +17,6 @@
 struct RecoveredGlobal_8023A094_lbl_804CC1CC { s32 value; u8 remaining[0x340]; };
 typedef char RecoveredGlobal_8023A094_lbl_804CC1CC_size[sizeof(RecoveredGlobal_8023A094_lbl_804CC1CC) == 0x344 ? 1 : -1];
 
-struct RecoveredGlobal_8023A094___vt__12TTecReverser { s32 value; u8 remaining[0x24]; };
-typedef char RecoveredGlobal_8023A094___vt__12TTecReverser_size[sizeof(RecoveredGlobal_8023A094___vt__12TTecReverser) == 0x28 ? 1 : -1];
-
 struct Entry_80239E44 { s32 a; s32 b; s32 c; s32 pad; };
 
 struct Player_80239E44 { u8 pad[0x2FC]; Vec pos; };
@@ -147,7 +144,7 @@ void TUnk_804CCC68::dispatch_technique_contact() {
 u8 *TTecReverser__ct(u8 *tec_reverser, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
     u32 temp_r3;
     __ct__13TUnk_804CC148Flll((void *)tec_reverser, (void *)arg1, (void *)arg2, (void *)arg4);
-    *(s32 **)((s8 *)tec_reverser + 0x18) = &(*(RecoveredGlobal_8023A094___vt__12TTecReverser *)&__vt__12TTecReverser).value;
+    *(s32 **)((s8 *)tec_reverser + 0x18) = __vt__12TTecReverser;
     ((TObjPlayer *)(tec_reverser + 0xEC))->construct_target_cursor_records();
     ((TTecReverser *)tec_reverser)->m_name = lbl_805D3818;
     ((TTecAnti *)(tec_reverser + 0x88))->copy_params((u8 *)((u8 *)&technique_param_table.value + 0x2EC));

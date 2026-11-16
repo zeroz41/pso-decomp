@@ -164,4 +164,14 @@ void update_pulsing_colors__13TBoss2DeRolLeFPv(u8 *arg0);
 u8 update_state__13TBoss2DeRolLeFPv(u8 *arg0);
 }
 
+// derolle_part_transform_template: layout known from its uses only.
+struct DerollePartTransformTemplate { s32 value; u8 remaining[0x2C]; };
+extern DerollePartTransformTemplate derolle_part_transform_template;
+// lbl_804FE30C: layout known from its uses only.
+struct RecoveredGlobal_lbl_804FE30C { s32 value; u8 remaining[0xC]; };
+extern RecoveredGlobal_lbl_804FE30C lbl_804FE30C;
+// lbl_804FE31C: layout known from its uses only.
+struct RecoveredGlobal_lbl_804FE31C { s32 value; u8 remaining[0x8]; };
+extern RecoveredGlobal_lbl_804FE31C lbl_804FE31C;
+
 #endif

@@ -16,12 +16,6 @@
 #pragma readonly_strings on
 
 
-struct RecoveredGlobal_802AF7C0___vt__12TObjMistCtrl {
-    s32 value;
-    u8 remaining[0x34];
-};
-
-
 extern "C" {
 const char *lbl_805D3E80 = "TObjMistCtrl";
 
@@ -33,7 +27,6 @@ TObjMistCtrl::~TObjMistCtrl() {
 }
 
 
-typedef char RecoveredGlobal_802AF7C0___vt__12TObjMistCtrl_size[sizeof(RecoveredGlobal_802AF7C0___vt__12TObjMistCtrl) == 0x38 ? 1 : -1];
 TObjMistCtrl::TObjMistCtrl(s32 parent, u32 arg2) : TObjBase((TObject *)((void *)parent)) {
     this->m_name = lbl_805D3E80;
     if (arg2 != 0U) {

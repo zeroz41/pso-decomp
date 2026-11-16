@@ -24,11 +24,6 @@ const char *TObjNpcGovernorBase__name = "TObjNpcGovernorBase";
 u32 TObjNpcGovernorBase__shared_resource;
 
 
-struct RecoveredGlobal_8014AC6C___vt__19TObjNpcGovernorBase {
-    s32 value;
-    u8 remaining[0x174];
-};
-
 extern void *tl_04;
 extern "C" {
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
@@ -73,10 +68,9 @@ void TObjNpcGovernorBase::load_shared_resource() {
 TObjNpcGovernorBase::~TObjNpcGovernorBase() {}
 
 
-typedef char RecoveredGlobal_8014AC6C___vt__19TObjNpcGovernorBase_size[sizeof(RecoveredGlobal_8014AC6C___vt__19TObjNpcGovernorBase) == 0x178 ? 1 : -1];
 u8 *TObjNpcGovernorBase__ct(u8 *player, s32 arg1, s32 arg2) {
     ((TUnk_804A9F50 *)player)->construct_male_npc_base();
-    *(s32 **)((s8 *)player + 0x18) = &(*(RecoveredGlobal_8014AC6C___vt__19TObjNpcGovernorBase *)&__vt__19TObjNpcGovernorBase).value;
+    *(s32 **)((s8 *)player + 0x18) = __vt__19TObjNpcGovernorBase;
     ((TObject *)player)->m_name = TObjNpcGovernorBase__name;
     ((TObjNpcGovernorBase *)(player))->apply_set_data((void *)arg2);
     ((TObjPlayer *)player)->init_position_vectors();

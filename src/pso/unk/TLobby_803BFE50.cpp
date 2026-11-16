@@ -1,17 +1,8 @@
 #include "types.h"
+#include "pso/unk/TLobby_803BFE50.h"
 #include "pso/audio/SjRingBuffer.h"
 #include "pso/unk/TLobby.h"
 
-
-struct RecoveredGlobal_803C0B08_lbl_80570AC0 {
-    s32 value;
-    u8 remaining[0x9BC];
-};
-
-struct RecoveredGlobal_803C0AD8_lbl_80570AC0 {
-    s32 value;
-    u8 remaining[0x9BC];
-};
 
 struct Obj_803C07E8 { u8 a; s8 b; };
 
@@ -154,7 +145,7 @@ void TLobby__sub_803C39CC(u8 *arg0);
 void TLobby__sub_803C0758(u8 *arg0);
 s32 TLobby__sub_803C1A00(int);
 s32 memset(void *, int, int);
-RecoveredGlobal_803C0B08_lbl_80570AC0 lbl_80570AC0;
+RecoveredGlobal_lbl_80570AC0 lbl_80570AC0;
 void TLobby__sub_803C406C(void);
 void TLobby__sub_803C133C(Snd_803C0BE8 *arg0);
 void TLobby__sub_803C0B3C(u8 *arg0);
@@ -509,7 +500,7 @@ AudioStreamInputState *TLobby__sub_803C0848(AudioStreamSource *source, s32 chann
 }
 
 void TLobby::clear_session_buffer() {
-    memset((void *) (&(*(RecoveredGlobal_803C0AD8_lbl_80570AC0 *)&lbl_80570AC0).value), 0, 0x9C0);
+    memset((void *) (&lbl_80570AC0.value), 0, 0x9C0);
 }
 void TLobby::reset_sound_buffers() {
     TLobby__sub_803C406C();
@@ -649,8 +640,5 @@ void TLobby__sub_803C133C(Snd_803C0BE8 *arg0) {
         arg0->state = 3;
     }
 }
-
-typedef char RecoveredGlobal_803C0B08_lbl_80570AC0_size[sizeof(RecoveredGlobal_803C0B08_lbl_80570AC0) == 0x9C0 ? 1 : -1];
-typedef char RecoveredGlobal_803C0AD8_lbl_80570AC0_size[sizeof(RecoveredGlobal_803C0AD8_lbl_80570AC0) == 0x9C0 ? 1 : -1];
 
 }

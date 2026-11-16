@@ -16,4 +16,8 @@ s32 set_range__6TLobbyFPvii(u8 *arg0, s32 arg1, s32 arg2);
 }
 // --- end of C functions
 
+// adx_stream_read_requests: layout known from its uses only.
+struct AdxStreamReadRequests { s32 value; u8 remaining[0x9FC]; };
+extern AdxStreamReadRequests adx_stream_read_requests;
+
 #endif

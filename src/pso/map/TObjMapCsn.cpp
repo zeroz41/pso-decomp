@@ -6,11 +6,6 @@
 #include "pso/map/TObjMapCsn.h"
 #include "pso/player/TObjPlayer.h"
 
-struct RecoveredGlobal_80194988___vt__10TObjMapCsn { s32 value; u8 remaining[0x38]; };
-typedef char RecoveredGlobal_80194988___vt__10TObjMapCsn_size[sizeof(RecoveredGlobal_80194988___vt__10TObjMapCsn) == 0x3C ? 1 : -1];
-
-struct RecoveredGlobal_801949FC___vt__10TObjMapCsn { s32 value; u8 remaining[0x38]; };
-
 struct Tri_801946D0 {
     u16 a, b, c;
     s16 f6;

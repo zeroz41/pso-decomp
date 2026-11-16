@@ -239,12 +239,8 @@ s32 TLobby::set_flag_bit0(s32 arg0) {
 
 }
 
-struct RecoveredGlobal_8001DC24_lbl_80515BC8 {
-    s32 value;
-    u8 remaining[0xFC];
-};
-
-extern RecoveredGlobal_8001DC24_lbl_80515BC8 text_builder_buffer;
+struct TextBuilderBuffer { s32 value; u8 remaining[0xFC]; };
+extern TextBuilderBuffer text_builder_buffer;
 extern "C" {
 
 s32 TLobby::is_active() {
@@ -260,7 +256,6 @@ void TLobby__sub_8001DC04(void* p) { TLobby__sub_8001DBD8((s32)p); }
 
     extern int TLobby__lobby_instance;
 
-typedef char RecoveredGlobal_8001DC24_lbl_80515BC8_size[sizeof(RecoveredGlobal_8001DC24_lbl_80515BC8) == 0x100 ? 1 : -1];
 s32 *get_shared_text_buffer(void) {
     return &text_builder_buffer.value;
 }

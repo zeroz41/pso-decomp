@@ -8,17 +8,7 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/task/TObject.h"
 
-struct RecoveredGlobal_8019733C___vt__13TObjRaderIcon {
-    s32 value;
-    u8 remaining[0x30];
-};
-
 struct Icon_80197110 { u8 pad0[0x38]; f32 pos[3]; u8 pad44[0x1C]; s32 f60; u8 pad64[0x2C]; s32 f90; s32 f94; s32 f98; f32 f9C; u32 fA0; };
-
-struct RecoveredGlobal_80197490___vt__16TObjRaderHideCol {
-    s32 value;
-    u8 remaining[0x30];
-};
 
 struct Pl_801973B0 { u8 pad0[0x38]; f32 pos[3]; };
 
@@ -39,9 +29,6 @@ void *get_player_by_client_id(s32 i);
 extern s32 local_client_id;
 }
 
-typedef char RecoveredGlobal_8019733C___vt__13TObjRaderIcon_size[sizeof(RecoveredGlobal_8019733C___vt__13TObjRaderIcon) == 0x34 ? 1 : -1];
-typedef char RecoveredGlobal_80197490___vt__16TObjRaderHideCol_size[sizeof(RecoveredGlobal_80197490___vt__16TObjRaderHideCol) == 0x34 ? 1 : -1];
-
 // Deferred TU: code is generated last-defined-first, so the functions are written in
 // reverse address order (vtables and .text then come out in the original order).
 #pragma defer_codegen on
@@ -49,7 +36,7 @@ typedef char RecoveredGlobal_80197490___vt__16TObjRaderHideCol_size[sizeof(Recov
 
 u8 *TObjRaderHideCol__ct(u8 *rader_hide_col, s32 arg1, s32 arg2) {
     __ct__8TObjBaseFP7TObject(rader_hide_col);
-    *(s32 **)((s8 *)rader_hide_col + 0x18) = &(*(RecoveredGlobal_80197490___vt__16TObjRaderHideCol *)&__vt__16TObjRaderHideCol).value;
+    *(s32 **)((s8 *)rader_hide_col + 0x18) = __vt__16TObjRaderHideCol;
     *(s32 *)((s8 *)rader_hide_col + 0) = (s32) TObjRaderHideCol__name;
     ((TObjRaderHideCol *)(rader_hide_col))->apply_object_set_data((void *)arg2);
     *(f32 *)((s8 *)rader_hide_col + 0x90) = (f32) ((TObjRaderHideCol *)rader_hide_col)->scale.x;
@@ -83,7 +70,7 @@ void TObjRaderHideCol::render() {  }
 
 u8 *TObjRaderIcon__ct(u8 *rader_icon, s32 arg1, s32 arg2) {
     __ct__8TObjBaseFP7TObject(rader_icon);
-    *(s32 **)((s8 *)rader_icon + 0x18) = &(*(RecoveredGlobal_8019733C___vt__13TObjRaderIcon *)&__vt__13TObjRaderIcon).value;
+    *(s32 **)((s8 *)rader_icon + 0x18) = __vt__13TObjRaderIcon;
     *(s32 *)((s8 *)rader_icon + 0) = (s32) lbl_805D3418;
     ((TObjRaderIcon *)(rader_icon))->apply_object_set_data((void *)arg2);
     ((TObjRaderIcon *)rader_icon)->initialize_from_placement();

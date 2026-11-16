@@ -9,9 +9,6 @@
 
 #pragma readonly_strings on
 
-struct RecoveredGlobal_80352F6C___vt__10TEndingPic { s32 value; u8 remaining[0x14]; };
-typedef char RecoveredGlobal_80352F6C___vt__10TEndingPic_size[sizeof(RecoveredGlobal_80352F6C___vt__10TEndingPic) == 0x18 ? 1 : -1];
-
 extern "C" {
 int TKeyBoardControl__sub_8000F828(void);
 const char *lbl_805D4378 = "TEndingPic";

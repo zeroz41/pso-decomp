@@ -24,11 +24,6 @@ extern "C" {
 extern const f32 lbl_805DCE58;
 void *destroy__13TUnk_804CF930Fs(void *arg0, s16 arg1);
 
-struct RecoveredGlobal_80257B4C_lbl_804CF948 {
-    s32 value;
-    u8 remaining[0x14];
-};
-
 struct Base_80257BC0 { u16 flags; u8 pad[2]; };
 
 struct Item_80257BC0 : Base_80257BC0 {
@@ -68,8 +63,6 @@ struct Desc_80257D44 {
     u32 rows;
     u32 recs[1];
 };
-
-typedef char RecoveredGlobal_80257B4C_lbl_804CF948_size[sizeof(RecoveredGlobal_80257B4C_lbl_804CF948) == 0x18 ? 1 : -1];
 
 typedef void *(*Ctor_80257D44)(void *, void *, s32);
 

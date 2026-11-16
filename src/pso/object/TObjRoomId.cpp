@@ -22,11 +22,6 @@ struct VObj_18_1a504b : VBase_18_1a504b {
     virtual s32 m5(s32);
 };
 
-struct RecoveredGlobal_801A1CD8___vt__10TObjRoomId {
-    s32 value;
-    u8 remaining[0x34];
-};
-
 struct Obj_801A1888 { u8 pad[0x38]; f32 pos[3]; };
 
 // The class name, then the direction run_task rotates by the object's yaw into normal, the plane
@@ -181,10 +176,9 @@ void *__dt__10TObjRoomIdFv(void *base, s16 arg1) {
 
 extern void *tl_05;
 
-typedef char RecoveredGlobal_801A1CD8___vt__10TObjRoomId_size[sizeof(RecoveredGlobal_801A1CD8___vt__10TObjRoomId) == 0x38 ? 1 : -1];
 u8 *TObjRoomId__ct(u8 *base, s32 parent, s32 arg2) {
     __ct__8TObjBaseFP7TObject((void *)base, (void *)parent);
-    *(s32 **)((s8 *)base + 0x18) = &(*(RecoveredGlobal_801A1CD8___vt__10TObjRoomId *)&__vt__10TObjRoomId).value;
+    *(s32 **)((s8 *)base + 0x18) = __vt__10TObjRoomId;
     *(const char **)((s8 *)base + 0) = TObjRoomId__name;
     ((VObj_18_1a504b *)(base))->m5(arg2);
     *(f32 *)((s8 *)base + 0x90) = 0.0f;

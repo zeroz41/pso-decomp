@@ -18,14 +18,9 @@
 #pragma fp_contract on
 #pragma pop
 
-struct RecoveredGlobal_8006C03C_lbl_804FF5E8 {
-    s32 value;
-    u8 remaining[0x24];
-};
-
 void direction_to_pitch_yaw(u8 *arg0, s32 *arg1, s32 *arg2);
 void set_camera_look_at(u8 *eye, u8 *target, u8 *up);
-extern RecoveredGlobal_8006C03C_lbl_804FF5E8 lbl_804FF5E8;
+extern f32 lbl_804FF5E8[];
 extern TCameraCtrl *camera_ctrl_instance;
 extern void* camera_controller_registry[];
 void* camera_controller_registry[];
@@ -141,7 +136,6 @@ void set_scripted_camera_pose(const Vec* position, const Vec* target, const Came
 extern s32 TCameraCtrl__saved_projection_angle;
 extern s32 scripted_camera_projection_angle;
 
-typedef char RecoveredGlobal_8006C03C_lbl_804FF5E8_size[sizeof(RecoveredGlobal_8006C03C_lbl_804FF5E8) == 0x28 ? 1 : -1];
 void TUnk_80488B68::post_update_view() {
     Vec at;
     Vec dir;
@@ -154,9 +148,9 @@ void TUnk_80488B68::post_update_view() {
     at.z = camera_ctrl_instance->tgt_z;
     Vec up = {0.0f, 1.0f, 0.0f};
     set_camera_look_at((u8 *)&camera_ctrl_instance->pos_x, (u8 *)&at, (u8 *)&up);
-    *(f32 *)((s8 *)&lbl_804FF5E8.value + 0) = camera_ctrl_instance->pos_x;
-    *(f32 *)((s8 *)&lbl_804FF5E8.value + 4) = camera_ctrl_instance->pos_y;
-    *(f32 *)((s8 *)&lbl_804FF5E8.value + 8) = camera_ctrl_instance->pos_z;
+    *(f32 *)((s8 *)&lbl_804FF5E8 + 0) = camera_ctrl_instance->pos_x;
+    *(f32 *)((s8 *)&lbl_804FF5E8 + 4) = camera_ctrl_instance->pos_y;
+    *(f32 *)((s8 *)&lbl_804FF5E8 + 8) = camera_ctrl_instance->pos_z;
 }
 
 void CameraPlayback::cache_target_and_forward(s32 angle) const {

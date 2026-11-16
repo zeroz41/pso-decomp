@@ -18,8 +18,6 @@ const char *bm_o_light_machine01_motion_names[1] = {0};
 const char *bm_o_light_machine01_model_names[3] = { "fs_obj_light.gj", "fs_obj_toudai.gj", NULL };
 BmlResourceDescriptor light_machine01_resource_desc = { "bm_o_light_machine01.bml", bm_o_light_machine01_model_names, bm_o_light_machine01_motion_names, 2, 0 };
 
-struct RecoveredGlobal_8016EC04___vt__16TOLightMachine01 { s32 value; u8 remaining[0x30]; };
-
 extern "C" {
 s32 get_bml_texlist(void *, s32);
 s32 get_bml_model(void *, s32);
@@ -101,7 +99,7 @@ TOLightMachine01::~TOLightMachine01() {
 #pragma fp_contract on
 u8 *TOLightMachine01__ct(TOLightMachine01 *light_machine01, s32 arg1) {
     __ct__8TObjBaseFP7TObject(light_machine01, tl_05);
-    *(s32 **)((s8 *)light_machine01 + 0x18) = &(*(RecoveredGlobal_8016EC04___vt__16TOLightMachine01 *)&__vt__16TOLightMachine01).value;
+    *(s32 **)((s8 *)light_machine01 + 0x18) = __vt__16TOLightMachine01;
     ((TOLightMachine01 *)light_machine01)->m_name = TOLightMachine01__name;
     ((TOLightMachine01 *)(light_machine01))->apply_object_set_data((void *)arg1);
     light_machine01->model = ((u8 *)get_bml_model((void *)((*(s32 *)&TOLightMachine01__shared_bml_archive)), 1));

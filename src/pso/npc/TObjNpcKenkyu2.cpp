@@ -15,14 +15,6 @@ extern const char *bm_npc_kenkyu2_model_names[2];
 extern BmlResourceDescriptor TObjNpcKenkyu2__resource_descriptor;
 extern const char *bm_npc_kenkyu2_motion_names[1];
 
-struct RecoveredGlobal_802FEAD8_lbl_804E6248 { s32 value; u8 remaining[0xC]; };
-typedef char RecoveredGlobal_802FEAD8_lbl_804E6248_size[sizeof(RecoveredGlobal_802FEAD8_lbl_804E6248) == 0x10 ? 1 : -1];
-
-struct RecoveredGlobal_802FEB80___vt__14TObjNpcKenkyu2 {
-    s32 value;
-    u8 remaining[0x174];
-};
-
 extern "C" {
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 extern u32 TObjNpcKenkyu2__shared_model_resource;
@@ -58,10 +50,9 @@ extern "C" {
 
 extern void *tl_04;
 
-typedef char RecoveredGlobal_802FEB80___vt__14TObjNpcKenkyu2_size[sizeof(RecoveredGlobal_802FEB80___vt__14TObjNpcKenkyu2) == 0x178 ? 1 : -1];
 u8 *TObjNpcKenkyu2__ct(u8 *player, s32 arg1, s32 arg2) {
     ((TUnk_804A9F50 *)player)->construct_male_npc_base();
-    *(s32 **)((s8 *)player + 0x18) = &(*(RecoveredGlobal_802FEB80___vt__14TObjNpcKenkyu2 *)&__vt__14TObjNpcKenkyu2).value;
+    *(s32 **)((s8 *)player + 0x18) = __vt__14TObjNpcKenkyu2;
     *(s32 *)((s8 *)player + 0) = (s32) TObjNpcKenkyu2__name;
     ((TObjNpcKenkyu2 *)(player))->apply_set_data((void *)arg2);
     ((TObjPlayer *)player)->init_position_vectors();

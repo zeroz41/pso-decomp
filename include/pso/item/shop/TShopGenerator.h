@@ -27,4 +27,8 @@ u8 is_slot_active__14TShopGeneratorFi(s32 arg0);
 void run_task__14TShopGeneratorFv(u8 *self);
 }
 
+// TShopGenerator__slot_active_table: layout known from its uses only.
+struct TShopGeneratorSlotActiveTable { s32 value; u8 remaining[0xC]; };
+extern TShopGeneratorSlotActiveTable TShopGenerator__slot_active_table;
+
 #endif

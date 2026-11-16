@@ -35,10 +35,9 @@ extern "C" void test_flag_256__9TObjCharaFv();
 
 #include "pso/player/TObjPlayer_80011014.h"
 
-struct RecoveredGlobal_8035E374_lbl_805439E0 { s32 value; u8 remaining[0xC]; };
-
 extern "C" {
-RecoveredGlobal_8035E374_lbl_805439E0 lbl_805439E0;
+struct RecoveredGlobal_lbl_805439E0 { s32 value; u8 remaining[0xC]; };
+RecoveredGlobal_lbl_805439E0 lbl_805439E0;
 s32 epsilon_guard_camera_step;
 Vec *epsilon_guard_camera_ctrl_ptr;
 void render__19TObjEneEpsilonGuardFv(u8 *);

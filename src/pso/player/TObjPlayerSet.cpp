@@ -8,11 +8,6 @@
 #include "pso/system/task/TObject.h"
 
 
-struct RecoveredGlobal_80195720___vt__13TObjPlayerSet {
-    s32 value;
-    u8 remaining[0x34];
-};
-
 extern "C" {
 void *__nw__7TObjectFUl(int);
 extern s32 tl_00;
@@ -47,10 +42,9 @@ extern void *quest_collision_task_root;
 
 #pragma push
 #pragma opt_common_subs off
-typedef char RecoveredGlobal_80195720___vt__13TObjPlayerSet_size[sizeof(RecoveredGlobal_80195720___vt__13TObjPlayerSet) == 0x38 ? 1 : -1];
 u8 *TObjPlayerSet__ct(TObjPlayerSet *player_set, s32 arg1, s32 arg2) {
     __ct__8TObjBaseFP7TObject(player_set);
-    *(s32 **)((s8 *)player_set + 0x18) = &(*(RecoveredGlobal_80195720___vt__13TObjPlayerSet *)&__vt__13TObjPlayerSet).value;
+    *(s32 **)((s8 *)player_set + 0x18) = __vt__13TObjPlayerSet;
     *(s32 *)((s8 *)player_set + 0) = (s32) TObjPlayer__player_set_class_name;
     ((TObjPlayerSet *)(player_set))->apply_object_set_data((void *)arg2);
     if (player_set->scale.x < 0.0f) {

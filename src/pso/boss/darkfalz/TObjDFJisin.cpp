@@ -240,13 +240,6 @@ typedef struct Obj_80050EB4 {
     f32 radius;
 } Obj_80050EB4;
 
-struct RecoveredGlobal_8005101C___vt__11TObjDFJisin {
-    s32 value;
-    u8 remaining[0x14];
-};
-
-typedef char RecoveredGlobal_8005101C___vt__11TObjDFJisin_size[sizeof(RecoveredGlobal_8005101C___vt__11TObjDFJisin) == 0x18 ? 1 : -1];
-
 struct Ball_8005123C {
     u8 pad0[0x1C];
     Vec pos;
@@ -905,11 +898,6 @@ struct RecoveredGlobal_80051938___vt__16TObjDFTenchuFuru {
 };
 
 
-struct RecoveredGlobal_80051AD0_lbl_804858B4 {
-    s32 value;
-    u8 remaining[0x8];
-};
-
 struct RecoveredFields_80051AD0_var_r31 {
     s32 field_0;
     u8 unknown_4[0x28];
@@ -926,7 +914,8 @@ extern Mtx34 df_captured_matrix_pair[2];
 int TObjDFTenchuFuru__matrix_node_index;
 extern "C" {
 s32 matrix_mult_vec(int, void *, void *);
-extern RecoveredGlobal_80051AD0_lbl_804858B4 dark_falz_jisin_zero_vec;
+struct DarkFalzJisinZeroVec { s32 value; u8 remaining[0x8]; };
+extern DarkFalzJisinZeroVec dark_falz_jisin_zero_vec;
 Vec lbl_804FF228;
 Vec lbl_804FF234;
 Mtx34 df_captured_matrix_pair[2];
@@ -994,7 +983,6 @@ void TObjDFTenchuFuru::capture_matrix_by_frame() {
 void TObjDFTenchuFuru__sub_80051A7C(void) { set_chunk_model_node_callback(0); }
 
 void TObjDFTenchuFuru::register_callback() { TObjDFTenchuFuru__matrix_node_index = 0; set_chunk_model_node_callback((s32)TObjDFTenchuFuru::capture_matrix_by_frame); }
-typedef char RecoveredGlobal_80051AD0_lbl_804858B4_size[sizeof(RecoveredGlobal_80051AD0_lbl_804858B4) == 0xC ? 1 : -1];
 typedef char RecoveredFields_80051AD0_var_r31_0_offset[offsetof(RecoveredFields_80051AD0_var_r31, field_0) == 0x0 ? 1 : -1];
 typedef char RecoveredFields_80051AD0_var_r31_2C_offset[offsetof(RecoveredFields_80051AD0_var_r31, field_2C) == 0x2C ? 1 : -1];
 typedef char RecoveredFields_80051AD0_var_r31_30_offset[offsetof(RecoveredFields_80051AD0_var_r31, field_30) == 0x30 ? 1 : -1];

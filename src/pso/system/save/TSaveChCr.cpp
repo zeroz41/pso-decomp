@@ -23,11 +23,6 @@
 
 struct ByteBlock_20 { u8 bytes[0x20]; };
 
-struct RecoveredGlobal_80339F98_lbl_80477CBC {
-    s32 value;
-    u8 remaining[0x20];
-};
-
 struct Stack_8033A184 {
     s32 sp8;
     s32 spC;
@@ -35,11 +30,6 @@ struct Stack_8033A184 {
 };
 
 union MemberActionStorage_8033A184 { s32 words[3]; void (TSaveChCr::*action)(); };
-
-struct RecoveredGlobal_8033A184_lbl_804EF658 {
-    s32 value;
-    u8 remaining[0x74];
-};
 
 extern TSaveChCrStateActions lbl_804EF658[];
 
@@ -50,7 +40,6 @@ extern s32 pso_guildcard_card_filename[];
 void *__nw__7TObjectFUl(int);
 void *__ct__9TAdBackGCFv(void *, void *);
 void *__ct__12TAdBackTxtGCFv(void *, void *);
-extern RecoveredGlobal_80339F98_lbl_80477CBC TSaveChCr__message_text_ids;
 u32 update_window_mode_from_progress__6TLobbyFPv(s32 *, s32 *);
 extern s32 lbl_80477CAC[];
 extern s32 lbl_80477CB4[];
@@ -165,7 +154,6 @@ s32 TSaveChCr::sub_80339F30() {
 }
 
 void TSaveChCr::close_and_advance(void* a1) { close_window(); set_message_by_index((s32)a1); }
-typedef char RecoveredGlobal_80339F98_lbl_80477CBC_size[sizeof(RecoveredGlobal_80339F98_lbl_80477CBC) == 0x24 ? 1 : -1];
 void TSaveChCr::set_message_by_index(s32 arg1) {
     s32 arg0 = (s32)this;
     ByteBlock_20 sp8;
@@ -216,7 +204,6 @@ s32 TSaveChCr::save_character() {
 }
 
 typedef char MemberActionStorage_8033A184_size[sizeof(MemberActionStorage_8033A184) == 12 ? 1 : -1];
-typedef char RecoveredGlobal_8033A184_lbl_804EF658_size[sizeof(RecoveredGlobal_8033A184_lbl_804EF658) == 0x78 ? 1 : -1];
 void TSaveChCr::set_state(s32 arg1) {
     u8 *arg0 = (u8 *)this;
     MemberActionStorage_8033A184 member_action;
@@ -227,7 +214,7 @@ void TSaveChCr::set_state(s32 arg1) {
     u8 *temp_r6;
     if ((s32) *(s32 *)((s8 *)arg0 + 0x1C) != arg1) {
         *(s32 *)((s8 *)arg0 + 0x1C) = arg1;
-        temp_r6 = (u8 *)&(*(RecoveredGlobal_8033A184_lbl_804EF658 *)&lbl_804EF658).value + (*(s32 *)((s8 *)arg0 + 0x1C) * 0x18);
+        temp_r6 = (u8 *)&lbl_804EF658 + (*(s32 *)((s8 *)arg0 + 0x1C) * 0x18);
         member_action.words[0] = *(s32 *)((s8 *)temp_r6 + 0);
         member_action.words[1] = *(s32 *)((s8 *)temp_r6 + 4);
         member_action.words[2] = *(s32 *)((s8 *)temp_r6 + 8);

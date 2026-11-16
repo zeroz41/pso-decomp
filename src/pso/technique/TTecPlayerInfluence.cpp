@@ -19,11 +19,6 @@ struct Stack_80237194 {
     s32 sp10;
 };
 
-struct RecoveredGlobal_80237194_lbl_8044D8EC {
-    s32 value;
-    u8 remaining[0x8];
-};
-
 struct Owner_80237310
 {
   u8 pad[0x30];
@@ -88,7 +83,8 @@ typedef struct Rabarta_80237494
 } Rabarta_80237494;
 
 extern "C" {
-extern RecoveredGlobal_80237194_lbl_8044D8EC lbl_8044D8EC;
+struct RecoveredGlobal_lbl_8044D8EC { s32 value; u8 remaining[0x8]; };
+extern RecoveredGlobal_lbl_8044D8EC lbl_8044D8EC;
 u16 get_entity_id(void *);
 void __ct__7TEffectFv(void *);
 void init_collision_body_parts(void *, f32 *, s32);
@@ -99,7 +95,6 @@ extern s32 lbl_805D37F0;
 Obj_80237310 *TTecPlayerInfluence__ct(Obj_80237310 *self, Owner_80237310 *owner, void *pos, s32 level);
 void free_collision_body_parts(void *);
 
-typedef char RecoveredGlobal_80237194_lbl_8044D8EC_size[sizeof(RecoveredGlobal_80237194_lbl_8044D8EC) == 0xC ? 1 : -1];
 void TTecPlayerInfluence::render() {
     u8 *arg0 = (u8 *)this;
     typedef char sp8_offset[(offsetof(Stack_80237194, sp8) == 0x0) ? 1 : -1];

@@ -92,13 +92,6 @@ struct Fade_802575C0 {
     f32 dr, dg, db;
 };
 
-struct RecoveredGlobal_80257B4C_lbl_804CF948 {
-    s32 value;
-    u8 remaining[0x14];
-};
-
-typedef char RecoveredGlobal_80257B4C_lbl_804CF948_size[sizeof(RecoveredGlobal_80257B4C_lbl_804CF948) == 0x18 ? 1 : -1];
-
 typedef void *(*Ctor_80257D44)(void *, void *, s32);
 
 struct Bar_8025799C {
@@ -318,7 +311,7 @@ void *TWindowSubStatusDisp__sub_80257AF4(void *arg0, s16 arg1) {
 
 u8 *TWindowSubStatusDisp::init_layout_entry_copy(u8 *arg1) {
     ((s32 (*)(void))init_from__13TUnk_804CF930FPvi)();
-    *(s32 * *)&this->m_flags = &(*(RecoveredGlobal_80257B4C_lbl_804CF948 *)&lbl_804CF948).value;
+    *(s32 * *)&this->m_flags = lbl_804CF948;
     *(s16 *)((s8 *)((u8 *)this) + 0x28) = (s16) *(f32 *)&this->m_24;
     *(s32 *)((s8 *)((u8 *)this) + 0x60) = (s32) *(s32 *)((s8 *)arg1 + 0x24);
     *(s32 *)((s8 *)((u8 *)this) + 0x64) = (s32) *(s32 *)((s8 *)arg1 + 0x28);

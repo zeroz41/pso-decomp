@@ -8,20 +8,13 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
 
-struct RecoveredGlobal_80050050_lbl_80485864
-{
-  s32 value;
-  u8 remaining[0x8];
-};
-
 extern "C" {
 s32 queue_destruction__7TObjectFv();
 s32 push_matrix();
 f32 post_translate_matrix(void *);
-extern RecoveredGlobal_80050050_lbl_80485864 three_part_model_translate_offset;
+struct ThreePartModelTranslateOffset { s32 value; u8 remaining[0x8]; };
+extern ThreePartModelTranslateOffset three_part_model_translate_offset;
 
-typedef struct RecoveredGlobal_80050050_lbl_80485864 RecoveredGlobal_80050050_lbl_80485864;
-typedef char RecoveredGlobal_80050050_lbl_80485864_size[((sizeof(RecoveredGlobal_80050050_lbl_80485864)) == 0xC) ? (1) : (-1)];
 void TObjDFDemoF::render() {
     u8 *arg0 = (u8 *)this;
   int var_r31;

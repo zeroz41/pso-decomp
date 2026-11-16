@@ -49,11 +49,6 @@ struct RecoveredGlobal_80215EF8___vt__17TJudgmentSequence {
     u8 remaining[0x34];
 };
 
-struct RecoveredGlobal_80215EF8_TJudgmentSequence__data_80513E80 {
-    s32 value;
-    u8 remaining[0xC];
-};
-
 struct Win_80215CB8 { u8 pad[0x16c]; void *cb0; void *cb1; void *cb2; };
 
 struct Seq_80215CB8 { u8 pad[0x24]; s32 f24; };
@@ -63,7 +58,8 @@ s32 set_service_counter_camera(void *, int);
 s32 get_window_layout_position(int, f32);
 s32 sub_8022397C__15TShopWindowBaseFv(void *);
 extern RecoveredGlobal_80215EF8___vt__17TJudgmentSequence __vt__17TJudgmentSequence;
-RecoveredGlobal_80215EF8_TJudgmentSequence__data_80513E80 TJudgmentSequence__slot_flags;
+struct TJudgmentSequenceSlotFlags { s32 value; u8 remaining[0xC]; };
+TJudgmentSequenceSlotFlags TJudgmentSequence__slot_flags;
 s32 judgment_sequence_instance;
 void *__nw__7TObjectFUl(u32);
 void *__ct__23TShopJudgmentItemWindowFPvPvPv(TShopJudgmentItemWindow *arg0, void *arg1, void *arg2, void *arg3);
@@ -135,7 +131,6 @@ void TJudgmentSequence::setup_counter_camera() {
 
 void TJudgmentSequence::restore_player_state() { restore_player_state__13TShopSequenceFv(this); set_field_20((s32)((void*)((void*)1))); }
 typedef char RecoveredGlobal_80215EF8___vt__17TJudgmentSequence_size[sizeof(RecoveredGlobal_80215EF8___vt__17TJudgmentSequence) == 0x38 ? 1 : -1];
-typedef char RecoveredGlobal_80215EF8_TJudgmentSequence__data_80513E80_size[sizeof(RecoveredGlobal_80215EF8_TJudgmentSequence__data_80513E80) == 0x10 ? 1 : -1];
 
 struct Seq_80215CB8;
 void TJudgmentSequence::vfunc_11() {

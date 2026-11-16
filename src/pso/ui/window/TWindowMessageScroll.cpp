@@ -9,11 +9,6 @@
 
 #pragma readonly_strings on
 
-struct RecoveredGlobal_8035D694___vt__20TWindowMessageScroll {
-    s32 value;
-    u8 remaining[0x14];
-};
-
 extern "C" {
 s32 retire_scrolled_lines__14TWindowMessageFv(f32);
 extern s32 __vt__20TWindowMessageScroll[];
@@ -38,10 +33,9 @@ TWindowMessageScroll::~TWindowMessageScroll() {
 
 }
 
-typedef char RecoveredGlobal_8035D694___vt__20TWindowMessageScroll_size[sizeof(RecoveredGlobal_8035D694___vt__20TWindowMessageScroll) == 0x18 ? 1 : -1];
 u8 *TWindowMessageScroll__ct(u8 *window_message_scroll, s32 arg1, s32 *arg2) {
     TWindowMessageQuest__ct((window_message_scroll), (arg1));
-    *(s32 **)((s8 *)window_message_scroll + 0x18) = &(*(RecoveredGlobal_8035D694___vt__20TWindowMessageScroll *)&__vt__20TWindowMessageScroll).value;
+    *(s32 **)((s8 *)window_message_scroll + 0x18) = __vt__20TWindowMessageScroll;
     ((TWindowMessageScroll *)window_message_scroll)->m_name = TWindowMessageScroll__class_name;
     *(f32 *)((s8 *)window_message_scroll + 0x94) = 0.0f;
     ((TWindowMessageScroll *)window_message_scroll)->m_98 = arg2;

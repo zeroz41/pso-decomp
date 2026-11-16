@@ -12,4 +12,9 @@ struct TObjQuestColALock : public TObjQuestColBase {
 };
 
 typedef char TObjQuestColALock_size[sizeof(TObjQuestColALock) == 0xBC ? 1 : -1];
+
+// TObjQuestColALock__collision_desc: layout known from its uses only.
+struct TObjQuestColALockCollisionDesc { s32 value; u8 remaining[0x28]; };
+extern TObjQuestColALockCollisionDesc TObjQuestColALock__collision_desc;
+
 #endif

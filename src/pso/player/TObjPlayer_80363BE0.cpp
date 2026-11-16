@@ -63,34 +63,10 @@ struct VObj_18_1419ea : VBase_18_1419ea {
     virtual s32 m26();
 };
 
-struct RecoveredGlobal_803640C8_lbl_8058D4C0 {
-    s32 value;
-    u8 remaining[0xC];
-};
-
-struct RecoveredGlobal_8036414C_lbl_8058D4C0 {
-    s32 value;
-    u8 remaining[0xC];
-};
-
-struct RecoveredGlobal_80364198_lbl_8058D4C0 {
-    s32 value;
-    u8 remaining[0xC];
-};
-
-struct RecoveredGlobal_803640F8_lbl_8058D4C0 {
-    s32 value;
-    u8 remaining[0xC];
-};
-
 struct Rec_80364028 { f32 a; s32 b; s32 c; s32 d; };
 
 const Rec_80364028 lbl_80479FF8 = {0.0f, 0, 0, 0};
 struct Elt80364258_80364258 { s32 f0; };
-typedef char RecoveredGlobal_803640C8_lbl_8058D4C0_size[sizeof(RecoveredGlobal_803640C8_lbl_8058D4C0) == 0x10 ? 1 : -1];
-typedef char RecoveredGlobal_8036414C_lbl_8058D4C0_size[sizeof(RecoveredGlobal_8036414C_lbl_8058D4C0) == 0x10 ? 1 : -1];
-typedef char RecoveredGlobal_803640F8_lbl_8058D4C0_size[sizeof(RecoveredGlobal_803640F8_lbl_8058D4C0) == 0x10 ? 1 : -1];
-typedef char RecoveredGlobal_80364198_lbl_8058D4C0_size[sizeof(RecoveredGlobal_80364198_lbl_8058D4C0) == 0x10 ? 1 : -1];
 
 #define reset_id_array__10TObjPlayerFPv ((s32 (*)(void))reset_id_array__10TObjPlayerFPv)
 
@@ -139,27 +115,27 @@ void TObjPlayer::free_global_805D6FB8() {
 
 void TObjPlayer__sub_80364198(void) {
     *(s32 *)((s8 *)(*(u8 * *)&(*(void **)&lbl_805D6FB8)) + 0) = (s32) model_render_flags;
-    copy_argb((NJS_ARGB *)((*(u8 * *)&(*(void **)&lbl_805D6FB8)) + 0xC), (NJS_ARGB *)(&(*(RecoveredGlobal_80364198_lbl_8058D4C0 *)&(*(RecoveredGlobal_803640C8_lbl_8058D4C0 *)&model_material_color)).value));
+    copy_argb((NJS_ARGB *)((*(u8 * *)&(*(void **)&lbl_805D6FB8)) + 0xC), &model_material_color);
     *(s32 *)((s8 *)(*(u8 * *)&(*(void **)&lbl_805D6FB8)) + 4) = (s32) chunk_polygon_flags_and_mask;
     *(s32 *)((s8 *)(*(u8 * *)&(*(void **)&lbl_805D6FB8)) + 8) = (s32) chunk_polygon_flags_or_mask;
 }
 
 void TObjPlayer__sub_8036414C(void) {
     model_render_flags = *(s32 *)((s8 *)(*(u8 * *)&(*(void **)&lbl_805D6FB8)) + 0);
-    copy_argb((NJS_ARGB *)(&(*(RecoveredGlobal_8036414C_lbl_8058D4C0 *)&(*(RecoveredGlobal_803640C8_lbl_8058D4C0 *)&model_material_color)).value), (NJS_ARGB *)((*(u8 * *)&(*(void **)&lbl_805D6FB8)) + 0xC));
+    copy_argb(&model_material_color, (NJS_ARGB *)((*(u8 * *)&(*(void **)&lbl_805D6FB8)) + 0xC));
     chunk_polygon_flags_and_mask = *(s32 *)((s8 *)(*(u8 * *)&(*(void **)&lbl_805D6FB8)) + 4);
     chunk_polygon_flags_or_mask = *(s32 *)((s8 *)(*(u8 * *)&(*(void **)&lbl_805D6FB8)) + 8);
 }
 
 void TObjPlayer::push_model_fade_color() {
-    copy_argb((NJS_ARGB *)((*(s32 *)&(*(void **)&lbl_805D6FB8)) + 0x1C), (NJS_ARGB *)(&(*(RecoveredGlobal_803640F8_lbl_8058D4C0 *)&(*(RecoveredGlobal_803640C8_lbl_8058D4C0 *)&model_material_color)).value));
+    copy_argb((NJS_ARGB *)((*(s32 *)&(*(void **)&lbl_805D6FB8)) + 0x1C), &model_material_color);
     if (this != NULL) {
-        copy_argb((NJS_ARGB *)(&(*(RecoveredGlobal_803640F8_lbl_8058D4C0 *)&(*(RecoveredGlobal_803640C8_lbl_8058D4C0 *)&model_material_color)).value), (NJS_ARGB *)this);
+        copy_argb(&model_material_color, (NJS_ARGB *)this);
     }
 }
 
 void TObjPlayer::copy_gauge_warn_vec() {
-    copy_argb((NJS_ARGB *)(&(*(RecoveredGlobal_803640C8_lbl_8058D4C0 *)&model_material_color).value), (NJS_ARGB *)((*(s32 *)&(*(void **)&lbl_805D6FB8)) + 0x1C));
+    copy_argb(&model_material_color, (NJS_ARGB *)((*(s32 *)&(*(void **)&lbl_805D6FB8)) + 0x1C));
 }
 
 void TObjPlayer::set_model_fade_alpha(f32 farg0) {

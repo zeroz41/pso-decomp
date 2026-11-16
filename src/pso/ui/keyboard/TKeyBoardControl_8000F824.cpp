@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/ui/keyboard/TKeyBoardControl_80131C58.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F764.h"
 #include "pso/render/render_util.h"
@@ -21,11 +22,6 @@
 
 
 u8 gx_default_light_obj[256];
-
-struct RecoveredGlobal_8000F764_TKeyBoardControl__data_80506270 {
-    s32 value;
-    u8 remaining[0xAC];
-};
 
 typedef struct GXColor_8000FA00 { u8 r, g, b, a; } GXColor_8000FA00;
 
@@ -100,7 +96,6 @@ void TLobby__sub_8020E3BC(void);
 }
 extern s32 keyboard_active_flag;
 extern s32 keyboard_key_state;
-extern RecoveredGlobal_8000F764_TKeyBoardControl__data_80506270 TKeyBoardControl__global_key_state;
 extern u8 gx_default_light_obj[];
 extern void *video_initial_draw_framebuffer;
 extern void *video_initial_display_framebuffer;

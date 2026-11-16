@@ -32,11 +32,6 @@ const char *TObjFogCollision__name = "TObjFogCollision";
 const char *TObjFogCollisionSwitch__name = "TObjFogCollisionSwitch";
 const char *TObjFogCollisionPoison__name = "TObjFogCollisionPoison";
 
-struct RecoveredGlobal_80153FD0___vt__16TObjFogCollision {
-    s32 value;
-    u8 remaining[0x3C];
-};
-
 struct VBase_801537CC { char pad[0x18]; };
 
 struct VObj_801537CC : VBase_801537CC {
@@ -89,7 +84,6 @@ void *TObjFogCollision__create(void *set) {
     return o;
 }
 
-typedef char RecoveredGlobal_80153FD0___vt__16TObjFogCollision_size[sizeof(RecoveredGlobal_80153FD0___vt__16TObjFogCollision) == 0x40 ? 1 : -1];
 }
 TObjFogCollision::TObjFogCollision(TObject *parent, void *set) : TObjBase(parent) {
     ((TObject *)this)->m_name = TObjFogCollision__name;

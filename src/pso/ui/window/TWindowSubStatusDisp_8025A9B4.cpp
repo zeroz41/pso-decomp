@@ -20,9 +20,6 @@ struct Msg_8025A9C0 {
     s8 *text;
 };
 
-struct RecoveredGlobal_8025AF90_lbl_804CFA28 { s32 value; u8 remaining[0x14]; };
-typedef char RecoveredGlobal_8025AF90_lbl_804CFA28_size[sizeof(RecoveredGlobal_8025AF90_lbl_804CFA28) == 0x18 ? 1 : -1];
-
 struct Win_8025AD5C { u16 flags; u8 pad2[6]; f32 f8; f32 fC; u8 pad10[8]; f32 f18; f32 f1C; s8 *text; s32 i24; };
 
 struct Ref_8025AD5C { u8 pad0[0x10]; f32 f10; f32 f14; f32 f18; u8 pad1c[0x30 - 0x1C]; s32 i30; u8 pad34[4]; f32 f38; u8 pad3c[8]; f32 f44; };
@@ -268,7 +265,7 @@ void *TWindowSubStatusDisp__sub_8025AF0C(void *window_sub_status_disp, s16 arg1)
 
 u8 *construct_text_entry(u8 *arg0, u8 *arg1, s32 arg2) {
     reset_entry__20TWindowSubStatusDispFPv(arg0, arg2);
-    *(s32 **)((s8 *)arg0 + 4) = &(*(RecoveredGlobal_8025AF90_lbl_804CFA28 *)&lbl_804CFA28).value;
+    *(s32 **)((s8 *)arg0 + 4) = ((s32 *)&lbl_804CFA28);
     *(f32 *)((s8 *)arg0 + 8) = (f32) *(f32 *)((s8 *)arg1 + 4);
     *(f32 *)((s8 *)arg0 + 0xC) = (f32) *(f32 *)((s8 *)arg1 + 8);
     *(f32 *)((s8 *)arg0 + 0x18) = (f32) *(f32 *)((s8 *)arg1 + 0xC);

@@ -12,11 +12,6 @@
 
 #pragma readonly_strings on
 
-struct RecoveredGlobal_8028B60C___vt__15TObjBoss5Pillar {
-    s32 value;
-    u8 remaining[0x14];
-};
-
 struct Info_8028B488 { u8 pad[4]; u32 frames; };
 
 struct Pillar_8028B488 {
@@ -100,10 +95,9 @@ TObjBoss5Pillar::~TObjBoss5Pillar() {
     if (*(void **)((s8 *)this + 0x48) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0x48)))->queue_destruction(); this->m_48 = 0; }
 }
 
-typedef char RecoveredGlobal_8028B60C___vt__15TObjBoss5Pillar_size[sizeof(RecoveredGlobal_8028B60C___vt__15TObjBoss5Pillar) == 0x18 ? 1 : -1];
 u8 *TObjBoss5Pillar__ct(TObjBoss5Pillar *boss5_pillar, u8 *arg1, u8 *arg2) {
     __ct__7TObjectFP7TObject(boss5_pillar, arg1);
-    *(s32 **)((s8 *)boss5_pillar + 0x18) = &(*(RecoveredGlobal_8028B60C___vt__15TObjBoss5Pillar *)&__vt__15TObjBoss5Pillar).value;
+    *(s32 **)((s8 *)boss5_pillar + 0x18) = __vt__15TObjBoss5Pillar;
     ((TObjBoss5Pillar *)boss5_pillar)->m_name = lbl_805D3B40;
     VecCopy((Vec *)((u8 *)boss5_pillar + 0x2C), (const Vec *)arg2);
     boss5_pillar->m_1c = 0;

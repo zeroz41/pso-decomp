@@ -46,7 +46,6 @@ typedef struct Key_80165940 {
     s32 fD0;
 } Key_80165940;
 
-struct RecoveredGlobal_80165EE8___vt__16TODummyKeyCave01 { s32 value; u8 remaining[0x34]; };
 struct Obj_80165C84 {
     u8 pad0[0x24];
     s32 f24;
@@ -86,7 +85,7 @@ extern void *tl_05;
 
 u8 *TODummyKeyCave01__ct(u8 *dummy_key_cave01, s32 arg1, s32 arg2) {
     __ct__8TObjBaseFP7TObject(dummy_key_cave01);
-    *(s32 **)((s8 *)dummy_key_cave01 + 0x18) = &(*(RecoveredGlobal_80165EE8___vt__16TODummyKeyCave01 *)&__vt__16TODummyKeyCave01).value;
+    *(s32 **)((s8 *)dummy_key_cave01 + 0x18) = __vt__16TODummyKeyCave01;
     ((TObject *)dummy_key_cave01)->m_name = TODummyKeyCave01__class_name;
     ((TODummyKeyCave01 *)(dummy_key_cave01))->apply_object_set_data((void *)arg2);
     *(f32 *)((s8 *)dummy_key_cave01 + 0xA8) = 1.0f;

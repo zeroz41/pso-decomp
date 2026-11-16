@@ -14,9 +14,6 @@
 const char *TWindowSubItemList__class_name = "TWindowSubItemList";
 
 
-struct RecoveredGlobal_8027AEDC___vt__18TWindowSubItemList { s32 value; u8 remaining[0x1C]; };
-typedef char RecoveredGlobal_8027AEDC___vt__18TWindowSubItemList_size[sizeof(RecoveredGlobal_8027AEDC___vt__18TWindowSubItemList) == 0x20 ? 1 : -1];
-
 extern "C" {
 s32 get_draw_context__11TWindowBaseFPv();
 s32 draw_visible_window_entries(void *, void *, int);
@@ -75,7 +72,7 @@ void *__dt__18TWindowSubItemListFv(void *window_sub_status_disp, s16 arg1) {
 }
 u8 *TWindowSubItemList__ct(u8 *arg0, s32 arg1, s16 arg2) {
     fn_802683F4((arg0), (arg1), 0x24, (arg2));
-    *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_8027AEDC___vt__18TWindowSubItemList *)&__vt__18TWindowSubItemList).value;
+    *(s32 **)((s8 *)arg0 + 0x18) = __vt__18TWindowSubItemList;
     *(s32 *)((s8 *)arg0 + 0) = (s32) TWindowSubItemList__class_name;
     ((TWindowMenuIconLine *)arg0)->ensure_status_display((int) (TWindowSubStatusDisp::get_message_10(0x24)));
     ((TWindowMenuIconLine *)arg0)->create_menu_scroll_bar();

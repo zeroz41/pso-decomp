@@ -31,19 +31,9 @@ struct VObj_8006CE78_8006CC30 : Base_8006CE78_8006CC30 {
     virtual void m12(s32);
 };
 
-struct RecoveredGlobal_8006D494_camera_controller_registry {
-    s32 value;
-    u8 remaining[0x64];
-};
-
 struct RecoveredGlobal_8006D494_TCameraCtrl__data_804FF628 {
     u8 value;
     u8 remaining[0xB];
-};
-
-struct RecoveredGlobal_8006D460_camera_controller_registry {
-    s32 value;
-    u8 remaining[0x64];
 };
 
 struct RecoveredGlobal_8006D460_TCameraCtrl__data_804FF628 {
@@ -59,11 +49,6 @@ struct RecoveredFields_8006DCD4_arg0 {
     f32 field_48;
     f32 field_4C;
     f32 field_50;
-};
-
-struct RecoveredGlobal_8006D610_camera_controller_registry {
-    s32 value;
-    u8 remaining[0x64];
 };
 
 struct RecoveredGlobal_8006D610_TCameraCtrl__data_804FF628 {
@@ -255,7 +240,8 @@ extern u8 TCameraCtrl__override_flags;
 extern "C" {
 s32 get_player_by_client_id(u32);
 extern u16 TCameraCtrl__camera_override_client_id;
-extern RecoveredGlobal_8006D494_camera_controller_registry camera_controller_registry;
+struct CameraControllerRegistry { s32 value; u8 remaining[0x64]; };
+extern CameraControllerRegistry camera_controller_registry;
 extern RecoveredGlobal_8006D494_TCameraCtrl__data_804FF628 TCameraCtrl__view_state;
 void end_conversation_camera(void);
 u8 * csnVector(void *, void *, u32);
@@ -370,10 +356,8 @@ s32 is_flag_set__11TCameraCtrlFv(void) {
     return ((u32) *(u32 *)((s8 *)(TKeyBoardControl__sub_803DEB74(0x12)) + 8) >> 0x11U) & 1;
 }
 
-typedef char RecoveredGlobal_8006D494_camera_controller_registry_size[sizeof(RecoveredGlobal_8006D494_camera_controller_registry) == 0x68 ? 1 : -1];
 typedef char RecoveredGlobal_8006D494_TCameraCtrl__data_804FF628_size[sizeof(RecoveredGlobal_8006D494_TCameraCtrl__data_804FF628) == 0xC ? 1 : -1];
 
-typedef char RecoveredGlobal_8006D460_camera_controller_registry_size[sizeof(RecoveredGlobal_8006D460_camera_controller_registry) == 0x68 ? 1 : -1];
 typedef char RecoveredGlobal_8006D460_TCameraCtrl__data_804FF628_size[sizeof(RecoveredGlobal_8006D460_TCameraCtrl__data_804FF628) == 0xC ? 1 : -1];
 
 extern "C" f32 newton_sqrtf(f32);
@@ -537,7 +521,7 @@ void apply_follow_camera_offsets(void *arg0, void *arg1, s32 arg2, u16 arg3) {
 void TCameraCtrl::set_active_camera_flag() {
     u8 *temp_r3;
     if ((u8) (*(RecoveredGlobal_8006D460_TCameraCtrl__data_804FF628 *)&TCameraCtrl__view_state).value == 0) {
-        temp_r3 = (u8 *)(*(s32 *)((s8 *)(&(*(RecoveredGlobal_8006D460_camera_controller_registry *)&camera_controller_registry).value) + (((*(RecoveredGlobal_8006D460_TCameraCtrl__data_804FF628 *)&TCameraCtrl__view_state).value * 4) & 0x3FC)));
+        temp_r3 = (u8 *)(*(s32 *)((s8 *)(&camera_controller_registry.value) + (((*(RecoveredGlobal_8006D460_TCameraCtrl__data_804FF628 *)&TCameraCtrl__view_state).value * 4) & 0x3FC)));
         if (temp_r3 != NULL) {
             *(s32 *)((s8 *)temp_r3 + 0x104) = 1;
         }
@@ -556,7 +540,6 @@ void end_conversation_camera(void) {
 
 #pragma push
 #pragma opt_common_subs off
-typedef char RecoveredGlobal_8006D610_camera_controller_registry_size[sizeof(RecoveredGlobal_8006D610_camera_controller_registry) == 0x68 ? 1 : -1];
 typedef char RecoveredGlobal_8006D610_TCameraCtrl__data_804FF628_size[sizeof(RecoveredGlobal_8006D610_TCameraCtrl__data_804FF628) == 0xC ? 1 : -1];
 
 s32 conversation_camera_obstructed(FollowController *self,s32 heading) {
@@ -588,7 +571,7 @@ void begin_conversation_camera(void) {
     s32 var_r31;
     u8 *temp_r29;
     u8 *temp_r3;
-    if (((u8) (*(RecoveredGlobal_8006D610_TCameraCtrl__data_804FF628 *)&TCameraCtrl__view_state).value == 0) && (temp_r29 = *(u8 **)((s8 *)((u8 *)(&(*(RecoveredGlobal_8006D610_camera_controller_registry *)&camera_controller_registry).value) + (((*(RecoveredGlobal_8006D610_TCameraCtrl__data_804FF628 *)&TCameraCtrl__view_state).value * 4) & 0x3FC)) + 0), ((TCameraCtrl *)temp_r29)->set_field_100(1), temp_r3 = *(u8 **)((s8 *)temp_r29 + 0x1C), ((temp_r3 == NULL) == 0))) {
+    if (((u8) (*(RecoveredGlobal_8006D610_TCameraCtrl__data_804FF628 *)&TCameraCtrl__view_state).value == 0) && (temp_r29 = *(u8 **)((s8 *)((u8 *)(&camera_controller_registry.value) + (((*(RecoveredGlobal_8006D610_TCameraCtrl__data_804FF628 *)&TCameraCtrl__view_state).value * 4) & 0x3FC)) + 0), ((TCameraCtrl *)temp_r29)->set_field_100(1), temp_r3 = *(u8 **)((s8 *)temp_r29 + 0x1C), ((temp_r3 == NULL) == 0))) {
         temp_r30 = *(s32 *)((s8 *)temp_r3 + 0x60);
         temp_r31 = angle_difference_abs((((TCameraCtrl *)temp_r29)->m_30), (temp_r30 + 0x6000));
         if (temp_r31 > angle_difference_abs((((TCameraCtrl *)temp_r29)->m_30), (temp_r30 - 0x6000))) {

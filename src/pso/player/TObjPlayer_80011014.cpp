@@ -429,16 +429,6 @@ struct Pkt_80010DE8 { u8 f0; u8 f1; u16 f2; u16 f4; u8 f6; u8 f7; };
 
 struct Obj_80010DE8 { u8 pad[0x1c]; u16 f1c; };
 
-struct RecoveredGlobal_80010E44_lbl_8050EA40
-{
-  s32 value;
-  u8 remaining[0x2C];
-};
-
-typedef struct RecoveredGlobal_80010E44_lbl_8050EA40 RecoveredGlobal_80010E44_lbl_8050EA40;
-
-typedef char RecoveredGlobal_80010E44_lbl_8050EA40_size[((sizeof(RecoveredGlobal_80010E44_lbl_8050EA40)) == 0x30) ? (1) : (-1)];
-
 struct Obj_80010F54 { u8 pad[0x2D4]; u16 id; u16 id2; };
 
 struct ActorMesetaView
@@ -924,7 +914,8 @@ SceneEntry_8000FD54 main_phase_table[] = {
 };
 extern SceneState_8000FD54 main_phase_state;
 extern Vec scratch_vec;
-extern RecoveredGlobal_80010E44_lbl_8050EA40 lobby_rule_settings;
+struct LobbyRuleSettings { s32 value; u8 remaining[0x2C]; };
+extern LobbyRuleSettings lobby_rule_settings;
 extern RecoveredGlobal_8001806C_lbl_8058D490 identity_matrix;
 extern s32 camera_split_screen_selector;
 extern s32 actor_frame_tick;

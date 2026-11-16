@@ -13,11 +13,6 @@
 
 #pragma readonly_strings on
 
-struct RecoveredGlobal_800A4204_lbl_80490A18 {
-    s32 value;
-    u8 remaining[0x14];
-};
-
 typedef struct Hamon_800A36A8 {
     u8 pad0[0x1C];
     u8 mtx1C[0x34 - 0x1C];
@@ -380,10 +375,9 @@ TeneFakeTecThunderEff::~TeneFakeTecThunderEff() {
 
 }
 
-typedef char RecoveredGlobal_800A4204_lbl_80490A18_size[sizeof(RecoveredGlobal_800A4204_lbl_80490A18) == 0x18 ? 1 : -1];
 u8 *TObjPlayer__sub_800A4204(u8 *arg0, u8 *arg1, s32 arg2, s32 arg3, s32 arg4) {
     __ct__7TObjectFP7TObject(arg0, arg1);
-    *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_800A4204_lbl_80490A18 *)&__vt__21TeneFakeTecThunderEff).value;
+    *(s32 **)((s8 *)arg0 + 0x18) = __vt__21TeneFakeTecThunderEff;
     ((TeneFakeTecThunderEff *)arg0)->m_name = lbl_805D29E0;
     ((TeneFakeTecThunderEff *)arg0)->m_338 = arg2;
     *(s32 *)((s8 *)arg0 + 0x33C) = arg3;

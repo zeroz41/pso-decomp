@@ -5,16 +5,6 @@
 #include "pso/ui/window/TUnk_804D0948.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 
-struct RecoveredGlobal_8026E110_lbl_804D0948 {
-    s32 value;
-    u8 remaining[0x1C];
-};
-
-struct RecoveredGlobal_8026E168_lbl_804D0948 {
-    s32 value;
-    u8 remaining[0x1C];
-};
-
 extern "C" {
 s32 get_draw_context__11TWindowBaseFPv();
 s32 draw_visible_window_entries(void *, void *, int);
@@ -69,17 +59,15 @@ void *TWindowSubStatusDisp::deleting_dtor(s16 arg1) {
     }
     return this;
 }
-typedef char RecoveredGlobal_8026E110_lbl_804D0948_size[sizeof(RecoveredGlobal_8026E110_lbl_804D0948) == 0x20 ? 1 : -1];
 u8 *TWindowSubStatusDisp::ct_helper(s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
     fn_80268384(this, arg1, arg3, (s16) local_client_id, arg4);
-    *(s32 **)((s8 *)((u8 *)this) + 0x18) = &(*(RecoveredGlobal_8026E110_lbl_804D0948 *)&item_list_window_vtable).value;
+    *(s32 **)((s8 *)((u8 *)this) + 0x18) = item_list_window_vtable;
     sub_8026DE94__13TUnk_804D0948Fv(this, (void *)arg2);
     return ((u8 *)this);
 }
-typedef char RecoveredGlobal_8026E168_lbl_804D0948_size[sizeof(RecoveredGlobal_8026E168_lbl_804D0948) == 0x20 ? 1 : -1];
 u8 *TWindowSubStatusDisp::construct_item_list(s32 arg1, s32 arg2, s16 arg3) {
     fn_802683F4((((u8 *)this)), (s32)(get_window_layout_position(0x26)), (arg2), (arg3));
-    *(s32 **)((s8 *)((u8 *)this) + 0x18) = &(*(RecoveredGlobal_8026E168_lbl_804D0948 *)&item_list_window_vtable).value;
+    *(s32 **)((s8 *)((u8 *)this) + 0x18) = item_list_window_vtable;
     sub_8026DE94__13TUnk_804D0948Fv(this, (void *)arg1);
     return ((u8 *)this);
 }

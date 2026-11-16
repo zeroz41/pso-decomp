@@ -305,11 +305,6 @@ extern u8 lbl_8044A80C[];
 
 }
 
-struct RecoveredGlobal_8020650C___vt__6TScene { s32 value; u8 remaining[0x14]; };
-
-typedef char RecoveredGlobal_8020650C___vt__6TScene_size[sizeof(RecoveredGlobal_8020650C___vt__6TScene) == 0x18 ? 1 : -1];
-
-
 struct Ent_802066BC { char *name; s32 idx; };
 
 
@@ -1146,7 +1141,7 @@ void TScene::create() {
 
 u8 *TScene__ct(TScene *scene, s32 arg1) {
     __ct__7TObjectFP7TObject((void *)scene, (void *)arg1);
-    *(s32 **)((s8 *)scene + 0x18) = &(*(RecoveredGlobal_8020650C___vt__6TScene *)&__vt__6TScene).value;
+    *(s32 **)((s8 *)scene + 0x18) = __vt__6TScene;
     *(s32 *)((s8 *)scene + 0) = (s32)TScene__class_name;
     scene->m_1c = 0;
     scene->m_30 = 0;

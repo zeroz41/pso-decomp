@@ -18,11 +18,6 @@ extern const char *bm_fe_obj_komo_model_names[2];
 extern BmlResourceDescriptor TKomorebi__resource_descriptor;
 extern const char *bm_fe_obj_komo_motion_names[1];
 
-struct RecoveredGlobal_801922C4___vt__9TKomorebi {
-    s32 value;
-    u8 remaining[0x34];
-};
-
 struct Node_80192434 { u32 flags; void *model; u8 pad8[0x24]; Node_80192434 *child; Node_80192434 *sibling; };
 
 struct Fish_80192434 { u8 pad0[0x8C]; s32 f8C; u8 pad90[0x2C]; Node_80192434 *fBC; Node_80192434 *fC0; s32 fC4; void *fC8[4]; };
@@ -80,10 +75,9 @@ extern "C" {
 
 extern void *tl_05;
 
-typedef char RecoveredGlobal_801922C4___vt__9TKomorebi_size[sizeof(RecoveredGlobal_801922C4___vt__9TKomorebi) == 0x38 ? 1 : -1];
 u8 *TKomorebi__ct(u8 *komorebi, s32 arg1, s32 arg2) {
     __ct__8TObjBaseFP7TObject(komorebi);
-    *(s32 **)((s8 *)komorebi + 0x18) = &(*(RecoveredGlobal_801922C4___vt__9TKomorebi *)&__vt__9TKomorebi).value;
+    *(s32 **)((s8 *)komorebi + 0x18) = __vt__9TKomorebi;
     *(s32 *)((s8 *)komorebi + 0) = (s32) ((s32)komorebi_class_name);
     VecCopy((Vec *)(komorebi + 0x38), (const Vec *)(arg2 + 0xC));
     copy_xyz(komorebi + 0x5C, (void *)(arg2 + 0x18));

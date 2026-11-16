@@ -7,11 +7,6 @@
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/unk/TLobby.h"
 
-struct RecoveredGlobal_80307A74_main_task {
-    s32 value;
-    u8 remaining[0x30];
-};
-
 extern "C" {
 s32 TKeyBoardControl__sub_8000F92C();
 void request_main_phase(s32 arg0);
@@ -30,23 +25,22 @@ extern int ending_sequence_active;
 
 
 void TAdEndText::cleanup() { ending_sequence_active = 0; main_task.delete_layer_children(); TLobby::free_ending_callback(); TLobby::free_keyboard_soft_resources(); TAdEndText::free_resources(); render_tick(); }
-typedef char RecoveredGlobal_80307A74_main_task_size[sizeof(RecoveredGlobal_80307A74_main_task) == 0x34 ? 1 : -1];
 void TKeyBoardControl::run_main_frame() {
     s32 *var_r3;
     func_803DCDFC__Fv();
     controller_stuff();
     TKeyBoardControl::update_input_frame();
-    var_r3 = (s32 *)(&(*(RecoveredGlobal_80307A74_main_task *)((unsigned char *)&main_task)).value);
-    var_r3 = (s32 *)(&(*(RecoveredGlobal_80307A74_main_task *)((unsigned char *)&main_task)).value);
+    var_r3 = (s32 *)&main_task;
+    var_r3 = (s32 *)&main_task;
     main_task.begin_frame();
-    var_r3 = (s32 *)(&(*(RecoveredGlobal_80307A74_main_task *)((unsigned char *)&main_task)).value);
-    var_r3 = (s32 *)(&(*(RecoveredGlobal_80307A74_main_task *)((unsigned char *)&main_task)).value);
+    var_r3 = (s32 *)&main_task;
+    var_r3 = (s32 *)&main_task;
     main_task.run_task();
-    var_r3 = (s32 *)(&(*(RecoveredGlobal_80307A74_main_task *)((unsigned char *)&main_task)).value);
-    var_r3 = (s32 *)(&(*(RecoveredGlobal_80307A74_main_task *)((unsigned char *)&main_task)).value);
+    var_r3 = (s32 *)&main_task;
+    var_r3 = (s32 *)&main_task;
     main_task.render();
-    var_r3 = (s32 *)(&(*(RecoveredGlobal_80307A74_main_task *)((unsigned char *)&main_task)).value);
-    var_r3 = (s32 *)(&(*(RecoveredGlobal_80307A74_main_task *)((unsigned char *)&main_task)).value);
+    var_r3 = (s32 *)&main_task;
+    var_r3 = (s32 *)&main_task;
     main_task.render_screen_overlay();
     process_async_file_reads();
     if (func_801A5E54__Fv() != 0) {

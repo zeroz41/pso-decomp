@@ -32,32 +32,6 @@
 #include "pso/boss/olgaflow/TBoss6Type2_8036DC80.h"
 
 
-struct RecoveredGlobal_801A4820_main_task { s32 value; u8 remaining[0x30]; };
-typedef char RecoveredGlobal_801A4820_main_task_size[sizeof(RecoveredGlobal_801A4820_main_task) == 0x34 ? 1 : -1];
-
-struct RecoveredGlobal_801A46D8_main_task { s32 value; u8 remaining[0x30]; };
-typedef char RecoveredGlobal_801A46D8_main_task_size[sizeof(RecoveredGlobal_801A46D8_main_task) == 0x34 ? 1 : -1];
-
-struct RecoveredGlobal_801A4610_lbl_804C20E8 {
-    s32 value;
-    u8 remaining[0x154];
-};
-
-struct RecoveredGlobal_801A4610_lbl_80515BA0 {
-    s32 value;
-    u8 remaining[0x24];
-};
-
-struct RecoveredGlobal_801A4610_main_task {
-    s32 value;
-    u8 remaining[0x30];
-};
-
-struct RecoveredGlobal_801A400C_main_task {
-    s32 value;
-    u8 remaining[0x30];
-};
-
 struct Pair_801A3CFC { s32 f0; s32 f4; };
 
 struct Entry_801A3CFC {
@@ -225,7 +199,8 @@ extern s32 lbl_805D55C0;
 extern s16 TLobby__data_805D5CE8;
 extern s32 TLobby__online_lobby_frame_counter;
 void clear_resource_load_tasks(void);
-extern RecoveredGlobal_801A4610_lbl_804C20E8 online_lobby_scene_callback_table;
+struct OnlineLobbySceneCallbackTable { s32 value; u8 remaining[0x154]; };
+extern OnlineLobbySceneCallbackTable online_lobby_scene_callback_table;
 extern unsigned char lbl_80515BA0[];
 extern s32 local_client_id;
 extern s32 online_lobby_scene_handle;
@@ -337,7 +312,6 @@ void reload_lobby_floor_scene(void) {
 
 void TLobby::send_and_handle() { TLobby::blocking_vsync(); }
 
-typedef char RecoveredGlobal_801A400C_main_task_size[sizeof(RecoveredGlobal_801A400C_main_task) == 0x34 ? 1 : -1];
 void TLobby::blocking_vsync() {
     TLoadCtrl::set_field1C(0);
     func_803DCDFC__Fv();
@@ -431,10 +405,6 @@ void TLobby::free_objects() {
     TLobby::reset_quest_counter();
     TLobby::clear_quest_state();
 }
-
-typedef char RecoveredGlobal_801A4610_lbl_804C20E8_size[sizeof(RecoveredGlobal_801A4610_lbl_804C20E8) == 0x158 ? 1 : -1];
-typedef char RecoveredGlobal_801A4610_lbl_80515BA0_size[sizeof(RecoveredGlobal_801A4610_lbl_80515BA0) == 0x28 ? 1 : -1];
-typedef char RecoveredGlobal_801A4610_main_task_size[sizeof(RecoveredGlobal_801A4610_main_task) == 0x34 ? 1 : -1];
 
 s32 start_quest_mission(void) {
     u8 tmp[0x1C];
@@ -580,11 +550,11 @@ void cleanup_online_lobby_scene(void) {
     TLobby::update_lobby_subsystems();
     send_logout__6TLobbyFv();
     TLobby::free_objects();
-    var_r3 = (s32 *)(&(*(RecoveredGlobal_801A4610_main_task *)&(*(RecoveredGlobal_801A4820_main_task *)&main_task)).value);
-    var_r3 = (s32 *)(&(*(RecoveredGlobal_801A4610_main_task *)&(*(RecoveredGlobal_801A4820_main_task *)&main_task)).value);
+    var_r3 = (s32 *)&main_task;
+    var_r3 = (s32 *)&main_task;
     main_task.delete_layer_children();
-    var_r3 = (s32 *)(&(*(RecoveredGlobal_801A4610_main_task *)&(*(RecoveredGlobal_801A4820_main_task *)&main_task)).value);
-    var_r3 = (s32 *)(&(*(RecoveredGlobal_801A4610_main_task *)&(*(RecoveredGlobal_801A4820_main_task *)&main_task)).value);
+    var_r3 = (s32 *)&main_task;
+    var_r3 = (s32 *)&main_task;
     main_task.resume_layers();
     var_r3 = (s32 *)tl_su;
     ((TObject *)var_r3)->delete_children();
@@ -596,9 +566,9 @@ void cleanup_online_lobby_scene(void) {
     } while (var_r31 < 0x1E);
     cleanup__6TLobbyFv();
     if ((s32) online_lobby_scene_handle == 0) {
-        var_r3 = (s32 *)(&(*(RecoveredGlobal_801A4610_lbl_80515BA0 *)&lbl_80515BA0).value);
-        var_r3 = (s32 *)(&(*(RecoveredGlobal_801A4610_lbl_80515BA0 *)&lbl_80515BA0).value);
-        run_area_scene_cleanup((u8 *)(&(*(RecoveredGlobal_801A4610_lbl_80515BA0 *)&lbl_80515BA0).value));
+        var_r3 = (s32 *)&lbl_80515BA0;
+        var_r3 = (s32 *)&lbl_80515BA0;
+        run_area_scene_cleanup((u8 *)&lbl_80515BA0);
     }
     TLobby::free_single_player_chr_select();
     TLobby::update_photon_chairs();

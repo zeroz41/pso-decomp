@@ -10,11 +10,6 @@
 
 #pragma readonly_strings on
 
-struct RecoveredGlobal_80190DE4___vt__16TObjEvtCollision {
-    s32 value;
-    u8 remaining[0x34];
-};
-
 struct Pkt_80190CFC { u8 hdr[2]; u16 id; s32 player; s32 x10; s32 x14; };
 
 struct Obj_80190CFC { u8 pad0[0x1C]; u16 id; u8 pad1E[0x84 - 0x1E]; s32 x84; u8 pad88[0xAC - 0x88]; f32 radius; u8 padB0[4]; s32 timer; };
@@ -85,7 +80,6 @@ TObjEvtCollision::~TObjEvtCollision() {
 
 }
 
-typedef char RecoveredGlobal_80190DE4___vt__16TObjEvtCollision_size[sizeof(RecoveredGlobal_80190DE4___vt__16TObjEvtCollision) == 0x38 ? 1 : -1];
 TObjEvtCollision::TObjEvtCollision(s32 arg1, s32 arg2) : TObjCollidable((TObject *)arg1) {
     this->m_name = TObjEvtCollision__class_name;
     ((TObjEvtCollision *)(this))->apply_object_set_data((void *)arg2);

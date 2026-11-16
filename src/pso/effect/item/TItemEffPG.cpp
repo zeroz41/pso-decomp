@@ -121,11 +121,6 @@ struct Elem_8034F204 { u8 x[0x2C]; };
 struct Tbl_8034F204 { u8 pad[0x1C]; Elem_8034F204 arr[1]; };
 
 
-struct RecoveredGlobal_8034FCF0_lbl_804F0BF0 {
-    s32 value;
-    u8 remaining[0x14];
-};
-
 extern "C" {
 u8 *TObjPlayer__sub_8034F1AC(u8 *item);
 s32 rotate_matrix_z(s32, s32);
@@ -270,11 +265,10 @@ s32 TUnk_804F0C08::vfunc_7() {
     return 0;
 }
 
-typedef char RecoveredGlobal_8034FCF0_lbl_804F0BF0_size[sizeof(RecoveredGlobal_8034FCF0_lbl_804F0BF0) == 0x18 ? 1 : -1];
 u8 *TItemEffPG__visual_ct(u8 *arg0, u8 *arg1, u8 *arg2) {
     f32 temp_f1;
     __ct__7TObjectFP7TObject(arg0, arg1);
-    *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_8034FCF0_lbl_804F0BF0 *)&__vt__13TUnk_804F0BF0).value;
+    *(s32 **)((s8 *)arg0 + 0x18) = __vt__13TUnk_804F0BF0;
     *(s32 *)((s8 *)arg0 + 0x1C) = (s32) *(s32 *)((s8 *)arg2 + 0x18);
     *(s32 *)((s8 *)arg0 + 0x20) = (s32) *(s32 *)((s8 *)arg2 + 0x34);
     *(s32 *)((s8 *)arg0 + 0x24) = (s32) *(s32 *)((s8 *)arg2 + 0x38);

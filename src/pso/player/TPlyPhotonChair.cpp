@@ -41,12 +41,6 @@ const NJS_ARGB TPlyPhotonChair__section_id_color_table[10] = {
     { 1.0f, 1.0f, 1.0f, 1.0f },
 };
 
-struct RecoveredGlobal_8035B2DC_lbl_804F1CB8 { s32 value; u8 remaining[0xC]; };
-typedef char RecoveredGlobal_8035B2DC_lbl_804F1CB8_size[sizeof(RecoveredGlobal_8035B2DC_lbl_804F1CB8) == 0x10 ? 1 : -1];
-
-
-struct RecoveredGlobal_8035B3C0___vt__15TPlyPhotonChair { s32 value; u8 remaining[0x34]; };
-
 struct Quat_8035B058 { f32 w, x, y, z; };
 
 struct PBase_8035B058 { char pad[0x18]; };
@@ -264,7 +258,7 @@ TPlyPhotonChair::~TPlyPhotonChair() {
 u8 *TPlyPhotonChair__ct(u8 *ply_photon_chair, s32 arg1, s32 parent) {
     u32 player;
     __ct__8TObjBaseFP7TObject((void *)ply_photon_chair, (void *)parent);
-    *(s32 **)((s8 *)ply_photon_chair + 0x18) = &(*(RecoveredGlobal_8035B3C0___vt__15TPlyPhotonChair *)&__vt__15TPlyPhotonChair).value;
+    *(s32 **)((s8 *)ply_photon_chair + 0x18) = __vt__15TPlyPhotonChair;
     ((TUnk_804A7478 *)(ply_photon_chair + 0x98))->init();
     ((TUnk_804A7478 *)(ply_photon_chair + 0xB4))->init();
     TMainCursor__sub_8013F1F0((ply_photon_chair + 0xD0));

@@ -19,11 +19,6 @@
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/system/task/TObject.h"
 
-struct RecoveredGlobal_80252FCC___vt__17TWindowGetComCard {
-    s32 value;
-    u8 remaining[0x14];
-};
-
 struct Pad_80252CCC { u8 pad[0x20]; u8 m20[0x30]; };
 
 struct GetCard_80252CCC {
@@ -159,11 +154,10 @@ TWindowGetComCard::~TWindowGetComCard() {
     }
 }
 
-typedef char RecoveredGlobal_80252FCC___vt__17TWindowGetComCard_size[sizeof(RecoveredGlobal_80252FCC___vt__17TWindowGetComCard) == 0x18 ? 1 : -1];
 u8 *TWindowGetComCard__ct(TWindowGetComCard *window_get_com_card) {
     s32 temp_r31;
     __ct__7TObjectFP7TObject();
-    *(s32 **)((s8 *)window_get_com_card + 0x18) = &(*(RecoveredGlobal_80252FCC___vt__17TWindowGetComCard *)&__vt__17TWindowGetComCard).value;
+    *(s32 **)((s8 *)window_get_com_card + 0x18) = ((s32 *)&__vt__17TWindowGetComCard);
     *(s32 *)((s8 *)window_get_com_card + 0) = (s32) TWindowGetComCard__name;
     window_get_com_card->m_1c = create__14TWindowMessageFPvll(lbl_8044ED94, lbl_8044ED9C, 1);
     window_get_com_card->m_20 = 0;

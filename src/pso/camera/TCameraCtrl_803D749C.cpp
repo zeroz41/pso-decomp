@@ -12,26 +12,6 @@ struct RecoveredGlobal_803D77C0_lbl_8047E3C8 {
     u8 remaining[0xC];
 };
 
-struct RecoveredGlobal_803D77C0_lbl_804FA500 {
-    s32 value;
-    u8 remaining[0x8];
-};
-
-struct RecoveredGlobal_803D77C0_lbl_804FA50C {
-    s32 value;
-    u8 remaining[0xC];
-};
-
-struct RecoveredGlobal_803D77C0_lbl_804FA51C {
-    s32 value;
-    u8 remaining[0x20];
-};
-
-struct RecoveredGlobal_803D78A8_lbl_8058CAB8 {
-    s32 value;
-    u8 remaining[0x7C];
-};
-
 struct St_803D7784 { s32 a0, a4, a8, ac, b0, b4, b8, x1c; };
 
 struct Quat_803D7504 { f32 x, y, z, w; };
@@ -65,11 +45,14 @@ extern "C" {
 void blend_quaternions_nlerp(void *a, void *b, void *out, f32 t);
 f32 motion_blend_factor;
 const RecoveredGlobal_803D77C0_lbl_8047E3C8 lbl_8047E3C8 = {0};
-extern RecoveredGlobal_803D77C0_lbl_804FA500 motion_sampler_function_table;
-extern RecoveredGlobal_803D77C0_lbl_804FA50C motion_angle_sampler_table;
-extern RecoveredGlobal_803D77C0_lbl_804FA51C motion_key_sampler_table;
+struct MotionSamplerFunctionTable { s32 value; u8 remaining[0x8]; };
+extern MotionSamplerFunctionTable motion_sampler_function_table;
+struct MotionAngleSamplerTable { s32 value; u8 remaining[0xC]; };
+extern MotionAngleSamplerTable motion_angle_sampler_table;
+struct MotionKeySamplerTable { s32 value; u8 remaining[0x20]; };
+extern MotionKeySamplerTable motion_key_sampler_table;
 extern s32 motion_packed_rotation_mode;
-RecoveredGlobal_803D78A8_lbl_8058CAB8 camera_motion_context_table;
+CameraMotionContextTable camera_motion_context_table;
 // Only pointed to by model_draw_context (.sdata 0x805D4698).
 u8 lbl_8058CB38[0x10];
 void rotate_matrix_by_node_angles(void *, int);
@@ -146,9 +129,6 @@ s32 blend_motion_poses(void *node, void *arg1, void *unused, void *arg3, void *r
 #pragma scheduling off
 #pragma peephole off
 typedef char RecoveredGlobal_803D77C0_lbl_8047E3C8_size[sizeof(RecoveredGlobal_803D77C0_lbl_8047E3C8) == 0x10 ? 1 : -1];
-typedef char RecoveredGlobal_803D77C0_lbl_804FA500_size[sizeof(RecoveredGlobal_803D77C0_lbl_804FA500) == 0xC ? 1 : -1];
-typedef char RecoveredGlobal_803D77C0_lbl_804FA50C_size[sizeof(RecoveredGlobal_803D77C0_lbl_804FA50C) == 0x10 ? 1 : -1];
-typedef char RecoveredGlobal_803D77C0_lbl_804FA51C_size[sizeof(RecoveredGlobal_803D77C0_lbl_804FA51C) == 0x24 ? 1 : -1];
 
 #pragma push
 #pragma scheduling off
@@ -229,7 +209,6 @@ void select_motion_sampler(s32 *arg0, f32 farg0) {
 
 #pragma push
 #pragma scheduling off
-typedef char RecoveredGlobal_803D78A8_lbl_8058CAB8_size[sizeof(RecoveredGlobal_803D78A8_lbl_8058CAB8) == 0x80 ? 1 : -1];
 void select_motion_context(s32 arg0) {
     current_motion_context = (u8 *)&camera_motion_context_table.value + (arg0 << 6);
 }

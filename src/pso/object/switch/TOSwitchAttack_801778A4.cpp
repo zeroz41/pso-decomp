@@ -12,11 +12,6 @@
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/unk/text_80087278.h"
 
-struct RecoveredGlobal_80177C80___vt__14TOSwitchAttack {
-    s32 value;
-    u8 remaining[0x34];
-};
-
 struct Atk_801778A8 {
     s32 a;
     f32 v;
@@ -185,10 +180,9 @@ TOSwitchAttack::~TOSwitchAttack() {
 
 }
 
-typedef char RecoveredGlobal_80177C80___vt__14TOSwitchAttack_size[sizeof(RecoveredGlobal_80177C80___vt__14TOSwitchAttack) == 0x38 ? 1 : -1];
 u8 *TOSwitchAttack__ct(u8 *switch_attack, s32 arg1, s32 arg2) {
     __ct__8TObjBaseFP7TObject(switch_attack);
-    *(s32 **)((s8 *)switch_attack + 0x18) = &(*(RecoveredGlobal_80177C80___vt__14TOSwitchAttack *)&__vt__14TOSwitchAttack).value;
+    *(s32 **)((s8 *)switch_attack + 0x18) = __vt__14TOSwitchAttack;
     ((TOSwitchAttack *)switch_attack)->m_name = TOSwitchAttack__name;
     ((TOSwitchAttack *)(switch_attack))->apply_object_set_data((void *)arg2);
     ((TOSwitchAttack *)switch_attack)->init_params();

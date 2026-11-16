@@ -15,4 +15,8 @@ s32 mix_seed__6TLobbyFUs(u16 arg0);
 s32 mix_seed_checked__6TLobbyFi(s32 arg0);
 }
 
+// lobby_name_string_buffer: layout known from its uses only.
+struct LobbyNameStringBuffer { s32 value; u8 remaining[0x1C]; };
+extern LobbyNameStringBuffer lobby_name_string_buffer;
+
 #endif

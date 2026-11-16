@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/system/ControllerInputState.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/keyboard/TKeyBoardControl_80131C58.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8025EC04.h"
@@ -17,31 +18,6 @@
 #include "pso/ui/window/TWindowKeyBoardSoft_80261440.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8025CB70.h"
 #include "pso/unk/text_8025FF8C.h"
-
-struct RecoveredGlobal_80131C5C_lbl_8050E208 {
-    s32 value;
-    u8 remaining[0x1AC];
-};
-
-struct RecoveredGlobal_801320CC_TKeyBoardControl__data_80506270 {
-    s32 value;
-    u8 remaining[0xAC];
-};
-
-struct RecoveredGlobal_801328C4_TKeyBoardControl__data_80506270 {
-    s32 value;
-    u8 remaining[0xAC];
-};
-
-struct RecoveredGlobal_801328F8_TKeyBoardControl__data_80506270 {
-    s32 value;
-    u8 remaining[0xAC];
-};
-
-struct RecoveredGlobal_80132274_TKeyBoardControl__data_80506270 {
-    s32 value;
-    u8 remaining[0xAC];
-};
 
 struct Obj_8013206C { s8 f0; u8 pad1[3]; u8 f4; };
 
@@ -74,8 +50,7 @@ struct Kb_80132650 {
 struct K_8013276C;
 extern "C" {
 s32 TWindowShortListCtrl__check_controller_button(void *, int, int);
-extern RecoveredGlobal_80131C5C_lbl_8050E208 controller_input_state;
-RecoveredGlobal_801320CC_TKeyBoardControl__data_80506270 TKeyBoardControl__global_key_state;
+TKeyBoardControlGlobalKeyState TKeyBoardControl__global_key_state;
 u8 TKeyBoardControl__sub_8013239C(K_8013239C *arg0, u8 arg1);
 s32 TKeyBoardControl__sub_801323C8(K_801323C8 *arg0, u8 arg1);
 void TKeyBoardControl__sub_80132598(Kb_80132650 *, u8, u32 *);
@@ -84,14 +59,13 @@ void TKeyBoardControl__sub_80132650(Kb_80132650 *kb);
 
 void render__16TKeyBoardControlFv(void) {  }
 
-typedef char RecoveredGlobal_80131C5C_lbl_8050E208_size[sizeof(RecoveredGlobal_80131C5C_lbl_8050E208) == 0x1B0 ? 1 : -1];
 void run_task__16TKeyBoardControlFv(TKeyBoardControl *key_board_control) {
     s32 temp_r3;
     s32 temp_r5;
     temp_r3 = is_player_input_active((key_board_control->m_1e));
     if (key_board_control->m_1c & 1) {
         temp_r5 = temp_r3 * 0x50;
-        if (TWindowShortListCtrl__check_controller_button((void *) ((u8 *)&controller_input_state.value + temp_r5 + 0x20), 0x200, temp_r5) != 0) {
+        if (TWindowShortListCtrl__check_controller_button((void *) ((u8 *)&controller_input_state + temp_r5 + 0x20), 0x200, temp_r5) != 0) {
             key_board_control->m_1c = (u16) (key_board_control->m_1c & 0xFFFE);
             TKeyBoardControl__sub_8025EC04((u8 *)key_board_control->m_24);
             if ((u32) key_board_control->m_28 != 0U) {
@@ -192,8 +166,6 @@ int TKeyBoardControl::is_active() { return (*(u16*)((char*)this + 0x60) >> 5) & 
 int TKeyBoardControl::is_key_active() { return *(u16*)((char*)this + 0x60) & 0x1; }
 void TKeyBoardControl::set_flag62_bit8() { *(u16*)((char*)this + 0x62) |= 0x8; }
 
-typedef char RecoveredGlobal_801320CC_TKeyBoardControl__data_80506270_size[sizeof(RecoveredGlobal_801320CC_TKeyBoardControl__data_80506270) == 0xB0 ? 1 : -1];
-
 s32 TKeyBoardControl::append_char(s8 arg1) {
     s32 r;
     u8 *p;
@@ -268,9 +240,8 @@ bool TKeyBoardControl__sub_801321B4(s32 arg0) {
     return TKeyBoardControl__sub_801323C8((K_801323C8 *)(arg0), (u8)((int)(0x5BU))) != 0;
 }
 
-typedef char RecoveredGlobal_80132274_TKeyBoardControl__data_80506270_size[sizeof(RecoveredGlobal_80132274_TKeyBoardControl__data_80506270) == 0xB0 ? 1 : -1];
 bool TKeyBoardControl__sub_80132274(s32 arg0) {
-    if ((get_key_state__16TKeyBoardControlFPv((void*)(&(*(RecoveredGlobal_80132274_TKeyBoardControl__data_80506270 *)&TKeyBoardControl__global_key_state).value)) == 0) || (get_key_state__16TKeyBoardControlFPv((void*)(&(*(RecoveredGlobal_80132274_TKeyBoardControl__data_80506270 *)&TKeyBoardControl__global_key_state).value)) == 1)) {
+    if ((get_key_state__16TKeyBoardControlFPv((void*)(&TKeyBoardControl__global_key_state.value)) == 0) || (get_key_state__16TKeyBoardControlFPv((void*)(&TKeyBoardControl__global_key_state.value)) == 1)) {
         return 0;
     }
     return ((s32)TKeyBoardControl__sub_801323C8((K_801323C8 *)(arg0), (u8)((int)(0x5BU)))) != 0;
@@ -462,13 +433,11 @@ void TKeyBoardControl::reset_input(s32 arg0) {
     reset_state__16TKeyBoardControlFi(arg0);
     fn_803F1864((u32)((s32 *)TKeyBoardControl::append_next_char_global));
 }
-typedef char RecoveredGlobal_801328C4_TKeyBoardControl__data_80506270_size[sizeof(RecoveredGlobal_801328C4_TKeyBoardControl__data_80506270) == 0xB0 ? 1 : -1];
 void TKeyBoardControl::reset_global_keys_a() {
-    ((TKeyBoardControl *)(&(*(RecoveredGlobal_801328C4_TKeyBoardControl__data_80506270 *)&TKeyBoardControl__global_key_state).value))->clear_key_state();
-    ((TKeyBoardControl *)(&(*(RecoveredGlobal_801328C4_TKeyBoardControl__data_80506270 *)&TKeyBoardControl__global_key_state).value))->reset_keys();
+    ((TKeyBoardControl *)(&TKeyBoardControl__global_key_state.value))->clear_key_state();
+    ((TKeyBoardControl *)(&TKeyBoardControl__global_key_state.value))->reset_keys();
 }
-typedef char RecoveredGlobal_801328F8_TKeyBoardControl__data_80506270_size[sizeof(RecoveredGlobal_801328F8_TKeyBoardControl__data_80506270) == 0xB0 ? 1 : -1];
 void TKeyBoardControl::reset_global_keys_b() {
-    ((TKeyBoardControl *)(&(*(RecoveredGlobal_801328F8_TKeyBoardControl__data_80506270 *)&TKeyBoardControl__global_key_state).value))->clear_key_state();
-    ((TKeyBoardControl *)(&(*(RecoveredGlobal_801328F8_TKeyBoardControl__data_80506270 *)&TKeyBoardControl__global_key_state).value))->reset_keys();
+    ((TKeyBoardControl *)(&TKeyBoardControl__global_key_state.value))->clear_key_state();
+    ((TKeyBoardControl *)(&TKeyBoardControl__global_key_state.value))->reset_keys();
 }

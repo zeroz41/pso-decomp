@@ -2,11 +2,6 @@
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
 
-struct RecoveredGlobal_802DFF0C___vt__22TAdMultiPlyChrSelectGC {
-    s32 value;
-    u8 remaining[0x14];
-};
-
 struct O_802DFFE8 { u8 pad[0x4ac]; s32 tbl[4][3]; u8 pad2[0x4ec - 0x4ac - 0x30]; s32 idx; };
 
 struct O_802E0024 { u8 pad[0x4ac]; s32 tbl[4][3]; u8 pad2[0x4ec - 0x4ac - 0x30]; s32 idx; };
@@ -57,8 +52,6 @@ void TAdMultiPlyChrSelectGC::handle_event(s32 arg1) {
 }
 
     extern int TAdMultiPlyChrSelectGC__selected_slot;
-
-typedef char RecoveredGlobal_802DFF0C___vt__22TAdMultiPlyChrSelectGC_size[sizeof(RecoveredGlobal_802DFF0C___vt__22TAdMultiPlyChrSelectGC) == 0x18 ? 1 : -1];
 
 #pragma push
 #pragma optimization_level 2

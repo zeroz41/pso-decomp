@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/system/ControllerInputState.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/unk/TLobby_80132ED0.h"
 #include "pso/ui/window/TWindowSubComCard_80244774.h"
@@ -32,19 +33,6 @@ static const CharacterSlotPosition lbl_80475908 = { 429.0f, 156.0f };
 static const CharacterSlotPosition lbl_80475910 = { 441.0f, 117.0f };
 const char *TAdChrSelBSlotGC__name = "TAdChrSelBSlotGC";
 
-struct RecoveredGlobal_8030EBD0_lbl_8050E3B8
-{
-  s32 value;
-  u8 remaining[0x1AC];
-};
-
-struct RecoveredGlobal_8030ECB8_lbl_8050E3B8
-{
-  s32 value;
-  u8 remaining[0x1AC];
-};
-
-
 struct G_8030E3BC { s32 a; s32 b; s32 c; f32 v[2]; };
 
 struct S_8030E3BC { s32 x; s32 y; };
@@ -52,7 +40,6 @@ struct S_8030E3BC { s32 x; s32 y; };
 extern "C" {
 u32 TAdChrSelASlotGC__sub_8030CB08(TAdChrSelASlotGC *arg0, s32 kind, s32 text);
 s32 TWindowShortListCtrl__check_controller_button(int, int);
-extern RecoveredGlobal_8030EBD0_lbl_8050E3B8 controller_physical_port_bank;
 s32 push_plate_position__19TAdPlyChrSelPlateGCFv(int, void *);
 s32 get_global_state__16TAdChrSelBSlotGCFv(void *);
 extern G_8030E3BC chr_select_b_slot_entry;
@@ -290,8 +277,6 @@ void TAdChrSelBSlotGC__sub_8030EB14(u8 *ad_chr_sel_b_slot_gc) {
         ((TAdChrSelBSlotGC *)ad_chr_sel_b_slot_gc)->m_54 = TAdChrSelASlotGC__sub_8030CB08((TAdChrSelASlotGC *)(TAdChrSelBSlotGC::get_global_slot_data()), 1, 0xB);
     }
 }
-typedef struct RecoveredGlobal_8030EBD0_lbl_8050E3B8 RecoveredGlobal_8030EBD0_lbl_8050E3B8;
-typedef char RecoveredGlobal_8030EBD0_lbl_8050E3B8_size[((sizeof(RecoveredGlobal_8030EBD0_lbl_8050E3B8)) == 0x1B0) ? (1) : (-1)];
 void TAdChrSelBSlotGC__sub_8030EBD0(u8 *arg0) {
   u32 temp_r3;
   u32 temp_r3_2;
@@ -302,7 +287,7 @@ void TAdChrSelBSlotGC__sub_8030EBD0(u8 *arg0) {
     ((TWindowSubComCard *)temp_r3)->close();
     *((u32 *) (((s8 *) arg0) + 0x70)) = 0U;
   }
-  context = ((u8 *)&controller_physical_port_bank.value) + (((TAdMultiPlyChrSelectGC *)((int) TAdMultiPlyChrSelectGC::get_state()))->get_state_result() * 0x50);
+  context = (u8 *)&controller_physical_port_bank + (((TAdMultiPlyChrSelectGC *)((int) TAdMultiPlyChrSelectGC::get_state()))->get_state_result() * 0x50);
   context = context + 0x20;
   if ((((TWindowShortListCtrl__check_controller_button((int) context, 4) != 0) || (TWindowShortListCtrl__check_controller_button((int) context, 2) != 0)) || (TWindowShortListCtrl__check_controller_button((int) context, 0x400) != 0)) || (TWindowShortListCtrl__check_controller_button((int) context, 0x200) != 0))
   {
@@ -320,15 +305,13 @@ void TAdChrSelBSlotGC__sub_8030EBD0(u8 *arg0) {
     *((s32 *) (((s8 *) arg0) + 0x1C)) = 1;
   }
 }
-typedef struct RecoveredGlobal_8030ECB8_lbl_8050E3B8 RecoveredGlobal_8030ECB8_lbl_8050E3B8;
-typedef char RecoveredGlobal_8030ECB8_lbl_8050E3B8_size[((sizeof(RecoveredGlobal_8030ECB8_lbl_8050E3B8)) == 0x1B0) ? (1) : (-1)];
 void TAdChrSelBSlotGC::check_cancel_and_close() {
     u8 *arg0 = (u8 *)this;
   u32 temp_r3;
   s32 new_var;
   u8 *context;
   new_var = ((TAdMultiPlyChrSelectGC *)((int) TAdMultiPlyChrSelectGC::get_state()))->get_state_result();
-  context = (((u8 *) (&(*(RecoveredGlobal_8030ECB8_lbl_8050E3B8 *)&controller_physical_port_bank).value)) + (new_var * 0x50)) + 0x20;
+  context = ((u8 *)&controller_physical_port_bank + (new_var * 0x50)) + 0x20;
   if ((((TWindowShortListCtrl__check_controller_button((int) context, 4) != 0) || (TWindowShortListCtrl__check_controller_button((int) context, 2) != 0)) || (TWindowShortListCtrl__check_controller_button((int) context, 0x400) != 0)) || (TWindowShortListCtrl__check_controller_button((int) context, 0x200) != 0))
   {
     this->m_1c = 1;

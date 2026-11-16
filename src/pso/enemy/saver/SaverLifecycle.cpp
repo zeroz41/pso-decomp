@@ -1,4 +1,5 @@
 #include "pso/unk/SampledMotionPoints.h"
+#include "pso/enemy/saver/SaverLifecycle.h"
 #include "pso/effect/enemy/TEneParticleCtrl.h"
 #include "pso/system/task/TObject.h"
 #include "pso/player/PlayerAttackParams.h"
@@ -35,11 +36,6 @@ extern "C" void test_flag_1000__9TObjCharaFv();
 #include "pso/unk/TLobby.h"
 #include "pso/object/ambient/TObjFish.h"
 
-struct RecoveredGlobal_800A6BE0_lbl_80500978 {
-    s32 value;
-    u8 remaining[0xC];
-};
-
 struct Obj_800A6B14;
 
 typedef struct Init_800A715C {
@@ -74,7 +70,7 @@ void *load_resource_from_descriptor(void *, int, void *, int, int, int);
 void *mem_alloc(u32 size);
 extern void *bm_ene_df1_saver_model_names[2];
 extern void *bm_ene_df1_saver_motion_names[12];
-RecoveredGlobal_800A6BE0_lbl_80500978 lbl_80500978;
+RecoveredGlobal_lbl_80500978 lbl_80500978;
 s32 saver_boss_stat_handle;
 s32 *player_object_ptr_array;
 s32 saver_object_stat_handle;
@@ -1357,12 +1353,6 @@ struct VObj800A64E8_800a64e8_800A4288 : VBase800A64E8_800a64e8_800A4288 {
     virtual s32 m8();
 };
 
-struct RecoveredGlobal_800A6BE0_lbl_804FF5E8 {
-    s32 value;
-    u8 remaining[0x24];
-};
-
-
 struct Tgt_800A6B14 { u8 pad[0x2fc]; Vec pos; };
 
 struct Obj_800A6B14 {
@@ -1408,7 +1398,7 @@ struct Obj_800A677C : VObj_800A677C {
 
 extern "C" {
 s32 rotate_matrix_x(int, void *);
-extern RecoveredGlobal_800A6BE0_lbl_804FF5E8 lbl_804FF5E8;
+extern f32 lbl_804FF5E8[];
 s32 angle_diff_s16(s32, s32);
 void step_angle_clamped__10TObjPlayerFPvi(void *arg0, s32 arg1);
 void turn_toward_target__12TObjEneSaverFv(Obj_800A6B14 *self);
@@ -1785,8 +1775,6 @@ void step_angle_clamped__10TObjPlayerFPvi(void *arg0, s32 arg1) {
 
 extern void *tl_04;
 
-typedef char RecoveredGlobal_800A6BE0_lbl_804FF5E8_size[sizeof(RecoveredGlobal_800A6BE0_lbl_804FF5E8) == 0x28 ? 1 : -1];
-typedef char RecoveredGlobal_800A6BE0_lbl_80500978_size[sizeof(RecoveredGlobal_800A6BE0_lbl_80500978) == 0x10 ? 1 : -1];
 void TObjPlayer::step_cutscene_frame() {
     if ((s32) lbl_805D505C == 0x15) {
         rotate_matrix_x(0, (void *)lbl_805D5060);
@@ -1795,7 +1783,7 @@ void TObjPlayer::step_cutscene_frame() {
         *(f32 *)((s8 *)&lbl_80500978.value + 0) = (f32) 0.0f;
         *(f32 *)((s8 *)&lbl_80500978.value + 4) = (f32) 0.0f;
         *(f32 *)((s8 *)&lbl_80500978.value + 8) = (f32) 0.0f;
-        TObjBoss2Tunnel::transform_vec_by_camera((s32)((void *)&lbl_804FF5E8.value), (s32)((void *)&lbl_80500978.value), (s32)((void *)&lbl_80500978.value));
+        TObjBoss2Tunnel::transform_vec_by_camera((s32)&lbl_804FF5E8, (s32)((void *)&lbl_80500978.value), (s32)((void *)&lbl_80500978.value));
     }
     lbl_805D505C += 1;
 }

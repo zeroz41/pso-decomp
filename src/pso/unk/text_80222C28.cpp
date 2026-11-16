@@ -5,22 +5,12 @@
 #include "pso/unk/TLobby.h"
 #include "pso/ui/Language.h"
 
-struct RecoveredGlobal_80222C54_lbl_8044C330
-{
-  s32 value;
-  u8 remaining[0xC];
-};
-
-struct RecoveredGlobal_80222CBC_lbl_8044C308
-{
-  s32 value;
-  u8 remaining[0x24];
-};
-
 extern s32 quest_and_shop_error_text;
 s32 ** lbl_805D6258;
-extern RecoveredGlobal_80222C54_lbl_8044C330 guild_text_play_mode_table;
-extern RecoveredGlobal_80222CBC_lbl_8044C308 appraisal_text_group_table;
+struct GuildTextPlayModeTable { s32 value; u8 remaining[0xC]; };
+extern GuildTextPlayModeTable guild_text_play_mode_table;
+struct AppraisalTextGroupTable { s32 value; u8 remaining[0x24]; };
+extern AppraisalTextGroupTable appraisal_text_group_table;
 extern s32 lbl_805D6238;
 
 s32 get_quest_list_text(s32 arg0, s32 arg1) {
@@ -30,8 +20,6 @@ s32 get_quest_list_text(s32 arg0, s32 arg1) {
     return quest_and_shop_error_text;
 }
 
-typedef struct RecoveredGlobal_80222C54_lbl_8044C330 RecoveredGlobal_80222C54_lbl_8044C330;
-typedef char RecoveredGlobal_80222C54_lbl_8044C330_size[((sizeof(RecoveredGlobal_80222C54_lbl_8044C330)) == 0x10) ? (1) : (-1)];
 s32 get_guild_text(s32 arg0) {
   s32 new_var;
   if (((s32 *) (*(s32 * *)&lbl_805D6258)) != 0)
@@ -42,8 +30,6 @@ s32 get_guild_text(s32 arg0) {
   return quest_and_shop_error_text;
 }
 
-typedef struct RecoveredGlobal_80222CBC_lbl_8044C308 RecoveredGlobal_80222CBC_lbl_8044C308;
-typedef char RecoveredGlobal_80222CBC_lbl_8044C308_size[((sizeof(RecoveredGlobal_80222CBC_lbl_8044C308)) == 0x28) ? (1) : (-1)];
 s32 get_appraisal_text(s32 arg0) {
   if (((s32 *) (*(s32 * *)&lbl_805D6258)) != 0)
   {

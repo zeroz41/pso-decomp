@@ -10,24 +10,9 @@ struct Stack_802DDF40 {
     s32 spC;
 };
 
-struct RecoveredGlobal_802DDD08_TAdMultiPlyChrSelectGC__data_804727B0 {
-    s32 value;
-    u8 remaining[0x1C];
-};
-
-struct RecoveredGlobal_802DDD08_lbl_8050E3B8 {
-    s32 value;
-    u8 remaining[0x1AC];
-};
-
 struct RecoveredGlobal_802DDBA8_lbl_804727E8 {
     s32 value;
     u8 remaining[0x1C];
-};
-
-struct RecoveredGlobal_802DDBA8_lbl_8050E3B8 {
-    s32 value;
-    u8 remaining[0x1AC];
 };
 
 extern "C" {
@@ -46,7 +31,6 @@ s32 clear_entries__18TAdChrMoveEffectGCFv();
 s32 TWindowShortListCtrl__check_controller_button(void *, s32, s32);
 s32 play_sound_effect(s32, s32, s32, s32);
 s32 get_instance__22TAdMultiPlyChrSelectGCFv(s32);
-extern RecoveredGlobal_802DDD08_TAdMultiPlyChrSelectGC__data_804727B0 TAdMultiPlyChrSelectGC__character_slot_positions;
 extern s32 controller_physical_port_bank[];
 s32 TAdMultiPlyChrSelectGC__sub_802C5A44(int, void *, int);
 extern RecoveredGlobal_802DDBA8_lbl_804727E8 multi_chr_select_item_rect_table;
@@ -145,15 +129,11 @@ void TAdMultiPlyChrSelectGC::update_select() {
     }
 }
 
-typedef char RecoveredGlobal_802DDD08_TAdMultiPlyChrSelectGC__data_804727B0_size[sizeof(RecoveredGlobal_802DDD08_TAdMultiPlyChrSelectGC__data_804727B0) == 0x20 ? 1 : -1];
-typedef char RecoveredGlobal_802DDD08_lbl_8050E3B8_size[sizeof(RecoveredGlobal_802DDD08_lbl_8050E3B8) == 0x1B0 ? 1 : -1];
-
 typedef char RecoveredGlobal_802DDBA8_lbl_804727E8_size[sizeof(RecoveredGlobal_802DDBA8_lbl_804727E8) == 0x20 ? 1 : -1];
-typedef char RecoveredGlobal_802DDBA8_lbl_8050E3B8_size[sizeof(RecoveredGlobal_802DDBA8_lbl_8050E3B8) == 0x1B0 ? 1 : -1];
 void TAdMultiPlyChrSelectGC__sub_802DDBA8(u8 *arg0) {
     s32 temp_r5;
     temp_r5 = get_instance__22TAdMultiPlyChrSelectGCFv((s32)((int) (*(s32 *)((s8 *)arg0 + 0x5C)))) * 0x50;
-    if (TWindowShortListCtrl__check_controller_button((void *)((void *) ((u8 *)&(*(RecoveredGlobal_802DDBA8_lbl_8050E3B8 *)&controller_physical_port_bank).value + temp_r5 + 0x20)), 2, temp_r5) != 0) {
+    if (TWindowShortListCtrl__check_controller_button((void *)((void *) ((u8 *)&controller_physical_port_bank + temp_r5 + 0x20)), 2, temp_r5) != 0) {
         play_sound_effect(0x52F16, 0, 0, 0);
         if ((u32) *(u32 *)((s8 *)arg0 + 0x68) != 0U) {
             queue_destruction__7TObjectFv(*(void **)((s8 *)arg0 + 0x68));
@@ -202,7 +182,7 @@ void TAdMultiPlyChrSelectGC__sub_802DDD08(u8 *arg0) {
     *(s32 *)((s8 *)arg0 + 0x30) = -1;
     if (((TAdMultiPlyChrSelectGC *)(*(s32 *)((s8 *)arg0 + 0x6C)))->is_state_closing() == 0) {
         temp_r5 = get_instance__22TAdMultiPlyChrSelectGCFv((s32)((int) (*(s32 *)((s8 *)arg0 + 0x5C)))) * 0x50;
-        if (TWindowShortListCtrl__check_controller_button((void *)((void *) ((u8 *)&(*(RecoveredGlobal_802DDD08_lbl_8050E3B8 *)&controller_physical_port_bank).value + temp_r5 + 0x20)), 2, temp_r5) != 0) {
+        if (TWindowShortListCtrl__check_controller_button((void *)((void *) ((u8 *)&controller_physical_port_bank + temp_r5 + 0x20)), 2, temp_r5) != 0) {
             play_sound_effect(0x52F16, 0, 0, 0);
             if ((u32) *(u32 *)((s8 *)arg0 + 0x68) != 0U) {
                 queue_destruction__7TObjectFv(*(void **)((s8 *)arg0 + 0x68));

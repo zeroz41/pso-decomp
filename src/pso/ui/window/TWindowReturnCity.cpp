@@ -30,12 +30,6 @@ struct RecoveredGlobal_8026D18C_lbl_80515BA0 {
     u8 remaining[0x24];
 };
 
-struct RecoveredGlobal_8026D40C___vt__17TWindowReturnCity
-{
-  s32 value;
-  u8 remaining[0x14];
-};
-
 extern "C" {
 void *get_player_by_client_id(s32);
 s32 get_floor_map_terrain(s32);
@@ -137,12 +131,10 @@ TWindowReturnCity::~TWindowReturnCity() {
     if (*(void **)((s8 *)this + 0x1C) != NULL) { ((TWindowSubComCard *)(*(void **)((s8 *)this + 0x1C)))->close(); this->m_1c = 0; }
 }
 
-typedef struct RecoveredGlobal_8026D40C___vt__17TWindowReturnCity RecoveredGlobal_8026D40C___vt__17TWindowReturnCity;
-typedef char RecoveredGlobal_8026D40C___vt__17TWindowReturnCity_size[((sizeof(RecoveredGlobal_8026D40C___vt__17TWindowReturnCity)) == 0x18) ? (1) : (-1)];
 u8 *TWindowReturnCity__ct(TWindowReturnCity *window_return_city, s32 arg1, s32 arg2) {
   s32 temp_r31;
   __ct__7TObjectFP7TObject((void *) window_return_city, (void *) arg1);
-  *((s32 **) (((s8 *) window_return_city) + 0x18)) = &(*(RecoveredGlobal_8026D40C___vt__17TWindowReturnCity *)&__vt__17TWindowReturnCity).value;
+  *((s32 **) (((s8 *) window_return_city) + 0x18)) = __vt__17TWindowReturnCity;
   *((s32 *) (((s8 *) window_return_city) + 0)) = (s32) TWindowReturnCity__class_name;
   window_return_city->m_24 = arg2;
   temp_r31 = create__19TWindowMessageYesNoFPvPvPvPv((void *) window_return_city, window_return_city->m_24, 0, 0);

@@ -12,4 +12,8 @@ public:
     static void render();
 };
 
+// boss4_zako_draw_buffers: layout known from its uses only.
+struct Boss4ZakoDrawBuffers { s32 value; u8 remaining[0xF04]; };
+extern Boss4ZakoDrawBuffers boss4_zako_draw_buffers;
+
 #endif

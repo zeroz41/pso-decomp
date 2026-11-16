@@ -8,11 +8,6 @@
 #include "pso/enemy/TNeedleShoot.h"
 
 
-struct RecoveredGlobal_802A3CD8___vt__14TObjNpcKenkyuW {
-    s32 value;
-    u8 remaining[0x174];
-};
-
 #include "pso/technique/TechniqueContact.h"
 
 #include "pso/unk/TLobby.h"
@@ -109,10 +104,9 @@ void TObjNpcKenkyuW::load_resource_instance() {
 TObjNpcKenkyuW::~TObjNpcKenkyuW() {}
 
 
-typedef char RecoveredGlobal_802A3CD8___vt__14TObjNpcKenkyuW_size[sizeof(RecoveredGlobal_802A3CD8___vt__14TObjNpcKenkyuW) == 0x178 ? 1 : -1];
 u8 *TObjNpcKenkyuW__ct(u8 *player, s32 arg1, s32 arg2) {
     ((TUnk_804A9F50 *)player)->construct_male_npc_base();
-    *(s32 **)((s8 *)player + 0x18) = &(*(RecoveredGlobal_802A3CD8___vt__14TObjNpcKenkyuW *)&__vt__14TObjNpcKenkyuW).value;
+    *(s32 **)((s8 *)player + 0x18) = __vt__14TObjNpcKenkyuW;
     ((TObject *)player)->m_name = TObjNpcKenkyuW__name;
     ((TObjNpcKenkyuW *)(player))->apply_set_data((void *)arg2);
     ((TObjPlayer *)player)->init_position_vectors();

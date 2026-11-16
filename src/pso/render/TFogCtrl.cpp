@@ -19,11 +19,6 @@
 #include "pso/player/TObjPlayer.h"
 
 
-struct RecoveredGlobal_800FA95C_lbl_8049C700 {
-    s32 value;
-    u8 remaining[0x14];
-};
-
 extern "C" {
 void *__nw__7TObjectFUl(int);
 extern u32 fog_ctrl_instance;
@@ -48,11 +43,10 @@ TFogCtrl_EOR::~TFogCtrl_EOR() {
 }
 
 
-typedef char RecoveredGlobal_800FA95C_lbl_8049C700_size[sizeof(RecoveredGlobal_800FA95C_lbl_8049C700) == 0x18 ? 1 : -1];
 u8 *TFogCtrl_EOR::init_object() {
     u8 *arg0 = (u8 *)this;
     __ct__7TObjectFP7TObject(arg0, &end_of_render_root);
-    *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_800FA95C_lbl_8049C700 *)&__vt__12TFogCtrl_EOR).value;
+    *(s32 **)((s8 *)arg0 + 0x18) = __vt__12TFogCtrl_EOR;
     m_name = TFogCtrl_EOR__name;
     return arg0;
 }
@@ -127,11 +121,6 @@ s32 TFogCtrl::update_all(s32 arg0) {
     return 1;
 }
 
-struct RecoveredGlobal_800FAD08_TFogCtrl__data_80501188 {
-    s32 value;
-    u8 remaining[0xC];
-};
-
 struct ByteBlock_8 { u8 bytes[0x8]; };
 
 struct ByteBlock_20 { u8 bytes[0x20]; };
@@ -156,16 +145,9 @@ struct TFogCtrl_800FAE1C {
     f32 width;
 };
 
-typedef char RecoveredGlobal_800FAD08_TFogCtrl__data_80501188_size[sizeof(RecoveredGlobal_800FAD08_TFogCtrl__data_80501188) == 0x10 ? 1 : -1];
-
 struct RecoveredGlobal_800FB8A0___vt__8TFogCtrl {
     s32 value;
     u8 remaining[0x14];
-};
-
-struct RecoveredGlobal_800FB8A0_TFogCtrl__data_80501188 {
-    s32 value;
-    u8 remaining[0xC];
 };
 
 struct O_800FB400 { u8 pad[0x174]; s32 arr[1]; };
@@ -228,8 +210,6 @@ struct TFogCtrl_800FB92C {
 };
 
 typedef char RecoveredGlobal_800FB8A0___vt__8TFogCtrl_size[sizeof(RecoveredGlobal_800FB8A0___vt__8TFogCtrl) == 0x18 ? 1 : -1];
-
-typedef char RecoveredGlobal_800FB8A0_TFogCtrl__data_80501188_size[sizeof(RecoveredGlobal_800FB8A0_TFogCtrl__data_80501188) == 0x10 ? 1 : -1];
 
 struct FogParam_800FBC5C {
     s32 f0;
@@ -402,7 +382,7 @@ void*TFogCtrl::get_entry(int a0) {  return (char*)((*(int *)&fog_entry_array)) +
 void TFogCtrl::clear_split_screen_fog() {
     u32 temp_r3;
     if (is_split_screen() == 1) {
-        temp_r3 = *(s32 *)((s8 *)(&(*(RecoveredGlobal_800FAD08_TFogCtrl__data_80501188 *)&TFogCtrl__fog_instance_table).value) + ((TCameraCtrl::get_nth_view_player_id((int) (TCameraCtrl::get_camera_mode())) * 4) & 0x3FFFC));
+        temp_r3 = *(s32 *)((s8 *)&TFogCtrl__fog_instance_table + ((TCameraCtrl::get_nth_view_player_id((int) (TCameraCtrl::get_camera_mode())) * 4) & 0x3FFFC));
         if (temp_r3 != 0U) {
             ((TFogCtrl *)temp_r3)->clear_active_flag();
         }
@@ -770,7 +750,7 @@ u8 *__dt__8TFogCtrlFv(u8 *fog_ctrl, s16 arg1) {
         TParticleCtrl::end_effect_render();
         temp_r0 = ((TFogCtrl *)fog_ctrl)->m_1c4;
         if ((temp_r0 >= 0) && (temp_r0 < 4)) {
-            *(s32 *)((s8 *)(&(*(RecoveredGlobal_800FB8A0_TFogCtrl__data_80501188 *)&TFogCtrl__fog_instance_table).value) + (temp_r0 * 4)) = 0;
+            *(s32 *)((s8 *)&TFogCtrl__fog_instance_table + (temp_r0 * 4)) = 0;
         }
         __dt__7TObjectFv(fog_ctrl, 0);
         if (arg1 > 0) {

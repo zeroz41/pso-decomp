@@ -226,16 +226,6 @@ struct G_802DBC94 { u8 pad[0x42c]; E_802DBC94 *e; };
 
 struct O_802DBC94 { u8 pad[0x24]; s32 f24; u8 pad2[0xc]; s32 f34; };
 
-struct RecoveredGlobal_800A6BE0_lbl_804FF5E8 {
-    s32 value;
-    u8 remaining[0x24];
-};
-
-struct RecoveredGlobal_800A6BE0_lbl_80500978 {
-    s32 value;
-    u8 remaining[0xC];
-};
-
 struct Tgt_800A6B14 { u8 pad[0x2fc]; Vec pos; };
 
 struct Obj_800A6B14 {
@@ -243,10 +233,6 @@ struct Obj_800A6B14 {
     u8 pad2[0x2a8 - 0x64]; Tgt_800A6B14 *target;
     u8 pad3[0x2fc - 0x2ac]; Vec pos;
 };
-
-typedef char RecoveredGlobal_800A6BE0_lbl_804FF5E8_size[sizeof(RecoveredGlobal_800A6BE0_lbl_804FF5E8) == 0x28 ? 1 : -1];
-
-typedef char RecoveredGlobal_800A6BE0_lbl_80500978_size[sizeof(RecoveredGlobal_800A6BE0_lbl_80500978) == 0x10 ? 1 : -1];
 
 struct Arg_802D9A04 { s32 a; f32 b; };
 

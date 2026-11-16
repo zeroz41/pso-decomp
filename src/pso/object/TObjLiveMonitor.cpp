@@ -59,15 +59,10 @@ s32 get_bml_texlist(s32, s32);
 s32 __ct__7TObjectFP7TObject();
 extern s32 __vt__15TObjLiveMonitor[];
 }
-struct RecoveredGlobal_8030B708___vt__14TObjLiveCamera {
-    s32 value;
-    u8 remaining[0x30];
-};
 extern "C" {
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 int free_bin_model_request(void*, void*);
 extern void *tl_05;
-typedef char RecoveredGlobal_8030B708___vt__14TObjLiveCamera_size[sizeof(RecoveredGlobal_8030B708___vt__14TObjLiveCamera) == 0x34 ? 1 : -1];
 int update_single_screen__11TCameraCtrlFv(void*);
 int get_global_part_count__12TBoss8DragonFl(void*);
 s32 angle_diff_s16(int);

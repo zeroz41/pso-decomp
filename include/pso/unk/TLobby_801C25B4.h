@@ -93,4 +93,8 @@ void update_player_battle_ctrl_state(void *arg0);
 }
 // --- end of C functions
 
+// TLobby__duel_result_table: layout known from its uses only.
+struct TLobbyDuelResultTable { s32 value; u8 remaining[0x1C]; };
+extern TLobbyDuelResultTable TLobby__duel_result_table;
+
 #endif

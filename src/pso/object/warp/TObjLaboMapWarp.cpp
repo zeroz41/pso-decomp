@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/unk/TLobby_8006F278.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/system/task/TMainTask.h"
 
@@ -140,11 +141,6 @@ extern s32 city_common_texture_list;
 
 }
 
-struct RecoveredGlobal_80186AF4_lbl_804FF800 {
-    s32 value;
-    u8 remaining[0x1C];
-};
-
 struct Obj_80186B34 { u8 pad[0x38]; u8 pos[0xAC - 0x38]; f32 range; };
 
 extern "C" {
@@ -156,8 +152,6 @@ extern s32 local_client_id;
 s32 get_main_phase();
 
 extern s32 lbl_805D55C0;
-
-extern RecoveredGlobal_80186AF4_lbl_804FF800 lobby_name_string_buffer;
 
 s32 *TObjCityMainWarp__sub_80186AF4(void);
 
@@ -215,8 +209,6 @@ void update_main_warp_visible_mask(s32 arg0);
 
 void TObjCityMainWarp__sub_80186AB8(void);
 
-
-typedef char RecoveredGlobal_80186AF4_lbl_804FF800_size[sizeof(RecoveredGlobal_80186AF4_lbl_804FF800) == 0x20 ? 1 : -1];
 
 #pragma push
 #pragma fp_contract on

@@ -123,4 +123,9 @@ struct TAdMultiPlyChrSelectGC : public TObject {
 };
 
 typedef char TAdMultiPlyChrSelectGC_size[sizeof(TAdMultiPlyChrSelectGC) == 0xA0 ? 1 : -1];
+
+// TAdMultiPlyChrSelectGC__character_slot_positions: layout known from its uses only.
+struct TAdMultiPlyChrSelectGCCharacterSlotPositions { s32 value; u8 remaining[0x1C]; };
+extern TAdMultiPlyChrSelectGCCharacterSlotPositions TAdMultiPlyChrSelectGC__character_slot_positions;
+
 #endif

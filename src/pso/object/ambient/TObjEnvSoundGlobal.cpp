@@ -11,11 +11,6 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/task/TObject.h"
 
-struct RecoveredGlobal_80190484___vt__18TObjEnvSoundGlobal {
-    s32 value;
-    u8 remaining[0x30];
-};
-
 struct Row_80190AA0 { u32 cue; s32 mode; };
 
 struct Obj_801903B4 { u8 pad0[0x38]; f32 pos[3]; u8 pad44[0x90 - 0x44]; f32 param; s32 sound; s32 mode; };
@@ -76,15 +71,7 @@ int is_not_split_screen__13TRaderMapCoreFv(void *);
 
 extern void *tl_05;
 
-typedef char RecoveredGlobal_80190484___vt__18TObjEnvSoundGlobal_size[sizeof(RecoveredGlobal_80190484___vt__18TObjEnvSoundGlobal) == 0x34 ? 1 : -1];
-
-
 extern s32 __vt__14TObjEnvSoundEx[];
-struct RecoveredGlobal_8019080C___vt__14TObjEnvSoundEx {
-    s32 value;
-    u8 remaining[0x30];
-};
-
 
 #define F(o) (*(f32 *)(self + (o)))
 #define S(o) (*(s32 *)(self + (o)))
@@ -92,8 +79,6 @@ struct RecoveredGlobal_8019080C___vt__14TObjEnvSoundEx {
 #undef F
 #undef S
 
-
-typedef char RecoveredGlobal_8019080C___vt__14TObjEnvSoundEx_size[sizeof(RecoveredGlobal_8019080C___vt__14TObjEnvSoundEx) == 0x34 ? 1 : -1];
 
 }
 
@@ -236,7 +221,7 @@ s32 TObjEnvSound::is_sound_enabled(void *self, s32 cue) {
 
 u8 *TObjEnvSoundEx__ct(u8 *env_sound_ex, s32 arg1, s32 arg2) {
     ((s32 (*)(void *))__ct__8TObjBaseFP7TObject)(env_sound_ex);
-    *(s32 **)((s8 *)env_sound_ex + 0x18) = &(*(RecoveredGlobal_8019080C___vt__14TObjEnvSoundEx *)&__vt__14TObjEnvSoundEx).value;
+    *(s32 **)((s8 *)env_sound_ex + 0x18) = __vt__14TObjEnvSoundEx;
     ((TObjEnvSoundEx *)env_sound_ex)->m_name = TObjEnvSoundEx__class_name;
     ((TObjEnvSoundEx *)(env_sound_ex))->apply_object_set_data((void *)arg2);
     ((TObjEnvSoundEx *)env_sound_ex)->init_sound_params();
@@ -329,7 +314,7 @@ void * TObjEnvSoundEx__create(void *rader_map_core) {
 
 u8 *TObjEnvSoundGlobal__ct(u8 *env_sound_global, s32 parent, s32 arg2) {
     __ct__8TObjBaseFP7TObject((void *)env_sound_global, (void *)parent);
-    *(s32 **)((s8 *)env_sound_global + 0x18) = &(*(RecoveredGlobal_80190484___vt__18TObjEnvSoundGlobal *)&__vt__18TObjEnvSoundGlobal).value;
+    *(s32 **)((s8 *)env_sound_global + 0x18) = __vt__18TObjEnvSoundGlobal;
     ((TObjEnvSoundGlobal *)env_sound_global)->m_name = TObjEnvSoundGlobal__class_name;
     ((TObjEnvSoundGlobal *)(env_sound_global))->apply_object_set_data((void *)arg2);
     ((TObjEnvSoundGlobal *)env_sound_global)->setup_sound();

@@ -59,11 +59,6 @@ WindowDescriptor window_short_cut_layout = {
     {405.0f, 188.0f}, 50100.0f, &window_short_cut_layout_entries, 0x63,
 };
 
-struct RecoveredGlobal_8026E728___vt__15TWindowShortCut {
-    s32 value;
-    u8 remaining[0x18];
-};
-
 extern "C" {
 s32 draw_default_entry__9TWindowDDFl();
 s32 draw_visible_window_entries(void *, void *, int);
@@ -216,11 +211,10 @@ TWindowShortCut::~TWindowShortCut() {
     }
     TWindowSubStatusDisp::destroy_status_display(this->heading, 1);
 }
-typedef char RecoveredGlobal_8026E728___vt__15TWindowShortCut_size[sizeof(RecoveredGlobal_8026E728___vt__15TWindowShortCut) == 0x1C ? 1 : -1];
 u8 *TWindowShortCut__ct(TWindowShortCut *window_short_cut, s32 arg1, s32 index, s32 *chat_shortcut) {
     s32 var_r31;
     ((TWindowDD *)window_short_cut)->construct_base((u8 *)&window_short_cut_layout, (s16)4, (u8 *)arg1);
-    *(s32 **)((s8 *)window_short_cut + 0x18) = &(*(RecoveredGlobal_8026E728___vt__15TWindowShortCut *)&__vt__15TWindowShortCut).value;
+    *(s32 **)((s8 *)window_short_cut + 0x18) = __vt__15TWindowShortCut;
     *(s32 *)((s8 *)window_short_cut + 0) = (s32) TWindowShortCut__name;
     var_r31 = (int)::operator new(0x24);
     if (var_r31 != 0) {

@@ -7,18 +7,6 @@
 
 struct SRock_80224544_8022448C;
 
-struct RecoveredGlobal_802259A0_lbl_80513F70
-{
-  s32 value;
-  u8 remaining[0x67C];
-};
-
-struct RecoveredGlobal_802258C8_lbl_80513F70
-{
-  s32 value;
-  u8 remaining[0x67C];
-};
-
 struct O_80225B90 { u8 pad[0x20]; char name[1]; };
 
 #pragma inline_depth(1)
@@ -84,9 +72,6 @@ int lobby_short_mail_entry_count;
 
 void try_close__6TLobbyFPv(void* p) { if (((TLobby *)p)->is_name_too_long() == 0) { TLobby__sub_80225A08(p); } }
 
-typedef struct RecoveredGlobal_802258C8_lbl_80513F70 RecoveredGlobal_802258C8_lbl_80513F70;
-typedef char RecoveredGlobal_802258C8_lbl_80513F70_size[((sizeof(RecoveredGlobal_802258C8_lbl_80513F70)) == 0x680) ? (1) : (-1)];
-
 void TLobby::send_simple_mail(s32 arg0, void *arg1) {
     Tag_80225828 t;
     s32 mode;
@@ -107,7 +92,7 @@ void TLobby__sub_802258C8(void) {
   s32 var_r31;
   s32 *var_r30;
   var_r31 = 0;
-  var_r30 = (s32 *) (&(*(RecoveredGlobal_802258C8_lbl_80513F70 *)&lbl_80513F70).value);
+  var_r30 = (s32 *)&lbl_80513F70;
   do
   {
     if (((s32)is_flag_set__6TLobbyFPv(var_r30)) != 0)
@@ -141,13 +126,11 @@ void *TLobby__sub_8022598C(int a0) {
   return ((char *) new_var) + (a0 * 0xd0);
 }
 
-typedef struct RecoveredGlobal_802259A0_lbl_80513F70 RecoveredGlobal_802259A0_lbl_80513F70;
-typedef char RecoveredGlobal_802259A0_lbl_80513F70_size[((sizeof(RecoveredGlobal_802259A0_lbl_80513F70)) == 0x680) ? (1) : (-1)];
 s32 TLobby::find_free_slot() {
   s32 var_r31;
   s32 *var_r30;
   var_r31 = 0;
-  var_r30 = (s32 *) (&(*(RecoveredGlobal_802259A0_lbl_80513F70 *)&lbl_80513F70).value);
+  var_r30 = (s32 *)&lbl_80513F70;
   loop_1:
   if (is_flag_set__6TLobbyFPv(var_r30) == 0)
   {

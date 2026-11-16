@@ -44,11 +44,6 @@ struct VObj_803357EC_8033573C : Base_803357EC_8033573C {
     virtual void m9();
 };
 
-struct RecoveredGlobal_80335870___vt__19TAdTrialAgreementGC {
-    s32 value;
-    u8 remaining[0x34];
-};
-
 extern "C" {
 
 s32 __nw__7TObjectFUl(int);
@@ -90,12 +85,11 @@ TAdTrialAgreementGC::~TAdTrialAgreementGC() {
 
 }
 
-typedef char RecoveredGlobal_80335870___vt__19TAdTrialAgreementGC_size[sizeof(RecoveredGlobal_80335870___vt__19TAdTrialAgreementGC) == 0x38 ? 1 : -1];
 u8 *TAdTrialAgreementGC__ct(u8 *ad_trial_agreement_gc) {
     s32 ad_scroll_win_gc;
     s32 var_r0;
     TAdAgreementBaseGC__ct(ad_trial_agreement_gc);
-    *(s32 **)((s8 *)ad_trial_agreement_gc + 0x18) = &(*(RecoveredGlobal_80335870___vt__19TAdTrialAgreementGC *)&__vt__19TAdTrialAgreementGC).value;
+    *(s32 **)((s8 *)ad_trial_agreement_gc + 0x18) = __vt__19TAdTrialAgreementGC;
     *(const char **)((s8 *)ad_trial_agreement_gc + 0) = TAdTrialAgreementGC__name;
     ((TAdTrialAgreementGC *)ad_trial_agreement_gc)->m_38 = 0;
     if (TAdTrialAgreementGC::check_card_file((s32)ad_trial_agreement_gc) != 0) {

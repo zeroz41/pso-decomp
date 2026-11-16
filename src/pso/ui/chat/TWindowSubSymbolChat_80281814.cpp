@@ -356,13 +356,6 @@ s32 TWindowSubSymbolChat__sub_8028233C(s32 arg0) {
     return r;
 }
 
-struct RecoveredGlobal_8028379C_lbl_804FF968 {
-    s32 value;
-    u8 remaining[0x54];
-};
-
-struct RecoveredGlobal_8028351C___vt__20TWindowSubSymbolChat { s32 value; u8 remaining[0x14]; };
-
 struct Win_80282600 { u8 pad[0x20]; s32 sel; };
 
 struct VBase_18_204a81 { char pad[0x18]; };
@@ -379,7 +372,8 @@ struct VObj_18_204a81 : VBase_18_204a81 {
 };
 
 extern "C" {
-extern RecoveredGlobal_8028379C_lbl_804FF968 symbol_chat_receive_buffer;
+struct SymbolChatReceiveBuffer { s32 value; u8 remaining[0x54]; };
+extern SymbolChatReceiveBuffer symbol_chat_receive_buffer;
 s32 __dt__7TObjectFv(void *, int);
 s32 __dl__7TObjectFPv(void *);
 s32 update_selected_item__17TWindowOptionCtrlFv(int);
@@ -1021,7 +1015,7 @@ u8 *__dt__20TWindowSubSymbolChatFv(TWindowSubSymbolChat *window_sub_symbol_chat,
     u32 temp_r3_8;
     u32 temp_r3_9;
     if (window_sub_symbol_chat != NULL) {
-        *(s32 **)((s8 *)window_sub_symbol_chat + 0x18) = &(*(RecoveredGlobal_8028351C___vt__20TWindowSubSymbolChat *)&__vt__20TWindowSubSymbolChat).value;
+        *(s32 **)((s8 *)window_sub_symbol_chat + 0x18) = __vt__20TWindowSubSymbolChat;
         temp_r3 = window_sub_symbol_chat->m_58;
         if (temp_r3 != 0U) {
             ((TObject *)temp_r3)->queue_destruction();
@@ -1125,7 +1119,6 @@ void *TWindowSubSymbolChat__ct(TWindowSubSymbolChat *window_sub_symbol_chat, s32
     window_sub_symbol_chat->m_1c = 0;
     return window_sub_symbol_chat;
 }
-typedef char RecoveredGlobal_8028379C_lbl_804FF968_size[sizeof(RecoveredGlobal_8028379C_lbl_804FF968) == 0x58 ? 1 : -1];
 s32 *TWindowSubSymbolChat__sub_8028379C(void) {
     return &symbol_chat_receive_buffer.value;
 }

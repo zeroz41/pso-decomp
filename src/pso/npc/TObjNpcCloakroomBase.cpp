@@ -22,14 +22,6 @@ u32 TObjNpcCloakroomBase__static_instance;
 }
 
 
-struct RecoveredGlobal_80149738_lbl_804A8098 { s32 value; u8 remaining[0xC]; };
-typedef char RecoveredGlobal_80149738_lbl_804A8098_size[sizeof(RecoveredGlobal_80149738_lbl_804A8098) == 0x10 ? 1 : -1];
-
-struct RecoveredGlobal_801497E0___vt__20TObjNpcCloakroomBase {
-    s32 value;
-    u8 remaining[0x174];
-};
-
 extern "C" {
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 extern s32 __vt__20TObjNpcCloakroomBase[];
@@ -85,10 +77,9 @@ void TObjNpcCloakroomBase::load_shared_resource() {
 TObjNpcCloakroomBase::~TObjNpcCloakroomBase() {}
 
 
-typedef char RecoveredGlobal_801497E0___vt__20TObjNpcCloakroomBase_size[sizeof(RecoveredGlobal_801497E0___vt__20TObjNpcCloakroomBase) == 0x178 ? 1 : -1];
 u8 *TObjNpcCloakroomBase__ct(u8 *arg0, s32 arg1, s32 arg2) {
     ((TUnk_804A8640 *)arg0)->construct_female_base();
-    *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_801497E0___vt__20TObjNpcCloakroomBase *)&__vt__20TObjNpcCloakroomBase).value;
+    *(s32 **)((s8 *)arg0 + 0x18) = __vt__20TObjNpcCloakroomBase;
     *(s32 *)((s8 *)arg0 + 0) = (s32) TObjNpcCloakroomBase__name;
     ((TObjNpcCloakroomBase *)(arg0))->apply_set_data((void *)arg2);
     ((TObjPlayer *)arg0)->init_position_vectors();

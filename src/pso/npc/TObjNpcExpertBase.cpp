@@ -20,14 +20,6 @@ const char *TObjNpcExpertBase__name = "TObjNpcExpertBase";
 u32 TObjNpcExpertBase__shared_resource;
 }
 
-struct RecoveredGlobal_80149B0C_lbl_804A84B8 { s32 value; u8 remaining[0xC]; };
-typedef char RecoveredGlobal_80149B0C_lbl_804A84B8_size[sizeof(RecoveredGlobal_80149B0C_lbl_804A84B8) == 0x10 ? 1 : -1];
-
-struct RecoveredGlobal_80149BB4___vt__17TObjNpcExpertBase {
-    s32 value;
-    u8 remaining[0x174];
-};
-
 extern "C" {
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 extern s32 __vt__17TObjNpcExpertBase[];
@@ -54,10 +46,9 @@ void TObjNpcExpertBase::load_shared_resource() {
 }
 TObjNpcExpertBase::~TObjNpcExpertBase() {}
 
-typedef char RecoveredGlobal_80149BB4___vt__17TObjNpcExpertBase_size[sizeof(RecoveredGlobal_80149BB4___vt__17TObjNpcExpertBase) == 0x178 ? 1 : -1];
 u8 *TObjNpcExpertBase__ct(u8 *player, s32 arg1, s32 arg2) {
     ((TUnk_804A9F50 *)player)->construct_male_npc_base();
-    *(s32 **)((s8 *)player + 0x18) = &(*(RecoveredGlobal_80149BB4___vt__17TObjNpcExpertBase *)&__vt__17TObjNpcExpertBase).value;
+    *(s32 **)((s8 *)player + 0x18) = __vt__17TObjNpcExpertBase;
     *(s32 *)((s8 *)player + 0) = (s32) TObjNpcExpertBase__name;
     ((TObjNpcExpertBase *)(player))->apply_set_data((void *)arg2);
     ((TObjPlayer *)player)->init_position_vectors();

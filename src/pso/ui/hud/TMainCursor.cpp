@@ -593,9 +593,6 @@ void TMainCursor::run_task() {
 
 }
 
-struct RecoveredGlobal_8013BDCC___vt__11TMainCursor { s32 value; u8 remaining[0x14]; };
-typedef char RecoveredGlobal_8013BDCC___vt__11TMainCursor_size[sizeof(RecoveredGlobal_8013BDCC___vt__11TMainCursor) == 0x18 ? 1 : -1];
-
 extern "C" {
 s32 set_offset_y__11TMainCursorFs(void *, u16);
 s32 init_field_60__11TMainCursorFv(void *, u8);
@@ -669,7 +666,7 @@ void *__dt__11TMainCursorFv(void *object, s16 arg1) {
 u8 *TMainCursor__ct(u8 *main_cursor, s32 parent, s32 target_index, s32 target_id, s32 action_palette, s32 active,
                     u16 offset_y, f32 size) {
     __ct__7TObjectFP7TObject((void *)main_cursor, (void *)parent);
-    *(s32 **)((s8 *)main_cursor + 0x18) = &(*(RecoveredGlobal_8013BDCC___vt__11TMainCursor *)&__vt__11TMainCursor).value;
+    *(s32 **)((s8 *)main_cursor + 0x18) = __vt__11TMainCursor;
     __ct__8FlagWordFv((main_cursor + 0x20));
     TMainCursor__sub_8013E800(main_cursor + 0x24);
     TMainCursor__sub_8013F1F0((main_cursor + 0x4C));

@@ -6,11 +6,6 @@
 #include "pso/system/TGStream.h"
 #include "pso/unk/TLobby.h"
 
-struct RecoveredGlobal_802A5F24_lbl_804DD098 {
-    s32 value;
-    u8 remaining[0xC];
-};
-
 extern "C" {
 s32 strncpy(void *, void *, int);
 s32 strcpy(void *, void *);
@@ -145,10 +140,9 @@ void *TWindowSnapShot__sub_802A5EDC(void *arg0, s16 arg1) {
     return arg0;
 }
 
-typedef char RecoveredGlobal_802A5F24_lbl_804DD098_size[sizeof(RecoveredGlobal_802A5F24_lbl_804DD098) == 0x10 ? 1 : -1];
 u8 *TWindowSnapShot::init_and_reset() {
     u8 *arg0 = (u8 *)this;
-    this->m_3c = &(*(RecoveredGlobal_802A5F24_lbl_804DD098 *)&lbl_804DD098).value;
+    this->m_3c = lbl_804DD098;
     reset();
     return arg0;
 }

@@ -312,12 +312,6 @@ void TItemDrop::refresh_drop_table_if_changed() {
 #pragma push
 
 
-struct RecoveredGlobal_80107840_lbl_8049EF88
-{
-  s32 value;
-  u8 remaining[0x14];
-};
-
 struct Pair_80106F4C { u8 type; u8 level; };
 
 struct Obj_80106F4C { u8 pad[6]; Pair_80106F4C e[3]; };
@@ -382,7 +376,8 @@ s32 __dt__7TObjectFv(void *, int);
 void *TItemDrop__sub_8010F168(void *arg0, s16 arg1);
 void mem_free(void *p);
 s32 __dl__7TObjectFPv(void *);
-extern RecoveredGlobal_80107840_lbl_8049EF88 lbl_8049EF88;
+struct RecoveredGlobal_lbl_8049EF88 { s32 value; u8 remaining[0x14]; };
+extern RecoveredGlobal_lbl_8049EF88 lbl_8049EF88;
 u8 *TItemDrop__sub_80107840(u8 *arg0, s16 arg1);
 void prune_weapon_attributes__9TItemDropFPvPv(void *self, Obj_80106F4C *o);
 s32 try_generate_rare_item__9TItemDropFiPvPv(s32 arg0, u8 *arg1, u8 *arg2);
@@ -399,7 +394,7 @@ void *mem_alloc(u32 size);
 void __ct__7TObjectFP7TObject(void *, void *);
 s32 __cvt_fp2unsigned(f32);
 extern s32 __vt__9TItemDrop[];
-extern RecoveredGlobal_80107840_lbl_8049EF88 lbl_8049EF88;
+extern RecoveredGlobal_lbl_8049EF88 lbl_8049EF88;
 extern const f32 lbl_805DAAD4;
 extern const f32 lbl_805DAAD8;
 extern const f32 lbl_805DAAE4;
@@ -977,8 +972,6 @@ u8 select_weighted_column_u16__9TItemDropFiiiii(s32 rng, s32 base, s32 off, s32 
     }
     return 0xFF;
 }
-
-typedef struct RecoveredGlobal_80107840_lbl_8049EF88 RecoveredGlobal_80107840_lbl_8049EF88;
 
 u8 TItemDrop::select_weighted_byte(s32 base, s32 off, s32 count, s32 stride) {
     u8 *p = (u8 *)(base + off);

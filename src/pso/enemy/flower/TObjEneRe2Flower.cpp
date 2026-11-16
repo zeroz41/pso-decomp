@@ -29,16 +29,12 @@ struct Stack_800C44C4 {
     s32 sp10;
     s32 sp14;
 };
-struct RecoveredGlobal_800C44C4_lbl_8043BB90 {
-    s32 value;
-    u8 remaining[0xC];
-};
-typedef char RecoveredGlobal_800C44C4_lbl_8043BB90_size[sizeof(RecoveredGlobal_800C44C4_lbl_8043BB90) == 0x10 ? 1 : -1];
 
 extern "C" {
 s32 load_enemy_bml_resource_named(s32 arg0, s32 arg1);
 s32 load_enemy_bml_resource(u8 *arg0);
-extern RecoveredGlobal_800C44C4_lbl_8043BB90 lbl_8043BB90;
+struct RecoveredGlobal_lbl_8043BB90 { s32 value; u8 remaining[0xC]; };
+extern RecoveredGlobal_lbl_8043BB90 lbl_8043BB90;
 extern char lbl_8043BAAC[];
 extern char lbl_8043BAC4[];
 extern char lbl_8043BADC[];

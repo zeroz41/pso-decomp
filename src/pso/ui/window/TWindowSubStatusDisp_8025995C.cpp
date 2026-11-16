@@ -5,11 +5,6 @@
 #include "pso/system/memory.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 
-struct RecoveredGlobal_80259D3C_lbl_804CF9C8 {
-    s32 value;
-    u8 remaining[0x14];
-};
-
 struct Pos_80259A84
 {
   f32 x;
@@ -159,10 +154,9 @@ void *TWindowSubStatusDisp__sub_80259CE4(void *window_sub_status_disp, s16 arg1)
     return window_sub_status_disp;
 }
 
-typedef char RecoveredGlobal_80259D3C_lbl_804CF9C8_size[sizeof(RecoveredGlobal_80259D3C_lbl_804CF9C8) == 0x18 ? 1 : -1];
 u8 *TWindowSubStatusDisp__sub_80259D3C(u8 *arg0, u8 *arg1, s32 arg2) {
     reset_entry__20TWindowSubStatusDispFPv(arg0, arg2);
-    *(s32 **)((s8 *)arg0 + 4) = &(*(RecoveredGlobal_80259D3C_lbl_804CF9C8 *)&lbl_804CF9C8).value;
+    *(s32 **)((s8 *)arg0 + 4) = lbl_804CF9C8;
     *(f32 *)((s8 *)arg0 + 8) = (f32) *(f32 *)((s8 *)arg1 + 4);
     *(f32 *)((s8 *)arg0 + 0xC) = (f32) *(f32 *)((s8 *)arg1 + 8);
     *(f32 *)((s8 *)arg0 + 0x18) = (f32) *(f32 *)((s8 *)arg1 + 0xC);

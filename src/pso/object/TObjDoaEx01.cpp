@@ -262,15 +262,6 @@ void TObjDoaEx01::render() {
 }
 
 
-struct RecoveredGlobal_8018E1E0_lbl_804B7588 { s32 value; u8 remaining[0xC]; };
-typedef char RecoveredGlobal_8018E1E0_lbl_804B7588_size[sizeof(RecoveredGlobal_8018E1E0_lbl_804B7588) == 0x10 ? 1 : -1];
-
-
-struct RecoveredGlobal_8018E064___vt__11TObjDoaEx01 {
-    s32 value;
-    u8 remaining[0x50];
-};
-
 extern "C" {
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 s32 init_collision_body_parts(void *, void *, int);
@@ -287,7 +278,6 @@ TObjDoaEx01::~TObjDoaEx01() {
 
 extern void *tl_05;
 
-typedef char RecoveredGlobal_8018E064___vt__11TObjDoaEx01_size[sizeof(RecoveredGlobal_8018E064___vt__11TObjDoaEx01) == 0x54 ? 1 : -1];
 TObjDoaEx01::TObjDoaEx01(s32 arg1, s32 arg2) : TODoorBase((TObject *)arg1) {
     *(s32 *)((s8 *)this + 0) = (s32) TObjDoaEx01__name;
     ((TObjDoaEx01 *)(((u8 *)this)))->apply_object_set_data((void *)arg2);

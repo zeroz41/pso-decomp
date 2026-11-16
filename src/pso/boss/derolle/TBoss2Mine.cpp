@@ -221,12 +221,6 @@ struct ByteBlock_14
   u8 bytes[0x14];
 };
 
-struct RecoveredGlobal_800384C8_lbl_80435AB0
-{
-  s32 value;
-  u8 remaining[0x10];
-};
-
 struct Base_80038200 { char pad[0x18]; };
 
 struct Mine_80038200 : Base_80038200 {
@@ -275,7 +269,8 @@ void *create_timed_particle_emitter(void *owner, s32 id, s32 b, s32 c);
 
 void TObjEneDD__sub_800BA5A4(void *p, void *a1);
 
-extern RecoveredGlobal_800384C8_lbl_80435AB0 boss2_mine_collision_desc;
+struct Boss2MineCollisionDesc { s32 value; u8 remaining[0x10]; };
+extern Boss2MineCollisionDesc boss2_mine_collision_desc;
 
 void scale_matrix(s32, f32, f32, f32);
 
@@ -299,13 +294,9 @@ typedef struct ByteBlock_10 ByteBlock_10;
 
 typedef struct ByteBlock_14 ByteBlock_14;
 
-typedef struct RecoveredGlobal_800384C8_lbl_80435AB0 RecoveredGlobal_800384C8_lbl_80435AB0;
-
 typedef struct VBase_18_444bc5 VBase_18_444bc5;
 
 typedef struct VObj_18_444bc5 VObj_18_444bc5;
-
-typedef char RecoveredGlobal_800384C8_lbl_80435AB0_size[((sizeof(RecoveredGlobal_800384C8_lbl_80435AB0)) == 0x14) ? (1) : (-1)];
 
 }
 

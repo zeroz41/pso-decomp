@@ -42,4 +42,8 @@ extern "C" {
 }
 s32 water_bomb_hit_nearby(u8 *target);
 
+// lbl_80501010: layout known from its uses only.
+struct RecoveredGlobal_lbl_80501010 { s32 value; u8 remaining[0x3C]; };
+extern RecoveredGlobal_lbl_80501010 lbl_80501010;
+
 #endif

@@ -14,11 +14,6 @@
 
 extern s32 lbl_805D63F0;
 
-struct RecoveredGlobal_80256BDC_lbl_804CF918 {
-    s32 value;
-    u8 remaining[0x14];
-};
-
 struct Bar_80256C00 {
     u8 pad0[0x14];
     f32 scale;
@@ -59,10 +54,9 @@ void *TUnk_804CF930::destroy(s16 arg1) {
     return this;
 }
 
-typedef char RecoveredGlobal_80256BDC_lbl_804CF918_size[sizeof(RecoveredGlobal_80256BDC_lbl_804CF918) == 0x18 ? 1 : -1];
 void TUnk_804CF930::sub_80256BDC(s32 arg1) {
     u8 *arg0 = (u8 *)this;
-    *(s32 **)((s8 *)arg0 + 4) = &(*(RecoveredGlobal_80256BDC_lbl_804CF918 *)&lbl_804CF918).value;
+    *(s32 **)((s8 *)arg0 + 4) = lbl_804CF918;
     *(s16 *)((s8 *)arg0 + 0) = 0;
     this->m_2 = arg1;
 }
@@ -248,13 +242,6 @@ void *TWindowSubStatusDisp__sub_80257298(void *arg0, s16 arg1) {
     return arg0;
 }
 
-
-struct RecoveredGlobal_80257B4C_lbl_804CF948 {
-    s32 value;
-    u8 remaining[0x14];
-};
-
-typedef char RecoveredGlobal_80257B4C_lbl_804CF948_size[sizeof(RecoveredGlobal_80257B4C_lbl_804CF948) == 0x18 ? 1 : -1];
 
 typedef void *(*Ctor_80257D44)(void *, void *, s32);
 

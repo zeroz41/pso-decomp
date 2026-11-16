@@ -14,11 +14,6 @@
 #include "pso/quest/TQuestThread.h"
 #include "pso/map/FloorArea.h"
 
-struct RecoveredGlobal_801336E0_TObjLight__data_80506320 {
-    s32 value;
-    u8 remaining[0x4C];
-};
-
 #include <stddef.h>
 #include "pso/object/ambient/TObjLight.h"
 #include "pso/unk/TLobby.h"
@@ -82,7 +77,7 @@ void __dl__7TObjectFPv(void *);
 void __dt__7TObjectFv(void *, int);
 
     extern int light_type_id_table[];
-RecoveredGlobal_801336E0_TObjLight__data_80506320 TObjLight__scene_light_state;
+TObjLightSceneLightState TObjLight__scene_light_state;
 void *TObjLight__data_80506370[3];
 Light_801347A4 TObjLight__data_8050637C[32];
 Light_801347A4 TObjLight__data_805068FC[8];
@@ -525,7 +520,6 @@ TUnk_804A6F78::TUnk_804A6F78(TObject *parent) : TUnk_804A6FC0(parent) {
 
 void TObjLight__sub_80133714(void) {  }
 
-typedef char RecoveredGlobal_801336E0_TObjLight__data_80506320_size[sizeof(RecoveredGlobal_801336E0_TObjLight__data_80506320) == 0x50 ? 1 : -1];
 void submit_scene_ambient_color(void) {
     set_light_ambient_color(*(f32 *)((s8 *)&TObjLight__scene_light_state.value + 0x38), *(f32 *)((s8 *)&TObjLight__scene_light_state.value + 0x3C), *(f32 *)((s8 *)&TObjLight__scene_light_state.value + 0x40));
 }

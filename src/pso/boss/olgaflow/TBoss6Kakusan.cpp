@@ -19,8 +19,6 @@
 
 #pragma readonly_strings on
 
-struct RecoveredGlobal_80322994___vt__13TBoss6Kakusan { s32 value; u8 remaining[0x14]; };
-
 struct Obj_80322644 { u8 pad[0x30]; Vec pos; };
 
 struct Hit_80322438
@@ -246,7 +244,7 @@ u8 *TBoss6Kakusan__ct(u8 *boss6_kakusan, TObject *parent, Vec *pos, Vec *dir, u1
     f32 temp_f2;
     u32 temp_r3;
     __ct__7TObjectFP7TObject((void *)boss6_kakusan, parent);
-    *(s32 **)((s8 *)boss6_kakusan + 0x18) = &(*(RecoveredGlobal_80322994___vt__13TBoss6Kakusan *)&__vt__13TBoss6Kakusan).value;
+    *(s32 **)((s8 *)boss6_kakusan + 0x18) = __vt__13TBoss6Kakusan;
     ((TBoss6Kakusan *)boss6_kakusan)->m_name = TBoss6Kakusan__name;
     ((TBoss6Kakusan *)boss6_kakusan)->m_20 = target_client;
     ((TBoss6Kakusan *)boss6_kakusan)->m_24 = speed;

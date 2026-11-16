@@ -109,15 +109,10 @@ void set_tp__10TObjPlayerFs(Player_8034DAA0 *, s32);
 }
 
 
-struct RecoveredGlobal_8034DEA0_TNpcPlayer__data_804ABC90 {
-    s32 value;
-    u8 remaining[0x9FC];
-};
-
-
 extern "C" {
 s32 copy__10TNpcPlayerFPv(void *, void *, int);
-extern RecoveredGlobal_8034DEA0_TNpcPlayer__data_804ABC90 TNpcPlayer__template_table;
+struct TNpcPlayerTemplateTable { s32 value; u8 remaining[0x9FC]; };
+extern TNpcPlayerTemplateTable TNpcPlayer__template_table;
 s32 is_script_controlled__10TObjPlayerFv();
 void construct_partner__10TNpcPlayerFPviisPv(void *, u16, u16, s32, void *);
 void *__nw__7TObjectFUl(u32);
@@ -128,8 +123,6 @@ typedef struct VObj_18_dac7f3 VObj_18_dac7f3;
 #pragma opt_pointer_analysis on
 #define PSO_VCALL_VObj_18_dac7f3_m0(_self, _arg0) (((VObj_18_dac7f3 *)(_self))->m0((_arg0)))
 
-
-typedef char RecoveredGlobal_8034DEA0_TNpcPlayer__data_804ABC90_size[sizeof(RecoveredGlobal_8034DEA0_TNpcPlayer__data_804ABC90) == 0xA00 ? 1 : -1];
 
 s32 all_parents_unqueued_for_destruction__7TObjectFv();
 

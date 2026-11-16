@@ -12,24 +12,11 @@
 #include "pso/system/task/TObject.h"
 
 
-struct RecoveredGlobal_8023F1B8_lbl_804CCDA8 {
-    s32 value;
-    u8 remaining[0xB4];
-};
-
-struct RecoveredGlobal_8023F1B8_lbl_804CCE60 {
-    s32 value;
-    u8 remaining[0x34];
-};
-
-struct RecoveredGlobal_8023F1B8_main_task {
-    s32 value;
-    u8 remaining[0x30];
-};
-
 extern "C" {
-extern RecoveredGlobal_8023F1B8_lbl_804CCDA8 lbl_804CCDA8;
-extern RecoveredGlobal_8023F1B8_lbl_804CCE60 lobby_scene_release_callback_table;
+struct RecoveredGlobal_lbl_804CCDA8 { s32 value; u8 remaining[0xB4]; };
+extern RecoveredGlobal_lbl_804CCDA8 lbl_804CCDA8;
+struct LobbySceneReleaseCallbackTable { s32 value; u8 remaining[0x34]; };
+extern LobbySceneReleaseCallbackTable lobby_scene_release_callback_table;
 extern u32 game_mode_scene_instance;
 void set_active_camera_pose(Vec *, Vec *);
 void TCameraCtrl__ct(void *, void *);
@@ -54,9 +41,6 @@ extern Vec lbl_8044DCE8;
 extern Vec lbl_8044DCF4;
 extern u8 default_scene_light_config[];
 extern Vec TObjLight__scene_light_state;
-typedef char RecoveredGlobal_8023F1B8_lbl_804CCDA8_size[sizeof(RecoveredGlobal_8023F1B8_lbl_804CCDA8) == 0xB8 ? 1 : -1];
-typedef char RecoveredGlobal_8023F1B8_lbl_804CCE60_size[sizeof(RecoveredGlobal_8023F1B8_lbl_804CCE60) == 0x38 ? 1 : -1];
-typedef char RecoveredGlobal_8023F1B8_main_task_size[sizeof(RecoveredGlobal_8023F1B8_main_task) == 0x34 ? 1 : -1];
 
 void TLobby::release_scene_resources() {
     TLobby::refresh_render_state();

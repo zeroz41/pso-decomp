@@ -22,9 +22,6 @@ u32 TOSparkMachine01__static_resource;
 }
 
 
-struct RecoveredGlobal_80177330_lbl_804B43F0 { s32 value; u8 remaining[0xC]; };
-typedef char RecoveredGlobal_80177330_lbl_804B43F0_size[sizeof(RecoveredGlobal_80177330_lbl_804B43F0) == 0x10 ? 1 : -1];
-
 struct VBase_801773D8 { u8 pad[0x18]; };
 
 struct Obj_801773D8 : VBase_801773D8 {

@@ -117,11 +117,6 @@ void TWindowInputNumber::set_value(f32 farg0) {
 
 }
 
-struct RecoveredGlobal_80256B0C_lbl_8050E208 {
-    s32 value;
-    u8 remaining[0x1AC];
-};
-
 typedef struct Digit_802561E8 {
     u16 flags;
     u8 pad2[6];
@@ -406,12 +401,11 @@ TWindowInputNumber::TWindowInputNumber(void *position, s32 low, s32 high,
     align_digits();
 }
 
-typedef char RecoveredGlobal_80256B0C_lbl_8050E208_size[sizeof(RecoveredGlobal_80256B0C_lbl_8050E208) == 0x1B0 ? 1 : -1];
 u8 TWindowInputNumber::test_input_flag() {
     if (this->inputFlags & 0x20) {
         return 0U;
     }
-    return ((TAdSinglePlyChrSelectGC *)((u8 *)&(*(RecoveredGlobal_80256B0C_lbl_8050E208 *)&controller_input_state).value + 0x160))->test_flag_4c();
+    return ((TAdSinglePlyChrSelectGC *)((u8 *)&controller_input_state + 0x160))->test_flag_4c();
 }
 
 s32 TWindowInputNumber::is_locked(s32 arg1) {

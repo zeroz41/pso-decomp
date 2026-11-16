@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/unk/TLobby_801C25B4.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/text_801C23A8.h"
 #include "pso/unk/TUnk_804C3E60.h"
@@ -60,13 +61,7 @@ void TUnk_804C3E60::run_task() {
 
 }
 
-struct RecoveredGlobal_801C257C_TLobby__data_80511C80 {
-    s32 value;
-    u8 remaining[0x1C];
-};
-
 extern "C" {
-extern RecoveredGlobal_801C257C_TLobby__data_80511C80 TLobby__duel_result_table;
 void __ct__7TObjectFP7TObject(void *);
 
 void *TWindowDuelResult::init(void *arg1, void *arg2, void *arg3) {
@@ -77,7 +72,6 @@ void *TWindowDuelResult::init(void *arg1, void *arg2, void *arg3) {
     TLobby::set_and_notify((int)arg2);
     return this;
 }
-typedef char RecoveredGlobal_801C257C_TLobby__data_80511C80_size[sizeof(RecoveredGlobal_801C257C_TLobby__data_80511C80) == 0x20 ? 1 : -1];
 s32 *TWindowDuelResult__sub_801C257C(void) {
     if (TRaderMapCore::is_not_split_screen() == 1) {
         return (long *) (get_split_screen_battle_rankings());

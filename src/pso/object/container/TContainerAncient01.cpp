@@ -51,7 +51,6 @@ struct VObj_8018AC68_8018A584 : Base_8018AC68_8018A584 {
     virtual void m19();
     virtual void m20(s32, f32);
 };
-struct RecoveredGlobal_8018A9D8_TContainerAncient01__data_804B6DC0 { s32 value; u8 remaining[0x28]; };
 
 struct Obj_8018AB44 { u8 pad0[0x38]; u8 pos[0x328]; s32 f360; };
 
@@ -110,10 +109,6 @@ struct Obj_8018A914 {
     s16 state;
     u8 pad328[0x33C - 0x328];
     f32 x33c;
-};
-struct RecoveredGlobal_8018B5D0_TContainerAncient01__data_804B6DC0 {
-    s32 value;
-    u8 remaining[0x28];
 };
 
 struct Obj_8018B510 { u8 pad0[0x38]; u8 pos[0x7C]; s16 fB4[3]; u8 pad1[0x1FA]; f32 f2B4; u8 pad2[0x6E]; s16 state; u8 pad3[0x10]; f32 f338; };
@@ -370,7 +365,6 @@ void *__vt__20TContainerAncient01R[79] = {
     (void *)&enemy_spawn_zalure_effect__9TObjCharaFv, (void *)&recalc_stats__9TObjCharaFv, (void *)&vfunc_74__9TObjCharaFl, (void *)&vfunc_75__9TObjCharaFf,
     (void *)&vfunc_76__9TObjCharaFf, (void *)&vfunc_77__9TObjCharaFv, (void *)&vfunc_78__9TObjCharaFl,
 };
-#define TContainerAncient01__collision_body_parts (*(RecoveredGlobal_8018A9D8_TContainerAncient01__data_804B6DC0 *)TContainerAncient01__collision_body_parts)
 #define __vt__20TContainerAncient01R ((s32 *)__vt__20TContainerAncient01R)
 
 void TContainerAncient01__sub_8018A584(Obj_8018A584 *self, f32 range) {
@@ -493,9 +487,9 @@ void TContainerAncient01::init_positions() {
     this->m_344 = (f32) (4e+02f + (this->scale.z - TContainerAncient01__data_805DBD10[0]));
     *(s32 *)((s8 *)arg0 + 0x370) = (this->set_params[2] + 4);
     VecCopy((Vec *)&this->unk_348, (const Vec *)&this->position);
-    this->m_34c = (f32) (this->m_34c + *(f32 *)((s8 *)&TContainerAncient01__collision_body_parts.value + 4));
+    this->m_34c = (f32) (this->m_34c + *(f32 *)((s8 *)&TContainerAncient01__collision_body_parts + 4));
     VecCopy((Vec *)&this->m_354, (const Vec *)&this->unk_348);
-    *(f32 *)&this->unk_358 = (f32) ((1.25f * *(f32 *)((s8 *)&TContainerAncient01__collision_body_parts.value + 4)) + *(f32 *)&this->unk_358);
+    *(f32 *)&this->unk_358 = (f32) ((1.25f * *(f32 *)((s8 *)&TContainerAncient01__collision_body_parts + 4)) + *(f32 *)&this->unk_358);
     this->m_360 = 0;
     *(f32 *)&this->unk_364 = (f32) TContainerAncient01__data_805DBD10[0];
     this->m_368 = (f32) TContainerAncient01__data_805DBD10[0];
@@ -777,7 +771,6 @@ void TContainerAncient01::sub_8018B48C() {
 
 #pragma push
 #pragma fp_contract on
-typedef char RecoveredGlobal_8018B5D0_TContainerAncient01__data_804B6DC0_size[sizeof(RecoveredGlobal_8018B5D0_TContainerAncient01__data_804B6DC0) == 0x2C ? 1 : -1];
 
 void TContainerAncient01::update_wait_for_player() {
     Obj_8018B510 *arg0 = (Obj_8018B510 *)this;
@@ -811,9 +804,9 @@ void TContainerAncient01::init_state_vectors() {
     *(f32 *)&this->unk_340 = (f32) (4e+02f + (this->scale.z - TContainerAncient01__data_805DBD10[0]));
     *(s32 *)&this->unk_36C = (s32) (*(s32 *)&this->set_params[2] + 4);
     VecCopy((Vec *)&this->m_344, (const Vec *)&this->position);
-    *(f32 *)&this->unk_348 = (f32) (*(f32 *)&this->unk_348 + *(f32 *)((s8 *)&TContainerAncient01__collision_body_parts.value + 4));
+    *(f32 *)&this->unk_348 = (f32) (*(f32 *)&this->unk_348 + *(f32 *)((s8 *)&TContainerAncient01__collision_body_parts + 4));
     VecCopy((Vec *)&this->unk_350, (const Vec *)&this->m_344);
-    this->m_354 = (f32) ((1.25f * *(f32 *)((s8 *)&TContainerAncient01__collision_body_parts.value + 4)) + this->m_354);
+    this->m_354 = (f32) ((1.25f * *(f32 *)((s8 *)&TContainerAncient01__collision_body_parts + 4)) + this->m_354);
     *(s32 *)&this->m_35c = 0;
     *(f32 *)&this->m_360 = (f32) TContainerAncient01__data_805DBD10[0];
     *(f32 *)&this->unk_364 = (f32) TContainerAncient01__data_805DBD10[0];
@@ -1046,21 +1039,6 @@ void TContainerAncient01::load_resources() {
 #include "pso/item/TUnk_804B97C0.h"
 
 
-struct RecoveredGlobal_8018BD00_TContainerAncient01__data_804B6DC0 {
-    s32 value;
-    u8 remaining[0x28];
-};
-
-struct RecoveredGlobal_8018BD00_lbl_804B6DEC {
-    s32 value;
-    u8 remaining[0x2C];
-};
-
-struct RecoveredGlobal_8018BD00___vt__19TContainerAncient01 {
-    s32 value;
-    u8 remaining[0x13C];
-};
-
 struct B_8018BE30 { u8 pad[0x18]; };
 
 struct V_8018BE30 : B_8018BE30 {
@@ -1096,12 +1074,9 @@ TContainerAncient01::~TContainerAncient01() {
 
 #pragma push
 #pragma fp_contract on
-typedef char RecoveredGlobal_8018BD00_TContainerAncient01__data_804B6DC0_size[sizeof(RecoveredGlobal_8018BD00_TContainerAncient01__data_804B6DC0) == 0x2C ? 1 : -1];
-typedef char RecoveredGlobal_8018BD00_lbl_804B6DEC_size[sizeof(RecoveredGlobal_8018BD00_lbl_804B6DEC) == 0x30 ? 1 : -1];
-typedef char RecoveredGlobal_8018BD00___vt__19TContainerAncient01_size[sizeof(RecoveredGlobal_8018BD00___vt__19TContainerAncient01) == 0x140 ? 1 : -1];
 u8 *TContainerAncient01__ct(u8 *arg0, s32 arg1, s32 parent) {
     __ct__9TObjCharaFP7TObject(arg0, (void *)arg1, (void *)parent);
-    *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_8018BD00___vt__19TContainerAncient01 *)&__vt__19TContainerAncient01).value;
+    *(s32 **)((s8 *)arg0 + 0x18) = __vt__19TContainerAncient01;
     *(s32 *)((s8 *)arg0 + 0) = (s32) TContainerAncient01__name;
     ((TContainerAncient01 *)(arg0))->apply_object_set_data((void *)parent);
     *(s32 *)((s8 *)arg0 + 0x34) = get_bml_model((int) ((*(u8 * *)&TContainerAncient01__bml_resource)), 0);
@@ -1113,10 +1088,10 @@ u8 *TContainerAncient01__ct(u8 *arg0, s32 arg1, s32 parent) {
     ((TObjMotion *)arg0)->set_animation((((TContainerAncient01 *)arg0)->requested_action));
     ((TObjMotion *)arg0)->set_field_b8((int) (((TContainerAncient01 *)arg0)->requested_action));
     ((TContainerAncient01 *)arg0)->actorFlags = (s32) (((TContainerAncient01 *)arg0)->actorFlags | 0x60000000);
-    init_collision_body_parts(arg0, (void *)&TContainerAncient01__collision_body_parts.value, 1);
+    init_collision_body_parts(arg0, (void *)&TContainerAncient01__collision_body_parts, 1);
     ((TObjPlayer *)arg0)->register_object_by_id();
     VecCopy((Vec *)(arg0 + 0x74), (const Vec *)(arg0 + 0x38));
-    *(f32 *)((s8 *)arg0 + 0x78) = (f32) ((*(f32 *)((s8 *)&TContainerAncient01__collision_body_parts.value + 4) / 2.0f) + *(f32 *)((s8 *)arg0 + 0x78));
+    *(f32 *)((s8 *)arg0 + 0x78) = (f32) ((*(f32 *)((s8 *)&TContainerAncient01__collision_body_parts + 4) / 2.0f) + *(f32 *)((s8 *)arg0 + 0x78));
     VecCopy((Vec *)(arg0 + 0x2FC), (const Vec *)(arg0 + 0x74));
     ((TContainerAncient01 *)arg0)->mode = 0;
     ((TContainerAncient01 *)arg0)->init_state_vectors();

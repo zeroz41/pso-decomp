@@ -169,4 +169,8 @@ extern __declspec(section ".data") u32 download_rng_seed_pair[2];
 
 void seed_download_rng(s32 seed);
 
+// quest_download_file_header: layout known from its uses only.
+struct QuestDownloadFileHeader { s32 value; u8 remaining[0x38]; };
+extern QuestDownloadFileHeader quest_download_file_header;
+
 #endif

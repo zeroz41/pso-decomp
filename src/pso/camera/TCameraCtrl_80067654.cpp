@@ -8,11 +8,6 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
 
-struct RecoveredGlobal_800677D4_lbl_804887C8 {
-    s32 value;
-    u8 remaining[0x2C];
-};
-
 extern "C" {
 f32 vector_length(void *, int, f32, f32);
 s32 normalize_vector(void *);
@@ -66,7 +61,6 @@ TUnk_804887C8::~TUnk_804887C8() {
 
 }
 
-typedef char RecoveredGlobal_800677D4_lbl_804887C8_size[sizeof(RecoveredGlobal_800677D4_lbl_804887C8) == 0x30 ? 1 : -1];
 TUnk_804887C8::TUnk_804887C8() : TUnk_80488A28() {
     this->m_38 = 5;
     ((TUnk_80488A28 *)this)->set_target((u32)get_player_by_client_id(0U));

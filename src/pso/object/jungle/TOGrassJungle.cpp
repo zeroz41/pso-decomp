@@ -10,14 +10,6 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/object/base/TObjMotion.h"
 
-struct RecoveredGlobal_8029CD0C_lbl_804DC534 { s32 value; u8 remaining[0xC]; };
-typedef char RecoveredGlobal_8029CD0C_lbl_804DC534_size[sizeof(RecoveredGlobal_8029CD0C_lbl_804DC534) == 0x10 ? 1 : -1];
-
-struct RecoveredGlobal_8029CE64___vt__13TOGrassJungle {
-    s32 value;
-    u8 remaining[0x30];
-};
-
 extern "C" {
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 BmlResource *TOGrassJungle__bml_resource;
@@ -89,10 +81,9 @@ TOGrassJungle::~TOGrassJungle() {
 }
 
 
-typedef char RecoveredGlobal_8029CE64___vt__13TOGrassJungle_size[sizeof(RecoveredGlobal_8029CE64___vt__13TOGrassJungle) == 0x34 ? 1 : -1];
 u8 *TOGrassJungle__ct(TOGrassJungle *grass_jungle, s32 parent, s32 arg2) {
     __ct__8TObjBaseFP7TObject((void *)grass_jungle, (void *)parent);
-    *(s32 **)((s8 *)grass_jungle + 0x18) = &(*(RecoveredGlobal_8029CE64___vt__13TOGrassJungle *)&__vt__13TOGrassJungle).value;
+    *(s32 **)((s8 *)grass_jungle + 0x18) = __vt__13TOGrassJungle;
     *(s32 *)((s8 *)grass_jungle + 0) = (s32) grass_jungle_class_name;
     ((TOGrassJungle *)(grass_jungle))->apply_object_set_data((void *)arg2);
     grass_jungle->m_90 = (s32) grass_jungle->set_params[0];

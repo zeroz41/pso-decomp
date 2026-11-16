@@ -7,18 +7,9 @@
 #include "pso/object/ambient/TObjFish_8001ED90.h"
 #include <stdlib.h>
 
-struct RecoveredGlobal_80052200_lbl_804858A8 {
-    s32 value;
-    u8 remaining[0x8];
-};
-
-struct RecoveredGlobal_80052200___vt__14TObjDFUsoTower {
-    s32 value;
-    u8 remaining[0x30];
-};
-
 extern "C" {
-extern RecoveredGlobal_80052200_lbl_804858A8 lbl_804858A8;
+struct RecoveredGlobal_lbl_804858A8 { s32 value; u8 remaining[0x8]; };
+extern RecoveredGlobal_lbl_804858A8 lbl_804858A8;
 extern s32 __vt__14TObjDFUsoTower[];
 extern s32 TObjDFUsoTower__name;
 extern const f32 lbl_805D8A30;
@@ -35,8 +26,6 @@ void *__dt__14TObjDFUsoTowerFv(void *base, s16 arg1) {
     return base;
 }
 
-typedef char RecoveredGlobal_80052200_lbl_804858A8_size[sizeof(RecoveredGlobal_80052200_lbl_804858A8) == 0xC ? 1 : -1];
-typedef char RecoveredGlobal_80052200___vt__14TObjDFUsoTower_size[sizeof(RecoveredGlobal_80052200___vt__14TObjDFUsoTower) == 0x34 ? 1 : -1];
 }
 TObjDFUsoTower::TObjDFUsoTower(s32 _w1) : TObjBase((TObject *)_w1) {
     *(s32 *)((s8 *)this + 0) = (s32) TObjDFUsoTower__name;

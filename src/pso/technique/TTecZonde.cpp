@@ -131,9 +131,6 @@ struct Zonde_8023C79C {
     u16 f134;
 };
 
-struct RecoveredGlobal_8023CD48___vt__9TTecZonde { s32 value; u8 remaining[0x24]; };
-typedef char RecoveredGlobal_8023CD48___vt__9TTecZonde_size[sizeof(RecoveredGlobal_8023CD48___vt__9TTecZonde) == 0x28 ? 1 : -1];
-
 extern "C" {
 u16 get_entity_id(void *);
 void copy_technique_target_list(void *, void *);
@@ -313,7 +310,7 @@ void TTecZonde::run_task() {
 u8 *TTecZonde__ct(u8 *arg0, s32 arg1, u8 *arg2, u8 *arg3, s16 arg4) {
     u8 *temp_r3;
     construct_facing_technique__10TObjPlayerFPviPvii(arg0, arg1, arg2, 0, arg4);
-    *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_8023CD48___vt__9TTecZonde *)&__vt__9TTecZonde).value;
+    *(s32 **)((s8 *)arg0 + 0x18) = __vt__9TTecZonde;
     ((TObjPlayer *)(arg0 + 0x130))->construct_target_cursor_records();
     *(s32 *)((s8 *)arg0 + 0) = (s32) lbl_805D3838;
     ((TTecZonde *)arg0)->init_parameters();

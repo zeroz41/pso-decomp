@@ -12,29 +12,10 @@
 #include "pso/network/TUdpSocket.h"
 #undef PSO_SDK_COMPACT_MATH
 
-struct RecoveredGlobal_80428374_lbl_805D0A40 {
-    s32 value;
-    u8 remaining[0x5C];
-};
-
-struct RecoveredGlobal_8042839C_lbl_805D0A40 {
-    s32 value;
-    u8 remaining[0x5C];
-};
-
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
 struct ByteBlock_1C { u8 bytes[0x1c]; };
-
-struct RecoveredGlobal_8042E768_lbl_805D1D20 {
-    s32 value;
-    s32 f4;
-    s32 f8;
-    char carrier[5];
-    char error_control[5];
-    char compression[6];
-};
 
 // Transmit side of the modem EXI transfer (cleared as one 0x2C block by sub_8042CEF8).
 struct ModemSendState {
@@ -80,21 +61,6 @@ struct ModemResponseState {
     u8 buf[0x80];
 };
 
-struct RecoveredGlobal_80427D0C_lbl_805CFC20 {
-    s32 value;
-    u8 remaining[0xE1C];
-};
-
-struct RecoveredGlobal_80428360_lbl_805CFC20 {
-    s16 value;
-    u8 remaining[0xE1E];
-};
-
-struct RecoveredGlobal_8042DD70_lbl_805D1D20 {
-    s32 value;
-    u8 remaining[0x18];
-};
-
 typedef struct Names_8042E57C {
     char *name[6];
 } Names_8042E57C;
@@ -135,7 +101,8 @@ typedef struct Ent_80427C6C {
 
 extern "C" {
 void TAdSinglePlyChrSelectGC__sub_8042DE20(void);
-static RecoveredGlobal_8042E768_lbl_805D1D20 modem_connection_info;
+struct ModemConnectionInfo { s32 value; s32 f4; s32 f8; char carrier[5]; char error_control[5]; char compression[6]; };
+static ModemConnectionInfo modem_connection_info;
 static ModemResponseState modem_command_response_state;
 int atoi(const char *);
 void *memcpy(void *, const void *, unsigned long);
@@ -187,14 +154,6 @@ void TAdSinglePlyChrSelectGC__sub_8042E488(s32 value);
 #pragma push
 #pragma dont_inline on
 #pragma pop
-
-typedef char RecoveredGlobal_80427D0C_lbl_805CFC20_size[sizeof(RecoveredGlobal_80427D0C_lbl_805CFC20) == 0xE20 ? 1 : -1];
-
-typedef char RecoveredGlobal_80428374_lbl_805D0A40_size[sizeof(RecoveredGlobal_80428374_lbl_805D0A40) == 0x60 ? 1 : -1];
-
-typedef char RecoveredGlobal_80428360_lbl_805CFC20_size[sizeof(RecoveredGlobal_80428360_lbl_805CFC20) == 0xE20 ? 1 : -1];
-
-typedef char RecoveredGlobal_8042839C_lbl_805D0A40_size[sizeof(RecoveredGlobal_8042839C_lbl_805D0A40) == 0x60 ? 1 : -1];
 
 void TAdSinglePlyChrSelectGC::wake_load_thread() {
     OSWakeupThread(&lbl_805D7CA0);
@@ -932,19 +891,18 @@ s32 TAdSinglePlyChrSelectGC__sub_8042D7E0(u8 *buf) {
 
 #pragma push
 #pragma opt_common_subs off
-typedef char RecoveredGlobal_8042DD70_lbl_805D1D20_size[sizeof(RecoveredGlobal_8042DD70_lbl_805D1D20) == 0x1C ? 1 : -1];
 s32 TAdSinglePlyChrSelectGC__sub_8042DD70(s32 arg0, s32 arg1, s32 arg2) {
-    if ((s32) *(s32 *)((s8 *)(&(*(RecoveredGlobal_8042DD70_lbl_805D1D20 *)&modem_connection_info).value) + 0xB0) != 0) {
+    if ((s32) *(s32 *)((s8 *)&modem_connection_info + 0xB0) != 0) {
         return -4;
     }
     if ((s32) lbl_805D7C98 != 3) {
         return -7;
     }
-    *(s32 *)((s8 *)(&(*(RecoveredGlobal_8042DD70_lbl_805D1D20 *)&modem_connection_info).value) + 0xB0) = 1;
-    *(s32 *)((s8 *)(&(*(RecoveredGlobal_8042DD70_lbl_805D1D20 *)&modem_connection_info).value) + 0xB4) = arg0;
-    *(s32 *)((s8 *)(&(*(RecoveredGlobal_8042DD70_lbl_805D1D20 *)&modem_connection_info).value) + 0xBC) = arg1;
-    *(s32 *)((s8 *)(&(*(RecoveredGlobal_8042DD70_lbl_805D1D20 *)&modem_connection_info).value) + 0xB8) = arg1;
-    *(s32 *)((s8 *)(&(*(RecoveredGlobal_8042DD70_lbl_805D1D20 *)&modem_connection_info).value) + 0xD8) = arg2;
+    *(s32 *)((s8 *)&modem_connection_info + 0xB0) = 1;
+    *(s32 *)((s8 *)&modem_connection_info + 0xB4) = arg0;
+    *(s32 *)((s8 *)&modem_connection_info + 0xBC) = arg1;
+    *(s32 *)((s8 *)&modem_connection_info + 0xB8) = arg1;
+    *(s32 *)((s8 *)&modem_connection_info + 0xD8) = arg2;
     TAdSinglePlyChrSelectGC__sub_8042DDE4(0, 0);
     return 1;
 }
@@ -1103,8 +1061,6 @@ void TAdSinglePlyChrSelectGC__sub_8042E488(s32 value) {
     ModemWriteRegister(0x13, lbl_805D7C90.f5);
     EXIUnlock(0);
 }
-
-typedef char RecoveredGlobal_8042E768_lbl_805D1D20_size[sizeof(RecoveredGlobal_8042E768_lbl_805D1D20) == 0x1C ? 1 : -1];
 
 s32 TAdSinglePlyChrSelectGC::send_at_ms_command(s32 arg0) {
     char buf[0x80];
