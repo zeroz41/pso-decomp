@@ -1,3 +1,4 @@
+#pragma readonly_strings on
 #pragma fp_contract on
 
 #include "pso/boss/volopt/TObjVoloptPillar.h"
@@ -26,6 +27,10 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/player/TObjPlayer_80011014.h"
+
+const char *TObjVoloptPillar_name = "TObjVoloptPillar";
+const DirectAttackPayload volopt_pillar_attack = {0, 0.0f};
+const Vec volopt_pillar_push = {0.0f, 0.0f, 0.0f};
 
 // Throws three debris chips from the pillar's position.
 void TObjVoloptPillar::sub_80049FD8() {

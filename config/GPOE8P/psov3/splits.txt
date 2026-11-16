@@ -247,9 +247,10 @@ pso/boss/dragon/TObjBoss1Floor.cpp:
 
 pso/boss/goldragon/TBoss8Dragon_8002CC48.cpp:
 	.text       start:0x8002CC48 end:0x8002DF7C
-	.rodata     start:0x804355D0 end:0x804355D8
+	.rodata     start:0x804355A0 end:0x804355D8
 	.data       start:0x80482048 end:0x80482078
 	.bss        start:0x804FE238 end:0x804FE266
+	.sdata      start:0x805D2698 end:0x805D26A0
 	.sbss       start:0x805D4B60 end:0x805D4B88
 	.sdata2     start:0x805D8178 end:0x805D8200
 
@@ -307,8 +308,9 @@ pso/boss/derolle/TBoss2LaserLight.cpp:
 
 pso/boss/derolle/TBoss2Mine.cpp:
 	.text       start:0x800375C0 end:0x80038DCC
-	.rodata     start:0x80435AD0 end:0x80435B08
+	.rodata     start:0x80435AB0 end:0x80435B08
 	.data       start:0x80482C88 end:0x80483238
+	.sdata      start:0x805D26D0 end:0x805D26D4
 	.sdata2     start:0x805D84B8 end:0x805D8510
 
 pso/boss/derolle/TBoss2PhotonBullet_80038DCC.cpp:
@@ -482,8 +484,9 @@ pso/boss/TUnk_80484AFC.cpp:
 
 pso/boss/volopt/TObjVoloptPillar.cpp:
 	.text       start:0x80049FD8 end:0x8004A634
-	.rodata     start:0x80436748 end:0x804367A8
+	.rodata     start:0x80436720 end:0x804367A8
 	.data       start:0x80484B38 end:0x80484BA0
+	.sdata      start:0x805D2760 end:0x805D2764
 	.sbss       start:0x805D4D38 end:0x805D4D48
 	.sdata2     start:0x805D88B8 end:0x805D88EC
 
@@ -9090,8 +9093,9 @@ pso/unk/text_802F2E7C.cpp:
 
 pso/boss/goldragon/TBoss8DragonColli.cpp:
 	.text       start:0x802F2ED8 end:0x802F3348
-	.rodata     start:0x804744A0 end:0x804744A8
+	.rodata     start:0x80474478 end:0x804744A8
 	.data       start:0x804E4B70 end:0x804E4BF0
+	.sdata      start:0x805D4000 end:0x805D4008
 	.sdata2     start:0x805DED20 end:0x805DED3C
 
 pso/boss/goldragon/TBoss8Dragon_802F3348.cpp:

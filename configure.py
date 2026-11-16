@@ -927,8 +927,9 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # texture loads all come before the stores into the locals, which only 2.0 schedules that way
     # (as in TOExplosiveMachine::run_task). -pool off: each chip's initializer template is reached
     # with its own lis/addi, not off one shared base. TObjVoloptPillar::sub_80049FD8 is one such
-    # spawner, and the rest of the pillar's TU builds identically with 2.0.
-    "pso/boss/volopt/TObjVoloptPillar.cpp": {"mw_version": "GC/2.0"},
+    # spawner, and the rest of the pillar's TU builds identically with 2.0. -pool off: run_task reaches
+    # the TU's own .rodata (the attack and push templates, the two doubles) each with its own lis/addi.
+    "pso/boss/volopt/TObjVoloptPillar.cpp": {"mw_version": "GC/2.0", "cflags": _switch(cflags_pso, "-pool off")},
     "pso/object/trap/TOTrapAncient01.cpp": {"mw_version": "GC/2.0", "cflags": _switch(cflags_pso, "-pool off", "-inline off,deferred", "-str reuse,readonly")},
     # TItemAttackCol's ctor builds a const StarLightParameters aggregate from the params; its star-colour loads
     # come before the stores into the local, the same 2.0 aggregate scheduling as the chip spawners above.
