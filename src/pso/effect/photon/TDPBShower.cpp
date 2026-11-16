@@ -21,7 +21,6 @@ void __ct__7TObjectFP7TObject(void *, void *);
 extern RecoveredGlobal_8035D7D0___vt__10TDPBShower __vt__10TDPBShower;
 extern s32 TDPBShower__class_name;
 u8 *TDPBShower__ct(u8 *arg0, u8 *arg1, u8 *arg2);
-void* __nw__7TObjectFUl(int);
 }
 
 void TDPBShower::run_task() {
@@ -58,7 +57,7 @@ u8 *TDPBShower__ct(u8 *dpb_shower, u8 *arg1, u8 *arg2) {
 }
 
 void* create_TDPBShower(void* arg0, void* arg1) {
-    void* o = __nw__7TObjectFUl(0x30);
+    void* o = TObject::operator new(0x30);
     if (o != NULL) {
         o = TDPBShower__ct((u8 *)o, (u8 *)arg0, (u8 *)arg1);
     }

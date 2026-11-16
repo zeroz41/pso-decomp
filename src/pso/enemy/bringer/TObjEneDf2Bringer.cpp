@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/camera/TCameraCtrl.h"
@@ -661,7 +662,6 @@ struct Stack_80097E9C {
 };
 
 extern "C" {
-s32 queue_destruction__7TObjectFv(void *);
 s32 TObjPlayer__sub_800A04F0(void *);
 s32 play_sound_effect(void *, void *, int, int);
 s32 get_camera_ctrl__9TObjEneDDFv(void *, int);
@@ -691,7 +691,6 @@ s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
 s32 subtract_vector(void *, void *);
 extern Prm_8009813C *TObjEneDf2Bringer__data_805D4FB4;
 TParticleCtrl *create_particle_emitter(const void *pos, s32 id);
-void *__nw__7TObjectFUl(u32);
 s32 matrix_mult_vec(int, void *, void *);
 extern s32 TObjEneDf2Bringer__trail_buffer;
 
@@ -1258,7 +1257,7 @@ void TObjEneDf2Bringer::init_enemy() {
     *(s32 *)((s8 *)arg0 + 0x494) = 0;
     *(s32 *)((s8 *)arg0 + 0x48C) = 0;
     *(s32 *)((s8 *)arg0 + 0x490) = 0;
-    p = __nw__7TObjectFUl(0xB0);
+    p = TObject::operator new(0xB0);
     if (p != NULL) {
         p = __ct__13TUnk_804928CCFP7TObjectP8TObjBasePC13CollisionBodyl(p, arg0, arg0, (u8 *)lbl_8048FA2C + 0x2C, 2);
     }
@@ -1285,10 +1284,10 @@ void TObjEneDf2Bringer::init_enemy() {
 TObjEneDf2Bringer::~TObjEneDf2Bringer() {
     VObj_800996EC *o;
     if (*(void **)((s8 *)this + 0x4C4) != NULL) {
-        queue_destruction__7TObjectFv((void *)(*(void **)((s8 *)this + 0x4C4)));
+        ((TObject *)(*(void **)((s8 *)this + 0x4C4)))->queue_destruction();
         *(void **)((s8 *)this + 0x4C4) = NULL;
     }
-    queue_destruction__7TObjectFv((void *)(*(void **)((s8 *)this + 0x4A4)));
+    ((TObject *)(*(void **)((s8 *)this + 0x4A4)))->queue_destruction();
     *(s32 *)((s8 *)this + 0x4A4) = 0;
     o = *(VObj_800996EC **)((s8 *)this + 0x4A0);
     if (o != NULL) {
@@ -1427,7 +1426,7 @@ s32 TObjEneDf2Bringer__sub_80099248(void *bringer) {
                         TObjEneDD__sub_800BA438((s32)bringer, (u8 *)player);
                     }
                 }
-                eff = (u8 *)__nw__7TObjectFUl(0x34);
+                eff = (u8 *)TObject::operator new(0x34);
                 if (eff != NULL) {
                     construct_bringer_rush_effect(eff, (s32)bringer, (u8 *)bringer, (s32)player, 12.0f);
                 }
@@ -2028,7 +2027,7 @@ void action__17TObjEneDf2BringerFPvi(u8 *arg0, s32 arg1) {
         return;
     case 5:
         if ((u32) *(u32 *)((s8 *)arg0 + 0x4C4) != 0U) {
-            queue_destruction__7TObjectFv(*(void **)((s8 *)arg0 + 0x4C4));
+            ((TObject *)(*(void **)((s8 *)arg0 + 0x4C4)))->queue_destruction();
             *(u32 *)((s8 *)arg0 + 0x4C4) = 0U;
         }
         break;
@@ -2098,7 +2097,7 @@ void TObjEneDf2Bringer__sub_80097820(u8 *arg0, s32 arg1) {
                 play_sound_effect((void *)((TObjEnemy *)(arg0))->remap_sound_for_area(0x4003A80A), arg0 + 0x38, 0, 0);
             }
             if (F_8009(0x4C4, u32) != 0) {
-                queue_destruction__7TObjectFv(F_8009(0x4C4, void *));
+                ((TObject *)(F_8009(0x4C4, void *)))->queue_destruction();
                 F_8009(0x4C4, u32) = 0;
             }
             TObjEneDf2Bringer__sub_80098EB4((s32)arg0);
@@ -2171,7 +2170,7 @@ void TObjEneDf2Bringer__sub_80097820(u8 *arg0, s32 arg1) {
         F_8009(0x3C0, s32) &= ~8;
         F_8009(0x494, s32) = 0;
         if (F_8009(0x4C4, u32) != 0) {
-            queue_destruction__7TObjectFv(F_8009(0x4C4, void *));
+            ((TObject *)(F_8009(0x4C4, void *)))->queue_destruction();
             F_8009(0x4C4, u32) = 0;
         }
         break;
@@ -2229,7 +2228,7 @@ void TObjEneDf2Bringer__sub_80097620(u8 *arg0, s32 arg1) {
         (((TObjMotion *)arg0)->advance_animation());
         if (((VObj_14_c1c33b *)(arg0 + (964)))->m4() != 0) {
             TObjPlayer::apply_effect_variant_b((s32)(arg0 + 0x38), 0);
-            queue_destruction__7TObjectFv(arg0);
+            ((TObject *)arg0)->queue_destruction();
         }
     case 3:
     case 5:

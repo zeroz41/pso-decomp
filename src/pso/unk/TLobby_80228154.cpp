@@ -18,6 +18,8 @@
 #include "pso/unk/TLobby_801404CC.h"
 #include "pso/unk/TLobby_8013FFA8.h"
 #include "pso/unk/text_80140D50.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/system/MatrixStack.h"
 
 // Area set-up functions of TLobby_80299A60/B90/C4C.cpp, which have no header.
 s32 initialize_boss_scene();

@@ -59,7 +59,6 @@ s32 single_ply_quest_download_server;
 s32 lbl_805D6D90;
 extern "C" {
 int memset(void*, void*, void*);
-int queue_destruction__7TObjectFv(void*);
 struct TAdSinglePlyChrSelectGC__sub_8033B5F0;
 s32 setup__23TAdSinglePlyChrSelectGCFi(s32);
 s32 TAdSinglePlyChrSelectGC__sub_801FDA4C();
@@ -140,7 +139,7 @@ void TAdSinglePlyChrSelectGC__sub_8033A9F0(TAdSinglePlyChrSelectGC *ad_single_pl
     ad_single_ply_chr_select_gc->set_char_slots(0xA, (s32)(*(s32 *)((s8 *)ad_single_ply_chr_select_gc + 0x24) + 0xF));
     ad_single_ply_chr_select_gc->init_warps();
 }
-int TAdSinglePlyChrSelectGC::queue_destruction(void *) { return queue_destruction__7TObjectFv(this); }
+void TAdSinglePlyChrSelectGC::queue_destruction(void *) { TObject::queue_destruction(); }
 
 void TAdSinglePlyChrSelectGC::sub_8033AA64() {
     O_8033AA64 *arg0 = (O_8033AA64 *)this;

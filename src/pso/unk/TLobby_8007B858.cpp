@@ -15,6 +15,8 @@
 #include "pso/map/FloorArea.h"
 
 #include "types.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 
 
 extern "C" {
@@ -39,8 +41,6 @@ s32 ct_register__6TLobbyFv(u32, s32);
 s32 TWindowTimer__sub_80198D98();
 s32 TLobby__sub_8032BDC4(u32, s32);
 s32 TLobby__sub_8033ED24(u32, s32);
-s32 get_main_phase();
-s32 is_split_screen();
 
 extern s32 tl_00;
 extern s32 tl_01;

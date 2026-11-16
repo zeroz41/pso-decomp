@@ -16,7 +16,7 @@ struct TAdWarningBaseGC : public TObject {
     u32 m_24;
     u32 m_28;
     u32 m_2c;
-    int destroy();
+    void destroy();
     static void create();
     static void init_heap();
 };

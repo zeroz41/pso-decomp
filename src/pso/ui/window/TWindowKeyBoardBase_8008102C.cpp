@@ -4,14 +4,13 @@
 #include "pso/effect/TEF_LensFlare.h"
 #include "pso/ui/window/TWindowKeyBoardBase.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
+#include "pso/system/task/TObject.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 extern "C" {
-s32 is_split_screen(void);
 u8 * TEF_LensFlare__ct(void *, s32, s32);
-u8 *__nw__7TObjectFUl(s32);
 extern s32 tl_05;
-void mem_free(void *p);
-void *mem_alloc(u32 size);
 u32 __cvt_fp2unsigned(f32);
 f32 horizontal_distance_squared(s32, s32);
 void *get_player_by_client_id(s32 i);
@@ -79,7 +78,7 @@ u8 *TEF_LensFlare__create(s32 arg0) {
     if (is_split_screen() != 0) {
         return NULL;
     }
-    ef_lens_flare = (u8 *)(__nw__7TObjectFUl(0x94));
+    ef_lens_flare = (u8 *)(TObject::operator new(0x94));
     var_r0 = ef_lens_flare;
     if (var_r0 != NULL) {
         var_r0 = (u8 *)(TEF_LensFlare__ct(ef_lens_flare, tl_05, arg0));

@@ -16,7 +16,6 @@
 
 extern "C" {
 void *__ct__15TAdDrawLineCtrlFP7TObjectPvf(void *arg0, void *arg1, void *arg2, f32 farg0);
-void *__nw__7TObjectFUl(int);
 u32 lbl_805D49D8;
 void __ct__7TObjectFP7TObject(void *);
 s32 defer_render__7TObjectFv();
@@ -62,7 +61,7 @@ TAdDrawLineCtrl::TAdDrawLineCtrl(TObject *object, void *arg2, f32 farg0) : TObje
     void *o;
     *(void * *)&this->m_name = TAdDrawLineCtrl__class_name;
     this->line_data = arg2;
-    o = __nw__7TObjectFUl(0x1C);
+    o = TObject::operator new(0x1C);
     if (o != NULL) {
         o = ((void * (*)(void *, int))__ct__7TObjectFP7TObject)(o, 0);
     }
@@ -76,7 +75,7 @@ u8 *create_draw_line_ctrl__13TAdMcSelectGCFiif(s32 arg0, s32 arg1, f32 farg0) {
     u8 *ad_draw_line_ctrl;
     u8 *var_r0;
     if ((u32) lbl_805D49D8 != 0U) {
-        ad_draw_line_ctrl = (u8 *)(((u8 *)__nw__7TObjectFUl(0x2C)));
+        ad_draw_line_ctrl = (u8 *)(((u8 *)TObject::operator new(0x2C)));
         var_r0 = ad_draw_line_ctrl;
         if (var_r0 != NULL) {
             var_r0 = (u8 *)(((u8 *)__ct__15TAdDrawLineCtrlFP7TObjectPvf((void *)ad_draw_line_ctrl, (void *)arg0, (void *)(lbl_805D49D8 + (arg1 * 0xC)), farg0)));

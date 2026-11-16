@@ -9,6 +9,7 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/object/base/TObjMotion.h"
+#include "pso/system/task/TObject.h"
 
 extern "C" {
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
@@ -20,12 +21,11 @@ BmlResourceDescriptor ograss_jungle_resource_descriptor = { "bm_o_grass_jungle.b
 const char *grass_jungle_class_name = "TOGrassJungle";
 void free_bin_model_request(void*, int);
 s32 release_texture_list(void*);
-void *__nw__7TObjectFUl(int);
 
 extern void *tl_05;
 
 void *TOGrassJungle__create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0x94);
+    void *o = TObject::operator new(0x94);
     if (o != NULL) {
         o = TOGrassJungle__ct((TOGrassJungle *)((u8 *)o), (s32)tl_05, (s32)arg0);
     }

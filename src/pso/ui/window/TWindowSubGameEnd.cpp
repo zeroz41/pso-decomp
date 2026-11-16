@@ -7,6 +7,8 @@
 #include "pso/ui/city/THunterGuildSeqOffline.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/chat/TWindowSubShortMail.h"
+#include "pso/system/task/TObject.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 #pragma readonly_strings on
 
@@ -30,11 +32,9 @@ struct VObj_18_204a81 : VBase_18_204a81 {
 
 extern "C" {
 void send_logout__6TLobbyFv(void);
-u32 __nw__7TObjectFUl(int);
 extern s32 tl_00;
 extern int window_sub_game_end_active_flag;
 s32 get_main_phase();
-s32 is_split_screen();
 s32 get_message_10__20TWindowSubStatusDispFl(s32);
 s32 __ct__7TObjectFP7TObject();
 s32 get_window_layout_position(s32);
@@ -74,7 +74,7 @@ void TWindowSubGameEnd::run_task() {
             slot = ((TWindowSubComCard *)(this->m_28))->get_slot_or_neg1();
             if (slot == 0) {
                 if (window_sub_game_end_active_flag != 1) {
-                    obj = (void *)__nw__7TObjectFUl(0x28);
+                    obj = (void *)TObject::operator new(0x28);
                     if (obj != NULL) {
                         ((THunterGuildSeqOffline *)obj)->init((void *)tl_00, (void *)((void *)TKeyBoardControl::init_char_select));
                     }

@@ -314,7 +314,6 @@ extern const f32 lbl_805DBCF4;
 extern "C" {
 u8 *__ct__8TObjChipFP7TObjectPC14TObjChipParams(u8 *arg0, u8 *arg1, u8 *arg2);
 s32 dispatch_fish_event__6TLobbyFPv(void *a0);
-void *__nw__7TObjectFUl(int);
 s32 release_texture_list(void*);
 s32 free_collision_body_parts(void *);
 }
@@ -663,11 +662,11 @@ void TObjContainerItem::vfunc_79() const {
         b.textures = lbl_805D5B7C;
         spawn_particle_effect_with_flags(&self->x, 0x45, 0x40);
         spawn_particle_effect_with_flags(&self->x, 0x46, 0x40);
-        o = __nw__7TObjectFUl(0x234);
+        o = TObject::operator new(0x234);
         if (o != NULL) {
             __ct__8TObjChipFP7TObjectPC14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&a);
         }
-        o = __nw__7TObjectFUl(0x234);
+        o = TObject::operator new(0x234);
         if (o != NULL) {
             __ct__8TObjChipFP7TObjectPC14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&b);
         }
@@ -789,11 +788,11 @@ void TObjContainerEnemy::vfunc_79() const {
         b.textures = lbl_805D5B7C;
         spawn_particle_effect_with_flags(&self->x, 0x45, 0x40);
         spawn_particle_effect_with_flags(&self->x, 0x46, 0x40);
-        o = __nw__7TObjectFUl(0x234);
+        o = TObject::operator new(0x234);
         if (o != NULL) {
             __ct__8TObjChipFP7TObjectPC14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&a);
         }
-        o = __nw__7TObjectFUl(0x234);
+        o = TObject::operator new(0x234);
         if (o != NULL) {
             __ct__8TObjChipFP7TObjectPC14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&b);
         }
@@ -898,11 +897,11 @@ void TObjContainerNoItem::vfunc_79() const {
         b.textures = lbl_805D5B7C;
         spawn_particle_effect_with_flags(&self->x, 0x45, 0x40);
         spawn_particle_effect_with_flags(&self->x, 0x46, 0x40);
-        o = __nw__7TObjectFUl(0x234);
+        o = TObject::operator new(0x234);
         if (o != NULL) {
             __ct__8TObjChipFP7TObjectPC14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&a);
         }
-        o = __nw__7TObjectFUl(0x234);
+        o = TObject::operator new(0x234);
         if (o != NULL) {
             __ct__8TObjChipFP7TObjectPC14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&b);
         }
@@ -1005,11 +1004,11 @@ void TObjContainerBase::vfunc_79() const {
     b.textures = lbl_805D5B8C;
     spawn_particle_effect_with_flags(&position, 0x45, 0x40);
     spawn_particle_effect_with_flags(&position, 0x46, 0x40);
-    void *o = __nw__7TObjectFUl(0x234);
+    void *o = TObject::operator new(0x234);
     if (o != NULL) {
         __ct__8TObjChipFP7TObjectPC14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&a);
     }
-    o = __nw__7TObjectFUl(0x234);
+    o = TObject::operator new(0x234);
     if (o != NULL) {
         __ct__8TObjChipFP7TObjectPC14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&b);
     }
@@ -1144,11 +1143,11 @@ void TObjContainerAbeEnemy::vfunc_79() const {
         b.textures = lbl_805D5B8C;
         spawn_particle_effect_with_flags(&self->pos, 0x45, 0x40);
         spawn_particle_effect_with_flags(&self->pos, 0x46, 0x40);
-        void *o = __nw__7TObjectFUl(0x234);
+        void *o = TObject::operator new(0x234);
         if (o != NULL) {
             __ct__8TObjChipFP7TObjectPC14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&a);
         }
-        o = __nw__7TObjectFUl(0x234);
+        o = TObject::operator new(0x234);
         if (o != NULL) {
             __ct__8TObjChipFP7TObjectPC14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&b);
         }

@@ -48,7 +48,6 @@ struct Self_8036E2AC {
 };
 
 extern "C" {
-void *__nw__7TObjectFUl(int);
 void *__ct__9TAdBackGCFv(void *, void *);
 void *__ct__12TAdBackTxtGCFv(void *, void *);
 s32 load_system_file(s32 arg0);
@@ -388,14 +387,14 @@ void TAdMultiChgGameModeGC::create_back_objects() {
     void *o;
     void *o2;
     if (*(void **)((s8 *)this + 0x28) == NULL) {
-        o = __nw__7TObjectFUl(0x24);
+        o = TObject::operator new(0x24);
         if (o != NULL) {
             o = __ct__9TAdBackGCFv(o, this);
         }
         *(void **)((s8 *)this + 0x28) = o;
     }
     if (*(void **)((s8 *)this + 0x2C) == NULL) {
-        o2 = __nw__7TObjectFUl(0x28);
+        o2 = TObject::operator new(0x28);
         if (o2 != NULL) {
             o2 = __ct__12TAdBackTxtGCFv(o2, this);
         }

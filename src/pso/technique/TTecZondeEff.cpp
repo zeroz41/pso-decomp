@@ -14,6 +14,7 @@
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 
 #pragma readonly_strings on
@@ -131,7 +132,6 @@ extern P_8023DBB4 tec_zonde_effect_task_list;
 extern char lbl_804CC8C8[];
 s32 TTecZondeEff__beam_vertex_data;
 f32 rand_signed_unit();
-s32 is_split_screen(void);
 void spawn_particle_effect(Vec *, s32);
 void restore_saved_depth_alpha_state();
 extern u32 saved_model_render_flags;
@@ -139,11 +139,9 @@ extern u32 model_render_flags;
 void matrix_mult_vec(s32, Vec *, Vec *);
 extern Cam_8023D128 lbl_8058D4F8;
 s32 project_lightning_points(Obj_8023D128 *self, Vec *out, f32 *a, f32 *b);
-f32 newton_sqrtf(f32);
 }
 void clear_zonde_beam_vertex_pointer(void);
 extern "C" {
-f32 fabs_float(f32);
 
 struct Obj_8023D294 { u8 pad[0x28]; Vec d; };
 

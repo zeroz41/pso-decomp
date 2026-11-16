@@ -1,8 +1,6 @@
 #include "types.h"
 #include "pso/unk/text_80103674.h"
-extern "C" {
-void *mem_alloc(u32 size);
-}
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 extern u32 item_buffer_temp_mode;
 extern u32 item_buff_buffer;
 extern u32 item_nj_chunk_buffer_table[];

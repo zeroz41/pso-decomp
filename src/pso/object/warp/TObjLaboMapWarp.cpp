@@ -60,6 +60,7 @@
 #include "pso/object/warp/TObjWarpBase.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 
 s32 get_story_flag(s32);
 
@@ -149,7 +150,6 @@ f32 xz_distance_squared(s32, s32);
 
 extern s32 local_client_id;
 
-s32 get_main_phase();
 
 extern s32 lbl_805D55C0;
 

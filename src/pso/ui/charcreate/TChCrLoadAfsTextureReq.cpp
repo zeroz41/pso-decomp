@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_8001ED80.h"
@@ -5,6 +6,7 @@
 #include "pso/ui/charcreate/TChCrLoadGmNjReq.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/system/task/TObject.h"
 
 // The argument block create passes to the second constructor.
 struct TChCrLoadAfsTextureReqArgs {
@@ -17,7 +19,6 @@ struct TChCrLoadAfsTextureReqArgs {
 typedef void (TChCrLoadAfsTextureReq::*TChCrLoadAfsTextureReqHandler)();
 
 extern "C" {
-void queue_destruction__7TObjectFv(void *);
 s32 get_bml_model(BmlResource *resource, s32 index);
 s32 free_bin_model_request(void *, int);
 void *init_bin_model_request(void *, int, char **, u32 *, int, int, int);
@@ -46,7 +47,7 @@ void TChCrLoadAfsTextureReq::run_task() {
         &TChCrLoadAfsTextureReq::update_loading,
     };
     if (state < 0 || state >= 3) {
-        queue_destruction__7TObjectFv(this);
+        queue_destruction();
         return;
     }
     (this->*tbl[state])();
@@ -179,7 +180,7 @@ void TLobby::update_model_load() {
             req->m_68 = NULL;
             req->sub_8028C8A8();
             *req->m_28 &= ~req->m_20;
-            queue_destruction__7TObjectFv(this);
+            queue_destruction();
         }
     }
 }

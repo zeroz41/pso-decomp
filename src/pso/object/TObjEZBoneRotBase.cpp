@@ -8,6 +8,8 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/math/AngleLookup.h"
+#include "pso/system/task/TObject.h"
+#include "pso/system/MatrixStack.h"
 
 #pragma readonly_strings on
 
@@ -40,7 +42,6 @@ TObjEZBoneRotBase *TObjEZBoneRotBase__ct(TObjEZBoneRotBase *self, TObject *paren
 extern s32 __vt__19TObjEZBoneRotPlayer[];
 const char *TObjEZBoneRotBase__name = "TObjEZBoneRotBase";
 const char *TObjEZBoneRotPlayer__name = "TObjEZBoneRotPlayer";
-void *__nw__7TObjectFUl(int);
 
 void TObjEZBoneRotPlayer::run_task() {
     f32 temp_f1;
@@ -77,7 +78,7 @@ u8 *__ct__19TObjEZBoneRotPlayerFv(u8 *arg0, s32 parent, u8 *root, void * desc) {
 }
 void *TObjEZBoneRotPlayer::create(void *arg0, void *arg1, void *arg2) {
     void *o;
-    o = __nw__7TObjectFUl(0xA0);
+    o = TObject::operator new(0xA0);
     if (o != NULL) {
         o = ((void *)__ct__19TObjEZBoneRotPlayerFv((u8 *)o, (s32)arg0, (u8 *)arg1, (void *)arg2));
     }
@@ -248,7 +249,6 @@ struct Self_800FEEA4 {
 
 extern "C" {
 void matrix_mult_vec(s32, void *, void *);
-void push_matrix(void);
 extern u8 TObjEZBoneRotPlayer__chain_gravity[];
 
 void TObjHMS_EZRope_Player::render() { sub_800FF2D0(); }

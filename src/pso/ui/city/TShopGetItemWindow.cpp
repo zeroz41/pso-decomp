@@ -101,7 +101,6 @@ s32 copy_bank_to_card_window(int);
 s32 sub_8022397C__15TShopWindowBaseFv(void *);
 s32 copy_bank_item_with_stack_limit(s32 idx, void *data, s32 *out, s32 slot);
 s32 sub_802239EC__13TShopSequenceFv(void *);
-void *__nw__7TObjectFUl(u32);
 u32 __ct__18TWindowInputNumberFPvllls(void *, s32, s32, s32, s32, s16);
 s32 get_room_table_entry__18TCheckRoomSequenceFi(void);
 u32 __ct__15TWindowHelpItemFPvUs(void *, s32, u16);
@@ -232,7 +231,7 @@ s32 TShopGetItemWindow::handle_withdraw_list_input() {
     if (((TShopWindowBase *)arg0)->sub_80223A48() != 0) {
         if (copy_bank_item_with_stack_limit(((TWindowMenuIconLine *)(arg0->f28))->get_cursor_value(), &kind.kind, &count, x) != 0) {
             if (kind.kind == 3 && count > 1) {
-                void *obj = __nw__7TObjectFUl(0x7C);
+                void *obj = TObject::operator new(0x7C);
                 if (obj != NULL) {
                     sel = (s16)((TShopSequence *)arg0)->get_child_field1c();
                     obj = (void *)__ct__18TWindowInputNumberFPvllls(obj, get_window_layout_position(0x2B), 1, count, 1, sel);
@@ -309,7 +308,7 @@ void TShopGetItemWindow::rebuild_item_list() {
     }
     if (arg0->f34 == 0U) {
         if (copy_item_record__18TCheckRoomSequenceFiPvi(sel, &arg0->item, x) != 0) {
-            obj = __nw__7TObjectFUl(0xBC);
+            obj = TObject::operator new(0xBC);
             if (obj != NULL) {
                 id = (u16)get_entity_id(arg0->f24);
                 obj = (void *)__ct__15TWindowHelpItemFPvUs(obj, get_window_layout_position(0x27), id);

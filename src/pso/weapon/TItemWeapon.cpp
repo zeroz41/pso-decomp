@@ -26,6 +26,7 @@
 #include "pso/unk/text_80121180.h"
 #include "pso/player/TObjPlayer_8012121C.h"
 #include "pso/unk/text_803E2D70.h"
+#include "pso/system/MatrixStack.h"
 
 
 // ---- pso/unk/text_80120908

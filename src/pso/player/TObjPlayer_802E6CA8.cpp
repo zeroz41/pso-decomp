@@ -12,6 +12,7 @@
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/unk/text_80087278.h"
 #include "pso/system/task/TObject.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 struct VB_802E74E4 { u8 pad[0xC]; };
 
@@ -76,7 +77,6 @@ extern const float lbl_805DE9F0;
 extern const f32 lbl_805DE9FC;
 extern const f32 lbl_805DEA00;
 extern const f32 lbl_805DEA04;
-void mem_free(void *p);
 void __dl__7TObjectFPv(void *);
 extern s32 __vt__13TUnk_804E3BD8[];
 u8 *__dt__13TUnk_804E3BD8Fv(u8 *arg0, s16 arg1);
@@ -112,7 +112,6 @@ s32 *init_from_model__11TBreakUpMdlFl(s32 *, s32);
 s32 scale_matrix(int, f32, f32, f32);
 extern const f32 lbl_805DE9E4;
 void __ct__7TObjectFP7TObject(void *);
-void *mem_alloc(u32 size);
 
     extern int multiplay_texture_f512_handle;
 }

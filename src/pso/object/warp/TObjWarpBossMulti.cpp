@@ -54,6 +54,7 @@
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/render/GinjaMaterial.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 
 #pragma defer_codegen on
@@ -115,7 +116,6 @@ extern s32 lbl_805D55C0;
 
 void *init__13TAdVIConfigGCFf(void *, void *, f32);
 int check_flag_100__10TObjPlayerFPv(void *p);
-s32 get_current_floor();
 s32 align_menu_entry_positions(u32);
 u32 check_room_seq_4__16TAdChrSelASlotGCFl(s32, s32);
 

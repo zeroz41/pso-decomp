@@ -64,7 +64,6 @@ void TChCrTagInformationStr::render() {
 }
 
 
-
 #pragma push
 #pragma opt_common_subs off
 void TChCrTagInformationStr::run_task() {

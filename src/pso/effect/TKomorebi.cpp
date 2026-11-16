@@ -11,6 +11,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/object/base/TObjMotion.h"
+#include "pso/system/task/TObject.h"
 
 #pragma readonly_strings on
 
@@ -38,7 +39,6 @@ s32 scroll_ginja_mesh_uvs(s32, s32, s32, s32, s32);
 s32 post_translate_matrix(void *);
 s32 scale_matrix(s32, f32, f32, f32);
 s32 push_matrix();
-void *__nw__7TObjectFUl(int);
 f32 xz_distance_squared(void *, s32);
 
 extern s32 camera_ctrl_instance;
@@ -88,7 +88,7 @@ u8 *TKomorebi__ct(u8 *komorebi, s32 arg1, s32 arg2) {
 }
 
 void *TKomorebi__create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0x90);
+    void *o = TObject::operator new(0x90);
     if (o != NULL) {
         o = TKomorebi__ct((u8 *)o, (s32)tl_05, (s32)arg0);
     }

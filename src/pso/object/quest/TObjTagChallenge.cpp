@@ -40,11 +40,10 @@ void *TObjTagChallenge__ct(void *tag_challenge) {
 
 #define TObjTagChallenge__ct (*(void * (*)(void *, void *))&TObjTagChallenge__ct)
 
-void *__nw__7TObjectFUl(int);
 }
 
 void *create_obj_tag_challenge(void *tag_challenge) {
-    void *o = __nw__7TObjectFUl(0x1C);
+    void *o = TObject::operator new(0x1C);
     if (o != NULL) {
         o = TObjTagChallenge__ct(o, tag_challenge);
     }

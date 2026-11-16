@@ -1050,16 +1050,16 @@ void TBoss4Type3::advance_afterimage() {
 
 void TBoss4Type3::draw() {
     ((void (*)(void *))toggle_particle_effect__10TObjPlayerFv)(this);
-    ((void (*)(void))push_matrix)();
+    push_matrix();
     ((void (*)(void *))post_translate_matrix)((void *)((char *)this + 56));
     ((void (*)(int, void *))rotate_matrix_y)(0, *(void * *)&this->rotation_y);
     sub_8005A438();
-    ((void (*)(void))pop_matrix)();
-    ((void (*)(void))push_matrix)();
+    pop_matrix();
+    push_matrix();
     ((void (*)(void *))post_translate_matrix)((void *)((char *)this + 1152));
     ((void (*)(int, void *))rotate_matrix_y)(0, *(void * *)&this->rotation_y);
     TObjPlayer::draw_player_model_by_id(this->m_3ba, this->m_3c8);
-    ((void (*)(void))pop_matrix)();
+    pop_matrix();
     TParticleCtrl::end_effect_render();
 }
 

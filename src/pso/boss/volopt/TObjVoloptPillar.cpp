@@ -25,6 +25,7 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/unk/text_803D853C.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 // Throws three debris chips from the pillar's position.
 void TObjVoloptPillar::sub_80049FD8() {
@@ -45,7 +46,6 @@ void TObjVoloptPillar::sub_80049FD8() {
 }
 
 extern "C" {
-f32 atan2_float(f32 y, f32 x);
 s32 obj_is_hit_receivable(u8 *arg0);
 s32 push_matrix(void);
 void post_translate_matrix(const Vec *v);

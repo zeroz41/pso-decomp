@@ -135,7 +135,6 @@ u8 *create__10TTecSlicerFPUs(SlicerLaunchData_8012D9C8 *);
 extern const f32 lbl_805DFDF8;
 s32 spawn_particle_effect(void *, s32);
 void *find_entity_by_id(s32);
-void *__nw__7TObjectFUl(u32);
 void create_fire_explosion_effect(void *, f32, void *, int, void *);
 void *TObjPlayer__sub_802E449C(void *a0);
 extern const f32 lbl_805DFE00;
@@ -455,7 +454,7 @@ s32 TObjPlayer::spawn_fire_explosion(u32 a0, s32 a1) {
     VecCopy(&info.position, (const Vec *)a1);
     info.hits = 10;
     new TUnk_804A2548(tl_05, &info);
-    o = __nw__7TObjectFUl(0x64);
+    o = TObject::operator new(0x64);
     if (o != NULL) {
         create_fire_explosion_effect(o, lbl_805DFE00, &info, 0, tl_particle);
     }

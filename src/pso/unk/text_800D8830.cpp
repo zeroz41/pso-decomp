@@ -2,6 +2,7 @@
 #include "pso/unk/text_800D8830.h"
 #include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/map/FloorArea.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 extern "C" {
 s32 play_sound_effect(int, void *, int, int);

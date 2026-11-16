@@ -11,14 +11,13 @@
 extern "C" {
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
 u16 get_entity_id(void *);
-int queue_destruction__7TObjectFv(void*);
 extern s32 __vt__15TObjIllGillKage[];
 extern const char *TObjIllGillKage__class_name;
 void *__dt__15TObjIllGillKageFv(void *arg0, s16 arg1);
 s32 is_locally_controlled__10TObjPlayerFPv();
 void __dl__7TObjectFPv(void *);
 
-int TObjIllGillKage::queue_destruction() { return queue_destruction__7TObjectFv(this); }
+void TObjIllGillKage::queue_destruction() { TObject::queue_destruction(); }
 
 void TObjIllGillKage::tick_persistent_sound() {
     s32 temp_r3;

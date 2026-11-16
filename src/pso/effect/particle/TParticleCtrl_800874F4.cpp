@@ -16,6 +16,8 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/map/FloorArea.h"
 #include "pso/system/vector.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/math/AngleLookup.h"
 
 
 struct O_80087638 { u8 pad[0x2e]; u16 x2e; };
@@ -26,12 +28,11 @@ extern "C" {
 extern s32 particle_pool_limit;
 extern s32 particle_global_entry_table;
 extern s32 particle_area_entry_table;
-void *__nw__7TObjectFUl(int);
 
 TParticleCtrl *create_particle_emitter(const void *pos, s32 id) {
     void *p;
     if (particle_pool_limit > id) {
-        p = __nw__7TObjectFUl(0x78);
+        p = TObject::operator new(0x78);
         if (p != 0) {
             p = ((TParticleCtrl *)p)->initialize(pos, (s32)(&(*(Ent_800874F4 * *)&particle_global_entry_table)[id]), 0, 0, 0, 0);
         }
@@ -39,7 +40,7 @@ TParticleCtrl *create_particle_emitter(const void *pos, s32 id) {
     }
     if (particle_pool_limit + 0x40 > id) {
         s32 idx = id - 0x200;
-        p = __nw__7TObjectFUl(0x78);
+        p = TObject::operator new(0x78);
         if (p != 0) {
             p = ((TParticleCtrl *)p)->initialize(pos, (s32)(&(*(Ent_800874F4 * *)&particle_area_entry_table)[idx]), 0, 0, 0, 0);
         }
@@ -198,7 +199,6 @@ extern "C" {
 int sprintf(char *, const char *, ...);
 char *strcpy(char *, const char *);
 void *memset(void *, int, u32);
-s32 is_split_screen();
 s32 all_parents_unqueued_for_destruction__7TObjectFv();
 extern u8 *camera_ctrl_instance;
 void VecCopy__FP3VecPC3Vec(void *, const void *);
@@ -207,8 +207,6 @@ void set_particle_draw_scale(void* p, f32 a, f32 b);
 s32 TLoadCtrl__sub_8001C60C();
 f32 horizontal_distance_squared(void *, void *);
 u8 *get_player_by_client_id(s32);
-f32 sin_table_lookup(s32);
-f32 fabs_float(f32);
 extern GenEntry_8008767C particle_ctrl_generator_table[];
 extern void *tl_07;
 extern void *tl_particlemodel;

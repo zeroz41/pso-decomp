@@ -895,7 +895,6 @@ void run_task__16TAdChrSelBSlotGCFv(C_8030F874 *self) {
 }
 void *__ct__19TAdPlyChrSelPlateGCFv(void *, void *, void *);
 void *__ct__20TAdChrSelMovePlateGCFv(void *, void *);
-void *__nw__7TObjectFUl(int);
 
 
 void TAdChrSelBSlotGC::create_children() {
@@ -904,13 +903,13 @@ void TAdChrSelBSlotGC::create_children() {
     void *o4;
     o = new TAdChrSelSlotGC(this);
     *(void * *)&this->unk_28 = o;
-    o2 = __nw__7TObjectFUl(0x3B4);
+    o2 = TObject::operator new(0x3B4);
     if (o2 != NULL) {
         o2 = __ct__19TAdPlyChrSelPlateGCFv(o2, this, (void *)&chr_sel_b_slot_plate_layout);
     }
     *(void * *)&this->m_2c = o2;
     this->player_items = new TAdSubPlyItemGC(this);
-    o4 = __nw__7TObjectFUl(0x208);
+    o4 = TObject::operator new(0x208);
     if (o4 != NULL) {
         o4 = __ct__20TAdChrSelMovePlateGCFv(o4, this);
     }

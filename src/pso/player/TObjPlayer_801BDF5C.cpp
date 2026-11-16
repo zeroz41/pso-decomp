@@ -25,6 +25,7 @@
 #include "pso/item/TItemLockCountCtrl_8011E184.h"
 #include "pso/player/TObjPlayer_801BE778.h"
 #include "pso/player/TObjPlayer_801BEB0C.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 
 struct VBase_801BDE60 { u8 pad[0x18]; };
@@ -65,7 +66,6 @@ u8 *create_player_object(s16 slot, s32 role, u8 *record) {
     return var_r0;
 }
 
-void mem_free(void*);
 
 extern u32 TObjPlayer__shared_photon_blast_state;
 extern u32 TObjPlayer__shared_model_buffer;
@@ -86,7 +86,6 @@ void TObjPlayer::free_shared_data() {
     }
 }
 
-void *mem_alloc(u32 size);
 void *fn_801C2360(void *arg0);
 void TObjPlayer::alloc_shared_buffers() {
     s32 temp_r3;

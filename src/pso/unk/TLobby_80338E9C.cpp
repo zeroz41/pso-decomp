@@ -5,6 +5,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TUnk_804EF4E0.h"
+#include "pso/system/task/TObject.h"
 
 struct O_80338D58 { u8 pad[0x72]; s16 idx; u8 pad2[2]; s16 count; };
 
@@ -47,10 +48,9 @@ void TUnk_804EF4E0::vfunc_6(u32 count, s32 id) {
 extern "C" {
 
 void __dl__7TObjectFPv(void *);
-void *__nw__7TObjectFUl(int);
 
 void *TLobby::create_object(void *arg0) {
-    void *o = __nw__7TObjectFUl(0x8C);
+    void *o = TObject::operator new(0x8C);
     if (o != NULL) {
         o = fn_80338F3C((u8 *)o, (s32)arg0);
     }

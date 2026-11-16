@@ -1,13 +1,14 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
+#include "pso/system/task/TObject.h"
 
 struct O_802DFFE8 { u8 pad[0x4ac]; s32 tbl[4][3]; u8 pad2[0x4ec - 0x4ac - 0x30]; s32 idx; };
 
 struct O_802E0024 { u8 pad[0x4ac]; s32 tbl[4][3]; u8 pad2[0x4ec - 0x4ac - 0x30]; s32 idx; };
 
 extern "C" {
-u8 *__nw__7TObjectFUl(s32);
 extern u8 *TAdMultiPlyChrSelectGC__instance;
 u8 *get_or_create__22TAdMultiPlyChrSelectGCFii(s32 arg0, s32 arg1);
 extern s32 lbl_805D3F68;
@@ -111,56 +112,56 @@ TAdMultiPlyChrSelectGC::~TAdMultiPlyChrSelectGC() {
     u8 *temp_r3_9;
     global_state = (u8 *)(TAdMultiPlyChrSelectGC::get_global_state());
     if (global_state != NULL) {
-        queue_destruction__7TObjectFv(global_state);
+        ((TObject *)global_state)->queue_destruction();
     }
     temp_r3_2 = (u8 *)(*(u8 **)((s8 *)this + 0x5C));
     if (temp_r3_2 != NULL) {
-        queue_destruction__7TObjectFv(temp_r3_2);
+        ((TObject *)temp_r3_2)->queue_destruction();
         *(u8 **)((s8 *)this + 0x5C) = NULL;
     }
     temp_r3_3 = (u8 *)(*(u8 **)((s8 *)this + 0x78));
     if (temp_r3_3 != NULL) {
-        queue_destruction__7TObjectFv(temp_r3_3);
+        ((TObject *)temp_r3_3)->queue_destruction();
         *(u8 **)((s8 *)this + 0x78) = NULL;
     }
     temp_r3_4 = (u8 *)(*(u8 **)((s8 *)this + 0x88));
     if (temp_r3_4 != NULL) {
-        queue_destruction__7TObjectFv(temp_r3_4);
+        ((TObject *)temp_r3_4)->queue_destruction();
         *(u8 **)((s8 *)this + 0x88) = NULL;
     }
     temp_r3_5 = (u8 *)(*(u8 **)((s8 *)this + 0x8C));
     if (temp_r3_5 != NULL) {
-        queue_destruction__7TObjectFv(temp_r3_5);
+        ((TObject *)temp_r3_5)->queue_destruction();
         *(u8 **)((s8 *)this + 0x8C) = NULL;
     }
     temp_r3_6 = (u8 *)(*(u8 **)((s8 *)this + 0x90));
     if (temp_r3_6 != NULL) {
-        queue_destruction__7TObjectFv(temp_r3_6);
+        ((TObject *)temp_r3_6)->queue_destruction();
         *(u8 **)((s8 *)this + 0x90) = NULL;
     }
     temp_r3_7 = (u8 *)(*(u8 **)((s8 *)this + 0x94));
     if (temp_r3_7 != NULL) {
-        queue_destruction__7TObjectFv(temp_r3_7);
+        ((TObject *)temp_r3_7)->queue_destruction();
         *(u8 **)((s8 *)this + 0x94) = NULL;
     }
     temp_r3_8 = (u8 *)(*(u8 **)((s8 *)this + 0x98));
     if (temp_r3_8 != NULL) {
-        queue_destruction__7TObjectFv(temp_r3_8);
+        ((TObject *)temp_r3_8)->queue_destruction();
         *(u8 **)((s8 *)this + 0x98) = NULL;
     }
     temp_r3_9 = (u8 *)(*(u8 **)((s8 *)this + 0x7C));
     if (temp_r3_9 != NULL) {
-        queue_destruction__7TObjectFv(temp_r3_9);
+        ((TObject *)temp_r3_9)->queue_destruction();
         *(u8 **)((s8 *)this + 0x7C) = NULL;
     }
     temp_r3_10 = (u8 *)(*(u8 **)((s8 *)this + 0x80));
     if (temp_r3_10 != NULL) {
-        queue_destruction__7TObjectFv(temp_r3_10);
+        ((TObject *)temp_r3_10)->queue_destruction();
         *(u8 **)((s8 *)this + 0x80) = NULL;
     }
     temp_r3_11 = (u8 *)(*(u8 **)((s8 *)this + 0x84));
     if (temp_r3_11 != NULL) {
-        queue_destruction__7TObjectFv(temp_r3_11);
+        ((TObject *)temp_r3_11)->queue_destruction();
         *(u8 **)((s8 *)this + 0x84) = NULL;
     }
     if ((u32) (*(u32 *)&TAdMultiPlyChrSelectGC__instance) != 0U) {
@@ -183,7 +184,7 @@ u8 *get_or_create__22TAdMultiPlyChrSelectGCFii(s32 arg0, s32 arg1) {
     if ((void *) TAdMultiPlyChrSelectGC__instance != NULL) {
         return TAdMultiPlyChrSelectGC__instance;
     }
-    ad_multi_ply_chr_select_gc = (u8 *)(__nw__7TObjectFUl(0xA0));
+    ad_multi_ply_chr_select_gc = (u8 *)(TObject::operator new(0xA0));
     var_r0 = ad_multi_ply_chr_select_gc;
     if (var_r0 != NULL) {
         var_r0 = (u8 *)(__ct__22TAdMultiPlyChrSelectGCFP7TObjectl((TAdMultiPlyChrSelectGC *)((u8 *)ad_multi_ply_chr_select_gc), (u8 *)((u8 *)arg0), (s32)((s32)arg1)));

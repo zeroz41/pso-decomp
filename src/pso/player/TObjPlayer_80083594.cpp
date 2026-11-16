@@ -1,6 +1,8 @@
 #pragma readonly_strings on
 #include "types.h"
 #include "pso/system/vector.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 
 struct GXColor_80083B8C { u8 r, g, b, a; };
 
@@ -233,7 +235,6 @@ void TObjPlayer::copy_screen_to_texture(s32 mode, void *src) {
 struct G_80082FCC { s32 value; s32 v4; f32 f8; f32 fC; };
 
 extern "C" {
-s32 is_split_screen();
 s32 TCameraCtrl__sub_80068EF0();
 }
 void direction_to_pitch_yaw(u8 *arg0, s32 *arg1, s32 *arg2);
@@ -636,7 +637,6 @@ extern "C" {
 void TObjPlayer__sub_80083FB0(void);
 int TObjPlayer__sub_80083F9C(void);
 void *get_player_by_client_id(s32 i);
-s32 get_main_phase();
 s32 is_inactive__10TObjPlayerFv();
 void TObjPlayer__sub_80084614(void);
 void TObjPlayer__sub_8008463C(void);

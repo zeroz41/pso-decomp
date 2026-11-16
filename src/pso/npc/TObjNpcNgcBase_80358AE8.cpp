@@ -4,6 +4,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/map/FloorArea.h"
 #include "pso/system/BmlResourceDescriptor.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 struct Rec_803592B8 {
     s32 idx;

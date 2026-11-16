@@ -67,7 +67,6 @@ struct Shower_8035D924 {
 extern "C" {
 extern s32 tl_02;
 
-u8 *__nw__7TObjectFUl(s32);
 
 s32 play_sound_effect(s32, u32, int, s32);
 s32 __ct__7TObjectFP7TObject(void *, void *);
@@ -168,7 +167,7 @@ u8 *__ct__9TBoss6DPBFv(u8 *object, s32 arg1, s32 arg2, f32 farg0) {
 u8 *TBoss6Type2::create_dpb(s32 arg0, s32 arg1, f32 farg0) {
     u8 *boss6_dpb;
     u8 *var_r0;
-    boss6_dpb = (u8 *)(__nw__7TObjectFUl(0x3C));
+    boss6_dpb = (u8 *)(TObject::operator new(0x3C));
     var_r0 = boss6_dpb;
     if (var_r0 != NULL) {
         var_r0 = (u8 *)(__ct__9TBoss6DPBFv(boss6_dpb, arg0, arg1, farg0));

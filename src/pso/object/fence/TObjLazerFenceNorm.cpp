@@ -14,6 +14,7 @@
 #include "pso/map/FloorArea.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 extern "C" {
 __declspec(section ".data") const char *fe_obj_lazer2_4m_model_names[9] = {

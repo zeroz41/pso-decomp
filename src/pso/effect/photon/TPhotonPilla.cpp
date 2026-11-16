@@ -24,6 +24,7 @@
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/unk/text_801AE1F8.h"
 #include "pso/map/FloorArea.h"
+#include "pso/system/MatrixStack.h"
 
 typedef struct { f32 x; f32 y; f32 z; } Vec3;
 
@@ -56,7 +57,6 @@ extern "C" {
 s32 scroll_strip_uvs(void *, s16, int);
 s32 clear_render_context__10TObjPlayerFv(void *);
 s32 rotate_matrix_y(int, int);
-s32 push_matrix();
 extern NJS_ARGB saved_model_draw_color;
 extern NJS_ARGB model_material_color;
 extern s32 saved_model_render_flags;
@@ -66,7 +66,6 @@ extern s32 chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_and_mask;
 extern s32 model_render_flags;
 void TPhotonLaser__ct(void *, void *, void *, u16);
-void *__nw__7TObjectFUl(u32);
 void vec3_add_to(void *, void *);
 const char *TPhotonPilla__class_name = "TPhotonPilla";
 void *pilla_photon_buffer_pair;
@@ -110,7 +109,7 @@ void TPhotonPilla::spawn_laser() {
     packet.pos.x = position.x;
     packet.pos.y = position.y;
     packet.pos.z = position.z;
-    laser = (u8 *) __nw__7TObjectFUl(0x380);
+    laser = (u8 *) TObject::operator new(0x380);
     if (laser != NULL) {
         TPhotonLaser__ct(laser, &packet, this, this->m_17c);
     }
@@ -160,7 +159,7 @@ void TPhotonPilla::run_task() {
             VecCopy((Vec *)&sp8, (const Vec *)(entity + 0x38));
         }
         sp8.y += 3e+01f;
-        entity = (s32)__nw__7TObjectFUl(0xD0);
+        entity = (s32)TObject::operator new(0xD0);
         if (entity != 0U) {
             TPhotonMagicSquare__ct((u8 *)entity, (s32)this, 3, (s32)&sp8, 0xD2, 0.5f);
         }
@@ -291,13 +290,13 @@ u8 *TPhotonPilla__ct(u8 *photon_rainbow, u8 *arg1) {
     case AREA_DE_ROL_LE:
     case AREA_VOL_OPT:
     case AREA_DARK_FALZ:
-        mem = __nw__7TObjectFUl(0xAC);
+        mem = TObject::operator new(0xAC);
         if (mem != NULL) {
             TPhotonRainbow__ct(mem, photon_rainbow, photon_rainbow + 0x38, 1);
         }
         break;
     default:
-        mem = __nw__7TObjectFUl(0xAC);
+        mem = TObject::operator new(0xAC);
         if (mem != NULL) {
             TPhotonRainbow__ct(mem, photon_rainbow, photon_rainbow + 0x38, 0);
         }
@@ -318,7 +317,7 @@ u8 *TPhotonPilla__ct(u8 *photon_rainbow, u8 *arg1) {
         {
         Vec pos = *(Vec *)((s8 *)photon_rainbow + 0x38);
         pos.y += 4e+01f;
-        mem = __nw__7TObjectFUl(0xD0);
+        mem = TObject::operator new(0xD0);
         if (mem != NULL) {
             TPhotonMagicSquare__ct((u8 *)mem, (s32)photon_rainbow, 3, (s32)&pos, 0xAA, 0.5f);
         }

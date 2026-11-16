@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/enemy/darkgunner/TObjEneDarkGunCenter.h"
 #include "pso/enemy/TObjEnemy.h"
@@ -10,6 +11,7 @@
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/system/vector.h"
 #include "pso/player/TUnk_804B6C24.h"
+#include "pso/system/task/TObject.h"
 
 const char *TObjEneDarkGunCenter__name = "TObjEneDarkGunCenter";
 
@@ -118,7 +120,6 @@ struct Gun_800A0B20 : VBase_800A0B20 {
 extern "C" {
 u16 find_nearest_visible_player(void *, s32, f32);
 f32 atan2_float(f32, f32);
-void queue_destruction__7TObjectFv(void *);
 void TObjPlayer__sub_800A0654(void *);
 s32 TObjPlayer__sub_800A06B4(void *);
 void fn_800A0798(Gun_800A0B20 *self);
@@ -132,7 +133,6 @@ void *__ct__11TObjControlFP7TObject(void *, void *);
 u8 *TObjEneDarkGunCenter__ct(u8 *arg0, s32 arg1, s32 arg2);
 void __dl__7TObjectFPv(void *);
 void *__dt__9TObjEnemyFv(TObjEnemy *arg0, s16 arg1);
-void *__nw__7TObjectFUl(int);
 
 s16 get_entity_id(void *);
 extern const char *TObjEneDarkGunner__class_name;
@@ -490,7 +490,7 @@ void TObjEneDarkGunCenter::run_task() {
             self->f3a4 = 0x5a;
         } else if ((self->f3a4 = t - 1) <= 0) {
             ((TObjEnemy *)self)->send_entity_set_flags();
-            queue_destruction__7TObjectFv(self);
+            ((TObject *)self)->queue_destruction();
         }
     }
 }
@@ -498,11 +498,11 @@ void TObjEneDarkGunCenter::run_task() {
 void *TObjEneDarkGunCenter::create(void *arg0) {
     void *o;
     void *o2;
-    o = __nw__7TObjectFUl(0x20);
+    o = TObject::operator new(0x20);
     if (o != NULL) {
         o = __ct__11TObjControlFP7TObject(o, tl_04);
     }
-    o2 = __nw__7TObjectFUl(0x3A8);
+    o2 = TObject::operator new(0x3A8);
     if (o2 != NULL) {
         o2 = TObjEneDarkGunCenter__ct((u8 *)o2, (s32)o, (s32)arg0);
     }

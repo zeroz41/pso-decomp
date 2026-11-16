@@ -9,6 +9,7 @@
 #include "pso/ui/window/TWindowHelpItem.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/system/NinjaTypes.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 #pragma readonly_strings on
 
 typedef struct Item_8025A354 {
@@ -34,8 +35,6 @@ typedef struct Win_8025A354 {
 } Win_8025A354;
 
 extern "C" {
-void mem_free(void *p);
-void *mem_alloc(u32 size);
 s32 strncpy(s32, u32, s32);
 void render_summary_row__15TWindowHelpItemFv(Item_8025A354 *self, Win_8025A354 *w);
 s32 measure_string_len__20TWindowSubStatusDispFv(u32);

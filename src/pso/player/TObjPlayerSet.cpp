@@ -9,7 +9,6 @@
 
 
 extern "C" {
-void *__nw__7TObjectFUl(int);
 extern s32 tl_00;
 u8 *TObjQuestCol2__vt14(TObjQuestCol2 *arg0);
 u8 * __ct__8TObjBaseFP7TObject(void *);
@@ -25,7 +24,7 @@ void TObjPlayerSet::run_task() {  }
 extern void *tl_06;
 
 void *TObjPlayerSet::create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0x90);
+    void *o = TObject::operator new(0x90);
     if (o != NULL) {
         o = TObjPlayerSet__ct((TObjPlayerSet *)((u8 *)o), (s32)tl_06, (s32)arg0);
     }
@@ -59,7 +58,7 @@ u8 *TObjPlayerSet__ct(TObjPlayerSet *player_set, s32 arg1, s32 arg2) {
 #pragma pop
 
 void *TObjQuestCol2__create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0xC4);
+    void *o = TObject::operator new(0xC4);
     if (o != NULL) {
         o = TObjQuestCol2__ct(o, quest_collision_task_root, arg0);
     }

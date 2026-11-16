@@ -12,6 +12,7 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/technique/TTecCtrl.h"
 #include "pso/technique/TTecBarta.h"
+#include "pso/system/MatrixStack.h"
 
 struct RecoveredGlobal_80235348_lbl_804CC510
 {

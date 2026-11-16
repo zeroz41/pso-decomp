@@ -93,11 +93,10 @@ struct Obj_8023C6B4 { u8 pad[0x1C]; void *source; u8 pad20[0xCC - 0x20]; f32 pow
 extern "C" {
 s32 test_elt_flag__13TUnk_80493450Fll(void *, s32, s32);
 u8 *TTecZonde__ct(u8 *arg0, s32 arg1, u8 *arg2, u8 *arg3, s16 arg4);
-void *__nw__7TObjectFUl(int);
 
 void TObjPlayer::create_tec_zonde(void *arg0, void *arg1, void *arg2, void *arg3) {
     void *o;
-    o = __nw__7TObjectFUl(0x18C);
+    o = TObject::operator new(0x18C);
     if (o != NULL) {
         ((void *(*)(void *, void *, void *, void *, void *))TTecZonde__ct)(o, arg0, arg1, arg2, arg3);
     }
@@ -208,28 +207,28 @@ void TTecZonde::run_task() {
         scale = 0.5f;
         switch (self->level) {
         case 0:
-            o = __nw__7TObjectFUl(0x260);
+            o = TObject::operator new(0x260);
             if (o != NULL) {
                 ((TTecZonde *)o)->construct_bolt_effect(tl_07, (u8 *)segs[0].a, (u8 *)segs[0].b, 0x14000000, 0x14, segs[0].len, 0.5f);
             }
             break;
         case 1:
             scale *= 1.2f;
-            o = __nw__7TObjectFUl(0x260);
+            o = TObject::operator new(0x260);
             if (o != NULL) {
                 ((TTecZonde *)o)->construct_bolt_effect(tl_07, (u8 *)segs[0].a, (u8 *)segs[0].b, 0x14000000, 0x14, segs[0].len, scale);
             }
             break;
         case 2:
             scale *= 1.4f;
-            o = __nw__7TObjectFUl(0x260);
+            o = TObject::operator new(0x260);
             if (o != NULL) {
                 ((TTecZonde *)o)->construct_bolt_effect(tl_07, (u8 *)segs[0].a, (u8 *)segs[0].b, 0x14000000, 0x14, segs[0].len, scale);
             }
             break;
         case 3:
             for (j = 0; j < 3; j++) {
-                o = __nw__7TObjectFUl(0x260);
+                o = TObject::operator new(0x260);
                 if (o != NULL) {
                     ((TTecZonde *)o)->construct_bolt_effect(tl_07, (u8 *)segs[j].a, (u8 *)segs[j].b, 0x14000000, 0x14, segs[j].len, 0.5f);
                 }
@@ -238,7 +237,7 @@ void TTecZonde::run_task() {
         case 4:
             scale *= 1.4f;
             for (k = 0; k < 3; k++) {
-                o = __nw__7TObjectFUl(0x260);
+                o = TObject::operator new(0x260);
                 if (o != NULL) {
                     ((TTecZonde *)o)->construct_bolt_effect(tl_07, (u8 *)segs[k].a, (u8 *)segs[k].b, 0x14000000, 0x14, segs[k].len, scale);
                 }
@@ -247,12 +246,12 @@ void TTecZonde::run_task() {
         case 5:
             for (l = 0; l < 14; l++) {
                 if (l == 0) {
-                    o = __nw__7TObjectFUl(0x260);
+                    o = TObject::operator new(0x260);
                     if (o != NULL) {
                         ((TTecZonde *)o)->construct_bolt_effect(tl_07, (u8 *)segs[l].a, (u8 *)segs[l].b, 0x14000000, 0x14, segs[l].len, 5.0f);
                     }
                 } else {
-                    o = __nw__7TObjectFUl(0x260);
+                    o = TObject::operator new(0x260);
                     if (o != NULL) {
                         ((TTecZonde *)o)->construct_bolt_effect(tl_07, (u8 *)segs[l].a, (u8 *)segs[l].b, 0x14000000, 0x14, segs[l].len, 0.5f);
                     }
@@ -261,7 +260,7 @@ void TTecZonde::run_task() {
             break;
         }
         if (self->level != 5) {
-            o = __nw__7TObjectFUl(0x40);
+            o = TObject::operator new(0x40);
             if (o != NULL) {
                 construct_helper_effect__11TTecGiZondeFPvPvPvPvi((u8 *)o, (u8 *)segs, (u8 *)&t->x, tl_07, 0x19F);
             }

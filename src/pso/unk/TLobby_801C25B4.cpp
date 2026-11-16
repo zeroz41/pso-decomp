@@ -28,6 +28,7 @@
 #include "pso/player/TUnk_804B6C24.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 extern "C" {
 void *TLobby__battle_mode_data_ptr;
@@ -381,7 +382,6 @@ void obj_clear_flag30_20000(void *);
 void clear_counter__6TLobbyFPv(void *a0);
 void TObjEneRe4Sorcerer__sub_801E3F14(s32);
 void TObjEneRe4Sorcerer__sub_801E3F18(void);
-void *__nw__7TObjectFUl(u32);
 extern char battle_ctrl_music_name_duel1[];
 extern char battle_ctrl_music_name_duel2[];
 extern s32 TDeadSpot__class_name;
@@ -536,7 +536,7 @@ void TLobby::start_duel_battle() {
     clear_counter__6TLobbyFPv(this);
     area = get_current_floor_area();
     name = (area == AREA_BATTLE1) ? battle_ctrl_music_name_duel1 : battle_ctrl_music_name_duel2;
-    obj = __nw__7TObjectFUl(0x40);
+    obj = TObject::operator new(0x40);
     if (obj != NULL) {
         ((TLobby *)obj)->init_with_name((void *)this, (void *)name, (void *)(0x2D));
     }
@@ -758,7 +758,6 @@ s32 TLobby__sub_801C417C(void);
 void __destroy_new_array(void *, void *);
 void TLobby__sub_801C3A40(void);
 int TKeyBoardControl__sub_8000F828(void);
-void *mem_alloc(u32 size);
 void clear_battle_player_ready_flags(void);
 void TAdSinglePlyChrSelectGC__sub_801C5120(void);
 void TAdSinglePlyChrSelectGC__sub_801C5158(void);
@@ -1070,7 +1069,6 @@ void TLobby__sub_801C36E4(void *arg0, void *arg1) {
 }
 
 
-
 void handle_6x7F_battle_scores(s32 arg0) {
     bswap_packet_header__6TLobbyFv();
     memcpy(TLobby__duel_result_table, (void *)(arg0 + 4), 0x20);
@@ -1168,7 +1166,7 @@ void TLobby__sub_801C38E8(void *arg0) {
 void TLobby::init_battle_ctrl(s32 arg0, s32 arg1) {
     u32 player_battle_ctrl;
     if ((u32) (*(u32 *)&TLobby__battle_mode_data_ptr) == 0U) {
-        player_battle_ctrl = (u32)__nw__7TObjectFUl(0x278);
+        player_battle_ctrl = (u32)TObject::operator new(0x278);
         if (player_battle_ctrl != 0U) {
             player_battle_ctrl = ((u32)TPlayerBattleCtrl__ct((void *)player_battle_ctrl, (s32)tl_00));
         }
@@ -1394,7 +1392,7 @@ void update_duel_result__6TLobbyFPv(u8 *arg0) {
         init__6TLobbyFPv(arg0);
         lbl_805D5DA8 = 0;
         lbl_805D5DAC = 0;
-        p = (void *)__nw__7TObjectFUl(0x28);
+        p = (void *)TObject::operator new(0x28);
         if (p != NULL) {
             __ct__15TDuelEffectCtrlFP7TObjectUc(p, arg0, 1);
         }
@@ -1449,7 +1447,7 @@ void update_duel_result__6TLobbyFPv(u8 *arg0) {
         if (*(void **)((s8 *)arg0 + 0x54) != NULL) {
             ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x54)))->close();
         }
-        p = (void *)__nw__7TObjectFUl(0x6C);
+        p = (void *)TObject::operator new(0x6C);
         if (p != NULL) {
             p = (void *)TWindowDuelResult__ct(p, local_client_id);
         }
@@ -1696,7 +1694,7 @@ void TLobby::update_battle_intro() {
     case 7:
         ((Lobby_801C49B8 *)this)->timer2--;
         if (TLobby::check_all_players_ready(((Lobby_801C49B8 *)this)) != 0 || ((Lobby_801C49B8 *)this)->timer2 <= 0) {
-            void *o = (void *)__nw__7TObjectFUl(0x28);
+            void *o = (void *)TObject::operator new(0x28);
             if (o != NULL) {
                 __ct__15TDuelEffectCtrlFP7TObjectUc(o, ((Lobby_801C49B8 *)this), 0);
             }

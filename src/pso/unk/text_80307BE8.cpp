@@ -1,8 +1,8 @@
 #include "types.h"
 #include "pso/ui/city/THunterGuildSeqOffline.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 extern "C" {
-s32 get_current_floor();
 s32 get_floor__10TObjPlayerFv();
 f32 xz_distance_squared(void *, void *);
 void *get_player_by_client_id(s32 i);

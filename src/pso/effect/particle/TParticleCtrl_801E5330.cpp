@@ -2,6 +2,7 @@
 #include "pso/effect/particle/TParticleCtrl_801E5330.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/effect/TEffect.h"
+#include "pso/system/task/TObject.h"
 
 // One quad-sprite particle kind; create_quad_sprites builds sprite_type's
 // TQuadSprite* class for each. Field names inferred from the users.
@@ -19,7 +20,6 @@ struct ParticleDefinition {
 };
 extern "C" {
 
-void *__nw__7TObjectFUl(u32);
 void *TQuadSpriteNormal__ct(void *, void *, ParticleDefinition *);
 void *TQuadSpriteScl__ct(void *, void *, ParticleDefinition *);
 void *TQuadSpriteCol__ct(void *, void *, ParticleDefinition *);
@@ -56,35 +56,35 @@ void TParticleCtrl::create_quad_sprites() {
 
         switch (definitions[index].sprite_type) {
         case 0:
-            object = __nw__7TObjectFUl(0x2C);
+            object = TObject::operator new(0x2C);
             if (object != NULL) {
                 object = TQuadSpriteNormal__ct(object, tl_particle, definition);
             }
             sprite = object;
             break;
         case 1:
-            object = __nw__7TObjectFUl(0x2C);
+            object = TObject::operator new(0x2C);
             if (object != NULL) {
                 object = TQuadSpriteScl__ct(object, tl_particle, definition);
             }
             sprite = object;
             break;
         case 2:
-            object = __nw__7TObjectFUl(0x2C);
+            object = TObject::operator new(0x2C);
             if (object != NULL) {
                 object = TQuadSpriteCol__ct(object, tl_particle, definition);
             }
             sprite = object;
             break;
         case 3:
-            object = __nw__7TObjectFUl(0x2C);
+            object = TObject::operator new(0x2C);
             if (object != NULL) {
                 object = TQuadSpriteSclCol__ct(object, tl_particle, definition);
             }
             sprite = object;
             break;
         case 4:
-            object = __nw__7TObjectFUl(0x2C);
+            object = TObject::operator new(0x2C);
             if (object != NULL) {
                 object = TQuadSpriteSclColRot__ct(object, tl_particle, definition);
             }

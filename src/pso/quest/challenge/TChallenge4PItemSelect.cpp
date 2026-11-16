@@ -78,7 +78,6 @@ void fn_8034BE38(TObjPlayer *);
 void TLobby__sub_8024AC20(u16);
 void update_entries__18TChallenge4PResultFii(s32 arg0, s32 arg1);
 s32 __ct__18TChallenge4PResultFP7TObjectUsl(void *, s32, int, s32);
-u32 __nw__7TObjectFUl(s32);
 
 }
 s32 update_challenge_result_player_locks();
@@ -282,7 +281,7 @@ void TChallenge4PResult::create(int arg0, s32 arg1) {
     void *temp;
 
     if (get_player_by_client_id((u16)arg0) != 0U) {
-        temp = (void *) __nw__7TObjectFUl(0x7C);
+        temp = (void *) TObject::operator new(0x7C);
         if (temp != NULL) {
             __ct__18TChallenge4PResultFP7TObjectUsl(temp, tl_01, arg0, arg1);
         }

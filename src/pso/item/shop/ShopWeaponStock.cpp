@@ -8,6 +8,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include <stdlib.h>
 #include "pso/item/TItemData.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 struct SRock_80224544_8022448C;
 
@@ -91,8 +92,6 @@ extern "C" {
 s32 memset(void *, int, int);
 extern G_80225550 shop_weapon_stock_buffers;
 void get_shop_weapon_stock_item(C14_80225550 *dst, s32 idx, s32 tbl);
-void *mem_alloc(u32 size);
-void mem_free(void *p);
 extern u32 lobby_weapon_random_tables_ptr;
 s32 memcmp(const void *, const void *, u32);
 extern Cnt_80224B7C shop_weapon_stock_counts[];

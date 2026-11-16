@@ -32,6 +32,7 @@
 
 #include "pso/unk/text_8032AC9C.h"
 #include "pso/system/NinjaTypes.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 struct Plate_8032AACC { u8 data[0x3B4]; };
 
@@ -108,7 +109,6 @@ extern "C" {
 
 char *realloc_buffer__17TWindowSubComCardFv(void *);
 
-void mem_free(void *p);
 
 void fn_8025DE10(void *arg0, void *arg1);
 

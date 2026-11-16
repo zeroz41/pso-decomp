@@ -552,9 +552,6 @@ typedef struct Tbl_80038BA0 {
 extern "C" {
 
 
-
-
-
 s32 init_model__9TObjEneDDFP13CollisionBodyl(void *, void *, int, int);
 
 extern u8 *lbl_805D4BA4;

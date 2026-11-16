@@ -7,14 +7,12 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/math/AngleLookup.h"
 
 
 extern "C" {
-f32 atan2_float(f32 y, f32 x);
-f32 sin_table_lookup(s32);
-f32 cos_table_lookup(s32);
 extern const f64 lbl_8044ECF0;
-void *__nw__7TObjectFUl(u32);
 void *__ct__18TWindowEffectPartyFP7TObjectScScPv(void *, void *, u16, u16, s32);
 extern s32 local_client_id;
 s32 get_window_layout_position(s32);
@@ -106,7 +104,7 @@ void *TWindowEffectParty::create(void *owner, s32 from, s32 to, u32 kind) {
     if (b & 0xFFFC) {
         b += 4;
     }
-    w = __nw__7TObjectFUl(0x34);
+    w = TObject::operator new(0x34);
     if (w != 0) {
         w = __ct__18TWindowEffectPartyFP7TObjectScScPv(w, owner, a, b, id);
     }

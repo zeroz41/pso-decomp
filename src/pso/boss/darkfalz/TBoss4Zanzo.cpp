@@ -949,8 +949,8 @@ void TBoss4Type2::beam_enter() {
     var_r31 = 0x4000;
     var_r31 = temp_r31 - var_r31;
   }
-  *((f32 *) (((s8 *) arg0) + 0x404)) = ((f32 (*)(int))sin_table_lookup)((int) var_r31);
-  *((f32 *) (((s8 *) arg0) + 0x40C)) = ((f32 (*)(int))cos_table_lookup)((int) var_r31);
+  *((f32 *) (((s8 *) arg0) + 0x404)) = sin_table_lookup((int) var_r31);
+  *((f32 *) (((s8 *) arg0) + 0x40C)) = cos_table_lookup((int) var_r31);
   *((f32 *) (((s8 *) arg0) + 0x408)) = 0.0f;
   VecCopy((Vec *)(arg0 + 0x410), (const Vec *)(arg0 + 0x38));
   *((f32 *) (((s8 *) arg0) + 0x414)) = 0.0f;

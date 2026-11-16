@@ -33,6 +33,8 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/hud/TRaderMapCore_801FB964.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/math/AngleLookup.h"
 struct Stack_801FA9D8 {
     s32 sp8;
     s32 spC;
@@ -283,7 +285,6 @@ extern "C" {
 void rotate_vector_by_matrix(void *, Vec *, Vec *);
 void rotate_matrix_y(void *, s32);
 s32 push_matrix_from(void *src);
-s32 pop_matrix(void);
 extern Vec lbl_8044A794;
 extern u8 identity_matrix[];
 extern f32 lbl_805D3608;
@@ -293,7 +294,6 @@ void setup_overhead_projection__13TRaderMapCoreFv(s32 arg0, Cam_801F9314 *arg1);
 void rotate_matrix_zyx(void *m, s32 x, s32 y, s32 z);
 extern "C" {
 void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
-void push_matrix(void);
 void draw_ginja_model(s32);
 void set_chunk_material_override_pair(s32, s32);
 extern Color_801FAAEC radar_map_backdrop_color;
@@ -1393,7 +1393,6 @@ s32 fn_803D64F8(void *);
 extern f32 lbl_805D35FC;
 extern s32 rader_map_core_name_ptr;
 Core_801FB490 *TRaderMapCore__ct(Core_801FB490 *arg0, void *parent);
-f32 sin_table_lookup(s32);
 
 
 void TRaderMapCore::advance_scroll() {

@@ -15,6 +15,8 @@
 #include <stdlib.h>
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/task/TObject.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
+#include "pso/system/MatrixStack.h"
 
 struct Rec_800B8B08 { u8 vec[0x18]; s32 f18; u32 flags; };
 
@@ -76,7 +78,6 @@ u8 *csnVectorUnder(void *, void *, int);
 s32 vec3_add_to(void *, void *);
 extern s32 actor_frame_tick;
 s32 __ct__10TObjMotionFP7TObject(void *, s32);
-void *mem_alloc(u32 size);
 s32 rotate_vector_by_matrix(int, void *, void *);
 extern s32 __vt__10TObjCGrass[];
 extern u8 identity_matrix[];
@@ -84,7 +85,6 @@ u32 TObjCGrass_bml_resource;
 extern s32 tl_06;
 u8 *TObjCGrass__ct(Grass_800B8EFC *self, u8 *arg1, s32 arg2, s32 arg3);
 void free_bin_model_request(void*, int);
-void mem_free(void *);
 
 u8 *load_resource_from_descriptor(void *, s32, BmlResourceDescriptor *, s32, s32, s32);
 s32 load_enemy_bml_resource_named(s32 arg0, s32 arg1);

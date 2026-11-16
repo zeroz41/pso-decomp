@@ -20,7 +20,6 @@ u8 *__ct__16TObjEvtCollisionFll(TObjEvtCollision *arg0, s32 arg1, s32 arg2);
 extern s32 local_client_id;
 void *TObjEvtCollision__create(void *arg0);
 void *get_player_by_client_id(s32 i);
-void *__nw__7TObjectFUl(int);
 f32 xyz_distance_squared(s32, s32);
 
 s32 TObjEvtCollision::is_any_player_in_range(f32 farg0) {
@@ -49,7 +48,7 @@ block_10:
 extern void *tl_05;
 
 void *TObjEvtCollision__create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0xB8);
+    void *o = TObject::operator new(0xB8);
     if (o != NULL) {
         o = __ct__16TObjEvtCollisionFll((TObjEvtCollision *)((u8 *)o), (s32)tl_05, (s32)arg0);
     }

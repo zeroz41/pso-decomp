@@ -1,5 +1,6 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/unk/TUnk_804C3248.h"
+#include "pso/system/MatrixStack.h"
 
 const char *TPhotonLeilla__class_name = "TPhotonLeilla";
 
@@ -64,8 +65,6 @@ u8 *__nw__7TObjectFUl(s32, f32);
 s32 scroll_strip_uvs(void *, s16, int);
 s32 clear_render_context__10TObjPlayerFv(void *);
 s32 rotate_matrix_y(int, int);
-s32 push_matrix();
-s32 pop_matrix();
 void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
 void set_chunk_material_override_pair(s32 arg0, s32 arg1);
 extern NJS_ARGB saved_model_draw_color;

@@ -7,18 +7,17 @@
 #include "pso/math/TMath.h"
 #include "pso/ui/charcreate/TChCrCharSelect.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
+#include "pso/math/AngleLookup.h"
 
 extern "C" {
 extern void *__vt__12TChCrTagName[];
 __declspec(section ".rodata") extern const char TChCrTagName__class_name_string[] = "TChCrTagName";
 const char *TChCrTagName__class_name = TChCrTagName__class_name_string;
-f32 cos_table_lookup(s32);
 extern vec2f lbl_80466408[];
 extern vec2f lbl_80466410[];
 extern vec2f lbl_80466418[];
 extern vec2f lbl_80466420[];
 extern vec2f lbl_80466428[];
-f32 sin_table_lookup(s32);
 extern vec2f lbl_80466430[];
 
 

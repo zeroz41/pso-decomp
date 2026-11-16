@@ -10,13 +10,13 @@
 #include "pso/item/TItemLoad_8010FDF0.h"
 #include "pso/item/TUnk_8049C658.h"
 #include "pso/item/drop/TItemDrop.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 extern "C" {
 s32 test_flags_any(s32 *flags, s32 mask);
 extern s32 lbl_8049F42C[];
 extern s32 item_load_work_buffer_busy;
 void init_buffer__9TItemLoadFPviii(void *);
-void mem_free(void *p);
 struct VOff_8010FD2C_arg0_8010fd2c { char pad_0[0x1C]; char f_1C[1]; };
 
 extern s32 item_load_compressed_work_buffer;
@@ -94,7 +94,6 @@ struct Sp8Buf_8010fe6c_8010FDF0 {
 s32 apply_rel_relocations(s32 *);
 s32 read_disc_file(u32, s32);
 s32 read_checked_align__6TLobbyFlll(s32, s32, s32, void *);
-void *mem_alloc(u32 size);
 s32 prs_decompress_alloc(s32, u32, s32);
 
 void TItemLoad::alloc_work_buffer() { item_load_compressed_work_buffer = (s32)mem_alloc((u32)((void*)24576)); item_load_work_buffer_busy = 0; }

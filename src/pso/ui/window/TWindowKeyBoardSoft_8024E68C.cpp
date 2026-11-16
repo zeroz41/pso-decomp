@@ -7,6 +7,7 @@
 #include "pso/ui/window/TWindowCtrlMain_8024EEF8.h"
 #include "pso/ui/window/TWindowCtrlMain.h"
 #include "pso/system/NinjaTypes.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 struct RecoveredFields_8024E754_arg0
 {
@@ -39,7 +40,6 @@ u32 soft_keyboard_instance;
 extern "C" {
 s32 __cvt_fp2unsigned(f32);
 void apply_context_transform_to_rect(Ctx_8024E6D8 *c, f32 *q);
-s32 is_split_screen();
 f32 TCameraCtrl__sub_80068A04(s32);
 NJS_POINT2 *get_viewport_offset__19TWindowKeyBoardSoftFi(s32);
 NJS_POINT2 *get_zero_vec2();

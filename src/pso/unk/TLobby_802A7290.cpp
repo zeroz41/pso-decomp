@@ -4,6 +4,7 @@
 #include "pso/unk/TUnk_804DDD28.h"
 #include "pso/unk/TLobby.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 
 struct Base_802A7328_802A7290 { char pad[0x8]; };
@@ -2661,9 +2662,7 @@ int TLobby__sub_802A7278(void* a0);
 void TLobby__sub_802A7848(void *p, s32 _w1);
 s32 TLobby__sub_802A7868(void *, s32, s32);
 s32 forward_801C210C__10TObjPlayerFv(void *, s32);
-void mem_free(void*);
 void TLobby__sub_802A7640(void);
-void *mem_alloc(u32 size);
 }
 void disable_and_free_boss4rock_buffer(void);
 extern "C" {

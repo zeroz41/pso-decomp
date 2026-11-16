@@ -12,6 +12,8 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/render_util.h"
+#include "pso/system/task/TObject.h"
+#include "pso/system/MatrixStack.h"
 
 #pragma readonly_strings on
 
@@ -36,7 +38,6 @@ void * TObjNpcEnemy__create(void *arg0);
 void *__ct__11TObjControlFP7TObject(void *, void *);
 s32 rotate_matrix_y(int, int);
 s32 translate_matrix(int, int, f32, f32, f32);
-void *__nw__7TObjectFUl(int);
 s32 init_motion__10TObjMotionFP16TObjMotionActionP14BmlMotionEntrys(void *, s32, s32, s16);
 
 s16 *TObjNpcEnemy::get_entry_by_index(s16 arg0) {
@@ -253,11 +254,11 @@ u8 *TObjNpcEnemy__ct(u8 *arg0, s32 arg1, s32 arg2) {
 void * TObjNpcEnemy__create(void *arg0) {
     void *o;
     void *o2;
-    o = __nw__7TObjectFUl(0x20);
+    o = TObject::operator new(0x20);
     if (o != NULL) {
         o = __ct__11TObjControlFP7TObject(o, tl_04);
     }
-    o2 = __nw__7TObjectFUl(0x3BC);
+    o2 = TObject::operator new(0x3BC);
     if (o2 != NULL) {
         o2 = TObjNpcEnemy__ct((u8 *)o2, (s32)o, (s32)arg0);
     }

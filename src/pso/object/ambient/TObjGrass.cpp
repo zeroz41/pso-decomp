@@ -30,6 +30,7 @@
 #include "pso/unk/text_80087278.h"
 #include "pso/unk/text_803E2D70.h"
 #include "pso/unk/text_803D96A8.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 
 s32 lbl_805D5140;
@@ -285,7 +286,6 @@ s32 dispatch_shared_handler_b__6TLobbyFl(int);
 s32 register_boss__6TLobbyFl(int);
 u8 *load_resource_from_descriptor(void *, int, void *, int, int, int);
 s32 load_enemy_bml_resource_named(s32 arg0, s32 arg1);
-void *mem_alloc(u32 size);
 extern s32 lbl_805D5140;
 extern u32 TObjGrass__bml_resource;
 extern s32 grass_combat_stats_handle;
@@ -310,7 +310,6 @@ s32 angle_difference_abs(s32, s32);
 void move_with_wall_slide(u8 *arg0);
 extern "C" {
 void TObjCGrass__ct(void *, void *, s32, s32);
-void *__nw__7TObjectFUl(int);
 f32 newton_sqrtf(f32);
 s32 spawn_directional_particle(void *, void *, s32);
 }
@@ -333,7 +332,6 @@ s32 init_collision_body_parts(void *, void *, int);
 void free_bin_model_request(void*, int);
 s32 update_movement_status__9TObjCharaFv();
 s32 update_action_hold_status__9TObjCharaFv();
-void mem_free(void*);
 
 extern void *bm_ene_grass_model_names[2];
 extern void *bm_ene_grass_motion_names[9];
@@ -1672,7 +1670,7 @@ void TObjGrass::update_dying(void *arg0_) {
             case AREA_CAVE1:
             case AREA_CAVE2:
             case AREA_CAVE3: {
-                void *o = __nw__7TObjectFUl(0x14C);
+                void *o = TObject::operator new(0x14C);
                 if (o != NULL) {
                     Vec t = v;
                     TObjCGrass__ct(o, &t, (s32)((12.0f) + *(f32 *)((s8 *)arg0 + 0x360)), 0xF0);

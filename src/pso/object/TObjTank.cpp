@@ -10,6 +10,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/BmlResourceDescriptor.h"
+#include "pso/system/task/TObject.h"
 extern "C" void *__ct__14TObjCollidableFP7TObject(void *, s32);
 
 __declspec(section ".data") const char *fs_obj_tank_model_names[2] = { "fs_obj_tank.gj", NULL };
@@ -34,7 +35,6 @@ extern s32 __vt__8TObjTank[];
 void free_bin_model_request(void*, int);
 s32 release_texture_list(void*);
 s32 free_collision_body_parts(void *);
-void *__nw__7TObjectFUl(int);
 
 void TObjTank::render() {
     void *p;
@@ -74,7 +74,7 @@ u8 *TObjTank__ct(u8 *arg0, s32 arg1, s32 arg2) {
 }
 
 void *TObjTank__create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0xAC);
+    void *o = TObject::operator new(0xAC);
     if (o != NULL) {
         o = TObjTank__ct((u8 *)o, (s32)tl_05, (s32)arg0);
     }

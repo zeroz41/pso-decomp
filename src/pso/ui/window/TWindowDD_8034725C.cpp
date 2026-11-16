@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowDD_WS_String.h"
@@ -9,6 +10,7 @@
 #include <string.h>
 #include "pso/unk/TLobby.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
+#include "pso/system/task/TObject.h"
 
 struct O_80347940 { u8 pad[0x20]; s32 base; void *items[1]; };
 struct E_803478DC { void *p; };
@@ -99,7 +101,6 @@ void *get_player_by_client_id(s32 i);
 s32 is_id_in_special_range__9TWindowDDFs(s16);
 s32 TWindowDD__sub_80347238();
 u8 TWindowDD__sub_80347858(s16 arg0);
-void queue_destruction__7TObjectFv(void *);
 
 s32 TWindowDD::classify_id(s16 arg0) {
     s32 var_r3;
@@ -346,7 +347,7 @@ s32 TWindowDD_is_id_in_range_5AC_5F9(s16 arg0) {
 void TWindowDD::destroy_menu_entry(s32 arg1) {
     W_803478DC *arg0 = (W_803478DC *)this;
     if (arg0->e[arg0->base + arg1].p != NULL) {
-        queue_destruction__7TObjectFv(arg0->e[arg0->base + arg1].p);
+        ((TObject *)arg0->e[arg0->base + arg1].p)->queue_destruction();
         arg0->e[arg0->base + arg1].p = NULL;
     }
 }

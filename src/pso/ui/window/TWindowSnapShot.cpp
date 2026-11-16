@@ -16,6 +16,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 struct VBase_802A7994 { char pad[0x8]; };
 
@@ -52,8 +53,6 @@ struct VObj_802A7994 : VBase_802A7994 {
 struct Pair_802A7994 { s32 a; s32 b; };
 
 extern "C" {
-void *mem_alloc(u32 size);
-void mem_free(void *p);
 int TLobby__sub_802A7B8C(void);
 void TLobby__sub_802A7BC8(void* p);
 extern u32 snapshot_image_buffer;

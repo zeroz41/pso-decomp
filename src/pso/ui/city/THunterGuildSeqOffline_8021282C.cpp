@@ -52,7 +52,6 @@ struct Seq_802129FC : Base_802129FC {
 extern "C" {
 extern s32 THunterGuildSeqOffline__quest_result_callbacks[];
 List_80212B88 *TQuestListOffline__ct(void *, s32, Seq_80212B88 *, s32);
-void *__nw__7TObjectFUl(u32);
 extern s32 tl_05;
 void get_entity_id(s32);
 void THunterGuildSeqOffline__sub_8021E180();
@@ -144,7 +143,7 @@ void THunterGuildSeqOffline::close_window() {
     case 0:
         break;
     case 1:
-        o = __nw__7TObjectFUl(0x28);
+        o = TObject::operator new(0x28);
         if (o != NULL) {
             ((THunterGuildSeqOffline *)o)->init(tl_00, (void *)THunterGuildSeqOffline::set_enemy_mode_0);
         }
@@ -152,7 +151,7 @@ void THunterGuildSeqOffline::close_window() {
         THunterGuildSeqOffline__sub_8021E180();
         break;
     case 2:
-        o = __nw__7TObjectFUl(0x28);
+        o = TObject::operator new(0x28);
         if (o != NULL) {
             ((THunterGuildSeqOffline *)o)->init(tl_00, (void *)THunterGuildSeqOffline::set_enemy_mode_1);
         }
@@ -160,7 +159,7 @@ void THunterGuildSeqOffline::close_window() {
         THunterGuildSeqOffline__sub_8021E180();
         break;
     case 3:
-        o = __nw__7TObjectFUl(0x28);
+        o = TObject::operator new(0x28);
         if (o != NULL) {
             ((THunterGuildSeqOffline *)o)->init(tl_00, (void *)TQuestListVM::set_enemy_mode_3);
         }
@@ -168,7 +167,7 @@ void THunterGuildSeqOffline::close_window() {
         THunterGuildSeqOffline__sub_8021E180();
         break;
     case 4:
-        o = __nw__7TObjectFUl(0x28);
+        o = TObject::operator new(0x28);
         if (o != NULL) {
             ((THunterGuildSeqOffline *)o)->init(tl_00, (void *)THunterGuildSeqOffline::set_enemy_mode_5);
         }
@@ -188,7 +187,7 @@ void THunterGuildSeqOffline::open_quest_list() {
     if (self->m8() == 0) return;
     switch (get_game_play_mode()) {
     case 2:
-        list = (List_80212B88 *)__nw__7TObjectFUl(0x5C);
+        list = (List_80212B88 *)TObject::operator new(0x5C);
         if (list != NULL) list = (List_80212B88 *)TQuestListChallenge__ct((u8 *)list, (s32)tl_05, (s32)self, (s32)self->player);
         if (list != NULL) {
             list->accepted = THunterGuildSeqOffline::request_close;
@@ -197,7 +196,7 @@ void THunterGuildSeqOffline::open_quest_list() {
         }
         break;
     case 1:
-        list = (List_80212B88 *)__nw__7TObjectFUl(0x5C);
+        list = (List_80212B88 *)TObject::operator new(0x5C);
         if (list != NULL) list = (List_80212B88 *)TQuestListChallenge__ct((u8 *)list, (s32)tl_05, (s32)self, (s32)self->player);
         if (list != NULL) {
             list->accepted = THunterGuildSeqOffline::set_state_4;
@@ -207,7 +206,7 @@ void THunterGuildSeqOffline::open_quest_list() {
         break;
     case 0:
     default:
-        list = (List_80212B88 *)__nw__7TObjectFUl(0x58);
+        list = (List_80212B88 *)TObject::operator new(0x58);
         if (list != NULL) list = TQuestListOffline__ct(list, tl_05, self, self->player);
         if (list != NULL) {
             list->accepted = THunterGuildSeqOffline::request_close;

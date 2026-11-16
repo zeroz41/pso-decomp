@@ -19,7 +19,6 @@ struct RecoveredGlobal_801959A0_lbl_804A7428 {
 };
 
 extern "C" {
-void *__nw__7TObjectFUl(int);
 extern s32 tl_00;
 u8 *TObjQuestColALock2__vt14(TObjQuestColALock2 *arg0);
 u32 init_collision_body_parts(void *, s32, s32);
@@ -48,7 +47,7 @@ s32 check_flag_100__10TObjPlayerFPv();
 extern void *quest_collision_task_root;
 
 void *TObjQuestColALock2__create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0xC4);
+    void *o = TObject::operator new(0xC4);
     if (o != NULL) {
         o = TObjQuestColALock2__ct((TObjQuestColALock2 *)((u8 *)o), (s32)quest_collision_task_root, (s32)arg0);
     }

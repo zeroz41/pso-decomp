@@ -67,6 +67,7 @@
 #include "pso/render/render_util.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 #pragma readonly_strings on
 
@@ -206,7 +207,6 @@ TObjMotionAction TObjEneMe3Stelth__animation_descriptors[13] = {
 
 
 s32 free_bin_model_request(BmlResource *, s32);
-void mem_free(void *p);
 
 int create__20TObjEneMe3StelthRealFPv(void*);
 
@@ -214,7 +214,6 @@ int create__20TObjEneMe3StelthRealFPv(void*);
 s32 register_object__6TLobbyFl(s32);
 s32 dispatch_shared_handler_b__6TLobbyFl(s32);
 s32 register_boss__6TLobbyFl(s32);
-void *mem_alloc(u32 size);
 extern const f32 lbl_805DA8B0;
 extern const f32 lbl_805DA8B4;
 extern const f32 lbl_805DA8B8;

@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/math/FloatRounding.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
@@ -32,8 +33,9 @@
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/enemy/fly/TObjEneBm3FlyNest.h"
+#include "pso/system/task/TObject.h"
+#include "pso/player/TObjPlayer_80011014.h"
 extern "C" {
-f32 atan2_float(f64, f64);
 s32 approach_angle_limited(int, int, int);
 void *find_entity_by_id(u16 id);
 void rotate_xz_pair_by_angle(f32 *arg0, f32 *arg1, s32 arg2);
@@ -103,7 +105,6 @@ s32 is_vec_xz_cross_negative(void *, void *);
 f32 calc_circle_offset__14TObjEneBm5WolfFPvPvPv(TObjEneBm5Wolf *wolf, Vec *target, Vec *out);
 s32 enemy_validate_retained_target(u8 *ene_dd_st);
 void enemy_clear_target__12TObjEneDD_STFUs(void *);
-void queue_destruction__7TObjectFv(void *self);
 s32 TBoss8Dragon__sub_800BB7D4(void *, int);
 void draw_blob_shadow(s32 arg0);
 s32 scale_matrix(s32, f32, f32, f32);
@@ -138,7 +139,6 @@ s32 free_collision_body_parts(void *);
 s32 reset_hp__9TObjEneDDFPUcPUcPUc(void *, int, int, int, int);
 s32 init_collision_body_parts(void *, void *, int);
 void *__ct__14TObjCollidableFP7TObject(void *, int);
-void *__nw__7TObjectFUl(int);
 void free_bin_model_request(void*, int);
 }
 
@@ -363,7 +363,7 @@ TObjEneBm5Wolf::TObjEneBm5Wolf(TObject *parent, void *set_data) : TObjEneDD_ST(p
     currentSpeed = 0.0f;
     m_408 = 0;
     m_40c = 0.0f;
-    o = __nw__7TObjectFUl(0xAC);
+    o = TObject::operator new(0xAC);
     if (o != NULL) {
         o = __ct__14TObjCollidableFP7TObject(o, 0);
     }
@@ -1875,7 +1875,7 @@ void TObjEneBm5Wolf::despawn_state(s32 msg) {
     case 0:
         return;
     case 3:
-        queue_destruction__7TObjectFv(this);
+        queue_destruction();
         break;
     }
 }

@@ -12,7 +12,7 @@ struct TObjIllGillKage : public TObjBase {
     u32 m_90;
     u32 m_94;
     u16 m_98;
-    int queue_destruction();
+    void queue_destruction();
     void attack_target();
     u8 unk_9A[0x2];
     void tick_persistent_sound();

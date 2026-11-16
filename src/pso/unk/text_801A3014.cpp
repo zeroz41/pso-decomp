@@ -21,6 +21,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/quest/TQuestThread.h"
 #include "pso/map/FloorArea.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 
 struct RecoveredGlobal_801A3540_lbl_80515BA0 {
@@ -95,7 +96,6 @@ struct PV_801A39BC : PVB_801A39BC {
 };
 
 extern "C" {
-s32 is_split_screen(void);
 s32 TLobby__sub_801A3B98();
 }
 void run_area_scene_cleanup(u8 *arg0);
@@ -104,7 +104,6 @@ extern OfflineGameSceneCallbacks offline_game_scene_callbacks;
 extern RecoveredGlobal_801A3540_lbl_80515BA0 lbl_80515BA0;
 extern "C" {
 void __dt__7TObjectFv(void *, int);
-s32 get_current_floor();
 void find_leader_section_id(void *, s32);
 void unlock_main_warp_destination(s32);
 void reset_controller_input_state();

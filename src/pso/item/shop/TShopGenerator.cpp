@@ -12,6 +12,7 @@
 #include "pso/ui/city/TMedicalCenterMes.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/MatrixStack.h"
 struct Stack_8021DC30 {
     s32 sp8;
     s32 spC;

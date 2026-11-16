@@ -34,6 +34,8 @@
 #include "pso/object/TObjLuker.h"
 #include "pso/unk/TLobby_801E2F94.h"
 #include "pso/unk/text_801E3F24.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 
 struct Menu_80296D68
@@ -102,7 +104,6 @@ struct Auto_802952E0
 extern "C" {
 s32 play_sound_effect(s32, s32, s32, s32);
 void run_task__16TObjCMAssignMenuFv(void *arg0);
-f32 fabs_float(f32);
 void TCameraCtrl__sub_80068EF0(void);
 s32 get_message_text(s32 arg0);
 u32 calc_text_width(char *s);
@@ -263,7 +264,6 @@ struct M_80298450 { u8 pad[0x38]; f32 f38; };
 extern "C" {
 void copy_player_visual_record(void *, void *);
 void * get_char_index__23TAdSinglePlyChrSelectGCFUi(s32);
-void * __nw__7TObjectFUl(int);
 void __ct__7TObjectFP7TObject(void *);
 u8 calc_section_id_from_name();
 s32 get_creation_sprite_id__14TObjCMMainMenuFl(int);
@@ -271,7 +271,6 @@ void fn_802947A8(void);
 int TObjCMName__sub_802948F4(TObjCMName *, char *);
 TKeyBoardControl *TKeyBoardControl__ct(void *, TObject *, s32, s32, s32, s32);
 int get_keyboard_field_6c__15TWindowMakeTeamFv(TKeyBoardControl *, char *);
-void mem_free(void *p);
 Hair_802964B0 * __ct__14TObjCMHairMenuFv(Hair_802964B0 *arg0, void *arg1);
 void render__16TObjCMAssignMenuFv(Menu_80296928 *self);
 void * __ct__16TObjCMAssignMenuFv(void *arg0, void *parent, void *kind);
@@ -955,7 +954,7 @@ void TObjCMMainMenu::draw_root_menu() {
             a.x = 115.0f;
             if (is_active__23TAdSinglePlyChrSelectGCFv() != 0 && i == m->sel) {
                 k = 2;
-                a.x += 9.0f * ((f32 (*)(int))sin_table_lookup)(m->pulse << 10);
+                a.x += 9.0f * sin_table_lookup(m->pulse << 10);
             }
             b.x = (x - a.x) / 48.0f;
             draw_ui_sprite_opaque(k + 6, &a, &b, -2.125f);
@@ -995,7 +994,7 @@ void TObjCMMainMenu::draw_root_menu() {
             }
             r = flag;
             if (is_active__23TAdSinglePlyChrSelectGCFv() != 0 && q == m->sel) {
-                s = ((f32 (*)(int))sin_table_lookup)(m->pulse << 10);
+                s = sin_table_lookup(m->pulse << 10);
                 s = 0.25f * s + 1.0f;
                 if (s > 1.0f) {
                     s = 1.0f;
@@ -1140,7 +1139,7 @@ TObjCMAssignMenu::~TObjCMAssignMenu() {}
 
 void *TObjCMAssignMenu::create(void *parent, void *kind) {
     void *o;
-    o = __nw__7TObjectFUl(0x5C);
+    o = TObject::operator new(0x5C);
     if (o != NULL) {
         o = __ct__16TObjCMAssignMenuFv(o, parent, kind);
     }
@@ -1558,7 +1557,7 @@ Hair_802964B0 *__ct__14TObjCMHairMenuFv(Hair_802964B0 *arg0, void *arg1) {
 TObjCMHairMenu::~TObjCMHairMenu() {}
 
 void *TObjCMHairMenu::create() {
-    void *o = __nw__7TObjectFUl(0x44);
+    void *o = TObject::operator new(0x44);
     if (o != NULL) {
         o = __ct__14TObjCMHairMenuFv((Hair_802964B0 *)(o), this);
     }

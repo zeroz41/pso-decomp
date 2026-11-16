@@ -5,6 +5,7 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/map/TObjMapCsn.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/system/MatrixStack.h"
 
 struct Tri_801946D0 {
     u16 a, b, c;
@@ -50,7 +51,6 @@ s32 matrix_mult_vec(int, void *, void *);
 s32 translate_matrix_vec3(int, void *);
 s32 rotate_vector_by_matrix(int, void *, void *);
 s32 rotate_matrix_y(int, int);
-s32 pop_matrix();
 extern s32 identity_matrix[];
 s32 __nw__7TObjectFUl(s32);
 

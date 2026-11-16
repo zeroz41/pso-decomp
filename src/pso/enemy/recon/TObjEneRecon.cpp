@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/system/task/TObject.h"
 #include "pso/unk/text_803D8F74.h"
@@ -345,7 +346,6 @@ f32 TObjEneRecon__sub_8031C2D4(void) {
 }
 
 void *find_entity_by_id(u16 id);
-void queue_destruction__7TObjectFv(void *);
 void select_next_target__12TObjEneReconFv(void *, s32);
 void TObjEneRecon::handle_message(s32 arg1) {
     u32 temp;
@@ -361,7 +361,7 @@ void TObjEneRecon::handle_message(s32 arg1) {
     case 0:
         break;
     case 3:
-        ((s32 (*)()) queue_destruction__7TObjectFv)();
+        queue_destruction();
         break;
     }
 }
@@ -652,7 +652,7 @@ void run_task__12TObjEneReconFPvi(u8 *target, s32 arg1) {
     case 3:
         entity = (s32)find_entity_by_id((*(u16 *)((s8 *)target + 0x434)));
         if (entity == 0) {
-            queue_destruction__7TObjectFv(target);
+            ((TObject *)target)->queue_destruction();
             return;
         }
         if (is_anim_6__12TObjEneReconFv((TObjEneRecon *)entity) == 1) {
@@ -662,7 +662,7 @@ void run_task__12TObjEneReconFPvi(u8 *target, s32 arg1) {
         if (((WObj_8031c7bc *) (target + 0x480))->w4() != 0) {
             *(s32 *)((s8 *)target + 0x444) = (s32) (*(s32 *)((s8 *)target + 0x444) | 1);
             remove_tracked_target__12TObjEneReconFPvPv(entity, target);
-            queue_destruction__7TObjectFv(target);
+            ((TObject *)target)->queue_destruction();
         }
     case 5:
         return;
@@ -1377,7 +1377,7 @@ void TObjEneRecon::retarget() {
     s32 i;
     p = find_entity_by_id(((Recon_8031D898 *)this)->owner);
     if (p == 0) {
-        queue_destruction__7TObjectFv(this);
+        queue_destruction();
         return;
     }
     if (((TObjEneRecon *)p)->is_below_child_limit(((Recon_8031D898 *)this)->target) != 0) {
@@ -1407,7 +1407,7 @@ void TObjEneRecon::select_next_target() {
     s32 i;
     p = find_entity_by_id(((Recon_8031D994 *)this)->owner);
     if (p == 0) {
-        queue_destruction__7TObjectFv(this);
+        queue_destruction();
         return;
     }
     if (((TObjEneRecon *)p)->is_below_child_limit(((Recon_8031D994 *)this)->target) != 0) {
@@ -1701,13 +1701,12 @@ void TObjEneRecon::load_resources() {
   TLobby::spawn_npc_enemy((s16)(0xC), (s32)((int) ((RecoveredFields_8031E708_temp_r5 *) temp_r5)->field_8), ((RecoveredFields_8031E708_temp_r5 *) temp_r5)->texlist, &binding, TObjEneRecon__collision_body_template.radius, (f32)(15.0f));
 }
 
-void *__nw__7TObjectFUl(int);
 
 extern void *tl_04;
 
 void *TObjEneRecon::create(void *arg0, void *arg1, void *arg2, void *arg3, void *arg4) {
     void *o;
-    o = __nw__7TObjectFUl(0x4E4);
+    o = TObject::operator new(0x4E4);
     if (o != NULL) {
         o = TObjEneRecon__ct((u8 *)o, (s32)tl_04, (s32)arg0, (s32)arg1, (s32)arg2, (s32)arg3, (s32)arg4);
     }
@@ -1845,7 +1844,7 @@ void TObjEneRecon::init_state() {
 TObjEneRecon::~TObjEneRecon() {
     this->send_entity_set_flags();
     free_collision_body_parts(this);
-    if (*(void **)((s8 *)this + 0x478) != NULL) { queue_destruction__7TObjectFv(*(void **)((s8 *)this + 0x478)); this->m_494 = 0; }
+    if (*(void **)((s8 *)this + 0x478) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0x478)))->queue_destruction(); this->m_494 = 0; }
     __dt__13TUnk_80494938Fv((s8 *)this + 0x480, -1);
 }
 
@@ -1866,7 +1865,7 @@ void run_task__12TObjEneReconFv(TObjEneRecon *ene_recon) {
     }
     entity = (s32)find_entity_by_id((*(u16 *)((s8 *)ene_recon + 0x434)));
     if ((entity == 0) || (all_parents_unqueued_for_destruction__7TObjectFv() == 0)) {
-        queue_destruction__7TObjectFv(ene_recon);
+        ene_recon->queue_destruction();
         return;
     }
     temp_r0 = ene_recon->mode;

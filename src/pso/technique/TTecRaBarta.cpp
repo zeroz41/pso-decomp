@@ -144,7 +144,6 @@ struct RaBarta_802377FC {
 extern "C" {
 u16 get_entity_id(void *);
 
-void *__nw__7TObjectFUl(u32);
 void *get_bml_motion(void *, int);
 void *get_bml_model(void *, int);
 void attach_particle_model(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0);
@@ -383,7 +382,7 @@ void create__11TTecRaBartaFPvPvPvPv(void *arg0, void *arg1, void *arg2, void *ar
 
 void create__11TTecRaBartaFPvPvPvPv(void *source, void *origin, void *pos, void *level) {
     void *o;
-    o = __nw__7TObjectFUl(0x13C);
+    o = TObject::operator new(0x13C);
     if (o != NULL) {
         TTecRaBarta__ct(o, source, origin, pos, level);
     }
@@ -391,7 +390,7 @@ void create__11TTecRaBartaFPvPvPvPv(void *source, void *origin, void *pos, void 
 
 void TTecRaBarta::create(void *arg1, void *arg2) {
     void *o;
-    o = __nw__7TObjectFUl(0x13C);
+    o = TObject::operator new(0x13C);
     if (o != NULL) {
         ((TTecRaBarta *)o)->construct_area(this, arg1, arg2);
     }

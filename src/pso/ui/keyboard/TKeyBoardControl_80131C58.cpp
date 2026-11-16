@@ -19,6 +19,7 @@
 #include "pso/ui/keyboard/TKeyBoardControl_8025CB70.h"
 #include "pso/unk/text_8025FF8C.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/task/TObject.h"
 
 struct Obj_8013206C { s8 f0; u8 pad1[3]; u8 f4; };
 
@@ -89,7 +90,6 @@ TKeyBoardControl::~TKeyBoardControl() {
 
 extern "C" {
 void __ct__7TObjectFP7TObject(void *, void *);
-void *__nw__7TObjectFUl(u32);
 u8 *TWindowKeyBoardBase__ct(u8 *arg0);
 void TKeyBoardControl__sub_802613A4(TKeyBoardControl *arg0);
 extern s32 __vt__16TKeyBoardControl[];
@@ -105,20 +105,20 @@ TKeyBoardControl *TKeyBoardControl__ct(TKeyBoardControl *self, TObject *parent, 
     ((TKeyBoardControl *)self)->m_name = TKeyBoardControl__class_name;
     self->m_1c = 0;
     self->m_1e = client;
-    o = __nw__7TObjectFUl(0xB8);
+    o = TObject::operator new(0xB8);
     if (o != NULL) {
         o = TWindowKeyBoardBase__ct((u8 *)o);
     }
     self->m_20 = (u32)o;
     ((TWindowKeyBoardBase *)self->m_20)->init_keyboard_text_field(arg2, arg3);
     ((TKeyBoardControl *)self->m_20)->set_flag62_bit8();
-    o = __nw__7TObjectFUl(0x74);
+    o = TObject::operator new(0x74);
     if (o != NULL) {
         o = TWindowKeyBoardHard__ct((TWindowKeyBoardHard *)o, self->m_20);
     }
     self->m_24 = (u32)o;
     TKeyBoardControl__sub_8025EC04((u8 *)self->m_24);
-    o = __nw__7TObjectFUl(0x70);
+    o = TObject::operator new(0x70);
     if (o != NULL) {
         o = TWindowKeyBoardSoft__ct((u8 *)o, self->m_20, client);
     }

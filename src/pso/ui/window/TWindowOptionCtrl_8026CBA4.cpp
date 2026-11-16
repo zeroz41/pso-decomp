@@ -5,6 +5,7 @@
 #include "pso/ui/window/TWindowOptionCtrl.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/system/NinjaTypes.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 struct Node_8026CC28 { u8 p0[0xC]; Node_8026CC28 *fC; u8 p10[0x44]; f32 f54; };
 
@@ -24,7 +25,6 @@ struct Node_8026CCA4 {
 };
 struct Grp_8026CCA4 { u8 p0[0x14]; Node_8026CCA4 *head; };
 
-s32 is_split_screen(void);
 extern NJS_POINT2 window_layout_position_table[];
 extern NJS_POINT2 lbl_80477890[];
 extern unsigned char window_layout_rect_table[];

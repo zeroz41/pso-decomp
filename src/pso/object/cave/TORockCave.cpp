@@ -40,6 +40,7 @@
 #include "pso/unk/text_80087278.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/unk/text_803D96A8.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 // The source is written from the last function back: the unit is built
 // -inline off,deferred, which emits it in reverse (the class-name and

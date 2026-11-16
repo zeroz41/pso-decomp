@@ -32,7 +32,6 @@ const Ent_8035C03C boss8_piller_ctrl_params[41] = {
 extern "C" {
 s32 __ct__7TObjectFP7TObject();
 extern s32 __vt__19TObjBoss8PillerCtrl[];
-void *__nw__7TObjectFUl(u32);
 void __ct__15TObjBoss8PillerFv(void *, s32, Vec *, f32, u16);
 extern s32 tl_05;
 void run_task__19TObjBoss8PillerCtrlFv(Self_8035C03C *self);
@@ -65,7 +64,7 @@ void run_task__19TObjBoss8PillerCtrlFv(Self_8035C03C *self) {
                 v.z += -21.65f;
             }
             if (fn_8035BFF8(self, &v) == 0) {
-                p = __nw__7TObjectFUl(0x34);
+                p = TObject::operator new(0x34);
                 if (p != NULL) {
                     __ct__15TObjBoss8PillerFv(p, tl_05, &v, 100.0f, self->f2C);
                 }

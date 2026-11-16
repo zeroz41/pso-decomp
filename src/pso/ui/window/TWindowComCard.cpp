@@ -16,7 +16,6 @@ s32 draw_default_entry__9TWindowDDFl();
 s32 draw_visible_window_entries(void *, void *, int);
 void render__14TWindowComCardFv(s32 arg0);
 s32 TWindowSubComCard__sub_8007B070(s32);
-void *__nw__7TObjectFUl(int);
 extern s32 local_client_id;
 s32 update_com_card_display(s32, s32);
 u8 *TWindowComCard__ct(u8 *arg0, s32 arg1, s32 arg2);
@@ -116,7 +115,7 @@ u8 *TWindowComCard::create_for_card(s32 arg0, s32 arg1, s32 arg2) {
     }
     var_r3 = (u8 *)((void *)0x60);
     var_r31 = arg2 + (arg1 * 0x90);
-    window_dd = (u8 *)(((u8 *)__nw__7TObjectFUl(0x60)));
+    window_dd = (u8 *)(((u8 *)TObject::operator new(0x60)));
     var_r0 = window_dd;
     if (var_r0 != NULL) {
         var_r4 = var_r30;
@@ -134,7 +133,7 @@ void *TWindowComCard::create(void *arg0, void *arg1) {
     if (x0 == NULL) {
         return NULL;
     }
-    o = __nw__7TObjectFUl(0x60);
+    o = TObject::operator new(0x60);
     if (o != NULL) {
         o = TWindowComCard__ct((u8 *)o, (s32)arg0, (s32)x0);
     }
@@ -152,7 +151,7 @@ s32 TWindowSubComCard::create_com_card_window(s32 arg0) {
     if (TWindowSubComCard__sub_8007B070(keyboard_mode) != 0) {
         ((TWindowSubComCard *)keyboard_mode)->clear_and_init((void *)local_client_id);
     }
-    window_dd = ((s32)__nw__7TObjectFUl(0x60));
+    window_dd = ((s32)TObject::operator new(0x60));
     var_r0 = window_dd;
     if (var_r0 != 0) {
         var_r0 = ((s32)TWindowComCard__ct((u8 *)window_dd, (s32)arg0, (s32)keyboard_mode));

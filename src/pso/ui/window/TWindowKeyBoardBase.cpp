@@ -12,6 +12,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/Language.h"
 #include "pso/unk/WindowLayoutRecord.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 
 #pragma push
@@ -1009,7 +1010,6 @@ void TWindowKeyBoardBase::sub_8025E6DC(u8 *arg1) {
 }
 #pragma pop
 
-void *mem_alloc(u32 size);
 u8 * get_window_layout_position(s32);
 }
 void init_keyboard_text_buffer(u8 *arg0, u32 arg1, u32 arg2);
@@ -1022,7 +1022,6 @@ void TQuestVmDownLoadServer__sub_803F0C04(u32 aram_addr, s32 size, u32 owner, u3
 s32 sub_8025CB10__19TWindowKeyBoardBaseFv(void *);
 s32 sub_8025EB68__19TWindowKeyBoardBaseFv();
 u32 *destroy__19TWindowKeyBoardBaseFPvs(u32 *arg0, s16 arg1);
-void mem_free(void *);
 
 void TWindowKeyBoardBase::render() {
     s32 temp_r31;

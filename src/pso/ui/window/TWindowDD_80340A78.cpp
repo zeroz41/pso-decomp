@@ -187,7 +187,6 @@ extern "C" {
 
 void *dt__22TWindowDD_WS_ScrollBarFs(void *arg0, s16 arg1);
 void __dl__7TObjectFPv(void *);
-void *__nw__7TObjectFUl(int);
 
 extern "C" void init__9TWindowDDFv();
 extern "C" void render_shadows__7TObjectFv();
@@ -231,7 +230,7 @@ W_80340F00 *construct_variant_b__9TWindowDDFPv(W_80340F00 *arg0) {
 }
 
 void *TWindowDD__sub_80340F70(void) {
-    void *o = __nw__7TObjectFUl(0x70);
+    void *o = TObject::operator new(0x70);
     if (o != NULL) {
         o = (void *)construct_variant_b__9TWindowDDFPv((W_80340F00 *)o);
     }

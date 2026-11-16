@@ -93,7 +93,6 @@ extern "C" {
 
 void *find_entity_by_id(u16 id);
 
-s32 get_current_floor();
 s32 get_floor__10TObjPlayerFv(void *);
 s32 get_room__8TObjBaseFv(void *);
 void set_type__10TObjPlayerFs(void *, s16);

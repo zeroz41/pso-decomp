@@ -17,6 +17,7 @@
 #include "pso/ui/charcreate/TCharaMaking.h"
 #include "pso/system/BmlResourceLoader.h"
 #include "pso/unk/TLobby.h"
+#include "pso/system/task/TObject.h"
 
 #pragma readonly_strings on
 
@@ -31,7 +32,6 @@ extern CreationMenuEntry TObjCMMainMenu__data_804DB9C8[10];
 extern "C" {
 u8 *TCameraCtrl__ct(u8 *arg0, void *parent);
 s32 init_menu_scene_lights(s32 *, s32);
-void *__nw__7TObjectFUl(s32);
 s32 init_and_create__15TChCrCharSelectFv(s32);
 }
 extern s32 default_scene_light_config[];
@@ -45,7 +45,7 @@ void init_creation_menu_scene(void) {
     init_menu_scene_lights(default_scene_light_config, 4);
     TCameraCtrl::reset_view_state();
     TCameraCtrl::init_default_view();
-    p = __nw__7TObjectFUl(0x1D4);
+    p = TObject::operator new(0x1D4);
     if (p != NULL) {
         TCameraCtrl__ct((u8 *)p, (void *)tl_camera);
     }

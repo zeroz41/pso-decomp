@@ -95,7 +95,6 @@ void *get_window_layout_position(int);
 s32 copy_bank_item_with_stack_limit(s32 idx, void *data, s32 *out, s32 slot);
 s32 sub_802239EC__13TShopSequenceFv(void *);
 s16 get_child_field1c__13TShopSequenceFv(void *);
-void *__nw__7TObjectFUl(u32);
 void *__ct__18TWindowInputNumberFPvllls(void *, void *, int, s32, int, int);
 struct Base_80337980_80337910 { char pad[0x18]; };
 struct VObj_80337980_80337910 : Base_80337980_80337910 {
@@ -218,7 +217,7 @@ s32 TShopDeleteItemWindow::update_item_select(void *arg0) {
     } else if (((TShopWindowBase *)self)->sub_80223A48() != 0) {
         if (copy_bank_item_with_stack_limit(((TWindowMenuIconLine *)self->f30)->get_cursor_value(), &kind, &count, base) != 0) {
             if (kind.kind == 3 && count > 1) {
-                p = __nw__7TObjectFUl(0x7C);
+                p = TObject::operator new(0x7C);
                 if (p != NULL) {
                     id = get_child_field1c__13TShopSequenceFv(self);
                     p = __ct__18TWindowInputNumberFPvllls(p, get_window_layout_position(0x2B), 1, count, 1, id);

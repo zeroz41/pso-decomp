@@ -4,6 +4,7 @@
 #include "pso/unk/text_803E4D8C.h"
 #include <stddef.h>
 #include "pso/player/TObjPlayer.h"
+#include "pso/system/MatrixStack.h"
 
 struct Ctx_803E53BC { s32 f0; s32 f4; s32 f8; s32 fc; s32 f10; s32 f14; s32 f18; s32 f1c; };
 
@@ -35,8 +36,6 @@ struct RecoveredGlobal_lbl_8058DC00 { s32 value; u8 remaining[0x44]; };
 extern RecoveredGlobal_lbl_8058DC00 lbl_8058DC00;
 void compose_motion_node_matrix(void *arg0);
 extern "C" {
-void push_matrix(void);
-s32 pop_matrix(void);
 void update_render_state__10TObjPlayerFv(s32 *, s32 *);
 }
 void find_motion_key_interval(void *, s32, s32 count, f32 t, void *, void *, void *);

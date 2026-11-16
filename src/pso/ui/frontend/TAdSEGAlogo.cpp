@@ -48,7 +48,6 @@ extern void* logo_texture_e_handle;
 extern int TAdSEGAlogo__state;
 extern void *tl_00;
 extern "C" {
-void *__nw__7TObjectFUl(u32 size);
 int queue_destruction__7TObjectFv(void);
 }
 
@@ -69,7 +68,7 @@ void TAdSEGAlogo::run_task() {
         if ((f32)++self->f1c > 60.0f) {
             void *p;
             TAdSEGAlogo__state = 2;
-            p = __nw__7TObjectFUl(0x28);
+            p = TObject::operator new(0x28);
             if (p != 0) {
                 ((THunterGuildSeqOffline *)p)->init(tl_00, (void *)TAdSEGAlogo::destroy_and_mark_done);
             }
@@ -99,7 +98,7 @@ void *__ct__11TAdSEGAlogoFv(void *ad_seg_alogo) {
     TAdSEGAlogo__state = 0;
     sega_logo_done_flag = 0;
     TAdSinglePlyChrSelectGC::init_logo_state(0);
-    o = __nw__7TObjectFUl(0x28);
+    o = TObject::operator new(0x28);
     if (o != NULL) {
         ((TLobby *)o)->init_fade(tl_00, request_destroy__11TAdSEGAlogoFv);
     }

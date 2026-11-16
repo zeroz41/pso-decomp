@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/camera/TCameraCtrl_803D676C.h"
 #include <stddef.h>
@@ -14,6 +15,7 @@
 #include "pso/system/TLoadCtrl_80227390.h"
 #include "pso/ui/frontend/TAdEndText.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/task/TObject.h"
 
 struct MovieState;
 
@@ -28,7 +30,6 @@ void fn_801449F0(void);
 
 s32 is_playback_finished__6TMovieFv(s32);
 u8 *__nw__7TObjectFUl(s32);
-void queue_destruction__7TObjectFv(void *arg0);
 s32 fn_80320358(u32, s32);
 s32 DVDCheckDisk();
 s32 set_queued_main_phase(s32);
@@ -412,7 +413,7 @@ void run_task__6TMovieFv(TMovie *movie) {
     VObj_18_a28850 *txt;
     u8 *p;
     if (movie->m_1c == 0 || movie->m_20 == 0) {
-        queue_destruction__7TObjectFv(movie);
+        movie->queue_destruction();
         return;
     }
     render_tick();
@@ -451,7 +452,7 @@ void run_task__6TMovieFv(TMovie *movie) {
             render_tick();
         }
     }
-    queue_destruction__7TObjectFv(movie);
+    movie->queue_destruction();
 }
 
 TMovie::TMovie(TObject *parent, s8 *name, s32 a3, s32 a4, s32 a5) : TObject(parent) {

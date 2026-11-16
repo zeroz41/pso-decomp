@@ -9,6 +9,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/system/BmlResourceLoader.h"
+#include "pso/system/task/TObject.h"
 
 const char *bm_n_kanteib_i_body_motion_names[1] = { NULL };
 __declspec(section ".data") const char *bm_n_kanteib_i_body_model_names[2] = { "n_kanteib_i_body_1.nj", NULL };
@@ -56,7 +57,6 @@ s32 lbl_805D5748;
 u32 TObjNpcConnoisseur__instance;
 extern u8 TLobby__data_805011D8[];
 void *__ct__11TObjControlFP7TObject(void *, void *);
-void *__nw__7TObjectFUl(int);
 
 void TObjNpcConnoisseur::destroy_instance() {
     if ((u32) TObjNpcConnoisseur__instance != 0U) {
@@ -96,11 +96,11 @@ u8 *TObjNpcConnoisseur__ct(u8 *player, s32 arg1, s32 arg2) {
 void * TObjNpcExpertBase__create(void *arg0) {
     void *o;
     void *o2;
-    o = __nw__7TObjectFUl(0x20);
+    o = TObject::operator new(0x20);
     if (o != NULL) {
         o = __ct__11TObjControlFP7TObject(o, tl_04);
     }
-    o2 = __nw__7TObjectFUl(0x3B8);
+    o2 = TObject::operator new(0x3B8);
     if (o2 != NULL) {
         o2 = TObjNpcExpertBase__ct((u8 *)o2, (s32)o, (s32)arg0);
     }

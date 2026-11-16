@@ -11,6 +11,7 @@
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/math/AngleLookup.h"
 #include <stdlib.h>
+#include "pso/system/task/TObject.h"
 
 #pragma readonly_strings on
 
@@ -33,7 +34,6 @@ void free_bin_model_request(void*, int);
 s32 post_translate_matrix(void *);
 s32 rotate_matrix_y(s32, s32);
 s32 push_matrix();
-void *__nw__7TObjectFUl(int);
 
 void TOLightMachine01::run_task() {
     this->m_a8 = (s32) (this->m_a8 + this->m_a4);
@@ -63,7 +63,7 @@ void TOLightMachine01::render() {
 }
 
 void *TOLightMachine01::create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0xB0);
+    void *o = TObject::operator new(0xB0);
     if (o != NULL) {
         o = TOLightMachine01__ct((TOLightMachine01 *)((u8 *)o), (s32)arg0);
     }

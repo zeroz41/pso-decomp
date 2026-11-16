@@ -14,6 +14,8 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/map/FloorArea.h"
 #include "pso/unk/WindowLayoutRecord.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 #pragma readonly_strings on
 
@@ -57,11 +59,9 @@ WindowDescriptor TWindowSubAreaMapDisp__window_parameters = {
 };
 
 extern "C" {
-void mem_free(void *p);
 extern RecoveredGlobal_80271C6C___vt__21TWindowSubAreaMapDisp __vt__21TWindowSubAreaMapDisp;
 s32 get_message_text(s32 arg0);
 u8 *get_floor_destination_name(s32);
-void *mem_alloc(u32 size);
 s32 measure_string_len__20TWindowSubStatusDispFv(int);
 void text_builder_append(u8 *str);
 }

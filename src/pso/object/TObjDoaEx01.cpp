@@ -17,6 +17,7 @@
 #include "pso/object/door/TODoorAncient01.h"
 #include "pso/map/FloorArea.h"
 #include "pso/system/SoundEffect.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 __declspec(section ".data") const char *fs_obj_ex_doa01_model_names[2] = { "fs_obj_ex_doa01.gj", NULL };
 __declspec(section ".data") const char *fs_obj_ex_doa01_motion_names[2] = { "fs_obj_ex_doa01.njm", NULL };

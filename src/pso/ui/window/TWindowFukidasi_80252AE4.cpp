@@ -4,10 +4,10 @@
 #include "pso/ui/window/TUnk_804CF0B8.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TWindowFukidasi_80252B74.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 extern "C" {
 
-void mem_free(void *p);
 s32 __dl__7TObjectFPv(void *);
 
 extern s32 lbl_804CF0B8[];

@@ -6,6 +6,7 @@
 #include "pso/ui/window/TWindowSubAreaMapDisp.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/task/TObject.h"
 
 #pragma readonly_strings on
 
@@ -38,7 +39,6 @@ s32 play_sound_effect(int, int, int, int);
 extern RecoveredGlobal_80271480_lbl_8050E208 controller_input_state;
 s32 is_flag_set__11TLoadingCurFv(void *, int);
 s32 is_on_current_screen__11TCameraCtrlFv(int, int);
-void *__nw__7TObjectFUl(int);
 
 void TWindowSubAreaMap::render() {  }
 
@@ -61,7 +61,7 @@ TWindowSubAreaMap::TWindowSubAreaMap(TObject *object, void *arg2) : TObject(obje
     this->m_name = TWindowSubAreaMap__name;
     *(void **)((s8 *)this + 0x20) = object;
     *(void **)((s8 *)this + 0x1C) = arg2;
-    o = __nw__7TObjectFUl(0x78);
+    o = TObject::operator new(0x78);
     if (o != NULL) {
         o = TWindowSubAreaMapDisp__ct((TWindowSubAreaMapDisp *)((u8 *)o));
     }

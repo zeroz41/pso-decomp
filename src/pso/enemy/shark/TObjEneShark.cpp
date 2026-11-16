@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/unk/SampledMotionPoints.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/render/RenderFadeState.h"
@@ -19,6 +20,7 @@
 #include "pso/unk/text_803D8F74.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/math/MatrixTransforms.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
 extern "C" void test_flag_1000__9TObjCharaFv();
@@ -179,7 +181,6 @@ void set_matrix_identity(u8 *arg0);
 extern u32 TObjEneShark__attack_motion_3_trail;
 extern u32 shark_attack4_trail_buffer;
 void vfunc_93__12TObjEneSharkFv(Obj_800ABB38 *o);
-void *__nw__7TObjectFUl(int);
 void restore_scene_lighting(void);
 void select_actor_lighting(s32 obj);
 extern s32 saved_model_render_flags;
@@ -554,7 +555,6 @@ s32 dispatch_shared_handler_b__6TLobbyFl(int);
 s32 register_boss__6TLobbyFl(int);
 s32 load_enemy_bml_resource_named(s32 arg0, s32 arg1);
 u8 *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-void *mem_alloc(u32 size);
 extern u8 bm_ene_bm1_shark_a_bml_filename[];
 extern u32 TObjEneShark__resource_node;
 extern u32 TObjEneShark__resource_buf;
@@ -563,7 +563,6 @@ extern u32 shark_resource_buffer;
 void vfunc_99__13TUnk_80493450Fv(void);
 void free_bin_model_request(void*, int);
 void *__ct__11TObjControlFP7TObject(void *, void *);
-void mem_free(void*);
 
 extern void *tl_04;
 
@@ -748,11 +747,11 @@ void *lbl_8049168C[103] = {
 void *TObjEneShark::create(void *arg0) {
     void *o;
     void *o2;
-    o = __nw__7TObjectFUl(0x20);
+    o = TObject::operator new(0x20);
     if (o != NULL) {
         o = __ct__11TObjControlFP7TObject(o, tl_04);
     }
-    o2 = __nw__7TObjectFUl(0x43C);
+    o2 = TObject::operator new(0x43C);
     if (o2 != NULL) {
         o2 = TObjEneShark__ct(o2, o, arg0);
     }
@@ -851,7 +850,7 @@ O_800AC5EC *__dt__12TObjEneSharkFv(O_800AC5EC *arg0, s16 arg1) {
         arg0->vptr = lbl_8049168C;
         for (i = 0; i < 2; i++) {
             if (arg0->objs[i] != NULL) {
-                queue_destruction__7TObjectFv(arg0->objs[i]);
+                ((TObject *)arg0->objs[i])->queue_destruction();
                 arg0->objs[i] = NULL;
             }
         }

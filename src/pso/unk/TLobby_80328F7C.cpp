@@ -5,6 +5,7 @@
 #include "pso/unk/TUnk_804DDD28.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/TUnk_804ED7D0.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 
 struct Base_80328F7C { char pad[0x8]; };
@@ -369,7 +370,6 @@ int TUnk_804ED7D0::vfunc_7(s32, s32) {
 }
 
 s32 apply_player_flag_2__6TLobbyFv();
-void mem_free(void*);
 s32 set_flag_1_at_6c84__6TLobbyFv();
 
 int TUnk_804ED7D0::vfunc_6(s32, s32, s32) { return 1; }
@@ -394,7 +394,6 @@ void TLobby::free_singleton_805D6C80() {
 }
 
 void alloc_work_buffer__6TLobbyFv(void);
-void *mem_alloc(u32 size);
 
 void alloc_work_buffer__6TLobbyFv(void) {
     lbl_805D6C80 = (s32)mem_alloc(0x1C0000);

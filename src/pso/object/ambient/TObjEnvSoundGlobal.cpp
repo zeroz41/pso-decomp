@@ -65,7 +65,6 @@ extern u8 *camera_ctrl_instance;
 void run_task__14TObjEnvSoundExFv(Env_80190624 *o);
 void * TObjEnvSoundEx__create(void *arg0);
 void __dl__7TObjectFPv(void *);
-void *__nw__7TObjectFUl(int);
 int is_not_split_screen__13TRaderMapCoreFv(void *);
 
 
@@ -197,7 +196,7 @@ void * TObjEnvSound__create(void *rader_map_core) {
     if (is_not_split_screen__13TRaderMapCoreFv(rader_map_core) == 1) {
         return NULL;
     }
-    o = __nw__7TObjectFUl(0xA0);
+    o = TObject::operator new(0xA0);
     if (o != NULL) {
         o = TObjEnvSound__ct((Obj_80190AA0 *)o, tl_05, rader_map_core);
     }
@@ -305,7 +304,7 @@ void * TObjEnvSoundEx__create(void *rader_map_core) {
     if (is_not_split_screen__13TRaderMapCoreFv(rader_map_core) == 1) {
         return NULL;
     }
-    o = __nw__7TObjectFUl(0xA8);
+    o = TObject::operator new(0xA8);
     if (o != NULL) {
         o = TObjEnvSoundEx__ct((u8 *)o, (s32)tl_05, (s32)rader_map_core);
     }

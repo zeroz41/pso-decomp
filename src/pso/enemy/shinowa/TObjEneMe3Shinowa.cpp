@@ -53,6 +53,8 @@
 #include "pso/render/NinjaUtil.h"
 #include "pso/enemy/deldepth/DelDepthData.h"
 #include "pso/system/BmlResourceDescriptor.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 
 #pragma defer_codegen on
 extern "C" {
@@ -84,7 +86,6 @@ void TObjEneMe3ShinowaReal__sub_800E5950(TObjEneMe3Shinowa *, s32);
 s32 move_to_shot_position__9TObjEneDDFfff(void *, void *, f32, f32, f32);
 void TObjEneMe3ShinowaMirage__sub_800E5CE4(TObjEneMe3Shinowa *, s32);
 struct Tbl_800E7884 { u8 pad[0xC]; s32 t[3][2]; };
-s32 get_main_phase();
 }
 void calc_wall_clamped_destination(void *arg0, void *arg1, f32 dx, f32 dz, f32 dist);
 void enemy_turn_and_move_on_ground(u8 *arg0, s32 arg1, f32 farg0);
@@ -181,9 +182,7 @@ const DelDepthAnimationBinding shinowa_mirage_spawn_binding = { NULL, shinowa_mi
 const Vec shinowa_shadow_scale = { 2.5f, 1.0f, 1.5f };
 
 s32 free_bin_model_request(void *, s32);
-void mem_free(void *p);
 int create__21TObjEneMe3ShinowaRealFv(void*);
-void *mem_alloc(u32 size);
 extern s32 lbl_8043CE1C[];
 extern s32 lbl_8043CE24[];
 extern s32 lbl_8043CE2C[];

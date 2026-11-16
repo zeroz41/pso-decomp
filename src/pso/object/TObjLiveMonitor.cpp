@@ -18,6 +18,7 @@
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/math/AngleLookup.h"
 #include <stdlib.h>
+#include "pso/system/task/TObject.h"
 
 #pragma defer_codegen on
 
@@ -28,7 +29,6 @@ s32 TObjLiveMonitor__sub_8030C050(void* p);
 s32 draw_ginja_model(void *);
 s32 get_bml_model(s32, s32);
 s32 is_split_screen();
-void *__nw__7TObjectFUl(s32);
 extern s32 __vt__20TObjLiveMonitorSmall[];
 s32 live_monitor_shared_resource;
 s32 live_camera_controller_next_slot;
@@ -53,7 +53,6 @@ const char *TObjLiveMonitorSmall__name = "TObjLiveMonitorSmall";
 /* TObjLiveCameraCtrl: model ids passed to fn_800832EC, indexed by its f4c */
 const s32 lbl_804757E0[2] = { 0xF44E8, 0xF44E9 };
 extern "C" {
-s32 push_matrix();
 s32 draw_ginja_object(int);
 s32 get_bml_texlist(s32, s32);
 s32 __ct__7TObjectFP7TObject();
@@ -151,7 +150,7 @@ TObjLiveCameraCtrl::TObjLiveCameraCtrl(TObject *parent) : TObject(parent) {
         ((Cam_8030BED4 *)this)->f40[1] = 155.0f;
         ((Cam_8030BED4 *)this)->f40[2] = (-7.2e+02f);
     }
-    p = __nw__7TObjectFUl(0x3C);
+    p = TObject::operator new(0x3C);
     if (p != 0) {
         p = fn_800832EC((u8 *)p, (s32)tl_particlemodel, (s32)lbl_804757E0[((Cam_8030BED4 *)this)->f4c], (s32)(((Cam_8030BED4 *)this)->f34), (s32)(((Cam_8030BED4 *)this)->f40), 0.5f);
     }
@@ -372,7 +371,7 @@ void TObjLiveCamera::load_static_resource() {
 void TObjLiveCamera::free_static_resource() { free_bin_model_request((void*)live_monitor_shared_resource, (void*)1); }
 
 void *TObjLiveMonitor::create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0x2C);
+    void *o = TObject::operator new(0x2C);
     if (o != NULL) {
         o = ((void *(*)(void *, void *))__ct__15TObjLiveMonitorFv)(o, arg0);
     }
@@ -485,7 +484,7 @@ s32 TObjLiveMonitorSmall::spawn_for_each_fish() {
     var_r31 = *(void **)((s8 *)(get_bml_model(live_monitor_shared_resource, 0)) + 0x2C);
     while (var_r31 != NULL) {
         if (live_monitor_small_spawned_flag != 0) {
-            obj = __nw__7TObjectFUl(0x2C);
+            obj = TObject::operator new(0x2C);
             if (obj != NULL) {
                 __ct__20TObjLiveMonitorSmallFv((void *)obj, (void *)arg0, (void *)var_r31);
             }

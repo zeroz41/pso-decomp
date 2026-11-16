@@ -10,6 +10,9 @@
 #include "pso/map/FloorArea.h"
 
 #include "types.h"
+#include "pso/system/task/TObject.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 
 
 extern char floor_map_name_acity00[];
@@ -427,8 +430,6 @@ void bswap_object_row_fields(void *arg0) {
 }
 extern "C" {
 
-s32 get_main_phase();
-s32 is_split_screen();
 
 extern s32 game_difficulty_selection;
 
@@ -769,7 +770,6 @@ void create_empty_floor_event(void);
 void show_partner_chatter_for_key(s16 key);
 extern "C" {
 s32 __ct__14TSetEvtDestroyFP7TObjectP21SetDestroyEventRecord(void *, s32, void *);
-void *__nw__7TObjectFUl(s32);
 
 #define wave_event_stream_base (*(int *)&wave_event_stream_base)
 #define wave_event_stream_cursor (*(int *)&wave_event_stream_cursor)
@@ -786,7 +786,7 @@ void TLobby::spawn_destroy_event() {
     if (TLobby::get_destroy_event_obj() != -1) {
         show_partner_chatter_for_key(*(s16 *)((s8 *)this + 8));
     }
-    obj = __nw__7TObjectFUl(0x34);
+    obj = TObject::operator new(0x34);
     if (obj != NULL) {
         __ct__14TSetEvtDestroyFP7TObjectP21SetDestroyEventRecord(obj, tl_01, this);
     }

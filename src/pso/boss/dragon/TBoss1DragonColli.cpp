@@ -10,6 +10,7 @@
 #include "types.h"
 
 #include <stddef.h>
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 struct E_8002B3F4 { u8 pad[0x18]; u32 flags; u8 pad2[0x2c - 0x1c]; };
 
@@ -39,7 +40,6 @@ s32 __ct__7TObjectFP7TObject(void *, void *);
 extern void *__vt__17TBoss1DragonColli[];
 extern s32 TBoss1DragonColli__name;
 u8 *TBoss1DragonColli__ct(u8 *arg0, s32 arg1);
-void *mem_alloc(u32 size);
 u16 register_entity_by_id(void *ov);
 s32 __ct__14TObjCollidableFP7TObject(void *, void *);
 extern CollisionBody TBoss1DragonColli_sphere_chain_desc;

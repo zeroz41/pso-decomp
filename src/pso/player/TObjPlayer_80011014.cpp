@@ -12,6 +12,7 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/object/base/TObjChara.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
 extern "C" void test_flag_1000__9TObjCharaFv();
@@ -336,7 +337,6 @@ s32 vfunc_43__9TObjCharaFv(Player_800172CC *self);
 s32 VecCopy__FP3VecPC3Vec(s32, s32);
 void subtract_vector(void *a, void *b);
 f32 calc_xz_distance_sq(s32 arg0, u32 arg1, void *arg2);
-s32 get_main_phase();
 s32 check_heavy_damage_flag__9TObjCharaFf(void *arg0, f32 farg0);
 void activate_switch_attacks__10TObjPlayerFii(s32 arg0, s32 arg1);
 void attach_mine_trap__10TObjPlayerFiUi(s32 arg0, u32 arg1);

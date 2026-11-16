@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/animation/MotionContext.h"
 
 #include "pso/math/FloatRounding.h"
@@ -49,6 +50,8 @@
 #include "pso/unk/text_803D96A8.h"
 
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 extern "C" void has_flag_0x800__9TObjCharaFv();
 
@@ -572,7 +575,6 @@ extern u8 *lbl_805D4BA4;
 
 void TObjPlayer__sub_8002E7C8(void);
 
-void queue_destruction__7TObjectFv(void *arg0);
 
 s32 create_particle__17TObjBoss2CeilJunkFv(void *, s32);
 
@@ -1163,7 +1165,6 @@ void TBoss2DeRolLe__sub_800344A4(DeRolLe_800344A4 *self, s32 idx, s32 arg2);
 
 s32 VecCopy__FP3VecPC3Vec(int, void *);
 
-f32 fabs_float(f32);
 
 void TBoss2DeRolLe__sub_80033A80(s32 arg0, s32 arg1);
 
@@ -1176,7 +1177,6 @@ void update_particle_ctrls__13TBoss2DeRolLeFPv(Obj_80033AA4 *o);
 
 s32 VecCopy__FP3VecPC3Vec(int, void *);
 
-void queue_destruction__7TObjectFv(void *);
 
 int play_sound(void* p, int a1);
 
@@ -1192,9 +1192,6 @@ void TBoss2DeRolLe__sub_800313F8(DR_800313F8 *o, u32 arg1, s32 arg2);
 
 s32 VecCopy__FP3VecPC3Vec(int, void *);
 
-f32 atan2_float(f32, f32);
-
-void queue_destruction__7TObjectFv(void *);
 
 s32 get_flag_b4__9TObjEneDDFv(void *);
 
@@ -1220,7 +1217,6 @@ void *__ct__13TUnk_80482C58FP7TObjectll(void *, void *, int, int);
 
 u8 *csnVector(void *, void *, int);
 
-void *__nw__7TObjectFUl(u32);
 
 s32 vec3_add_to(int, void *);
 
@@ -1315,7 +1311,6 @@ void TBoss2DeRolLe__sub_80032E38(void *arg0, void *arg1);
 
 s32 VecCopy__FP3VecPC3Vec(int, void *);
 
-f32 fabs_float(f32);
 
 int play_sound(void* p, int a1);
 
@@ -1442,7 +1437,6 @@ s32 VecCopy__FP3VecPC3Vec(int, void *);
 
 int get_player_data__10TObjPlayerFi(int a0);
 
-void queue_destruction__7TObjectFv(void *);
 
 s32 get_flag_b4__9TObjEneDDFv(void *);
 
@@ -1654,7 +1648,6 @@ s32 advance_scalar_motion_profile(void *);
 
 void update_angle__13TBoss2DeRolLeFPv(void *arg0);
 
-f32 fabs_float(f32);
 
 f32 calc_elapsed_scaled__9TObjEneDDFv(void *);
 
@@ -1682,7 +1675,6 @@ u8 update_phase_is_done__13TBoss2DeRolLeFPv(u8 *arg0);
 
 void *__ct__15TBoss2PhotonPadFv(void *, void *, Vec *, Vec *, s32);
 
-void *__nw__7TObjectFUl(u32);
 
 void TBoss2DeRolLe__sub_800344A4(DeRolLe_800344A4 *self, s32 idx, s32 arg2);
 
@@ -1706,7 +1698,6 @@ void TBoss2LaserLight__sub_80037474(void *p);
 
 void TBoss2LaserLight__sub_80037480(void *p);
 
-f32 fabs_float(f32);
 
 }
 
@@ -1920,7 +1911,6 @@ void update_angle__13TBoss2DeRolLeFPv(void *arg0);
 
 s32 VecCopy__FP3VecPC3Vec(s32, s32);
 
-f32 fabs_float(f32);
 
 extern u8 *TBoss2DeRolLe__data_805D4BA0;
 
@@ -2184,13 +2174,10 @@ extern "C" {
 
 void VecCopy__FP3VecPC3Vec(void *, void *);
 
-f32 newton_sqrtf(f32);
 
 void TBoss2DeRolLe__sub_800360A8(void *arg0);
 
 s32 advance_action_sequence__13TBoss2DeRolLeFPv(void *);
-
-void queue_destruction__7TObjectFv(void *arg0);
 
 
 void update_projectile_spawns__13TBoss2DeRolLeFPv(u8 *arg0);
@@ -2211,19 +2198,16 @@ s32 is_main_phase_15__9TObjEneDDFv();
 
 s32 add_radar_scaled_marker(void *, int, int, int, f32);
 
-void *__nw__7TObjectFUl(int);
 
 void run_task__13TBoss2DeRolLeFPv(u8 *arg0);
 
 s32 __dt__7TObjectFv(void *, int);
 
-void queue_destruction__7TObjectFv(void *arg0);
 
 void *__dt__12TObjEneDD_STFv(void *arg0, s16 arg1);
 
 s32 __dt__17AreaAttackHistoryFv(s32 arg0, s16 arg1);
 
-void mem_free(void *p);
 
 s32 free_collision_body_parts(void *);
 
@@ -2237,9 +2221,6 @@ u8 *__dt__13TBoss2DeRolLeFv(u8 *arg0, s16 arg1);
 
 void VecCopy__FP3VecPC3Vec(void *, void *);
 
-f32 fabs_float(f32);
-
-f32 atan2_float(f32, f32);
 
 s32 TObjLight__sub_801337F8(s32);
 
@@ -2369,7 +2350,6 @@ void TObjPlayer__sub_8002EB88(void);
 
 void __dl__FPv(void);
 
-void *__nw__7TObjectFUl(int);
 
 int bswap_16__FPUs(void*);
 
@@ -2504,7 +2484,6 @@ u8 *__ct__17AreaAttackHistoryFl(u8 *arg0, s32 arg1);
 
 Buf_8003563C *mem_alloc(int);
 
-void *__nw__7TObjectFUl(int);
 
 s32 __ct__7TObjectFP7TObject(void *, void *);
 
@@ -3058,7 +3037,7 @@ void load_resources__13TBoss2DeRolLeFv(void) {
 }
 
 void *create__13TBoss2DeRolLeFPv(void *arg0) {
-    void *o = __nw__7TObjectFUl(0x75C);
+    void *o = TObject::operator new(0x75C);
     if (o != NULL) {
         o = TBoss2DeRolLe__ct(o, tl_04, arg0);
     }
@@ -3159,7 +3138,7 @@ void *TBoss2DeRolLe__ct(void *arg0, void *arg1, void *arg2) {
     self->f61C = mem_alloc(0xC0);
     for (i = 0; i < 4; i++) {
         set_matrix_identity(&self->f61C[i]);
-        p = __nw__7TObjectFUl(0x158);
+        p = TObject::operator new(0x158);
         if (p != NULL) {
             p = __ct__14TBoss2TentacleFP7TObjectll(p, self->obj3D8, &self->f61C[i], i);
         }
@@ -3182,7 +3161,7 @@ void *TBoss2DeRolLe__ct(void *arg0, void *arg1, void *arg2) {
         p = new TUnk_80482D04((TObject *)self->obj3D8, a++, b++);
         self->f644[i] = p;
     }
-    p = __nw__7TObjectFUl(0x88);
+    p = TObject::operator new(0x88);
     if (p != NULL) {
         p = __ct__9TBoss2FinFv(p, self->obj3D8, (u8 *)self + 0x404, (u8 *)self + 0x470);
     }
@@ -3198,7 +3177,7 @@ void *TBoss2DeRolLe__ct(void *arg0, void *arg1, void *arg2) {
     self->f6B0 = *(s32 *)((s8 *)TBoss2DeRolLe__data_805D4BA0 + 0x20);
     ((TBoss2DeRolLe *)self)->hpmax = ((TBoss2DeRolLe *)self)->hp = 0x4E20;
     self->f6B4 = 0;
-    p = __nw__7TObjectFUl(0x44);
+    p = TObject::operator new(0x44);
     if (p != NULL) {
         p = TBoss2LaserLight__ct(p, self->obj3D8, &self->f6BC);
     }
@@ -3294,23 +3273,23 @@ u8 *__dt__13TBoss2DeRolLeFv(u8 *arg0, s16 arg1) {
     if (arg0 != NULL) {
         self->vtable = __vt__13TBoss2DeRolLe;
         if (self->x73C != NULL) {
-            queue_destruction__7TObjectFv(self->x73C);
+            ((TObject *)self->x73C)->queue_destruction();
             self->x73C = NULL;
         }
         for (i = 0; i < 6; i++) {
             if (self->a740[i] != NULL) {
-                queue_destruction__7TObjectFv(self->a740[i]);
+                ((TObject *)self->a740[i])->queue_destruction();
                 self->a740[i] = NULL;
             }
         }
         mem_free((void *)self->x618);
         self->x618 = 0;
         if (self->x6CC != NULL) {
-            queue_destruction__7TObjectFv(self->x6CC);
+            ((TObject *)self->x6CC)->queue_destruction();
             self->x6CC = NULL;
         }
         if (self->x6D0 != NULL) {
-            queue_destruction__7TObjectFv(self->x6D0);
+            ((TObject *)self->x6D0)->queue_destruction();
             self->x6D0 = NULL;
         }
         if (self->x6C8 != NULL) {
@@ -3318,27 +3297,27 @@ u8 *__dt__13TBoss2DeRolLeFv(u8 *arg0, s16 arg1) {
             self->x6C8 = NULL;
         }
         if (self->x6B8 != NULL) {
-            queue_destruction__7TObjectFv(self->x6B8);
+            ((TObject *)self->x6B8)->queue_destruction();
             self->x6B8 = NULL;
         }
         if (self->x650 != NULL) {
-            queue_destruction__7TObjectFv(self->x650);
+            ((TObject *)self->x650)->queue_destruction();
             self->x650 = NULL;
         }
         for (i = 2; i >= 0; i--) {
-            queue_destruction__7TObjectFv(self->a644[i]);
+            ((TObject *)self->a644[i])->queue_destruction();
             self->a644[i] = NULL;
         }
         for (i = 4; i >= 0; i--) {
-            queue_destruction__7TObjectFv(self->a630[i]);
+            ((TObject *)self->a630[i])->queue_destruction();
             self->a630[i] = NULL;
         }
         for (i = 9; i >= 0; i--) {
-            queue_destruction__7TObjectFv(self->a5E0[i]);
+            ((TObject *)self->a5E0[i])->queue_destruction();
             self->a5E0[i] = NULL;
         }
         for (i = 3; i >= 0; i--) {
-            queue_destruction__7TObjectFv(self->a620[i]);
+            ((TObject *)self->a620[i])->queue_destruction();
             self->a620[i] = NULL;
         }
         mem_free((void *)self->x61C);
@@ -3373,7 +3352,7 @@ void run_task__13TBoss2DeRolLeFPv(u8 *arg0) {
   if (temp_r3 & 0x8000)
   {
     ((TObjEnemy *)arg0)->send_entity_set_flags();
-    queue_destruction__7TObjectFv(arg0);
+    ((TObject *)arg0)->queue_destruction();
     return;
   }
   if (temp_r3 & 0x80)
@@ -3840,7 +3819,7 @@ void TBoss2DeRolLe__sub_800344A4(DeRolLe_800344A4 *self, s32 idx, s32 arg2) {
     if (self->mode == 2) {
         v.x *= -1.0f;
     }
-    p = __nw__7TObjectFUl(0x38);
+    p = TObject::operator new(0x38);
     if (p != NULL) {
         __ct__15TBoss2PhotonPadFv(p, self->unk3D8, &self->pts[idx], &v, arg2);
     }
@@ -5363,7 +5342,7 @@ void TBoss2DeRolLe__sub_800313F8(DR_800313F8 *o, u32 arg1, s32 arg2) {
     case 5:
         o->f3C0 &= ~4;
         if (o->f73C != 0) {
-            queue_destruction__7TObjectFv(o->f73C);
+            ((TObject *)o->f73C)->queue_destruction();
             o->f73C = 0;
         }
         break;
@@ -5929,7 +5908,7 @@ void TBoss2DeRolLe__sub_8002FE60(void *arg0, u32 arg1) {
                     ((TParticleCtrl *)self->ptcl)->set_position(&a);
                 }
             } else if (self->ptcl != NULL) {
-                queue_destruction__7TObjectFv(self->ptcl);
+                ((TObject *)self->ptcl)->queue_destruction();
                 self->ptcl = NULL;
             }
             calc_offset_position__13TBoss2DeRolLeFPv((u8 *)self);
@@ -6009,7 +5988,7 @@ void TBoss2DeRolLe__sub_8002FE60(void *arg0, u32 arg1) {
                 if (col != NULL) {
                     VCOPY(hit, *(void **) (col + 4));
                     if (self->laser1 == NULL) {
-                        void *o = __nw__7TObjectFUl(0x124);
+                        void *o = TObject::operator new(0x124);
                         if (o != NULL) {
                             o = __ct__13TUnk_80482C58FP7TObjectll(o, self, 6, 0x124);
                         }
@@ -6018,7 +5997,7 @@ void TBoss2DeRolLe__sub_8002FE60(void *arg0, u32 arg1) {
                         push_trail_position__13TBoss2DeRolLeFPvPv(self->laser1, hit);
                     }
                     if (self->laser2 == NULL) {
-                        void *o = __nw__7TObjectFUl(0x124);
+                        void *o = TObject::operator new(0x124);
                         if (o != NULL) {
                             o = __ct__13TUnk_80482C58FP7TObjectll(o, self, 0xF, 0x125);
                         }
@@ -6038,7 +6017,7 @@ void TBoss2DeRolLe__sub_8002FE60(void *arg0, u32 arg1) {
                 self->speed = 500.0f;
                 self->phase = 3;
                 if (self->ptcl != NULL) {
-                    queue_destruction__7TObjectFv(self->ptcl);
+                    ((TObject *)self->ptcl)->queue_destruction();
                     self->ptcl = NULL;
                 }
             }
@@ -6061,15 +6040,15 @@ void TBoss2DeRolLe__sub_8002FE60(void *arg0, u32 arg1) {
         self->count++;
         free_laser__13TBoss2DeRolLeFPv(self);
         if (self->ptcl != NULL) {
-            queue_destruction__7TObjectFv(self->ptcl);
+            ((TObject *)self->ptcl)->queue_destruction();
             self->ptcl = NULL;
         }
         if (self->laser1 != NULL) {
-            queue_destruction__7TObjectFv(self->laser1);
+            ((TObject *)self->laser1)->queue_destruction();
             self->laser1 = NULL;
         }
         if (self->laser2 != NULL) {
-            queue_destruction__7TObjectFv(self->laser2);
+            ((TObject *)self->laser2)->queue_destruction();
             self->laser2 = NULL;
         }
         break;
@@ -6307,7 +6286,7 @@ void TBoss2DeRolLe__sub_8002F73C(Obj_8002F73C *self, u32 kind) {
         }
         break;
     case 0:
-        queue_destruction__7TObjectFv(self);
+        ((TObject *)self)->queue_destruction();
         break;
     case 1:
         return;

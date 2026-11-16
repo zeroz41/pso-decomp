@@ -16,6 +16,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/render_util.h"
 #include <stdlib.h>
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 extern "C" {
 __declspec(section ".rodata") extern const char TObjEneMe1Canadin_EffLine__class_name[] ATTRIBUTE_ALIGN(4) = "TObjEneMe1Canadin_EffLine";
@@ -28,8 +29,6 @@ __declspec(section ".sdata2") extern const CanadinRandomScale canadin_random_sca
 extern const char *TObjEneMe1Canadin_EffLight__name;
 extern const char *TObjEneMe1Canadin_EffDischarge__name;
 extern const char *TObjEneMe1Canadin_EffLine__name;
-void *mem_alloc(u32 size);
-void mem_free(void *ptr);
 void draw_line_list(VoloptLineList *lines, s32 count, u32 flags);
 extern s32 __vt__26TObjEneMe1Canadin_EffLight[];
 extern s32 __vt__30TObjEneMe1Canadin_EffDischarge[];

@@ -9,10 +9,10 @@
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/map/FloorArea.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 extern "C" {
 s32 get_file_size__6TLobbyFv(void *);
-s32 is_split_screen();
 s32 adxf_get_stat(s32);
 s32 read_checked_align__6TLobbyFlll(s32);
 s32 strcmp(void *, void *);

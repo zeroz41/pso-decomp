@@ -11,6 +11,7 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 #pragma readonly_strings on
 
@@ -20,7 +21,6 @@ struct Light_802AD1CC { u8 pad0[0x1C]; f32 x; f32 y; };
 
 extern "C" {
 s32 __cvt_fp2unsigned(f32);
-s32 is_split_screen(void);
 void TCameraCtrl__sub_80068EF0(void);
 s32 is_window_display_enabled(void);
 void begin_screen_draw(s32);
@@ -31,15 +31,12 @@ void draw_textured_quad_at_depth(f32 *q, f32 depth);
 void set_draw_texture_and_color(s32 idx, s32 arg1);
 
 
-void *__nw__7TObjectFUl(int);
-s32 queue_destruction__7TObjectFv();
-
 #pragma fp_contract on
 /* Built with deferred code generation: functions are emitted in reverse source order, and the vtable precedes render's switch table in .data. */
 #pragma defer_codegen on
 void *TWindowEffectLight::create(void *arg0, void *arg1, void *arg2) {
     void *o;
-    o = __nw__7TObjectFUl(0x2C);
+    o = TObject::operator new(0x2C);
     if (o != NULL) {
         o = ((void *(*)(void *, void *, void *, void *))__ct__18TWindowEffectLightFPvsUl)(o, arg0, arg1, arg2);
     }
@@ -66,7 +63,7 @@ void run_task__18TWindowEffectLightFv(void *arg0) {
     temp_r4 = *(s16 *)((s8 *)arg0 + 0x26) + 1;
     *(s16 *)((s8 *)arg0 + 0x26) = temp_r4;
     if ((s16)temp_r4 >= 8) {
-        queue_destruction__7TObjectFv();
+        ((TObject *)arg0)->queue_destruction();
     }
 }
 

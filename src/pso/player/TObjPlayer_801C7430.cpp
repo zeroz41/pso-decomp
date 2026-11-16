@@ -32,6 +32,8 @@
 #include "pso/unk/text_80121180.h"
 #include "pso/map/FloorArea.h"
 #include "pso/unk/TLobby_80207644.h"
+#include "pso/math/AngleLookup.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 
 
 #pragma readonly_strings on
@@ -1111,7 +1113,6 @@ typedef struct Player_801CB1B0 {
 } Player_801CB1B0;
 extern "C" {
 
-s32 get_main_phase();
 s32 TObjPlayer__sub_8000FF4C(void *, s32);
 s32 get_field_2d4__10TObjPlayerFv(void *);
 s32 clear_velocity(void *);
@@ -1576,7 +1577,6 @@ s32 validate_6x37_photon_blast(G_ClientIDHeader *packet);
 s32 validate_6x33_revive_player(G_ClientIDHeader *packet);
 extern "C" {
 void __construct_array(void *, void *, int, int, int);
-f32 sin_table_lookup(s32);
 f32 cos_table_lookup(s32);
 
 extern s32 TOMineTrap__data_805D3080;
@@ -5748,7 +5748,7 @@ s32 update_combat_stats__10TObjPlayerFPv(u8 *arg0) {
         return 0;
     }
     temp_f31 = apply_stat_multipliers_default__10TObjPlayerFv((void *) (arg0 + 0x5E0), (void *) (arg0));
-    temp_f1 = temp_f31 * ((f32 (*)(int))sin_table_lookup)((int) (*(s32 *)((s8 *)arg0 + 0x3F0)));
+    temp_f1 = temp_f31 * sin_table_lookup((int) (*(s32 *)((s8 *)arg0 + 0x3F0)));
     *(f32 *)((s8 *)arg0 + 0x308) = temp_f1;
     *(f32 *)((s8 *)arg0 + 0x30C) = 0.0f;
     *(f32 *)((s8 *)arg0 + 0x310) = (f32) (temp_f31 * ((f32 (*)(int, f32))cos_table_lookup)((int) (*(s32 *)((s8 *)arg0 + 0x3F0)), (f32) (temp_f1)));

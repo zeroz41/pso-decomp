@@ -26,6 +26,7 @@
 #include "pso/system/byteswap.h"
 #include "pso/npc/TObjNpcBringer.h"
 #include "pso/npc/TObjNpcEnemy.h"
+#include "pso/system/MatrixStack.h"
 
 
 // ---- src/pso/npc/TObjNpcARW00.cpp (0x801480F4..0x80148274)
@@ -134,7 +135,6 @@ void vec3_add_to(void *, void *);
 void rotate_vector_by_matrix(int, void *, void *);
 void rotate_matrix_y(int, int);
 s32 push_matrix_from(void *src);
-s32 pop_matrix(void);
 extern u8 identity_matrix[];
 u16 get_entity_id(void *);
 f32 atan2_float(f32 y, f32 x);
@@ -555,7 +555,6 @@ void restore_scene_lighting(void);
 void select_actor_lighting(s32 obj);
 u16 find_nearest_visible_player(void *, s32, f32 *, f32);
 void translate_matrix_vec3(u8 *arg0, u8 *arg1);
-s32 pop_matrix();
 
 void TObjNpcBase::vfunc_28() {
     f32 *temp_r5;

@@ -18,7 +18,6 @@ extern SoraReflectionRayDirection sora_reflection_ray_direction;
 s32 __ct__7TObjectFP7TObject();
 s32 __dl__7TObjectFPv(void *);
 s32 __dt__7TObjectFv(void *, s32);
-void *__nw__7TObjectFUl(s32);
 
 extern s32 lbl_804DC7C4[];
 extern s16 scene_sora_reflect_active;
@@ -63,7 +62,7 @@ void *create_instance__10TSceneSoraFPv(void *arg0) {
     }
     scene_sora_instance = arg0;
     *(s32 *)((s8 *)arg0 + 0x1C) = (s32) scene_sora_recon_object;
-    obj = __nw__7TObjectFUl(0x20);
+    obj = TObject::operator new(0x20);
     if (obj != NULL) {
         obj = construct_indirect_effect_task((u8 *)obj, 0x28, 1, (u8 *)tl_05);
     }

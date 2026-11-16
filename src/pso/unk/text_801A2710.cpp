@@ -12,18 +12,18 @@
 #include "pso/object/warp/TObjAreaWarpForest.h"
 #include "pso/object/warp/TObjMapWarpForest.h"
 #include "pso/object/warp/TObjMapForceWarp.h"
+#include "pso/system/task/TObject.h"
 
 extern "C" {
 void *TODoorFourLightSeabedU__ct(void *, void *, void *);
 void *TODoorFourLightSeabed__ct(void *, void *, void *);
 void *TODoorLaboNormal__ct(void *, void *, void *);
 void *TODoorLabo__ct(void *, void *, void *);
-void *__nw__7TObjectFUl(int);
 
 
 }
 void *TODoorFourLightSeabed__create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0xFC);
+    void *o = TObject::operator new(0xFC);
     if (o != NULL) {
         o = TODoorFourLightSeabed__ct(o, tl_05, arg0);
     }
@@ -31,7 +31,7 @@ void *TODoorFourLightSeabed__create(void *arg0) {
 }
 
 void *TODoorFourLightSeabedU__create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0xFC);
+    void *o = TObject::operator new(0xFC);
     if (o != NULL) {
         o = TODoorFourLightSeabedU__ct(o, tl_05, arg0);
     }
@@ -39,7 +39,7 @@ void *TODoorFourLightSeabedU__create(void *arg0) {
 }
 
 void *TODoorLabo__create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0xFC);
+    void *o = TObject::operator new(0xFC);
     if (o != NULL) {
         o = TODoorLabo__ct(o, tl_05, arg0);
     }
@@ -47,7 +47,7 @@ void *TODoorLabo__create(void *arg0) {
 }
 
 void *TODoorLaboNormal__create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0xFC);
+    void *o = TObject::operator new(0xFC);
     if (o != NULL) {
         o = TODoorLaboNormal__ct(o, tl_05, arg0);
     }

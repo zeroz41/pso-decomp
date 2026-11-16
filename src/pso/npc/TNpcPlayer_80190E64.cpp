@@ -45,7 +45,6 @@ Npc_80190F3C *init_npc_player_char_loader(Npc_80190F3C *arg0, void *arg1, s32 ar
 void free_collision_body_parts(void *);
 void *get_player_by_client_id(s32 i);
 f32 horizontal_distance_squared(void *, void *);
-void *__nw__7TObjectFUl(int);
 int npc_proximity_target_id = -1;
 extern s32 local_client_id;
 extern void *tl_07;
@@ -77,7 +76,7 @@ void TLobby__sub_80191270(void) { npc_proximity_target_id = -1; }
 void TLobby__sub_80191264(void) { npc_proximity_target_id = -1; }
 
 void *TLobby::create_npc(void *arg0) {
-    void *o = __nw__7TObjectFUl(0xB8);
+    void *o = TObject::operator new(0xB8);
     if (o != NULL) {
         o = TLobby__sub_8019118C((u8 *)o, (s32)tl_05, (s32)arg0);
     }
@@ -124,7 +123,7 @@ void TUnk_804B7C1C::run_task() {
         ((TObjCollidable *)arg0)->set_indexed_flags(0, 1);
         if (arg0->fB4 == 0) {
             arg0->fB4 = 1;
-            o = __nw__7TObjectFUl(0x3C);
+            o = TObject::operator new(0x3C);
             if (o != 0) {
                 init_npc_player_char_loader((Npc_80190F3C *)o, arg0->pos, arg0->f60, arg0->fAC, arg0->fB0, arg0->f88, tl_07);
             }

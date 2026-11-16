@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/animation/MotionContext.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/system/task/TObject.h"
@@ -184,7 +185,6 @@ u8 *__ct__16TBoss1DragonDemoFv(u8 *arg0, s32 arg1, s32 arg2, f32 farg0);
 s32 play_sound_effect(s32, s32, s32, s32);
 s32 play_cue_stream_file(void *, int);
 void *spawn_particle_effect_with_rotation(void *pos, void *dir, s32 id, int e);
-s32 queue_destruction__7TObjectFv(void *);
 extern s32 tl_01;
 extern const u8 boss1_dragon_death_cue_filename[];
 
@@ -1079,7 +1079,7 @@ void TBoss1Dragon::update_appearance_state(u32 reason) {
                     }
                 } else {
                     if (this->m_8ac != 0) {
-                        queue_destruction__7TObjectFv(this->m_8ac);
+                        this->m_8ac->queue_destruction();
                         this->m_8ac = 0;
                     }
                     this->m_86c++;
@@ -1145,7 +1145,7 @@ void TBoss1Dragon::update_appearance_state(u32 reason) {
                     }
                 } else {
                     if (this->m_8ac != 0) {
-                        queue_destruction__7TObjectFv(this->m_8ac);
+                        this->m_8ac->queue_destruction();
                         this->m_8ac = 0;
                     }
                     this->m_86c++;
@@ -1208,7 +1208,7 @@ void TBoss1Dragon::update_appearance_state(u32 reason) {
                     }
                 } else {
                     if (this->m_8ac != 0) {
-                        queue_destruction__7TObjectFv(this->m_8ac);
+                        this->m_8ac->queue_destruction();
                         this->m_8ac = 0;
                     }
                     this->m_86c++;
@@ -1223,7 +1223,7 @@ void TBoss1Dragon::update_appearance_state(u32 reason) {
         break;
     case ENEMY_STATE_LEAVE:
         if (this->m_8ac != 0) {
-            queue_destruction__7TObjectFv(this->m_8ac);
+            this->m_8ac->queue_destruction();
             this->m_8ac = 0;
         }
         ((TMainCursor *)this)->update_cursor_pair();
@@ -1860,7 +1860,7 @@ void TBoss1Dragon::update_fade_state(u32 arg1) {
         advance_animation();
         for (i = 0; i < 4; i++) {
             if (this->viewFade[i].decay_value_toward_floor() != 0) {
-                queue_destruction__7TObjectFv(this);
+                queue_destruction();
             }
         }
         break;
@@ -1963,7 +1963,7 @@ void TBoss1Dragon::update_death_state(u32 arg1) {
                     ((TBoss1Dragon *)((u8 *)this))->m_8ac->set_direction(&rot);
                 }
             } else if (((TBoss1Dragon *)((u8 *)this))->m_8ac != 0) {
-                queue_destruction__7TObjectFv(((TBoss1Dragon *)((u8 *)this))->m_8ac);
+                ((TObject *)(((TBoss1Dragon *)((u8 *)this))->m_8ac))->queue_destruction();
                 ((TBoss1Dragon *)((u8 *)this))->m_8ac = 0;
             }
             if (((TObjMotion *)((u8 *)this))->is_passing_frame((f32)(57.0f)) != 0) {
@@ -2027,7 +2027,7 @@ void TBoss1Dragon::update_death_state(u32 arg1) {
         TWindowCtrl::init_all_slots2();
         restore_player_cameras();
         if (((TBoss1Dragon *)((u8 *)this))->m_8ac != 0) {
-            queue_destruction__7TObjectFv(((TBoss1Dragon *)((u8 *)this))->m_8ac);
+            ((TObject *)(((TBoss1Dragon *)((u8 *)this))->m_8ac))->queue_destruction();
             ((TBoss1Dragon *)((u8 *)this))->m_8ac = 0;
         }
         if (((TBoss1Dragon *)((u8 *)this))->m_760 != 0) {
@@ -2722,8 +2722,6 @@ void TBoss1Dragon::update_stretch_state(u32 arg1) {
 
 #define spawn_trap__12TBoss1DragonFii ((void (*)(s32, s32))spawn_trap__12TBoss1DragonFii)
 #define play_se_at_pos__12TBoss1DragonFii ((void (*)(s32, s32))play_se_at_pos__12TBoss1DragonFii)
-#define sin_table_lookup ((f32 (*)(int))sin_table_lookup)
-#define cos_table_lookup ((f32 (*)(int))cos_table_lookup)
 void TBoss1Dragon::update_head_down_attack_state(u32 arg1) {
     u8 *arg0 = (u8 *)this;
     f32 var_f31;
@@ -3198,7 +3196,7 @@ void TBoss1Dragon::update_air_fire_state(u32 arg1) {
             } else if (this->frame <= (40.0f)) {
                 this->m_8ac->set_position(&this->m_40c);
             } else {
-                queue_destruction__7TObjectFv(this->m_8ac);
+                this->m_8ac->queue_destruction();
                 this->m_8ac = 0;
             }
             if (((TObjMotion *)arg0)->is_passing_frame(47.0f) != 0) {
@@ -3251,7 +3249,7 @@ void TBoss1Dragon::update_air_fire_state(u32 arg1) {
         break;
     case ENEMY_STATE_LEAVE:
         if (this->m_8ac != NULL) {
-            queue_destruction__7TObjectFv(this->m_8ac);
+            this->m_8ac->queue_destruction();
             this->m_8ac = 0;
         }
         break;
@@ -3550,15 +3548,15 @@ void TBoss1Dragon::update_breath_attack_state(u32 arg1) {
             if ((s32) this->m_86c >= 0x78) {
                 this->requested_action = 6;
                 if (this->m_8ac != 0) {
-                    queue_destruction__7TObjectFv(this->m_8ac);
+                    this->m_8ac->queue_destruction();
                     this->m_8ac = 0;
                 }
                 if (this->m_8b0 != 0) {
-                    queue_destruction__7TObjectFv(this->m_8b0);
+                    this->m_8b0->queue_destruction();
                     this->m_8b0 = 0;
                 }
                 if (this->m_8b4 != 0) {
-                    queue_destruction__7TObjectFv(this->m_8b4);
+                    this->m_8b4->queue_destruction();
                     this->m_8b4 = 0;
                 }
                 this->stateStep = 2;
@@ -3612,15 +3610,15 @@ void TBoss1Dragon::update_breath_attack_state(u32 arg1) {
         break;
     case ENEMY_STATE_LEAVE:
         if (this->m_8ac != 0) {
-            queue_destruction__7TObjectFv(this->m_8ac);
+            this->m_8ac->queue_destruction();
             this->m_8ac = 0;
         }
         if (this->m_8b0 != 0) {
-            queue_destruction__7TObjectFv(this->m_8b0);
+            this->m_8b0->queue_destruction();
             this->m_8b0 = 0;
         }
         if (this->m_8b4 != 0) {
-            queue_destruction__7TObjectFv(this->m_8b4);
+            this->m_8b4->queue_destruction();
             this->m_8b4 = 0;
         }
         break;
@@ -5160,7 +5158,7 @@ void TBoss1Dragon::run_task() {
     }
     if (((TBoss1Dragon *)arg0)->flags & 0x40) {
         ((TObjEnemy *)arg0)->send_entity_set_flags();
-        queue_destruction__7TObjectFv(arg0);
+        ((TObject *)arg0)->queue_destruction();
         return;
     }
     if ((s32) this->m_760 != 0) {
@@ -5266,7 +5264,7 @@ Obj_80029C78 *destroy__12TBoss1DragonFPvs(Obj_80029C78 *o, s16 flag) {
             o->f774 = 0;
         }
         if (o->f6D8 != 0) {
-            queue_destruction__7TObjectFv(o->f6D8);
+            ((TObject *)o->f6D8)->queue_destruction();
             o->f6D8 = 0;
         }
         if (o->f68C != 0) {

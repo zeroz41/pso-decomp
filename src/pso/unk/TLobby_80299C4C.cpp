@@ -22,10 +22,10 @@
 
 #include "pso/system/TLoadCtrl_80227390.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 
 extern "C" {
-s32 get_main_phase();
-s32 is_split_screen();
 s32 is_quest_active();
 s32 load_floor_sound_bank();
 extern void *tl_05;

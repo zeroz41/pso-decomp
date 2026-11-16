@@ -18,6 +18,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/math/AngleLookup.h"
 
 
 struct C30_8006AD34 { u8 b[0x30]; };
@@ -234,7 +235,6 @@ f32 vector_length(void *);
 void normalize_vector(void *);
 f32 TCameraCtrl__sub_80068A04(void);
 u8 *TCameraCtrl__ct(u8 *arg0, void *parent);
-void * __nw__7TObjectFUl(s32);
 
 
 struct Cam_80068958;
@@ -263,7 +263,6 @@ extern "C" {
 s32 is_on_current_screen__11TCameraCtrlFv(void *, s32);
 extern Big_8006A13C controller_input_state;
 }
-
 
 
 void set_camera_look_at(u8 *eye, u8 *target, u8 *up);
@@ -364,7 +363,6 @@ struct Cam_8006A6C4
   u32 shake_timer;
   f32 shake_amplitude;
 };
-f32 sin_table_lookup(s32);
 }
 
 typedef struct VBase_18_9639c7 VBase_18_9639c7;
@@ -1640,7 +1638,7 @@ s32 TCameraCtrl__sub_80069304(void) {
 }
 
 void TCameraCtrl::create() {
-    void *obj = __nw__7TObjectFUl(0x1D4);
+    void *obj = TObject::operator new(0x1D4);
     if (obj != 0) {
         TCameraCtrl__ct((u8 *)obj, (void *)tl_camera);
     }

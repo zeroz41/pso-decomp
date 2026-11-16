@@ -117,6 +117,7 @@
 #include "pso/object/ambient/TObjGrass.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/text_800C7FEC.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 
 struct RecoveredGlobal_800F7A7C_lbl_8048C9D8 {

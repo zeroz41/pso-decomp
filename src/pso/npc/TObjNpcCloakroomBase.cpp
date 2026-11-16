@@ -8,6 +8,8 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/map/FloorArea.h"
 #include "pso/system/BmlResourceDescriptor.h"
+#include "pso/system/task/TObject.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 #pragma readonly_strings on
 
@@ -28,7 +30,6 @@ extern s32 __vt__20TObjNpcCloakroomBase[];
 s32 play_sound_effect(s32, s32, s32, s32);
 void free_bin_model_request(void*, int);
 void *__ct__11TObjControlFP7TObject(void *, void *);
-void *__nw__7TObjectFUl(int);
 
 void TObjNpcCloakroomBase::play_voice() {
     s32 arg0 = (s32)this;
@@ -44,11 +45,11 @@ extern void *tl_04;
 void *TObjNpcCloakroomBase::create(void *arg0) {
     void *o;
     void *o2;
-    o = __nw__7TObjectFUl(0x20);
+    o = TObject::operator new(0x20);
     if (o != NULL) {
         o = __ct__11TObjControlFP7TObject(o, tl_04);
     }
-    o2 = __nw__7TObjectFUl(0x3B8);
+    o2 = TObject::operator new(0x3B8);
     if (o2 != NULL) {
         o2 = TObjNpcCloakroomBase__ct((u8 *)o2, (s32)o, (s32)arg0);
     }
@@ -96,11 +97,11 @@ f32 TObjNpcCloakroomBase::receive_direct_attack(void *, DirectAttackPayload, voi
 void * TObjNpcConnoisseur__create(void *arg0) {
     void *o;
     void *o2;
-    o = __nw__7TObjectFUl(0x20);
+    o = TObject::operator new(0x20);
     if (o != NULL) {
         o = __ct__11TObjControlFP7TObject(o, tl_04);
     }
-    o2 = __nw__7TObjectFUl(0x3B8);
+    o2 = TObject::operator new(0x3B8);
     if (o2 != NULL) {
         o2 = TObjNpcConnoisseur__ct((u8 *)o2, (s32)o, (s32)arg0);
     }

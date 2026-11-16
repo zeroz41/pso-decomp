@@ -17,6 +17,7 @@
 #include "pso/unk/TLobby_801E2F94.h"
 #include "pso/network/TPlyJoinLobbyEntry.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 #pragma readonly_strings on
 
@@ -298,8 +299,6 @@ struct File_8001DC30
   Pair_8001DC30 pairs[4][0x60];
 };
 void read_disc_file(const char *, void *);
-void mem_free(void *);
-void *mem_alloc(u32 size);
 }
 extern s32 battle_param_lab_variant;
 void load_battle_param_entry(void) {
@@ -555,7 +554,6 @@ void set_difficulty__6TLobbyFi(s32 arg0) {
 extern u32 TLobby__battle_parameter_buffer;
 
 extern s32 game_difficulty_selection;
-void mem_free(void*);
 
 extern s32 enable_v2_features;
 

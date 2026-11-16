@@ -3,6 +3,7 @@
 #include "pso/map/FloorArea.h"
 
 #include "types.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 typedef struct SpawnRecord_8020CC48 {
     s16 type;

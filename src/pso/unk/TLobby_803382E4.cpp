@@ -17,6 +17,7 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/math/AngleLookup.h"
 
 
 struct G_80338534 { u8 p0[0x2C]; u8 a[0x40]; u8 b[0x60]; u8 c[0x40]; };
@@ -39,7 +40,6 @@ void draw_projected_quads__15TObjBoss2TunnelFPvi(void *, s32);
 void draw_projected_textured_strip(void *, s32);
 extern s32 lbl_805D63F0;
 int info_icon_texture;
-f32 cos_table_lookup(s32);
 s32 lobby_pulse_color_phase;
 u32 __cvt_fp2unsigned(f32);
 }

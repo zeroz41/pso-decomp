@@ -3,6 +3,7 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/unk/TUnk_804D1160.h"
 #include "pso/ui/window/TWindowSubEquip.h"
+#include "pso/system/task/TObject.h"
 
 struct Equip_80275CB0 {
     u8 pad0[0x18];
@@ -19,7 +20,6 @@ struct Equip_80275CB0 {
 };
 
 extern "C" {
-void *__nw__7TObjectFUl(u32);
 void __ct__7TObjectFP7TObject(void *, void *);
 void set_depth__11TWindowBaseFf(void *);
 void *create__14TWindowMessageFlPCfUll(void *, void *, s32, s32);
@@ -51,7 +51,7 @@ void *TWindowSubEquip__sub_80275CB0(void *arg0, void *arg1, s32 arg2) {
     self->vt = lbl_804D1160;
     self->parent = arg1;
     self->x20 = arg2;
-    p = __nw__7TObjectFUl(0x70);
+    p = TObject::operator new(0x70);
     if (p != NULL) {
         p = TWindowSubCustomEquip__ct(p, self->x20);
     }

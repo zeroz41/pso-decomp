@@ -7,6 +7,7 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/collision/ActorBodyContact.h"
 #include "pso/math/AngleLookup.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 
 struct Elt_801542CC { char pad[0x18]; s32 f18; char pad2[0x2C - 0x1C]; };
@@ -148,7 +149,6 @@ s32 angle_diff_s16(s32 a, s32 b);
 s32 normalize_vector(void *);
 void* refresh_actor_body_spheres(CollisionBody_80155FBC, CollisionBody_80155FBC);
 extern s32 TObjPlayer__data_8050D460[];
-void *mem_alloc(u32 size);
 void *__construct_new_array(void *, void (*)(void *), void *, s32, s32);
 Part_80156780 *init_collision_body_parts(Obj_80156780 *self, Part_80156780 *src, s32 count);
 void *get_player_by_client_id(u32 id);
@@ -156,7 +156,6 @@ void TLobby__sub_80156BA8(void *p);
 void check_enemy_body_collisions(void *arg0);
 extern unsigned char lbl_8050DAD0[];
 extern int player_unique_pair_entry_count;
-void mem_free(void *p);
 void free_collision_body_parts(G_80156720 *arg0);
 u16 get_entity_id(int);
 void *memcpy(void *, const void *, u32);

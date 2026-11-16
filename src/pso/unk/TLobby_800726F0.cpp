@@ -16,6 +16,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 
 #pragma readonly_strings on
@@ -395,7 +396,6 @@ void *__ct__7TObjectFP7TObject(void *, void *);
 extern s32 __vt__18TObjChallengeRetry[];
 extern const char *TObjChallengeRetry__class_name;
 void *TObjChallengeRetry__ct(void *, void *);
-void *__nw__7TObjectFUl(int);
 void TObjChallengeRetry::run_task() {
     u8 *arg0 = (u8 *)this;
     this->m_20 = ((s32 (*)(void *))is_challenge_lobby__6TLobbyFv)(arg0);
@@ -443,7 +443,7 @@ void *TObjChallengeRetry__ct(void *challenge_retry, void *parent) {
 }
 
 void *fn_800733C4(void *parent) {
-    void *o = __nw__7TObjectFUl(0x34);
+    void *o = TObject::operator new(0x34);
     if (o != NULL) {
         o = TObjChallengeRetry__ct(o, parent);
     }

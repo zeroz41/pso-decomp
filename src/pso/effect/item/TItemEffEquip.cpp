@@ -42,7 +42,6 @@ struct Obj_80108C90 {
 
 extern "C" {
 
-void *__nw__7TObjectFUl(int);
 struct Equip_80108A20 { const char *x0; u8 pad4[0x18 - 4]; void *vt; void *src; s32 x20; void *x24; };
 s32 __ct__7TObjectFP7TObject(void *, void *);
 extern s32 retire_equipment_effect[];
@@ -240,7 +239,7 @@ void *TUnk_8049F038::get_center() {
 
 void TItemEffEquip::create(void *arg0, void *arg1, void *arg2, void *arg3, void *arg4) {
     void *o;
-    o = __nw__7TObjectFUl(0x28);
+    o = TObject::operator new(0x28);
     if (o != NULL) {
         TItemEffEquip__ct(o, arg0, arg1, arg2, arg3, arg4);
     }
@@ -254,7 +253,7 @@ void *TItemEffEquip__ct(void *arg0, void *arg1, void *arg2, void *arg3, void *ar
     self->vt = __vt__13TItemEffEquip;
     self->x0 = TItemEffEquip__class_name;
     ((TObject *)arg0)->disallow_rendering();
-    mem = __nw__7TObjectFUl(0xE0);
+    mem = TObject::operator new(0xE0);
     if (mem != NULL) {
         mem = ((void *(*)(void *, void *, void *, void *))__ct__13TUnk_8049F038FP7TObjectsl)(mem, arg0, arg2, arg3);
     }

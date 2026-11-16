@@ -13,6 +13,7 @@
 #include "pso/map/CsnQuery.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/system/MatrixStack.h"
 
 // Written last-to-first: the TU was compiled with deferred codegen, which emits the
 // functions in reverse definition order.

@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/boss/goldragon/TBoss8DragonEffBullet.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -8,6 +9,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/unk/text_80087278.h"
+#include "pso/system/task/TObject.h"
 
 #pragma readonly_strings on
 
@@ -91,12 +93,12 @@ void TBoss8DragonEffBullet::run_task() {
             spawn_particle_effect_with_flags((void *)&arg0->field_1C, (s32)(*(u8 **)((s8 *)arg0->field_54 + 4)), 0x40);
             temp_r3_3 = arg0->field_50;
             if (temp_r3_3 != NULL) {
-                queue_destruction__7TObjectFv(temp_r3_3);
+                ((TObject *)temp_r3_3)->queue_destruction();
                 arg0->field_50 = NULL;
             }
             temp_r3_4 = arg0->field_4C;
             if (temp_r3_4 != NULL) {
-                queue_destruction__7TObjectFv(temp_r3_4);
+                ((TObject *)temp_r3_4)->queue_destruction();
                 arg0->field_4C = NULL;
             }
             play_sound_effect(0x4003AD0C, &arg0->field_1C, 0, 0);
@@ -111,7 +113,7 @@ void TBoss8DragonEffBullet::run_task() {
     case 2:
         arg0->field_34 += 1;
         if ((s32) arg0->field_34 > 0x64) {
-            queue_destruction__7TObjectFv(arg0);
+            ((TObject *)arg0)->queue_destruction();
         }
         break;
     }
@@ -120,8 +122,8 @@ void TBoss8DragonEffBullet::run_task() {
 
 }
 TBoss8DragonEffBullet::~TBoss8DragonEffBullet() {
-    if (*(void **)((s8 *)this + 0x50) != NULL) { queue_destruction__7TObjectFv(*(void **)((s8 *)this + 0x50)); this->m_50 = 0; }
-    if (*(void **)((s8 *)this + 0x4C) != NULL) { queue_destruction__7TObjectFv(*(void **)((s8 *)this + 0x4C)); this->m_4c = 0; }
+    if (*(void **)((s8 *)this + 0x50) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0x50)))->queue_destruction(); this->m_50 = 0; }
+    if (*(void **)((s8 *)this + 0x4C) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0x4C)))->queue_destruction(); this->m_4c = 0; }
 }
 
 u8 *TBoss8DragonEffBullet__ct(u8 *boss8_dragon_eff_bullet, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s16 arg5) {

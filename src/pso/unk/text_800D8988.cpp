@@ -1,6 +1,7 @@
 #include "types.h"
 #include "pso/system/vector.h"
 #include "pso/map/FloorArea.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 extern "C" {
 s32 play_sound_effect(s32 id, Vec *src, s32 a2, s32 flags);

@@ -53,7 +53,6 @@ struct S_EF94 {
 
 extern "C" {
 void __dl__7TObjectFPv(void *);
-void *__nw__7TObjectFUl(int);
 s32 vec3_add_to(void *, void *);
 f32 vector_length(void *);
 s32 normalize_vector(void *);
@@ -227,7 +226,7 @@ u8 *TObjDFDemo3__ct(u8 *base, s32 parent, s32 arg2, s32 arg3) {
 
 void *TObjDFDemo3::create(void *arg0, void *arg1, void *arg2) {
     void *o;
-    o = __nw__7TObjectFUl(0xC8);
+    o = TObject::operator new(0xC8);
     if (o != NULL) {
         o = ((void *(*)(void *, void *, void *, void *))TObjDFDemo3__ct)(o, arg0, arg1, arg2);
     }

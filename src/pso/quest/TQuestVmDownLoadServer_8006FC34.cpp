@@ -6,6 +6,7 @@
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/object/TObjTombstone.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 struct Info_8006FE7C {
     s8 a;
@@ -55,7 +56,6 @@ extern "C" {
 void *get_player_by_client_id(s32);
 extern Table_8006FE7C challenge_mode_state;
 extern void *tl_07;
-s32 get_current_floor();
 char *get_unit_list__6TLobbyFv(void);
 char *TLobby__sub_80070ACC(u8, u8, s32);
 Unit_8006FC7C *find_entity_by_id(void);

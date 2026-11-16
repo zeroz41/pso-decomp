@@ -9,6 +9,8 @@
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/enemy/gyaranzo/TObjGyaranzoMissile.h"
 #include "pso/system/task/TObject.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/system/MatrixStack.h"
 
  extern const Vec lbl_8043C920 = {0.0f, 0.0f, 0.0f};
 typedef struct Parm_800DC4B4 {
@@ -51,7 +53,6 @@ s32 subtract_vector(void *, void *);
 s32 vec3_add_to(void *, void *);
 u32 csnVector(void *, void *, int);
 void spawn_particle_effect(void *, int);
-s32 is_split_screen();
 extern const f32 lbl_805D5260;
 extern const f32 lbl_805D5268;
 extern s32 lbl_805D5270;
@@ -147,14 +148,12 @@ struct Obj_800DCD04 {
 };
 
 extern "C" {
-f32 atan2_float(f32, f32);
 void *spawn_particle_effect_with_rotation(void *pos, void *dir, s32 id, int e);
 void __ct__14TObjCollidableFP7TObject(void *, void *);
 void matrix_mult_vec(s32, Vec *, Vec *);
 void rotate_matrix_y(s32, s32);
 void rotate_matrix_x(s32, s32);
 s32 push_matrix_from(void *src);
-s32 pop_matrix(void);
 extern s32 lbl_80494E48[];
 extern u8 identity_matrix[];
 extern f32 lbl_805D5264;

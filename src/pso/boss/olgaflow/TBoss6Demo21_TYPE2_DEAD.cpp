@@ -66,7 +66,6 @@ struct Pl_8033E0F0 {
 };
 
 extern "C" {
-void *__nw__7TObjectFUl(int);
 s32 refresh_players_equipment__14TBoss6PlotFalzFPv();
 extern void *__vt__23TBoss6Demo21_TYPE2_DEAD[];
 void push_matrix();
@@ -429,7 +428,7 @@ void *TBoss6Demo21_TYPE2_DEAD__ct(void *arg0p, void *arg1, void *arg2) {
 
 void * create_boss6_type2_death(void *arg0, void *arg1) {
     void *o;
-    o = __nw__7TObjectFUl(0xB4);
+    o = TObject::operator new(0xB4);
     if (o != NULL) {
         o = TBoss6Demo21_TYPE2_DEAD__ct(o, arg0, arg1);
     }

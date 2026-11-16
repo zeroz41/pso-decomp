@@ -14,6 +14,7 @@
 
 #include "pso/object/base/TObjMotion.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/system/task/TObject.h"
 const char *TObjEneDD__name = "TObjEneDD";
 const char *TObjEneDD_ST__name = "TObjEneDD_ST";
 extern "C" {
@@ -505,7 +506,6 @@ struct Base_800BBDD4 { char pad[0x18]; };
 struct VObj_800BBDD4 : Base_800BBDD4 {
     virtual void m0(int);
 };
-void *__nw__7TObjectFUl(int);
 extern int lbl_805D5870;
 }
 
@@ -525,7 +525,7 @@ int TObjEneDD::get_enemy_count() {  return lbl_805D5870; }
 
 void TObjEneDD::create_instance() {
     void *o;
-    o = __nw__7TObjectFUl(0xB0);
+    o = TObject::operator new(0xB0);
     if (o != NULL) {
         o = __ct__13TUnk_804928CCFP7TObjectP8TObjBase((u8 *)o, 0, 0);
     }

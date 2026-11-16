@@ -8,6 +8,7 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/system/task/TObject.h"
 #include "pso/technique/TTecLuker.h"
+#include "pso/system/MatrixStack.h"
 extern "C" void *__dt__13TUnk_804CC148Fv(void *, s16);
 #include "pso/unk/TUnk_804CCA0C.h"
 #include "pso/unk/TUnk_804CC990.h"
@@ -201,7 +202,6 @@ s32 get_current_floor(void);
 void restore_floor_telepipes(void);
 f32 vector_length(void *);
 s32 telepipe_record_differs(Rec_8023402C *r, s16 floor, Vec *p, u16 unused);
-void *__nw__7TObjectFUl(int);
 s32 get_entity_id(void *);
 s32 get_room__8TObjBaseFv(void *);
 extern s32 tl_07;
@@ -661,7 +661,7 @@ void *create_telepipe_visual(void *self, Vec *pos, u32 id, s32 res) {
   v2.y += 15.0f;
   if (is_split_screen() == 0)
   {
-    p = __nw__7TObjectFUl(0x44);
+    p = TObject::operator new(0x44);
     if (p != 0)
     {
       p = create_telepipe_marker((u8 *)p, (s32)&v2, (s8)(0x1F), (s8)(4), (s32)tl_particlemodel, 0, 0, 1.9f, 1.9f);
@@ -687,7 +687,7 @@ void TTecLuker::vfunc_6(void *o_arg) {
 
 void TTecLuker::create(void *arg1, void *arg2, void *arg3) {
     void *o;
-    o = __nw__7TObjectFUl(0x110);
+    o = TObject::operator new(0x110);
     if (o != NULL) {
         TTecLuker__ct(o, this, arg1, arg2, arg3);
     }
@@ -697,7 +697,7 @@ typedef void (*Write_802347B4)(u8 *, s32, s16, u8 *, s32);
 void TTecLuker::setup_telepipe_field() {
     Pipe_802347B4 *s = (Pipe_802347B4 *)this;
     u16 id = get_entity_id(s->player);
-    void *v = __nw__7TObjectFUl(0x44);
+    void *v = TObject::operator new(0x44);
     if (v != 0) {
         v = create_telepipe_visual(v, (Vec *)(&s->pos), id, tl_07);
     }
@@ -706,7 +706,7 @@ void TTecLuker::setup_telepipe_field() {
     if (s->collider != 0) {
         ((TObjBase *)(s->collider))->set_position_from(&s->pos);
     } else {
-        u8 *c = (u8 *)__nw__7TObjectFUl(0xb4);
+        u8 *c = (u8 *)TObject::operator new(0xb4);
         if (c != 0) {
             c = ((TTecLuker *)c)->construct_field_collider((s32)&s->pos, tl_05, 0);
         }

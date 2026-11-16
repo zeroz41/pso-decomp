@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/boss/dragon/TBoss1DragonDemo.h"
 #include "pso/camera/TCameraCtrl_800687BC.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -6,6 +7,7 @@
 #include "pso/camera/CameraPlayback.h"
 
 #include "pso/camera/TCameraCtrl.h"
+#include "pso/system/task/TObject.h"
 
 #pragma readonly_strings on
 
@@ -30,7 +32,7 @@ void TBoss1DragonDemo::run_task() {
     u8 *arg0 = (u8 *)this;
     if ((get_scripted_camera_playback()->flags & 1) || ((s32) **(s32 **)((s8 *)arg0 + 0x24) == 0)) {
         restore_player_cameras();
-        queue_destruction__7TObjectFv((arg0));
+        ((TObject *)arg0)->queue_destruction();
     }
 }
 typedef char RecoveredGlobal_8002B744___vt__16TBoss1DragonDemo_size[sizeof(RecoveredGlobal_8002B744___vt__16TBoss1DragonDemo) == 0x18 ? 1 : -1];

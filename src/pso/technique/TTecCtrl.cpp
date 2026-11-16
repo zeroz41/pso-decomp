@@ -26,6 +26,7 @@
 #include "pso/technique/TTecReverser.h"
 #include "pso/technique/TTecSifta.h"
 #include "pso/technique/TTecZondeEff.h"
+#include "pso/system/MatrixStack.h"
 
 TechniqueParams lbl_80515F90;
 // Per player: the technique boosts of the equipped weapon and shield.

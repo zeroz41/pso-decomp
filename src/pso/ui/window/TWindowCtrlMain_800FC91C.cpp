@@ -57,7 +57,6 @@ extern char lbl_805DA9F4[4];
 extern char lbl_805DA9F8[4];
 extern "C" {
 
-void *__nw__7TObjectFUl(int);
 s32 get_status_index_or_default__20TWindowSubStatusDispFPUs(void *, s32);
 
     extern int TWindowCtrlMain__instance;
@@ -124,7 +123,7 @@ s32 TWindowSubStatusDisp::build_status_text(s32 arg0) {
 }
 
 void *TFontSmallLobby::create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0x64);
+    void *o = TObject::operator new(0x64);
     if (o != NULL) {
         o = fn_800FCC78((u8 *)o, (s32)arg0);
     }

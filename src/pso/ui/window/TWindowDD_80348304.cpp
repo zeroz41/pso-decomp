@@ -8,6 +8,7 @@
 
 #include "types.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 
 struct W_80348520 {

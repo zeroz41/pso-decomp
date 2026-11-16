@@ -4,6 +4,7 @@
 #include "pso/system/debug_print.h"
 #include <stdio.h>
 #include "pso/map/FloorArea.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 extern PsoCommandHandler pso_command_dispatch_table[];
 extern u8 subcommand_area_masks[];

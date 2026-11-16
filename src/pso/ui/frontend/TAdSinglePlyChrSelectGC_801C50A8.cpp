@@ -6,6 +6,7 @@
 #include "pso/map/FloorArea.h"
 #include "pso/unk/TUnk_804C3F48.h"
 #include "pso/system/task/TObject.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 extern "C" {
 extern int active_character_save_record;
@@ -71,7 +72,6 @@ struct RecoveredGlobal_lbl_804C3F48 { s32 value; u8 remaining[0x14]; };
 extern RecoveredGlobal_lbl_804C3F48 lbl_804C3F48;
 u8 * __dt__7TObjectFv(void *, s16);
 void __dl__7TObjectFPv(s32);
-f32 newton_sqrtf(f32);
 f32 xz_distance_squared(void *, void *);
 void *get_player_by_client_id(s32 i);
 void update_technique_slot__10TTecRaFoieFl(void *, s32, s32);

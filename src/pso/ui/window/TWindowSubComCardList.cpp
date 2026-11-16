@@ -21,6 +21,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/ui/Language.h"
+#include "pso/system/task/TObject.h"
 
 #pragma readonly_strings on
 
@@ -77,7 +78,6 @@ extern s32 local_client_id;
 u8 *TWindowSubComCardList__ct(u8 *arg0, void *arg1);
 s32 count_leading_active__17TWindowSubComCardFPvi(s32, s32);
 u8 *TWindowSubComCardList__sub_802757AC(u8 *arg0, void *arg1, s32 arg2, s32 arg3, s8 arg4);
-void *__nw__7TObjectFUl(u32);
 s32 set_depth__11TWindowBaseFf(void *);
 Ev_802758C8 *calc_equip_index__21TWindowSubCustomEquipFv(void *);
 void *__dt__21TWindowSubComCardListFv(void *arg0, s16 arg1);
@@ -271,7 +271,7 @@ void TUnk_804D1160::run_task() {
         }
         break;
     case 3:
-        p = __nw__7TObjectFUl(0x84);
+        p = TObject::operator new(0x84);
         if (p != NULL) {
             p = TWindowSubCustomSelect__ct((TWindowSubCustomSelect *)((u8 *)p), this->m_20);
         }

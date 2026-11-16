@@ -280,13 +280,12 @@ u8 *TObjEneReconBomb__ct(TObjEneReconBomb *ene_recon_bomb, s32 arg1, s32 arg2, s
 
 const char *TObjEneReconBomb__name = "TObjEneReconBomb";
 
-void *__nw__7TObjectFUl(int);
 
 void TObjEneRecon__sub_8031BC38(void) {  }
 
 void *TObjEneRecon::create_bomb(void *arg0, void *arg1, void *arg2) {
     void *o;
-    o = __nw__7TObjectFUl(0x364);
+    o = TObject::operator new(0x364);
     if (o != NULL) {
         o = TObjEneReconBomb__ct((TObjEneReconBomb *)((u8 *)o), (s32)arg0, (s32)arg1, (s32)arg2);
     }

@@ -8,6 +8,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/task/TObject.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 
 #pragma readonly_strings on
@@ -17,7 +18,6 @@ struct Light_80191F90 { u8 pad0[0x38]; f32 pos[3]; u8 pad44[0x18]; f32 rot[3]; u
 struct Ply_80191F90 { u8 pad0[0x38]; f32 pos[3]; };
 
 extern "C" {
-s32 get_current_floor();
 s32 is_item_light_interaction_blocked();
 f32 xz_distance_squared(void *, void *);
 Ply_80191F90 *get_player_by_client_id(s32);

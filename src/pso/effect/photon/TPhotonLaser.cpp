@@ -9,6 +9,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/MatrixStack.h"
 
 #pragma readonly_strings on
 

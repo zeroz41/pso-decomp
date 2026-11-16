@@ -3,6 +3,7 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/task/TObject.h"
 #include "pso/unk/TUnk_804C3248.h"
+#include "pso/system/MatrixStack.h"
 
 const char *TPhotonFarlla__class_name = "TPhotonFarlla";
 
@@ -55,7 +56,6 @@ extern "C" {
 s32 scroll_strip_uvs(void *, s16, int);
 s32 clear_render_context__10TObjPlayerFv(void *);
 s32 rotate_matrix_y(int, int);
-s32 push_matrix();
 extern NJS_ARGB saved_model_draw_color;
 extern NJS_ARGB model_material_color;
 extern s32 saved_model_render_flags;

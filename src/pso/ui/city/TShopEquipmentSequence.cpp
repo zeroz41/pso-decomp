@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/city/TShopWindowBase.h"
 #include "pso/ui/city/TShopEquipmentSellWindow.h"
@@ -15,6 +16,7 @@
 #include "pso/ui/city/TShopEquipmentSequence.h"
 #include "pso/ui/city/TCheckRoomSequence.h"
 #include "pso/ui/window/TWindowSubComCard.h"
+#include "pso/system/task/TObject.h"
 
 #pragma readonly_strings on
 
@@ -150,7 +152,7 @@ s32 TShopEquipmentSequence::close_if_done() {
     if ((this->vfunc_10() != 0) && ((sub_80223A48() != 0) || (sub_802239EC__13TShopSequenceFv(this) != 0))) {
         close_if_single_screen__13TShopSequenceFv(this);
         close_window__13TShopSequenceFv(this);
-        queue_destruction__7TObjectFv(this);
+        queue_destruction();
     }
 }
 typedef struct Stack_8021D948 Stack_8021D948;
@@ -263,7 +265,7 @@ u8 *__dt__22TShopEquipmentSequenceFv(TShopEquipmentSequence *shop_equipment_sequ
     if (shop_equipment_sequence != NULL) {
         *(s32 **)((s8 *)shop_equipment_sequence + 0x18) = &__vt__22TShopEquipmentSequence.value;
         if ((u32) *(u32 *)((s8 *)shop_equipment_sequence + 0x34) != 0U) {
-            queue_destruction__7TObjectFv(*(void **)((s8 *)shop_equipment_sequence + 0x34));
+            ((TObject *)(*(void **)((s8 *)shop_equipment_sequence + 0x34)))->queue_destruction();
             *(u32 *)((s8 *)shop_equipment_sequence + 0x34) = 0U;
         }
         ((TShopSequence *)shop_equipment_sequence)->close_message_window();

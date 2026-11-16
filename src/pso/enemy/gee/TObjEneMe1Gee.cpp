@@ -46,7 +46,6 @@
 extern "C" {
 void queue_destruction__7TObjectFv(void *arg0);
 
-void * __nw__7TObjectFUl(u32);
 
 BmlResource * TObjEneMe1Gee__resource_bundle;
 u8 * lbl_805D51B4;
@@ -1243,7 +1242,7 @@ void TObjEneMe1Gee::sub_800CA454(s32 arg1) {
                     matrix_mult_vec(0, &in, &out);
                     pop_matrix();
                     out.y += this->m_3e8;
-                    p = __nw__7TObjectFUl(0xC4);
+                    p = TObject::operator new(0xC4);
                     if (p != NULL) {
                         TObjEneMe1Gee_NEEDLE__ct((TObjEneMe1Gee_NEEDLE *)p, this, &out, dir, this->m_3fc, this->m_42c->m_4);
                     }

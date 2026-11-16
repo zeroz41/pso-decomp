@@ -271,7 +271,6 @@ u8 * TObjDFRecBall__ct(u8 *arg0, u8 *arg1, u8 *arg2, u8 *arg3);
 void * create__13TObjDFRecBallFPvPvPv(void *arg0, void *arg1, void *arg2);
 s32 TBoss4Type3__sub_8005254C(s16);
 void __dl__7TObjectFPv(void *);
-void *__nw__7TObjectFUl(int);
 void __ct__7TObjectFP7TObject(void *, void *);
 
 extern void *__vt__11TObjDFJisin[];
@@ -416,7 +415,7 @@ u8 *TObjDFHorming__ct(u8 *arg0, s32 parent, s32 arg2, u16 arg3) {
 
 void *TBoss4Type3::create_horming(void *arg0, void *arg1, void *arg2) {
     void *o;
-    o = __nw__7TObjectFUl(0x380);
+    o = TObject::operator new(0x380);
     if (o != NULL) {
         o = ((void * (*)(void *, void *, void *, void *))TObjDFHorming__ct)(o, arg0, arg1, arg2);
     }
@@ -502,7 +501,7 @@ u8 *TObjDFJisin__ct(u8 *object, u8 *arg1, s32 arg2) {
 
 void *TBoss4Type2::create_jisin(void *arg0, void *arg1) {
     void *o;
-    o = __nw__7TObjectFUl(0x2C);
+    o = TObject::operator new(0x2C);
     if (o != NULL) {
         o = ((void * (*)(void *, void *, void *))TObjDFJisin__ct)(o, arg0, arg1);
     }
@@ -531,7 +530,7 @@ void *TObjDFBeamCursor__ct(void *arg0, void *arg1, void *arg2) {
 
 void * create__16TObjDFBeamCursorFPvPv(void *arg0, void *arg1) {
     void *o;
-    o = __nw__7TObjectFUl(0x2C);
+    o = TObject::operator new(0x2C);
     if (o != NULL) {
         o = TObjDFBeamCursor__ct(o, arg0, arg1);
     }
@@ -606,7 +605,7 @@ u8 *TObjDFRecBall__ct(u8 *object, u8 *arg1, u8 *arg2, u8 *arg3) {
 
 void * create__13TObjDFRecBallFPvPvPv(void *arg0, void *arg1, void *arg2) {
     void *o;
-    o = __nw__7TObjectFUl(0x4C);
+    o = TObject::operator new(0x4C);
     if (o != NULL) {
         o = TObjDFRecBall__ct((u8 *)o, (u8 *)arg0, (u8 *)arg1, (u8 *)arg2);
     }
@@ -961,7 +960,7 @@ u8 *TObjDFTenchuFuru__ct(u8 *object, u8 *arg1, u8 *arg2) {
 
 void *TObjDFTenchuFuru::create(void *arg1) {
     void *o;
-    o = __nw__7TObjectFUl(0x30);
+    o = TObject::operator new(0x30);
     if (o != NULL) {
         o = TObjDFTenchuFuru__ct((u8 *)o, (u8 *)this, (u8 *)arg1);
     }

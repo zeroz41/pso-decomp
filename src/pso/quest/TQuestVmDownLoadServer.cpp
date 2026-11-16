@@ -50,7 +50,6 @@ s32 get_message_text(s32 arg0);
 s32 get_localized_text_entry(s32 arg0, s32 arg1);
 void return_to_main_menu__6TLobbyFv(void);
 s32 __ct__22TQuestVmDownLoadServerFP7TObject(void *, s32);
-void *__nw__7TObjectFUl(s32);
 }
 extern s32 tl_00;
 
@@ -1245,7 +1244,7 @@ void TQuestVmDownLoadServer::create() {
     void *quest_vm_down_load_server;
 
     if ((u32) TQuestVmDownLoadServer__instance == 0U) {
-        quest_vm_down_load_server = __nw__7TObjectFUl(0x2A8);
+        quest_vm_down_load_server = TObject::operator new(0x2A8);
         if (quest_vm_down_load_server != 0) {
             __ct__22TQuestVmDownLoadServerFP7TObject(quest_vm_down_load_server, tl_00);
         }

@@ -205,7 +205,6 @@ s32 get_entity_id(s32);
 s32 get_shop_weapon_stock_item(void *, int, s32);
 int TShopEquipmentListWindow__sub_8021C85C(int a0);
 s32 get_shop_text(s32);
-void *__nw__7TObjectFUl(u32);
 void *__ct__15TWindowHelpItemFPvUs(void *, s32, u16);
 s32 get_window_layout_position(s32);
 void *create_item_list_window(s32, s32, u16);
@@ -509,7 +508,7 @@ void TShopEquipmentListWindow::create_buy_list_windows(void *p) {
         ((TShopArmorListWindow *)(W->list))->clamp_selection_to_valid_entry();
     }
     if (W->help == NULL) {
-        o = __nw__7TObjectFUl(0xBC);
+        o = TObject::operator new(0xBC);
         if (o != NULL) {
             id = get_entity_id(W->player);
             o = __ct__15TWindowHelpItemFPvUs(o, get_window_layout_position(0x27), id);

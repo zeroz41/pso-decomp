@@ -10,6 +10,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/unk/TLobby.h"
 #include "pso/system/task/TObject.h"
+#include "pso/math/AngleLookup.h"
 
 
 extern "C" {
@@ -25,9 +26,6 @@ void apply_phase_keyboard_mode(void);
 void run_load_callback_table(void *, s32);
 void init_menu_scene_lights(void *, s32);
 void set_copy_clear_color_argb(s32, s32, s32);
-void *__nw__7TObjectFUl(u32);
-f32 sin_table_lookup(s32);
-f32 cos_table_lookup(s32);
 void fn_8023F160(void) {
     TLobby::call_funcs_reverse(&lobby_scene_release_callback_table.value, 0x38);
 }
@@ -89,7 +87,7 @@ void init_game_mode_select_scene(void) {
     c = cos_table_lookup(0x1555);
     TObjLight__scene_light_state.x = c * sin_table_lookup(0x9000);
     TObjLight__scene_light_state.z = c * cos_table_lookup(0x9000);
-    p = __nw__7TObjectFUl(0x1d4);
+    p = TObject::operator new(0x1d4);
     if (p != NULL) {
         TCameraCtrl__ct(p, tl_camera);
     }

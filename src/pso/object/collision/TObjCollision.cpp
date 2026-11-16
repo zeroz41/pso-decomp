@@ -5,6 +5,7 @@
 
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/system/task/TObject.h"
 
 #pragma readonly_strings on
 extern "C" void *__ct__14TObjCollidableFP7TObject(void *, s32);
@@ -15,7 +16,6 @@ extern s32 __vt__13TObjCollision[];
 const char *lbl_805D2830 = "TObjCollision";
 u8 *TObjCollision__ct(u8 *arg0, s32 arg1, s32 arg2);
 void free_collision_body_parts(void *);
-void *__nw__7TObjectFUl(int);
 
 void TObjCollision::render() {  }
 void TObjCollision::run_task() {  }
@@ -23,7 +23,7 @@ void TObjCollision::run_task() {  }
 extern void *tl_06;
 
 void *TObjCollision::create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0xD8);
+    void *o = TObject::operator new(0xD8);
     if (o != NULL) {
         o = TObjCollision__ct((u8 *)o, (s32)tl_06, (s32)arg0);
     }

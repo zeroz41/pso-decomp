@@ -7,6 +7,8 @@
 #include "types.h"
 #include "dolphin/mtx.h"
 #include "pso/system/task/TObject.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/math/AngleLookup.h"
 
 const char *TItemEffBringer__class_name = "TItemEffBringer";
 
@@ -25,9 +27,7 @@ struct Bringer_8010834C {
 };
 
 extern "C" {
-f32 atan2_float(f32 y, f32 x);
 void *__ct__10TItemShootFPvPC3VecPC3Vecf(void *, u32, s32, s32, f32);
-f32 sin_table_lookup(s32);
 void subtract_vector(Vec*, Vec*);
 void transform_point_by_current_matrix(void *, void *);
 void push_matrix(void);
@@ -54,7 +54,6 @@ TItemEffBringer::~TItemEffBringer() {
 
 extern "C" {
 
-void *__nw__7TObjectFUl(s32);
 
 #pragma push
 #pragma fp_contract on
@@ -95,7 +94,7 @@ void *__ct__15TItemEffBringerFv(Bringer_8010834C *self, u32 arg1, Vec *src, s32 
 
 void *TItemEffBringer::create(u32 arg0, s32 src, s32 arg2, f32 farg0) {
     if ((0.0f != farg0) && (arg0 != 0U)) {
-        void *obj = __nw__7TObjectFUl(0x90);
+        void *obj = TObject::operator new(0x90);
         if (obj != NULL) {
             obj = __ct__15TItemEffBringerFv((Bringer_8010834C *)(obj), arg0, (Vec *)(src), arg2, farg0);
         }

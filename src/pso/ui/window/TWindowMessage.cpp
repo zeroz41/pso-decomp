@@ -15,6 +15,8 @@
 
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/system/NinjaTypes.h"
+#include "pso/system/task/TObject.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 const char *lbl_805D3980 = "TWindowMessage";
 
 struct RecoveredFields_802698C4_arg0 {
@@ -335,7 +337,6 @@ WindowDescriptor message_window_settings = {
 extern "C" {
 s32 TLobby__sub_80269DA4(NJS_POINT2 size, void *arg1);
 u8 *TWindowMessage__ct(u8 *arg0, s32 arg1, u32 arg2, s32 arg3);
-u8 *__nw__7TObjectFUl(s32);
 
 int TWindowMessage::append_line(int a1, int a2) { return append_message_window_line((TWindowMessage *)this, a1, a2, -1); }
 
@@ -355,7 +356,7 @@ u8 *TWindowMessage::create(s32 arg0, const f32 *size, u32 arg2, s32 arg3) {
     u8 *temp_r3;
     u8 *var_r0;
     ((s32 (*)(void *, void *))TLobby__sub_80269DA4)((void *)size, (void *)arg2);
-    temp_r3 = (u8 *)(__nw__7TObjectFUl(0x90));
+    temp_r3 = (u8 *)(TObject::operator new(0x90));
     var_r0 = temp_r3;
     if (var_r0 != NULL) {
         var_r0 = (u8 *)(TWindowMessage__ct(temp_r3, arg0, arg2, arg3));
@@ -381,11 +382,9 @@ s32 TLobby__sub_80269DA4(NJS_POINT2 size, void *arg1) {
 
 s32 get_draw_context__11TWindowBaseFPv();
 s32 draw_visible_window_entries(void *, void *, int);
-void *mem_alloc(u32 size);
 void *construct_with_parent__15TWindowAdditionFPv(void *, void *, s16, s32);
 extern s32 __vt__14TWindowMessage[];
 
-void mem_free(void *);
 
 void TWindowMessage::render() {
     s32 temp_r3;

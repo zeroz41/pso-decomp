@@ -8,6 +8,7 @@
 #include "pso/ui/window/TWindowShortListCtrl.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/city/TShopArmorListWindow.h"
+#include "pso/system/task/TObject.h"
 
 
 struct Obj_8027E558 { const char *f0; u8 pad[0x14]; void *vt; u8 pad2[0x88 - 0x1C]; void *list; };
@@ -18,7 +19,6 @@ static const f32 lbl_8044FAA8[2] = {405.0f, 188.0f};
 
 extern "C" {
 void TShopJudgmentItemWindow__sub_80267F9C(void *, int);
-void *__nw__7TObjectFUl(int);
 void fn_802683F4(void *, void *, s32, s16);
 void *init__21TWindowSubComCardListFiii(void *, s8, s32, s32);
 extern s32 __vt__22TWindowSubShortCutList[];
@@ -80,7 +80,7 @@ void TWindowSubShortCutList::refresh_entries() {
 void *TWindowSubShortCutList::create(void *arg1) {
     void *p;
     TShopJudgmentItemWindow__sub_80267F9C((void *)lbl_8044FAA8, 4);
-    p = __nw__7TObjectFUl(0x8C);
+    p = TObject::operator new(0x8C);
     if (p != 0) {
         p = TWindowSubShortCutList__ct(p, this, arg1);
     }

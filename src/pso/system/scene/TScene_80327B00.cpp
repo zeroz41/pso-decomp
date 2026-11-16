@@ -2,6 +2,7 @@
 #include "pso/unk/text_80327844.h"
 #include "pso/system/memory.h"
 #include "pso/system/scene/TScene.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 struct Pt_80327B40 { s16 x, y; };
 
@@ -13,9 +14,7 @@ struct Scene_80327B40 { u8 pad0[4]; s32 count; Entry_80327B40 *entries; };
 
 extern "C" {
 void DCFlushRangeNoSync(void *, u32);
-void *mem_alloc(u32 size);
 s32 visit_model_tree_recursive();
-void mem_free(void *p);
 
 void TScene::offset_position(s32 arg1, s32 arg2) {
     *(s16 *)&this->m_up = (s16) (*(s16 *)&this->m_up + arg1);

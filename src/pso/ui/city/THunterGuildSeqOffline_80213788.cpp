@@ -24,7 +24,6 @@
 #include "pso/system/task/TObject.h"
 
 
-
 #define CAT2(a,b) a##b
 #define CAT(a,b) CAT2(a,b)
 #define PADV virtual void CAT(f,__LINE__)();
@@ -295,7 +294,6 @@ void reset_random_enemies_mode(void) { TLobby::clear_counter(); evt2_random_enem
 }
 
 
-
 struct Base_80213E64_80213E38 { char pad[0x18]; };
 struct VObj_80213E64_80213E38 : Base_80213E64_80213E38 {
     virtual void m0();
@@ -324,7 +322,6 @@ void THunterGuildSeqOffline__sub_80213E64(void) {
 }
 
 
-
 struct VBase_18 { char pad[0x18]; };
 struct VObj_18 : VBase_18 {
     virtual void m0();
@@ -338,7 +335,6 @@ struct VObj_18 : VBase_18 {
     virtual s32 m8();
 };
 extern "C" {
-
 
 
 void THunterGuildSeqOffline__sub_80213EBC(void) {
@@ -359,12 +355,7 @@ void THunterGuildSeqOffline::reset_quest_list_vm() {
 }
 
 
-
-
-
 extern "C" {
-
-
 
 
 void THunterGuildSeqOffline__sub_80213F78(void) {
@@ -376,7 +367,6 @@ void THunterGuildSeqOffline__sub_80213F78(void) {
 }
 
 }
-
 
 
 struct Base_80213FD0 { char pad[0x18]; };
@@ -395,7 +385,6 @@ struct VObj_80213FD0 : Base_80213FD0 {
 extern "C" {
 
 
-
 void TShopWindowBase::confirm_and_close_if_valid() {
     VObj_80213FD0 *o = (VObj_80213FD0 *)this;
     if (o->m8() != 0 && (sub_80223A48() != 0 || sub_802239EC__13TShopSequenceFv(this) != 0)) {
@@ -405,7 +394,6 @@ void TShopWindowBase::confirm_and_close_if_valid() {
 }
 
 }
-
 
 
 struct VBase_18_80214058 { char pad[0x18]; };
@@ -429,13 +417,12 @@ struct Seq_80214058 : VObj_80214058 {
 struct List_80214058 { u8 pad[0x28]; void *f28; void *f2c; void *f30; void *f34; };
 
 extern "C" {
-void *__nw__7TObjectFUl(u32);
 
 void fn_80214058(Seq_80214058 *arg0);
 void fn_80214058(Seq_80214058 *arg0) {
     List_80214058 *l;
     void *e;
-    l = (List_80214058 *)__nw__7TObjectFUl(0x70);
+    l = (List_80214058 *)TObject::operator new(0x70);
     if (l != 0) {
         l = (List_80214058 *)TQuestListOnline__ct((TQuestListOnline *)l, (void *)((void *)tl_05), (void *)arg0, (void *)((void *)arg0->f24));
     }
@@ -450,9 +437,6 @@ void fn_80214058(Seq_80214058 *arg0) {
 }
 
 }
-
-
-
 
 
 struct Base_80214104 { char pad[0x18]; };
@@ -474,7 +458,6 @@ void *get_entity_id(void *);
 int is_quest_active(void);
 void close_window__13TShopSequenceFv(void *);
 s32 sub_802239EC__13TShopSequenceFv(void *);
-void *__nw__7TObjectFUl(u32);
 extern s32 TLobby__protocol_instance;
 
 void TLobby::handle_random_enemies_choice() {
@@ -494,14 +477,14 @@ void TLobby::handle_random_enemies_choice() {
         ((TObject *)((Seq_80214104 *)this))->queue_destruction();
         break;
     case 1:
-        mem = __nw__7TObjectFUl(0x28);
+        mem = TObject::operator new(0x28);
         if (mem != NULL) ((THunterGuildSeqOffline *)mem)->init((void *)tl_00, (void *)reset_random_enemies_mode);
         THunterGuildSeqOffline__sub_8021E180((s32)(get_entity_id(((Seq_80214104 *)this)->player)));
         close_window__13TShopSequenceFv(((Seq_80214104 *)this));
         ((TObject *)((Seq_80214104 *)this))->queue_destruction();
         break;
     case 2:
-        mem = __nw__7TObjectFUl(0x28);
+        mem = TObject::operator new(0x28);
         if (mem != NULL) ((THunterGuildSeqOffline *)mem)->init((void *)tl_00, (void *)set_random_enemies_mode);
         THunterGuildSeqOffline__sub_8021E180((s32)(get_entity_id(((Seq_80214104 *)this)->player)));
         close_window__13TShopSequenceFv(((Seq_80214104 *)this));
@@ -511,12 +494,6 @@ void TLobby::handle_random_enemies_choice() {
 }
 
 }
-
-
-
-
-
-
 
 
 extern "C" {
@@ -560,7 +537,6 @@ void fn_80214254(u8 *shop_window_base) {
 }
 
 
-
 struct Base_802143AC { char pad[0x18]; };
 struct VObj_802143AC : Base_802143AC {
     virtual void m0();
@@ -573,8 +549,6 @@ struct VObj_802143AC : Base_802143AC {
     virtual void m7(s32, s32);
     virtual s32 m8r();
 };
-
-
 
 
 struct Stack_8021488C {
@@ -722,7 +696,7 @@ void THunterGuildSeqOffline::init_window() {
     stack.spC = 80.0f;
     ((TShopSequence *)((u8 *)this))->create_message_window((s32)((int) (get_window_layout_position(0x2C))), (s32)&stack.sp8);
     if (is_quest_active() == 0) {
-        temp_r3 = (u32)__nw__7TObjectFUl(0x80);
+        temp_r3 = (u32)TObject::operator new(0x80);
         if (temp_r3 != 0U) {
             __ct__12TMemberCheckFP7TObject(temp_r3, ((u8 *)this));
         }
@@ -739,9 +713,6 @@ void restore_shop_and_init_quest_state(void *shop_window_base) {
 }
 
 }
-
-
-
 
 
 struct Seq_80214B3C {

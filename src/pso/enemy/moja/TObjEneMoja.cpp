@@ -319,7 +319,6 @@ extern s32 game_difficulty_selection;
 extern s32 tl_07;
 
 void *__ct__11TObjControlFP7TObject(void *, void *);
-void *__nw__7TObjectFUl(int);
 }
 extern void *tl_04;
 
@@ -543,7 +542,7 @@ void TObjEneMoja::free_resources() {
 
 void *TObjEneMoja::create(void *arg0) {
     void *o;
-    o = __nw__7TObjectFUl(0x20);
+    o = TObject::operator new(0x20);
     if (o != NULL) {
         o = __ct__11TObjControlFP7TObject(o, tl_04);
     }
@@ -1400,7 +1399,7 @@ s32 TObjEneMoja::update_technique_state(void *self_800AD3D8) {
                         ((s32 (*)(int, void *, void *))rotate_vector_by_matrix)(0, &dir, &dir);
                         ((s32 (*)())pop_matrix)();
                     }
-                    obj = __nw__7TObjectFUl(0x260);
+                    obj = TObject::operator new(0x260);
                     if (obj != NULL) {
                         ((TTecZonde *)obj)->construct_bolt_effect((u8 *)tl_07, (u8 *)&pos, (u8 *)&dir, 0x14000000, 20, (f32)(((AttackParams *)(self->f318))->get_attack_range()), 1.8f);
                     }

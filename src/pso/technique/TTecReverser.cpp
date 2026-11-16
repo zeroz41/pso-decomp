@@ -66,7 +66,6 @@ Obj_80239E44 *construct_revival_particle_effect(Obj_80239E44 *self, Player_80239
 void debug_printf_at(s32 id, const char *fmt, ...);
 s32 get_type__10TObjPlayerFPv(void *p);
 void *spawn_particle_effect(const void *pos, s32 id);
-void *__nw__7TObjectFUl(int);
 
 }
 
@@ -164,7 +163,7 @@ TTecReverser::~TTecReverser() {
 
 void TTecReverser::create(void *arg0, void *arg1, void *arg2, void *arg3) {
     void *o;
-    o = __nw__7TObjectFUl(0x148);
+    o = TObject::operator new(0x148);
     if (o != NULL) {
         TTecReverser__ct((u8 *)o, (s32)arg0, (s32)arg1, (s32)arg2, (s32)arg3);
     }

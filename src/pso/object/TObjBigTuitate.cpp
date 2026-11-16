@@ -90,7 +90,6 @@ extern s32 __vt__14TObjBigTuitate[];
 void free_bin_model_request(void*, int);
 void free_collision_body_parts(void *);
 void __dl__7TObjectFPv(void *);
-void *__nw__7TObjectFUl(int);
 
 
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
@@ -150,7 +149,7 @@ void free_tuitate_bml_resource(void) {
 }
 
 void *TObjTuitate__create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0xCC);
+    void *o = TObject::operator new(0xCC);
     if (o != NULL) {
         o = TObjTuitate__ct(o, tl_05, arg0);
     }
@@ -245,7 +244,7 @@ void TObjBigTuitate::free_instance() {
 }
 
 void *TObjBigTuitate__create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0xCC);
+    void *o = TObject::operator new(0xCC);
     if (o != NULL) {
         o = TObjBigTuitate__ct(o, tl_05, arg0);
     }

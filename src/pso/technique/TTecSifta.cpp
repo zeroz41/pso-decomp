@@ -81,7 +81,6 @@ void run_task__9TTecSiftaFv(Sifta_8023AF94 *self);
 void copy_technique_target_list(void *, void *);
 void *TTecSifta__ct(void *arg0_, void *arg1, void *arg2, void *arg3, void *arg4);
 s32 calc_technique_parameters(s32, s16, s32);
-void *__nw__7TObjectFUl(int);
 int spawn_support_tec_range_effect(void*);
 
 int TTecSifta__sub_8023AC88(void* p) { return spawn_support_tec_range_effect(p); }
@@ -121,7 +120,7 @@ void TTecSifta::update_effect_params() {
 
 void TTecSifta::create_instance(void *pos, void *arg2, void *level) {
     void *o;
-    o = __nw__7TObjectFUl(0x140);
+    o = TObject::operator new(0x140);
     if (o != NULL) {
         TTecSifta__ct(o, this, pos, arg2, level);
     }
@@ -129,7 +128,7 @@ void TTecSifta::create_instance(void *pos, void *arg2, void *level) {
 
 void TTecSifta::create(void *owner, void *pos, void *level) {
     void *o;
-    o = __nw__7TObjectFUl(0x140);
+    o = TObject::operator new(0x140);
     if (o != NULL) {
         TTecSifta__sub_8023B17C((TTecSifta *)((u8 *)o), (s32)owner, (s32)pos, (s32)level);
     }

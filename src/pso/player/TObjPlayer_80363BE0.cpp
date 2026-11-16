@@ -16,6 +16,7 @@
 #include "pso/item/TItemLoad.h"
 #include "pso/item/EquippedItemDrawQueue.h"
 #include "pso/render/model_render_state.h"
+#include "pso/system/task/TObject.h"
 
 #pragma defer_codegen on
 
@@ -26,7 +27,6 @@ extern s32 __vt__13TUnk_804F2A10[];
 u8 * lbl_805D6FB8;
 EquippedItemDrawQueue *player_item_id_list;
 int __ct__7TObjectFP7TObject(void);
-void *__nw__7TObjectFUl(int);
 extern u8 *lbl_805D6FB8;
 void* init_vtable_804F2A10__13TUnk_804F2A10Fv(void* a0);
 }
@@ -160,7 +160,7 @@ void TObjPlayer::warn_if_gauge_low() {
 #define init_vtable_804F2A10__13TUnk_804F2A10Fv ((void * (*)(void *, void *))init_vtable_804F2A10__13TUnk_804F2A10Fv)
 void TObjPlayer::spawn_cleanup_helper(void *arg0) {
     void *o;
-    o = __nw__7TObjectFUl(0x1C);
+    o = TObject::operator new(0x1C);
     if (o != NULL) {
         init_vtable_804F2A10__13TUnk_804F2A10Fv(o, arg0);
     }
@@ -242,7 +242,7 @@ void TObjPlayer::free_static_buffer() {
 #define TObjPlayer__sub_80363C5C ((void * (*)(void *, void *))TObjPlayer__sub_80363C5C)
 void TObjPlayer::create_cleanup_object(void *arg0) {
     void *o;
-    o = __nw__7TObjectFUl(0x1C);
+    o = TObject::operator new(0x1C);
     if (o != NULL) {
         TObjPlayer__sub_80363C5C(o, arg0);
     }

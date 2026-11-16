@@ -9,7 +9,6 @@
 #include "pso/system/task/TObject.h"
 
 extern "C" {
-s32 queue_destruction__7TObjectFv();
 s32 push_matrix();
 f32 post_translate_matrix(void *);
 struct ThreePartModelTranslateOffset { s32 value; u8 remaining[0x8]; };
@@ -57,7 +56,7 @@ void TObjDFDemoF::run_task() {
     count = this->m_90 + 1;
     this->m_90 = count;
     if (count >= 120) {
-        queue_destruction__7TObjectFv();
+        queue_destruction();
     }
 }
 #pragma pop

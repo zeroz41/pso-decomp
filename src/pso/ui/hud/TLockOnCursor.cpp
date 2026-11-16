@@ -35,6 +35,7 @@
 #include "pso/ui/hud/TMainCursor_8013F104.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/task/TObject.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 struct Obj_8013E240 { s32 a; u16 b; u16 c; f32 d; f32 e; };
 struct Rec_8013EB6C { u8 pad[0x124]; };
@@ -89,7 +90,6 @@ s32 __nw__7TObjectFUl(s32);
 extern s32 tl_loc_start;
 extern s32 tl_loc_end;
 extern s32 tl_window;
-s32 is_split_screen();
 s32 get_split_screen_view_index__11TCameraCtrlFUs(void *);
 s32 get_mode__11TCameraCtrlFPv(void *);
 Ent_8013D91C *TObjPlayer__sub_80116620(s32, s32);

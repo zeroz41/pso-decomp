@@ -60,7 +60,6 @@ struct VObj_80322438 : Base_80322438 {
 };
 
 extern "C" {
-u8 *__nw__7TObjectFUl(s32);
 s32 __ct__7TObjectFP7TObject(void *, void *);
 f32 vector_length(void *);
 extern s32 __vt__13TBoss6Kakusan[];
@@ -279,7 +278,7 @@ u8 *TBoss6Kakusan__ct(u8 *boss6_kakusan, TObject *parent, Vec *pos, Vec *dir, u1
 u8 *TBoss6Type1::create_kakusan(TObject *parent, Vec *pos, Vec *dir, u16 target_client, f32 speed) {
     u8 *boss6_kakusan;
     u8 *var_r0;
-    boss6_kakusan = (u8 *)(__nw__7TObjectFUl(0x58));
+    boss6_kakusan = (u8 *)(TObject::operator new(0x58));
     var_r0 = boss6_kakusan;
     if (var_r0 != NULL) {
         var_r0 = (u8 *)(TBoss6Kakusan__ct(boss6_kakusan, parent, pos, dir, target_client, speed));

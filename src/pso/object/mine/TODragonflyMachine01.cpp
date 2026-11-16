@@ -19,6 +19,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/SoundEffect.h"
 #include <stdlib.h>
+#include "pso/player/TObjPlayer_80011014.h"
 
 // The motion setup TObjEneMe3Stelth::spawn_attack registers the model with.
 struct DragonflyMotionSetup {

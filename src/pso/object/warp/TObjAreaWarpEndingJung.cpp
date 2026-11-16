@@ -60,6 +60,7 @@
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/system/byteswap.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 
 // The original TU was built with deferred codegen: functions below are in reverse
 // address order, and the pool (three {3, 2} initializers, then the float literals
@@ -269,7 +270,6 @@ typedef char RecoveredGlobal_8019CA24_lbl_80515BA0_size[sizeof(RecoveredGlobal_8
 struct VObj_8019D250;
 extern "C" {
 
-s32 get_main_phase();
 void mark_area_change_pending();
 void request_main_phase(s32 arg0);
 u16 get_entity_id(void *);

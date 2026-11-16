@@ -9,6 +9,8 @@
 #include "pso/ui/chat/TWindowSubSymbolChat.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/system/task/TObject.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 struct VBase_80178AD4 { u8 pad[0x18]; };
 
@@ -71,14 +73,11 @@ void fn_8017866C(void *, s32, u16);
 void run_task__17TOSymbolchatColliFv(Obj_80178890 *self);
 u32 prs_decompress_buffer(s32 arg0, s32 arg1);
 s32 set_stream_and_load_file__6TLobbyFi(const char *);
-void *mem_alloc(u32 size);
 u32 symbolchat_colli_param_table[4];
 int symbol_chat_colli_entries;
 void *memset(void *, int, u32);
 u8 is_current_floor_switch_set(s32 id);
 s32 free_collision_body_parts(void *);
-void *__nw__7TObjectFUl(int);
-void mem_free(void *p);
 
 s32 TOSymbolchatColli::get_state() {
     if (is_current_floor_switch_set(this->m_37c) == 1) {
@@ -174,7 +173,7 @@ void run_task__17TOSymbolchatColliFv(Obj_80178890 *self) {
 }
 
 void *TOSymbolchatColli::create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0x384);
+    void *o = TObject::operator new(0x384);
     if (o != NULL) {
         o = __ct__17TOSymbolchatColliFP7TObjectl((Obj_80178AD4 *)(o), (void *)tl_05, (s32)arg0);
     }

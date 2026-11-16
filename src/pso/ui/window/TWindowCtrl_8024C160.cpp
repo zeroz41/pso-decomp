@@ -9,6 +9,7 @@
 #include "pso/object/TObjLuker.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/map/FloorArea.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 struct TWindowCtrl_8024C160 {
     u8 pad0[0x18];
@@ -55,8 +56,6 @@ void __dl__7TObjectFPv(void *);
 extern u8 __vt__11TWindowCtrl[];
 extern void *TWindowCtrl__active_window;
 TWindowCtrl_8024C160 *__dt__11TWindowCtrlFv(TWindowCtrl_8024C160 *self, s16 flag);
-s32 is_split_screen();
-void *__nw__7TObjectFUl(u32);
 void __ct__7TObjectFP7TObject(void *);
 void *TWindowBreakIn__ct(void *);
 void *__ct__11TWindowChatFP7TObjectPv(void *, s32, void *);
@@ -157,13 +156,13 @@ TWindowCtrl_8024C308 *TWindowCtrl__ct(TWindowCtrl_8024C308 *self) {
     for (i = 0; i < 4; i++) {
         self->wins84[i] = NULL;
     }
-    p = __nw__7TObjectFUl(0x60);
+    p = TObject::operator new(0x60);
     if (p != NULL) {
         p = TWindowBreakIn__ct(p);
     }
     self->f2C = p;
     if (is_split_screen() == 0) {
-        p = __nw__7TObjectFUl(0x3C);
+        p = TObject::operator new(0x3C);
         if (p != NULL) {
             p = __ct__11TWindowChatFP7TObjectPv(p, tl_00, self->f94);
         }
@@ -172,7 +171,7 @@ TWindowCtrl_8024C308 *TWindowCtrl__ct(TWindowCtrl_8024C308 *self) {
     }
     if (is_split_screen() != 0) {
         for (i = 0; i < 4; i++) {
-            p = __nw__7TObjectFUl(0x40);
+            p = TObject::operator new(0x40);
             if (p != NULL) {
                 p = __ct__17TWindowCtrlPlayerFP7TObjectl(p, self, i);
             }
@@ -180,7 +179,7 @@ TWindowCtrl_8024C308 *TWindowCtrl__ct(TWindowCtrl_8024C308 *self) {
             ((TObject *)(self->objs[i]))->suspend_update();
         }
     } else {
-        p = __nw__7TObjectFUl(0x40);
+        p = TObject::operator new(0x40);
         if (p != NULL) {
             p = __ct__17TWindowCtrlPlayerFP7TObjectl(p, self, local_client_id);
         }

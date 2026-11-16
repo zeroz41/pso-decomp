@@ -19,6 +19,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_8023E480.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 const char *TODummyKeyCave01__class_name = "TODummyKeyCave01";
 const char *TODummyKeyCave01Sound__class_name = "TODummyKeyCave01Sound";
@@ -79,7 +80,6 @@ extern u8 chunk_material_color_half_alpha_f32[];
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 u8 is_current_floor_switch_set(s32 id);
-void *__nw__7TObjectFUl(int);
 extern void *tl_05;
 }
 
@@ -109,7 +109,7 @@ extern "C" {
 void TODummyKeyCave01__sub_80165E8C(void) {  }
 void TODummyKeyCave01__sub_80165E88(void) {  }
 void *TODummyKeyCave01::create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0xD4);
+    void *o = TObject::operator new(0xD4);
     if (o != NULL) {
         o = TODummyKeyCave01__ct((u8 *)o, (s32)tl_05, (s32)arg0);
     }
@@ -133,7 +133,7 @@ void TODummyKeyCave01::run_task() {
                 skip = 1;
             }
             if (skip == 0) {
-                o = __nw__7TObjectFUl(0x24);
+                o = TObject::operator new(0x24);
                 if (o != NULL) {
                     TODummyKeyCave01Sound__ct((void *)o, (s32)self, (s32)*(s32 *)&this->m_c0, (s32)*(s32 *)&this->m_c8);
                 }

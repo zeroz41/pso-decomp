@@ -171,7 +171,6 @@ void __ct__7TObjectFP7TObject(void *, void *);
 
 extern void *__vt__15TBoss2PhotonPad[];
 s32 get_instance__13TBoss2DeRolLeFv(void);
-void *__nw__7TObjectFUl(u32);
 S_80039288 *__ct__15TBoss2PhotonPadFv(S_80039288 *o, void *parent, s32 arg2, void *arg3, s32 arg4);
 void render_shadows__7TObjectFv(void);
 
@@ -185,7 +184,7 @@ void TBoss2PhotonPad::run_task() {
     if (self->timer <= 0) {
         inst = (void *)get_instance__13TBoss2DeRolLeFv();
         if (inst != NULL) {
-            p = __nw__7TObjectFUl(0xE8);
+            p = TObject::operator new(0xE8);
             if (p != NULL) {
                 ((void *(*)(void *, void *, void *, s32, void *, f32))TBoss2PhotonBullet__ct)(p, self->parent, inst, self->unk1C, self->pos, (1.5f) * TBoss2PhotonPad__bullet_level_param_table[self->level].d);
             }

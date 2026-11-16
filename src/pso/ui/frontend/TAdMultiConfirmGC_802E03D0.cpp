@@ -16,6 +16,7 @@
 #include "pso/ui/frontend/TAdMultiConfirmGC.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
 #include "pso/ui/charcreate/TCharaMaking.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 
 struct Obj_802E0CB0 {
@@ -76,7 +77,6 @@ struct RecoveredGlobal_802E0B60_lbl_804E2F68 {
 
 extern "C" {
 void *__dt__10TObjMotionFv(void *arg0, s16 arg1);
-void mem_free(void *p);
 s32 __dl__7TObjectFPv(void *);
 extern RecoveredGlobal_802E0B60_lbl_804E2F68 multi_chr_select_player_slot_table;
 struct MultiChrSelectPlayerActorOps { s32 value; u8 remaining[0x34]; };

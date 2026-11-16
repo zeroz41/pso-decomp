@@ -6,6 +6,7 @@
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/enemy/lappy/TObjEneLappy.h"
 #include "pso/ui/window/TWindowLockOn.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 struct Stack_800F5D80 {
     s32 sp8;
     u8 pad_C[0x2];
@@ -14,7 +15,6 @@ struct Stack_800F5D80 {
 
 extern "C" {
 s32 exchange_object_state__9TObjEnemyFls(void *, void *, int);
-void *mem_alloc(u32 size);
 s32 collect_model_strips_by_texture(void *, s32, s32, s32);
 s32 count_model_strips_by_texture();
 

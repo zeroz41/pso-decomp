@@ -41,7 +41,6 @@ static const NJS_POINT2 lbl_804770C4 = {470.0f, 60.0f};
 
 extern "C" {
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
-void *__nw__7TObjectFUl(u32);
 void __ct__7TObjectFP7TObject(void *, void *);
 void __ct__9TAdBackGCFv(void *, void *);
 void __ct__12TAdBackTxtGCFv(void *, void *);
@@ -148,15 +147,15 @@ Obj_80329AA8 *TAdAgreementBaseGC__ct(Obj_80329AA8 *arg0, void *arg1) {
     arg0->f34 = 0;
     arg0->f2C = 0;
     arg0->cur = 0;
-    p = __nw__7TObjectFUl(0x24);
+    p = TObject::operator new(0x24);
     if (p != 0) {
         __ct__9TAdBackGCFv(p, arg0);
     }
-    p = __nw__7TObjectFUl(0x28);
+    p = TObject::operator new(0x28);
     if (p != 0) {
         __ct__12TAdBackTxtGCFv(p, arg0);
     }
-    p = __nw__7TObjectFUl(0x708);
+    p = TObject::operator new(0x708);
     if (p != 0) {
         p = __ct__14TAdSelectCurGCFv(p, tl_clipout, (void *)agreement_item_rect_table, (void *)&lbl_804770A0);
     }

@@ -21,6 +21,7 @@
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/unk/text_803D8F74.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 #pragma defer_codegen on
 #pragma inline_depth(1)

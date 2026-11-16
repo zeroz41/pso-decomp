@@ -6,6 +6,7 @@
 #include "pso/technique/TTecGiZonde.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
+#include "pso/math/AngleLookup.h"
 
 struct Stack_8023A510 {
     s32 sp8;
@@ -187,8 +188,6 @@ s32 normalize_vector(void *);
 extern const f64 lbl_8044DC00;
 extern s32 __vt__13TUnk_804CCC68[];
 
-f32 sin_table_lookup(s32);
-f32 cos_table_lookup(s32);
 u8 *construct_facing_technique__10TObjPlayerFPviPvii(u8 *arg0, s32 arg1, u8 *arg2, s32 arg3, s32 arg4);
 void free_collision_body_parts(void *);
 void __dl__7TObjectFPv(void *);

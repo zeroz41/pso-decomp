@@ -727,7 +727,6 @@ void *TObjEneRecobox__create(void *arg0);
 
 void free_bin_model_request(void*, int);
 
-void *__nw__7TObjectFUl(int);
 
 // inferred: field names follow MojaAnimationBinding (TObjEneMoja.h), the same 0x10 animation binding layout.
 struct Spawn_80320260 { s32 motions; void **actions; u32 unknown_08; u16 action_count; u16 unknown_0E; };
@@ -791,7 +790,7 @@ void TObjEneRecobox::load_resources() {
 u8 *TObjEneRecobox__ct(u8 *ene_recobox, s32 arg1, u8 *arg2);
 
 void *TObjEneRecobox__create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0x4F4);
+    void *o = TObject::operator new(0x4F4);
     if (o != NULL) {
         o = TObjEneRecobox__ct((u8 *)o, (s32)tl_04, (u8 *)arg0);
     }

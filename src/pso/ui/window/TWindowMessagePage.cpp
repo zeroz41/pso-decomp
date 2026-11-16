@@ -5,6 +5,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/task/TObject.h"
 
 
 #pragma readonly_strings on
@@ -16,7 +17,6 @@ const char *TWindowMessagePage__name = "TWindowMessagePage";
 struct Page_8026AE20 { u8 pad[0x90]; s32 flags; void *msg; };
 
 extern "C" {
-u8 *__nw__7TObjectFUl(s32);
 s32 TLobby__sub_80269DA4(void *, void *);
 u8 *TWindowMessage__ct(u8 *arg0, s32 arg1, u32 arg2, s32 arg3);
 extern s32 __vt__18TWindowMessagePage[];
@@ -57,7 +57,7 @@ u8 *TWindowMessagePage::create(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     u8 *window_message_page;
     u8 *var_r0;
     TLobby__sub_80269DA4((void *)arg1, (void *)arg2);
-    window_message_page = (u8 *)(__nw__7TObjectFUl(0x98));
+    window_message_page = (u8 *)(TObject::operator new(0x98));
     var_r0 = window_message_page;
     if (var_r0 != NULL) {
         var_r0 = (u8 *)(TWindowMessagePage__ct(window_message_page, arg0, arg2, arg3));

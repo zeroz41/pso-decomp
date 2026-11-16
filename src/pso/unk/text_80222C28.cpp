@@ -4,6 +4,7 @@
 #include "pso/unk/text_800F9B84.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/Language.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 extern s32 quest_and_shop_error_text;
 s32 ** lbl_805D6258;
@@ -52,7 +53,6 @@ const char *text_shop_rel_name_table[6] = { "TextShopJapanese.rel", "TextShopEng
 #pragma fp_contract on
 #pragma fp_contract on
 extern const char *text_shop_rel_name_table[6];
-s32 is_split_screen();
 void TLobby::free_singleton() {
     if ((u32) lbl_805D6258 != 0U) {
         TLobby::free_nodes_with_id((u32)((void*)lbl_805D6258));

@@ -1,15 +1,15 @@
 #include "types.h"
 #include "pso/boss/darkfalz/TObjDFHorming.h"
 #include "pso/boss/darkfalz/TBoss4Type3.h"
+#include "pso/system/task/TObject.h"
 
 extern "C" {
 
 void *__ct__11TObjDFYutaiFlls(void *, void *, void *, void *);
-void *__nw__7TObjectFUl(int);
 
 void *TBoss4Type3::create_yutai(void *arg0, void *arg1, void *arg2) {
     void *o;
-    o = __nw__7TObjectFUl(0x2C);
+    o = TObject::operator new(0x2C);
     if (o != NULL) {
         o = __ct__11TObjDFYutaiFlls(o, arg0, arg1, arg2);
     }

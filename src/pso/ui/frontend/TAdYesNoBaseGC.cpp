@@ -49,7 +49,6 @@ void *TAdYesNoBaseGC__ct(TAdYesNoBaseGC *arg0);
 void *__ct__12TAdBackTxtGCFv(void *, void *);
 void __ct__7TObjectFP7TObject(void *);
 void *__ct__9TAdBackGCFv(void *, void *);
-void *__nw__7TObjectFUl(int);
 void copy_vec2__28TWindowSubSymbolChatPartsSetFPv(void *);
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, s32);
 
@@ -164,11 +163,11 @@ void *TAdYesNoBaseGC__ct(TAdYesNoBaseGC *ad_yes_no_base_gc) {
     ad_yes_no_base_gc->m_2c = 1;
     ad_yes_no_base_gc->m_40 = 0;
     ad_yes_no_base_gc->m_44 = 0;
-    o = __nw__7TObjectFUl(0x24);
+    o = TObject::operator new(0x24);
     if (o != NULL) {
         __ct__9TAdBackGCFv(o, ad_yes_no_base_gc);
     }
-    o2 = __nw__7TObjectFUl(0x28);
+    o2 = TObject::operator new(0x28);
     if (o2 != NULL) {
         __ct__12TAdBackTxtGCFv(o2, ad_yes_no_base_gc);
     }

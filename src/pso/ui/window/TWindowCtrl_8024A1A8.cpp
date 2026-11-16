@@ -75,7 +75,6 @@ s32 check_card_match_enabled__15TWindowFukidasiFl(void *, void *);
 void *get_player_by_client_id(s32);
 extern s32 local_client_id;
 s32 find_farthest_balloon_slot__11TWindowCtrlFPvUs(Ctrl_8024A714 *ctrl, u16 speaker);
-void *__nw__7TObjectFUl(u32);
 void *acquire_balloon_slot__11TWindowCtrlFPviiPv(Ctrl_8024A928 *self, s32 player, s32 flags, void *local);
 s32 obj_is_hit_receivable();
 void get_speaker_balloon_anchor__11TWindowCtrlFPviPvPv(Ctrl_8024A928 *arg0, s32 arg1, f32 *arg2, s32 *arg3);
@@ -349,7 +348,7 @@ void *acquire_balloon_slot__11TWindowCtrlFPviiPv(Ctrl_8024A928 *self, s32 player
         if (self->slots[i] != 0) {
             ((TWindowBase *)(self->slots[i]))->close();
         }
-        b = __nw__7TObjectFUl(0x98);
+        b = TObject::operator new(0x98);
         if (b != 0) {
             b = TWindowFukidasi__sub_80252B74((u8 *)b, (s32)player, (s32)n, (s32)local, (f32)f);
         }

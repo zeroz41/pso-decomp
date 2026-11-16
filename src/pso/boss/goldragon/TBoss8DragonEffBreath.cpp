@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/boss/goldragon/TBoss8DragonEffBreath.h"
 
@@ -5,6 +6,7 @@
 #include "pso/system/vector.h"
 
 #include "pso/boss/goldragon/TBoss8Dragon.h"
+#include "pso/system/task/TObject.h"
 
 #pragma readonly_strings on
 
@@ -22,7 +24,6 @@ extern "C" {
 const char *TBoss8DragonEffBreath__name = "TBoss8DragonEffBreath";
 s32 vec3_add_to(void *, void *);
 u8 *get_enemy_entity(u16 arg0);
-void queue_destruction__7TObjectFv(void *arg0);
 
 void TBoss8DragonEffBreath::render() {  }
 
@@ -35,7 +36,7 @@ void TBoss8DragonEffBreath::run_task() {
     vec3_add_to((u8 *)&this->m_1c, (u8 *)&this->m_28);
     temp_f1 = *(f32 *)((s8 *)arg0 + 0x20);
     if (temp_f1 < -10.0f) {
-        queue_destruction__7TObjectFv((arg0));
+        ((TObject *)arg0)->queue_destruction();
         return;
     }
     if ((temp_f1 < 30.0f) && ((ent = (u32)get_enemy_entity((this->m_38))) != 0U)) {

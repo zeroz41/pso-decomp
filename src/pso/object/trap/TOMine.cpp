@@ -36,6 +36,7 @@
 
 
 #include "pso/player/TUnk_804B6C24.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 
 // ---- declarations carried over from the fragment TOMineTrapDisp_8016EDC8.cpp
 extern "C" {
@@ -203,7 +204,6 @@ struct VObj_18_1da615 : VBase_18_1da615 {
 };
 extern "C" {
 s32 get_localized_text_entry(s32 arg0, s32 arg1);
-s32 get_main_phase();
 s32 play_sound_effect(s32, s32, s32, s32);
 void TOMineTrap__sub_80170CD4(void* p);
 void record_attack_source(void *object, u16 id);

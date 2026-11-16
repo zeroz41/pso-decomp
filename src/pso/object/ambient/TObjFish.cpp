@@ -33,7 +33,6 @@ struct SVec_8029D5C8;
 struct Fish_8029D5C8;
 struct Ent_8029E170;
 extern "C" {
-void * __nw__7TObjectFUl(int);
 void render__8TObjFishFv(u8 *arg0);
 s32 init_fish_school__8TObjFishFPvll(u8 *arg0, Vec *arg1, s32 arg2, s32 arg3);
 s32 TObjFish__area_bml_resource;
@@ -520,7 +519,7 @@ u8 *TObjFish__create(u8 *arg0) {
     if (is_split_screen() != 0) {
         return NULL;
     }
-    fish = (u8 *)(__nw__7TObjectFUl(0xA4));
+    fish = (u8 *)(TObject::operator new(0xA4));
     var_r0 = fish;
     if (var_r0 != NULL) {
         var_r0 = (u8 *)(TObjFish__ct(fish, (s32)((*(s32 *)&tl_05)), arg0));

@@ -1,5 +1,6 @@
 #include "types.h"
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 
 struct V3_8023E834 { s32 x; s32 y; s32 z; };
 
@@ -9,7 +10,6 @@ extern s32 lbl_805D63C8;
 s32 get_current_slot_entry__6TLobbyFv();
 s32 strcmp(s32, s32);
 void play_area_music(char *name);
-s32 get_main_phase(void);
 void set_active_camera_pose(u8 *arg0, u8 *arg1);
 s32 activate_camera_mode(s32 arg0);
 extern V3_8023E834 lbl_8044DD00;

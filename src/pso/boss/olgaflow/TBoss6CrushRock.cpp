@@ -30,7 +30,6 @@ struct Vec_80359EF0 { s32 x, y, z; };
 
 extern "C" {
 void *__ct__7TObjectFP7TObject(void *, void *);
-void *__nw__7TObjectFUl(int);
 extern s32 __vt__15TBoss6CrushPtcl[];
 u8 *TBoss6CrushPtcl__ct(u8 *arg0, void *arg1, Vec_80359EF0 *arg2);
 extern s32 TBoss6PlotFalz__instance;
@@ -83,7 +82,7 @@ void TBoss6Rock::spawn_crush_rocks(s32 kind) {
             p.x += radius * sin_table_lookup(angle);
             p.y += 35.0f * (0.000030517578f * (f32)rand());
             p.z += radius * cos_table_lookup(angle);
-            u8 *o = (u8 *)__nw__7TObjectFUl(0x54);
+            u8 *o = (u8 *)TObject::operator new(0x54);
             if (o != NULL) {
                 ((u8 *(*)(u8 *, s32, Vec *, s32))__ct__15TBoss6CrushRockFlll)(o, (s32)tl_02, &p, base + j);
             }
@@ -141,7 +140,7 @@ s32 TBoss6CrushRock::is_falz_alive() {
 }
 
 void *TBoss6CrushPtcl::create() {
-    void *o = __nw__7TObjectFUl(0x28);
+    void *o = TObject::operator new(0x28);
     if (o != NULL) {
         o = TBoss6CrushPtcl__ct((u8 *)o, (void *)tl_02, (Vec_80359EF0 *)(this));
     }

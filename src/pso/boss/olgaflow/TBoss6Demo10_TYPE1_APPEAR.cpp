@@ -66,7 +66,6 @@ Fish_8033CB4C *__ct__25TBoss6Demo10_TYPE1_APPEARFP7TObject(Fish_8033CB4C *self, 
 s32 refresh_players_equipment__14TBoss6PlotFalzFPv();
 s32 post_translate_matrix(s32 *);
 s32 push_matrix();
-void *__nw__7TObjectFUl(int);
 
 void TBoss6Demo10_TYPE1_APPEAR::sub_8033C7C8() {
     push_matrix();
@@ -198,7 +197,7 @@ TBoss6Demo10_TYPE1_APPEAR::TBoss6Demo10_TYPE1_APPEAR(TObject *parent) : TObject(
 }
 
 void *TBoss6Demo10_TYPE1_APPEAR__create(void *parent) {
-    void *o = __nw__7TObjectFUl(0x68);
+    void *o = TObject::operator new(0x68);
     if (o != NULL) {
         o = __ct__25TBoss6Demo10_TYPE1_APPEARFP7TObject((Fish_8033CB4C *)(o), parent);
     }

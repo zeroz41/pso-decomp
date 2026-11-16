@@ -17,6 +17,8 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjMotion.h"
+#include "pso/system/task/TObject.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 #pragma defer_codegen on
 
@@ -98,8 +100,6 @@ struct Color_800859EC { u8 a, r, g, b; };
 struct Quad_800859EC { f32 x0, y0, x1, y1, u0, v0, u1, v1; };
 
 extern "C" {
-s32 is_split_screen(void);
-u8 *__nw__7TObjectFUl(s32);
 extern s32 tl_particle;
 s32 __ct__8TObjBaseFP7TObject(void *, void *);
 extern s32 __vt__13TUnk_8048E6A8[];
@@ -111,7 +111,6 @@ extern Tex_80086248 lbl_804C5820[];
 extern u8 *camera_ctrl_instance;
 void begin_screen_draw(s32 arg0);
 void set_draw_texture_and_color(s32 idx, s32 arg1);
-f32 fabs_float(f32);
 u32 csnVector(void *, void *, int);
 f32 vec3_dot(void *, void *);
 f32 vec_squared_length(u8 *arg0);
@@ -269,7 +268,7 @@ u8 *TParticleCtrl::create_particle_obj_ac(s32 arg0) {
     if (is_split_screen() != 0) {
         return NULL;
     }
-    particle_ctrl = (u8 *)(__nw__7TObjectFUl(0xAC));
+    particle_ctrl = (u8 *)(TObject::operator new(0xAC));
     var_r0 = particle_ctrl;
     if (var_r0 != NULL) {
         var_r0 = (u8 *)(((TParticleCtrl *)particle_ctrl)->init_particle_obj(arg0, tl_particle));
@@ -283,7 +282,7 @@ u8 *TParticleCtrl::create_particle_obj_90(s32 arg0) {
     if (is_split_screen() != 0) {
         return NULL;
     }
-    particle_ctrl = (u8 *)(__nw__7TObjectFUl(0x90));
+    particle_ctrl = (u8 *)(TObject::operator new(0x90));
     var_r0 = particle_ctrl;
     if (var_r0 != NULL) {
         var_r0 = (u8 *)(((TParticleCtrl *)particle_ctrl)->construct_particle_obj(arg0, tl_particle));

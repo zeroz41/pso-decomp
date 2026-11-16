@@ -1,6 +1,7 @@
 #include "types.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 s32 TWindowSubStatusDisp::calc_layout_hash() {
     return TWindowSubStatusDisp::get_layout_id() * 0x8C9F;
@@ -32,7 +33,6 @@ struct O_8006F134 { u8 pad[0xc0]; E_8006F134 e[4]; s32 pad2; E_8006F134 def; };
 
 extern "C" {
 extern RecoveredGlobal_8006F23C_lbl_8048C9D8 challenge_mode_state;
-s32 is_split_screen(void);
 extern s32 lbl_80438590[];
 s32 *TWindowSubStatusDisp__sub_8006F0D8(O_8006F0D8 *self, s32 slot);
 extern s32 lbl_80438584[];

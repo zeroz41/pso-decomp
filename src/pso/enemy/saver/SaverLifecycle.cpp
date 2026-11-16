@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/unk/SampledMotionPoints.h"
 #include "pso/enemy/saver/SaverLifecycle.h"
 #include "pso/effect/enemy/TEneParticleCtrl.h"
@@ -17,6 +18,7 @@
 #include "pso/unk/text_80087278.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/math/MatrixVector.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
 extern "C" void test_flag_1000__9TObjCharaFv();
@@ -67,7 +69,6 @@ s32 register_object__6TLobbyFl(int);
 s32 dispatch_shared_handler_b__6TLobbyFl(int);
 s32 register_boss__6TLobbyFl(int);
 void *load_resource_from_descriptor(void *, int, void *, int, int, int);
-void *mem_alloc(u32 size);
 extern void *bm_ene_df1_saver_model_names[2];
 extern void *bm_ene_df1_saver_motion_names[12];
 RecoveredGlobal_lbl_80500978 lbl_80500978;
@@ -84,7 +85,6 @@ s32 lbl_805D5064;
 void *lbl_805D5068;
 s32 lbl_805D506C;
 void initialize_saver_resources(void);
-void queue_destruction__7TObjectFv(void *arg0);
 void *__dt__13TUnk_80490470Fv(void *, s16);
 void *__dt__9TObjEnemyFv(TObjEnemy *arg0, s16 arg1);
 s32 free_collision_body_parts(void *);
@@ -96,7 +96,6 @@ void copy_position__20TBoss3VoloptHiraisinFv(s32 arg0);
 s32 create__13TUnk_80494968FUlUl(u32, u32);
 void __ct__9TObjEnemyFP7TObject(void *, void *, void *);
 void init_collision_body_parts(void *, void *, s32);
-void *__nw__7TObjectFUl(int);
 u8 *TEneParticleCtrl__ct(u8 *arg0, s32 arg1, s32 arg2);
 u8 *TObjEneSaver__ct(TObjEneSaver *arg0, void *arg1, void *arg2);
 void step_angle_clamped__10TObjPlayerFPvi(void*, s32);
@@ -394,7 +393,7 @@ void TObjEneSaver::update_collapse_and_destroy() {
         }
         return;
     case 2:
-        queue_destruction__7TObjectFv(arg0);
+        ((TObject *)arg0)->queue_destruction();
         break;
     }
 }
@@ -1428,7 +1427,6 @@ extern s32 model_render_flags;
 void * create_ene_saver(void *arg0);
 void free_bin_model_request(void*, int);
 void *__ct__11TObjControlFP7TObject(void *, void *);
-void mem_free(void*);
 s32 lerp_angle_half__Fll(s32, s32);
 s32 obj_setFlags30(void *, int);
 
@@ -1933,11 +1931,11 @@ void TObjEneSaver::run_task() {
 void * create_ene_saver(void *arg0) {
     void *o;
     void *o2;
-    o = __nw__7TObjectFUl(0x20);
+    o = TObject::operator new(0x20);
     if (o != NULL) {
         o = __ct__11TObjControlFP7TObject(o, tl_04);
     }
-    o2 = __nw__7TObjectFUl(0x3CC);
+    o2 = TObject::operator new(0x3CC);
     if (o2 != NULL) {
         o2 = TObjEneSaver__ct((TObjEneSaver *)((u8 *)o2), (void *)o, (void *)arg0);
     }
@@ -2015,7 +2013,7 @@ Obj_800A73F8 *__dt__12TObjEneSaverFv(Obj_800A73F8 *arg0, s16 arg1) {
         arg0->vt = TObjEneSaver__vtable;
         do {
             if (arg0->items[i] != NULL) {
-                queue_destruction__7TObjectFv(arg0->items[i]);
+                ((TObject *)arg0->items[i])->queue_destruction();
                 arg0->items[i] = NULL;
             }
             i++;
@@ -2081,7 +2079,7 @@ u8 *TObjEneSaver__ct(TObjEneSaver *arg0, void *arg1, void *arg2) {
     arg0->actorFlags |= 0x06040000;
     arg0->m_380 = 0x101;
     arg0->m_384 = 0x101;
-    p = __nw__7TObjectFUl(0xC4);
+    p = TObject::operator new(0xC4);
     if (p != NULL) {
         p = TEneParticleCtrl__ct((u8 *)p, (s32)arg0, arg0->m_380);
     }

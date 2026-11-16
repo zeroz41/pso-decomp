@@ -36,7 +36,6 @@ extern u8 *camera_ctrl_instance;
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 void *__ct__12TEffCliticalFPv(void *arg0, void *arg1);
-void *__nw__7TObjectFUl(int);
 
 #pragma push
 #pragma opt_common_subs off
@@ -131,7 +130,7 @@ TEffClitical::TEffClitical(void *arg1) : TEffect() {
 
 void TEffClitical::create() {
     void *o;
-    o = __nw__7TObjectFUl(0x78);
+    o = TObject::operator new(0x78);
     if (o != NULL) {
         __ct__12TEffCliticalFPv(o, this);
     }

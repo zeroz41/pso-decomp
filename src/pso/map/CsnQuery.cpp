@@ -7,6 +7,8 @@
 #include "pso/render/render_util.h"
 #include "pso/unk/text_8007A7B8.h"
 #include "pso/unk/text_8007A7A0.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -135,7 +137,6 @@ void TObjPlayer__sub_80079124(void *, void *);
 u32 TObjPlayer__sub_80079DE0(void *, void *);
 f32 vec_squared_length(Vec *);
 s32 intersect_wall_triangle_one_sided(void *, void *, void *, E_80079580 *, u32, s32);
-f32 fabs_float(f32);
 s32 select_deepest_wall_ray(Query_80079608 *q, Result_80079608 *r);
 void TObjPlayer__sub_80079124(void * _w0, void * _w1);
 s32 query_segment_wall_meshes(void *arg0, void *arg1, u32 arg2, Node_8007970C **list);
@@ -149,7 +150,6 @@ extern Vec lbl_8050BF40;
 extern Vec lbl_8050BF60;
 CsnGroup **get_data_ptr__10TObjMapCsnFv();
 M_80079C64 *refill_csn_candidate_cache(Vec *arg0, M_80079C64 **arg1, u32 arg2);
-f32 newton_sqrtf(f32);
 void TObjPlayer__sub_80079114(void);
 f32 vector_length(void *);
 Wall_8007A138 *query_collision_segment_groups(Vec *a, Vec *b, u32 mask);
@@ -925,10 +925,6 @@ s32 *csnVecterUnder(s32 origin, s32 mask) {
     return var_r31;
 }
 
-extern "C" {
-void *mem_alloc(u32 size);
-void mem_free(void *p);
-}
 
 CsnHit *csnVector(const Vec *from, const Vec *to, u32 mask) {
     CsnHit *hit;

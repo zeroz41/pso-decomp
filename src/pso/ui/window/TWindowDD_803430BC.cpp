@@ -1,9 +1,13 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowDD_WS_String.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/ui/Language.h"
 #include "pso/ui/window/TWindowDD_8034435C.h"
+#include "pso/system/task/TObject.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 struct TWindowDD_803431C0 {
     u8 pad0[0x20];
@@ -156,7 +160,6 @@ void TWindowDD__sub_80342D14(u8 *arg0);
 s32 update__9TWindowDDFv(void *);
 s32 handle_confirm_input__9TWindowDDFv(void *);
 void run_state__9TWindowDDFPv(u8 *arg0);
-void queue_destruction__7TObjectFv(void *);
 s16 TWindowDD__sub_8034214C(u8 *arg0);
 void destroy_menu_entry__9TWindowDDFl(void *, int);
 void TWindowDD__sub_80347980(void *);
@@ -212,7 +215,6 @@ void run_task__9TWindowDDFv(u8 *arg0);
 void copy_chat_entry__9TWindowDDFPvPv(R_80343BC0 *arg0, R_80343BC0 *arg1);
 void __ct__7TObjectFP7TObject(void *);
 void *get_player_by_client_id(s32);
-s32 get_current_floor(void);
 s32 check_all_ready__9TWindowDDFl(s32);
 s32 is_room_free_of_active_enemies(s32 floor, s16 room);
 void init_item_slots__9TWindowDDFv(void *);
@@ -250,7 +252,6 @@ extern const f32 lbl_805DFBF0;
 extern const f32 lbl_805DFBF4;
 extern const f32 lbl_805DFBF8;
 Obj_80343C64 *TWindowDD__ct(Obj_80343C64 *self, void *parent, void *arg2);
-void* __nw__7TObjectFUl(u32 size);
 extern const f32 lbl_805DFB70, lbl_805DFC28;
 void open_numeric_parameter_input__9TWindowDDFPviii(WordSelectWindowState* self, s32 minimum, s32 maximum, s32 initial);
 void *__dt__9TWindowDDFv(void *arg0, s16 arg1);
@@ -265,7 +266,6 @@ s32 classify_id__9TWindowDDFs();
 s32 TWindowDD_check_input_mask(void *input_context, s32 arg1);
 void clear_window_dd_nodes(void);
 extern "C" {
-void mem_free(void*);
 
 s32 update_close_flag__9TWindowDDFPv(void *arg0) {
     get_current_child_index__9TWindowDDFv();
@@ -282,7 +282,7 @@ void open_numeric_parameter_input__9TWindowDDFPviii(WordSelectWindowState* self,
     WindowPosition position;
     position.x = 60.0f + TWindowDD__data_805DFB6C;
     position.y = 10.0f + lbl_805DFB70;
-    NumberWindow* window = (NumberWindow*)__nw__7TObjectFUl(0x7C);
+    NumberWindow* window = (NumberWindow*)TObject::operator new(0x7C);
     if (window) {
         window = __ct__18TWindowInputNumberFPvllls(window, &position, minimum, maximum, initial,
                                       (s16)local_client_id);
@@ -311,7 +311,7 @@ void pop_menu_level__9TWindowDDFPv(TWindowDD_803431C0 *arg0) {
     if (*entry & 4) {
         arg0->fBC--;
         if (arg0->fBC >= 0 && arg0->objs[arg0->fBC] != NULL) {
-            queue_destruction__7TObjectFv(arg0->objs[arg0->fBC]);
+            ((TObject *)arg0->objs[arg0->fBC])->queue_destruction();
             arg0->objs[arg0->fBC] = NULL;
         }
     }
@@ -885,7 +885,6 @@ void free_buffers__9TWindowDDFv(void) {
 }
 struct WordList_80344114 { u8 *words; s32 count; };
 extern "C++" void ws_data_load(void);
-void *mem_alloc(u32 size);
 void *memset(void *dst, int c, u32 n);
 extern u32 TWindowDD__ws_data_base;
 extern u32 lbl_805D6E34;

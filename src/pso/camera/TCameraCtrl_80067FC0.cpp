@@ -8,6 +8,7 @@
 #include "pso/unk/TUnk_80488DA0.h"
 #include "pso/unk/TUnk_80488E00.h"
 #include "pso/camera/TCameraCtrl.h"
+#include "pso/system/MatrixStack.h"
 
 
 struct View_8006835C {

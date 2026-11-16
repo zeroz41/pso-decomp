@@ -35,6 +35,8 @@
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/ui/hud/TLockOnCursor.h"
 #include "pso/map/FloorArea.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/math/AngleLookup.h"
 
 
 extern "C" {
@@ -304,7 +306,6 @@ struct VOff_8013B524_arg0_8013B524 { char pad_0[0x4C]; char f_4C[1]; };
 
 s32 rotate_matrix_z(s32, s32);
 s32 rotate_matrix_y(s32, s32);
-s32 push_matrix();
 
 void TMainCursor::update_chair() {
     struct VOff_8013B524_arg0_8013B524 *self = (struct VOff_8013B524_arg0_8013B524 *)this;
@@ -691,8 +692,6 @@ struct Best_8013C288 { s32 index; u8 pad4[2]; u16 id; u8 pad8[4]; f32 dist; };
 
 extern "C" {
 u8 * csnVector(s32, s32, s32);
-f32 sin_table_lookup(s32);
-f32 cos_table_lookup(s32);
 f32 vec3_dot(void *, void *);
 s32 target_in_vertical_cone(Vec *p, Vec *q, s32 yaw, f32 range, f32 dist);
 extern Vec scratch_vec;
@@ -1093,7 +1092,6 @@ extern "C" {
 int TLockOnCursor__sub_8013EB34(void);
 void translate_matrix_vec3(u8 *arg0, u8 *arg1);
 void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
-s32 pop_matrix();
 s32 is_effect_channel_active__10TObjPlayerFll(s32, s32);
 void *TObjPlayer__sub_80116620(void *, s32);
 void get_action_palette__11TMainCursorFv(void *, u8);
@@ -1104,7 +1102,6 @@ s32 update_cursor_pos__13TLockOnCursorFv(void *);
 s32 TLockOnCursor__sub_8013EB2C(void *);
 s32 TMainCursor__sub_8013F168(void *p);
 void TMainCursor__sub_80154230(void *arg0, s32 arg1, u16 arg2);
-void *__nw__7TObjectFUl(u32);
 extern s32 tl_loc_end;
 void *get_item_field_6__10TObjPlayerFPv(void *);
 s32 get_type__10TObjPlayerFPv(void *p);
@@ -1447,7 +1444,7 @@ void publish_target_list__11TMainCursorFPvi(Self_8013D4A0 *arg0, s32 arg1) {
                 get_action_palette__11TMainCursorFv(list, get_active__11TMainCursorFv(sub));
                 ((TMainCursor *)list)->set_target_id(item->idx);
                 if (update_cursor_pos__13TLockOnCursorFv(arg0->x4EC) == 0 && ((TLockOnCursor *)cur)->render_part() == 0) {
-                    cur = __nw__7TObjectFUl(0x68);
+                    cur = TObject::operator new(0x68);
                     if (cur != NULL) {
                         cur = TMainCursor__ct((u8 *)cur, tl_loc_end, item->id, item->idx, (s32)TMainCursor__sub_8013E900(sub), (s32)get_active__11TMainCursorFv(sub), ((TLockOnCursor *)arg0)->get_target_id(), part->fC);
                     }

@@ -10,6 +10,7 @@
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/task/TObject.h"
 
 struct RecoveredFields_802FFCE4_arg0
 {
@@ -42,7 +43,6 @@ struct Obj_802FFE58 {
 extern "C" {
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
 s32 lbl_805D69E8;
-void *__nw__7TObjectFUl(u32);
 void __ct__7TObjectFP7TObject(void *);
 void __ct__9TAdBackGCFv(void *, void *);
 void __ct__12TAdBackTxtGCFv(void *, void *);
@@ -136,36 +136,36 @@ Obj_802FFE58 *__ct__21TAdMultiChgGameModeGCFv(Obj_802FFE58 *self) {
     self->f24 = -1;
     self->f28 = 0;
     self->f2C = 0;
-    if ((p = __nw__7TObjectFUl(0x24)) != NULL) {
+    if ((p = TObject::operator new(0x24)) != NULL) {
         __ct__9TAdBackGCFv(p, self);
     }
-    if ((p = __nw__7TObjectFUl(0x28)) != NULL) {
+    if ((p = TObject::operator new(0x28)) != NULL) {
         __ct__12TAdBackTxtGCFv(p, self);
     }
-    if ((p = __nw__7TObjectFUl(0x24)) != NULL) {
+    if ((p = TObject::operator new(0x24)) != NULL) {
         __ct__8TAdRayGCFv(p, self);
     }
-    if ((p = __nw__7TObjectFUl(0x138)) != NULL) {
+    if ((p = TObject::operator new(0x138)) != NULL) {
         __ct__10TAdTitleGCFP7TObjectl(p, self, 0xF);
     }
     {
         Txt_802FFE58 txt = multi_chg_game_mode_text_layout;
-        if ((p = __nw__7TObjectFUl(0xE0)) != NULL) {
+        if ((p = TObject::operator new(0xE0)) != NULL) {
             __ct__14TAdSelectTxtGCFP7TObjectPvPv(p, self, &txt.v[0], 0xC);
         }
-        if ((p = __nw__7TObjectFUl(0xE0)) != NULL) {
+        if ((p = TObject::operator new(0xE0)) != NULL) {
             __ct__14TAdSelectTxtGCFP7TObjectPvPv(p, self, &txt.v[1], 0xD);
         }
-        if ((p = __nw__7TObjectFUl(0xE0)) != NULL) {
+        if ((p = TObject::operator new(0xE0)) != NULL) {
             __ct__14TAdSelectTxtGCFP7TObjectPvPv(p, self, &txt.v[2], 0xE);
         }
-        if ((p = __nw__7TObjectFUl(0x9C)) != NULL) {
+        if ((p = TObject::operator new(0x9C)) != NULL) {
             __ct__13TAdTitleTexGCFv(p, self);
         }
         {
             Cur_802FFE58 cur = lbl_80474E1C[0];
             Pos_802FFE58 pos = multi_chg_game_mode_position_table;
-            p = __nw__7TObjectFUl(0x708);
+            p = TObject::operator new(0x708);
             if (p != NULL) {
                 p = __ct__14TAdSelectCurGCFv(p, self, &pos, &cur);
             }
@@ -176,7 +176,7 @@ Obj_802FFE58 *__ct__21TAdMultiChgGameModeGCFv(Obj_802FFE58 *self) {
         }
     }
     ((TLobby *)(self->f2C))->set_ad_field(self->f20);
-    p = __nw__7TObjectFUl(0x44);
+    p = TObject::operator new(0x44);
     if (p != NULL) {
         p = __ct__13TAdGuideTxtGCFv(p, self);
     }

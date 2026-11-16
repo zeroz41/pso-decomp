@@ -29,6 +29,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/system/task/TObject.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 const char *lbl_805D32B8 = "TObjCityMainWarpChallenge";
 static const char lbl_80444A44[] = "<- NEXT STAGE No.%d";
 static const char lbl_80444A58[] = "<- KEY ID : %d";
@@ -48,7 +49,6 @@ void begin_player_keyboard_hold(s32 arg0);
 s32 get_window_layout_position(s32);
 s32 free_member__17TWindowSubComCardFv(void *, int);
 s32 forward_slot_selection__16TAdChrSelASlotGCFPvPv(void *, s32, s32, f32);
-s32 get_main_phase();
 extern s32 city_main_warp_destination_id;
 extern BmlResource *city_common_model_archive;
 s32 post_translate_matrix(void *);

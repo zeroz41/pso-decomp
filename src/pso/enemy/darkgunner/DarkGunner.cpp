@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/player/TObjPlayer_800D8FDC.h"
 #include "pso/effect/enemy/TEneEffHamon.h"
 #include "pso/render/ChunkMaterialState.h"
@@ -22,6 +23,7 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/map/CsnQuery.h"
+#include "pso/system/task/TObject.h"
 extern "C" void update_movement_status__17TObjEneDarkGunnerFv();
 extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
@@ -131,12 +133,10 @@ void apply_actor_gravity(TObjEnemy *enemy, s32 *arg1, f32 farg0);
 extern "C" {
 s32 minimap_render_dot(void *, s32, s32, s32);
 void TObjPlayer__sub_800A16C4(u8 *arg0);
-void queue_destruction__7TObjectFv(void *arg0);
 s32 update_if_active__15TObjEnemyCustomFl(void *, s32);
 s32 TObjPlayer__sub_800A3210(s32 i, s32 _w1, s32 _w2);
 u8 *TObjPlayer__sub_800A4204(u8 *arg0, u8 *arg1, s32 arg2, s32 arg3, s32 arg4);
 s32 submit_cursor_candidate(void *, s32);
-void * __nw__7TObjectFUl(int);
 s32 TObjPlayer__sub_800A1FEC(void *arg0);
 }
 void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
@@ -830,7 +830,7 @@ void TObjPlayer::spawn_hamon_effects(s32 arg1, s32 arg2, f32 farg0) {
     for (i = 0; i < 4; i++) {
         p.x = o->pos.x + ofs.v[i].x;
         p.z = o->pos.z + ofs.v[i].z;
-        e = __nw__7TObjectFUl(0x60);
+        e = TObject::operator new(0x60);
         if (e != NULL) {
             __ct__12TEneEffHamonFv((u8 *)e, (s32)&p, arg1, arg2, farg0);
         }
@@ -1041,7 +1041,7 @@ void TObjPlayer__sub_800A1C84(TObjPlayer *enemy) {
         apply_actor_gravity((TObjEnemy *)enemy, (s32 *)(0), 0.0f);
         if (((VObj_14_800A1C84 *)((u8 *)enemy + 0x408))->m4() == 1) {
             TObjPlayer::apply_effect_variant_a((s32)((u8 *)enemy + 0x38), 0);
-            queue_destruction__7TObjectFv(enemy);
+            ((TObject *)enemy)->queue_destruction();
         }
         break;
     case -1:
@@ -1141,7 +1141,7 @@ s32 TObjPlayer__sub_800A1FEC(void *arg0) {
         {
             s32 i;
             for (i = 0; i < 4; i++) {
-                void *p = __nw__7TObjectFUl(0x348);
+                void *p = TObject::operator new(0x348);
                 if (p != NULL) {
                     p = TObjPlayer__sub_800A4204((u8 *)p, (u8 *)self, (s32)&self->f3B4, (s32)&self->f3C0[i], 2);
                 }
@@ -1159,7 +1159,7 @@ s32 TObjPlayer__sub_800A1FEC(void *arg0) {
             for (i = 0; i < 4; i++) {
                 void *q = self->parts[i];
                 if (q != NULL) {
-                    queue_destruction__7TObjectFv(q);
+                    ((TObject *)q)->queue_destruction();
                     self->parts[i] = NULL;
                 }
             }
@@ -1208,7 +1208,7 @@ s32 TObjPlayer__sub_800A1FEC(void *arg0) {
             for (i = 0; i < 4; i++) {
                 void *q = self->parts[i];
                 if (q != NULL) {
-                    queue_destruction__7TObjectFv(q);
+                    ((TObject *)q)->queue_destruction();
                     self->parts[i] = NULL;
                 }
             }
@@ -1434,7 +1434,7 @@ void TObjEneDarkGunner::run_task() {
             ((VObj_18_800A28A4 *)this)->glow_emitter->set_position(&((VObj_18_800A28A4 *)this)->ground_pos);
         }
     } else if (((VObj_18_800A28A4 *)this)->glow_emitter != NULL) {
-        queue_destruction__7TObjectFv(((VObj_18_800A28A4 *)this)->glow_emitter);
+        ((TObject *)(((VObj_18_800A28A4 *)this)->glow_emitter))->queue_destruction();
         ((VObj_18_800A28A4 *)this)->glow_emitter = NULL;
     }
     if ((((VObj_18_800A28A4 *)this)->flags & 0x200000) && ((TObjEnemy *)((VObj_18_800A28A4 *)this))->obj_testFlags30(0x22) == 0) {
@@ -1448,7 +1448,7 @@ void TObjEneDarkGunner::run_task() {
             ((VObj_18_800A28A4 *)this)->trail_emitter->set_position(&((VObj_18_800A28A4 *)this)->shadow_pos);
         }
     } else if (((VObj_18_800A28A4 *)this)->trail_emitter != NULL) {
-        queue_destruction__7TObjectFv(((VObj_18_800A28A4 *)this)->trail_emitter);
+        ((TObject *)(((VObj_18_800A28A4 *)this)->trail_emitter))->queue_destruction();
         ((VObj_18_800A28A4 *)this)->trail_emitter = NULL;
     }
     if (((VObj_18_800A28A4 *)this)->m34() != 0 || ((VObj_18_800A28A4 *)this)->m38() != 0 || ((VObj_18_800A28A4 *)this)->m37() != 0) {
@@ -1485,7 +1485,7 @@ void TObjEneDarkGunner::run_task() {
 #pragma pop
 
 void *TObjPlayer::create_instance(void *arg0) {
-    void *o = __nw__7TObjectFUl(0x42C);
+    void *o = TObject::operator new(0x42C);
     if (o != NULL) {
         o = ((void *(*)(void *, void *, void *))TObjPlayer__sub_800A2F94)(o, tl_04, arg0);
     }
@@ -1542,14 +1542,14 @@ Obj_800A2EDC *TObjPlayer__sub_800A2EDC(Obj_800A2EDC *arg0, s16 arg1) {
         free_collision_body_parts(arg0);
         for (i = 0; i < 4; i++) {
             if (arg0->items[i] != NULL) {
-                queue_destruction__7TObjectFv(arg0->items[i]);
+                ((TObject *)arg0->items[i])->queue_destruction();
             }
         }
         if (arg0->p400 != NULL) {
-            queue_destruction__7TObjectFv(arg0->p400);
+            ((TObject *)arg0->p400)->queue_destruction();
         }
         if (arg0->p404 != NULL) {
-            queue_destruction__7TObjectFv(arg0->p404);
+            ((TObject *)arg0->p404)->queue_destruction();
         }
         __dt__13TUnk_80490470Fv((u8 *)arg0 + 0x408, -1);
         __dt__15TObjEnemyCustomFv(arg0, 0);

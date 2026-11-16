@@ -42,7 +42,6 @@ extern const f32 lbl_805D9FB8;
 extern "C" {
 s32 update_camera_sequence__9TObjEneDDFv();
 s32 mult_vec_array__10TObjPlayerFUll(s32, f32 *, f32 *, s32);
-s32 push_matrix();
 }
 
 struct Prm_800C2628 { f32 a, b, c, d, e; };

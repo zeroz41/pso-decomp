@@ -31,12 +31,12 @@
 #include "pso/unk/text_800F8A0C.h"
 #include "pso/system/TGStream.h"
 #include "pso/unk/TLobby_8020B334.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 // ---- pso/unk/TLobby_80209524
 
 extern "C" {
 
-void mem_free(void *p);
 
 void *TLobby::free_boss4rock(s16 arg1) {
     if (this != NULL) {
@@ -77,7 +77,6 @@ struct Hdr_802095EC { s32 type; s32 size; s32 id; s32 x; };
 struct Hdr_8020967C { s32 type; s32 size; s32 id; s32 x; };
 
 extern "C" {
-void *mem_alloc(u32 size);
 u8 *TLobby__sub_80209584(u8 *arg0, s32 arg1) {
     s32 temp_r3;
     s32 var_r0;

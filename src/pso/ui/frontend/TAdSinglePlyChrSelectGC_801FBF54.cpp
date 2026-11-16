@@ -22,6 +22,8 @@
 #include "pso/map/FloorArea.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 struct CardFileInfo_804C88C0 {
     char filename[0x20];
     char comment[0x20];
@@ -643,7 +645,6 @@ s32 __ct__12TPlyCharDataFv(s32);
 s32 memset(int, int, int);
 void alloc_char_records__23TAdSinglePlyChrSelectGCFi(s32 arg0);
 s32 get_fog_ctrl__16TKeyBoardControlFv();
-s32 is_split_screen();
 extern u8 *camera_ctrl_instance;
 void render_frame__23TAdSinglePlyChrSelectGCFv(void);
 u8 get_chr_select_state__23TAdSinglePlyChrSelectGCFv(void);
@@ -691,7 +692,6 @@ s32 init_and_register__23TAdSinglePlyChrSelectGCFi(s32);
 extern Ent_801FD668 *card_character_save_buffer;
 extern u32 system_save_payload;
 s32 TAdPlayerLoadGC__sub_801FD770(void);
-s32 get_main_phase();
 u8 get_chr_select_state__23TAdSinglePlyChrSelectGCFv(void);
 s32 start_memcard_read(s32, void *, u32, s32);
 s32 poll_memcard_result(s32);
@@ -722,7 +722,6 @@ extern s32 card_load_sequence_state;
 extern s32 character_save_card_slot;
 extern s32 character_save_file_block_count;
 s32 TAdSinglePlyChrSelectGC__sub_801FCE6C(void);
-s32 get_main_phase();
 u8 get_chr_select_state__23TAdSinglePlyChrSelectGCFv(void);
 s32 fn_80203284();
 s32 start_memcard_read(s32, void *, u32, s32);
@@ -2449,7 +2448,6 @@ extern u32 card_character_save_buffer;
 extern u32 selected_character_data;
 extern u32 active_character_save_record;
 void clear_load_buffers__23TAdSinglePlyChrSelectGCFv(void);
-s32 get_main_phase();
 s8 get_chr_select_state__23TAdSinglePlyChrSelectGCFv();
 s32 get_ptr_4__10TObjPlayerFv(void *);
 s32 start_memcard_read(s32, void *, u32, s32);
@@ -4915,7 +4913,6 @@ extern u8 *secondary_card_system_save_payload;
 extern void *system_save_payload;
 extern s32 active_character_save_record;
 extern s32 selected_character_data;
-s32 is_split_screen();
 s32 get_split_screen_character_save_record(u32);
 s32 get_char_table_entry__23TAdSinglePlyChrSelectGCFi(u32);
 

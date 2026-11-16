@@ -8,6 +8,7 @@
 #include "pso/map/FloorArea.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjMotion.h"
+#include "pso/player/TObjPlayer_80011014.h"
 extern "C" {
 s32 get_player_by_client_id(s32);
 s32 has_window_task_root();

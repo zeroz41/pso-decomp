@@ -20,7 +20,6 @@ extern s32 __vt__13TObjRaderIcon[];
 extern s32 lbl_805D3418;
 void add_radar_scaled_gate(void *, u32, u16, s32, s32, f32);
 u8 is_current_floor_switch_set(u16);
-void *__nw__7TObjectFUl(int);
 
 extern void *tl_05;
 extern s32 __vt__16TObjRaderHideCol[];
@@ -145,7 +144,7 @@ void TObjRaderIcon::render() {  }
 
 
 void *TObjRaderIcon__create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0xA4);
+    void *o = TObject::operator new(0xA4);
     if (o != NULL) {
         o = TObjRaderIcon__ct((u8 *)o, (s32)tl_05, (s32)arg0);
     }

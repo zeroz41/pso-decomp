@@ -15,6 +15,7 @@
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TUnk_804D0658.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 const char *TWindowMakeTeam__name = "TWindowMakeTeam";
 const char *lbl_805D395C = "";
@@ -47,13 +48,11 @@ s32 check_room_seq_4__16TAdChrSelASlotGCFl(const f32 *, s32);
 void *init_status_disp__15TWindowMakeTeamFc(s8 arg0);
 s8 get_mode__6TLobbyFv();
 s32 update_selected_entry__17TWindowSubComCardFv(void *);
-void *__nw__7TObjectFUl(u32);
 void *TKeyBoardControl__ct(void *, void *, s32, s32, s32, s32);
 extern s32 local_client_id;
 void *get_window_layout_position(s32);
 void get_lobby_field_20__15TWindowMakeTeamFv(void *, f32);
 void get_keyboard_field_6c__15TWindowMakeTeamFv(void *, char *);
-void mem_free(void *);
 char *realloc_buffer__17TWindowSubComCardFv(void *);
 char *get_shared_text_buffer(void);
 s32 measure_string_len__20TWindowSubStatusDispFv(char *);
@@ -137,7 +136,7 @@ void TWindowMakeTeam::run_task() {
         }
         break;
     case 3: {
-        void *kb = __nw__7TObjectFUl(0x2C);
+        void *kb = TObject::operator new(0x2C);
         if (kb != NULL) {
             kb = TKeyBoardControl__ct(kb, self, 0xE, 0, 4, local_client_id);
         }
@@ -166,7 +165,7 @@ void TWindowMakeTeam::run_task() {
         }
         break;
     case 5: {
-        void *kb = __nw__7TObjectFUl(0x2C);
+        void *kb = TObject::operator new(0x2C);
         if (kb != NULL) {
             kb = TKeyBoardControl__ct(kb, self, 0x10, 0, 0, local_client_id);
         }

@@ -35,14 +35,13 @@ void fn_802F1960(Obj_802F1960 *o, f32 d) {
 
 void draw_ginja_model_with_motion(void *model, void *motion, f32 frame);
 void *__ct__7TObjectFP7TObject(void *, void *);
-void *__nw__7TObjectFUl(int);
 
 extern void *tl_07;
 extern void *lbl_805D6960;
 
 void fn_802F19C0(void) {
     void *o;
-    o = __nw__7TObjectFUl(0x1C);
+    o = TObject::operator new(0x1C);
     if (o != NULL) {
         o = __ct__7TObjectFP7TObject(o, tl_07);
     }

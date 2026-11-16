@@ -26,6 +26,7 @@
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/camera/TCameraCtrl_803D6538.h"
+#include "pso/system/MatrixStack.h"
 
 extern "C" {
 
@@ -509,8 +510,6 @@ s32 GXSetZMode(s32, s32, s32);
 extern s32 (*chunk_model_node_callback)(void *);
 void TKeyBoardControl__sub_8000F7FC(void);
 
-s32 push_matrix();
-s32 pop_matrix();
 void fn_803DCEC8(void);
 void fn_803DCF0C(void);
 

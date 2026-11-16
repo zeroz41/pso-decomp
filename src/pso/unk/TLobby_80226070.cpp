@@ -11,6 +11,7 @@
 #include "pso/system/TLoadCtrl_80227390.h"
 #include "pso/network/client_id.h"
 #include "pso/object/trap/TOTrapAncient01.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 extern "C" {
 
@@ -352,7 +353,6 @@ void clear_sound_listener_position(void) {
 }
 
 f32 xz_distance_squared(const Vec *a, const Vec *b);
-f32 newton_sqrtf(f32 x);
 }
 
 s32 check_sound_admission_range(const Vec *pos) {

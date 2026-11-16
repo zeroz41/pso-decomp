@@ -79,7 +79,6 @@ s32 scroll_ginja_mesh_uvs(void *, s32, s32, u16, s32);
 s32 PPCSync();
 s32 rotate_matrix_by_node_angles(void *, u32);
 extern u32 actor_frame_tick;
-void *__nw__7TObjectFUl(int);
 extern void *tl_05;
 void free_bin_model_request(void*, int);
 s32 release_texture_list(void*);
@@ -192,7 +191,7 @@ void TObjComputer::free_resources() {
 }
 
 void *TObjComputer::create() {
-    void *o = __nw__7TObjectFUl(0xC8);
+    void *o = TObject::operator new(0xC8);
     if (o != NULL) {
         o = TObjComputer__ct(o, tl_05, this);
     }

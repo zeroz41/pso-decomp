@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
@@ -19,6 +20,7 @@
 #include "pso/unk/TLobby.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/unk/text_803D96A8.h"
+#include "pso/system/task/TObject.h"
 
 
 extern "C" {
@@ -33,7 +35,6 @@ void restore_scene_lighting(void);
 void select_actor_lighting(s32 obj);
 s32 push_matrix();
 extern s32 model_render_flags;
-void queue_destruction__7TObjectFv(void *);
 void TObjPlayer__sub_800A04F0(void *);
 void TObjEneBalClawClaw__sub_80091134(TObjEneBalClawClaw *claw);
 s32 check_path_obstructed(void *, void *);
@@ -397,7 +398,7 @@ void TObjEneBalClawClaw__sub_80091134(TObjEneBalClawClaw *claw) {
         if (claw->fade.decay_value_toward_floor() == 1) {
             TObjPlayer::apply_effect_variant_a((s32)&claw->position, 0);
             claw->send_entity_set_flags();
-            queue_destruction__7TObjectFv(claw);
+            claw->queue_destruction();
         }
         break;
     case -1:

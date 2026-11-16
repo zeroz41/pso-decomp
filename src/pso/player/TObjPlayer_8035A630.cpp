@@ -3,11 +3,11 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/unk/text_803E2D70.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/system/MatrixStack.h"
 
 extern "C" {
 
 extern s32 (*player_apply_callback_fn)(s32);
-s32 push_matrix();
 
 extern s32 player_node_matrix_cursor;
 extern s32 player_node_matrix_count;

@@ -12,6 +12,7 @@
 #include "pso/technique/TTecLuker.h"
 #include "pso/object/door/TObjDoor.h"
 #include "pso/system/task/TObject.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 struct Base_801A2E00 { u8 pad0[0x18]; };
 
@@ -21,7 +22,6 @@ s32 is_multiplayer_character_slot_selected(s32);
 extern "C" {
 s32 create_player_object(s32, s32, u32);
 u32 get_char_index__23TAdSinglePlyChrSelectGCFUi(s32);
-s32 is_split_screen();
 extern s32 local_client_id;
 extern s32 lbl_805D53A8;
 s32 reset_quest_result_callbacks__22THunterGuildSeqOfflineFPv();

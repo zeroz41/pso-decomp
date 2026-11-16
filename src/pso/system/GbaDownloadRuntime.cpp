@@ -14,7 +14,6 @@ extern s32 TLobby__data_805D6CCC;
 extern const f32 TLobby__data_805DF7A4;
 
 u32 create__8TDLGraphFv();
-int queue_destruction__7TObjectFv(void*);
 void xfree__FPv(void*);
 s32 xmalloc__FUl(s32);
 s32 read_disc_file(s32, u32);
@@ -285,4 +284,4 @@ void TLobby__sub_8032CDD0(void* p) { *(s16*)((char*)p + 0x0) = 0; *(s16*)((char*
     extern int TAdWarningBaseGC__aram_alloc_size;
 void TLobby__sub_8032CDEC(void) { TAdWarningBaseGC__aram_alloc_size = 0; warning_aram_load_done_flag = 0; }
 
-int TAdWarningBaseGC::destroy() { return queue_destruction__7TObjectFv(this); }
+void TAdWarningBaseGC::destroy() { queue_destruction(); }

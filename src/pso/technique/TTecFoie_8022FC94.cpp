@@ -7,6 +7,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
 #include "pso/technique/TTecCtrl.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 struct RecoveredGlobal_8022FE84_lbl_804CC510
 {
@@ -123,12 +124,10 @@ TTecFoie_80230144 *__dt__8TTecFoieFv(TTecFoie_80230144 *self, s16 deleting);
 s32 attach_particle_model(int, int, int, int, int, f32);
 void *spawn_particle_effect_with_rotation(void *pos, void *dir, s32 id, u16 e);
 void *spawn_continuous_particle_effect_with_flags(void *, s32, u16);
-s32 mem_alloc(s32);
 extern s32 lbl_805D63B0;
 void *spawn_particle_effect(const void *pos, s32 id);
 void *TTecFoie__ct(void *, void *, void *, void *, void *);
 void *construct_aimed__8TTecFoieFlPUcPUcs(void *, void *, void *, void *, void *);
-void *__nw__7TObjectFUl(int);
 
 typedef struct RecoveredFields_8022FE84_arg0 RecoveredFields_8022FE84_arg0;
 typedef struct RecoveredGlobal_8022FE84_lbl_804CC510 RecoveredGlobal_8022FE84_lbl_804CC510;
@@ -221,7 +220,7 @@ void TTecFoie::vfunc_8(void *target_arg) {
 
 void TTecFoie::create_ex(void *arg0, void *arg1, void *arg2, void *arg3) {
     void *o;
-    o = __nw__7TObjectFUl(0x134);
+    o = TObject::operator new(0x134);
     if (o != NULL) {
         construct_aimed__8TTecFoieFlPUcPUcs(o, arg0, arg1, arg2, arg3);
     }
@@ -229,7 +228,7 @@ void TTecFoie::create_ex(void *arg0, void *arg1, void *arg2, void *arg3) {
 
 void TTecFoie::create(void *arg0, void *arg1, void *arg2, void *arg3) {
     void *o;
-    o = __nw__7TObjectFUl(0x134);
+    o = TObject::operator new(0x134);
     if (o != NULL) {
         TTecFoie__ct(o, arg0, arg1, arg2, arg3);
     }

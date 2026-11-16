@@ -7,6 +7,7 @@
 #include "pso/unk/TUnk_80488D70.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/math/AngleLookup.h"
 
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -32,8 +33,6 @@ struct Cam_8006C964 {
 extern "C" {
 Vec get_target_position__11TCameraCtrlFv(void);
 s32 is_on_current_screen__11TCameraCtrlFv(void *, s32);
-f32 sin_table_lookup(s32);
-f32 cos_table_lookup(s32);
 void debug_printf_at(s32, const char *, ...);
 extern Ctl_8006C964 controller_input_state;
 

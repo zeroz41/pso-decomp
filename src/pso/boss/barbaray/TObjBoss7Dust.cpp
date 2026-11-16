@@ -23,7 +23,6 @@ void boss7_dust_draw_at(s32 *arg0, s32 arg1);
 extern "C" {
 void fn_802F1454(void);
 void fn_802F19C0(void);
-s32 queue_destruction__7TObjectFv();
 
 void fn_802F105C(void) { TObjBoss7DustCtrl__sub_802F1450(); TObjBoss2Tunnel__sub_802F2C4C(); free_boss7_common_resources(); }
 void fn_802F1084(void) { TObjBoss2Tunnel__sub_802F2C50(); fn_802F19C0(); TObjBoss7DustCtrl::create(); }
@@ -37,7 +36,7 @@ void TObjBoss7Dust::run_task() {
     *(f32 *)((s8 *)this + 0x2C) = (f32) (*(f32 *)((s8 *)this + 0x2C) - lbl_805DEC68);
     *(s32 *)((s8 *)this + 0x1C) = (s32) (*(s32 *)((s8 *)this + 0x1C) + 1);
     if ((s32) *(s32 *)((s8 *)this + 0x1C) >= 0x5A) {
-        queue_destruction__7TObjectFv();
+        queue_destruction();
     }
 }
 typedef char RecoveredGlobal_802F119C___vt__13TObjBoss7Dust_size[sizeof(RecoveredGlobal_802F119C___vt__13TObjBoss7Dust) == 0x18 ? 1 : -1];

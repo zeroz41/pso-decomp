@@ -7,6 +7,7 @@
 #include "pso/npc/TObjNpcBase.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/system/task/TObject.h"
 
 #pragma readonly_strings on
 
@@ -20,16 +21,15 @@ extern "C" {
 extern s32 __vt__12TObjNpcHFW00[];
 void release_texture_list(void*);
 void *__ct__11TObjControlFP7TObject(void *, void *);
-void *__nw__7TObjectFUl(int);
 
 void * TObjNpcHFW00__create(void *arg0) {
     void *o;
     void *o2;
-    o = __nw__7TObjectFUl(0x20);
+    o = TObject::operator new(0x20);
     if (o != NULL) {
         o = __ct__11TObjControlFP7TObject(o, tl_04);
     }
-    o2 = __nw__7TObjectFUl(0x3B8);
+    o2 = TObject::operator new(0x3B8);
     if (o2 != NULL) {
         o2 = TObjNpcHFW00__ct((u8 *)o2, (s32)o, (s32)arg0);
     }

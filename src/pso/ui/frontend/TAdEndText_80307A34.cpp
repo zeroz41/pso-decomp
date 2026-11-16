@@ -6,6 +6,7 @@
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/unk/TLobby.h"
+#include "pso/system/task/TObject.h"
 
 extern "C" {
 s32 TKeyBoardControl__sub_8000F92C();
@@ -16,7 +17,6 @@ void TKeyBoardControl__sub_8000F90C(s32 arg0);
 void set_queued_main_phase(s32 arg0);
 void reset_controller_input_state(void);
 s32 set_copy_clear_color_argb(s32, s32, s32);
-u32 __nw__7TObjectFUl(s32);
 s32 __ct__13TUnk_804E71A0Fv();
 }
 void process_async_file_reads(void);
@@ -62,7 +62,7 @@ void start_ending_sequence(void) {
     TAdEndText::load_ending_font();
     TLobby::update_keyboard_menu();
     TLobby::set_ending_callback();
-    if (__nw__7TObjectFUl(0x1C) != 0U) {
+    if (TObject::operator new(0x1C) != 0U) {
         __ct__13TUnk_804E71A0Fv();
     }
     render_tick();

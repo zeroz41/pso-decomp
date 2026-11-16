@@ -20,6 +20,8 @@
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/object/collision/TObjFogCollision.h"
 #include "pso/network/protocol/protocol_types.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
+#include "pso/system/MatrixStack.h"
 
 extern "C" {
 s32 VecCopy__FP3VecPC3Vec(void *, int);
@@ -384,7 +386,6 @@ void * __ct__12TPlyCharDataFv(void *self);
 u8 * csnVector(s32, s32, s32);
 s32 find_active_entity_by_id(void *);
 f32 horizontal_distance_squared(void *, void *);
-void *mem_alloc(u32 size);
 void TNpcPlayer__sub_8014DC3C(void *, s32);
 void deliver_partner_chatter(Npc_8014E250 *self);
 void partner_compute_stalled_detour(u8 *self, Vec *from, Vec *to, Vec *d, Vec *out);
@@ -437,7 +438,6 @@ s8 get_cast_technique_level(void *, s16);
 int bswap_16__FPUs(void*);
 int bswap_32__FPUl(void*);
 void update_players__6TLobbyFv(s32 arg0);
-void * __nw__7TObjectFUl(u32);
 void __ct__7TObjectFP7TObject(void *, void *);
 Tec_80150B90 * calc_technique_parameters(s32, s32, s32);
 s32 is_active__12TTecReverserFv(void *);
@@ -458,7 +458,6 @@ extern void *tl_05;
 
 void copy_player_visual_record(void *, void *);
 void bswap__15disp_data_part2Fv(s32 arg0);
-void mem_free(void *);
 extern s32 game_difficulty_selection;
 extern s32 TNpcPlayer__data_805D5864;
 
@@ -3203,7 +3202,7 @@ Npc_8014F844 *init_ai_state__10TNpcPlayerFPvi(Npc_8014F844 *self, s32 id) {
     self->fBC = 5.0f;
     self->fC0 = 0;
     self->fC4 = 0x1103;
-    p = __nw__7TObjectFUl(0xAC);
+    p = TObject::operator new(0xAC);
     if (p != 0) {
         p = __ct__14TObjCollidableFP7TObject(p, tl_05);
     }

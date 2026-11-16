@@ -105,7 +105,6 @@ Obj_80232B7C *construct_grants_flash(Obj_80232B7C *self, s32 id, void *parent, V
 
 void attach_particle_model(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0);
 void *spawn_particle_effect(const void *pos, s32 id);
-void *__nw__7TObjectFUl(u32);
 }
 u8 *construct_timed_sound_voice(u8 *arg0, s32 arg1, s16 arg2, s32 arg3, s32 arg4, s32 arg5);
 
@@ -162,7 +161,7 @@ void TUnk_804CC888::run_task() {
     void *p;
     ((Ctl_80232C50 *)this)->timer++;
     if (((Ctl_80232C50 *)this)->timer % 5 == 0) {
-        p = __nw__7TObjectFUl(0x50);
+        p = TObject::operator new(0x50);
         if (p != 0) {
             construct_grants_flash((Obj_80232B7C *) p, ((Ctl_80232C50 *)this)->id, tl_07, 0, 1.0f);
         }
@@ -196,7 +195,7 @@ void TUnk_804CC888::run_task() {
             dir = -0x100;
             break;
         }
-        p = __nw__7TObjectFUl(0x28);
+        p = TObject::operator new(0x28);
         if (p != 0) {
             construct_timed_sound_voice((u8 *)p, (s32)((Ctl_80232C50 *)this)->f30, (s16)(0xF), 0x4002A60D, (s32)dir, (s32)tl_07);
         }

@@ -22,6 +22,7 @@
 #include "pso/item/TItem.h"
 #include "pso/item/armor/TItemProShield.h"
 #include "pso/object/switch/TOSwitchItem.h"
+#include "pso/system/MatrixStack.h"
 
 
 struct O_8035C480 { u8 pad[0x44]; s32 arr[4]; };
@@ -66,7 +67,6 @@ extern const Ent_8035C35C boss4_thanks_emitter_table[4] = {
 };
 f32 xyz_distance(void *, const void *);
 void TObjPlayer__sub_80052390(void);
-void push_matrix(void);
 void post_translate_matrix(const f32 *);
 int dispatch_by_main_phase__14TBoss4DarkFalzFUs(void*);
 

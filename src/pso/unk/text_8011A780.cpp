@@ -17,6 +17,8 @@
 #include "pso/unk/TLobby_801E43E4.h"
 #include "pso/item/TItemIdCounters.h"
 #include "pso/unk/TLobby_801F3A24.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 
 // G_PickUpItem_6x59::G_PickUpItem_6x59() on a command built here.
@@ -340,8 +342,6 @@ void TLobby::reset_item_id_counters() {
 }
 
 extern "C" {
-void *mem_alloc(u32 size);
-void mem_free(void *p);
 TItemIdCounters::~TItemIdCounters() {
     mem_free((void *)item_sync_counter_table);
     item_sync_counter_table = 0;

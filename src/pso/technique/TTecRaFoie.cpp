@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/effect/TUnk_804CC148.h"
 #include "pso/technique/TTecCtrl.h"
@@ -19,6 +20,7 @@
 
 
 #include "pso/map/FloorArea.h"
+#include "pso/system/task/TObject.h"
 #pragma readonly_strings on
 
 struct RafoieBurst_80237DAC { s32 entry; s32 flags; f32 scale; };
@@ -49,7 +51,6 @@ typedef struct TObjPlayer_80237FB8 {
 
 
 extern "C" {
-void queue_destruction__7TObjectFv(void *arg0);
 u32 find_entity_by_id(int);
 void *spawn_particle_effect_with_flags(const void *pos, s32 id, s32 flags);
 void spawn_rafoie_explosion_bursts__13TUnk_804CCB28Fv(Obj_80237DAC *self);
@@ -70,7 +71,6 @@ extern void *lbl_805D63B0;
 
 s32 play_sound_effect(s32 id, void *pos, s32 a, s32 b);
 #define play_sound_effect ((s32 (*)(s32, s32, s32, s32))play_sound_effect)
-void *__nw__7TObjectFUl(int);
 void update_technique_slot__10TTecRaFoieFl(s32 handle, s32 pitch, s32 c);
 
 struct RecoveredGlobal_80238388_lbl_8044DAF0 {
@@ -345,7 +345,7 @@ void TUnk_804CCB28::run_task() {
         *(s32 *)&this->unk_5C = 0;
     }
     if ((s32) this->m_58 > 0x6E) {
-        queue_destruction__7TObjectFv((arg0));
+        ((TObject *)arg0)->queue_destruction();
     }
     stack.sp8 = *(s32 *)((s8 *)&lbl_8044DAF0.value + 0);
     stack.spC = *(s32 *)((s8 *)&lbl_8044DAF0.value + 4);
@@ -548,12 +548,12 @@ void TTecRaFoie::render() {  }
 void run_task__10TTecRaFoieFv(TTecRaFoie *tec_ra_foie) {
     u32 entity;
     if ((u32) tec_ra_foie->m_e8 == 0U) {
-        queue_destruction__7TObjectFv((tec_ra_foie));
+        tec_ra_foie->queue_destruction();
         return;
     }
     tec_ra_foie->source = find_entity_by_id(tec_ra_foie->m_b4);
     if ((u32) tec_ra_foie->source == 0U) {
-        queue_destruction__7TObjectFv((tec_ra_foie));
+        tec_ra_foie->queue_destruction();
         return;
     }
     if ((s32) tec_ra_foie->m_148 == 1) {
@@ -561,7 +561,7 @@ void run_task__10TTecRaFoieFv(TTecRaFoie *tec_ra_foie) {
         return;
     }
     if ((s32) tec_ra_foie->m_ec == 0) {
-        queue_destruction__7TObjectFv((tec_ra_foie));
+        tec_ra_foie->queue_destruction();
         return;
     }
     entity = find_entity_by_id(tec_ra_foie->m_f0);
@@ -580,7 +580,7 @@ void TTecRaFoie::update_detonation(void *arg1) {
     if (self->age != 10) {
         return;
     }
-    p = __nw__7TObjectFUl(0x64);
+    p = TObject::operator new(0x64);
     if (p != NULL) {
         create_rafoie_explosion((u8 *)p, (s32 *)self->target, self->band, 10, tl_particle, (f32)self->level);
     }
@@ -615,12 +615,12 @@ void TTecRaFoie::update_detonation(void *arg1) {
         break;
     }
     ((TUnk_804CC148 *)self)->apply_technique_to_area_targets();
-    queue_destruction__7TObjectFv(self);
+    ((TObject *)self)->queue_destruction();
 }
 
 void TTecRaFoie::create(void *arg1, void *arg2, void *arg3) {
     void *o;
-    o = __nw__7TObjectFUl(0x14C);
+    o = TObject::operator new(0x14C);
     if (o != NULL) {
         TTecRaFoie__ct((Obj_80238AE8 *)(o), (void *)this, (void *)arg1, (void *)arg2, (int)arg3);
     }
@@ -628,7 +628,7 @@ void TTecRaFoie::create(void *arg1, void *arg2, void *arg3) {
 
 void TTecRaFoie::create_ex(void *origin, void *targets, void *level) {
     void *o;
-    o = __nw__7TObjectFUl(0x14C);
+    o = TObject::operator new(0x14C);
     if (o != NULL) {
         construct_targeted__10TTecRaFoieFPvPvPvPvi((u8 *)o, (void *)this, (void *)origin, (void *)targets, (int)level);
     }

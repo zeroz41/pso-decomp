@@ -15,6 +15,8 @@
 #include "pso/unk/TUnk_80488D70.h"
 #include "pso/system/scene/TScene.h"
 #include "pso/map/FloorArea.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/system/MatrixStack.h"
 
 
 #pragma push

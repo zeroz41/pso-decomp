@@ -309,7 +309,6 @@ extern s32 lbl_804DF614[];
 __declspec(section ".data") extern s32 boss6_type2_appear_motion_indices[];
 struct AppearanceClassTag { const char *value; u32 padding; };
 __declspec(section ".sdata") extern AppearanceClassTag TBoss6Demo20_TYPE2_APPEAR__name;
-void *__nw__7TObjectFUl(int);
 
 #pragma push
 #pragma opt_lifetimes off
@@ -367,7 +366,7 @@ u8 *TBoss6Demo20_TYPE2_APPEAR__ct(TBoss6Demo20_TYPE2_APPEAR *boss6_demo20_type2_
 #pragma pop
 
 void *create_boss6_type2_appearance(void *arg0) {
-    void *o = __nw__7TObjectFUl(0xF0);
+    void *o = TObject::operator new(0xF0);
     if (o != NULL) {
         o = TBoss6Demo20_TYPE2_APPEAR__ct((TBoss6Demo20_TYPE2_APPEAR *)((u8 *)o), (s32)arg0);
     }

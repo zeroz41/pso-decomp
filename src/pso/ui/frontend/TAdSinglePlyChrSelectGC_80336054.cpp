@@ -30,7 +30,6 @@
 
 extern "C" {
 
-void *__nw__7TObjectFUl(u32);
 
     extern int lobby_game_mode_state;
 int TAdSinglePlyChrSelectGC::get_data() {  return lobby_game_mode_state; }
@@ -43,7 +42,7 @@ extern s32 tl_fade;
 s32 TAdSinglePlyChrSelectGC::start_offline_seq() {
     s32 *temp_r3;
     if (!(this->m_3c & 2)) {
-        temp_r3 = (s32 *) __nw__7TObjectFUl(0x28);
+        temp_r3 = (s32 *) TObject::operator new(0x28);
         if (temp_r3 != NULL) {
             ((THunterGuildSeqOffline *)temp_r3)->init((void *)tl_fade, (void *)queue_destruction_and_cleanup__6TLobbyFv);
         }
@@ -383,7 +382,7 @@ u8 *TUnk_804EEF64::construct_title_scene() {
     } else {
         this->m_38 = 0x320;
     }
-    p = __nw__7TObjectFUl(0x24);
+    p = TObject::operator new(0x24);
     if (p != 0) {
         p = ((TUnk_804EEF80 *)p)->construct(arg0);
     }
@@ -416,7 +415,7 @@ u8 *TUnk_804EEF64::construct_title_scene() {
         *(s32 *)((s8 *)arg0 + 0x44) = create_particle__20TAdLoadQuestPrtTxtGCFPvll(&v, 0x1E4, 1);
         this->m_48 = create_particle__20TAdLoadQuestPrtTxtGCFPvll(&v, 0x1E5, 1);
     }
-    p = __nw__7TObjectFUl(0x28);
+    p = TObject::operator new(0x28);
     if (p != 0) {
         ((TLobby *)p)->init_fade((void *)tl_fade, (void *)TLobby::destroy_download_server);
     }

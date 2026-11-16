@@ -17,7 +17,6 @@
 #pragma opt_common_subs off
 
 extern "C" {
-void *__nw__7TObjectFUl(int);
 
 #pragma push
 #pragma fp_contract on
@@ -25,7 +24,7 @@ TWindowLoadItemTexture *fn_802628C0(void *layout, void *table, void *id) {
     TWindowLoadItemTexture *window;
     s32 sprite;
 
-    window = (TWindowLoadItemTexture *)__nw__7TObjectFUl(0x74);
+    window = (TWindowLoadItemTexture *)TObject::operator new(0x74);
     if (window != NULL) {
         window = (TWindowLoadItemTexture *)TWindowLoadItemTexture__ct(window, layout, table, id);
     }
@@ -76,7 +75,7 @@ extern const f32 lbl_8044F280[2] = { 160.0f, 120.0f };
 
 void *TWindowLoadItemTexture::create(void *arg1) {
     void *o;
-    o = __nw__7TObjectFUl(0x74);
+    o = TObject::operator new(0x74);
     if (o != NULL) {
         o = TWindowLoadItemTexture__ct((TWindowLoadItemTexture *)o, (void *)this, (void *)lbl_8044F280, (void *)arg1);
     }

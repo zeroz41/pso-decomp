@@ -15,6 +15,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
 #include "pso/technique/TTecCtrl.h"
+#include "pso/system/MatrixStack.h"
 
 struct RecoveredGlobal_802308A0_lbl_804CC510
 {
@@ -153,7 +154,6 @@ TTecGiBarta_80230C58 *TTecGiBarta__ct(TTecGiBarta_80230C58 *self, void * _w1, vo
 void construct_facing_technique__10TObjPlayerFPviPvii();
 s32 play_sound_effect(s32, s32, s32, s32);
 void *find_entity_by_id(u16 id);
-void *__nw__7TObjectFUl(int);
 s32 update_technique_slot__10TTecRaFoieFl(s32, s32, s32);
 
 void TTecGiBarta::update_technique_by_phase() {
@@ -360,7 +360,7 @@ void TTecGiBarta::vfunc_8(void *target) {
 
 void TTecGiBarta::create(void *arg1, void *arg2, void *arg3) {
     void *o;
-    o = __nw__7TObjectFUl(0x178);
+    o = TObject::operator new(0x178);
     if (o != NULL) {
         TTecGiBarta__ct((TTecGiBarta_80230C58 *)(o), this, arg1, arg2, arg3);
     }
@@ -368,7 +368,7 @@ void TTecGiBarta::create(void *arg1, void *arg2, void *arg3) {
 
 void TTecGiBarta::create_ex(void *arg1, void *arg2, void *arg3) {
     void *o;
-    o = __nw__7TObjectFUl(0x178);
+    o = TObject::operator new(0x178);
     if (o != NULL) {
         ((TTecGiBarta *)o)->construct_facing(this, arg1, arg2, arg3);
     }

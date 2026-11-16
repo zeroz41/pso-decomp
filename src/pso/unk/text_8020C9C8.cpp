@@ -2,6 +2,7 @@
 #include "pso/unk/TLobby_80209524.h"
 #include "pso/unk/text_8020C9C8.h"
 #include "pso/unk/TLobby.h"
+#include "pso/player/TObjPlayer_80011014.h"
 struct Set_8020C9C8 {
     s16 f0;
     s16 flags;
@@ -27,7 +28,6 @@ struct Obj_8020C9C8 : ObjBase_8020C9C8 {
 };
 
 extern "C" {
-s32 get_current_floor();
 s32 set_room_group_flags__6TLobbyFlssl(s32, s32, s32, s32);
 Obj_8020C9C8 *create_set_object_from_row(Set_8020C9C8 *);
 extern u8 *quest_object_entries;

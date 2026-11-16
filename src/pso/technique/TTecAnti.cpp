@@ -132,7 +132,6 @@ void deliver_technique_to_party_targets(void *);
 void run_task__8TTecAntiFv(Anti_8022B150 *self);
 s32 is_split_screen();
 void *spawn_particle_effect_with_flags(void *, int, int);
-void *__nw__7TObjectFUl(int);
 int spawn_support_tec_range_effect(void*);
 }
 u8 *construct_delayed_point_sound(u8 *arg0, u8 *arg1, s16 arg2, s32 arg3, u8 *arg4);
@@ -228,7 +227,7 @@ TTecAnti::~TTecAnti() {
 
 void TTecAnti::create(void *owner, void *pos, void *arg2, void *level) {
     void *o;
-    o = __nw__7TObjectFUl(0x140);
+    o = TObject::operator new(0x140);
     if (o != NULL) {
         TTecAnti__ct((u8 *)o, (s32)owner, (s32)pos, (s32)arg2, (s32)level);
     }
@@ -250,7 +249,7 @@ void TTecAnti::vfunc_7(void *pl_arg) {
     }
     if ((u16)get_entity_id((int)self->caster) == (u16)get_entity_id((int)pl)) {
         if (self->xAC != 0) {
-            o = __nw__7TObjectFUl(0x48);
+            o = TObject::operator new(0x48);
             if (o != NULL) {
                 construct_self_effect__8TTecAntiFPvPvPviPv((Obj_8022AE10 *)o, (const Vec *)pl->x2FC, (const Vec *)pl->pos, get_entity_id((int)pl), tl_07);
             }
@@ -266,7 +265,7 @@ void TTecAnti::vfunc_7(void *pl_arg) {
         }
     }
     if (self->xAC != 0) {
-        o = __nw__7TObjectFUl(0x30);
+        o = TObject::operator new(0x30);
         if (o != NULL) {
             construct_delayed_point_sound((u8 *)o, (u8 *)pl->x2FC, (s16)(0xF), 0x4002AD11, (u8 *)tl_07);
         }

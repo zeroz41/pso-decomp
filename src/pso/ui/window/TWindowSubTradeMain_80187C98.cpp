@@ -4,11 +4,11 @@
 #include "pso/ui/window/TWindowSubTradeMain_80187C98.h"
 #include "pso/system/byteswap.h"
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
+#include "pso/system/task/TObject.h"
 
 extern "C" {
 
 void *TObjGbAdvance__ct(void *, void *, void *);
-void *__nw__7TObjectFUl(int);
 
 void TWindowSubTradeMain::send_60_update() { bswap_6x6A_packet(); send_subcommand((u8 *)this); }
 
@@ -25,7 +25,7 @@ void TWindowSubTradeMain::set_visible() { this->m_70 |= 0x40; }
 extern void *tl_05;
 
 void *TObjGbAdvance__create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0xBC);
+    void *o = TObject::operator new(0xBC);
     if (o != NULL) {
         o = TObjGbAdvance__ct(o, tl_05, arg0);
     }

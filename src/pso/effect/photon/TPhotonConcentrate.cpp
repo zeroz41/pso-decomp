@@ -11,6 +11,8 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/math/AngleLookup.h"
 
 const char *TPhotonConcentrate__class_name = "TPhotonConcentrate";
 
@@ -50,7 +52,6 @@ typedef struct PC_801A7E7C
   void *emitter;
   Owner_801A7E7C *owner;
 } PC_801A7E7C;
-f32 sin_table_lookup(s32);
 void vec3_add_to(void *, void *);
 f32 vector_length(void *);
 void rotate_vector_by_matrix(void *, void *, void *);

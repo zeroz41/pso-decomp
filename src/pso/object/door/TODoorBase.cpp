@@ -7,6 +7,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/network/TProtocol.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 // This unit is compiled with deferred code generation (its vtable comes ahead
 // of its switch tables), which emits the functions in reverse: the file is

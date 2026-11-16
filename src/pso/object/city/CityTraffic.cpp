@@ -91,7 +91,6 @@ struct Rec_80181310 { s32 timer; s32 count; void *objs[2]; };
 struct Ctrl_80181310 { u8 pad0[0x24]; s32 counter; Rec_80181310 recs[5]; };
 
 extern "C" {
-void *__nw__7TObjectFUl(u32);
 void run_task__19TObjCityAirCar_CtrlFv(Ctrl_80181310 *self);
 }
 
@@ -344,7 +343,7 @@ void run_task__19TObjCityAirCar_CtrlFv(Ctrl_80181310 *self) {
                     speed = fn_801811FC(last);
                 }
             }
-            o = __nw__7TObjectFUl(0xAC);
+            o = TObject::operator new(0xAC);
             if (o != NULL) {
                 o = construct_city_air_car((TObjCityAirCar_Car *)o, self, i, type, speed);
             }

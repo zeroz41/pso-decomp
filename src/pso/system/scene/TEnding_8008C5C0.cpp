@@ -27,6 +27,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdEndText.h"
 #include "pso/ui/frontend/TAdRicoRingCtrl.h"
+#include "pso/system/task/TObject.h"
 
 extern "C" {
 s32 TKeyBoardControl__sub_8000F92C();
@@ -98,7 +99,6 @@ void set_active_camera_pose(u8 *arg0, u8 *arg1);
 u8 *TCameraCtrl__ct(u8 *arg0, void *parent);
 void run_load_callback_table(void *, int);
 void set_copy_clear_color_argb(int, int, int);
-void *__nw__7TObjectFUl(int);
 }
 extern u8 default_scene_light_config[];
 extern s32 ending_scene_active;
@@ -114,7 +114,7 @@ void TEnding::start_ending_scene() {
     set_copy_clear_color_argb(0, 0, 0);
     reset_controller_input_state();
     init_map_lights(default_scene_light_config);
-    p = __nw__7TObjectFUl(0x1D4);
+    p = TObject::operator new(0x1D4);
     if (p != 0) {
         TCameraCtrl__ct((u8 *)p, tl_camera);
     }

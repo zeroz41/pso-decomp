@@ -9,6 +9,7 @@
 
 #include "pso/system/vector.h"
 #include "pso/system/task/TObject.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 extern TObject *tl_particle;
 void set_additive_blend();
@@ -61,13 +62,11 @@ struct Star_800855F8 {
 };
 
 extern "C" {
-void *__nw__7TObjectFUl(u32);
 void matrix_mult_vec(int, void *, void *);
 void __ct__7TObjectFP7TObject(void *, void *);
 void project_world_to_screen(int, void *, void *);
 f32 vector_length(void *);
 s32 normalize_vector(void *);
-f32 newton_sqrtf(f32);
 extern void *__vt__18TEffStarLightChild[];
 void run_task__15TEffStarLight2DFv(Star_800851B0 *self);
 void run_task__18TEffStarLightChildFv(Star_80085424 *self);
@@ -194,7 +193,7 @@ void run_task__15TEffStarLight2DFv(Star_800851B0 *self) {
         dx = self->curX - self->prevX;
         dz = self->curZ - self->prevZ;
         if (dx * dx + dz * dz >= 1.0f) {
-            child = __nw__7TObjectFUl(0x30);
+            child = TObject::operator new(0x30);
             if (child != NULL) {
                 ((void *(*)(void *, void *, void *, void *, f32, f32))__ct__18TEffStarLightChildFv)(child, &self->prevX, &self->curX, self, self->f38, self->f3C);
             }

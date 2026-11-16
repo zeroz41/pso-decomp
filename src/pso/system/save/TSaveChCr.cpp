@@ -37,7 +37,6 @@ extern "C" {
 extern s32 pso_character_card_filename[];
 extern s32 pso_system_card_filename[];
 extern s32 pso_guildcard_card_filename[];
-void *__nw__7TObjectFUl(int);
 void *__ct__9TAdBackGCFv(void *, void *);
 void *__ct__12TAdBackTxtGCFv(void *, void *);
 u32 update_window_mode_from_progress__6TLobbyFPv(s32 *, s32 *);
@@ -185,12 +184,12 @@ void TSaveChCr::close_window() {
 void TSaveChCr::create_backgrounds() {
     void *o;
     void *o2;
-    o = __nw__7TObjectFUl(0x24);
+    o = TObject::operator new(0x24);
     if (o != NULL) {
         o = __ct__9TAdBackGCFv(o, this);
     }
     *(void **)((s8 *)this + 0x30) = o;
-    o2 = __nw__7TObjectFUl(0x28);
+    o2 = TObject::operator new(0x28);
     if (o2 != NULL) {
         o2 = __ct__12TAdBackTxtGCFv(o2, this);
     }

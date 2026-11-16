@@ -27,6 +27,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/object/key/TOKey.h"
 #include "pso/player/TUnk_804B6C24.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 const char *abeno_fs_obj001_fosuno_model_names[4] = { "abeno_fs_obj001_fosuno.gj", "abesu_fs_obj001_fosu.gj", "abesu_fs_obj001_fotutu.gj", NULL };
 const char *abeno_fs_obj001_fosuno_motion_names[1] = { NULL };
@@ -128,7 +129,6 @@ extern s32 actor_frame_tick;
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 void free_bin_model_request(void*, int);
-void *__nw__7TObjectFUl(int);
 int is_not_split_screen__13TRaderMapCoreFv(void *);
 
 void TObjDoorKey__sub_8018FAEC(u16 id, u16) {
@@ -331,7 +331,7 @@ void * TObjEnvSoundGlobal__create(void *rader_map_core) {
     if (is_not_split_screen__13TRaderMapCoreFv(rader_map_core) == 1) {
         return NULL;
     }
-    o = __nw__7TObjectFUl(0x9C);
+    o = TObject::operator new(0x9C);
     if (o != NULL) {
         o = TObjEnvSoundGlobal__ct((u8 *)o, (s32)tl_05, (s32)rader_map_core);
     }

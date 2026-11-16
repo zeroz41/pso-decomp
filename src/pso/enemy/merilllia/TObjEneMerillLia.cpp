@@ -518,7 +518,6 @@ void *TObjEneMerillLia__ct(void *, void *, void *);
 void *__dt__13TUnk_80493450Fv(void *arg0, s16 arg1);
 void __dl__7TObjectFPv(void *);
 void *__dt__13TUnk_80494938Fv(void *arg0, s16 arg1);
-void *__nw__7TObjectFUl(int);
 s32 is_split_screen(void);
 u8 *load_resource_from_descriptor(void *, s32, BmlResourceDescriptor *, s32, s32, s32);
 void TObjEneMerillLia__sub_800D6D64(void);
@@ -864,11 +863,11 @@ void TObjEneMerillLia::destroy_rocks() {
 void * TObjEneMerillLia__create(void *arg0) {
     void *o;
     void *o2;
-    o = __nw__7TObjectFUl(0x20);
+    o = TObject::operator new(0x20);
     if (o != NULL) {
         o = __ct__11TObjControlFP7TObject(o, tl_04);
     }
-    o2 = __nw__7TObjectFUl(0x3DC);
+    o2 = TObject::operator new(0x3DC);
     if (o2 != NULL) {
         o2 = TObjEneMerillLia__ct(o2, o, arg0);
     }

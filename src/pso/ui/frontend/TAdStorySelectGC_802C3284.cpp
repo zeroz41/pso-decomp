@@ -33,7 +33,6 @@ extern "C" {
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, s32);
 void play_sound_effect(s32, s32, s32, s32);
 extern u8 controller_input_state[];
-void *__nw__7TObjectFUl(u32);
 void __ct__7TObjectFP7TObject(void *, void *);
 void __ct__9TAdBackGCFv(void *, void *);
 void __ct__12TAdBackTxtGCFv(void *, void *);
@@ -100,40 +99,40 @@ Self_802C3400 *__ct__16TAdStorySelectGCFv(Self_802C3400 *self, void *parent) {
         }
         return self;
     }
-    p = __nw__7TObjectFUl(0x24);
+    p = TObject::operator new(0x24);
     if (p != NULL) {
         __ct__9TAdBackGCFv(p, self);
     }
-    p = __nw__7TObjectFUl(0x28);
+    p = TObject::operator new(0x28);
     if (p != NULL) {
         __ct__12TAdBackTxtGCFv(p, self);
     }
-    p = __nw__7TObjectFUl(0x24);
+    p = TObject::operator new(0x24);
     if (p != NULL) {
         __ct__8TAdRayGCFv(p, self);
     }
-    p = __nw__7TObjectFUl(0x138);
+    p = TObject::operator new(0x138);
     if (p != NULL) {
         __ct__10TAdTitleGCFP7TObjectl(p, self, 1);
     }
-    p = __nw__7TObjectFUl(0x9C);
+    p = TObject::operator new(0x9C);
     if (p != NULL) {
         __ct__13TAdTitleTexGCFv(p, self);
     }
     {
         C_802C3400 c = {{{-1, 208.0f, 197.0f}, {-1, 178.0f, 249.0f}}};
-        p = __nw__7TObjectFUl(0xE0);
+        p = TObject::operator new(0xE0);
         if (p != NULL) {
             __ct__14TAdSelectTxtGCFP7TObjectPvPv(p, self, &c.e[0], 4);
         }
-        p = __nw__7TObjectFUl(0xE0);
+        p = TObject::operator new(0xE0);
         if (p != NULL) {
             __ct__14TAdSelectTxtGCFP7TObjectPvPv(p, self, &c.e[1], 5);
         }
         {
         NJS_POINT2 a = {302.0f, 28.0f};
         B_802C3400 b = {{{185.0f, 198.0f}, {155.0f, 250.0f}}};
-        p = __nw__7TObjectFUl(0x708);
+        p = TObject::operator new(0x708);
         if (p != NULL) {
             p = __ct__14TAdSelectCurGCFv(p, self, &b, &a);
         }
@@ -142,7 +141,7 @@ Self_802C3400 *__ct__16TAdStorySelectGCFv(Self_802C3400 *self, void *parent) {
         ((TLevelSelect *)(self->f1C))->add_item_rect(&b.e[1]);
         }
     }
-    p = __nw__7TObjectFUl(0x44);
+    p = TObject::operator new(0x44);
     if (p != NULL) {
         p = __ct__13TAdGuideTxtGCFv(p, self);
     }

@@ -7,6 +7,7 @@
 #include "pso/unk/TLobby.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/map/FloorArea.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 struct Obj_80140EE4 { u8 pad[0x1c]; void *slots[0x201]; };
 
@@ -17,7 +18,6 @@ struct Obj_80140F18 { u8 pad[0x1c]; Ent_80140F18 *slots[1]; };
 extern "C" {
 void register_slot(Obj_80140EE4 *self, void *p);
 void collect_collision_groups(Obj_80140F18 *self, Ent_80140F18 *e);
-s32 is_split_screen();
 s32 is_quest_active();
 void TLobby__sub_801403B4(int);
 }

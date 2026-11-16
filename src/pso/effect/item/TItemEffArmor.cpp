@@ -164,7 +164,6 @@ struct Self_80108020 {
 extern "C" {
 void play_sound_effect(u32, void *, s32, s32);
 f32 xyz_distance(Vec *, Vec *);
-void *__nw__7TObjectFUl(u32);
 
 TParticleCtrl *create_particle_emitter(const void *pos, s32 id);
 
@@ -196,7 +195,7 @@ void TObjPlayer::spawn_appearance_effect(u16 client) {
             p->get_pos(0x28, &a);
             p->get_pos(0x1B, &b);
             s = 1.2f * (xyz_distance(&a, &b) / 2e+01f);
-            o = __nw__7TObjectFUl(0x7C);
+            o = TObject::operator new(0x7C);
             if (o != 0) {
                 TItemEffArmor__ct((Self_80108020 *)(o), (u8 *)p, s, v);
             }
@@ -223,7 +222,7 @@ Self_80108020 *TItemEffArmor__ct(Self_80108020 *self, u8 *obj, f32 a, f32 b) {
     copy_argb((NJS_ARGB *)self->v38, (NJS_ARGB *)&lbl_8043E140);
     {
         Vec v = { 0.0f, 1.0f, 0.0f };
-        p = __nw__7TObjectFUl(0x64);
+        p = TObject::operator new(0x64);
         if (p != NULL) {
             construct_actor_light_task(p, (void *)&lbl_8043E140, &v, 0x3A, obj, 0.2f, tl_07);
         }

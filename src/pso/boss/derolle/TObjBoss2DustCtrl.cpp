@@ -6,6 +6,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/MatrixOps.h"
+#include "pso/system/task/TObject.h"
 
 extern "C" {
 
@@ -43,7 +44,6 @@ extern const f32 lbl_805D85C8;
 s32 TObjBoss2DustCtrl_dust_counter;
 
 void __ct__7TObjectFP7TObject(void *);
-void* __nw__7TObjectFUl(s32);
 extern s32 __vt__17TObjBoss2DustCtrl[];
 extern void *TObjBoss2DustCtrl__name;
 extern s32 tl_05;
@@ -136,7 +136,7 @@ void *TObjBoss2DustCtrl__ct(void *boss2_dust_ctrl) {
 }
 
 void TObjBoss2DustCtrl::create() {
-    void* obj = __nw__7TObjectFUl(0x1C);
+    void* obj = TObject::operator new(0x1C);
     if (obj != 0) {
         ((s32 (*)(void *, s32))TObjBoss2DustCtrl__ct)(obj, tl_05);
     }

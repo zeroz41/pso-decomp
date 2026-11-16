@@ -162,7 +162,6 @@ s32 get_type__10TObjPlayerFPv(void *);
 List_8022BD74 *find_area_contact__13TUnk_804CC148Fl(Tec_8022BD74 *, void *);
 List_8022BD74 *collect_body_contacts_for_target__10TObjPlayerFl(Tec_8022BD74 *, void *);
 s32 play_sound_effect(s32, s32, s32, s32);
-void *__nw__7TObjectFUl(int);
 s32 update_technique_slot__10TTecRaFoieFl(s32, s32, s32);
 
 void TTecBarta::update_technique_by_state() {
@@ -266,7 +265,7 @@ void TTecBarta::init_parameters() {
 
 void TTecBarta::create(void *arg1, void *arg2, void *arg3) {
     void *o;
-    o = __nw__7TObjectFUl(0x178);
+    o = TObject::operator new(0x178);
     if (o != NULL) {
         TTecBarta__ct((TTecBarta_8022BC10 *)(o), this, arg1, arg2, arg3);
     }
@@ -274,7 +273,7 @@ void TTecBarta::create(void *arg1, void *arg2, void *arg3) {
 
 void TTecBarta::create_ex(void *arg1, void *arg2, void *arg3) {
     void *o;
-    o = __nw__7TObjectFUl(0x178);
+    o = TObject::operator new(0x178);
     if (o != NULL) {
         construct_tec_barta_facing((TTecBarta *)((u8 *)o), (void *)this, (void *)((void *)arg1), (void *)((void *)arg2), (void *)((void *)arg3));
     }

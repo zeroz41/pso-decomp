@@ -102,7 +102,6 @@ struct Src_802A1838 {
 };
 
 extern "C" {
-void *__nw__7TObjectFUl(s32);
 void *__ct__17TAdSelectTxtSubGCFv(void *, void *, void *);
 extern const s32 current_language;
 extern u32 ad_select_text_texture_handle;
@@ -131,7 +130,7 @@ void TAdSelectTxtGC::run_task() {
     void *o;
     arg0->cnt = arg0->cnt + 1;
     if (arg0->cnt % 3 == 0 && arg0->cnt / 3 < 8) {
-        o = __nw__7TObjectFUl(0x88);
+        o = TObject::operator new(0x88);
         if (o != NULL) {
             o = __ct__17TAdSelectTxtSubGCFv(o, arg0, &arg0->ent[arg0->cnt / 3]);
         }

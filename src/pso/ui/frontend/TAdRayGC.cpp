@@ -21,7 +21,6 @@ s32 set_draw_texture_and_color(void *, void *);
 extern T_8029BCB4 TAdRayGC_ray_quad_table[4];
 u32 TAdRayGC__ray_texture_list;
 void __ct__7TObjectFP7TObject(void *);
-s32 queue_destruction__7TObjectFv();
 
 void TAdRayGC::draw_ray_quads(s32 arg0, u8 *arg1, void *arg2, s32 arg3) {
     u32 i;
@@ -90,7 +89,7 @@ void TAdRayGC::run_task() {
     case 2:
         if ((s32) *(s32 *)((s8 *)this + 0x20) > 0x1F) {
             *(s32 *)((s8 *)this + 0x20) = 0x20;
-            queue_destruction__7TObjectFv();
+            queue_destruction();
         }
         break;
     }

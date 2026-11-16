@@ -124,12 +124,10 @@ Row_8023967C TTecResta__self_recovery_effect_table[3] = {
 void __ct__7TObjectFP7TObject(void *, void *);
 void set_owner_id__13TParticleCtrlFUs(void *, s32);
 Resta_8023967C *construct_self_recovery__9TTecRestaFPvPviPv(Resta_8023967C *self, Vec *pos, s32 owner, void *parent);
-s32 queue_destruction__7TObjectFv();
 void *find_entity_by_id(u16 id);
 void deliver_technique_to_party_targets(void *);
 void run_task__9TTecRestaFv(Resta_802399F8 *self);
 s32 is_split_screen(void);
-void *__nw__7TObjectFUl(int);
 s32 copy_technique_target_list(void *, void *);
 void *TTecResta__ct(TTecResta *arg0, void *arg1, void *arg2, void *arg3, void *arg4);
 void create__9TTecRestaFPvPvPvPv(void *arg0, void *arg1, void *arg2, void *arg3);
@@ -151,7 +149,7 @@ void TTecReverser::vfunc_6(void *arg1_arg) {
     h.power = arg0->power;
     HitInfo_80239CF4 c = h;
     arg1->m21(arg0->source, &c, 0, -1, -1);
-    void *o = __nw__7TObjectFUl(0x30);
+    void *o = TObject::operator new(0x30);
     if (o != NULL) {
         construct_delayed_point_sound((u8 *)o, (u8 *)((u8 *)arg1 + 0x38), (s16)(0x2D), 0x4002AD13, (u8 *)tl_07);
     }
@@ -218,7 +216,7 @@ void run_task__9TTecRestaFv(Resta_802399F8 *self) {
     s32 i;
     self->source = (u32)find_entity_by_id(self->source_id);
     if (TTecLuker::is_parents_unqueued(self->source) == 0) {
-        ((void (*)(void *))queue_destruction__7TObjectFv)(self);
+        ((TObject *)self)->queue_destruction();
         return;
     }
     if (self->captured != 0) {
@@ -240,7 +238,7 @@ void run_task__9TTecRestaFv(Resta_802399F8 *self) {
     } else {
         deliver_technique_to_party_targets(self);
     }
-    ((void (*)(void *))queue_destruction__7TObjectFv)(self);
+    ((TObject *)self)->queue_destruction();
 }
 
 void TTecResta::render() {  }
@@ -263,7 +261,7 @@ void TTecResta::vfunc_7(void *arg1_arg) {
     player->m21((void *)arg0->source, &c, 0, 0xF, -1);
     if ((u16)get_entity_id(arg0->source) == (u16)get_entity_id((int)player)) {
         if (*(s32 *)&arg0->m_ac != 0) {
-            void *o = __nw__7TObjectFUl(0x30);
+            void *o = TObject::operator new(0x30);
             if (o != NULL) {
                 construct_self_recovery__9TTecRestaFPvPviPv((Resta_8023967C *)o, (Vec *)((u8 *)player + 0x2FC), arg0->source, (void *)tl_07);
             }
@@ -279,7 +277,7 @@ void TTecResta::vfunc_7(void *arg1_arg) {
         }
     }
     if (*(s32 *)&arg0->m_ac != 0) {
-        void *o = __nw__7TObjectFUl(0x30);
+        void *o = TObject::operator new(0x30);
         if (o != NULL) {
             construct_delayed_point_sound((u8 *)o, (u8 *)((u8 *)player + 0x2FC), (s16)(0x14), 0x4002A80F, (u8 *)tl_07);
         }
@@ -289,7 +287,7 @@ void TTecResta::vfunc_7(void *arg1_arg) {
 
 void TTecResta::create(void *owner, void *pos, void *level) {
     void *o;
-    o = __nw__7TObjectFUl(0x140);
+    o = TObject::operator new(0x140);
     if (o != NULL) {
         TTecResta__sub_80239C48((TTecResta *)((u8 *)o), (s32)owner, (s32)pos, (s32)level);
     }
@@ -297,7 +295,7 @@ void TTecResta::create(void *owner, void *pos, void *level) {
 
 void create__9TTecRestaFPvPvPvPv(void *owner, void *pos, void *arg2, void *level) {
     void *o;
-    o = __nw__7TObjectFUl(0x140);
+    o = TObject::operator new(0x140);
     if (o != NULL) {
         TTecResta__ct((TTecResta *)o, owner, pos, arg2, level);
     }
@@ -345,7 +343,7 @@ void TUnk_804CCBC0::run_task() {
     temp_r4 = this->m_2c;
     this->m_2c = (temp_r4 + 1);
     if (temp_r4 > 0xB4) {
-        queue_destruction__7TObjectFv();
+        queue_destruction();
     }
 }
 

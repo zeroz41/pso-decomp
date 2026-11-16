@@ -6,6 +6,7 @@
 #include "pso/unk/TLobby.h"
 #include "pso/unk/TLobby_8020E400.h"
 #include "pso/item/TItemData.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -296,7 +297,6 @@ void TLobby::free_rocks() {
 
 #include "pso/unk/text_8020EE2C.h"
 extern "C" {
-s32 is_split_screen(void);
 s32 mem_alloc(s32);
 }
 s32 create_named_object(s32 arg0);

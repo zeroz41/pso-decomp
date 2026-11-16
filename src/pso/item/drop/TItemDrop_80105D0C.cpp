@@ -11,6 +11,8 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/render/render_util.h"
 #include <stdlib.h>
+#include "pso/system/task/TObject.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 struct Item_80105EA4 { u8 type; u8 b1; u8 b2; };
 
@@ -364,7 +366,6 @@ s32 init__9TItemDataFv(void *);
 s32 find_tool_pmt_base_id(u8, void *);
 void generate_tool_drop__9TItemDropFiiPv(s32 arg0, s32 arg1, void *arg2);
 s32 get_char_index__23TAdSinglePlyChrSelectGCFUi(u32);
-u8 *__nw__7TObjectFUl(s32);
 u8 *create_drop__9TItemDropFi(s32 arg0);
 u32 subtractive_rng_next(void *);
 s32 __cvt_fp2unsigned(f32);
@@ -374,7 +375,6 @@ s32 calc_random_ratio__10TObjPlayerFv(void *);
 void roll_table_ratio__9TItemDropFPvUi(u8 *arg0, u32 arg1);
 s32 __dt__7TObjectFv(void *, int);
 void *TItemDrop__sub_8010F168(void *arg0, s16 arg1);
-void mem_free(void *p);
 s32 __dl__7TObjectFPv(void *);
 struct RecoveredGlobal_lbl_8049EF88 { s32 value; u8 remaining[0x14]; };
 extern RecoveredGlobal_lbl_8049EF88 lbl_8049EF88;
@@ -390,7 +390,6 @@ s32 init__9TItemDataFv(void *);
 extern const f32 lbl_805DAADC;
 s32 run_step__9TItemDropFl(s32, u32);
 s32 create_load_unload_set(void *);
-void *mem_alloc(u32 size);
 void __ct__7TObjectFP7TObject(void *, void *);
 s32 __cvt_fp2unsigned(f32);
 extern s32 __vt__9TItemDrop[];
@@ -422,8 +421,6 @@ void __dt__9TItemDropFv(void);
 void run_task__9TItemDropFv(void);
 void roll_armor_bonuses__9TItemDropFv(s32, void *);
 u8 TLobby__sub_801D6DDC(void *arg0);
-void *mem_alloc(u32 size);
-void mem_free(void *p);
 s32 init__9TItemDataFv(void *);
 
 
@@ -1064,7 +1061,7 @@ u8 *create_drop__9TItemDropFi(s32 parent) {
     if (temp_r3 != NULL) {
         temp_r0 = *(u8 *)((s8 *)temp_r3 + 0x3A0);
         if (((s8) temp_r0 >= 0) && ((s8) temp_r0 < 0xA)) {
-            temp_r3_2 = (u8 *)(__nw__7TObjectFUl(0x24));
+            temp_r3_2 = (u8 *)(TObject::operator new(0x24));
             var_r0 = temp_r3_2;
             if (var_r0 != NULL) {
                 var_r0 = (u8 *)(TItemDrop__ct((TItemDrop_80107900 *)(temp_r3_2), (void *)parent, (s8)((s8) temp_r0)));

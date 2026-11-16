@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/BmlResource.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/system/task/TObject.h"
@@ -84,7 +85,6 @@ s32 update_collisions__10TObjPlayerFv(void *);
 f32 atan2_float(f32 y, f32 x);
 s32 get_entity_id(int);
 void *find_entity_by_id(u16 id);
-void * __nw__7TObjectFUl(u32);
 void update_shock_clock__9TObjCharaFv();
 void update_movement_status__9TObjCharaFv();
 void TObjEneBm5GibonU__sub_800D0738(TObjEneBm5GibonU *self, u32 arg1, s32 arg2);
@@ -465,7 +465,6 @@ struct Hit_800CCC6C;
 extern "C" {
 void enemy_clear_target__12TObjEneDD_STFUs(void *);
 s32 transform_relative_position__9TObjEneDDFPv(void *, int);
-void queue_destruction__7TObjectFv(void *self);
 extern s32 game_difficulty_selection;
 void attach_particle_model(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0);
 Hit_800CCC6C *csnVectorUnder(Vec *, void *, s32);
@@ -782,7 +781,7 @@ void TObjEneBm5GibonU::handle_message(s32 msg) {
     case 0:
         return;
     case 3:
-        queue_destruction__7TObjectFv(this);
+        queue_destruction();
         return;
     }
 }
@@ -878,7 +877,7 @@ void TObjEneBm5GibonU::state_cast_technique(s32 arg1) {
                             rotate_matrix_y(0, rotation_y);
                             rotate_vector_by_matrix(0, &v, &v);
                             pop_matrix();
-                            e = __nw__7TObjectFUl(0x260);
+                            e = TObject::operator new(0x260);
                             if (e != 0) {
                                 ((TTecZonde *)e)->construct_bolt_effect((u8 *)tl_07, (u8 *)&p, (u8 *)&v, 0x14000000, 20, (f32)(((AttackParams *)m_318)->get_attack_range()), 1.8f);
                             }
@@ -2722,7 +2721,7 @@ TObjEneBm5GibonU *TObjEneBm5GibonU__ct(TObjEneBm5GibonU *self, s32 arg1, s32 set
     self->m_494 = 0.0f;
     self->m_498 = 0.0f;
     self->m_4ac = 0;
-    p = __nw__7TObjectFUl(0xAC);
+    p = TObject::operator new(0xAC);
     if (p != NULL) {
         p = __ct__14TObjCollidableFP7TObject(p, 0);
     }
@@ -2799,7 +2798,7 @@ void TObjEneBm5GibonU::release_static_resource() {
 extern void *tl_04;
 
 void *TObjEneBm5GibonU::create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0x568);
+    void *o = TObject::operator new(0x568);
     if (o != NULL) {
         o = TObjEneBm5GibonU__ct((TObjEneBm5GibonU *)o, (s32)tl_04, (s32)arg0);
     }

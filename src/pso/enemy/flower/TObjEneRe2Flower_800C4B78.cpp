@@ -18,6 +18,7 @@
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/unk/text_80087278.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 
 typedef struct Coll_800C4A5C {
@@ -77,7 +78,6 @@ s32 subtract_vector(void *, void *);
 
 void * player_render_texture_buffer;
 void release_texture_list(void *);
-void mem_free(void *);
 extern u8 *camera_ctrl_instance;
 
 extern const char TObjEneRe2Flower_EffCurse3__class_name_string[0x1C] = "TObjEneRe2Flower_EffCurse3";
@@ -139,7 +139,6 @@ void TObjPlayer__sub_800C4D44(void) {
     }
 }
 
-void *mem_alloc(u32 size);
 void pso_load_texture__6TLobbyFv(void *, void *);
 void set_texture_name(void *, void *, s32, s32);
 void TObjPlayer::create_render_texture() {

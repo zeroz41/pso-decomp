@@ -9,6 +9,8 @@
 
 #include <stddef.h>
 #include "pso/camera/TCameraCtrl.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/math/AngleLookup.h"
 
 struct Pad_80067D20 {
     u32 buttons;
@@ -35,9 +37,6 @@ void *get_player_by_client_id(s32 i);
 s32 matrix_mult_vec(int, void *, void *);
 s32 rotate_matrix_y(int, int);
 s32 push_matrix_from(void *);
-s32 pop_matrix();
-f32 sin_table_lookup(s32);
-f32 cos_table_lookup(s32);
 void * TCameraCtrl__vt7(void) {
     void *o;
     o = new TUnk_80488838();

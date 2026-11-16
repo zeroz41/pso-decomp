@@ -48,7 +48,6 @@ extern u32 TItemLoad__completed_model_load_task_root;
 extern "C" {
 void *TItemLoad__sub_801107EC(void *p);
 void *lookup_item_pmt_record(u8 *item);
-void *__nw__7TObjectFUl(u32);
 extern void *TItemLoad__model_load_task_root;
 extern s32 *TItemLoad__model_slot_in_use;
 void *mem_alloc(u32);
@@ -144,7 +143,7 @@ s32 request_item_model_load(u8 *item) {
                     for (i = 0; i < 12; i++) {
                         if (TItemLoad__model_slot_in_use[i] == 0) {
                             TItemLoad__model_slot_in_use[i] = 1;
-                            obj = __nw__7TObjectFUl(0x44);
+                            obj = TObject::operator new(0x44);
                             if (obj != NULL) {
                                 ((TUnk_8049F3F4 *)obj)->init((void *)TItemLoad__model_load_task_root, (void *)i, (void *)a, (void *)b);
                             }

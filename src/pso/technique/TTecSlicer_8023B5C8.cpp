@@ -22,6 +22,7 @@
 
 #include "pso/technique/TTecSlicer.h"
 #include "pso/system/task/TObject.h"
+#include "pso/math/AngleLookup.h"
 
 
 extern "C" {
@@ -324,7 +325,6 @@ s32 subtract_vector(s32, s32);
 s32 normalize_vector(s32);
 s32 test_flags_any(s32 *flags, s32 mask);
 void *get_player_by_client_id(s32 i);
-u32 __nw__7TObjectFUl(s32);
 
 void __dl__7TObjectFPv(void *);
 void dt__10TTecSlicerFls(void *, int);
@@ -337,8 +337,6 @@ s8 get_captured_target_collider_index(s32);
 s32 get_captured_target_entry(s32, s32);
 s32 get_captured_target_count(s32);
 void __ct__8TObjBaseFP7TObject(void *, s32);
-f32 sin_table_lookup(s32);
-f32 cos_table_lookup(s32);
 f32 vector_length(void *);
 extern s32 tl_05;
 u32 csnVector(s32, s32, s32);
@@ -439,7 +437,7 @@ s32 TTecSlicer::create(u16 *arg0) {
     if (arg0 != NULL) {
         player = (u8 *)(((u8 *)get_player_by_client_id(*(u16 *)((s8 *)arg0 + 0))));
         if (player != NULL) {
-            object = ((s32)__nw__7TObjectFUl(0x140));
+            object = ((s32)TObject::operator new(0x140));
             if (object != 0) {
                 object = TTecSlicer__ct((void *)((void *)object), (void *)((void *)arg0), (void *)((void *)player), player + 0x38, (int)((int) (*(s32 *)((s8 *)player + 0x60))));
             }
@@ -495,7 +493,7 @@ void run_task__10TTecSlicerFv(u8 *object) {
     } else {
         var_r31 = NULL;
     }
-    new_obj = (void *)__nw__7TObjectFUl(0x60);
+    new_obj = (void *)TObject::operator new(0x60);
     if (new_obj != 0U) {
         __ct__14TSlicerHistoryFv((u8 *)new_obj, object, ((TTecSlicer *)object)->textureHandle, var_r31, ((TTecSlicer *)object)->weaponHandle);
     }

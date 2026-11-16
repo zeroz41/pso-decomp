@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
 #include "pso/player/TObjPlayer_803E4954.h"
@@ -14,6 +15,8 @@
 #include "pso/unk/text_80087278.h"
 #include "pso/render/render_util.h"
 #include "pso/unk/text_803D96A8.h"
+#include "pso/system/task/TObject.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 extern "C" void test_flag_256__12TObjEneLappyFv();
 extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
@@ -426,7 +429,6 @@ void vfunc_58__12TObjEneLappyFv(void *arg0);
 s32 enemy_backstep_from_point(void *, void *, f32);
 f32 update_enemy_wander_move(void *, void *, int, f32);
 f32 atan2_float(f32 y, f32 x);
-s32 queue_destruction__7TObjectFv(void *);
 s32 lerp_angle_half__Fll(int, int);
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
 s32 update_action_hold_status__12TObjEneLappyFv(s32 arg0);
@@ -904,7 +906,7 @@ void TObjEneLappy::update_moving() {
                     *(s16 *)&this->unk_394 = 0;
                 }
                 if (((TObjEneLappy *)arg0)->advance_flee_step() == 0) {
-                    queue_destruction__7TObjectFv(arg0);
+                    ((TObject *)arg0)->queue_destruction();
                     return;
                 }
                 if (--*(s16 *)&this->m_396 < 0) {
@@ -1198,7 +1200,6 @@ void *__ct__11TObjControlFP7TObject(void *, void *);
 struct Set_800C1C4C;
 u8 * TObjEneLappy__ct(u8 *self, s32 arg1, Set_800C1C4C *set);
 #define TObjEneLappy__ct (*(void * (*)(void *, void *, void *))&TObjEneLappy__ct)
-void *__nw__7TObjectFUl(int);
 }
 
 extern void *tl_04;
@@ -1206,11 +1207,11 @@ extern void *tl_04;
 void *TObjEneLappy::create(void *arg0) {
     void *o;
     void *o2;
-    o = __nw__7TObjectFUl(0x20);
+    o = TObject::operator new(0x20);
     if (o != NULL) {
         o = __ct__11TObjControlFP7TObject(o, tl_04);
     }
-    o2 = __nw__7TObjectFUl(0x3A4);
+    o2 = TObject::operator new(0x3A4);
     if (o2 != NULL) {
         o2 = TObjEneLappy__ct(o2, o, arg0);
     }
@@ -1376,7 +1377,6 @@ __declspec(section ".data") s32 lappy_variant_speed_ptr_table[2];
 
 void free_bin_model_request(void*, int);
 s32 release_texture_list(void*);
-s32 get_main_phase();
 s32 dispatch_shared_handler_a__6TLobbyFl(s32);
 s32 register_object__6TLobbyFl(s32);
 s32 dispatch_shared_handler_b__6TLobbyFl(s32);
@@ -1669,7 +1669,6 @@ void TObjEneLappy::sub_800C20C0() {
 extern "C" {
 __declspec(section ".sdata2") extern const f32 lbl_805D9F9C = 0.0f;
 }
-
 
 
 #undef toggle_particle_effect__10TObjPlayerFv

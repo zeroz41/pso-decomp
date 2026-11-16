@@ -32,6 +32,7 @@
 
 #include "pso/player/TUnk_804B6C24.h"
 #include "pso/technique/TTecCtrl.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 struct Shape_801D3C38 {
     u8 pad0[0xC];
@@ -134,8 +135,6 @@ typedef struct Node_801D56D0 {
 } Node_801D56D0;
 extern "C" {
 u8 *get_ptr_4__10TObjPlayerFv();
-void mem_free(void *p);
-void *mem_alloc(u32 size);
 s32 __construct_new_array(void *, void *, int, int, int);
 void fn_801C1BA8(void *, void *);
 s32 fn_801D40D4(s32 arg0, Rec_801D40D4 *arg1, u8 *arg2);

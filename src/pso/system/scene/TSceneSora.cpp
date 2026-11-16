@@ -13,6 +13,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/map/FloorArea.h"
+#include "pso/system/MatrixStack.h"
 
 struct RecoveredGlobal_802075F8_lbl_80515BA0 {
     s32 value;
@@ -54,7 +55,6 @@ s32 get_bml_model(int, int);
 u8 *__ct__10TSceneSoraFl(TSceneSora *arg0, s32 _w1);
 void draw_ginja_model_with_motion(void *model, void *motion, f32 frame);
 s32 rotate_matrix_y(int, int);
-s32 push_matrix();
 s32 set_global_param__8TObjFishFl();
 void *get_current_floor();
 u32 init_bin_model_request(void *, int, Res_80207478 *, Res_80207478 *, int, int, int);
@@ -105,9 +105,6 @@ void TSceneSora::run_task() {
 }
 TSceneSora::~TSceneSora() {
     TSceneSora__instance = 0;
-}
-extern "C" {
-
 }
 TSceneSora::TSceneSora(s32 _w1) : TObjBase((TObject *)_w1) {
     this->m_name = TSceneSora__name;

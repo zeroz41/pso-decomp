@@ -259,12 +259,10 @@ void TItemTimerEvent::clear_active() {
     item_timer_event_instance = NULL;
 }
 
-void *__nw__7TObjectFUl(int);
-
 
 void TItemLockCountCtrl::create_instance() {
     void *o;
-    o = __nw__7TObjectFUl(0x2C);
+    o = TObject::operator new(0x2C);
     if (o != NULL) {
         o = TItemLockCountCtrl__ct((void *)o, 0, 12, TItemTimerEvent::notify_if_active, TItemTimerEvent::check_battle_ctrl);
     }

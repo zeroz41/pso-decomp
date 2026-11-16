@@ -214,7 +214,6 @@ s32 TBoss8Dragon__sub_8005FAE0(u8 *arg0);
 void set_flag_4e4__12TBoss8DragonFPv(void* p);
 s32 spawn_particle_effect_with_flags(void *, s32, s32);
 TParticleCtrl *spawn_continuous_particle_effect_with_flags(void *parent, s32 idx, s32 flags);
-void * __nw__7TObjectFUl(u32);
 u8 *__ct__22TBoss5GryphonShockWaveFP7TObjectlPUcPUcls(u8 *arg0, u8 *arg1_parent, s32 arg2, u8 *arg3, u8 *arg4, s32 arg5, s16 arg6);
 extern const f32 lbl_805D8D80;
 extern const f32 lbl_805D8E5C;
@@ -3502,7 +3501,7 @@ void TBoss5Gryphon::update_demo_state(u32 arg1) {
         *(s32 *)((s8 *)this + 0x6E4) = 0;
         *(s32 *)((s8 *)this + 0x6E0) = 0;
         *p = 1;
-        obj = __nw__7TObjectFUl(0x28);
+        obj = TObject::operator new(0x28);
         if (obj != NULL) {
             __ct__17TBoss5GryphonDemoFP7TObjectlf(obj, tl_01, p, lbl_805D8D88);
         }
@@ -3796,7 +3795,7 @@ void TBoss5Gryphon::update_shockwave_attack(u32 arg1) {
                 vel.x = lbl_805D8EA0 * sin_table_lookup(this->rotation_y);
                 vel.y = 0.5f * -(self->fxPos.y - lbl_80437938.y);
                 vel.z = lbl_805D8EA0 * cos_table_lookup(this->rotation_y);
-                p = __nw__7TObjectFUl(0x70);
+                p = TObject::operator new(0x70);
                 if (p != NULL) {
                     ((void (*)(void *, void *, void *, void *, void *, void *, u16))__ct__22TBoss5GryphonShockWaveFP7TObjectlPUcPUcls)(
                         p, self->f4C4, self, &self->fxPos, &pos, &vel, self->f38C);
@@ -4041,7 +4040,7 @@ void TBoss5Gryphon::spawn_lightning_effect() {
     segs[1].y = lbl_805D8E10;
     segs[1].z = lbl_805D8EB8 * cos_table_lookup(a) + *(f32 *)((s8 *)((u8 *)this) + 0x40);
     segs[1].w = 0.0f;
-    o = __nw__7TObjectFUl(0x264);
+    o = TObject::operator new(0x264);
     if (o != NULL) {
         o = __ct__25TBoss5GryphonLightningEffFv(o, this, segs, 3, 0.0f, lbl_805D8D88, 8.0f);
     }
@@ -4879,7 +4878,7 @@ TBoss5Gryphon *TBoss5Gryphon__ct(TBoss5Gryphon *self, void *parent, void *data) 
         p = __ct__17AreaAttackHistoryFl(p, 4);
     }
     self->m_578 = (u32)p;
-    p = __nw__7TObjectFUl(0x20);
+    p = TObject::operator new(0x20);
     if (p != NULL) {
         p = TBoss5GryphonColli__ct(p, &self->m_4c4);
     }
@@ -4958,7 +4957,7 @@ void TBoss5Gryphon::cleanup() {
 extern void *tl_04;
 
 void *TBoss5Gryphon::create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0x77C);
+    void *o = TObject::operator new(0x77C);
     if (o != NULL) {
         o = TBoss5Gryphon__ct((TBoss5Gryphon *)o, tl_04, arg0);
     }

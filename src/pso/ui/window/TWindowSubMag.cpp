@@ -96,7 +96,6 @@ s32 TWindowSubEquip__sub_80263AF8(s32, s32);
 s32 get_window_layout_position(s32);
 void *get_player_by_client_id(s32);
 s32 is_player_input_active(s32);
-void *__nw__7TObjectFUl(u32);
 void *__ct__15TWindowHelpItemFPvUs(void *, s32, s32);
 void *fn_802628C0(s32, const f32 *, s32);
 s32 call_if_split_screen(void *, s32);
@@ -326,7 +325,7 @@ void TWindowSubMag::run_task(void *arg0) {
             self->card = NULL;
         }
         if (self->help == NULL) {
-            w = __nw__7TObjectFUl(0xBC);
+            w = TObject::operator new(0xBC);
             if (w != NULL) {
                 w = __ct__15TWindowHelpItemFPvUs(w, get_window_layout_position(9), self->client_id);
             }
@@ -475,7 +474,7 @@ void TWindowSubMag::run_task(void *arg0) {
             ((TWindowSubMag *)(self->help))->set_flag60_bit8();
             ((TWindowHelpItem *)(self->help))->set_flag60_bit4();
         }
-        w = __nw__7TObjectFUl(0x74);
+        w = TObject::operator new(0x74);
         if (w != NULL) {
             w = TWindowSubMagPhoton__ct(w, get_window_layout_position(0xA), self->mag_state, self->client_id);
         }

@@ -13,6 +13,7 @@
 #include "pso/unk/TUnk_80488D70.h"
 #include "pso/system/scene/TScene.h"
 #include "pso/map/FloorArea.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 #pragma push
 #pragma fp_contract on
@@ -46,9 +47,6 @@ f32 vector_length(const Vec*);
 void approach_vector_fixed_distance(const Vec*, const Vec*, Vec*, f32);
 
 u16 TCameraCtrl__sub_8006A5DC();
-f32 fabs_float(f32);
-f32 atan2_float(f32 y, f32 x);
-f32 newton_sqrtf(f32);
 s32 angle_difference_abs(s32, s32);
 s32 approach_angle_limited(s32, s32, s32);
 

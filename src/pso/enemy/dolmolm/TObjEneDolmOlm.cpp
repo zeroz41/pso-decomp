@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/unk/SampledMotionPoints.h"
 #include "pso/enemy/dolmolm/TObjEneDolmOlm.h"
 #include "pso/render/reflection.h"
@@ -22,6 +23,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 
 #include "pso/render/TUnk_80494938.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 struct Base_80301690_80300CE4 { char pad[0x18]; };
 struct VObj_80301690_80300CE4 : Base_80301690_80300CE4 {
@@ -373,7 +375,6 @@ s32 copy_position__20TBoss3VoloptHiraisinFv(void *);
 s32 submit_cursor_candidate(void *, int);
 s32 TObjEneDolmOlm__sub_80301C3C(void *);
 extern u32 TObjEneDolmOlm__resource_bundle;
-void queue_destruction__7TObjectFv(void *);
 void __dt__13TUnk_80494938Fv(void *, int);
 void free_collision_body_parts(void *);
 s32 mult_vec_array__10TObjPlayerFUll(int, int, void *, int);
@@ -430,7 +431,6 @@ s32 register_object__6TLobbyFl(int);
 s32 dispatch_shared_handler_b__6TLobbyFl(int);
 s32 register_boss__6TLobbyFl(int);
 u8 *load_resource_from_descriptor(void *, int, void *, int, int, int);
-u8 *mem_alloc(s32);
 extern u32 dolm_olm_combat_stat_id_pair;
 extern u32 TObjEneDolmOlm__shared_handler_ids;
 extern u32 TObjEneDolmOlm__registered_object_ids;
@@ -442,7 +442,6 @@ void * TObjEneDolmOlm__create(void *arg0);
 void free_bin_model_request(void*, int);
 void *__ct__11TObjControlFP7TObject(void *, void *);
 u8 *__ct__14TObjEneDolmOlmFll(u8 *, s32, s32);
-void *__nw__7TObjectFUl(int);
 void mem_free(void*);
 s32 get_mode__11TCameraCtrlFPv(void *);
 s32 create__13TUnk_80494968FUlUl(u32, u32);
@@ -654,7 +653,7 @@ TObjEneDolmOlm::~TObjEneDolmOlm() {
     s32 i;
     for (i = 0; i < 2; i++) {
         if (((Ene_80302A34 *)this)->obj[i] != NULL) {
-            queue_destruction__7TObjectFv(((Ene_80302A34 *)this)->obj[i]);
+            ((TObject *)(((Ene_80302A34 *)this)->obj[i]))->queue_destruction();
             ((Ene_80302A34 *)this)->obj[i] = 0;
         }
     }
@@ -742,11 +741,11 @@ void TObjEneDolmOlm::free_shared_resources() {
 void * TObjEneDolmOlm__create(void *arg0) {
     void *o;
     void *o2;
-    o = __nw__7TObjectFUl(0x20);
+    o = TObject::operator new(0x20);
     if (o != NULL) {
         o = __ct__11TObjControlFP7TObject(o, tl_04);
     }
-    o2 = __nw__7TObjectFUl(0x3E8);
+    o2 = TObject::operator new(0x3E8);
     if (o2 != NULL) {
         o2 = ((void *(*)(void *, void *, void *))__ct__14TObjEneDolmOlmFll)(o2, o, arg0);
     }

@@ -79,7 +79,6 @@ extern s32 boss4_zanzo_bml_index_table[];
 void *__dt__11TObjDFDemo2Fv(void *arg0, s16 arg1);
 void *TObjDFDemo2__ct(void *, void *, void *, void *, void *);
 void __dl__7TObjectFPv(void *);
-void *__nw__7TObjectFUl(int);
 
 void vfunc_6__8TObjBaseFPsl();
 void get_name__8TObjBaseFv();
@@ -215,7 +214,7 @@ void *TObjDFDemo2__ct(void *arg0, void *parent, void *arg2, void *arg3, void *ar
 
 void *TBoss4DarkFalz::create_demo2(void *arg0, void *arg1, void *arg2, void *arg3) {
     void *o;
-    o = __nw__7TObjectFUl(0xC4);
+    o = TObject::operator new(0xC4);
     if (o != NULL) {
         o = TObjDFDemo2__ct(o, arg0, arg1, arg2, arg3);
     }

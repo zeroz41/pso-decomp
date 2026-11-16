@@ -54,7 +54,6 @@ struct VObj_8035663C : VBase_8035663C {
 };
 
 extern "C" {
-u8 *__nw__7TObjectFUl(s32);
 u8 test_rock_bit__15TBoss6SwordWaveFiUc(s32 arg0, u8 arg1);
 void set_bit__15TBoss6SwordWaveFiUc(s32 arg0, u8 arg1);
 f32 *dispatch_shared_handler_a__6TLobbyFl(s32);
@@ -210,7 +209,7 @@ u8 *TBoss6SwordShot__ct(void *arg0, s32 arg1, s32 arg2, s32 arg3, f32 farg0) {
 u8 *fn_8035648C(s32 arg0, s32 arg1, s32 arg2, f32 farg0) {
     u8 *temp_r3;
     u8 *var_r0;
-    temp_r3 = (u8 *)(__nw__7TObjectFUl(0x38));
+    temp_r3 = (u8 *)(TObject::operator new(0x38));
     var_r0 = temp_r3;
     if (var_r0 != NULL) {
         var_r0 = (u8 *)(TBoss6SwordShot__ct(temp_r3, arg0, arg1, arg2, farg0));
@@ -413,7 +412,7 @@ u8 *__ct__15TBoss6SwordWaveFv(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, 
 u8 *TBoss6SwordWave::create(s32 arg0, s32 arg1, s32 arg2, s32 arg3, f32 farg0) {
     u8 *temp_r3;
     u8 *var_r0;
-    temp_r3 = (u8 *)(__nw__7TObjectFUl(0x64));
+    temp_r3 = (u8 *)(TObject::operator new(0x64));
     var_r0 = temp_r3;
     if (var_r0 != NULL) {
         var_r0 = (u8 *)(__ct__15TBoss6SwordWaveFv(temp_r3, arg0, arg1, arg2, arg3, farg0));

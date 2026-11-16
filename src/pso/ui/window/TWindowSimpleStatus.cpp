@@ -16,6 +16,9 @@
 #include "pso/ui/window/TWindowDD.h"
 
 #include "pso/unk/WindowLayoutRecord.h"
+#include "pso/system/task/TObject.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/math/AngleLookup.h"
 
 struct Disp_8026F9F4 { u8 p0[0x20]; s16 id; u8 p1[0x42]; void *windows[5]; };
 
@@ -71,7 +74,6 @@ WindowDescriptor simple_status_window_layout = {
 extern "C" {
 int obj_getArrWord_254(void *p, int i);
 void * get_player_by_client_id();
-void *__nw__7TObjectFUl(int);
 void TWindowComCard__sub_80249D7C(u8 *arg0, s32 arg1);
 void *TWindowComCard__sub_80249ED8(void *, void *, void *, s32, s32, s32);
 void draw_photon_blast_fan(s32, NJS_POINT2 *, Params_80270244 *, u32, f32, s32, s32, f32);
@@ -153,8 +155,6 @@ void update_lockon_window(u8 *arg0);
 s32 update_photon_blast_player_marker(s32 arg0, s32 arg1);
 s32 rand(void);
 s32 strcmp(s32, s32);
-f32 sin_table_lookup(s32);
-f32 cos_table_lookup(s32);
 void begin_screen_draw(s32 arg0);
 s32 draw_textured_quad_at_depth(Rect_80270394 *, f32);
 void set_draw_texture_and_color(s32 idx, s32 arg1);
@@ -281,7 +281,7 @@ void TWindowSimpleStatus::update_status_icons(void *ofs) {
         name = (s32)((TWindowComCard *)i)->get_card_name_ptr();
         w = ((Disp_8026F9F4 *)this)->windows[j];
         if (w == NULL) {
-            w = __nw__7TObjectFUl(0x74);
+            w = TObject::operator new(0x74);
             if (w != NULL) {
                 w = TWindowComCard__sub_80249ED8(w, ((Disp_8026F9F4 *)this), ofs, 0, name, ((Disp_8026F9F4 *)this)->id);
             }
@@ -308,7 +308,7 @@ void TWindowSimpleStatus::update_status_icons(void *ofs) {
             name = get_status_effect_icon_index(word);
             w = ((Disp_8026F9F4 *)this)->windows[j];
             if (w == NULL) {
-                w = __nw__7TObjectFUl(0x74);
+                w = TObject::operator new(0x74);
                 if (w != NULL) {
                     w = TWindowComCard__sub_80249ED8(w, ((Disp_8026F9F4 *)this), ofs, count, name, ((Disp_8026F9F4 *)this)->id);
                 }
@@ -607,7 +607,7 @@ SS_80270668 *TWindowSimpleStatus__ct(SS_80270668 *arg0, void *arg1, s32 arg2, vo
 
 void *TWindowSimpleStatus::create(void *arg1) {
     void *o;
-    o = __nw__7TObjectFUl(0x78);
+    o = TObject::operator new(0x78);
     if (o != NULL) {
         o = TWindowSimpleStatus__ct((SS_80270668 *)(o), (void *)this, (s32)arg1, &simple_status_window_layout);
     }

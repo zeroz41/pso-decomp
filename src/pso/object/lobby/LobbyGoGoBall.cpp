@@ -57,7 +57,6 @@ s32 scale_matrix(int, f32, f32, f32);
 s32 rotate_matrix_x(int, int);
 struct Vec_80198E84;
 extern Vec_80198E84 gogo_ball_sync_state[];
-void *__nw__7TObjectFUl(s32);
 struct Sys_80198A2C;
 extern Sys_80198A2C gogo_ball_configuration;
 void __dl__7TObjectFPv(void *);
@@ -70,7 +69,6 @@ struct Pair_80198F14;
 extern "C" {
 void TWindowTimer__sub_8019A6F8(void*);
 void __dl__7TObjectFPv(void*);
-void* __nw__7TObjectFUl(s32);
 extern void* language_lobby_texture_descriptor[];
 extern Pair_80198F14 gogo_ball_team_scores[];
 void bswap_6x79_gogo_ball__12TWindowTimerFi(s32);
@@ -193,7 +191,6 @@ struct Stack_80198DCC {
 extern "C" {
 s32 is_on_current_screen__11TCameraCtrlFv(void *, int);
 void TWindowTimer__sub_80198D98(void);
-void * __nw__7TObjectFUl(s32);
 }
 struct Vec_80198E84 { f32 x; f32 y; f32 z; s32 w; u8 pad10[2]; s16 f12; };
 extern "C" {
@@ -1133,7 +1130,7 @@ void TUnk_804B8DD0::update_effects() {
                 VecCopy((Vec *)&vda, &this->pos);
                 vda.y += 7.0f;
                 spawn_particle_effect_with_flags(&vda, 0x20E, 0x40);
-                o = (void *)__nw__7TObjectFUl(0x28);
+                o = (void *)TObject::operator new(0x28);
                 if (o != NULL) {
                     construct_timed_sound_voice((u8 *)o, (s32)&this->pos, (s16)(5), 0x4002A90C, 0, (s32)tl_05);
                 }
@@ -1143,7 +1140,7 @@ void TUnk_804B8DD0::update_effects() {
                 VecCopy((Vec *)&vdb, &this->pos);
                 vdb.y += 7.0f;
                 spawn_particle_effect_with_flags(&vdb, 0x20F, 0x40);
-                o = (void *)__nw__7TObjectFUl(0x28);
+                o = (void *)TObject::operator new(0x28);
                 if (o != NULL) {
                     construct_timed_sound_voice((u8 *)o, (s32)&this->pos, (s16)(5), 0x4002A90C, 0, (s32)tl_05);
                 }

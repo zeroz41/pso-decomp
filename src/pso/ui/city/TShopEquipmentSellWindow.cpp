@@ -157,7 +157,6 @@ struct Win_8021C968 : VObj_8021C968 {
 
 extern "C" {
 void *create_item_list_window(s32, s32, u16);
-void *__nw__7TObjectFUl(u32);
 s32 get_entity_id(s32);
 s32 get_window_layout_position(s32);
 void *__ct__15TWindowHelpItemFPvUs(void *, s32, u16);
@@ -300,7 +299,7 @@ void TShopEquipmentSellWindow::handle_selection() {
         if (w->entries[i].item.b[0] == 3) {
             type = ((TItemData *)&w->entries[i].item)->get_stack_count();
             if (type > 1 && w->qty_win == NULL) {
-                n = __nw__7TObjectFUl(0x7C);
+                n = TObject::operator new(0x7C);
                 if (n != NULL) {
                     n = __ct__18TWindowInputNumberFPvllls(n, get_window_layout_position(0x2B), 1, type, 1, ((TShopSequence *)w)->get_child_field1c());
                 }
@@ -374,7 +373,7 @@ void TShopEquipmentSellWindow::build_sell_list() {
         ((TWindowMenuIconLine *)(self->list_win))->clear_decided();
     }
     if (self->help_win == NULL) {
-        p = __nw__7TObjectFUl(0xBC);
+        p = TObject::operator new(0xBC);
         if (p != NULL) {
             p = __ct__15TWindowHelpItemFPvUs(p, get_window_layout_position(0x27), get_entity_id((s32)self->owner));
         }

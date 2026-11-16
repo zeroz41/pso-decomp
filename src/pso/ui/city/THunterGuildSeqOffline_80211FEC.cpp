@@ -9,6 +9,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/system/task/TObject.h"
 
 
 struct Seq_80212304 {
@@ -26,7 +27,6 @@ void *get_window_layout_position(s32);
 char *strcpy(char *, const char *);
 __declspec(section ".data") f32 member_name_window_pos[2] = {219.0f, 100.0f};
 u8 *THunterGuildSeqOffline__ct(u8 *arg0, s32 arg1, s32 arg2);
-void *__nw__7TObjectFUl(int);
 
     extern int lbl_80513E70[];
 int THunterGuildSeqOffline__sub_80211FEC(int a0) {  return lbl_80513E70[a0]; }
@@ -37,7 +37,7 @@ int THunterGuildSeqOffline__sub_80212000(int a0) {  return lbl_80513E60[a0]; }
 extern void *tl_05;
 
 void *THunterGuildSeqOffline::create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0x3C);
+    void *o = TObject::operator new(0x3C);
     if (o != NULL) {
         o = THunterGuildSeqOffline__ct((u8 *)o, (s32)tl_05, (s32)arg0);
     }

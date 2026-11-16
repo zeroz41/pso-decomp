@@ -6,11 +6,11 @@
 #include "pso/ui/charcreate/TChCrTagOccHeader.h"
 #include "pso/ui/charcreate/TChCrTagOccupation.h"
 #include "pso/ui/charcreate/TChCrCharSelect.h"
+#include "pso/math/AngleLookup.h"
 
 
 const char *chcr_tag_occ_header_class_name = "TChCrTagOccHeader";
 
-extern "C" f32 sin_table_lookup(s32 angle);
 #pragma push
 #pragma fp_contract on
 void fn_802A2A00(TChCrTag *tag) {

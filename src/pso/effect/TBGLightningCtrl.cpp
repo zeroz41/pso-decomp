@@ -5,6 +5,7 @@
 #include "pso/effect/TBGLightningCtrl.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/render/render_util.h"
+#include "pso/math/AngleLookup.h"
 
 extern "C" void render__16TBGLightningCtrlFv();
 #include "pso/unk/text_803DA798.h"
@@ -43,20 +44,16 @@ struct Obj_802A9F48 {
 extern "C" {
 
 s32 VecCopy__FP3VecPC3Vec(void *, s32, s8, f32, f32);
-s32 queue_destruction__7TObjectFv();
 s32 __ct__8TObjBaseFP7TObject(void *, void *);
 }
 u8 *load_gvm_texture_file(s32 arg0);
 extern "C" {
 void __dl__7TObjectFPv(void *);
-void * __nw__7TObjectFUl(int);
 s32 __ct__7TObjectFP7TObject(u8 *, void *);
 void fn_802A9DF4(Obj_802A9DF4 *self, Vec *dir);
 void fn_802A9F48(Obj_802A9F48 *self, Vec *dir);
 u32 __cvt_fp2unsigned(f32);
 s32 rand();
-f32 sin_table_lookup(s32);
-f32 cos_table_lookup(s32);
 s32 release_texture_list(void*);
 void emit_particle_strip_vertices(void *, int);
 
@@ -126,7 +123,7 @@ u8 *TBGLightningCtrl__ct(u8 *bg_lightning_ctrl, s32 parent, s32 arg2) {
 }
 
 void *TBGLightningCtrl__create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0x94);
+    void *o = TObject::operator new(0x94);
     if (o != NULL) {
         o = ((void * (*)(void *, void *, void *))TBGLightningCtrl__ct)(o, tl_05, arg0);
     }
@@ -260,14 +257,14 @@ void run_task__12TBGLightningFv(void *arg0) {
     temp_r4 = *(u8 *)((s8 *)arg0 + 0x1D) + 1;
     *(u8 *)((s8 *)arg0 + 0x1D) = (u8) temp_r4;
     if ((s8) temp_r4 >= 0xC) {
-        queue_destruction__7TObjectFv();
+        ((TObject *)arg0)->queue_destruction();
     }
 }
 
 u8 *create__12TBGLightningFiif(s32 arg0, s32 arg1, f32 farg0) {
     u8 *bg_lightning;
     u8 *var_r0;
-    bg_lightning = (u8 *)(((u8 * (*)(s32))__nw__7TObjectFUl)(0x30));
+    bg_lightning = (u8 *)(TObject::operator new(0x30));
     var_r0 = bg_lightning;
     if (var_r0 != NULL) {
         var_r0 = (u8 *)(__ct__12TBGLightningFv((u8 *)bg_lightning, (void *)arg0, (s32)arg1, farg0));

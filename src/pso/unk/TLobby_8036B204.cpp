@@ -6,6 +6,7 @@
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/TLobby.h"
 #include "pso/system/task/TObject.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 
 struct Obj_8036B2E8 { u8 pad0[0x1C]; u32 base; s32 t[4]; };
@@ -22,11 +23,8 @@ struct Mgr_8036B424 {
 
 extern "C" {
 s32 TLobby__sub_8036B1AC(s32);
-void mem_free(void *p);
 extern s32 __vt__13TUnk_804F3640[];
 u32 slot_entity_dispatcher_instance;
-void *__nw__7TObjectFUl(int);
-void *mem_alloc(u32 size);
 void __ct__7TObjectFP7TObject(void *);
 Mgr_8036B424 *TLobby__sub_8036B424(Mgr_8036B424 *arg0, void * _w1);
 
@@ -100,7 +98,7 @@ Mgr_8036B424 *TLobby__sub_8036B424(Mgr_8036B424 *arg0, void * _w1) {
 void TLobby::create_singleton(void *arg0) {
     void *o;
     if ((*(void * *)&slot_entity_dispatcher_instance) == NULL) {
-        o = __nw__7TObjectFUl(0x30);
+        o = TObject::operator new(0x30);
         if (o != NULL) {
             TLobby__sub_8036B424((Mgr_8036B424 *)(o), arg0);
         }

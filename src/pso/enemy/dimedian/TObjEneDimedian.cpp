@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/unk/SampledMotionPoints.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/system/task/TObject.h"
@@ -29,6 +30,7 @@
 #include "pso/unk/text_803D8F74.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/unk/text_803E2D70.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 struct VBase_14_800A7BEC { char pad[0x14]; };
 
@@ -247,7 +249,7 @@ int TObjEneDimedian::beast_retire_corpse() {
     u8 *arg0 = (u8 *)this;
     this->m_390 = 1;
     if (((A7B00Obj_800a7b00_800A7764*)(arg0 + 0x3A8))->m4() == 1) {
-        queue_destruction__7TObjectFv(arg0);
+        ((TObject *)arg0)->queue_destruction();
     }
 }
 void TObjEneDimedian::sub_800A7B54() {
@@ -476,7 +478,6 @@ s32 dispatch_shared_handler_b__6TLobbyFl(int);
 s32 register_boss__6TLobbyFl(int);
 s32 load_enemy_bml_resource_named(s32 arg0, s32 arg1);
 u8 *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-void *mem_alloc(u32 size);
 extern const u8 lbl_8043AAA4[26];
 
 void __ct__13TUnk_80493450FP7TObject(void *);
@@ -498,8 +499,6 @@ extern u8 __dt__15RenderFadeStateFv[];
 O_800A846C *TObjPlayer__sub_800A846C(O_800A846C *arg0, s16 arg1);
 void free_bin_model_request(void*, int);
 void *__ct__11TObjControlFP7TObject(void *, void *);
-void *__nw__7TObjectFUl(int);
-void mem_free(void*);
 
 extern void *tl_04;
 
@@ -677,11 +676,11 @@ void *__vt__15TObjEneDimedian[103] = {
 void *TObjEneDimedian::create(void *arg2_) {
     void *o;
     void *o2;
-    o = __nw__7TObjectFUl(0x20);
+    o = TObject::operator new(0x20);
     if (o != NULL) {
         o = __ct__11TObjControlFP7TObject(o, tl_04);
     }
-    o2 = __nw__7TObjectFUl(0x43C);
+    o2 = TObject::operator new(0x43C);
     if (o2 != NULL) {
         o2 = TObjEneDimedian__ct(o2, o, arg2_);
     }
@@ -798,7 +797,7 @@ O_800A846C *TObjPlayer__sub_800A846C(O_800A846C *arg0, s16 arg1) {
         arg0->vptr = __vt__15TObjEneDimedian;
         for (i = 0; i < 2; i++) {
             if (arg0->objs[i] != NULL) {
-                queue_destruction__7TObjectFv(arg0->objs[i]);
+                ((TObject *)arg0->objs[i])->queue_destruction();
                 arg0->objs[i] = NULL;
             }
         }

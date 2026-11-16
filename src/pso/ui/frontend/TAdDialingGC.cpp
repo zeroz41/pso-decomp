@@ -40,7 +40,6 @@ s32 __ct__10TAdTitleGCFP7TObjectl(u32, void *, s32);
 u32 __nw__7TObjectFUl(s32);
 s8 func_801A5E54__Fv();
 s32 handle_state__12TAdDialingGCFv();
-s32 queue_destruction__7TObjectFv();
 extern s32 TLobby__net_session_mode;
 }
 
@@ -468,7 +467,7 @@ void TAdDialingGC::update_dial_state(s32 arg1) {
         }
         break;
     case 3:
-        queue_destruction__7TObjectFv();
+        queue_destruction();
         break;
     }
 }
@@ -499,7 +498,7 @@ block_12:
         }
         break;
     case 3:
-        queue_destruction__7TObjectFv();
+        queue_destruction();
         break;
     }
 }
@@ -530,7 +529,7 @@ block_12:
         }
         break;
     case 3:
-        queue_destruction__7TObjectFv();
+        queue_destruction();
         break;
     }
 }

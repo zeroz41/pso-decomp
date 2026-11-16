@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/frontend/TAdFloorLoadPrtGC.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -7,6 +8,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/window/TWindowDD_8034AF68.h"
 #include "pso/ui/window/TWindowDD.h"
+#include "pso/system/task/TObject.h"
 
 #pragma pool_data off
 struct Slot_8034AD38 { void *ctrl; u8 pad[0x18]; };
@@ -70,12 +72,12 @@ Prt_8034ADE0 *TAdFloorLoadPrtGC__ct(Prt_8034ADE0 *arg0);
 TAdFloorLoadPrtGC::~TAdFloorLoadPrtGC() {
     s32 i;
     if (*(void **)((u8 *)this + 0x39C)) {
-        queue_destruction__7TObjectFv(*(void **)((u8 *)this + 0x39C));
+        ((TObject *)(*(void **)((u8 *)this + 0x39C)))->queue_destruction();
         *(void **)((u8 *)this + 0x39C) = NULL;
     }
     for (i = 0; i < 32; i++) {
         if (((TAdFloorLoadPrtGC_8034AD38 *)this)->slots[i].ctrl) {
-            queue_destruction__7TObjectFv(((TAdFloorLoadPrtGC_8034AD38 *)this)->slots[i].ctrl);
+            ((TObject *)(((TAdFloorLoadPrtGC_8034AD38 *)this)->slots[i].ctrl))->queue_destruction();
             ((TAdFloorLoadPrtGC_8034AD38 *)this)->slots[i].ctrl = NULL;
         }
     }

@@ -100,7 +100,6 @@ void *TObjLuker__ct(void *arg0, void *arg1, void *arg2);
 f32 horizontal_distance_squared(void *, void *);
 s32 check_flag_100__10TObjPlayerFPv(void *);
 s32 play_persistent_sound(int, void *, void *, int, int);
-void *__nw__7TObjectFUl(int);
 s32 TTecLuker__sub_8023401C(void *);
 void *create_telepipe_visual(void *, void *, int, int);
 s32 get_entity_id(int);
@@ -409,7 +408,7 @@ void TObjLuker::run_task() {
         if (TTecLuker__sub_8023401C(p + 0x830) != 0) {
             *(s16 *)&this->m_ae = 1;
             if (*(s32 *)&this->m_b4 != 0 && *(void * *)&this->m_a4 == NULL) {
-                o = __nw__7TObjectFUl(0x44);
+                o = TObject::operator new(0x44);
                 if (o != NULL) {
                     o = create_telepipe_visual(o, (u8 *)&this->position, this->m_a8, tl_07);
                 }
@@ -511,7 +510,7 @@ void *TObjLuker__ct(void *arg0, void *parent, void *arg2) {
 #undef self
 
 void *TObjLuker__create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0xBC);
+    void *o = TObject::operator new(0xBC);
     if (o != NULL) {
         o = TObjLuker__ct(o, tl_05, arg0);
     }

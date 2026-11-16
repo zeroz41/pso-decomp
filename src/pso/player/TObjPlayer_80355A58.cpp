@@ -6,13 +6,13 @@
 #include "pso/item/mag/TItemMag.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/map/FloorArea.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 
 extern "C" {
 u8 * __ct__11TItemWeaponFP7TObjectPUc(void *, void *);
 extern s32 __vt__13TUnk_804F1320[];
 u8 *photon_field_weapon_ct(TObjPlayer *arg0, u8 *arg1);
-s32 get_current_floor();
 
 void TUnk_804F1320::activate_effect(s32 item) {
     s32 temp_r31;

@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/boss/dragon/TBoss1DragonColli.h"
@@ -22,6 +23,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include <stdlib.h>
+#include "pso/system/task/TObject.h"
 
 struct Nd_802F2348 { u8 pad[0xC]; Nd_802F2348 *next; };
 struct Li_802F2348 { u8 pad[0x14]; Nd_802F2348 *head; };
@@ -87,7 +89,6 @@ void __dl__7TObjectFPv(void *);
 u32 __nw__7TObjectFUl(s32);
 void TObjBoss2Tunnel__sub_802F2278(void);
 s32 TObjBoss2Tunnel__sub_802F22F4(void);
-void queue_destruction__7TObjectFv(void *arg0);
 extern const f32 lbl_805DEC68;
 s32 init_piecewise_curve(void *, f32, f32, f32, f32, f32);
 f32 update_position__15TObjBoss2TunnelFv(void *);
@@ -220,7 +221,7 @@ void *TObjBoss2Tunnel__sub_802F2A2C(void *arg0p, s32 parent) {
 void *TUnk_804E4B3C::destroy(s16 arg1) {
     if (this != NULL) {
         *(s32 **)((s8 *)this + 0x18) = lbl_804E4B3C;
-        if (*(void **)((s8 *)this + 0x88) != NULL) { queue_destruction__7TObjectFv((*(void **)((s8 *)this + 0x88))); }
+        if (*(void **)((s8 *)this + 0x88) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0x88)))->queue_destruction(); }
         TObjBoss2Tunnel::dt((s32)((s8 *)this + 0x20), (s16)(-1));
         __dt__7TObjectFv(this, 0);
         if (arg1 > 0) {
@@ -379,7 +380,7 @@ void TUnk_804E4B3C::sub_802F2400() {
             segment_x = (-50.0f);
             object = tunnel_col;
             if (object != NULL) {
-                queue_destruction__7TObjectFv(object);
+                object->queue_destruction();
                 tunnel_col = NULL;
             }
             (*(s32 *)&boss2_tunnel_state_flags) |= 0x8000;
@@ -520,7 +521,7 @@ void TUnk_804E4B24::run_task() {
         controller->copy_position(&position);
     }
     if (this->position.z <= -this->half_length) {
-        queue_destruction__7TObjectFv((arg0));
+        ((TObject *)arg0)->queue_destruction();
     }
     ((TUnk_804E4B24 *)arg0)->update_collision();
 }

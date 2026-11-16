@@ -17,6 +17,7 @@
 #include "pso/weapon/TItemAttackCol.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
+#include "pso/math/AngleLookup.h"
 
 #pragma readonly_strings on
 
@@ -45,8 +46,6 @@ struct V4_8035740C { f32 x, y, z; s32 w; };
 struct O_8035740C { u8 pad0[0xC4]; V4_8035740C v[10]; };
 
 extern "C" {
-f32 sin_table_lookup(s32);
-f32 cos_table_lookup(s32);
 f32 normalize_vector(void *);
 const char *TItemEffOrgaFlowShot__name = "TItemEffOrgaFlowShot";
 s32 is_local_client_floor_leader();

@@ -1,10 +1,10 @@
 #include "types.h"
 #include "pso/camera/TCameraCtrl.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 
 extern "C" {
 
-s32 is_split_screen();
 
 extern s32 local_client_id;
 

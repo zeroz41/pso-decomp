@@ -350,7 +350,6 @@ s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
 int play_sound_effect(void *, void *, void *, void *);
 extern s32 __vt__22TObjEnePanarmsAtkColli[];
 void *TObjEnePanarmsAtkColli__ct(Obj_800E37E4 *arg0, void *arg1, void *arg2, void *arg3, void *arg4);
-void *__nw__7TObjectFUl(int);
 
 void TObjEnePanarmsAtkColli::run_task() {
     u8 *arg0 = (u8 *)this;
@@ -374,7 +373,7 @@ void TObjEnePanarmsAtkColli::run_task() {
 
 void *TObjEnePanarmsAtkColli::create(void *arg1, void *arg2, void *arg3) {
     void *o;
-    o = __nw__7TObjectFUl(0x390);
+    o = TObject::operator new(0x390);
     if (o != NULL) {
         o = TObjEnePanarmsAtkColli__ct((Obj_800E37E4 *)(o), this, arg1, arg2, arg3);
     }

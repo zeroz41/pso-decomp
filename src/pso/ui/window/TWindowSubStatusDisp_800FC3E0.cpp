@@ -9,6 +9,7 @@
 #include "pso/ui/window/TWindowCtrlMain.h"
 #include "pso/system/vector.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 extern "C" {
 extern s32 localized_alphabet_list;
@@ -32,7 +33,6 @@ void pop_matrix(void);
 f32 vec3_dot(const Vec *a, const Vec *b);
 void push_matrix(void);
 void project_world_to_screen(void *m, Vec *pos, f32 *screen);
-s32 is_split_screen(void);
 s32 get_screen_height__11TCameraCtrlFv(void);
 s32 get_screen_width__11TCameraCtrlFv(void);
 }

@@ -1,7 +1,9 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/ui/font/TFontSmallHelp.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/task/TObject_8001A448.h"
 #include "pso/system/vector.h"
+#include "pso/system/task/TObject.h"
 
 struct HelpTextPlayerState {
     u8 unresolved_00[0x84C];
@@ -21,11 +23,11 @@ extern const char *lbl_805D2B20;
 void TFontSmallHelp::run_task() {
     HelpTextPlayerState *player = (HelpTextPlayerState *)get_player_by_client_id(player_id);
     if (player == NULL) {
-        queue_destruction__7TObjectFv(this);
+        queue_destruction();
         return;
     }
     if (owner_identity != player->identity) {
-        queue_destruction__7TObjectFv(this);
+        queue_destruction();
         return;
     }
     VecCopy(&position, &player->position);
@@ -33,7 +35,7 @@ void TFontSmallHelp::run_task() {
     s32 lifetime = lifetime_ticks;
     if (lifetime > 0 && age_ticks >= lifetime) {
         disallow_rendering__7TObjectFv(this);
-        queue_destruction__7TObjectFv(this);
+        queue_destruction();
     }
 }
 
@@ -45,7 +47,7 @@ TFontSmallHelp::TFontSmallHelp(u32 player, u32 text_color, s32 lifetime, u32 tex
     HelpTextPlayerState *owner = (HelpTextPlayerState *)get_player_by_client_id(player);
     if (owner == NULL) {
         disallow_rendering__7TObjectFv(this);
-        queue_destruction__7TObjectFv(this);
+        queue_destruction();
         return;
     }
     player_id = player;

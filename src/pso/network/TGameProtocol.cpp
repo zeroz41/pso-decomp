@@ -8,6 +8,7 @@
 #include "pso/unk/text_800C7FEC.h"
 #include "pso/item/TItem.h"
 #include "types.h"
+#include "pso/system/task/TObject.h"
 
 struct TBoss3Volopt;
 struct TBoss8Dragon;
@@ -306,7 +307,6 @@ TGameProtocol::~TGameProtocol() {
 extern "C" {
 
 void __ct__7TObjectFP7TObject(void *);
-void *__nw__7TObjectFUl(int);
 
 extern s32 __vt__13TGameProtocol[];
 const char *TGameProtocol__class_name = "TGameProtocol";
@@ -319,7 +319,7 @@ void *TGameProtocol__ct(void *game_protocol) {
     ((TGameProtocol *)game_protocol)->m_name = TGameProtocol__class_name;
     TGameProtocol__instance = game_protocol;
     *(u32 *)((s8 *)game_protocol + 0x1C) = 0;
-    o = __nw__7TObjectFUl(0x1C);
+    o = TObject::operator new(0x1C);
     if (o != NULL) {
         o = ((void * (*)(void *, void *))__ct__7TObjectFP7TObject)(o, game_protocol);
     }

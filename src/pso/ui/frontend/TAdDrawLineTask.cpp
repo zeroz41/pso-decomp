@@ -2,6 +2,7 @@
 #include "pso/ui/frontend/TAdDrawLineTask.h"
 #include "pso/ui/frontend/TAdDrawLineCtrl.h"
 #include "pso/render/render_util.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 struct V_80019EB8 { f32 x; f32 y; f32 z; f32 w; };
 
@@ -30,7 +31,6 @@ void fn_80019EB8(O_80019EB8 *self, f32 f) {
 void draw_projected_line_strip__10TObjPlayerFPvii(DrawLineVertex *, s32, s32);
 void copy_draw_line_record(DrawLineRecord *, const DrawLineRecord *);
 void TAdDrawLineTask__sub_80019A8C(void *p, void *q);
-f32 newton_sqrtf(f32);
 }
 
 extern const char *TAdDrawLineTask__class_name;

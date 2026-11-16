@@ -65,6 +65,9 @@
 #include "pso/player/PhotonBlastGauge.h"
 #include "pso/item/TItemList.h"
 #include "pso/player/TPlyItem.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/math/AngleLookup.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 
 #define M0(x) virtual void m##x();
 struct Base_801AF2F0 { char pad[0x18]; };
@@ -1752,7 +1755,6 @@ typedef struct List_801BC068 {
 } List_801BC068;
 
 s32 fn_8000F740(void *);
-s32 get_main_phase();
 void mark_area_change_pending(void);
 s32 get_field_2d4__10TObjPlayerFv(void *);
 void clear_velocity(u8 *arg0);
@@ -2217,7 +2219,6 @@ s32 fn_8036B770(void *);
 s32 validate_6xAE_set_animation_state(void *);
 void __construct_array(void *, void *(*)(void *), void *, u32, u32);
 s32 rand();
-f32 sin_table_lookup(s32);
 f32 cos_table_lookup(s32);
 s32 matrix_mult_vec(int, void *, void *);
 f32 vec3_dot(Vec *, Vec *);
@@ -2229,8 +2230,6 @@ void rotate_matrix_z(int, s32);
 void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
 void rotate_matrix_x(int, s32);
 s32 push_matrix_from(int);
-s32 push_matrix();
-s32 pop_matrix();
 void set_chunk_material_override_pair(s32 arg0, s32 arg1);
 void draw_chunk_object(void *child);
 
@@ -2992,7 +2991,7 @@ void draw_projected_shadow__10TObjPlayerFPvPvi(VObj_801BAB78 *self, f32 *pos, s3
     s32 a;
     s32 b;
     self->m63(1, &v);
-    ((void (*)(void))push_matrix)();
+    push_matrix();
     direction_to_rotation_xz(self->f248, &a, &b);
     translate_matrix(0, v.x, lbl_805DC2C8 + self->f3c, v.z);
     rotate_matrix_z(0, b);
@@ -3003,7 +3002,7 @@ void draw_projected_shadow__10TObjPlayerFPvPvi(VObj_801BAB78 *self, f32 *pos, s3
         scale_matrix(0, pos[0], pos[2], (*(const f32 *)&TObjPlayer__data_805DC294));
     }
     draw_blob_shadow(arg2);
-    ((void (*)(void))pop_matrix)();
+    pop_matrix();
 }
 
 void send_6x21_inter_level_warp(void *obj, s32 value) {

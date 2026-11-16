@@ -248,7 +248,7 @@ public:
     void send_swapped_packet();
     void bswap_packet();
     void copy_position(s32 arg1);
-    int queue_destruction();
+    void queue_destruction();
     static void trigger_switches_in_range(void *arg0, void *arg1, void *arg2);
     static s32 calc_binomial_coefficient(s32 n, s32 k);
     void play_animation_index(s32 arg1);

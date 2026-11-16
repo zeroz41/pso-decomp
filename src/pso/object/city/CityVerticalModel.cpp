@@ -44,7 +44,6 @@ s32 draw_ginja_object();
 extern s32 city_common_texture_list;
 void render__13TUnk_804B5C08Fv(u8 *arg0);
 void run_task__13TUnk_804B5C08Fv(u8 *arg0);
-void *__nw__7TObjectFUl(int);
 extern void *tl_05;
 void __dl__7TObjectFPv(void *);
 extern s32 city_vertical_model_vtable[];
@@ -119,7 +118,7 @@ void TUnk_804B5C08::run_task() {
   }
 }
 void *create_city_vertical_model(void *arg0) {
-    void *o = __nw__7TObjectFUl(0xA0);
+    void *o = TObject::operator new(0xA0);
     if (o != NULL) {
         o = construct_city_vertical_model((u8 *)o, (s32)tl_05, (s32)arg0);
     }

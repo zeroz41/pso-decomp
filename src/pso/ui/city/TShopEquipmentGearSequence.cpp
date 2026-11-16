@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/city/TShopArmorListWindow.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -14,6 +15,7 @@
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/city/TCheckRoomSequence.h"
 #include "pso/ui/window/TWindowSubComCard.h"
+#include "pso/system/task/TObject.h"
 
 #pragma readonly_strings on
 
@@ -83,7 +85,7 @@ void TShopEquipmentGearSequence::try_close() {
     if ((this->vfunc_10() != 0) && ((sub_80223A48() != 0) || (sub_802239EC__13TShopSequenceFv(this) != 0))) {
         close_if_single_screen__13TShopSequenceFv(this);
         close_window__13TShopSequenceFv(this);
-        queue_destruction__7TObjectFv(this);
+        queue_destruction();
     }
 }
 
@@ -143,7 +145,6 @@ extern "C" {
 unsigned short get_child_field1c__13TShopSequenceFv(void *);
 s32 set_service_counter_camera(void *, int);
 s32 get_window_layout_position(int, f32);
-void queue_destruction__7TObjectFv(void *arg0);
 void *__dt__13TShopSequenceFv(void *arg0, s16 arg1);
 s32 sub_8022397C__15TShopWindowBaseFv(void *);
 s32 __dl__7TObjectFPv(void *);
@@ -265,7 +266,7 @@ u8 *__dt__26TShopEquipmentGearSequenceFv(TShopEquipmentGearSequence *shop_equipm
     if (shop_equipment_gear_sequence != NULL) {
         *(s32 **)((s8 *)shop_equipment_gear_sequence + 0x18) = &__vt__26TShopEquipmentGearSequence.value;
         if ((u32) *(u32 *)((s8 *)shop_equipment_gear_sequence + 0x34) != 0U) {
-            queue_destruction__7TObjectFv(*(void **)((s8 *)shop_equipment_gear_sequence + 0x34));
+            ((TObject *)(*(void **)((s8 *)shop_equipment_gear_sequence + 0x34)))->queue_destruction();
             *(u32 *)((s8 *)shop_equipment_gear_sequence + 0x34) = 0U;
         }
         if ((u32) shop_equipment_gear_sequence->m_2c != 0U) {

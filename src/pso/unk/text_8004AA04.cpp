@@ -5,12 +5,11 @@
 #include "pso/boss/darkfalz/TBoss4Uro.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/unk/ModelNodeTables.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 extern "C" {
-void mem_free(void *p);
 s32 get_bml_model(BmlResource *resource, s32 index);
 s32 alloc_tables__6TLobbyFll(s32, s32, s32);
-void *mem_alloc(u32 size);
 }
 
 void ModelNodeTables::destroy() {

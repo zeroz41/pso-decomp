@@ -9,6 +9,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/Language.h"
 #include "pso/system/NinjaTypes.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 #pragma readonly_strings on
 
 struct Msg_8025A9C0 {
@@ -25,8 +26,6 @@ struct Win_8025AD5C { u16 flags; u8 pad2[6]; f32 f8; f32 fC; u8 pad10[8]; f32 f1
 struct Ref_8025AD5C { u8 pad0[0x10]; f32 f10; f32 f14; f32 f18; u8 pad1c[0x30 - 0x1C]; s32 i30; u8 pad34[4]; f32 f38; u8 pad3c[8]; f32 f44; };
 
 extern "C" {
-void mem_free(void *p);
-void *mem_alloc(u32 size);
 s32 strncpy(s32, u32, s32);
 u8 get_small_font_glyph_width(u8);
 s32 TWindowSubStatusDisp__sub_800FC248(u8);

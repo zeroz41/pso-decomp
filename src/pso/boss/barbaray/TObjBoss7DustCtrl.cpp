@@ -7,6 +7,7 @@
 
 #include "types.h"
 #include "pso/system/MatrixOps.h"
+#include "pso/system/task/TObject.h"
 
 typedef struct Rot_802F127C {
     s32 a;
@@ -126,12 +127,11 @@ void *TObjBoss7DustCtrl__ct(void *boss7_dust_ctrl) {
     return boss7_dust_ctrl;
 }
 
-void* __nw__7TObjectFUl(u32);
 
 extern s32 tl_05;
 
 void TObjBoss7DustCtrl::create() {
-    void* obj = __nw__7TObjectFUl(0x1C);
+    void* obj = TObject::operator new(0x1C);
     if (obj != 0) {
         ((void *(*)(void *, s32))TObjBoss7DustCtrl__ct)(obj, tl_05);
     }

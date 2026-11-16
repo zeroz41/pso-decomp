@@ -30,6 +30,7 @@
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 
 struct TItemReverseTechBG_80119658 {
@@ -47,7 +48,6 @@ struct TItemReverseTechBG_80119658 {
 
 extern "C" {
 void __ct__7TObjectFP7TObject(void *, void *);
-void *__nw__7TObjectFUl(int);
 
 extern void *__vt__18TItemReverseTechBG[];
 
@@ -105,8 +105,6 @@ void request_main_phase(s32 arg0);
 s8 func_801A5E54__Fv();
 s32 prs_decompress_alloc(int, int, int);
 int set_stream_and_load_file__6TLobbyFi(const char *);
-void mem_free(void *p);
-void *mem_alloc(u32 size);
 char *strncpy(char *, const char *, u32);
 void load_gvm_texture_archive(int, void *);
 void TKeyBoardControl__sub_8000F90C(s32);
@@ -166,7 +164,7 @@ void TItemReverseTech::init_scene() {
         }
     }
     init_map_lights(default_scene_light_config);
-    cam = __nw__7TObjectFUl(0x1D4);
+    cam = TObject::operator new(0x1D4);
     if (cam != NULL) {
         TCameraCtrl__ct((u8 *)cam, (void *)tl_camera);
     }
@@ -264,7 +262,7 @@ void TItemReverseTech::load_textures() {
 void TItemReverseTech::free() { free_texture_if_valid((u32)TItemReverseTech__texture_archive); mem_free((void *)TItemReverseTech__name_buffer); TItemReverseTech__name_buffer = 0; mem_free((void *)TItemReverseTech__entry_table); TItemReverseTech__entry_table = 0; ::operator delete((void *)TItemReverseTech__texture_archive); TItemReverseTech__texture_archive = 0; }
 
 void TItemReverseTech::create() {
-    void *obj = __nw__7TObjectFUl(0x28);
+    void *obj = TObject::operator new(0x28);
     if (obj != 0) {
         TItemReverseTech__ct(obj, tl_01);
     }
@@ -276,13 +274,13 @@ void *TItemReverseTech__ct(void *item_reverse_tech, void *parent) {
     __ct__7TObjectFP7TObject(item_reverse_tech, parent);
     *(s32 **)((s8 *)item_reverse_tech + 0x18) = __vt__16TItemReverseTech;
     ((TItemReverseTech *)item_reverse_tech)->m_name = TItemReverseTech__name;
-    o = __nw__7TObjectFUl(0x34);
+    o = TObject::operator new(0x34);
     if (o != NULL) {
         o = TItemReverseTechPart1__ct(o, item_reverse_tech, TItemReverseTech__texture_archive);
     }
     *(void * *)&((TItemReverseTech *)item_reverse_tech)->part_one = o;
     *(u32 *)((s8 *)item_reverse_tech + 0x24) = 0;
-    o2 = __nw__7TObjectFUl(0x197C);
+    o2 = TObject::operator new(0x197C);
     if (o2 != NULL) {
         __ct__10TAdEndTextFv((u8 *)o2, (TObject *)item_reverse_tech);
     }
@@ -312,7 +310,7 @@ void TItemReverseTech::run_task() {
     temp_r3 = (u32)part_one;
     if ((temp_r3 != 0U) && (((TObject *)temp_r3)->all_parents_unqueued_for_destruction() == 0)) {
         part_one = NULL;
-        object = (u32)__nw__7TObjectFUl(0x158);
+        object = (u32)TObject::operator new(0x158);
         var_r0 = object;
         if (var_r0 != 0U) {
             var_r0 = (u32)__ct__21TItemReverseTechPart2Fv((u8 *)object, (s32)this, (s32)TItemReverseTech__texture_archive);
@@ -342,7 +340,7 @@ void *TItemReverseTechPart1__ct(void *item_reverse_tech_part1, void *parent, voi
     *(u32 *)((s8 *)item_reverse_tech_part1 + 0x2C) = 150;
     *(u32 *)((s8 *)item_reverse_tech_part1 + 0x30) = 0;
     TItemReverseTechPart1__instance = item_reverse_tech_part1;
-    o = __nw__7TObjectFUl(0x28);
+    o = TObject::operator new(0x28);
     if (o != NULL) {
         ((TLobby *)o)->init_fade(tl_00, destroy_and_flag__21TItemReverseTechPart2Fv);
     }
@@ -362,7 +360,7 @@ void TItemReverseTechPart1::run_task() {
         break;
     case 1:
         if (self->ring == NULL) {
-            p = __nw__7TObjectFUl(0x2C);
+            p = TObject::operator new(0x2C);
             if (p != NULL) {
                 p = TAdRicoRingCtrl__ct((TAdRicoRingCtrl *)((u8 *)p), (s32)self);
             }
@@ -494,7 +492,7 @@ u8 *__ct__21TItemReverseTechPart2Fv(u8 *object, s32 arg1, s32 arg2) {
     *(f32 *)((s8 *)object + 0x13C) = 3.4e+02f;
     *(f32 *)((s8 *)object + 0x140) = (f32) lbl_805DAC0C[0];
     *(f32 *)((s8 *)object + 0x14C) = 0.75f;
-    item_reverse_tech_bg = __nw__7TObjectFUl(0x64);
+    item_reverse_tech_bg = TObject::operator new(0x64);
     if (item_reverse_tech_bg != NULL) {
         __ct__18TItemReverseTechBGFv(item_reverse_tech_bg, (void *)object, object + 0x124);
     }
@@ -512,10 +510,10 @@ void run_task__21TItemReverseTechPart2Fv(u8 *object) {
     void *nw;
 
     if ((*(s32 *)((s8 *)object + 0x150) % 360) == 0) {
-        if ((nw = __nw__7TObjectFUl(0x64)) != 0U) {
+        if ((nw = TObject::operator new(0x64)) != 0U) {
             __ct__18TItemReverseTechBGFv(nw, object, object + 0x74);
         }
-        if ((nw = __nw__7TObjectFUl(0x64)) != 0U) {
+        if ((nw = TObject::operator new(0x64)) != 0U) {
             __ct__18TItemReverseTechBGFv(nw, object, object + 0xA0);
         }
     }
@@ -523,14 +521,14 @@ void run_task__21TItemReverseTechPart2Fv(u8 *object) {
         temp_r3 = *(s32 *)((s8 *)object + 0x150);
         if ((temp_r3 >= 0x78) && (((temp_r3 - 0x78) % 720) == 0)) {
             *(s32 *)((s8 *)object + 0x28) = 0xC;
-            if ((nw = __nw__7TObjectFUl(0x64)) != 0U) {
+            if ((nw = TObject::operator new(0x64)) != 0U) {
                 __ct__18TItemReverseTechBGFv(nw, object, object + 0x1C);
             }
-            if ((nw = __nw__7TObjectFUl(0x64)) != 0U) {
+            if ((nw = TObject::operator new(0x64)) != 0U) {
                 __ct__18TItemReverseTechBGFv(nw, object, object + 0x48);
             }
             *(s32 *)((s8 *)object + 0xD8) = (s32) *(s32 *)((s8 *)object + 0x154);
-            if ((nw = __nw__7TObjectFUl(0x64)) != 0U) {
+            if ((nw = TObject::operator new(0x64)) != 0U) {
                 __ct__18TItemReverseTechBGFv(nw, object, object + 0xCC);
             }
             *(s32 *)((s8 *)object + 0x154) = (s32) (*(s32 *)((s8 *)object + 0x154) + 1);
@@ -538,14 +536,14 @@ void run_task__21TItemReverseTechPart2Fv(u8 *object) {
         temp_r3_2 = *(s32 *)((s8 *)object + 0x150);
         if ((temp_r3_2 >= 0x1E0) && (((temp_r3_2 - 0x1E0) % 720) == 0)) {
             *(s32 *)((s8 *)object + 0x28) = 0xD;
-            if ((nw = __nw__7TObjectFUl(0x64)) != 0U) {
+            if ((nw = TObject::operator new(0x64)) != 0U) {
                 __ct__18TItemReverseTechBGFv(nw, object, object + 0x1C);
             }
-            if ((nw = __nw__7TObjectFUl(0x64)) != 0U) {
+            if ((nw = TObject::operator new(0x64)) != 0U) {
                 __ct__18TItemReverseTechBGFv(nw, object, object + 0x48);
             }
             *(s32 *)((s8 *)object + 0x104) = (s32) *(s32 *)((s8 *)object + 0x154);
-            if ((nw = __nw__7TObjectFUl(0x64)) != 0U) {
+            if ((nw = TObject::operator new(0x64)) != 0U) {
                 __ct__18TItemReverseTechBGFv(nw, object, object + 0xF8);
             }
             *(s32 *)((s8 *)object + 0x154) = (s32) (*(s32 *)((s8 *)object + 0x154) + 1);

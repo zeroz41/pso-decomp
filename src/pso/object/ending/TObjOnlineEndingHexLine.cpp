@@ -78,7 +78,6 @@ s32 draw_color_lines(Desc_802E55B8 *, s32, s32, f32);
 s32 is_on_current_screen__11TCameraCtrlFv(void *, s32);
 void send_6x92__14TAdGameStartGCFPv(void *p);
 void TAdGameStartGC__sub_802E6368(void *p);
-void *__nw__7TObjectFUl(int);
 
 s32 calc_rotated_hex_point__23TObjOnlineEndingHexLineFPvPv(NJS_POINT2 *, P2_802E55B8 *);
 void update_line_params__23TObjOnlineEndingHexLineFv(void);
@@ -254,7 +253,7 @@ Hex_802E57E0 *__ct__23TObjOnlineEndingHexLineFv(Hex_802E57E0 *arg0, s32 arg1, Po
 
 void *TObjOnlineEndingHexLine::create(void *arg0, void *arg1) {
     void *o;
-    o = __nw__7TObjectFUl(0xA0);
+    o = TObject::operator new(0xA0);
     if (o != NULL) {
         o = __ct__23TObjOnlineEndingHexLineFv((Hex_802E57E0 *)(o), (s32)arg0, (Pos_802E57E0 *)(arg1));
     }
@@ -497,7 +496,7 @@ void copy_move_params__23TObjOnlineEndingHexMoveFPvPv(void* p, void* q) { *(f32*
 
 void * fn_802E6218(void *origin) {
     void *o;
-    o = __nw__7TObjectFUl(0x20);
+    o = TObject::operator new(0x20);
     if (o != NULL) {
         o = TObjOnlineEndingHexMove__ct((u8 *)o, (void *)origin);
     }

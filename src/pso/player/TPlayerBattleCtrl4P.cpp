@@ -97,7 +97,6 @@ extern Rank_801C343C split_screen_battle_rankings[4];
 extern "C" {
 void clear_split_screen_battle_window_slots(T_803102A4 *self);
 TPlayerBattleCtrl4P *TPlayerBattleCtrl4P__instance;
-void *__nw__7TObjectFUl(u32);
 void *TWindowDuelResult__ct(void *, int);
 s32 get_map_id__13TRaderMapCoreFv();
 u8 TLobby__sub_801D7100(void *);
@@ -264,7 +263,7 @@ const char *TPlayerBattleCtrl4P__name = "TPlayerBattleCtrl4P";
 
 void TPlayerBattleCtrl4P::init_instance_with_text(s32 arg0, s32 arg1) {
     if (TPlayerBattleCtrl4P__instance == NULL) {
-        void *mem = __nw__7TObjectFUl(0x2A0);
+        void *mem = TObject::operator new(0x2A0);
         if (mem != NULL) {
             ((TPlayerBattleCtrl4P *)mem)->construct(tl_00);
         }
@@ -443,7 +442,7 @@ void TPlayerBattleCtrl4P::update_ready_wait() {
         ((TWindowBase *)this->intro_window)->close();
         this->intro_window = 0U;
         {
-            void *temp = __nw__7TObjectFUl(0x28);
+            void *temp = TObject::operator new(0x28);
             if (temp != 0) {
                 __ct__15TDuelEffectCtrlFP7TObjectUc(temp, this, 0);
             }
@@ -506,7 +505,7 @@ void TPlayerBattleCtrl4P::begin_battle_results() {
     VObj_18_26c590 *p;
     update__19TPlayerBattleCtrl4PFv(this);
     {
-        void *temp = __nw__7TObjectFUl(0x28);
+        void *temp = TObject::operator new(0x28);
         if (temp != 0) {
             __ct__15TDuelEffectCtrlFP7TObjectUc(temp, this, 1);
         }
@@ -744,7 +743,7 @@ void TPlayerBattleCtrl4P::sub_80311890() {  }
 
 void TPlayerBattleCtrl4P::return_to_hunters_guild() {
     void *o;
-    o = __nw__7TObjectFUl(0x28);
+    o = TObject::operator new(0x28);
     if (o != NULL) {
         ((THunterGuildSeqOffline *)o)->init(tl_00, (s32 *)TPlayerBattleCtrl4P::reset_random_enemies_mode);
     }
@@ -805,7 +804,7 @@ void TPlayerBattleCtrl4P::start_duel() {
     }
     this->reset_score_counters();
     name = get_current_floor_area() == AREA_BATTLE1 ? lbl_80475BAC : lbl_80475BB8;
-    w = __nw__7TObjectFUl(0x40);
+    w = TObject::operator new(0x40);
     if (w != NULL) {
         ((TLobby *)w)->init_with_name((void *)this, (void *)name, (void *)(0x2D));
     }
@@ -1404,7 +1403,7 @@ void TPlayerBattleCtrl4P::create_result_windows() {
     void *w;
     for (i = 0; i < 4; i++) {
         if (get_player_by_client_id(i) != 0) {
-            w = __nw__7TObjectFUl(0x6C);
+            w = TObject::operator new(0x6C);
             if (w != 0) {
                 w = TWindowDuelResult__ct(w, i);
             }

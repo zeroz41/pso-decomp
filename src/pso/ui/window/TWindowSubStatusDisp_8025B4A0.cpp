@@ -4,6 +4,7 @@
 #include "pso/system/memory.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 #pragma readonly_strings on
 #pragma fp_contract on
 
@@ -15,8 +16,6 @@ struct Stack_8025B660 {
 extern "C" {
 u32 calc_text_width(u32);
 s32 measure_string_len__20TWindowSubStatusDispFv(u32);
-void *mem_alloc(u32 size);
-void mem_free(void *p);
 s32 strncpy(s32, u32, s32);
 s32 deleting_destructor__20TWindowSubStatusDispFs(void *, s32);
 void *reset_entry__20TWindowSubStatusDispFPv(void *a0, s32 _w1);

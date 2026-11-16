@@ -3,6 +3,7 @@
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/unk/text_803CC294.h"
 #include "pso/unk/TLobby.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 extern "C" {
 void prs_decompress_alloc(void*, s32, s32);
@@ -10,8 +11,6 @@ void load_gvm_texture_archive(s32, void*);
 u32 adxf_open_afs__6TLobbyFii(int, int);
 void *lookup_item_pmt_record(u8 *item);
 s32 adxf_get_stat(s32);
-void mem_free(void*);
-void* mem_alloc(u32);
 void TObjPlayer__sub_803DD5E8(void*, void*, void*, int);
 char* strncpy(char*, const char*, u32);
 void TLobby__sub_801E3E9C(s32, const char*, void*, s32);

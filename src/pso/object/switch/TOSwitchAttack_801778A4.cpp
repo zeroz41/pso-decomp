@@ -11,6 +11,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/unk/text_80087278.h"
+#include "pso/system/task/TObject.h"
 
 struct Atk_801778A8 {
     s32 a;
@@ -57,7 +58,6 @@ extern s32 __vt__14TOSwitchAttack[];
 extern const char *TOSwitchAttack__name;
 f32 horizontal_distance_squared(void *, void *);
 u8 is_current_floor_switch_set(s32 id);
-void *__nw__7TObjectFUl(int);
 
 void TOSwitchAttack::render() {  }
 
@@ -165,7 +165,7 @@ void TOSwitchAttack::run_task() {
 #pragma pop
 
 void *TOSwitchAttack::create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0xAC);
+    void *o = TObject::operator new(0xAC);
     if (o != NULL) {
         o = TOSwitchAttack__ct((u8 *)o, (s32)tl_05, (s32)arg0);
     }

@@ -13,6 +13,7 @@
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/task/TObject.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 
 #pragma readonly_strings on
@@ -98,7 +99,6 @@ struct Obj_800663DC {
 };
 
 extern "C" {
-void *mem_alloc(u32 size);
 extern s32 gryphon_demo_collision_body_desc[];
 extern s32 lbl_804886AC[];
 extern const char *lbl_805D2808;

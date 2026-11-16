@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/base/TObjMotion.h"
@@ -8,6 +9,7 @@
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/system/BmlResourceLoader.h"
 #include "pso/unk/text_80365348.h"
+#include "pso/system/task/TObject.h"
 
 #pragma readonly_strings on
 
@@ -67,8 +69,6 @@ s32 get_bml_texlist(BmlResource *resource, s32 index);
 s32 get_bml_model(BmlResource *resource, s32 index);
 s32 rotate_matrix_y(int, int);
 void __dl__7TObjectFPv(void *);
-void *__nw__7TObjectFUl(int);
-void queue_destruction__7TObjectFv(void *);
 s32 set_global_param__8TObjFishFl();
 
 
@@ -162,7 +162,7 @@ void *labo_design_entry_table[66] = {
 };
 
 void *create_instance__18TObjLaboDesignBaseFPv(void *arg0) {
-    void *o = __nw__7TObjectFUl(0xC0);
+    void *o = TObject::operator new(0xC0);
     if (o != NULL) {
         o = TObjLaboDesignBase__ct((u8 *)o, (s32)tl_05, (s32)arg0, 5);
     }
@@ -178,7 +178,7 @@ const char *TObjLaboDesignBase_class_name = "TObjLaboDesignBase";
 void *create_labo_design_base(void *arg0);
 void *create_obj_labo_design_base(void *arg0);
 void *create_obj_labo_design_base(void *arg0) {
-    void *o = __nw__7TObjectFUl(0xC0);
+    void *o = TObject::operator new(0xC0);
     if (o != NULL) {
         o = TObjLaboDesignBase__ct((u8 *)o, (s32)tl_05, (s32)arg0, 4);
     }
@@ -186,7 +186,7 @@ void *create_obj_labo_design_base(void *arg0) {
 }
 
 void *TObjLaboDesignBase__sub_80364D38(void *arg0) {
-    void *o = __nw__7TObjectFUl(0xC0);
+    void *o = TObject::operator new(0xC0);
     if (o != NULL) {
         o = TObjLaboDesignBase__ct((u8 *)o, (s32)tl_05, (s32)arg0, 3);
     }
@@ -194,7 +194,7 @@ void *TObjLaboDesignBase__sub_80364D38(void *arg0) {
 }
 
 void *create_labo_design_base(void *arg0) {
-    void *o = __nw__7TObjectFUl(0xC0);
+    void *o = TObject::operator new(0xC0);
     if (o != NULL) {
         o = TObjLaboDesignBase__ct((u8 *)o, (s32)tl_05, (s32)arg0, 2);
     }
@@ -202,7 +202,7 @@ void *create_labo_design_base(void *arg0) {
 }
 
 void *alloc_and_construct__18TObjLaboDesignBaseFPv(void *arg0) {
-    void *o = __nw__7TObjectFUl(0xC0);
+    void *o = TObject::operator new(0xC0);
     if (o != NULL) {
         o = TObjLaboDesignBase__ct((u8 *)o, (s32)tl_05, (s32)arg0, 1);
     }
@@ -210,7 +210,7 @@ void *alloc_and_construct__18TObjLaboDesignBaseFPv(void *arg0) {
 }
 
 void *TObjLaboDesignBase__create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0xC0);
+    void *o = TObject::operator new(0xC0);
     if (o != NULL) {
         o = TObjLaboDesignBase__ct((u8 *)o, (s32)tl_05, (s32)arg0, 0);
     }
@@ -299,7 +299,7 @@ void run_task__18TObjLaboDesignBaseFv(void) {  }
 void *__dt__18TObjLaboDesignBaseFv(void *collidable, s16 arg1) {
     if (collidable != NULL) {
         *(s32 **)((s8 *)collidable + 0x18) = __vt__18TObjLaboDesignBase;
-        if (*(void **)((s8 *)collidable + 0xBC) != NULL) { queue_destruction__7TObjectFv(*(void **)((s8 *)collidable + 0xBC)); *(s32 *)((s8 *)collidable + 0xBC) = 0; }
+        if (*(void **)((s8 *)collidable + 0xBC) != NULL) { ((TObject *)(*(void **)((s8 *)collidable + 0xBC)))->queue_destruction(); *(s32 *)((s8 *)collidable + 0xBC) = 0; }
         ((TObjCollidable *)collidable)->unregister_object_by_id();
         free_collision_body_parts(collidable);
         __dt__14TObjCollidableFv(collidable, 0);

@@ -8,6 +8,7 @@
 
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/system/task/TObject.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 struct RecoveredFields_8006B588_arg0
 {
@@ -48,10 +49,6 @@ struct Cam_8006B6A8 {
     Vec v34;
 };
 
-extern "C" {
-s32 is_split_screen(void);
-void *__nw__7TObjectFUl(int);
-}
 extern s32 local_client_id;
 extern s32 tl_07;
 u8 *create_conversation_camera(s32 arg0);
@@ -136,7 +133,7 @@ u8 *create_conversation_camera(s32 arg0) {
         return NULL;
     }
     i = local_client_id;
-    camera_ctrl = (u8 *)(((u8 *)__nw__7TObjectFUl(0x38)));
+    camera_ctrl = (u8 *)(((u8 *)TObject::operator new(0x38)));
     var_r0 = camera_ctrl;
     if (var_r0 != NULL) {
         var_r0 = (u8 *)(((TCameraCtrl *)camera_ctrl)->init_conversation_camera(i, arg0, tl_07));
@@ -182,7 +179,7 @@ u8 *TCameraCtrl::init_conversation_camera(s32 i, s32 arg2, s32 arg3) {
 }
 
 void TCameraCtrl::create(s32 arg0, s32 arg1, s32 arg2) {
-    void *obj = __nw__7TObjectFUl(0x40);
+    void *obj = TObject::operator new(0x40);
     if (obj != NULL) {
         TCameraCtrl__sub_8006B798(obj, arg0, arg1, arg2, tl_07);
     }
@@ -248,7 +245,7 @@ s32 TCameraCtrl__sub_8006B798(void *p, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
 #pragma pop
 
 void *TCameraCtrl__vt9(void) {
-    void *o = __nw__7TObjectFUl(0x6C);
+    void *o = TObject::operator new(0x6C);
     if (o != NULL) {
         o = TCameraCtrl__sub_8006BA68(o);
     }

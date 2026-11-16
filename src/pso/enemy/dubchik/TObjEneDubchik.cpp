@@ -129,7 +129,6 @@ void apply_actor_gravity(TObjEnemy *arg0, s32 *arg1, f32 farg0);
 extern "C" {
 s32 __ct__13TUnk_80491460FPvlll(void *, void *, s32, void *, s32);
 s32 render_anim_model_at_pos__15TObjEnemyCustomFv();
-void *__nw__7TObjectFUl(int);
 void TObjPlayer__sub_800A8FB4(void *arg0_);
 
 void free_bin_model_request(void *, s32);
@@ -309,16 +308,6 @@ s16 lbl_804912AC[9] = { 0x17, 0x1A, 0x1D, 0x1F, 0x20, 0x21, 0x23, 0x24, -1 };
 __declspec(section ".data") s16 player_model_node_index_pair[3] = { 0x14, 0x2B, 0x17 };
 
 
-
-
-
-
-
-
-
-
-
-
 struct Pair_800A93E4 { s32 a, b; };
 struct VB_800A93E4 { u8 pad[0x18]; };
 struct VO_800A93E4 : VB_800A93E4 {
@@ -381,30 +370,12 @@ struct Ene_800A93E4 {
 s32 mult_vec_array__10TObjPlayerFUll(int, u32, void *, int);
 
 
-
-
-
-
-
-
-
-
-
 }
-
-
-
 
 
 struct T_800AAF98 { u8 pad[0x18]; s32 arr[1]; };
 
 struct O_800AAF98 { u8 pad[0x368]; s32 x368; };
-
-
-
-
-
-
 
 
 s32 TObjEneDubchik::sub_800AB068() {
@@ -1208,7 +1179,7 @@ extern "C" void TObjPlayer__sub_800A8FB4(void *arg0_) {
         if (--*(s16 *)((s8 *)arg0 + 0x33C) <= 0) {
             void *o;
             (*(s16 *)((s8 *)arg0 + 0x38E))--;
-            o = __nw__7TObjectFUl(0x6C);
+            o = TObject::operator new(0x6C);
             if (o != NULL) {
                 __ct__13TUnk_80491460FPvlll(o, arg0 + 0x410, *(s32 *)((s8 *)arg0 + 0x60), arg0, TObjPlayer__sub_800AAF98(arg0, 3));
             }

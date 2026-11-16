@@ -48,7 +48,6 @@ s32 clear_chat_shortcut();
 }
 s32 store_chat_shortcut(s32 arg0, s32 arg1);
 extern "C" {
-void *__nw__7TObjectFUl(u32);
 void open_com_card_list__18TWindowSubShortCutFv(void *arg0);
 u32 *get_chat_shortcut();
 s32 align_menu_entry_positions(s32);
@@ -178,7 +177,7 @@ void TWindowSubShortCut::run_task() {
             this->m_38 = 0U;
         }
         if ((u32) this->m_3c == 0U) {
-            var_r30 = __nw__7TObjectFUl(0x74);
+            var_r30 = TObject::operator new(0x74);
             if (var_r30 != 0) {
                 var_r30 = (void *)TWindowShortCut__ct((TWindowShortCut *)((u8 *)var_r30), (s32)(get_window_layout_position(0x73)), this->m_24, (s32 *)((u8 *)arg0 + 0x40));
             }

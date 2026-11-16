@@ -12,6 +12,9 @@
 #pragma push
 
 #include "types.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 
 
 class TChCrTagPlBack;
@@ -60,7 +63,6 @@ struct Ent_80271F04 {
 
 extern "C" {
 s32 *get_shared_text_buffer(void);
-void mem_free(void *p);
 }
 s32 *get_selected_guild_card_record(void);
 extern "C" {
@@ -696,7 +698,6 @@ s32 forward_slot_selection__16TAdChrSelASlotGCFPvPv(s32, s32, s32, f32);
 s32 create__19TWindowMessageYesNoFPvPvPvPv(void *, s32, s32, s32);
 void render__17TWindowSubComCardFv(void);
 void open_yes_no_prompt(TChCrTagPlBack *arg0, u32 arg1, s32 arg2, s32 arg3, f32 farg0);
-s32 get_main_phase();
 
 s32 TWindowSubComCard::open_yesno_dialog() {
     s32 temp_r29;

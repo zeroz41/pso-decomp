@@ -78,7 +78,6 @@ void TObjPlayer__sub_80364198(void);
 s32 push_matrix();
 extern s32 model_render_flags;
 s32 is_item_area_enabled();
-s32 __nw__7TObjectFUl(s32);
 void create_icon__10TObjPlayerFiii(s32 arg0, s32 arg1, s32 arg2);
 }
 
@@ -159,7 +158,7 @@ TUnk_804A2018::TUnk_804A2018(TObject *parent, s32 a, s32 b) : TObject(parent) {
 void create_icon__10TObjPlayerFiii(s32 parent, s32 arg1, s32 arg2) {
     void *temp_r3;
     if (parent != 0) {
-        temp_r3 = (void *)((u32)__nw__7TObjectFUl(0x2C));
+        temp_r3 = (void *)((u32)TObject::operator new(0x2C));
         if (temp_r3 != (void *)0U) {
             __ct__13TUnk_804A2018FP7TObjectll((StarLightFollowerView *)(temp_r3), (void *)parent, (s32)arg1, (s32)arg2);
         }

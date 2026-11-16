@@ -16,6 +16,7 @@
 #include "pso/player/TObjPlayer_803E1A58.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/math/MatrixTransforms.h"
+#include "pso/system/task/TObject.h"
 
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -82,7 +83,6 @@ extern s32 chunk_polygon_flags_and_mask;
 extern s32 model_render_flags;
 void __dl__7TObjectFPv(void *);
 void __dt__14TObjEZRopeBaseFv(void *, int);
-void *__nw__7TObjectFUl(int);
 
 extern s32 __vt__21TObjHMS_EZRope_Player[];
 
@@ -174,7 +174,7 @@ void TObjPlayer__sub_800FF244(u8 *arg0, u8 *arg1) {
 
 void *TObjPlayer::create_hairmove(void *arg1, void *arg2) {
     void *o;
-    o = __nw__7TObjectFUl(0x48);
+    o = TObject::operator new(0x48);
     if (o != NULL) {
         o = TObjHMS_EZRope_Player__ct(o, this, arg1, arg2);
     }

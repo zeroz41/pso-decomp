@@ -22,6 +22,9 @@
 #include "pso/map/TObjMapCsn.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/unk/TLobby.h"
+#include "pso/system/task/TObject.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 
 struct SurfaceAreaTable { s32 enabled[36]; };
 
@@ -54,7 +57,6 @@ struct Root_80203510 { u8 pad[8]; s16 count; u8 pad2[6]; Rec_80203510 *recs; };
 
 
 struct Root_80204024 { u8 pad[0x178]; f32 x; f32 y; f32 z; };
-
 
 
 struct Inner_802040D4 { u8 pad[0x20]; f32 radius; };
@@ -109,7 +111,6 @@ struct Group_80203F0C {
 
 
 struct Root_80203F0C { u8 pad[8]; s16 count; u8 pad2[6]; Group_80203F0C *groups; };
-
 
 
 struct W_802043CC { s32 a, b, c; };
@@ -178,8 +179,6 @@ void post_translate_matrix(f32 *);
 
 void rotate_matrix_by_node_angles(s32 *, s32);
 
-
-f32 fabs_float(f32);
 
 void PPCSync();
 
@@ -261,10 +260,6 @@ struct Node_80204688 { u32 flags; Model_80204688 *model; f32 x, y, z; };
 extern Vec lbl_8044A84C[];
 
 s32 pop_matrices(s32 arg0);
-extern "C" {
-
-s32 is_split_screen(void);
-}
 #define CAM ((Cam_80204688 *)camera_ctrl_instance)
 #define TEST ((s32 (*)(f32, void *, void *, void *, Vec *))TScene__sub_80204024)
 #define VIS ((s32 (*)(void *, void *, f32, f32))is_in_view_depth__6TSceneFf)
@@ -295,7 +290,6 @@ extern "C" {
 
 u8 *construct_pvr_wave__6TSceneFPvPvPvii(void *, s32, s32, s32, s32);
 
-u8 *__nw__7TObjectFUl(s32);
 
 s32 find_uv_animation__6TSceneFPvPv(void *task, Uv_80205DE4 *uv);
 
@@ -1133,7 +1127,7 @@ void TScene__sub_802065E8(void) {  }
 
 void TScene::create() {
     void *o;
-    o = __nw__7TObjectFUl(0x40);
+    o = TObject::operator new(0x40);
     if (o != NULL) {
         TScene__ct((TScene *)((u8 *)o), (s32)tl_02);
     }
@@ -1358,7 +1352,7 @@ void TScene::create_texture_wave_tasks(s32 arg0) {
   do
   {
     new_var = (s8 *) var_r31;
-    temp_r3 = (u8 *) __nw__7TObjectFUl(0x38);
+    temp_r3 = (u8 *) TObject::operator new(0x38);
     if (temp_r3 != 0)
     {
       construct_pvr_wave__6TSceneFPvPvPvii(temp_r3, arg0, *((s32 *) (((s8 *) var_r31) + 4)), *((s32 *) (((s8 *) var_r31) + 8)), (s32) (*((s16 *) (((s8 *) var_r31) + 0))));
@@ -1472,7 +1466,6 @@ void TScene::render() {
 #pragma pop
 
 extern "C" {
-s32 get_main_phase(void);
 
 s32 TScene__sub_80205874(void *) {
     if (TScene__data_805D6020 != 0) {

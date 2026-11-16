@@ -52,7 +52,6 @@ struct VObj_802386F8 : VBase_802386F8 {
 extern "C" {
 void *find_entity_by_id(u16 id);
 u8 * __ct__13TUnk_804CC888FPUclP7TObject(void *, s32, s32, s32);
-void *__nw__7TObjectFUl(int);
 extern s32 tl_07;
 void run_task__10TTecGrantsFv(TTecGrants *arg0);
 s32 get_entity_id(int);
@@ -76,7 +75,7 @@ typedef struct RecoveredFields_80238D10_arg0 RecoveredFields_80238D10_arg0;
 
 void TTecGrants::create(void *arg0, void *arg1, void *arg2, void *arg3) {
     void *o;
-    o = __nw__7TObjectFUl(0x14C);
+    o = TObject::operator new(0x14C);
     if (o != NULL) {
         TTecGrants__ct((u8 *)o, (s32)arg0, (s32)arg1, (s32)arg2, (s32)arg3);
     }
@@ -96,7 +95,7 @@ void run_task__10TTecGrantsFv(TTecGrants *tec_grants) {
     }
     entity = (unsigned long) (find_entity_by_id(tec_grants->m_f0));
     if ((TTecLuker::is_parents_unqueued(entity) != 0) && (TObjPlayer::is_valid_and_active(entity) != 0) && ((s32) tec_grants->m_148 == 0)) {
-        temp_r3_2 = (u8 *)(((u8 *)__nw__7TObjectFUl(0x3C)));
+        temp_r3_2 = (u8 *)(((u8 *)TObject::operator new(0x3C)));
         if (temp_r3_2 != NULL) {
             __ct__13TUnk_804CC888FPUclP7TObject(temp_r3_2, (s32) entity, (s32) tec_grants->m_78, tl_07);
         }

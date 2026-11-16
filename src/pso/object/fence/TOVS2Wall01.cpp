@@ -273,7 +273,6 @@ extern s32 __vt__11TOVS2Wall01[];
 void *TOVS2Wall01__ct(TOVS2Wall01 *arg0, void *arg1);
 int submit_cursor_candidate(void*, int);
 void __dl__7TObjectFPv(void *);
-void *__nw__7TObjectFUl(int);
 // ---- TOVS2Wreck06
 extern s32 __vt__12TOVS2Wreck06[];
 // ---- TOVS2Wreck05
@@ -364,7 +363,7 @@ TOVS2Wreck01::~TOVS2Wreck01() {
 }
 
 void *TOVS2Wreck01__create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0xD0);
+    void *o = TObject::operator new(0xD0);
     if (o != NULL) {
         o = TOVS2Wreck01__ct(o, arg0);
     }
@@ -381,7 +380,7 @@ TOVS2Wreck02::~TOVS2Wreck02() {
 }
 
 void *TOVS2Wreck02__create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0xD0);
+    void *o = TObject::operator new(0xD0);
     if (o != NULL) {
         o = TOVS2Wreck02__ct(o, arg0);
     }
@@ -398,7 +397,7 @@ TOVS2Wreck03::~TOVS2Wreck03() {
 }
 
 void *TOVS2Wreck03__create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0xD0);
+    void *o = TObject::operator new(0xD0);
     if (o != NULL) {
         o = TOVS2Wreck03__ct(o, arg0);
     }
@@ -415,7 +414,7 @@ TOVS2Wreck04::~TOVS2Wreck04() {
 }
 
 void *TOVS2Wreck04__create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0xD0);
+    void *o = TObject::operator new(0xD0);
     if (o != NULL) {
         o = TOVS2Wreck04__ct(o, arg0);
     }
@@ -432,7 +431,7 @@ TOVS2Wreck05::~TOVS2Wreck05() {
 }
 
 void *TOVS2Wreck05__create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0xD0);
+    void *o = TObject::operator new(0xD0);
     if (o != NULL) {
         o = TOVS2Wreck05__ct(o, arg0);
     }
@@ -449,7 +448,7 @@ TOVS2Wreck06::~TOVS2Wreck06() {
 }
 
 void *TOVS2Wreck06__create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0xD0);
+    void *o = TObject::operator new(0xD0);
     if (o != NULL) {
         o = TOVS2Wreck06__ct(o, arg0);
     }
@@ -487,7 +486,7 @@ TOVS2Wall01::~TOVS2Wall01() {
 }
 
 void *TOVS2Wall01::create() {
-    void *o = __nw__7TObjectFUl(0x360);
+    void *o = TObject::operator new(0x360);
     if (o != NULL) {
         o = TOVS2Wall01__ct((TOVS2Wall01 *)o, this);
     }

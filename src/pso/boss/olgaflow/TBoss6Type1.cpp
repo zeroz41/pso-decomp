@@ -441,7 +441,6 @@ struct Boss_802B7530 {
 f32 vec3_dot(void *, void *);
 
 
-
 s32 submit_cursor_candidate(void *, int);
 s32 add_radar_scaled_marker(void *, int, int, int, f32);
 }

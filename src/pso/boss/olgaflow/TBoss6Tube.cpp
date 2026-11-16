@@ -13,6 +13,8 @@
 #include "pso/boss/olgaflow/TBoss6Tube_802B15F4.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/BmlResourceDescriptor.h"
+#include "pso/system/task/TObject.h"
+#include "pso/system/MatrixStack.h"
 
 const char *boss06_tube_dat_model_names[4] = { "boss06_light01.gj", "boss06_light02.gj", "boss06_tube01.gj", NULL };
 const char *boss06_tube_dat_motion_names[1] = { NULL };
@@ -35,7 +37,6 @@ s32 TBoss6Tube__previous_scroll_phase;
 f32 TBoss6Tube__scroll_delta;
 void get_bml_model(s32, s32);
 s32 query_teammate_state__9TObjEneDDFv(void);
-void push_matrix(void);
 void draw_ginja_object(void);
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
 
@@ -213,11 +214,10 @@ u8 *load_gvm_texture_file(s32 arg0);
 extern "C" {
 void free_bin_model_request(void*, int);
 s32 release_texture_list(void*);
-void *__nw__7TObjectFUl(int);
 }
 
 void *TBoss6Tube::create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0x30);
+    void *o = TObject::operator new(0x30);
     if (o != NULL) {
         o = TBoss6Tube__ct((TBoss6Tube *)((u8 *)o), (u8 *)arg0);
     }

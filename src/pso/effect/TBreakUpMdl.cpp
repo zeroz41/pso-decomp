@@ -22,6 +22,7 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 struct Seg_80096EBC { s32 a; f32 x; f32 y; f32 z; u8 pad[12]; };
 
@@ -97,7 +98,6 @@ s32 scale_current_matrix(void *);
 s32 post_translate_matrix(void *);
 extern s32 TBreakUpMdl__vtable[];
 u8 *init__11TBreakUpMdlFPviif(u8 *arg0, s32 arg1, s32 arg2, f32 farg0);
-void *mem_alloc(u32 size);
 void alloc_breakup_piece_records(Brk_80096EBC *arg0, void *arg1);
 extern NJS_ARGB breakup_default_color;
 extern u32 saved_model_render_flags;
@@ -111,7 +111,6 @@ extern s32 __vt__11TBreakUpMdl[];
 extern s32 TBreakUpMdl__class_name;
 u8 *TBreakUpMdl__ct(u8 *arg0, void *arg1, Model_80096AD8 *arg2, void *arg3, s32 arg4, void *arg5, s32 arg6);
 void *__dt_deleting__11TBreakUpMdlFPvs(void *arg0, s16 arg1);
-void mem_free(void *);
 
 void TBreakUpMdl::render() {
     BreakUp_8009680C *self = (BreakUp_8009680C *)this;

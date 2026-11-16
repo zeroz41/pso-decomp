@@ -16,6 +16,8 @@
 #include "pso/player/TPlayerLobbyMarker.h"
 #include "types.h"
 #include "pso/map/FloorArea.h"
+#include "pso/system/task/TObject.h"
+#include "pso/system/MatrixStack.h"
 
 extern "C" {
 
@@ -157,8 +159,6 @@ s32 all_parents_unqueued_for_destruction__7TObjectFv();
 s32 scale_matrix(s32, f32, f32, f32);
 s32 translate_matrix_vec3(s32, s32);
 s32 rotate_matrix_y(s32, s32);
-s32 push_matrix();
-s32 pop_matrix();
 s32 draw_chunk_object();
 extern u8 shared_effect_texture_list[];
 extern u8 saved_model_draw_color[];
@@ -167,7 +167,6 @@ extern void *camera_ctrl_instance;
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 u8 *__ct__18TPlayerLobbyMarkerFP7TObjectsSc(u8 *arg0, u8 *arg1, s16 arg2, s8 arg3);
-void *__nw__7TObjectFUl(u32);
 s32 TMainCursor__sub_8013E03C(void);
 s32 TObjPlayer__sub_801C6DAC(u8 *arg0);
 }
@@ -188,13 +187,7 @@ int clear__8FlagWordFUl(void*, int);
 }
 
 
-
-
-
-
-
 extern "C" {
-
 
 
 extern s32 __vt__13TForceOperate[];
@@ -207,7 +200,6 @@ extern "C" {
 typedef char RecoveredGlobal_801C6FF8_lbl_804C4008_size[sizeof(RecoveredGlobal_801C6FF8_lbl_804C4008) == 0x18 ? 1 : -1];
 
 }
-
 
 
 #include "pso/network/TPlyOnCountOver.h"
@@ -229,11 +221,6 @@ void __dl__7TObjectFPv(void *);
 void __dt__7TObjectFv(void *, int);
 
 }
-extern "C" {
-
-
-
-}
 
 #undef get_player_by_client_id
 
@@ -252,21 +239,9 @@ s32 get_slot_value__10TObjPlayerFPvi(s32 *arg0, s32 arg1);
 }
 
 
-
-extern "C" {
-}
-
-
-
-extern "C" {
-}
-
-
-
 extern "C" {
 f32 apply_stat_multipliers__10TObjPlayerFiif(s32 arg0, s32 arg1, f32 farg0);
 }
-
 
 
 extern "C" {
@@ -274,16 +249,9 @@ void apply_stat_multipliers_default__10TObjPlayerFv(void);
 }
 
 
-
-extern "C" {
-}
-
-
-
 extern "C" {
 void update_player_scale_camera(PlayerScaleState *state);
 }
-
 
 
 extern "C" {
@@ -291,16 +259,9 @@ void handle_6x88_restore_shrunken_player(const PlayerRestoreSizePacket* input);
 }
 
 
-
-extern "C" {
-}
-
-
-
 extern "C" {
 void request_player_size_restore(PlayerScaleState* state);
 }
-
 
 
 extern "C" {
@@ -308,21 +269,9 @@ void handle_6x87_shrink_player(const PlayerShrinkPacket* input);
 }
 
 
-
-extern "C" {
-}
-
-
-
 extern "C" {
 void request_player_shrink(PlayerScaleState* state);
 }
-
-
-
-extern "C" {
-}
-
 
 
 extern "C" {
@@ -330,16 +279,9 @@ s32 TObjPlayer__sub_801C6DAC(u8 *arg0);
 }
 
 
-
 extern "C" {
 void free__10TObjPlayerFPv(void* a0);
 }
-
-
-
-extern "C" {
-}
-
 
 
 extern "C" {
@@ -347,11 +289,9 @@ s32 get_contact_surface_type(s32 arg0);
 }
 
 
-
 extern "C" {
 void *__dt__13TForceOperateFv(void *arg0, s16 arg1);
 }
-
 
 
 extern "C" {
@@ -359,26 +299,9 @@ BOOL fn_801C6F2C(u8 *arg0);
 }
 
 
-
-extern "C" {
-}
-
-
-
-extern "C" {
-}
-
-
-
-extern "C" {
-}
-
-
-
 extern "C" {
 int TObjPlayer__sub_801C6F90(void* p);
 }
-
 
 
 extern "C" {
@@ -386,16 +309,9 @@ void set_stat_scale__10TObjPlayerFPvf(void* p, f32 v);
 }
 
 
-
 extern "C" {
 void TObjPlayer__sub_801C6FCC(void* p, f32 v);
 }
-
-
-
-extern "C" {
-}
-
 
 
 extern "C" {
@@ -403,16 +319,9 @@ void TObjPlayer__sub_801C6FDC(void);
 }
 
 
-
 extern "C" {
 void TObjPlayer__sub_801C6FE0(void* p, f32 a, f32 b, f32 c);
 }
-
-
-
-extern "C" {
-}
-
 
 
 extern "C" {
@@ -420,21 +329,9 @@ u8 *__ct__18TPlayerLobbyMarkerFP7TObjectsSc(u8 *arg0, u8 *arg1, s16 arg2, s8 arg
 }
 
 
-
-extern "C" {
-}
-
-
-
-extern "C" {
-}
-
-
-
 extern "C" {
 int TObjPlayer__sub_801C7098(void* p);
 }
-
 
 
 #include "pso/ui/keyboard/TKeyBoardControl_803DE9C4.h"
@@ -564,12 +461,10 @@ u8 *__ct__18TPlayerLobbyMarkerFP7TObjectsSc(u8 *player_lobby_marker, u8 *arg1, s
 }
 
 
-
 extern "C" {
 u16 TObjPlayer::get_obj_type() { return *(u16*)((char*)this + 0x0); }
 
 }
-
 
 
 extern "C" {
@@ -578,12 +473,10 @@ void TObjPlayer__sub_801C6FE0(void* p, f32 a, f32 b, f32 c) { *(f32*)((char*)p +
 }
 
 
-
 extern "C" {
 void TObjPlayer__sub_801C6FDC(void) {  }
 
 }
-
 
 
 extern "C" {
@@ -592,12 +485,10 @@ void TObjPlayer::set_ring_action(s32 v) { *(s32*)((char*)this + 0x4) = v; }
 }
 
 
-
 extern "C" {
 void TObjPlayer__sub_801C6FCC(void* p, f32 v) { *(f32*)((char*)p + 0x8) = v; }
 
 }
-
 
 
 extern "C" {
@@ -617,12 +508,10 @@ int TObjPlayer__sub_801C6F90(void* p) { return test_flags_any((s32 *)p, 2); }
 }
 
 
-
 extern "C" {
 int TObjPlayer::set_lock_flag() { return test_flags_any((s32 *)this, 1); }
 
 }
-
 
 
 extern "C" {
@@ -631,12 +520,10 @@ void TObjPlayer::clear_target_lock_flag() { ((FlagWord *)this)->clear(1); }
 }
 
 
-
 extern "C" {
 void TObjPlayer::set_lock_timer(s32 v) { *(s32*)((char*)this + 0x4) = v; }
 
 }
-
 
 
 extern "C" {
@@ -645,7 +532,6 @@ BOOL fn_801C6F2C(u8 *arg0) {
 }
 
 }
-
 
 
 extern "C" {
@@ -662,7 +548,6 @@ void *__dt__13TForceOperateFv(void *object, s16 arg1) {
 }
 
 }
-
 
 
 extern "C" {
@@ -682,19 +567,16 @@ s32 get_contact_surface_type(s32 arg0) {
 }
 
 
-
 extern "C" {
 void TObjPlayer::heap_alloc(void* a0) { obj_heap->heap_alloc((size_t)a0); }
 
 }
 
 
-
 extern "C" {
 void free__10TObjPlayerFPv(void* a0) { obj_heap->heap_free(a0); }
 
 }
-
 
 
 extern "C" {
@@ -709,7 +591,6 @@ s32 TObjPlayer__sub_801C6DAC(u8 *arg0) {
 }
 
 
-
 extern "C" {
 u8 *TObjPlayer::create_lobby_marker(s16 arg0, s8 arg1) {
     u8 *e;
@@ -718,7 +599,7 @@ u8 *TObjPlayer::create_lobby_marker(s16 arg0, s8 arg1) {
     if (e == NULL) {
         return NULL;
     }
-    p = (u8 *)__nw__7TObjectFUl(0x24);
+    p = (u8 *)TObject::operator new(0x24);
     if (p != NULL) {
         p = __ct__18TPlayerLobbyMarkerFP7TObjectsSc(p, e, arg0, arg1);
     }
@@ -776,7 +657,6 @@ void request_player_shrink(PlayerScaleState* state) {
 }
 
 
-
 extern "C" {
 void TObjPlayer::handle_6x87_shrink(f32 farg0) {
     ((FlagWord *)(((u8 *)this) + 4))->set(1);
@@ -784,7 +664,6 @@ void TObjPlayer::handle_6x87_shrink(f32 farg0) {
 }
 
 }
-
 
 
 extern "C" {
@@ -803,7 +682,6 @@ void handle_6x87_shrink_player(const PlayerShrinkPacket* input) {
 }
 
 
-
 extern "C" {
 void request_player_size_restore(PlayerScaleState* state) {
     TObjPlayer* player = get_player_by_client_id(((TObjPlayer *)state)->get_obj_type());
@@ -818,12 +696,10 @@ void request_player_size_restore(PlayerScaleState* state) {
 }
 
 
-
 extern "C" {
 int TObjPlayer::clear_shrink_flag() { return clear__8FlagWordFUl((char*)this + 0x4, 1); }
 
 }
-
 
 
 extern "C" {
@@ -842,7 +718,6 @@ void handle_6x88_restore_shrunken_player(const PlayerRestoreSizePacket* input) {
 }
 
 
-
 extern "C" {
 void update_player_scale_camera(PlayerScaleState *state) {
   TObjPlayer__sub_801C6FE0(state->camera_position, 0.0f, 0.6f * (25.43f * state->get_scalar()), 45.42f * state->get_scalar());
@@ -851,7 +726,6 @@ void update_player_scale_camera(PlayerScaleState *state) {
 }
 
 }
-
 
 
 extern "C" {
@@ -863,14 +737,12 @@ void TObjPlayer::reset_stat_scale_and_ring() {
 }
 
 
-
 extern "C" {
 void apply_stat_multipliers_default__10TObjPlayerFv(void) {
     ((s32 (*)(f32))apply_stat_multipliers__10TObjPlayerFiif)(1.0f);
 }
 
 }
-
 
 
 extern "C" {
@@ -893,19 +765,16 @@ f32 apply_stat_multipliers__10TObjPlayerFiif(s32 arg0, s32 arg1, f32 farg0) {
 }
 
 
-
 extern "C" {
 void TObjPlayer::apply_stats_and_update(void* p) { ((int (*)(void*))apply_stat_multipliers_default__10TObjPlayerFv)(p); ((int (*)(void*))set_stat_scale__10TObjPlayerFPvf)(p); }
 
 }
 
 
-
 extern "C" {
 void TObjPlayer::apply_stat_multipliers_and_reset(void* p) { ((int (*)(void*))apply_stat_multipliers__10TObjPlayerFiif)(p); ((int (*)(void*))set_stat_scale__10TObjPlayerFPvf)(p); }
 
 }
-
 
 
 extern "C" {
@@ -951,7 +820,7 @@ void TObjPlayer::revive_or_spawn_marker() {
         ((TObjPlayer *)player)->set_flag_0x8000();
         return;
     }
-    temp_r3 = (s32)__nw__7TObjectFUl(0x24);
+    temp_r3 = (s32)TObject::operator new(0x24);
     if (temp_r3 != 0) {
         ((s32 (*)(s32, s32, s32)) __ct__11TPlayerSoulFP7TObjectUs)(temp_r3, tl_06, get_entity_id(player));
     }
@@ -995,7 +864,7 @@ void TPlayerSoul::run_task() {
 
 extern "C" {
 void TObjPlayer::new_child_object(s32 arg0) {
-    void* obj = __nw__7TObjectFUl(0x24);
+    void* obj = TObject::operator new(0x24);
     if (obj != 0) {
         ((void *(*)(void *, s32, s32)) __ct__20TPlayerLevelFeedbackFP7TObjectUs)(obj, tl_07, arg0);
     }
@@ -1046,7 +915,7 @@ void TPlayerReadyCallback::run_task() {
 
 void *TPlyOnCreated::create(void *arg0, void *arg1) {
     void *o;
-    o = __nw__7TObjectFUl(0x24);
+    o = TObject::operator new(0x24);
     if (o != NULL) {
         o = __ct__13TPlyOnCreatedFv((u8 *)o, (s32)arg0, (s32)arg1);
     }
@@ -1075,7 +944,7 @@ void TPlyOnCreated::run_task() {
 
 void *TPlyOnCountOver::create(void *arg0, void *arg1, void *arg2) {
     void *o;
-    o = __nw__7TObjectFUl(0x24);
+    o = TObject::operator new(0x24);
     if (o != NULL) {
         o = __ct__15TPlyOnCountOverFv((u8 *)o, (s32)arg0, (s32)arg1, (s32)arg2);
     }
@@ -1349,12 +1218,10 @@ int TObjPlayer::set_action_flag16() { return test_flags_any((s32 *)this, 16); }
 }
 
 
-
 extern "C" {
 int TObjPlayer::test_flag_8() { return test_flags_any((s32 *)this, 8); }
 
 }
-
 
 
 extern "C" {

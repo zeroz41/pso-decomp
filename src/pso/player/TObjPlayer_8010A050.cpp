@@ -10,6 +10,7 @@
 #include "pso/map/FloorArea.h"
 #include "pso/system/task/TObject.h"
 #include "pso/item/TItemData.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 struct Obj_8010A1D0 {
     u8 pad0[0x18];
@@ -103,7 +104,6 @@ void *get_player_by_client_id(s32 i);
 s16 count_nearby_players_with_shield__10TObjPlayerFUsPUc(u16, s8 *);
 
 TParticleCtrl *create_particle_emitter(const void *pos, s32 id);
-s32 get_current_floor();
 int get_item_field_6__10TObjPlayerFPv(void *p);
 u8 get_item_group__5TItemFv();
 

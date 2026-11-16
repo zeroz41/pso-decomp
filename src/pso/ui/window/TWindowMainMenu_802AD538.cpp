@@ -4,6 +4,7 @@
 #include "pso/ui/window/TWindowMainMenu_802AD538.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/player/TObjPlayer_80011014.h"
 struct TWindowSubComCard;
 #include "pso/ui/window/TWindowMenuMainMenu.h"
 #include "pso/ui/window/TWindowMainMenu.h"
@@ -105,7 +106,6 @@ struct Item_802AD7F0 {
     s8 x14;
 };
 
-s32 is_split_screen();
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
 s32 apply_choice__20TWindowChoiceSettingFllll(void *, int, int, int);
 f32 TWindowSubComCard__sub_80244784(TWindowSubComCard *);

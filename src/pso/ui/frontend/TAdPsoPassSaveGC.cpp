@@ -2,6 +2,7 @@
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/unk/TLobby_80132ED0.h"
 #include "pso/ui/frontend/TAdPsoPassSaveGC.h"
+#include "pso/system/task/TObject.h"
 
 #pragma readonly_strings on
 
@@ -9,7 +10,6 @@ extern "C" {
 
 void *TAdYesNoBaseGC__ct(TAdYesNoBaseGC *arg0);
 void *__ct__10TAdTitleGCFP7TObjectl(void *, void *, int);
-void *__nw__7TObjectFUl(int);
 
 void TAdPsoPassSaveGC::render() {
     vfunc_12();
@@ -48,7 +48,7 @@ void *TAdPsoPassSaveGC__ct(void *parent) {
     TAdYesNoBaseGC__ct((TAdYesNoBaseGC *)parent);
     *(s32 **)((s8 *)parent + 0x18) = __vt__16TAdPsoPassSaveGC;
     ((TAdPsoPassSaveGC *)parent)->m_name = lbl_805D4310;
-    o = __nw__7TObjectFUl(0x138);
+    o = TObject::operator new(0x138);
     if (o != NULL) {
         __ct__10TAdTitleGCFP7TObjectl(o, parent, 18);
     }

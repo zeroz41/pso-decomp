@@ -16,6 +16,7 @@
 #include "pso/effect/particle/TParticleCtrl_80327D30.h"
 #include "pso/player/TObjPlayer_80083594.h"
 #include "pso/system/task/TObject.h"
+#include "pso/player/TObjPlayer_80011014.h"
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
@@ -75,7 +76,6 @@ void *__dt__13TUnk_8048E7A8Fv(void *arg0, s16 arg1);
 void set_queued_main_phase(s32 arg0);
 void request_main_phase(s32 arg0);
 s32 rand(void);
-s32 is_split_screen();
 s32 is_particle_sprite_additive__13TUnk_8048E728Fv(void *, s32);
 s32 append_node_to_tail__13TParticleCtrlFPvPv(s32, void *);
 s32 all_parents_unqueued_for_destruction__7TObjectFv();
@@ -88,7 +88,6 @@ s32 draw_ginja_model_with_motion(u32, NJS_MOTION *, f32);
 extern u8 *camera_ctrl_instance;
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
-f32 atan2_float(f32, f32);
 f32 vector_length(void *);
 void project_world_to_screen(s32, void *, void *);
 static const Ang_8008BAF8 radial_particle_zero_angles = { 0, 0, 0 };

@@ -15,6 +15,8 @@
 
 #include "pso/system/scene/TScene.h"
 #include "pso/camera/TCameraCtrl_8006C254.h"
+#include "pso/system/task/TObject.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 static Entry_8006C6CC lbl_80488B98[1] = { { "CommonCam.rel", 0x48 } };
 static Entry_8006C6CC lbl_80488BA0[3] = { { "CommonCam.rel", 0x48 }, { "Bo01OpCam.rel", 0xC }, { "Bo01EnCam.rel", 0x48 } };
@@ -63,12 +65,11 @@ struct CameraMotionData;
 extern "C" {
 
 void *get_player_by_client_id(s32);
-void *__nw__7TObjectFUl(int);
 
 }
 
 void *TCameraCtrl__vt10(void) {
-    void *o = __nw__7TObjectFUl(0x6C);
+    void *o = TObject::operator new(0x6C);
     if (o != NULL) {
         o = ((TUnk_80488D70 *)o)->init_subobject();
     }

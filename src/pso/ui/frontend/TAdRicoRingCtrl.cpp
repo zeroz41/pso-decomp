@@ -64,7 +64,6 @@ int post_translate_matrix(void*);
 int push_matrix(void*);
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 void free_bin_model_request(void*, int);
-void *__nw__7TObjectFUl(int);
 }
 
 // inferred: the vertex list draw_tri_fan_2d reads (cf. VtxList_80077BC0)
@@ -110,7 +109,7 @@ void TAdRicoRingCtrl::release_global_805D4A00() {
 }
 
 void *TAdRicoRingCtrl::create(void *parent) {
-    void *o = __nw__7TObjectFUl(0x70);
+    void *o = TObject::operator new(0x70);
     if (o != NULL) {
         o = __ct__11TAdRicoRingFv((u8 *)o, parent);
     }

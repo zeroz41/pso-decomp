@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/enemy/dd/TObjEneDD.h"
@@ -28,6 +29,9 @@
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/unk/TLobby.h"
 #include "pso/enemy/deldepth/DelDepthData.h"
+#include "pso/system/task/TObject.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 #pragma defer_codegen on
 extern "C" {
@@ -38,7 +42,6 @@ void draw_model_motion(void *arg0, void *arg1, f32 farg0);
 void TObjEneRe7Berura__sub_80093470(TObjEneRe7Berura *self, s32 mode);
 void TObjEneRe7BeruraPunch__sub_800962F4(TObjEneRe7BeruraPunch *p);
 void TObjPlayer__sub_800A04F0(void *);
-s32 is_split_screen();
 void fn_80095DD0(TObjEneRe7BeruraPart *);
 void fn_80095DF4(TObjEneRe7BeruraPart *);
 s32 scroll_strip_uvs(s32, int, int);
@@ -115,8 +118,6 @@ s32 load_enemy_bml_resource_named(s32 arg0, s32 arg1);
 s32 load_enemy_bml_resource(u8 *arg0);
 s32 set_field_378__9TObjEneDDFl(void *, s32, s32);
 s32 angle_diff_s16(s32);
-void mem_free(void*);
-void *mem_alloc(u32 size);
 void free_collision_body_parts(void *);
 }
 
@@ -404,7 +405,7 @@ TObjEneRe7Berura::~TObjEneRe7Berura() {
         }
     }
     if (m_3f8 != 0) {
-        queue_destruction__7TObjectFv(m_3f8);
+        m_3f8->queue_destruction();
         m_3f8 = 0;
     }
     free_collision_body_parts(this);
@@ -650,7 +651,7 @@ void TObjEneRe7Berura::destroy_parts() {
     s32 i;
     for (i = 0; i < 2; i++) {
         if (m_438[i] != 0) {
-            queue_destruction__7TObjectFv(m_438[i]);
+            m_438[i]->queue_destruction();
             m_438[i] = 0;
         }
     }
@@ -1364,7 +1365,7 @@ void TObjEneRe7Berura::update_death_state(s32 mode) {
                 m_4c4 = 4;
                 m_3c0 |= 1;
                 TObjPlayer::apply_effect_variant_b((s32)&position, 0);
-                queue_destruction__7TObjectFv(this);
+                queue_destruction();
             }
         }
             break;

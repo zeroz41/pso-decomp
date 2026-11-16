@@ -16,6 +16,9 @@
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/object/collision/TObjBgmColCtrl.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/system/task/TObject.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 
 
 struct Light_80140514 {
@@ -29,11 +32,8 @@ struct Light_80140514 {
 extern "C" {
 s32 load_floor_sound_bank();
 s32 play_area_music(s32 *);
-s32 is_split_screen();
-u32 __nw__7TObjectFUl(s32);
 extern s32 gryphon_area_cleanup_callbacks[];
 s32 is_quest_active();
-s32 get_main_phase();
 extern s32 lbl_8043F1D8[];
 extern s32 lbl_8043F1E8[];
 extern s32 lbl_8043F1F8[];
@@ -176,12 +176,12 @@ s32 TLobby::setup_scene() {
     TLobby::create_tasks();
     TObjBgmColCtrl::create_controller();
     if (((s32)get_current_floor_area()) == AREA_PIONEER2_EP1) {
-        obj = ((void *)__nw__7TObjectFUl(0x78));
+        obj = ((void *)TObject::operator new(0x78));
         if (obj != NULL) {
             construct_traffic_manager(obj, tl_05);
         }
     }
-    obj = ((void *)__nw__7TObjectFUl(0x1C));
+    obj = ((void *)TObject::operator new(0x1C));
     if (obj != NULL) {
         __ct__13TQuestBgmCtrlFP7TObject(obj, tl_05);
     }

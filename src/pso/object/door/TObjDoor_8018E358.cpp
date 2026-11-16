@@ -15,6 +15,7 @@
 #include "pso/math/AngleLookup.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/render/GinjaMaterial.h"
+#include "pso/system/task/TObject.h"
 
 struct Node_8018E358 { s32 pad0; void *f4; };
 struct Glob_8018E358 { s32 f0; s32 pad4; s32 pad8; Node_8018E358 *a; Node_8018E358 *b; };
@@ -78,7 +79,6 @@ s32 project_world_to_screen(int, void *, void *);
 extern s32 camera_ctrl_instance;
 s32 free_collision_body_parts(void *);
 extern s32 __vt__8TObjDoor[];
-void *__nw__7TObjectFUl(int);
 extern void *tl_05;
 void *TObjDoor__create(void *arg0);
 void free_bin_model_request(void*, int);
@@ -543,7 +543,7 @@ void *TObjDoor__ct(void *arg0, void *arg1, void *arg2) {
 }
 
 void *TObjDoor__create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0xD4);
+    void *o = TObject::operator new(0xD4);
     if (o != NULL) {
         o = TObjDoor__ct(o, tl_05, arg0);
     }
@@ -576,7 +576,7 @@ void TObjDoor::load_resources() {
 }
 
 void *TObjDoorJung__create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0xD8);
+    void *o = TObject::operator new(0xD8);
     if (o != NULL) {
         o = TObjDoorJung__ct((u8 *)o, (s32)tl_05, (s32)arg0);
     }

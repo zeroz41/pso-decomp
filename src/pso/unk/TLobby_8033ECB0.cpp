@@ -4,14 +4,13 @@
 #include "pso/ui/frontend/TAdMcCheckGC.h"
 #include "pso/unk/TLobby.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 
 extern "C" {
 s32 lbl_805D6DA0;
-void *mem_alloc(u32 size);
 s32 __ct__7TObjectFP7TObject();
 extern s32 __vt__13TUnk_804EFA88[];
-void mem_free(void *p);
 
 }
 TUnk_804EFA88::~TUnk_804EFA88() {

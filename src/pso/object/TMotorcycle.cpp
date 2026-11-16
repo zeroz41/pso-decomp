@@ -13,6 +13,7 @@
 #include "pso/unk/text_803D853C.h"
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/render/NinjaUtil.h"
+#include "pso/system/task/TObject.h"
 
 extern const char *fe_obj_baiku_model_names[3];
 extern BmlResourceDescriptor motorcycle_resource_descriptor;
@@ -44,7 +45,6 @@ void *TMotorcycle__ct(void *arg0, void *arg1, void *arg2);
 void free_bin_model_request(void*, int);
 s32 release_texture_list(void*);
 s32 free_collision_body_parts(void *);
-void *__nw__7TObjectFUl(int);
 
 __declspec(section ".data") const char *fe_obj_baiku_model_names[3] = { "fe_obj_baiku.gj", "fe_obj_baiku_jimen.gj", NULL };
 BmlResourceDescriptor motorcycle_resource_descriptor = { "fe_obj_baiku.bml", fe_obj_baiku_model_names, fe_obj_baiku_motion_names, 2, 0 };
@@ -96,7 +96,7 @@ void TMotorcycle::vfunc_14() {  }
 
 
 void *TMotorcycle::create() {
-    void *o = __nw__7TObjectFUl(0xC0);
+    void *o = TObject::operator new(0xC0);
     if (o != NULL) {
         o = TMotorcycle__ct(o, tl_05, this);
     }

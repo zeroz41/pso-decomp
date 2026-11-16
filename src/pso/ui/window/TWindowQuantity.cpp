@@ -9,6 +9,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 
 #include "pso/unk/WindowLayoutRecord.h"
+#include "pso/system/task/TObject.h"
 
 struct Quantity_8026D000 {
     s32 f0;
@@ -48,7 +49,6 @@ s32 get_window_layout_position(s32);
 extern s32 __vt__15TWindowQuantity[];
 extern s32 lbl_805D39B0;
 s32 draw_window_tab(s32, s32, s32, f32);
-void *__nw__7TObjectFUl(int);
 
 void TWindowQuantity::set_position(s32 arg1) {
     draw_window_tab(arg1, arg1 + 0x10, 3, this->m_60);
@@ -95,7 +95,7 @@ void *TWindowQuantity__ct(void *arg0, void *arg1) {
 }
 
 void *create_window_quantity(void *arg0) {
-    void *o = __nw__7TObjectFUl(0x6C);
+    void *o = TObject::operator new(0x6C);
     if (o != NULL) {
         o = TWindowQuantity__ct(o, arg0);
     }

@@ -18,6 +18,8 @@
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/object/collision/TObjBgmColCtrl.h"
+#include "pso/system/task/TObject.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 
 struct Light_801401D0 {
@@ -31,14 +33,12 @@ struct Light_801401D0 {
 extern "C" {
 s32 load_floor_sound_bank();
 s32 play_area_music(s32 *);
-s32 is_split_screen();
 extern s32 lbl_8043F198[];
 extern s32 lbl_8043F1A8[];
 // Load and release hooks run by run_load_callback_table / call_funcs_reverse.
 __declspec(section ".data") void (*dragon_area_scene_callbacks[2])(void) = {TLobby::init_bosses, TLobby::update_boss1_objects};
 __declspec(section ".data") void (*lbl_804A7360[2])(void) = {TLobby__sub_8003A9AC, TLobby::init_boss2_stage};
 s32 __ct__16TBoss3VoloptCtrlFv();
-u32 __nw__7TObjectFUl(s32);
 s32 run_load_callback_table(void *, s32);
 extern s32 lbl_8043F1C8[];
 s32 forward_floor_2CB44__6TLobbyFv();
@@ -191,7 +191,7 @@ s32 TLobby::spawn_boss3_volopt_ctrl() {
     }
     init_area_lights();
     TLobby::create_tasks();
-    if (__nw__7TObjectFUl(0x24) != 0U) {
+    if (TObject::operator new(0x24) != 0U) {
         __ct__16TBoss3VoloptCtrlFv();
     }
     return 1;

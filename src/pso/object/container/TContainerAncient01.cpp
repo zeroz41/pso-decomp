@@ -236,7 +236,6 @@ void *dt__20TContainerAncient01RFPvs(void *arg0, s16 arg1);
 void *TContainerAncient01R__ct(Obj_8018B030 *, void *, void *);
 s32 free_collision_body_parts(void *);
 s32 __dl__7TObjectFPv(void *);
-void *__nw__7TObjectFUl(int);
 
 extern "C" void receive_weapon_special_attack__20TContainerAncient01RFPvPv();
 extern "C" void apply_knockback_from_attacker__20TContainerAncient01RFPUcf();
@@ -627,7 +626,7 @@ void TContainerAncient01R::run_task() {
 extern void *tl_05;
 
 void *TContainerAncient01R__create(void *parent) {
-    void *o = __nw__7TObjectFUl(0x374);
+    void *o = TObject::operator new(0x374);
     if (o != NULL) {
         o = TContainerAncient01R__ct((Obj_8018B030 *)o, tl_05, parent);
     }
@@ -990,7 +989,7 @@ void free_bin_model_request(void*, int);
 
 
 void *TContainerAncient01::create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0x370);
+    void *o = TObject::operator new(0x370);
     if (o != NULL) {
         o = TContainerAncient01__ct((u8 *)o, (s32)tl_05, (s32)arg0);
     }

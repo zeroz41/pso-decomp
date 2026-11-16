@@ -1,9 +1,9 @@
 #include "types.h"
 #include "pso/object/door/TObjDoor.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 extern "C" {
-s32 get_current_floor();
 void *get_player_by_client_id(s32 i);
 f32 xyz_distance(void *, void *);
 }

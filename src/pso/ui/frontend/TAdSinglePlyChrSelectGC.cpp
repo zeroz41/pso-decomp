@@ -46,7 +46,6 @@ const char *TAdSinglePlyChrSelectGC__class_name = TAdSinglePlyChrSelectGC__class
 extern const T_802D4F2C single_chr_select_position_table;
 
 extern "C" {
-void *__nw__7TObjectFUl(u32);
 s32 play_sound_effect(s32, s32, s32, s32);
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, s32);
 extern char controller_input_state[];
@@ -620,31 +619,31 @@ u8 *TAdSinglePlyChrSelectGC__ct(u8 *arg0, void *parent) {
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__23TAdSinglePlyChrSelectGC;
     ((TObject *)arg0)->m_name = TAdSinglePlyChrSelectGC__class_name;
     ((TAdSinglePlyChrSelectGC *)arg0)->sub_802D4E08();
-    p = __nw__7TObjectFUl(0x24);
+    p = TObject::operator new(0x24);
     if (p != NULL) {
         __ct__9TAdBackGCFv(p, arg0);
     }
-    p = __nw__7TObjectFUl(0x28);
+    p = TObject::operator new(0x28);
     if (p != NULL) {
         __ct__12TAdBackTxtGCFv(p, arg0);
     }
-    p = __nw__7TObjectFUl(0x138);
+    p = TObject::operator new(0x138);
     if (p != NULL) {
         __ct__10TAdTitleGCFP7TObjectl(p, arg0, 0);
     }
     *(s32 *)((s8 *)arg0 + 0x28) = (s32)get_or_create_slot_window__22TAdMultiPlyChrSelectGCFii((s32)arg0, 0);
     *(s32 *)((s8 *)arg0 + 0x30) = get_or_create_player__22TAdMultiPlyChrSelectGCFiiii((s32)arg0, 0, -1, 0);
-    p = __nw__7TObjectFUl(0x44);
+    p = TObject::operator new(0x44);
     if (p != NULL) {
         p = __ct__13TAdGuideTxtGCFv(p, arg0);
     }
     *(void **)((s8 *)arg0 + 0x34) = p;
-    p = __nw__7TObjectFUl(0x708);
+    p = TObject::operator new(0x708);
     if (p != NULL) {
         p = __ct__14TAdSelectCurGCFv(p, arg0, (void *)single_chr_select_item_rect_table, (void *)&lbl_80472530);
     }
     *(void **)((s8 *)arg0 + 0x2C) = p;
-    p = __nw__7TObjectFUl(0x9C);
+    p = TObject::operator new(0x9C);
     if (p != NULL) {
         p = __ct__13TAdTitleTexGCFv(p, arg0);
     }

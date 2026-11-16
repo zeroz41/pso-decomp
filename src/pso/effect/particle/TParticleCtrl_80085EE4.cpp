@@ -18,6 +18,7 @@
 
 #include "pso/effect/particle/TParticleCtrl_80327D30.h"
 #include "pso/player/TObjPlayer_80083594.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 struct Col_80086418 { u8 a, r, g, b; };
 
@@ -112,7 +113,6 @@ struct Ctrl_80086248 {
 
 
 extern "C" {
-s32 is_split_screen(void);
 struct RecoveredGlobal_TParticleCtrl__data_80511F70 { s32 value; u8 remaining[0x1AC]; };
 extern RecoveredGlobal_TParticleCtrl__data_80511F70 TParticleCtrl__data_80511F70;
 u8 * __dt__7TObjectFv(void *, s16);

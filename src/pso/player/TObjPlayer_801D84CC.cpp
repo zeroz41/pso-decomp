@@ -16,6 +16,7 @@
 #include "pso/item/TItemData.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/object/base/TObjMotion.h"
+#include "pso/system/MatrixStack.h"
 
 struct Stack_801D8664 {
     s8 sp8;
@@ -86,8 +87,6 @@ void TObjPlayer__sub_801D8664(s32 arg0, s8 arg1, s8 arg2) {
     process_trade_target__10TObjPlayerFiPv(arg0, &stack.sp8);
 }
 
-void push_matrix(void);
-s32 pop_matrix(void);
 void restore_scene_lighting(void);
 void select_actor_lighting(s32 obj);
 s32 TObjPlayer__sub_801BAC48(void *);

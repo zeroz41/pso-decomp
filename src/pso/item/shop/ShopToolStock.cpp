@@ -8,6 +8,7 @@
 #include "pso/unk/text_8020EEFC.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include <stdlib.h>
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 struct SRock_80224544_8022448C;
 
@@ -52,8 +53,6 @@ typedef struct Hdr_8022525C
 } Hdr_8022525C;
 
 extern "C" {
-void *mem_alloc(u32 size);
-void mem_free(void *p);
 void sort_shop_items(s32, s32, s32);
 u32 lobby_tool_random_rel;
 int shop_tool_stock_level;

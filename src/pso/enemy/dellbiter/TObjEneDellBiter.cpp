@@ -65,7 +65,6 @@
 extern "C" {
 f32 atan2_float(f32 y, f32 x);
 s32 approach_angle_limited(s32 from, s32 to, s32 max_step);
-void * __nw__7TObjectFUl(int);
 s32 dellbiter_boss_stat_handle;
 s32 TObjEneDellBiter__shared_handler_param;
 s32 dellbiter_object_stat_handle;
@@ -111,7 +110,6 @@ extern void *tl_04;
 
 extern "C" {
 s32 is_split_screen();
-void *__nw__7TObjectFUl(int);
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 extern const f32 lbl_805D9E84;

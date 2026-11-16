@@ -5,6 +5,7 @@
 #include "pso/render/render_util.h"
 
 #include "pso/enemy/dd/TObjEneDD_ST.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 /* Ninja chunk strips, model and object used to override the material of the next drawn model. */
 struct AltChunkStrips {
@@ -39,7 +40,6 @@ struct AltChunkObject {
 extern "C" {
 void set_chunk_material_override_pair(s32 arg0, s32 arg1);
 extern s32 model_render_flags;
-s32 is_split_screen();
 int init_directional_light__9TObjLightFv(void*);
 int TObjLight__sub_801337F8(void*);
 

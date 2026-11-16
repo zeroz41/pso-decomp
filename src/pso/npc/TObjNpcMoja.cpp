@@ -11,6 +11,8 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/boss/volopt/TBoss3VoloptHiraisin.h"
+#include "pso/system/task/TObject.h"
+#include "pso/system/MatrixStack.h"
 extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
 extern "C" void test_flag_1000__9TObjCharaFv();
@@ -113,7 +115,6 @@ void *__ct__11TObjControlFP7TObject(void *, void *);
 void *TObjNpcMoja__ct(void *, void *, void *);
 void __dl__7TObjectFPv(void *);
 void *__dt__11TObjNpcBaseFv(void *arg0, s16 arg1);
-void *__nw__7TObjectFUl(int);
 
 s32 get_bml_texlist(void *, s32);
 s32 get_bml_model(void *, s32);
@@ -283,11 +284,11 @@ void TObjPlayer::draw_if_visible() {
 void *TObjNpcMoja::create(void *arg2v) {
     void *o;
     void *o2;
-    o = __nw__7TObjectFUl(0x20);
+    o = TObject::operator new(0x20);
     if (o != NULL) {
         o = __ct__11TObjControlFP7TObject(o, tl_04);
     }
-    o2 = __nw__7TObjectFUl(0x3B8);
+    o2 = TObject::operator new(0x3B8);
     if (o2 != NULL) {
         o2 = TObjNpcMoja__ct(o2, o, arg2v);
     }

@@ -3,6 +3,8 @@
 #include "pso/object/TObjTombstone.h"
 
 #include "types.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 
 #pragma readonly_strings on
 
@@ -19,7 +21,6 @@ extern "C" {
 
 u32 create__10TChallengeFv();
 
-s32 get_main_phase();
 extern u32 challenge_task;
 extern s32 challenge_task_created;
 extern s32 TLobby__data_805D4E30;
@@ -193,7 +194,6 @@ u8 lbl_804FF820[0xC];
 RecoveredGlobal_800713C8_lbl_804FF82C lbl_804FF82C;
 s32 *TLobby__sub_800713C8(void);
 s32 TLobby__sub_80070DA8(void);
-f32 fabs_float(f32);
 }
 
 void set_challenge_time_window_timer(int a0);

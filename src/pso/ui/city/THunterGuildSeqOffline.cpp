@@ -89,7 +89,6 @@ void THunterGuildSeqOffline__sub_8021339C(void);
 u16 get_entity_id(s32);
 void THunterGuildSeqOffline__sub_8021E180(void);
 void close_window__13TShopSequenceFv(void *);
-void *__nw__7TObjectFUl(u32);
 extern u8 reset_random_enemies_mode[];
 extern void *tl_00;
 void THunterGuildSeqOffline__sub_80213474(void *arg0);
@@ -284,7 +283,7 @@ void THunterGuildSeqOffline__sub_80213474(void *shop_sequence) {
     if ((((V_A_80213474 *) shop_sequence)->m8() != 0) && ((((TShopWindowBase *)shop_sequence)->sub_80223A48() != 0) || (sub_802239EC__13TShopSequenceFv(shop_sequence) != 0))) {
         switch (*(s32 *)((s8 *)shop_sequence + 0x34)) {
         case 1: {
-            void *o = __nw__7TObjectFUl(0x28);
+            void *o = TObject::operator new(0x28);
             if (o != NULL) {
                 ((THunterGuildSeqOffline *)o)->init(tl_00, reset_random_enemies_mode);
             }

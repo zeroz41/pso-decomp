@@ -4,6 +4,8 @@
 #include "pso/technique/TTecGiFoie.h"
 #include "pso/system/task/TObject.h"
 #include "pso/technique/TTecCtrl.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
+#include "pso/system/MatrixStack.h"
 extern "C" void *__dt__13TUnk_804CC148Fv(void *, s16);
 #include "pso/system/vector.h"
 #include "pso/effect/TUnk_804CC148.h"
@@ -164,13 +166,10 @@ struct Task_802312E4;
 
 void *spawn_particle_effect_with_rotation(void *pos, void *dir, s32 id, int e);
 void *spawn_continuous_particle_with_direction(void *pos, void *dir, s32 id);
-void mem_free(void *);
-void *mem_alloc(u32 size);
 void * find_entity_by_id(u16);
 s32 update_technique_slot__10TTecRaFoieFl(s32, s32, s32);
 s32 play_sound_effect(s32, void *, s32, s32);
 void __dl__7TObjectFPv(void *);
-void * __nw__7TObjectFUl(int);
 void __dt__7TObjectFv(void *, int);
 void __ct__7TObjectFP7TObject(void *, void *);
 void construct_area_technique_base(void *, void *, void *, void *, void *);
@@ -243,7 +242,7 @@ void *TTecGiFoie__ct(void *self_, void *source, void *origin, void *level) {
         p.x = self->pos.x + v.x;
         p.y = self->pos.y + v.y;
         p.z = self->pos.z + v.z;
-        o = __nw__7TObjectFUl(0x4C);
+        o = TObject::operator new(0x4C);
         if (o != NULL) {
             o = ((Task_8023179C *(*)(void *, Vec *, s32, s32, s32, void *, u8))construct_orbit__10TTecGiFoieFPvPviUciPvUc)(o, &p, angle, self->band, self->level, (void *)tl_07, 0);
         }
@@ -382,7 +381,7 @@ void TTecGiFoie::vfunc_6(void *target) {
 
 void TTecGiFoie::create(void *arg0, void *origin, void *level) {
     void *o;
-    o = __nw__7TObjectFUl(0x13C);
+    o = TObject::operator new(0x13C);
     if (o != NULL) {
         TTecGiFoie__ct(o, arg0, origin, level);
     }

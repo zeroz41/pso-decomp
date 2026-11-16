@@ -89,7 +89,6 @@ u16 get_entity_id(void *);
 void __ct__7TEffectFv(void *);
 void init_collision_body_parts(void *, f32 *, s32);
 void *__ct__14TObjCollidableFP7TObject(void *, void *);
-void *__nw__7TObjectFUl(u32);
 extern s32 __vt__19TTecPlayerInfluence[];
 extern s32 lbl_805D37F0;
 Obj_80237310 *TTecPlayerInfluence__ct(Obj_80237310 *self, Owner_80237310 *owner, void *pos, s32 level);
@@ -170,7 +169,7 @@ Obj_80237310 *TTecPlayerInfluence__ct(Obj_80237310 *self, Owner_80237310 *owner,
   self->fc0 = (1.0f);
   self->fc4 = 0;
   self->fc8 = 0x40107;
-  p = __nw__7TObjectFUl(0xAC);
+  p = TObject::operator new(0xAC);
   if (p != 0)
   {
     p = __ct__14TObjCollidableFP7TObject(p, self);

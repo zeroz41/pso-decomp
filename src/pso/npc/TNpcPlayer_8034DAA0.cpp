@@ -115,7 +115,6 @@ struct TNpcPlayerTemplateTable { s32 value; u8 remaining[0x9FC]; };
 extern TNpcPlayerTemplateTable TNpcPlayer__template_table;
 s32 is_script_controlled__10TObjPlayerFv();
 void construct_partner__10TNpcPlayerFPviisPv(void *, u16, u16, s32, void *);
-void *__nw__7TObjectFUl(u32);
 extern void *tl_00;
 
 typedef struct VBase_18_dac7f3 VBase_18_dac7f3;
@@ -452,7 +451,7 @@ void handle_6x69_npc_control(Pkt_8034E814 *pkt) {
             p->m6();
             SETFLAG_8034E814(p, (u16)local_client_id);
             ((TNpcPlayer *)p)->set_npc_ctrl_state(pkt->state);
-            o = __nw__7TObjectFUl(0xE8);
+            o = TObject::operator new(0xE8);
             if (o != NULL) {
                 construct_partner__10TNpcPlayerFPviisPv(o, (u16)local_client_id, pkt->target, pkt->state, tl_00);
             }
@@ -490,7 +489,7 @@ void handle_6x69_npc_control(Pkt_8034E814 *pkt) {
             p->m6();
             SETFLAG_8034E814(p, (u16)local_client_id);
             ((TNpcPlayer *)p)->set_npc_ctrl_state(pkt->state);
-            o = __nw__7TObjectFUl(0xE8);
+            o = TObject::operator new(0xE8);
             if (o != NULL) {
                 TNpcPlayer__ct(o, (u16)local_client_id, pkt->target, pkt->state, 1, tl_00);
             }
@@ -815,7 +814,7 @@ TUnk_804F07C8::TUnk_804F07C8(TObject *parent) : TObject(parent) {
         if (player == NULL || ISSTATE3_8034E814(player) == 0 || ((TNpcPlayer *)player)->get_action_flags() == 0xFFFF) {
             continue;
         }
-        task = __nw__7TObjectFUl(0xE8);
+        task = TObject::operator new(0xE8);
         if (task != NULL) {
             construct_partner__10TNpcPlayerFPviisPv(task, ((TNpcPlayer *)player)->get_action_flags(), (u16) slot, ((TNpcPlayer *)player)->get_field_67c(), tl_00);
         }

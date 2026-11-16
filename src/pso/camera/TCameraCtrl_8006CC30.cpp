@@ -10,6 +10,9 @@
 #include "pso/camera/FollowCameraController.h"
 #include "pso/map/FloorArea.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/task/TObject.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/system/MatrixStack.h"
 
 
 extern "C" __declspec(section ".rodata") FollowVector lbl_80438528 = { 0.0f, 0.0f, 45.42f };
@@ -248,7 +251,6 @@ void end_conversation_camera(void);
 u8 * csnVector(void *, void *, u32);
 s32 angle_difference_abs(s32 a, s32 b);
 void begin_conversation_camera(void);
-s32 is_split_screen();
 void request_follow_camera_offsets(void *arg0, void *arg1, u16 arg2);
 void push_matrix_from(void *);
 void rotate_matrix_y(s32, s32);
@@ -297,7 +299,6 @@ void *TCameraCtrl__vt0(void);
 void *__dt__13TUnk_80488A28Fv(void *arg0, s16 arg1);
 void *TKeyBoardControl__sub_803DEB74(s32);
 void __dl__7TObjectFPv(void *);
-void *__nw__7TObjectFUl(int);
 
 
 void TCameraCtrl::reset_to_local_player() {
@@ -360,7 +361,6 @@ typedef char RecoveredGlobal_8006D494_TCameraCtrl__data_804FF628_size[sizeof(Rec
 
 typedef char RecoveredGlobal_8006D460_TCameraCtrl__data_804FF628_size[sizeof(RecoveredGlobal_8006D460_TCameraCtrl__data_804FF628) == 0xC ? 1 : -1];
 
-extern "C" f32 newton_sqrtf(f32);
 #pragma push
 #pragma fp_contract on
 struct Pad_8006CF38 {
@@ -862,7 +862,7 @@ void TUnk_80488E00::vfunc_10() {
 }
 
 void *TCameraCtrl__vt0(void) {
-    void *o = __nw__7TObjectFUl(0x110);
+    void *o = TObject::operator new(0x110);
     if (o != NULL) {
         o = TCameraCtrl::construct_view_controller(o);
     }

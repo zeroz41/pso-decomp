@@ -93,7 +93,7 @@ struct TWindowSubComCard : public TObject {
     void free_windows();
     void update_card_slot();
     void notify_trade_main();
-    int close();
+    void close();
     void free_member();
     s32 get_slot_or_neg1();
     s32 get_card_data();

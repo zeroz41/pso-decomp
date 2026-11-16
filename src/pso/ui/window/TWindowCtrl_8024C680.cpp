@@ -1,9 +1,9 @@
 #include "types.h"
 #include "pso/ui/window/TWindowCtrl.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 extern "C" {
 
-s32 is_split_screen();
 extern void *TWindowCtrl__active_window;
 
 s32 TWindowCtrl::get_display_flag() {

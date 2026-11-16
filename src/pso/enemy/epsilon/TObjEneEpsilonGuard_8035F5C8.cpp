@@ -39,7 +39,6 @@
 
 extern "C" {
 
-f32 atan2_float(f32 y, f32 x);
 s32 matrix_mult_vec(int, void *, void *);
 extern BmlResource *lbl_805D6FA0;
 s32 draw_chunk_object();

@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TUnk_804CF0B8.h"
@@ -13,6 +14,10 @@
 #include "pso/ui/window/TWindowSubStatusDisp_800FBD74.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8024FBA8.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
+#include "pso/system/task/TObject.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
+#include "pso/math/AngleLookup.h"
 
 struct Fuki_80250A24 {
     u8 pad0[0x38];
@@ -33,13 +38,8 @@ struct Fuki_802506E8 {
 };
 
 extern "C" {
-f32 fabs_float(f32);
-f32 atan2_float(f32, f32);
-f32 newton_sqrtf(f32);
 s32 clamp_position__13TUnk_804CF0B8FPvf(void *arg0, void *arg1, f32 farg0);
 int rand(void);
-f32 sin_table_lookup(s32);
-f32 cos_table_lookup(s32);
 f32 xyz_distance(void *, void *);
 s32 rest_balloon__15TWindowFukidasiFv(Fuki_80250A24 *b, f32 *rect, f32 *arg2);
 s32 try_place_bubble__15TWindowFukidasiFPvPvPv(Fuki_802506E8 *b, f32 *rect, f32 *o);
@@ -181,11 +181,8 @@ struct Slice_802523CC { f32 x; u8 pad4[8]; f32 width; u8 pad10[4]; f32 lean; u8 
 struct Ctx_802523CC { u8 pad0[0x20]; f32 pivot; u8 pad24[4]; f32 scale; };
 
 s32 obj_isState3_324__9TObjCharaFv();
-s32 is_split_screen();
-void queue_destruction__7TObjectFv(void *);
 s32 get_screen_width__11TCameraCtrlFv();
 s32 get_screen_height__11TCameraCtrlFv();
-void *mem_alloc(u32 size);
 Ent_802511E4 * find_entity_by_id(u16);
 u32 get_battle_ctrl_flag__10TObjPlayerFUs(u16);
 u32 get_player_by_client_id(u32);
@@ -1351,7 +1348,7 @@ void TWindowFukidasi::run_task() {
       sync_display_pos();
       break;
     case 9:
-      queue_destruction__7TObjectFv(arg0);
+      ((TObject *)arg0)->queue_destruction();
       break;
   }
   ((TUnk_804CF0B8 *)arg0)->sub_80251790();

@@ -53,6 +53,7 @@
 #include "pso/render/render_util.h"
 #include "pso/math/AngleUnits.h"
 #include "pso/player/PlayerAttackParams.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 // load_resources fills these per kind (0 and 1) from TLobby::register_boss,
 // TLobby::dispatch_shared_handler_b, TLobby::register_object and
@@ -124,8 +125,6 @@ extern "C" {
 f64 atan2_float(f32, f32);
 s32 enemy_validate_retained_target(u8 *arg0);
 s32 free_bin_model_request(u32, s32);
-void mem_free(void *p);
-void *mem_alloc(u32 size);
 BOOL is_split_screen(void);
 }
 

@@ -10,6 +10,8 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/render_util.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/math/AngleLookup.h"
 
 #pragma readonly_strings on
 
@@ -66,13 +68,11 @@ const char *lbl_805D29E0 = "TeneFakeTecThunderEff";
 u8 *TObjPlayer__sub_800A4204(u8 *arg0, u8 *arg1, s32 arg2, s32 arg3, s32 arg4);
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
-f32 sin_table_lookup(s32);
 extern Entry_800A4064 *player_effect_task_list[];
 extern s32 TObjPlayer__effect_count;
 extern const f32 lbl_805D99F8;
 extern const f32 lbl_805D9A04;
 extern const f32 lbl_805D9A08;
-f32 newton_sqrtf(f32);
 s32 matrix_mult_vec(int, void *, void *);
 extern Cam_800A3D1C lbl_8058D4F8;
 extern const f32 lbl_805D99F0;
@@ -95,7 +95,6 @@ struct Obj_800A39A8 {
     s32 n;
 };
 
-f32 fabs_float(f32);
 f32 rand_signed_unit();
 s32 update_scale__15TObjBoss2TunnelFv(void *);
 f32 vector_length(void *);

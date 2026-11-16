@@ -22,6 +22,7 @@
 #include "pso/math/AngleLookup.h"
 #include <dolphin/mtx.h>
 #include <stddef.h>
+#include "pso/system/task/TObject.h"
 
 // The character-creation motion archive: no models, 49 body motions.
 const char *charamakingmot_model_names[1] = {NULL};
@@ -500,7 +501,6 @@ void request_chara_making_archives(void) {
 }
 extern "C" {
 
-void *__nw__7TObjectFUl(int);
 void *TCMCharacter__ct(void *arg0, void *arg1);
 extern Vec TObjLight__scene_light_state;
 extern void *creation_player_character;
@@ -562,7 +562,7 @@ TCharaMaking::~TCharaMaking() {
 TCharaMaking::TCharaMaking(TObject *parent) : TObject(parent) {
     u32 motion;
     m_name = TCharaMaking__name;
-    motion = ((u32)__nw__7TObjectFUl(0x10C));
+    motion = ((u32)TObject::operator new(0x10C));
     if (motion != 0U) {
         TCMCharacter__ct((void *)motion, this);
     }

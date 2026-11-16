@@ -16,6 +16,7 @@
 #include "pso/unk/text_803D8F74.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/MatrixStack.h"
 
 struct RecoveredGlobal_80194528_TObjLight__data_80506320 {
     s32 value;
@@ -60,7 +61,6 @@ typedef struct Light_80193FE8 {
 
 extern "C" {
 s32 is_split_screen(void);
-u8 *__nw__7TObjectFUl(s32);
 extern s32 tl_05;
 s32 __ct__8TObjBaseFP7TObject(void *);
 extern s32 __vt__9TObjLight[];
@@ -223,7 +223,7 @@ u8 *TObjLight__create(u8 *arg0) {
     if (is_split_screen() != 0) {
         return NULL;
     }
-    light = (u8 *)(__nw__7TObjectFUl(0x100));
+    light = (u8 *)(TObject::operator new(0x100));
     var_r0 = light;
     if (var_r0 != NULL) {
         var_r0 = (u8 *)(TObjLight__ct((TObjLight *)light, tl_05, arg0));

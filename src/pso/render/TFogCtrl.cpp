@@ -17,10 +17,12 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/object/collision/TObjFogCollisionPoison.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
+#include "pso/math/AngleLookup.h"
 
 
 extern "C" {
-void *__nw__7TObjectFUl(int);
 extern u32 fog_ctrl_instance;
 s32 request_fog__8TFogCtrlFPvii(u8 *arg0, s32 arg1, s32 arg2);
 extern s32 TFogCtrl__fog_instance_table[];
@@ -59,7 +61,7 @@ void TQuestVmDownLoadServer::destroy_instance() {
 }
 void TFogCtrl::create_instance() {
     void *o;
-    o = __nw__7TObjectFUl(0x1C);
+    o = TObject::operator new(0x1C);
     if (o != NULL) {
         o = ((TFogCtrl_EOR *)o)->init_object();
     }
@@ -265,7 +267,6 @@ struct O_800FB400;
 struct FogCtrl_800FB134;
 extern "C" {
 
-s32 is_split_screen();
 void read_disc_file(const char *, void *);
 s32 TFogCtrl__sub_800FAC84(void* p);
 void TFogCtrl__sub_800FB400(O_800FB400 *self, s32 i, s32 j);
@@ -275,13 +276,10 @@ void TFogCtrl__sub_800FBA54(void);
 void TFogCtrl__sub_800FBA58(void);
 void TFogCtrl__sub_800FBAAC(void);
 void create_area_fog_ctrl(void);
-void mem_free(void *p);
-void *mem_alloc(u32 size);
 void __dl__7TObjectFPv(s32);
 u8 * __dt__7TObjectFv(void *, s16);
 void GXInitFogAdjTable(GXFogAdjTable_800FAE1C *, s32, void *);
 void GXSetFogRangeAdj(s32, s32, GXFogAdjTable_800FAE1C *);
-f32 sin_table_lookup(s32);
 
 extern RecoveredGlobal_800FB8A0___vt__8TFogCtrl __vt__8TFogCtrl;
 extern s32 area_fog_row_table[];
@@ -855,7 +853,7 @@ void create_area_fog_ctrl(void) {
         var_r31 = 0;
         do {
             var_r3 = (s32 *)((u8 *)((s32 *)0x1C8));
-            temp_r3 = __nw__7TObjectFUl(0x1C8);
+            temp_r3 = TObject::operator new(0x1C8);
             if (temp_r3 != NULL) {
                 var_r4 = (s32 *)tl_02;
                 var_r5 = var_r31;
@@ -865,7 +863,7 @@ void create_area_fog_ctrl(void) {
         } while (var_r31 != 4);
     } else {
         var_r3 = (s32 *)((u8 *)((s32 *)0x1C8));
-        temp_r3_2 = __nw__7TObjectFUl(0x1C8);
+        temp_r3_2 = TObject::operator new(0x1C8);
         if (temp_r3_2 != NULL) {
             var_r4 = (s32 *)tl_02;
             var_r5 = 0;

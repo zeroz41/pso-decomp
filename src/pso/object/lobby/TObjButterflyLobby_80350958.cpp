@@ -14,6 +14,7 @@
 #include "pso/unk/text_803D8F74.h"
 #include "pso/math/AngleLookup.h"
 #include <stdlib.h>
+#include "pso/system/task/TObject.h"
 
 const char *bm_butterfly_lobby_model_names[3] = {"lobby_chou00_bule.gj", "lobby_chou01_red.gj", NULL};
 const char *bm_butterfly_lobby_motion_names[2] = {"lobby_chou00_bule.njm", NULL};
@@ -287,7 +288,6 @@ s32 get_bml_model(void *, int);
 s32 __ct__8TObjBaseFP7TObject();
 extern s32 __vt__18TObjButterflyLobby[];
 void free_bin_model_request(void*, int);
-void *__nw__7TObjectFUl(int);
 
 }
 TObjButterflyLobby::~TObjButterflyLobby() {
@@ -322,7 +322,7 @@ u8 *TObjButterflyLobby__ct(TObjButterflyLobby *butterfly_lobby, int arg1, u8 *ar
 }
 
 void *TObjButterflyLobby__create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0xCC);
+    void *o = TObject::operator new(0xCC);
     if (o != NULL) {
         o = TObjButterflyLobby__ct((TObjButterflyLobby *)((u8 *)o), (int)((int)tl_05), (u8 *)((u8 *)arg0));
     }

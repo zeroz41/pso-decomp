@@ -4,6 +4,7 @@
 #include "pso/unk/TLobby.h"
 #include "pso/ui/window/TWindowKeyBoardHard.h"
 #include "pso/network/TPacket.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 extern "C" {
 u16 to_be_uint16_t__FUs(u16);
@@ -78,11 +79,9 @@ void buffer_reset(void) {
 }
 extern "C" {
 
-void mem_free(void *p);
 
 void TLobby__sub_801A5478(void) { mem_free((void *)deferred_packet_buffer); deferred_packet_buffer = 0; }
 
-void *mem_alloc(u32 size);
 
 void alloc_work_buffer(void) {
     deferred_packet_buffer_used = 0;

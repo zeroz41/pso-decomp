@@ -5,6 +5,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/unk/TLobby.h"
+#include "pso/system/task/TObject.h"
 
 const char *bm_obj_boss2_common_model_names[] = {
     "fe_boss02iwa1.gj",
@@ -49,13 +50,12 @@ extern "C" {
 void release_texture_list(void *);
 void free_bin_model_request(void *, int);
 void *TObjBoss2CeilJunk__ct(void *, void *, void *);
-void *__nw__7TObjectFUl(int);
 void *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 
 extern void *tl_05;
 
 void *TObjBoss2CeilJunk::create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0xB8);
+    void *o = TObject::operator new(0xB8);
     if (o != NULL) {
         o = TObjBoss2CeilJunk__ct(o, tl_05, arg0);
     }

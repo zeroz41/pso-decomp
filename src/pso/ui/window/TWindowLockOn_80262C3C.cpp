@@ -145,7 +145,6 @@ void init_window_layout_entries(void *, void *, int);
 f32 get_target_distance__13TWindowLockOnFv(s32);
 extern s32 __vt__13TWindowLockOn[];
 s32 draw_visible_window_entries(void *, void *, int);
-void *__nw__7TObjectFUl(u32);
 s32 get_window_layout_position(int);
 s32 obj_testFlag_2E4__9TObjCharaFUl(TObjChara *, int);
 s32 is_split_screen(void);
@@ -214,7 +213,7 @@ void *TWindowLockOn::create_for_target(s32 player, u16 id) {
     if (is_lockable_target(find_entity_by_id(id)) == 0) {
         return NULL;
     }
-    p = __nw__7TObjectFUl(0x7C);
+    p = TObject::operator new(0x7C);
     if (p != NULL) {
         p = TWindowLockOn__ct((TWindowLockOn *)p, player, id);
     }

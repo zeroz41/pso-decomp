@@ -18,6 +18,7 @@
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/task/TObject.h"
 
 
 struct S8_802C4944 { f32 a, b; };
@@ -39,7 +40,6 @@ s32 free_sub_ctrls__19TAdSelectGameModeGCFv();
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
 s32 play_sound_effect(int, int, int, int);
 extern s32 TAdSelectGameModeGC__cached_mode_value;
-void *__nw__7TObjectFUl(int);
 void __ct__7TObjectFP7TObject(void *, void *);
 void *__ct__9TAdBackGCFv(void *, void *);
 void *__ct__12TAdBackTxtGCFv(void *, void *);
@@ -108,34 +108,34 @@ u8 *__ct__19TAdSelectGameModeGCFv(u8 *arg0, void *parent) {
     TAdSelectGameModeGC__cached_mode_value = 0;
     *(void **)((s8 *)arg0 + 0x1C) = 0;
     *(void **)((s8 *)arg0 + 0x20) = 0;
-    if ((p = __nw__7TObjectFUl(0x24)) != 0) {
+    if ((p = TObject::operator new(0x24)) != 0) {
         __ct__9TAdBackGCFv(p, arg0);
     }
-    if ((p = __nw__7TObjectFUl(0x28)) != 0) {
+    if ((p = TObject::operator new(0x28)) != 0) {
         __ct__12TAdBackTxtGCFv(p, arg0);
     }
-    if ((p = __nw__7TObjectFUl(0x24)) != 0) {
+    if ((p = TObject::operator new(0x24)) != 0) {
         __ct__8TAdRayGCFv(p, arg0);
     }
-    if ((p = __nw__7TObjectFUl(0x138)) != 0) {
+    if ((p = TObject::operator new(0x138)) != 0) {
         __ct__10TAdTitleGCFP7TObjectl(p, arg0, 4);
     }
-    if ((p = __nw__7TObjectFUl(0x9C)) != 0) {
+    if ((p = TObject::operator new(0x9C)) != 0) {
         __ct__13TAdTitleTexGCFv(p, arg0);
     }
     {
         S24_802C4944 txt = select_game_mode_text_layout;
-        if ((p = __nw__7TObjectFUl(0xE0)) != 0) {
+        if ((p = TObject::operator new(0xE0)) != 0) {
             __ct__14TAdSelectTxtGCFP7TObjectPvPv(p, arg0, &txt.t[0], 6);
         }
-        if ((p = __nw__7TObjectFUl(0xE0)) != 0) {
+        if ((p = TObject::operator new(0xE0)) != 0) {
             __ct__14TAdSelectTxtGCFP7TObjectPvPv(p, arg0, &txt.t[1], 7);
         }
     }
     {
         S8_802C4944 a = lbl_80471A44;
         S16_802C4944 b = select_game_mode_button_rect;
-        p = __nw__7TObjectFUl(0x708);
+        p = TObject::operator new(0x708);
         if (p != 0) {
             p = __ct__14TAdSelectCurGCFv(p, arg0, &b, &a);
         }
@@ -143,7 +143,7 @@ u8 *__ct__19TAdSelectGameModeGCFv(u8 *arg0, void *parent) {
         ((TLevelSelect *)(*(void **)((s8 *)arg0 + 0x1C)))->add_item_rect(&b.x[0]);
         ((TLevelSelect *)(*(void **)((s8 *)arg0 + 0x1C)))->add_item_rect(&b.x[1]);
     }
-    p = __nw__7TObjectFUl(0x44);
+    p = TObject::operator new(0x44);
     if (p != 0) {
         p = __ct__13TAdGuideTxtGCFv(p, arg0);
     }

@@ -21,6 +21,8 @@
 #include "pso/technique/TTecRaFoie.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
+#include "pso/math/AngleLookup.h"
 
 struct RecoveredGlobal_80230D9C_lbl_804CC510
 {
@@ -76,9 +78,6 @@ extern RecoveredGlobal_80230D9C_lbl_804CC55C lbl_804CC55C;
 u16 get_entity_id(void *);
 void update_technique_slot__10TTecRaFoieFl(s32 handle, s32 pitch, s32 c);
 s32 play_sound_effect(s32 id, void *pos, s32 a, s32 b);
-void *__nw__7TObjectFUl(int);
-f32 sin_table_lookup(s32);
-f32 cos_table_lookup(s32);
 f32 vector_length(void *);
 void normalize_vector(void *);
 extern void *__vt__11TTecRaZonde[];
@@ -163,7 +162,6 @@ void *find_entity_by_id(u16 id);
 void update_technique_slot__10TTecRaFoieFl(s32, s32, s32);
 s32 play_sound_effect(s32, void *, s32, s32);
 TParticleCtrl *create_particle_emitter(const void *pos, s32 id);
-void *mem_alloc(u32 size);
 
 typedef struct RecoveredFields_80238D10_arg0 RecoveredFields_80238D10_arg0;
 
@@ -229,7 +227,7 @@ void spawn_particle_effect(void *, s32, void *);
 void run_task__11TTecRaZondeFv(Obj_80238F84 *self);
 void TTecRaZonde::create(void *origin, void *level) {
     void *o;
-    o = __nw__7TObjectFUl(0x150);
+    o = TObject::operator new(0x150);
     if (o != NULL) {
         TTecRaZonde__ct(o, this, origin, level);
     }
@@ -244,10 +242,6 @@ struct Self_80238EC8 {
     u8 pad2[0xEC - 0x7C];
     void **objs;
 };
-extern "C" {
-void mem_free(void *);
-
-}
 TTecRaZonde::~TTecRaZonde() {
     u32 i;
     for (i = 0; i < ((RProfile_80238F84 *)TTecRaZonde__band_profile_table)[((Self_80238EC8 *)this)->band].count; i++) {
@@ -333,13 +327,13 @@ void *TTecRaZonde__ct(void *self_, void *source, void *origin, void *level) {
             normalize_vector(&b);
         }
         {
-            u8 *o = (u8 *)__nw__7TObjectFUl(0x260);
+            u8 *o = (u8 *)TObject::operator new(0x260);
             if (o != 0) {
                 ((TTecZonde *)o)->construct_bolt_effect((u8 *)tl_07, (u8 *)&a, (u8 *)&b, 0x14000000, 6, len, (5.0f));
             }
         }
         if (self->band == 5) {
-            u8 *o = (u8 *)__nw__7TObjectFUl(0x260);
+            u8 *o = (u8 *)TObject::operator new(0x260);
             if (o != 0) {
                 ((TTecZonde *)o)->construct_bolt_effect((u8 *)tl_07, (u8 *)&a, (u8 *)&b, 0x14000000, 6, len, (0.5f));
             }

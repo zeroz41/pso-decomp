@@ -38,6 +38,7 @@
 
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/player/TObjPlayer_80011014.h"
 const char *TWindowCtrlMain__name = "TWindowCtrlMain";
 const char *TWindowCtrlScreen__name = "TWindowCtrlScreen";
 const char *TWindowCtrlSub__name = "TWindowCtrlSub";
@@ -60,7 +61,6 @@ extern TObject *tl_fadeafter;
 extern "C" {
 void TCameraCtrl__sub_80068EF0(void);
 s32 get_nth_view_player_id__11TCameraCtrlFl(s32);
-s32 is_split_screen(void);
 }
 struct VObj_8024C820 {
     char pad[0x18];

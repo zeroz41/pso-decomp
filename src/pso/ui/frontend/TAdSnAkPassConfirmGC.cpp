@@ -7,12 +7,12 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/window/TWindowOptionCtrl.h"
 #include "pso/ui/frontend/TAdYesNoBaseGC.h"
+#include "pso/system/task/TObject.h"
 
 
 struct Obj_8032C004 { const char *f0; u8 pad[0x14]; void *vt; u8 pad2[0x48 - 0x1C]; s32 f48; };
 
 extern "C" {
-void *__nw__7TObjectFUl(u32);
 void __ct__10TAdTitleGCFP7TObjectl(void *, void *, int);
 void *TAdYesNoBaseGC__ct(TAdYesNoBaseGC *arg0);
 extern u8 lbl_804772C0[];
@@ -52,7 +52,7 @@ Obj_8032C004 *TAdSnAkPassConfirmGC__ct(Obj_8032C004 *parent) {
     TAdYesNoBaseGC__ct((TAdYesNoBaseGC *)parent);
     parent->vt = ((u8 *)&__vt__20TAdSnAkPassConfirmGC);
     parent->f0 = lbl_805D41F0;
-    p = __nw__7TObjectFUl(0x138);
+    p = TObject::operator new(0x138);
     if (p != 0) {
         __ct__10TAdTitleGCFP7TObjectl(p, parent, 0x11);
     }

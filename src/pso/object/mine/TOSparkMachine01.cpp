@@ -8,6 +8,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include <stdlib.h>
+#include "pso/system/task/TObject.h"
 
 #pragma readonly_strings on
 
@@ -96,7 +97,6 @@ void rotate_matrix_y(int, int);
 void push_matrix();
 void post_translate_matrix(void *);
 void free_bin_model_request(void*, int);
-void *__nw__7TObjectFUl(int);
 
 void TOSparkMachine01::update_spark_toggle(s32 i) {
     Obj_80177088 *self = (Obj_80177088 *)this;
@@ -164,7 +164,7 @@ void TOSparkMachine01::render() {
 }
 
 void *TOSparkMachine01::create() {
-    void *o = __nw__7TObjectFUl(0xB0);
+    void *o = TObject::operator new(0xB0);
     if (o != NULL) {
         o = TOSparkMachine01__ct(o, this);
     }

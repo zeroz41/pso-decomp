@@ -17,6 +17,7 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/object/ambient/TObjFish.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 extern "C" {
 s32 TProtocol__send_60(int, int, int);
@@ -28,7 +29,6 @@ s32 load_texture_list(s32 **);
 s32 append_command_to_batch_buffer(void *, s32);
 u8 *TQuestVmDownLoadServer__sub_8007EBDC(s32, s32);
 s32 distort_texture_wave_image(void *);
-s32 is_split_screen();
 s32 send_pso_data_long2__9TProtocolFcR17long_game_commandUl(void *, u32, void *, s32);
 }
 

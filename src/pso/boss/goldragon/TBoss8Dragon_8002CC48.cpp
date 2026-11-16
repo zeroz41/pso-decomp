@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #pragma defer_codegen on
 
 #include "pso/system/vector.h"
@@ -44,6 +45,8 @@
 #include "pso/enemy/dd/TObjEneDD.h"
 
 #include "pso/object/ambient/TObjFish.h"
+#include "pso/system/task/TObject.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 struct UV_8002D4C0 { s16 u, v; };
 
@@ -162,13 +165,6 @@ void post_translate_matrix(void *);
 
 void set_chunk_material_override_pair(s32, s32, s32, s32);
 
-void queue_destruction__7TObjectFv();
-
-void *__nw__7TObjectFUl(int);
-
-void mem_free(void *p);
-
-void *mem_alloc(u32);
 
 f32 calc_nearest_crater_distance(void *);
 
@@ -572,7 +568,7 @@ void TBoss8Dragon::spawn_child_object() {
     *(u32 *)((u8 *)this + 0x1C) = 0;
     *(f32 *)((u8 *)this + 0x34) = -30.0f;
     *(f32 *)((u8 *)this + 0x30) = -30.0f;
-    o = __nw__7TObjectFUl(0x50);
+    o = TObject::operator new(0x50);
     if (o != NULL) {
         TObjBoss1MokoHill_Solo__ct(o, (void *)(*(void **)((u8 *)this + 0x10)), 30);
     }
@@ -622,12 +618,12 @@ void TObjBoss1MokoHill_SoloM::run_task() {
             if (self->f2C >= 10.0f) {
                 self->f2C = 0.0f;
                 if (self->f3C != 0) {
-                    o = __nw__7TObjectFUl(0x50);
+                    o = TObject::operator new(0x50);
                     if (o != NULL) {
                         TObjBoss1MokoHill_Solo__ct(o, self->f10, 0);
                     }
                 } else {
-                    o = __nw__7TObjectFUl(0x50);
+                    o = TObject::operator new(0x50);
                     if (o != NULL) {
                         TObjBoss1MokoHill_Solo__ct(o, self->f10, 0x1E);
                     }
@@ -770,7 +766,7 @@ void TObjBoss1MokoHill_Solo::run_task() {
     case 2:
         self->f34 -= 0.5f;
         if (self->f34 < -32.0f) {
-            queue_destruction__7TObjectFv();
+            queue_destruction();
         }
         break;
     }

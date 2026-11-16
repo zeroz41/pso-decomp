@@ -12,6 +12,7 @@
 
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/system/task/TObject.h"
 
 #pragma readonly_strings on
 
@@ -38,7 +39,6 @@ s32 post_translate_matrix(void *);
 void draw_ginja_model_with_motion(void *model, void *motion, f32 frame);
 s32 rotate_matrix_y(s32, s32);
 s32 push_matrix();
-void *__nw__7TObjectFUl(int);
 
 void TOBind::render() {
     u8 *arg0 = (u8 *)this;
@@ -59,7 +59,7 @@ void TOBind::render() {
 }
 
 void *TOBind::create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0xD8);
+    void *o = TObject::operator new(0xD8);
     if (o != NULL) {
         o = TOBind__ct((TOBind *)((u8 *)o), (s32)arg0);
     }

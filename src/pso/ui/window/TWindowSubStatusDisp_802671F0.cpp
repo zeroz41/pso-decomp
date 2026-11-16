@@ -29,6 +29,7 @@
 #include "pso/ui/city/TShopArmorListWindow.h"
 #include "pso/unk/text_80268384.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/task/TObject.h"
 
 // inferred: name from the string the .sdata pointer holds
 const char *TWindowMenuIconLine__name = "TWindowMenuIconLine";
@@ -176,7 +177,6 @@ void text_builder_reset();
 s32 draw_window_text(f32 *pos, const char *s, s32 color, s32 mode, f32 width);
 void draw_selection_bar(u8 *arg0, u8 *arg1, s32 arg2);
 extern "C" {
-u8 *__nw__7TObjectFUl(s32);
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
 s32 is_player_input_active(s32 param_1);
 s32 get_draw_context__11TWindowBaseFPv();
@@ -698,7 +698,7 @@ u8 *fn_80267F38(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     u8 *temp_r3;
     u8 *var_r0;
     ((s32 (*)(void *, void *))TShopJudgmentItemWindow__sub_80267F9C)((void *)arg1, (void *)arg2);
-    temp_r3 = (u8 *)(__nw__7TObjectFUl(0x88));
+    temp_r3 = (u8 *)(TObject::operator new(0x88));
     var_r0 = temp_r3;
     if (var_r0 != NULL) {
         var_r0 = (u8 *)(fn_802683F4(temp_r3, arg0, arg2, arg3));

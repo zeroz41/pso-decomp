@@ -19,6 +19,7 @@
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/enemy/gigue/TObjEneMe1GiGueMissile.h"
+#include "pso/system/task/TObject.h"
 
 extern "C" {
 void TObjPlayer__sub_802A445C(TNeedleShoot *self, int arg1);
@@ -32,7 +33,7 @@ int TObjEneMe1Gee_NEEDLE::queue_destruction() {
     remaining = m_c0 - 1;
     m_c0 = remaining;
     if (remaining <= 0) {
-        queue_destruction__7TObjectFv(this);
+        TObject::queue_destruction();
     }
 }
 
@@ -52,7 +53,7 @@ void TObjEneMe1Gee_NEEDLE::vfunc_9(void *arg) {
     attack.power = m_bc;
     DirectAttackPayload payload = attack;
     target->receive_direct_attack((void *)m_1c, payload, m_38, -1, -1);
-    queue_destruction__7TObjectFv(this);
+    TObject::queue_destruction();
 }
 
 TObjEneMe1Gee_NEEDLE::~TObjEneMe1Gee_NEEDLE() {
@@ -74,7 +75,7 @@ extern "C" RecoveredGlobal_802A4CC4_lbl_804DCFF8 __vt__20TObjEneMe1Gee_NEEDLE;
 
 void TObjEneMe1Gee_NEEDLE::render() {
     if (me1gee_cached_model_handle == NULL) {
-        queue_destruction__7TObjectFv(this);
+        TObject::queue_destruction();
         return;
     }
     push_matrix();
@@ -91,7 +92,7 @@ void TObjEneMe1Gee_NEEDLE::render() {
 void TObjEneMe1Gee_NEEDLE::run_task() {
     m_1c = (u32)find_entity_by_id(m_34);
     if (m_1c == 0) {
-        queue_destruction__7TObjectFv(this);
+        TObject::queue_destruction();
         return;
     }
     if ((s32)m_b8 == 1) {

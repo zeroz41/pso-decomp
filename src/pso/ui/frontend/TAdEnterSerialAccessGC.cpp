@@ -4,6 +4,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/ui/frontend/TAdEnterSerialAccessGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 extern "C" void render__22TAdEnterSerialAccessGCFv();
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -119,7 +120,6 @@ extern TAdEnterSerialAccessGCSerialBuffer TAdEnterSerialAccessGC_serial_buffer;
 struct SerialAccessEnteredValueTable { s32 value; u8 remaining[0xC]; };
 extern SerialAccessEnteredValueTable serial_access_entered_value_table;
 int serial_to_hex_string__22TAdEnterSerialAccessGCFi(void);
-void mem_free(void *p);
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
 s32 play_sound_effect(int, int, int, int);
 s32 forward_input__22TAdEnterSerialAccessGCFPv(void *, void *, int);
@@ -134,7 +134,6 @@ extern const char serial_unsigned_decimal_scan_format[4] = "%lu";
 extern char lbl_80543050[];
 s32 update_window_mode_from_progress__6TLobbyFPv(void *, void *);
 s32 load_and_verify_character_save__23TAdSinglePlyChrSelectGCFPc(void *, void *);
-void *__nw__7TObjectFUl(int);
 void __ct__9TAdBackGCFv(void *, void *);
 void __ct__12TAdBackTxtGCFv(void *, void *);
 void *__ct__14TAdSelectCurGCFv(void *, TObject *, void *, void *);
@@ -611,7 +610,7 @@ void TAdEnterSerialAccessGC::run_task() {
         break;
     case 1:
         ((TAdEnterSerialAccessGC_80321F60 *)this)->field_60 = 0;
-        p = __nw__7TObjectFUl(0x138);
+        p = TObject::operator new(0x138);
         if (p != NULL) {
             p = __ct__10TAdTitleGCFP7TObjectl(p, this, 0xA);
         }
@@ -636,7 +635,7 @@ void TAdEnterSerialAccessGC::run_task() {
             ((TLevelSelect *)((int)((TAdEnterSerialAccessGC_80321F60 *)this)->field_54))->add_item_rect((void *)&TAdEnterSerialAccessGC__selection_positions[0]);
             ((TAdEnterSerialAccessGC *)((int)((TAdEnterSerialAccessGC_80321F60 *)this)->field_54))->set_active();
         }
-        p = __nw__7TObjectFUl(0x138);
+        p = TObject::operator new(0x138);
         if (p != NULL) {
             p = __ct__10TAdTitleGCFP7TObjectl(p, ((TAdEnterSerialAccessGC_80321F60 *)this), 0xB);
         }
@@ -720,13 +719,13 @@ u8 *TAdEnterSerialAccessGC__ct(TAdEnterSerialAccessGC *ad_enter_serial_access_gc
         TAdEnterSerialAccessGC__sub_80322418(get_field_118__22TAdEnterSerialAccessGCFv(), 1);
         TAdEnterSerialAccessGC__sub_80322418(get_field_118__22TAdEnterSerialAccessGCFv(), 0);
     }
-    if ((p = __nw__7TObjectFUl(0x24)) != 0) {
+    if ((p = TObject::operator new(0x24)) != 0) {
         __ct__9TAdBackGCFv(p, ad_enter_serial_access_gc);
     }
-    if ((p = __nw__7TObjectFUl(0x28)) != 0) {
+    if ((p = TObject::operator new(0x28)) != 0) {
         __ct__12TAdBackTxtGCFv(p, ad_enter_serial_access_gc);
     }
-    p = __nw__7TObjectFUl(0x708);
+    p = TObject::operator new(0x708);
     if (p != 0) {
         p = __ct__14TAdSelectCurGCFv(p, tl_clipout, (void *)&TAdEnterSerialAccessGC__selection_positions[0], (void *)&lbl_804764F8);
     }

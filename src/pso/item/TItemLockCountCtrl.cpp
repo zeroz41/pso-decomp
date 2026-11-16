@@ -1,6 +1,6 @@
 #include "pso/item/TItemLockCountCtrl.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 
-extern "C" void mem_free(void*);
 
 TItemLockCountCtrl::~TItemLockCountCtrl() {
     mem_free(this->m_20);
@@ -13,7 +13,6 @@ TItemLockCountCtrl::~TItemLockCountCtrl() {
 extern "C" {
 
 s32 __ct__7TObjectFP7TObject();
-void *mem_alloc(u32 size);
 s32 memset(s32, s32, s32);
 
 extern s32 __vt__18TItemLockCountCtrl[];

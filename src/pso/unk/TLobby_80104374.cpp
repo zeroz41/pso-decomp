@@ -74,6 +74,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
 #include "pso/item/drop/TItemDropSub_80107B74.h"
 #include "pso/ui/window/TWindowSubComCard_80077788.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 
 // ---- TLobby_80104374.cpp
 
@@ -451,10 +452,8 @@ s32 compare_item_data_masked(void *arg0, void *arg1, s32 arg2) {
 extern "C" {
 
 void TEnding__sub_8008C9F8(void);
-s32 get_current_floor();
 s32 get_game_play_mode();
 
-s32 get_main_phase();
 
 }
 

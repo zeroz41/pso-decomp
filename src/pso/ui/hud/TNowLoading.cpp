@@ -32,7 +32,6 @@ void DCInvalidateRange(void *, u32);
 void ARQPostRequest(void *, u32, u32, u32, u32, u32, u32, void *);
 extern s32 aram_dma_pending;
 s32 TLoadingCur__ct(void *, void *, void *);
-void *__nw__7TObjectFUl(u32);
 s32 __ct__7TObjectFP7TObject(void *, void *);
 s32 TAdLoadNetworkGC__ct(void *, void *, void *);
 extern s32 __vt__11TNowLoading[];
@@ -135,11 +134,11 @@ TNowLoading_8001D3A8 *TNowLoading__ct(TNowLoading_8001D3A8 *parent, void *arg1, 
     parent->children[1] = NULL;
     parent->children[2] = NULL;
     parent->children[3] = NULL;
-    p = __nw__7TObjectFUl(0x40);
+    p = TObject::operator new(0x40);
     if (p != NULL) {
         TAdLoadNetworkGC__ct(p, parent, &parent->pos);
     }
-    p = __nw__7TObjectFUl(0x5C);
+    p = TObject::operator new(0x5C);
     if (p != NULL) {
         TLoadingCur__ct(p, parent, &parent->pos);
     }

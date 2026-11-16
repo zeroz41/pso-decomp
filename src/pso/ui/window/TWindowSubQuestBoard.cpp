@@ -167,7 +167,6 @@ TWindowSubQuestBoard::~TWindowSubQuestBoard() {
 
 extern "C" {
 
-void *__nw__7TObjectFUl(int);
 
 const char *TWindowSubQuestBoard__class_name = "TWindowSubQuestBoard";
 
@@ -177,7 +176,7 @@ TWindowSubQuestBoard::TWindowSubQuestBoard(TObject *object, void *arg2) : TObjec
     this->m_name = TWindowSubQuestBoard__class_name;
     *(void **)((s8 *)this + 0x24) = object;
     *(void **)((s8 *)this + 0x20) = arg2;
-    o = __nw__7TObjectFUl(0x68);
+    o = TObject::operator new(0x68);
     if (o != NULL) {
         o = TWindowSubQuestBoardSelect__ct((TWindowSubQuestBoardSelect *)((u8 *)o));
     }

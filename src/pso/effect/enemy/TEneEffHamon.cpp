@@ -37,7 +37,6 @@ typedef struct Hamon_800A36A8 {
 typedef struct Cam_800A3D1C { u8 pad0[8]; f32 cx; f32 cy; u8 pad10[8]; f32 sw; f32 aspect; } Cam_800A3D1C;
 
 extern "C" {
-s32 queue_destruction__7TObjectFv();
 void __ct__7TObjectFP7TObject(void *, void *);
 extern RecoveredGlobal_800A38A4___vt__12TEneEffHamon __vt__12TEneEffHamon;
 const char *TEneEffHamon__name = "TEneEffHamon";
@@ -96,7 +95,7 @@ void run_task__12TEneEffHamonFv(u8 *arg0) {
     *(f32 *)((s8 *)arg0 + 0x34) = (f32) (*(f32 *)((s8 *)arg0 + 0x34) + *(f32 *)((s8 *)arg0 + 0x44));
     *(f32 *)((s8 *)arg0 + 0x50) = (f32) (*(f32 *)((s8 *)arg0 + 0x50) + *(f32 *)((s8 *)arg0 + 0x48));
     if (*(f32 *)((s8 *)arg0 + 0x50) <= 0.0f) {
-        queue_destruction__7TObjectFv();
+        ((TObject *)arg0)->queue_destruction();
     }
 }
 

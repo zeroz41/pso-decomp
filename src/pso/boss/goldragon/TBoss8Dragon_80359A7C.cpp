@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/enemy/TObjEnemy.h"
 #include "types.h"
 #include "pso/enemy/dd/TObjEneDD_800B9B84.h"
@@ -28,7 +29,7 @@ void TUnk_804F1A78::run_task() {
     }
     if (*(s32 *)((s8 *)boss8_dragon + 0x3C0) & 8) {
         ((TObjEnemy *)boss8_dragon)->send_entity_set_flags();
-        queue_destruction__7TObjectFv((boss8_dragon));
+        ((TObject *)boss8_dragon)->queue_destruction();
         return;
     }
     if ((s32) *(s32 *)((s8 *)boss8_dragon + 0x74C) != 0) {

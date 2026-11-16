@@ -19,6 +19,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 
 #pragma readonly_strings on
@@ -87,8 +88,6 @@ struct Card_80265AA4 {
 
 struct Ent_80265C30;
 
-void mem_free(void *);
-void *mem_alloc(u32 size);
 Ent_80265C30 * get_array_entry__11TWindowBaseFi(void *w, s32 i);
 s32 play_sound_effect(s32, s32, s32, s32);
 s32 __nw__7TObjectFUl(int);

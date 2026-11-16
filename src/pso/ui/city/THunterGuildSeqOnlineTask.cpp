@@ -20,6 +20,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/unk/text_800F9B84.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 
 struct Pkt_80214F80 {
@@ -43,7 +44,6 @@ const char *THunterGuildSeqOnline_Client__name = "THunterGuildSeqOnline_Client";
 
 extern "C" {
 void TKeyBoardControl__sub_8000F95C();
-void mem_free(void *);
 extern unsigned char TQuestListOnline__dat_download_state[];
 extern unsigned char TQuestListOnline__bin_download_state[];
 extern s32 evt2_random_enemies_mode;
@@ -90,7 +90,6 @@ extern "C" {
 
 void *THunterGuildSeqOnlineTask__ct(void *arg0);
 void __ct__7TObjectFP7TObject(void *);
-void *__nw__7TObjectFUl(int);
 
 extern s32 __vt__25THunterGuildSeqOnlineTask[];
 
@@ -106,7 +105,7 @@ extern unsigned char reset_random_enemies_mode[];
 
 void handle_6x73_exit_quest(void) {
     void *o;
-    o = __nw__7TObjectFUl(0x28);
+    o = TObject::operator new(0x28);
     if (o != NULL) {
         ((THunterGuildSeqOffline *)o)->init(tl_00, reset_random_enemies_mode);
     }
@@ -256,8 +255,6 @@ extern u32 TQuestListOnline__quest_list_buffer;
 int memset(void*, void*, void*);
 extern s32 TQuestListOnline__selected_quest_info;
 extern s32 TQuestListOnline__instance;
-void mem_free(void *p);
-void *mem_alloc(u32 size);
 }
 s32 get_guild_text(s32);
 extern "C" {

@@ -5,6 +5,7 @@
 #include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/ui/window/TWindowSubEquipList.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
+#include "pso/system/task/TObject.h"
 
 
 #pragma readonly_strings on
@@ -17,7 +18,6 @@ extern "C" {
 s32 get_draw_context__11TWindowBaseFPv();
 s32 draw_visible_window_entries(void *, void *, int);
 s32 forward_render__20TWindowSubStatusDispFv(void *, int);
-u8 *__nw__7TObjectFUl(s32);
 s32 TShopJudgmentItemWindow__sub_80267F9C(void *, int);
 extern s32 __vt__19TWindowSubEquipList[];
 extern const char *TWindowSubEquipList__class_name;
@@ -27,7 +27,7 @@ u8 *create_equip_list_window(s32 arg0, s32 arg1, s16 arg2) {
     u8 *temp_r3;
     u8 *var_r0;
     TShopJudgmentItemWindow__sub_80267F9C((void *)arg1, 8);
-    temp_r3 = (u8 *)(__nw__7TObjectFUl(0x88));
+    temp_r3 = (u8 *)(TObject::operator new(0x88));
     var_r0 = temp_r3;
     if (var_r0 != NULL) {
         var_r0 = (u8 *)(TWindowSubEquipList__ct(temp_r3, arg0, arg2));

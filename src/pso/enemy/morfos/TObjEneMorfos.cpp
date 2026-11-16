@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/player/TObjPlayer_803E4954.h"
@@ -520,7 +521,6 @@ extern int TObjEneMorfos__param_table;
 void TObjEneMorfos__sub_80333AD0(u8 *arg0, s32 arg1);
 s32 get_flag_b4__9TObjEneDDFv();
 s32 play_sound_effect(s32, u32, s16, s32);
-void * __nw__7TObjectFUl(int);
 void TObjEneMorfos__sub_80333690(TObjEneMorfos *arg0, s32 arg1);
 s32 enemy_validate_retained_target(u8 *arg0);
 void TObjEneMorfos__sub_80332FD4(TObjEneMorfos *arg0, s32 arg1);
@@ -530,7 +530,6 @@ extern s32 model_render_flags;
 extern const f32 lbl_805D9E84;
 extern const f32 lbl_805D9E88;
 void render__13TObjEneMorfosFv(u8 *arg0);
-s32 queue_destruction__7TObjectFv(void *);
 s32 check_value_in_range__13TObjEneMorfosFPvUsUsUs(void *, int, int, int);
 s32 TObjEneMorfos__sub_803344F0(void *arg0);
 extern s32 game_difficulty_selection;
@@ -1130,7 +1129,7 @@ void TObjEneMorfos::state_death(s32 arg1) {
         return;
     case 3:
         if ((s32) this->m_4b4 == 2) {
-            ((s32 (*)(void))queue_destruction__7TObjectFv)();
+            queue_destruction();
         }
     case 5:
         return;
@@ -1349,7 +1348,7 @@ void TObjEneMorfos::state_rotating_projectile_burst(s32 arg1) {
                 F(0x4B0, s32) = 1;
                 F(0x4B4, s32) = 0;
                 if (F(0x494, u32) != 0) {
-                    queue_destruction__7TObjectFv(F(0x494, void *));
+                    ((TObject *)(F(0x494, void *)))->queue_destruction();
                     F(0x494, u32) = 0;
                 }
             }
@@ -1417,7 +1416,7 @@ void TObjEneMorfos::state_rotating_projectile_burst(s32 arg1) {
         break;
     case 5:
         if (F(0x494, u32) != 0) {
-            queue_destruction__7TObjectFv(F(0x494, void *));
+            ((TObject *)(F(0x494, void *)))->queue_destruction();
             F(0x494, u32) = 0;
         }
         break;
@@ -2018,7 +2017,7 @@ u8 *__dt__13TObjEneMorfosFv(u8 *object, s16 arg1) {
     if (object != NULL) {
         *(s32 **)((s8 *)object + 0x18) = ((s32 *)__vt__13TObjEneMorfos);
         if ((u32) *(u32 *)((s8 *)object + 0x494) != 0U) {
-            queue_destruction__7TObjectFv(*(void **)((s8 *)object + 0x494));
+            ((TObject *)(*(void **)((s8 *)object + 0x494)))->queue_destruction();
             *(u32 *)((s8 *)object + 0x494) = 0U;
         }
         free_collision_body_parts(object);
@@ -2219,7 +2218,7 @@ void TObjEneMorfos::unload_static_data() {
 }
 
 void *TObjEneMorfos::create() {
-    void *o = __nw__7TObjectFUl(0x4D8);
+    void *o = TObject::operator new(0x4D8);
     if (o != NULL) {
         o = TObjEneMorfos__ct(o, tl_04, this);
     }

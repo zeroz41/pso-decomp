@@ -42,7 +42,6 @@ struct Part_80195400 {
 };
 
 extern "C" {
-u8 *__nw__7TObjectFUl(s32);
 extern s32 tl_05;
 s32 spawn_particle_effect_with_rotation(void *, void *, s32, u16);
 s32 spawn_continuous_particle_with_direction(void *, void *, s32);
@@ -164,7 +163,7 @@ u8 *TObjParticle__create(u8 *arg0) {
     if (is_split_screen() != 0) {
         return NULL;
     }
-    temp_r3 = (u8 *)(__nw__7TObjectFUl(0x98));
+    temp_r3 = (u8 *)(TObject::operator new(0x98));
     var_r0 = temp_r3;
     if (var_r0 != NULL) {
         var_r0 = (u8 *)(TObjParticle__ct((Part_80195400 *)(temp_r3), tl_05, (Src_80195400 *)(arg0)));

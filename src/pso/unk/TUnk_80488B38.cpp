@@ -13,6 +13,7 @@
 #include "pso/system/memory.h"
 #include "pso/unk/TUnk_80488D70.h"
 #include "pso/system/scene/TScene.h"
+#include "pso/math/AngleLookup.h"
 
 struct Pad_8006BB1C {
     u8 pad0[0x70];
@@ -34,8 +35,6 @@ struct Obj_8006BB1C {
 };
 
 extern "C" {
-f32 sin_table_lookup(s32);
-f32 cos_table_lookup(s32);
 extern Pad_8006BB1C controller_input_state;
 void *TCameraCtrl__vt4(void);
 

@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/enemy/dd/TObjEneDD.h"
@@ -16,6 +17,7 @@
 #include "pso/math/AngleLookup.h"
 #include "pso/unk/text_803E2D70.h"
 #include "pso/unk/text_803D96A8.h"
+#include "pso/player/TObjPlayer_80011014.h"
 extern "C" void *__ct__12TObjEneDD_STFP7TObject(void *);
 #include "types.h"
 
@@ -97,11 +99,9 @@ void TObjEneRe4Sorcerer::vfunc_105() {
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
 extern "C" {
-f32 atan2_float(f32 y, f32 x);
 void TObjEneRe4Sorcerer__sub_800EF214(TObjEneRe4Sorcerer *self);
 void *find_entity_by_id(u16 id);
 void TObjEneRe4Sorcerer__sub_800EE7DC(TObjEneRe4Sorcerer *arg0, s32 arg1);
-s32 is_split_screen();
 extern s32 TObjEneRe4Sorcerer__render_node_index;
 extern s32 TObjEneRe4Sorcerer__saved_render_flags;
 extern f32 TObjEneRe4Sorcerer__effect_render_scale;
@@ -122,7 +122,6 @@ void scale_matrix(s32, s32, f32, f32, f32);
 
 struct Params_800F0464 { s32 a; void *actions; s32 c, d; };
 
-void queue_destruction__7TObjectFv(void *arg0);
 s32 register_object__6TLobbyFl(int);
 s32 dispatch_shared_handler_b__6TLobbyFl(int);
 s32 register_boss__6TLobbyFl(int);
@@ -169,7 +168,6 @@ s32 free_collision_body_parts(void *);
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
 s32 play_sound_effect(void *, void *, int, int);
 void __dl__7TObjectFPv(void *);
-void * __nw__7TObjectFUl(int);
 s32 create_ex__11TTecGiBartaFPvPvPv(void *, void *, s32, s32);
 void __destroy_arr(void *, void *, u32, u32);
 void __construct_array(void *, void *, void *, int, int);
@@ -641,7 +639,7 @@ void TObjEneRe4Sorcerer::handle_death_state(s32 arg1) {
         advance_animation();
         if (fade.decay_value_toward_floor() != 0) {
             TObjPlayer::apply_effect_variant_b((s32)&position, 0);
-            queue_destruction__7TObjectFv(this);
+            queue_destruction();
         }
     case 3:
     case 5:
@@ -1584,7 +1582,7 @@ TObjEneRe4Sorcerer *__dt__18TObjEneRe4SorcererFv(TObjEneRe4Sorcerer *ene_re4_sor
         *(s32 **)((s8 *)ene_re4_sorcerer + 0x18) = __vt__18TObjEneRe4Sorcerer;
         for (i = 0; i < 2; i++) {
             if ((p = find_entity_by_id(ene_re4_sorcerer->bit_ids[i])) != NULL) {
-                queue_destruction__7TObjectFv(p);
+                ((TObject *)p)->queue_destruction();
             }
             ene_re4_sorcerer->bit_ids[i] = 0xFFFF;
         }
@@ -1681,7 +1679,7 @@ void TObjEneRe4Sorcerer::free_bits() {
 }
 
 TObjEneRe4Sorcerer *TObjEneRe4Sorcerer::create() {
-    TObjEneRe4Sorcerer *o = (TObjEneRe4Sorcerer *)__nw__7TObjectFUl(0x4F0);
+    TObjEneRe4Sorcerer *o = (TObjEneRe4Sorcerer *)TObject::operator new(0x4F0);
     if (o != NULL) {
         o = TObjEneRe4Sorcerer__ct(o, tl_04, this);
     }

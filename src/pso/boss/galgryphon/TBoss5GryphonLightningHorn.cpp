@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include <stddef.h>
 #include <dolphin/mtx.h>
@@ -9,6 +10,7 @@
 #include "pso/boss/galgryphon/TBoss5GryphonLightning.h"
 #include "pso/boss/galgryphon/TBoss5GryphonLightningWing.h"
 #include "pso/boss/galgryphon/TBoss5GryphonLightningHorn.h"
+#include "pso/system/task/TObject.h"
 
 #pragma readonly_strings on
 
@@ -34,7 +36,6 @@ typedef struct Wing_80326074 {
 extern "C" {
 f32 vec3_dot(void *, void *);
 void normalize_vector(void *);
-int queue_destruction__7TObjectFv(void *);
 void TBoss8Dragon__sub_80063FB8(s32, void *, f32);
 Ctl_80325F7C *get_player_by_client_id(s32);
 void get_wing_position__26TBoss5GryphonLightningWingFl(void *, void *);
@@ -51,7 +52,7 @@ extern s32 __vt__26TBoss5GryphonLightningHorn[];
 u8 *__ct__26TBoss5GryphonLightningHornFv(u8 *arg0, s32 arg1, s32 arg2, s32 arg3);
 s32 __nw__7TObjectFUl(int);
 
-int TBoss8Dragon::queue_destruction() { return queue_destruction__7TObjectFv(this); }
+void TBoss8Dragon::queue_destruction() { TObject::queue_destruction(); }
 
 #pragma push
 #pragma fp_contract on

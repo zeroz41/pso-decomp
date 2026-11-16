@@ -24,6 +24,7 @@
 #include "pso/unk/text_80087278.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/render/GinjaMaterial.h"
+#include "pso/system/task/TObject.h"
 
 
 extern "C" {
@@ -99,7 +100,6 @@ struct VMem_8018C06C {
 s32 post_translate_matrix(void *);
 s32 rotate_matrix_x(s32, s32);
 s32 push_matrix();
-void *__nw__7TObjectFUl(int);
 
 u32 TObjContainerIdo__model_resource;
 
@@ -255,7 +255,7 @@ void run_task__16TObjContainerIdoFv(Ido_8018C18C *self) {
 extern void *tl_05;
 
 void *TObjContainerIdo::create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0x10C);
+    void *o = TObject::operator new(0x10C);
     if (o != NULL) {
         o = TObjContainerIdo__ct((u8 *)o, (s32)tl_05, (s32)arg0);
     }

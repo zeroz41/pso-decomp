@@ -19,12 +19,12 @@
 #include "pso/unk/text_803D96A8.h"
 
 #include "pso/system/BmlResourceDescriptor.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 #pragma readonly_strings on
 
 extern "C" {
 
-void *__nw__7TObjectFUl(int);
 
     extern int player_unique_pair_entry_count;
 extern "C" void vfunc_6__8TObjBaseFPsl();
@@ -249,7 +249,7 @@ void TObjOnlineEnding::create_result_window() {
         {
         s32 t = TLobby::get_online_result_value();
         if (t == temp_r30) {
-            var_r29 = (s32)__nw__7TObjectFUl(0x68);
+            var_r29 = (s32)TObject::operator new(0x68);
             if (var_r29 != 0) {
                 temp_r30_2 = get_card_window_value__16TObjOnlineEndingFv();
                 temp_r31 = TWindowSubStatusDisp__sub_800718D0();
@@ -460,7 +460,7 @@ void free_bin_model_request(void*, int);
 void *TObjOnlineEnding__ct(void *, void *);
 
 void *TObjOnlineEnding::create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0x158);
+    void *o = TObject::operator new(0x158);
     if (o != NULL) {
         o = TObjOnlineEnding__ct(o, arg0);
     }

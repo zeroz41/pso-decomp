@@ -19,9 +19,10 @@
 #include "pso/ui/frontend/TAdSelectTxtGC.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/task/TObject.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 extern "C" {
-s32 is_split_screen(void);
 s32 TAdMultiSelGameModeGC__data_805D69F0;
 void fn_803000C8(void) {
     if (is_split_screen() != 0) {
@@ -76,7 +77,6 @@ struct Obj_8030095C {
 s32 is_multiplayer_character_slot_selected(s32 arg0);
 extern "C" {
 Ent_80300850 *get_char_table_entry__23TAdSinglePlyChrSelectGCFi(int);
-void *__nw__7TObjectFUl(u32);
 void __ct__7TObjectFP7TObject(void *);
 void __ct__9TAdBackGCFv(void *, void *);
 void __ct__12TAdBackTxtGCFv(void *, void *);
@@ -336,31 +336,31 @@ Obj_8030095C *__ct__21TAdMultiSelGameModeGCFv(Obj_8030095C *self, s32 parent, s3
         TAdStorySelectGC::set_state(1);
         break;
     }
-    if ((p = __nw__7TObjectFUl(0x24)) != NULL) {
+    if ((p = TObject::operator new(0x24)) != NULL) {
         __ct__9TAdBackGCFv(p, self);
     }
-    if ((p = __nw__7TObjectFUl(0x28)) != NULL) {
+    if ((p = TObject::operator new(0x28)) != NULL) {
         __ct__12TAdBackTxtGCFv(p, self);
     }
-    if ((p = __nw__7TObjectFUl(0x24)) != NULL) {
+    if ((p = TObject::operator new(0x24)) != NULL) {
         __ct__8TAdRayGCFv(p, self);
     }
-    if ((p = __nw__7TObjectFUl(0x138)) != NULL) {
+    if ((p = TObject::operator new(0x138)) != NULL) {
         __ct__10TAdTitleGCFP7TObjectl(p, self, 0xE);
     }
-    if ((p = __nw__7TObjectFUl(0x9C)) != NULL) {
+    if ((p = TObject::operator new(0x9C)) != NULL) {
         __ct__13TAdTitleTexGCFv(p, self);
     }
-    if ((p = __nw__7TObjectFUl(0xE0)) != NULL) {
+    if ((p = TObject::operator new(0xE0)) != NULL) {
         __ct__14TAdSelectTxtGCFP7TObjectPvPv(p, self, &lbl_80474E40[0], 0x10);
     }
-    if ((p = __nw__7TObjectFUl(0xE0)) != NULL) {
+    if ((p = TObject::operator new(0xE0)) != NULL) {
         __ct__14TAdSelectTxtGCFP7TObjectPvPv(p, self, &lbl_80474E40[1], 0x11);
     }
-    if ((p = __nw__7TObjectFUl(0xE0)) != NULL) {
+    if ((p = TObject::operator new(0xE0)) != NULL) {
         __ct__14TAdSelectTxtGCFP7TObjectPvPv(p, self, &lbl_80474E40[2], 0x8);
     }
-    if ((p = __nw__7TObjectFUl(0xE0)) != NULL) {
+    if ((p = TObject::operator new(0xE0)) != NULL) {
         __ct__14TAdSelectTxtGCFP7TObjectPvPv(p, self, &lbl_80474E40[3], 0xF);
     }
     {
@@ -370,17 +370,17 @@ Obj_8030095C *__ct__21TAdMultiSelGameModeGCFv(Obj_8030095C *self, s32 parent, s3
     if (TAdMultiSelGameModeGC__data_805D69F0 == 2) {
         game_difficulty_selection = 0;
     }
-    p = __nw__7TObjectFUl(0xE0);
+    p = TObject::operator new(0xE0);
     if (p != NULL) {
         p = __ct__14TAdSelectTxtGCFP7TObjectPvPv(p, self, &lbl_80474E40[4], game_difficulty_selection);
     }
     self->f30 = p;
-    p = __nw__7TObjectFUl(0xE0);
+    p = TObject::operator new(0xE0);
     if (p != NULL) {
         p = __ct__14TAdSelectTxtGCFP7TObjectPvPv(p, self, &lbl_80474E40[5], TAdMultiSelGameModeGC__data_805D69F0 + 9);
     }
     self->f34 = p;
-    p = __nw__7TObjectFUl(0xE0);
+    p = TObject::operator new(0xE0);
     if (p != NULL) {
         p = __ct__14TAdSelectTxtGCFP7TObjectPvPv(p, self, &lbl_80474E40[6], lbl_805D69F4 + 4);
     }
@@ -388,7 +388,7 @@ Obj_8030095C *__ct__21TAdMultiSelGameModeGCFv(Obj_8030095C *self, s32 parent, s3
     {
         Cur_8030095C cur = { { 442.0f, 28.0f } };
         Pos_8030095C pos = { { 144.0f, 146.0f, 114.0f, 198.0f, 84.0f, 250.0f, 54.0f, 302.0f } };
-        p = __nw__7TObjectFUl(0x708);
+        p = TObject::operator new(0x708);
         if (p != NULL) {
             p = __ct__14TAdSelectCurGCFv(p, self, &pos, &cur);
         }
@@ -399,7 +399,7 @@ Obj_8030095C *__ct__21TAdMultiSelGameModeGCFv(Obj_8030095C *self, s32 parent, s3
         ((TLevelSelect *)(self->f3C))->add_item_rect(&pos.v[6]);
     }
     ((TLobby *)(self->f3C))->set_ad_field(self->f24);
-    p = __nw__7TObjectFUl(0x44);
+    p = TObject::operator new(0x44);
     if (p != NULL) {
         p = __ct__13TAdGuideTxtGCFv(p, self);
     }

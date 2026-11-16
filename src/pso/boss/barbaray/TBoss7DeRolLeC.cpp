@@ -62,6 +62,7 @@
 
 #include "pso/enemy/TObjEnemyCustom.h"
 #include "pso/system/BmlResourceDescriptor.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 // Load and release hooks run by run_load_callback_table / call_funcs_reverse.
 struct Boss7LoadCallback {
@@ -1282,15 +1283,12 @@ s32 scale_current_matrix(void *);
 
 s32 post_translate_matrix(void *);
 
-void mem_free(void *p);
 
 extern const char *TBoss7DeRolLeC__class_name;
 
 extern const CollisionBody lbl_80473C3C;
 
 extern const Vec lbl_80473F6C;
-
-void *mem_alloc(u32 size);
 
 
 void TObjPlayer__sub_802E7EA0(void *arg0);

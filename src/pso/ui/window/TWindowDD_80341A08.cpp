@@ -11,6 +11,7 @@
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
 #include "pso/unk/TUnk_804CFA28.h"
 #include "pso/unk/text_803D619C.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 const char *lbl_805D42E0 = "TWindowDD_WS_Word";
 
@@ -269,10 +270,8 @@ struct Entry_80341FFC {
 extern "C" {
 s32 apply_both_choices__9TWindowDDFll(void *, int);
 s32 init_window_layout_entries(void *, void *, int);
-void *mem_alloc(u32 size);
 s32 get_array_entry__11TWindowBaseFi(void * a0, s32 a1);
 Elem_80341FFC *get_element_ptr__9TWindowDDFl(s32);
-void mem_free(void *);
 s32 get_array_entry__11TWindowBaseFi(void * a0 = 0, s32 a1 = 0);
 s32 get_field_20__17TWindowSubComCardFv(void);
 

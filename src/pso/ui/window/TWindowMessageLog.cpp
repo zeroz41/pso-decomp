@@ -16,6 +16,7 @@
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TWindowCtrl_8026AD44.h"
 #include "pso/ui/window/TWindowDD.h"
+#include "pso/system/task/TObject.h"
 
 #pragma readonly_strings on
 
@@ -240,7 +241,6 @@ void chat_log_add_line(const char *text) {
 }
 
 extern "C" {
-u8 *__nw__7TObjectFUl(s32);
 s32 TLobby__sub_80269DA4(void *, int);
 s32 *get_shared_text_buffer(void);
 void text_builder_append(u8 *str);
@@ -280,7 +280,7 @@ u8 *create_message_log_window(s32 arg0, s32 arg1, s32 arg2) {
     u8 *window_message_log;
     u8 *var_r0;
     TLobby__sub_80269DA4((void *)arg1, 0x1E);
-    window_message_log = (u8 *)(__nw__7TObjectFUl(0x98));
+    window_message_log = (u8 *)(TObject::operator new(0x98));
     var_r0 = window_message_log;
     if (var_r0 != NULL) {
         var_r0 = (u8 *)(TWindowMessageLog__ct((TWindowMessageLog *)window_message_log, arg0, arg2));

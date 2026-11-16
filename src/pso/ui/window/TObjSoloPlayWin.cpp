@@ -9,6 +9,7 @@
 #include "pso/map/FloorArea.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjMotion.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 extern "C" {
 u32 get_player_by_client_id(s32);

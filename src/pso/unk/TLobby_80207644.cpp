@@ -4,6 +4,8 @@
 #include "pso/ui/frontend/TAdStorySelectGC.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/map/FloorArea.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 
 FloorMapRegistry floor_map_registry;
 
@@ -307,13 +309,11 @@ extern const Tbl_8020765C boss_warp_destination_table_b = { {
 s32 set_floor_map_selection(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 extern "C" {
 s32 get_floor_map_selection(s32 arg0, u8 *arg1);
-s32 get_main_phase(void);
 s32 rand(void);
 extern int selected_episode;
 void randomize_adventure_maps(void);
 s32 memset(void *, int, int);
 void TLobby__sub_80207BB0(void);
-s32 get_current_floor();
 s32 get_game_play_mode();
 }
 s32 get_boss_warp_destination(void);

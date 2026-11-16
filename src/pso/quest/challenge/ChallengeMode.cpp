@@ -13,6 +13,8 @@
 #include "pso/ui/window/TObjBagWarnWin.h"
 #include "pso/quest/TQuestListOnline.h"
 #include "pso/object/TObjTombstone.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 
 
 typedef char TChallenge_state_offset[(offsetof(TChallenge, state) == 0x1C) ? 1 : -1];
@@ -82,8 +84,6 @@ extern "C" {
 s32 get_character_save_record(u32);
 extern s32 local_client_id;
 void TLobby__sub_800738F4(void *, s32);
-s32 get_main_phase(void);
-s32 get_current_floor(void);
 }
 void *create_obj_tag_challenge(void *arg0);
 extern s32 tl_07;

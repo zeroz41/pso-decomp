@@ -5,6 +5,7 @@
 #include "pso/system/scene/TSceneSora.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/map/FloorArea.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 
 struct Cam_8029EFFC { Vec pos; Vec scale; };
@@ -54,7 +55,6 @@ extern "C" {
 void TObjPlayer__sub_8029EE2C(void);
 int set_instance__6TSceneFi(void *f);
 void VecCopy__FP3VecPC3Vec(Vec *, Vec *);
-f32 fabs_float(f32);
 void *get_player_by_client_id(s32 i);
 s32 fn_8029E7BC(s32 arg0, u8 *arg1);
 s32 fn_8029EC3C(Vec *, s32);

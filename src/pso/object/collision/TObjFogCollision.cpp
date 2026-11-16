@@ -50,7 +50,6 @@ extern "C" {
 
 u8 *__ct__16TObjFogCollisionFP7TObjectPv(u8 *fog_collision, void *parent, void *set);
 void *TObjFogCollision__create(void *set);
-void *__nw__7TObjectFUl(int);
 
 extern s32 __vt__22TObjFogCollisionPoison[];
 extern s32 __vt__22TObjFogCollisionSwitch[];
@@ -208,7 +207,7 @@ void TObjFogCollision::draw_volume() {
 }
 
 void *TObjFogCollisionSwitch__create(void *set) {
-    void *o = __nw__7TObjectFUl(0x98);
+    void *o = TObject::operator new(0x98);
     if (o != NULL) {
         o = TObjFogCollisionSwitch__ct(o, tl_05, set);
     }
@@ -274,7 +273,7 @@ void TObjFogCollisionSwitch::vfunc_14() {
 }
 
 void *create__22TObjFogCollisionPoisonFPv(void *arg0) {
-    void *o = __nw__7TObjectFUl(0x9C);
+    void *o = TObject::operator new(0x9C);
     if (o != NULL) {
         o = TObjFogCollisionPoison__ct(o, tl_05, arg0);
     }

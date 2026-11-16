@@ -3,6 +3,7 @@
 
 #include <stddef.h>
 #include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/system/task/TObject.h"
 struct Stack_8008683C {
     s32 sp8;
     s32 spC;
@@ -19,7 +20,6 @@ extern RecoveredGlobal_lbl_804393F0 lbl_804393F0;
 extern s32 particle_pool_limit;
 extern Ent_800868C4 *particle_global_entry_table;
 extern Ent_800868C4 *particle_area_entry_table;
-void *__nw__7TObjectFUl(int);
 void *initialize_with_flags__13TParticleCtrlFPCvlllllUs(void *, void *, void *, s32, s32, s32, s32, s32);
 void *__ct__13TParticleCtrlFv(void *self, void *pos, void *dir, void *ent, int a, int b, int c, int d, int e);
 void *__ct__5THeapFUli(void *, void *, int);
@@ -67,7 +67,7 @@ void *create_timed_particle_emitter_with_flags(void *pos, s32 id, s32 a, s32 b, 
     void *p;
     s32 idx = id;
     if (particle_pool_limit > idx) {
-        p = __nw__7TObjectFUl(0x78);
+        p = TObject::operator new(0x78);
         if (p != 0) {
             p = initialize_with_flags__13TParticleCtrlFPCvlllllUs(p, pos, &particle_global_entry_table[idx], 0, a, b, 0, c);
         }
@@ -75,7 +75,7 @@ void *create_timed_particle_emitter_with_flags(void *pos, s32 id, s32 a, s32 b, 
     }
     if (particle_pool_limit + 0x40 > idx) {
         idx -= 0x200;
-        p = __nw__7TObjectFUl(0x78);
+        p = TObject::operator new(0x78);
         if (p != 0) {
             p = initialize_with_flags__13TParticleCtrlFPCvlllllUs(p, pos, &particle_area_entry_table[idx], 0, a, b, 0, c);
         }
@@ -92,7 +92,7 @@ void *create_timed_particle_emitter(void *owner, s32 id, s32 b, s32 c) {
     void *p;
     s32 idx = id;
     if (particle_pool_limit > idx) {
-        p = __nw__7TObjectFUl(0x78);
+        p = TObject::operator new(0x78);
         if (p != 0) {
             p = ((TParticleCtrl *)p)->initialize((const void *)owner, (s32)&particle_global_entry_table[idx], 0, (s32)b, (s32)c, 0);
         }
@@ -100,7 +100,7 @@ void *create_timed_particle_emitter(void *owner, s32 id, s32 b, s32 c) {
     }
     if (particle_pool_limit + 0x40 > idx) {
         idx -= 0x200;
-        p = __nw__7TObjectFUl(0x78);
+        p = TObject::operator new(0x78);
         if (p != 0) {
             p = ((TParticleCtrl *)p)->initialize((const void *)owner, (s32)&particle_area_entry_table[idx], 0, (s32)b, (s32)c, 0);
         }
@@ -116,7 +116,7 @@ void *create_timed_particle_emitter_with_angles(void *pos, void *dir, s32 id, s3
     void *p;
     s32 idx = id;
     if (particle_pool_limit > idx) {
-        p = __nw__7TObjectFUl(0x78);
+        p = TObject::operator new(0x78);
         if (p != 0) {
             p = __ct__13TParticleCtrlFv(p, pos, dir, &particle_global_entry_table[idx], 0, a, b, 0, flags);
         }
@@ -124,7 +124,7 @@ void *create_timed_particle_emitter_with_angles(void *pos, void *dir, s32 id, s3
     }
     if (particle_pool_limit + 0x40 > idx) {
         idx -= 0x200;
-        p = __nw__7TObjectFUl(0x78);
+        p = TObject::operator new(0x78);
         if (p != 0) {
             p = __ct__13TParticleCtrlFv(p, pos, dir, &particle_area_entry_table[idx], 0, a, b, 0, flags);
         }

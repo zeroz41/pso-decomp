@@ -6,6 +6,7 @@
 #include "pso/boss/galgryphon/TObjBoss5Pillar.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/system/task/TObject.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 #pragma readonly_strings on
 
@@ -32,10 +33,7 @@ struct Ctrl_8028B23C {
 };
 
 extern "C" {
-void *__nw__7TObjectFUl(int);
-void mem_free(void *);
 extern u8 __vt__19TObjBoss5PillarCtrl[];
-void *mem_alloc(u32 size);
 void __ct__7TObjectFP7TObject(void *, void *);
 extern const char *TObjBoss5PillarCtrl__name;
 extern Game_8028B23C *lbl_805D4DD8;
@@ -86,7 +84,7 @@ Ctrl_8028B23C *TObjBoss5PillarCtrl__ct(Ctrl_8028B23C *arg0, void *arg1) {
 
 void *TObjBoss5PillarCtrl::create() {
     void *o;
-    o = __nw__7TObjectFUl(0x24);
+    o = TObject::operator new(0x24);
     if (o != NULL) {
         o = TObjBoss5PillarCtrl__ct((Ctrl_8028B23C *)(o), this);
     }

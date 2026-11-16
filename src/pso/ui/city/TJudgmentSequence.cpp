@@ -61,7 +61,6 @@ extern RecoveredGlobal_80215EF8___vt__17TJudgmentSequence __vt__17TJudgmentSeque
 struct TJudgmentSequenceSlotFlags { s32 value; u8 remaining[0xC]; };
 TJudgmentSequenceSlotFlags TJudgmentSequence__slot_flags;
 s32 judgment_sequence_instance;
-void *__nw__7TObjectFUl(u32);
 void *__ct__23TShopJudgmentItemWindowFPvPvPv(TShopJudgmentItemWindow *arg0, void *arg1, void *arg2, void *arg3);
 extern void *tl_05;
 s32 sub_802239EC__13TShopSequenceFv(void *);
@@ -96,7 +95,7 @@ void TJudgmentSequence::handle_close_input() {
 }
 
 void TJudgmentSequence::open_judgment_window() {
-    Win_80215CB8 *o = (Win_80215CB8 *)__nw__7TObjectFUl(0x178);
+    Win_80215CB8 *o = (Win_80215CB8 *)TObject::operator new(0x178);
     if (o != 0) {
         o = (Win_80215CB8 *)__ct__23TShopJudgmentItemWindowFPvPvPv((TShopJudgmentItemWindow *)((void *)o), (void *)((void *)tl_05), (void *)((Seq_80215CB8 *)this), (void *)(((Seq_80215CB8 *)this)->f24));
     }
