@@ -4538,6 +4538,9 @@ pso/object/TObjChip.cpp:
 	.sdata      start:0x805D3240 end:0x805D3244
 	.sdata2     start:0x805DBB78 end:0x805DBB9C
 
+pso/object/city/CityTrafficTables.cpp:
+	.rodata     start:0x80443B18 end:0x80443B68
+
 pso/object/city/CityTraffic.cpp:
 	.text       start:0x80180D18 end:0x801819FC
 	.rodata     start:0x80443B68 end:0x80443BA8
@@ -5834,6 +5837,7 @@ pso/quest/TQuestBgmCtrl.cpp:
 	.sbss       start:0x805D5E60 end:0x805D5E70
 
 pso/quest/QuestOpcodeTables.cpp:
+	.rodata     start:0x804499A8 end:0x80449A38
 	.data       start:0x804C69D0 end:0x804C81D8
 
 pso/quest/QuestOpcodeHandlers.cpp:

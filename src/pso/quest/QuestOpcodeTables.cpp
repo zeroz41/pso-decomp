@@ -561,8 +561,15 @@ void qst_getargs_801F2AB4(s32 opcode);
 void qst_getargs_801F2B54(s32 opcode);
 void qst_getargs_801F2B94(s32 opcode);
 
-extern const char quest_bgm_clear_filename[];
-extern const char quest_bgm_miniclear_filename[];
+const s32 quest_sound_effect_ids[29] = {
+    0x54100, 0x52D01, 0x52802, 0x53703, 0x53704, 0x53705,
+    0x53F06, 0x53507, 0x52608, 0x52A09, 0x5250A, 0x5230B,
+    0x5250C, 0x5280D, 0x5250E, 0x5640F, 0x53C10, 0x5B211,
+    0x52812, 0x52813, 0x52E14, 0x40052D15, 0x52F16, 0x52D17,
+    0x3D20C, 0x5051A, 0x5251B, 0x52B1C, 0x4005191D,
+};
+const char quest_bgm_clear_filename[] = "clear.adx";
+const char quest_bgm_miniclear_filename[] = "miniclear.adx";
 extern "C" {
 
 __declspec(section ".data") const char* qst_bgm_filename_table[2] = {

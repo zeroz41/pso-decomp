@@ -3,6 +3,7 @@
 #include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/object/city/CityTraffic.h"
+#include "pso/object/city/CityTrafficTables.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/vector.h"
 #include "pso/object/city/TObjCityAirCar_Car.h"
@@ -38,7 +39,6 @@ s32 push_matrix();
 s32 post_translate_matrix(void *);
 s32 draw_ginja_object();
 s32 draw_chunk_object(int, void *);
-extern s32 city_air_car_model_index_table[];
 extern void **city_common_texture_list;
 }
 
@@ -143,11 +143,8 @@ void *destroy_buffer_pair(void *arg0, s16 arg1);
 extern "C" {
 void __ct__7TObjectFP7TObject(void *);
 extern u8 __vt__19TObjCityAirCar_Ctrl[];
-extern s32 city_traffic_path_motion_index_table[];
-extern s32 city_aircar_model_indices[];
 s32 alloc_tables__6TLobbyFll(s32, s32, s32, Ent_801817AC *);
 void subtract_vector(Vec *, Vec *);
-extern s32 city_traffic_car_chunk_index_table[];
 Lob_801817AC * city_air_car_model_resource;
 void ** city_air_car_model_handle;
 }
@@ -190,7 +187,7 @@ void measure_traffic_path_lengths(void) {
   Motion_801817AC *m;
   s32 i;
   s32 j;
-  s32 *new_var;
+  const s32 *new_var;
   s32 p;
   for (i = 0; i < 5; i++)
   {

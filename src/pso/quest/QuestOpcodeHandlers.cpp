@@ -1841,8 +1841,6 @@ extern s32 gba_download_data_buffer;
 extern s32 gba_download_data_size;
 extern int evt2_random_enemies_mode;
 extern RecoveredGlobal_8000F7FC_lbl_80515F48 fn_801F3480;
-struct QuestSoundEffectIds { s32 value; u8 remaining[0x70]; };
-extern QuestSoundEffectIds quest_sound_effect_ids;
 extern Pair_801F1838 lbl_80449A38[];
 struct RecoveredGlobal_lbl_8050D3E0 { s32 value; u8 remaining[0x4C]; };
 extern RecoveredGlobal_lbl_8050D3E0 lbl_8050D3E0;
@@ -5930,7 +5928,7 @@ void qst_op_bgm(void) {
 }
 
 void qst_op_se(void) {
-    play_sound_effect((int) (*(s32 *)((s8 *)((u8 *)(&quest_sound_effect_ids.value) + (qst_args[0] * 4)) + 0)), 0, 0, 0);
+    play_sound_effect(quest_sound_effect_ids[qst_args[0]], 0, 0, 0);
 }
 
 void qst_op_fadeout(void) { TLobby::init_fadeout_state((s32)((void*)0)); qst_suspend_reason = QST_WAIT_FADE; }

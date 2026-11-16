@@ -1965,6 +1965,7 @@ pso/unk/pso_carve_8020bf88.cpp
 pso/render/ChunkMaterialState.cpp
 pso/render/ChunkTextureStripCollector.cpp
 pso/object/city/CityTraffic.cpp
+pso/object/city/CityTrafficTables.cpp
 pso/system/data/FlagWord.cpp
 pso/render/GinjaModelQueue.cpp
 pso/audio/LscStream.cpp
