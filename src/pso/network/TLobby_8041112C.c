@@ -770,7 +770,6 @@ u8 *pi;
 s16 idx;
 {
   Ipv6State *g = &ipv6_address_routing_state;
-  s16 *pn;
   u8 *pfx;
   Ipv6Route *ent;
   u32 v;
@@ -780,7 +779,6 @@ s16 idx;
   u8 mask;
   s32 plen;
   u8 *cur;
-  u8 **pe;
   s16 r;
   s16 *pc;
   s16 n8;
@@ -792,11 +790,10 @@ s16 idx;
   u8 a52[16];
   s16 err;
   u8 *node;
-  if ((idx <= 0) || (idx >= (*(pn = &g->count))))
+  if ((idx <= 0) || (idx >= *(s16 *) (((u8 *) g) + offsetof(Ipv6State, count))))
   {
     return -266;
   }
-  pe = (u8 **) (((u8 *) g) + offsetof(Ipv6State, ifaces));
   e = *((u8 **) (((u8 *) g) + offsetof(Ipv6State, ifaces)));
   e += idx * 48;
   if ((*((s16 *) e)) != 1)
@@ -897,7 +894,6 @@ s16 idx;
   *((s16 *) (pfx + offsetof(Ipv6AddrNode, f16))) = fl;
   *((s16 *) (pfx + offsetof(Ipv6AddrNode, f18))) = 0;
   *((u16 *) (pfx + offsetof(Ipv6AddrNode, scope))) = NetIPv6GetAddressScopeClass(tmp);
-  pe = (u8 **) (((u8 *) g) + offsetof(Ipv6State, ifaces));
   if (is_entry_flag10_set(idx) != 0)
   {
     *((s16 *) (pfx + offsetof(Ipv6AddrNode, state))) = fl;
@@ -936,7 +932,7 @@ s16 idx;
       *((u8 **) (cur + offsetof(Ipv6AddrNode, next))) = pfx;
     }
   }
-  found = getaddr_80412618(pn, pe, a68);
+  found = getaddr_80412618((s16 *) (((u8 *) g) + offsetof(Ipv6State, count)), (u8 **) (((u8 *) g) + offsetof(Ipv6State, ifaces)), a68);
   if (found != 0)
   {
     r = TLobby__sub_8041347C(tmp, 128, a68, 0, 3, 1);
