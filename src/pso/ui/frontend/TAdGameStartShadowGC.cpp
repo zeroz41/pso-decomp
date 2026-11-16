@@ -10,7 +10,7 @@
 struct Rec_80320CB8 { f32 x, y, x2, y2; f32 u0, v0, u1, v1; };
 
 struct Shadow_80320CB8 {
-    s32 f0;
+    const char *f0;
     u8 pad4[0x14];
     s32 *vt;
     Rec_80320CB8 r[5];
@@ -20,7 +20,7 @@ struct Shadow_80320CB8 {
 extern "C" {
 s32 __ct__7TObjectFP7TObject(void *, void *);
 extern s32 __vt__20TAdGameStartShadowGC[];
-extern s32 TAdGameStartShadowGC__name;
+const char *TAdGameStartShadowGC__name = "TAdGameStartShadowGC";
 extern s32 TAdGameStartShadowGC__texture_list;
 Shadow_80320CB8 *__ct__20TAdGameStartShadowGCFv(Shadow_80320CB8 *arg0, void *parent);
 

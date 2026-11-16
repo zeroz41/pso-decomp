@@ -297,12 +297,15 @@ extern const char seabed_container_texture_filename[];
 extern const char forest_box_texture_filename_a[];
 extern const char forest_box_texture_filename_n[];
 void play_container_break_sound(s32 arg0);
-extern s32 lbl_805D5B7C;
+BmlResource *lbl_805D5B78;
+s32 lbl_805D5B7C;
+TObjChipParams *lbl_805D5B80;
+TObjChipParams *lbl_805D5B84;
+BmlResource *container_breakup_model_archive;
+s32 lbl_805D5B8C;
 extern "C" {
 s32 push_matrix(void);
 void post_translate_matrix(const void *);
-extern BmlResource *container_breakup_model_archive;
-extern s32 lbl_805D5B8C;
 extern const f32 lbl_805DBCF8;
 u32 init_collision_body_parts(void *, void *, s32);
 }
@@ -317,9 +320,6 @@ s32 release_texture_list(void*);
 s32 free_collision_body_parts(void *);
 }
 s32 get_container_param(s32 index);
-extern TObjChipParams *lbl_805D5B80;
-extern TObjChipParams *lbl_805D5B84;
-extern BmlResource *lbl_805D5B78;
 extern const f32 lbl_805DBCFC;
 extern const f32 lbl_805DBD0C;
 extern "C" {

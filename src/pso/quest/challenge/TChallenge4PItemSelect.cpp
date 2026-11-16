@@ -50,7 +50,6 @@ Challenge4PItemCode TChallenge4PItemSelect__item_table[8] = {
     { 0, 0x2B, 0 }, { 0, 0x48, 0 }, { 0, 0x64, 0 }, { 0, 0x28, 0 },
     { 0, 0x35, 0 }, { 0, 0x52, 0 }, { 0, 0x2A, 0 }, { 0, 0x59, 0 },
 };
-extern void *TChallenge4PItemSelect__name;
 
  s32 TChallenge4PResult__slot_entries[4]; 
 struct E_8034B694 { u8 b[0x14]; };
@@ -60,11 +59,6 @@ struct W_8034B694 { u8 pad0[0x34]; E_8034B694 e[1]; u8 pad48[0x70 - 0x48]; Q_803
 struct RecoveredGlobal_8034BA68_lbl_8050E208 {
     s32 value;
     u8 remaining[0x1AC];
-};
-
-struct Stack_8034B720 {
-    s32 sp8;
-    s32 spC;
 };
 
 extern "C" {
@@ -77,7 +71,6 @@ u32 get_player_by_client_id(int);
 extern u8 controller_input_state[];
 extern s32 TChallenge4PResult__slot_entries[];
 
-extern s32 lbl_80478BCC[];
 
 void obj_set_flag_20000(TObjPlayer *);
 void get_player_result__18TChallenge4PResultFPv(TObjPlayer *, s32);
@@ -97,7 +90,7 @@ s32 update_challenge_result_player_locks();
 void resume_challenge_result_processing(void *arg0);
 extern s32 tl_01;
 typedef char RecoveredGlobal_8034BA68_lbl_8050E208_size[sizeof(RecoveredGlobal_8034BA68_lbl_8050E208) == 0x1B0 ? 1 : -1];
- extern const char *challenge_4p_result_class_name; 
+const char *challenge_4p_result_class_name = "TChallenge4PResult";
 
 #pragma defer_codegen on
 
@@ -266,13 +259,9 @@ void TChallenge4PResult::init_timer() {
 }
 
 void TChallenge4PResult::show_message(s32 text_handle) {
-    typedef char sp8_offset[(offsetof(Stack_8034B720, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_8034B720, spC) == 0x4) ? 1 : -1];
-    Stack_8034B720 stack;
     if (message_window == NULL) {
-        stack.sp8 = *(s32 *)((s8 *)lbl_80478BCC + 0);
-        stack.spC = *(s32 *)((s8 *)lbl_80478BCC + 4);
-        message_window = (TWindowMessagePage *)TWindowMessagePage::create(get_window_layout_position(0x40), (s32)&stack.sp8, 1, slot_index);
+        f32 pos[2] = {332.0f, 80.0f};
+        message_window = (TWindowMessagePage *)TWindowMessagePage::create(get_window_layout_position(0x40), (s32)pos, 1, slot_index);
     }
     if (message_window != NULL) {
         ((TWindowMessagePage *)message_window)->set_message((void *)text_handle, 0x81);
@@ -365,8 +354,10 @@ void resume_challenge_result_processing(void *arg0) {
     }
 }
 
+const char *TChallenge4PItemSelect__name = "TChallenge4PItemSelect";
+
 TChallenge4PItemSelect::TChallenge4PItemSelect(TObject *parent, TChallenge4PResult *resultOwner) : TObject(parent) {
-    m_name = (const char *)TChallenge4PItemSelect__name;
+    m_name = TChallenge4PItemSelect__name;
     result = resultOwner;
     state = 0;
     onClosed = 0;

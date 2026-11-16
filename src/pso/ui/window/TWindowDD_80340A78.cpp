@@ -18,22 +18,23 @@ extern "C" {
 
 extern s32 lbl_805D63F0;
 
-extern f32 lbl_805D6DC0;
-extern f32 lbl_805D6DC4;
-extern f32 lbl_805D6DCC;
-extern f32 lbl_805D6DD0;
-extern f32 lbl_805D6DD4;
-extern f32 lbl_805D6DD8;
-extern f32 lbl_805D6DDC;
-extern f32 lbl_805D6DE0;
-extern f32 lbl_805D6DE4;
-extern f32 lbl_805D6DE8;
-extern f32 lbl_805D6DEC;
-extern f32 lbl_805D6DF0;
-extern f32 lbl_805D6DF4;
-extern f32 lbl_805D6DF8;
-extern f32 lbl_805D6DFC;
-extern f32 lbl_805D6E00;
+f32 lbl_805D6DC0;
+f32 lbl_805D6DC4;
+f32 lbl_805D6DC8;
+f32 lbl_805D6DCC;
+f32 lbl_805D6DD0;
+f32 lbl_805D6DD4;
+f32 lbl_805D6DD8;
+f32 lbl_805D6DDC;
+f32 lbl_805D6DE0;
+f32 lbl_805D6DE4;
+f32 lbl_805D6DE8;
+f32 lbl_805D6DEC;
+f32 lbl_805D6DF0;
+f32 lbl_805D6DF4;
+f32 lbl_805D6DF8;
+f32 lbl_805D6DFC;
+f32 lbl_805D6E00;
 extern const f32 lbl_805DFB24;
 extern const f32 lbl_805DFB28;
 extern const f32 lbl_805DFB38;
@@ -248,7 +249,6 @@ extern const f32 lbl_805DFBBC;
 extern const f32 lbl_805DFBC8;
 extern const f32 lbl_805DFBC0;
 extern const f32 lbl_805DFC24;
-f32 lbl_805D6DC8;
 
 void __sinit_TWindowDD_80340A78_cpp(void) {
     lbl_805D6DC0 = 17.0f + lbl_805DFBCC;

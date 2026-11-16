@@ -7,7 +7,7 @@
 struct Vec_8036D0C0 { f32 x, y, z; };
 
 struct Hold_8036D0C0 {
-    s32 x0;
+    const char *x0;
     u8 pad4[0x14];
     void *vt;
     u8 pad1c[0x1C];
@@ -24,7 +24,7 @@ extern "C" {
 s16 get_entity_id(void *);
 void __ct__8TObjBaseFP7TObject(void *, s32);
 extern void *__vt__17TObjEneHoldEffect[];
-extern s32 lbl_805D44E8;
+const char *lbl_805D44E8 = "TObjEneHoldEffect";
 extern s32 tl_07;
 Hold_8036D0C0 *TObjEneHoldEffect__ct(Hold_8036D0C0 *o, u8 *parent, s32 type, s32 arg3);
 Hold_8036D0C0 *TObjEneHoldEffect__ct(Hold_8036D0C0 *o, u8 *parent, s32 type, s32 arg3) {

@@ -43,7 +43,7 @@ typedef struct Floor_8002C968 {
 struct Obj_8002CA38 { u8 pad[0x28]; u32 slot[4]; };
 
 extern "C" {
-extern s32 TObjBoss1Floor__name;
+const char *TObjBoss1Floor__name = "TObjBoss1Floor";
 void run_task__14TObjBoss1FloorFv(Floor_8002C968 *self);
 void TBoss8Dragon__sub_8002D5F8(void);
 void TObjBoss1Floor__sub_8002CB40(void);
@@ -120,7 +120,7 @@ TObjBoss1Floor::~TObjBoss1Floor() {
 }
 TObjBoss1Floor::TObjBoss1Floor(TObject *parent) : TObject(parent) {
     s32 i;
-    ((Obj_8002CACC *)this)->f0 = TObjBoss1Floor__name;
+    m_name = TObjBoss1Floor__name;
     ((Obj_8002CACC *)this)->f1c = 0.0f;
     ((Obj_8002CACC *)this)->f20 = 0.0f;
     ((Obj_8002CACC *)this)->f24 = 0.0f;

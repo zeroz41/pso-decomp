@@ -3,6 +3,7 @@
 #include "pso/system/vector.h"
 
 #include "pso/camera/TCameraCtrl.h"
+#include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
 
 struct Vec_8034BE5C { f32 x, y, z; };
 
@@ -19,8 +20,7 @@ struct Cam_8034BE5C {
 struct Pad_8034BE5C { u8 pad0[0x34]; s16 tilt; u8 pad36[4]; s16 speed; };
 
 extern "C" {
-extern void *lbl_805D4340;
-void set_default_camera__21TAdMultiChgGameModeGCFv(void *);
+const char *lbl_805D4340 = "TAdFloorLoadCamGC";
 void set_active_camera_pose(u8 *arg0, u8 *arg1);
 s32 activate_camera_mode(s32 arg0);
 f32 sin_table_lookup(s32);
@@ -104,14 +104,12 @@ TAdFloorLoadCamGC::~TAdFloorLoadCamGC() {
     TCameraCtrl__sub_800687C8();
 }
 TAdFloorLoadCamGC::TAdFloorLoadCamGC(TObject *object, void *arg2) : TObject(object) {
-    void *new_var;
-    new_var = lbl_805D4340;
-    *(void * *)&this->m_name = new_var;
+    m_name = lbl_805D4340;
     this->m_20 = 0;
     this->m_24 = 0;
     *((f32 *) (((s8 *) this) + 0x40)) = (*(const f32 *)&lbl_805DFDB8);
     *((f32 *) (((s8 *) this) + 0x44)) = (*(const f32 *)&lbl_805DFDB8);
     this->m_48 = (*(const f32 *)&lbl_805DFDB8);
     *((void **) (((s8 *) this) + 0x1C)) = arg2;
-    set_default_camera__21TAdMultiChgGameModeGCFv(new_var);
+    TAdMultiChgGameModeGC::set_default_camera();
 }

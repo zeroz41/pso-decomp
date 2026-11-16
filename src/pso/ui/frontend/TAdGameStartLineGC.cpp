@@ -6,6 +6,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/render_util.h"
+const char *TAdGameStartLineGC__name = "TAdGameStartLineGC";
 
 extern void *lbl_805D6C18;
 
@@ -32,7 +33,7 @@ struct Vec2_80320EF0 {
 };
 
 struct TAdGameStartLineGC_80320EF0 {
-    void *name;
+    const char *name;
     u8 pad4[0x14];
     void *vt;
     Quad_80320EF0 base[4];
@@ -49,7 +50,6 @@ extern "C" {
 void *__ct__7TObjectFP7TObject(void *, void *);
 void *get_instance__10TObjPlayerFv(void);
 extern void *__vt__18TAdGameStartLineGC[];
-extern void *TAdGameStartLineGC__name;
 TAdGameStartLineGC_80320EF0 *__ct__18TAdGameStartLineGCFv(TAdGameStartLineGC_80320EF0 *self, void *parent);
 
 void TAdGameStartLineGC::render() { if (TMainTask::get_render_pass() != 1) { set_additive_blend(); fn_80320DE8(); set_default_alpha_blend(); } }

@@ -19,7 +19,7 @@ typedef struct Data_80050194 Data_80050194;
 typedef struct Obj_80050194 Obj_80050194;
 typedef struct Obj_80050194
 {
-  s32 f0;
+  const char *f0;
   u8 pad4[0x18 - 0x4];
   void *vt;
   u8 pad1c[0x90 - 0x1c];
@@ -44,7 +44,7 @@ s32 TObjFish__sub_8001EDB0(BmlResource *resource, s32 index);
 s32 get_bml_model(BmlResource *resource, s32 index);
 void set_scripted_camera_pose(void *, void *, void *);
 void __ct__8TObjBaseFP7TObject(void *, void *);
-extern s32 TObjDFDemoF__name;
+const char *TObjDFDemoF__name = "TObjDFDemoF";
 void vfunc_6__8TObjBaseFPsl();
 void get_name__8TObjBaseFv();
 void get_center__8TObjBaseFv();

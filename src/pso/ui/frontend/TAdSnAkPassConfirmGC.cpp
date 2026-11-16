@@ -9,7 +9,7 @@
 #include "pso/ui/frontend/TAdYesNoBaseGC.h"
 
 
-struct Obj_8032C004 { s32 f0; u8 pad[0x14]; void *vt; u8 pad2[0x48 - 0x1C]; s32 f48; };
+struct Obj_8032C004 { const char *f0; u8 pad[0x14]; void *vt; u8 pad2[0x48 - 0x1C]; s32 f48; };
 
 extern "C" {
 void *__nw__7TObjectFUl(u32);
@@ -19,7 +19,7 @@ extern u8 lbl_804772C0[];
 extern u8 lbl_804772C8[];
 extern u8 lbl_804772D0[];
 extern s32 __vt__20TAdSnAkPassConfirmGC[];
-extern s32 lbl_805D41F0;
+const char *lbl_805D41F0 = "TAdSnAkPassConfirmGC";
 Obj_8032C004 *TAdSnAkPassConfirmGC__ct(Obj_8032C004 *arg0);
 int request_transition__21TAdMultiChgGameModeGCFv(void*);
 int set_state_0x1a__21TAdMultiChgGameModeGCFv(void*);

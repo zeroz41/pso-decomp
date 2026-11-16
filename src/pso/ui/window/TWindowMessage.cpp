@@ -14,6 +14,7 @@
 #include "pso/ui/window/TWindowDD.h"
 
 #include "pso/unk/WindowLayoutRecord.h"
+const char *lbl_805D3980 = "TWindowMessage";
 
 struct RecoveredFields_802698C4_arg0 {
     u8 unknown_0[0x6C];
@@ -384,7 +385,6 @@ s32 draw_visible_window_entries(void *, void *, int);
 void *mem_alloc(u32 size);
 void *construct_with_parent__15TWindowAdditionFPv(void *, void *, s16, s32);
 extern s32 __vt__14TWindowMessage[];
-extern s32 lbl_805D3980;
 
 void *__dt__14TWindowMessageFv(void *arg0, s16 arg1);
 void __dl__7TObjectFPv(void *);
@@ -428,7 +428,7 @@ u8 *TWindowMessage__ct(u8 *window_addition, s32 arg1, u32 arg2, s32 arg3) {
     u8 *p;
     construct_with_parent__15TWindowAdditionFPv(window_addition, (u8 *)&message_window_settings, arg3, arg1);
     *(void **)(window_addition + 0x18) = ((u8 *)&__vt__14TWindowMessage);
-    *(s32 *)window_addition = lbl_805D3980;
+    ((TObject *)window_addition)->m_name = lbl_805D3980;
     *(s32 *)(window_addition + 0x70) = 0;
     *(s32 *)(window_addition + 0x74) = 0;
     *(s32 *)(window_addition + 0x88) = 0;

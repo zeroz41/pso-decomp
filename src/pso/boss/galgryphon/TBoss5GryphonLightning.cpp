@@ -17,7 +17,7 @@ struct Vec_80324F4C { f32 x, y, z; };
 struct Seg_80324F4C { Vec_80324F4C v; f32 f; };
 
 struct Self_80324F4C {
-    s32 f0;
+    const char *f0;
     char pad4[0x14];
     void *vt;
     f32 scale;
@@ -43,7 +43,7 @@ extern "C" {
 void __ct__7TObjectFP7TObject(void *, void *);
 int VecCopy__FP3VecPC3Vec(void *, void *);
 extern s32 __vt__22TBoss5GryphonLightning[];
-extern s32 lbl_805D4180;
+const char *lbl_805D4180 = "TBoss5GryphonLightning";
 
 Self_80324F4C *TBoss5GryphonLightning__ct(Self_80324F4C *self, void *parent,
                                           Vec_80324F4C *pos, f32 p_scale) {

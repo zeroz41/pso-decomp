@@ -25,13 +25,13 @@ struct Obj_80325764 { u8 pad[0x20]; s32 count; u8 pad2[4]; Ent_80325764 ents[12]
 
 struct V2_80325764 { f32 x, y; };
 
-struct Obj_803258C4 { s32 f0; u8 pad[0x18 - 4]; void *vt; u8 pad2[4]; s32 f20; s32 f24; u8 pad3[0x1A8 - 0x28]; s32 a[12]; s32 b[12]; };
+struct Obj_803258C4 { const char *f0; u8 pad[0x18 - 4]; void *vt; u8 pad2[4]; s32 f20; s32 f24; u8 pad3[0x1A8 - 0x28]; s32 a[12]; s32 b[12]; };
 
 extern "C" {
 void add_plate_rect__20TAdChrSelMovePlateGCFPvPv(Obj_80325764 *arg0, V2_80325764 *arg1);
 void __ct__7TObjectFP7TObject(void *);
 extern u8 __vt__20TAdChrSelMovePlateGC[];
-extern s32 lbl_805D4190;
+const char *lbl_805D4190 = "TAdChrSelMovePlateGC";
 extern s32 chr_sel_move_plate_texture;
 Obj_803258C4 *__ct__20TAdChrSelMovePlateGCFv(Obj_803258C4 *arg0);
 void TAdChrSelMovePlateGC::draw_move_plate_quads() {

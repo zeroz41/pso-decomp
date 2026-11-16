@@ -11,8 +11,6 @@
 #include "types.h"
 #include "pso/system/task/TObject.h"
 
-struct TMedicalCenterMesMessagePos { s32 x; s32 y; };
-
 extern "C" {
 s32 TShopGenerator__sub_80222DAC(s32);
 s32 get_entity_id(s32);
@@ -22,9 +20,9 @@ s32 get_window_layout_position(int, f32);
 s32 TWindowShortListCtrl__check_controller_button(void *, s32);
 void TMedicalCenterMes__sub_80216260(void);
 
-extern const char *TMedicalCenterMes__class_name;
+const char *TMedicalCenterSequence__class_name = "TMedicalCenterSequence";
+const char *TMedicalCenterMes__class_name = "TMedicalCenterMes";
 extern s32 TMedicalCenterMes__slot_flags[4];
-extern TMedicalCenterMesMessagePos lbl_8044BD94[];
 extern s32 local_client_id;
 }
 
@@ -141,7 +139,6 @@ s32 sub_8022397C__15TShopWindowBaseFv(void *);
 extern RecoveredGlobal_802169A8___vt__22TMedicalCenterSequence __vt__22TMedicalCenterSequence;
 extern RecoveredGlobal_802169A8_TMedicalCenterSequence__data_80513E90 TMedicalCenterSequence__data_80513E90;
 u8 *TShopSequence__ct(u8 *arg0);
-extern s32 TMedicalCenterSequence__class_name;
 u8 *TMedicalCenterSequence__ct(u8 *arg0, s32 arg1, s32 arg2);
 u8 *create_yes_no_window(s32 arg0, s32 arg1, u32 arg2, u32 arg3);
 s32 play_sound_effect(s32, s32, s32, s32);
@@ -172,7 +169,7 @@ typedef char RecoveredGlobal_80216A70_TMedicalCenterSequence__data_80513E90_size
 u8 *TMedicalCenterSequence__ct(u8 *medical_center_sequence, s32 arg1, s32 arg2) {
     TShopSequence__ct((medical_center_sequence));
     *(s32 **)((s8 *)medical_center_sequence + 0x18) = &(*(RecoveredGlobal_80216A70___vt__22TMedicalCenterSequence *)&__vt__22TMedicalCenterSequence).value;
-    *(s32 *)((s8 *)medical_center_sequence + 0) = (s32) TMedicalCenterSequence__class_name;
+    ((TMedicalCenterSequence *)medical_center_sequence)->m_name = TMedicalCenterSequence__class_name;
     ((TMedicalCenterSequence *)medical_center_sequence)->m_20 = 0;
     *(s32 *)((s8 *)medical_center_sequence + 0x24) = arg2;
     ((TMedicalCenterSequence *)medical_center_sequence)->m_2c = 0;
@@ -387,9 +384,9 @@ void TMedicalCenterMes::run_task() {
         }
         THunterGuildSeqOffline__sub_8021E180(get_entity_id((s32)player));
         ((TWindowCtrl *)((u16)get_entity_id((s32)player)))->suppress_slot();
-        TMedicalCenterMesMessagePos pos = lbl_8044BD94[0];
+        f32 pos[2] = {332.0f, 80.0f};
         u16 id = (u16)get_entity_id((s32)player);
-        create_message_window(((s32 (*)(int))get_window_layout_position)(0x2C), (s32)&pos, id);
+        create_message_window(((s32 (*)(int))get_window_layout_position)(0x2C), (s32)pos, id);
         format_shop_message(0x25, 1);
         if (player != NULL) {
             ((TObjPlayer *)player)->init_effect_5f0();

@@ -14,7 +14,8 @@ struct TagTextOrigin {
 
 extern "C" {
 void TCameraCtrl__sub_80068EF0(void);
-extern s32 char_creation_tag_info_selected_index;
+const char *TChCrTagInformationStr__class_name = "TChCrTagInformationStr";
+s32 char_creation_tag_info_selected_index = -1;
 
 void *TChCrTagInformationStr::create(void *arg0, void *arg1) {
     return new TChCrTagInformationStr((TObject *)arg0, (s32)arg1);
@@ -63,7 +64,6 @@ void TChCrTagInformationStr::render() {
 }
 
 
-extern const char *TChCrTagInformationStr__class_name;
 
 #pragma push
 #pragma opt_common_subs off

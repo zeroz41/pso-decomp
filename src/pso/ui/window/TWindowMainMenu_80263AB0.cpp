@@ -25,6 +25,9 @@ struct TWindowSubMag;
 #include "pso/ui/window/TWindowSubEquip_80263AB0.h"
 #include "pso/ui/window/TWindowSubEquip.h"
 
+const char *lbl_805D3950 = "TWindowMainMenu";
+extern const f32 lbl_8044F2E0[2] = {206.0f, 140.0f};
+
 extern "C" {
 s32 create_submenu__15TWindowMainMenuFUl(s32, s16);
 s32 is_split_screen();
@@ -156,7 +159,6 @@ s32 is_quest_active();
 s32 get_short_mail_ctrl__6TLobbyFv();
 s32 is_trade_range_bit_set(s32);
 extern s32 local_client_id;
-u32 create__14TWindowMessageFlPCfUll(u32, s32 *, s32, s32);
 
 u32 get_window_layout_position(s32);
 s32 select_main_menu_item_10(s32);
@@ -240,14 +242,13 @@ void TWindowMainMenu::sub_80263FE0() {
 
 void TWindowMainMenu::close_child_window() { if (*(unsigned int*)((char*)this + 0x24) != 0) { ((TWindowBase *)(*(void**)((char*)this + 0x24)))->close(); *(int*)((char*)this + 0x24) = 0; } }
 
-extern s32 lbl_8044F2E0[];
 
 void TWindowMainMenu::update_description_text(s32 arg1) {
     if ((s32) *(s32 *)((s8 *)this + 0x48) != arg1) {
         *(s32 *)((s8 *)this + 0x48) = arg1;
         if ((u32) *(u32 *)((s8 *)this + 0x24) == 0U) {
             u32 tmp = get_window_layout_position(0x1B);
-            *(u32 *)((s8 *)this + 0x24) = create__14TWindowMessageFlPCfUll(tmp, lbl_8044F2E0, 1, *(s32 *)((s8 *)this + 0x54));
+            *(u32 *)((s8 *)this + 0x24) = (u32)TWindowMessage::create(tmp, lbl_8044F2E0, 1, *(s32 *)((s8 *)this + 0x54));
             ((TWindowBase *)(*(u32 *)((s8 *)this + 0x24)))->set_depth(49999.0f);
             call_if_split_screen(*(u32 *)((s8 *)this + 0x24), *(s32 *)((s8 *)this + 0x54));
         }

@@ -62,17 +62,17 @@ void init_collision_body_parts(void *, void *, int);
 CollisionBody lbl_804B4550[1] = {
     { { 0.0f, 80.0f, 0.0f }, 1.0f, 1.0f, 0, 0x10002, { 0.0f, 0.0f, 0.0f }, 0.0f },
 };
-extern s32 TOSymbolchatColli__name;
+const char *lbl_805D3190 = "symbolchatcolli.prs";
+const char *TOSymbolchatColli__name = "TOSymbolchatColli";
 Obj_80178AD4 *__ct__17TOSymbolchatColliFP7TObjectl(Obj_80178AD4 *arg0, void *arg1, s32 arg2);
 s32 is_locally_controlled__10TObjPlayerFPv();
 void *find_entity_by_id(u16 id);
 void fn_8017866C(void *, s32, u16);
 void run_task__17TOSymbolchatColliFv(Obj_80178890 *self);
 u32 prs_decompress_buffer(s32 arg0, s32 arg1);
-s32 set_stream_and_load_file__6TLobbyFi(s32);
+s32 set_stream_and_load_file__6TLobbyFi(const char *);
 void *mem_alloc(u32 size);
 u32 symbolchat_colli_param_table[4];
-extern s32 lbl_805D3190;
 int symbol_chat_colli_entries;
 void *memset(void *, int, u32);
 u8 is_current_floor_switch_set(s32 id);
@@ -207,7 +207,7 @@ TOSymbolchatColli::~TOSymbolchatColli() {
 }
 TOSymbolchatColli::TOSymbolchatColli(TObject *arg1, s32 arg2) : TObjChara(arg1) {
     s32 i;
-    *(s32 *)this = TOSymbolchatColli__name;
+    m_name = TOSymbolchatColli__name;
     ((Obj_80178AD4 *)this)->v5(arg2);
     init_collision_body_parts(this, lbl_804B4550, 1);
     this->register_object_by_id();

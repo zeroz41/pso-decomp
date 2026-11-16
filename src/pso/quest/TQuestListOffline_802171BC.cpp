@@ -24,7 +24,7 @@ struct QuestList_802171BC {
 };
 
 struct Win_80217344 {
-    s32 f0;
+    const char *f0;
     u8 pad4[0x14];
     void *vt;
     u8 pad1C[8];
@@ -47,7 +47,7 @@ void vfunc_11__17TQuestListOfflineFv(QuestList_802171BC *self);
 void * close_shop_subwindows__17TQuestListOfflineFs(void *arg0, s16 arg1);
 void __dl__7TObjectFPv(void *);
 
-extern s32 TQuestListOffline__class_name;
+const char *TQuestListOffline__class_name = "TQuestListOffline";
 
 extern "C" void vfunc_6__15TShopWindowBaseFv();
 extern "C" void vfunc_8__15TShopWindowBaseFv();

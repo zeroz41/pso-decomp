@@ -29,7 +29,7 @@ struct Src_80195400 {
 };
 
 struct Part_80195400 {
-    s32 f0;
+    const char *f0;
     u8 pad4[0x14];
     s32 *vt;
     u8 pad1c[0x38 - 0x1C];
@@ -50,7 +50,7 @@ s32 spawn_particle_effect_with_rotation(void *, void *, s32, u16);
 s32 spawn_continuous_particle_with_direction(void *, void *, s32);
 s32 __ct__8TObjBaseFP7TObject(void *, void *);
 extern s32 __vt__12TObjParticle[];
-extern s32 obj_particle_class_name;
+const char *obj_particle_class_name = "TObjParticle";
 Part_80195400 *TObjParticle__ct(Part_80195400 *arg0, s32 arg1, Src_80195400 *arg2);
 
 extern s32 camera_ctrl_instance;

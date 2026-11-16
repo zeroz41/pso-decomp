@@ -23,7 +23,7 @@ struct Obj_80325248 { u8 pad[0x38]; s32 n; u8 pad2[0xD8 - 0x3C]; Ent_80325248 en
 struct Vec_8032537C { f32 x, y, z; };
 
 struct Self_8032537C {
-    s32 f0;
+    const char *f0;
     char pad4[0x14];
     void *vt;
     Vec_8032537C v1c;
@@ -52,7 +52,7 @@ extern "C" {
 void eval_bezier_curve__12TBoss8DragonFPviiPvf(void *, void *, s32, void *, f32);
 void subtract_vector(void *, void *);
 extern s32 __vt__25TBoss5GryphonLightningEff[];
-extern s32 lbl_805D4188;
+const char *lbl_805D4188 = "TBoss5GryphonLightningEff";
 Self_8032537C *__ct__25TBoss5GryphonLightningEffFv(Self_8032537C *self, void *parent, void *a, void *b, f32 x0, f32 x1, f32 scale);
 extern L1_80325070 **inazuma_texture_list;
 s32 project_lightning_points(void *, void *, void *, void *);

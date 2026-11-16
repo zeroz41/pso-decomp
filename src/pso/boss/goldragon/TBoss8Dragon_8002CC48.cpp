@@ -132,23 +132,23 @@ extern BmlResource *lbl_805D4B50;
 
 extern s32 dragon_common_texture_list;
 
-extern Unk_8002DB7C *lbl_805D4B60;
+Unk_8002DB7C *lbl_805D4B60;
 
-extern Unk_8002DB7C *lbl_805D4B64;
+Unk_8002DB7C *lbl_805D4B64;
 
-extern Unk_8002DB7C *lbl_805D4B68;
+Unk_8002DB7C *lbl_805D4B68;
 
-extern UV_8002D4C0 *lbl_805D4B6C;
+UV_8002D4C0 *lbl_805D4B6C;
 
-extern s16 *lbl_805D4B70;
+s16 *lbl_805D4B70;
 
-extern s32 lbl_805D4B74;
+s32 lbl_805D4B74;
 
-extern Ent_8002CE78 *lbl_805D4B78;
+Ent_8002CE78 *lbl_805D4B78;
 
-extern s32 dragon_trail_position_source;
+s32 dragon_trail_position_source;
 
-extern s32 dragon_trail_heading_source;
+s32 dragon_trail_heading_source;
 
 extern s32 saved_model_render_flags;
 
@@ -197,9 +197,9 @@ s32 is_dragon_trail_damaging(u8 *arg0);
 
 #pragma fp_contract on
 
-extern s16 lbl_804FE238[11];
+s16 lbl_804FE238[11];
 
-extern s16 lbl_804FE250[11];
+s16 lbl_804FE250[11];
 
 #pragma push
 #pragma fp_contract on

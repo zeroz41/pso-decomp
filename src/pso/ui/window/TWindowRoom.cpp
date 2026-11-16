@@ -43,7 +43,7 @@ void construct_base__9TWindowDDFPUcsPUc(void *, void *, s16, void *);
 void refresh_status_display__9TWindowDDFv(void *);
 s32 get_window_layout_position(int);
 extern s32 __vt__11TWindowRoom[];
-extern s32 TWindowRoom__class_name;
+const char *TWindowRoom__class_name = "TWindowRoom";
 s32 clamp_list_scroll_offset(struct Pos_8026D740 *a, struct Pos_8026D740 *b, struct Pos_8026D740 *c);
 s32 draw_visible_window_entries(s32, s32, s32);
 s32 draw_window_tab(s32, s32, s32, f32);

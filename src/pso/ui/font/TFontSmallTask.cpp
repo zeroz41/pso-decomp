@@ -11,13 +11,14 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/map/FloorArea.h"
 #include "pso/system/task/TObject.h"
+const char *TFontSmallTask__name = "TFontSmallTask";
 
 struct Vec_800FD4D4 {
     f32 x, y, z;
 };
 
 struct TFontSmallTask_800FD4D4 {
-    s32 f0;
+    const char *f0;
     u8 pad4[0x18 - 4];
     void *vt;
     Vec_800FD4D4 pos;
@@ -339,7 +340,6 @@ char *strncpy(char *, const char *, u32);
 }
 u32 calc_small_font_text_width(const char *s);
 extern u8 __vt__14TFontSmallTask[];
-extern s32 TFontSmallTask__name;
 void set_world_section_id(void* p, s32 v);
 
 #pragma push
