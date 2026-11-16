@@ -298,7 +298,7 @@ void TOKurage::render() {
             break;
         }
         set_constant_material(&color);
-        draw_chunk_model_with_shape_motion(model, motion, motion2, animation_frame);
+        draw_chunk_model_with_shape_motion((void *)model, (void *)motion, (NJS_MOTION *)motion2, (f32)animation_frame);
         set_constant_material(&chunk_material_color_half_alpha_f32);
         model_render_flags = saved_model_render_flags;
         pop_matrix();

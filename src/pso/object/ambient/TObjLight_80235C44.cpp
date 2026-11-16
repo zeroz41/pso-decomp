@@ -63,7 +63,7 @@ u16 get_entity_id(void *);
 s32 __ct__7TObjectFP7TObject(void *, void *);
 extern s32 __vt__13TUnk_804CCAA8[];
 
-u8 *construct_actor_light_task(u8 *arg0, u8 *arg1, u8 *arg2, s32 arg3, u8 *arg4, u8 *arg5, f32 farg0);
+u8 *construct_actor_light_task(u8 *arg0, NJS_ARGB *arg1, u8 *arg2, s32 arg3, u8 *arg4, u8 *arg5, f32 farg0);
 void publish_actor_light_scalars(u32 arg0, f32 farg0, f32 farg1);
 void publish_light_direction_color(u32 id, void *dir, void *color);
 s32 approach_vector_fixed_distance(void *, void *, void *, f32);
@@ -136,11 +136,11 @@ u8 *TObjLight::construct_actor_light(s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32
     return ((u8 *)this);
 }
 typedef char RecoveredGlobal_80235F60_lbl_804CCAA8_size[sizeof(RecoveredGlobal_80235F60_lbl_804CCAA8) == 0x18 ? 1 : -1];
-u8 *construct_actor_light_task(u8 *arg0, u8 *arg1, u8 *arg2, s32 arg3, u8 *arg4, u8 *arg5, f32 farg0) {
+u8 *construct_actor_light_task(u8 *arg0, NJS_ARGB *arg1, u8 *arg2, s32 arg3, u8 *arg4, u8 *arg5, f32 farg0) {
     s32 sp8;
     __ct__7TObjectFP7TObject(arg0, arg5);
     *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_80235F60_lbl_804CCAA8 *)&__vt__13TUnk_804CCAA8).value;
-    copy_argb((NJS_ARGB *)(arg0 + 0x24), (NJS_ARGB *)arg1);
+    copy_argb((NJS_ARGB *)(arg0 + 0x24), arg1);
     VecCopy((Vec *)(arg0 + 0x34), (const Vec *)arg2);
     *(s32 *)((s8 *)arg0 + 0x1C) = arg3;
     ((TUnk_804CCAA8 *)arg0)->m_4c = 0;

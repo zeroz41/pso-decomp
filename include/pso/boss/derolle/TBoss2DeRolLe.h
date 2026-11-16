@@ -150,7 +150,7 @@ void set_position_index__13TBoss2DeRolLeFPvi(u8 *arg0, s32 arg1);
 void spawn_ceil_junk__13TBoss2DeRolLeFii(s32 arg1, s32 arg2);
 void spawn_offset_particle__13TBoss2DeRolLeFiff(s32 arg0, f32 farg0, f32 farg1);
 int spawn_trap__13TBoss2DeRolLeFPvii(void *p, int a1, int a2);
-void state_ceiling_attack__13TBoss2DeRolLeFPvUi(u8 *arg0, u32 arg1);
+void state_ceiling_attack__13TBoss2DeRolLeFPvUi(TBoss2DeRolLe *arg0, u32 arg1);
 void swap_6x13_fields__13TBoss2DeRolLeFPv(void *p);
 void swap_endian__13TBoss2DeRolLeFPv(void *p);
 void switch_phase_stats__13TBoss2DeRolLeFPvPv(u8 *arg0, u8 *arg1);

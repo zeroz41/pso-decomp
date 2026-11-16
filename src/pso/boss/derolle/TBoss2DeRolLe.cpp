@@ -1523,7 +1523,7 @@ void TBoss2DeRolLe__sub_8002FCE4(Obj_8002FCE4 *self, u32 kind);
 
 void TBoss2DeRolLe__sub_8002FD9C(DeRolLe_8002FD9C *self, u32 arg1, s32 arg2);
 
-void state_ceiling_attack__13TBoss2DeRolLeFPvUi(u8 *arg0, u32 arg1);
+void state_ceiling_attack__13TBoss2DeRolLeFPvUi(TBoss2DeRolLe *arg0, u32 arg1);
 
 void TBoss2DeRolLe__sub_80030720(Obj_80030720 *self, u32 arg1, s32 arg2);
 
@@ -5885,7 +5885,7 @@ void TBoss2DeRolLe__sub_80030720(Obj_80030720 *self, u32 arg1, s32 arg2) {
 #pragma push
 #pragma fp_contract on
 
-void state_ceiling_attack__13TBoss2DeRolLeFPvUi(u8 *arg0, u32 arg1) {
+void state_ceiling_attack__13TBoss2DeRolLeFPvUi(TBoss2DeRolLe *arg0, u32 arg1) {
     Vec_80030588 v;
     f32 frame;
 
@@ -5894,19 +5894,19 @@ void state_ceiling_attack__13TBoss2DeRolLeFPvUi(u8 *arg0, u32 arg1) {
         *(s32 *)((s8 *)arg0 + 0x3C0) = *(s32 *)((s8 *)arg0 + 0x3C0) & ~4;
         *(s32 *)((s8 *)arg0 + 0x3C0) = *(s32 *)((s8 *)arg0 + 0x3C0) | 0x100;
         ((s32 (*)(void))TBoss2DeRolLe__sub_800341F0)();
-        ((TBoss2DeRolLe *)arg0)->requested_action = 0xC;
+        arg0->requested_action = 0xC;
         *(s32 *)((s8 *)arg0 + 0x654) = 3;
         ((s32 (*)(void *, int))set_position_index__13TBoss2DeRolLeFPvi)(arg0, *(s32 *)((s8 *)arg0 + 0x654));
         *(s32 *)((s8 *)arg0 + 0x6E0) = 0;
-        ((TBoss2DeRolLe *)arg0)->m_6f8 = 0;
+        arg0->m_6f8 = 0;
         return;
     case 2:
-        if (((TBoss2DeRolLe *)arg0)->requested_action == 0xF) {
+        if (arg0->requested_action == 0xF) {
             set_state_and_send__13TBoss2DeRolLeFPvi((Obj_80034034 *)arg0, 0x1B);
         }
         return;
     case 9:
-        if (((TBoss2DeRolLe *)arg0)->requested_action == 0xF) {
+        if (arg0->requested_action == 0xF) {
             advance_action_sequence__13TBoss2DeRolLeFPv((Obj_80034034 *)arg0);
             return;
         }
@@ -5914,17 +5914,17 @@ void state_ceiling_attack__13TBoss2DeRolLeFPvUi(u8 *arg0, u32 arg1) {
     case 0:
         ((TObjMotion *)arg0)->advance_animation();
         *(s32 *)((s8 *)arg0 + 0x6E0) = *(s32 *)((s8 *)arg0 + 0x6E0) + 1;
-        frame = ((TBoss2DeRolLe *)arg0)->frame;
+        frame = arg0->frame;
         if (frame >= 10.0f && frame <= 14.0f && (f32)*(s32 *)((s8 *)arg0 + 0x6E0) >= 3.0f) {
             *(s32 *)((s8 *)arg0 + 0x6E0) = 0;
-            VecCopy__FP3VecPC3Vec((int)&v, arg0 + 0x38);
+            VecCopy__FP3VecPC3Vec((int)&v, (u8 *)arg0 + 0x38);
             v.x = 30.0f * calc_elapsed_scaled__9TObjEneDDFv(arg0) + v.x;
             v.y = -5.0f;
             v.z += 80.0f;
             spawn_ceil_junk__13TBoss2DeRolLeFii((s32)arg0, (s32)&v);
         }
         if (((TObjMotion *)arg0)->is_passing_frame(10.0f) != 0) {
-            ((int (*)(int, void *))play_sound)(0x4003AD12, arg0 + 0x518);
+            ((int (*)(int, void *))play_sound)(0x4003AD12, (u8 *)arg0 + 0x518);
         }
         break;
     default:

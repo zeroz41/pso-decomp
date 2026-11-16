@@ -35,14 +35,14 @@ struct TWindowSoundBalance : public TWindowBase {
 typedef char TWindowSoundBalance_size[sizeof(TWindowSoundBalance) == 0x68 ? 1 : -1];
 
 extern "C" {
-u8 *TWindowSoundBalance__ct(u8 *arg0, s32 arg1);
+u8 *TWindowSoundBalance__ct(TWindowSoundBalance *arg0, s32 arg1);
 void *__dt__19TWindowSoundBalanceFv(void *arg0, s16 arg1);
 void render__19TWindowSoundBalanceFv(s32 arg0);
 }
 
 // --- C functions defined in TWindowSoundBalance.cpp ---
 extern "C" {
-u8 *TWindowSoundBalance__ct(u8 *arg0, s32 arg1);
+u8 *TWindowSoundBalance__ct(TWindowSoundBalance *arg0, s32 arg1);
 void *__dt__19TWindowSoundBalanceFv(void *arg0, s16 arg1);
 void render__19TWindowSoundBalanceFv(s32 arg0);
 }

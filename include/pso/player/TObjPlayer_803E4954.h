@@ -11,7 +11,7 @@ struct NJS_MOTION_LINK;
 
 extern "C" {
 // Draws model posed by motion and deformed by shape (a Ninja shape motion) at frame.
-void draw_chunk_model_with_shape_motion(void *model, void *motion, void *shape, f32 frame);
+void draw_chunk_model_with_shape_motion(void *model, void *motion, NJS_MOTION *shape, f32 frame);
 void draw_blend_motion_tree(NJS_OBJECT *model, NJS_MOTION_LINK *motion, f32 blend_factor, ModelDrawCallback draw_model);
 void draw_shape_motion_tree(NJS_OBJECT *model, NJS_MOTION *motion, NJS_MOTION *shape, f32 frame, ModelDrawCallback draw_model);
 }

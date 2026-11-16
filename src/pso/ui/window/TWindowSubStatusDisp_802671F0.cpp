@@ -246,7 +246,7 @@ void TWindowSubShortMail::advance_line(s32 arg1) {
     }
 }
 
-void advance_status_disp_entry(void *arg0, s32 arg1) {
+void advance_status_disp_entry(TWindowBase *arg0, s32 arg1) {
     s16 temp_r4;
     temp_r4 = (s16) *(s16 *)((s8 *)arg0 + 0x72);
     if (temp_r4 < (s16) *(s16 *)((s8 *)arg0 + 0x76)) {

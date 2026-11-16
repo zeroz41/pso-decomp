@@ -23,7 +23,7 @@ s32 TWindowOptionCtrl::create_sound_balance_window() {
 
     var_r31 = __nw__7TObjectFUl(0x68);
     if (var_r31 != 0) {
-        var_r31 = (s32)TWindowSoundBalance__ct((u8 *)var_r31, get_option_entry__17TWindowOptionCtrlFi(0xCF));
+        var_r31 = (s32)TWindowSoundBalance__ct((TWindowSoundBalance *)((u8 *)var_r31), get_option_entry__17TWindowOptionCtrlFi(0xCF));
     }
     return var_r31;
 }
