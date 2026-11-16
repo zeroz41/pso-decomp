@@ -4,6 +4,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/unk/text_803E2D70.h"
+#include "pso/system/MatrixStack.h"
 
 typedef void (*RecoveredCallback_1268626c296b)(void *);
 struct Node_803E49FC {
@@ -25,10 +26,6 @@ extern "C" {
 void draw_model_motion(void *arg0, void *arg1, f32 farg0);
 }
 void draw_chunk_model_with_shape_motion(void *arg0, void *arg1, NJS_MOTION *arg2, f32 farg0);
-extern "C" {
-s32 push_matrix();
-s32 pop_matrix();
-}
 void compose_motion_node_matrix(void *arg0);
 void select_motion_context(s32 arg0);
 void draw_model_blend_motion(void *arg0, void *arg1, f32 farg0);

@@ -261,11 +261,11 @@ void init_net_recv_desc(LoopbackState *cfg) {
     cfg->slots = (u8 *)lobby_net_recv_desc;
 }
 
-u8 *layout_buffers(NetBufferLayout *h, u8 *p, u8 *end) {
+u8 *layout_buffers(NetTransportParams *h, u8 *p, u8 *end) {
     LobbyBufferSlot *e;
     Ent_803F8BA4 *f;
     s32 i;
-    u16 n = h->n2;
+    u16 n = h->room_count;
     lobby_thread_pool_count = 2;
     lobby_buffer_slot_count = n * 2;
     if (h->a != 0) {
@@ -282,9 +282,9 @@ u8 *layout_buffers(NetBufferLayout *h, u8 *p, u8 *end) {
     e = lobby_buffer_slots;
     for (i = 0; i < lobby_buffer_slot_count; i++, e++) {
         e->active = 0;
-        e->size = h->c;
+        e->size = h->e;
         e->addr = (u32)p;
-        p += h->c;
+        p += h->e;
         if (p > end) {
             return NULL;
         }
@@ -296,38 +296,38 @@ u8 *layout_buffers(NetBufferLayout *h, u8 *p, u8 *end) {
     }
     f = *(Ent_803F8BA4 **)&lobby_thread_pool_base;
     for (i = 0; i < lobby_thread_pool_count; i++, f++) {
-        f->size = h->d;
+        f->size = h->f;
         f->buf = p;
-        p += h->d;
+        p += h->f;
         if (p > end) {
             return NULL;
         }
     }
-    if (h->f != 0) {
+    if (h->h != 0) {
         lobby_buffer_pool_base = p;
-        p += h->f;
+        p += h->h;
         if (p > end) {
             return NULL;
         }
         lobby_second_buffer_pool_base = p;
-        p += h->f;
+        p += h->h;
         if (p > end) {
             return NULL;
         }
-        lobby_buffer_pool_size = h->f;
+        lobby_buffer_pool_size = h->h;
     }
-    if (h->g != 0) {
+    if (h->i != 0) {
         lbl_805D7C04 = p;
-        p += h->g;
+        p += h->i;
         if (p > end) {
             return NULL;
         }
-        lbl_805D7C08 = h->g;
+        lbl_805D7C08 = h->i;
     }
     return p;
 }
 
-s32 TLobby__sub_803F8D24(NetBufferLayout *h) {
+s32 TLobby__sub_803F8D24(NetTransportParams *h) {
     s32 n = 2;
     s32 size;
     if (h->a != 0) {
@@ -336,10 +336,10 @@ s32 TLobby__sub_803F8D24(NetBufferLayout *h) {
     if (h->b != 0) {
         n += 2;
     }
-    size = (h->d + 0x328) * n;
-    size += (h->c + 12) * h->n2 * 2;
-    size += h->f * 2;
-    size += h->g;
+    size = (h->f + 0x328) * n;
+    size += (h->e + 12) * h->room_count * 2;
+    size += h->h * 2;
+    size += h->i;
     return size;
 }
 

@@ -5,6 +5,7 @@
 #include "pso/network/NetworkTransport.h"
 #include "pso/network/NetPppLink.h"
 #include "pso/network/NetStackTypes.h"
+#include "pso/network/netcfg.h"
 #include "pso/network/TLobby_80426CAC.h"
 
 #include "types.h"
@@ -92,12 +93,10 @@ s16 TLobby__sub_804281DC(void *);
 s32 modem_init(char *);
 void TAdSinglePlyChrSelectGC__sub_8042E488(s32);
 s32 open_network_transport(A_803F8314 *arg0);
-u32 layout_buffers(u8 *, u32, u32);
 s32 layout_net_params_buffer(u8 *data, s32 size);
 s32 modem_send_at_command(int);
 s32 configure_modem_options(s32 arg0, s32 arg1, s32 arg2, s32 n, s32 p);
 s32 TAdSinglePlyChrSelectGC__sub_8042D7E0(u8 *buf);
-s32 TLobby__sub_803F8D24(NetTransportParams *);
 s32 get_net_params_and_size(NetTransportParams *arg0);
 void TLobby__sub_803F76F0(void);
 void TLobby__sub_803F778C(void);
@@ -722,7 +721,7 @@ s32 layout_net_params_buffer(u8 *data, s32 size) {
     if ((u32)cur > end) {
         return -1;
     }
-    after_tables = layout_buffers((u8 *)&params, (u32)cur, end);
+    after_tables = (u32)layout_buffers(&params, cur, (u8 *)end);
     if (after_tables == 0) {
         return -1;
     }

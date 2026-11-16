@@ -14,8 +14,8 @@ typedef struct NetTransportParams {
     s32 e;
     s32 f;
     s32 ring_buffer_size;
-    s32 h;
-    s32 i;
+    u32 h;
+    u32 i;
 } NetTransportParams;
 
 #ifdef __cplusplus
