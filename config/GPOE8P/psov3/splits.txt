@@ -12278,6 +12278,7 @@ pso/player/TObjPlayer_803E5470.cpp:
 
 pso/quest/TQuestVmDownLoadServer_803E5668.cpp:
 	.text       start:0x803E5668 end:0x803E6970
+	.rodata     start:0x8047E570 end:0x8047E698
 	.bss        start:0x8058DC48 end:0x8058DE08
 	.sbss       start:0x805D7820 end:0x805D784C
 	.sdata2     start:0x805E10C0 end:0x805E10C8

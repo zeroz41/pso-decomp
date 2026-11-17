@@ -3,19 +3,21 @@
 
 #include "types.h"
 
+// keyboard_soft_dispatch_fn_table handlers, named by the first request id they serve
+// (0x16-0x17, 0x1E-0x1F and 0x25-0x2C share one handler each).
 extern "C" {
 s32 OSFillFPUContext(s32 *arg0);
-s32 TQuestVmDownLoadServer__sub_803E5668(void);
-s32 TQuestVmDownLoadServer__sub_803E5670(s32 *arg0);
-s32 TQuestVmDownLoadServer__sub_803E577C(u8 *arg0);
-s32 TQuestVmDownLoadServer__sub_803E5874(s32 *arg0);
-s32 TQuestVmDownLoadServer__sub_803E5990(u8 *arg0);
-s32 TQuestVmDownLoadServer__sub_803E5A8C(u8 *arg0);
-s32 TQuestVmDownLoadServer__sub_803E5B94(s32 *arg0);
-s32 TQuestVmDownLoadServer__sub_803E5D20(s32 *arg0);
-s32 TQuestVmDownLoadServer__sub_803E5F5C(s32 *arg0);
-s32 TQuestVmDownLoadServer__sub_803E60CC(s32 *arg0);
-s32 TQuestVmDownLoadServer__sub_803E6134(s32 *arg0);
+s32 quest_download_request_unassigned(s32 *);
+s32 quest_download_request_0x25(s32 *arg0);
+s32 quest_download_request_0x24(s32 *arg0);
+s32 quest_download_request_0x23(s32 *arg0);
+s32 quest_download_request_0x22(s32 *arg0);
+s32 quest_download_request_0x21(s32 *arg0);
+s32 quest_download_request_0x20(s32 *arg0);
+s32 quest_download_request_0x1E(s32 *arg0);
+s32 quest_download_request_0x19(s32 *arg0);
+s32 quest_download_request_0x18(s32 *arg0);
+s32 quest_download_request_0x16(s32 *arg0);
 }
 
 // Request senders for the keyboard_soft_dispatch_fn_table handlers (same TU).
