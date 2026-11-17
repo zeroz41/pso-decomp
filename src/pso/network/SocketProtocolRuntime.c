@@ -40,7 +40,7 @@ s32 TLobby__sub_8041ED8C(TcpTcb *self, void *data, u32 len, s32 arg3) {
     self->fEC = len;
     m = 0;
     self->fF0 = m;
-    if (self->fD8 == 0) {
+    if (self->rcv_count == 0) {
         switch (self->t_state) {
         case 0:
         case 5:
@@ -67,29 +67,29 @@ s32 TLobby__sub_8041ED8C(TcpTcb *self, void *data, u32 len, s32 arg3) {
         }
     }
     do {
-        m = (s32)(self->fD8 > self->fEC ? self->fEC : self->fD8);
+        m = (s32)(self->rcv_count > self->fEC ? self->fEC : self->rcv_count);
         self->fF0 = m;
         NetMemcpy(&src, &self->rcv_buf, 8);
-        netbuf_ref_advance(&src, self->fDC);
+        netbuf_ref_advance(&src, self->rcv_head);
         NetMemcpy(&dst, &self->rcv_user, 8);
-        if (self->fDC + m > self->rcv_bufsize) {
-            k = self->rcv_bufsize - self->fDC;
+        if (self->rcv_head + m > self->rcv_bufsize) {
+            k = self->rcv_bufsize - self->rcv_head;
             netbuf_copy_by_ref(&dst, &src, k);
             netbuf_ref_advance(&dst, k);
             m -= k;
-            self->fD8 -= k;
-            self->fDC = 0;
+            self->rcv_count -= k;
+            self->rcv_head = 0;
             NetMemcpy(&src, &self->rcv_buf, 8);
         }
         netbuf_copy_by_ref(&dst, &src, m);
-        self->fD8 -= m;
-        self->fDC += m;
-        if (self->fDC >= self->rcv_bufsize) {
-            self->fDC -= self->rcv_bufsize;
+        self->rcv_count -= m;
+        self->rcv_head += m;
+        if (self->rcv_head >= self->rcv_bufsize) {
+            self->rcv_head -= self->rcv_bufsize;
         }
         self->rcv_user.kind = 0;
         set_slot_state_and_resume(idx, self->recv_done, self->fF0);
-    } while (self->rcv_user.kind != 0 && self->fD8 != 0);
+    } while (self->rcv_user.kind != 0 && self->rcv_count != 0);
     if (self->f53C == 0) {
         self->flags &= ~1;
     }
@@ -112,7 +112,7 @@ s32 TLobby__sub_8041ED8C(TcpTcb *self, void *data, u32 len, s32 arg3) {
             return 0;
         }
     }
-    if (self->fD8 == 0 && (self->flags & 8) && !(self->flags & 0x20)) {
+    if (self->rcv_count == 0 && (self->flags & 8) && !(self->flags & 0x20)) {
         NetDispatchSocketEvent((s16)(self - tcp_protocol_state.tcbs), self->event_ctx, 3, 3);
         self->flags |= 0x20;
     }
@@ -126,7 +126,7 @@ s32 TLobby__sub_8041F11C(TcpTcb *self) {
         self->rcv_user.kind = 0;
         set_slot_state_and_resume(idx, self->recv_done, -7);
     }
-    if (self->fD8 == 0 && !(self->flags & 0x20)) {
+    if (self->rcv_count == 0 && !(self->flags & 0x20)) {
         NetDispatchSocketEvent((s16)(self - tcp_protocol_state.tcbs), self->event_ctx, 3, 3);
         self->flags |= 0x20;
     }
@@ -173,13 +173,13 @@ s32 TLobby__sub_8041F204(NetPacket *pkt, u16 x, TcpTcb *self)
                     n = len;
                     netbuf_copy_by_ref(&dst, &src, n);
                     self->fF0 += len;
-                    self->fDC += len;
-                    if (self->fDC >= self->rcv_bufsize) {
-                        self->fDC -= self->rcv_bufsize;
+                    self->rcv_head += len;
+                    if (self->rcv_head >= self->rcv_bufsize) {
+                        self->rcv_head -= self->rcv_bufsize;
                     }
-                    self->fE0 += len;
-                    if (self->fE0 >= self->rcv_bufsize) {
-                        self->fE0 -= self->rcv_bufsize;
+                    self->rcv_tail += len;
+                    if (self->rcv_tail >= self->rcv_bufsize) {
+                        self->rcv_tail -= self->rcv_bufsize;
                     }
                     netbuf_ref_advance(&dst, n);
                     rem = 0;
@@ -187,13 +187,13 @@ s32 TLobby__sub_8041F204(NetPacket *pkt, u16 x, TcpTcb *self)
                 } else {
                     netbuf_copy_by_ref(&dst, &src, n);
                     self->fF0 += n;
-                    self->fDC += n;
-                    if (self->fDC >= self->rcv_bufsize) {
-                        self->fDC -= self->rcv_bufsize;
+                    self->rcv_head += n;
+                    if (self->rcv_head >= self->rcv_bufsize) {
+                        self->rcv_head -= self->rcv_bufsize;
                     }
-                    self->fE0 += n;
-                    if (self->fE0 >= self->rcv_bufsize) {
-                        self->fE0 -= self->rcv_bufsize;
+                    self->rcv_tail += n;
+                    if (self->rcv_tail >= self->rcv_bufsize) {
+                        self->rcv_tail -= self->rcv_bufsize;
                     }
                     rem += n;
                 }
@@ -239,28 +239,28 @@ s32 TLobby__sub_8041F204(NetPacket *pkt, u16 x, TcpTcb *self)
         }
 zero:
         NetMemcpy(&dst, &self->rcv_buf, 8);
-        netbuf_ref_advance(&dst, self->fE0);
+        netbuf_ref_advance(&dst, self->rcv_tail);
         while (i < pkt->fragment_count) {
             NetMemcpy(&src, &pkt->fragments[i].buffer, 8);
             if (rem != 0) {
                 netbuf_ref_advance(&src, rem);
             }
             n = pkt->fragments[i].length - rem;
-            avail = self->rcv_bufsize - self->fD8;
+            avail = self->rcv_bufsize - self->rcv_count;
             if (n > avail) {
                 n = avail;
             }
-            self->fD8 += n;
-            if (self->fE0 + n >= self->rcv_bufsize) {
-                netbuf_copy_by_ref(&dst, &src, self->rcv_bufsize - self->fE0);
+            self->rcv_count += n;
+            if (self->rcv_tail + n >= self->rcv_bufsize) {
+                netbuf_copy_by_ref(&dst, &src, self->rcv_bufsize - self->rcv_tail);
                 NetMemcpy(&dst, &self->rcv_buf, 8);
-                netbuf_ref_advance(&src, self->rcv_bufsize - self->fE0);
-                n -= self->rcv_bufsize - self->fE0;
-                self->fE0 = 0;
+                netbuf_ref_advance(&src, self->rcv_bufsize - self->rcv_tail);
+                n -= self->rcv_bufsize - self->rcv_tail;
+                self->rcv_tail = 0;
             }
             if (n != 0) {
                 netbuf_copy_by_ref(&dst, &src, n);
-                self->fE0 += n;
+                self->rcv_tail += n;
                 netbuf_ref_advance(&dst, n);
             }
             rem = 0;
@@ -289,12 +289,12 @@ void TLobby__sub_8041F66C(TcpTcb *o) {
     }
     if (i <= o->reasm_n && (s32)(o->rcv_nxt - o->reasm[i].start) >= 0) {
         d = o->reasm[i].end - o->rcv_nxt;
-        o->fE0 += d;
-        if (o->fE0 >= o->rcv_bufsize) {
-            o->fE0 -= o->rcv_bufsize;
+        o->rcv_tail += d;
+        if (o->rcv_tail >= o->rcv_bufsize) {
+            o->rcv_tail -= o->rcv_bufsize;
         }
         cnt = i + 1;
-        o->fD8 += d;
+        o->rcv_count += d;
         o->rcv_nxt = o->reasm[i].end;
     } else {
         cnt = i;
@@ -359,7 +359,7 @@ s32 TLobby__sub_8041F914(NetPacket *pkt, u16 x, TcpTcb *o, TcpHdr *th) {
         return 0;
     }
     len = pkt->total_bytes - x;
-    if (d + len > o->rcv_bufsize - o->fD8) {
+    if (d + len > o->rcv_bufsize - o->rcv_count) {
         return 0;
     }
     for (i = 0; i < pkt->fragment_count; i++) {
@@ -372,7 +372,7 @@ s32 TLobby__sub_8041F914(NetPacket *pkt, u16 x, TcpTcb *o, TcpHdr *th) {
     if (i == pkt->fragment_count) {
         return 0;
     }
-    pos = o->fE0 + d;
+    pos = o->rcv_tail + d;
     if (pos > o->rcv_bufsize) {
         pos -= o->rcv_bufsize;
     }
@@ -384,7 +384,7 @@ s32 TLobby__sub_8041F914(NetPacket *pkt, u16 x, TcpTcb *o, TcpHdr *th) {
             netbuf_ref_advance(&src, skip);
         }
         n = pkt->fragments[i].length - skip;
-        room = o->rcv_bufsize - o->fD8;
+        room = o->rcv_bufsize - o->rcv_count;
         if (!o && !o) {
         }
         if (n > room) {

@@ -75,9 +75,9 @@ struct TcpTcb {
     /* receive buffer: a ring of rcv_bufsize bytes, read into rcv_user */
     NetBufferRef rcv_buf;
     NetBufferRef rcv_alloc; /* the block behind rcv_buf */
-    u32 fD8;
-    u32 fDC;
-    u32 fE0;
+    u32 rcv_count; /* bytes in the ring not yet read */
+    u32 rcv_head; /* ring offset of the next byte to read */
+    u32 rcv_tail; /* ring offset where the next received byte goes */
     NetBufferRef rcv_user; /* the pending tcp_receive buffer; its kind is cleared when the receive completes */
     u32 fEC;
     s32 fF0;
@@ -163,8 +163,8 @@ typedef struct TcpState {
     TcpTcb *tcbs;
     s16 count;
     s16 freed;
-    u32 f8;
-    u32 fC;
+    u32 snd_bufsize; /* new TCBs' TcpTcb.snd_bufsize, and the most option 0x1001 may set */
+    u32 rcv_bufsize; /* new TCBs' TcpTcb.rcv_bufsize, and the most option 0x1002 may set */
     u16 port;
     u16 port_min;
     u16 port_max;
