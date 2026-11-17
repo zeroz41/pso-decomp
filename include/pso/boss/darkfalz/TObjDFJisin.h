@@ -4,7 +4,6 @@
 #include "types.h"
 
 extern "C" {
-u8 *TObjDFHorming__ct(u8 *arg0, s32 parent, s32 arg2, u16 arg3);
 void TObjDFTenchuFuru__sub_80051A7C(void);
 void *create__13TObjDFRecBallFPvPvPv(void *arg0, void *arg1, void *arg2);
 void *create__16TObjDFBeamCursorFPvPv(void *arg0, void *arg1);

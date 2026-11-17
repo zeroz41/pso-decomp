@@ -81,10 +81,6 @@ void steer_homing_direction(Obj_8005063C *arg0);
 
 }
 
-extern "C" void has_flag_0x800__9TObjCharaFv();
-extern "C" void test_flag30_512__9TObjCharaFv();
-extern "C" void test_flag_1000__9TObjCharaFv();
-extern "C" void test_flag_256__9TObjCharaFv();
 
 
 // The Jisin: a ring of fire that grows by 25 a frame around its centre (TBoss4Type2::create_jisin).
@@ -162,12 +158,6 @@ extern "C" {
 s32 minimap_render_dot(void *, int, int, int);
 void vec3_add_to(void *, void *);
 void run_task__13TObjDFHormingFv(u8 *arg0);
-struct S_80050A68 {
-    u8 pad0[0x18];
-    void *vt;
-    u8 pad1c[0x358 - 0x1c];
-    void *ptr[2];
-};
 
 typedef struct Hit_80050D74 {
     s32 type;
@@ -226,30 +216,20 @@ struct Ball_8005123C {
     s32 timer;
 };
 
-struct Obj_80050AF8 { u8 pad[0x358]; u32 objs[2]; };
 
-s32 __ct__9TObjCharaFP7TObject(void *, s32);
 Player_80050D74 * get_player_data__10TObjPlayerFi(s32);
 s16 get_entity_id(void *);
 f32 atan2_float(f32 y, f32 x);
 f32 newton_sqrtf(f32);
 s32 is_state_ready__14TBoss4DarkFalzFv();
-S_80050A68 * __dt__13TObjDFHormingFv(S_80050A68 *o, s16 flag);
-u8 * TObjDFHorming__ct(u8 *arg0, s32 arg1, s32 arg2, u16 arg3);
 }
 void damage_players_near_point(s32 arg0, Vec *arg1);
 extern "C" {
 void fn_spawn_particle_f3_with_flags(s32 arg0, s32 arg1);
-u8 * TObjDFJisin__ct(u8 *arg0, u8 *arg1, s32 arg2);
-void * TObjDFBeamCursor__ct(void *arg0, void *arg1, void *arg2);
 void * create__16TObjDFBeamCursorFPvPv(void *arg0, void *arg1);
-u8 * TObjDFRecBall__ct(u8 *arg0, u8 *arg1, u8 *arg2, u8 *arg3);
 void * create__13TObjDFRecBallFPvPvPv(void *arg0, void *arg1, void *arg2);
 s32 TBoss4Type3__sub_8005254C(s16);
-void __dl__7TObjectFPv(void *);
-void __ct__7TObjectFP7TObject(void *, void *);
 
-extern void *__vt__13TObjDFHorming[];
 extern s32 TObjDFJisin__particle_emitter_id_table[];
 extern s32 game_difficulty_selection;
 
@@ -272,167 +252,6 @@ extern "C" {
 
 
 
-extern "C" {
-
-
-void vfunc_6__8TObjBaseFPsl();
-void vfunc_29__9TObjCharaFv();
-void vfunc_74__9TObjCharaFl();
-void recalc_stats__9TObjCharaFv();
-void vfunc_28__9TObjCharaFv();
-void consume_timer_field__9TObjCharaFl();
-void vfunc_67__9TObjCharaFf();
-void vfunc_66__9TObjCharaFv();
-void get_anim_node_position__9TObjCharaFlP3Vec();
-void vfunc_63__9TObjCharaFv();
-void vfunc_62__9TObjCharaFv();
-void vfunc_61__9TObjCharaFv();
-void vfunc_60__9TObjCharaFv();
-void vfunc_59__9TObjCharaFv();
-void vfunc_58__9TObjCharaFv();
-void apply_slow_status__9TObjCharaFv();
-void update_shock_clock__9TObjCharaFv();
-void vfunc_43__9TObjCharaFv();
-void vfunc_18__9TObjCharaFPUc();
-void interact__14TObjCollidableFl();
-void get_name__8TObjBaseFv();
-void __dt__11TObjDFJisinFv();
-void __dt__13TObjDFRecBallFv();
-void __dt__16TObjDFBeamCursorFv();
-void add_actor_exp__9TObjCharaFl();
-void apply_action_hold_status__9TObjCharaFf();
-void apply_anti_technique__9TObjCharaFl();
-void apply_attack_stat_status__9TObjCharaFPv();
-void apply_confusion_status__9TObjCharaFv();
-void apply_knockback_from_attacker__9TObjCharaFPUcf();
-void apply_movement_ailment__9TObjCharaFl();
-void apply_object_set_data__8TObjBaseFPv();
-void apply_paralysis__9TObjCharaFv();
-void apply_poison_status__9TObjCharaFv();
-void apply_shock_status__9TObjCharaFv();
-void apply_switch_attack__9TObjCharaFv();
-void calc_distance_accuracy_penalty__9TObjCharaFPvPvPvf();
-void classify_actor_view_detail__8TObjBaseFfff();
-void clear_all_status_effects__9TObjCharaFv();
-void clear_harmful_statuses__9TObjCharaFv();
-void cure_paralysis__9TObjCharaFv();
-void cure_poison_ailment__9TObjCharaFv();
-void enemy_spawn_jellen_effect__9TObjCharaFv();
-void enemy_spawn_zalure_effect__9TObjCharaFv();
-void vfunc_78__9TObjCharaFl();
-void vfunc_77__9TObjCharaFv();
-void vfunc_76__9TObjCharaFf();
-void vfunc_75__9TObjCharaFf();
-void get_center__9TObjCharaFv();
-void get_actor_level_index__9TObjCharaFv();
-void get_pos__9TObjCharaFl();
-void is_actor_cadence_frame__9TObjCharaFl();
-void is_target_in_attack_range__9TObjCharaFv();
-void receive_direct_attack__9TObjCharaFPv19DirectAttackPayloadPvll();
-void receive_physical_attack__9TObjCharaFPvf();
-void receive_weapon_special_attack__9TObjCharaFPvPv();
-void apply_defense_stat_status__9TObjCharaFPv();
-void render__7TObjectFv();
-void render_shadows__7TObjectFv();
-void reset_motion_fields__9TObjCharaFv();
-void reset_pose__9TObjCharaFv();
-void roll_physical_accuracy__9TObjCharaFPvlf();
-void run_task__11TObjDFJisinFv();
-void run_task__13TObjDFRecBallFv();
-void select_melee_contact_body__9TObjCharaFPvf();
-void trigger_switch_attack__9TObjCharaFv(s32 arg0);
-void try_start_action__9TObjCharaFll();
-void update_action_hold_status__9TObjCharaFv();
-s32 vfunc_37__9TObjCharaFv(u8 *arg0);
-void update_actor_ground_y__9TObjCharaFv();
-s32 update_attack_stat_status__9TObjCharaFv(u8 *arg0);
-s32 update_defense_stat_status__9TObjCharaFv(u8 *arg0);
-void update_flag30_timer__9TObjCharaFv();
-void update_movement_status__9TObjCharaFv();
-void update_object_view_visibility__8TObjBaseFff();
-void update_poison_status__9TObjCharaFv();
-void *__vt__13TObjDFHorming[] = {
-    0,
-    0,
-    (void *)__dt__13TObjDFHormingFv,
-    (void *)run_task__13TObjDFHormingFv,
-    (void *)render__7TObjectFv,
-    (void *)render_shadows__7TObjectFv,
-    (void *)vfunc_6__8TObjBaseFPsl,
-    (void *)apply_object_set_data__8TObjBaseFPv,
-    (void *)reset_motion_fields__9TObjCharaFv,
-    (void *)get_center__9TObjCharaFv,
-    (void *)update_object_view_visibility__8TObjBaseFff,
-    (void *)classify_actor_view_detail__8TObjBaseFfff,
-    (void *)get_name__8TObjBaseFv,
-    (void *)interact__14TObjCollidableFl,
-    (void *)add_actor_exp__9TObjCharaFl,
-    (void *)consume_timer_field__9TObjCharaFl,
-    (void *)get_actor_level_index__9TObjCharaFv,
-    (void *)update_actor_ground_y__9TObjCharaFv,
-    (void *)vfunc_18__9TObjCharaFPUc,
-    (void *)is_actor_cadence_frame__9TObjCharaFl,
-    (void *)select_melee_contact_body__9TObjCharaFPvf,
-    (void *)calc_distance_accuracy_penalty__9TObjCharaFPvPvPvf,
-    (void *)receive_physical_attack__9TObjCharaFPvf,
-    (void *)receive_direct_attack__9TObjCharaFPv19DirectAttackPayloadPvll,
-    (void *)receive_weapon_special_attack__9TObjCharaFPvPv,
-    (void *)apply_knockback_from_attacker__9TObjCharaFPUcf,
-    (void *)try_start_action__9TObjCharaFll,
-    (void *)roll_physical_accuracy__9TObjCharaFPvlf,
-    (void *)vfunc_28__9TObjCharaFv,
-    (void *)vfunc_29__9TObjCharaFv,
-    (void *)is_target_in_attack_range__9TObjCharaFv,
-    (void *)&test_flag_256__9TObjCharaFv,
-    (void *)&test_flag30_512__9TObjCharaFv,
-    (void *)&has_flag_0x800__9TObjCharaFv,
-    (void *)&test_flag_1000__9TObjCharaFv,
-    (void *)update_poison_status__9TObjCharaFv,
-    (void *)update_action_hold_status__9TObjCharaFv,
-    (void *)vfunc_37__9TObjCharaFv,
-    (void *)update_flag30_timer__9TObjCharaFv,
-    (void *)update_movement_status__9TObjCharaFv,
-    (void *)update_shock_clock__9TObjCharaFv,
-    (void *)update_attack_stat_status__9TObjCharaFv,
-    (void *)update_defense_stat_status__9TObjCharaFv,
-    (void *)vfunc_43__9TObjCharaFv,
-    (void *)apply_poison_status__9TObjCharaFv,
-    (void *)apply_paralysis__9TObjCharaFv,
-    (void *)apply_slow_status__9TObjCharaFv,
-    (void *)apply_confusion_status__9TObjCharaFv,
-    (void *)apply_movement_ailment__9TObjCharaFl,
-    (void *)apply_shock_status__9TObjCharaFv,
-    (void *)clear_harmful_statuses__9TObjCharaFv,
-    (void *)apply_attack_stat_status__9TObjCharaFPv,
-    (void *)apply_defense_stat_status__9TObjCharaFPv,
-    (void *)cure_poison_ailment__9TObjCharaFv,
-    (void *)cure_paralysis__9TObjCharaFv,
-    (void *)clear_all_status_effects__9TObjCharaFv,
-    (void *)apply_action_hold_status__9TObjCharaFf,
-    (void *)apply_anti_technique__9TObjCharaFl,
-    (void *)vfunc_58__9TObjCharaFv,
-    (void *)vfunc_59__9TObjCharaFv,
-    (void *)vfunc_60__9TObjCharaFv,
-    (void *)vfunc_61__9TObjCharaFv,
-    (void *)vfunc_62__9TObjCharaFv,
-    (void *)vfunc_63__9TObjCharaFv,
-    (void *)reset_pose__9TObjCharaFv,
-    (void *)get_anim_node_position__9TObjCharaFlP3Vec,
-    (void *)vfunc_66__9TObjCharaFv,
-    (void *)vfunc_67__9TObjCharaFf,
-    (void *)get_pos__9TObjCharaFl,
-    (void *)apply_switch_attack__9TObjCharaFv,
-    (void *)enemy_spawn_jellen_effect__9TObjCharaFv,
-    (void *)trigger_switch_attack__9TObjCharaFv,
-    (void *)enemy_spawn_zalure_effect__9TObjCharaFv,
-    (void *)recalc_stats__9TObjCharaFv,
-    (void *)vfunc_74__9TObjCharaFl,
-    (void *)vfunc_75__9TObjCharaFf,
-    (void *)vfunc_76__9TObjCharaFf,
-    (void *)vfunc_77__9TObjCharaFv,
-    (void *)vfunc_78__9TObjCharaFl,
-};
-}
 
 
 
@@ -1063,80 +882,60 @@ void damage_players_near_point(s32 arg0, Vec *arg1) {
     }
 }
 
-void *TBoss4Type3::create_horming(void *arg0, void *arg1, void *arg2) {
-    void *o;
-    o = TObject::operator new(0x380);
-    if (o != NULL) {
-        o = ((void * (*)(void *, void *, void *, void *))TObjDFHorming__ct)(o, arg0, arg1, arg2);
-    }
-    return o;
+TObjDFHorming *TBoss4Type3::create_horming(TObject *parent, const Vec *position, u16 target_id) {
+    return new TObjDFHorming(parent, position, target_id);
 }
 
 #pragma push
 #pragma fp_contract on
-extern "C" {
-u8 *TObjDFHorming__ct(u8 *arg0, s32 parent, s32 arg2, u16 arg3) {
+TObjDFHorming::TObjDFHorming(TObject *parent, const Vec *position, u16 target_id) : TObjChara(parent) {
     f32 scale;
     s32 ang;
-    u8 *p;
+    TObjPlayer *p;
     s32 i;
 
-    __ct__9TObjCharaFP7TObject(arg0, parent);
-    *(u8 **)((s8 *)arg0 + 0x18) = (u8 *)__vt__13TObjDFHorming;
-    ((TObjDFHorming *)arg0)->m_name = TObjDFHorming__name;
-    ((TObjDFHorming *)arg0)->m_334 = arg3;
-    *(s32 *)&((TObjDFHorming *)arg0)->m_338 = 0x96;
+    m_name = TObjDFHorming__name;
+    m_334 = target_id;
+    m_338 = 150;
     if (game_difficulty_selection == 3) {
-        *(s32 *)&((TObjDFHorming *)arg0)->m_338 = 0x12C;
+        m_338 = 300;
     }
-    VecCopy((Vec *)(arg0 + 0x2FC), (const Vec *)(VecCopy((Vec *)(arg0 + 0x44), (const Vec *)(VecCopy((Vec *)(arg0 + 0x33C), (const Vec *)((const Vec *)arg2))))));
+    VecCopy((Vec *)&m_2fc, VecCopy(&prev_position, VecCopy(&spawn_position, position)));
     scale = newton_sqrtf(1.08f);
     ang = (s32)(16384.0f * (0.000030517578f * (f32)rand() - 0.5f));
-    p = (u8 *)get_player_by_client_id(((TObjDFHorming *)arg0)->m_334);
+    p = get_player_by_client_id(m_334);
     if (p != NULL) {
         ang = 0;
     } else {
-        ang += (s32)(10430.38043493439 * atan2_float(*(f32 *)((s8 *)p + 0x38) - 10000.0f, *(f32 *)((s8 *)p + 0x40)));
+        ang += (s32)(10430.38043493439 * atan2_float(p->position.x - 10000.0f, p->position.z));
     }
-    *(f32 *)((s8 *)arg0 + 0x348) = 1.2f * sin_table_lookup(ang) / scale;
-    ((TObjDFHorming *)arg0)->m_350 = 1.2f * cos_table_lookup(ang) / scale;
-    *(f32 *)((s8 *)arg0 + 0x34C) = -6.0f / scale;
-    *(f32 *)((s8 *)arg0 + 0x354) = 6.0f;
-    *(s32 *)&((TObjDFHorming *)arg0)->m_360 = *(s32 *)((s8 *)(TLobby::dispatch_shared_handler_a(0x38)) + 0x28);
-    *(f32 *)((s8 *)arg0 + 0x364) = *(f32 *)((s8 *)(TLobby::dispatch_shared_handler_a(0x38)) + 0);
-    if (*(f32 *)((s8 *)arg0 + 0x364) < lbl_805D8A30 || *(f32 *)((s8 *)arg0 + 0x364) > lbl_805D8A34) {
-        *(f32 *)((s8 *)arg0 + 0x364) = 0.5f;
+    velocity.x = 1.2f * sin_table_lookup(ang) / scale;
+    velocity.z = 1.2f * cos_table_lookup(ang) / scale;
+    velocity.y = -6.0f / scale;
+    speed = 6.0f;
+    m_360 = *(s32 *)((s8 *)(TLobby::dispatch_shared_handler_a(0x38)) + 0x28);
+    homing_rate = *(f32 *)((s8 *)(TLobby::dispatch_shared_handler_a(0x38)) + 0);
+    if (homing_rate < lbl_805D8A30 || homing_rate > lbl_805D8A34) {
+        homing_rate = 0.5f;
     }
-    *(f32 *)((s8 *)arg0 + 0x378) = -50.0f * *(f32 *)((s8 *)arg0 + 0x364) + 60.0f;
+    m_378 = -50.0f * homing_rate + 60.0f;
     for (i = 0; i < 2; i++) {
-        if ((((Obj_80050AF8 *)arg0)->objs[i] = (u32)create_particle_emitter(arg0 + 0x2FC, TObjDFJisin__particle_emitter_id_table[i])) != 0) {
-            ((TParticleCtrl *)(((Obj_80050AF8 *)arg0)->objs[i]))->set_flags(0x40);
+        if ((effects[i] = create_particle_emitter(&m_2fc, TObjDFJisin__particle_emitter_id_table[i])) != NULL) {
+            effects[i]->set_flags(0x40);
         }
     }
-    *(s32 *)&((TObjDFHorming *)arg0)->m_368 = 0;
-    return arg0;
-}
+    m_368 = 0;
 }
 #pragma pop
 
-extern "C" {
-S_80050A68 *__dt__13TObjDFHormingFv(S_80050A68 *o, s16 flag) {
+TObjDFHorming::~TObjDFHorming() {
     s32 i;
-    if (o != 0) {
-        o->vt = __vt__13TObjDFHorming;
-        for (i = 0; i < 2; i++) {
-            if (o->ptr[i] != 0) {
-                TParticleCtrl::release(o->ptr[i]);
-                o->ptr[i] = 0;
-            }
-        }
-        __dt__9TObjCharaFv(o, 0);
-        if (flag > 0) {
-            __dl__7TObjectFPv(o);
+    for (i = 0; i < 2; i++) {
+        if (effects[i] != NULL) {
+            TParticleCtrl::release(effects[i]);
+            effects[i] = NULL;
         }
     }
-    return o;
-}
 }
 
 extern "C" {
@@ -1170,7 +969,7 @@ void run_task__13TObjDFHormingFv(u8 *arg0) {
     normalize_vector(arg0 + 0x348);
     *(f32 *)((s8 *)arg0 + 0x348) *= *(f32 *)((s8 *)arg0 + 0x354);
     *(f32 *)((s8 *)arg0 + 0x34C) *= *(f32 *)((s8 *)arg0 + 0x354);
-    ((TObjDFHorming *)arg0)->m_350 *= *(f32 *)((s8 *)arg0 + 0x354);
+    ((TObjDFHorming *)arg0)->velocity.z *= *(f32 *)((s8 *)arg0 + 0x354);
     vec3_add_to(arg0 + 0x2FC, arg0 + 0x348);
     {
         s32 id = find_nearest_visible_player(arg0, 0, 7.5f);
