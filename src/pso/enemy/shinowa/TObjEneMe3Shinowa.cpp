@@ -2,6 +2,7 @@
 #include "pso/animation/MotionContext.h"
 #include "pso/camera/TCameraCtrl_803D749C.h"
 #include "pso/enemy/shinowa/TObjEneMe3Shinowa.h"
+#include "pso/enemy/shinowa/ShinowaData.h"
 #include "pso/unk/SampledMotionPoints.h"
 #include "pso/math/FloatRounding.h"
 #include "pso/enemy/TObjEnemy.h"
@@ -106,7 +107,6 @@ s32 check_in_range__23TObjEneMe3ShinowaMirageFPv(TObjEneMe3Shinowa *shinowa);
 s32 get_room__8TObjBaseFv(TObjBase *);
 s32 create__10TTecDebandFlll(void *, void *, s32);
 void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
-extern u8 shinowa_mirage_breakup_params[];
 
 // Per-variant parameter tables fetched from TLobby (TObjEneMe3Stelth names the same four
 // base/attack/resistance/behavior_params_by_variant).
@@ -123,18 +123,6 @@ s32 *lbl_80501000[4];
 extern s32 saved_model_render_flags;
 extern const f32 lbl_805D9E84;
 extern const f32 lbl_805D9E88;
-extern const char lbl_8043CE3C[];
-extern const char lbl_8043CE4C[];
-extern const char lbl_8043CE60[];
-extern const char lbl_8043CE78[];
-extern const char lbl_8043CE90[];
-extern const char lbl_8043CEA4[];
-extern const char lbl_8043CEBC[];
-extern const char lbl_8043CED0[];
-extern const char lbl_8043CEE8[];
-extern const char lbl_8043CF00[];
-extern const char lbl_8043CF14[];
-extern const char lbl_8043CF28[];
 
 TObjEneMe3ShinowaMoveParams TObjEneMe3ShinowaMirage__init_params = {
     225.0f, 0.0f, 0x600,
@@ -145,17 +133,17 @@ CollisionBody shinowa_mirage_model_init_data[1] = {
 };
 
 __declspec(section ".data") const char *bm_ene_me3_shinowa_model_names[2] = {
-    lbl_8043CE3C, NULL,
+    shinowa_model, NULL,
 };
 
 const char *bm_ene_me3_shinowa_motion_names[11] = {
-    lbl_8043CE4C, lbl_8043CE60, lbl_8043CE78, lbl_8043CE90,
-    lbl_8043CEA4, lbl_8043CEBC, lbl_8043CED0, lbl_8043CEE8,
-    lbl_8043CF00, lbl_8043CF14, NULL,
+    shinowa_apper_motion, shinowa_backstep_motion, shinowa_damage_motion, shinowa_death_motion,
+    shinowa_f_attack_motion, shinowa_sword_motion, shinowa_transform_motion, shinowa_t_wait_motion,
+    shinowa_wait_motion, shinowa_walk_motion, NULL,
 };
 
 BmlResourceDescriptor shinowa_mirage_resource_descriptor = {
-    lbl_8043CF28, bm_ene_me3_shinowa_model_names, bm_ene_me3_shinowa_motion_names, 1, 10,
+    shinowa_bml, bm_ene_me3_shinowa_model_names, bm_ene_me3_shinowa_motion_names, 1, 10,
 };
 
 TObjMotionAction shinowa_mirage_motion_param_table[11] = {
@@ -183,10 +171,6 @@ const Vec shinowa_shadow_scale = { 2.5f, 1.0f, 1.5f };
 
 s32 free_bin_model_request(void *, s32);
 int create__21TObjEneMe3ShinowaRealFv(void*);
-extern s32 lbl_8043CE1C[];
-extern s32 lbl_8043CE24[];
-extern s32 lbl_8043CE2C[];
-extern s32 lbl_8043CE34[];
 
 // Floor resource callback (inferred: load_shared_resources, the TObjEneMe3SinowZoa::load_resources twin):
 // loads the shared Shinowa BML, a texture-list copy for the mirage, the per-variant parameter tables,
@@ -222,16 +206,16 @@ void load_shinowa_mirage_resources() {
         lbl_80500FEC.textures[i + 3].texaddr = lbl_80500FEC.textures[i].texaddr;
     }
     for (s32 j = 0; j < 2; j++) {
-        lbl_80500FCC[j] = (s32)TLobby::register_boss(lbl_8043CE1C[j]);
+        lbl_80500FCC[j] = (s32)TLobby::register_boss(shinowa_mirage_base_param_ids[j]);
     }
     for (s32 j = 0; j < 2; j++) {
-        lbl_80500FD4[j] = (s32)TLobby::dispatch_shared_handler_b(lbl_8043CE24[j]);
+        lbl_80500FD4[j] = (s32)TLobby::dispatch_shared_handler_b(shinowa_mirage_attack_param_ids[j]);
     }
     for (s32 j = 0; j < 2; j++) {
-        lbl_80500FDC[j] = (s32)TLobby::register_object(lbl_8043CE2C[j]);
+        lbl_80500FDC[j] = (s32)TLobby::register_object(shinowa_mirage_resistance_param_ids[j]);
     }
     for (s32 j = 0; j < 2; j++) {
-        TObjEneMe3ShinowaMirage__mirage_info_table[j] = (TObjEneMe3ShinowaParams *)TLobby::dispatch_shared_handler_a(lbl_8043CE34[j]);
+        TObjEneMe3ShinowaMirage__mirage_info_table[j] = (TObjEneMe3ShinowaParams *)TLobby::dispatch_shared_handler_a(shinowa_mirage_behavior_param_ids[j]);
     }
     info = TObjEneMe3ShinowaMirage__mirage_info_table[0];
     TObjEneMe3ShinowaMirage::set_slot_min_clamped_value(6, info->m_c);
@@ -1524,7 +1508,7 @@ void TObjEneMe3ShinowaMirage::state_break_apart(s32 arg1) {
             if (m_408 >= 0x14) {
                 m_404 = 2;
                 m_3c4 |= 2;
-                TBoss3Volopt::create_breakup_mdl((s32)TObjEneMe3ShinowaMirage__data_805D52A0, (s32)shinowa_mirage_breakup_params, texlist, (s32)&position, rotation_y);
+                TBoss3Volopt::create_breakup_mdl((s32)TObjEneMe3ShinowaMirage__data_805D52A0, (s32)&shinowa_mirage_breakup_params, texlist, (s32)&position, rotation_y);
                 VecCopy(&pos, &position);
                 pos.x += 20.0f * sin_table_lookup(rotation_y);
                 pos.z += 20.0f * cos_table_lookup(rotation_y);

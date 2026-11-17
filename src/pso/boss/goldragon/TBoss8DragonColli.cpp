@@ -1,3 +1,4 @@
+#pragma readonly_strings on
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/task/TObject.h"
 #include "pso/player/TObjPlayer.h"
@@ -26,7 +27,7 @@ struct O_802F310C;
 struct E_802F31E4 { f32 x, y, z, w; u8 pad10[8]; u32 flags; u8 pad1c[0x2c - 0x1c]; };
 
 struct O_802F31E4 {
-    s32 f0;
+    const char *name;
     u8 pad4[0x18 - 4];
     void *vt;
     s16 f1c;
@@ -42,9 +43,11 @@ u16 register_entity_by_id(void *ov);
 s32 __ct__14TObjCollidableFP7TObject(void *, void *);
 extern u8 boss8_collision_segment_desc[];
 extern s32 lbl_804E4BB4[];
-extern s32 lbl_805D4000;
 s32 init_collision_segments__17TBoss8DragonColliFiPviPvf(int arg0, void *arg1, int arg2, void *arg3, f32 scale);
 }
+
+const char *TBoss8DragonColli_C__name = "TBoss8DragonColli_C";
+const char *TBoss8DragonColli__name = "TBoss8DragonColli";
 
 TBoss8DragonColli::~TBoss8DragonColli() {
     for (s32 index = 0; index < 3; ++index) {
@@ -62,7 +65,6 @@ extern "C" {
 s32 __nw__7TObjectFUl(int);
 s32 __ct__7TObjectFP7TObject(void *, void *);
 extern void *__vt__17TBoss8DragonColli[];
-extern s32 TBoss8DragonColli__name;
 u8 *TBoss8DragonColli__ct(u8 *arg0, s32 arg1);
 void render__19TBoss8DragonColli_CFv(void);
 void TBoss8DragonColli__sub_802F3074(void* p);
@@ -153,7 +155,7 @@ s32 init_collision_segments__17TBoss8DragonColliFiPviPvf(int arg0, void *arg1, i
     f32 z;
     __ct__14TObjCollidableFP7TObject(self, arg1);
     self->vt = ((u8 *)&lbl_804E4BB4);
-    self->f0 = lbl_805D4000;
+    self->name = TBoss8DragonColli_C__name;
     VecCopy((Vec *)self->pos, (const Vec *)arg3);
     self->f1c = TLobby::alloc_actor_ids(0);
     self->count = arg2;

@@ -47,7 +47,6 @@ void TObjEneEpsilonGuard__sub_80360BF8(TObjEneEpsilonBody *body, s32 arg1);
 extern EpsilonBodySharedParams *lbl_805D6F8C;
 void action__19TObjEneEpsilonGuardFPvi(TObjEneEpsilonBody *body, s32 arg1);
 void draw_line_list(VoloptLineList *, s32, u32);
-extern Vec lbl_805439FC[2];
 void TObjEneEpsilonGuard__sub_80361C70(TObjEneEpsilonBody *body, s32 arg1);
 void TObjEneEpsilonGuard__sub_8035F844(TObjEneEpsilonBody *body, s32 arg1);
 void TObjEneEpsilonGuard__sub_8035DEC0(TObjEneEpsilonGuard *guard);
@@ -71,7 +70,6 @@ void create_fire_explosion_effect(void *, f32, Vec *, s32, s32);
 u32 TObjEneEpsilonGuard__sub_8035FD50(TObjEneEpsilonBody *body, s32 slot);
 extern s32 tl_07;
 void TObjEneEpsilonGuard__sub_803616E4(TObjEneEpsilonBody *body, s32 arg1);
-extern u8 lbl_805439F0[];
 int TObjEneEpsilonGuard__sub_8035DD68(TObjEneEpsilonGuard *guard);
 void TObjEneEpsilonGuard__sub_8035FB44(TObjEneEpsilonBody *body);
 s32 TObjEneEpsilonGuard__sub_8035FAA8(TObjEneEpsilonBody *body);
@@ -82,6 +80,8 @@ s16 obj_getS16_118(u8 *p);
 void enemy_turn_and_move_on_ground(u8 *arg0, s32 arg1, f32 farg0);
 extern TObject *tl_04;
 
+Vec lbl_805439F0;
+Vec lbl_805439FC[2];
 
 extern u8 *lbl_805D6F80;
 extern u8 *lbl_805D6F84;
@@ -1104,7 +1104,7 @@ void TObjEneEpsilonGuard::record_camera_angle_samples() {
     case 0x26:
     case 0x30:
     case 0x3A:
-        get_camera_ctrl__9TObjEneDDFv(lbl_805439F0, epsilon_guard_camera_sample_read_ptr);
+        get_camera_ctrl__9TObjEneDDFv(&lbl_805439F0, epsilon_guard_camera_sample_read_ptr);
         *epsilon_guard_angle_sample_write_ptr = (s32)(10430.38043493439 * atan2_float(
             epsilon_guard_camera_sample_read_ptr->x - epsilon_guard_camera_sample_end_ptr->x,
             epsilon_guard_camera_sample_read_ptr->z - epsilon_guard_camera_sample_end_ptr->z));

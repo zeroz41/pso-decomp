@@ -30,9 +30,9 @@
 extern Vec lbl_8043BBC0[];
 
 extern Vec lbl_8043BBB4[];
-extern s32 lbl_805D5178;
-extern s32 lbl_805D517C;
-extern f32 *lbl_805D5180;
+extern s32 re2_flower_node_index;
+extern s32 re2_flower_node_yaw;
+extern f32 *re2_flower_node_points;
 extern const f32 lbl_805D9E84;
 extern const f32 lbl_805D9E88;
 extern const f32 lbl_805D9FAC;
@@ -50,7 +50,7 @@ extern "C" {
 s32 noop__9TObjEneDDFv(void *, s32);
 extern Prm_800C2628 enemy_dd_attack_param_block;
 extern Prm_800C2628 lbl_8043BBA0;
-extern f32 *const lbl_805D5170;
+extern f32 *const re2_flower_movement_params;
 extern const f32 lbl_805D9FBC;
 extern const f32 lbl_805D9FC0;
 void TObjEneRe2Flower::handle_event(s32 arg1) {
@@ -120,7 +120,7 @@ void TObjEneDD__sub_800C2628(u8 *arg0, s32 arg1) {
             spawn_particle_effect_with_flags(&v, 0xD3, 0x40);
             {
                 Prm_800C2628 prm = lbl_8043BBA0;
-                prm.d = prm.b = *lbl_805D5170;
+                prm.d = prm.b = *re2_flower_movement_params;
                 if (((TObjEneRe2Flower *)arg0)->get_flag_11() != 0) {
                     TObjEneDD__sub_800BA5A4(arg0, &prm);
                 } else {
@@ -186,18 +186,18 @@ void TObjEneDD__sub_800C2618(void* p) { *(u32*)((char*)p + 0x3c4) |= 0x2; }
 void TObjEneRe2Flower::vfunc_105() {  }
 
 void TObjPlayer::update_effect_sequence() {
-    switch ((s32) lbl_805D5178) {
+    switch ((s32) re2_flower_node_index) {
     case 1:
-        rotate_matrix_y(0, lbl_805D517C);
+        rotate_matrix_y(0, re2_flower_node_yaw);
         break;
     case 14:
         push_matrix();
         update_camera_sequence__9TObjEneDDFv();
-        mult_vec_array__10TObjPlayerFUll(0, lbl_805D5180, lbl_805D5180, 2);
+        mult_vec_array__10TObjPlayerFUll(0, re2_flower_node_points, re2_flower_node_points, 2);
         pop_matrix();
         break;
     }
-    lbl_805D5178 += 1;
+    re2_flower_node_index += 1;
 }
 
 }
@@ -244,8 +244,8 @@ void TObjEneRe2Flower::render() {
         set_alpha_ref_override(0);
         TObjEneDD::clear_global_flag_400();
         translate_matrix(0, lbl_805D9FAC, m_3c8, lbl_805D9FAC);
-        lbl_805D517C = rotation_y - m_3c0;
-        lbl_805D5180 = &m_3dc[0].x;
+        re2_flower_node_yaw = rotation_y - m_3c0;
+        re2_flower_node_points = &m_3dc[0].x;
         m_3dc[0].x = lbl_805D9FAC;
         m_3dc[0].y = lbl_805D9FB0;
         m_3dc[0].z = lbl_805D9FAC;
@@ -256,12 +256,12 @@ void TObjEneRe2Flower::render() {
         set_chunk_model_node_callback((s32)((void *)TObjPlayer::update_effect_sequence));
         if (mode == 8) {
             s32 c = (m_3d8 & 0xFF) << 16;
-            lbl_805D5178 = -1;
+            re2_flower_node_index = -1;
             TObjPlayer::toggle_particle_effect();
             draw_with_alt_model(c);
             TParticleCtrl::end_effect_render();
         } else {
-            lbl_805D5178 = 0;
+            re2_flower_node_index = 0;
             TObjPlayer::toggle_particle_effect();
             if (m_3c4 & 8) {
                 if (m_3f4.has_visible_opacity() != 0) {

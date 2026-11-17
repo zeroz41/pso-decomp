@@ -58,7 +58,10 @@ extern "C" {
 void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
 s32 push_matrix();
 s32 post_translate_matrix(void *);
-extern u32 lbl_805D4FD4;
+// inferred: the BML resource load_resources reads through bm_ene_me1_mb_resource_descriptor
+BmlResource *bm_ene_me1_mb_resource;
+// inferred: node counter of the render callback (TObjEneDf2Bringer__render_node_index twin)
+u32 TObjEneMe1Canadin__render_node_index;
 Vec *TObjEneMe1Canadin__render_point_cursor;
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
@@ -223,7 +226,6 @@ s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
 s32 matrix_mult_vec(int, Vec *, Vec *);
 s32 rotate_vector_by_matrix(int, Vec *, Vec *);
 
-extern BmlResource *lbl_805D4FD0;
 TUnk_8048FA00 *lbl_805D4FDC;
 TUnk_8048FA00 *lbl_805D4FE0;
 s32 *lbl_805D4FE4;
@@ -310,9 +312,9 @@ void TObjEneMe1Canadin::load_resources() {
     lbl_80500960.y = 0.0f;
     lbl_80500960.z = 0.0f;
     if (TObjEneDD::check_v2_mode() != 0) {
-        lbl_805D4FD0 = (BmlResource *)load_enemy_bml_resource_named((s32)&bm_ene_me1_mb_resource_descriptor, (s32)"bm_ene_me1_mb_a.bml");
+        bm_ene_me1_mb_resource = (BmlResource *)load_enemy_bml_resource_named((s32)&bm_ene_me1_mb_resource_descriptor, (s32)"bm_ene_me1_mb_a.bml");
     } else {
-        lbl_805D4FD0 = (BmlResource *)load_enemy_bml_resource((u8 *)&bm_ene_me1_mb_resource_descriptor);
+        bm_ene_me1_mb_resource = (BmlResource *)load_enemy_bml_resource((u8 *)&bm_ene_me1_mb_resource_descriptor);
     }
     for (i = 0; i < 3; i++) {
         lbl_80500930[i] = (s32)TLobby::register_boss(lbl_8043A180[i]);
@@ -320,28 +322,28 @@ void TObjEneMe1Canadin::load_resources() {
         lbl_80500948[i] = (s32)TLobby::register_object(lbl_8043A198[i]);
         lbl_80500954[i] = (TObjEneMe1CanadinParams *)TLobby::dispatch_shared_handler_a(lbl_8043A1A4[i]);
     }
-    lbl_805D4FD4 = 0;
+    TObjEneMe1Canadin__render_node_index = 0;
     p = ::operator new(0x10);
     if (p != NULL) {
-        p = ((TBreakUpMdl *)p)->init_from_model(lbl_805D4FD0->models[1].model);
+        p = ((TBreakUpMdl *)p)->init_from_model(bm_ene_me1_mb_resource->models[1].model);
     }
     lbl_805D4FDC = (TUnk_8048FA00 *)p;
     p = ::operator new(0x10);
     if (p != NULL) {
-        p = ((TBreakUpMdl *)p)->init_from_model(lbl_805D4FD0->models[0].model);
+        p = ((TBreakUpMdl *)p)->init_from_model(bm_ene_me1_mb_resource->models[0].model);
     }
     lbl_805D4FE0 = (TUnk_8048FA00 *)p;
-    model = lbl_805D4FD0->models[1].model;
+    model = bm_ene_me1_mb_resource->models[1].model;
     lbl_805D4FE4 = (s32 *)(((s32 *)((NJS_OBJECT *)find_model_node(model, 3))->model)[1] + 4);
     lbl_805D4FE8 = (s32 *)(((s32 *)((NJS_OBJECT *)find_model_node(model, 2))->model)[1] + 4);
-    model2 = lbl_805D4FD0->models[0].model;
+    model2 = bm_ene_me1_mb_resource->models[0].model;
     lbl_805D4FEC = (s32 *)(((s32 *)((NJS_OBJECT *)find_model_node(model2, 3))->model)[1] + 4);
     lbl_805D4FF0 = (s32 *)(((s32 *)((NJS_OBJECT *)find_model_node(model2, 2))->model)[1] + 4);
     TObjPlayer__sub_800F0928();
     s16 ids[2] = { 0x17, 0x18 };
-    CanadinSpawnParams params = { (s32)lbl_805D4FD0->motions, lbl_8048FF30, 0, 0x70000 };
+    CanadinSpawnParams params = { (s32)bm_ene_me1_mb_resource->motions, lbl_8048FF30, 0, 0x70000 };
     for (i = 0; i < 2; i++) {
-        TLobby::spawn_npc_enemy(ids[i], lbl_805D4FD0->models[i].model, (NJS_TEXLIST *)lbl_805D4FD0->models[1].m_c, &params, 8.0f, 15.0f);
+        TLobby::spawn_npc_enemy(ids[i], bm_ene_me1_mb_resource->models[i].model, (NJS_TEXLIST *)bm_ene_me1_mb_resource->models[1].m_c, &params, 8.0f, 15.0f);
     }
 }
 
@@ -363,9 +365,9 @@ void TObjEneMe1Canadin::free_resources() {
         delete lbl_805D4FDC;
         lbl_805D4FDC = NULL;
     }
-    if (lbl_805D4FD0 != NULL) {
-        free_bin_model_request(lbl_805D4FD0, 1);
-        lbl_805D4FD0 = NULL;
+    if (bm_ene_me1_mb_resource != NULL) {
+        free_bin_model_request(bm_ene_me1_mb_resource, 1);
+        bm_ene_me1_mb_resource = NULL;
     }
 }
 
@@ -402,7 +404,7 @@ void TObjEneMe1Canadin::setup_enemy() {
     this->vfunc_106();
     init_model(&lbl_8048FECC, 1);
     set_field_d8((s32)lbl_8048FF30);
-    set_field_dc((s32)lbl_805D4FD0->motions);
+    set_field_dc((s32)bm_ene_me1_mb_resource->motions);
     requested_action = 0;
     set_animation(requested_action);
     set_field_b8(requested_action);
@@ -536,8 +538,8 @@ void TObjEneMe1Canadin::update_by_field_0x354() {
 }
 
 void TObjEneMe1Canadin::vfunc_106() {
-    model = (void *)lbl_805D4FD0->models[0].model;
-    texlist = lbl_805D4FD0->models[1].m_c;
+    model = (void *)bm_ene_me1_mb_resource->models[0].model;
+    texlist = bm_ene_me1_mb_resource->models[1].m_c;
 }
 
 #pragma push
@@ -1917,7 +1919,7 @@ void fn_8009BD00(void) {
     Vec *pos;
     Vec *temp_r5;
     Vec *temp_r5_2;
-    switch (lbl_805D4FD4) {
+    switch (TObjEneMe1Canadin__render_node_index) {
     case 2:
     case 3:
         push_matrix();
@@ -1939,7 +1941,7 @@ void fn_8009BD00(void) {
         get_camera_ctrl__9TObjEneDDFv(&lbl_80500960, pos);
         break;
     }
-    lbl_805D4FD4 += 1;
+    TObjEneMe1Canadin__render_node_index += 1;
 }
 
 void TObjEneMe1Canadin::render() {
@@ -1984,7 +1986,7 @@ void TObjEneMe1Canadin::render() {
         }
         if (var_r29 != 0) {
             if ((s16) mode != 0xA) {
-                lbl_805D4FD4 = 0;
+                TObjEneMe1Canadin__render_node_index = 0;
                 TObjEneMe1Canadin__render_point_cursor = m_414;
                 VecCopy(&m_414[3], &lbl_8043A268);
                 VecCopy(&m_414[1], &lbl_8043A274);
@@ -1997,7 +1999,7 @@ void TObjEneMe1Canadin::render() {
                 set_chunk_model_node_callback(NULL);
             } else {
                 rotate_matrix_z(NULL, rotation_z);
-                lbl_805D4FD4 = -1;
+                TObjEneMe1Canadin__render_node_index = -1;
                 TObjEneMe1Canadin__render_point_cursor = m_414;
                 VecCopy(&m_414[3], &lbl_8043A268);
                 VecCopy(&m_414[1], &lbl_8043A274);
@@ -2093,8 +2095,8 @@ void TObjEneMe1CanadinLeader::run_task() {
 }
 
 void TObjEneMe1CanadinLeader::vfunc_106() {
-    model = (void *)lbl_805D4FD0->models[1].model;
-    texlist = lbl_805D4FD0->models[1].m_c;
+    model = (void *)bm_ene_me1_mb_resource->models[1].model;
+    texlist = bm_ene_me1_mb_resource->models[1].m_c;
 }
 
 void TObjEneMe1CanadinLeader::vfunc_105() {

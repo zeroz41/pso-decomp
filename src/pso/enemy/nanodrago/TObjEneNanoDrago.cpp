@@ -27,12 +27,6 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/math/MatrixVector.h"
 
-extern "C" f32 lbl_805D525C;
-extern "C" f32 lbl_805D5260;
-extern "C" f32 lbl_805D5264;
-extern "C" f32 lbl_805D5268;
-extern "C" s32 lbl_805D526C;
-extern "C" s32 lbl_805D5270;
 extern "C" s32 scale_matrix(int, f32, f32, f32);
 extern "C" s32 translate_matrix(int, f32, f32, f32);
 extern "C" Mtx34 identity_matrix;
@@ -152,11 +146,20 @@ extern "C" void init_collision_body_parts(void *, void *, s32);
 extern "C" s32 submit_cursor_candidate(void *, int);
 extern "C" s32 minimap_render_dot(void *, int, int, int);
 
-extern "C" s32 lbl_805D5248;
-extern "C" s32 lbl_805D524C;
-extern "C" s32 lbl_805D5250;
-extern "C" s32 lbl_805D5254;
-extern "C" BmlResource *nano_drago_entry_params_resource;
+// inferred: the per-variant tables load_resources fetches from TLobby (register_boss,
+// dispatch_shared_handler_b, register_object; boss5_gryphon_base/attack/resistance_params twins)
+s32 nano_drago_base_params;
+s32 nano_drago_attack_params;
+s32 nano_drago_resistance_params;
+s32 lbl_805D5254;
+BmlResource *nano_drago_entry_params_resource;
+// Filled by update_attack_parameters, read by the NanoDrago projectiles.
+f32 lbl_805D525C;
+f32 lbl_805D5260;
+f32 lbl_805D5264;
+f32 lbl_805D5268;
+s32 lbl_805D526C;
+s32 lbl_805D5270;
 extern "C" void *tl_04;
 
 __declspec(section ".data") const char *bm_ene_nanodrago_model_names[2] = {
@@ -216,7 +219,7 @@ TObjEneNanoDrago::TObjEneNanoDrago(TObject *parent, void *setData) : TObjEnemyCu
     init_collision_body_parts(this, nano_drago_bodies, 2);
     bodies[1].flags &= ~1;
     movementParameters = &nano_drago_movement;
-    bind_enemy_combat_stats((u8 *)lbl_805D5248, (u8 *)lbl_805D524C, (u8 *)lbl_805D5250);
+    bind_enemy_combat_stats((u8 *)nano_drago_base_params, (u8 *)nano_drago_attack_params, (u8 *)nano_drago_resistance_params);
     update_attack_parameters();
     requested_action = 0;
     set_animation(requested_action);
@@ -267,9 +270,9 @@ void TObjEneNanoDrago::load_resources() {
         resource = (u8 *)(load_resource_from_descriptor(storage, 1, (s32 *)&bm_ene_nanodrago_resource_descriptor, 0, 0, 0));
     }
     nano_drago_entry_params_resource = (BmlResource *)resource;
-    lbl_805D5248 = register_boss__6TLobbyFl(0x1A);
-    lbl_805D524C = dispatch_shared_handler_b__6TLobbyFl(0x1A);
-    lbl_805D5250 = register_object__6TLobbyFl(0x1A);
+    nano_drago_base_params = register_boss__6TLobbyFl(0x1A);
+    nano_drago_attack_params = dispatch_shared_handler_b__6TLobbyFl(0x1A);
+    nano_drago_resistance_params = register_object__6TLobbyFl(0x1A);
     lbl_805D5254 = dispatch_shared_handler_a__6TLobbyFl(0x1A);
     NanoDragoAnimationBinding binding = { nano_drago_entry_params_resource->motions, nanodrago_action_table, 1, 0xC0000 };
     modelEntries = nano_drago_entry_params_resource->models;

@@ -288,26 +288,10 @@ s32 query_memcard_capacity__15TAdPlayerLoadGCFl(s32, s32);
 s32 set_stream_and_load_file__6TLobbyFi(const char *);
 s32 is_on_current_screen__11TCameraCtrlFv(void *, s32);
 }
-// A velocity/position ramp: accelerate from v0 to peak, cruise, brake to rest over dist.
-// init_piecewise_curve fills it, eval_piecewise_curve reads the speed, sample_piecewise_curve the distance.
-struct PiecewiseCurve {
-    f32 accel;
-    f32 decel;
-    f32 v0;
-    f32 peak;
-    f32 accelEnd;
-    f32 decelStart;
-    f32 end;
-    f32 t;
-    f32 accelDist;
-    f32 decelPos;
-    f32 dist;
-};
 f32 sample_acceleration_curve(AccelerationCurve *c, f32 t);
 void init_acceleration_curve(AccelerationCurve *c, f32 a, f32 d, f32 length, f32 speed);
 extern "C" {
 void __dl__FPv(void);
-s32 reset_floats__15TObjBoss2TunnelFv();
 s32 get_view_matrix__11TCameraCtrlFv();
 int vec3_add_to(void*, void*);
 int is_float_nonfinite(f32 farg0);
@@ -628,19 +612,19 @@ f32 sample_acceleration_curve(AccelerationCurve *c, f32 t) {
 }
 
 #pragma pop
-s32 TObjBoss2Tunnel::reset_floats(s32 arg0) {
-    reset_floats__15TObjBoss2TunnelFv();
-    return arg0;
+PiecewiseCurve::PiecewiseCurve() {
+    reset_floats();
 }
 
-s32 TObjBoss2Tunnel::dt(s32 arg0, s16 arg1) {
-    if ((arg0 != 0) && (arg1 > 0)) {
-        __dl__FPv();
-    }
-    return arg0;
-}
+PiecewiseCurve::~PiecewiseCurve() {}
 
-void TObjBoss2Tunnel::reset_floats() { *(float *)&this->m_flags = 0.0f; *(float *)&this->m_name = 0.0f; *(float *)&this->m_next = 0.0f; *(float *)&this->m_prev = 0.0f; *(float*)((char*)this + 0x18) = 0.0f; *(float *)&this->m_down = 0.0f; *(float *)&this->m_up = 0.0f; *(float *)&this->_pad1C = 0.0f; *(float *)&this->m_28 = 0.0f; *(float *)&this->m_24 = 0.0f; *(float *)&this->m_20 = 0.0f; }
+void PiecewiseCurve::reset_floats() {
+    accel = decel = 0.0f;
+    v0 = peak = 0.0f;
+    accelEnd = decelStart = end = 0.0f;
+    t = 0.0f;
+    accelDist = decelPos = dist = 0.0f;
+}
 
 extern "C" {
 void init_piecewise_curve(PiecewiseCurve *c, f32 accel, f32 decel, f32 dist, f32 v0, f32 peak) {

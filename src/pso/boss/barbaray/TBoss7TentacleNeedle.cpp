@@ -9,6 +9,7 @@
 #include "pso/boss/barbaray/TBoss7Tentacle.h"
 #include "pso/boss/barbaray/TBoss7PhotonBullet.h"
 #include "pso/boss/barbaray/TBoss7TentacleNeedle.h"
+#include "pso/boss/barbaray/Boss7TentacleData.h"
 #include "pso/boss/barbaray/TBoss7Joint.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/player/TObjPlayer.h"
@@ -98,18 +99,7 @@ void post_translate_matrix(void *);
 
 extern Vec TBoss7Tentacle__segment_offsets[];
 extern s32 __vt__20TBoss7TentacleNeedle[];
-extern Node_802EFF24 lbl_80541528[];
 extern u32 TBoss7Tentacle__needle_offsets[];
-extern s32 lbl_805D6948;
-
-// .rodata 0x80474070-0x804740C8 and the .sdata names are not this TU's: defined here, run_task would
-// address the tables and its 10430.38 literal off one hoisted .rodata base, and defined after their
-// first use CW would place them in .data.
-extern const f32 lbl_80474070[3];
-extern const s32 TBoss7Tentacle__target_angle_table[4];
-extern const s32 boss7_tentacle_angle_table[4];
-extern const char *TBoss7Tentacle__name;
-extern const char *boss7_tentacle_needle_name_ptr;
 
 struct Ten_802F01D0 { u8 pad0[0x50]; Vec v[14]; };
 

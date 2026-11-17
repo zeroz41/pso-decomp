@@ -3,15 +3,18 @@
 
 #include "pso/system/task/TObject.h"
 #include "types.h"
+#include <dolphin/mtx.h>
+#include <stddef.h>
+
+class TParticleCtrl;
 
 class TObjDFTenchuFuru : public TObject {
 public:
-    u8 unk_1C[0x4];
-    f32 m_20;
-    u8 unk_24[0x4];
-    s32 m_28;
- void* m_2c;
+    Vec pos;               // starts 300 above the spawn point, falls 60 a frame
+    s32 timer;             // frames left before it destroys itself
+    TParticleCtrl *effect; // create_particle_emitter(&pos, 0x134)
 public:
+    TObjDFTenchuFuru(TObject *parent, const Vec *position);
     virtual ~TObjDFTenchuFuru();
     virtual void run_task();
 public:
@@ -21,5 +24,10 @@ public:
     void transform_node_tree();
     void draw_node_tree();
 };
+
+typedef char TObjDFTenchuFuru_pos_offset[(offsetof(TObjDFTenchuFuru, pos) == 0x1C) ? 1 : -1];
+typedef char TObjDFTenchuFuru_timer_offset[(offsetof(TObjDFTenchuFuru, timer) == 0x28) ? 1 : -1];
+typedef char TObjDFTenchuFuru_effect_offset[(offsetof(TObjDFTenchuFuru, effect) == 0x2C) ? 1 : -1];
+typedef char TObjDFTenchuFuru_size[(sizeof(TObjDFTenchuFuru) == 0x30) ? 1 : -1];
 
 #endif
