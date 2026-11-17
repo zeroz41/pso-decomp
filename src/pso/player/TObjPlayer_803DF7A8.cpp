@@ -6,8 +6,8 @@
 extern "C" {
 s32 TObjPlayer__sub_803DFB1C(Vec_803E1B1C *a, Vec_803E1B1C *b);
 s32 __SITransfer(Vec_803E1B1C *a, Vec_803E1B1C *b);
-extern const Faces_803E0ED4 box_face_corner_index_table;
-const Faces_803E0ED4 box_face_corner_index_table = {
+extern const BoxFaces box_face_corner_index_table;
+const BoxFaces box_face_corner_index_table = {
     {{0, 1, 2, 3}, {4, 5, 6, 7}, {0, 3, 7, 4}, {2, 1, 5, 6}, {0, 4, 5, 1}, {3, 2, 6, 7}}};
 s32 test_aabb_overlap(Vec *minA, Vec *maxA, Vec *minB, Vec *maxB) {
     if (maxA->x < minB->x) {
@@ -535,7 +535,7 @@ s32 TObjPlayer::test_box_overlap(Vec_803E1B1C *boxB) {
     calc_box_bounds((Vec *)this, &mnA, &mxA);
     calc_box_bounds((Vec *)boxB, &mnB, &mxB);
     if (test_aabb_overlap(&mnA, &mxA, &mnB, &mxB) != 0) {
-    Faces_803E0ED4 faces = box_face_corner_index_table;
+    BoxFaces faces = box_face_corner_index_table;
     for (i = 0; i < 6; i++) {
         fa = faces.v[i];
         qa[0].x = ((Vec_803E1B1C *)this)[fa[0]].x; qa[0].y = ((Vec_803E1B1C *)this)[fa[0]].y; qa[0].z = ((Vec_803E1B1C *)this)[fa[0]].z;
