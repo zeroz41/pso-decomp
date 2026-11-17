@@ -11,6 +11,7 @@
 #include "pso/network/NetStackTypes.h"
 
 #include "pso/network/PppBuffer.h"
+#include "pso/network/PppLcp.h"
 #include "pso/network/PppFsm.h"
 #include "pso/network/IPv4Header.h"
 
@@ -31,7 +32,7 @@ void TLobby__sub_803FD694(u8 *arg0) {
     fsm->proto->f14(fsm, fsm->proto);
     timer->callback = (PppFsmTimerCallback)update_countdown_state;
     timer->arg = fsm;
-    TLobby__sub_80405298((N_80405298 *)timer, fsm->proto->timeout);
+    lobby_timer_add((N_80405298 *)timer, fsm->proto->timeout);
 }
 
 void update_connection_state(int arg0) {
@@ -48,8 +49,8 @@ void update_connection_state(int arg0) {
         fsm->retries = fsm->f5;
         if (fsm->retries != 0) {
             fsm->retries--;
-            TLobby__sub_80405328((u8 *)&fsm->timer);
-            TLobby__sub_803FE6CC((void *)arg0, 5, 0, 0);
+            lobby_timer_start((u8 *)&fsm->timer);
+            ppp_fsm_send_packet((void *)arg0, 5, 0, 0);
         }
         fsm->state = 6;
         break;
@@ -62,8 +63,8 @@ void update_connection_state(int arg0) {
         if (lbl_805D7A90 & 2) {
             if (fsm->retries != 0) {
                 fsm->retries--;
-                TLobby__sub_80405328((u8 *)&fsm->timer);
-                TLobby__sub_803FE6CC((void *)arg0, 5, 0, 0);
+                lobby_timer_start((u8 *)&fsm->timer);
+                ppp_fsm_send_packet((void *)arg0, 5, 0, 0);
             }
         }
         fsm->state = 0;
@@ -82,7 +83,7 @@ void TLobby__sub_803FD85C(void *arg0) {
         case 2:
         case 3:
         case 4:
-            TLobby__sub_80405304(&fsm->timer);
+            lobby_timer_stop(&fsm->timer);
             fsm->state = (fsm->f2 & 0xC0) ? 1 : 0;
             fsm->retries = fsm->f4;
             fsm->f6 = fsm->f7;
@@ -117,8 +118,8 @@ void TLobby__sub_803FD958(u8 *arg0) {
             if (fsm->f2 & 0x80) {
                 if (fsm->retries != 0) {
                     fsm->retries--;
-                    TLobby__sub_80405328((u8 *)&fsm->timer);
-                    TLobby__sub_803FE6CC(arg0, 1, 0, fsm->proto->f28(fsm, fsm->proto));
+                    lobby_timer_start((u8 *)&fsm->timer);
+                    ppp_fsm_send_packet(arg0, 1, 0, fsm->proto->f28(fsm, fsm->proto));
                 }
                 fsm->state = 2;
             }
@@ -136,8 +137,8 @@ void update_countdown_state(void *arg0) {
         if (fsm->retries != 0) {
             if (fsm->retries > 0) {
                 fsm->retries--;
-                TLobby__sub_80405328((u8 *)&fsm->timer);
-                TLobby__sub_803FE6CC(fsm, 1, 0, fsm->proto->f28(fsm, fsm->proto));
+                lobby_timer_start((u8 *)&fsm->timer);
+                ppp_fsm_send_packet(fsm, 1, 0, fsm->proto->f28(fsm, fsm->proto));
             }
             if (fsm->state == 3) {
                 fsm->state = 2;
@@ -154,8 +155,8 @@ void update_countdown_state(void *arg0) {
         if (fsm->retries != 0) {
             if (fsm->retries > 0) {
                 fsm->retries--;
-                TLobby__sub_80405328((u8 *)&fsm->timer);
-                TLobby__sub_803FE6CC(fsm, 5, 0, 0);
+                lobby_timer_start((u8 *)&fsm->timer);
+                ppp_fsm_send_packet(fsm, 5, 0, 0);
             }
         } else {
             fsm->proto->f24(fsm, fsm->proto);
@@ -169,7 +170,7 @@ void update_countdown_state(void *arg0) {
     }
 }
 
-static inline s16 read_packet_header(Hdr_803FC4B4 *dst, void *src, s32 with_ext) {
+static inline s16 read_packet_header(PppHeader *dst, void *src, s32 with_ext) {
     u8 ext[8];
     u8 buf[4];
     if (dst == 0) {
@@ -178,8 +179,8 @@ static inline s16 read_packet_header(Hdr_803FC4B4 *dst, void *src, s32 with_ext)
     if (ppp_buffer_read(src, buf, 4) < 4) {
         return -1;
     }
-    dst->type = buf[0];
-    dst->flag = buf[1];
+    dst->code = buf[0];
+    dst->id = buf[1];
     dst->len = read_network_u16_be(buf + 2);
     if (with_ext && ppp_buffer_read(src, ext, 8) < 8) {
         return -1;
@@ -193,9 +194,9 @@ static inline s16 read_packet_header(Hdr_803FC4B4 *dst, void *src, s32 with_ext)
 #pragma inline_depth(4)
 void TLobby__sub_803FDBF8(PppFsm *fsm, void *arg1)
 {
-    s16 TLobby__sub_803FE6CC(); /* declared without a parameter list; the definition is s32 (void *, int, int, void *) */
+    s16 ppp_fsm_send_packet(); /* declared without a parameter list; the definition is s32 (void *, int, int, void *) */
     extern s32 lbl_805D7AA0;
-    Hdr_803FC4B4 hdr;
+    PppHeader hdr;
     s16 rc;
     u8 *newbuf;
     u8 *dp;
@@ -206,7 +207,7 @@ void TLobby__sub_803FDBF8(PppFsm *fsm, void *arg1)
     }
     hdr.len -= 4;
     TLobby__sub_80401CAC((PppFrame **)&arg1, hdr.len);
-    switch (hdr.type) {
+    switch (hdr.code) {
     case 1:
         switch (fsm->state) {
         case 5:
@@ -219,8 +220,8 @@ void TLobby__sub_803FDBF8(PppFsm *fsm, void *arg1)
             fsm->proto->f18(fsm, fsm->proto);
             if (fsm->retries != 0) {
                 fsm->retries--;
-                TLobby__sub_80405328((u8 *)&fsm->timer);
-                TLobby__sub_803FE6CC(fsm, 1, 0, fsm->proto->f28(fsm, fsm->proto));
+                lobby_timer_start((u8 *)&fsm->timer);
+                ppp_fsm_send_packet(fsm, 1, 0, fsm->proto->f28(fsm, fsm->proto));
             }
         case 2:
         case 4:
@@ -232,16 +233,16 @@ void TLobby__sub_803FDBF8(PppFsm *fsm, void *arg1)
             break;
         case 3:
             if (fsm->proto->f2C(fsm, &hdr, arg1) == 0) {
-                TLobby__sub_80405304(&fsm->timer);
+                lobby_timer_stop(&fsm->timer);
                 fsm->proto->f1C(fsm, fsm->proto);
                 fsm->state = 5;
                 lbl_805D7AA0++;
             } else {
-                TLobby__sub_80405328((u8 *)&fsm->timer);
+                lobby_timer_start((u8 *)&fsm->timer);
             }
             break;
         case 0:
-            TLobby__sub_803FE6CC(fsm, 6, hdr.flag, 0);
+            ppp_fsm_send_packet(fsm, 6, hdr.id, 0);
             break;
         case 6:
             break;
@@ -256,7 +257,7 @@ void TLobby__sub_803FDBF8(PppFsm *fsm, void *arg1)
             break;
         case 4:
             if (fsm->proto->f30(fsm, &hdr, arg1) == 0) {
-                TLobby__sub_80405304(&fsm->timer);
+                lobby_timer_stop(&fsm->timer);
                 fsm->proto->f1C(fsm, fsm->proto);
                 fsm->state = 5;
                 lbl_805D7AA0++;
@@ -272,14 +273,14 @@ void TLobby__sub_803FDBF8(PppFsm *fsm, void *arg1)
         case 3:
             if (fsm->retries != 0) {
                 fsm->retries--;
-                TLobby__sub_80405328((u8 *)&fsm->timer);
-                TLobby__sub_803FE6CC(fsm, 1, 0, fsm->proto->f28(fsm, fsm->proto));
+                lobby_timer_start((u8 *)&fsm->timer);
+                ppp_fsm_send_packet(fsm, 1, 0, fsm->proto->f28(fsm, fsm->proto));
             }
             fsm->state = 2;
             break;
         case 0:
         case 1:
-            TLobby__sub_803FE6CC(fsm, 6, hdr.flag, 0);
+            ppp_fsm_send_packet(fsm, 6, hdr.id, 0);
             break;
         case 6:
             break;
@@ -292,8 +293,8 @@ void TLobby__sub_803FDBF8(PppFsm *fsm, void *arg1)
             if (fsm->proto->f34(fsm, &hdr, arg1) == 0) {
                 if (fsm->retries != 0) {
                     fsm->retries--;
-                    TLobby__sub_80405328((u8 *)&fsm->timer);
-                    TLobby__sub_803FE6CC(fsm, 1, 0, fsm->proto->f28(fsm, fsm->proto));
+                    lobby_timer_start((u8 *)&fsm->timer);
+                    ppp_fsm_send_packet(fsm, 1, 0, fsm->proto->f28(fsm, fsm->proto));
                 }
             }
             break;
@@ -307,14 +308,14 @@ void TLobby__sub_803FDBF8(PppFsm *fsm, void *arg1)
         case 3:
             if (fsm->retries != 0) {
                 fsm->retries--;
-                TLobby__sub_80405328((u8 *)&fsm->timer);
-                TLobby__sub_803FE6CC(fsm, 1, 0, fsm->proto->f28(fsm, fsm->proto));
+                lobby_timer_start((u8 *)&fsm->timer);
+                ppp_fsm_send_packet(fsm, 1, 0, fsm->proto->f28(fsm, fsm->proto));
             }
             fsm->state = 2;
             break;
         case 0:
         case 1:
-            TLobby__sub_803FE6CC(fsm, 6, hdr.flag, 0);
+            ppp_fsm_send_packet(fsm, 6, hdr.id, 0);
             break;
         case 6:
             break;
@@ -327,8 +328,8 @@ void TLobby__sub_803FDBF8(PppFsm *fsm, void *arg1)
             if (fsm->proto->f38(fsm, &hdr, arg1) == 0) {
                 if (fsm->retries != 0) {
                     fsm->retries--;
-                    TLobby__sub_80405328((u8 *)&fsm->timer);
-                    TLobby__sub_803FE6CC(fsm, 1, 0, fsm->proto->f28(fsm, fsm->proto));
+                    lobby_timer_start((u8 *)&fsm->timer);
+                    ppp_fsm_send_packet(fsm, 1, 0, fsm->proto->f28(fsm, fsm->proto));
                 }
             }
             break;
@@ -342,14 +343,14 @@ void TLobby__sub_803FDBF8(PppFsm *fsm, void *arg1)
         case 3:
             if (fsm->retries != 0) {
                 fsm->retries--;
-                TLobby__sub_80405328((u8 *)&fsm->timer);
-                TLobby__sub_803FE6CC(fsm, 1, 0, fsm->proto->f28(fsm, fsm->proto));
+                lobby_timer_start((u8 *)&fsm->timer);
+                ppp_fsm_send_packet(fsm, 1, 0, fsm->proto->f28(fsm, fsm->proto));
             }
             fsm->state = 2;
             break;
         case 0:
         case 1:
-            TLobby__sub_803FE6CC(fsm, 6, hdr.flag, 0);
+            ppp_fsm_send_packet(fsm, 6, hdr.id, 0);
             break;
         case 6:
             break;
@@ -358,7 +359,7 @@ void TLobby__sub_803FDBF8(PppFsm *fsm, void *arg1)
     case 5:
         switch (fsm->state) {
         case 5:
-            TLobby__sub_803FE6CC(fsm, 6, hdr.flag, 0);
+            ppp_fsm_send_packet(fsm, 6, hdr.id, 0);
             fsm->proto->f20(fsm, fsm->proto);
             fsm->proto->f24(fsm, fsm->proto);
             fsm->state = ((fsm->f2 & 0xC0) != 0) ? 1 : 0;
@@ -373,14 +374,14 @@ void TLobby__sub_803FDBF8(PppFsm *fsm, void *arg1)
         case 1:
         case 2:
         case 6:
-            TLobby__sub_803FE6CC(fsm, 6, hdr.flag, 0);
+            ppp_fsm_send_packet(fsm, 6, hdr.id, 0);
             break;
         }
         break;
     case 6:
         switch (fsm->state) {
         case 6:
-            TLobby__sub_80405304(&fsm->timer);
+            lobby_timer_stop(&fsm->timer);
             fsm->proto->f24(fsm, fsm->proto);
             fsm->state = ((fsm->f2 & 0xC0) != 0) ? 1 : 0;
             fsm->retries = fsm->f4;
@@ -397,8 +398,8 @@ void TLobby__sub_803FDBF8(PppFsm *fsm, void *arg1)
                 rc = -1;
             } else {
                 fsm->retries--;
-                TLobby__sub_80405328((u8 *)&fsm->timer);
-                rc = TLobby__sub_803FE6CC(fsm, 1, 0, fsm->proto->f28(fsm, fsm->proto));
+                lobby_timer_start((u8 *)&fsm->timer);
+                rc = ppp_fsm_send_packet(fsm, 1, 0, fsm->proto->f28(fsm, fsm->proto));
             }
             if (rc == 0) {
                 fsm->state = 2;
@@ -420,7 +421,7 @@ void TLobby__sub_803FDBF8(PppFsm *fsm, void *arg1)
     case 9:
         switch (fsm->state) {
         case 5:
-            TLobby__sub_803FE6CC(fsm, 10, hdr.flag, arg1);
+            ppp_fsm_send_packet(fsm, 10, hdr.id, arg1);
             break;
         case 2:
         case 3:
@@ -428,7 +429,7 @@ void TLobby__sub_803FDBF8(PppFsm *fsm, void *arg1)
             break;
         case 0:
         case 1:
-            TLobby__sub_803FE6CC(fsm, 6, hdr.flag, 0);
+            ppp_fsm_send_packet(fsm, 6, hdr.id, 0);
             break;
         case 6:
             break;
@@ -444,11 +445,11 @@ void TLobby__sub_803FDBF8(PppFsm *fsm, void *arg1)
         hdr.len += 4;
         newbuf = alloc_from_buffer(arg1, 4);
         dp = ((PppFrame *)newbuf)->data;
-        *dp++ = hdr.type;
-        *dp++ = hdr.flag;
+        *dp++ = hdr.code;
+        *dp++ = hdr.id;
         write_network_u16_be(dp, hdr.len);
         arg1 = newbuf;
-        TLobby__sub_803FE6CC(fsm, 7, hdr.flag, arg1);
+        ppp_fsm_send_packet(fsm, 7, hdr.id, arg1);
         switch (fsm->state) {
         case 6:
             break;
@@ -482,36 +483,50 @@ s32 TLobby__sub_803FE658(u8 *arg0) {
         return -1;
     }
     fsm->retries = count - 1;
-    TLobby__sub_80405328((u8 *)&fsm->timer);
-    return TLobby__sub_803FE6CC(arg0, 1, 0, fsm->proto->f28(fsm, fsm->proto));
+    lobby_timer_start((u8 *)&fsm->timer);
+    return ppp_fsm_send_packet(arg0, 1, 0, fsm->proto->f28(fsm, fsm->proto));
 }
 
 #pragma push
+#pragma optimization_level 0
+#pragma opt_propagation on
+static inline PppFrame *ppp_frame_clear_length(PppFrame *frame) {
+    u16 *length = &frame->len;
+    *length = 0;
+    return (PppFrame *)((u8 *)length - offsetof(PppFrame, len));
+}
+#pragma pop
+#pragma push
 #pragma opt_lifetimes off
-s32 TLobby__sub_803FE6CC(void *self, int a, int b, void *c) {
+#pragma dont_inline off
+#pragma inline_depth(4)
+#pragma opt_common_subs off
+#pragma opt_propagation on
+s32 ppp_fsm_send_packet(void *self, int code, int reply_identifier, void *payload) {
     PppFsm *fsm = (PppFsm *)self;
-    u8 pad[8];
-    PppFrame *buf;
-    u8 *link = fsm->sub;
-    s32 cmd;
-    s32 id;
-    u16 n;
+    PppBuffers *buffers;
+    PppFsmLink *link = (PppFsmLink *)fsm->sub;
+    s32 command;
+    u8 *length_field;
+    s32 identifier;
+    u32 payload_length;
+    u32 get_field_4(void *self); /* declared here with another return type; the definition returns u16 */
+    u8 *write_network_u16_be(u8 *p, u32 v); /* declared here with other parameter types; the definition is u8 *(u8 *, u16) */
 
-    if ((buf = (PppFrame *)c) == 0) {
-        PppFrame *q = lbl_805C04A8.reply;
-        q->data = (u8 *)q + ((lbl_805C04A8.headroom + 0x83) & ~3);
-        q->len = 0;
-        buf = q;
+    if (payload == NULL) {
+        PppFrame *empty = lbl_805C04A8.reply;
+        empty->data = (u8 *)empty + ((*(buffers = &lbl_805C04A8)).headroom + 0x83 & ~3);
+        payload = (void *)ppp_frame_clear_length(empty);
     }
-    switch (cmd = (u8)a) {
+    switch (command = (u8)code) {
     case 1:
     case 5:
     case 9:
-        fsm->f1 = link[1];
+        fsm->id = link->next_identifier;
     case 8:
     case 11:
-        id = link[1];
-        link[1] = id + 1;
+        identifier = link->next_identifier;
+        link->next_identifier = identifier + 1;
         break;
     case 2:
     case 3:
@@ -519,41 +534,44 @@ s32 TLobby__sub_803FE6CC(void *self, int a, int b, void *c) {
     case 6:
     case 7:
     case 10:
-        id = b;
+        identifier = reply_identifier;
         break;
     default:
         return -1;
     }
-
-    switch (cmd) {
+    switch (command) {
     case 9:
     case 10:
     case 11:
-        write_network_u32_be(buf->data, *(u32 *)(fsm->opts + 0x28));
+        write_network_u32_be(((PppFrame *)payload)->data, ((LcpOpts *)fsm->opts)->local.got.magic);
         break;
     }
-    n = get_field_4((void *)buf) + 4;
+    payload_length = get_field_4(payload);
     {
-        PppFrame *out = (PppFrame *)alloc_from_buffer((0, (void *)buf), 4);
-        u8 *dp = out->data;
-        *dp++ = a;
-        *dp++ = id;
-        write_network_u16_be(dp, n);
-        buf = out;
+        PppFrame *saved_frame = (PppFrame *)payload;
+        payload = (void *)(payload_length + 4);
+        {
+            PppFrame *output = (PppFrame *)alloc_from_buffer((0, (void *)saved_frame), 4);
+            u8 *data = output->data;
+            *data++ = code;
+            *data++ = identifier;
+            length_field = data;
+            write_network_u16_be(length_field, (u32)payload);
+            payload = output;
+        }
     }
-    if (buf == 0) {
+    if (payload == NULL) {
         return -1;
     }
     {
-        u8 *counter = link + (fsm->proto->b8 << 1);
-        s16 v = *(s16 *)(counter + 0x118);
-        *(s16 *)(counter + 0x118) = v + 1;
+        s16 count = link->transmitted[fsm->proto->b8];
+        link->transmitted[fsm->proto->b8] = count + 1;
     }
-    return TLobby__sub_80406624(0, 0, fsm->proto->proto, buf);
+    return TLobby__sub_80406624(0, 0, fsm->proto->proto, payload);
 }
 #pragma pop
 void TLobby__sub_803FE820(s32 arg0) {
-    TLobby__sub_80405328((u8 *)&((PppFsm *)arg0)->timer);
+    lobby_timer_start((u8 *)&((PppFsm *)arg0)->timer);
 }
 
 s32 TLobby__sub_803FE844(void) {

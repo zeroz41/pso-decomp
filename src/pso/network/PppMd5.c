@@ -12,7 +12,7 @@
 #include "pso/network/PppMd5.h"
 
 const u8 lbl_8047FE78[64] = {128, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-void TLobby__sub_80401D2C(u8 *dst, MD5Context *ctx) {
+void MD5Final(u8 *dst, MD5Context *ctx) {
     u8 buf[8];
     u32 x;
     u32 n;
@@ -28,8 +28,8 @@ void TLobby__sub_80401D2C(u8 *dst, MD5Context *ctx) {
     buf[7] = *high >> 24;
     x = (ctx->count[0] >> 3) & 0x3f;
     n = (x < 0x38) ? (0x38 - x) : (0x78 - x);
-    TLobby__sub_80401EB8(ctx, lbl_8047FE78, n);
-    TLobby__sub_80401EB8(ctx, buf, 8);
+    MD5Update(ctx, lbl_8047FE78, n);
+    MD5Update(ctx, buf, 8);
     dst[0] = ctx->state[0];
     dst[1] = ctx->state[0] >> 8;
     dst[2] = ctx->state[0] >> 16;
@@ -49,8 +49,7 @@ void TLobby__sub_80401D2C(u8 *dst, MD5Context *ctx) {
     NetMemset(ctx, 0, sizeof(MD5Context));
 }
 
-/* MD5Update (RFC 1321) */
-void TLobby__sub_80401EB8(MD5Context *context, u8 *input, u32 inputLen)
+void MD5Update(MD5Context *context, u8 *input, u32 inputLen)
 {
     u32 i, index, partLen;
 

@@ -113,7 +113,7 @@ s16 TLobby__sub_803FF304(u8 *lobby);
 void TLobby__sub_803FF468(s32 arg0);
 void TLobby__sub_803FD85C(void *arg0);
 s32 TLobby__sub_80403D28(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7);
-s32 TLobby__sub_803FE6CC(void *self, int a, int b, void *c);
+s32 ppp_fsm_send_packet(void *self, int code, int reply_identifier, void *payload);
 s32 TLobby__sub_803FE658(u8 *arg0);
 void TLobby__sub_803FD958(u8 *arg0);
 void TLobby__sub_80401CAC(PppFrame **o, u16 v);
@@ -148,8 +148,8 @@ s16 TLobby__sub_803FE8BC(u8 *dst, void *src);
 s16 pap_recv_auth_request(u8 *self, u8 *src, PppFrame *val);
 void TLobby__sub_80400ACC(O_80400ACC *o);
 PppFrame *TLobby__sub_80401B20(void *src, u16 n);
-void TLobby__sub_80401EB8(MD5Context *context, u8 *input, u32 inputLen);
-void TLobby__sub_80401D2C(u8 *dst, MD5Context *ctx);
+void MD5Update(MD5Context *context, u8 *input, u32 inputLen);
+void MD5Final(u8 *dst, MD5Context *ctx);
 #ifdef __cplusplus
 }
 #endif

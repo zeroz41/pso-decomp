@@ -356,7 +356,7 @@ s32 TLobby__sub_803FB6A0(void) {
 
 s32 TLobby__sub_803FB7A4(void) {
     extern s32 lbl_805D7A94;
-    extern s16 lbl_805D7A80;
+    extern s16 ppp_auth_failed;
     extern s32 lbl_805D7AA0;
     extern s32 lbl_805D7BD8;
     s16 TLobby__sub_80403D28(s32, s32, s32, s32, s32, s32, s32, s32); /* declared s16 here; the definition returns s32 */
@@ -476,7 +476,7 @@ L242:
     net_sleep_ms(500);
     lock_mutex(lbl_805C18A0.mutex);
     lobby_modem_connect_state = 3;
-    lbl_805D7A80 = 0;
+    ppp_auth_failed = 0;
     get_time_ms(&g->connect_ms);
     ppp_auth_protocol = 0;
     if (g->flags & 4) {

@@ -53,7 +53,7 @@ s32 TLobby__sub_803F79AC(void *);
 void net_sleep_ms(int);
 extern u8 lbl_805C0038[];
 void TLobby__sub_803FDBF8(u8 *self, void *arg1);
-void PADRead(u8 *, PppFrame *); /* declared here with other parameter types; the definition is void (u8 *, s32) */
+void pap_input(Conn_804004DC *self, PppFrame *source);
 s16 TLobby__sub_804040E0(void *self, void *arg);
 s32 TLobby__sub_804060B8(u8 *, u16, int);
 
@@ -136,7 +136,7 @@ void process_expired_timers(void) {
 }
 
 #define HEAD_80405298 (*(N_80405298 **)&lobby_timer_list_head)
-void TLobby__sub_80405298(N_80405298 *o, s32 v) {
+void lobby_timer_add(N_80405298 *o, s32 v) {
     N_80405298 *p, *n;
     if (o == 0) {
         return;
@@ -160,7 +160,7 @@ void TLobby__sub_80405298(N_80405298 *o, s32 v) {
     o->b18 = 0;
 }
 
-s32 TLobby__sub_80405304(void *arg0) {
+s32 lobby_timer_stop(void *arg0) {
     Obj_80405304 *o = (Obj_80405304 *)arg0;
     if (o == NULL || o->f18 != 1) {
         return;
@@ -168,7 +168,7 @@ s32 TLobby__sub_80405304(void *arg0) {
     o->f18 = 0;
 }
 
-void TLobby__sub_80405328(u8 *arg0) {
+void lobby_timer_start(u8 *arg0) {
     typedef struct Fields_arg0 { u8 pad_0[4]; u32 field_4; u32 field_8; u8 pad_C[4]; u32 field_10; u8 pad_14[4]; u8 field_18; } Fields_arg0;
     u32 temp_r0_2;
     u8 temp_r0;
@@ -527,7 +527,7 @@ inline s32 get_80405A74(PppFrame **s) {
     if (ppp_buffer_read(&u, lobby_ppp_read_buf, 2) == 2) {                    \
         read_network_u16_be(lobby_ppp_read_buf);                             \
     }                                                                        \
-    TLobby__sub_803FE6CC(G + 4, 8, 0, u);                                    \
+    ppp_fsm_send_packet(G + 4, 8, 0, u);                                    \
     return;
 void ppp_input_packet(PppFrame *arg0) {
     u16 code;
@@ -606,7 +606,7 @@ void ppp_input_packet(PppFrame *arg0) {
             return;
         }
         (*(s16 *)((s8 *)G + 0x132))++;
-        PADRead(G + 0x38, arg0);
+        pap_input((Conn_804004DC *)(G + 0x38), arg0);
         return;
     case 0xC223:
         if (G[0] != 2 && G[0] != 3) {
@@ -617,7 +617,7 @@ void ppp_input_packet(PppFrame *arg0) {
             return;
         }
         (*(s16 *)((s8 *)G + 0x136))++;
-        dispatch_received_packet((void *)(G + 0xA0), (s32)arg0);
+        chap_input((void *)(G + 0xA0), (s32)arg0);
         return;
     case 0x8021:
         if (G[0] != 3) {
