@@ -720,14 +720,14 @@ u16 calc_pseudo_header_checksum(s32 src, s32 dst, s8 proto, void *pkt, s16 flag)
         ph.len = ((P_8040EC38 *)pkt)->f8;
     }
     sum = ones_complement_sum(&ph, 6);
-    sum += TLobby__sub_80406BD8(pkt, flag);
+    sum += packet_ones_complement_sum(pkt, flag);
     sum = (sum >> 16) + (sum & 0xFFFF);
     sum += sum >> 16;
     return ~sum;
 }
 
 u16 calc_ip_checksum(void *self, s16 b) {
-    u32 s = TLobby__sub_80406BD8(self, b);
+    u32 s = packet_ones_complement_sum(self, b);
     s = (s >> 16) + (s & 0xFFFF);
     s += (s >> 16);
     return ~s;

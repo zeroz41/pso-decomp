@@ -28,14 +28,14 @@ void ppp_input_packet(PppFrame *arg0);
 
 extern PppFrame *ppp_rx_frame_ptr;
 extern s32 lbl_805D7A94;
-extern u8 *lbl_805D7ADC;
-extern u8 *lbl_805D7AE0;
-extern u32 lbl_805D7AE4;
+extern u8 *ppp_rx_read_ptr;
+extern u8 *ppp_rx_end_ptr;
+extern u32 ppp_rx_escape_pending;
 /* inferred: the receive path's running FCS: reset to 0xFFFF, folded per byte, good at 0xF0B8. */
 extern u16 ppp_rx_fcs;
 /* inferred: the PPP FCS-16 lookup table (RFC 1662 fcstab); the receive path checks the FCS against 0xF0B8. */
 extern u16 ppp_fcs16_table[];
-u8 lbl_805C18B0[0x200];
+u8 ppp_rx_buffer[0x200];
 
 #include <stddef.h>
 
@@ -108,14 +108,14 @@ struct Timer_804051CC {
     u8 f18;
 };
 
-s32 TLobby__sub_80405700();
+s32 ppp_poll_input(void);
 
 void process_expired_timers(void) {
     s32 now;
     Timer_804051CC *t;
 
     lock_mutex(lbl_805C18A0.mutex);
-    TLobby__sub_80405700();
+    ppp_poll_input();
     get_time_ms(&now);
     t = (Timer_804051CC *)lobby_timer_list_head;
     while (t != NULL) {
@@ -353,7 +353,7 @@ extern u8 *TLobby__sub_8040555C(u8 *self, void *lobby, u8 *obj) {
 
 #pragma push
 #pragma opt_common_subs on
-s32 TLobby__sub_80405700()
+s32 ppp_poll_input(void)
 {
   PppFrame *frame;
   u32 b;
@@ -403,27 +403,27 @@ s32 TLobby__sub_80405700()
     }
     return 0;
   }
-  if (lbl_805D7ADC == 0)
+  if (ppp_rx_read_ptr == 0)
   {
-    lbl_805D7ADC = lbl_805C18B0;
+    ppp_rx_read_ptr = ppp_rx_buffer;
     ppp_rx_frame_ptr = 0;
     ppp_rx_fcs = 0xffff;
-    lbl_805D7AE4 = 0;
-    lbl_805D7AE0 = lbl_805C18B0;
+    ppp_rx_escape_pending = 0;
+    ppp_rx_end_ptr = ppp_rx_buffer;
   }
   base = &lbl_805C04A8;
   for (;;)
   {
-    if (lbl_805D7ADC == lbl_805D7AE0)
+    if (ppp_rx_read_ptr == ppp_rx_end_ptr)
     {
-      if ((recv_network_frame(sizeof(lbl_805C18B0), lbl_805C18B0, &st) != 0) || (st < 1))
+      if ((recv_network_frame(sizeof(ppp_rx_buffer), ppp_rx_buffer, &st) != 0) || (st < 1))
       {
         goto tail;
       }
-      lbl_805D7ADC = lbl_805C18B0;
-      lbl_805D7AE0 = lbl_805C18B0 + st;
+      ppp_rx_read_ptr = ppp_rx_buffer;
+      ppp_rx_end_ptr = ppp_rx_buffer + st;
     }
-    c = *(lbl_805D7ADC++);
+    c = *(ppp_rx_read_ptr++);
     if (c == 0x7e)
     {
       if (((ppp_rx_frame_ptr != 0) && (ppp_rx_frame_ptr->len < 0x800)) && (ppp_rx_fcs == 0xf0b8))
@@ -440,7 +440,7 @@ s32 TLobby__sub_80405700()
     }
     if ((c == 0x7d) != 0U)
     {
-      lbl_805D7AE4 |= 1;
+      ppp_rx_escape_pending |= 1;
       continue;
     }
     if (ppp_rx_frame_ptr == 0)
@@ -448,12 +448,12 @@ s32 TLobby__sub_80405700()
       ppp_rx_frame_ptr = (frame = base->frame_in);
       ppp_rx_frame_ptr->data = ((u8 *) frame) + ((base->headroom + 0x83) & (~3));
       ppp_rx_frame_ptr->len = 0;
-      lbl_805D7AE4 = 0;
+      ppp_rx_escape_pending = 0;
       ppp_rx_fcs = 0xffff;
     }
-    if (lbl_805D7AE4 & 1)
+    if (ppp_rx_escape_pending & 1)
     {
-      lbl_805D7AE4 &= ~1;
+      ppp_rx_escape_pending &= ~1;
       c ^= 0x20;
     }
     if (ppp_rx_frame_ptr->len >= 0x800)
@@ -701,7 +701,7 @@ s32 TLobby__sub_804061FC(void)
   u8 *new_var;
   u8 *q;
   z = 0;
-  lbl_805D7ADC = (u8 *) z;
+  ppp_rx_read_ptr = (u8 *) z;
   p = lbl_805C0038;
   q = p;
   new_var = q;
@@ -1043,7 +1043,7 @@ s32 TLobby__sub_80406B6C(NetBufferRef *o) {
 u16 ones_complement_sum();
 #pragma push
 #pragma opt_lifetimes off
-u16 TLobby__sub_80406BD8(NetPacket *pkt, s16 flag)
+u16 packet_ones_complement_sum(NetPacket *pkt, s16 flag)
 {
     NetPacketFragment *e;
     u32 sum;
