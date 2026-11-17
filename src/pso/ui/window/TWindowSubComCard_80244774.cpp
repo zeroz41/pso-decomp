@@ -29,6 +29,9 @@ struct UV_8024503C { f32 u, v; };
 
 struct UVPair_8024503C { UV_8024503C e[2]; };
 
+const char *TWindowBase__name = "TWindowBase";
+static const UVPair_8024503C selection_bar_texture_coordinates = {{{151.0f, 57.0f}, {151.0f, 76.0f}}};
+
 struct Quad_80245D64
 {
   f32 x0;
@@ -158,7 +161,6 @@ s32 sub_8026CC28__11TWindowBaseFv();
 s32 resort_window_order__11TWindowBaseFv(void *);
 
 extern int lbl_805D3614;
-extern s32 lbl_805D3888;
 
 extern "C" {
 s32 try_open__19TWindowKeyBoardSoftFii(void *, Quad_802455CC *);
@@ -271,7 +273,6 @@ s32 TWindowBase::is_window_reveal_complete() {
 extern u16 window_ui_theme_index;
 extern s16 lbl_805D63F6;
 void draw_window_scanlines(u8 *arg0, u8 *arg1);
-extern UVPair_8024503C selection_bar_texture_coordinates;
 extern s32 lbl_805D63F0;
 void draw_selection_bar(u8 *arg0, u8 *arg1, s32 arg2);
 void window_request_refresh(u8 *arg0);
@@ -387,7 +388,7 @@ void TWindowBase::sub_80244F2C(u8 *arg1, u8 *arg2, s16 arg3) {
     f32 temp_f1;
     s32 temp_r3;
     s32 temp_r3_2;
-    *(s32 *)((s8 *)((u8 *)this) + 0) = (s32) lbl_805D3888;
+    *(s32 *)((s8 *)((u8 *)this) + 0) = (s32) TWindowBase__name;
     ((s32 (*)(void *, void *))copy_vec2__28TWindowSubSymbolChatPartsSetFPv)((void *) (((u8 *)this) + 0x30), arg2);
     ((s32 (*)(void *, void *))copy_vec2__28TWindowSubSymbolChatPartsSetFPv)((void *) (((u8 *)this) + 0x38), arg1);
     ((s32 (*)(void *))save_position__11TWindowBaseFv)(this);
@@ -1000,7 +1001,6 @@ u8 *TWindowDD::construct_base(u8 *arg1, s16 arg2, u8 *arg3) {
 
 struct Obj_80246948 { u8 pad[0x2c]; u32 f2c; };
 
-extern s32 lbl_8044E658[];
 extern const char lbl_8044E688[];
 extern const char hud_palette_texture_filename[];
 extern const char lbl_8044E6B0[];
@@ -1026,7 +1026,7 @@ void TWindowCtrlMain::free_window() {
 
 void load_hud_palette_textures(void) {
     s32 sp8[3];
-    sp8[0] = TLobby::tmp_buf_use_req((const char *)lbl_8044E658);
+    sp8[0] = TLobby::tmp_buf_use_req("TWindowBase");
     TLanguage::draw_string((void *)lbl_8044E688, (void *)sp8, 0x40);
     TLanguage::draw_string((void *)hud_palette_texture_filename, (void *)sp8, 0x41);
     TLanguage::draw_string((void *)lbl_8044E6B0, (void *)sp8, 0x42);
@@ -1037,7 +1037,7 @@ void load_hud_palette_textures(void) {
     TLanguage::draw_string((void *)lbl_8044E720, (void *)sp8, 1);
     TLanguage::draw_string((void *)lbl_8044E734, (void *)sp8, 0x4A);
     TLanguage::draw_string((void *)lbl_8044E748, (void *)sp8, 0x43);
-    TLobby::tmp_buf_release((const char *)lbl_8044E658);
+    TLobby::tmp_buf_release("TWindowBase");
     load_disc_prs_texture((s32)lbl_8044E758, (s32)f256_hyouji_texlist);
     lbl_805D63F0 = (u32)f256_hyouji_texlist;
     TObjFish::set_global_param((s32)((void *)f256_hyouji_texlist));

@@ -22,6 +22,11 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 #include "pso/unk/TLobby.h"
 
+const char *TWindowCtrl__name = "TWindowCtrl";
+/* frame of the open sequence at which each window appears: split screen / single player */
+static const s16 split_open_times[6] = {0, 4, 8, 12, 0, 0};
+static const s16 open_times[4] = {24, 30, 36, 0};
+
 
 typedef struct Ctrl_8024B8A0 {
     u8 pad0[0x1E];
@@ -301,19 +306,17 @@ typedef struct Ctrl_8024C024 {
 } Ctrl_8024C024;
 
 extern "C" {
-extern s16 lbl_8044EBD4[];
-extern s16 lbl_8044EBE0[];
 void TWindowCtrl::update_open_sequence() {
     Ctrl_8024C024 *o = (Ctrl_8024C024 *)this;
     if (is_split_screen() != 0) {
-        if (o->timer == lbl_8044EBD4[o->step]) {
+        if (o->timer == split_open_times[o->step]) {
             if (o->split[o->step] != NULL) {
                 ((TQuestVmDownLoadServer *)(o->split[o->step]))->clear_flag4_bit4();
             }
             o->step++;
         }
     } else {
-        if (o->timer == lbl_8044EBE0[o->step]) {
+        if (o->timer == open_times[o->step]) {
             if (o->slots[o->step] != NULL) {
                 ((TQuestVmDownLoadServer *)(o->slots[o->step]))->clear_flag4_bit4();
                 ((TWindowCtrl *)o)->update_party_status_rows();

@@ -15,6 +15,8 @@
 #include "pso/player/TObjPlayer_80011014.h"
 
 
+const char *TWindowStatus__name = "TWindowStatus";
+
 struct Quad_802710C4 { f32 x0, y0, x1, y1, u0, v0, u1, v1; };
 
 extern "C" {
@@ -30,7 +32,6 @@ void draw_photon_blast_gauge_ring(s32, void *, const f32 *, f32, f32);
 void begin_screen_draw(s32 arg0);
 s32 draw_textured_quad_at_depth(void *, f32);
 void set_draw_texture_and_color(s32 idx, s32 arg1);
-extern const f32 lbl_8044F650[];
 extern s32 lbl_805D63F0;
 
 s16 obj_getS16_2BA(u8 *p);
@@ -151,13 +152,14 @@ void update_hp_tp_values__20TWindowSubStatusDispFPv(u8 *window_sub_status_disp) 
 }
 
 void TWindowStatus::draw_background(u8 *arg1) {
+    static const f32 pos[2] = {44.0f, 30.5f};
     Quad_802710C4 q;
     f32 w;
     f32 s;
 
     {
         u8 *e = get_array_entry__11TWindowBaseFi(this, 0xE);
-        draw_photon_blast_gauge_ring((s32)this, arg1, lbl_8044F650, *(s32 *)((s8 *)e + 0x20), 26.0f);
+        draw_photon_blast_gauge_ring((s32)this, arg1, pos, *(s32 *)((s8 *)e + 0x20), 26.0f);
     }
     begin_screen_draw(1);
     TObjFish::set_global_param(lbl_805D63F0);
@@ -228,12 +230,11 @@ TWindowStatus::~TWindowStatus() {
 }
 
 
-extern void *TWindowStatus__name;
 
 void *TWindowStatus__ct(void *window_status, s32 layout_pos, void *arg2, const WindowDescriptor *desc) {
     TWindowSimpleStatus__ct(window_status, layout_pos, arg2, desc);
     *(s32 **)((s8 *)window_status + 0x18) = __vt__13TWindowStatus;
-    *(void * *)&((TWindowStatus *)window_status)->m_name = TWindowStatus__name;
+    ((TWindowStatus *)window_status)->m_name = TWindowStatus__name;
     return window_status;
 }
 

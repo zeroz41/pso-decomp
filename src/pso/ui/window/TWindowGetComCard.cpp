@@ -39,8 +39,6 @@ s32 text_builder_append();
 s32 __ct__7TObjectFP7TObject();
 void TObjPlayer__sub_8024ABDC(s32 arg0);
 s32 create__14TWindowMessageFPvll(void *, void *, int);
-extern s32 lbl_8044ED94[];
-extern s32 lbl_8044ED9C[];
 extern void *__vt__17TWindowGetComCard[];
 const char *TWindowGetComCard__name = "TWindowGetComCard";
 extern s32 local_client_id;
@@ -155,11 +153,13 @@ TWindowGetComCard::~TWindowGetComCard() {
 }
 
 u8 *TWindowGetComCard__ct(TWindowGetComCard *window_get_com_card) {
+    static const f32 pos[2] = {10.0f, 277.0f};
+    static const f32 size[3] = {264.0f, 104.0f, 0.0f};
     s32 temp_r31;
     __ct__7TObjectFP7TObject();
     *(s32 **)((s8 *)window_get_com_card + 0x18) = ((s32 *)&__vt__17TWindowGetComCard);
     *(s32 *)((s8 *)window_get_com_card + 0) = (s32) TWindowGetComCard__name;
-    window_get_com_card->m_1c = create__14TWindowMessageFPvll(lbl_8044ED94, lbl_8044ED9C, 1);
+    window_get_com_card->m_1c = create__14TWindowMessageFPvll((void *)pos, (void *)size, 1);
     window_get_com_card->m_20 = 0;
     if (init_com_card__17TWindowSubComCardFv() != 0) {
         temp_r31 = (s32)TWindowGetComCard__sub_8007B594();

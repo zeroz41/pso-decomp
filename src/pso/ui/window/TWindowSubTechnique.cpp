@@ -29,12 +29,15 @@ s32 set_depth__11TWindowBaseFf(int);
 s32 create_titled_window_menu(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 extern "C" {
 s32 get_window_layout_position(int);
-extern s16 lbl_8044FC5C[];
-extern s16 lbl_8044FC64[];
-extern s16 lbl_8044FC6C[];
-extern s16 lbl_8044FC78[];
-extern s16 lbl_8044FC80[];
-s16 *technique_menu_category_lists[5] = { lbl_8044FC5C, lbl_8044FC64, lbl_8044FC6C, lbl_8044FC78, lbl_8044FC80 };
+const char *TWindowSubTechnique__name = "TWindowSubTechnique";
+static const f32 technique_help_window_size[2] = { 242.0f, 161.0f };
+/* technique ids per menu page, each ended by 19 (no technique) */
+static const s16 technique_menu_category_0[] = { 0, 6, 3, 19 };
+static const s16 technique_menu_category_1[] = { 1, 7, 4, 19 };
+static const s16 technique_menu_category_2[] = { 2, 8, 5, 9, 18, 19 };
+static const s16 technique_menu_category_3[] = { 15, 16, 17, 19 };
+static const s16 technique_menu_category_4[] = { 13, 10, 11, 12, 14, 19 };
+const s16 *technique_menu_category_lists[5] = { technique_menu_category_0, technique_menu_category_1, technique_menu_category_2, technique_menu_category_3, technique_menu_category_4 };
 
 s32 get_cursor_pos__20TWindowShortListCtrlFv(s32);
 void align_menu_entry_positions(s32);
@@ -88,7 +91,7 @@ void TWindowSubTechnique::draw_technique_row(s32 id, s32 arg1, s32 arg2) {
 
 void TWindowSubTechnique::rebuildTechniqueList(s32 list, s32 category) {
     s32 selected;
-    s16 *entry;
+    const s16 *entry;
     entry = technique_menu_category_lists[category];
     selected = get_cursor_pos__20TWindowShortListCtrlFv(list);
     ((TWindowSubComCardList *)list)->reset_entries();
@@ -157,7 +160,6 @@ void *create__14TWindowMessageFlPCfUll(s32, void *, s32, s32);
 s32 update_selection__19TWindowSubTechniqueFPsPl(void *, void *, s32);
 void get_current_selection__19TWindowSubTechniqueFPv(void *, void *, s32);
 void *create_title_window__19TWindowSubTechniqueFv(void *, s32);
-extern u8 lbl_8044FC54[];
 extern Pad_802870C4 controller_input_state[];
 void *TWindowSubTechnique__ct(TWindowSubTechnique *arg0, s32 arg1, s32 arg2);
 s32 __ct__7TObjectFP7TObject();
@@ -266,7 +268,7 @@ void TWindowSubTechnique::run_task() {
         break;
     }
     case 3:
-        self->help = create__14TWindowMessageFlPCfUll(get_window_layout_position(0x14), lbl_8044FC54, 1, self->player);
+        self->help = create__14TWindowMessageFlPCfUll(get_window_layout_position(0x14), (void *)technique_help_window_size, 1, self->player);
         TWindowSubEquip__sub_80263AF8((u8 *)self->f30, 2);
         set_depth__11TWindowBaseFf((s32)self->help);
         call_if_split_screen((u32)self->help, self->player);
@@ -312,7 +314,6 @@ TWindowSubTechnique::~TWindowSubTechnique() {
 }
 
 
-const char *TWindowSubTechnique__name = "TWindowSubTechnique";
 
 void *TWindowSubTechnique__ct(TWindowSubTechnique *window_sub_technique, s32 arg1, s32 arg2) {
     __ct__7TObjectFP7TObject();
