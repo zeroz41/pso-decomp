@@ -2558,3 +2558,4 @@ pso/network/NetFragment.c
 pso/network/TLobby_8041112C.c
 pso/network/TLobby_804050DC.c
 pso/network/SocketProtocolRuntime.c
+pso/player/TObjPlayer_803DF7A8.cpp
