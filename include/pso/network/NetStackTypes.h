@@ -72,7 +72,7 @@ typedef struct Conn_804004DC {
     s16 abort;
     u8 padA[2];
     u8 *sub;
-    u8 timer[0x1C]; /* a lobby timer (TLobby__sub_80405298) */
+    u8 timer[0x1C]; /* a lobby timer (lobby_timer_add) */
     void *proto;
     void *opts;
 } Conn_804004DC;
@@ -94,14 +94,14 @@ typedef char PppChap_len_check[(offsetof(PppChap, len) == 0x10) ? 1 : -1];
 /* lbl_805C02D0: the CHAP buffers and settings (TLobby_803FC178.c).  init_net_buffer_table (NetworkTransport.c) points
  * the buffers into that file's static block and sets their sizes. */
 typedef struct PppAuthState {
-    u8 *p0;
+    u8 *p0;                     /* 0x00: the name in a challenge received */
     u8 *p4;                     /* 0x04: the name received */
     u8 *p8;                     /* 0x08: the challenge sent */
-    u8 *pC;
+    u8 *pC;                     /* 0x0C: the challenge received */
     u8 *p10;                    /* 0x10: the value received */
-    u8 *p14;
+    u8 *p14;                    /* 0x14: the response's hash input (identifier, secret, challenge) */
     u8 *p18;                    /* 0x18: the hash input (identifier, secret, challenge) */
-    u8 *p1C;
+    u8 *p1C;                    /* 0x1C: the response sent (value size, digest, name) */
     char *p20;                  /* 0x20: the digest, then the message sent */
     s16 size0;                  /* 0x24: the sizes of p0 .. p20 */
     s16 size4;
@@ -145,7 +145,7 @@ typedef struct PppBuffers {
     PppFrame *frame_out;        /* 0x10: the HDLC frame being sent */
     PppFrame *ip_out;           /* 0x14: the IP packet being sent (TLobby__sub_803FD21C) */
     PppFrame *frame_in;         /* 0x18: the frame being received */
-    PppFrame *reply;            /* 0x1C: TLobby__sub_803FE6CC's packet when it is given none */
+    PppFrame *reply;            /* 0x1C: ppp_fsm_send_packet's packet when it is given none */
     s16 packet_words;           /* 0x20: the sizes of packet .. reply, in words */
     s16 frame_out_words;
     s16 ip_out_words;

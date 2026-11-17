@@ -17,7 +17,7 @@ void set_chunk_blend(u32 x);
 void set_chunk_blend_depth_mode(s32 arg0, s32 arg1);
 void set_strip_lighting_chan_ctrl(u32 flags);
 void setup_chunk_tev_stages(void);
-void submit_chunk_material_color(u8 type, s16 *data);
+void submit_chunk_material_color(s32 type, s16 *data);
 
 void set_chunk_render_flags(u32 flags);
 

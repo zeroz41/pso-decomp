@@ -13,7 +13,7 @@ typedef struct Obj_803FC480 Obj_803FC480;
 typedef struct Buf_803FC684 Buf_803FC684;
 typedef struct RecoveredGlobal_803F88E4_lbl_805AEEB0 RecoveredGlobal_803F88E4_lbl_805AEEB0;
 typedef struct RecoveredFields_803F88E4_arg0 RecoveredFields_803F88E4_arg0;
-typedef struct Hdr_803FC4B4 Hdr_803FC4B4;
+typedef struct PppHeader PppHeader;
 struct Blk24_8047FE50 { u32 w[6]; };
 struct RecoveredGlobal_803AA0C0_lbl_80556E88 {
     s32 value;
@@ -42,14 +42,15 @@ struct RecoveredFields_803F88E4_arg0
 };
 typedef char RecoveredGlobal_803F88E4_lbl_805AEEB0_size[((sizeof(RecoveredGlobal_803F88E4_lbl_805AEEB0)) == 0x49C8) ? (1) : (-1)];
 typedef char RecoveredGlobal_803AA0C0_lbl_80556E88_size[sizeof(RecoveredGlobal_803AA0C0_lbl_80556E88) == 0x100 ? 1 : -1];
-struct Hdr_803FC4B4 { u8 type; u8 flag; s16 len; };
+/* A PPP control packet header (RFC 1661): code, identifier and length. */
+struct PppHeader { u8 code; u8 id; s16 len; };
 #ifdef __cplusplus
 extern "C" {
 #endif
 u8 *alloc_from_buffer(void *self, s16 arg1);
 s32 clear_socket_slot(s16 i);
 s32 configure_mode_by_type(void *self, s16 type);
-void dispatch_received_packet(void *self, s32 arg1);
+void chap_input(void *self, s32 arg1);
 void free_field_98(void *self);
 void free_field_98_and_clear(void *self);
 s16 get_checked_status_value(s16 arg0);
@@ -93,19 +94,19 @@ extern u8 lbl_805D7AA8[4];
 extern u8 lobby_read_byte_buffer[1];
 extern u8 lcp_read_byte_buffer;
 extern s16 lobby_modem_connect_state;
-extern s16 lbl_805D7A80;
+extern s16 ppp_auth_failed;
 extern s16 lbl_805D7A82;
 extern Buf_803FC684 lbl_805C0180;
 extern u8 lbl_805E1160;
 extern u8 lbl_8047FE08[];
 extern s32 lbl_805E1168;
 extern u16 lbl_805D7A9A;
-extern u8 lbl_805D7A98;
+extern u8 chap_read_byte_buffer;
 s16 TLobby__sub_803FC1CC(Conn_804004DC *c, s32 timeout);
 s32 TLobby__sub_803FC684(u8 *arg0, u8 *arg1, u8 *arg2);
 void TLobby__sub_803FC728(Conn_804004DC *c);
-s16 TLobby__sub_803FC820(Conn_804004DC *c, u8 *hdr, int v);
-void TLobby__sub_803FCC10(void *self_, void *src_, int v);
+s16 chap_recv_response(Conn_804004DC *c, u8 *hdr, int v);
+void chap_recv_challenge(Conn_804004DC *connection, PppHeader *header, PppFrame *source);
 #ifdef __cplusplus
 }
 #endif

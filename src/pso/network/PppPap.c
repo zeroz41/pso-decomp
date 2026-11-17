@@ -40,7 +40,7 @@ s16 TLobby__sub_80402BB4(void *arg0, u32 timeout) {
             update_connection_state((int)c);
             update_connection_state((int)(c->sub + 4));
             c->abort = 0;
-            if (lbl_805D7A80 != 0) {
+            if (ppp_auth_failed != 0) {
                 lbl_805D7A82 = 6;
             } else {
                 lbl_805D7A82 = 5;
@@ -104,7 +104,7 @@ void pap_init(u8 *arg0) {
         fsm->f6 = fsm->f7;
         timer->callback = (PppFsmTimerCallback)handle_request_timeout;
         timer->arg = fsm;
-        TLobby__sub_80405298((N_80405298 *)timer, fsm->proto->timeout);
+        lobby_timer_add((N_80405298 *)timer, fsm->proto->timeout);
     }
 }
 
@@ -126,98 +126,99 @@ void set_active(void *self) {
     fsm->retries = fsm->f4;
 }
 
-extern u8 lbl_805D7AB8[8];
-static inline s16 read_text_field(u8 *self, Hdr_803FC4B4 *hdr, s32 src) {
-    s32 ret;
-    u8 **pdst;
-    s32 rv;
-    s16 fld;
-    s16 n;
-    PapOptions *opts;
-    opts = (PapOptions *)((PppFsm *)self)->opts;
-    if (hdr->flag != self[1]) {
+#pragma push
+#pragma opt_common_subs off
+#pragma opt_propagation off
+#pragma opt_lifetimes off
+#pragma dont_inline off
+#pragma inline_depth(4)
+extern u8 pap_read_byte_buffer[8];
+static inline PapOptions *pap_options(Conn_804004DC *connection) {
+    return (PapOptions *)connection->opts;
+}
+
+static inline u8 **pap_message_buffer(void) {
+    u8 **value = (u8 **)&lbl_805C0620.message;
+    return value;
+}
+static inline s16 pap_read_reply_message(PapOptions *options, u8 actual_id, u8 expected_id, PppFrame *source) {
+    s32 result;
+    u8 **destination;
+    s32 copied;
+    s32 available;
+    s16 requested;
+    u32 get_field_4(void *self); /* declared here with another return type; the definition returns u16 */
+    if (actual_id != expected_id) {
         return -1;
     }
-    n = (ppp_buffer_read(&src, lbl_805D7AB8, 1) != 1) ? -1 : (s16)lbl_805D7AB8[0];
-    if (n != -1) {
-        if (n != 0) {
-            fld = (s16)get_field_4((void *)src);
-            pdst = &lbl_805C0620.message;
-            rv = TLobby__sub_80401ABC((u8 *)src, *pdst, n);
-            (*pdst)[(s16)rv] = 0;
-            opts->message = *pdst;
-            ret = 1;
-            if ((s16)rv < n || n < fld) {
+    requested = ppp_buffer_read(&source, pap_read_byte_buffer, 1) != 1 ? -1 : (s16)pap_read_byte_buffer[0];
+    if (requested != -1) {
+        if (requested != 0) {
+            available = get_field_4(source);
+            destination = pap_message_buffer();
+            copied = (s16)TLobby__sub_80401ABC((u8 *)source, *destination, requested);
+            (*destination)[copied] = 0;
+            options->message = *destination;
+            result = 1;
+            if (copied < requested || requested < (s16)available) {
             } else {
-                ret = 0;
+                result = 0;
             }
-            return ret;
+            return result;
         }
         return 0;
     }
     return -1;
 }
 
-static inline void finish_pending_step(u8 *self, u8 bit) {
-    u8 *link;
-    link = *(u8 **)(self + 0xC);
-    self[2] &= ~bit;
-    if (!(self[2] & 0x30)) {
-        self[0] = 5;
+static inline void pap_auth_done(Conn_804004DC *self, u32 pending_bit) {
+    u8 *link = self->sub;
+    ((u8 *)self)[2] &= ~pending_bit;
+    if (!(((u8 *)self)[2] & 0x30)) {
+        self->state = 5;
     }
-    TLobby__sub_80405304(self + 0x10);
-    link[2] &= ~bit;
+    lobby_timer_stop(self->timer);
+    link[2] &= ~pending_bit;
     TLobby__sub_80400ACC((O_80400ACC *)link);
 }
-
-#pragma push
-#pragma dont_inline off
-#pragma inline_depth(4)
-void PADRead(u8 *self, s32 src)
-{
-  Hdr_803FC4B4 hdr;
-  PapOptions *opts;
-  opts = (PapOptions *)((PppFsm *)self)->opts;
-  if (TLobby__sub_803FE8BC((u8 *)&hdr, &src))
-  {
-    return;
-  }
-  hdr.len -= 4;
-  TLobby__sub_80401CAC((PppFrame **) (&src), hdr.len);
-  switch (hdr.type)
-  {
+void pap_input(Conn_804004DC *self, PppFrame *source) {
+    Conn_804004DC *connection;
+    PppHeader header;
+    PapOptions *options;
+    options = pap_options(self);
+    if (TLobby__sub_803FE8BC((u8 *)&header, &source)) {
+        return;
+    }
+    header.len -= 4;
+    connection = self;
+    TLobby__sub_80401CAC(&source, header.len);
+    switch (header.code) {
     case 1:
-      if (pap_recv_auth_request(self, (u8 *)&hdr, (PppFrame *) src))
-    {
-      return;
-    }
-      finish_pending_step(self, 0x10);
-      return;
-
+        if (pap_recv_auth_request((u8 *)connection, (u8 *)&header, source)) {
+            return;
+        }
+        pap_auth_done(connection, 0x10);
+        return;
     case 2:
-      if (read_text_field(self, &hdr, src) != 0)
-    {
-      return;
-    }
-      finish_pending_step(self, 0x20);
-      return;
-
+        if (pap_read_reply_message((PapOptions *)connection->opts, header.id, connection->id, source) != 0) {
+            return;
+        }
+        pap_auth_done(self, 0x20);
+        return;
     case 3:
-      if (read_text_field(self, &hdr, src) != 0)
-    {
-      return;
+        if (pap_read_reply_message((PapOptions *)self->opts, header.id, self->id, source) != 0) {
+            return;
+        }
+        lobby_timer_stop(connection->timer);
+        options->peer_id = NULL;
+        options->password = NULL;
+        connection->abort = 1;
+        self->state = 0;
+        ppp_auth_failed = 1;
+        return;
     }
-      TLobby__sub_80405304(self + 0x10);
-      opts->peer_id = NULL;
-      opts->password = NULL;
-      *((s16 *)(self + 8)) = 1;
-      self[0] = 0;
-      lbl_805D7A80 = 1;
-      return;
-
-  }
-
 }
+
 #pragma pop
 
 s32 TLobby__sub_80403168(u8 *arg0, u8 *arg1, u8 *ppp_fsm) {
@@ -254,7 +255,7 @@ void reset_connection_state(void *self) {
         case 0:
             break;
         case 2:
-            TLobby__sub_80405304(&fsm->timer);
+            lobby_timer_stop(&fsm->timer);
         case 1:
         case 5:
         case 6:
@@ -302,13 +303,13 @@ inline s32 get_80403308(PppFrame **s) {
         (*s)->len--;
         return *(*s)->data++;
     }
-    if (ppp_buffer_read(s, lbl_805D7AB8, 1) != 1) {
+    if (ppp_buffer_read(s, pap_read_byte_buffer, 1) != 1) {
         return -1;
     }
-    return (s16)lbl_805D7AB8[0];
+    return (s16)pap_read_byte_buffer[0];
 }
 s16 pap_recv_auth_request(u8 *self, u8 *src, PppFrame *val) {
-    s32 TLobby__sub_803FE6CC(void *, u8, u8, void *); /* declared here with other parameter types; the definition is s32 (void *, int, int, void *) */
+    s32 ppp_fsm_send_packet(void *, u8, u8, void *); /* declared here with other parameter types; the definition is s32 (void *, int, int, void *) */
     PppFsm *fsm = (PppFsm *)self;
     u8 *p1 = 0;
     u8 *p2 = 0;
@@ -320,7 +321,7 @@ s16 pap_recv_auth_request(u8 *self, u8 *src, PppFrame *val) {
     s16 n;
     u8 *ent;
 
-    ch = (ppp_buffer_read(&val, lbl_805D7AB8, 1) != 1) ? -1 : (s16)lbl_805D7AB8[0];
+    ch = (ppp_buffer_read(&val, pap_read_byte_buffer, 1) != 1) ? -1 : (s16)pap_read_byte_buffer[0];
     if (ch != -1) {
         s16 cnt;
         u8 *out;
@@ -332,7 +333,7 @@ s16 pap_recv_auth_request(u8 *self, u8 *src, PppFrame *val) {
         *out = 0;
     }
 
-    ch = (ppp_buffer_read(&val, lbl_805D7AB8, 1) != 1) ? -1 : (s16)lbl_805D7AB8[0];
+    ch = (ppp_buffer_read(&val, pap_read_byte_buffer, 1) != 1) ? -1 : (s16)pap_read_byte_buffer[0];
     if (ch != -1) {
         s16 cnt;
         u8 *out;
@@ -369,7 +370,7 @@ zero:
     n = (s16)NetStringLength((const char *)(ptr));
     ent = (u8 *)TLobby__sub_80401B20(ptr, n);
     *(*(u8 **)ent) = (n - 1);
-    TLobby__sub_803FE6CC(self, st, src[1], ent);
+    ppp_fsm_send_packet(self, st, src[1], ent);
 
     if (st == 3) {
         if (fsm->f6 != 0) {
