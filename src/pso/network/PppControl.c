@@ -14,17 +14,17 @@
 #include <stddef.h>
 #include "pso/network/NetStackTypes.h"
 
-s32 TLobby__sub_80403DA8();
+s32 configure_and_open_network_transport();
 extern u8 lbl_805C0038[];
 
-s32 TLobby__sub_804036FC(u8 *out) {
+s32 network_input_available(u8 *out) {
     if (TLobby__sub_803F811C((s16 *)out) != 0) {
         return -1;
     }
     return 0;
 }
 
-s32 TLobby__sub_80403730(u8 *dst, unsigned short n) {
+s32 recv_network_bytes(u8 *dst, unsigned short n) {
   u8 buf;
   u16 st;
   while (((u16) n) != 0)
@@ -39,7 +39,7 @@ s32 TLobby__sub_80403730(u8 *dst, unsigned short n) {
   return 0;
 }
 
-s32 TLobby__sub_804037B0(s32 src, u16 len) {
+s32 send_network_bytes(s32 src, u16 len) {
     if (send_network_frame(len, (u8 *)src) != 0) {
         return -1;
     }
@@ -47,7 +47,7 @@ s32 TLobby__sub_804037B0(s32 src, u16 len) {
 }
 
 void TLobby__sub_804061FC(int);
-s32 TLobby__sub_804037F0(void) {
+s32 close_all_connections(void) {
     TLobby__sub_803FD85C(lbl_805C0038 + 0xD4);
     TLobby__sub_803FD85C(lbl_805C0038 + 0x6C);
     TLobby__sub_803FD85C(lbl_805C0038 + 0x38);
@@ -60,7 +60,7 @@ s32 TLobby__sub_804037F0(void) {
     return 0;
 }
 
-s32 TLobby__sub_80403864(void) {
+s32 negotiate_ipcp_and_ipv6cp(void) {
     u8 *g = lbl_805C0038;
     u8 *p = g + 0xD4;
     s16 st = lbl_805D7A7C;
@@ -79,7 +79,7 @@ s32 TLobby__sub_80403864(void) {
     return 0;
 }
 
-s32 TLobby__sub_804038F4(s32 arg0, s32 arg1, s32 arg2) {
+s32 ipv6cp_set_interface_identifiers(s32 arg0, s32 arg1, s32 arg2) {
     u8 *state;
     u8 *temp_r6;
     s16 clear_flag_bit4(s32 arg0, u8 *arg1);
@@ -103,7 +103,7 @@ s32 TLobby__sub_804038F4(s32 arg0, s32 arg1, s32 arg2) {
     return 0;
 }
 
-s32 TLobby__sub_804039C8(s16 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6) {
+s32 ipcp_configure_all_options(s16 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6) {
     IpcpConfig *temp_r31;
     u8 *temp_r10;
     s16 ipcp_set_vj_compression(s16 disabled, IpcpSide *side);
@@ -143,7 +143,7 @@ s32 TLobby__sub_804039C8(s16 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 a
     return 0;
 }
 
-s32 TLobby__sub_80403B04(u8 *arg0, u8 *arg1, s32 timeout) {
+s32 chap_connect(u8 *arg0, u8 *arg1, s32 timeout) {
     u8 *g = lbl_805C0038;
     u8 *c = g + 0xA0;
     s16 r;
@@ -164,7 +164,7 @@ s32 TLobby__sub_80403B04(u8 *arg0, u8 *arg1, s32 timeout) {
     return 0;
 }
 
-s32 TLobby__sub_80403BA8(u8 *arg0, u8 *arg1, s32 timeout) {
+s32 pap_connect(u8 *arg0, u8 *arg1, s32 timeout) {
     u8 *g = lbl_805C0038;
     u8 *c = g + 0x38;
     s16 r;
@@ -188,7 +188,7 @@ s32 TLobby__sub_80403BA8(u8 *arg0, u8 *arg1, s32 timeout) {
     return 0;
 }
 
-s32 TLobby__sub_80403C60(LcpConfig *arg0) {
+s32 lcp_connect(LcpConfig *arg0) {
     Conn_804004DC *conn;
     LcpSide *var_r3;
     LcpSide *temp_r3;
@@ -219,7 +219,7 @@ s32 TLobby__sub_80403C60(LcpConfig *arg0) {
     return 0;
 }
 
-/* lbl_805C0638: eight records whose first byte TLobby__sub_80403D28 clears before each connect; nothing else in the game
+/* lbl_805C0638: eight records whose first byte ppp_begin_connect clears before each connect; nothing else in the game
  * reads or writes them. */
 typedef struct ConnectRecord {
     s8 active;
@@ -228,7 +228,7 @@ typedef struct ConnectRecord {
 typedef char ConnectRecord_size_check[sizeof(ConnectRecord) == 0x14 ? 1 : -1];
 extern ConnectRecord lbl_805C0638[8];
 
-s32 TLobby__sub_80403D28(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7) {
+s32 ppp_begin_connect(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7) {
     s32 temp_r31;
     lbl_805C0638[0].active = 0;
     lbl_805C0638[1].active = 0;
@@ -238,12 +238,12 @@ s32 TLobby__sub_80403D28(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 a
     lbl_805C0638[5].active = 0;
     lbl_805C0638[6].active = 0;
     lbl_805C0638[7].active = 0;
-    temp_r31 = TLobby__sub_80403DA8(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
+    temp_r31 = configure_and_open_network_transport(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
     TLobby__sub_804062A0(0x82);
     return temp_r31;
 }
 
-s32 TLobby__sub_80403DA8(a, b, c, d, e, f, h)
+s32 configure_and_open_network_transport(a, b, c, d, e, f, h)
     s16 a;
     s16 b;
     s16 c;

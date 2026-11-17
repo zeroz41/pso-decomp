@@ -333,7 +333,7 @@ s32 is_timed_out(void) {
     return 0;
 }
 
-s32 TLobby__sub_804037F0(void);
+s32 close_all_connections(void);
 
 typedef struct St_803FB6A0 { u8 busy; u8 pad[3]; u8 state; u8 rest[0x143]; } St_803FB6A0;
 
@@ -353,7 +353,7 @@ s32 TLobby__sub_803FB6A0(void) {
     }
     lobby_modem_abort_flag = 0;
     lobby_modem_connect_state = 7;
-    TLobby__sub_804037F0();
+    close_all_connections();
     if (sess->modem.h6 != 0 && sess->modem.w44 != NULL && NetStringLength(sess->modem.w44) != 0) {
         modem_run_script((u8 *)sess->modem.w44, sess);
     }
@@ -370,14 +370,14 @@ s32 TLobby__sub_803FB6A0(void) {
 
 s32 TLobby__sub_803FB7A4(void) {
     extern s32 lbl_805D7BD8;
-    s16 TLobby__sub_80403D28(s32, s32, s32, s32, s32, s32, s32, s32); /* declared s16 here; the definition returns s32 */
+    s16 ppp_begin_connect(s32, s32, s32, s32, s32, s32, s32, s32); /* declared s16 here; the definition returns s32 */
     s32 configure_modem_options(s32, s32, s32, s32, s32);
-    s16 TLobby__sub_80403C60(void *); /* declared s16 here; the definition is s32 (u8 *) */
-    s16 TLobby__sub_80403BA8(s32, s32, s32); /* declared s16 here; the definition is s32 (u8 *, u8 *, s32) */
-    s16 TLobby__sub_80403B04(s32, s32, s32); /* declared s16 here; the definition is s32 (u8 *, u8 *, s32) */
-    s32 TLobby__sub_804038F4(s32, void *, void *); /* declared here with other parameter types; the definition is s32 (s32, s32, s32) */
-    s32 TLobby__sub_804039C8(s32, s32, s32, s32, s32, s32, s32); /* declared here with an s32 1st argument; the definition takes s16 */
-    s16 TLobby__sub_80403864(void); /* declared s16 here; the definition returns s32 */
+    s16 lcp_connect(void *); /* declared s16 here; the definition is s32 (u8 *) */
+    s16 pap_connect(s32, s32, s32); /* declared s16 here; the definition is s32 (u8 *, u8 *, s32) */
+    s16 chap_connect(s32, s32, s32); /* declared s16 here; the definition is s32 (u8 *, u8 *, s32) */
+    s32 ipv6cp_set_interface_identifiers(s32, void *, void *); /* declared here with other parameter types; the definition is s32 (s32, s32, s32) */
+    s32 ipcp_configure_all_options(s32, s32, s32, s32, s32, s32, s32); /* declared here with an s32 1st argument; the definition takes s16 */
+    s16 negotiate_ipcp_and_ipv6cp(void); /* declared s16 here; the definition returns s32 */
     s16 wait_for_connection(Conn_804004DC *); /* declared s16 here; the definition returns s32 */
     s16 map_state_to_mode_id(void); /* declared s16 here; the definition returns s32 */
     NetSession *g = &lbl_805BFF68;
@@ -397,7 +397,7 @@ s32 TLobby__sub_803FB7A4(void) {
     lobby_modem_connect_state = 2;
     get_time_ms(&lbl_805D7A94);
     lbl_805D7A84 = 1;
-    rc = TLobby__sub_80403D28(0, 0, g->h80, g->h7E, g->h7C, 1, (s32)g->modem.s48, g->flags & 4);
+    rc = ppp_begin_connect(0, 0, g->h80, g->h7E, g->h7C, 1, (s32)g->modem.s48, g->flags & 4);
     if (rc != 0 || lobby_modem_abort_flag != 0) {
         if (lobby_modem_abort_flag != 0) {
             lbl_805D7A82 = 0xd;
@@ -507,14 +507,14 @@ L242:
     pkt.d = g->start_tick;
     pkt.g = (s32)g->user;
     pkt.h = (s32)g->password;
-    if (TLobby__sub_80403C60(&pkt) != 0) {
+    if (lcp_connect(&pkt) != 0) {
         LOBBY_ABORT(5, 8);
     }
     h2 = g->h2;
     if (h2 == 6 || h2 == 0) {
-        TLobby__sub_804038F4(0, g->bufC0, g->bufC8);
+        ipv6cp_set_interface_identifiers(0, g->bufC0, g->bufC8);
     }
-    TLobby__sub_804039C8(mode, g->wA8, g->wAC, g->wB0, g->wB4, g->wB8, g->wBC);
+    ipcp_configure_all_options(mode, g->wA8, g->wAC, g->wB0, g->wB4, g->wB8, g->wBC);
     lbl_805D7AA0 = 0;
     ok = 0;
     switch (g->h98 & 0x7f) {
@@ -522,7 +522,7 @@ L242:
         ok = 1;
         break;
     case 0:
-        rc = TLobby__sub_80403BA8((s32)g->user, (s32)g->password, 0x80);
+        rc = pap_connect((s32)g->user, (s32)g->password, 0x80);
         if (rc != 0) {
             LOBBY_NOTIFY();
             return 0;
@@ -530,7 +530,7 @@ L242:
         ok = 1;
         break;
     case 2:
-        rc = TLobby__sub_80403B04((s32)g->user, (s32)g->password, 0x82);
+        rc = chap_connect((s32)g->user, (s32)g->password, 0x82);
         if (rc != 0) {
             LOBBY_NOTIFY();
             return 0;
@@ -545,7 +545,7 @@ L242:
         for (r29 = 0; r29 < 2; r29++) {
             u16 st = ppp_auth_protocol;
             if (st == 0x80) {
-                rc = TLobby__sub_80403BA8((s32)g->user, (s32)g->password, st);
+                rc = pap_connect((s32)g->user, (s32)g->password, st);
                 if (rc == 0) {
                     ok = 1;
                     break;
@@ -555,7 +555,7 @@ L242:
                     return 0;
                 }
             } else if (st == 0x82) {
-                rc = TLobby__sub_80403B04((s32)g->user, (s32)g->password, st);
+                rc = chap_connect((s32)g->user, (s32)g->password, st);
                 if (rc == 0) {
                     ok = 1;
                     break;
@@ -576,7 +576,7 @@ L242:
     if (ok == 0) {
         LOBBY_ABORT(6, 8);
     }
-    if (TLobby__sub_80403864() != 0) {
+    if (negotiate_ipcp_and_ipv6cp() != 0) {
         LOBBY_ABORT(7, 8);
     }
     lobby_modem_connect_state = 4;
