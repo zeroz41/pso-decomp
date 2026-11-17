@@ -35,7 +35,7 @@ extern u32 lbl_805D7AE4;
 extern u16 ppp_rx_fcs;
 /* inferred: the PPP FCS-16 lookup table (RFC 1662 fcstab); the receive path checks the FCS against 0xF0B8. */
 extern u16 ppp_fcs16_table[];
-extern u8 lbl_805C18B0[];
+u8 lbl_805C18B0[0x200];
 
 #include <stddef.h>
 
@@ -362,7 +362,6 @@ s32 TLobby__sub_80405700()
   u16 st;
   u16 n;
   PppBuffers *base;
-  u8 *buf = lbl_805C18B0;
   if (lobby_modem_connect_state == 10)
   {
     if (TLobby__sub_804290D4(0x7fff) == 0)
@@ -406,23 +405,23 @@ s32 TLobby__sub_80405700()
   }
   if (lbl_805D7ADC == 0)
   {
-    lbl_805D7ADC = buf;
+    lbl_805D7ADC = lbl_805C18B0;
     ppp_rx_frame_ptr = 0;
     ppp_rx_fcs = 0xffff;
     lbl_805D7AE4 = 0;
-    lbl_805D7AE0 = buf;
+    lbl_805D7AE0 = lbl_805C18B0;
   }
   base = &lbl_805C04A8;
   for (;;)
   {
     if (lbl_805D7ADC == lbl_805D7AE0)
     {
-      if ((recv_network_frame(0x200, buf, &st) != 0) || (st < 1))
+      if ((recv_network_frame(sizeof(lbl_805C18B0), lbl_805C18B0, &st) != 0) || (st < 1))
       {
         goto tail;
       }
-      lbl_805D7ADC = buf;
-      lbl_805D7AE0 = buf + st;
+      lbl_805D7ADC = lbl_805C18B0;
+      lbl_805D7AE0 = lbl_805C18B0 + st;
     }
     c = *(lbl_805D7ADC++);
     if (c == 0x7e)

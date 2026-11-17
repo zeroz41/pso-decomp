@@ -12469,10 +12469,11 @@ pso/network/PppVj.c:
 pso/network/TLobby_804048E8.c:
 	.text       start:0x804048E8 end:0x804050DC
 	.data       start:0x804FD650 end:0x804FD690
-	.bss        start:0x805C06D8 end:0x805C1AB0
+	.bss        start:0x805C06D8 end:0x805C18B0
 
 pso/network/TLobby_804050DC.c:
 	.text       start:0x804050DC end:0x80407358
+	.bss        start:0x805C18B0 end:0x805C1AB0
 
 pso/network/NetArp.c:
 	.text       start:0x80407358 end:0x8040874C
