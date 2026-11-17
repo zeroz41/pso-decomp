@@ -410,102 +410,84 @@ extern s16 TLobby__sub_803FC820(Conn_804004DC *c, u8 *hdr, int v) {
 #pragma pop
 
 #pragma push
-#pragma opt_common_subs on
 #pragma dont_inline off
 #pragma inline_depth(4)
-#pragma push
-#pragma opt_common_subs off
-#pragma push
 #pragma opt_common_subs on
 #pragma opt_propagation off
 #pragma opt_lifetimes off
-inline PppChap *chap_options_803FCC10(Conn_804004DC *arg0)
-{
-  return (PppChap *) arg0->opts;
+inline PppChap *chap_options_803FCC10(Conn_804004DC *arg0) {
+    return (PppChap *)arg0->opts;
 }
 
-void TLobby__sub_803FCC10(Conn_804004DC *connection, Hdr_803FC4B4 *header, PppFrame *source)
-{
-  struct {u8 *value;} challenge_slot;
-  int raw_peer_length;
-  s16 total;
-  u32 digest_offset;
-  PppChap *chap;
-  u8 *peer_name;
-  s32 challenge_index;
-  u16 credential_length;
-  u16 peer_name_length;
-  s32 peer_name_index;
-  u8 *challenge_cursor;
-  PppFrame *reply;
-  s16 challenge_length;
-  u32 raw_name_length;
-  MD5Context context;
-  challenge_slot.value = 0;
-  total = header->len;
-  chap = chap_options_803FCC10(connection);
-  challenge_length = chap_rbs_803FC820(&source);
-  if (challenge_length != (-1))
-  {
-    challenge_cursor = (challenge_slot.value = lbl_805C02D0.pC);
-    for (challenge_index = 0; challenge_index < challenge_length; challenge_index++)
-    {
-      *(challenge_cursor++) = chap_rb_803FC820(&source);
-    }
+void TLobby__sub_803FCC10(Conn_804004DC *connection, Hdr_803FC4B4 *header, PppFrame *source) {
+    struct {
+        u8 *value;
+    } challenge_slot;
+    int raw_peer_length;
+    s16 total;
+    u32 digest_offset;
+    PppChap *chap;
+    u8 *peer_name;
+    s32 challenge_index;
+    u16 credential_length;
+    u16 peer_name_length;
+    s32 peer_name_index;
+    u8 *challenge_cursor;
+    PppFrame *reply;
+    s16 challenge_length;
+    u32 raw_name_length;
+    MD5Context context;
 
-  }
-  raw_peer_length = (total - challenge_length) - 1;
-  peer_name_length = raw_peer_length;
-  if (peer_name_length >= 0x80)
-  {
-    peer_name_length = 0x7f;
-  }
-  if (peer_name_length != 0)
-  {
-    peer_name = lbl_805C02D0.p0;
-    for (peer_name_index = 0; peer_name_index < peer_name_length; peer_name_index++)
-    {
-      *(peer_name++) = chap_rb_803FC820(&source);
+    challenge_slot.value = 0;
+    total = header->len;
+    chap = chap_options_803FCC10(connection);
+    challenge_length = chap_rbs_803FC820(&source);
+    if (challenge_length != -1) {
+        challenge_cursor = (challenge_slot.value = lbl_805C02D0.pC);
+        for (challenge_index = 0; challenge_index < challenge_length; challenge_index++) {
+            *challenge_cursor++ = chap_rb_803FC820(&source);
+        }
     }
-
-    *peer_name = 0;
-  }
-  *lbl_805C02D0.p14 = header->flag;
-  NetCopyString(((char *) lbl_805C02D0.p14) + 1, chap->secret);
-  credential_length = NetStringLength(chap->secret);
-  raw_name_length = NetStringLength(chap->name);
-  digest_offset = credential_length + 1;
-  credential_length = raw_name_length;
-  NetMemcpy(lbl_805C02D0.p14 + digest_offset, challenge_slot.value, challenge_length);
-  NetMemset(lbl_805C02D0.p1C, 0, lbl_805C02D0.size1C);
-  *lbl_805C02D0.p1C = 0x10;
-  init_md5_state(&context);
-  TLobby__sub_80401EB8(&context, lbl_805C02D0.p14, digest_offset + challenge_length);
-  TLobby__sub_80401D2C(lbl_805C02D0.p1C + 1, &context);
-  {
-  u32 response_name_length = credential_length;
-  NetMemcpy(lbl_805C02D0.p1C + 0x11, (void *) chap->name, response_name_length);
-  }
-  chap->id = header->flag;
-  chap->len = credential_length + 0x11;
-  reply = TLobby__sub_80401B20(lbl_805C02D0.p1C, chap->len);
-  TLobby__sub_803FE6CC(connection, 2, chap->id, reply);
-  TLobby__sub_80405328(connection->timer);
-  connection->retries--;
-  if (connection->f6 != 0)
-  {
-    connection->f6--;
-  }
-  else
-  {
-    header = (Hdr_803FC4B4 *)connection->sub;
-    update_connection_state((int) ((u8 *)header + 0xA0));
-    update_connection_state((int) ((u8 *)header + 4));
-  }
+    raw_peer_length = (total - challenge_length) - 1;
+    peer_name_length = raw_peer_length;
+    if (peer_name_length >= 0x80) {
+        peer_name_length = 0x7f;
+    }
+    if (peer_name_length != 0) {
+        peer_name = lbl_805C02D0.p0;
+        for (peer_name_index = 0; peer_name_index < peer_name_length; peer_name_index++) {
+            *peer_name++ = chap_rb_803FC820(&source);
+        }
+        *peer_name = 0;
+    }
+    *lbl_805C02D0.p14 = header->flag;
+    NetCopyString((char *)lbl_805C02D0.p14 + 1, chap->secret);
+    credential_length = NetStringLength(chap->secret);
+    raw_name_length = NetStringLength(chap->name);
+    digest_offset = credential_length + 1;
+    credential_length = raw_name_length;
+    NetMemcpy(lbl_805C02D0.p14 + digest_offset, challenge_slot.value, challenge_length);
+    NetMemset(lbl_805C02D0.p1C, 0, lbl_805C02D0.size1C);
+    *lbl_805C02D0.p1C = 0x10;
+    init_md5_state(&context);
+    TLobby__sub_80401EB8(&context, lbl_805C02D0.p14, digest_offset + challenge_length);
+    TLobby__sub_80401D2C(lbl_805C02D0.p1C + 1, &context);
+    {
+        u32 response_name_length = credential_length;
+        NetMemcpy(lbl_805C02D0.p1C + 0x11, (void *)chap->name, response_name_length);
+    }
+    chap->id = header->flag;
+    chap->len = credential_length + 0x11;
+    reply = TLobby__sub_80401B20(lbl_805C02D0.p1C, chap->len);
+    TLobby__sub_803FE6CC(connection, 2, chap->id, reply);
+    TLobby__sub_80405328(connection->timer);
+    connection->retries--;
+    if (connection->f6 != 0) {
+        connection->f6--;
+    } else {
+        header = (Hdr_803FC4B4 *)connection->sub;
+        update_connection_state((int)((u8 *)header + 0xA0));
+        update_connection_state((int)((u8 *)header + 4));
+    }
 }
-
-#pragma pop
-
-#pragma pop
-
 #pragma pop

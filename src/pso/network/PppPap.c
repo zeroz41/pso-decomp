@@ -133,22 +133,29 @@ void set_active(void *self) {
 #pragma dont_inline off
 #pragma inline_depth(4)
 extern u8 lbl_805D7AB8[8];
-static inline PapOptions *pap_options_80402E68(Conn_804004DC *connection) { return (PapOptions *)connection->opts; }
+static inline PapOptions *pap_options_80402E68(Conn_804004DC *connection) {
+    return (PapOptions *)connection->opts;
+}
 
-static inline u8 **pap_message_destination_80402E68(void) {u8 ** value=(u8 **)&lbl_805C0620.message; return value;}
+static inline u8 **pap_message_destination_80402E68(void) {
+    u8 **value = (u8 **)&lbl_805C0620.message;
+    return value;
+}
 static inline s16 pap_read_decoded_message_80402E68(PapOptions *options, u8 actual_id, u8 expected_id, PppFrame *source) {
     s32 result;
     u8 **destination;
     s32 copied;
     s32 available;
     s16 requested;
-    u32 get_field_4(void *self);
-    if (actual_id != expected_id) return -1;
+    u32 get_field_4(void *self); /* declared here with another return type; the definition returns u16 */
+    if (actual_id != expected_id) {
+        return -1;
+    }
     requested = ppp_buffer_read(&source, lbl_805D7AB8, 1) != 1 ? -1 : (s16)lbl_805D7AB8[0];
     if (requested != -1) {
         if (requested != 0) {
             available = get_field_4(source);
-            destination = (u8 **)pap_message_destination_80402E68();
+            destination = pap_message_destination_80402E68();
             copied = (s16)TLobby__sub_80401ABC((u8 *)source, *destination, requested);
             (*destination)[copied] = 0;
             options->message = *destination;
@@ -165,10 +172,12 @@ static inline s16 pap_read_decoded_message_80402E68(PapOptions *options, u8 actu
 }
 
 static inline void pap_ready_80402E68(Conn_804004DC *self, u32 direction) {
-    u8 *parent=self->sub;
+    u8 *parent = self->sub;
     ((u8 *)self)[2] &= ~direction;
-    if (!(((u8 *)self)[2] & 0x30)) self->state=5;
-    TLobby__sub_80405304((u8 *)self+0x10);
+    if (!(((u8 *)self)[2] & 0x30)) {
+        self->state = 5;
+    }
+    TLobby__sub_80405304(self->timer);
     parent[2] &= ~direction;
     TLobby__sub_80400ACC((O_80400ACC *)parent);
 }
@@ -177,22 +186,30 @@ void PADRead(Conn_804004DC *self, PppFrame *source) {
     Hdr_803FC4B4 header;
     PapOptions *options;
     options = pap_options_80402E68(self);
-    if (TLobby__sub_803FE8BC((u8 *)&header, &source)) return;
+    if (TLobby__sub_803FE8BC((u8 *)&header, &source)) {
+        return;
+    }
     header.len -= 4;
     connection = self;
     TLobby__sub_80401CAC(&source, header.len);
     switch (header.type) {
     case 1:
-        if (pap_recv_auth_request((u8 *)connection, (u8 *)&header, source)) return;
+        if (pap_recv_auth_request((u8 *)connection, (u8 *)&header, source)) {
+            return;
+        }
         pap_ready_80402E68(connection, 0x10);
         return;
     case 2:
-        if (pap_read_decoded_message_80402E68((PapOptions *)connection->opts, header.flag, connection->id, source) != 0) return;
+        if (pap_read_decoded_message_80402E68((PapOptions *)connection->opts, header.flag, connection->id, source) != 0) {
+            return;
+        }
         pap_ready_80402E68(self, 0x20);
         return;
     case 3:
-        if (pap_read_decoded_message_80402E68((PapOptions *)self->opts, header.flag, self->id, source) != 0) return;
-        TLobby__sub_80405304((u8 *)connection + 0x10);
+        if (pap_read_decoded_message_80402E68((PapOptions *)self->opts, header.flag, self->id, source) != 0) {
+            return;
+        }
+        TLobby__sub_80405304(connection->timer);
         options->peer_id = NULL;
         options->password = NULL;
         connection->abort = 1;

@@ -520,8 +520,8 @@ s32 TLobby__sub_803FE6CC(void *state, int code, int reply_identifier, void *payl
     u8 *length_field;
     s32 identifier;
     u32 payload_length;
-    u32 get_field_4(void *self);
-    u8 *write_network_u16_be(u8 *p, u32 v);
+    u32 get_field_4(void *self); /* declared here with another return type; the definition returns u16 */
+    u8 *write_network_u16_be(u8 *p, u32 v); /* declared here with other parameter types; the definition is u8 *(u8 *, u16) */
 
     if (payload == NULL) {
         PppFrame *empty = lbl_805C04A8.reply;
@@ -558,17 +558,17 @@ s32 TLobby__sub_803FE6CC(void *state, int code, int reply_identifier, void *payl
     }
     payload_length = get_field_4(payload);
     {
-    PppFrame *saved_frame = (PppFrame *)payload;
-    payload = (void *)(payload_length + 4);
-    {
-        PppFrame *output = (PppFrame *)alloc_from_buffer((0, (void *)saved_frame), 4);
-        u8 *data = output->data;
-        *data++ = code;
-        *data++ = identifier;
-        length_field = data;
-        write_network_u16_be(length_field, (u32)payload);
-        payload = output;
-    }
+        PppFrame *saved_frame = (PppFrame *)payload;
+        payload = (void *)(payload_length + 4);
+        {
+            PppFrame *output = (PppFrame *)alloc_from_buffer((0, (void *)saved_frame), 4);
+            u8 *data = output->data;
+            *data++ = code;
+            *data++ = identifier;
+            length_field = data;
+            write_network_u16_be(length_field, (u32)payload);
+            payload = output;
+        }
     }
     if (payload == NULL) {
         return -1;
