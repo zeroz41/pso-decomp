@@ -2381,6 +2381,7 @@ pso/boss/galgryphon/TBoss5GryphonLightning_80324E10.cpp
 pso/unk/text_80327844.cpp
 pso/object/mine/TOComputerMachine01_803278B0.cpp
 pso/unk/text_803279CC.cpp
+pso/ui/window/WindowLayoutCamera2Data.cpp
 pso/unk/text_803374F0.cpp
 pso/unk/text_8033F314.cpp
 pso/unk/text_8034960C.cpp
