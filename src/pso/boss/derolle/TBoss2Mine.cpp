@@ -43,6 +43,20 @@ struct Mine_800377E8 { u8 pad[0x404]; Vec vel; };
 
 struct Col_80038200 { s32 a; f32 r, g, b; };
 
+// The mine's attack template: vfunc_107 copies it, sets +0x04 and hands it to
+// TObjEneDD__sub_800BA5A4, whose setup_instance installs +0x08 as the collision radius.
+struct Boss2MineCollisionDesc {
+    s32 value;
+    f32 pad_04;
+    f32 pad_08;
+    f32 pad_0c;
+    s32 pad_10;
+};
+
+static const Boss2MineCollisionDesc boss2_mine_collision_desc = { 1, 2.0f, 50.0f, 5.0f, 1 };
+
+const char *TBoss2Mine__name = "TBoss2Mine";
+
 const Vec lbl_80435AD0 = { 2.0f, 1.0f, 2.0f };
 
 const Col_80038200 boss2_mine_render_color = { 0, 0.0f, 0.0f, 0.0f };
@@ -269,8 +283,6 @@ void *create_timed_particle_emitter(void *owner, s32 id, s32 b, s32 c);
 
 void TObjEneDD__sub_800BA5A4(void *p, void *a1);
 
-struct Boss2MineCollisionDesc { s32 value; u8 remaining[0x10]; };
-extern Boss2MineCollisionDesc boss2_mine_collision_desc;
 
 void scale_matrix(s32, f32, f32, f32);
 
@@ -592,7 +604,6 @@ int TBoss2Mine__sub_80038D88(void* p);
 
 int TObjPlayer__sub_800F0928(void*);
 
-extern s32 TBoss2Mine__name;
 
 #pragma inline_depth(1)
 #pragma auto_inline off

@@ -175,8 +175,6 @@ s32 get_current_floor();
 u32 get_player_by_client_id(s32);
 s32 load_enemy_bml_resource(u8 *arg0);
 s32 load_enemy_bml_resource_named(s32 arg0, s32 arg1);
-extern s32 lbl_805D2648;
-extern s32 lbl_805D264C;
 extern s32 lbl_805D4B24;
 extern s32 TLobby__designated_client_id;
 s32 isV2Mode__12TBoss1DragonFv(void);
@@ -318,7 +316,6 @@ u8 *__ct__17AreaAttackHistoryFl(u8 *arg0, s32 arg1);
 void __ct__7TObjectFP7TObject(void *, void *);
 void __construct_array(void *, void *, void *, int, int);
 extern u8 __ct__15RenderFadeStateFv[];
-extern s32 TBoss1Dragon__name;
 
 extern "C" void vfunc_6__8TObjBaseFPsl();
 extern "C" void vfunc_103__9TObjEneDDFPUc();
@@ -494,7 +491,11 @@ const char *lbl_80480F94[27] = {
 };
 BmlResourceDescriptor boss1_dragon_bml_descriptor = {"bm_boss1_dragon.bml", lbl_80480F88, lbl_80480F94, 2, 26};
 #pragma pop
-extern const char lbl_804352EC[] = "TBoss1Dragon";
+// inferred: the ids load_resources passes to TLobby::register_boss and TLobby::register_object
+// (de_rol_le_base_param_ids / boss5_gryphon_base_param_ids twins)
+s32 boss1_dragon_base_param_ids[1] = {0x12};
+s32 boss1_dragon_register_object_ids[1] = {0x12};
+const char *TBoss1Dragon__name = "TBoss1Dragon";
 extern const DragonAttackParams TBoss1Dragon__foot_step_attack_params = {0, 10.0f, 15.0f, 8.0f, 1};
 extern const DragonAttackParams dragon_breath_attack_params = {0, 500.0f, 45.0f, 100.0f, 1};
 extern const DragonAttackParams dragon_fireball_attack_params = {1, 2.0f, 10.0f, 10.0f, 1};
@@ -5311,7 +5312,7 @@ u8 *TBoss1Dragon__ct(TBoss1Dragon *arg0, void *arg1, void *arg2) {
     __ct__17AccelerationCurveFv(&arg0->m_618);
     __construct_array(arg0->viewFade, __ct__15RenderFadeStateFv, __dt__15RenderFadeStateFv, 0x1C, 4);
     __ct__14SubtractiveRngFv(arg0->randomState);
-    arg0->m_name = (const char *)TBoss1Dragon__name;
+    arg0->m_name = TBoss1Dragon__name;
     if ((u32)TBoss1Dragon__data_805D4B2C == 0U) {
         TBoss1Dragon__data_805D4B2C = (s32)arg0;
     }
@@ -5611,13 +5612,13 @@ void TBoss1Dragon::load_resources() {
     nodes[55].value.y -= (0.5f);
 
     out = &TBoss1Dragon__data_805D4B00;
-    for (s32 i = 0; i < 1; i++) { out[i] = (s32)TLobby::register_boss((&lbl_805D2648)[i]); }
+    for (s32 i = 0; i < 1; i++) { out[i] = (s32)TLobby::register_boss(boss1_dragon_base_param_ids[i]); }
     table = boss1_dragon_attack_param_ids;
     out = (s32 *)&TBoss1Dragon__part_hp_stats;
     for (s32 i = 0; i < 5; i++) {
         out[i] = (s32)TLobby::dispatch_shared_handler_b(table[i]);
     }
-    for (s32 i = 0; i < 1; i++) { (&TBoss1Dragon__data_805D4B04)[i] = (s32)TLobby::register_object((&lbl_805D264C)[i]); }
+    for (s32 i = 0; i < 1; i++) { (&TBoss1Dragon__data_805D4B04)[i] = (s32)TLobby::register_object(boss1_dragon_register_object_ids[i]); }
     for (s32 i = 0; i < 3; i++) {
         TBoss1Dragon__data_804FE17C[i] = (s32)TLobby::dispatch_shared_handler_a(boss1_dragon_resistance_param_ids[i]);
     }

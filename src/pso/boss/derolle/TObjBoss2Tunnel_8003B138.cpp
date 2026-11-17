@@ -257,7 +257,7 @@ struct Tunnel_8003C45C {
     s32 i5C;
     f32 f60;
     s32 i64;
-    u8 sub68[0x94 - 0x68];
+    PiecewiseCurve curve;
     f32 f94;
     f32 f98;
     s32 i9C;
@@ -280,7 +280,8 @@ extern s32 *lbl_805D4C08;
 void TObjBoss2Tunnel__sub_8003C5F8(void);
 void TObjBoss2Tunnel__sub_8003C610(void);
 u8 *TObjBoss2RaftSplash__ct(u8 *arg0, u8 *arg1, f32 *arg2, u8 *arg3, f32 *arg4);
-void reset_floats__15TObjBoss2TunnelFv(void *a0);
+// TObjBoss2Tunnel__ct builds its PiecewiseCurve by hand until it becomes a real constructor.
+void __ct__14PiecewiseCurveFv(PiecewiseCurve *curve);
 extern s32 __vt__15TObjBoss2Tunnel[];
 void *TObjBoss2Tunnel__ct(void *arg0, void *arg1);
 void TObjBoss2Tunnel__sub_8003C648(void);
@@ -388,7 +389,7 @@ void *TObjBoss2Tunnel__ct(void *object, void *arg1) {
     s32 j;
     __ct__7TObjectFP7TObject(object);
     self->vt = ((s32 *)&__vt__15TObjBoss2Tunnel);
-    TObjBoss2Tunnel::reset_floats((s32)self->sub68);
+    __ct__14PiecewiseCurveFv(&self->curve);
     self->name = lbl_805D2708;
     self->i24 = 0;
     (*(s32 *)&TObjBoss2Tunnel__global_flags) = 0;
@@ -404,7 +405,7 @@ void *TObjBoss2Tunnel__ct(void *object, void *arg1) {
     self->f54 = (0.0f);
     self->i58 = 0;
     self->i64 = 0;
-    reset_floats__15TObjBoss2TunnelFv(self->sub68);
+    self->curve.reset_floats();
     self->f94 = (1.0f);
     self->f98 = (0.0f);
     self->iB0 = 0x21;
@@ -431,7 +432,7 @@ void *TObjBoss2Tunnel__ct(void *object, void *arg1) {
 }
 
 TObjBoss2Tunnel::~TObjBoss2Tunnel() {
-    TObjBoss2Tunnel::dt((s32)((s8 *)this + 0x68), (s16)(-1));
+    ((Tunnel_8003C45C *)this)->curve.~PiecewiseCurve();
 }
 
 #undef init_queue_from_start__15TObjBoss2TunnelFv

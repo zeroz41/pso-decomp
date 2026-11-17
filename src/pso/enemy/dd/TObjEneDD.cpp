@@ -51,9 +51,10 @@ extern "C" {
 s32 find_active_entity_by_id(u16);
 void enemy_set_target_id(Obj_800B9958 *self, u16 id);
 f32 normalize_vector_xz__FP3Vec(void *, f32, f32);
-extern const f32 TObjEneDD__data_805D9E8C;
 }
-extern const float TObjEneDD__data_805D9E8C;
+extern const f32 lbl_805D9E80 = -0.1f;
+extern const f32 lbl_805D9E84 = 310.0f;
+extern const f32 lbl_805D9E88 = 155.0f;
 #include "pso/enemy/dd/TObjEneDD_800B9AF8.h"
 
 extern "C" {
@@ -560,12 +561,12 @@ void TObjEneDD::init_position_vectors() {
     VecCopy(&this->center, (const Vec *)&this->position);
     ((TBoss3Volopt *)arg0)->reset_photon_effect();
     VecCopy((Vec *)&this->m_2fc, (const Vec *)&this->position);
-    *(f32 *)((s8 *)arg0 + 0x308) = (f32) TObjEneDD__data_805D9E8C;
-    this->y_speed = (f32) TObjEneDD__data_805D9E8C;
-    this->m_310 = (f32) TObjEneDD__data_805D9E8C;
-    this->ground_normal.x = (f32) TObjEneDD__data_805D9E8C;
-    ground_normal.y = (f32) TObjEneDD__data_805D9E8C;
-    this->ground_normal.z = (f32) TObjEneDD__data_805D9E8C;
+    *(f32 *)((s8 *)arg0 + 0x308) = 0.0f;
+    this->y_speed = 0.0f;
+    this->m_310 = 0.0f;
+    this->ground_normal.x = 0.0f;
+    ground_normal.y = 0.0f;
+    this->ground_normal.z = 0.0f;
     this->target = 0;
     this->clear_lobby_object_state();
 }
@@ -659,14 +660,14 @@ void TObjEneDD::invoke_initialization_hook(void *set_data) {
 
 void TObjEneDD::reset_state_fields() {
     s32 i;
-    ((Obj_800BB88C *)this)->f38 = TObjEneDD__data_805D9E8C;
-    ((Obj_800BB88C *)this)->f3c = TObjEneDD__data_805D9E8C;
-    ((Obj_800BB88C *)this)->f40 = TObjEneDD__data_805D9E8C;
+    ((Obj_800BB88C *)this)->f38 = 0.0f;
+    ((Obj_800BB88C *)this)->f3c = 0.0f;
+    ((Obj_800BB88C *)this)->f40 = 0.0f;
     ((Obj_800BB88C *)this)->f5c = 0;
     ((Obj_800BB88C *)this)->f60 = 0;
     ((Obj_800BB88C *)this)->f64 = 0;
     for (i = 0; i < 5; i++) {
-        ((Obj_800BB88C *)this)->f354[i] = TObjEneDD__data_805D9E8C;
+        ((Obj_800BB88C *)this)->f354[i] = 0.0f;
     }
     ((Obj_800BB88C *)this)->f368 = 0;
     ((Obj_800BB88C *)this)->f36c = 0;
@@ -754,7 +755,7 @@ s32 collect_enemy_target_candidates(s32 arg0, Ent_800BB484 *out, f32 farg0) {
     s32 k;
     n = 0;
     cnt = TLobby::get_game_mode();
-    if (farg0 > TObjEneDD__data_805D9E8C) {
+    if (farg0 > 0.0f) {
         for (s32 i = 0; i < cnt; i++) {
             p = ((u8 *)TObjPlayer::get_player_data(i));
             if (((TObjBase *)p)->is_alive() != 0) {
@@ -901,7 +902,7 @@ void calc_wall_slide_destination(void *arg0, void *arg1, f32 dx, f32 dz, f32 dis
     v.x = *(f32 *)(n->wall + 0x14);
     v.z = -*(f32 *)(n->wall + 0xC);
     normalize_vector_xz((Vec *)(&v));
-    if (dx * v.x + dz * v.z >= TObjEneDD__data_805D9E8C) {
+    if (dx * v.x + dz * v.z >= 0.0f) {
         dx = v.x;
         dz = v.z;
     } else {
@@ -1376,7 +1377,7 @@ void TObjEneDD::draw_oriented_shadow(s32 arg1, s32 arg2, u32 arg3) {
     direction_to_rotation_xz((u8 *)arg1, (&stack.sp8), (&stack.sp10));
     push_matrix();
     post_translate_matrix((void *)arg0);
-    translate_matrix(0, TObjEneDD__data_805D9E8C, 0.3f, TObjEneDD__data_805D9E8C);
+    translate_matrix(0, 0.0f, 0.3f, 0.0f);
     rotate_matrix_z(0, stack.sp10);
     rotate_matrix_x(0, stack.sp8);
     rotate_matrix_y(0, (void *)arg2);
@@ -1474,14 +1475,14 @@ void TObjEneDD::update_velocity() {
 
     temp_f2 = *(f32 *)((s8 *)arg0 + 0x394);
     *(f32 *)((s8 *)arg0 + 0x3A0) = (f32) (temp_f2 - *(f32 *)((s8 *)arg0 + 0x38));
-    *(f32 *)((s8 *)arg0 + 0x3A4) = (f32) TObjEneDD__data_805D9E8C;
+    *(f32 *)((s8 *)arg0 + 0x3A4) = 0.0f;
     temp_f1 = *(f32 *)((s8 *)arg0 + 0x39C);
     *(f32 *)((s8 *)arg0 + 0x3A8) = (f32) (temp_f1 - *(f32 *)((s8 *)arg0 + 0x40));
     *(f32 *)((s8 *)arg0 + 0x3AC) = normalize_vector_xz__FP3Vec(arg0 + 0x3A0, temp_f1, temp_f2);
 }
 
 
-void TObjEneDD_ST::init_float_params() { *(float*)((char*)this + 0x394) = TObjEneDD__data_805D9E8C; *(float*)((char*)this + 0x398) = TObjEneDD__data_805D9E8C; *(float*)((char*)this + 0x39c) = TObjEneDD__data_805D9E8C; *(float*)((char*)this + 0x3a0) = TObjEneDD__data_805D9E8C; *(float*)((char*)this + 0x3a4) = TObjEneDD__data_805D9E8C; *(float*)((char*)this + 0x3a8) = TObjEneDD__data_805D9E8C; *(float*)((char*)this + 0x3ac) = TObjEneDD__data_805D9E8C; }
+void TObjEneDD_ST::init_float_params() { *(float*)((char*)this + 0x394) = 0.0f; *(float*)((char*)this + 0x398) = 0.0f; *(float*)((char*)this + 0x39c) = 0.0f; *(float*)((char*)this + 0x3a0) = 0.0f; *(float*)((char*)this + 0x3a4) = 0.0f; *(float*)((char*)this + 0x3a8) = 0.0f; *(float*)((char*)this + 0x3ac) = 0.0f; }
 
 
 void enemy_set_target_id(Obj_800B9958 *self, u16 id) {

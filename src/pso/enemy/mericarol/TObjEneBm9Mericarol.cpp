@@ -69,20 +69,14 @@ typedef struct Stack_802CE510 Stack_802CE510;
 
 }
 
-extern const Vec player_sub_802ce68c_zero_vec;
-extern const Vec lbl_8047249C;
-extern const Vec lbl_80472490;
 extern const f32 lbl_805D9E84;
 extern const f32 lbl_805D9E88;
-extern s32 lbl_805D686C;
 struct Sub_800ACA10 { u8 pad[0x18]; s32 level; };
 
 s32 tick_period_counter(s32 arg0, s32 *arg1, s32 arg2);
 extern "C" {
 void enemy_clear_target__12TObjEneDD_STFUs(TObjEneDD_ST *self);
 extern s32 game_difficulty_selection;
-extern SampledMotionPoints *TBoss4Type3_shared_instance;
-extern SampledMotionPoints *lbl_805D6864;
 void vec3_add_to(Vec *dst, const Vec *src);
 void TBoss8Dragon__sub_800BB7D4(TObjEneBm9Mericarol *self, s32 arg1);
 void fill_value_array(s32 address);
@@ -98,31 +92,22 @@ u16 set_squared_value__9TObjEneDDFf(TObjEneBm9Mericarol *self, f32 range);
 u16 enemy_find_nearest_player_in_range(u8 *self, f32 range);
 }
 
-struct SpawnParams_802D1130 { BmlMotionEntry *motions; s32 w[3]; };
+// The motion-binding block TLobby::spawn_npc_enemy takes (same layout as
+// MojaAnimationBinding and GeeAnimationBinding).
+struct Bm9MericarolAnimationBinding {
+    BmlMotionEntry *motions;
+    TObjMotionAction *actions;
+    u32 unknown_08;
+    u16 actionCount;
+    u16 unknown_0E;
+};
 
 extern "C" {
-extern const char *lbl_805D3F28;
-extern const s32 lbl_80472318[];
+// Reached with a lis/addi each, never off a shared .rodata base like the TU's own tables: not defined here.
 extern const s32 lbl_804722E8[];
 extern const s32 lbl_804722F4[];
 extern const s32 lbl_80472300[];
 extern const s32 lbl_8047230C[];
-extern const SpawnParams_802D1130 lbl_80472480;
-extern const char lbl_80472324[];
-extern const char lbl_80472338[];
-extern const char lbl_80472354[];
-extern const char lbl_80472370[];
-extern const char lbl_8047238C[];
-extern const char lbl_804723A8[];
-extern const char lbl_804723C4[];
-extern const char lbl_804723E0[];
-extern const char lbl_804723FC[];
-extern const char lbl_80472418[];
-extern const char lbl_80472434[];
-extern const char lbl_8047244C[];
-extern u32 lbl_805D6870;
-extern u32 lbl_805D6874;
-extern u32 lbl_805D6878;
 extern void *tl_04;
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
 s32 is_valid_target__9TObjEneDDFv(TObjBase *target);
@@ -131,6 +116,9 @@ void init_collision_body_parts(void *, void *, s32);
 void free_bin_model_request(void *, int);
 void TObjPlayer__sub_800F0928(void);
 }
+
+// inferred: the per-phase colour the constructor gives its two TUnk_80494968 effects.
+static const u32 mericarol_phase_effect_colors[3] = { 0xFFFD42E3, 0xFF39374B, 0xFFDEFB46 };
 
 TObjEneBm9MericarolMovementParameters lbl_804E1548 = {
     { 225.0f, 0.0f, 0x200 }, { 0, 0, 0, 0 },
@@ -142,31 +130,31 @@ CollisionBody lbl_804E1564[2] = {
 };
 
 __declspec(section ".data") const char *lbl_804E15BC[2] = {
-    lbl_80472324, NULL,
+    "bm9_s_meri_body.nj", NULL,
 };
 
 const char *lbl_804E15C4[9] = {
-    lbl_80472338, lbl_80472354, lbl_80472370, lbl_8047238C,
-    lbl_804723A8, lbl_804723C4, lbl_804723E0, lbl_804723FC,
+    "atack_bm9_s_meri_body.njm", "damage_bm9_s_meri_body.njm", "dead_bm9_s_meri_body.njm", "fire_bm9_s_meri_body.njm",
+    "laugh_bm9_s_meri_body.njm", "wait_bm9_s_meri_body.njm", "wait2_bm9_s_meri_body.njm", "wake_bm9_s_meri_body.njm",
     NULL,
 };
 
 BmlResourceDescriptor lbl_804E15E8 = {
-    lbl_80472418, lbl_804E15BC, lbl_804E15C4, 1, 8,
+    "bm_ene_bm9_s_mericarol.bml", lbl_804E15BC, lbl_804E15C4, 1, 8,
 };
 
 __declspec(section ".data") const char *lbl_804E15F8[2] = {
-    lbl_80472434, NULL,
+    "lo_bm9_s_meri_body.nj", NULL,
 };
 
 const char *lbl_804E1600[9] = {
-    lbl_80472338, lbl_80472354, lbl_80472370, lbl_8047238C,
-    lbl_804723A8, lbl_804723C4, lbl_804723E0, lbl_804723FC,
+    "atack_bm9_s_meri_body.njm", "damage_bm9_s_meri_body.njm", "dead_bm9_s_meri_body.njm", "fire_bm9_s_meri_body.njm",
+    "laugh_bm9_s_meri_body.njm", "wait_bm9_s_meri_body.njm", "wait2_bm9_s_meri_body.njm", "wake_bm9_s_meri_body.njm",
     NULL,
 };
 
 BmlResourceDescriptor lbl_804E1624 = {
-    lbl_8047244C, lbl_804E15F8, lbl_804E1600, 1, 8,
+    "bm_ene_bm9_s_mericarol_low.bml", lbl_804E15F8, lbl_804E1600, 1, 8,
 };
 
 TObjMotionAction lbl_804E1634[9] = {
@@ -186,13 +174,19 @@ u8 *lbl_80540B64[3];
 u8 *lbl_80540B70[3];
 TObjEneBm9MericarolParams *mericarol_phase_param_table[3];
 f32 lbl_80540B88[4];
+const char *TObjEneBm9Mericarol__class_name = "TObjEneBm9Mericarol";
+SampledMotionPoints *TBoss4Type3_shared_instance;
+SampledMotionPoints *lbl_805D6864;
 BmlResource *lbl_805D6868;
+s32 lbl_805D686C;
+u32 lbl_805D6870;
+u32 lbl_805D6874;
+u32 lbl_805D6878;
 #pragma push
 #pragma opt_common_subs off
 #pragma pop
 extern "C" void TBoss4Type3__sub_802D1130(void) {
     s32 i;
-    BmlMotionEntry *entry;
 
     if (is_split_screen() != 0) {
         lbl_805D6868 = (BmlResource *)load_enemy_bml_resource((u8 *)&lbl_804E1624);
@@ -217,15 +211,11 @@ extern "C" void TBoss4Type3__sub_802D1130(void) {
     TBoss4Type3_shared_instance = new SampledMotionPoints(2, 0.0f, 20.0f, 0.7f);
     lbl_805D6864 = new SampledMotionPoints(2, 0.0f, 20.0f, 0.7f);
     set_motion_packed_rotation();
-    entry = lbl_805D6868->motions + lbl_804E1634[8].motion;
-    TBoss4Type3_shared_instance->sample_two_nodes((NJS_OBJECT *)lbl_805D6868->models[0].model, (NJS_MOTION *)entry->motion, 0x20, 0x21);
-    entry = lbl_805D6868->motions + lbl_804E1634[8].motion;
-    lbl_805D6864->sample_two_nodes((NJS_OBJECT *)lbl_805D6868->models[0].model, (NJS_MOTION *)entry->motion, 0x2A, 0x2B);
+    TBoss4Type3_shared_instance->sample_two_nodes((NJS_OBJECT *)lbl_805D6868->models[0].model, (NJS_MOTION *)lbl_805D6868->motions[lbl_804E1634[8].motion].motion, 0x20, 0x21);
+    lbl_805D6864->sample_two_nodes((NJS_OBJECT *)lbl_805D6868->models[0].model, (NJS_MOTION *)lbl_805D6868->motions[lbl_804E1634[8].motion].motion, 0x2A, 0x2B);
     clear_motion_packed_rotation();
     {
-        SpawnParams_802D1130 params = lbl_80472480;
-        entry = lbl_805D6868->motions;
-        params.motions = entry;
+        Bm9MericarolAnimationBinding params = { lbl_805D6868->motions, lbl_804E1634, 0x30001, 9, 0 };
         TLobby::spawn_npc_enemy(0x42, lbl_805D6868->models[0].model, (NJS_TEXLIST *)lbl_805D6868->models[0].m_c, &params,
             lbl_804E1564[0].radius, 0.0f);
     }
@@ -255,7 +245,7 @@ TObjEneBm9Mericarol::TObjEneBm9Mericarol(TObject *parent, void *set_data) : TObj
     s32 ph;
     s32 i;
 
-    m_name = lbl_805D3F28;
+    m_name = TObjEneBm9Mericarol__class_name;
     invoke_initialization_hook(set_data);
     init_size_tier_and_offsets();
     m_438 = 0;
@@ -273,8 +263,8 @@ TObjEneBm9Mericarol::TObjEneBm9Mericarol(TObject *parent, void *set_data) : TObj
     set_field_b8(requested_action);
     ph = get_phase();
     reset_hp(bm9_mericarol_phase_hp_table[ph], lbl_80540B64[ph], lbl_80540B70[ph]);
-    m_3c0[0] = TUnk_80494968::create(0xA0303030, lbl_80472318[ph]);
-    m_3c0[1] = TUnk_80494968::create(0xA0303030, lbl_80472318[ph]);
+    m_3c0[0] = TUnk_80494968::create(0xA0303030, mericarol_phase_effect_colors[ph]);
+    m_3c0[1] = TUnk_80494968::create(0xA0303030, mericarol_phase_effect_colors[ph]);
     add_flags_2e4(0x12);
     movementParameters = &lbl_804E1548;
     switch (get_phase()) {
@@ -1238,7 +1228,7 @@ void TObjEneBm9Mericarol::render() {
         return;
     }
     if (this->mode != 0xB) {
-        Vec v = lbl_80472490;
+        Vec v = { 2.0f, 1.0f, 2.0f };
         draw_ground_shadow(&v, 0);
     }
     update_secondary_light();
@@ -1320,7 +1310,7 @@ void TObjEneBm9Mericarol::draw_color_variant() {
     u32 s1;
     u32 s2;
     if (update_object_view_visibility(400.0f, 20.0f) != 0) {
-        Vec v = lbl_8047249C;
+        Vec v = { 2.0f, 1.0f, 2.0f };
         draw_ground_shadow(&v, 0);
         switch (variant) {
         case 1:
@@ -1369,7 +1359,7 @@ void TObjEneBm9Mericarol::sub_802CE68C(Vec *out, s32 node) {
     clear_motion_packed_rotation();
     pop_matrix();
     push_matrix_from(anim_model_matrix_array[node]);
-    Vec v = player_sub_802ce68c_zero_vec;
+    Vec v = { 0.0f, 0.0f, 0.0f };
     matrix_mult_vec(0, &v, out);
     pop_matrix();
     clear_motion_packed_rotation();

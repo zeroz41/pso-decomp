@@ -603,6 +603,10 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # Its three vtables sit in .data as TUnk_80482D04, TUnk_80482EC0, TBoss2Mine: key-function text order, so deferred with the source written backwards.
     "pso/boss/derolle/TBoss2Mine.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     "pso/enemy/gigue/TObjEneMe1GiGue_802CDB1C.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
+    # The resource file names and the class name of TObjEneBm9Mericarol sit in .rodata: readonly strings.
+    "pso/enemy/mericarol/TObjEneBm9Mericarol.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    # The resource file names and the class name of TObjEneMorfos sit in .rodata: readonly strings.
+    "pso/enemy/morfos/TObjEneMorfos.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/enemy/mericarol/TObjEneBm9Mericarol_Bomb.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/enemy/mericarol/TObjEneBm9Mericarol_EffCurse3.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/enemy/epsilon/TObjEneEpsilonGuard_8035DD68.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
@@ -771,7 +775,8 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # TShopJudgmentItemWindow: its class name and four string literals sit in .rodata.
     "pso/ui/city/TShopJudgmentItemWindow.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # TObjDFJisin: the Jisin, Horming and Yutai class-name strings sit in .rodata.
-    "pso/boss/darkfalz/TObjDFJisin.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    # vtables come out TObjDFTenchuFuru then TObjDFUsoTower (text order of their dtors): written last to first, deferred.
+    "pso/boss/darkfalz/TObjDFJisin.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     # TWindowSubTradeMain_80330A84 (+_80332148): "TWindowSubTradeMain" sits in .rodata.
     "pso/ui/window/TWindowSubTradeMain_80330A84.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # TCharaMaking (+TCharaMaking_8028E3F4): its motion names and file names sit in .rodata.
@@ -927,8 +932,9 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # texture loads all come before the stores into the locals, which only 2.0 schedules that way
     # (as in TOExplosiveMachine::run_task). -pool off: each chip's initializer template is reached
     # with its own lis/addi, not off one shared base. TObjVoloptPillar::sub_80049FD8 is one such
-    # spawner, and the rest of the pillar's TU builds identically with 2.0.
-    "pso/boss/volopt/TObjVoloptPillar.cpp": {"mw_version": "GC/2.0"},
+    # spawner, and the rest of the pillar's TU builds identically with 2.0. -pool off: run_task reaches
+    # the TU's own .rodata (the attack and push templates, the two doubles) each with its own lis/addi.
+    "pso/boss/volopt/TObjVoloptPillar.cpp": {"mw_version": "GC/2.0", "cflags": _switch(cflags_pso, "-pool off")},
     "pso/object/trap/TOTrapAncient01.cpp": {"mw_version": "GC/2.0", "cflags": _switch(cflags_pso, "-pool off", "-inline off,deferred", "-str reuse,readonly")},
     # TItemAttackCol's ctor builds a const StarLightParameters aggregate from the params; its star-colour loads
     # come before the stores into the local, the same 2.0 aggregate scheduling as the chip spawners above.
@@ -1016,6 +1022,12 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/boss/dragon/TObjBoss1Crater.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/boss/dragon/ObjBoss1CommonResource.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/boss/olgaflow/Boss6Type2Data.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    # Boss7TentacleData.cpp keeps its two class-name strings in .rodata after the angle tables.
+    "pso/boss/barbaray/Boss7TentacleData.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    # TObjBoss7Dust.cpp holds TObjBoss7Dust and TObjBoss7DustCtrl: Dust's code comes first in .text,
+    # yet DustCtrl's class name precedes Dust's in .sdata/.rodata and Dust's vtable precedes
+    # DustCtrl's: deferred, written from the unit's last function back.
+    "pso/boss/barbaray/TObjBoss7Dust.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     "pso/boss/goldragon/TBoss8DragonEffTail.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/boss/dragon/ObjBoss1CommonJResource.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/boss/barbaray/TBoss7Joint.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
@@ -1267,6 +1279,10 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/enemy/berura/TObjEneRe7Berura.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-sdata 4")},
     "pso/ui/keyboard/TKeyBoardControl.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/boss/goldragon/TObjBoss8Piller.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    # vtables come out TBoss5GryphonColli then TBoss5GryphonColli_C (text order of their dtors): written last to first, deferred.
+    "pso/boss/galgryphon/TBoss5GryphonColli.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
+    # .data holds __vt__19TObjBoss8PillerCtrl ahead of run_task's jump table: deferred generation of the last-to-first source.
+    "pso/boss/goldragon/TObjBoss8PillerCtrl.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     "pso/unk/text_803626A8.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # -sdata 4: the 8-byte name tables sit in .data while 4-byte objects sit in .sdata.
     "pso/unk/text_8035B750.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-sdata 4")},

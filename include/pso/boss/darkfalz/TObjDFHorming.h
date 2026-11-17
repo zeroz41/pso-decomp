@@ -3,31 +3,36 @@
 
 #include "types.h"
 #include "pso/object/base/TObjChara.h"
+#include <dolphin/mtx.h>
+#include <stddef.h>
+
+class TParticleCtrl;
 
 struct TObjDFHorming : public TObjChara {
+    TObjDFHorming(TObject *parent, const Vec *position, u16 target_id);
     virtual ~TObjDFHorming();
     void sub_8005076C();
     void check_attack_trigger();
     virtual void run_task();
-    u16 m_334;
+    u16 m_334; // client id of the player it homes on
     u8 _pad336[0x2];
     u32 m_338;
-    void* m_33c;
-    u8 _pad340[0x8];
-    void* m_348;
-    u8 unk_34C[0x4];
-    f32 m_350; // 0x350
-    u8 unk_354[0xC];
+    Vec spawn_position;        // copied with prev_position and m_2fc from the spawn point
+    Vec velocity;              // normalised and scaled by speed each frame, added to m_2fc
+    f32 speed;
+    TParticleCtrl *effects[2]; // create_particle_emitter per TObjDFJisin__particle_emitter_id_table entry
     u32 m_360;
-    u8 _pad364[0x4];
+    f32 homing_rate;           // 0..1 from the shared table, sets how hard it turns (steer_homing_direction)
     u32 m_368;
     void* m_36c;
     u8 unk_370[0x8];
-    void * m_378;
+    f32 m_378;
     u8 unk_37C[0x4];
     static u8 is_boss_active();
 };
 
+typedef char TObjDFHorming_velocity_offset[offsetof(TObjDFHorming, velocity) == 0x348 ? 1 : -1];
+typedef char TObjDFHorming_effects_offset[offsetof(TObjDFHorming, effects) == 0x358 ? 1 : -1];
 typedef char TObjDFHorming_size[sizeof(TObjDFHorming) == 0x380 ? 1 : -1];
 
 struct TBoss4DarkFalz;

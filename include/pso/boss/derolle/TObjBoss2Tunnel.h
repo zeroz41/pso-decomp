@@ -4,6 +4,27 @@
 #include "types.h"
 #include "pso/system/task/TObject.h"
 
+// A velocity/position ramp: accelerate from v0 to peak, cruise, brake to rest over dist.
+// init_piecewise_curve fills it, eval_piecewise_curve reads the speed, sample_piecewise_curve the distance.
+// TObjBoss2Tunnel (+0x68) and the tunnel of TObjBoss2Tunnel_802F1A58 (+0x20) hold one as a member.
+struct PiecewiseCurve {
+    PiecewiseCurve();
+    ~PiecewiseCurve();
+    void reset_floats();
+
+    f32 accel;
+    f32 decel;
+    f32 v0;
+    f32 peak;
+    f32 accelEnd;
+    f32 decelStart;
+    f32 end;
+    f32 t;
+    f32 accelDist;
+    f32 decelPos;
+    f32 dist;
+};
+
 struct TObjBoss2Tunnel : public TObject {
     virtual ~TObjBoss2Tunnel();
     void init_queue_from_start();
@@ -66,9 +87,6 @@ struct TObjBoss2Tunnel : public TObject {
     static s32 save_snapshot();
     static void free_buffers();
     static void reset_state();
-    void reset_floats();
-    static s32 dt(s32 arg0, s16 arg1);
-    static s32 reset_floats(s32 arg0);
     static s32 decrement_packed_timer(u32 *arg0, s32 arg1);
     static s32 spawn_effect(s32 arg0, void *arg1, void *arg2);
     static s32 adjust_to_ground(s32 arg0, void *arg1);

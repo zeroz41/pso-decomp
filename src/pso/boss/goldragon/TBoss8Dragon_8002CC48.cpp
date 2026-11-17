@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #pragma defer_codegen on
+#pragma readonly_strings on
 
 #include "pso/system/vector.h"
 
@@ -95,7 +96,7 @@ struct Trail_8002CFB8 {
 };
 
 typedef struct Obj_8002CD8C {
-    s32 unk0;
+    const char *name;
     u8 pad4[0x14];
     void *vtbl;
     u8 pad1C[0xC];
@@ -117,13 +118,9 @@ void __ct__7TObjectFP7TObject(void *, void *);
 
 extern s32 __vt__22TObjBoss1MokoHill_Solo[];
 
-extern s32 TObjBoss1MokoHill_Solo__name;
-
 void *TObjBoss1MokoHill_Solo__ct(void *arg0_, void *arg1, int arg2);
 
 extern s32 __vt__23TObjBoss1MokoHill_SoloM[];
-
-extern s32 TObjBoss1MokoHill_SoloM__name;
 
 extern BmlResource *lbl_805D4B50;
 
@@ -182,6 +179,9 @@ void update_dragon_trail_uvs(Obj_8002D4C0 *self);
 
 f32 rand_signed_unit(void);
 }
+
+const char *TObjBoss1MokoHill_SoloM__name = "TObjBoss1MokoHill_SoloM";
+const char *TObjBoss1MokoHill_Solo__name = "TObjBoss1MokoHill_Solo";
 
 s32 is_dragon_trail_damaging(u8 *arg0);
 
@@ -720,7 +720,7 @@ void *TObjBoss1MokoHill_Solo__ct(void *arg0_, void *arg1, int arg2) {
     f32 t;
     __ct__7TObjectFP7TObject(arg0, arg1);
     arg0->vtbl = __vt__22TObjBoss1MokoHill_Solo;
-    arg0->unk0 = TObjBoss1MokoHill_Solo__name;
+    arg0->name = TObjBoss1MokoHill_Solo__name;
     VecCopy((Vec *)arg0->pos, (const Vec *)(((void *(*)(void *))get_state__12TBoss8DragonFv)(arg0)));
     arg0->unk34 = -32.0f;
     r = (f32)rand();

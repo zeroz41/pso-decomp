@@ -104,6 +104,7 @@ struct TObjEneMe3Stelth : public TObjEneDD_ST {
     TObject *m_448;
     s32 try_spawn_ground_effect(s32 arg1);
     void play_hit_effect();
+    void spawn_ground_effect_on_frame_23();
     static void spawn_attack(s16 arg0, s32 arg1, s32 arg2, s32 arg3, f32 farg0, f32 farg1);
     static void add_instance();
     void update_distance_state();

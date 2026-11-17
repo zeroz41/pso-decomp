@@ -3,21 +3,18 @@
 #include "pso/object/TObjLiveMonitor.h"
 #include "pso/system/task/TObject.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/boss/goldragon/TObjBoss8PillerCtrl.h"
 
 extern "C" {
 s32 is_room_enemy_set_cleared(s32, s32);
 s32 __ct__18TObjLiveCameraCtrlFP7TObject(void *, s32);
 s32 __ct__17TObjBoss8DemoRoomFv(void *, s32);
-s32 TObjBoss8PillerCtrl__ct(void *, f32, void *, s32, s32);
 }
 extern void *tl_05;
 void create_boss8_demo_objects(void);
 
 void create_boss8_piller_ctrl(s32 arg0, s32 arg1, f32 boss8_piller_ctrl) {
-    void *obj = TObject::operator new(0x38);
-    if (obj != 0) {
-        TObjBoss8PillerCtrl__ct(obj, boss8_piller_ctrl, tl_05, arg0, arg1);
-    }
+    new TObjBoss8PillerCtrl((TObject *)tl_05, boss8_piller_ctrl, (const Vec *)arg0, arg1);
 }
 void create_boss8_demo_objects(void) {
     void *obj;

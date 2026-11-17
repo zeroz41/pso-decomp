@@ -103,7 +103,7 @@ extern const char walkr_bm7_s_paa_body_motion_filename[] = "walkr_bm7_s_paa_body
 extern const char bm7_s_paa_body_bml_filename[] = "bm7_s_paa_body.bml";
 extern const char TObjEnePanarms__class_name[] = "TObjEnePanarms";
 const char *TObjEnePanarms__name = TObjEnePanarms__class_name;
-extern BmlResource *TObjEnePanarms__entry_params_resource;
+BmlResource *TObjEnePanarms__entry_params_resource;
 
 const char *bm7_s_paa_body_model_names[4] = {
     bm7_s_paa_body_model_filename, bm7_s_pal_body_model_filename, bm7_s_par_body_model_filename, NULL,
@@ -192,8 +192,6 @@ f32 vec3_add_to(void *, void *);
 s32 TObjEnePanarms__sub_800DFB74(void *);
 s32 TObjEnePanarms__sub_800DFB9C(void *);
 s32 TObjEnePanarms__sub_800DFBB0(void *);
-extern f32 lbl_805D527C;
-extern u8 lbl_805D5280;
 u16 find_nearest_visible_player(void *, f32 *, f32);
 f32 atan2_float(f32 y, f32 x);
 s32 approach_angle_limited(s32, s32, s32);
@@ -946,12 +944,10 @@ void TObjEnePanarms::update_dead() {
     f32 temp_f2;
     s32 temp_r0;
     this->m_388 = (this->m_388 - 1);
-    if ((s8) lbl_805D5280 == 0) {
-        lbl_805D5280 = 1;
-        lbl_805D527C = panarms_motion_param_table[4].unk_8;
-    }
+    // inferred name: twin of panarms_particle_frame_window in TObjEnePanBARA::sub_800E0950
+    static f32 panarms_dead_particle_frame_window = panarms_motion_param_table[4].unk_8;
     temp_f2 = this->frame;
-    if ((temp_f2 >= 21.0f) && (temp_f2 < (21.0f + lbl_805D527C))) {
+    if ((temp_f2 >= 21.0f) && (temp_f2 < (21.0f + panarms_dead_particle_frame_window))) {
         VecCopy((Vec *)(&stack.sp14), (const Vec *)((u8 *)this + 0x2FC));
         stack.sp18 += 5.0f;
         spawn_particle_effect((&stack.sp14), 0xF0);

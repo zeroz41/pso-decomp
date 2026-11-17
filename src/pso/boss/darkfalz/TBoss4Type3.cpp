@@ -1839,8 +1839,8 @@ void TBoss4Type3::update_homing() {
     v = 0x75;
     for (i = 0; i < n; i++) {
         if (o->f398 == v) {
-            TBoss4Type3::create_horming((void *)o, (void *)a, (void *)o->f3b8);
-            TBoss4Type3::create_horming((void *)o, (void *)b, (void *)o->f3b8);
+            TBoss4Type3::create_horming(this, (const Vec *)a, o->f3b8);
+            TBoss4Type3::create_horming(this, (const Vec *)b, o->f3b8);
             play_sound_effect(0x4003B229, o->f38, 0, 1);
             break;
         }

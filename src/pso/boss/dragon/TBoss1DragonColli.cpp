@@ -12,6 +12,12 @@
 #include <stddef.h>
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 
+#pragma readonly_strings on
+
+// Stored in the object name field by the constructors.
+const char *TBoss1DragonColli_C__name = "TBoss1DragonColli_C";
+const char *TBoss1DragonColli__name = "TBoss1DragonColli";
+
 struct E_8002B3F4 { u8 pad[0x18]; u32 flags; u8 pad2[0x2c - 0x1c]; };
 
 struct O_8002B3F4 { u8 pad[0xa4]; E_8002B3F4 *elems; s32 count; };
@@ -24,7 +30,7 @@ struct O_8002B3F4;
 struct E_8002B4CC { f32 x, y, z, w; u8 pad10[8]; u32 flags; u8 pad1c[0x2c - 0x1c]; };
 
 struct O_8002B4CC {
-    s32 f0;
+    const char *name;
     u8 pad4[0x18 - 4];
     void *vt;
     s16 f1c;
@@ -38,13 +44,11 @@ extern "C" {
 s32 __nw__7TObjectFUl(int);
 s32 __ct__7TObjectFP7TObject(void *, void *);
 extern void *__vt__17TBoss1DragonColli[];
-extern s32 TBoss1DragonColli__name;
 u8 *TBoss1DragonColli__ct(u8 *arg0, s32 arg1);
 u16 register_entity_by_id(void *ov);
 s32 __ct__14TObjCollidableFP7TObject(void *, void *);
 extern CollisionBody TBoss1DragonColli_sphere_chain_desc;
 extern s32 __vt__19TBoss1DragonColli_C[];
-extern s32 TBoss1DragonColli_C__name;
 s32 TBoss1DragonColli_C__ct(int arg0, void *arg1, int arg2, void *arg3, f32 scale);
 }
 
@@ -160,7 +164,7 @@ s32 TBoss1DragonColli_C__ct(int arg0, void *arg1, int arg2, void *arg3, f32 scal
     f32 z;
     __ct__14TObjCollidableFP7TObject(self, arg1);
     self->vt = ((u8 *)&__vt__19TBoss1DragonColli_C);
-    self->f0 = TBoss1DragonColli_C__name;
+    self->name = TBoss1DragonColli_C__name;
     VecCopy((Vec *)self->pos, (const Vec *)arg3);
     self->f1c = TLobby::alloc_actor_ids(0);
     self->count = arg2;

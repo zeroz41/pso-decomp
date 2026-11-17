@@ -294,6 +294,7 @@ pso/boss/barbaray/TBoss7LaserLight.cpp
 pso/boss/barbaray/TBoss7LaserPtcl.cpp
 pso/boss/barbaray/TBoss7LaserPtcl_8035AE54.cpp
 pso/boss/barbaray/TBoss7PhotonBullet_802EF26C.cpp
+pso/boss/barbaray/Boss7TentacleData.cpp
 pso/boss/barbaray/TBoss7TentacleNeedle.cpp
 pso/boss/goldragon/TBoss8Dragon.cpp
 pso/boss/goldragon/TBoss8DragonColli.cpp
@@ -344,7 +345,6 @@ pso/boss/galgryphon/TObjBoss5Pillar_8028B6C0.cpp
 pso/boss/galgryphon/TObjBoss5Pillar_8028B714.cpp
 pso/npc/TNpcPlayer_8028B810.cpp
 pso/boss/barbaray/TObjBoss7Dust.cpp
-pso/boss/barbaray/TObjBoss7DustCtrl.cpp
 pso/boss/barbaray/TObjBoss7RaftSplash.cpp
 pso/object/ambient/TObjFish_802F17B0.cpp
 pso/object/ambient/TObjFish_802F1848.cpp
@@ -424,6 +424,7 @@ pso/enemy/gigue/TObjEneMe1GiGue.cpp
 pso/enemy/gigue/TObjEneMe1GiGueBarrier.cpp
 pso/enemy/gigue/TObjEneMe1GiGueMissile.cpp
 pso/enemy/gigue/TObjEneMe1GiGue_802CDB1C.cpp
+pso/enemy/shinowa/ShinowaData.cpp
 pso/enemy/shinowa/TObjEneMe3Shinowa.cpp
 pso/enemy/sinowzoa/TObjEneMe3SinowZoa.cpp
 pso/enemy/sinowzoa/TObjEneMe3SinowZoa_800D72A4.cpp
@@ -1663,7 +1664,6 @@ pso/boss/darkfalz/TObjDFDemo4.cpp
 pso/boss/darkfalz/TObjDFDemo5.cpp
 pso/boss/darkfalz/TObjDFDemoF.cpp
 pso/boss/darkfalz/TObjDFHorming.cpp
-pso/boss/darkfalz/TObjDFUsoTower.cpp
 pso/ui/window/TObjDeadListWin.cpp
 pso/object/TObjDoaEx01.cpp
 pso/object/door/TObjDoor.cpp
@@ -2088,6 +2088,7 @@ pso/ui/window/TMessageWindowController.cpp
 pso/ui/window/TObjBagWarnWin.cpp
 pso/ui/charcreate/TObjCMHexTile.cpp
 pso/boss/darkfalz/TObjDFJisin.cpp
+pso/boss/darkfalz/TBoss4Type2_800522CC.cpp
 pso/boss/darkfalz/TObjDFYutai.cpp
 pso/object/TObjLiveMonitor.cpp
 pso/weapon/TUnk_804E24F0.cpp
