@@ -20,7 +20,7 @@ struct Ipv4Alias {
     Ipv4Alias *next;
 };
 typedef char Ipv4Alias_size_check[sizeof(Ipv4Alias) == 0x18 ? 1 : -1];
-/* An interface IPv4 runs on (TLobby__sub_8040F454 brings it up, TLobby__sub_8040F1A0 down). */
+/* An interface IPv4 runs on (bring_up_ipv4_interface brings it up, bring_down_ipv4_interface down). */
 typedef struct Ipv4Iface {
     s16 state;                  /* 1 = up */
     s16 handle;                 /* 0x02: the link's IPv4 socket (EtherType 0x800) */

@@ -57,13 +57,13 @@ void TLobby__sub_804050DC(s16 arg0);
 s32 TLobby__sub_804062A0(s16 arg0);
 s32 TLobby__sub_80406624(s32 a, s32 b, u16 code, void *self);
 s16 reset_network_timer_list(void);
-s16 TLobby__sub_8040799C(s16 idx, void *name, void *arg2);
+s16 arp_resolve_and_send(s16 idx, void *name, void *arg2);
 s32 TLobby__sub_80409AA8(void);
 s16 TLobby__sub_8040FDA0(u32 arg0, s16 arg1);
 void TLobby__sub_80405328(u8 *arg0);
 s16 TLobby__sub_8040FCEC(u32 ip);
 s32 TLobby__sub_8040DD68(void);
-s32 TLobby__sub_8040ED28(void);
+s32 shutdown_ipv4_routing(void);
 s32 NetIPv6Shutdown(void);
 s16 TLobby__sub_80409A3C(u8 *arg0, s16 arg1);
 s32 TLobby__sub_80405304(void *arg0);
@@ -87,8 +87,8 @@ s16 is_lookup_found(u32 arg0, u32 arg1);
 s16 TLobby__sub_8040DA54(u8 *arg0, u8 *arg1);
 s16 TLobby__sub_8040E780(u8 *rec, u32 dst, u32 src, u8 ttl, u8 tos, u8 df, void *proto);
 s16 TUdpSocket__sub_8040E354(u8 *self, u32 key, u8 *pkt, s16 total, s16 id);
-s16 TLobby__sub_8040EDE4(void *self, u32 key, s16 id);
-s16 TLobby__sub_8040EF50(u32 *out, u32 mask, s16 c);
+s16 ipv4_send_to_interface(void *self, u32 key, s16 id);
+s16 ipv4_source_for_subnet(u32 *out, u32 mask, s16 c);
 s16 TLobby__sub_80410A98(s32 arg0, void *arg1, void *arg2, void *arg3, void *arg4);
 extern NetPacketPool lobby_udp_socket_table;
 /* Shared by the modules cut out of this unit; each is defined in the file named in its comment. */
@@ -101,7 +101,7 @@ s16 *get_active_entry_by_index(s16);                 /* NetIpv4Route.c */
 u8 *TLobby__sub_8040F76C(u32, u32);                  /* NetIpv4Route.c */
 s16 TLobby__sub_8040FE40(s16);                       /* NetIpv4Route.c */
 s16 TLobby__sub_8040FEE4(s32, s32);                  /* NetIpv4Route.c */
-s16 TLobby__sub_8040EF00(s16);                       /* NetIpv4Route.c */
+s16 get_ipv4_interface_mtu(s16);                       /* NetIpv4Route.c */
 /* ARP (src/pso/network/NetArp.c). */
 s32 TLobby__sub_80407418(s16 id);
 void forward_net_op_5args(s16, s16, s16, s16, s16, s32, s8, s32);
