@@ -12283,6 +12283,9 @@ pso/quest/TQuestVmDownLoadServer_803E5668.cpp:
 	.sbss       start:0x805D7820 end:0x805D784C
 	.sdata2     start:0x805E10C0 end:0x805E10C8
 
+pso/quest/QuestDownloadCharTables.c:
+	.rodata     start:0x8047E698 end:0x8047EA28
+
 pso/quest/TQuestVmDownLoadServer_803E6970.cpp:
 	.text       start:0x803E6970 end:0x803E8918
 	.rodata     start:0x8047EA28 end:0x8047F0F8

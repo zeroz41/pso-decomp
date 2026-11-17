@@ -6,6 +6,7 @@
 #include "types.h"
 #include "pso/quest/TQuestVmDownLoadServer_803E6970.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
+#include "pso/quest/QuestDownloadCharTables.h"
 
 struct RecoveredGlobal_803E6ACC_lbl_805A0470 {
     s32 value;
@@ -47,11 +48,6 @@ struct RecoveredGlobal_803E6ED0_lbl_805A05D0 {
     u8 remaining[0xC4];
 };
 
-struct RecoveredGlobal_803E721C_lbl_8047E698 {
-    s32 value;
-    u8 remaining[0x1FC];
-};
-
 struct RecoveredGlobal_803E8084_lbl_8058DE08
 {
   s32 value;
@@ -90,8 +86,6 @@ struct Node_803ECD1C { u8 pad[0xC]; Node_803ECD1C *next; };
 struct Node_803ECD8C { s32 *link; u8 pad[8]; Node_803ECD8C *next; };
 
 struct Node_803ECE5C { s32 *link; u8 pad[4]; Node_803ECE5C *next; };
-
-struct E_803E6F48 { u16 key; u8 val; u8 pad; };
 
 struct R_803E76A4 { u8 cnt; u8 pad[7]; };
 
@@ -334,7 +328,6 @@ struct Slot_803ED9AC {
 };
 extern Slot_803ED9AC quest_download_slot_chain_table[];
 extern const u8 lbl_8047F8B8[0x100];
-extern RecoveredGlobal_803E721C_lbl_8047E698 single_byte_to_jis_table;
 s32 strcpy(void *, void *);
 s32 dispatch_request_0x20__19TWindowKeyBoardSoftFll(void *, void *);
 s32 dispatch_request_0x1c__19TWindowKeyBoardSoftFv();
@@ -346,7 +339,6 @@ extern s32 lbl_805E10D8;
 extern s32 lbl_805E10E0;
 extern s32 lbl_805D7888;
 s32 TQuestVmDownLoadServer__sub_803E7098(u8 *p, u16 code);
-extern u16 quest_download_char_code_table[];
 s32 TQuestVmDownLoadServer__sub_803EC69C(u32);
 extern RecoveredGlobal_803E8084_lbl_80590AC4 quest_name_index_table;
 void __VIRetraceHandler(void);
@@ -358,7 +350,6 @@ Node_803EB878 *TQuestVmDownLoadServer__sub_803EB878(Node_803EB878 *p);
 void TQuestVmDownLoadServer__sub_803ECD1C(Node_803ECD1C *p);
 void TQuestVmDownLoadServer__sub_803ECD8C(Node_803ECD8C *p);
 void TQuestVmDownLoadServer__sub_803ECE5C(Node_803ECE5C *p);
-extern E_803E6F48 jis_to_single_byte_symbol_table[];
 extern R_803E76A4 quest_download_slot_table[];
 N_803E9FA4 *insert_sorted_node__22TQuestVmDownLoadServerFP10N_803E9FA4(N_803E9FA4 *arg0, N_803E9FA4 *arg1);
 int strncmp(const char *, const char *, u32);
@@ -445,8 +436,6 @@ extern const char ask_header_signature[];
 const Ent_803E9DE0 *find_longest_match_entry__22TQuestVmDownLoadServerFlPl(u8 *arg0, s32 arg1, s32 *arg2);
 void build_message_packet__22TQuestVmDownLoadServerFPviPvUc(u8 *arg0, s32 arg1, Req_803EEF2C *arg2, u8 arg3);
 s32 lookup_name_entry__22TQuestVmDownLoadServerFsP12Out_803E8C2C(char *arg0, s16 arg1, Out_803E8C2C *arg2);
-extern u8 lbl_8047E898[];
-extern u16 lbl_8047E8A4[];
 void TQuestVmDownLoadServer__sub_803EFCB4(u8 *data, s32 a1, s32 a2, s32 *cnt, s32 *total, u8 *buf, s32 flags);
 extern u8 *lbl_805D7824;
 
