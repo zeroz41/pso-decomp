@@ -151,7 +151,7 @@ extern void TLobby__sub_803FC318(u8 *conn) {
         fsm->f6 = fsm->f7;
         timer->callback = (void *)TLobby__sub_803FC728;
         timer->arg = fsm;
-        TLobby__sub_80405298((N_80405298 *)timer, fsm->proto->timeout);
+        lobby_timer_add((N_80405298 *)timer, fsm->proto->timeout);
     }
 }
 
@@ -197,7 +197,7 @@ void chap_input(void *self, s32 arg1) {
             if (chap_recv_response((void *)arg0, (void *)&hdr, (int)arg1) == 0) {
                 if (lbl_805D7A90 & 2) {
                     temp_r30 = (u8 *)(*(u8 **)((s8 *)arg0 + 0xC));
-                    TLobby__sub_80405304((void *) (arg0 + 0x10));
+                    lobby_timer_stop((void *) (arg0 + 0x10));
                     temp_r0 = *(u8 *)((s8 *)arg0 + 2) & 0xFFFFFFEF;
                     *(u8 *)((s8 *)arg0 + 2) = temp_r0;
                     if (!(temp_r0 & 0x10)) {
@@ -209,7 +209,7 @@ void chap_input(void *self, s32 arg1) {
                     return;
                 }
                 temp_r30_2 = (u8 *)(*(u8 **)((s8 *)arg0 + 0xC));
-                TLobby__sub_80405304((void *) (arg0 + 0x10));
+                lobby_timer_stop((void *) (arg0 + 0x10));
                 temp_r0_2 = *(u8 *)((s8 *)arg0 + 2) & 0xFFFFFFDF;
                 *(u8 *)((s8 *)arg0 + 2) = temp_r0_2;
                 if (!(temp_r0_2 & 0x10)) {
@@ -221,9 +221,9 @@ void chap_input(void *self, s32 arg1) {
             }
             break;
         case 3:
-            TLobby__sub_80405304((void *) (arg0 + 0x10));
+            lobby_timer_stop((void *) (arg0 + 0x10));
             temp_r30_3 = (u8 *)(*(u8 **)((s8 *)arg0 + 0xC));
-            TLobby__sub_80405304((void *) (arg0 + 0x10));
+            lobby_timer_stop((void *) (arg0 + 0x10));
             temp_r0_3 = *(u8 *)((s8 *)arg0 + 2) & 0xFFFFFFEF;
             *(u8 *)((s8 *)arg0 + 2) = temp_r0_3;
             if (!(temp_r0_3 & 0x10)) {
@@ -234,7 +234,7 @@ void chap_input(void *self, s32 arg1) {
             TLobby__sub_80400ACC((O_80400ACC *) (temp_r30_3));
             return;
         case 4:
-            TLobby__sub_80405304((void *) (arg0 + 0x10));
+            lobby_timer_stop((void *) (arg0 + 0x10));
             temp_r30_4 = (u8 *)(*(u8 **)((s8 *)arg0 + 0xC));
             update_connection_state((int) (temp_r30_4 + 0xA0));
             update_connection_state((int) (temp_r30_4 + 4));
@@ -282,7 +282,7 @@ void TLobby__sub_803FC728(Conn_804004DC *c) {
     if (c->retries != 0) {
         buf = TLobby__sub_80401B20(lbl_805C02D0.p1C, chap->len);
         ppp_fsm_send_packet(c, 2, chap->id, buf);
-        TLobby__sub_80405328(c->timer);
+        lobby_timer_start(c->timer);
         c->retries--;
         return;
     }
@@ -480,7 +480,7 @@ void chap_recv_challenge(Conn_804004DC *connection, PppHeader *header, PppFrame 
     chap->len = credential_length + 0x11;
     reply = TLobby__sub_80401B20(lbl_805C02D0.p1C, chap->len);
     ppp_fsm_send_packet(connection, 2, chap->id, reply);
-    TLobby__sub_80405328(connection->timer);
+    lobby_timer_start(connection->timer);
     connection->retries--;
     if (connection->f6 != 0) {
         connection->f6--;

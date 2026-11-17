@@ -344,7 +344,7 @@ void init_net_state_entry(void *entry) {
     s8 *entry_s8 = (s8 *)entry;
   s8 *new_var;
   new_var = (s8 *) (((s8 *) entry_s8) + ((0, 0)));
-  TLobby__sub_80405304((void *)((void *) (((u8 *) entry_s8) + 0x10)));
+  lobby_timer_stop((void *)((void *) (((u8 *) entry_s8) + 0x10)));
   *new_var = 5;
 }
 
@@ -353,7 +353,7 @@ void TLobby__sub_803FA280(void) {
 }
 
 void NetIPv6CPCancelTimer(s32 entry_addr) {
-    TLobby__sub_80405304((void *)(entry_addr + 0x10));
+    lobby_timer_stop((void *)(entry_addr + 0x10));
 }
 
 void TLobby__sub_803FA2A8(P_803FA2A8 *o) {

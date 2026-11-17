@@ -104,7 +104,7 @@ void pap_init(u8 *arg0) {
         fsm->f6 = fsm->f7;
         timer->callback = (PppFsmTimerCallback)handle_request_timeout;
         timer->arg = fsm;
-        TLobby__sub_80405298((N_80405298 *)timer, fsm->proto->timeout);
+        lobby_timer_add((N_80405298 *)timer, fsm->proto->timeout);
     }
 }
 
@@ -177,7 +177,7 @@ static inline void pap_auth_done(Conn_804004DC *self, u32 pending_bit) {
     if (!(((u8 *)self)[2] & 0x30)) {
         self->state = 5;
     }
-    TLobby__sub_80405304(self->timer);
+    lobby_timer_stop(self->timer);
     link[2] &= ~pending_bit;
     TLobby__sub_80400ACC((O_80400ACC *)link);
 }
@@ -209,7 +209,7 @@ void pap_input(Conn_804004DC *self, PppFrame *source) {
         if (pap_read_reply_message((PapOptions *)self->opts, header.id, self->id, source) != 0) {
             return;
         }
-        TLobby__sub_80405304(connection->timer);
+        lobby_timer_stop(connection->timer);
         options->peer_id = NULL;
         options->password = NULL;
         connection->abort = 1;
@@ -255,7 +255,7 @@ void reset_connection_state(void *self) {
         case 0:
             break;
         case 2:
-            TLobby__sub_80405304(&fsm->timer);
+            lobby_timer_stop(&fsm->timer);
         case 1:
         case 5:
         case 6:

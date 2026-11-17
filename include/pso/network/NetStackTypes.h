@@ -72,7 +72,7 @@ typedef struct Conn_804004DC {
     s16 abort;
     u8 padA[2];
     u8 *sub;
-    u8 timer[0x1C]; /* a lobby timer (TLobby__sub_80405298) */
+    u8 timer[0x1C]; /* a lobby timer (lobby_timer_add) */
     void *proto;
     void *opts;
 } Conn_804004DC;

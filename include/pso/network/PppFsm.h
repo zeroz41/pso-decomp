@@ -37,7 +37,7 @@ struct PppFsmProtocol {
     PppFsmCheck f38;
 };
 
-/* The FSM's retry timer (TLobby__sub_80405298 arms it). */
+/* The FSM's retry timer (lobby_timer_add arms it). */
 typedef void (*PppFsmTimerCallback)(PppFsm *fsm);
 typedef struct PppFsmTimer {
     u8 pad0[0x10];

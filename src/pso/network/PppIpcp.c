@@ -264,7 +264,7 @@ void TLobby__sub_803FF384(u8 *arg0) {
     if (a != 0 || b != 0) {
         p->net_list = init_net_list(a, b);
     }
-    TLobby__sub_80405304(arg0 + 0x10);
+    lobby_timer_stop(arg0 + 0x10);
     *(s8 *)((s8 *)arg0 + 0) = 5;
 }
 
@@ -277,7 +277,7 @@ void free_field_98_and_clear(void *self) {
 }
 
 void TLobby__sub_803FF468(s32 arg0) {
-    TLobby__sub_80405304((void *)(arg0 + 0x10));
+    lobby_timer_stop((void *)(arg0 + 0x10));
 }
 
 struct P_803FF48C { u8 pad[0x30]; IpcpConfig *q; };

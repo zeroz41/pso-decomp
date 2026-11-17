@@ -136,7 +136,7 @@ void process_expired_timers(void) {
 }
 
 #define HEAD_80405298 (*(N_80405298 **)&lobby_timer_list_head)
-void TLobby__sub_80405298(N_80405298 *o, s32 v) {
+void lobby_timer_add(N_80405298 *o, s32 v) {
     N_80405298 *p, *n;
     if (o == 0) {
         return;
@@ -160,7 +160,7 @@ void TLobby__sub_80405298(N_80405298 *o, s32 v) {
     o->b18 = 0;
 }
 
-s32 TLobby__sub_80405304(void *arg0) {
+s32 lobby_timer_stop(void *arg0) {
     Obj_80405304 *o = (Obj_80405304 *)arg0;
     if (o == NULL || o->f18 != 1) {
         return;
@@ -168,7 +168,7 @@ s32 TLobby__sub_80405304(void *arg0) {
     o->f18 = 0;
 }
 
-void TLobby__sub_80405328(u8 *arg0) {
+void lobby_timer_start(u8 *arg0) {
     typedef struct Fields_arg0 { u8 pad_0[4]; u32 field_4; u32 field_8; u8 pad_C[4]; u32 field_10; u8 pad_14[4]; u8 field_18; } Fields_arg0;
     u32 temp_r0_2;
     u8 temp_r0;
