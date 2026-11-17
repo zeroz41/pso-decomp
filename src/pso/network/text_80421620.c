@@ -57,7 +57,7 @@ s32 tcp_stat(s32 a, s16 *b, s16 *c, u32 *d, u32 *e);
 s16 tcp_get_socket_handle(int);
 s32 abort_tcp_connection(int);
 s32 tcp_abort(s32 a);
-s32 TLobby__sub_80421938(NetPacket *o, void *src, void *dst, void *cb, s32 flags);
+s32 raw_socket_deliver(NetPacket *o, void *src, void *dst, void *cb, s32 flags);
 s32 TLobby__sub_80421F10(O_80421F10 *o, void *src, void *dst, s16 port, void *cb, s32 flags);
 void OSReport(const char *, ...);
 s16 reset_socket_table();
@@ -246,7 +246,7 @@ s32 net_register_timer(s32 callback, s32 interval) {
     return result;
 }
 
-s32 TLobby__sub_80421938(NetPacket *o, void *src, void *dst, void *cb, s32 flags) {
+s32 raw_socket_deliver(NetPacket *o, void *src, void *dst, void *cb, s32 flags) {
     Stack_80421938 s;
     s.flags = flags | 0xC00;
     s.len = o->total_bytes - o->fragments[0].length;

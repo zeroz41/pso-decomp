@@ -1213,7 +1213,7 @@ s16 TLobby__sub_804136CC(s16 i) {
     return is_socket_flag_set(i);
 }
 
-s16 TLobby__sub_804136EC(void *self) {
+s16 ipv6_iface_for_address(void *self) {
     Ipv6State *base = &ipv6_address_routing_state;
     s16 i;
     s16 j;

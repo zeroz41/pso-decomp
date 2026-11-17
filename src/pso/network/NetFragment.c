@@ -65,7 +65,7 @@ s32 init_packet_fragment_pools(void) {
 }
 
 /* Frees the buffers of a packet's fragments. */
-s32 TUdpSocket__sub_80418BD8(NetPacket *a) {
+s32 release_packet_fragments(NetPacket *a) {
     u32 i;
     NetPacket *b = a;
     for (i = 0; i < b->fragment_count; i++) {
@@ -74,7 +74,7 @@ s32 TUdpSocket__sub_80418BD8(NetPacket *a) {
     return 0;
 }
 
-s32 TLobby__sub_80418C40(u8* self, u16 hdr_len, s16 frag_len, u8 ttl, u32 ident, NetworkAddress* src, u16 frag_off, u8 more, s16 iface)
+s32 fragment_input(u8* self, u16 hdr_len, s16 frag_len, u8 ttl, u32 ident, NetworkAddress* src, u16 frag_off, u8 more, s16 iface)
 {
     NetFragPacket* TLobby__sub_8041955C(NetworkAddress *, u32, u8); /* declared here with other parameter types; the definition is NetFragPacket * (NetworkAddress *, s32, s32) */
     NetFragPool* base = &packet_fragment_pool_state;
@@ -371,9 +371,9 @@ void update_timeout_entries(void) {
 /* Sends the ICMP (family 4) or ICMPv6 (family 6) "fragment reassembly time exceeded" error for pkt, if its
    first fragment has arrived. */
 s32 TLobby__sub_80419374(NetFragPacket *pkt) {
-    /* declared here with an s32 length and result; the definitions take an s16 length and TLobby__sub_8040D510
+    /* declared here with an s32 length and result; the definitions take an s16 length and icmp6_send_error
        returns s16 */
-    s32 TLobby__sub_8040D510(void *a, u8 *src, s32 c, s16 flag);
+    s32 icmp6_send_error(void *a, u8 *src, s32 c, s16 flag);
     s32 TUdpSocket__sub_8040CE58(u8 *p, u8 *b, s32 x, s16 id);
     u8 *q;
     s32 type;
@@ -409,7 +409,7 @@ s32 TLobby__sub_80419374(NetFragPacket *pkt) {
         msg.type = 3;
         msg.code = 1;
         msg.reserved = 0;
-        return TLobby__sub_8040D510(&msg, q, total, pkt->iface);
+        return icmp6_send_error(&msg, q, total, pkt->iface);
     }
     default:
         return -1;

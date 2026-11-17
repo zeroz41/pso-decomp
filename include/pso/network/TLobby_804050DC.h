@@ -116,9 +116,9 @@ s16 TLobby__sub_8040CB44(u8 *self, u32 d, u32 c);
 s32 TUdpSocket__sub_8040CE58(u8 *p, u8 *b, s16 x, s16 id);
 /* ICMPv6 (src/pso/network/NetIcmp6.c). */
 s16 NetIPv6HandleIcmpMessage(struct NetPacket *pkt, u8 *src, u8 *dst, u8 hop_limit, s16 iface);
-s16 TLobby__sub_8040D510(void *a, u8 *src, s16 c, s16 flag);
+s16 icmp6_send_error(void *a, u8 *src, s16 c, s16 flag);
 /* IPv6 input (src/pso/network/NetIpv6.c). */
-s16 TLobby__sub_80410958(u8 *p, s16 n, u8 *self, s16 c, s16 d);
+s16 ipv6_process_options(u8 *p, s16 n, u8 *self, s16 c, s16 d);
 #ifdef __cplusplus
 }
 #endif

@@ -82,8 +82,8 @@ s32 TUdpSocket__sub_8040DE4C(u8 *ip, s16 x, s16 id)
   unsigned char mf;
   u16 off;
   u32 s;
-  s32 TLobby__sub_80418C40(u8* self, void* p1, s16 p2, u8 p3, u32 p4, void* p5, u16 p6, u8 p7, s16 p8);
-  s16 TLobby__sub_8041B974(void *, void *, void *); /* declared here with void * parameters; the definition takes (u8 *, u8 *, u8 *) */
+  s32 fragment_input(u8* self, void* p1, s16 p2, u8 p3, u32 p4, void* p5, u16 p6, u8 p7, s16 p8);
+  s16 tcp_input(void *, void *, void *); /* declared here with void * parameters; the definition takes (u8 *, u8 *, u8 *) */
   s16 udp_input(void *, void *, void *, s16); /* declared s16 here; the definition is s32 (O_80420DE4 *, NetworkAddress *, NetworkAddress *, s32) */
   s32 TLobby__sub_80421AD8(u8 *, u32, u32, u32, s16); /* declared here with other parameter types; the definition is s32 (u8 *, s32, s32, u32, s32) */
   u16 ones_complement_sum(void *, s16);
@@ -160,7 +160,7 @@ s32 TUdpSocket__sub_8040DE4C(u8 *ip, s16 x, s16 id)
       mf = 0;
     }
     off = fl & 0x1FFF;
-    pkt = (NetPacket *) TLobby__sub_80418C40(ip, (void *) hl, n, ip[8], *((u16 *)(ip + 4)), &src, off, mf, id);
+    pkt = (NetPacket *) fragment_input(ip, (void *) hl, n, ip[8], *((u16 *)(ip + 4)), &src, off, mf, id);
     if (pkt == 0)
     {
       return 0;
@@ -193,32 +193,32 @@ s32 TUdpSocket__sub_8040DE4C(u8 *ip, s16 x, s16 id)
     {
       if (frag == 1)
       {
-        TUdpSocket__sub_80418BD8(pkt);
+        release_packet_fragments(pkt);
       }
       release_entry(pkt);
       return -1;
     }
       if (frag == 1)
     {
-      TUdpSocket__sub_80418BD8(pkt);
+      release_packet_fragments(pkt);
     }
       release_entry(pkt);
       break;
 
     case 6:
-      r = TLobby__sub_8041B974(pkt, &src, &dst);
+      r = tcp_input(pkt, &src, &dst);
       if (r < 0)
     {
       if (frag == 1)
       {
-        TUdpSocket__sub_80418BD8(pkt);
+        release_packet_fragments(pkt);
       }
       release_entry(pkt);
       return -1;
     }
       if (frag == 1)
     {
-      TUdpSocket__sub_80418BD8(pkt);
+      release_packet_fragments(pkt);
     }
       release_entry(pkt);
       return 0;
@@ -236,7 +236,7 @@ s32 TUdpSocket__sub_8040DE4C(u8 *ip, s16 x, s16 id)
           rr = TUdpSocket__sub_8040CE58((u8 *)&ic, ip, x, id);
           if (frag == 1)
         {
-          TUdpSocket__sub_80418BD8(pkt);
+          release_packet_fragments(pkt);
         }
           release_entry(pkt);
           return rr;
@@ -244,7 +244,7 @@ s32 TUdpSocket__sub_8040DE4C(u8 *ip, s16 x, s16 id)
         default:
           if (frag == 1)
         {
-          TUdpSocket__sub_80418BD8(pkt);
+          release_packet_fragments(pkt);
         }
           release_entry(pkt);
           return -1;
@@ -254,7 +254,7 @@ s32 TUdpSocket__sub_8040DE4C(u8 *ip, s16 x, s16 id)
     }
       if (frag == 1)
     {
-      TUdpSocket__sub_80418BD8(pkt);
+      release_packet_fragments(pkt);
     }
       release_entry(pkt);
       return 0;
@@ -290,7 +290,7 @@ s32 TUdpSocket__sub_8040DE4C(u8 *ip, s16 x, s16 id)
   {
     if (frag == 1)
     {
-      TUdpSocket__sub_80418BD8(pkt);
+      release_packet_fragments(pkt);
     }
     release_entry(pkt);
     return 0;
@@ -301,7 +301,7 @@ s32 TUdpSocket__sub_8040DE4C(u8 *ip, s16 x, s16 id)
   TUdpSocket__sub_8040CE58((u8 *)&ic, ip, x, id);
   if (frag == 1)
   {
-    TUdpSocket__sub_80418BD8(pkt);
+    release_packet_fragments(pkt);
   }
   release_entry(pkt);
   return -1;

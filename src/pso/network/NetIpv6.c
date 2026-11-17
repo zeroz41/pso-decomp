@@ -38,7 +38,7 @@ s32 NetIPv6Shutdown(void) {
     return 0;
 }
 
-s32 TLobby__sub_8040FFF8(u8 *ip, int len, s16 id);
+s32 ipv6_input(u8 *ip, int len, s16 id);
 s32 NetIPv6Init(void) {
     s16 i;
     Ipv6RawSocket *e;
@@ -55,7 +55,7 @@ s32 NetIPv6Init(void) {
         e++;
     }
     g->ident = 1;
-    register_protocol_handler(0x86DD, (NetProtocolHandler)TLobby__sub_8040FFF8);
+    register_protocol_handler(0x86DD, (NetProtocolHandler)ipv6_input);
     return 0;
 }
 
@@ -67,14 +67,14 @@ inline s16 process_options_header(u8 *p, s16 rem, u8 *ip, s16 m, s16 id) {
     if ((s16)n > rem) {
         return -1;
     }
-    if (TLobby__sub_80410958(d, n, ip, m, id) < 0) {
+    if (ipv6_process_options(d, n, ip, m, id) < 0) {
         return -1;
     }
     return 0;
 }
 
 inline NetPacket *frag_8040FFF8(u8 *ip, Ipv6FragmentHeader *frag, s32 rem, s16 m, s16 id, NetworkAddress *sa, NetIcmpv6Header *ic) {
-    s32 TLobby__sub_80418C40(u8 *, u16, s16, u8, u32, NetworkAddress *, u16, u8, s16);
+    s32 fragment_input(u8 *, u16, s16, u8, u32, NetworkAddress *, u16, u8, s16);
     u32 fl;
     u32 mf;
     u32 off;
@@ -86,11 +86,11 @@ inline NetPacket *frag_8040FFF8(u8 *ip, Ipv6FragmentHeader *frag, s32 rem, s16 m
             ic->type = 4;
             ic->code = 0;
             ic->reserved = 4;
-            TLobby__sub_8040D510(ic, ip, m, id);
+            icmp6_send_error(ic, ip, m, id);
         }
         return 0;
     }
-    return (NetPacket *) TLobby__sub_80418C40(ip, m - (rem - sizeof(Ipv6FragmentHeader)), rem - sizeof(Ipv6FragmentHeader), 60, frag->ident, sa, off, mf, id);
+    return (NetPacket *) fragment_input(ip, m - (rem - sizeof(Ipv6FragmentHeader)), rem - sizeof(Ipv6FragmentHeader), 60, frag->ident, sa, off, mf, id);
 }
 inline s32 min_8040FFF8(s32 a, s32 b) {
     if (a < b) {
@@ -118,12 +118,12 @@ inline NetPacket *buildrec_8040FFF8(u8 *ip, s16 m, u8 *p, s32 rem) {
 #pragma push
 #pragma opt_loop_invariants off
 #pragma opt_strength_reduction off
-s32 TLobby__sub_8040FFF8(u8 *ip, int len, s16 id) {
-    s16 TLobby__sub_8040D510(NetIcmpv6Header *msg, u8 *ip, s32 len, s16 iface); /* the definition takes an s16 len */
-    s16 TLobby__sub_804105E0(u8 *ip, u8 *p, s16 len, s16 iface); /* the definition returns s32 */
-    s16 TLobby__sub_8041B974(NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst); /* the definition takes (u8 *, u8 *, u8 *) */
+s32 ipv6_input(u8 *ip, int len, s16 id) {
+    s16 icmp6_send_error(NetIcmpv6Header *msg, u8 *ip, s32 len, s16 iface); /* the definition takes an s16 len */
+    s16 ipv6_forward(u8 *ip, u8 *p, s16 len, s16 iface); /* the definition returns s32 */
+    s16 tcp_input(NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst); /* the definition takes (u8 *, u8 *, u8 *) */
     s16 udp_input(NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst, s16 iface);
-    s32 TLobby__sub_80421938(NetPacket *pkt, u8 *src, u8 *dst, void *callback, s16 index); /* the definition takes an s32 index */
+    s32 raw_socket_deliver(NetPacket *pkt, u8 *src, u8 *dst, void *callback, s16 index); /* the definition takes an s32 index */
     NetworkAddress sa;
     NetworkAddress da;
     NetIcmpv6Header ic44;
@@ -160,9 +160,9 @@ s32 TLobby__sub_8040FFF8(u8 *ip, int len, s16 id) {
     }
     m = min_8040FFF8(((Ipv6Header *) ip)->payload_length + sizeof(Ipv6Header), (s16) len);
     if (TLobby__sub_804136CC(ifidx) == 0) {
-        if (TLobby__sub_804136EC(((Ipv6Header *) ip)->dst.bytes) < 0) {
+        if (ipv6_iface_for_address(((Ipv6Header *) ip)->dst.bytes) < 0) {
             if (NetIPv6IsMulticast(((Ipv6Header *) ip)->dst.bytes) == 0) {
-                if (TLobby__sub_804105E0(ip, ip, m, ifidx) == 0) {
+                if (ipv6_forward(ip, ip, m, ifidx) == 0) {
                     return 0;
                 }
                 return -1;
@@ -191,7 +191,7 @@ s32 TLobby__sub_8040FFF8(u8 *ip, int len, s16 id) {
             ic44.type = 4;
             ic44.code = 1;
             ic44.reserved = last - hdr;
-            TLobby__sub_8040D510(&ic44, hdr, m, ifidx);
+            icmp6_send_error(&ic44, hdr, m, ifidx);
             goto ret;
         }
         switch (nh) {
@@ -200,7 +200,7 @@ s32 TLobby__sub_8040FFF8(u8 *ip, int len, s16 id) {
                 ic36.type = 4;
                 ic36.code = 1;
                 ic36.reserved = last - hdr;
-                TLobby__sub_8040D510(&ic36, hdr, m, ifidx);
+                icmp6_send_error(&ic36, hdr, m, ifidx);
                 res = -1;
             } else {
                 res = process_options_header(p, rem, hdr, m, ifidx);
@@ -267,7 +267,7 @@ payload:
         break;
 
     case 6:
-        r = TLobby__sub_8041B974(rec, &sa, &da);
+        r = tcp_input(rec, &sa, &da);
         if (r < 0) {
             goto fail;
         }
@@ -283,7 +283,7 @@ payload:
             ic44.type = 1;
             ic44.code = 4;
             ic44.reserved = 0;
-            TLobby__sub_8040D510(&ic44, hdr, m, ifidx);
+            icmp6_send_error(&ic44, hdr, m, ifidx);
             goto fail;
 
         default:
@@ -300,7 +300,7 @@ payload:
         if (((ent->used == 1) && (ent->proto == nh)) && (ent->owner != 0)) {
             if ((NetIPv6IsUnspecified(ent->local) != 0) || (NetIPv6CompareAddresses(ent->local, src) == 0)) {
                 if ((NetIPv6IsUnspecified(ent->remote) != 0) || (NetIPv6CompareAddresses(ent->remote, dst_cmp) == 0)) {
-                    TLobby__sub_80421938(rec, src, dst, ent->owner, i);
+                    raw_socket_deliver(rec, src, dst, ent->owner, i);
                     found = 1;
                 }
             }
@@ -310,7 +310,7 @@ payload:
     if (found == 1) {
     ok:
         if (reasm == 1) {
-            TUdpSocket__sub_80418BD8(rec);
+            release_packet_fragments(rec);
         }
         release_entry(rec);
         return 0;
@@ -319,11 +319,11 @@ payload:
         ic44.type = 4;
         ic44.code = 1;
         ic44.reserved = last - hdr;
-        TLobby__sub_8040D510(&ic44, hdr, m, ifidx);
+        icmp6_send_error(&ic44, hdr, m, ifidx);
     }
 fail:
     if (reasm == 1) {
-        TUdpSocket__sub_80418BD8(rec);
+        release_packet_fragments(rec);
     }
     release_entry(rec);
 ret:
@@ -337,7 +337,7 @@ static inline s16 chk_804105E0(u8 *p, s16 lim, s16 ctx, s16 l, s16 rem, u8 *q, u
         err4[0] = 4;
         err4[1] = 1;
         *(s32 *)(err4 + 4) = prev - p;
-        TLobby__sub_8040D510(err4, p, lim, ctx);
+        icmp6_send_error(err4, p, lim, ctx);
         return -1;
     }
     return process_options_header(q, rem, p, lim, ctx);
@@ -345,7 +345,7 @@ static inline s16 chk_804105E0(u8 *p, s16 lim, s16 ctx, s16 l, s16 rem, u8 *q, u
 #pragma push
 #pragma opt_common_subs on
 #pragma opt_propagation off
-extern s32 TLobby__sub_804105E0(u8 *self, u8 *p, s16 lim, s16 ctx)
+extern s32 ipv6_forward(u8 *self, u8 *p, s16 lim, s16 ctx)
 {
   s32 TLobby__sub_80410BA8(void *, void *, s16, void *); /* declared s32 here; the definition returns s16 */
   s32 TLobby__sub_80415D0C(NetPacket *a, u8 *b, u8 *c, s16 d); /* declared s32 here; the definition is s16 (NetPacket *, u8 *, NetIPv6SendParameters *, s16) */
@@ -417,7 +417,7 @@ extern s32 TLobby__sub_804105E0(u8 *self, u8 *p, s16 lim, s16 ctx)
       err[0] = 3;
       err[1] = 0;
       *((s32 *) (err + 4)) = 0;
-      TLobby__sub_8040D510(err, p, lim, ctx);
+      icmp6_send_error(err, p, lim, ctx);
     }
     return -1;
   }
@@ -429,7 +429,7 @@ extern s32 TLobby__sub_804105E0(u8 *self, u8 *p, s16 lim, s16 ctx)
       err[0] = 1;
       err[1] = 0;
       *((s32 *) (err + 4)) = 0;
-      TLobby__sub_8040D510(err, p, lim, ctx);
+      icmp6_send_error(err, p, lim, ctx);
     }
     return -1;
   }
@@ -454,7 +454,7 @@ extern s32 TLobby__sub_804105E0(u8 *self, u8 *p, s16 lim, s16 ctx)
       err[0] = 2;
       err[1] = 0;
       *((s32 *) (err + 4)) = h6;
-      TLobby__sub_8040D510(err, p, lim, ctx);
+      icmp6_send_error(err, p, lim, ctx);
     }
     return -1;
   }
@@ -482,7 +482,7 @@ extern s32 TLobby__sub_804105E0(u8 *self, u8 *p, s16 lim, s16 ctx)
   return r21;
 }
 #pragma pop
-s16 TLobby__sub_80410958(u8* p, s16 n, u8* self, s16 c, s16 d) {
+s16 ipv6_process_options(u8* p, s16 n, u8* self, s16 c, s16 d) {
     u8* cur = p;
     s32 len;
 
@@ -519,7 +519,7 @@ s16 TLobby__sub_80410958(u8* p, s16 n, u8* self, s16 c, s16 d) {
                 msg.a = 4;
                 msg.b = 2;
                 msg.c = cur - self;
-                TLobby__sub_8040D510(&msg, self, c, d);
+                icmp6_send_error(&msg, self, c, d);
             }
             case 0x40:
             default:
