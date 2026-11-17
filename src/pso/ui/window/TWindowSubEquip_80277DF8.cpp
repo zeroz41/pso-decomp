@@ -12,12 +12,6 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 
 
-void TWindowSubEquip::apply_slot_selection() {
-    s32 temp_r31;
-    temp_r31 = ((TWindowMenuIconLine *)this->m_34)->get_cursor_value();
-    TWindowShortListCtrl::assign_shortcut(temp_r31, (int) (((TWindowMenuIconLine *)this->m_38)->get_cursor_value()), this->m_28);
-}
-
 struct VBase_80277F4C { u8 pad[0x18]; };
 
 class VObj_80277F4C : public VBase_80277F4C {
@@ -45,44 +39,38 @@ void *__nw__7TObjectFUl(u32);
 s32 __ct__15TWindowHelpItemFPvUs(void *, void *, s32);
 s32 create_equip_list_window(void *, void *, s32);
 extern s32 lbl_8044F918[];
-extern s32 __vt__15TWindowSubEquip[];
 extern s32 TWindowSubEquip__class_name;
-void *__dt__15TWindowSubEquipFv(TWindowSubEquip *arg0, s16 arg1);
-void __dl__7TObjectFPv(void *);
-void __dt__7TObjectFv(void *, int);
-
-s32 TWindowSubEquip::open_equip_kind_list(u32 arg1) {
-    s32 equip_kind_window;
-    equip_kind_window = create_equip_kind_window(get_window_layout_position(1), lbl_8044F920, this->m_28);
-    TWindowSubEquip__sub_80263AF8((u8 *)this->m_2c, 1);
-    set_depth__11TWindowBaseFf(equip_kind_window);
-    ((TWindowMenuIconLine *)equip_kind_window)->ensure_status_display((int) (TWindowSubStatusDisp::get_message_10(0x24)));
-    ((TWindowSubShortCutList *)equip_kind_window)->set_flag70_bit10();
-    switch (arg1) {
-    case 6:
-        ((TWindowSubMag *)equip_kind_window)->init_and_setup((void*)0);
-        break;
-    case 2:
-        ((TShopArmorListWindow *)equip_kind_window)->save_and_refresh_cursor((void*)1, (void*)1);
-        break;
-    case 9:
-    case 10:
-    case 11:
-    case 12:
-        ((TShopArmorListWindow *)equip_kind_window)->save_and_refresh_cursor((void*)1, (void*)3);
-        break;
-    case 3:
-        ((TShopArmorListWindow *)equip_kind_window)->save_and_refresh_cursor((void*)1, (void*)2);
-        break;
-    case 1:
-        ((TWindowSubMag *)equip_kind_window)->init_and_setup((void*)2);
-        break;
-    }
-    mark_unequippable_items(equip_kind_window);
-    return equip_kind_window;
 }
 
-void TWindowSubEquip::render() {  }
+// Built with deferred code generation (the vtable precedes the switch table
+// in .data), so the functions are written from the last one back.
+TWindowSubEquip::TWindowSubEquip(s32 arg1, s32 arg2) : TObject((TObject *)((void *)arg1)) {
+    void *p;
+    *(s32 *)((s8 *)this + 0) = TWindowSubEquip__class_name;
+    this->m_2c = arg1;
+    this->m_28 = arg2;
+    this->m_34 = create_equip_list_window(get_window_layout_position(0), lbl_8044F918, this->m_28);
+    TWindowSubEquip__sub_80263AF8((u8 *)this->m_2c, 0);
+    set_depth__11TWindowBaseFf(this->m_34);
+    ((TWindowSubShortCutList *)(this->m_34))->set_flag70_bit10();
+    p = __nw__7TObjectFUl(0xBC);
+    if (p != 0) {
+        p = (void *)__ct__15TWindowHelpItemFPvUs(p, get_window_layout_position(2), this->m_28);
+    }
+    *(void **)((s8 *)this + 0x30) = p;
+    TWindowSubEquip__sub_80263AF8((u8 *)this->m_2c, 2);
+    set_depth__11TWindowBaseFf(this->m_30);
+    this->m_38 = 0;
+    this->m_20 = -1;
+    this->m_24 = -1;
+    this->m_1c = 0;
+}
+
+TWindowSubEquip::~TWindowSubEquip() {
+    if (*(void **)((s8 *)this + 0x38) != NULL) { ((TWindowBase *)(*(void **)((s8 *)this + 0x38)))->close(); this->m_38 = 0; }
+    if (*(void **)((s8 *)this + 0x34) != NULL) { ((TWindowBase *)(*(void **)((s8 *)this + 0x34)))->close(); this->m_34 = 0; }
+    if (*(void **)((s8 *)this + 0x30) != NULL) { ((TWindowBase *)(*(void **)((s8 *)this + 0x30)))->close(); this->m_30 = 0; }
+}
 
 void TWindowSubEquip::run_task() {
     s32 temp_r3;
@@ -152,38 +140,41 @@ void TWindowSubEquip::run_task() {
     }
 }
 
-void *__dt__15TWindowSubEquipFv(TWindowSubEquip *window_sub_equip, s16 arg1) {
-    if (window_sub_equip != NULL) {
-        *(s32 **)((s8 *)window_sub_equip + 0x18) = __vt__15TWindowSubEquip;
-        if (*(void **)((s8 *)window_sub_equip + 0x38) != NULL) { ((TWindowBase *)(*(void **)((s8 *)window_sub_equip + 0x38)))->close(); window_sub_equip->m_38 = 0; }
-        if (*(void **)((s8 *)window_sub_equip + 0x34) != NULL) { ((TWindowBase *)(*(void **)((s8 *)window_sub_equip + 0x34)))->close(); window_sub_equip->m_34 = 0; }
-        if (*(void **)((s8 *)window_sub_equip + 0x30) != NULL) { ((TWindowBase *)(*(void **)((s8 *)window_sub_equip + 0x30)))->close(); window_sub_equip->m_30 = 0; }
-        __dt__7TObjectFv(window_sub_equip, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(window_sub_equip);
-        }
+void TWindowSubEquip::render() {  }
+
+s32 TWindowSubEquip::open_equip_kind_list(u32 arg1) {
+    s32 equip_kind_window;
+    equip_kind_window = create_equip_kind_window(get_window_layout_position(1), lbl_8044F920, this->m_28);
+    TWindowSubEquip__sub_80263AF8((u8 *)this->m_2c, 1);
+    set_depth__11TWindowBaseFf(equip_kind_window);
+    ((TWindowMenuIconLine *)equip_kind_window)->ensure_status_display((int) (TWindowSubStatusDisp::get_message_10(0x24)));
+    ((TWindowSubShortCutList *)equip_kind_window)->set_flag70_bit10();
+    switch (arg1) {
+    case 6:
+        ((TWindowSubMag *)equip_kind_window)->init_and_setup((void*)0);
+        break;
+    case 2:
+        ((TShopArmorListWindow *)equip_kind_window)->save_and_refresh_cursor((void*)1, (void*)1);
+        break;
+    case 9:
+    case 10:
+    case 11:
+    case 12:
+        ((TShopArmorListWindow *)equip_kind_window)->save_and_refresh_cursor((void*)1, (void*)3);
+        break;
+    case 3:
+        ((TShopArmorListWindow *)equip_kind_window)->save_and_refresh_cursor((void*)1, (void*)2);
+        break;
+    case 1:
+        ((TWindowSubMag *)equip_kind_window)->init_and_setup((void*)2);
+        break;
     }
-    return window_sub_equip;
+    mark_unequippable_items(equip_kind_window);
+    return equip_kind_window;
 }
-}
-TWindowSubEquip::TWindowSubEquip(s32 arg1, s32 arg2) : TObject((TObject *)((void *)arg1)) {
-    void *p;
-    *(s32 *)((s8 *)this + 0) = TWindowSubEquip__class_name;
-    this->m_2c = arg1;
-    this->m_28 = arg2;
-    this->m_34 = create_equip_list_window(get_window_layout_position(0), lbl_8044F918, this->m_28);
-    TWindowSubEquip__sub_80263AF8((u8 *)this->m_2c, 0);
-    set_depth__11TWindowBaseFf(this->m_34);
-    ((TWindowSubShortCutList *)(this->m_34))->set_flag70_bit10();
-    p = __nw__7TObjectFUl(0xBC);
-    if (p != 0) {
-        p = (void *)__ct__15TWindowHelpItemFPvUs(p, get_window_layout_position(2), this->m_28);
-    }
-    *(void **)((s8 *)this + 0x30) = p;
-    TWindowSubEquip__sub_80263AF8((u8 *)this->m_2c, 2);
-    set_depth__11TWindowBaseFf(this->m_30);
-    this->m_38 = 0;
-    this->m_20 = -1;
-    this->m_24 = -1;
-    this->m_1c = 0;
+
+void TWindowSubEquip::apply_slot_selection() {
+    s32 temp_r31;
+    temp_r31 = ((TWindowMenuIconLine *)this->m_34)->get_cursor_value();
+    TWindowShortListCtrl::assign_shortcut(temp_r31, (int) (((TWindowMenuIconLine *)this->m_38)->get_cursor_value()), this->m_28);
 }

@@ -11,6 +11,19 @@ class TChCrTagPlBack;
 #include "pso/ui/chat/TWindowSubShortMail.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 
+#include "pso/ui/window/TWindowSubComCard.h"
+#include "pso/ui/window/TWindowSubComCardList.h"
+#include "pso/ui/window/TWindowSubComCard_80265410.h"
+#include "pso/ui/window/TWindowBase.h"
+#include "pso/ui/window/TWindowCtrl_8024A054.h"
+#include "pso/ui/window/TWindowSubComCard_80244774.h"
+#include "pso/network/TradeSession.h"
+#include "pso/unk/text_802D298C.h"
+
+
+#include "pso/ui/window/TWindowMenu.h"
+#include "pso/ui/window/TWindowMessageYesNo.h"
+
 #pragma readonly_strings on
 
 struct VBase_18_f23ffb { char pad[0x18]; };
@@ -45,6 +58,19 @@ struct VObj_802B1B80 : VBase_802B1B80 {
     virtual s32 m10();
 };
 
+struct VBase_18_204a81 { char pad[0x18]; };
+
+struct VObj_18_204a81 : VBase_18_204a81 {
+    virtual void m0();
+    virtual void m1();
+    virtual void m2();
+    virtual void m3();
+    virtual void m4();
+    virtual void m5();
+    virtual void m6();
+    virtual s32 m7();
+};
+
 extern "C" {
 s32 *get_shared_text_buffer(void);
 s32 text_builder_append();
@@ -59,53 +85,121 @@ s32 create__14TWindowMessageFlPCfUll(s32, const f32 *, int, int);
 const char *lbl_805D3EA8 = "TWindowSubTrade"; // TWindowSubTrade__name
 // Player message window position (x, y).
 extern const f32 lbl_80470AA8[2] = {384.0f, 120.0f};
-s32 TWindowSubTrade::open_trade_confirm_prompt(s32 arg1) {
-    u8 *arg0 = (u8 *)this;
-    s32 temp_r29;
-    u8 *player;
-    player = (u8 *)(get_player_by_client_id(arg1));
-    text_builder_reset();
-    if (player != NULL) {
-        ((VObj_18_f23ffb *)(player))->m10();
-        text_builder_append();
-    }
-    TWindowSubStatusDisp::get_message_10(0xD6);
-    text_builder_append();
-    temp_r29 = create__19TWindowMessageYesNoFPvPvPvPv(arg0, this->m_20, 0, 0);
-    open_yes_no_prompt((TChCrTagPlBack *)((u8 *)temp_r29), (u32)(TWindowSubStatusDisp::get_message_10(0x20)), (s32)(get_shared_text_buffer()), (s32)(get_window_layout_position(0x5B)), 384.0f);
-    free_member__17TWindowSubComCardFv(temp_r29, 1);
-    ((TWindowSubShortMail *)temp_r29)->notify_warp_flag70();
-    return temp_r29;
-}
-s32 TWindowSubTrade::open_player_message_window(s32 arg1, s32 arg2) {
-    s32 r;
-    VObj_802B1B80 *p;
-    p = (VObj_802B1B80 *)get_player_by_client_id(arg1);
-    text_builder_reset();
-    if (p != NULL) {
-        ((s32 (*)(s32))text_builder_append)(p->m10());
-    }
-    ((s32 (*)(s32))text_builder_append)(arg2);
-    r = create__14TWindowMessageFlPCfUll(get_window_layout_position(0x5B), lbl_80470AA8, 1, this->m_20);
-    ((TWindowMessage *)r)->append_line((int)get_shared_text_buffer(), 0x82);
-    return r;
-}
-}
-
-// ---- pso/unk/text_802B1C1C
-
-
-#include "pso/ui/window/TWindowSubComCard.h"
-#include "pso/ui/window/TWindowSubComCardList.h"
-#include "pso/ui/window/TWindowSubComCard_80265410.h"
-
-
-extern "C" {
 TWindowSubComCardList *draw_card_icon__17TWindowSubComCardFll(s32 layout, s32 kind, void *title);
 extern s32 local_client_id;
 s32 draw_text_gray__17TWindowSubComCardFllll(void *list, void *text, int kind, int id);
 s32 is_trade_range_bit_set(s32 client);
+TWindowSubComCardList *TWindowSubComCard__sub_802B1C1C(TWindowSubTrade *);
+s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
+s32 play_sound_effect(int, int, int, int);
+extern s32 controller_input_state[];
+}
 
+// Built with deferred code generation (the vtable precedes run_task's jump
+// table in .data), so the functions are written from the last one back.
+TWindowSubTrade::TWindowSubTrade(TObject *object, void *arg2) : TObject(object) {
+    this->m_name = lbl_805D3EA8;
+    *(void **)((s8 *)this + 0x28) = object;
+    *(void **)((s8 *)this + 0x20) = arg2;
+    this->m_24 = 4;
+    this->m_player_list = 0;
+    this->m_message_window = 0;
+    this->m_confirm_prompt = 0;
+    TLobby__sub_802D2A50((u32)this);
+    this->m_1c = 0;
+}
+
+TWindowSubTrade::~TWindowSubTrade() {
+    TLobby__sub_802D2A2C((u32)this);
+    TLobby::check_flags_and_proceed();
+    if (this->m_confirm_prompt != 0U) {
+        ((TWindowSubComCard *)(this->m_confirm_prompt))->close();
+        this->m_confirm_prompt = 0U;
+    }
+    if (this->m_message_window != 0U) {
+        ((TWindowBase *)this->m_message_window)->close();
+        this->m_message_window = 0U;
+    }
+    if (this->m_player_list != 0U) {
+        ((TWindowBase *)this->m_player_list)->close();
+        this->m_player_list = 0U;
+    }
+}
+
+void TWindowSubTrade::run_task() {
+    u8 *arg0 = (u8 *)this;
+    s32 temp_r30;
+    s32 temp_r5;
+    temp_r30 = is_player_input_active((this->m_20));
+    switch (this->m_1c) {
+    case 0:
+    case 1:
+        if ((u32) this->m_confirm_prompt != 0U) {
+            ((TWindowSubComCard *)(this->m_confirm_prompt))->close();
+            this->m_confirm_prompt = 0U;
+        }
+        if ((u32) this->m_message_window != 0U) {
+            ((TWindowBase *)this->m_message_window)->close();
+            this->m_message_window = 0U;
+        }
+        if ((u32) this->m_player_list == 0U) {
+            this->m_player_list = (u32)TWindowSubComCard__sub_802B1C1C(this);
+        }
+        ((TWindowSubComCard *)(this->m_player_list))->clear_flag_and_release();
+        this->m_1c = 2U;
+    case 2:
+        if (((TWindowMenu *)(this->m_player_list))->is_cancelled() != 0) {
+            ((VObj_18_204a81 *)(this->m_28))->m7();
+            this->m_1c = 7U;
+        } else if (((TWindowMenu *)(this->m_player_list))->is_decided() != 0) {
+            this->m_1c = 3U;
+        }
+        break;
+    case 3:
+        if (this->m_player_list != 0) {
+            this->m_24 = ((TWindowMenu *)this->m_player_list)->get_selected_value();
+        }
+        if ((u32) this->m_confirm_prompt == 0U) {
+            this->m_confirm_prompt = ((TWindowSubTrade *)arg0)->open_trade_confirm_prompt(this->m_24);
+        }
+        this->m_1c = 4U;
+    case 4:
+        if (((TWindowSubComCard *)(this->m_confirm_prompt))->get_card_data() != 0) {
+            this->m_1c = 1U;
+        } else if (((TWindowMessageYesNo *)(this->m_confirm_prompt))->is_child_visible() != 0) {
+            if (((TWindowSubComCard *)(this->m_confirm_prompt))->get_slot_or_neg1() == 0) {
+                this->m_1c = 5U;
+            } else {
+                this->m_1c = 1U;
+            }
+        }
+        break;
+    case 5:
+        if ((u32) this->m_confirm_prompt != 0U) {
+            ((TWindowSubComCard *)(this->m_confirm_prompt))->close();
+            this->m_confirm_prompt = 0U;
+        }
+        if ((u32) this->m_message_window == 0U) {
+            this->m_message_window = ((TWindowSubTrade *)arg0)->open_player_message_window(this->m_24, (int) (TWindowSubStatusDisp::get_message_10(0xD7)));
+        }
+        send_modify_trade_proposal__6TLobbyFi((this->m_24));
+        this->m_1c = 6U;
+    case 6:
+        temp_r5 = temp_r30 * 0x50;
+        if ((TWindowShortListCtrl__check_controller_button((void *) ((u8 *)(((u8 *)controller_input_state + temp_r5)) + 0x20), 2) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) ((u8 *)controller_input_state + 0x160), 2) != 0)) {
+            play_sound_effect(0x52F16, 0, 0, 0);
+            TLobby::cancel_trade();
+            this->m_1c = 1U;
+        }
+        break;
+    case 7:
+        break;
+    }
+}
+
+void TWindowSubTrade::render() {  }
+
+extern "C" {
 // The caller passes its TWindowSubTrade in r3; the body never reads it.
 TWindowSubComCardList *TWindowSubComCard__sub_802B1C1C(TWindowSubTrade *) {
     s32 i;
@@ -140,157 +234,37 @@ TWindowSubComCardList *TWindowSubComCard__sub_802B1C1C(TWindowSubTrade *) {
     list->set_scroll_target(224.0f, 88.0f);
     return list;
 }
-
 }
 
-// ---- pso/ui/window/TWindowSubTrade
+s32 TWindowSubTrade::open_player_message_window(s32 arg1, s32 arg2) {
+    s32 r;
+    VObj_802B1B80 *p;
+    p = (VObj_802B1B80 *)get_player_by_client_id(arg1);
+    text_builder_reset();
+    if (p != NULL) {
+        ((s32 (*)(s32))text_builder_append)(p->m10());
+    }
+    ((s32 (*)(s32))text_builder_append)(arg2);
+    r = create__14TWindowMessageFlPCfUll(get_window_layout_position(0x5B), lbl_80470AA8, 1, this->m_20);
+    ((TWindowMessage *)r)->append_line((int)get_shared_text_buffer(), 0x82);
+    return r;
+}
 
-#include "pso/ui/window/TWindowBase.h"
-#include "pso/ui/window/TWindowCtrl_8024A054.h"
-#include "pso/ui/window/TWindowSubComCard_80244774.h"
-#include "pso/network/TradeSession.h"
-#include "pso/unk/text_802D298C.h"
-
-
-#include "pso/ui/window/TWindowMenu.h"
-#include "pso/ui/window/TWindowMessageYesNo.h"
-
-
-struct VBase_18_204a81 { char pad[0x18]; };
-
-struct VObj_18_204a81 : VBase_18_204a81 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual s32 m7();
-};
-
-extern "C" {
-void __dl__7TObjectFPv(s32);
-s32 __dt__7TObjectFv(void *, int);
-extern s32 __vt__15TWindowSubTrade[];
-s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
-s32 play_sound_effect(int, int, int, int);
-extern s32 controller_input_state[];
-
-void TWindowSubTrade::render() {  }
-
-
-void TWindowSubTrade::run_task() {
+s32 TWindowSubTrade::open_trade_confirm_prompt(s32 arg1) {
     u8 *arg0 = (u8 *)this;
-    s32 temp_r30;
-    s32 temp_r5;
-    temp_r30 = is_player_input_active((this->m_20));
-    switch (this->m_1c) {
-    case 0:
-    case 1:
-        if ((u32) this->m_34 != 0U) {
-            ((TWindowSubComCard *)(this->m_34))->close();
-            this->m_34 = 0U;
-        }
-        if ((u32) this->m_30 != 0U) {
-            ((TWindowBase *)this->m_30)->close();
-            this->m_30 = 0U;
-        }
-        if ((u32) this->m_2c == 0U) {
-            this->m_2c = (u32)TWindowSubComCard__sub_802B1C1C(this);
-        }
-        ((TWindowSubComCard *)(this->m_2c))->clear_flag_and_release();
-        this->m_1c = 2U;
-    case 2:
-        if (((TWindowMenu *)(this->m_2c))->is_cancelled() != 0) {
-            ((VObj_18_204a81 *)(this->m_28))->m7();
-            this->m_1c = 7U;
-        } else if (((TWindowMenu *)(this->m_2c))->is_decided() != 0) {
-            this->m_1c = 3U;
-        }
-        break;
-    case 3:
-        if (this->m_2c != 0) {
-            this->m_24 = ((TWindowMenu *)this->m_2c)->get_selected_value();
-        }
-        if ((u32) this->m_34 == 0U) {
-            this->m_34 = ((TWindowSubTrade *)arg0)->open_trade_confirm_prompt(this->m_24);
-        }
-        this->m_1c = 4U;
-    case 4:
-        if (((TWindowSubComCard *)(this->m_34))->get_card_data() != 0) {
-            this->m_1c = 1U;
-        } else if (((TWindowMessageYesNo *)(this->m_34))->is_child_visible() != 0) {
-            if (((TWindowSubComCard *)(this->m_34))->get_slot_or_neg1() == 0) {
-                this->m_1c = 5U;
-            } else {
-                this->m_1c = 1U;
-            }
-        }
-        break;
-    case 5:
-        if ((u32) this->m_34 != 0U) {
-            ((TWindowSubComCard *)(this->m_34))->close();
-            this->m_34 = 0U;
-        }
-        if ((u32) this->m_30 == 0U) {
-            this->m_30 = ((TWindowSubTrade *)arg0)->open_player_message_window(this->m_24, (int) (TWindowSubStatusDisp::get_message_10(0xD7)));
-        }
-        send_modify_trade_proposal__6TLobbyFi((this->m_24));
-        this->m_1c = 6U;
-    case 6:
-        temp_r5 = temp_r30 * 0x50;
-        if ((TWindowShortListCtrl__check_controller_button((void *) ((u8 *)(((u8 *)controller_input_state + temp_r5)) + 0x20), 2) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) ((u8 *)controller_input_state + 0x160), 2) != 0)) {
-            play_sound_effect(0x52F16, 0, 0, 0);
-            TLobby::cancel_trade();
-            this->m_1c = 1U;
-        }
-        break;
-    case 7:
-        break;
+    s32 temp_r29;
+    u8 *player;
+    player = (u8 *)(get_player_by_client_id(arg1));
+    text_builder_reset();
+    if (player != NULL) {
+        ((VObj_18_f23ffb *)(player))->m10();
+        text_builder_append();
     }
-}
-
-u8 *__dt__15TWindowSubTradeFv(u8 *object, s16 arg1) {
-    u8 *window_sub_com_card;
-    u8 *temp_r3_2;
-    u8 *temp_r3_3;
-    if (object != NULL) {
-        *(s32 **)((s8 *)object + 0x18) = __vt__15TWindowSubTrade;
-        TLobby__sub_802D2A2C((u32) object);
-        TLobby::check_flags_and_proceed();
-        window_sub_com_card = (u8 *)(*(u8 **)((s8 *)object + 0x34));
-        if (window_sub_com_card != NULL) {
-            ((TWindowSubComCard *)window_sub_com_card)->close();
-            *(u8 **)((s8 *)object + 0x34) = NULL;
-        }
-        temp_r3_2 = (u8 *)(*(u8 **)((s8 *)object + 0x30));
-        if (temp_r3_2 != NULL) {
-            ((TWindowBase *)temp_r3_2)->close();
-            *(u8 **)((s8 *)object + 0x30) = NULL;
-        }
-        temp_r3_3 = (u8 *)(*(u8 **)((s8 *)object + 0x2C));
-        if (temp_r3_3 != NULL) {
-            ((TWindowBase *)temp_r3_3)->close();
-            *(u8 **)((s8 *)object + 0x2C) = NULL;
-        }
-        __dt__7TObjectFv(object, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv((s32) object);
-        }
-    }
-    return object;
-}
-
-}
-TWindowSubTrade::TWindowSubTrade(TObject *object, void *arg2) : TObject(object) {
-    this->m_name = lbl_805D3EA8;
-    *(void **)((s8 *)this + 0x28) = object;
-    *(void **)((s8 *)this + 0x20) = arg2;
-    this->m_24 = 4;
-    this->m_2c = 0;
-    this->m_30 = 0;
-    this->m_34 = 0;
-    TLobby__sub_802D2A50((u32)this);
-    this->m_1c = 0;
+    TWindowSubStatusDisp::get_message_10(0xD6);
+    text_builder_append();
+    temp_r29 = create__19TWindowMessageYesNoFPvPvPvPv(arg0, this->m_20, 0, 0);
+    open_yes_no_prompt((TChCrTagPlBack *)((u8 *)temp_r29), (u32)(TWindowSubStatusDisp::get_message_10(0x20)), (s32)(get_shared_text_buffer()), (s32)(get_window_layout_position(0x5B)), 384.0f);
+    free_member__17TWindowSubComCardFv(temp_r29, 1);
+    ((TWindowSubShortMail *)temp_r29)->notify_warp_flag70();
+    return temp_r29;
 }

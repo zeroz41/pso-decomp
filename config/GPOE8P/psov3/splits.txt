@@ -7039,7 +7039,7 @@ pso/ui/window/TWindowSubStatusDisp_8024F688.cpp:
 pso/ui/window/TWindowEffectParty.cpp:
 	.text       start:0x8024F690 end:0x8024FBA8
 	.rodata     start:0x8044ECD8 end:0x8044ECF0
-	.data       start:0x804CF050 end:0x804CF07C
+	.data       start:0x804CF038 end:0x804CF07C
 	.sdata      start:0x805D38F8 end:0x805D3900
 	.sdata2     start:0x805DCCB8 end:0x805DCCD8
 
@@ -7543,7 +7543,7 @@ pso/ui/window/TWindowShortListCtrl_80277D3C.cpp:
 
 pso/ui/window/TWindowSubEquip_80277DF8.cpp:
 	.text       start:0x80277DF8 end:0x80278300
-	.data       start:0x804D1580 end:0x804D15B4
+	.data       start:0x804D1568 end:0x804D15B4
 	.sdata2     start:0x805DD5F0 end:0x805DD5F4
 
 pso/ui/window/TWindowSubEquipKind_80278300.cpp:
@@ -8584,7 +8584,7 @@ pso/ui/frontend/TAdGuideTxtGC.cpp:
 pso/ui/window/TWindowSubTrade.cpp:
 	.text       start:0x802B1AB4 end:0x802B20C0
 	.rodata     start:0x80470A98 end:0x80470AB0
-	.data       start:0x804DE8E0 end:0x804DE900
+	.data       start:0x804DE8C8 end:0x804DE900
 	.sdata      start:0x805D3EA8 end:0x805D3EB0
 	.sdata2     start:0x805DE298 end:0x805DE2A8
 
@@ -9835,7 +9835,7 @@ pso/boss/olgaflow/TBoss6Type2_803309D8.cpp:
 pso/ui/window/TWindowSubTradeMain_80330A84.cpp:
 	.text       start:0x80330A84 end:0x803323D8
 	.rodata     start:0x80477470 end:0x804774A0
-	.data       start:0x804EDFA8 end:0x804EE0C0
+	.data       start:0x804EDF90 end:0x804EE0C0
 	.sdata      start:0x805D4228 end:0x805D4230
 	.sdata2     start:0x805DF858 end:0x805DF85C
 

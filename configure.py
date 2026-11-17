@@ -454,6 +454,12 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # its class name sits in .rodata and the "" its name fallback points at opens its .sdata2: readonly strings.
     # .data holds the vtable ahead of run_task's jump table: deferred generation of the last-to-first source.
     "pso/ui/window/TWindowMakeTeam.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
+    # .data holds the vtable (0x804CF038) ahead of create's jump table: deferred generation of the last-to-first source.
+    "pso/ui/window/TWindowEffectParty.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
+    # .data holds the vtable (0x804DE8C8) ahead of run_task's jump table: deferred generation of the last-to-first source.
+    "pso/ui/window/TWindowSubTrade.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
+    # .data holds the vtable (0x804D1568) ahead of the switch table: deferred generation of the last-to-first source.
+    "pso/ui/window/TWindowSubEquip_80277DF8.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     # both class names (TODummyKeyCave01, TODummyKeyCave01Sound) sit in .rodata: readonly strings. .data holds
     # TODummyKeyCave01Sound's vtable, then sub_80165940's jump table, then TODummyKeyCave01's vtable: only
     # deferred code generation of the last-to-first source emits them in that order.
@@ -772,8 +778,9 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/ui/city/TShopJudgmentItemWindow.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # TObjDFJisin: the Jisin, Horming and Yutai class-name strings sit in .rodata.
     "pso/boss/darkfalz/TObjDFJisin.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
-    # TWindowSubTradeMain_80330A84 (+_80332148): "TWindowSubTradeMain" sits in .rodata.
-    "pso/ui/window/TWindowSubTradeMain_80330A84.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    # TWindowSubTradeMain_80330A84 (+_80332148): "TWindowSubTradeMain" sits in .rodata;
+    # .data holds the vtable (0x804EDF90) ahead of run_task's jump tables: deferred generation of the last-to-first source.
+    "pso/ui/window/TWindowSubTradeMain_80330A84.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     # TCharaMaking (+TCharaMaking_8028E3F4): its motion names and file names sit in .rodata.
     "pso/ui/charcreate/TCharaMaking.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # TWindowSubStatusDisp_802671F0 (+3 folded parts): "TWindowMenuIconLine" sits in .rodata and "/" in .sdata2.
