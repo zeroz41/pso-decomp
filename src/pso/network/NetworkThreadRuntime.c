@@ -537,7 +537,7 @@ s32 TLobby__sub_803FA7B0(u8 *self, u8 *src, void *h)
   s16 state;
   s16 res;
   u8 *new_var;
-  s32 TLobby__sub_803FE6CC(void *, u8, u8, void *); /* declared here with other parameter types; the definition is s32 (void *, int, int, void *) */
+  s32 ppp_fsm_send_packet(void *, u8, u8, void *); /* declared here with other parameter types; the definition is s32 (void *, int, int, void *) */
   s16 NetIPv6CPParseConfigureOption(void *self, u8 *out, u8 *src, u8 *c, s16 flag); /* declared s16 here; the definition returns s32 */
   self = self;
   new_var = *((u8 **) (self + 0x30));
@@ -575,7 +575,7 @@ s32 TLobby__sub_803FA7B0(u8 *self, u8 *src, void *h)
     TLobby__sub_803FADA0(&blk, (A_803FADA0 *) (m + 0x50), pair[0], pair[1], &h);
     if (res > 3)
     {
-      TLobby__sub_803FE6CC(self, state, src[1], blk);
+      ppp_fsm_send_packet(self, state, src[1], blk);
     }
   }
 
@@ -588,14 +588,14 @@ s32 TLobby__sub_803FA7B0(u8 *self, u8 *src, void *h)
     else
     {
       state = 4;
-      TLobby__sub_803FE6CC(self, 4, src[1], blk);
+      ppp_fsm_send_packet(self, 4, src[1], blk);
     }
   }
   if (state > 3)
   {
     return (s16) (2 != state);
   }
-  TLobby__sub_803FE6CC(self, state, src[1], blk);
+  ppp_fsm_send_packet(self, state, src[1], blk);
   return (s16) (2 != state);
 }
 #pragma pop

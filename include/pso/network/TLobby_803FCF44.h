@@ -113,7 +113,7 @@ s16 TLobby__sub_803FF304(u8 *lobby);
 void TLobby__sub_803FF468(s32 arg0);
 void TLobby__sub_803FD85C(void *arg0);
 s32 TLobby__sub_80403D28(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7);
-s32 TLobby__sub_803FE6CC(void *state, int code, int reply_identifier, void *payload);
+s32 ppp_fsm_send_packet(void *self, int code, int reply_identifier, void *payload);
 s32 TLobby__sub_803FE658(u8 *arg0);
 void TLobby__sub_803FD958(u8 *arg0);
 void TLobby__sub_80401CAC(PppFrame **o, u16 v);

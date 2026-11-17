@@ -458,7 +458,7 @@ extern s32 TLobby__sub_803FF9A4(void *self, u8 *src, u32 bits) {
     u8 hdr[2];
     s16 k;
     s16 res;
-    s32 TLobby__sub_803FE6CC(void *, u8, u8, void *); /* declared here with other parameter types; the definition is s32 (void *, int, int, void *) */
+    s32 ppp_fsm_send_packet(void *, u8, u8, void *); /* declared here with other parameter types; the definition is s32 (void *, int, int, void *) */
     void TLobby__sub_80400338(PppFrame **pbuf, IpcpOptions *opt, s32 type, s32 len, void *src);
     base = *(IpcpConfig **)((u8 *)self + 0x30);
     n = *(s16 *)(src + 2);
@@ -487,7 +487,7 @@ extern s32 TLobby__sub_803FF9A4(void *self, u8 *src, u32 bits) {
         }
         TLobby__sub_80400338((PppFrame **)&buf, &base->peer.got, hdr[0], hdr[1], &bits);
         if (res > 3) {
-            TLobby__sub_803FE6CC(self, k, src[1], buf);
+            ppp_fsm_send_packet(self, k, src[1], buf);
         }
     }
 
@@ -496,13 +496,13 @@ extern s32 TLobby__sub_803FF9A4(void *self, u8 *src, u32 bits) {
             ((u8 *)self)[6]--;
         } else {
             k = 4;
-            TLobby__sub_803FE6CC(self, 4, src[1], buf);
+            ppp_fsm_send_packet(self, 4, src[1], buf);
         }
     }
     if (k > 3) {
         return (s16)(2 != k);
     }
-    TLobby__sub_803FE6CC(self, k, src[1], buf);
+    ppp_fsm_send_packet(self, k, src[1], buf);
     return (s16)(2 != k);
 }
 #pragma push

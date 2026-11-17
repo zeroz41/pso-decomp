@@ -45,7 +45,7 @@ s16 TLobby__sub_803FC1CC(Conn_804004DC *c, s32 timeout) {
     if (lbl_805D7A90 & 2) {
         auth->active = 1;
         TLobby__sub_803FE820((s32)c);
-        TLobby__sub_803FE6CC(c, 1, 0, build_avetcp_net_buffer(c));
+        ppp_fsm_send_packet(c, 1, 0, build_avetcp_net_buffer(c));
     } else {
         auth->active = 0;
     }
@@ -191,7 +191,7 @@ void dispatch_received_packet(void *self, s32 arg1) {
         TLobby__sub_80401CAC((PppFrame **)&arg1, hdr.len);
         switch (hdr.type) {
         case 1:
-            TLobby__sub_803FCC10((Conn_804004DC *)arg0, &hdr, (PppFrame *)arg1);
+            chap_recv_challenge((Conn_804004DC *)arg0, &hdr, (PppFrame *)arg1);
             return;
         case 2:
             if (TLobby__sub_803FC820((void *)arg0, (void *)&hdr, (int)arg1) == 0) {
@@ -281,7 +281,7 @@ void TLobby__sub_803FC728(Conn_804004DC *c) {
     }
     if (c->retries != 0) {
         buf = TLobby__sub_80401B20(lbl_805C02D0.p1C, chap->len);
-        TLobby__sub_803FE6CC(c, 2, chap->id, buf);
+        ppp_fsm_send_packet(c, 2, chap->id, buf);
         TLobby__sub_80405328(c->timer);
         c->retries--;
         return;
@@ -319,7 +319,7 @@ inline s32 chap_rb_803FC820(PppFrame **src) {
 }
 extern s16 TLobby__sub_803FC820(Conn_804004DC *c, u8 *hdr, int v) {
     s16 total;
-    s32 TLobby__sub_803FE6CC(void *, u8, u8, void *); /* declared here with other parameter types; the definition is s32 (void *, int, int, void *) */
+    s32 ppp_fsm_send_packet(void *, u8, u8, void *); /* declared here with other parameter types; the definition is s32 (void *, int, int, void *) */
     PppChap *chap;
     u8 *name;
     u8 *value;
@@ -371,7 +371,7 @@ extern s16 TLobby__sub_803FC820(Conn_804004DC *c, u8 *hdr, int v) {
         if (secret == NULL) {
             NetCopyString(lbl_805C02D0.p20, (const char *)&lbl_805E1168);
             reply = TLobby__sub_80401B20(lbl_805C02D0.p20, NetStringLength(lbl_805C02D0.p20));
-            TLobby__sub_803FE6CC(c, 4, hdr[1], reply);
+            ppp_fsm_send_packet(c, 4, hdr[1], reply);
             return -1;
         }
     }
@@ -404,7 +404,7 @@ extern s16 TLobby__sub_803FC820(Conn_804004DC *c, u8 *hdr, int v) {
         ret = 0;
     }
     reply = TLobby__sub_80401B20(lbl_805C02D0.p20, NetStringLength(lbl_805C02D0.p20));
-    TLobby__sub_803FE6CC(c, code, hdr[1], reply);
+    ppp_fsm_send_packet(c, code, hdr[1], reply);
     return ret;
 }
 #pragma pop
@@ -415,11 +415,11 @@ extern s16 TLobby__sub_803FC820(Conn_804004DC *c, u8 *hdr, int v) {
 #pragma opt_common_subs on
 #pragma opt_propagation off
 #pragma opt_lifetimes off
-inline PppChap *chap_options_803FCC10(Conn_804004DC *arg0) {
+inline PppChap *chap_options(Conn_804004DC *arg0) {
     return (PppChap *)arg0->opts;
 }
 
-void TLobby__sub_803FCC10(Conn_804004DC *connection, Hdr_803FC4B4 *header, PppFrame *source) {
+void chap_recv_challenge(Conn_804004DC *connection, Hdr_803FC4B4 *header, PppFrame *source) {
     struct {
         u8 *value;
     } challenge_slot;
@@ -440,7 +440,7 @@ void TLobby__sub_803FCC10(Conn_804004DC *connection, Hdr_803FC4B4 *header, PppFr
 
     challenge_slot.value = 0;
     total = header->len;
-    chap = chap_options_803FCC10(connection);
+    chap = chap_options(connection);
     challenge_length = chap_rbs_803FC820(&source);
     if (challenge_length != -1) {
         challenge_cursor = (challenge_slot.value = lbl_805C02D0.pC);
@@ -479,7 +479,7 @@ void TLobby__sub_803FCC10(Conn_804004DC *connection, Hdr_803FC4B4 *header, PppFr
     chap->id = header->flag;
     chap->len = credential_length + 0x11;
     reply = TLobby__sub_80401B20(lbl_805C02D0.p1C, chap->len);
-    TLobby__sub_803FE6CC(connection, 2, chap->id, reply);
+    ppp_fsm_send_packet(connection, 2, chap->id, reply);
     TLobby__sub_80405328(connection->timer);
     connection->retries--;
     if (connection->f6 != 0) {

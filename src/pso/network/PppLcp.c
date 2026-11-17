@@ -409,7 +409,7 @@ s16 TLobby__sub_804010A0(Obj_803FF858 *fsm, Msg_803FA664 *msg, u32 src) {
     PppFrame *reply;
     u8 hdr[2];
     s16 missing;
-    s32 TLobby__sub_803FE6CC(void *, u8, u8, void *); /* declared here with other parameter types; the definition is s32 (void *, int, int, void *) */
+    s32 ppp_fsm_send_packet(void *, u8, u8, void *); /* declared here with other parameter types; the definition is s32 (void *, int, int, void *) */
 
     status = 2;
     opts = (LcpOpts *)fsm->p30;
@@ -442,7 +442,7 @@ s16 TLobby__sub_804010A0(Obj_803FF858 *fsm, Msg_803FA664 *msg, u32 src) {
         }
         TLobby__sub_804017D8((u32 *)&reply, &opts->remote.got.mask, hdr[0], hdr[1], (s32 *)&src);
         if (r >= 3) {
-            TLobby__sub_803FE6CC(fsm, status, msg->b1, reply);
+            ppp_fsm_send_packet(fsm, status, msg->b1, reply);
         }
     }
     missing = opts->remote.want.mask & ~opts->remote.got.mask;
@@ -452,13 +452,13 @@ s16 TLobby__sub_804010A0(Obj_803FF858 *fsm, Msg_803FA664 *msg, u32 src) {
             fsm->b6--;
         } else {
             status = 4;
-            TLobby__sub_803FE6CC(fsm, 4, msg->b1, reply);
+            ppp_fsm_send_packet(fsm, 4, msg->b1, reply);
         }
     }
     if (status >= 3) {
         return status != 2;
     }
-    TLobby__sub_803FE6CC(fsm, status, msg->b1, reply);
+    ppp_fsm_send_packet(fsm, status, msg->b1, reply);
     return status != 2;
 }
 #pragma pop

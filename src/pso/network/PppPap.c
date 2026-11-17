@@ -133,15 +133,15 @@ void set_active(void *self) {
 #pragma dont_inline off
 #pragma inline_depth(4)
 extern u8 lbl_805D7AB8[8];
-static inline PapOptions *pap_options_80402E68(Conn_804004DC *connection) {
+static inline PapOptions *pap_options(Conn_804004DC *connection) {
     return (PapOptions *)connection->opts;
 }
 
-static inline u8 **pap_message_destination_80402E68(void) {
+static inline u8 **pap_message_buffer(void) {
     u8 **value = (u8 **)&lbl_805C0620.message;
     return value;
 }
-static inline s16 pap_read_decoded_message_80402E68(PapOptions *options, u8 actual_id, u8 expected_id, PppFrame *source) {
+static inline s16 pap_read_reply_message(PapOptions *options, u8 actual_id, u8 expected_id, PppFrame *source) {
     s32 result;
     u8 **destination;
     s32 copied;
@@ -155,7 +155,7 @@ static inline s16 pap_read_decoded_message_80402E68(PapOptions *options, u8 actu
     if (requested != -1) {
         if (requested != 0) {
             available = get_field_4(source);
-            destination = pap_message_destination_80402E68();
+            destination = pap_message_buffer();
             copied = (s16)TLobby__sub_80401ABC((u8 *)source, *destination, requested);
             (*destination)[copied] = 0;
             options->message = *destination;
@@ -171,21 +171,21 @@ static inline s16 pap_read_decoded_message_80402E68(PapOptions *options, u8 actu
     return -1;
 }
 
-static inline void pap_ready_80402E68(Conn_804004DC *self, u32 direction) {
-    u8 *parent = self->sub;
-    ((u8 *)self)[2] &= ~direction;
+static inline void pap_auth_done(Conn_804004DC *self, u32 pending_bit) {
+    u8 *link = self->sub;
+    ((u8 *)self)[2] &= ~pending_bit;
     if (!(((u8 *)self)[2] & 0x30)) {
         self->state = 5;
     }
     TLobby__sub_80405304(self->timer);
-    parent[2] &= ~direction;
-    TLobby__sub_80400ACC((O_80400ACC *)parent);
+    link[2] &= ~pending_bit;
+    TLobby__sub_80400ACC((O_80400ACC *)link);
 }
-void PADRead(Conn_804004DC *self, PppFrame *source) {
+void pap_input(Conn_804004DC *self, PppFrame *source) {
     Conn_804004DC *connection;
     Hdr_803FC4B4 header;
     PapOptions *options;
-    options = pap_options_80402E68(self);
+    options = pap_options(self);
     if (TLobby__sub_803FE8BC((u8 *)&header, &source)) {
         return;
     }
@@ -197,16 +197,16 @@ void PADRead(Conn_804004DC *self, PppFrame *source) {
         if (pap_recv_auth_request((u8 *)connection, (u8 *)&header, source)) {
             return;
         }
-        pap_ready_80402E68(connection, 0x10);
+        pap_auth_done(connection, 0x10);
         return;
     case 2:
-        if (pap_read_decoded_message_80402E68((PapOptions *)connection->opts, header.flag, connection->id, source) != 0) {
+        if (pap_read_reply_message((PapOptions *)connection->opts, header.flag, connection->id, source) != 0) {
             return;
         }
-        pap_ready_80402E68(self, 0x20);
+        pap_auth_done(self, 0x20);
         return;
     case 3:
-        if (pap_read_decoded_message_80402E68((PapOptions *)self->opts, header.flag, self->id, source) != 0) {
+        if (pap_read_reply_message((PapOptions *)self->opts, header.flag, self->id, source) != 0) {
             return;
         }
         TLobby__sub_80405304(connection->timer);
@@ -309,7 +309,7 @@ inline s32 get_80403308(PppFrame **s) {
     return (s16)lbl_805D7AB8[0];
 }
 s16 pap_recv_auth_request(u8 *self, u8 *src, PppFrame *val) {
-    s32 TLobby__sub_803FE6CC(void *, u8, u8, void *); /* declared here with other parameter types; the definition is s32 (void *, int, int, void *) */
+    s32 ppp_fsm_send_packet(void *, u8, u8, void *); /* declared here with other parameter types; the definition is s32 (void *, int, int, void *) */
     PppFsm *fsm = (PppFsm *)self;
     u8 *p1 = 0;
     u8 *p2 = 0;
@@ -370,7 +370,7 @@ zero:
     n = (s16)NetStringLength((const char *)(ptr));
     ent = (u8 *)TLobby__sub_80401B20(ptr, n);
     *(*(u8 **)ent) = (n - 1);
-    TLobby__sub_803FE6CC(self, st, src[1], ent);
+    ppp_fsm_send_packet(self, st, src[1], ent);
 
     if (st == 3) {
         if (fsm->f6 != 0) {

@@ -105,7 +105,7 @@ s16 TLobby__sub_803FC1CC(Conn_804004DC *c, s32 timeout);
 s32 TLobby__sub_803FC684(u8 *arg0, u8 *arg1, u8 *arg2);
 void TLobby__sub_803FC728(Conn_804004DC *c);
 s16 TLobby__sub_803FC820(Conn_804004DC *c, u8 *hdr, int v);
-void TLobby__sub_803FCC10(Conn_804004DC *connection, Hdr_803FC4B4 *header, PppFrame *source);
+void chap_recv_challenge(Conn_804004DC *connection, Hdr_803FC4B4 *header, PppFrame *source);
 #ifdef __cplusplus
 }
 #endif

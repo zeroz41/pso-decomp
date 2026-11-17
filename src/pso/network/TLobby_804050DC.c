@@ -53,7 +53,7 @@ s32 TLobby__sub_803F79AC(void *);
 void net_sleep_ms(int);
 extern u8 lbl_805C0038[];
 void TLobby__sub_803FDBF8(u8 *self, void *arg1);
-void PADRead(Conn_804004DC *self, PppFrame *source);
+void pap_input(Conn_804004DC *self, PppFrame *source);
 s16 TLobby__sub_804040E0(void *self, void *arg);
 s32 TLobby__sub_804060B8(u8 *, u16, int);
 
@@ -527,7 +527,7 @@ inline s32 get_80405A74(PppFrame **s) {
     if (ppp_buffer_read(&u, lobby_ppp_read_buf, 2) == 2) {                    \
         read_network_u16_be(lobby_ppp_read_buf);                             \
     }                                                                        \
-    TLobby__sub_803FE6CC(G + 4, 8, 0, u);                                    \
+    ppp_fsm_send_packet(G + 4, 8, 0, u);                                    \
     return;
 void ppp_input_packet(PppFrame *arg0) {
     u16 code;
@@ -606,7 +606,7 @@ void ppp_input_packet(PppFrame *arg0) {
             return;
         }
         (*(s16 *)((s8 *)G + 0x132))++;
-        PADRead((Conn_804004DC *)(G + 0x38), arg0);
+        pap_input((Conn_804004DC *)(G + 0x38), arg0);
         return;
     case 0xC223:
         if (G[0] != 2 && G[0] != 3) {
