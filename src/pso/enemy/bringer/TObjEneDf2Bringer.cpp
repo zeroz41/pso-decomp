@@ -666,15 +666,11 @@ s32 TObjPlayer__sub_800A04F0(void *);
 s32 play_sound_effect(void *, void *, int, int);
 s32 get_camera_ctrl__9TObjEneDDFv(void *, int);
 s32 rotate_matrix_x(int, int);
-extern s32 TObjEneDf2Bringer__render_node_index;
-extern s32 TObjEneDf2Bringer__render_rotation_x;
-extern s32 TObjEneDf2Bringer__render_point_cursor;
 s32 transition_enemy_state__9TObjEneDDFl(void *, s32);
 s32 update_linked_position__12TObjEneDD_STFf(void *, f32);
 s32 set_field_378__9TObjEneDDFl(void *, s32);
 s32 is_split_screen();
 s32 scroll_strip_uvs(int, int, int);
-extern s32 TObjEneDf2Bringer__uv_scroll_buffer;
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 extern const f32 lbl_805D9E84;
@@ -688,13 +684,22 @@ u32 enemy_probe_wall_ahead__13TBoss5GryphonFfff(void *, f32, f32, f32);
 s32 approach_angle_limited(s32, s32, s32);
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
 s32 subtract_vector(void *, void *);
-extern Prm_8009813C *TObjEneDf2Bringer__data_805D4FB4;
 TParticleCtrl *create_particle_emitter(const void *pos, s32 id);
 s32 matrix_mult_vec(int, void *, void *);
-extern s32 TObjEneDf2Bringer__trail_buffer;
 
 
 }
+
+s32 bringer_boss_stats_handle;
+s32 bringer_boss_stats_ptr_b;
+s32 bringer_object_handle;
+Prm_8009813C *TObjEneDf2Bringer__data_805D4FB4;
+u32 TObjEneDf2Bringer__resource_bundle;
+s32 TObjEneDf2Bringer__render_node_index;
+s32 TObjEneDf2Bringer__render_rotation_x;
+s32 TObjEneDf2Bringer__render_point_cursor;
+s32 TObjEneDf2Bringer__trail_buffer;
+s32 TObjEneDf2Bringer__uv_scroll_buffer;
 
 Vec bringer_camera_ctrl_target_vec;
 
@@ -1037,10 +1042,6 @@ struct Slot_80099800 { u8 pad[0x1C]; };
 
 u8 *__ct__17AreaAttackHistoryFl(u8 *arg0, s32 arg1);
 s32 create__13TUnk_80494968FUlUl(s32, s32);
-extern s32 bringer_boss_stats_handle;
-extern s32 bringer_boss_stats_ptr_b;
-extern s32 bringer_object_handle;
-extern u32 TObjEneDf2Bringer__resource_bundle;
 struct Arr_80099800 { u8 pad[0x3E0]; Slot_80099800 slot[4]; Vec v[4]; };
 
 typedef struct RecoveredGlobal_8031B170_lbl_804E8880 RecoveredGlobal_8031B170_lbl_804E8880;
