@@ -119,282 +119,223 @@ inline NetPacket *buildrec_8040FFF8(u8 *ip, s16 m, u8 *p, s32 rem) {
 #pragma push
 #pragma opt_loop_invariants off
 #pragma opt_strength_reduction off
-s32 TLobby__sub_8040FFF8(u8 *ip, int len, s16 id)
-{
-  s16 TLobby__sub_8040D510(void *, u8 *, s32, s16); /* declared here with an s32 3rd argument; the definition takes s16 */
-  s16 TLobby__sub_804105E0(u8 *, u8 *, s16, s16); /* declared s16 here; the definition returns s32 */
-  s16 TLobby__sub_804136CC(s16); /* declared s16 here; the definition returns void */
-  s16 TLobby__sub_8041B974(void *, void *, void *); /* declared here with void * parameters; the definition takes (u8 *, u8 *, u8 *) */
-  s16 udp_input(void *, void *, void *, s16); /* declared s16 here; the definition is s32 (O_80420DE4 *, NetworkAddress *, NetworkAddress *, s32) */
-  s32 TLobby__sub_80421938(void *, void *, void *, u32, s16); /* declared here with other parameter types; the definition is s32 (O_80421938 *, void *, void *, void *, s32) */
-  struct 
-  {
-    s32 t;
-    u8 a[16];
-  } sa;
-  struct 
-  {
-    s32 t;
-    u8 a[16];
-  } da;
-  struct 
-  {
-    u8 type;
-    u8 code;
-    s32 w;
-  } ic44;
-  struct 
-  {
-    u8 type;
-    u8 code;
-    s32 w;
-  } ic36;
-  struct IC_8040FFF8 ic28;
-  u8 *p;
-  u8 *new_var2;
-  NetPacket *rec;
-  s16 m;
-  Ipv6RawSocket *ent;
-  s16 i;
-  s32 rem;
-  u8 *new_var4;
-  u8 *new_var3;
-  s16 new_var;
-  s16 res;
-  u8 *last;
-  s16 reasm;
-  Ipv6ProtocolState *g;
-  u8 *src;
-  u8 nh;
-  s16 r;
-  s16 found;
-  u8 *dst;
-  new_var = id;
-  if (((s16) len) < 40)
-  {
-    goto ret;
-  }
-  if (get_valid_entry(new_var) == 0)
-  {
-    goto ret;
-  }
-  if ((ip[0] & 0xF0) != 0x60)
-  {
-    return -1;
-  }
-  m = min_8040FFF8((*((u16 *) (ip + 4))) + 40, (s16) len);
-  if (TLobby__sub_804136CC(new_var) == 0)
-  {
-    if (TLobby__sub_804136EC(ip + 24) < ((char) 0))
-    {
-      if (NetIPv6IsMulticast(ip + 24) == 0)
-      {
-        if (TLobby__sub_804105E0(ip, ip, m, new_var) == 0)
-        {
-          return 0;
+s32 TLobby__sub_8040FFF8(u8 *ip, int len, s16 id) {
+    s16 TLobby__sub_8040D510(void *, u8 *, s32, s16); /* declared here with an s32 3rd argument; the definition takes s16 */
+    s16 TLobby__sub_804105E0(u8 *, u8 *, s16, s16); /* declared s16 here; the definition returns s32 */
+    s16 TLobby__sub_804136CC(s16); /* declared s16 here; the definition returns void */
+    s16 TLobby__sub_8041B974(void *, void *, void *); /* declared here with void * parameters; the definition takes (u8 *, u8 *, u8 *) */
+    s16 udp_input(void *, void *, void *, s16); /* declared s16 here; the definition is s32 (O_80420DE4 *, NetworkAddress *, NetworkAddress *, s32) */
+    s32 TLobby__sub_80421938(void *, void *, void *, u32, s16); /* declared here with other parameter types; the definition is s32 (O_80421938 *, void *, void *, void *, s32) */
+    struct {
+        s32 t;
+        u8 a[16];
+    } sa;
+    struct {
+        s32 t;
+        u8 a[16];
+    } da;
+    struct IC_8040FFF8 ic44;
+    struct IC_8040FFF8 ic36;
+    struct IC_8040FFF8 ic28;
+    s16 m;
+    s16 ifidx;
+    u8 nh;
+    s16 i;
+    s32 rem;
+    u8 *p;
+    u8 *last;
+    u8 *src;
+    Ipv6ProtocolState *g;
+    u8 *hdr;
+    s16 r;
+    u8 *dst_cmp;
+    s16 res;
+    u8 *dst;
+    s16 found;
+    NetPacket *rec;
+    s16 reasm;
+    Ipv6RawSocket *ent;
+
+    if (((s16) len) < 40) {
+        goto ret;
+    }
+    ifidx = id;
+    if (get_valid_entry(ifidx) == 0) {
+        goto ret;
+    }
+    if ((ip[0] & 0xF0) != 0x60) {
+        return -1;
+    }
+    m = min_8040FFF8(((Ipv6Header *) ip)->payload_length + 40, (s16) len);
+    if (TLobby__sub_804136CC(ifidx) == 0) {
+        if (TLobby__sub_804136EC(((Ipv6Header *) ip)->dst.bytes) < 0) {
+            if (NetIPv6IsMulticast(((Ipv6Header *) ip)->dst.bytes) == 0) {
+                if (TLobby__sub_804105E0(ip, ip, m, ifidx) == 0) {
+                    return 0;
+                }
+                return -1;
+            }
         }
-        return -1;
-      }
     }
-  }
-  sa.t = 6;
-  new_var3 = ip + 8;
-  src = sa.a;
-  NetMemcpy(src, new_var3, 16);
-  da.t = 6;
-  dst = da.a;
-  NetMemcpy(dst, ip + 24, 16);
-  nh = ip[6];
-  rem = m - 40;
-  new_var2 = ip;
-  p = new_var2 + 40;
-  last = new_var2 + 6;
-  reasm = 0;
-  new_var4 = dst;
-  found = 0;
-  for (;;)
-  {
-    if (nh == 59)
-    {
-      return 0;
-    }
-    if (((s16) rem) < 8)
-    {
-      ic44.type = 4;
-      ic44.code = 1;
-      ic44.w = last - new_var2;
-      TLobby__sub_8040D510(&ic44, new_var2, m, new_var);
-      goto ret;
-    }
-    switch (nh)
-    {
-      case 0:
-        if (m != (((s16) rem) + 40))
-      {
-        ic36.type = 4;
-        ic36.code = 1;
-        ic36.w = last - new_var2;
-        TLobby__sub_8040D510(&ic36, new_var2, m, new_var);
-        res = -1;
-      }
-      else
-      {
-        res = process_options_header(p, rem, new_var2, m, new_var);
-      }
-        if (res < 0)
-      {
-        goto ret;
-      }
-        goto adv;
+    sa.t = 6;
+    src = sa.a;
+    NetMemcpy(src, ((Ipv6Header *) ip)->src.bytes, 16);
+    da.t = 6;
+    dst = da.a;
+    NetMemcpy(dst, ((Ipv6Header *) ip)->dst.bytes, 16);
+    nh = ((Ipv6Header *) ip)->next_header;
+    rem = m - 40;
+    hdr = ip;
+    p = hdr + 40;
+    last = hdr + 6;
+    reasm = 0;
+    dst_cmp = dst;
+    found = 0;
+    for (;;) {
+        if (nh == 59) {
+            return 0;
+        }
+        if (((s16) rem) < 8) {
+            ic44.type = 4;
+            ic44.code = 1;
+            ic44.w = last - hdr;
+            TLobby__sub_8040D510(&ic44, hdr, m, ifidx);
+            goto ret;
+        }
+        switch (nh) {
+        case 0:
+            if (m != (((s16) rem) + 40)) {
+                ic36.type = 4;
+                ic36.code = 1;
+                ic36.w = last - hdr;
+                TLobby__sub_8040D510(&ic36, hdr, m, ifidx);
+                res = -1;
+            } else {
+                res = process_options_header(p, rem, hdr, m, ifidx);
+            }
+            if (res < 0) {
+                goto ret;
+            }
+            goto adv;
 
-      case 1:
+        case 1:
+        case 4:
+        case 50:
+        case 51:
+            goto ret;
 
-      case 4:
+        case 44:
+            rec = frag_8040FFF8(hdr, p, rem, m, ifidx, &sa, &ic28);
+            if (rec == 0) {
+                return -1;
+            }
+            nh = p[0];
+            reasm = 1;
+            goto payload;
 
-      case 50:
+        case 60:
+            res = process_options_header(p, rem, hdr, m, ifidx);
+            if (res < 0) {
+                goto ret;
+            }
 
-      case 51:
-        goto ret;
-
-      case 44:
-        rec = frag_8040FFF8(new_var2, p, rem, m, new_var, &sa, &ic28);
-        if (rec == 0)
-      {
-        return -1;
-      }
-        nh = p[0];
-        reasm = 1;
-        goto payload;
-
-      case 60:
-        res = process_options_header(p, rem, new_var2, m, new_var);
-        if (res < 0)
-      {
-        goto ret;
-      }
-
-      case 43:
+        case 43:
         adv:
-      last = p;
+            last = p;
+            nh = p[0];
+            rem -= (p[1] + 1) << 3;
+            p += (p[1] + 1) << 3;
+            continue;
 
-        nh = p[0];
-        rem -= (p[1] + 1) << 3;
-        p += (p[1] + 1) << 3;
-        continue;
+        case 10:
+        case 20:
+        case 30:
+        case 40:
+            break;
+        }
+        break;
+    }
 
-      case 10:
+payload:
+    if (reasm == 0) {
+        rec = buildrec_8040FFF8(hdr, m, p, rem);
+        if (rec == 0) {
+            return -257;
+        }
+    }
 
-      case 20:
-
-      case 30:
-
-      case 40:
+    switch (nh) {
+    case 58:
+        r = NetIPv6HandleIcmpMessage(rec, src, dst, ((Ipv6Header *) hdr)->hop_limit, ifidx);
+        ifidx = id;
+        if (r < 0) {
+            goto fail;
+        }
+        found = 1;
         break;
 
-    }
-
-    break;
-  }
-
-  payload:
-  if (reasm == 0)
-  {
-    rec = buildrec_8040FFF8(new_var2, m, p, rem);
-    if (rec == 0)
-    {
-      return -257;
-    }
-  }
-
-  switch (nh)
-  {
-    case 58:
-      r = NetIPv6HandleIcmpMessage(rec, src, dst, new_var2[7], new_var);
-      if (r < 0)
-    {
-      goto fail;
-    }
-      found = 1;
-      break;
-
     case 6:
-      r = TLobby__sub_8041B974(rec, &sa, &da);
-      if (r < 0)
-    {
-      goto fail;
-    }
-      goto ok;
+        r = TLobby__sub_8041B974(rec, &sa, &da);
+        if (r < 0) {
+            goto fail;
+        }
+        goto ok;
 
     case 17:
-      r = udp_input(rec, &sa, &da, new_var);
-      if (r >= 0)
-    {
-      goto ok;
-    }
-      switch (r)
-    {
-      case -2:
-        ic44.type = 1;
-        ic44.code = 4;
-        ic44.w = 0;
-        TLobby__sub_8040D510(&ic44, new_var2, m, new_var);
-        goto fail;
+        r = udp_input(rec, &sa, &da, ifidx);
+        if (r >= 0) {
+            goto ok;
+        }
+        switch (r) {
+        case -2:
+            ic44.type = 1;
+            ic44.code = 4;
+            ic44.w = 0;
+            TLobby__sub_8040D510(&ic44, hdr, m, ifidx);
+            goto fail;
 
-      default:
-        goto fail;
-
-    }
+        default:
+            goto fail;
+        }
 
     default:
-      break;
+        break;
+    }
 
-  }
-
-  g = &ipv6_protocol_state;
-  ent = g->sockets;
-  for (i = 0; i < g->nsockets; i++, ent++)
-  {
-    if (((ent->used == 1) && (ent->proto == nh)) && (ent->owner != 0))
-    {
-      if ((NetIPv6IsUnspecified(ent->local) != 0) || (NetIPv6CompareAddresses(ent->local, src) == 0))
-      {
-        if ((NetIPv6IsUnspecified(ent->remote) != 0) || (NetIPv6CompareAddresses(ent->remote, new_var4) == 0))
-        {
-          TLobby__sub_80421938(rec, src, dst, ent->owner, i);
-          found = 1;
+    g = &ipv6_protocol_state;
+    ent = g->sockets;
+    for (i = 0; i < g->nsockets; i++, ent++) {
+        if (((ent->used == 1) && (ent->proto == nh)) && (ent->owner != 0)) {
+            if ((NetIPv6IsUnspecified(ent->local) != 0) || (NetIPv6CompareAddresses(ent->local, src) == 0)) {
+                if ((NetIPv6IsUnspecified(ent->remote) != 0) || (NetIPv6CompareAddresses(ent->remote, dst_cmp) == 0)) {
+                    TLobby__sub_80421938(rec, src, dst, ent->owner, i);
+                    found = 1;
+                }
+            }
         }
-      }
     }
-  }
 
-  if (found == 1)
-  {
+    if (found == 1) {
     ok:
-    if (reasm == 1)
-    {
-      TUdpSocket__sub_80418BD8(rec);
+        if (reasm == 1) {
+            TUdpSocket__sub_80418BD8(rec);
+        }
+        release_entry(rec);
+        return 0;
     }
-
+    if (reasm != 1) {
+        ic44.type = 4;
+        ic44.code = 1;
+        ic44.w = last - hdr;
+        TLobby__sub_8040D510(&ic44, hdr, m, ifidx);
+    }
+fail:
+    if (reasm == 1) {
+        TUdpSocket__sub_80418BD8(rec);
+    }
     release_entry(rec);
-    return 0;
-  }
-  if (reasm != 1)
-  {
-    ic44.type = 4;
-    ic44.code = 1;
-    ic44.w = last - new_var2;
-    TLobby__sub_8040D510(&ic44, new_var2, m, new_var);
-  }
-  fail:
-  if (reasm == 1)
-  {
-    TUdpSocket__sub_80418BD8(rec);
-  }
-
-  release_entry(rec);
-  ret:
-  return -1;
-
+ret:
+    return -1;
 }
 #pragma pop
 
