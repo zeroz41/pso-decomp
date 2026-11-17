@@ -1209,8 +1209,8 @@ s32 TLobby__sub_804136AC(s16 i)
     return is_slot_flag_0x20_set(i);
 }
 
-void TLobby__sub_804136CC(s16 i) {
-    is_socket_flag_set(i);
+s16 TLobby__sub_804136CC(s16 i) {
+    return is_socket_flag_set(i);
 }
 
 s16 TLobby__sub_804136EC(void *self) {

@@ -182,7 +182,7 @@ void NetIPv6ApplyNeighborDiscoveryDefaults(Ipv6NdState *nd);
 s16 TLobby__sub_80413230(u8 *arg0, s32 arg1);
 s16 TLobby__sub_804145D4(void *out, s16 idx);
 s32 TLobby__sub_804136AC(s16 i);
-void TLobby__sub_804136CC(s16 i);
+s16 TLobby__sub_804136CC(s16 i);
 s16 NetIPv6IsLoopback(u8 *arg0);
 s16 NetIPv6IsUnspecified(u8 *arg0);
 s16 NetIPv6CompareAddresses(u8 *a, u8 *b);

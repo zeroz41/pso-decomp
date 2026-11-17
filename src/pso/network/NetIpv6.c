@@ -73,25 +73,24 @@ inline s16 process_options_header(u8 *p, s16 rem, u8 *ip, s16 m, s16 id) {
     return 0;
 }
 
-struct IC_8040FFF8 { u8 type; u8 code; s32 w; };
-inline NetPacket *frag_8040FFF8(u8 *ip, u8 *p, s32 rem, s16 m, s16 id, void *sa, struct IC_8040FFF8 *ic) {
-    s32 TLobby__sub_80418C40(u8 *, u8 *, s16, u8, u32, void *, u16, u8, s16);
+inline NetPacket *frag_8040FFF8(u8 *ip, Ipv6FragmentHeader *frag, s32 rem, s16 m, s16 id, NetworkAddress *sa, NetIcmpv6Header *ic) {
+    s32 TLobby__sub_80418C40(u8 *, u16, s16, u8, u32, NetworkAddress *, u16, u8, s16);
     u32 fl;
     u32 mf;
     u32 off;
-    fl = *((u16 *) (p + 2));
+    fl = frag->offset_flags;
     mf = fl & 1;
     off = (fl >> 3) & 0x1FFF;
-    if (((u8) fl & 1) && (((rem - 8) & 7) != 0)) {
+    if (((u8) fl & 1) && (((rem - sizeof(Ipv6FragmentHeader)) & 7) != 0)) {
         if (off == 0) {
             ic->type = 4;
             ic->code = 0;
-            ic->w = 4;
+            ic->reserved = 4;
             TLobby__sub_8040D510(ic, ip, m, id);
         }
         return 0;
     }
-    return (NetPacket *) TLobby__sub_80418C40(ip, (u8 *) (m - (rem - 8)), rem - 8, 60, *((u32 *) (p + 4)), sa, off, mf, id);
+    return (NetPacket *) TLobby__sub_80418C40(ip, m - (rem - sizeof(Ipv6FragmentHeader)), rem - sizeof(Ipv6FragmentHeader), 60, frag->ident, sa, off, mf, id);
 }
 inline s32 min_8040FFF8(s32 a, s32 b) {
     if (a < b) {
@@ -120,23 +119,16 @@ inline NetPacket *buildrec_8040FFF8(u8 *ip, s16 m, u8 *p, s32 rem) {
 #pragma opt_loop_invariants off
 #pragma opt_strength_reduction off
 s32 TLobby__sub_8040FFF8(u8 *ip, int len, s16 id) {
-    s16 TLobby__sub_8040D510(void *, u8 *, s32, s16); /* declared here with an s32 3rd argument; the definition takes s16 */
-    s16 TLobby__sub_804105E0(u8 *, u8 *, s16, s16); /* declared s16 here; the definition returns s32 */
-    s16 TLobby__sub_804136CC(s16); /* declared s16 here; the definition returns void */
-    s16 TLobby__sub_8041B974(void *, void *, void *); /* declared here with void * parameters; the definition takes (u8 *, u8 *, u8 *) */
-    s16 udp_input(void *, void *, void *, s16); /* declared s16 here; the definition is s32 (O_80420DE4 *, NetworkAddress *, NetworkAddress *, s32) */
-    s32 TLobby__sub_80421938(void *, void *, void *, u32, s16); /* declared here with other parameter types; the definition is s32 (O_80421938 *, void *, void *, void *, s32) */
-    struct {
-        s32 t;
-        u8 a[16];
-    } sa;
-    struct {
-        s32 t;
-        u8 a[16];
-    } da;
-    struct IC_8040FFF8 ic44;
-    struct IC_8040FFF8 ic36;
-    struct IC_8040FFF8 ic28;
+    s16 TLobby__sub_8040D510(NetIcmpv6Header *msg, u8 *ip, s32 len, s16 iface); /* the definition takes an s16 len */
+    s16 TLobby__sub_804105E0(u8 *ip, u8 *p, s16 len, s16 iface); /* the definition returns s32 */
+    s16 TLobby__sub_8041B974(NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst); /* the definition takes (u8 *, u8 *, u8 *) */
+    s16 udp_input(NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst, s16 iface);
+    s32 TLobby__sub_80421938(NetPacket *pkt, u8 *src, u8 *dst, void *callback, s16 index); /* the definition takes an s32 index */
+    NetworkAddress sa;
+    NetworkAddress da;
+    NetIcmpv6Header ic44;
+    NetIcmpv6Header ic36;
+    NetIcmpv6Header ic28;
     s16 m;
     s16 ifidx;
     u8 nh;
@@ -156,7 +148,7 @@ s32 TLobby__sub_8040FFF8(u8 *ip, int len, s16 id) {
     s16 reasm;
     Ipv6RawSocket *ent;
 
-    if (((s16) len) < 40) {
+    if (((s16) len) < (s32) sizeof(Ipv6Header)) {
         goto ret;
     }
     ifidx = id;
@@ -166,7 +158,7 @@ s32 TLobby__sub_8040FFF8(u8 *ip, int len, s16 id) {
     if ((ip[0] & 0xF0) != 0x60) {
         return -1;
     }
-    m = min_8040FFF8(((Ipv6Header *) ip)->payload_length + 40, (s16) len);
+    m = min_8040FFF8(((Ipv6Header *) ip)->payload_length + sizeof(Ipv6Header), (s16) len);
     if (TLobby__sub_804136CC(ifidx) == 0) {
         if (TLobby__sub_804136EC(((Ipv6Header *) ip)->dst.bytes) < 0) {
             if (NetIPv6IsMulticast(((Ipv6Header *) ip)->dst.bytes) == 0) {
@@ -177,17 +169,17 @@ s32 TLobby__sub_8040FFF8(u8 *ip, int len, s16 id) {
             }
         }
     }
-    sa.t = 6;
-    src = sa.a;
+    sa.family = 6;
+    src = sa.address;
     NetMemcpy(src, ((Ipv6Header *) ip)->src.bytes, 16);
-    da.t = 6;
-    dst = da.a;
+    da.family = 6;
+    dst = da.address;
     NetMemcpy(dst, ((Ipv6Header *) ip)->dst.bytes, 16);
     nh = ((Ipv6Header *) ip)->next_header;
-    rem = m - 40;
+    rem = m - sizeof(Ipv6Header);
     hdr = ip;
-    p = hdr + 40;
-    last = hdr + 6;
+    p = hdr + sizeof(Ipv6Header);
+    last = hdr + offsetof(Ipv6Header, next_header);
     reasm = 0;
     dst_cmp = dst;
     found = 0;
@@ -198,16 +190,16 @@ s32 TLobby__sub_8040FFF8(u8 *ip, int len, s16 id) {
         if (((s16) rem) < 8) {
             ic44.type = 4;
             ic44.code = 1;
-            ic44.w = last - hdr;
+            ic44.reserved = last - hdr;
             TLobby__sub_8040D510(&ic44, hdr, m, ifidx);
             goto ret;
         }
         switch (nh) {
         case 0:
-            if (m != (((s16) rem) + 40)) {
+            if (m != (((s16) rem) + (s32) sizeof(Ipv6Header))) {
                 ic36.type = 4;
                 ic36.code = 1;
-                ic36.w = last - hdr;
+                ic36.reserved = last - hdr;
                 TLobby__sub_8040D510(&ic36, hdr, m, ifidx);
                 res = -1;
             } else {
@@ -225,7 +217,7 @@ s32 TLobby__sub_8040FFF8(u8 *ip, int len, s16 id) {
             goto ret;
 
         case 44:
-            rec = frag_8040FFF8(hdr, p, rem, m, ifidx, &sa, &ic28);
+            rec = frag_8040FFF8(hdr, (Ipv6FragmentHeader *) p, rem, m, ifidx, &sa, &ic28);
             if (rec == 0) {
                 return -1;
             }
@@ -290,7 +282,7 @@ payload:
         case -2:
             ic44.type = 1;
             ic44.code = 4;
-            ic44.w = 0;
+            ic44.reserved = 0;
             TLobby__sub_8040D510(&ic44, hdr, m, ifidx);
             goto fail;
 
@@ -326,7 +318,7 @@ payload:
     if (reasm != 1) {
         ic44.type = 4;
         ic44.code = 1;
-        ic44.w = last - hdr;
+        ic44.reserved = last - hdr;
         TLobby__sub_8040D510(&ic44, hdr, m, ifidx);
     }
 fail:
