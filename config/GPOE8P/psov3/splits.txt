@@ -1829,6 +1829,7 @@ pso/enemy/nanodrago/TObjEneNanoDrago.cpp:
 	.rodata     start:0x8043C760 end:0x8043C900
 	.data       start:0x80494B10 end:0x80494E10
 	.sdata      start:0x805D2AA8 end:0x805D2AB0
+	.sbss       start:0x805D5248 end:0x805D5278
 	.sdata2     start:0x805DA3F8 end:0x805DA478
 
 pso/unk/text_800DC420.cpp:
@@ -1848,6 +1849,7 @@ pso/enemy/panarms/TObjEnePanarms_800DCEB8.cpp:
 	.rodata     start:0x8043C948 end:0x8043CD28
 	.data       start:0x80494E80 end:0x80495458
 	.sdata      start:0x805D2AB0 end:0x805D2AB4
+	.sbss       start:0x805D5278 end:0x805D5288
 	.sdata2     start:0x805DA490 end:0x805DA520
 
 pso/enemy/panarms/TObjEnePanarms_800DFB00.cpp:
