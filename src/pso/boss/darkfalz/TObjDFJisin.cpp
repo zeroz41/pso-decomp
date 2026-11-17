@@ -87,26 +87,37 @@ extern "C" void test_flag_1000__9TObjCharaFv();
 extern "C" void test_flag_256__9TObjCharaFv();
 
 
+// The Jisin: a ring of fire that grows by 25 a frame around its centre (TBoss4Type2::create_jisin).
 class TObjDFJisin : public TObject {
 public:
-    virtual void render();
+    TObjDFJisin(TObject *parent, s32 angle);
     virtual ~TObjDFJisin();
     virtual void run_task();
+
+    Vec center;
+    f32 radius;
 };
 class TObjDFBeamCursor : public TObject {
 public:
-    virtual void render();
+    TObjDFBeamCursor(TObject *parent, const Vec *position);
     virtual ~TObjDFBeamCursor();
     virtual void run_task();
+
+    s32 timer;    // spawns its particle effect at position when it runs out
+    Vec position;
 };
 class TObjDFRecBall : public TObject {
 public:
-    u8 _pad1C[0x28];
- void* m_44;
-public:
-    virtual void render();
+    TObjDFRecBall(TObject *parent, const Vec *position, const Vec *target);
     virtual ~TObjDFRecBall();
     virtual void run_task();
+
+    Vec pos;
+    Vec target;
+    Vec vel;
+    f32 speed;
+    void *model; // its particle emitter
+    s32 timer;
 };
 
 struct VBase_18_0c879f { char pad[0x18]; };
@@ -238,10 +249,7 @@ s32 TBoss4Type3__sub_8005254C(s16);
 void __dl__7TObjectFPv(void *);
 void __ct__7TObjectFP7TObject(void *, void *);
 
-extern void *__vt__11TObjDFJisin[];
 extern void *__vt__13TObjDFHorming[];
-extern void *__vt__13TObjDFRecBall[];
-extern void *__vt__16TObjDFBeamCursor[];
 extern s32 TObjDFJisin__particle_emitter_id_table[];
 extern s32 game_difficulty_selection;
 
@@ -423,42 +431,6 @@ void *__vt__13TObjDFHorming[] = {
     (void *)vfunc_76__9TObjCharaFf,
     (void *)vfunc_77__9TObjCharaFv,
     (void *)vfunc_78__9TObjCharaFl,
-};
-void *__vt__11TObjDFJisin[] = {
-    0,
-    0,
-    (void *)__dt__11TObjDFJisinFv,
-    (void *)run_task__11TObjDFJisinFv,
-    (void *)render__7TObjectFv,
-    (void *)render_shadows__7TObjectFv,
-};
-void *__vt__16TObjDFBeamCursor[] = {
-    0,
-    0,
-    (void *)__dt__16TObjDFBeamCursorFv,
-    (void *)run_task__16TObjDFBeamCursorFv,
-    (void *)render__7TObjectFv,
-    (void *)render_shadows__7TObjectFv,
-};
-void *__vt__13TObjDFRecBall[] = {
-    0,
-    0,
-    (void *)__dt__13TObjDFRecBallFv,
-    (void *)run_task__13TObjDFRecBallFv,
-    (void *)render__7TObjectFv,
-    (void *)render_shadows__7TObjectFv,
-};
-
-void *__dt__13TObjDFRecoverFv(void *arg0, s16 arg1);
-void run_task__13TObjDFRecoverFv();
-void __dt__7TObjectFv(void *, s16);
-void *__vt__13TObjDFRecover[] = {
-    0,
-    0,
-    (void *)__dt__13TObjDFRecoverFv,
-    (void *)run_task__13TObjDFRecoverFv,
-    (void *)render__7TObjectFv,
-    (void *)render_shadows__7TObjectFv,
 };
 }
 
@@ -899,16 +871,8 @@ TObjDFRecover::TObjDFRecover(TObject *parent, u16 id, const f32 *position) : TOb
     countdown = 5;
 }
 
-void *__dt__13TObjDFRecoverFv(void *obj_df_recover, s16 arg1) {
-    if (obj_df_recover != NULL) {
-        *(void **)((s8 *)obj_df_recover + 0x18) = __vt__13TObjDFRecover;
-        if (((TObjDFRecover *)obj_df_recover)->effect != 0) TParticleCtrl::release(((TObjDFRecover *)obj_df_recover)->effect);
-        __dt__7TObjectFv(obj_df_recover, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(obj_df_recover);
-        }
-    }
-    return obj_df_recover;
+TObjDFRecover::~TObjDFRecover() {
+    if (effect != 0) TParticleCtrl::release(effect);
 }
 
 #pragma push
@@ -971,41 +935,28 @@ void TObjDFRecover::run_task() {
 
 extern "C" {
 void * create__13TObjDFRecBallFPvPvPv(void *arg0, void *arg1, void *arg2) {
-    void *o;
-    o = TObject::operator new(0x4C);
-    if (o != NULL) {
-        o = TObjDFRecBall__ct((u8 *)o, (u8 *)arg0, (u8 *)arg1, (u8 *)arg2);
-    }
-    return o;
+    return new TObjDFRecBall((TObject *)arg0, (const Vec *)arg1, (const Vec *)arg2);
 }
 }
 
-extern "C" {
-u8 *TObjDFRecBall__ct(u8 *object, u8 *arg1, u8 *arg2, u8 *arg3) {
-    s32 temp_r31;
-    u8 *particle_emitter;
-    __ct__7TObjectFP7TObject(object, arg1);
-    *(s32 **)((s8 *)object + 0x18) = (s32 *)__vt__13TObjDFRecBall;
-    *(s32 *)((s8 *)object + 0) = (s32) TObjDFRecBall__name;
-    VecCopy((Vec *)(object + 0x1C), (const Vec *)arg2);
-    VecCopy((Vec *)(object + 0x28), (const Vec *)arg3);
-    temp_r31 = (s32) (65536.0f * (0.000030517578f * (f32) rand()));
-    *(f32 *)((s8 *)object + 0x34) = sin_table_lookup(temp_r31);
-    *(f32 *)((s8 *)object + 0x38) = (f32) lbl_805D8A30;
-    *(f32 *)((s8 *)object + 0x3C) = cos_table_lookup(temp_r31);
-    *(f32 *)((s8 *)object + 0x40) = (f32) lbl_805D8A34;
-    *(s32 *)((s8 *)object + 0x48) = 0x96;
-    particle_emitter = (u8 *)(create_particle_emitter((object + 0x1C), 0xAF));
-    *(u8 **)((s8 *)object + 0x44) = particle_emitter;
-    if (particle_emitter != NULL) {
-        ((TParticleCtrl *)(*(u8 **)((s8 *)object + 0x44)))->set_flags(0x40);
+TObjDFRecBall::TObjDFRecBall(TObject *parent, const Vec *position, const Vec *target_position) : TObject(parent) {
+    s32 angle;
+    m_name = TObjDFRecBall__name;
+    VecCopy(&pos, position);
+    VecCopy(&target, target_position);
+    angle = (s32) (65536.0f * (0.000030517578f * (f32) rand()));
+    vel.x = sin_table_lookup(angle);
+    vel.y = lbl_805D8A30;
+    vel.z = cos_table_lookup(angle);
+    speed = lbl_805D8A34;
+    timer = 150;
+    if ((model = create_particle_emitter(&pos, 0xAF)) != NULL) {
+        ((TParticleCtrl *)model)->set_flags(0x40);
     }
-    return object;
-}
 }
 
 TObjDFRecBall::~TObjDFRecBall() {
-    if (m_44 != nullptr) TParticleCtrl::release(m_44);
+    if (model != nullptr) TParticleCtrl::release(model);
 }
 
 #pragma push
@@ -1048,53 +999,34 @@ void TObjDFRecBall::run_task() {
 #pragma pop
 
 void * create__16TObjDFBeamCursorFPvPv(void *arg0, void *arg1) {
-    void *o;
-    o = TObject::operator new(0x2C);
-    if (o != NULL) {
-        o = TObjDFBeamCursor__ct(o, arg0, arg1);
-    }
-    return o;
+    return new TObjDFBeamCursor((TObject *)arg0, (const Vec *)arg1);
 }
 
-void *TObjDFBeamCursor__ct(void *arg0, void *arg1, void *arg2) {
-    ((void (*)(void *))__ct__7TObjectFP7TObject)(arg0);
-    *(s32 **)((s8 *)arg0 + 0x18) = (s32 *)__vt__16TObjDFBeamCursor;
-    *(const char **)((s8 *)arg0 + 0x0) = TObjDFBeamCursor__name;
-    *(u32 *)((s8 *)arg0 + 0x1C) = 32;
-    VecCopy((Vec *)((char *)arg0 + 32), (const Vec *)arg2);
-    return arg0;
+TObjDFBeamCursor::TObjDFBeamCursor(TObject *parent, const Vec *pos) : TObject(parent) {
+    m_name = TObjDFBeamCursor__name;
+    timer = 32;
+    VecCopy(&position, pos);
 }
 
 TObjDFBeamCursor::~TObjDFBeamCursor() {}
 
-void run_task__16TObjDFBeamCursorFv(u8 *arg0) {
-    s32 temp_r0;
-    temp_r0 = *(s32 *)((s8 *)arg0 + 0x1C) - 1;
-    *(s32 *)((s8 *)arg0 + 0x1C) = temp_r0;
-    if (temp_r0 <= 0) {
-        spawn_particle_effect((arg0 + 0x20), 0x38);
-        ((s32 (*)(void *))queue_destruction__7TObjectFv)(arg0);
+void TObjDFBeamCursor::run_task() {
+    if (--timer <= 0) {
+        spawn_particle_effect(&position, 0x38);
+        queue_destruction();
     }
 }
 
 void *TBoss4Type2::create_jisin(void *arg0, void *arg1) {
-    void *o;
-    o = TObject::operator new(0x2C);
-    if (o != NULL) {
-        o = ((void * (*)(void *, void *, void *))TObjDFJisin__ct)(o, arg0, arg1);
-    }
-    return o;
+    return new TObjDFJisin((TObject *)arg0, (s32)arg1);
 }
 
-u8 *TObjDFJisin__ct(u8 *object, u8 *arg1, s32 arg2) {
-    __ct__7TObjectFP7TObject(object, arg1);
-    *(s32 **)((s8 *)object + 0x18) = (s32 *)__vt__11TObjDFJisin;
-    ((TObject *)object)->m_name = TObjDFJisin__name;
-    *(f32 *)((s8 *)object + 0x1C) = (f32) (300.0f * sin_table_lookup(arg2));
-    *(f32 *)((s8 *)object + 0x20) = (f32) lbl_805D8A30;
-    *(f32 *)((s8 *)object + 0x24) = (f32) (-300.0f * cos_table_lookup(arg2));
-    *(f32 *)((s8 *)object + 0x28) = 25.0f;
-    return object;
+TObjDFJisin::TObjDFJisin(TObject *parent, s32 angle) : TObject(parent) {
+    m_name = TObjDFJisin__name;
+    center.x = 300.0f * sin_table_lookup(angle);
+    center.y = lbl_805D8A30;
+    center.z = -300.0f * cos_table_lookup(angle);
+    radius = 25.0f;
 }
 
 TObjDFJisin::~TObjDFJisin() {}
