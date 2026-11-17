@@ -312,13 +312,13 @@ s32 dispatch_chunk_vertex_list(u32*, s32);
 #pragma push
 #pragma scheduling off
 #pragma peephole off
-void submit_chunk_material_color(u8 type, s16* data) {
+void submit_chunk_material_color(s32 type, s16* data) {
     FloatColor add;
     ByteColor color;
     ByteColor fallback = {0, 0, 0, 0x7F};
     ByteColor converted;
     ByteColor convertedAdd;
-    if ((u32)((type-0x10)&1)!=0U) {
+    if ((u32)(((u8)type-0x10)&1)!=0U) {
         s16 gb=data[0],ar=data[1];
         color.a=(ar>>8)&255;
         color.r=(u8)ar;
@@ -541,81 +541,92 @@ extern u32 chunk_polygon_flags_and_mask;
 extern u32 chunk_polygon_flags_or_mask;
 }
 
+#pragma push
+#pragma bool off
+#pragma opt_propagation off
 void dispatch_chunk_polygon_list(s16 *list, s32 buffer) {
-    u16 length;
-    s16 info;
-    s16 type;
-    s16 cmd;
-    s16 size;
+    struct CommandState {
+        s16 wire;
+        int header;
+    } state;
+    s32 type;
+    u32 length;
+    s32 info;
     u32 changed;
 
-    while ((cmd = *list++) != 0xFF) {
-        type = cmd & 0xFF;
+    while ((state.header = (state.wire = *list++)) != 0xFF) {
+        s16 decoded = (s16)(state.header & 0xFF);
+        type = decoded;
         if (type < 8) {
             switch (type) {
             case 1:
-                set_chunk_blend(cmd);
+                set_chunk_blend(state.header);
                 break;
             case 4:
-                chunk_polygon_list_cache[(s16) ((cmd >> 8) & 0xFF)] = list;
+                chunk_polygon_list_cache[(s16)((state.header >> 8) & 0xFF)] = list;
                 lbl_805D7798++;
                 return;
             case 5:
-                dispatch_chunk_polygon_list(chunk_polygon_list_cache[(s16) ((cmd >> 8) & 0xFF)], buffer);
+                dispatch_chunk_polygon_list(chunk_polygon_list_cache[(s16)((state.header >> 8) & 0xFF)], buffer);
                 lbl_805D7798--;
                 break;
             }
         } else if (type < 0x10) {
-            apply_chunk_texture_command(cmd, list[0]);
+            apply_chunk_texture_command(state.header, (s16)*list);
             list++;
         } else if (type < 0x40) {
-            size = *list++;
-            set_chunk_blend(cmd);
-            submit_chunk_material_color(cmd, list);
-            list += size;
+            type = (s16)*list++;
+            set_chunk_blend(state.header);
+            submit_chunk_material_color(state.header, (s16 *)list);
+            list += type;
         } else {
-            length = ((u16 *) list)[0];
-            info = list[1];
-            list += 2;
-            if ((u32) (model_render_flags & 0x800) != 0) {
-                cmd &= chunk_polygon_flags_and_mask;
-                cmd |= chunk_polygon_flags_or_mask;
+            length = *(u16 *)list++;
+            info = (s16)*list++;
+            if ((u32)(model_render_flags & 0x800) != 0) {
+                struct MaskWord {
+                    s16 value;
+                } masked;
+                masked.value = state.wire;
+                masked.value &= chunk_polygon_flags_and_mask;
+                masked.value |= chunk_polygon_flags_or_mask;
+                state.header = masked.value;
             }
-            cmd >>= 8;
-            changed = (cmd ^ chunk_previous_strip_flags) | chunk_strip_dirty_flags;
-            chunk_previous_strip_flags = cmd;
+            state.header = (s16)(state.header >> 8);
+            changed = state.header ^ chunk_previous_strip_flags;
+            changed |= chunk_strip_dirty_flags;
+            chunk_previous_strip_flags = state.header;
             chunk_strip_dirty_flags = 0;
             if (changed & 1) {
-                set_strip_lighting_chan_ctrl(cmd);
+                set_strip_lighting_chan_ctrl(state.header);
             }
             switch (type) {
             case 0x40:
-                if (cmd & 0x40) {
-                    set_chunk_blend_depth_mode(cmd, 1);
+                if (state.header & 0x40) {
+                    set_chunk_blend_depth_mode(state.header, 1);
                     setup_chunk_tev_stages();
                     GXSetTexCoordGen2(0, 0, 1, 0x2A, 0, 0x7D);
                     draw_strip_pos_normal__10TObjPlayerFPvPvUi(list, (Vtx_803E36C4 *) buffer, info);
                 } else {
-                    set_chunk_blend_depth_mode(cmd, 0);
+                    set_chunk_blend_depth_mode(state.header, 0);
                     TObjPlayer::setup_tev_passclr();
                     draw_strip_list_pos_nrm__10TObjPlayerFPvPvUi(list, (Vtx_803E36C4 *) buffer, info);
                 }
                 break;
             case 0x41:
             case 0x42:
-                set_chunk_blend_depth_mode(cmd, 1);
-                if (cmd & 0x40) {
+                set_chunk_blend_depth_mode(state.header, 1);
+                if (state.header & 0x40) {
                     setup_chunk_tev_stages();
                     GXSetTexCoordGen2(0, 0, 1, 0x2A, 0, 0x7D);
                     draw_triangle_strips__10TObjPlayerFPvPvUi(list, (Vtx_803E36C4 *) buffer, info);
                 } else if (chunk_has_vertex_colors != 0) {
                     setup_chunk_tev_stages();
                     GXSetTexCoordGen2(0, 1, 4, 0x3C, 0, 0x7D);
-                    draw_chunk_color_tex_strips(list, (void *) buffer, info, type == 0x42);
+                    draw_chunk_color_tex_strips(list, (void *) buffer, info, (s32)(type == 0x42));
                 } else {
                     setup_chunk_tev_stages();
                     GXSetTexCoordGen2(0, 1, 4, 0x3C, 0, 0x7D);
-                    draw_chunk_textured_strips(list, (Vtx_803E36C4 *) buffer, info, type == 0x42);
+                    draw_chunk_textured_strips(list, (Vtx_803E36C4 *) buffer, info, (s32)(type == 0x42));
                 }
                 break;
             }
@@ -623,6 +634,7 @@ void dispatch_chunk_polygon_list(s16 *list, s32 buffer) {
         }
     }
 }
+#pragma pop
 
 extern "C" {
 void push_reordered_matrix_ps(void);
