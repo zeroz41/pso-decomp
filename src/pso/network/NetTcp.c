@@ -24,11 +24,11 @@
 s32 abort_tcp_connection(s16 arg0);
 void clear_position(TcpTcb *tcb);
 s32 close_if_open(TcpTcb *tcb);
-s32 get_field_534(TcpTcb *tcb);
-s32 get_field_d8(TcpTcb *tcb);
-s32 get_queue_diff(TcpTcb *tcb);
-s32 get_score(TcpTcb *tcb);
-s32 get_tcp_stat(s16 arg0, s16 *arg1, s16 *arg2, s32 *arg3, s32 *arg4);
+s32 get_rcv_bufsize(TcpTcb *tcb);
+s32 get_rcv_count(TcpTcb *tcb);
+s32 get_rcv_space(TcpTcb *tcb);
+s32 get_snd_queued(TcpTcb *tcb);
+s32 get_tcp_stat(s16 arg0, s16 *arg1, s16 *arg2, s32 *snd_space, s32 *rcv_count);
 void insert_item_at(TcpTcb *tcb, s16 idx, s32 a, s32 b);
 s32 mark_connection_closed(s16 arg0);
 void reset_slot_index(TcpTcb *tcb);
@@ -38,7 +38,7 @@ s16 validate_tcp_handle(s16 i);
 
 u16 TLobby__sub_8040D8F0(u8 *arg0, u8 *arg1, s8 arg2, u8 *arg3, s16 arg4);
 s16 TLobby__sub_8041D368(TcpTcb *tcb);
-s32 get_adjusted_slot_count(TcpTcb *tcb);
+s32 get_snd_space(TcpTcb *tcb);
 TcpTcb *TLobby__sub_8041B5C0(TcpTcb *tcb);
 
 s32 TLobby__sub_8041EB74(TcpTcb *tcb);
@@ -363,7 +363,7 @@ s16 TLobby__sub_8041A9AC(TcpTcb *tp)
             tp->snd_cwnd = ((s32)(b * 4) < (((s32)(b * 2) > 0x111c) ? (s32)(b * 2) : 0x111c)) ? (b * 4) : ((((s32)(b * 2) > 0x111c) ? (s32)(b * 2) : 0x111c));
             break;
         default:
-            tp->snd_cwnd = get_adjusted_slot_count(tp);
+            tp->snd_cwnd = get_snd_space(tp);
             break;
         }
     }
@@ -394,7 +394,7 @@ s16 TLobby__sub_8041A9AC(TcpTcb *tp)
             }
         }
         if (len == 0) {
-            len = ((u32)get_score(tp) < (u32)win ? get_score(tp) : win) - off;
+            len = ((u32)get_snd_queued(tp) < (u32)win ? get_snd_queued(tp) : win) - off;
         }
         t = tp->snd_cwnd - tp->f2F0;
         if (tp->f2F4 == tp->snd_una) {
@@ -407,7 +407,7 @@ s16 TLobby__sub_8041A9AC(TcpTcb *tp)
             len = t;
             sendalot = 0;
         }
-        if (off + len < get_score(tp)) {
+        if (off + len < get_snd_queued(tp)) {
             flags &= ~1;
         }
         if (len < 0) {
@@ -421,10 +421,10 @@ s16 TLobby__sub_8041A9AC(TcpTcb *tp)
             len = tp->maxseg;
             sendalot = 1;
         }
-        if ((s32)((tp->snd_nxt + len) - (tp->snd_una + get_score(tp))) < 0) {
+        if ((s32)((tp->snd_nxt + len) - (tp->snd_una + get_snd_queued(tp))) < 0) {
             flags &= ~1;
         }
-        recwin = get_queue_diff(tp);
+        recwin = get_rcv_space(tp);
         fin = flags & 1;
 
         if (fin != 0) {
@@ -452,9 +452,9 @@ s16 TLobby__sub_8041A9AC(TcpTcb *tp)
                 goto send;
             }
             if ((u32)tp->f204_b7 == 1) {
-                t = get_score(tp);
+                t = get_snd_queued(tp);
             } else {
-                t = ((u32)get_score(tp) < tp->f530) ? get_score(tp) : tp->f530;
+                t = ((u32)get_snd_queued(tp) < tp->snd_bufsize) ? get_snd_queued(tp) : tp->snd_bufsize;
             }
             if ((idle != 0 || (tp->flags & 4)) && len + off >= t) {
                 goto send;
@@ -478,11 +478,11 @@ s16 TLobby__sub_8041A9AC(TcpTcb *tp)
             if ((u32)win >= (u32)lim) {
                 goto send;
             }
-            if (win * 2 >= get_field_534(tp)) {
+            if (win * 2 >= get_rcv_bufsize(tp)) {
                 goto send;
             }
         }
-        if ((u32)get_score(tp) != 0 && tp->timers[0] == 0 && tp->timers[1] == 0) {
+        if ((u32)get_snd_queued(tp) != 0 && tp->timers[0] == 0 && tp->timers[1] == 0) {
             tp->rxtshift = 0;
             t = ((tp->srtt >> 2) + tp->rttvar) >> 1;
             tp->timers[1] = t * ts->backoff[tp->rxtshift];
@@ -512,7 +512,7 @@ send:
             opt[0] = 2;
             optp = opt;
             opt[1] = 4;
-            tmp = (tp->f534 < (u32)mss) ? tp->f534 : mss;
+            tmp = (tp->rcv_bufsize < (u32)mss) ? tp->rcv_bufsize : mss;
             NetMemcpy(optp + 2, &tmp, 2);
             optlen = 4;
             if (tp->sack_flags & 1) {
@@ -557,14 +557,14 @@ send:
             sendalot = 1;
         }
         th->flags = flags;
-        if ((u32)recwin < ((u32)get_field_534(tp) >> 2) && (u32)recwin < tp->maxseg) {
+        if ((u32)recwin < ((u32)get_rcv_bufsize(tp) >> 2) && (u32)recwin < tp->maxseg) {
             recwin = 0;
         }
         if (recwin < (s32)(tp->rcv_adv - tp->rcv_nxt)) {
             recwin = tp->rcv_adv - tp->rcv_nxt;
         }
-        if ((u32)recwin > tp->f534) {
-            recwin = tp->f534;
+        if ((u32)recwin > tp->rcv_bufsize) {
+            recwin = tp->rcv_bufsize;
         }
         th->win = recwin;
         if ((s32)(tp->snd_up - tp->snd_nxt) > 0) {
@@ -573,7 +573,7 @@ send:
         } else {
             tp->snd_up = tp->snd_una;
         }
-        if (len != 0 && off + len == get_score(tp)) {
+        if (len != 0 && off + len == get_snd_queued(tp)) {
             flags |= 8;
         }
         win = 0;
@@ -586,7 +586,7 @@ send:
         }
         m->fragment_count = 0;
         m->total_bytes = 0;
-        if (TLobby__sub_80420410(off, len, m, tp) < 0) {
+        if (tcp_gather_send_data(off, len, m, tp) < 0) {
             m->fragment_count = 0;
             m->total_bytes = 0;
         }
@@ -836,8 +836,8 @@ extern TcpTcb *TLobby__sub_8041B774(TcpTcb *self, TcpHdr *th, u8 *a, u8 *b) {
         return NULL;
     }
 
-    dst->f530 = self->f530;
-    dst->f534 = self->f534;
+    dst->snd_bufsize = self->snd_bufsize;
+    dst->rcv_bufsize = self->rcv_bufsize;
     if (TLobby__sub_8041ECA4(dst) < 0) {
         dst->state = 0;
         return NULL;
@@ -1061,7 +1061,7 @@ retry:
             }
             break;
         default:
-            ((TcpTcb *)ent_new)->snd_cwnd = get_adjusted_slot_count((TcpTcb *)ent_new);
+            ((TcpTcb *)ent_new)->snd_cwnd = get_snd_space((TcpTcb *)ent_new);
             break;
         }
         {
@@ -1123,7 +1123,7 @@ retry:
                 }
                 break;
             default:
-                ((TcpTcb *)found)->snd_cwnd = get_adjusted_slot_count((TcpTcb *)found);
+                ((TcpTcb *)found)->snd_cwnd = get_snd_space((TcpTcb *)found);
                 break;
             }
             if ((rtt = ((TcpTcb *)found)->rtt) != 0) {
@@ -1184,7 +1184,7 @@ retry:
     if (todrop > 0) {
         u16 segment_bytes = rem;
         if (todrop >= segment_bytes) {
-            if ((kind & 2) && *(s16 *)(found + offsetof(TcpTcb, t_state)) == 10 && ((TcpTcb *)found)->fD8 == 0 &&
+            if ((kind & 2) && *(s16 *)(found + offsetof(TcpTcb, t_state)) == 10 && ((TcpTcb *)found)->rcv_count == 0 &&
                 (s32)(hdr.seq - *(u32 *)(found + offsetof(TcpTcb, rcv_nxt))) > 0) {
                 flag = *(u32 *)(found + offsetof(TcpTcb, rcv_nxt)) + 0x1F400;
                 NetDispatchSocketEvent(TCP_IDX(found), ((TcpTcb *)found)->event_ctx, 3, 4);
@@ -1254,7 +1254,7 @@ retry:
             }
             break;
         default:
-            ((TcpTcb *)found)->snd_cwnd = get_adjusted_slot_count((TcpTcb *)found);
+            ((TcpTcb *)found)->snd_cwnd = get_snd_space((TcpTcb *)found);
             break;
         }
         ((TcpTcb *)found)->snd_cwnd -= *(u16 *)(found + offsetof(TcpTcb, maxseg));
@@ -1408,7 +1408,7 @@ retry:
             *(u32 *)(found + offsetof(TcpTcb, snd_cwnd)) = (u16)TCP_MIN((s32)(cw + incr), 0xFFFF);
         }
         {
-            s32 n = get_score((TcpTcb *)found);
+            s32 n = get_snd_queued((TcpTcb *)found);
 
             if (acked > n) {
                 ourfinisacked = 1;
@@ -1435,10 +1435,10 @@ retry:
         case 7:
             if (ourfinisacked) {
                 *(s16 *)(found + offsetof(TcpTcb, t_state)) = 10;
-                if ((u32)get_score((TcpTcb *)found) == 0) {
+                if ((u32)get_snd_queued((TcpTcb *)found) == 0) {
                     close_if_open((TcpTcb *)found);
                 }
-                if ((u32)get_field_d8((TcpTcb *)found) == 0) {
+                if ((u32)get_rcv_count((TcpTcb *)found) == 0) {
                     TLobby__sub_8041EB74((TcpTcb *)found);
                 }
                 clear_position((TcpTcb *)found);
@@ -1473,7 +1473,7 @@ step6:
         changed = 1;
     }
     if ((kind & 0x20) && hdr.urp != 0 && !(((TcpTcb *)found)->flags & 0x08)) {
-        if ((u32)get_queue_diff((TcpTcb *)found) + hdr.urp > 0x10000) {
+        if ((u32)get_rcv_space((TcpTcb *)found) + hdr.urp > 0x10000) {
             hdr.urp = 0;
             kind &= ~0x20;
         } else {
@@ -1533,10 +1533,10 @@ L1397:
         break;
     case 9:
         *(s16 *)(found + offsetof(TcpTcb, t_state)) = 10;
-        if ((u32)get_score((TcpTcb *)found) == 0) {
+        if ((u32)get_snd_queued((TcpTcb *)found) == 0) {
             close_if_open((TcpTcb *)found);
         }
-        if ((u32)get_field_d8((TcpTcb *)found) == 0) {
+        if ((u32)get_rcv_count((TcpTcb *)found) == 0) {
             TLobby__sub_8041EB74((TcpTcb *)found);
         }
         clear_position((TcpTcb *)found);
@@ -1990,7 +1990,7 @@ s32 TLobby__sub_8041DBD4(s16 arg0, s32 arg1, s32 len, s32 arg3) {
     switch (e->t_state) {
     case 0:
     case 4: case 5: case 6: case 7: case 8: case 9: case 10:
-        if ((e->fA & 4) && (e->rcv_buf.kind == 0 || (u32)get_field_d8(e) == 0)) {
+        if ((e->fA & 4) && (e->rcv_buf.kind == 0 || (u32)get_rcv_count(e) == 0)) {
             return -4;
         }
         break;
@@ -2066,16 +2066,16 @@ s32 TLobby__sub_8041DE1C(s16 i, s16 opt, u32 *val) {
         tcb->idle = 0;
         break;
     case 0x1001:
-        if (*val > g->f8) {
+        if (*val > g->snd_bufsize) {
             return -2;
         }
-        tcb->f530 = *val;
+        tcb->snd_bufsize = *val;
         break;
     case 0x1002:
-        if (*val > g->fC) {
+        if (*val > g->rcv_bufsize) {
             return -2;
         }
-        tcb->f534 = *val;
+        tcb->rcv_bufsize = *val;
         break;
     case 0x2001:
         if (*val != 0) {
@@ -2127,7 +2127,7 @@ s32 TLobby__sub_8041DE1C(s16 i, s16 opt, u32 *val) {
 
 #pragma push
 #pragma pool_data off
-s32 get_tcp_stat(s16 arg0, s16 *arg1, s16 *arg2, s32 *adjusted_slot_count, s32 *arg4) {
+s32 get_tcp_stat(s16 arg0, s16 *arg1, s16 *arg2, s32 *snd_space, s32 *rcv_count) {
     s16 r;
     TcpTcb *e;
 
@@ -2153,11 +2153,11 @@ s32 get_tcp_stat(s16 arg0, s16 *arg1, s16 *arg2, s32 *adjusted_slot_count, s32 *
             *arg2 = 0;
         }
     }
-    if (adjusted_slot_count != NULL) {
-        *adjusted_slot_count = get_adjusted_slot_count(e);
+    if (snd_space != NULL) {
+        *snd_space = get_snd_space(e);
     }
-    if (arg4 != NULL) {
-        *arg4 = get_field_d8(e);
+    if (rcv_count != NULL) {
+        *rcv_count = get_rcv_count(e);
     }
     return 0;
 }
@@ -2272,7 +2272,7 @@ s16 tcp_connect_start(s16 arg0, s32 arg1, s16 arg2) {
         close_if_open(e);
         return r;
     }
-    e->snd_cwnd = (u16)get_adjusted_slot_count(e);
+    e->snd_cwnd = (u16)get_snd_space(e);
     e->t_state = 2;
     e->timers[2] = 0x96;
     {
@@ -2464,8 +2464,8 @@ void TLobby__sub_8041E8A8(s16 idx) {
         p->start = 0;
     }
     t->seg_top = -1;
-    t->f530 = tcp_protocol_state.f8;
-    t->f534 = tcp_protocol_state.fC;
+    t->snd_bufsize = tcp_protocol_state.snd_bufsize;
+    t->rcv_bufsize = tcp_protocol_state.rcv_bufsize;
     t->event_ctx = 0;
     t->f53C = tcp_protocol_state.f26;
     t->ack_delay = 0;
@@ -2548,15 +2548,15 @@ s16 TLobby__sub_8041EC14(TcpTcb *tcb) {
     s32 spC[3];
 
     if (tcb->rcv_buf.kind == 0) {
-        if (TLobby__sub_80415954(&spC[0], tcb->f534, 1) < 0) {
+        if (TLobby__sub_80415954(&spC[0], tcb->rcv_bufsize, 1) < 0) {
             return -0x102;
         }
         init_msg(&tcb->rcv_alloc, spC[0]);
         set_value_and_enable(&tcb->rcv_buf, spC[0]);
     }
-    tcb->fD8 = 0;
-    tcb->fDC = 0;
-    tcb->fE0 = 0;
+    tcb->rcv_count = 0;
+    tcb->rcv_head = 0;
+    tcb->rcv_tail = 0;
     tcb->reasm_total = 0;
     tcb->reasm_n = -1;
     tcb->last_reasm = -1;
@@ -2568,41 +2568,41 @@ s16 TLobby__sub_8041ECA4(TcpTcb *tcb) {
     s32 spC;
 
     if (tcb->snd_buf.kind == 0) {
-        if (TLobby__sub_80415954(&spC, tcb->f530, 1) < 0) {
+        if (TLobby__sub_80415954(&spC, tcb->snd_bufsize, 1) < 0) {
             return -0x102;
         }
         init_msg(&tcb->snd_alloc, spC);
         set_value_and_enable(&tcb->snd_buf, spC);
     }
-    tcb->f20 = 0;
-    off = offsetof(TcpTcb, f24);
+    tcb->snd_count = 0;
+    off = offsetof(TcpTcb, snd_head);
     *(s32 *)((u8 *)tcb + off) = 0;
-    tcb->f28 = 0;
+    tcb->snd_tail = 0;
     return 0;
 }
 
-s32 get_field_534(TcpTcb *tcb) {
-    return tcb->f534;
+s32 get_rcv_bufsize(TcpTcb *tcb) {
+    return tcb->rcv_bufsize;
 }
 
-s32 get_field_d8(TcpTcb *tcb) {
-    return tcb->fD8;
+s32 get_rcv_count(TcpTcb *tcb) {
+    return tcb->rcv_count;
 }
 
-s32 get_score(TcpTcb *tcb) {
+s32 get_snd_queued(TcpTcb *tcb) {
     if (tcb->f204_b7) {
         return tcb->req.total_bytes;
     }
-    return tcb->f20 + tcb->req.total_bytes;
+    return tcb->snd_count + tcb->req.total_bytes;
 }
 
-s32 get_queue_diff(TcpTcb *tcb) {
-    return tcb->f534 - tcb->fD8;
+s32 get_rcv_space(TcpTcb *tcb) {
+    return tcb->rcv_bufsize - tcb->rcv_count;
 }
 
-s32 get_adjusted_slot_count(TcpTcb *tcb) {
+s32 get_snd_space(TcpTcb *tcb) {
     if (tcb->f204_b7) {
-        return tcb->f530;
+        return tcb->snd_bufsize;
     }
-    return tcb->f530 - tcb->f20;
+    return tcb->snd_bufsize - tcb->snd_count;
 }

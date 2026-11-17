@@ -63,20 +63,21 @@ struct TcpTcb {
     u8 dupacks; /* duplicate ACKs received in a row (fast retransmit) */
     u8 error; /* why the connection was dropped (TLobby__sub_8041A498) */
     u8 padF;
-    /* send buffer: a ring of f530 bytes, plus up to 12 queued user buffers. While f204_b7 is set the ring holds 16-byte
-       TcpSendEntry records instead (SocketProtocolRuntime.c): f20 counts them, f24 is the index of the oldest. */
+    /* send buffer: a ring of snd_bufsize bytes, plus up to 12 queued user buffers. While f204_b7 is set the ring holds
+       16-byte TcpSendEntry records instead (SocketProtocolRuntime.c): snd_count counts them, snd_head is the index of
+       the oldest. */
     NetBufferRef snd_buf;
     NetBufferRef snd_alloc; /* the block behind snd_buf, freed by TLobby__sub_8041579C */
-    u32 f20;
-    u32 f24;
-    u32 f28;
+    u32 snd_count; /* bytes in the ring, from the oldest unacknowledged one (records while f204_b7 is set) */
+    u32 snd_head; /* ring offset of the oldest unacknowledged byte (record index while f204_b7 is set) */
+    u32 snd_tail; /* ring offset where the next queued byte goes */
     NetPacket req; /* the queued send request (TLobby__sub_80420BD0) */
-    /* receive buffer: a ring of f534 bytes, read into rcv_user */
+    /* receive buffer: a ring of rcv_bufsize bytes, read into rcv_user */
     NetBufferRef rcv_buf;
     NetBufferRef rcv_alloc; /* the block behind rcv_buf */
-    u32 fD8;
-    u32 fDC;
-    u32 fE0;
+    u32 rcv_count; /* bytes in the ring not yet read */
+    u32 rcv_head; /* ring offset of the next byte to read */
+    u32 rcv_tail; /* ring offset where the next received byte goes */
     NetBufferRef rcv_user; /* the pending tcp_receive buffer; its kind is cleared when the receive completes */
     u32 fEC;
     s32 fF0;
@@ -145,8 +146,8 @@ struct TcpTcb {
     s32 edge;
     s32 stamp;
     TcpSackSeg segs[32];
-    u32 f530;
-    u32 f534;
+    u32 snd_bufsize; /* option 0x1001 (SO_SNDBUF) */
+    u32 rcv_bufsize; /* option 0x1002 (SO_RCVBUF) */
     s16 ack_delay;
     u8 pad53A[2];
     u32 f53C;
@@ -162,8 +163,8 @@ typedef struct TcpState {
     TcpTcb *tcbs;
     s16 count;
     s16 freed;
-    u32 f8;
-    u32 fC;
+    u32 snd_bufsize; /* new TCBs' TcpTcb.snd_bufsize, and the most option 0x1001 may set */
+    u32 rcv_bufsize; /* new TCBs' TcpTcb.rcv_bufsize, and the most option 0x1002 may set */
     u16 port;
     u16 port_min;
     u16 port_max;
@@ -204,7 +205,10 @@ s32 TLobby__sub_8041F11C(TcpTcb *self);
 s32 TLobby__sub_8041F204(NetPacket *pkt, u16 x, TcpTcb *self);
 s32 TLobby__sub_8041F914(NetPacket *pkt, u16 x, TcpTcb *o, TcpHdr *th);
 s32 TLobby__sub_8041FFF8(u32 len, TcpTcb *self);
-s32 TLobby__sub_80420410(u32 off, u32 len, NetPacket *pkt, TcpTcb *o);
+/* Add len bytes of queued send data, starting off bytes past the oldest unacknowledged byte, to pkt's fragment list
+   (as buffer references, no copy; BSD tcp_output's m_copy). The fragments are stored last first. Returns -1 when off
+   is past the queued data, or (while f204_b7 is set) when len is 0 or the ring is empty. */
+s32 tcp_gather_send_data(u32 off, u32 len, NetPacket *pkt, TcpTcb *tp);
 s32 TLobby__sub_80420BD0(NetPacket *req, TcpTcb *s, void (*done)(s16, s16));
 #ifdef __cplusplus
 }
