@@ -7403,17 +7403,22 @@ pso/ui/window/TWindowReturnCity.cpp:
 	.sdata2     start:0x805DD2E8 end:0x805DD2EC
 
 pso/ui/window/TWindowRoom.cpp:
-	.text       start:0x8026D504 end:0x8026D790
+	.text       start:0x8026D504 end:0x8026D740
 	.rodata     start:0x8044F510 end:0x8044F51C
 	.data       start:0x804D08B8 end:0x804D08F0
 	.sdata      start:0x805D39C0 end:0x805D39C4
-	.sdata2     start:0x805DD2F0 end:0x805DD2FC
+	.sdata2     start:0x805DD2F0 end:0x805DD2F8
+
+pso/ui/window/TWindowSubStatusDisp_8026D740.cpp:
+	.text       start:0x8026D740 end:0x8026DA44
+	.sdata2     start:0x805DD2F8 end:0x805DD334
 
 pso/ui/window/TWindowSetLevelUp.cpp:
-	.text       start:0x8026D790 end:0x8026DE30
-	.rodata     start:0x8044F520 end:0x8044F534
+	.text       start:0x8026DA44 end:0x8026DE30
+	.rodata     start:0x8044F520 end:0x8044F550
 	.data       start:0x804D0908 end:0x804D0948
 	.sdata      start:0x805D39C8 end:0x805D39D0
+	.sdata2     start:0x805DD338 end:0x805DD340
 
 pso/ui/window/TWindowMenuIconLine_8026DE30.cpp:
 	.text       start:0x8026DE30 end:0x8026DE94

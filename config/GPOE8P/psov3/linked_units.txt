@@ -1408,6 +1408,7 @@ pso/ui/window/TWindowPartyStatus.cpp
 pso/ui/window/TWindowQuantity.cpp
 pso/ui/window/TWindowReturnCity.cpp
 pso/ui/window/TWindowSetLevelUp.cpp
+pso/ui/window/TWindowSubStatusDisp_8026D740.cpp
 pso/ui/window/TWindowShop.cpp
 pso/ui/window/TWindowShortCut.cpp
 pso/ui/window/TWindowShortListCtrl.cpp
