@@ -1008,168 +1008,6 @@ s32 shutdown_network_handle(void) {
     return 0;
 }
 
-void init_msg(void *self, s32 arg1) {
-    ((NetBufferRef *)self)->value = arg1;
-    ((NetBufferRef *)self)->kind = 4;
-}
-
-void init_packet_header(void *self, s32 arg1) {
-    ((NetBufferRef *)self)->value = arg1;
-    ((NetBufferRef *)self)->kind = 3;
-}
-
-void set_value_and_enable(void *self, s32 arg1) {
-    ((NetBufferRef *)self)->value = arg1;
-    ((NetBufferRef *)self)->kind = 1;
-}
-
-#pragma push
-#pragma opt_common_subs on
-#pragma opt_propagation off
-void netbuf_copy_by_ref(void *a, void *b, s32 v) {
-    switch (((NetBufferRef *)b)->kind) {
-    case 1:
-    case 4:
-        switch (((NetBufferRef *)a)->kind) {
-        case 1:
-        case 4:
-            NetMemcpy((void *)((NetBufferRef *)a)->value, (void *)((NetBufferRef *)b)->value, v);
-            break;
-        case 2:
-            {
-        u32 word = ((NetBufferRef *)a)->value;
-        s16 id = (s16)(word >> 24);
-        u32 hi;
-        u8 *rec;
-        u8 *ent;
-        u32 t;
-        if (network_buffer_pool_state.count < id) {
-            return;
-        }
-        hi = word >> 16;
-        rec = (u8 *)network_buffer_pool_state.ents;
-        rec += id * (s32)sizeof(NetBufferPoolEntry);
-        ent = rec + (s16)(hi & 0xff) * (s32)sizeof(NetBufferSegment);
-        t = *(u16 *)(ent + offsetof(NetBufferPoolEntry, segs[0].offset)) + (word & 0xffff) + *(u32 *)(rec + offsetof(NetBufferPoolEntry, buf));
-        NetMemcpy((void *)t, (void *)((NetBufferRef *)b)->value, v);
-        break;
-    }
-        case 3:
-            NetMemcpy((void *)((NetBufferRef *)a)->value, (void *)((NetBufferRef *)b)->value, v);
-            break;
-        }
-        break;
-    case 2:
-        switch (((NetBufferRef *)a)->kind) {
-        case 1:
-        case 4:
-            {
-        u32 word = ((NetBufferRef *)b)->value;
-        s16 id = (s16)(word >> 24);
-        u32 hi;
-        u8 *rec;
-        u8 *ent;
-        u32 t;
-        if (network_buffer_pool_state.count < id) {
-            return;
-        }
-        hi = word >> 16;
-        rec = (u8 *)network_buffer_pool_state.ents;
-        rec += id * (s32)sizeof(NetBufferPoolEntry);
-        ent = rec + (s16)(hi & 0xff) * (s32)sizeof(NetBufferSegment);
-        t = *(u16 *)(ent + offsetof(NetBufferPoolEntry, segs[0].offset)) + (word & 0xffff) + *(u32 *)(rec + offsetof(NetBufferPoolEntry, buf));
-        NetMemcpy((void *)((NetBufferRef *)a)->value, (void *)t, v);
-        break;
-    }
-        case 2:
-            {
-        u32 word = ((NetBufferRef *)b)->value;
-        u32 word2;
-        s16 id = (s16)(word >> 24);
-        s16 cnt = network_buffer_pool_state.count;
-        NetBufferPoolEntry *ents;
-        u32 hi;
-        u8 *ent;
-        u32 t;
-        s16 id2;
-        u32 raw;
-        u8 *rec;
-        u32 t2;
-        if (cnt < id) {
-            return;
-        }
-        hi = word >> 16;
-        word2 = ((NetBufferRef *)a)->value;
-        ents = network_buffer_pool_state.ents;
-        rec = (u8 *)&ents[id];
-        raw = word2 >> 24;
-        ent = rec + (s16)(hi & 0xff) * (s32)sizeof(NetBufferSegment);
-        id2 = (s16)raw;
-        t = *(u16 *)(ent + offsetof(NetBufferPoolEntry, segs[0].offset)) + (word & 0xffff) + *(u32 *)(rec + offsetof(NetBufferPoolEntry, buf));
-        if (cnt < id2) {
-            return;
-        }
-        hi = word2 >> 16;
-        rec = (u8 *)&ents[id2];
-        ent = rec + (s16)(hi & 0xff) * (s32)sizeof(NetBufferSegment);
-        t2 = *(u16 *)(ent + offsetof(NetBufferPoolEntry, segs[0].offset)) + (word2 & 0xffff) + *(u32 *)(rec + offsetof(NetBufferPoolEntry, buf));
-        NetMemcpy((void *)t2, (void *)t, v);
-        break;
-    }
-        case 3:
-            {
-        u32 word = ((NetBufferRef *)b)->value;
-        s16 id = (s16)(word >> 24);
-        u32 hi;
-        u8 *rec;
-        u8 *ent;
-        u32 t;
-        if (network_buffer_pool_state.count < id) {
-            return;
-        }
-        hi = word >> 16;
-        rec = (u8 *)network_buffer_pool_state.ents;
-        rec += id * (s32)sizeof(NetBufferPoolEntry);
-        ent = rec + (s16)(hi & 0xff) * (s32)sizeof(NetBufferSegment);
-        t = *(u16 *)(ent + offsetof(NetBufferPoolEntry, segs[0].offset)) + (word & 0xffff) + *(u32 *)(rec + offsetof(NetBufferPoolEntry, buf));
-        NetMemcpy((void *)((NetBufferRef *)a)->value, (void *)t, v);
-        break;
-    }
-        }
-        break;
-    case 3:
-        switch (((NetBufferRef *)a)->kind) {
-        case 1:
-        case 4:
-            NetMemcpy((void *)((NetBufferRef *)a)->value, (void *)((NetBufferRef *)b)->value, v);
-            break;
-        case 2:
-            {
-        u32 word = ((NetBufferRef *)a)->value;
-        s16 id = (s16)(word >> 24);
-        u32 hi;
-        u8 *rec;
-        u8 *ent;
-        u32 t;
-        if (network_buffer_pool_state.count < id) {
-            return;
-        }
-        hi = word >> 16;
-        rec = (u8 *)network_buffer_pool_state.ents;
-        rec += id * (s32)sizeof(NetBufferPoolEntry);
-        ent = rec + (s16)(hi & 0xff) * (s32)sizeof(NetBufferSegment);
-        t = *(u16 *)(ent + offsetof(NetBufferPoolEntry, segs[0].offset)) + (word & 0xffff) + *(u32 *)(rec + offsetof(NetBufferPoolEntry, buf));
-        NetMemcpy((void *)t, (void *)((NetBufferRef *)b)->value, v);
-        break;
-    }
-        case 3:
-            NetMemcpy((void *)((NetBufferRef *)a)->value, (void *)((NetBufferRef *)b)->value, v);
-            break;
-        }
-        break;
-    }
-}
-#pragma pop
 #pragma push
 #pragma optimization_level 3
 s32 reset_socket_table(void) {
@@ -1385,6 +1223,169 @@ u8 *netbuf_ref_data(void *self)
         return 0;
     }
 }
+
+void init_msg(void *self, s32 arg1) {
+    ((NetBufferRef *)self)->value = arg1;
+    ((NetBufferRef *)self)->kind = 4;
+}
+
+void init_packet_header(void *self, s32 arg1) {
+    ((NetBufferRef *)self)->value = arg1;
+    ((NetBufferRef *)self)->kind = 3;
+}
+
+void set_value_and_enable(void *self, s32 arg1) {
+    ((NetBufferRef *)self)->value = arg1;
+    ((NetBufferRef *)self)->kind = 1;
+}
+
+#pragma push
+#pragma opt_common_subs on
+#pragma opt_propagation off
+void netbuf_copy_by_ref(void *a, void *b, s32 v) {
+    switch (((NetBufferRef *)b)->kind) {
+    case 1:
+    case 4:
+        switch (((NetBufferRef *)a)->kind) {
+        case 1:
+        case 4:
+            NetMemcpy((void *)((NetBufferRef *)a)->value, (void *)((NetBufferRef *)b)->value, v);
+            break;
+        case 2:
+            {
+        u32 word = ((NetBufferRef *)a)->value;
+        s16 id = (s16)(word >> 24);
+        u32 hi;
+        u8 *rec;
+        u8 *ent;
+        u32 t;
+        if (network_buffer_pool_state.count < id) {
+            return;
+        }
+        hi = word >> 16;
+        rec = (u8 *)network_buffer_pool_state.ents;
+        rec += id * (s32)sizeof(NetBufferPoolEntry);
+        ent = rec + (s16)(hi & 0xff) * (s32)sizeof(NetBufferSegment);
+        t = *(u16 *)(ent + offsetof(NetBufferPoolEntry, segs[0].offset)) + (word & 0xffff) + *(u32 *)(rec + offsetof(NetBufferPoolEntry, buf));
+        NetMemcpy((void *)t, (void *)((NetBufferRef *)b)->value, v);
+        break;
+    }
+        case 3:
+            NetMemcpy((void *)((NetBufferRef *)a)->value, (void *)((NetBufferRef *)b)->value, v);
+            break;
+        }
+        break;
+    case 2:
+        switch (((NetBufferRef *)a)->kind) {
+        case 1:
+        case 4:
+            {
+        u32 word = ((NetBufferRef *)b)->value;
+        s16 id = (s16)(word >> 24);
+        u32 hi;
+        u8 *rec;
+        u8 *ent;
+        u32 t;
+        if (network_buffer_pool_state.count < id) {
+            return;
+        }
+        hi = word >> 16;
+        rec = (u8 *)network_buffer_pool_state.ents;
+        rec += id * (s32)sizeof(NetBufferPoolEntry);
+        ent = rec + (s16)(hi & 0xff) * (s32)sizeof(NetBufferSegment);
+        t = *(u16 *)(ent + offsetof(NetBufferPoolEntry, segs[0].offset)) + (word & 0xffff) + *(u32 *)(rec + offsetof(NetBufferPoolEntry, buf));
+        NetMemcpy((void *)((NetBufferRef *)a)->value, (void *)t, v);
+        break;
+    }
+        case 2:
+            {
+        u32 word = ((NetBufferRef *)b)->value;
+        u32 word2;
+        s16 id = (s16)(word >> 24);
+        s16 cnt = network_buffer_pool_state.count;
+        NetBufferPoolEntry *ents;
+        u32 hi;
+        u8 *ent;
+        u32 t;
+        s16 id2;
+        u32 raw;
+        u8 *rec;
+        u32 t2;
+        if (cnt < id) {
+            return;
+        }
+        hi = word >> 16;
+        word2 = ((NetBufferRef *)a)->value;
+        ents = network_buffer_pool_state.ents;
+        rec = (u8 *)&ents[id];
+        raw = word2 >> 24;
+        ent = rec + (s16)(hi & 0xff) * (s32)sizeof(NetBufferSegment);
+        id2 = (s16)raw;
+        t = *(u16 *)(ent + offsetof(NetBufferPoolEntry, segs[0].offset)) + (word & 0xffff) + *(u32 *)(rec + offsetof(NetBufferPoolEntry, buf));
+        if (cnt < id2) {
+            return;
+        }
+        hi = word2 >> 16;
+        rec = (u8 *)&ents[id2];
+        ent = rec + (s16)(hi & 0xff) * (s32)sizeof(NetBufferSegment);
+        t2 = *(u16 *)(ent + offsetof(NetBufferPoolEntry, segs[0].offset)) + (word2 & 0xffff) + *(u32 *)(rec + offsetof(NetBufferPoolEntry, buf));
+        NetMemcpy((void *)t2, (void *)t, v);
+        break;
+    }
+        case 3:
+            {
+        u32 word = ((NetBufferRef *)b)->value;
+        s16 id = (s16)(word >> 24);
+        u32 hi;
+        u8 *rec;
+        u8 *ent;
+        u32 t;
+        if (network_buffer_pool_state.count < id) {
+            return;
+        }
+        hi = word >> 16;
+        rec = (u8 *)network_buffer_pool_state.ents;
+        rec += id * (s32)sizeof(NetBufferPoolEntry);
+        ent = rec + (s16)(hi & 0xff) * (s32)sizeof(NetBufferSegment);
+        t = *(u16 *)(ent + offsetof(NetBufferPoolEntry, segs[0].offset)) + (word & 0xffff) + *(u32 *)(rec + offsetof(NetBufferPoolEntry, buf));
+        NetMemcpy((void *)((NetBufferRef *)a)->value, (void *)t, v);
+        break;
+    }
+        }
+        break;
+    case 3:
+        switch (((NetBufferRef *)a)->kind) {
+        case 1:
+        case 4:
+            NetMemcpy((void *)((NetBufferRef *)a)->value, (void *)((NetBufferRef *)b)->value, v);
+            break;
+        case 2:
+            {
+        u32 word = ((NetBufferRef *)a)->value;
+        s16 id = (s16)(word >> 24);
+        u32 hi;
+        u8 *rec;
+        u8 *ent;
+        u32 t;
+        if (network_buffer_pool_state.count < id) {
+            return;
+        }
+        hi = word >> 16;
+        rec = (u8 *)network_buffer_pool_state.ents;
+        rec += id * (s32)sizeof(NetBufferPoolEntry);
+        ent = rec + (s16)(hi & 0xff) * (s32)sizeof(NetBufferSegment);
+        t = *(u16 *)(ent + offsetof(NetBufferPoolEntry, segs[0].offset)) + (word & 0xffff) + *(u32 *)(rec + offsetof(NetBufferPoolEntry, buf));
+        NetMemcpy((void *)t, (void *)((NetBufferRef *)b)->value, v);
+        break;
+    }
+        case 3:
+            NetMemcpy((void *)((NetBufferRef *)a)->value, (void *)((NetBufferRef *)b)->value, v);
+            break;
+        }
+        break;
+    }
+}
+#pragma pop
 
 void release_entry(NetPacket *e) {
     s16 i;
