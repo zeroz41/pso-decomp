@@ -1878,6 +1878,9 @@ pso/enemy/panarms/TObjEnePanarmsAtkColli.cpp:
 	.sdata      start:0x805D2AC0 end:0x805D2AC8
 	.sdata2     start:0x805DA5A0 end:0x805DA5B8
 
+pso/enemy/shinowa/ShinowaData.cpp:
+	.rodata     start:0x8043CE00 end:0x8043CF40
+
 pso/enemy/shinowa/TObjEneMe3Shinowa.cpp:
 	.text       start:0x800E3970 end:0x800E80A4
 	.rodata     start:0x8043CF40 end:0x8043D008
