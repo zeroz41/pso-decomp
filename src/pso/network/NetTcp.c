@@ -586,7 +586,7 @@ send:
         }
         m->fragment_count = 0;
         m->total_bytes = 0;
-        if (TLobby__sub_80420410(off, len, m, tp) < 0) {
+        if (tcp_gather_send_data(off, len, m, tp) < 0) {
             m->fragment_count = 0;
             m->total_bytes = 0;
         }

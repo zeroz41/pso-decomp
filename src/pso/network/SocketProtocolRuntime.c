@@ -662,108 +662,108 @@ s32 TLobby__sub_8041FFF8(u32 len, TcpTcb *self) {
 
 #pragma push
 #pragma opt_propagation off
-s32 TLobby__sub_80420410(u32 off, u32 len, NetPacket *pkt, TcpTcb *o) {
-    s32 idx;
-    s32 i;
-    s32 k;
-    TcpSendEntry ent;
-    u32 t;
-    NetBufferRef c;
+s32 tcp_gather_send_data(u32 off, u32 len, NetPacket *pkt, TcpTcb *tp) {
+    s32 rec_idx;
+    s32 shift;
+    s32 first_qi;
+    TcpSendEntry rec;
+    u32 tail;
+    NetBufferRef ring;
     u32 pos;
-    s32 j;
+    s32 swap_len;
     u32 rem;
-    s32 start;
-    s32 cnt;
-    u16 ob;
-    NetBufferRef b;
+    s32 first_frag;
+    s32 count;
+    u16 skip;
+    NetBufferRef data;
     s32 hi;
     u16 off16;
     s32 lo;
     s32 ic;
     s32 g;
-    NetPacketFragment *pa;
-    NetBufferRef a;
-    s32 ka;
-    s32 m;
-    s32 ib;
-    NetPacketFragment *it;
+    NetPacketFragment *frag;
+    NetBufferRef rec_ref;
+    s32 nfrag;
+    s32 chunk;
+    s32 qi;
+    NetPacketFragment *qf;
     s32 jb;
     NetPacketFragment *itc;
     NetBufferRef tmp;
     NetPacketFragment *slot;
 
-    if (o->f204_b7 == 1) {
-        c.kind = 1;
-        b.kind = 1;
-        a.kind = 1;
+    if (tp->f204_b7 == 1) {
+        ring.kind = 1;
+        data.kind = 1;
+        rec_ref.kind = 1;
         rem = len;
-        if (len != 0 && o->f20 != 0) {
-            set_value_and_enable(&a, (s32)&ent);
-            idx = o->f24;
-            NetMemcpy(&c, &o->snd_buf, 8);
-            if (idx != 0) {
-                netbuf_ref_advance(&c, idx << 4);
+        if (len != 0 && tp->f20 != 0) {
+            set_value_and_enable(&rec_ref, (s32)&rec);
+            rec_idx = tp->f24;
+            NetMemcpy(&ring, &tp->snd_buf, 8);
+            if (rec_idx != 0) {
+                netbuf_ref_advance(&ring, rec_idx << 4);
             }
-            netbuf_copy_by_ref(&a, &c, 16);
+            netbuf_copy_by_ref(&rec_ref, &ring, 16);
             if (off != 0) {
-                while ((u32)ent.len <= off) {
-                    off -= ent.len;
-                    if (idx < 64) {
-                        idx++;
+                while ((u32)rec.len <= off) {
+                    off -= rec.len;
+                    if (rec_idx < 64) {
+                        rec_idx++;
                     } else {
-                        idx = 0;
+                        rec_idx = 0;
                     }
-                    NetMemcpy(&c, &o->snd_buf, 8);
-                    if (idx != 0) {
-                        netbuf_ref_advance(&c, idx << 4);
+                    NetMemcpy(&ring, &tp->snd_buf, 8);
+                    if (rec_idx != 0) {
+                        netbuf_ref_advance(&ring, rec_idx << 4);
                     }
-                    netbuf_copy_by_ref(&a, &c, 16);
+                    netbuf_copy_by_ref(&rec_ref, &ring, 16);
                 }
-                NetMemcpy(&b, &ent.ref, 8);
-                ent.len -= (s16)off;
-                netbuf_ref_advance(&b, ent.off);
-                netbuf_ref_advance(&b, off);
+                NetMemcpy(&data, &rec.ref, 8);
+                rec.len -= (s16)off;
+                netbuf_ref_advance(&data, rec.off);
+                netbuf_ref_advance(&data, off);
             } else {
-                NetMemcpy(&b, &ent.ref, 8);
-                netbuf_ref_advance(&b, ent.off);
+                NetMemcpy(&data, &rec.ref, 8);
+                netbuf_ref_advance(&data, rec.off);
             }
-            start = pkt->fragment_count;
+            first_frag = pkt->fragment_count;
             while (rem != 0) {
-                pa = &pkt->fragments[pkt->fragment_count];
-                if (rem >= (u32)ent.len) {
-                    pkt->total_bytes += pa->length = ent.len;
-                    rem -= ent.len;
+                frag = &pkt->fragments[pkt->fragment_count];
+                if (rem >= (u32)rec.len) {
+                    pkt->total_bytes += frag->length = rec.len;
+                    rem -= rec.len;
                 } else {
-                    pa->length = rem;
+                    frag->length = rem;
                     pkt->total_bytes += rem;
                     rem = 0;
                 }
-                NetMemcpy(&pa->buffer, &b, 8);
+                NetMemcpy(&frag->buffer, &data, 8);
                 pkt->fragment_count++;
                 if (rem != 0) {
-                    if (idx < 64) {
-                        idx++;
+                    if (rec_idx < 64) {
+                        rec_idx++;
                     } else {
-                        idx = 0;
+                        rec_idx = 0;
                     }
-                    NetMemcpy(&c, &o->snd_buf, 8);
-                    if (idx != 0) {
-                        netbuf_ref_advance(&c, idx << 4);
+                    NetMemcpy(&ring, &tp->snd_buf, 8);
+                    if (rec_idx != 0) {
+                        netbuf_ref_advance(&ring, rec_idx << 4);
                     }
-                    netbuf_copy_by_ref(&a, &c, 16);
-                    NetMemcpy(&b, &ent.ref, 8);
+                    netbuf_copy_by_ref(&rec_ref, &ring, 16);
+                    NetMemcpy(&data, &rec.ref, 8);
                 }
             }
-            cnt = pkt->fragment_count - start;
-            hi = (cnt - 2) / 2;
-            lo = (cnt + 1) / 2;
-            while (hi >= 0 && lo < cnt) {
+            count = pkt->fragment_count - first_frag;
+            hi = (count - 2) / 2;
+            lo = (count + 1) / 2;
+            while (hi >= 0 && lo < count) {
                 NetMemcpy(&tmp, &pkt->fragments[lo].buffer, 8);
                 NetMemcpy(&pkt->fragments[lo].buffer, &pkt->fragments[hi].buffer, 8);
                 NetMemcpy(&pkt->fragments[hi].buffer, &tmp, 4);
-                j = pkt->fragments[lo].length;
+                swap_len = pkt->fragments[lo].length;
                 pkt->fragments[lo].length = pkt->fragments[hi].length;
-                pkt->fragments[hi].length = j;
+                pkt->fragments[hi].length = swap_len;
                 hi--;
                 lo++;
             }
@@ -774,62 +774,62 @@ s32 TLobby__sub_80420410(u32 off, u32 len, NetPacket *pkt, TcpTcb *o) {
 
     off16 = off;
     g = -1;
-    pos = off16 + o->f24;
-    ka = 0;
-    if (off >= o->f20 + o->req.total_bytes) {
+    pos = off16 + tp->f24;
+    nfrag = 0;
+    if (off >= tp->f20 + tp->req.total_bytes) {
         return -1;
     }
-    if (off < o->f20) {
-        if (len + off <= o->f20) {
-            if (o->f24 + off < o->f530) {
-                if (len + (o->f24 + off) <= o->f530) {
+    if (off < tp->f20) {
+        if (len + off <= tp->f20) {
+            if (tp->f24 + off < tp->f530) {
+                if (len + (tp->f24 + off) <= tp->f530) {
                     pkt->fragment_count = 1;
-                    NetMemcpy(&pkt->fragments[0].buffer, &o->snd_buf, 8);
+                    NetMemcpy(&pkt->fragments[0].buffer, &tp->snd_buf, 8);
                     netbuf_ref_advance(&pkt->fragments[0].buffer, pos);
                     pkt->fragments[0].length = len;
                 } else {
                     pkt->fragment_count = 2;
-                    NetMemcpy(&pkt->fragments[0].buffer, &o->snd_buf, 8);
-                    NetMemcpy(&pkt->fragments[1].buffer, &o->snd_buf, 8);
+                    NetMemcpy(&pkt->fragments[0].buffer, &tp->snd_buf, 8);
+                    NetMemcpy(&pkt->fragments[1].buffer, &tp->snd_buf, 8);
                     netbuf_ref_advance(&pkt->fragments[1].buffer, pos);
-                    t = o->f530 - pos;
-                    pkt->fragments[1].length = (u16)t;
-                    pkt->fragments[0].length = len - t;
+                    tail = tp->f530 - pos;
+                    pkt->fragments[1].length = (u16)tail;
+                    pkt->fragments[0].length = len - tail;
                 }
             } else {
                 pkt->fragment_count = 1;
-                NetMemcpy(&pkt->fragments[0].buffer, &o->snd_buf, 8);
-                netbuf_ref_advance(&pkt->fragments[0].buffer, pos - o->f530);
+                NetMemcpy(&pkt->fragments[0].buffer, &tp->snd_buf, 8);
+                netbuf_ref_advance(&pkt->fragments[0].buffer, pos - tp->f530);
                 pkt->fragments[0].length = len;
             }
             pkt->total_bytes = len;
             return 0;
         }
-        len -= o->f20 - off16;
+        len -= tp->f20 - off16;
     } else {
-        off -= o->f20;
-        it = o->req.fragments;
-        for (ib = 0; ib < o->req.fragment_count; ib++) {
-            if (off < (u32)it->length) {
+        off -= tp->f20;
+        qf = tp->req.fragments;
+        for (qi = 0; qi < tp->req.fragment_count; qi++) {
+            if (off < (u32)qf->length) {
                 pkt->fragment_count = 1;
-                k = ib;
-                ob = off;
-                NetMemcpy(&pkt->fragments[0].buffer, &it->buffer, 8);
-                netbuf_ref_advance(&pkt->fragments[0].buffer, ob);
+                first_qi = qi;
+                skip = off;
+                NetMemcpy(&pkt->fragments[0].buffer, &qf->buffer, 8);
+                netbuf_ref_advance(&pkt->fragments[0].buffer, skip);
                 pkt->total_bytes = len;
                 pkt->fragments[0].length = len;
-                if (len + off <= (u32)it->length) {
+                if (len + off <= (u32)qf->length) {
                     pkt->total_bytes = len;
                     pkt->fragments[0].length = len;
                     return 0;
                 }
-                m = it->length - ob;
-                pkt->total_bytes = m;
-                pkt->fragments[0].length = m;
-                for (ib++; ib < o->req.fragment_count; ib++) {
-                    i = ib - k;
-                    jb = i;
-                    hi = i - 1;
+                chunk = qf->length - skip;
+                pkt->total_bytes = chunk;
+                pkt->fragments[0].length = chunk;
+                for (qi++; qi < tp->req.fragment_count; qi++) {
+                    shift = qi - first_qi;
+                    jb = shift;
+                    hi = shift - 1;
                     while (jb > 0) {
                         NetMemcpy(&pkt->fragments[jb].buffer, &pkt->fragments[hi].buffer, 8);
                         pkt->fragments[jb].length = pkt->fragments[hi].length;
@@ -837,38 +837,38 @@ s32 TLobby__sub_80420410(u32 off, u32 len, NetPacket *pkt, TcpTcb *o) {
                         hi--;
                     }
                     pkt->fragment_count++;
-                    it++;
-                    len -= m;
-                    NetMemcpy(&pkt->fragments[0].buffer, &it->buffer, 8);
-                    if ((s32)len <= it->length) {
+                    qf++;
+                    len -= chunk;
+                    NetMemcpy(&pkt->fragments[0].buffer, &qf->buffer, 8);
+                    if ((s32)len <= qf->length) {
                         pkt->fragments[0].length = len;
                         pkt->total_bytes += len;
                         return 0;
                     }
-                    pkt->fragments[0].length = it->length;
-                    pkt->total_bytes += it->length;
-                    m = it->length;
+                    pkt->fragments[0].length = qf->length;
+                    pkt->total_bytes += qf->length;
+                    chunk = qf->length;
                 }
                 pkt->total_bytes = 0;
                 pkt->fragments[0].length = 0;
                 pkt->fragments[1].length = 0;
                 break;
             }
-            off -= it->length;
-            it++;
+            off -= qf->length;
+            qf++;
         }
         return 0;
     }
 
     ic = 0;
-    itc = &o->req.fragments[ic];
-    for (; ic < o->req.fragment_count; ic++) {
+    itc = &tp->req.fragments[ic];
+    for (; ic < tp->req.fragment_count; ic++) {
         if (len <= (u32)itc->length) {
             pkt->fragment_count = 1;
             NetMemcpy(&pkt->fragments[0].buffer, &itc->buffer, 8);
             pkt->total_bytes = len;
             pkt->fragments[0].length = len;
-            ka = 1;
+            nfrag = 1;
             break;
         }
         len -= itc->length;
@@ -878,40 +878,40 @@ s32 TLobby__sub_80420410(u32 off, u32 len, NetPacket *pkt, TcpTcb *o) {
     ic--;
     while (ic > -1) {
         pkt->fragment_count++;
-        NetMemcpy(&pkt->fragments[ka].buffer, &itc->buffer, 8);
-        pkt->total_bytes += pkt->fragments[ka].length = itc->length;
-        ka++;
+        NetMemcpy(&pkt->fragments[nfrag].buffer, &itc->buffer, 8);
+        pkt->total_bytes += pkt->fragments[nfrag].length = itc->length;
+        nfrag++;
         itc--;
         ic--;
     }
-    slot = &pkt->fragments[ka];
+    slot = &pkt->fragments[nfrag];
     if (g < 0) {
-        pos = off16 + o->f24;
-        if (pos < o->f530) {
-            if (o->f24 + o->f20 <= o->f530) {
+        pos = off16 + tp->f24;
+        if (pos < tp->f530) {
+            if (tp->f24 + tp->f20 <= tp->f530) {
                 pkt->fragment_count++;
-                NetMemcpy(&slot->buffer, &o->snd_buf, 8);
+                NetMemcpy(&slot->buffer, &tp->snd_buf, 8);
                 netbuf_ref_advance(&slot->buffer, pos);
-                slot->length = o->f20 - off16;
+                slot->length = tp->f20 - off16;
             } else {
                 pkt->fragment_count += 2;
-                NetMemcpy(&slot->buffer, &o->snd_buf, 8);
-                NetMemcpy(&slot[1].buffer, &o->snd_buf, 8);
+                NetMemcpy(&slot->buffer, &tp->snd_buf, 8);
+                NetMemcpy(&slot[1].buffer, &tp->snd_buf, 8);
                 netbuf_ref_advance(&slot[1].buffer, pos);
-                slot->length = o->f20 - off16 - (slot[1].length = o->f530 - pos);
+                slot->length = tp->f20 - off16 - (slot[1].length = tp->f530 - pos);
             }
         } else {
             pkt->fragment_count++;
-            NetMemcpy(&slot->buffer, &o->snd_buf, 8);
-            netbuf_ref_advance(&slot->buffer, pos - o->f530);
-            slot->length = o->f20 - off16;
+            NetMemcpy(&slot->buffer, &tp->snd_buf, 8);
+            netbuf_ref_advance(&slot->buffer, pos - tp->f530);
+            slot->length = tp->f20 - off16;
         }
-        pkt->total_bytes += o->f20 - off16;
+        pkt->total_bytes += tp->f20 - off16;
     } else {
         pkt->fragment_count++;
-        NetMemcpy(&slot->buffer, &o->req.fragments[g].buffer, 4);
+        NetMemcpy(&slot->buffer, &tp->req.fragments[g].buffer, 4);
         netbuf_ref_advance(&slot->buffer, off16);
-        pkt->total_bytes += slot->length = o->req.in_use - off16;
+        pkt->total_bytes += slot->length = tp->req.in_use - off16;
     }
     return 0;
 }

@@ -204,7 +204,10 @@ s32 TLobby__sub_8041F11C(TcpTcb *self);
 s32 TLobby__sub_8041F204(NetPacket *pkt, u16 x, TcpTcb *self);
 s32 TLobby__sub_8041F914(NetPacket *pkt, u16 x, TcpTcb *o, TcpHdr *th);
 s32 TLobby__sub_8041FFF8(u32 len, TcpTcb *self);
-s32 TLobby__sub_80420410(u32 off, u32 len, NetPacket *pkt, TcpTcb *o);
+/* Add len bytes of queued send data, starting off bytes past the oldest unacknowledged byte, to pkt's fragment list
+   (as buffer references, no copy; BSD tcp_output's m_copy). The fragments are stored last first. Returns -1 when off
+   is past the queued data, or (while f204_b7 is set) when len is 0 or the ring is empty. */
+s32 tcp_gather_send_data(u32 off, u32 len, NetPacket *pkt, TcpTcb *tp);
 s32 TLobby__sub_80420BD0(NetPacket *req, TcpTcb *s, void (*done)(s16, s16));
 #ifdef __cplusplus
 }
