@@ -169,7 +169,6 @@ s32 check_hit_flag__16TObjEneRe2FlowerFv(void *);
 s32 TObjPlayer__sub_800C4A5C(int, void *, void *, int);
 s32 play_sound_effect(void *, void *, int, int);
 u32 __nw__7TObjectFUl(int);
-extern void *lbl_805D5170;       // TLobby::dispatch_shared_handler_a's block for the variant
 extern const f32 lbl_805D9FD8;
 extern const f32 lbl_805D9FDC;
 extern const f32 lbl_805D9FAC;
@@ -256,10 +255,14 @@ extern const s32 lbl_8043BA88[3];
 extern const s32 lbl_8043BA94[3];
 extern const s32 lbl_8043BAA0[3];
 extern const char *lbl_805D2A48; // "TObjEneRe2Flower"
-extern BmlResource *lbl_805D5174;
-extern s32 lbl_805D5178;
-extern s32 lbl_805D517C;
-extern s32 lbl_805D5180;
+// The variant's movement block (TLobby::dispatch_shared_handler_a of lbl_8043BAA0), set by the constructor.
+void *re2_flower_movement_params;
+BmlResource *re2_flower_bml_resource;
+// State of the chunk node callback TObjPlayer::update_effect_sequence: the node counter, the head yaw
+// applied at node 1 and the two points transformed at node 14.
+s32 re2_flower_node_index;
+s32 re2_flower_node_yaw;
+f32 *re2_flower_node_points;
 extern void *tl_04;
 struct FlowerSetupData {
     f32 value00;
@@ -311,23 +314,23 @@ void load_re2_flower_resources(void) {
     BmlModelEntry *models;
 
     if (get_current_floor_area() == AREA_TOWER) {
-        lbl_805D5174 = (BmlResource *)load_enemy_bml_resource_named((s32)((s32 *)&TObjEneRe2Flower__resource_descriptor), (s32)("bm_ene_dkflower.bml"));
+        re2_flower_bml_resource = (BmlResource *)load_enemy_bml_resource_named((s32)((s32 *)&TObjEneRe2Flower__resource_descriptor), (s32)("bm_ene_dkflower.bml"));
     } else if (TObjEneDD::check_v2_mode() != 0) {
-        lbl_805D5174 = (BmlResource *)load_enemy_bml_resource_named((s32)((s32 *)&TObjEneRe2Flower__resource_descriptor), (s32)("bm_ene_re2_flower_a.bml"));
+        re2_flower_bml_resource = (BmlResource *)load_enemy_bml_resource_named((s32)((s32 *)&TObjEneRe2Flower__resource_descriptor), (s32)("bm_ene_re2_flower_a.bml"));
     } else {
-        lbl_805D5174 = (BmlResource *)load_enemy_bml_resource((u8 *)&TObjEneRe2Flower__resource_descriptor);
+        re2_flower_bml_resource = (BmlResource *)load_enemy_bml_resource((u8 *)&TObjEneRe2Flower__resource_descriptor);
     }
-    lbl_805D5178 = 0;
-    lbl_805D517C = 0;
-    lbl_805D5180 = 0;
+    re2_flower_node_index = 0;
+    re2_flower_node_yaw = 0;
+    re2_flower_node_points = 0;
     TObjPlayer::create_render_texture();
     TObjPlayer__sub_800F0928();
     stack.sp8 = *(s32 *)((s8 *)&lbl_8043BB90.value + 0);
     stack.spC = *(s32 *)((s8 *)&lbl_8043BB90.value + 4);
     stack.sp10 = *(s32 *)((s8 *)&lbl_8043BB90.value + 8);
     stack.sp14 = *(s32 *)((s8 *)&lbl_8043BB90.value + 0xC);
-    stack.sp8 = (s32)lbl_805D5174->motions;
-    models = lbl_805D5174->models;
+    stack.sp8 = (s32)re2_flower_bml_resource->motions;
+    models = re2_flower_bml_resource->models;
     TLobby::spawn_npc_enemy(0x37, models->model, (NJS_TEXLIST *)models->m_c, &stack.sp8, lbl_805D9FBC, lbl_805D9FAC);
 }
 
@@ -337,9 +340,9 @@ void *TObjEneRe2Flower::create(void *arg0) {
 
 void TObjEneRe2Flower::destroy_instance() {
     TObjPlayer__sub_800C4D44();
-    if (lbl_805D5174 != NULL) {
-        free_bin_model_request(lbl_805D5174, 1);
-        lbl_805D5174 = NULL;
+    if (re2_flower_bml_resource != NULL) {
+        free_bin_model_request(re2_flower_bml_resource, 1);
+        re2_flower_bml_resource = NULL;
     }
 }
 
@@ -356,15 +359,15 @@ TObjEneRe2Flower::TObjEneRe2Flower(TObject *parent, void *setData) : TObjEneDD_S
         m_3c4 |= 0x400;
     }
     init_position_vectors();
-    model = (void *)lbl_805D5174->models->model;
-    texlist = lbl_805D5174->models->m_c;
+    model = (void *)re2_flower_bml_resource->models->model;
+    texlist = re2_flower_bml_resource->models->m_c;
     if (get_flag_11()) {
         init_model(lbl_804930EC, 2);
     } else {
         init_model(lbl_80493094, 2);
     }
     set_field_d8((s32)TObjEneRe2Flower__animation_descriptors);
-    set_field_dc((s32)lbl_805D5174->motions);
+    set_field_dc((s32)re2_flower_bml_resource->motions);
     requested_action = 1;
     set_animation(requested_action);
     set_field_b8(requested_action);
@@ -379,7 +382,7 @@ TObjEneRe2Flower::TObjEneRe2Flower(TObject *parent, void *setData) : TObjEneDD_S
     reset_hp((u8 *)TLobby::register_boss(lbl_8043BA7C[variant]),
              (u8 *)TLobby::dispatch_shared_handler_b(lbl_8043BA88[variant]),
              (u8 *)TLobby::register_object(lbl_8043BA94[variant]));
-    lbl_805D5170 = TLobby::dispatch_shared_handler_a(lbl_8043BAA0[variant]);
+    re2_flower_movement_params = TLobby::dispatch_shared_handler_a(lbl_8043BAA0[variant]);
     if (get_flag_11()) {
         set_state_8();
     } else {
@@ -810,7 +813,7 @@ void fn_800C32DC(u8 *owner, s32 arg1) {
             VecCopy((Vec *)(&stack.x), (const Vec *)(owner + 0x3DC));
             stack.y = lbl_805D9FDC + *(f32 *)((s8 *)owner + 0x3C);
             if ((((TObjEneRe2Flower *)owner)->get_flag_11() != 0) || (TObjEneDD::check_v2_mode() != 0)) {
-                TTecMegid::create_ex((s32)owner, (s32)((void *)&stack.x), (s32)((int) (((TObjEneRe2Flower *)owner)->rotation_y)), (s32)((int) (TObjEneDD::clamp_frame_index((int) (*(s32 *)((s8 *)lbl_805D5170 + 0x18))))));
+                TTecMegid::create_ex((s32)owner, (s32)((void *)&stack.x), (s32)((int) (((TObjEneRe2Flower *)owner)->rotation_y)), (s32)((int) (TObjEneDD::clamp_frame_index((int) (*(s32 *)((s8 *)re2_flower_movement_params + 0x18))))));
             } else {
                 temp_r3_3 = __nw__7TObjectFUl(0x104);
                 if (temp_r3_3 != 0U) {

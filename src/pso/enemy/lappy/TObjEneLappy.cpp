@@ -398,7 +398,10 @@ s32 push_matrix();
 f32 post_translate_matrix(void *);
 s32 set_global_param__8TObjFishFl(int);
 s32 draw_chunk_object(int);
-extern s32 *rappy_visibility_node;
+s32 lappy_variant_id;
+void *rappy_bml_resource;
+s32 *rappy_visibility_node;
+s32 rappy_alternate_texture_list;
 extern s32 model_render_flags;
 void render__12TObjEneLappyFv(u8 *arg0);
 u16 find_nearest_visible_player(void *, int, f32);
@@ -1261,8 +1264,6 @@ s32 add_flags_2e4__9TObjCharaFUl(void *, int, f32, f32);
 s32 __ct__9TObjEnemyFP7TObject(void *, s32, void *);
 s32 init_collision_body_parts(void *, void *, int);
 
-extern s32 lappy_variant_id;
-extern void *rappy_bml_resource;
 
 extern "C" void vfunc_6__8TObjBaseFPsl();
 extern "C" void vfunc_29__9TObjCharaFv();
@@ -1388,7 +1389,6 @@ extern u8 lbl_8043BA28[];
 extern u8 lbl_8043BA44[];
 extern s32 game_difficulty_selection;
 extern s32 TLobby__event_theme_id;
-extern s32 rappy_alternate_texture_list;
 
 void TLobby::cleanup_handles() {
     if (TLobby::get_instance() == 0) {

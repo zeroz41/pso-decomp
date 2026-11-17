@@ -1639,6 +1639,7 @@ pso/enemy/lappy/TObjEneLappy.cpp:
 	.data       start:0x80492BD8 end:0x80493078
 	.bss        start:0x80500BE0 end:0x80500C00
 	.sdata      start:0x805D2A40 end:0x805D2A44
+	.sbss       start:0x805D5160 end:0x805D5170
 	.sdata2     start:0x805D9F20 end:0x805D9FA0
 
 pso/enemy/flower/TObjEneRe2Flower_800C20D0.cpp:
@@ -1658,6 +1659,7 @@ pso/enemy/flower/TObjEneRe2Flower.cpp:
 	.text       start:0x800C3088 end:0x800C45AC
 	.rodata     start:0x8043BBD0 end:0x8043BC10
 	.data       start:0x80493078 end:0x804933D8
+	.sbss       start:0x805D5170 end:0x805D5188
 
 pso/player/TObjPlayer_800C4714.cpp:
 	.text       start:0x800C45AC end:0x800C4B78
