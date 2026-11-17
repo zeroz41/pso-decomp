@@ -18,45 +18,6 @@ s32 set_flags_and_state(void *self);
 
 #include "pso/network/PppBuffer.h"
 
-inline s32 chap_read_byte_slow(PppFrame **src) {
-    if (ppp_buffer_read(src, &chap_read_byte_buffer, 1) != 1) {
-        return -1;
-    }
-    return (s16)chap_read_byte_buffer;
-}
-inline s32 chap_read_byte(PppFrame **src) {
-    s32 fast = 0;
-    s32 valid = 0;
-    if (src != NULL && *src != NULL) {
-        valid = 1;
-    }
-    if (valid && (*src)->len > 1) {
-        fast = 1;
-    }
-    if (fast) {
-        (*src)->len--;
-        return *(*src)->data++;
-    }
-    return chap_read_byte_slow(src);
-}
-
-inline s32 rd_803FCC10(PppFrame **pp) {
-    s32 ok1;
-    s32 ok2;
-    ok2 = 0;
-    ok1 = 0;
-    if (pp != 0) {
-        if (*pp != 0) ok1 = 1;
-    }
-    if (ok1) {
-        if ((*pp)->len > 1) ok2 = 1;
-    }
-    if (ok2) {
-        (*pp)->len -= 1;
-        return *(*pp)->data++;
-    }
-    return (ppp_buffer_read(pp, &chap_read_byte_buffer, 1) != 1) ? -1 : (s16)chap_read_byte_buffer;
-}
 void *build_avetcp_net_buffer(Conn_804004DC *c)
 {
   PppChap *chap = c->opts;
