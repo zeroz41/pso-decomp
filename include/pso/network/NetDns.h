@@ -21,7 +21,7 @@ typedef struct DnsAddr {
     s16 used;
     u8 pad2[2];
     NetworkAddress addr;        /* 0x04: family 4 IPv4, 6 IPv6 */
-    u16 rtype;                  /* 0x18: record type, 1 A, 0x1C AAAA */
+    u16 rtype;                  /* 0x18: DNS_TYPE_A or DNS_TYPE_AAAA */
     u8 pad1A[2];
     s32 ttl;                    /* 0x1C: seconds; counted down by TLobby__sub_8040B3B4, dropped at 0 */
     struct DnsAddr *next;       /* 0x20 */
@@ -49,11 +49,27 @@ typedef struct DnsPtr {
 
 /* The fixed part of a resource record of an answer (copied out of the message). */
 typedef struct DnsRrHeader {
-    u16 type;                   /* 1 A, 5 CNAME, 12 PTR, 0x1C AAAA */
-    u16 rclass;                 /* 0x02: 1 IN */
+    u16 type;                   /* DNS_TYPE_* */
+    u16 rclass;                 /* 0x02: DNS_CLASS_IN */
     s32 ttl;                    /* 0x04 */
     u16 rdlength;               /* 0x08 */
 } DnsRrHeader;
+
+/* Resource record types and class (RFC 1035, RFC 3596 for AAAA). */
+#define DNS_TYPE_A 1
+#define DNS_TYPE_CNAME 5
+#define DNS_TYPE_PTR 12
+#define DNS_TYPE_AAAA 0x1C
+#define DNS_CLASS_IN 1
+
+/* Size of the message header (id, flags, qdcount, ancount, nscount, arcount). */
+#define DNS_HEADER_SIZE 12
+
+/* Size of a question's fixed part after its name (type, class). */
+#define DNS_QUESTION_FIXED_SIZE 4
+
+/* Size of a resource record's fixed part in the message (type, class, ttl, rdlength). */
+#define DNS_RR_HEADER_SIZE 10
 
 typedef void (*DnsLookupCallback)(s16 id, NetworkAddress *addrs, s16 naddrs, u8 *cname, s16 cname_len);
 typedef void (*DnsPtrCallback)(s16 id, u8 *name, s16 len);
