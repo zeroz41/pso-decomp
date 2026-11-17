@@ -94,7 +94,7 @@ typedef char PppChap_len_check[(offsetof(PppChap, len) == 0x10) ? 1 : -1];
 /* lbl_805C02D0: the CHAP buffers and settings (TLobby_803FC178.c).  init_net_buffer_table (NetworkTransport.c) points
  * the buffers into that file's static block and sets their sizes. */
 typedef struct PppAuthState {
-    u8 *p0;                     /* the name in a challenge received */
+    u8 *p0;                     /* 0x00: the name in a challenge received */
     u8 *p4;                     /* 0x04: the name received */
     u8 *p8;                     /* 0x08: the challenge sent */
     u8 *pC;                     /* 0x0C: the challenge received */

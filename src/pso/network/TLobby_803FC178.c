@@ -425,11 +425,11 @@ void chap_recv_challenge(Conn_804004DC *connection, PppHeader *header, PppFrame 
     } challenge_slot;
     int raw_peer_length;
     s16 total;
-    u32 digest_offset;
+    u32 challenge_offset;
     PppChap *chap;
     u8 *peer_name;
     s32 challenge_index;
-    u16 credential_length;
+    u16 string_length;
     u16 peer_name_length;
     s32 peer_name_index;
     u8 *challenge_cursor;
@@ -462,22 +462,22 @@ void chap_recv_challenge(Conn_804004DC *connection, PppHeader *header, PppFrame 
     }
     *lbl_805C02D0.p14 = header->id;
     NetCopyString((char *)lbl_805C02D0.p14 + 1, chap->secret);
-    credential_length = NetStringLength(chap->secret);
+    string_length = NetStringLength(chap->secret);
     raw_name_length = NetStringLength(chap->name);
-    digest_offset = credential_length + 1;
-    credential_length = raw_name_length;
-    NetMemcpy(lbl_805C02D0.p14 + digest_offset, challenge_slot.value, challenge_length);
+    challenge_offset = string_length + 1;
+    string_length = raw_name_length;
+    NetMemcpy(lbl_805C02D0.p14 + challenge_offset, challenge_slot.value, challenge_length);
     NetMemset(lbl_805C02D0.p1C, 0, lbl_805C02D0.size1C);
     *lbl_805C02D0.p1C = 0x10;
     init_md5_state(&context);
-    MD5Update(&context, lbl_805C02D0.p14, digest_offset + challenge_length);
+    MD5Update(&context, lbl_805C02D0.p14, challenge_offset + challenge_length);
     MD5Final(lbl_805C02D0.p1C + 1, &context);
     {
-        u32 response_name_length = credential_length;
+        u32 response_name_length = string_length;
         NetMemcpy(lbl_805C02D0.p1C + 0x11, (void *)chap->name, response_name_length);
     }
     chap->id = header->id;
-    chap->len = credential_length + 0x11;
+    chap->len = string_length + 0x11;
     reply = TLobby__sub_80401B20(lbl_805C02D0.p1C, chap->len);
     ppp_fsm_send_packet(connection, 2, chap->id, reply);
     lobby_timer_start(connection->timer);

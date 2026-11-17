@@ -502,13 +502,6 @@ static inline PppFrame *ppp_frame_clear_length(PppFrame *frame) {
 #pragma inline_depth(4)
 #pragma opt_common_subs off
 #pragma opt_propagation on
-typedef struct PppFsmLink {
-    u8 state;
-    u8 next_identifier;
-    u8 unknown02[0x116];
-    s16 transmitted[4];
-} PppFsmLink;
-
 s32 ppp_fsm_send_packet(void *self, int code, int reply_identifier, void *payload) {
     PppFsm *fsm = (PppFsm *)self;
     PppBuffers *buffers;

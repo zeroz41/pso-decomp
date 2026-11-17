@@ -54,6 +54,14 @@ typedef struct PapOptions {
     u8 *message;
 } PapOptions;
 
+/* The link the FSM runs on (PppFsm.sub): the next request identifier and a count of packets sent per protocol. */
+typedef struct PppFsmLink {
+    u8 state;
+    u8 next_identifier;
+    u8 unknown02[0x116];
+    s16 transmitted[4];         /* 0x118 */
+} PppFsmLink;
+
 struct PppFsm {
     u8 state;
     u8 id;                      /* 0x01: the identifier of the last request sent */
