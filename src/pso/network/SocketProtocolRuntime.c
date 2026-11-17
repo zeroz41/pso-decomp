@@ -1,6 +1,6 @@
-/* The network stack's UDP layer and TCP receive helpers (a C library, built with GC/1.2.5n): UDP control blocks
- * (create, bind, connect, close, input, sendto, ephemeral ports) and the TCP receive-queue, reassembly-range and
- * SACK-list helpers. */
+/* The network stack's TCP buffer helpers (a C library, built with GC/1.2.5n): the receive queue (user reads, segment
+ * input), the reassembly-range and SACK-list helpers, and the send queue (releasing acknowledged data, queueing user
+ * buffers, gathering a segment's data, queueing a send request). */
 #include "pso/network/NetworkRuntime.h"
 #include "pso/network/UdpRuntime.h"
 #include "types.h"
