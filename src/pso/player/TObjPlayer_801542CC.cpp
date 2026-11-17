@@ -2,6 +2,7 @@
 #include "pso/system/data/FlagWord.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjPlayer_803DF7A8.h"
 #include "pso/player/TObjPlayer_803E112C.h"
 #include "pso/player/TUnk_804928CC.h"
 #include "pso/enemy/TUnk_80493450.h"
@@ -260,7 +261,7 @@ void TObjPlayer__sub_8015434C(CollisionBody_80155FBC *set, s32 start, s32 count)
                         if (other_body->shape == 1) {
                             build_collision_box_corners(other_pos, other_facing, other_body, &other_box);
                             if (shape == 1) {
-                                if (((TObjPlayer *)(&box))->test_box_overlap((Vec_803E1B1C *)(&other_box))) {
+                                if (test_box_overlap(box.corners, other_box.corners)) {
                                     hit = other_body;
                                 }
                             } else if (test_box_sphere_contact(other_box.corners, &sphere)) {
@@ -956,7 +957,7 @@ void* refresh_actor_body_spheres(CollisionBody_80155FBC a,CollisionBody_80155FBC
                     case 1:
                         build_collision_box_corners(worldA,facingA,source,&boxAA);
                         build_collision_box_corners(worldB,facingB,destination,&boxBB);
-                        if (((TObjPlayer *)(&boxAA))->test_box_overlap((Vec_803E1B1C *)(&boxBB))) return destination;
+                        if (test_box_overlap(boxAA.corners, boxBB.corners)) return destination;
                         break;
                     case 0: default:
                         build_collision_box_corners(worldA,facingA,source,&boxAB);

@@ -5,8 +5,6 @@
 struct Vec;
 struct CollisionSphere;
 
-struct Vec_803E1B1C { f32 x, y, z; };
-
 extern "C" {
 // The smallest and largest corner of the eight corners of a box.
 void calc_box_bounds(Vec *corners, Vec *min, Vec *max);

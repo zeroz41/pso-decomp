@@ -1,11 +1,11 @@
 #include "types.h"
 #include "pso/player/TObjPlayer_803DF7A8.h"
 #include "pso/player/TObjPlayer_803E1A58.h"
-#include "pso/player/TObjPlayer.h"
+#include <dolphin/mtx/GeoTypes.h>
 
 extern "C" {
-s32 TObjPlayer__sub_803DFB1C(Vec_803E1B1C *a, Vec_803E1B1C *b);
-s32 __SITransfer(Vec_803E1B1C *a, Vec_803E1B1C *b);
+s32 TObjPlayer__sub_803DFB1C(Vec *a, Vec *b);
+s32 __SITransfer(Vec *a, Vec *b);
 extern const BoxFaces box_face_corner_index_table;
 const BoxFaces box_face_corner_index_table = {
     {{0, 1, 2, 3}, {4, 5, 6, 7}, {0, 3, 7, 4}, {2, 1, 5, 6}, {0, 4, 5, 1}, {3, 2, 6, 7}}};
@@ -134,7 +134,7 @@ static inline f32 sqrtf_803DFB1C(f32 x) {
    crosses an edge of the other, or one projection lies inside the other. */
 #pragma push
 #pragma opt_loop_invariants off
-s32 TObjPlayer__sub_803DFB1C(Vec_803E1B1C *a, Vec_803E1B1C *b) {
+s32 TObjPlayer__sub_803DFB1C(Vec *a, Vec *b) {
     Point2_803E0CC8 pa[4];
     Point2_803E0CC8 pb[4];
     s32 hitXY;
@@ -483,7 +483,7 @@ s32 TObjPlayer__sub_803DFB1C(Vec_803E1B1C *a, Vec_803E1B1C *b) {
 #pragma pop
 #pragma pop
 
-s32 __SITransfer(Vec_803E1B1C *a, Vec_803E1B1C *b) {
+s32 __SITransfer(Vec *a, Vec *b) {
     Point2_803E0CC8 pa[4];
     Point2_803E0CC8 pb[4];
     s32 mask = 0;
@@ -518,9 +518,9 @@ s32 __SITransfer(Vec_803E1B1C *a, Vec_803E1B1C *b) {
     return mask;
 }
 
-s32 TObjPlayer::test_box_overlap(Vec_803E1B1C *boxB) {
-    Vec_803E1B1C qa[4];
-    Vec_803E1B1C qb[4];
+s32 test_box_overlap(Vec *cornersA, Vec *cornersB) {
+    Vec qa[4];
+    Vec qb[4];
     Vec mnA;
     Vec mxA;
     Vec mnB;
@@ -532,22 +532,22 @@ s32 TObjPlayer::test_box_overlap(Vec_803E1B1C *boxB) {
     s32 *fb;
     int k;
     mask = 0;
-    calc_box_bounds((Vec *)this, &mnA, &mxA);
-    calc_box_bounds((Vec *)boxB, &mnB, &mxB);
+    calc_box_bounds(cornersA, &mnA, &mxA);
+    calc_box_bounds(cornersB, &mnB, &mxB);
     if (test_aabb_overlap(&mnA, &mxA, &mnB, &mxB) != 0) {
     BoxFaces faces = box_face_corner_index_table;
     for (i = 0; i < 6; i++) {
         fa = faces.v[i];
-        qa[0].x = ((Vec_803E1B1C *)this)[fa[0]].x; qa[0].y = ((Vec_803E1B1C *)this)[fa[0]].y; qa[0].z = ((Vec_803E1B1C *)this)[fa[0]].z;
-        qa[1].x = ((Vec_803E1B1C *)this)[fa[1]].x; qa[1].y = ((Vec_803E1B1C *)this)[fa[1]].y; qa[1].z = ((Vec_803E1B1C *)this)[fa[1]].z;
-        qa[2].x = ((Vec_803E1B1C *)this)[fa[2]].x; qa[2].y = ((Vec_803E1B1C *)this)[fa[2]].y; qa[2].z = ((Vec_803E1B1C *)this)[fa[2]].z;
-        qa[3].x = ((Vec_803E1B1C *)this)[fa[3]].x; qa[3].y = ((Vec_803E1B1C *)this)[fa[3]].y; qa[3].z = ((Vec_803E1B1C *)this)[fa[3]].z;
+        qa[0].x = cornersA[fa[0]].x; qa[0].y = cornersA[fa[0]].y; qa[0].z = cornersA[fa[0]].z;
+        qa[1].x = cornersA[fa[1]].x; qa[1].y = cornersA[fa[1]].y; qa[1].z = cornersA[fa[1]].z;
+        qa[2].x = cornersA[fa[2]].x; qa[2].y = cornersA[fa[2]].y; qa[2].z = cornersA[fa[2]].z;
+        qa[3].x = cornersA[fa[3]].x; qa[3].y = cornersA[fa[3]].y; qa[3].z = cornersA[fa[3]].z;
         for (j = 0; j < 6; j++) {
             fb = faces.v[j];
-            qb[0].x = boxB[fb[0]].x; qb[0].y = boxB[fb[0]].y; qb[0].z = boxB[fb[0]].z;
-            qb[1].x = boxB[fb[1]].x; qb[1].y = boxB[fb[1]].y; qb[1].z = boxB[fb[1]].z;
-            qb[2].x = boxB[fb[2]].x; qb[2].y = boxB[fb[2]].y; qb[2].z = boxB[fb[2]].z;
-            qb[3].x = boxB[fb[3]].x; qb[3].y = boxB[fb[3]].y; qb[3].z = boxB[fb[3]].z;
+            qb[0].x = cornersB[fb[0]].x; qb[0].y = cornersB[fb[0]].y; qb[0].z = cornersB[fb[0]].z;
+            qb[1].x = cornersB[fb[1]].x; qb[1].y = cornersB[fb[1]].y; qb[1].z = cornersB[fb[1]].z;
+            qb[2].x = cornersB[fb[2]].x; qb[2].y = cornersB[fb[2]].y; qb[2].z = cornersB[fb[2]].z;
+            qb[3].x = cornersB[fb[3]].x; qb[3].y = cornersB[fb[3]].y; qb[3].z = cornersB[fb[3]].z;
             if (TObjPlayer__sub_803DFB1C(qa, qb) != 0) {
                 return 1;
             }
