@@ -572,13 +572,13 @@ void dispatch_chunk_polygon_list(s16 *list, s32 buffer) {
                 break;
             }
         } else if (type < 0x10) {
-            apply_chunk_texture_command(state.header, (s16)*list);
+            apply_chunk_texture_command(state.header, *list);
             list++;
         } else if (type < 0x40) {
-            type = (s16)*list++;
+            s32 size = (s16)*list++;
             set_chunk_blend(state.header);
-            submit_chunk_material_color(state.header, (s16 *)list);
-            list += type;
+            submit_chunk_material_color(state.header, list);
+            list += size;
         } else {
             length = *(u16 *)list++;
             info = (s16)*list++;
@@ -622,11 +622,11 @@ void dispatch_chunk_polygon_list(s16 *list, s32 buffer) {
                 } else if (chunk_has_vertex_colors != 0) {
                     setup_chunk_tev_stages();
                     GXSetTexCoordGen2(0, 1, 4, 0x3C, 0, 0x7D);
-                    draw_chunk_color_tex_strips(list, (void *) buffer, info, (s32)(type == 0x42));
+                    draw_chunk_color_tex_strips(list, (void *) buffer, info, type == 0x42);
                 } else {
                     setup_chunk_tev_stages();
                     GXSetTexCoordGen2(0, 1, 4, 0x3C, 0, 0x7D);
-                    draw_chunk_textured_strips(list, (Vtx_803E36C4 *) buffer, info, (s32)(type == 0x42));
+                    draw_chunk_textured_strips(list, (Vtx_803E36C4 *) buffer, info, type == 0x42);
                 }
                 break;
             }
