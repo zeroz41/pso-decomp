@@ -782,7 +782,8 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # TShopJudgmentItemWindow: its class name and four string literals sit in .rodata.
     "pso/ui/city/TShopJudgmentItemWindow.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # TObjDFJisin: the Jisin, Horming and Yutai class-name strings sit in .rodata.
-    "pso/boss/darkfalz/TObjDFJisin.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    # vtables come out TObjDFTenchuFuru then TObjDFUsoTower (text order of their dtors): written last to first, deferred.
+    "pso/boss/darkfalz/TObjDFJisin.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     # TWindowSubTradeMain_80330A84 (+_80332148): "TWindowSubTradeMain" sits in .rodata;
     # .data holds the vtable (0x804EDF90) ahead of run_task's jump tables: deferred generation of the last-to-first source.
     "pso/ui/window/TWindowSubTradeMain_80330A84.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
