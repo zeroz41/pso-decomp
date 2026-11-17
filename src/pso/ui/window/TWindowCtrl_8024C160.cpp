@@ -28,7 +28,7 @@ struct TWindowCtrl_8024C160 {
 };
 
 struct TWindowCtrl_8024C308 {
-    s32 f0;
+    const char *name;
     u8 pad4[0x18 - 0x4];
     void *vt;
     s16 f1C;
@@ -60,7 +60,7 @@ void __ct__7TObjectFP7TObject(void *);
 void *TWindowBreakIn__ct(void *);
 void *__ct__11TWindowChatFP7TObjectPv(void *, s32, void *);
 void *__ct__17TWindowCtrlPlayerFP7TObjectl(void *, void *, s32);
-extern s32 lbl_805D38C8;
+extern const char *TWindowCtrl__name;
 extern s32 local_client_id;
 extern s32 tl_00;
 TWindowCtrl_8024C308 *TWindowCtrl__ct(TWindowCtrl_8024C308 *self);
@@ -129,7 +129,7 @@ TWindowCtrl_8024C308 *TWindowCtrl__ct(TWindowCtrl_8024C308 *self) {
     void *p;
     __ct__7TObjectFP7TObject(self);
     self->vt = __vt__11TWindowCtrl;
-    self->f0 = lbl_805D38C8;
+    self->name = TWindowCtrl__name;
     if (TWindowCtrl__active_window != NULL) {
         ((TObject *)TWindowCtrl__active_window)->queue_destruction();
     }

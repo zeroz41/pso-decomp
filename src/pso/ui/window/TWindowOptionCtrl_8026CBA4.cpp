@@ -3,6 +3,8 @@
 #include "pso/ui/window/TWindowCtrlMain.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowOptionCtrl.h"
+#include "pso/ui/window/TWindowMainMenu1P.h"
+#include "pso/ui/window/WindowLayoutCamera2Data.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/player/TObjPlayer_80011014.h"
@@ -25,18 +27,15 @@ struct Node_8026CCA4 {
 };
 struct Grp_8026CCA4 { u8 p0[0x14]; Node_8026CCA4 *head; };
 
-extern NJS_POINT2 window_layout_position_table[];
-extern NJS_POINT2 lbl_80477890[];
-extern unsigned char window_layout_rect_table[];
-NJS_POINT2 *get_window_layout_position(s32 idx);
+const NJS_POINT2 *get_window_layout_position(s32 idx);
 s32 has_window_task_root(void);
 extern f32 window_depth_order_cursor;
-void*TWindowOptionCtrl::get_option_entry(int a0) {  return (char*)window_layout_rect_table + a0 * 8; }
-NJS_POINT2 *get_window_layout_position(s32 idx) {
+const NJS_POINT2 *TWindowOptionCtrl::get_option_entry(int a0) { return &window_layout_rect_table[a0]; }
+const NJS_POINT2 *get_window_layout_position(s32 idx) {
     if (is_split_screen() != 0) {
-        return (TCameraCtrl::get_camera_id() == 2) ? &lbl_80477890[idx] : &window_layout_position_table[idx];
+        return (TCameraCtrl::get_camera_id() == 2) ? &window_layout_position_table_camera2[idx] : &window_layout_position_table[idx];
     }
-    return (NJS_POINT2 *)((char *)window_layout_rect_table + idx * 8);
+    return &window_layout_rect_table[idx];
 }
 void TWindowBase::sub_8026CC28() {
     Node_8026CC28 *n;

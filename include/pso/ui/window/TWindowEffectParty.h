@@ -4,6 +4,8 @@
 #include "types.h"
 #include "pso/system/task/TObject.h"
 
+class TParticleCtrl;
+
 struct TWindowEffectParty : public TObject {
     TWindowEffectParty(TObject *arg1, s8 arg2, s8 arg3, void *arg4);
     virtual ~TWindowEffectParty();
@@ -15,7 +17,7 @@ struct TWindowEffectParty : public TObject {
     u8 _pad24[0x4];
     void* m_28;
     u8 _pad2C[0x4];
-    u32 m_30;
+    TParticleCtrl *m_particle; // inferred name: the continuous effect spawned by the ctor, released by the dtor
     virtual void render();
     virtual void run_task();
     s32 step_toward_target(f32 farg0, f32 farg1);
@@ -28,13 +30,11 @@ typedef char TWindowEffectParty_size[sizeof(TWindowEffectParty) == 0x34 ? 1 : -1
 
 extern "C" {
 void *TWindowCtrl__sub_8024FB80(s8 i);
-void *__dt__18TWindowEffectPartyFv(void *arg0, s16 arg1);
 }
 
 // --- C functions defined in TWindowEffectParty.cpp ---
 extern "C" {
 void *TWindowCtrl__sub_8024FB80(s8 i);
-void *__dt__18TWindowEffectPartyFv(void *arg0, s16 arg1);
 }
 // --- end of C functions
 

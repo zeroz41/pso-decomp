@@ -6786,8 +6786,9 @@ pso/ui/window/TWindowArea.cpp:
 
 pso/ui/window/TWindowSubComCard_80244774.cpp:
 	.text       start:0x80244774 end:0x80246B80
-	.rodata     start:0x8044E678 end:0x8044E768
+	.rodata     start:0x8044E658 end:0x8044E768
 	.data       start:0x804CE018 end:0x804CE030
+	.sdata      start:0x805D3888 end:0x805D3890
 	.sdata2     start:0x805DCAC8 end:0x805DCB5C
 
 pso/ui/window/TWindowBreakIn.cpp:
@@ -6983,7 +6984,8 @@ pso/ui/window/TWindowCtrl_8024B794.cpp:
 
 pso/ui/window/TWindowCtrl.cpp:
 	.text       start:0x8024B7D4 end:0x8024C160
-	.rodata     start:0x8044EBE8 end:0x8044EBF0
+	.rodata     start:0x8044EBC8 end:0x8044EBF0
+	.sdata      start:0x805D38C8 end:0x805D38D0
 	.sdata2     start:0x805DCBE8 end:0x805DCC18
 
 pso/ui/window/TWindowCtrl_8024C160.cpp:
@@ -7052,7 +7054,7 @@ pso/ui/window/TWindowSubStatusDisp_8024F688.cpp:
 pso/ui/window/TWindowEffectParty.cpp:
 	.text       start:0x8024F690 end:0x8024FBA8
 	.rodata     start:0x8044ECD8 end:0x8044ECF0
-	.data       start:0x804CF050 end:0x804CF07C
+	.data       start:0x804CF038 end:0x804CF07C
 	.sdata      start:0x805D38F8 end:0x805D3900
 	.sdata2     start:0x805DCCB8 end:0x805DCCD8
 
@@ -7077,7 +7079,7 @@ pso/ui/window/TWindowFukidasi_80252BF8.cpp:
 
 pso/ui/window/TWindowGetComCard.cpp:
 	.text       start:0x80252C38 end:0x802530D0
-	.rodata     start:0x8044ED80 end:0x8044ED94
+	.rodata     start:0x8044ED80 end:0x8044EDA8
 	.data       start:0x804CF120 end:0x804CF140
 	.sdata      start:0x805D3908 end:0x805D390C
 
@@ -7266,7 +7268,7 @@ pso/ui/window/TWindowMakeTeam.cpp:
 pso/ui/window/TWindowSubComCard_80265410.cpp:
 	.text       start:0x80265410 end:0x80266BC4
 	.rodata     start:0x8044F310 end:0x8044F338
-	.data       start:0x804D05E0 end:0x804D05F8
+	.data       start:0x804D05A8 end:0x804D05F8
 	.sdata      start:0x805D3960 end:0x805D3968
 	.sdata2     start:0x805DD148 end:0x805DD180
 
@@ -7416,17 +7418,22 @@ pso/ui/window/TWindowReturnCity.cpp:
 	.sdata2     start:0x805DD2E8 end:0x805DD2EC
 
 pso/ui/window/TWindowRoom.cpp:
-	.text       start:0x8026D504 end:0x8026D790
+	.text       start:0x8026D504 end:0x8026D740
 	.rodata     start:0x8044F510 end:0x8044F51C
 	.data       start:0x804D08B8 end:0x804D08F0
 	.sdata      start:0x805D39C0 end:0x805D39C4
-	.sdata2     start:0x805DD2F0 end:0x805DD2FC
+	.sdata2     start:0x805DD2F0 end:0x805DD2F8
+
+pso/ui/window/TWindowSubStatusDisp_8026D740.cpp:
+	.text       start:0x8026D740 end:0x8026DA44
+	.sdata2     start:0x805DD2F8 end:0x805DD334
 
 pso/ui/window/TWindowSetLevelUp.cpp:
-	.text       start:0x8026D790 end:0x8026DE30
-	.rodata     start:0x8044F520 end:0x8044F534
+	.text       start:0x8026DA44 end:0x8026DE30
+	.rodata     start:0x8044F520 end:0x8044F550
 	.data       start:0x804D0908 end:0x804D0948
 	.sdata      start:0x805D39C8 end:0x805D39D0
+	.sdata2     start:0x805DD338 end:0x805DD340
 
 pso/ui/window/TWindowMenuIconLine_8026DE30.cpp:
 	.text       start:0x8026DE30 end:0x8026DE94
@@ -7476,8 +7483,9 @@ pso/ui/window/TWindowSoundBalance.cpp:
 
 pso/ui/window/TWindowStatus.cpp:
 	.text       start:0x80270F14 end:0x8027147C
-	.rodata     start:0x8044F658 end:0x8044F660
+	.rodata     start:0x8044F640 end:0x8044F660
 	.data       start:0x804D0D98 end:0x804D0FA4
+	.sdata      start:0x805D39F8 end:0x805D3A00
 	.sdata2     start:0x805DD420 end:0x805DD470
 
 pso/ui/window/TWindowSubAreaMap.cpp:
@@ -7555,7 +7563,7 @@ pso/ui/window/TWindowShortListCtrl_80277D3C.cpp:
 
 pso/ui/window/TWindowSubEquip_80277DF8.cpp:
 	.text       start:0x80277DF8 end:0x80278300
-	.data       start:0x804D1580 end:0x804D15B4
+	.data       start:0x804D1568 end:0x804D15B4
 	.sdata2     start:0x805DD5F0 end:0x805DD5F4
 
 pso/ui/window/TWindowSubEquipKind_80278300.cpp:
@@ -7751,7 +7759,7 @@ pso/ui/window/TWindowSubTechnique_80286B64.cpp:
 
 pso/ui/window/TWindowSubTechnique.cpp:
 	.text       start:0x80286BD4 end:0x80287570
-	.rodata     start:0x8044FC40 end:0x8044FC54
+	.rodata     start:0x8044FC40 end:0x8044FC90
 	.data       start:0x804D2E20 end:0x804D2E4C
 	.sdata      start:0x805D3AD0 end:0x805D3AD4
 	.sdata2     start:0x805DD838 end:0x805DD840
@@ -7784,7 +7792,7 @@ pso/ui/window/TWindowUserSort.cpp:
 
 pso/ui/window/TWindowMainMenu1P.cpp:
 	.text       start:0x80288520 end:0x80288940
-	.rodata     start:0x80450770 end:0x80450790
+	.rodata     start:0x8044FE00 end:0x80450790
 	.data       start:0x804D3078 end:0x804D30A0
 	.sdata      start:0x805D3AE8 end:0x805D3AEC
 	.sdata2     start:0x805DD8A0 end:0x805DD8E0
@@ -8596,7 +8604,7 @@ pso/ui/frontend/TAdGuideTxtGC.cpp:
 pso/ui/window/TWindowSubTrade.cpp:
 	.text       start:0x802B1AB4 end:0x802B20C0
 	.rodata     start:0x80470A98 end:0x80470AB0
-	.data       start:0x804DE8E0 end:0x804DE900
+	.data       start:0x804DE8C8 end:0x804DE900
 	.sdata      start:0x805D3EA8 end:0x805D3EB0
 	.sdata2     start:0x805DE298 end:0x805DE2A8
 
@@ -9852,7 +9860,7 @@ pso/boss/olgaflow/TBoss6Type2_803309D8.cpp:
 pso/ui/window/TWindowSubTradeMain_80330A84.cpp:
 	.text       start:0x80330A84 end:0x803323D8
 	.rodata     start:0x80477470 end:0x804774A0
-	.data       start:0x804EDFA8 end:0x804EE0C0
+	.data       start:0x804EDF90 end:0x804EE0C0
 	.sdata      start:0x805D4228 end:0x805D4230
 	.sdata2     start:0x805DF858 end:0x805DF85C
 
@@ -9911,6 +9919,9 @@ pso/boss/olgaflow/TBoss6Type2_80336E6C.cpp:
 	.rodata     start:0x80477858 end:0x80477890
 	.data       start:0x804EEF98 end:0x804EF100
 	.sdata2     start:0x805DF978 end:0x805DF988
+
+pso/ui/window/WindowLayoutCamera2Data.cpp:
+	.rodata     start:0x80477890 end:0x80477B70
 
 pso/player/TObjPlayer_80337348.cpp:
 	.text       start:0x80337348 end:0x803374F0
@@ -12298,9 +12309,13 @@ pso/player/TObjPlayer_803E5470.cpp:
 
 pso/quest/TQuestVmDownLoadServer_803E5668.cpp:
 	.text       start:0x803E5668 end:0x803E6970
+	.rodata     start:0x8047E570 end:0x8047E698
 	.bss        start:0x8058DC48 end:0x8058DE08
 	.sbss       start:0x805D7820 end:0x805D784C
 	.sdata2     start:0x805E10C0 end:0x805E10C8
+
+pso/quest/QuestDownloadCharTables.c:
+	.rodata     start:0x8047E698 end:0x8047EA28
 
 pso/quest/TQuestVmDownLoadServer_803E6970.cpp:
 	.text       start:0x803E6970 end:0x803E8918

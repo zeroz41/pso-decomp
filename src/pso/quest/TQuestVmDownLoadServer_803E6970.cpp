@@ -216,7 +216,7 @@ s32 TQuestVmDownLoadServer::get_buffer_size() {
 
 
 s32 TQuestVmDownLoadServer::lookup_value_by_key(u16 arg0) {
-    E_803E6F48 *p;
+    const JisSymbolEntry *p;
     for (p = jis_to_single_byte_symbol_table; p < jis_to_single_byte_symbol_table + 45; p++) {
         if (p->key == arg0) {
             return p->val;
@@ -295,13 +295,11 @@ s32 TQuestVmDownLoadServer__sub_803E719C(u8 arg0, s32 arg1) {
     return arg0 | ((arg1 & 0x100) + 0x2400);
 }
 
-typedef char RecoveredGlobal_803E721C_lbl_8047E698_size[sizeof(RecoveredGlobal_803E721C_lbl_8047E698) == 0x200 ? 1 : -1];
-
 u16 TQuestVmDownLoadServer::map_key_to_code(u32 arg0) {
-    u8 *k;
-    u16 *v;
-    k = lbl_8047E898;
-    v = lbl_8047E8A4;
+    const u8 *k;
+    const u16 *v;
+    k = key_symbol_chars;
+    v = key_symbol_jis;
     while (*k != 0) {
         if (*k == (u8)arg0) {
             u16 t = *v;
@@ -318,7 +316,7 @@ u16 TQuestVmDownLoadServer::map_key_to_code(u32 arg0) {
 
 u16 TQuestVmDownLoadServer__sub_803E721C(u16 arg0) {
     u16 temp_r3;
-    temp_r3 = *(u16 *)((s8 *)((u8 *)&single_byte_to_jis_table.value + ((arg0 * 2) & 0x1FE)) + 0);
+    temp_r3 = single_byte_to_jis_table[arg0 & 0xFF];
     if (((s32) (temp_r3 & 0xFF00) == 0x2500) && !(arg0 & 0x100)) {
         return (u8) temp_r3 | 0x2400;
     }

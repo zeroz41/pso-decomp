@@ -38,7 +38,6 @@ void refresh_status_display__9TWindowDDFv(void *);
 s32 get_window_layout_position(int);
 extern s32 __vt__11TWindowRoom[];
 const char *TWindowRoom__class_name = "TWindowRoom";
-s32 clamp_list_scroll_offset(NJS_POINT2 *a, NJS_POINT2 *b, NJS_POINT2 *c);
 s32 draw_visible_window_entries(s32, s32, s32);
 s32 draw_window_tab(s32, s32, s32, f32);
 void __dl__7TObjectFPv(void *);
@@ -92,18 +91,4 @@ TWindowRoom::TWindowRoom(char *title) {
     positionX -= width;
     ((TWindowBase *)this)->save_position();
     tabParameter = TWindowSubStatusDisp__sub_802877A4(unknown48 - 16.0f);
-}
-
-s32 clamp_list_scroll_offset(NJS_POINT2 *a, NJS_POINT2 *b, NJS_POINT2 *c) {
-    f32 room;
-    if (a->y < c->y || b->y < 0.0f) {
-        b->y = 0.0f;
-        return 1;
-    }
-    room = a->y - c->y;
-    if (b->y > room) {
-        b->y = room;
-        return 1;
-    }
-    return 0;
 }

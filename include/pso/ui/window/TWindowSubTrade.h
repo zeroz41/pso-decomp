@@ -14,23 +14,13 @@ struct TWindowSubTrade : public TObject {
     u32 m_20;
     u32 m_24;
     u32 m_28;
-    u32 m_2c;
-    u32 m_30;
-    u32 m_34;
+    u32 m_player_list; // inferred names: the windows run_task opens (trade partner list,
+    u32 m_message_window; // player message window,
+    u32 m_confirm_prompt; // trade yes/no prompt)
     virtual void render();
     virtual void run_task();
 };
 
 typedef char TWindowSubTrade_size[sizeof(TWindowSubTrade) == 0x38 ? 1 : -1];
-
-extern "C" {
-u8 *__dt__15TWindowSubTradeFv(u8 *arg0, s16 arg1);
-}
-
-// --- C functions defined in TWindowSubTrade.cpp ---
-extern "C" {
-u8 *__dt__15TWindowSubTradeFv(u8 *arg0, s16 arg1);
-}
-// --- end of C functions
 
 #endif

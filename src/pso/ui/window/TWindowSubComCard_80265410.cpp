@@ -17,6 +17,7 @@
 #include "pso/ui/window/TWindowDuelResult.h"
 #include "pso/ui/window/TWindowHelpItem.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
+#include "pso/unk/WindowLayoutRecord.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
@@ -124,9 +125,15 @@ void update_chat_window(void* p);
 s32 create_titled_window_menu(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 extern s32 __vt__11TWindowMenu[];
 const f64 lbl_8044F330 = 0.0;
-struct RecoveredGlobal_lbl_804D05A8 { s32 value; u8 remaining[0x20]; };
-extern RecoveredGlobal_lbl_804D05A8 lbl_804D05A8;
-extern u8 lbl_804D05CC[];
+// The TWindowMenu layout table (one type-3 text record; fn_80266378 sets the row count) and
+// the window descriptor TWindowMenu__ct passes to TWindowAddition.
+struct MenuWindowLayout {
+    u32 cols;
+    u32 rows;
+    TextLayoutRecord rec;
+};
+MenuWindowLayout lbl_804D05A8 = {1, 0, {3, {0.0f, 0.0f}, 0.5f, 0xFFFFFFFF, 0, 0}};
+WindowDescriptor lbl_804D05CC = {{0.0f, 0.0f}, 50050.0f, &lbl_804D05A8, 3};
 extern s8 controller_input_state[];
 const char *lbl_805D3960 = "TWindowMenu";
 extern s32 actor_frame_tick;
@@ -626,7 +633,7 @@ s32 TWindowSubTradeMain::add_text_entry(s32 arg1, s32 arg2, s32 arg3, s32 arg4) 
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void* p, int a1, int a2, int a3) { return ((TWindowSubTradeMain *)p)->add_text_entry(a1, a2, a3, -1); }
 
 void fn_80266378(s32 arg0) {
-    *(s32 *)((s8 *)&lbl_804D05A8.value + 4) = arg0;
+    lbl_804D05A8.rows = arg0;
 }
 
 u8 *create_yes_no_window(s32 arg0, s32 arg1, u32 arg2, u32 arg3) {
@@ -805,7 +812,7 @@ TWindowMenu::~TWindowMenu() {
 u8 *TWindowMenu__ct(u8 *window_menu, u32 arg1, s32 arg2, s32 arg3) {
     u32 i;
     u8 *p;
-    construct_with_parent__15TWindowAdditionFPv(window_menu, lbl_804D05CC, arg2, arg3);
+    construct_with_parent__15TWindowAdditionFPv(window_menu, &lbl_804D05CC, arg2, arg3);
     *(void **)(window_menu + 0x18) = ((s32 *)&__vt__11TWindowMenu);
     *(const char **)window_menu = lbl_805D3960;
     *(s16 *)(window_menu + 0x72) = 0;
