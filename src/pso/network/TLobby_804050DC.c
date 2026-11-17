@@ -1204,43 +1204,59 @@ s32 TLobby__sub_80406B6C(NetBufferRef *o) {
 }
 
 u16 ones_complement_sum();
+#pragma push
+#pragma opt_lifetimes off
 u16 TLobby__sub_80406BD8(NetPacket *pkt, s16 flag)
 {
-    u32 sum = 0;
+    NetPacketFragment *e;
+    u32 sum;
     u8 *ptr;
-    s32 count = pkt->fragment_count;
+    s32 count;
     s32 i;
-    s16 carry = 0;
+    s16 carry;
     u8 hdr[2];
-    s16 len;
-    NetBufferRef *ref;
 
+    count = pkt->fragment_count;
+    sum = 0;
+    carry = 0;
     *(u16 *)hdr = 0;
     if (flag == 1) {
+        e = pkt->fragments + count - 1;
         while (count != 0) {
+            u8 kind = e->buffer.kind;
+            u32 *w = &e->buffer.value;
+            s16 len;
+            e--;
             count--;
-            ref = &pkt->fragments[count].buffer;
-            switch (pkt->fragments[count].buffer.kind) {
+            switch (kind) {
             case 1:
             case 4:
-                ptr = (u8 *)ref->value;
+                ptr = (u8 *)*w;
                 break;
             case 2: {
-                u32 w = ref->value;
-                s16 k = (s16)(w >> 24);
+                u32 word = *w;
+                s16 k = (s16)(word >> 24);
                 NetBufferPoolEntry *ent;
+                u16 seg;
                 if (network_buffer_pool_state.count < k) {
                     return 0;
                 }
-                ent = &network_buffer_pool_state.ents[k];
-                ptr = (u8 *)(ent->segs[(s16)((w >> 16) & 0xff)].offset + (w & 0xffff) + (u32)ent->buf);
+                ent = network_buffer_pool_state.ents;
+                ent = ent + k;
+                seg = ent->segs[(s16)((len = word >> 16) & 0xff)].offset;
+                {
+                    u32 t = (u32)ent->buf;
+                    t = (word & 0xffff) + t;
+                    t = seg + t;
+                    ptr = (u8 *)t;
+                }
                 break;
             }
             case 3:
-                ptr = (u8 *)pkt->fragments[count].buffer.value;
+                ptr = (u8 *)e[1].buffer.value;
                 break;
             }
-            len = pkt->fragments[count].length;
+            len = e[1].length;
             if (carry) {
                 hdr[1] = *ptr++;
                 sum += *(u16 *)hdr;
@@ -1262,29 +1278,39 @@ u16 TLobby__sub_80406BD8(NetPacket *pkt, s16 flag)
             sum += *(u16 *)hdr;
         }
     } else {
-        for (i = 1; i < count; i++) {
-            ref = &pkt->fragments[i].buffer;
-            switch (pkt->fragments[i].buffer.kind) {
+        e = pkt->fragments;
+        for (i = 1; i < count; e++, i++) {
+            u32 *w = &e[1].buffer.value;
+            s16 len;
+            switch (e[1].buffer.kind) {
             case 1:
             case 4:
-                ptr = (u8 *)ref->value;
+                ptr = (u8 *)*w;
                 break;
             case 2: {
-                u32 w = ref->value;
-                s16 k = (s16)(w >> 24);
+                u32 word = *w;
+                s16 k = (s16)(word >> 24);
                 NetBufferPoolEntry *ent;
+                u16 seg;
                 if (network_buffer_pool_state.count < k) {
                     return 0;
                 }
-                ent = &network_buffer_pool_state.ents[k];
-                ptr = (u8 *)(ent->segs[(s16)((w >> 16) & 0xff)].offset + (w & 0xffff) + (u32)ent->buf);
+                ent = network_buffer_pool_state.ents;
+                ent = ent + k;
+                {
+                    u32 t = (u32)ent->buf;
+                    seg = ent->segs[(s16)((len = word >> 16) & 0xff)].offset;
+                    t = (word & 0xffff) + t;
+                    t = seg + t;
+                    ptr = (u8 *)t;
+                }
                 break;
             }
             case 3:
-                ptr = (u8 *)pkt->fragments[i].buffer.value;
+                ptr = (u8 *)e[1].buffer.value;
                 break;
             }
-            len = pkt->fragments[i].length;
+            len = e[1].length;
             if (carry) {
                 hdr[1] = *ptr++;
                 sum += *(u16 *)hdr;
@@ -1312,6 +1338,7 @@ u16 TLobby__sub_80406BD8(NetPacket *pkt, s16 flag)
     }
     return (u16)sum;
 }
+#pragma pop
 
 void netbuf_ref_advance(NetBufferRef *ref, s32 n) {
     switch (ref->kind) {
