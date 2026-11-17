@@ -59,60 +59,60 @@ s32 NetIPv6Init(void) {
     return 0;
 }
 
-inline s16 process_options_header(u8 *p, s16 rem, u8 *ip, s16 m, s16 id) {
-    s32 n;
-    u8 *d;
-    d = p + 2;
-    n = ((p[1] + 1) << 3) - 2;
-    if ((s16)n > rem) {
+inline s16 process_options_header(u8 *ext, s16 rem, u8 *ip, s16 len, s16 iface) {
+    s32 options_len;
+    u8 *options;
+    options = ext + 2;
+    options_len = ((ext[1] + 1) << 3) - 2;
+    if ((s16)options_len > rem) {
         return -1;
     }
-    if (ipv6_process_options(d, n, ip, m, id) < 0) {
+    if (ipv6_process_options(options, options_len, ip, len, iface) < 0) {
         return -1;
     }
     return 0;
 }
 
-inline NetPacket *frag_8040FFF8(u8 *ip, Ipv6FragmentHeader *frag, s32 rem, s16 m, s16 id, NetworkAddress *sa, NetIcmpv6Header *ic) {
+inline NetPacket *input_fragment_header(u8 *ip, Ipv6FragmentHeader *frag, s32 remaining, s16 total_len, s16 iface, NetworkAddress *src, NetIcmpv6Header *error) {
     s32 fragment_input(u8 *, u16, s16, u8, u32, NetworkAddress *, u16, u8, s16);
-    u32 fl;
-    u32 mf;
-    u32 off;
-    fl = frag->offset_flags;
-    mf = fl & 1;
-    off = (fl >> 3) & 0x1FFF;
-    if (((u8) fl & 1) && (((rem - sizeof(Ipv6FragmentHeader)) & 7) != 0)) {
-        if (off == 0) {
-            ic->type = 4;
-            ic->code = 0;
-            ic->reserved = 4;
-            icmp6_send_error(ic, ip, m, id);
+    u32 offset_flags;
+    u32 more;
+    u32 offset;
+    offset_flags = frag->offset_flags;
+    more = offset_flags & 1;
+    offset = (offset_flags >> 3) & 0x1FFF;
+    if (((u8) offset_flags & 1) && (((remaining - sizeof(Ipv6FragmentHeader)) & 7) != 0)) {
+        if (offset == 0) {
+            error->type = ICMP6_PARAM_PROB;
+            error->code = ICMP6_PARAMPROB_HEADER;
+            error->reserved = offsetof(Ipv6Header, payload_length);
+            icmp6_send_error(error, ip, total_len, iface);
         }
         return 0;
     }
-    return (NetPacket *) fragment_input(ip, m - (rem - sizeof(Ipv6FragmentHeader)), rem - sizeof(Ipv6FragmentHeader), 60, frag->ident, sa, off, mf, id);
+    return (NetPacket *) fragment_input(ip, total_len - (remaining - sizeof(Ipv6FragmentHeader)), remaining - sizeof(Ipv6FragmentHeader), IPV6_REASSEMBLY_TIMEOUT, frag->ident, src, offset, more, iface);
 }
-inline s32 min_8040FFF8(s32 a, s32 b) {
+inline s32 min_s32(s32 a, s32 b) {
     if (a < b) {
         return a;
     }
     return b;
 }
 
-inline NetPacket *buildrec_8040FFF8(u8 *ip, s16 m, u8 *p, s32 rem) {
-    NetPacket *rec = alloc_free_entry();
-    if (rec == 0) {
+inline NetPacket *make_input_packet(u8 *ip, s16 total_len, u8 *payload, s32 payload_len) {
+    NetPacket *pkt = alloc_free_entry();
+    if (pkt == 0) {
         return 0;
     }
-    rec->fragment_count = 0;
-    rec->total_bytes = m;
-    rec->fragments[rec->fragment_count].length = m - rem;
-    set_value_and_enable(&rec->fragments[rec->fragment_count].buffer, (s32)ip);
-    rec->fragment_count += 1;
-    rec->fragments[rec->fragment_count].length = (u16)rem;
-    set_value_and_enable(&rec->fragments[rec->fragment_count].buffer, (s32)p);
-    rec->fragment_count += 1;
-    return rec;
+    pkt->fragment_count = 0;
+    pkt->total_bytes = total_len;
+    pkt->fragments[pkt->fragment_count].length = total_len - payload_len;
+    set_value_and_enable(&pkt->fragments[pkt->fragment_count].buffer, (s32)ip);
+    pkt->fragment_count += 1;
+    pkt->fragments[pkt->fragment_count].length = (u16)payload_len;
+    set_value_and_enable(&pkt->fragments[pkt->fragment_count].buffer, (s32)payload);
+    pkt->fragment_count += 1;
+    return pkt;
 }
 
 #pragma push
@@ -120,123 +120,123 @@ inline NetPacket *buildrec_8040FFF8(u8 *ip, s16 m, u8 *p, s32 rem) {
 #pragma opt_strength_reduction off
 s32 ipv6_input(u8 *ip, int len, s16 id) {
     s16 icmp6_send_error(NetIcmpv6Header *msg, u8 *ip, s32 len, s16 iface); /* the definition takes an s16 len */
-    s16 ipv6_forward(u8 *ip, u8 *p, s16 len, s16 iface); /* the definition returns s32 */
+    s16 ipv6_forward(u8 *ip, u8 *packet, s16 len, s16 iface); /* the definition returns s32 */
     s16 tcp_input(NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst); /* the definition takes (u8 *, u8 *, u8 *) */
     s16 udp_input(NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst, s16 iface);
     s32 raw_socket_deliver(NetPacket *pkt, u8 *src, u8 *dst, void *callback, s16 index); /* the definition takes an s32 index */
-    NetworkAddress sa;
-    NetworkAddress da;
-    NetIcmpv6Header ic44;
-    NetIcmpv6Header ic36;
-    NetIcmpv6Header ic28;
-    s16 m;
-    s16 ifidx;
-    u8 nh;
+    NetworkAddress src_addr;
+    NetworkAddress dst_addr;
+    NetIcmpv6Header error;
+    NetIcmpv6Header options_error;
+    NetIcmpv6Header frag_error;
+    s16 total_len;
+    s16 iface;
+    u8 next_header;
     s16 i;
-    s32 rem;
-    u8 *p;
-    u8 *last;
+    s32 remaining;
+    u8 *ext;
+    u8 *next_header_field;
     u8 *src;
-    Ipv6ProtocolState *g;
+    Ipv6ProtocolState *state;
     u8 *hdr;
-    s16 r;
+    s16 result;
     u8 *dst_cmp;
-    s16 res;
+    s16 status;
     u8 *dst;
-    s16 found;
-    NetPacket *rec;
-    s16 reasm;
-    Ipv6RawSocket *ent;
+    s16 delivered;
+    NetPacket *pkt;
+    s16 reassembled;
+    Ipv6RawSocket *sock;
 
     if (((s16) len) < (s32) sizeof(Ipv6Header)) {
         goto ret;
     }
-    ifidx = id;
-    if (get_valid_entry(ifidx) == 0) {
+    iface = id;
+    if (get_valid_entry(iface) == 0) {
         goto ret;
     }
     if ((ip[0] & 0xF0) != 0x60) {
         return -1;
     }
-    m = min_8040FFF8(((Ipv6Header *) ip)->payload_length + sizeof(Ipv6Header), (s16) len);
-    if (TLobby__sub_804136CC(ifidx) == 0) {
+    total_len = min_s32(((Ipv6Header *) ip)->payload_length + sizeof(Ipv6Header), (s16) len);
+    if (TLobby__sub_804136CC(iface) == 0) {
         if (ipv6_iface_for_address(((Ipv6Header *) ip)->dst.bytes) < 0) {
             if (NetIPv6IsMulticast(((Ipv6Header *) ip)->dst.bytes) == 0) {
-                if (ipv6_forward(ip, ip, m, ifidx) == 0) {
+                if (ipv6_forward(ip, ip, total_len, iface) == 0) {
                     return 0;
                 }
                 return -1;
             }
         }
     }
-    sa.family = 6;
-    src = sa.address;
+    src_addr.family = 6;
+    src = src_addr.address;
     NetMemcpy(src, ((Ipv6Header *) ip)->src.bytes, 16);
-    da.family = 6;
-    dst = da.address;
+    dst_addr.family = 6;
+    dst = dst_addr.address;
     NetMemcpy(dst, ((Ipv6Header *) ip)->dst.bytes, 16);
-    nh = ((Ipv6Header *) ip)->next_header;
-    rem = m - sizeof(Ipv6Header);
+    next_header = ((Ipv6Header *) ip)->next_header;
+    remaining = total_len - sizeof(Ipv6Header);
     hdr = ip;
-    p = hdr + sizeof(Ipv6Header);
-    last = hdr + offsetof(Ipv6Header, next_header);
-    reasm = 0;
+    ext = hdr + sizeof(Ipv6Header);
+    next_header_field = hdr + offsetof(Ipv6Header, next_header);
+    reassembled = 0;
     dst_cmp = dst;
-    found = 0;
+    delivered = 0;
     for (;;) {
-        if (nh == 59) {
+        if (next_header == IPV6_NH_NONE) {
             return 0;
         }
-        if (((s16) rem) < 8) {
-            ic44.type = 4;
-            ic44.code = 1;
-            ic44.reserved = last - hdr;
-            icmp6_send_error(&ic44, hdr, m, ifidx);
+        if (((s16) remaining) < 8) {
+            error.type = ICMP6_PARAM_PROB;
+            error.code = ICMP6_PARAMPROB_NEXTHEADER;
+            error.reserved = next_header_field - hdr;
+            icmp6_send_error(&error, hdr, total_len, iface);
             goto ret;
         }
-        switch (nh) {
-        case 0:
-            if (m != (((s16) rem) + (s32) sizeof(Ipv6Header))) {
-                ic36.type = 4;
-                ic36.code = 1;
-                ic36.reserved = last - hdr;
-                icmp6_send_error(&ic36, hdr, m, ifidx);
-                res = -1;
+        switch (next_header) {
+        case IPV6_NH_HOP_BY_HOP:
+            if (total_len != (((s16) remaining) + (s32) sizeof(Ipv6Header))) {
+                options_error.type = ICMP6_PARAM_PROB;
+                options_error.code = ICMP6_PARAMPROB_NEXTHEADER;
+                options_error.reserved = next_header_field - hdr;
+                icmp6_send_error(&options_error, hdr, total_len, iface);
+                status = -1;
             } else {
-                res = process_options_header(p, rem, hdr, m, ifidx);
+                status = process_options_header(ext, remaining, hdr, total_len, iface);
             }
-            if (res < 0) {
+            if (status < 0) {
                 goto ret;
             }
             goto adv;
 
-        case 1:
-        case 4:
-        case 50:
-        case 51:
+        case IPV6_NH_ICMP:
+        case IPV6_NH_IPV4:
+        case IPV6_NH_ESP:
+        case IPV6_NH_AH:
             goto ret;
 
-        case 44:
-            rec = frag_8040FFF8(hdr, (Ipv6FragmentHeader *) p, rem, m, ifidx, &sa, &ic28);
-            if (rec == 0) {
+        case IPV6_NH_FRAGMENT:
+            pkt = input_fragment_header(hdr, (Ipv6FragmentHeader *) ext, remaining, total_len, iface, &src_addr, &frag_error);
+            if (pkt == 0) {
                 return -1;
             }
-            nh = p[0];
-            reasm = 1;
+            next_header = ext[0];
+            reassembled = 1;
             goto payload;
 
-        case 60:
-            res = process_options_header(p, rem, hdr, m, ifidx);
-            if (res < 0) {
+        case IPV6_NH_DEST_OPTIONS:
+            status = process_options_header(ext, remaining, hdr, total_len, iface);
+            if (status < 0) {
                 goto ret;
             }
-
-        case 43:
+            /* fallthrough */
+        case IPV6_NH_ROUTING:
         adv:
-            last = p;
-            nh = p[0];
-            rem -= (p[1] + 1) << 3;
-            p += (p[1] + 1) << 3;
+            next_header_field = ext;
+            next_header = ext[0];
+            remaining -= (ext[1] + 1) << 3;
+            ext += (ext[1] + 1) << 3;
             continue;
 
         case 10:
@@ -249,41 +249,41 @@ s32 ipv6_input(u8 *ip, int len, s16 id) {
     }
 
 payload:
-    if (reasm == 0) {
-        rec = buildrec_8040FFF8(hdr, m, p, rem);
-        if (rec == 0) {
+    if (reassembled == 0) {
+        pkt = make_input_packet(hdr, total_len, ext, remaining);
+        if (pkt == 0) {
             return -257;
         }
     }
 
-    switch (nh) {
-    case 58:
-        r = NetIPv6HandleIcmpMessage(rec, src, dst, ((Ipv6Header *) hdr)->hop_limit, ifidx);
-        ifidx = id;
-        if (r < 0) {
+    switch (next_header) {
+    case IPV6_NH_ICMPV6:
+        result = NetIPv6HandleIcmpMessage(pkt, src, dst, ((Ipv6Header *) hdr)->hop_limit, iface);
+        iface = id;
+        if (result < 0) {
             goto fail;
         }
-        found = 1;
+        delivered = 1;
         break;
 
-    case 6:
-        r = tcp_input(rec, &sa, &da);
-        if (r < 0) {
+    case IPV6_NH_TCP:
+        result = tcp_input(pkt, &src_addr, &dst_addr);
+        if (result < 0) {
             goto fail;
         }
         goto ok;
 
-    case 17:
-        r = udp_input(rec, &sa, &da, ifidx);
-        if (r >= 0) {
+    case IPV6_NH_UDP:
+        result = udp_input(pkt, &src_addr, &dst_addr, iface);
+        if (result >= 0) {
             goto ok;
         }
-        switch (r) {
+        switch (result) {
         case -2:
-            ic44.type = 1;
-            ic44.code = 4;
-            ic44.reserved = 0;
-            icmp6_send_error(&ic44, hdr, m, ifidx);
+            error.type = ICMP6_DST_UNREACH;
+            error.code = ICMP6_DST_UNREACH_NOPORT;
+            error.reserved = 0;
+            icmp6_send_error(&error, hdr, total_len, iface);
             goto fail;
 
         default:
@@ -294,38 +294,38 @@ payload:
         break;
     }
 
-    g = &ipv6_protocol_state;
-    ent = g->sockets;
-    for (i = 0; i < g->nsockets; i++, ent++) {
-        if (((ent->used == 1) && (ent->proto == nh)) && (ent->owner != 0)) {
-            if ((NetIPv6IsUnspecified(ent->local) != 0) || (NetIPv6CompareAddresses(ent->local, src) == 0)) {
-                if ((NetIPv6IsUnspecified(ent->remote) != 0) || (NetIPv6CompareAddresses(ent->remote, dst_cmp) == 0)) {
-                    raw_socket_deliver(rec, src, dst, ent->owner, i);
-                    found = 1;
+    state = &ipv6_protocol_state;
+    sock = state->sockets;
+    for (i = 0; i < state->nsockets; i++, sock++) {
+        if (((sock->used == 1) && (sock->proto == next_header)) && (sock->owner != 0)) {
+            if ((NetIPv6IsUnspecified(sock->local) != 0) || (NetIPv6CompareAddresses(sock->local, src) == 0)) {
+                if ((NetIPv6IsUnspecified(sock->remote) != 0) || (NetIPv6CompareAddresses(sock->remote, dst_cmp) == 0)) {
+                    raw_socket_deliver(pkt, src, dst, sock->owner, i);
+                    delivered = 1;
                 }
             }
         }
     }
 
-    if (found == 1) {
+    if (delivered == 1) {
     ok:
-        if (reasm == 1) {
-            release_packet_fragments(rec);
+        if (reassembled == 1) {
+            release_packet_fragments(pkt);
         }
-        release_entry(rec);
+        release_entry(pkt);
         return 0;
     }
-    if (reasm != 1) {
-        ic44.type = 4;
-        ic44.code = 1;
-        ic44.reserved = last - hdr;
-        icmp6_send_error(&ic44, hdr, m, ifidx);
+    if (reassembled != 1) {
+        error.type = ICMP6_PARAM_PROB;
+        error.code = ICMP6_PARAMPROB_NEXTHEADER;
+        error.reserved = next_header_field - hdr;
+        icmp6_send_error(&error, hdr, total_len, iface);
     }
 fail:
-    if (reasm == 1) {
-        release_packet_fragments(rec);
+    if (reassembled == 1) {
+        release_packet_fragments(pkt);
     }
-    release_entry(rec);
+    release_entry(pkt);
 ret:
     return -1;
 }
@@ -334,8 +334,8 @@ ret:
 static inline s16 chk_804105E0(u8 *p, s16 lim, s16 ctx, s16 l, s16 rem, u8 *q, u8 *prev) {
     u8 err4[8];
     if (l != rem + 0x28) {
-        err4[0] = 4;
-        err4[1] = 1;
+        err4[0] = ICMP6_PARAM_PROB;
+        err4[1] = ICMP6_PARAMPROB_NEXTHEADER;
         *(s32 *)(err4 + 4) = prev - p;
         icmp6_send_error(err4, p, lim, ctx);
         return -1;
@@ -414,8 +414,8 @@ extern s32 ipv6_forward(u8 *self, u8 *p, s16 lim, s16 ctx)
   {
     if ((flag == 0) || (flags == 0))
     {
-      err[0] = 3;
-      err[1] = 0;
+      err[0] = ICMP6_TIME_EXCEEDED;
+      err[1] = ICMP6_TIME_EXCEED_TRANSIT;
       *((s32 *) (err + 4)) = 0;
       icmp6_send_error(err, p, lim, ctx);
     }
@@ -426,8 +426,8 @@ extern s32 ipv6_forward(u8 *self, u8 *p, s16 lim, s16 ctx)
   {
     if ((flag == 0) || (flags == 0))
     {
-      err[0] = 1;
-      err[1] = 0;
+      err[0] = ICMP6_DST_UNREACH;
+      err[1] = ICMP6_DST_UNREACH_NOROUTE;
       *((s32 *) (err + 4)) = 0;
       icmp6_send_error(err, p, lim, ctx);
     }
@@ -451,7 +451,7 @@ extern s32 ipv6_forward(u8 *self, u8 *p, s16 lim, s16 ctx)
   {
     if ((flag == 0) || (flags == 0))
     {
-      err[0] = 2;
+      err[0] = ICMP6_PACKET_TOO_BIG;
       err[1] = 0;
       *((s32 *) (err + 4)) = h6;
       icmp6_send_error(err, p, lim, ctx);
@@ -516,8 +516,8 @@ s16 ipv6_process_options(u8* p, s16 n, u8* self, s16 c, s16 d) {
                     u32 c;
                 } msg;
 
-                msg.a = 4;
-                msg.b = 2;
+                msg.a = ICMP6_PARAM_PROB;
+                msg.b = ICMP6_PARAMPROB_OPTION;
                 msg.c = cur - self;
                 icmp6_send_error(&msg, self, c, d);
             }
