@@ -9083,7 +9083,7 @@ pso/boss/derolle/TObjBoss2Tunnel_802F1A58.cpp:
 	.text       start:0x802F1A58 end:0x802F2CDC
 	.ctors      start:0x80433FDC end:0x80433FE0
 	.rodata     start:0x804743B0 end:0x80474460
-	.data       start:0x804E4978 end:0x804E4B3C
+	.data       start:0x804E4978 end:0x804E4B58
 	.sdata      start:0x805D3FF0 end:0x805D3FF8
 	.sbss       start:0x805D6968 end:0x805D6978
 	.sdata2     start:0x805DEC98 end:0x805DED14
