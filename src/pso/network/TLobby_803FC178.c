@@ -54,7 +54,7 @@ s16 TLobby__sub_803FC1CC(Conn_804004DC *c, s32 timeout) {
     while (c->state != 5) {
         if (is_timed_out() != 0 || c->abort != 0 || *sub == 4) {
             c->abort = 0;
-            if (lbl_805D7A80 != 0) {
+            if (ppp_auth_failed != 0) {
                 lbl_805D7A82 = 6;
             } else {
                 lbl_805D7A82 = 5;
@@ -239,7 +239,7 @@ void dispatch_received_packet(void *self, s32 arg1) {
             update_connection_state((int) (temp_r30_4 + 0xA0));
             update_connection_state((int) (temp_r30_4 + 4));
             *(s16 *)((s8 *)arg0 + 8) = 1;
-            lbl_805D7A80 = 1;
+            ppp_auth_failed = 1;
             break;
         }
     }
@@ -297,10 +297,10 @@ void TLobby__sub_803FC728(Conn_804004DC *c) {
 #pragma dont_inline off
 #pragma inline_depth(4)
 inline s32 chap_rbs_803FC820(PppFrame **src) {
-    if (ppp_buffer_read(src, &lbl_805D7A98, 1) != 1) {
+    if (ppp_buffer_read(src, &chap_read_byte_buffer, 1) != 1) {
         return -1;
     }
-    return (s16)lbl_805D7A98;
+    return (s16)chap_read_byte_buffer;
 }
 inline s32 chap_rb_803FC820(PppFrame **src) {
     s32 fast = 0;

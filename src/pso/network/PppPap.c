@@ -40,7 +40,7 @@ s16 TLobby__sub_80402BB4(void *arg0, u32 timeout) {
             update_connection_state((int)c);
             update_connection_state((int)(c->sub + 4));
             c->abort = 0;
-            if (lbl_805D7A80 != 0) {
+            if (ppp_auth_failed != 0) {
                 lbl_805D7A82 = 6;
             } else {
                 lbl_805D7A82 = 5;
@@ -132,7 +132,7 @@ void set_active(void *self) {
 #pragma opt_lifetimes off
 #pragma dont_inline off
 #pragma inline_depth(4)
-extern u8 lbl_805D7AB8[8];
+extern u8 pap_read_byte_buffer[8];
 static inline PapOptions *pap_options(Conn_804004DC *connection) {
     return (PapOptions *)connection->opts;
 }
@@ -151,7 +151,7 @@ static inline s16 pap_read_reply_message(PapOptions *options, u8 actual_id, u8 e
     if (actual_id != expected_id) {
         return -1;
     }
-    requested = ppp_buffer_read(&source, lbl_805D7AB8, 1) != 1 ? -1 : (s16)lbl_805D7AB8[0];
+    requested = ppp_buffer_read(&source, pap_read_byte_buffer, 1) != 1 ? -1 : (s16)pap_read_byte_buffer[0];
     if (requested != -1) {
         if (requested != 0) {
             available = get_field_4(source);
@@ -214,7 +214,7 @@ void pap_input(Conn_804004DC *self, PppFrame *source) {
         options->password = NULL;
         connection->abort = 1;
         self->state = 0;
-        lbl_805D7A80 = 1;
+        ppp_auth_failed = 1;
         return;
     }
 }
@@ -303,10 +303,10 @@ inline s32 get_80403308(PppFrame **s) {
         (*s)->len--;
         return *(*s)->data++;
     }
-    if (ppp_buffer_read(s, lbl_805D7AB8, 1) != 1) {
+    if (ppp_buffer_read(s, pap_read_byte_buffer, 1) != 1) {
         return -1;
     }
-    return (s16)lbl_805D7AB8[0];
+    return (s16)pap_read_byte_buffer[0];
 }
 s16 pap_recv_auth_request(u8 *self, u8 *src, PppFrame *val) {
     s32 ppp_fsm_send_packet(void *, u8, u8, void *); /* declared here with other parameter types; the definition is s32 (void *, int, int, void *) */
@@ -321,7 +321,7 @@ s16 pap_recv_auth_request(u8 *self, u8 *src, PppFrame *val) {
     s16 n;
     u8 *ent;
 
-    ch = (ppp_buffer_read(&val, lbl_805D7AB8, 1) != 1) ? -1 : (s16)lbl_805D7AB8[0];
+    ch = (ppp_buffer_read(&val, pap_read_byte_buffer, 1) != 1) ? -1 : (s16)pap_read_byte_buffer[0];
     if (ch != -1) {
         s16 cnt;
         u8 *out;
@@ -333,7 +333,7 @@ s16 pap_recv_auth_request(u8 *self, u8 *src, PppFrame *val) {
         *out = 0;
     }
 
-    ch = (ppp_buffer_read(&val, lbl_805D7AB8, 1) != 1) ? -1 : (s16)lbl_805D7AB8[0];
+    ch = (ppp_buffer_read(&val, pap_read_byte_buffer, 1) != 1) ? -1 : (s16)pap_read_byte_buffer[0];
     if (ch != -1) {
         s16 cnt;
         u8 *out;
