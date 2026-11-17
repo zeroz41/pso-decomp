@@ -133,6 +133,8 @@ static inline f32 sqrtf_803DFB1C(f32 x) {
 
 /* Two quads touch: in each of the XY, XZ and YZ projections an edge of one
    crosses an edge of the other, or one projection lies inside the other. */
+#pragma push
+#pragma opt_loop_invariants off
 s32 TObjPlayer__sub_803DFB1C(Vec_803E1B1C *a, Vec_803E1B1C *b) {
     Point2_803E0CC8 pa[4];
     Point2_803E0CC8 pb[4];
@@ -145,6 +147,28 @@ s32 TObjPlayer__sub_803DFB1C(Vec_803E1B1C *a, Vec_803E1B1C *b) {
     s32 i;
     s32 j;
     s32 result;
+    f32 lengthSqAYZ;
+    f32 prevAvXZ;
+    f32 prevAuYZ;
+    f32 prevBuXY;
+    f32 prevBvXY;
+    f32 prevBvXZ;
+    f32 curAvXZ;
+    f32 prevAuXZ;
+    f32 curBuXY;
+    f32 curBvXY;
+    f32 curBvXZ;
+    f32 lengthSqAXY;
+    f32 lengthSqAXZ;
+    f32 hitUXY;
+    f32 interAXY;
+    f32 prevAvYZ;
+    f32 prevBuXZ;
+    f32 slopeAXZ;
+    f32 slopeAXY;
+    f32 curAuYZ;
+    f32 curBuXZ;
+    f32 curAuXZ;
 
     hitXY = 0;
     hitXZ = 0;
@@ -163,14 +187,6 @@ s32 TObjPlayer__sub_803DFB1C(Vec_803E1B1C *a, Vec_803E1B1C *b) {
         f32 toPrev;
         f32 toCur;
         f32 length;
-        f32 prevBu;
-        f32 prevBv;
-        f32 curBu;
-        f32 curBv;
-        f32 lengthSqA;
-        f32 hitU;
-        f32 interA;
-        f32 slopeA;
         f32 hitV;
         f32 slopeB;
         f32 interB;
@@ -182,56 +198,56 @@ s32 TObjPlayer__sub_803DFB1C(Vec_803E1B1C *a, Vec_803E1B1C *b) {
             curAu = a[i].x;
             curAv = a[i].y;
             if (prevAu < curAu - 0.025f || prevAu > 0.025f + curAu) {
-                slopeA = (curAv - prevAv) / (curAu - prevAu);
-                interA = prevAv - slopeA * prevAu;
+                slopeAXY = (curAv - prevAv) / (curAu - prevAu);
+                interAXY = prevAv - slopeAXY * prevAu;
                 vertA = 0;
             } else {
                 lineAu = prevAu;
                 vertA = 1;
             }
-            prevBu = b[3].x;
-            prevBv = b[3].y;
-            lengthSqA = (prevAu - curAu) * (prevAu - curAu) + (prevAv - curAv) * (prevAv - curAv);
+            prevBuXY = b[3].x;
+            prevBvXY = b[3].y;
             for (j = 0; j < 4; j++) {
                 parallel = 0;
-                curBu = b[j].x;
-                curBv = b[j].y;
-                if (prevBu < curBu - 0.025f || prevBu > 0.025f + curBu) {
-                    slopeB = (curBv - prevBv) / (curBu - prevBu);
-                    interB = prevBv - slopeB * prevBu;
+                lengthSqAXY = (prevAu - curAu) * (prevAu - curAu) + (prevAv - curAv) * (prevAv - curAv);
+                curBuXY = b[j].x;
+                curBvXY = b[j].y;
+                if (prevBuXY < curBuXY - 0.025f || prevBuXY > 0.025f + curBuXY) {
+                    slopeB = (curBvXY - prevBvXY) / (curBuXY - prevBuXY);
+                    interB = prevBvXY - slopeB * prevBuXY;
                     vertB = 0;
                 } else {
-                    lineBu = prevBu;
+                    lineBu = prevBuXY;
                     vertB = 1;
                 }
                 if (vertA == 0 && vertB == 0) {
-                    if (slopeA < slopeB - 0.025f || slopeA > 0.025f + slopeB) {
-                        hitU = (interB - interA) / (slopeA - slopeB);
-                        hitV = interA + slopeA * hitU;
+                    if (slopeAXY < slopeB - 0.025f || slopeAXY > 0.025f + slopeB) {
+                        hitUXY = (interB - interAXY) / (slopeAXY - slopeB);
+                        hitV = interAXY + slopeAXY * hitUXY;
                     } else {
                         parallel = 1;
                     }
                 } else if (vertB == 0) {
-                    hitU = lineAu;
-                    hitV = interB + slopeB * hitU;
+                    hitUXY = lineAu;
+                    hitV = interB + slopeB * hitUXY;
                 } else if (vertA == 0) {
-                    hitU = lineBu;
-                    hitV = interA + slopeA * hitU;
+                    hitUXY = lineBu;
+                    hitV = interAXY + slopeAXY * hitUXY;
                 } else {
                     parallel = 1;
                 }
                 if (parallel == 0) {
                     onA = 0;
                     onB = 0;
-                    toPrev = sqrtf_803DFB1C((prevAu - hitU) * (prevAu - hitU) + (prevAv - hitV) * (prevAv - hitV));
-                    toCur = sqrtf_803DFB1C((curAu - hitU) * (curAu - hitU) + (curAv - hitV) * (curAv - hitV));
-                    length = sqrtf_803DFB1C(lengthSqA);
+                    toPrev = sqrtf_803DFB1C((prevAu - hitUXY) * (prevAu - hitUXY) + (prevAv - hitV) * (prevAv - hitV));
+                    toCur = sqrtf_803DFB1C((curAu - hitUXY) * (curAu - hitUXY) + (curAv - hitV) * (curAv - hitV));
+                    length = sqrtf_803DFB1C(lengthSqAXY);
                     if (0.025f + length >= toPrev + toCur - 0.025f) {
                         onA = 1;
                     }
-                    toPrev = sqrtf_803DFB1C((prevBu - hitU) * (prevBu - hitU) + (prevBv - hitV) * (prevBv - hitV));
-                    toCur = sqrtf_803DFB1C((curBu - hitU) * (curBu - hitU) + (curBv - hitV) * (curBv - hitV));
-                    length = sqrtf_803DFB1C((prevBu - curBu) * (prevBu - curBu) + (prevBv - curBv) * (prevBv - curBv));
+                    toPrev = sqrtf_803DFB1C((prevBuXY - hitUXY) * (prevBuXY - hitUXY) + (prevBvXY - hitV) * (prevBvXY - hitV));
+                    toCur = sqrtf_803DFB1C((curBuXY - hitUXY) * (curBuXY - hitUXY) + (curBvXY - hitV) * (curBvXY - hitV));
+                    length = sqrtf_803DFB1C((prevBuXY - curBuXY) * (prevBuXY - curBuXY) + (prevBvXY - curBvXY) * (prevBvXY - curBvXY));
                     if (0.025f + length >= toPrev + toCur - 0.025f) {
                         onB = 1;
                     }
@@ -240,8 +256,8 @@ s32 TObjPlayer__sub_803DFB1C(Vec_803E1B1C *a, Vec_803E1B1C *b) {
                         break;
                     }
                 }
-                prevBu = curBu;
-                prevBv = curBv;
+                prevBuXY = curBuXY;
+                prevBvXY = curBvXY;
             }
             if (hitXY != 0) {
                 break;
@@ -256,20 +272,10 @@ s32 TObjPlayer__sub_803DFB1C(Vec_803E1B1C *a, Vec_803E1B1C *b) {
         s32 parallel;
         s32 onA;
         s32 onB;
-        f32 prevBv;
-        f32 prevAu;
-        f32 prevAv;
-        f32 curAu;
-        f32 curAv;
         f32 lineAu;
         f32 toPrev;
         f32 toCur;
         f32 length;
-        f32 prevBu;
-        f32 curBu;
-        f32 lengthSqA;
-        f32 curBv;
-        f32 slopeA;
         f32 interA;
         f32 hitU;
         f32 hitV;
@@ -277,38 +283,38 @@ s32 TObjPlayer__sub_803DFB1C(Vec_803E1B1C *a, Vec_803E1B1C *b) {
         f32 interB;
         f32 lineBu;
 
-        prevAu = a[3].x;
-        prevAv = a[3].z;
+        prevAuXZ = a[3].x;
+        prevAvXZ = a[3].z;
         for (i = 0; i < 4; i++) {
-            curAu = a[i].x;
-            curAv = a[i].z;
-            if (prevAu < curAu - 0.025f || prevAu > 0.025f + curAu) {
-                slopeA = (curAv - prevAv) / (curAu - prevAu);
-                interA = prevAv - slopeA * prevAu;
+            curAuXZ = a[i].x;
+            curAvXZ = a[i].z;
+            if (prevAuXZ < curAuXZ - 0.025f || prevAuXZ > 0.025f + curAuXZ) {
+                slopeAXZ = (curAvXZ - prevAvXZ) / (curAuXZ - prevAuXZ);
+                interA = prevAvXZ - slopeAXZ * prevAuXZ;
                 vertA = 0;
             } else {
-                lineAu = prevAu;
+                lineAu = prevAuXZ;
                 vertA = 1;
             }
-            prevBu = b[3].x;
-            prevBv = b[3].z;
-            lengthSqA = (prevAu - curAu) * (prevAu - curAu) + (prevAv - curAv) * (prevAv - curAv);
+            prevBuXZ = b[3].x;
+            prevBvXZ = b[3].z;
             for (j = 0; j < 4; j++) {
                 parallel = 0;
-                curBu = b[j].x;
-                curBv = b[j].z;
-                if (prevBu < curBu - 0.025f || prevBu > 0.025f + curBu) {
-                    slopeB = (curBv - prevBv) / (curBu - prevBu);
-                    interB = prevBv - slopeB * prevBu;
+                lengthSqAXZ = (prevAuXZ - curAuXZ) * (prevAuXZ - curAuXZ) + (prevAvXZ - curAvXZ) * (prevAvXZ - curAvXZ);
+                curBuXZ = b[j].x;
+                curBvXZ = b[j].z;
+                if (prevBuXZ < curBuXZ - 0.025f || prevBuXZ > 0.025f + curBuXZ) {
+                    slopeB = (curBvXZ - prevBvXZ) / (curBuXZ - prevBuXZ);
+                    interB = prevBvXZ - slopeB * prevBuXZ;
                     vertB = 0;
                 } else {
-                    lineBu = prevBu;
+                    lineBu = prevBuXZ;
                     vertB = 1;
                 }
                 if (vertA == 0 && vertB == 0) {
-                    if (slopeA < slopeB - 0.025f || slopeA > 0.025f + slopeB) {
-                        hitU = (interB - interA) / (slopeA - slopeB);
-                        hitV = interA + slopeA * hitU;
+                    if (slopeAXZ < slopeB - 0.025f || slopeAXZ > 0.025f + slopeB) {
+                        hitU = (interB - interA) / (slopeAXZ - slopeB);
+                        hitV = interA + slopeAXZ * hitU;
                     } else {
                         parallel = 1;
                     }
@@ -317,22 +323,22 @@ s32 TObjPlayer__sub_803DFB1C(Vec_803E1B1C *a, Vec_803E1B1C *b) {
                     hitV = interB + slopeB * hitU;
                 } else if (vertA == 0) {
                     hitU = lineBu;
-                    hitV = interA + slopeA * hitU;
+                    hitV = interA + slopeAXZ * hitU;
                 } else {
                     parallel = 1;
                 }
                 if (parallel == 0) {
                     onA = 0;
                     onB = 0;
-                    toPrev = sqrtf_803DFB1C((prevAu - hitU) * (prevAu - hitU) + (prevAv - hitV) * (prevAv - hitV));
-                    toCur = sqrtf_803DFB1C((curAu - hitU) * (curAu - hitU) + (curAv - hitV) * (curAv - hitV));
-                    length = sqrtf_803DFB1C(lengthSqA);
+                    toPrev = sqrtf_803DFB1C((prevAuXZ - hitU) * (prevAuXZ - hitU) + (prevAvXZ - hitV) * (prevAvXZ - hitV));
+                    toCur = sqrtf_803DFB1C((curAuXZ - hitU) * (curAuXZ - hitU) + (curAvXZ - hitV) * (curAvXZ - hitV));
+                    length = sqrtf_803DFB1C(lengthSqAXZ);
                     if (0.025f + length >= toPrev + toCur - 0.025f) {
                         onA = 1;
                     }
-                    toPrev = sqrtf_803DFB1C((prevBu - hitU) * (prevBu - hitU) + (prevBv - hitV) * (prevBv - hitV));
-                    toCur = sqrtf_803DFB1C((curBu - hitU) * (curBu - hitU) + (curBv - hitV) * (curBv - hitV));
-                    length = sqrtf_803DFB1C((prevBu - curBu) * (prevBu - curBu) + (prevBv - curBv) * (prevBv - curBv));
+                    toPrev = sqrtf_803DFB1C((prevBuXZ - hitU) * (prevBuXZ - hitU) + (prevBvXZ - hitV) * (prevBvXZ - hitV));
+                    toCur = sqrtf_803DFB1C((curBuXZ - hitU) * (curBuXZ - hitU) + (curBvXZ - hitV) * (curBvXZ - hitV));
+                    length = sqrtf_803DFB1C((prevBuXZ - curBuXZ) * (prevBuXZ - curBuXZ) + (prevBvXZ - curBvXZ) * (prevBvXZ - curBvXZ));
                     if (0.025f + length >= toPrev + toCur - 0.025f) {
                         onB = 1;
                     }
@@ -341,14 +347,14 @@ s32 TObjPlayer__sub_803DFB1C(Vec_803E1B1C *a, Vec_803E1B1C *b) {
                         break;
                     }
                 }
-                prevBu = curBu;
-                prevBv = curBv;
+                prevBuXZ = curBuXZ;
+                prevBvXZ = curBvXZ;
             }
             if (hitXZ != 0) {
                 break;
             }
-            prevAu = curAu;
-            prevAv = curAv;
+            prevAuXZ = curAuXZ;
+            prevAvXZ = curAvXZ;
         }
     }
     {
@@ -357,45 +363,41 @@ s32 TObjPlayer__sub_803DFB1C(Vec_803E1B1C *a, Vec_803E1B1C *b) {
         s32 parallel;
         s32 onA;
         s32 onB;
-        f32 lengthSqA;
-        f32 prevAu;
-        f32 prevAv;
-        f32 curAu;
-        f32 curAv;
         f32 lineAu;
         f32 toPrev;
         f32 toCur;
         f32 length;
+        f32 curAv;
         f32 prevBu;
-        f32 prevBv;
-        f32 curBu;
-        f32 curBv;
         f32 slopeA;
+        f32 prevBv;
         f32 interA;
         f32 hitU;
         f32 hitV;
+        f32 curBu;
+        f32 curBv;
         f32 slopeB;
         f32 interB;
         f32 lineBu;
 
-        prevAu = a[3].y;
-        prevAv = a[3].z;
+        prevAuYZ = a[3].y;
+        prevAvYZ = a[3].z;
         for (i = 0; i < 4; i++) {
-            curAu = a[i].y;
+            curAuYZ = a[i].y;
             curAv = a[i].z;
-            if (prevAu < curAu - 0.025f || prevAu > 0.025f + curAu) {
-                slopeA = (curAv - prevAv) / (curAu - prevAu);
-                interA = prevAv - slopeA * prevAu;
+            if (prevAuYZ < curAuYZ - 0.025f || prevAuYZ > 0.025f + curAuYZ) {
+                slopeA = (curAv - prevAvYZ) / (curAuYZ - prevAuYZ);
+                interA = prevAvYZ - slopeA * prevAuYZ;
                 vertA = 0;
             } else {
-                lineAu = prevAu;
+                lineAu = prevAuYZ;
                 vertA = 1;
             }
             prevBu = b[3].y;
             prevBv = b[3].z;
-            lengthSqA = (prevAu - curAu) * (prevAu - curAu) + (prevAv - curAv) * (prevAv - curAv);
             for (j = 0; j < 4; j++) {
                 parallel = 0;
+                lengthSqAYZ = (prevAuYZ - curAuYZ) * (prevAuYZ - curAuYZ) + (prevAvYZ - curAv) * (prevAvYZ - curAv);
                 curBu = b[j].y;
                 curBv = b[j].z;
                 if (prevBu < curBu - 0.025f || prevBu > 0.025f + curBu) {
@@ -425,9 +427,9 @@ s32 TObjPlayer__sub_803DFB1C(Vec_803E1B1C *a, Vec_803E1B1C *b) {
                 if (parallel == 0) {
                     onA = 0;
                     onB = 0;
-                    toPrev = sqrtf_803DFB1C((prevAu - hitU) * (prevAu - hitU) + (prevAv - hitV) * (prevAv - hitV));
-                    toCur = sqrtf_803DFB1C((curAu - hitU) * (curAu - hitU) + (curAv - hitV) * (curAv - hitV));
-                    length = sqrtf_803DFB1C(lengthSqA);
+                    toPrev = sqrtf_803DFB1C((prevAuYZ - hitU) * (prevAuYZ - hitU) + (prevAvYZ - hitV) * (prevAvYZ - hitV));
+                    toCur = sqrtf_803DFB1C((curAuYZ - hitU) * (curAuYZ - hitU) + (curAv - hitV) * (curAv - hitV));
+                    length = sqrtf_803DFB1C(lengthSqAYZ);
                     if (0.025f + length >= toPrev + toCur - 0.025f) {
                         onA = 1;
                     }
@@ -448,8 +450,8 @@ s32 TObjPlayer__sub_803DFB1C(Vec_803E1B1C *a, Vec_803E1B1C *b) {
             if (hitYZ != 0) {
                 break;
             }
-            prevAu = curAu;
-            prevAv = curAv;
+            prevAuYZ = curAuYZ;
+            prevAvYZ = curAv;
         }
     }
     for (i = 0; i < 4; i++) {
@@ -479,6 +481,7 @@ s32 TObjPlayer__sub_803DFB1C(Vec_803E1B1C *a, Vec_803E1B1C *b) {
     }
     return result;
 }
+#pragma pop
 #pragma pop
 
 s32 __SITransfer(Vec_803E1B1C *a, Vec_803E1B1C *b) {
