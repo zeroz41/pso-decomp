@@ -18,13 +18,13 @@ s32 set_flags_and_state(void *self);
 
 #include "pso/network/PppBuffer.h"
 
-inline s32 chap_rbs_803FC820(PppFrame **src) {
+inline s32 chap_read_byte_slow(PppFrame **src) {
     if (ppp_buffer_read(src, &chap_read_byte_buffer, 1) != 1) {
         return -1;
     }
     return (s16)chap_read_byte_buffer;
 }
-inline s32 chap_rb_803FC820(PppFrame **src) {
+inline s32 chap_read_byte(PppFrame **src) {
     s32 fast = 0;
     s32 valid = 0;
     if (src != NULL && *src != NULL) {
@@ -37,7 +37,7 @@ inline s32 chap_rb_803FC820(PppFrame **src) {
         (*src)->len--;
         return *(*src)->data++;
     }
-    return chap_rbs_803FC820(src);
+    return chap_read_byte_slow(src);
 }
 
 inline s32 rd_803FCC10(PppFrame **pp) {

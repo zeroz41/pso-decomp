@@ -49,7 +49,7 @@ extern "C" {
 u8 *alloc_from_buffer(void *self, s16 arg1);
 s32 clear_socket_slot(s16 i);
 s32 configure_mode_by_type(void *self, s16 type);
-void dispatch_received_packet(void *self, s32 arg1);
+void chap_input(void *self, s32 arg1);
 void free_field_98(void *self);
 void free_field_98_and_clear(void *self);
 s16 get_checked_status_value(s16 arg0);
@@ -104,7 +104,7 @@ extern u8 chap_read_byte_buffer;
 s16 TLobby__sub_803FC1CC(Conn_804004DC *c, s32 timeout);
 s32 TLobby__sub_803FC684(u8 *arg0, u8 *arg1, u8 *arg2);
 void TLobby__sub_803FC728(Conn_804004DC *c);
-s16 TLobby__sub_803FC820(Conn_804004DC *c, u8 *hdr, int v);
+s16 chap_recv_response(Conn_804004DC *c, u8 *hdr, int v);
 void chap_recv_challenge(Conn_804004DC *connection, Hdr_803FC4B4 *header, PppFrame *source);
 #ifdef __cplusplus
 }

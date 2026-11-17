@@ -3,7 +3,7 @@
 #include "pso/network/TLobby_803FCF44.h"
 #include "pso/network/TLobby_804050DC.h"
 /* This file's functions. */
-void dispatch_received_packet(void *self, s32 arg1);
+void chap_input(void *self, s32 arg1);
 void init_net_state_a(void);
 s32 init_net_state_b(void);
 s32 mark_sub_ready(void *obj);
@@ -175,7 +175,7 @@ s32 mark_sub_ready(void *obj) {
 
 struct O_80400ACC;
 
-void dispatch_received_packet(void *self, s32 arg1) {
+void chap_input(void *self, s32 arg1) {
     u8 *arg0 = (u8 *)self;
     Hdr_803FC4B4 hdr;
     u8 temp_r0;
@@ -194,7 +194,7 @@ void dispatch_received_packet(void *self, s32 arg1) {
             chap_recv_challenge((Conn_804004DC *)arg0, &hdr, (PppFrame *)arg1);
             return;
         case 2:
-            if (TLobby__sub_803FC820((void *)arg0, (void *)&hdr, (int)arg1) == 0) {
+            if (chap_recv_response((void *)arg0, (void *)&hdr, (int)arg1) == 0) {
                 if (lbl_805D7A90 & 2) {
                     temp_r30 = (u8 *)(*(u8 **)((s8 *)arg0 + 0xC));
                     TLobby__sub_80405304((void *) (arg0 + 0x10));
@@ -296,13 +296,13 @@ void TLobby__sub_803FC728(Conn_804004DC *c) {
 #pragma opt_common_subs on
 #pragma dont_inline off
 #pragma inline_depth(4)
-inline s32 chap_rbs_803FC820(PppFrame **src) {
+inline s32 chap_read_byte_slow(PppFrame **src) {
     if (ppp_buffer_read(src, &chap_read_byte_buffer, 1) != 1) {
         return -1;
     }
     return (s16)chap_read_byte_buffer;
 }
-inline s32 chap_rb_803FC820(PppFrame **src) {
+inline s32 chap_read_byte(PppFrame **src) {
     s32 fast = 0;
     s32 valid = 0;
     if (src != NULL && *src != NULL) {
@@ -315,9 +315,9 @@ inline s32 chap_rb_803FC820(PppFrame **src) {
         (*src)->len--;
         return *(*src)->data++;
     }
-    return chap_rbs_803FC820(src);
+    return chap_read_byte_slow(src);
 }
-extern s16 TLobby__sub_803FC820(Conn_804004DC *c, u8 *hdr, int v) {
+extern s16 chap_recv_response(Conn_804004DC *c, u8 *hdr, int v) {
     s16 total;
     s32 ppp_fsm_send_packet(void *, u8, u8, void *); /* declared here with other parameter types; the definition is s32 (void *, int, int, void *) */
     PppChap *chap;
@@ -345,11 +345,11 @@ extern s16 TLobby__sub_803FC820(Conn_804004DC *c, u8 *hdr, int v) {
         return -1;
     }
     total = *(s16 *)(hdr + 2);
-    n = chap_rbs_803FC820((PppFrame **)&v);
+    n = chap_read_byte_slow((PppFrame **)&v);
     if (n != -1) {
         p = value = lbl_805C02D0.p10;
         for (i = 0; i < n; i++) {
-            *p++ = chap_rb_803FC820((PppFrame **)&v);
+            *p++ = chap_read_byte((PppFrame **)&v);
         }
     }
     m = total - n - 1;
@@ -362,7 +362,7 @@ extern s16 TLobby__sub_803FC820(Conn_804004DC *c, u8 *hdr, int v) {
     if (m != 0) {
         q = name = lbl_805C02D0.p4;
         for (j = 0; j < m; j++) {
-            *q++ = chap_rb_803FC820((PppFrame **)&v);
+            *q++ = chap_read_byte((PppFrame **)&v);
         }
         *q = 0;
     }
@@ -441,11 +441,11 @@ void chap_recv_challenge(Conn_804004DC *connection, Hdr_803FC4B4 *header, PppFra
     challenge_slot.value = 0;
     total = header->len;
     chap = chap_options(connection);
-    challenge_length = chap_rbs_803FC820(&source);
+    challenge_length = chap_read_byte_slow(&source);
     if (challenge_length != -1) {
         challenge_cursor = (challenge_slot.value = lbl_805C02D0.pC);
         for (challenge_index = 0; challenge_index < challenge_length; challenge_index++) {
-            *challenge_cursor++ = chap_rb_803FC820(&source);
+            *challenge_cursor++ = chap_read_byte(&source);
         }
     }
     raw_peer_length = (total - challenge_length) - 1;
@@ -456,7 +456,7 @@ void chap_recv_challenge(Conn_804004DC *connection, Hdr_803FC4B4 *header, PppFra
     if (peer_name_length != 0) {
         peer_name = lbl_805C02D0.p0;
         for (peer_name_index = 0; peer_name_index < peer_name_length; peer_name_index++) {
-            *peer_name++ = chap_rb_803FC820(&source);
+            *peer_name++ = chap_read_byte(&source);
         }
         *peer_name = 0;
     }

@@ -617,7 +617,7 @@ void ppp_input_packet(PppFrame *arg0) {
             return;
         }
         (*(s16 *)((s8 *)G + 0x136))++;
-        dispatch_received_packet((void *)(G + 0xA0), (s32)arg0);
+        chap_input((void *)(G + 0xA0), (s32)arg0);
         return;
     case 0x8021:
         if (G[0] != 3) {
