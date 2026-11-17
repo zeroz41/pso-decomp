@@ -3,6 +3,7 @@
 
 #include "types.h"
 #include "pso/ui/window/TWindowMainMenu.h"
+#include "pso/system/NinjaTypes.h"
 
 struct TWindowMainMenu1P : public TWindowMainMenu {
     virtual ~TWindowMainMenu1P();
@@ -46,5 +47,11 @@ void *TWindowMainMenu1P__ct(TWindowMainMenu1P *window_main_menu1_p);
 u8 *__dt__17TWindowMainMenu1PFv(u8 *arg0, s16 arg1);
 }
 // --- end of C functions
+
+// Window screen positions by window id, read by get_window_layout_position: the full-screen
+// table covers every window id (get_option_entry reads ids 0xCF and 0xD0), the split-screen
+// table only the first 92.
+extern const NJS_POINT2 window_layout_rect_table[210];
+extern const NJS_POINT2 window_layout_position_table[92];
 
 #endif

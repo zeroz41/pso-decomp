@@ -5,6 +5,7 @@
 #include "pso/system/task/TObject.h"
 
 class TAdPlayerLoadGC;
+struct NJS_POINT2;
 
 struct TWindowOptionCtrl : public TObject {
     virtual ~TWindowOptionCtrl();
@@ -51,7 +52,7 @@ struct TWindowOptionCtrl : public TObject {
     void clear_flag70_bit4();
     s16 get_field_64();
     s16 get_field_62();
-    static void*get_option_entry(int a0);
+    static const NJS_POINT2 *get_option_entry(int a0);
     s32 get_field_24();
     void open_confirm_dialog(s32 arg1, s32 arg2);
     void set_option_and_confirm(s32 arg1, s32 arg2);
