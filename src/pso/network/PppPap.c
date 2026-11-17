@@ -183,7 +183,7 @@ static inline void pap_auth_done(Conn_804004DC *self, u32 pending_bit) {
 }
 void pap_input(Conn_804004DC *self, PppFrame *source) {
     Conn_804004DC *connection;
-    Hdr_803FC4B4 header;
+    PppHeader header;
     PapOptions *options;
     options = pap_options(self);
     if (TLobby__sub_803FE8BC((u8 *)&header, &source)) {
@@ -192,7 +192,7 @@ void pap_input(Conn_804004DC *self, PppFrame *source) {
     header.len -= 4;
     connection = self;
     TLobby__sub_80401CAC(&source, header.len);
-    switch (header.type) {
+    switch (header.code) {
     case 1:
         if (pap_recv_auth_request((u8 *)connection, (u8 *)&header, source)) {
             return;
@@ -200,13 +200,13 @@ void pap_input(Conn_804004DC *self, PppFrame *source) {
         pap_auth_done(connection, 0x10);
         return;
     case 2:
-        if (pap_read_reply_message((PapOptions *)connection->opts, header.flag, connection->id, source) != 0) {
+        if (pap_read_reply_message((PapOptions *)connection->opts, header.id, connection->id, source) != 0) {
             return;
         }
         pap_auth_done(self, 0x20);
         return;
     case 3:
-        if (pap_read_reply_message((PapOptions *)self->opts, header.flag, self->id, source) != 0) {
+        if (pap_read_reply_message((PapOptions *)self->opts, header.id, self->id, source) != 0) {
             return;
         }
         TLobby__sub_80405304(connection->timer);

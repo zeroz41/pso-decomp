@@ -4,14 +4,14 @@
 #include "types.h"
 
 typedef struct PppFsm PppFsm;
-struct Hdr_803FC4B4;
+struct PppHeader;
 struct PppFrame;
 
 /* The protocol callbacks the FSM calls on its transitions (called with the FSM and its protocol); the checks take a
  * received packet and return 0 to accept it. */
 typedef struct PppFsmProtocol PppFsmProtocol;
 typedef void (*PppFsmAction)(PppFsm *fsm, PppFsmProtocol *proto);
-typedef s16 (*PppFsmCheck)(PppFsm *fsm, struct Hdr_803FC4B4 *hdr, void *pkt);
+typedef s16 (*PppFsmCheck)(PppFsm *fsm, struct PppHeader *hdr, void *pkt);
 
 /* The fixed description of a protocol that runs on the FSM (PAP's is named "Pap"): its PPP protocol number, retry
  * counts, timeout and callbacks. */
@@ -56,7 +56,7 @@ typedef struct PapOptions {
 
 struct PppFsm {
     u8 state;
-    u8 f1;
+    u8 id;                      /* 0x01: the identifier of the last request sent */
     u8 f2;
     u8 retries;
     u8 f4;

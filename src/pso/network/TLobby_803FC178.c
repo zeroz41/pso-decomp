@@ -177,7 +177,7 @@ struct O_80400ACC;
 
 void chap_input(void *self, s32 arg1) {
     u8 *arg0 = (u8 *)self;
-    Hdr_803FC4B4 hdr;
+    PppHeader hdr;
     u8 temp_r0;
     u8 temp_r0_2;
     u8 temp_r0_3;
@@ -189,7 +189,7 @@ void chap_input(void *self, s32 arg1) {
     if (TLobby__sub_803FE8BC((u8 *)&hdr, &arg1) != -1) {
         hdr.len -= 4;
         TLobby__sub_80401CAC((PppFrame **)&arg1, hdr.len);
-        switch (hdr.type) {
+        switch (hdr.code) {
         case 1:
             chap_recv_challenge((Conn_804004DC *)arg0, &hdr, (PppFrame *)arg1);
             return;
@@ -419,7 +419,7 @@ inline PppChap *chap_options(Conn_804004DC *arg0) {
     return (PppChap *)arg0->opts;
 }
 
-void chap_recv_challenge(Conn_804004DC *connection, Hdr_803FC4B4 *header, PppFrame *source) {
+void chap_recv_challenge(Conn_804004DC *connection, PppHeader *header, PppFrame *source) {
     struct {
         u8 *value;
     } challenge_slot;
@@ -460,7 +460,7 @@ void chap_recv_challenge(Conn_804004DC *connection, Hdr_803FC4B4 *header, PppFra
         }
         *peer_name = 0;
     }
-    *lbl_805C02D0.p14 = header->flag;
+    *lbl_805C02D0.p14 = header->id;
     NetCopyString((char *)lbl_805C02D0.p14 + 1, chap->secret);
     credential_length = NetStringLength(chap->secret);
     raw_name_length = NetStringLength(chap->name);
@@ -476,7 +476,7 @@ void chap_recv_challenge(Conn_804004DC *connection, Hdr_803FC4B4 *header, PppFra
         u32 response_name_length = credential_length;
         NetMemcpy(lbl_805C02D0.p1C + 0x11, (void *)chap->name, response_name_length);
     }
-    chap->id = header->flag;
+    chap->id = header->id;
     chap->len = credential_length + 0x11;
     reply = TLobby__sub_80401B20(lbl_805C02D0.p1C, chap->len);
     ppp_fsm_send_packet(connection, 2, chap->id, reply);
@@ -485,7 +485,7 @@ void chap_recv_challenge(Conn_804004DC *connection, Hdr_803FC4B4 *header, PppFra
     if (connection->f6 != 0) {
         connection->f6--;
     } else {
-        header = (Hdr_803FC4B4 *)connection->sub;
+        header = (PppHeader *)connection->sub;
         update_connection_state((int)((u8 *)header + 0xA0));
         update_connection_state((int)((u8 *)header + 4));
     }

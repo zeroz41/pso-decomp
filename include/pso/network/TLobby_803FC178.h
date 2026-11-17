@@ -13,7 +13,7 @@ typedef struct Obj_803FC480 Obj_803FC480;
 typedef struct Buf_803FC684 Buf_803FC684;
 typedef struct RecoveredGlobal_803F88E4_lbl_805AEEB0 RecoveredGlobal_803F88E4_lbl_805AEEB0;
 typedef struct RecoveredFields_803F88E4_arg0 RecoveredFields_803F88E4_arg0;
-typedef struct Hdr_803FC4B4 Hdr_803FC4B4;
+typedef struct PppHeader PppHeader;
 struct Blk24_8047FE50 { u32 w[6]; };
 struct RecoveredGlobal_803AA0C0_lbl_80556E88 {
     s32 value;
@@ -42,7 +42,8 @@ struct RecoveredFields_803F88E4_arg0
 };
 typedef char RecoveredGlobal_803F88E4_lbl_805AEEB0_size[((sizeof(RecoveredGlobal_803F88E4_lbl_805AEEB0)) == 0x49C8) ? (1) : (-1)];
 typedef char RecoveredGlobal_803AA0C0_lbl_80556E88_size[sizeof(RecoveredGlobal_803AA0C0_lbl_80556E88) == 0x100 ? 1 : -1];
-struct Hdr_803FC4B4 { u8 type; u8 flag; s16 len; };
+/* A PPP control packet header (RFC 1661): code, identifier and length. */
+struct PppHeader { u8 code; u8 id; s16 len; };
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -105,7 +106,7 @@ s16 TLobby__sub_803FC1CC(Conn_804004DC *c, s32 timeout);
 s32 TLobby__sub_803FC684(u8 *arg0, u8 *arg1, u8 *arg2);
 void TLobby__sub_803FC728(Conn_804004DC *c);
 s16 chap_recv_response(Conn_804004DC *c, u8 *hdr, int v);
-void chap_recv_challenge(Conn_804004DC *connection, Hdr_803FC4B4 *header, PppFrame *source);
+void chap_recv_challenge(Conn_804004DC *connection, PppHeader *header, PppFrame *source);
 #ifdef __cplusplus
 }
 #endif

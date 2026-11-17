@@ -170,7 +170,7 @@ void update_countdown_state(void *arg0) {
     }
 }
 
-static inline s16 read_packet_header(Hdr_803FC4B4 *dst, void *src, s32 with_ext) {
+static inline s16 read_packet_header(PppHeader *dst, void *src, s32 with_ext) {
     u8 ext[8];
     u8 buf[4];
     if (dst == 0) {
@@ -179,8 +179,8 @@ static inline s16 read_packet_header(Hdr_803FC4B4 *dst, void *src, s32 with_ext)
     if (ppp_buffer_read(src, buf, 4) < 4) {
         return -1;
     }
-    dst->type = buf[0];
-    dst->flag = buf[1];
+    dst->code = buf[0];
+    dst->id = buf[1];
     dst->len = read_network_u16_be(buf + 2);
     if (with_ext && ppp_buffer_read(src, ext, 8) < 8) {
         return -1;
@@ -196,7 +196,7 @@ void TLobby__sub_803FDBF8(PppFsm *fsm, void *arg1)
 {
     s16 ppp_fsm_send_packet(); /* declared without a parameter list; the definition is s32 (void *, int, int, void *) */
     extern s32 lbl_805D7AA0;
-    Hdr_803FC4B4 hdr;
+    PppHeader hdr;
     s16 rc;
     u8 *newbuf;
     u8 *dp;
@@ -207,7 +207,7 @@ void TLobby__sub_803FDBF8(PppFsm *fsm, void *arg1)
     }
     hdr.len -= 4;
     TLobby__sub_80401CAC((PppFrame **)&arg1, hdr.len);
-    switch (hdr.type) {
+    switch (hdr.code) {
     case 1:
         switch (fsm->state) {
         case 5:
@@ -242,7 +242,7 @@ void TLobby__sub_803FDBF8(PppFsm *fsm, void *arg1)
             }
             break;
         case 0:
-            ppp_fsm_send_packet(fsm, 6, hdr.flag, 0);
+            ppp_fsm_send_packet(fsm, 6, hdr.id, 0);
             break;
         case 6:
             break;
@@ -280,7 +280,7 @@ void TLobby__sub_803FDBF8(PppFsm *fsm, void *arg1)
             break;
         case 0:
         case 1:
-            ppp_fsm_send_packet(fsm, 6, hdr.flag, 0);
+            ppp_fsm_send_packet(fsm, 6, hdr.id, 0);
             break;
         case 6:
             break;
@@ -315,7 +315,7 @@ void TLobby__sub_803FDBF8(PppFsm *fsm, void *arg1)
             break;
         case 0:
         case 1:
-            ppp_fsm_send_packet(fsm, 6, hdr.flag, 0);
+            ppp_fsm_send_packet(fsm, 6, hdr.id, 0);
             break;
         case 6:
             break;
@@ -350,7 +350,7 @@ void TLobby__sub_803FDBF8(PppFsm *fsm, void *arg1)
             break;
         case 0:
         case 1:
-            ppp_fsm_send_packet(fsm, 6, hdr.flag, 0);
+            ppp_fsm_send_packet(fsm, 6, hdr.id, 0);
             break;
         case 6:
             break;
@@ -359,7 +359,7 @@ void TLobby__sub_803FDBF8(PppFsm *fsm, void *arg1)
     case 5:
         switch (fsm->state) {
         case 5:
-            ppp_fsm_send_packet(fsm, 6, hdr.flag, 0);
+            ppp_fsm_send_packet(fsm, 6, hdr.id, 0);
             fsm->proto->f20(fsm, fsm->proto);
             fsm->proto->f24(fsm, fsm->proto);
             fsm->state = ((fsm->f2 & 0xC0) != 0) ? 1 : 0;
@@ -374,7 +374,7 @@ void TLobby__sub_803FDBF8(PppFsm *fsm, void *arg1)
         case 1:
         case 2:
         case 6:
-            ppp_fsm_send_packet(fsm, 6, hdr.flag, 0);
+            ppp_fsm_send_packet(fsm, 6, hdr.id, 0);
             break;
         }
         break;
@@ -421,7 +421,7 @@ void TLobby__sub_803FDBF8(PppFsm *fsm, void *arg1)
     case 9:
         switch (fsm->state) {
         case 5:
-            ppp_fsm_send_packet(fsm, 10, hdr.flag, arg1);
+            ppp_fsm_send_packet(fsm, 10, hdr.id, arg1);
             break;
         case 2:
         case 3:
@@ -429,7 +429,7 @@ void TLobby__sub_803FDBF8(PppFsm *fsm, void *arg1)
             break;
         case 0:
         case 1:
-            ppp_fsm_send_packet(fsm, 6, hdr.flag, 0);
+            ppp_fsm_send_packet(fsm, 6, hdr.id, 0);
             break;
         case 6:
             break;
@@ -445,11 +445,11 @@ void TLobby__sub_803FDBF8(PppFsm *fsm, void *arg1)
         hdr.len += 4;
         newbuf = alloc_from_buffer(arg1, 4);
         dp = ((PppFrame *)newbuf)->data;
-        *dp++ = hdr.type;
-        *dp++ = hdr.flag;
+        *dp++ = hdr.code;
+        *dp++ = hdr.id;
         write_network_u16_be(dp, hdr.len);
         arg1 = newbuf;
-        ppp_fsm_send_packet(fsm, 7, hdr.flag, arg1);
+        ppp_fsm_send_packet(fsm, 7, hdr.id, arg1);
         switch (fsm->state) {
         case 6:
             break;
@@ -529,7 +529,7 @@ s32 ppp_fsm_send_packet(void *self, int code, int reply_identifier, void *payloa
     case 1:
     case 5:
     case 9:
-        fsm->f1 = link->next_identifier;
+        fsm->id = link->next_identifier;
     case 8:
     case 11:
         identifier = link->next_identifier;
