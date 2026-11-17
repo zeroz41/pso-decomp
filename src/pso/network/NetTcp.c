@@ -454,7 +454,7 @@ s16 TLobby__sub_8041A9AC(TcpTcb *tp)
             if ((u32)tp->f204_b7 == 1) {
                 t = get_score(tp);
             } else {
-                t = ((u32)get_score(tp) < tp->f530) ? get_score(tp) : tp->f530;
+                t = ((u32)get_score(tp) < tp->snd_bufsize) ? get_score(tp) : tp->snd_bufsize;
             }
             if ((idle != 0 || (tp->flags & 4)) && len + off >= t) {
                 goto send;
@@ -512,7 +512,7 @@ send:
             opt[0] = 2;
             optp = opt;
             opt[1] = 4;
-            tmp = (tp->f534 < (u32)mss) ? tp->f534 : mss;
+            tmp = (tp->rcv_bufsize < (u32)mss) ? tp->rcv_bufsize : mss;
             NetMemcpy(optp + 2, &tmp, 2);
             optlen = 4;
             if (tp->sack_flags & 1) {
@@ -563,8 +563,8 @@ send:
         if (recwin < (s32)(tp->rcv_adv - tp->rcv_nxt)) {
             recwin = tp->rcv_adv - tp->rcv_nxt;
         }
-        if ((u32)recwin > tp->f534) {
-            recwin = tp->f534;
+        if ((u32)recwin > tp->rcv_bufsize) {
+            recwin = tp->rcv_bufsize;
         }
         th->win = recwin;
         if ((s32)(tp->snd_up - tp->snd_nxt) > 0) {
@@ -836,8 +836,8 @@ extern TcpTcb *TLobby__sub_8041B774(TcpTcb *self, TcpHdr *th, u8 *a, u8 *b) {
         return NULL;
     }
 
-    dst->f530 = self->f530;
-    dst->f534 = self->f534;
+    dst->snd_bufsize = self->snd_bufsize;
+    dst->rcv_bufsize = self->rcv_bufsize;
     if (TLobby__sub_8041ECA4(dst) < 0) {
         dst->state = 0;
         return NULL;
@@ -2069,13 +2069,13 @@ s32 TLobby__sub_8041DE1C(s16 i, s16 opt, u32 *val) {
         if (*val > g->f8) {
             return -2;
         }
-        tcb->f530 = *val;
+        tcb->snd_bufsize = *val;
         break;
     case 0x1002:
         if (*val > g->fC) {
             return -2;
         }
-        tcb->f534 = *val;
+        tcb->rcv_bufsize = *val;
         break;
     case 0x2001:
         if (*val != 0) {
@@ -2464,8 +2464,8 @@ void TLobby__sub_8041E8A8(s16 idx) {
         p->start = 0;
     }
     t->seg_top = -1;
-    t->f530 = tcp_protocol_state.f8;
-    t->f534 = tcp_protocol_state.fC;
+    t->snd_bufsize = tcp_protocol_state.f8;
+    t->rcv_bufsize = tcp_protocol_state.fC;
     t->event_ctx = 0;
     t->f53C = tcp_protocol_state.f26;
     t->ack_delay = 0;
@@ -2548,7 +2548,7 @@ s16 TLobby__sub_8041EC14(TcpTcb *tcb) {
     s32 spC[3];
 
     if (tcb->rcv_buf.kind == 0) {
-        if (TLobby__sub_80415954(&spC[0], tcb->f534, 1) < 0) {
+        if (TLobby__sub_80415954(&spC[0], tcb->rcv_bufsize, 1) < 0) {
             return -0x102;
         }
         init_msg(&tcb->rcv_alloc, spC[0]);
@@ -2568,21 +2568,21 @@ s16 TLobby__sub_8041ECA4(TcpTcb *tcb) {
     s32 spC;
 
     if (tcb->snd_buf.kind == 0) {
-        if (TLobby__sub_80415954(&spC, tcb->f530, 1) < 0) {
+        if (TLobby__sub_80415954(&spC, tcb->snd_bufsize, 1) < 0) {
             return -0x102;
         }
         init_msg(&tcb->snd_alloc, spC);
         set_value_and_enable(&tcb->snd_buf, spC);
     }
-    tcb->f20 = 0;
-    off = offsetof(TcpTcb, f24);
+    tcb->snd_count = 0;
+    off = offsetof(TcpTcb, snd_head);
     *(s32 *)((u8 *)tcb + off) = 0;
-    tcb->f28 = 0;
+    tcb->snd_tail = 0;
     return 0;
 }
 
 s32 get_field_534(TcpTcb *tcb) {
-    return tcb->f534;
+    return tcb->rcv_bufsize;
 }
 
 s32 get_field_d8(TcpTcb *tcb) {
@@ -2593,16 +2593,16 @@ s32 get_score(TcpTcb *tcb) {
     if (tcb->f204_b7) {
         return tcb->req.total_bytes;
     }
-    return tcb->f20 + tcb->req.total_bytes;
+    return tcb->snd_count + tcb->req.total_bytes;
 }
 
 s32 get_queue_diff(TcpTcb *tcb) {
-    return tcb->f534 - tcb->fD8;
+    return tcb->rcv_bufsize - tcb->fD8;
 }
 
 s32 get_adjusted_slot_count(TcpTcb *tcb) {
     if (tcb->f204_b7) {
-        return tcb->f530;
+        return tcb->snd_bufsize;
     }
-    return tcb->f530 - tcb->f20;
+    return tcb->snd_bufsize - tcb->snd_count;
 }

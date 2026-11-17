@@ -63,15 +63,16 @@ struct TcpTcb {
     u8 dupacks; /* duplicate ACKs received in a row (fast retransmit) */
     u8 error; /* why the connection was dropped (TLobby__sub_8041A498) */
     u8 padF;
-    /* send buffer: a ring of f530 bytes, plus up to 12 queued user buffers. While f204_b7 is set the ring holds 16-byte
-       TcpSendEntry records instead (SocketProtocolRuntime.c): f20 counts them, f24 is the index of the oldest. */
+    /* send buffer: a ring of snd_bufsize bytes, plus up to 12 queued user buffers. While f204_b7 is set the ring holds
+       16-byte TcpSendEntry records instead (SocketProtocolRuntime.c): snd_count counts them, snd_head is the index of
+       the oldest. */
     NetBufferRef snd_buf;
     NetBufferRef snd_alloc; /* the block behind snd_buf, freed by TLobby__sub_8041579C */
-    u32 f20;
-    u32 f24;
-    u32 f28;
+    u32 snd_count; /* bytes in the ring, from the oldest unacknowledged one (records while f204_b7 is set) */
+    u32 snd_head; /* ring offset of the oldest unacknowledged byte (record index while f204_b7 is set) */
+    u32 snd_tail; /* ring offset where the next queued byte goes */
     NetPacket req; /* the queued send request (TLobby__sub_80420BD0) */
-    /* receive buffer: a ring of f534 bytes, read into rcv_user */
+    /* receive buffer: a ring of rcv_bufsize bytes, read into rcv_user */
     NetBufferRef rcv_buf;
     NetBufferRef rcv_alloc; /* the block behind rcv_buf */
     u32 fD8;
@@ -145,8 +146,8 @@ struct TcpTcb {
     s32 edge;
     s32 stamp;
     TcpSackSeg segs[32];
-    u32 f530;
-    u32 f534;
+    u32 snd_bufsize; /* option 0x1001 (SO_SNDBUF) */
+    u32 rcv_bufsize; /* option 0x1002 (SO_RCVBUF) */
     s16 ack_delay;
     u8 pad53A[2];
     u32 f53C;
