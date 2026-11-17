@@ -105,7 +105,7 @@ struct ChunkRecording_803E44D4 { ChunkBuffer_803E44D4 buffers[32]; s32 index; };
 void OSReport(const char*, ...);
 void* memmove(void*, const void*, unsigned long);
 }
-void dispatch_chunk_polygon_list(s16 *list, s32 buffer);
+void dispatch_chunk_polygon_list(s16 *list, s32 vertex_buffer);
 extern const char lbl_804FC810[];
 extern u32 lbl_805D77E4;
 extern ChunkRecording_803E44D4* chunk_vertex_cache_state;
@@ -536,7 +536,7 @@ void set_chunk_blend_depth_mode(s32 arg0, s32 arg1) {
 extern "C" {
 void GXSetTexCoordGen2(s32 dst, u32 func, u32 src, s32 mtx, s32 normalize, s32 pt);
 void draw_chunk_color_tex_strips(s16 *list, void *verts, u32 info, s32 large);
-extern s32 lbl_805D7798;
+extern s32 chunk_polygon_cache_pending;  // lists cached by NJD_CB_CP and not yet drawn by NJD_CB_DP
 extern u32 chunk_polygon_flags_and_mask;
 extern u32 chunk_polygon_flags_or_mask;
 }
@@ -544,44 +544,44 @@ extern u32 chunk_polygon_flags_or_mask;
 #pragma push
 #pragma bool off
 #pragma opt_propagation off
-void dispatch_chunk_polygon_list(s16 *list, s32 buffer) {
+void dispatch_chunk_polygon_list(s16 *list, s32 vertex_buffer) {
     struct CommandState {
         s16 wire;
         int header;
     } state;
     s32 type;
-    u32 length;
-    s32 info;
+    u32 strip_size;  // shorts after the size word, strip_info included
+    s32 strip_info;  // [UserOffset(2)|nbStrip(14)]
     u32 changed;
 
-    while ((state.header = (state.wire = *list++)) != 0xFF) {
+    while ((state.header = (state.wire = *list++)) != NJD_CE) {
         s16 decoded = (s16)(state.header & 0xFF);
         type = decoded;
-        if (type < 8) {
+        if (type < NJD_TINYOFF) {
             switch (type) {
-            case 1:
+            case NJD_CB_BA:
                 set_chunk_blend(state.header);
                 break;
-            case 4:
+            case NJD_CB_CP:
                 chunk_polygon_list_cache[(s16)((state.header >> 8) & 0xFF)] = list;
-                lbl_805D7798++;
+                chunk_polygon_cache_pending++;
                 return;
-            case 5:
-                dispatch_chunk_polygon_list(chunk_polygon_list_cache[(s16)((state.header >> 8) & 0xFF)], buffer);
-                lbl_805D7798--;
+            case NJD_CB_DP:
+                dispatch_chunk_polygon_list(chunk_polygon_list_cache[(s16)((state.header >> 8) & 0xFF)], vertex_buffer);
+                chunk_polygon_cache_pending--;
                 break;
             }
-        } else if (type < 0x10) {
+        } else if (type < NJD_MATOFF) {
             apply_chunk_texture_command(state.header, *list);
             list++;
-        } else if (type < 0x40) {
+        } else if (type < NJD_STRIPOFF) {
             s32 size = (s16)*list++;
             set_chunk_blend(state.header);
             submit_chunk_material_color(state.header, list);
             list += size;
         } else {
-            length = *(u16 *)list++;
-            info = (s16)*list++;
+            strip_size = *(u16 *)list++;
+            strip_info = (s16)*list++;
             if ((u32)(model_render_flags & 0x800) != 0) {
                 struct MaskWord {
                     s16 value;
@@ -591,46 +591,46 @@ void dispatch_chunk_polygon_list(s16 *list, s32 buffer) {
                 masked.value |= chunk_polygon_flags_or_mask;
                 state.header = masked.value;
             }
-            state.header = (s16)(state.header >> 8);
+            state.header = (s16)(state.header >> NJD_FST_SHIFT);
             changed = state.header ^ chunk_previous_strip_flags;
             changed |= chunk_strip_dirty_flags;
             chunk_previous_strip_flags = state.header;
             chunk_strip_dirty_flags = 0;
-            if (changed & 1) {
+            if (changed & (NJD_FST_IL >> NJD_FST_SHIFT)) {
                 set_strip_lighting_chan_ctrl(state.header);
             }
             switch (type) {
-            case 0x40:
-                if (state.header & 0x40) {
+            case NJD_CS:
+                if (state.header & (NJD_FST_ENV >> NJD_FST_SHIFT)) {
                     set_chunk_blend_depth_mode(state.header, 1);
                     setup_chunk_tev_stages();
                     GXSetTexCoordGen2(0, 0, 1, 0x2A, 0, 0x7D);
-                    draw_strip_pos_normal__10TObjPlayerFPvPvUi(list, (Vtx_803E36C4 *) buffer, info);
+                    draw_strip_pos_normal__10TObjPlayerFPvPvUi(list, (Vtx_803E36C4 *) vertex_buffer, strip_info);
                 } else {
                     set_chunk_blend_depth_mode(state.header, 0);
                     TObjPlayer::setup_tev_passclr();
-                    draw_strip_list_pos_nrm__10TObjPlayerFPvPvUi(list, (Vtx_803E36C4 *) buffer, info);
+                    draw_strip_list_pos_nrm__10TObjPlayerFPvPvUi(list, (Vtx_803E36C4 *) vertex_buffer, strip_info);
                 }
                 break;
-            case 0x41:
-            case 0x42:
+            case NJD_CS_UVN:
+            case NJD_CS_UVH:
                 set_chunk_blend_depth_mode(state.header, 1);
-                if (state.header & 0x40) {
+                if (state.header & (NJD_FST_ENV >> NJD_FST_SHIFT)) {
                     setup_chunk_tev_stages();
                     GXSetTexCoordGen2(0, 0, 1, 0x2A, 0, 0x7D);
-                    draw_triangle_strips__10TObjPlayerFPvPvUi(list, (Vtx_803E36C4 *) buffer, info);
+                    draw_triangle_strips__10TObjPlayerFPvPvUi(list, (Vtx_803E36C4 *) vertex_buffer, strip_info);
                 } else if (chunk_has_vertex_colors != 0) {
                     setup_chunk_tev_stages();
                     GXSetTexCoordGen2(0, 1, 4, 0x3C, 0, 0x7D);
-                    draw_chunk_color_tex_strips(list, (void *) buffer, info, type == 0x42);
+                    draw_chunk_color_tex_strips(list, (void *) vertex_buffer, strip_info, type == NJD_CS_UVH);
                 } else {
                     setup_chunk_tev_stages();
                     GXSetTexCoordGen2(0, 1, 4, 0x3C, 0, 0x7D);
-                    draw_chunk_textured_strips(list, (Vtx_803E36C4 *) buffer, info, type == 0x42);
+                    draw_chunk_textured_strips(list, (Vtx_803E36C4 *) vertex_buffer, strip_info, type == NJD_CS_UVH);
                 }
                 break;
             }
-            list += length - 1;
+            list += strip_size - 1;
         }
     }
 }

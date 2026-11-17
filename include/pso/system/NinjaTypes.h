@@ -69,6 +69,28 @@ struct NJS_ARGB {
 #define NJD_EVAL_BREAK 0x10    // the node's children are skipped
 #define NJD_EVAL_ZXY_ANG 0x20  // ang is applied in Z, X, Y order
 
+// Chunk polygon list heads (Ninja ninjacnk.h). A chunk starts with a 16-bit
+// [flags(8)|type(8)] head; the type ranges are bits, tiny, material (16-31), vertex (32-55),
+// volume (56-63) and strip chunks.
+#define NJD_BITSOFF 1    // bits chunks (16-bit, no size)
+#define NJD_TINYOFF 8    // tiny chunks (32-bit)
+#define NJD_MATOFF 16    // material chunks
+#define NJD_STRIPOFF 64  // strip chunks
+#define NJD_ENDOFF 255   // end chunk
+
+#define NJD_CE (NJD_ENDOFF + 0)     // end of the list
+#define NJD_CB_BA (NJD_BITSOFF + 0) // blend alpha: bits 13-8 = src/dst alpha instructions
+#define NJD_CB_CP (NJD_BITSOFF + 3) // cache polygon list: bits 15-8 = cache number
+#define NJD_CB_DP (NJD_BITSOFF + 4) // draw polygon list: bits 15-8 = cache number
+#define NJD_CS (NJD_STRIPOFF + 0)     // strip
+#define NJD_CS_UVN (NJD_STRIPOFF + 1) // strip with uv in 0-255
+#define NJD_CS_UVH (NJD_STRIPOFF + 2) // strip with uv in 0-1023
+
+// Strip chunk flags (the head's high byte).
+#define NJD_FST_SHIFT 8
+#define NJD_FST_IL (0x01 << NJD_FST_SHIFT)  // ignore light
+#define NJD_FST_ENV (0x40 << NJD_FST_SHIFT) // environment mapping
+
 // Chunk model streams referenced by an NJS_OBJECT.
 struct NJS_CNK_MODEL {
     void *vertex_list;
