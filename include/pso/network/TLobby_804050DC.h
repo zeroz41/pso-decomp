@@ -92,7 +92,7 @@ s16 TLobby__sub_8040EF50(u32 *out, u32 mask, s16 c);
 s16 TLobby__sub_80410A98(s32 arg0, void *arg1, void *arg2, void *arg3, void *arg4);
 extern NetPacketPool lobby_udp_socket_table;
 /* Shared by the modules cut out of this unit; each is defined in the file named in its comment. */
-u16 packet_ones_complement_sum(struct NetPacket *, s16);    /* TLobby_804050DC.c */
+u16 packet_ones_complement_sum(struct NetPacket *, s16); /* TLobby_804050DC.c */
 s32 dispatch_slot_a(s16, s32);                       /* NetArp.c */
 s32 dispatch_slot_b(s16, s32);                       /* NetArp.c */
 s16 forward_net_op(s16, u8 *, u8 *);                 /* NetArp.c */

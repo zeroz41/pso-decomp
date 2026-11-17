@@ -26,16 +26,18 @@ s32 reset_socket_table(void);
 void run_net_thread_loop(void);
 void ppp_input_packet(PppFrame *arg0);
 
-extern PppFrame *ppp_rx_frame_ptr;
 extern s32 lbl_805D7A94;
-extern u8 *ppp_rx_read_ptr;
-extern u8 *ppp_rx_end_ptr;
-extern u32 ppp_rx_escape_pending;
-/* inferred: the receive path's running FCS: reset to 0xFFFF, folded per byte, good at 0xF0B8. */
-extern u16 ppp_rx_fcs;
 /* inferred: the PPP FCS-16 lookup table (RFC 1662 fcstab); the receive path checks the FCS against 0xF0B8. */
 extern u16 ppp_fcs16_table[];
 u8 ppp_rx_buffer[0x200];
+/* inferred: the receive path's running FCS: reset to 0xFFFF, folded per byte, good at 0xF0B8. */
+u16 ppp_rx_fcs;
+u32 ppp_rx_escape_pending;
+u8 *ppp_rx_end_ptr;
+u8 *ppp_rx_read_ptr;
+PppFrame *ppp_rx_frame_ptr;
+u8 ppp_input_byte;
+u8 lobby_ppp_read_buf[4];
 
 #include <stddef.h>
 
@@ -54,7 +56,6 @@ void TLobby__sub_803FDBF8(u8 *self, void *arg1);
 void PADRead(u8 *, PppFrame *); /* declared here with other parameter types; the definition is void (u8 *, s32) */
 s16 TLobby__sub_804040E0(void *self, void *arg);
 s32 TLobby__sub_804060B8(u8 *, u16, int);
-extern u8 ppp_input_byte;
 
 struct N_80405298;
 
@@ -523,8 +524,8 @@ inline s32 get_80405A74(PppFrame **s) {
         (*(s16 *)(G + 0x142))++;                                        \
         return;                                                              \
     }                                                                        \
-    if (ppp_buffer_read(&u, &lobby_ppp_read_buf, 2) == 2) {                   \
-        read_network_u16_be(&lobby_ppp_read_buf);                                 \
+    if (ppp_buffer_read(&u, lobby_ppp_read_buf, 2) == 2) {                    \
+        read_network_u16_be(lobby_ppp_read_buf);                             \
     }                                                                        \
     TLobby__sub_803FE6CC(G + 4, 8, 0, u);                                    \
     return;
@@ -540,8 +541,8 @@ void ppp_input_packet(PppFrame *arg0) {
     }
     G = lbl_805C0038;
     if (lbl_805D7A7A == 0 && arg0->data[0] == 0xFF && arg0->data[1] == 3 &&
-        ppp_buffer_read(&arg0, &lobby_ppp_read_buf, 2) == 2) {
-        read_network_u16_be(&lobby_ppp_read_buf);
+        ppp_buffer_read(&arg0, lobby_ppp_read_buf, 2) == 2) {
+        read_network_u16_be(lobby_ppp_read_buf);
     }
     code = (u16)get_80405A74(&arg0);
     if (!(code & 1)) {
