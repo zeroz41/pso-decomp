@@ -148,8 +148,8 @@ s16 TLobby__sub_803FE8BC(u8 *dst, void *src);
 s16 pap_recv_auth_request(u8 *self, u8 *src, PppFrame *val);
 void TLobby__sub_80400ACC(O_80400ACC *o);
 PppFrame *TLobby__sub_80401B20(void *src, u16 n);
-void TLobby__sub_80401EB8(MD5Context *context, u8 *input, u32 inputLen);
-void TLobby__sub_80401D2C(u8 *dst, MD5Context *ctx);
+void MD5Update(MD5Context *context, u8 *input, u32 inputLen);
+void MD5Final(u8 *dst, MD5Context *ctx);
 #ifdef __cplusplus
 }
 #endif

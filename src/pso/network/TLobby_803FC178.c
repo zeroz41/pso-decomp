@@ -387,9 +387,9 @@ extern s16 chap_recv_response(Conn_804004DC *c, u8 *hdr, int v) {
         len = NetStringLength(chap->secret);
     }
     init_md5_state(&ctx);
-    TLobby__sub_80401EB8(&ctx, lbl_805C02D0.p18, len + 1);
-    TLobby__sub_80401EB8(&ctx, lbl_805C02D0.p8 + 1, lbl_805D7A9A);
-    TLobby__sub_80401D2C((u8 *)lbl_805C02D0.p20, &ctx);
+    MD5Update(&ctx, lbl_805C02D0.p18, len + 1);
+    MD5Update(&ctx, lbl_805C02D0.p8 + 1, lbl_805D7A9A);
+    MD5Final((u8 *)lbl_805C02D0.p20, &ctx);
     if (NetMemcmp(lbl_805C02D0.p20, value, 0x10) == 0) {
         NetCopyString(lbl_805C02D0.p20, (const char *)lbl_8047FE08);
         code = 3;
@@ -470,8 +470,8 @@ void chap_recv_challenge(Conn_804004DC *connection, PppHeader *header, PppFrame 
     NetMemset(lbl_805C02D0.p1C, 0, lbl_805C02D0.size1C);
     *lbl_805C02D0.p1C = 0x10;
     init_md5_state(&context);
-    TLobby__sub_80401EB8(&context, lbl_805C02D0.p14, digest_offset + challenge_length);
-    TLobby__sub_80401D2C(lbl_805C02D0.p1C + 1, &context);
+    MD5Update(&context, lbl_805C02D0.p14, digest_offset + challenge_length);
+    MD5Final(lbl_805C02D0.p1C + 1, &context);
     {
         u32 response_name_length = credential_length;
         NetMemcpy(lbl_805C02D0.p1C + 0x11, (void *)chap->name, response_name_length);
