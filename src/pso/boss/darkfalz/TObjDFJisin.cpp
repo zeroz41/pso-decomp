@@ -439,11 +439,6 @@ void *__vt__13TObjDFHorming[] = {
 extern const char *TObjDFRecover__name;
 
 
-struct RecoveredGlobal_80051938___vt__16TObjDFTenchuFuru {
-    s32 value;
-    u8 remaining[0x14];
-};
-
 
 struct RecoveredFields_80051AD0_var_r31 {
     s32 field_0;
@@ -452,9 +447,6 @@ struct RecoveredFields_80051AD0_var_r31 {
     u8 * field_30;
 };
 
-extern RecoveredGlobal_80051938___vt__16TObjDFTenchuFuru __vt__16TObjDFTenchuFuru;
-
-u8 *TObjDFTenchuFuru__ct(u8 *arg0, u8 *arg1, u8 *arg2);
 void get_current_matrix(void *m);
 extern Mtx34 df_captured_matrix_pair[2];
 int TObjDFTenchuFuru__matrix_node_index;
@@ -469,7 +461,6 @@ s32 is_active__14TBoss4DarkFalzFv();
 void TObjDFTenchuFuru__sub_80051A7C(void);
 
 
-typedef char RecoveredGlobal_80051938___vt__16TObjDFTenchuFuru_size[sizeof(RecoveredGlobal_80051938___vt__16TObjDFTenchuFuru) == 0x18 ? 1 : -1];
 
 
 
@@ -804,57 +795,34 @@ void TObjDFTenchuFuru::capture_matrix_by_frame() {
 }
 }
 
-extern "C" {
 void *TObjDFTenchuFuru::create(void *arg1) {
-    void *o;
-    o = TObject::operator new(0x30);
-    if (o != NULL) {
-        o = TObjDFTenchuFuru__ct((u8 *)o, (u8 *)this, (u8 *)arg1);
-    }
-    return o;
-}
+    return new TObjDFTenchuFuru(this, (const Vec *)arg1);
 }
 
-extern "C" {
-u8 *TObjDFTenchuFuru__ct(u8 *object, u8 *arg1, u8 *arg2) {
-    u8 *particle_emitter;
-    __ct__7TObjectFP7TObject(object, arg1);
-    *(s32 **)((s8 *)object + 0x18) = &__vt__16TObjDFTenchuFuru.value;
-    *(s32 *)((s8 *)object + 0) = (s32) TObjDFTenchuFuru__name;
-    ((TObjDFTenchuFuru *)object)->m_28 = 5;
-    VecCopy((Vec *)(object + 0x1C), (const Vec *)arg2);
-    ((TObjDFTenchuFuru *)object)->m_20 += 300.0f;
-    particle_emitter = (u8 *)(create_particle_emitter((object + 0x1C), 0x134));
-    ((TObjDFTenchuFuru *)object)->m_2c = particle_emitter;
-    if (particle_emitter != NULL) {
-        ((TParticleCtrl *)(((TObjDFTenchuFuru *)object)->m_2c))->set_flags(0x40);
+TObjDFTenchuFuru::TObjDFTenchuFuru(TObject *parent, const Vec *position) : TObject(parent) {
+    m_name = TObjDFTenchuFuru__name;
+    timer = 5;
+    VecCopy(&pos, position);
+    pos.y += 300.0f;
+    if ((effect = create_particle_emitter(&pos, 0x134)) != NULL) {
+        effect->set_flags(0x40);
     }
-    return object;
-}
 }
 
-extern "C" {
 TObjDFTenchuFuru::~TObjDFTenchuFuru() {
-    if (m_2c != nullptr) TParticleCtrl::release(m_2c);
-}
+    if (effect != NULL) TParticleCtrl::release(effect);
 }
 
 #pragma push
 #pragma fp_contract on
-extern "C" {
 void TObjDFTenchuFuru::run_task() {
-    u8 *arg0 = (u8 *)this;
-    s32 temp_r0;
-    this->m_20 += -60.0f;
-    if ((u32) this->m_2c != 0U) {
-        ((TParticleCtrl *)this->m_2c)->set_position((u8 *)&this->unk_1C);
+    pos.y += -60.0f;
+    if (effect != NULL) {
+        effect->set_position(&pos);
     }
-    temp_r0 = this->m_28 - 1;
-    this->m_28 = temp_r0;
-    if ((temp_r0 < 0) || ((is_active__14TBoss4DarkFalzFv() == 0) && (is_state_ready__14TBoss4DarkFalzFv() == 0))) {
-        ((s32 (*)(void *))queue_destruction__7TObjectFv)(arg0);
+    if (--timer < 0 || (is_active__14TBoss4DarkFalzFv() == 0 && is_state_ready__14TBoss4DarkFalzFv() == 0)) {
+        queue_destruction();
     }
-}
 }
 #pragma pop
 
