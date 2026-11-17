@@ -839,17 +839,12 @@ typedef struct Msg_8004BFA4 {
 extern "C" {
 s32 query_teammate_state__9TObjEneDDFv();
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-extern int darkfalz_dat_resource;
 void TBoss4Type2__sub_80056EA8(void *, s32);
 void TBoss4Type3__sub_80059DCC(TBoss4Type3 *self, u32 packed);
 u8 *get_enemy_entity(u16 arg0);
-extern void *TBoss4DarkFalz__type1_instance;
-extern void *TBoss4DarkFalz__type2_instance;
-extern void *TBoss4DarkFalz__type3_instance;
 void handle_6x19_dark_falz_actions(Msg_8004BFA4 *arg0);
 s32 restore_player_cameras();
 extern s32 __vt__14TBoss4DarkFalz[];
-extern s32 dark_falz_controller_instance;
 void TBoss4DarkFalz__sub_8004B4F0(void *arg0p, void *arg1p);
 s32 __ct__9TObjEnemyFP7TObject();
 void *fn_8030A83C(void *arg0);
@@ -880,9 +875,14 @@ void TBoss4DarkFalz::vfunc_63() {  }
 }
 void init_music_sequencer(s32 program);
 s32 create_boss4_fade();
-extern s32 dark_falz_form_index;
-extern s32 lbl_805D4D6C;
-extern s32 lbl_805D4D70;
+int darkfalz_dat_resource;
+void *TBoss4DarkFalz__type1_instance;
+void *TBoss4DarkFalz__type2_instance;
+void *TBoss4DarkFalz__type3_instance;
+s32 dark_falz_form_index;
+s32 lbl_805D4D6C;
+s32 lbl_805D4D70;
+s32 dark_falz_controller_instance;
 TBoss4DarkFalz::~TBoss4DarkFalz() {
     s32 temp_r0;
     u8 *object;

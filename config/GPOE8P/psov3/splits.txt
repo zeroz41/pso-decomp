@@ -515,6 +515,7 @@ pso/boss/darkfalz/TObjDFHorming.cpp:
 	.data       start:0x80484BB8 end:0x80484F3C
 	.bss        start:0x804FF1E8 end:0x804FF228
 	.sdata      start:0x805D2770 end:0x805D2774
+	.sbss       start:0x805D4D58 end:0x805D4D78
 	.sdata2     start:0x805D8908 end:0x805D8938
 
 pso/boss/darkfalz/TBoss4DarkFalz_8004C93C.cpp:
