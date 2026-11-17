@@ -1093,8 +1093,6 @@ struct TObjPlayer : public TObjChara {
     static s32 find_record_index(u32 arg0, u32 arg1);
     void release_empty_ref_entry();
     static void set_global_effect_state(s32 arg0);
-    s32 test_aabb_overlap(u8 *arg1, u8 *arg2, u8 *arg3);
-    void calc_bounds(u8 *arg1, u8 *arg2);
     void reload_texture(s32 arg1, u32 arg2, void *arg3);
     static void set_effect_active();
     static void reset_particle_counter();

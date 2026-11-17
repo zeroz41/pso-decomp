@@ -9,24 +9,23 @@ s32 __SITransfer(Vec_803E1B1C *a, Vec_803E1B1C *b);
 extern const Faces_803E0ED4 box_face_corner_index_table;
 const Faces_803E0ED4 box_face_corner_index_table = {
     {{0, 1, 2, 3}, {4, 5, 6, 7}, {0, 3, 7, 4}, {2, 1, 5, 6}, {0, 4, 5, 1}, {3, 2, 6, 7}}};
-s32 TObjPlayer::test_aabb_overlap(u8 *arg1, u8 *arg2, u8 *arg3) {
-    u8 *arg0 = (u8 *)this;
-    if (*(f32 *)((s8 *)arg1 + 0) < *(f32 *)((s8 *)arg2 + 0)) {
+s32 test_aabb_overlap(Vec *minA, Vec *maxA, Vec *minB, Vec *maxB) {
+    if (maxA->x < minB->x) {
         return 0;
     }
-    if (*(f32 *)((s8 *)arg0 + 0) > *(f32 *)((s8 *)arg3 + 0)) {
+    if (minA->x > maxB->x) {
         return 0;
     }
-    if (*(f32 *)((s8 *)arg1 + 4) < *(f32 *)((s8 *)arg2 + 4)) {
+    if (maxA->y < minB->y) {
         return 0;
     }
-    if (*(f32 *)((s8 *)arg0 + 4) > *(f32 *)((s8 *)arg3 + 4)) {
+    if (minA->y > maxB->y) {
         return 0;
     }
-    if (*(f32 *)((s8 *)arg1 + 8) < *(f32 *)((s8 *)arg2 + 8)) {
+    if (maxA->z < minB->z) {
         return 0;
     }
-    return (u32) __cntlzw(*(f32 *)((s8 *)arg0 + 8) > *(f32 *)((s8 *)arg3 + 8)) >> 5;
+    return (u32) __cntlzw(minA->z > maxB->z) >> 5;
 }
 
 #pragma push
@@ -522,10 +521,10 @@ s32 __SITransfer(Vec_803E1B1C *a, Vec_803E1B1C *b) {
 s32 TObjPlayer::test_box_overlap(Vec_803E1B1C *boxB) {
     Vec_803E1B1C qa[4];
     Vec_803E1B1C qb[4];
-    Vec_803E1B1C mnA;
-    Vec_803E1B1C mxA;
-    Vec_803E1B1C mnB;
-    Vec_803E1B1C mxB;
+    Vec mnA;
+    Vec mxA;
+    Vec mnB;
+    Vec mxB;
     s32 i;
     s32 j;
     s32 mask;
@@ -533,9 +532,9 @@ s32 TObjPlayer::test_box_overlap(Vec_803E1B1C *boxB) {
     s32 *fb;
     int k;
     mask = 0;
-    calc_bounds_min_max__10TObjPlayerFPvPvPv((struct Vec_803E1B1C *)(((Vec_803E1B1C *)this)), (struct Vec_803E1B1C *)(&mnA), (struct Vec_803E1B1C *)(&mxA));
-    calc_bounds_min_max__10TObjPlayerFPvPvPv((struct Vec_803E1B1C *)(boxB), (struct Vec_803E1B1C *)(&mnB), (struct Vec_803E1B1C *)(&mxB));
-    if (((TObjPlayer *)((u8 *)&mnA))->test_aabb_overlap((u8 *)&mxA, (u8 *)&mnB, (u8 *)&mxB) != 0) {
+    calc_box_bounds((Vec *)this, &mnA, &mxA);
+    calc_box_bounds((Vec *)boxB, &mnB, &mxB);
+    if (test_aabb_overlap(&mnA, &mxA, &mnB, &mxB) != 0) {
     Faces_803E0ED4 faces = box_face_corner_index_table;
     for (i = 0; i < 6; i++) {
         fa = faces.v[i];

@@ -3,12 +3,15 @@
 
 #include "types.h"
 struct Vec;
+struct CollisionSphere;
 
 struct Vec_803E1B1C { f32 x, y, z; };
 
 extern "C" {
-// The smallest and largest corner of the eight points of a box.
-void calc_bounds_min_max__10TObjPlayerFPvPvPv(Vec_803E1B1C *pts, Vec_803E1B1C *mn, Vec_803E1B1C *mx);
+// The smallest and largest corner of the eight corners of a box.
+void calc_box_bounds(Vec *corners, Vec *min, Vec *max);
+// The smallest and largest corner of the cube around a sphere.
+void calc_sphere_bounds(CollisionSphere *sphere, Vec *min, Vec *max);
 // The straight-line distance between a and b.
 f32 xyz_distance(Vec *a, Vec *b);
 // The paired-single matrix-stack helpers (hand-written assembly).

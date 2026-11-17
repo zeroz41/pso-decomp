@@ -8,7 +8,6 @@ extern "C" {
 #pragma push
 #pragma fp_contract off
 
-struct CollisionSphere { Vec_803E1B1C center; f32 radius; };
 struct EdgeOrder_803E112C { s32 v[5]; };
 inline const Faces_803E0ED4 *box_faces() {
     static const Faces_803E0ED4 box_face_vertex_index_table = {
@@ -44,16 +43,16 @@ static inline f32 collisionRoot(f32 x) {
 }
 
 #pragma opt_loop_invariants off
-s32 test_box_sphere_contact(Vec_803E1B1C *box, CollisionSphere *sphere) {
-    Vec_803E1B1C boxMin;
-    Vec_803E1B1C boxMax;
-    Vec_803E1B1C sphereMin;
-    Vec_803E1B1C sphereMax;
-    calc_bounds_min_max__10TObjPlayerFPvPvPv(box, &boxMin, &boxMax);
-    ((TObjPlayer *)sphere)->calc_bounds((u8 *)&sphereMin, (u8 *)&sphereMax);
-    if (((TObjPlayer *)&boxMin)->test_aabb_overlap((u8 *)&boxMax, (u8 *)&sphereMin, (u8 *)&sphereMax) != 0) {
+s32 test_box_sphere_contact(Vec *corners, CollisionSphere *sphere) {
+    Vec boxMin;
+    Vec boxMax;
+    Vec sphereMin;
+    Vec sphereMax;
+    calc_box_bounds(corners, &boxMin, &boxMax);
+    calc_sphere_bounds(sphere, &sphereMin, &sphereMax);
+    if (test_aabb_overlap(&boxMin, &boxMax, &sphereMin, &sphereMax) != 0) {
         Faces_803E0ED4 faces = *box_faces();
-        Vec_803E1B1C normals[6];
+        Vec normals[6];
         Faces_803E0ED4 adjacent = *box_adjacent();
         s32 i;
         s32 j;
@@ -84,10 +83,10 @@ s32 test_box_sphere_contact(Vec_803E1B1C *box, CollisionSphere *sphere) {
         f32 az;
         for (i = 0; i < 6; i++) {
             s32 *face = faces.v[i];
-            Vec_803E1B1C *n = &normals[i];
-            n->x = -((box[face[1]].y - box[face[0]].y) * (box[face[2]].z - box[face[0]].z) - (box[face[1]].z - box[face[0]].z) * (box[face[2]].y - box[face[0]].y));
-            n->y = -((box[face[1]].z - box[face[0]].z) * (box[face[2]].x - box[face[0]].x) - (box[face[1]].x - box[face[0]].x) * (box[face[2]].z - box[face[0]].z));
-            n->z = -((box[face[1]].x - box[face[0]].x) * (box[face[2]].y - box[face[0]].y) - (box[face[1]].y - box[face[0]].y) * (box[face[2]].x - box[face[0]].x));
+            Vec *n = &normals[i];
+            n->x = -((corners[face[1]].y - corners[face[0]].y) * (corners[face[2]].z - corners[face[0]].z) - (corners[face[1]].z - corners[face[0]].z) * (corners[face[2]].y - corners[face[0]].y));
+            n->y = -((corners[face[1]].z - corners[face[0]].z) * (corners[face[2]].x - corners[face[0]].x) - (corners[face[1]].x - corners[face[0]].x) * (corners[face[2]].z - corners[face[0]].z));
+            n->z = -((corners[face[1]].x - corners[face[0]].x) * (corners[face[2]].y - corners[face[0]].y) - (corners[face[1]].y - corners[face[0]].y) * (corners[face[2]].x - corners[face[0]].x));
             nscale = 1.0f / collisionRoot(n->z * n->z + (n->x * n->x + n->y * n->y));
             n->x *= nscale;
             n->y *= nscale;
@@ -95,10 +94,10 @@ s32 test_box_sphere_contact(Vec_803E1B1C *box, CollisionSphere *sphere) {
         }
         for (i = 0; i < 6; i++) {
             s32 faceHit = 1;
-            Vec_803E1B1C *n = &normals[i];
+            Vec *n = &normals[i];
             s32 *face = faces.v[i];
-            Vec_803E1B1C *center = &sphere->center;
-            f32 d = -(n->z * box[face[0]].z + (n->x * box[face[0]].x + n->y * box[face[0]].y));
+            Vec *center = &sphere->center;
+            f32 d = -(n->z * corners[face[0]].z + (n->x * corners[face[0]].x + n->y * corners[face[0]].y));
             t = -(d + (center->z * n->z + (center->x * n->x + center->y * n->y))) /
                     (n->z * n->z + (n->x * n->x + n->y * n->y));
             px = center->x + t * n->x;
@@ -110,11 +109,11 @@ s32 test_box_sphere_contact(Vec_803E1B1C *box, CollisionSphere *sphere) {
                 dd = dist * dist;
                 EdgeOrder_803E112C order = *box_order();
                 s32 k = order.v[j] << 2;
-                ax = box[*(s32 *)((u8 *)face + k)].x;
-                Vec_803E1B1C *b = &box[face[order.v[j + 1]]];
+                ax = corners[*(s32 *)((u8 *)face + k)].x;
+                Vec *b = &corners[face[order.v[j + 1]]];
                 ex = ax - b->x;
-                ey = (ay = box[*(s32 *)((u8 *)face + k)].y) - b->y;
-                ez = (az = box[*(s32 *)((u8 *)face + k)].z) - b->z;
+                ey = (ay = corners[*(s32 *)((u8 *)face + k)].y) - b->y;
+                ez = (az = corners[*(s32 *)((u8 *)face + k)].z) - b->z;
                 s = (ez * (pz - az) + (ex * (px - ax) + ey * (py - ay))) / (ez * ez + (ex * ex + ey * ey));
                 fx = ex * s;
                 fx += ax;
@@ -168,14 +167,14 @@ s32 test_box_sphere_contact(Vec_803E1B1C *box, CollisionSphere *sphere) {
 #pragma pop
 }
 
-s32 spheres_overlap(u8 *arg0, u8 *arg1) {
-    f32 temp_f2;
-    f32 temp_f3;
-    f32 temp_f4;
-    f32 temp_f5;
-    temp_f3 = *(f32 *)((s8 *)arg1 + 0) - *(f32 *)((s8 *)arg0 + 0);
-    temp_f4 = *(f32 *)((s8 *)arg1 + 4) - *(f32 *)((s8 *)arg0 + 4);
-    temp_f2 = *(f32 *)((s8 *)arg1 + 8) - *(f32 *)((s8 *)arg0 + 8);
-    temp_f5 = *(f32 *)((s8 *)arg0 + 0xC) + *(f32 *)((s8 *)arg1 + 0xC);
-    return ((temp_f2 * temp_f2) + ((temp_f3 * temp_f3) + (temp_f4 * temp_f4))) <= (temp_f5 * temp_f5);
+s32 spheres_overlap(CollisionSphere *a, CollisionSphere *b) {
+    f32 dx;
+    f32 dy;
+    f32 dz;
+    f32 reach;
+    dx = b->center.x - a->center.x;
+    dy = b->center.y - a->center.y;
+    dz = b->center.z - a->center.z;
+    reach = a->radius + b->radius;
+    return ((dz * dz) + ((dx * dx) + (dy * dy))) <= (reach * reach);
 }
