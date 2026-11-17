@@ -487,31 +487,56 @@ s32 TLobby__sub_803FE658(u8 *arg0) {
 }
 
 #pragma push
+#pragma optimization_level 0
+#pragma opt_propagation on
+static inline PppFrame *clear_reply_length_803FE6CC(PppFrame *frame) {
+    u16 *length = &frame->len;
+    *length = 0;
+    return (PppFrame *)((u8 *)length - offsetof(PppFrame, len));
+}
+#pragma pop
+#pragma push
 #pragma opt_lifetimes off
-s32 TLobby__sub_803FE6CC(void *self, int a, int b, void *c) {
-    PppFsm *fsm = (PppFsm *)self;
-    u8 pad[8];
-    PppFrame *buf;
-    u8 *link = fsm->sub;
-    s32 cmd;
-    s32 id;
-    u16 n;
+#pragma dont_inline off
+#pragma inline_depth(4)
+#pragma opt_common_subs off
+#pragma opt_propagation on
+typedef struct PppSendParent {
+    u8 state;
+    u8 next_identifier;
+    u8 unknown02[0x116];
+    s16 transmitted[4];
+} PppSendParent;
+typedef struct PppSendMagic {
+    u8 unknown00[0x28];
+    u32 magic;
+} PppSendMagic;
 
-    if ((buf = (PppFrame *)c) == 0) {
-        PppFrame *q = lbl_805C04A8.reply;
-        q->data = (u8 *)q + ((lbl_805C04A8.headroom + 0x83) & ~3);
-        q->len = 0;
-        buf = q;
+s32 TLobby__sub_803FE6CC(void *state, int code, int reply_identifier, void *payload) {
+    PppFsm *fsm = (PppFsm *)state;
+    PppBuffers *buffers;
+    PppSendParent *parent = (PppSendParent *)fsm->sub;
+    s32 command;
+    u8 *length_field;
+    s32 identifier;
+    u32 payload_length;
+    u32 get_field_4(void *self);
+    u8 *write_network_u16_be(u8 *p, u32 v);
+
+    if (payload == NULL) {
+        PppFrame *empty = lbl_805C04A8.reply;
+        empty->data = (u8 *)empty + ((*(buffers = &lbl_805C04A8)).headroom + 0x83 & ~3);
+        payload = (void *)clear_reply_length_803FE6CC(empty);
     }
-    switch (cmd = (u8)a) {
+    switch (command = (u8)code) {
     case 1:
     case 5:
     case 9:
-        fsm->f1 = link[1];
+        fsm->f1 = parent->next_identifier;
     case 8:
     case 11:
-        id = link[1];
-        link[1] = id + 1;
+        identifier = parent->next_identifier;
+        parent->next_identifier = identifier + 1;
         break;
     case 2:
     case 3:
@@ -519,37 +544,40 @@ s32 TLobby__sub_803FE6CC(void *self, int a, int b, void *c) {
     case 6:
     case 7:
     case 10:
-        id = b;
+        identifier = reply_identifier;
         break;
     default:
         return -1;
     }
-
-    switch (cmd) {
+    switch (command) {
     case 9:
     case 10:
     case 11:
-        write_network_u32_be(buf->data, *(u32 *)(fsm->opts + 0x28));
+        write_network_u32_be(((PppFrame *)payload)->data, ((PppSendMagic *)fsm->opts)->magic);
         break;
     }
-    n = get_field_4((void *)buf) + 4;
+    payload_length = get_field_4(payload);
     {
-        PppFrame *out = (PppFrame *)alloc_from_buffer((0, (void *)buf), 4);
-        u8 *dp = out->data;
-        *dp++ = a;
-        *dp++ = id;
-        write_network_u16_be(dp, n);
-        buf = out;
+    PppFrame *saved_frame = (PppFrame *)payload;
+    payload = (void *)(payload_length + 4);
+    {
+        PppFrame *output = (PppFrame *)alloc_from_buffer((0, (void *)saved_frame), 4);
+        u8 *data = output->data;
+        *data++ = code;
+        *data++ = identifier;
+        length_field = data;
+        write_network_u16_be(length_field, (u32)payload);
+        payload = output;
     }
-    if (buf == 0) {
+    }
+    if (payload == NULL) {
         return -1;
     }
     {
-        u8 *counter = link + (fsm->proto->b8 << 1);
-        s16 v = *(s16 *)(counter + 0x118);
-        *(s16 *)(counter + 0x118) = v + 1;
+        s16 count = parent->transmitted[fsm->proto->b8];
+        parent->transmitted[fsm->proto->b8] = count + 1;
     }
-    return TLobby__sub_80406624(0, 0, fsm->proto->proto, buf);
+    return TLobby__sub_80406624(0, 0, fsm->proto->proto, payload);
 }
 #pragma pop
 void TLobby__sub_803FE820(s32 arg0) {
