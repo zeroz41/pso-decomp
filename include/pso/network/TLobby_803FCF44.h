@@ -87,7 +87,6 @@ struct Names_80403168 {
 extern "C" {
 #endif
 extern Names_80403168 lbl_805C04D8;
-extern u8 lobby_ppp_read_buf;
 u32 TLobby__sub_803FE9F8(u32 sum, PppFrame* buf, u16 count);
 void TLobby__sub_803FD0C0(void);
 /* Called across the PPP files; each line names its defining file. */

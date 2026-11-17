@@ -26,16 +26,18 @@ s32 reset_socket_table(void);
 void run_net_thread_loop(void);
 void ppp_input_packet(PppFrame *arg0);
 
-extern PppFrame *ppp_rx_frame_ptr;
 extern s32 lbl_805D7A94;
-extern u8 *lbl_805D7ADC;
-extern u8 *lbl_805D7AE0;
-extern u32 lbl_805D7AE4;
-/* inferred: the receive path's running FCS: reset to 0xFFFF, folded per byte, good at 0xF0B8. */
-extern u16 ppp_rx_fcs;
 /* inferred: the PPP FCS-16 lookup table (RFC 1662 fcstab); the receive path checks the FCS against 0xF0B8. */
 extern u16 ppp_fcs16_table[];
-extern u8 lbl_805C18B0[];
+u8 ppp_rx_buffer[0x200];
+/* inferred: the receive path's running FCS: reset to 0xFFFF, folded per byte, good at 0xF0B8. */
+u16 ppp_rx_fcs;
+u32 ppp_rx_escape_pending;
+u8 *ppp_rx_end_ptr;
+u8 *ppp_rx_read_ptr;
+PppFrame *ppp_rx_frame_ptr;
+u8 ppp_input_byte;
+u8 lobby_ppp_read_buf[4];
 
 #include <stddef.h>
 
@@ -54,7 +56,6 @@ void TLobby__sub_803FDBF8(u8 *self, void *arg1);
 void PADRead(u8 *, PppFrame *); /* declared here with other parameter types; the definition is void (u8 *, s32) */
 s16 TLobby__sub_804040E0(void *self, void *arg);
 s32 TLobby__sub_804060B8(u8 *, u16, int);
-extern u8 ppp_input_byte;
 
 struct N_80405298;
 
@@ -108,14 +109,14 @@ struct Timer_804051CC {
     u8 f18;
 };
 
-s32 TLobby__sub_80405700();
+s32 ppp_poll_input(void);
 
 void process_expired_timers(void) {
     s32 now;
     Timer_804051CC *t;
 
     lock_mutex(lbl_805C18A0.mutex);
-    TLobby__sub_80405700();
+    ppp_poll_input();
     get_time_ms(&now);
     t = (Timer_804051CC *)lobby_timer_list_head;
     while (t != NULL) {
@@ -353,7 +354,7 @@ extern u8 *TLobby__sub_8040555C(u8 *self, void *lobby, u8 *obj) {
 
 #pragma push
 #pragma opt_common_subs on
-s32 TLobby__sub_80405700()
+s32 ppp_poll_input(void)
 {
   PppFrame *frame;
   u32 b;
@@ -362,7 +363,6 @@ s32 TLobby__sub_80405700()
   u16 st;
   u16 n;
   PppBuffers *base;
-  u8 *buf = lbl_805C18B0;
   if (lobby_modem_connect_state == 10)
   {
     if (TLobby__sub_804290D4(0x7fff) == 0)
@@ -404,27 +404,27 @@ s32 TLobby__sub_80405700()
     }
     return 0;
   }
-  if (lbl_805D7ADC == 0)
+  if (ppp_rx_read_ptr == 0)
   {
-    lbl_805D7ADC = buf;
+    ppp_rx_read_ptr = ppp_rx_buffer;
     ppp_rx_frame_ptr = 0;
     ppp_rx_fcs = 0xffff;
-    lbl_805D7AE4 = 0;
-    lbl_805D7AE0 = buf;
+    ppp_rx_escape_pending = 0;
+    ppp_rx_end_ptr = ppp_rx_buffer;
   }
   base = &lbl_805C04A8;
   for (;;)
   {
-    if (lbl_805D7ADC == lbl_805D7AE0)
+    if (ppp_rx_read_ptr == ppp_rx_end_ptr)
     {
-      if ((recv_network_frame(0x200, buf, &st) != 0) || (st < 1))
+      if ((recv_network_frame(sizeof(ppp_rx_buffer), ppp_rx_buffer, &st) != 0) || (st < 1))
       {
         goto tail;
       }
-      lbl_805D7ADC = buf;
-      lbl_805D7AE0 = buf + st;
+      ppp_rx_read_ptr = ppp_rx_buffer;
+      ppp_rx_end_ptr = ppp_rx_buffer + st;
     }
-    c = *(lbl_805D7ADC++);
+    c = *(ppp_rx_read_ptr++);
     if (c == 0x7e)
     {
       if (((ppp_rx_frame_ptr != 0) && (ppp_rx_frame_ptr->len < 0x800)) && (ppp_rx_fcs == 0xf0b8))
@@ -441,7 +441,7 @@ s32 TLobby__sub_80405700()
     }
     if ((c == 0x7d) != 0U)
     {
-      lbl_805D7AE4 |= 1;
+      ppp_rx_escape_pending |= 1;
       continue;
     }
     if (ppp_rx_frame_ptr == 0)
@@ -449,12 +449,12 @@ s32 TLobby__sub_80405700()
       ppp_rx_frame_ptr = (frame = base->frame_in);
       ppp_rx_frame_ptr->data = ((u8 *) frame) + ((base->headroom + 0x83) & (~3));
       ppp_rx_frame_ptr->len = 0;
-      lbl_805D7AE4 = 0;
+      ppp_rx_escape_pending = 0;
       ppp_rx_fcs = 0xffff;
     }
-    if (lbl_805D7AE4 & 1)
+    if (ppp_rx_escape_pending & 1)
     {
-      lbl_805D7AE4 &= ~1;
+      ppp_rx_escape_pending &= ~1;
       c ^= 0x20;
     }
     if (ppp_rx_frame_ptr->len >= 0x800)
@@ -524,8 +524,8 @@ inline s32 get_80405A74(PppFrame **s) {
         (*(s16 *)(G + 0x142))++;                                        \
         return;                                                              \
     }                                                                        \
-    if (ppp_buffer_read(&u, &lobby_ppp_read_buf, 2) == 2) {                   \
-        read_network_u16_be(&lobby_ppp_read_buf);                                 \
+    if (ppp_buffer_read(&u, lobby_ppp_read_buf, 2) == 2) {                    \
+        read_network_u16_be(lobby_ppp_read_buf);                             \
     }                                                                        \
     TLobby__sub_803FE6CC(G + 4, 8, 0, u);                                    \
     return;
@@ -541,8 +541,8 @@ void ppp_input_packet(PppFrame *arg0) {
     }
     G = lbl_805C0038;
     if (lbl_805D7A7A == 0 && arg0->data[0] == 0xFF && arg0->data[1] == 3 &&
-        ppp_buffer_read(&arg0, &lobby_ppp_read_buf, 2) == 2) {
-        read_network_u16_be(&lobby_ppp_read_buf);
+        ppp_buffer_read(&arg0, lobby_ppp_read_buf, 2) == 2) {
+        read_network_u16_be(lobby_ppp_read_buf);
     }
     code = (u16)get_80405A74(&arg0);
     if (!(code & 1)) {
@@ -702,7 +702,7 @@ s32 TLobby__sub_804061FC(void)
   u8 *new_var;
   u8 *q;
   z = 0;
-  lbl_805D7ADC = (u8 *) z;
+  ppp_rx_read_ptr = (u8 *) z;
   p = lbl_805C0038;
   q = p;
   new_var = q;
@@ -1008,6 +1008,222 @@ s32 shutdown_network_handle(void) {
     return 0;
 }
 
+#pragma push
+#pragma optimization_level 3
+s32 reset_socket_table(void) {
+    s16 n;
+    s16 i;
+    NetPacket *p;
+    TLobby__sub_803F8A0C(&lobby_udp_socket_table);
+    n = lobby_udp_socket_table.count;
+    p = lobby_udp_socket_table.packets;
+    for (i = 0; i < n; i++, p++) {
+        p->in_use = 0;
+    }
+    return 0;
+}
+#pragma pop
+
+s32 TLobby__sub_80406B6C(NetBufferRef *o) {
+    if (o != 0) {
+        switch (o->kind) {
+        case 1:
+        case 3:
+            break;
+        case 2:
+        case 4:
+            if (TLobby__sub_8041579C(o) < 0) {
+                return -1;
+            }
+            return 0;
+        }
+    }
+    return -1;
+}
+
+u16 ones_complement_sum();
+#pragma push
+#pragma opt_lifetimes off
+u16 packet_ones_complement_sum(NetPacket *pkt, s16 flag)
+{
+    NetPacketFragment *e;
+    u32 sum;
+    u8 *ptr;
+    s32 count;
+    s32 i;
+    s16 carry;
+    u8 hdr[2];
+
+    count = pkt->fragment_count;
+    sum = 0;
+    carry = 0;
+    *(u16 *)hdr = 0;
+    if (flag == 1) {
+        e = pkt->fragments + count - 1;
+        while (count != 0) {
+            u8 kind = e->buffer.kind;
+            u32 *w = &e->buffer.value;
+            s16 len;
+            e--;
+            count--;
+            switch (kind) {
+            case 1:
+            case 4:
+                ptr = (u8 *)*w;
+                break;
+            case 2: {
+                u32 word = *w;
+                s16 k = (s16)(word >> 24);
+                NetBufferPoolEntry *ent;
+                u16 seg;
+                if (network_buffer_pool_state.count < k) {
+                    return 0;
+                }
+                ent = network_buffer_pool_state.ents;
+                ent = ent + k;
+                seg = ent->segs[(s16)((len = word >> 16) & 0xff)].offset;
+                {
+                    u32 t = (u32)ent->buf;
+                    t = (word & 0xffff) + t;
+                    t = seg + t;
+                    ptr = (u8 *)t;
+                }
+                break;
+            }
+            case 3:
+                ptr = (u8 *)e[1].buffer.value;
+                break;
+            }
+            len = e[1].length;
+            if (carry) {
+                hdr[1] = *ptr++;
+                sum += *(u16 *)hdr;
+                len--;
+            }
+            if (len & 1) {
+                hdr[0] = ptr[len - 1];
+                hdr[1] = 0;
+                carry = 1;
+                len--;
+            } else {
+                *(u16 *)hdr = 0;
+                carry = 0;
+            }
+            len = len >> 1;
+            sum += ones_complement_sum(ptr, len);
+        }
+        if (carry) {
+            sum += *(u16 *)hdr;
+        }
+    } else {
+        e = pkt->fragments;
+        for (i = 1; i < count; e++, i++) {
+            u32 *w = &e[1].buffer.value;
+            s16 len;
+            switch (e[1].buffer.kind) {
+            case 1:
+            case 4:
+                ptr = (u8 *)*w;
+                break;
+            case 2: {
+                u32 word = *w;
+                s16 k = (s16)(word >> 24);
+                NetBufferPoolEntry *ent;
+                u16 seg;
+                if (network_buffer_pool_state.count < k) {
+                    return 0;
+                }
+                ent = network_buffer_pool_state.ents;
+                ent = ent + k;
+                {
+                    u32 t = (u32)ent->buf;
+                    seg = ent->segs[(s16)((len = word >> 16) & 0xff)].offset;
+                    t = (word & 0xffff) + t;
+                    t = seg + t;
+                    ptr = (u8 *)t;
+                }
+                break;
+            }
+            case 3:
+                ptr = (u8 *)e[1].buffer.value;
+                break;
+            }
+            len = e[1].length;
+            if (carry) {
+                hdr[1] = *ptr++;
+                sum += *(u16 *)hdr;
+                len--;
+            }
+            if (len & 1) {
+                hdr[0] = ptr[len - 1];
+                hdr[1] = 0;
+                carry = 1;
+                len--;
+            } else {
+                *(u16 *)hdr = 0;
+                carry = 0;
+            }
+            len = len >> 1;
+            sum += ones_complement_sum(ptr, len);
+        }
+        if (carry) {
+            sum += *(u16 *)hdr;
+        }
+    }
+    if (sum & 0xffff0000) {
+        sum = (sum >> 16) + (sum & 0xffff);
+        sum += sum >> 16;
+    }
+    return (u16)sum;
+}
+#pragma pop
+
+void netbuf_ref_advance(NetBufferRef *ref, s32 n) {
+    switch (ref->kind) {
+    case 4:
+        break;
+    case 1:
+        ref->value += n;
+        break;
+    case 2:
+        ref->value += n;
+        break;
+    case 3:
+        ref->value += n;
+        break;
+    }
+}
+
+u8 *netbuf_ref_data(void *self)
+{
+    u32 w;
+    s16 k;
+    s16 j;
+    u8 *rec;
+    u8 *sub;
+
+    switch (((NetBufferRef *)self)->kind) {
+    case 1:
+    case 4:
+        return (u8 *)((NetBufferRef *)self)->value;
+    case 2:
+        w = ((NetBufferRef *)self)->value;
+        k = (s16)(w >> 24);
+        if (network_buffer_pool_state.count < k) {
+            return 0;
+        }
+        j = (s16)((w >> 16) & 0xff);
+        sub = (u8 *)network_buffer_pool_state.ents + k * (s32)sizeof(NetBufferPoolEntry);
+        rec = sub;
+        sub = rec + j * (s32)sizeof(NetBufferSegment);
+        return (u8 *)(*(u16 *)(sub + offsetof(NetBufferPoolEntry, segs[0].offset)) + (w & 0xffff) + *(u32 *)(rec + offsetof(NetBufferPoolEntry, buf)));
+    case 3:
+        return (u8 *)((NetBufferRef *)self)->value;
+    default:
+        return 0;
+    }
+}
+
 void init_msg(void *self, s32 arg1) {
     ((NetBufferRef *)self)->value = arg1;
     ((NetBufferRef *)self)->kind = 4;
@@ -1170,194 +1386,6 @@ void netbuf_copy_by_ref(void *a, void *b, s32 v) {
     }
 }
 #pragma pop
-#pragma push
-#pragma optimization_level 3
-s32 reset_socket_table(void) {
-    s16 n;
-    s16 i;
-    NetPacket *p;
-    TLobby__sub_803F8A0C(&lobby_udp_socket_table);
-    n = lobby_udp_socket_table.count;
-    p = lobby_udp_socket_table.packets;
-    for (i = 0; i < n; i++, p++) {
-        p->in_use = 0;
-    }
-    return 0;
-}
-#pragma pop
-
-s32 TLobby__sub_80406B6C(NetBufferRef *o) {
-    if (o != 0) {
-        switch (o->kind) {
-        case 1:
-        case 3:
-            break;
-        case 2:
-        case 4:
-            if (TLobby__sub_8041579C(o) < 0) {
-                return -1;
-            }
-            return 0;
-        }
-    }
-    return -1;
-}
-
-u16 ones_complement_sum();
-u16 TLobby__sub_80406BD8(NetPacket *pkt, s16 flag)
-{
-    u32 sum = 0;
-    u8 *ptr;
-    s32 count = pkt->fragment_count;
-    s32 i;
-    s16 carry = 0;
-    u8 hdr[2];
-    s16 len;
-    NetBufferRef *ref;
-
-    *(u16 *)hdr = 0;
-    if (flag == 1) {
-        while (count != 0) {
-            count--;
-            ref = &pkt->fragments[count].buffer;
-            switch (pkt->fragments[count].buffer.kind) {
-            case 1:
-            case 4:
-                ptr = (u8 *)ref->value;
-                break;
-            case 2: {
-                u32 w = ref->value;
-                s16 k = (s16)(w >> 24);
-                NetBufferPoolEntry *ent;
-                if (network_buffer_pool_state.count < k) {
-                    return 0;
-                }
-                ent = &network_buffer_pool_state.ents[k];
-                ptr = (u8 *)(ent->segs[(s16)((w >> 16) & 0xff)].offset + (w & 0xffff) + (u32)ent->buf);
-                break;
-            }
-            case 3:
-                ptr = (u8 *)pkt->fragments[count].buffer.value;
-                break;
-            }
-            len = pkt->fragments[count].length;
-            if (carry) {
-                hdr[1] = *ptr++;
-                sum += *(u16 *)hdr;
-                len--;
-            }
-            if (len & 1) {
-                hdr[0] = ptr[len - 1];
-                hdr[1] = 0;
-                carry = 1;
-                len--;
-            } else {
-                *(u16 *)hdr = 0;
-                carry = 0;
-            }
-            len = len >> 1;
-            sum += ones_complement_sum(ptr, len);
-        }
-        if (carry) {
-            sum += *(u16 *)hdr;
-        }
-    } else {
-        for (i = 1; i < count; i++) {
-            ref = &pkt->fragments[i].buffer;
-            switch (pkt->fragments[i].buffer.kind) {
-            case 1:
-            case 4:
-                ptr = (u8 *)ref->value;
-                break;
-            case 2: {
-                u32 w = ref->value;
-                s16 k = (s16)(w >> 24);
-                NetBufferPoolEntry *ent;
-                if (network_buffer_pool_state.count < k) {
-                    return 0;
-                }
-                ent = &network_buffer_pool_state.ents[k];
-                ptr = (u8 *)(ent->segs[(s16)((w >> 16) & 0xff)].offset + (w & 0xffff) + (u32)ent->buf);
-                break;
-            }
-            case 3:
-                ptr = (u8 *)pkt->fragments[i].buffer.value;
-                break;
-            }
-            len = pkt->fragments[i].length;
-            if (carry) {
-                hdr[1] = *ptr++;
-                sum += *(u16 *)hdr;
-                len--;
-            }
-            if (len & 1) {
-                hdr[0] = ptr[len - 1];
-                hdr[1] = 0;
-                carry = 1;
-                len--;
-            } else {
-                *(u16 *)hdr = 0;
-                carry = 0;
-            }
-            len = len >> 1;
-            sum += ones_complement_sum(ptr, len);
-        }
-        if (carry) {
-            sum += *(u16 *)hdr;
-        }
-    }
-    if (sum & 0xffff0000) {
-        sum = (sum >> 16) + (sum & 0xffff);
-        sum += sum >> 16;
-    }
-    return (u16)sum;
-}
-
-void netbuf_ref_advance(NetBufferRef *ref, s32 n) {
-    switch (ref->kind) {
-    case 4:
-        break;
-    case 1:
-        ref->value += n;
-        break;
-    case 2:
-        ref->value += n;
-        break;
-    case 3:
-        ref->value += n;
-        break;
-    }
-}
-
-u8 *netbuf_ref_data(void *self)
-{
-    u32 w;
-    s16 k;
-    s16 j;
-    u8 *rec;
-    u8 *sub;
-
-    switch (((NetBufferRef *)self)->kind) {
-    case 1:
-    case 4:
-        return (u8 *)((NetBufferRef *)self)->value;
-    case 2:
-        w = ((NetBufferRef *)self)->value;
-        k = (s16)(w >> 24);
-        if (network_buffer_pool_state.count < k) {
-            return 0;
-        }
-        j = (s16)((w >> 16) & 0xff);
-        sub = (u8 *)network_buffer_pool_state.ents + k * (s32)sizeof(NetBufferPoolEntry);
-        rec = sub;
-        sub = rec + j * (s32)sizeof(NetBufferSegment);
-        return (u8 *)(*(u16 *)(sub + offsetof(NetBufferPoolEntry, segs[0].offset)) + (w & 0xffff) + *(u32 *)(rec + offsetof(NetBufferPoolEntry, buf)));
-    case 3:
-        return (u8 *)((NetBufferRef *)self)->value;
-    default:
-        return 0;
-    }
-}
 
 void release_entry(NetPacket *e) {
     s16 i;

@@ -826,7 +826,7 @@ extern u16 calc_ipv6_pseudo_header_checksum(const struct IPv6Address *src, const
         ph.len = (u16)pkt->total_bytes;
     }
     sum = ones_complement_sum(&ph, sizeof(ph) / 2);
-    sum += TLobby__sub_80406BD8(pkt, flag);
+    sum += packet_ones_complement_sum(pkt, flag);
     sum = (sum >> 16) + (sum & 0xFFFF);
     sum += sum >> 16;
     return ~sum;
