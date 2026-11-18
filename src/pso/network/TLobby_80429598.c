@@ -8,7 +8,14 @@
 
 #include "types.h"
 #include "pso/network/NetStackTypes.h"
+#ifdef __MWERKS__
 #include "dolphin/hw_regs.h"
+#define bba_leading_zeroes(value) __cntlzw(value)
+#else
+#include <pso/port/ExiEthernetFallbacks.h>
+extern volatile u32 __SIRegs[0x100];
+#define bba_leading_zeroes(value) exi_leading_zeroes(value)
+#endif
 #include <string.h>
 #include <dolphin/exi.h>
 #include <dolphin/os.h>
@@ -89,7 +96,11 @@ void wake_network_thread(void) {
 
 void exi_write(s32 reg, void *data, s32 len) {
     s32 cmd;
+#ifdef __MWERKS__
     cmd = ((reg << 8) & 0xFFFF00) | 0x80000000;
+#else
+    cmd = exi_read_command(reg);
+#endif
     EXISelect(0, 2, 5);
     EXIImm(0, &cmd, 4, 1, 0);
     EXISync(0);
@@ -179,9 +190,13 @@ static inline void bba_out8(u32 reg, u8 val) {
 }
 
 static inline u16 bba_swap16(u16 val) {
+#ifdef __MWERKS__
     u16 swapped;
     swapped = __lhbrx(&val, 0);
     return swapped;
+#else
+    return exi_swap16(val);
+#endif
 }
 
 static inline u16 bba_in16(u32 reg) {
@@ -377,7 +392,7 @@ void TLobby__sub_80429B8C(s32 chan, OSContext *ctx) {
     }
     ir = bba_cmd_in8(0x03);
     bba_cmd_out8(0x02, 0);
-    switch (__cntlzw(ir)) {
+    switch (bba_leading_zeroes(ir)) {
     case 24:
         bba_cmd_out8(0x03, 0x80);
         break;
@@ -410,7 +425,7 @@ void TLobby__sub_80429B8C(s32 chan, OSContext *ctx) {
         bba_recv();
         return;
     }
-    switch (__cntlzw(ir)) {
+    switch (bba_leading_zeroes(ir)) {
     case 24:
         lbl_805D0AA0.pad_58++;
         bba_out8(0x09, 0x80);
