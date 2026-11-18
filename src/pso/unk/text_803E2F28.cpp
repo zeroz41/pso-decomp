@@ -1,4 +1,8 @@
 #include "types.h"
+#include "pso/render/ChunkVertexJob.h"
+#ifndef __MWERKS__
+#include <math.h>
+#endif
 #include "pso/player/TObjPlayer_803E1A58.h"
 #include "pso/player/TObjPlayer_803E21B8.h"
 #include "pso/unk/text_803D853C.h"
@@ -28,8 +32,6 @@ struct ChunkNode_803E2F78 {
     f32 f34;
 };
 
-struct Hdr_803E34B0 { u8 *dst; u8 *src; s32 count; };
-
 typedef union {
     u8 u8;
     u16 u16;
@@ -38,7 +40,11 @@ typedef union {
     f32 f32;
 } PPCWGPipe;
 
+#ifdef __MWERKS__
 volatile PPCWGPipe GXWGFifo : 0xCC008000;
+#else
+#define GXWGFifo (*(volatile PPCWGPipe *)0xCC008000)
+#endif
 
 
 typedef struct Vtx_803E36C4 { f32 x, y, z, nx, ny, nz; u32 pad[2]; } Vtx_803E36C4;
@@ -187,17 +193,180 @@ void transform_chunk_object_tree(void *arg0, void (*cb)(void *)) {
 #undef node
 
 extern "C" {
-asm void GXSetVtxAttrFmtv(Hdr_803E34B0 *job, s32 matrix, u32 format) {
+// The store loop at 0x803E1E84 writes the current 3x4 as these pairs.
+// reorder_current_matrix_ps (0x803E1E74) falls into it; push_reordered_matrix_ps
+// (0x803E1ED0) advances the matrix slot by 0x30 and branches to it.
+// Position uses the translation column; the normal uses only the 3x3.
+struct ReorderedMatrix_803E3390 {
+    f32 m00, m10;
+    f32 m20, m01;
+    f32 m11, m21;
+    f32 m02, m12;
+    f32 m22, m03;
+    f32 m13, m23;
+};
+struct VtxIn_803E3390 {
+    f32 x, y, z;
+    f32 nx, ny, nz;
+};
+struct VtxOut_803E3390 {
+    f32 x, y, z;
+    f32 nx, ny, nz;
+    f32 pad[2];
+};
+typedef char ReorderedMatrix_803E3390_size[sizeof(ReorderedMatrix_803E3390) == 0x30 ? 1 : -1];
+typedef char VtxIn_803E3390_size[sizeof(VtxIn_803E3390) == 0x18 ? 1 : -1];
+typedef char VtxOut_803E3390_size[sizeof(VtxOut_803E3390) == 0x20 ? 1 : -1];
+
+// This chunk command transforms indexed positions and normals with signed 8.8 weights.
+#ifdef __MWERKS__
+asm void GXSetVtxAttrFmtv(ChunkVertexJob *job, ReorderedMatrix_803E3390 *matrix, u32 accumulate) {
 #include "orig_asm/pso/unk/text_803E2F28/GXSetVtxAttrFmtv.inc"
 }
-
-asm void transform_chunk_vertices_pos_normal(Hdr_803E34B0 *job, s32 matrix) {
-#include "orig_asm/pso/unk/text_803E2F28/transform_chunk_vertices_pos_normal.inc"
+#else
+static void transform_chunk_vertex(const VtxIn_803E3390 *src, const ReorderedMatrix_803E3390 *matrix, VtxOut_803E3390 *dst) {
+    f32 x = src->x, y = src->y, z = src->z;
+    f32 nx = src->nx, ny = src->ny, nz = src->nz;
+    dst->x = fmaf(matrix->m02, z, fmaf(matrix->m01, y, fmaf(matrix->m00, x, matrix->m03)));
+    dst->y = fmaf(matrix->m12, z, fmaf(matrix->m11, y, fmaf(matrix->m10, x, matrix->m13)));
+    dst->z = fmaf(matrix->m22, z, fmaf(matrix->m21, y, fmaf(matrix->m20, x, matrix->m23)));
+    dst->nx = fmaf(matrix->m02, nz, fmaf(matrix->m01, ny, matrix->m00 * nx));
+    dst->ny = fmaf(matrix->m12, nz, fmaf(matrix->m11, ny, matrix->m10 * nx));
+    dst->nz = fmaf(matrix->m22, nz, fmaf(matrix->m21, ny, matrix->m20 * nx));
 }
+
+struct WeightedChunkVertex {
+    VtxIn_803E3390 vertex;
+    s16 weight;
+    u16 index;
+};
+
+typedef char WeightedChunkVertex_size[sizeof(WeightedChunkVertex) == 0x1C ? 1 : -1];
+
+void GXSetVtxAttrFmtv(ChunkVertexJob *job, ReorderedMatrix_803E3390 *matrix, u32 accumulate) {
+    const WeightedChunkVertex *src = (const WeightedChunkVertex *)job->src;
+    for (s32 i = 0; i < job->count; ++i, ++src) {
+        VtxOut_803E3390 *dst = (VtxOut_803E3390 *)(job->dst + src->index * sizeof(VtxOut_803E3390));
+        VtxOut_803E3390 transformed;
+        transform_chunk_vertex(&src->vertex, matrix, &transformed);
+        f32 weight = src->weight * (1.0f / 256.0f);
+        if (accumulate) {
+            dst->x = fmaf(transformed.x, weight, dst->x);
+            dst->y = fmaf(transformed.y, weight, dst->y);
+            dst->z = fmaf(transformed.z, weight, dst->z);
+            dst->nx = fmaf(transformed.nx, weight, dst->nx);
+            dst->ny = fmaf(transformed.ny, weight, dst->ny);
+            dst->nz = fmaf(transformed.nz, weight, dst->nz);
+        } else {
+            dst->x = transformed.x * weight;
+            dst->y = transformed.y * weight;
+            dst->z = transformed.z * weight;
+            dst->nx = transformed.nx * weight;
+            dst->ny = transformed.ny * weight;
+            dst->nz = transformed.nz * weight;
+        }
+    }
+}
+#endif
+
+// Matrix pairs: (m00,m10)(m20,m01)(m11,m21)(m02,m12)(m22,m03)(m13,m23).
+// Loads with W=1 force ps1 = 1.0; ps_madds0/1 accumulate position columns,
+// ps_muls1 starts the normal. The first vertex is peeled; stores use psq_stu
+// (+12, +8 W=1, +4, +8 W=1) leaving dst->pad untouched.
+#ifdef __MWERKS__
+asm void transform_chunk_vertices_pos_normal(register ChunkVertexJob *job, register ReorderedMatrix_803E3390 *matrix) {
+    nofralloc
+    lwz r5, 0x0(r3)
+    lwz r6, 0x4(r3)
+    lwz r7, 0x8(r3)
+    stwu r1, -0x40(r1)
+    stfd f14, 0x8(r1)
+    stfd f15, 0x10(r1)
+    addi r7, r7, -0x1
+    stfd f16, 0x18(r1)
+    stfd f17, 0x20(r1)
+    stfd f18, 0x28(r1)
+    mtctr r7
+    psq_l f0, 0x0(r4), 0, 0
+    addi r6, r6, -0x8
+    psq_l f1, 0x8(r4), 1, 0
+    addi r5, r5, -0xc
+    psq_l f6, 0x24(r4), 0, 0
+    psq_lu f8, 0x8(r6), 0, 0
+    psq_l f7, 0x2c(r4), 1, 0
+    psq_lu f9, 0x8(r6), 0, 0
+    ps_madds0 f11, f0, f8, f6
+    psq_l f2, 0xc(r4), 0, 0
+    ps_madds0 f12, f1, f8, f7
+    psq_l f3, 0x14(r4), 1, 0
+    ps_muls1 f13, f0, f9
+    psq_lu f10, 0x8(r6), 0, 0
+    ps_muls1 f14, f1, f9
+    psq_l f5, 0x20(r4), 1, 0
+    ps_madds1 f11, f2, f8, f11
+    ps_madds1 f12, f3, f8, f12
+    psq_l f4, 0x18(r4), 0, 0
+    ps_madds0 f13, f2, f10, f13
+    psq_lu f8, 0x8(r6), 0, 0
+    ps_madds0 f14, f3, f10, f14
+    ps_madds0 f15, f4, f9, f11
+    ps_madds0 f16, f5, f9, f12
+    psq_lu f9, 0x8(r6), 0, 0
+    ps_madds1 f17, f4, f10, f13
+    ps_madds1 f18, f5, f10, f14
+    psq_lu f10, 0x8(r6), 0, 0
+    cmpwi r7, 0x0
+    beq tail
+loop:
+    ps_madds0 f11, f0, f8, f6
+    psq_stu f15, 0xc(r5), 0, 0
+    ps_madds0 f12, f1, f8, f7
+    psq_stu f16, 0x8(r5), 1, 0
+    ps_muls1 f13, f0, f9
+    psq_stu f17, 0x4(r5), 0, 0
+    ps_muls1 f14, f1, f9
+    psq_stu f18, 0x8(r5), 1, 0
+    ps_madds1 f11, f2, f8, f11
+    ps_madds1 f12, f3, f8, f12
+    psq_lu f8, 0x8(r6), 0, 0
+    ps_madds0 f13, f2, f10, f13
+    ps_madds0 f14, f3, f10, f14
+    ps_madds0 f15, f4, f9, f11
+    ps_madds0 f16, f5, f9, f12
+    psq_lu f9, 0x8(r6), 0, 0
+    ps_madds1 f17, f4, f10, f13
+    ps_madds1 f18, f5, f10, f14
+    psq_lu f10, 0x8(r6), 0, 0
+    bdnz loop
+tail:
+    psq_stu f15, 0xc(r5), 0, 0
+    psq_stu f16, 0x8(r5), 1, 0
+    psq_stu f17, 0x4(r5), 0, 0
+    psq_stu f18, 0x8(r5), 1, 0
+    lfd f14, 0x8(r1)
+    lfd f15, 0x10(r1)
+    lfd f16, 0x18(r1)
+    lfd f17, 0x20(r1)
+    lfd f18, 0x28(r1)
+    addi r1, r1, 0x40
+    blr
+}
+#else
+void transform_chunk_vertices_pos_normal(ChunkVertexJob *job, ReorderedMatrix_803E3390 *matrix) {
+    VtxOut_803E3390 *dst = (VtxOut_803E3390 *)job->dst;
+    VtxIn_803E3390 *src = (VtxIn_803E3390 *)job->src;
+    s32 n = job->count;
+    while (n-- > 0) {
+        transform_chunk_vertex(src, matrix, dst);
+        src++;
+        dst++;
+    }
+}
+#endif
 }
 
 void TObjPlayer::transform_vertex_list() {
-    Hdr_803E34B0 *arg0 = (Hdr_803E34B0 *)this;
+    ChunkVertexJob *arg0 = (ChunkVertexJob *)this;
     s32 n = arg0->count;
     u8 *src = arg0->src;
     u8 *dst = arg0->dst;
@@ -638,10 +807,7 @@ void dispatch_chunk_polygon_list(s16 *list, s32 vertex_buffer) {
 
 extern "C" {
 void push_reordered_matrix_ps(void);
-void transform_chunk_vertices_pos_normal(Hdr_803E34B0 *job, s32 matrix);
-void GXSetVtxAttrFmtv(Hdr_803E34B0 *job, s32 matrix, u32 format);
-void cache_chunk_vertex_colors(Hdr_803E34B0 *job, s32 matrix);
-void transform_vertex_list__10TObjPlayerFv(Hdr_803E34B0 *job, s32 matrix);
+void transform_vertex_list__10TObjPlayerFv(ChunkVertexJob *job, s32 matrix);
 }
 
 s32 dispatch_chunk_vertex_list(u32 *list, s32 buffer) {
@@ -649,7 +815,7 @@ s32 dispatch_chunk_vertex_list(u32 *list, s32 buffer) {
     u32 length;
     s32 total;
     u16 type;
-    Hdr_803E34B0 job;
+    ChunkVertexJob job;
     total = 0;
     push_reordered_matrix_ps();
     while ((*list & 0xFF) != 0xFF) {
@@ -662,9 +828,9 @@ s32 dispatch_chunk_vertex_list(u32 *list, s32 buffer) {
         job.dst = (u8 *)(buffer + (info & 0xFFFF) * 32);
         total += job.count;
         if ((type & 0xFF) == 0x29) {
-            transform_chunk_vertices_pos_normal(&job, current_matrix);
+            transform_chunk_vertices_pos_normal(&job, (ReorderedMatrix_803E3390 *)current_matrix);
         } else if ((type & 0xFF) == 0x2C) {
-            GXSetVtxAttrFmtv(&job, current_matrix, ((type & ~0x8000) >> 8) & 0xFF);
+            GXSetVtxAttrFmtv(&job, (ReorderedMatrix_803E3390 *)current_matrix, ((type & ~0x8000) >> 8) & 0xFF);
         } else if ((type & 0xFF) == 0x2A) {
             transform_vertex_list__10TObjPlayerFv(&job, current_matrix);
         } else if ((type & 0xFF) == 0x23) {
