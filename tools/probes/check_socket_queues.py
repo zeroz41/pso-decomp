@@ -5,6 +5,7 @@ import hashlib
 import random
 from pathlib import Path
 import struct
+import subprocess
 
 from unicorn import (
     Uc, UC_ARCH_PPC, UC_MODE_PPC32, UC_MODE_BIG_ENDIAN,
@@ -18,15 +19,36 @@ TCB = 0x81100000
 PACKET = TCB + 0x1000
 DATA = TCB + 0x20000
 QUEUE = TCB + 0x30000
-FINISH_REQUEST = 0x804220A0
-WAKE_SENDER = 0x8042276C
+RETAIL_SYMBOLS = {
+    "TLobby__sub_8041F66C": 0x8041F66C,
+    "TLobby__sub_8041F914": 0x8041F914,
+    "TLobby__sub_8041FFF8": 0x8041FFF8,
+    "tcp_gather_send_data": 0x80420410,
+    "complete_request_callback": 0x804220A0,
+    "set_thread_state_and_resume": 0x8042276C,
+    "tcp_protocol_state": 0x805C1D48,
+}
 RETURN = 0x80001000
 STATE_SIZE = 0x544
 MASK = 0xFFFFFFFF
 
 
+def linked_symbols(elf):
+    nm = Path(__file__).resolve().parents[2] / "build/binutils/powerpc-eabi-nm"
+    symbols = {}
+    for line in subprocess.check_output([nm, "-n", elf], text=True).splitlines():
+        columns = line.split()
+        if len(columns) == 3 and columns[2] in RETAIL_SYMBOLS:
+            symbols[columns[2]] = int(columns[0], 16)
+    missing = RETAIL_SYMBOLS.keys() - symbols.keys()
+    if missing:
+        raise ValueError(f"Missing socket symbols in {elf}: {', '.join(sorted(missing))}")
+    return symbols
+
+
 class Game:
-    def __init__(self, path, expected_sha1=None):
+    def __init__(self, path, expected_sha1=None, symbols=None):
+        self.symbols = RETAIL_SYMBOLS if symbols is None else symbols
         data = path.read_bytes()
         if expected_sha1 and hashlib.sha1(data).hexdigest() != expected_sha1:
             raise ValueError(f"Unexpected input revision at {path}")
@@ -51,9 +73,9 @@ class Game:
         for reg, value in zip(registers, args):
             cpu.reg_write(reg, value)
         cpu.reg_write(ppc.UC_PPC_REG_LR, RETURN)
-        cpu.emu_start(entry, RETURN, count=20_000)
+        cpu.emu_start(self.symbols[entry], RETURN, count=20_000)
         if cpu.reg_read(ppc.UC_PPC_REG_PC) != RETURN:
-            raise AssertionError(f"Routine at {entry:#x} failed to return")
+            raise AssertionError(f"Routine {entry} failed to return")
         return cpu.reg_read(ppc.UC_PPC_REG_3)
 
     def run(self, entry, state):
@@ -75,10 +97,10 @@ def check_reassembly(original, candidate):
                     struct.pack_into(">II", state, 0xFC + 8 * index, start & MASK, (start + 24) & MASK)
                 struct.pack_into(">I", state, 0x228, position & MASK)
                 struct.pack_into(">I", state, 0x534, 4096)
-                actual = candidate.run(0x8041F66C, state)
+                actual = candidate.run("TLobby__sub_8041F66C", state)
                 # Compare sequence positions before truncation for an independent wraparound oracle.
                 remaining = sum(start > position for start in starts)
-                if actual != original.run(0x8041F66C, state) or (
+                if actual != original.run("TLobby__sub_8041F66C", state) or (
                     struct.unpack_from(">Ih", actual, 0xF4) != (remaining * 24, remaining - 1)
                 ):
                     raise AssertionError(f"Reassembly differs for {count} ranges at {position:#x}")
@@ -118,7 +140,7 @@ def check_wrapped_receive(candidate):
             cpu.mem_write(PACKET, bytes(packet))
             cpu.mem_write(header, bytes(tcp_header))
             cpu.mem_write(source, payload)
-            status = candidate.call(0x8041F914, PACKET, 0, TCB, header)
+            status = candidate.call("TLobby__sub_8041F914", PACKET, 0, TCB, header)
             expected_payload[offset:offset + length] = payload
             queue = cpu.mem_read(TCB + 0xF4, 16)
             expected = (end - start, 0, 0, (origin + start) & MASK, (origin + end) & MASK)
@@ -162,7 +184,7 @@ def gather(game, state, ring, offset, length):
     cpu.mem_write(TCB, bytes(state))
     cpu.mem_write(QUEUE, bytes(ring))
     cpu.mem_write(PACKET, bytes(0x9C))
-    status = game.call(0x80420410, offset, length, PACKET, TCB)
+    status = game.call("tcp_gather_send_data", offset, length, PACKET, TCB)
     packet = cpu.mem_read(PACKET, 0x9C)
     count, total = struct.unpack_from(">II", packet, 4)
     if status != 0 or not 0 < count <= 12 or total != length:
@@ -174,11 +196,11 @@ def acknowledge(game, state, ring, data, amount, reenter):
     cpu = game.cpu
     events = []
 
-    def completion(cpu, address, size, user_data):
+    def completion(cpu, address, size, symbol):
         args = tuple(cpu.reg_read(reg) for reg in (ppc.UC_PPC_REG_3, ppc.UC_PPC_REG_4, ppc.UC_PPC_REG_5))
-        request = bytes(cpu.mem_read(cpu.reg_read(ppc.UC_PPC_REG_6), 16)) if address == FINISH_REQUEST else b""
-        events.append((address, args, request))
-        if reenter and address == FINISH_REQUEST and len(events) == 1:
+        request = bytes(cpu.mem_read(cpu.reg_read(ppc.UC_PPC_REG_6), 16)) if symbol == "complete_request_callback" else b""
+        events.append((symbol, args, request))
+        if reenter and symbol == "complete_request_callback" and len(events) == 1:
             remaining, head = struct.unpack(">II", cpu.mem_read(TCB + 0x20, 8))
             if remaining:
                 next_head = (head + 17) % 65
@@ -188,12 +210,15 @@ def acknowledge(game, state, ring, data, amount, reenter):
         cpu.reg_write(ppc.UC_PPC_REG_PC, cpu.reg_read(ppc.UC_PPC_REG_LR))
 
     cpu.mem_write(TCB, bytes(state))
-    cpu.mem_write(0x805C1D48, struct.pack(">I", TCB))
+    cpu.mem_write(game.symbols["tcp_protocol_state"], struct.pack(">I", TCB))
     cpu.mem_write(QUEUE, bytes(ring))
     cpu.mem_write(DATA, data)
-    hooks = [cpu.hook_add(UC_HOOK_CODE, completion, begin=pc, end=pc) for pc in (FINISH_REQUEST, WAKE_SENDER)]
+    hooks = []
+    for name in ("complete_request_callback", "set_thread_state_and_resume"):
+        address = game.symbols[name]
+        hooks.append(cpu.hook_add(UC_HOOK_CODE, completion, name, begin=address, end=address))
     try:
-        status = game.call(0x8041FFF8, amount, TCB)
+        status = game.call("TLobby__sub_8041FFF8", amount, TCB)
     finally:
         for hook in hooks:
             cpu.hook_del(hook)
@@ -248,9 +273,10 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("original", type=Path, help="original GPOE8P PsoV3.dol")
     parser.add_argument("candidate", type=Path, help="GPOE8P DOL linked with the recovered socket runtime")
+    parser.add_argument("--candidate-elf", type=Path, help="matching ELF when the candidate's symbol addresses moved")
     args = parser.parse_args()
     original = Game(args.original, ORIGINAL_SHA1)
-    candidate = Game(args.candidate)
+    candidate = Game(args.candidate, symbols=linked_symbols(args.candidate_elf) if args.candidate_elf else None)
     reassembly_cases = check_reassembly(original, candidate)
     receive_cases = check_wrapped_receive(candidate)
     print(f"{reassembly_cases} reassembly comparisons and {receive_cases} out-of-order receive cases passed.")
