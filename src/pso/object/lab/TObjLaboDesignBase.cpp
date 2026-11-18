@@ -10,6 +10,7 @@
 #include "pso/system/BmlResourceLoader.h"
 #include "pso/unk/text_80365348.h"
 #include "pso/system/task/TObject.h"
+#include "pso/object/lab/TObjLaboDesignBase.h"
 
 #pragma readonly_strings on
 
@@ -30,23 +31,8 @@ struct VObj_18_1a504b : VBase_18_1a504b {
 
 struct ByteBlock_3C { u8 bytes[0x3C]; };
 
-struct VBase_80365040 { char pad[0x18]; };
-struct TObjLaboDesignBase : VBase_80365040 {
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3();
-    virtual void m4(); virtual void m5(); virtual void m6(); virtual void m7();
-    virtual s32 m8(f32, f32);
-    u8 pad1C[0xB0 - 0x1C];
-    s32 state;
-    f32 xB4;
-    f32 xB8;
-    void render();
-    void render(void *);
-};
-
 extern "C" {
-s16 TObjLaboDesignBase__vt8(u8 *arg0, f32 farg0, f32 farg1);
 f32 xz_distance_squared(void *, s32);
-s16 update_object_view_visibility__8TObjBaseFff(void *, f32, f32);
 extern s32 camera_ctrl_instance;
 f32 rotate_matrix_by_node_angles(void *, void *);
 s32 push_matrix();
@@ -59,16 +45,13 @@ s32 create__10TObjMapCsnFl(void *, f32, f32);
 u8 *TObjLaboDesignBase__ct(u8 *arg0, s32 arg1, s32 arg2, s32 arg3);
 void *TObjLaboDesignBase__create(void *arg0);
 void *TObjLaboDesignBase__sub_80364D38(void *arg0);
-void *__dt__18TObjLaboDesignBaseFv(void *arg0, s16 arg1);
 void *alloc_and_construct__18TObjLaboDesignBaseFPv(void *arg0);
 void *create_instance__18TObjLaboDesignBaseFPv(void *arg0);
 void render__18TObjLaboDesignBaseFPv(u8 *arg0);
-void run_task__18TObjLaboDesignBaseFv(void);
 void free_collision_body_parts(void *);
 s32 get_bml_texlist(BmlResource *resource, s32 index);
 s32 get_bml_model(BmlResource *resource, s32 index);
 s32 rotate_matrix_y(int, int);
-void __dl__7TObjectFPv(void *);
 s32 set_global_param__8TObjFishFl();
 
 
@@ -217,15 +200,15 @@ void *TObjLaboDesignBase__create(void *arg0) {
     return o;
 }
 
-s16 TObjLaboDesignBase__vt8(u8 *base, f32 farg0, f32 farg1) {
+s32 TObjLaboDesignBase::update_object_view_visibility(f32 near_dist, f32 far_dist) {
     if (TMainTask::get_render_pass() == 1) {
-        return *(s16 *)((s8 *)base + 0x1E);
+        return visibility;
     }
-    if (xz_distance_squared(base + 0x38, camera_ctrl_instance + 0x178) < (farg1 * farg1)) {
-        *(s16 *)((s8 *)base + 0x1E) = 1;
-        return *(s16 *)((s8 *)base + 0x1E);
+    if (xz_distance_squared((u8 *)this + 0x38, camera_ctrl_instance + 0x178) < (far_dist * far_dist)) {
+        visibility = 1;
+        return visibility;
     }
-    return update_object_view_visibility__8TObjBaseFff(base, farg0, farg1);
+    return TObjBase::update_object_view_visibility(near_dist, far_dist);
 }
 
 void draw_node_tree__18TObjLaboDesignBaseFiPv(s32 arg0, u8 *arg1) {
@@ -289,25 +272,20 @@ void TObjLaboDesignBase::render() {
         (Action_80365040)(RenderPv_80365040)&TObjLaboDesignBase::render,
         (Action_80365040)(RenderPv_80365040)&TObjLaboDesignBase::render,
     };
-    if (m8(xB4, xB8) == 1) {
+    if (update_object_view_visibility(xB4, xB8) == 1) {
         (this->*(tbl[state]))();
     }
 }
 
-void run_task__18TObjLaboDesignBaseFv(void) {  }
+void TObjLaboDesignBase::run_task() {}
 
-void *__dt__18TObjLaboDesignBaseFv(void *collidable, s16 arg1) {
-    if (collidable != NULL) {
-        *(s32 **)((s8 *)collidable + 0x18) = __vt__18TObjLaboDesignBase;
-        if (*(void **)((s8 *)collidable + 0xBC) != NULL) { ((TObject *)(*(void **)((s8 *)collidable + 0xBC)))->queue_destruction(); *(s32 *)((s8 *)collidable + 0xBC) = 0; }
-        ((TObjCollidable *)collidable)->unregister_object_by_id();
-        free_collision_body_parts(collidable);
-        __dt__14TObjCollidableFv(collidable, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(collidable);
-        }
+TObjLaboDesignBase::~TObjLaboDesignBase() {
+    if (map_csn != NULL) {
+        ((TObject *)map_csn)->queue_destruction();
+        map_csn = 0;
     }
-    return collidable;
+    unregister_object_by_id();
+    free_collision_body_parts(this);
 }
 
 u8 *TObjLaboDesignBase__ct(u8 *player, s32 arg1, s32 arg2, s32 arg3) {

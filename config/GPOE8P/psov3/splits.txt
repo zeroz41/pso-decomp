@@ -10793,7 +10793,7 @@ pso/object/lobby/TObjTreeLobby.cpp:
 pso/object/lab/TObjLaboDesignBase.cpp:
 	.text       start:0x80364C98 end:0x80365450
 	.rodata     start:0x8047A0A8 end:0x8047A1E8
-	.data       start:0x804F2B78 end:0x804F2E08
+	.data       start:0x804F2B78 end:0x804F2E40
 	.bss        start:0x80543A48 end:0x80543A60
 	.sdata      start:0x805D4488 end:0x805D44A8
 	.sbss       start:0x805D6FC8 end:0x805D6FD0
