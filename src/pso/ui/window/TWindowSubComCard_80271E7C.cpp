@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/quest/TQuestThread.h"
+#include "pso/ui/window/TWindowUserSort.h"
 #include "pso/ui/window/TWindowSubComCardList.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/window/TWindowMessage.h"
@@ -718,10 +719,7 @@ void TWindowSubComCard::run_task() {
         }
         if ((u32) this->m_78 == 0U) {
             var_r29 = ((s32 (*)(void))get_selected_guild_card_record)();
-            temp_r30_2 = ((u32 (*)(int))__nw__7TObjectFUl)(0x64);
-            if (temp_r30_2 != 0U) {
-                temp_r30_2 = (u32)__ct__15TWindowUserSortFll((u8 *)temp_r30_2, (get_window_layout_position(0x8A)), (var_r29));
-            }
+            temp_r30_2 = (u32)new TWindowUserSort((get_window_layout_position(0x8A)), (var_r29));
             this->m_78 = temp_r30_2;
         }
         if ((u32) this->m_64 == 0U) {
