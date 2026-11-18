@@ -140,8 +140,7 @@ s32 construct_timer_event__13TUnk_804A0628Fv(s32, s32, s32, s32);
 }
 
 
-u8 *TObjPlayer::create_srank_common_weapon() {
-    u8 *item = (u8 *)this;
+u8 *TObjPlayer::create_srank_common_weapon(u8 *item) {
     if (item != NULL) {
         return (u8 *)new TUnk_804A4948(tl_05, item);
     }

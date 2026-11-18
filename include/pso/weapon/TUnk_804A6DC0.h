@@ -16,4 +16,6 @@ public:
     u8 unk_204[0x4];
 };
 
+u8 *create_yasminkov_7000v(u8 *item);
+
 #endif

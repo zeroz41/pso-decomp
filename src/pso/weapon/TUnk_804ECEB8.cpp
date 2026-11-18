@@ -11,9 +11,9 @@ TUnk_804ECEB8::TUnk_804ECEB8(TObject *parent, u8 *item) : TItemWeapon(parent, it
     shot_callback = (WeaponShotCallback)TItemShootGun::create;
 }
 
-u8 *TObjPlayer::create_vtable_variant() {
-    if (this != NULL) {
-        return (u8 *)new TUnk_804ECEB8(tl_05, (u8 *)this);
+u8 *TObjPlayer::create_vtable_variant(u8 *item) {
+    if (item != NULL) {
+        return (u8 *)new TUnk_804ECEB8(tl_05, item);
     }
     return NULL;
 }

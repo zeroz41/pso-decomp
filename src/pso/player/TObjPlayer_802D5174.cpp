@@ -76,8 +76,7 @@ TUnk_804E1F04::~TUnk_804E1F04() {}
 
 TUnk_804E1E08::~TUnk_804E1E08() {}
 
-void *TObjPlayer::create_object_by_type() {
-    u8 *item = (u8 *)this;
+void *TObjPlayer::create_object_by_type(u8 *item) {
     if (item != NULL) {
         switch (item[1]) {
         case 0x8C:
@@ -542,11 +541,11 @@ void *__dt__13TUnk_804E1BB0Fv(void *item, s16 arg1) {
     return item;
 }
 
-u8 *TObjPlayer::create_state_513() {
-    if (this != NULL) {
+u8 *TUnk_804E1BB0::create(u8 *item) {
+    if (item != NULL) {
         TUnk_804E1BB0 *weapon = (TUnk_804E1BB0 *)TItem::operator new(0x1F8);
         if (weapon != NULL) {
-            weapon = (TUnk_804E1BB0 *)weapon->init_state_513(tl_05, (u8 *)this);
+            weapon = (TUnk_804E1BB0 *)weapon->init_state_513(tl_05, item);
         }
         return (u8 *)weapon;
     }

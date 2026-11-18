@@ -27,7 +27,6 @@ public:
     s32 field_28;
 public:
     int decrement_timer();
-    u8 *create_instance();
 };
 
 #include <stddef.h>

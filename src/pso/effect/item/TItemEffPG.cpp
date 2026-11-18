@@ -122,7 +122,6 @@ struct Tbl_8034F204 { u8 pad[0x1C]; Elem_8034F204 arr[1]; };
 
 
 extern "C" {
-u8 *TObjPlayer__sub_8034F1AC(u8 *item);
 s32 rotate_matrix_z(s32, s32);
 }
 void init_slicer_launch_state(void *arg0);
@@ -365,9 +364,9 @@ void TUnk_804F0BF0::render() {
 
 void TItemEffPG__begin_visual_fade(void* p) { *(s32*)((char*)p + 0x58) = 1; }
 
-u8 *TItemEffPG::create() {
-    if (this != NULL) {
-        return (u8 *)new TUnk_804F0AF8(tl_05, (u8 *)this);
+u8 *TUnk_804F0AF8::create(u8 *item) {
+    if (item != NULL) {
+        return (u8 *)new TUnk_804F0AF8(tl_05, item);
     }
     return NULL;
 }
@@ -475,9 +474,9 @@ void TObjPlayer::spawn_fire_explosion_for_item(s32 arg0, s32 arg1) {
     }
 }
 
-u8 *TObjPlayer::create_rappys_fan() {
-    if (this != NULL) {
-        return (u8 *)new TUnk_804F0908(tl_05, (u8 *)this);
+u8 *TObjPlayer::create_rappys_fan(u8 *item) {
+    if (item != NULL) {
+        return (u8 *)new TUnk_804F0908(tl_05, item);
     }
     return NULL;
 }

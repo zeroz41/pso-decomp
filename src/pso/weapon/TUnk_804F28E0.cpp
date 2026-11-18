@@ -9,7 +9,6 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/effect/item/TItemEffectWeapon_803632B4.h"
 #include "pso/effect/item/TItemEffOrgaFlowShot.h"
-#include "pso/effect/item/TItemEffectWeapon.h"
 #include "pso/system/task/TMainTask.h"
 
 extern "C" {
@@ -58,10 +57,9 @@ TUnk_804F28E0::TUnk_804F28E0(TObject *parent, u8 *item) : TUnk_804A4948(parent, 
     set_weapon_flags(2);
     pad_1fc = 0.0f;
 }
-u8 *TItemEffectWeapon::create_instance() {
-    u8 *arg0 = (u8 *)this;
-    if (arg0 != NULL) {
-        return (u8 *)new TUnk_804F28E0(tl_05, arg0);
+u8 *TUnk_804F28E0::create(u8 *item) {
+    if (item != NULL) {
+        return (u8 *)new TUnk_804F28E0(tl_05, item);
     }
     return NULL;
 }

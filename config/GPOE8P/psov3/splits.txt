@@ -2254,7 +2254,7 @@ pso/unk/TLobby_80104374.cpp:
 	.text       start:0x80104374 end:0x80105C18
 	.ctors      start:0x80433F7C end:0x80433F80
 	.rodata     start:0x8043E068 end:0x8043E0B0
-	.data       start:0x8049EE00 end:0x8049EF54
+	.data       start:0x8049EB58 end:0x8049EF54
 	.sbss       start:0x805D5438 end:0x805D5450
 	.sdata2     start:0x805DAAB0 end:0x805DAAB8
 

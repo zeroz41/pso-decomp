@@ -1029,7 +1029,7 @@ struct TObjPlayer : public TObjChara {
     static int get_instance();
     void *init_zeroed_object();
     static void disable_keyboard_control();
-    u8 *create_nug2000_bazooka();
+    static u8 *create_nug2000_bazooka(u8 *item);
     static void enable_foot_stamp(s32 arg1, s32 arg2);
     static void clear_foot_stamp(s32 arg0, s32 arg1);
     void update_child(void *arg1);
@@ -1069,7 +1069,7 @@ struct TObjPlayer : public TObjChara {
     int clear_lock_flag();
     void set_flag1();
     void reset_field4();
-    u8 *create_state_34_alt();
+    static u8 *create_state_34_alt(u8 *item);
     static void update_battle_control_on_unlock(void *arg0, void *arg1, void *arg2, s32 arg3);
     static void process_callback_list(s32 arg0);
     void draw_node_tree(void *arg1);
@@ -1145,7 +1145,7 @@ struct TObjPlayer : public TObjChara {
     static u8 *create_shot_state(u8 *arg0);
     static u8 *create_state_8012934c(u8 *arg0);
     static u8 *create_state_2(u8 *arg0);
-    u8 *create_srank_common_weapon();
+    static u8 *create_srank_common_weapon(u8 *item);
     static u8 *create_obj_8012B140(u8 *arg0);
     static u8 *create_vtable_clear_field1f8(u8 *arg0);
     static u8 *create_variant_ct(u8 *arg0);
@@ -1178,7 +1178,7 @@ struct TObjPlayer : public TObjChara {
     void reset_all_tech_slots();
     void reset_tech_state();
     static void load_lobby_pigeon_resource();
-    void *create_object_by_type();
+    static void *create_object_by_type(u8 *item);
     void *find_by_section_id(u16 section);
     void create_party_effects(s32 id);
     u16 find_first_valid_target_id();
@@ -1463,19 +1463,18 @@ struct TObjPlayer : public TObjChara {
     static s32 check_technique_level(s32 arg0, s32 arg1, u8 arg2);
     void build_shop_item_list();
     void reset_action_palette();
-    u8 *create_state_513();
     void *do_action_447();
     // A hit callback of TUnk_804E1CA8 (its pad_208).
     static void do_action_447_from_packet(void *item, void *hit, void *dir);
     u8 *init_breakup_pieces(void *arg1, s32 arg2);
     static s32 dt_follow_particle_ctrl(s32 arg0, s16 arg1);
-    u8 *create_vtable_variant();
-    u8 *create_state_1536();
-    u8 *create_mode_floats_state();
-    u8 *create_vtable_1f8_state();
+    static u8 *create_vtable_variant(u8 *item);
+    static u8 *create_state_1536(u8 *item);
+    static u8 *create_mode_floats_state(u8 *item);
+    static u8 *create_vtable_1f8_state(u8 *item);
     static s32 try_add_item_count(s32 arg0, s32 arg1, s32 arg2, u8 arg3);
     static void spawn_particle_at_entity_slot(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
-    u8 *create_rappys_fan();
+    static u8 *create_rappys_fan(u8 *item);
     static void spawn_fire_explosion_for_item(s32 arg0, s32 arg1);
     static void spawn_fire_explosion_at_item(s32 arg0, s32 arg1);
     static s32 spawn_fire_explosion(u32 a0, s32 a1);

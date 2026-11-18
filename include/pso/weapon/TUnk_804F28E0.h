@@ -6,6 +6,7 @@
 class TUnk_804F28E0 : public TUnk_804A4948 {
 public:
     TUnk_804F28E0(TObject *parent, u8 *item);
+    static u8 *create(u8 *item); // weapon_factory_table entry
     virtual ~TUnk_804F28E0();
     virtual void update_idle();
     virtual void update_attack();

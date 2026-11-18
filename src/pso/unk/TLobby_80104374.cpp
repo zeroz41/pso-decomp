@@ -58,6 +58,74 @@
 #include "pso/item/mag/TItemMag.h"
 #include "pso/player/TObjPlayer_80121010.h"
 #include "pso/player/TObjPlayer_80105874.h"
+#include "pso/effect/item/TItemEffPG.h"
+#include "pso/player/TObjPlayer_80125780.h"
+#include "pso/player/TObjPlayer_80307618.h"
+#include "pso/player/TObjPlayer_80362E60.h"
+#include "pso/weapon/TUnk_804E24F0.h"
+#include "pso/weapon/TUnk_804F28E0.h"
+#include "pso/unk/text_80125428.h"
+#include "pso/unk/text_80126740.h"
+#include "pso/unk/text_80126A34.h"
+#include "pso/unk/text_80128308.h"
+#include "pso/unk/text_80128440.h"
+#include "pso/unk/text_80129AB0.h"
+#include "pso/unk/text_80129D18.h"
+#include "pso/unk/text_8012AE50.h"
+#include "pso/unk/text_8012C268.h"
+#include "pso/unk/text_80355C1C.h"
+#include "pso/unk/text_8035D444.h"
+#include "pso/weapon/SpecialProjectileWeapons.h"
+#include "pso/weapon/TItemWeaponMechgun.h"
+#include "pso/weapon/TUnk_804A07C0.h"
+#include "pso/weapon/TUnk_804A0CB8.h"
+#include "pso/weapon/TUnk_804A0EA8.h"
+#include "pso/weapon/TUnk_804A0FA0.h"
+#include "pso/weapon/TUnk_804A1098.h"
+#include "pso/weapon/TUnk_804A1190.h"
+#include "pso/weapon/TUnk_804A1478.h"
+#include "pso/weapon/TUnk_804A1A48.h"
+#include "pso/weapon/TUnk_804A1B40.h"
+#include "pso/weapon/TUnk_804A1C38.h"
+#include "pso/weapon/TUnk_804A1E28.h"
+#include "pso/weapon/TUnk_804A1F20.h"
+#include "pso/weapon/TUnk_804A2868.h"
+#include "pso/weapon/TUnk_804A2960.h"
+#include "pso/weapon/TUnk_804A2C90.h"
+#include "pso/weapon/TUnk_804A3070.h"
+#include "pso/weapon/TUnk_804A3168.h"
+#include "pso/weapon/TUnk_804A3358.h"
+#include "pso/weapon/TUnk_804A3738.h"
+#include "pso/weapon/TUnk_804A4238.h"
+#include "pso/weapon/TUnk_804A4338.h"
+#include "pso/weapon/TUnk_804A4A88.h"
+#include "pso/weapon/TUnk_804A4D70.h"
+#include "pso/weapon/TUnk_804A4F60.h"
+#include "pso/weapon/TUnk_804A5458.h"
+#include "pso/weapon/TUnk_804A5550.h"
+#include "pso/weapon/TUnk_804A5648.h"
+#include "pso/weapon/TUnk_804A5740.h"
+#include "pso/weapon/TUnk_804A5838.h"
+#include "pso/weapon/TUnk_804A5930.h"
+#include "pso/weapon/TUnk_804A5B20.h"
+#include "pso/weapon/TUnk_804A5C18.h"
+#include "pso/weapon/TUnk_804A6108.h"
+#include "pso/weapon/TUnk_804A6200.h"
+#include "pso/weapon/TUnk_804A62F8.h"
+#include "pso/weapon/TUnk_804A66D8.h"
+#include "pso/weapon/TUnk_804A68C8.h"
+#include "pso/weapon/TUnk_804A6AD8.h"
+#include "pso/weapon/TUnk_804A6BD0.h"
+#include "pso/weapon/TUnk_804A6CC8.h"
+#include "pso/weapon/TUnk_804A6DC0.h"
+#include "pso/weapon/TUnk_804E1BB0.h"
+#include "pso/weapon/TUnk_804ECDC0.h"
+#include "pso/weapon/TUnk_804ECFB0.h"
+#include "pso/weapon/TUnk_804ED1A0.h"
+#include "pso/weapon/TUnk_804ED488.h"
+#include "pso/weapon/TUnk_804EDC28.h"
+#include "pso/weapon/TUnk_804F0AF8.h"
+#include "pso/weapon/TUnk_804F26E0.h"
 #include "pso/unk/text_80103674.h"
 #include "pso/unk/text_8010F168.h"
 #include "pso/item/TItemBuff.h"
@@ -103,7 +171,179 @@ FlagWord lbl_805D5440;
 int item_class_load_handle;
 int lobby_drop_flag;
 
-extern void *weapon_factory_table[];
+// Weapon item factories, indexed by the weapon type byte (get_weapon_factory_for_item); 0 = none.
+void *weapon_factory_table[170] = {
+    0,
+    (void *)create_saber_weapon,
+    (void *)create_sword_weapon,
+    (void *)create_dagger_weapon,
+    (void *)create_partisan_weapon,
+    (void *)create_slicer_weapon,
+    (void *)create_handgun_weapon,
+    (void *)create_rifle_weapon,
+    (void *)create_mechgun_weapon,
+    (void *)create_shot_weapon,
+    (void *)create_cane_weapon,
+    (void *)create_rod_weapon,
+    (void *)create_wand_weapon,
+    (void *)create_claw_weapon,
+    (void *)create_common_weapon,
+    (void *)create_knuckle_weapon,
+    (void *)create_agito_weapon,
+    (void *)create_soul_eater_weapon,
+    (void *)TObjPlayer::create_init_state_2,
+    (void *)TObjPlayer::create_handlers_state,
+    (void *)TObjPlayer::create_inferno_bazooka,
+    (void *)TObjPlayer__sub_80126054,
+    (void *)create_common_weapon,
+    (void *)create_sorcerers_cane,
+    (void *)TObjPlayer__sub_8012CF84,
+    (void *)TObjPlayer::create_obj_8012B140,
+    (void *)create_delsabers_buster_weapon,
+    (void *)TObjPlayer::create_bringer_effect,
+    (void *)TObjPlayer__sub_80125428,
+    (void *)create_psycho_wand,
+    (void *)create_heaven_punisher,
+    (void *)TObjPlayer__sub_8012AB1C,
+    (void *)create_common_weapon,
+    (void *)TObjPlayer::create_state_35,
+    (void *)TObjPlayer::create_obj_80122C2C,
+    (void *)TObjPlayer__sub_8012EFAC,
+    (void *)TObjPlayer__sub_801277EC,
+    (void *)TObjPlayer::create_vtable_804A63F0,
+    (void *)create_suppressed_gun_weapon,
+    (void *)create_common_weapon,
+    (void *)TObjPlayer::create_shot_effect_state,
+    (void *)yamigarasu_create,
+    (void *)create_common_weapon,
+    (void *)create_common_weapon,
+    (void *)TObjPlayer::create_vtable_804A3548,
+    (void *)create_common_weapon,
+    (void *)TObjPlayer::create_state,
+    (void *)TObjPlayer::create_shot_params_state,
+    (void *)TObjPlayer::create_state_80125154,
+    (void *)TObjPlayer::create_state_vector_state,
+    (void *)create_photon_field_weapon,
+    (void *)sealed_j_sword_create,
+    (void *)create_common_weapon,
+    (void *)create_common_weapon,
+    (void *)TObjPlayer::create_twin_chakram,
+    (void *)TObjPlayer__sub_80123950,
+    (void *)TObjPlayer__sub_80127314,
+    (void *)create_dagger_weapon,
+    (void *)TObjPlayer__sub_8012F298,
+    (void *)TObjPlayer::create_fields_state,
+    (void *)TObjPlayer::create_vtable_clear_field1f8,
+    (void *)create_photon_field_weapon,
+    (void *)create_partisan_weapon,
+    (void *)TObjPlayer::create_variant_2_5a28,
+    (void *)TObjPlayer::create_position_state,
+    (void *)create_slicer_weapon,
+    (void *)TObjPlayer__sub_80121318,
+    (void *)TObjPlayer__sub_80121318,
+    (void *)create_handgun_weapon,
+    (void *)frozen_shooter_create,
+    (void *)TObjPlayer__sub_80121318,
+    (void *)TObjPlayer::create_trade_action_state,
+    (void *)TObjPlayer__sub_8012CE44,
+    (void *)create_twin_psychogun,
+    (void *)create_drill_launcher,
+    (void *)create_guld_milla,
+    (void *)create_mechgun_weapon,
+    (void *)create_belra_cannon,
+    (void *)create_panzer_faust,
+    (void *)create_common_weapon,
+    (void *)TObjPlayer::create_state_35_alt,
+    (void *)TObjPlayer__sub_80124708,
+    (void *)TObjPlayer::create_obj_80125F60,
+    (void *)TObjPlayer::create_enter_state_804A0BC0,
+    (void *)TObjPlayer__sub_801228CC,
+    (void *)TObjPlayer::create_variant_ct,
+    (void *)create_common_weapon,
+    (void *)create_common_weapon,
+    (void *)TObjPlayer__sub_8012380C,
+    (void *)TObjPlayer::create_vtable_804a1288,
+    (void *)TObjPlayer::create_substate_b,
+    (void *)TObjPlayer::create_effect_object,
+    (void *)TObjPlayer::create_state_0,
+    (void *)TObjPlayer::create_substate,
+    (void *)TObjPlayer::create_state_vt2678,
+    (void *)TObjPlayer::create_vtable_804A08B8,
+    (void *)TObjPlayer::create_configured_state,
+    (void *)TObjPlayer::create_state_513,
+    (void *)TObjPlayer::create_state_variant_a,
+    (void *)TObjPlayer::create_state_34,
+    (void *)TObjPlayer::create_effect_state,
+    (void *)create_yasminkov_3000r,
+    (void *)TObjPlayer__sub_80121318,
+    (void *)create_baranz_launcher,
+    (void *)TObjPlayer::create_set_vtable_state,
+    (void *)TObjPlayer::create_state_variant,
+    (void *)create_yasminkov_2000h,
+    (void *)create_yasminkov_7000v,
+    (void *)create_yasminkov_9000m,
+    (void *)TObjPlayer::create_with_id_2,
+    (void *)create_common_weapon,
+    (void *)TObjPlayer__sub_801229EC,
+    (void *)TObjPlayer::create_srank_common_weapon,
+    (void *)TObjPlayer::create_srank_common_weapon,
+    (void *)TObjPlayer__sub_80128308,
+    (void *)TObjPlayer::create_srank_common_weapon,
+    (void *)create_s_rank_slicer_weapon,
+    (void *)TObjPlayer::create_shoot_model_callback,
+    (void *)TObjPlayer::create_shoot_model_callback,
+    (void *)TObjPlayer::create_variant,
+    (void *)create_s_rank_shot,
+    (void *)TObjPlayer::create_srank_common_weapon,
+    (void *)TObjPlayer::create_srank_common_weapon,
+    (void *)TObjPlayer__sub_80128440,
+    (void *)TObjPlayer::create_srank_common_weapon,
+    (void *)TObjPlayer::create_obj_80128580,
+    (void *)create_s_rank_bazooka,
+    (void *)TObjPlayer::create_state_2,
+    (void *)TObjPlayer::create_state_8012934c,
+    (void *)TObjPlayer::create_srank_common_weapon,
+    (void *)TObjPlayer::create_srank_common_weapon,
+    (void *)TObjPlayer::create_action,
+    (void *)TObjPlayer::create_event_callbacks_state,
+    (void *)TObjPlayer::create_state_8012a418,
+    (void *)TObjPlayer::create_shot_state,
+    (void *)TObjPlayer::create_srank_common_weapon,
+    (void *)create_s_rank_j_cutter_weapon,
+    (void *)TUnk_804E1BB0::create,
+    (void *)create_common_weapon,
+    (void *)TUnk_804E24F0::create,
+    (void *)TObjPlayer::create_object_by_type,
+    (void *)TObjPlayer::create_nug2000_bazooka,
+    (void *)TObjPlayer__sub_80307800,
+    (void *)create_sword_weapon,
+    (void *)create_saber_weapon,
+    (void *)TObjPlayer::create_gi_gue_bazooka,
+    (void *)create_guardianna,
+    (void *)TObjPlayer::create_object_by_type,
+    (void *)create_morning_glory,
+    (void *)TObjPlayer::create_vtable_1f8_state,
+    (void *)TObjPlayer::create_object_by_type,
+    (void *)create_common_weapon,
+    (void *)TObjPlayer__sub_8034F1AC,
+    (void *)TObjPlayer::create_vtable_variant,
+    (void *)TObjPlayer::create_mode_floats_state,
+    (void *)TUnk_804F0AF8::create,
+    (void *)TObjPlayer__sub_803265C0,
+    (void *)create_dark_flow,
+    (void *)TObjPlayer::create_state_34_alt,
+    (void *)dark_bridge_create,
+    (void *)TObjPlayer::create_state_1536,
+    (void *)TObjPlayer::create_rappys_fan,
+    (void *)create_common_weapon,
+    (void *)alloc_and_init_obj_effect,
+    (void *)TObjPlayer::create_object_by_type,
+    (void *)TObjPlayer__sub_80128308,
+    (void *)TUnk_804F28E0::create,
+    (void *)TObjPlayer__sub_803630F0,
+    (void *)create_s_rank_knuckle,
+    (void *)TObjPlayer::create_srank_common_weapon,
+};
 // Tool item factories, indexed by the tool type byte (TLobby__sub_8010440C).
 void *item_tool_factory_table[24] = {
     (void *)TUnk_8049F770::create,
