@@ -38,7 +38,8 @@ s32 draw_visible_window_entries(void *, void *, int);
 s32 draw_window_tab(void *, void *, int, f32);
 extern const f32 lbl_805DD890;
 extern s32 __vt__12TWindowTimer[];
-extern s32 TWindowTimer__name;
+extern "C" { extern char TWindowTimer__class_name_string[]; }
+const char *TWindowTimer__name = TWindowTimer__class_name_string;
 extern s32 lbl_805DD888;
 extern s32 lbl_805DD88C;
 s32 get_window_layout_position(s32);

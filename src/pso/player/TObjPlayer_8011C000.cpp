@@ -83,7 +83,7 @@ extern "C" {
 s32 select_enemy_drop__9TItemDropFPviiPv(u32, s32, s32, s32);
 s32 get_unit_attribute_index__10TObjPlayerFUc(u8 arg0);
 s32 get_text_collection(s32);
-extern s32 lbl_805D2B10;
+extern const char *lbl_805D2B10;
 s32 __cvt_fp2unsigned(f32);
 s32 get_item_star_count(s32 id);
 Entry_8011CB18 *get_weapon_range_record(Item_8011CB18 *item, s16 mode);
@@ -486,7 +486,7 @@ s32 TObjPlayer::get_item_by_slot_flag(u8 arg0) {
         goto block_6;
     }
 block_6:
-    return lbl_805D2B10;
+    return (s32)lbl_805D2B10;
 }
 Entry_8011CB18 *get_weapon_range_record(Item_8011CB18 *item, s16 mode) {
     if (item != 0) {

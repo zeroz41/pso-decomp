@@ -20,6 +20,7 @@ typedef struct Entry_802A1020 {
     u32 crc;
 } Entry_802A1020;
 
+s32 opening_movie_selector = 1;
 extern "C" {
 u8 *set_stream_and_load_file__6TLobbyFi(const char *);
 u32 get_file_size__6TLobbyFv(const char *);
@@ -40,7 +41,9 @@ extern s32 opening_movie_selector;
 }
 void process_async_file_reads(void);
 void update_sound_request_slots(void);
-extern u8 opening_movie_purpose;
+s8 movie_finished_flag;
+u8 opening_movie_purpose;
+s32 lobby_cursor_active_flag;
 
 // File size and CRC-32 of the files checked by verify_game_file_integrity (crc 0: size check only).
 Entry_802A1020 file_integrity_table[11] = {

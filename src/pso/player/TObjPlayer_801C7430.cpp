@@ -1591,8 +1591,8 @@ extern RecoveredGlobal_801D2CF4_lbl_804C43D8 attack_combo_accuracy_multipliers;
 extern f32 scratch_vec[];
 extern f32 player_feedback_light_color[];
 extern void *player_slot_table[];
-extern u8 *lbl_805D3530;
-extern s32 TWindowReturnCity__class_name;
+extern const char *lbl_805D3530;
+extern const char *TWindowReturnCity__class_name;
 extern u8 *TObjPlayer__shared_photon_blast_state;
 extern const f32 lbl_805DC374;
 extern const f32 lbl_805DC37C;
@@ -3141,7 +3141,7 @@ void TObjPlayer::enter_death_state() {
     if (TTecCtrl::is_technique_ready() != 0) {
         entity = find_entity_by_id(get_field_2d4__10TObjPlayerFv(arg0));
         if (entity != NULL) {
-            if (check_value_equals__13TUnk_804B6C24CFl((int)entity, lbl_805D3530) != 0) {
+            if (check_value_equals__13TUnk_804B6C24CFl((int)entity, (void *)lbl_805D3530) != 0) {
                 temp_r31 = (u16)((s32 (*)(void *))get_entity_id)(arg0);
                 other = (u16)((s32 (*)(void *))get_entity_id)(entity);
                 if (other != temp_r31) {

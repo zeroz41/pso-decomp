@@ -52,7 +52,8 @@ void TChCrEffFade::run_task() {
     }
 }
 
-extern s32 lbl_805D3CC0;
+extern "C" { extern char TChCrEffFade__class_name_string[]; }
+const char *lbl_805D3CC0 = TChCrEffFade__class_name_string;
 extern s32 tl_fade;
 
 TChCrEffFade::~TChCrEffFade() {}

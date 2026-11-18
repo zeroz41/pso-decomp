@@ -463,10 +463,11 @@ s32 TObjFish::init_fish_school(void *arg1_arg, s32 arg2, s32 arg3) {
 
 #define init_fish_school__8TObjFishFPvll ((s32 (*)(void *, void *, int, int))init_fish_school__8TObjFishFPvll)
 
+const char *lbl_805D3D58 = TObjFish__class_name_string;
 extern "C" {
 u8 *TObjFish__create(u8 *arg0);
 s32 __ct__8TObjBaseFP7TObject();
-extern s32 lbl_805D3D58;
+extern const char *lbl_805D3D58;
 u8 *TObjFish__ct(u8 *arg0, s32 arg1, u8 *arg2);
 u8 *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 void *__dt__8TObjFishFv(void *arg0, s16 arg1);

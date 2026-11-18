@@ -169,7 +169,8 @@ void *__dt__14TShopGeneratorFv(void *base, s16 arg1) {
     return base;
 }
 
-extern const char *TShopGenerator__class_name;
+extern "C" { extern char TShopGenerator__class_name_string[]; }
+const char *TShopGenerator__class_name = TShopGenerator__class_name_string;
 extern s32 tl_05;
 
 }

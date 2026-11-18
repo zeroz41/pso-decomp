@@ -694,3 +694,5 @@ __declspec(section ".rodata") extern char lbl_804394A4[] = "particleentrya0%d.da
 __declspec(section ".rodata") extern char lbl_804394BC[] = "particleentrya%d.dat";
 __declspec(section ".rodata") extern char lbl_804394D4[] = "tecregular.gvm";
 }
+
+s32 particle_pool_limit = 1;

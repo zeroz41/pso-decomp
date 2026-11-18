@@ -145,14 +145,15 @@ TAdYesNoBaseGC::~TAdYesNoBaseGC() {
 }
 
 
-extern void *lbl_805D41F8;
+extern "C" { extern char TAdYesNoBaseGC__class_name_string[]; }
+const char *lbl_805D41F8 = TAdYesNoBaseGC__class_name_string;
 
 void *TAdYesNoBaseGC__ct(TAdYesNoBaseGC *ad_yes_no_base_gc) {
     void *o;
     void *o2;
     __ct__7TObjectFP7TObject(ad_yes_no_base_gc);
     *(s32 **)((s8 *)ad_yes_no_base_gc + 0x18) = __vt__14TAdYesNoBaseGC;
-    *(void * *)&ad_yes_no_base_gc->m_name = lbl_805D41F8;
+    ad_yes_no_base_gc->m_name = lbl_805D41F8;
     ad_yes_no_base_gc->m_28 = 0;
     *(f32 *)((s8 *)ad_yes_no_base_gc + 0x30) = 46.0f;
     ad_yes_no_base_gc->m_34 = 131.0f;

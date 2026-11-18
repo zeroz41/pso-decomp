@@ -20,8 +20,8 @@ void fn_8011085C(u8 *arg0, s32 arg1);
 TItemLockCountCtrl * item_timer_event_instance;
 void fn_801108C8(u8 *arg0, s32 arg1);
 s32 __ct__15TItemHeapObjectFP7TObject(void *);
-extern s32 __vt__15TItemTimerEvent[];
-extern s32 TItemTimerEvent__class_name;
+extern "C" { extern char TItemTimerEvent__class_name_string[]; }
+const char *TItemTimerEvent__class_name = TItemTimerEvent__class_name_string;
 u8 *TItemTimerEvent__ct(TItemTimerEvent *arg0, s32 arg1, s16 arg2, s32 arg3);
 void *__dt__13TUnk_804A0568Fv(void *arg0, s16 arg1);
 void *__dt__13TUnk_804A0588Fv(void *arg0, s16 arg1);
@@ -76,6 +76,17 @@ void TItemTimerEvent::run_task() {
     this->vfunc_7();
 }
 
+extern s32 lbl_804A0568[];
+extern s32 lbl_804A0588[];
+extern s32 lbl_804A05A8[];
+extern s32 lbl_804A05C8[];
+extern s32 lbl_804A05E8[];
+extern s32 lbl_804A0608[];
+extern s32 lbl_804A0628[];
+extern s32 lbl_804A0648[];
+extern s32 lbl_804A0668[];
+extern s32 lbl_804A0688[];
+extern s32 __vt__15TItemTimerEvent[];
 void *__dt__15TItemTimerEventFv(void *item_heap_object, s16 arg1) {
     if (item_heap_object != NULL) {
         *(s32 **)((s8 *)item_heap_object + 0x18) = __vt__15TItemTimerEvent;
@@ -87,7 +98,6 @@ void *__dt__15TItemTimerEventFv(void *item_heap_object, s16 arg1) {
     return item_heap_object;
 }
 
-extern s32 lbl_804A0568[];
 
 u8 *TItemTimerEvent__ct(TItemTimerEvent *item_timer_event, s32 arg1, s16 arg2, s32 arg3) {
     __ct__15TItemHeapObjectFP7TObject(item_timer_event);
@@ -112,7 +122,6 @@ void *__dt__13TUnk_804A0568Fv(void *item_timer_event, s16 arg1) {
     return item_timer_event;
 }
 
-extern s32 lbl_804A0588[];
 
 void *__dt__13TUnk_804A0588Fv(void *item_timer_event, s16 arg1) {
     if (item_timer_event != NULL) {
@@ -125,7 +134,6 @@ void *__dt__13TUnk_804A0588Fv(void *item_timer_event, s16 arg1) {
     return item_timer_event;
 }
 
-extern s32 lbl_804A05A8[];
 
 void *__dt__13TUnk_804A05A8Fv(void *item_timer_event, s16 arg1) {
     if (item_timer_event != NULL) {
@@ -138,7 +146,6 @@ void *__dt__13TUnk_804A05A8Fv(void *item_timer_event, s16 arg1) {
     return item_timer_event;
 }
 
-extern s32 lbl_804A05C8[];
 
 void *__dt__13TUnk_804A05C8Fv(void *item_timer_event, s16 arg1) {
     if (item_timer_event != NULL) {
@@ -151,7 +158,6 @@ void *__dt__13TUnk_804A05C8Fv(void *item_timer_event, s16 arg1) {
     return item_timer_event;
 }
 
-extern s32 lbl_804A05E8[];
 
 void *__dt__13TUnk_804A05E8Fv(void *item_timer_event, s16 arg1) {
     if (item_timer_event != NULL) {
@@ -164,7 +170,6 @@ void *__dt__13TUnk_804A05E8Fv(void *item_timer_event, s16 arg1) {
     return item_timer_event;
 }
 
-extern s32 lbl_804A0608[];
 
 void *__dt__13TUnk_804A0608Fv(void *item_timer_event, s16 arg1) {
     if (item_timer_event != NULL) {
@@ -177,7 +182,6 @@ void *__dt__13TUnk_804A0608Fv(void *item_timer_event, s16 arg1) {
     return item_timer_event;
 }
 
-extern s32 lbl_804A0628[];
 
 void *__dt__13TUnk_804A0628Fv(void *item_timer_event, s16 arg1) {
     if (item_timer_event != NULL) {
@@ -190,7 +194,6 @@ void *__dt__13TUnk_804A0628Fv(void *item_timer_event, s16 arg1) {
     return item_timer_event;
 }
 
-extern s32 lbl_804A0648[];
 
 void *__dt__13TUnk_804A0648Fv(void *item_timer_event, s16 arg1) {
     if (item_timer_event != NULL) {
@@ -203,7 +206,6 @@ void *__dt__13TUnk_804A0648Fv(void *item_timer_event, s16 arg1) {
     return item_timer_event;
 }
 
-extern s32 lbl_804A0668[];
 
 void *__dt__13TUnk_804A0668Fv(void *item_timer_event, s16 arg1) {
     if (item_timer_event != NULL) {
@@ -216,7 +218,6 @@ void *__dt__13TUnk_804A0668Fv(void *item_timer_event, s16 arg1) {
     return item_timer_event;
 }
 
-extern s32 lbl_804A0688[];
 
 void *__dt__13TUnk_804A0688Fv(void *item_timer_event, s16 arg1) {
     if (item_timer_event != NULL) {

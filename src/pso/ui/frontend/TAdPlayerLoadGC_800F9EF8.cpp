@@ -9,7 +9,8 @@ void *destroy__13TUnk_8049C658Fs(void *p, s16 flag);
 void __register_global_object(void *obj, void *dtor, void *link);
 extern u8 resource_load_task_root[];
 extern u8 resource_load_task_root_dtor_registration[];
-extern s32 lbl_805D2B10;
+extern "C" { extern char lbl_805DA910[]; }
+const char *lbl_805D2B10 = lbl_805DA910;
 extern s32 disc_read_filename;
 
     extern int TAdPlayerLoadGC__load_state;
@@ -22,7 +23,7 @@ s32 TLoadCtrl__sub_800F9F00(void) {
 }
 void __sinit_TAdPlayerLoadGC_800F9EF8_cpp(void) {
     __register_global_object(((TUnk_8049C658 *)resource_load_task_root)->construct(), (void *)destroy__13TUnk_8049C658Fs, resource_load_task_root_dtor_registration);
-    disc_read_filename = lbl_805D2B10;
+    disc_read_filename = (s32)lbl_805D2B10;
 }
 
 }

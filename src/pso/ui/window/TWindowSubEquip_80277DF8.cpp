@@ -39,14 +39,15 @@ void *__nw__7TObjectFUl(u32);
 s32 __ct__15TWindowHelpItemFPvUs(void *, void *, s32);
 s32 create_equip_list_window(void *, void *, s32);
 extern s32 lbl_8044F918[];
-extern s32 TWindowSubEquip__class_name;
+extern "C" { extern char TWindowSubEquip__class_name_string[]; }
+const char *TWindowSubEquip__class_name = TWindowSubEquip__class_name_string;
 }
 
 // Built with deferred code generation (the vtable precedes the switch table
 // in .data), so the functions are written from the last one back.
 TWindowSubEquip::TWindowSubEquip(s32 arg1, s32 arg2) : TObject((TObject *)((void *)arg1)) {
     void *p;
-    *(s32 *)((s8 *)this + 0) = TWindowSubEquip__class_name;
+    *(s32 *)((s8 *)this + 0) = (s32)TWindowSubEquip__class_name;
     this->m_2c = arg1;
     this->m_28 = arg2;
     this->m_34 = create_equip_list_window(get_window_layout_position(0), lbl_8044F918, this->m_28);
