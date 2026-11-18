@@ -61,7 +61,6 @@ u32 calc_text_width();
 u8 *get_array_entry__11TWindowBaseFi(void *, s32);
 s32 get_field_20__17TWindowSubComCardFv();
 s32 refresh_status_display__9TWindowDDFv(u8 *);
-extern s32 __vt__19TWindowSoundBalance[];
 const char *TWindowSoundBalance__name = "TWindowSoundBalance";
 s32 draw_visible_window_entries(s32, s32, void *);
 
@@ -194,34 +193,33 @@ void TWindowSoundBalance::run_task() {
 TWindowSoundBalance::~TWindowSoundBalance() {}
 #pragma push
 #pragma fp_contract on
-u8 *TWindowSoundBalance__ct(TWindowSoundBalance *window_sound_balance, s32 arg1) {
+TWindowSoundBalance::TWindowSoundBalance(s32 arg1) : TWindowBase((u8 *)&window_sound_balance_settings, (s16)4, (u8 *)arg1) {
     u8 *e;
     SoundBalanceSettings *st;
-    __ct__11TWindowBaseFPUcsPUc(window_sound_balance, (u8 *)&window_sound_balance_settings, (s16)4, (u8 *)arg1);
-    *(s32 **)((s8 *)window_sound_balance + 0x18) = __vt__19TWindowSoundBalance;
-    ((TWindowSoundBalance *)window_sound_balance)->m_name = TWindowSoundBalance__name;
-    window_sound_balance->m_60 = 0;
-    window_sound_balance->selection = 0;
-    window_sound_balance->music_gain = 1;
-    window_sound_balance->sound_effect_gain = 1;
-    e = get_array_entry__11TWindowBaseFi(window_sound_balance, 0);
+
+    ((TWindowSoundBalance *)this)->m_name = TWindowSoundBalance__name;
+    this->m_60 = 0;
+    this->selection = 0;
+    this->music_gain = 1;
+    this->sound_effect_gain = 1;
+    e = get_array_entry__11TWindowBaseFi(this, 0);
     get_field_20__17TWindowSubComCardFv();
     *(f32 *)((s8 *)e + 8) = 231.0f - 0.5f * calc_text_width();
     refresh_status_display__9TWindowDDFv(e);
-    e = get_array_entry__11TWindowBaseFi(window_sound_balance, 1);
+    e = get_array_entry__11TWindowBaseFi(this, 1);
     get_field_20__17TWindowSubComCardFv();
     *(f32 *)((s8 *)e + 8) = 231.0f - 0.5f * calc_text_width();
     refresh_status_display__9TWindowDDFv(e);
     st = get_global_state__23TAdSinglePlyChrSelectGCFv();
     if (st == 0) {
-        window_sound_balance->set_music_gain(0);
-        window_sound_balance->set_sound_effect_gain(0);
+        this->set_music_gain(0);
+        this->set_sound_effect_gain(0);
     } else {
-        window_sound_balance->set_music_gain(st->music_gain);
-        window_sound_balance->set_sound_effect_gain(st->sound_effect_gain);
+        this->set_music_gain(st->music_gain);
+        this->set_sound_effect_gain(st->sound_effect_gain);
     }
-    return (u8 *)window_sound_balance;
 }
+
 #pragma pop
 
 }
