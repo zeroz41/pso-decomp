@@ -6677,6 +6677,7 @@ pso/technique/TTecZarua.cpp:
 pso/technique/TTecZonde.cpp:
 	.text       start:0x8023C558 end:0x8023CDC4
 	.rodata     start:0x8044DCA0 end:0x8044DCB8
+	.data       start:0x804CCD50 end:0x804CCD74
 	.sdata      start:0x805D3838 end:0x805D3840
 	.sdata2     start:0x805DC968 end:0x805DC98C
 

@@ -115,7 +115,6 @@ void TTecZonde::vfunc_8(void *arg1_arg) {
 }
 
 #include "pso/technique/TTecLuker.h"
-extern "C" void *__dt__13TUnk_804CCC68Fv(void *, s16);
 
 struct Seg_8023C79C { f32 a[3]; f32 b[3]; f32 len; };
 struct Tgt_8023C79C { u8 pad[0x38]; f32 x, y, z; };
@@ -136,18 +135,8 @@ u16 get_entity_id(void *);
 void copy_technique_target_list(void *, void *);
 u8 * construct_facing_technique__10TObjPlayerFPviPvii(void *, s32, void *, s32, s16);
 extern s32 __vt__9TTecZonde[];
-void *__dt__9TTecZondeFv(void *arg0, s16 arg1);
-void __dl__7TObjectFPv(void *);
 
-void *__dt__9TTecZondeFv(void *player, s16 arg1) {
-    if (player != NULL) {
-        *(s32 **)((s8 *)player + 0x18) = __vt__9TTecZonde;
-        __dt__13TUnk_804CCC68Fv(player, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(player);
-        }
-    }
-    return player;
+TTecZonde::~TTecZonde() {
 }
 
 void TTecZonde::render() {  }
