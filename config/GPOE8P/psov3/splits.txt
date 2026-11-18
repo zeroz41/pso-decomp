@@ -4536,7 +4536,7 @@ pso/object/city/CityVerticalModel.cpp:
 pso/object/city/CitySeason.cpp:
 	.text       start:0x80183134 end:0x80184C2C
 	.rodata     start:0x804440B0 end:0x80444268
-	.data       start:0x804B5C40 end:0x804B5C58
+	.data       start:0x804B5C40 end:0x804B5CC4
 	.sdata      start:0x805D3268 end:0x805D3290
 	.sdata2     start:0x805DBC18 end:0x805DBC80
 
@@ -4634,6 +4634,7 @@ pso/object/door/TObjDoor_8018E358.cpp:
 	.text       start:0x8018E358 end:0x8018F458
 	.rodata     start:0x804454A0 end:0x80445598
 	.data       start:0x804B7618 end:0x804B7870
+	.bss        start:0x8050DC78 end:0x8050DC94
 	.sdata      start:0x805D3330 end:0x805D3338
 	.sbss       start:0x805D5BC0 end:0x805D5BD0
 	.sdata2     start:0x805DBDC0 end:0x805DBDF4

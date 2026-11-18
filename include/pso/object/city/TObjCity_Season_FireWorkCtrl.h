@@ -5,13 +5,13 @@
 #include "pso/object/base/TObjMotion.h"
 
 struct TObjCity_Season_FireWorkCtrl : public TObjBase {
+    TObjCity_Season_FireWorkCtrl(TObject *parent, void *set_data);
     virtual ~TObjCity_Season_FireWorkCtrl();
     virtual void vfunc_13(s32);
     void sub_8018355C();
     virtual void run_task();
 
-    u8 unk_90[0x4];
-    void *dt(s16 arg1);
+    s32 unk_90;
 };
 
 typedef char TObjCity_Season_FireWorkCtrl_size[sizeof(TObjCity_Season_FireWorkCtrl) == 0x94 ? 1 : -1];

@@ -7,11 +7,9 @@ extern "C" {
 void *TObjCity_Season_21_21__create(void *arg0);
 u8 *TObjCity_Season_21_21__ct(u8 *arg0, s32 arg1, s32 arg2);
 void *TObjCity_Season_Board__create(void *arg0);
-u8 *TObjCity_Season_Board__ct(u8 *arg0, s32 parent, s32 arg2);
 void *TObjCity_Season_EasterEgg__create(void *arg0);
 u8 *TObjCity_Season_EasterEgg__ct(u8 *arg0, s32 arg1, s32 arg2);
 void *TObjCity_Season_FireWorkCtrl__create(void *arg0);
-u8 *TObjCity_Season_FireWorkCtrl__ct(u8 *arg0, s32 parent, s32 arg2);
 void *TObjCity_Season_HalloweenPumpkin__create(void *arg0);
 u8 *TObjCity_Season_HalloweenPumpkin__ct(u8 *arg0, s32 parent, s32 arg2);
 void *TObjCity_Season_SonicAdv2__create(void *arg0);
