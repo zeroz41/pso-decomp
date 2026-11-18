@@ -59,7 +59,7 @@ inline s16 chk_8040EDE4(s16 id, u32 k) {
     return 0;
 }
 
-extern s16 ipv4_send_to_interface(void *self, u32 key, s16 id) {
+extern s16 AT_IP4_PktSend(NetPacket *self, u32 key, s16 id) {
     Ipv4Iface *e;
 
     if (id < 0 || id >= ipv4_address_routing_state.nifaces) {
@@ -113,7 +113,7 @@ inline void drop_8040F1A0(Ipv4RoutingState *g, u32 k1, u32 k2) {
     }
 }
 
-extern s16 ipv4_source_for_subnet(u32 *out, u32 mask, s16 c)
+extern s16 AT_IP4_SrcAddrSel(u32 *out, u32 dst, s16 c)
 {
   s16 n;
   u32 new_var;
@@ -134,7 +134,7 @@ extern s16 ipv4_source_for_subnet(u32 *out, u32 mask, s16 c)
   {
     u32 a = e->addr;
     m = e->mask;
-    if ((m & a) == (m & mask))
+    if ((m & a) == (m & dst))
     {
       *out = a;
       return 0;
@@ -145,7 +145,7 @@ extern s16 ipv4_source_for_subnet(u32 *out, u32 mask, s16 c)
     {
       m = node->mask;
       new_var = node->addr;
-      if ((m & new_var) == (m & mask))
+      if ((m & new_var) == (m & dst))
       {
         *out = new_var;
         return 0;
@@ -281,7 +281,7 @@ extern s32 bring_down_ipv4_interface(s16 id) {
 
 #pragma push
 #pragma opt_common_subs on
-extern s16 bring_up_ipv4_interface(u32 addr, u32 mask, u32 broadcast, s16 idx) {
+extern s16 AT_IP4_IfUp(u32 addr, u32 mask, u32 broadcast, s16 idx) {
     Ipv4RoutingState *g = &ipv4_address_routing_state;
     s16 *pn;
     Ipv4Iface **pifs;
@@ -363,14 +363,14 @@ extern s16 bring_up_ipv4_interface(u32 addr, u32 mask, u32 broadcast, s16 idx) {
     return 0;
 }
 #pragma pop
-s16 is_lookup_found(u32 arg0, u32 arg1) {
-    if (TLobby__sub_8040F76C(arg0, arg1) != NULL) {
+s16 AT_IP4_IsReachable(u32 arg0, u32 arg1) {
+    if (AT_IP4_RouteSearch(arg0, arg1) != NULL) {
         return 1;
     }
     return 0;
 }
 
-u8 * TLobby__sub_8040F76C(a0, a1)
+Ipv4Route *AT_IP4_RouteSearch(a0, a1)
 u32 a0;
 u32 a1;
 {
@@ -393,7 +393,7 @@ u32 a1;
             continue;
         }
         if ((flags & 4) && e->dst == a0) {
-            return (u8 *)e;
+            return e;
         }
         if ((flags & 8) && e->type == 1) {
             if (a0 == 0xFFFFFFFF || a0 == 0) {
@@ -420,13 +420,13 @@ u32 a1;
         }
     }
     if (m1 != NULL) {
-        return (u8 *)m1;
+        return m1;
     }
     if (m2 != NULL) {
-        return (u8 *)m2;
+        return m2;
     }
     if (m3 != NULL) {
-        return (u8 *)m3;
+        return m3;
     }
     return NULL;
 }
@@ -640,7 +640,7 @@ s16 NetIPv4AddRoute(u32 dst, u32 mask, u32 gateway, s16 f10, u8 type, u16 flags)
 }
 #pragma pop
 
-s16 TLobby__sub_8040FCEC(u32 ip) {
+s16 ipv4_iface_for_address(u32 ip) {
     Ipv4RoutingState *g;
     s16 m;
     s16 n;
@@ -678,7 +678,7 @@ s16 NetIPv4IsLoopback(s32 arg0) {
     return 0;
 }
 
-s16 TLobby__sub_8040FDA0(u32 arg0, s16 arg1) {
+s16 NetIPv4IsBroadcast(u32 arg0, s16 arg1) {
     Ipv4Iface *e;
     if (arg1 < 0 || arg1 >= ipv4_address_routing_state.nifaces) {
         e = NULL;
@@ -707,7 +707,7 @@ s16 NetIPv4IsUnspecified(u32 arg0) {
 
 #pragma push
 #pragma opt_common_subs on
-s16 TLobby__sub_8040FE40(s16 arg0) {
+s16 NetIPv4IsInterfaceUp(s16 arg0) {
     Ipv4Iface *ifc;
     if ((arg0 < 0) || (arg0 >= ipv4_address_routing_state.nifaces)) {
         ifc = NULL;

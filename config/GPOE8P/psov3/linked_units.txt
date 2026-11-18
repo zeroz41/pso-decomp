@@ -2565,3 +2565,5 @@ pso/network/TLobby_803FC178.c
 pso/network/PppFsm.c
 pso/network/PppPap.c
 pso/network/NetIpv6.c
+pso/network/NetIpv4.c
+pso/network/NetDns.c
