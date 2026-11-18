@@ -101,7 +101,6 @@ struct TWindowSubStatusDisp : public TWindowBase {
     s16 get_field_2F8();
     s16 get_stat();
     s16 get_value();
-    void update_disp_value();
     void *dispose(s16 arg1);
     void destroy_all_items();
     void *deleting_destructor(s16 arg1);

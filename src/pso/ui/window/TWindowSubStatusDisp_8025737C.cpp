@@ -1,6 +1,5 @@
 #include "types.h"
-#include "pso/unk/TUnk_804CF930.h"
-#include "pso/ui/window/TWindowSubStatusDisp_8025737C.h"
+#include "pso/unk/TUnk_804CF948.h"
 #include "pso/system/memory.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
@@ -32,11 +31,8 @@ struct Gauge_802571B4 {
 struct Gauge_80256E0C { u8 p0[0x14]; f32 max; };
 
 extern "C" {
-void calc_bar_width__13TUnk_804CF930Fv(struct Bar_80256C00 *bar);
 extern const f32 lbl_805DCE58;
-void update__13TUnk_804CF930Fv(Gauge_802571B4 *g);
 void draw_status_gauge_bar__13TUnk_804CF930FPvPvff(Gauge_80256E0C *self, void *ctx, NJS_POINT2 *pos, f32 depth, f32 len);
-void *__dt__13TUnk_804CF930Fv(void *arg0, s16 arg1);
 }
 
 struct Gauge_80257784 {
@@ -75,7 +71,6 @@ void set_draw_texture_and_color(s32 idx, s32 arg1);
 void set_constant_material_color(u32 x);
 extern s32 lbl_805D63F0;
 extern "C" {
-void draw_gauge__20TWindowSubStatusDispFPvPv(Gauge_80257784 *self, Parent_80257784 *parent);
 struct Col_802575C0 { u8 r, g, b, a; };
 
 struct Fade_802575C0 {
@@ -108,13 +103,11 @@ struct Bar_8025799C {
 
 void update_technique_slot__10TTecRaFoieFl(s32, s32, s32);
 s32 play_sound_effect(u32, s32, s32, s32);
-#define calc_bar_width__13TUnk_804CF930Fv ((s32 (*)())calc_bar_width__13TUnk_804CF930Fv)
-#define update__13TUnk_804CF930Fv ((void (*)(void *))update__13TUnk_804CF930Fv)
 void* init_from__13TUnk_804CF930FPvi(void* a0, void* a1, int a2);
 u32 update_text_color_transition(Fade_802575C0 *fade);
 void start_text_color_transition(Fade_802575C0 *arg0, u32 rgb, f32 time);
 
-extern s32 lbl_804CF948[];
+extern s32 __vt__13TUnk_804CF948[];
 extern const float lbl_805DCE58;
 
 #define CLAMP_8025737C(v, lo, hi) ((v) < (lo) ? (lo) : ((v) < (hi) ? (v) : (hi)))
@@ -199,14 +192,16 @@ void start_text_color_transition(Fade_802575C0 *arg0, u32 rgb, f32 time) {
 
 void TAdChrMoveEffectGC::copy4(void* q) { *(u8 *)&this->m_name = *(u8*)((char*)q + 0x0); *(u8*)((char*)this + 0x1) = *(u8*)((char*)q + 0x1); *(u8*)((char*)this + 0x2) = *(u8*)((char*)q + 0x2); *(u8*)((char*)this + 0x3) = *(u8*)((char*)q + 0x3); }
 
-void TWindowSubStatusDisp::update_disp_value() {
-    calc_bar_width__13TUnk_804CF930Fv();
-    *(s16 *)((s8 *)this + 0x28) = (s16) *(f32 *)&this->m_24;
+void TUnk_804CF948::calc_bar_width() {
+    TUnk_804CF930::calc_bar_width();
+    shown = (s16)target;
 }
 
 #pragma push
 #pragma fp_contract on
-void draw_gauge__20TWindowSubStatusDispFPvPv(Gauge_80257784 *self, Parent_80257784 *parent) {
+#define self ((Gauge_80257784 *)this)
+#define parent ((Parent_80257784 *)context)
+void TUnk_804CF948::render(TWindowKeyBoardSoft *context) {
     NJS_POINT2 pos;
     f32 scale;
     f32 lo;
@@ -264,9 +259,12 @@ void draw_gauge__20TWindowSubStatusDispFPvPv(Gauge_80257784 *self, Parent_802577
         TWindowSubStatusDisp::get_player();
     }
 }
+#undef self
+#undef parent
 #pragma pop
 
-void update_status_gauge_hold(Bar_8025799C *bar) {
+void TUnk_804CF948::update() {
+    Bar_8025799C *bar = (Bar_8025799C *)this;
     if (bar->flags & 0x40) {
         bar->color18 = update_text_color_transition((Fade_802575C0 *)bar);
     }
@@ -294,24 +292,15 @@ void update_status_gauge_hold(Bar_8025799C *bar) {
             update_technique_slot__10TTecRaFoieFl(slot, -0x100, 0);
         }
     } else {
-        update__13TUnk_804CF930Fv(bar);
+        TUnk_804CF930::update();
     }
 }
 
-void *TWindowSubStatusDisp__sub_80257AF4(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 4) = lbl_804CF948;
-        __dt__13TUnk_804CF930Fv(arg0, 0);
-        if (arg1 > 0) {
-            ::operator delete(arg0);
-        }
-    }
-    return arg0;
-}
+TUnk_804CF948::~TUnk_804CF948() {}
 
 u8 *TWindowSubStatusDisp::init_layout_entry_copy(u8 *arg1) {
     ((s32 (*)(void))init_from__13TUnk_804CF930FPvi)();
-    *(s32 * *)&this->m_flags = lbl_804CF948;
+    *(s32 * *)&this->m_flags = __vt__13TUnk_804CF948;
     *(s16 *)((s8 *)((u8 *)this) + 0x28) = (s16) *(f32 *)&this->m_24;
     *(s32 *)((s8 *)((u8 *)this) + 0x60) = (s32) *(s32 *)((s8 *)arg1 + 0x24);
     *(s32 *)((s8 *)((u8 *)this) + 0x64) = (s32) *(s32 *)((s8 *)arg1 + 0x28);
@@ -322,5 +311,3 @@ u8 *TWindowSubStatusDisp::init_layout_entry_copy(u8 *arg1) {
 }
 
 #undef draw_status_gauge_bar__13TUnk_804CF930FPvPvff
-#undef calc_bar_width__13TUnk_804CF930Fv
-#undef update__13TUnk_804CF930Fv
