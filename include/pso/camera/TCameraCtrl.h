@@ -80,8 +80,6 @@ struct TCameraCtrl : public TObject {
     static s32 get_camera_mode();
     void update_target_follow();
     void init_state();
-    void reset_behind_player();
-    void reset_state();
     void*get_target_ptr();
     static void copy_vec_to_default(u8 *arg0);
     static void sync_split_view_slots(s32 arg0, s32 arg1);

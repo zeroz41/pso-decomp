@@ -81,6 +81,36 @@ s32 push_matrix_from(void *);
 s32 pop_matrices(s32 arg0);
 const Vec lbl_80438168 = {0.0f, 0.0f, -1.0f};
 const Vec lbl_80438174 = {0.0f, 0.0f, -1.0f};
+
+static FollowCameraInitPose follow_camera_init_poses[4][3] = {
+    {
+        {{28.0f, 100.0f, 176.0f}, {13.0f, 102.0f, 132.0f}, 0x3555, -2.0f, -10000.0f},
+        {{-191.0f, 102.0f, 115.0f}, {-165.0f, 94.0f, 97.0f}, 0x3555, -2.0f, -10000.0f},
+        {{331.0f, -19.0f, -45.0f}, {322.0f, -15.0f, -62.0f}, 0x3555, -2.0f, -10000.0f},
+    },
+    {
+        {{28.0f, 100.0f, 176.0f}, {13.0f, 102.0f, 132.0f}, 0x3555, -2.0f, -10000.0f},
+        {{-191.0f, 102.0f, 115.0f}, {-165.0f, 94.0f, 97.0f}, 0x3555, -2.0f, -10000.0f},
+        {{331.0f, -19.0f, -45.0f}, {322.0f, -15.0f, -62.0f}, 0x3555, -2.0f, -10000.0f},
+    },
+    {
+        {{28.0f, 100.0f, 176.0f}, {13.0f, 102.0f, 132.0f}, 0x3555, -2.0f, -10000.0f},
+        {{-191.0f, 102.0f, 115.0f}, {-165.0f, 94.0f, 97.0f}, 0x3555, -2.0f, -10000.0f},
+        {{331.0f, -19.0f, -45.0f}, {322.0f, -15.0f, -62.0f}, 0x3555, -2.0f, -10000.0f},
+    },
+    {
+        {{28.0f, 100.0f, 176.0f}, {13.0f, 102.0f, 132.0f}, 0x3555, -2.0f, -10000.0f},
+        {{-191.0f, 102.0f, 115.0f}, {-165.0f, 94.0f, 97.0f}, 0x3555, -2.0f, -10000.0f},
+        {{331.0f, -19.0f, -45.0f}, {322.0f, -15.0f, -62.0f}, 0x3555, -2.0f, -10000.0f},
+    },
+};
+
+FollowCameraInitPose *follow_camera_init_pose_table[4] = {
+    follow_camera_init_poses[0],
+    follow_camera_init_poses[1],
+    follow_camera_init_poses[2],
+    follow_camera_init_poses[3],
+};
 extern u8 identity_matrix[];
 void set_camera_look_at(u8 *eye, u8 *target, u8 *up);
 

@@ -5,6 +5,7 @@
 
 class TUnk_80488B08 : public TUnk_80488A28 {
 public:
+    TUnk_80488B08();
     virtual ~TUnk_80488B08();
     virtual void vfunc_6();
     virtual void run_task();

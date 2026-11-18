@@ -146,8 +146,6 @@ struct Hit_8006DD78 {
 
 struct Tgt_8006DEF8 { u8 pad0[0x38]; FollowVector pos; u8 pad44[0x1C]; s32 angle; };
 
-struct Preset_8006DEF8 { FollowVector pos; FollowVector target; s32 id; f32 a; f32 b; };
-
 struct Cam_8006DEF8 {
     u8 pad0[0x30];
     s32 angle;
@@ -269,7 +267,6 @@ void normalize_vector(FollowVector *);
 extern FollowVector lbl_80438534;
 void camera_renderer_setup_nop(void *, s32);
 extern FollowVector lbl_80438528;
-extern Preset_8006DEF8 *follow_camera_init_pose_table[];
 extern u8 lbl_804FF5E8[];
 FollowVector *get_position_ptr__10TObjPlayerFv(void *);
 FollowVector *get_target_ptr__11TCameraCtrlFv(void *);
@@ -838,22 +835,22 @@ void TUnk_80488E00::vfunc_10() {
     } else {
         switch (area) {
         case AREA_PIONEER2_EP1:
-            VecCopy((Vec *)&self->pos, (const Vec *)&follow_camera_init_pose_table[0][0].pos);
-            VecCopy((Vec *)&self->target, (const Vec *)&follow_camera_init_pose_table[0][0].target);
-            self->id = follow_camera_init_pose_table[0][0].id;
-            TCameraCtrl::set_clamped_offsets(follow_camera_init_pose_table[0][0].a, follow_camera_init_pose_table[0][0].b);
+            VecCopy((Vec *)&self->pos, &follow_camera_init_pose_table[0][0].pos);
+            VecCopy((Vec *)&self->target, &follow_camera_init_pose_table[0][0].target);
+            self->id = follow_camera_init_pose_table[0][0].projection_angle;
+            TCameraCtrl::set_clamped_offsets(follow_camera_init_pose_table[0][0].near_clip, follow_camera_init_pose_table[0][0].far_clip);
             break;
         case AREA_LOBBY:
-            VecCopy((Vec *)&self->pos, (const Vec *)&follow_camera_init_pose_table[0][1].pos);
-            VecCopy((Vec *)&self->target, (const Vec *)&follow_camera_init_pose_table[0][1].target);
-            self->id = follow_camera_init_pose_table[0][1].id;
-            TCameraCtrl::set_clamped_offsets(follow_camera_init_pose_table[0][1].a, follow_camera_init_pose_table[0][1].b);
+            VecCopy((Vec *)&self->pos, &follow_camera_init_pose_table[0][1].pos);
+            VecCopy((Vec *)&self->target, &follow_camera_init_pose_table[0][1].target);
+            self->id = follow_camera_init_pose_table[0][1].projection_angle;
+            TCameraCtrl::set_clamped_offsets(follow_camera_init_pose_table[0][1].near_clip, follow_camera_init_pose_table[0][1].far_clip);
             break;
         case AREA_PIONEER2_EP2:
-            VecCopy((Vec *)&self->pos, (const Vec *)&follow_camera_init_pose_table[0][2].pos);
-            VecCopy((Vec *)&self->target, (const Vec *)&follow_camera_init_pose_table[0][2].target);
-            self->id = follow_camera_init_pose_table[0][2].id;
-            TCameraCtrl::set_clamped_offsets(follow_camera_init_pose_table[0][2].a, follow_camera_init_pose_table[0][2].b);
+            VecCopy((Vec *)&self->pos, &follow_camera_init_pose_table[0][2].pos);
+            VecCopy((Vec *)&self->target, &follow_camera_init_pose_table[0][2].target);
+            self->id = follow_camera_init_pose_table[0][2].projection_angle;
+            TCameraCtrl::set_clamped_offsets(follow_camera_init_pose_table[0][2].near_clip, follow_camera_init_pose_table[0][2].far_clip);
             break;
         }
     }
