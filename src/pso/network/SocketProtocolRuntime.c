@@ -2,14 +2,13 @@
  * input), the reassembly-range and SACK-list helpers, and the send queue (releasing acknowledged data, queueing user
  * buffers, gathering a segment's data, queueing a send request). */
 #include "pso/network/NetworkRuntime.h"
-#include "pso/network/UdpRuntime.h"
 #include "types.h"
 #include "pso/network/TLobby_804050DC.h"
 #include "pso/network/BufferRef.h"
 #include "pso/network/NetTcpState.h"
 #include "pso/network/text_80421620.h"
 
-void TLobby__sub_8041FDA0(TcpTcb *o, s16 idx, s32 a, s32 b);
+void TLobby__sub_8041FDA0(TcpTcb *o, s16 idx, u32 start, u32 end);
 void TLobby__sub_8041FED4(TcpTcb *tcb);
 void TLobby__sub_8041F66C(TcpTcb *o);
 
@@ -261,12 +260,18 @@ fin:
     return -1;
 }
 
+#pragma push
+#pragma dont_inline off
+#pragma inline_depth(4)
+static inline u32 reassembly_length(const TcpSeqRange *range) {
+    return range->end - range->start;
+}
+
 void TLobby__sub_8041F66C(TcpTcb *o) {
     s16 i;
     s16 cnt;
     s16 j;
     s32 d;
-    u8 unused[8];
     if (o->reasm_n == -1) {
         return;
     }
@@ -293,7 +298,7 @@ void TLobby__sub_8041F66C(TcpTcb *o) {
     }
     o->reasm_n -= cnt;
     for (j = 0; j < cnt; j++) {
-        o->reasm_total -= o->reasm[j].end - o->reasm[j].start;
+        o->reasm_total -= reassembly_length(&o->reasm[j]);
     }
     for (j = 0; j <= o->reasm_n; j++) {
         o->reasm[j] = o->reasm[j + cnt];
@@ -305,17 +310,12 @@ void TLobby__sub_8041F66C(TcpTcb *o) {
     }
 }
 
-#pragma push
-#pragma dont_inline off
-#pragma inline_depth(4)
 inline void sack_remove_8041F914(TcpTcb *o, s16 idx) {
     s16 j;
-    s32 len;
     if (idx < 0 || o->reasm_n < 0 || idx > o->reasm_n) {
         return;
     }
-    len = o->reasm[idx].end - o->reasm[idx].start;
-    o->reasm_total -= len;
+    o->reasm_total -= reassembly_length(&o->reasm[idx]);
     for (j = idx; j < o->reasm_n; j++) {
         o->reasm[j] = o->reasm[j + 1];
     }
@@ -332,9 +332,8 @@ s32 TLobby__sub_8041F914(NetPacket *pkt, u16 x, TcpTcb *o, TcpHdr *th) {
     u32 pos;
     s32 total;
     s32 d;
-    u32 room;
-    s32 seq;
-    s32 end;
+    u32 seq;
+    u32 end;
     s16 j;
     s32 grow;
     NetBufferRef dst;
@@ -371,12 +370,8 @@ s32 TLobby__sub_8041F914(NetPacket *pkt, u16 x, TcpTcb *o, TcpHdr *th) {
         if (skip != 0) {
             netbuf_ref_advance(&src, skip);
         }
-        n = pkt->fragments[i].length - skip;
-        room = o->rcv_bufsize - o->rcv_count;
-        if (!o && !o) {
-        }
-        if (n > room) {
-            n = room;
+        if ((n = pkt->fragments[i].length - skip) > o->rcv_bufsize - o->rcv_count) {
+            n = o->rcv_bufsize - o->rcv_count;
         }
         total += n;
         if (pos + n >= o->rcv_bufsize) {
@@ -397,14 +392,14 @@ s32 TLobby__sub_8041F914(NetPacket *pkt, u16 x, TcpTcb *o, TcpHdr *th) {
         TLobby__sub_8041FDA0(o, 0, seq, end);
         o->last_reasm = 0;
     } else {
-        if (seq - o->reasm[0].start <= 0) {
+        if ((s32)(seq - o->reasm[0].start) <= 0) {
             TLobby__sub_8041FDA0(o, 0, seq, end);
             j = 0;
         } else {
             for (j = 1; j <= o->reasm_n; j++) {
-                if (seq - o->reasm[j].start <= 0) {
-                    if (seq - o->reasm[j - 1].end <= 0) {
-                        grow = end - o->reasm[j - 1].end;
+                if ((s32)(seq - o->reasm[j].start) <= 0) {
+                    if ((s32)(seq - o->reasm[j - 1].end) <= 0) {
+                        grow = (s32)(end - o->reasm[j - 1].end);
                         if (grow < 0) {
                             goto done;
                         }
@@ -418,8 +413,8 @@ s32 TLobby__sub_8041F914(NetPacket *pkt, u16 x, TcpTcb *o, TcpHdr *th) {
                 }
             }
             if (j == o->reasm_n + 1) {
-                if (seq - o->reasm[j - 1].end <= 0) {
-                    grow = end - o->reasm[j - 1].end;
+                if ((s32)(seq - o->reasm[j - 1].end) <= 0) {
+                    grow = (s32)(end - o->reasm[j - 1].end);
                     if (grow < 0) {
                         goto done;
                     }
@@ -432,8 +427,8 @@ s32 TLobby__sub_8041F914(NetPacket *pkt, u16 x, TcpTcb *o, TcpHdr *th) {
             }
         }
         o->last_reasm = j;
-        while (j + 1 <= o->reasm_n && o->reasm[j].end - o->reasm[j + 1].start >= 0) {
-            if (o->reasm[j].end - o->reasm[j + 1].end >= 0) {
+        while (j + 1 <= o->reasm_n && (s32)(o->reasm[j].end - o->reasm[j + 1].start) >= 0) {
+            if ((s32)(o->reasm[j].end - o->reasm[j + 1].end) >= 0) {
                 sack_remove_8041F914(o, j + 1);
             } else {
                 o->reasm_total += o->reasm[j + 1].end - o->reasm[j].end;
@@ -450,7 +445,7 @@ done:
 }
 #pragma pop
 
-void TLobby__sub_8041FDA0(TcpTcb *o, s16 idx, s32 a, s32 b) {
+void TLobby__sub_8041FDA0(TcpTcb *o, s16 idx, u32 start, u32 end) {
     s16 i;
     if (idx < 0) {
         return;
@@ -467,27 +462,27 @@ void TLobby__sub_8041FDA0(TcpTcb *o, s16 idx, s32 a, s32 b) {
     for (i = o->reasm_n; i >= idx; i--) {
         o->reasm[i + 1] = o->reasm[i];
     }
-    o->reasm[idx].start = a;
-    o->reasm[idx].end = b;
+    o->reasm[idx].start = start;
+    o->reasm[idx].end = end;
     o->reasm_n++;
-    o->reasm_total += b - a;
+    o->reasm_total += end - start;
 }
 
-void expire_timeout_entries(void *tcb) {
-    TcpTcb *o = (TcpTcb *)tcb;
+void expire_timeout_entries(TcpTcb *o) {
+    const s16 count = sizeof(o->sack) / sizeof(o->sack[0]);
     s16 i;
     s16 j;
     i = 0;
-    while (i < 5) {
+    while (i < count) {
         if (o->sack[i].start == o->sack[i].end) {
             return;
         }
         if ((s32)(o->sack[i].end - o->rcv_nxt) <= 0) {
-            for (j = i; j < 4; j++) {
+            for (j = i; j < count - 1; j++) {
                 o->sack[j] = o->sack[j + 1];
             }
-            o->sack[4].start = 0;
-            o->sack[4].end = 0;
+            o->sack[count - 1].start = 0;
+            o->sack[count - 1].end = 0;
         } else {
             i++;
         }
@@ -495,6 +490,7 @@ void expire_timeout_entries(void *tcb) {
 }
 
 void TLobby__sub_8041FED4(TcpTcb *tcb) {
+    const s16 last = sizeof(tcb->sack) / sizeof(tcb->sack[0]) - 1;
     u32 start;
     u32 end;
     s16 i;
@@ -505,22 +501,27 @@ void TLobby__sub_8041FED4(TcpTcb *tcb) {
     }
     start = tcb->reasm[tcb->last_reasm].start;
     end = tcb->reasm[tcb->last_reasm].end;
-    for (i = 4; i > 0; i--) {
+    for (i = last; i > 0; i--) {
         tcb->sack[i] = tcb->sack[i - 1];
     }
     tcb->sack[0].start = start;
     tcb->sack[0].end = end;
-    for (i = 4; i > 0; i--) {
+    for (i = last; i > 0; i--) {
         if (tcb->sack[i].start == tcb->sack[i].end) {
             continue;
         }
         for (j = i - 1; j >= 0; j--) {
             if ((s32)(tcb->sack[i].start - tcb->sack[j].start) >= 0 && (s32)(tcb->sack[i].end - tcb->sack[j].end) <= 0) {
-                for (k = i; k < 5; k++) {
+#if defined(__MWERKS__) && !defined(PSO_SOCKET_BOUNDED_SACK)
+                /* Retail runs one extra iteration before clearing the final slot. */
+                for (k = i; k < last + 1; k++) {
+#else
+                for (k = i; k < last; k++) {
+#endif
                     tcb->sack[k] = tcb->sack[k + 1];
                 }
-                tcb->sack[4].start = 0;
-                tcb->sack[4].end = 0;
+                tcb->sack[last].start = 0;
+                tcb->sack[last].end = 0;
                 break;
             }
         }
