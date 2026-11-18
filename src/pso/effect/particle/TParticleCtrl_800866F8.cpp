@@ -11,8 +11,8 @@ void *heap_alloc__5THeapFUl(void *heap, u32 size);
 Part_8008673C *alloc_particle_memory(u32 size);
 int heap_free__5THeapFPv(void *, void *);
 
-void TUnk_8048E728::free_from_heap() {
-    u8 *arg0 = (u8 *)this;
+void TUnk_8048E728::operator delete(void *p) {
+    u8 *arg0 = (u8 *)p;
     if (arg0) {
         if (arg0[0xAC] != 0) {
             heap_free__5THeapFPv((void *)TParticleCtrl__heap, arg0);
