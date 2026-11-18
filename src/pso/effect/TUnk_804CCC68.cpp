@@ -342,3 +342,5 @@ u8 *construct_facing_technique__10TObjPlayerFPviPvii(u8 *arg0, s32 arg1, u8 *arg
 }
 
 void TUnk_804CCC68::vfunc_8(void *) {  }
+
+__declspec(section ".rodata") extern const f64 lbl_8044DC00 = 10430.38043493439;

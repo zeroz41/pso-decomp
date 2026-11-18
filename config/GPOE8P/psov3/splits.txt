@@ -6658,6 +6658,7 @@ pso/effect/TUnk_804CCC68_8023A434.cpp:
 
 pso/effect/TUnk_804CCC68.cpp:
 	.text       start:0x8023A4CC end:0x8023AC88
+	.rodata     start:0x8044DC00 end:0x8044DC08
 	.data       start:0x804CCC68 end:0x804CCC8C
 	.sdata2     start:0x805DC918 end:0x805DC93C
 
@@ -7705,7 +7706,7 @@ pso/ui/window/TWindowSubMag.cpp:
 
 pso/ui/window/TWindowSubMagPhoton.cpp:
 	.text       start:0x8027C13C end:0x8027CCC8
-	.rodata     start:0x8044FA10 end:0x8044FA28
+	.rodata     start:0x8044FA10 end:0x8044FA30
 	.data       start:0x804D1720 end:0x804D1818
 	.sdata      start:0x805D3A70 end:0x805D3A78
 	.sdata2     start:0x805DD678 end:0x805DD688
@@ -12482,6 +12483,7 @@ pso/ui/frontend/TAdPlayerLoadGC_803F339C.cpp:
 
 pso/unk/text_803F3BF8.cpp:
 	.text       start:0x803F3BF8 end:0x803F3DD4
+	.sdata2     start:0x805E10F8 end:0x805E1100
 
 pso/network/NetworkInfoRequests.cpp:
 	.text       start:0x803F3DD4 end:0x803F3F64
