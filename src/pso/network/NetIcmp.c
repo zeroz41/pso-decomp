@@ -158,7 +158,7 @@ s16 icmp_input(u8 *self, u32 d, u32 c)
 
 s32 icmp_send_error(u8 *p, u8 *b, s16 x, s16 id)
 {
-  s32 AT_IP4_Send(u8 *rec, u32 dst, u32 src, u8 ttl, u8 tos, u8 df, void *proto); /* declared s32 here; the definition returns s16 */
+  s32 AT_IP4_Send(NetPacket *pkt, u32 dst, u32 src, u8 ttl, u8 tos, u8 df, void *proto); /* declared s32 with a void * protocol here; the definition returns s16 and takes u8 */
   NetPacket *pkt;
   s32 lim;
   s32 r;
@@ -189,7 +189,7 @@ s32 icmp_send_error(u8 *p, u8 *b, s16 x, s16 id)
   pkt->fragment_count += 1;
   *((u16 *)(p + 2)) = 0;
   *((u16 *)(p + 2)) = calc_ip_checksum(pkt, 1);
-  r = AT_IP4_Send((u8 *) pkt, *((u32 *)(b + 0xc)), *((u32 *)(b + 0x10)), 0, 0, 0, (void *) 1);
+  r = AT_IP4_Send(pkt, *((u32 *)(b + 0xc)), *((u32 *)(b + 0x10)), 0, 0, 0, (void *) 1);
   release_entry(pkt);
   return r;
 }
@@ -222,7 +222,7 @@ s16 TLobby__sub_8040CFE8(u8 type, u8 code, u32 src, u32 dst, NetPacket *pkt) {
     hdr.code = code;
     hdr.checksum = 0;
     hdr.checksum = calc_ip_checksum((pkt), 1);
-    if (AT_IP4_Send((u8 *)pkt, dst, src, 0, 0, 0, (void *)1)) {
+    if (AT_IP4_Send(pkt, dst, src, 0, 0, 0, 1)) {
         return -1;
     }
     return 0;

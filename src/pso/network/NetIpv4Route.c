@@ -59,7 +59,7 @@ inline s16 chk_8040EDE4(s16 id, u32 k) {
     return 0;
 }
 
-extern s16 AT_IP4_PktSend(void *self, u32 key, s16 id) {
+extern s16 AT_IP4_PktSend(NetPacket *self, u32 key, s16 id) {
     Ipv4Iface *e;
 
     if (id < 0 || id >= ipv4_address_routing_state.nifaces) {
@@ -113,7 +113,7 @@ inline void drop_8040F1A0(Ipv4RoutingState *g, u32 k1, u32 k2) {
     }
 }
 
-extern s16 AT_IP4_SrcAddrSel(u32 *out, u32 mask, s16 c)
+extern s16 AT_IP4_SrcAddrSel(u32 *out, u32 dst, s16 c)
 {
   s16 n;
   u32 new_var;
@@ -134,7 +134,7 @@ extern s16 AT_IP4_SrcAddrSel(u32 *out, u32 mask, s16 c)
   {
     u32 a = e->addr;
     m = e->mask;
-    if ((m & a) == (m & mask))
+    if ((m & a) == (m & dst))
     {
       *out = a;
       return 0;
@@ -145,7 +145,7 @@ extern s16 AT_IP4_SrcAddrSel(u32 *out, u32 mask, s16 c)
     {
       m = node->mask;
       new_var = node->addr;
-      if ((m & new_var) == (m & mask))
+      if ((m & new_var) == (m & dst))
       {
         *out = new_var;
         return 0;
@@ -370,7 +370,7 @@ s16 AT_IP4_IsReachable(u32 arg0, u32 arg1) {
     return 0;
 }
 
-u8 * AT_IP4_RouteSearch(a0, a1)
+Ipv4Route *AT_IP4_RouteSearch(a0, a1)
 u32 a0;
 u32 a1;
 {
@@ -393,7 +393,7 @@ u32 a1;
             continue;
         }
         if ((flags & 4) && e->dst == a0) {
-            return (u8 *)e;
+            return e;
         }
         if ((flags & 8) && e->type == 1) {
             if (a0 == 0xFFFFFFFF || a0 == 0) {
@@ -420,13 +420,13 @@ u32 a1;
         }
     }
     if (m1 != NULL) {
-        return (u8 *)m1;
+        return m1;
     }
     if (m2 != NULL) {
-        return (u8 *)m2;
+        return m2;
     }
     if (m3 != NULL) {
-        return (u8 *)m3;
+        return m3;
     }
     return NULL;
 }

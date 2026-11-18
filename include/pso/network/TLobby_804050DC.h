@@ -8,21 +8,37 @@
 #include "pso/network/NetDns.h"
 #include "pso/network/NetArp.h"
 #include "pso/network/NetIpv4.h"
+#include "pso/network/IPv4Header.h"
 #include "pso/network/NetEthernet.h"
 
 /* TLobby_804050DC.c: connection records, the DNS resolver tables and socket start-up. */
-typedef struct E_8040DDB0 E_8040DDB0;
-typedef struct RecoveredGlobal_8040DD68_lbl_805C1B38 RecoveredGlobal_8040DD68_lbl_805C1B38;
+typedef struct Ipv4RawSocket Ipv4RawSocket;
+typedef struct Ipv4ProtocolState Ipv4ProtocolState;
 typedef struct N_80405298 N_80405298;
 typedef struct In_8040D95C In_8040D95C;
 typedef struct Out_8040D95C Out_8040D95C;
-struct E_8040DDB0 { u8 c0; u8 c1; u8 c2; u8 c3; s16 f4; u8 pad6[0x16]; };
-struct RecoveredGlobal_8040DD68_lbl_805C1B38 {
-    s16 value;
+/* A raw IPv4 socket: ipv4_input hands it every packet of its protocol. */
+struct Ipv4RawSocket {
+    u8 tag[3];                  /* 0x00: "IP4" */
+    u8 index;
+    u16 state;                  /* 0x04: 1 = open */
+    u8 pad6[2];
+    u32 addr;                   /* 0x08: source filter; 0 = any */
+    u8 padC[4];
+    void *callback;             /* 0x10 */
+    u8 pad14[4];
+    u8 proto;                   /* 0x18 */
+    u8 pad19[3];
+};
+struct Ipv4ProtocolState {
+    s16 nsockets;
     u8 pad2[2];
-    E_8040DDB0 *ents;
-    s16 f8;
-    u8 padA[0x1E];
+    Ipv4RawSocket *sockets;
+    u16 id;                     /* 0x08: next IP identification */
+    u8 def_tos;
+    u8 def_ttl;
+    IPv4Header hdr;             /* 0x0C: header template of AT_IP4_Send */
+    u8 pad20[8];
 };
 struct N_80405298 { N_80405298 *next; s32 f4; u8 pad8[0x18 - 8]; u8 b18; };
 struct In_8040D95C { s32 type; s32 f4; };
@@ -85,10 +101,10 @@ s16 is_multicast_address(void *self, s16 arg1);
 s16 is_addr_unspecified(u8 *arg0);
 s16 AT_IP4_IsReachable(u32 arg0, u32 arg1);
 s16 TLobby__sub_8040DA54(u8 *arg0, u8 *arg1);
-s16 AT_IP4_Send(u8 *rec, u32 dst, u32 src, u8 ttl, u8 tos, u8 df, void *proto);
-s16 AT_IP4_Forward(u8 *self, u32 key, u8 *pkt, s16 total, s16 id);
-s16 AT_IP4_PktSend(void *self, u32 key, s16 id);
-s16 AT_IP4_SrcAddrSel(u32 *out, u32 mask, s16 c);
+s16 AT_IP4_Send(NetPacket *pkt, u32 dst, u32 src, u8 ttl, u8 tos, u8 df, u8 proto);
+s16 AT_IP4_Forward(u32 dst, u32 src, u8 *pkt, s16 len, s16 iface);
+s16 AT_IP4_PktSend(NetPacket *self, u32 key, s16 id);
+s16 AT_IP4_SrcAddrSel(u32 *out, u32 dst, s16 c);
 s16 TLobby__sub_80410A98(s32 arg0, void *arg1, void *arg2, void *arg3, void *arg4);
 extern NetPacketPool lobby_udp_socket_table;
 /* Shared by the modules cut out of this unit; each is defined in the file named in its comment. */
@@ -98,7 +114,7 @@ s32 dispatch_slot_b(s16, s32);                       /* NetArp.c */
 s16 forward_net_op(s16, u8 *, u8 *);                 /* NetArp.c */
 typedef void (*Fn_8040881C)(void);                   /* a link-layer driver entry (NetHandlerTable.c) */
 s16 *get_active_entry_by_index(s16);                 /* NetIpv4Route.c */
-u8 *AT_IP4_RouteSearch(u32, u32);                  /* NetIpv4Route.c */
+Ipv4Route *AT_IP4_RouteSearch(u32, u32);             /* NetIpv4Route.c */
 s16 NetIPv4IsInterfaceUp(s16);                       /* NetIpv4Route.c */
 s16 TLobby__sub_8040FEE4(s32, s32);                  /* NetIpv4Route.c */
 s16 get_ipv4_interface_mtu(s16);                       /* NetIpv4Route.c */

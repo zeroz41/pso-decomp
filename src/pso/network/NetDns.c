@@ -274,20 +274,24 @@ extern s16 TLobby__sub_8040A698(s16 idx, void *buf, s16 *len, void *buf2, s16 *l
 s16 udp_open(s16 a, void* b, void* c, u16 d, void* e, void* f);
 s32 AT_DNS_UdpReceiver(s16 mode, UdpDatagram *req);
 DnsHost *dns_alloc_host(void);
-static inline DnsHost *find_host_8040A8B0(DnsResolverState *base, char *name, s32 len) {
-    DnsHost *p = base->hosts;
+static inline DnsHost *dns_find_host(DnsResolverState *g, char *name, s16 len) {
     s16 j;
-    for (j = 0; j < base->nhosts; j++, p++) {
+    DnsHost *p;
+    j = 0;
+    p = g->hosts;
+    for (; j < g->nhosts; j++, p++) {
         if (p->state == 1 && NetMemcmp(p->name, name, len) == 0) {
             return p;
         }
     }
     return NULL;
 }
-static inline DnsBuffer *grab_slot_8040A8B0(DnsResolverState *base) {
+static inline DnsBuffer *dns_alloc_buffer(DnsResolverState *g) {
     s16 i;
-    DnsBuffer *p = base->buffers;
-    for (i = 0; i < base->nbuffers; i++, p++) {
+    DnsBuffer *p;
+    i = 0;
+    p = g->buffers;
+    for (; i < g->nbuffers; i++, p++) {
         if (p->used == 0) {
             p->used = 1;
             return p;
@@ -295,7 +299,7 @@ static inline DnsBuffer *grab_slot_8040A8B0(DnsResolverState *base) {
     }
     return NULL;
 }
-inline NetworkAddress *fnar_8040B1C4(DnsResolverState *g, DnsQuery *a) {
+inline NetworkAddress *dns_next_server(DnsResolverState *g, DnsQuery *a) {
     s16 t, n, i;
     for (i = 0; i < (n = g->nservers); i++) {
         NetworkAddress *r = &g->servers[(a->server + (t = a->status)) % n];
@@ -309,182 +313,139 @@ inline NetworkAddress *fnar_8040B1C4(DnsResolverState *g, DnsQuery *a) {
     }
     return 0;
 }
+static inline DnsQuery *dns_alloc_query(DnsResolverState *g) {
+    DnsQuery *e;
+    s16 k;
+    net_lock();
+    k = 0;
+    e = g->queries;
+    for (; k < g->nqueries; k++, e++) {
+        if (e->active == 0) {
+            e->active = 1;
+            break;
+        }
+    }
+    net_unlock();
+    if (k == g->nqueries) {
+        return NULL;
+    }
+    return e;
+}
+static inline s16 dns_open_socket(DnsQuery *e) {
+    e->socket = udp_open(0, 0, 0, 0x35, complete_pending_request, AT_DNS_UdpReceiver);
+    return e->socket;
+}
+static inline s16 dns_send_query(DnsQuery *e, NetworkAddress *dst) {
+    s16 udp_send(s32, void *, void *, u16, void *, s8, send_buffs *); /* declared here with other parameter types; the definition is s16 (s32, u32 *, u32 *, u16, u32 *, s8, send_buffs *) */
+    send_buffs buf;
+    s16 r;
+    buf.len = e->msg->len;
+    buf.buff = e->msg->data;
+    r = udp_send(e->socket, NULL, dst, 0, NULL, 1, &buf);
+    return r;
+}
 #pragma push
-#pragma opt_propagation off
-s32 dns_open_addr(char *name, s16 idx, s32 type)
+#pragma opt_common_subs on
+s16 dns_open_addr(char *name, s16 len, s32 type)
 {
-  s16 udp_send(s32, void *, void *, u16, void *, s8, send_buffs *); /* declared here with other parameter types; the definition is s16 (s32, u32 *, u32 *, u16, u32 *, s8, send_buffs *) */
-  DnsResolverState *base = &dns_resolver_state;
-  DnsLookupRequest *t;
-  u32 ty;
-  DnsHost *p;
-  DnsBuffer *m;
-  DnsQuery *e;
-  s16 i;
-  if (name == ((void *) 0))
-  {
+  DnsResolverState *g;
+  DnsQuery *q;
+  DnsLookupRequest *req;
+  DnsHost *host;
+  DnsAddr *node;
+  NetworkAddress *server;
+  s16 r;
+  g = &dns_resolver_state;
+  if (name == NULL) {
     return -2;
   }
-  if ((idx <= 0) || (idx > base->max_name))
-  {
+  if (len <= 0 || len > g->max_name) {
     return -2;
   }
-  switch (type)
-  {
+  switch (type) {
     case 0:
-
     case 4:
-
     case 6:
       break;
-
     default:
       return -2;
-
   }
-
-  if (name[idx - 1] == '.')
-  {
-    idx--;
+  if (name[len - 1] == '.') {
+    len--;
   }
-  net_lock();
-  e = base->queries;
-  for (i = 0; i < base->nqueries; i++, e++)
-  {
-    if (e->active == 0)
-    {
-      e->active = 1;
-      break;
-    }
-  }
-
-  net_unlock();
-  if (i == base->nqueries)
-  {
-    e = (void *) 0;
-  }
-  if (e == ((void *) 0))
-  {
+  q = dns_alloc_query(g);
+  if (q == NULL) {
     return -0x40;
   }
-  e->kind = 1;
-  e->req.lookup.family = type;
-  t = &e->req.lookup;
-  p = find_host_8040A8B0(base, name, idx);
-  if (p != ((void *) 0))
-  {
-    e->status = 0;
-    t->host = p;
-    ty = t->family;
-    if (ty == 0)
-    {
-      if (p->naddrs > 0)
-      {
-        return e->index;
+  q->kind = 1;
+  req = &q->req.lookup;
+  req->family = type;
+  host = dns_find_host(g, name, len);
+  if (host != NULL) {
+    q->status = 0;
+    req->host = host;
+    if (req->family == 0) {
+      if (host->naddrs > 0) {
+        return q->index;
       }
-    }
-    else
-    {
-      DnsAddr *node;
-      for (node = p->addrs; node != ((void *) 0); node = node->next)
-      {
-        if (node->addr.family == ty)
-        {
-          return e->index;
+    } else {
+      for (node = host->addrs; node != NULL; node = node->next) {
+        if (node->addr.family == req->family) {
+          return q->index;
         }
       }
-
     }
   }
-  m = grab_slot_8040A8B0(base);
-  e->msg = m;
-  if (m == ((void *) 0))
-  {
-    close_and_reset_connection(e);
+  if ((q->msg = dns_alloc_buffer(g)) == NULL) {
+    close_and_reset_connection(q);
     return -0x43;
   }
-  e->id = base->next_id++;
-  e->timer = base->timeouts[0];
-  e->server = base->server;
-  e->status = 0;
-  base = (DnsResolverState *) fnar_8040B1C4(base, e);
-  if (base == ((void *) 0))
-  {
-    close_and_reset_connection(e);
+  q->id = g->next_id++;
+  q->timer = g->timeouts[0];
+  q->server = g->server;
+  q->status = 0;
+  if ((server = dns_next_server(g, q)) == NULL) {
+    close_and_reset_connection(q);
     return -0x44;
   }
-  e->socket = udp_open(0, 0, 0, 0x35, complete_pending_request, AT_DNS_UdpReceiver);
-  i = e->socket;
-  if (i < 0)
-  {
-    close_and_reset_connection(e);
-    return i;
+  r = dns_open_socket(q);
+  if (r < 0) {
+    close_and_reset_connection(q);
+    return r;
   }
-  if (t->host == ((void *) 0))
-  {
-    p = dns_alloc_host();
-    p->name_len = idx;
-    NetMemcpy(p->name, name, idx);
-    t->host = p;
+  if (req->host == NULL) {
+    host = dns_alloc_host();
+    host->name_len = len;
+    NetMemcpy(host->name, name, len);
+    req->host = host;
   }
-  switch (t->family)
-  {
+  switch (req->family) {
     case 0:
-    {
-      send_buffs buf;
-      build_dns_query_aaaa(e, name, idx);
-      buf.len = e->msg->len;
-      buf.buff = e->msg->data;
-      i = udp_send(e->socket, (void *) 0, base, 0, (void *) 0, 1, &buf);
-      if (i < 0)
-      {
-        e->timer = 1;
-        e->status = e->status + 1;
-      }
-      else
-      {
-        e->timer = 2;
-        e->outstanding = 1;
+      build_dns_query_aaaa(q, name, len);
+      if (dns_send_query(q, server) < 0) {
+        q->timer = 1;
+        q->status++;
+      } else {
+        q->timer = 2;
+        q->outstanding = 1;
       }
       break;
-    }
-
     case 4:
-    {
-      send_buffs buf;
-      build_dns_query_a(e, name, idx);
-      buf.len = e->msg->len;
-      buf.buff = e->msg->data;
-      i = udp_send(e->socket, (void *) 0, base, 0, (void *) 0, 1, &buf);
-      if (i < 0)
-      {
-        e->timer = 1;
+      build_dns_query_a(q, name, len);
+      if (dns_send_query(q, server) < 0) {
+        q->timer = 1;
       }
-      e->status = e->status + 1;
+      q->status++;
       break;
-    }
-
     case 6:
-    {
-      send_buffs buf;
-      build_dns_query_aaaa(e, name, idx);
-      buf.len = e->msg->len;
-      buf.buff = e->msg->data;
-      i = udp_send(e->socket, (void *) 0, base, 0, (void *) 0, 1, &buf);
-      if (i < 0)
-      {
-        e->timer = 1;
+      build_dns_query_aaaa(q, name, len);
+      if (dns_send_query(q, server) < 0) {
+        q->timer = 1;
       }
-      e->status = e->status + 1;
+      q->status++;
       break;
-    }
-
   }
-
-  {
-    u32 pad[4];
-  }
-  return e->index;
+  return q->index;
 }
 #pragma pop
 
@@ -666,7 +627,7 @@ extern void TLobby__sub_8040B1C4(void *arg)
     s16 *dp;
 
     base = (DnsResolverState *)&dns_resolver_state;
-    if ((found = fnar_8040B1C4((DnsResolverState *)base, (DnsQuery *)e)) == NULL) {
+    if ((found = dns_next_server((DnsResolverState *)base, (DnsQuery *)e)) == NULL) {
         TLobby__sub_8040BE40(e, -0x44, 0);
         return;
     }
@@ -769,21 +730,6 @@ inline DnsQuery *find_8040B4BC(DnsResolverState *base, UdpDatagram *req) {
     }
     return NULL;
 }
-inline DnsBuffer *slot_8040B4BC(DnsResolverState *base) {
-    s16 i;
-    s16 count;
-    DnsBuffer *s;
-    i = 0;
-    s = base->buffers;
-    count = base->nbuffers;
-    for (; i < count; i++, s++) {
-        if (s->used == 0) {
-            s->used = 1;
-            return s;
-        }
-    }
-    return NULL;
-}
 
 s32 AT_DNS_UdpReceiver(s16 mode, UdpDatagram *req)
 {
@@ -814,7 +760,7 @@ s32 AT_DNS_UdpReceiver(s16 mode, UdpDatagram *req)
   switch (mode)
   {
     case 0:
-      s = slot_8040B4BC(base);
+      s = dns_alloc_buffer(base);
       e->reply = s;
       if (s == ((void *) 0))
     {

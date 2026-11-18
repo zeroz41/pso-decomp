@@ -29,9 +29,10 @@ u16 calc_pseudo_header_checksum(s32 src, s32 dst, s8 proto, void *pkt, s16 flag)
 #pragma inline_depth(4)
 
 s16 dispatch_by_addr_family(s32 rec, NetworkAddress *arg1, NetworkAddress *arg2, u8 *arg3, void *arg4, void *proto) {
+    s16 AT_IP4_Send(NetPacket *pkt, u32 dst, u32 src, u8 ttl, u8 tos, u8 df, void *proto); /* declared with a void * protocol here; the definition takes u8 */
     switch (arg2->family) {
     case 4:
-        return AT_IP4_Send((u8 *)rec, arg1->ipv4, arg2->ipv4, arg3[0], arg3[1], arg3[2], proto);
+        return AT_IP4_Send((NetPacket *)rec, arg1->ipv4, arg2->ipv4, arg3[0], arg3[1], arg3[2], proto);
     case 6:
         return TLobby__sub_80410A98(rec, arg1->address, arg2->address, arg4, proto);
     case 0:
@@ -65,7 +66,7 @@ s16 AT_IP_SetSrcFromDst(Out_8040D95C *out_8040_d95_c, In_8040D95C *in_8040_d95_c
         if (v != 0) {
             return 0;
         }
-        rt = (Ipv4Route *)AT_IP4_RouteSearch(in_8040_d95_c->f4, v);
+        rt = AT_IP4_RouteSearch(in_8040_d95_c->f4, v);
         if (rt == NULL) {
             return -6;
         }
@@ -181,7 +182,7 @@ s16 AT_IP_GetMssFromDstSrc(u8 *arg0, u8 *arg1) {
     }
     switch ((s32)family) {
     case 4:
-        rt4 = (Ipv4Route *)AT_IP4_RouteSearch(a->ipv4, b->ipv4);
+        rt4 = AT_IP4_RouteSearch(a->ipv4, b->ipv4);
         if (rt4 == NULL) {
             return -6;
         }

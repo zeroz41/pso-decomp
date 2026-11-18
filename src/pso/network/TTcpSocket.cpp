@@ -518,7 +518,7 @@ s8 func_801A5E54__Fv();
 int atoi(const char *);
 void func_803DCDFC__Fv();
 s16 TLobby__sub_8040A698(s16, void *, void *, int, void *, int);
-s16 dns_open_addr(char *, s32, int);
+s16 dns_open_addr(char *, s16, s32);
 }
 
 int TSocket::is_empty() {
