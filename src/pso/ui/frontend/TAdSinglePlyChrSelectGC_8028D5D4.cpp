@@ -112,8 +112,6 @@ void TLobby::free_chr_select_singleton() {
 extern "C" {
 s32 TChCrEffCtrlPl__sub_80298F6C(void);
 s32 create__14TChCrEffCtrlPlFv(s32);
-struct RecoveredGlobal_lbl_8051C070 { s32 value; u8 remaining[0x8]; };
-extern RecoveredGlobal_lbl_8051C070 lbl_8051C070;
 extern s32 tl_03;
 }
 

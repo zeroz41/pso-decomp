@@ -1327,6 +1327,16 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/unk/text_803626A8.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # -sdata 4: the 8-byte name tables sit in .data while 4-byte objects sit in .sdata.
     "pso/unk/text_8035B750.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-sdata 4")},
+    # -fp_contract on: fn_80293D84 fuses each hexagon vertex's scale and offset into fmadds; no other
+    # function of the unit has an unfused multiply-add. Readonly strings: its class name
+    # ("TChCrEffFade", 0x80464EC8) opens its .rodata ahead of its tables, as in TChCrCharSelect.
+    "pso/ui/charcreate/TChCrEffFade.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-fp_contract on")},
+    # Same as its nights sibling: the chao file names sit in .rodata (0x80479808) and the 8-byte
+    # model-name table in .data (0x804F1D00) while the 4-byte resource handle sits in .sbss.
+    "pso/unk/text_8035B6B0.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-sdata 4")},
+    # Readonly strings: the class name ("TAdPlyPltAnimCtrlGC", 0x804792C4) sits in .rodata after
+    # its threshold table while the unit's .data holds only run_task's switch jump table.
+    "pso/ui/frontend/TAdPlyPltAnimCtrlGC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/object/ambient/TObjCGrass.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-sdata 4")},
     "pso/object/TObjLiveMonitor.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # -str readonly: the class-name string their .sdata name pointer targets sits in .rodata

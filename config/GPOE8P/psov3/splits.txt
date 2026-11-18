@@ -7924,6 +7924,7 @@ pso/unk/TLobby_8028EA28.cpp:
 pso/ui/charcreate/TObjCMMainMenu_8028EA88.cpp:
 	.text       start:0x8028EA88 end:0x8028EC40
 	.rodata     start:0x80451290 end:0x804512A0
+	.bss        start:0x8051C070 end:0x8051C0E8
 
 pso/ui/charcreate/CreationMotion.cpp:
 	.text       start:0x8028EC40 end:0x8028EC70
@@ -8016,16 +8017,12 @@ pso/ui/charcreate/TChCrCharSelect_80293D10.cpp:
 pso/ui/charcreate/TChCrCharSelect_80293D58.cpp:
 	.text       start:0x80293D58 end:0x80293D84
 
-pso/unk/text_80293D84.cpp:
-	.text       start:0x80293D84 end:0x8029400C
-	.data       start:0x804DB900 end:0x804DB920
-	.sdata2     start:0x805DD9E0 end:0x805DD9F8
-
 pso/ui/charcreate/TChCrEffFade.cpp:
-	.text       start:0x8029400C end:0x8029427C
-	.rodata     start:0x80464F20 end:0x80464F28
-	.data       start:0x804DB920 end:0x804DB938
-	.sdata2     start:0x805DD9F8 end:0x805DD9FC
+	.text       start:0x80293D84 end:0x8029427C
+	.rodata     start:0x80464EC8 end:0x80464F28
+	.data       start:0x804DB900 end:0x804DB938
+	.sdata      start:0x805D3CC0 end:0x805D3CC8
+	.sdata2     start:0x805DD9E0 end:0x805DD9FC
 
 pso/ui/charcreate/TObjCMMainMenu_8029427C.cpp:
 	.text       start:0x8029427C end:0x80294324
@@ -10384,7 +10381,10 @@ pso/player/TObjPlayer_80354EC8.cpp:
 
 pso/ui/frontend/TAdPlyPltAnimCtrlGC.cpp:
 	.text       start:0x8035510C end:0x803554F0
+	.rodata     start:0x804792B0 end:0x804792D8
 	.data       start:0x804F12E8 end:0x804F1308
+	.sdata      start:0x805D4390 end:0x805D4398
+	.sbss       start:0x805D6F08 end:0x805D6F10
 
 pso/boss/galgryphon/TBoss5GryphonTornado.cpp:
 	.text       start:0x803554F0 end:0x80355970
@@ -10536,6 +10536,9 @@ pso/player/TPlyPhotonChair.cpp:
 
 pso/unk/text_8035B6B0.cpp:
 	.text       start:0x8035B6B0 end:0x8035B750
+	.rodata     start:0x80479808 end:0x80479870
+	.data       start:0x804F1D00 end:0x804F1D48
+	.sbss       start:0x805D6F48 end:0x805D6F50
 	.sdata2     start:0x805E0138 end:0x805E0140
 
 pso/unk/text_8035B750.cpp:

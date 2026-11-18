@@ -18,6 +18,7 @@
 #include "pso/system/BmlResourceLoader.h"
 #include "pso/unk/TLobby.h"
 #include "pso/system/task/TObject.h"
+#include "pso/ui/charcreate/CharacterAppearance.h"
 
 #pragma readonly_strings on
 
@@ -27,7 +28,9 @@ struct CreationMenuEntry {
     void (TObjCMMainMenu::*select)(void *);
 };
 
-extern char character_creation_name_buffer[0x18];
+RecoveredGlobal_lbl_8051C070 lbl_8051C070;
+char character_creation_name_buffer[0x18];
+CharacterAppearanceFields character_creation_visual_record;
 extern CreationMenuEntry TObjCMMainMenu__data_804DB9C8[10];
 extern "C" {
 u8 *TCameraCtrl__ct(u8 *arg0, void *parent);
