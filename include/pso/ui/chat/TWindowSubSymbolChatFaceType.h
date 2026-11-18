@@ -32,7 +32,4 @@ struct TWindowSubSymbolChatFaceType : public TWindowBase {
 
 typedef char TWindowSubSymbolChatFaceType_size[sizeof(TWindowSubSymbolChatFaceType) == 0x6C ? 1 : -1];
 
-extern "C" {
-}
-
 #endif

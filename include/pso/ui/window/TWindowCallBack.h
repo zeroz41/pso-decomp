@@ -16,8 +16,6 @@ struct TWindowCallBack : public TWindowBase {
 };
 
 typedef char TWindowCallBack_size[sizeof(TWindowCallBack) == 0x64 ? 1 : -1];
-extern "C" {
-}
 void build_6xA3_olga_flow_boss_actions(void *p);
 extern "C" {
 void fn_802ACD40(void *p);

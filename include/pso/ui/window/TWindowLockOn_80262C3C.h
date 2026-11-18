@@ -4,7 +4,5 @@
 #include "types.h"
 
 struct TWindowLockOn;
-extern "C" {
-}
 
 #endif

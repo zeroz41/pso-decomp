@@ -16,12 +16,4 @@ struct TWindowBreakIn : public TWindowBase {
 
 typedef char TWindowBreakIn_size[sizeof(TWindowBreakIn) == 0x60 ? 1 : -1];
 
-extern "C" {
-}
-
-// --- C functions defined in TWindowBreakIn.cpp ---
-extern "C" {
-}
-// --- end of C functions
-
 #endif

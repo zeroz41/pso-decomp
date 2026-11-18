@@ -25,7 +25,4 @@ struct TWindowSubSymbolChatHelp : public TWindowBase {
 
 typedef char TWindowSubSymbolChatHelp_size[sizeof(TWindowSubSymbolChatHelp) == 0x74 ? 1 : -1];
 
-extern "C" {
-}
-
 #endif
