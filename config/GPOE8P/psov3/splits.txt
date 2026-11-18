@@ -6213,7 +6213,7 @@ pso/ui/city/TShopEquipmentGearSequence.cpp:
 pso/ui/city/TShopEquipmentListWindow.cpp:
 	.text       start:0x8021B974 end:0x8021C870
 	.rodata     start:0x8044C078 end:0x8044C098
-	.data       start:0x804C9EC0 end:0x804C9EF0
+	.data       start:0x804C9E90 end:0x804C9EF0
 	.sdata      start:0x805D36A8 end:0x805D36B0
 	.sdata2     start:0x805DC6D0 end:0x805DC6D4
 
