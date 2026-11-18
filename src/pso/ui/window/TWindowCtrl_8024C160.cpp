@@ -52,7 +52,7 @@ struct TWindowCtrl_8024C308 {
 
 extern "C" {
 extern void *TWindowCtrl__active_window;
-void *TWindowBreakIn__ct(void *);
+void *__ct__14TWindowBreakInFv(void *);
 void *__ct__11TWindowChatFP7TObjectPv(void *, s32, void *);
 void *__ct__17TWindowCtrlPlayerFP7TObjectl(void *, void *, s32);
 extern const char *TWindowCtrl__name;
@@ -148,7 +148,7 @@ TWindowCtrl::TWindowCtrl(TObject *parent) : TObject(parent) {
     }
     p = TObject::operator new(0x60);
     if (p != NULL) {
-        p = TWindowBreakIn__ct(p);
+        p = __ct__14TWindowBreakInFv(p);
     }
     self->f2C = p;
     if (is_split_screen() == 0) {
