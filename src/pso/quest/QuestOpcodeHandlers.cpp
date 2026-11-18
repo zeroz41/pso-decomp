@@ -1056,23 +1056,6 @@ struct Obj_801F09EC {
     u32 f30;
 };
 
-struct Npc_801F1450 {
-    s16 h0;
-    s16 h2;
-    s32 flags;
-    f32 f8;
-    f32 fC;
-    f32 f10;
-    f32 f14;
-    f32 f18;
-    f32 f1C;
-    u8 b20;
-    u8 b21;
-    u8 b22;
-    u8 b23;
-    f32 f24;
-};
-
 void * memcpy(void *, const void *, u32);
 s32 memset(void *, int, int);
 void TKeyBoardControl__sub_8000F950(void);
@@ -5216,53 +5199,67 @@ void qst_op_npc_crtpk(void) {
     TLobby::clear_quest_vm_flag();
 }
 
+enum qst_npc_technique {
+    QST_NPC_TECHNIQUE_NONE                       = 0x00,
+    QST_NPC_TECHNIQUE_FOIE_GIFOIE                = 0x01,
+    QST_NPC_TECHNIQUE_BARTA_GIBARTA              = 0x02,
+    QST_NPC_TECHNIQUE_NONE_NO_BACKOFF            = 0x03,
+    QST_NPC_TECHNIQUE_NONE_NO_BACKOFF_ALT        = 0x0A,
+    QST_NPC_TECHNIQUE_FOIE_GIFOIE_NO_BACKOFF     = 0x0B,
+    QST_NPC_TECHNIQUE_BARTA_GIBARTA_NO_BACKOFF   = 0x0C,
+    QST_NPC_TECHNIQUE_ZONDE_RAZONDE_NO_BACKOFF   = 0x0D,
+};
+
 void qst_op_npc_param() {
-    Npc_801F1450 s;
+    TNpcPlayer::AiParams s;
     u8 i;
-    s32 flags;
+    TechniqueFlags flags;
     s32 arg;
 
     i = qst_args[0];
     arg = qst_args[1];
-    s.h0 = qst_registers[i++];
-    s.h2 = qst_registers[i++];
+    s.npc_id = qst_registers[i++];
+    s.base_level = qst_registers[i++];
+
     switch (qst_registers[i++]) {
-    case 0:
-        flags = 0x40;
-        break;
-    case 1:
-        flags = 4;
-        break;
-    case 2:
-        flags = 8;
-        break;
-    case 3:
-    case 10:
-        flags = 0xC0;
-        break;
-    case 11:
-        flags = 0x84;
-        break;
-    case 12:
-        flags = 0x88;
-        break;
-    case 13:
-        flags = 0x90;
-        break;
+        case QST_NPC_TECHNIQUE_NONE:
+            flags = TECHNIQUE_FLAGS_NONE;
+            break;
+        case QST_NPC_TECHNIQUE_FOIE_GIFOIE:
+            flags = TECHNIQUE_FLAGS_FOIE_GIFOIE;
+            break;
+        case QST_NPC_TECHNIQUE_BARTA_GIBARTA:
+            flags = TECHNIQUE_FLAGS_BARTA_GIBARTA;
+            break;
+        case QST_NPC_TECHNIQUE_NONE_NO_BACKOFF:
+        case QST_NPC_TECHNIQUE_NONE_NO_BACKOFF_ALT:
+            flags = TECHNIQUE_FLAGS_NONE_NO_BACKOFF;
+            break;
+        case QST_NPC_TECHNIQUE_FOIE_GIFOIE_NO_BACKOFF:
+            flags = TECHNIQUE_FLAGS_FOIE_GIFOIE_NO_BACKOFF;
+            break;
+        case QST_NPC_TECHNIQUE_BARTA_GIBARTA_NO_BACKOFF:
+            flags = TECHNIQUE_FLAGS_BARTA_GIBARTA_NO_BACKOFF;
+            break;
+        case QST_NPC_TECHNIQUE_ZONDE_RAZONDE_NO_BACKOFF:
+            flags = TECHNIQUE_FLAGS_ZONDE_RAZONDE_NO_BACKOFF;
+            break;
     }
-    s.flags = flags;
-    s.f8 = qst_registers[i++];
-    s.fC = qst_registers[i++];
-    s.f10 = qst_registers[i++];
-    s.f14 = qst_registers[i++];
-    s.f18 = qst_registers[i++];
-    s.f1C = qst_registers[i++];
-    s.b20 = qst_registers[i++];
-    s.b21 = qst_registers[i++];
-    s.b22 = qst_registers[i++];
-    s.b23 = qst_registers[i++];
-    s.f24 = qst_registers[i];
-    ((TNpcPlayer *)(&s))->copy_entry_by_index(arg);
+
+    s.technique_flags = flags;
+    s.enemy_lock_on_range = qst_registers[i++];
+    s.unknown_0C = qst_registers[i++];
+    s.max_distance_from_player = qst_registers[i++];
+    s.enemy_unlock_range = qst_registers[i++];
+    s.block_range = qst_registers[i++];
+    s.attack_range = qst_registers[i++];
+    s.attack_technique_level = qst_registers[i++];
+    s.support_technique_level = qst_registers[i++];
+    s.attack_probability = qst_registers[i++];
+    s.attack_technique_probability = qst_registers[i++];
+    s.unknown_24 = qst_registers[i];
+
+    s.copy_entry_by_index(arg);
 }
 
 void qst_op_npc_crt(void) {
