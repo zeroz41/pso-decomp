@@ -16,6 +16,7 @@
 #include "pso/ui/frontend/TAdEndText.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 #include "pso/system/task/TObject.h"
+#include "pso/unk/text_80320358.h"
 
 struct MovieState;
 
@@ -130,15 +131,16 @@ struct MovieFrameInfo {
     s32 field_0c;
     u8 trailing_storage[0x30];
 };
-struct Iface_80143FB0;
-struct IfaceVt_80143FB0 {
+// CRI Sofdec player handle (mwPlyCreateSofdec result); MwsfdCrePrm is its create-parameter block.
+struct MwsfdPly;
+struct MwsfdPlyVtbl {
     u8 pad0[0x18];
-    void (*f18)(struct Iface_80143FB0 *, void *);
+    void (*f18)(struct MwsfdPly *, void *);
     u8 pad1C[0x2C - 0x1C];
-    void (*f2C)(struct Iface_80143FB0 *, s32);
+    void (*f2C)(struct MwsfdPly *, s32);
 };
-struct Iface_80143FB0 { IfaceVt_80143FB0 *vt; };
-struct Info_80143FB0 {
+struct MwsfdPly { MwsfdPlyVtbl *vt; };
+struct MwsfdCrePrm {
     s32 mode;
     s32 rate;
     s32 width;
@@ -150,9 +152,9 @@ struct Info_80143FB0 {
 };
 struct Movie_80143FB0 {
     u8 pad0[4];
-    Iface_80143FB0 *iface;
+    MwsfdPly *iface;
     u8 pad8[0x28 - 0x8];
-    Info_80143FB0 info;
+    MwsfdCrePrm info;
     s32 f48;
     u8 pad4C[0x9C - 0x4C];
     s32 f9C;
@@ -160,19 +162,10 @@ struct Movie_80143FB0 {
     u8 fA4[4];
 };
 
-extern s32 (*TMovie__decode_frame_callback)(void **, u32 *);
-extern s32 (*lbl_805D6B3C)(void **);
-
-extern s32 (*movie_sfd_info_size_fn)(Info_80143FB0 *);
-extern Iface_80143FB0 *(*lbl_805D6B34)(Info_80143FB0 *);
-extern void (*lbl_805D6B9C)(Iface_80143FB0 *, const char *);
-extern void (*lbl_805D6BA0)(Iface_80143FB0 *);
-extern void (*lbl_805D6BA4)(Iface_80143FB0 *);
-
 void TMovie::init_sfd_player(s32 arg1, s32 arg2) {
     Movie_80143FB0 *o = (Movie_80143FB0 *)this;
-    Info_80143FB0 *info = &o->info;
-    Iface_80143FB0 *f;
+    MwsfdCrePrm *info = &o->info;
+    MwsfdPly *f;
 
     o->fA0 = o->f9C;
     o->f48 = 0x11;
@@ -185,27 +178,27 @@ void TMovie::init_sfd_player(s32 arg1, s32 arg2) {
     info->width = 0x280;
     info->height = 0x1E0;
     info->f10 = 3;
-    info->size = movie_sfd_info_size_fn(info);
+    info->size = mwPlyCalcWorkCprmSfd_hook(info);
     if (info->size > 0x420000) {
         return;
     }
     info->f18 = o->fA0;
     info->f14 = 1;
-    f = lbl_805D6B34(info);
+    f = mwPlyCreateSofdec_hook(info);
     o->iface = f;
     if (arg1 != 0) {
         if (arg2 != 0) {
-            lbl_805D6B9C(f, "ending_normal.sfd");
+            mwPlyEntryFname_hook(f, "ending_normal.sfd");
         } else {
-            lbl_805D6B9C(f, "ult01.sfd");
-            lbl_805D6B9C(f, "ult02.sfd");
-            lbl_805D6B9C(f, "ult03.sfd");
-            lbl_805D6B9C(f, "ult03.sfd");
-            lbl_805D6B9C(f, "ult03.sfd");
-            lbl_805D6B9C(f, "ult04.sfd");
+            mwPlyEntryFname_hook(f, "ult01.sfd");
+            mwPlyEntryFname_hook(f, "ult02.sfd");
+            mwPlyEntryFname_hook(f, "ult03.sfd");
+            mwPlyEntryFname_hook(f, "ult03.sfd");
+            mwPlyEntryFname_hook(f, "ult03.sfd");
+            mwPlyEntryFname_hook(f, "ult04.sfd");
         }
-        lbl_805D6BA0(f);
-        lbl_805D6BA4(f);
+        mwPlyStartSeamless_hook(f);
+        mwPlyReleaseSeamless_hook(f);
     } else {
         f->vt->f18(f, o->fA4);
     }
@@ -226,7 +219,7 @@ s32 TMovie::decode_frame() {
     if ((s32) *(s32 *)((s8 *)arg0 + 0xCC) != 0) {
         TMovie::flush_and_reset();
     }
-    TMovie__decode_frame_callback(*(void ** *)&this->m_flags, &frame.field_00);
+    mwPlyGetCurFrm_hook(*(void ** *)&this->m_flags, &frame.field_00);
     if (frame.field_00 != 0U) {
         if ((s32) *(s32 *)((s8 *)arg0 + 0xCC) != 0) {
             TMovie__sub_80143C94((frame.field_00), (frame.field_08), (frame.field_0c));
@@ -234,7 +227,7 @@ s32 TMovie::decode_frame() {
             flush_framebuffer((s32)arg0, (s32)(*(void ** *)&this->m_flags), (s32)&frame.field_00);
         }
         ((TMovie *)(arg0 + 0x5C))->copy(&frame.field_00);
-        lbl_805D6B3C(*(void ** *)&this->m_flags);
+        mwPlyRelCurFrm_hook(*(void ** *)&this->m_flags);
     }
     temp_r3 = (void **)(*(void ** *)&this->m_flags);
     temp_r4 = (u8 *)(*temp_r3);
@@ -248,14 +241,12 @@ s32 TMovie::decode_frame() {
 
 void TMovie::copy(void* q) { *(u32 *)&this->m_name = *(u32*)((char*)q + 0x0); *(u32 *)&this->m_flags = *(u32*)((char*)q + 0x4); *(u32 *)&this->m_prev = *(u32*)((char*)q + 0x8); *(u32 *)&this->m_next = *(u32*)((char*)q + 0xc); *(u32 *)&this->m_up = *(u32*)((char*)q + 0x10); *(u32 *)&this->m_down = *(u32*)((char*)q + 0x14); *(u32*)((char*)this + 0x18) = *(u32*)((char*)q + 0x18); this->m_1c = *(u32*)((char*)q + 0x1c); this->m_20 = *(u32*)((char*)q + 0x20); *(u32 *)&this->m_24 = *(u32*)((char*)q + 0x24); *(u32 *)&this->unk_28 = *(u32*)((char*)q + 0x28); this->m_2c = *(u32*)((char*)q + 0x2c); *(u32 *)&this->unk_30 = *(u32*)((char*)q + 0x30); this->m_34 = *(u32*)((char*)q + 0x34); *(u32 *)&this->unk_38 = *(u32*)((char*)q + 0x38); this->m_3c = *(u32*)((char*)q + 0x3c); }
 
-extern s32 (*movie_free_buffer_callback)();
-
 void TMovie::free_buffer() {
     if ((u32) *(u32 *)((s8 *)this + 0x9C) != 0U) {
         xfree(*(void **)((s8 *)this + 0x9C));
         *(u32 *)((s8 *)this + 0x9C) = 0U;
     }
-    movie_free_buffer_callback();
+    mwPlyFinishSfdFx_hook();
     reset_and_release_capture_texture();
 }
 
@@ -279,8 +270,6 @@ struct MovieState {
     s32 m_cc;
 };
 
-extern void (*lbl_805D6B28)(MovieFrameRate *);
-
 void TMovie__sub_80144324(MovieState *movie, const s8 *name) {
     TObjPlayer::reset_movie_state();
     memset(&movie->m_04, 0, 0xC8);
@@ -293,7 +282,7 @@ void TMovie__sub_80144324(MovieState *movie, const s8 *name) {
     movie->frame_rate.m_04 = 1;
     movie->frame_rate.m_08 = 2;
     movie->frame_rate.m_0c = 0;
-    lbl_805D6B28(&movie->frame_rate);
+    mwPlyInitSfdFx_hook(&movie->frame_rate);
 }
 
 TMovie::~TMovie() {
