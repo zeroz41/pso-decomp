@@ -5,10 +5,10 @@
 #include "pso/object/base/TObjMotion.h"
 
 struct TObjCity_Season_HalloweenPumpkin : public TObjBase {
+    TObjCity_Season_HalloweenPumpkin(TObject *parent, void *set_data);
     virtual ~TObjCity_Season_HalloweenPumpkin();
     virtual void render();
     virtual void run_task();
-    void *dt(s16 arg1);
 };
 
 typedef char TObjCity_Season_HalloweenPumpkin_size[sizeof(TObjCity_Season_HalloweenPumpkin) == 0x90 ? 1 : -1];

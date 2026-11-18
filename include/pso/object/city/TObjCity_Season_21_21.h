@@ -4,14 +4,20 @@
 #include "types.h"
 #include "pso/object/TUnk_804B5E48.h"
 
+class TParticleCtrl;
+
 struct TObjCity_Season_21_21 : public TUnk_804B5E48 {
+    TObjCity_Season_21_21(TObject *parent, void *set_data);
     virtual ~TObjCity_Season_21_21();
     virtual void render();
     virtual void run_task();
 
-    u8 unk_B4[0x4];
-
-    s32 m_b8;
+    // UV offset: run_task steps it by 2 and wraps at 0xFF, render hands it to
+    // scroll_strip_uvs (name inferred, as TObjCity_Season_Board::uv_scroll).
+    s32 uv_scroll;
+    // Particle emitter created at the decoration (create_particle_emitter id
+    // 0x90) and queued for destruction by the destructor (name inferred).
+    TParticleCtrl *emitter;
 };
 
 typedef char TObjCity_Season_21_21_size[sizeof(TObjCity_Season_21_21) == 0xBC ? 1 : -1];
