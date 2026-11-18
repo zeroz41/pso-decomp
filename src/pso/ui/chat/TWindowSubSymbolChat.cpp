@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/ui/chat/TWindowChatSymbol.h"
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowSubComCard_802A5748.h"
@@ -417,17 +418,11 @@ void TWindowSubSymbolChat::run_task() {
         break;
     case 8:
         if ((u32) this->m_48 == 0U) {
-            var_r30 = ((u32)__nw__7TObjectFUl(0x6C));
-            if (var_r30 != 0U) {
-                var_r30 = (u32)__ct__28TWindowSubSymbolChatFaceTypeFll((TWindowSubSymbolChatFaceType *)((u8 *)var_r30), (s32)(((s32)get_window_layout_position(0x7D))), (s32)((s32)&TWindowSubSymbolChat__data_805D6494));
-            }
+            var_r30 = (u32)new TWindowSubSymbolChatFaceType((s32)(((s32)get_window_layout_position(0x7D))), (s32)((s32)&TWindowSubSymbolChat__data_805D6494));
             this->m_48 = var_r30;
         }
         if ((u32) this->m_54 == 0U) {
-            var_r0 = ((u32)__nw__7TObjectFUl(0x74));
-            if (var_r0 != 0U) {
-                var_r0 = (u32)__ct__24TWindowSubSymbolChatHelpFll((TWindowSubSymbolChatHelp *)((u8 *)var_r0), (s32)&TWindowSubSymbolChat__data_805D6494, (s32)&TWindowSubSymbolChat__help_window);
-            }
+            var_r0 = (u32)new TWindowSubSymbolChatHelp((s32)&TWindowSubSymbolChat__data_805D6494, (s32)&TWindowSubSymbolChat__help_window);
             this->m_54 = var_r0;
         }
         ((TWindowSubSymbolChat *)(this->m_54))->set_flag60_bit2();
@@ -486,10 +481,7 @@ void TWindowSubSymbolChat::run_task() {
         }
         ((TWindowSubSymbolChat *)(this->m_4c))->select_index_and_scroll(this->m_1e);
         if ((u32) this->m_54 == 0U) {
-            var_r0_2 = ((u32)__nw__7TObjectFUl(0x74));
-            if (var_r0_2 != 0U) {
-                var_r0_2 = (u32)__ct__24TWindowSubSymbolChatHelpFll((TWindowSubSymbolChatHelp *)((u8 *)var_r0_2), (s32)&TWindowSubSymbolChat__data_805D6494, (s32)&TWindowSubSymbolChat__help_window);
-            }
+            var_r0_2 = (u32)new TWindowSubSymbolChatHelp((s32)&TWindowSubSymbolChat__data_805D6494, (s32)&TWindowSubSymbolChat__help_window);
             this->m_54 = var_r0_2;
         }
         if (refresh_parts__20TWindowSubSymbolChatFv() > 1) {
@@ -549,10 +541,7 @@ void TWindowSubSymbolChat::run_task() {
         }
         ((TWindowSubSymbolChat *)(this->m_4c))->select_index_and_scroll(this->m_1e);
         if ((u32) this->m_54 == 0U) {
-            var_r0_3 = ((u32)__nw__7TObjectFUl(0x74));
-            if (var_r0_3 != 0U) {
-                var_r0_3 = (u32)__ct__24TWindowSubSymbolChatHelpFll((TWindowSubSymbolChatHelp *)((u8 *)var_r0_3), (s32)&TWindowSubSymbolChat__data_805D6494, (s32)&TWindowSubSymbolChat__help_window);
-            }
+            var_r0_3 = (u32)new TWindowSubSymbolChatHelp((s32)&TWindowSubSymbolChat__data_805D6494, (s32)&TWindowSubSymbolChat__help_window);
             this->m_54 = var_r0_3;
         }
         ((TWindowSubSymbolChat *)(this->m_54))->set_flag60_bit2();
@@ -630,10 +619,7 @@ void TWindowSubSymbolChat::run_task() {
         }
         ((TWindowSubSymbolChat *)(this->m_4c))->select_index_and_scroll(this->m_1e);
         if ((u32) this->m_54 == 0U) {
-            var_r0_4 = ((u32)__nw__7TObjectFUl(0x74));
-            if (var_r0_4 != 0U) {
-                var_r0_4 = (u32)__ct__24TWindowSubSymbolChatHelpFll((TWindowSubSymbolChatHelp *)((u8 *)var_r0_4), (s32)&TWindowSubSymbolChat__data_805D6494, (s32)&TWindowSubSymbolChat__help_window);
-            }
+            var_r0_4 = (u32)new TWindowSubSymbolChatHelp((s32)&TWindowSubSymbolChat__data_805D6494, (s32)&TWindowSubSymbolChat__help_window);
             this->m_54 = var_r0_4;
         }
         ((TWindowSubSymbolChat *)(this->m_54))->clear_flag60_bit4();
@@ -811,10 +797,7 @@ void TWindowSubSymbolChat::render() {  }
 
 s32 TWindowSubSymbolChat::create_chat_symbol_window(s32 arg0, s32 arg1) {
     s32 window_chat_symbol;
-    window_chat_symbol = __nw__7TObjectFUl(0x68);
-    if (window_chat_symbol != 0) {
-        window_chat_symbol = (s32)__ct__17TWindowChatSymbolFll((TWindowChatSymbol *)((u8 *)window_chat_symbol), (((s32)get_window_layout_position(arg1 + 0x7B))), (s32)lbl_8044FB20);
-    }
+    window_chat_symbol = (s32)new TWindowChatSymbol((((s32)get_window_layout_position(arg1 + 0x7B))), (s32)lbl_8044FB20);
     return window_chat_symbol;
 }
 
