@@ -7,7 +7,6 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 
 extern "C" {
-int get_field_38_ptr__16TEneParticleCtrlFv(void*);
     extern unsigned char lbl_804EF440[];
 void *reset_entry__20TWindowSubStatusDispFPv(void *a0, s32 _w1);
 s32 deleting_destructor__20TWindowSubStatusDispFs(void *, s32);
@@ -154,7 +153,5 @@ void *TWindowSubStatusDisp::destroy_with_free(s16 arg1) {
 void*TWindowSubStatusDisp::init_state(int a1, int a2) { reset_entry__20TWindowSubStatusDispFPv(this, a2); *(int*)((char*)this + 0x4) = (int)lbl_804EF440; *(float*)((char*)this + 0x14) = 18.0f; *(unsigned char *)&this->unk_1C = 51; *(signed char *)&this->m_1d = -1; *(signed char *)&this->unk_1E = -1; this->m_1f = -1; *(signed char*)((char*)this + 0x20) = -1; *(signed char*)((char*)this + 0x21) = -1; *(int*)((char*)this + 0x24) = 0; *(int*)((char*)this + 0x18) = 0; return this; }
 
 int TWindowSubStatusDisp__sub_80338B88(void* p) { return (*(u16*)((char*)p + 0x0) >> 2) & 0x1; }
-
-int TEneParticleCtrl__vt7(void* p) { return get_field_38_ptr__16TEneParticleCtrlFv(p); }
 
 }

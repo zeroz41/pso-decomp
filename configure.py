@@ -1211,9 +1211,14 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # last-to-first source. Inlining stays on: copy_block's struct assignment and the two motion-track constant
     # references are inlined, and the constants come out at their first user inside the literal pool.
     "pso/boss/olgaflow/TBoss6Type2.cpp": {"cflags": _switch(cflags_pso, "-inline deferred", "-fp_contract on")},
+    # send_subordinate_actions loads its two flag bytes from .sdata2 ahead of its float literals: constant references
+    # inlined at the use (the TBoss6Type2.cpp form), so this unit is built with inlining on.
+    "pso/boss/olgaflow/TBoss6Type2_80356E50.cpp": {"cflags": _switch(cflags_pso, "-inline on")},
     "pso/boss/olgaflow/TBoss6Type2_802BE588.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-inline off,deferred", "-str reuse,readonly")},
     "pso/boss/olgaflow/TBoss6CrushRock.cpp": {"cflags": _switch(cflags_pso, "-fp_contract on", "-inline off,deferred", "-str reuse,readonly")},
-    "pso/boss/olgaflow/TBoss6SwordShot.cpp": {"cflags": _switch(cflags_pso, "-fp_contract on")},
+    # break_rocks_in_wave loads the bitmap length from .sdata2 ahead of run_task's float literals: a constant reference
+    # inlined at the use (the TBoss6Type2.cpp form), so this unit is built with inlining on.
+    "pso/boss/olgaflow/TBoss6SwordShot.cpp": {"cflags": _switch(cflags_pso, "-fp_contract on", "-inline on")},
     "pso/boss/olgaflow/TBoss6GravBall.cpp": {"cflags": _switch(cflags_pso, "-fp_contract on")},
     # -inline deferred: the TU inlines its inline helpers one level deep (no auto-inlining) and emits its functions in
     # reverse source order; -fp_contract on: its float math fuses into fmadds/fnmsubs throughout.

@@ -96,7 +96,6 @@ void copy_position__20TBoss3VoloptHiraisinFv(s32 arg0);
 s32 create__13TUnk_80494968FUlUl(u32, u32);
 void __ct__9TObjEnemyFP7TObject(void *, void *, void *);
 void init_collision_body_parts(void *, void *, s32);
-u8 *TEneParticleCtrl__ct(u8 *arg0, s32 arg1, s32 arg2);
 u8 *TObjEneSaver__ct(TObjEneSaver *arg0, void *arg1, void *arg2);
 void step_angle_clamped__10TObjPlayerFPvi(void*, s32);
 void turn_toward_target__12TObjEneSaverFv(Obj_800A6B14*);
@@ -2079,10 +2078,7 @@ u8 *TObjEneSaver__ct(TObjEneSaver *arg0, void *arg1, void *arg2) {
     arg0->actorFlags |= 0x06040000;
     arg0->m_380 = 0x101;
     arg0->m_384 = 0x101;
-    p = TObject::operator new(0xC4);
-    if (p != NULL) {
-        p = TEneParticleCtrl__ct((u8 *)p, (s32)arg0, arg0->m_380);
-    }
+    p = new TEneParticleCtrl(arg0, arg0->m_380);
     *(void **)((s8 *)arg0 + 0x3A0) = p;
     *(s32 *)((s8 *)arg0 + 0x3C0) = create__13TUnk_80494968FUlUl(0xA0303030, 0xFFFF0088);
     *(s32 *)((s8 *)arg0 + 0x3C4) = create__13TUnk_80494968FUlUl(0xA0303030, 0xFFFF0088);

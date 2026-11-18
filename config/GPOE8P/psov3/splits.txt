@@ -9991,19 +9991,20 @@ pso/unk/TLobby_803382E4.cpp:
 	.sdata2     start:0x805DF9A0 end:0x805DF9C0
 
 pso/ui/window/TWindowSubStatusDisp_80338740.cpp:
-	.text       start:0x80338740 end:0x80338BB4
+	.text       start:0x80338740 end:0x80338B94
 	.sbss       start:0x805D6D68 end:0x805D6D70
 	.sdata2     start:0x805DF9C0 end:0x805DF9E4
 
 pso/effect/enemy/TEneParticleCtrl.cpp:
-	.text       start:0x80338BB4 end:0x80338D58
+	.text       start:0x80338B94 end:0x80338D58
 	.rodata     start:0x80477BE8 end:0x80477C00
-	.data       start:0x804EF458 end:0x804EF484
+	.data       start:0x804EF458 end:0x804EF4C0
 	.sdata      start:0x805D4258 end:0x805D4260
 
 pso/unk/TLobby_80338E9C.cpp:
 	.text       start:0x80338D58 end:0x80338F9C
 	.rodata     start:0x80477C00 end:0x80477C20
+	.data       start:0x804EF4C0 end:0x804EF4E0
 	.sdata      start:0x805D4260 end:0x805D4268
 
 pso/ui/frontend/TAdEnterPPPPassGC.cpp:
@@ -10484,7 +10485,7 @@ pso/boss/olgaflow/TBoss6SwordShot.cpp:
 	.rodata     start:0x80479378 end:0x804793B8
 	.data       start:0x804F1458 end:0x804F1488
 	.sdata      start:0x805D43A8 end:0x805D43B0
-	.sdata2     start:0x805DFFE8 end:0x805E000C
+	.sdata2     start:0x805DFFE8 end:0x805E0018
 
 pso/unk/text_80356E30.cpp:
 	.text       start:0x80356E30 end:0x80356E50
@@ -10492,6 +10493,7 @@ pso/unk/text_80356E30.cpp:
 pso/boss/olgaflow/TBoss6Type2_80356E50.cpp:
 	.text       start:0x80356E50 end:0x80357058
 	.rodata     start:0x804793B8 end:0x804793C0
+	.sdata2     start:0x805E0018 end:0x805E0028
 
 pso/unk/text_80357058.cpp:
 	.text       start:0x80357058 end:0x80357734
