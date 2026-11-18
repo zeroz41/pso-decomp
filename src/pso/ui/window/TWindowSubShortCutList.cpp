@@ -18,7 +18,6 @@ const char *TWindowSubShortCutList__class_name = "TWindowSubShortCutList";
 static const f32 lbl_8044FAA8[2] = {405.0f, 188.0f};
 
 extern "C" {
-void *__dt__19TWindowMenuIconLineFv(void *, s16);
 void TShopJudgmentItemWindow__sub_80267F9C(void *, int);
 void fn_802683F4(void *, void *, s32, s16);
 void *init__21TWindowSubComCardListFiii(void *, s8, s32, s32);
@@ -30,7 +29,6 @@ char *fn_80076BC4(s32 *);
 int get_chat_shortcut(s32 arg0);
 s32 get_symbol_chat_data__20TWindowSubSymbolChatFv();
 s32 save_cursor_selection__20TShopArmorListWindowFv();
-void *__dt__22TWindowSubShortCutListFv(void *arg0, s16 arg1);
 void render__22TWindowSubShortCutListFv(u8 *arg0);
 s32 handle_list_page_flip_input(s32);
 s32 get_draw_context__11TWindowBaseFPv();
@@ -110,16 +108,8 @@ void TWindowSubShortCutList::run_task() {
     }
 }
 
-void *__dt__22TWindowSubShortCutListFv(void *window_sub_status_disp, s16 arg1) {
-    if (window_sub_status_disp != NULL) {
-        *(s32 **)((s8 *)window_sub_status_disp + 0x18) = __vt__22TWindowSubShortCutList;
-        delete_if_allocated((s32)(*(void **)((s8 *)window_sub_status_disp + 0x88)), 1);
-        __dt__19TWindowMenuIconLineFv(window_sub_status_disp, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(window_sub_status_disp);
-        }
-    }
-    return window_sub_status_disp;
+TWindowSubShortCutList::~TWindowSubShortCutList() {
+    delete_if_allocated((s32)m_88, 1);
 }
 void *TWindowSubShortCutList__ct(void *window_sub_short_cut_list, void *arg1, void *arg2) {
     s32 row;
