@@ -17,6 +17,7 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/MatrixStack.h"
+#include "pso/system/task/TMainTask.h"
 
 struct Stack_801D8664 {
     s8 sp8;
@@ -25,16 +26,11 @@ struct Stack_801D8664 {
     u8 rest[0x11];
 };
 
-struct Player_801D88C8;
-struct Src_801D88C8;
-struct Rec_801D86F8 { s32 a[0x50 / 4]; s32 b[0x38 / 4]; s32 c[0x40 / 4]; };
 
 extern "C" {
 void copy_data__6TLobbyFPvPv(void *arg0, void *arg1);
 s32 copy_player_visual_record(void *, void *);
 s32 fn_801D40D4(void *, void *, void *);
-Player_801D88C8 *create_ending_sequence_player(Player_801D88C8 *self, void *parent, Src_801D88C8 *src);
-extern s32 tl_03;
 struct VObj_84Base_801d859c_801D84CC { char pad[0x18]; };
 struct VObj_84_801d859c_801D84CC : VObj_84Base_801d859c_801D84CC {
     virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3();
@@ -101,46 +97,41 @@ int TUnk_804C4540::set_position_from(void *pos) { return TObjBase::set_position_
 void TUnk_804C4540::set_animation_default(s16 index) { set_animation(index); }
 
 TUnk_804C4540 *TUnk_804C4540::create(TPlyCharData *data) {
-    Rec_801D86F8 sp8;
-    TUnk_804C4540 *player;
+    TUnk_801D8A4C sp8;
     ((TObjPlayer *)(&sp8))->init_inventory();
-    copy_player_visual_record(&sp8, &data->m_disp_data.m_disp_part2);
-    copy_data__6TLobbyFPvPv(sp8.c, &data->m_disp_data);
-    fn_801D40D4((void *)data->m_inventory.m_num_items, (void *)((TObjPlayer *)data)->get_ptr_4(), sp8.b);
-    player = (TUnk_804C4540 *)TObject::operator new(0xDB8);
-    if (player != NULL) {
-        player = (TUnk_804C4540 *)create_ending_sequence_player((Player_801D88C8 *)player, (void *)tl_03, (Src_801D88C8 *)&sp8);
-    }
-    return player;
+    copy_player_visual_record(sp8.visual, &data->m_disp_data.m_disp_part2);
+    copy_data__6TLobbyFPvPv(sp8.stats, &data->m_disp_data);
+    fn_801D40D4((void *)data->m_inventory.m_num_items, (void *)((TObjPlayer *)data)->get_ptr_4(), sp8.items);
+    return new TUnk_804C4540(tl_03, &sp8);
 }
 
-void TObjPlayer__sub_801D877C(u8 *arg0) {
-    if ((((TObjCollidable *)arg0)->obj_testFlags30(0x02000000) == 0) && ((s32) ((TUnk_804C4540 *)arg0)->m_cfc == 0)) {
-        select_actor_lighting((s32)arg0);
+void TUnk_804C4540::render() {
+    if ((obj_testFlags30(0x02000000) == 0) && ((s32)m_cfc == 0)) {
+        select_actor_lighting((s32)this);
         push_matrix();
-        translate_matrix_vec3(0, (arg0 + 0x38));
-        rotate_matrix_y(0, (int) (((TUnk_804C4540 *)arg0)->rotation_y));
-        save_render_material_state((arg0 + 0x608));
-        ((TObjPlayer *)arg0)->apply_material_color_override();
-        TObjFish::set_global_param((s32)(arg0 + 0xCF4));
+        translate_matrix_vec3(0, (u8 *)&position);
+        rotate_matrix_y(0, rotation_y);
+        save_render_material_state((u8 *)&render_material_state);
+        apply_material_color_override();
+        TObjFish::set_global_param((s32)((u8 *)this + 0xCF4));
         set_motion_packed_rotation();
-        ((TObjPlayer *)arg0)->draw_saving_joints_checked();
+        draw_saving_joints_checked();
         clear_motion_packed_rotation();
-        ((TObjPlayer *)(arg0 + 0x608))->write_ids();
-        ((TObjPlayer *)arg0)->draw_head_attachments();
+        ((TObjPlayer *)&render_material_state)->write_ids();
+        draw_head_attachments();
         pop_matrix();
-        TObjPlayer__sub_801BAC48(arg0);
+        TObjPlayer__sub_801BAC48(this);
         restore_scene_lighting();
         return;
     }
     push_matrix();
-    translate_matrix_vec3(0, (arg0 + 0x38));
-    rotate_matrix_y(0, (int) (((TUnk_804C4540 *)arg0)->rotation_y));
-    ((TUnk_804C4540 *)arg0)->calc_joint_matrices(((TUnk_804C4540 *)arg0)->current_motion, ((TUnk_804C4540 *)arg0)->frame, *(s32 *)((s8 *)arg0 + 0xE0));
+    translate_matrix_vec3(0, (u8 *)&position);
+    rotate_matrix_y(0, rotation_y);
+    calc_joint_matrices(current_motion, frame, (s32)joint_matrices);
     pop_matrix();
 }
 
-void TObjPlayer__sub_801D8864(void) {  }
+void TUnk_804C4540::run_task() {}
 
 void TObjPlayer::free_shared_lobby_data() { TLobby::free_nodes_with_id(player_ending_motion_object); player_ending_motion_object = 0; TObjPlayer::free_shared_data(); }
 }
@@ -151,75 +142,35 @@ void TObjPlayer::free_shared_lobby_data() { TLobby::free_nodes_with_id(player_en
 #pragma auto_inline off
 #pragma dont_inline off
 
-typedef struct Src_801D88C8 {
-    u8 pad0[0x50];
-    u8 slot0[0x1C];
-    u8 slot1[0x40];
-    u8 sub[0x18];
-    f32 frame;
-} Src_801D88C8;
-
-typedef struct Player_801D88C8 {
-    u8 pad0[0x18];
-    void *vt;
-    u8 pad1c[0x38 - 0x1C];
-    u8 pos[12];
-    u8 pad44[0x60 - 0x44];
-    s32 ang;
-    u8 pad64[0xC0 - 0x64];
-    f32 frame;
-    u8 padc4[0xE0 - 0xC4];
-    u8 *model;
-    u8 pade4[0xF8 - 0xE4];
-    void *motion;
-} Player_801D88C8;
-
 extern "C" {
-void TObjPlayer__ct(void *, void *);
-extern s32 ending_sequence_player_vtable[];
 extern u8 *TObjPlayer__shared_model_buffer;
-void *__dt__13TUnk_804C4540Fv(void *arg0, s16 arg1);
 void TObjPlayer__sub_801BFF80(u8 *arg0);
-void __dl__7TObjectFPv(void *);
-void *__dt__10TObjPlayerFv(void *arg0, s16 arg1);
 void init__17TPlyInventoryItemFv(u8 *arg0);
 }
 void create_player_ending_motion(void);
 s32 create_named_object(s32 arg0);
 void create_player_ending_motion(void) { TObjPlayer::alloc_shared_buffers(); player_ending_motion_object = create_named_object((s32)"PlyEndingMotionData.rel"); }
 
-Player_801D88C8 *create_ending_sequence_player(Player_801D88C8 *self, void *parent, Src_801D88C8 *src) {
-    TObjPlayer__ct(self, parent);
-    self->vt = ((s32 *)&ending_sequence_player_vtable);
-    ((TObjPlayer *)self)->set_floor_index(1);
-    ((TObjPlayer *)self)->set_floor_index(1);
-    VecCopy((Vec *)self->pos, (const Vec *)(((TObjPlayer *)(src->sub))->get_sub_object()));
-    self->ang = ((TObjPlayer *)(src->sub))->get_lock_timer();
-    ((TObjPlayer *)self)->select_class_action_provider();
-    self->model = TObjPlayer__shared_model_buffer + get_entity_id(self) * 0xC00;
-    ((TObjPlayer *)self)->init_motion((TObjMotionAction *)((TObjPlayer *)self)->get_table_entry_by_clamped_index(), (BmlMotionEntry *)*(s32 *)player_ending_motion_object, 1);
-    self->frame = src->frame;
-    ((TObjPlayer *)self)->set_action_flag_40();
+TUnk_804C4540::TUnk_804C4540(TObject *parent, TUnk_801D8A4C *src) : TObjPlayer(parent, src) {
+    set_floor_index(1);
+    set_floor_index(1);
+    VecCopy(&position, (const Vec *)((TObjPlayer *)src->pose)->get_sub_object());
+    rotation_y = ((TObjPlayer *)src->pose)->get_lock_timer();
+    select_class_action_provider();
+    joint_matrices = TObjPlayer__shared_model_buffer + get_entity_id(this) * 0xC00;
+    init_motion((TObjMotionAction *)get_table_entry_by_clamped_index(), (BmlMotionEntry *)*(s32 *)player_ending_motion_object, 1);
+    frame = src->frame;
+    set_action_flag_40();
     push_matrix();
-    translate_matrix_vec3(0, self->pos);
-    rotate_matrix_y(0, self->ang);
-    ((TObjPlayer *)self)->calc_joint_matrices((NJS_MOTION *)(self->motion), (f32)0.0f, (s32)(self->model));
+    translate_matrix_vec3(0, (u8 *)&position);
+    rotate_matrix_y(0, rotation_y);
+    calc_joint_matrices(current_motion, 0.0f, (s32)joint_matrices);
     pop_matrix();
-    TObjPlayer::assign_lobby_slot_if_flagged((s32)self, src->slot0);
-    TObjPlayer::assign_lobby_slot_if_flagged((s32)self, src->slot1);
-    return self;
+    TObjPlayer::assign_lobby_slot_if_flagged((s32)this, &src->items[0]);
+    TObjPlayer::assign_lobby_slot_if_flagged((s32)this, &src->items[1]);
 }
 
-void *__dt__13TUnk_804C4540Fv(void *player, s16 arg1) {
-    if (player != NULL) {
-        *(s32 **)((s8 *)player + 0x18) = ending_sequence_player_vtable;
-        __dt__10TObjPlayerFv(player, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(player);
-        }
-    }
-    return player;
-}
+TUnk_804C4540::~TUnk_804C4540() {}
 
 void TObjPlayer__sub_801D8A38(void* a0) { *(short*)((char*)a0 + 0x0) = 1; *(float*)((char*)a0 + 0x4) = 0.0f; }
 

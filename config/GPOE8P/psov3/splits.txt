@@ -5452,6 +5452,7 @@ pso/player/TObjPlayer_801D84A8.cpp:
 pso/player/TObjPlayer_801D84CC.cpp:
 	.text       start:0x801D859C end:0x801D8ADC
 	.rodata     start:0x80447190 end:0x804471A8
+	.data       start:0x804C4540 end:0x804C4680
 	.sbss       start:0x805D5E08 end:0x805D5E10
 	.sdata2     start:0x805DC3F8 end:0x805DC400
 

@@ -14,6 +14,7 @@ struct player_stats;
 
 struct TItem;
 struct TechniqueContactList;
+struct TUnk_801D8A4C;
 
 // The frames a player stays protected from hits (after getting up, being
 // hurt, or a mag's invincibility).
@@ -26,6 +27,7 @@ struct ProtectionTimer {
 
 struct TObjPlayer : public TObjChara {
     TObjPlayer(TObject *arg1, void *arg2);
+    TObjPlayer(TObject *parent, TUnk_801D8A4C *src);
     // The key function: __vt__10TObjPlayer is emitted with the TU at 0x801AF290
     // (TObjPlayer_801AF2F0.cpp), which defines this; the destructor is in a later fragment.
     virtual void reset_motion_fields();
