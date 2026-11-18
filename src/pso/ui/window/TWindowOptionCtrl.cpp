@@ -1,3 +1,5 @@
+#pragma defer_codegen on
+
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/window/TWindowOptionCtrl.h"
@@ -29,7 +31,6 @@
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowMessageYesNo.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
-#include "pso/ui/window/TWindowOptionCtrl_8026C40C.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/ui/window/TWindowOptionCtrl_8026C52C.h"
 #include "pso/math/TMath.h"
@@ -43,80 +44,8 @@ const vec2f lbl_8044F494 = {470.0f, 80.0f};
 const vec2f lbl_8044F49C = {470.0f, 80.0f};
 const vec2f lbl_8044F4A4 = {470.0f, 80.0f};
 
-void TWindowOptionCtrl::set_field_value(s32 arg0, s16 arg1) {
-    *(s16 *)((s8 *)(TAdSinglePlyChrSelectGC::get_global_state()) + 0xC) = arg1;
-}
-
-s16 TWindowOptionCtrl::get_option_field_C() {
-    return *(s16 *)((s8 *)(TAdSinglePlyChrSelectGC::get_global_state()) + 0xC);
-}
-
 extern "C" {
-
 void *create_menu__17TWindowOptionCtrlFv(void *);
-
-void TWindowOptionCtrl::set_params(void *arg0, s16 arg1, s8 arg2) {
-    void *global_state;
-
-    global_state = TAdSinglePlyChrSelectGC::get_global_state();
-    if (global_state != NULL) {
-        *(s16 *)((s8 *)global_state + 4) = arg1;
-        *(s8 *)((s8 *)global_state + 6) = arg2;
-    }
-}
-
-void TWindowOptionCtrl::apply_selection_change() {
-    if ((s16) *(s16 *)((s8 *)this + 0x1E) != (s16) *(s16 *)((s8 *)this + 0x20)) {
-        TLobby::stop_audio_streams();
-        TLobby::set_sound_output_mode(*(s16 *)((s8 *)this + 0x20));
-        TLobby::init_layout_positions();
-    }
-}
-
-void TWindowOptionCtrl::init_selection_indices() {
-    s16 temp_r3;
-
-    temp_r3 = TLobby::init_sound_mode();
-    *(s16 *)((s8 *)this + 0x1E) = temp_r3;
-    *(s16 *)((s8 *)this + 0x20) = temp_r3;
-}
-
-void TWindowOptionCtrl::apply_and_close(s32 arg1) {
-    TLobby::stop_audio_streams();
-    TLobby::stop_audio_streams();
-    TLobby::close_option_window();
-    play_area_music(get_bgm_filename(arg1));
-    this->m_1d = (u8) (this->m_1d | 2);
-}
-
-s32 TWindowOptionCtrl::handle_input(s32 language) {
-    if (TLanguage::set_language((s8) language) != 0) {
-        fn_8023F160();
-        fn_8023F18C();
-        if ((u32) *(u32 *)((s8 *)this + 0x34) != 0U) {
-            ((TObject *)(*(void **)((s8 *)this + 0x34)))->queue_destruction();
-            *(u32 *)((s8 *)this + 0x34) = 0U;
-        }
-        if ((u32) *(u32 *)((s8 *)this + 0x28) != 0U) {
-            ((TObject *)(*(void **)((s8 *)this + 0x28)))->queue_destruction();
-            *(u32 *)((s8 *)this + 0x28) = 0U;
-        }
-        *(void **)((s8 *)this + 0x28) = create_menu__17TWindowOptionCtrlFv(this);
-        window_request_refresh((u8 *)(*(u32 *)((s8 *)this + 0x28)));
-        return 1;
-    }
-    return 0;
-}
-
-}
-
-void TWindowOptionCtrl::warn_if_empty(u8 *arg0) {
-    if ((arg0 == NULL) || ((s8) *arg0 == 0)) {
-        get_localized_text_entry(0xF, 0x19);
-    }
-}
-
-extern "C" {
 u8 *get_window_layout_position(s32);
 s32 create__19TWindowMessageYesNoFPvPvPvPv(s32, s32, s32, s32);
 s32 free_member__17TWindowSubComCardFv(int, int);
@@ -124,198 +53,16 @@ s32 forward_slot_selection__16TAdChrSelASlotGCFPvPv(int, void *, int, f32);
 s32 create__14TWindowMessageFPvll(void *, const vec2f *, s32);
 s32 warn_if_empty__17TWindowOptionCtrlFPUc(void *);
 void *get_chr_select_base_plus_1154c__17TWindowOptionCtrlFv();
-
-s32 TWindowOptionCtrl::create_serial_info_window(s32 arg1) {
-    s32 w;
-    w = create__14TWindowMessageFPvll(this, &lbl_8044F4A4, 3);
-    switch (arg1) {
-    case 0:
-        ((TWindowOptionCtrl *)w)->add_label_value_line((const char *)(get_localized_text_entry(0xF, 0x16)), (const char *)(warn_if_empty__17TWindowOptionCtrlFPUc(TAdEnterSerialAccessGC__sub_80321874())), (u32)0);
-        ((TWindowOptionCtrl *)w)->add_label_value_line((const char *)(get_localized_text_entry(0xF, 0x17)), (const char *)(warn_if_empty__17TWindowOptionCtrlFPUc(TAdEnterSerialAccessGC__sub_803217B8())), (u32)0);
-        ((TWindowOptionCtrl *)w)->add_label_value_line((const char *)(get_localized_text_entry(0xF, 0x18)), (const char *)(warn_if_empty__17TWindowOptionCtrlFPUc(TAdEnterPasswordGC__sub_8013ADE4())), (u32)0);
-        break;
-    case 1:
-        ((TWindowOptionCtrl *)w)->add_label_value_line((const char *)(get_localized_text_entry(0xF, 0x16)), (const char *)(warn_if_empty__17TWindowOptionCtrlFPUc(TAdEnterSerialAccessGC__sub_80321738())), (u32)0);
-        ((TWindowOptionCtrl *)w)->add_label_value_line((const char *)(get_localized_text_entry(0xF, 0x17)), (const char *)(warn_if_empty__17TWindowOptionCtrlFPUc(TAdEnterSerialAccessGC::get_formatted_serial())), (u32)0);
-        ((TWindowOptionCtrl *)w)->add_label_value_line((const char *)(get_localized_text_entry(0xF, 0x18)), (const char *)(warn_if_empty__17TWindowOptionCtrlFPUc(get_chr_select_base_plus_1154c__17TWindowOptionCtrlFv())), (u32)0);
-        break;
-    }
-    ((TWindowMessage *)w)->complete_reveal();
-    return w;
-}
-
-s32 TWindowOptionCtrl::open_yes_no_window(s32 arg0, s32 arg1, s32 arg2) {
-  s32 temp_r30;
-  temp_r30 = create__19TWindowMessageYesNoFPvPvPvPv(arg0, 6, arg0 * 0, 0);
-  forward_slot_selection__16TAdChrSelASlotGCFPvPv((int) temp_r30, (void *) get_localized_text_entry(0xF, arg1), (int) ((u8 *) get_window_layout_position(arg2)), 470.0f);
-  free_member__17TWindowSubComCardFv((int) temp_r30, 1);
-  return temp_r30;
-}
-
-}
-
-extern "C" {
-
 s32 refresh_with_default_list__20TWindowSubStatusDispFll(s32, const vec2f *);
 s32 get_option_entry__17TWindowOptionCtrlFi(s32);
-
-
-s32 TWindowOptionCtrl::create_option_menu() {
-    s32 temp_r31;
-
-    temp_r31 = refresh_with_default_list__20TWindowSubStatusDispFll(get_option_entry__17TWindowOptionCtrlFi(0xD0), &lbl_8044F49C);
-    TWindowOptionCtrl::add_menu_item(temp_r31, get_localized_text_entry(0xF, 0x10), 0);
-    TWindowOptionCtrl::add_menu_item(temp_r31, get_localized_text_entry(0xF, 0x11), 1);
-    TWindowOptionCtrl::add_menu_item(temp_r31, get_localized_text_entry(0xF, 0x12), 2);
-    ((TWindowSubStatusDisp *)temp_r31)->set_selected_index((s16) TWindowOptionCtrl::get_option_field_C());
-    return temp_r31;
-}
-
-}
-
-extern "C" {
 s32 get_localized_text_entry(s32 arg0, s32 arg1);
 s32 align_menu_entry_positions(int);
 s32 forward_trade_action_default__16TObjCityMainWarpFPviii(s32, s32, s32, s32);
 s32 check_room_seq_4__16TAdChrSelASlotGCFl(s32, s32);
-s32 TWindowOptionCtrl::create_sub_menu_window() {
-    s32 temp_r31;
-    temp_r31 = check_room_seq_4__16TAdChrSelASlotGCFl(get_option_entry__17TWindowOptionCtrlFi(0xCF), 3);
-    forward_trade_action_default__16TObjCityMainWarpFPviii(temp_r31, get_localized_text_entry(0xF, 0x1A), 6, 0x12);
-    forward_trade_action_default__16TObjCityMainWarpFPviii(temp_r31, get_localized_text_entry(0xF, 0x1B), 6, 0x14);
-    forward_trade_action_default__16TObjCityMainWarpFPviii(temp_r31, get_localized_text_entry(0xF, 0x1C), 6, 0x15);
-    ((TWindowSubComCardList *)temp_r31)->update_layout_height(470.0f);
-    align_menu_entry_positions(temp_r31);
-    return temp_r31;
-}
-
-}
-
-extern "C" {
-
 s32 __nw__7TObjectFUl(s32);
-
-s32 TWindowOptionCtrl::create_snap_shot_window() {
-    s32 window_snap_shot;
-
-    window_snap_shot = __nw__7TObjectFUl(0x64);
-    if (window_snap_shot != 0) {
-        window_snap_shot = (s32)TWindowSnapShot__ct((TWindowSnapShot *)((u8 *)window_snap_shot), get_option_entry__17TWindowOptionCtrlFi(0xCF));
-    }
-    return window_snap_shot;
-}
-
-s32 TWindowOptionCtrl::create_sound_balance_window() {
-    s32 var_r31;
-
-    var_r31 = __nw__7TObjectFUl(0x68);
-    if (var_r31 != 0) {
-        var_r31 = (s32)TWindowSoundBalance__ct((TWindowSoundBalance *)((u8 *)var_r31), get_option_entry__17TWindowOptionCtrlFi(0xCF));
-    }
-    return var_r31;
-}
-
-}
-
-extern "C" {
-
-
-
-s32 TWindowOptionCtrl::create_sound_mode_menu() {
-    s32 temp_r31;
-
-    s32 temp_r3_after_cba4 = get_option_entry__17TWindowOptionCtrlFi(0xCF);
-    temp_r31 = refresh_with_default_list__20TWindowSubStatusDispFll(temp_r3_after_cba4, &lbl_8044F494);
-    TWindowOptionCtrl::add_menu_item(temp_r31, get_localized_text_entry(0xF, 0xE), 0);
-    TWindowOptionCtrl::add_menu_item(temp_r31, get_localized_text_entry(0xF, 0xD), 1);
-    TWindowOptionCtrl::add_menu_item(temp_r31, get_localized_text_entry(0xF, 0xF), 2);
-    switch (*(s16 *)((s8 *)this + 0x20)) {
-    case 0:
-        ((TWindowSubStatusDisp *)temp_r31)->set_selected_index(0);
-        break;
-    case 1:
-        ((TWindowSubStatusDisp *)temp_r31)->set_selected_index(1);
-        break;
-    case 2:
-        ((TWindowSubStatusDisp *)temp_r31)->set_selected_index(2);
-        break;
-    }
-    return temp_r31;
-}
-
-}
-
-extern "C" {
-
 s32 set_flag70_bit100__21TWindowSubComCardListFv();
 s32 draw_text_gray__17TWindowSubComCardFllll(s32, const char *, s32, s32);
-
-
-s32 TWindowOptionCtrl::create_list_window() {
-    s32 idx;
-    s32 list;
-
-    unlock_music_flag(2);
-    list = check_room_seq_4__16TAdChrSelASlotGCFl(get_option_entry__17TWindowOptionCtrlFi(0xCF), 0x31);
-    set_flag70_bit100__21TWindowSubComCardListFv();
-    idx = 0;
-    do {
-        if (is_music_flag_unlocked_stub(idx) != 0) {
-            if (check_flag_index_set(idx) == 0) {
-                draw_text_gray__17TWindowSubComCardFllll(list, "?????", 0x26, idx);
-            } else {
-                forward_trade_action_default__16TObjCityMainWarpFPviii(list, get_option_table_entry(idx), 0x26, idx);
-            }
-        }
-        idx += 1;
-    } while (idx < 0x31);
-    ((TWindowOptionCtrl *)list)->set_flag70_bit400();
-    ((TWindowSubComCardList *)list)->set_scroll_target(470.0f, 124.0f);
-    align_menu_entry_positions(list);
-    return list;
 }
-
-}
-
-extern "C" {
-s32 TWindowOptionCtrl::create_select_menu_window() {
-    s32 temp_r31;
-    temp_r31 = refresh_with_default_list__20TWindowSubStatusDispFll(get_option_entry__17TWindowOptionCtrlFi(0xCF), &lbl_8044F48C);
-    TWindowOptionCtrl::add_menu_item(temp_r31, (get_localized_text_entry(0xF, 8)), 0);
-    TWindowOptionCtrl::add_menu_item(temp_r31, (get_localized_text_entry(0xF, 9)), 1);
-    TWindowOptionCtrl::add_menu_item(temp_r31, (get_localized_text_entry(0xF, 0xA)), 2);
-    TWindowOptionCtrl::add_menu_item(temp_r31, (get_localized_text_entry(0xF, 0xB)), 3);
-    TWindowOptionCtrl::add_menu_item(temp_r31, (get_localized_text_entry(0xF, 0xC)), 4);
-    ((TWindowSubStatusDisp *)temp_r31)->set_selected_index((s16)((void *) ((s16) current_language)));
-    return temp_r31;
-}
-
-}
-
-extern "C" {
-
-
-
-s32 TWindowOptionCtrl::create_menu() {
-    s32 temp_r31;
-
-    temp_r31 = check_room_seq_4__16TAdChrSelASlotGCFl(get_option_entry__17TWindowOptionCtrlFi(0xCE), 9);
-    forward_trade_action_default__16TObjCityMainWarpFPviii(temp_r31, get_localized_text_entry(0xF, 0), 6, 3);
-    forward_trade_action_default__16TObjCityMainWarpFPviii(temp_r31, get_localized_text_entry(0xF, 1), 6, 7);
-    forward_trade_action_default__16TObjCityMainWarpFPviii(temp_r31, get_localized_text_entry(0xF, 2), 6, 5);
-    forward_trade_action_default__16TObjCityMainWarpFPviii(temp_r31, get_localized_text_entry(0xF, 3), 6, 9);
-    forward_trade_action_default__16TObjCityMainWarpFPviii(temp_r31, get_localized_text_entry(0xF, 4), 6, 0xB);
-    forward_trade_action_default__16TObjCityMainWarpFPviii(temp_r31, get_localized_text_entry(0xF, 5), 6, 0x10);
-    forward_trade_action_default__16TObjCityMainWarpFPviii(temp_r31, get_localized_text_entry(0xF, 6), 6, 0x19);
-    forward_trade_action_default__16TObjCityMainWarpFPviii(temp_r31, get_localized_text_entry(0xF, 7), 6, 0x1B);
-    ((TWindowSubComCardList *)temp_r31)->update_layout_height(470.0f);
-    align_menu_entry_positions(temp_r31);
-    return temp_r31;
-}
-
-}
-
-void TWindowOptionCtrl::render() {  }
 
 struct Opt_8026BCC0 {
     u8 pad0[0x1C];
@@ -352,6 +99,88 @@ void set_field_value__17TWindowOptionCtrlFls(s32 arg0, s16 arg1);
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
 void play_sound_effect(int, int, int, int);
 extern u8 controller_input_state[];
+extern s32 __vt__17TWindowOptionCtrl[];
+void __ct__7TObjectFP7TObject(void *);
+}
+
+int TWindowOptionCtrl__sub_8026C658(void* p) { return *(u8*)((char*)p + 0x60) & 0x2; }
+
+s16 TWindowOptionCtrl::get_field_62() { return *(s16*)((char*)this + 0x62); }
+
+s16 TWindowOptionCtrl::get_field_64() { return *(s16*)((char*)this + 0x64); }
+
+int TWindowSoundBalance::is_active() { return this->m_60 & 0x1; }
+
+int TWindowOptionCtrl__sub_8026C630(void* p) { return *(u8*)((char*)p + 0x60) & 0x1; }
+
+void TWindowOptionCtrl::clear_flag70_bit4() { *(u16*)((char*)this + 0x70) &= 0xfffffffb; }
+
+void TWindowSubComCardList::set_flag70_bit100() { this->m_70 |= 0x100; }
+
+void TWindowOptionCtrl::set_flag70_bit400() { *(u16*)((char*)this + 0x70) |= 0x400; }
+
+s32 TWindowOptionCtrl::get_chr_select_base_plus_1154c() {
+    return TAdSinglePlyChrSelectGC::get_instance() + 0x1154C;
+}
+
+extern "C" {
+void *TWindowOptionCtrl__ct(TWindowOptionCtrl *window_option_ctrl) {
+    __ct__7TObjectFP7TObject(window_option_ctrl);
+    *(s32 **)((s8 *)window_option_ctrl + 0x18) = __vt__17TWindowOptionCtrl;
+    window_option_ctrl->m_name = lbl_805D39A8;
+    window_option_ctrl->m_28 = 0;
+    window_option_ctrl->m_2c = 0;
+    window_option_ctrl->m_30 = 0;
+    window_option_ctrl->m_34 = 0;
+    window_option_ctrl->m_38 = 0;
+    window_option_ctrl->m_3c = 0;
+    window_option_ctrl->m_40 = 0;
+    window_option_ctrl->m_44 = 0;
+    window_option_ctrl->m_48 = 0;
+    window_option_ctrl->player_load = new TAdPlayerLoadGC(window_option_ctrl, 2);
+    window_option_ctrl->init_selection_indices();
+    window_option_ctrl->m_24 = 4;
+    window_option_ctrl->m_1d = 0;
+    *(u8 *)((s8 *)window_option_ctrl + 0x1C) = 0;
+    return window_option_ctrl;
+}
+
+TWindowOptionCtrl::~TWindowOptionCtrl() {
+    apply_selection_change();
+    if ((u32) m_44 != 0U) {
+        ((TWindowBase *)(*(void **)((s8 *)this + 0x44)))->close();
+        m_44 = 0U;
+    }
+    if ((u32) m_40 != 0U) {
+        ((TWindowSubComCard *)(*(void **)((s8 *)this + 0x40)))->close();
+        m_40 = 0U;
+    }
+    if ((u32) m_3c != 0U) {
+        ((TWindowBase *)(*(void **)((s8 *)this + 0x3C)))->close();
+        m_3c = 0U;
+    }
+    if ((u32) m_38 != 0U) {
+        ((TWindowBase *)(*(void **)((s8 *)this + 0x38)))->close();
+        m_38 = 0U;
+    }
+    if ((u32) m_34 != 0U) {
+        ((TWindowBase *)(*(void **)((s8 *)this + 0x34)))->close();
+        m_34 = 0U;
+    }
+    if ((u32) m_30 != 0U) {
+        ((TWindowBase *)(*(void **)((s8 *)this + 0x30)))->close();
+        m_30 = 0U;
+    }
+    if ((u32) m_2c != 0U) {
+        ((TWindowBase *)(*(void **)((s8 *)this + 0x2C)))->close();
+        m_2c = 0U;
+    }
+    if ((u32) m_28 != 0U) {
+        ((TWindowBase *)(*(void **)((s8 *)this + 0x28)))->close();
+        m_28 = 0U;
+    }
+}
+
 void TWindowOptionCtrl::run_task() {
     Opt_8026BCC0 *self = (Opt_8026BCC0 *)this;
     switch (self->state) {
@@ -608,94 +437,221 @@ void TWindowOptionCtrl::run_task() {
         break;
     }
 }
+}
 
+void TWindowOptionCtrl::render() {  }
+
+extern "C" {
+s32 TWindowOptionCtrl::create_menu() {
+    s32 temp_r31;
+
+    temp_r31 = check_room_seq_4__16TAdChrSelASlotGCFl(get_option_entry__17TWindowOptionCtrlFi(0xCE), 9);
+    forward_trade_action_default__16TObjCityMainWarpFPviii(temp_r31, get_localized_text_entry(0xF, 0), 6, 3);
+    forward_trade_action_default__16TObjCityMainWarpFPviii(temp_r31, get_localized_text_entry(0xF, 1), 6, 7);
+    forward_trade_action_default__16TObjCityMainWarpFPviii(temp_r31, get_localized_text_entry(0xF, 2), 6, 5);
+    forward_trade_action_default__16TObjCityMainWarpFPviii(temp_r31, get_localized_text_entry(0xF, 3), 6, 9);
+    forward_trade_action_default__16TObjCityMainWarpFPviii(temp_r31, get_localized_text_entry(0xF, 4), 6, 0xB);
+    forward_trade_action_default__16TObjCityMainWarpFPviii(temp_r31, get_localized_text_entry(0xF, 5), 6, 0x10);
+    forward_trade_action_default__16TObjCityMainWarpFPviii(temp_r31, get_localized_text_entry(0xF, 6), 6, 0x19);
+    forward_trade_action_default__16TObjCityMainWarpFPviii(temp_r31, get_localized_text_entry(0xF, 7), 6, 0x1B);
+    ((TWindowSubComCardList *)temp_r31)->update_layout_height(470.0f);
+    align_menu_entry_positions(temp_r31);
+    return temp_r31;
+}
+
+s32 TWindowOptionCtrl::create_select_menu_window() {
+    s32 temp_r31;
+    temp_r31 = refresh_with_default_list__20TWindowSubStatusDispFll(get_option_entry__17TWindowOptionCtrlFi(0xCF), &lbl_8044F48C);
+    TWindowOptionCtrl::add_menu_item(temp_r31, (get_localized_text_entry(0xF, 8)), 0);
+    TWindowOptionCtrl::add_menu_item(temp_r31, (get_localized_text_entry(0xF, 9)), 1);
+    TWindowOptionCtrl::add_menu_item(temp_r31, (get_localized_text_entry(0xF, 0xA)), 2);
+    TWindowOptionCtrl::add_menu_item(temp_r31, (get_localized_text_entry(0xF, 0xB)), 3);
+    TWindowOptionCtrl::add_menu_item(temp_r31, (get_localized_text_entry(0xF, 0xC)), 4);
+    ((TWindowSubStatusDisp *)temp_r31)->set_selected_index((s16)((void *) ((s16) current_language)));
+    return temp_r31;
+}
+
+s32 TWindowOptionCtrl::create_list_window() {
+    s32 idx;
+    s32 list;
+
+    unlock_music_flag(2);
+    list = check_room_seq_4__16TAdChrSelASlotGCFl(get_option_entry__17TWindowOptionCtrlFi(0xCF), 0x31);
+    set_flag70_bit100__21TWindowSubComCardListFv();
+    idx = 0;
+    do {
+        if (is_music_flag_unlocked_stub(idx) != 0) {
+            if (check_flag_index_set(idx) == 0) {
+                draw_text_gray__17TWindowSubComCardFllll(list, "?????", 0x26, idx);
+            } else {
+                forward_trade_action_default__16TObjCityMainWarpFPviii(list, get_option_table_entry(idx), 0x26, idx);
+            }
+        }
+        idx += 1;
+    } while (idx < 0x31);
+    ((TWindowOptionCtrl *)list)->set_flag70_bit400();
+    ((TWindowSubComCardList *)list)->set_scroll_target(470.0f, 124.0f);
+    align_menu_entry_positions(list);
+    return list;
+}
+
+s32 TWindowOptionCtrl::create_sound_mode_menu() {
+    s32 temp_r31;
+
+    s32 temp_r3_after_cba4 = get_option_entry__17TWindowOptionCtrlFi(0xCF);
+    temp_r31 = refresh_with_default_list__20TWindowSubStatusDispFll(temp_r3_after_cba4, &lbl_8044F494);
+    TWindowOptionCtrl::add_menu_item(temp_r31, get_localized_text_entry(0xF, 0xE), 0);
+    TWindowOptionCtrl::add_menu_item(temp_r31, get_localized_text_entry(0xF, 0xD), 1);
+    TWindowOptionCtrl::add_menu_item(temp_r31, get_localized_text_entry(0xF, 0xF), 2);
+    switch (*(s16 *)((s8 *)this + 0x20)) {
+    case 0:
+        ((TWindowSubStatusDisp *)temp_r31)->set_selected_index(0);
+        break;
+    case 1:
+        ((TWindowSubStatusDisp *)temp_r31)->set_selected_index(1);
+        break;
+    case 2:
+        ((TWindowSubStatusDisp *)temp_r31)->set_selected_index(2);
+        break;
+    }
+    return temp_r31;
+}
+
+s32 TWindowOptionCtrl::create_sound_balance_window() {
+    s32 var_r31;
+
+    var_r31 = __nw__7TObjectFUl(0x68);
+    if (var_r31 != 0) {
+        var_r31 = (s32)TWindowSoundBalance__ct((TWindowSoundBalance *)((u8 *)var_r31), get_option_entry__17TWindowOptionCtrlFi(0xCF));
+    }
+    return var_r31;
+}
+
+s32 TWindowOptionCtrl::create_snap_shot_window() {
+    s32 window_snap_shot;
+
+    window_snap_shot = __nw__7TObjectFUl(0x64);
+    if (window_snap_shot != 0) {
+        window_snap_shot = (s32)TWindowSnapShot__ct((TWindowSnapShot *)((u8 *)window_snap_shot), get_option_entry__17TWindowOptionCtrlFi(0xCF));
+    }
+    return window_snap_shot;
+}
+
+s32 TWindowOptionCtrl::create_sub_menu_window() {
+    s32 temp_r31;
+    temp_r31 = check_room_seq_4__16TAdChrSelASlotGCFl(get_option_entry__17TWindowOptionCtrlFi(0xCF), 3);
+    forward_trade_action_default__16TObjCityMainWarpFPviii(temp_r31, get_localized_text_entry(0xF, 0x1A), 6, 0x12);
+    forward_trade_action_default__16TObjCityMainWarpFPviii(temp_r31, get_localized_text_entry(0xF, 0x1B), 6, 0x14);
+    forward_trade_action_default__16TObjCityMainWarpFPviii(temp_r31, get_localized_text_entry(0xF, 0x1C), 6, 0x15);
+    ((TWindowSubComCardList *)temp_r31)->update_layout_height(470.0f);
+    align_menu_entry_positions(temp_r31);
+    return temp_r31;
+}
+
+s32 TWindowOptionCtrl::create_option_menu() {
+    s32 temp_r31;
+
+    temp_r31 = refresh_with_default_list__20TWindowSubStatusDispFll(get_option_entry__17TWindowOptionCtrlFi(0xD0), &lbl_8044F49C);
+    TWindowOptionCtrl::add_menu_item(temp_r31, get_localized_text_entry(0xF, 0x10), 0);
+    TWindowOptionCtrl::add_menu_item(temp_r31, get_localized_text_entry(0xF, 0x11), 1);
+    TWindowOptionCtrl::add_menu_item(temp_r31, get_localized_text_entry(0xF, 0x12), 2);
+    ((TWindowSubStatusDisp *)temp_r31)->set_selected_index((s16) TWindowOptionCtrl::get_option_field_C());
+    return temp_r31;
+}
+
+s32 TWindowOptionCtrl::open_yes_no_window(s32 arg0, s32 arg1, s32 arg2) {
+  s32 temp_r30;
+  temp_r30 = create__19TWindowMessageYesNoFPvPvPvPv(arg0, 6, arg0 * 0, 0);
+  forward_slot_selection__16TAdChrSelASlotGCFPvPv((int) temp_r30, (void *) get_localized_text_entry(0xF, arg1), (int) ((u8 *) get_window_layout_position(arg2)), 470.0f);
+  free_member__17TWindowSubComCardFv((int) temp_r30, 1);
+  return temp_r30;
+}
+
+s32 TWindowOptionCtrl::create_serial_info_window(s32 arg1) {
+    s32 w;
+    w = create__14TWindowMessageFPvll(this, &lbl_8044F4A4, 3);
+    switch (arg1) {
+    case 0:
+        ((TWindowOptionCtrl *)w)->add_label_value_line((const char *)(get_localized_text_entry(0xF, 0x16)), (const char *)(warn_if_empty__17TWindowOptionCtrlFPUc(TAdEnterSerialAccessGC__sub_80321874())), (u32)0);
+        ((TWindowOptionCtrl *)w)->add_label_value_line((const char *)(get_localized_text_entry(0xF, 0x17)), (const char *)(warn_if_empty__17TWindowOptionCtrlFPUc(TAdEnterSerialAccessGC__sub_803217B8())), (u32)0);
+        ((TWindowOptionCtrl *)w)->add_label_value_line((const char *)(get_localized_text_entry(0xF, 0x18)), (const char *)(warn_if_empty__17TWindowOptionCtrlFPUc(TAdEnterPasswordGC__sub_8013ADE4())), (u32)0);
+        break;
+    case 1:
+        ((TWindowOptionCtrl *)w)->add_label_value_line((const char *)(get_localized_text_entry(0xF, 0x16)), (const char *)(warn_if_empty__17TWindowOptionCtrlFPUc(TAdEnterSerialAccessGC__sub_80321738())), (u32)0);
+        ((TWindowOptionCtrl *)w)->add_label_value_line((const char *)(get_localized_text_entry(0xF, 0x17)), (const char *)(warn_if_empty__17TWindowOptionCtrlFPUc(TAdEnterSerialAccessGC::get_formatted_serial())), (u32)0);
+        ((TWindowOptionCtrl *)w)->add_label_value_line((const char *)(get_localized_text_entry(0xF, 0x18)), (const char *)(warn_if_empty__17TWindowOptionCtrlFPUc(get_chr_select_base_plus_1154c__17TWindowOptionCtrlFv())), (u32)0);
+        break;
+    }
+    ((TWindowMessage *)w)->complete_reveal();
+    return w;
+}
+}
+
+void TWindowOptionCtrl::warn_if_empty(u8 *arg0) {
+    if ((arg0 == NULL) || ((s8) *arg0 == 0)) {
+        get_localized_text_entry(0xF, 0x19);
+    }
 }
 
 extern "C" {
-
-extern s32 __vt__17TWindowOptionCtrl[];
-
-s32 __dl__7TObjectFPv(void *);
-s32 __dt__7TObjectFv(void *, s32);
-
-
-void *__dt__17TWindowOptionCtrlFv(TWindowOptionCtrl *window_option_ctrl, s16 arg1) {
-    if (window_option_ctrl != NULL) {
-        *(void **)((s8 *)window_option_ctrl + 0x18) = (void *) __vt__17TWindowOptionCtrl;
-        window_option_ctrl->apply_selection_change();
-        if ((u32) window_option_ctrl->m_44 != 0U) {
-            ((TWindowBase *)(*(void **)((s8 *)window_option_ctrl + 0x44)))->close();
-            window_option_ctrl->m_44 = 0U;
+s32 TWindowOptionCtrl::handle_input(s32 language) {
+    if (TLanguage::set_language((s8) language) != 0) {
+        fn_8023F160();
+        fn_8023F18C();
+        if ((u32) *(u32 *)((s8 *)this + 0x34) != 0U) {
+            ((TObject *)(*(void **)((s8 *)this + 0x34)))->queue_destruction();
+            *(u32 *)((s8 *)this + 0x34) = 0U;
         }
-        if ((u32) window_option_ctrl->m_40 != 0U) {
-            ((TWindowSubComCard *)(*(void **)((s8 *)window_option_ctrl + 0x40)))->close();
-            window_option_ctrl->m_40 = 0U;
+        if ((u32) *(u32 *)((s8 *)this + 0x28) != 0U) {
+            ((TObject *)(*(void **)((s8 *)this + 0x28)))->queue_destruction();
+            *(u32 *)((s8 *)this + 0x28) = 0U;
         }
-        if ((u32) window_option_ctrl->m_3c != 0U) {
-            ((TWindowBase *)(*(void **)((s8 *)window_option_ctrl + 0x3C)))->close();
-            window_option_ctrl->m_3c = 0U;
-        }
-        if ((u32) window_option_ctrl->m_38 != 0U) {
-            ((TWindowBase *)(*(void **)((s8 *)window_option_ctrl + 0x38)))->close();
-            window_option_ctrl->m_38 = 0U;
-        }
-        if ((u32) window_option_ctrl->m_34 != 0U) {
-            ((TWindowBase *)(*(void **)((s8 *)window_option_ctrl + 0x34)))->close();
-            window_option_ctrl->m_34 = 0U;
-        }
-        if ((u32) window_option_ctrl->m_30 != 0U) {
-            ((TWindowBase *)(*(void **)((s8 *)window_option_ctrl + 0x30)))->close();
-            window_option_ctrl->m_30 = 0U;
-        }
-        if ((u32) window_option_ctrl->m_2c != 0U) {
-            ((TWindowBase *)(*(void **)((s8 *)window_option_ctrl + 0x2C)))->close();
-            window_option_ctrl->m_2c = 0U;
-        }
-        if ((u32) window_option_ctrl->m_28 != 0U) {
-            ((TWindowBase *)(*(void **)((s8 *)window_option_ctrl + 0x28)))->close();
-            window_option_ctrl->m_28 = 0U;
-        }
-        __dt__7TObjectFv(window_option_ctrl, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(window_option_ctrl);
-        }
+        *(void **)((s8 *)this + 0x28) = create_menu__17TWindowOptionCtrlFv(this);
+        window_request_refresh((u8 *)(*(u32 *)((s8 *)this + 0x28)));
+        return 1;
     }
-    return window_option_ctrl;
+    return 0;
 }
 
-void __ct__7TObjectFP7TObject(void *);
-
-void *TWindowOptionCtrl__ct(TWindowOptionCtrl *window_option_ctrl) {
-    __ct__7TObjectFP7TObject(window_option_ctrl);
-    *(s32 **)((s8 *)window_option_ctrl + 0x18) = __vt__17TWindowOptionCtrl;
-    window_option_ctrl->m_name = lbl_805D39A8;
-    window_option_ctrl->m_28 = 0;
-    window_option_ctrl->m_2c = 0;
-    window_option_ctrl->m_30 = 0;
-    window_option_ctrl->m_34 = 0;
-    window_option_ctrl->m_38 = 0;
-    window_option_ctrl->m_3c = 0;
-    window_option_ctrl->m_40 = 0;
-    window_option_ctrl->m_44 = 0;
-    window_option_ctrl->m_48 = 0;
-    window_option_ctrl->player_load = new TAdPlayerLoadGC(window_option_ctrl, 2);
-    window_option_ctrl->init_selection_indices();
-    window_option_ctrl->m_24 = 4;
-    window_option_ctrl->m_1d = 0;
-    *(u8 *)((s8 *)window_option_ctrl + 0x1C) = 0;
-    return window_option_ctrl;
+void TWindowOptionCtrl::apply_and_close(s32 arg1) {
+    TLobby::stop_audio_streams();
+    TLobby::stop_audio_streams();
+    TLobby::close_option_window();
+    play_area_music(get_bgm_filename(arg1));
+    this->m_1d = (u8) (this->m_1d | 2);
 }
 
+void TWindowOptionCtrl::init_selection_indices() {
+    s16 temp_r3;
+
+    temp_r3 = TLobby::init_sound_mode();
+    *(s16 *)((s8 *)this + 0x1E) = temp_r3;
+    *(s16 *)((s8 *)this + 0x20) = temp_r3;
 }
 
-s32 TWindowOptionCtrl::get_chr_select_base_plus_1154c() {
-    return TAdSinglePlyChrSelectGC::get_instance() + 0x1154C;
+void TWindowOptionCtrl::apply_selection_change() {
+    if ((s16) *(s16 *)((s8 *)this + 0x1E) != (s16) *(s16 *)((s8 *)this + 0x20)) {
+        TLobby::stop_audio_streams();
+        TLobby::set_sound_output_mode(*(s16 *)((s8 *)this + 0x20));
+        TLobby::init_layout_positions();
+    }
 }
-void TWindowOptionCtrl::set_flag70_bit400() { *(u16*)((char*)this + 0x70) |= 0x400; }
-void TWindowSubComCardList::set_flag70_bit100() { this->m_70 |= 0x100; }
-void TWindowOptionCtrl::clear_flag70_bit4() { *(u16*)((char*)this + 0x70) &= 0xfffffffb; }
-int TWindowOptionCtrl__sub_8026C630(void* p) { return *(u8*)((char*)p + 0x60) & 0x1; }
-int TWindowSoundBalance::is_active() { return this->m_60 & 0x1; }
-s16 TWindowOptionCtrl::get_field_64() { return *(s16*)((char*)this + 0x64); }
-s16 TWindowOptionCtrl::get_field_62() { return *(s16*)((char*)this + 0x62); }
-int TWindowOptionCtrl__sub_8026C658(void* p) { return *(u8*)((char*)p + 0x60) & 0x2; }
+
+void TWindowOptionCtrl::set_params(void *arg0, s16 arg1, s8 arg2) {
+    void *global_state;
+
+    global_state = TAdSinglePlyChrSelectGC::get_global_state();
+    if (global_state != NULL) {
+        *(s16 *)((s8 *)global_state + 4) = arg1;
+        *(s8 *)((s8 *)global_state + 6) = arg2;
+    }
+}
+}
+
+s16 TWindowOptionCtrl::get_option_field_C() {
+    return *(s16 *)((s8 *)(TAdSinglePlyChrSelectGC::get_global_state()) + 0xC);
+}
+
+void TWindowOptionCtrl::set_field_value(s32 arg0, s16 arg1) {
+    *(s16 *)((s8 *)(TAdSinglePlyChrSelectGC::get_global_state()) + 0xC) = arg1;
+}

@@ -7403,7 +7403,7 @@ pso/ui/window/TWindowMessageQuest.cpp:
 pso/ui/window/TWindowOptionCtrl.cpp:
 	.text       start:0x8026B2B4 end:0x8026C664
 	.rodata     start:0x8044F478 end:0x8044F4C0
-	.data       start:0x804D07C0 end:0x804D0830
+	.data       start:0x804D07A8 end:0x804D0830
 	.sdata      start:0x805D39A8 end:0x805D39B0
 	.sdata2     start:0x805DD268 end:0x805DD270
 
