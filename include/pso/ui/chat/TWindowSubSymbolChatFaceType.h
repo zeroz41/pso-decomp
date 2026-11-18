@@ -5,6 +5,7 @@
 #include "pso/ui/window/TWindowBase.h"
 
 struct TWindowSubSymbolChatFaceType : public TWindowBase {
+    TWindowSubSymbolChatFaceType(s32 arg1, s32 arg2);
     virtual ~TWindowSubSymbolChatFaceType();
     void update_parts_entries();
     void handle_input();
@@ -32,7 +33,7 @@ struct TWindowSubSymbolChatFaceType : public TWindowBase {
 typedef char TWindowSubSymbolChatFaceType_size[sizeof(TWindowSubSymbolChatFaceType) == 0x6C ? 1 : -1];
 
 extern "C" {
-u8 *TWindowSubSymbolChatFaceType__ct(TWindowSubSymbolChatFaceType *arg0, s32 arg1, s32 arg2);
+u8 *__ct__28TWindowSubSymbolChatFaceTypeFll(TWindowSubSymbolChatFaceType *arg0, s32 arg1, s32 arg2);
 }
 
 #endif

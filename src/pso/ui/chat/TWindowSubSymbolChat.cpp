@@ -419,7 +419,7 @@ void TWindowSubSymbolChat::run_task() {
         if ((u32) this->m_48 == 0U) {
             var_r30 = ((u32)__nw__7TObjectFUl(0x6C));
             if (var_r30 != 0U) {
-                var_r30 = (u32)TWindowSubSymbolChatFaceType__ct((TWindowSubSymbolChatFaceType *)((u8 *)var_r30), (s32)(((s32)get_window_layout_position(0x7D))), (s32)((s32)&TWindowSubSymbolChat__data_805D6494));
+                var_r30 = (u32)__ct__28TWindowSubSymbolChatFaceTypeFll((TWindowSubSymbolChatFaceType *)((u8 *)var_r30), (s32)(((s32)get_window_layout_position(0x7D))), (s32)((s32)&TWindowSubSymbolChat__data_805D6494));
             }
             this->m_48 = var_r30;
         }
