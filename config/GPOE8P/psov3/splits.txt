@@ -820,18 +820,11 @@ pso/unk/text_8006E82C.cpp:
 pso/ui/window/TWindowCtrl_8006E85C.cpp:
 	.text       start:0x8006E85C end:0x8006E8F0
 
-pso/ui/window/TObjBagWarnWin4P.cpp:
-	.text       start:0x8006E8F0 end:0x8006EBC4
-	.data       start:0x80488E48 end:0x80488E68
-
-pso/unk/text_8006EBC4.cpp:
-	.text       start:0x8006EBC4 end:0x8006EC20
-
 pso/ui/window/TObjBagWarnWin.cpp:
-	.text       start:0x8006EC20 end:0x8006EF80
+	.text       start:0x8006E8F0 end:0x8006EF80
 	.rodata     start:0x80438548 end:0x80438570
-	.data       start:0x80488E68 end:0x80488E80
-	.sdata      start:0x805D2848 end:0x805D284C
+	.data       start:0x80488E40 end:0x80488E80
+	.sdata      start:0x805D2848 end:0x805D2850
 	.sdata2     start:0x805D90B8 end:0x805D90D0
 
 pso/quest/challenge/ChallengeForceLoadouts.cpp:
