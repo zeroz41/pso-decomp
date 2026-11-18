@@ -2,45 +2,25 @@
 
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/item/TItemData.h"
-
 #include "pso/ui/window/TWindowMenuIconLine.h"
-
 #include "pso/ui/window/TWindowBase.h"
-
 #include "types.h"
-
 #include "pso/network/protocol/protocol_types.h"
-
 #include "pso/item/TItem.h"
-
 #include "pso/ui/window/TWindowAddition.h"
-
 #include "pso/ui/window/TWindowMenu.h"
-
 #include "pso/ui/city/TShopEquipmentListWindow.h"
-
 #include "pso/ui/city/TCheckRoomSequence.h"
-
 #include "pso/unk/TLobby.h"
-
 #include "pso/ui/city/TShopArmorListWindow.h"
-
 #include "pso/ui/city/TShopEquipmentSellWindow.h"
-
 #include "pso/ui/city/TShopGetItemWindow.h"
-
 #include "pso/ui/window/TWindowHelpItem.h"
-
 #include "pso/ui/window/TWindowSubComCard.h"
-
 #include "pso/ui/window/TWindowSubItem.h"
-
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-
 #include "pso/player/TObjPlayer.h"
-
 #include "pso/system/task/TObject.h"
-
 #include "pso/ui/city/TShopWindowBase.h"
 
 #pragma readonly_strings on
@@ -223,64 +203,40 @@ struct Win_8021C160 : VObj_8021C160 {
     u8 pad4c[4];
     Rec_8021C160 recs[1];
 };
+
 extern "C" {
 s32 sub_8022397C__15TShopWindowBaseFv(void *);
-
 void TLobby__sub_80225238(int a0, int a1);
-
 extern s32 __vt__24TShopEquipmentListWindow[];
-
 const char *TShopEquipmentListWindow__class_name = "TShopEquipmentListWindow";
-
 int set_field_20__15TShopWindowBaseFl(void*, int);
-
 int obj_getPtr2B0_20(u8 *p);
-
 s32 check_equip_requirements(void *self, TItemData *p, s32 *out);
-
 s32 get_entity_id(s32);
-
 s32 get_shop_weapon_stock_item(void *, int, s32);
-
 int TShopEquipmentListWindow__sub_8021C85C(int a0);
-
 s32 get_shop_text(s32);
-
 void *__ct__15TWindowHelpItemFPvUs(void *, s32, u16);
-
 s32 get_window_layout_position(s32);
-
 void *create_item_list_window(s32, s32, u16);
-
 s32 get_item_count__24TShopEquipmentSellWindowFv(void *a, s32 b);
-
 void *create_cost_window(u16);
-
 s32 advance_item_id_counter(u16);
-
 void try_buy_item(void *, void *);
-
 void send_6x25_equip_item(void *, s32, s32);
 }
 
 s32 is_single_purchase_shop_item(u8 *p);
+
 extern "C" {
 extern const s32 local_client_id;
-
 u32 create_yes_no_window(int, u16, int, int);
-
 s32 sub_802239EC__13TShopSequenceFv(void *);
-
 void play_sound_effect(int, int, int, int);
-
 s32 create_window_menu(s32 arg0, s32 arg1, s32 arg2);
-
 s32 align_menu_entry_positions(u32);
-
 void __dl__7TObjectFPv(void *);
-
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
-
 struct Win_8021C33C;
 
     extern int shop_weapon_stock_counts[];
@@ -306,6 +262,7 @@ TShopEquipmentListWindow::TShopEquipmentListWindow(s32 parent, s32 arg2, s32 arg
     ((TShopGetItemWindow *)(this->m_24))->calc_item_count(&sp8);
     TLobby__sub_80225238((sub_8022397C__15TShopWindowBaseFv(((u8 *)this))), (sp8));
 }
+
 extern "C" {
 TShopEquipmentListWindow::~TShopEquipmentListWindow() {
     if (m_30 != NULL) { ((TWindowBase *)m_30)->close(); m_30 = 0; }
@@ -360,6 +317,7 @@ void TShopEquipmentListWindow::vfunc_11() {
 #pragma push
 #pragma opt_common_subs off
 #define W ((Win_8021C408 *)p)
+
 extern "C" {
 void TShopEquipmentListWindow::create_buy_list_windows(void *p) {
     Rec_8021C408 tmp;
@@ -423,6 +381,7 @@ void TShopEquipmentListWindow::create_buy_list_windows(void *p) {
 
 #pragma pop
 #undef W
+
 extern "C" {
 s32 TShopEquipmentListWindow::check_purchase_eligibility() {
     Win_8021C33C *w = (Win_8021C33C *)this;

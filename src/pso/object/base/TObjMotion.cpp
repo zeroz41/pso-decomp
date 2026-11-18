@@ -1,55 +1,31 @@
 #pragma defer_codegen on
 
 #include "types.h"
-
 #include "pso/enemy/dd/TObjEneDD_ST.h"
-
 #include "pso/enemy/TObjEnemy.h"
-
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
-
 #include "pso/object/base/TObjMotion.h"
-
 #include "pso/system/BmlResource.h"
-
 #include "pso/animation/ActorAnimationState.h"
-
 #include "pso/unk/TUnk_804A7478.h"
-
 #include "pso/player/TObjPlayer_803E4954.h"
-
 #include "pso/render/render_util.h"
-
 #include "pso/system/NinjaTypes.h"
-
 #include "pso/render/ModelDrawContext.h"
-
 #include "pso/unk/text_803E2D70.h"
-
 #include "pso/unk/text_803D853C.h"
-
 #include "pso/math/AngleLookup.h"
-
 #include "pso/system/memory.h"
-
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
-
 #include "pso/player/TObjPlayer.h"
-
 #include "pso/unk/TLobby_801E2F94.h"
-
 #include "pso/system/data/pso_date.h"
-
 #include "pso/player/TObjPlayer_801E2D1C.h"
 
 Mtx34 *anim_model_matrix_array;
-
 Mtx34 *player_joint_matrix_write_ptr;
-
 void *lbl_805D5680;
-
 NodeFlagEntry *node_flag_cursor;
-
 const char *TObjMotion__class_name = "TObjMotion";
 
 TObjMotionAction *TObjMotion::get_anim_entry(int action) {

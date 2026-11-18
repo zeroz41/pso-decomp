@@ -2,47 +2,26 @@
 
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/item/TItemData.h"
-
 #include "pso/ui/city/TShopEquipmentSellWindow.h"
-
 #include "pso/ui/window/TWindowMenuIconLine.h"
-
 #include "pso/ui/window/TWindowBase.h"
-
 #include "types.h"
-
 #include "pso/ui/window/TWindowSubComCard_80244774.h"
-
 #include "pso/system/task/TObject_80019A50.h"
-
 #include "pso/unk/text_80222C28.h"
-
 #include "pso/ui/city/TShopArmorListWindow.h"
-
 #include "pso/ui/window/TWindowAddition.h"
-
 #include "pso/ui/window/TWindowSubShortCutList.h"
-
 #include "pso/ui/city/TShopSequence.h"
-
 #include "pso/ui/window/TWindowMenu.h"
-
 #include "pso/ui/city/TShopWindowBase.h"
-
 #include "pso/item/TItem.h"
-
 #include "pso/ui/city/TCheckRoomSequence.h"
-
 #include "pso/unk/TLobby.h"
-
 #include "pso/ui/window/TWindowSubComCard.h"
-
 #include "pso/ui/window/TWindowSubItem.h"
-
 #include "pso/player/TObjPlayer.h"
-
 #include "pso/ui/window/TWindowInputNumber.h"
-
 #include "pso/system/task/TObject.h"
 
 #pragma readonly_strings on
@@ -180,45 +159,27 @@ struct Win_8021C968 : VObj_8021C968 {
     void *list;
     void *card;
 };
+
 extern "C" {
 void *create_item_list_window(s32, s32, u16);
-
 s32 get_entity_id(s32);
-
 s32 get_window_layout_position(s32);
-
 void *__ct__15TWindowHelpItemFPvUs(void *, s32, u16);
-
 void TWindowHelpItem__set_displayed_item_by_id(void *arg0, s32 arg1);
-
 void *create_window_quantity(u16 arg0);
-
 u32 set_mode_and_refresh_object__10TObjPlayerFl(void *, void *);
-
 void *get_owner_if_alive__10TObjPlayerFv(u32);
-
 void *create_cost_window(u16);
-
 void get_item_count__24TShopEquipmentSellWindowFv(void *, s32);
-
 int sub_802239EC__13TShopSequenceFv(void *);
-
 s32 play_sound_effect(s32, s32, s32, s32);
-
 void *__ct__18TWindowInputNumberFPvllls(void *, s32, s32, s32, s32, s16);
-
 s32 align_menu_entry_positions(u32);
-
 s32 forward_trade_action_default__16TObjCityMainWarpFPviii(u32, s32, s32, s32);
-
 u32 create_window_menu(s32, s32, u16);
-
 void __dl__7TObjectFPv(void *);
-
 void memset(void *, int, int);
-
 extern s32 __vt__24TShopEquipmentSellWindow[];
-
 const char *TShopEquipmentSellWindow__class_name = "TShopEquipmentSellWindow";
 }
 
@@ -243,6 +204,7 @@ TShopEquipmentSellWindow::TShopEquipmentSellWindow(void *arg1, void *arg2, void 
     this->m_3a8 = 0;
     memset((void *)((char *)this + 40), 0, 840);
 }
+
 extern "C" {
 TShopEquipmentSellWindow::~TShopEquipmentSellWindow() {
     if (m_38c != NULL) { ((TWindowBase *)m_38c)->close(); m_38c = 0; }

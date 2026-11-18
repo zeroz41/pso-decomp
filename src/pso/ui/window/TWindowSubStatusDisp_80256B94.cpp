@@ -1,31 +1,18 @@
 #pragma defer_codegen on
 
 #include "types.h"
-
 #include "pso/unk/TUnk_804CF918.h"
-
 #include "pso/system/memory.h"
-
 #include "pso/ui/window/TWindowBase.h"
-
 #include "pso/unk/TUnk_804CF930.h"
-
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-
 #include "pso/technique/TTecRaFoie.h"
-
 #include "pso/ui/window/TWindowSubComCard.h"
-
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
-
 #include "pso/object/ambient/TObjFish.h"
-
 #include "pso/ui/frontend/TAdChrMoveEffectGC.h"
-
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
-
 #include "pso/player/TObjPlayer_80011014.h"
 
 extern s32 lbl_805D63F0;
@@ -50,17 +37,13 @@ struct Gauge_802571B4 {
 };
 
 struct Quad_80256E0C { f32 x0, y0, x1, y1, u0, v0, u1, v1; };
+
 extern "C" {
 extern s32 __vt__13TUnk_804CF918[];
-
 s32 try_open__19TWindowKeyBoardSoftFii(void *, void *);
-
 void draw_textured_quad_at_depth(f32 *q, f32 depth);
-
 void TWindowSubStatusDisp__sub_80256C40(TUnk_804CF930 *self, TWindowKeyBoardSoft *ctx, NJS_POINT2 *pos, f32 depth);
-
 extern s32 __vt__13TUnk_804CF930[];
-
 typedef void *(*Ctor_80257D44)(void *, void *, s32);
 
 void*TUnk_804CF930::init_from(void*a1, int a2) { sub_80256BDC(a2); *(int*)((char*)this + 0x4) = (int)__vt__13TUnk_804CF930; *(float*)((char*)this + 0x1c) = 0.0f; *(float*)((char*)this + 0xc) = *(float*)((char*)a1 + 0x4); *(float*)((char*)this + 0x10) = *(float*)((char*)a1 + 0x8); *(float*)((char*)this + 0x8) = *(float*)((char*)a1 + 0xc); *(float*)((char*)this + 0x14) = *(float*)((char*)a1 + 0x18); *(int*)((char*)this + 0x18) = *(int*)((char*)a1 + 0x10); *(short*)((char*)this + 0x0) = *(int*)((char*)a1 + 0x14); *(float*)((char*)this + 0x20) = *(float*)((char*)a1 + 0x1c); *(float*)((char*)this + 0x24) = *(float*)((char*)a1 + 0x20); return this; }

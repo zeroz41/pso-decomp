@@ -1,59 +1,32 @@
 #pragma defer_codegen on
 
 #include "types.h"
-
 #include "pso/ui/window/TWindowBase.h"
-
 #include "pso/unk/TLobby_80132ED0.h"
-
 #include "pso/ui/window/TWindowCtrl_8024A054.h"
-
 #include "pso/ui/window/TWindowSubStatusDisp_802671F0.h"
-
 #include "pso/map/FloorArea.h"
-
 #include "pso/ui/window/TWindowMenu.h"
-
 #include "pso/ui/window/TWindowSubComCardList.h"
-
 #include "pso/ui/window/TWindowSubShortCutList.h"
-
 #include "pso/ui/window/TWindowMenuIconLine.h"
-
 #include "pso/ui/window/TWindowSubItem.h"
-
 #include "pso/item/TItem.h"
-
 #include "pso/unk/TLobby.h"
-
 #include "pso/object/switch/TOSwitchItem.h"
-
 #include "pso/ui/city/TShopEquipmentSellWindow.h"
-
 #include "pso/ui/city/TShopGetItemWindow.h"
-
 #include "pso/ui/city/TShopJudgmentItemWindow.h"
-
 #include "pso/ui/window/TWindowOptionCtrl.h"
-
 #include "pso/ui/window/TWindowShortListCtrl.h"
-
 #include "pso/ui/window/TWindowSubComCard.h"
-
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-
 #include "pso/object/warp/TObjCityMainWarp.h"
-
 #include "pso/player/TObjPlayer.h"
-
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-
 #include "pso/ui/window/TWindowInputNumber.h"
-
 #include "pso/ui/city/TShopArmorListWindow.h"
-
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
-
 #include "pso/player/TObjPlayer_80011014.h"
 
 #pragma readonly_strings on
@@ -140,97 +113,58 @@ struct VObj_18_1de278 : VBase_18_1de278 {
 };
 
 struct Pad_80279FFC { u8 pad0[0x20]; u8 f20[0x30]; };
+
 extern "C" {
 void TWindowSubItem__sub_8027AA30(u8 *arg0);
-
 s32 TWindowSubItem__sub_8027AA78(s32 arg0);
-
 s32 get_message_10__20TWindowSubStatusDispFl(s32);
-
 s32 set_depth__11TWindowBaseFf(s32);
-
 s32 TWindowSubEquip__sub_80263AF8(s32, s32);
-
 s32 align_menu_entry_positions(int);
-
 s32 forward_trade_action_default__16TObjCityMainWarpFPviii(s32, s32, s32, s32);
-
 s32 get_window_layout_position(s32);
-
 s32 get_player_by_client_id(s32);
-
 s32 TObjPlayer__sub_801B7B58(int, int, int);
 }
 
 s32 create_titled_window_menu(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
-
 void add_item_purpose_actions(TWindowSubItem *arg0, s32 arg1, s32 arg2);
-
 struct En_8027AA80 { u16 flags; u8 pad2[0x2A]; u32 c2c; u32 c30; u32 c34; };
+
 extern "C" {
 s32 is_flag_4_set__20TWindowSubStatusDispFv();
-
 struct Wn_8027AA80 { u8 pad0[0x76]; s16 f76; };
-
 struct En_8027AB10 { u16 flags; u8 pad2[0x2A]; u32 c2c; u32 c30; u32 c34; };
-
 struct Wn_8027AB10 { u8 pad0[0x76]; s16 f76; };
-
 struct Quest_8027ABFC { u8 pad[0x20]; s32 count; };
-
 struct Player_8027ABFC { u8 pad[0xD00]; s32 inv; };
-
 struct Win_8027ABFC { u8 pad0[0x20]; s16 id; u8 pad1[0x72 - 0x22]; s16 sel; u8 pad2[0x8C - 0x74]; u32 n; };
-
 void TWindowSubItem__sub_8027AB10(Wn_8027AB10 *arg0);
-
 void populate_sub_item_list(Win_8027ABFC *arg0);
-
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, s32);
-
 u32 is_action_active__10TObjPlayerFv(s32);
-
 void decrement_clamped(void *, s32);
-
 void play_sound_effect(s32, s32, s32, s32);
-
 s32 __nw__7TObjectFUl(s32);
-
 s32 TWindowCtrl__sub_8024A228(s32);
-
 u32 __ct__15TWindowHelpItemFPvUs(s32, s32, s32);
-
 extern Pad_80279FFC controller_input_state[];
-
 void *TWindowSubItem__ct(TWindowSubItem *arg0, s32 arg1, s32 arg2);
-
 s32 send_6x25_equip_item(s32, s32, s32);
-
 s32 TWindowHelpItem__set_displayed_item_by_id(u32);
-
 s32 __ct__18TWindowInputNumberFPvllls(s32, s32, s32, s32, s32, s16);
-
 s32 __ct__7TObjectFP7TObject();
-
 void __dl__7TObjectFPv(void *);
-
 void __dt__7TObjectFv(void *, int);
-
 s32 close_sub_window__10TObjPlayerFv();
-
 s32 try_send_6x27_use_item(s32, s32);
-
 s32 create_sub_item_list_window(s32, const f32 *, s32);
-
 s32 get_array_entry__11TWindowBaseFi(void *, s16);
-
 s32 get_cursor_pos__14TWindowSubItemFv();
-
 s32 get_item_id__5TItemFv();
 }
 
 s32 has_armor_with_unit_slot(TWindowSubItem *arg0, int arg1);
-
 extern s32 __vt__14TWindowSubItem[];
 
 #define F(t, o) (*(t *)(arg0 + (o)))
@@ -861,6 +795,7 @@ s32 has_armor_with_unit_slot(TWindowSubItem *window_sub_item, int arg1) {
     ((TItem *)item)->copy_to_item_data((TItemData *)&d);
     return d.b[5] != 0 ? 1 : 0;
 }
+
 extern "C" {
 void TWindowSubItem::set_displayed_item(s32 arg1) {
     if (((u32) this->m_40 != 0U) && (arg1 != (s32) this->m_20)) {

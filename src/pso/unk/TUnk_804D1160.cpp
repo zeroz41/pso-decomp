@@ -1,51 +1,28 @@
 #pragma defer_codegen on
 
 #include "types.h"
-
 #include "pso/ui/window/TWindowMainMenu_80263AB0.h"
-
 #include "pso/ui/window/TWindowMessage.h"
-
 #include "pso/ui/window/TWindowBase.h"
-
 #include "pso/ui/window/TWindowHelpItem_80255AB4.h"
-
 #include "pso/ui/window/TWindowSubComCardList_8026CB08.h"
-
 #include "pso/ui/window/TWindowSubComCard_8007A810.h"
-
 #include "pso/ui/window/TWindowSubCustomEquip_80275D9C.h"
-
 #include "pso/ui/window/TWindowSubCustomSelect_80275D84.h"
-
 #include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
-
 #include "pso/unk/text_80076E84.h"
-
 #include "pso/unk/text_80263A20.h"
-
 #include "pso/ui/window/TWindowMenu.h"
-
 #include "pso/unk/TUnk_804D1160.h"
-
 #include "pso/ui/window/TWindowSubComCardList.h"
-
 #include "pso/ui/window/TWindowSubCustomEquip.h"
-
 #include "pso/unk/TLobby.h"
-
 #include "pso/ui/window/TWindowOptionCtrl.h"
-
 #include "pso/ui/window/TWindowSubComCard.h"
-
 #include "pso/ui/window/TWindowSubCustomSelect.h"
-
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-
 #include "pso/object/warp/TObjCityMainWarp.h"
-
 #include "pso/ui/Language.h"
-
 #include "pso/system/task/TObject.h"
 
 
@@ -79,32 +56,22 @@ struct Self_80275A8C {
     s32 f28;
     void *f2c;
 };
+
 extern "C" {
 u32 get_item_field_6__10TObjPlayerFPv(void *);
-
 s32 *get_shared_text_buffer(void);
-
 s32 weapon_has_extra_attack();
-
 void *get_player_by_client_id(s32 i);
-
 u8 get_cast_technique_level(void *, s16);
-
 s32 validate_and_clear_slot__10TObjPlayerFv(void *, s16);
-
 void text_builder_append_int(s32);
-
 void text_builder_append();
-
 u8 *calc_technique_parameters(u16, u8, s32);
-
 s32 set_depth__11TWindowBaseFf(void *);
-
 Ev_802758C8 *calc_equip_index__21TWindowSubCustomEquipFv(void *);
 }
 
 void text_builder_reset();
-
 s32 get_palette_consumable_count(u16, s32);
 
 struct Equip_80275CB0 {
@@ -120,21 +87,18 @@ struct Equip_80275CB0 {
     s16 x34;
     s16 x36;
 };
+
 extern "C" {
 void __ct__7TObjectFP7TObject(void *, void *);
-
 void *create__14TWindowMessageFlPCfUll(void *, const void *, s32, s32);
-
 void *get_window_layout_position(s32);
-
 void *TWindowSubCustomEquip__ct(void *, s32);
-
 extern s32 __vt__13TUnk_804D1160[];
-
 extern const f32 lbl_8044F718[2] = {190.0f, 168.0f};
 }
 
 #define self ((Equip_80275CB0 *)arg0)
+
 extern "C" {
 void *TWindowSubEquip__sub_80275CB0(void *arg0, void *arg1, s32 arg2) {
     void *p;

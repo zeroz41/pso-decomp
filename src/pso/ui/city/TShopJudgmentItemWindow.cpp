@@ -2,57 +2,32 @@
 
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/unk/text_80104FCC.h"
-
 #include "pso/ui/city/THunterGuildSeqOnlineTask_802156A0.h"
-
 #include "pso/ui/window/TWindowShortListCtrl_80221828.h"
-
 #include "pso/ui/city/TShopJudgmentItemWindow.h"
-
 #include "pso/ui/window/TWindowMenuIconLine.h"
-
 #include "pso/ui/window/TWindowBase.h"
-
 #include "types.h"
-
 #include "pso/network/protocol/protocol_types.h"
-
 #include "pso/ui/city/TShopArmorListWindow.h"
-
 #include "pso/ui/window/TWindowAddition.h"
-
 #include "pso/ui/window/TWindowSubComCardList.h"
-
 #include "pso/ui/city/TShopWindowBase.h"
-
 #include "pso/ui/window/TWindowMenu.h"
-
 #include "pso/ui/window/TWindowSubShortCutList.h"
-
 #include "pso/item/TItem.h"
-
 #include "pso/unk/TLobby.h"
-
 #include "pso/ui/window/TWindowHelpItem.h"
-
 #include "pso/ui/window/TWindowShortListCtrl.h"
-
 #include "pso/ui/window/TWindowSubComCard.h"
-
 #include "pso/ui/window/TWindowSubItem.h"
-
 #include "pso/ui/window/TWindowSubMag.h"
-
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
-
 #include "pso/player/TObjPlayer.h"
-
 #include "pso/ui/Language.h"
-
 #include "pso/system/task/TObject.h"
 
 const char *TShopJudgmentItemWindow__class_name = "TShopJudgmentItemWindow";
-
 struct Base_802205E4 { char pad[0x18]; };
 
 struct VObj_802205E4 : Base_802205E4 {
@@ -199,50 +174,33 @@ struct VObj_802209D8 : VBase_802209D8 {
     virtual void m30();
     virtual s8 m31();
 };
+
 extern "C" {
 int obj_getPtr2B0_20(u8 *p);
-
 void play_cue_stream_file(s32 name);
-
 u16 get_entity_id(s32);
 }
 
 s32 get_appraisal_text(s32 arg0);
+
 extern "C" {
 u8 *create_item_list_window(s32 arg0, s32 arg1, s32 arg2);
-
 void *memset(void *, int, unsigned long);
-
 s32 try_spend_actor_meseta(u8 *arg0, s32 arg1);
-
 s32 get_item_record__23TShopJudgmentItemWindowFPv(int, int, int);
-
 void set_judgment_target_flag(void *arg0, void *arg1);
-
 u8 *create_yes_no_window(s32 arg0, s32 arg1, u32 arg2, u32 arg3);
-
 s32 get_window_layout_position(s32);
-
 void send_6x25_equip_item(void *arg0, s32 arg1, s32 arg2);
-
 void TItemData__clear_unidentified_flag(void *arg0);
-
 u32 advance_item_id_counter(u16 client);
-
 u32 __nw__7TObjectFUl(int);
-
 u32 __ct__15TWindowHelpItemFPvUs(int, int, u16);
-
 u32 create__22TWindowLoadItemTextureFPv(int, u16);
-
 extern s32 local_client_id;
-
 s32 play_sound_effect(s32, s32, s32, s32);
-
 s32 sub_802239EC__13TShopSequenceFv(void *);
-
 void __dl__7TObjectFPv(void *);
-
 extern s32 __vt__23TShopJudgmentItemWindow[];
 }
 
@@ -262,6 +220,7 @@ TShopJudgmentItemWindow::TShopJudgmentItemWindow(void *arg1, void *arg2, void *a
     this->m_170 = 0;
     this->m_174 = 0;
 }
+
 extern "C" {
 TShopJudgmentItemWindow::~TShopJudgmentItemWindow() {
     if (m_154 != NULL) { ((TWindowBase *)m_154)->close(); m_154 = 0; }
@@ -315,6 +274,7 @@ void TShopJudgmentItemWindow::close() { if (this->m_50 != 0) { ((TObject *)(this
 }
 
 #define W ((Win_80221440 *)arg0)
+
 extern "C" {
 s32 TShopJudgmentItemWindow::build_item_list(void *arg0) {
     VObj_18_2e9c25 *items[32];
@@ -357,6 +317,7 @@ s32 TShopJudgmentItemWindow::build_item_list(void *arg0) {
 }
 
 #undef W
+
 extern "C" {
 void TShopJudgmentItemWindow::handle_input() {
 
@@ -377,6 +338,7 @@ void TShopJudgmentItemWindow::handle_input() {
 
 #pragma push
 #pragma fp_contract on
+
 extern "C" {
 void TShopJudgmentItemWindow::handle_judge_confirm() {
     s32 selected_menu_value;
@@ -434,6 +396,7 @@ block_14:
 }
 
 #pragma pop
+
 extern "C" {
 void TShopJudgmentItemWindow::create_result_windows() {
     u8 *arg0 = (u8 *)this;
@@ -549,6 +512,7 @@ block_19:
 }
 
 #define F(o, t) (*(t *)(arg0 + (o)))
+
 extern "C" {
 void TShopJudgmentItemWindow::handle_equip_prompt() {
     u8 *arg0 = (u8 *)this;
@@ -630,6 +594,7 @@ void TShopJudgmentItemWindow::handle_equip_prompt() {
 }
 
 #undef F
+
 extern "C" {
 void TShopJudgmentItemWindow::update() {
     VObj_80220940_802205E4 *o = (VObj_80220940_802205E4 *)this;

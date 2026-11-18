@@ -1,33 +1,19 @@
 #pragma defer_codegen on
 
 #include "types.h"
-
 #include "pso/ui/window/TWindowMenuIconLine.h"
-
 #include "pso/ui/window/TWindowBase.h"
-
 #include "pso/ui/window/TWindowSubQuestBoard.h"
-
 #include "pso/quest/TQuestThread.h"
-
 #include "pso/ui/window/TWindowSubComCard_80244774.h"
-
 #include "pso/ui/window/TWindowSubQuestBoard_8027D1E8.h"
-
 #include "pso/ui/window/TWindowMenu.h"
-
 #include "pso/ui/window/TWindowSubQuestBoardSelect.h"
-
 #include "pso/unk/TUnk_804D1818.h"
-
 #include "pso/system/task/TObject.h"
-
 #include "pso/unk/TLobby.h"
-
 #include "pso/ui/window/TWindowSubComCard.h"
-
 #include "pso/ui/window/TWindowSubMagPhoton.h"
-
 #include "pso/ui/window/TWindowKeyBoardHard.h"
 
 #pragma readonly_strings on
@@ -49,23 +35,16 @@ struct VO_8027CFC8 : VB_8027CFC8 {
 };
 
 struct Ent_8027CFC8 { u8 pad[0x20]; s32 f20; };
+
 extern "C" {
 void __dl__7TObjectFPv(void *);
-
 void __dt__7TObjectFv(void *, int);
-
 void __ct__7TObjectFP7TObject(void *, void *);
-
 extern s32 __vt__13TUnk_804D1818[];
-
 s8 get_page_index__20TWindowSubQuestBoardFv(s32);
-
 s32 fn_8027D1E8(s32);
-
 extern Ent_8027CFC8 quest_board_handlers[];
-
 int set_card_window_flags__19TWindowKeyBoardHardFPvll(void*, int, int);
-
 const char *TWindowSubQuestBoard__class_name = "TWindowSubQuestBoard";
 }
 
@@ -94,6 +73,7 @@ TWindowSubQuestBoard::~TWindowSubQuestBoard() {
     TWindowCtrl__sub_8027D1F8();
     if (*(void **)((s8 *)this + 0x28) != NULL) { ((TWindowBase *)(*(void **)((s8 *)this + 0x28)))->close(); this->m_28 = 0; }
 }
+
 extern "C" {
 void TWindowSubQuestBoard::run_task() {
     switch (this->m_1c) {

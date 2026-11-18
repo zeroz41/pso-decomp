@@ -8,51 +8,28 @@
 #pragma dont_inline off
 
 #include "types.h"
-
 #include "pso/ui/city/TShopDeleteItemWindow.h"
-
 #include "pso/ui/window/TWindowMenuIconLine.h"
-
 #include "pso/ui/window/TWindowBase.h"
-
 #include "pso/system/task/TObject_80019A50.h"
-
 #include "pso/ui/city/TShopWindowBase.h"
-
 #include "pso/ui/window/TWindowAddition.h"
-
 #include "pso/ui/window/TWindowSubComCardList.h"
-
 #include "pso/ui/window/TWindowMenu.h"
-
 #include "pso/ui/city/TCheckRoomSequence.h"
-
 #include "pso/unk/TLobby.h"
-
 #include "pso/ui/city/TShopEquipmentSellWindow.h"
-
 #include "pso/ui/window/TWindowHelpItem.h"
-
 #include "pso/ui/window/TWindowSubComCard.h"
-
 #include "pso/ui/window/TWindowSubItem.h"
-
 #include "pso/ui/window/TWindowInputNumber.h"
-
 #include "pso/ui/city/TShopArmorListWindow.h"
-
 #include "pso/ui/city/TShopGetItemWindow.h"
-
 #include "pso/ui/city/TShopJudgmentItemWindow_8026DF00.h"
-
 #include "pso/ui/window/TWindowSetLevelUp.h"
-
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-
 #include "pso/unk/text_80222C28.h"
-
 #include "pso/item/TItemData.h"
-
 #include "pso/system/task/TObject.h"
 
 struct Base_80337910 { char pad[0x18]; };
@@ -111,31 +88,20 @@ typedef struct Kind_80337C2C {
     u8 kind;
     u8 rest[0x13];
 } Kind_80337C2C;
+
 extern "C" {
 s32 compact_items__18TCheckRoomSequenceFi(int);
-
 s32 remove_bank_item_amount__18TCheckRoomSequenceFiii(int, int, int);
-
 s32 copy_item_record__18TCheckRoomSequenceFiPvi(int, void *, int);
-
 s32 copy_bank_to_card_window(int);
-
 s32 sub_8022397C__15TShopWindowBaseFv(void *);
-
 u16 get_entity_id(void *);
-
 u8 *create_yes_no_window(s32 arg0, s32 arg1, u32 arg2, u32 arg3);
-
 void *get_window_layout_position(int);
-
 s32 copy_bank_item_with_stack_limit(s32 idx, void *data, s32 *out, s32 slot);
-
 s32 sub_802239EC__13TShopSequenceFv(void *);
-
 s16 get_child_field1c__13TShopSequenceFv(void *);
-
 void *__ct__18TWindowInputNumberFPvllls(void *, void *, int, s32, int, int);
-
 struct Base_80337980_80337910 { char pad[0x18]; };
 
 struct VObj_80337980_80337910 : Base_80337980_80337910 {
@@ -144,7 +110,6 @@ struct VObj_80337980_80337910 : Base_80337980_80337910 {
 };
 
 void __dl__7TObjectFPv(void *);
-
 extern s32 __vt__21TShopDeleteItemWindow[];
 }
 
@@ -166,6 +131,7 @@ TShopDeleteItemWindow::TShopDeleteItemWindow(void *arg1, void *arg2, void *arg3)
     *(void **)((s8 *)this + 0x64) = arg2;
     ((TItemData *)((char *)this + 64))->init();
 }
+
 extern "C" {
 TShopDeleteItemWindow::~TShopDeleteItemWindow() {
     if (m_30 != NULL) { ((TWindowBase *)m_30)->close(); m_30 = 0; }
@@ -215,6 +181,7 @@ void TShopDeleteItemWindow::vfunc_11() {
 
 #pragma push
 #pragma opt_loop_invariants off
+
 extern "C" {
 void TShopDeleteItemWindow::sub_80337E2C() {
     s32 base;
@@ -290,6 +257,7 @@ void TShopDeleteItemWindow::sub_80337E2C() {
 #pragma push
 #pragma opt_common_subs off
 #define self ((Win_80337C2C *)arg0)
+
 extern "C" {
 s32 TShopDeleteItemWindow::update_item_select(void *arg0) {
     Kind_80337C2C kind;
@@ -339,6 +307,7 @@ s32 TShopDeleteItemWindow::update_item_select(void *arg0) {
 
 #pragma pop
 #undef self
+
 extern "C" {
 void TShopDeleteItemWindow::handle_number_input() {
     if (*(void **)(((u8 *)this) + 0x38) != 0 && ((TWindowInputNumber *)(*(void **)(((u8 *)this) + 0x38)))->is_confirmed() != 0) {

@@ -3,48 +3,31 @@
 #pragma readonly_strings on
 
 #include "types.h"
-
 #include "pso/system/vector.h"
-
 #include "pso/player/TObjPlayer_80011014.h"
-
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 
 struct GXColor_80083B8C { u8 r, g, b, a; };
+
 extern "C" {
 void GXPixModeSync(void);
-
 void GXSetTexCopySrc(u16, u16, u16, u16);
-
 void GXSetTexCopyDst(u16, u16, s32, u8);
-
 void GXSetCopyClear(GXColor_80083B8C, u32);
-
 void GXCopyTex(void *, u8);
-
 void GXSetViewport(f32, f32, f32, f32, f32, f32);
-
 void GXSetScissor(u32, u32, u32, u32);
-
 void clear_camera_capture_flags_bit2(void);
-
 void set_camera_capture_flags_bit2(void);
 }
 
 #include "pso/effect/TEffect.h"
-
 #include "pso/render/render_util.h"
-
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
-
 #include <stddef.h>
-
 #include "pso/player/TObjPlayer.h"
-
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
-
 #include "pso/object/ambient/TObjFish.h"
 
 struct Stack_80082C30 {
@@ -120,115 +103,78 @@ GinjaTextureList shared_effect_texture_list = {effect_textures, 54};
 /* inferred: one-entry list init_capture_texture fills with a 640x480 render texture
    that capture_viewport_texture and copy_screen_to_texture copy the framebuffer into */
 GinjaTextureEntry shared_capture_texture_entry = {NULL, 0, NULL};
-
 GinjaTextureList shared_capture_texture_list = {&shared_capture_texture_entry, 1};
 
 /* inferred: one-entry list TObjPlayer__sub_80083F38 fills with a 256x256 render texture
    that end_shadow_map_pass copies the shadow pass into and draw_if_all_ready binds */
 GinjaTextureEntry shadow_map_texture_entry = {NULL, 0, NULL};
-
 GinjaTextureList shadow_map_texture_list = {&shadow_map_texture_entry, 1};
-
 Vec shadow_light_position = {0.0f, 0.0f, 0.0f};
+
 extern "C" {
 extern s32 lbl_805D63F0;
-
 void TObjPlayer__sub_80082C30(void);
-
 s32 is_on_current_screen__11TCameraCtrlFv(void *, s32);
-
 extern u8 controller_physical_port_bank[];
-
 extern GXColor_80083B8C lbl_805E1214;
-
 extern GXColor_80083B8C lbl_805E1218;
 }
 
 #include "pso/camera/TCameraCtrl_80082FCC.h"
-
 #include "pso/system/task/TMainTask.h"
-
 #include "pso/unk/TUnk_8048E5DC.h"
-
 #include <stddef.h>
-
 #include "pso/camera/TCameraCtrl.h"
 
 struct G_80082FCC { s32 value; s32 v4; f32 f8; f32 fC; };
+
 extern "C" {
 s32 TCameraCtrl__sub_80068EF0();
 }
 
 void direction_to_pitch_yaw(u8 *arg0, s32 *arg1, s32 *arg2);
+
 extern "C" {
 s32 GXSetZMode(int, int, int);
 }
 
 void set_perspective_projection_from_fov(s32 arg0, f32 farg0, f32 farg1, f32 farg2);
-
 void set_camera_look_at(u8 *eye, u8 *target, u8 *up);
-
 extern u8 *camera_ctrl_instance;
-
 extern u32 camera_render_target_singleton;
-
 extern GXColor_80083B8C lbl_805E1210;
-
 extern G_80082FCC TCameraCtrl__data_804FF634;
-
 void load_list_texture(s32 idx, s32 wrapS, s32 wrapT, s32 map);
-
 extern s32 __vt__13TUnk_8048E5DC[];
 
 #include "pso/unk/text_800832EC.h"
-
 #include "pso/player/TObjPlayer_80083B38.h"
-
 #include "pso/player/TObjPlayer_800847A8.h"
-
 #include "pso/system/memory.h"
-
 #include "pso/player/TUnk_8048E5F4.h"
-
 #include "pso/effect/particle/TParticleCtrl.h"
-
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-
 #include "pso/map/FloorArea.h"
-
 #include "pso/unk/TLobby.h"
-
 #include "pso/player/TObjPlayer_80083594.h"
-
 #include "pso/unk/text_803D96A8.h"
-
 #include <stddef.h>
-
 #include "pso/object/trap/TOTrapAncient02.h"
-
 #include "pso/system/scene/TScene_800838C4.h"
-
 #include "pso/system/scene/TScene.h"
-
 #include "pso/system/main_loop.h"
+
 extern "C" {
 s32 __ct__7TObjectFP7TObject(void *, void *);
-
 s32 init_render_target__10TObjPlayerFv();
-
 u8 camera_capture_overlay_alpha = 143;
-
 extern s32 __vt__13TUnk_8048E5F4[];
-
 extern s32 model_render_flags;
 }
 
 void set_ginja_post_texgen_count(s32 x);
-
 void set_ginja_post_tev_stage_count(s32 x);
-
 struct Rect_80083F38 { u8 data[0x20]; };
-
 struct Rect_800846C8 { u8 data[0x20]; };
 
 struct View_80083D54 {
@@ -238,11 +184,10 @@ struct View_80083D54 {
 };
 
 struct Mtx44_80083D54 { f32 m[4][4]; };
+
 extern "C" {
 void translate_current_matrix_ps(f32, f32, f32);
-
 void rotate_current_matrix_x_ps(s32);
-
 void push_identity_matrix_ps();
 }
 
@@ -251,26 +196,19 @@ struct Stack_800836E8 {
     f32 spC;
     GC_Mtx sp10;
 };
+
 extern "C" {
 s32 TCameraCtrl__sub_800689F4();
-
 s32 rotate_matrix_y(int, void *);
-
 s32 push_matrix();
-
 s32 GXSetTevOp(s32, s32);
-
 s32 GXSetTevOrder(s32, s32, s32, s32);
 }
 
 void calc_projection_screen_offset(f32 *arg0, f32 *arg1);
-
 f32 calc_camera_fov_degrees(void);
-
 void load_current_pos_matrix(s32 arg0);
-
 void load_current_tex_matrix(s32 i);
-
 extern GC_Mtx *current_matrix;
 
 struct Stack_80083914 {
@@ -278,123 +216,74 @@ struct Stack_80083914 {
     u8 pad_C[0x4];
     GC_Mtx sp10;
 };
+
 extern "C" {
 s32 C_MTXLightFrustum(void *, f32, f32, f32, f32, f32, f32, f32, f32);
-
 f32 rotate_matrix_by_node_angles(void *, int);
-
 f64 get_end_text_value__10TObjPlayerFv(f32);
-
 f32 sin_table_lookup(int);
-
 f32 cos_table_lookup(int);
 }
 
 int lbl_805D4EE0;
-
 unsigned char camera_capture_flags;
-
 u32 camera_render_target_singleton;
+
 extern "C" {
 void TObjPlayer__sub_80083FB0(void);
-
 int TObjPlayer__sub_80083F9C(void);
-
 void *get_player_by_client_id(s32 i);
-
 s32 is_inactive__10TObjPlayerFv();
-
 void reset_and_release_capture_texture(void);
-
 void reset_and_init_capture_texture(void);
-
 void clear_camera_flag(void);
-
 void set_camera_capture_flags_bit0(void);
-
 void **release_texture_list();
-
 void **TObjPlayer__sub_80083F04(void);
-
 s32 is_in_shadow_range(u8 *arg0, f32 farg0);
-
 s32 get_capture_texture_pixels(void);
-
 void TObjPlayer__sub_80084500(void);
-
 void set_texture_name(void *, void *, int, int);
-
 s32 load_texture_list(void *);
-
 void TObjPlayer__sub_80083F38(void);
-
 void **release_shared_capture_texture(void);
-
 u8 get_display_copy_filter();
-
 s32 Dolphin_GXSetCopyFilter(int, void *, int, void *);
-
 s32 GXSetProjection(void *, int);
-
 s32 pop_matrix();
-
 void TObjPlayer__sub_80083FA4(void);
-
 void C_MTXFrustum(void *, f32, f32, f32, f32, f32, f32);
-
 f32 vec_squared_length(void *);
-
 void normalize_vector(void *);
-
 void TObjPlayer__sub_800847FC(void);
-
 void GXTexCoord2f32_80083594(f32 farg0, f32 farg1);
-
 void GXColor1u32_80083594(s32 arg0);
-
 void GXPosition3f32_80083594(f32 farg0, f32 farg1, f32 farg2);
-
 s32 Dolphin_GXSetVtxDesc(s32, s32);
-
 s32 GXClearVtxDesc();
-
 s32 GXSetVtxAttrFmt(s32, s32, s32, s32, s32);
-
 s32 GXSetNumTexGens(s32);
-
 s32 GXBegin(s32, s32, s32);
-
 s32 GXSetNumChans(s32);
 }
 
 void disable_camera_capture_overlay(void);
-
 void init_capture_texture(s32 wide);
-
 void set_ginja_draw_flags(s32 arg0);
-
 void set_light_ambient_color(f32 r, f32 g, f32 b);
-
 void submit_light0(s32 arg0, s32 arg1);
-
 void load_gx_light_slot(s32 arg0);
-
 extern s32 scene_projection_state[];
-
 extern u8 *active_gx_render_mode;
-
 extern GXColor_80083B8C lbl_805E120C;
-
 extern GXColor_80083B8C lbl_805E1208;
-
 void capture_viewport_texture(void);
-
 void setup_blended_textured_draw(void);
 
 #define VIEW ((View_80083D54 *)camera_ctrl_instance)
+
 extern "C" {
 f64 atan();
-
 s32 GXSetTexCoordGen2(s32 a0 = 0, s32 a1 = 0, s32 a2 = 0, s32 a3 = 0, s32 a4 = 0, s32 a5 = 0);
 
 int TObjPlayer::is_inactive() { return this->m_cfc == 0; }
@@ -772,6 +661,7 @@ f32 calc_camera_fov_degrees(void) {
 
 #pragma push
 #pragma opt_common_subs off
+
 extern "C" {
 void render_projected_shadow_receiver(u8 *arg0, s32 arg1) {
     typedef char sp8_offset[(offsetof(Stack_80083914, sp8) == 0x0) ? 1 : -1];
@@ -805,6 +695,7 @@ void render_projected_shadow_receiver(u8 *arg0, s32 arg1) {
 }
 
 #pragma pop
+
 extern "C" {
 void TScene::apply_single_screen_state() {
     if ((is_split_screen() == 0) && (TObjPlayer::check_all_players_ready() != 0)) {
@@ -896,6 +787,7 @@ void reset_particle_tev() {
         model_render_flags &= 0xFFF7FFFF;
     }
 }
+
 extern "C" {
 void *TUnk_8048E5F4::init_subobject(void *parent, void *flags) {
     __ct__7TObjectFP7TObject(this, parent);
