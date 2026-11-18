@@ -8,6 +8,8 @@
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/ui/frontend/TAdSubPlyItemGC.h"
 #include "types.h"
+extern "C" { extern const char TAdPlayerLoadGC__class_name_string[16] = "TAdPlayerLoadGC"; }
+extern "C" { extern const char TAdSubPlyItemGC__class_name_string[16] = "TAdSubPlyItemGC"; }
 
 struct Entry_802D6DAC { s32 idx; const char *str; s32 id; NJS_POINT2 pos; };
 

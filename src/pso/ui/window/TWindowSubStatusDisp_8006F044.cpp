@@ -33,11 +33,13 @@ struct O_8006F134 { u8 pad[0xc0]; E_8006F134 e[4]; s32 pad2; E_8006F134 def; };
 
 extern "C" {
 extern RecoveredGlobal_8006F23C_lbl_8048C9D8 challenge_mode_state;
-extern s32 lbl_80438590[];
+extern "C" { extern const char lbl_80438570[11] = "TChallenge"; }
+extern const char lbl_8043857C[5] = "... ";
+extern const s32 lbl_80438584[3] = { 0, 1, 2 };
+extern const s32 lbl_80438590[3] = { 0, 9, 14 };
+extern const s32 lbl_8043859C[3] = { 9, 5, 9 };
 s32 *TWindowSubStatusDisp__sub_8006F0D8(O_8006F0D8 *self, s32 slot);
-extern s32 lbl_80438584[];
 E_8006F134 *TWindowSubStatusDisp__sub_8006F134(O_8006F134 *self, s32 slot);
-extern s32 lbl_8043859C[];
 
 typedef s32 (*SlotQueryNoArgs_8006F094)(void);
 

@@ -122,8 +122,8 @@ extern s32 TLobby__data_805D6120;
 extern u32 TLobby__data_805D6124;
 extern s32 TLobby__data_805D6128;
 void swap_object_row_endian(void *);
-extern char lbl_8044BC24[];
-extern char lbl_8044BC2C[];
+extern const char lbl_8044BC24[7] = "ad.dat";
+extern const char lbl_8044BC2C[6] = "d.dat";
 extern Map_8020D9A0 *TLobby__data_805D6068;
 s32 load_map_decoration_rows(s32 map, s32 grp, s32 room);
 extern "C" {

@@ -44,7 +44,10 @@ s32 free_member__17TWindowSubComCardFv(int, int);
 s32 forward_slot_selection__16TAdChrSelASlotGCFPvPv(int, int, int, f32);
 s32 create__19TWindowMessageYesNoFPvPvPvPv(void *, int, int, int);
 extern s32 __vt__17TWindowReturnCity[];
-extern s32 TWindowReturnCity__class_name;
+#pragma push
+#pragma readonly_strings on
+const char *TWindowReturnCity__class_name = "TWindowReturnCity";
+#pragma pop
 u8 *TWindowReturnCity__ct(TWindowReturnCity *arg0, s32 arg1, s32 arg2);
 u32 __nw__7TObjectFUl(s32);
 extern s32 tl_00;

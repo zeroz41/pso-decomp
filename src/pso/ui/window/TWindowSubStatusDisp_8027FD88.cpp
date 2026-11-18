@@ -335,7 +335,8 @@ s32 build_player_class_stat_template(s32 arg0, s32 arg1);
 s32 build_player_equipment_requirement_stats(int, void *);
 s32 get_shared_text_buffer();
 s32 get_layout_id__20TWindowSubStatusDispFv(s32);
-extern s32 status_disp_vt5_message_ids[];
+extern "C" { extern const char TWindowSubStatusDisp__class_name_string[21] = "TWindowSubStatusDisp"; }
+extern const s32 status_disp_vt5_message_ids[4] = { 145, 146, 145, 146 };
 
 void fn_8027FD88(void* p, f32 a, f32 b) { *(f32*)((char*)p + 0x6c) = a; *(f32*)((char*)p + 0x70) = b; }
 void fn_8027FD94(void* p, s16 v) { *(s16*)((char*)p + 0x62) = v; }
@@ -758,7 +759,7 @@ void *init__21TWindowSubComCardListFiii(void *, int, int, s32);
 s32 get_window_layout_position(int);
 
 extern s32 __vt__20TWindowSubStatusDisp[];
-extern s32 TWindowSubStatusDisp__class_name;
+const char *TWindowSubStatusDisp__class_name = TWindowSubStatusDisp__class_name_string;
 extern const f32 lbl_805DD70C;
 SD_80281760 *TWindowSubStatusDisp__ct(SD_80281760 *arg0, s32 arg1);
 void *get_player_by_client_id(s32 i);
@@ -869,7 +870,7 @@ SD_80281760 *TWindowSubStatusDisp__ct(SD_80281760 *arg0, s32 arg1) {
     void *w;
     ((TWindowDD *)arg0)->construct_base((u8 *)TWindowSubStatusDisp__window_layout, (s16)arg1, (u8 *)(get_window_layout_position(0x19)));
     arg0->vt = ((u8 *)&__vt__20TWindowSubStatusDisp);
-    arg0->f0 = TWindowSubStatusDisp__class_name;
+    arg0->f0 = (s32)TWindowSubStatusDisp__class_name;
     arg0->f20 = arg1;
     arg0->f60 = 0;
     arg0->f62 = arg0->f60;

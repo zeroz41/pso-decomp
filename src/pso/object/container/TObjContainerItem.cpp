@@ -1173,3 +1173,12 @@ void TObjContainerAbeEnemy::vfunc_6(s16 *arg1, s32 arg2) {
     }
 }
 
+
+extern const f32 lbl_805DBCF0 = 1.0f;
+extern const f32 lbl_805DBCF4 = 0.0f;
+extern const f32 lbl_805DBCF8 = 40.0f;
+extern const f32 lbl_805DBCFC = 0.85f;
+extern const f32 lbl_805DBD00 = 400.0f;
+extern const f32 lbl_805DBD04 = 10.0f;
+extern const f32 lbl_805DBD08 = 300.0f;
+extern const f32 lbl_805DBD0C = 9.0f;
