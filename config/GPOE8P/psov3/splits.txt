@@ -3917,26 +3917,13 @@ pso/object/mine/TOCapsuleMachine01.cpp:
 	.sbss       start:0x805D58C0 end:0x805D58D0
 	.sdata2     start:0x805DB380 end:0x805DB388
 
-pso/object/switch/TOChatSensorCapture.cpp:
-	.text       start:0x8015A8D8 end:0x8015ABD0
-	.data       start:0x804AFF78 end:0x804AFF90
-	.sdata      start:0x805D2EE0 end:0x805D2EE8
-	.sbss       start:0x805D58D8 end:0x805D58E0
-
-pso/unk/TLobby_8015ABD0.cpp:
-	.text       start:0x8015ABD0 end:0x8015ABD8
-
-pso/object/switch/TOChatSensorFolder.cpp:
-	.text       start:0x8015ABD8 end:0x8015AC80
-	.data       start:0x804AFF90 end:0x804AFFA8
-
 pso/object/switch/TOChatSensor.cpp:
-	.text       start:0x8015AC80 end:0x8015B214
-	.data       start:0x804AFFA8 end:0x804AFFDC
+	.text       start:0x8015A8D8 end:0x8015B2C4
+	.rodata     start:0x80440478 end:0x804404C0
+	.data       start:0x804AFF78 end:0x804AFFDC
+	.sdata      start:0x805D2ED8 end:0x805D2EE8
+	.sbss       start:0x805D58D0 end:0x805D58E0
 	.sdata2     start:0x805DB388 end:0x805DB390
-
-pso/object/switch/TOChatSensor_8015B214.cpp:
-	.text       start:0x8015B214 end:0x8015B2C4
 
 pso/object/mine/TOComputerMachine01.cpp:
 	.text       start:0x8015B2C4 end:0x8015B714

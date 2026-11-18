@@ -838,7 +838,6 @@ pso/unk/TLobby_8013FFA8.cpp
 pso/unk/TLobby_801404CC.cpp
 pso/unk/TLobby_80140FF4.cpp
 pso/unk/TLobby_80156B18.cpp
-pso/unk/TLobby_8015ABD0.cpp
 pso/unk/TLobby_80160804.cpp
 pso/unk/TLobby_801461EC.cpp
 pso/unk/TLobby_80191F80.cpp
@@ -1016,7 +1015,6 @@ pso/object/ruins/TOCapsuleAncient01.cpp
 pso/object/lab/TOCapsuleLabo.cpp
 pso/object/mine/TOCapsuleMachine01.cpp
 pso/object/switch/TOChatSensor.cpp
-pso/object/switch/TOChatSensor_8015B214.cpp
 pso/object/mine/TOComputerMachine01.cpp
 pso/object/mine/TOComputerMachine01_8023DD0C.cpp
 pso/object/container/TOContainerAncientEnemy.cpp
@@ -1917,8 +1915,6 @@ pso/system/TGStream.cpp
 pso/system/THeap.cpp
 pso/system/TMemberCheck.cpp
 pso/ui/font/TNECFontEORFunction.cpp
-pso/object/switch/TOChatSensorCapture.cpp
-pso/object/switch/TOChatSensorFolder.cpp
 pso/object/switch/TOSwitchAttackSub.cpp
 pso/map/TSetEvtDestroy.cpp
 pso/ui/frontend/TAdADXlogo.cpp
