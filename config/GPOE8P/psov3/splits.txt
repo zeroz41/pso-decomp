@@ -12480,7 +12480,8 @@ pso/network/NetPppLink.c:
 
 pso/network/PppFsm.c:
 	.text       start:0x803FD694 end:0x803FED78
-	.data       start:0x804FD5A8 end:0x804FD628
+	.data       start:0x804FD3A8 end:0x804FD628
+	.sbss       start:0x805D7AA0 end:0x805D7AA8
 
 pso/network/PppIpcp.c:
 	.text       start:0x803FED78 end:0x804004DC
