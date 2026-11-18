@@ -771,3 +771,6 @@ void TLobby__sub_803FADA0(PppFrame **pbuf, A_803FADA0 *hdr, s32 type, s32 total_
 }
 
 u32 ppp_ipv6cp_protocol_state[0x2A];
+
+u8 lbl_805D7A74[1];
+u8 lbl_805D7A70[4];

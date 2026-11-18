@@ -89,7 +89,7 @@ void NetMemset(void* destination, int value, int size);
 void TLobby__sub_803FA234(void);
 void TLobby__sub_803FA238(u8* state);
 void TLobby__sub_803FA280(void);
-extern u8 lbl_805D7A70[1];
+extern u8 lbl_805D7A70[4];
 extern u8 lbl_805D7A74[1];
 extern s32 net_default_thread_priority;
 void TLobby__sub_803FA2A8(P_803FA2A8 *o);
