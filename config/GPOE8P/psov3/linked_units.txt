@@ -460,7 +460,6 @@ pso/enemy/shark/TObjEneShark.cpp
 pso/enemy/slime/TObjEneSlimeOne_800EC394.cpp
 pso/enemy/slime/TObjEneSlimeTailAttack.cpp
 pso/enemy/slime/TObjEneSlime_802D7260.cpp
-pso/enemy/TObjEnemy.cpp
 pso/enemy/TObjEnemyCustom.cpp
 pso/enemy/TObjEnemy_8020C3E0.cpp
 pso/enemy/TUnk_804909C4.cpp
@@ -806,7 +805,6 @@ pso/unk/TLobby_8007B858.cpp
 pso/unk/TLobby_8007C550.cpp
 pso/unk/TUnk_8048E1A4.cpp
 pso/unk/TLobby_800F5CF0.cpp
-pso/unk/TLobby_800F7744.cpp
 pso/unk/TLobby_800F795C.cpp
 pso/unk/TLobby_800F8AA8.cpp
 pso/unk/TLobby_800F9690.cpp

@@ -2010,19 +2010,12 @@ pso/enemy/panarms/TObjEnePanarms_800F5E90.cpp:
 	.text       start:0x800F5E90 end:0x800F5EE0
 
 pso/object/TObjControl.cpp:
-	.text       start:0x800F5EE0 end:0x800F7744
-	.rodata     start:0x8043D778 end:0x8043D788
-	.data       start:0x80497C60 end:0x80497C78
+	.text       start:0x800F5EE0 end:0x800F794C
+	.rodata     start:0x8043D760 end:0x8043D788
+	.data       start:0x80497C60 end:0x80497DC4
+	.sdata      start:0x805D2B00 end:0x805D2B08
 	.sbss       start:0x805D5328 end:0x805D532C
-	.sdata2     start:0x805DA8C0 end:0x805DA8E0
-
-pso/unk/TLobby_800F7744.cpp:
-	.text       start:0x800F7744 end:0x800F7778
-
-pso/enemy/TObjEnemy.cpp:
-	.text       start:0x800F7778 end:0x800F794C
-	.data       start:0x80497C78 end:0x80497DC4
-	.sdata2     start:0x805DA8E0 end:0x805DA8E4
+	.sdata2     start:0x805DA8C0 end:0x805DA8E4
 
 pso/enemy/EnemyFactoryTables.cpp:
 	.data       start:0x80497DC8 end:0x80498F28

@@ -1,17 +1,29 @@
+#pragma defer_codegen on
+
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
-#include "pso/system/vector.h"
-#include "pso/object/base/TObjChara.h"
-#include "pso/enemy/TUnk_80493450.h"
-#include "pso/object/TObjControl.h"
-#include "pso/enemy/TObjEnemy.h"
-#include "pso/player/TObjPlayer.h"
-#include "pso/system/task/TObject.h"
-#include "pso/unk/TLobby.h"
 
+#include "pso/system/vector.h"
+
+#include "pso/object/base/TObjChara.h"
+
+#include "pso/enemy/TUnk_80493450.h"
+
+#include "pso/object/TObjControl.h"
+
+#include "pso/enemy/TObjEnemy.h"
+
+#include "pso/player/TObjPlayer.h"
+
+#include "pso/system/task/TObject.h"
+
+#include "pso/unk/TLobby.h"
 
 #include "pso/object/base/TObjMotion.h"
 
+#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+
+#include "pso/unk/TLobby_800F7744.h"
 
 struct Ply_800F7118 {
     u8 pad0[0x28];
@@ -28,13 +40,17 @@ struct Ply_800F7118 {
     u8 pad350[0x36C - 0x350];
     s32 f36C;
 };
-
 extern "C" {
 u16 get_entity_id(void *);
+
 extern s32 registered_player_count;
+
 extern s32 lbl_805D5870;
+
 extern u32 TObjPlayer__data_8050D460[];
+
 u8 *get_enemy_entity(u16 arg0);
+
 struct EnemyControlDispatchBase { char pad[0x18]; };
 
 struct EnemyControlDispatch : EnemyControlDispatchBase {
@@ -417,458 +433,354 @@ struct Plr_800F6BF0 : VBase_800F6BF0 {
 };
 
 f32 TObjPlayer__sub_800192C4(s32, s32);
+
 u16 obj_getArrU16_FC(void *, int);
+
 s32 obj_testFlag_2E4__9TObjCharaFUl(void *, u32);
+
 s16 get_attack_params_atp_min(void *);
+
 s32 TObjPlayer__sub_8001943C(void *, int);
+
 s16 TObjPlayer__sub_800194E8(void *);
+
 s16 get_attack_params_atp_max(void *);
+
 void obj_setFlags30(void *, s32);
+
 s32 is_split_screen();
+
 s32 get_current_floor();
+
 s32 exchange_object_state__9TObjEnemyFls(void *, void *, int);
+
 s32 is_quest_active();
+
 void subtractive_rng_seed(void *, s32);
+
 Ene_800F62E0 * find_active_entity_by_id(u16);
+
 void * __ct__11TObjControlFP7TObject(void *arg0);
+
 void handle_6x9C_set_enemy_low_game_flags_ultimate(Msg_800F62E0 *arg0);
+
 void handle_6x0A_update_enemy_state(Msg_800F6464 *arg0);
+
 void award_enemy_experience__9TObjEnemyFl(u8 *arg0, s32 arg1);
+
 void link_chain_nodes__10TObjPlayerFPvPvPv(void *arg0, Node_800F6E2C *arg1, Node_800F6E2C *arg2);
+
 void apply_by_index__9TObjEnemyFs(s16, void *);
+
 s32 get_attack_credit_slot_count(void *);
+
 f32 TLobby__sub_800F7A6C();
+
 f32 TLobby__sub_800F7A7C();
+
 s32 create_font_small_task(void *, s32, s32, s32, const char *, s32, u16);
+
 int send_6x60_standard_drop_item_request(void*);
+
 s32 fn_801B0480(void *, void *, s32);
+
 s32 draw_player_status(void *, void *, const char *);
+
 s32 submit_cursor_candidate(int, int);
+
 Plr_800F6BF0 * get_player_by_client_id(u16);
+
 s32 minimap_render_dot(void *, int, int, int);
+
 void __ct__7TObjectFP7TObject(void *);
+
 s32 is_challenge_mode_active();
 }
+
 void init_6x9C_enemy_low_game_flags_packet(u8 *arg0);
+
 extern Hdr_800F6464 *TLobby__data_805D6144;
+
 extern s32 __vt__11TObjControl[];
+
 extern u8 lobby_rule_settings[];
-extern void *TObjControl__name;
+
 s32 area_random_seed;
+
 extern s32 game_difficulty_selection;
-void TObjControl::run_task() {
-    s16 mode;
-    u8 *enemy;
-    u8 *control_record;
-
-    enemy = (u8 *)m_down;
-    if (enemy == NULL) {
-        queue_destruction();
-        return;
-    }
-    if (TObjPlayer::check_demo_mode() == 0) {
-        if (((EnemyControlDispatch *)(enemy))->m31() != 0) {
-            ((TObject *)enemy)->resume_update();
-            ((EnemyControlDispatch *)(enemy))->m61();
-            return;
-        }
-        ((EnemyControlDispatch *)(enemy))->m39();
-        ((EnemyControlDispatch *)(enemy))->m40();
-        if (((EnemyControlDispatch *)(enemy))->m41() == 0) {
-            ((EnemyControlDispatch *)(enemy))->m36();
-            if ((((EnemyControlDispatch *)(enemy))->m34() != 0) || (((EnemyControlDispatch *)(enemy))->m38() != 0) || (((EnemyControlDispatch *)(enemy))->m37() != 0)) {
-                submit_cursor_candidate((int)enemy, -1);
-                minimap_render_dot(enemy + 0x38, -0x5DB4, 1, 0);
-                ((EnemyControlDispatch *)(enemy))->m26();
-                ((TObject *)enemy)->pause_update();
-                return;
-            }
-            ((TObject *)enemy)->resume_update();
-        }
-        if (((EnemyControlDispatch *)(enemy))->m30() != 0) {
-            ((EnemyControlDispatch *)(enemy))->m60();
-            return;
-        }
-        if (((EnemyControlDispatch *)(enemy))->m29() != 0) {
-            ((EnemyControlDispatch *)(enemy))->m59();
-            return;
-        }
-        if (!(*(s32 *)((s8 *)enemy + 0x30) & 0x600000)) {
-            if ((void *) *(u8 **)((s8 *)enemy + 0x314) != NULL) {
-                m_decision_mode = 0;
-            } else {
-                m_decision_mode = 2;
-            }
-            mode = m_decision_mode;
-            switch (mode) {
-            case 0:
-                control_record = (u8 *)(*(u8 **)((s8 *)enemy + 0x314));
-                if (*(s32 *)((s8 *)control_record + 8) & 4) {
-                    ((EnemyControlDispatch *)(enemy))->m58();
-                    return;
-                }
-                if (*(f32 *)((s8 *)control_record + 0x24) > 0.1f) {
-                    ((EnemyControlDispatch *)(enemy))->m57();
-                    return;
-                }
-                ((EnemyControlDispatch *)(enemy))->m56();
-                break;
-            case 1:
-            case 2:
-                ((EnemyControlDispatch *)(enemy))->m26();
-                if (((EnemyControlDispatch *)(enemy))->m27() != 0) {
-                    ((EnemyControlDispatch *)(enemy))->m56();
-                    return;
-                }
-                if (((EnemyControlDispatch *)(enemy))->m32() != 0) {
-                    ((EnemyControlDispatch *)(enemy))->m57();
-                    return;
-                }
-                if (((EnemyControlDispatch *)(enemy))->m28() != 0) {
-                    ((EnemyControlDispatch *)(enemy))->m58();
-                    return;
-                }
-                ((EnemyControlDispatch *)(enemy))->m57();
-                break;
-
-            }
-        }
-    }
-}
-
-TObjControl::~TObjControl() {}
-
-void *__ct__11TObjControlFP7TObject(void *control) {
-    __ct__7TObjectFP7TObject(control);
-    *(s32 **)((s8 *)control + 0x18) = __vt__11TObjControl;
-    *(void * *)&((TObjControl *)control)->m_name = TObjControl__name;
-    ((TObjControl *)control)->m_decision_mode = 2;
-    ((TObjControl *)control)->m_reserved = 0;
-    return control;
-}
-
-void handle_6x9C_set_enemy_low_game_flags_ultimate(Msg_800F62E0 *arg0) {
-    Ene_800F62E0 *e;
-    s32 flags;
-    if (arg0 == NULL) {
-        return;
-    }
-    if (game_difficulty_selection != 3) {
-        return;
-    }
-    ((TLobby *)arg0)->bswap_field();
-    if (arg0->id < 0x1000) {
-        return;
-    }
-    if (arg0->id >= 0x4000) {
-        return;
-    }
-    e = find_active_entity_by_id(arg0->id);
-    if (e == NULL) {
-        return;
-    }
-    if (((TObject *)e)->all_parents_unqueued_for_destruction() == 0) {
-        return;
-    }
-    if (((TObjCollidable *)e)->obj_testFlags30(0x800) != 0) {
-        return;
-    }
-    flags = arg0->flags;
-    if (((TObjCollidable *)e)->obj_testFlags30(flags) != 0) {
-        return;
-    }
-    obj_setFlags30(e, flags);
-    switch (flags) {
-    case 2:
-        e->m43();
-        break;
-    case 3:
-        break;
-    case 4:
-        e->m47();
-        break;
-    case 16:
-        e->m45();
-        break;
-    case 32:
-        e->m46(0);
-        break;
-    }
-}
-
-void TObjEnemy::send_6x9C_enemy_low_game_flags(s32 arg) {
-    Msg_800F641C msg;
-    init_6x9C_enemy_low_game_flags_packet((u8 *)&msg);
-    msg.id = ((Obj_800F641C *)this)->id;
-    msg.arg = arg;
-    ((TLobby *)(&msg))->broadcast_state();
-}
-
-void handle_6x0A_update_enemy_state(Msg_800F6464 *arg0) {
-    Hdr_800F6464 sp;
-    u16 idx;
-    Ene_800F6464 *e;
-    ((TLobby *)arg0)->bswap_enemy_state();
-    idx = arg0->f4;
-    ((TLobby *)(&sp))->copy_header(&TLobby__data_805D6144[idx]);
-    sp.y = arg0->f6;
-    if (game_difficulty_selection == 3) {
-        sp.w &= 0x3F;
-        sp.w = (arg0->f8 & ~0x3F) | sp.w;
-    } else {
-        sp.w = arg0->f8;
-    }
-    apply_by_index__9TObjEnemyFs(idx, &sp);
-    e = ((Ene_800F6464 *)get_enemy_entity(arg0->f2));
-    if (e != NULL) {
-        e->m78(&sp);
-    }
-}
 
 struct Ene_800F6510 { u8 pad[0x2C]; s16 f2C; u8 pad2E[0x302]; u32 low_game_flags; };
 
 void init_6x0A_enemy_state_packet(void *);
+
 void send_6x0A_enemy_state_packet(void *);
 
-void TObjEnemy::send_6x0A_enemy_state(void *state_in) {
-    Pkt_800F65D0 state;
-    Msg_800F6464 msg;
-    u32 new_flags;
-    if (((Pkt_800F65D0 *)state_in) != NULL) {
-        ((TLobby *)(&state))->copy_header(((Pkt_800F65D0 *)state_in));
-    } else if (this->exchange_object_state((s32)&state, 1) == 0) {
-        return;
+#define FIND_TAIL_800F7118(q) \
+    if (self->next == NULL && tail == NULL) { \
+        while (q->next != NULL) { \
+            q = q->next; \
+        } \
+        tail = q; \
     }
-    init_6x0A_enemy_state_packet(&msg);
-    msg.f2 = this->entity_id;
-    msg.f4 = ((Ene_800F6510 *)this)->f2C;
-    msg.f6 = state.diff;
-    if (game_difficulty_selection == 3) {
-        msg.f8 = state.id & ~0x3F;
-        new_flags = state.id & 0x3F;
-        new_flags &= ~((Ene_800F6510 *)this)->low_game_flags;
-        if (new_flags != 0) {
-            this->send_6x9C_enemy_low_game_flags(new_flags);
-            ((Ene_800F6510 *)this)->low_game_flags = state.id & 0x3F;
-        }
-    } else {
-        msg.f8 = state.id;
-    }
-    send_6x0A_enemy_state_packet(&msg);
+
+extern "C" {
+int unregister_object_by_id__14TObjCollidableFv(void*);
+
+s32 copy_header__6TLobbyFPv(s32);
 }
 
-s32 TObjEnemy::vfunc_74(s32 kind) {
-    Pkt_800F65D0 pkt;
-    s32 ret;
-    ret = 0;
-    if (this->entity_id >= 0x1000 && this->entity_id < 0x4000) {
-        exchange_object_state__9TObjEnemyFls(this, &pkt, 1);
-        pkt.diff = this->hpmax - this->hp;
-        pkt.id = this->actorFlags;
-        switch (kind) {
-        case 9:
-        case 11:
-            pkt.a = kind;
-            pkt.av = 0.1f * ((f32)TObjPlayer__sub_8001943C(this, 2) / 30.0f - 40.0f);
-            break;
-        case 10:
-        case 12:
-            pkt.b = kind;
-            pkt.bv = 0.1f * ((f32)TObjPlayer__sub_8001943C(this, 3) / 30.0f - 40.0f);
-            break;
-        }
-        ret = exchange_object_state__9TObjEnemyFls(this, &pkt, 0);
-        if (ret != 0) {
-            send_6x0A_enemy_state(&pkt);
-        }
+
+#pragma push
+#pragma readonly_strings on
+const char *TObjEnemy_class_name = "TObjEnemy";
+const char *TObjControl__name = "TObjControl";
+#pragma pop
+
+void TObjCollidable::set_shadow_flag() { this->m_flags |= 0x400; }
+
+void TObjCollidable::clear_shadow_flag() { this->m_flags &= 0xfffffbff; }
+
+int TObjEnemy::apply_player_54a00() { return unregister_object_by_id__14TObjCollidableFv(this); }
+
+s32 TObjEnemy::apply_by_index(s16 arg0) {
+    if (arg0 > 0xB4F) {
+        return 0;
     }
-    return ret;
+    copy_header__6TLobbyFPv((s32)TLobby__data_805D6144 + (arg0 * 0xC));
+    return 1;
 }
 
-void TObjEnemy::apply_hit_message_flags(void *arg1_arg) {
-    Msg_800F673C *arg1 = (Msg_800F673C *)arg1_arg;
-    s32 flags;
-    Pair_800F673C p;
-    ((VObj_800F673C *)this)->f32C = ((VObj_800F673C *)this)->f2B8 - arg1->f6;
-    if (game_difficulty_selection == 3) {
-        flags = arg1->flags & ~0x3F;
-    } else {
-        flags = arg1->flags;
-        if ((flags & 2) && obj_testFlags30(2) == 0) {
-            this->apply_paralysis();
-        }
-        if ((flags & 4) && obj_testFlags30(4) == 0) {
-            this->apply_shock_status();
-        }
-        if ((flags & 0x10) && obj_testFlags30(0x10) == 0) {
-            this->apply_confusion_status();
-        }
-        if ((flags & 0x20) && obj_testFlags30(0x20) == 0) {
-            this->apply_movement_ailment(0);
-        }
+TObjEnemy::TObjEnemy(TObject *parent) : TObjChara(parent) {
+    m_name = TObjEnemy_class_name;
+    targetId = 0xFFFF;
+    variant = 0;
+    state36C = 0;
+    control = 0;
+    subtype = 0;
+    group = 0;
+    previous = 0;
+    next = 0;
+    children = 0;
+    movementParameters = 0;
+    resetTimer = 0;
+    timer = 0;
+    referenceHp = hp;
+    for (int i = 0; i < 5; ++i) {
+        parameters[i] = 0.0f;
     }
-    obj_setFlags30(this, flags);
-    p.a = arg1->b8;
-    p.b = arg1->b9;
-    arg1->b8 = 0;
-    arg1->b9 = 0;
-    switch (p.a) {
-    case 9:
-    case 11:
-        ((VObj_800F673C *)this)->m49(p);
-        break;
-    }
-    p.a = arg1->bA;
-    p.b = arg1->bB;
-    arg1->bA = 0;
-    arg1->bB = 0;
-    switch (p.a) {
-    case 10:
-    case 12:
-        ((VObj_800F673C *)this)->m50(p);
-        break;
+    actorFlags |= 0x20000000;
+    this->motion_flags |= 1;
+}
+
+TObjEnemy::~TObjEnemy() {
+    u16 temp_r0;
+    this->apply_player_54a00();
+    if ((u32) *(u32 *)((s8 *)this + 0x80) != 0U) {
+        temp_r0 = this->entity_id;
+        if ((temp_r0 >= 0x1000U) && (temp_r0 < 0x4000U)) {
+            this->mask_sub_flags(-3);
+            *(u32 *)((s8 *)this + 0x80) = 0U;
+        }
     }
 }
 
-void TObjEnemy::vfunc_79(s32 *state) {
-    struct VObj_800F6960 *o = (struct VObj_800F6960 *)this;
-    o->m78();
+void TLobby::clear_flag_on_phase_e() {
+    if (get_main_phase() == 0xE) {
+        area_random_seed = 0;
+    }
 }
 
-void TObjEnemy::apply_set_data(void *arg1_arg) {
-    A_800F698C *arg0 = (A_800F698C *)this;
-    B_800F698C *arg1 = (B_800F698C *)arg1_arg;
-    s32 i;
-    arg0->f1C = arg1->f6;
-    VecCopy((Vec *)&arg0->v50, (const Vec *)&arg1->v10);
-    VecCopy((Vec *)&arg0->v38, (const Vec *)&arg0->v50);
-    copy_xyz(&arg0->v5C, &arg1->v1C);
-    for (i = 0; i < 5; i++) {
-        arg0->f354[i] = arg1->f28[i];
+void TLobby__sub_800F7744(void) {  }
+
+s32 TObjEnemy::bind_enemy_combat_stats(u8 *arg1, u8 *arg2, u8 *arg3) {
+    f32 temp_f31;
+    f32 temp_f31_2;
+    f32 temp_f31_3;
+    s16 temp_r0;
+    s16 temp_r0_2;
+    s16 temp_r0_3;
+    s16 temp_r0_4;
+    s16 attack_params_atp_max;
+    u8 *temp_r4;
+    u8 *temp_r6;
+
+    if (arg1 != NULL) {
+        this->m_2b0 = arg1;
+        temp_r6 = this->m_2b0;
+        this->hpmax = (s16) (*(s16 *)((s8 *)temp_r6 + 6) + *(s32 *)((s8 *)temp_r6 + 0x18));
+        this->hp = (s16) this->hpmax;
+        if (obj_testFlag_2E4__9TObjCharaFUl(this, 4U) != 0) {
+            this->tpmax = 0;
+            this->tp = 0;
+        } else {
+            temp_r4 = this->m_2b0;
+            this->tpmax = (s16) (*(s16 *)((s8 *)temp_r4 + 2) + *(s32 *)((s8 *)temp_r4 + 0x18));
+            this->tp = (s16) this->tpmax;
+        }
+        goto block_6;
     }
-    arg0->f368 = arg1->f3C;
-    arg0->f36C = arg1->f3E;
-    arg0->f28 = arg1->f8;
-    arg0->f2A = arg1->fA;
-    arg0->f2C = arg1->f0;
-    subtractive_rng_seed(arg0->f160, arg0->f1C + area_random_seed);
+    if ((void *) this->m_2b0 == NULL) {
+        return 0;
+    }
+block_6:
+    if (arg2 != NULL) {
+        *(u8 **)((s8 *)((u8 *)this) + 0x318) = arg2;
+        goto block_10;
+    }
+    if ((void *) *(u8 **)((s8 *)((u8 *)this) + 0x318) == NULL) {
+        return 0;
+    }
+block_10:
+    if (arg3 != NULL) {
+        *(u8 **)((s8 *)((u8 *)this) + 0x31C) = arg3;
+        goto block_14;
+    }
+    if ((void *) *(u8 **)((s8 *)((u8 *)this) + 0x31C) == NULL) {
+        return 0;
+    }
+block_14:
+    temp_r0 = *(s16 *)(this->m_2b0 + 0);
+    this->m_2c8 = temp_r0;
+    this->m_2c0 = temp_r0;
+    attack_params_atp_max = get_attack_params_atp_max(*(u8 **)((s8 *)((u8 *)this) + 0x318));
+    temp_r0_2 = attack_params_atp_max - get_attack_params_atp_min(*(u8 **)((s8 *)((u8 *)this) + 0x318));
+    *(s16 *)((s8 *)((u8 *)this) + 0x2CA) = temp_r0_2;
+    *(s16 *)((s8 *)((u8 *)this) + 0x2C2) = temp_r0_2;
+    temp_r0_3 = *(s16 *)(this->m_2b0 + 4) + *(s16 *)((s8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x31C)) + 0);
+    this->m_2cc = temp_r0_3;
+    this->m_2c4 = temp_r0_3;
+    temp_r0_4 = *(s16 *)(this->m_2b0 + 8) + *(s32 *)((s8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x31C)) + 0x1C);
+    *(s16 *)((s8 *)((u8 *)this) + 0x2CE) = temp_r0_4;
+    *(s16 *)((s8 *)((u8 *)this) + 0x2C6) = temp_r0_4;
+    this->m_2d0 = (s16) (*(s16 *)(this->m_2b0 + 0xA) + TObjPlayer__sub_800194E8(*(u8 **)((s8 *)((u8 *)this) + 0x318)));
+    *(s16 *)((s8 *)((u8 *)this) + 0x2D2) = (s16) *(s16 *)(this->m_2b0 + 0xC);
+    this->m_2f2 = (s16) *(s16 *)((s8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x31C)) + 2);
+    this->m_2f4 = (s16) *(s16 *)((s8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x31C)) + 6);
+    *(s16 *)((s8 *)((u8 *)this) + 0x2F6) = (s16) *(s16 *)((s8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x31C)) + 4);
+    this->m_2f8 = (s16) *(s16 *)((s8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x31C)) + 0xA);
+    *(s16 *)((s8 *)((u8 *)this) + 0x2FA) = (s16) *(s16 *)((s8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x31C)) + 8);
+    this->add_to_field_2c8((s32)((f32)this->get_field_2c0() * TObjPlayer__sub_800192C4((s32)this, 2)));
+    this->add_to_field_2ca((s32)((f32)this->get_field_2c2() * TObjPlayer__sub_800192C4((s32)this, 2)));
+    this->add_to_field_2ce((s32)((f32)this->get_atp() * TObjPlayer__sub_800192C4((s32)this, 3)));
+    return 1;
 }
 
-u8 *get_enemy_entity(u16 arg0) {
-    s32 low;
-    s32 mid;
-    s32 high;
-    if (arg0 >= 0x1000 && arg0 < 0x4000) {
-        high = (registered_player_count + lbl_805D5870) - 1;
-        low = registered_player_count;
-        while (low < high) {
-            mid = (low + high) / 2;
-            if (get_entity_id((void *)TObjPlayer__data_8050D460[mid]) < arg0) {
-                low = mid + 1;
-            } else {
-                high = mid;
-            }
-        }
-        u32 e = TObjPlayer__data_8050D460[low];
-        if (e != 0 && arg0 == get_entity_id((void *)e)) {
-            return (u8 *)e;
-        }
-    }
+TObjEnemy* TObjEnemy::groupRoot() {
+    TObjEnemy* current=this;
+    while(current->previous) current=current->previous;
+    TObjEnemy* group=current->group;
+    if(group) return group;
     return 0;
 }
 
-void TObjPlayer::refresh_lobby_state() { ((TObjEnemy *)this)->distribute_experience(); query_lobby_state(); }
+s32 TObjPlayer::is_action_available() {
+    TObjEnemy*_w0 = (TObjEnemy*)this;
+    return ((s32)_w0->groupRoot()) ? 1 : 0;
+}
 
-int TObjPlayer::query_lobby_state() { return send_6x60_standard_drop_item_request(this); }
+s32 TUnk_80493450::countChildren() {
+    TObjEnemy* child = children;
+    s32 count = 0;
+    if (child) {
+        TObjEnemy* cur = child;
+        while ((child = cur->next) != NULL) {
+            cur = child;
+            ++count;
+        }
+        ++count;
+    }
+    return count;
+}
 
-void TObjEnemy::distribute_experience() {
-    s32 count;
+void TUnk_80493450::link_into_group_chain() {
+    Ply_800F7118 *self = (Ply_800F7118 *)this;
+    Ply_800F7118 *p;
+    Ply_800F7118 *head;
+    Ply_800F7118 *tail;
     s32 i;
+    Ply_800F7118 *q;
+    Ply_800F7118 *r;
     u16 id;
-    if (is_split_screen() == 0) {
-        ((void (*)(void *, u16))award_enemy_experience__9TObjEnemyFl)(((TObjPlayer_800F6B68 *)this), ((TObjPlayer_800F6B68 *)this)->attacker_id);
-    } else {
-        count = get_attack_credit_slot_count(this);
-        for (i = 0; i < count; i++) {
-            id = obj_getArrU16_FC(this, i);
-            if (id == 0xFFFF) {
+    if (*(s32 *)&this->state36C > 0 && *(Ply_800F7118 * *)&this->group == NULL && *(Ply_800F7118 * *)&this->previous == NULL) {
+        head = NULL;
+        tail = NULL;
+        for (i = registered_player_count; i < registered_player_count + lbl_805D5870; i++) {
+            p = (Ply_800F7118 *)TObjPlayer::get_player_data(i);
+            if (p == NULL || p == self) {
+                continue;
+            }
+            id = get_entity_id(p);
+            if (id < 0x1000 || id >= 0x4000) {
+                continue;
+            }
+            if (p->f30 & 0x800) {
+                continue;
+            }
+            if (p->f36C != *(s32 *)&this->state36C || p->f28 != self->f28) {
+                continue;
+            }
+            switch (*(s32 *)&this->subtype) {
+            case 2:
+                switch (p->f334) {
+                case 2:
+                    FIND_TAIL_800F7118(p);
+                    break;
+                }
+                break;
+            case 1:
+                switch (p->f334) {
+                case 2:
+                    if (head == NULL) {
+                        q = p->prev;
+                        if (q == NULL) {
+                            head = p;
+                        } else FIND_TAIL_800F7118(q);
+                    }
+                    break;
+                case 1:
+                    FIND_TAIL_800F7118(p);
+                    break;
+                }
+                break;
+            case 0:
+                switch (p->f334) {
+                case 2:
+                    if (head == NULL) {
+                        q = p->prev;
+                        if (q == NULL) {
+                            head = p;
+                        } else {
+                            r = q->prev;
+                            if (r == NULL) {
+                                head = q;
+                            } else FIND_TAIL_800F7118(r);
+                        }
+                    }
+                    break;
+                case 1:
+                    q = p->prev;
+                    if (q == NULL) {
+                        head = p;
+                    } else FIND_TAIL_800F7118(q);
+                    break;
+                default:
+                    FIND_TAIL_800F7118(p);
+                    break;
+                }
                 break;
             }
-            ((void (*)(void *, u16))award_enemy_experience__9TObjEnemyFl)(this, id);
+        }
+        if (head != NULL) {
+            *(Ply_800F7118 * *)&this->group = head;
+            head->prev = self;
+        } else if (tail != NULL) {
+            *(Ply_800F7118 * *)&this->previous = tail;
+            tail->next = self;
         }
     }
 }
 
-void TObjEnemy::award_enemy_experience(s32 arg1) {
-    s32 val;
-    Plr_800F6BF0 *p;
-
-    if ((u16)arg1 >= 0x1000 || (p = get_player_by_client_id(arg1)) == NULL ||
-        ((TObjCollidable *)p)->obj_testFlags30(0x800) != 0 || ((TObjPlayer *)p)->get_floor() != get_current_floor()) {
-        return;
-    }
-    val = *(s32 *)(this->m_2b0 + 0x1C);
-    if ((u16)arg1 == this->m_2d4) {
-        if (((TLobby *)lobby_rule_settings)->get_rule_field_0() == 1) {
-            fn_801B0480(p, this, 1);
-            draw_player_status(p, p, "\tC1");
-            draw_player_status(p, this, "\tC4");
-        }
-        ((TObjPlayer *)p)->add_capped_counter_999(1);
-    } else {
-        val *= 0.8f;
-    }
-    if (is_quest_active() == 1) {
-        if (TLobby::is_flag_set() != 0) {
-            val = (s32)((f32)val * TLobby__sub_800F7A7C());
-        } else if (is_challenge_mode_active() != 0) {
-            val = (s32)((f32)val * TLobby__sub_800F7A6C());
-        }
-    }
-    p->m12(val);
-    create_font_small_task(((u8 *)this) + 0x2FC, 0xFFFF00FF, 0x14, 0x14, "EXP", val, get_entity_id(p));
-}
-
-#pragma push
-#pragma fp_contract on
-void TObjEnemy::update_prev_position() {
-    u8 *arg0 = (u8 *)this;
-    u8 *temp_r3;
-    VecCopy((Vec *)(arg0 + 0x2FC), (const Vec *)(arg0 + 0x38));
-    temp_r3 = (unsigned char *) (this->m_2b0);
-    if (temp_r3 != NULL) {
-        this->m_300 = (f32) ((0.5f * *(f32 *)((s8 *)temp_r3 + 0x10)) + this->m_300);
-    }
-}
-#pragma pop
-
-void link_chain_nodes__10TObjPlayerFPvPvPv(void *arg0, Node_800F6E2C *arg1, Node_800F6E2C *arg2) {
-    Node_800F6E2C *p = arg1->f34C;
-    Node_800F6E2C *q = arg2->f34C;
-    if (p != NULL) {
-        while (p->f348 != NULL) {
-            p = p->f348;
-        }
-        if (q == NULL) {
-            if (p->f344 != NULL) {
-                p->f344->f348 = NULL;
-                p->f344 = NULL;
-            }
-            p->f340 = arg2;
-            arg2->f34C = p;
-            return;
-        }
-        while (q->f348 != NULL) {
-            q = q->f348;
-        }
-        if (p->f344 != NULL) {
-            p->f344->f348 = NULL;
-        }
-        p->f344 = q;
-        q->f348 = p;
-    }
-}
-
+#undef FIND_TAIL_800F7118
 void TUnk_80493450::unlink_enemy_group_relations() {
     u8 *temp_r0;
     u8 *temp_r0_2;
@@ -1001,197 +913,410 @@ while (*(u8 **)((s8 *)var_r6_3 + 0x348) != NULL) {
     this->children = NULL;
 }
 
-#define FIND_TAIL_800F7118(q) \
-    if (self->next == NULL && tail == NULL) { \
-        while (q->next != NULL) { \
-            q = q->next; \
-        } \
-        tail = q; \
+void link_chain_nodes__10TObjPlayerFPvPvPv(void *arg0, Node_800F6E2C *arg1, Node_800F6E2C *arg2) {
+    Node_800F6E2C *p = arg1->f34C;
+    Node_800F6E2C *q = arg2->f34C;
+    if (p != NULL) {
+        while (p->f348 != NULL) {
+            p = p->f348;
+        }
+        if (q == NULL) {
+            if (p->f344 != NULL) {
+                p->f344->f348 = NULL;
+                p->f344 = NULL;
+            }
+            p->f340 = arg2;
+            arg2->f34C = p;
+            return;
+        }
+        while (q->f348 != NULL) {
+            q = q->f348;
+        }
+        if (p->f344 != NULL) {
+            p->f344->f348 = NULL;
+        }
+        p->f344 = q;
+        q->f348 = p;
     }
-void TUnk_80493450::link_into_group_chain() {
-    Ply_800F7118 *self = (Ply_800F7118 *)this;
-    Ply_800F7118 *p;
-    Ply_800F7118 *head;
-    Ply_800F7118 *tail;
+}
+
+#pragma push
+#pragma fp_contract on
+void TObjEnemy::update_prev_position() {
+    u8 *arg0 = (u8 *)this;
+    u8 *temp_r3;
+    VecCopy((Vec *)(arg0 + 0x2FC), (const Vec *)(arg0 + 0x38));
+    temp_r3 = (unsigned char *) (this->m_2b0);
+    if (temp_r3 != NULL) {
+        this->m_300 = (f32) ((0.5f * *(f32 *)((s8 *)temp_r3 + 0x10)) + this->m_300);
+    }
+}
+
+#pragma pop
+void TObjEnemy::award_enemy_experience(s32 arg1) {
+    s32 val;
+    Plr_800F6BF0 *p;
+
+    if ((u16)arg1 >= 0x1000 || (p = get_player_by_client_id(arg1)) == NULL ||
+        ((TObjCollidable *)p)->obj_testFlags30(0x800) != 0 || ((TObjPlayer *)p)->get_floor() != get_current_floor()) {
+        return;
+    }
+    val = *(s32 *)(this->m_2b0 + 0x1C);
+    if ((u16)arg1 == this->m_2d4) {
+        if (((TLobby *)lobby_rule_settings)->get_rule_field_0() == 1) {
+            fn_801B0480(p, this, 1);
+            draw_player_status(p, p, "\tC1");
+            draw_player_status(p, this, "\tC4");
+        }
+        ((TObjPlayer *)p)->add_capped_counter_999(1);
+    } else {
+        val *= 0.8f;
+    }
+    if (is_quest_active() == 1) {
+        if (TLobby::is_flag_set() != 0) {
+            val = (s32)((f32)val * TLobby__sub_800F7A7C());
+        } else if (is_challenge_mode_active() != 0) {
+            val = (s32)((f32)val * TLobby__sub_800F7A6C());
+        }
+    }
+    p->m12(val);
+    create_font_small_task(((u8 *)this) + 0x2FC, 0xFFFF00FF, 0x14, 0x14, "EXP", val, get_entity_id(p));
+}
+
+void TObjEnemy::distribute_experience() {
+    s32 count;
     s32 i;
-    Ply_800F7118 *q;
-    Ply_800F7118 *r;
     u16 id;
-    if (*(s32 *)&this->state36C > 0 && *(Ply_800F7118 * *)&this->group == NULL && *(Ply_800F7118 * *)&this->previous == NULL) {
-        head = NULL;
-        tail = NULL;
-        for (i = registered_player_count; i < registered_player_count + lbl_805D5870; i++) {
-            p = (Ply_800F7118 *)TObjPlayer::get_player_data(i);
-            if (p == NULL || p == self) {
-                continue;
-            }
-            id = get_entity_id(p);
-            if (id < 0x1000 || id >= 0x4000) {
-                continue;
-            }
-            if (p->f30 & 0x800) {
-                continue;
-            }
-            if (p->f36C != *(s32 *)&this->state36C || p->f28 != self->f28) {
-                continue;
-            }
-            switch (*(s32 *)&this->subtype) {
-            case 2:
-                switch (p->f334) {
-                case 2:
-                    FIND_TAIL_800F7118(p);
-                    break;
-                }
-                break;
-            case 1:
-                switch (p->f334) {
-                case 2:
-                    if (head == NULL) {
-                        q = p->prev;
-                        if (q == NULL) {
-                            head = p;
-                        } else FIND_TAIL_800F7118(q);
-                    }
-                    break;
-                case 1:
-                    FIND_TAIL_800F7118(p);
-                    break;
-                }
-                break;
-            case 0:
-                switch (p->f334) {
-                case 2:
-                    if (head == NULL) {
-                        q = p->prev;
-                        if (q == NULL) {
-                            head = p;
-                        } else {
-                            r = q->prev;
-                            if (r == NULL) {
-                                head = q;
-                            } else FIND_TAIL_800F7118(r);
-                        }
-                    }
-                    break;
-                case 1:
-                    q = p->prev;
-                    if (q == NULL) {
-                        head = p;
-                    } else FIND_TAIL_800F7118(q);
-                    break;
-                default:
-                    FIND_TAIL_800F7118(p);
-                    break;
-                }
+    if (is_split_screen() == 0) {
+        ((void (*)(void *, u16))award_enemy_experience__9TObjEnemyFl)(((TObjPlayer_800F6B68 *)this), ((TObjPlayer_800F6B68 *)this)->attacker_id);
+    } else {
+        count = get_attack_credit_slot_count(this);
+        for (i = 0; i < count; i++) {
+            id = obj_getArrU16_FC(this, i);
+            if (id == 0xFFFF) {
                 break;
             }
-        }
-        if (head != NULL) {
-            *(Ply_800F7118 * *)&this->group = head;
-            head->prev = self;
-        } else if (tail != NULL) {
-            *(Ply_800F7118 * *)&this->previous = tail;
-            tail->next = self;
+            ((void (*)(void *, u16))award_enemy_experience__9TObjEnemyFl)(this, id);
         }
     }
 }
 
-s32 TUnk_80493450::countChildren() {
-    TObjEnemy* child = children;
-    s32 count = 0;
-    if (child) {
-        TObjEnemy* cur = child;
-        while ((child = cur->next) != NULL) {
-            cur = child;
-            ++count;
+int TObjPlayer::query_lobby_state() { return send_6x60_standard_drop_item_request(this); }
+
+void TObjPlayer::refresh_lobby_state() { ((TObjEnemy *)this)->distribute_experience(); query_lobby_state(); }
+
+u8 *get_enemy_entity(u16 arg0) {
+    s32 low;
+    s32 mid;
+    s32 high;
+    if (arg0 >= 0x1000 && arg0 < 0x4000) {
+        high = (registered_player_count + lbl_805D5870) - 1;
+        low = registered_player_count;
+        while (low < high) {
+            mid = (low + high) / 2;
+            if (get_entity_id((void *)TObjPlayer__data_8050D460[mid]) < arg0) {
+                low = mid + 1;
+            } else {
+                high = mid;
+            }
         }
-        ++count;
+        u32 e = TObjPlayer__data_8050D460[low];
+        if (e != 0 && arg0 == get_entity_id((void *)e)) {
+            return (u8 *)e;
+        }
     }
-    return count;
-}
-
-s32 TObjPlayer::is_action_available() {
-    TObjEnemy*_w0 = (TObjEnemy*)this;
-    return ((s32)_w0->groupRoot()) ? 1 : 0;
-}
-
-TObjEnemy* TObjEnemy::groupRoot() {
-    TObjEnemy* current=this;
-    while(current->previous) current=current->previous;
-    TObjEnemy* group=current->group;
-    if(group) return group;
     return 0;
 }
 
-s32 TObjEnemy::bind_enemy_combat_stats(u8 *arg1, u8 *arg2, u8 *arg3) {
-    f32 temp_f31;
-    f32 temp_f31_2;
-    f32 temp_f31_3;
-    s16 temp_r0;
-    s16 temp_r0_2;
-    s16 temp_r0_3;
-    s16 temp_r0_4;
-    s16 attack_params_atp_max;
-    u8 *temp_r4;
-    u8 *temp_r6;
+void TObjEnemy::apply_set_data(void *arg1_arg) {
+    A_800F698C *arg0 = (A_800F698C *)this;
+    B_800F698C *arg1 = (B_800F698C *)arg1_arg;
+    s32 i;
+    arg0->f1C = arg1->f6;
+    VecCopy((Vec *)&arg0->v50, (const Vec *)&arg1->v10);
+    VecCopy((Vec *)&arg0->v38, (const Vec *)&arg0->v50);
+    copy_xyz(&arg0->v5C, &arg1->v1C);
+    for (i = 0; i < 5; i++) {
+        arg0->f354[i] = arg1->f28[i];
+    }
+    arg0->f368 = arg1->f3C;
+    arg0->f36C = arg1->f3E;
+    arg0->f28 = arg1->f8;
+    arg0->f2A = arg1->fA;
+    arg0->f2C = arg1->f0;
+    subtractive_rng_seed(arg0->f160, arg0->f1C + area_random_seed);
+}
 
-    if (arg1 != NULL) {
-        this->m_2b0 = arg1;
-        temp_r6 = this->m_2b0;
-        this->hpmax = (s16) (*(s16 *)((s8 *)temp_r6 + 6) + *(s32 *)((s8 *)temp_r6 + 0x18));
-        this->hp = (s16) this->hpmax;
-        if (obj_testFlag_2E4__9TObjCharaFUl(this, 4U) != 0) {
-            this->tpmax = 0;
-            this->tp = 0;
-        } else {
-            temp_r4 = this->m_2b0;
-            this->tpmax = (s16) (*(s16 *)((s8 *)temp_r4 + 2) + *(s32 *)((s8 *)temp_r4 + 0x18));
-            this->tp = (s16) this->tpmax;
+void TObjEnemy::vfunc_79(s32 *state) {
+    struct VObj_800F6960 *o = (struct VObj_800F6960 *)this;
+    o->m78();
+}
+
+void TObjEnemy::apply_hit_message_flags(void *arg1_arg) {
+    Msg_800F673C *arg1 = (Msg_800F673C *)arg1_arg;
+    s32 flags;
+    Pair_800F673C p;
+    ((VObj_800F673C *)this)->f32C = ((VObj_800F673C *)this)->f2B8 - arg1->f6;
+    if (game_difficulty_selection == 3) {
+        flags = arg1->flags & ~0x3F;
+    } else {
+        flags = arg1->flags;
+        if ((flags & 2) && obj_testFlags30(2) == 0) {
+            this->apply_paralysis();
         }
-        goto block_6;
+        if ((flags & 4) && obj_testFlags30(4) == 0) {
+            this->apply_shock_status();
+        }
+        if ((flags & 0x10) && obj_testFlags30(0x10) == 0) {
+            this->apply_confusion_status();
+        }
+        if ((flags & 0x20) && obj_testFlags30(0x20) == 0) {
+            this->apply_movement_ailment(0);
+        }
     }
-    if ((void *) this->m_2b0 == NULL) {
-        return 0;
+    obj_setFlags30(this, flags);
+    p.a = arg1->b8;
+    p.b = arg1->b9;
+    arg1->b8 = 0;
+    arg1->b9 = 0;
+    switch (p.a) {
+    case 9:
+    case 11:
+        ((VObj_800F673C *)this)->m49(p);
+        break;
     }
-block_6:
-    if (arg2 != NULL) {
-        *(u8 **)((s8 *)((u8 *)this) + 0x318) = arg2;
-        goto block_10;
+    p.a = arg1->bA;
+    p.b = arg1->bB;
+    arg1->bA = 0;
+    arg1->bB = 0;
+    switch (p.a) {
+    case 10:
+    case 12:
+        ((VObj_800F673C *)this)->m50(p);
+        break;
     }
-    if ((void *) *(u8 **)((s8 *)((u8 *)this) + 0x318) == NULL) {
-        return 0;
+}
+
+s32 TObjEnemy::vfunc_74(s32 kind) {
+    Pkt_800F65D0 pkt;
+    s32 ret;
+    ret = 0;
+    if (this->entity_id >= 0x1000 && this->entity_id < 0x4000) {
+        exchange_object_state__9TObjEnemyFls(this, &pkt, 1);
+        pkt.diff = this->hpmax - this->hp;
+        pkt.id = this->actorFlags;
+        switch (kind) {
+        case 9:
+        case 11:
+            pkt.a = kind;
+            pkt.av = 0.1f * ((f32)TObjPlayer__sub_8001943C(this, 2) / 30.0f - 40.0f);
+            break;
+        case 10:
+        case 12:
+            pkt.b = kind;
+            pkt.bv = 0.1f * ((f32)TObjPlayer__sub_8001943C(this, 3) / 30.0f - 40.0f);
+            break;
+        }
+        ret = exchange_object_state__9TObjEnemyFls(this, &pkt, 0);
+        if (ret != 0) {
+            send_6x0A_enemy_state(&pkt);
+        }
     }
-block_10:
-    if (arg3 != NULL) {
-        *(u8 **)((s8 *)((u8 *)this) + 0x31C) = arg3;
-        goto block_14;
+    return ret;
+}
+
+void TObjEnemy::send_6x0A_enemy_state(void *state_in) {
+    Pkt_800F65D0 state;
+    Msg_800F6464 msg;
+    u32 new_flags;
+    if (((Pkt_800F65D0 *)state_in) != NULL) {
+        ((TLobby *)(&state))->copy_header(((Pkt_800F65D0 *)state_in));
+    } else if (this->exchange_object_state((s32)&state, 1) == 0) {
+        return;
     }
-    if ((void *) *(u8 **)((s8 *)((u8 *)this) + 0x31C) == NULL) {
-        return 0;
+    init_6x0A_enemy_state_packet(&msg);
+    msg.f2 = this->entity_id;
+    msg.f4 = ((Ene_800F6510 *)this)->f2C;
+    msg.f6 = state.diff;
+    if (game_difficulty_selection == 3) {
+        msg.f8 = state.id & ~0x3F;
+        new_flags = state.id & 0x3F;
+        new_flags &= ~((Ene_800F6510 *)this)->low_game_flags;
+        if (new_flags != 0) {
+            this->send_6x9C_enemy_low_game_flags(new_flags);
+            ((Ene_800F6510 *)this)->low_game_flags = state.id & 0x3F;
+        }
+    } else {
+        msg.f8 = state.id;
     }
-block_14:
-    temp_r0 = *(s16 *)(this->m_2b0 + 0);
-    this->m_2c8 = temp_r0;
-    this->m_2c0 = temp_r0;
-    attack_params_atp_max = get_attack_params_atp_max(*(u8 **)((s8 *)((u8 *)this) + 0x318));
-    temp_r0_2 = attack_params_atp_max - get_attack_params_atp_min(*(u8 **)((s8 *)((u8 *)this) + 0x318));
-    *(s16 *)((s8 *)((u8 *)this) + 0x2CA) = temp_r0_2;
-    *(s16 *)((s8 *)((u8 *)this) + 0x2C2) = temp_r0_2;
-    temp_r0_3 = *(s16 *)(this->m_2b0 + 4) + *(s16 *)((s8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x31C)) + 0);
-    this->m_2cc = temp_r0_3;
-    this->m_2c4 = temp_r0_3;
-    temp_r0_4 = *(s16 *)(this->m_2b0 + 8) + *(s32 *)((s8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x31C)) + 0x1C);
-    *(s16 *)((s8 *)((u8 *)this) + 0x2CE) = temp_r0_4;
-    *(s16 *)((s8 *)((u8 *)this) + 0x2C6) = temp_r0_4;
-    this->m_2d0 = (s16) (*(s16 *)(this->m_2b0 + 0xA) + TObjPlayer__sub_800194E8(*(u8 **)((s8 *)((u8 *)this) + 0x318)));
-    *(s16 *)((s8 *)((u8 *)this) + 0x2D2) = (s16) *(s16 *)(this->m_2b0 + 0xC);
-    this->m_2f2 = (s16) *(s16 *)((s8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x31C)) + 2);
-    this->m_2f4 = (s16) *(s16 *)((s8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x31C)) + 6);
-    *(s16 *)((s8 *)((u8 *)this) + 0x2F6) = (s16) *(s16 *)((s8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x31C)) + 4);
-    this->m_2f8 = (s16) *(s16 *)((s8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x31C)) + 0xA);
-    *(s16 *)((s8 *)((u8 *)this) + 0x2FA) = (s16) *(s16 *)((s8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x31C)) + 8);
-    this->add_to_field_2c8((s32)((f32)this->get_field_2c0() * TObjPlayer__sub_800192C4((s32)this, 2)));
-    this->add_to_field_2ca((s32)((f32)this->get_field_2c2() * TObjPlayer__sub_800192C4((s32)this, 2)));
-    this->add_to_field_2ce((s32)((f32)this->get_atp() * TObjPlayer__sub_800192C4((s32)this, 3)));
-    return 1;
+    send_6x0A_enemy_state_packet(&msg);
+}
+
+void handle_6x0A_update_enemy_state(Msg_800F6464 *arg0) {
+    Hdr_800F6464 sp;
+    u16 idx;
+    Ene_800F6464 *e;
+    ((TLobby *)arg0)->bswap_enemy_state();
+    idx = arg0->f4;
+    ((TLobby *)(&sp))->copy_header(&TLobby__data_805D6144[idx]);
+    sp.y = arg0->f6;
+    if (game_difficulty_selection == 3) {
+        sp.w &= 0x3F;
+        sp.w = (arg0->f8 & ~0x3F) | sp.w;
+    } else {
+        sp.w = arg0->f8;
+    }
+    apply_by_index__9TObjEnemyFs(idx, &sp);
+    e = ((Ene_800F6464 *)get_enemy_entity(arg0->f2));
+    if (e != NULL) {
+        e->m78(&sp);
+    }
+}
+
+void TObjEnemy::send_6x9C_enemy_low_game_flags(s32 arg) {
+    Msg_800F641C msg;
+    init_6x9C_enemy_low_game_flags_packet((u8 *)&msg);
+    msg.id = ((Obj_800F641C *)this)->id;
+    msg.arg = arg;
+    ((TLobby *)(&msg))->broadcast_state();
+}
+
+void handle_6x9C_set_enemy_low_game_flags_ultimate(Msg_800F62E0 *arg0) {
+    Ene_800F62E0 *e;
+    s32 flags;
+    if (arg0 == NULL) {
+        return;
+    }
+    if (game_difficulty_selection != 3) {
+        return;
+    }
+    ((TLobby *)arg0)->bswap_field();
+    if (arg0->id < 0x1000) {
+        return;
+    }
+    if (arg0->id >= 0x4000) {
+        return;
+    }
+    e = find_active_entity_by_id(arg0->id);
+    if (e == NULL) {
+        return;
+    }
+    if (((TObject *)e)->all_parents_unqueued_for_destruction() == 0) {
+        return;
+    }
+    if (((TObjCollidable *)e)->obj_testFlags30(0x800) != 0) {
+        return;
+    }
+    flags = arg0->flags;
+    if (((TObjCollidable *)e)->obj_testFlags30(flags) != 0) {
+        return;
+    }
+    obj_setFlags30(e, flags);
+    switch (flags) {
+    case 2:
+        e->m43();
+        break;
+    case 3:
+        break;
+    case 4:
+        e->m47();
+        break;
+    case 16:
+        e->m45();
+        break;
+    case 32:
+        e->m46(0);
+        break;
+    }
+}
+
+void *__ct__11TObjControlFP7TObject(void *control) {
+    __ct__7TObjectFP7TObject(control);
+    *(s32 **)((s8 *)control + 0x18) = __vt__11TObjControl;
+    ((TObjControl *)control)->m_name = TObjControl__name;
+    ((TObjControl *)control)->m_decision_mode = 2;
+    ((TObjControl *)control)->m_reserved = 0;
+    return control;
+}
+
+TObjControl::~TObjControl() {}
+
+void TObjControl::run_task() {
+    s16 mode;
+    u8 *enemy;
+    u8 *control_record;
+
+    enemy = (u8 *)m_down;
+    if (enemy == NULL) {
+        queue_destruction();
+        return;
+    }
+    if (TObjPlayer::check_demo_mode() == 0) {
+        if (((EnemyControlDispatch *)(enemy))->m31() != 0) {
+            ((TObject *)enemy)->resume_update();
+            ((EnemyControlDispatch *)(enemy))->m61();
+            return;
+        }
+        ((EnemyControlDispatch *)(enemy))->m39();
+        ((EnemyControlDispatch *)(enemy))->m40();
+        if (((EnemyControlDispatch *)(enemy))->m41() == 0) {
+            ((EnemyControlDispatch *)(enemy))->m36();
+            if ((((EnemyControlDispatch *)(enemy))->m34() != 0) || (((EnemyControlDispatch *)(enemy))->m38() != 0) || (((EnemyControlDispatch *)(enemy))->m37() != 0)) {
+                submit_cursor_candidate((int)enemy, -1);
+                minimap_render_dot(enemy + 0x38, -0x5DB4, 1, 0);
+                ((EnemyControlDispatch *)(enemy))->m26();
+                ((TObject *)enemy)->pause_update();
+                return;
+            }
+            ((TObject *)enemy)->resume_update();
+        }
+        if (((EnemyControlDispatch *)(enemy))->m30() != 0) {
+            ((EnemyControlDispatch *)(enemy))->m60();
+            return;
+        }
+        if (((EnemyControlDispatch *)(enemy))->m29() != 0) {
+            ((EnemyControlDispatch *)(enemy))->m59();
+            return;
+        }
+        if (!(*(s32 *)((s8 *)enemy + 0x30) & 0x600000)) {
+            if ((void *) *(u8 **)((s8 *)enemy + 0x314) != NULL) {
+                m_decision_mode = 0;
+            } else {
+                m_decision_mode = 2;
+            }
+            mode = m_decision_mode;
+            switch (mode) {
+            case 0:
+                control_record = (u8 *)(*(u8 **)((s8 *)enemy + 0x314));
+                if (*(s32 *)((s8 *)control_record + 8) & 4) {
+                    ((EnemyControlDispatch *)(enemy))->m58();
+                    return;
+                }
+                if (*(f32 *)((s8 *)control_record + 0x24) > 0.1f) {
+                    ((EnemyControlDispatch *)(enemy))->m57();
+                    return;
+                }
+                ((EnemyControlDispatch *)(enemy))->m56();
+                break;
+            case 1:
+            case 2:
+                ((EnemyControlDispatch *)(enemy))->m26();
+                if (((EnemyControlDispatch *)(enemy))->m27() != 0) {
+                    ((EnemyControlDispatch *)(enemy))->m56();
+                    return;
+                }
+                if (((EnemyControlDispatch *)(enemy))->m32() != 0) {
+                    ((EnemyControlDispatch *)(enemy))->m57();
+                    return;
+                }
+                if (((EnemyControlDispatch *)(enemy))->m28() != 0) {
+                    ((EnemyControlDispatch *)(enemy))->m58();
+                    return;
+                }
+                ((EnemyControlDispatch *)(enemy))->m57();
+                break;
+
+            }
+        }
+    }
 }
