@@ -10025,7 +10025,7 @@ pso/unk/TLobby_80338E9C.cpp:
 pso/ui/frontend/TAdEnterPPPPassGC.cpp:
 	.text       start:0x80338F9C end:0x80339658
 	.rodata     start:0x80477C20 end:0x80477C60
-	.data       start:0x804EF500 end:0x804EF598
+	.data       start:0x804EF500 end:0x804EF5B0
 	.sdata      start:0x805D4268 end:0x805D426C
 	.sbss       start:0x805D6D70 end:0x805D6D78
 

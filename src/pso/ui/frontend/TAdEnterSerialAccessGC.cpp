@@ -687,11 +687,11 @@ void *__dt__22TAdEnterSerialAccessGCFv(TAdEnterSerialAccessGC *ad_enter_serial_a
     return ad_enter_serial_access_gc;
 }
 
-u8 *TAdEnterSerialAccessGC__ct(TAdEnterSerialAccessGC *ad_enter_serial_access_gc) {
+u8 *TAdEnterSerialAccessGC__ct(TAdEnterSerialAccessGC *ad_enter_serial_access_gc, TObject *parent) {
     s8 flag[0x10];
     u8 sp8[0x10];
     void *p;
-    TAdEnterBaseGC__ct(ad_enter_serial_access_gc);
+    __ct__14TAdEnterBaseGCFP7TObject(ad_enter_serial_access_gc, parent);
     *(s32 **)((s8 *)ad_enter_serial_access_gc + 0x18) = __vt__22TAdEnterSerialAccessGC;
     ad_enter_serial_access_gc->m_name = TAdEnterSerialAccessGC__name;
     ad_enter_serial_access_gc->m_48 = 0;

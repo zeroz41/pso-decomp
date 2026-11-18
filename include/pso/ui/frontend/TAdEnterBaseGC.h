@@ -5,6 +5,7 @@
 #include "pso/system/task/TObject.h"
 
 struct TAdEnterBaseGC : public TObject {
+    TAdEnterBaseGC(TObject *parent);
     virtual ~TAdEnterBaseGC();
     void sub_8032B460(int);
     void create_parts();
@@ -12,7 +13,7 @@ struct TAdEnterBaseGC : public TObject {
     void fn_8032B318(Position *position);
     virtual void render();
     virtual void run_task();
-    u8 unk_1C[0x4];
+    s32 m_1c;
     int m_20;
     u32 m_24;
     int m_28;
@@ -25,6 +26,8 @@ typedef char TAdEnterBaseGC_size[sizeof(TAdEnterBaseGC) == 0x38 ? 1 : -1];
 
 extern "C" {
 void fn_8032AC94(void);
+// TAdEnterBaseGC::TAdEnterBaseGC(TObject *), called by the constructors that are still written by hand.
+void *__ct__14TAdEnterBaseGCFP7TObject(void *self, TObject *parent);
 }
 
 // --- C functions defined in TAdEnterBaseGC.cpp ---

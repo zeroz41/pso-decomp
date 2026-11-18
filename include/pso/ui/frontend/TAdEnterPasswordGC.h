@@ -5,7 +5,8 @@
 
 // --- C functions defined in TAdEnterPasswordGC.cpp ---
 extern "C" {
-u8 *TAdEnterPasswordGC__ct(u8 *parent);
+class TObject;
+u8 *TAdEnterPasswordGC__ct(u8 *self, TObject *parent);
 void TAdEnterPasswordGC__sub_8032BC94(u8 *arg0, s32 arg1);
 void *__dt__18TAdEnterPasswordGCFv(void *arg0, s16 arg1);
 void close_window_and_destroy__18TAdEnterPasswordGCFPv(u8 *arg0);
