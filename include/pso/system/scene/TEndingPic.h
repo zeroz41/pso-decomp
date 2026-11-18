@@ -19,6 +19,7 @@ public:
 extern "C" {
 u8 *__ct__10TEndingPicFP7TObject(u8 *arg0, u8 *arg1);
 }
-int get_ending_ab_wall_texture_list(void);
+struct EndingTextureList;
+EndingTextureList *get_ending_ab_wall_texture_list(void);
 
 #endif

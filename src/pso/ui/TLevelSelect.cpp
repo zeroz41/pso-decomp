@@ -177,7 +177,7 @@ Self_8013319C *__ct__12TLevelSelectFv(Self_8013319C *self) {
             }
         }
     }
-    create_draw_line_ctrl__13TAdMcSelectGCFiif((s32)self, 2, 0.0f);
+    create_draw_line_ctrl((TObject *)self, 2, 0.0f);
     return self;
 }
 

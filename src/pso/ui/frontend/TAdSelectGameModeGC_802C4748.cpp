@@ -151,7 +151,7 @@ u8 *__ct__19TAdSelectGameModeGCFv(u8 *arg0, void *parent) {
     *(void **)((s8 *)arg0 + 0x20) = p;
     ((TAdMultiPlyChrSelectGC *)(*(s32 *)((s8 *)arg0 + 0x20)))->set_entry_value(0, get_localized_text_entry(0x15, 0));
     ((TAdMultiPlyChrSelectGC *)(*(s32 *)((s8 *)arg0 + 0x20)))->set_entry_value(1, get_localized_text_entry(0x15, 1));
-    create_draw_line_ctrl__13TAdMcSelectGCFiif((s32)arg0, 0xA, 0.0f);
+    create_draw_line_ctrl((TObject *)arg0, 0xA, 0.0f);
     return arg0;
 }
 

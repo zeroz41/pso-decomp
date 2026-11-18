@@ -437,6 +437,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # stride shifts and leaves invariant hoisting to the backend. The frame-buffer
     # functions after it (flush_cache..flush_framebuffer, same TU) match under these too.
     "pso/system/movie/TMovie_80143988.cpp": {"cflags": _switch(cflags_pso, "-opt nolifetimes,nocse,noprop,noloop")},
+    "pso/ui/frontend/DrawLine.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-fp_contract on")},
     "pso/effect/TDuelEffectCtrl.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/effect/TDuelEffectNumber.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/effect/TDuelEffectString.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-fp_contract on")},

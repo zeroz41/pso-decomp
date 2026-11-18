@@ -18,6 +18,10 @@ public:
     static void destroy_instance();
 };
 
+struct EndingTextureList;
+extern s32 TEndingAB__fade_sequence_state;
+extern EndingTextureList *ending_ab_wall_texture_list;
+
 extern "C" {
 void TEndingAB__sub_8008CCC0(TEndingAB *self);
 u8 *__ct__9TEndingABFP7TObject(u8 *ending_ab, u8 *arg1);

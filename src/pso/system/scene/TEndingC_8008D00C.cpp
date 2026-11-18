@@ -1,3 +1,4 @@
+#include "pso/system/scene/TEndingAB.h"
 #include "pso/system/task/TObject.h"
 #include "pso/enemy/balclaw/TObjEneBalClaw.h"
 #include "types.h"
@@ -284,7 +285,6 @@ extern "C" {
 s32 update_movement_status__9TObjCharaFv();
 s32 update_action_hold_status__9TObjCharaFv();
 
-    extern int TEndingAB__fade_sequence_state;
 void TEndingAB__sub_8008D5A0(void) { TEndingAB__fade_sequence_state = 1; }
 
     extern int TEndingPic__animation_state;

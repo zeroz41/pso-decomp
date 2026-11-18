@@ -1,4 +1,5 @@
 #include "pso/system/scene/TEndingPic.h"
+#include "pso/system/scene/TEndingAB.h"
 #include "pso/system/scene/TEndingPicStage.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 
@@ -110,8 +111,6 @@ void TEndingPic::render() {
 
 void TEndingPic::run_task() { advance_animation_state(); }
 
-    extern int ending_ab_wall_texture_list;
-
 TEndingPic::~TEndingPic() {}
 }
 TEndingPic::TEndingPic(TObject *arg1) : TObject(arg1) {
@@ -133,4 +132,4 @@ TEndingPic::TEndingPic(TObject *arg1) : TObject(arg1) {
     }
 }
 
-int get_ending_ab_wall_texture_list(void) {  return ending_ab_wall_texture_list; }
+EndingTextureList *get_ending_ab_wall_texture_list(void) { return ending_ab_wall_texture_list; }

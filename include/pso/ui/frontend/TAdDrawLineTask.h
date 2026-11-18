@@ -36,6 +36,7 @@ public:
     virtual ~TAdDrawLineTask();
     virtual void render();
     virtual void run_task();
+    void set_depth(f32 depth);
 
     TAdDrawLineCtrl *controller;
     DrawLineRecord line;
@@ -50,6 +51,10 @@ public:
     f32 half_width_x;
     f32 half_width_y;
 };
+
+TAdDrawLineTask *create_draw_line_task(TObject *parent, const DrawLineRecord *record, TAdDrawLineCtrl *controller);
+
+typedef char DrawLineRecordSize[sizeof(DrawLineRecord) == 0x2C ? 1 : -1];
 
 typedef char TAdDrawLineTaskSize[sizeof(TAdDrawLineTask) == 0xB0 ? 1 : -1];
 

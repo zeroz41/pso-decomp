@@ -36,28 +36,18 @@ pso/ui/frontend/TAdADXlogo.cpp:
 	.sdata2     start:0x805D7DD0 end:0x805D7DD8
 
 pso/system/task/TObject_80019A50.cpp:
-	.text       start:0x80019A60 end:0x80019B78
+	.text       start:0x80019A60 end:0x80019A8C
 
-pso/ui/frontend/TAdDrawLineCtrl_80019B78.cpp:
-	.text       start:0x80019B78 end:0x80019BD8
-
-pso/ui/frontend/TAdDrawLineCtrl.cpp:
-	.text       start:0x80019BD8 end:0x80019EB8
-	.rodata     start:0x804340D8 end:0x80434110
-	.data       start:0x80480908 end:0x80480920
+pso/ui/frontend/DrawLine.cpp:
+	.text       start:0x80019A8C end:0x8001A430
+	.rodata     start:0x804340D8 end:0x80434118
+	.data       start:0x80480908 end:0x80480938
+	.sdata      start:0x805D2608 end:0x805D2610
 	.sbss       start:0x805D49D8 end:0x805D49E0
-
-pso/ui/frontend/TAdDrawLineTask.cpp:
-	.text       start:0x80019EB8 end:0x8001A3BC
-	.rodata     start:0x80434110 end:0x80434118
-	.data       start:0x80480920 end:0x80480938
-	.sdata2     start:0x805D7DD8 end:0x805D7DDC
+	.sdata2     start:0x805D7DD8 end:0x805D7DE8
 
 pso/system/scene/EndingSceneTables.cpp:
 	.rodata     start:0x80434118 end:0x80434580
-
-pso/unk/text_8001A3BC.cpp:
-	.text       start:0x8001A3BC end:0x8001A430
 
 pso/system/task/TMainTask_8001A430.cpp:
 	.text       start:0x8001A430 end:0x8001A438
@@ -1356,7 +1346,7 @@ pso/effect/particle/ParticleRadial.cpp:
 
 pso/system/scene/TEnding_8008C5C0.cpp:
 	.text       start:0x8008C4F4 end:0x8008C6F4
-	.rodata     start:0x80439570 end:0x80439598
+	.rodata     start:0x80439568 end:0x80439598
 	.data       start:0x8048E7C0 end:0x8048E828
 	.sdata2     start:0x805D9570 end:0x805D9578
 
@@ -1375,6 +1365,7 @@ pso/system/scene/TEndingAB.cpp:
 	.rodata     start:0x804395A0 end:0x804398E0
 	.data       start:0x8048E840 end:0x8048EB18
 	.sdata      start:0x805D2958 end:0x805D2960
+	.sbss       start:0x805D4F10 end:0x805D4F18
 	.sdata2     start:0x805D9580 end:0x805D95C0
 
 pso/system/scene/TEndingC_8008D00C.cpp:
@@ -5897,6 +5888,7 @@ pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.cpp:
 	.ctors      start:0x80433F9C end:0x80433FA0
 	.data       start:0x804C88C0 end:0x804C8B08
 	.bss        start:0x805137C8 end:0x80513920
+	.sbss       start:0x805D5FA8 end:0x805D5FAC
 	.sdata2     start:0x805DC5C0 end:0x805DC5CC
 
 pso/ui/frontend/TAdSinglePlyChrSelectGC_80202A68.cpp:
@@ -12444,7 +12436,7 @@ pso/ui/keyboard/TKeyBoardControl_803F0C50.cpp:
 
 pso/unk/text_803F1804.cpp:
 	.text       start:0x803F1804 end:0x803F18B8
-	.sbss       start:0x805D7938 end:0x805D793C
+	.sbss       start:0x805D7938 end:0x805D7940
 
 pso/ui/frontend/TAdPlayerLoadGC_803F18B8.cpp:
 	.text       start:0x803F18B8 end:0x803F339C
@@ -12452,6 +12444,7 @@ pso/ui/frontend/TAdPlayerLoadGC_803F18B8.cpp:
 	.data       start:0x804FCD48 end:0x804FCE38
 	.bss        start:0x805A28C0 end:0x805A5F00
 	.sdata      start:0x805D4700 end:0x805D4708
+	.sbss       start:0x805D7940 end:0x805D7954
 	.sdata2     start:0x805E10E8 end:0x805E10F8
 
 pso/ui/frontend/TAdPlayerLoadGC_803F339C.cpp:

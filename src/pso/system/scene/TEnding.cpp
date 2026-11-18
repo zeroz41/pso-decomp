@@ -23,7 +23,7 @@ extern s32 ending_scene_active;
 extern TObject *tl_fade;
 extern TObject *tl_window;
 extern TObject *tl_01;
-extern "C" { extern char TEnding__class_name_string[]; }
+extern const char TEnding__class_name_string[];
 const char *TEnding__class_name = TEnding__class_name_string;
 }
 
