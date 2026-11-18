@@ -6,7 +6,6 @@
 class TUnk_804D1160 : public TObject {
 public:
     virtual ~TUnk_804D1160();
-    void *destroy(s16);
     void update_customize_help_text(void *);
     virtual void render();
     virtual void run_task();
@@ -14,10 +13,14 @@ public:
     s32 m_20;
     u8 unk_24[0x4];
     u32 m_28;
-    u8 unk_2C[0x4];
+    u32 m_2c;
     u32 m_30;
     u8 unk_34[0x4];
 };
 typedef char TUnk_804D1160_size[sizeof(TUnk_804D1160) == 0x38 ? 1 : -1];
+
+extern "C" {
+void *TWindowSubEquip__sub_80275CB0(void *arg0, void *arg1, s32 arg2);
+}
 
 #endif

@@ -10,7 +10,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 struct TWindowSubItem;
 struct TWindowSubMag;
-#include "pso/ui/window/TWindowSubEquip_80275C0C.h"
+#include "pso/unk/TUnk_804D1160.h"
 #include "pso/ui/window/TWindowSubEquip_80277E48.h"
 #include "pso/ui/window/TWindowSubGameEnd.h"
 #include "pso/ui/window/TWindowSubQuestBoard.h"

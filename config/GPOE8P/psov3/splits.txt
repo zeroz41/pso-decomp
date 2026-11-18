@@ -7550,14 +7550,16 @@ pso/unk/text_802754EC.cpp:
 	.text       start:0x802754EC end:0x8027553C
 
 pso/ui/window/TWindowSubComCardList.cpp:
-	.text       start:0x8027553C end:0x80275C0C
+	.text       start:0x8027553C end:0x802758C8
 	.rodata     start:0x8044F6F8 end:0x8044F718
-	.data       start:0x804D1178 end:0x804D1198
+	.data       start:0x804D1148 end:0x804D1160
 	.sdata      start:0x805D3A18 end:0x805D3A20
 	.sdata2     start:0x805DD540 end:0x805DD550
 
-pso/ui/window/TWindowSubEquip_80275C0C.cpp:
-	.text       start:0x80275C0C end:0x80275D84
+pso/unk/TUnk_804D1160.cpp:
+	.text       start:0x802758C8 end:0x80275D84
+	.rodata     start:0x8044F718 end:0x8044F720
+	.data       start:0x804D1160 end:0x804D1198
 
 pso/ui/window/TWindowSubCustomSelect_80275D84.cpp:
 	.text       start:0x80275D84 end:0x80275D9C
