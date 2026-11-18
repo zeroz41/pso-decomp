@@ -143,7 +143,6 @@ u16 get_entity_id(void *);
 void refresh_status_display__9TWindowDDFv(void *);
 void init_window_layout_entries(void *, void *, int);
 f32 get_target_distance__13TWindowLockOnFv(s32);
-extern s32 __vt__13TWindowLockOn[];
 s32 draw_visible_window_entries(void *, void *, int);
 s32 get_window_layout_position(int);
 s32 obj_testFlag_2E4__9TObjCharaFUl(TObjChara *, int);
@@ -156,24 +155,21 @@ u32 calc_text_width(int);
 }
 s32 get_status_effect_icon_index(u32);
 
-u8 *TWindowLockOn__ct(TWindowLockOn *self, s32 player, u16 id) {
-    __ct__11TWindowBaseFPUcsPUc(self, (u8 *)&lbl_804D0268, player, (u8 *)get_window_layout_position(0x1E));
-    *(s32 **)((s8 *)self + 0x18) = __vt__13TWindowLockOn;
-    self->m_name = TWindowLockOn__name;
+TWindowLockOn::TWindowLockOn(s32 player, u16 id) : TWindowBase((u8 *)&lbl_804D0268, player, (u8 *)get_window_layout_position(0x1E)) {
+    this->m_name = TWindowLockOn__name;
     if (TCameraCtrl::get_camera_id() > 2) {
-        self->m_68 = 0.7f;
-        self->m_6c = 0.7f;
+        this->m_68 = 0.7f;
+        this->m_6c = 0.7f;
     } else {
-        self->m_68 = 1.0f;
-        self->m_6c = 1.0f;
+        this->m_68 = 1.0f;
+        this->m_6c = 1.0f;
     }
-    self->m_60 = 0xFFFF;
-    self->m_20 = player;
-    self->m_64 = 0;
-    self->m_70 = NULL;
-    self->bind_target(id);
-    self->m_50 = 0;
-    return (u8 *)self;
+    this->m_60 = 0xFFFF;
+    this->m_20 = player;
+    this->m_64 = 0;
+    this->m_70 = NULL;
+    this->bind_target(id);
+    this->m_50 = 0;
 }
 
 TWindowLockOn::~TWindowLockOn() {}
@@ -215,7 +211,7 @@ void *TWindowLockOn::create_for_target(s32 player, u16 id) {
     }
     p = TObject::operator new(0x7C);
     if (p != NULL) {
-        p = TWindowLockOn__ct((TWindowLockOn *)p, player, id);
+        p = __ct__13TWindowLockOnFlUs((TWindowLockOn *)p, player, id);
     }
     return p;
 }

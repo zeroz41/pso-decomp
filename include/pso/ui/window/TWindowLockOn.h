@@ -9,6 +9,7 @@ class TObjChara;
 class TItem;
 
 struct TWindowLockOn : public TWindowBase {
+    TWindowLockOn(s32 player, u16 id);
     virtual ~TWindowLockOn();
     void request_close();
     virtual void render();

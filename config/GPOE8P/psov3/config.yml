@@ -1816,7 +1816,7 @@ force_active:
   - TWindowKeyBoardSoft__sub_8025D544
   - TWindowKeyBoardSoft__text_resource
   - TWindowLoadItemTexture__ct
-  - TWindowLockOn__ct
+  - __ct__13TWindowLockOnFlUs
   - TWindowLockOn__update_for_enemy
   - TWindowLockOn__update_for_item
   - TWindowLockOn__update_for_other_player
