@@ -51,7 +51,7 @@ typedef struct Obj_80405304 { u8 pad[0x18]; u8 f18; } Obj_80405304;
 s32 TLobby__sub_803F79AC(void *);
 
 void net_sleep_ms(int);
-extern u8 lbl_805C0038[];
+extern u8 ppp_proto_blocks[];
 void TLobby__sub_803FDBF8(u8 *self, void *arg1);
 void pap_input(Conn_804004DC *self, PppFrame *source);
 s16 TLobby__sub_804040E0(void *self, void *arg);
@@ -539,7 +539,7 @@ void ppp_input_packet(PppFrame *arg0) {
     if (arg0 == NULL) {
         return;
     }
-    G = lbl_805C0038;
+    G = ppp_proto_blocks;
     if (lbl_805D7A7A == 0 && arg0->data[0] == 0xFF && arg0->data[1] == 3 &&
         ppp_buffer_read(&arg0, lobby_ppp_read_buf, 2) == 2) {
         read_network_u16_be(lobby_ppp_read_buf);
@@ -703,7 +703,7 @@ s32 TLobby__sub_804061FC(void)
   u8 *q;
   z = 0;
   ppp_rx_read_ptr = (u8 *) z;
-  p = lbl_805C0038;
+  p = ppp_proto_blocks;
   q = p;
   new_var = q;
   NetMemset(q, 0, 0x144);
@@ -722,7 +722,7 @@ s32 TLobby__sub_804061FC(void)
 }
 
 s32 TLobby__sub_804062A0(s16 arg0) {
-    Lobby_804062A0 *l = (Lobby_804062A0 *)lbl_805C0038;
+    Lobby_804062A0 *l = (Lobby_804062A0 *)ppp_proto_blocks;
 
     switch (arg0) {
     case 0x82:
@@ -752,7 +752,7 @@ s32 TLobby__sub_80406328(s32 self, s16 type) {
     s16 tag = 0x21;
     u8 pad[0x30];
     if (ty == -0x7923) {
-        G = lbl_805C0038;
+        G = ppp_proto_blocks;
         if (G[0xd4] != 5) {
             (*(s16 *)(G + 0x122))++;
             return -1;
@@ -772,7 +772,7 @@ s32 TLobby__sub_80406328(s32 self, s16 type) {
         }
         return ppp_output_frame((PppFrame *)t);
     }
-    G = lbl_805C0038;
+    G = ppp_proto_blocks;
     if (G[0x6c] != 5) {
         (*(s16 *)(G + 0x122))++;
         return -1;
@@ -824,7 +824,7 @@ s32 TLobby__sub_80406328(s32 self, s16 type) {
 skip:
     {
         void *a = (void *)sv;
-        G = lbl_805C0038;
+        G = ppp_proto_blocks;
         if (G[0] == 0) {
             (*(s16 *)(G + 0x122))++;
             return -1;
@@ -852,8 +852,8 @@ s32 TLobby__sub_80406624(s32 a, s32 b, u16 code, void *self) {
     u8 *p;
     u8 *ret;
 
-    if (lbl_805C0038[0] == 0) {
-        *(s16 *)(lbl_805C0038 + 0x122) = *(s16 *)(lbl_805C0038 + 0x122) + 1;
+    if (ppp_proto_blocks[0] == 0) {
+        *(s16 *)(ppp_proto_blocks + 0x122) = *(s16 *)(ppp_proto_blocks + 0x122) + 1;
         return -1;
     }
     r30 = code;
@@ -864,7 +864,7 @@ s32 TLobby__sub_80406624(s32 a, s32 b, u16 code, void *self) {
     write_network_u16_be(p, r30);
     ret = r29;
     if (r29 == 0) {
-        *(s16 *)(lbl_805C0038 + 0x124) = *(s16 *)(lbl_805C0038 + 0x124) + 1;
+        *(s16 *)(ppp_proto_blocks + 0x124) = *(s16 *)(ppp_proto_blocks + 0x124) + 1;
         return -1;
     }
     return ppp_output_frame((PppFrame *)ret);
@@ -914,7 +914,7 @@ s32 ppp_output_frame(PppFrame *p) {
     s32 skip;
     s32 acfc;
 
-    ppp = lbl_805C0038;
+    ppp = ppp_proto_blocks;
     opts = *(LcpOpts **)(ppp + 0x34);
     *(s32 *)(ppp + 0x110) += get_field_4(p) + 2;
     if (p == NULL || p->len < 4) {

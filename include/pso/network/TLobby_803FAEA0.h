@@ -2,6 +2,8 @@
 #define PSO_NETWORK_TLOBBY_803FAEA0_H
 
 #include "types.h"
+#include "pso/network/NetStackTypes.h"
+#include "pso/network/PppFsm.h"
 
 /* Connection request of NetLinkConnect (copied field by field into the lbl_805BFF68 request by
    NetApplyConnectionConfig). */
@@ -66,6 +68,23 @@ typedef struct NetLinkStatus {
 typedef struct NetWaitParam {
     s16 wait;
 } NetWaitParam;
+
+/* ppp_proto_blocks: the lobby session's PPP protocol control blocks. close_all_connections
+   resets the five 0x34-byte records one at a time and hands them to the Conn_804004DC
+   routines (wait_for_connection, TLobby__sub_80400744, TLobby__sub_803FC1CC); the
+   IPv6CP record is the view NetPppLink takes with PppFsm. TLobby__sub_803FB6A0 reads
+   the busy byte, and the tail carries the byte count and the drop counters. */
+typedef struct PppProtoBlocks {
+    u8 busy;                /* 0x00: cleared by close_all_connections, set when the blocks are initialized */
+    u8 pad1[3];
+    Conn_804004DC lcp;      /* 0x04: the connect record the caller passes the LcpConfig at the head of */
+    Conn_804004DC pap;      /* 0x38 */
+    Conn_804004DC ipcp;     /* 0x6C: its opts points at the IpcpConfig */
+    Conn_804004DC chap;     /* 0xA0 */
+    PppFsm ipv6cp;          /* 0xD4 */
+    u8 tail[0x40];          /* 0x108: s32 byte count +0x110, s16 drop counters +0x122/+0x124 */
+} PppProtoBlocks;
+typedef char PppProtoBlocks_size_check[sizeof(PppProtoBlocks) == 0x148 ? 1 : -1];
 
 /* TLobby_803FAEA0.c: session control (stack up/down, login name, connection configuration, timeout). */
 #ifdef __cplusplus

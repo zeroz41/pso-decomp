@@ -27,9 +27,10 @@ struct Self_803FF698 { u8 f0; u8 f1; u8 pad2[0x2E]; IpcpConfig *f30; };
 #include <stddef.h>
 #include "pso/network/NetStackTypes.h"
 
-extern u8 lbl_805C0038[];
 void net_sleep_ms(int);
 #include "pso/network/PppBuffer.h"
+#include "pso/network/TLobby_803FAEA0.h"
+extern PppProtoBlocks ppp_proto_blocks;
 
 /* The empty option set each IPCP side starts from (.rodata 8047FE18). */
 const IpcpOptions lbl_8047FE18 = {0};
@@ -49,7 +50,7 @@ s16 TLobby__sub_803FED78(u8 *self) {
     st = 1;
     obj = *(u8 **)(self + 0xc);
     *(s16 *)(self + 8) = 0;
-    ps = (s16 *)(lbl_805C0038 + 0xd4);
+    ps = (s16 *)&ppp_proto_blocks.ipv6cp;
     ps[4] = 0;
     p = (u8 *)ps;
     pd = &lbl_805C18A0;

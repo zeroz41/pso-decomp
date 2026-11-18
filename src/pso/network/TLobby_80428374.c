@@ -55,10 +55,10 @@ s16 TLobby__sub_803F96AC(void *, void *, void *);
 
 s32 net_sleep_ms(int);
 s16 TLobby__sub_804293B0(u8 *buf, s16 len);
-s16 TLobby__sub_804036FC(u16 *avail);
-s16 TLobby__sub_80403730(u8 *dst, u16 n);
+s16 network_input_available(u16 *avail);
+s16 recv_network_bytes(u8 *dst, u16 n);
 u8 *TLobby__sub_803FB110(void);
-s16 TLobby__sub_804037B0(void *, s32);
+s16 send_network_bytes(void *, s32);
 
 
 void reset_boot_state(void) {
@@ -97,7 +97,7 @@ const char *const modem_subst_keys[] = {
 static inline void modem_flush_input(void) {
     u16 avail;
     u8 discard[2];
-    while (TLobby__sub_804036FC(&avail) == 0 && avail != 0 && TLobby__sub_80403730(discard, 1) == 0) {
+    while (network_input_available(&avail) == 0 && avail != 0 && recv_network_bytes(discard, 1) == 0) {
     }
 }
 
@@ -349,13 +349,13 @@ s16 modem_script_send(void) {
     }
     (*out)[di] = 0;
     do {
-        r = TLobby__sub_804036FC(&avail);
+        r = network_input_available(&avail);
         if (r != 0 || avail == 0) {
             break;
         }
-        r = TLobby__sub_80403730(c, 1);
+        r = recv_network_bytes(c, 1);
     } while (r == 0);
-    if (TLobby__sub_804037B0(*out, (u16)NetStringLength((char *)*out)) != 0) {
+    if (send_network_bytes(*out, (u16)NetStringLength((char *)*out)) != 0) {
         return 4;
     }
     return 0;
@@ -421,13 +421,13 @@ s16 modem_script_dial(u8 *request) {
     }
     (*out)[dlen] = 0;
     do {
-        r = TLobby__sub_804036FC(&avail);
+        r = network_input_available(&avail);
         if (r != 0 || avail == 0) {
             break;
         }
-        r = TLobby__sub_80403730(c, 1);
+        r = recv_network_bytes(c, 1);
     } while (r == 0);
-    if (TLobby__sub_804037B0(*out, (u16)NetStringLength((const char *)*out)) != 0) {
+    if (send_network_bytes(*out, (u16)NetStringLength((const char *)*out)) != 0) {
         return 4;
     }
     return TLobby__sub_804290D4(*(s16 *)(request + 4));
@@ -654,12 +654,12 @@ s16 TLobby__sub_804293B0(u8 *buf, s16 len) {
 
     remaining = len;
     while (remaining > 0) {
-        TLobby__sub_804036FC(&avail);
+        network_input_available(&avail);
         if ((n = avail) != 0U) {
             if (remaining < n) {
                 n = remaining;
             }
-            if (TLobby__sub_80403730(buf, n) == 0) {
+            if (recv_network_bytes(buf, n) == 0) {
                 buf += n;
                 remaining -= n;
                 continue;
