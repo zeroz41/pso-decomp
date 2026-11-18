@@ -645,7 +645,7 @@ u8 *TObjPlayer::copy_hold_params(u8 *arg1) {
 }
 
 s16 TBoss7Crawfish::get_floor() { return this->requested_action; }
-int TUnk_804DDD28::vfunc_77(s32) { return 0; }
+s32 *TUnk_804DDD28::get_state_table(s32) { return 0; }
 int TUnk_804DDD28::vfunc_10() { return 0; }
 int TUnk_804DDD28::vfunc_5(s32) { return 0; }
 int TObjPlayer::sub_802a7290_fwd() { return ((TLobby *)this)->get_valid_child(); }

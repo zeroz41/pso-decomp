@@ -2666,13 +2666,6 @@ void TLobby__sub_802A7640(void);
 }
 void disable_and_free_boss4rock_buffer(void);
 extern "C" {
-s32 vfunc_3__13TUnk_804DDD28Fs(s32, s32 *);
-void free__10TObjPlayerFPv(void *a0);
-extern s32 lbl_804DDBF0[];
-void *__dt__6TLobbyFPvs(void *arg0, s16 arg1);
-u8 *TLobby__sub_802A7B50(u8 *arg0);
-void* TLobby__sub_802A7780(void* p);
-void* TLobby__sub_802A7788(void* p);
 int is_valid_player_motion_variant(void* a0 = 0);
 int TLobby__sub_802A7278(void* a0 = 0);
 
@@ -2688,9 +2681,9 @@ s32 TLobby::validate_handle(s32 *arg0) {
     }
     return 0;
 }
-void TUnk_804DDD28::sub_802A7318() { *(s32*)((char*)this + 0x0) = 0; this->m_4 = 0; }
+TUnk_802A7318::TUnk_802A7318() { m_0 = 0; m_4 = 0; }
 
-s32 TLobby::calc_cell_offset(s32 arg1, s32 arg2) {
+s32 TUnk_804DDBF0::get_cell_address(s32 arg1, s32 arg2) {
     struct VObj_802A7328_802A7290 *o = (struct VObj_802A7328_802A7290 *)this;
     return player_action_motion_buffer + ((arg2 + (arg1 * o->m73())) << 0xE);
 }
@@ -2763,22 +2756,9 @@ void TLobby::alloc_boss4rock_buffer() {
 void disable_and_free_boss4rock_buffer(void) { TLobby__sub_802A7640(); TLobby::set_photon_chair_flag(0); }
 void TLobby::enable_and_refresh() { TLobby::set_photon_chair_flag(1); TLobby::alloc_boss4rock_buffer(); }
 extern "C" {
-void *__dt__6TLobbyFPvs(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 8) = lbl_804DDBF0;
-        vfunc_3__13TUnk_804DDD28Fs((s32)arg0, 0);
-        if (arg1 > 0) {
-            free__10TObjPlayerFPv(arg0);
-        }
-    }
-    return arg0;
-}
-void *TUnk_804DDBF0::ct_variant() {
-    TLobby__sub_802A7B50((u8 *)this);
-    *(s32 **)((s8 *)this + 0x8) = lbl_804DDBF0;
-    return this;
-}
-void* TLobby__sub_802A7780(void* p) { return (char*)p + 0xc; }
-void* TLobby__sub_802A7788(void* p) { return (char*)p + 0xc; }
+TUnk_804DDBF0::~TUnk_804DDBF0() {}
+TUnk_804DDBF0::TUnk_804DDBF0() {}
+s32 *TUnk_804DDBF0::get_state_table(s32) { return (s32 *)pad_C; }
+int TUnk_804DDBF0::vfunc_76() { return (int)pad_C; }
 }
 int TUnk_804DDBF0::vfunc_4() {  return (*(int *)&player_action_motion_buffer); }

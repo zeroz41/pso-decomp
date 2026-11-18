@@ -11,7 +11,6 @@ struct VObj_801BC688 : Base_801BC688 { virtual void m0(); virtual void m1(int); 
 
 extern "C" {
 void set_flag_400000__10TObjPlayerFi(s32 arg0);
-u8 *heap_alloc__10TObjPlayerFPv(s32);
 extern const f32 TObjPlayer__data_805DC278;
 #pragma push
 #pragma fp_contract on
@@ -28,24 +27,10 @@ void TObjPlayer::release_child_object() {
 #pragma fp_contract on
 void TObjPlayer::init_action_provider() {
     u8 *arg0 = (u8 *)this;
-    u8 *temp_r3;
-    u8 *temp_r3_2;
-    u8 *var_r0;
-    u8 *var_r0_2;
     if (TObjPlayer::get_hold_effect_count() == 1) {
-        temp_r3 = (u8 *)(heap_alloc__10TObjPlayerFPv(0x8C));
-        var_r0 = temp_r3;
-        if (var_r0 != NULL) {
-            var_r0 = (u8 *)(((TUnk_804DDBF0 *)temp_r3)->ct_variant());
-        }
-        *(u8 * *)&this->unk_380 = var_r0;
+        *(u8 * *)&this->unk_380 = (u8 *)new TUnk_804DDBF0;
     } else if (TObjPlayer::get_hold_effect_count() == 0) {
-        temp_r3_2 = (u8 *)(heap_alloc__10TObjPlayerFPv(0xC));
-        var_r0_2 = temp_r3_2;
-        if (var_r0_2 != NULL) {
-            var_r0_2 = (u8 *)(((TUnk_804ED7D0 *)temp_r3_2)->init_vtable8());
-        }
-        *(u8 * *)&this->unk_380 = var_r0_2;
+        *(u8 * *)&this->unk_380 = (u8 *)new TUnk_804ED7D0;
     }
     this->m_33b = 0;
     *(s8 *)&this->unk_33A = 0;

@@ -7,109 +7,6 @@
 #include "pso/unk/TUnk_804ED7D0.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 
-
-struct Base_80328F7C { char pad[0x8]; };
-struct VObj_80328F7C : Base_80328F7C {
-    virtual void m0();  virtual void m1();  virtual void m2();  virtual void m3();
-    virtual void m4();  virtual void m5();  virtual void m6();  virtual void m7();
-    virtual void m8();  virtual void m9();  virtual void m10(); virtual void m11();
-    virtual void m12(); virtual void m13(); virtual void m14(); virtual void m15();
-    virtual void m16(); virtual void m17(); virtual void m18(); virtual void m19();
-    virtual void m20(); virtual void m21(); virtual void m22(); virtual void m23();
-    virtual void m24(); virtual void m25(); virtual void m26(); virtual void m27();
-    virtual void m28(); virtual void m29(); virtual void m30(); virtual void m31();
-    virtual void m32(); virtual void m33(); virtual void m34(); virtual void m35();
-    virtual void m36(); virtual void m37(); virtual void m38(); virtual void m39();
-    virtual void m40(); virtual void m41(); virtual void m42(); virtual void m43();
-    virtual void m44(); virtual void m45(); virtual void m46(); virtual void m47();
-    virtual void m48(); virtual void m49(); virtual void m50(); virtual void m51();
-    virtual void m52(); virtual void m53(); virtual void m54(); virtual void m55();
-    virtual void m56(); virtual void m57(); virtual void m58(); virtual void m59();
-    virtual void m60(); virtual void m61(); virtual void m62(); virtual void m63();
-    virtual void m64(); virtual void m65(); virtual void m66(); virtual void m67();
-    virtual void m68(); virtual void m69(); virtual void m70(); virtual void m71();
-    virtual void m72(); virtual s32 m73();
-};
-struct Base_80329044 { char pad[0x8]; };
-struct VObj_80329044 : Base_80329044 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual void m23();
-    virtual void m24();
-    virtual void m25();
-    virtual void m26();
-    virtual void m27();
-    virtual void m28();
-    virtual void m29();
-    virtual void m30();
-    virtual void m31();
-    virtual void m32();
-    virtual void m33();
-    virtual void m34();
-    virtual void m35();
-    virtual void m36();
-    virtual void m37();
-    virtual void m38();
-    virtual void m39();
-    virtual void m40();
-    virtual void m41();
-    virtual void m42();
-    virtual void m43();
-    virtual void m44();
-    virtual void m45();
-    virtual void m46();
-    virtual void m47();
-    virtual void m48();
-    virtual void m49();
-    virtual void m50();
-    virtual void m51();
-    virtual void m52();
-    virtual void m53();
-    virtual void m54();
-    virtual void m55();
-    virtual void m56();
-    virtual void m57();
-    virtual void m58();
-    virtual void m59();
-    virtual void m60();
-    virtual void m61();
-    virtual void m62();
-    virtual void m63();
-    virtual void m64();
-    virtual void m65();
-    virtual void m66();
-    virtual void m67();
-    virtual void m68();
-    virtual void m69();
-    virtual void m70();
-    virtual void m71();
-    virtual void m72();
-    virtual void m73();
-    virtual void m74();
-    virtual void m75(s32);
-};
-
 struct PlayerMotionEntry {
     u32 unk0;
     s32 unk4;
@@ -302,9 +199,8 @@ s32 is_handle_valid__10TObjPlayerFv();
 s32 lbl_805D6C80;
 s32 lbl_805D6C84;
 
-s32 TLobby::get_cell_address(s32 arg1, s32 arg2) {
-    struct VObj_80328F7C *o = (struct VObj_80328F7C *)this;
-    return lbl_805D6C80 + ((arg2 + (arg1 * o->m73())) << 0xE);
+s32 TUnk_804ED7D0::get_cell_address(s32 arg1, s32 arg2) {
+    return lbl_805D6C80 + ((arg2 + (arg1 * vfunc_75())) << 0xE);
 }
 
 s32 is_valid_state__6TLobbyFPvi(void *unused, s32 arg1) {
@@ -327,10 +223,9 @@ void check_valid_state__6TLobbyFi(s32 unused) {
 }
 
 int TUnk_804ED7D0::vfunc_76() {
-    struct VObj_80329044 *o = (struct VObj_80329044 *)this;
-    o->m75(is_handle_valid__10TObjPlayerFv());
+    return (int)get_state_table(is_handle_valid__10TObjPlayerFv());
 }
-s32 *TLobby::get_state_table(s32 _w1) {
+s32 *TUnk_804ED7D0::get_state_table(s32 _w1) {
     s32 unused = (s32)this;
     s32 *var_r3;
     switch (is_valid_state__6TLobbyFPvi((void *)unused, (s32)_w1)) {
@@ -399,7 +294,6 @@ void alloc_work_buffer__6TLobbyFv(void) {
     lbl_805D6C80 = (s32)mem_alloc(0x1C0000);
 }
 
-void *TLobby__sub_80329310(void *arg0, s16 arg1);
 
 void free__10TObjPlayerFPv(void *a0);
 
@@ -413,26 +307,9 @@ void TLobby::update_photon_chair() {
     TPlyPhotonChair::load_resources();
 }
 
-extern s32 lbl_804ED7D0[];
+TUnk_804ED7D0::~TUnk_804ED7D0() {}
 
-void *TLobby__sub_80329310(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 8) = lbl_804ED7D0;
-        ((TUnk_804DDD28 *)arg0)->TUnk_804DDD28::vfunc_3(0);
-        if (arg1 > 0) {
-            free__10TObjPlayerFPv(arg0);
-        }
-    }
-    return arg0;
-}
-
-u8 *TLobby__sub_802A7B50(u8 *arg0);
-
-void *TUnk_804ED7D0::init_vtable8() {
-    TLobby__sub_802A7B50((u8 *)this);
-    *(s32 **)((s8 *)this + 0x8) = lbl_804ED7D0;
-    return this;
-}
+TUnk_804ED7D0::TUnk_804ED7D0() {}
 
 void TLobby::init_player_forward() {
     __ct__8FlagWordFv((&lbl_805D6C84));

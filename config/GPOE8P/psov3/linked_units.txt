@@ -2539,6 +2539,7 @@ pso/weapon/TItemAttackCol.cpp
 pso/ui/window/TWindowSubStatusDisp_8026DFE8.cpp
 pso/unk/TLobby_803BFE50.cpp
 pso/unk/text_8020B5CC.cpp
+pso/unk/TUnk_804DDD28.cpp
 pso/unk/TUnk_804F1C58_8035A628.cpp
 pso/boss/barbaray/TBoss7Joint_802EE704.cpp
 pso/network/NetworkInfoRequests.cpp
