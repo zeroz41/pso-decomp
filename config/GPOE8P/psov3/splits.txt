@@ -5903,6 +5903,8 @@ pso/ui/hud/TRaderMapCore.cpp:
 	.rodata     start:0x8044A7A0 end:0x8044A7D0
 	.data       start:0x804C8738 end:0x804C8848
 	.bss        start:0x80512D08 end:0x805137C8
+	.sdata      start:0x805D35F0 end:0x805D3604
+	.sbss       start:0x805D5F28 end:0x805D5F58
 	.sdata2     start:0x805DC528 end:0x805DC5B4
 
 pso/system/scene/TScene_801FBA20.cpp:
@@ -12161,17 +12163,12 @@ pso/render/GinjaModelQueue.cpp:
 	.sdata2     start:0x805E0F58 end:0x805E0F68
 
 pso/render/GinjaMaterial.cpp:
-	.text       start:0x803DB470 end:0x803DC834
+	.text       start:0x803DB470 end:0x803DC88C
 	.data       start:0x804FC540 end:0x804FC668
 	.bss        start:0x8058CD80 end:0x8058CE10
+	.sdata      start:0x805D46C0 end:0x805D46C8
+	.sbss       start:0x805D76E0 end:0x805D7710
 	.sdata2     start:0x805E0F68 end:0x805E0F80
-
-pso/player/TObjPlayer_803DC834.cpp:
-	.text       start:0x803DC834 end:0x803DC86C
-	.sbss       start:0x805D76E0 end:0x805D76E4
-
-pso/unk/text_803DC86C.cpp:
-	.text       start:0x803DC86C end:0x803DC88C
 
 pso/render/ModelDrawContext.cpp:
 	.text       start:0x803DC88C end:0x803DCDA8

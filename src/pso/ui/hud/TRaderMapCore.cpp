@@ -236,24 +236,35 @@ struct RadarFanDesc_801FA880 {
 };
 
 extern "C" {
+// View distance limits: default (and the follow view's cap), zoom minimum, zoom maximum; then the ctor's f170.
+f32 lbl_805D35F0 = 2000.0f;
+f32 lbl_805D35F4 = 1200.0f;
+f32 lbl_805D35F8 = 3500.0f;
+f32 lbl_805D35FC = 80.0f;
+// The motion list of obj_f_enemy_resource_descriptor (the frame models have no motions).
+const char *obj_f_enemy_motion_names[] = { NULL };
+
+u8 *TRaderMapCore__floor_map_resource;
+s32 lbl_805D5F2C;
+s32 TRaderMapCore__data_805D5F30;
+s8 lbl_805D5F34;
+s32 lbl_805D5F38;
+s32 TRaderMapCore__view_mode;
+void *TRaderMapCore__instance;
+s32 TRaderMapCore__render_mode;
+u32 TRaderMapCore__frame_model_resource;
+u32 TRaderMapCore__data_805D5F4C;
+int TRaderMapCore__map_heap;
+
 void TCameraCtrl__sub_80068EF0(void);
-extern u32 TRaderMapCore__data_805D5F4C;
 extern RadarSpriteFrame_801FA6CC lbl_804C87E4[];
 extern f32 lbl_804C87B4[][4];
-extern f32 lbl_805D35F0;
-extern u8 *TRaderMapCore__floor_map_resource;
-extern s32 lbl_805D5F2C;
-extern s32 TRaderMapCore__data_805D5F30;
-extern s32 TRaderMapCore__view_mode;
-extern void *TRaderMapCore__instance;
 void TCameraCtrl__sub_801E32D8(f32 farg0, f32 farg1);
 s32 GXSetScissorBoxOffset(int, int);
 extern Rect_801F9228 radar_map_view_scissor_table[3];
 extern s32 camera_ctrl_instance;
 struct TRaderMapCoreMapViewState { s32 value; u8 remaining[0x74]; };
 extern TRaderMapCoreMapViewState TRaderMapCore__map_view_state;
-extern f32 lbl_805D35F4;
-extern f32 lbl_805D35F8;
 s32 memset(void *, int, int);
 struct RecoveredGlobal_lbl_8044A770 { s32 value; u8 remaining[0x8]; };
 extern RecoveredGlobal_lbl_8044A770 lbl_8044A770;
@@ -262,7 +273,6 @@ extern RecoveredGlobal_lbl_8044A77C lbl_8044A77C;
 extern RadarViewRect_801FA9D8 radar_map_view_rect_table[3];
 void begin_map_view__13TRaderMapCoreFii(s32 arg0, s32 arg1);
 extern s16 *TRaderMapCore__floor_discovery_table[];
-extern int TRaderMapCore__map_heap;
 s32 init_radar_floor_flags(s32 floor, RadarInitMap_801F9474 *map);
 void* __ct__5THeapFUli(void*, u32, s32);
 void* __nw__5THeapFUl(u32);
@@ -272,7 +282,6 @@ s32 TCameraCtrl__sub_80069304();
 int check_flag_100__10TObjPlayerFPv(void *p);
 void *get_player_by_client_id(s32 i);
 extern u8 TCameraCtrl__view_state[];
-extern s32 TRaderMapCore__render_mode;
 f32 xz_distance_squared(void *, void *);
 extern Gate_801FA1E0 TRaderMapCore__marker_buffer[128];
 s32 minimap_render_dot(Vec *arg0, s32 arg1, s16 arg2, s32 arg3);
@@ -1390,7 +1399,6 @@ extern RecoveredGlobal_801FB430___vt__13TRaderMapCore __vt__13TRaderMapCore;
 s32 __ct__8TObjBaseFP7TObject(void *, void *);
 s32 init_map_ptr__13TRaderMapCoreFv(void *, int);
 s32 fn_803D64F8(void *);
-extern f32 lbl_805D35FC;
 extern s32 rader_map_core_name_ptr;
 Core_801FB490 *TRaderMapCore__ct(Core_801FB490 *arg0, void *parent);
 
@@ -1531,8 +1539,6 @@ extern "C" {
 void bind_gvm_texture_list(char *, u8 *);
 }
 extern s32 lbl_805D49B4;
-extern s8 lbl_805D5F34;
-extern s32 lbl_805D5F38;
 
 void TRaderMapCore::create() {
     Core_801FB490 *obj;
@@ -1604,7 +1610,6 @@ s32 TRaderMapCore::apply_compass_param(s32 *counter) {
 }
 
 extern "C" {
-extern u32 TRaderMapCore__frame_model_resource;
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 struct ObjFEnemyResourceDescriptor { s32 value; u8 remaining[0xC]; };
 extern ObjFEnemyResourceDescriptor obj_f_enemy_resource_descriptor;

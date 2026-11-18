@@ -9,7 +9,12 @@ typedef struct GinjaMaterialCache {
   u32 dirty[11];
   u8 reserved60[12];
   u32 inherited_flags;
-  u8 reserved70[12];
+  u8 reserved70[5];
+  u8 tev_stage_offset; /* +0x75: added to the selected TEV stage */
+  u8 reserved76;
+  u8 post_texgen_count; /* +0x77: set_ginja_post_texgen_count */
+  u8 post_tev_stage_count; /* +0x78: set_ginja_post_tev_stage_count */
+  u8 reserved79[3];
   u32 blend_valid;
   u32 blend;
   u32 textured;
