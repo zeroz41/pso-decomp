@@ -45,6 +45,7 @@ struct GuildCardFile_804C89BC {
     u32 download_flags;
 };
 extern "C" {
+s32 card_load_followup_pending;
 CardFileInfo_804C88C0 pso_character_card_filename = {
     "PSO_CHARACTER", "CHARACTER_FILE", 0,
     { 0x35, 0x04, 0x08, 0x1A, 0x0A, 0x07, 'T', 'T', 'T', 'U' },
@@ -1988,7 +1989,6 @@ extern u32 secondary_card_character_save_buffer;
 extern s32 card_load_sequence_state;
 s32 TAdSinglePlyChrSelectGC__sub_801FEBBC(void);
 s32 load_pso_system(void);
-extern s32 card_load_followup_pending;
 void check_system_load_result__23TAdSinglePlyChrSelectGCFv(void);
 s32 check_ready__23TAdSinglePlyChrSelectGCFv(void);
 s32 try_confirm_selection__23TAdSinglePlyChrSelectGCFv(void);
@@ -2324,22 +2324,18 @@ namespace P801FF260 {
 
 extern "C" {
 s32 load_system_file(s32);
-extern s32 card_load_followup_pending;
 void load_system_file_flag__23TAdSinglePlyChrSelectGCFv(void);
 void run_save_load_sequence__23TAdSinglePlyChrSelectGCFv();
 s32 load_system_file(s32);
 s32 verify_save_checksum__23TAdSinglePlyChrSelectGCFi(s32);
-extern s32 card_load_followup_pending;
 u8 load_system_file_blocking__23TAdSinglePlyChrSelectGCFv(void);
 void run_save_load_sequence__23TAdSinglePlyChrSelectGCFv();
 s32 load_selected_character__23TAdSinglePlyChrSelectGCFv();
 s32 apply_loaded_character__23TAdSinglePlyChrSelectGCFi(s32);
-extern s32 card_load_followup_pending;
 u8 load_character_and_wait__23TAdSinglePlyChrSelectGCFv(void);
 void run_save_load_sequence__23TAdSinglePlyChrSelectGCFv();
 s32 load_player__23TAdSinglePlyChrSelectGCFv();
 s32 load_and_verify_data(s32);
-extern s32 card_load_followup_pending;
 u8 load_player_and_wait__23TAdSinglePlyChrSelectGCFv(void);
 void *get_instance__23TAdSinglePlyChrSelectGCFv();
 
@@ -3662,7 +3658,6 @@ extern u32 card_load_sequence_state;
 extern s32 character_save_card_slot;
 extern s32 card_load_channel;
 extern s32 system_save_card_channel;
-extern s32 card_load_followup_pending;
 void run_save_load_sequence__23TAdSinglePlyChrSelectGCFv(void);
 s32 TLobby__sub_80146D50(s32);
 s32 get_account_entry(s32);
@@ -4141,7 +4136,6 @@ extern s32 card_load_channel;
 extern s32 character_save_file_block_count;
 extern s32 guild_card_save_file_block_count;
 extern s32 system_save_file_block_count;
-extern s32 card_load_followup_pending;
 extern s32 chr_select_game_name_buffer;
 
 void init_char_select_globals__23TAdSinglePlyChrSelectGCFv(void) {

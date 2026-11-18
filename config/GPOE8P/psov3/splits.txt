@@ -5888,6 +5888,7 @@ pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.cpp:
 	.ctors      start:0x80433F9C end:0x80433FA0
 	.data       start:0x804C88C0 end:0x804C8B08
 	.bss        start:0x805137C8 end:0x80513920
+	.sbss       start:0x805D5FA8 end:0x805D5FAC
 	.sdata2     start:0x805DC5C0 end:0x805DC5CC
 
 pso/ui/frontend/TAdSinglePlyChrSelectGC_80202A68.cpp:
@@ -12435,7 +12436,7 @@ pso/ui/keyboard/TKeyBoardControl_803F0C50.cpp:
 
 pso/unk/text_803F1804.cpp:
 	.text       start:0x803F1804 end:0x803F18B8
-	.sbss       start:0x805D7938 end:0x805D793C
+	.sbss       start:0x805D7938 end:0x805D7940
 
 pso/ui/frontend/TAdPlayerLoadGC_803F18B8.cpp:
 	.text       start:0x803F18B8 end:0x803F339C
@@ -12443,6 +12444,7 @@ pso/ui/frontend/TAdPlayerLoadGC_803F18B8.cpp:
 	.data       start:0x804FCD48 end:0x804FCE38
 	.bss        start:0x805A28C0 end:0x805A5F00
 	.sdata      start:0x805D4700 end:0x805D4708
+	.sbss       start:0x805D7940 end:0x805D7954
 	.sdata2     start:0x805E10E8 end:0x805E10F8
 
 pso/ui/frontend/TAdPlayerLoadGC_803F339C.cpp:

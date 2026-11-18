@@ -4857,6 +4857,11 @@ force_active:
   - capture_beam_origins__16TObjEneNanoDragoFv
   - capture_effect_positions__14TObjEneIllGillFv
   - capture_matrix_by_frame__16TObjDFTenchuFuruFv
+  - card_attach_callback
+  - card_detach_callback
+  - card_lib_state
+  - card_load_followup_pending
+  - card_poll_depth
   - cast_resta__18TObjEneRe4SorcererFv
   - cast_support_technique__8TItemMagFl
   - cast_tech_on_players__15TBoss3VoloptP01Fv
@@ -15258,6 +15263,7 @@ force_active:
   - save_joint_matrix_callback__Fv
   - save_position__10TBoss2MineFv
   - save_position__10TObjPlayerFv
+  - saved_card_disk_id
   - saved_depth_alpha_scene_state
   - saver_action_table
   - saver_bml_resource
