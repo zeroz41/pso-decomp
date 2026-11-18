@@ -286,8 +286,6 @@ void TWindowSubQuestBoardSelect::run_task() {
     ((TWindowBase *)arg0)->update_window_entry_list((u8 *)&this->m_24);
 }
 
-extern s32 __vt__26TWindowSubQuestBoardSelect[];
-
 TWindowSubQuestBoardSelect::~TWindowSubQuestBoardSelect() {
     TWindowSubStatusDisp::destroy_status_display((s32)(*(void **)((s8 *)this + 0x64)), (s16)1);
 }
@@ -299,29 +297,27 @@ u32 calc_text_width();
 s32 update_slot_display_flags__26TWindowSubQuestBoardSelectFv(void *, f32, f32);
 #pragma push
 #pragma fp_contract on
-u8 *TWindowSubQuestBoardSelect__ct(TWindowSubQuestBoardSelect *window_sub_quest_board_select) {
+TWindowSubQuestBoardSelect::TWindowSubQuestBoardSelect() : TWindowBase((u8 *)&TWindowSubQuestBoardSelect__window_parameters, (s16)(4), (u8 *)(get_window_layout_position(0x70))) {
     f32 temp_f2;
     s32 temp_r30;
     s32 var_r30;
-    __ct__11TWindowBaseFPUcsPUc(window_sub_quest_board_select, (u8 *)&TWindowSubQuestBoardSelect__window_parameters, (s16)(4), (u8 *)(get_window_layout_position(0x70)));
-    *(s32 **)((s8 *)window_sub_quest_board_select + 0x18) = __vt__26TWindowSubQuestBoardSelect;
-    *(s32 *)((s8 *)window_sub_quest_board_select + 0) = (s32) TWindowSubQuestBoardSelect__class_name;
+    m_name = TWindowSubQuestBoardSelect__class_name;
     var_r30 = (int)::operator new(0x24);
     if (var_r30 != 0) {
-        var_r30 = construct_type1_heading__20TWindowSubStatusDispFll(var_r30, get_message_10__20TWindowSubStatusDispFl(0x2B), (s32) window_sub_quest_board_select->m_20);
+        var_r30 = construct_type1_heading__20TWindowSubStatusDispFll(var_r30, get_message_10__20TWindowSubStatusDispFl(0x2B), (s32) this->m_20);
     }
-    *(s32 *)&window_sub_quest_board_select->m_64 = var_r30;
-    *(s8 *)&window_sub_quest_board_select->m_60 = 0;
-    temp_r30 = ((TWindowBase *)window_sub_quest_board_select)->get_array_entry(0);
+    *(s32 *)&this->m_64 = var_r30;
+    *(s8 *)&this->m_60 = 0;
+    temp_r30 = ((TWindowBase *)this)->get_array_entry(0);
     set_text_entry_string((u8 *)temp_r30, (u32)(TQuestThread::get_quest_name()), 0);
     ((TWindowSubComCard *)temp_r30)->get_field_20();
     temp_f2 = (f32) calc_text_width();
     *(f32 *)((s8 *)temp_r30 + 8) = 210.0f - 0.5f * temp_f2;
-    *(s8 *)&window_sub_quest_board_select->m_61 = -1;
-    update_slot_display_flags__26TWindowSubQuestBoardSelectFv(window_sub_quest_board_select, 0.5f, temp_f2);
-    window_sub_quest_board_select->select_next();
-    return (u8 *)window_sub_quest_board_select;
+    *(s8 *)&this->m_61 = -1;
+    update_slot_display_flags__26TWindowSubQuestBoardSelectFv(this, 0.5f, temp_f2);
+    this->select_next();
 }
+
 #pragma pop
 
 }

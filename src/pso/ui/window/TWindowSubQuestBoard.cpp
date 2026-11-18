@@ -77,7 +77,7 @@ TWindowSubQuestBoard::TWindowSubQuestBoard(TObject *object, void *arg2) : TObjec
     *(void **)((s8 *)this + 0x20) = arg2;
     o = TObject::operator new(0x68);
     if (o != NULL) {
-        o = TWindowSubQuestBoardSelect__ct((TWindowSubQuestBoardSelect *)((u8 *)o));
+        o = __ct__26TWindowSubQuestBoardSelectFv((TWindowSubQuestBoardSelect *)((u8 *)o));
     }
     *(void **)((s8 *)this + 0x28) = o;
     this->quest_thread_board = NULL;
