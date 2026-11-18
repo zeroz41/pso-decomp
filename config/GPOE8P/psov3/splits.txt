@@ -20,6 +20,7 @@ pso/ui/keyboard/TKeyBoardControl_8000F764.cpp:
 	.text       start:0x8000F764 end:0x8000FD54
 	.bss        start:0x804FE020 end:0x804FE138
 	.sbss       start:0x805D49A0 end:0x805D49C4
+	.sdata2     start:0x805D7D00 end:0x805D7D18
 
 pso/player/TObjPlayer_80011014.cpp:
 	.text       start:0x8000FD54 end:0x80019848
@@ -12196,7 +12197,7 @@ pso/unk/text_803D8F74.cpp:
 
 pso/math/MatrixTransforms.cpp:
 	.text       start:0x803D929C end:0x803D9650
-	.sdata2     start:0x805E0F40 end:0x805E0F48
+	.sdata2     start:0x805E0F38 end:0x805E0F48
 
 pso/unk/text_803D9650.cpp:
 	.text       start:0x803D9650 end:0x803D96A8
