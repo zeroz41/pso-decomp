@@ -6,6 +6,8 @@ struct Hdr_803278B0 { Ent_803278B0 *ents; u8 pad4[4]; void *a; void *b; };
 
 struct Ref_803278B0 { Ent_803278B0 *ent; s16 *pts; };
 
+Ref_803278B0 *scroll_uv_entry_write_cursor;
+s16 *scroll_uv_coordinate_write_cursor;
 extern "C" {
 s32 has_texture_scroll_entry(void *, u16);
 void set_ginja_texture_wrap_repeat(void *);

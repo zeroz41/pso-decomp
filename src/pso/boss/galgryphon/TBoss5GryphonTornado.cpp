@@ -56,10 +56,12 @@ struct Tornado_80355570 {
     void *p58;
 };
 
+extern "C" { extern char TBoss5GryphonTornado__class_name_string[]; }
+const char *lbl_805D4398 = TBoss5GryphonTornado__class_name_string;
 extern "C" {
 void __ct__7TObjectFP7TObject(void *, void *);
 extern s32 __vt__20TBoss5GryphonTornado[];
-extern s32 lbl_805D4398;
+extern const char *lbl_805D4398;
 s32 get_bml_motion(s32, s32);
 s32 get_bml_model(s32, s32);
 void TBoss8Dragon__sub_800640A4(s32, Vec *);
@@ -69,7 +71,7 @@ void add_radar_scaled_marker(Vec *, s32, s32, s32, f32);
 void play_persistent_sound(s32, void *, Vec *, s32, s32);
 extern s32 boss5_gryphon_bml_resource;
 extern s32 boss5_gryphon_texture_list;
-extern s32 *gryphon_tornado_particle_id_table;
+s32 *gryphon_tornado_particle_id_table;
 extern const f32 lbl_805D8D48;
 extern const f32 lbl_805DFFB8;
 

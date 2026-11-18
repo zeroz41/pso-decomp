@@ -240,7 +240,15 @@ void TCameraCtrl__sub_80068EF0(void);
 extern u32 TRaderMapCore__data_805D5F4C;
 extern RadarSpriteFrame_801FA6CC lbl_804C87E4[];
 extern f32 lbl_804C87B4[][4];
-extern f32 lbl_805D35F0;
+f32 lbl_805D35F0 = 2000.0f;
+f32 lbl_805D35F4 = 1200.0f;
+f32 lbl_805D35F8 = 3500.0f;
+f32 lbl_805D35FC = 80.0f;
+const char *obj_f_enemy_motion_names[1] = { NULL };
+extern "C" { extern char TRaderMapCore__class_name_string[]; }
+const char *rader_map_core_name_ptr = TRaderMapCore__class_name_string;
+f32 lbl_805D3608 = 1.0f;
+f32 radar_overhead_projection_scale = 75.0f;
 extern u8 *TRaderMapCore__floor_map_resource;
 extern s32 lbl_805D5F2C;
 extern s32 TRaderMapCore__data_805D5F30;
@@ -252,8 +260,6 @@ extern Rect_801F9228 radar_map_view_scissor_table[3];
 extern s32 camera_ctrl_instance;
 struct TRaderMapCoreMapViewState { s32 value; u8 remaining[0x74]; };
 extern TRaderMapCoreMapViewState TRaderMapCore__map_view_state;
-extern f32 lbl_805D35F4;
-extern f32 lbl_805D35F8;
 s32 memset(void *, int, int);
 struct RecoveredGlobal_lbl_8044A770 { s32 value; u8 remaining[0x8]; };
 extern RecoveredGlobal_lbl_8044A770 lbl_8044A770;
@@ -287,8 +293,6 @@ void rotate_matrix_y(void *, s32);
 s32 push_matrix_from(void *src);
 extern Vec lbl_8044A794;
 extern u8 identity_matrix[];
-extern f32 lbl_805D3608;
-extern f32 radar_overhead_projection_scale;
 void setup_overhead_projection__13TRaderMapCoreFv(s32 arg0, Cam_801F9314 *arg1);
 }
 void rotate_matrix_zyx(void *m, s32 x, s32 y, s32 z);
@@ -1390,8 +1394,6 @@ extern RecoveredGlobal_801FB430___vt__13TRaderMapCore __vt__13TRaderMapCore;
 s32 __ct__8TObjBaseFP7TObject(void *, void *);
 s32 init_map_ptr__13TRaderMapCoreFv(void *, int);
 s32 fn_803D64F8(void *);
-extern f32 lbl_805D35FC;
-extern s32 rader_map_core_name_ptr;
 Core_801FB490 *TRaderMapCore__ct(Core_801FB490 *arg0, void *parent);
 
 
@@ -1460,7 +1462,7 @@ Core_801FB490 *TRaderMapCore__ct(Core_801FB490 *arg0, void *parent) {
     u32 j;
     __ct__8TObjBaseFP7TObject(arg0, parent);
     arg0->vt = &__vt__13TRaderMapCore.value;
-    arg0->f0 = rader_map_core_name_ptr;
+    arg0->f0 = (s32)rader_map_core_name_ptr;
     arg0->f178 = init_map_ptr__13TRaderMapCoreFv(&arg0->f90, 2);
     arg0->f17c = init_map_ptr__13TRaderMapCoreFv(&arg0->f90, 0);
     arg0->f180 = init_map_ptr__13TRaderMapCoreFv(&arg0->f90, 1);

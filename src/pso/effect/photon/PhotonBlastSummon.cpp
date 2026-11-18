@@ -39,7 +39,11 @@ extern RecoveredGlobal_801A7310_TCameraCtrl__data_804FF628 TCameraCtrl__view_sta
 extern u32 lbl_805D5D20;
 const f32 *get_photon_blast_entry__10TObjPlayerFi(s32);
 }
-extern u32 lbl_805D5D18;
+s32 photon_blast_joint_index;
+s32 photon_blast_hit_count;
+u32 lbl_805D5D18;
+s32 deferred_photon_blast_hit_count;
+u32 lbl_805D5D20;
 
 void clear_deferred_photon_blast_hits(void) {
     s32 i;
@@ -699,3 +703,6 @@ Group_801A7428 photon_blast_attachment_table[7] = {
 Reg_801A7578 photon_blast_joint_origins[1];
 PhotonBlastHit photon_blast_hit_queue[32];
 PhotonBlastHit deferred_photon_blast_hit_queue[32];
+
+__declspec(section ".rodata") Vec lbl_80446A38 = { 0, 1.0f };
+__declspec(section ".rodata") Vec lbl_80446A44 = { 0 };

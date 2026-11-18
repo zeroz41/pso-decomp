@@ -85,8 +85,9 @@ u8 *create_draw_line_ctrl__13TAdMcSelectGCFiif(s32 arg0, s32 arg1, f32 farg0) {
     return NULL;
 }
 
-struct RecoveredGlobal_lbl_804340D8 { char value[0x13]; };
-extern RecoveredGlobal_lbl_804340D8 lbl_804340D8;
+extern "C" { extern const char lbl_804340D8[19] = "AdDrawLineTask.prs"; }
+extern "C" { extern const char TAdDrawLineTask__class_name_string[16] = "TAdDrawLineTask"; }
+extern "C" { extern const char TAdDrawLineCtrl__class_name_string[16] = "TAdDrawLineCtrl"; }
 u32 item_loader_instance;
 
 void TLobby::free_item_loader() {
@@ -97,7 +98,7 @@ void TLobby::free_item_loader() {
     }
 }
 void TLobby::load_draw_line_task() {
-    RelocatedFile *file = new RelocatedFile(lbl_804340D8.value, 0x4800);
+    RelocatedFile *file = new RelocatedFile(lbl_804340D8, 0x4800);
     item_loader_instance = (u32)file;
     if (file != NULL) {
         lbl_805D49D8 = (s32)file->get_root();

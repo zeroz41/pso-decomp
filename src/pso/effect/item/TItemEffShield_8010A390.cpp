@@ -94,7 +94,8 @@ struct Shield_8010A4C0 {
 };
 
 extern "C" {
-extern s32 TItemEffShield__class_name;
+extern "C" { extern char TItemEffShield__class_name_string[]; }
+const char *TItemEffShield__class_name = TItemEffShield__class_name_string;
 void *get_player_by_client_id(s32 i);
 void play_sound_effect(s32, void *, s32, s32);
 void run_task__14TItemEffShieldFv(Shield_8010A4C0 *self);

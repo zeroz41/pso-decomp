@@ -34,6 +34,8 @@ struct Tbl_800777C4 { u8 f0; u8 count; u8 pad[2]; Ent_800777C4 e[1]; };
 
 struct Out_800778B4 { s32 a; s32 b; };
 
+s32 lbl_805D4E58;
+s32 lbl_805D4E5C;
 extern "C" {
 extern s32 lbl_805D4E5C;
 extern s32 lbl_805D4E58;

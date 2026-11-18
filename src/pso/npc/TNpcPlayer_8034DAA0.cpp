@@ -230,7 +230,7 @@ struct Stack_8034ED58 {
     s16 sp12;
 };
 
-    extern int lbl_805D6EA0;
+int lbl_805D6EA0;
 extern "C" {
 s32 set_arrival_override_coords(s32, s32, f32, f32, f32);
 void send_6x21_inter_level_warp(void *obj, s32 value);

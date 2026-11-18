@@ -381,11 +381,12 @@ void *__dt__18TShopGetItemWindowFv(TShopGetItemWindow *arg0, s16 arg1) {
     return arg0;
 }
 
-extern void *TShopGetItemWindow__class_name;
+extern "C" { extern char TShopGetItemWindow__class_name_string[]; }
+const char *TShopGetItemWindow__class_name = TShopGetItemWindow__class_name_string;
 
 }
 TShopGetItemWindow::TShopGetItemWindow(void *arg1, void *arg2, void *arg3) : TShopWindowBase((TObject *)arg1) {
-    *(void * *)&this->m_name = TShopGetItemWindow__class_name;
+    this->m_name = TShopGetItemWindow__class_name;
     this->m_20 = 0;
     *(void **)((s8 *)this + 0x24) = arg3;
     this->m_54 = 1;

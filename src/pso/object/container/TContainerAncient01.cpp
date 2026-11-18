@@ -190,7 +190,7 @@ extern "C" {
 void __ct__9TObjCharaFP7TObject(void *, void *, void *);
 s32 get_bml_texlist(int, int);
 void init_collision_body_parts(void *, void *, int);
-extern s32 TContainerAncient01R__name;
+extern const char *TContainerAncient01R__name;
 
 u32 get_bml_motion(int, int);
 s32 get_bml_model(int, int);
@@ -661,7 +661,7 @@ void *TContainerAncient01R__ct(Obj_8018B030 *self, void *arg1, void *parent) {
 
     __ct__9TObjCharaFP7TObject(self, arg1, parent);
     *(void **)((u8 *)self + 0x18) = (void *)__vt__20TContainerAncient01R;
-    *(s32 *)self = TContainerAncient01R__name;
+    *(s32 *)self = (s32)TContainerAncient01R__name;
     self->m5(parent);
     self->x34 = get_bml_model(TContainerAncient01R__bml_resource, 0);
     self->x24 = get_bml_texlist(TContainerAncient01R__bml_resource, 0);
@@ -1036,6 +1036,8 @@ void TContainerAncient01::load_resources() {
 #include "pso/object/container/TObjContainerJungEnemy.h"
 #include "pso/object/container/TObjContainerIdo.h"
 #include "pso/item/TUnk_804B97C0.h"
+s32 TContainerAncient01__effect_id_table[2];
+s32 TContainerAncient01__open_effect_table[2];
 
 
 struct B_8018BE30 { u8 pad[0x18]; };
@@ -1062,7 +1064,10 @@ struct V_8018BE98 : B_8018BE98 {
 
 
 extern s32 __vt__19TContainerAncient01[];
-extern s32 TContainerAncient01__name;
+extern "C" { extern char TContainerAncient01__class_name_string[]; }
+const char *TContainerAncient01__name = TContainerAncient01__class_name_string;
+extern "C" { extern char TContainerAncient01R__class_name_string[]; }
+const char *TContainerAncient01R__name = TContainerAncient01R__class_name_string;
 
 
 TContainerAncient01::~TContainerAncient01() {

@@ -38,7 +38,8 @@ extern "C" {
 int TKeyBoardControl__sub_8000F828(void);
 void __ct__7TObjectFP7TObject(void *, void *);
 extern void *__vt__8TEndingC[];
-extern s32 lbl_805D2960;
+extern "C" { extern char TEndingC__class_name_string[]; }
+const char *lbl_805D2960 = TEndingC__class_name_string;
 u8 *__ct__8TEndingCFv(u8 *arg0, u8 *arg1);
 int TEndingC__sub_8008C6F4(void);
 void TEndingAB__sub_8008D5A0(void);

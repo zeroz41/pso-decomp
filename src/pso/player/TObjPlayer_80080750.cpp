@@ -1,8 +1,8 @@
 #include "types.h"
 #include "pso/player/TObjPlayer.h"
 
-extern s16 demo_camera_controller_index;
-extern u8 lbl_805D4ECA;
+s16 demo_camera_controller_index;
+u8 lbl_805D4ECA;
 
 s32 TObjPlayer::check_demo_mode() {
     s16 v;

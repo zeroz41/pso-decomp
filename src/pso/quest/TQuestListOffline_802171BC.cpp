@@ -7,6 +7,35 @@
 #include "pso/quest/TQuestListOffline.h"
 #include "pso/unk/TLobby.h"
 #include "pso/quest/TQuestListVM.h"
+extern "C" { extern const u8 lbl_8044BDA0[8] = "quest04"; }
+extern "C" { extern const u8 lbl_8044BDA8[8] = "quest02"; }
+extern "C" { extern const u8 lbl_8044BDB0[8] = "quest01"; }
+extern "C" { extern const u8 lbl_8044BDB8[8] = "quest03"; }
+extern "C" { extern const u8 lbl_8044BDC0[8] = "quest05"; }
+extern "C" { extern const u8 lbl_8044BDC8[8] = "quest06"; }
+extern "C" { extern const u8 lbl_8044BDD0[8] = "quest07"; }
+extern "C" { extern const u8 lbl_8044BDD8[8] = "quest08"; }
+extern "C" { extern const u8 lbl_8044BDE0[8] = "quest09"; }
+extern "C" { extern const u8 lbl_8044BDE8[8] = "quest10"; }
+extern "C" { extern const u8 lbl_8044BDF0[8] = "quest11"; }
+extern "C" { extern const u8 lbl_8044BDF8[8] = "quest12"; }
+extern "C" { extern const u8 lbl_8044BE00[8] = "quest13"; }
+extern "C" { extern const u8 lbl_8044BE08[8] = "quest14"; }
+extern "C" { extern const u8 lbl_8044BE10[8] = "quest15"; }
+extern "C" { extern const u8 lbl_8044BE18[8] = "quest16"; }
+extern "C" { extern const u8 lbl_8044BE20[8] = "quest17"; }
+extern "C" { extern const u8 lbl_8044BE28[8] = "quest18"; }
+extern "C" { extern const u8 lbl_8044BE30[8] = "quest19"; }
+extern "C" { extern const u8 lbl_8044BE38[8] = "quest20"; }
+extern "C" { extern const u8 lbl_8044BE40[8] = "quest21"; }
+extern "C" { extern const u8 lbl_8044BE48[8] = "quest22"; }
+extern "C" { extern const u8 lbl_8044BE50[8] = "quest23"; }
+extern "C" { extern const u8 lbl_8044BE58[8] = "quest24"; }
+extern "C" { extern const u8 lbl_8044BE60[8] = "quest25"; }
+extern "C" { extern const u8 lbl_8044BE68[8] = "quest26"; }
+extern "C" { extern const u8 lbl_8044BE70[8] = "quest27"; }
+extern "C" { extern const u8 lbl_8044BE78[8] = "quest28"; }
+extern "C" { extern const u8 lbl_8044BE80[8] = "quest29"; }
 
 
 extern "C" {
@@ -55,35 +84,6 @@ extern "C" void display_message__15TShopWindowBaseFPCcl();
 extern "C" void display_guild_message__15TShopWindowBaseFll();
 extern "C" void vfunc_10__15TShopWindowBaseFv();
 extern "C" void run_task__15TShopWindowBaseFv();
-extern "C" u8 lbl_8044BDA0[];
-extern "C" u8 lbl_8044BDA8[];
-extern "C" u8 lbl_8044BDB0[];
-extern "C" u8 lbl_8044BDB8[];
-extern "C" u8 lbl_8044BDC0[];
-extern "C" u8 lbl_8044BDC8[];
-extern "C" u8 lbl_8044BDD0[];
-extern "C" u8 lbl_8044BDD8[];
-extern "C" u8 lbl_8044BDE0[];
-extern "C" u8 lbl_8044BDE8[];
-extern "C" u8 lbl_8044BDF0[];
-extern "C" u8 lbl_8044BDF8[];
-extern "C" u8 lbl_8044BE00[];
-extern "C" u8 lbl_8044BE08[];
-extern "C" u8 lbl_8044BE10[];
-extern "C" u8 lbl_8044BE18[];
-extern "C" u8 lbl_8044BE20[];
-extern "C" u8 lbl_8044BE28[];
-extern "C" u8 lbl_8044BE30[];
-extern "C" u8 lbl_8044BE38[];
-extern "C" u8 lbl_8044BE40[];
-extern "C" u8 lbl_8044BE48[];
-extern "C" u8 lbl_8044BE50[];
-extern "C" u8 lbl_8044BE58[];
-extern "C" u8 lbl_8044BE60[];
-extern "C" u8 lbl_8044BE68[];
-extern "C" u8 lbl_8044BE70[];
-extern "C" u8 lbl_8044BE78[];
-extern "C" u8 lbl_8044BE80[];
 extern "C" u8 lbl_805DC690[];
 extern "C" void render__7TObjectFv();
 extern "C" void render_shadows__7TObjectFv();

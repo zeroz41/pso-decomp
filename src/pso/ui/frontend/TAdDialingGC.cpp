@@ -28,6 +28,7 @@ struct Stack_803286AC {
 
 struct Obj_803285C0 { u8 pad[0x20]; s32 mode; u8 pad2[0xC]; s16 state; };
 
+TAdDialingGC *TAdDialingGC__instance;
 extern "C" {
 s32 create_guide_button(void *, void *, f32);
 s32 init_guide_button_params(void *);
@@ -57,15 +58,9 @@ int update_dialing_display__12TAdDialingGCFi(void*);
 BOOL fn_80145A44(char *dst);
 s32 call_146CA0_with_5708__6TLobbyFv();
 int sprintf(char *, const char *, ...);
-extern char lbl_804767C8[];
 }
 
-extern const NJS_POINT2 lbl_804767B8[];
-extern const NJS_POINT2 lbl_804767C0[];
-extern const NJS_POINT2 lbl_804767A8[];
-extern const NJS_POINT2 lbl_804767B0[];
 extern "C" {
-extern s32 __vt__12TAdDialingGC[];
 u8 * __dt__7TObjectFv(void *, s16);
 void __dl__7TObjectFPv(s32);
 u8 *__dt__12TAdDialingGCFv(u8 *arg0, s16 arg1);
@@ -96,6 +91,7 @@ TAdDialingGC::TAdDialingGC(TObject *parent) : TObject(parent) {
     this->m_a4 = 0;
 }
 
+extern s32 __vt__12TAdDialingGC[];
 extern "C" {
 u8 *__dt__12TAdDialingGCFv(u8 *object, s16 arg1) {
     if (object != NULL) {
@@ -130,6 +126,11 @@ void TAdDialingGC::render() { TAdDialingGC__sub_80328B20(); render_if_flag_set()
 
 }
 
+__declspec(section ".rodata") extern const NJS_POINT2 lbl_804767A8[] = { 0, 28.0f };
+__declspec(section ".rodata") extern const NJS_POINT2 lbl_804767B0[] = { 640.0f, 84.0f };
+__declspec(section ".rodata") extern const NJS_POINT2 lbl_804767B8[] = { 0, 310.0f };
+__declspec(section ".rodata") extern const NJS_POINT2 lbl_804767C0[] = { 640.0f, 136.0f };
+extern const char lbl_804767C8[5] = "%s%s";
 void TAdDialingGC::render_if_flag_set() {
     if ((this->m_a4 & 1) && ((s32) this->m_1c == 0)) {
         TAdDialingGC__sub_80328B24(lbl_804767A8, lbl_804767B0);

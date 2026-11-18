@@ -4,6 +4,7 @@
 #include "pso/system/task/TObject_8001A448.h"
 #include "pso/system/vector.h"
 #include "pso/system/task/TObject.h"
+extern "C" { extern const char lbl_8043DAB0[16] = "TFontSmallLobby"; }
 
 struct HelpTextPlayerState {
     u8 unresolved_00[0x84C];

@@ -86,7 +86,8 @@ s16 DVDReadPrio(Hdl_803C1668 *h, s32 buf, s32 len) {
 typedef void (*RecoveredCallback_1268626c296b)(void *);
 struct Obj_803C1A24 { u8 pad[0xAC]; void *fac; };
 
-extern RecoveredCallback_1268626c296b lbl_805D7514;
+s32 (*lbl_805D7510)();
+RecoveredCallback_1268626c296b lbl_805D7514;
 extern s32 (*lbl_805D7510)();
 
 #include <string.h>
@@ -107,8 +108,10 @@ struct WavFmtChunk {
     u16 bits;
 };
 
-extern char *lbl_805D4650; // "fmt "
-extern char *lbl_805D4654; // "data"
+extern "C" { extern char lbl_805E0CA0[]; }
+const char *lbl_805D4650 = lbl_805E0CA0;
+extern "C" { extern char lbl_805E0CA8[]; }
+const char *lbl_805D4654 = lbl_805E0CA8;
 
 s32 TLobby__sub_803C1780(s32 buf, s32 len, s16 *data_offset, s8 *marker, s8 *bits, s8 *block_align, s8 *channels,
                          s32 *sample_rate, s32 *sample_count, s32 *samples_per_block, s16 *encoding) {

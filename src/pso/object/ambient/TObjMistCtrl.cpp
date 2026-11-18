@@ -66,3 +66,5 @@ TObjMistCtrl::TObjMistCtrl(s32 parent, u32 arg2) : TObjBase((TObject *)((void *)
     }
     *(s32 *)((s8 *)this + 0x90) = (s32)spawn_continuous_particle_effect_with_flags((((u8 *)this) + 0x38), 0x200, 0x800);
 }
+
+__declspec(section ".rodata") Vec lbl_804707E8 = { 0, 0, -1.0f };

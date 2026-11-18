@@ -18,6 +18,7 @@ struct ParticleDefinition {
     s32 texlist_index;
     s32 sprite_type;
 };
+GinjaTextureList *lbl_805D35A0[2] = { (GinjaTextureList *)&shared_effect_texture_list, 0 };
 extern "C" {
 
 void *TQuadSpriteNormal__ct(void *, void *, ParticleDefinition *);

@@ -11,6 +11,7 @@
 #include "pso/ui/frontend/TAdChrSelASlotGC.h"
 #include "pso/system/task/TObject.h"
 #include "pso/unk/TLobby.h"
+extern "C" { extern const char TObjNewFloorWin__class_name_string[16] = "TObjNewFloorWin"; }
 
 struct TObjNewFloorWin_80073DCC { u8 pad[0x1C]; s32 state; void *window; s32 timer24; s32 timer28; };
 
@@ -88,11 +89,11 @@ void *__ct__15TObjNewFloorWinFP7TObjectPv(void *arg0, void *arg1, void *arg2);
 s32 get_player_by_client_id(u32);
 u8 *__nw__7TObjectFUl(s32);
 
-extern void *TObjNewFloorWin__class_name;
+const char *TObjNewFloorWin__class_name = TObjNewFloorWin__class_name_string;
 
 }
 TObjNewFloorWin::TObjNewFloorWin(TObject *object, void *arg2) : TObject(object) {
-    *(void * *)&this->m_name = TObjNewFloorWin__class_name;
+    this->m_name = TObjNewFloorWin__class_name;
     *(void **)((s8 *)this + 0x4C) = arg2;
     *(u32 *)((s8 *)this + 0x20) = 0;
     *(u32 *)((s8 *)this + 0x24) = 450;

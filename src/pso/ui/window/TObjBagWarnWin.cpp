@@ -125,3 +125,5 @@ s32 get_message_text(s32 arg0) {
 }
 
 }
+
+extern "C" { extern const char TObjBagWarnWin4P__class_name_string[17] = "TObjBagWarnWin4P"; }

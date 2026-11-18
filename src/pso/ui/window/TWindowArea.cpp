@@ -16,6 +16,7 @@
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/ui/window/TWindowBase.h"
 
+s32 TWindowSubStatusDisp__count_ratio_value;
 extern "C" {
 const char *TWindowArea__name = "TWindowArea";
 

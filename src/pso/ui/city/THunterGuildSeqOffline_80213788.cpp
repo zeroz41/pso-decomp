@@ -845,3 +845,5 @@ Seq_80214B3C *THunterGuildSeqOffline__sub_80214B3C(Seq_80214B3C *shop_window_bas
 }
 
 
+
+s32 hunter_guild_seq_online_client_instance;

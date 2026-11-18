@@ -28,7 +28,10 @@ struct Names_8017E1E4 { const char *name[2]; };
 
 
 extern u32 TLobby__event_theme_id;
-extern u32 TObjBgmColCtrl__current_theme_id;
+s32 bgm_zone_category;
+s32 lbl_805D5B04;
+u32 TObjBgmColCtrl__instance;
+u32 TObjBgmColCtrl__current_theme_id;
 
 void create_bgm_col_zones(void);
 extern "C" {
@@ -40,7 +43,6 @@ s32 is_active__14TObjBgmColCtrlFv();
 int get_quest_bgm_issued_flag(void);
 
 extern s32 local_client_id;
-extern s32 lbl_805D5B04;
 
 struct Row_8017E550 { Vec pos; f32 radius; s32 category; };
 

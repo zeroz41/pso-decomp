@@ -69,7 +69,6 @@ struct Cfg_8000FAE4 {
     u32 heapsize;
 };
 
-extern s32 lbl_805D49C0;
 extern "C" {
 void GXSetCopyClear(GXColor_8000FA00 clear_clr, u32 clear_z);
 void GXCopyDisp(void *dest, int clear);
@@ -129,8 +128,6 @@ void TAdWarningBaseGC__sub_8032D188(void);
 void TLobby__sub_80147978(void);
 void TLobby__sub_8020E3BC(void);
 }
-extern s32 keyboard_active_flag;
-extern s32 keyboard_key_state;
 extern u8 gx_default_light_obj[];
 extern void *video_initial_draw_framebuffer;
 extern void *video_initial_display_framebuffer;
@@ -151,7 +148,6 @@ int lbl_805D49A0;
 int lbl_805D49A4;
 int player_matrix_stack_buffer;
 s32 keyboard_input_buffer;
-extern int resource_decompress_buffer;
 extern "C" {
 void TLobby__sub_8022809C(void);
 void TLobby__sub_802433A8(void);
@@ -169,6 +165,11 @@ void TKeyBoardControl::update() {  }
 int TKeyBoardControl__sub_8000F828(void) { return 0; }
 }
 
+u8 *resource_decompress_buffer;
+s32 lbl_805D49B4;
+s32 keyboard_key_state;
+s32 keyboard_active_flag;
+s32 lbl_805D49C0;
 void shutdown_and_reset_system(void) {
     TLobby__sub_802433A8();
     fn_800FFE0C();
@@ -192,7 +193,7 @@ void shutdown_and_reset_system(void) {
     TLobby__sub_80147978();
     xfree__FPv((void*)lbl_805D49A0);
     xfree__FPv((void*)lbl_805D49A4);
-    xfree__FPv((void*)resource_decompress_buffer);
+    xfree__FPv(resource_decompress_buffer);
     xfree__FPv((void*)lbl_805D5680);
     xfree__FPv((void*)anim_model_matrix_array);
     xfree__FPv((void*)player_matrix_stack_buffer);
@@ -202,6 +203,7 @@ void shutdown_and_reset_system(void) {
     OSResetSystem((void*)1, (void*)0, (void*)1);
 }
 
+extern "C" { MainPhaseState main_phase_state; }
 s32 get_previous_main_phase(void) {
     return main_phase_state.prev;
 }
@@ -323,10 +325,10 @@ void init_game_systems(void) {
     init_record_and_slot_arrays(lbl_805D49A0, 0x2E4, (void *)lbl_805D49A4, (void *)(0x2E4));
     init_light_globals(0, 0);
     set_model_render_flags(0x100000);
-    resource_decompress_buffer = xmalloc__FUl(0x80000);
+    resource_decompress_buffer = (u8 *)xmalloc__FUl(0x80000);
     lbl_805D5680 = (void *)xmalloc__FUl(0x6000);
     anim_model_matrix_array = (Mtx34 *)xmalloc__FUl(0x14A0);
-    TObjPlayer__sub_803E492C(resource_decompress_buffer, 0x2000);
+    TObjPlayer__sub_803E492C((s32)resource_decompress_buffer, 0x2000);
     TKeyBoardControl::set_key_state((s32)TKeyBoardControl__sub_8000F764);
     player_matrix_stack_buffer = xmalloc__FUl(0x600);
     TObjPlayer::init_matrix_stack(player_matrix_stack_buffer, 0x20);

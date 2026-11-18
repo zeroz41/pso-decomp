@@ -6,7 +6,7 @@ extern "C" {
 
 u32 get_character_save_record();
 
-extern s32 com_card_keyboard_mode;
+s32 com_card_keyboard_mode;
 
 void TObjPlayer::set_com_card_window(s32 arg0) {
     s32 temp_r31;

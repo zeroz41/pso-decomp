@@ -6,7 +6,8 @@
 #include "pso/ui/Language.h"
 #include "pso/player/TObjPlayer_80011014.h"
 
-extern s32 quest_and_shop_error_text;
+extern "C" { extern char lbl_8044C300[]; }
+const char *quest_and_shop_error_text = lbl_8044C300;
 s32 ** lbl_805D6258;
 struct GuildTextPlayModeTable { s32 value; u8 remaining[0xC]; };
 extern GuildTextPlayModeTable guild_text_play_mode_table;
@@ -18,7 +19,7 @@ s32 get_quest_list_text(s32 arg0, s32 arg1) {
     if ((s32 *) (*(s32 * *)&lbl_805D6258) != NULL) {
         return *(s32 *)((s8 *)(*(s32 *)((s8 *)(*(s32 *)((s8 *)(*(s32 * *)&lbl_805D6258) + 0) + (arg0 * 4)) + 0) + (arg1 * 4)) + 0);
     }
-    return quest_and_shop_error_text;
+    return (s32)quest_and_shop_error_text;
 }
 
 s32 get_guild_text(s32 arg0) {
@@ -28,7 +29,7 @@ s32 get_guild_text(s32 arg0) {
     new_var = *((s32 *) (((s8 *) (((u8 *)&guild_text_play_mode_table.value) + (get_game_play_mode() * 4))) + 0));
     return *((s32 *) (((s8 *) ((*((s32 *) (((s8 *) ((*((s32 *) (((s8 *) (*(s32 * *)&lbl_805D6258)) + 0))) + (new_var * 4))) + 0))) + (arg0 * 4))) + 0));
   }
-  return quest_and_shop_error_text;
+  return (s32)quest_and_shop_error_text;
 }
 
 s32 get_appraisal_text(s32 arg0) {
@@ -36,14 +37,14 @@ s32 get_appraisal_text(s32 arg0) {
   {
     return *((s32 *) (((s8 *) ((*((s32 *) (((s8 *) ((*((s32 *) (((s8 *) (*(s32 * *)&lbl_805D6258)) + 0))) + ((*((s32 *) (((s8 *) (((u8 *)&appraisal_text_group_table.value) + (lbl_805D6238 * 4))) + 0))) * 4))) + 0))) + (2 * (2 * arg0)))) + 0));
   }
-  return quest_and_shop_error_text;
+  return (s32)quest_and_shop_error_text;
 }
 
 s32 get_shop_text(s32 arg0) {
     if ((s32 **) lbl_805D6258 != NULL) {
         return *(s32 *)((s8 *)(**lbl_805D6258) + (arg0 * 4));
     }
-    return quest_and_shop_error_text;
+    return (s32)quest_and_shop_error_text;
 }
 
 #pragma readonly_strings on

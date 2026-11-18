@@ -231,3 +231,5 @@ u8 *TObjLight__create(u8 *arg0) {
     return var_r0;
 }
 
+
+extern "C" { extern const char TMapCsnCtrl__class_name_string[12] = "TMapCsnCtrl"; }

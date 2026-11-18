@@ -310,7 +310,7 @@ s32 set_floor_map_selection(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 extern "C" {
 s32 get_floor_map_selection(s32 arg0, u8 *arg1);
 s32 rand(void);
-extern int selected_episode;
+int selected_episode;
 void randomize_adventure_maps(void);
 s32 memset(void *, int, int);
 void TLobby__sub_80207BB0(void);
@@ -322,7 +322,8 @@ s32 get_floor_map_terrain(s32 arg0);
 }
 struct Buf12_80207718_80207644 { s32 a, b, c; };
 
-    extern int story_select_current;
+s32 story_select_pending_state = -1;
+int story_select_current = -1;
 void TLobby::backup_story_select() { selected_episode = story_select_current; }
 
 void TLobby::sync_story_select() { story_select_current = selected_episode; }
@@ -347,7 +348,6 @@ s32 get_floor_area(s32 floor) {
     return -1;
 }
 void init_floor_map_registry(void);
-extern s32 story_select_pending_state;
 
 void set_floor_map_variant(s32 arg0, s32 arg1) {
     if (arg0 <= 0x11) {

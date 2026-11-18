@@ -54,6 +54,10 @@ struct ControllerInputState {
 
 struct Obj_801A5F1C { u8 pad0[0x94]; s32 base[4]; };
 
+s8 lbl_805D5D08;
+u8 lbl_805D5D09;
+s8 keyboard_reset_button_pressed;
+s8 pad_recalibration_hold_frames[4];
 extern "C" {
 s32 is_split_screen();
 s32 TKeyBoardControl__sub_80132650(void *);

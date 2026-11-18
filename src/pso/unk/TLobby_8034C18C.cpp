@@ -9,8 +9,8 @@ struct Body_8034C1D0 { u32 w[0x234]; };
 
 struct Big_8034C1D0 { u32 a; Body_8034C1D0 b; };
 
-extern s32 info_board_state_flags;
-extern u32 information_board_response_buffer;
+s32 info_board_state_flags;
+u32 information_board_response_buffer;
 void TLobby::init_once(s32 arg0) {
     if (!(info_board_state_flags & 2) && (information_board_response_buffer != 0U)) {
         info_board_state_flags |= 2;

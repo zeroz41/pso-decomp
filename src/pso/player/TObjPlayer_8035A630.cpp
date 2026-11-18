@@ -5,6 +5,10 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/MatrixStack.h"
 
+s32 player_node_matrix_cursor;
+s32 player_node_matrix_count;
+s32 node_matrix_array_base;
+s32 (*player_apply_callback_fn)(s32);
 extern "C" {
 
 extern s32 (*player_apply_callback_fn)(s32);

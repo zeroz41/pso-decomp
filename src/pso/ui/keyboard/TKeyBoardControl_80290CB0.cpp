@@ -7,7 +7,7 @@
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 
 extern "C" {
-extern u8 main_menu_scene_active_flag;
+u8 main_menu_scene_active_flag;
 s32 set_copy_clear_color_argb(s32, s32, s32);
 
 void TKeyBoardControl::update_main_menu_scene() {

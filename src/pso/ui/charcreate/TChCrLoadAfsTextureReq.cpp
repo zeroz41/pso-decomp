@@ -22,7 +22,8 @@ extern "C" {
 s32 get_bml_model(BmlResource *resource, s32 index);
 s32 free_bin_model_request(void *, int);
 void *init_bin_model_request(void *, int, char **, u32 *, int, int, int);
-extern const char *lbl_805D3B50;
+extern "C" { extern char TChCrLoadAfsTextureReq__class_name_string[]; }
+const char *lbl_805D3B50 = TChCrLoadAfsTextureReq__class_name_string;
 s32 adxf_get_stat(s32);
 f64 log();
 

@@ -249,7 +249,7 @@ struct Self_800FEEA4 {
 
 extern "C" {
 void matrix_mult_vec(s32, void *, void *);
-extern u8 TObjEZBoneRotPlayer__chain_gravity[];
+extern f32 TObjEZBoneRotPlayer__chain_gravity[3];
 
 void TObjHMS_EZRope_Player::render() { sub_800FF2D0(); }
 void TObjHMS_EZRope_Player::run_task() {

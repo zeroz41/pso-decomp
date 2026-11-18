@@ -1675,7 +1675,6 @@ pso/object/door/TObjDoorKey.cpp
 pso/object/door/TObjDoor_8018E358.cpp
 pso/object/door/TObjDoor_801F3754.cpp
 pso/object/TObjEZBoneRotBase.cpp
-pso/object/TObjEZRopeBase.cpp
 pso/object/ambient/TObjEnvSoundGlobal.cpp
 pso/object/collision/TObjEvtCollision.cpp
 pso/object/ambient/TObjFish_800E2FFC.cpp
@@ -1730,7 +1729,6 @@ pso/object/quest/TObjQuestColBase.cpp
 pso/object/quest/TObjQuestColBase_80196BFC.cpp
 pso/object/quest/TObjQuestCol_80196B3C.cpp
 pso/object/collision/TObjRaderCol.cpp
-pso/ui/hud/TObjRaderIcon.cpp
 pso/object/ambient/TObjRain.cpp
 pso/object/ambient/TObjRainCtrl.cpp
 pso/object/ambient/TObjRainCtrl_80197CE8.cpp
@@ -1799,7 +1797,7 @@ pso/player/TObjPlayer_800DCC90.cpp
 pso/player/TObjPlayer_800E80A4.cpp
 pso/player/TObjPlayer_800EBE2C.cpp
 pso/player/TObjPlayer_800F0810.cpp
-pso/object/TObjHMS_EZRope_Player_800FEFCC.cpp
+pso/object/TObjHMS_EZRope_Player.cpp
 pso/player/TObjPlayer_800FFA88.cpp
 pso/player/TObjPlayer_8010853C.cpp
 pso/player/TObjPlayer_80108854.cpp

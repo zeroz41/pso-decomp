@@ -119,6 +119,8 @@ extern s32 saved_chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_and_mask;
 extern s32 model_render_flags;
+void *creation_player_character;
+u32 creation_main_menu_obj;
 extern "C" {
 s32 calc_section_id_from_name(s8 *arg0);
 s32 release_texture_list(void *);

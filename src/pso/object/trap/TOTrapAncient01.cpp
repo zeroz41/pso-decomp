@@ -110,7 +110,7 @@ struct Trap_801797D4 : VObj_801797D4 {
 
 extern "C" {
 VObj_801797D4 *get_battle_param__10TObjPlayerFi(s32);
-extern s32 lbl_805D3530;
+extern const char *lbl_805D3530;
 }
 
 f32 TObjPlayer__sub_8017A1A4(TObjCollidable *actor, s32 body) {
@@ -325,7 +325,7 @@ void TOTrapAncient01::vfunc_82() {
             if (obj_is_hit_receivable((u8 *)p) == 0) {
                 break;
             }
-            if (((TUnk_804B6C24 *)p)->check_value_equals(lbl_805D3530) == 0) {
+            if (((TUnk_804B6C24 *)p)->check_value_equals((s32)lbl_805D3530) == 0) {
                 break;
             }
             {

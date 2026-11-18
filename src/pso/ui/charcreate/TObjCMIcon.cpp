@@ -1,6 +1,8 @@
 #include "types.h"
 #include "pso/ui/charcreate/TObjCMIcon.h"
 #include "pso/system/task/TObject.h"
+extern "C" { extern char TObjCMIcon__class_name_string[]; }
+const char *lbl_805D3CF0 = TObjCMIcon__class_name_string;
 
 
 void *TObjCMIcon::create(void *object) {
@@ -20,7 +22,6 @@ __declspec(section ".data") vec2f cm_icon_screen_position = {604.0f, 443.0f};
 
 TObjCMIcon::~TObjCMIcon() {}
 
-extern void *lbl_805D3CF0;
 
 TObjCMIcon::TObjCMIcon(TObject *parent) : TObject(parent) {
     m_name = (const char *)lbl_805D3CF0;

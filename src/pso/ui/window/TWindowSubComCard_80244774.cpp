@@ -270,10 +270,10 @@ void TWindowLockOn::request_close() {
 s32 TWindowBase::is_window_reveal_complete() {
     return (f32) *(s32 *)((s8 *)((u8 *)this) + 0x5C) >= 7.5f;
 }
-extern u16 window_ui_theme_index;
-extern s16 lbl_805D63F6;
+s32 lbl_805D63F0;
+u16 window_ui_theme_index;
+s16 lbl_805D63F6;
 void draw_window_scanlines(u8 *arg0, u8 *arg1);
-extern s32 lbl_805D63F0;
 void draw_selection_bar(u8 *arg0, u8 *arg1, s32 arg2);
 void window_request_refresh(u8 *arg0);
 void window_request_show(void *arg0);

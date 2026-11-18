@@ -955,6 +955,8 @@ char *get_shared_text_buffer();
 void text_builder_append(char *);
 }
 void text_builder_reset();
+s32 lbl_805D63D8;
+int com_card_entry_count;
 extern "C" {
 s32 send_find_user__9TProtocolFR16TPlyGuildCardTagUl(void *, Tag_802421C4 *, s32);
 void __copy(void *, void *, int);

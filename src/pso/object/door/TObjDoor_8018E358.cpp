@@ -584,3 +584,6 @@ void *TObjDoorJung__create(void *arg0) {
 }
 
 #pragma pop
+
+DoorMotionHeader *TObjDoor__motion_table[2];
+Glob_8018E358 TObjDoor__model_resource_ptrs[1];

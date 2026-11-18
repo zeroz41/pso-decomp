@@ -80,7 +80,8 @@ s32 __ct__7TObjectFP7TObject();
 s32 get_entity_id(s32);
 
 extern s32 __vt__10TItemTimer[];
-extern s32 lbl_805D2C88;
+extern "C" { extern char TItemTimer__class_name_string[]; }
+const char *lbl_805D2C88 = TItemTimer__class_name_string;
 
 u8 *TItemTimer__ct(u8 *item_timer, s32 arg1, s32 arg2, s32 arg3) {
     __ct__7TObjectFP7TObject();

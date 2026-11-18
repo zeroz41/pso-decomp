@@ -274,6 +274,8 @@ void TWindowComCard__sub_80249D7C(u8 *arg0, s32 arg1) {
 #include "pso/ui/window/TWindowTradeRequest.h"
 #include "pso/system/NinjaTypes.h"
 
+struct Obj054_80249DE4 *TWindowCtrl__active_window;
+u16 lbl_805D63FC;
 extern "C" {
 typedef struct Parent_80249ED8 {
     u8 pad0[0x40];

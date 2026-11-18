@@ -370,7 +370,7 @@ u8 *fn_800832EC(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0) {
 }
 
 s32 init_render_target__10TObjPlayerFv();
-extern u8 camera_capture_overlay_alpha;
+u8 camera_capture_overlay_alpha = 143;
 extern s32 __vt__13TUnk_8048E5F4[];
 
 void TObjPlayer::free_singleton() {
@@ -1034,3 +1034,4 @@ void GXPosition3f32_80083594(f32 farg0, f32 farg1, f32 farg2) {
 int TObjPlayer::is_inactive() { return this->m_cfc == 0; }
 
 }
+

@@ -60,7 +60,7 @@ s32 pop_matrix();
 s32 set_global_param__8TObjFishFl();
 
 extern TObjMotionAction lbl_804E2F78[9];
-extern u8 *TAdMultiPlyChrSelectGC__resource_bundle;
+u8 *TAdMultiPlyChrSelectGC__resource_bundle;
 
 s32 copy_player_visual_record(void *, void *);
 u8 *get_entry__23TAdSinglePlyChrSelectGCFi(int);
@@ -78,7 +78,7 @@ struct RecoveredGlobal_802E0B60_lbl_804E2F68 {
 extern "C" {
 void *__dt__10TObjMotionFv(void *arg0, s16 arg1);
 s32 __dl__7TObjectFPv(void *);
-extern RecoveredGlobal_802E0B60_lbl_804E2F68 multi_chr_select_player_slot_table;
+RecoveredGlobal_802E0B60_lbl_804E2F68 multi_chr_select_player_slot_table = { 0 };
 struct MultiChrSelectPlayerActorOps { s32 value; u8 remaining[0x34]; };
 extern MultiChrSelectPlayerActorOps multi_chr_select_player_actor_ops;
 typedef char RecoveredGlobal_802E0B60_lbl_804E2F68_size[sizeof(RecoveredGlobal_802E0B60_lbl_804E2F68) == 0x10 ? 1 : -1];

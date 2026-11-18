@@ -37,6 +37,10 @@
 // Per-colour value {9, 7, 10, 11} (sub_8035F8A8).
 
 
+u8 *lbl_805D6F80;
+u8 *lbl_805D6F84;
+u8 *lbl_805D6F88;
+EpsilonBodySharedParams *lbl_805D6F8C;
 extern "C" {
 
 s32 matrix_mult_vec(int, void *, void *);
@@ -83,9 +87,6 @@ extern TObject *tl_04;
 Vec lbl_805439F0;
 Vec lbl_805439FC[2];
 
-extern u8 *lbl_805D6F80;
-extern u8 *lbl_805D6F84;
-extern u8 *lbl_805D6F88;
 
 // The body's action table, movement parameters and collision bodies.
 TObjMotionAction lbl_804F2230[2] = {

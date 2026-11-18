@@ -337,3 +337,11 @@ void TObjHashiVersus2::unload_static_data() {
 void *TObjHashiVersus2::create(void *set_data) {
     return new TObjHashiVersus2(tl_05, set_data);
 }
+
+extern const f32 lbl_805DBE20 = 120.0f;
+extern const f32 lbl_805DBE24 = 400.0f;
+extern const f32 lbl_805DBE28 = 40.0f;
+extern const f32 lbl_805DBE2C = 0.0f;
+extern const f32 lbl_805DBE30 = 640.0f;
+extern const f32 lbl_805DBE34 = 0.15f;
+extern const f32 lbl_805DBE38 = 30.0f;

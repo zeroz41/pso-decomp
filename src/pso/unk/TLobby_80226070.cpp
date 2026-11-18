@@ -40,11 +40,33 @@ struct SndEnt_8022675C {
 };
 
 void set_music_streams_volume(s32);
-extern s32 lbl_805D627C;
-extern s32 lbl_805D6280;
-extern int lbl_805D6284;
-extern s32 music_stream_base_gain;
-extern s32 music_stream_gain;
+s8 lbl_805D6278;
+s8 lbl_805D6279;
+s32 lbl_805D627C;
+s32 lbl_805D6280;
+int lbl_805D6284;
+s32 music_stream_base_gain;
+s32 music_stream_gain;
+s32 lbl_805D6290;
+s32 lbl_805D6294;
+int lobby_layout_offset_c;
+s32 lbl_805D629C;
+s32 lbl_805D62A0;
+s32 lobby_layout_start_position;
+s32 lbl_805D62A8;
+s32 lbl_805D62AC;
+s32 lbl_805D62B0;
+int lbl_805D62B4;
+int lbl_805D62B8;
+s32 lbl_805D62BC;
+s32 lbl_805D62C0;
+s32 lbl_805D62C4;
+s32 lbl_805D62C8;
+s16 lbl_805D62CC;
+s8 lbl_805D62CE;
+s8 lbl_805D62CF;
+s8 lbl_805D62D0;
+s8 lbl_805D62D1;
 extern "C" {
 void update_music_stream_gain(s32 user);
 void TLobby__sub_8022614C(s32 arg0);
@@ -72,7 +94,6 @@ void TLobby::init_layout_positions() {
 s32 OSSetSoundMode(int);
 }
 extern SndEnt_8022675C lbl_805145F0[];
-extern s32 lbl_805D62B0;
 void release_sound_with_fade(s32 slot);
 extern "C" {
 void stop_sound_request(s32 idx);
@@ -331,7 +352,6 @@ s32 play_sound_effect(s32 id, Vec *src, s32 a2, s32 flags) {
 
 
 extern u32 camera_ctrl_instance;
-extern s8 lbl_805D6279;
 extern "C" {
 void *get_player_by_client_id(s32 i);
 s32 TLobby__sub_8023F880(s32 arg0);

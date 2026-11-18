@@ -13,7 +13,10 @@ extern s32 tl_00;
 u8 *TObjQuestCol2__vt14(TObjQuestCol2 *arg0);
 u8 * __ct__8TObjBaseFP7TObject(void *);
 extern s32 __vt__13TObjPlayerSet[];
-extern s32 TObjPlayer__player_set_class_name;
+#pragma push
+#pragma readonly_strings on
+const char *TObjPlayer__player_set_class_name = "TObjPlayerSet";
+#pragma pop
 u8 *TObjPlayerSet__ct(TObjPlayerSet *arg0, s32 arg1, s32 arg2);
 void *TObjQuestCol2__create(void *arg0);
 void *TObjQuestCol2__ct(void *, void *, void *);
