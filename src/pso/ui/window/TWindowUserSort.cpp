@@ -47,8 +47,6 @@ extern "C" {
 s32 draw_default_entry__9TWindowDDFl();
 s32 draw_visible_window_entries(void *, void *, int);
 void *get_player_by_client_id(s32 i);
-extern s32 __vt__15TWindowUserSort[];
-u8 *TWindowUserSort__ct(u8 *arg0, s32 arg1, s32 arg2);
 s32 close_and_clear_flags__15TWindowMainMenuFv();
 
 void TWindowUserSort::render() {
@@ -62,14 +60,13 @@ void TWindowUserSort::run_task() { ((TWindowDD *)this)->initialize_subwindow(); 
 
 TWindowUserSort::~TWindowUserSort() {}
 
-u8 *TWindowUserSort__ct(u8 *arg0, s32 arg1, s32 arg2) {
-    __ct__11TWindowBaseFPUcsPUc(arg0, (u8 *)&window_user_sort_settings, (s16)4, (u8 *)arg1);
-    *(s32 **)((s8 *)arg0 + 0x18) = __vt__15TWindowUserSort;
-    *(s32 *)((s8 *)arg0 + 0) = (s32) TWindowUserSort__name;
-    ((TWindowUserSort *)arg0)->m_60 = arg2;
-    ((TWindowSubStatusDisp *)(arg0 + 0x24))->fill_card_text_entries(arg2);
-    return arg0;
+#define self ((u8 *)this)
+TWindowUserSort::TWindowUserSort(s32 arg1, s32 arg2) : TWindowBase((u8 *)&window_user_sort_settings, (s16)4, (u8 *)arg1) {
+    m_name = TWindowUserSort__name;
+    ((TWindowUserSort *)self)->m_60 = arg2;
+    ((TWindowSubStatusDisp *)(self + 0x24))->fill_card_text_entries(arg2);
 }
+#undef self
 
 void TWindowMainMenu1P::vfunc_9() { if (close_active_submenu() != 0) { this->create_char_select_slot(); } }
 
