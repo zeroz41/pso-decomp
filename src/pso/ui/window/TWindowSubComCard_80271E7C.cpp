@@ -218,7 +218,6 @@ u32 TWindowSubComCard__sub_8027337C();
 s32 create_menu__17TWindowSubComCardFv(void);
 s32 open_confirm_prompt__19TWindowSubShortMailFPvi(void *arg0, s32 arg1);
 s32 create_keyboard__19TWindowSubShortMailFv(void);
-u8 *__ct__15TWindowUserSortFll(u8 *arg0, s32 arg1, s32 arg2);
 extern s32 controller_input_state[];
 extern s32 TLobby__protocol_instance;
 s32 free_member__17TWindowSubComCardFv(s32, s32);

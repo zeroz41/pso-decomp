@@ -92,7 +92,6 @@ extern "C" {
 void __ct__7TObjectFP7TObject(void *, void *);
 void *create__14TWindowMessageFlPCfUll(void *, const void *, s32, s32);
 void *get_window_layout_position(s32);
-void *__ct__21TWindowSubCustomEquipFl(void *, s32);
 extern s32 __vt__13TUnk_804D1160[];
 extern const f32 lbl_8044F718[2] = {190.0f, 168.0f};
 }

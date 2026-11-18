@@ -28,7 +28,6 @@ struct TWindowSubAreaMapDisp : public TWindowBase {
 typedef char TWindowSubAreaMapDisp_size[sizeof(TWindowSubAreaMapDisp) == 0x78 ? 1 : -1];
 
 extern "C" {
-u8 *__ct__21TWindowSubAreaMapDispFv(TWindowSubAreaMapDisp *arg0);
 void TWindowSubStatusDisp__sub_80271A6C(s32 arg0, u8 *arg1);
 void fn_80271848(s32 arg0, u8 *arg1);
 }

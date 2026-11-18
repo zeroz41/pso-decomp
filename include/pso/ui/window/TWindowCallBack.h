@@ -17,7 +17,6 @@ struct TWindowCallBack : public TWindowBase {
 
 typedef char TWindowCallBack_size[sizeof(TWindowCallBack) == 0x64 ? 1 : -1];
 extern "C" {
-u8 *__ct__15TWindowCallBackFlPUcl(u8 *arg0, s32 arg1, u8 *arg2, s32 arg3);
 }
 void build_6xA3_olga_flow_boss_actions(void *p);
 extern "C" {

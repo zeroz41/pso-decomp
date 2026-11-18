@@ -5,7 +5,6 @@
 
 struct TWindowLockOn;
 extern "C" {
-u8 *__ct__13TWindowLockOnFlUs(TWindowLockOn *self, s32 player, u16 id);
 }
 
 #endif

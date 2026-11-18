@@ -27,7 +27,6 @@ struct TWindowShortCut : public TWindowBase {
 typedef char TWindowShortCut_size[sizeof(TWindowShortCut) == 0x74 ? 1 : -1];
 
 extern "C" {
-u8 *__ct__15TWindowShortCutFllPl(TWindowShortCut *window_short_cut, s32 arg1, s32 index, s32 *chat_shortcut);
 void render__15TWindowShortCutFv(u8 *arg0);
 }
 

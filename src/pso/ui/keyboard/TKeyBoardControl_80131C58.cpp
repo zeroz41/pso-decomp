@@ -55,7 +55,6 @@ TKeyBoardControl::~TKeyBoardControl() {
 
 extern "C" {
 void __ct__7TObjectFP7TObject(void *, void *);
-u8 *__ct__19TWindowKeyBoardBaseFv(u8 *arg0);
 void TKeyBoardControl__sub_802613A4(TKeyBoardControl *arg0);
 extern s32 __vt__16TKeyBoardControl[];
 const char *TKeyBoardControl__class_name = "TKeyBoardControl";
