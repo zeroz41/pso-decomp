@@ -42,21 +42,21 @@ void clamp_and_set_unit_value__10TObjPlayerFiUci(s32 arg0, u8 arg1, s32 i);
 
 void TNpcPlayer::init_equipment() {
     s32 temp_r31;
-    s32 temp_r4;
+    s32 flags;
 
-    temp_r4 = this->ai_params.technique_flags;
+    flags = this->ai_params.technique_flags;
     temp_r31 = *(s32 *)(this->m_78 + 0x94);
-    if (temp_r4 & 4) {
+    if (flags & TECHNIQUE_FLAGS_FOIE_GIFOIE) {
         clamp_and_set_unit_value__10TObjPlayerFiUci(temp_r31, this->ai_params.attack_technique_level, 0);
         clamp_and_set_unit_value__10TObjPlayerFiUci(temp_r31, this->ai_params.attack_technique_level, 1);
         set_technique_seed_level(temp_r31 + 0x428, 0, this->ai_params.attack_technique_level);
         set_technique_seed_level(temp_r31 + 0x428, 1, this->ai_params.attack_technique_level);
-    } else if (temp_r4 & 8) {
+    } else if (flags & TECHNIQUE_FLAGS_BARTA_GIBARTA) {
         clamp_and_set_unit_value__10TObjPlayerFiUci(temp_r31, this->ai_params.attack_technique_level, 3);
         clamp_and_set_unit_value__10TObjPlayerFiUci(temp_r31, this->ai_params.attack_technique_level, 4);
         set_technique_seed_level(temp_r31 + 0x428, 3, this->ai_params.attack_technique_level);
         set_technique_seed_level(temp_r31 + 0x428, 4, this->ai_params.attack_technique_level);
-    } else if (temp_r4 & 0x10) {
+    } else if (flags & TECHNIQUE_FLAGS_ZONDE_RAZONDE) {
         clamp_and_set_unit_value__10TObjPlayerFiUci(temp_r31, this->ai_params.attack_technique_level, 6);
         clamp_and_set_unit_value__10TObjPlayerFiUci(temp_r31, this->ai_params.attack_technique_level, 8);
         set_technique_seed_level(temp_r31 + 0x428, 6, this->ai_params.attack_technique_level);

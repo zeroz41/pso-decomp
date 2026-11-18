@@ -2,13 +2,14 @@
 #define PSO_NPC_TNPCPLAYER_H
 
 #include "types.h"
+#include "pso/player/TechniqueFlags.h"
 #include "pso/system/task/TObject.h"
 
 struct TNpcPlayer : public TObject {
     struct AiParams {
         s16 npc_id;
         s16 base_level;
-        s32 technique_flags;
+        TechniqueFlags technique_flags;
         f32 enemy_lock_on_range;
         f32 unknown_0C;
         f32 max_distance_from_player;
