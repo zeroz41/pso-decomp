@@ -12,8 +12,8 @@ public:
     f32 frame_count;
     f32 speed;
     s32 state;  // 0 loop, 1 stopped, 2 play to the end and stop
-    virtual ~TUnk_804A7478();
     virtual void draw_model();
+    virtual ~TUnk_804A7478();
     // Steps the frame back (forward) by speed, looping, or stops at the
     // first (last) frame in state 2.
     void play_backward();
@@ -26,10 +26,5 @@ public:
 };
 
 typedef char TUnk_804A7478Size[sizeof(TUnk_804A7478) == 0x1C ? 1 : -1];
-
-extern "C" {
-extern void *__vt__13TUnk_804A7478[];
-void *__dt__13TUnk_804A7478Fv(TUnk_804A7478 *self, s16 del);
-}
 
 #endif
