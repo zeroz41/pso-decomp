@@ -209,10 +209,7 @@ void *TWindowLockOn::create_for_target(s32 player, u16 id) {
     if (is_lockable_target(find_entity_by_id(id)) == 0) {
         return NULL;
     }
-    p = TObject::operator new(0x7C);
-    if (p != NULL) {
-        p = __ct__13TWindowLockOnFlUs((TWindowLockOn *)p, player, id);
-    }
+    p = new TWindowLockOn(player, id);
     return p;
 }
 
