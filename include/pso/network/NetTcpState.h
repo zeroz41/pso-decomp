@@ -2,7 +2,7 @@
 #ifndef PSO_NETWORK_NETTCPSTATE_H
 #define PSO_NETWORK_NETTCPSTATE_H
 #include "types.h"
-#include "pso/network/BufferRef.h"
+#include "pso/network/TcpSendQueue.h"
 #include "pso/network/IPv6Send.h"
 
 typedef struct TcpTcb TcpTcb;
@@ -64,7 +64,7 @@ struct TcpTcb {
     u8 error; /* why the connection was dropped (TLobby__sub_8041A498) */
     u8 padF;
     /* send buffer: a ring of snd_bufsize bytes, plus up to 12 queued user buffers. While f204_b7 is set the ring holds
-       16-byte TcpSendEntry records instead (SocketProtocolRuntime.c): snd_count counts them, snd_head is the index of
+       16-byte TcpSendRequest records instead: snd_count counts them, snd_head is the index of
        the oldest. */
     NetBufferRef snd_buf;
     NetBufferRef snd_alloc; /* the block behind snd_buf, freed by TLobby__sub_8041579C */
@@ -86,8 +86,8 @@ struct TcpTcb {
     s16 reasm_n; /* index of the last range, -1 when none */
     s16 last_reasm;
     TcpReasmRange reasm[32];
-    void (*send_done)(s16, s16);
-    void (*recv_done)(s16, s16);
+    TcpCompletion send_done;
+    TcpCompletion recv_done;
     u8 f204_b7 : 1;
     u8 f204_b6 : 1;
     u8 f204_rest : 6;
@@ -197,10 +197,10 @@ s16 TLobby__sub_8041A9AC(TcpTcb *tcb);
 /* NetTcp.c: account the resent range [first, last) against the retransmit scoreboard (segs[]). */
 void TLobby__sub_8041D398(TcpTcb *tp, s32 first, s32 last);
 /* NetTcp.c: start sending a queued packet on connection arg0. */
-s16 tcp_start_send(s16 arg0, NetPacket *arg1, void (*completion)(s16, s16), u8 arg3);
+s16 tcp_start_send(s16 arg0, NetPacket *arg1, TcpCompletion completion, u8 arg3);
 
 /* SocketProtocolRuntime.c: the TCP send and receive queues. */
-s32 TLobby__sub_8041ED8C(TcpTcb *self, void *data, u32 len, s32 arg3);
+s32 TLobby__sub_8041ED8C(TcpTcb *self, NetBufferRef *destination, u32 len, TcpCompletion callback);
 s32 TLobby__sub_8041F11C(TcpTcb *self);
 s32 TLobby__sub_8041F204(NetPacket *pkt, u16 x, TcpTcb *self);
 s32 TLobby__sub_8041F914(NetPacket *pkt, u16 x, TcpTcb *o, TcpHdr *th);
@@ -209,7 +209,7 @@ s32 TLobby__sub_8041FFF8(u32 len, TcpTcb *self);
    (as buffer references, no copy; BSD tcp_output's m_copy). The fragments are stored last first. Returns -1 when off
    is past the queued data, or (while f204_b7 is set) when len is 0 or the ring is empty. */
 s32 tcp_gather_send_data(u32 off, u32 len, NetPacket *pkt, TcpTcb *tp);
-s32 TLobby__sub_80420BD0(NetPacket *req, TcpTcb *s, void (*done)(s16, s16));
+s32 TLobby__sub_80420BD0(NetPacket *req, TcpTcb *s, TcpCompletion done);
 #ifdef __cplusplus
 }
 #endif

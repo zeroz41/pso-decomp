@@ -9,21 +9,11 @@
 #include "pso/network/NetTcpState.h"
 #include "pso/network/text_80421620.h"
 
-/* An entry of a TCB's send ring while f204_b7 is set: a queued user buffer and its completion callback. */
-typedef struct TcpSendEntry {
-    NetBufferRef ref;
-    s16 len;
-    s16 off;
-    void (*done)(s16, s16, s32);
-} TcpSendEntry;
-typedef char TcpSendEntry_size_check[sizeof(TcpSendEntry) == 0x10 ? 1 : -1];
-
 void TLobby__sub_8041FDA0(TcpTcb *o, s16 idx, s32 a, s32 b);
 void TLobby__sub_8041FED4(TcpTcb *tcb);
 void TLobby__sub_8041F66C(TcpTcb *o);
 
-s32 TLobby__sub_8041ED8C(TcpTcb *self, void *data, u32 len, s32 arg3) {
-    s32 set_slot_state_and_resume(s16 idx, void (*cb)(s16, s16), s16 state); /* declared here with an s16 index; the definition takes s32 */
+s32 TLobby__sub_8041ED8C(TcpTcb *self, NetBufferRef *destination, u32 len, TcpCompletion callback) {
     s16 idx = self - tcp_protocol_state.tcbs;
     s32 m;
     u32 k;
@@ -35,8 +25,8 @@ s32 TLobby__sub_8041ED8C(TcpTcb *self, void *data, u32 len, s32 arg3) {
     if (self->f204_b6) {
         return -4;
     }
-    self->recv_done = (void (*)(s16, s16))arg3;
-    NetMemcpy(&self->rcv_user, data, 8);
+    self->recv_done = callback;
+    NetMemcpy(&self->rcv_user, destination, sizeof(*destination));
     self->fEC = len;
     m = 0;
     self->fF0 = m;
@@ -120,7 +110,6 @@ s32 TLobby__sub_8041ED8C(TcpTcb *self, void *data, u32 len, s32 arg3) {
 }
 
 s32 TLobby__sub_8041F11C(TcpTcb *self) {
-    s32 set_slot_state_and_resume(s16 idx, void (*cb)(s16, s16), s16 state); /* declared here with an s16 index; the definition takes s32 */
     s16 idx = self - tcp_protocol_state.tcbs;
     while (self->rcv_user.kind != 0) {
         self->rcv_user.kind = 0;
@@ -135,7 +124,6 @@ s32 TLobby__sub_8041F11C(TcpTcb *self) {
 
 s32 TLobby__sub_8041F204(NetPacket *pkt, u16 x, TcpTcb *self)
 {
-    s32 set_slot_state_and_resume(s16 idx, void (*cb)(s16, s16), s16 state); /* declared here with an s16 index; the definition takes s32 */
     s16 idx;
     s16 i;
     u32 n;
@@ -550,7 +538,7 @@ s32 TLobby__sub_8041FFF8(u32 len, TcpTcb *self) {
     s16 i;
     NetPacketFragment *q;
     u32 k;
-    TcpSendEntry rec;
+    TcpSendRequest rec;
     NetBufferRef a;
     u8 unused[8];
     NetBufferRef b;
@@ -565,13 +553,13 @@ s32 TLobby__sub_8041FFF8(u32 len, TcpTcb *self) {
             NetMemcpy(&a, &self->snd_buf, sizeof(NetBufferRef));
             n = self->snd_head;
             if (n != 0) {
-                netbuf_ref_advance(&a, n * sizeof(TcpSendEntry));
+                netbuf_ref_advance(&a, n * sizeof(TcpSendRequest));
             }
-            netbuf_copy_by_ref(&b, &a, sizeof(TcpSendEntry));
-            while (rec.len <= rem && self->snd_count != 0) {
+            netbuf_copy_by_ref(&b, &a, sizeof(TcpSendRequest));
+            while (rec.length <= rem && self->snd_count != 0) {
                 self->snd_count--;
-                rem -= rec.len;
-                self->req.total_bytes -= rec.len;
+                rem -= rec.length;
+                self->req.total_bytes -= rec.length;
                 if (self->snd_head < 64) {
                     self->snd_head++;
                 } else {
@@ -582,19 +570,20 @@ s32 TLobby__sub_8041FFF8(u32 len, TcpTcb *self) {
                     self->snd_head = 0;
                     self->f204_b7 = 0;
                 }
-                complete_request_callback(idx, rec.done, 0, (s32 *)&rec);
+                complete_request_callback(idx, rec.callback, 0, &rec);
+                /* Completion can reenter the socket and move the ring head. */
                 n = self->snd_head;
                 NetMemcpy(&a, &self->snd_buf, sizeof(NetBufferRef));
                 if (n != 0) {
-                    netbuf_ref_advance(&a, n * sizeof(TcpSendEntry));
+                    netbuf_ref_advance(&a, n * sizeof(TcpSendRequest));
                 }
-                netbuf_copy_by_ref(&b, &a, sizeof(TcpSendEntry));
+                netbuf_copy_by_ref(&b, &a, sizeof(TcpSendRequest));
             }
             if (rem != 0 && self->snd_count != 0) {
                 self->req.total_bytes -= rem;
-                rec.len -= (s16)rem;
-                rec.off += (s16)rem;
-                netbuf_copy_by_ref(&a, &b, sizeof(TcpSendEntry));
+                rec.length -= (s16)rem;
+                rec.offset += (s16)rem;
+                netbuf_copy_by_ref(&a, &b, sizeof(TcpSendRequest));
             }
         }
         return 0;
@@ -666,7 +655,7 @@ s32 tcp_gather_send_data(u32 off, u32 len, NetPacket *pkt, TcpTcb *tp) {
     s32 rec_idx;
     s32 shift;
     s32 first_qi;
-    TcpSendEntry rec;
+    TcpSendRequest rec;
     u32 tail;
     NetBufferRef ring;
     u32 pos;
@@ -706,8 +695,8 @@ s32 tcp_gather_send_data(u32 off, u32 len, NetPacket *pkt, TcpTcb *tp) {
             }
             netbuf_copy_by_ref(&rec_ref, &ring, 16);
             if (off != 0) {
-                while ((u32)rec.len <= off) {
-                    off -= rec.len;
+                while ((u32)rec.length <= off) {
+                    off -= rec.length;
                     if (rec_idx < 64) {
                         rec_idx++;
                     } else {
@@ -719,20 +708,20 @@ s32 tcp_gather_send_data(u32 off, u32 len, NetPacket *pkt, TcpTcb *tp) {
                     }
                     netbuf_copy_by_ref(&rec_ref, &ring, 16);
                 }
-                NetMemcpy(&data, &rec.ref, 8);
-                rec.len -= (s16)off;
-                netbuf_ref_advance(&data, rec.off);
+                NetMemcpy(&data, &rec.buffer, 8);
+                rec.length -= (s16)off;
+                netbuf_ref_advance(&data, rec.offset);
                 netbuf_ref_advance(&data, off);
             } else {
-                NetMemcpy(&data, &rec.ref, 8);
-                netbuf_ref_advance(&data, rec.off);
+                NetMemcpy(&data, &rec.buffer, 8);
+                netbuf_ref_advance(&data, rec.offset);
             }
             first_frag = pkt->fragment_count;
             while (rem != 0) {
                 frag = &pkt->fragments[pkt->fragment_count];
-                if (rem >= (u32)rec.len) {
-                    pkt->total_bytes += frag->length = rec.len;
-                    rem -= rec.len;
+                if (rem >= (u32)rec.length) {
+                    pkt->total_bytes += frag->length = rec.length;
+                    rem -= rec.length;
                 } else {
                     frag->length = rem;
                     pkt->total_bytes += rem;
@@ -751,7 +740,7 @@ s32 tcp_gather_send_data(u32 off, u32 len, NetPacket *pkt, TcpTcb *tp) {
                         netbuf_ref_advance(&ring, rec_idx << 4);
                     }
                     netbuf_copy_by_ref(&rec_ref, &ring, 16);
-                    NetMemcpy(&data, &rec.ref, 8);
+                    NetMemcpy(&data, &rec.buffer, 8);
                 }
             }
             count = pkt->fragment_count - first_frag;
@@ -916,7 +905,7 @@ s32 tcp_gather_send_data(u32 off, u32 len, NetPacket *pkt, TcpTcb *tp) {
     return 0;
 }
 #pragma pop
-s32 TLobby__sub_80420BD0(NetPacket *req, TcpTcb *s, void (*done)(s16, s16)) {
+s32 TLobby__sub_80420BD0(NetPacket *req, TcpTcb *s, TcpCompletion done) {
     u32 v;
     if (s->f204_b7 == 1) {
         /* The inner test repeats the outer one, so the else never runs. */

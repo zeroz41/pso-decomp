@@ -15,6 +15,12 @@
 
 #include <stddef.h>
 #include "pso/network/BufferRef.h"
+enum SocketHandleTag {
+    TCP_SOCKET_TAG = 0,
+    UDP_SOCKET_TAG = 0x400,
+    SOCKET_TAG_MASK = 0xC00
+};
+
 typedef struct Stack_80421AD8 {
     s16 sp1C;
     s16 sp1E;
@@ -87,8 +93,8 @@ const char avetcp_module_list[] =
 const u8 *const avetcp_version_banner_ptr = avetcp_version_banner;
 const char lbl_804800F0[] = "<< Network SDK - avetcp.a  Ver.1.16.1 build:Oct 23 2002 17:47:54>>\n";
 u32 TLobby__network_stack_init_count;
-s16 TLobby__sub_8041DBD4(int, void *, s16, void *);
-s16 tcp_receive(s32 a, void *cb, s32 len, void *buf);
+/* This C library caller passes a full register for the handle and a signed halfword length. */
+s16 TLobby__sub_8041DBD4(s32 handle, NetBufferRef *destination, s16 len, TcpCompletion callback);
 void TLobby__sub_8041E2EC(int, void *, void *); /* declared here with an s32 1st argument; the definition takes s16 */
 s32 tcp_connect_start(int, void *, u16);
 s32 tcp_connect(s32 a, IpAddr_80422B8C *addr, u16 port, IpAddr_80422B8C *opt);
@@ -298,9 +304,9 @@ s32 udp_close(s32 a) {
     s32 r;
     NetworkDispatchState *g;
     s16 m;
-    if ((a & 0xC00) != 0x400) { return -4; }
+    if ((a & SOCKET_TAG_MASK) != UDP_SOCKET_TAG) { return -4; }
     g = &network_dispatch_state;
-    m = a & 0xFFFFF3FF;
+    m = a & ~SOCKET_TAG_MASK;
     lock_mutex(g->lock_handle);
     r = NetUdpClose(m);
     unlock_mutex(g->lock_handle);
@@ -315,10 +321,10 @@ s16 udp_send(s32 h, u32 *src, u32 *dst, u16 port, u32 *opt, s8 n, send_buffs *bu
     u16 i;
     NetPacket *pkt;
     s16 r;
-    if ((h & 0xC00) != 0x400) {
+    if ((h & SOCKET_TAG_MASK) != UDP_SOCKET_TAG) {
         return -4;
     }
-    h = h & 0xFFFFF3FF;
+    h = h & ~SOCKET_TAG_MASK;
     NetMemset(any_addr, 0, 0x14);
     if (dst != NULL) {
         if (*dst == 0) {
@@ -409,14 +415,14 @@ s16 udp_open(void *src, s32 sport, void *dst, s32 dport, s32 arg4, void *cb) {
         unlock_mutex(network_dispatch_state.lock_handle);
         return r;
     }
-    h |= 0x400;
+    h |= UDP_SOCKET_TAG;
     unlock_mutex(network_dispatch_state.lock_handle);
     return h;
 }
 
 s32 TLobby__sub_80421F10(O_80421F10 *o, void *src, void *dst, s16 port, void *cb, s32 flags) {
     UdpDatagram s;
-    s.socket = flags | 0x400;
+    s.socket = flags | UDP_SOCKET_TAG;
     s.len = o->size - o->used;
     s.buf = 0;
     NetMemcpy(&s.src, src, sizeof(NetworkAddress));
@@ -465,12 +471,12 @@ void TLobby__sub_80421FB8(void *cb, void *hdr_, void *o_) {
     }
 }
 
-s32 complete_request_callback(s32 idx_, void (*cb)(s16, s16, s32), s16 code, s32 *extra) {
-    s16 idx = idx_;
+s32 complete_request_callback(s16 handle, TcpSendCallback cb, s16 code, const TcpSendRequest *request) {
+    s32 idx = handle;
     TcpTcb *s = tcp_protocol_state.tcbs;
     s += idx;
     if (cb != NULL && !(s->waits[1].flags & 8)) {
-        cb(code, idx, *extra);
+        cb(code, idx, request->buffer.value);
     } else if (!(s->waits[2].flags & 4)) {
         s->waits[1].status = code;
         s->waits[2].flags |= 4;
@@ -480,16 +486,16 @@ s32 complete_request_callback(s32 idx_, void (*cb)(s16, s16, s32), s16 code, s32
     return 0;
 }
 
-s16 tcp_receive(s32 a, void *cb, s32 len, void *buf) {
-    u8 hdr[8];
+s16 tcp_receive(s32 a, TcpCompletion cb, s32 len, void *buf) {
+    NetBufferRef destination;
     s16 r;
     NetworkDispatchState *g;
     TcpTcb *s;
-    if (a & 0xC00) {
+    if (a & SOCKET_TAG_MASK) {
         return -4;
     }
     g = &network_dispatch_state;
-    a = a & 0xFFFFF3FF;
+    a = a & ~SOCKET_TAG_MASK;
     lock_mutex(g->lock_handle);
     if (validate_tcp_handle(a) < 0) {
         unlock_mutex(g->lock_handle);
@@ -505,15 +511,15 @@ s16 tcp_receive(s32 a, void *cb, s32 len, void *buf) {
         unlock_mutex(g->lock_handle);
         return -9;
     }
-    init_packet_header((void *)hdr, (s32)buf);
+    init_packet_header(&destination, (s32)buf);
     NetMemset(&s->waits[0].flags, 0, 8);
     s->waits[0].flags |= 1;
     if (s->flags & 0x40) {
         s->waits[0].flags |= 8;
-        r = TLobby__sub_8041DBD4(a, hdr, len, cb);
+        r = TLobby__sub_8041DBD4(a, &destination, len, cb);
         s->waits[0].flags &= ~8;
     } else {
-        r = TLobby__sub_8041DBD4(a, hdr, len, cb);
+        r = TLobby__sub_8041DBD4(a, &destination, len, cb);
     }
     if (r < 0) {
         s->waits[0].flags &= ~1;
@@ -541,14 +547,14 @@ s16 tcp_receive(s32 a, void *cb, s32 len, void *buf) {
     return r;
 }
 
-s32 set_slot_state_and_resume(s32 idx, void (*cb)(s16, s16), s16 state) {
+s32 set_slot_state_and_resume(s16 idx, TcpCompletion cb, s16 state) {
   TcpTcb *s = tcp_protocol_state.tcbs;
-  s16 new_var;
-  s += (s16) idx;
+  s16 socket;
+  s += idx;
   if ((cb != 0) && (!(s->waits[0].flags & 8)))
   {
-    new_var = (s16) idx;
-    cb(state, new_var);
+    socket = (s16)(idx | TCP_SOCKET_TAG);
+    cb(state, socket);
     s->waits[0].status = state;
     s->waits[0].flags &= ~1;
     s->waits[0].flags |= 4;
@@ -581,10 +587,10 @@ s16 tcp_send(s32 a, void (*notify)(s16, s16), char bufnum, struct send_buffs *sb
     if (bufnum > 3) {
         return -2;
     }
-    if (a & 0xC00) {
+    if (a & SOCKET_TAG_MASK) {
         return -4;
     }
-    a = a & 0xFFFFF3FF;
+    a = a & ~SOCKET_TAG_MASK;
     lock_mutex(network_dispatch_state.lock_handle);
     if (validate_tcp_handle(a) < 0) {
         unlock_mutex(network_dispatch_state.lock_handle);
@@ -664,7 +670,7 @@ s16 tcp_send(s32 a, void (*notify)(s16, s16), char bufnum, struct send_buffs *sb
     return r;
 }
 
-s32 set_thread_state_and_resume(s32 idx, void (*cb)(s16, s16), s16 state) {
+s32 set_thread_state_and_resume(s32 idx, TcpCompletion cb, s16 state) {
   TcpTcb *s = tcp_protocol_state.tcbs;
   s16 new_var;
   s += (s16) idx;
@@ -694,10 +700,10 @@ s32 set_thread_state_and_resume(s32 idx, void (*cb)(s16, s16), s16 state) {
 
 s16 tcp_get_opt(s16 nh, s16 type, u32 *opt) {
     s16 r;
-    if (nh & 0xC00) {
+    if (nh & SOCKET_TAG_MASK) {
         return -2;
     }
-    nh &= 0xFFFFF3FF;
+    nh &= ~SOCKET_TAG_MASK;
     if (opt == NULL) {
         return -2;
     }
@@ -710,9 +716,9 @@ s16 tcp_get_opt(s16 nh, s16 type, u32 *opt) {
 s32 tcp_stat(s32 a, s16 *b, s16 *c, u32 *d, u32 *e) {
     s32 r;
     NetworkDispatchState *g;
-    if (a & 0xC00) { return -4; }
+    if (a & SOCKET_TAG_MASK) { return -4; }
     g = &network_dispatch_state;
-    a = a & 0xFFFFF3FF;
+    a = a & ~SOCKET_TAG_MASK;
     lock_mutex(g->lock_handle);
     if (validate_tcp_handle(a) < 0) {
         unlock_mutex(g->lock_handle);
@@ -727,9 +733,9 @@ s32 tcp_delete(s32 a) {
     s32 r;
     NetworkDispatchState *g;
     s32 m;
-    if (a & 0xC00) { return -4; }
+    if (a & SOCKET_TAG_MASK) { return -4; }
     g = &network_dispatch_state;
-    m = a & 0xFFFFF3FF;
+    m = a & ~SOCKET_TAG_MASK;
     lock_mutex(g->lock_handle);
     r = mark_connection_closed(m);
     unlock_mutex(g->lock_handle);
@@ -741,9 +747,9 @@ s32 tcp_abort(s32 a) {
     NetworkDispatchState *g;
     s32 m;
     s16 st;
-    if (a & 0xC00) { return -4; }
+    if (a & SOCKET_TAG_MASK) { return -4; }
     g = &network_dispatch_state;
-    m = a & 0xFFFFF3FF;
+    m = a & ~SOCKET_TAG_MASK;
     lock_mutex(g->lock_handle);
     if (validate_tcp_handle(m) < 0) {
         unlock_mutex(g->lock_handle);
@@ -790,10 +796,10 @@ s32 tcp_connect(s32 a, IpAddr_80422B8C *addr, u16 port, IpAddr_80422B8C *opt) {
     s32 r;
     NetworkDispatchState *g;
     void *p;
-    if (a & 0xC00) {
+    if (a & SOCKET_TAG_MASK) {
         return -4;
     }
-    a = a & 0xFFFFF3FF;
+    a = a & ~SOCKET_TAG_MASK;
     if (addr != NULL) {
         if (addr->family == 0) {
             return -2;
@@ -842,8 +848,8 @@ s32 tcp_bind(s32 a, void *addr, u16 port) {
     u8 tmp[0x14];
     s32 r;
     NetworkDispatchState *g;
-    if (a & 0xC00) { return -4; }
-    a = a & 0xFFFFF3FF;
+    if (a & SOCKET_TAG_MASK) { return -4; }
+    a = a & ~SOCKET_TAG_MASK;
     if (addr == NULL) {
         NetMemset(tmp, 0, 0x14);
         addr = tmp;
@@ -882,7 +888,7 @@ void NetDispatchSocketEvent(s16 v, s32 cb_, s32 type, s16 code) {
         v |= 0xC00;
         break;
     case 2:
-        v |= 0x400;
+        v |= UDP_SOCKET_TAG;
         break;
     case 3:
         if (validate_tcp_handle(v) < 0) {
