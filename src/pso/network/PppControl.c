@@ -13,9 +13,10 @@
 
 #include <stddef.h>
 #include "pso/network/NetStackTypes.h"
+#include "pso/network/TLobby_803FAEA0.h"
 
+extern PppProtoBlocks ppp_proto_blocks;
 s32 configure_and_open_network_transport();
-extern u8 lbl_805C0038[];
 
 s32 network_input_available(u8 *out) {
     if (TLobby__sub_803F811C((s16 *)out) != 0) {
@@ -48,12 +49,12 @@ s32 send_network_bytes(s32 src, u16 len) {
 
 void TLobby__sub_804061FC(int);
 s32 close_all_connections(void) {
-    TLobby__sub_803FD85C(lbl_805C0038 + 0xD4);
-    TLobby__sub_803FD85C(lbl_805C0038 + 0x6C);
-    TLobby__sub_803FD85C(lbl_805C0038 + 0x38);
-    TLobby__sub_803FD85C(lbl_805C0038 + 0xA0);
-    TLobby__sub_803FD85C(lbl_805C0038 + 4);
-    lbl_805C0038[0] = 0;
+    TLobby__sub_803FD85C(&ppp_proto_blocks.ipv6cp);
+    TLobby__sub_803FD85C(&ppp_proto_blocks.ipcp);
+    TLobby__sub_803FD85C(&ppp_proto_blocks.pap);
+    TLobby__sub_803FD85C(&ppp_proto_blocks.chap);
+    TLobby__sub_803FD85C(&ppp_proto_blocks.lcp);
+    ppp_proto_blocks.busy = 0;
     if (reset_network_timer_list() == 0) {
         TLobby__sub_804061FC(0);
     }
@@ -61,7 +62,7 @@ s32 close_all_connections(void) {
 }
 
 s32 negotiate_ipcp_and_ipv6cp(void) {
-    u8 *g = lbl_805C0038;
+    u8 *g = (u8 *)&ppp_proto_blocks;
     u8 *p = g + 0xD4;
     s16 st = lbl_805D7A7C;
     u8 *q;
@@ -85,7 +86,7 @@ s32 ipv6cp_set_interface_identifiers(s32 ignored, s32 first_identifier, s32 seco
     s16 clear_flag_bit4(s32, u8 *);
     s16 NetIPv6CPSetInterfaceIdentifier(u8 *, s32);
 
-    fsm_state = lbl_805C0038 + 0xD4;
+    fsm_state = (u8 *)&ppp_proto_blocks.ipv6cp;
     state = *(u8 **)((s8 *)fsm_state + 0x30);
     set_flags_and_state((void *)fsm_state);
     if (clear_flag_bit4(ignored, state) != 0) {
@@ -113,7 +114,7 @@ s32 ipcp_configure_all_options(s16 vj_disabled, s32 addr_local, s32 addr_peer, s
     s16 ipcp_set_peer_address(IpcpSide *side, s32 addr);
     s16 ipcp_set_peer_secondary_dns(IpcpSide *side, s32 addr);
     s16 ipcp_set_local_primary_dns(IpcpSide *side, s32 addr);
-    fsm_state = lbl_805C0038 + 0x6C;
+    fsm_state = (u8 *)&ppp_proto_blocks.ipcp;
     ipcp_cfg = *(IpcpConfig **)((s8 *)fsm_state + 0x30);
     set_flags_and_state((void *)fsm_state);
     if (ipcp_set_vj_compression(vj_disabled, &ipcp_cfg->local) != 0) {
@@ -144,7 +145,7 @@ s32 ipcp_configure_all_options(s16 vj_disabled, s32 addr_local, s32 addr_peer, s
 }
 
 s32 chap_connect(u8 *chap_name, u8 *chap_secret, s32 timeout) {
-    u8 *g = lbl_805C0038;
+    u8 *g = (u8 *)&ppp_proto_blocks;
     u8 *c = g + 0xA0;
     s16 r;
     s16 st;
@@ -165,7 +166,7 @@ s32 chap_connect(u8 *chap_name, u8 *chap_secret, s32 timeout) {
 }
 
 s32 pap_connect(u8 *peer_id, u8 *pap_password, s32 timeout) {
-    u8 *g = lbl_805C0038;
+    u8 *g = (u8 *)&ppp_proto_blocks;
     u8 *c = g + 0x38;
     s16 r;
     s16 st;
@@ -195,7 +196,7 @@ s32 lcp_connect(LcpConfig *cfg) {
     s16 wait_for_connection(int);
 
     TLobby__sub_803F808C();
-    conn = (Conn_804004DC *)((u8 *)lbl_805C0038 + 4);
+    conn = &ppp_proto_blocks.lcp;
     if (TLobby__sub_80400744((int) conn, cfg) != 0) {
         return -0x11;
     }

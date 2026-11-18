@@ -11,8 +11,10 @@
 
 #include "pso/network/NetStackTypes.h"
 #include "pso/network/PppFsm.h"
+#include "pso/network/TLobby_803FAEA0.h"
 
-extern u8 lbl_805C0038[];
+extern PppProtoBlocks ppp_proto_blocks;
+
 
 void TLobby__sub_803F7980(void *);
 void TLobby__sub_803FD0C0(void) {
@@ -225,7 +227,7 @@ s32 TLobby__sub_803FD60C(ch, dst)
     if (ch != lobby_net_buffer_desc_b.id) {
         return -0x112;
     }
-    fsm = (PppFsm *)(lbl_805C0038 + 0xd4);
+    fsm = &ppp_proto_blocks.ipv6cp;
     e = (NetConfigEntry_805BC238 *)fsm->opts;
     if (fsm->state != 5) {
         return -0x112;

@@ -28,8 +28,7 @@ u16 ppp_auth_protocol;
 void net_sleep_ms(int);
 
 NetSession lbl_805BFF68;
-u32 lbl_805C0038[82];
-#define lbl_805C0038 ((u8 *)lbl_805C0038)
+PppProtoBlocks ppp_proto_blocks;
 
 typedef struct LobbyPkt_803FB7A4 {
     s32 a;
@@ -224,7 +223,7 @@ void NetMemcpy(void* destination, void* source, int size);
 s16 TLobby__sub_803FB358(NetLinkStatus *status)
 {
   u8 *p = (u8 *)status;
-  u8 *base = *((u8 (*)[]) ((u8 *) lbl_805C0038));
+  u8 *base = (u8 *)&ppp_proto_blocks;
   u8 *b;
   u32 *new_var;
   u8 *q;
@@ -232,7 +231,7 @@ s16 TLobby__sub_803FB358(NetLinkStatus *status)
   u32 v0;
   u32 v1;
   lock_mutex(lbl_805C18A0.mutex);
-  base = *((u8 (*)[]) ((u8 *) lbl_805C0038));
+  base = (u8 *)&ppp_proto_blocks;
   q = base + 0xd4;
   a = *((u8 **) (base + 0x104));
   b = *((u8 **) (base + 0x9c));
@@ -339,7 +338,7 @@ typedef struct St_803FB6A0 { u8 busy; u8 pad[3]; u8 state; u8 rest[0x143]; } St_
 
 s32 TLobby__sub_803FB6A0(void) {
     void update_connection_state(void *state, void *session); /* declared with 2 parameters; the definition is void (int) */
-    St_803FB6A0 *st = (St_803FB6A0 *)lbl_805C0038;
+    St_803FB6A0 *st = (St_803FB6A0 *)&ppp_proto_blocks;
     NetSession *sess = &lbl_805BFF68;
     u8 *state = &st->state;
     update_connection_state(state, &lbl_805BFF68);
@@ -567,7 +566,7 @@ L242:
             } else {
                 LOBBY_ABORT(6, 8);
             }
-            if (wait_for_connection((void *)(lbl_805C0038 + 4)) != 0) {
+            if (wait_for_connection(&ppp_proto_blocks.lcp) != 0) {
                 LOBBY_ABORT(0xc, 8);
             }
         }
