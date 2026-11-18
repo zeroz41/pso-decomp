@@ -22,7 +22,7 @@
 
 extern "C" {
 extern const f32 lbl_805DCE58;
-void *destroy__13TUnk_804CF930Fs(void *arg0, s16 arg1);
+void *__dt__13TUnk_804CF918Fv(void *arg0, s16 arg1);
 
 struct Base_80257BC0 { u16 flags; u8 pad[2]; };
 
@@ -68,7 +68,7 @@ typedef void *(*Ctor_80257D44)(void *, void *, s32);
 
 void mem_free(void *);
 s32 mem_alloc(s32);
-#define destroy__13TUnk_804CF930Fs ((s32 (*)(s32, s32 *))destroy__13TUnk_804CF930Fs)
+#define __dt__13TUnk_804CF918Fv ((s32 (*)(s32, s32 *))__dt__13TUnk_804CF918Fv)
 void* init_from__13TUnk_804CF930FPvi(void* a0, void* a1, int a2);
 u8 * init_layout_entry_copy__20TWindowSubStatusDispFPUc(u8 *arg0, u8 *arg1);
 void draw_visible_window_entries(void *self, List_80257BC0 *list, void *ctx);
@@ -272,7 +272,7 @@ void TWindowSubStatusDisp__sub_80258054(void) {  }
 void *TWindowSubStatusDisp::deleting_destructor(s16 arg1) {
     if (this != NULL) {
         *(s32 * *)&this->m_flags = lbl_804CF998;
-        destroy__13TUnk_804CF930Fs((s32)this, 0);
+        __dt__13TUnk_804CF918Fv((s32)this, 0);
         if (arg1 > 0) {
             ::operator delete(this);
         }
@@ -281,7 +281,7 @@ void *TWindowSubStatusDisp::deleting_destructor(s16 arg1) {
 }
 }
 
-#undef destroy__13TUnk_804CF930Fs
+#undef __dt__13TUnk_804CF918Fv
 
 
 // Screen x, y of each item icon slot (indexed by get_entry_ptr).

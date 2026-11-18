@@ -366,7 +366,7 @@ WindowDescriptor window_chat_symbol_settings = {
 };
 
 u8 *TWindowChatSymbol__ct(TWindowChatSymbol *window_chat_symbol, s32 arg1, s32 arg2) {
-    ((TWindowDD *)window_chat_symbol)->construct_base((u8 *)&window_chat_symbol_settings, (s16)4, (u8 *)arg1);
+    __ct__11TWindowBaseFPUcsPUc(window_chat_symbol, (u8 *)&window_chat_symbol_settings, (s16)4, (u8 *)arg1);
     *(s32 **)((s8 *)window_chat_symbol + 0x18) = __vt__17TWindowChatSymbol;
     window_chat_symbol->m_name = TWindowChatSymbol__name;
     fn_8024491C((void *)window_chat_symbol, (void *)arg2);

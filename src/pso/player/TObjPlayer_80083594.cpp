@@ -1,4 +1,7 @@
+#pragma defer_codegen on
+
 #pragma readonly_strings on
+
 #include "types.h"
 #include "pso/system/vector.h"
 #include "pso/player/TObjPlayer_80011014.h"
@@ -21,13 +24,12 @@ void set_camera_capture_flags_bit2(void);
 #include "pso/effect/TEffect.h"
 #include "pso/render/render_util.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
-
-
 #include <stddef.h>
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/object/ambient/TObjFish.h"
+
 struct Stack_80082C30 {
     f32 sp8;
     f32 spC;
@@ -38,7 +40,6 @@ struct Stack_80082C30 {
     f32 sp20;
     f32 sp24;
 };
-
 
 static GinjaTextureEntry effect_textures[54] = {
     {"f008_white_npr01", 0, NULL},
@@ -103,6 +104,7 @@ GinjaTextureList shared_effect_texture_list = {effect_textures, 54};
    that capture_viewport_texture and copy_screen_to_texture copy the framebuffer into */
 GinjaTextureEntry shared_capture_texture_entry = {NULL, 0, NULL};
 GinjaTextureList shared_capture_texture_list = {&shared_capture_texture_entry, 1};
+
 /* inferred: one-entry list TObjPlayer__sub_80083F38 fills with a 256x256 render texture
    that end_shadow_map_pass copies the shadow pass into and draw_if_all_ready binds */
 GinjaTextureEntry shadow_map_texture_entry = {NULL, 0, NULL};
@@ -118,46 +120,813 @@ extern GXColor_80083B8C lbl_805E1214;
 extern GXColor_80083B8C lbl_805E1218;
 }
 
+#include "pso/camera/TCameraCtrl_80082FCC.h"
+#include "pso/system/task/TMainTask.h"
+#include "pso/unk/TUnk_8048E5DC.h"
+#include <stddef.h>
+#include "pso/camera/TCameraCtrl.h"
+
+struct G_80082FCC { s32 value; s32 v4; f32 f8; f32 fC; };
+
+extern "C" {
+s32 TCameraCtrl__sub_80068EF0();
+}
+
+void direction_to_pitch_yaw(u8 *arg0, s32 *arg1, s32 *arg2);
+
+extern "C" {
+s32 GXSetZMode(int, int, int);
+}
+
+void set_perspective_projection_from_fov(s32 arg0, f32 farg0, f32 farg1, f32 farg2);
+void set_camera_look_at(u8 *eye, u8 *target, u8 *up);
+extern u8 *camera_ctrl_instance;
+extern u32 camera_render_target_singleton;
+extern GXColor_80083B8C lbl_805E1210;
+extern G_80082FCC TCameraCtrl__data_804FF634;
+void load_list_texture(s32 idx, s32 wrapS, s32 wrapT, s32 map);
+extern s32 __vt__13TUnk_8048E5DC[];
+
+#include "pso/unk/text_800832EC.h"
+#include "pso/player/TObjPlayer_80083B38.h"
+#include "pso/player/TObjPlayer_800847A8.h"
+#include "pso/system/memory.h"
+#include "pso/player/TUnk_8048E5F4.h"
+#include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/map/FloorArea.h"
+#include "pso/unk/TLobby.h"
+#include "pso/player/TObjPlayer_80083594.h"
+#include "pso/unk/text_803D96A8.h"
+#include <stddef.h>
+#include "pso/object/trap/TOTrapAncient02.h"
+#include "pso/system/scene/TScene_800838C4.h"
+#include "pso/system/scene/TScene.h"
+#include "pso/system/main_loop.h"
+
+extern "C" {
+s32 __ct__7TObjectFP7TObject(void *, void *);
+s32 init_render_target__10TObjPlayerFv();
+u8 camera_capture_overlay_alpha = 143;
+extern s32 __vt__13TUnk_8048E5F4[];
+extern s32 model_render_flags;
+}
+
+void set_ginja_post_texgen_count(s32 x);
+void set_ginja_post_tev_stage_count(s32 x);
+struct Rect_80083F38 { u8 data[0x20]; };
+struct Rect_800846C8 { u8 data[0x20]; };
+
+struct View_80083D54 {
+    u8 pad0[0x178];
+    Vec pos;
+    Vec target;
+};
+
+struct Mtx44_80083D54 { f32 m[4][4]; };
+
+extern "C" {
+void translate_current_matrix_ps(f32, f32, f32);
+void rotate_current_matrix_x_ps(s32);
+void push_identity_matrix_ps();
+}
+
+struct Stack_800836E8 {
+    f32 sp8;
+    f32 spC;
+    GC_Mtx sp10;
+};
+
+extern "C" {
+s32 TCameraCtrl__sub_800689F4();
+s32 rotate_matrix_y(int, void *);
+s32 push_matrix();
+s32 GXSetTevOp(s32, s32);
+s32 GXSetTevOrder(s32, s32, s32, s32);
+}
+
+void calc_projection_screen_offset(f32 *arg0, f32 *arg1);
+f32 calc_camera_fov_degrees(void);
+void load_current_pos_matrix(s32 arg0);
+void load_current_tex_matrix(s32 i);
+extern GC_Mtx *current_matrix;
+
+struct Stack_80083914 {
+    f32 sp8;
+    u8 pad_C[0x4];
+    GC_Mtx sp10;
+};
+
+extern "C" {
+s32 C_MTXLightFrustum(void *, f32, f32, f32, f32, f32, f32, f32, f32);
+f32 rotate_matrix_by_node_angles(void *, int);
+f64 get_end_text_value__10TObjPlayerFv(f32);
+f32 sin_table_lookup(int);
+f32 cos_table_lookup(int);
+}
+
+int lbl_805D4EE0;
+unsigned char camera_capture_flags;
+u32 camera_render_target_singleton;
+
+extern "C" {
+void TObjPlayer__sub_80083FB0(void);
+int TObjPlayer__sub_80083F9C(void);
+void *get_player_by_client_id(s32 i);
+s32 is_inactive__10TObjPlayerFv();
+void reset_and_release_capture_texture(void);
+void reset_and_init_capture_texture(void);
+void clear_camera_flag(void);
+void set_camera_capture_flags_bit0(void);
+void **release_texture_list();
+void **TObjPlayer__sub_80083F04(void);
+s32 is_in_shadow_range(u8 *arg0, f32 farg0);
+s32 get_capture_texture_pixels(void);
+void TObjPlayer__sub_80084500(void);
+void set_texture_name(void *, void *, int, int);
+s32 load_texture_list(void *);
+void TObjPlayer__sub_80083F38(void);
+void **release_shared_capture_texture(void);
+u8 get_display_copy_filter();
+s32 Dolphin_GXSetCopyFilter(int, void *, int, void *);
+s32 GXSetProjection(void *, int);
+s32 pop_matrix();
+void TObjPlayer__sub_80083FA4(void);
+void C_MTXFrustum(void *, f32, f32, f32, f32, f32, f32);
+f32 vec_squared_length(void *);
+void normalize_vector(void *);
+void TObjPlayer__sub_800847FC(void);
+void GXTexCoord2f32_80083594(f32 farg0, f32 farg1);
+void GXColor1u32_80083594(s32 arg0);
+void GXPosition3f32_80083594(f32 farg0, f32 farg1, f32 farg2);
+s32 Dolphin_GXSetVtxDesc(s32, s32);
+s32 GXClearVtxDesc();
+s32 GXSetVtxAttrFmt(s32, s32, s32, s32, s32);
+s32 GXSetNumTexGens(s32);
+s32 GXBegin(s32, s32, s32);
+s32 GXSetNumChans(s32);
+}
+
+void disable_camera_capture_overlay(void);
+void init_capture_texture(s32 wide);
+void set_ginja_draw_flags(s32 arg0);
+void set_light_ambient_color(f32 r, f32 g, f32 b);
+void submit_light0(s32 arg0, s32 arg1);
+void load_gx_light_slot(s32 arg0);
+extern s32 scene_projection_state[];
+extern u8 *active_gx_render_mode;
+extern GXColor_80083B8C lbl_805E120C;
+extern GXColor_80083B8C lbl_805E1208;
+void capture_viewport_texture(void);
+void setup_blended_textured_draw(void);
+
+#define VIEW ((View_80083D54 *)camera_ctrl_instance)
+
+extern "C" {
+f64 atan();
+s32 GXSetTexCoordGen2(s32 a0 = 0, s32 a1 = 0, s32 a2 = 0, s32 a3 = 0, s32 a4 = 0, s32 a5 = 0);
+
+int TObjPlayer::is_inactive() { return this->m_cfc == 0; }
+
+void GXPosition3f32_80083594(f32 farg0, f32 farg1, f32 farg2) {
+    *(f32 *)0xCC008000 = farg0;
+    *(f32 *)0xCC008000 = farg1;
+    *(f32 *)0xCC008000 = farg2;
+}
+
+void GXColor1u32_80083594(s32 arg0) {
+    *(s32 *)0xCC008000 = arg0;
+}
+
+void GXTexCoord2f32_80083594(f32 farg0, f32 farg1) {
+    *(f32 *)0xCC008000 = farg0;
+    *(f32 *)0xCC008000 = farg1;
+}
+
+f32 TObjPlayer::get_end_text_value() {
+    return (f32) atan();
+}
+
+void TObjPlayer__sub_800847FC(void) {  }
+
+void TObjPlayer::set_tex_coord_gen(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
+    GXSetTexCoordGen2(arg0, arg1, arg2, arg3, 0, 0x7D);
+}
+
+unsigned char get_camera_capture_flags(void) {  return camera_capture_flags; }
+
+s32 test_camera_capture_flags_bits01(void) {
+    if ((camera_capture_flags & 2) && (camera_capture_flags & 1)) {
+        return 1;
+    }
+    return 0;
+}
+}
+
+void disable_camera_capture_overlay(void) {
+  int temp = (*(u8 *)&camera_capture_flags);
+  (*(u8 *)&camera_capture_flags) = temp & (~2);
+  camera_capture_overlay_alpha = 0x8F;
+}
+
+void set_camera_capture_flags_bit0(void) { (*(u8 *)&camera_capture_flags) = ((*(u8 *)&camera_capture_flags) | 0x1); }
+
+s32 TObjPlayer::get_camera_flag() {
+    return ((u8) (*(u8 *)&camera_capture_flags) >> 4U) & 1;
+}
+
+void clear_camera_flag(void) { (*(u8 *)&camera_capture_flags) = ((*(u8 *)&camera_capture_flags) & 0xffffffef); }
+
+void set_camera_capture_flags_bit2(void) { (*(u8 *)&camera_capture_flags) = ((*(u8 *)&camera_capture_flags) | 0x4); }
+
+void clear_camera_capture_flags_bit2(void) { (*(u8 *)&camera_capture_flags) = ((*(u8 *)&camera_capture_flags) & 0xfffffffb); }
+
+void init_capture_texture(s32 wide) {
+    Rect_800846C8 r;
+    s32 mode;
+    u16 w;
+    u16 h;
+    if (wide != 0) {
+        mode = 6;
+        w = 640;
+        h = 480;
+    } else {
+        mode = 4;
+        w = 640;
+        h = 480;
+    }
+    ((TObjPlayer *)(&r))->set_render_rect(0, mode, w, h);
+    set_texture_name(shared_capture_texture_list.entries, &r, 0x2EE0, 0x08800000);
+    load_texture_list(&shared_capture_texture_list);
+}
+
+void **release_shared_capture_texture(void) {
+    void **var_r3;
+    var_r3 = (void **)&shared_capture_texture_list;
+    if (shared_capture_texture_list.entries->texture != NULL) {
+        var_r3 = release_texture_list();
+    }
+    return var_r3;
+}
+
+void TObjPlayer::reset_movie_state() { camera_capture_flags = 0; init_capture_texture((s32)((void*)1)); }
+
+void reset_and_init_capture_texture(void) { camera_capture_flags = 0; init_capture_texture((s32)((void*)0)); }
+
+void reset_and_release_capture_texture(void) { camera_capture_flags = 0; release_shared_capture_texture(); }
+
+s32 get_capture_texture_pixels(void) {
+    return (s32)shared_capture_texture_list.entries->texture->surface->pixels;
+}
+
+void capture_viewport_texture(void) {
+    if (!(camera_capture_flags & 4)) {
+        GXColor_80083B8C c = lbl_805E1208;
+        GXSetCopyClear(c, 0xFFFFFF);
+        GXSetTexCopySrc(0, 0, 0x280, 0x1E0);
+        GXSetTexCopyDst(0x280, 0x1E0, 4, 0);
+        if (camera_capture_flags & 8) {
+            GXCopyTex(shared_capture_texture_list.entries->texture->surface->pixels, 1);
+        } else {
+            GXCopyTex(shared_capture_texture_list.entries->texture->surface->pixels, 0);
+        }
+        GXPixModeSync();
+    }
+}
+
+void TObjPlayer__sub_80084500(void) {
+    TObjFish::set_global_param((s32)&shared_capture_texture_list);
+    load_list_texture(0, 0, 0, 0);
+}
+
+void TObjPlayer::draw_textured_screen_quad(u32 arg0, f32 *arg1, f32 *arg2, s32 arg3) {
+    u32 temp_r31;
+    void *temp_r4;
+    void *temp_r4_2;
+    f32 z;
+    TObjFish::set_global_param((s32)&shared_capture_texture_list);
+    if (arg3 != 0) {
+        temp_r4 = shared_capture_texture_list.entries->texture->surface;
+        *(s32 *)((s8 *)temp_r4 + 0x10) = 0x100;
+        *(s32 *)((s8 *)temp_r4 + 0x14) = 0xC0;
+    }
+    load_list_texture(0, 0, 0, 0);
+    set_default_alpha_blend();
+    TObjPlayer::load_screen_space_matrix();
+    setup_blended_textured_draw();
+    GXSetNumTexGens(1);
+    GXSetNumChans(1);
+    TObjPlayer::set_tex_coord_gen(0, 1, 4, 0x3C);
+    GXSetTevOp(0, 1);
+    GXSetTevOrder(0, 0, 0, 4);
+    GXClearVtxDesc();
+    Dolphin_GXSetVtxDesc(9, 1);
+    Dolphin_GXSetVtxDesc(0xB, 1);
+    Dolphin_GXSetVtxDesc(0xD, 1);
+    GXSetVtxAttrFmt(4, 9, 1, 4, 0);
+    GXSetVtxAttrFmt(4, 0xB, 1, 5, 0);
+    GXSetVtxAttrFmt(4, 0xD, 1, 4, 0);
+    GXBegin(0x80, 4, 4);
+    z = -1.0f;
+    GXPosition3f32_80083594(arg1[0] * z, arg1[1] * z, z);
+    temp_r31 = (arg0 << 8) | (arg0 >> 24);
+    GXColor1u32_80083594(temp_r31);
+    GXTexCoord2f32_80083594(0.0f, 0.0f);
+    GXPosition3f32_80083594(z * (arg1[0] + arg2[0]), arg1[1] * z, z);
+    GXColor1u32_80083594(temp_r31);
+    GXTexCoord2f32_80083594(1.0f, 0.0f);
+    GXPosition3f32_80083594(z * (arg1[0] + arg2[0]), z * (arg1[1] + arg2[1]), z);
+    GXColor1u32_80083594(temp_r31);
+    GXTexCoord2f32_80083594(1.0f, 1.0f);
+    GXPosition3f32_80083594(arg1[0] * z, z * (arg1[1] + arg2[1]), z);
+    GXColor1u32_80083594(temp_r31);
+    GXTexCoord2f32_80083594(0.0f, 1.0f);
+    TObjPlayer__sub_800847FC();
+    set_default_alpha_blend();
+    if (arg3 != 0) {
+        temp_r4_2 = shared_capture_texture_list.entries->texture->surface;
+        *(s32 *)((s8 *)temp_r4_2 + 0x10) = 0x280;
+        *(s32 *)((s8 *)temp_r4_2 + 0x14) = 0x1E0;
+    }
+}
+
+void TObjPlayer::draw_screen_quad(u32 arg0, s32 arg1, f32 farg0) {
+    f32 temp_f31;
+    f32 temp_f30;
+    f32 temp_f30_2;
+    f32 s0;
+    f32 s1;
+    f32 z;
+    u32 temp_r31;
+    void *temp_r4;
+    void *temp_r4_2;
+    TObjFish::set_global_param((s32)&shared_capture_texture_list);
+    if (arg1 != 0) {
+        temp_r4 = shared_capture_texture_list.entries->texture->surface;
+        *(s32 *)((s8 *)temp_r4 + 0x10) = 0x100;
+        *(s32 *)((s8 *)temp_r4 + 0x14) = 0xC0;
+    }
+    load_list_texture(0, 0, 0, 0);
+    set_default_alpha_blend();
+    TObjPlayer::load_screen_space_matrix();
+    setup_blended_textured_draw();
+    GXSetNumTexGens(1);
+    GXSetNumChans(1);
+    TObjPlayer::set_tex_coord_gen(0, 1, 4, 0x3C);
+    GXSetTevOp(0, 1);
+    GXSetTevOrder(0, 0, 0, 4);
+    GXClearVtxDesc();
+    Dolphin_GXSetVtxDesc(9, 1);
+    Dolphin_GXSetVtxDesc(0xB, 1);
+    Dolphin_GXSetVtxDesc(0xD, 1);
+    GXSetVtxAttrFmt(4, 9, 1, 4, 0);
+    GXSetVtxAttrFmt(4, 0xB, 1, 5, 0);
+    GXSetVtxAttrFmt(4, 0xD, 1, 4, 0);
+    GXBegin(0x80, 4, 4);
+    z = -2.0f;
+    temp_f31 = -farg0 * z;
+    GXPosition3f32_80083594(temp_f31, temp_f31, z);
+    temp_r31 = (arg0 << 8) | (arg0 >> 24);
+    GXColor1u32_80083594(temp_r31);
+    GXTexCoord2f32_80083594(0.0f, 0.0f);
+    s0 = 640.0f + farg0;
+    temp_f30 = s0 * z;
+    GXPosition3f32_80083594(temp_f30, temp_f31, z);
+    GXColor1u32_80083594(temp_r31);
+    GXTexCoord2f32_80083594(1.0f, 0.0f);
+    s1 = 480.0f + farg0;
+    temp_f30_2 = s1 * z;
+    GXPosition3f32_80083594(temp_f30, temp_f30_2, z);
+    GXColor1u32_80083594(temp_r31);
+    GXTexCoord2f32_80083594(1.0f, 1.0f);
+    GXPosition3f32_80083594(temp_f31, temp_f30_2, z);
+    GXColor1u32_80083594(temp_r31);
+    GXTexCoord2f32_80083594(0.0f, 1.0f);
+    TObjPlayer__sub_800847FC();
+    set_default_alpha_blend();
+    if (arg1 != 0) {
+        temp_r4_2 = shared_capture_texture_list.entries->texture->surface;
+        *(s32 *)((s8 *)temp_r4_2 + 0x10) = 0x280;
+        *(s32 *)((s8 *)temp_r4_2 + 0x14) = 0x1E0;
+    }
+}
+
+s32 TObjPlayer::check_all_players_ready() {
+    s32 flag;
+    s32 counter;
+    flag = 1;
+    if (((s32)TObjPlayer__sub_80083F9C()) == 0) {
+        return 0;
+    }
+    if (get_main_phase() == 0xF) {
+        counter = 0;
+        do {
+            if ((get_player_by_client_id(counter) != 0U) && (is_inactive__10TObjPlayerFv() == 0)) {
+                flag = 0;
+            }
+            counter += 1;
+        } while (counter < 4);
+    }
+    return flag;
+}
+
+void TObjPlayer__sub_80083FB0(void) { lbl_805D4EE0 = 0; }
+
+void TObjPlayer__sub_80083FA4(void) { lbl_805D4EE0 = 1; }
+
+int TObjPlayer__sub_80083F9C(void) {  return lbl_805D4EE0; }
+
+void TObjPlayer__sub_80083F38(void) {
+    Rect_80083F38 r;
+    ((TObjPlayer *)(&r))->set_render_rect(0, 2, 0x100, 0x100);
+    set_texture_name(shadow_map_texture_list.entries, &r, 0x2EE1, 0x08800000);
+    load_texture_list(&shadow_map_texture_list);
+    lbl_805D4EE0 = 0;
+}
+
+void **TObjPlayer__sub_80083F04(void) {
+    void **var_r3;
+    var_r3 = (void **)&shadow_map_texture_list;
+    if (shadow_map_texture_list.entries->texture != NULL) {
+        var_r3 = release_texture_list();
+    }
+    return var_r3;
+}
+
+#pragma push
+#pragma fp_contract on
+void begin_shadow_map_pass(void) {
+    Mtx44_80083D54 proj;
+    Vec d;
+    f32 t;
+    f32 r;
+    if (is_split_screen() != 0) {
+        return;
+    }
+    TObjPlayer__sub_80083FA4();
+    if (TObjPlayer::check_all_players_ready() == 0) {
+        return;
+    }
+    TCameraCtrl::restore_full_screen_view();
+    if (camera_ctrl_instance == 0) {
+        return;
+    }
+    d.x = VIEW->target.x - VIEW->pos.x;
+    d.y = VIEW->target.y - VIEW->pos.y;
+    d.z = VIEW->target.z - VIEW->pos.z;
+    if (0.0f != vec_squared_length(&d)) {
+        normalize_vector(&d);
+        shadow_light_position.x = VIEW->pos.x + 0.4f * (256.0f * d.x);
+        shadow_light_position.y = VIEW->pos.y;
+        shadow_light_position.z = VIEW->pos.z + 0.4f * (256.0f * d.z);
+    } else {
+        shadow_light_position.x = 0.0f;
+        shadow_light_position.y = 0.0f;
+        shadow_light_position.z = 0.0f;
+    }
+    push_matrix();
+    GXSetViewport(0.0f, 0.0f, 256.0f, 256.0f, 0.0f, 1.0f);
+    GXSetScissor(1, 1, 0xFE, 0xFE);
+    t = 2.1f;
+    r = -2.1f;
+    C_MTXFrustum(&proj, t, -t, r, -r, 500.0f, 20000.0f);
+    GXSetProjection(&proj, 0);
+    set_light_ambient_color(1.0f, 1.0f, 1.0f);
+    submit_light0(0, 0);
+    load_gx_light_slot(0);
+    push_identity_matrix_ps();
+    translate_current_matrix_ps(0.0f, 0.0f, -15000.0f);
+    rotate_current_matrix_x_ps(0x3800);
+    translate_current_matrix_ps(-shadow_light_position.x, -shadow_light_position.y, -shadow_light_position.z);
+    set_ginja_draw_flags(2);
+}
+
+#undef VIEW
+s32 is_in_shadow_range(u8 *arg0, f32 farg0) {
+    if (((u32) camera_ctrl_instance != 0U) && (((farg0 * farg0) + horizontal_distance_squared((const Vec *)arg0, &shadow_light_position)) <= 8537.761f)) {
+        return 1;
+    }
+    return 0;
+}
+
+void end_shadow_map_pass() {
+    u8 *temp_r31;
+    if ((is_split_screen() == 0) && (TObjPlayer::check_all_players_ready() != 0) && ((u32) camera_ctrl_instance != 0U)) {
+        pop_matrix();
+        pop_matrix();
+        GXColor_80083B8C c = lbl_805E120C;
+        Dolphin_GXSetCopyFilter((int) (0U), NULL, (int) (0U), NULL);
+        set_cull_none();
+        GXSetCopyClear(c, 0xFFFFFF);
+        GXSetTexCopySrc(0, 0, 0x100, 0x100);
+        GXSetTexCopyDst(0x100, 0x100, 2, 0);
+        GXCopyTex(shadow_map_texture_list.entries->texture->surface->pixels, 1);
+        GXPixModeSync();
+        temp_r31 = active_gx_render_mode;
+        Dolphin_GXSetCopyFilter((int) (*(u8 *)((s8 *)temp_r31 + 0x19)), temp_r31 + 0x1A, (int) (get_display_copy_filter()), temp_r31 + 0x32);
+        GXSetViewport(0.0f, 0.0f, 640.0f, 480.0f, 0.0f, 1.0f);
+        GXSetScissor(0, 0, 0x280, 0x1E0);
+        GXSetProjection(scene_projection_state, 0);
+        set_light_ambient_color(0.3f, 0.3f, 0.3f);
+        submit_light0(0, 1);
+        load_gx_light_slot(0);
+        set_ginja_draw_flags(0);
+        TCameraCtrl__sub_80068EF0();
+    }
+}
+
+#pragma pop
+void TObjPlayer::draw_if_all_ready() {
+    if ((is_split_screen() == 0) && (TObjPlayer::check_all_players_ready() != 0)) {
+        TObjFish::set_global_param((s32)&shadow_map_texture_list);
+        load_list_texture(0, 0, 0, 1);
+    }
+}
+
+f32 calc_camera_fov_degrees(void) {
+    f32 temp_f2;
+    f32 temp_f31;
+    f32 var_f1;
+    s32 temp_r31;
+    var_f1 = 11832.0f;
+    if ((void *) camera_ctrl_instance != NULL) {
+        temp_f2 = (f32) (*(s32 *)((s8 *)camera_ctrl_instance + 0x19C));
+        temp_f2 *= 0.85f;
+        temp_r31 = (s32) (temp_f2 / 2.0f);
+        temp_f31 = cos_table_lookup(temp_r31);
+        var_f1 = (f32) ((s32) (10430.38043493439 * get_end_text_value__10TObjPlayerFv((f32) ((sin_table_lookup(temp_r31) / temp_f31) / 1.1333334f))) * 2);
+    }
+    return var_f1;
+}
+
 #pragma push
 #pragma opt_common_subs off
-#pragma opt_propagation off
-void TObjPlayer__sub_80082C30(void) {
-    typedef char sp8_offset[(offsetof(Stack_80082C30, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_80082C30, spC) == 0x4) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_80082C30, sp10) == 0x8) ? 1 : -1];
-    typedef char sp14_offset[(offsetof(Stack_80082C30, sp14) == 0xC) ? 1 : -1];
-    typedef char sp18_offset[(offsetof(Stack_80082C30, sp18) == 0x10) ? 1 : -1];
-    typedef char sp1C_offset[(offsetof(Stack_80082C30, sp1C) == 0x14) ? 1 : -1];
-    typedef char sp20_offset[(offsetof(Stack_80082C30, sp20) == 0x18) ? 1 : -1];
-    typedef char sp24_offset[(offsetof(Stack_80082C30, sp24) == 0x1C) ? 1 : -1];
-    Stack_80082C30 stack;
-    f32 y;
-    f32 x;
-    TObjFish::set_global_param(lbl_805D63F0);
-    set_draw_texture_and_color(0, -1);
-    begin_screen_draw(1);
-    x = 192.0f;
-    y = 315.0f;
-    stack.sp8 = x;
-    stack.spC = y;
-    stack.sp10 = x + 256.0f;
-    stack.sp14 = y + 19.0f;
-    stack.sp18 = 0.0f;
-    stack.sp1C = 0.9254902f;
-    stack.sp20 = 1.0f;
-    stack.sp24 = 1.0f;
-    draw_textured_quad_at_depth((&stack.sp8), 0.5f);
-    TWindowSubStatusDisp::get_player();
+
+extern "C" {
+void render_projected_shadow_receiver(u8 *arg0, s32 arg1) {
+    typedef char sp8_offset[(offsetof(Stack_80083914, sp8) == 0x0) ? 1 : -1];
+    typedef char sp10_offset[(offsetof(Stack_80083914, sp10) == 0x8) ? 1 : -1];
+    Stack_80083914 stack;
+    f32 t;
+    f32 r;
+    if ((is_split_screen() == 0) && (TObjPlayer::check_all_players_ready() != 0)) {
+        push_identity_matrix_ps();
+        translate_current_matrix_ps(0.0f, 0.0f, -15000.0f);
+        rotate_current_matrix_x_ps(0x3800);
+        translate_current_matrix_ps(-shadow_light_position.x, -shadow_light_position.y, -shadow_light_position.z);
+        translate_current_matrix_ps(*(f32 *)((s8 *)arg0 + 0), *(f32 *)((s8 *)arg0 + 4), *(f32 *)((s8 *)arg0 + 8));
+        rotate_matrix_by_node_angles((void *)arg1, 1);
+        stack.sp8 = 0.5f;
+        t = 2.1f;
+        r = -2.1f;
+        C_MTXLightFrustum(stack.sp10, -t, t, r, -r, 500.0f, 0.5f, 0.5f, 0.5f);
+        PSMTXConcat(stack.sp10, *current_matrix, *current_matrix);
+        load_current_tex_matrix(0);
+        pop_matrix();
+        load_current_pos_matrix(0);
+        GXSetTevOrder(1, 1, 1, 4);
+        GXSetTevOp(1, 1);
+        TObjPlayer::set_tex_coord_gen(1, 0, 0, 0x1E);
+        model_render_flags |= 0x80000;
+        set_ginja_post_tev_stage_count(((int) (1U)));
+        set_ginja_post_texgen_count(((int) (1U)));
+    }
 }
+}
+
 #pragma pop
 
-extern "C" void TObjPlayer__sub_80082CBC(void* effect) {
-    *(reinterpret_cast<u8*>(effect) + 0x1C) |= 0x4;
+extern "C" {
+void TScene::apply_single_screen_state() {
+    if ((is_split_screen() == 0) && (TObjPlayer::check_all_players_ready() != 0)) {
+        model_render_flags &= 0xFFF7FFFF;
+        set_ginja_post_tev_stage_count(0);
+        set_ginja_post_texgen_count(0);
+    }
+}
 }
 
-extern "C" void TObjPlayer__sub_80082CCC(void* effect) {
-    *(reinterpret_cast<u8*>(effect) + 0x1C) &= ~0x4;
+void load_projection_tex_matrix(s32 rotation_y) {
+    GC_Mtx sp10;
+    f32 spC;
+    f32 sp8;
+    f32 temp_f31;
+    if (is_split_screen() == 0) {
+        calc_projection_screen_offset(&spC, &sp8);
+        push_matrix();
+        rotate_matrix_y(0, (void *)rotation_y);
+        temp_f31 = (f32) (0.0054931640625 * calc_camera_fov_degrees());
+        if (TCameraCtrl__sub_800689F4() != 0) {
+            C_MTXLightPerspective(sp10, temp_f31, 1.1333334f, 0.5f, -0.5f, (f32) (0.5f - spC), (f32) (0.5f - sp8));
+        } else {
+            C_MTXLightPerspective(sp10, temp_f31, 1.1333334f, 0.5f, -0.5f, 0.5f, 0.5f);
+        }
+        PSMTXConcat(sp10, *current_matrix, *current_matrix);
+        load_current_tex_matrix(0);
+        pop_matrix();
+        load_current_pos_matrix(0);
+    }
 }
+
+void load_projected_texture_matrix(f32 farg0) {
+    typedef char sp8_offset[(offsetof(Stack_800836E8, sp8) == 0x0) ? 1 : -1];
+    typedef char spC_offset[(offsetof(Stack_800836E8, spC) == 0x4) ? 1 : -1];
+    typedef char sp10_offset[(offsetof(Stack_800836E8, sp10) == 0x8) ? 1 : -1];
+    Stack_800836E8 stack;
+    f32 temp_f31;
+    if (is_split_screen() == 0) {
+        calc_projection_screen_offset(&stack.spC, &stack.sp8);
+        push_matrix();
+        temp_f31 = (f32) (0.0054931640625 * calc_camera_fov_degrees());
+        if (TCameraCtrl__sub_800689F4() != 0) {
+            C_MTXLightPerspective(stack.sp10, temp_f31, farg0, 0.5f, -0.5f, (f32) (0.5f - stack.spC), (f32) (0.5f - stack.sp8));
+        } else {
+            C_MTXLightPerspective(stack.sp10, temp_f31, farg0, 0.5f, -0.5f, 0.5f, 0.5f);
+        }
+        PSMTXConcat(stack.sp10, *current_matrix, *current_matrix);
+        load_current_tex_matrix(0);
+        pop_matrix();
+        load_current_pos_matrix(0);
+    }
+}
+
+void setup_particle_tev(s32 arg0) {
+    if (is_split_screen() == 0) {
+        GXSetTevOrder(1, 1, 1, 4);
+        if (arg0 != 0) {
+            GXSetTevOp(1, 0);
+        } else {
+            GXSetTevOp(1, 1);
+        }
+        TObjPlayer::set_tex_coord_gen(1, 0, 0, 0x1E);
+        TObjFish::set_global_param((s32)&shared_capture_texture_list);
+        load_list_texture(0, 0, 0, 1);
+        model_render_flags |= 0x80000;
+        set_ginja_post_tev_stage_count(1);
+        set_ginja_post_texgen_count(1);
+    }
+}
+
+void TObjPlayer::setup_tev_stage() {
+    if (is_split_screen() == 0) {
+        GXSetTevOrder(1, 1, 1, 4);
+        GXSetTevOp(1, 2);
+        TObjPlayer::set_tex_coord_gen(1, 0, 0, 0x1E);
+        TObjFish::set_global_param((s32)&shared_capture_texture_list);
+        load_list_texture(0, 0, 0, 1);
+        model_render_flags |= 0x80000;
+        set_ginja_post_tev_stage_count(1);
+        set_ginja_post_texgen_count(1);
+    }
+}
+
+void reset_particle_tev() {
+    if (is_split_screen() == 0) {
+        set_ginja_post_tev_stage_count(0);
+        set_ginja_post_texgen_count(0);
+        model_render_flags &= 0xFFF7FFFF;
+    }
+}
+
+extern "C" {
+void *TUnk_8048E5F4::init_subobject(void *parent, void *flags) {
+    __ct__7TObjectFP7TObject(this, parent);
+    *(s32 **)((s8 *)this + 0x18) = __vt__13TUnk_8048E5F4;
+    *(void * *)&this->unk_1C = flags;
+    return this;
+}
+
+TUnk_8048E5F4::~TUnk_8048E5F4() {
+}
+
+void TUnk_8048E5F4::run_task() {  }
+
+void TUnk_8048E5F4::render_shadows() { if (TObjPlayer::get_camera_flag() != 0) { set_tev_swap_mode((u8)((void*)0)); } }
+
+void TUnk_8048E5F4::render() {
+    if (!(get_camera_capture_flags() & 4)) {
+        if (*(s32 *)&this->unk_1C & 1) {
+            if (test_camera_capture_flags_bits01() == 1) {
+                TCameraCtrl::restore_full_screen_view();
+                TParticleCtrl::begin_effect_render();
+                TObjPlayer::draw_screen_quad(camera_capture_overlay_alpha << 0x18, 0, 0.0f);
+                TParticleCtrl::end_effect_render();
+                TCameraCtrl__sub_80068EF0();
+                disable_camera_capture_overlay();
+            }
+        } else {
+            set_camera_capture_flags_bit0();
+            capture_viewport_texture();
+        }
+        if (TObjPlayer::get_camera_flag() != 0) {
+            clear_camera_flag();
+            init_tev_swap();
+        }
+    }
+}
+
+void TObjPlayer::init_render_target_singleton() {
+    u32 temp_r3;
+    camera_render_target_singleton = 0U;
+    if (get_current_floor_area() == AREA_GOL_DRAGON) {
+        temp_r3 = (int)::operator new(0x28);
+        camera_render_target_singleton = temp_r3;
+        if (temp_r3 != 0U) {
+            init_render_target__10TObjPlayerFv();
+        }
+    }
+}
+
+void TObjPlayer::free_singleton() {
+    if ((u32) camera_render_target_singleton != 0U) {
+        ((TObjPlayer *)camera_render_target_singleton)->reset_lobby_subobject();
+    }
+    if ((u32) camera_render_target_singleton != 0U) {
+        ::operator delete((void *)camera_render_target_singleton);
+        camera_render_target_singleton = 0U;
+    }
+}
+
+u8 *fn_800832EC(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0) {
+    __ct__7TObjectFP7TObject((void *)arg0, (void *)arg1);
+    *(s32 **)((s8 *)arg0 + 0x18) = __vt__13TUnk_8048E5DC;
+    ((TUnk_8048E5DC *)arg0)->m_38 = farg0;
+    VecCopy((Vec *)(arg0 + 0x20), (const Vec *)(arg3));
+    VecCopy((Vec *)(arg0 + 0x2C), (const Vec *)(arg4));
+    *(s8 *)((s8 *)arg0 + 0x1C) = 0;
+    return arg0;
+}
+}
+
+TUnk_8048E5DC::~TUnk_8048E5DC() {}
+
+#pragma push
+#pragma opt_common_subs off
+void TUnk_8048E5DC::render_shadows() {
+    u8 *arg0 = (u8 *)this;
+    if (is_split_screen() == 0) {
+        TCameraCtrl::restore_full_screen_view();
+        GXSetViewport(0.0f, 0.0f, 640.0f, 480.0f, 0.0f, 1.0f);
+        GXSetScissor(0, 0, 0x280, 0x1E0);
+        Vec up = {0.0f, 1.0f, 0.0f};
+        set_perspective_projection_from_fov((((TCameraCtrl *)camera_ctrl_instance)->fov), 1.1333334f, 1.0f, 21000.0f);
+        set_camera_look_at((u8 *)&this->m_20, (u8 *)&this->unk_2C, (u8 *)&up);
+        if ((void *) camera_ctrl_instance != NULL) {
+            Vec dir;
+            s32 pitch;
+            s32 yaw;
+            dir.x = *(f32 *)&this->unk_2C - this->m_20;
+            dir.y = this->m_30 - *(f32 *)&this->unk_24;
+            dir.z = *(f32 *)((s8 *)arg0 + 0x34) - this->m_28;
+            direction_to_pitch_yaw((u8 *)&dir, &pitch, &yaw);
+            TCameraCtrl::calc_axes_from_angles((s32)camera_ctrl_instance, pitch, yaw);
+        }
+        set_camera_capture_flags_bit2();
+        main_task.render_scene_passes();
+        clear_camera_capture_flags_bit2();
+        if ((void *) (*(u8 * *)&camera_render_target_singleton) != NULL) {
+            GXSetCopyClear(lbl_805E1210, 0xFFFFFF);
+            GXSetZMode((int) (1U), 7, 1);
+            GXSetTexCopySrc((int) (0U), 0, (int) (0x280U), (int) (0x1E0U));
+            GXSetTexCopyDst(0x280, 0x1E0, 4, 0);
+            GXCopyTex((void *) (*(s32 *)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&camera_render_target_singleton) + 0x1C)) + 8)) + 0xC)) + 0x20)), (int) (1U));
+            GXPixModeSync();
+        }
+        GXSetViewport(0.0f, 0.0f, 640.0f, 480.0f, 0.0f, 1.0f);
+        GXSetScissor(0, 0, 0x280, 0x1E0);
+        TCameraCtrl__sub_80068EF0();
+        ((TCameraCtrl *)camera_ctrl_instance)->calc_rotated_axes();
+        ((TCameraCtrl *)camera_ctrl_instance)->setup_default_view(0);
+    }
+}
+
+#pragma pop
+void TUnk_8048E5DC::run_task() {  }
+
+void TUnk_8048E5DC::render() {  }
+
+void TCameraCtrl::update_single_screen() {
+    if ((is_split_screen() == 0) && ((u32) camera_render_target_singleton != 0U)) {
+        TObjFish::set_global_param(camera_render_target_singleton + 0x1C);
+        load_list_texture(0, 0, 0, 0);
+    }
+}
+
+void TCameraCtrl::copy_position_vectors(void *first, void *second) {
+    VecCopy((Vec *)((char *)this + 32), (const Vec *)first);
+    VecCopy((Vec *)((char *)this + 44), (const Vec *)second);
+}
+
+void calc_projection_screen_offset(f32 *arg0, f32 *arg1) {
+    f32 dx = TCameraCtrl__data_804FF634.f8;
+    f32 y = TCameraCtrl__data_804FF634.fC;
+    f32 dy;
+    dx -= 320.0f;
+    dy = y - 240.0f;
+    *arg0 = (-0.12f * dx) / 80.0f;
+    *arg1 = (0.235f * dy) / -112.0f;
+}
+
 void TObjPlayer::copy_screen_to_texture(s32 mode, void *src) {
     NJS_POINT2 a;
     NJS_POINT2 b;
@@ -223,814 +992,44 @@ void TObjPlayer::copy_screen_to_texture(s32 mode, void *src) {
     }
 }
 
-// ---- pso/misc/TCameraCtrl_80082FCC
-#include "pso/camera/TCameraCtrl_80082FCC.h"
-#include "pso/system/task/TMainTask.h"
-#include "pso/unk/TUnk_8048E5DC.h"
-
-#include <stddef.h>
-#include "pso/camera/TCameraCtrl.h"
-
-
-struct G_80082FCC { s32 value; s32 v4; f32 f8; f32 fC; };
-
-extern "C" {
-s32 TCameraCtrl__sub_80068EF0();
-}
-void direction_to_pitch_yaw(u8 *arg0, s32 *arg1, s32 *arg2);
-extern "C" {
-s32 GXSetZMode(int, int, int);
-}
-void set_perspective_projection_from_fov(s32 arg0, f32 farg0, f32 farg1, f32 farg2);
-extern "C" {
-void __dl__7TObjectFPv(void *);
-void __dt__7TObjectFv(void *, int);
-}
-void set_camera_look_at(u8 *eye, u8 *target, u8 *up);
-extern u8 *camera_ctrl_instance;
-extern u32 camera_render_target_singleton;
-extern GXColor_80083B8C lbl_805E1210;
-extern G_80082FCC TCameraCtrl__data_804FF634;
-void load_list_texture(s32 idx, s32 wrapS, s32 wrapT, s32 map);
-void calc_projection_screen_offset(f32 *arg0, f32 *arg1) {
-    f32 dx = TCameraCtrl__data_804FF634.f8;
-    f32 y = TCameraCtrl__data_804FF634.fC;
-    f32 dy;
-    dx -= 320.0f;
-    dy = y - 240.0f;
-    *arg0 = (-0.12f * dx) / 80.0f;
-    *arg1 = (0.235f * dy) / -112.0f;
+extern "C" void TObjPlayer__sub_80082CCC(void* effect) {
+    *(reinterpret_cast<u8*>(effect) + 0x1C) &= ~0x4;
 }
 
-void TCameraCtrl::copy_position_vectors(void *first, void *second) {
-    VecCopy((Vec *)((char *)this + 32), (const Vec *)first);
-    VecCopy((Vec *)((char *)this + 44), (const Vec *)second);
+extern "C" void TObjPlayer__sub_80082CBC(void* effect) {
+    *(reinterpret_cast<u8*>(effect) + 0x1C) |= 0x4;
 }
-
-void TCameraCtrl::update_single_screen() {
-    if ((is_split_screen() == 0) && ((u32) camera_render_target_singleton != 0U)) {
-        TObjFish::set_global_param(camera_render_target_singleton + 0x1C);
-        load_list_texture(0, 0, 0, 0);
-    }
-}
-
-void TUnk_8048E5DC::render() {  }
-void TUnk_8048E5DC::run_task() {  }
-
-extern s32 __vt__13TUnk_8048E5DC[];
 
 #pragma push
 #pragma opt_common_subs off
-void TUnk_8048E5DC::render_shadows() {
-    u8 *arg0 = (u8 *)this;
-    if (is_split_screen() == 0) {
-        TCameraCtrl::restore_full_screen_view();
-        GXSetViewport(0.0f, 0.0f, 640.0f, 480.0f, 0.0f, 1.0f);
-        GXSetScissor(0, 0, 0x280, 0x1E0);
-        Vec up = {0.0f, 1.0f, 0.0f};
-        set_perspective_projection_from_fov((((TCameraCtrl *)camera_ctrl_instance)->fov), 1.1333334f, 1.0f, 21000.0f);
-        set_camera_look_at((u8 *)&this->m_20, (u8 *)&this->unk_2C, (u8 *)&up);
-        if ((void *) camera_ctrl_instance != NULL) {
-            Vec dir;
-            s32 pitch;
-            s32 yaw;
-            dir.x = *(f32 *)&this->unk_2C - this->m_20;
-            dir.y = this->m_30 - *(f32 *)&this->unk_24;
-            dir.z = *(f32 *)((s8 *)arg0 + 0x34) - this->m_28;
-            direction_to_pitch_yaw((u8 *)&dir, &pitch, &yaw);
-            TCameraCtrl::calc_axes_from_angles((s32)camera_ctrl_instance, pitch, yaw);
-        }
-        set_camera_capture_flags_bit2();
-        main_task.render_scene_passes();
-        clear_camera_capture_flags_bit2();
-        if ((void *) (*(u8 * *)&camera_render_target_singleton) != NULL) {
-            GXSetCopyClear(lbl_805E1210, 0xFFFFFF);
-            GXSetZMode((int) (1U), 7, 1);
-            GXSetTexCopySrc((int) (0U), 0, (int) (0x280U), (int) (0x1E0U));
-            GXSetTexCopyDst(0x280, 0x1E0, 4, 0);
-            GXCopyTex((void *) (*(s32 *)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&camera_render_target_singleton) + 0x1C)) + 8)) + 0xC)) + 0x20)), (int) (1U));
-            GXPixModeSync();
-        }
-        GXSetViewport(0.0f, 0.0f, 640.0f, 480.0f, 0.0f, 1.0f);
-        GXSetScissor(0, 0, 0x280, 0x1E0);
-        TCameraCtrl__sub_80068EF0();
-        ((TCameraCtrl *)camera_ctrl_instance)->calc_rotated_axes();
-        ((TCameraCtrl *)camera_ctrl_instance)->setup_default_view(0);
-    }
+#pragma opt_propagation off
+void TObjPlayer__sub_80082C30(void) {
+    typedef char sp8_offset[(offsetof(Stack_80082C30, sp8) == 0x0) ? 1 : -1];
+    typedef char spC_offset[(offsetof(Stack_80082C30, spC) == 0x4) ? 1 : -1];
+    typedef char sp10_offset[(offsetof(Stack_80082C30, sp10) == 0x8) ? 1 : -1];
+    typedef char sp14_offset[(offsetof(Stack_80082C30, sp14) == 0xC) ? 1 : -1];
+    typedef char sp18_offset[(offsetof(Stack_80082C30, sp18) == 0x10) ? 1 : -1];
+    typedef char sp1C_offset[(offsetof(Stack_80082C30, sp1C) == 0x14) ? 1 : -1];
+    typedef char sp20_offset[(offsetof(Stack_80082C30, sp20) == 0x18) ? 1 : -1];
+    typedef char sp24_offset[(offsetof(Stack_80082C30, sp24) == 0x1C) ? 1 : -1];
+    Stack_80082C30 stack;
+    f32 y;
+    f32 x;
+    TObjFish::set_global_param(lbl_805D63F0);
+    set_draw_texture_and_color(0, -1);
+    begin_screen_draw(1);
+    x = 192.0f;
+    y = 315.0f;
+    stack.sp8 = x;
+    stack.spC = y;
+    stack.sp10 = x + 256.0f;
+    stack.sp14 = y + 19.0f;
+    stack.sp18 = 0.0f;
+    stack.sp1C = 0.9254902f;
+    stack.sp20 = 1.0f;
+    stack.sp24 = 1.0f;
+    draw_textured_quad_at_depth((&stack.sp8), 0.5f);
+    TWindowSubStatusDisp::get_player();
 }
+
 #pragma pop
-
-void *TUnk_8048E5DC::dt(s16 arg1) {
-    if (this != NULL) {
-        *(s32 **)((s8 *)this + 0x18) = __vt__13TUnk_8048E5DC;
-        __dt__7TObjectFv(this, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(this);
-        }
-    }
-    return this;
-}
-
-// ---- pso/player/TObjPlayer_80083594
-
-#include "pso/unk/text_800832EC.h"
-
-
-#include "pso/player/TObjPlayer_80083360.h"
-#include "pso/player/TObjPlayer_80083B38.h"
-#include "pso/player/TObjPlayer_800847A8.h"
-#include "pso/system/memory.h"
-#include "pso/player/TUnk_8048E5F4.h"
-
-#include "pso/effect/particle/TParticleCtrl.h"
-
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/map/FloorArea.h"
-#include "pso/unk/TLobby.h"
-#include "pso/player/TObjPlayer_80083594.h"
-#include "pso/unk/text_803D96A8.h"
-#include <stddef.h>
-#include "pso/object/trap/TOTrapAncient02.h"
-
-#include "pso/system/scene/TScene_800838C4.h"
-#include "pso/system/scene/TScene.h"
-#include "pso/system/main_loop.h"
-
-
-extern "C" {
-s32 __ct__7TObjectFP7TObject(void *, void *);
-u8 *fn_800832EC(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0) {
-    __ct__7TObjectFP7TObject((void *)arg0, (void *)arg1);
-    *(s32 **)((s8 *)arg0 + 0x18) = __vt__13TUnk_8048E5DC;
-    ((TUnk_8048E5DC *)arg0)->m_38 = farg0;
-    VecCopy((Vec *)(arg0 + 0x20), (const Vec *)(arg3));
-    VecCopy((Vec *)(arg0 + 0x2C), (const Vec *)(arg4));
-    *(s8 *)((s8 *)arg0 + 0x1C) = 0;
-    return arg0;
-}
-
-s32 init_render_target__10TObjPlayerFv();
-u8 camera_capture_overlay_alpha = 143;
-extern s32 __vt__13TUnk_8048E5F4[];
-
-void TObjPlayer::free_singleton() {
-    if ((u32) camera_render_target_singleton != 0U) {
-        ((TObjPlayer *)camera_render_target_singleton)->reset_lobby_subobject();
-    }
-    if ((u32) camera_render_target_singleton != 0U) {
-        ::operator delete((void *)camera_render_target_singleton);
-        camera_render_target_singleton = 0U;
-    }
-}
-void TObjPlayer::init_render_target_singleton() {
-    u32 temp_r3;
-    camera_render_target_singleton = 0U;
-    if (get_current_floor_area() == AREA_GOL_DRAGON) {
-        temp_r3 = (int)::operator new(0x28);
-        camera_render_target_singleton = temp_r3;
-        if (temp_r3 != 0U) {
-            init_render_target__10TObjPlayerFv();
-        }
-    }
-}
-void TUnk_8048E5F4::render() {
-    if (!(get_camera_capture_flags() & 4)) {
-        if (*(s32 *)&this->unk_1C & 1) {
-            if (test_camera_capture_flags_bits01() == 1) {
-                TCameraCtrl::restore_full_screen_view();
-                TParticleCtrl::begin_effect_render();
-                TObjPlayer::draw_screen_quad(camera_capture_overlay_alpha << 0x18, 0, 0.0f);
-                TParticleCtrl::end_effect_render();
-                TCameraCtrl__sub_80068EF0();
-                disable_camera_capture_overlay();
-            }
-        } else {
-            set_camera_capture_flags_bit0();
-            capture_viewport_texture();
-        }
-        if (TObjPlayer::get_camera_flag() != 0) {
-            clear_camera_flag();
-            init_tev_swap();
-        }
-    }
-}
-void TUnk_8048E5F4::render_shadows() { if (TObjPlayer::get_camera_flag() != 0) { set_tev_swap_mode((u8)((void*)0)); } }
-void TUnk_8048E5F4::run_task() {  }
-void *__dt__13TUnk_8048E5F4Fv(void *object, s16 arg1) {
-    if (object != NULL) {
-        *(s32 **)((s8 *)object + 0x18) = __vt__13TUnk_8048E5F4;
-        __dt__7TObjectFv(object, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(object);
-        }
-    }
-    return object;
-}
-void *TUnk_8048E5F4::init_subobject(void *parent, void *flags) {
-    __ct__7TObjectFP7TObject(this, parent);
-    *(s32 **)((s8 *)this + 0x18) = __vt__13TUnk_8048E5F4;
-    *(void * *)&this->unk_1C = flags;
-    return this;
-}
-
-extern s32 model_render_flags;
-}
-void set_ginja_post_texgen_count(s32 x);
-void set_ginja_post_tev_stage_count(s32 x);
-void reset_particle_tev() {
-    if (is_split_screen() == 0) {
-        set_ginja_post_tev_stage_count(0);
-        set_ginja_post_texgen_count(0);
-        model_render_flags &= 0xFFF7FFFF;
-    }
-}
-
-
-struct Rect_80083F38 { u8 data[0x20]; };
-
-struct Rect_800846C8 { u8 data[0x20]; };
-
-struct View_80083D54 {
-    u8 pad0[0x178];
-    Vec pos;
-    Vec target;
-};
-
-struct Mtx44_80083D54 { f32 m[4][4]; };
-
-extern "C" {
-void translate_current_matrix_ps(f32, f32, f32);
-void rotate_current_matrix_x_ps(s32);
-void push_identity_matrix_ps();
-}
-
-struct Stack_800836E8 {
-    f32 sp8;
-    f32 spC;
-    GC_Mtx sp10;
-};
-
-extern "C" {
-s32 TCameraCtrl__sub_800689F4();
-s32 rotate_matrix_y(int, void *);
-s32 push_matrix();
-s32 GXSetTevOp(s32, s32);
-s32 GXSetTevOrder(s32, s32, s32, s32);
-}
-void calc_projection_screen_offset(f32 *arg0, f32 *arg1);
-f32 calc_camera_fov_degrees(void);
-void load_current_pos_matrix(s32 arg0);
-void load_current_tex_matrix(s32 i);
-extern GC_Mtx *current_matrix;
-
-
-void TObjPlayer::setup_tev_stage() {
-    if (is_split_screen() == 0) {
-        GXSetTevOrder(1, 1, 1, 4);
-        GXSetTevOp(1, 2);
-        TObjPlayer::set_tex_coord_gen(1, 0, 0, 0x1E);
-        TObjFish::set_global_param((s32)&shared_capture_texture_list);
-        load_list_texture(0, 0, 0, 1);
-        model_render_flags |= 0x80000;
-        set_ginja_post_tev_stage_count(1);
-        set_ginja_post_texgen_count(1);
-    }
-}
-
-void setup_particle_tev(s32 arg0) {
-    if (is_split_screen() == 0) {
-        GXSetTevOrder(1, 1, 1, 4);
-        if (arg0 != 0) {
-            GXSetTevOp(1, 0);
-        } else {
-            GXSetTevOp(1, 1);
-        }
-        TObjPlayer::set_tex_coord_gen(1, 0, 0, 0x1E);
-        TObjFish::set_global_param((s32)&shared_capture_texture_list);
-        load_list_texture(0, 0, 0, 1);
-        model_render_flags |= 0x80000;
-        set_ginja_post_tev_stage_count(1);
-        set_ginja_post_texgen_count(1);
-    }
-}
-
-void load_projected_texture_matrix(f32 farg0) {
-    typedef char sp8_offset[(offsetof(Stack_800836E8, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_800836E8, spC) == 0x4) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_800836E8, sp10) == 0x8) ? 1 : -1];
-    Stack_800836E8 stack;
-    f32 temp_f31;
-    if (is_split_screen() == 0) {
-        calc_projection_screen_offset(&stack.spC, &stack.sp8);
-        push_matrix();
-        temp_f31 = (f32) (0.0054931640625 * calc_camera_fov_degrees());
-        if (TCameraCtrl__sub_800689F4() != 0) {
-            C_MTXLightPerspective(stack.sp10, temp_f31, farg0, 0.5f, -0.5f, (f32) (0.5f - stack.spC), (f32) (0.5f - stack.sp8));
-        } else {
-            C_MTXLightPerspective(stack.sp10, temp_f31, farg0, 0.5f, -0.5f, 0.5f, 0.5f);
-        }
-        PSMTXConcat(stack.sp10, *current_matrix, *current_matrix);
-        load_current_tex_matrix(0);
-        pop_matrix();
-        load_current_pos_matrix(0);
-    }
-}
-
-void load_projection_tex_matrix(s32 rotation_y) {
-    GC_Mtx sp10;
-    f32 spC;
-    f32 sp8;
-    f32 temp_f31;
-    if (is_split_screen() == 0) {
-        calc_projection_screen_offset(&spC, &sp8);
-        push_matrix();
-        rotate_matrix_y(0, (void *)rotation_y);
-        temp_f31 = (f32) (0.0054931640625 * calc_camera_fov_degrees());
-        if (TCameraCtrl__sub_800689F4() != 0) {
-            C_MTXLightPerspective(sp10, temp_f31, 1.1333334f, 0.5f, -0.5f, (f32) (0.5f - spC), (f32) (0.5f - sp8));
-        } else {
-            C_MTXLightPerspective(sp10, temp_f31, 1.1333334f, 0.5f, -0.5f, 0.5f, 0.5f);
-        }
-        PSMTXConcat(sp10, *current_matrix, *current_matrix);
-        load_current_tex_matrix(0);
-        pop_matrix();
-        load_current_pos_matrix(0);
-    }
-}
-
-
-struct Stack_80083914 {
-    f32 sp8;
-    u8 pad_C[0x4];
-    GC_Mtx sp10;
-};
-
-
-extern "C" {
-s32 C_MTXLightFrustum(void *, f32, f32, f32, f32, f32, f32, f32, f32);
-f32 rotate_matrix_by_node_angles(void *, int);
-f64 get_end_text_value__10TObjPlayerFv(f32);
-f32 sin_table_lookup(int);
-f32 cos_table_lookup(int);
-void TScene::apply_single_screen_state() {
-    if ((is_split_screen() == 0) && (TObjPlayer::check_all_players_ready() != 0)) {
-        model_render_flags &= 0xFFF7FFFF;
-        set_ginja_post_tev_stage_count(0);
-        set_ginja_post_texgen_count(0);
-    }
-}
-#pragma push
-#pragma opt_common_subs off
-void render_projected_shadow_receiver(u8 *arg0, s32 arg1) {
-    typedef char sp8_offset[(offsetof(Stack_80083914, sp8) == 0x0) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_80083914, sp10) == 0x8) ? 1 : -1];
-    Stack_80083914 stack;
-    f32 t;
-    f32 r;
-    if ((is_split_screen() == 0) && (TObjPlayer::check_all_players_ready() != 0)) {
-        push_identity_matrix_ps();
-        translate_current_matrix_ps(0.0f, 0.0f, -15000.0f);
-        rotate_current_matrix_x_ps(0x3800);
-        translate_current_matrix_ps(-shadow_light_position.x, -shadow_light_position.y, -shadow_light_position.z);
-        translate_current_matrix_ps(*(f32 *)((s8 *)arg0 + 0), *(f32 *)((s8 *)arg0 + 4), *(f32 *)((s8 *)arg0 + 8));
-        rotate_matrix_by_node_angles((void *)arg1, 1);
-        stack.sp8 = 0.5f;
-        t = 2.1f;
-        r = -2.1f;
-        C_MTXLightFrustum(stack.sp10, -t, t, r, -r, 500.0f, 0.5f, 0.5f, 0.5f);
-        PSMTXConcat(stack.sp10, *current_matrix, *current_matrix);
-        load_current_tex_matrix(0);
-        pop_matrix();
-        load_current_pos_matrix(0);
-        GXSetTevOrder(1, 1, 1, 4);
-        GXSetTevOp(1, 1);
-        TObjPlayer::set_tex_coord_gen(1, 0, 0, 0x1E);
-        model_render_flags |= 0x80000;
-        set_ginja_post_tev_stage_count(((int) (1U)));
-        set_ginja_post_texgen_count(((int) (1U)));
-    }
-}
-}
-#pragma pop
-
-f32 calc_camera_fov_degrees(void) {
-    f32 temp_f2;
-    f32 temp_f31;
-    f32 var_f1;
-    s32 temp_r31;
-    var_f1 = 11832.0f;
-    if ((void *) camera_ctrl_instance != NULL) {
-        temp_f2 = (f32) (*(s32 *)((s8 *)camera_ctrl_instance + 0x19C));
-        temp_f2 *= 0.85f;
-        temp_r31 = (s32) (temp_f2 / 2.0f);
-        temp_f31 = cos_table_lookup(temp_r31);
-        var_f1 = (f32) ((s32) (10430.38043493439 * get_end_text_value__10TObjPlayerFv((f32) ((sin_table_lookup(temp_r31) / temp_f31) / 1.1333334f))) * 2);
-    }
-    return var_f1;
-}
-
-
-int lbl_805D4EE0;
-unsigned char camera_capture_flags;
-u32 camera_render_target_singleton;
-extern "C" {
-void TObjPlayer__sub_80083FB0(void);
-int TObjPlayer__sub_80083F9C(void);
-void *get_player_by_client_id(s32 i);
-s32 is_inactive__10TObjPlayerFv();
-void reset_and_release_capture_texture(void);
-void reset_and_init_capture_texture(void);
-void clear_camera_flag(void);
-void set_camera_capture_flags_bit0(void);
-void **release_texture_list();
-void **TObjPlayer__sub_80083F04(void);
-s32 is_in_shadow_range(u8 *arg0, f32 farg0);
-s32 get_capture_texture_pixels(void);
-void TObjPlayer__sub_80084500(void);
-void set_texture_name(void *, void *, int, int);
-s32 load_texture_list(void *);
-void TObjPlayer__sub_80083F38(void);
-void **release_shared_capture_texture(void);
-u8 get_display_copy_filter();
-s32 Dolphin_GXSetCopyFilter(int, void *, int, void *);
-s32 GXSetProjection(void *, int);
-s32 pop_matrix();
-void TObjPlayer__sub_80083FA4(void);
-void C_MTXFrustum(void *, f32, f32, f32, f32, f32, f32);
-f32 vec_squared_length(void *);
-void normalize_vector(void *);
-void TObjPlayer__sub_800847FC(void);
-void GXTexCoord2f32_80083594(f32 farg0, f32 farg1);
-void GXColor1u32_80083594(s32 arg0);
-void GXPosition3f32_80083594(f32 farg0, f32 farg1, f32 farg2);
-s32 Dolphin_GXSetVtxDesc(s32, s32);
-s32 GXClearVtxDesc();
-s32 GXSetVtxAttrFmt(s32, s32, s32, s32, s32);
-s32 GXSetNumTexGens(s32);
-s32 GXBegin(s32, s32, s32);
-s32 GXSetNumChans(s32);
-}
-void disable_camera_capture_overlay(void);
-void init_capture_texture(s32 wide);
-void set_ginja_draw_flags(s32 arg0);
-void set_light_ambient_color(f32 r, f32 g, f32 b);
-void submit_light0(s32 arg0, s32 arg1);
-void load_gx_light_slot(s32 arg0);
-extern s32 scene_projection_state[];
-extern u8 *active_gx_render_mode;
-extern GXColor_80083B8C lbl_805E120C;
-extern GXColor_80083B8C lbl_805E1208;
-void capture_viewport_texture(void);
-void setup_blended_textured_draw(void);
-
-void TObjPlayer::draw_if_all_ready() {
-    if ((is_split_screen() == 0) && (TObjPlayer::check_all_players_ready() != 0)) {
-        TObjFish::set_global_param((s32)&shadow_map_texture_list);
-        load_list_texture(0, 0, 0, 1);
-    }
-}
-
-#pragma push
-#pragma fp_contract on
-
-void end_shadow_map_pass() {
-    u8 *temp_r31;
-    if ((is_split_screen() == 0) && (TObjPlayer::check_all_players_ready() != 0) && ((u32) camera_ctrl_instance != 0U)) {
-        pop_matrix();
-        pop_matrix();
-        GXColor_80083B8C c = lbl_805E120C;
-        Dolphin_GXSetCopyFilter((int) (0U), NULL, (int) (0U), NULL);
-        set_cull_none();
-        GXSetCopyClear(c, 0xFFFFFF);
-        GXSetTexCopySrc(0, 0, 0x100, 0x100);
-        GXSetTexCopyDst(0x100, 0x100, 2, 0);
-        GXCopyTex(shadow_map_texture_list.entries->texture->surface->pixels, 1);
-        GXPixModeSync();
-        temp_r31 = active_gx_render_mode;
-        Dolphin_GXSetCopyFilter((int) (*(u8 *)((s8 *)temp_r31 + 0x19)), temp_r31 + 0x1A, (int) (get_display_copy_filter()), temp_r31 + 0x32);
-        GXSetViewport(0.0f, 0.0f, 640.0f, 480.0f, 0.0f, 1.0f);
-        GXSetScissor(0, 0, 0x280, 0x1E0);
-        GXSetProjection(scene_projection_state, 0);
-        set_light_ambient_color(0.3f, 0.3f, 0.3f);
-        submit_light0(0, 1);
-        load_gx_light_slot(0);
-        set_ginja_draw_flags(0);
-        TCameraCtrl__sub_80068EF0();
-    }
-}
-
-s32 is_in_shadow_range(u8 *arg0, f32 farg0) {
-    if (((u32) camera_ctrl_instance != 0U) && (((farg0 * farg0) + horizontal_distance_squared((const Vec *)arg0, &shadow_light_position)) <= 8537.761f)) {
-        return 1;
-    }
-    return 0;
-}
-#pragma pop
-
-#pragma push
-#pragma fp_contract on
-#define VIEW ((View_80083D54 *)camera_ctrl_instance)
-void begin_shadow_map_pass(void) {
-    Mtx44_80083D54 proj;
-    Vec d;
-    f32 t;
-    f32 r;
-    if (is_split_screen() != 0) {
-        return;
-    }
-    TObjPlayer__sub_80083FA4();
-    if (TObjPlayer::check_all_players_ready() == 0) {
-        return;
-    }
-    TCameraCtrl::restore_full_screen_view();
-    if (camera_ctrl_instance == 0) {
-        return;
-    }
-    d.x = VIEW->target.x - VIEW->pos.x;
-    d.y = VIEW->target.y - VIEW->pos.y;
-    d.z = VIEW->target.z - VIEW->pos.z;
-    if (0.0f != vec_squared_length(&d)) {
-        normalize_vector(&d);
-        shadow_light_position.x = VIEW->pos.x + 0.4f * (256.0f * d.x);
-        shadow_light_position.y = VIEW->pos.y;
-        shadow_light_position.z = VIEW->pos.z + 0.4f * (256.0f * d.z);
-    } else {
-        shadow_light_position.x = 0.0f;
-        shadow_light_position.y = 0.0f;
-        shadow_light_position.z = 0.0f;
-    }
-    push_matrix();
-    GXSetViewport(0.0f, 0.0f, 256.0f, 256.0f, 0.0f, 1.0f);
-    GXSetScissor(1, 1, 0xFE, 0xFE);
-    t = 2.1f;
-    r = -2.1f;
-    C_MTXFrustum(&proj, t, -t, r, -r, 500.0f, 20000.0f);
-    GXSetProjection(&proj, 0);
-    set_light_ambient_color(1.0f, 1.0f, 1.0f);
-    submit_light0(0, 0);
-    load_gx_light_slot(0);
-    push_identity_matrix_ps();
-    translate_current_matrix_ps(0.0f, 0.0f, -15000.0f);
-    rotate_current_matrix_x_ps(0x3800);
-    translate_current_matrix_ps(-shadow_light_position.x, -shadow_light_position.y, -shadow_light_position.z);
-    set_ginja_draw_flags(2);
-}
-#pragma pop
-
-void **TObjPlayer__sub_80083F04(void) {
-    void **var_r3;
-    var_r3 = (void **)&shadow_map_texture_list;
-    if (shadow_map_texture_list.entries->texture != NULL) {
-        var_r3 = release_texture_list();
-    }
-    return var_r3;
-}
-
-void TObjPlayer__sub_80083F38(void) {
-    Rect_80083F38 r;
-    ((TObjPlayer *)(&r))->set_render_rect(0, 2, 0x100, 0x100);
-    set_texture_name(shadow_map_texture_list.entries, &r, 0x2EE1, 0x08800000);
-    load_texture_list(&shadow_map_texture_list);
-    lbl_805D4EE0 = 0;
-}
-
-int TObjPlayer__sub_80083F9C(void) {  return lbl_805D4EE0; }
-
-void TObjPlayer__sub_80083FA4(void) { lbl_805D4EE0 = 1; }
-void TObjPlayer__sub_80083FB0(void) { lbl_805D4EE0 = 0; }
-s32 TObjPlayer::check_all_players_ready() {
-    s32 flag;
-    s32 counter;
-    flag = 1;
-    if (((s32)TObjPlayer__sub_80083F9C()) == 0) {
-        return 0;
-    }
-    if (get_main_phase() == 0xF) {
-        counter = 0;
-        do {
-            if ((get_player_by_client_id(counter) != 0U) && (is_inactive__10TObjPlayerFv() == 0)) {
-                flag = 0;
-            }
-            counter += 1;
-        } while (counter < 4);
-    }
-    return flag;
-}
-
-void TObjPlayer::draw_screen_quad(u32 arg0, s32 arg1, f32 farg0) {
-    f32 temp_f31;
-    f32 temp_f30;
-    f32 temp_f30_2;
-    f32 s0;
-    f32 s1;
-    f32 z;
-    u32 temp_r31;
-    void *temp_r4;
-    void *temp_r4_2;
-    TObjFish::set_global_param((s32)&shared_capture_texture_list);
-    if (arg1 != 0) {
-        temp_r4 = shared_capture_texture_list.entries->texture->surface;
-        *(s32 *)((s8 *)temp_r4 + 0x10) = 0x100;
-        *(s32 *)((s8 *)temp_r4 + 0x14) = 0xC0;
-    }
-    load_list_texture(0, 0, 0, 0);
-    set_default_alpha_blend();
-    TObjPlayer::load_screen_space_matrix();
-    setup_blended_textured_draw();
-    GXSetNumTexGens(1);
-    GXSetNumChans(1);
-    TObjPlayer::set_tex_coord_gen(0, 1, 4, 0x3C);
-    GXSetTevOp(0, 1);
-    GXSetTevOrder(0, 0, 0, 4);
-    GXClearVtxDesc();
-    Dolphin_GXSetVtxDesc(9, 1);
-    Dolphin_GXSetVtxDesc(0xB, 1);
-    Dolphin_GXSetVtxDesc(0xD, 1);
-    GXSetVtxAttrFmt(4, 9, 1, 4, 0);
-    GXSetVtxAttrFmt(4, 0xB, 1, 5, 0);
-    GXSetVtxAttrFmt(4, 0xD, 1, 4, 0);
-    GXBegin(0x80, 4, 4);
-    z = -2.0f;
-    temp_f31 = -farg0 * z;
-    GXPosition3f32_80083594(temp_f31, temp_f31, z);
-    temp_r31 = (arg0 << 8) | (arg0 >> 24);
-    GXColor1u32_80083594(temp_r31);
-    GXTexCoord2f32_80083594(0.0f, 0.0f);
-    s0 = 640.0f + farg0;
-    temp_f30 = s0 * z;
-    GXPosition3f32_80083594(temp_f30, temp_f31, z);
-    GXColor1u32_80083594(temp_r31);
-    GXTexCoord2f32_80083594(1.0f, 0.0f);
-    s1 = 480.0f + farg0;
-    temp_f30_2 = s1 * z;
-    GXPosition3f32_80083594(temp_f30, temp_f30_2, z);
-    GXColor1u32_80083594(temp_r31);
-    GXTexCoord2f32_80083594(1.0f, 1.0f);
-    GXPosition3f32_80083594(temp_f31, temp_f30_2, z);
-    GXColor1u32_80083594(temp_r31);
-    GXTexCoord2f32_80083594(0.0f, 1.0f);
-    TObjPlayer__sub_800847FC();
-    set_default_alpha_blend();
-    if (arg1 != 0) {
-        temp_r4_2 = shared_capture_texture_list.entries->texture->surface;
-        *(s32 *)((s8 *)temp_r4_2 + 0x10) = 0x280;
-        *(s32 *)((s8 *)temp_r4_2 + 0x14) = 0x1E0;
-    }
-}
-
-void TObjPlayer::draw_textured_screen_quad(u32 arg0, f32 *arg1, f32 *arg2, s32 arg3) {
-    u32 temp_r31;
-    void *temp_r4;
-    void *temp_r4_2;
-    f32 z;
-    TObjFish::set_global_param((s32)&shared_capture_texture_list);
-    if (arg3 != 0) {
-        temp_r4 = shared_capture_texture_list.entries->texture->surface;
-        *(s32 *)((s8 *)temp_r4 + 0x10) = 0x100;
-        *(s32 *)((s8 *)temp_r4 + 0x14) = 0xC0;
-    }
-    load_list_texture(0, 0, 0, 0);
-    set_default_alpha_blend();
-    TObjPlayer::load_screen_space_matrix();
-    setup_blended_textured_draw();
-    GXSetNumTexGens(1);
-    GXSetNumChans(1);
-    TObjPlayer::set_tex_coord_gen(0, 1, 4, 0x3C);
-    GXSetTevOp(0, 1);
-    GXSetTevOrder(0, 0, 0, 4);
-    GXClearVtxDesc();
-    Dolphin_GXSetVtxDesc(9, 1);
-    Dolphin_GXSetVtxDesc(0xB, 1);
-    Dolphin_GXSetVtxDesc(0xD, 1);
-    GXSetVtxAttrFmt(4, 9, 1, 4, 0);
-    GXSetVtxAttrFmt(4, 0xB, 1, 5, 0);
-    GXSetVtxAttrFmt(4, 0xD, 1, 4, 0);
-    GXBegin(0x80, 4, 4);
-    z = -1.0f;
-    GXPosition3f32_80083594(arg1[0] * z, arg1[1] * z, z);
-    temp_r31 = (arg0 << 8) | (arg0 >> 24);
-    GXColor1u32_80083594(temp_r31);
-    GXTexCoord2f32_80083594(0.0f, 0.0f);
-    GXPosition3f32_80083594(z * (arg1[0] + arg2[0]), arg1[1] * z, z);
-    GXColor1u32_80083594(temp_r31);
-    GXTexCoord2f32_80083594(1.0f, 0.0f);
-    GXPosition3f32_80083594(z * (arg1[0] + arg2[0]), z * (arg1[1] + arg2[1]), z);
-    GXColor1u32_80083594(temp_r31);
-    GXTexCoord2f32_80083594(1.0f, 1.0f);
-    GXPosition3f32_80083594(arg1[0] * z, z * (arg1[1] + arg2[1]), z);
-    GXColor1u32_80083594(temp_r31);
-    GXTexCoord2f32_80083594(0.0f, 1.0f);
-    TObjPlayer__sub_800847FC();
-    set_default_alpha_blend();
-    if (arg3 != 0) {
-        temp_r4_2 = shared_capture_texture_list.entries->texture->surface;
-        *(s32 *)((s8 *)temp_r4_2 + 0x10) = 0x280;
-        *(s32 *)((s8 *)temp_r4_2 + 0x14) = 0x1E0;
-    }
-}
-
-void TObjPlayer__sub_80084500(void) {
-    TObjFish::set_global_param((s32)&shared_capture_texture_list);
-    load_list_texture(0, 0, 0, 0);
-}
-
-void capture_viewport_texture(void) {
-    if (!(camera_capture_flags & 4)) {
-        GXColor_80083B8C c = lbl_805E1208;
-        GXSetCopyClear(c, 0xFFFFFF);
-        GXSetTexCopySrc(0, 0, 0x280, 0x1E0);
-        GXSetTexCopyDst(0x280, 0x1E0, 4, 0);
-        if (camera_capture_flags & 8) {
-            GXCopyTex(shared_capture_texture_list.entries->texture->surface->pixels, 1);
-        } else {
-            GXCopyTex(shared_capture_texture_list.entries->texture->surface->pixels, 0);
-        }
-        GXPixModeSync();
-    }
-}
-
-s32 get_capture_texture_pixels(void) {
-    return (s32)shared_capture_texture_list.entries->texture->surface->pixels;
-}
-
-void reset_and_release_capture_texture(void) { camera_capture_flags = 0; release_shared_capture_texture(); }
-void reset_and_init_capture_texture(void) { camera_capture_flags = 0; init_capture_texture((s32)((void*)0)); }
-void TObjPlayer::reset_movie_state() { camera_capture_flags = 0; init_capture_texture((s32)((void*)1)); }
-
-void **release_shared_capture_texture(void) {
-    void **var_r3;
-    var_r3 = (void **)&shared_capture_texture_list;
-    if (shared_capture_texture_list.entries->texture != NULL) {
-        var_r3 = release_texture_list();
-    }
-    return var_r3;
-}
-
-void init_capture_texture(s32 wide) {
-    Rect_800846C8 r;
-    s32 mode;
-    u16 w;
-    u16 h;
-    if (wide != 0) {
-        mode = 6;
-        w = 640;
-        h = 480;
-    } else {
-        mode = 4;
-        w = 640;
-        h = 480;
-    }
-    ((TObjPlayer *)(&r))->set_render_rect(0, mode, w, h);
-    set_texture_name(shared_capture_texture_list.entries, &r, 0x2EE0, 0x08800000);
-    load_texture_list(&shared_capture_texture_list);
-}
-
-void clear_camera_capture_flags_bit2(void) { (*(u8 *)&camera_capture_flags) = ((*(u8 *)&camera_capture_flags) & 0xfffffffb); }
-void set_camera_capture_flags_bit2(void) { (*(u8 *)&camera_capture_flags) = ((*(u8 *)&camera_capture_flags) | 0x4); }
-void clear_camera_flag(void) { (*(u8 *)&camera_capture_flags) = ((*(u8 *)&camera_capture_flags) & 0xffffffef); }
-s32 TObjPlayer::get_camera_flag() {
-    return ((u8) (*(u8 *)&camera_capture_flags) >> 4U) & 1;
-}
-void set_camera_capture_flags_bit0(void) { (*(u8 *)&camera_capture_flags) = ((*(u8 *)&camera_capture_flags) | 0x1); }
-void disable_camera_capture_overlay(void) {
-  int temp = (*(u8 *)&camera_capture_flags);
-  (*(u8 *)&camera_capture_flags) = temp & (~2);
-  camera_capture_overlay_alpha = 0x8F;
-}
-
-
-extern "C" {
-f64 atan();
-s32 GXSetTexCoordGen2(s32 a0 = 0, s32 a1 = 0, s32 a2 = 0, s32 a3 = 0, s32 a4 = 0, s32 a5 = 0);
-s32 test_camera_capture_flags_bits01(void) {
-    if ((camera_capture_flags & 2) && (camera_capture_flags & 1)) {
-        return 1;
-    }
-    return 0;
-}
-unsigned char get_camera_capture_flags(void) {  return camera_capture_flags; }
-void TObjPlayer::set_tex_coord_gen(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
-    GXSetTexCoordGen2(arg0, arg1, arg2, arg3, 0, 0x7D);
-}
-void TObjPlayer__sub_800847FC(void) {  }
-f32 TObjPlayer::get_end_text_value() {
-    return (f32) atan();
-}
-void GXTexCoord2f32_80083594(f32 farg0, f32 farg1) {
-    *(f32 *)0xCC008000 = farg0;
-    *(f32 *)0xCC008000 = farg1;
-}
-
-void GXColor1u32_80083594(s32 arg0) {
-    *(s32 *)0xCC008000 = arg0;
-}
-
-void GXPosition3f32_80083594(f32 farg0, f32 farg1, f32 farg2) {
-    *(f32 *)0xCC008000 = farg0;
-    *(f32 *)0xCC008000 = farg1;
-    *(f32 *)0xCC008000 = farg2;
-}
-
-int TObjPlayer::is_inactive() { return this->m_cfc == 0; }
-
-}

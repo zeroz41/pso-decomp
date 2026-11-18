@@ -713,7 +713,7 @@ void TWindowKeyBoardHard::run_task() {
 
 TWindowKeyBoardHard::~TWindowKeyBoardHard() {}
 u8 *TWindowKeyBoardHard__ct(TWindowKeyBoardHard *window_key_board_hard, s32 arg1) {
-    ((TWindowDD *)window_key_board_hard)->construct_base((u8 *)&lbl_804CFAD0, (s16)(4), (u8 *)(get_window_layout_position(0xB9)));
+    __ct__11TWindowBaseFPUcsPUc(window_key_board_hard, (u8 *)&lbl_804CFAD0, (s16)(4), (u8 *)(get_window_layout_position(0xB9)));
     *(s32 **)((s8 *)window_key_board_hard + 0x18) = __vt__19TWindowKeyBoardHard;
     window_key_board_hard->m_name = TWindowKeyBoardHard__name;
     window_key_board_hard->m_60 = 0;

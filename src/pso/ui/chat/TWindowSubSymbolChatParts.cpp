@@ -156,7 +156,6 @@ s32 get_message_10__20TWindowSubStatusDispFl(s32);
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, s32);
 s32 play_sound_effect(s32, s32, s32, s32);
 s32 get_draw_context__11TWindowBaseFPv();
-void construct_with_parent__15TWindowAdditionFPv(void *, void *, s32, void *);
 void clamp_list_scroll_offset(s32, NJS_POINT2 *, NJS_POINT2 *);
 s32 draw_window_scrollbar(s32, s32, void *);
 void * reset_selection__20TWindowSubStatusDispFv(void *, NJS_POINT2 *);
@@ -574,7 +573,7 @@ Parts_80285D38 *TWindowSubSymbolChatParts__ct(Parts_80285D38 *arg0, void *arg1, 
     NJS_POINT2 v;
     void *p;
     void *q;
-    construct_with_parent__15TWindowAdditionFPv(arg0, &symbol_chat_parts_window_layout, 4, arg1);
+    __ct__15TWindowAdditionFPUcsPUc(arg0, (u8 *)&symbol_chat_parts_window_layout, (s16)4, (u8 *)arg1);
     arg0->vt = __vt__25TWindowSubSymbolChatParts;
     arg0->f0 = (s32)TWindowSubSymbolChatParts__name;
     arg0->f70 = 0;

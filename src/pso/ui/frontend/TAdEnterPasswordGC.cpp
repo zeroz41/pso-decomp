@@ -254,26 +254,26 @@ void *__dt__18TAdEnterPasswordGCFv(void *ad_enter_base_gc, s16 arg1) {
 
 extern u32 lbl_805D6CB8;
 
-u8 *TAdEnterPasswordGC__ct(u8 *parent) {
+u8 *TAdEnterPasswordGC__ct(u8 *self, TObject *parent) {
     u32 temp_r3;
-    TAdEnterBaseGC__ct((parent));
-    *(s32 **)((s8 *)parent + 0x18) = __vt__18TAdEnterPasswordGC;
-    *(s32 *)((s8 *)parent + 0) = (s32) TAdEnterPasswordGC__class_name;
-    ((TAdEnterBaseGC *)parent)->sub_8032B460(2);
+    __ct__14TAdEnterBaseGCFP7TObject(self, parent);
+    *(s32 **)((s8 *)self + 0x18) = __vt__18TAdEnterPasswordGC;
+    *(s32 *)((s8 *)self + 0) = (s32) TAdEnterPasswordGC__class_name;
+    ((TAdEnterBaseGC *)self)->sub_8032B460(2);
     password_entry_dispatch_state = 0;
-    *(s32 *)((s8 *)parent + 0x40) = 0;
+    *(s32 *)((s8 *)self + 0x40) = 0;
     if ((s8) *(u8 *)((s8 *)(TAdSinglePlyChrSelectGC::get_instance()) + 0x1154C) != 0) {
         set_password__18TAdEnterPasswordGCFi((s32)((void *) (TAdSinglePlyChrSelectGC::get_instance() + 0x1154C)));
         request_main_phase(0xF);
-        ((TObject *)parent)->queue_destruction();
-        return parent;
+        ((TObject *)self)->queue_destruction();
+        return self;
     }
-    ((TAdEnterBaseGC *)parent)->create_parts();
+    ((TAdEnterBaseGC *)self)->create_parts();
     temp_r3 = __nw__7TObjectFUl(0x138);
     if (temp_r3 != 0U) {
-        __ct__10TAdTitleGCFP7TObjectl(temp_r3, parent, 0xC);
+        __ct__10TAdTitleGCFP7TObjectl(temp_r3, self, 0xC);
     }
-    return parent;
+    return self;
 }
 
 void clear_password__18TAdEnterPasswordGCFPv(T_8032BBF0 *self) {

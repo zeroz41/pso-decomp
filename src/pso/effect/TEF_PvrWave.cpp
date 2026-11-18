@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/effect/TEF_PvrWave.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/unk/TUnk_804C57E0.h"
 
 struct Tex_80081A30 {
     u32 a;
@@ -38,7 +38,7 @@ TEF_PvrWave::~TEF_PvrWave() {
     list->entries[((Wave_80081A30 *)this)->index].c = ((Wave_80081A30 *)this)->saved.c;
     list->entries[((Wave_80081A30 *)this)->index].b = ((Wave_80081A30 *)this)->saved.b;
     list->entries[((Wave_80081A30 *)this)->index].a = ((Wave_80081A30 *)this)->saved.a;
-    ((TAdSinglePlyChrSelectGC *)(((Wave_80081A30 *)this)->wave))->destroy_and_free(1);
+    __dt__13TUnk_804C57E0Fv(((Wave_80081A30 *)this)->wave, 1);
 }
 
 extern "C" {
@@ -61,7 +61,7 @@ Wave_80081A30 *construct_pvr_wave__6TSceneFPvPvPvii(Wave_80081A30 *self, void *p
         p = construct_texture_wave(p, &self->tex);
     }
     self->wave = p;
-    ((TAdSinglePlyChrSelectGC *)(self->wave))->init_image_buffer((u8 *)image, (s32)size);
+    ((TUnk_804C57E0 *)(self->wave))->init_image_buffer((u8 *)image, (s32)size);
     list = TScene__sub_80081B24()->texList;
     self->saved.c = list->entries[index].c;
     self->saved.b = list->entries[index].b;

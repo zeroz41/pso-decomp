@@ -112,7 +112,7 @@ extern s32 __vt__19TWindowDD_WS_String[];
 
 TWindowDD_WS_String *TWindowDD__sub_8034138C(TWindowDD_WS_String *self, f32 *pos, f32 *size, u32 str, s32 style) {
     u8 *entry;
-    ((TWindowDD *)self)->construct_base((u8 *)&TWindowDD__data_804EFC24, 4, (u8 *)pos);
+    __ct__11TWindowBaseFPUcsPUc(self, (u8 *)&TWindowDD__data_804EFC24, 4, (u8 *)pos);
     *(s32 **)((s8 *)self + 0x18) = __vt__19TWindowDD_WS_String;
     self->m_name = lbl_805D42D8;
     ((TWindowSubSymbolChatPartsSet *)self->pad_64)->copy_vec2(pos);

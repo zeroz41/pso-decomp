@@ -15,7 +15,7 @@ extern "C" {
 u8 *apply_rel_relocations(Obj_800F9C00 *arg0);
 void __ct__7TObjectFP7TObject(void *, s32);
 
-extern s32 lbl_8049C658[];
+extern s32 __vt__13TUnk_8049C658[];
 
 #pragma opt_propagation off
 u8 *apply_rel_relocations(Obj_800F9C00 *arg0) {
@@ -40,13 +40,13 @@ u8 *apply_rel_relocations(Obj_800F9C00 *arg0) {
 
 void *TUnk_8049C658::ct_object() {
     ((void (*)(void *))__ct__7TObjectFP7TObject)(this);
-    *(s32 **)((s8 *)this + 0x18) = lbl_8049C658;
+    *(s32 **)((s8 *)this + 0x18) = __vt__13TUnk_8049C658;
     return this;
 }
 
 void *TUnk_8049C658::construct() {
     __ct__7TObjectFP7TObject(this, 0);
-    *(s32 **)((s8 *)this + 0x18) = lbl_8049C658;
+    *(s32 **)((s8 *)this + 0x18) = __vt__13TUnk_8049C658;
     return this;
 }
 

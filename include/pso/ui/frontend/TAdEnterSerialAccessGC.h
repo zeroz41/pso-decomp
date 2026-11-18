@@ -48,7 +48,7 @@ struct TAdEnterSerialAccessGC : public TAdEnterBaseGC {
 typedef char TAdEnterSerialAccessGC_size[sizeof(TAdEnterSerialAccessGC) == 0x68 ? 1 : -1];
 
 extern "C" {
-u8 *TAdEnterSerialAccessGC__ct(TAdEnterSerialAccessGC *arg0);
+u8 *TAdEnterSerialAccessGC__ct(TAdEnterSerialAccessGC *arg0, TObject *parent);
 u8 *TAdEnterSerialAccessGC__sub_80321738(void);
 s32 *TAdEnterSerialAccessGC__sub_803217B8(void);
 s32 *TAdEnterSerialAccessGC__sub_80321874(void);
@@ -65,7 +65,7 @@ void init__22TAdEnterSerialAccessGCFv(void);
 
 // --- C functions defined in TAdEnterSerialAccessGC.cpp ---
 extern "C" {
-u8 *TAdEnterSerialAccessGC__ct(TAdEnterSerialAccessGC *ad_enter_serial_access_gc);
+u8 *TAdEnterSerialAccessGC__ct(TAdEnterSerialAccessGC *ad_enter_serial_access_gc, TObject *parent);
 u8 *TAdEnterSerialAccessGC__sub_80321738(void);
 s32 *TAdEnterSerialAccessGC__sub_803217B8(void);
 s32 *TAdEnterSerialAccessGC__sub_80321874(void);

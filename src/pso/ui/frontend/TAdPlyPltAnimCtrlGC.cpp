@@ -1,3 +1,5 @@
+#pragma defer_codegen on
+
 #include "types.h"
 #include "pso/ui/frontend/TAdPlyPltAnimCtrlGC.h"
 #include "pso/ui/frontend/TAdPlyPltAnimGC.h"
@@ -17,45 +19,44 @@ extern "C" {
 s32 __ct__7TObjectFP7TObject(void *, void *);
 extern s32 __vt__19TAdPlyPltAnimCtrlGC[];
 s32 TAdPlyPltAnimCtrlGC__sub_80355148(O_80355148 *self);
-s32 __dl__7TObjectFPv(void *);
-s32 __dt__7TObjectFv(void *, s32);
 u32 __nw__7TObjectFUl(s32);
-
-u8 fn_8035510C(s32 *arg0, s32 arg1) {
-    return (u8) (arg1 == (arg1 & *arg0));
-}
-
-void TAdPlyPltAnimCtrlGC::render() {
-    if (TMainTask::get_render_pass() == 1) {
-        return;
-    }
-}
-
-s32 TAdPlyPltAnimCtrlGC__sub_80355148(O_80355148 *self) {
-    s32 r = 1;
-    if (self->state == 7 || self->state == 0) {
-        r = 0;
-    }
-    return r;
-}
-
-void TAdPlyPltAnimCtrlGC__sub_80355168(u8 *arg0) {
-    s32 var_r31;
-    var_r31 = 0;
-    *(s32 *)((s8 *)arg0 + 0x1C) = 0;
-    *(s32 *)((s8 *)arg0 + 0x20) = -1;
-    do {
-        TAdPlyPltAnimGC *anim = TAdPlyPltAnimCtrlGC::get_table_value(var_r31);
-        if (anim != NULL) {
-            anim->sub_80355D38();
-        }
-        var_r31 += 1;
-    } while (var_r31 < 5);
-}
-
-void TAdPlyPltAnimCtrlGC::init(void* a1) { TAdPlyPltAnimCtrlGC__sub_80355168((u8 *)this); ((TWindowSubSymbolChatPartsSet *)((char*)this + 0x24))->copy_vec2(a1); this->m_1c = 1; }
-
 u32 plyplt_anim_ctrl_instance;
+
+TAdPlyPltAnimGC *TAdPlyPltAnimCtrlGC::get_table_value(int a0) { return TAdPlyPltAnimGC__instances[a0]; }
+
+u32 TAdPlyPltAnimCtrlGC::get_instance(s32 arg0) {
+    u32 ad_ply_plt_anim_ctrl_gc;
+
+    if ((u32) plyplt_anim_ctrl_instance == 0U) {
+        ad_ply_plt_anim_ctrl_gc = __nw__7TObjectFUl(0x2C);
+        if (ad_ply_plt_anim_ctrl_gc != 0U) {
+            ad_ply_plt_anim_ctrl_gc = ((u32)TAdPlyPltAnimCtrlGC__ct((TAdPlyPltAnimCtrlGC *)((u8 *)ad_ply_plt_anim_ctrl_gc), (s32)arg0));
+        }
+        plyplt_anim_ctrl_instance = ad_ply_plt_anim_ctrl_gc;
+    }
+    return plyplt_anim_ctrl_instance;
+}
+
+u8 *TAdPlyPltAnimCtrlGC__ct(TAdPlyPltAnimCtrlGC *ad_ply_plt_anim_ctrl_gc, s32 arg1) {
+    s32 index;
+    __ct__7TObjectFP7TObject((void *)ad_ply_plt_anim_ctrl_gc, (void *)arg1);
+    *(s32 **)((s8 *)ad_ply_plt_anim_ctrl_gc + 0x18) = __vt__19TAdPlyPltAnimCtrlGC;
+    index = 0;
+    ad_ply_plt_anim_ctrl_gc->m_name = TAdPlyPltAnimCtrlGC__class_name;
+    ad_ply_plt_anim_ctrl_gc->m_1c = 0;
+    ad_ply_plt_anim_ctrl_gc->m_20 = -1;
+    do {
+        TAdPlyPltAnimGC::get_or_create(ad_ply_plt_anim_ctrl_gc, index);
+        index += 1;
+    } while (index < 5);
+    return (u8 *)ad_ply_plt_anim_ctrl_gc;
+}
+
+TAdPlyPltAnimCtrlGC::~TAdPlyPltAnimCtrlGC() {
+    if ((u32) plyplt_anim_ctrl_instance != 0U) {
+        plyplt_anim_ctrl_instance = 0U;
+    }
+}
 
 void TAdPlyPltAnimCtrlGC::run_task() {
     TAdPlyPltAnimGC *p;
@@ -116,48 +117,37 @@ void TAdPlyPltAnimCtrlGC::run_task() {
     }
 }
 
-void *__dt__19TAdPlyPltAnimCtrlGCFv(void *object, s16 arg1) {
-    if (object != NULL) {
-        *(s32 **)((s8 *)object + 0x18) = __vt__19TAdPlyPltAnimCtrlGC;
-        if ((u32) plyplt_anim_ctrl_instance != 0U) {
-            plyplt_anim_ctrl_instance = 0U;
-        }
-        __dt__7TObjectFv(object, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(object);
-        }
-    }
-    return object;
-}
+void TAdPlyPltAnimCtrlGC::init(void* a1) { TAdPlyPltAnimCtrlGC__sub_80355168((u8 *)this); ((TWindowSubSymbolChatPartsSet *)((char*)this + 0x24))->copy_vec2(a1); this->m_1c = 1; }
 
-u8 *TAdPlyPltAnimCtrlGC__ct(TAdPlyPltAnimCtrlGC *ad_ply_plt_anim_ctrl_gc, s32 arg1) {
-    s32 index;
-    __ct__7TObjectFP7TObject((void *)ad_ply_plt_anim_ctrl_gc, (void *)arg1);
-    *(s32 **)((s8 *)ad_ply_plt_anim_ctrl_gc + 0x18) = __vt__19TAdPlyPltAnimCtrlGC;
-    index = 0;
-    ad_ply_plt_anim_ctrl_gc->m_name = TAdPlyPltAnimCtrlGC__class_name;
-    ad_ply_plt_anim_ctrl_gc->m_1c = 0;
-    ad_ply_plt_anim_ctrl_gc->m_20 = -1;
+void TAdPlyPltAnimCtrlGC__sub_80355168(u8 *arg0) {
+    s32 var_r31;
+    var_r31 = 0;
+    *(s32 *)((s8 *)arg0 + 0x1C) = 0;
+    *(s32 *)((s8 *)arg0 + 0x20) = -1;
     do {
-        TAdPlyPltAnimGC::get_or_create(ad_ply_plt_anim_ctrl_gc, index);
-        index += 1;
-    } while (index < 5);
-    return (u8 *)ad_ply_plt_anim_ctrl_gc;
-}
-
-u32 TAdPlyPltAnimCtrlGC::get_instance(s32 arg0) {
-    u32 ad_ply_plt_anim_ctrl_gc;
-
-    if ((u32) plyplt_anim_ctrl_instance == 0U) {
-        ad_ply_plt_anim_ctrl_gc = __nw__7TObjectFUl(0x2C);
-        if (ad_ply_plt_anim_ctrl_gc != 0U) {
-            ad_ply_plt_anim_ctrl_gc = ((u32)TAdPlyPltAnimCtrlGC__ct((TAdPlyPltAnimCtrlGC *)((u8 *)ad_ply_plt_anim_ctrl_gc), (s32)arg0));
+        TAdPlyPltAnimGC *anim = TAdPlyPltAnimCtrlGC::get_table_value(var_r31);
+        if (anim != NULL) {
+            anim->sub_80355D38();
         }
-        plyplt_anim_ctrl_instance = ad_ply_plt_anim_ctrl_gc;
-    }
-    return plyplt_anim_ctrl_instance;
+        var_r31 += 1;
+    } while (var_r31 < 5);
 }
 
-TAdPlyPltAnimGC *TAdPlyPltAnimCtrlGC::get_table_value(int a0) { return TAdPlyPltAnimGC__instances[a0]; }
+s32 TAdPlyPltAnimCtrlGC__sub_80355148(O_80355148 *self) {
+    s32 r = 1;
+    if (self->state == 7 || self->state == 0) {
+        r = 0;
+    }
+    return r;
+}
 
+void TAdPlyPltAnimCtrlGC::render() {
+    if (TMainTask::get_render_pass() == 1) {
+        return;
+    }
+}
+
+u8 fn_8035510C(s32 *arg0, s32 arg1) {
+    return (u8) (arg1 == (arg1 & *arg0));
+}
 }

@@ -42,7 +42,7 @@ TWindowLoadItemTexture *fn_802628C0(void *layout, void *table, void *id) {
 
 #pragma pop
 
-// inferred: TWindowLoadItemTexture__window_descriptor (passed to construct_base by the window's constructor) and
+// inferred: TWindowLoadItemTexture__window_descriptor (passed to the TWindowBase constructor by the window's constructor) and
 // TWindowLoadItemTexture__layout_entries, the layout table it points at.
 struct LoadItemTextureWindowLayout {
     u32 cols;
@@ -108,7 +108,7 @@ TWindowLoadItemTexture::~TWindowLoadItemTexture() {
 
 void *TWindowLoadItemTexture__ct(TWindowLoadItemTexture *window_load_item_texture, void *arg1, void *arg2, void *arg3) {
     void *e;
-    ((TWindowDD *)window_load_item_texture)->construct_base((u8 *)&TWindowLoadItemTexture__window_descriptor, (s16)((s16)(s32)arg3), (u8 *)arg1);
+    __ct__11TWindowBaseFPUcsPUc(window_load_item_texture, (u8 *)&TWindowLoadItemTexture__window_descriptor, (s16)((s16)(s32)arg3), (u8 *)arg1);
     *(s32 **)((s8 *)window_load_item_texture + 0x18) = __vt__22TWindowLoadItemTexture;
     *(s32 *)((s8 *)window_load_item_texture + 0) = (s32)TWindowLoadItemTexture__name;
     switch (TCameraCtrl::get_camera_id()) {

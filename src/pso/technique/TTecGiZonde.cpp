@@ -7,6 +7,7 @@
 #include "pso/technique/TTecCtrl.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
+#include "pso/effect/TUnk_804CCC68.h"
 
 typedef struct GTarget_80232598 {
     u16 id;
@@ -358,7 +359,7 @@ void TTecGiZonde::create(void *arg1, void *arg2, void *arg3) {
 void *__dt__11TTecGiZondeFv(void *player, s16 arg1) {
     if (player != NULL) {
         *(s32 **)((s8 *)player + 0x18) = __vt__11TTecGiZonde;
-        ((TObjPlayer *)player)->destroy_technique_effect_resources(0);
+        __dt__13TUnk_804CCC68Fv(player, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(player);
         }

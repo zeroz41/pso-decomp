@@ -7,16 +7,11 @@
 class TUnk_804A7488 {
 public:
     void *model;
-    virtual ~TUnk_804A7488();
+    virtual ~TUnk_804A7488() {}
     virtual void draw_model();
     void *get_model();
     u8 *init_parts();
     void sub_8035B66C();
 };
-
-extern "C" {
-extern void *__vt__13TUnk_804A7488[];
-void *__dt__13TUnk_804A7488Fv(TUnk_804A7488 *self, s16 del);
-}
 
 #endif

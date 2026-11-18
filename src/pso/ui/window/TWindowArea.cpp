@@ -22,18 +22,13 @@ const char *TWindowArea__name = "TWindowArea";
 
 extern s32 TWindowSubStatusDisp__count_ratio_value;
 void sub_802443B4__15TWindowAdditionFv(void *, void *);
-void construct_base__9TWindowDDFPUcsPUc(void *);
 void __dl__7TObjectFPv(void *);
-
-extern s32 __vt__15TWindowAddition[];
 
 TWindowAddition::~TWindowAddition() {}
 
-void *TWindowAddition::construct_with_parent(void *arg1) {
-    construct_base__9TWindowDDFPUcsPUc(this);
-    *(s32 **)((s8 *)this + 0x18) = __vt__15TWindowAddition;
-    sub_802443B4__15TWindowAdditionFv(this, arg1);
-    return this;
+TWindowAddition::TWindowAddition(u8 *descriptor, s16 client, u8 *parent)
+    : TWindowBase(descriptor, client, parent) {
+    sub_802443B4__15TWindowAdditionFv(this, descriptor);
 }
 void TWindowSubStatusDisp::set_count_ratio_text(s32 arg1, s32 arg2) {
     s32 arg0 = (s32)this;

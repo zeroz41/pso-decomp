@@ -1,3 +1,5 @@
+#pragma defer_codegen on
+
 #include "types.h"
 #include "pso/ui/window/TWindowSubComCard_802A5748.h"
 #include "pso/unk/TLobby_803382E4.h"
@@ -20,44 +22,29 @@ s32 play_sound_effect(int, int, int, int);
 extern s32 controller_input_state[];
 u32 create__19TWindowMessageYesNoFPvPvPvPv(s32, s32, s32, s32);
 void __ct__7TObjectFP7TObject(void *);
-void __dl__7TObjectFPv(void *);
-void __dt__7TObjectFv(void *, int);
 s32 forward_slot_selection__16TAdChrSelASlotGCFPvPv(u32, s32, s32, f32);
 s32 get_option_entry__17TWindowOptionCtrlFi(s32);
 int reset_info_board__6TLobbyFv(void*);
-
-int TLobby__sub_8034C384(void* p) { return reset_info_board__6TLobbyFv(p); }
-int TLobby__sub_8034C3A4(void* p) { return reset_info_board__6TLobbyFv(p); }
-s32 TWindowOptionCtrl::get_field_24() { return this->m_24; }
-
 extern s32 local_client_id;
 extern s32 tl_01;
+extern s32 __vt__13TUnk_804F01A8[];
 
-void TWindowOptionCtrl::open_confirm_dialog(s32 message, s32 arg2) {
-    if ((u32) this->m_2c != 0U) {
-        ((TWindowSubComCard *)(this->m_2c))->close();
-        this->m_2c = 0U;
-    }
-    this->m_2c = create__19TWindowMessageYesNoFPvPvPvPv(tl_01, local_client_id, 0, 0);
-    if (arg2 != 0) {
-        forward_slot_selection__16TAdChrSelASlotGCFPvPv(this->m_2c, message, get_option_entry__17TWindowOptionCtrlFi(0xCF), 470.0f);
-        return;
-    }
-    initialize_option_dialog((void *)this->m_2c, message, (get_option_entry__17TWindowOptionCtrlFi(0xCF)), 470.0f);
+void *TUnk_804F01A8::ct() {
+    __ct__7TObjectFP7TObject(this);
+    *(s32 **)((s8 *)this + 0x18) = __vt__13TUnk_804F01A8;
+    *(u32 *)((s8 *)this + 0x1C) = 0;
+    this->m_20 = 0;
+    this->m_24 = 0;
+    (this->m_28) = 14;
+    this->m_2c = 0;
+    return this;
 }
 
-void TWindowOptionCtrl::set_option_and_confirm(s32 arg1, s32 arg2) {
-    if (arg1 != (s32) this->m_28) {
-        this->m_28 = arg1;
-        open_confirm_dialog((s32)(get_localized_text_entry(0x24)), arg2);
-    }
+TUnk_804F01A8::~TUnk_804F01A8() {
+    if ((void *)this->m_2c != NULL) { ((TWindowSubComCard *)this->m_2c)->close(); this->m_2c = 0; }
 }
 
-void TWindowOptionCtrl__sub_8034C4C4(void* p) { if (*(int*)((char*)p + 0x1c) == 6) { TLobby::update_pulse_colors((s32)((void*)1)); TLobby__sub_80338534(); } }
-
-extern s32 lbl_804F01A8[];
-
-void TWindowOptionCtrl::handle_save_result() {
+void TUnk_804F01A8::run_task() {
     u8 *arg0 = (u8 *)this;
     s32 temp_r0;
     s32 temp_r0_2;
@@ -272,27 +259,31 @@ void TWindowOptionCtrl::handle_save_result() {
     }
 }
 
-void *TUnk_804F01A8::destroy(s16 arg1) {
-    if (this != NULL) {
-        *(s32 **)((s8 *)this + 0x18) = lbl_804F01A8;
-        if (*(void * *)&(this->unk_2C) != NULL) { ((TWindowSubComCard *)(*(void * *)&(this->unk_2C)))->close(); *(s32 *)&(this->unk_2C) = 0; }
-        __dt__7TObjectFv(this, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(this);
-        }
+void TUnk_804F01A8::render() { if (*(int*)((char*)this + 0x1c) == 6) { TLobby::update_pulse_colors((s32)((void*)1)); TLobby__sub_80338534(); } }
+
+void TUnk_804F01A8::set_option_and_confirm(s32 arg1, s32 arg2) {
+    if (arg1 != (s32) this->m_28) {
+        this->m_28 = arg1;
+        open_confirm_dialog((s32)(get_localized_text_entry(0x24)), arg2);
     }
-    return this;
 }
 
-void *TUnk_804F01A8::ct() {
-    __ct__7TObjectFP7TObject(this);
-    *(s32 **)((s8 *)this + 0x18) = lbl_804F01A8;
-    *(u32 *)((s8 *)this + 0x1C) = 0;
-    this->m_20 = 0;
-    (*(u32 *)((u8 *)this + 0x24)) = 0;
-    (this->m_28) = 14;
-    (*(u32 *)&this->unk_2C) = 0;
-    return this;
+void TUnk_804F01A8::open_confirm_dialog(s32 message, s32 arg2) {
+    if ((u32) this->m_2c != 0U) {
+        ((TWindowSubComCard *)(this->m_2c))->close();
+        this->m_2c = 0U;
+    }
+    this->m_2c = create__19TWindowMessageYesNoFPvPvPvPv(tl_01, local_client_id, 0, 0);
+    if (arg2 != 0) {
+        forward_slot_selection__16TAdChrSelASlotGCFPvPv(this->m_2c, message, get_option_entry__17TWindowOptionCtrlFi(0xCF), 470.0f);
+        return;
+    }
+    initialize_option_dialog((void *)this->m_2c, message, (get_option_entry__17TWindowOptionCtrlFi(0xCF)), 470.0f);
 }
 
+s32 TUnk_804F01A8::get_field_24() { return this->m_24; }
+
+int TLobby__sub_8034C3A4(void* p) { return reset_info_board__6TLobbyFv(p); }
+
+int TLobby__sub_8034C384(void* p) { return reset_info_board__6TLobbyFv(p); }
 }

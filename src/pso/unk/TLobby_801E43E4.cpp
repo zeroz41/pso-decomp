@@ -10,6 +10,7 @@
 #include "pso/network/TProtocol.h"
 #include "pso/system/TGStream.h"
 #include "pso/unk/TLobby.h"
+#include "pso/unk/TUnk_804C57E0.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
@@ -208,11 +209,6 @@ struct GvmFileHeader {
 
 s32 TLanguage__read_cursor;
 
-struct Base_801E4B68_801E4874 { char pad[0x50]; };
-struct VObj_801E4B68_801E4874 : Base_801E4B68_801E4874 {
-    virtual void m0();
-};
-
 u8 *load_gvm_texture_file(s32 name) {
     s32 count;
     s32 i;
@@ -311,10 +307,10 @@ s32 TLanguage::read_u16_le() {
     return lo;
 }
 
-void update_texture_wave_image(void *wave) {
+void TUnk_804C57E0::update_texture_wave_image() {
     if ((is_split_screen() == 0) || (TCameraCtrl::get_camera_no() == 0)) {
-        TObjFish::set_global_param(*(s32 *)((s8 *)wave + 0x3C));
-        ((VObj_801E4B68_801E4874 *)wave)->m0();
-        distort_texture_wave_image(wave);
+        TObjFish::set_global_param(m_3c);
+        advance_wrapped_cursor();
+        distort_texture_wave_image(this);
     }
 }

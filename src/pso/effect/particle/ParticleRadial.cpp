@@ -72,7 +72,6 @@ struct Ang_8008BAF8 { s32 x, y, z; };
 extern "C" {
 void *alloc_particle_memory(int);
 f32 vec_squared_length(u8 *arg0);
-void *__dt__13TUnk_8048E7A8Fv(void *arg0, s16 arg1);
 void set_queued_main_phase(s32 arg0);
 void request_main_phase(s32 arg0);
 s32 rand(void);
@@ -94,7 +93,7 @@ static const Ang_8008BAF8 radial_particle_zero_angles = { 0, 0, 0 };
 void __ct__7TObjectFP7TObject(void *, void *);
 }
 void * create_random_particle(void *arg0, void *arg1, void *arg2);
-extern s32 TParticleCtrl__data_8048E7A8[];
+extern s32 __vt__13TUnk_8048E7A8[];
 void stop_cue_stream(void);
 void *init_particle_base(void *arg0, void *arg1, s32 arg2);
 extern ParticleTexture *TParticleCtrl__data_80511F70[];
@@ -393,16 +392,7 @@ void TUnk_8048E7A8::render() {
     }
 }
 
-void *__dt__13TUnk_8048E7A8Fv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = TParticleCtrl__data_8048E7A8;
-        __dt__13TUnk_8048E728Fv((u8 *)arg0, 0);
-        if (arg1 > 0) {
-            ((TUnk_8048E728 *)arg0)->free_from_heap();
-        }
-    }
-    return arg0;
-}
+TUnk_8048E7A8::~TUnk_8048E7A8() {}
 
 #pragma push
 #pragma fp_contract on
@@ -415,7 +405,7 @@ u8 *construct_radial_particle(u8 *object, u8 *arg1, u8 *arg2, s32 arg3, u16 arg4
     struct Fields_arg2 { f32 field_0; f32 field_4; f32 field_8; };
     s32 temp_r0;
     init_particle_base(object, arg1, arg3);
-    ((Fields_arg0*)object)->field_18 = TParticleCtrl__data_8048E7A8;
+    ((Fields_arg0*)object)->field_18 = __vt__13TUnk_8048E7A8;
     ((Fields_arg0*)object)->field_70 = (f32) ((((Fields_arg1*)arg1)->field_18 * ((3.0517578e-05f * (f32) rand()) - 0.5f)) + ((Fields_arg2*)arg2)->field_0);
     ((Fields_arg0*)object)->field_74 = (f32) ((((Fields_arg1*)arg1)->field_1C * ((3.0517578e-05f * (f32) rand()) - 0.5f)) + ((Fields_arg2*)arg2)->field_4);
     ((Fields_arg0*)object)->field_78 = (f32) ((((Fields_arg1*)arg1)->field_20 * ((3.0517578e-05f * (f32) rand()) - 0.5f)) + ((Fields_arg2*)arg2)->field_8);
@@ -452,7 +442,7 @@ u8 *TParticleCtrl::init_random_particle(u8 *arg1, u8 *arg2, s32 arg3) {
     struct Fields_arg2 { f32 field_0; f32 field_4; f32 field_8; };
     s32 temp_r0;
     init_particle_base(this, arg1, arg3);
-    ((Fields_arg0*)((u8 *)this))->field_18 = TParticleCtrl__data_8048E7A8;
+    ((Fields_arg0*)((u8 *)this))->field_18 = __vt__13TUnk_8048E7A8;
     ((Fields_arg0*)((u8 *)this))->field_70 = (f32) ((((Fields_arg1*)arg1)->field_18 * ((3.0517578e-05f * (f32) rand()) - 0.5f)) + ((Fields_arg2*)arg2)->field_0);
     ((Fields_arg0*)((u8 *)this))->field_74 = (f32) ((((Fields_arg1*)arg1)->field_1C * ((3.0517578e-05f * (f32) rand()) - 0.5f)) + ((Fields_arg2*)arg2)->field_4);
     ((Fields_arg0*)((u8 *)this))->field_78 = (f32) ((((Fields_arg1*)arg1)->field_20 * ((3.0517578e-05f * (f32) rand()) - 0.5f)) + ((Fields_arg2*)arg2)->field_8);

@@ -63,7 +63,7 @@ void TWindowUserSort::run_task() { ((TWindowDD *)this)->initialize_subwindow(); 
 TWindowUserSort::~TWindowUserSort() {}
 
 u8 *TWindowUserSort__ct(u8 *arg0, s32 arg1, s32 arg2) {
-    ((TWindowDD *)arg0)->construct_base((u8 *)&window_user_sort_settings, (s16)4, (u8 *)arg1);
+    __ct__11TWindowBaseFPUcsPUc(arg0, (u8 *)&window_user_sort_settings, (s16)4, (u8 *)arg1);
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__15TWindowUserSort;
     *(s32 *)((s8 *)arg0 + 0) = (s32) TWindowUserSort__name;
     ((TWindowUserSort *)arg0)->m_60 = arg2;

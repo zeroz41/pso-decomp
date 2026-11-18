@@ -55,7 +55,7 @@ TWindowMenuMainMenu::~TWindowMenuMainMenu() {}
 u8 *TWindowMenuMainMenu__ct(TWindowMenuMainMenu *window_menu_main_menu, s32 arg1, s16 arg2) {
     s32 i;
     u8 *p;
-    ((TWindowDD *)window_menu_main_menu)->construct_base((u8 *)&window_menu_main_menu_params, (s16)arg2, (u8 *)arg1);
+    __ct__11TWindowBaseFPUcsPUc(window_menu_main_menu, (u8 *)&window_menu_main_menu_params, (s16)arg2, (u8 *)arg1);
     *(s32 **)((s8 *)window_menu_main_menu + 0x18) = __vt__19TWindowMenuMainMenu;
     p = (u8 *)window_menu_main_menu + 0x64;
     i = 0;

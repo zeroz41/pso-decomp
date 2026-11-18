@@ -303,11 +303,9 @@ void *TUnk_804D0658::destroy_children(s16 arg1) {
     }
     return this;
 }
-
-void construct_with_parent__15TWindowAdditionFPv(void *, void *, s32, void *);
 void TWindowMenuInfomation__ct(u8 *arg0, u32 arg1);
 Obj_80269004 *fn_80269004(Obj_80269004 *self, void *parent, void *arg2) {
-    construct_with_parent__15TWindowAdditionFPv(self, &choice_setting_popup_window_descriptor, 4, parent);
+    __ct__15TWindowAdditionFPUcsPUc(self, (u8 *)&choice_setting_popup_window_descriptor, (s16)4, (u8 *)parent);
     self->f18 = choice_setting_popup_vtable;
     TWindowMenuInfomation__ct((u8 *)self, (u32)arg2);
     return self;

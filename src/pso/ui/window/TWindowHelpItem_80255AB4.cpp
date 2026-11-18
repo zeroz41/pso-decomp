@@ -101,7 +101,7 @@ void *TWindowHelpItem::dt(s16 arg1) {
 TWindowHelpItem::TWindowHelpItem(void *pos, u16 idx) {
     TWindowHelpItem *self = this;
     void *p;
-    ((TWindowDD *)self)->construct_base((u8 *)__vt__15TWindowHelpItem, (s16)idx, (u8 *)pos);
+    __ct__11TWindowBaseFPUcsPUc(self, (u8 *)__vt__15TWindowHelpItem, (s16)idx, (u8 *)pos);
     self->m_vtable18 = ((s32 *)&TWindowHelpItem__object_vtable);
     self->m_00 = (u32)window_help_item_class_name;
     ((TWindowSubSymbolChatPartsSet *)((u8 *)self + 0x30))->copy_vec2(pos);

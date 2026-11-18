@@ -187,7 +187,7 @@ struct W_803409A4 { u8 pad0[0x18]; void *p18; u8 pad1c[0x5C - 0x1C]; s32 f5c; s3
 
 void *TWindowDD::construct_variant_a(void *arg0v) {
     W_803409A4 *w = (W_803409A4 *)arg0v;
-    ((TWindowDD *)w)->construct_base((u8 *)&TWindowDD__layout_constants, (s16)4, (u8 *)TWindowDD__layout_constant_pair);
+    __ct__11TWindowBaseFPUcsPUc(w, (u8 *)&TWindowDD__layout_constants, (s16)4, (u8 *)TWindowDD__layout_constant_pair);
     w->p18 = lbl_804EFBAC;
     w->f60 = 1;
     w->f64 = 2;

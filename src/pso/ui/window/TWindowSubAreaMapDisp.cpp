@@ -191,7 +191,7 @@ u8 *TWindowSubAreaMapDisp__ct(TWindowSubAreaMapDisp *window_sub_area_map_disp) {
     s32 temp_r3_2;
     s32 var_r0;
     u8 *var_r30;
-    ((TWindowDD *)window_sub_area_map_disp)->construct_base((u8 *)&TWindowSubAreaMapDisp__window_parameters, (s16)((void *) ((s16) local_client_id)), (u8 *)(get_window_layout_position(0x59)));
+    __ct__11TWindowBaseFPUcsPUc(window_sub_area_map_disp, (u8 *)&TWindowSubAreaMapDisp__window_parameters, (s16)((void *) ((s16) local_client_id)), (u8 *)(get_window_layout_position(0x59)));
     *(s32 **)((s8 *)window_sub_area_map_disp + 0x18) = &(*(RecoveredGlobal_80271D00___vt__21TWindowSubAreaMapDisp *)&__vt__21TWindowSubAreaMapDisp).value;
     ((TWindowSubAreaMapDisp *)window_sub_area_map_disp)->m_name = TWindowSubAreaMapDisp__name;
     if (get_game_play_mode() == 1) {

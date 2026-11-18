@@ -501,7 +501,7 @@ void *TWindowDD_WS_Word::destroy(s16 arg1) {
 
 // Constructor body of TWindowDD_WS_Word: element list id and visible row count.
 TWindowDD_WS_Word *TWindowDD__sub_803422F0(TWindowDD_WS_Word *self, s32 element_list, s32 rows) {
-    ((TWindowDD *)self)->construct_base((u8 *)&lbl_804EFC7C, 4, (u8 *)lbl_804EFC74);
+    __ct__11TWindowBaseFPUcsPUc(self, (u8 *)&lbl_804EFC7C, 4, (u8 *)lbl_804EFC74);
     *(void ***)((s8 *)self + 0x18) = lbl_804EFC90;
     self->m_name = lbl_805D42E0;
     self->pad_78 = rows;

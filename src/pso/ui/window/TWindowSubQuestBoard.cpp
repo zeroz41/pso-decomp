@@ -1,3 +1,5 @@
+#pragma defer_codegen on
+
 #include "types.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -8,7 +10,6 @@
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowSubQuestBoardSelect.h"
 #include "pso/unk/TUnk_804D1818.h"
-
 #include "pso/system/task/TObject.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/window/TWindowSubComCard.h"
@@ -39,13 +40,115 @@ extern "C" {
 void __dl__7TObjectFPv(void *);
 void __dt__7TObjectFv(void *, int);
 void __ct__7TObjectFP7TObject(void *, void *);
-extern s32 __vt__19TWindowSubQuestBoard[];
+extern s32 __vt__13TUnk_804D1818[];
 s8 get_page_index__20TWindowSubQuestBoardFv(s32);
 s32 fn_8027D1E8(s32);
 extern Ent_8027CFC8 quest_board_handlers[];
 int set_card_window_flags__19TWindowKeyBoardHardFPvll(void*, int, int);
+const char *TWindowSubQuestBoard__class_name = "TWindowSubQuestBoard";
+}
 
-void TUnk_804D1818::render() {  }
+int TWindowSubQuestBoard__sub_8027D1DC(void* p) { return *(u8*)((char*)p + 0x60) & 0x2; }
+
+int TWindowSubQuestBoardSelect::is_open() { return this->m_60 & 0x1; }
+
+u8 TWindowSubQuestBoard::get_page_index() { return *(u8*)((char*)this + 0x61); }
+
+TWindowSubQuestBoard::TWindowSubQuestBoard(TObject *object, void *arg2) : TObject(object) {
+    void *o;
+    this->m_name = TWindowSubQuestBoard__class_name;
+    *(void **)((s8 *)this + 0x24) = object;
+    *(void **)((s8 *)this + 0x20) = arg2;
+    o = TObject::operator new(0x68);
+    if (o != NULL) {
+        o = TWindowSubQuestBoardSelect__ct((TWindowSubQuestBoardSelect *)((u8 *)o));
+    }
+    *(void **)((s8 *)this + 0x28) = o;
+    this->quest_thread_board = NULL;
+    this->m_1c = 0;
+    TWindowCtrl__sub_8027D214();
+}
+
+TWindowSubQuestBoard::~TWindowSubQuestBoard() {
+    TWindowCtrl__sub_8027D1F8();
+    if (*(void **)((s8 *)this + 0x28) != NULL) { ((TWindowBase *)(*(void **)((s8 *)this + 0x28)))->close(); this->m_28 = 0; }
+}
+
+extern "C" {
+void TWindowSubQuestBoard::run_task() {
+    switch (this->m_1c) {
+    case 0:
+    case 1:
+        fn_8027D1E8(this->m_28);
+        this->m_1c = 2;
+    case 2:
+        if (TWindowSubQuestBoard__sub_8027D1DC((void *)this->m_28) != 0) {
+            (*(VO_8027CFC8 * *)&this->m_24)->m7();
+            this->m_1c = 5;
+            break;
+        }
+        if (((TWindowSubQuestBoardSelect *)(this->m_28))->is_open() != 0) {
+            this->m_1c = 3;
+        }
+        break;
+    case 3:
+        this->quest_thread_board = TQuestThreadBoard::create_instance(
+            quest_board_handlers[get_page_index__20TWindowSubQuestBoardFv(this->m_28)].f20);
+        this->m_1c = 4;
+    case 4:
+        if (this->quest_thread_board->all_parents_unqueued_for_destruction() == 0) {
+            this->quest_thread_board = NULL;
+            this->m_1c = 1;
+        }
+        break;
+    case 5:
+        break;
+    }
+}
+
+void TWindowSubQuestBoard::render() {  }
+
+int TWindowSubQuestBoard::set_card_flags_direct(int a1) { return set_card_window_flags__19TWindowKeyBoardHardFPvll(this, a1, -2); }
+
+void TWindowSubQuestBoard::set_card_flags_scaled(s32 arg1) {
+    s32 arg0 = (s32)this;
+    TWindowKeyBoardHard::set_card_window_flags((void*)arg0, arg1 * 2, -3);
+}
+
+void TWindowSubQuestBoard__sub_8027CF50(s32 arg0, s32 arg1) {
+    TWindowKeyBoardHard::set_card_window_flags((void*)arg0, arg1 * 4, -5);
+}
+
+void TWindowSubQuestBoard::clear_card_window_flags(s32 arg1) {
+    s32 arg0 = (s32)this;
+    TWindowKeyBoardHard::set_card_window_flags((void*)arg0, arg1 * 8, -9);
+}
+
+void TWindowSubQuestBoard::set_card_window_flags(s32 arg1) {
+    s32 arg0 = (s32)this;
+    TWindowKeyBoardHard::set_card_window_flags((void*)arg0, arg1 << 8, -0x301);
+}
+
+void TWindowSubQuestBoard::set_board_flags(s32 arg1) {
+    s32 arg0 = (s32)this;
+    TWindowKeyBoardHard::set_card_window_flags((void*)arg0, arg1 << 0xA, -0x1C01);
+}
+
+u8 *TWindowSubQuestBoard__sub_8027CE74(u8 *arg0, u8 *arg1, s32 arg2) {
+    __ct__7TObjectFP7TObject(arg0, arg1);
+    *(s32 **)((s8 *)arg0 + 0x18) = __vt__13TUnk_804D1818;
+    ((TUnk_804D1818 *)arg0)->m_24 = arg1;
+    ((TUnk_804D1818 *)arg0)->m_20 = arg2;
+    *(s32 *)((s8 *)arg0 + 0x28) = ((TUnk_804D1818 *)arg0)->create_option_menu_window();
+    ((TUnk_804D1818 *)arg0)->m_2c = 0;
+    *(s8 *)&((TUnk_804D1818 *)arg0)->unk_1C = 0;
+    return arg0;
+}
+
+TUnk_804D1818::~TUnk_804D1818() {
+    if (m_2c != 0) { ((TWindowBase *)m_2c)->close(); m_2c = 0; }
+    if (*(void **)&unk_28 != NULL) { ((TWindowBase *)*(void **)&unk_28)->close(); *(s32 *)&unk_28 = 0; }
+}
 
 void TUnk_804D1818::run_task() {
     s32 t;
@@ -82,110 +185,5 @@ void TUnk_804D1818::run_task() {
     }
 }
 
-void *TUnk_804D1818::dt(s16 arg1) {
-    if (this != NULL) {
-        *(s32 **)((s8 *)this + 0x18) = __vt__19TWindowSubQuestBoard;
-        if (this->m_2c != NULL) { ((TWindowBase *)this->m_2c)->close(); this->m_2c = 0; }
-        if (*(void * *)&(this->unk_28) != NULL) { ((TWindowBase *)(*(void * *)&(this->unk_28)))->close(); *(s32 *)&(this->unk_28) = 0; }
-        __dt__7TObjectFv(this, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(this);
-        }
-    }
-    return this;
+void TUnk_804D1818::render() {  }
 }
-
-u8 *TWindowSubQuestBoard__sub_8027CE74(u8 *arg0, u8 *arg1, s32 arg2) {
-    __ct__7TObjectFP7TObject(arg0, arg1);
-    *(s32 **)((s8 *)arg0 + 0x18) = __vt__19TWindowSubQuestBoard;
-    ((TUnk_804D1818 *)arg0)->m_24 = arg1;
-    ((TUnk_804D1818 *)arg0)->m_20 = arg2;
-    *(s32 *)((s8 *)arg0 + 0x28) = ((TUnk_804D1818 *)arg0)->create_option_menu_window();
-    ((TUnk_804D1818 *)arg0)->m_2c = 0;
-    *(s8 *)&((TUnk_804D1818 *)arg0)->unk_1C = 0;
-    return arg0;
-}
-
-void TWindowSubQuestBoard::set_board_flags(s32 arg1) {
-    s32 arg0 = (s32)this;
-    TWindowKeyBoardHard::set_card_window_flags((void*)arg0, arg1 << 0xA, -0x1C01);
-}
-void TWindowSubQuestBoard::set_card_window_flags(s32 arg1) {
-    s32 arg0 = (s32)this;
-    TWindowKeyBoardHard::set_card_window_flags((void*)arg0, arg1 << 8, -0x301);
-}
-void TWindowSubQuestBoard::clear_card_window_flags(s32 arg1) {
-    s32 arg0 = (s32)this;
-    TWindowKeyBoardHard::set_card_window_flags((void*)arg0, arg1 * 8, -9);
-}
-void TWindowSubQuestBoard__sub_8027CF50(s32 arg0, s32 arg1) {
-    TWindowKeyBoardHard::set_card_window_flags((void*)arg0, arg1 * 4, -5);
-}
-void TWindowSubQuestBoard::set_card_flags_scaled(s32 arg1) {
-    s32 arg0 = (s32)this;
-    TWindowKeyBoardHard::set_card_window_flags((void*)arg0, arg1 * 2, -3);
-}
-int TWindowSubQuestBoard::set_card_flags_direct(int a1) { return set_card_window_flags__19TWindowKeyBoardHardFPvll(this, a1, -2); }
-void TWindowSubQuestBoard::render() {  }
-
-void TWindowSubQuestBoard::run_task() {
-    switch (this->m_1c) {
-    case 0:
-    case 1:
-        fn_8027D1E8(this->m_28);
-        this->m_1c = 2;
-    case 2:
-        if (TWindowSubQuestBoard__sub_8027D1DC((void *)this->m_28) != 0) {
-            (*(VO_8027CFC8 * *)&this->m_24)->m7();
-            this->m_1c = 5;
-            break;
-        }
-        if (((TWindowSubQuestBoardSelect *)(this->m_28))->is_open() != 0) {
-            this->m_1c = 3;
-        }
-        break;
-    case 3:
-        this->quest_thread_board = TQuestThreadBoard::create_instance(
-            quest_board_handlers[get_page_index__20TWindowSubQuestBoardFv(this->m_28)].f20);
-        this->m_1c = 4;
-    case 4:
-        if (this->quest_thread_board->all_parents_unqueued_for_destruction() == 0) {
-            this->quest_thread_board = NULL;
-            this->m_1c = 1;
-        }
-        break;
-    case 5:
-        break;
-    }
-}
-
-}
-TWindowSubQuestBoard::~TWindowSubQuestBoard() {
-    TWindowCtrl__sub_8027D1F8();
-    if (*(void **)((s8 *)this + 0x28) != NULL) { ((TWindowBase *)(*(void **)((s8 *)this + 0x28)))->close(); this->m_28 = 0; }
-}
-
-extern "C" {
-
-
-const char *TWindowSubQuestBoard__class_name = "TWindowSubQuestBoard";
-
-}
-TWindowSubQuestBoard::TWindowSubQuestBoard(TObject *object, void *arg2) : TObject(object) {
-    void *o;
-    this->m_name = TWindowSubQuestBoard__class_name;
-    *(void **)((s8 *)this + 0x24) = object;
-    *(void **)((s8 *)this + 0x20) = arg2;
-    o = TObject::operator new(0x68);
-    if (o != NULL) {
-        o = TWindowSubQuestBoardSelect__ct((TWindowSubQuestBoardSelect *)((u8 *)o));
-    }
-    *(void **)((s8 *)this + 0x28) = o;
-    this->quest_thread_board = NULL;
-    this->m_1c = 0;
-    TWindowCtrl__sub_8027D214();
-}
-
-u8 TWindowSubQuestBoard::get_page_index() { return *(u8*)((char*)this + 0x61); }
-int TWindowSubQuestBoardSelect::is_open() { return this->m_60 & 0x1; }
-int TWindowSubQuestBoard__sub_8027D1DC(void* p) { return *(u8*)((char*)p + 0x60) & 0x2; }

@@ -382,7 +382,6 @@ s32 TLobby__sub_80269DA4(NJS_POINT2 size, void *arg1) {
 
 s32 get_draw_context__11TWindowBaseFPv();
 s32 draw_visible_window_entries(void *, void *, int);
-void *construct_with_parent__15TWindowAdditionFPv(void *, void *, s16, s32);
 extern s32 __vt__14TWindowMessage[];
 
 
@@ -414,7 +413,7 @@ TWindowMessage::~TWindowMessage() {
 u8 *TWindowMessage__ct(u8 *window_addition, s32 arg1, u32 arg2, s32 arg3) {
     u32 i;
     u8 *p;
-    construct_with_parent__15TWindowAdditionFPv(window_addition, (u8 *)&message_window_settings, arg3, arg1);
+    __ct__15TWindowAdditionFPUcsPUc(window_addition, (u8 *)&message_window_settings, (s16)arg3, (u8 *)arg1);
     *(void **)(window_addition + 0x18) = ((u8 *)&__vt__14TWindowMessage);
     ((TObject *)window_addition)->m_name = lbl_805D3980;
     *(s32 *)(window_addition + 0x70) = 0;

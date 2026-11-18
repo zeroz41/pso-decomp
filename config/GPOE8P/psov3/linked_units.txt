@@ -1453,7 +1453,6 @@ pso/ui/window/TWindowSubCustomSelect_80275D84.cpp
 pso/ui/window/TWindowSubEquip.cpp
 pso/ui/window/TWindowSubEquipKind.cpp
 pso/ui/window/TWindowSubEquipList.cpp
-pso/ui/window/TWindowSubEquip_80275C0C.cpp
 pso/ui/window/TWindowSubEquip_80277DF8.cpp
 pso/ui/window/TWindowSubEquip_80279044.cpp
 pso/ui/window/TWindowSubGameEnd.cpp
@@ -2540,3 +2539,4 @@ pso/network/PppPap.c
 pso/network/NetIpv6.c
 pso/network/NetIpv4.c
 pso/network/NetDns.c
+pso/unk/TUnk_804D1160.cpp

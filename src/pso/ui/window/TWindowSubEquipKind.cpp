@@ -46,7 +46,7 @@ void TWindowSubEquipKind::run_task() {
 void *__dt__19TWindowSubEquipKindFv(void *window_sub_status_disp, s16 arg1) {
     if (window_sub_status_disp != NULL) {
         *(s32 **)((s8 *)window_sub_status_disp + 0x18) = __vt__19TWindowSubEquipKind;
-        ((TWindowSubStatusDisp *)window_sub_status_disp)->destroy_item_list_resources(0);
+        __dt__19TWindowMenuIconLineFv(window_sub_status_disp, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(window_sub_status_disp);
         }

@@ -136,7 +136,7 @@ struct Part_800890F4 {
 extern "C" {
 void *alloc_particle_memory(int);
 f32 vec_squared_length(u8 *arg0);
-extern s32 TParticleCtrl__data_8048E778[];
+extern s32 __vt__13TUnk_8048E778[];
 s32 rand(void);
 s32 rotate_matrix_y(s32, s32);
 void project_world_to_screen(int, void *, void *);
@@ -557,16 +557,7 @@ void TUnk_8048E778::render() {
     }
 }
 
-void *__dt__13TUnk_8048E778Fv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = TParticleCtrl__data_8048E778;
-        __dt__13TUnk_8048E728Fv((u8 *)arg0, 0);
-        if (arg1 > 0) {
-            ((TUnk_8048E728 *)arg0)->free_from_heap();
-        }
-    }
-    return arg0;
-}
+TUnk_8048E778::~TUnk_8048E778() {}
 #pragma push
 #pragma fp_contract on
 u8 *construct_ballistic_particle(void *a0, void *a1, void *a2, void *a3, s32 arg4, u16 arg5, s16 arg6) {
@@ -577,7 +568,7 @@ u8 *construct_ballistic_particle(void *a0, void *a1, void *a2, void *a3, s32 arg
     s32 temp_r0;
     f32 *v;
     init_particle_base(a0, a1, arg4);
-    p->field_18 = TParticleCtrl__data_8048E778;
+    p->field_18 = __vt__13TUnk_8048E778;
     p->field_C4 = 0.0f;
     p->field_C8 = 0.0f;
     p->field_CC = 0.0f;
@@ -652,7 +643,7 @@ void *TUnk_8048E778::init_particle_random_spread(void *a1, void *a2, void *a3) {
     s32 temp_r0;
     f32 *v;
     init_particle_base(this, a1, (s32)a3);
-    p->field_18 = TParticleCtrl__data_8048E778;
+    p->field_18 = __vt__13TUnk_8048E778;
     p->field_C4 = 0.0f;
     p->field_C8 = 0.0f;
     p->field_CC = 0.0f;

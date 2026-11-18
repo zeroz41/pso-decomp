@@ -167,10 +167,6 @@ s32 __ct__12TAdBackTxtGCFv(int, void *);
 
 u32 __ct__14TAdSelectCurGCFv(int, int, const void *, const void *);
 
-void __ct__7TObjectFP7TObject(void *);
-
-extern s32 __vt__14TAdEnterBaseGC[];
-
 }
 
 extern s32 TAdPsoPassSaveGC__data_805D6E80;
@@ -179,12 +175,9 @@ s32 TAdPsoPassSaveGC__sub_8032B584(void) {
     return TAdPsoPassSaveGC__data_805D6E80;
 }
 
-void *TAdEnterBaseGC__ct(void *ad_enter_base_gc) {
-    __ct__7TObjectFP7TObject(ad_enter_base_gc);
-    *(s32 **)((s8 *)ad_enter_base_gc + 0x18) = __vt__14TAdEnterBaseGC;
-    ((TAdEnterBaseGC *)ad_enter_base_gc)->m_name = TAdEnterBaseGC__class_name;
-    ((TAdEnterBaseGC *)ad_enter_base_gc)->sub_8032B460(0);
-    return ad_enter_base_gc;
+TAdEnterBaseGC::TAdEnterBaseGC(TObject *parent) : TObject(parent) {
+    m_name = TAdEnterBaseGC__class_name;
+    sub_8032B460(0);
 }
 
 TAdEnterBaseGC::~TAdEnterBaseGC() {

@@ -990,11 +990,9 @@ TWindowBase::~TWindowBase() {
     ((TWindowSubStatusDisp *)((s8 *)this + 0x24))->destroy_all_items();
     sub_8026CC28();
 }
-u8 *TWindowDD::construct_base(u8 *arg1, s16 arg2, u8 *arg3) {
-    __ct__7TObjectFP7TObject(this, (void *) (TWindowCtrlMain__sub_8024CDB0((void *)arg2)));
-    *(s32 **)((s8 *)((u8 *)this) + 0x18) = __vt__11TWindowBase;
-    ((TWindowBase *)((u8 *)this))->sub_80244F2C(arg1, arg3, arg2);
-    return ((u8 *)this);
+TWindowBase::TWindowBase(u8 *descriptor, s16 client, u8 *parent)
+    : TObject(TWindowCtrlMain__sub_8024CDB0((void *)client)) {
+    sub_80244F2C(descriptor, parent, client);
 }
 
 }

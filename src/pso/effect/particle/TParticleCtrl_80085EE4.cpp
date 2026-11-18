@@ -319,7 +319,7 @@ u8 *__dt__13TUnk_8048E728Fv(u8 *arg0, s16 arg1) {
         *(s32 *)((s8 *)arg0 + 0x20) = 0;
         __dt__7TObjectFv(arg0, 0);
         if (arg1 > 0) {
-            ((TUnk_8048E728 *)arg0)->free_from_heap();
+            TUnk_8048E728::operator delete(arg0);
         }
     }
     return arg0;

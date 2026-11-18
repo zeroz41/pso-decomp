@@ -3,13 +3,17 @@
 #include "types.h"
 #include "pso/system/task/TObject.h"
 
+// Support technique charge effect: follows the casting player and spawns particles
+// until the charge ends.
 class TUnk_804CCAC8 : public TObject {
 public:
-    TUnk_804CCAC8(s32 arg1, s32 arg2);
+    TUnk_804CCAC8(s32 actor, s32 parent);
     virtual ~TUnk_804CCAC8();
-    u8 unk_1C[0x10];
-    s32 m_2c;
-    u8 unk_30[0x4];
+    virtual void run_task();
+    void *actor;
+    f32 position[3];
+    s32 age;
+    s32 sound;
 };
 typedef char TUnk_804CCAC8_size[sizeof(TUnk_804CCAC8) == 0x34 ? 1 : -1];
 

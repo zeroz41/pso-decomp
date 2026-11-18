@@ -17,22 +17,7 @@
 static const f32 TAdEnterPPPPassGC__selection_positions[4][2] = {{155.0f, 231.0f}, {155.0f, 251.0f}, {87.0f, 231.0f}, {87.0f, 251.0f}};
 const char *TAdEnterPPPPassGC__name = "TAdEnterPPPPassGC";
 
-struct TAdEnterPPPPassGC {
-    virtual void m0();
-    char pad[0x18];
-    s32 state;
-    s32 f20;
-    s32 f24;
-    void open_keyboard_window(void *);
-    void update_password_input(void *);
-    void request_transition(void *);
-    void forward_chg_game_mode(void *);
-    void close_windows_and_advance(void *);
-};
-typedef TAdEnterPPPPassGC TAdEnterPPPPassGC_80339378;
-typedef void (TAdEnterPPPPassGC_80339378::*Pmf_80339378)();
-
-struct T_8033954C { const char *f0; u8 pad[0x14]; void *vt; u8 pad2[0x40 - 0x1C]; s32 f40; };
+typedef void (TAdEnterPPPPassGC::*Pmf_80339378)();
 
 extern "C" {
 extern u8 *password_entry_keyboard_control;
@@ -48,9 +33,6 @@ s32 TLobby__sub_80145DB4(int);
 s8 *TLobby__sub_80146D14(void);
 s8 *TLobby__sub_80146D44(void);
 int reset_mode_state__21TAdMultiChgGameModeGCFv(void*);
-void TAdEnterBaseGC__ct(void *);
-extern s32 __vt__17TAdEnterPPPPassGC[];
-T_8033954C *TAdEnterPPPPassGC__ct(T_8033954C *arg0);
 char *realloc_buffer__17TWindowSubComCardFv(u8 *);
 void mem_free(void *);
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
@@ -60,11 +42,9 @@ s32 strlen(const char *);
 extern u8 controller_input_state[];
 extern u8 controller_physical_port_bank[];
 extern s32 lbl_805DF9EC;
-void __dl__7TObjectFPv(void *);
-void *__dt__14TAdEnterBaseGCFv(void *arg0, s16 arg1);
 int request_transition__21TAdMultiChgGameModeGCFv(void*);
 
-void render__17TAdEnterPPPPassGCFv(void *self) {
+void TAdEnterPPPPassGC::render() {
     if (TMainTask::get_render_pass() == 1) { return;
     }
 }
@@ -175,9 +155,10 @@ void *ppp_password_buffer[8] = {
     (void *)0x0, (void *)0x0, (void *)0x0, (void *)0x0,
 };
 
-void run_task__17TAdEnterPPPPassGCFv(TAdEnterPPPPassGC_80339378 *self) {
-    ((TAdEnterBaseGC *)self)->fn_8032B318(password_screen_status_line_position);
-    self->state = password_entry_dispatch_state;
+void TAdEnterPPPPassGC::run_task() {
+    TAdEnterPPPPassGC *self = this;
+    self->fn_8032B318(password_screen_status_line_position);
+    self->m_1c = password_entry_dispatch_state;
     static Pmf_80339378 tbl[5] = {
         (Pmf_80339378)&TAdEnterPPPPassGC::open_keyboard_window,
         (Pmf_80339378)&TAdEnterPPPPassGC::update_password_input,
@@ -186,8 +167,8 @@ void run_task__17TAdEnterPPPPassGCFv(TAdEnterPPPPassGC_80339378 *self) {
         (Pmf_80339378)&TAdEnterPPPPassGC::close_windows_and_advance,
     };
     (self->*tbl[password_entry_dispatch_state])();
-    if (self->state != password_entry_dispatch_state) {
-        self->f24 = 0;
+    if (self->m_1c != password_entry_dispatch_state) {
+        self->m_24 = 0;
     }
 }
 
@@ -200,30 +181,20 @@ void set_password__17TAdEnterPPPPassGCFi(s32 arg0) {
     strncpy((s32) ppp_password_buffer, arg0, 0x1F);
 }
 
-void *__dt__17TAdEnterPPPPassGCFv(void *ad_enter_base_gc, s16 arg1) {
-    if (ad_enter_base_gc != NULL) {
-        *(s32 **)((s8 *)ad_enter_base_gc + 0x18) = __vt__17TAdEnterPPPPassGC;
-        __dt__14TAdEnterBaseGCFv(ad_enter_base_gc, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(ad_enter_base_gc);
-        }
-    }
-    return ad_enter_base_gc;
-}
-T_8033954C *TAdEnterPPPPassGC__ct(T_8033954C *ad_enter_base_gc) {
+TAdEnterPPPPassGC::~TAdEnterPPPPassGC() {}
+
+TAdEnterPPPPassGC::TAdEnterPPPPassGC(TObject *parent) : TAdEnterBaseGC(parent) {
     s32 ok;
-    TAdEnterBaseGC__ct(ad_enter_base_gc);
-    ad_enter_base_gc->vt = __vt__17TAdEnterPPPPassGC;
-    ad_enter_base_gc->f0 = TAdEnterPPPPassGC__name;
-    ((TAdEnterBaseGC *)ad_enter_base_gc)->sub_8032B460(3);
+    m_name = TAdEnterPPPPassGC__name;
+    sub_8032B460(3);
     password_entry_dispatch_state = 0;
-    ad_enter_base_gc->f40 = 0;
+    m_40 = 0;
     if (TLobby__sub_80145A94() != 0) {
         TLobby::init_account_entries();
     } else {
         request_main_phase(0x13);
-        ((TObject *)ad_enter_base_gc)->queue_destruction();
-        return ad_enter_base_gc;
+        queue_destruction();
+        return;
     }
     ok = 0;
     if (TLobby__sub_8014618C() != 0) {
@@ -239,11 +210,10 @@ T_8033954C *TAdEnterPPPPassGC__ct(T_8033954C *ad_enter_base_gc) {
     }
     if (ok != 0) {
         ((int (*)(void))reset_mode_state__21TAdMultiChgGameModeGCFv)();
-        ((TObject *)ad_enter_base_gc)->queue_destruction();
-        return ad_enter_base_gc;
+        queue_destruction();
+        return;
     }
-    ((TAdEnterBaseGC *)ad_enter_base_gc)->create_parts();
-    return ad_enter_base_gc;
+    create_parts();
 }
 
 }

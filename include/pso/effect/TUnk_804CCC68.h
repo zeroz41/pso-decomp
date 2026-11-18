@@ -38,4 +38,9 @@ public:
     f32 halfWidth;
 };
 
+extern "C" {
+// TUnk_804CCC68::~TUnk_804CCC68(), called by the destructors that are still written by hand.
+void *__dt__13TUnk_804CCC68Fv(void *p, s16 flags);
+}
+
 #endif

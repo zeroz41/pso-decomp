@@ -213,7 +213,7 @@ TWindowShortCut::~TWindowShortCut() {
 }
 u8 *TWindowShortCut__ct(TWindowShortCut *window_short_cut, s32 arg1, s32 index, s32 *chat_shortcut) {
     s32 var_r31;
-    ((TWindowDD *)window_short_cut)->construct_base((u8 *)&window_short_cut_layout, (s16)4, (u8 *)arg1);
+    __ct__11TWindowBaseFPUcsPUc(window_short_cut, (u8 *)&window_short_cut_layout, (s16)4, (u8 *)arg1);
     *(s32 **)((s8 *)window_short_cut + 0x18) = __vt__15TWindowShortCut;
     *(s32 *)((s8 *)window_short_cut + 0) = (s32) TWindowShortCut__name;
     var_r31 = (int)::operator new(0x24);

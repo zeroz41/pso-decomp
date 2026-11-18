@@ -104,7 +104,7 @@ Win_80246DCC *TWindowChallengeResult__ct(Win_80246DCC *self, s32 str, s32 arg2, 
     Entry_80246DCC *e;
     s32 m;
 
-    ((TWindowDD *)self)->construct_base((u8 *)lbl_804CE298, (s16)4, (u8 *)(get_window_layout_position(0x3F)));
+    __ct__11TWindowBaseFPUcsPUc(self, (u8 *)lbl_804CE298, (s16)4, (u8 *)(get_window_layout_position(0x3F)));
     self->vt = lbl_804CE2B8;
     self->f0 = (s32)lbl_805D3898;
     for (i = 0; i < 3; i++) {

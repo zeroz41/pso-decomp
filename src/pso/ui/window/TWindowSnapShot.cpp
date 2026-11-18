@@ -156,7 +156,7 @@ void TWindowSnapShot::run_task() {
 TWindowSnapShot::~TWindowSnapShot() {}
 u8 *TWindowSnapShot__ct(TWindowSnapShot *window_snap_shot, s32 arg1) {
     s32 temp_r31;
-    ((TWindowDD *)window_snap_shot)->construct_base((u8 *)&window_snapshot_layout, (s16)4, (u8 *)arg1);
+    __ct__11TWindowBaseFPUcsPUc(window_snap_shot, (u8 *)&window_snapshot_layout, (s16)4, (u8 *)arg1);
     *(s32 **)((s8 *)window_snap_shot + 0x18) = __vt__15TWindowSnapShot;
     *(s32 *)((s8 *)window_snap_shot + 0) = (s32) TWindowSnapShot__name;
     window_snap_shot->m_60 = 0U;

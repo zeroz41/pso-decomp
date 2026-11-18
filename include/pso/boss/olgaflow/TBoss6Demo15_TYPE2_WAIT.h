@@ -7,7 +7,6 @@ class TBoss6Demo15_TYPE2_WAIT : public TObject {
 public:
     virtual ~TBoss6Demo15_TYPE2_WAIT();
     void advance_offset();
-    void *destroy(s16);
     void check_any_player_near();
     void sub_8033FE30();
     virtual void render();

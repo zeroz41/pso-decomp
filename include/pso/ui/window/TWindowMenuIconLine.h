@@ -56,4 +56,9 @@ public:
 };
 typedef char TWindowMenuIconLine_size[sizeof(TWindowMenuIconLine) == 0x88 ? 1 : -1];
 
+extern "C" {
+// TWindowMenuIconLine::~TWindowMenuIconLine(), called by the destructors that are still written by hand.
+void *__dt__19TWindowMenuIconLineFv(void *p, s16 flags);
+}
+
 #endif

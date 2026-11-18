@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/unk/TUnk_804CF918.h"
 #include "pso/unk/TLobby_8001D6A0.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8024FBA8.h"
 #include "pso/ui/window/TWindowHelpItem_8025A12C.h"
@@ -174,7 +175,7 @@ void *destroy__15TWindowHelpItemFPvs(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(void ***)((s8 *)arg0 + 4) = lbl_804CF9F8;
         mem_free((void *)(*(s32 *)((s8 *)arg0 + 0x18)));
-        ((TUnk_804CF930 *)arg0)->destroy((s16)(0));
+        __dt__13TUnk_804CF918Fv(arg0, 0);
         if (arg1 > 0) {
             ::operator delete(arg0);
         }

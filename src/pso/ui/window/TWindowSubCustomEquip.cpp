@@ -536,7 +536,7 @@ u8 *get_window_layout_position(s32 index);
 
 TWindowSubCustomEquip *TWindowSubCustomEquip__ct(TWindowSubCustomEquip *self, s32 slot) {
     void *heading;
-    ((TWindowDD *)self)->construct_base((u8 *)&lbl_804D1488, slot, get_window_layout_position(0xF));
+    __ct__11TWindowBaseFPUcsPUc(self, (u8 *)&lbl_804D1488, slot, get_window_layout_position(0xF));
     *(s32 **)((s8 *)self + 0x18) = __vt__21TWindowSubCustomEquip;
     self->m_name = TWindowSubCustomEquip__name;
     self->m_20 = slot;

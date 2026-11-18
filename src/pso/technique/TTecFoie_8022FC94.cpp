@@ -8,6 +8,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/technique/TTecCtrl.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
+#include "pso/effect/TUnk_804CCC68.h"
 
 struct RecoveredGlobal_8022FE84_lbl_804CC510
 {
@@ -240,7 +241,7 @@ TTecFoie_80230144 *__dt__8TTecFoieFv(TTecFoie_80230144 *self, s16 deleting) {
             ((TObject *)self->emitters[i])->queue_destruction();
         }
         mem_free(self->emitters);
-        ((TObjPlayer *)self)->destroy_technique_effect_resources(0);
+        __dt__13TUnk_804CCC68Fv(self, 0);
         if (deleting > 0) __dl__7TObjectFPv(self);
     }
     return self;

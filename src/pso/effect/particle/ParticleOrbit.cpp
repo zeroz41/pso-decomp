@@ -150,7 +150,7 @@ struct OIVec_8008B060 { s32 x, y, z; };
 
 extern "C" {
 void *alloc_particle_memory(int);
-extern s32 TParticleCtrl__data_8048E790[];
+extern s32 __vt__13TUnk_8048E790[];
 s32 rand(void);
 s32 is_particle_sprite_additive__13TUnk_8048E728Fv(void *, s32);
 s32 append_node_to_tail__13TParticleCtrlFPvPv(s32, void *);
@@ -482,16 +482,7 @@ void TUnk_8048E790::render() {
     }
 }
 
-void *__dt__13TUnk_8048E790Fv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = TParticleCtrl__data_8048E790;
-        __dt__13TUnk_8048E728Fv((u8 *)arg0, 0);
-        if (arg1 > 0) {
-            ((TUnk_8048E728 *)arg0)->free_from_heap();
-        }
-    }
-    return arg0;
-}
+TUnk_8048E790::~TUnk_8048E790() {}
 #pragma push
 #pragma fp_contract on
 u8 *init_orbit_sprite_particle(u8 *object, u8 *arg1, u8 *arg2, u8 *arg3, s32 arg4, u16 arg5, s16 arg6) {
@@ -501,7 +492,7 @@ u8 *init_orbit_sprite_particle(u8 *object, u8 *arg1, u8 *arg2, u8 *arg3, s32 arg
     IVec_8008AC24 *v = (IVec_8008AC24 *)arg3;
     s32 temp_r0;
     init_particle_base(object, arg1, arg4);
-    o->f18 = TParticleCtrl__data_8048E790;
+    o->f18 = __vt__13TUnk_8048E790;
     o->f98 = v->x;
     o->f9C = v->y;
     o->fA0 = v->z;
@@ -549,7 +540,7 @@ void *TUnk_8048E790::init_random_particle(void *arg1, void *arg2, void *arg3, vo
     OIVec_8008B060 *v = (OIVec_8008B060 *)arg3;
     s32 temp_r0;
     init_particle_base(this, arg1, (s32)arg4);
-    o->f18 = TParticleCtrl__data_8048E790;
+    o->f18 = __vt__13TUnk_8048E790;
     o->f98 = v->x;
     o->f9C = v->y;
     o->fA0 = v->z;

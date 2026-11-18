@@ -1047,7 +1047,7 @@ TWindowKeyBoardBase::~TWindowKeyBoardBase() {
 }
 u8 *TWindowKeyBoardBase__ct(u8 *arg0) {
     s32 temp_r31;
-    ((TWindowDD *)arg0)->construct_base((u8 *)&TWindowKeyBoardBase__window_descriptor, (s16)(4), (u8 *)(get_window_layout_position(0xB7)));
+    __ct__11TWindowBaseFPUcsPUc(arg0, (u8 *)&TWindowKeyBoardBase__window_descriptor, (s16)(4), (u8 *)(get_window_layout_position(0xB7)));
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__19TWindowKeyBoardBase;
     ((TWindowKeyBoardBase *)(arg0 + 0x6C))->init_text_buffer_holder();
     ((TWindowKeyBoardBase *)(arg0 + 0x84))->init_text_buffer_holder();

@@ -180,7 +180,7 @@ void *__dt__14TWindowComCardFv(void *arg0, s16 arg1) {
 }
 
 u8 *TWindowComCard__ct(u8 *window_dd, s32 arg1, s32 arg2) {
-    ((TWindowDD *)window_dd)->construct_base((u8 *)&TWindowComCard__window_desc, (s16)4, (u8 *)arg1);
+    __ct__11TWindowBaseFPUcsPUc(window_dd, (u8 *)&TWindowComCard__window_desc, (s16)4, (u8 *)arg1);
     *(s32 **)((s8 *)window_dd + 0x18) = (s32 *)__vt__14TWindowComCard;
     *(s32 *)((s8 *)window_dd + 0) = (s32) TWindowComCard__class_name;
     update_com_card_display((s32)(window_dd + 0x24), arg2);
@@ -335,7 +335,7 @@ void *TWindowComCard__sub_80249E80(void *arg0, s16 arg1) {
 #pragma push
 #pragma fp_contract on
 Win_80249ED8 *TWindowComCard__sub_80249ED8(Win_80249ED8 *o, Parent_80249ED8 *parent, NJS_POINT2 *ofs, s32 col, s32 mode, s32 arg5) {
-    ((TWindowDD *)o)->construct_base((u8 *)TWindowComCard__window_desc_b, (s16)arg5, (u8 *)(get_zero_vec2()));
+    __ct__11TWindowBaseFPUcsPUc(o, (u8 *)TWindowComCard__window_desc_b, (s16)arg5, (u8 *)(get_zero_vec2()));
     o->vtbl = (s32 *)lbl_804CE964;
     o->parent = parent;
     o->ofs.x = ofs->x;

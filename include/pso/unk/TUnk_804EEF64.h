@@ -9,7 +9,6 @@ public:
     virtual void run_task();
     virtual void render();
     u8 *construct_title_scene();
-    void *destroy(s16);
     void sub_8033645C();
     u8 unk_1C[0x4];
     void * m_20;

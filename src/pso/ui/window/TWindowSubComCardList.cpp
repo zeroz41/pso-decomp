@@ -11,7 +11,6 @@
 #include "pso/unk/text_80076E84.h"
 #include "pso/unk/text_80263A20.h"
 #include "pso/ui/window/TWindowMenu.h"
-#include "pso/unk/TUnk_804D1160.h"
 #include "pso/ui/window/TWindowSubComCardList.h"
 #include "pso/ui/window/TWindowSubCustomEquip.h"
 #include "pso/unk/TLobby.h"
@@ -29,47 +28,7 @@
 const char *TWindowSubComCardList__class_name = "TWindowSubComCardList";
 
 
-struct Win_802758C8 {
-    u8 pad0[0x20];
-    s32 player;
-    u8 pad24[0x30 - 0x24];
-    s32 lobby;
-    u16 kind;
-    u16 id;
-};
-
-struct Ev_802758C8 {
-    u16 kind;
-    u16 id;
-};
-
-class VObj_80275A8C {
-public:
-    u8 pad0[0x18];
-    virtual void v0(); virtual void v1(); virtual void v2(); virtual void v3();
-    virtual void v4(); virtual void v5(); virtual void v6(); virtual void v7();
-};
-
-struct Self_80275A8C {
-    u8 pad0[0x1C];
-    u8 state;
-    u8 pad1d[3];
-    s32 f20;
-    VObj_80275A8C *f24;
-    s32 f28;
-    void *f2c;
-};
-
 extern "C" {
-u32 get_item_field_6__10TObjPlayerFPv(void *);
-s32 *get_shared_text_buffer(void);
-s32 weapon_has_extra_attack();
-void *get_player_by_client_id(s32 i);
-u8 get_cast_technique_level(void *, s16);
-s32 validate_and_clear_slot__10TObjPlayerFv(void *, s16);
-void text_builder_append_int(s32);
-void text_builder_append();
-u8 *calc_technique_parameters(u16, u8, s32);
 u8 *TWindowMenu__ct(u8 *arg0, u32 arg1, s32 arg2, s32 arg3);
 void *init__21TWindowSubComCardListFiii(void *, s32, s8, s32);
 extern s32 __vt__21TWindowSubComCardList[];
@@ -78,9 +37,6 @@ extern s32 local_client_id;
 u8 *TWindowSubComCardList__ct(u8 *arg0, void *arg1);
 s32 count_leading_active__17TWindowSubComCardFPvi(s32, s32);
 u8 *TWindowSubComCardList__sub_802757AC(u8 *arg0, void *arg1, s32 arg2, s32 arg3, s8 arg4);
-s32 set_depth__11TWindowBaseFf(void *);
-Ev_802758C8 *calc_equip_index__21TWindowSubCustomEquipFv(void *);
-void *__dt__21TWindowSubComCardListFv(void *arg0, s16 arg1);
 void render__21TWindowSubComCardListFv(TWindowSubComCardList *arg0);
 s32 handle_list_page_flip_input(s32);
 s32 get_draw_context__11TWindowBaseFPv();
@@ -115,16 +71,8 @@ void TWindowSubComCardList::run_task() {
     }
 }
 
-void *__dt__21TWindowSubComCardListFv(void *window_menu, s16 arg1) {
-    if (window_menu != NULL) {
-        *(s32 **)((s8 *)window_menu + 0x18) = __vt__21TWindowSubComCardList;
-        delete_if_allocated((s32)(*(void **)((s8 *)window_menu + 0x8C)), 1);
-        __dt__11TWindowMenuFv(window_menu, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(window_menu);
-        }
-    }
-    return window_menu;
+TWindowSubComCardList::~TWindowSubComCardList() {
+    delete_if_allocated((s32)m_8c, 1);
 }
 
 u8 *TWindowSubComCardList__ct(u8 *window_menu, void *arg1) {
@@ -180,117 +128,4 @@ u8 *TWindowSubComCardList__sub_802757AC(u8 *window_menu, void *arg1, s32 arg2, s
     ((TWindowSubComCardList *)window_menu)->set_scroll_target(223.0f, 184.0f);
     return window_menu;
 }
-}
-void text_builder_reset();
-s32 get_palette_consumable_count(u16, s32);
-void TUnk_804D1160::update_customize_help_text(void *ev_arg) {
-    Win_802758C8 *self = (Win_802758C8 *)this;
-    Ev_802758C8 *ev = (Ev_802758C8 *)ev_arg;
-    u8 *pl;
-    s32 lvl;
-    toggle_help_window_on_button(self->lobby, self->player);
-    if (ev == NULL) {
-        return;
-    }
-    pl = (u8 *)get_player_by_client_id(self->player);
-    if (pl == NULL) {
-        return;
-    }
-    if (self->id == ev->id && self->kind == ev->kind) {
-        return;
-    }
-    self->kind = ev->kind;
-    self->id = ev->id;
-    text_builder_reset();
-    switch (ev->kind) {
-    case 0:
-        break;
-    case 2:
-        if (ev->id == 2 && (get_item_field_6__10TObjPlayerFPv(pl) == 0 || weapon_has_extra_attack() != 1)) {
-            break;
-        }
-        get_help_text_string(ev->id + 0x13);
-        text_builder_append();
-        break;
-    case 3:
-        if (validate_and_clear_slot__10TObjPlayerFv(pl + 0x428, ev->id) != 0) {
-            break;
-        }
-        get_technique_name(ev->id);
-        text_builder_append();
-        if (ev->id != 0x11 && ev->id != 0xE) {
-            lvl = get_cast_technique_level(pl + 0x428, ev->id);
-            if (current_language != LANGUAGE_JAPANESE) {
-                append_text_space();
-            }
-            get_help_text_string(0x2D);
-            text_builder_append();
-            text_builder_append_int(lvl + 1);
-        }
-        get_help_text_string(0x2E);
-        text_builder_append();
-        text_builder_append_int(*(s16 *)(calc_technique_parameters(ev->id, lvl, 0xFFFF) + 0x10));
-        get_help_text_string(ev->id);
-        text_builder_append();
-        break;
-    case 4:
-        if (get_palette_consumable_count(ev->id, self->player) == -1) {
-            break;
-        }
-        get_help_text_string(ev->id + 0x16);
-        text_builder_append();
-        break;
-    case 7:
-        break;
-    }
-    ((TWindowMessage *)(self->lobby))->append_line((int)get_shared_text_buffer(), 0x82);
-}
-
-void TUnk_804D1160::render() {  }
-void TUnk_804D1160::run_task() {
-    Self_80275A8C *self = (Self_80275A8C *)this;
-    Ev_802758C8 ev;
-    void *p;
-    switch (self->state) {
-    case 0:
-    case 1:
-        if (self->f2c != NULL) {
-            ((TWindowBase *)self->f2c)->close();
-            self->f2c = NULL;
-        }
-        ((TWindowSubCustomEquip *)(this->m_28))->clear_flag_and_set_entry_state();
-        self->state = 2;
-    case 2:
-        ((TWindowSubCustomEquip *)(this->m_28))->get_cursor_pos(&ev);
-        ((TUnk_804D1160 *)self)->update_customize_help_text(&ev);
-        if (TWindowSubCustomEquip__sub_80275DA8((void *)this->m_28) != 0) {
-            self->f24->v7();
-            self->state = 5;
-        } else if (((TWindowSubCustomEquip *)(this->m_28))->is_selected() != 0) {
-            self->state = 3;
-        }
-        break;
-    case 3:
-        p = TObject::operator new(0x84);
-        if (p != NULL) {
-            p = TWindowSubCustomSelect__ct((TWindowSubCustomSelect *)((u8 *)p), this->m_20);
-        }
-        self->f2c = p;
-        TWindowSubEquip__sub_80263AF8((u8 *)self->f24, 1);
-        set_depth__11TWindowBaseFf(self->f2c);
-        self->state = 4;
-    case 4:
-        ((TUnk_804D1160 *)self)->update_customize_help_text(calc_equip_index__21TWindowSubCustomEquipFv(self->f2c));
-        if (fn_80275D90(self->f2c) != 0) {
-            self->state = 1;
-        }
-        if (((TWindowSubCustomSelect *)(self->f2c))->is_active() != 0) {
-            Ev_802758C8 *e = calc_equip_index__21TWindowSubCustomEquipFv(self->f2c);
-            ((TWindowSubCustomEquip *)(this->m_28))->toggle_action_binding(e);
-            self->state = 1;
-        }
-        break;
-    case 5:
-        break;
-    }
 }
