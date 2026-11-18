@@ -5,6 +5,7 @@
 #include "pso/ui/window/TWindowBase.h"
 
 struct TWindowKeyBoardBase : public TWindowBase {
+    TWindowKeyBoardBase();
     virtual ~TWindowKeyBoardBase();
     void init_keyboard_text_field(u32, u32);
     void sub_8025E6DC(u8 *);

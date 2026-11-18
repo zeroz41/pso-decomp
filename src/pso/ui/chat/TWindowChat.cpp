@@ -77,7 +77,7 @@ s32 TWindowKeyBoardSoft__ct(int, void *, void *);
 s32 get_window_layout_position(int);
 void *__dt__11TWindowChatFv(void *, s16);
 void *__dt__11TWindowChatFv(void *arg0, s16 arg1);
-u8 *TWindowKeyBoardBase__ct(u8 *arg0);
+u8 *__ct__19TWindowKeyBoardBaseFv(u8 *arg0);
 void TWindowChat__sub_80247D2C(void* p);
 s32 TWindowChat__sub_80247D50(u8 *arg0);
 int TWindowChat__sub_80247DAC(void* p);
@@ -471,7 +471,7 @@ TWindowChat::TWindowChat(TObject *object, void *arg2) : TObject(object) {
     this->flags = 2;
     o = ((void *)__nw__7TObjectFUl(0xB8));
     if (o != NULL) {
-        o = TWindowKeyBoardBase__ct((u8 *)o);
+        o = __ct__19TWindowKeyBoardBaseFv((u8 *)o);
     }
     this->composer = o;
     ((TWindowKeyBoardBase *)((u8 *)this->composer))->init_keyboard_text_field(200, 2);

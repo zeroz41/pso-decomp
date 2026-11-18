@@ -54,7 +54,7 @@ TKeyBoardControl::~TKeyBoardControl() {
 
 extern "C" {
 void __ct__7TObjectFP7TObject(void *, void *);
-u8 *TWindowKeyBoardBase__ct(u8 *arg0);
+u8 *__ct__19TWindowKeyBoardBaseFv(u8 *arg0);
 void TKeyBoardControl__sub_802613A4(TKeyBoardControl *arg0);
 extern s32 __vt__16TKeyBoardControl[];
 const char *TKeyBoardControl__class_name = "TKeyBoardControl";
@@ -71,7 +71,7 @@ TKeyBoardControl *TKeyBoardControl__ct(TKeyBoardControl *self, TObject *parent, 
     self->m_1e = client;
     o = TObject::operator new(0xB8);
     if (o != NULL) {
-        o = TWindowKeyBoardBase__ct((u8 *)o);
+        o = __ct__19TWindowKeyBoardBaseFv((u8 *)o);
     }
     self->m_20 = (u32)o;
     ((TWindowKeyBoardBase *)self->m_20)->init_keyboard_text_field(arg2, arg3);
