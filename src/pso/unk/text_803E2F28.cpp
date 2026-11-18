@@ -1,5 +1,6 @@
 #include "types.h"
 #include "pso/render/ChunkVertexJob.h"
+#include "pso/render/ChunkPolygonList.h"
 #ifndef __MWERKS__
 #include <math.h>
 #endif
@@ -111,7 +112,6 @@ struct ChunkRecording_803E44D4 { ChunkBuffer_803E44D4 buffers[32]; s32 index; };
 void OSReport(const char*, ...);
 void* memmove(void*, const void*, unsigned long);
 }
-void dispatch_chunk_polygon_list(s16 *list, s32 vertex_buffer);
 char lbl_804FC810[19] = "CHNK MEMORY ASSERT";
 extern u32 lbl_805D77E4;
 extern ChunkRecording_803E44D4* chunk_vertex_cache_state;
@@ -704,7 +704,6 @@ void set_chunk_blend_depth_mode(s32 arg0, s32 arg1) {
 
 extern "C" {
 void GXSetTexCoordGen2(s32 dst, u32 func, u32 src, s32 mtx, s32 normalize, s32 pt);
-void draw_chunk_color_tex_strips(s16 *list, void *verts, u32 info, s32 large);
 extern s32 chunk_polygon_cache_pending;  // lists cached by NJD_CB_CP and not yet drawn by NJD_CB_DP
 extern u32 chunk_polygon_flags_and_mask;
 extern u32 chunk_polygon_flags_or_mask;
@@ -791,7 +790,7 @@ void dispatch_chunk_polygon_list(s16 *list, s32 vertex_buffer) {
                 } else if (chunk_has_vertex_colors != 0) {
                     setup_chunk_tev_stages();
                     GXSetTexCoordGen2(0, 1, 4, 0x3C, 0, 0x7D);
-                    draw_chunk_color_tex_strips(list, (void *) vertex_buffer, strip_info, type == NJD_CS_UVH);
+                    draw_chunk_color_tex_strips(list, (ChunkColorVertex *) vertex_buffer, strip_info, type == NJD_CS_UVH);
                 } else {
                     setup_chunk_tev_stages();
                     GXSetTexCoordGen2(0, 1, 4, 0x3C, 0, 0x7D);
