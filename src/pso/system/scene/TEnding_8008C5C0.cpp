@@ -30,6 +30,7 @@
 #include "pso/system/task/TObject.h"
 
 extern "C" {
+extern const char TEnding__class_name_string[] = "TEnding";
 s32 TKeyBoardControl__sub_8000F92C();
 void request_main_phase(s32 arg0);
 void func_803DCDFC__Fv(void);
