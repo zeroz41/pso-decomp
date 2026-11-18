@@ -185,7 +185,7 @@ void TObjPlayer::reset_particle_counter() {
 
 TexObj_803E1D90 list_texture_tex_obj;
 
-struct Rgb_803E1FC8 { u8 r, g, b; };
+struct Rgb_803E1FC8 { u8 r, g, b, a; };
 
 extern f32 scene_fog_end_distance;
 extern f32 scene_fog_start_distance;
@@ -215,6 +215,10 @@ void Dolphin_GXSetFog(s32, f32, f32, f32, f32, Col_803E2010);
 }
 
 s32 scene_fog_type;
+f32 scene_fog_end_distance;
+f32 scene_fog_start_distance;
+Rgb_803E1FC8 scene_fog_color;
+s8 scene_fog_enable_flag;
 
 void set_scene_fog_type(s32 arg0) {
     scene_fog_type = arg0;

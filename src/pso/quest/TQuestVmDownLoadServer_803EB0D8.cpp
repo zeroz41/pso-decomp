@@ -2,9 +2,17 @@
 #include "pso/quest/TQuestVmDownLoadServer_803E6970.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/quest/QuestDownloadServer.h"
+u8 *quest_download_text_write_ptr;
+u8 lbl_805D7894[4];
+s32 quest_page_node_index;
+s32 quest_page_node_count;
+Node_803EB420 *lbl_805D78A0;
+s32 lbl_805D78A4;
+s32 quest_download_free_list_ready_flag;
+s32 lbl_805D78AC;
+s32 *lbl_805D78B0;
+s32 lbl_805D78B4;
 
-// This TU's .sbss from 0x805D78B8 to 0x805D7930 (address order). The run starts at 0x805D7890, but
-// lbl_805D78B0 is 8 bytes there (nothing reaches +4), so the part before it stays unsplit.
 s32 *lbl_805D78B8;
 s32 *lbl_805D78BC;
 s32 quest_text_end;
@@ -1411,7 +1419,6 @@ void TQuestVmDownLoadServer::push_download_entry(s32 *arg0) {
 
 struct Blk_803ECFE4 { Blk_803ECFE4 *next; u8 pad[0x10]; };
 Blk_803ECFE4 quest_download_block_pool[2000];
-extern s32 quest_download_free_list_ready_flag;
 void TQuestVmDownLoadServer::init_block_free_list() {
     Blk_803ECFE4 *p;
     if (quest_download_free_list_ready_flag == 0 && lbl_805D78AC == 2000) {

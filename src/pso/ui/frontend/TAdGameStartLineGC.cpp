@@ -8,7 +8,7 @@
 #include "pso/render/render_util.h"
 const char *TAdGameStartLineGC__name = "TAdGameStartLineGC";
 
-extern void *lbl_805D6C18;
+void *lbl_805D6C18;
 
 #pragma push
 #pragma fp_contract on

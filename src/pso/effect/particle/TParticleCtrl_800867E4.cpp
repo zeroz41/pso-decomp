@@ -14,12 +14,13 @@ struct Ent_800868C4 { u8 data[0x98]; };
 
 extern "C" {
 s32 get_bml_model(void *, s32);
-extern u8 *TParticleCtrl__regular_bml_resource;
+Ent_800868C4 *particle_global_entry_table;
+Ent_800868C4 *particle_area_entry_table;
+u8 *TParticleCtrl__regular_bml_resource;
+int TParticleCtrl__texture_list;
 struct RecoveredGlobal_lbl_804393F0 { s32 value; u8 remaining[0x8]; };
 extern RecoveredGlobal_lbl_804393F0 lbl_804393F0;
 extern s32 particle_pool_limit;
-extern Ent_800868C4 *particle_global_entry_table;
-extern Ent_800868C4 *particle_area_entry_table;
 void *initialize_with_flags__13TParticleCtrlFPCvlllllUs(void *, void *, void *, s32, s32, s32, s32, s32);
 void *__ct__13TParticleCtrlFv(void *self, void *pos, void *dir, void *ent, int a, int b, int c, int d, int e);
 void *__ct__5THeapFUli(void *, void *, int);
@@ -38,7 +39,6 @@ void TParticleCtrl::init_heap(void *arg0) {
     }
 }
 
-    extern int TParticleCtrl__texture_list;
 
 void TParticleCtrl::generate_child_default(s32 arg1, s32 arg2) {
     s32 arg0 = (s32)this;

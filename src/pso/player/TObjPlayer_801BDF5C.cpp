@@ -67,7 +67,8 @@ u8 *create_player_object(s16 slot, s32 role, u8 *record) {
 }
 
 
-extern u32 TObjPlayer__shared_photon_blast_state;
+u32 TObjPlayer__shared_photon_blast_state;
+s32 lobby_player_count;
 extern u32 TObjPlayer__shared_model_buffer;
 extern u32 player_shared_buffer_base;
 

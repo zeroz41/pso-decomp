@@ -30,6 +30,8 @@ extern s32 lbl_805D7A94;
 /* inferred: the PPP FCS-16 lookup table (RFC 1662 fcstab); the receive path checks the FCS against 0xF0B8. */
 extern u16 ppp_fcs16_table[];
 u8 ppp_rx_buffer[0x200];
+NetPacketPool lobby_udp_socket_table;
+s32 lbl_805D7AEC;
 /* inferred: the receive path's running FCS: reset to 0xFFFF, folded per byte, good at 0xF0B8. */
 u16 ppp_rx_fcs;
 u32 ppp_rx_escape_pending;
@@ -38,6 +40,8 @@ u8 *ppp_rx_read_ptr;
 PppFrame *ppp_rx_frame_ptr;
 u8 ppp_input_byte;
 u8 lobby_ppp_read_buf[4];
+s32 lbl_805D7ACC;
+s32 lobby_timer_list_head;
 
 #include <stddef.h>
 

@@ -64,9 +64,10 @@ void *TObjQuestColALock2__create(void *arg0);
 void *TObjQuestCol2__create(void *arg0);
 }
 
-extern u16 quest_collision_next_id;
-extern TObject *quest_collision_task_root;
-extern s32 TObjQuestColBase__instance_count;
+u16 quest_collision_next_id;
+s32 quest_collision_warp_pending;
+TObject *quest_collision_task_root;
+s32 TObjQuestColBase__instance_count;
 
 // Written first, so emitted last (after TObjQuestColBase's ctor), ahead of the implicit dtors.
 int TObjQuestColBase::vfunc_15() {

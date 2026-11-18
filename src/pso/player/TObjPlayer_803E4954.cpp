@@ -44,7 +44,7 @@ void TObjPlayer::set_global_state(s32 arg0) {
     player_chunk_draw_end_callback = arg0;
 }
 
-extern s32 motion_packed_rotation_mode;
+s32 motion_packed_rotation_mode;
 
 void draw_blend_motion_tree(NJS_OBJECT *model, NJS_MOTION_LINK *motion, f32 blend_factor, ModelDrawCallback draw_model) {
     bind_motion_blend_channels(motion, blend_factor);

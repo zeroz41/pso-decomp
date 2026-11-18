@@ -70,7 +70,8 @@ const char *balclaw_class_name = balclaw_class_name_text;
 NJS_OBJECT *balclaw_arm_part_models[4][11];
 
 
-extern s32 balclaw_last_shared_update_frame;
+BmlResource *lbl_805D4F20;
+s32 balclaw_last_shared_update_frame;
 extern s32 actor_frame_tick;
 
 extern u8 *lbl_805D4F28[];
