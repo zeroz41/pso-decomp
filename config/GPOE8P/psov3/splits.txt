@@ -10363,7 +10363,7 @@ pso/unk/TLobby_8034C23C.cpp:
 
 pso/ui/window/TWindowOptionCtrl_8034C384.cpp:
 	.text       start:0x8034C384 end:0x8034CC00
-	.data       start:0x804F01C0 end:0x804F0230
+	.data       start:0x804F01A8 end:0x804F0230
 	.sdata2     start:0x805DFDD0 end:0x805DFDD4
 
 pso/ui/window/TWindowSubInformationBoard.cpp:

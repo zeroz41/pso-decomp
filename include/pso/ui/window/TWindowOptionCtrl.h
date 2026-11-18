@@ -53,10 +53,6 @@ struct TWindowOptionCtrl : public TObject {
     s16 get_field_64();
     s16 get_field_62();
     static const NJS_POINT2 *get_option_entry(int a0);
-    s32 get_field_24();
-    void open_confirm_dialog(s32 arg1, s32 arg2);
-    void set_option_and_confirm(s32 arg1, s32 arg2);
-    void handle_save_result();
     void open();
     s32 add_label_value_line(const char *arg1, const char *arg2, u32 arg3);
 };

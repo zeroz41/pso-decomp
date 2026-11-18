@@ -3,6 +3,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/window/TWindowOptionCtrl.h"
+#include "pso/unk/TUnk_804F01A8.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/TLanguage.h"
 #include "pso/ui/window/TWindowSubComCard_80244774.h"
@@ -325,7 +326,7 @@ void TWindowOptionCtrl::run_task() {
         ((TWindowOptionCtrl *)(self->f28))->open();
         self->state = 0xF;
     case 15: {
-        s32 r = ((TWindowOptionCtrl *)(self->f48))->get_field_24();
+        s32 r = ((TUnk_804F01A8 *)(self->f48))->get_field_24();
         if (r == 1 || r == 2) {
             ((TObject *)self->f48)->queue_destruction();
             self->f48 = NULL;
