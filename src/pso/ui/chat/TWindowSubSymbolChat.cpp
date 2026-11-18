@@ -813,7 +813,7 @@ s32 TWindowSubSymbolChat::create_chat_symbol_window(s32 arg0, s32 arg1) {
     s32 window_chat_symbol;
     window_chat_symbol = __nw__7TObjectFUl(0x68);
     if (window_chat_symbol != 0) {
-        window_chat_symbol = (s32)TWindowChatSymbol__ct((TWindowChatSymbol *)((u8 *)window_chat_symbol), (((s32)get_window_layout_position(arg1 + 0x7B))), (s32)lbl_8044FB20);
+        window_chat_symbol = (s32)__ct__17TWindowChatSymbolFll((TWindowChatSymbol *)((u8 *)window_chat_symbol), (((s32)get_window_layout_position(arg1 + 0x7B))), (s32)lbl_8044FB20);
     }
     return window_chat_symbol;
 }

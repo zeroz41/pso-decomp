@@ -430,7 +430,7 @@ TWindowSubSymbolChatPartsSet::~TWindowSubSymbolChatPartsSet() {
 
 T_802869BC *TWindowSubSymbolChatPartsSet__ct(T_802869BC *self, void *parent, s16 arg2, s32 arg3, s32 arg4) {
     void *h;
-    TWindowChatSymbol__ct((TWindowChatSymbol *)((u8 *)self), (s32)parent, (s32)&lbl_8044FC30);
+    __ct__17TWindowChatSymbolFll((TWindowChatSymbol *)((u8 *)self), (s32)parent, (s32)&lbl_8044FC30);
     self->vt = ((s32 *)&__vt__28TWindowSubSymbolChatPartsSet);
     self->f0 = TWindowSubSymbolChatPartsSet__name;
     ((TWindowBase *)self)->set_depth(50030.0f);

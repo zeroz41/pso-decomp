@@ -41,8 +41,6 @@ TUnk_804CE7D0::TUnk_804CE7D0(TObject *parent) : TObject(parent) {
     s32 i;
     u8 *temp_r30;
     u8 *symbol_chat_preset;
-    u8 *window_chat_symbol;
-    u8 *var_r0;
     preset_list = (TWindowSubComCardList *)check_room_seq_4__16TAdChrSelASlotGCFl(&preset_list_pos, 0xC);
     i = 0;
     do {
@@ -58,10 +56,5 @@ TUnk_804CE7D0::TUnk_804CE7D0(TObject *parent) : TObject(parent) {
     preset_list->set_flag70_bit10();
     preset_list->set_scroll_target(220.0f, 120.0f);
     align_menu_entry_positions(preset_list);
-    window_chat_symbol = (u8 *)(TObject::operator new(0x68));
-    var_r0 = window_chat_symbol;
-    if (var_r0 != NULL) {
-        var_r0 = (u8 *)(TWindowChatSymbol__ct((TWindowChatSymbol *)window_chat_symbol, (s32)&lbl_8044EAC8, (s32)&lbl_8044EAD0));
-    }
-    chat_symbol = (TWindowChatSymbol *)var_r0;
+    chat_symbol = new TWindowChatSymbol((s32)&lbl_8044EAC8, (s32)&lbl_8044EAD0);
 }
