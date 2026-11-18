@@ -426,7 +426,7 @@ void TWindowSubSymbolChat::run_task() {
         if ((u32) this->m_54 == 0U) {
             var_r0 = ((u32)__nw__7TObjectFUl(0x74));
             if (var_r0 != 0U) {
-                var_r0 = (u32)TWindowSubSymbolChatHelp__ct((TWindowSubSymbolChatHelp *)((u8 *)var_r0), (s32)&TWindowSubSymbolChat__data_805D6494, (s32)&TWindowSubSymbolChat__help_window);
+                var_r0 = (u32)__ct__24TWindowSubSymbolChatHelpFll((TWindowSubSymbolChatHelp *)((u8 *)var_r0), (s32)&TWindowSubSymbolChat__data_805D6494, (s32)&TWindowSubSymbolChat__help_window);
             }
             this->m_54 = var_r0;
         }
@@ -488,7 +488,7 @@ void TWindowSubSymbolChat::run_task() {
         if ((u32) this->m_54 == 0U) {
             var_r0_2 = ((u32)__nw__7TObjectFUl(0x74));
             if (var_r0_2 != 0U) {
-                var_r0_2 = (u32)TWindowSubSymbolChatHelp__ct((TWindowSubSymbolChatHelp *)((u8 *)var_r0_2), (s32)&TWindowSubSymbolChat__data_805D6494, (s32)&TWindowSubSymbolChat__help_window);
+                var_r0_2 = (u32)__ct__24TWindowSubSymbolChatHelpFll((TWindowSubSymbolChatHelp *)((u8 *)var_r0_2), (s32)&TWindowSubSymbolChat__data_805D6494, (s32)&TWindowSubSymbolChat__help_window);
             }
             this->m_54 = var_r0_2;
         }
@@ -551,7 +551,7 @@ void TWindowSubSymbolChat::run_task() {
         if ((u32) this->m_54 == 0U) {
             var_r0_3 = ((u32)__nw__7TObjectFUl(0x74));
             if (var_r0_3 != 0U) {
-                var_r0_3 = (u32)TWindowSubSymbolChatHelp__ct((TWindowSubSymbolChatHelp *)((u8 *)var_r0_3), (s32)&TWindowSubSymbolChat__data_805D6494, (s32)&TWindowSubSymbolChat__help_window);
+                var_r0_3 = (u32)__ct__24TWindowSubSymbolChatHelpFll((TWindowSubSymbolChatHelp *)((u8 *)var_r0_3), (s32)&TWindowSubSymbolChat__data_805D6494, (s32)&TWindowSubSymbolChat__help_window);
             }
             this->m_54 = var_r0_3;
         }
@@ -632,7 +632,7 @@ void TWindowSubSymbolChat::run_task() {
         if ((u32) this->m_54 == 0U) {
             var_r0_4 = ((u32)__nw__7TObjectFUl(0x74));
             if (var_r0_4 != 0U) {
-                var_r0_4 = (u32)TWindowSubSymbolChatHelp__ct((TWindowSubSymbolChatHelp *)((u8 *)var_r0_4), (s32)&TWindowSubSymbolChat__data_805D6494, (s32)&TWindowSubSymbolChat__help_window);
+                var_r0_4 = (u32)__ct__24TWindowSubSymbolChatHelpFll((TWindowSubSymbolChatHelp *)((u8 *)var_r0_4), (s32)&TWindowSubSymbolChat__data_805D6494, (s32)&TWindowSubSymbolChat__help_window);
             }
             this->m_54 = var_r0_4;
         }
