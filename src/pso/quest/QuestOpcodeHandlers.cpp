@@ -65,230 +65,6 @@ int qst_label_address(int label);
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/ui/Language.h"
 
-void qst_op_va_start(void);
-void qst_op_va_end(void);
-void qst_op_va_call(s32 arg0);
-void qst_op_mod(s32 arg0, s32 arg1);
-void qst_op_stack_pop(int a0);
-void qst_op_stack_pushm(s32 arg0, s32 arg1);
-void qst_op_stack_popm(s32 arg0, s32 arg1);
-void qst_op_arg_pushr(u8 a0);
-void qst_op_arg_pusha(u8 a0);
-void qst_op_arg_pusho(u16 a0);
-extern "C" {
-void qst_op_get_difficulty_level_v1(s32 arg0);
-}
-void qst_op_set_qt_exit(u16 arg0);
-void qst_op_particle(u8 arg0);
-void qst_op_npc_text(void);
-void qst_op_masterkey_on(void);
-void qst_op_masterkey_off(void);
-int qst_op_show_timer(void *p);
-void qst_op_getmtime(int a0);
-int qst_op_npc_text_clear_all(void *p);
-void qst_op_enable_mainmenu(void);
-void qst_op_start_battlebgm(void);
-void qst_op_end_battlebgm(void);
-void qst_op_set_returnhunter(void);
-void qst_op_set_returncity(void);
-void qst_op_load_pvr(void);
-void qst_op_load_midi(void);
-void qst_op_delete_bank_item(u8 arg0, u8 arg1);
-void qst_op_npc_param(void);
-void qst_op_clear_mainwarp(void);
-void qst_op_pcam_param(u8 arg0);
-void qst_op_start_setevt(void);
-int qst_op_warp_off(void *p);
-void qst_op_set_bgm(void);
-extern "C" {
-void qst_op_update_switch_flag(s32 arg0);
-}
-void qst_op_create_bgmctrl(void);
-void qst_op_pl_add_meseta2(void);
-void qst_op_leti_fixed_camera(u8 arg0);
-void qst_op_default_camera_pos1(void);
-void qst_op_set_chat_callback(void);
-extern "C" {
-void qst_op_get_difficulty_level_v2(s32 arg0);
-}
-void qst_op_get_number_of_players(int a0);
-void qst_op_get_coord_of_player(s32 a, s32 b);
-void qst_op_disable_weapon_drop(int _w0, int _w1);
-void qst_op_enable_weapon_drop(int _w0, int _w1);
-void qst_op_clear_ba_rules(void);
-void qst_op_ba_set_tech_disk_mode(void);
-void qst_op_ba_set_weapon_and_armor_mode(void);
-void qst_op_ba_set_forbid_mags(void);
-void qst_op_ba_set_replace_char(void);
-void qst_op_ba_dropwep(void);
-void qst_op_ba_teams(void);
-void qst_op_cmode_stage(void);
-void qst_op_nop_F821(u8 arg0);
-void qst_op_set_cmode_char_template(void);
-void qst_op_set_cmode_difficulty(void);
-void qst_op_go_floor(s32 a, s32 b);
-void qst_op_get_num_kills(s32 arg0, s32 arg1);
-extern "C" {
-void qst_op_reset_kills(s32 arg0);
-}
-void qst_op_set_switch_flag_sync(void);
-void qst_op_clear_switch_flag_sync(void);
-extern "C" {
-void qst_op_read_switch_flag(s32 arg0);
-void qst_op_read_switch_flag_on_floor(s32 arg0);
-void qst_op_control_dragon(s32 arg0);
-}
-void qst_op_set_area_total(void);
-void qst_op_prepare_npc_visual(s32 arg0);
-extern "C" {
-void qst_op_ba_player_take_damage_score(s32 a);
-void qst_op_ba_enemy_give_damage_score(s32 a);
-void qst_op_ba_enemy_take_damage_score(s32 a);
-void qst_op_ba_player_kill_score(s32 a);
-void qst_op_ba_player_death_score(s32 a);
-}
-int qst_op_override_warp_dest_floor(void *p);
-void qst_op_set_area_title(void);
-void qst_op_equip_item(u8 i);
-void qst_op_unequip_item(void);
-void qst_op_p_talk_guild_local(int _w0, int _w1);
-void qst_op_ba_enable_sonar(void);
-void qst_op_clear_score_announce(void);
-void qst_op_set_score_announce(void);
-void qst_op_give_s_rank_weapon(void);
-extern "C" {
-void qst_op_get_mag_levels(s32 i);
-}
-void qst_op_award_item_name(void);
-void qst_op_award_item_select(void);
-void qst_op_item_create_cmode(u8 arg0, u8 arg1);
-void qst_op_award_item_ok(int a0);
-int qst_op_ba_set_trapself(void);
-void qst_op_ba_set_max_tech_level(void);
-extern "C" {
-void qst_op_dark_falz_is_dead(s32 arg0);
-void qst_op_enable_techs(s32 arg0);
-void qst_op_disable_techs(s32 arg0);
-}
-void qst_op_get_gender(s32 arg0, s32 arg1);
-void qst_op_get_chara_class(s32 arg0, s32 arg1);
-void qst_op_take_slot_meseta(s32 arg0, s32 arg1);
-extern "C" {
-void qst_op_get_guild_card_file_creation_time(s32 arg0);
-}
-void qst_op_get_serial_number(u8 arg0);
-extern "C" {
-void qst_op_set_trap_damage(s32 i);
-void qst_op_get_pl_name(s32 arg0);
-void qst_op_get_pl_job(s32 arg0);
-}
-void qst_op_get_player_proximity(u8 arg0, u8 arg1);
-void qst_op_set_eventflag16(void);
-void qst_op_set_eventflag32(void);
-void qst_op_ba_get_place(u8 a0, u8 a1);
-extern "C" {
-void qst_op_get_player_state(s32 arg0, s32 arg1);
-}
-void qst_op_set_override_enemy_bp_index(void);
-void qst_op_set_enemy_movement_data(s32 arg0);
-void qst_op_get_eventflag16(u8 a0, u8 a1);
-void qst_op_get_eventflag32(u8 a0, u8 a1);
-void qst_op_get_random(s32 arg0, s32 arg1);
-void qst_op_chl_create_retry_menu(void);
-void qst_op_ba_forbid_scape_dolls(void);
-void qst_op_disable_bosswarp_option(void);
-void qst_op_enable_bosswarp_option(void);
-void qst_op_load_serial_number_to_flag_buf(void);
-void qst_op_set_chat_callback_no_filter(u8 i);
-void qst_op_set_symbol_chat_collision(u8 i);
-void qst_op_vol_opt_is_dead(s32 arg0);
-void qst_op_get_ba_record(u8 i);
-void qst_op_get_number_of_players2(int a0);
-void qst_op_party_has_name(s32 arg0);
-void qst_op_someone_has_spoken(s32 arg0);
-void qst_op_read1(void);
-void qst_op_disable_retry_menu(void);
-void qst_op_chl_show_dead_player_list(void);
-void qst_op_load_guild_card_file_creation_time_to_flag_buf(void);
-void qst_op_set_episode(s32 arg0);
-void qst_op_get_dl_status(s32 arg0);
-void qst_op_prepare_gba_rom_from_download(void);
-void qst_op_congrats_msg_multi_cm(u8 arg0);
-void qst_op_qexit(void);
-void qst_op_stop_animation(s32 arg0);
-void qst_op_set_slot_shock(s32 arg0);
-void qst_op_set_slot_freeze(s32 arg0);
-void qst_op_set_slot_slow(s32 arg0);
-void qst_op_set_slot_confuse(s32 arg0);
-void qst_op_set_slot_shifta(s32 arg0);
-void qst_op_fleti_fixed_camera(void);
-int qst_op_set_motion_blur(void);
-void qst_op_get_vector_from_path(void);
-extern "C" {
-void qst_op_npc_text_id(u8 a0, u8 a1, void *a2);
-}
-void qst_op_get_held_buttons(u8 src, u8 dst);
-void qst_op_get_pressed_buttons(u8 a0, u8 a1);
-void qst_op_toggle_freeze_enemies(void);
-void qst_op_unfreeze_enemies(void);
-void qst_op_restore_hp(s32 arg0);
-void qst_op_restore_tp(s32 arg0);
-void qst_op_close_chat_bubble(s32 arg0);
-void qst_op_move_coords_object(s32 i, s32 k);
-void qst_op_at_coords_call_ex(u8 i, u8 out);
-void qst_op_at_coords_talk_ex(u8 i, u8 out);
-void qst_op_party_coords_call_ex(u8 i, u8 out);
-void qst_op_set_obj_param_ex(u8 i, u8 out);
-void qst_op_check_npc_straggle_ex(u8 i, u8 slot);
-void qst_op_animation_check(s32 arg0, s32 arg1);
-void qst_op_call_image_data(void);
-int qst_op_turn_on_bgm_p2(void *p);
-void qst_op_compute_bezier_curve_point(void);
-void qst_op_particle2(void);
-void qst_op_dec2float(u8 reg, u8 src);
-void qst_op_float2dec(s32 arg0, s32 arg1);
-void qst_op_fadd(u8 reg, u8 src);
-void qst_op_faddi(u8 reg, s32 val);
-void qst_op_fsub(u8 reg, u8 src);
-void qst_op_fsubi(u8 reg, s32 val);
-void qst_op_fmul(u8 reg, u8 src);
-void qst_op_fmuli(u8 reg, s32 val);
-void qst_op_fdiv(u8 reg, u8 src);
-void qst_op_fdivi(u8 reg, s32 val);
-void qst_op_get_total_deaths(void);
-void qst_op_get_stackable_item_count(s32 i, s32 dst);
-void qst_op_toggle_freeze_and_hide_equip(void);
-void qst_op_thaw_and_show_equip(void);
-void qst_op_activate_palettex(void);
-void qst_op_enable_palettex(void);
-void qst_op_disable_movement2(void);
-void qst_op_enable_movement2(void);
-void qst_op_get_guildcard_total(int a0);
-void qst_op_get_section_id(void);
-void qst_op_write_counter(void);
-void qst_op_get_players_present(u8 out);
-void qst_op_open_pack_select(void);
-void qst_op_prevent_item_select(s32 arg0);
-void qst_op_get_chosen_item_id(int a0);
-void qst_op_add_color_overlay(void);
-void qst_op_send_statistic(void);
-void qst_op_chat_box(void);
-void qst_op_delayed_switch_episode(s32 arg0);
-void qst_op_scroll_text(void);
-void qst_op_item_delete_noreturn(void);
-void qst_op_get_item_info(void);
-void qst_op_wrap_item(void);
-void qst_op_wrap_item_with_color(void);
-void qst_op_enable_keyword_detect(void);
-void qst_op_get_recent_symbol_chat(void);
-void qst_op_create_symbol_chat_capture_buffer(void);
-void qst_op_get_item_stackability(void);
-void qst_op_sin(void);
-void qst_op_cos(void);
-void qst_op_tan(void);
-void qst_op_player_effect_nc(u8 arg0);
-void qst_op_has_ep3_save_file(void);
-
 struct RecoveredGlobal_8000F7FC_lbl_80515F48 {
     s32 value;
     u8 remaining[0x24];
@@ -395,7 +171,6 @@ const CmdTable_801E6604 message_substitution_handlers = { {
     { "name hero", append_hero_name },
     { "name job", append_hero_class_name },
 } };
-
 
 extern s32 local_client_id;
 
@@ -670,16 +445,13 @@ void append_message_char(s8 arg0) {
     *temp_r4 = arg0;
 }
 #undef quest_string_append_cursor
-void qst_op_olga_flow_is_dead(s32 arg0);
 extern "C" {
 s32 TObjPlayer__sub_801C1AC8();
 }
-void qst_op_get_guildcard_num(void);
 extern "C" {
 void TLobby__sub_80141038(u8 *arg0, s32 arg1, s32 arg2);
 }
 extern u8 lbl_80515BA0[];
-void qst_op_initial_floor(void);
 extern "C" {
 void *memcpy(void *, const void *, u32);
 void begin_message_substitution(u8 *a0, char *a1);
@@ -737,7 +509,6 @@ void qst_op_get_guildcard_num(void) {
     }
     qst_registers[(u8)temp_r31] = -1;
 }
-void qst_op_check_for_keyword(void);
 void qst_op_check_for_keyword(void) {
     u8 idx;
     idx = (u8) qst_args[0];
@@ -748,16 +519,10 @@ void qst_op_check_for_keyword(void) {
     qst_registers[(u8)idx] = 0;
 }
 
-
-void qst_op_prepare_statistic(void);
 extern "C" {
 s32 send_statistic_aa(int, int, int, int, void *);
 }
 extern s32 TLobby__protocol_instance;
-void qst_op_arg_pushw(u16 a0);
-void qst_op_arg_pushb(u8 a0);
-void qst_op_arg_pushs(int a0);
-
 
 void qst_op_enable_keyword_detect() { TOChatSensorCapture::create_instance((void*)tl_01); }
 
@@ -772,7 +537,6 @@ void qst_op_send_statistic() {
 }
 
 void qst_op_arg_pushs(int a0) { int old = qst_arg_count; qst_arg_count = old + 1; qst_args[old] = a0; }
-
 
 void qst_op_arg_pusho(u16 a0) {
     qst_args[qst_arg_count++] = (s32)&qst_function_table[a0];
@@ -1427,150 +1191,10 @@ void * get_owner_if_alive__10TObjPlayerFv(void *);
 s32 send_download_head_d7(int, int, int);
 void* __ct__13TQuestBgmCtrlFP7TObject(void*, TObject *);
 }
-void qst_op_item_create_multi_cm(u8 i);
-void qst_op_chat_bubble(void);
-void qst_op_prepare_gba_rom_from_disk(void);
-void qst_op_find_bank_item(u8 i, u8 out);
-void qst_op_read_counter(void);
-void qst_op_get_player_room(void);
-void qst_op_get_player_hp_tp(void);
-void qst_op_gba_write_identifiers(void);
-void qst_op_get_player_level(void);
-void qst_op_get_slot_meseta(u8 i);
-void qst_op_get_time_played(s32 arg0);
-int qst_op_gba_update_dl_graph(void* p);
-int qst_op_gba_destroy_dl_graph(void* p);
-int qst_op_gba_create_dl_graph(void* p);
-void qst_op_disable_palettex(void);
-void qst_op_restore_palettex(void);
-void qst_op_atan2_int(void);
-void qst_op_unfreeze_everything(void);
-void qst_op_toggle_freeze_everything(void);
-int qst_op_default_camera_pos2(void* p);
-void qst_op_fleti_locked_camera(void);
-int qst_op_set_screen_bw(void* p);
-void qst_op_set_slot_zalure(s32 arg0);
-void qst_op_set_slot_jellen(s32 arg0);
-void qst_op_set_slot_deband(s32 arg0);
-void qst_op_set_slot_paralyze(s32 arg0);
-void qst_op_set_slot_poison(s32 arg0);
-void qst_op_clear_slot_invincible(s32 arg0);
-void qst_op_set_slot_invincible(s32 arg0, s32 arg1);
-void qst_op_use_animation(s32 arg0, s32 arg1);
 extern "C" {
 void reset_random_enemies_mode__6TLobbyFv(void);
 }
-void qst_op_results_window_visible_multi_cm(s32 arg0);
-void qst_op_start_or_update_gba_joyboot(s32 idx);
-void qst_op_file_dl_req(void);
-int qst_op_write_flag_buf_to_event_flags2(void* p);
-void qst_op_chl_set_min_time_online(s32 arg0);
-void qst_op_check_for_hacking(u8 out);
-void qst_op_is_there_grave_message(s32 arg0);
-void qst_op_ba_death_tech_level_up(void);
-void qst_op_write_flag_buf_to_event_flags(u8 arg0);
-void qst_op_is_bosswarp_opt_disabled(s32 arg0);
-void qst_op_player_recovery(s32 arg0);
-void qst_op_get_chl_retry_choice(s32 arg0);
-void qst_op_reset_map(void);
-void qst_op_set_enemy_resist_data(s32 arg0);
-void qst_op_set_enemy_attack_data(s32 arg0);
-void qst_op_set_enemy_physical_data(int _w0);
-void qst_op_set_cmode_grave_rates(s32 reg);
-void qst_op_chl_get_timerecord(s32 arg0);
 extern "C" {
-void qst_op_chl_set_timerecord(s32 arg0);
-void qst_op_get_game_version(s32 arg0);
-}
-void qst_op_send_mail(void);
-void qst_op_disable_win_pfx(void);
-void qst_op_enable_win_pfx(void);
-void qst_op_ba_get_score(u8 src, u8 dst);
-int qst_op_turn_off_bgm_p2(void* p);
-void qst_op_nop_F8EF(void);
-void qst_op_get_eventflag(s32 arg0, s32 arg1);
-extern "C" {
-void qst_op_kill_player(s32 arg0);
-void qst_op_disable_stealth_suit_effect(s32 arg0);
-void qst_op_enable_stealth_suit_effect(s32 arg0);
-}
-void qst_op_set_cmode_rank_override(void);
-int qst_op_ba_clear_trapself(void);
-extern "C" {
-void qst_op_ba_set_box_drop_area(s32 arg0);
-}
-void qst_op_check_rank_time(u8 arg0, u8 arg1);
-void qst_op_set_cmode_rank_result(void);
-void qst_op_ba_sonar_count(void);
-void qst_op_set_allow_item_flags(void);
-int qst_op_ba_hide_self_traps(void);
-int qst_op_ba_show_self_traps(void);
-int qst_op_unset_ult_map(void* p);
-int qst_op_set_ult_map(void* p);
-int qst_op_restore_warp_dest_floor(void* p);
-void qst_op_set_current_area_number(void);
-void qst_op_ba_set_meseta_drop_mode(void);
-void qst_op_ba_death_lvl_up(void);
-void qst_op_ba_set_time_limit(void);
-void qst_op_ba_set_char_level(void);
-void qst_op_ba_set_lives(void);
-void qst_op_ba_hide_target_reticle(void);
-extern "C" {
-void qst_op_ba_set_trap_count(s32 reg);
-void qst_op_set_cmode_base_time(s32 arg0);
-}
-int qst_op_enable_npc_visual(void* p);
-void qst_op_set_shrink_cam2(u8 arg0);
-void qst_op_set_shrink_cam1(u8 arg0);
-extern "C" {
-void qst_op_unshrink(s32 arg0);
-void qst_op_shrink(s32 arg0);
-}
-void qst_op_release_dragon(void* p);
-extern "C" {
-void qst_op_cmode_check_any_player_dead(s32 arg0);
-void qst_op_cmode_check_all_players_dead(s32 arg0);
-void qst_op_nop_F822(s32 arg0);
-}
-void qst_op_ba_start(void);
-void qst_op_ba_set_respawn(void);
-void qst_op_ba_set_unused_F817(void);
-void qst_op_ba_set_trap_mode(void);
-void qst_op_ba_set_tool_mode(void);
-void qst_op_ba_initial_floor(void);
-int qst_op_disable_map(void);
-int qst_op_enable_map(void);
-void qst_op_pad_dragon(void* p);
-void qst_op_set_eventflag2(void);
-void qst_op_set_eventflag(void);
-void qst_op_disable_mainmenu(void);
-void qst_op_nop_BC(void);
-extern "C" {
-int qst_op_clr_qt_exit(void);
-}
-void qst_op_setevt(void);
-extern "C" {
-void qst_op_winset_time(s32 arg0);
-}
-void qst_op_find_inventory_item_ex(u8 arg0, u8 arg1);
-extern "C" {
-void qst_op_del_obj_param(s32 arg0);
-int qst_op_clr_qt_cancel(void);
-int qst_op_clr_qt_success(void);
-}
-int qst_op_clear_mainwarp_all(void* p);
-int qst_op_pl_pkon(void* p);
-int qst_op_pl_pkoff(void* p);
-int qst_op_npc_chkwarp(void* p);
-extern "C" {
-void qst_op_unhide_ene(s32 arg0);
-void qst_op_unhide_obj(s32 arg0);
-}
-void qst_op_close_msg_qb(void);
-extern "C" {
-void qst_op_stack_push(s32 arg0);
-void qst_op_jmp_off(s32 arg0, u8 arg1, u8 *arg2);
-void qst_op_jmp_on(s32 arg0, u8 arg1, u8 *arg2);
 s32 set_flag_80000__6TLobbyFv(int);
 s32 set_flag_40000__6TLobbyFv(int);
 s32 TLobby__sub_801F3314(int);
@@ -1638,132 +1262,8 @@ int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int 
 s32 check_room_seq_4__16TAdChrSelASlotGCFl(s32 a, s32 b);
 u32 update_window_mode_from_progress__6TLobbyFPv(s32, Pair_801F1838 *);
 }
-void qst_op_p_hpstat(void);
 void reset_cameras_to_actor(void *actor, s32 arg1);
 void init_6x40_walk_packet(void *a0);
-void qst_op_get_lang_setting(void);
-void qst_op_write4(void);
-void qst_op_write2(void);
-void qst_op_write1(void);
-void qst_op_read4(void);
-void qst_op_read2(void);
-void qst_op_set_shrink_size(s32 player_variable, s32 size_variable);
-void qst_op_shift_right(s32 arg0, s32 arg1);
-void qst_op_shift_left(s32 arg0, s32 arg1);
-void qst_op_map_designate_ex(u32 first);
-void qst_op_get_leader_id(u8 reg);
-void qst_op_get_client_id(u8 reg);
-int qst_op_warp_on(void* p);
-void qst_op_sync_register(void);
-void qst_op_clear_quest_board_handler(void);
-void qst_op_set_quest_board_handler(void);
-int qst_op_winend_time(void* p);
-void qst_op_map_designate(u32 first);
-void qst_op_item_check(u32 first, u32 destination);
-void qst_op_item_delete2(u32 src, u32 dst);
-void qst_op_item_delete(u32 src, u32 dst);
-void qst_op_item_create2(u8 arg0, u8 arg1);
-void qst_op_item_create(u8 arg0, u8 arg1);
-void qst_op_pl_add_meseta(void);
-int qst_op_clr_qt_failure(void);
-void qst_op_set_qt_cancel(u16 arg0);
-void qst_op_set_qt_success(u16 arg0);
-void qst_op_set_qt_failure(u16 arg0);
-void qst_op_clr_floor_handler(void);
-void qst_op_set_floor_handler(void);
-void qst_op_set_mainwarp(void);
-void qst_op_playbgm_epi(void);
-void qst_op_switch_off(void);
-void qst_op_switch_on(void);
-void qst_op_npc_talk_kill(void);
-void qst_op_p_talk_guild(void);
-void qst_op_p_return_guild(void);
-void qst_op_nop_A0_debug(void);
-int qst_op_cine_disable(void);
-int qst_op_cine_enable(void);
-void qst_op_hud_show(void);
-void qst_op_hud_hide(void);
-void qst_op_gettime(u8 arg0);
-void qst_op_chk_ene_num(int a0);
-void qst_op_if_zone_clear(s32 arg0, s32 arg1);
-void qst_op_p_action_enable(void);
-void qst_op_p_action_disable(void);
-void qst_op_create_pipe(void);
-void qst_op_p_enablewarp(void);
-void qst_op_p_disablewarp(void);
-void qst_op_p_dead(void);
-void qst_op_p_look_at(void);
-void qst_op_p_look(void);
-int qst_op_p_col(void* p);
-int qst_op_p_noncol(void* p);
-void qst_op_enable_movement1(void);
-void qst_op_disable_movement1(void);
-int qst_op_npc_talk(void* p);
-int qst_op_npc_nont(void* p);
-void qst_op_npc_kill(void);
-int qst_op_cam_adj(void* p);
-void qst_op_cam_pan(u8 reg);
-void qst_op_nop_86(void);
-void qst_op_nop_85(void);
-int qst_op_cam_zmout(void* p);
-int qst_op_cam_zmin(void* p);
-int qst_op_cam_quake(void);
-void qst_op_npc_play(void);
-void qst_op_npc_stop(void);
-void qst_op_npc_crtpk(void);
-void qst_op_npc_crt(void);
-void qst_op_winend(void);
-void qst_op_mesend(void);
-void qst_op_add_msg(void);
-void qst_op_disp_msg_qb(void);
-void qst_op_window_msg(void);
-void qst_op_bgm(void);
-void qst_op_se(void);
-void qst_op_fadeout(void);
-void qst_op_fadein(void);
-void qst_op_list(void);
-void qst_op_message(void);
-void qst_op_switch_call(s32 arg0, u8 arg1, s32 arg2);
-void qst_op_switch_jmp(s32 arg0, u8 arg1, s32 arg2);
-void qst_op_jmpi_le(s32 arg0, s32 arg1, s32 arg2);
-void qst_op_jmp_le(s32 arg0, s32 arg1, s32 arg2);
-void qst_op_ujmpi_le(s32 arg0, u32 arg1, s32 arg2);
-void qst_op_ujmp_le(s32 arg0, s32 arg1, s32 arg2);
-void qst_op_jmpi_ge(s32 arg0, s32 arg1, s32 arg2);
-void qst_op_jmp_ge(s32 arg0, s32 arg1, s32 arg2);
-void qst_op_ujmpi_ge(s32 arg0, u32 arg1, s32 arg2);
-void qst_op_ujmp_ge(s32 arg0, s32 arg1, s32 arg2);
-void qst_op_jmpi_lt(s32 arg0, s32 arg1, s32 arg2);
-void qst_op_jmp_lt(s32 arg0, s32 arg1, s32 arg2);
-void qst_op_ujmpi_lt(s32 arg0, u32 arg1, s32 arg2);
-void qst_op_ujmp_lt(s32 arg0, s32 arg1, s32 arg2);
-void qst_op_jmpi_gt(s32 arg0, s32 arg1, s32 arg2);
-void qst_op_jmp_gt(s32 arg0, s32 arg1, s32 arg2);
-void qst_op_ujmpi_gt(s32 arg0, u32 arg1, s32 arg2);
-void qst_op_ujmp_gt(s32 arg0, s32 arg1, s32 arg2);
-void qst_op_jmpi_ne(s32 arg0, s32 arg1, s32 arg2);
-void qst_op_jmp_ne(s32 arg0, s32 arg1, s32 arg2);
-void qst_op_jmpi_eq(s32 arg0, s32 arg1, s32 arg2);
-void qst_op_jmp_eq(s32 arg0, s32 arg1, s32 arg2);
-void qst_op_call(u16 arg0);
-void qst_op_modi(s32 arg0, u32 arg1);
-void qst_op_jmp(int a0);
-void qst_op_xori(s32 arg0, s32 arg1);
-void qst_op_xor(s32 arg0, s32 arg1);
-void qst_op_ori(s32 arg0, s32 arg1);
-void qst_op_or(s32 arg0, s32 arg1);
-void qst_op_andi(s32 arg0, s32 arg1);
-void qst_op_and(s32 arg0, s32 arg1);
-void qst_op_divi(s32 arg0, s32 arg1);
-void qst_op_div(s32 arg0, s32 arg1);
-void qst_op_muli(s32 arg0, s32 arg1);
-void qst_op_mul(s32 arg0, s32 arg1);
-void qst_op_subi(s32 arg0, s32 arg1);
-void qst_op_sub(s32 arg0, s32 arg1);
-void qst_op_addi(int a0, int a1);
-void qst_op_add(s32 arg0, s32 arg1);
-void qst_op_gget(u16 arg0, s32 arg1);
-void qst_op_glet(u16 arg0, s32 arg1);
 s32 get_field_d4(void *);
 void build_6x77_sync_quest_register(void* p);
 void set_quest_floor_designation_ex(s16, s32, s32, s32, s32);
@@ -3087,7 +2587,6 @@ void qst_op_set_shrink_size(s32 player_variable, s32 size_variable) {
         ((TObjPlayer *)(&player->scale_state))->set_speed(denominator > 0 ? (f32)whole + (f32)numerator / (f32)denominator : (f32)whole);
     }
 }
-
 
 void qst_op_set_symbol_chat_collision(u8 i) {
     Spawn_801EA388 s;
@@ -4553,7 +4052,6 @@ void qst_op_map_designate_ex(u32 first) {
     set_quest_floor_designation_ex(c, a, b, d, e);
 }
 
-
 int qst_op_disable_map(void) { return set_mode__13TRaderMapCoreFi((void*)(0)); }
 
 int qst_op_enable_map(void) { return set_mode__13TRaderMapCoreFi((void*)(1)); }
@@ -4609,11 +4107,9 @@ void qst_op_get_client_id(u8 reg) {
     qst_registers[reg] = local_client_id;
 }
 
-
 int qst_op_warp_off(void *p) { return TLobby__sub_801F36E4(p); }
 
 int qst_op_warp_on(void* p) { return set_cleanup_flag__6TLobbyFv(p); }
-
 
 void qst_op_start_setevt() {
     Pkt_801EE048 pkt;
@@ -4686,7 +4182,6 @@ void qst_op_sync_register(void) {
     pkt.b = qst_args[1];
     ((TLobby *)(&pkt))->sync_quest_register_and_send();
 }
-
 
 void qst_op_set_eventflag2(void) {
     u32 x = (u32)qst_args[0];
@@ -4778,7 +4273,6 @@ void qst_op_set_quest_board_handler(void) {
     }
 }
 
-
 void qst_op_getmtime(int a0) { qst_registers[(unsigned char)(a0)] = TLobby__sub_803DF1CC(); }
 
 void qst_op_winset_time(s32 arg0) {
@@ -4786,7 +4280,6 @@ void qst_op_winset_time(s32 arg0) {
 }
 
 int qst_op_winend_time(void* p) { return close_timer_window__11TWindowCtrlFv(p); }
-
 
 int qst_op_show_timer(void *p) { return create_alt_timer__11TWindowCtrlFv(p); }
 
@@ -4802,7 +4295,6 @@ void qst_op_map_designate(u32 first) {
     s32 extra = qst_registers[(u8)i];
     set_quest_floor_designation(mode, floor, terrain, extra);
 }
-
 
 void qst_op_find_inventory_item_ex(u8 arg0, u8 arg1) {
     Item_801EE77C item;
@@ -4991,7 +4483,6 @@ void qst_op_item_create(u8 arg0, u8 arg1) {
     }
 }
 
-
 void qst_op_del_obj_param(s32 arg0) {
     delete_by_param__13TQuestColCtrlFl((int) (qst_registers[(u8)arg0]), qst_registers);
 }
@@ -5016,7 +4507,6 @@ void qst_op_pl_add_meseta(void) {
         ((TObjPlayer *)player)->add_meseta((s32)(amount));
     }
 }
-
 
 int qst_op_clr_qt_cancel(void) { return set_quest_cancel_callback((void*)(-1)); }
 
@@ -5044,7 +4534,6 @@ void qst_op_set_floor_handler(void) {
     TQuestThread::set_floor_handler(qst_args[0], (u16)qst_args[1]);
 }
 
-
 void qst_op_pcam_param(u8 arg0) {
     s32 i = arg0;
     Vec a;
@@ -5071,7 +4560,6 @@ void qst_op_set_mainwarp(void) {
     TObjCityMainWarp::set_active_bit((int) (qst_args[0]));
     TObjDoor::set_main_warp_id(temp_r31);
 }
-
 
 void qst_op_set_bgm() {
     TQuestBgmCtrl::force_bgm((int) (qst_args[0]));
@@ -5121,7 +4609,6 @@ void qst_op_p_return_guild(void) {
         prepare_guild_return__10TObjPlayerFPv(player, 0);
     }
 }
-
 
 int qst_op_npc_text_clear_all(void *p) { return clear_partner_dialogue_flags(p); }
 
@@ -5267,7 +4754,6 @@ void qst_op_gettime(u8 arg0) {
     qst_registers[arg0] = sp8;
 }
 #pragma pop
-
 
 void qst_op_unhide_ene(s32 arg0) {
     s32 v0 = qst_registers[(u8)arg0];
@@ -5426,7 +4912,6 @@ void qst_op_p_move(u8 arg0) {
 void qst_op_p_look_at(void) {
     quest_player_face_actor((u16) qst_args[0], (u16) qst_args[1]);
 }
-
 
 void qst_op_player_effect_nc(u8 arg0) {
     Vec v;
@@ -5662,8 +5147,6 @@ void set_arrival_override_coords(u16 slot, s32 heading, f32 x, f32 y, f32 z);
 void queue_player_injured_pose(s32 arg0);
 }
 void set_player_quest_control_flag(TObjPlayer *player);
-void qst_op_npc_crptalk_id(u8 first);
-void qst_op_npc_crptalk(u8 first);
 
 void qst_op_npc_crptalk_id(u8 first) {
     f32 pos[3];
@@ -5759,7 +5242,6 @@ void qst_op_npc_crtpk(void) {
     send_npc_control_notify_players__10TNpcPlayerFsUss(a & 0xFFFF, 1, b);
     TLobby::clear_quest_vm_flag();
 }
-
 
 void qst_op_npc_param() {
     Npc_801F1450 s;
@@ -5885,7 +5367,6 @@ void qst_op_add_msg(void) {
     qst_op_message();
 }
 
-
 void qst_op_close_msg_qb(void) {
     if (qst_message_window_qb != NULL) {
         ((TWindowBase *)qst_message_window_qb)->close();
@@ -6005,7 +5486,6 @@ void qst_op_message(void) {
         }
     }
 }
-
 
 void qst_op_stack_popm(s32 arg0, s32 arg1) {
     s32 n = arg1;
@@ -6167,7 +5647,6 @@ void qst_op_jmp_eq(s32 arg0, s32 arg1, s32 arg2) {
     }
 }
 
-
 void qst_op_jmp_off(s32 arg0, u8 arg1, u8 *arg2) {
     s32 all_off = 1;
     while (arg1 != 0) {
@@ -6202,7 +5681,6 @@ void qst_op_call(u16 arg0) {
 void qst_op_modi(s32 arg0, u32 arg1) {
     qst_registers[(u8)arg0] %= arg1;
 }
-
 
 void qst_op_mod(s32 arg0, s32 arg1) {
     qst_registers[(u8)arg0] %= qst_registers[(u8)arg1];
@@ -6283,21 +5761,9 @@ void qst_op_glet(u16 flag, s32 arg1) {
     clear_story_flag((flag));
 }
 
-
-void qst_op_gclear(u16 arg0);
-void qst_op_gset(u16 arg0);
 namespace pf2_p6 { extern "C" { s32 dispatch_by_main_phase__14TBoss4DarkFalzFUs(s32); } }
 #define dispatch_by_main_phase__14TBoss4DarkFalzFUs pf2_p6::dispatch_by_main_phase__14TBoss4DarkFalzFUs
-void qst_op_thread_stg(u16 arg0);
-void qst_op_thread(u16 arg0);
 extern "C" {
-void qst_op_rev(s32 arg0);
-void qst_op_clear(s32 arg0);
-void qst_op_set(s32 arg0);
-}
-void qst_op_leto(s32 arg0, s32 arg1);
-extern "C" {
-void qst_op_grev(s32 arg0);
 void qst_op_grev(s32 arg0) {
     u16 v = arg0;
     if (get_story_flag(v) != 0) {
@@ -6307,15 +5773,6 @@ void qst_op_grev(s32 arg0) {
     TBoss4DarkFalz::dispatch_by_main_phase(v);
 }
 }
-void qst_op_leta(s32 arg0, s32 arg1);
-void qst_op_let(s32 arg0, s32 arg1);
-void qst_op_letw(int a0, int a1);
-void qst_op_exit(void);
-void qst_op_letb(int a0, int a1);
-void qst_op_leti(int a0, int a1);
-void qst_op_nop(void);
-void qst_op_ret(void);
-void qst_op_sync(void);
 void qst_op_gclear(u16 flag) {
     clear_story_flag((flag));
 }
@@ -6323,7 +5780,6 @@ void qst_op_gclear(u16 flag) {
 void qst_op_gset(u16 arg0) {
     TBoss4DarkFalz::dispatch_by_main_phase((s32)(arg0));
 }
-
 
 void qst_op_rev(s32 arg0) {
     qst_registers[(u8)arg0] = qst_registers[(u8)arg0] == 0;
