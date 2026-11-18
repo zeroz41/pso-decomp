@@ -6591,7 +6591,7 @@ pso/object/ambient/TObjLight_80235C44.cpp:
 
 pso/object/ambient/TObjLight_80236D60.cpp:
 	.text       start:0x80236D60 end:0x80236EE8
-	.data       start:0x804CCAC0 end:0x804CCAC8
+	.data       start:0x804CCAC0 end:0x804CCAE0
 
 pso/unk/text_80236EE8.cpp:
 	.text       start:0x80236EE8 end:0x80237194
