@@ -18,9 +18,7 @@ WindowDescriptor window_callback_base_params = {
 
 extern "C" {
 void set_field_60__15TWindowCallBackFPvi(void* p, s32 v);
-extern s32 __vt__15TWindowCallBack[];
 const char *lbl_805D3E58 = "TWindowCallBack";
-u8 *TWindowCallBack__ct(u8 *arg0, s32 arg1, u8 *arg2, s32 arg3);
 void fn_802ACD40(void* p);
 void fn_802ACD60(void* p);
 void run_task__15TWindowCallBackFv(void* p);
@@ -47,12 +45,11 @@ void TWindowCallBack::render() {
 void run_task__15TWindowCallBackFv(void* p) { ((TWindowDD *)p)->initialize_subwindow(); ((TWindowBase *)p)->update_fade(); }
 
 TWindowCallBack::~TWindowCallBack() {}
-u8 *TWindowCallBack__ct(u8 *arg0, s32 arg1, u8 *arg2, s32 arg3) {
-    __ct__11TWindowBaseFPUcsPUc(arg0, (u8 *)((s32) &window_callback_base_params), (s16)4, (u8 *)arg1);
-    *(s32 **)((s8 *)arg0 + 0x18) = __vt__15TWindowCallBack;
-    *(const char **)((s8 *)arg0 + 0) = lbl_805D3E58;
-    ((TWindowSubSymbolChatPartsSet *)(arg0 + 0x38))->copy_vec2(arg2);
-    ((TWindowBase *)arg0)->save_position();
-    set_field_60__15TWindowCallBackFPvi(arg0, arg3);
-    return arg0;
+#define self ((u8 *)this)
+TWindowCallBack::TWindowCallBack(s32 arg1, u8 *arg2, s32 arg3) : TWindowBase((u8 *)((s32) &window_callback_base_params), (s16)4, (u8 *)arg1) {
+    m_name = lbl_805D3E58;
+    ((TWindowSubSymbolChatPartsSet *)(self + 0x38))->copy_vec2(arg2);
+    ((TWindowBase *)self)->save_position();
+    set_field_60__15TWindowCallBackFPvi(self, arg3);
 }
+#undef self
