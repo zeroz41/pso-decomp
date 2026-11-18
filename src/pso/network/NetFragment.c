@@ -374,7 +374,7 @@ s32 TLobby__sub_80419374(NetFragPacket *pkt) {
     /* declared here with an s32 length and result; the definitions take an s16 length and icmp6_send_error
        returns s16 */
     s32 icmp6_send_error(void *a, u8 *src, s32 c, s16 flag);
-    s32 TUdpSocket__sub_8040CE58(u8 *p, u8 *b, s32 x, s16 id);
+    s32 icmp_send_error(u8 *p, u8 *b, s32 x, s16 id);
     u8 *q;
     s32 type;
     s32 total;
@@ -402,7 +402,7 @@ s32 TLobby__sub_80419374(NetFragPacket *pkt) {
         msg.type = 0xb;
         msg.code = 1;
         msg.unused = 0;
-        return TUdpSocket__sub_8040CE58((u8 *)&msg, q, total, pkt->iface);
+        return icmp_send_error((u8 *)&msg, q, total, pkt->iface);
     }
     case 6: {
         NetIcmpv6Header msg;

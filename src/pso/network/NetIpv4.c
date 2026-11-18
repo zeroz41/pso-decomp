@@ -44,7 +44,7 @@ s32 TLobby__sub_8040DD68(void) {
     return 0;
 }
 
-s32 TUdpSocket__sub_8040DE4C(u8 *ip, s16 x, s16 id);
+s32 ipv4_input(u8 *ip, s16 x, s16 id);
 s32 init_ipv4_interfaces(void) {
     s16 i;
     E_8040DDB0 *e;
@@ -61,11 +61,11 @@ s32 init_ipv4_interfaces(void) {
         e++;
     }
     g->f8 = 1;
-    register_protocol_handler(0x800, (NetProtocolHandler)TUdpSocket__sub_8040DE4C);
+    register_protocol_handler(0x800, (NetProtocolHandler)ipv4_input);
     return 0;
 }
 
-s32 TUdpSocket__sub_8040DE4C(u8 *ip, s16 x, s16 id)
+s32 ipv4_input(u8 *ip, s16 x, s16 id)
 {
   u8 *p;
   u8 *g;
@@ -85,7 +85,7 @@ s32 TUdpSocket__sub_8040DE4C(u8 *ip, s16 x, s16 id)
   s32 fragment_input(u8* self, void* p1, s16 p2, u8 p3, u32 p4, void* p5, u16 p6, u8 p7, s16 p8);
   s16 tcp_input(void *, void *, void *); /* declared here with void * parameters; the definition takes (u8 *, u8 *, u8 *) */
   s16 udp_input(void *, void *, void *, s16); /* declared here with void * parameters; the definition takes (NetPacket *, NetworkAddress *, NetworkAddress *, s16) */
-  s32 TLobby__sub_80421AD8(u8 *, u32, u32, u32, s16); /* declared here with other parameter types; the definition is s32 (u8 *, s32, s32, u32, s32) */
+  s32 raw_socket_deliver_ipv4(u8 *, u32, u32, u32, s16); /* declared here with other parameter types; the definition is s32 (u8 *, s32, s32, u32, s32) */
   u16 ones_complement_sum(void *, s16);
   NetworkAddress src;
   NetworkAddress dst;
@@ -132,13 +132,13 @@ s32 TUdpSocket__sub_8040DE4C(u8 *ip, s16 x, s16 id)
   }
   if (id != 0)
   {
-    if (TLobby__sub_8040FCEC(dst.ipv4) < 0)
+    if (ipv4_iface_for_address(dst.ipv4) < 0)
     {
-      if (TLobby__sub_8040FDA0(dst.ipv4, id) == 0)
+      if (NetIPv4IsBroadcast(dst.ipv4, id) == 0)
       {
-        if (TLobby__sub_8040FE40(id) != 0)
+        if (NetIPv4IsInterfaceUp(id) != 0)
         {
-          r = TUdpSocket__sub_8040E354((u8 *) dst.ipv4, src.ipv4, ip, x, id);
+          r = AT_IP4_Forward((u8 *) dst.ipv4, src.ipv4, ip, x, id);
           if (0 > r)
           {
             return -1;
@@ -188,7 +188,7 @@ s32 TUdpSocket__sub_8040DE4C(u8 *ip, s16 x, s16 id)
   {
     case 1:
       found = 1;
-      r = TLobby__sub_8040CB44((u8 *) pkt, src.ipv4, dst.ipv4);
+      r = icmp_input((u8 *) pkt, src.ipv4, dst.ipv4);
       if (r < 0)
     {
       if (frag == 1)
@@ -233,7 +233,7 @@ s32 TUdpSocket__sub_8040DE4C(u8 *ip, s16 x, s16 id)
           ic.type = 3;
           ic.code = 3;
           ic.w = 0;
-          rr = TUdpSocket__sub_8040CE58((u8 *)&ic, ip, x, id);
+          rr = icmp_send_error((u8 *)&ic, ip, x, id);
           if (frag == 1)
         {
           release_packet_fragments(pkt);
@@ -277,7 +277,7 @@ s32 TUdpSocket__sub_8040DE4C(u8 *ip, s16 x, s16 id)
         {
           if ((*((u32 *)(p + 16))) != 0)
           {
-            TLobby__sub_80421AD8((u8 *) pkt, src.ipv4, dst.ipv4, *((u32 *)(p + 16)), i);
+            raw_socket_deliver_ipv4((u8 *) pkt, src.ipv4, dst.ipv4, *((u32 *)(p + 16)), i);
             found = 1;
           }
         }
@@ -298,7 +298,7 @@ s32 TUdpSocket__sub_8040DE4C(u8 *ip, s16 x, s16 id)
   ic.type = 3;
   ic.code = 2;
   ic.w = 0;
-  TUdpSocket__sub_8040CE58((u8 *)&ic, ip, x, id);
+  icmp_send_error((u8 *)&ic, ip, x, id);
   if (frag == 1)
   {
     release_packet_fragments(pkt);
@@ -307,7 +307,7 @@ s32 TUdpSocket__sub_8040DE4C(u8 *ip, s16 x, s16 id)
   return -1;
 }
 
-s16 TUdpSocket__sub_8040E354(u8 *self, u32 key, u8 *pkt, s16 total, s16 id)
+s16 AT_IP4_Forward(u8 *self, u32 key, u8 *pkt, s16 total, s16 id)
 {
   u16 ones_complement_sum(void *, s16);
   s16 cnt8;
@@ -360,7 +360,7 @@ s16 TUdpSocket__sub_8040E354(u8 *self, u32 key, u8 *pkt, s16 total, s16 id)
     return -1;
   }
   pkt[8] = pkt[8] - 1;
-  rt = TLobby__sub_8040F76C((u32) self, key);
+  rt = AT_IP4_RouteSearch((u32) self, key);
   if (rt == 0)
   {
     return -6;
@@ -429,7 +429,7 @@ s16 TUdpSocket__sub_8040E354(u8 *self, u32 key, u8 *pkt, s16 total, s16 id)
       rec->fragments[rec->fragment_count].length = hdr;
       set_value_and_enable(&rec->fragments[rec->fragment_count].buffer, (s32) pkt);
       rec->fragment_count += 1;
-      r = ipv4_send_to_interface(rec, (u32) target, ifidx);
+      r = AT_IP4_PktSend(rec, (u32) target, ifidx);
       if (r < 0)
       {
         release_entry(rec);
@@ -472,7 +472,7 @@ s16 TUdpSocket__sub_8040E354(u8 *self, u32 key, u8 *pkt, s16 total, s16 id)
     rec->fragments[rec->fragment_count].length = hdr;
     set_value_and_enable(&rec->fragments[rec->fragment_count].buffer, (s32) pkt);
     rec->fragment_count += 1;
-    r = ipv4_send_to_interface(rec, (u32) target, ifidx);
+    r = AT_IP4_PktSend(rec, (u32) target, ifidx);
     release_entry(rec);
   }
   return r;
@@ -480,7 +480,7 @@ s16 TUdpSocket__sub_8040E354(u8 *self, u32 key, u8 *pkt, s16 total, s16 id)
 
 #pragma push
 #pragma opt_common_subs on
-s16 TLobby__sub_8040E780(u8 *rec, u32 dst, u32 src, u8 ttl, u8 tos, u8 df, void *proto)
+s16 AT_IP4_Send(u8 *rec, u32 dst, u32 src, u8 ttl, u8 tos, u8 df, void *proto)
 {
   s16 tot;
   u8 *g;
@@ -511,22 +511,22 @@ s16 TLobby__sub_8040E780(u8 *rec, u32 dst, u32 src, u8 ttl, u8 tos, u8 df, void 
     u8 b[0x98];
   } loc;
   g = (u8 *)&ipv4_protocol_state;
-  ent = TLobby__sub_8040F76C(dst, src);
+  ent = AT_IP4_RouteSearch(dst, src);
   if ((ent == 0) != 0)
   {
     return -6;
   }
   if (src == 0)
   {
-    r = ipv4_source_for_subnet(&src, *((u32 *)(ent + 12)), *((s16 *)(ent + 2)));
+    r = AT_IP4_SrcAddrSel(&src, *((u32 *)(ent + 12)), *((s16 *)(ent + 2)));
     if (r < 0)
     {
       return r;
     }
   }
-  if (TLobby__sub_8040FDA0(src, *((s16 *)(ent + 2))) != 0)
+  if (NetIPv4IsBroadcast(src, *((s16 *)(ent + 2))) != 0)
   {
-    r = ipv4_source_for_subnet(&src, *((u32 *)(ent + 12)), *((s16 *)(ent + 2)));
+    r = AT_IP4_SrcAddrSel(&src, *((u32 *)(ent + 12)), *((s16 *)(ent + 2)));
     if (r < 0)
     {
       return r;
@@ -600,7 +600,7 @@ s16 TLobby__sub_8040E780(u8 *rec, u32 dst, u32 src, u8 ttl, u8 tos, u8 df, void 
     } *) (rec + 0xc))[*((s32 *)(rec + 4))].v = 20;
     set_value_and_enable((rec + 0x10) + ((*((s32 *)(rec + 4))) * 12), (s32) ip);
     *((s32 *)(rec + 4)) += 1;
-    return ipv4_send_to_interface(rec, (u32) target, ifidx);
+    return AT_IP4_PktSend(rec, (u32) target, ifidx);
   }
   off = 0;
   if (df != 0)
@@ -692,7 +692,7 @@ s16 TLobby__sub_8040E780(u8 *rec, u32 dst, u32 src, u8 ttl, u8 tos, u8 df, void 
     *((s16 *) ((ent + ((*((s32 *)(ent + 4))) * 12)) + 12)) = 20;
     set_value_and_enable((ent + 0x10) + ((*((s32 *)(ent + 4))) * 12), (s32) ip);
     *((s32 *)(ent + 4)) += 1;
-    r = ipv4_send_to_interface(ent, (u32) target, ifidx);
+    r = AT_IP4_PktSend(ent, (u32) target, ifidx);
     if (r < 0)
     {
       return r;

@@ -272,8 +272,8 @@ extern s16 TLobby__sub_8040A698(s16 idx, void *buf, s16 *len, void *buf2, s16 *l
 #pragma pop
 
 s16 udp_open(s16 a, void* b, void* c, u16 d, void* e, void* f);
-s32 TLobby__sub_8040B4BC(s16 mode, UdpDatagram *req);
-DnsHost *TLobby__sub_8040C09C(void);
+s32 AT_DNS_UdpReceiver(s16 mode, UdpDatagram *req);
+DnsHost *dns_alloc_host(void);
 static inline DnsHost *find_host_8040A8B0(DnsResolverState *base, char *name, s32 len) {
     DnsHost *p = base->hosts;
     s16 j;
@@ -311,7 +311,7 @@ inline NetworkAddress *fnar_8040B1C4(DnsResolverState *g, DnsQuery *a) {
 }
 #pragma push
 #pragma opt_propagation off
-s32 TLobby__sub_8040A8B0(char *name, s16 idx, s32 type)
+s32 dns_open_addr(char *name, s16 idx, s32 type)
 {
   s16 udp_send(s32, void *, void *, u16, void *, s8, send_buffs *); /* declared here with other parameter types; the definition is s16 (s32, u32 *, u32 *, u16, u32 *, s8, send_buffs *) */
   DnsResolverState *base = &dns_resolver_state;
@@ -413,7 +413,7 @@ s32 TLobby__sub_8040A8B0(char *name, s16 idx, s32 type)
     close_and_reset_connection(e);
     return -0x44;
   }
-  e->socket = udp_open(0, 0, 0, 0x35, complete_pending_request, TLobby__sub_8040B4BC);
+  e->socket = udp_open(0, 0, 0, 0x35, complete_pending_request, AT_DNS_UdpReceiver);
   i = e->socket;
   if (i < 0)
   {
@@ -422,7 +422,7 @@ s32 TLobby__sub_8040A8B0(char *name, s16 idx, s32 type)
   }
   if (t->host == ((void *) 0))
   {
-    p = TLobby__sub_8040C09C();
+    p = dns_alloc_host();
     p->name_len = idx;
     NetMemcpy(p->name, name, idx);
     t->host = p;
@@ -785,7 +785,7 @@ inline DnsBuffer *slot_8040B4BC(DnsResolverState *base) {
     return NULL;
 }
 
-s32 TLobby__sub_8040B4BC(s16 mode, UdpDatagram *req)
+s32 AT_DNS_UdpReceiver(s16 mode, UdpDatagram *req)
 {
   DnsResolverState *base = &dns_resolver_state;
   DnsQuery *e;
@@ -1336,7 +1336,7 @@ void reset_connection_requests(DnsPtr *o, s16 arg1) {
     }
 }
 
-DnsHost *TLobby__sub_8040C09C(void) {
+DnsHost *dns_alloc_host(void) {
     DnsResolverState *dns = &dns_resolver_state;
     DnsHost *p = dns->hosts;
     DnsHost *found = NULL;
