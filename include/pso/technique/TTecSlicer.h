@@ -43,7 +43,6 @@ struct TTecSlicer {
     s16 get_remain_count();
     void destroy_if_set();
     static s32 dt(s32 arg0, s16 arg1);
-    void *dt(s16 arg1);
     void reset_fields_1e();
     void deliver_target_hit();
     void advance_position();

@@ -2,14 +2,23 @@
 #define PSO_UNK_TUNK_804CCD0C_H
 #include "types.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/vector.h"
+
+struct TObjPlayer;
+
+// The lightning technique charge effect (inferred from its particles and run_task):
+// it follows the caster m_actor and lives while the charge flag 0x80 is set, up to
+// 180 frames.
 
 class TUnk_804CCD0C : public TObject {
 public:
     TUnk_804CCD0C(s32 arg1, s32 arg2);
     virtual ~TUnk_804CCD0C();
-    u8 unk_1C[0x10];
-    s32 m_2c;
-    u8 unk_30[0x4];
+    virtual void run_task();
+    TObjPlayer *m_actor;
+    Vec m_position;
+    s32 m_age;
+    s32 m_sound_handle;
 };
 typedef char TUnk_804CCD0C_size[sizeof(TUnk_804CCD0C) == 0x34 ? 1 : -1];
 
