@@ -7446,7 +7446,7 @@ pso/ui/window/TWindowReturnCity.cpp:
 pso/ui/window/TWindowRoom.cpp:
 	.text       start:0x8026D504 end:0x8026D740
 	.rodata     start:0x8044F510 end:0x8044F51C
-	.data       start:0x804D08B8 end:0x804D08F0
+	.data       start:0x804D08B8 end:0x804D0908
 	.sdata      start:0x805D39C0 end:0x805D39C4
 	.sdata2     start:0x805DD2F0 end:0x805DD2F8
 

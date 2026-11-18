@@ -35,11 +35,9 @@ WindowDescriptor room_window_base_parameters = {
 extern "C" {
 void refresh_status_display__9TWindowDDFv(void *);
 s32 get_window_layout_position(int);
-extern s32 __vt__11TWindowRoom[];
 const char *TWindowRoom__class_name = "TWindowRoom";
 s32 draw_visible_window_entries(s32, s32, s32);
 s32 draw_window_tab(s32, s32, s32, f32);
-void __dl__7TObjectFPv(void *);
 s32 draw_default_entry__9TWindowDDFl();
 
 }
@@ -56,7 +54,7 @@ void TWindowRoom::draw_tab(void *context) {
     draw_window_tab((s32)context, (s32)((u8 *)context + 0x10), 3, tabParameter);
 }
 
-void TWindowRoom::draw_status() {
+void TWindowRoom::render() {
     s32 temp_r3;
     s32 arg0 = (s32)this;
 
@@ -66,23 +64,12 @@ void TWindowRoom::draw_status() {
 }
 void TWindowRoom::run_task() { ((TWindowDD *)this)->initialize_subwindow(); ((TWindowBase *)this)->update_window_entry_list((char*)this + 0x24); }
 
-void *__dt__11TWindowRoomFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        ((TWindowRoom *)arg0)->objectVtable = __vt__11TWindowRoom;
-        __dt__11TWindowBaseFv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
-}
+TWindowRoom::~TWindowRoom() {}
 
-TWindowRoom::TWindowRoom(char *title) {
+TWindowRoom::TWindowRoom(char *title)
+    : TWindowBase((u8 *)&room_window_base_parameters, 4, (u8 *)get_window_layout_position(0xAF)) {
     RoomTitleEntry *entry;
-    __ct__11TWindowBaseFPUcsPUc(this, (u8 *)&room_window_base_parameters, 4,
-                                    (u8 *)get_window_layout_position(0xAF));
-    objectVtable = __vt__11TWindowRoom;
-    className = TWindowRoom__class_name;
+    m_name = TWindowRoom__class_name;
     entry = (RoomTitleEntry *)((TWindowBase *)this)->get_array_entry(0);
     set_text_entry_string((u8 *)entry, (u32)title, 0x60);
     refresh_status_display__9TWindowDDFv(entry);
