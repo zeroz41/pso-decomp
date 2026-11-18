@@ -19,6 +19,16 @@
 #include "pso/system/task/TObject.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/item/shop/ShopWeaponStock.h"
+#include "pso/unk/text_8020EE2C.h"
+#include "pso/item/shop/ShopToolStock.h"
+#include "pso/object/city/CityTraffic.h"
+#include "pso/quest/TQuestListChallenge.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/ui/frontend/TAdMcSelectGC.h"
+#include "pso/ui/frontend/TAdBackGC_8029A6EC.h"
+#include "pso/ui/frontend/TAdBackTxtGC.h"
+#include "pso/unk/TLobby_802A0F3C.h"
 
 
 struct Light_80140514 {
@@ -32,15 +42,15 @@ struct Light_80140514 {
 extern "C" {
 s32 load_floor_sound_bank();
 s32 play_area_music(s32 *);
-extern s32 gryphon_area_cleanup_callbacks[];
+extern void (*gryphon_area_cleanup_callbacks[])(void);
 s32 is_quest_active();
 extern s32 lbl_8043F1D8[];
 extern s32 lbl_8043F1E8[];
 extern s32 lbl_8043F1F8[];
 extern s32 lbl_8043F208[];
 void TTecRaFoie__sub_80226254(void);
-extern s32 TLobby_scene_load_callback_table[];
-s32 run_load_callback_table(s32 *, s32);
+extern void (*TLobby_scene_load_callback_table[])(void);
+s32 run_load_callback_table(void *, s32);
 s32 __ct__13TQuestBgmCtrlFP7TObject(void *, s32);
 s32 construct_traffic_manager(void *, s32);
 extern s32 lobby_rule_settings[];
@@ -48,7 +58,7 @@ extern s32 tl_05;
 extern s32 tl_07;
 extern s32 lbl_8043F218[];
 extern s32 lbl_8043F228[];
-extern s32 lobby_floor_scene_callbacks[];
+extern void (*lobby_floor_scene_callbacks[])(void);
 extern s32 lbl_8043F238[];
 extern s32 lbl_8043F248[];
 extern s32 lbl_8043F258[];
@@ -317,3 +327,39 @@ s32 init_spaceship_area(void) {
     return 1;
 }
 void TLobby::run_floor_update_2() { TLobby::refresh_render_state(); TLobby::stop_audio_streams(); unload_current_floor_resources(); TLobby::update_current_floor(); TLobby::clear_session_buffers(); }
+
+
+extern "C" {
+void alloc_item_buffers__18TCheckRoomSequenceFv(void);
+void TCheckRoomSequence__sub_80211284(void);
+void TLobby__sub_80184DF4(void);
+}
+void load_judge_item(void);
+
+void (*gryphon_area_cleanup_callbacks[2])(void) = {
+    TLobby::cleanup_boss5_pillars, TLobby::cleanup_pillar_demo,
+};
+
+void (*TLobby_scene_load_callback_table[24])(void) = {
+    TLobby::create_named_lobby_object, TLobby::free_singleton,
+    load_weapon_random_tables, TLobby::free_lobby_resources,
+    load_armor_random_table, TLobby::free_rocks,
+    load_tool_random_rel, TLobby::free_all_rocks,
+    load_judge_item, TLobby::free_window,
+    TLobby::clear_flag_if_not_split_screen, TLobby::free_global,
+    reset_globals2__19TQuestListChallengeFv, reset_globals__19TQuestListChallengeFv,
+    TLobby__sub_80184DF4, TLobby::free_buffers,
+    alloc_item_buffers__18TCheckRoomSequenceFv, TCheckRoomSequence__sub_80211284,
+    measure_traffic_path_lengths, free_buffer_pair_table,
+    TQuestVmDownLoadServer::reset_download_state, TQuestVmDownLoadServer::free_download_buffers,
+    TLobby::alloc_buffer, TLobby::free_buffer,
+};
+
+void (*lobby_floor_scene_callbacks[12])(void) = {
+    TLobby::update_photon_chair, TLobby::update_photon_chairs,
+    TLobby::alloc_download_server, TLobby::free_single_player_chr_select,
+    register_texture_f256_ad_pic_2, TAdSinglePlyChrSelectGC::free_global,
+    register_texture_f256_backtext, TAdSinglePlyChrSelectGC::free_singleton_805D65C0,
+    TLobby__sub_802A0F70, TLobby::free_dialog_global,
+    TAdMcSelectGC::close, TAdMcSelectGC::open,
+};

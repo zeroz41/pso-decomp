@@ -1386,8 +1386,8 @@ pso/system/scene/TEndingAB.cpp:
 
 pso/system/scene/TEndingC_8008D00C.cpp:
 	.text       start:0x8008D00C end:0x8008D68C
-	.rodata     start:0x80439908 end:0x80439910
-	.data       start:0x8048EB38 end:0x8048EB74
+	.rodata     start:0x804398E0 end:0x80439910
+	.data       start:0x8048EB18 end:0x8048EB74
 	.sdata      start:0x805D2960 end:0x805D2968
 	.sbss       start:0x805D4F18 end:0x805D4F20
 	.sdata2     start:0x805D95C0 end:0x805D95FC
@@ -3410,6 +3410,7 @@ pso/unk/TLobby_8013FFA8.cpp:
 
 pso/unk/TLobby_801404CC.cpp:
 	.text       start:0x801404CC end:0x80140D50
+	.data       start:0x804A7368 end:0x804A7400
 	.sdata2     start:0x805DB120 end:0x805DB150
 
 pso/unk/text_80140D50.cpp:
@@ -5345,7 +5346,7 @@ pso/player/PlayerTaskEffects.cpp:
 pso/player/TObjPlayer_801C7430.cpp:
 	.text       start:0x801C7430 end:0x801D34E0
 	.rodata     start:0x80447128 end:0x80447150
-	.data       start:0x804C4020 end:0x804C43C0
+	.data       start:0x804C4020 end:0x804C43E8
 	.sdata2     start:0x805DC360 end:0x805DC374
 
 pso/unk/text_801D34E0.cpp:
@@ -10300,7 +10301,7 @@ pso/unk/text_8034960C.cpp:
 
 pso/ui/frontend/TAdLoadQuestCellGC.cpp:
 	.text       start:0x8034999C end:0x80349B8C
-	.data       start:0x804EFF38 end:0x804EFF5C
+	.data       start:0x804EFF38 end:0x804EFF60
 
 pso/unk/text_80349B8C.cpp:
 	.text       start:0x80349B8C end:0x80349EB0
@@ -10309,7 +10310,7 @@ pso/unk/text_80349B8C.cpp:
 
 pso/ui/frontend/TAdLoadQuestLineGC.cpp:
 	.text       start:0x80349EB0 end:0x8034A08C
-	.data       start:0x804EFF68 end:0x804EFF80
+	.data       start:0x804EFF60 end:0x804EFF80
 	.sdata      start:0x805D4300 end:0x805D4308
 
 pso/ui/frontend/TAdLoadQuestPrtTxtGC.cpp:
@@ -12191,6 +12192,7 @@ pso/camera/TCameraCtrl_803D6960.cpp:
 pso/camera/TCameraCtrl_803D749C.cpp:
 	.text       start:0x803D749C end:0x803D8030
 	.rodata     start:0x8047E3C8 end:0x8047E3D8
+	.data       start:0x804FA500 end:0x804FA51C
 	.bss        start:0x8058CAB8 end:0x8058CB48
 	.sbss       start:0x805D76B0 end:0x805D76B8
 	.sdata2     start:0x805E0E88 end:0x805E0EA0
@@ -12483,6 +12485,7 @@ pso/ui/frontend/TAdPlayerLoadGC_803F339C.cpp:
 
 pso/unk/text_803F3BF8.cpp:
 	.text       start:0x803F3BF8 end:0x803F3DD4
+	.data       start:0x804FCE38 end:0x804FCE68
 	.sdata2     start:0x805E10F8 end:0x805E1100
 
 pso/network/NetworkInfoRequests.cpp:
