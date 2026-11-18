@@ -98,7 +98,6 @@ s32 draw_visible_window_entries(void *, void *, int);
 void render__19TWindowSubMagPhotonFv(s32 arg0);
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
 s32 init_photon_blast_entries__19TWindowSubMagPhotonFv(void *, int);
-s32 construct_base__9TWindowDDFPUcsPUc(void *, void *, void *, void *);
 extern s32 __vt__19TWindowSubMagPhoton[];
 u8 *TWindowSubMagPhoton__ct(TWindowSubMagPhoton *arg0, s32 arg1, s32 arg2, s16 arg3);
 s32 play_sound_effect(s32, s32, s32, s32);
@@ -198,7 +197,8 @@ TWindowSubMagPhoton::~TWindowSubMagPhoton() {}
 
 u8 *TWindowSubMagPhoton__ct(TWindowSubMagPhoton *window_sub_mag_photon, s32 arg1, s32 arg2, s16 arg3) {
     s16 temp_r4;
-    construct_base__9TWindowDDFPUcsPUc((void *)window_sub_mag_photon, &TWindowSubMagPhoton__layout_descriptor, (void *)arg3, (void *)arg1);
+    u8 *__ct__11TWindowBaseFPUcsPUc(void *, u8 *, void *, u8 *);
+    __ct__11TWindowBaseFPUcsPUc((void *)window_sub_mag_photon, (u8 *)&TWindowSubMagPhoton__layout_descriptor, (void *)arg3, (u8 *)arg1);
     *(s32 **)((s8 *)window_sub_mag_photon + 0x18) = __vt__19TWindowSubMagPhoton;
     *(s32 *)((s8 *)window_sub_mag_photon + 0) = (s32) TWindowSubMagPhoton__class_name;
     ((TWindowSubSymbolChatPartsSet *)((u8 *)window_sub_mag_photon + 0x30))->copy_vec2((void *)arg1);

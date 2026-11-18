@@ -259,7 +259,7 @@ s32 get_message_10__20TWindowSubStatusDispFl(int);
 const char *TWindowSubSymbolChatFaceType__name = TWindowSubSymbolChatFaceType__class_name_string;
 u8 *TWindowSubSymbolChatFaceType__ct(TWindowSubSymbolChatFaceType *window_sub_symbol_chat_face_type, s32 arg1, s32 arg2) {
     s32 var_r31;
-    ((TWindowDD *)window_sub_symbol_chat_face_type)->construct_base((u8 *)&symbol_chat_face_type_window_layout, (s16)4, (u8 *)arg1);
+    __ct__11TWindowBaseFPUcsPUc(window_sub_symbol_chat_face_type, (u8 *)&symbol_chat_face_type_window_layout, (s16)4, (u8 *)arg1);
     *(s32 **)((s8 *)window_sub_symbol_chat_face_type + 0x18) = __vt__28TWindowSubSymbolChatFaceType;
     *(s32 *)((s8 *)window_sub_symbol_chat_face_type + 0) = (s32) TWindowSubSymbolChatFaceType__name;
     window_sub_symbol_chat_face_type->m_60 = 0;

@@ -159,7 +159,6 @@ struct TWindowDD
     static void init_ws_data_tables();
     static s32 lookup_item_category(s32 arg0);
     static s32 draw_default_entry(s32 arg0);
-    u8 *construct_base(u8 *arg1, s16 arg2, u8 *arg3);
     void handle_confirm_input();
     void update_selection_state();
 };
@@ -169,6 +168,8 @@ typedef char WindowListSize[sizeof(TWindowDDValueList) == 8 ? 1 : -1];
 typedef char WindowListCountOffset[offsetof(TWindowDDValueList, count) == 4 ? 1 : -1];
 
 extern "C" {
+// TWindowBase::TWindowBase(u8 *, s16, u8 *), called by the constructors that are still written by hand.
+u8 *__ct__11TWindowBaseFPUcsPUc(void *self, u8 *descriptor, s16 client, u8 *parent);
 // TWindowBase::~TWindowBase(), called by the destructors that are still written by hand.
 void *__dt__11TWindowBaseFv(void *p, s16 flags);
 s32 TWindowDD__sub_80340820(void *p);

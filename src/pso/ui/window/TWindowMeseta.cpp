@@ -108,7 +108,7 @@ TWindowMeseta::~TWindowMeseta() {}
 void *TWindowMeseta__ct(void *arg0, s32 arg1, s32 arg2, s32 str) {
     Sub_80269244 *a;
     Sub_80269244 *b;
-    ((TWindowDD *)arg0)->construct_base((u8 *)&TWindowMeseta__window_descriptor, (s16)arg2, (u8 *)arg1);
+    __ct__11TWindowBaseFPUcsPUc(arg0, (u8 *)&TWindowMeseta__window_descriptor, (s16)arg2, (u8 *)arg1);
     self->vt = __vt__13TWindowMeseta;
     self->name = ((s32)TWindowMeseta__class_name);
     self->x64 = arg2;

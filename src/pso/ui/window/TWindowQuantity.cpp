@@ -72,7 +72,7 @@ void *TWindowQuantity__ct(void *arg0, void *arg1) {
     u8 *e0;
     s32 id;
     f32 n;
-    ((TWindowDD *)arg0)->construct_base((u8 *)&quantity_window_layout, (s16)((s16)(s32)arg1), (u8 *)(get_window_layout_position(0x2A)));
+    __ct__11TWindowBaseFPUcsPUc(arg0, (u8 *)&quantity_window_layout, (s16)((s16)(s32)arg1), (u8 *)(get_window_layout_position(0x2A)));
     self->vt = ((void * *)&__vt__15TWindowQuantity);
     self->f0 = (s32)lbl_805D39B0;
     id = get_message_text(1);

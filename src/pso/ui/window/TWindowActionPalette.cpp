@@ -144,7 +144,7 @@ WindowDescriptor twindow_action_palette_layout = {
 
 TWindowActionPalette *TWindowActionPalette__ct(TWindowActionPalette *self, s16 slot) {
     u32 i;
-    ((TWindowDD *)self)->construct_base((u8 *)&twindow_action_palette_layout, (s16)slot, (u8 *)(get_window_layout_position(0x1F)));
+    __ct__11TWindowBaseFPUcsPUc(self, (u8 *)&twindow_action_palette_layout, (s16)slot, (u8 *)(get_window_layout_position(0x1F)));
     *(u32 **)((u8 *)self + 0x18) = __vt__20TWindowActionPalette;
     __construct_array(self->resources, (void *)init_gc_tag, (void *)TPlyDispConfig::free_if_valid, 4, 3);
     self->m_name = TWindowActionPalette__name;

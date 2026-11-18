@@ -804,15 +804,16 @@ struct VObj_18_2ead46 : VBase_18_2ead46 {
 };
 
 extern "C" {
-s32 construct_with_parent__15TWindowAdditionFPv(void *, void *, void *, void *);
 u8 *fn_80268384(u8 *window_addition, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
-    construct_with_parent__15TWindowAdditionFPv((void *)window_addition, (void *)arg4, (void *)arg3, (void *)arg1);
+    void *__ct__15TWindowAdditionFPUcsPUc(void *, u8 *, s32, u8 *);
+    __ct__15TWindowAdditionFPUcsPUc((void *)window_addition, (u8 *)arg4, arg3, (u8 *)arg1);
     *(s32 **)((s8 *)window_addition + 0x18) = lbl_804D0618;
     ((VObj_18_2ead46 *)(window_addition))->m4(arg2, (s16) arg3);
     return window_addition;
 }
 u8 *fn_802683F4(u8 *window_addition, s32 arg1, s32 arg2, s32 arg3) {
-    construct_with_parent__15TWindowAdditionFPv((void *)window_addition, &lbl_804D0604, (void *)arg3, (void *)arg1);
+    void *__ct__15TWindowAdditionFPUcsPUc(void *, u8 *, s32, u8 *);
+    __ct__15TWindowAdditionFPUcsPUc((void *)window_addition, (u8 *)&lbl_804D0604, arg3, (u8 *)arg1);
     *(s32 **)((s8 *)window_addition + 0x18) = lbl_804D0618;
     ((VObj_18_2ead46 *)(window_addition))->m4(arg2, (s16) arg3);
     return window_addition;

@@ -152,7 +152,6 @@ typedef struct InNum_802561E8 {
 struct Win_80256354 { u8 p0[0x62]; s8 f62; u8 p63[5]; s32 f68; };
 
 extern "C" {
-void construct_base__9TWindowDDFPUcsPUc(void *, void *, s16, void *);
 extern s32 __vt__18TWindowInputNumber[];
 extern s8 controller_input_state[];
 u8 test_input_flag__18TWindowInputNumberFv(u8 *arg0);
@@ -384,7 +383,7 @@ void *__dt__18TWindowInputNumberFv(void *arg0, s16 arg1) {
 
 TWindowInputNumber::TWindowInputNumber(void *position, s32 low, s32 high,
                                      s32 initial, s16 client) {
-    construct_base__9TWindowDDFPUcsPUc(this, &window_input_number_layout, client, position);
+    __ct__11TWindowBaseFPUcsPUc(this, (u8 *)&window_input_number_layout, client, (u8 *)position);
     objectVtable = __vt__18TWindowInputNumber;
     className = TWindowInputNumber__name;
     clientIndex = client;

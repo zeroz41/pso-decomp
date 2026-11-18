@@ -93,7 +93,6 @@ Ent_80265C30 * get_array_entry__11TWindowBaseFi(void *w, s32 i);
 s32 play_sound_effect(s32, s32, s32, s32);
 s32 __nw__7TObjectFUl(int);
 s32 get_draw_context__11TWindowBaseFPv();
-s32 construct_with_parent__15TWindowAdditionFPv(void *, void *, s16, s32);
 void * get_field_20__17TWindowSubComCardFv(void *e);
 void refresh_status_display__9TWindowDDFv(void *);
 void TWindowChat__sub_80247D2C(void *p);
@@ -812,7 +811,7 @@ TWindowMenu::~TWindowMenu() {
 u8 *TWindowMenu__ct(u8 *window_menu, u32 arg1, s32 arg2, s32 arg3) {
     u32 i;
     u8 *p;
-    construct_with_parent__15TWindowAdditionFPv(window_menu, &lbl_804D05CC, arg2, arg3);
+    __ct__15TWindowAdditionFPUcsPUc(window_menu, (u8 *)&lbl_804D05CC, (s16)arg2, (u8 *)arg3);
     *(void **)(window_menu + 0x18) = ((s32 *)&__vt__11TWindowMenu);
     *(const char **)window_menu = lbl_805D3960;
     *(s16 *)(window_menu + 0x72) = 0;

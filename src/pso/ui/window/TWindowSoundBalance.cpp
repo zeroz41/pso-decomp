@@ -197,7 +197,7 @@ TWindowSoundBalance::~TWindowSoundBalance() {}
 u8 *TWindowSoundBalance__ct(TWindowSoundBalance *window_sound_balance, s32 arg1) {
     u8 *e;
     SoundBalanceSettings *st;
-    ((TWindowDD *)window_sound_balance)->construct_base((u8 *)&window_sound_balance_settings, (s16)4, (u8 *)arg1);
+    __ct__11TWindowBaseFPUcsPUc(window_sound_balance, (u8 *)&window_sound_balance_settings, (s16)4, (u8 *)arg1);
     *(s32 **)((s8 *)window_sound_balance + 0x18) = __vt__19TWindowSoundBalance;
     ((TWindowSoundBalance *)window_sound_balance)->m_name = TWindowSoundBalance__name;
     window_sound_balance->m_60 = 0;

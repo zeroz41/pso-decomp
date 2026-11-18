@@ -5,6 +5,7 @@
 
 class TWindowBase : public TObject {
 public:
+    TWindowBase(u8 *descriptor, s16 client, u8 *parent);
     virtual ~TWindowBase();
     void draw_window_frame(void *);
     void draw_window_frame_strips(void *, void *);

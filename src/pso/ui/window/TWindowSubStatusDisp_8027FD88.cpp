@@ -869,7 +869,7 @@ void *TWindowSubStatusDisp::dt(s16 arg1) {
 }
 SD_80281760 *TWindowSubStatusDisp__ct(SD_80281760 *arg0, s32 arg1) {
     void *w;
-    ((TWindowDD *)arg0)->construct_base((u8 *)TWindowSubStatusDisp__window_layout, (s16)arg1, (u8 *)(get_window_layout_position(0x19)));
+    __ct__11TWindowBaseFPUcsPUc(arg0, (u8 *)TWindowSubStatusDisp__window_layout, (s16)arg1, (u8 *)(get_window_layout_position(0x19)));
     arg0->vt = ((u8 *)&__vt__20TWindowSubStatusDisp);
     arg0->f0 = TWindowSubStatusDisp__class_name;
     arg0->f20 = arg1;

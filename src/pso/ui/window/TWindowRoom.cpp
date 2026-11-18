@@ -33,7 +33,6 @@ WindowDescriptor room_window_base_parameters = {
 };
 
 extern "C" {
-void construct_base__9TWindowDDFPUcsPUc(void *, void *, s16, void *);
 void refresh_status_display__9TWindowDDFv(void *);
 s32 get_window_layout_position(int);
 extern s32 __vt__11TWindowRoom[];
@@ -80,8 +79,8 @@ void *__dt__11TWindowRoomFv(void *arg0, s16 arg1) {
 
 TWindowRoom::TWindowRoom(char *title) {
     RoomTitleEntry *entry;
-    construct_base__9TWindowDDFPUcsPUc(this, &room_window_base_parameters, 4,
-                                    (void *)get_window_layout_position(0xAF));
+    __ct__11TWindowBaseFPUcsPUc(this, (u8 *)&room_window_base_parameters, 4,
+                                    (u8 *)get_window_layout_position(0xAF));
     objectVtable = __vt__11TWindowRoom;
     className = TWindowRoom__class_name;
     entry = (RoomTitleEntry *)((TWindowBase *)this)->get_array_entry(0);

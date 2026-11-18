@@ -5,15 +5,19 @@
 
 class TWindowAddition : public TWindowBase {
 public:
+    TWindowAddition(u8 *descriptor, s16 client, u8 *parent);
     virtual ~TWindowAddition();
     s32 sub_80266B18(s32);
-    void *construct_with_parent(void *);
     void sub_802443B4();
     void step_window_tween();
     void set_position_xy(f32, f32);
 };
 
+extern "C" {
+// TWindowAddition::TWindowAddition(u8 *, s16, u8 *), called by the constructors that are still written by hand.
+void *__ct__15TWindowAdditionFPUcsPUc(void *self, u8 *descriptor, s16 client, u8 *parent);
 // TWindowAddition::~TWindowAddition(), called by the destructors that are still written by hand.
-extern "C" void *__dt__15TWindowAdditionFv(void *p, s16 flags);
+void *__dt__15TWindowAdditionFv(void *p, s16 flags);
+}
 
 #endif

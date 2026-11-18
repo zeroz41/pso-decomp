@@ -142,7 +142,7 @@ void run_task__12TWindowTimerFv(TWindowTimer *window_timer) {
 
 TWindowTimer::~TWindowTimer() {}
 u8 *TWindowTimer__ct(TWindowTimer *window_timer) {
-    ((TWindowDD *)window_timer)->construct_base((u8 *)&window_timer_layout, (s16)4, (u8 *)(get_zero_vec2()));
+    __ct__11TWindowBaseFPUcsPUc(window_timer, (u8 *)&window_timer_layout, (s16)4, (u8 *)(get_zero_vec2()));
     *(s32 **)((s8 *)window_timer + 0x18) = __vt__12TWindowTimer;
     *(s32 *)((s8 *)window_timer + 0) = (s32) TWindowTimer__name;
     window_timer->m_60 = 0;

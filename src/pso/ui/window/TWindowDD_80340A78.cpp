@@ -230,7 +230,7 @@ void *TWindowDD_WS_ScrollBar::dt(s16 arg1) {
 }
 
 W_80340F00 *construct_variant_b__9TWindowDDFPv(W_80340F00 *arg0) {
-    ((TWindowDD *)arg0)->construct_base((u8 *)lbl_804EFBD0, (s16)4, (u8 *)lbl_804EFBC8);
+    __ct__11TWindowBaseFPUcsPUc(arg0, (u8 *)lbl_804EFBD0, (s16)4, (u8 *)lbl_804EFBC8);
     arg0->p18 = lbl_804EFBE4;
     arg0->name = TWindowDD_WS_ScrollBar__class_name;
     arg0->f64 = 6.0f;

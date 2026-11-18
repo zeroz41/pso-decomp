@@ -48,7 +48,7 @@ void run_task__15TWindowCallBackFv(void* p) { ((TWindowDD *)p)->initialize_subwi
 
 TWindowCallBack::~TWindowCallBack() {}
 u8 *TWindowCallBack__ct(u8 *arg0, s32 arg1, u8 *arg2, s32 arg3) {
-    ((TWindowDD *)arg0)->construct_base((u8 *)((s32) &window_callback_base_params), (s16)4, (u8 *)arg1);
+    __ct__11TWindowBaseFPUcsPUc(arg0, (u8 *)((s32) &window_callback_base_params), (s16)4, (u8 *)arg1);
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__15TWindowCallBack;
     *(const char **)((s8 *)arg0 + 0) = lbl_805D3E58;
     ((TWindowSubSymbolChatPartsSet *)(arg0 + 0x38))->copy_vec2(arg2);

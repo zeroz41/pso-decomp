@@ -63,7 +63,6 @@ s32 play_sound_effect(s32, s32, s32, s32);
 s32 apply_choice__20TWindowChoiceSettingFllll(void *, int, int, int);
 s32 get_message_10__20TWindowSubStatusDispFl(int);
 void *get_player_by_client_id(s32 i);
-s32 construct_with_parent__15TWindowAdditionFPv(void *, void *, s16, s32);
 s32 get_window_layout_position(int);
 void *reset_selection__20TWindowSubStatusDispFv(void *, NJS_POINT2 *);
 extern s32 __vt__22TWindowSubCustomSelect[];
@@ -271,7 +270,7 @@ u8 *TWindowSubCustomSelect__ct(TWindowSubCustomSelect *window_sub_custom_select,
     Sub_80277AEC *q;
     Ent_80277AEC *e;
     void *o;
-    construct_with_parent__15TWindowAdditionFPv(window_sub_custom_select, &TWindowSubCustomSelect__window_settings, arg1, get_window_layout_position(0x10));
+    __ct__15TWindowAdditionFPUcsPUc(window_sub_custom_select, (u8 *)&TWindowSubCustomSelect__window_settings, (s16)arg1, (u8 *)get_window_layout_position(0x10));
     *(s32 **)((s8 *)window_sub_custom_select + 0x18) = __vt__22TWindowSubCustomSelect;
     ((TWindowSubCustomSelect *)window_sub_custom_select)->m_name = TWindowSubCustomSelect__class_name;
     window_sub_custom_select->m_20 = arg1;

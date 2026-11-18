@@ -38,7 +38,6 @@ const char *window_duel_result_class_name = "TWindowDuelResult";
 s32 draw_visible_window_entries(void *, void *, int);
 s32 draw_list_page_indicator(int, int);
 void draw_window__17TWindowDuelResultFPv(u8 *arg0);
-s32 construct_base__9TWindowDDFPUcsPUc(void *, void *, void *, int);
 s32 TWindowDuelResult__sub_8024F3CC(void *);
 u8 *init__21TWindowSubComCardListFiii(void *, s32, s32, s32);
 s32 get_window_layout_position(int);
@@ -298,7 +297,7 @@ void *destroy__17TWindowDuelResultFPvs(void *arg0, s16 arg1) {
 u8 *TWindowDuelResult__ct(u8 *arg0_, s16 arg1) {
     u8 *temp_r3;
     u8 *var_r0;
-    construct_base__9TWindowDDFPUcsPUc((void *)arg0_, __vt__17TWindowDuelResult, (void *)arg1, (int) (get_window_layout_position(0x24)));
+    __ct__11TWindowBaseFPUcsPUc((void *)arg0_, (u8 *)__vt__17TWindowDuelResult, (s16)arg1, (u8 *)get_window_layout_position(0x24));
     *(s32 **)((s8 *)arg0_ + 0x18) = ((s32 *)lbl_804CF020);
     *(s32 *)((s8 *)arg0_ + 0) = (s32) ((s32)window_duel_result_class_name);
     temp_r3 = (u8 *)((int)::operator new(0xC));

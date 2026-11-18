@@ -56,7 +56,7 @@ void TWindowBreakIn::run_task() { ((TWindowSubStatusDisp *)this)->update_entry_v
 
 TWindowBreakIn::~TWindowBreakIn() {}
 u8 *TWindowBreakIn__ct(u8 *window_dd) {
-    ((TWindowDD *)window_dd)->construct_base((u8 *)&window_break_in_layout, (s16)(4), (u8 *)(get_window_layout_position(0xAA)));
+    __ct__11TWindowBaseFPUcsPUc(window_dd, (u8 *)&window_break_in_layout, (s16)(4), (u8 *)(get_window_layout_position(0xAA)));
     *(s32 **)((s8 *)window_dd + 0x18) = __vt__14TWindowBreakIn;
     *(s32 *)((s8 *)window_dd + 0) = (s32) TWindowBreakIn__name;
     return window_dd;

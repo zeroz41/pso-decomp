@@ -157,7 +157,7 @@ u32 calc_text_width(int);
 s32 get_status_effect_icon_index(u32);
 
 u8 *TWindowLockOn__ct(TWindowLockOn *self, s32 player, u16 id) {
-    ((TWindowDD *)self)->construct_base((u8 *)&lbl_804D0268, player, (u8 *)get_window_layout_position(0x1E));
+    __ct__11TWindowBaseFPUcsPUc(self, (u8 *)&lbl_804D0268, player, (u8 *)get_window_layout_position(0x1E));
     *(s32 **)((s8 *)self + 0x18) = __vt__13TWindowLockOn;
     self->m_name = TWindowLockOn__name;
     if (TCameraCtrl::get_camera_id() > 2) {

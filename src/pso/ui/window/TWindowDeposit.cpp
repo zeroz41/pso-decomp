@@ -32,7 +32,6 @@ WindowDescriptor window_deposit_layout = {
 
 extern "C" {
 s32 draw_visible_window_entries(void *, void *, int);
-s32 construct_base__9TWindowDDFPUcsPUc(void *, void *, void *, int);
 s32 get_window_layout_position(int);
 extern s32 __vt__14TWindowDeposit[];
 #pragma push
@@ -66,7 +65,8 @@ u8 *TWindowDeposit__ct(u8 *arg0, s32 arg1) {
   s32 str;
   u32 temp_r3_2;
   u8 *temp_r31;
-  construct_base__9TWindowDDFPUcsPUc((void *) arg0, &window_deposit_layout, (void *) arg1, (int) get_window_layout_position(0x29));
+  u8 *__ct__11TWindowBaseFPUcsPUc(void *, u8 *, s32, u8 *);
+  __ct__11TWindowBaseFPUcsPUc((void *) arg0, (u8 *) &window_deposit_layout, arg1, (u8 *) get_window_layout_position(0x29));
   *((s32 **) (((s8 *) arg0) + (((((0x18 & 0xFFFFFFFFFFFFFFFFu) & 0xFFFFFFFFFFFFFFFFu) & 0xFFFFFFFFFFFFFFFFu) & 0xFFFFFFFFFFFFFFFFu) & 0xFFFFFFFFFFFFFFFFu))) = __vt__14TWindowDeposit;
   *((s32 *) (((s8 *) arg0) + 0)) = (s32) TWindowDeposit__name;
   str = get_message_text(2);

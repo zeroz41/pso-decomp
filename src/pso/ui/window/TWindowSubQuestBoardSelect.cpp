@@ -303,7 +303,7 @@ u8 *TWindowSubQuestBoardSelect__ct(TWindowSubQuestBoardSelect *window_sub_quest_
     f32 temp_f2;
     s32 temp_r30;
     s32 var_r30;
-    ((TWindowDD *)window_sub_quest_board_select)->construct_base((u8 *)&TWindowSubQuestBoardSelect__window_parameters, (s16)(4), (u8 *)(get_window_layout_position(0x70)));
+    __ct__11TWindowBaseFPUcsPUc(window_sub_quest_board_select, (u8 *)&TWindowSubQuestBoardSelect__window_parameters, (s16)(4), (u8 *)(get_window_layout_position(0x70)));
     *(s32 **)((s8 *)window_sub_quest_board_select + 0x18) = __vt__26TWindowSubQuestBoardSelect;
     *(s32 *)((s8 *)window_sub_quest_board_select + 0) = (s32) TWindowSubQuestBoardSelect__class_name;
     var_r30 = (int)::operator new(0x24);
