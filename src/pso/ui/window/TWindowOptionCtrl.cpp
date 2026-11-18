@@ -533,7 +533,7 @@ s32 TWindowOptionCtrl::create_snap_shot_window() {
 
     window_snap_shot = __nw__7TObjectFUl(0x64);
     if (window_snap_shot != 0) {
-        window_snap_shot = (s32)TWindowSnapShot__ct((TWindowSnapShot *)((u8 *)window_snap_shot), get_option_entry__17TWindowOptionCtrlFi(0xCF));
+        window_snap_shot = (s32)__ct__15TWindowSnapShotFl((TWindowSnapShot *)((u8 *)window_snap_shot), get_option_entry__17TWindowOptionCtrlFi(0xCF));
     }
     return window_snap_shot;
 }
