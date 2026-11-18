@@ -72,9 +72,6 @@ s32 vec3_add_to(void *, void *);
 f32 vector_length(void *);
 s32 subtract_vector(void *, void *);
 s32 normalize_vector(void *);
-extern const s32 lbl_805E000C;
-extern const f32 lbl_805E0010;
-extern const f32 lbl_805E0014;
 s32 is_active__14TBoss6PlotFalzFv();
 }
 struct Pair_803561C4 { s32 a; f32 b; };
@@ -295,6 +292,13 @@ s32 TBoss6SwordWave::check_player_hits() {
     }
 }
 
+// The wave's rock bitmap has 256 bit slots (TBoss6SwordWave__sub_80356D08 maps an angle to one); a range that wraps
+// is unwrapped by one bitmap length. The code loads it from .sdata2 ahead of run_task's float literals: a file
+// constant read through an inlined reference, emitted at its first user (the TBoss6Type2.cpp form).
+static const s32 wave_bit_count = 0x100;
+
+inline const s32 &get_wave_bit_count() { return wave_bit_count; }
+
 s32 TBoss6SwordWave::break_rocks_in_wave() {
     Vec pt;
     Vec d;
@@ -346,7 +350,7 @@ s32 TBoss6SwordWave::break_rocks_in_wave() {
         lo = ((s32 (*)(void *, s32))TBoss6SwordWave__sub_80356D08)(arg0 + 0x30, a1);
         hi = ((s32 (*)(void *, s32))TBoss6SwordWave__sub_80356D08)(arg0 + 0x30, a2);
         if (hi < lo) {
-            hi += lbl_805E000C;
+            hi += get_wave_bit_count();
         }
         for (; lo <= hi; lo++) {
             ((void (*)(void *, s32))clear_bit__15TBoss6SwordWaveFPvUc)(arg0 + 0x30, lo);
@@ -364,16 +368,16 @@ void TBoss6SwordWave::run_task() {
     if (query_teammate_state__9TObjEneDDFv() == 0) {
         break_rocks_in_wave();
         check_player_hits();
-        if (*(f32 *)((s8 *)arg0 + 0x58) < lbl_805E0010) {
+        if (*(f32 *)((s8 *)arg0 + 0x58) < 6.6666665f) {
             spawn_wave_ring_particles();
         }
-        *(f32 *)((s8 *)arg0 + 0x58) = (f32) (*(f32 *)((s8 *)arg0 + 0x58) + lbl_805E0010);
+        *(f32 *)((s8 *)arg0 + 0x58) += 6.6666665f;
         temp_f1 = *(f32 *)((s8 *)arg0 + 0x58);
-        if (temp_f1 > lbl_805E0014) {
-            *(f32 *)((s8 *)arg0 + 0x58) = (f32) (temp_f1 - lbl_805E0014);
+        if (temp_f1 > 29.9f) {
+            *(f32 *)((s8 *)arg0 + 0x58) = (f32) (temp_f1 - 29.9f);
         }
         *(f32 *)((s8 *)arg0 + 0x50) = (f32) *(f32 *)((s8 *)arg0 + 0x54);
-        *(f32 *)((s8 *)arg0 + 0x54) = (f32) (*(f32 *)((s8 *)arg0 + 0x54) + lbl_805E0010);
+        *(f32 *)((s8 *)arg0 + 0x54) += 6.6666665f;
         if (*(f32 *)((s8 *)arg0 + 0x54) > *(f32 *)((s8 *)arg0 + 0x2C)) {
             ((TObject *)arg0)->queue_destruction();
         }

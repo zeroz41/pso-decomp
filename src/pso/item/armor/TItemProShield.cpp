@@ -3,6 +3,8 @@
 #include "pso/item/armor/TItemProShield.h"
 #include "pso/item/TItemData.h"
 #include "pso/item/TItemHeapObject.h"
+#include "pso/item/TUnk_804A0628.h"
+#include "pso/item/TUnk_804A0648.h"
 #include "pso/technique/TechniqueBoost.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_8023E480.h"
@@ -42,10 +44,6 @@ extern "C" { extern char TItemProShield__class_name_string[]; }
 const char *TItemProShield__name = TItemProShield__class_name_string;
 extern "C" { extern char lbl_8043E630[]; }
 const char *lbl_805D2C3C = lbl_8043E630;
-// The timer events a shield starts. Their classes are still written as C
-// functions on the raw object (TItemTimerEvent has no real constructor).
-void init_item_timer_event__13TUnk_804A0648Fv(void *event, TItemHeapObject *parent, u16 client, s32 duration);
-void construct_timer_event__13TUnk_804A0628Fv(void *event, TItemHeapObject *parent, u16 client, s32 duration);
 // Called with the client unextended and the item index widened to int, as
 // this TU saw TItemEffShield::ct_init and the TUnk_8049F130 constructor.
 void __ct__13TUnk_8049F148FP7TObjects(void *effect, TItemHeapObject *parent, u16 client);
@@ -146,14 +144,8 @@ void TItemProShield::on_equip() {
         switch ((s32)index) {
         case 39:
             if (effect_objects != NULL) {
-                event = TItemHeapObject::operator new(0x2C);
-                if (event != NULL) {
-                    init_item_timer_event__13TUnk_804A0648Fv(event, effect_objects, get_owner_client(), 450);
-                }
-                event = TItemHeapObject::operator new(0x2C);
-                if (event != NULL) {
-                    construct_timer_event__13TUnk_804A0628Fv(event, effect_objects, get_owner_client(), 450);
-                }
+                new TUnk_804A0648(effect_objects, get_owner_client(), 450);
+                new TUnk_804A0628(effect_objects, get_owner_client(), 450);
             }
             break;
         case 26:

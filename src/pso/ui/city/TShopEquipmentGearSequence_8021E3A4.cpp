@@ -30,5 +30,5 @@ void *create_shop_item_tec_sequence(void *arg0) {
     return o;
 }
 
-int TShopItemTecSequence__slot_table[4];
+    extern int TShopItemTecSequence__slot_table[];
 int get_item_technique_shop_slot(int a0) {  return TShopItemTecSequence__slot_table[a0]; }

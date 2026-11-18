@@ -22,6 +22,45 @@
 #include "pso/quest/TQuestThread.h"
 #include "pso/map/FloorArea.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/map/FloorResourceCallbacks.h"
+#include "pso/ui/frontend/TAdSelectGameModeGC_802C4748.h"
+#include "pso/unk/TLobby_802A7290.h"
+#include "pso/unk/text_803000C8.h"
+#include "pso/unk/TLobby_80300098.h"
+#include "pso/unk/TLobby_80291D94.h"
+#include "pso/ui/window/TWindowCtrlMain.h"
+#include "pso/ui/window/TWindowCtrl.h"
+#include "pso/unk/TLobby_8001D6A0.h"
+#include "pso/ui/keyboard/TKeyBoardControl_80131C58.h"
+#include "pso/object/base/TObjBase.h"
+#include "pso/render/TFogCtrl.h"
+#include "pso/object/ambient/TObjLight.h"
+#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_8028D5D4.h"
+#include "pso/unk/TLobby_80207DA8.h"
+#include "pso/item/TItem.h"
+#include "pso/unk/TLobby_8020B03C.h"
+#include "pso/ui/window/TWindowKeyBoardHard_801A529C.h"
+#include "pso/ui/window/TWindowDD.h"
+#include "pso/object/switch/TSwitch.h"
+#include "pso/ui/city/TShopGetItemWindow_8021F0A4.h"
+#include "pso/ui/city/TShopGetItemWindow_8021F074.h"
+#include "pso/ui/city/THunterGuildSeqOffline.h"
+#include "pso/object/warp/TObjCityMainWarp.h"
+#include "pso/object/warp/TObjCityMainWarp_801867F4.h"
+#include "pso/ui/chat/ShortMail.h"
+#include "pso/ui/window/TWindowOptionCtrl_8034C384.h"
+#include "pso/ui/window/TWindowGetComCard_8007B54C.h"
+#include "pso/unk/TLobby_8023F734.h"
+#include "pso/ui/chat/TWindowChat_800774C0.h"
+#include "pso/unk/TLobby_80077B60.h"
+#include "pso/unk/TLobby_801C25B4.h"
+#include "pso/object/key/TOKeyJungleMain.h"
+#include "pso/unk/TLobby_802D3970.h"
+#include "pso/boss/derolle/TObjBoss2Tunnel.h"
+#include "pso/boss/derolle/TObjBoss2Tunnel_8007CF0C.h"
+#include "pso/ui/window/TWindowSubStatusDisp_8036D774.h"
+#include "pso/boss/olgaflow/TBoss6Type2_8036DC80.h"
 
 
 struct RecoveredGlobal_801A3540_lbl_80515BA0 {
@@ -99,8 +138,74 @@ extern "C" {
 s32 TLobby__sub_801A3B98();
 }
 void run_area_scene_cleanup(u8 *arg0);
-struct OfflineGameSceneCallbacks { s32 value; u8 remaining[0x17C]; };
-extern OfflineGameSceneCallbacks offline_game_scene_callbacks;
+extern "C" {
+void TLobby__sub_802075F4(void);
+void TWindowCtrlMain__sub_8024D838(void);
+void TObjPlayer__sub_80156934(void);
+void TRaderMapCore__sub_801F95CC(void);
+void TWindowDD__sub_80344114(void);
+void THunterGuildSeqOffline__sub_80213410(void);
+void TQuestThread__sub_801F5D88(void);
+void TLobby__sub_8029B2A4(void);
+}
+void prepare_adventure_maps(void);
+void init_scene_fog_system(void);
+void init_item_drop_tables(void);
+void clear_received_symbol_chat(void);
+
+// Load and release hooks of the offline game scene, in pairs: init_offline_game_scene runs
+// each load front to back (run_load_callback_table), TLobby::teardown_scene each release
+// back to front (TLobby::call_funcs_reverse).
+FloorResourceCallbacks offline_game_scene_callbacks[48] = {
+    {TAdSelectGameModeGC__sub_802C478C, (FloorResourceCallback)TAdSelectGameModeGC::call_enable_camera},
+    {TLobby::enable_and_refresh, disable_and_free_boss4rock_buffer},
+    {TObjPlayer::init_shared, TObjPlayer::finalize_shared},
+    {fn_803000C8, TLobby__sub_803000A0},
+    {prepare_adventure_maps, TLobby__sub_802075F4},
+    {TLobby::clear_story_flags_and_reset_camera, TLobby::clear_story_flag_list},
+    {TLobby::init_on_main_phase, NULL},
+    {(FloorResourceCallback)TLobby__sub_80293124, TLobby::destroy_tombstone},
+    {TLobby::update_keyboard_menu, TLobby::free_keyboard_soft_resources},
+    {TWindowCtrlMain__sub_8024D838, TWindowCtrlMain::free_all_windows},
+    {TWindowCtrl::close, TWindowCtrl::shutdown},
+    {TLobby__sub_8001ED74, TLobby__sub_8001ED70},
+    {TLobby::set_ending_callback, TLobby::free_ending_callback},
+    {TKeyBoardControl__sub_80131F60, TKeyBoardControl__sub_80131F5C},
+    {alloc_battle_param_tables, TLobby::free_boss4_rock},
+    {TLobby__sub_801A2554, TLobby__sub_801A2550},
+    {TObjPlayer::reset, TObjPlayer__sub_80156934},
+    {init_scene_fog_system, TFogCtrl::reset},
+    {load_light_entry_file, TObjLight::free_shared_data},
+    {alloc_quest_download_buffer, TLobby::free_chr_select_singleton},
+    {TLobby::load_item_data, TLobby__sub_802083C0},
+    {init_item_drop_tables, TLobby::free_resources},
+    {init_item_system, free_item_system},
+    {TLobby::create_heap_8000, TLobby::free_heap},
+    {TRaderMapCore__sub_801F95CC, TRaderMapCore::free_heap},
+    {TLobby::load_set_gsl_files, clear_map_set_data},
+    {TLobby::load_set_event_gsl, (FloorResourceCallback)TLobby::get_team_state},
+    {alloc_work_buffer, TLobby__sub_801A5478},
+    {TLobby::load_freeze_ice_resource, TLobby::destroy_global_singleton},
+    {TWindowDD__sub_80344114, TWindowDD::free_buffers},
+    {init_switch_table, clear_switch_table},
+    {reset_shop_stock_and_params, clear_all_shop_stock},
+    {(FloorResourceCallback)THunterGuildSeqOffline::reset_quest_result_callbacks, THunterGuildSeqOffline__sub_80213410},
+    {TQuestThread::clear_all_floor_handlers, TQuestThread__sub_801F5D88},
+    {TObjCityMainWarp::reset, TObjCityMainWarp__sub_80186AB8},
+    {(FloorResourceCallback)TLobby__sub_80225C64, (FloorResourceCallback)TLobby__sub_80225C44},
+    {(FloorResourceCallback)TLobby__sub_8001DC04, (FloorResourceCallback)TLobby::forward_8001DBD8},
+    {(FloorResourceCallback)TLobby__sub_8034C3A4, (FloorResourceCallback)TLobby__sub_8034C384},
+    {(FloorResourceCallback)TWindowGetComCard__sub_8007B67C, (FloorResourceCallback)TWindowGetComCard__sub_8007B65C},
+    {(FloorResourceCallback)TLobby__sub_8024285C, (FloorResourceCallback)TLobby::reset_state},
+    {clear_received_symbol_chat, TLobby__sub_80077608},
+    {TLobby__sub_80077BAC, TLobby::free_static_windows},
+    {TLobby::init_char_slots, TLobby__sub_801C3A40},
+    {(FloorResourceCallback)TOKeyJungleMain::init_key_slots, TLobby__sub_8029B2A4},
+    {(FloorResourceCallback)TLobby__sub_802D39FC, (FloorResourceCallback)TLobby__sub_802D39DC},
+    {TObjBoss2Tunnel::reset_state, TObjBoss2Tunnel__sub_8007DD24},
+    {TBGMulti__ct, TLobby::free_singleton_805D7018},
+    {clear_boss6_player_snapshots, NULL},
+};
 extern RecoveredGlobal_801A3540_lbl_80515BA0 lbl_80515BA0;
 extern "C" {
 void __dt__7TObjectFv(void *, int);
@@ -115,11 +220,9 @@ void __ct__7TObjectFP7TObject(void *, void *);
 s32 is_area_transfer_pending();
 s32 apply_phase_keyboard_mode();
 s32 TLobby__sub_80141038(void *, int, int);
-s32 update_main_warp_visible_mask(int);
 s32 TLobby__sub_801A2E00();
 s32 for_each_player_slot__10TObjPlayerFv(void *);
 s32 rebuild_player_inventory(void *);
-s32 TLobby__sub_80207E48();
 s32 get_team_state__6TLobbyFPv();
 }
 void clear_floor_population(void);
@@ -377,7 +480,7 @@ void TLobby::teardown_scene() {
     main_task.resume_layers();
     ((TObject *)tl_su)->delete_children();
     run_area_scene_cleanup((u8 *)&lbl_80515BA0.value);
-    TLobby::call_funcs_reverse(&offline_game_scene_callbacks.value, 0x180);
+    TLobby::call_funcs_reverse(offline_game_scene_callbacks, sizeof(offline_game_scene_callbacks));
     clear_resource_load_tasks();
     TKeyBoardControl::update();
     render_tick();
@@ -534,7 +637,7 @@ void init_offline_game_scene(void) {
     ((Obj_80515BA0 *)(&lbl_80515BA0))->init_range(0);
     TLobby::reset_keyboard_state();
     apply_phase_keyboard_mode();
-    run_load_callback_table(&offline_game_scene_callbacks, 0x180);
+    run_load_callback_table(offline_game_scene_callbacks, sizeof(offline_game_scene_callbacks));
     if (is_area_transfer_pending() != 0) {
         TLobby::reset_keyboard_state();
         TLobby::invoke_callback();

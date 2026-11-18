@@ -3,14 +3,30 @@
 
 #include "types.h"
 #include <stddef.h>
+#include "pso/enemy/TObjEnemy.h"
 
 struct TBoss6Type2Point { f32 x, y, z; };
 
 struct Blk_802BCFD4;
 
-struct TBoss6Type2
+struct TBoss6Type2 : public TObjEnemy
 {
     void sub_802BBE20();
+    TBoss6Type2(TObject *parent, s32 *params);
+    virtual ~TBoss6Type2();
+    virtual void run_task();
+    virtual void render();
+    virtual f32 receive_physical_attack(void *attacker, f32 scale);
+    virtual f32 receive_direct_attack(void *attacker, DirectAttackPayload payload, void *collision, s32 tech, s32 arg5);
+    virtual void apply_poison_status();
+    virtual void apply_paralysis();
+    virtual void apply_slow_status();
+    virtual void apply_confusion_status();
+    virtual void apply_movement_ailment(s32);
+    virtual void apply_shock_status();
+    virtual void clear_harmful_statuses();
+    virtual void vfunc_62();
+    virtual void vfunc_63();
     u8 is_active();
     void sub_802BC124();
     void sub_802BB554();
@@ -21,43 +37,6 @@ struct TBoss6Type2
     void sub_802BA078();
     void aim_toward_point(void *);
     void render_body_effects();
-    f32 vfunc_23(void *, void *, void *, s32, s32);
-    u8 _unknown0[0x1C];
-    u8 _pad1C[0x8];
-    u32 m_24;
-    u8 _pad28[0x8];
-    u32 m_30;
-    u32 m_34;
-    TBoss6Type2Point position;
-    void* m_44;
-    u8 _pad48[0x8];
-    void* m_50;
-    u8 _pad54[0x8];
-    void* m_5c;
-    u32 m_60;
-    u8 _pad64[0x10];
-    void* m_74;
-    u8 unk_78[0x2C];
-    void * m_a4;
-    u8 unk_A8[0x200];
-    u32 m_2a8;
-    u8 _pad2AC[0x38];
-    u32 m_2e4;
-    u8 unk_2E8[0xA];
-    s16 m_2f2;
-    u8 unk_2F4[0x2];
-    s16 m_2f6;
-    u8 unk_2F8[0x2];
-    s16 m_2fa;
-    u8 unk_2FC[0x4];
-    f32 m_300;
-    u8 unk_304[0x18];
-    void * m_31c;
-    u8 unk_320[0xC];
-    s16 m_32c;
-    u8 _pad32E[0x10];
-    u16 m_33e;
-    u8 _pad340[0x34];
     u32 m_374;
     u8 unk_378[0x4];
     s32 m_37c;
@@ -122,11 +101,11 @@ struct TBoss6Type2
     u8 _pad608[0x764 - 0x608];
     u32 m_764;
     void* m_768;
+    u8 pad_76C[0x7B4 - 0x76C];
 
     void update_lower_contact_delta();
     s32 turn_toward_target_position();
     static u8 *create_dpb(s32 arg0, s32 arg1, f32 farg0);
-    void render();
     s32 get_phase();
     void call_9A24_plus_1(s32 *arg1);
     void unpack_path_entry(s32 *arg1);
@@ -183,7 +162,6 @@ struct TBoss6Type2
     void init_motion_entries();
     void copy_transform(void* q);
     void set_action_state(void *vv);
-    void run_task();
     void copy_pos_620(s32 arg1);
     void get_push_points(s32 arg1, s32 arg2);
     void copy_pos_59c(s32 arg1);
@@ -295,7 +273,7 @@ struct TBoss6Type2
     static Blk_802BCFD4 *copy_block(Blk_802BCFD4 *d, const Blk_802BCFD4 *s);
 };
 
-typedef char TBoss6Type2_offset_position[(offsetof(TBoss6Type2, position) == 0x38) ? 1 : -1];
+typedef char TBoss6Type2_offset_m_374[(offsetof(TBoss6Type2, m_374) == 0x374) ? 1 : -1];
 typedef char TBoss6Type2_offset_target_position[(offsetof(TBoss6Type2, target_position) == 0x484) ? 1 : -1];
 typedef char TBoss6Type2_offset_lower_contact_index[(offsetof(TBoss6Type2, lower_contact_index) == 0x520) ? 1 : -1];
 typedef char TBoss6Type2_offset_lower_contact_delta[(offsetof(TBoss6Type2, lower_contact_delta) == 0x524) ? 1 : -1];
@@ -304,5 +282,7 @@ typedef char TBoss6Type2_offset_contact_point_5c0[(offsetof(TBoss6Type2, contact
 typedef char TBoss6Type2_offset_contact_point_5fc[(offsetof(TBoss6Type2, contact_point_5fc) == 0x5fc) ? 1 : -1];
 typedef char TBoss6Type2_offset_m_764[(offsetof(TBoss6Type2, m_764) == 0x764) ? 1 : -1];
 typedef char TBoss6Type2_offset_m_768[(offsetof(TBoss6Type2, m_768) == 0x768) ? 1 : -1];
+
+typedef char TBoss6Type2_size[(sizeof(TBoss6Type2) == 0x7B4) ? 1 : -1];
 
 #endif

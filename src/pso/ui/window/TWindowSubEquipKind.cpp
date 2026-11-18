@@ -7,8 +7,7 @@
 
 extern "C" {
 extern s32 __vt__19TWindowSubEquipKind[];
-extern "C" { extern char TWindowSubEquipKind__class_name_string[]; }
-const char *TWindowSubEquipKind__class_name = TWindowSubEquipKind__class_name_string;
+extern s32 TWindowSubEquipKind__class_name;
 s32 get_draw_context__11TWindowBaseFPv();
 s32 draw_visible_window_entries(void *, void *, s32);
 s32 run_task__19TWindowMenuIconLineFv();

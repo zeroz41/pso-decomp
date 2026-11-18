@@ -131,7 +131,7 @@ s32 TLobby__sub_803F9B94(s32 fn, s32 *out_key) {
         u8 *e = (u8 *)tbl + off;
         *(s32 *)(e + 0x318) = fn;
         e = (u8 *)lobby_thread_pool_base + off;
-        if (OSCreateThread((OSThread *)((u8 *)lobby_thread_pool_base + off + 8), (void *(*)(void *))run_current_thread_callback, 0, *(u8 **)(e + 0x320) + *(s32 *)(e + 0x31c), *(u32 *)(e + 0x31c), lbl_805D4810, 1) == 1) {
+        if (OSCreateThread((OSThread *)((u8 *)lobby_thread_pool_base + off + 8), (void *(*)(void *))run_current_thread_callback, 0, *(u8 **)(e + 0x320) + *(s32 *)(e + 0x31c), *(u32 *)(e + 0x31c), net_default_thread_priority, 1) == 1) {
             lobby_thread_pool_base[i].active = 1;
             *out_key = (s32)lobby_thread_pool_base[i].key;
             return 0;
@@ -165,7 +165,7 @@ s32 NetSetDefaultThreadPriority(s32 priority) {
     if ((priority < 0) || (priority > 0x1F)) {
         return -1;
     }
-    lbl_805D4810 = priority;
+    net_default_thread_priority = priority;
     return 0;
 }
 
@@ -255,9 +255,10 @@ s32 check_connection_status(void *connection) {
 }
 
 extern u32 ppp_ipv6cp_protocol_state[0x2A];
-extern u8 lbl_805E1150;
 Blk_803FA2A8 lbl_804FD380 = {0};
-extern s16 lbl_805D4818;
+/* inferred: the default option mask of both IPv6CP option blocks, one bit per option type (6: types 1 and 2, the
+ * types lbl_804FD398 gives lengths 10 and 6, Interface-Identifier and IPv6-Compression-Protocol). */
+s16 ipv6cp_default_option_flags = 6;
 void *TLobby__sub_803FABDC(void *self);
 s32 TLobby__sub_803FA4A4(u8 *self, u8 *src, s32 h);
 s32 TLobby__sub_803FA7B0(u8 *self, u8 *src, void *h);
@@ -270,7 +271,7 @@ void TLobby__sub_803F9FAC(u8 *ctx) {
     u8 *sub;
     u8 *blk;
 
-    *(u32 *)(base + 0x0) = (u32)&lbl_805E1150;
+    *(u32 *)(base + 0x0) = (u32)"IPv6cp";
     *(u16 *)(base + 0x4) = 0x8057;
     *(s16 *)(base + 0x6) = 0xFE;
     base[0x8] = 4;
@@ -297,10 +298,10 @@ void TLobby__sub_803F9FAC(u8 *ctx) {
     *(u8 **)(sub + 0x30) = blk;
 
     *(Blk_803FA2A8 *)(blk + 0x4) = *src;
-    *(s16 *)(blk + 0x0) = lbl_805D4818;
+    *(s16 *)(blk + 0x0) = ipv6cp_default_option_flags;
     *(Blk_803FA2A8 *)(blk + 0x38) = *src;
     *(Blk_803FA2A8 *)(blk + 0x50) = *src;
-    *(s16 *)(blk + 0x34) = lbl_805D4818;
+    *(s16 *)(blk + 0x34) = ipv6cp_default_option_flags;
     TLobby__sub_803FD694(sub);
 }
 

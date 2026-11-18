@@ -4,10 +4,10 @@
 #include "types.h"
 
 extern "C" {
-int TLobby__sub_80207E24(void *p);
+int TLobby__sub_80207E24(void *p, s32 size);
 void TLobby__sub_80207E44(void);
-int TLobby__sub_80207E48(void *p);
-int TLobby__sub_80207F10(void *p);
+void TLobby__sub_80207E48(void);
+void TLobby__sub_80207F10(void);
 void TLobby__sub_802083C0(void);
 void TLobby__sub_80208648(void);
 void TLobby__sub_80208884(void *a0);

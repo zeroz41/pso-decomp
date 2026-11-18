@@ -18,11 +18,6 @@
 extern "C" s32 is_item_area_enabled(s32 area);
 #include "pso/system/task/TMainTask.h"
 
-extern "C" {
-// TItemTimerEvent has no real constructor yet (TItemTimerEvent.cpp).
-void TItemTimerEvent__ct(void *event);
-extern s32 lbl_804A05C8[];
-}
 
 const char *item_pro_armor_particle_class_name = "TItemProArmorParticle";
 
@@ -37,11 +32,10 @@ static const s32 armor_particle_ids[12] = {
 
 TItemProArmorParticle::~TItemProArmorParticle() {}
 
-void *TUnk_804A05C8::initialize(TItemHeapObject *parent, u16 client, s32 duration, s32 particle) {
-    TItemTimerEvent__ct(this);
-    *(s32 **)((s8 *)this + 0x18) = lbl_804A05C8;
-    *(s32 *)&this->unk_2C = particle;
-    return this;
+// This object's copy of the timer event constructor (on_equip calls it).
+TUnk_804A05C8::TUnk_804A05C8(TItemHeapObject *parent, u16 client, s32 duration, s32 particle)
+    : TItemTimerEvent(parent, client, duration) {
+    unk_2C = particle;
 }
 
 TItemProArmorParticle::TItemProArmorParticle(TObject *parent, u8 *item) : TItemProArmor(parent, item) {
@@ -63,13 +57,9 @@ TItemProArmorParticle::TItemProArmorParticle(TObject *parent, u8 *item) : TItemP
 }
 
 void TItemProArmorParticle::on_equip() {
-    TUnk_804A05C8 *event;
     TItemProArmor::on_equip();
     if ((particle_mode == ARMOR_PARTICLE_TIMER) && (effect_objects != NULL)) {
-        event = (TUnk_804A05C8 *)TItemHeapObject::operator new(0x30);
-        if (event != NULL) {
-            event->initialize(effect_objects, get_owner_client(), 120, particle_id);
-        }
+        new TUnk_804A05C8(effect_objects, get_owner_client(), 120, particle_id);
     }
 }
 

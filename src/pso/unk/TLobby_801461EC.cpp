@@ -30,17 +30,28 @@ s16 TLobby__sub_80423064(s16 idx, s32 arg1);
 void TLobby__sub_80424CA8(void);
 s32 TLobby__sub_80424CF4(void *, void *, s32 timeout);
 void TLobby__sub_801469B8(void* p);
-    extern int lbl_805D5708;
 void *get_account_entry(int idx);
 void TLobby__sub_8014715C(void* p, void* q);
 s32 TLobby__sub_8040A3C0();
-extern s32 lbl_805D570C;
+s32 lobby_local_ip_addr;
+s32 lobby_dns_server_addr;
+s32 lobby_dns_server_addr2;
+s32 lobby_connect_battle_flag;
+s32 lbl_805D56E8;
+s32 lbl_805D56EC;
+s32 lbl_805D56F0;
+s32 lbl_805D56F4;
+s32 TLobby__connect_pending_flags;
+s32 TLobby__battle_flag;
+u32 lbl_805D5700;
+s32 TLobby__net_session_mode;
+int lbl_805D5708;
+s32 lbl_805D570C;
+s32 lobby_connect_active_flag;
+s32 lbl_805D5714;
+s32 lbl_805D5718;
 s32 TLobby__sub_8014618C(void);
 void TLobby__sub_8014672C(s32 *arg0);
-extern s32 lobby_local_ip_addr;
-extern s32 lobby_dns_server_addr;
-extern s32 lobby_dns_server_addr2;
-extern s32 lobby_connect_battle_flag;
 s32 TLobby__sub_80146588(s32 *arg0);
 u8 *TLobby__sub_80146D14(void);
 }
@@ -59,8 +70,6 @@ void TLobby__sub_804073B8(void);
 s16 TLobby__sub_804150EC(void);
 s16 TLobby__sub_8042315C(s16, void *);
 s32 lobby_net_session_id = -1;
-extern s32 TLobby__connect_pending_flags;
-extern s32 lobby_connect_active_flag;
 s32 TLobby__sub_801478C4(s32 arg0);
 }
 s32 connect_modem(s32 idx, s16 id);
@@ -130,10 +139,6 @@ s16 TLobby__sub_8042474C(void *, void *, void *);
 s16 TLobby__sub_8042489C(void *, void *);
 s16 TLobby__sub_80424D58(s16, s32, s32, void *, void *, s32 *, void *, s32);
 s16 TLobby__sub_80424E44(s16);
-extern s32 lbl_805D56E8;
-extern s32 lbl_805D56EC;
-extern s32 lbl_805D56F0;
-extern s32 lbl_805D56F4;
 int TLobby__sub_80145E40(void);
 int TLobby__sub_80146724(void);
 int TLobby__sub_80146740(void);
@@ -165,7 +170,6 @@ __declspec(section ".data") s32 lbl_8050CE0C[2];
 char lbl_8050CE14[0x20];
 char lbl_8050CE34[0x20];
 u8 lbl_8050CE54[0x114];
-extern s32 lbl_805D5714;
 #define lbl_8050C0A8 (*(RecoveredGlobal_8014672C_lbl_8050C0A8 *)lbl_8050C0A8)
 
 void TLobby::init_keyboard_buffer() { keyboard_buffer_cursor = 0; lbl_805D56CE = 0; lbl_805D56C8 = 0; get_network_config_buffer_size((s32)((void*)0)); lbl_805D56C8 = xmalloc__FUl(); TLobby__sub_80145A94(); }
@@ -189,7 +193,6 @@ loop_1:
     goto loop_1;
 }
 
-extern s32 TLobby__battle_flag;
 
 void TLobby::flush_pending_flag2() {
     if (TLobby__connect_pending_flags & 2) {
@@ -380,8 +383,6 @@ int TLobby__sub_8014677C(void) { return TLobby__sub_80145DB4(1); }
 }
 int TLobby::get_link_status_value() { return TLobby__sub_80145DB4(4); }
 
-extern u32 lbl_805D5700;
-extern s32 TLobby__net_session_mode;
 int get_link_status() {
     NetLinkStatus link;
     if (TLobby__net_session_mode == 0) {

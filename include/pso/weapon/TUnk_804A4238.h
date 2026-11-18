@@ -10,4 +10,6 @@ public:
     virtual void emit_marker_effects();
 };
 
+u8 *create_s_rank_j_cutter_weapon(u8 *item);
+
 #endif

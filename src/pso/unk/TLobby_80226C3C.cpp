@@ -17,8 +17,30 @@ void start_audio_stream_file(s32, char *);
 void play_cue_stream_file(s32 arg0);
 void TLobby__sub_803C94DC(u8 *arg0, s32 arg1);
 s32 TLobby__sub_803C9CB0(s32);
-extern s32 lbl_805D62E4;
-extern s32 music_fade_slot_index;
+void *lbl_805D62D8;
+u32 lbl_805D62DC;
+s32 lbl_805D62E0;
+s32 lbl_805D62E4;
+s32 music_fade_slot_index;
+u32 lbl_805D62EC;
+s32 lbl_805D62F0;
+s32 lbl_805D62F4;
+s32 lbl_805D62F8;
+s32 lbl_805D62FC;
+s32 lbl_805D6300;
+Program_80226FA0 *lbl_805D6304;
+s32 music_sequencer_passage_index;
+s32 music_passage_index;
+s32 lbl_805D6310;
+s32 lbl_805D6314;
+s32 music_active_mode_index;
+s32 music_target_id;
+s32 music_sequencer_fade_state;
+s32 music_sequencer_timer;
+f32 music_fade_step;
+s32 music_fade_frames_remaining;
+s32 lbl_805D6330;
+s16 lbl_805D6334;
 void TLobby__sub_802272B4(void);
 void set_field_40_and_notify__6TLobbyFs(s32, s32);
 }
@@ -30,26 +52,12 @@ s32 TLobby__sub_803C97B8(u8 *arg0);
 }
 void stop_audio_stream(u8 *arg0);
 extern s32 lbl_804CB850[];
-extern s32 lbl_805D6330;
-extern s32 lbl_805D6300;
-extern s32 music_target_id;
 void set_dark_falz_music_request(s32 arg0);
 void stop_cue_stream(void);
 extern u8 *lobby_current_slot_entry;
 void set_music_streams_volume(s32 arg0);
 void update_music_fade(void);
 void append_music_stream_segment(u8 *arg0, s32 arg1, s32 arg2);
-extern s32 lbl_805D62E0;
-extern s32 lbl_805D62F0;
-extern s32 lbl_805D62F4;
-extern Program_80226FA0 *lbl_805D6304;
-extern s32 music_sequencer_passage_index;
-extern s32 music_passage_index;
-extern s32 lbl_805D6310;
-extern s32 music_active_mode_index;
-extern s32 music_sequencer_fade_state;
-extern s32 music_sequencer_timer;
-extern s16 lbl_805D6334;
 void update_music_sequencer(void);
 
 extern "C" char lbl_80514D00[2][0x20];
@@ -317,9 +325,6 @@ void TLobby__sub_80227A90(void);
 void init_adx_audio_system(void);
 extern const SndHooks lbl_8044C858;
 extern u32 lbl_804CB838[6];
-void *lbl_805D62D8;
-extern s32 lbl_805D62F8;
-extern s32 lbl_805D62FC;
 extern RecoveredGlobal_8000F7FC_lbl_80515F48 TLobby__sub_80227A6C;
 s32 lbl_804CB850[3] = { 0, 0, 0 };
 
@@ -493,11 +498,7 @@ Program_80226FA0 *music_programs[] = {
     &jungle_music, &seabed_music, &ruin_music, &space_music,
 };
 extern f32 music_fade_volumes[];
-extern s32 music_fade_frames_remaining;
 extern const f32 lbl_805DC764;
-extern f32 music_fade_step;
-u32 lbl_805D62DC;
-extern u32 lbl_805D62EC;
 
 void TLoadCtrl::step() { TLobby::stop_audio_streams(); stop_cue_stream(); }
 typedef char RecoveredGlobal_8000F7FC_lbl_80515F48_size[sizeof(RecoveredGlobal_8000F7FC_lbl_80515F48) == 0x28 ? 1 : -1];

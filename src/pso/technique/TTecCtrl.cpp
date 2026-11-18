@@ -182,8 +182,6 @@ u8 * free_bin_model_request(void *, s16);
 s32 release_texture_list(void *, s32);
 struct TechniqueRingwaveTextureList { u8 * value; u8 remaining[0x8]; };
 extern TechniqueRingwaveTextureList technique_ringwave_texture_list;
-extern u8 *technique_effect_bml;
-extern void **lbl_805D63B0;
 u8 *load_resource_from_descriptor(u8 *, s32, void *, s32, s32, s32);
 }
 u8 *load_gvm_texture_file(s32 arg0);
@@ -192,7 +190,7 @@ void bind_gvm_texture_list(const char *, void *);
 }
 void reset_telepipe_visit_counts(void);
 extern "C" {
-void __ct__7TObjectFP7TObject(void *);
+void __ct__7TObjectFP7TObject(void *, void *);
 }
 
 s8 lbl_805D63A8;
@@ -266,8 +264,8 @@ void TLobby__sub_8022F068(void) {
     technique_effect_bml = NULL;
 }
 
-void *__ct__8TTecCtrlFv(void *tec_ctrl) {
-    __ct__7TObjectFP7TObject(tec_ctrl);
+void *__ct__8TTecCtrlFv(void *tec_ctrl, void *parent) {
+    __ct__7TObjectFP7TObject(tec_ctrl, parent);
     *(s32 **)((s8 *)tec_ctrl + 0x18) = __vt__8TTecCtrl;
     ((TTecCtrl *)tec_ctrl)->m_name = TTecCtrl__name;
     *(u32 *)((s8 *)tec_ctrl + 0x1C) = 0;

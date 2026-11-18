@@ -4,13 +4,17 @@
 #include "types.h"
 #include "pso/object/TUnk_804B5E48.h"
 
+class TParticleCtrl;
+
 struct TObjCity_Season_XmasTree : public TUnk_804B5E48 {
+    TObjCity_Season_XmasTree(TObject *parent, void *set_data);
     virtual ~TObjCity_Season_XmasTree();
     virtual void render();
     virtual void run_task();
 
-    u8 unk_B4[0x4];
-    void *dt(s16 arg1);
+    // Particle emitter created at the decoration (create_particle_emitter id
+    // 0x90) and queued for destruction by the destructor (name inferred).
+    TParticleCtrl *emitter;
 };
 
 typedef char TObjCity_Season_XmasTree_size[sizeof(TObjCity_Season_XmasTree) == 0xB8 ? 1 : -1];

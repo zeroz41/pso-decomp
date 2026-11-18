@@ -6,7 +6,6 @@
 #include "pso/math/MatrixTransforms.h"
 #include "pso/unk/text_80087278.h"
 #include "pso/weapon/TItemWeapon.h"
-#include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/effect/item/TItemEffOrgaFlowShot.h"
 #include "pso/system/task/TMainTask.h"
@@ -57,10 +56,9 @@ TUnk_804E24F0::TUnk_804E24F0(TObject *parent, u8 *item) : TItemWeapon(parent, it
     pad_1f8 = 0.0f;
 }
 
-u8 *TAdPlayerLoadGC::create_instance() {
-    u8 *arg0 = (u8 *)this;
-    if (arg0 != NULL) {
-        return (u8 *)new TUnk_804E24F0(tl_05, arg0);
+u8 *TUnk_804E24F0::create(u8 *item) {
+    if (item != NULL) {
+        return (u8 *)new TUnk_804E24F0(tl_05, item);
     }
     return NULL;
 }

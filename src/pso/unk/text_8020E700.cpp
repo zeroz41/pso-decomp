@@ -31,9 +31,9 @@ extern "C" {
 s32 memset(void *, int, int);
 // Per shop list (four in split screen): the stock array (0x1A4 bytes, allocated by load_armor_random_table),
 // its entry count and whether it was generated.
-extern s32 lbl_80513D78[4];
-extern s32 shop_armor_stock_generated_flags[4];
-extern s32 lbl_80513D68[4];
+s32 shop_armor_stock_generated_flags[4];
+s32 lbl_80513D68[4];
+s32 lbl_80513D78[4];
 Tbl_8020E934 ** lbl_805D6158;
 s32 lbl_805D615C;
 extern s32 shop_difficulty_tier;

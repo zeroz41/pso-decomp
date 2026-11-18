@@ -19,17 +19,6 @@
 extern "C" {
 // Defined in TItemData.cpp, which has no header yet.
 void *lookup_item_pmt_record(u8 *item);
-// The timer events an armor starts. Their classes are still written as C
-// functions on the raw object (TItemTimerEvent has no real constructor).
-void init_item_timer_event__13TUnk_804A0648Fv(void *event, TItemHeapObject *parent, u16 client, s32 duration);
-void construct_timer_event__13TUnk_804A0628Fv(void *event, TItemHeapObject *parent, u16 client, s32 duration);
-void ct__13TUnk_804A0688Fv(void *event, TItemHeapObject *parent, u16 client, s32 duration);
-void init_vtable__13TUnk_804A0668Fv(void *event, TItemHeapObject *parent, u16 client, s32 duration);
-void TItemTimerEvent__ct(void *event);
-extern s32 lbl_804A0628[];
-extern s32 lbl_804A0648[];
-extern s32 lbl_804A0668[];
-extern s32 lbl_804A0688[];
 }
 
 const char *item_pro_armor_class_name = "TItemProArmor";
@@ -39,29 +28,13 @@ const char *item_pro_armor_class_name = "TItemProArmor";
 // constructors at the end are this object's copies of the ones on_equip
 // calls (TItemProShield and TItemProUnit call two of them too).
 
-void *TUnk_804A0648::init_item_timer_event() {
-    TItemTimerEvent__ct(this);
-    *(s32 **)((s8 *)this + 0x18) = lbl_804A0648;
-    return this;
-}
+TUnk_804A0648::TUnk_804A0648(TItemHeapObject *parent, u16 client, s32 period) : TItemTimerEvent(parent, client, period) {}
 
-void *TUnk_804A0628::construct_timer_event() {
-    TItemTimerEvent__ct(this);
-    *(s32 **)((s8 *)this + 0x18) = lbl_804A0628;
-    return this;
-}
+TUnk_804A0628::TUnk_804A0628(TItemHeapObject *parent, u16 client, s32 period) : TItemTimerEvent(parent, client, period) {}
 
-void *TUnk_804A0688::ct() {
-    TItemTimerEvent__ct(this);
-    *(s32 **)((s8 *)this + 0x18) = lbl_804A0688;
-    return this;
-}
+TUnk_804A0688::TUnk_804A0688(TItemHeapObject *parent, u16 client, s32 period) : TItemTimerEvent(parent, client, period) {}
 
-void *TUnk_804A0668::init_vtable() {
-    TItemTimerEvent__ct(this);
-    *(s32 **)((s8 *)this + 0x18) = lbl_804A0668;
-    return this;
-}
+TUnk_804A0668::TUnk_804A0668(TItemHeapObject *parent, u16 client, s32 period) : TItemTimerEvent(parent, client, period) {}
 
 TItemProArmor::~TItemProArmor() {}
 
@@ -117,46 +90,25 @@ void TItemProArmor::on_equip() {
     }
     switch (get_item_index()) {
     case 27:
-        event = TItemHeapObject::operator new(0x2C);
-        if (event != NULL) {
-            init_item_timer_event__13TUnk_804A0648Fv(event, effect_objects, get_owner_client(), 150);
-        }
+        new TUnk_804A0648(effect_objects, get_owner_client(), 150);
         break;
     case 28:
-        event = TItemHeapObject::operator new(0x2C);
-        if (event != NULL) {
-            construct_timer_event__13TUnk_804A0628Fv(event, effect_objects, get_owner_client(), 300);
-        }
+        new TUnk_804A0628(effect_objects, get_owner_client(), 300);
         break;
     case 32:
-        event = TItemHeapObject::operator new(0x2C);
-        if (event != NULL) {
-            ct__13TUnk_804A0688Fv(event, effect_objects, get_owner_client(), 300);
-        }
+        new TUnk_804A0688(effect_objects, get_owner_client(), 300);
         break;
     case 33:
-        event = TItemHeapObject::operator new(0x2C);
-        if (event != NULL) {
-            ct__13TUnk_804A0688Fv(event, effect_objects, get_owner_client(), 240);
-        }
+        new TUnk_804A0688(effect_objects, get_owner_client(), 240);
         break;
     case 34:
-        event = TItemHeapObject::operator new(0x2C);
-        if (event != NULL) {
-            ct__13TUnk_804A0688Fv(event, effect_objects, get_owner_client(), 210);
-        }
+        new TUnk_804A0688(effect_objects, get_owner_client(), 210);
         break;
     case 43:
-        event = TItemHeapObject::operator new(0x2C);
-        if (event != NULL) {
-            ct__13TUnk_804A0688Fv(event, effect_objects, get_owner_client(), 150);
-        }
+        new TUnk_804A0688(effect_objects, get_owner_client(), 150);
         break;
     case 49:
-        event = TItemHeapObject::operator new(0x2C);
-        if (event != NULL) {
-            init_vtable__13TUnk_804A0668Fv(event, effect_objects, get_owner_client(), 150);
-        }
+        new TUnk_804A0668(effect_objects, get_owner_client(), 150);
         break;
     case 45:
         event = TObject::operator new(0x24);

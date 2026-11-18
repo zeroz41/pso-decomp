@@ -5,6 +5,8 @@
 
 class TUnk_804ED7D0 : public TUnk_804DDD28 {
 public:
+    TUnk_804ED7D0();
+    virtual s32 get_cell_address(s32, s32);
     virtual ~TUnk_804ED7D0();
     virtual int vfunc_8(s32, s32);
     virtual int vfunc_9(s32, s32, s32);
@@ -69,7 +71,8 @@ public:
     virtual int vfunc_23();
     virtual int vfunc_22();
     virtual int vfunc_30();
-    void *init_vtable8();
+    virtual s32 *get_state_table(s32);
 };
+typedef char TUnk_804ED7D0_size[sizeof(TUnk_804ED7D0) == 0xC ? 1 : -1];
 
 #endif

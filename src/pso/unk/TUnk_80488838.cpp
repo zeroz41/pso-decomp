@@ -77,22 +77,22 @@ void TUnk_80488838::update_orbit_camera() {
 }
 #pragma pop
 
-void TCameraCtrl::reset_behind_player() {
+void TUnk_80488838::reset_behind_player() {
     Vec stack;
     u8 *player;
     player = (u8 *)(get_player_by_client_id(0));
     if (player != NULL) {
-        this->m_30 = (s32) *(s32 *)((s8 *)player + 0x60);
+        yaw = *(s32 *)((s8 *)player + 0x60);
         stack.x = 0.0f;
         stack.y = 0.0f;
-        stack.z = this->m_70;
+        stack.z = m_70;
         push_matrix_from(&identity_matrix);
-        rotate_matrix_y(0, this->m_30);
+        rotate_matrix_y(0, yaw);
         matrix_mult_vec(0, &stack.x, &stack.x);
         pop_matrix();
-        this->m_3c = (f32) (*(f32 *)&this->unk_48 + stack.x);
-        *(f32 *)&this->unk_40 = (f32) (this->m_4c + stack.y);
-        this->m_44 = (f32) (*(f32 *)&this->unk_50 + stack.z);
+        position.x = target.x + stack.x;
+        position.y = target.y + stack.y;
+        position.z = target.z + stack.z;
     }
 }
 
@@ -108,24 +108,19 @@ void target_player0__11TCameraCtrlFi(s32 arg0) {
     }
 }
 
-void TCameraCtrl::reset_state() { *(float *)&this->m_70 = 25.0f; *(int *)&this->unk_2C = 0; *(int *)&this->m_34 = 0; target_player0__11TCameraCtrlFi((s32)this); reset_behind_player(); }
+void TUnk_80488838::reset_state() {
+    m_70 = 25.0f;
+    m_2c = 0;
+    m_34 = 0;
+    target_player0__11TCameraCtrlFi((s32)this);
+    reset_behind_player();
+}
 
 void TUnk_80488838::run_task() { target_player0__11TCameraCtrlFi((s32)this); this->update_orbit_camera(); }
 
-extern s32 __vt__13TUnk_80488838[];
-void __dl__7TObjectFPv(void *);
+}
 
-void *__dt__13TUnk_80488838Fv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__13TUnk_80488838;
-        __dt__13TUnk_80488A28Fv(arg0, (s16)(0));
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
-}
-}
+TUnk_80488838::~TUnk_80488838() {}
 
 TUnk_80488838::TUnk_80488838() : TUnk_80488A28() {
     m_38 = 0;

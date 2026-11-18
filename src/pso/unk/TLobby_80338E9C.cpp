@@ -6,6 +6,7 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TUnk_804EF4E0.h"
 #include "pso/system/task/TObject.h"
+#include "pso/unk/WindowLayoutRecord.h"
 
 struct O_80338D58 { u8 pad[0x72]; s16 idx; u8 pad2[2]; s16 count; };
 
@@ -73,12 +74,17 @@ void *__dt__13TUnk_804EF4E0Fv(void *window_sub_status_disp, s16 arg1) {
 
 }
 
+// The window descriptor fn_80338F3C hands to the base constructor, with its layout words (the
+// lbl_804D05F8/lbl_804D0604 pair of TWindowSubStatusDisp_802671F0.cpp has the same shape).
+s32 lbl_804EF4C0[3] = {1, 0x40, 0xC};
+WindowDescriptor lbl_804EF4CC = {
+    {605.0f, 184.0f}, 50050.0f, lbl_804EF4C0, 3,
+};
+
 extern "C" {
 u8 * get_window_layout_position(s32);
-struct RecoveredGlobal_lbl_804EF4CC { s32 value; u8 remaining[0x10]; };
-extern RecoveredGlobal_lbl_804EF4CC lbl_804EF4CC;
 u8 *fn_80338F3C(u8 *window_sub_status_disp, s32 arg1) {
-    ((TWindowSubStatusDisp *)window_sub_status_disp)->ct_helper((s32)((int) (get_window_layout_position(0xB0))), arg1, 0x40, (s32)&lbl_804EF4CC.value);
+    ((TWindowSubStatusDisp *)window_sub_status_disp)->ct_helper((s32)((int) (get_window_layout_position(0xB0))), arg1, 0x40, (s32)&lbl_804EF4CC);
     *(s32 **)((s8 *)window_sub_status_disp + 0x18) = &lbl_804EF4E0.value;
     return window_sub_status_disp;
 }

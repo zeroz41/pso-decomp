@@ -2,39 +2,42 @@
 #include "pso/unk/text_8035B6B0.h"
 
 #include <stddef.h>
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-struct Stack_8035B6B0 {
-    s32 sp8;
-    s32 spC;
-    s32 sp10;
-    s32 sp14;
+#include "pso/system/BmlResourceLoad.h"
+#include "pso/object/base/TObjMotion.h"
+#include "pso/unk/TLobby.h"
+
+// The motion binding the chao NPC passes to TLobby::spawn_npc_enemy (laid out like MojaAnimationBinding).
+struct ChaoNpcAnimationBinding {
+    BmlMotionEntry *motions;
+    TObjMotionAction *actions;
+    u32 unknown_08;
+    u16 actionCount;
+    u16 unknown_0E;
 };
 
-extern "C" {
-u8 *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-s32 spawn_npc_enemy__6TLobbyFslP11NJS_TEXLISTPvff(int, int, int, void *, int, void *, f32, f32);
-}
-extern s32 chao_npc_spawn_descriptor[];
-extern s32 bm_ene_npc_chao_resource_descriptor[];
-extern u8 *chao_npc_instance_handle;
+const char *bm_ene_npc_chao_model_names[2] = { "nps_chao_body.nj", NULL };
+const char *bm_ene_npc_chao_motion_names[3] = { "talk_nps_chao_body.njm", "walk_nps_chao_body.njm", NULL };
+BmlResourceDescriptor bm_ene_npc_chao_resource_descriptor = {
+    "bm_ene_npc_chao.bml", bm_ene_npc_chao_model_names, bm_ene_npc_chao_motion_names, 1, 2
+};
+
+// inferred: the chao NPC's action table (motion 0 talk, motion 1 walk), like nights_npc_actions
+static TObjMotionAction chao_npc_actions[2] = {
+    { 1, 0, 0, 0.8f, 0 },
+    { 1, 0, 1, 0.6f, 0 },
+};
+
+static const ChaoNpcAnimationBinding chao_npc_spawn_descriptor = { NULL, chao_npc_actions, 1, 2, 0 };
+
+BmlResource *chao_npc_instance_handle;
+
 void load_and_spawn_chao_npc(void) {
-    typedef char sp8_offset[(offsetof(Stack_8035B6B0, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_8035B6B0, spC) == 0x4) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_8035B6B0, sp10) == 0x8) ? 1 : -1];
-    typedef char sp14_offset[(offsetof(Stack_8035B6B0, sp14) == 0xC) ? 1 : -1];
-    Stack_8035B6B0 stack;
-    u8 *temp_r5;
-    u8 *var_r9;
-    var_r9 = (u8 *)((int)::operator new(0x440));
-    if (var_r9 != NULL) {
-        var_r9 = (u8 *)(load_resource_from_descriptor(var_r9, 1, bm_ene_npc_chao_resource_descriptor, 0, 0, 0));
+    BmlResource *resource = (BmlResource *)::operator new(0x440);
+    if (resource != NULL) {
+        resource = load_resource_from_descriptor(resource, 1, &bm_ene_npc_chao_resource_descriptor, 0, 0, 0);
     }
-    chao_npc_instance_handle = var_r9;
-    stack.sp8 = *(s32 *)((s8 *)chao_npc_spawn_descriptor + 0);
-    stack.spC = *(s32 *)((s8 *)chao_npc_spawn_descriptor + 4);
-    stack.sp10 = *(s32 *)((s8 *)chao_npc_spawn_descriptor + 8);
-    stack.sp14 = *(s32 *)((s8 *)chao_npc_spawn_descriptor + 0xC);
-    stack.sp8 = *(s32 *)((s8 *)var_r9 + 0x430);
-    temp_r5 = (u8 *)(*(u8 **)((s8 *)var_r9 + 0x42C));
-    spawn_npc_enemy__6TLobbyFslP11NJS_TEXLISTPvff(0xB, (int) (*(s32 *)((s8 *)temp_r5 + 8)), (int) (*(s32 *)((s8 *)temp_r5 + 0xC)), &stack.sp8, (int) (*(s32 *)((s8 *)chao_npc_spawn_descriptor + 0)), chao_npc_spawn_descriptor, 5.0f, 0.0f);
+    chao_npc_instance_handle = resource;
+    ChaoNpcAnimationBinding binding = chao_npc_spawn_descriptor;
+    binding.motions = resource->motions;
+    TLobby::spawn_npc_enemy(11, resource->models->model, (NJS_TEXLIST *)resource->models->m_c, &binding, 5.0f, 0.0f);
 }

@@ -25,7 +25,7 @@ struct VObj_18_7b3651 : VBase_18_7b3651 {
     virtual void m7();
     virtual void m8();
     virtual void m9();
-    virtual s32 * m10();
+    virtual char *m10();
     virtual void m11();
     virtual void m12();
     virtual void m13();
@@ -41,20 +41,14 @@ s32 get_card_status_bits__20TWindowShortListCtrlFv();
 s32 TObjPlayer__sub_801AFD8C(void *);
 VObj_18_7b3651 *get_player_by_client_id(s32);
 void text_builder_append_int(s32);
-void text_builder_append(void *);
+void text_builder_append(const char *);
 }
 void append_text_space(void);
 void append_padded_number(s32 v, u8 n);
 void text_builder_reset(void);
-extern char lbl_805DA9E0[];
-extern char lbl_805DA9E4[];
-extern char lbl_805DA9E8[];
-extern char lbl_805DA9EC[];
-extern char lbl_805DA9F0[];
-char *status_text_label_table[5] = { lbl_805DA9E0, lbl_805DA9E4, lbl_805DA9E8, lbl_805DA9EC, lbl_805DA9F0 };
+// One letter per language (J/E/G/F/S), appended after the player name.
+char *status_text_label_table[5] = { "J", "E", "G", "F", "S" };
 extern Ent_800FC968 lobby_player_status_records[];
-extern char lbl_805DA9F4[4];
-extern char lbl_805DA9F8[4];
 extern "C" {
 
 s32 get_status_index_or_default__20TWindowSubStatusDispFPUs(void *, s32);
@@ -73,7 +67,7 @@ void TWindowCtrlMain::advance_card_status(s32 arg0) {
 }
 s32 TWindowSubStatusDisp::build_status_text(s32 arg0) {
     s32 mode;
-    s32 *name;
+    char *name;
     u8 *info;
     s32 idx;
     s32 lvl;
@@ -105,9 +99,9 @@ s32 TWindowSubStatusDisp::build_status_text(s32 arg0) {
         if ((s8)info[0x33] < 2) {
             return 0;
         }
-        text_builder_append(lbl_805DA9F4);
+        text_builder_append("W:");
         text_builder_append_int(lobby_player_status_records[arg0].a);
-        text_builder_append(lbl_805DA9F8);
+        text_builder_append(" D:");
         text_builder_append_int(lobby_player_status_records[arg0].b);
         break;
     case 3:

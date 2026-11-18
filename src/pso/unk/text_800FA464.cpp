@@ -20,10 +20,14 @@ s32 adxf_get_stat(u32);
 u32 adxf_open__6TLobbyFUii(void *, s32);
 void load_gvm_texture_archive(u32, s32);
 }
-extern AsyncFileReadRequest *async_file_read_current_request;
-extern s32 async_file_read_state;
-extern u32 async_file_read_sector_buffer;
-extern u32 lobby_download_state_ptr;
+AsyncFileReadRequest *async_file_read_current_request;
+void *lobby_stack_entry_list_tail;
+s32 lobby_list_entry_count;
+s32 async_file_read_state;
+u32 async_file_read_sector_buffer;
+u32 lobby_download_state_ptr;
+s32 lobby_list_next_id;
+s32 game_heap;
 u32 async_file_read_texture_buffer;
 void process_async_file_reads(void) {
     switch (async_file_read_state) {

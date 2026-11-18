@@ -5,16 +5,12 @@
 #include "pso/object/quest/TObjQuestColBase.h"
 
 struct TObjQuestColApcIN : public TObjQuestColBase {
-    virtual ~TObjQuestColApcIN();
+    TObjQuestColApcIN(TObject *parent, void *set_data);
     virtual int vfunc_15();
-    virtual int vfunc_16();
-    u8 unk_BC[0x4];
+    virtual TQuestThread *vfunc_16();
+    f32 party_radius;  // scale.y; every other player must stand this close (inferred name)
 };
 
 typedef char TObjQuestColApcIN_size[sizeof(TObjQuestColApcIN) == 0xC0 ? 1 : -1];
-
-extern "C" {
-void *TObjQuestColApcIN__ct(void *arg0);
-}
 
 #endif

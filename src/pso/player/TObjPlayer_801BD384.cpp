@@ -17,6 +17,7 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/ui/charcreate/TCharaMaking.h"
 #include "pso/boss/olgaflow/TBoss6Type2.h"
+#include "pso/player/TUnk_804C4540.h"
 
 
 extern "C" {
@@ -104,62 +105,58 @@ void is_flag_set_550__10TObjPlayerFv(void *, void *);
 void sub_801BD240__10TObjPlayerFv(void *, void *);
 void TObjPlayer__sub_801BEC78(void *);
 void init_player_telepipe_record(void *);
-void __ct__9TObjCharaFP7TObject(void *);
 void TObjPlayer__sub_801BBB70(void *, void *);
 void TObjPlayer__sub_80309E9C(void *);
 void TObjPlayer__sub_803374C4(void *);
 void TObjPlayer__sub_80351974(void *);
 extern const char *lbl_805D3530;
-
-void *TObjPlayer__ct(TObjPlayer *player, void *arg1, void *arg2) {
-    __ct__9TObjCharaFP7TObject(player);
-    *(s32 **)((s8 *)player + 0x18) = __vt__10TObjPlayer;
-    ((TObjPlayer *)((char *)player + 832))->init_subobject();
-    ((TObjPlayer *)((char *)player + 844))->setup_ctrl();
-    ((TObjPlayer *)((char *)player + 864))->init_state();
-    TObjPlayer__sub_803374C4((void *)((char *)player + 884));
-    TObjPlayer__sub_80309E9C((void *)((char *)player + 900));
-    __ct__8FlagWordFv(((char *)player + 1052));
-    TFontSmallLobby__sub_801C0164(((char *)player + 1064));
-    ((TFontSmallLobby *)((char *)player + 1196))->construct_pb_controller();
-    __ct__14TPlyDispConfigFv(((char *)player + 1280));
-    TObjPlayer__sub_80351974((void *)((char *)player + 1360));
-    ((TObjPlayer *)((char *)player + 1456))->init_subobjects();
-    ((TObjPlayer *)((char *)player + 1504))->init_sub();
-    ((TObjPlayer *)((char *)player + 1520))->init_wrapper();
-    ((TObjPlayer *)((char *)player + 1532))->init_members();
-    ((TObjPlayer *)((char *)player + 1544))->set_vec4_const_wrapper();
-    ((TObjPlayer *)((char *)player + 1588))->wrap_update();
-    ((TObjPlayer *)((char *)player + 1596))->reset_and_clear();
-    ((TObjPlayer *)((char *)player + 1604))->construct_hurt_timer();
-    ((TObjPlayer *)((char *)player + 1612))->reset_fields();
-    ((TObjPlayer *)((char *)player + 1624))->reset_scale_vector();
-    ((TObjPlayer *)((char *)player + 1644))->set_vec3_const_wrapper();
-    TObjPlayer__sub_801BEC78((void *)((char *)player + 1656));
-    ((TObjPlayer *)((char *)player + 1708))->forward_release();
-    TObjPlayer__sub_801BF660(((char *)player + 1840));
-    ((TObjPlayer *)((char *)player + 1860))->init_vec_record();
-    ((TObjPlayer *)((char *)player + 1876))->init_sub_objects();
-    TObjPlayer::init_partial((s32)((void *)((char *)player + 1988)));
-    ((TObjPlayer *)((char *)player + 1992))->clear_base();
-    ((TObjPlayer *)((char *)player + 1996))->init();
-    TObjPlayer__sub_801C1A00(((char *)player + 2088));
-    init_player_telepipe_record((void *)((char *)player + 2096));
-    TObjPlayer__sub_801BFB4C((u8 *)((char *)player + 2124));
-    __ct__8FlagWordFv(((char *)player + 2136));
-    TObjPlayer::reset_and_return((s32)((void *)((char *)player + 3332)));
-    ((TObjPlayer *)((char *)player + 3500))->clear_header_struct();
-    player->m_name = lbl_805D3530;
-    player->init_action_provider();
-    player->entity_id = 0;
-    player->setup_control_role(7);
-    ((Fn_vpvp_801BD570)update_body_parts__10TObjPlayerFv)(player, arg2);
-    init_player_data__10TObjPlayerFv(player, (void *)((char *)arg2 + 136));
-    player->init_data_table_ptr();
-    return player;
 }
 
+TObjPlayer::TObjPlayer(TObject *parent, TUnk_801D8A4C *src) : TObjChara(parent) {
+    ((TObjPlayer *)((char *)this + 832))->init_subobject();
+    ((TObjPlayer *)((char *)this + 844))->setup_ctrl();
+    ((TObjPlayer *)((char *)this + 864))->init_state();
+    TObjPlayer__sub_803374C4((void *)((char *)this + 884));
+    TObjPlayer__sub_80309E9C((void *)((char *)this + 900));
+    __ct__8FlagWordFv(((char *)this + 1052));
+    TFontSmallLobby__sub_801C0164(((char *)this + 1064));
+    ((TFontSmallLobby *)((char *)this + 1196))->construct_pb_controller();
+    __ct__14TPlyDispConfigFv(((char *)this + 1280));
+    TObjPlayer__sub_80351974((void *)((char *)this + 1360));
+    ((TObjPlayer *)((char *)this + 1456))->init_subobjects();
+    ((TObjPlayer *)((char *)this + 1504))->init_sub();
+    ((TObjPlayer *)((char *)this + 1520))->init_wrapper();
+    ((TObjPlayer *)((char *)this + 1532))->init_members();
+    ((TObjPlayer *)((char *)this + 1544))->set_vec4_const_wrapper();
+    ((TObjPlayer *)((char *)this + 1588))->wrap_update();
+    ((TObjPlayer *)((char *)this + 1596))->reset_and_clear();
+    ((TObjPlayer *)((char *)this + 1604))->construct_hurt_timer();
+    ((TObjPlayer *)((char *)this + 1612))->reset_fields();
+    ((TObjPlayer *)((char *)this + 1624))->reset_scale_vector();
+    ((TObjPlayer *)((char *)this + 1644))->set_vec3_const_wrapper();
+    TObjPlayer__sub_801BEC78((void *)((char *)this + 1656));
+    ((TObjPlayer *)((char *)this + 1708))->forward_release();
+    TObjPlayer__sub_801BF660(((char *)this + 1840));
+    ((TObjPlayer *)((char *)this + 1860))->init_vec_record();
+    ((TObjPlayer *)((char *)this + 1876))->init_sub_objects();
+    TObjPlayer::init_partial((s32)((void *)((char *)this + 1988)));
+    ((TObjPlayer *)((char *)this + 1992))->clear_base();
+    ((TObjPlayer *)((char *)this + 1996))->init();
+    TObjPlayer__sub_801C1A00(((char *)this + 2088));
+    init_player_telepipe_record((void *)((char *)this + 2096));
+    TObjPlayer__sub_801BFB4C((u8 *)((char *)this + 2124));
+    __ct__8FlagWordFv(((char *)this + 2136));
+    TObjPlayer::reset_and_return((s32)((void *)((char *)this + 3332)));
+    ((TObjPlayer *)((char *)this + 3500))->clear_header_struct();
+    this->m_name = lbl_805D3530;
+    this->init_action_provider();
+    this->entity_id = 0;
+    this->setup_control_role(7);
+    ((Fn_vpvp_801BD570)update_body_parts__10TObjPlayerFv)(this, src);
+    init_player_data__10TObjPlayerFv(this, src->stats);
+    this->init_data_table_ptr();
 }
+
 TObjPlayer::TObjPlayer(TObject *arg1, void *arg2) : TObjChara(arg1) {
     ((TObjPlayer *)((char *)this + 832))->init_subobject();
     ((TObjPlayer *)((char *)this + 844))->setup_ctrl();

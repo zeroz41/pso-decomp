@@ -1,12 +1,10 @@
 #include "types.h"
 #include "pso/weapon/TUnk_804A08B8.h"
 #include "pso/item/TItemHeapObject.h"
+#include "pso/item/TUnk_804A0648.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/text_80087278.h"
 #include "pso/system/task/TMainTask.h"
-
-// The timer event class has no real constructor yet.
-extern "C" s32 init_item_timer_event__13TUnk_804A0648Fv(void *event, TItemHeapObject *parent, u16 client, s32 duration);
 
 void TUnk_804A08B8::emit_marker_effects() {
     WeaponVector pos;
@@ -20,13 +18,8 @@ void TUnk_804A08B8::emit_marker_effects() {
 // Starts a 90-frame timer event on the effect objects (named
 // marina_bag_start_regen before; vtable slot 57).
 void TUnk_804A08B8::vfunc_57() {
-    void *event;
-
     if (effect_objects != NULL) {
-        event = TItemHeapObject::operator new(0x2C);
-        if (event != NULL) {
-            init_item_timer_event__13TUnk_804A0648Fv(event, effect_objects, get_owner_client(), 0x5A);
-        }
+        new TUnk_804A0648(effect_objects, get_owner_client(), 0x5A);
     }
 }
 

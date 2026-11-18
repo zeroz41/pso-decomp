@@ -26,6 +26,47 @@ struct Env_80190624 {
     f32 range;
 };
 
+// Per-area {sound cue, mode} rows, indexed by the object's set parameter.
+const Row_80190AA0 lbl_804456F0[] = {
+    {0x4004B200, 1}, {0x4004C101, 1}, {0x4004CB02, 1},
+};
+const Row_80190AA0 lbl_80445708[] = {
+    {0x4A801, 2}, {0x4B202, 2}, {0x4BC00, 2}, {0x43704, 2},
+    {0x4BC05, 2}, {0x4AD06, 2},
+};
+const Row_80190AA0 lbl_80445738[] = {
+    {0x46400, 2}, {0x42A01, 2}, {0x42F02, 2}, {0x43C03, 2},
+    {0x43C04, 2}, {0x42D05, 2},
+};
+const Row_80190AA0 lbl_80445768[] = {
+    {0x4004B715, 2}, {0x4004BC16, 2},
+};
+const Row_80190AA0 lbl_80445778[] = {
+    {0x4004B200, 2}, {0x4004CB01, 2}, {0x4004BC02, 2}, {0x4004BC03, 2},
+    {0x4004C604, 2}, {0x4004AA05, 2}, {0x4004C606, 2},
+};
+const Row_80190AA0 lbl_804457B0[] = {
+    {0x4004B40C, 2}, {0x4004B40D, 2}, {0x4004C10E, 2}, {0x4004C10F, 2},
+};
+const Row_80190AA0 lbl_804457D0[] = {
+    {0x4CB0C, 2}, {0x4BC0D, 2}, {0x4BC0E, 2},
+};
+const Row_80190AA0 lbl_804457E8[] = {
+    {0x4CB0C, 2}, {0x4BC0D, 2}, {0x4BC0E, 2},
+};
+const Row_80190AA0 lbl_80445800[] = {
+    {0x4004B40C, 2}, {0x4004B40D, 2}, {0x4C10E, 2}, {0x4C10F, 2},
+};
+const Row_80190AA0 lbl_80445820[] = {
+    {0x4CB05, 2}, {0x4D506, 2}, {0x4BC07, 2}, {0x4C60A, 2},
+    {0x4CB0B, 2}, {0x4CB0C, 2}, {0x4CB0D, 2}, {0x4BC0E, 2},
+};
+const Row_80190AA0 lbl_80445860[] = {
+    {0x4004BC00, 2}, {0x4004BC01, 2}, {0x4004C603, 2}, {0x4004D504, 2},
+    {0x4004B205, 2}, {0x4004B206, 2}, {0x4004AD07, 2}, {0x4004B208, 2},
+    {0x4004AD09, 2}, {0x4004B20A, 2}, {0x4004B20B, 2},
+};
+
 const char *TObjEnvSound__class_name = "TObjEnvSound";
 const char *TObjEnvSoundEx__class_name = "TObjEnvSoundEx";
 const char *TObjEnvSoundGlobal__class_name = "TObjEnvSoundGlobal";
@@ -36,18 +77,7 @@ extern s32 __vt__18TObjEnvSoundGlobal[];
 u8 *TObjEnvSoundGlobal__ct(u8 *arg0, s32 arg1, s32 arg2);
 u8 *TObjEnvSoundEx__ct(u8 *arg0, s32 arg1, s32 arg2);
 void copy_pair__18TObjEnvSoundGlobalFPvPv(void* p, void* q);
-extern Row_80190AA0 lbl_804456F0[];
-extern Row_80190AA0 lbl_80445708[];
-extern Row_80190AA0 lbl_80445738[];
-extern Row_80190AA0 lbl_80445768[];
-extern Row_80190AA0 lbl_80445778[];
-extern Row_80190AA0 lbl_804457B0[];
-extern Row_80190AA0 lbl_804457D0[];
-extern Row_80190AA0 lbl_804457E8[];
-extern Row_80190AA0 lbl_80445800[];
-extern Row_80190AA0 lbl_80445820[];
-extern Row_80190AA0 lbl_80445860[];
-Row_80190AA0 *environment_sound_tables_by_area[36] = {
+const Row_80190AA0 *environment_sound_tables_by_area[36] = {
     lbl_804456F0, lbl_80445708, lbl_80445708, lbl_80445738,
     lbl_80445738, lbl_80445738, lbl_80445768, lbl_80445768,
     lbl_80445778, lbl_80445778, lbl_80445778, NULL,
@@ -140,14 +170,14 @@ void handle_6x67_trigger_set_event(Pkt_80190BA0 *pkt) {
 }
 
 void *TObjEnvSound__ct(Obj_80190AA0 *self, void *parent, void *arg2) {
-    Row_80190AA0 *table;
+    const Row_80190AA0 *table;
     __ct__8TObjBaseFP7TObject(self, parent);
     self->vtbl = __vt__12TObjEnvSound;
     self->unk0 = TObjEnvSound__class_name;
     ((TObjEnvSound *)self)->apply_object_set_data(arg2);
     table = environment_sound_tables_by_area[get_current_floor_area()];
     if (table != NULL) {
-        copy_pair__18TObjEnvSoundGlobalFPvPv(&self->sound, &table[self->index]);
+        copy_pair__18TObjEnvSoundGlobalFPvPv(&self->sound, (void *)&table[self->index]);
     } else {
         ((TObject *)self)->queue_destruction();
         return self;

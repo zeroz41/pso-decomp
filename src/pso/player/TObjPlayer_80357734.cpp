@@ -12,9 +12,9 @@
 // vfunc_60's jump table in .data), which emits functions in reverse order of definition.
 #pragma defer_codegen on
 
-u8 *TObjPlayer::create_state_34_alt() {
-    if (this != NULL) {
-        return (u8 *)new TUnk_804F14A8(tl_05, (u8 *)this);
+u8 *TObjPlayer::create_state_34_alt(u8 *item) {
+    if (item != NULL) {
+        return (u8 *)new TUnk_804F14A8(tl_05, item);
     }
     return NULL;
 }

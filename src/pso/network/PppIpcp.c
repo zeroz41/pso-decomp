@@ -31,7 +31,14 @@ extern u8 lbl_805C0038[];
 void net_sleep_ms(int);
 #include "pso/network/PppBuffer.h"
 
-extern s32 lbl_805D7AA0;
+/* The empty option set each IPCP side starts from (.rodata 8047FE18). */
+const IpcpOptions lbl_8047FE18 = {0};
+/* Each option's length by flag bit: option 1 (two addresses) 10, options 2 and 3 6, options 0x81 and 0x83
+ * (RFC 1877 name servers, bits 9 and 11) 6. */
+const u8 lbl_8047FE3C[20] = {0, 10, 6, 6, 0, 0, 0, 0, 0, 6, 0, 6};
+/* The option readers' scratch bytes (.sbss 805D7AA8), in reverse definition order. */
+u8 lcp_read_byte_buffer;
+u8 lbl_805D7AA8[4];
 s16 TLobby__sub_803FED78(u8 *self) {
     u8 *p;
     NetThreadState *pd;
@@ -109,11 +116,11 @@ extern s32 TLobby__sub_803FF698(Self_803FF698 *self, u8 *item, s32 arg);
 extern s32 TLobby__sub_803FF9A4(void *self, u8 *src, u32 bits);
 extern PppFrame *TLobby__sub_80400174(void *self);
 void TLobby__sub_803FEF4C(u8 *self) {
-    IpcpOptions *src = (IpcpOptions *)lbl_8047FE18;
+    const IpcpOptions *src = &lbl_8047FE18;
     u8 *o = (u8 *)&lbl_805C0328;
     u8 *sub;
     u8 *p;
-    *(u32 *)o = (u32)&lbl_805E1170;
+    *(const char **)o = "IPcp";
     sub = self + 0x6c;
     p = o + 0x3c;
     *(u16 *)(o + 0x4) = 0x8021;
@@ -693,7 +700,6 @@ extern PppFrame *TLobby__sub_80400174(void *self) {
     s16 flags;
     u8 *p;
     IpcpConfig *base;
-    extern u8 lbl_8047FE3C[];
     base = *(IpcpConfig **)((u8 *)self + 0x30);
     blk = 0;
 
@@ -719,7 +725,6 @@ done:
     return blk;
 }
 
-extern u8 lbl_8047FE3C[];
 inline s32 optnum_80400270(s32 bit) {
     if (bit < 8) {
         return bit;

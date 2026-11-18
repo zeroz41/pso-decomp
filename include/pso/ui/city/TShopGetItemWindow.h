@@ -23,7 +23,7 @@ struct TShopGetItemWindow : public TShopWindowBase {
     u8 _pad4D[0x7];
     u32 m_54;
     u32 m_58;
-    u32 m_5c;
+    TShopWindowBase *m_5c; // owning shop sequence (TCheckRoomSequence::open_get_item_window passes itself)
     u32 m_60;
     u32 m_64;
     s32 close();

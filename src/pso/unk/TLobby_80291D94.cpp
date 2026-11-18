@@ -11,6 +11,7 @@
 #include "pso/object/TObjChallenge4PRetry.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/object/TObjTombstone.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/map/FloorArea.h"
 #include "pso/player/TObjPlayer_80011014.h"
@@ -924,7 +925,6 @@ struct C_80293720;
 C_80293720 *TChallenge4P__ct(C_80293720 *arg0, void *parent);
 #define TChallenge4P__ct ((void * (*)(void *, void *))TChallenge4P__ct)
 int load_resources__13TObjTombstoneFv(void*);
-int destroy__13TObjTombstoneFv(void*);
 
 extern void *tl_su;
 
@@ -938,7 +938,7 @@ void *create_challenge4p__6TLobbyFv(void) {
     return o;
 }
 
-int TLobby::destroy_tombstone() { return destroy__13TObjTombstoneFv(this); }
+void TLobby::destroy_tombstone() { TObjTombstone::destroy(); }
 int TLobby__sub_80293124(void* p) { return load_resources__13TObjTombstoneFv(p); }
 
 }

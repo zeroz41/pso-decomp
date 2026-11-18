@@ -8,6 +8,8 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/player/TObjPlayer_8012105C.h"
 #include "pso/item/armor/TItemProShield.h"
+#include "pso/item/TUnk_804A0628.h"
+#include "pso/item/TUnk_804A0648.h"
 #include "pso/system/task/TMainTask.h"
 
 struct VBase_18_24931d
@@ -133,15 +135,10 @@ typedef struct VObj_18_24931d VObj_18_24931d;
 
 
 extern "C" {
-s32 get_owner_client__5TItemFv(void *);
-s32 init_item_timer_event__13TUnk_804A0648Fv(s32, s32, s32, s32);
-s32 __nw__15TItemHeapObjectFUl(s32);
-s32 construct_timer_event__13TUnk_804A0628Fv(s32, s32, s32, s32);
 }
 
 
-u8 *TObjPlayer::create_srank_common_weapon() {
-    u8 *item = (u8 *)this;
+u8 *TObjPlayer::create_srank_common_weapon(u8 *item) {
     if (item != NULL) {
         return (u8 *)new TUnk_804A4948(tl_05, item);
     }
@@ -206,21 +203,12 @@ TUnk_804A4948::TUnk_804A4948(TObject *parent, u8 *item) : TItemWeapon(parent, it
 TUnk_804A4948::~TUnk_804A4948() {}
 
 void TUnk_804A4948::vfunc_57() {
-    s32 event;
-    s32 temp_r3_2;
-
     switch (kind) {
     case 3:
-        event = __nw__15TItemHeapObjectFUl(0x2C);
-        if (event != 0) {
-            init_item_timer_event__13TUnk_804A0648Fv(event, *(s32 *)((s8 *)this + 0x174), get_owner_client__5TItemFv(this), 0x5A);
-        }
+        new TUnk_804A0648(effect_objects, get_owner_client(), 0x5A);
         return;
     case 4:
-        temp_r3_2 = __nw__15TItemHeapObjectFUl(0x2C);
-        if (temp_r3_2 != 0) {
-            construct_timer_event__13TUnk_804A0628Fv(temp_r3_2, *(s32 *)((s8 *)this + 0x174), get_owner_client__5TItemFv(this), 0x5A);
-        }
+        new TUnk_804A0628(effect_objects, get_owner_client(), 0x5A);
         break;
     }
 }

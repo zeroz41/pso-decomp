@@ -1,8 +1,16 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/item/TItemTimerEvent.h"
+#include "pso/item/TUnk_804A0568.h"
+#include "pso/item/TUnk_804A0588.h"
+#include "pso/item/TUnk_804A05A8.h"
+#include "pso/item/TUnk_804A05C8.h"
+#include "pso/item/TUnk_804A05E8.h"
+#include "pso/item/TUnk_804A0608.h"
+#include "pso/item/TUnk_804A0628.h"
+#include "pso/item/TUnk_804A0648.h"
 #include "pso/item/TUnk_804A0668.h"
 #include "pso/item/TUnk_804A0688.h"
-#include "pso/item/TItemTimerEvent.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/item/TItemLockCountCtrl.h"
@@ -12,55 +20,141 @@
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/object/base/TObjMotion.h"
+#include <stdlib.h>
+#include "pso/unk/text_80087278.h"
+#include "pso/effect/particle/TParticleCtrl.h"
 
+extern const char TItemTimerEvent__class_name_string[] = "TItemTimerEvent";
+const char *TItemTimerEvent__class_name = TItemTimerEvent__class_name_string;
+
+struct Base_8011D94C_8011D414 { char pad[0x18]; };
+struct VObj_8011D94C_8011D414 : Base_8011D94C_8011D414 {
+    virtual void m0();   virtual void m1();   virtual void m2();   virtual void m3();
+    virtual void m4();   virtual void m5();   virtual void m6();   virtual void m7();
+    virtual void m8();   virtual void m9();   virtual void m10();  virtual void m11();
+    virtual void m12();  virtual void m13();  virtual void m14();  virtual void m15();
+    virtual void m16();  virtual void m17();  virtual void m18();  virtual void m19();
+    virtual void m20();  virtual void m21();  virtual void m22();  virtual void m23();
+    virtual void m24();  virtual void m25();  virtual void m26();  virtual void m27();
+    virtual void m28();  virtual void m29();  virtual void m30();  virtual void m31();
+    virtual void m32();  virtual void m33();  virtual void m34();  virtual void m35();
+    virtual void m36();  virtual void m37();  virtual void m38();  virtual void m39();
+    virtual void m40();  virtual void m41();  virtual void m42();  virtual void m43();
+    virtual void m44();  virtual void m45();  virtual void m46();  virtual void m47();
+    virtual void m48();  virtual void m49();  virtual void m50();  virtual void m51();
+    virtual void m52();  virtual void m53();  virtual void m54();  virtual void m55();
+    virtual void m56();  virtual void m57();  virtual void m58();  virtual void m59();
+    virtual void m60();  virtual void m61();  virtual void m62();  virtual void m63();
+    virtual void m64();  virtual void m65();  virtual void m66();  virtual void m67();
+    virtual void m68();  virtual void m69();  virtual void m70();  virtual void m71();
+    virtual void m72();  virtual void m73(f32);
+};
+
+struct VBase_8011D5B4 { char pad[0x18]; };
+struct VObj_8011D5B4 : VBase_8011D5B4 {
+    virtual void v0(); virtual void v1(); virtual void v2(); virtual void v3();
+    virtual void v4(); virtual void v5(); virtual void v6(); virtual void v7();
+    virtual void v8(); virtual void v9(); virtual void v10(); virtual void v11();
+    virtual void v12(); virtual void v13(); virtual void v14(); virtual void v15();
+    virtual void v16(); virtual void v17(); virtual void v18(); virtual void v19();
+    virtual void v20();
+    virtual void m21(void *, void *, s32, s32, s32);
+};
+struct Rec_8011D5B4 { s32 k1; s32 v1; s32 k2; f32 v2; };
+struct Timer_8011D5B4 { u8 pad[0x28]; VObj_8011D5B4 *obj; f32 f2c; };
 
 extern "C" {
 u32 get_player_by_client_id(u16);
 void fn_8011085C(u8 *arg0, s32 arg1);
 TItemLockCountCtrl * item_timer_event_instance;
 void fn_801108C8(u8 *arg0, s32 arg1);
-s32 __ct__15TItemHeapObjectFP7TObject(void *);
-extern "C" { extern char TItemTimerEvent__class_name_string[]; }
-const char *TItemTimerEvent__class_name = TItemTimerEvent__class_name_string;
-u8 *TItemTimerEvent__ct(TItemTimerEvent *arg0, s32 arg1, s16 arg2, s32 arg3);
-void *__dt__13TUnk_804A0568Fv(void *arg0, s16 arg1);
-void *__dt__13TUnk_804A0588Fv(void *arg0, s16 arg1);
-void *__dt__13TUnk_804A05A8Fv(void *arg0, s16 arg1);
-void *__dt__13TUnk_804A05C8Fv(void *arg0, s16 arg1);
-void *__dt__13TUnk_804A05E8Fv(void *arg0, s16 arg1);
-void *__dt__13TUnk_804A0608Fv(void *arg0, s16 arg1);
-void *__dt__13TUnk_804A0628Fv(void *arg0, s16 arg1);
-void *__dt__13TUnk_804A0648Fv(void *arg0, s16 arg1);
-void *__dt__13TUnk_804A0668Fv(void *arg0, s16 arg1);
-void *__dt__13TUnk_804A0688Fv(void *arg0, s16 arg1);
-void *__dt__15TItemTimerEventFv(void *arg0, s16 arg1);
 s32 is_item_area_enabled();
-void __dt__15TItemHeapObjectFv(void *, int);
-void __dl__15TItemHeapObjectFPv(void *);
 s32 set_flag_10000__10TObjPlayerFv();
 
-void TUnk_804A0668::vfunc_7() {
-    if (((TObjPlayer *)this->m_28)->test_action_mask(0x1C) != 0) {
-        this->m_24 = (this->m_24 + 1);
+void TObjPlayer::sub_8011E204(s32 arg1) {
+  s32 *new_var;
+  int new_var2;
+    TObjPlayer *arg0 = (TObjPlayer *)this;
+  new_var2 = ~arg1;
+  new_var = (s32 *) (((s8 *) arg0) + 0x334);
+  *new_var = (s32) ((arg0->m_334) & new_var2);
+}
+
+void fn_8011E1D4(TObjPlayer *player) {
+    if (!(player->class_flags & CLASS_FLAG_ANDROID)) {
+        ((TObjPlayer *)player)->sub_8011E204(0x10000);
     }
 }
 
-void TUnk_804A0688::vfunc_6() {
-    ((TBoss3Volopt *)(this->m_28))->get_field_3e0();
-    if ((is_item_area_enabled() == 1) && (((TObjChara *)this->m_28)->obj_isState3_324() == 0) && (((TObjCollidable *)this->m_28)->obj_testFlags30(0x800) == 0)) {
-        TObjectV8047c128_subtract_hp((u8 *)this->m_28, 1);
+void TItemLockCountCtrl::create_instance() {
+    void *o;
+    o = TObject::operator new(0x2C);
+    if (o != NULL) {
+        o = TItemLockCountCtrl__ct((void *)o, 0, 12, TItemTimerEvent::notify_if_active, TItemTimerEvent::check_battle_ctrl);
+    }
+    item_timer_event_instance = (TItemLockCountCtrl *)o;
+}
+
+void TItemTimerEvent::clear_active() {
+    delete item_timer_event_instance;
+    item_timer_event_instance = NULL;
+}
+
+void TItemTimerEvent::notify_if_active(int arg0) {
+    if (get_player_by_client_id(arg0) != 0U) {
+        set_flag_10000__10TObjPlayerFv();
     }
 }
 
-void TUnk_804A0688::vfunc_7() {
-    if (((TObjPlayer *)this->m_28)->test_action_mask(0x1C) != 0) {
-        this->m_24 = (this->m_24 + 1);
+void TItemTimerEvent::check_battle_ctrl(int arg0) {
+    u32 player = get_player_by_client_id(arg0);
+    if (player != 0U) {
+        fn_8011E1D4((TObjPlayer *)player);
     }
 }
 
-void TItemTimerEvent::vfunc_7() {
-    this->m_24 = (this->m_24 + 1);
+void TItemTimerEvent::start_event_by_index(u16 arg0) {
+    if (((void *) (*(u8 * *)&item_timer_event_instance) != NULL) && (arg0 < 0xCU)) {
+        fn_801108C8((*(u8 * *)&item_timer_event_instance), arg0);
+    }
 }
+
+void TItemTimerEvent::clear_timer_slot(u16 arg0) {
+    if (((void *) (*(u8 * *)&item_timer_event_instance) != NULL) && (arg0 < 0xCU)) {
+        fn_8011085C((*(u8 * *)&item_timer_event_instance), arg0);
+    }
+}
+
+TUnk_804A0688::~TUnk_804A0688() {}
+
+TUnk_804A0668::~TUnk_804A0668() {}
+
+TUnk_804A0648::~TUnk_804A0648() {}
+
+TUnk_804A0628::~TUnk_804A0628() {}
+
+TUnk_804A0608::~TUnk_804A0608() {}
+
+TUnk_804A05E8::~TUnk_804A05E8() {}
+
+TUnk_804A05C8::~TUnk_804A05C8() {}
+
+TUnk_804A05A8::~TUnk_804A05A8() {}
+
+TUnk_804A0588::~TUnk_804A0588() {}
+
+TUnk_804A0568::~TUnk_804A0568() {}
+
+TItemTimerEvent::TItemTimerEvent(TItemHeapObject *parent, u16 client, s32 period) : TItemHeapObject(parent) {
+    m_name = TItemTimerEvent__class_name;
+    m_1c = client;
+    m_28 = 0;
+    m_20 = period;
+    m_24 = 0;
+    disallow_rendering();
+}
+
+TItemTimerEvent::~TItemTimerEvent() {}
 
 void TItemTimerEvent::run_task() {
     this->m_28 = get_player_by_client_id(this->m_1c);
@@ -76,212 +170,121 @@ void TItemTimerEvent::run_task() {
     this->vfunc_7();
 }
 
-extern s32 lbl_804A0568[];
-extern s32 lbl_804A0588[];
-extern s32 lbl_804A05A8[];
-extern s32 lbl_804A05C8[];
-extern s32 lbl_804A05E8[];
-extern s32 lbl_804A0608[];
-extern s32 lbl_804A0628[];
-extern s32 lbl_804A0648[];
-extern s32 lbl_804A0668[];
-extern s32 lbl_804A0688[];
-extern s32 __vt__15TItemTimerEvent[];
-void *__dt__15TItemTimerEventFv(void *item_heap_object, s16 arg1) {
-    if (item_heap_object != NULL) {
-        *(s32 **)((s8 *)item_heap_object + 0x18) = __vt__15TItemTimerEvent;
-        __dt__15TItemHeapObjectFv(item_heap_object, 0);
-        if (arg1 > 0) {
-            __dl__15TItemHeapObjectFPv(item_heap_object);
+void TItemTimerEvent::vfunc_7() {
+    this->m_24 = (this->m_24 + 1);
+}
+
+void TUnk_804A0688::vfunc_7() {
+    if (((TObjPlayer *)this->m_28)->test_action_mask(0x1C) != 0) {
+        this->m_24 = (this->m_24 + 1);
+    }
+}
+
+void TUnk_804A0688::vfunc_6() {
+    ((TBoss3Volopt *)(this->m_28))->get_field_3e0();
+    if ((is_item_area_enabled() == 1) && (((TObjChara *)this->m_28)->obj_isState3_324() == 0) && (((TObjCollidable *)this->m_28)->obj_testFlags30(0x800) == 0)) {
+        TObjectV8047c128_subtract_hp((u8 *)this->m_28, 1);
+    }
+}
+
+void TUnk_804A0668::vfunc_7() {
+    if (((TObjPlayer *)this->m_28)->test_action_mask(0x1C) != 0) {
+        this->m_24 = (this->m_24 + 1);
+    }
+}
+
+void TUnk_804A0668::vfunc_6() {
+    ((TBoss3Volopt *)(this->m_28))->get_field_3e0();
+    if ((is_item_area_enabled() == 1) && (((TObjChara *)this->m_28)->obj_isState3_324() == 0) && (((TObjCollidable *)this->m_28)->obj_testFlags30(0x800) == 0)) {
+        ((TObjChara *)(this->m_28))->subtract_actor_tp(1);
+    }
+}
+
+void TUnk_804A0648::vfunc_6() {
+    if (((TObjCollidable *)this->m_28)->obj_testFlags30(0x800) == 0) {
+        add_actor_hp((u8 *)this->m_28, 1);
+    }
+}
+
+void TUnk_804A0628::vfunc_6() {
+    if (((TObjCollidable *)this->m_28)->obj_testFlags30(0x800) == 0) {
+        add_actor_tp((u8 *)this->m_28, 1);
+    }
+}
+
+void TUnk_804A0608::vfunc_6() {
+    struct VObj_8011D94C_8011D414 *o;
+
+    if (((TObjCollidable *)this->m_28)->obj_testFlags30(0x800) == 0) {
+        o = (struct VObj_8011D94C_8011D414 *)this->m_28;
+        o->m73(1.0f);
+    }
+}
+
+void TUnk_804A05E8::vfunc_6() {
+
+    if (((TObjChara *)(this->m_28))->obj_isState2_324() == 0) {
+        if (((TObjPlayer *)this->m_28)->has_flag_0x800() == 0) {
+            ((TBoss3Volopt *)(this->m_28))->get_field_3e0();
+            if ((is_item_area_enabled() == 1) && ((3.0517578e-05f * (f32) rand()) < this->unk_2C)) {
+                ((TObjPlayer *)this->m_28)->apply_movement_ailment(0);
+                ((TObjPlayer *)this->m_28)->vfunc_74(0);
+            }
         }
     }
-    return item_heap_object;
 }
 
+void TUnk_804A05C8::vfunc_6() {
+    TParticleCtrl *particle;
 
-u8 *TItemTimerEvent__ct(TItemTimerEvent *item_timer_event, s32 arg1, s16 arg2, s32 arg3) {
-    __ct__15TItemHeapObjectFP7TObject(item_timer_event);
-    *(s32 **)((s8 *)item_timer_event + 0x18) = __vt__15TItemTimerEvent;
-    *(s32 *)((s8 *)item_timer_event + 0) = (s32) TItemTimerEvent__class_name;
-    *(s16 *)&item_timer_event->m_1c = arg2;
-    *(s32 *)&item_timer_event->m_28 = 0;
-    *(s32 *)&item_timer_event->m_20 = arg3;
-    *(s32 *)&item_timer_event->m_24 = 0;
-    item_timer_event->disallow_rendering();
-    return (u8 *)item_timer_event;
-}
-
-void *__dt__13TUnk_804A0568Fv(void *item_timer_event, s16 arg1) {
-    if (item_timer_event != NULL) {
-        *(s32 **)((s8 *)item_timer_event + 0x18) = lbl_804A0568;
-        __dt__15TItemTimerEventFv(item_timer_event, (s16)(0));
-        if (arg1 > 0) {
-            __dl__15TItemHeapObjectFPv(item_timer_event);
+    if ((((TObjPlayer *)this->m_28)->is_body_collision_inactive() == 0) && (((TObjPlayer *)(this->m_28))->is_flag_20000_set() == 0)) {
+        ((TBoss3Volopt *)(this->m_28))->get_field_3e0();
+        if ((is_item_area_enabled() == 1) && (((TObjCollidable *)((void *)this->m_28))->obj_testFlags30(0x800) == 0)) {
+            particle = (TParticleCtrl *)spawn_particle_effect_with_flags((void *)(*(s32 *)&this->m_28 + 0x2FC), this->unk_2C, 0x10);
+            if (particle != 0) {
+                particle->set_owner_id(get_entity_id((TObjBase *)this->m_28));
+            }
         }
     }
-    return item_timer_event;
 }
 
-
-void *__dt__13TUnk_804A0588Fv(void *item_timer_event, s16 arg1) {
-    if (item_timer_event != NULL) {
-        *(s32 **)((s8 *)item_timer_event + 0x18) = lbl_804A0588;
-        __dt__15TItemTimerEventFv(item_timer_event, (s16)(0));
-        if (arg1 > 0) {
-            __dl__15TItemHeapObjectFPv(item_timer_event);
-        }
-    }
-    return item_timer_event;
-}
-
-
-void *__dt__13TUnk_804A05A8Fv(void *item_timer_event, s16 arg1) {
-    if (item_timer_event != NULL) {
-        *(s32 **)((s8 *)item_timer_event + 0x18) = lbl_804A05A8;
-        __dt__15TItemTimerEventFv(item_timer_event, (s16)(0));
-        if (arg1 > 0) {
-            __dl__15TItemHeapObjectFPv(item_timer_event);
-        }
-    }
-    return item_timer_event;
-}
-
-
-void *__dt__13TUnk_804A05C8Fv(void *item_timer_event, s16 arg1) {
-    if (item_timer_event != NULL) {
-        *(s32 **)((s8 *)item_timer_event + 0x18) = lbl_804A05C8;
-        __dt__15TItemTimerEventFv(item_timer_event, (s16)(0));
-        if (arg1 > 0) {
-            __dl__15TItemHeapObjectFPv(item_timer_event);
-        }
-    }
-    return item_timer_event;
-}
-
-
-void *__dt__13TUnk_804A05E8Fv(void *item_timer_event, s16 arg1) {
-    if (item_timer_event != NULL) {
-        *(s32 **)((s8 *)item_timer_event + 0x18) = lbl_804A05E8;
-        __dt__15TItemTimerEventFv(item_timer_event, (s16)(0));
-        if (arg1 > 0) {
-            __dl__15TItemHeapObjectFPv(item_timer_event);
-        }
-    }
-    return item_timer_event;
-}
-
-
-void *__dt__13TUnk_804A0608Fv(void *item_timer_event, s16 arg1) {
-    if (item_timer_event != NULL) {
-        *(s32 **)((s8 *)item_timer_event + 0x18) = lbl_804A0608;
-        __dt__15TItemTimerEventFv(item_timer_event, (s16)(0));
-        if (arg1 > 0) {
-            __dl__15TItemHeapObjectFPv(item_timer_event);
-        }
-    }
-    return item_timer_event;
-}
-
-
-void *__dt__13TUnk_804A0628Fv(void *item_timer_event, s16 arg1) {
-    if (item_timer_event != NULL) {
-        *(s32 **)((s8 *)item_timer_event + 0x18) = lbl_804A0628;
-        __dt__15TItemTimerEventFv(item_timer_event, (s16)(0));
-        if (arg1 > 0) {
-            __dl__15TItemHeapObjectFPv(item_timer_event);
-        }
-    }
-    return item_timer_event;
-}
-
-
-void *__dt__13TUnk_804A0648Fv(void *item_timer_event, s16 arg1) {
-    if (item_timer_event != NULL) {
-        *(s32 **)((s8 *)item_timer_event + 0x18) = lbl_804A0648;
-        __dt__15TItemTimerEventFv(item_timer_event, (s16)(0));
-        if (arg1 > 0) {
-            __dl__15TItemHeapObjectFPv(item_timer_event);
-        }
-    }
-    return item_timer_event;
-}
-
-
-void *__dt__13TUnk_804A0668Fv(void *item_timer_event, s16 arg1) {
-    if (item_timer_event != NULL) {
-        *(s32 **)((s8 *)item_timer_event + 0x18) = lbl_804A0668;
-        __dt__15TItemTimerEventFv(item_timer_event, (s16)(0));
-        if (arg1 > 0) {
-            __dl__15TItemHeapObjectFPv(item_timer_event);
-        }
-    }
-    return item_timer_event;
-}
-
-
-void *__dt__13TUnk_804A0688Fv(void *item_timer_event, s16 arg1) {
-    if (item_timer_event != NULL) {
-        *(s32 **)((s8 *)item_timer_event + 0x18) = lbl_804A0688;
-        __dt__15TItemTimerEventFv(item_timer_event, (s16)(0));
-        if (arg1 > 0) {
-            __dl__15TItemHeapObjectFPv(item_timer_event);
-        }
-    }
-    return item_timer_event;
-}
-
-void TItemTimerEvent::clear_timer_slot(u16 arg0) {
-    if (((void *) (*(u8 * *)&item_timer_event_instance) != NULL) && (arg0 < 0xCU)) {
-        fn_8011085C((*(u8 * *)&item_timer_event_instance), arg0);
+void TUnk_804A05A8::vfunc_6() {
+    Timer_8011D5B4 *arg0 = (Timer_8011D5B4 *)this;
+    Rec_8011D5B4 a;
+    ((TBoss3Volopt *)(arg0->obj))->get_field_3e0();
+    if (is_item_area_enabled() == 1 && 3.0517578e-05f * (f32)rand() < arg0->f2c) {
+        a.k1 = 0x11;
+        a.v2 = 0.0f;
+        a.k2 = 0x11;
+        a.v1 = *(s32 *)&a.v2;
+        arg0->obj->m21(arg0->obj, &a, 0, -1, -1);
     }
 }
 
-void TItemTimerEvent::start_event_by_index(u16 arg0) {
-    if (((void *) (*(u8 * *)&item_timer_event_instance) != NULL) && (arg0 < 0xCU)) {
-        fn_801108C8((*(u8 * *)&item_timer_event_instance), arg0);
+void TUnk_804A0588::vfunc_6() {
+    Timer_8011D5B4 *arg0 = (Timer_8011D5B4 *)this;
+    Rec_8011D5B4 a;
+    ((TBoss3Volopt *)(arg0->obj))->get_field_3e0();
+    if (is_item_area_enabled() == 1 && 3.0517578e-05f * (f32)rand() < arg0->f2c) {
+        a.k1 = 0x12;
+        a.v2 = 0.0f;
+        a.k2 = 0x12;
+        a.v1 = *(s32 *)&a.v2;
+        arg0->obj->m21(arg0->obj, &a, 0, -1, -1);
     }
 }
 
-void TItemTimerEvent::check_battle_ctrl(int arg0) {
-    u32 player = get_player_by_client_id(arg0);
-    if (player != 0U) {
-        fn_8011E1D4((TObjPlayer *)player);
+void TUnk_804A0568::vfunc_6() {
+    Timer_8011D5B4 *arg0 = (Timer_8011D5B4 *)this;
+    Rec_8011D5B4 a;
+    ((TBoss3Volopt *)(arg0->obj))->get_field_3e0();
+    if (is_item_area_enabled() == 1 && 3.0517578e-05f * (f32)rand() < arg0->f2c) {
+        a.k1 = 0x10;
+        a.v2 = 0.0f;
+        a.k2 = 0x10;
+        a.v1 = *(s32 *)&a.v2;
+        arg0->obj->m21(arg0->obj, &a, 0, -1, -1);
     }
-}
-
-void TItemTimerEvent::notify_if_active(int arg0) {
-    if (get_player_by_client_id(arg0) != 0U) {
-        set_flag_10000__10TObjPlayerFv();
-    }
-}
-
-void TItemTimerEvent::clear_active() {
-    delete item_timer_event_instance;
-    item_timer_event_instance = NULL;
-}
-
-
-void TItemLockCountCtrl::create_instance() {
-    void *o;
-    o = TObject::operator new(0x2C);
-    if (o != NULL) {
-        o = TItemLockCountCtrl__ct((void *)o, 0, 12, TItemTimerEvent::notify_if_active, TItemTimerEvent::check_battle_ctrl);
-    }
-    item_timer_event_instance = (TItemLockCountCtrl *)o;
-}
-
-void fn_8011E1D4(TObjPlayer *player) {
-    if (!(player->class_flags & CLASS_FLAG_ANDROID)) {
-        ((TObjPlayer *)player)->sub_8011E204(0x10000);
-    }
-}
-void TObjPlayer::sub_8011E204(s32 arg1) {
-  s32 *new_var;
-  int new_var2;
-    TObjPlayer *arg0 = (TObjPlayer *)this;
-  new_var2 = ~arg1;
-  new_var = (s32 *) (((s8 *) arg0) + 0x334);
-  *new_var = (s32) ((arg0->m_334) & new_var2);
 }
 
 }

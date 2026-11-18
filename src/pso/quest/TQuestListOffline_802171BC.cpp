@@ -7,35 +7,6 @@
 #include "pso/quest/TQuestListOffline.h"
 #include "pso/unk/TLobby.h"
 #include "pso/quest/TQuestListVM.h"
-extern "C" { extern const u8 lbl_8044BDA0[8] = "quest04"; }
-extern "C" { extern const u8 lbl_8044BDA8[8] = "quest02"; }
-extern "C" { extern const u8 lbl_8044BDB0[8] = "quest01"; }
-extern "C" { extern const u8 lbl_8044BDB8[8] = "quest03"; }
-extern "C" { extern const u8 lbl_8044BDC0[8] = "quest05"; }
-extern "C" { extern const u8 lbl_8044BDC8[8] = "quest06"; }
-extern "C" { extern const u8 lbl_8044BDD0[8] = "quest07"; }
-extern "C" { extern const u8 lbl_8044BDD8[8] = "quest08"; }
-extern "C" { extern const u8 lbl_8044BDE0[8] = "quest09"; }
-extern "C" { extern const u8 lbl_8044BDE8[8] = "quest10"; }
-extern "C" { extern const u8 lbl_8044BDF0[8] = "quest11"; }
-extern "C" { extern const u8 lbl_8044BDF8[8] = "quest12"; }
-extern "C" { extern const u8 lbl_8044BE00[8] = "quest13"; }
-extern "C" { extern const u8 lbl_8044BE08[8] = "quest14"; }
-extern "C" { extern const u8 lbl_8044BE10[8] = "quest15"; }
-extern "C" { extern const u8 lbl_8044BE18[8] = "quest16"; }
-extern "C" { extern const u8 lbl_8044BE20[8] = "quest17"; }
-extern "C" { extern const u8 lbl_8044BE28[8] = "quest18"; }
-extern "C" { extern const u8 lbl_8044BE30[8] = "quest19"; }
-extern "C" { extern const u8 lbl_8044BE38[8] = "quest20"; }
-extern "C" { extern const u8 lbl_8044BE40[8] = "quest21"; }
-extern "C" { extern const u8 lbl_8044BE48[8] = "quest22"; }
-extern "C" { extern const u8 lbl_8044BE50[8] = "quest23"; }
-extern "C" { extern const u8 lbl_8044BE58[8] = "quest24"; }
-extern "C" { extern const u8 lbl_8044BE60[8] = "quest25"; }
-extern "C" { extern const u8 lbl_8044BE68[8] = "quest26"; }
-extern "C" { extern const u8 lbl_8044BE70[8] = "quest27"; }
-extern "C" { extern const u8 lbl_8044BE78[8] = "quest28"; }
-extern "C" { extern const u8 lbl_8044BE80[8] = "quest29"; }
 
 
 extern "C" {
@@ -76,7 +47,6 @@ void vfunc_11__17TQuestListOfflineFv(QuestList_802171BC *self);
 void * close_shop_subwindows__17TQuestListOfflineFs(void *arg0, s16 arg1);
 void __dl__7TObjectFPv(void *);
 
-const char *TQuestListOffline__class_name = "TQuestListOffline";
 
 extern "C" void vfunc_6__15TShopWindowBaseFv();
 extern "C" void vfunc_8__15TShopWindowBaseFv();
@@ -89,66 +59,69 @@ extern "C" void render__7TObjectFv();
 extern "C" void render_shadows__7TObjectFv();
 void *offline_quest_catalog_ep1[196] = {
     (void *)0x1, (void *)0x0, (void *)0x1, (void *)0x2,
-    (void *)0x6a006b, (void *)0x0, (void *)&lbl_8044BDA0, (void *)0x2,
+    (void *)0x6a006b, (void *)0x0, (void *)"quest04", (void *)0x2,
     (void *)0x3, (void *)0x4, (void *)0x5, (void *)0x660067,
-    (void *)0x0, (void *)&lbl_8044BDA8, (void *)0x3, (void *)0x6,
+    (void *)0x0, (void *)"quest02", (void *)0x3, (void *)0x6,
     (void *)0x7, (void *)0x8, (void *)0x640065, (void *)0x0,
-    (void *)&lbl_8044BDB0, (void *)0x4, (void *)0x9, (void *)0xa,
-    (void *)0xb, (void *)0x680069, (void *)0x0, (void *)&lbl_8044BDB8,
+    (void *)"quest01", (void *)0x4, (void *)0x9, (void *)0xa,
+    (void *)0xb, (void *)0x680069, (void *)0x0, (void *)"quest03",
     (void *)0x5, (void *)0xc, (void *)0xd, (void *)0xe,
-    (void *)0x6c006d, (void *)0x0, (void *)&lbl_8044BDC0, (void *)0x6,
+    (void *)0x6c006d, (void *)0x0, (void *)"quest05", (void *)0x6,
     (void *)0xf, (void *)0x10, (void *)0x11, (void *)0x6e006f,
-    (void *)0x0, (void *)&lbl_8044BDC8, (void *)0x7, (void *)0x12,
+    (void *)0x0, (void *)"quest06", (void *)0x7, (void *)0x12,
     (void *)0x13, (void *)0x14, (void *)0x700071, (void *)0x0,
-    (void *)&lbl_8044BDD0, (void *)0x8, (void *)0x15, (void *)0x16,
-    (void *)0x17, (void *)0x720073, (void *)0x0, (void *)&lbl_8044BDD8,
+    (void *)"quest07", (void *)0x8, (void *)0x15, (void *)0x16,
+    (void *)0x17, (void *)0x720073, (void *)0x0, (void *)"quest08",
     (void *)0x9, (void *)0x18, (void *)0x19, (void *)0x1a,
-    (void *)0x740075, (void *)0x0, (void *)&lbl_8044BDE0, (void *)0xa,
+    (void *)0x740075, (void *)0x0, (void *)"quest09", (void *)0xa,
     (void *)0x1b, (void *)0x1c, (void *)0x1d, (void *)0x760077,
-    (void *)0x0, (void *)&lbl_8044BDE8, (void *)0xb, (void *)0x1e,
+    (void *)0x0, (void *)"quest10", (void *)0xb, (void *)0x1e,
     (void *)0x1f, (void *)0x20, (void *)0x780079, (void *)0x0,
-    (void *)&lbl_8044BDF0, (void *)0xc, (void *)0x21, (void *)0x22,
-    (void *)0x23, (void *)0x7a007b, (void *)0x0, (void *)&lbl_8044BDF8,
+    (void *)"quest11", (void *)0xc, (void *)0x21, (void *)0x22,
+    (void *)0x23, (void *)0x7a007b, (void *)0x0, (void *)"quest12",
     (void *)0xd, (void *)0x24, (void *)0x25, (void *)0x26,
-    (void *)0x7c007d, (void *)0x0, (void *)&lbl_8044BE00, (void *)0xe,
+    (void *)0x7c007d, (void *)0x0, (void *)"quest13", (void *)0xe,
     (void *)0x27, (void *)0x28, (void *)0x29, (void *)0x7e007f,
-    (void *)0x0, (void *)&lbl_8044BE08, (void *)0xf, (void *)0x2a,
+    (void *)0x0, (void *)"quest14", (void *)0xf, (void *)0x2a,
     (void *)0x2b, (void *)0x2c, (void *)0x800081, (void *)0x0,
-    (void *)&lbl_8044BE10, (void *)0x10, (void *)0x2d, (void *)0x2e,
-    (void *)0x2f, (void *)0x820083, (void *)0x0, (void *)&lbl_8044BE18,
+    (void *)"quest15", (void *)0x10, (void *)0x2d, (void *)0x2e,
+    (void *)0x2f, (void *)0x820083, (void *)0x0, (void *)"quest16",
     (void *)0x11, (void *)0x30, (void *)0x31, (void *)0x32,
-    (void *)0x840085, (void *)0x0, (void *)&lbl_8044BE20, (void *)0x12,
+    (void *)0x840085, (void *)0x0, (void *)"quest17", (void *)0x12,
     (void *)0x33, (void *)0x34, (void *)0x35, (void *)0x860087,
-    (void *)0x0, (void *)&lbl_8044BE28, (void *)0x13, (void *)0x36,
+    (void *)0x0, (void *)"quest18", (void *)0x13, (void *)0x36,
     (void *)0x37, (void *)0x38, (void *)0x880089, (void *)0x0,
-    (void *)&lbl_8044BE30, (void *)0x14, (void *)0x39, (void *)0x3a,
-    (void *)0x3b, (void *)0x8a008b, (void *)0x0, (void *)&lbl_8044BE38,
+    (void *)"quest19", (void *)0x14, (void *)0x39, (void *)0x3a,
+    (void *)0x3b, (void *)0x8a008b, (void *)0x0, (void *)"quest20",
     (void *)0x15, (void *)0x3c, (void *)0x3d, (void *)0x3e,
-    (void *)0x8c008d, (void *)0x0, (void *)&lbl_8044BE40, (void *)0x16,
+    (void *)0x8c008d, (void *)0x0, (void *)"quest21", (void *)0x16,
     (void *)0x3f, (void *)0x40, (void *)0x41, (void *)0x8e008f,
-    (void *)0x0, (void *)&lbl_8044BE48, (void *)0x17, (void *)0x42,
+    (void *)0x0, (void *)"quest22", (void *)0x17, (void *)0x42,
     (void *)0x43, (void *)0x44, (void *)0x900091, (void *)0x0,
-    (void *)&lbl_8044BE50, (void *)0x18, (void *)0x45, (void *)0x46,
-    (void *)0x47, (void *)0x920093, (void *)0x0, (void *)&lbl_8044BE58,
+    (void *)"quest23", (void *)0x18, (void *)0x45, (void *)0x46,
+    (void *)0x47, (void *)0x920093, (void *)0x0, (void *)"quest24",
     (void *)0x19, (void *)0x48, (void *)0x49, (void *)0x4a,
-    (void *)0x940095, (void *)0x0, (void *)&lbl_8044BE60, (void *)0x1a,
+    (void *)0x940095, (void *)0x0, (void *)"quest25", (void *)0x1a,
     (void *)0x4b, (void *)0x4c, (void *)0x4d, (void *)0x9f00a0,
-    (void *)0x0, (void *)&lbl_8044BE68, (void *)0x0, (void *)0x57,
+    (void *)0x0, (void *)"quest26", (void *)0x0, (void *)0x57,
     (void *)0x58, (void *)0x59, (void *)0xffffffff, (void *)0x1,
     (void *)&lbl_805DC690, (void *)0xffffffff, (void *)0xffffffff, (void *)0xffffffff,
     (void *)0xffffffff, (void *)0xffffffff, (void *)0xffffffff, (void *)&lbl_805DC690,
 };
+
 void *lbl_804C9C10[35] = {
     (void *)0x1b, (void *)0x4e, (void *)0x4f, (void *)0x50,
-    (void *)0xffff00a1, (void *)0x0, (void *)&lbl_8044BE70, (void *)0x1c,
+    (void *)0xffff00a1, (void *)0x0, (void *)"quest27", (void *)0x1c,
     (void *)0x51, (void *)0x52, (void *)0x53, (void *)0xa200a3,
-    (void *)0x0, (void *)&lbl_8044BE78, (void *)0x1d, (void *)0x54,
+    (void *)0x0, (void *)"quest28", (void *)0x1d, (void *)0x54,
     (void *)0x55, (void *)0x56, (void *)0xa400a5, (void *)0x0,
-    (void *)&lbl_8044BE80, (void *)0x0, (void *)0x57, (void *)0x58,
+    (void *)"quest29", (void *)0x0, (void *)0x57, (void *)0x58,
     (void *)0x59, (void *)0xffffffff, (void *)0x1, (void *)&lbl_805DC690,
     (void *)0xffffffff, (void *)0xffffffff, (void *)0xffffffff, (void *)0xffffffff,
     (void *)0xffffffff, (void *)0xffffffff, (void *)&lbl_805DC690,
 };
+
+const char *TQuestListOffline__class_name = "TQuestListOffline";
 void *lbl_804C9C9C[12] = {
     (void *)0x0, (void *)0x0, (void *)&close_shop_subwindows__17TQuestListOfflineFs, (void *)&run_task__15TShopWindowBaseFv,
     (void *)&render__7TObjectFv, (void *)&render_shadows__7TObjectFv, (void *)&vfunc_6__15TShopWindowBaseFv, (void *)&display_message__15TShopWindowBaseFPCcl,

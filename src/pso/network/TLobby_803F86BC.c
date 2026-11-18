@@ -24,7 +24,24 @@ typedef struct Big_803F8AD8 {
 
 typedef struct Ent_803F8BA4 { u8 pad[0x31C]; s32 size; u8 *buf; u8 pad2[4]; } Ent_803F8BA4;
 
+/* The start-up parameters validate_and_store_net_params stores (one per NetTransportParams field) with their
+ * defaults, and the thread priority NetSetDefaultThreadPriority sets. */
+s16 net_param_a = 1;
+u16 net_param_player_count = 8;
+u16 net_param_room_count = 8;
+s32 net_param_word_e = 0x2000;
+s16 net_param_b = 1;
+s32 net_param_word_f = 0x2000;
+s32 net_param_ring_buffer_size = 0x2000;
+s32 net_default_thread_priority = 0x10;
+
+/* CodeWarrior emits these .sbss globals in reverse order of definition. */
 s32 lbl_805D7A58;
+s16 dns_resolver_timeouts[3];
+u32 net_param_word_i;
+u32 net_param_word_h;
+u32 net_transport_buffer_ptr_b;
+u32 net_transport_buffer_ptr_a;
 extern u8 *lobby_second_buffer_pool_base;
 
 static u32 lobby_net_config_block[4722];
@@ -43,8 +60,6 @@ static s32 lbl_805B9534[1059];
 static s32 lbl_805BA5C0[3115];
 static s32 lobby_net_recv_desc[641];
 
-extern s16 lbl_805D7A50[3];
-
 void TLobby__sub_803F86BC(void *cfg) {
 }
 
@@ -55,10 +70,10 @@ void init_net_config(DnsResolverState *c) {
     c->max_name = 0xFF;
     c->msg_size = 0x200;
     c->ntimeouts = 3;
-    c->timeouts = lbl_805D7A50;
-    lbl_805D7A50[0] = 2;
-    lbl_805D7A50[1] = 4;
-    lbl_805D7A50[2] = 8;
+    c->timeouts = dns_resolver_timeouts;
+    dns_resolver_timeouts[0] = 2;
+    dns_resolver_timeouts[1] = 4;
+    dns_resolver_timeouts[2] = 8;
     c->nservers = 2;
     c->servers = (NetworkAddress *)(buf + 0x49A0);
     c->max_tries = 6;
@@ -81,8 +96,8 @@ void TLobby__sub_803F8794(void *cfg) {
 
 void init_params(NetParamCfg *cfg) {
     cfg->count = net_param_room_count;
-    cfg->f8 = lbl_805D4800;
-    cfg->fC = lbl_805D4800;
+    cfg->f8 = net_param_word_e;
+    cfg->fC = net_param_word_e;
     cfg->fA0 = 0x64;
     cfg->buffer = net_transport_buffer_ptr_b;
 }

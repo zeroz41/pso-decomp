@@ -1,6 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/weapon/TUnk_804A2678.h"
+#include "pso/item/TUnk_804A0688.h"
 #include "pso/system/task/TObject.h"
 #include "pso/weapon/TItemWeapon.h"
 #include "pso/item/TItemEquipBase.h"
@@ -28,9 +29,6 @@ extern "C" {
 s32 __ct__7TObjectFP7TObject(void *, void *);
 extern s32 item_follow_effect_vtable[];
 u32 __nw__7TObjectFUl(s32 a0 = 0);
-s32 get_owner_client__5TItemFv(void *);
-s32 __nw__15TItemHeapObjectFUl(s32);
-s32 ct__13TUnk_804A0688Fv(s32, u32, s32, s32);
 void run_task__13TUnk_804A2660Fv(void *arg0);
 s8 get_mode__5TItemFv();
 void __dl__7TObjectFPv(void *);
@@ -114,13 +112,9 @@ void TUnk_804A2678::emit_marker_effects() {
 }
 void TUnk_804A2678::vfunc_58() { floor_area = -1; }
 void TUnk_804A2678::vfunc_57() {
-    s32 event;
     floor_area = -1;
-    if ((u32) *(u32 *)((s8 *)this + 0x174) != 0U) {
-        event = __nw__15TItemHeapObjectFUl(0x2C);
-        if (event != 0) {
-            ct__13TUnk_804A0688Fv(event, *(u32 *)((s8 *)this + 0x174), get_owner_client__5TItemFv(this), 0x5A);
-        }
+    if (effect_objects != NULL) {
+        new TUnk_804A0688(effect_objects, get_owner_client(), 0x5A);
     }
     this->roll_technique();
     this->roll_technique();

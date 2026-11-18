@@ -26,6 +26,8 @@ typedef struct RecoveredGlobal_8042839C_lbl_805D0A40 {
 
 s32 TLobby__sub_803F77E0(void *);
 ModemSessionState lobby_net_session_state;
+/* The session's and the buffer pool's small state (.sbss 805D7BD0-805D7C30). This compiler lays .sbss out in
+ * reverse definition order, so the last address comes first. */
 s32 lobby_buffer_pool_state;
 s32 lbl_805D7C24;
 s32 lbl_805D7C20;

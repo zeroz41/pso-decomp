@@ -32,6 +32,7 @@ struct RadarPlayerMarker {
 };
 
 struct TRaderMapCore : public TObjBase {
+    TRaderMapCore(TObject *parent);
     virtual ~TRaderMapCore();
     void update_follow_projection(s32);
     virtual void run_task();
@@ -82,6 +83,7 @@ struct TRaderMapCore : public TObjBase {
     static s32 block_region_by_id(s16 id);
     static s32 reveal_region_by_id(s16 id);
     void set_marker_shown(s32 slot, s32 shown);
+    void set_target_flag();
     void draw_player_markers();
     void copy_transform(void* q);
     void setup_view(s32 arg1);
@@ -111,6 +113,13 @@ struct TRaderMapCore : public TObjBase {
     void draw_enemy_gate_markers();
     s32 get_map_id();
     static void draw_backdrop(TRaderMapCore *self, s32 mode);
+};
+
+// A TObject subclass of this unit: its destructor (0x801FB9C8) is the unit's last function and its
+// vtable (0x804C88A8) follows TRaderMapCore's. Nothing in the DOL constructs it.
+class TUnk_804C88A8 : public TObject {
+public:
+    virtual ~TUnk_804C88A8();
 };
 
 typedef char RadarPlayerMarkerSize[(sizeof(RadarPlayerMarker) == 0x28) ? 1 : -1];

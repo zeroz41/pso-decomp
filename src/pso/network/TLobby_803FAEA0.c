@@ -10,7 +10,21 @@
 #include "pso/network/TLobby_803FAEA0.h"
 
 s16 TLobby__sub_803FB358(NetLinkStatus *status);
-extern u16 ppp_auth_protocol;
+/* The session's small state (.sbss 805D7A78-805D7A98), in reverse definition order: this compiler lays .sbss out
+ * last-defined first. */
+s32 lbl_805D7A94;
+s32 lbl_805D7A90;
+s32 lbl_805D7A8C;
+s16 lobby_modem_connect_state;
+s16 lbl_805D7A88;
+s16 lobby_modem_abort_flag;
+s16 lbl_805D7A84;
+s16 lbl_805D7A82;
+s16 ppp_auth_failed;
+s16 lbl_805D7A7E;
+s16 lbl_805D7A7C;
+s16 lbl_805D7A7A;
+u16 ppp_auth_protocol;
 void net_sleep_ms(int);
 
 NetSession lbl_805BFF68;
@@ -355,9 +369,6 @@ s32 TLobby__sub_803FB6A0(void) {
 }
 
 s32 TLobby__sub_803FB7A4(void) {
-    extern s32 lbl_805D7A94;
-    extern s16 ppp_auth_failed;
-    extern s32 lbl_805D7AA0;
     extern s32 lbl_805D7BD8;
     s16 TLobby__sub_80403D28(s32, s32, s32, s32, s32, s32, s32, s32); /* declared s16 here; the definition returns s32 */
     s32 configure_modem_options(s32, s32, s32, s32, s32);

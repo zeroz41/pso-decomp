@@ -1,16 +1,12 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/player/TObjPlayerSet.h"
-#include "pso/quest/TQuestThread.h"
 #include "pso/system/task/TObject_8001A448.h"
-#include "pso/object/quest/TObjQuestCol2.h"
 
 #include "pso/system/task/TObject.h"
 
 
 extern "C" {
-extern s32 tl_00;
-u8 *TObjQuestCol2__vt14(TObjQuestCol2 *arg0);
 u8 * __ct__8TObjBaseFP7TObject(void *);
 extern s32 __vt__13TObjPlayerSet[];
 #pragma push
@@ -18,8 +14,6 @@ extern s32 __vt__13TObjPlayerSet[];
 const char *TObjPlayer__player_set_class_name = "TObjPlayerSet";
 #pragma pop
 u8 *TObjPlayerSet__ct(TObjPlayerSet *arg0, s32 arg1, s32 arg2);
-void *TObjQuestCol2__create(void *arg0);
-void *TObjQuestCol2__ct(void *, void *, void *);
 
 void TObjPlayerSet::render() {  }
 void TObjPlayerSet::run_task() {  }
@@ -40,8 +34,6 @@ TObjPlayerSet::~TObjPlayerSet() {
 }
 
 
-extern void *quest_collision_task_root;
-
 #pragma push
 #pragma opt_common_subs off
 u8 *TObjPlayerSet__ct(TObjPlayerSet *player_set, s32 arg1, s32 arg2) {
@@ -59,24 +51,3 @@ u8 *TObjPlayerSet__ct(TObjPlayerSet *player_set, s32 arg1, s32 arg2) {
     return (u8 *)player_set;
 }
 #pragma pop
-
-void *TObjQuestCol2__create(void *arg0) {
-    void *o = TObject::operator new(0xC4);
-    if (o != NULL) {
-        o = TObjQuestCol2__ct(o, quest_collision_task_root, arg0);
-    }
-    return o;
-}
-u8 *TObjQuestCol2__vt14(TObjQuestCol2 *quest_col2) {
-    TQuestThread *thread;
-    TQuestThreadBoard::destroy_board();
-    thread = NULL;
-    if ((u32) *(u32 *)((s8 *)quest_col2 + 0xBC) != 0U) {
-        thread = new TQuestThread(*(TObject **)((s8 *)quest_col2 + 0xBC), quest_col2->m_b0);
-        if (thread != NULL) {
-            thread->set_parent((TObject *)tl_00);
-        }
-    }
-    return (u8 *)thread;
-}
-

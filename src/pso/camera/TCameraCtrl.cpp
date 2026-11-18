@@ -189,7 +189,6 @@ extern "C" {
 void TCameraCtrl__sub_800689E8(void);
 s32 is_split_screen();
 s32 approach_camera_vector(void *, void *, f32);
-extern s32 TCameraCtrl__pose_snap_flags;
 s32 GXSetViewport(f32, f32, f32, f32, f32, f32);
 s32 GXSetScissor(int, int, int, int);
 s32 GXSetScissorBoxOffset(int, int);
@@ -197,16 +196,23 @@ s32 GXSetScissorBoxOffset(int, int);
 s16 TCameraCtrl__viewport_size = 640;
 s16 TCameraCtrl__viewport_height = 480;
 const char *lbl_805D283C = "TCameraCtrl";
-extern s16 TCameraCtrl__viewport_x;
-extern s16 TCameraCtrl__viewport_y;
+f32 camera_default_view_value;
+f32 camera_default_view_value_b;
+u8 *camera_ctrl_instance;
+s32 camera_view_state_flag;
+s8 camera_ctrl_view_state_byte;
+s16 TCameraCtrl__viewport_x;
+s16 TCameraCtrl__viewport_y;
+s32 TCameraCtrl__pose_snap_flags;
+int TCameraCtrl__camera_id;
+s16 TCameraCtrl__camera_mode;
+s16 TCameraCtrl__data_805D4E0A;
 void set_perspective_projection_from_fov(s32 arg0, f32 farg0, f32 farg1, f32 farg2);
 extern "C" {
 s32 get_entity_id(void *);
 s32 TCameraCtrl__sub_8006B358(void *p);
 extern void *camera_controller_registry[13];
-extern u8 *camera_ctrl_instance;
 void TCameraCtrl__sub_801E32D8(f32, f32);
-extern s16 TCameraCtrl__data_805D4E0A;
 s32 get_mode__11TCameraCtrlFPv(void *);
 s32 matrix_mult_vec(int, void *, void *);
 s32 push_matrix();
@@ -220,9 +226,6 @@ struct SceneProjectionState { s32 value; u8 remaining[0x54]; };
 extern SceneProjectionState scene_projection_state;
 s32 camera_renderer_setup_nop(void *, int);
 s32 fn_803D64F8(void *);
-extern f32 camera_default_view_value;
-extern f32 camera_default_view_value_b;
-extern s16 TCameraCtrl__camera_mode;
 s32 set_viewport_scissor__11TCameraCtrlFiPv(int, void *);
 s32 activate_camera_mode(s32 arg0);
 bool TCameraCtrl__sub_800689F4(void);
@@ -280,8 +283,6 @@ extern "C" {
 
 
 void TCameraCtrl__sub_80068358(void *, void *, f32, f32);
-extern s32 camera_view_state_flag;
-extern s8 camera_ctrl_view_state_byte;
 }
 
 struct VBase_18_9639c7
@@ -504,11 +505,8 @@ void *lbl_80488AC0[6] = {
 typedef char RecoveredGlobal_8006ABAC_lbl_8058D490_size[sizeof(RecoveredGlobal_8006ABAC_lbl_8058D490) == 0x30 ? 1 : -1];
 typedef char RecoveredGlobal_8006AC70_lbl_8058D490_size[sizeof(RecoveredGlobal_8006AC70_lbl_8058D490) == 0x30 ? 1 : -1];
 
-    extern int TCameraCtrl__camera_id;
 
 
-    extern short TCameraCtrl__viewport_x;
-    extern short TCameraCtrl__viewport_y;
 
     extern int quest_active_flag;
 

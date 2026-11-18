@@ -37,15 +37,24 @@ struct Win_8024EA50 {
 };
 
 u32 soft_keyboard_instance;
+// Keyboard offsets per player viewport for two, three and four split-screen views (camera ids 2-4).
+// inferred: _3p/_4p names from the camera-count switch in get_viewport_offset.
+extern const NJS_POINT2 keyboard_soft_viewport_offset_table[2] = {
+    {0.0f, 40.0f}, {0.0f, 0.0f},
+};
+extern const NJS_POINT2 keyboard_soft_viewport_offset_table_3p[3] = {
+    {8.0f, 40.0f}, {0.0f, 40.0f}, {0.0f, 0.0f},
+};
+extern const NJS_POINT2 keyboard_soft_viewport_offset_table_4p[4] = {
+    {8.0f, 40.0f}, {0.0f, 40.0f}, {8.0f, 0.0f}, {0.0f, 0.0f},
+};
+
 extern "C" {
 s32 __cvt_fp2unsigned(f32);
 void apply_context_transform_to_rect(Ctx_8024E6D8 *c, f32 *q);
 f32 TCameraCtrl__sub_80068A04(s32);
-NJS_POINT2 *get_viewport_offset__19TWindowKeyBoardSoftFi(s32);
+const NJS_POINT2 *get_viewport_offset__19TWindowKeyBoardSoftFi(s32);
 NJS_POINT2 *get_zero_vec2();
-extern NJS_POINT2 keyboard_soft_viewport_offset_table[];
-extern NJS_POINT2 lbl_8044EC80[];
-extern NJS_POINT2 lbl_8044EC98[];
 s32 clip_textured_quad__19TWindowKeyBoardSoftFPvPv(Win_8024E8E8 *w, Box_8024E8E8 *b);
 u32 init_text_window_layout(Win_8024EA50 *win, f32 *pos, f32 *size, f32 *scale, u32 flags, f32 depth);
 
@@ -226,7 +235,7 @@ u32 init_text_window_layout(Win_8024EA50 *win, f32 *pos, f32 *size, f32 *scale, 
 
 void TWindowKeyBoardSoft::adjust_pos_for_split_screen(s32 i) {
     NJS_POINT2 *arg0 = (NJS_POINT2 *)this;
-    NJS_POINT2 *p;
+    const NJS_POINT2 *p;
     if (is_split_screen() == 0 || i == 0x64) {
         return;
     }
@@ -237,7 +246,7 @@ void TWindowKeyBoardSoft::adjust_pos_for_split_screen(s32 i) {
     arg0->y = arg0->y / TCameraCtrl::get_fov();
 }
 
-NJS_POINT2 *get_viewport_offset__19TWindowKeyBoardSoftFi(s32 i) {
+const NJS_POINT2 *get_viewport_offset__19TWindowKeyBoardSoftFi(s32 i) {
     switch (TCameraCtrl::get_camera_id()) {
     case 1:
         break;
@@ -248,12 +257,12 @@ NJS_POINT2 *get_viewport_offset__19TWindowKeyBoardSoftFi(s32 i) {
         break;
     case 3:
         if (i >= 0 && i <= 3) {
-            return &lbl_8044EC80[i];
+            return &keyboard_soft_viewport_offset_table_3p[i];
         }
         break;
     case 4:
         if (i >= 0 && i <= 4) {
-            return &lbl_8044EC98[i];
+            return &keyboard_soft_viewport_offset_table_4p[i];
         }
         break;
     }

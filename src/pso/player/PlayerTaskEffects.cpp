@@ -1,3 +1,4 @@
+#include "pso/unk/TUnk_804DDD28.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/player/PlayerScaleState.h"
@@ -178,7 +179,6 @@ void TObjPlayer__sub_801C6FCC(void* p, f32 v);
 void TObjPlayer__sub_801C6FDC(void);
 void TObjPlayer__sub_801C6FE0(void* p, f32 a, f32 b, f32 c);
 void *__dt__13TForceOperateFv(void *arg0, s16 arg1);
-void free__10TObjPlayerFPv(void* a0);
 void set_stat_scale__10TObjPlayerFPvf(void* p, f32 v);
 void __dl__7TObjectFPv(void *);
 void __dt__7TObjectFv(void *, int);
@@ -279,9 +279,6 @@ s32 TObjPlayer__sub_801C6DAC(u8 *arg0);
 }
 
 
-extern "C" {
-void free__10TObjPlayerFPv(void* a0);
-}
 
 
 extern "C" {
@@ -568,13 +565,13 @@ s32 get_contact_surface_type(s32 arg0) {
 
 
 extern "C" {
-void TObjPlayer::heap_alloc(void* a0) { obj_heap->heap_alloc((size_t)a0); }
+void *TUnk_804DDD28::operator new(size_t size) { return obj_heap->heap_alloc(size); }
 
 }
 
 
 extern "C" {
-void free__10TObjPlayerFPv(void* a0) { obj_heap->heap_free(a0); }
+void TUnk_804DDD28::operator delete(void *p) { obj_heap->heap_free(p); }
 
 }
 

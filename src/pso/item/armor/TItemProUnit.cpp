@@ -5,6 +5,8 @@
 #include "pso/item/TItemData.h"
 #include "pso/item/TItemHeapObject.h"
 #include "pso/item/TUnk_804A0608.h"
+#include "pso/item/TUnk_804A0628.h"
+#include "pso/item/TUnk_804A0648.h"
 #include "pso/player/PlayerAttackParams.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_8011C000.h"
@@ -17,13 +19,6 @@ extern "C" {
 void *lookup_item_pmt_record(u8 *item);
 u8 get_cast_technique_level(void *levels, s16 technique);
 void *memset(void *dst, int value, unsigned long size);
-// The timer events a unit effect starts. Their classes are still written as
-// C functions on the raw object (TItemTimerEvent has no real constructor).
-void init_item_timer_event__13TUnk_804A0648Fv(void *event, TItemHeapObject *parent, u16 client, s32 duration);
-void construct_timer_event__13TUnk_804A0628Fv(void *event, TItemHeapObject *parent, u16 client, s32 duration);
-void init_timer_event__13TUnk_804A0608Fv(void *event, TItemHeapObject *parent, u16 client, s32 duration);
-void TItemTimerEvent__ct(void *event);
-extern s32 lbl_804A0608[];
 }
 
 const char *item_pro_unit_class_name = "TItemProUnit";
@@ -31,11 +26,8 @@ const char *item_pro_unit_class_name = "TItemProUnit";
 // The functions below run from the last one in the object back to the first
 // (deferred code generation, see configure.py).
 
-void *TUnk_804A0608::init_timer_event() {
-    TItemTimerEvent__ct(this);
-    *(s32 **)((s8 *)this + 0x18) = lbl_804A0608;
-    return this;
-}
+// This object's copy of the timer event constructor (on_equip calls it).
+TUnk_804A0608::TUnk_804A0608(TItemHeapObject *parent, u16 client, s32 period) : TItemTimerEvent(parent, client, period) {}
 
 // The out-of-line copies of PlayerAttackState's EVP scale accessors.
 f32 PlayerAttackState::get_evp() { return evp_scale; }
@@ -116,33 +108,20 @@ void TItemProUnit::apply_unit_effect_flags() {
 }
 
 void TItemProUnit::on_equip() {
-    void *event;
     switch (effect_type) {
     case 15:
         if (effect_objects != NULL) {
-            event = TItemHeapObject::operator new(0x2C);
-            if (event != NULL) {
-                init_item_timer_event__13TUnk_804A0648Fv(event, effect_objects, get_owner_client(),
-                                                         (s32)(30.0f * effect_amount));
-            }
+            new TUnk_804A0648(effect_objects, get_owner_client(), (s32)(30.0f * effect_amount));
         }
         break;
     case 16:
         if (effect_objects != NULL) {
-            event = TItemHeapObject::operator new(0x2C);
-            if (event != NULL) {
-                construct_timer_event__13TUnk_804A0628Fv(event, effect_objects, get_owner_client(),
-                                                         (s32)(30.0f * effect_amount));
-            }
+            new TUnk_804A0628(effect_objects, get_owner_client(), (s32)(30.0f * effect_amount));
         }
         break;
     case 17:
         if (effect_objects != NULL) {
-            event = TItemHeapObject::operator new(0x2C);
-            if (event != NULL) {
-                init_timer_event__13TUnk_804A0608Fv(event, effect_objects, get_owner_client(),
-                                                    (s32)(30.0f * effect_amount));
-            }
+            new TUnk_804A0608(effect_objects, get_owner_client(), (s32)(30.0f * effect_amount));
         }
         break;
     }

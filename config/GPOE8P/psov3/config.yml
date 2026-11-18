@@ -404,8 +404,8 @@ force_active:
   - TBoss6Tube__previous_scroll_phase
   - TBoss6Tube__scroll_delta
   - TBoss6Tube__sub_802B129C
-  - TBoss6Type2__ct
-  - TBoss6Type2__data_805DE4B8
+  - __ct__11TBoss6Type2FP7TObjectPl
+  - motion_track_count
   - TBoss6Type2__effect_emitter_id_table
   - TBoss6Type2__instance_slots
   - TBoss6Type2__sub_802B9D6C
@@ -1614,7 +1614,7 @@ force_active:
   - TObjPlayer__sub_803E5378
   - TObjPlayer__sub_803E53F8
   - TObjPlayer__sub_803E5458
-  - TObjQuestColALock2__ct
+  - __ct__18TObjQuestColALock2FP7TObjectPv
   - TObjRaderIcon__ct
   - TObjResultWin_class_name
   - TObjResultWin_name

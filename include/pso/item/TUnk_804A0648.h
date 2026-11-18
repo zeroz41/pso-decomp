@@ -5,9 +5,9 @@
 
 class TUnk_804A0648 : public TItemTimerEvent {
 public:
-    virtual ~TUnk_804A0648();
-    void *init_item_timer_event();
+    TUnk_804A0648(TItemHeapObject *parent, u16 client, s32 period);
     virtual void vfunc_6();
+    virtual ~TUnk_804A0648();
 };
 typedef char TUnk_804A0648_size[sizeof(TUnk_804A0648) == 0x2C ? 1 : -1];
 

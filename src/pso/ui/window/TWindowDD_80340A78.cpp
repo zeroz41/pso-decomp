@@ -4,21 +4,26 @@
 #include "pso/ui/window/TWindowDD_WS_ScrollBar.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "types.h"
-#include "pso/system/NinjaTypes.h"
 #include "pso/ui/window/TWindowDD_803488A8.h"
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/ui/window/TWindowDD_80340EA8.h"
 #include "pso/ui/window/TWindowDD_WS_String.h"
-extern const NJS_POINT2 lbl_80478568[7] = {
-    { 72.0f, 199.0f }, { 122.0f, 199.0f }, { 72.0f, 219.0f }, { 122.0f, 219.0f },
-    { 172.0f, 199.0f }, { 172.0f, 219.0f }, { 222.0f, 199.0f },
-};
-extern const f32 lbl_804785A0[8] = { 16.0f, 16.0f, 16.0f, 16.0f, 20.0f, 20.0f, 16.0f, 0.0f };
-extern "C" { extern const char lbl_804785C0[23] = "TWindowDD_WS_ScrollBar"; }
+
+#pragma readonly_strings on
 
 struct E_803403F8 { f32 a; f32 b; f32 c; f32 d; f32 e; s32 f; };
+
+// Screen positions and scales of the word-select quad sets (TWindowDD__data_805434E8), set up by
+// TWindowDD__sub_80344114. inferred: names from that use.
+extern const NJS_POINT2 window_dd_quad_positions[7] = {
+    {72.0f, 199.0f}, {122.0f, 199.0f}, {72.0f, 219.0f}, {122.0f, 219.0f},
+    {172.0f, 199.0f}, {172.0f, 219.0f}, {222.0f, 199.0f},
+};
+extern const f32 window_dd_quad_scales[8] = {16.0f, 16.0f, 16.0f, 16.0f, 20.0f, 20.0f, 16.0f, 0.0f};
+
+const char *TWindowDD_WS_ScrollBar__class_name = "TWindowDD_WS_ScrollBar";
 
 extern "C" {
 
@@ -197,8 +202,7 @@ void __dl__7TObjectFPv(void *);
 
 extern "C" void init__9TWindowDDFv();
 extern "C" void render_shadows__7TObjectFv();
-struct W_80340F00 { s32 f0; u8 pad4[0x14]; void *p18; u8 pad1c[0x5C - 0x1C]; s32 f5c; u8 pad60[4]; f32 f64; f32 f68; f32 f6c; };
-const char *lbl_805D42D0 = lbl_804785C0;
+struct W_80340F00 { const char *name; u8 pad4[0x14]; void *p18; u8 pad1c[0x5C - 0x1C]; s32 f5c; u8 pad60[4]; f32 f64; f32 f68; f32 f6c; };
 __declspec(section ".data") void *lbl_804EFBC8[2] = {
     (void *)0x0, (void *)0x0,
 };
@@ -228,7 +232,7 @@ void *TWindowDD_WS_ScrollBar::dt(s16 arg1) {
 W_80340F00 *construct_variant_b__9TWindowDDFPv(W_80340F00 *arg0) {
     ((TWindowDD *)arg0)->construct_base((u8 *)lbl_804EFBD0, (s16)4, (u8 *)lbl_804EFBC8);
     arg0->p18 = lbl_804EFBE4;
-    arg0->f0 = (s32)lbl_805D42D0;
+    arg0->name = TWindowDD_WS_ScrollBar__class_name;
     arg0->f64 = 6.0f;
     arg0->f68 = 6.0f;
     arg0->f6c = 0.0f;

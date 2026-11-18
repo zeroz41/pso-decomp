@@ -329,4 +329,3 @@ void *TObjFish::alloc(void *fish) {
 }
 
 }
-

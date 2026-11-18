@@ -24,6 +24,7 @@ s32 init_bba_exi_adapter(void *);
 static u8 lbl_805CF240[0xA0];
 static u8 pppoe_message_queue[0xA0];
 static u8 lbl_805CF380[0x48];
+/* The thread, link-status and connection-mode state (.sbss 805D7BB0-805D7BD0), in reverse definition order. */
 s32 network_message_pending_count;
 s32 lobby_connect_mode;
 u32 lbl_805D7BC4;

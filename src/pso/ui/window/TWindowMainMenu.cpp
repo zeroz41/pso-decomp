@@ -40,10 +40,6 @@ struct Menu_802647CC {
     Ent_802647CC *ents;
 };
 
-struct Ent_802646E4 {
-    s16 id;
-    s16 pad[3];
-};
 
 struct Slot_802649C0 { s16 a; s16 b; s32 c; };
 
@@ -64,6 +60,39 @@ struct Win_802649C0 {
     s32 x5C;
 };
 
+// Main-menu tables (rows: item id, submenu table; 0x1F ends a table). Names inferred from their users:
+// TWindowMainMenu1P::vfunc_6 and TWindowMainMenu4P::vfunc_6 open the *_android tables when
+// TObjPlayer::is_android() holds; those lack item 3.
+TWindowMainMenuEntry main_menu_1p_item2_submenu[] = {
+    {0x09}, {0x0B}, {0x17}, {0x1A}, {0x0C}, {0x0F}, {0x1F},
+};
+
+TWindowMainMenuEntry main_menu_1p_item5_submenu[] = {
+    {0x11}, {0x12}, {0x0E}, {0x13}, {0x16}, {0x15}, {0x1F},
+};
+
+TWindowMainMenuEntry main_menu_1p_entries[] = {
+    {0x02, 0, main_menu_1p_item2_submenu}, {0x00}, {0x03}, {0x05, 0, main_menu_1p_item5_submenu},
+    {0x19}, {0x06}, {0x07}, {0x1F},
+};
+
+TWindowMainMenuEntry main_menu_1p_android_entries[] = {
+    {0x02, 0, main_menu_1p_item2_submenu}, {0x00}, {0x05, 0, main_menu_1p_item5_submenu},
+    {0x19}, {0x06}, {0x07}, {0x1F},
+};
+
+TWindowMainMenuEntry main_menu_4p_item2_submenu[] = {
+    {0x09}, {0x0B}, {0x17}, {0x1F},
+};
+
+TWindowMainMenuEntry main_menu_4p_entries[] = {
+    {0x02, 0, main_menu_4p_item2_submenu}, {0x00}, {0x03}, {0x19}, {0x06}, {0x07}, {0x1F},
+};
+
+TWindowMainMenuEntry main_menu_4p_android_entries[] = {
+    {0x02, 0, main_menu_4p_item2_submenu}, {0x00}, {0x19}, {0x06}, {0x07}, {0x1F},
+};
+
 extern "C" {
 s32 get_window_layout_position(int);
 s32 TWindowMainMenu__sub_802ADADC(int, int);
@@ -76,7 +105,7 @@ extern RecoveredGlobal_8026492C___vt__15TWindowMainMenu __vt__15TWindowMainMenu;
 void sub_80263D7C__15TWindowMainMenuFv(void *, int);
 void update_keyboard_card_state__15TWindowMainMenuFv(void *, int);
 int TWindowMainMenu__sub_802ADB00(u8 *arg0);
-void populate_menu__15TWindowMainMenuFPvPv(u8 *arg0, Ent_802646E4 *arg1);
+void populate_menu__15TWindowMainMenuFPvPv(u8 *arg0, TWindowMainMenuEntry *arg1);
 void *__ct__7TObjectFP7TObject(void *);
 extern s32 lbl_805D3950;
 Win_802649C0 *TWindowMainMenu__ct(Win_802649C0 *arg0, void *arg1, s32 arg2);
@@ -93,8 +122,8 @@ void TWindowMainMenu::update_submenu() {
         update_trade_submenu();
     }
 }
-void TWindowMainMenu::close_submenu(void* a1) { if (*(unsigned int*)((char*)this + 0x1c) != 0) { ((TWindowMainMenu *)(*(void**)((char*)this + 0x1c)))->pop_level(); ((TWindowMainMenu *)(*(void**)((char*)this + 0x1c)))->clear_menu_flags(); populate_menu__15TWindowMainMenuFPvPv((u8 *)this, (Ent_802646E4 *)(a1)); } }
-void TWindowMainMenu::refresh_submenu(void* a1) { if (*(unsigned int*)((char*)this + 0x1c) != 0) { park_selection__15TWindowMainMenuFPv(*(void**)((char*)this + 0x1c)); ((TWindowMainMenu *)(*(void**)((char*)this + 0x1c)))->clear_menu_flags(); populate_menu__15TWindowMainMenuFPvPv((u8 *)this, (Ent_802646E4 *)(a1)); } }
+void TWindowMainMenu::close_submenu(void* a1) { if (*(unsigned int*)((char*)this + 0x1c) != 0) { ((TWindowMainMenu *)(*(void**)((char*)this + 0x1c)))->pop_level(); ((TWindowMainMenu *)(*(void**)((char*)this + 0x1c)))->clear_menu_flags(); populate_menu__15TWindowMainMenuFPvPv((u8 *)this, (TWindowMainMenuEntry *)(a1)); } }
+void TWindowMainMenu::refresh_submenu(void* a1) { if (*(unsigned int*)((char*)this + 0x1c) != 0) { park_selection__15TWindowMainMenuFPv(*(void**)((char*)this + 0x1c)); ((TWindowMainMenu *)(*(void**)((char*)this + 0x1c)))->clear_menu_flags(); populate_menu__15TWindowMainMenuFPvPv((u8 *)this, (TWindowMainMenuEntry *)(a1)); } }
 
 void TWindowMainMenu::close() { if (*(unsigned int*)((char*)this + 0x1c) != 0) { ((TWindowBase *)(*(void**)((char*)this + 0x1c)))->close(); *(int*)((char*)this + 0x1c) = 0; } }
 
@@ -109,7 +138,7 @@ void TWindowMainMenu::open_menu_with_entry(s16 arg1) {
     this->update_submenu();
 }
 
-void populate_menu__15TWindowMainMenuFPvPv(u8 *window_main_menu, Ent_802646E4 *arg1) {
+void populate_menu__15TWindowMainMenuFPvPv(u8 *window_main_menu, TWindowMainMenuEntry *arg1) {
     s32 flag;
     s16 id;
     s32 i;

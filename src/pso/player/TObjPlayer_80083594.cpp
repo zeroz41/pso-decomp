@@ -1034,4 +1034,3 @@ void GXPosition3f32_80083594(f32 farg0, f32 farg1, f32 farg2) {
 int TObjPlayer::is_inactive() { return this->m_cfc == 0; }
 
 }
-

@@ -2,12 +2,26 @@
 #define PSO_UNK_TUNK_804DDD28_H
 #include "types.h"
 
+// The two-word record TUnk_804DDD28 starts with: its constructor 0x802A7318
+// clears both words, its destructor is 0x801D3518.
+class TUnk_802A7318 {
+public:
+    TUnk_802A7318();
+    ~TUnk_802A7318();
+    u32 m_0;
+    u32 m_4;
+};
+
+// Base of the player action providers (TUnk_804DDBF0, TUnk_804ED7D0) that
+// TObjPlayer::init_action_provider creates; allocated from obj_heap.
 class TUnk_804DDD28 {
 public:
-    u8 unk_0[0x4];
-    u32 m_4;
+    TUnk_802A7318 unk_0;
+    TUnk_804DDD28();
+    static void *operator new(size_t size);
+    static void operator delete(void *p);
+    virtual s32 get_cell_address(s32, s32);
     virtual ~TUnk_804DDD28();
-    virtual u8 *vfunc_3(s16);
     virtual int vfunc_4();
     virtual int vfunc_5(s32);
     virtual int vfunc_6(s32, s32, s32);
@@ -81,10 +95,11 @@ public:
     virtual int vfunc_74();
     virtual int vfunc_75();
     virtual int vfunc_76();
-    virtual int vfunc_77(s32);
+    virtual s32 *get_state_table(s32);
     void copy_motion_pair(void*);
     s32 load_action_motion_pairs(s32, s32, s32);
-    void sub_802A7318();
 };
+
+extern const char *player_motion_data_filename_ptr;
 
 #endif

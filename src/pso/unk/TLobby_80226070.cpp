@@ -70,10 +70,6 @@ s8 lbl_805D62D1;
 extern "C" {
 void update_music_stream_gain(s32 user);
 void TLobby__sub_8022614C(s32 arg0);
-extern s32 lbl_805D6294;
-extern int lobby_layout_offset_c;
-extern s32 lbl_805D6290;
-extern s32 lobby_layout_start_position;
 
 void TLobby::set_and_notify(int a0) { lbl_805D6284 = a0; update_music_stream_gain(lbl_805D6280); }
 
@@ -101,10 +97,6 @@ u32 OSGetSoundMode();
 int TLobby__sub_80227D38(void);
 void TLobby__sub_8022644C(void);
 void set_menu_index_main__6TLobbyFPUc(void);
-extern s32 lbl_805D629C;
-extern s32 lbl_805D62A0;
-extern s32 lbl_805D62A8;
-extern s32 lbl_805D62AC;
 int TLobby__sub_80226308(void);
 void TTecRaFoie__sub_80226254(void);
 s32 set_sound_slot_pitch();
@@ -355,8 +347,6 @@ extern u32 camera_ctrl_instance;
 extern "C" {
 void *get_player_by_client_id(s32 i);
 s32 TLobby__sub_8023F880(s32 arg0);
-extern int lbl_805D62B4;
-extern int lbl_805D62B8;
 
 void TLobby::update_lobby_subsystems() { TLobby__sub_8022644C(); stop_cue_stream(); }
 
@@ -446,16 +436,6 @@ void update_sound_request_slots(void) {
 int TLobby__sub_80226B64(void) { TLobby::update_lobby_subsystems(); TLobby::init_layout_positions(); TLobby__sub_80226308(); lbl_805D62B4 = 0; lbl_805D62B8 = 0; lbl_805D62B0 = 1; return 0; }
 
 extern "C" {
-extern s8 lbl_805D6278;
-extern s32 lbl_805D62BC;
-extern s32 lbl_805D62C0;
-extern s32 lbl_805D62C4;
-extern s32 lbl_805D62C8;
-extern s16 lbl_805D62CC;
-extern s8 lbl_805D62CE;
-extern s8 lbl_805D62CF;
-extern s8 lbl_805D62D0;
-extern s8 lbl_805D62D1;
 
 s32 TLobby__sub_80226BA4(void) {
     s32 i;

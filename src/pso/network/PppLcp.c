@@ -21,6 +21,14 @@ struct St_8040098C { s8 f0; u8 f1; u8 f2; u8 pad3[0x69]; u8 f6C[0x9C]; s32 f108;
 void net_sleep_ms(s32 ms);
 #include "pso/network/PppBuffer.h"
 
+/* The option values both sides start from: MRU 1500 and a full async control-character map (.rodata 8047FE50). */
+const LcpVals lbl_8047FE50 = {0, 1500, 0xFFFFFFFF};
+/* Each option's length, by option type (.rodata 8047FE68). */
+const u8 lbl_8047FE68[16] = {4, 4, 6, 4, 4, 6, 6, 2, 2};
+/* The option readers' scratch bytes (.sbss 805D7AB0), in reverse definition order. */
+u8 lobby_read_byte_buffer[1];
+u8 lcp_read_value_buffer[4];
+
 
 s32 wait_for_connection(Conn_804004DC *c) {
     NetThreadState *g;
@@ -43,7 +51,6 @@ s32 wait_for_connection(Conn_804004DC *c) {
     return 0;
 }
 
-extern u8 lbl_805E1178;
 extern s32 TLobby__sub_8040172C(Conn_804004DC *c);
 extern s32 TLobby__sub_80400C4C(Conn_804004DC *fsm, Msg_803FA664 *msg, s32 src);
 extern s32 TLobby__sub_80400DA8(Conn_804004DC *fsm, Msg_803FA664 *msg, s32 src);
@@ -55,8 +62,8 @@ void TLobby__sub_8040059C(u8 *conn)
   LcpProto_8040059C *proto = &lbl_805C0400.proto;
   Conn_804004DC *e = (Conn_804004DC *)(conn + 4);
   LcpOpts *area = &lbl_805C0400.opts;
-  const LcpVals *tbl = (const LcpVals *)&lbl_8047FE50;
-  proto->name = (const char *)&lbl_805E1178;
+  const LcpVals *tbl = &lbl_8047FE50;
+  proto->name = "Lcp";
   proto->proto = 0xC021;
   proto->h6 = 0xFFE;
   proto->b8 = 0;
@@ -328,7 +335,6 @@ extern s32 TLobby__sub_80400DA8(Conn_804004DC *fsm, Msg_803FA664 *msg, s32 src) 
     return 0;
 }
 #pragma pop
-extern u8 lbl_8047FE68[];
 extern void TLobby__sub_804017D8(u32 *self_m, void *src, u8 idx, u8 val, s32 *flag);
 inline void loop_8040172C(u32 *self, void *src, s16 mask) {
     s16 i;

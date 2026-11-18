@@ -4,6 +4,7 @@
 #include "pso/object/base/TObjMotion.h"
 
 struct Vec;
+struct ActorParamBlock;
 
 struct DirectAttackPayload {
     s32 kind;
@@ -227,9 +228,9 @@ public:
     u8 unk_2F0[0x2];
     s16 m_2f2;
     s16 m_2f4;
-    u8 unk_2F6[0x2];
+    s16 m_2f6;
     s16 m_2f8;
-    u8 unk_2FA[0x2];
+    s16 m_2fa;
     f32 m_2fc;
     f32 m_300;
     f32 m_304;
@@ -241,7 +242,8 @@ public:
     f32 m_310;
     s32 m_314;
     u32 m_318;
-    u8 unk_31C[0x6];
+    ActorParamBlock *param_block;  // get_actor_param_block
+    u8 unk_320[0x2];
     s16 m_322;
     s16 control_state;  // who drives it: 6 a script, 7 a fixed pose
     s16 mode;

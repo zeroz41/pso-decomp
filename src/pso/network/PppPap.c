@@ -315,7 +315,7 @@ s16 pap_recv_auth_request(u8 *self, u8 *src, PppFrame *val) {
     u8 *p2 = 0;
     s16 ch;
     s16 res;
-    s32 t;
+    const char *secret;
     s16 st;
     u8 *ptr;
     s16 n;
@@ -346,10 +346,10 @@ s16 pap_recv_auth_request(u8 *self, u8 *src, PppFrame *val) {
     }
 
     if (lbl_805D7A90 & 2) {
-        t = TLobby__sub_803F7684(p1);
-        if (t == 0) {
+        secret = TLobby__sub_803F7684((const char *)p1);
+        if (secret == NULL) {
             res = -1;
-        } else if (NetCompareStrings((const char *)(p2), (const char *)t) != 0) {
+        } else if (NetCompareStrings((const char *)p2, secret) != 0) {
             res = -1;
         } else {
             goto zero;

@@ -23,6 +23,8 @@ public:
     TWindowMessage *windows[4];  // 0x24: one message window per player
 };
 
+void update_hunter_guild_phase();
+
 extern "C" {
 void THunterGuildWarning__sub_802119CC(THunterGuildWarning *self);
 void THunterGuildWarning__sub_80211700(void);

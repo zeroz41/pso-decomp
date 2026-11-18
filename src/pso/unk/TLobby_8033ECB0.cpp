@@ -9,7 +9,7 @@
 
 extern "C" {
 s32 lbl_805D6DA0;
-s32 __ct__7TObjectFP7TObject();
+s32 __ct__7TObjectFP7TObject(u8 *, void *);
 extern s32 __vt__13TUnk_804EFA88[];
 
 }
@@ -21,10 +21,10 @@ TUnk_804EFA88::~TUnk_804EFA88() {
 }
 
 
-u8 *TLobby__sub_8033ED24(u8 *arg0) {
+u8 *TLobby__sub_8033ED24(u8 *arg0, void *parent) {
   s32 var_r31;
   s32 var_r30;
-  __ct__7TObjectFP7TObject();
+  __ct__7TObjectFP7TObject(arg0, parent);
   *((s32 **) (((s8 *) arg0) + 0x18)) = __vt__13TUnk_804EFA88;
   ((TUnk_804EFA88 *)arg0)->m_20 = 0;
   *((s32 *) (((s8 *) arg0) + 0x1C)) = (s32)mem_alloc((u32)((void *) 0x240));

@@ -8,14 +8,15 @@
 
 struct O_80355148 { u8 pad[0x1c]; s32 state; };
 
-extern "C" { extern char TAdPlyPltAnimCtrlGC__class_name_string[]; }
-const char *lbl_805D4390 = TAdPlyPltAnimCtrlGC__class_name_string;
+// Frame thresholds at which run_task starts each of the five palette animations.
+const u32 ply_plt_anim_time_threshold_table[5] = { 0, 2, 4, 6, 12 };
+
+const char *TAdPlyPltAnimCtrlGC__class_name = "TAdPlyPltAnimCtrlGC";
+
 extern "C" {
 s32 __ct__7TObjectFP7TObject(void *, void *);
 extern s32 __vt__19TAdPlyPltAnimCtrlGC[];
-extern const char *lbl_805D4390;
 s32 TAdPlyPltAnimCtrlGC__sub_80355148(O_80355148 *self);
-extern u32 ply_plt_anim_time_threshold_table[];
 s32 __dl__7TObjectFPv(void *);
 s32 __dt__7TObjectFv(void *, s32);
 u32 __nw__7TObjectFUl(s32);
@@ -134,7 +135,7 @@ u8 *TAdPlyPltAnimCtrlGC__ct(TAdPlyPltAnimCtrlGC *ad_ply_plt_anim_ctrl_gc, s32 ar
     __ct__7TObjectFP7TObject((void *)ad_ply_plt_anim_ctrl_gc, (void *)arg1);
     *(s32 **)((s8 *)ad_ply_plt_anim_ctrl_gc + 0x18) = __vt__19TAdPlyPltAnimCtrlGC;
     index = 0;
-    *(s32 *)((s8 *)ad_ply_plt_anim_ctrl_gc + 0) = (s32)lbl_805D4390;
+    ad_ply_plt_anim_ctrl_gc->m_name = TAdPlyPltAnimCtrlGC__class_name;
     ad_ply_plt_anim_ctrl_gc->m_1c = 0;
     ad_ply_plt_anim_ctrl_gc->m_20 = -1;
     do {

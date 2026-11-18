@@ -31,6 +31,37 @@
 #include "pso/ui/city/TShopGetItemWindow_8021F074.h"
 #include "pso/boss/olgaflow/TBoss6Type2_8036DC80.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/ui/frontend/TAdSelectGameModeGC.h"
+#include "pso/ui/frontend/TAdSelectGameModeGC_802C4748.h"
+#include "pso/unk/TLobby_802A7290.h"
+#include "pso/player/TObjPlayer.h"
+#include "pso/ui/window/TWindowCtrlMain.h"
+#include "pso/ui/window/TWindowCtrl.h"
+#include "pso/unk/TLobby_8001D6A0.h"
+#include "pso/ui/keyboard/TKeyBoardControl_80131C58.h"
+#include "pso/object/base/TObjBase.h"
+#include "pso/render/TFogCtrl.h"
+#include "pso/object/ambient/TObjLight.h"
+#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_8028D5D4.h"
+#include "pso/item/TItem.h"
+#include "pso/unk/TLobby_80207DA8.h"
+#include "pso/ui/window/TWindowKeyBoardHard_801A529C.h"
+#include "pso/ui/window/TWindowDD.h"
+#include "pso/ui/city/THunterGuildSeqOffline.h"
+#include "pso/object/warp/TObjCityMainWarp.h"
+#include "pso/object/warp/TObjCityMainWarp_801867F4.h"
+#include "pso/ui/chat/ShortMail.h"
+#include "pso/ui/window/TWindowOptionCtrl_8034C384.h"
+#include "pso/ui/window/TWindowGetComCard_8007B54C.h"
+#include "pso/unk/TLobby_8023F734.h"
+#include "pso/ui/chat/TWindowChat_800774C0.h"
+#include "pso/unk/TLobby_80077B60.h"
+#include "pso/unk/TLobby_801C25B4.h"
+#include "pso/object/key/TOKeyJungleMain.h"
+#include "pso/unk/TLobby_802D3970.h"
+#include "pso/boss/derolle/TObjBoss2Tunnel.h"
+#include "pso/boss/derolle/TObjBoss2Tunnel_8007CF0C.h"
 
 
 struct Pair_801A3CFC { s32 f0; s32 f4; };
@@ -144,7 +175,6 @@ s32 run_load_callback_table(void *, s32);
 void TLobby__sub_801A3E94(void);
 s32 TAdDialingGC__sub_801A4C90();
 s32 load_character_from_card__23TAdSinglePlyChrSelectGCFi(s32);
-s32 TLobby__sub_80207E24(void *, s32);
 s32 TKeyBoardControl__sub_8000F90C(int);
 int set_queued_main_phase(int);
 s32 run_join_lobby_connect__6TLobbyFi(void *);
@@ -157,7 +187,6 @@ s32 set_copy_clear_color_argb(int, int, int);
 s32 TGameProtocol__ct(void *, void *);
 s32 TLobby__sub_801F3774();
 int init__23TAdSinglePlyChrSelectGCFv(void);
-s32 TLobby__sub_80207F10();
 s32 TLobby__sub_8020A6B0(int);
 s32 TAdDialingGC__sub_80328730();
 s32 create__12TAdDialingGCFv(void *);
@@ -168,6 +197,69 @@ s32 reset_story_select__6TLobbyFPv();
 s32 init_key_slots__15TOKeyJungleMainFPv();
 s32 depart_floor_population();
 }
+
+extern "C" {
+void TWindowCtrlMain__sub_8024D838(void);
+void TObjPlayer__sub_80156934(void);
+void TRaderMapCore__sub_801F95CC(void);
+void TWindowDD__sub_80344114(void);
+void THunterGuildSeqOffline__sub_80213410(void);
+void TQuestThread__sub_801F5D88(void);
+void TLobby__sub_8029B2A4(void);
+void reset_globals(void);
+}
+void init_scene_fog_system(void);
+void init_item_drop_tables(void);
+void clear_received_symbol_chat(void);
+
+// Load and release hooks of the online lobby scene, in pairs: run_online_lobby_scene runs
+// each load front to back (run_load_callback_table), cleanup_online_lobby_scene each release
+// back to front (TLobby::call_funcs_reverse).
+FloorResourceCallbacks online_lobby_scene_callback_table[43] = {
+    {TAdSelectGameModeGC__sub_802C478C, (FloorResourceCallback)TAdSelectGameModeGC::call_enable_camera},
+    {TLobby::enable_and_refresh, disable_and_free_boss4rock_buffer},
+    {TObjPlayer::init_shared, TObjPlayer::finalize_shared},
+    {TLobby::clear_story_flags_and_reset_camera, TLobby::clear_story_flag_list},
+    {TLobby::update_keyboard_menu, TLobby::free_keyboard_soft_resources},
+    {TLobby::set_ending_callback, TLobby::free_ending_callback},
+    {TKeyBoardControl__sub_80131F60, TKeyBoardControl__sub_80131F5C},
+    {TWindowCtrlMain__sub_8024D838, TWindowCtrlMain::free_all_windows},
+    {TWindowCtrl::close, TWindowCtrl::shutdown},
+    {TLobby__sub_8001ED74, TLobby__sub_8001ED70},
+    {alloc_battle_param_tables, TLobby::free_boss4_rock},
+    {TLobby__sub_801A2554, TLobby__sub_801A2550},
+    {TObjPlayer::reset, TObjPlayer__sub_80156934},
+    {init_scene_fog_system, TFogCtrl::reset},
+    {load_light_entry_file, TObjLight::free_shared_data},
+    {alloc_quest_download_buffer, TLobby::free_chr_select_singleton},
+    {init_item_system, free_item_system},
+    {TLobby::load_item_data, TLobby__sub_802083C0},
+    {init_item_drop_tables, TLobby::free_resources},
+    {TLobby::create_heap_8000, TLobby::free_heap},
+    {TRaderMapCore__sub_801F95CC, TRaderMapCore::free_heap},
+    {alloc_work_buffer, TLobby__sub_801A5478},
+    {init_switch_table, clear_switch_table},
+    {TLobby::load_freeze_ice_resource, TLobby::destroy_global_singleton},
+    {reset_shop_stock_and_params, clear_all_shop_stock},
+    {(FloorResourceCallback)THunterGuildSeqOffline::reset_quest_result_callbacks, THunterGuildSeqOffline__sub_80213410},
+    {TQuestThread::clear_all_floor_handlers, TQuestThread__sub_801F5D88},
+    {TObjCityMainWarp::reset, TObjCityMainWarp__sub_80186AB8},
+    {(FloorResourceCallback)TLobby__sub_80225C64, (FloorResourceCallback)TLobby__sub_80225C44},
+    {(FloorResourceCallback)TLobby__sub_8001DC04, (FloorResourceCallback)TLobby::forward_8001DBD8},
+    {(FloorResourceCallback)TLobby__sub_8034C3A4, (FloorResourceCallback)TLobby__sub_8034C384},
+    {(FloorResourceCallback)TWindowGetComCard__sub_8007B67C, (FloorResourceCallback)TWindowGetComCard__sub_8007B65C},
+    {(FloorResourceCallback)TLobby__sub_8024285C, (FloorResourceCallback)TLobby::reset_state},
+    {clear_received_symbol_chat, TLobby__sub_80077608},
+    {TLobby__sub_80077BAC, TLobby::free_static_windows},
+    {TWindowDD__sub_80344114, TWindowDD::free_buffers},
+    {reset_globals, NULL},
+    {TLobby::init_char_slots, TLobby__sub_801C3A40},
+    {(FloorResourceCallback)TOKeyJungleMain::init_key_slots, TLobby__sub_8029B2A4},
+    {(FloorResourceCallback)TLobby__sub_802D39FC, (FloorResourceCallback)TLobby__sub_802D39DC},
+    {TLobby::load_draw_line_task, TLobby::free_item_loader},
+    {TObjBoss2Tunnel::reset_state, TObjBoss2Tunnel__sub_8007DD24},
+    {clear_boss6_player_snapshots, NULL},
+};
 
 // Area resources reloaded on a floor change and released with the lobby scene.
 FloorResourceCallbacks lobby_area_reload_callbacks[9] = {
@@ -200,8 +292,6 @@ int TLobby__new_game_setup_flags;
 s32 online_lobby_scene_handle;
 s32 TLobby__online_lobby_frame_counter;
 void clear_resource_load_tasks(void);
-struct OnlineLobbySceneCallbackTable { s32 value; u8 remaining[0x154]; };
-extern OnlineLobbySceneCallbackTable online_lobby_scene_callback_table;
 extern unsigned char lbl_80515BA0[];
 extern s32 local_client_id;
 void process_pending_resources(void);
@@ -544,7 +634,6 @@ s32 change_floor_reload_area(void) {
 void cleanup_online_lobby_scene(void) {
     s32 *var_r3;
     s32 var_r31;
-    s32 var_r4;
     TLobby::stop_audio_streams();
     TLobby::update_lobby_subsystems();
     send_logout__6TLobbyFv();
@@ -572,10 +661,7 @@ void cleanup_online_lobby_scene(void) {
     TLobby::free_single_player_chr_select();
     TLobby::update_photon_chairs();
     TLobby::call_funcs_reverse(lobby_area_reload_callbacks, sizeof(lobby_area_reload_callbacks));
-    var_r3 = &online_lobby_scene_callback_table.value;
-    var_r4 = 0x158;
-    var_r3 = &online_lobby_scene_callback_table.value;
-    TLobby::call_funcs_reverse(&online_lobby_scene_callback_table.value, 0x158);
+    TLobby::call_funcs_reverse(online_lobby_scene_callback_table, sizeof(online_lobby_scene_callback_table));
     local_client_id = 0;
     TLobby__lobby_state_flags = 0;
     clear_resource_load_tasks();
@@ -711,7 +797,7 @@ void run_online_lobby_scene(void) {
     TLoadCtrl::poll_default();
     TLobby::reset_keyboard_state();
     apply_phase_keyboard_mode();
-    run_load_callback_table(&online_lobby_scene_callback_table.value, 0x158);
+    run_load_callback_table(online_lobby_scene_callback_table, sizeof(online_lobby_scene_callback_table));
     if (is_area_transfer_pending() != 0) {
         TLobby::reset_keyboard_state();
         TLobby::invoke_callback();

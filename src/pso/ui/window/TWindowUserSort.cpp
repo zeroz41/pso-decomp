@@ -47,10 +47,6 @@ extern "C" {
 s32 draw_default_entry__9TWindowDDFl();
 s32 draw_visible_window_entries(void *, void *, int);
 void *get_player_by_client_id(s32 i);
-struct RecoveredGlobal_lbl_804D0460 { s32 value; u8 remaining[0x3C]; };
-extern RecoveredGlobal_lbl_804D0460 lbl_804D0460;
-struct RecoveredGlobal_lbl_804D04A0 { s32 value; u8 remaining[0x34]; };
-extern RecoveredGlobal_lbl_804D04A0 lbl_804D04A0;
 extern s32 __vt__15TWindowUserSort[];
 u8 *TWindowUserSort__ct(u8 *arg0, s32 arg1, s32 arg2);
 s32 close_and_clear_flags__15TWindowMainMenuFv();
@@ -100,9 +96,9 @@ void TWindowMainMenu1P::vfunc_6() {
         player = (u8 *)(get_player_by_client_id(*(u32 *)((s8 *)arg0 + 0x54)));
         if (player != NULL) {
             if (((TObjPlayer *)player)->is_android() != 0) {
-                ((TWindowMainMenu *)arg0)->open((s32) &lbl_804D04A0.value);
+                ((TWindowMainMenu *)arg0)->open((s32)main_menu_1p_android_entries);
             } else {
-                ((TWindowMainMenu *)arg0)->open((s32) &lbl_804D0460.value);
+                ((TWindowMainMenu *)arg0)->open((s32)main_menu_1p_entries);
             }
             ((TWindowMainMenu1P *)arg0)->create_char_select_slot();
             this->vfunc_7();

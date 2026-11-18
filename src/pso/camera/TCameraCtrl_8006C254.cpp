@@ -34,8 +34,8 @@ void *TCameraCtrl__vt5(void);
 
 }
 
-extern s32 TCameraCtrl__saved_projection_angle;
-extern s32 scripted_camera_projection_angle;
+s32 TCameraCtrl__saved_projection_angle;
+s32 scripted_camera_projection_angle;
 
 #pragma push
 #pragma opt_common_subs off

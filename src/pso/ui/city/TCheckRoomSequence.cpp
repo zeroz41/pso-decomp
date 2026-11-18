@@ -165,6 +165,8 @@ public:
     void sub_8020F1DC();
     void set_quest_list_mode_19(void *);
     void open_delete_item_window(void *);
+    static void reset_slot_state();
+    static void reset_slots();
 };
 typedef void (TCheckRoomSequence::*Fn_802102D0)();
 
@@ -199,8 +201,6 @@ extern s32 lbl_805D6160;
 extern s32 TCheckRoomSequence__error_return_text_id;
 extern s32 TCheckRoomSequence__error_return_state;
 extern s32 TCheckRoomSequence__active_instance;
-void reset_slot_state__18TCheckRoomSequenceFv(void);
-void reset_slots__18TCheckRoomSequenceFv(void);
 void finish_room_check__18TCheckRoomSequenceFPv(u8 *arg0);
 s32 sub_802239EC__13TShopSequenceFv(void *);
 void handle_error_ack__18TCheckRoomSequenceFPv(u8 *arg0);
@@ -849,7 +849,7 @@ void *TCheckRoomSequence__ct(void *arg0, s32 arg1, s32 arg2_) {
 
 #pragma push
 #pragma optimization_level 1
-void reset_slot_state__18TCheckRoomSequenceFv(void) {
+void TCheckRoomSequence::reset_slot_state() {
     lbl_805D6160 = 0;
     TCheckRoomSequence__error_return_text_id = 0;
     TCheckRoomSequence__error_return_state = 0;
@@ -862,7 +862,7 @@ void reset_slot_state__18TCheckRoomSequenceFv(void) {
 
 #pragma push
 #pragma optimization_level 1
-void reset_slots__18TCheckRoomSequenceFv(void) {
+void TCheckRoomSequence::reset_slots() {
     lbl_805D6160 = 0;
     TCheckRoomSequence__error_return_text_id = 0;
     TCheckRoomSequence__error_return_state = 0;

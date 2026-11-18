@@ -96,16 +96,25 @@ void *__dt__13TShopSequenceFv(void *arg0, s16 arg1);
 s32 sub_8022397C__15TShopWindowBaseFv(void *);
 s32 __dl__7TObjectFPv(void *);
 extern RecoveredGlobal_80213CCC_lbl_804C9740 __vt__28THunterGuildSeqOnline_Client;
-struct RecoveredGlobal_lbl_80513E70 { s32 value; u8 remaining[0xC]; };
-extern RecoveredGlobal_lbl_80513E70 lbl_80513E70;
+// Online quest download state, read by TQuestListOnline (THunterGuildSeqOnlineTask.cpp).
+u8 TQuestListOnline__dat_download_state[0x3C];
+u8 TQuestListOnline__bin_download_state[0x3C];
+// Per-player slot flags, set by each class's ctor and cleared by its dtor
+// (same pattern as THunterGuildSeqOffline__instance_table).
+s32 THunterGuildSeqOnline_Server__instance_table[4];
+s32 THunterGuildSeqOnline_Client__instance_table[4];
+u8 *TQuestListOnline__quest_list_buffer;
+u8 *TQuestListOnline__selected_quest_info;
+int TQuestListOnline__bin_download_complete;
+int TQuestListOnline__dat_download_complete;
+u32 TQuestListOnline__download_window;
+u32 TQuestListOnline__quest_info_window;
+void *TQuestListOnline__download_barrier_window;
+s32 quest_download_active;
+s32 quest_download_received_bytes;
+s32 quest_download_graph_current_bytes;
 extern s32 hunter_guild_seq_online_client_instance;
-extern RecoveredGlobal_lbl_80513E70 lbl_80513E70;
-extern RecoveredGlobal_lbl_80513E70 lbl_80513E70;
 u8 *TShopSequence__ct(u8 *);
-s32 sub_8022397C__15TShopWindowBaseFv(void *);
-extern RecoveredGlobal_80213CCC_lbl_804C9740 __vt__28THunterGuildSeqOnline_Client;
-extern RecoveredGlobal_lbl_80513E70 lbl_80513E70;
-extern s32 hunter_guild_seq_online_client_instance;
 Seq_80213D84 *THunterGuildSeqOnline_Client__ct(Seq_80213D84 *arg0, s32 arg1, s32 arg2);
 void THunterGuildSeqOffline__sub_80213BE0(Seq_80213BE0 *arg0);
 int is_quest_active(void);
@@ -229,13 +238,13 @@ void THunterGuildSeqOffline__sub_80213BE0(Seq_80213BE0 *shop_sequence) {
 
 void THunterGuildSeqOffline::clear_slots() {
     s32 i;
-    for (i = 0; i < 4; i++) ((s32 *)&lbl_80513E70)[i] = 0;
+    for (i = 0; i < 4; i++) THunterGuildSeqOnline_Client__instance_table[i] = 0;
 }
 
 void THunterGuildSeqOffline__sub_80213CA4(void) {
     s32 i;
     for (i = 0; i < 4; i++) {
-        ((s32 *)&lbl_80513E70)[i] = 0;
+        THunterGuildSeqOnline_Client__instance_table[i] = 0;
     }
 }
 
@@ -255,7 +264,7 @@ u8 *__dt__28THunterGuildSeqOnline_ClientFv(u8 *shop_sequence, s16 arg1) {
             ((TWindowBase *)temp_r3_2)->close();
             *(u32 *)((s8 *)shop_sequence + 0x3C) = 0U;
         }
-        *(s32 *)((s8 *)&lbl_80513E70.value + (sub_8022397C__15TShopWindowBaseFv(shop_sequence) * 4)) = 0;
+        THunterGuildSeqOnline_Client__instance_table[sub_8022397C__15TShopWindowBaseFv(shop_sequence)] = 0;
         hunter_guild_seq_online_client_instance = 0;
         __dt__13TShopSequenceFv((shop_sequence), 0);
         if (arg1 > 0) {
@@ -283,7 +292,7 @@ Seq_80213D84 *THunterGuildSeqOnline_Client__ct(Seq_80213D84 *shop_window_base, s
     {
         s32 idx = sub_8022397C__15TShopWindowBaseFv(shop_window_base);
         (*(void * *)&hunter_guild_seq_online_client_instance) = shop_window_base;
-        ((s32 *)&lbl_80513E70)[idx] = one;
+        THunterGuildSeqOnline_Client__instance_table[idx] = one;
     }
     return shop_window_base;
 }
@@ -310,6 +319,7 @@ struct VObj_80213E64_80213E38 : Base_80213E64_80213E38 {
 void set_random_enemies_mode(void) { TLobby::set_enemy_mode_flag(); evt2_random_enemies_mode = 2; TKeyBoardControl__sub_8000F950(); }
 
 struct VObj_80213E64_80213E38 *offline_quest_list_vm;
+s32 hunter_guild_seq_online_client_instance;
 extern "C" {
 
 void THunterGuildSeqOffline__sub_80213E64(void) {
@@ -747,15 +757,7 @@ s32 sub_8022397C__15TShopWindowBaseFv(void *);
 s32 __dl__7TObjectFPv(void *);
 struct RecoveredGlobal_lbl_804C97F0 { s32 value; u8 remaining[0x34]; };
 extern RecoveredGlobal_lbl_804C97F0 lbl_804C97F0;
-struct RecoveredGlobal_lbl_80513E60 { s32 value; u8 remaining[0xC]; };
-extern RecoveredGlobal_lbl_80513E60 lbl_80513E60;
-
-extern RecoveredGlobal_lbl_80513E60 lbl_80513E60;
-extern RecoveredGlobal_lbl_80513E60 lbl_80513E60;
 u8 *TShopSequence__ct(u8 *);
-s32 sub_8022397C__15TShopWindowBaseFv(void *);
-extern RecoveredGlobal_lbl_804C97F0 lbl_804C97F0;
-extern RecoveredGlobal_lbl_80513E60 lbl_80513E60;
 
 Seq_80214B3C *THunterGuildSeqOffline__sub_80214B3C(Seq_80214B3C *arg0, s32 arg1, s32 arg2);
 
@@ -782,14 +784,14 @@ void dispatch_state__22THunterGuildSeqOfflineFPv(Seq_80214978 *shop_sequence) {
 void THunterGuildSeqOffline::clear_slot_flags() {
     s32 i;
     for (i = 0; i < 4; i++) {
-        ((s32 *)&lbl_80513E60)[i] = 0;
+        THunterGuildSeqOnline_Server__instance_table[i] = 0;
     }
 }
 
 void THunterGuildSeqOffline::zero_four_slots() {
     s32 i;
     for (i = 0; i < 4; i++) {
-        ((s32 *)&lbl_80513E60)[i] = 0;
+        THunterGuildSeqOnline_Server__instance_table[i] = 0;
     }
 }
 
@@ -809,7 +811,7 @@ u8 *__dt__28THunterGuildSeqOnline_ServerFv(u8 *shop_sequence, s16 arg1) {
             ((TWindowBase *)temp_r3_2)->close();
             *(u32 *)((s8 *)shop_sequence + 0x38) = 0U;
         }
-        *(s32 *)((s8 *)&lbl_80513E60.value + (sub_8022397C__15TShopWindowBaseFv(shop_sequence) * 4)) = 0;
+        THunterGuildSeqOnline_Server__instance_table[sub_8022397C__15TShopWindowBaseFv(shop_sequence)] = 0;
         offline_quest_list_vm = 0;
         __dt__13TShopSequenceFv((shop_sequence), 0);
         if (arg1 > 0) {
@@ -836,7 +838,7 @@ Seq_80214B3C *THunterGuildSeqOffline__sub_80214B3C(Seq_80214B3C *shop_window_bas
     {
         s32 idx = sub_8022397C__15TShopWindowBaseFv(shop_window_base);
         (*(void * *)&offline_quest_list_vm) = shop_window_base;
-        ((s32 *)&lbl_80513E60)[idx] = one;
+        THunterGuildSeqOnline_Server__instance_table[idx] = one;
     }
     return shop_window_base;
 }
@@ -845,5 +847,3 @@ Seq_80214B3C *THunterGuildSeqOffline__sub_80214B3C(Seq_80214B3C *shop_window_bas
 }
 
 
-
-s32 hunter_guild_seq_online_client_instance;

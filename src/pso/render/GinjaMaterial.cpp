@@ -8,6 +8,8 @@
 #include "types.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/enemy/stelth/TObjEneMe3Stelth_803DC82C.h"
+#include "pso/player/TObjPlayer_803DC834.h"
+#include "pso/unk/text_803DC86C.h"
 
 #pragma scheduling off
 #pragma scheduling off
@@ -24,8 +26,6 @@ struct S_803DBB38 { u8 pad[0x68]; C_803DBB38 c; };
 struct C_803DBAF8 { u8 r, g, b, a; };
 
 struct S_803DBAF8 { u8 pad[0x64]; C_803DBAF8 c; };
-
-struct GinjaTevCache { u8 reserved[0x75]; u8 stageOffset; };
 
 struct G_803DBC1C { u8 pad[0x7C]; u32 f7c; u32 f80; u32 f84; u32 f88; };
 
@@ -63,13 +63,11 @@ s32 GXClearVtxDesc();
 void GXSetZMode(u8, s32, s32);
 void GXSetZCompLoc(s32);
 void GXSetBlendMode(s32, s32, s32, s32);
-extern RecoveredCallback_d26337a2813d ginja_draw_end_callback;
 extern u32 ginja_draw_flags;
 extern u32 model_render_flags;
 void queue_model_draw_matrix(s32, s32);
 extern s32 current_matrix;
 extern S_803DB560 ginja_material_cache;
-extern u32 ginja_blend_override;
 void GXSetAlphaCompare(s32 comp0, s32 ref0, s32 op, s32 comp1, s32 ref1);
 extern s32 ginja_texcoord_ids[];
 extern s32 ginja_texmap_ids[];
@@ -85,11 +83,9 @@ void set_ginja_vertex_arrays(Arr_803DC3BC *arg0);
 void apply_ginja_material_params(GinjaDrawRecord *);
 extern "C" {
 s32 GXCallDisplayList(void *, u32);
-extern u32 ginja_draw_list_state, ginja_draw_flags;
-extern s32 ginja_draw_list_mask;
+extern u32 ginja_draw_flags;
 void GXSetTexCoordGen2(s32 dst, u32 func, u32 src, s32 mtx, s32 normalize, s32 pt);
 extern s32 ginja_texture_matrix_ids[];
-extern s32 ginja_texcoord_gen_enabled;
 void PSMTXConcat(void *, void *, void *);
 void PSMTXTranspose(void *, void *);
 void PSMTXInverse(void *, void *);
@@ -108,12 +104,20 @@ extern s32 gx_chan_ctrl_light_mask;
 void GXSetNumChans(u8);
 void GXSetNumTexGens(u8);
 void GXSetNumTevStages(u8);
-extern RecoveredCallback_bfe74032a8e8 ginja_pre_channel_callback;
-extern RecoveredCallback_bfe74032a8e8 ginja_pre_texgen_callback;
-extern RecoveredCallback_bfe74032a8e8 ginja_pre_tev_callback;
-extern RecoveredCallback_b52dc2a08a00 ginja_post_channel_callback;
-extern RecoveredCallback_b52dc2a08a00 ginja_post_texgen_callback;
-extern RecoveredCallback_b52dc2a08a00 ginja_post_tev_callback;
+
+u32 ginja_blend_override = 0x250F;
+
+s32 lbl_805D76E0;
+RecoveredCallback_d26337a2813d ginja_draw_end_callback;
+RecoveredCallback_bfe74032a8e8 ginja_pre_channel_callback;
+RecoveredCallback_bfe74032a8e8 ginja_pre_texgen_callback;
+RecoveredCallback_bfe74032a8e8 ginja_pre_tev_callback;
+RecoveredCallback_b52dc2a08a00 ginja_post_channel_callback;
+RecoveredCallback_b52dc2a08a00 ginja_post_texgen_callback;
+RecoveredCallback_b52dc2a08a00 ginja_post_tev_callback;
+s32 ginja_texcoord_gen_enabled;
+u32 ginja_draw_list_state;
+s32 ginja_draw_list_mask;
 
 GinjaMaterialCache ginja_material_cache;
 
@@ -339,7 +343,7 @@ void ginja_load_texture_slot(u32 arg0) {
 void set_ginja_tev_order(u32 parameter) {
     u32 selectedStage = (parameter & 0xF000) >> 12;
     if ((u32)model_render_flags & 0x80000)
-        selectedStage += (*(GinjaTevCache *)&ginja_material_cache).stageOffset;
+        selectedStage += ginja_material_cache.tev_stage_offset;
     s32 stage = selectedStage;
     s32 coordinate = ginja_texcoord_ids[(parameter & 0xF00) >> 8];
     s32 texture = ginja_texmap_ids[(parameter & 0xF0) >> 4];
@@ -685,3 +689,35 @@ s32 ginja_texture_matrix_ids[11] = {
 void set_ginja_draw_list_mask(s32 arg0) {
     ginja_draw_list_mask = arg0;
 }
+
+void TObjPlayer::set_global_effect_state(s32 arg0) {
+    lbl_805D76E0 = arg0;
+}
+
+#pragma push
+#pragma scheduling off
+#pragma peephole off
+void set_ginja_post_texgen_count(s32 x) {
+    ginja_material_cache.post_texgen_count = (u8)x;
+}
+#pragma pop
+
+#pragma push
+#pragma scheduling off
+#pragma peephole off
+void set_ginja_post_tev_stage_count(s32 x) {
+    ginja_material_cache.post_tev_stage_count = (u8)x;
+}
+#pragma pop
+
+void set_ginja_draw_end_callback(s32 arg0) {
+    ginja_draw_end_callback = (RecoveredCallback_d26337a2813d)arg0;
+}
+
+#pragma push
+#pragma scheduling off
+#pragma peephole off
+void set_color_blend_mode(s32 a, s32 b, s32 c, s32 d) {
+    ginja_blend_override = (a << 14) | (b << 11) | (c << 8) | d;
+}
+#pragma pop
