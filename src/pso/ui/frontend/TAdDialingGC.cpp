@@ -61,9 +61,6 @@ int sprintf(char *, const char *, ...);
 }
 
 extern "C" {
-u8 * __dt__7TObjectFv(void *, s16);
-void __dl__7TObjectFPv(s32);
-u8 *__dt__12TAdDialingGCFv(u8 *arg0, s16 arg1);
 s32 update_dial_state__12TAdDialingGCFv();
 s32 update_state__12TAdDialingGCFv();
 s32 update_dial_state__12TAdDialingGCFl();
@@ -91,18 +88,9 @@ TAdDialingGC::TAdDialingGC(TObject *parent) : TObject(parent) {
     this->m_a4 = 0;
 }
 
-extern s32 __vt__12TAdDialingGC[];
 extern "C" {
-u8 *__dt__12TAdDialingGCFv(u8 *object, s16 arg1) {
-    if (object != NULL) {
-        *(s32 **)((s8 *)object + 0x18) = __vt__12TAdDialingGC;
-        TAdDialingGC__instance = 0;
-        __dt__7TObjectFv(object, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv((s32) object);
-        }
-    }
-    return object;
+TAdDialingGC::~TAdDialingGC() {
+    TAdDialingGC__instance = 0;
 }
 
 void TAdDialingGC::run_task() {
