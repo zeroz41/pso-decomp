@@ -3,13 +3,26 @@
 #include "types.h"
 #include "pso/unk/TUnk_80488A28.h"
 
+// One per split-screen view; the constructor clears all four with TCameraCtrl__sub_8006E804.
+struct FollowCameraSlot {
+    f32 m_0[6];
+    s32 m_18;
+};
+
 class TUnk_80488E00 : public TUnk_80488A28 {
 public:
+    TUnk_80488E00();
     virtual ~TUnk_80488E00();
+    virtual void run_task();
     s32 sub_8006E7FC();
     void sub_8006DCC8();
     void sub_8006CF38();
     s32 sub_8006CDD0();
+    s32 is_flag_set();
+    void rotate_heading_by_stick();
+    void update_follow_motion_state();
+    void calc_follow_position();
+    void compute_follow_target();
     virtual void update_follow_flags();
     virtual void select_follow_camera_offsets();
     virtual void vfunc_14(s32);
@@ -18,13 +31,18 @@ public:
     virtual void vfunc_10();
     virtual void vfunc_8(void *);
     virtual void vfunc_6();
-    u8 unk_6C[0x7C];
+    FollowCameraSlot slots[4];
+    // inferred: calc_follow_position puts the camera at the actor plus this, turned by yaw
+    Vec eye_offset;
     f32 m_e8;
-    u8 unk_EC[0x4];
+    f32 m_ec;
     f32 m_f0;
-    u8 unk_F4[0x8];
+    s32 m_f4;
+    s32 m_f8;
     s32 m_fc;
-    u8 unk_100[0xC];
+    s32 m_100;
+    s32 m_104;
+    f32 m_108;
     s32 m_10c;
 };
 typedef char TUnk_80488E00_size[sizeof(TUnk_80488E00) == 0x110 ? 1 : -1];

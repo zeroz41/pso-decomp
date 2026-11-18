@@ -746,6 +746,7 @@ pso/camera/TCameraCtrl_80067654.cpp:
 pso/unk/TUnk_804887F8.cpp:
 	.text       start:0x8006782C end:0x80067CE8
 	.rodata     start:0x80438150 end:0x80438168
+	.data       start:0x804887F8 end:0x80488838
 	.sdata2     start:0x805D8F38 end:0x805D8F64
 
 pso/unk/TUnk_80488838.cpp:
@@ -765,6 +766,7 @@ pso/camera/TCameraCtrl.cpp:
 	.data       start:0x80488A58 end:0x80488AD8
 	.bss        start:0x804FF5E8 end:0x804FF7C0
 	.sdata      start:0x805D2838 end:0x805D2840
+	.sbss       start:0x805D4DE8 end:0x805D4E10
 	.sdata2     start:0x805D8FA8 end:0x805D8FF8
 
 pso/camera/TCameraCtrl_8006B3D8.cpp:
@@ -789,6 +791,7 @@ pso/camera/TCameraCtrl_8006C254.cpp:
 	.rodata     start:0x804383F0 end:0x804383F8
 	.data       start:0x80488B68 end:0x80488B98
 	.bss        start:0x804FF7C0 end:0x804FF800
+	.sbss       start:0x805D4E18 end:0x805D4E20
 	.sdata2     start:0x805D9028 end:0x805D9034
 
 pso/camera/TCameraCtrl_8006C7C4.cpp:
@@ -806,8 +809,9 @@ pso/unk/TUnk_80488DA0.cpp:
 pso/camera/TCameraCtrl_8006CC30.cpp:
 	.text       start:0x8006CCEC end:0x8006E82C
 	.rodata     start:0x80438528 end:0x80438548
-	.data       start:0x80488DD0 end:0x80488E00
+	.data       start:0x80488DD0 end:0x80488E40
 	.sdata      start:0x805D2840 end:0x805D2848
+	.sbss       start:0x805D4E20 end:0x805D4E28
 	.sdata2     start:0x805D9050 end:0x805D90B8
 
 pso/unk/text_8006E82C.cpp:

@@ -5,10 +5,12 @@
 
 class TUnk_804887F8 : public TUnk_80488E00 {
 public:
+    TUnk_804887F8();
     virtual ~TUnk_804887F8();
+    virtual void run_task();
     virtual void update_follow_flags();
-    void*init();
-    u8 unk_110[0x4];
+    void update_target_follow();
+    s32 m_110;
     int m_114;
     u8 unk_118[0x18];
 };

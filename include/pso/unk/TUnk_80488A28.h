@@ -16,7 +16,7 @@ public:
     virtual void vfunc_10();
     virtual void post_update_view();
     virtual void run_task();
-    u8 unk_1C[0x4];
+    u32 actor; // inferred: set_target stores the followed object and m_20 its entity id
     u16 m_20;
     u8 unk_22[0x2];
     s32 m_24;

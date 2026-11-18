@@ -78,8 +78,6 @@ struct TCameraCtrl : public TObject {
     // Frames of screen shake left (set_shake_preset, update_shake).
     u32 shake_timer;
     static s32 get_camera_mode();
-    void update_target_follow();
-    void init_state();
     void*get_target_ptr();
     static void copy_vec_to_default(u8 *arg0);
     static void sync_split_view_slots(s32 arg0, s32 arg1);
@@ -118,13 +116,7 @@ struct TCameraCtrl : public TObject {
     static void set_override_position_and_angle(u8 *arg0, s16 arg1);
     static void set_fixed_position_and_target(u8 *arg0, u8 *arg1);
     void set_pos_target(void *arg1, void *arg2, s32 arg3);
-    void rotate_heading_by_stick();
     static void set_active_camera_flag();
-    void calc_follow_position();
-    void compute_follow_target();
-    void update_follow_camera();
-    void *deleting_dtor(s16 arg1);
-    static void *construct_view_controller(void *arg0);
     s32 set_field_100(s32 v);
     static short get_screen_width();
     static short get_screen_height();
@@ -159,7 +151,6 @@ struct TCameraCtrl : public TObject {
     static s32 clamp_distance(s32 arg0, s32 arg1, s32 arg2);
     static void free_entries();
     static void load_camera_banks();
-    void update_follow_motion_state();
     static s32 init_projection_state();
     static void set_target(int a0, int a1);
 };

@@ -1,6 +1,5 @@
 #include "types.h"
 #include "pso/unk/TUnk_80488A28.h"
-#include "pso/camera/TCameraCtrl_8006782C.h"
 #include "pso/system/vector.h"
 #include "pso/unk/TUnk_804887F8.h"
 #include "pso/unk/TUnk_80488E00.h"
@@ -18,7 +17,6 @@ extern "C" {
 f32 vector_length(void *);
 extern u8 *camera_ctrl_instance;
 void normalize_vector(void *);
-void __dl__7TObjectFPv(void *);
 s32 is_on_current_screen__11TCameraCtrlFv(void *, s32);
 s16 get_entity_id(u32);
 
@@ -31,7 +29,7 @@ void TUnk_80488A28::set_target(u32 arg1) {
 
 #pragma push
 #pragma fp_contract on
-void TCameraCtrl::update_target_follow() {
+void TUnk_804887F8::update_target_follow() {
 #define arg0 ((u8 *)this)
     Vec stack;
     f32 temp_f1;
@@ -111,39 +109,31 @@ void TUnk_804887F8::update_follow_flags() {
 }
 
 void *TCameraCtrl__vt12(void) {
-    void *o = TObject::operator new(0x130);
-    if (o != NULL) {
-        o = ((TUnk_804887F8 *)o)->init();
-    }
+    void *o;
+    o = new TUnk_804887F8();
     return o;
 }
 
 extern u8 controller_input_state[];
 
-void TCameraCtrl::init_state() {
-    *(s32 *)&this->unk_38 = 0x15;
+void TUnk_804887F8::run_task() {
+    m_38 = 0x15;
     if (is_on_current_screen__11TCameraCtrlFv(controller_input_state + 0x20, 0x10000) != 0) {
-        update_follow_camera();
+        TUnk_80488E00::run_task();
     } else {
         update_target_follow();
     }
-    *(s32 *)&this->unk_38 = (s32) (*(s32 *)&this->unk_38 | 0x10);
+    m_38 = (s32) (m_38 | 0x10);
 }
 
-extern s32 lbl_804887F8[];
+TUnk_804887F8::~TUnk_804887F8() {}
 
-void *__dt__13TUnk_804887F8Fv(void *camera_ctrl, s16 arg1) {
-    if (camera_ctrl != NULL) {
-        *(s32 **)((s8 *)camera_ctrl + 0x18) = lbl_804887F8;
-        ((TCameraCtrl *)camera_ctrl)->deleting_dtor(0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(camera_ctrl);
-        }
-    }
-    return camera_ctrl;
+TUnk_804887F8::TUnk_804887F8() {
+    m_38 = 21;
+    m_58 = 0.65f;
+    m_114 = 0;
+    m_110 = 0;
 }
-
-void*TUnk_804887F8::init() { TCameraCtrl::construct_view_controller(this); *(int*)((char*)this + 0x18) = (int)lbl_804887F8; this->m_38 = 21; this->m_58 = 0.65f; this->m_114 = 0; (*(int *)((u8 *)this + 0x110)) = 0; return this; }
 
 void TUnk_80488E00::vfunc_14(s32 v) { this->m_10c = v; }
 
