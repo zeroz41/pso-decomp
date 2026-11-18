@@ -4873,16 +4873,12 @@ pso/object/quest/TObjQuestColA_80196FE4.cpp:
 pso/quest/TQuestThreadBoard.cpp:
 	.text       start:0x80197094 end:0x801970C0
 
-pso/ui/hud/TObjRaderIcon.cpp:
-	.text       start:0x801970C0 end:0x80197508
-	.data       start:0x804B88D8 end:0x804B8940
-	.sdata2     start:0x805DBF08 end:0x805DBF10
-
 pso/object/collision/TObjRaderCol.cpp:
-	.text       start:0x80197508 end:0x801977D4
-	.rodata     start:0x80445F30 end:0x80445F40
-	.data       start:0x804B8940 end:0x804B8974
-	.sdata      start:0x805D3410 end:0x805D3414
+	.text       start:0x801970C0 end:0x801977D4
+	.rodata     start:0x80445F30 end:0x80445F68
+	.data       start:0x804B88D8 end:0x804B8974
+	.sdata      start:0x805D3410 end:0x805D3420
+	.sdata2     start:0x805DBF08 end:0x805DBF10
 
 pso/object/ambient/TObjRain_801977D4.cpp:
 	.text       start:0x801977D4 end:0x80197998

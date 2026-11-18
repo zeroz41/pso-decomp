@@ -1729,7 +1729,6 @@ pso/object/quest/TObjQuestColBase.cpp
 pso/object/quest/TObjQuestColBase_80196BFC.cpp
 pso/object/quest/TObjQuestCol_80196B3C.cpp
 pso/object/collision/TObjRaderCol.cpp
-pso/ui/hud/TObjRaderIcon.cpp
 pso/object/ambient/TObjRain.cpp
 pso/object/ambient/TObjRainCtrl.cpp
 pso/object/ambient/TObjRainCtrl_80197CE8.cpp
