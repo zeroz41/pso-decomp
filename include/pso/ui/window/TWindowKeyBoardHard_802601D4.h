@@ -5,13 +5,13 @@
 
 struct TWindowKeyBoardHard;
 extern "C" {
-u8 *TWindowKeyBoardHard__ct(TWindowKeyBoardHard *arg0, s32 arg1);
+u8 *__ct__19TWindowKeyBoardHardFl(TWindowKeyBoardHard *arg0, s32 arg1);
 void *__dt__19TWindowKeyBoardHardFv(void *arg0, s16 arg1);
 }
 
 // --- C functions defined in TWindowKeyBoardHard_802601D4.cpp ---
 extern "C" {
-u8 *TWindowKeyBoardHard__ct(TWindowKeyBoardHard *window_key_board_hard, s32 arg1);
+u8 *__ct__19TWindowKeyBoardHardFl(TWindowKeyBoardHard *window_key_board_hard, s32 arg1);
 void *__dt__19TWindowKeyBoardHardFv(void *arg0, s16 arg1);
 }
 // --- end of C functions

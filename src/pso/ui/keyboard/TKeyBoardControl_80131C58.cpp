@@ -78,7 +78,7 @@ TKeyBoardControl *TKeyBoardControl__ct(TKeyBoardControl *self, TObject *parent, 
     ((TKeyBoardControl *)self->m_20)->set_flag62_bit8();
     o = TObject::operator new(0x74);
     if (o != NULL) {
-        o = TWindowKeyBoardHard__ct((TWindowKeyBoardHard *)o, self->m_20);
+        o = __ct__19TWindowKeyBoardHardFl((TWindowKeyBoardHard *)o, self->m_20);
     }
     self->m_24 = (u32)o;
     TKeyBoardControl__sub_8025EC04((u8 *)self->m_24);
