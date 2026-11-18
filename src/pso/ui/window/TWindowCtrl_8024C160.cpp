@@ -6,6 +6,7 @@
 #include "pso/unk/text_8030C340.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/window/TWindowCtrl.h"
+#include "pso/ui/window/TWindowBreakIn.h"
 #include "pso/object/TObjLuker.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/map/FloorArea.h"
@@ -52,7 +53,6 @@ struct TWindowCtrl_8024C308 {
 
 extern "C" {
 extern void *TWindowCtrl__active_window;
-void *__ct__14TWindowBreakInFv(void *);
 void *__ct__11TWindowChatFP7TObjectPv(void *, s32, void *);
 void *__ct__17TWindowCtrlPlayerFP7TObjectl(void *, void *, s32);
 extern const char *TWindowCtrl__name;
@@ -146,10 +146,7 @@ TWindowCtrl::TWindowCtrl(TObject *parent) : TObject(parent) {
     for (i = 0; i < 4; i++) {
         self->wins84[i] = NULL;
     }
-    p = TObject::operator new(0x60);
-    if (p != NULL) {
-        p = __ct__14TWindowBreakInFv(p);
-    }
+    p = new TWindowBreakIn();
     self->f2C = p;
     if (is_split_screen() == 0) {
         p = TObject::operator new(0x3C);
