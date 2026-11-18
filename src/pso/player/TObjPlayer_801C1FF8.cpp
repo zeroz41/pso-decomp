@@ -25,7 +25,7 @@ struct O_801C21D4 { u8 pad[0x3a1]; u8 id; u8 pad2[0x408 - 0x3a2]; u8 arr[1]; };
 struct S_801C20A4 { u16 f0; s16 f2; s32 f4; f32 f8; f32 fC; f32 f10; s32 f14; u8 f18[1]; };
 
 extern "C" {
-u8 TObjPlayer__sub_801C21C4(O_801C21C4 *self, s32 i);
+u8 get_record_byte_at(O_801C21C4 *self, s32 i);
 void is_slot_within_limit__10TObjPlayerFllUc(u8 id, s16 i, u8 v);
 void __destroy_arr(void *, void *, int, int);
 void __construct_array(void *, void *, void *, int, int);
@@ -46,11 +46,11 @@ void *TObjPlayer::init() {
     return this;
 }
 
-s32 TObjPlayer__sub_801C2044(s32 *arg0) {
+s32 is_field_0_positive(s32 *arg0) {
     return *arg0 > 0;
 }
 
-void* TObjPlayer__sub_801C2058(void* p) { return (char*)p + 0x8; }
+void* get_ptr_8(void* p) { return (char*)p + 0x8; }
 void TObjPlayer::set_field4(s32 v) { *(s32*)((char*)this + 0x4) = v; }
 Unk_801C2068::Unk_801C2068() {}
 Unk_801C2098::Unk_801C2098() { state = 0; }
@@ -68,12 +68,12 @@ S_801C20A4 *init_player_telepipe_record(S_801C20A4 *arg0) {
     return arg0;
 }
 
-void TObjPlayer__sub_801C210C(void* p, s32 v) { *(s32*)((char*)p + 0x0) = v; }
+void set_field_0_s32(void* p, s32 v) { *(s32*)((char*)p + 0x0) = v; }
 int TObjPlayer__sub_801C2114(void) { return 0; }
 u8 TObjPlayer::get_field_5() { return *(u8*)((char*)this + 0x5); }
 u8 TObjPlayer::get_byte_4() { return *(u8*)((char*)this + 0x4); }
-u8 TObjPlayer__sub_801C212C(void* p) { return *(u8*)((char*)p + 0x3); }
-u8 TObjPlayer__sub_801C2134(void* p) { return *(u8*)((char*)p + 0x2); }
+u8 get_byte_3(void* p) { return *(u8*)((char*)p + 0x3); }
+u8 get_byte_2(void* p) { return *(u8*)((char*)p + 0x2); }
 u8 TObjPlayer::get_team_id() { return *(u8*)((char*)this + 0x1); }
 u8 TObjPlayer::get_char_class() { return *(u8*)((char*)this + 0x0); }
 s32 get_level_row_exp_threshold(void* p) { return *(s32*)((char*)p + 0x8); }
@@ -96,11 +96,11 @@ u32 TObjPlayer::unpack_u32_lo() {
     return r;
 }
 
-u8 TObjPlayer__sub_801C21AC(void* p) { return *(u8*)((char*)p + 0x1ab); }
-u8 TObjPlayer__sub_801C21B4(void* p) { return *(u8*)((char*)p + 0x18f); }
-u8 TObjPlayer__sub_801C21BC(void* p) { return *(u8*)((char*)p + 0x173); }
+u8 get_byte_1ab(void* p) { return *(u8*)((char*)p + 0x1ab); }
+u8 get_byte_18f(void* p) { return *(u8*)((char*)p + 0x18f); }
+u8 get_byte_173(void* p) { return *(u8*)((char*)p + 0x173); }
 
-u8 TObjPlayer__sub_801C21C4(O_801C21C4 *self, s32 i) {
+u8 get_record_byte_at(O_801C21C4 *self, s32 i) {
     return self->recs[i].v;
 }
 
@@ -112,18 +112,18 @@ u8 TObjPlayer::get_slot_value_checked(s32 i) {
 }
 
 void*TObjPlayer::get_ptr_4() { return (char*)this + 0x4; }
-u8 TObjPlayer__sub_801C221C(void* p) { return *(u8*)((char*)p + 0x157); }
-u8 TObjPlayer__sub_801C2224(void* p) { return *(u8*)((char*)p + 0x13b); }
-u8 TObjPlayer__sub_801C222C(void* p) { return *(u8*)((char*)p + 0x11f); }
-u8 TObjPlayer__sub_801C2234(void* p) { return *(u8*)((char*)p + 0x103); }
-u8 TObjPlayer__sub_801C223C(void* p) { return *(u8*)((char*)p + 0xe7); }
-void TObjPlayer__sub_801C2244(void* p, s16 v) { *(s16*)((char*)p + 0x2) = v; }
+u8 get_byte_157(void* p) { return *(u8*)((char*)p + 0x157); }
+u8 get_byte_13b(void* p) { return *(u8*)((char*)p + 0x13b); }
+u8 get_byte_11f(void* p) { return *(u8*)((char*)p + 0x11f); }
+u8 get_byte_103(void* p) { return *(u8*)((char*)p + 0x103); }
+u8 get_byte_e7(void* p) { return *(u8*)((char*)p + 0xe7); }
+void set_field2_s16(void* p, s16 v) { *(s16*)((char*)p + 0x2) = v; }
 void*TObjPlayer::setup_ctrl() { fn_8035B00C(this); return this; }
 
 int TObjPlayer::check_flag_at_428() { return test_flags_any((s32 *)((char*)this + 0x428), 1); }
 void*TObjPlayer::get_sub_obj() { return (char*)this + 0x4; }
 void*TObjPlayer::get_char_data() { return (char*)this + 0xc; }
-s32 TObjPlayer__sub_801C22B4(void* p) { return *(s32*)((char*)p + 0x0); }
+s32 get_field_0_s32(void* p) { return *(s32*)((char*)p + 0x0); }
 void*TObjPlayer::init_char_data() { ((TObjPlayer *)((char*)this + 0x4))->clear_header_struct(); __ct__12TPlyCharDataFv((s32)((char*)this + 0xc)); __ct__8FlagWordFv(((char*)this + 0x428)); *(int*)(this) = 0; return this; }
 
 void *fn_801C2308(void *arg0, s16 arg1) {

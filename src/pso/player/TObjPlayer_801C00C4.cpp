@@ -10,9 +10,9 @@ struct O_801C0124 { u8 pad[0x48]; u8 arr[1]; };
 extern "C" {
 u8 TObjPlayer__sub_801C010C(O_801C010C *self, s16 i);
 u8 TObjPlayer__sub_801C0124(O_801C0124 *self, s16 i);
-int TObjPlayer__sub_801C210C(void*);
+int set_field_0_s32(void*);
 
-int TObjPlayer::forward_801C210C() { return TObjPlayer__sub_801C210C(this); }
+int TObjPlayer::forward_801C210C() { return set_field_0_s32(this); }
 
     extern int player_action_provider_selector;
 
