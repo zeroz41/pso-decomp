@@ -321,7 +321,6 @@ pso/boss/dragon/TObjBoss1Floor.cpp
 pso/boss/derolle/TObjBoss2CeilJunk.cpp
 pso/boss/derolle/TObjBoss2CeilJunk_8003A81C.cpp
 pso/boss/derolle/TObjBoss2CeilJunk_8003B07C.cpp
-pso/boss/derolle/TObjBoss2Dust.cpp
 pso/boss/derolle/TObjBoss2DustCtrl.cpp
 pso/boss/derolle/TObjBoss2RaftSplash.cpp
 pso/boss/derolle/TObjBoss2RaftSplash_8003B0A0.cpp

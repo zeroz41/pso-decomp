@@ -353,15 +353,12 @@ pso/boss/derolle/TObjBoss2CeilJunk_8003A81C.cpp:
 pso/unk/TLobby_8003A95C.cpp:
 	.text       start:0x8003A95C end:0x8003A9FC
 
-pso/boss/derolle/TObjBoss2Dust.cpp:
-	.text       start:0x8003A9FC end:0x8003AB00
-	.data       start:0x80483370 end:0x80483388
-
 pso/boss/derolle/TObjBoss2DustCtrl.cpp:
-	.text       start:0x8003AB00 end:0x8003AED4
-	.rodata     start:0x80435E68 end:0x80435E70
-	.data       start:0x80483388 end:0x804833A0
+	.text       start:0x8003A9FC end:0x8003AED4
+	.rodata     start:0x80435E40 end:0x80435E70
+	.data       start:0x80483370 end:0x804833A0
 	.bss        start:0x804FE9E8 end:0x804FEE68
+	.sdata      start:0x805D26F8 end:0x805D2700
 	.sbss       start:0x805D4BF0 end:0x805D4BF4
 
 pso/boss/derolle/TObjBoss2RaftSplash.cpp:
