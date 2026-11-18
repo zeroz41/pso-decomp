@@ -270,12 +270,10 @@ s32 forest_rel_filename_table[6] = { (s32)"SetDataTableOff.rel", (s32)"SetDataTa
 s32 get_floor_scene_table(s32 arg0);
 extern "C" {
 void reset_story_select__6TLobbyFv(void);
-int TLobby__sub_80207E24(void* p);
 void TLobby__sub_80207E44(void);
-int TLobby__sub_80207E48(void* p);
 s32 get_floor_map_selection(int, void *);
-int copy_table_entries__6TLobbyFUl(void*);
-int randomize_adventure_maps(void*);
+int copy_table_entries__6TLobbyFUl(void*, s32);
+void randomize_adventure_maps(void);
 
     extern int story_select_pending_state;
 void reset_story_select__6TLobbyFv(void) { TAdStorySelectGC::set_state((s32)((void*)0)); story_select_pending_state = -1; }
@@ -292,9 +290,9 @@ s32 TLobby::is_scene_ready() {
     }
     return 0;
 }
-int TLobby__sub_80207E24(void* p) { return copy_table_entries__6TLobbyFUl(p); }
+int TLobby__sub_80207E24(void* p, s32 size) { return copy_table_entries__6TLobbyFUl(p, size); }
 void TLobby__sub_80207E44(void) {  }
-int TLobby__sub_80207E48(void* p) { return randomize_adventure_maps(p); }
+void TLobby__sub_80207E48(void) { randomize_adventure_maps(); }
 }
 int TLobby::lookup_scene_object(void* p) { return ((int (*)(void*))get_floor_map_selection)(p); }
 s32 get_floor_scene_table(s32 arg0) {
@@ -308,10 +306,9 @@ s32 get_floor_scene_table(s32 arg0) {
 }
 extern "C" {
 
-int TLobby__sub_80207F10(void* p);
 
 int TLobby::reset_story_select(void* p) { return ((int (*)(void*))reset_story_select__6TLobbyFv)(p); }
-int TLobby__sub_80207F10(void* p) { return ((int (*)(void*))reset_story_select__6TLobbyFv)(p); }
+void TLobby__sub_80207F10(void) { reset_story_select__6TLobbyFv(); }
 }
 
 struct R_80207F30 { s16 a; s16 b; u16 c; };

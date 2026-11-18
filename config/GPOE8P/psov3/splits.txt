@@ -5003,6 +5003,7 @@ pso/camera/TCameraCtrl_801A2FE0.cpp:
 pso/unk/text_801A3014.cpp:
 	.text       start:0x801A3014 end:0x801A3B84
 	.rodata     start:0x804468F8 end:0x80446918
+	.data       start:0x804C1F68 end:0x804C20E8
 	.sbss       start:0x805D5CE0 end:0x805D5CE8
 
 pso/unk/TLobby_801A3B84.cpp:
@@ -5028,7 +5029,7 @@ pso/camera/TCameraCtrl_801A3C24.cpp:
 pso/unk/TLobby_801A3C48.cpp:
 	.text       start:0x801A3C48 end:0x801A4C90
 	.rodata     start:0x80446918 end:0x80446940
-	.data       start:0x804C2240 end:0x804C2298
+	.data       start:0x804C20E8 end:0x804C2298
 
 pso/ui/frontend/TAdDialingGC_801A4C90.cpp:
 	.text       start:0x801A4C90 end:0x801A4D30

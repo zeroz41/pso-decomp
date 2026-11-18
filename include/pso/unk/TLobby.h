@@ -424,7 +424,7 @@ struct TLobby : public TObject {
     static void start_challenge_countdown();
     static void set_retry_selection(s32 arg0);
     static void destroy_global();
-    int destroy_tombstone();
+    static void destroy_tombstone();
     void copy_struct(u8 *arg1);
     static void spawn_player_tombstones2();
     static void create_time_window2(void * _w0);
@@ -802,6 +802,7 @@ struct TLobby : public TObject {
     static void release_menu_font();
     static void load_font_texture();
     static void reset_state_byte();
+    static void reset_state(void *p);
     static s32 create_file_load_entry(s32 arg0, s32 arg1, u32 arg2, s32 arg3, void **arg4);
     static s32 request_file_read(s32 arg0, s32 arg1, s32 *arg2, void **arg3);
     static void reset_lobby_state();
