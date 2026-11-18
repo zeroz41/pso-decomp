@@ -21,6 +21,12 @@ typedef struct NetTransportParams {
 #ifdef __cplusplus
 extern "C" {
 #endif
+/* The start-up and shutdown hooks and the peer-secret lookup (NetAuthSecrets.c). */
+void TLobby__sub_803F7678(void);
+s32 TLobby__sub_803F767C(void);
+/* inferred: returns the secret ppp_auth_secrets holds for a peer name, or NULL */
+const char *TLobby__sub_803F7684(const char *name);
+
 void init_modem_buffer_config(void* config);
 struct PppAuthState;
 struct PppPapState;
@@ -37,21 +43,25 @@ s32 send_atx_command_mode(s32 mode);
 s32 get_net_params_and_size(NetTransportParams* out);
 s32 layout_net_params_buffer(u8* data, s32 size);
 s32 validate_and_store_net_params(NetTransportParams* params);
-extern s32 lbl_805D4800;
 void close_network_transport(void);
-s32 TLobby__sub_803F7684(void *lobby);
 void start_network_thread(void);
 u16 is_transport_connected(void);
 s32 recv_network_frame(u16 max_len, void *lobby, u16 *out_len);
 s32 send_network_frame(u16 len, u8 *src);
-void TLobby__sub_803F7678(void);
-s32 TLobby__sub_803F767C(void);
 struct NetThreadState;
 void TLobby__sub_803F79B0(struct NetThreadState *t);
 void TLobby__sub_803F808C(void);
 s32 TLobby__sub_803F811C(s16 *out);
+/* The stored start-up parameters (TLobby_803F86BC.c), one per NetTransportParams field. */
+extern s16 net_param_a;
+extern s16 net_param_b;
 extern u16 net_param_player_count;
 extern u16 net_param_room_count;
+extern s32 net_param_word_e;
+extern s32 net_param_word_f;
+extern s32 net_param_ring_buffer_size;
+extern u32 net_param_word_h;
+extern u32 net_param_word_i;
 extern u32 net_transport_buffer_ptr_a;
 extern u32 net_transport_buffer_ptr_b;
 #ifdef __cplusplus

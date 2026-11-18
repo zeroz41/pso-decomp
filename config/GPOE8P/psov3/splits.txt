@@ -5544,7 +5544,9 @@ pso/network/TProtocol_801DA140.cpp:
 
 pso/network/TProtocol_801DA240.cpp:
 	.text       start:0x801DA240 end:0x801DA7DC
-	.rodata     start:0x804495E8 end:0x80449610
+	.rodata     start:0x80449568 end:0x80449610
+	.sdata      start:0x805D3570 end:0x805D3580
+	.sbss       start:0x805D5E18 end:0x805D5E28
 
 pso/unk/TLobby_801DA7DC.cpp:
 	.text       start:0x801DA7DC end:0x801DAC6C
@@ -12412,8 +12414,14 @@ pso/network/NetworkInfoCodec.cpp:
 	.sdata      start:0x805D4710 end:0x805D47F0
 	.sbss       start:0x805D79E8 end:0x805D79F8
 
+pso/network/NetAuthSecrets.c:
+	.text       start:0x803F7678 end:0x803F76F0
+	.rodata     start:0x8047FD28 end:0x8047FD38
+	.data       start:0x804FD350 end:0x804FD360
+	.sdata2     start:0x805E1100 end:0x805E1108
+
 pso/network/NetworkTransport.c:
-	.text       start:0x803F7678 end:0x803F86BC
+	.text       start:0x803F76F0 end:0x803F86BC
 	.rodata     start:0x8047FD38 end:0x8047FDE0
 	.data       start:0x804FD360 end:0x804FD380
 	.bss        start:0x805A9008 end:0x805AEEB0
@@ -12424,7 +12432,8 @@ pso/network/NetworkTransport.c:
 pso/network/TLobby_803F86BC.c:
 	.text       start:0x803F86BC end:0x803F8E08
 	.bss        start:0x805AEEB0 end:0x805BE070
-	.sbss       start:0x805D7A58 end:0x805D7A5C
+	.sdata      start:0x805D47F8 end:0x805D4818
+	.sbss       start:0x805D7A40 end:0x805D7A5C
 
 pso/network/NetworkRuntime.c:
 	.text       start:0x803F8E08 end:0x803F97B8
@@ -12434,6 +12443,8 @@ pso/network/NetworkThreadRuntime.c:
 	.text       start:0x803F97B8 end:0x803FAEA0
 	.data       start:0x804FD380 end:0x804FD3A8
 	.bss        start:0x805BFEC0 end:0x805BFF68
+	.sdata      start:0x805D4818 end:0x805D4820
+	.sdata2     start:0x805E1150 end:0x805E1158
 
 pso/network/TLobby_803FAEA0.c:
 	.text       start:0x803FAEA0 end:0x803FC178
@@ -12441,6 +12452,7 @@ pso/network/TLobby_803FAEA0.c:
 
 pso/network/TLobby_803FC178.c:
 	.text       start:0x803FC178 end:0x803FCF44
+	.rodata     start:0x8047FDE0 end:0x8047FE18
 	.bss        start:0x805C0180 end:0x805C0310
 
 pso/network/TLobby_803FCF44.c:

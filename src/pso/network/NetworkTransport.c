@@ -39,8 +39,6 @@ typedef struct NetworkPacketBufferStorage {
 typedef char NetworkPacketBufferStorage_size[sizeof(NetworkPacketBufferStorage) == 0x4C18 ? 1 : -1];
 
 
-typedef struct E_803F7684 { u32 key; s32 val; } E_803F7684;
-
 
 typedef struct Q_803F7AF4 { s32 a; s32 b; } Q_803F7AF4;
 
@@ -72,13 +70,6 @@ s32 copy_default_and_get_state__23TAdSinglePlyChrSelectGCFv(void *self);
 void net_sleep_ms(s32);
 s32 TLobby__sub_80428094(s16);
 void modem_hangup(void);
-extern s16 lbl_805D47F8;
-extern s16 lbl_805D4804;
-extern s32 lbl_805D4808;
-extern s32 lbl_805D480C;
-extern s32 net_param_word_h;
-extern s32 net_param_word_i;
-extern E_803F7684 lbl_804FD350[];
 extern u8 run_net_thread_loop[];
 s16 TLobby__sub_803F96AC(void *);
 s16 TLobby__sub_803F9B94(void *, void *);
@@ -154,24 +145,6 @@ static const char modem_no_carrier_response[] = "NO CARRIER";
 static const char modem_no_dialtone_response[] = "NO DIALTONE";
 static const char modem_initialization_script[] = "send \"AT&FE0\\r\"\nwait \"OK\\r\\n\",3\nsend \"ATS0=1\\r\"\nwait \"OK\\r\\n\",3\nsend \"ATW2\\r\"\nwait \"OK\\r\\n\",3\nsend \"ATX3&C1&D2\\r\"\nwait \"OK\\r\\n\",3\n";
 static const char modem_dial_script[] = "dial \"%t\"\n";
-
-void TLobby__sub_803F7678(void) {
-
-}
-
-s32 TLobby__sub_803F767C(void) {
-    return 0;
-}
-
-s32 TLobby__sub_803F7684(void *lobby) {
-    E_803F7684 *p;
-    for (p = lbl_804FD350; p->key != 0; p++) {
-        if (NetCompareStrings((const char*)lobby, (const char*)p->key) == 0) {
-            return p->val;
-        }
-    }
-    return 0;
-}
 
 void TLobby__sub_803F76F0(void) {
 
@@ -747,13 +720,13 @@ s32 validate_and_store_net_params(NetTransportParams *params) {
     if ((e < 0x400) || (e > 0xFFFF)) {
         return -1;
     }
-    lbl_805D47F8 = params->a;
-    lbl_805D4804 = *(s16 *)((s8 *)raw + 2);
+    net_param_a = params->a;
+    net_param_b = *(s16 *)((s8 *)raw + 2);
     net_param_player_count = params->player_count;
     net_param_room_count = params->room_count;
-    lbl_805D4800 = params->e;
-    lbl_805D4808 = params->f;
-    lbl_805D480C = params->ring_buffer_size;
+    net_param_word_e = params->e;
+    net_param_word_f = params->f;
+    net_param_ring_buffer_size = params->ring_buffer_size;
     net_param_word_h = params->h;
     net_param_word_i = *(s32 *)((s8 *)raw + 0x18);
     return get_net_params_and_size((NetTransportParams *)(0));
@@ -768,17 +741,17 @@ s32 get_net_params_and_size(NetTransportParams *out) {
     if (out == NULL) {
         out = &local;
     }
-    out->a = lbl_805D47F8;
-    out->b = lbl_805D4804;
+    out->a = net_param_a;
+    out->b = net_param_b;
     out->player_count = net_param_player_count;
     players_size = net_param_player_count * 0x44;
     out->room_count = net_param_room_count;
     rooms_size = net_param_room_count * 0x544;
-    out->ring_buffer_size = lbl_805D480C;
+    out->ring_buffer_size = net_param_ring_buffer_size;
     total = players_size + rooms_size;
-    total += lbl_805D480C;
-    out->e = lbl_805D4800;
-    out->f = lbl_805D4808;
+    total += net_param_ring_buffer_size;
+    out->e = net_param_word_e;
+    out->f = net_param_word_f;
     out->h = net_param_word_h;
     out->i = net_param_word_i;
     total += TLobby__sub_803F8D24(out);

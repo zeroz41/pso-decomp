@@ -268,11 +268,11 @@ void TLobby__sub_803FC728(Conn_804004DC *c) {
 
     if (chap->active != 0) {
         if (c->retries != 0) {
-            chap->msg = (void *)lbl_8047FDE0;
+            chap->msg = "Request timeout";
             TLobby__sub_803FE658((u8 *)c);
             return;
         }
-        chap->msg = (void *)lbl_8047FDF0;
+        chap->msg = "Request retry exceeded";
         sub = c->sub;
         update_connection_state((int)(sub + 0xA0));
         update_connection_state((int)(sub + 4));
@@ -367,7 +367,7 @@ extern s16 chap_recv_response(Conn_804004DC *c, u8 *hdr, int v) {
         *q = 0;
     }
     if (lbl_805D7A90 & 2) {
-        secret = (const char *)TLobby__sub_803F7684(name);
+        secret = TLobby__sub_803F7684((const char *)name);
         if (secret == NULL) {
             NetCopyString(lbl_805C02D0.p20, (const char *)&lbl_805E1168);
             reply = TLobby__sub_80401B20(lbl_805C02D0.p20, NetStringLength(lbl_805C02D0.p20));
@@ -391,7 +391,7 @@ extern s16 chap_recv_response(Conn_804004DC *c, u8 *hdr, int v) {
     MD5Update(&ctx, lbl_805C02D0.p8 + 1, lbl_805D7A9A);
     MD5Final((u8 *)lbl_805C02D0.p20, &ctx);
     if (NetMemcmp(lbl_805C02D0.p20, value, 0x10) == 0) {
-        NetCopyString(lbl_805C02D0.p20, (const char *)lbl_8047FE08);
+        NetCopyString(lbl_805C02D0.p20, "Wellcome!!");
         code = 3;
         ret = 0;
     } else if (lbl_805D7A90 & 2) {
@@ -399,7 +399,7 @@ extern s16 chap_recv_response(Conn_804004DC *c, u8 *hdr, int v) {
         code = 4;
         ret = -1;
     } else {
-        NetCopyString(lbl_805C02D0.p20, (const char *)lbl_8047FE08);
+        NetCopyString(lbl_805C02D0.p20, "Wellcome!!");
         code = 3;
         ret = 0;
     }

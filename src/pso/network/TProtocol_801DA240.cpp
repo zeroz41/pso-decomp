@@ -7,6 +7,16 @@ typedef char TradeAdvanceCallbackOffset[(offsetof(TProtocol, m_recv_handlers) + 
 typedef char TradeHeaderSize[sizeof(packet_header) == 4 ? 1 : -1];
 typedef char TradeStateOffset[offsetof(packet_header, flags) == 1 ? 1 : -1];
 
+/* TProtocol's globals. Its code is split over several files; this is the first whose data sits where these do (the
+ * strings ahead of its trade-list log formats in .rodata). */
+packet *server_packet;
+u32 new_ip_addr;
+u16 new_port;
+s32 TLobby__lobby_state_flags;
+const char *lobby_server_greeting_text = "DreamCast Lobby Server. Copyright SEGA Enterprises. 1999";
+const char *port_map_copyright = "DreamCast Port Map. Copyright SEGA Enterprises. 1999";
+OBJECT_NAME(TProtocol);
+
 struct Text_801DA240 { u32 hdr; char text[0x1000]; };
 struct Pkt_801DA5E4 { u32 hdr; u8 body[0x8D0]; };
 

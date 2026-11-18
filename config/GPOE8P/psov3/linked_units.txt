@@ -1559,6 +1559,7 @@ pso/network/NetworkInfoCodec.cpp
 pso/network/NetworkInfoLoader.cpp
 pso/network/NetworkMessageTransport.c
 pso/network/NetworkPacketRuntime.c
+pso/network/NetAuthSecrets.c
 pso/network/NetworkTransport.c
 pso/network/TGameProtocol.cpp
 pso/network/TProtocol.cpp

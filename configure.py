@@ -1425,11 +1425,15 @@ MIDDLEWARE: List[Tuple[str, int, str, List[str], Dict[str, Dict[str, Any]]]] = [
     # ACCESS AVE-TCP ("avetcp.a Ver.1.16.1 Oct 23 2002"); its PPP files were
     # built without common subexpression elimination.
     ("avetcp", 0x803F7678, "GC/1.2.5n", cflags_middleware, {
+        # -str reuse,readonly: the test account's literals sit in .sdata2 ("test", 805E1100) and .rodata ("hogehoge", 8047FD28).
+        "pso/network/NetAuthSecrets.c": {"cflags": _switch(cflags_middleware, "-str reuse,readonly")},
         "pso/network/TLobby_803F86BC.c": {"cflags": _switch(cflags_middleware, "-opt nocse")},
         "pso/network/NetworkRuntime.c": {"cflags": _switch(cflags_middleware, "-opt nocse")},
-        "pso/network/NetworkThreadRuntime.c": {"cflags": _switch(cflags_middleware, "-opt nocse")},
+        # -str reuse,readonly: its one string literal, the IPv6CP protocol name "IPv6cp", sits in .sdata2 (805E1150).
+        "pso/network/NetworkThreadRuntime.c": {"cflags": _switch(cflags_middleware, "-opt nocse", "-str reuse,readonly")},
         "pso/network/TLobby_803FAEA0.c": {"cflags": _switch(cflags_middleware, "-opt nocse")},
-        "pso/network/TLobby_803FC178.c": {"cflags": _switch(cflags_middleware, "-opt nocse")},
+        # -str reuse,readonly: CHAP's messages "Request timeout", "Request retry exceeded" and "Wellcome!!" sit in .rodata (8047FDE0).
+        "pso/network/TLobby_803FC178.c": {"cflags": _switch(cflags_middleware, "-opt nocse", "-str reuse,readonly")},
         "pso/network/TLobby_803FCF44.c": {"cflags": _switch(cflags_middleware, "-opt nocse")},
         "pso/network/NetPppLink.c": {"cflags": _switch(cflags_middleware, "-opt nocse")},
         "pso/network/PppFsm.c": {"cflags": _switch(cflags_middleware, "-opt nocse")},
