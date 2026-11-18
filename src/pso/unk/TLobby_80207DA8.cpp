@@ -546,13 +546,15 @@ void TLobby::load_item_data() {
     }
 }
 
-    extern int wave_event_stop_requested;
+s32 wave_event_stream_base;
+s32 wave_event_stream_cursor;
+int wave_event_stop_requested;
+s32 wave_event_trigger_count;
+s32 wave_event_first_switch_set;
 void TLobby::relink_objects() { link_matching_objects__6TLobbyFss(); wave_event_stop_requested = 1; }
 }
 extern s32 local_client_id;
-extern s32 wave_event_trigger_count;
 void send_6x67_wave_trigger_event(s32 arg0);
-extern s32 wave_event_first_switch_set;
 void send_6x05_wave_set_switch(s16 arg0);
 void send_6x05_wave_clear_switch(s32 arg0);
 void send_6x67_wave_trigger_event(s32 arg0) {
@@ -666,8 +668,6 @@ void TLobby::invoke_command(s32 arg0) {
 
 s32 memcpy(s32 *, s32, s32);
 }
-extern s32 wave_event_stream_base;
-extern s32 wave_event_stream_cursor;
 
 s32 read_be_u32(void) {
     s32 sp8;

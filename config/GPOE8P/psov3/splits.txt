@@ -2033,8 +2033,9 @@ pso/unk/text_800F8A78.cpp:
 
 pso/unk/TLobby_800F8AA8.cpp:
 	.text       start:0x800F8AA8 end:0x800F93B4
-	.rodata     start:0x8043D7A8 end:0x8043D984
+	.rodata     start:0x8043D7A8 end:0x8043D9FC
 	.data       start:0x80499A00 end:0x8049C658
+	.sbss       start:0x805D5338 end:0x805D5360
 	.sdata2     start:0x805DA918 end:0x805DA948
 
 pso/unk/text_800F93B4.cpp:
@@ -2110,7 +2111,7 @@ pso/unk/TLobby_800FA388.cpp:
 pso/unk/text_800FA464.cpp:
 	.text       start:0x800FA464 end:0x800FA73C
 	.rodata     start:0x8043DA10 end:0x8043DA20
-	.sbss       start:0x805D5380 end:0x805D5388
+	.sbss       start:0x805D5360 end:0x805D5388
 
 pso/unk/TLobby_800FA73C.cpp:
 	.text       start:0x800FA73C end:0x800FA774
@@ -3440,6 +3441,7 @@ pso/ui/frontend/TAdSubPlyItemGC.cpp:
 pso/ui/frontend/TAdSinglePlyChrSelectGC_80145778.cpp:
 	.text       start:0x80145750 end:0x80145A28
 	.bss        start:0x8050C040 end:0x8050C0A8
+	.sbss       start:0x805D56B0 end:0x805D56C8
 	.sdata2     start:0x805DB1A8 end:0x805DB1AC
 
 pso/ui/window/TWindowCtrl_80145A28.cpp:
@@ -3450,6 +3452,7 @@ pso/unk/text_80145A44.cpp:
 
 pso/unk/text_80145A94.cpp:
 	.text       start:0x80145A94 end:0x80146158
+	.sbss       start:0x805D56C8 end:0x805D56D8
 
 pso/ui/frontend/TAdExNetConfirmGC.cpp:
 	.text       start:0x80146158 end:0x8014618C
@@ -3463,6 +3466,7 @@ pso/unk/TLobby_801461EC.cpp:
 	.data       start:0x804A7808 end:0x804A7850
 	.bss        start:0x8050C0A8 end:0x8050CF68
 	.sdata      start:0x805D2D00 end:0x805D2D08
+	.sbss       start:0x805D56D8 end:0x805D5720
 	.sdata2     start:0x805DB1B0 end:0x805DB1B3
 
 pso/boss/darkfalz/TOBoss4Rock.cpp:
@@ -5967,7 +5971,7 @@ pso/unk/TLobby_80207DA8.cpp:
 	.rodata     start:0x8044BA50 end:0x8044BAC8
 	.data       start:0x804C8C60 end:0x804C93A8
 	.bss        start:0x805139F8 end:0x80513A40
-	.sbss       start:0x805D6068 end:0x805D6078
+	.sbss       start:0x805D6068 end:0x805D6090
 
 pso/map/TSetEvtDestroy.cpp:
 	.text       start:0x8020910C end:0x80209524
@@ -6414,6 +6418,7 @@ pso/unk/TLobby_80226070.cpp:
 	.rodata     start:0x8044C850 end:0x8044C858
 	.bss        start:0x805145F0 end:0x80514C60
 	.sdata      start:0x805D3708 end:0x805D3710
+	.sbss       start:0x805D6278 end:0x805D62D8
 	.sdata2     start:0x805DC740 end:0x805DC760
 
 pso/unk/TLobby_80226C3C.cpp:
@@ -6421,7 +6426,7 @@ pso/unk/TLobby_80226C3C.cpp:
 	.rodata     start:0x8044C860 end:0x8044C8D0
 	.data       start:0x804CB838 end:0x804CBE98
 	.bss        start:0x80514C60 end:0x80514F58
-	.sbss       start:0x805D62D8 end:0x805D62E0
+	.sbss       start:0x805D62D8 end:0x805D6338
 
 pso/unk/TLobby_80227A2C.cpp:
 	.text       start:0x80227A2C end:0x80227AA0

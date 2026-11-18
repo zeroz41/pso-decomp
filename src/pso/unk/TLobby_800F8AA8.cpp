@@ -22,13 +22,17 @@ s32 *lobby_checked_read_ptr_table[4] = { 0, 0, 0, 0 };
 s32 lbl_80499A10[4] = { 0, 0, 0, 0 };
 u32 lbl_80499A20[4] = { 0, 0, 0, 0 };
 u32 lbl_80499A30[4] = { 0, 0, 0, 0 };
-    extern unsigned char area_transfer_pending_flag;
-extern "C" u8 lbl_8043D984[];
-extern "C" u8 lbl_8043D9B8[];
-extern "C" u8 lbl_8043D9C4[];
-extern "C" u8 lbl_8043D9D0[];
-extern "C" u8 lbl_8043D9DC[];
-extern "C" u8 lbl_8043D9E8[];
+s32 disc_read_filename;
+u8 lobby_font_texture_loaded;
+s32 *pending_file_read_handle_ref;
+s32 pending_file_read_sector_count;
+u32 pending_file_read_destination;
+s32 pending_file_read_flush_requested;
+u32 main_phase_deferred_callback;
+s32 quest_download_server_ready;
+u8 lobby_state_byte_flag;
+u8 lobby_wait_ready_flag;
+u8 area_transfer_pending_flag;
 extern void *lbl_8049C5E0[15];
 char load_file_prc_buffer_tag[] = "MallocLoadFilePrc";
 typedef struct {
@@ -45,7 +49,7 @@ Msg_800F8FB8 TLobby__disk_error_msg_table[5] = {
     { "The Game Disc could not be read.\nPlease read the Nintendo GameCube Instruction\nBooklet for more information.", 80.0f, 230.0f },
 };
 void *TLobby__disk_error_msg_last[4] = {
-    (void *)&lbl_8043D984, (void *)0x43020000, (void *)0x43700000, (void *)0x0,
+    (void *)"Ths Disc Cover is open,\nconnection has been lost.", (void *)0x43020000, (void *)0x43700000, (void *)0x0,
 };
 void *lobby_font_texture_prs_data[2768] = {
     (void *)0x3f47564d, (void *)0x48c8001e, (void *)0xff0f0005, (void *)0xfefb6572,
@@ -742,10 +746,10 @@ void *lobby_font_texture_prs_data[2768] = {
     (void *)0xffaac0ff, (void *)0xffc0ffff, (void *)0xc0ffcf00, (void *)0x0,
 };
 void *lbl_8049C5E0[15] = {
-    (void *)&lbl_8043D9B8, (void *)0x0, (void *)0x0, (void *)&lbl_8043D9C4,
-    (void *)0x0, (void *)0x0, (void *)&lbl_8043D9D0, (void *)0x0,
-    (void *)0x0, (void *)&lbl_8043D9DC, (void *)0x0, (void *)0x0,
-    (void *)&lbl_8043D9E8, (void *)0x0, (void *)0x0,
+    (void *)"er_mes01", (void *)0x0, (void *)0x0, (void *)"er_mes02",
+    (void *)0x0, (void *)0x0, (void *)"er_mes03", (void *)0x0,
+    (void *)0x0, (void *)"er_mes04", (void *)0x0, (void *)0x0,
+    (void *)"er_mes05", (void *)0x0, (void *)0x0,
 };
 __declspec(section ".data") void *lbl_8049C61C[2] = {
     (void *)&lbl_8049C5E0, (void *)0x5,
@@ -753,7 +757,6 @@ __declspec(section ".data") void *lbl_8049C61C[2] = {
 
 void TLobby::reset_keyboard_state() { area_transfer_pending_flag = 0; TKeyBoardControl::reset(); }
 
-extern u32 main_phase_deferred_callback;
 
 void TLobby__sub_800F8AD0(void) {
     if ((u32) main_phase_deferred_callback != 0U) {
@@ -807,10 +810,6 @@ void TLobby::invoke_callback() {
 #undef main_phase_deferred_callback
 
 void TLobby::set_keyboard_mode(int a0) { (*(int *)&main_phase_deferred_callback) = a0; }
-extern s32 *pending_file_read_handle_ref;
-extern s32 pending_file_read_sector_count;
-extern u32 pending_file_read_destination;
-extern s32 pending_file_read_flush_requested;
 
 void TLobby::flush_pending() {
     u32 temp_r5;
@@ -864,9 +863,7 @@ void TLobby::set_entry_params(s32 arg1, s32 arg2, s32 arg3) {
 }
 
 #pragma push
-extern u8 lobby_font_texture_loaded;
 void release_texture_list(void *p);
-extern const char lbl_8043D9F4[];
 void *tmp_buf_use_req__6TLobbyFPCc(const char *);
 s32 load_gvm_texture_archive(void *, void *);
 
@@ -874,7 +871,6 @@ void TLobby::set_read_params(void *handle_ref, int sector_count, int destination
 
 void TLobby__sub_800F8DD8(void) { (*(int *)&pending_file_read_flush_requested) = 1; }
 
-    extern unsigned char lobby_state_byte_flag;
 
 void TLobby::draw_fullscreen_texture_quad() {
     f32 v[8];
@@ -899,12 +895,12 @@ void TLobby::release_menu_font() {
 }
 
 void TLobby::load_font_texture() {
-    void *file = tmp_buf_use_req__6TLobbyFPCc(lbl_8043D9F4);
+    void *file = tmp_buf_use_req__6TLobbyFPCc("FONT");
     if (file != 0) {
         s32 r;
         prs_decompress_buffer((s32)lobby_font_texture_prs_data, (s32)file);
         r = load_gvm_texture_archive(file, lbl_8049C61C);
-        TLobby::tmp_buf_release((const char *)lbl_8043D9F4);
+        TLobby::tmp_buf_release("FONT");
         lobby_font_texture_loaded = 1;
         if (r == -1) {
             lobby_font_texture_loaded = 0;
@@ -918,7 +914,6 @@ void TLobby__sub_800F8F34(void) { lobby_state_byte_flag = 1; }
 
 #pragma push
 
-extern u8 lobby_wait_ready_flag;
 
 void TLobby::reset_state_byte() {
     if ((u8) lobby_wait_ready_flag == 0) {

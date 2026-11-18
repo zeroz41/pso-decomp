@@ -28,10 +28,12 @@ typedef struct Glyph_80145804 {
 
 extern "C" {
 extern GinjaTextureList menu_font_texture_list[];
-extern s16 *lbl_805D56B4;
-extern Glyph_80145804 *menu_font_glyph_table;
-extern s32 menu_font_glyph_data;
-extern TObject *menu_font_object;
+s32 menu_font_glyph_data;
+s16 *lbl_805D56B4;
+s32 menu_font_upload_flags;
+Glyph_80145804 *menu_font_glyph_table;
+u8 lbl_805D56C0;
+TObject *menu_font_object;
 void draw_menu_font_string(const char *s, s32 arg1, u32 flags, f32 x, f32 y, f32 scale);
 
 void TAdSinglePlyChrSelectGC::render_status_disp(f32 arg1, f32 arg2) {
@@ -65,8 +67,6 @@ s32 set_stream_and_load_file__6TLobbyFi(void *);
 void set_texture_name(void *, void *, u32, u32);
 void load_texture_list(void *);
 extern u8 lbl_8043F3D8[];
-extern s32 menu_font_upload_flags;
-extern u8 lbl_805D56C0;
 __declspec(section ".data") u32 *menu_font_glyph_pixel_buffers[2];
 Rect_80145804 menu_font_render_rects[2];
 Tex_80145804 lbl_8050C090[2];
