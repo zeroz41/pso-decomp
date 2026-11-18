@@ -163,3 +163,5 @@ TAdMcCheckGC::TAdMcCheckGC(TObject *object, void *arg2) : TObject(object) {
     this->m_34 = 0;
     this->m_38 = 0;
 }
+
+s32 memcard_cursor_instance_table[2] = { 0, 0 };
