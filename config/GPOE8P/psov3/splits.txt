@@ -647,13 +647,10 @@ pso/boss/darkfalz/TBoss4Type3.cpp:
 pso/boss/darkfalz/TBoss4Zako.cpp:
 	.text       start:0x8005BABC end:0x8005D6F4
 	.rodata     start:0x80437898 end:0x804378C8
-	.data       start:0x804872E8 end:0x80487844
+	.data       start:0x804872E8 end:0x80487848
 	.sdata      start:0x805D27E8 end:0x805D27F8
 	.sbss       start:0x805D4D88 end:0x805D4D90
 	.sdata2     start:0x805D8CB8 end:0x805D8D48
-
-original_padding_80487844:
-	.data       start:0x80487844 end:0x80487848 align:4
 
 pso/boss/goldragon/TBoss8Dragon_8005D6F4.cpp:
 	.text       start:0x8005D6F4 end:0x8005D700
@@ -2848,19 +2845,13 @@ pso/weapon/TUnk_804A1F20.cpp:
 
 pso/weapon/SpecialProjectileWeapons.cpp:
 	.text       start:0x801240C0 end:0x80124760
-	.rodata     start:0x8043E940 end:0x8043E954
+	.rodata     start:0x8043E940 end:0x8043E958
 	.data       start:0x804A2018 end:0x804A2148
-
-original_padding_8043E954:
-	.rodata     start:0x8043E954 end:0x8043E958 align:4
 
 pso/weapon/SpecialProjectileWeapons_80124760.cpp:
 	.text       start:0x80124760 end:0x80124C90
 	.data       start:0x804A2148 end:0x804A2260
-	.sdata2     start:0x805DAD28 end:0x805DAD34
-
-original_padding_805DAD34:
-	.sdata2     start:0x805DAD34 end:0x805DAD38 align:4
+	.sdata2     start:0x805DAD28 end:0x805DAD38
 
 pso/weapon/TUnk_804A2260.cpp:
 	.text       start:0x80124C90 end:0x801251B4
@@ -3878,14 +3869,8 @@ pso/object/mine/TOCapsuleMachine01.cpp:
 pso/object/switch/TOChatSensorCapture.cpp:
 	.text       start:0x8015A8D8 end:0x8015ABD0
 	.data       start:0x804AFF78 end:0x804AFF90
-	.sdata      start:0x805D2EE0 end:0x805D2EE4
-	.sbss       start:0x805D58D8 end:0x805D58DC
-
-original_padding_805D58DC:
-	.sbss       start:0x805D58DC end:0x805D58E0 align:4
-
-original_padding_805D2EE4:
-	.sdata      start:0x805D2EE4 end:0x805D2EE8 align:4
+	.sdata      start:0x805D2EE0 end:0x805D2EE8
+	.sbss       start:0x805D58D8 end:0x805D58E0
 
 pso/unk/TLobby_8015ABD0.cpp:
 	.text       start:0x8015ABD0 end:0x8015ABD8
@@ -12028,13 +12013,10 @@ pso/unk/TLobby_803D4B68.cpp:
 pso/audio/GcrnaStream.cpp:
 	.text       start:0x803D4CA0 end:0x803D6140
 	.rodata     start:0x8047E220 end:0x8047E3C8
-	.data       start:0x804FA088 end:0x804FA4EC
+	.data       start:0x804FA088 end:0x804FA4F0
 	.bss        start:0x8058C0E0 end:0x8058C960
 	.sbss       start:0x805D7680 end:0x805D76A0
 	.sdata2     start:0x805E0DC8 end:0x805E0DCC
-
-original_padding_804FA4EC:
-	.data       start:0x804FA4EC end:0x804FA4F0 align:4
 
 pso/audio/GcrnaError.cpp:
 	.text       start:0x803D6140 end:0x803D6214
