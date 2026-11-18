@@ -404,7 +404,7 @@ Obj_8030095C *__ct__21TAdMultiSelGameModeGCFv(Obj_8030095C *self, s32 parent, s3
         p = __ct__13TAdGuideTxtGCFv(p, self);
     }
     self->f40 = p;
-    create_draw_line_ctrl__13TAdMcSelectGCFiif((s32)self, 0x10, 0.0f);
+    create_draw_line_ctrl((TObject *)self, 0x10, 0.0f);
     return self;
 }
 #pragma pool_data reset

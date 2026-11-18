@@ -36,28 +36,18 @@ pso/ui/frontend/TAdADXlogo.cpp:
 	.sdata2     start:0x805D7DD0 end:0x805D7DD8
 
 pso/system/task/TObject_80019A50.cpp:
-	.text       start:0x80019A60 end:0x80019B78
+	.text       start:0x80019A60 end:0x80019A8C
 
-pso/ui/frontend/TAdDrawLineCtrl_80019B78.cpp:
-	.text       start:0x80019B78 end:0x80019BD8
-
-pso/ui/frontend/TAdDrawLineCtrl.cpp:
-	.text       start:0x80019BD8 end:0x80019EB8
-	.rodata     start:0x804340D8 end:0x80434110
-	.data       start:0x80480908 end:0x80480920
+pso/ui/frontend/DrawLine.cpp:
+	.text       start:0x80019A8C end:0x8001A430
+	.rodata     start:0x804340D8 end:0x80434118
+	.data       start:0x80480908 end:0x80480938
+	.sdata      start:0x805D2608 end:0x805D2610
 	.sbss       start:0x805D49D8 end:0x805D49E0
-
-pso/ui/frontend/TAdDrawLineTask.cpp:
-	.text       start:0x80019EB8 end:0x8001A3BC
-	.rodata     start:0x80434110 end:0x80434118
-	.data       start:0x80480920 end:0x80480938
-	.sdata2     start:0x805D7DD8 end:0x805D7DDC
+	.sdata2     start:0x805D7DD8 end:0x805D7DE8
 
 pso/system/scene/EndingSceneTables.cpp:
 	.rodata     start:0x80434118 end:0x80434580
-
-pso/unk/text_8001A3BC.cpp:
-	.text       start:0x8001A3BC end:0x8001A430
 
 pso/system/task/TMainTask_8001A430.cpp:
 	.text       start:0x8001A430 end:0x8001A438

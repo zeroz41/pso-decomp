@@ -107,7 +107,7 @@ TAdTitleGC::TAdTitleGC(TObject *parent, s32 idx) : TObject(parent) {
         ((TAdTitleGC_802A0E08 *)this)->recs[i].c = 1.0f;
         ((TAdTitleGC_802A0E08 *)this)->recs[i].d = (4e+01f) * (f32)(((TAdTitleGC_802A0E08 *)this)->idx + off + 1) / 512.0f;
     }
-    ((TAdTitleGC_802A0E08 *)this)->f130 = (u32)create_draw_line_ctrl__13TAdMcSelectGCFiif((s32)((TAdTitleGC_802A0E08 *)this), 8, 0.0f);
+    ((TAdTitleGC_802A0E08 *)this)->f130 = (u32)create_draw_line_ctrl((TObject *)this, 8, 0.0f);
 }
 
 TAdTitleGC::~TAdTitleGC() {}

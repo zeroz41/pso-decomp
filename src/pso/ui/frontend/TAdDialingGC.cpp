@@ -413,7 +413,7 @@ void TAdDialingGC::spawn_title_screen() {
         if (((s32) this->m_1c == 0) && ((temp_nw = __nw__7TObjectFUl(0x138)) != 0U)) {
             __ct__10TAdTitleGCFP7TObjectl(temp_nw, this, 5);
         }
-        create_draw_line_ctrl__13TAdMcSelectGCFiif((s32)this, 0x11, 0.0f);
+        create_draw_line_ctrl((TObject *)this, 0x11, 0.0f);
         this->m_a4 = (s32) (this->m_a4 | 1);
     }
 }

@@ -1944,8 +1944,6 @@ pso/ui/frontend/TAdDialingGC_80328E50.cpp
 pso/ui/frontend/TAdDialingGC_80328E90.cpp
 pso/ui/frontend/TAdDialingMessageWindow.cpp
 pso/ui/frontend/TAdDialingMessageWindow_8036A064.cpp
-pso/ui/frontend/TAdDrawLineCtrl.cpp
-pso/ui/frontend/TAdDrawLineTask.cpp
 pso/ui/frontend/TAdEnterBaseGC.cpp
 pso/ui/frontend/TAdEnterPPPPassGC.cpp
 pso/ui/frontend/TAdEnterPasswordGC.cpp
@@ -2082,8 +2080,7 @@ pso/weapon/TUnk_804A5C18.cpp
 pso/weapon/TUnk_804A6CC8.cpp
 pso/unk/TUnk_804CC870.cpp
 pso/unk/text_8000F740.cpp
-pso/ui/frontend/TAdDrawLineCtrl_80019B78.cpp
-pso/unk/text_8001A3BC.cpp
+pso/ui/frontend/DrawLine.cpp
 pso/unk/text_8001C388.cpp
 pso/unk/text_8002B164.cpp
 pso/unk/text_8004AA04.cpp
