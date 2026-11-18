@@ -7661,7 +7661,7 @@ pso/ui/window/TWindowSubGameEnd.cpp:
 pso/ui/window/TWindowSubItem.cpp:
 	.text       start:0x80279714 end:0x8027ACF8
 	.rodata     start:0x8044F988 end:0x8044F9A0
-	.data       start:0x804D1628 end:0x804D1688
+	.data       start:0x804D1610 end:0x804D1688
 	.sdata      start:0x805D3A50 end:0x805D3A58
 	.sdata2     start:0x805DD630 end:0x805DD634
 
