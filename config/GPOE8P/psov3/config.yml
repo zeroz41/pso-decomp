@@ -1874,7 +1874,6 @@ force_active:
   - TWindowSubSymbolChat__sub_8028379C
   - get_technique_description_text
   - TWindowSubTradeMessage__name
-  - TWindowTimer__ct
   - TWindowTimer__sub_8019886C
   - TWindowTimer__sub_801988E8
   - TWindowTimer__sub_80198CF8

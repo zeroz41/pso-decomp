@@ -5,6 +5,7 @@
 #include "pso/ui/window/TWindowBase.h"
 
 struct TWindowTimer : public TWindowBase {
+    TWindowTimer();
     virtual ~TWindowTimer();
     void ease_window_timer_position();
     virtual void render();
@@ -31,11 +32,5 @@ struct TWindowTimer : public TWindowBase {
 };
 
 typedef char TWindowTimer_size[sizeof(TWindowTimer) == 0x64 ? 1 : -1];
-
-extern "C" {
-u8 *TWindowTimer__ct(TWindowTimer *arg0);
-void render__12TWindowTimerFv(s32 arg0);
-void run_task__12TWindowTimerFv(TWindowTimer *arg0);
-}
 
 #endif

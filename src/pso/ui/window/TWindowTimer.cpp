@@ -48,9 +48,7 @@ extern "C" {
 s32 draw_default_entry__9TWindowDDFl();
 s32 draw_visible_window_entries(void *, void *, int);
 s32 draw_window_tab(void *, void *, int, f32);
-extern s32 __vt__12TWindowTimer[];
 s32 get_window_layout_position(s32);
-s32 __nw__7TObjectFUl(s32);
 void init_timer_window_layout(TWindowTimer *self);
 void init_timer_window_layout_alt(TWindowTimer *self);
 
@@ -142,31 +140,26 @@ void TWindowTimer::draw_tab(s32 arg0, s32 arg1) {
 }
 
 s32 TWindowTimer::create() {
-    TWindowTimer *window_timer = (TWindowTimer *)__nw__7TObjectFUl(0x64);
-    if (window_timer != NULL) {
-        window_timer = (TWindowTimer *)TWindowTimer__ct(window_timer);
-    }
+    TWindowTimer *window_timer = new TWindowTimer();
     init_timer_window_layout(window_timer);
     return (s32)window_timer;
 }
 
 s32 TWindowTimer::create_alt() {
-    TWindowTimer *window_timer = (TWindowTimer *)__nw__7TObjectFUl(0x64);
-    if (window_timer != NULL) {
-        window_timer = (TWindowTimer *)TWindowTimer__ct(window_timer);
-    }
+    TWindowTimer *window_timer = new TWindowTimer();
     init_timer_window_layout_alt(window_timer);
     return (s32)window_timer;
 }
 
-void render__12TWindowTimerFv(s32 arg0) {
+void TWindowTimer::render() {
     s32 temp_r3;
     temp_r3 = draw_default_entry__9TWindowDDFl();
-    TWindowTimer::draw_tab(arg0, temp_r3);
-    draw_visible_window_entries((void *)arg0, (void *)(arg0 + 0x24), (int)temp_r3);
+    TWindowTimer::draw_tab((s32)this, temp_r3);
+    draw_visible_window_entries((void *)this, (void *)((s32)this + 0x24), (int)temp_r3);
 }
 
-void run_task__12TWindowTimerFv(TWindowTimer *window_timer) {
+void TWindowTimer::run_task() {
+    TWindowTimer *window_timer = this;
   if ((window_timer->flags) & 1)
   {
     window_timer->draw((s32)((int) TWindowTimer::get_timer_value(0)), (s32)((int) TWindowTimer::get_timer_value(1)));
@@ -175,14 +168,11 @@ void run_task__12TWindowTimerFv(TWindowTimer *window_timer) {
 }
 
 TWindowTimer::~TWindowTimer() {}
-u8 *TWindowTimer__ct(TWindowTimer *window_timer) {
-    __ct__11TWindowBaseFPUcsPUc(window_timer, (u8 *)&window_timer_layout, (s16)4, (u8 *)(get_zero_vec2()));
-    *(s32 **)((s8 *)window_timer + 0x18) = __vt__12TWindowTimer;
-    *(s32 *)((s8 *)window_timer + 0) = (s32) TWindowTimer__name;
-    window_timer->flags = 0;
-    window_timer->update_chat_parts();
-    ((TWindowBase *)window_timer)->save_position();
-    return (u8 *)window_timer;
+TWindowTimer::TWindowTimer() : TWindowBase((u8 *)&window_timer_layout, 4, (u8 *)(get_zero_vec2())) {
+    m_name = TWindowTimer__name;
+    flags = 0;
+    update_chat_parts();
+    save_position();
 }
 
 }
