@@ -241,6 +241,6 @@ void TMovie::calc_frame_buffer_size(s32 arg0, s32 arg1) {
 void flush_framebuffer(s32 arg1, s32 arg2, s32 arg3) {
 
     movie_flush_framebuffer_callback(arg2, 0x280, 0x1E0);
-    framebuffer_flush_callback(arg2, arg3, TObjPlayer__sub_800845F8());
-    DCFlushRangeNoSync(TObjPlayer__sub_800845F8(), GXGetTexBufferSize(0x280, 0x1E0, 6, 0, 0));
+    framebuffer_flush_callback(arg2, arg3, get_capture_texture_pixels());
+    DCFlushRangeNoSync(get_capture_texture_pixels(), GXGetTexBufferSize(0x280, 0x1E0, 6, 0, 0));
 }

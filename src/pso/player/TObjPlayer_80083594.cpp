@@ -14,8 +14,8 @@ void GXSetCopyClear(GXColor_80083B8C, u32);
 void GXCopyTex(void *, u8);
 void GXSetViewport(f32, f32, f32, f32, f32, f32);
 void GXSetScissor(u32, u32, u32, u32);
-void TObjPlayer__sub_80084744(void);
-void TObjPlayer__sub_80084754(void);
+void clear_camera_capture_flags_bit2(void);
+void set_camera_capture_flags_bit2(void);
 }
 
 #include "pso/effect/TEffect.h"
@@ -300,9 +300,9 @@ void TUnk_8048E5DC::render_shadows() {
             direction_to_pitch_yaw((u8 *)&dir, &pitch, &yaw);
             TCameraCtrl::calc_axes_from_angles((s32)camera_ctrl_instance, pitch, yaw);
         }
-        TObjPlayer__sub_80084754();
+        set_camera_capture_flags_bit2();
         main_task.render_scene_passes();
-        TObjPlayer__sub_80084744();
+        clear_camera_capture_flags_bit2();
         if ((void *) (*(u8 * *)&camera_render_target_singleton) != NULL) {
             GXSetCopyClear(lbl_805E1210, 0xFFFFFF);
             GXSetZMode((int) (1U), 7, 1);
@@ -394,9 +394,9 @@ void TObjPlayer::init_render_target_singleton() {
     }
 }
 void TUnk_8048E5F4::render() {
-    if (!(TObjPlayer__sub_800847CC() & 4)) {
+    if (!(get_camera_capture_flags() & 4)) {
         if (*(s32 *)&this->unk_1C & 1) {
-            if (TObjPlayer__sub_800847A8() == 1) {
+            if (test_camera_capture_flags_bits01() == 1) {
                 TCameraCtrl::restore_full_screen_view();
                 TParticleCtrl::begin_effect_render();
                 TObjPlayer::draw_screen_quad(camera_capture_overlay_alpha << 0x18, 0, 0.0f);
@@ -405,11 +405,11 @@ void TUnk_8048E5F4::render() {
                 disable_camera_capture_overlay();
             }
         } else {
-            TObjPlayer__sub_80084780();
+            set_camera_capture_flags_bit0();
             capture_viewport_texture();
         }
         if (TObjPlayer::get_camera_flag() != 0) {
-            TObjPlayer__sub_80084764();
+            clear_camera_flag();
             init_tev_swap();
         }
     }
@@ -638,19 +638,19 @@ void TObjPlayer__sub_80083FB0(void);
 int TObjPlayer__sub_80083F9C(void);
 void *get_player_by_client_id(s32 i);
 s32 is_inactive__10TObjPlayerFv();
-void TObjPlayer__sub_80084614(void);
-void TObjPlayer__sub_8008463C(void);
-void TObjPlayer__sub_80084764(void);
-void TObjPlayer__sub_80084780(void);
+void reset_and_release_capture_texture(void);
+void reset_and_init_capture_texture(void);
+void clear_camera_flag(void);
+void set_camera_capture_flags_bit0(void);
 void **release_texture_list();
 void **TObjPlayer__sub_80083F04(void);
 s32 is_in_shadow_range(u8 *arg0, f32 farg0);
-s32 TObjPlayer__sub_800845F8(void);
+s32 get_capture_texture_pixels(void);
 void TObjPlayer__sub_80084500(void);
 void set_texture_name(void *, void *, int, int);
 s32 load_texture_list(void *);
 void TObjPlayer__sub_80083F38(void);
-void **TObjPlayer__sub_80084694(void);
+void **release_shared_capture_texture(void);
 u8 get_display_copy_filter();
 s32 Dolphin_GXSetCopyFilter(int, void *, int, void *);
 s32 GXSetProjection(void *, int);
@@ -660,9 +660,9 @@ void C_MTXFrustum(void *, f32, f32, f32, f32, f32, f32);
 f32 vec_squared_length(void *);
 void normalize_vector(void *);
 void TObjPlayer__sub_800847FC(void);
-void TObjPlayer__sub_80084824(f32 farg0, f32 farg1);
-void TObjPlayer__sub_80084834(s32 arg0);
-void TObjPlayer__sub_80084840(f32 farg0, f32 farg1, f32 farg2);
+void GXTexCoord2f32_80083594(f32 farg0, f32 farg1);
+void GXColor1u32_80083594(s32 arg0);
+void GXPosition3f32_80083594(f32 farg0, f32 farg1, f32 farg2);
 s32 Dolphin_GXSetVtxDesc(s32, s32);
 s32 GXClearVtxDesc();
 s32 GXSetVtxAttrFmt(s32, s32, s32, s32, s32);
@@ -852,23 +852,23 @@ void TObjPlayer::draw_screen_quad(u32 arg0, s32 arg1, f32 farg0) {
     GXBegin(0x80, 4, 4);
     z = -2.0f;
     temp_f31 = -farg0 * z;
-    TObjPlayer__sub_80084840(temp_f31, temp_f31, z);
+    GXPosition3f32_80083594(temp_f31, temp_f31, z);
     temp_r31 = (arg0 << 8) | (arg0 >> 24);
-    TObjPlayer__sub_80084834(temp_r31);
-    TObjPlayer__sub_80084824(0.0f, 0.0f);
+    GXColor1u32_80083594(temp_r31);
+    GXTexCoord2f32_80083594(0.0f, 0.0f);
     s0 = 640.0f + farg0;
     temp_f30 = s0 * z;
-    TObjPlayer__sub_80084840(temp_f30, temp_f31, z);
-    TObjPlayer__sub_80084834(temp_r31);
-    TObjPlayer__sub_80084824(1.0f, 0.0f);
+    GXPosition3f32_80083594(temp_f30, temp_f31, z);
+    GXColor1u32_80083594(temp_r31);
+    GXTexCoord2f32_80083594(1.0f, 0.0f);
     s1 = 480.0f + farg0;
     temp_f30_2 = s1 * z;
-    TObjPlayer__sub_80084840(temp_f30, temp_f30_2, z);
-    TObjPlayer__sub_80084834(temp_r31);
-    TObjPlayer__sub_80084824(1.0f, 1.0f);
-    TObjPlayer__sub_80084840(temp_f31, temp_f30_2, z);
-    TObjPlayer__sub_80084834(temp_r31);
-    TObjPlayer__sub_80084824(0.0f, 1.0f);
+    GXPosition3f32_80083594(temp_f30, temp_f30_2, z);
+    GXColor1u32_80083594(temp_r31);
+    GXTexCoord2f32_80083594(1.0f, 1.0f);
+    GXPosition3f32_80083594(temp_f31, temp_f30_2, z);
+    GXColor1u32_80083594(temp_r31);
+    GXTexCoord2f32_80083594(0.0f, 1.0f);
     TObjPlayer__sub_800847FC();
     set_default_alpha_blend();
     if (arg1 != 0) {
@@ -907,19 +907,19 @@ void TObjPlayer::draw_textured_screen_quad(u32 arg0, f32 *arg1, f32 *arg2, s32 a
     GXSetVtxAttrFmt(4, 0xD, 1, 4, 0);
     GXBegin(0x80, 4, 4);
     z = -1.0f;
-    TObjPlayer__sub_80084840(arg1[0] * z, arg1[1] * z, z);
+    GXPosition3f32_80083594(arg1[0] * z, arg1[1] * z, z);
     temp_r31 = (arg0 << 8) | (arg0 >> 24);
-    TObjPlayer__sub_80084834(temp_r31);
-    TObjPlayer__sub_80084824(0.0f, 0.0f);
-    TObjPlayer__sub_80084840(z * (arg1[0] + arg2[0]), arg1[1] * z, z);
-    TObjPlayer__sub_80084834(temp_r31);
-    TObjPlayer__sub_80084824(1.0f, 0.0f);
-    TObjPlayer__sub_80084840(z * (arg1[0] + arg2[0]), z * (arg1[1] + arg2[1]), z);
-    TObjPlayer__sub_80084834(temp_r31);
-    TObjPlayer__sub_80084824(1.0f, 1.0f);
-    TObjPlayer__sub_80084840(arg1[0] * z, z * (arg1[1] + arg2[1]), z);
-    TObjPlayer__sub_80084834(temp_r31);
-    TObjPlayer__sub_80084824(0.0f, 1.0f);
+    GXColor1u32_80083594(temp_r31);
+    GXTexCoord2f32_80083594(0.0f, 0.0f);
+    GXPosition3f32_80083594(z * (arg1[0] + arg2[0]), arg1[1] * z, z);
+    GXColor1u32_80083594(temp_r31);
+    GXTexCoord2f32_80083594(1.0f, 0.0f);
+    GXPosition3f32_80083594(z * (arg1[0] + arg2[0]), z * (arg1[1] + arg2[1]), z);
+    GXColor1u32_80083594(temp_r31);
+    GXTexCoord2f32_80083594(1.0f, 1.0f);
+    GXPosition3f32_80083594(arg1[0] * z, z * (arg1[1] + arg2[1]), z);
+    GXColor1u32_80083594(temp_r31);
+    GXTexCoord2f32_80083594(0.0f, 1.0f);
     TObjPlayer__sub_800847FC();
     set_default_alpha_blend();
     if (arg3 != 0) {
@@ -949,15 +949,15 @@ void capture_viewport_texture(void) {
     }
 }
 
-s32 TObjPlayer__sub_800845F8(void) {
+s32 get_capture_texture_pixels(void) {
     return (s32)shared_capture_texture_list.entries->texture->surface->pixels;
 }
 
-void TObjPlayer__sub_80084614(void) { camera_capture_flags = 0; TObjPlayer__sub_80084694(); }
-void TObjPlayer__sub_8008463C(void) { camera_capture_flags = 0; init_capture_texture((s32)((void*)0)); }
+void reset_and_release_capture_texture(void) { camera_capture_flags = 0; release_shared_capture_texture(); }
+void reset_and_init_capture_texture(void) { camera_capture_flags = 0; init_capture_texture((s32)((void*)0)); }
 void TObjPlayer::reset_movie_state() { camera_capture_flags = 0; init_capture_texture((s32)((void*)1)); }
 
-void **TObjPlayer__sub_80084694(void) {
+void **release_shared_capture_texture(void) {
     void **var_r3;
     var_r3 = (void **)&shared_capture_texture_list;
     if (shared_capture_texture_list.entries->texture != NULL) {
@@ -985,13 +985,13 @@ void init_capture_texture(s32 wide) {
     load_texture_list(&shared_capture_texture_list);
 }
 
-void TObjPlayer__sub_80084744(void) { (*(u8 *)&camera_capture_flags) = ((*(u8 *)&camera_capture_flags) & 0xfffffffb); }
-void TObjPlayer__sub_80084754(void) { (*(u8 *)&camera_capture_flags) = ((*(u8 *)&camera_capture_flags) | 0x4); }
-void TObjPlayer__sub_80084764(void) { (*(u8 *)&camera_capture_flags) = ((*(u8 *)&camera_capture_flags) & 0xffffffef); }
+void clear_camera_capture_flags_bit2(void) { (*(u8 *)&camera_capture_flags) = ((*(u8 *)&camera_capture_flags) & 0xfffffffb); }
+void set_camera_capture_flags_bit2(void) { (*(u8 *)&camera_capture_flags) = ((*(u8 *)&camera_capture_flags) | 0x4); }
+void clear_camera_flag(void) { (*(u8 *)&camera_capture_flags) = ((*(u8 *)&camera_capture_flags) & 0xffffffef); }
 s32 TObjPlayer::get_camera_flag() {
     return ((u8) (*(u8 *)&camera_capture_flags) >> 4U) & 1;
 }
-void TObjPlayer__sub_80084780(void) { (*(u8 *)&camera_capture_flags) = ((*(u8 *)&camera_capture_flags) | 0x1); }
+void set_camera_capture_flags_bit0(void) { (*(u8 *)&camera_capture_flags) = ((*(u8 *)&camera_capture_flags) | 0x1); }
 void disable_camera_capture_overlay(void) {
   int temp = (*(u8 *)&camera_capture_flags);
   (*(u8 *)&camera_capture_flags) = temp & (~2);
@@ -1002,13 +1002,13 @@ void disable_camera_capture_overlay(void) {
 extern "C" {
 f64 atan();
 s32 GXSetTexCoordGen2(s32 a0 = 0, s32 a1 = 0, s32 a2 = 0, s32 a3 = 0, s32 a4 = 0, s32 a5 = 0);
-s32 TObjPlayer__sub_800847A8(void) {
+s32 test_camera_capture_flags_bits01(void) {
     if ((camera_capture_flags & 2) && (camera_capture_flags & 1)) {
         return 1;
     }
     return 0;
 }
-unsigned char TObjPlayer__sub_800847CC(void) {  return camera_capture_flags; }
+unsigned char get_camera_capture_flags(void) {  return camera_capture_flags; }
 void TObjPlayer::set_tex_coord_gen(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     GXSetTexCoordGen2(arg0, arg1, arg2, arg3, 0, 0x7D);
 }
@@ -1016,16 +1016,16 @@ void TObjPlayer__sub_800847FC(void) {  }
 f32 TObjPlayer::get_end_text_value() {
     return (f32) atan();
 }
-void TObjPlayer__sub_80084824(f32 farg0, f32 farg1) {
+void GXTexCoord2f32_80083594(f32 farg0, f32 farg1) {
     *(f32 *)0xCC008000 = farg0;
     *(f32 *)0xCC008000 = farg1;
 }
 
-void TObjPlayer__sub_80084834(s32 arg0) {
+void GXColor1u32_80083594(s32 arg0) {
     *(s32 *)0xCC008000 = arg0;
 }
 
-void TObjPlayer__sub_80084840(f32 farg0, f32 farg1, f32 farg2) {
+void GXPosition3f32_80083594(f32 farg0, f32 farg1, f32 farg2) {
     *(f32 *)0xCC008000 = farg0;
     *(f32 *)0xCC008000 = farg1;
     *(f32 *)0xCC008000 = farg2;

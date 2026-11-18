@@ -968,7 +968,7 @@ s32 TObjBoss2Tunnel__sub_8007D1D0(void) {
         frame->snapshot.width = 0x100;
         frame->snapshot.height = 0xC0;
         p += 8;
-        ((TLobby *)p)->move_data((void *)TObjPlayer__sub_800845F8(), 0x18000);
+        ((TLobby *)p)->move_data((void *)get_capture_texture_pixels(), 0x18000);
         p += 0x18000;
         *p++ = 0x18;
         *p++ = 2;
@@ -1180,7 +1180,7 @@ void TObjBoss2Tunnel::free_buffers() {
         xfree(boss2_tunnel_snapshot_buffer);
         boss2_tunnel_snapshot_buffer = NULL;
     }
-    TObjPlayer__sub_80084694();
+    release_shared_capture_texture();
     if (TObjBoss2Tunnel__snapshot_buffer != NULL) {
         xfree(TObjBoss2Tunnel__snapshot_buffer);
         TObjBoss2Tunnel__snapshot_buffer = NULL;
@@ -1265,7 +1265,7 @@ s32 TObjBoss2Tunnel::load_snapshot() {
     s32 buf;
     if (poll_memcard_result(1) == 0) {
         if (((s32) (*(u16 *)&TObjBoss2Tunnel__snapshot_state) != 0) && ((s32) (*(u16 *)&TObjBoss2Tunnel__snapshot_state) >= 0) && ((s32) (*(u16 *)&TObjBoss2Tunnel__snapshot_state) < 3)) {
-            buf = TObjPlayer__sub_800845F8();
+            buf = get_capture_texture_pixels();
             if (TAdPlayerLoadGC__sub_801E1538(&stack.sp8, TObjBoss2Tunnel__snapshot_buffer) == 0) {
                 memcpy((void *)buf, (void *)(stack.sp60 + 8), 0x1818C);
                 DCFlushRange(buf, 0x1818C);

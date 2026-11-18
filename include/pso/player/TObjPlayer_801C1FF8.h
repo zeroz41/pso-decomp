@@ -4,22 +4,22 @@
 #include "types.h"
 
 extern "C" {
-s32 TObjPlayer__sub_801C2044(s32 *arg0);
-void *TObjPlayer__sub_801C2058(void *p);
-void TObjPlayer__sub_801C210C(void *p, s32 v);
+s32 is_field_0_positive(s32 *arg0);
+void *get_ptr_8(void *p);
+void set_field_0_s32(void *p, s32 v);
 int TObjPlayer__sub_801C2114(void);
-u8 TObjPlayer__sub_801C212C(void *p);
-u8 TObjPlayer__sub_801C2134(void *p);
-u8 TObjPlayer__sub_801C21AC(void *p);
-u8 TObjPlayer__sub_801C21B4(void *p);
-u8 TObjPlayer__sub_801C21BC(void *p);
-u8 TObjPlayer__sub_801C221C(void *p);
-u8 TObjPlayer__sub_801C2224(void *p);
-u8 TObjPlayer__sub_801C222C(void *p);
-u8 TObjPlayer__sub_801C2234(void *p);
-u8 TObjPlayer__sub_801C223C(void *p);
-void TObjPlayer__sub_801C2244(void *p, s16 v);
-s32 TObjPlayer__sub_801C22B4(void *p);
+u8 get_byte_3(void *p);
+u8 get_byte_2(void *p);
+u8 get_byte_1ab(void *p);
+u8 get_byte_18f(void *p);
+u8 get_byte_173(void *p);
+u8 get_byte_157(void *p);
+u8 get_byte_13b(void *p);
+u8 get_byte_11f(void *p);
+u8 get_byte_103(void *p);
+u8 get_byte_e7(void *p);
+void set_field2_s16(void *p, s16 v);
+s32 get_field_0_s32(void *p);
 void *fn_801C2308(void *arg0, s16 arg1);
 void *fn_801C2360(void *arg0);
 s32 get_level_row_exp_threshold(void *p);

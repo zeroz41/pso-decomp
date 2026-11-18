@@ -2121,17 +2121,17 @@ s32 set_primary_action_palette_bank(s32);
 void set_photon_blast_kind(void *, s16);
 s32 fn_801C1F1C(s32);
 s32 TObjPlayer__sub_801C1F50(s32);
-s32 TObjPlayer__sub_801C2044(s32 *arg0);
-void *TObjPlayer__sub_801C2058(void *p);
+s32 is_field_0_positive(s32 *arg0);
+void *get_ptr_8(void *p);
 void* __ct__12Unk_801C2068Fv(void*);
 void init_player_telepipe_record(void *);
 int TObjPlayer__sub_801C2114(void);
-u8 TObjPlayer__sub_801C212C(void *p);
-u8 TObjPlayer__sub_801C2134(void *p);
+u8 get_byte_3(void *p);
+u8 get_byte_2(void *p);
 s32 get_level_row_exp_threshold();
-s8 TObjPlayer__sub_801C21AC(void *);
-s8 TObjPlayer__sub_801C21B4(void *);
-s8 TObjPlayer__sub_801C21BC(void *);
+s8 get_byte_1ab(void *);
+s8 get_byte_18f(void *);
+s8 get_byte_173(void *);
 s32 TLobby__sub_801C2678();
 void fn_801C5420(void *, s32);
 int fn_801C543C(void*);
@@ -2557,9 +2557,9 @@ void TObjPlayer::setup_fresh_player_state(u8 *arg1) {
     this->set_play_time((int) (*(u8 *)((s8 *)arg1 + 3)));
     TObjPlayer__sub_801BF93C((void *) (((u8 *)this) + 0x5B0), (void *) (get_entity_id(this)));
     TObjPlayer::disable_drop_weapon_on_death(this);
-    *(s8 *)&this->unk_338 = TObjPlayer__sub_801C21BC(arg1);
-    this->m_339 = TObjPlayer__sub_801C21B4(arg1);
-    *(s8 *)&this->unk_33A = TObjPlayer__sub_801C21AC(arg1);
+    *(s8 *)&this->unk_338 = get_byte_173(arg1);
+    this->m_339 = get_byte_18f(arg1);
+    *(s8 *)&this->unk_33A = get_byte_1ab(arg1);
 }
 
 void TObjPlayer::sub_801BB950() {
@@ -3935,7 +3935,7 @@ void TObjPlayer::drop_items_on_death() {
         if (obj_getPtr2B0_20((u8 *)this)!=0) {
             record=&records[count];
             ((TObjPlayer *)record)->set_field4(-1);
-            item=(TItemData *)TObjPlayer__sub_801C2058(record);
+            item=(TItemData *)get_ptr_8(record);
             ((TObjPlayer *)item)->init_item_data((s32)((void*)obj_getPtr2B0_20((u8 *)this)));
             count+=1;
             item->id=-1;
@@ -4616,8 +4616,8 @@ s32 TObjPlayer::apply_exp_level_growth() {
         }
         add_stat(((TObjPlayer *)e)->get_char_class());
         add_mst(((TObjPlayer *)e)->get_team_id());
-        add_evp(TObjPlayer__sub_801C2134((void *)e));
-        add_hp(TObjPlayer__sub_801C212C((void *)e));
+        add_evp(get_byte_2((void *)e));
+        add_hp(get_byte_3((void *)e));
         add_dfp(((TObjPlayer *)e)->get_byte_4());
         add_ata(((TObjPlayer *)e)->get_field_5());
         ((Obj_801B6CE0 *)this)->stats->level = lvl;
@@ -4747,8 +4747,8 @@ void apply_class_level_growth(s8 cls, s32 level, stats *st) {
             row += 0xC;
             TObjPlayer::add_stat_clamped(((TObjPlayer *)row)->get_char_class(), &st->atp, caps->stats.atp);
             TObjPlayer::add_stat_clamped(((TObjPlayer *)row)->get_team_id(), &st->mst, caps->stats.mst);
-            TObjPlayer::add_stat_clamped(TObjPlayer__sub_801C2134((void *)row), &st->evp, caps->stats.evp);
-            TObjPlayer::add_stat_clamped(TObjPlayer__sub_801C212C((void *)row), &st->hp, caps->stats.hp);
+            TObjPlayer::add_stat_clamped(get_byte_2((void *)row), &st->evp, caps->stats.evp);
+            TObjPlayer::add_stat_clamped(get_byte_3((void *)row), &st->hp, caps->stats.hp);
             TObjPlayer::add_stat_clamped(((TObjPlayer *)row)->get_byte_4(), &st->dfp, caps->stats.dfp);
             TObjPlayer::add_stat_clamped(((TObjPlayer *)row)->get_field_5(), &st->ata, caps->stats.ata);
         }
@@ -4790,8 +4790,8 @@ void TObjPlayer::apply_battle_level_reset(s32 level) {
             row += 0xC;
             add_stat_clamped(((TObjPlayer *)row)->get_char_class(), &((player_stats *)m_2b0)->stats.atp, caps->stats.atp);
             add_stat_clamped(((TObjPlayer *)row)->get_team_id(), &((player_stats *)m_2b0)->stats.mst, caps->stats.mst);
-            add_stat_clamped(TObjPlayer__sub_801C2134((void *)row), &((player_stats *)m_2b0)->stats.evp, caps->stats.evp);
-            add_stat_clamped(TObjPlayer__sub_801C212C((void *)row), &((player_stats *)m_2b0)->stats.hp, caps->stats.hp);
+            add_stat_clamped(get_byte_2((void *)row), &((player_stats *)m_2b0)->stats.evp, caps->stats.evp);
+            add_stat_clamped(get_byte_3((void *)row), &((player_stats *)m_2b0)->stats.hp, caps->stats.hp);
             add_stat_clamped(((TObjPlayer *)row)->get_byte_4(), &((player_stats *)m_2b0)->stats.dfp, caps->stats.dfp);
             add_stat_clamped(((TObjPlayer *)row)->get_field_5(), &((player_stats *)m_2b0)->stats.ata, caps->stats.ata);
         }
@@ -5493,7 +5493,7 @@ void TObjPlayer::apply_material_color_override() {
 }
 
 void TObjPlayer::clear_action_flag() {
-    if ((TObjPlayer__sub_801C2044((s32 *)(*(s32 *)((s8 *)this + 0xD00) + 0x20)) == 0) && (((u32 (*)(void *))is_action_active__10TObjPlayerFv)(this) != 0U)) {
+    if ((is_field_0_positive((s32 *)(*(s32 *)((s8 *)this + 0xD00) + 0x20)) == 0) && (((u32 (*)(void *))is_action_active__10TObjPlayerFv)(this) != 0U)) {
         this->clear_flag_0x2();
         TObjPlayer::send_code_45_1((s32)this);
     }

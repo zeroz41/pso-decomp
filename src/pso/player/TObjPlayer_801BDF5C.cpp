@@ -47,7 +47,7 @@ u8 *TObjPlayer::create_player_instance(s32 arg0, s32 arg1) {
     p = __nw__7TObjectFUl(0xDB8);
     if (p != NULL) {
         p = ((u8 *(*)(void *, s32, u16, s32, s32))construct_player_instance__10TObjPlayerFlslPUc)(
-            p, tl_03, arg0, TObjPlayer__sub_801C22B4((void *)arg1), get_char_data__10TObjPlayerFv((void *)arg1));
+            p, tl_03, arg0, get_field_0_s32((void *)arg1), get_char_data__10TObjPlayerFv((void *)arg1));
     }
     ((TLobby *)(p + 0xDAC))->copy_header_struct((void *)((TObjPlayer *)arg1)->get_sub_obj());
     ((Obj_801BDE60 *)p)->v6();

@@ -70,7 +70,7 @@ typedef struct Player_801BC948 {
 extern "C" {
 s32 get_entity_id(void *);
 s32 TObjPlayer__sub_801BF9E0(void *, int);
-s32 TObjPlayer__sub_801C2244(void *, void *);
+s32 set_field2_s16(void *, void *);
 s32 get_class_index__10TObjPlayerFv(void *);
 void TObjPlayer__sub_801BEF44(void *, void *);
 void TObjPlayer__sub_801C1F78(void *, s32);
@@ -81,7 +81,7 @@ void init_session_technique_caps__10TObjPlayerFPvPv(Player_801BC948 *self, Src_8
 void TObjPlayer__sub_801BC8F0(s32 arg0) {
     TObjPlayer__sub_801BF9E0((void *)(arg0 + 0x634), (int) (get_entity_id((void *)arg0)));
     ((TObjPlayer *)(arg0 + 0x384))->update_follow_particle(arg0);
-    TObjPlayer__sub_801C2244((void *)(arg0 + 0x34C), (void *) (get_entity_id((void *)arg0)));
+    set_field2_s16((void *)(arg0 + 0x34C), (void *) (get_entity_id((void *)arg0)));
 }
 void init_session_technique_caps__10TObjPlayerFPvPv(Player_801BC948 *self, Src_801BC948 *src) {
     s32 i;
@@ -99,7 +99,7 @@ void init_session_technique_caps__10TObjPlayerFPvPv(Player_801BC948 *self, Src_8
 void TObjPlayer__sub_801BCA0C(void) {  }
 void TObjPlayer__sub_801BCA10(void) {  }
 
-s32 TObjPlayer__sub_801C21C4(void *, s32);
+s32 get_record_byte_at(void *, s32);
 s32 get_slot_value_checked__10TObjPlayerFl(void *, s32);
 
 void TObjPlayer__sub_801BCA14(u8 *player, void *arg1) {
@@ -109,7 +109,7 @@ void TObjPlayer__sub_801BCA14(u8 *player, void *arg1) {
     ((TObjPlayer *)(player + 0x428))->copy_all_technique_entries((void *)0x1D);
     i = 0;
     do {
-        clamp_and_set_unit_value__10TObjPlayerFiUci(player, get_slot_value_checked__10TObjPlayerFl(arg1, i) + TObjPlayer__sub_801C21C4(arg1, i), (s16)i);
+        clamp_and_set_unit_value__10TObjPlayerFiUci(player, get_slot_value_checked__10TObjPlayerFl(arg1, i) + get_record_byte_at(arg1, i), (s16)i);
         i += 1;
     } while (i < 0x13);
 }

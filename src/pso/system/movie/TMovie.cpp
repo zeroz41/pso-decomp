@@ -256,7 +256,7 @@ void TMovie::free_buffer() {
         *(u32 *)((s8 *)this + 0x9C) = 0U;
     }
     movie_free_buffer_callback();
-    TObjPlayer__sub_80084614();
+    reset_and_release_capture_texture();
 }
 
 struct MovieFrameRate {
