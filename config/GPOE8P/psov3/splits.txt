@@ -2220,7 +2220,7 @@ pso/object/TObjWaitEntryHairMoveSim.cpp:
 pso/object/TObjEZBoneRotBase.cpp:
 	.text       start:0x800FE834 end:0x800FEFCC
 	.rodata     start:0x8043DEE8 end:0x8043DF18
-	.data       start:0x8049DCD8 end:0x8049DCF0
+	.data       start:0x8049DCC0 end:0x8049DCF0
 	.sdata      start:0x805D2B48 end:0x805D2B50
 	.sdata2     start:0x805DAA40 end:0x805DAA54
 
