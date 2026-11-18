@@ -19,8 +19,5 @@ public:
 
 u8 *frozen_shooter_create(u8 *item);
 
-extern "C" {
-u8 *freeze_curse_timer_ct(u8 *event, s32 effect_objects, u16 owner_client, s32 frames, f32 rate);
-}
 
 #endif

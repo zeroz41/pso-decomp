@@ -512,6 +512,9 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/player/TObjPlayer_802D5174.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     # vtables come out TUnk_804E70A8 then TUnk_804E71A0: written last to first, deferred.
     "pso/player/TObjPlayer_80307618.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
+    # vtables come out TUnk_804A0568..0688 (text order of their vfunc_6) then
+    # TItemTimerEvent: written last to first, deferred.
+    "pso/item/TItemTimerEvent.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     # vtables come out 0810, 0908, 0A00, 0AF8 then 0BF0: written last to first, deferred.
     "pso/effect/item/TItemEffPG.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     # vtables come out TUnk_804A2548 then TUnk_804A2564: written last to first, deferred.

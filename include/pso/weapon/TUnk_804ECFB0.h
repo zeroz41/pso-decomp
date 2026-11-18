@@ -19,7 +19,5 @@ public:
 };
 
 u8 *dark_bridge_create(u8 *arg0);
-// The paralysis TUnk_804A0568 timer's constructor (weak copy, first used by TUnk_804ECFB0::vfunc_57).
-u8 *paralysis_curse_timer_ct(u8 *event, s32 effect_objects, u16 owner_client, s32 frames, f32 rate);
 
 #endif

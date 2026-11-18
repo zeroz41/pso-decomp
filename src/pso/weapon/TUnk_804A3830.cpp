@@ -1,5 +1,4 @@
 #include "types.h"
-#include "pso/unk/text_80127EE8.h"
 #include "pso/weapon/TUnk_804A3830.h"
 #include "pso/item/TItemEquipVariant_80120CF8.h"
 #include "pso/player/TObjPlayer.h"

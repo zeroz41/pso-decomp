@@ -1,14 +1,12 @@
 #include "types.h"
 #include "pso/weapon/TUnk_804A67D0.h"
 #include "pso/item/TItemHeapObject.h"
+#include "pso/item/TUnk_804A0628.h"
 #include "pso/effect/item/TItemEffOrgaFlowShot.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/system/task/TMainTask.h"
-
-// The timer event class (0x804A0628) has no real constructor yet.
-extern "C" s32 construct_timer_event__13TUnk_804A0628Fv(void *event, TItemHeapObject *parent, u16 client, s32 duration);
 
 void TUnk_804A67D0::vfunc_60() {
     if (TObjPlayer::get_player_list() == 2) {
@@ -19,13 +17,8 @@ void TUnk_804A67D0::vfunc_60() {
 // Starts a 90-frame timer event on the effect objects (named
 // madam_umbrella_start_regen before; vtable slot 57).
 void TUnk_804A67D0::vfunc_57() {
-    void *event;
-
     if (effect_objects != NULL) {
-        event = TItemHeapObject::operator new(0x2C);
-        if (event != NULL) {
-            construct_timer_event__13TUnk_804A0628Fv(event, effect_objects, get_owner_client(), 0x5A);
-        }
+        new TUnk_804A0628(effect_objects, get_owner_client(), 0x5A);
     }
 }
 

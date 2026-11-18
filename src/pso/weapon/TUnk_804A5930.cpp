@@ -1,6 +1,7 @@
 #include "pso/item/TItemData.h"
 #include "pso/item/TItem.h"
 #include "pso/weapon/TUnk_804A5930.h"
+#include "pso/item/TUnk_804A05A8.h"
 #include "types.h"
 #include <stddef.h>
 #include "pso/player/TObjPlayer.h"
@@ -33,13 +34,8 @@ void TUnk_804A5930::update_weapon() {
 }
 
 void TUnk_804A5930::vfunc_57() {
-    void *event;
-
     if (effect_objects != NULL) {
-        event = TItemHeapObject::operator new(0x30);
-        if (event != NULL) {
-            slow_curse_timer_ct((s32)event, (u32)effect_objects, get_owner_client(), 0xE10, 0.25f);
-        }
+        new TUnk_804A05A8(effect_objects, get_owner_client(), 0xE10, 0.25f);
     }
     kill_count_seen = owner->get_kill_count();
 }
@@ -57,15 +53,10 @@ u8 *sealed_j_sword_create(u8 *item) {
 
 s16 TObjPlayer::get_kill_count() { return this->m_11a; }
 
-extern "C" {
-u8 * TItemTimerEvent__ct(s32, u32, u16, s32);
-struct RecoveredGlobal_lbl_804A05A8 { s32 value; u8 remaining[0x1C]; };
-extern RecoveredGlobal_lbl_804A05A8 lbl_804A05A8;
-}
 
-s32 slow_curse_timer_ct(s32 event, u32 effect_objects, u16 owner_client, s32 duration, f32 rate) {
-    TItemTimerEvent__ct(event, effect_objects, owner_client, duration);
-    *(s32 **)((s8 *)event + 0x18) = &lbl_804A05A8.value;
-    *(f32 *)((s8 *)event + 0x2C) = rate;
-    return event;
+// This object's copy of the slow curse timer's constructor (vfunc_57 calls
+// it first).
+TUnk_804A05A8::TUnk_804A05A8(TItemHeapObject *parent, u16 client, s32 period, f32 rate)
+    : TItemTimerEvent(parent, client, period) {
+    unk_2C = rate;
 }

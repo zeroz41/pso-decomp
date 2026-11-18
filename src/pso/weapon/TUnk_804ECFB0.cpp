@@ -2,16 +2,14 @@
 #include <stddef.h>
 #include "pso/weapon/TUnk_804ECFB0.h"
 #include "pso/weapon/TUnk_804A2960.h"
-#include "pso/unk/text_80127EE8.h"
+#include "pso/item/TUnk_804A0568.h"
+#include "pso/item/TUnk_804A0588.h"
+#include "pso/item/TUnk_804A05E8.h"
 #include "pso/item/TItemHeapObject.h"
 #include "pso/map/FloorArea.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/task/TMainTask.h"
 
-extern "C" {
-u8 *TItemTimerEvent__ct(void *, s32, u16, s32);
-extern void *lbl_804A0568[8];
-}
 
 void TUnk_804ECFB0::update_weapon() {
     s16 lost;
@@ -40,23 +38,12 @@ void TUnk_804ECFB0::vfunc_58() {
 
 // Starts the freeze, confusion and paralysis curse timers (was dark_bridge_start_timers).
 void TUnk_804ECFB0::vfunc_57() {
-    u8 *event;
-
     owner_tp = get_actor_tp(owner);
     pad_1f8 = 0;
     if (effect_objects != NULL) {
-        event = (u8 *)TItemHeapObject::operator new(0x30);
-        if (event != NULL) {
-            freeze_curse_timer_ct(event, (s32)effect_objects, get_owner_client(), 9000, 0.5f);
-        }
-        event = (u8 *)TItemHeapObject::operator new(0x30);
-        if (event != NULL) {
-            confusion_curse_timer_ct(event, (s32)effect_objects, get_owner_client(), 9000, 0.5f);
-        }
-        event = (u8 *)TItemHeapObject::operator new(0x30);
-        if (event != NULL) {
-            paralysis_curse_timer_ct(event, (s32)effect_objects, get_owner_client(), 9000, 0.5f);
-        }
+        new TUnk_804A05E8(effect_objects, get_owner_client(), 9000, 0.5f);
+        new TUnk_804A0588(effect_objects, get_owner_client(), 9000, 0.5f);
+        new TUnk_804A0568(effect_objects, get_owner_client(), 9000, 0.5f);
     }
 }
 
@@ -74,9 +61,9 @@ u8 *dark_bridge_create(u8 *item) {
     return NULL;
 }
 
-u8 *paralysis_curse_timer_ct(u8 *event, s32 effect_objects, u16 owner_client, s32 frames, f32 rate) {
-    TItemTimerEvent__ct(event, effect_objects, owner_client, frames);
-    *(void ***)((s8 *)event + 0x18) = lbl_804A0568;
-    *(f32 *)((s8 *)event + 0x2C) = rate;
-    return event;
+// This object's copy of the paralysis curse timer's constructor (vfunc_57
+// calls it first).
+TUnk_804A0568::TUnk_804A0568(TItemHeapObject *parent, u16 client, s32 period, f32 rate)
+    : TItemTimerEvent(parent, client, period) {
+    unk_2C = rate;
 }

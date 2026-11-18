@@ -5,8 +5,9 @@
 #include "pso/item/TItemHeapObject.h"
 
 struct TItemTimerEvent : public TItemHeapObject {
+    TItemTimerEvent(TItemHeapObject *parent, u16 client, s32 period);
     virtual ~TItemTimerEvent();
-    virtual void vfunc_6();
+    virtual void vfunc_6() = 0;
     virtual void vfunc_7();
     virtual void run_task();
     u16 m_1c;

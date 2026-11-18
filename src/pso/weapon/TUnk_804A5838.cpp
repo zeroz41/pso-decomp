@@ -3,13 +3,11 @@
 #include "pso/weapon/TUnk_804A5838.h"
 #include "pso/item/TItem.h"
 #include "pso/item/TItemHeapObject.h"
+#include "pso/item/TUnk_804A0688.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/technique/TTecMegid.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/system/task/TMainTask.h"
-
-// The timer event class (0x804A0688) has no real constructor yet.
-extern "C" s32 ct__13TUnk_804A0688Fv(void *event, TItemHeapObject *parent, u16 client, s32 duration);
 
 void TUnk_804A5838::update_idle() {
     rotation_z = 0;
@@ -72,19 +70,11 @@ void TUnk_804A5838::update_attack() {
 #pragma pop
 
 void TUnk_804A5838::vfunc_57() {
-    void *event;
-
     if (effect_objects != NULL) {
         if (get_item_index() == 0) {
-            event = TItemHeapObject::operator new(0x2C);
-            if (event != NULL) {
-                ct__13TUnk_804A0688Fv(event, effect_objects, get_owner_client(), 0x96);
-            }
+            new TUnk_804A0688(effect_objects, get_owner_client(), 0x96);
         } else {
-            event = TItemHeapObject::operator new(0x2C);
-            if (event != NULL) {
-                ct__13TUnk_804A0688Fv(event, effect_objects, get_owner_client(), 0x5A);
-            }
+            new TUnk_804A0688(effect_objects, get_owner_client(), 0x5A);
         }
     }
 }

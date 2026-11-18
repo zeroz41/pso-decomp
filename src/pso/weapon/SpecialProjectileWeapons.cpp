@@ -3,6 +3,7 @@
 #include "pso/weapon/SpecialProjectileWeapons_80124760.h"
 #include "pso/technique/TTecMegid.h"
 #include "pso/weapon/TUnk_804A204C.h"
+#include "pso/item/TUnk_804A0668.h"
 #include "pso/weapon/shoot/TUnk_804A2148.h"
 #include "pso/weapon/TUnk_804A2164.h"
 #include "types.h"
@@ -67,9 +68,6 @@ extern "C" {
 void __ct__11TItemWeaponFP7TObjectPUc(void *);
 u8 *__nw__5TItemFUl(s32);
 void __dl__7TObjectFPv(void *);
-s32 get_owner_client__5TItemFv(void *);
-s32 __nw__15TItemHeapObjectFUl(s32);
-s32 init_vtable__13TUnk_804A0668Fv(s32, u32, s32, s32);
 s32 post_translate_matrix(void *);
 s32 draw_weapon_at_joint(void *, s32, void *);
 s32 warn_if_gauge_low__10TObjPlayerFv(s32);
@@ -260,13 +258,9 @@ void TUnk_804A204C::reserved_53() {
 }
 
 void TUnk_804A204C::vfunc_57() {
-    s32 event;
     m_204 = -1;
-    if ((u32) *(u32 *)((s8 *)this + 0x174) != 0U) {
-        event = __nw__15TItemHeapObjectFUl(0x2C);
-        if (event != 0) {
-            init_vtable__13TUnk_804A0668Fv(event, *(u32 *)((s8 *)this + 0x174), get_owner_client__5TItemFv(this), 0x5A);
-        }
+    if (effect_objects != NULL) {
+        new TUnk_804A0668(effect_objects, get_owner_client(), 0x5A);
     }
     roll_technique();
     roll_technique();

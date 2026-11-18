@@ -3,11 +3,14 @@
 #include "types.h"
 #include "pso/item/TItemTimerEvent.h"
 
+// The freeze curse timer (its constructor was freeze_curse_timer_ct): every
+// period frames it applies the curse with probability unk_2C.
 class TUnk_804A05E8 : public TItemTimerEvent {
 public:
-    virtual ~TUnk_804A05E8();
+    TUnk_804A05E8(TItemHeapObject *parent, u16 client, s32 period, f32 rate);
     virtual void vfunc_6();
-    u8 unk_2C[0x4];
+    virtual ~TUnk_804A05E8();
+    f32 unk_2C;
 };
 typedef char TUnk_804A05E8_size[sizeof(TUnk_804A05E8) == 0x30 ? 1 : -1];
 

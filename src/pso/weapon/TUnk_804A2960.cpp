@@ -3,6 +3,7 @@
 #include "pso/item/TItem.h"
 #include "pso/unk/text_80126104.h"
 #include "pso/weapon/TUnk_804A2960.h"
+#include "pso/item/TUnk_804A05E8.h"
 #include "pso/item/armor/TItemProShield.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/armor/TItemProArmor.h"
@@ -131,22 +132,13 @@ void TUnk_804A2960::emit_marker_effects() {
 
 // Starts the freeze curse timer on the equip effect objects.
 void TUnk_804A2960::vfunc_57() {
-    void *event;
-
     if (effect_objects != NULL) {
-        event = TItemHeapObject::operator new(0x30);
-        if (event != NULL) {
-            freeze_curse_timer_ct((u8 *)event, (s32)effect_objects, get_owner_client(), 0xE10, 0.25f);
-        }
+        new TUnk_804A05E8(effect_objects, get_owner_client(), 0xE10, 0.25f);
     }
 }
 
 TUnk_804A2960::~TUnk_804A2960() {}
 
-extern "C" {
-u8 *TItemTimerEvent__ct(void *, s32, u16, s32);
-}
-extern s32 lbl_804A05E8[];
 
 TUnk_804A2960::TUnk_804A2960(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
     set_weapon_flags(0x22);
@@ -167,9 +159,9 @@ u8 *frozen_shooter_create(u8 *item) {
     return NULL;
 }
 
-u8 *freeze_curse_timer_ct(u8 *event, s32 effect_objects, u16 owner_client, s32 frames, f32 rate) {
-    TItemTimerEvent__ct(event, effect_objects, owner_client, frames);
-    *(s32 **)((s8 *)event + 0x18) = lbl_804A05E8;
-    *(f32 *)((s8 *)event + 0x2C) = rate;
-    return event;
+// This object's copy of the freeze curse timer's constructor (vfunc_57
+// calls it first).
+TUnk_804A05E8::TUnk_804A05E8(TItemHeapObject *parent, u16 client, s32 period, f32 rate)
+    : TItemTimerEvent(parent, client, period) {
+    unk_2C = rate;
 }
