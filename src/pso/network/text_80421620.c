@@ -63,7 +63,7 @@ void OSReport(const char *, ...);
 s16 reset_socket_table();
 s16 TLobby__sub_80409AD8();
 s16 init_ipv4_interfaces();
-s16 TLobby__sub_8040ED70();
+s16 init_ipv4_routing();
 s16 NetIPv6Init();
 s16 TUdpSocket__sub_8041118C();
 s16 TLobby__sub_80415690(); /* declared s16 here; the definition returns s32 */
@@ -94,14 +94,14 @@ s32 tcp_connect_start(int, void *, u16);
 s32 tcp_connect(s32 a, IpAddr_80422B8C *addr, u16 port, IpAddr_80422B8C *opt);
 s32 TLobby__sub_8041E5E4(int, void *, u16);
 s32 tcp_bind(s32 a, void *addr, u16 port);
-s16 TLobby__sub_8040F00C(s16, void *, int, void *); /* declared s16 here; the definition is s32 (s16, NetBufferRef *, s16, s32) */
+s16 copy_ipv4_interface_addresses(s16, void *, int, void *); /* declared s16 here; the definition is s32 (s16, NetBufferRef *, s16, s32) */
 s16 TLobby__sub_80412058(s16, void *, int, void *);
 s16 TLobby__sub_80422F70(s16 arg0, s32 arg1, s32 arg2, s32 arg3);
 s32 OSDisableInterrupts();
 s32 OSRestoreInterrupts(int);
-s16 TLobby__sub_8040F1A0(s16);
+s16 bring_down_ipv4_interface(s16);
 s16 TLobby__sub_80412210(s16);
-s16 TLobby__sub_8040F454(s32, s32, s32, s16);
+s16 bring_up_ipv4_interface(s32, s32, s32, s16);
 s16 TLobby__sub_80412CA4(void *, s16, s16, s16, s32);
 s16 TLobby__sub_8042315C(s16 arg0, P_8042315C *p);
 s32 cleanup_subsystems(void) {
@@ -109,7 +109,7 @@ s32 cleanup_subsystems(void) {
     TLobby__sub_80409AA8();
     NetIPv6ShutdownNeighborDiscovery();
     TLobby__sub_8041112C();
-    TLobby__sub_8040ED28();
+    shutdown_ipv4_routing();
     NetIPv6Shutdown();
     TLobby__sub_8040DD68();
     TLobby__sub_80418A7C();
@@ -150,7 +150,7 @@ s16 init_network_stack(void) {
                             if (result >= 0) {
                                 result = NetIPv6Init();
                                 if (result >= 0) {
-                                    result = TLobby__sub_8040ED70();
+                                    result = init_ipv4_routing();
                                     if (result >= 0) {
                                         result = TUdpSocket__sub_8041118C();
                                         if (result >= 0) {
@@ -174,7 +174,7 @@ block_20:
                                             goto block_21;
                                         }
 block_21:
-                                        TLobby__sub_8040ED28();
+                                        shutdown_ipv4_routing();
                                         goto block_22;
                                     }
 block_22:
@@ -922,7 +922,7 @@ s16 TLobby__sub_80422F70(s16 iface, s32 hdr_src, s32 len, s32 buf) {
     total = 0;
     lock_mutex(network_dispatch_state.lock_handle);
     init_packet_header(&sp18, hdr_src);
-    first = TLobby__sub_8040F00C(iface, &sp18, (int)len, (void *)buf);
+    first = copy_ipv4_interface_addresses(iface, &sp18, (int)len, (void *)buf);
     if (first > 0) {
         total = first;
         len -= first * 0x1C;
@@ -954,7 +954,7 @@ s16 TLobby__sub_80423064(s16 idx, s32 op) {
     switch (op) {
     case 0:
         result = 0;
-        tmp = TLobby__sub_8040F1A0(idx);
+        tmp = bring_down_ipv4_interface(idx);
         if (tmp < 0) {
             result = tmp;
         }
@@ -964,7 +964,7 @@ s16 TLobby__sub_80423064(s16 idx, s32 op) {
         }
         break;
     case 4:
-        result = TLobby__sub_8040F1A0(idx);
+        result = bring_down_ipv4_interface(idx);
         break;
     case 6:
         result = TLobby__sub_80412210(idx);
@@ -988,7 +988,7 @@ s16 TLobby__sub_8042315C(s16 iface, P_8042315C *p) {
     intr = OSDisableInterrupts();
     switch (p->type) {
     case 4:
-        result = TLobby__sub_8040F454(p->a, p->b, p->c, iface);
+        result = bring_up_ipv4_interface(p->a, p->b, p->c, iface);
         break;
     case 6:
         if (p->n < 0 || p->n > 0x80) {

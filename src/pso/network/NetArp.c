@@ -27,23 +27,23 @@ ArpEntry *find_or_add_peer_entry(s16 handler, s32 socket, u8 plen, void *paddr, 
 #include "pso/network/IPv6Send.h"
 #include "pso/network/NetStackTypes.h"
 
-s32 TUdpSocket__sub_80407508(void);
+s32 arp_init(void);
 void TLobby__sub_804073B8(void);
-s32 TLobby__sub_80407C60(s16, s32);
-s32 TLobby__sub_80407D98(s16, s32);
-s16 TLobby__sub_80407F20(s16 a, s16 b, s16 c, s16 d, s16 e, s32 f, s16 g, s32 h);
+s32 arp_remove_alias(s16, s32);
+s32 arp_add_alias(s16, s32);
+s16 register_arp_interface(s16 a, s16 b, s16 c, s16 d, s16 e, s32 f, s16 g, s32 h);
 
 /* Inline the helpers below; this applies to the rest of the file. */
 #pragma dont_inline off
 #pragma inline_depth(4)
 
 s32 NetUnregisterTimer(void* p);
-void TLobby__sub_804078B4(void);
+void age_arp_cache(void);
 s32 TLobby__sub_80407358(void) {
     ArpState *g = &lbl_805C1AB0;
     s32 tmp[2];
     release_slot_by_id(0x806);
-    NetUnregisterTimer((void *)TLobby__sub_804078B4);
+    NetUnregisterTimer((void *)age_arp_cache);
     TLobby__sub_803F8A24(g);
     g->nentries = 0;
     g->nifaces = 0;
@@ -53,15 +53,15 @@ s32 TLobby__sub_80407358(void) {
 }
 
 void TLobby__sub_804073B8(void) {
-    TUdpSocket__sub_80407508();
+    arp_init();
 }
 
 s32 dispatch_slot_a(s16 id, s32 key) {
-    return TLobby__sub_80407C60(id, key);
+    return arp_remove_alias(id, key);
 }
 
 s32 dispatch_slot_b(s16 id, s32 pkey) {
-    return TLobby__sub_80407D98(id, pkey);
+    return arp_add_alias(id, pkey);
 }
 
 s32 TLobby__sub_80407418(s16 id) {
@@ -93,16 +93,16 @@ s32 TLobby__sub_80407418(s16 id) {
 }
 
 s16 forward_net_op(s16 idx, u8 *name, u8 *arg2) {
-    return TLobby__sub_8040799C(idx, name, arg2);
+    return arp_resolve_and_send(idx, name, arg2);
 }
 
 void forward_net_op_5args(s16 arg0, s16 arg1, s16 arg2, s16 arg3, s16 arg4, s32 arg5, s8 arg6, s32 arg7) {
-    s16 TLobby__sub_80407F20(s16, s16, s16, s16, s16, s32, s8, s32);
-    TLobby__sub_80407F20(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
+    s16 register_arp_interface(s16, s16, s16, s16, s16, s32, s8, s32);
+    register_arp_interface(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
 }
 
-extern s32 TLobby__sub_80407640(void *pkt, s16 a, s16 b, s16 c);
-s32 TUdpSocket__sub_80407508(void)
+extern s32 arp_handle_packet(void *pkt, s16 a, s16 b, s16 c);
+s32 arp_init(void)
 {
     ArpState *tbl = &lbl_805C1AB0;
     s16 *step;
@@ -147,8 +147,8 @@ s32 TUdpSocket__sub_80407508(void)
         NetMemset(p4, 0, sizeof(ArpAlias));
         p4++;
     }
-    register_protocol_handler(0x806, (NetProtocolHandler)TLobby__sub_80407640);
-    NetRegisterTimer(60000, 1, TLobby__sub_804078B4);
+    register_protocol_handler(0x806, (NetProtocolHandler)arp_handle_packet);
+    NetRegisterTimer(60000, 1, age_arp_cache);
     return 0;
 }
 
@@ -187,7 +187,7 @@ inline ArpEntry *FindPeer_80407640(ArpEntry *peer, s16 n, u8 ff, u8 *p2) {
     }
     return 0;
 }
-extern s32 TLobby__sub_80407640(void *pkt, s16 a, s16 b, s16 c)
+extern s32 arp_handle_packet(void *pkt, s16 a, s16 b, s16 c)
 {
   s32 call_handler_by_index(s16 arg0, s16 arg1, s32 arg2, s32 arg3, s32 arg4); /* declared here with an s16 2nd argument; the definition takes s32 */
   s16 TLobby__sub_804082AC(ArpIface *, ArpFields *, void *); /* declared here with an s16 result; the definition returns s32 */
@@ -245,7 +245,7 @@ extern s32 TLobby__sub_80407640(void *pkt, s16 a, s16 b, s16 c)
   }
   return 0;
 }
-void TLobby__sub_804078B4(void) {
+void age_arp_cache(void) {
     ArpEntry* p;
     s16 n;
     n = lbl_805C1AB0.nentries;
@@ -273,7 +273,7 @@ void TLobby__sub_804078B4(void) {
     }
 }
 
-void TLobby__sub_80408060(ArpEntry *entry, NetPacket *pkt);
+void arp_hold_packet(ArpEntry *entry, NetPacket *pkt);
 
 inline ArpIface *Lookup_8040799C(ArpState *t, s16 idx) {
     ArpIface *list = t->ifaces;
@@ -324,7 +324,7 @@ inline void Send_8040799C(ArpIface *e, void *name) {
     }
 }
 
-s16 TLobby__sub_8040799C(s16 idx, void *name, void *pkt) {
+s16 arp_resolve_and_send(s16 idx, void *name, void *pkt) {
     ArpState *t = &lbl_805C1AB0;
     ArpIface *e;
     ArpEntry *p;
@@ -346,7 +346,7 @@ s16 TLobby__sub_8040799C(s16 idx, void *name, void *pkt) {
                 Clear_8040799C(p);
                 p->hold = NULL;
             }
-            TLobby__sub_80408060(p, pkt);
+            arp_hold_packet(p, pkt);
             Send_8040799C(e, name);
             p->timer = t->retry;
         }
@@ -354,14 +354,14 @@ s16 TLobby__sub_8040799C(s16 idx, void *name, void *pkt) {
         u8 buf[6];
         NetMemset(buf, 0, 6);
         np = find_or_add_peer_entry(e->handler, e->socket, e->plen, name, e->hlen, buf, 1);
-        TLobby__sub_80408060(np, pkt);
+        arp_hold_packet(np, pkt);
         Send_8040799C(e, name);
         np->timer = t->retry;
     }
     return ret;
 }
 
-s32 TLobby__sub_80407C60(s16 id, s32 key) {
+s32 arp_remove_alias(s16 id, s32 key) {
     ArpState *tbl = &lbl_805C1AB0;
     ArpIface *base = tbl->ifaces;
     s16 ok;
@@ -438,7 +438,7 @@ inline ArpAlias *alloc2_80407D98(ArpState *t, s16 *count) {
     }
     return NULL;
 }
-s32 TLobby__sub_80407D98(s16 id, s32 pkey) {
+s32 arp_add_alias(s16 id, s32 pkey) {
     s16 lim;
     ArpAlias *next;
     ArpAlias *p;
@@ -492,7 +492,7 @@ inline ArpIface *findfree_80407F20(ArpIface *base) {
     return NULL;
 }
 
-s16 TLobby__sub_80407F20(s16 a, s16 b, s16 c, s16 d, s16 e, s32 f, s16 g, s32 h)
+s16 register_arp_interface(s16 a, s16 b, s16 c, s16 d, s16 e, s32 f, s16 g, s32 h)
 {
     ArpIface *base;
     ArpIface *slot;
@@ -530,7 +530,7 @@ s16 TLobby__sub_80407F20(s16 a, s16 b, s16 c, s16 d, s16 e, s32 f, s16 g, s32 h)
     slot->aliases = NULL;
     return idx;
 }
-extern void TLobby__sub_80408060(ArpEntry *entry, NetPacket *pkt) {
+extern void arp_hold_packet(ArpEntry *entry, NetPacket *pkt) {
 u8 tmp[0x8];
 ArpHold *found;
 s16 sum = 0;

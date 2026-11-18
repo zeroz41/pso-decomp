@@ -70,7 +70,7 @@ s16 select_source_address(Out_8040D95C *out_8040_d95_c, In_8040D95C *in_8040_d95
             return -6;
         }
         out_8040_d95_c->type = 4;
-        return TLobby__sub_8040EF50(&out_8040_d95_c->f4, rt->gateway, rt->iface);
+        return ipv4_source_for_subnet(&out_8040_d95_c->f4, rt->gateway, rt->iface);
         }
     case 6:
         ok = NetIPv6IsUnspecified((u8 *)&out_8040_d95_c->f4);
@@ -185,7 +185,7 @@ s16 TLobby__sub_8040DC8C(u8 *arg0, u8 *arg1) {
         if (rt4 == NULL) {
             return -6;
         }
-        mtu = TLobby__sub_8040EF00(rt4->iface);
+        mtu = get_ipv4_interface_mtu(rt4->iface);
         if (mtu < 0x28) {
             return -6;
         }

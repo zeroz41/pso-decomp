@@ -374,7 +374,7 @@ s16 TUdpSocket__sub_8040E354(u8 *self, u32 key, u8 *pkt, s16 total, s16 id)
   {
     target = *((u8 **) (rt + 12));
   }
-  mtu = TLobby__sub_8040EF00(ifidx);
+  mtu = get_ipv4_interface_mtu(ifidx);
   if (mtu < 0)
   {
     return mtu;
@@ -429,7 +429,7 @@ s16 TUdpSocket__sub_8040E354(u8 *self, u32 key, u8 *pkt, s16 total, s16 id)
       rec->fragments[rec->fragment_count].length = hdr;
       set_value_and_enable(&rec->fragments[rec->fragment_count].buffer, (s32) pkt);
       rec->fragment_count += 1;
-      r = TLobby__sub_8040EDE4(rec, (u32) target, ifidx);
+      r = ipv4_send_to_interface(rec, (u32) target, ifidx);
       if (r < 0)
       {
         release_entry(rec);
@@ -472,7 +472,7 @@ s16 TUdpSocket__sub_8040E354(u8 *self, u32 key, u8 *pkt, s16 total, s16 id)
     rec->fragments[rec->fragment_count].length = hdr;
     set_value_and_enable(&rec->fragments[rec->fragment_count].buffer, (s32) pkt);
     rec->fragment_count += 1;
-    r = TLobby__sub_8040EDE4(rec, (u32) target, ifidx);
+    r = ipv4_send_to_interface(rec, (u32) target, ifidx);
     release_entry(rec);
   }
   return r;
@@ -518,7 +518,7 @@ s16 TLobby__sub_8040E780(u8 *rec, u32 dst, u32 src, u8 ttl, u8 tos, u8 df, void 
   }
   if (src == 0)
   {
-    r = TLobby__sub_8040EF50(&src, *((u32 *)(ent + 12)), *((s16 *)(ent + 2)));
+    r = ipv4_source_for_subnet(&src, *((u32 *)(ent + 12)), *((s16 *)(ent + 2)));
     if (r < 0)
     {
       return r;
@@ -526,7 +526,7 @@ s16 TLobby__sub_8040E780(u8 *rec, u32 dst, u32 src, u8 ttl, u8 tos, u8 df, void 
   }
   if (TLobby__sub_8040FDA0(src, *((s16 *)(ent + 2))) != 0)
   {
-    r = TLobby__sub_8040EF50(&src, *((u32 *)(ent + 12)), *((s16 *)(ent + 2)));
+    r = ipv4_source_for_subnet(&src, *((u32 *)(ent + 12)), *((s16 *)(ent + 2)));
     if (r < 0)
     {
       return r;
@@ -572,7 +572,7 @@ s16 TLobby__sub_8040E780(u8 *rec, u32 dst, u32 src, u8 ttl, u8 tos, u8 df, void 
   *((u16 *)(ip + 4)) = *((u16 *)(g + 8));
   NetMemcpy(ip + 12, &src, 4);
   NetMemcpy(ip + 16, &dst, 4);
-  mtu = TLobby__sub_8040EF00(ifidx);
+  mtu = get_ipv4_interface_mtu(ifidx);
   if (mtu < 0)
   {
     return mtu;
@@ -600,7 +600,7 @@ s16 TLobby__sub_8040E780(u8 *rec, u32 dst, u32 src, u8 ttl, u8 tos, u8 df, void 
     } *) (rec + 0xc))[*((s32 *)(rec + 4))].v = 20;
     set_value_and_enable((rec + 0x10) + ((*((s32 *)(rec + 4))) * 12), (s32) ip);
     *((s32 *)(rec + 4)) += 1;
-    return TLobby__sub_8040EDE4(rec, (u32) target, ifidx);
+    return ipv4_send_to_interface(rec, (u32) target, ifidx);
   }
   off = 0;
   if (df != 0)
@@ -692,7 +692,7 @@ s16 TLobby__sub_8040E780(u8 *rec, u32 dst, u32 src, u8 ttl, u8 tos, u8 df, void 
     *((s16 *) ((ent + ((*((s32 *)(ent + 4))) * 12)) + 12)) = 20;
     set_value_and_enable((ent + 0x10) + ((*((s32 *)(ent + 4))) * 12), (s32) ip);
     *((s32 *)(ent + 4)) += 1;
-    r = TLobby__sub_8040EDE4(ent, (u32) target, ifidx);
+    r = ipv4_send_to_interface(ent, (u32) target, ifidx);
     if (r < 0)
     {
       return r;
