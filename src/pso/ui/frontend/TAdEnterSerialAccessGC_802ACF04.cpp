@@ -8,10 +8,7 @@ extern "C" {
 
 void *TAdEnterSerialAccessGC::create_callback(void *arg0, void *arg1, void *arg2) {
     void *o;
-    o = TObject::operator new(0x64);
-    if (o != NULL) {
-        o = __ct__15TWindowCallBackFlPUcl((u8 *)o, (s32)arg0, (u8 *)arg1, (s32)arg2);
-    }
+    o = new TWindowCallBack((s32)arg0, (u8 *)arg1, (s32)arg2);
     return o;
 }
 
