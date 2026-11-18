@@ -7694,7 +7694,7 @@ pso/ui/window/TWindowSubMagPhoton.cpp:
 pso/ui/window/TWindowSubQuestBoard.cpp:
 	.text       start:0x8027CCC8 end:0x8027D1E8
 	.rodata     start:0x8044FA30 end:0x8044FA48
-	.data       start:0x804D1830 end:0x804D1848
+	.data       start:0x804D1818 end:0x804D1848
 	.sdata      start:0x805D3A78 end:0x805D3A80
 
 pso/ui/window/TWindowSubQuestBoard_8027D1E8.cpp:
