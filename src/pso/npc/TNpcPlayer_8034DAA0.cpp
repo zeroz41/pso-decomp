@@ -775,7 +775,7 @@ u8 TTecReverser::is_active() {
     return (u8) var_r31;
 }
 
-void TNpcPlayer::copy_entry_by_index(s32 arg1) {
+void TNpcPlayer::AiParams::copy_entry_by_index(s32 arg1) {
     s32 arg0 = (s32)this;
     s32 temp_r5;
     temp_r5 = arg1 * 0x28;

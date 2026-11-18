@@ -1056,23 +1056,6 @@ struct Obj_801F09EC {
     u32 f30;
 };
 
-struct Npc_801F1450 {
-    s16 h0;
-    s16 h2;
-    s32 flags;
-    f32 f8;
-    f32 fC;
-    f32 f10;
-    f32 f14;
-    f32 f18;
-    f32 f1C;
-    u8 b20;
-    u8 b21;
-    u8 b22;
-    u8 b23;
-    f32 f24;
-};
-
 void * memcpy(void *, const void *, u32);
 s32 memset(void *, int, int);
 void TKeyBoardControl__sub_8000F950(void);
@@ -5217,15 +5200,15 @@ void qst_op_npc_crtpk(void) {
 }
 
 void qst_op_npc_param() {
-    Npc_801F1450 s;
+    TNpcPlayer::AiParams s;
     u8 i;
     s32 flags;
     s32 arg;
 
     i = qst_args[0];
     arg = qst_args[1];
-    s.h0 = qst_registers[i++];
-    s.h2 = qst_registers[i++];
+    s.npc_id = qst_registers[i++];
+    s.base_level = qst_registers[i++];
     switch (qst_registers[i++]) {
     case 0:
         flags = 0x40;
@@ -5250,19 +5233,19 @@ void qst_op_npc_param() {
         flags = 0x90;
         break;
     }
-    s.flags = flags;
-    s.f8 = qst_registers[i++];
-    s.fC = qst_registers[i++];
-    s.f10 = qst_registers[i++];
-    s.f14 = qst_registers[i++];
-    s.f18 = qst_registers[i++];
-    s.f1C = qst_registers[i++];
-    s.b20 = qst_registers[i++];
-    s.b21 = qst_registers[i++];
-    s.b22 = qst_registers[i++];
-    s.b23 = qst_registers[i++];
-    s.f24 = qst_registers[i];
-    ((TNpcPlayer *)(&s))->copy_entry_by_index(arg);
+    s.technique_flags = flags;
+    s.enemy_lock_on_range = qst_registers[i++];
+    s.unknown_0C = qst_registers[i++];
+    s.max_distance_from_player = qst_registers[i++];
+    s.enemy_unlock_range = qst_registers[i++];
+    s.block_range = qst_registers[i++];
+    s.attack_range = qst_registers[i++];
+    s.attack_technique_level = qst_registers[i++];
+    s.support_technique_level = qst_registers[i++];
+    s.attack_probability = qst_registers[i++];
+    s.attack_technique_probability = qst_registers[i++];
+    s.unknown_24 = qst_registers[i];
+    s.copy_entry_by_index(arg);
 }
 
 void qst_op_npc_crt(void) {
