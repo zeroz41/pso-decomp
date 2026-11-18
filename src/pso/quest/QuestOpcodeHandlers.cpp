@@ -6385,14 +6385,14 @@ s32 stream_read_be32(void);
 void append_string_to_buffer(s32 arg0);
 extern char qst_cstring_buffer[];
 
-void qst_getargs_801F26A8(s32 op) {
+void qst_getargs_u16_u8(s32 op) {
     void (*fn)(u16, u8) = (void (*)(u16, u8))qst_opcode_table[op].handler;
     u16 a = read_be_u16();
     fn(a, TLobby::read_packet_byte());
 }
 
 extern "C" {
-void qst_getargs_801F2700(s32 op) {
+void qst_getargs_u16(s32 op) {
     void (*fn)(u16) = (void (*)(u16))qst_opcode_table[op].handler;
     fn(read_be_u16());
 }
@@ -6404,12 +6404,12 @@ void qst_getargs_cstring(s32 op) {
     fn(qst_cstring_buffer);
 }
 
-typedef void (*Handler_801F27A0)(s32, u8, s16 *);
-typedef void (*Handler_801F2828)(u16, u8, u8 *);
+typedef void (*SwitchJumpHandler)(s32, u8, s16 *);
+typedef void (*JumpOnHandler)(u16, u8, u8 *);
 
-void qst_getargs_801F27A0(s32 op) {
+void qst_getargs_s32_u8_s16ptr(s32 op) {
     s16 buf[16];
-    Handler_801F27A0 fn = (Handler_801F27A0) qst_opcode_table[op].handler;
+    SwitchJumpHandler fn = (SwitchJumpHandler) qst_opcode_table[op].handler;
     s32 first = ((s32 (*)(void))TLobby::read_packet_byte)();
     u8 count = ((s32 (*)(void))TLobby::read_packet_byte)();
     s32 i;
@@ -6421,9 +6421,9 @@ void qst_getargs_801F27A0(s32 op) {
 }
 
 extern "C" {
-void qst_getargs_801F2828(s32 op) {
+void qst_getargs_u16_u8_u8ptr(s32 op) {
     u8 buf[16];
-    Handler_801F2828 fn = (Handler_801F2828) qst_opcode_table[op].handler;
+    JumpOnHandler fn = (JumpOnHandler) qst_opcode_table[op].handler;
     u16 label = ((s32 (*)(void))read_be_u16)();
     u8 count = ((s32 (*)(void))TLobby::read_packet_byte)();
     s32 i;
@@ -6435,14 +6435,14 @@ void qst_getargs_801F2828(s32 op) {
 }
 }
 
-void qst_getargs_801F28AC(s32 op) {
+void qst_getargs_u8_s32_u16(s32 op) {
     void (*fn)(u8, s32, u16) = (void (*)(u8, s32, u16))qst_opcode_table[op].handler;
     u8 a = TLobby::read_packet_byte();
     s32 b = stream_read_be32();
     fn(a, b, read_be_u16());
 }
 
-void qst_getargs_801F2910(s32 op) {
+void qst_getargs_u8_u8_u16(s32 op) {
     void (*fn)(u8, u8, u16) = (void (*)(u8, u8, u16))qst_opcode_table[op].handler;
     u8 a = TLobby::read_packet_byte();
     u8 b = TLobby::read_packet_byte();
@@ -6455,41 +6455,41 @@ void TLobby::dispatch_command(s32 op) {
     fn(a, read_be_u16());
 }
 
-void qst_getargs_801F29CC(s32 op) {
+void qst_getargs_u16_2(s32 op) {
     void (*fn)(u16) = (void (*)(u16))qst_opcode_table[op].handler;
     fn(read_be_u16());
 }
 
-void qst_getargs_801F2A14(s32 op) {
+void qst_getargs_s32(s32 op) {
     void (*fn)(s32) = (void (*)(s32))qst_opcode_table[op].handler;
     fn(stream_read_be32());
 }
 
-void qst_getargs_801F2A5C(s32 op) {
+void qst_getargs_u8_s32(s32 op) {
     void (*fn)(u8, s32) = (void (*)(u8, s32))qst_opcode_table[op].handler;
     u8 a = TLobby::read_packet_byte();
     fn(a, stream_read_be32());
 }
 
-void qst_getargs_801F2AB4(s32 op) {
+void qst_getargs_u8_u8(s32 op) {
     void (*fn)(u8, u8) = (void (*)(u8, u8))qst_opcode_table[op].handler;
     u8 a = TLobby::read_packet_byte();
     fn(a, TLobby::read_packet_byte());
 }
 
 extern "C" {
-void qst_getargs_801F2B0C(s32 op) {
+void qst_getargs_u8(s32 op) {
     void (*fn)(u8) = (void (*)(u8))qst_opcode_table[op].handler;
     fn(TLobby::read_packet_byte());
 }
 }
 
-void qst_getargs_801F2B54(s32 op) {
+void qst_getargs_void_reset(s32 op) {
     qst_opcode_table[op].handler();
     qst_arg_count = 0;
 }
 
-void qst_getargs_801F2B94(s32 op) {
+void qst_getargs_void(s32 op) {
     qst_opcode_table[op].handler();
 }
 
