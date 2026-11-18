@@ -1866,6 +1866,7 @@ pso/unk/text_800DC420.cpp:
 pso/player/TObjPlayer_800DCC90.cpp:
 	.text       start:0x800DC9EC end:0x800DCEB8
 	.rodata     start:0x8043C920 end:0x8043C948
+	.data       start:0x80494E48 end:0x80494E80
 	.sdata2     start:0x805DA480 end:0x805DA48C
 
 pso/enemy/panarms/TObjEnePanarms_800DCEB8.cpp:

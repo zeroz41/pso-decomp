@@ -7,7 +7,6 @@ class TUnk_80494E48 : public TObjCollidable {
 public:
     virtual ~TUnk_80494E48();
     virtual void run_task();
-    void *destroy_particle_obj(s16);
     u8 unk_AC[0x4C];
     void * m_f8;
     u8 unk_FC[0x8];
