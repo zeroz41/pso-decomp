@@ -98,8 +98,8 @@ void *__dt__13TShopSequenceFv(void *arg0, s16 arg1);
 s32 sub_8022397C__15TShopWindowBaseFv(void *);
 s32 __dl__7TObjectFPv(void *);
 extern RecoveredGlobal_802203E4___vt__20TShopItemTecSequence __vt__20TShopItemTecSequence;
-struct TShopItemTecSequenceSlotTable { s32 value; u8 remaining[0xC]; };
-extern TShopItemTecSequenceSlotTable TShopItemTecSequence__slot_table;
+// Per-player slot flags, set by the ctor and cleared by the dtor (as THunterGuildSeqOffline__instance_table).
+s32 TShopItemTecSequence__slot_table[4];
 s32 lbl_805D6248;
 s32 lbl_805D624C;
 s32 lbl_805D6250;
@@ -274,7 +274,7 @@ u8 *__dt__20TShopItemTecSequenceFv(TShopItemTecSequence *shop_item_tec_sequence,
             *(u32 *)((s8 *)shop_item_tec_sequence + 0x30) = 0U;
         }
         lbl_805D6250 = 0;
-        *(s32 *)((s8 *)&TShopItemTecSequence__slot_table.value + (sub_8022397C__15TShopWindowBaseFv(shop_item_tec_sequence) * 4)) = 0;
+        TShopItemTecSequence__slot_table[sub_8022397C__15TShopWindowBaseFv(shop_item_tec_sequence)] = 0;
         __dt__13TShopSequenceFv((shop_item_tec_sequence), 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(shop_item_tec_sequence);
@@ -296,21 +296,21 @@ u8 *TShopItemTecSequence__ct(u8 *shop_item_tec_sequence, s32 arg1, s32 arg2) {
     (*(u8 * *)&lbl_805D6250) = shop_item_tec_sequence;
     lbl_805D6248 = 0;
     lbl_805D624C = 0;
-    *(s32 *)((s8 *)(&TShopItemTecSequence__slot_table.value) + (sub_8022397C__15TShopWindowBaseFv(shop_item_tec_sequence) * 4)) = 1;
+    TShopItemTecSequence__slot_table[sub_8022397C__15TShopWindowBaseFv(shop_item_tec_sequence)] = 1;
     return shop_item_tec_sequence;
 }
 
 void TShopItemTecSequence__sub_80220538(void) {
     s32 i;
     for (i = 0; i < 4; i++) {
-        ((s32 *)&TShopItemTecSequence__slot_table)[i] = 0;
+        TShopItemTecSequence__slot_table[i] = 0;
     }
 }
 
 void TShopItemTecSequence__sub_80220560(void) {
     s32 i;
     for (i = 0; i < 4; i++) {
-        ((s32 *)&TShopItemTecSequence__slot_table)[i] = 0;
+        TShopItemTecSequence__slot_table[i] = 0;
     }
 }
 

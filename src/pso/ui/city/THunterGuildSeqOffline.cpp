@@ -76,7 +76,7 @@ extern RecoveredGlobal_80213220___vt__22THunterGuildSeqOffline __vt__22THunterGu
 s32 THunterGuildSeqOffline__quest_result_callbacks[4];
 struct THunterGuildSeqOfflineInstanceTable { s32 value; u8 remaining[0xC]; };
 THunterGuildSeqOfflineInstanceTable THunterGuildSeqOffline__instance_table;
-extern s32 THunterGuildSeqOffline__active_instance;
+s32 THunterGuildSeqOffline__active_instance;
 u8 *__dt__22THunterGuildSeqOfflineFv(u8 *arg0, s16 arg1);
 int is_quest_active(void);
 s32 sub_802239EC__13TShopSequenceFv(void *);

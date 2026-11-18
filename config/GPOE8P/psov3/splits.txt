@@ -2152,6 +2152,7 @@ pso/ui/font/TFontSmallHelp.cpp:
 pso/ui/window/TWindowCtrlMain_800FC91C.cpp:
 	.text       start:0x800FC91C end:0x800FCCC8
 	.data       start:0x8049CA40 end:0x8049CA6C
+	.sdata2     start:0x805DA9E0 end:0x805DAA00
 
 pso/ui/font/TFontSmallTask.cpp:
 	.text       start:0x800FCCC8 end:0x800FD78C
@@ -6076,12 +6077,14 @@ pso/ui/city/THunterGuildSeqOffline.cpp:
 	.data       start:0x804C9710 end:0x804C973C
 	.bss        start:0x80513DC8 end:0x80513DE8
 	.sdata      start:0x805D3658 end:0x805D3660
+	.sbss       start:0x805D6188 end:0x805D6190
 	.sdata2     start:0x805DC650 end:0x805DC658
 
 pso/ui/city/THunterGuildSeqOffline_80213788.cpp:
 	.text       start:0x80213788 end:0x80214BC4
 	.data       start:0x804C9778 end:0x804C97F0
-	.sbss       start:0x805D61B8 end:0x805D61BC
+	.bss        start:0x80513DE8 end:0x80513E80
+	.sbss       start:0x805D6190 end:0x805D61C0
 	.sdata2     start:0x805DC658 end:0x805DC660
 
 pso/ui/city/THunterGuildSeqOnlineTask.cpp:
@@ -6239,6 +6242,7 @@ pso/ui/city/TShopItemTecSequence.cpp:
 	.text       start:0x8021FE6C end:0x802205E4
 	.rodata     start:0x8044C180 end:0x8044C198
 	.data       start:0x804CA170 end:0x804CA190
+	.bss        start:0x80513EE0 end:0x80513EF0
 	.sdata      start:0x805D36D8 end:0x805D36E0
 	.sbss       start:0x805D6248 end:0x805D6258
 	.sdata2     start:0x805DC700 end:0x805DC708
@@ -7668,8 +7672,9 @@ pso/ui/chat/TWindowSubShortMail_8027E620.cpp:
 
 pso/ui/window/TWindowSubStatusDisp_8027FD88.cpp:
 	.text       start:0x8027FD88 end:0x80281814
-	.rodata     start:0x8044FB00 end:0x8044FB08
+	.rodata     start:0x8044FAD8 end:0x8044FB08
 	.data       start:0x804D1AE8 end:0x804D2B20
+	.sdata      start:0x805D3AA0 end:0x805D3AA8
 	.sbss       start:0x805D6488 end:0x805D6490
 
 pso/ui/chat/TWindowSubSymbolChat.cpp:
