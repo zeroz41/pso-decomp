@@ -4774,91 +4774,17 @@ pso/object/TObjParticle.cpp:
 	.sdata2     start:0x805DBEE0 end:0x805DBEF0
 
 pso/player/TObjPlayerSet.cpp:
-	.text       start:0x80195674 end:0x80195874
+	.text       start:0x80195674 end:0x801957B0
 	.data       start:0x804B8620 end:0x804B8654
 	.sdata2     start:0x805DBEF0 end:0x805DBEF4
 
-pso/object/quest/TObjQuestCol2.cpp:
-	.text       start:0x80195874 end:0x80195954
-
-pso/object/quest/TObjQuestColALock2.cpp:
-	.text       start:0x80195954 end:0x80195CF0
-
-pso/quest/TQuestColCtrl_80195CF0.cpp:
-	.text       start:0x80195CF0 end:0x80195F1C
-
-pso/quest/TQuestColCtrl.cpp:
-	.text       start:0x80195F1C end:0x8019608C
-	.data       start:0x804B86E0 end:0x804B86F8
-
-pso/object/quest/TObjQuestColApcINW.cpp:
-	.text       start:0x8019608C end:0x80196214
-	.bss        start:0x8050DD08 end:0x8050DD18
-
-pso/unk/text_80196214.cpp:
-	.text       start:0x80196214 end:0x80196280
-
-pso/object/quest/TObjQuestColApcIN.cpp:
-	.text       start:0x80196280 end:0x801963A8
-
-pso/unk/text_801963A8.cpp:
-	.text       start:0x801963A8 end:0x80196414
-
-pso/object/quest/TObjQuestColApc.cpp:
-	.text       start:0x80196414 end:0x80196508
-
-pso/unk/text_80196508.cpp:
-	.text       start:0x80196508 end:0x80196574
-
-pso/object/quest/TObjQuestColALock_80196574.cpp:
-	.text       start:0x80196574 end:0x801965F8
-
-pso/object/quest/TObjQuestColALock.cpp:
-	.text       start:0x801965F8 end:0x80196814
-
-pso/unk/text_80196814.cpp:
-	.text       start:0x80196814 end:0x80196880
-
-pso/object/quest/TObjQuestColA_80196880.cpp:
-	.text       start:0x80196880 end:0x801968CC
-
-pso/object/quest/TObjQuestColA.cpp:
-	.text       start:0x801968CC end:0x80196A20
-
-pso/unk/text_80196A20.cpp:
-	.text       start:0x80196A20 end:0x80196A8C
-
-pso/object/quest/TObjQuestCol_80196A8C.cpp:
-	.text       start:0x80196A8C end:0x80196AD8
-
 pso/object/quest/TObjQuestCol.cpp:
-	.text       start:0x80196AD8 end:0x80196B3C
-
-pso/object/quest/TObjQuestCol_80196B3C.cpp:
-	.text       start:0x80196B3C end:0x80196BFC
-
-pso/object/quest/TObjQuestColBase_80196BFC.cpp:
-	.text       start:0x80196BFC end:0x80196E68
-	.rodata     start:0x80445E50 end:0x80445E64
-	.sdata      start:0x805D33E8 end:0x805D33EC
-
-pso/object/quest/TObjQuestCol2_80196E68.cpp:
-	.text       start:0x80196E68 end:0x80196ECC
-
-pso/object/quest/TObjQuestColBase.cpp:
-	.text       start:0x80196ECC end:0x80196EDC
-
-pso/object/quest/TObjQuestColApcINW_80196EDC.cpp:
-	.text       start:0x80196EDC end:0x80196F8C
-	.data       start:0x804B86F8 end:0x804B8780
-
-pso/object/quest/TObjQuestColApc_80196F8C.cpp:
-	.text       start:0x80196F8C end:0x80196FE4
-	.data       start:0x804B8780 end:0x804B87C4
-
-pso/object/quest/TObjQuestColA_80196FE4.cpp:
-	.text       start:0x80196FE4 end:0x80197094
-	.data       start:0x804B8808 end:0x804B8890
+	.text       start:0x801957B0 end:0x80197094
+	.rodata     start:0x80445E50 end:0x80445F2E
+	.data       start:0x804B8658 end:0x804B88D4
+	.bss        start:0x8050DD08 end:0x8050DD18
+	.sdata      start:0x805D33E8 end:0x805D3410
+	.sdata2     start:0x805DBEF8 end:0x805DBF08
 
 pso/quest/TQuestThreadBoard.cpp:
 	.text       start:0x80197094 end:0x801970C0

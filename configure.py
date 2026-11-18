@@ -825,8 +825,10 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/object/TMotorcycle.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # The six debug-hook names (csnVector() ...) sit in .rodata, where only readonly strings go.
     "pso/map/CsnQuery.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
-    # The quest collision family's class names sit in .rodata, where only readonly strings go.
-    "pso/object/quest/TObjQuestColBase_80196BFC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    # The quest collision family (TObjQuestColBase..TObjQuestCol2, TQuestColCtrl): its class names run
+    # ColBase..Col2 in .rodata/.sdata while its text and vtables run Col2..ColBase, so the source is written
+    # ColBase first and built deferred; the names sit in .rodata, where only readonly strings go.
+    "pso/object/quest/TObjQuestCol.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     # TAdTitleTexGC (+ former TLobby_802A5120): GC/1.3.2 for TLobby__sub_802A5154; its array templates precede
     # update_title_tex_positions' pooled double although that code comes first (written last to first,
     # deferred); strings in .rodata; the 8-byte texlists in .data.

@@ -1614,7 +1614,7 @@ force_active:
   - TObjPlayer__sub_803E5378
   - TObjPlayer__sub_803E53F8
   - TObjPlayer__sub_803E5458
-  - TObjQuestColALock2__ct
+  - __ct__18TObjQuestColALock2FP7TObjectPv
   - TObjRaderIcon__ct
   - TObjResultWin_class_name
   - TObjResultWin_name

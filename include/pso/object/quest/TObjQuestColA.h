@@ -5,10 +5,11 @@
 #include "pso/object/quest/TObjQuestColBase.h"
 
 struct TObjQuestColA : public TObjQuestColBase {
-    virtual ~TObjQuestColA();
+    TObjQuestColA(TObject *parent, void *set_data);
     virtual int vfunc_15();
-    virtual int vfunc_16();
+    virtual TQuestThread *vfunc_16();
 };
 
 typedef char TObjQuestColA_size[sizeof(TObjQuestColA) == 0xBC ? 1 : -1];
+
 #endif
