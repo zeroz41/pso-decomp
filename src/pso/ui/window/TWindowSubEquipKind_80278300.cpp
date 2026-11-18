@@ -5,6 +5,13 @@
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
 #include "pso/system/NinjaTypes.h"
 
+#pragma readonly_strings on
+
+const char *TWindowSubEquipKind__class_name = "TWindowSubEquipKind";
+
+// Message ids of the four status-display tab labels, indexed by the selected tab (f88).
+extern const s32 status_disp_tab_label_message_ids[4] = {0xE2, 0xE0, 0xE1, 0xF5};
+
 extern "C" {
 
 typedef struct {
@@ -27,7 +34,6 @@ typedef struct {
 s32 get_message_10__20TWindowSubStatusDispFl(s32);
 u32 calc_text_width(void);
 void draw_window_tab(Win_8027831C *, NJS_POINT2 *, u8, f32);
-extern s32 status_disp_tab_label_message_ids[];
 static const u8 lbl_805DD5F8[4] = {1, 2, 2, 1};
 void TWindowSubTradeMain::set_trade_state(s16 arg1) {
     this->m_88 = arg1;

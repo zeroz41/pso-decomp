@@ -4,6 +4,18 @@
 #include "types.h"
 #include "pso/system/task/TObject.h"
 
+// One row of a main-menu table: item id and the table the item opens (id 0x1F ends a table).
+struct TWindowMainMenuEntry {
+    s16 id;
+    s16 pad_2;
+    TWindowMainMenuEntry *submenu;
+};
+
+extern TWindowMainMenuEntry main_menu_1p_entries[];
+extern TWindowMainMenuEntry main_menu_1p_android_entries[];
+extern TWindowMainMenuEntry main_menu_4p_entries[];
+extern TWindowMainMenuEntry main_menu_4p_android_entries[];
+
 struct TWindowMainMenu : public TObject {
     virtual ~TWindowMainMenu();
     virtual void vfunc_6();

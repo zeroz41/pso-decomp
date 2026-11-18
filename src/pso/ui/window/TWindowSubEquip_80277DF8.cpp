@@ -10,6 +10,16 @@
 #include "pso/ui/window/TWindowSubMag.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/NinjaTypes.h"
+
+#pragma readonly_strings on
+
+const char *TWindowSubEquip__class_name = "TWindowSubEquip";
+
+// Sizes of the equipment list (ctor) and equipment kind (open_equip_kind_list) windows, passed next to
+// their layout positions. inferred: names from the create_*_window argument they fill.
+static const NJS_POINT2 equip_list_window_size = {308.0f, 184.0f};
+static const NJS_POINT2 equip_kind_window_size = {308.0f, 124.0f};
 
 
 struct VBase_80277F4C { u8 pad[0x18]; };
@@ -25,8 +35,7 @@ s32 set_depth__11TWindowBaseFf(int);
 f32 TWindowSubEquip__sub_80263AF8(u8 *arg0, u32 arg1);
 void *get_window_layout_position(int);
 s32 mark_unequippable_items(int);
-s32 create_equip_kind_window(void *, void *, int);
-extern s32 lbl_8044F920[];
+s32 create_equip_kind_window(void *, const NJS_POINT2 *, int);
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, s32);
 s32 is_usable__14TWindowSubItemFl();
 void *get_player_by_client_id(s32 i);
@@ -37,19 +46,17 @@ s32 TWindowSubEquip__sub_80263AF4(void *, s32);
 extern u8 controller_input_state[];
 void *__nw__7TObjectFUl(u32);
 s32 __ct__15TWindowHelpItemFPvUs(void *, void *, s32);
-s32 create_equip_list_window(void *, void *, s32);
-extern s32 lbl_8044F918[];
-extern s32 TWindowSubEquip__class_name;
+s32 create_equip_list_window(void *, const NJS_POINT2 *, s32);
 }
 
 // Built with deferred code generation (the vtable precedes the switch table
 // in .data), so the functions are written from the last one back.
 TWindowSubEquip::TWindowSubEquip(s32 arg1, s32 arg2) : TObject((TObject *)((void *)arg1)) {
     void *p;
-    *(s32 *)((s8 *)this + 0) = TWindowSubEquip__class_name;
+    m_name = TWindowSubEquip__class_name;
     this->m_2c = arg1;
     this->m_28 = arg2;
-    this->m_34 = create_equip_list_window(get_window_layout_position(0), lbl_8044F918, this->m_28);
+    this->m_34 = create_equip_list_window(get_window_layout_position(0), &equip_list_window_size, this->m_28);
     TWindowSubEquip__sub_80263AF8((u8 *)this->m_2c, 0);
     set_depth__11TWindowBaseFf(this->m_34);
     ((TWindowSubShortCutList *)(this->m_34))->set_flag70_bit10();
@@ -144,7 +151,7 @@ void TWindowSubEquip::render() {  }
 
 s32 TWindowSubEquip::open_equip_kind_list(u32 arg1) {
     s32 equip_kind_window;
-    equip_kind_window = create_equip_kind_window(get_window_layout_position(1), lbl_8044F920, this->m_28);
+    equip_kind_window = create_equip_kind_window(get_window_layout_position(1), &equip_kind_window_size, this->m_28);
     TWindowSubEquip__sub_80263AF8((u8 *)this->m_2c, 1);
     set_depth__11TWindowBaseFf(equip_kind_window);
     ((TWindowMenuIconLine *)equip_kind_window)->ensure_status_display((int) (TWindowSubStatusDisp::get_message_10(0x24)));

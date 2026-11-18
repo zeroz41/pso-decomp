@@ -889,8 +889,8 @@ void *memset(void *dst, int c, u32 n);
 extern u32 TWindowDD__ws_data_base;
 extern u32 lbl_805D6E34;
 extern NJS_POINT2 TWindowDD__data_805434E8[][8];
-extern const NJS_POINT2 lbl_80478568[];
-extern const f32 lbl_804785A0[];
+extern const NJS_POINT2 window_dd_quad_positions[];
+extern const f32 window_dd_quad_scales[];
 extern const f32 TWindowDD__data_805DFB18;
 extern const f32 lbl_805DFB24;
 extern const f32 lbl_805DFB28;
@@ -957,12 +957,12 @@ void TWindowDD__sub_80344114(void) {
     }
     lbl_805D6E24 = -1;
     for (i = 0; i < 6; i++) {
-        src = &lbl_80478568[i];
-        set_quad_corners_scaled__9TWindowDDFfff(TWindowDD__data_805434E8[i], src->x, src->y, lbl_804785A0[i]);
+        src = &window_dd_quad_positions[i];
+        set_quad_corners_scaled__9TWindowDDFfff(TWindowDD__data_805434E8[i], src->x, src->y, window_dd_quad_scales[i]);
     }
     pt = TWindowDD__data_805434E8[6];
-    x2 = lbl_80478568[6].x;
-    y = lbl_80478568[6].y;
+    x2 = window_dd_quad_positions[6].x;
+    y = window_dd_quad_positions[6].y;
     x = x2 * TWindowDD__data_805DFB18;
     y *= TWindowDD__data_805DFB18;
     x2 = TWindowDD__data_805DFB18 * (x2 + lbl_805DFB24);

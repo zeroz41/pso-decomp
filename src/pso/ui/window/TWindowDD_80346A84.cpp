@@ -54,17 +54,17 @@ s32 TWindowDD::get_element_ptr(s32 arg0) {
 extern s32 TWindowDD__data_805D6E28;
 extern s32 TWindowDD__ws_data_table;
 extern s32 lbl_805D6E34;
-extern s32 twindowdd_entry_count;
-extern s32 TWindowDD__data_805D6E40;
-extern s32 TWindowDD__data_805D6E44;
-extern s32 TWindowDD__data_805D6E48;
-extern s32 lbl_805D6E4C;
+s32 twindowdd_entry_count;
+s32 TWindowDD__data_805D6E40;
+s32 TWindowDD__data_805D6E44;
+s32 TWindowDD__data_805D6E48;
+s32 lbl_805D6E4C;
 // inferred: the loaded ws_data_<lang>.bin archives ws_data_load keeps per language
-extern void *ws_data_jp;
-extern void *ws_data_us;
-extern void *ws_data_es;
-extern void *ws_data_de;
-extern void *TWindowDD__ws_data_buffer;
+void *ws_data_jp;
+void *ws_data_us;
+void *ws_data_es;
+void *ws_data_de;
+void *TWindowDD__ws_data_buffer;
 
 void ws_data_load(void) {
     void *temp_r3;

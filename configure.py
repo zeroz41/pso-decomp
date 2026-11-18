@@ -579,6 +579,9 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # ws_data_load reaches each .rodata object with its own lis/addi (no shared base): -pool off.
     "pso/ui/window/TWindowDD_80346A84.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-pool off")},
     "pso/ui/window/TWindowCtrlMain.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
+    # get_viewport_offset reaches each of its three .rodata viewport tables with its own lis/addi
+    # (no shared .rodata base, though the tables precede the unit's pooled double): -pool off.
+    "pso/ui/window/TWindowKeyBoardSoft_8024E68C.cpp": {"cflags": _switch(cflags_pso, "-pool off")},
     "pso/ui/frontend/TAdSelectTxtSubGC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/frontend/TAdBackGC_8029A6EC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/frontend/TAdMcSelectGC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},

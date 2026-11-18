@@ -6997,7 +6997,7 @@ pso/ui/window/TWindowDeposit.cpp:
 
 pso/ui/window/TWindowKeyBoardSoft_8024E68C.cpp:
 	.text       start:0x8024E68C end:0x8024EF3C
-	.rodata     start:0x8044ECB8 end:0x8044ECC0
+	.rodata     start:0x8044EC70 end:0x8044ECC0
 	.sbss       start:0x805D6420 end:0x805D6428
 	.sdata2     start:0x805DCC78 end:0x805DCCA8
 
@@ -7218,6 +7218,7 @@ pso/ui/window/TWindowMainMenu_80263AB0.cpp:
 
 pso/ui/window/TWindowMainMenu.cpp:
 	.text       start:0x802644D4 end:0x80264A90
+	.data       start:0x804D03F0 end:0x804D0560
 
 pso/ui/window/TWindowMakeTeam.cpp:
 	.text       start:0x80264A90 end:0x80265410
@@ -7524,12 +7525,15 @@ pso/ui/window/TWindowShortListCtrl_80277D3C.cpp:
 
 pso/ui/window/TWindowSubEquip_80277DF8.cpp:
 	.text       start:0x80277DF8 end:0x80278300
+	.rodata     start:0x8044F908 end:0x8044F928
 	.data       start:0x804D1568 end:0x804D15B4
+	.sdata      start:0x805D3A30 end:0x805D3A38
 	.sdata2     start:0x805DD5F0 end:0x805DD5F4
 
 pso/ui/window/TWindowSubEquipKind_80278300.cpp:
 	.text       start:0x80278300 end:0x80278460
-	.rodata     start:0x8044F950 end:0x8044F958
+	.rodata     start:0x8044F928 end:0x8044F958
+	.sdata      start:0x805D3A38 end:0x805D3A40
 	.sdata2     start:0x805DD5F8 end:0x805DD61C
 
 pso/unk/text_80278460.cpp:
@@ -10060,8 +10064,9 @@ pso/ui/window/TWindowDD_8034055C.cpp:
 pso/ui/window/TWindowDD_80340A78.cpp:
 	.text       start:0x80340A78 end:0x80341108
 	.ctors      start:0x80434004 end:0x80434008
-	.rodata     start:0x804785D8 end:0x804785E0
+	.rodata     start:0x80478568 end:0x804785E0
 	.data       start:0x804EFBC8 end:0x804EFC00
+	.sdata      start:0x805D42D0 end:0x805D42D8
 	.sbss       start:0x805D6DC0 end:0x805D6E08
 	.sdata2     start:0x805DFC50 end:0x805DFC90
 
@@ -10120,7 +10125,7 @@ pso/ui/window/TWindowDD_8034435C.cpp:
 pso/ui/window/TWindowDD_80346A84.cpp:
 	.text       start:0x80346A84 end:0x80346F48
 	.rodata     start:0x80478650 end:0x8047869F
-	.sbss       start:0x805D6E38 end:0x805D6E3C
+	.sbss       start:0x805D6E38 end:0x805D6E64
 
 pso/ui/window/TWindowDD_80346F48.cpp:
 	.text       start:0x80346F48 end:0x803471C0

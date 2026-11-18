@@ -8,10 +8,6 @@
 
 extern "C" {
 void *get_player_by_client_id(s32 i);
-struct RecoveredGlobal_lbl_804D04F8 { s32 value; u8 remaining[0x34]; };
-extern RecoveredGlobal_lbl_804D04F8 lbl_804D04F8;
-struct RecoveredGlobal_lbl_804D0530 { s32 value; u8 remaining[0x2C]; };
-extern RecoveredGlobal_lbl_804D0530 lbl_804D0530;
 void *TWindowMainMenu4P__ct(void *arg0);
 void TWindowMainMenu__ct(void *);
 s32 close_and_clear_flags__15TWindowMainMenuFv();
@@ -31,9 +27,9 @@ void TWindowMainMenu4P::vfunc_6() {
         player = (u8 *)(get_player_by_client_id(this->m_54));
         if (player != NULL) {
             if (((TObjPlayer *)player)->is_android() != 0) {
-                ((TWindowMainMenu *)arg0)->open((s32) &lbl_804D0530.value);
+                ((TWindowMainMenu *)arg0)->open((s32)main_menu_4p_android_entries);
             } else {
-                ((TWindowMainMenu *)arg0)->open((s32) &lbl_804D04F8.value);
+                ((TWindowMainMenu *)arg0)->open((s32)main_menu_4p_entries);
             }
             this->vfunc_7();
         }
