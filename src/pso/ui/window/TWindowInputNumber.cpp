@@ -152,7 +152,6 @@ typedef struct InNum_802561E8 {
 struct Win_80256354 { u8 p0[0x62]; s8 f62; u8 p63[5]; s32 f68; };
 
 extern "C" {
-extern s32 __vt__18TWindowInputNumber[];
 extern s8 controller_input_state[];
 u8 test_input_flag__18TWindowInputNumberFv(u8 *arg0);
 void draw_arrows__18TWindowInputNumberFv(TWindowInputNumber *, Ctx_802563A0 *, Digit_802561E8 *, int);
@@ -293,7 +292,8 @@ void draw_arrows__18TWindowInputNumberFv(TWindowInputNumber *self, Ctx_802563A0 
 }
 #pragma pop
 
-void render__18TWindowInputNumberFv(TWindowInputNumber *arg0) {
+void TWindowInputNumber::render() {
+    TWindowInputNumber *arg0 = this;
     s32 ctx;
 
     ctx = ((TWindowBase *)arg0)->setup_window_draw_context((s32)((u8 *)arg0 + 0x74));
@@ -367,25 +367,15 @@ void TWindowInputNumber::run_task() {
     ((TWindowBase *)arg0)->update_window_entry_list(arg0 + 0x24);
 }
 
-void *__dt__18TWindowInputNumberFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        ((TWindowInputNumber *)arg0)->objectVtable = __vt__18TWindowInputNumber;
-        if (*(void **)((s8 *)arg0 + 0x70) != NULL) { TWindowSubStatusDisp::destroy_status_display((s32)(*(void **)((s8 *)arg0 + 0x70)), (s16)1); }
-        __dt__11TWindowBaseFv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
+TWindowInputNumber::~TWindowInputNumber() {
+    if ((void *)unknown70 != NULL) { TWindowSubStatusDisp::destroy_status_display(unknown70, (s16)1); }
 }
 
 }
 
-TWindowInputNumber::TWindowInputNumber(void *position, s32 low, s32 high,
-                                     s32 initial, s16 client) {
-    __ct__11TWindowBaseFPUcsPUc(this, (u8 *)&window_input_number_layout, client, (u8 *)position);
-    objectVtable = __vt__18TWindowInputNumber;
-    className = TWindowInputNumber__name;
+TWindowInputNumber::TWindowInputNumber(void *position, s32 low, s32 high, s32 initial, s16 client)
+    : TWindowBase((u8 *)&window_input_number_layout, client, (u8 *)position) {
+    m_name = TWindowInputNumber__name;
     clientIndex = client;
     inputFlags = 0;
     selectedDigit = 0;
