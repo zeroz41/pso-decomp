@@ -1205,7 +1205,10 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/boss/darkfalz/TOBoss4.cpp": {"cflags": _switch(cflags_pso, "-fp_contract on", "-str reuse,readonly", "-sdata 4", "-inline deferred")},
     "pso/boss/olgaflow/TBoss6Rock.cpp": {"cflags": _switch(cflags_pso, "-fp_contract on", "-str reuse,readonly", "-inline off,deferred", "-str reuse,readonly")},
     "pso/boss/olgaflow/TBoss6Type2_80336E6C.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
-    "pso/boss/olgaflow/TBoss6Type2.cpp": {"cflags": _switch(cflags_pso, "-fp_contract on")},
+    # .data holds the vtable (0x804DFADC) ahead of the switch table of sub_802BBC74: deferred generation of the
+    # last-to-first source. Inlining stays on: copy_block's struct assignment and the two motion-track constant
+    # references are inlined, and the constants come out at their first user inside the literal pool.
+    "pso/boss/olgaflow/TBoss6Type2.cpp": {"cflags": _switch(cflags_pso, "-inline deferred", "-fp_contract on")},
     "pso/boss/olgaflow/TBoss6Type2_802BE588.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-inline off,deferred", "-str reuse,readonly")},
     "pso/boss/olgaflow/TBoss6CrushRock.cpp": {"cflags": _switch(cflags_pso, "-fp_contract on", "-inline off,deferred", "-str reuse,readonly")},
     "pso/boss/olgaflow/TBoss6SwordShot.cpp": {"cflags": _switch(cflags_pso, "-fp_contract on")},

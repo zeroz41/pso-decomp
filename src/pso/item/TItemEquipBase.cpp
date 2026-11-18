@@ -429,7 +429,7 @@ void AttackParams::sub_atp_max(s32 amount) { atp_max -= amount; }
 
 void AttackParams::sub_atp_min(s32 amount) { atp_min -= amount; }
 
-ActorParamBlock *get_actor_param_block(TObjChara *actor) { return *(ActorParamBlock **)actor->unk_31C; }
+ActorParamBlock *get_actor_param_block(TObjChara *actor) { return actor->param_block; }
 
 AttackParams *get_actor_attack_params(TObjChara *actor) { return (AttackParams *)actor->m_318; }
 

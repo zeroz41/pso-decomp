@@ -49,7 +49,7 @@ void TBoss6Type2::apply_pending_effect() {
                 ((TBoss6Type2 *)(((u8 *)this) + 0xCF4))->copy_vec2(temp_r31 + 4);
                 ((TBoss6Type2 *)(((u8 *)this) + 0xA1C))->copy_vec2(temp_r31 + 0xC);
                 ((TBoss6Type2 *)(((u8 *)this) + 0xB88))->copy_vec2(temp_r31 + 0x14);
-                this->m_34 = (s32) *(s32 *)((s8 *)temp_r31 + 0x1C);
+                this->model = *(void **)((s8 *)temp_r31 + 0x1C);
                 *(s32 *)((s8 *)((u8 *)this) + 0x8B0) = (s32) *(s32 *)((s8 *)temp_r31 + 0x20);
                 *(s32 *)((s8 *)((u8 *)this) + 0x8AC) = (s32) *(s32 *)((s8 *)temp_r31 + 0x24);
                 *(s32 *)((s8 *)((u8 *)this) + 0x8B4) = (s32) *(s32 *)((s8 *)temp_r31 + 0x28);

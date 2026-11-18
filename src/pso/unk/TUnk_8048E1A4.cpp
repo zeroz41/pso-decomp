@@ -383,7 +383,7 @@ void TParticleCtrl::set_scale(f32 a, f32 b) { field_40 = a; field_44 = b; }
 f32 TObjChara::get_frame() { return this->frame; }
 
 s32 TObjPlayer::test_action_mask(s32 arg1) {
-    return (u8) (((*(s32 *)&this->unk_31C[4]) & arg1) != 0);
+    return (u8) (((*(s32 *)this->unk_320) & arg1) != 0);
 }
 
 extern "C" s32 TObjPlayer__sub_80082300(void* p) { return *(s32*)((char*)p + 0xc); }
