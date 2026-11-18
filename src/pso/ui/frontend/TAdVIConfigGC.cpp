@@ -22,6 +22,9 @@ struct Cfg_80307D00 {
     Name_80307D00 names[4];
 };
 
+s32 logo_clear_flag = 1;
+extern "C" { extern char TAdVIConfigGC__class_name_string[]; }
+const char *TAdVIConfigGC__class_name = TAdVIConfigGC__class_name_string;
 extern "C" {
 void *VIGetDTVStatus(void *);
 void *get_player_by_client_id(s32 i);
@@ -159,12 +162,12 @@ TAdVIConfigGC::~TAdVIConfigGC() {
 
 }
 
-extern void *TAdVIConfigGC__class_name;
+extern const char *TAdVIConfigGC__class_name;
 
 void *TAdVIConfigGC__ct(TAdVIConfigGC *ad_vi_config_gc) {
     TAdYesNoBaseGC__ct(ad_vi_config_gc);
     *(s32 **)((s8 *)ad_vi_config_gc + 0x18) = __vt__13TAdVIConfigGC;
-    *(void * *)&ad_vi_config_gc->m_name = TAdVIConfigGC__class_name;
+    ad_vi_config_gc->m_name = TAdVIConfigGC__class_name;
     ad_vi_config_gc->set_field_2c(0);
     ad_vi_config_gc->m_48 = 0;
     return ad_vi_config_gc;

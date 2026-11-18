@@ -454,7 +454,7 @@ extern Hdr_800F6464 *TLobby__data_805D6144;
 extern s32 __vt__11TObjControl[];
 extern u8 lobby_rule_settings[];
 extern void *TObjControl__name;
-extern s32 area_random_seed;
+s32 area_random_seed;
 extern s32 game_difficulty_selection;
 void TObjControl::run_task() {
     s16 mode;

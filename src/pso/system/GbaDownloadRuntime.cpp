@@ -136,6 +136,7 @@ u8 TLobby::get_selected_slot() {
 
 #include "pso/ui/frontend/TAdWarningBaseGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+GbaJoybootState TLobby__data_805434A8[1];
 
 struct DateStamp_8032C9A8 { s32 days; s32 mins; s32 ticks; };
 

@@ -344,7 +344,7 @@ s16 TLobby__sub_8041A9AC(TcpTcb *tp)
         NetDispatchSocketEvent((s16)(tp - ts->tcbs), tp->event_ctx, 3, 0xc);
         return -6;
     }
-    mss = (s16)TLobby__sub_8040DC8C(tp->remote, tp->local);
+    mss = (s16)AT_IP_GetMssFromDstSrc(tp->remote, tp->local);
     b = tp->maxseg;
     mss = (s16)(b < mss ? b : mss);
     if (mss < 0) {
@@ -788,7 +788,7 @@ extern TcpTcb *TLobby__sub_8041B5C0(TcpTcb *self) {
 }
 
 extern s16 TLobby__sub_8041B724(TcpTcb *tp) {
-    s32 mss = TLobby__sub_8040DC8C(tp->remote, tp->local);
+    s32 mss = AT_IP_GetMssFromDstSrc(tp->remote, tp->local);
 
     return tp->maxseg < mss ? tp->maxseg : mss;
 }
@@ -828,7 +828,7 @@ extern TcpTcb *TLobby__sub_8041B774(TcpTcb *self, TcpHdr *th, u8 *a, u8 *b) {
     NetMemcpy(dst->f2D6, self->f2D6, 3);
     NetMemcpy(dst->f2DC, self->f2DC, 12);
 
-    n = TLobby__sub_8040DC8C(dst->remote, dst->local);
+    n = AT_IP_GetMssFromDstSrc(dst->remote, dst->local);
     w = dst->maxseg;
     w = (w < n) ? w : n;
     if ((s16)w < 0) {
@@ -2251,7 +2251,7 @@ s16 tcp_connect_start(s16 arg0, s32 arg1, s16 arg2) {
         NetDispatchSocketEvent((s16)(e - tcp_protocol_state.tcbs), e->event_ctx, 3, 0xC);
         return -6;
     }
-    if (is_addr_unspecified(e->local) != 0 && select_source_address((Out_8040D95C *)e->local, (In_8040D95C *)arg1) < 0) {
+    if (is_addr_unspecified(e->local) != 0 && AT_IP_SetSrcFromDst((Out_8040D95C *)e->local, (In_8040D95C *)arg1) < 0) {
         NetDispatchSocketEvent((s16)(e - tcp_protocol_state.tcbs), e->event_ctx, 3, 0xC);
         return -6;
     }

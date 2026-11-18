@@ -38,7 +38,16 @@ extern "C" {
 void TAdSinglePlyChrSelectGC__sub_802905A4(void* p, void* q);
 }
 void reset_creation_shape_set(s32 arg0);
-extern void ***char_creation_data_block;
+s32 char_select_active_flag;
+int char_creation_figure_draw_flag;
+u32 creation_figure_rotation_y;
+u32 creation_figure_object;
+CreationTextureCacheEntry *char_select_current_entry;
+u32 chara_select_hair_node_a;
+u32 chara_select_hair_node_b;
+u32 chara_select_head_node;
+void ***char_creation_data_block;
+s32 chara_select_preview_resource;
 void reset_creation_body_shapes();
 void reset_creation_head_shapes();
 #pragma common off
@@ -291,16 +300,13 @@ struct Sel_802902CC {
 s32 load_resource_from_descriptor(s32, s32, s32, s32, s32, s32);
 s32 __ct__10TObjMotionFP7TObject(void *, void *);
 }
-extern u32 creation_figure_object;
 void request_creation_motion(s32 arg0);
 extern s32 chara_select_creation_shape_rel_files[];
-extern u32 creation_figure_rotation_y;
 void map_shape_region_samples(s32 region, s32 *samples);
 extern CreationShapeBlend creation_shape_blend;
 s32 clear_creation_shape_eval_masks(f32 *dst, const f32 *a, const f32 *b, const f32 *c);
 s32 scan_creation_resources(void *arg0);
 u32 relocate_data_block_pointers(u32 arg0, u32 arg1);
-extern s32 char_select_active_flag;
 void reset_character_creation_figure_rotation(void);
 extern void *creation_menu_main_obj;
 extern "C" {

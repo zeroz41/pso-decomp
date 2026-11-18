@@ -51,7 +51,7 @@ s32 get_or_create_player__22TAdMultiPlyChrSelectGCFiiii(s32 arg0, s32 arg1, s32 
 void fn_802FF7EC(void *);
 void *__ct__12TAdMultiOkGCFv(void *, void *, OkArg_802FFA3C *);
 extern const char *TAdMultiConfirmGC__name;
-extern u8 lbl_805DEF30;
+extern const u8 lbl_805DEF30 = 0;
 void fn_802FF760(void *);
 }
 

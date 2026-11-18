@@ -27,7 +27,7 @@ s32 draw_ui_sprite_scaled(f32, f32, void *, void *, void *);
 void TCharaMaking__resolve_creation_sprite_table(u8 * *table, s32 *id);
 extern s32 saved_model_draw_color[];
 extern s32 model_material_color[];
-extern const f32 ui_sprite_scale;
+f32 ui_sprite_scale = 1.0f;
 extern const f32 lbl_805DD960;
 #pragma push
 #pragma opt_common_subs off

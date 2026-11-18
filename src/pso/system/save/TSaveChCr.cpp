@@ -44,7 +44,8 @@ extern s32 lbl_80477CAC[];
 extern s32 lbl_80477CB4[];
 s32 poll_memcard_result(s32);
 s32 poll_memcard_status__23TAdSinglePlyChrSelectGCFv();
-extern const char *TSaveChCr__name;
+extern "C" { extern char TSaveChCr__class_name_string[]; }
+const char *TSaveChCr__name = TSaveChCr__class_name_string;
 s32 load_character_from_card__23TAdSinglePlyChrSelectGCFi(s32 arg0);
 int begin_action_from_char_select__10TObjPlayerFv(void*);
 extern void *tl_03;

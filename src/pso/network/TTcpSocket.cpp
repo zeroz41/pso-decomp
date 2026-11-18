@@ -518,7 +518,7 @@ s8 func_801A5E54__Fv();
 int atoi(const char *);
 void func_803DCDFC__Fv();
 s16 TLobby__sub_8040A698(s16, void *, void *, int, void *, int);
-s16 TLobby__sub_8040A8B0(char *, s32, int);
+s16 dns_open_addr(char *, s16, s32);
 }
 
 int TSocket::is_empty() {
@@ -568,7 +568,7 @@ int TSocket::resolve_domain(char *domain) {
     memset(start, 0, 0x20);
     strncpy(start, domain, 0x1F);
     if (get_csn_group_flags(buf[0]) != 0) {
-        handle = TLobby__sub_8040A8B0(start, (s8)NetStringLength(start), 4);
+        handle = dns_open_addr(start, (s8)NetStringLength(start), 4);
         if (handle >= 0) {
             spC = 4;
             count = 0;

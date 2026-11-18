@@ -277,7 +277,8 @@ struct WaitDemoLayout {
 };
 
 void __ct__7TObjectFP7TObject(TObject *self, TObject *parent);
-extern const char *lbl_805D42C8;
+extern "C" { extern char lbl_80478418[]; }
+const char *lbl_805D42C8 = lbl_80478418;
 extern s32 lbl_804DF614[];
 __declspec(section ".data") s32 lbl_804EFB70[2] = {0x1F, 0x21};
 s32 get_bml_model(s32 bml, s32 index);

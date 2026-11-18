@@ -39,6 +39,8 @@ void TObjCMIcon__sub_802994C8(s32 arg0, const s32 *arg1) {
     }
 }
 
+extern "C" { extern const char TObjCMIcon__class_name_string[11] = "TObjCMIcon"; }
+__declspec(section ".rodata") CreationIconState creation_initial_icon_state = { 0x1 };
 void TObjCMIcon::init_icon_table() {
     CreationIconState *entry;
     s32 i;

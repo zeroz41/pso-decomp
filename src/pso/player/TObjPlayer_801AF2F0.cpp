@@ -2234,7 +2234,7 @@ void set_chunk_material_override_pair(s32 arg0, s32 arg1);
 void draw_chunk_object(void *child);
 
 extern s32 TOMineTrap__data_805D3080;
-extern s32 TObjPlayer__player_set_class_name;
+extern const char *TObjPlayer__player_set_class_name;
 extern const f32 TObjPlayer__data_805DC278;
 extern f32 TObjPlayer__data_805DC28C;
 extern f32 TObjPlayer__data_805DC294;
@@ -2252,7 +2252,8 @@ extern void *player_slot_table[];
 extern u8 lobby_rule_settings[];
 extern ReturnLobby lbl_80515BA0;
 extern s32 lbl_805D2B28;
-extern s32 lbl_805D3530;
+extern "C" { extern char TObjPlayer__class_name_string[]; }
+const char *lbl_805D3530 = TObjPlayer__class_name_string;
 extern s32 actor_frame_tick;
 extern s32 lbl_805D55C0;
 extern s32 lobby_player_count;
@@ -2386,7 +2387,7 @@ void TObjPlayer__send_selected_spawn_position(void *self, u16 id) {
     Obj_801BC068 *o;
     found = 0;
     for (o = tl_06->head; o != NULL; o = o->next) {
-        if (check_value_equals__13TUnk_804B6C24CFl(o, TObjPlayer__player_set_class_name) != 0 && o->f84 == 0 &&
+        if (check_value_equals__13TUnk_804B6C24CFl(o, (s32)TObjPlayer__player_set_class_name) != 0 && o->f84 == 0 &&
             (s32)o->f68 == id) {
             found = 1;
             break;
@@ -2422,7 +2423,7 @@ s32 TObjPlayer::send_respawn_position() {
     c = list;
     count = 0;
     for (obj = tl_06->head; obj != NULL; obj = obj->next) {
-        if (check_value_equals__13TUnk_804B6C24CFl(obj, TObjPlayer__player_set_class_name) != 0 && obj->f84 == 0) {
+        if (check_value_equals__13TUnk_804B6C24CFl(obj, (s32)TObjPlayer__player_set_class_name) != 0 && obj->f84 == 0) {
             f32 range = lbl_805DC2C0;
             ok = 1;
             for (i = 0; i < 12; i++) {
@@ -7438,7 +7439,7 @@ void draw_player_status(s32 arg0, void *arg1, s32 arg2) {
 
     temp_r3 = (s32)((TUnk_804B6C24 *)arg1)->get_name();
     if (temp_r3 != 0) {
-        if (check_value_equals__13TUnk_804B6C24CFl(arg1, lbl_805D3530) != 0) {
+        if (check_value_equals__13TUnk_804B6C24CFl(arg1, (s32)lbl_805D3530) != 0) {
             ((s32 (*)(s32, s32, s32, s32))draw_status_line)(arg0, arg2, temp_r3, ((s32 (*)(void *))TObjPlayer__sub_801AFFD0)(arg1));
             return;
         }
@@ -7447,7 +7448,7 @@ void draw_player_status(s32 arg0, void *arg1, s32 arg2) {
 }
 
 extern "C" void fn_801B0480(u8 *player, void *attacker, s32 amount) {
-    if (check_value_equals__13TUnk_804B6C24CFl(attacker, lbl_805D3530) == 0
+    if (check_value_equals__13TUnk_804B6C24CFl(attacker, (s32)lbl_805D3530) == 0
         || ((TLobby *)lobby_rule_settings)->get_rule_field_a() != 1
         || TLobby__sub_801C19D0(player + 0x828) != TLobby__sub_801C19D0((u8 *)attacker + 0x828)) {
         accumulate_damage_stats((s32)(player + 0x75C), (s32)attacker, amount);

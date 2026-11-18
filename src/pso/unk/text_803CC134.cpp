@@ -1,15 +1,16 @@
 #include "types.h"
 #include "pso/unk/TLobby.h"
+extern "C" { extern const char lbl_8047C7E8[46] = "\nADXF/GC Ver.6.24 Build:Jun 13 2002 19:00:56\n"; }
 
 extern "C" {
 
 s32 memset(void *, int, int);
 s32 lbl_805D75D0;
-extern s32 lobby_adxf_current_file_id;
-extern s32 lobby_adxf_open_file_handle;
-extern s32 lobby_afs_toc_entry_index;
-extern s32 adxf_log_write_index;
-extern s32 lbl_805D75E4;
+s32 lobby_adxf_current_file_id;
+s32 lobby_adxf_open_file_handle;
+s32 lobby_afs_toc_entry_index;
+s32 adxf_log_write_index;
+s32 lbl_805D75E4;
 extern const char *const volatile lbl_805E0D80;
 
 u8 lbl_8057B7B0[0x20];

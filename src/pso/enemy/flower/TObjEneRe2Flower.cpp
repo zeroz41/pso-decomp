@@ -254,7 +254,8 @@ extern const s32 lbl_8043BA7C[3];
 extern const s32 lbl_8043BA88[3];
 extern const s32 lbl_8043BA94[3];
 extern const s32 lbl_8043BAA0[3];
-extern const char *lbl_805D2A48; // "TObjEneRe2Flower"
+extern "C" { extern char TObjEneRe2Flower__class_name_string[]; }
+const char *lbl_805D2A48 = TObjEneRe2Flower__class_name_string;
 // The variant's movement block (TLobby::dispatch_shared_handler_a of lbl_8043BAA0), set by the constructor.
 void *re2_flower_movement_params;
 BmlResource *re2_flower_bml_resource;

@@ -2,9 +2,28 @@
 #define PSO_NPC_TNPCPLAYER_H
 
 #include "types.h"
+#include "pso/player/TechniqueFlags.h"
 #include "pso/system/task/TObject.h"
 
 struct TNpcPlayer : public TObject {
+    struct AiParams {
+        s16 npc_id;
+        s16 base_level;
+        TechniqueFlags technique_flags;
+        f32 enemy_lock_on_range;
+        f32 unknown_0C;
+        f32 max_distance_from_player;
+        f32 enemy_unlock_range;
+        f32 block_range;
+        f32 attack_range;
+        u8 attack_technique_level;
+        u8 support_technique_level;
+        u8 attack_probability;
+        u8 attack_technique_probability;
+        f32 unknown_24;
+        void copy_entry_by_index(s32 arg1);
+    };
+
     virtual ~TNpcPlayer();
     void deliver_partner_action();
     virtual void run_task();
@@ -17,12 +36,8 @@ struct TNpcPlayer : public TObject {
     u8 _pad28[0x4];
     s16 m_2c;
     u8 _pad2E[0x2];
-    void* m_30;
-    u8 unk_34[0x4];
-    s32 m_38;
-    u8 unk_3C[0x14];
-    u8 m_50;
-    u8 unk_51[0xB];
+    AiParams ai_params;
+    f32 m_58;
     void* m_5c;
     u8 _pad60[0x14];
     u32 m_74;
@@ -91,7 +106,6 @@ struct TNpcPlayer : public TObject {
     void init_equipment();
     static s32 send_command(s32 arg0, s8 arg1, s32 arg2, s32 arg3, s8 *arg4);
     static u8 *get_lobby_entry_ptr();
-    void copy_entry_by_index(s32 arg1);
     static void send_warp_toward_player(u16 arg0, f32 *arg1);
     static void send_code_45_to_player(int arg0);
     static void play_effect(int arg0);

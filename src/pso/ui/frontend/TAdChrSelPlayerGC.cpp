@@ -3,14 +3,16 @@
 #include "pso/ui/frontend/TAdPlyStatusGC.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 
+extern "C" { extern char lbl_804728D0[]; }
+const char *lbl_805D3F78 = lbl_804728D0;
 extern "C" {
 
 s32 sub_802E0CB0__13TUnk_804E3008Fv(void *, s32);
 
-extern s32 lbl_805D3F78;
+extern const char *lbl_805D3F78;
 
 void TUnk_804E3008::sub_802E0F58(s32 arg1) {
-    *(s32 *)&this->m_name = (s32) lbl_805D3F78;
+    this->m_name = lbl_805D3F78;
     *(s32 *)((s8 *)this + 0xFC) = 0;
     this->m_100 = 0;
     this->m_110 = 0;

@@ -163,7 +163,7 @@ s16 udp_sendto(s16 id, NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst,
         NetDispatchSocketEvent(id, e->eventCallback, 2, 0x80);
         return -6;
     }
-    r = select_source_address((Out_8040D95C *)src, (In_8040D95C *)dst);
+    r = AT_IP_SetSrcFromDst((Out_8040D95C *)src, (In_8040D95C *)dst);
     if (r < 0) {
         return r;
     }

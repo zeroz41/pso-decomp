@@ -31,7 +31,8 @@ extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 s32 TObjEneRe4Bit__model;
 s32 re4_bit_texture_list;
-extern const char *lbl_805D2AE8;
+extern "C" { extern char TObjEneRe4Bit__class_name_string[]; }
+const char *lbl_805D2AE8 = TObjEneRe4Bit__class_name_string;
 f32 calc_elapsed_scaled__9TObjEneDDFv(TObjEneDD *self);
 extern BmlResource *sorcerer_bml_resource;
 extern s32 lbl_8043D2B0[];

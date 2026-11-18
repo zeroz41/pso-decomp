@@ -40,8 +40,10 @@ void TObjPlayer__sub_80364198(void);
 // at 0x80117E50: TObjPlayer_80117DD8.cpp's last two functions (the nearby
 // player checks, whose doubles follow these strings in .rodata) belong here
 // and are not folded until the first of them matches.
-extern const char *TItemProShield__name;
-extern const char *lbl_805D2C3C;
+extern "C" { extern char TItemProShield__class_name_string[]; }
+const char *TItemProShield__name = TItemProShield__class_name_string;
+extern "C" { extern char lbl_8043E630[]; }
+const char *lbl_805D2C3C = lbl_8043E630;
 // Called with the client unextended and the item index widened to int, as
 // this TU saw TItemEffShield::ct_init and the TUnk_8049F130 constructor.
 void __ct__13TUnk_8049F148FP7TObjects(void *effect, TItemHeapObject *parent, u16 client);

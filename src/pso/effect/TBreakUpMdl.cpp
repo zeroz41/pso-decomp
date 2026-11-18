@@ -108,7 +108,8 @@ void rotate_vector_by_matrix(s32, void *, void *);
 void rotate_matrix_y(s32, s32);
 extern u8 breakup_default_param_row[];
 extern s32 __vt__11TBreakUpMdl[];
-extern s32 TBreakUpMdl__class_name;
+extern "C" { extern char TBreakUpMdl__class_name_string[]; }
+const char *TBreakUpMdl__class_name = TBreakUpMdl__class_name_string;
 u8 *TBreakUpMdl__ct(u8 *arg0, void *arg1, Model_80096AD8 *arg2, void *arg3, s32 arg4, void *arg5, s32 arg6);
 void *__dt_deleting__11TBreakUpMdlFPvs(void *arg0, s16 arg1);
 
@@ -193,7 +194,7 @@ u8 *TBreakUpMdl__ct(u8 *break_up_mdl, void *arg1, Model_80096AD8 *arg2, void *ar
     s32 i;
     __ct__7TObjectFP7TObject(self, arg1);
     self->vtable = __vt__11TBreakUpMdl;
-    self->f0 = TBreakUpMdl__class_name;
+    self->f0 = (s32)TBreakUpMdl__class_name;
     self->model = arg2;
     if (arg3 == NULL) {
         ((TBreakUpMdl *)(&self->f38))->copy(breakup_default_param_row);

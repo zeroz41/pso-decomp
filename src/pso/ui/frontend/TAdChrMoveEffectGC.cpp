@@ -106,6 +106,7 @@ struct C4_803490D8 { u8 b[4]; };
 
 struct P_803490D8 { V2_803490D8 a; V2_803490D8 b; C4_803490D8 c; C4_803490D8 d; V2_803490D8 e; };
 
+u32 lbl_805D6E78;
 extern "C" {
 void TAdChrMoveEffectGC__sub_80349194(W_80349194 *arg0, void *arg1);
 void __ct__7TObjectFP7TObject(void *);

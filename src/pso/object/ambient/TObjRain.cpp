@@ -3,6 +3,7 @@
 #include "pso/math/AngleLookup.h"
 #include <stdlib.h>
 #include <dolphin/mtx/GeoTypes.h>
+extern "C" { extern const char TObjRain__class_name_string[9] = "TObjRain"; }
 
 
 struct Drop_80197998 {
@@ -65,7 +66,7 @@ struct RecoveredGlobal_80197C84___vt__8TObjRain {
 extern "C" {
 s32 __ct__7TObjectFP7TObject();
 extern RecoveredGlobal_80197C84___vt__8TObjRain __vt__8TObjRain;
-extern s32 lbl_805D3420;
+const char *lbl_805D3420 = TObjRain__class_name_string;
 void TObjRain::render() { draw_streaks(); }
 void TObjRain::run_task() { update_drops(); }
 typedef char RecoveredGlobal_80197C84___vt__8TObjRain_size[sizeof(RecoveredGlobal_80197C84___vt__8TObjRain) == 0x18 ? 1 : -1];

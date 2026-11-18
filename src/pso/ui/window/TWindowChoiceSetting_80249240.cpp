@@ -98,12 +98,13 @@ void *__dt__20TWindowChoiceSettingFv(void *arg0, s16 arg1) {
     return arg0;
 }
 
-extern void *lbl_805D38B8;
+extern "C" { extern char TWindowChoiceSetting__class_name_string[]; }
+const char *lbl_805D38B8 = TWindowChoiceSetting__class_name_string;
 
 void *TWindowChoiceSetting__ct(void *window_choice_setting) {
     fn_80269004(window_choice_setting);
     *(s32 **)((s8 *)window_choice_setting + 0x18) = __vt__20TWindowChoiceSetting;
-    *(void * *)&((TWindowChoiceSetting *)window_choice_setting)->m_name = lbl_805D38B8;
+    ((TWindowChoiceSetting *)window_choice_setting)->m_name = lbl_805D38B8;
     ((TWindowChoiceSetting *)window_choice_setting)->m_80 = 0;
     return window_choice_setting;
 }

@@ -106,7 +106,7 @@ void OSReport(const char*, ...);
 void* memmove(void*, const void*, unsigned long);
 }
 void dispatch_chunk_polygon_list(s16 *list, s32 vertex_buffer);
-extern const char lbl_804FC810[];
+char lbl_804FC810[19] = "CHNK MEMORY ASSERT";
 extern u32 lbl_805D77E4;
 extern ChunkRecording_803E44D4* chunk_vertex_cache_state;
 extern "C" {

@@ -1,8 +1,7 @@
 #include "types.h"
+#include <dolphin/mtx/GeoTypes.h>
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
-
-struct V3_8023E834 { s32 x; s32 y; s32 z; };
 
 extern "C" {
 extern s32 multi_chg_game_mode_state;
@@ -12,8 +11,10 @@ s32 strcmp(s32, s32);
 void play_area_music(char *name);
 void set_active_camera_pose(u8 *arg0, u8 *arg1);
 s32 activate_camera_mode(s32 arg0);
-extern V3_8023E834 lbl_8044DD00;
-extern V3_8023E834 lbl_8044DD0C;
+__declspec(section ".rodata") Vec lbl_8044DCE8 = { 0.0f, 0.0f, 0.0f };
+__declspec(section ".rodata") Vec lbl_8044DCF4 = { 0.0f, 0.0f, -100.0f };
+__declspec(section ".rodata") Vec lbl_8044DD00 = { 0.0f, 0.0f, 0.0f };
+__declspec(section ".rodata") Vec lbl_8044DD0C = { 0.0f, 0.0f, -100.0f };
 s32 TAdMultiChgGameModeGC::is_input_phase_active() {
     s32 r = 0;
     switch (get_main_phase()) {
@@ -50,8 +51,8 @@ s32 TAdMultiChgGameModeGC::is_input_phase_active() {
 }
 
 void TAdMultiChgGameModeGC::set_default_camera() {
-    V3_8023E834 a = lbl_8044DD00;
-    V3_8023E834 b = lbl_8044DD0C;
+    Vec a = lbl_8044DD00;
+    Vec b = lbl_8044DD0C;
     activate_camera_mode(9);
     set_active_camera_pose((u8 *)&a, (u8 *)&b);
 }

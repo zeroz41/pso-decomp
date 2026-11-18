@@ -34,6 +34,7 @@ const S24_802C4944 select_game_mode_text_layout = {{{-1, 208.0f, 197.0f}, {-1, 1
 const S8_802C4944 lbl_80471A44 = {302.0f, 28.0f};
 const S16_802C4944 select_game_mode_button_rect = {{{185.0f, 198.0f}, {155.0f, 250.0f}}};
 
+s32 TAdSelectGameModeGC__cached_mode_value;
 extern "C" {
 int enable_camera__19TAdSelectGameModeGCFv(void);
 s32 free_sub_ctrls__19TAdSelectGameModeGCFv();

@@ -9,7 +9,7 @@ int strcmp(const char *a, const char *b);
 char *strcat(char *, const char *);
 char *strncpy(char *, const char *, u32);
 void *memset(void *, int, u32);
-extern char lbl_805DB070;
+extern const char lbl_805DB070 = '.';
 void TLobby::debug_print(const char *fmt, ...) {}
 
 s32 replace_file_extension__6TLobbyFPvPvPv(char *arg0, char *arg1, char *arg2) {

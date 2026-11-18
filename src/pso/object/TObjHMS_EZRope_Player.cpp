@@ -17,7 +17,15 @@
 #include "pso/math/MatrixVector.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/system/task/TObject.h"
+#include "pso/object/TObjEZBoneRotPlayer.h"
 
+#pragma push
+#pragma readonly_strings on
+extern "C" {
+const char *TObjEZRopeBase__name = "TObjEZRopeBase";
+const char *TObjHMS_EZRope_Player__name = "TObjHMS_EZRope_Player";
+}
+#pragma pop
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
@@ -39,7 +47,7 @@ typedef struct D1_800FF070 { s8 type; u8 pad1[0x17]; } D1_800FF070;
 typedef struct D2_800FF070 { f32 v[4]; } D2_800FF070;
 
 typedef struct Obj_800FF070 {
-    s32 f0;
+    const char *name;
     u8 pad4[0x14];
     void *vt;
     u8 pad1c[0x14];
@@ -68,8 +76,7 @@ struct Obj_800FF2D0 {
 
 extern "C" {
 void *TObjEZRopeBase__ct(void *);
-extern u8 ezrope_chunk_material_color_table[];
-extern s32 TObjHMS_EZRope_Player__name;
+extern f32 ezrope_chunk_material_color_table[];
 f32 get_scale_factor__10TObjPlayerFv(f32);
 void translate_matrix_vec3(u8 *arg0, u8 *arg1);
 void normalize_vector(Vec *v);
@@ -84,11 +91,11 @@ extern s32 model_render_flags;
 void __dl__7TObjectFPv(void *);
 void __dt__14TObjEZRopeBaseFv(void *, int);
 
-extern s32 __vt__21TObjHMS_EZRope_Player[];
+extern void *__vt__21TObjHMS_EZRope_Player[];
 
 void *__dt__21TObjHMS_EZRope_PlayerFv(TObjHMS_EZRope_Player *arg0, s16 arg1) {
     if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__21TObjHMS_EZRope_Player;
+        *(s32 **)((s8 *)arg0 + 0x18) = (s32 *)__vt__21TObjHMS_EZRope_Player;
         if (arg0->m_3c != NULL) { TAdSinglePlyChrSelectGC::safe_free((u32)arg0->m_3c); *(s32 *)((s8 *)arg0 + 0x3C) = 0; }
         if (*(void **)((s8 *)arg0 + 0x40) != NULL) { TAdSinglePlyChrSelectGC::safe_free((u32)(*(void **)((s8 *)arg0 + 0x40))); *(s32 *)((s8 *)arg0 + 0x40) = 0; }
         if (arg0->m_44 != NULL) { TAdSinglePlyChrSelectGC::safe_free((u32)arg0->m_44); *(s32 *)((s8 *)arg0 + 0x44) = 0; }
@@ -113,7 +120,7 @@ void *TObjHMS_EZRope_Player__ct(void *arg0, void *arg1, void *arg2, void *arg3) 
     n1 = 0;
     SELF->vt = (void *)(base + 0x3C);
     n2 = 0;
-    SELF->f0 = TObjHMS_EZRope_Player__name;
+    SELF->name = TObjHMS_EZRope_Player__name;
     SELF->f30 = arg1;
     SELF->list = (E1_800FF070 *)arg2;
     SELF->list2 = (E2_800FF070 *)arg3;
@@ -415,6 +422,44 @@ void TObjEZRopeBase::sub_800FF8CC(void *src_arg, void *pos_arg, s32 arg) {
             vec3_add_to(&v, &s->rot);
         }
     }
+}
+
+}
+
+extern "C" void run_task__21TObjHMS_EZRope_PlayerFv();
+extern "C" void render_shadows__7TObjectFv();
+f32 ezrope_chunk_material_color_table[12] = {
+    0.5f, 1.0f, 1.0f, 0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
+};
+f32 TObjEZBoneRotPlayer__chain_gravity[3] = { 0.0f, -0.75f, 0.0f };
+#pragma push
+#pragma force_active on
+void *__vt__21TObjHMS_EZRope_Player[6] = {
+    (void *)0x0, (void *)0x0, (void *)&__dt__21TObjHMS_EZRope_PlayerFv, (void *)&run_task__21TObjHMS_EZRope_PlayerFv,
+    (void *)&render__21TObjHMS_EZRope_PlayerFv, (void *)&render_shadows__7TObjectFv,
+};
+#pragma pop
+
+TObjEZRopeBase::~TObjEZRopeBase() {
+    if (m_2c != nullptr) { TAdSinglePlyChrSelectGC::safe_free((u32)m_2c); m_2c = nullptr; }
+}
+
+extern "C" {
+
+void __ct__7TObjectFP7TObject(void *);
+
+extern s32 __vt__14TObjEZRopeBase[];
+
+void *TObjEZRopeBase__ct(void *obj_ez_rope_base) {
+    __ct__7TObjectFP7TObject(obj_ez_rope_base);
+    *(s32 **)((s8 *)obj_ez_rope_base + 0x18) = __vt__14TObjEZRopeBase;
+    ((TObjEZRopeBase *)obj_ez_rope_base)->m_name = TObjEZRopeBase__name;
+    *(u32 *)((s8 *)obj_ez_rope_base + 0x1C) = 0;
+    *(u32 *)((s8 *)obj_ez_rope_base + 0x20) = 0;
+    *(u32 *)((s8 *)obj_ez_rope_base + 0x24) = 0;
+    ((TObjEZRopeBase *)obj_ez_rope_base)->m_28 = 0;
+    *(u32 *)((s8 *)obj_ez_rope_base + 0x2C) = 0;
+    return obj_ez_rope_base;
 }
 
 }

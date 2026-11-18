@@ -174,7 +174,7 @@ u32 prs_decompress_buffer(s32 arg0, s32 arg1);
 char *strncpy(char *dest, const char *src, unsigned long num);
 extern u8 *resource_decompress_buffer;
 extern s32 disc_read_filename;
-extern s32 lbl_805D2B10;
+extern const char *lbl_805D2B10;
 TBinModel *load_resource_from_descriptor(TBinModel *self, s32 kind, Desc_80020004 *desc, s32 on_loaded, s32 on_loaded_arg, s32 load_buffer);
 s32 bind_bml_model(Lobby_8001FBEC *arg0, u32 arg1, s32 arg2, s32 arg3);
 s32 adxf_get_stat(u32);
@@ -806,7 +806,7 @@ TBinModel *load_resource_from_descriptor(TBinModel *self, s32 kind, Desc_8002000
                         disc_read_filename = desc->name;
                         st.read_data((s32)((void *)buf), (s32)size);
                         st.align_read_offset(blk);
-                        disc_read_filename = lbl_805D2B10;
+                        disc_read_filename = (s32)lbl_805D2B10;
                         prs_decompress_buffer(buf, (s32)resource_decompress_buffer);
                         TAdSinglePlyChrSelectGC::safe_free(buf);
                         bind_bml_model((Lobby_8001FBEC *)(self), size, i, (s32)((s32)resource_decompress_buffer));
@@ -817,7 +817,7 @@ TBinModel *load_resource_from_descriptor(TBinModel *self, s32 kind, Desc_8002000
                 default:
                     st.read_data((s32)resource_decompress_buffer, (s32)size);
                     st.align_read_offset(blk);
-                    disc_read_filename = lbl_805D2B10;
+                    disc_read_filename = (s32)lbl_805D2B10;
                     bind_bml_model((Lobby_8001FBEC *)(self), size, i, (s32)((s32)resource_decompress_buffer));
                     break;
                 }

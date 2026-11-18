@@ -9,7 +9,10 @@
 extern "C" {
 u8 * __ct__8TObjBaseFP7TObject(void *);
 extern s32 __vt__13TObjPlayerSet[];
-extern s32 TObjPlayer__player_set_class_name;
+#pragma push
+#pragma readonly_strings on
+const char *TObjPlayer__player_set_class_name = "TObjPlayerSet";
+#pragma pop
 u8 *TObjPlayerSet__ct(TObjPlayerSet *arg0, s32 arg1, s32 arg2);
 
 void TObjPlayerSet::render() {  }

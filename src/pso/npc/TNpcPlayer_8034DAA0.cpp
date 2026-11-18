@@ -230,7 +230,7 @@ struct Stack_8034ED58 {
     s16 sp12;
 };
 
-    extern int lbl_805D6EA0;
+int lbl_805D6EA0;
 extern "C" {
 s32 set_arrival_override_coords(s32, s32, f32, f32, f32);
 void send_6x21_inter_level_warp(void *obj, s32 value);
@@ -775,7 +775,7 @@ u8 TTecReverser::is_active() {
     return (u8) var_r31;
 }
 
-void TNpcPlayer::copy_entry_by_index(s32 arg1) {
+void TNpcPlayer::AiParams::copy_entry_by_index(s32 arg1) {
     s32 arg0 = (s32)this;
     s32 temp_r5;
     temp_r5 = arg1 * 0x28;

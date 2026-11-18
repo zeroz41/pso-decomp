@@ -182,3 +182,5 @@ s32 TWindowEffectParty::step_toward_target(f32 farg0, f32 farg1) {
   *((f32 *) (((s8 *) arg0) + 0x24)) = (f32) ((5.0f * sin_table_lookup(temp_r31)) + (*((f32 *) (((s8 *) arg0) + 0x24))));
   return 0;
 }
+
+extern const f64 lbl_8044ECF0 = 10430.38043493439;

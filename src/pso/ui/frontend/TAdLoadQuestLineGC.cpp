@@ -41,9 +41,10 @@ TAdLoadQuestLineGC::~TAdLoadQuestLineGC() {
     }
 }
 
-extern void *lbl_805D4300;
+extern "C" { extern char TAdLoadQuestLineGC__class_name_string[]; }
+const char *lbl_805D4300 = TAdLoadQuestLineGC__class_name_string;
 TAdLoadQuestLineGC::TAdLoadQuestLineGC(TObject *object, void *arg2) : TObject(object) {
-    *(void * *)&this->m_name = lbl_805D4300;
+    this->m_name = lbl_805D4300;
     *(void **)((s8 *)this + 0x1C) = arg2;
     this->m_frameCount = -1;
 }

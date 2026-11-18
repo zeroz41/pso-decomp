@@ -90,7 +90,8 @@ void __ct__7TEffectFv(void *);
 void init_collision_body_parts(void *, f32 *, s32);
 void *__ct__14TObjCollidableFP7TObject(void *, void *);
 extern s32 __vt__19TTecPlayerInfluence[];
-extern s32 lbl_805D37F0;
+extern "C" { extern char TTecPlayerInfluence__class_name_string[]; }
+const char *lbl_805D37F0 = TTecPlayerInfluence__class_name_string;
 Obj_80237310 *TTecPlayerInfluence__ct(Obj_80237310 *self, Owner_80237310 *owner, void *pos, s32 level);
 void free_collision_body_parts(void *);
 
@@ -134,7 +135,7 @@ Obj_80237310 *TTecPlayerInfluence__ct(Obj_80237310 *self, Owner_80237310 *owner,
   void *p;
   __ct__7TEffectFv(self);
   self->vt = __vt__19TTecPlayerInfluence;
-  self->f0 = lbl_805D37F0;
+  self->f0 = (s32)lbl_805D37F0;
   self->fa8 = 0xFFFF;
   VecCopy((Vec *)self->pos, (const Vec *)pos);
   if (level < 0)

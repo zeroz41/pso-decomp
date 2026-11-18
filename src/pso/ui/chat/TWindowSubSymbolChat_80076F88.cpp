@@ -284,7 +284,8 @@ void TLobby__sub_80077608(void) {  }
 }
 
     extern unsigned char symbol_chat_receive_buffer[];
-    extern unsigned char pending_symbol_chat_count;
+int selected_symbol_chat_preset;
+unsigned char pending_symbol_chat_count;
 void clear_received_symbol_chat(void) { pending_symbol_chat_count = 0; ((TWindowSubSymbolChat *)symbol_chat_receive_buffer)->clear_entries(); }
 
 

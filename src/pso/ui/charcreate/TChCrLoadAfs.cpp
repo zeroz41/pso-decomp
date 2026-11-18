@@ -66,6 +66,8 @@ void TChCrLoadAfs::poll_load() {
 #include "pso/ui/charcreate/CharacterAppearanceTables.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+extern "C" { extern const char TChCrLoadAfs__class_name_string[13] = "TChCrLoadAfs"; }
+extern "C" { extern const char TChCrLoadAfsTextureReq__class_name_string[23] = "TChCrLoadAfsTextureReq"; }
 
 extern "C" {
 f32 TLobby__sub_8028C50C(f32);
@@ -133,7 +135,7 @@ TChCrLoadAfs::~TChCrLoadAfs() {
     release_load_slot();
 }
 
-extern const char *lbl_805D3B48;
+const char *lbl_805D3B48 = TChCrLoadAfs__class_name_string;
 TChCrLoadAfs::TChCrLoadAfs(TObject *object, void *arg2, void *arg3) : TObject(object) {
     m_name = lbl_805D3B48;
     load_handle = 0;

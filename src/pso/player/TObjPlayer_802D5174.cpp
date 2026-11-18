@@ -57,9 +57,6 @@ void get_weapon_color__11TItemWeaponFPv(void *, void *);
 void normalize_vector(void *);
 s32 rotate_matrix_about_axis(int, void *, int);
 void set_matrix_identity(u8 *arg0);
-extern Vec lbl_8047259C;
-extern Vec player_pb_zero_vec_block;
-extern const f64 lbl_804725B8[];
 }
 
 TUnk_804E23F0::~TUnk_804E23F0() {}
@@ -278,6 +275,8 @@ void TUnk_804E21F8::update_weapon() {
     sub_802D577C();
 }
 
+__declspec(section ".rodata") Vec lbl_8047259C = { 0 };
+__declspec(section ".rodata") Vec player_pb_zero_vec_block = { 0 };
 void TUnk_804E21F8::sub_802D577C() {
     Vec *axis_base;
     Vec *point_base;
@@ -393,6 +392,7 @@ void TObjPlayer::spawn_hit_particles_at_vec(s32 arg0, s32 arg1, s32 arg2) {
     spawn_hit_particles__10TObjPlayerFiPv((s32)&pos, (const Vec *)arg2);
 }
 
+extern const f64 lbl_804725B8[1] = { 10430.38043493439 };
 void spawn_hit_particles__10TObjPlayerFiPv(s32 pos, const Vec *dir) {
     s32 angles[3];
     create_timed_particle_emitter((void *)pos, 0x1EF, 0, 0xF);

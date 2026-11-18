@@ -39,7 +39,7 @@ s32 TLobby__sub_80418A7C(void);
 s32 TLobby__sub_8041A1D8(void);
 s32 NetUnregisterTimer(void *);
 void TLobby__sub_80421FB8(void *, void *, void *);
-s32 TLobby__sub_80421AD8(u8 *arg0, s32 arg1, s32 arg2, u32 arg3, s32 arg4);
+s32 raw_socket_deliver_ipv4(u8 *arg0, s32 arg1, s32 arg2, u32 arg3, s32 arg4);
 s32 net_register_timer(s32 arg0, s32 arg1);
 s32 TLobby__sub_8040F9CC(void *, void *, void *, int);
 s32 TLobby__sub_804219D0(s32 arg0, s32 arg1, s32 arg2);
@@ -101,7 +101,7 @@ s32 OSDisableInterrupts();
 s32 OSRestoreInterrupts(int);
 s16 bring_down_ipv4_interface(s16);
 s16 TLobby__sub_80412210(s16);
-s16 bring_up_ipv4_interface(s32, s32, s32, s16);
+s16 AT_IP4_IfUp(s32, s32, s32, s16);
 s16 TLobby__sub_80412CA4(void *, s16, s16, s16, s32);
 s16 TLobby__sub_8042315C(s16 arg0, P_8042315C *p);
 s32 cleanup_subsystems(void) {
@@ -275,7 +275,7 @@ s32 net_add_ipv4_route(s32 arg0, s32 arg1, s32 gateway) {
     return result;
 }
 
-s32 TLobby__sub_80421AD8(u8 *sock, s32 src, s32 dst, u32 cb, s32 flags) {
+s32 raw_socket_deliver_ipv4(u8 *sock, s32 src, s32 dst, u32 cb, s32 flags) {
     typedef struct SockFields { u8 pad_0[8]; s32 field_8; s16 field_C; } SockFields;
     typedef char sp1C_offset[(offsetof(Stack_80421AD8, sp1C) == 0x0) ? 1 : -1];
     typedef char sp1E_offset[(offsetof(Stack_80421AD8, sp1E) == 0x2) ? 1 : -1];
@@ -988,7 +988,7 @@ s16 TLobby__sub_8042315C(s16 iface, P_8042315C *p) {
     intr = OSDisableInterrupts();
     switch (p->type) {
     case 4:
-        result = bring_up_ipv4_interface(p->a, p->b, p->c, iface);
+        result = AT_IP4_IfUp(p->a, p->b, p->c, iface);
         break;
     case 6:
         if (p->n < 0 || p->n > 0x80) {

@@ -30,7 +30,7 @@ void add_plate_rect__20TAdChrSelMovePlateGCFPvPv(Obj_80325764 *arg0, NJS_POINT2 
 void __ct__7TObjectFP7TObject(void *);
 extern u8 __vt__20TAdChrSelMovePlateGC[];
 const char *lbl_805D4190 = "TAdChrSelMovePlateGC";
-extern s32 chr_sel_move_plate_texture;
+s32 chr_sel_move_plate_texture;
 Obj_803258C4 *__ct__20TAdChrSelMovePlateGCFv(Obj_803258C4 *arg0);
 void TAdChrSelMovePlateGC::draw_move_plate_quads() {
     Obj_80325660 *arg0 = (Obj_80325660 *)this;

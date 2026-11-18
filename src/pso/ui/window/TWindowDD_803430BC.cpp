@@ -138,6 +138,18 @@ struct WordSelectWindowState {
 
 struct WindowPosition { f32 x, y; };
 
+s32 TWindowDD__window_mode;
+u32 TWindowDD__work_buffer;
+u32 window_dd_buffer_a;
+u32 window_dd_buffer_b;
+u32 TWindowDD__player_name_buffers;
+u32 TWindowDD__word_select_lists;
+u32 lbl_805D6E20;
+s16 lbl_805D6E24;
+char **TWindowDD__data_805D6E28;
+u32 TWindowDD__ws_data_base;
+u8 *TWindowDD__ws_data_table;
+u32 lbl_805D6E34;
 extern "C" {
 s32 free_child__9TWindowDDFv(int);
 s32 apply_input__9TWindowDDFPvPv(int, int);

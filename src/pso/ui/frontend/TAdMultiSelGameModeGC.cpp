@@ -408,3 +408,7 @@ Obj_8030095C *__ct__21TAdMultiSelGameModeGCFv(Obj_8030095C *self, s32 parent, s3
     return self;
 }
 #pragma pool_data reset
+
+__declspec(section ".rodata") Pos3_803001B4 multi_sel_game_mode_position = { 364.0f, 145.0f, 340.0f, 197.0f, 318.0f, 250.0f };
+__declspec(section ".rodata") Arr3_803001B4 lbl_80474EEC = { 0 };
+__declspec(section ".rodata") Arr3_803001B4 multi_sel_game_mode_arr3 = { 0x4, 0x8, 0xB };

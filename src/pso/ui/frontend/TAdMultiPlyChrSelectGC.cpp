@@ -8,10 +8,12 @@ struct O_802DFFE8 { u8 pad[0x4ac]; s32 tbl[4][3]; u8 pad2[0x4ec - 0x4ac - 0x30];
 
 struct O_802E0024 { u8 pad[0x4ac]; s32 tbl[4][3]; u8 pad2[0x4ec - 0x4ac - 0x30]; s32 idx; };
 
+extern "C" { extern char TAdMultiPlyChrSelectGC__class_name_string[]; }
+const char *lbl_805D3F68 = TAdMultiPlyChrSelectGC__class_name_string;
 extern "C" {
 extern u8 *TAdMultiPlyChrSelectGC__instance;
 u8 *get_or_create__22TAdMultiPlyChrSelectGCFii(s32 arg0, s32 arg1);
-extern s32 lbl_805D3F68;
+extern const char *lbl_805D3F68;
 u8 *__ct__22TAdMultiPlyChrSelectGCFP7TObjectl(TAdMultiPlyChrSelectGC *arg0, u8 *arg1, s32 arg2);
 extern s32 multi_ply_chr_select_active_player;
 s32 TAdMultiPlyChrSelectGC__sub_802DFFE8(O_802DFFE8 *self);

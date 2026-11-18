@@ -6,7 +6,7 @@
     extern int quest_active_flag;
 void TLobby::clear_counter() { quest_active_flag = 0; }
 
-    extern int camera_split_screen_selector;
+int camera_split_screen_selector = 1;
 void TLobby__sub_801A3B90(int a0) { camera_split_screen_selector = a0; }
 
 void TLobby__sub_801A3B98(void) { camera_split_screen_selector = 1; }

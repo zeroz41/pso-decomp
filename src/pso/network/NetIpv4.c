@@ -29,7 +29,7 @@ s32 init_ipv4_interfaces(void);
 #include "pso/network/IPv6Send.h"
 #include "pso/network/NetStackTypes.h"
 
-extern RecoveredGlobal_8040DD68_lbl_805C1B38 ipv4_protocol_state;
+extern Ipv4ProtocolState ipv4_protocol_state;
 
 /* Inline the helpers below; this applies to the rest of the file. */
 #pragma dont_inline off
@@ -39,107 +39,118 @@ u16 ones_complement_sum();
 
 s32 TLobby__sub_8040DD68(void) {
     release_slot_by_id(0x800);
-    TLobby__sub_803F892C((void *)(&ipv4_protocol_state.value));
-    ipv4_protocol_state.value = 0;
+    TLobby__sub_803F892C((void *)(&ipv4_protocol_state.nsockets));
+    ipv4_protocol_state.nsockets = 0;
     return 0;
 }
 
-s32 TUdpSocket__sub_8040DE4C(u8 *ip, s16 x, s16 id);
+s16 ipv4_input(u8 *ip, s16 len, s16 iface);
 s32 init_ipv4_interfaces(void) {
     s16 i;
-    E_8040DDB0 *e;
-    RecoveredGlobal_8040DD68_lbl_805C1B38 *g = &ipv4_protocol_state;
+    Ipv4RawSocket *e;
+    Ipv4ProtocolState *g = &ipv4_protocol_state;
 
-    TLobby__sub_803F8930((u8 *)&g->value);
-    e = g->ents;
-    for (i = 0; i < g->value; i++) {
-        e->c0 = 0x49;
-        e->c1 = 0x50;
-        e->c2 = 0x34;
-        e->c3 = i;
-        e->f4 = 0;
+    TLobby__sub_803F8930((u8 *)&g->nsockets);
+    e = g->sockets;
+    for (i = 0; i < g->nsockets; i++) {
+        e->tag[0] = 'I';
+        e->tag[1] = 'P';
+        e->tag[2] = '4';
+        e->index = i;
+        e->state = 0;
         e++;
     }
-    g->f8 = 1;
-    register_protocol_handler(0x800, (NetProtocolHandler)TUdpSocket__sub_8040DE4C);
+    g->id = 1;
+    register_protocol_handler(0x800, (NetProtocolHandler)ipv4_input);
     return 0;
 }
 
-s32 TUdpSocket__sub_8040DE4C(u8 *ip, s16 x, s16 id)
+inline u16 ip_header_checksum(void *p, s16 n)
 {
-  u8 *p;
-  u8 *g;
-  u8 hl;
-  s16 r;
-  s16 n;
-  s16 found;
-  s16 frag;
-  s16 i;
-  u32 tl;
-  s32 rr;
-  u32 fl;
-  NetPacket *pkt;
-  unsigned char mf;
-  u16 off;
-  u32 s;
-  s32 fragment_input(u8* self, void* p1, s16 p2, u8 p3, u32 p4, void* p5, u16 p6, u8 p7, s16 p8);
-  s16 tcp_input(void *, void *, void *); /* declared here with void * parameters; the definition takes (u8 *, u8 *, u8 *) */
-  s16 udp_input(void *, void *, void *, s16); /* declared here with void * parameters; the definition takes (NetPacket *, NetworkAddress *, NetworkAddress *, s16) */
-  s32 TLobby__sub_80421AD8(u8 *, u32, u32, u32, s16); /* declared here with other parameter types; the definition is s32 (u8 *, s32, s32, u32, s32) */
   u16 ones_complement_sum(void *, s16);
+  u32 s = ones_complement_sum(p, n);
+  s = (s >> 16) + (s & 0xFFFF);
+  s += s >> 16;
+  return ~s;
+}
+
+#pragma push
+#pragma opt_propagation off
+#pragma opt_common_subs on
+
+s16 ipv4_input(u8 *ip, s16 len, s16 iface)
+{
+  s32 fragment_input(u8 *self, u16 hdr_len, s16 frag_len, u8 ttl, u32 ident, NetworkAddress *src, u16 frag_off, u8 more, s16 iface);
+  s16 tcp_input(NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst); /* the definition takes (u8 *, u8 *, u8 *) */
+  s16 udp_input(NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst, s16 arg3);
+  s32 raw_socket_deliver_ipv4(u8 *pkt, u32 src, u32 dst, u32 cb, s16 index); /* declared here with an s16 index; the definition takes (u8 *, s32, s32, u32, s32) */
+  s16 icmp_send_error(u8 *msg, u8 *ip, s16 len, s16 iface); /* declared s16 here; the definition returns s32 */
+  u16 total_len;
+  u16 hlen;
+  NetPacket *pkt;
+  u16 frag_off;
+  s16 i;
+  IPv4Header *h;
+  s16 data_len;
+  s16 reassembled;
+  Ipv4RawSocket *sock;
+  s16 found;
   NetworkAddress src;
   NetworkAddress dst;
-  struct 
+  struct
   {
     u8 type;
     u8 code;
-    s32 w;
-  } ic;
-  u8 padx[12];
-  if (x < 5)
+    s32 unused;
+  } err;
+  u8 *dp;
+  s16 r;
+  u8 *data;
+  u8 more_frags;
+  s16 z;
+  found = 0;
+  if (len < 5)
   {
     return -1;
   }
-  if (get_active_entry_by_index(id) == 0)
+  if (get_active_entry_by_index(iface) == 0)
   {
     return -1;
   }
+  h = (IPv4Header *) ip;
   src.family = 4;
-  NetMemcpy(&src.ipv4, ip + 12, 4);
+  NetMemcpy(&src.ipv4, &h->src, 4);
   dst.family = 4;
-  NetMemcpy(&dst.ipv4, ip + 16, 4);
-  hl = (ip[0] << 2) & 0x3C;
-  tl = *((u16 *)(ip + 2));
-  n = tl - hl;
-  if (hl < 20)
+  NetMemcpy(&dst.ipv4, &h->dst, 4);
+  hlen = (h->ver_ihl & 0xF) * 4;
+  total_len = h->len;
+  data_len = total_len - hlen;
+  if (hlen < 20)
   {
     return -1;
   }
-  if ((ip[0] >> 4) != 4)
+  if ((h->ver_ihl >> 4) != 4)
   {
     return -1;
   }
-  s = ones_complement_sum(ip, (s16) (hl >> 1));
-  s = (s >> 16) + (s & 0xFFFF);
-  s += s >> 16;
-  if (((u16) (~s)) != 0)
+  if (ip_header_checksum(h, (s16) (hlen >> 1)) != 0)
   {
     return -1;
   }
-  if (tl < hl)
+  if (total_len < hlen)
   {
     return -1;
   }
-  if (id != 0)
+  if (iface != 0)
   {
-    if (TLobby__sub_8040FCEC(dst.ipv4) < 0)
+    i = ipv4_iface_for_address(dst.ipv4);
+    if (i < 0)
     {
-      if (TLobby__sub_8040FDA0(dst.ipv4, id) == 0)
+      if (NetIPv4IsBroadcast(dst.ipv4, iface) == 0)
       {
-        if (TLobby__sub_8040FE40(id) != 0)
+        if (NetIPv4IsInterfaceUp(iface) != 0)
         {
-          r = TUdpSocket__sub_8040E354((u8 *) dst.ipv4, src.ipv4, ip, x, id);
-          if (0 > r)
+          if (AT_IP4_Forward(dst.ipv4, src.ipv4, ip, len, iface) < 0)
           {
             return -1;
           }
@@ -148,24 +159,24 @@ s32 TUdpSocket__sub_8040DE4C(u8 *ip, s16 x, s16 id)
       }
     }
   }
-  fl = *((u16 *)(ip + 6));
-  if (fl & (~0x4000))
+  frag_off = h->frag;
+  if (frag_off & (~0x4000))
   {
-    if (fl & 0x2000)
+    if (frag_off & 0x2000)
     {
-      mf = 1;
+      more_frags = 1;
     }
     else
     {
-      mf = 0;
+      more_frags = 0;
     }
-    off = fl & 0x1FFF;
-    pkt = (NetPacket *) fragment_input(ip, (void *) hl, n, ip[8], *((u16 *)(ip + 4)), &src, off, mf, id);
+    frag_off = frag_off & 0x1FFF;
+    pkt = (NetPacket *) fragment_input(ip, hlen, data_len, h->ttl, h->id, &src, frag_off, more_frags, iface);
     if (pkt == 0)
     {
       return 0;
     }
-    frag = 1;
+    reassembled = 1;
   }
   else
   {
@@ -175,213 +186,214 @@ s32 TUdpSocket__sub_8040DE4C(u8 *ip, s16 x, s16 id)
       return -257;
     }
     pkt->fragment_count = 0;
-    pkt->total_bytes = tl;
-    pkt->fragments[pkt->fragment_count].length = hl;
+    pkt->total_bytes = total_len;
+    pkt->fragments[pkt->fragment_count].length = hlen;
     set_value_and_enable(&pkt->fragments[pkt->fragment_count].buffer, (s32) ip);
     pkt->fragment_count++;
-    pkt->fragments[pkt->fragment_count].length = n;
-    set_value_and_enable(&pkt->fragments[pkt->fragment_count].buffer, (s32) (ip + hl));
+    pkt->fragments[pkt->fragment_count].length = data_len;
+    set_value_and_enable(&pkt->fragments[pkt->fragment_count].buffer, (s32) (ip + hlen));
     pkt->fragment_count++;
-    frag = 0;
+    reassembled = 0;
   }
-  switch (ip[9])
+  switch (h->proto)
   {
     case 1:
       found = 1;
-      r = TLobby__sub_8040CB44((u8 *) pkt, src.ipv4, dst.ipv4);
-      if (r < 0)
-    {
-      if (frag == 1)
+      if (icmp_input((u8 *) pkt, src.ipv4, dst.ipv4) < 0)
+      {
+        if (reassembled == 1)
+        {
+          release_packet_fragments(pkt);
+        }
+        release_entry(pkt);
+        return -1;
+      }
+      if (reassembled == 1)
       {
         release_packet_fragments(pkt);
       }
-      release_entry(pkt);
-      return -1;
-    }
-      if (frag == 1)
-    {
-      release_packet_fragments(pkt);
-    }
       release_entry(pkt);
       break;
 
     case 6:
-      r = tcp_input(pkt, &src, &dst);
-      if (r < 0)
-    {
-      if (frag == 1)
+      found = 1;
+      if (tcp_input(pkt, &src, &dst) < 0)
+      {
+        if (reassembled == 1)
+        {
+          release_packet_fragments(pkt);
+        }
+        release_entry(pkt);
+        return -1;
+      }
+      if (reassembled == 1)
       {
         release_packet_fragments(pkt);
       }
       release_entry(pkt);
-      return -1;
-    }
-      if (frag == 1)
-    {
-      release_packet_fragments(pkt);
-    }
-      release_entry(pkt);
       return 0;
 
     case 17:
-      r = udp_input(pkt, &src, &dst, id);
+      found = 1;
+      r = udp_input(pkt, &src, &dst, iface);
       if (r < 0)
-    {
-      switch (r)
       {
-        case -2:
-          ic.type = 3;
-          ic.code = 3;
-          ic.w = 0;
-          rr = TUdpSocket__sub_8040CE58((u8 *)&ic, ip, x, id);
-          if (frag == 1)
+        switch (r)
         {
-          release_packet_fragments(pkt);
-        }
-          release_entry(pkt);
-          return rr;
+          case -2:
+            err.type = 3;
+            err.code = 3;
+            err.unused = 0;
+            r = icmp_send_error((u8 *) (&err), ip, len, iface);
+            if (reassembled == 1)
+            {
+              release_packet_fragments(pkt);
+            }
+            release_entry(pkt);
+            return r;
 
-        default:
-          if (frag == 1)
-        {
-          release_packet_fragments(pkt);
+          default:
+            if (reassembled == 1)
+            {
+              release_packet_fragments(pkt);
+            }
+            release_entry(pkt);
+            return -1;
         }
-          release_entry(pkt);
-          return -1;
-
       }
-
-    }
-      if (frag == 1)
-    {
-      release_packet_fragments(pkt);
-    }
+      if (reassembled == 1)
+      {
+        release_packet_fragments(pkt);
+      }
       release_entry(pkt);
       return 0;
 
     default:
       found = 0;
       break;
-
   }
 
-  g = (u8 *)&ipv4_protocol_state;
-  p = *((u8 **) (g + 4));
-  for (i = 0; i < (*((s16 *) g)); i++)
+  sock = ipv4_protocol_state.sockets;
+  for (i = 0; i < ipv4_protocol_state.nsockets; i++)
   {
-    if ((*((u16 *)(p + 4))) == 1)
+    if (sock->state == 1)
     {
-      if (((*((u32 *)(p + 8))) == 0) || ((*((u32 *)(p + 8))) == src.ipv4))
+      if ((sock->addr == 0) || (sock->addr == src.ipv4))
       {
-        if ((*((u8 *)(p + 24))) == ip[9])
+        if (sock->proto == h->proto)
         {
-          if ((*((u32 *)(p + 16))) != 0)
+          if (sock->callback != 0)
           {
-            TLobby__sub_80421AD8((u8 *) pkt, src.ipv4, dst.ipv4, *((u32 *)(p + 16)), i);
+            raw_socket_deliver_ipv4((u8 *) pkt, src.ipv4, dst.ipv4, (u32) sock->callback, i);
             found = 1;
           }
         }
       }
     }
-    p += 28;
+    sock++;
   }
 
   if (found == 1)
   {
-    if (frag == 1)
+    if (reassembled == 1)
     {
       release_packet_fragments(pkt);
     }
     release_entry(pkt);
     return 0;
   }
-  ic.type = 3;
-  ic.code = 2;
-  ic.w = 0;
-  TUdpSocket__sub_8040CE58((u8 *)&ic, ip, x, id);
-  if (frag == 1)
+  err.type = 3;
+  err.code = 2;
+  err.unused = 0;
+  icmp_send_error((u8 *) (&err), ip, len, iface);
+  if (reassembled == 1)
   {
     release_packet_fragments(pkt);
   }
   release_entry(pkt);
   return -1;
 }
+#pragma pop
 
-s16 TUdpSocket__sub_8040E354(u8 *self, u32 key, u8 *pkt, s16 total, s16 id)
+#pragma push
+#pragma opt_common_subs on
+s16 AT_IP4_Forward(u32 dst, u32 src, u8 *pkt, s16 len, s16 iface)
 {
-  u16 ones_complement_sum(void *, s16);
-  s16 cnt8;
-  u8 *rt;
-  u32 s;
-  u8 hdr;
-  int fl;
-  s16 off;
+  u16 frag;
+  u8 df;
+  u8 ttl;
+  u16 cksum;
+  u8 *opt;
+  s16 optlen;
+  Ipv4Route *rt;
+  u8 hlen;
+  s16 frag_off;
   s16 mtu;
   s16 ifidx;
-  u8 *target;
+  u32 target;
   NetPacket *rec;
-  u16 flagsHi;
-  s16 units;
-  s32 frag;
-  s16 cnt;
+  u16 flags;
+  s16 max_units;
+  s16 nunits;
   s16 rem;
-  s32 hl;
-  s32 df;
+  u8 *ip;
+  s16 tail;
   u8 *payload;
-  u16 t46;
-  u16 t44;
-  u16 g1[2];
-  s16 t36;
-  u16 t34;
   s16 r;
-  u8 g2[10];
-  s16 len;
-  hdr = (pkt[0] << 2) & 0x3C;
-  if (hdr == 20)
+  s16 frag_word;
+  s16 len_word;
+  s16 first;
+  hlen = pkt[0];
+  hlen = (hlen & 0xF) * 4;
+  if (hlen == 20)
   {
-    len = total - 20;
+    opt = 0;
+    optlen = 0;
+    len -= 20;
   }
   else
   {
-    len = total - hdr;
+    opt = pkt + 20;
+    optlen = hlen - 20;
+    len -= hlen;
   }
   if (len <= 0)
   {
     return -1;
   }
-  NetMemcpy(&t46, pkt + 6, 2);
-  frag = t46;
-  flagsHi = frag & (~0x1FFF);
-  t46 = flagsHi;
+  NetMemcpy(&frag, pkt + 6, 2);
+  flags = frag & (~0x1FFF);
   df = frag & 0x4000;
-  off = frag & 0xFF;
-  if (((u8)(pkt[8] - 1)) < 1)
+  frag_off = (u8) (frag & 0x1FFF);
+  frag &= ~0x1FFF;
+  ttl = pkt[8];
+  ttl -= 1;
+  if (ttl < 1)
   {
     return -1;
   }
-  pkt[8] = pkt[8] - 1;
-  rt = TLobby__sub_8040F76C((u32) self, key);
-  if (rt == 0)
+  pkt[8] = ttl;
+  if ((rt = AT_IP4_RouteSearch(dst, src)) == 0)
   {
     return -6;
   }
-  ifidx = *((s16 *)(rt + 2));
-  if ((*((s16 *)(rt + 18))) == 1)
+  ifidx = rt->iface;
+  if ((rt->type) == 1)
   {
-    target = self;
+    target = dst;
   }
   else
   {
-    target = *((u8 **) (rt + 12));
+    target = rt->gateway;
   }
   mtu = get_ipv4_interface_mtu(ifidx);
   if (mtu < 0)
   {
     return mtu;
   }
-  if (mtu < (hdr + len))
+  if (mtu < (hlen + len))
   {
-    if (df & 0xFF)
+    if (df)
     {
       return -1;
     }
@@ -390,61 +402,62 @@ s16 TUdpSocket__sub_8040E354(u8 *self, u32 key, u8 *pkt, s16 total, s16 id)
     {
       return -257;
     }
+    ip = pkt;
+    payload = ip + hlen;
+    first = 1;
     rem = len;
-    payload = pkt + hdr;
-    units = (mtu - hdr) / 8;
+    max_units = (mtu - hlen) / 8;
     do
     {
-      if (mtu > (rem + (hl = hdr)))
+      if (mtu > (rem + hlen))
       {
-        t46 = flagsHi;
-        cnt8 = rem % 8;
-        cnt = rem / 8;
         mtu = rem;
+        tail = mtu % 8;
+        frag = flags;
+        nunits = rem / 8;
       }
       else
       {
-        t46 |= 0x2000;
-        cnt = units;
-        cnt8 = 0;
+        tail = 0;
+        nunits = max_units;
+        frag |= 0x2000;
       }
-      t36 = off;
-      t36 |= t46;
-      NetMemcpy(pkt + 6, &t36, 2);
-      fl = cnt8 + (cnt << 3);
-      t34 = hl + fl;
-      NetMemcpy(pkt + 2, &t34, 2);
-      NetMemset(pkt + 10, 0, 2);
-      s = ones_complement_sum(pkt, hl / 2);
-      s = (s >> 16) + (s & 0xFFFF);
-      s += s >> 16;
-      t44 = ~s;
-      NetMemcpy(pkt + 10, &t44, 2);
+      frag_word = frag_off;
+      frag_word |= frag;
+      NetMemcpy(ip + 6, &frag_word, 2);
+      len_word = tail + (nunits * 8) + hlen;
+      NetMemcpy(ip + 2, &len_word, 2);
+      NetMemset(ip + 10, 0, 2);
+      cksum = ip_header_checksum(ip, hlen / 2);
+      NetMemcpy(ip + 10, &cksum, 2);
       rec->fragment_count = 0;
-      rec->total_bytes = (u16) fl;
-      rec->fragments[rec->fragment_count].length = fl;
+      rec->total_bytes = (u16) (tail + (nunits * 8));
+      rec->fragments[rec->fragment_count].length = tail + (nunits * 8);
       set_value_and_enable(&rec->fragments[rec->fragment_count].buffer, (s32) payload);
       rec->fragment_count += 1;
-      rec->total_bytes += hdr;
-      rec->fragments[rec->fragment_count].length = hdr;
-      set_value_and_enable(&rec->fragments[rec->fragment_count].buffer, (s32) pkt);
+      rec->total_bytes += hlen;
+      rec->fragments[rec->fragment_count].length = hlen;
+      set_value_and_enable(&rec->fragments[rec->fragment_count].buffer, (s32) ip);
       rec->fragment_count += 1;
-      r = ipv4_send_to_interface(rec, (u32) target, ifidx);
+      r = AT_IP4_PktSend(rec, target, ifidx);
       if (r < 0)
       {
         release_entry(rec);
         break;
       }
-      off += cnt;
-      payload += cnt << 3;
-      hdr = 20;
+      if (first)
+      {
+        hlen = 20;
+      }
+      frag_off += nunits;
+      payload += nunits << 3;
       if (mtu == rem)
       {
         rem = 0;
       }
       else
       {
-        rem = rem - fl;
+        rem -= tail + (nunits * 8);
       }
     }
     while (rem > 0);
@@ -453,11 +466,8 @@ s16 TUdpSocket__sub_8040E354(u8 *self, u32 key, u8 *pkt, s16 total, s16 id)
   else
   {
     NetMemset(pkt + 10, 0, 2);
-    s = ones_complement_sum(pkt, hdr / 2);
-    s = (s >> 16) + (s & 0xFFFF);
-    s += s >> 16;
-    t44 = ~s;
-    NetMemcpy(pkt + 10, &t44, 2);
+    cksum = ip_header_checksum(pkt, hlen / 2);
+    NetMemcpy(pkt + 10, &cksum, 2);
     rec = alloc_free_entry();
     if (rec == 0)
     {
@@ -466,238 +476,208 @@ s16 TUdpSocket__sub_8040E354(u8 *self, u32 key, u8 *pkt, s16 total, s16 id)
     rec->fragment_count = 0;
     rec->total_bytes = len;
     rec->fragments[rec->fragment_count].length = len;
-    set_value_and_enable(&rec->fragments[rec->fragment_count].buffer, (s32) (pkt + hdr));
+    set_value_and_enable(&rec->fragments[rec->fragment_count].buffer, (s32) (pkt + hlen));
     rec->fragment_count += 1;
-    rec->total_bytes += hdr;
-    rec->fragments[rec->fragment_count].length = hdr;
+    rec->total_bytes += hlen;
+    rec->fragments[rec->fragment_count].length = hlen;
     set_value_and_enable(&rec->fragments[rec->fragment_count].buffer, (s32) pkt);
     rec->fragment_count += 1;
-    r = ipv4_send_to_interface(rec, (u32) target, ifidx);
+    r = AT_IP4_PktSend(rec, target, ifidx);
     release_entry(rec);
   }
   return r;
 }
+#pragma pop
 
 #pragma push
 #pragma opt_common_subs on
-s16 TLobby__sub_8040E780(u8 *rec, u32 dst, u32 src, u8 ttl, u8 tos, u8 df, void *proto)
+s16 AT_IP4_Send(NetPacket *pkt, u32 dst, u32 src, u8 ttl, u8 tos, u8 df, u8 proto)
 {
-  s16 tot;
-  u8 *g;
-  u8 *ent;
-  u8 *ip;
-  u8 *target;
-  s16 ifidx;
-  s16 mtu;
-  s32 idx;
-  s16 chunk;
-  s32 units;
   s16 rem;
-  s32 off;
-  s16 last;
-  s32 k;
-  s32 i2;
-  u8 *data;
-  u8 *p;
-  u8 *q;
-  s32 j;
-  s16 *lp;
+  Ipv4ProtocolState *g;
+  s16 len;
+  s16 mtu;
+  Ipv4Route *rt;
+  u8 hlen;
+  NetPacket piece;
   s16 r;
-  u8 *new_var;
-  u32 s;
-  struct 
-  {
-    s64 a;
-    u8 b[0x98];
-  } loc;
-  g = (u8 *)&ipv4_protocol_state;
-  ent = TLobby__sub_8040F76C(dst, src);
-  if ((ent == 0) != 0)
+  s16 ifidx;
+  IPv4Header *ip;
+  u32 target;
+  s16 chunk;
+  s16 frag_off;
+  NetPacket *pp;
+  s16 count;
+  s16 last;
+  s32 i;
+  s32 j;
+  g = &ipv4_protocol_state;
+  hlen = 5;
+  if ((rt = AT_IP4_RouteSearch(dst, src)) == 0)
   {
     return -6;
   }
   if (src == 0)
   {
-    r = ipv4_source_for_subnet(&src, *((u32 *)(ent + 12)), *((s16 *)(ent + 2)));
+    r = AT_IP4_SrcAddrSel(&src, rt->gateway, rt->iface);
     if (r < 0)
     {
       return r;
     }
   }
-  if (TLobby__sub_8040FDA0(src, *((s16 *)(ent + 2))) != 0)
+  if (NetIPv4IsBroadcast(src, rt->iface) != 0)
   {
-    r = ipv4_source_for_subnet(&src, *((u32 *)(ent + 12)), *((s16 *)(ent + 2)));
+    r = AT_IP4_SrcAddrSel(&src, rt->gateway, rt->iface);
     if (r < 0)
     {
       return r;
     }
   }
-  ifidx = *((s16 *)(ent + 2));
-  if ((*((s16 *)(ent + 18))) == 1)
+  ifidx = rt->iface;
+  if ((rt->type) == 1)
   {
-    target = (u8 *) dst;
+    target = dst;
   }
   else
   {
-    target = *((u8 **) (ent + 12));
+    target = rt->gateway;
   }
-  g[12] = 0x40;
-  ip = g + 12;
-  g[12] |= 5;
+  ip = &g->hdr;
+  ip->ver_ihl = 0x40;
+  ip->ver_ihl |= hlen;
   if (tos != 0)
   {
-    ip[1] = tos;
+    ip->tos = tos;
   }
   else
   {
-    ip[1] = g[10];
+    ip->tos = g->def_tos;
   }
   if (ttl != 0)
   {
-    ip[8] = ttl;
+    ip->ttl = ttl;
   }
   else
   {
-    ip[8] = g[11];
+    ip->ttl = g->def_ttl;
   }
-  tot = *((s32 *)(rec + 8));
-  if (tot == 0)
+  if ((len = pkt->total_bytes) == 0)
   {
     return 0;
   }
-  tot = tot + 20;
-  *((s16 *)(ip + 2)) = tot;
-  *((u16 *)(g + 8)) += 1;
-  ip[9] = (u8) ((s32) proto);
-  *((u16 *)(ip + 4)) = *((u16 *)(g + 8));
-  NetMemcpy(ip + 12, &src, 4);
-  NetMemcpy(ip + 16, &dst, 4);
-  mtu = get_ipv4_interface_mtu(ifidx);
-  if (mtu < 0)
+  len += hlen << 2;
+  ip->len = len;
+  g->id += 1;
+  ip->proto = proto;
+  ip->id = g->id;
+  NetMemcpy(&ip->src, &src, 4);
+  NetMemcpy(&ip->dst, &dst, 4);
+  if ((mtu = get_ipv4_interface_mtu(ifidx)) < 0)
   {
     return mtu;
   }
-  if (tot <= mtu)
+  if (len <= mtu)
   {
-    *((u16 *)(ip + 6)) = 0;
+    ip->frag = 0;
     if (df != 0)
     {
-      *((u16 *)(ip + 6)) = 0x4000;
+      ip->frag = 0x4000;
     }
-    *((u16 *)(ip + 10)) = 0;
-    if (!j)
-    {
-    }
-    s = ones_complement_sum(ip, 10);
-    s = (s >> 16) + (s & 0xFFFF);
-    s += s >> 16;
-    *((u16 *)(ip + 10)) = ~s;
-    *((s32 *)(rec + 8)) += 20;
-    ((struct 
-    {
-      s16 v;
-      u8 pad[10];
-    } *) (rec + 0xc))[*((s32 *)(rec + 4))].v = 20;
-    set_value_and_enable((rec + 0x10) + ((*((s32 *)(rec + 4))) * 12), (s32) ip);
-    *((s32 *)(rec + 4)) += 1;
-    return ipv4_send_to_interface(rec, (u32) target, ifidx);
+    ip->cksum = 0;
+    ip->cksum = ip_header_checksum(ip, 10);
+    pkt->total_bytes += hlen << 2;
+    pkt->fragments[pkt->fragment_count].length = hlen * 4;
+    set_value_and_enable(&pkt->fragments[pkt->fragment_count].buffer, (s32) ip);
+    pkt->fragment_count++;
+    r = AT_IP4_PktSend(pkt, target, ifidx);
+    return r;
   }
-  off = 0;
+  frag_off = 0;
+  count = 0;
   if (df != 0)
   {
     return -2;
   }
-  chunk = (mtu - 20) / 8;
+  ip->frag = 0;
+  chunk = (mtu - (hlen << 2)) / 8;
   chunk *= 8;
-  units = chunk / 8;
-  *((u16 *)(ip + 6)) = 0;
-  ent = (u8 *)&loc;
   do
   {
-    *((s32 *)(ent + 4)) = 0;
-    *((s32 *)(ent + 8)) = 0;
+    pp = &piece;
+    pp->fragment_count = 0;
+    pp->total_bytes = 0;
     rem = chunk;
-    k = 0;
-    j = (idx = (*((s32 *)(rec + 4))) - 1);
-    p = rec + (j * 12);
+    j = pkt->fragment_count - 1;
+    count = 0;
     while ((rem > 0) && (j >= 0))
     {
-      k++;
-      p -= 12;
-      rem -= *((s16 *)(p + 24));
+      rem -= pkt->fragments[j].length;
       j--;
+      count++;
     }
-
-    i2 = idx;
-    j = (s16) k;
-    j = j - 1;
     rem = chunk;
+    j = count - 1;
+    i = pkt->fragment_count - 1;
     last = 0;
     while ((rem > 0) && (j >= 0))
     {
-      p = rec + (i2 * 12);
-      q = ent + (((((((((((j * 12) & 0xFFFFFFFFFFFFFFFF) & 0xFFFFFFFFFFFFFFFF) & 0xFFFFFFFFFFFFFFFF) & 0xFFFFFFFFFFFFFFFF) & 0xFFFFFFFFFFFFFFFF) & 0xFFFFFFFFFFFFFFFF) & 0xFFFFFFFFFFFFFFFF) & 0xFFFFFFFFFFFFFFFF) & 0xFFFFFFFFFFFFFFFF) & 0xFFFFFFFFFFFFFFFF);
-      data = p + 16;
-      NetMemcpy(q + 16, data, 8);
-      new_var = p + 12;
-      lp = (s16 *) new_var;
-      if ((*((s16 *) new_var)) > rem)
+      NetMemcpy(&pp->fragments[j].buffer, &pkt->fragments[i].buffer, 8);
+      if (pkt->fragments[i].length > rem)
       {
-        *((s16 *)(q + 12)) = rem;
-        *((s32 *)(ent + 8)) += rem;
-        *lp -= rem;
-        *((s32 *)(rec + 8)) -= rem;
-        netbuf_ref_advance((NetBufferRef *)(data), rem);
+        pp->fragments[j].length = rem;
+        pp->total_bytes += rem;
+        pkt->fragments[i].length -= rem;
+        pkt->total_bytes -= rem;
+        netbuf_ref_advance(&pkt->fragments[i].buffer, rem);
         rem = 0;
       }
       else
       {
-        *((s16 *)(q + 12)) = *((s16 *) new_var);
-        *((s32 *)(ent + 8)) += *lp;
-        *((s32 *)(rec + 8)) -= *lp;
-        rem -= *lp;
-        if (i2 == 0)
+        pp->fragments[j].length = pkt->fragments[i].length;
+        pp->total_bytes += pkt->fragments[i].length;
+        pkt->total_bytes -= pkt->fragments[i].length;
+        rem -= pkt->fragments[i].length;
+        if (i == 0)
         {
-          rem = *lp;
+          rem = pkt->fragments[i].length;
           last = 1;
           j--;
-          i2--;
+          i--;
         }
         else
         {
-          *((s32 *)(rec + 4)) -= 1;
-          i2--;
+          pkt->fragment_count--;
           j--;
+          i--;
         }
       }
-      *((s32 *)(ent + 4)) += 1;
+      pp->fragment_count++;
     }
-
     if (last == 1)
     {
-      *((u16 *)(ip + 6)) = 0;
+      ip->frag = 0;
     }
     else
     {
-      *((u16 *)(ip + 6)) = 0x2000;
+      rem = chunk;
+      ip->frag = 0x2000;
     }
-    *((u16 *)(ip + 6)) |= off;
-    *((u16 *)(ip + 2)) = (*((s32 *)(ent + 8))) + 20;
-    *((u16 *)(ip + 10)) = 0;
-    s = ones_complement_sum(ip, 10);
-    s = (s >> 16) + (s & 0xFFFF);
-    s += s >> 16;
-    *((u16 *)(ip + 10)) = ~s;
-    *((s32 *)(ent + 8)) += 20;
-    *((s16 *) ((ent + ((*((s32 *)(ent + 4))) * 12)) + 12)) = 20;
-    set_value_and_enable((ent + 0x10) + ((*((s32 *)(ent + 4))) * 12), (s32) ip);
-    *((s32 *)(ent + 4)) += 1;
-    r = ipv4_send_to_interface(ent, (u32) target, ifidx);
+    ip->frag |= frag_off;
+    rem = pp->total_bytes;
+    rem += hlen << 2;
+    ip->len = rem;
+    ip->cksum = 0;
+    ip->cksum = ip_header_checksum(ip, 10);
+    pp->total_bytes += hlen << 2;
+    pp->fragments[pp->fragment_count].length = hlen * 4;
+    set_value_and_enable(&pp->fragments[pp->fragment_count].buffer, (s32) ip);
+    pp->fragment_count++;
+    r = AT_IP4_PktSend(pp, target, ifidx);
     if (r < 0)
     {
       return r;
     }
-    off += units;
+    frag_off += chunk / 8;
   }
   while (last != 1);
   return 0;
@@ -733,4 +713,4 @@ u16 calc_ip_checksum(void *self, s16 b) {
     return ~s;
 }
 
-RecoveredGlobal_8040DD68_lbl_805C1B38 ipv4_protocol_state;
+Ipv4ProtocolState ipv4_protocol_state;

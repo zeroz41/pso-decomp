@@ -109,7 +109,7 @@ void TObjPlayer__sub_801BBB70(void *, void *);
 void TObjPlayer__sub_80309E9C(void *);
 void TObjPlayer__sub_803374C4(void *);
 void TObjPlayer__sub_80351974(void *);
-extern void *lbl_805D3530;
+extern const char *lbl_805D3530;
 }
 
 TObjPlayer::TObjPlayer(TObject *parent, TUnk_801D8A4C *src) : TObjChara(parent) {
@@ -148,7 +148,7 @@ TObjPlayer::TObjPlayer(TObject *parent, TUnk_801D8A4C *src) : TObjChara(parent) 
     __ct__8FlagWordFv(((char *)this + 2136));
     TObjPlayer::reset_and_return((s32)((void *)((char *)this + 3332)));
     ((TObjPlayer *)((char *)this + 3500))->clear_header_struct();
-    *(void * *)&this->m_name = lbl_805D3530;
+    this->m_name = lbl_805D3530;
     this->init_action_provider();
     this->entity_id = 0;
     this->setup_control_role(7);
@@ -193,7 +193,7 @@ TObjPlayer::TObjPlayer(TObject *arg1, void *arg2) : TObjChara(arg1) {
     __ct__8FlagWordFv(((char *)this + 2136));
     TObjPlayer::reset_and_return((s32)((void *)((char *)this + 3332)));
     ((TObjPlayer *)((char *)this + 3500))->clear_header_struct();
-    *(void * *)&this->m_name = lbl_805D3530;
+    this->m_name = lbl_805D3530;
     this->init_from_data(arg2);
     this->setup_control_role(4);
     ((Fn_vpvp_801BD570)TObjPlayer__sub_801BD384)(this, (void *)((char *)arg2 + 200));

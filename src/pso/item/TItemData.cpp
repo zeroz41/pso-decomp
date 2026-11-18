@@ -856,7 +856,7 @@ extern "C" {
 s32 get_item_description_text(s32);
 int sprintf(char *, const char *, ...);
 }
-extern s32 lbl_805D2B10;
+extern const char *lbl_805D2B10;
 s32 format_item_description(u8 *item);
 extern "C" {
 s32 TObjPlayer__sub_80117E50(u16);
@@ -1674,7 +1674,7 @@ s32 TItemData::calc_buy_price() {
             return get_item_description_text(0x1F4);
         }
     }
-    return lbl_805D2B10;
+    return (s32)lbl_805D2B10;
 }
 }
 
@@ -1692,7 +1692,7 @@ s32 format_item_description(u8 *item) {
         } else {
             name = p->name;
             if (name == 0x1F4) {
-                return lbl_805D2B10;
+                return (s32)lbl_805D2B10;
             }
             if (item[0] == 0) {
                 if (is_rare_item__9TItemDataFPv(item) != 0 && ((TItemData *)item)->check_item_flags() == 0) {
@@ -1718,7 +1718,7 @@ s32 format_item_description(u8 *item) {
         }
     return (s32)out;
     }
-    return lbl_805D2B10;
+    return (s32)lbl_805D2B10;
 }
 
 void TItemData::format_item_name(char *buf) {

@@ -9,7 +9,7 @@ struct RecoveredGlobal_80074BD0_lbl_8048D208 {
 
 extern "C" {
 void strncpy(s32, s32, s32);
-extern RecoveredGlobal_80074BD0_lbl_8048D208 lbl_8048D208;
+RecoveredGlobal_80074BD0_lbl_8048D208 lbl_8048D208 = { 0 };
 typedef char RecoveredGlobal_80074BD0_lbl_8048D208_size[sizeof(RecoveredGlobal_80074BD0_lbl_8048D208) == 0x18 ? 1 : -1];
 void fn_80074BD0(s32 arg0) {
     fn_80074C70();

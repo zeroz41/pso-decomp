@@ -112,6 +112,7 @@ struct Win_80216F50 {
     Entry_80216F50 *f54;
 };
 
+void *story_quest_list_resource;
 extern "C" {
 u16 get_entity_id(void *);
 s32 get_quest_list_text(s32, s32);

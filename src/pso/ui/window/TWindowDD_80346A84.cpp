@@ -65,6 +65,10 @@ void *ws_data_us;
 void *ws_data_es;
 void *ws_data_de;
 void *TWindowDD__ws_data_buffer;
+char *lbl_805D6E64;
+s8 lbl_805D6E68;
+char *lbl_805D6E6C;
+s8 lbl_805D6E70;
 
 void ws_data_load(void) {
     void *temp_r3;

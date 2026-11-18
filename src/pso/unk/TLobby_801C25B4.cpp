@@ -29,6 +29,10 @@
 #include "pso/system/task/TObject.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
+extern "C" { extern const char lbl_805DC2E8[4] = "1st"; }
+extern "C" { extern const char lbl_805DC2EC[4] = "2nd"; }
+extern "C" { extern const char lbl_805DC2F0[4] = "3rd"; }
+extern "C" { extern const char lbl_805DC2F4[4] = "4th"; }
 
 extern "C" {
 void *TLobby__battle_mode_data_ptr;
@@ -74,7 +78,6 @@ s32 export_character_data__10TObjPlayerFPvPv(s32, s32);
 extern u8 __vt__17TPlayerBattleCtrl[];
 extern u8 player_battle_ctrl_text_japanese[];
 extern u8 player_battle_ctrl_text_english[];
-extern s32 TPlayerBattleCtrl__name;
 void *TPlayerBattleCtrl__ct(void *arg0, s32 _w1);
 struct S801C295C_801C25B4 { s32 f0; s8 f4; s8 pad[0x13]; };
 
@@ -800,13 +803,6 @@ s32 set_section_id__6TLobbyFPvUc(void *, int);
 extern u32 player_slot_table[];
 
 extern s32 battle_intro_value_table[];
-extern const f32 lbl_805D3538;
-extern const f32 lbl_805D353C;
-extern const f32 lbl_805D3540;
-extern const f32 lbl_805D3544;
-extern const f32 lbl_805D3548;
-extern const f32 lbl_805D354C;
-extern const f32 lbl_805D3550;
 void obj_clear_flag30_20000(void *arg0);
 s32 __ct__15TDuelEffectCtrlFP7TObjectUc(void *, void *, int);
 s32 check_flag_100__10TObjPlayerFPv(void *);
@@ -1267,6 +1263,14 @@ void TLobby::send_battle_mode_params(s8 arg0, s32 arg1, s32 arg2) {
     ((TLobby *)(&stack.sp8))->send_set_battle_mode_data();
 }
 
+f32 lbl_805D3538 = 0.05f;
+f32 lbl_805D353C = 0.02f;
+f32 lbl_805D3540 = 10.0f;
+f32 lbl_805D3544 = 7.0f;
+f32 lbl_805D3548 = 0.01f;
+f32 lbl_805D354C = 3.0f;
+f32 lbl_805D3550 = 7.0f;
+const char *TPlayerBattleCtrl__name = TPlayerBattleCtrl__class_name_string;
 #define CFG (*(Cfg_801C3D50 **)&TLobby__battle_config_ptr)
 void TLobby::apply_game_settings(s32 arg0, s32 arg1) {
     ((TLobby *)lobby_rule_settings)->reset_settings_to_default();

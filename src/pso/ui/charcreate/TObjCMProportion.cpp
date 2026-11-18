@@ -5,6 +5,7 @@
 #include "pso/ui/charcreate/TChCrCharSelect.h"
 #include "pso/unk/text_802993F0.h"
 #include "pso/unk/text_80299420.h"
+__declspec(section ".rodata") CreationInputState lbl_80465150 = { 0 };
 
 extern "C" {
 f32 atan2_float(f32 y, f32 x);
@@ -116,9 +117,9 @@ void TObjCMProportion::poll_pad_buttons() {
     creation_input_state.pressed_buttons = creation_input_state.held_buttons & ~old;
 }
 
-__declspec(section ".sdata2") const f32 creation_stick_range = 115.2f;
-__declspec(section ".sdata2") const f32 creation_stick_dead_zone = 0.1f;
-__declspec(section ".sdata2") const f32 creation_stick_zero = 0.0f;
+__declspec(section ".sdata2") extern const f32 creation_stick_range = 115.2f;
+__declspec(section ".sdata2") extern const f32 creation_stick_dead_zone = 0.1f;
+__declspec(section ".sdata2") extern const f32 creation_stick_zero = 0.0f;
 
 void TChCrCharSelect::reset_proportions() { TObjCMProportion::poll_pad_buttons(); update_creation_direction_repeat(); }
 

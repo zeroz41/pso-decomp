@@ -528,3 +528,9 @@ TOContainerAncientEnemyRare::TOContainerAncientEnemyRare(void *set_data) : TOCon
 TOContainerAncientEnemyRare::~TOContainerAncientEnemyRare() {
 }
 
+
+BmlResource *ancient_container_resource_bundle;
+u32 *ancient_container_fragment_texture_lists;
+extern const f32 lbl_805DB398 = 1.0f;
+extern const f32 lbl_805DB39C = 0.0f;
+extern const f32 lbl_805DB3A0 = 40.0f;

@@ -26,7 +26,10 @@ s32 open_windows__17TMCFormatSequenceFv();
 char TQuestVmDownLoadServer__data_804C8690[0xC] = "\xB8\xB4\xBD\xC4\xCC\xA7\xB2\xD9";
 void TQuestVmDownLoadServer__sub_801F6B98(void);
 }
-extern void *TMCFormatSequence__class_name;
+extern "C" { extern char TQuestVmDownLoadServer__class_name_string[]; }
+const char *TQuestVmDownLoadServer__class_name = TQuestVmDownLoadServer__class_name_string;
+extern "C" { extern char TMCFormatSequence__class_name_string[]; }
+const char *TMCFormatSequence__class_name = TMCFormatSequence__class_name_string;
 // This TU's .sbss, 0x805D5F00-0x805D5F28 (address order).
 s32 TQuestVmDownLoadServer__dat_download_complete;
 s32 TQuestVmDownLoadServer__bin_download_complete;
@@ -151,7 +154,6 @@ char *strncpy(char *, const char *, u32);
 void *memcpy(void *, const void *, u32);
 }
 s32 *get_quest_download_file_header(void);
-extern const char *TQuestVmDownLoadServer__class_name;
 extern char lbl_8044A68C[];
 extern char TQuestVmDownLoadServer__data_804C8690[];
 extern u8 TQuestVmDownLoadServer__memcard_key[];
@@ -1275,7 +1277,7 @@ void TQuestVmDownLoadServer::check_dismiss_to_close_input() {
     }
 }
 TMCFormatSequence::TMCFormatSequence(TObject *object, void *arg2) : TObject(object) {
-    *(void * *)&this->m_name = TMCFormatSequence__class_name;
+    this->m_name = TMCFormatSequence__class_name;
     this->m_24 = 0;
     *(void **)((s8 *)this + 0x28) = arg2;
     *(u32 *)((s8 *)this + 0x1C) = 0;

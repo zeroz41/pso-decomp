@@ -21,7 +21,8 @@ extern "C" {
 extern u8 *text_language_group_table;
 extern void *__vt__15TWindowHelpItem[];
 extern s32 TWindowHelpItem__object_vtable[];
-extern u32 window_help_item_class_name;
+extern "C" { extern char TWindowHelpItem__class_name_string[]; }
+const char *window_help_item_class_name = TWindowHelpItem__class_name_string;
 extern TWindowHelpItem::CallbackWords __ptmf_null;
 void *init__21TWindowSubComCardListFiii(void *p, s32 a, s32 b, s32 c);
 
@@ -102,7 +103,7 @@ TWindowHelpItem::TWindowHelpItem(void *pos, u16 idx) {
     void *p;
     ((TWindowDD *)self)->construct_base((u8 *)__vt__15TWindowHelpItem, (s16)idx, (u8 *)pos);
     self->m_vtable18 = ((s32 *)&TWindowHelpItem__object_vtable);
-    self->m_00 = window_help_item_class_name;
+    self->m_00 = (u32)window_help_item_class_name;
     ((TWindowSubSymbolChatPartsSet *)((u8 *)self + 0x30))->copy_vec2(pos);
     ((TWindowBase *)self)->save_position();
     self->m_60 = 0;
