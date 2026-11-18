@@ -219,25 +219,25 @@ s32 lcp_connect(LcpConfig *cfg) {
     return 0;
 }
 
-/* lbl_805C0638: eight records whose first byte ppp_begin_connect clears before each connect; nothing else in the game
+/* ppp_connect_records: eight records whose first byte ppp_begin_connect clears before each connect; nothing else in the game
  * reads or writes them. */
 typedef struct ConnectRecord {
     s8 active;
     u8 pad1[0x13];
 } ConnectRecord;
 typedef char ConnectRecord_size_check[sizeof(ConnectRecord) == 0x14 ? 1 : -1];
-extern ConnectRecord lbl_805C0638[8];
+ConnectRecord ppp_connect_records[8];
 
 s32 ppp_begin_connect(s32 ignored, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 modem_name, s32 no_modem) {
     s32 transport_rc;
-    lbl_805C0638[0].active = 0;
-    lbl_805C0638[1].active = 0;
-    lbl_805C0638[2].active = 0;
-    lbl_805C0638[3].active = 0;
-    lbl_805C0638[4].active = 0;
-    lbl_805C0638[5].active = 0;
-    lbl_805C0638[6].active = 0;
-    lbl_805C0638[7].active = 0;
+    ppp_connect_records[0].active = 0;
+    ppp_connect_records[1].active = 0;
+    ppp_connect_records[2].active = 0;
+    ppp_connect_records[3].active = 0;
+    ppp_connect_records[4].active = 0;
+    ppp_connect_records[5].active = 0;
+    ppp_connect_records[6].active = 0;
+    ppp_connect_records[7].active = 0;
     transport_rc = configure_and_open_network_transport(arg1, arg2, arg3, arg4, arg5, modem_name, no_modem);
     TLobby__sub_804062A0(0x82);
     return transport_rc;
@@ -326,5 +326,3 @@ s32 configure_and_open_network_transport(a, b, c, d, e, modem_name, no_modem)
     lbl_805D7A7E = 1;
     return 0;
 }
-
-ConnectRecord lbl_805C0638[8];
