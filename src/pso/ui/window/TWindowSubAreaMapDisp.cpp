@@ -186,14 +186,13 @@ TWindowSubAreaMapDisp::~TWindowSubAreaMapDisp() {
     TWindowSubStatusDisp::destroy_status_display(this->m_70, 1);
 }
 typedef char RecoveredGlobal_80271D00___vt__21TWindowSubAreaMapDisp_size[sizeof(RecoveredGlobal_80271D00___vt__21TWindowSubAreaMapDisp) == 0x1C ? 1 : -1];
-u8 *TWindowSubAreaMapDisp__ct(TWindowSubAreaMapDisp *window_sub_area_map_disp) {
+TWindowSubAreaMapDisp::TWindowSubAreaMapDisp() : TWindowBase((u8 *)&TWindowSubAreaMapDisp__window_parameters, (s16)((void *) ((s16) local_client_id)), (u8 *)(get_window_layout_position(0x59))) {
     s32 temp_r3;
     s32 temp_r3_2;
     s32 var_r0;
     u8 *var_r30;
-    __ct__11TWindowBaseFPUcsPUc(window_sub_area_map_disp, (u8 *)&TWindowSubAreaMapDisp__window_parameters, (s16)((void *) ((s16) local_client_id)), (u8 *)(get_window_layout_position(0x59)));
-    *(s32 **)((s8 *)window_sub_area_map_disp + 0x18) = &(*(RecoveredGlobal_80271D00___vt__21TWindowSubAreaMapDisp *)&__vt__21TWindowSubAreaMapDisp).value;
-    ((TWindowSubAreaMapDisp *)window_sub_area_map_disp)->m_name = TWindowSubAreaMapDisp__name;
+
+    ((TWindowSubAreaMapDisp *)this)->m_name = TWindowSubAreaMapDisp__name;
     if (get_game_play_mode() == 1) {
         text_builder_reset();
         text_builder_append((u8 *)(get_message_text(0x67)));
@@ -204,15 +203,15 @@ u8 *TWindowSubAreaMapDisp__ct(TWindowSubAreaMapDisp *window_sub_area_map_disp) {
         var_r30 = (u8 *)(get_floor_destination_name(get_current_floor_area()));
     }
     temp_r3 = measure_string_len__20TWindowSubStatusDispFv((int)var_r30);
-    window_sub_area_map_disp->m_74 = (s32)mem_alloc((temp_r3 + 1));
-    strncpy((int)window_sub_area_map_disp->m_74, (int)var_r30, (void *)(temp_r3 + 1));
+    this->m_74 = (s32)mem_alloc((temp_r3 + 1));
+    strncpy((int)this->m_74, (int)var_r30, (void *)(temp_r3 + 1));
     temp_r3_2 = (int)::operator new(0x24);
     var_r0 = temp_r3_2;
     if (var_r0 != 0) {
-        var_r0 = construct_type1_heading__20TWindowSubStatusDispFll(temp_r3_2, window_sub_area_map_disp->m_74, (int) ((s32) window_sub_area_map_disp->m_20));
+        var_r0 = construct_type1_heading__20TWindowSubStatusDispFll(temp_r3_2, this->m_74, (int) ((s32) this->m_20));
     }
-    window_sub_area_map_disp->m_70 = var_r0;
-    window_sub_area_map_disp->m_6c = 0;
-    return (u8 *)window_sub_area_map_disp;
+    this->m_70 = var_r0;
+    this->m_6c = 0;
 }
+
 }
