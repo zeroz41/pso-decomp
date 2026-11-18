@@ -1021,7 +1021,9 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/network/TPlyStartGame.cpp": {"mw_version": "GC/1.3"},
     # TShopItemListWindow: handle_amount_confirm compiles identical only under 1.3-2.0 (2.5/2.6
     # schedule it differently); every other function of the unit compiles the same.
-    "pso/ui/city/TShopItemListWindow.cpp": {"mw_version": "GC/1.3"},
+    # Deferred inlining: __vt__19TShopItemListWindow sits before vfunc_11's switch table in .data
+    # although the dtor (its only early user) follows vfunc_11, so the source runs backwards.
+    "pso/ui/city/TShopItemListWindow.cpp": {"mw_version": "GC/1.3", "cflags": _switch(cflags_pso, "-inline off,deferred")},
     "pso/ui/window/TWindowShortListCtrl_8026E7DC.cpp": {"mw_version": "GC/1.3", "cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     # Deferred inlining: functions come out in reverse source order and the
     # vtables before the switch tables in .data.

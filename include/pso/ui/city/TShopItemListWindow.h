@@ -15,13 +15,14 @@ struct TShopItemListWindow : public TShopWindowBase {
     u8 _pad1C[0x4];
     u32 m_20;
     u32 m_24;
-    u32 m_28;
+    // Child windows, closed by the destructor: names from the window each one holds.
+    u32 item_list;      // create_item_list_window
     u32 m_2c;
-    u32 m_30;
-    u32 m_34;
-    u32 m_38;
-    u32 m_3c;
-    u32 m_40;
+    u32 confirm_menu;   // two-entry create_window_menu shown once the quantity is confirmed
+    u32 quantity_input; // TWindowInputNumber
+    u32 help_window;    // TWindowHelpItem
+    u32 status_window;  // TWindowSubStatusDisp
+    u32 cost_window;    // create_cost_window
     u32 m_44;
     u8 _pad48[0x4];
     u32 m_4c;
@@ -37,15 +38,5 @@ struct TShopItemListWindow : public TShopWindowBase {
 };
 
 typedef char TShopItemListWindow_size[sizeof(TShopItemListWindow) == 0x1C4 ? 1 : -1];
-
-extern "C" {
-void *__dt__19TShopItemListWindowFv(TShopItemListWindow *arg0, s16 arg1);
-}
-
-// --- C functions defined in TShopItemListWindow.cpp ---
-extern "C" {
-void *__dt__19TShopItemListWindowFv(TShopItemListWindow *arg0, s16 arg1);
-}
-// --- end of C functions
 
 #endif

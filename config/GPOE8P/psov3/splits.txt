@@ -2709,14 +2709,17 @@ pso/item/TItemTexLoad.cpp:
 	.sbss       start:0x805D5500 end:0x805D5508
 
 pso/item/TItemTimer.cpp:
-	.text       start:0x8011D414 end:0x8011DA9C
-	.rodata     start:0x8043E820 end:0x8043E828
+	.text       start:0x8011D414 end:0x8011D5B4
+	.rodata     start:0x8043E800 end:0x8043E810
 	.data       start:0x804A0550 end:0x804A0568
-	.sdata2     start:0x805DAC78 end:0x805DAC84
+	.sdata      start:0x805D2C88 end:0x805D2C90
 
 pso/item/TItemTimerEvent.cpp:
-	.text       start:0x8011DA9C end:0x8011E214
+	.text       start:0x8011D5B4 end:0x8011E214
+	.rodata     start:0x8043E810 end:0x8043E828
+	.sdata      start:0x805D2C90 end:0x805D2C98
 	.sbss       start:0x805D5508 end:0x805D5510
+	.sdata2     start:0x805DAC78 end:0x805DAC84
 
 pso/player/TObjPlayer_8011E214.cpp:
 	.text       start:0x8011E214 end:0x8011E248
@@ -6281,7 +6284,7 @@ pso/ui/city/TShopGetItemWindow_8021F0A4.cpp:
 pso/ui/city/TShopItemListWindow.cpp:
 	.text       start:0x8021F134 end:0x8021FE6C
 	.rodata     start:0x8044C168 end:0x8044C180
-	.data       start:0x804CA110 end:0x804CA134
+	.data       start:0x804CA0B8 end:0x804CA134
 	.sdata      start:0x805D36D0 end:0x805D36D8
 	.sdata2     start:0x805DC6F8 end:0x805DC6FC
 
