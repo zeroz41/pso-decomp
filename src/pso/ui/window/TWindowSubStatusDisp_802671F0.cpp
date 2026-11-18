@@ -156,7 +156,7 @@ s32 lbl_804D05F8[3] = {1, 0, 8};
 WindowDescriptor lbl_804D0604 = {
     {0.0f, 0.0f}, 50050.0f, lbl_804D05F8, 3,
 };
-extern s32 lbl_804D0618[];
+extern s32 __vt__19TWindowMenuIconLine[];
 
 s32 clamp_list_scroll_offset(int, void *, void *);
 s32 get_cursor_pos__14TWindowSubItemFv();
@@ -675,24 +675,26 @@ void TWindowMenuIconLine::draw_selected_list_entry(s32 window_key_board_soft) {
     }
 }
 
-void TWindowMenuIconLine__ct(u8 *arg0, u32 arg1, s32 arg2) {
+#define self ((u8 *)this)
+void TWindowMenuIconLine::vfunc_6(u32 arg1, s32 arg2) {
     u32 i;
     u8 *e;
-    *(const char **)arg0 = TWindowMenuIconLine__name;
-    *(s16 *)(arg0 + 0x20) = arg2;
-    *(s16 *)(arg0 + 0x72) = 0;
-    *(s16 *)(arg0 + 0x74) = 0;
-    *(u16 *)(arg0 + 0x76) = arg1;
-    *(s16 *)(arg0 + 0x78) = 0;
-    *(s32 *)(arg0 + 0x7C) = 0;
-    *(s16 *)(arg0 + 0x70) = 0;
-    *(s32 *)(arg0 + 0x80) = 0;
-    *(s32 *)(arg0 + 0x84) = 0;
+    *(const char **)self = TWindowMenuIconLine__name;
+    *(s16 *)(self + 0x20) = arg2;
+    *(s16 *)(self + 0x72) = 0;
+    *(s16 *)(self + 0x74) = 0;
+    *(u16 *)(self + 0x76) = arg1;
+    *(s16 *)(self + 0x78) = 0;
+    *(s32 *)(self + 0x7C) = 0;
+    *(s16 *)(self + 0x70) = 0;
+    *(s32 *)(self + 0x80) = 0;
+    *(s32 *)(self + 0x84) = 0;
     for (i = 0; i < arg1; i++) {
-        e = ((u8 *(*)(void *, u32))get_array_entry__11TWindowBaseFi)(arg0, i);
+        e = ((u8 *(*)(void *, u32))get_array_entry__11TWindowBaseFi)(self, i);
         *(f32 *)(e + 0xC) = (f32)(i * 0x14);
     }
 }
+#undef self
 
 u8 *fn_80267F38(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     u8 *temp_r3;
@@ -779,17 +781,9 @@ void TWindowMenuIconLine::run_task() {
     this->update_window_entry_list(((u8 *)this) + 0x24);
 }
 
-void *TWindowSubStatusDisp::destroy_item_list_resources(s16 arg1) {
-    if (this != NULL) {
-        *(s32 **)((s8 *)this + 0x18) = lbl_804D0618;
-        TWindowSubStatusDisp::destroy_allocation((s32)(*(void **)((s8 *)this + 0x84)), (s16)1);
-        TWindowSubStatusDisp::destroy_status_display((s32)(*(void **)((s8 *)this + 0x80)), (s16)1);
-        __dt__15TWindowAdditionFv(this, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(this);
-        }
-    }
-    return this;
+TWindowMenuIconLine::~TWindowMenuIconLine() {
+    TWindowSubStatusDisp::destroy_allocation((s32)(*(void **)((s8 *)this + 0x84)), (s16)1);
+    TWindowSubStatusDisp::destroy_status_display((s32)(*(void **)((s8 *)this + 0x80)), (s16)1);
 }
 }
 
@@ -807,14 +801,14 @@ extern "C" {
 u8 *fn_80268384(u8 *window_addition, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
     void *__ct__15TWindowAdditionFPUcsPUc(void *, u8 *, s32, u8 *);
     __ct__15TWindowAdditionFPUcsPUc((void *)window_addition, (u8 *)arg4, arg3, (u8 *)arg1);
-    *(s32 **)((s8 *)window_addition + 0x18) = lbl_804D0618;
+    *(s32 **)((s8 *)window_addition + 0x18) = __vt__19TWindowMenuIconLine;
     ((VObj_18_2ead46 *)(window_addition))->m4(arg2, (s16) arg3);
     return window_addition;
 }
 u8 *fn_802683F4(u8 *window_addition, s32 arg1, s32 arg2, s32 arg3) {
     void *__ct__15TWindowAdditionFPUcsPUc(void *, u8 *, s32, u8 *);
     __ct__15TWindowAdditionFPUcsPUc((void *)window_addition, (u8 *)&lbl_804D0604, arg3, (u8 *)arg1);
-    *(s32 **)((s8 *)window_addition + 0x18) = lbl_804D0618;
+    *(s32 **)((s8 *)window_addition + 0x18) = __vt__19TWindowMenuIconLine;
     ((VObj_18_2ead46 *)(window_addition))->m4(arg2, (s16) arg3);
     return window_addition;
 }

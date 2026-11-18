@@ -18,6 +18,7 @@ const char *TWindowSubShortCutList__class_name = "TWindowSubShortCutList";
 static const f32 lbl_8044FAA8[2] = {405.0f, 188.0f};
 
 extern "C" {
+void *__dt__19TWindowMenuIconLineFv(void *, s16);
 void TShopJudgmentItemWindow__sub_80267F9C(void *, int);
 void fn_802683F4(void *, void *, s32, s16);
 void *init__21TWindowSubComCardListFiii(void *, s8, s32, s32);
@@ -113,7 +114,7 @@ void *__dt__22TWindowSubShortCutListFv(void *window_sub_status_disp, s16 arg1) {
     if (window_sub_status_disp != NULL) {
         *(s32 **)((s8 *)window_sub_status_disp + 0x18) = __vt__22TWindowSubShortCutList;
         delete_if_allocated((s32)(*(void **)((s8 *)window_sub_status_disp + 0x88)), 1);
-        ((TWindowSubStatusDisp *)window_sub_status_disp)->destroy_item_list_resources(0);
+        __dt__19TWindowMenuIconLineFv(window_sub_status_disp, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(window_sub_status_disp);
         }

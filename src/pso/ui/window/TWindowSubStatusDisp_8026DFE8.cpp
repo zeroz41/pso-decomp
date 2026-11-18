@@ -52,7 +52,7 @@ void TUnk_804D0948::run_task() { run_task__19TWindowMenuIconLineFv((u8 *)this); 
 void *TWindowSubStatusDisp::deleting_dtor(s16 arg1) {
     if (this != NULL) {
         *(s32 **)((s8 *)this + 0x18) = item_list_window_vtable;
-        destroy_item_list_resources(0);
+        __dt__19TWindowMenuIconLineFv(this, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(this);
         }
