@@ -1,5 +1,6 @@
 #include "types.h"
 #include "pso/unk/text_803DA798.h"
+#include "pso/player/TObjPlayer_803E112C.h"
 #include "pso/player/TObjPlayer_803E1A58.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/math/AngleLookup.h"
@@ -70,33 +71,32 @@ f32 xyz_distance(Vec *a, Vec *b) {
 #pragma pop
 }
 
-void calc_bounds_min_max__10TObjPlayerFPvPvPv(struct Vec_803E1B1C *pts, struct Vec_803E1B1C *mn, struct Vec_803E1B1C *mx) {
+void calc_box_bounds(Vec *corners, Vec *min, Vec *max) {
     s32 i;
-    mn->x = pts->x;
-    mn->y = pts->y;
-    mn->z = pts->z;
-    mx->x = pts->x;
-    mx->y = pts->y;
-    mx->z = pts->z;
-    pts++;
-    for (i = 1; i < 8; i++, pts++) {
-        if (pts->x < mn->x) mn->x = pts->x;
-        if (pts->y < mn->y) mn->y = pts->y;
-        if (pts->z < mn->z) mn->z = pts->z;
-        if (pts->x > mx->x) mx->x = pts->x;
-        if (pts->y > mx->y) mx->y = pts->y;
-        if (pts->z > mx->z) mx->z = pts->z;
+    min->x = corners->x;
+    min->y = corners->y;
+    min->z = corners->z;
+    max->x = corners->x;
+    max->y = corners->y;
+    max->z = corners->z;
+    corners++;
+    for (i = 1; i < 8; i++, corners++) {
+        if (corners->x < min->x) min->x = corners->x;
+        if (corners->y < min->y) min->y = corners->y;
+        if (corners->z < min->z) min->z = corners->z;
+        if (corners->x > max->x) max->x = corners->x;
+        if (corners->y > max->y) max->y = corners->y;
+        if (corners->z > max->z) max->z = corners->z;
     }
 }
 
-void TObjPlayer::calc_bounds(u8 *arg1, u8 *arg2) {
-    u8 *arg0 = (u8 *)this;
-    *(f32 *)((s8 *)arg1 + 0) = (f32) (*(f32 *)((s8 *)arg0 + 0) - *(f32 *)((s8 *)arg0 + 0xC));
-    *(f32 *)((s8 *)arg1 + 4) = (f32) (*(f32 *)((s8 *)arg0 + 4) - *(f32 *)((s8 *)arg0 + 0xC));
-    *(f32 *)((s8 *)arg1 + 8) = (f32) (*(f32 *)((s8 *)arg0 + 8) - *(f32 *)((s8 *)arg0 + 0xC));
-    *(f32 *)((s8 *)arg2 + 0) = (f32) (*(f32 *)((s8 *)arg0 + 0) + *(f32 *)((s8 *)arg0 + 0xC));
-    *(f32 *)((s8 *)arg2 + 4) = (f32) (*(f32 *)((s8 *)arg0 + 4) + *(f32 *)((s8 *)arg0 + 0xC));
-    *(f32 *)((s8 *)arg2 + 8) = (f32) (*(f32 *)((s8 *)arg0 + 8) + *(f32 *)((s8 *)arg0 + 0xC));
+void calc_sphere_bounds(CollisionSphere *sphere, Vec *min, Vec *max) {
+    min->x = sphere->center.x - sphere->radius;
+    min->y = sphere->center.y - sphere->radius;
+    min->z = sphere->center.z - sphere->radius;
+    max->x = sphere->center.x + sphere->radius;
+    max->y = sphere->center.y + sphere->radius;
+    max->z = sphere->center.z + sphere->radius;
 }
 
 // 1.0f constants in .sdata, read by the assembly below (not yet split into this unit).

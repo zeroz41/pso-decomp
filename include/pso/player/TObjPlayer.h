@@ -24,8 +24,6 @@ struct ProtectionTimer {
     s32 frames;
 };
 
-struct Vec_803E1B1C;
-
 struct TObjPlayer : public TObjChara {
     TObjPlayer(TObject *arg1, void *arg2);
     // The key function: __vt__10TObjPlayer is emitted with the TU at 0x801AF290
@@ -1093,8 +1091,6 @@ struct TObjPlayer : public TObjChara {
     static s32 find_record_index(u32 arg0, u32 arg1);
     void release_empty_ref_entry();
     static void set_global_effect_state(s32 arg0);
-    s32 test_aabb_overlap(u8 *arg1, u8 *arg2, u8 *arg3);
-    void calc_bounds(u8 *arg1, u8 *arg2);
     void reload_texture(s32 arg1, u32 arg2, void *arg3);
     static void set_effect_active();
     static void reset_particle_counter();
@@ -1561,7 +1557,6 @@ struct TObjPlayer : public TObjChara {
     static void spawn_hit_particles_at(s32 arg0, s32 arg1, s32 arg2);
     static void spawn_hit_particles_at_vec(s32 arg0, s32 arg1, s32 arg2);
     s32 get_quest_thread_id();
-    s32 test_box_overlap(Vec_803E1B1C *boxB);
     void remove_equipped_item(s32 arg1, void *arg2);
     u16 get_obj_type();
     void set_ring_action(s32 v);
