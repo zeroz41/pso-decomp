@@ -312,7 +312,7 @@ TTecBarta* __dt__9TTecBartaFv(TTecBarta* self,s16 deleting) {
             }
         }
         mem_free(self->emitters);
-        ((TObjPlayer *)self)->destroy_technique_effect_resources(0);
+        __dt__13TUnk_804CCC68Fv(self, 0);
         if(deleting>0)__dl__7TObjectFPv(self);
     }
     return self;

@@ -6644,6 +6644,7 @@ pso/effect/TUnk_804CCC68_8023A434.cpp:
 
 pso/effect/TUnk_804CCC68.cpp:
 	.text       start:0x8023A4CC end:0x8023AC88
+	.data       start:0x804CCC68 end:0x804CCC8C
 	.sdata2     start:0x805DC918 end:0x805DC93C
 
 pso/technique/TTecSifta.cpp:

@@ -989,7 +989,6 @@ struct TObjPlayer : public TObjChara {
     void find_support_technique_contact_for_target(s32 arg1);
     void gather_contacts_for_self(s32 arg1);
     void*get_pos_ptr();
-    void *destroy_technique_effect_resources(s16 arg1);
     static void create_tec_zarua(void *arg0, void *arg1, void *arg2, void *arg3);
     void add_status_line(u8 arg1, u32 arg2, s32 arg3);
     static void clear_state_if_flag80(s32 arg0);
