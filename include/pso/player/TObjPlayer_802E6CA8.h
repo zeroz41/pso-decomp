@@ -10,8 +10,6 @@ void TObjPlayer__sub_802E7088(void);
 void TObjPlayer__sub_802E746C(void);
 void TObjPlayer__sub_802E7470(void);
 s32 TObjPlayer__sub_802E76C8(u8 *arg0);
-void *__dt__13TUnk_804E3BA8Fv(void *arg0, s16 arg1);
-void *__dt__13TUnk_804E3BC0Fv(void *arg0, s16 arg1);
 }
 // --- end of C functions
 

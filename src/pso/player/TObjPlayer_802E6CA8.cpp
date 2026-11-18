@@ -94,7 +94,7 @@ f32 rand_signed_unit();
 s32 matrix_mult_vec(int, void *, void *);
 void set_matrix_identity(u8 *arg0);
 s32 rotate_vector_by_matrix(int, void *, void *);
-extern s32 lbl_804E3BA8[];
+extern s32 __vt__13TUnk_804E3BA8[];
 extern const f32 lbl_805DE9C8;
 extern const f32 lbl_805DE9D4;
 extern const f32 lbl_805DE9D8;
@@ -106,7 +106,7 @@ extern Col_802E708C lbl_80472C80;
 extern Vec lbl_80472C90;
 extern const f32 lbl_805DE9F8;
 extern s32 lbl_80472C68[6];
-extern s32 lbl_804E3BC0[];
+extern s32 __vt__13TUnk_804E3BC0[];
 Obj_802E72DC *TObjPlayer__sub_802E72DC(Obj_802E72DC *arg0, s32 arg1, Vec *arg2, s32 arg3);
 s32 *init_from_model__11TBreakUpMdlFl(s32 *, s32);
 s32 scale_matrix(int, f32, f32, f32);
@@ -246,7 +246,7 @@ Obj_802E72DC *TObjPlayer__sub_802E72DC(Obj_802E72DC *arg0, s32 arg1, Vec *arg2, 
     Vec *q;
     s32 i;
     ((TObjPlayer *)arg0)->init_zeroed_object();
-    arg0->vt = lbl_804E3BC0;
+    arg0->vt = __vt__13TUnk_804E3BC0;
     if (arg3 >= 0 && (u32)arg3 < 6) {
         n = lbl_80472C68[arg3];
     } else {
@@ -275,15 +275,7 @@ Obj_802E72DC *TObjPlayer__sub_802E72DC(Obj_802E72DC *arg0, s32 arg1, Vec *arg2, 
     return arg0;
 }
 
-void *__dt__13TUnk_804E3BC0Fv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = lbl_804E3BC0;
-        __dt__13TUnk_804E3BD8Fv((u8 *)arg0, (s16)(0));
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
+TUnk_804E3BC0::~TUnk_804E3BC0() {
 }
 
 void TUnk_804E3BC0::run_task() {
@@ -346,7 +338,7 @@ u8 *TObjPlayer::init_breakup_pieces(void *arg1, s32 arg2) {
     Part_802E6F10 *part;
     s32 i;
     this->init_zeroed_object();
-    *(u8 **)((s8 *)((u8 *)this) + 0x18) = ((u8 *)&lbl_804E3BA8);
+    *(u8 **)((s8 *)((u8 *)this) + 0x18) = ((u8 *)&__vt__13TUnk_804E3BA8);
     ((TUnk_804E3BD8 *)((u8 *)this))->alloc_breakup_model(((s32)queue_boss_effect__10TObjPlayerFPv(2)));
     *(s32 *)((s8 *)((u8 *)this) + 0x2C) = arg2;
     part = *(Part_802E6F10 * *)&this->room;
@@ -371,15 +363,7 @@ u8 *TObjPlayer::init_breakup_pieces(void *arg1, s32 arg2) {
     return ((u8 *)this);
 }
 
-void *__dt__13TUnk_804E3BA8Fv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = lbl_804E3BA8;
-        __dt__13TUnk_804E3BD8Fv((u8 *)arg0, (s16)(0));
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
+TUnk_804E3BA8::~TUnk_804E3BA8() {
 }
 
 void TUnk_804E3BA8::run_task() {

@@ -9062,7 +9062,7 @@ pso/player/TObjPlayer_802E6CA8.cpp:
 	.text       start:0x802E6CA8 end:0x802E7888
 	.ctors      start:0x80433FD8 end:0x80433FDC
 	.rodata     start:0x80472C68 end:0x80472CB0
-	.data       start:0x804E3BD8 end:0x804E3BF0
+	.data       start:0x804E3BA8 end:0x804E3BF0
 	.sbss       start:0x805D6910 end:0x805D6918
 	.sdata2     start:0x805DE9C8 end:0x805DEA10
 
