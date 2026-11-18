@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/ui/window/TWindowKeyBoardHard.h"
 #include "pso/ui/chat/TWindowChat.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowKeyBoardBase.h"
@@ -469,16 +470,10 @@ TWindowChat::TWindowChat(TObject *object, void *arg2) : TObject(object) {
     m_name = window_chat_type_name_pointer;
     this->inputMode = 0;
     this->flags = 2;
-    o = ((void *)__nw__7TObjectFUl(0xB8));
-    if (o != NULL) {
-        o = __ct__19TWindowKeyBoardBaseFv((u8 *)o);
-    }
+    o = new TWindowKeyBoardBase();
     this->composer = o;
     ((TWindowKeyBoardBase *)((u8 *)this->composer))->init_keyboard_text_field(200, 2);
-    o2 = ((void *)__nw__7TObjectFUl(0x74));
-    if (o2 != NULL) {
-        o2 = __ct__19TWindowKeyBoardHardFl((TWindowKeyBoardHard *)((u8 *)o2), (s32)this->composer);
-    }
+    o2 = new TWindowKeyBoardHard((s32)this->composer);
     this->hardKeyboard = o2;
     *(u32 *)((s8 *)this + 0x24) = 0;
     *(u32 *)((s8 *)this + 0x2C) = 0;
