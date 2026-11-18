@@ -220,12 +220,10 @@ void fn_8034009C(TBoss6Demo15_TYPE2_WAIT *boss6_demo15_type2_wait) {
 
 extern "C" {
 void *TObjFish__sub_8034029C(TBoss6Demo15_TYPE2_WAIT *, TObjFish *);
-void __dl__7TObjectFPv(void *);
-void __dt__7TObjectFv(void *, int);
 
 void TBoss6Demo15_TYPE2_WAIT::render() { TObjPlayer__sub_8033FDB0((s32)this); }
 
-extern s32 lbl_804EFB78[];
+extern s32 __vt__23TBoss6Demo15_TYPE2_WAIT[];
 
 void TBoss6Demo15_TYPE2_WAIT::run_task() {
     u8 *arg0 = (u8 *)this;
@@ -246,17 +244,9 @@ void TBoss6Demo15_TYPE2_WAIT::run_task() {
     }
 }
 
-void *TBoss6Demo15_TYPE2_WAIT::destroy(s16 arg1) {
-    if (this != NULL) {
-        *(s32 * *)&(*(u32 *)((u8 *)this + 0x18)) = lbl_804EFB78;
-        if (this->m_20 != NULL) { TParticleCtrl::release(this->m_20); this->m_20 = 0; }
-        fn_80340040(this);
-        __dt__7TObjectFv(this, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(this);
-        }
-    }
-    return this;
+TBoss6Demo15_TYPE2_WAIT::~TBoss6Demo15_TYPE2_WAIT() {
+    if (this->m_20 != NULL) { TParticleCtrl::release(this->m_20); this->m_20 = 0; }
+    fn_80340040(this);
 }
 
 /* One animated part of the wait demo: model, model helper and motion loaded from the fish BML. */
@@ -294,7 +284,7 @@ void *TObjFish__sub_8034029C(TBoss6Demo15_TYPE2_WAIT *wait, TObjFish *fish) {
     s32 bml;
     s32 i;
     __ct__7TObjectFP7TObject(wait, (TObject *)fish);
-    *(s32 **)((u8 *)wait + 0x18) = lbl_804EFB78;
+    *(s32 **)((u8 *)wait + 0x18) = __vt__23TBoss6Demo15_TYPE2_WAIT;
     wait->m_name = lbl_805D42C8;
     self->fish = fish;
     bml = TObjFish::get_fish_count();
