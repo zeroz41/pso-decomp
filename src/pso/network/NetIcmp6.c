@@ -167,7 +167,7 @@ s16 NetIPv6HandleIcmpMessage(NetPacket *pkt, u8 *src, u8 *dst, u8 hop_limit, s16
     return 0;
 }
 
-s16 TLobby__sub_8040D510(void *a, u8 *src, s16 c, s16 flag) {
+s16 icmp6_send_error(void *a, u8 *src, s16 c, s16 flag) {
     s16 TLobby__sub_80413D78(void *, s16);
     NetIcmpv6Header *msg = a;
     Ipv6Header *ip = (Ipv6Header *)src;

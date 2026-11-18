@@ -117,7 +117,7 @@ s16 NetValidateLocalAddress(NetworkAddress* address) {
         }
         return 0;
     case 6:
-        return TLobby__sub_804136EC(address->address);
+        return ipv6_iface_for_address(address->address);
     default:
         return -2;
     }

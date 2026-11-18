@@ -8,6 +8,7 @@
 #include "pso/network/NetTcpState.h"
 #include "pso/network/NetworkDispatch.h"
 #include "pso/network/text_80421620.h"
+#include "pso/network/IPv6Send.h"
 #include "types.h"
 #include "pso/network/TLobby_804050DC.h"
 #include "pso/network/TLobby_8041112C.h"
@@ -21,8 +22,6 @@ typedef struct Stack_80421AD8 {
     s32 sp24;
     s32 sp28;
 } Stack_80421AD8;
-
-typedef struct O_80421938 { u8 pad0[8]; s32 size; s16 used; } O_80421938;
 
 typedef struct Stack_80421938 { s16 flags; s16 len; s32 zero; u8 src[0x10]; u8 dst[0x10]; } Stack_80421938;
 
@@ -58,7 +57,7 @@ s32 tcp_stat(s32 a, s16 *b, s16 *c, u32 *d, u32 *e);
 s16 tcp_get_socket_handle(int);
 s32 abort_tcp_connection(int);
 s32 tcp_abort(s32 a);
-s32 TLobby__sub_80421938(O_80421938 *o, void *src, void *dst, void *cb, s32 flags);
+s32 raw_socket_deliver(NetPacket *pkt, void *src, void *dst, void *cb, s32 index);
 s32 TLobby__sub_80421F10(O_80421F10 *o, void *src, void *dst, s16 port, void *cb, s32 flags);
 void OSReport(const char *, ...);
 s16 reset_socket_table();
@@ -247,15 +246,15 @@ s32 net_register_timer(s32 callback, s32 interval) {
     return result;
 }
 
-s32 TLobby__sub_80421938(O_80421938 *o, void *src, void *dst, void *cb, s32 flags) {
+s32 raw_socket_deliver(NetPacket *pkt, void *src, void *dst, void *cb, s32 index) {
     Stack_80421938 s;
-    s.flags = flags | 0xC00;
-    s.len = o->size - o->used;
+    s.flags = index | 0xC00;
+    s.len = pkt->total_bytes - pkt->fragments[0].length;
     s.zero = 0;
     NetMemcpy(s.src, src, 0x10);
     NetMemcpy(s.dst, dst, 0x10);
     if (cb != NULL) {
-        TLobby__sub_80421FB8(cb, &s, o);
+        TLobby__sub_80421FB8(cb, &s, pkt);
     }
     return 0;
 }

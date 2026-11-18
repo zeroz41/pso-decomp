@@ -38,7 +38,7 @@ s32 NetIPv6Shutdown(void) {
     return 0;
 }
 
-s32 TLobby__sub_8040FFF8(u8 *ip, int len, s16 id);
+s32 ipv6_input(u8 *ip, int len, s16 id);
 s32 NetIPv6Init(void) {
     s16 i;
     Ipv6RawSocket *e;
@@ -55,356 +55,289 @@ s32 NetIPv6Init(void) {
         e++;
     }
     g->ident = 1;
-    register_protocol_handler(0x86DD, (NetProtocolHandler)TLobby__sub_8040FFF8);
+    register_protocol_handler(0x86DD, (NetProtocolHandler)ipv6_input);
     return 0;
 }
 
-inline s16 process_options_header(u8 *p, s16 rem, u8 *ip, s16 m, s16 id) {
-    s32 n;
-    u8 *d;
-    d = p + 2;
-    n = ((p[1] + 1) << 3) - 2;
-    if ((s16)n > rem) {
+inline s16 process_options_header(u8 *ext, s16 rem, u8 *ip, s16 len, s16 iface) {
+    s32 options_len;
+    u8 *options;
+    options = ext + 2;
+    options_len = ((ext[1] + 1) << 3) - 2;
+    if ((s16)options_len > rem) {
         return -1;
     }
-    if (TLobby__sub_80410958(d, n, ip, m, id) < 0) {
+    if (ipv6_process_options(options, options_len, ip, len, iface) < 0) {
         return -1;
     }
     return 0;
 }
 
-struct IC_8040FFF8 { u8 type; u8 code; s32 w; };
-inline NetPacket *frag_8040FFF8(u8 *ip, u8 *p, s32 rem, s16 m, s16 id, void *sa, struct IC_8040FFF8 *ic) {
-    s32 TLobby__sub_80418C40(u8 *, u8 *, s16, u8, u32, void *, u16, u8, s16);
-    u32 fl;
-    u32 mf;
-    u32 off;
-    fl = *((u16 *) (p + 2));
-    mf = fl & 1;
-    off = (fl >> 3) & 0x1FFF;
-    if (((u8) fl & 1) && (((rem - 8) & 7) != 0)) {
-        if (off == 0) {
-            ic->type = 4;
-            ic->code = 0;
-            ic->w = 4;
-            TLobby__sub_8040D510(ic, ip, m, id);
+inline NetPacket *input_fragment_header(u8 *ip, Ipv6FragmentHeader *frag, s32 remaining, s16 total_len, s16 iface, NetworkAddress *src, NetIcmpv6Header *error) {
+    s32 fragment_input(u8 *, u16, s16, u8, u32, NetworkAddress *, u16, u8, s16);
+    u32 offset_flags;
+    u32 more;
+    u32 offset;
+    offset_flags = frag->offset_flags;
+    more = offset_flags & 1;
+    offset = (offset_flags >> 3) & 0x1FFF;
+    if (((u8) offset_flags & 1) && (((remaining - sizeof(Ipv6FragmentHeader)) & 7) != 0)) {
+        if (offset == 0) {
+            error->type = ICMP6_PARAM_PROB;
+            error->code = ICMP6_PARAMPROB_HEADER;
+            error->reserved = offsetof(Ipv6Header, payload_length);
+            icmp6_send_error(error, ip, total_len, iface);
         }
         return 0;
     }
-    return (NetPacket *) TLobby__sub_80418C40(ip, (u8 *) (m - (rem - 8)), rem - 8, 60, *((u32 *) (p + 4)), sa, off, mf, id);
+    return (NetPacket *) fragment_input(ip, total_len - (remaining - sizeof(Ipv6FragmentHeader)), remaining - sizeof(Ipv6FragmentHeader), IPV6_REASSEMBLY_TIMEOUT, frag->ident, src, offset, more, iface);
 }
-inline s32 min_8040FFF8(s32 a, s32 b) {
+inline s32 min_s32(s32 a, s32 b) {
     if (a < b) {
         return a;
     }
     return b;
 }
 
-inline NetPacket *buildrec_8040FFF8(u8 *ip, s16 m, u8 *p, s32 rem) {
-    NetPacket *rec = alloc_free_entry();
-    if (rec == 0) {
+inline NetPacket *make_input_packet(u8 *ip, s16 total_len, u8 *payload, s32 payload_len) {
+    NetPacket *pkt = alloc_free_entry();
+    if (pkt == 0) {
         return 0;
     }
-    rec->fragment_count = 0;
-    rec->total_bytes = m;
-    rec->fragments[rec->fragment_count].length = m - rem;
-    set_value_and_enable(&rec->fragments[rec->fragment_count].buffer, (s32)ip);
-    rec->fragment_count += 1;
-    rec->fragments[rec->fragment_count].length = (u16)rem;
-    set_value_and_enable(&rec->fragments[rec->fragment_count].buffer, (s32)p);
-    rec->fragment_count += 1;
-    return rec;
+    pkt->fragment_count = 0;
+    pkt->total_bytes = total_len;
+    pkt->fragments[pkt->fragment_count].length = total_len - payload_len;
+    set_value_and_enable(&pkt->fragments[pkt->fragment_count].buffer, (s32)ip);
+    pkt->fragment_count += 1;
+    pkt->fragments[pkt->fragment_count].length = (u16)payload_len;
+    set_value_and_enable(&pkt->fragments[pkt->fragment_count].buffer, (s32)payload);
+    pkt->fragment_count += 1;
+    return pkt;
 }
 
 #pragma push
 #pragma opt_loop_invariants off
 #pragma opt_strength_reduction off
-s32 TLobby__sub_8040FFF8(u8 *ip, int len, s16 id)
-{
-  s16 TLobby__sub_8040D510(void *, u8 *, s32, s16); /* declared here with an s32 3rd argument; the definition takes s16 */
-  s16 TLobby__sub_804105E0(u8 *, u8 *, s16, s16); /* declared s16 here; the definition returns s32 */
-  s16 TLobby__sub_804136CC(s16); /* declared s16 here; the definition returns void */
-  s16 TLobby__sub_8041B974(void *, void *, void *); /* declared here with void * parameters; the definition takes (u8 *, u8 *, u8 *) */
-  s16 udp_input(void *, void *, void *, s16); /* declared s16 here; the definition is s32 (O_80420DE4 *, NetworkAddress *, NetworkAddress *, s32) */
-  s32 TLobby__sub_80421938(void *, void *, void *, u32, s16); /* declared here with other parameter types; the definition is s32 (O_80421938 *, void *, void *, void *, s32) */
-  struct 
-  {
-    s32 t;
-    u8 a[16];
-  } sa;
-  struct 
-  {
-    s32 t;
-    u8 a[16];
-  } da;
-  struct 
-  {
-    u8 type;
-    u8 code;
-    s32 w;
-  } ic44;
-  struct 
-  {
-    u8 type;
-    u8 code;
-    s32 w;
-  } ic36;
-  struct IC_8040FFF8 ic28;
-  u8 *p;
-  u8 *new_var2;
-  NetPacket *rec;
-  s16 m;
-  Ipv6RawSocket *ent;
-  s16 i;
-  s32 rem;
-  u8 *new_var4;
-  u8 *new_var3;
-  s16 new_var;
-  s16 res;
-  u8 *last;
-  s16 reasm;
-  Ipv6ProtocolState *g;
-  u8 *src;
-  u8 nh;
-  s16 r;
-  s16 found;
-  u8 *dst;
-  new_var = id;
-  if (((s16) len) < 40)
-  {
-    goto ret;
-  }
-  if (get_valid_entry(new_var) == 0)
-  {
-    goto ret;
-  }
-  if ((ip[0] & 0xF0) != 0x60)
-  {
-    return -1;
-  }
-  m = min_8040FFF8((*((u16 *) (ip + 4))) + 40, (s16) len);
-  if (TLobby__sub_804136CC(new_var) == 0)
-  {
-    if (TLobby__sub_804136EC(ip + 24) < ((char) 0))
-    {
-      if (NetIPv6IsMulticast(ip + 24) == 0)
-      {
-        if (TLobby__sub_804105E0(ip, ip, m, new_var) == 0)
-        {
-          return 0;
+s32 ipv6_input(u8 *ip, int len, s16 id) {
+    s16 icmp6_send_error(NetIcmpv6Header *msg, u8 *ip, s32 len, s16 iface); /* the definition takes an s16 len */
+    s16 ipv6_forward(u8 *ip, u8 *packet, s16 len, s16 iface); /* the definition returns s32 */
+    s16 tcp_input(NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst); /* the definition takes (u8 *, u8 *, u8 *) */
+    s16 udp_input(NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst, s16 iface);
+    s32 raw_socket_deliver(NetPacket *pkt, u8 *src, u8 *dst, void *callback, s16 index); /* the definition takes an s32 index */
+    NetworkAddress src_addr;
+    NetworkAddress dst_addr;
+    NetIcmpv6Header error;
+    NetIcmpv6Header options_error;
+    NetIcmpv6Header frag_error;
+    s16 total_len;
+    s16 iface;
+    u8 next_header;
+    s16 i;
+    s32 remaining;
+    u8 *ext;
+    u8 *next_header_field;
+    u8 *src;
+    Ipv6ProtocolState *state;
+    u8 *hdr;
+    s16 result;
+    u8 *dst_cmp;
+    s16 status;
+    u8 *dst;
+    s16 delivered;
+    NetPacket *pkt;
+    s16 reassembled;
+    Ipv6RawSocket *sock;
+
+    if (((s16) len) < (s32) sizeof(Ipv6Header)) {
+        goto ret;
+    }
+    iface = id;
+    if (get_valid_entry(iface) == 0) {
+        goto ret;
+    }
+    if ((ip[0] & 0xF0) != 0x60) {
+        return -1;
+    }
+    total_len = min_s32(((Ipv6Header *) ip)->payload_length + sizeof(Ipv6Header), (s16) len);
+    if (TLobby__sub_804136CC(iface) == 0) {
+        if (ipv6_iface_for_address(((Ipv6Header *) ip)->dst.bytes) < 0) {
+            if (NetIPv6IsMulticast(((Ipv6Header *) ip)->dst.bytes) == 0) {
+                if (ipv6_forward(ip, ip, total_len, iface) == 0) {
+                    return 0;
+                }
+                return -1;
+            }
         }
-        return -1;
-      }
     }
-  }
-  sa.t = 6;
-  new_var3 = ip + 8;
-  src = sa.a;
-  NetMemcpy(src, new_var3, 16);
-  da.t = 6;
-  dst = da.a;
-  NetMemcpy(dst, ip + 24, 16);
-  nh = ip[6];
-  rem = m - 40;
-  new_var2 = ip;
-  p = new_var2 + 40;
-  last = new_var2 + 6;
-  reasm = 0;
-  new_var4 = dst;
-  found = 0;
-  for (;;)
-  {
-    if (nh == 59)
-    {
-      return 0;
-    }
-    if (((s16) rem) < 8)
-    {
-      ic44.type = 4;
-      ic44.code = 1;
-      ic44.w = last - new_var2;
-      TLobby__sub_8040D510(&ic44, new_var2, m, new_var);
-      goto ret;
-    }
-    switch (nh)
-    {
-      case 0:
-        if (m != (((s16) rem) + 40))
-      {
-        ic36.type = 4;
-        ic36.code = 1;
-        ic36.w = last - new_var2;
-        TLobby__sub_8040D510(&ic36, new_var2, m, new_var);
-        res = -1;
-      }
-      else
-      {
-        res = process_options_header(p, rem, new_var2, m, new_var);
-      }
-        if (res < 0)
-      {
-        goto ret;
-      }
-        goto adv;
+    src_addr.family = 6;
+    src = src_addr.address;
+    NetMemcpy(src, ((Ipv6Header *) ip)->src.bytes, 16);
+    dst_addr.family = 6;
+    dst = dst_addr.address;
+    NetMemcpy(dst, ((Ipv6Header *) ip)->dst.bytes, 16);
+    next_header = ((Ipv6Header *) ip)->next_header;
+    remaining = total_len - sizeof(Ipv6Header);
+    hdr = ip;
+    ext = hdr + sizeof(Ipv6Header);
+    next_header_field = hdr + offsetof(Ipv6Header, next_header);
+    reassembled = 0;
+    dst_cmp = dst;
+    delivered = 0;
+    for (;;) {
+        if (next_header == IPV6_NH_NONE) {
+            return 0;
+        }
+        if (((s16) remaining) < 8) {
+            error.type = ICMP6_PARAM_PROB;
+            error.code = ICMP6_PARAMPROB_NEXTHEADER;
+            error.reserved = next_header_field - hdr;
+            icmp6_send_error(&error, hdr, total_len, iface);
+            goto ret;
+        }
+        switch (next_header) {
+        case IPV6_NH_HOP_BY_HOP:
+            if (total_len != (((s16) remaining) + (s32) sizeof(Ipv6Header))) {
+                options_error.type = ICMP6_PARAM_PROB;
+                options_error.code = ICMP6_PARAMPROB_NEXTHEADER;
+                options_error.reserved = next_header_field - hdr;
+                icmp6_send_error(&options_error, hdr, total_len, iface);
+                status = -1;
+            } else {
+                status = process_options_header(ext, remaining, hdr, total_len, iface);
+            }
+            if (status < 0) {
+                goto ret;
+            }
+            goto adv;
 
-      case 1:
+        case IPV6_NH_ICMP:
+        case IPV6_NH_IPV4:
+        case IPV6_NH_ESP:
+        case IPV6_NH_AH:
+            goto ret;
 
-      case 4:
+        case IPV6_NH_FRAGMENT:
+            pkt = input_fragment_header(hdr, (Ipv6FragmentHeader *) ext, remaining, total_len, iface, &src_addr, &frag_error);
+            if (pkt == 0) {
+                return -1;
+            }
+            next_header = ext[0];
+            reassembled = 1;
+            goto payload;
 
-      case 50:
-
-      case 51:
-        goto ret;
-
-      case 44:
-        rec = frag_8040FFF8(new_var2, p, rem, m, new_var, &sa, &ic28);
-        if (rec == 0)
-      {
-        return -1;
-      }
-        nh = p[0];
-        reasm = 1;
-        goto payload;
-
-      case 60:
-        res = process_options_header(p, rem, new_var2, m, new_var);
-        if (res < 0)
-      {
-        goto ret;
-      }
-
-      case 43:
+        case IPV6_NH_DEST_OPTIONS:
+            status = process_options_header(ext, remaining, hdr, total_len, iface);
+            if (status < 0) {
+                goto ret;
+            }
+            /* fallthrough */
+        case IPV6_NH_ROUTING:
         adv:
-      last = p;
+            next_header_field = ext;
+            next_header = ext[0];
+            remaining -= (ext[1] + 1) << 3;
+            ext += (ext[1] + 1) << 3;
+            continue;
 
-        nh = p[0];
-        rem -= (p[1] + 1) << 3;
-        p += (p[1] + 1) << 3;
-        continue;
+        case 10:
+        case 20:
+        case 30:
+        case 40:
+            break;
+        }
+        break;
+    }
 
-      case 10:
+payload:
+    if (reassembled == 0) {
+        pkt = make_input_packet(hdr, total_len, ext, remaining);
+        if (pkt == 0) {
+            return -257;
+        }
+    }
 
-      case 20:
-
-      case 30:
-
-      case 40:
+    switch (next_header) {
+    case IPV6_NH_ICMPV6:
+        result = NetIPv6HandleIcmpMessage(pkt, src, dst, ((Ipv6Header *) hdr)->hop_limit, iface);
+        iface = id;
+        if (result < 0) {
+            goto fail;
+        }
+        delivered = 1;
         break;
 
-    }
+    case IPV6_NH_TCP:
+        result = tcp_input(pkt, &src_addr, &dst_addr);
+        if (result < 0) {
+            goto fail;
+        }
+        goto ok;
 
-    break;
-  }
+    case IPV6_NH_UDP:
+        result = udp_input(pkt, &src_addr, &dst_addr, iface);
+        if (result >= 0) {
+            goto ok;
+        }
+        switch (result) {
+        case -2:
+            error.type = ICMP6_DST_UNREACH;
+            error.code = ICMP6_DST_UNREACH_NOPORT;
+            error.reserved = 0;
+            icmp6_send_error(&error, hdr, total_len, iface);
+            goto fail;
 
-  payload:
-  if (reasm == 0)
-  {
-    rec = buildrec_8040FFF8(new_var2, m, p, rem);
-    if (rec == 0)
-    {
-      return -257;
-    }
-  }
-
-  switch (nh)
-  {
-    case 58:
-      r = NetIPv6HandleIcmpMessage(rec, src, dst, new_var2[7], new_var);
-      if (r < 0)
-    {
-      goto fail;
-    }
-      found = 1;
-      break;
-
-    case 6:
-      r = TLobby__sub_8041B974(rec, &sa, &da);
-      if (r < 0)
-    {
-      goto fail;
-    }
-      goto ok;
-
-    case 17:
-      r = udp_input(rec, &sa, &da, new_var);
-      if (r >= 0)
-    {
-      goto ok;
-    }
-      switch (r)
-    {
-      case -2:
-        ic44.type = 1;
-        ic44.code = 4;
-        ic44.w = 0;
-        TLobby__sub_8040D510(&ic44, new_var2, m, new_var);
-        goto fail;
-
-      default:
-        goto fail;
-
-    }
+        default:
+            goto fail;
+        }
 
     default:
-      break;
+        break;
+    }
 
-  }
-
-  g = &ipv6_protocol_state;
-  ent = g->sockets;
-  for (i = 0; i < g->nsockets; i++, ent++)
-  {
-    if (((ent->used == 1) && (ent->proto == nh)) && (ent->owner != 0))
-    {
-      if ((NetIPv6IsUnspecified(ent->local) != 0) || (NetIPv6CompareAddresses(ent->local, src) == 0))
-      {
-        if ((NetIPv6IsUnspecified(ent->remote) != 0) || (NetIPv6CompareAddresses(ent->remote, new_var4) == 0))
-        {
-          TLobby__sub_80421938(rec, src, dst, ent->owner, i);
-          found = 1;
+    state = &ipv6_protocol_state;
+    sock = state->sockets;
+    for (i = 0; i < state->nsockets; i++, sock++) {
+        if (((sock->used == 1) && (sock->proto == next_header)) && (sock->owner != 0)) {
+            if ((NetIPv6IsUnspecified(sock->local) != 0) || (NetIPv6CompareAddresses(sock->local, src) == 0)) {
+                if ((NetIPv6IsUnspecified(sock->remote) != 0) || (NetIPv6CompareAddresses(sock->remote, dst_cmp) == 0)) {
+                    raw_socket_deliver(pkt, src, dst, sock->owner, i);
+                    delivered = 1;
+                }
+            }
         }
-      }
     }
-  }
 
-  if (found == 1)
-  {
+    if (delivered == 1) {
     ok:
-    if (reasm == 1)
-    {
-      TUdpSocket__sub_80418BD8(rec);
+        if (reassembled == 1) {
+            release_packet_fragments(pkt);
+        }
+        release_entry(pkt);
+        return 0;
     }
-
-    release_entry(rec);
-    return 0;
-  }
-  if (reasm != 1)
-  {
-    ic44.type = 4;
-    ic44.code = 1;
-    ic44.w = last - new_var2;
-    TLobby__sub_8040D510(&ic44, new_var2, m, new_var);
-  }
-  fail:
-  if (reasm == 1)
-  {
-    TUdpSocket__sub_80418BD8(rec);
-  }
-
-  release_entry(rec);
-  ret:
-  return -1;
-
+    if (reassembled != 1) {
+        error.type = ICMP6_PARAM_PROB;
+        error.code = ICMP6_PARAMPROB_NEXTHEADER;
+        error.reserved = next_header_field - hdr;
+        icmp6_send_error(&error, hdr, total_len, iface);
+    }
+fail:
+    if (reassembled == 1) {
+        release_packet_fragments(pkt);
+    }
+    release_entry(pkt);
+ret:
+    return -1;
 }
 #pragma pop
 
 static inline s16 chk_804105E0(u8 *p, s16 lim, s16 ctx, s16 l, s16 rem, u8 *q, u8 *prev) {
     u8 err4[8];
     if (l != rem + 0x28) {
-        err4[0] = 4;
-        err4[1] = 1;
+        err4[0] = ICMP6_PARAM_PROB;
+        err4[1] = ICMP6_PARAMPROB_NEXTHEADER;
         *(s32 *)(err4 + 4) = prev - p;
-        TLobby__sub_8040D510(err4, p, lim, ctx);
+        icmp6_send_error(err4, p, lim, ctx);
         return -1;
     }
     return process_options_header(q, rem, p, lim, ctx);
@@ -412,7 +345,7 @@ static inline s16 chk_804105E0(u8 *p, s16 lim, s16 ctx, s16 l, s16 rem, u8 *q, u
 #pragma push
 #pragma opt_common_subs on
 #pragma opt_propagation off
-extern s32 TLobby__sub_804105E0(u8 *self, u8 *p, s16 lim, s16 ctx)
+extern s32 ipv6_forward(u8 *self, u8 *p, s16 lim, s16 ctx)
 {
   s32 TLobby__sub_80410BA8(void *, void *, s16, void *); /* declared s32 here; the definition returns s16 */
   s32 TLobby__sub_80415D0C(NetPacket *a, u8 *b, u8 *c, s16 d); /* declared s32 here; the definition is s16 (NetPacket *, u8 *, NetIPv6SendParameters *, s16) */
@@ -481,10 +414,10 @@ extern s32 TLobby__sub_804105E0(u8 *self, u8 *p, s16 lim, s16 ctx)
   {
     if ((flag == 0) || (flags == 0))
     {
-      err[0] = 3;
-      err[1] = 0;
+      err[0] = ICMP6_TIME_EXCEEDED;
+      err[1] = ICMP6_TIME_EXCEED_TRANSIT;
       *((s32 *) (err + 4)) = 0;
-      TLobby__sub_8040D510(err, p, lim, ctx);
+      icmp6_send_error(err, p, lim, ctx);
     }
     return -1;
   }
@@ -493,10 +426,10 @@ extern s32 TLobby__sub_804105E0(u8 *self, u8 *p, s16 lim, s16 ctx)
   {
     if ((flag == 0) || (flags == 0))
     {
-      err[0] = 1;
-      err[1] = 0;
+      err[0] = ICMP6_DST_UNREACH;
+      err[1] = ICMP6_DST_UNREACH_NOROUTE;
       *((s32 *) (err + 4)) = 0;
-      TLobby__sub_8040D510(err, p, lim, ctx);
+      icmp6_send_error(err, p, lim, ctx);
     }
     return -1;
   }
@@ -518,10 +451,10 @@ extern s32 TLobby__sub_804105E0(u8 *self, u8 *p, s16 lim, s16 ctx)
   {
     if ((flag == 0) || (flags == 0))
     {
-      err[0] = 2;
+      err[0] = ICMP6_PACKET_TOO_BIG;
       err[1] = 0;
       *((s32 *) (err + 4)) = h6;
-      TLobby__sub_8040D510(err, p, lim, ctx);
+      icmp6_send_error(err, p, lim, ctx);
     }
     return -1;
   }
@@ -549,7 +482,7 @@ extern s32 TLobby__sub_804105E0(u8 *self, u8 *p, s16 lim, s16 ctx)
   return r21;
 }
 #pragma pop
-s16 TLobby__sub_80410958(u8* p, s16 n, u8* self, s16 c, s16 d) {
+s16 ipv6_process_options(u8* p, s16 n, u8* self, s16 c, s16 d) {
     u8* cur = p;
     s32 len;
 
@@ -583,10 +516,10 @@ s16 TLobby__sub_80410958(u8* p, s16 n, u8* self, s16 c, s16 d) {
                     u32 c;
                 } msg;
 
-                msg.a = 4;
-                msg.b = 2;
+                msg.a = ICMP6_PARAM_PROB;
+                msg.b = ICMP6_PARAMPROB_OPTION;
                 msg.c = cur - self;
-                TLobby__sub_8040D510(&msg, self, c, d);
+                icmp6_send_error(&msg, self, c, d);
             }
             case 0x40:
             default:

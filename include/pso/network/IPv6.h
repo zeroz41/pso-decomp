@@ -92,7 +92,7 @@ typedef struct Ipv6State {
 typedef char Ipv6State_size_check[sizeof(Ipv6State) == 0x28 ? 1 : -1];
 
 /* A raw IPv6 socket (tag "IP6"): packets with next header `proto` between the two addresses (unspecified =
-   any) go to TLobby__sub_80421938. */
+   any) go to raw_socket_deliver. */
 typedef struct Ipv6RawSocket {
     u8 tag[3];
     u8 index;
@@ -100,11 +100,40 @@ typedef struct Ipv6RawSocket {
     u8 local[16];     /* 0x06 */
     u8 remote[16];    /* 0x16 */
     u8 pad26[2];
-    u32 owner;        /* 0x28 */
+    void *owner;      /* 0x28: receive callback, passed to raw_socket_deliver */
     u8 pad2C[4];
     u8 proto;         /* 0x30 */
     u8 pad31[3];
 } Ipv6RawSocket;
+/* Next header values (IANA protocol numbers). */
+#define IPV6_NH_HOP_BY_HOP   0
+#define IPV6_NH_ICMP         1
+#define IPV6_NH_IPV4         4
+#define IPV6_NH_TCP          6
+#define IPV6_NH_UDP          17
+#define IPV6_NH_ROUTING      43
+#define IPV6_NH_FRAGMENT     44
+#define IPV6_NH_ESP          50
+#define IPV6_NH_AH           51
+#define IPV6_NH_ICMPV6       58
+#define IPV6_NH_NONE         59
+#define IPV6_NH_DEST_OPTIONS 60
+
+/* ICMPv6 error types and codes (RFC 4443). */
+#define ICMP6_DST_UNREACH          1
+#define ICMP6_DST_UNREACH_NOROUTE  0
+#define ICMP6_DST_UNREACH_NOPORT   4
+#define ICMP6_PACKET_TOO_BIG       2
+#define ICMP6_TIME_EXCEEDED        3
+#define ICMP6_TIME_EXCEED_TRANSIT  0 /* hop limit reached 0 */
+#define ICMP6_PARAM_PROB           4
+#define ICMP6_PARAMPROB_HEADER     0 /* erroneous header field */
+#define ICMP6_PARAMPROB_NEXTHEADER 1 /* unrecognized next header */
+#define ICMP6_PARAMPROB_OPTION     2 /* unrecognized option */
+
+/* Seconds a partly reassembled packet is kept (RFC 8200). */
+#define IPV6_REASSEMBLY_TIMEOUT 60
+
 typedef struct Ipv6Header {
     u32 version_class_flow;
     u16 payload_length;
