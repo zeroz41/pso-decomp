@@ -4667,7 +4667,7 @@ pso/object/door/TObjDoorKey.cpp:
 
 pso/object/ambient/TObjEnvSoundGlobal.cpp:
 	.text       start:0x801902D8 end:0x80190BFC
-	.rodata     start:0x804458B8 end:0x804458F8
+	.rodata     start:0x804456F0 end:0x804458F8
 	.data       start:0x804B7A70 end:0x804B7B9C
 	.sdata      start:0x805D3348 end:0x805D3358
 	.sdata2     start:0x805DBE10 end:0x805DBE20
@@ -6117,7 +6117,7 @@ pso/ui/window/TWindow.cpp:
 
 pso/quest/TQuestListOffline_802171BC.cpp:
 	.text       start:0x802171BC end:0x802173F0
-	.rodata     start:0x8044BE88 end:0x8044BE9C
+	.rodata     start:0x8044BDA0 end:0x8044BE9C
 	.data       start:0x804C9900 end:0x804C9CE8
 	.sdata      start:0x805D3680 end:0x805D3684
 
