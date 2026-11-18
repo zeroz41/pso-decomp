@@ -688,7 +688,7 @@ def:
         if (t->x2 != 0x1F) {
             goto def;
         }
-        if (TQuestVmDownLoadServer__sub_803EEA48((s32)&quest_download_scratch_storage + quest_text_cursor_pos, t->x0, base + 0xC, &count) > 0) {
+        if (format_number_text_all_modes((s32)&quest_download_scratch_storage + quest_text_cursor_pos, t->x0, base + 0xC, &count) > 0) {
             goto build;
         }
         goto def;
@@ -2087,7 +2087,7 @@ const u8 *TQuestVmDownLoadServer::find_keyword_entry(u16 *start, u16 *end) {
 // Converts the romaji at src (n characters left) to kana in out; *count gets the
 // number of characters written. Returns the number consumed, 0 when more input
 // is needed, -1/-2 on no match (behaviour inferred).
-s32 TQuestVmDownLoadServer__sub_803EDF64(u16 *src, s32 n, u16 *out, s32 *count) {
+s32 convert_romaji_to_kana(u16 *src, s32 n, u16 *out, s32 *count) {
     const u8 *e;
     u16 *p;
     u8 kind;
@@ -2201,7 +2201,7 @@ s32 TQuestVmDownLoadServer__sub_803EDF64(u16 *src, s32 n, u16 *out, s32 *count) 
     return 0;
 }
 
-void TQuestVmDownLoadServer__sub_803EE2E4(void) {
+void reset_entry_text_accumulator(void) {
     lbl_8058DC98[0] = 0;
 }
 
@@ -2222,7 +2222,7 @@ inline void copy_entry_text(u8 *dst, u8 *text, s32 pos, s32 len, Node_803EB420 *
     }
 }
 
-void TQuestVmDownLoadServer__sub_803EE2F4(s32 pos, s32 end) {
+void process_entry_text_range(s32 pos, s32 end) {
     Req_803EEF2C req;
     Slot_803ED9AC *slot;
     Node_803EB420 *node;
@@ -2364,7 +2364,7 @@ void TQuestVmDownLoadServer__sub_803EE580(s32 a, s32 b, Node_803EB420 *cmdp, Ele
 #pragma pop
 #pragma pop
 
-u16 *TQuestVmDownLoadServer__sub_803EE718(s32 i, s32 len) {
+u16 *get_entry_text(s32 i, s32 len) {
     u16 *out;
     s32 n;
     s32 end;
@@ -2390,14 +2390,14 @@ u16 *TQuestVmDownLoadServer__sub_803EE718(s32 i, s32 len) {
     return lbl_805A02A8;
 }
 
-u8 *TQuestVmDownLoadServer__sub_803EE828(void) {
-    TQuestVmDownLoadServer__sub_803EC71C((u16 *)(((u8 *)&lbl_805A0340)), (u8 *)(((u8 *)&lbl_805A02A8)), (s32)(TQuestVmDownLoadServer__sub_803EE934()));
+u8 *convert_all_entry_text(void) {
+    TQuestVmDownLoadServer__sub_803EC71C((u16 *)(((u8 *)&lbl_805A0340)), (u8 *)(((u8 *)&lbl_805A02A8)), (s32)(build_all_entry_text()));
     return ((u8 *)&lbl_805A02A8);
 }
 
 // Drops the node chain of a slot; in mode 1 the nodes before the current
 // position are first returned to the download entry pool.
-void TQuestVmDownLoadServer__sub_803EE870(s32 slot, s32 mode) {
+void free_slot_node_chain(s32 slot, s32 mode) {
     Node_803EB420 *p;
     Node_803EB420 *end;
     Node_803EB420 *next;
@@ -2418,7 +2418,7 @@ void TQuestVmDownLoadServer__sub_803EE870(s32 slot, s32 mode) {
     }
 }
 
-s32 TQuestVmDownLoadServer__sub_803EE934(void) {
+s32 build_all_entry_text(void) {
     s32 r;
     Node_803EB420 *node;
     u16 *out;
@@ -2449,7 +2449,7 @@ s32 TQuestVmDownLoadServer__sub_803EE934(void) {
     return total;
 }
 
-s32 TQuestVmDownLoadServer__sub_803EEA48(s32 arg0, s32 arg1, void *arg2, s32 *arg3) {
+s32 format_number_text_all_modes(s32 arg0, s32 arg1, void *arg2, s32 *arg3) {
     s32 i;
     void *r;
     if (quest_download_file_handle == -1) {
