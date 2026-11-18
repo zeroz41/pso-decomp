@@ -995,7 +995,9 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # The two below also schedule the by-value DirectAttackPayload read of
     # their receive_direct_attack overrides only the way 1.3.2 does.
     "pso/object/container/TObjContainerItem.cpp": {"mw_version": "GC/1.3.2", "cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
-    "pso/object/container/TContainerAncient01.cpp": {"mw_version": "GC/1.3.2"},
+    # -str readonly: every string of the unit (archive file names, class names) sits in .rodata.
+    # -sdata 4: its 8-byte effect tables sit in .bss and its small data is all 4-byte words.
+    "pso/object/container/TContainerAncient01.cpp": {"mw_version": "GC/1.3.2", "cflags": _switch(cflags_pso, "-str reuse,readonly", "-sdata 4")},
     "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.cpp": {"mw_version": "GC/1.3.2"},
     "pso/quest/TQuestVmDownLoadServer.cpp": {"mw_version": "GC/1.3.2", "cflags": _switch(cflags_pso, "-inline deferred")},
     "pso/camera/TCameraCtrl.cpp": {"mw_version": "GC/1.3.2", "cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},

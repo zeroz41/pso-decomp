@@ -4,6 +4,7 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/container/TContainerAncient01R.h"
+#include "pso/system/BmlResourceDescriptor.h"
 #include "pso/map/FloorArea.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/SoundEffect.h"
@@ -190,7 +191,6 @@ extern "C" {
 void __ct__9TObjCharaFP7TObject(void *, void *, void *);
 s32 get_bml_texlist(int, int);
 void init_collision_body_parts(void *, void *, int);
-extern s32 TContainerAncient01R__name;
 
 u32 get_bml_motion(int, int);
 s32 get_bml_model(int, int);
@@ -205,8 +205,12 @@ unsigned int __cvt_fp2unsigned(f32);
 
 f32 receive_physical_attack__20TContainerAncient01RFPvf(u8 *arg0);
 
-extern s32 TContainerAncient01__open_effect_table[];
 f32 horizontal_distance_squared(void *, void *);
+
+// Effect ids load_resources picks per area (0x230/0x231 or 0x45/0x46) and the
+// pair TContainerAncient01R::init_table_entries copies for its open effect.
+s32 TContainerAncient01__effect_id_table[2];
+s32 TContainerAncient01__open_effect_table[2];
 
 void TContainerAncient01__sub_8018A584(Obj_8018A584 *self, f32 range);
 
@@ -216,7 +220,6 @@ extern s32 registered_player_count;
 
 s32 TContainerAncient01__sub_8018BE90(void);
 
-extern s32 TContainerAncient01__effect_id_table[];
 void TContainerAncient01__sub_8018B180(Obj_8018B180 *self, f32 range);
 
 int calc_distance_accuracy_penalty__20TContainerAncient01RFPvPvPvf(void);
@@ -289,16 +292,6 @@ extern "C" void get_actor_level_index__9TObjCharaFv();
 extern "C" void get_pos__9TObjCharaFl();
 extern "C" void is_actor_cadence_frame__9TObjCharaFl();
 extern "C" void is_target_in_attack_range__9TObjCharaFv();
-extern "C" u8 lbl_80444F98[];
-extern "C" u8 lbl_80444FAC[];
-extern "C" u8 lbl_80444FC4[];
-extern "C" u8 lbl_80444FDC[];
-extern "C" u8 lbl_80444FF4[];
-extern "C" u8 lbl_8044500C[];
-extern "C" u8 lbl_80445020[];
-extern "C" u8 lbl_80445034[];
-extern "C" u8 lbl_80445048[];
-extern "C" u8 lbl_8044505C[];
 extern "C" void render_shadows__7TObjectFv();
 extern "C" void reset_motion_fields__9TObjCharaFv();
 extern "C" void reset_pose__9TObjCharaFv();
@@ -310,27 +303,15 @@ extern "C" void update_flag30_timer__9TObjCharaFv();
 extern "C" void update_movement_status__9TObjCharaFv();
 extern "C" void update_object_view_visibility__8TObjBaseFff();
 extern "C" void update_poison_status__9TObjCharaFv();
-extern void *fe_obj_h_s_konte_model_names[3];
-extern void *fe_obj_h_s_konte_motion_names[3];
-extern void *bm_obj_geenest_model_names[3];
-extern void *bm_obj_geenest_motion_names[3];
-void *fe_obj_h_s_konte_model_names[3] = {
-    (void *)&lbl_80444F98, (void *)&lbl_80444FAC, (void *)0x0,
+const char *fe_obj_h_s_konte_model_names[3] = { "fe_obj_h_s_konte.gj", "fe_obj_h_s_konte2.gj", NULL };
+const char *fe_obj_h_s_konte_motion_names[3] = { "fe_obj_h_s_konte.njm", "fe_obj_h_s_konte2.njm", NULL };
+BmlResourceDescriptor TContainerAncient01__resource_descriptor = {
+    "fe_obj_h_s_konte.bml", fe_obj_h_s_konte_model_names, fe_obj_h_s_konte_motion_names, 2, 2,
 };
-void *fe_obj_h_s_konte_motion_names[3] = {
-    (void *)&lbl_80444FC4, (void *)&lbl_80444FDC, (void *)0x0,
-};
-void *TContainerAncient01__resource_descriptor[4] = {
-    (void *)&lbl_80444FF4, (void *)&fe_obj_h_s_konte_model_names, (void *)&fe_obj_h_s_konte_motion_names, (void *)0x20002,
-};
-void *bm_obj_geenest_model_names[3] = {
-    (void *)&lbl_8044500C, (void *)&lbl_80445020, (void *)0x0,
-};
-void *bm_obj_geenest_motion_names[3] = {
-    (void *)&lbl_80445034, (void *)&lbl_80445048, (void *)0x0,
-};
-void *TContainerAncient01__resource_descriptor_2[4] = {
-    (void *)&lbl_8044505C, (void *)&bm_obj_geenest_model_names, (void *)&bm_obj_geenest_motion_names, (void *)0x20002,
+const char *bm_obj_geenest_model_names[3] = { "obj_o_geenest01.gj", "obj_o_geenest02.gj", NULL };
+const char *bm_obj_geenest_motion_names[3] = { "obj_o_geenest01.njm", "obj_o_geenest02.njm", NULL };
+BmlResourceDescriptor TContainerAncient01__resource_descriptor_2 = {
+    "bm_obj_geenest.bml", bm_obj_geenest_model_names, bm_obj_geenest_motion_names, 2, 2,
 };
 void *TContainerAncient01__collision_body_parts[11] = {
     (void *)0x0, (void *)0x41000000, (void *)0x0, (void *)0x41200000,
@@ -342,6 +323,24 @@ TObjMotionAction TContainerAncient01__anim_table[3] = {
     {1, 0, 0, 6.0f, 1},
     {2, 0, 1, 1.0f, 4},
 };
+
+// The constructors install these names (TObject::m_name).
+const char *TContainerAncient01__name = "TContainerAncient01";
+
+// The motion binding load_resources hands TObjEneMe3Stelth::spawn_attack; the
+// motions come from the loaded archive (BmlResource +0x430).
+struct ContainerAncientAnimBinding {
+    s32 motions;
+    TObjMotionAction *actions;
+    u32 unknown08;
+    u16 action_count;
+    u16 unknown0E;
+};
+static const ContainerAncientAnimBinding container_ancient_anim_binding = {
+    0, TContainerAncient01__anim_table, 0, 3, 0,
+};
+
+const char *TContainerAncient01R__name = "TContainerAncient01R";
 void *__vt__20TContainerAncient01R[79] = {
     (void *)0x0, (void *)0x0, (void *)&dt__20TContainerAncient01RFPvs, (void *)&run_task__20TContainerAncient01RFv,
     (void *)&render__20TContainerAncient01RFv, (void *)&render_shadows__7TObjectFv, (void *)&vfunc_6__20TContainerAncient01RFPsl, (void *)&apply_object_set_data__8TObjBaseFPv,
@@ -661,7 +660,7 @@ void *TContainerAncient01R__ct(Obj_8018B030 *self, void *arg1, void *parent) {
 
     __ct__9TObjCharaFP7TObject(self, arg1, parent);
     *(void **)((u8 *)self + 0x18) = (void *)__vt__20TContainerAncient01R;
-    *(s32 *)self = TContainerAncient01R__name;
+    ((TObject *)self)->m_name = TContainerAncient01R__name;
     self->m5(parent);
     self->x34 = get_bml_model(TContainerAncient01R__bml_resource, 0);
     self->x24 = get_bml_texlist(TContainerAncient01R__bml_resource, 0);
@@ -974,14 +973,12 @@ void TContainerAncient01::run_task() {
 
 #include "pso/enemy/stelth/TObjEneMe3Stelth.h"
 
-struct Param_8018BB64 { s32 a; s32 b; s32 c; s32 d; };
 
 struct Res_8018BB64 { u8 pad[0x430]; s32 x430; };
 
 extern "C" {
 
 void *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-extern Param_8018BB64 container_ancient_anim_binding[];
 
 
 u8 *TContainerAncient01__ct(u8 *arg0, s32 arg1, s32 arg2);
@@ -1008,7 +1005,7 @@ void TContainerAncient01::load_resources() {
     if (TContainerAncient01::is_global_state_in_table() != 0) {
         p = ::operator new(0x440);
         if (p != NULL) {
-            p = load_resource_from_descriptor(p, 5, TContainerAncient01__resource_descriptor_2, 0, 0, 0);
+            p = load_resource_from_descriptor(p, 5, &TContainerAncient01__resource_descriptor_2, 0, 0, 0);
         }
         TContainerAncient01__effect_id_table[0] = 0x230;
         TContainerAncient01__bml_resource = (u32)p;
@@ -1016,14 +1013,14 @@ void TContainerAncient01::load_resources() {
     } else {
         p = ::operator new(0x440);
         if (p != NULL) {
-            p = load_resource_from_descriptor(p, 5, TContainerAncient01__resource_descriptor, 0, 0, 0);
+            p = load_resource_from_descriptor(p, 5, &TContainerAncient01__resource_descriptor, 0, 0, 0);
         }
         TContainerAncient01__effect_id_table[0] = 0x45;
         TContainerAncient01__bml_resource = (u32)p;
         TContainerAncient01__effect_id_table[1] = 0x46;
     }
-    Param_8018BB64 prm = container_ancient_anim_binding[0];
-    prm.a = ((Res_8018BB64 *)TContainerAncient01__bml_resource)->x430;
+    ContainerAncientAnimBinding prm = container_ancient_anim_binding;
+    prm.motions = ((Res_8018BB64 *)TContainerAncient01__bml_resource)->x430;
     TObjEneMe3Stelth::spawn_attack((s16)0x3B, (s32)(get_bml_model(TContainerAncient01__bml_resource, 0)), (s32)(get_bml_texlist(TContainerAncient01__bml_resource, 0)), (s32)&prm, (f32)1e+01f, (f32)TContainerAncient01__data_805DBD14[0]);
 }
 
@@ -1062,7 +1059,6 @@ struct V_8018BE98 : B_8018BE98 {
 
 
 extern s32 __vt__19TContainerAncient01[];
-extern s32 TContainerAncient01__name;
 
 
 TContainerAncient01::~TContainerAncient01() {
@@ -1076,7 +1072,7 @@ TContainerAncient01::~TContainerAncient01() {
 u8 *TContainerAncient01__ct(u8 *arg0, s32 arg1, s32 parent) {
     __ct__9TObjCharaFP7TObject(arg0, (void *)arg1, (void *)parent);
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__19TContainerAncient01;
-    *(s32 *)((s8 *)arg0 + 0) = (s32) TContainerAncient01__name;
+    ((TObject *)arg0)->m_name = TContainerAncient01__name;
     ((TContainerAncient01 *)(arg0))->apply_object_set_data((void *)parent);
     *(s32 *)((s8 *)arg0 + 0x34) = get_bml_model((int) ((*(u8 * *)&TContainerAncient01__bml_resource)), 0);
     ((TContainerAncient01 *)arg0)->texlist = get_bml_texlist((int) ((*(u8 * *)&TContainerAncient01__bml_resource)), 0);

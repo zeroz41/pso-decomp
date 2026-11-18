@@ -4588,11 +4588,14 @@ pso/object/container/TObjContainerItem.cpp:
 
 pso/object/container/TContainerAncient01_8018A55C.cpp:
 	.text       start:0x8018A55C end:0x8018A584
+	.rodata     start:0x80444F58 end:0x80444F98
 
 pso/object/container/TContainerAncient01.cpp:
 	.text       start:0x8018A584 end:0x8018BEE4
-	.rodata     start:0x804450B0 end:0x804450B8
+	.rodata     start:0x80444F98 end:0x804450B8
 	.data       start:0x804B6D70 end:0x804B7094
+	.bss        start:0x8050DC68 end:0x8050DC78
+	.sdata      start:0x805D3300 end:0x805D3308
 	.sbss       start:0x805D5B90 end:0x805D5B98
 	.sdata2     start:0x805DBD10 end:0x805DBD60
 
@@ -4967,6 +4970,7 @@ pso/technique/TTecLuker_801A1880.cpp:
 pso/object/TObjRoomId.cpp:
 	.text       start:0x801A1888 end:0x801A1E2C
 	.rodata     start:0x80446880 end:0x804468F8
+	.data       start:0x804B9838 end:0x804B9870
 	.sdata      start:0x805D34B0 end:0x805D34B4
 	.sdata2     start:0x805DC088 end:0x805DC098
 
