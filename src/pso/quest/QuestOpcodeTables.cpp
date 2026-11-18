@@ -10,12 +10,9 @@ const s32 quest_sound_effect_ids[29] = {
 };
 const char quest_bgm_clear_filename[] = "clear.adx";
 const char quest_bgm_miniclear_filename[] = "miniclear.adx";
-extern "C" {
-
 __declspec(section ".data") const char* qst_bgm_filename_table[2] = {
     quest_bgm_clear_filename, quest_bgm_miniclear_filename
 };
-}
 
 QuestOpcodeEntry qst_opcode_table[0x300] = {
     { qst_getargs_void, qst_op_nop },

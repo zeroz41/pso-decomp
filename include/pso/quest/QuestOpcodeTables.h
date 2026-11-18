@@ -12,8 +12,8 @@ struct QuestOpcodeEntry {
 
 extern "C" {
 extern QuestOpcodeEntry qst_opcode_table[0x300];
-extern const char* qst_bgm_filename_table[];
 }
+extern const char* qst_bgm_filename_table[];
 
 // .rodata of QuestOpcodeTables.cpp; QuestOpcodeHandlers.cpp addresses each on its own.
 // Sound effect ids of the quest opcode `se` (qst_op_se), indexed by its argument.
@@ -165,9 +165,7 @@ void qst_op_at_coords_talk_ex(u8 i, u8 out);
 void qst_op_at_coords_call_ex(u8 i, u8 out);
 void qst_op_unfreeze_everything();
 void qst_op_toggle_freeze_everything();
-extern "C" {
 void qst_op_npc_text_id(u8 a0, u8 a1, void *a2);
-}
 void qst_op_get_pressed_buttons(u8 a0, u8 a1);
 void qst_op_get_held_buttons(u8 src, u8 dst);
 int qst_op_default_camera_pos2(void *p);
@@ -226,14 +224,10 @@ void qst_op_set_enemy_attack_data(s32 arg0);
 void qst_op_set_enemy_physical_data(int _w0);
 void qst_op_set_cmode_grave_rates(s32 reg);
 void qst_op_chl_get_timerecord(s32 arg0);
-extern "C" {
 void qst_op_chl_set_timerecord(s32 arg0);
 void qst_op_get_game_version(s32 arg0);
-}
 void qst_op_send_mail();
-extern "C" {
 void qst_op_get_player_state(s32 arg0, s32 arg1);
-}
 void qst_op_disable_win_pfx();
 void qst_op_enable_win_pfx();
 void qst_op_ba_get_score(u8 src, u8 dst);
@@ -242,45 +236,33 @@ int qst_op_turn_on_bgm_p2(void *p);
 int qst_op_turn_off_bgm_p2(void *p);
 void qst_op_nop_F8EF();
 void qst_op_animation_check(s32 arg0, s32 arg1);
-extern "C" {
 void qst_op_get_pl_name(s32 arg0);
 void qst_op_set_trap_damage(s32 i);
-}
 void qst_op_get_eventflag(s32 arg0, s32 arg1);
 void qst_op_get_serial_number(u8 arg0);
-extern "C" {
 void qst_op_kill_player(s32 arg0);
 void qst_op_get_guild_card_file_creation_time(s32 arg0);
-}
 void qst_op_take_slot_meseta(s32 arg0, s32 arg1);
 void qst_op_get_chara_class(s32 arg0, s32 arg1);
 void qst_op_get_gender(s32 arg0, s32 arg1);
-extern "C" {
 void qst_op_get_pl_job(s32 arg0);
 void qst_op_disable_techs(s32 arg0);
 void qst_op_enable_techs(s32 arg0);
 void qst_op_disable_stealth_suit_effect(s32 arg0);
 void qst_op_enable_stealth_suit_effect(s32 arg0);
-}
 void qst_op_set_cmode_rank_override();
-extern "C" {
 void qst_op_dark_falz_is_dead(s32 arg0);
-}
 int qst_op_ba_clear_trapself(void);
 int qst_op_ba_set_trapself(void);
 void qst_op_award_item_ok(int a0);
-extern "C" {
 void qst_op_ba_set_box_drop_area(s32 arg0);
-}
 void qst_op_item_create_cmode(u8 arg0, u8 arg1);
 void qst_op_check_rank_time(u8 arg0, u8 arg1);
 void qst_op_get_player_proximity(u8 arg0, u8 arg1);
 void qst_op_set_cmode_rank_threshold(u8 arg0, u8 arg1);
 void qst_op_award_item_give(u8 arg0);
 void qst_op_set_cmode_rank_result();
-extern "C" {
 void qst_op_get_mag_levels(s32 i);
-}
 void qst_op_ba_sonar_count();
 void qst_op_set_allow_item_flags();
 void qst_op_p_talk_guild_local(int _w0, int _w1);
@@ -298,7 +280,6 @@ void qst_op_ba_set_time_limit();
 void qst_op_ba_set_char_level();
 void qst_op_ba_set_lives();
 void qst_op_ba_hide_target_reticle();
-extern "C" {
 void qst_op_ba_set_trap_count(s32 reg);
 void qst_op_ba_meseta_score(s32 a);
 void qst_op_ba_enemy_death_score(s32 a);
@@ -310,28 +291,23 @@ void qst_op_ba_enemy_give_damage_score(s32 a);
 void qst_op_ba_player_take_damage_score(s32 a);
 void qst_op_ba_player_give_damage_score(s32 a);
 void qst_op_set_cmode_base_time(s32 arg0);
-}
 void qst_op_prepare_npc_visual(s32 arg0);
 int qst_op_enable_npc_visual(void *p);
 void qst_op_set_shrink_cam2(u8 arg0);
 void qst_op_set_shrink_cam1(u8 arg0);
-extern "C" {
 void qst_op_unshrink(s32 arg0);
 void qst_op_shrink(s32 arg0);
 void qst_op_read_switch_flag_on_floor(s32 arg0);
 void qst_op_read_switch_flag(s32 arg0);
 void qst_op_reset_kills(s32 arg0);
-}
 void qst_op_get_num_kills(s32 arg0, s32 arg1);
 void qst_op_go_floor(s32 a, s32 b);
 void qst_op_release_dragon(void *p);
-extern "C" {
 void qst_op_control_dragon(s32 arg0);
 void qst_op_cmode_check_any_player_dead(s32 arg0);
 void qst_op_cmode_check_all_players_dead(s32 arg0);
 void qst_op_exp_multiplication(s32 a);
 void qst_op_nop_F822(s32 arg0);
-}
 void qst_op_nop_F821(u8 arg0);
 void qst_op_ba_start();
 void qst_op_ba_set_respawn();
@@ -345,10 +321,8 @@ int qst_op_disable_map(void);
 int qst_op_enable_map(void);
 void qst_op_get_coord_of_player(s32 a, s32 b);
 void qst_op_get_number_of_players(int a0);
-extern "C" {
 void qst_op_get_difficulty_level_v2(s32 arg0);
 void qst_op_update_switch_flag(s32 arg0);
-}
 int qst_op_warp_off(void *p);
 void qst_op_pad_dragon(void *p);
 void qst_op_delete_bank_item(u8 arg0, u8 arg1);
@@ -357,25 +331,17 @@ void qst_op_set_eventflag2();
 void qst_op_set_eventflag();
 void qst_op_disable_mainmenu();
 void qst_op_nop_BC();
-extern "C" {
 int qst_op_clr_qt_exit(void);
-}
 void qst_op_set_qt_exit(u16 arg0);
-extern "C" {
 void qst_op_get_difficulty_level_v1(s32 arg0);
-}
 void qst_op_setevt();
 void qst_op_getmtime(int a0);
-extern "C" {
 void qst_op_winset_time(s32 arg0);
-}
 int qst_op_show_timer(void *p);
 void qst_op_find_inventory_item_ex(u8 arg0, u8 arg1);
-extern "C" {
 void qst_op_del_obj_param(s32 arg0);
 int qst_op_clr_qt_cancel(void);
 int qst_op_clr_qt_success(void);
-}
 void qst_op_pcam_param(u8 arg0);
 int qst_op_clear_mainwarp_all(void *p);
 int qst_op_npc_text_clear_all(void *p);
@@ -383,10 +349,8 @@ int qst_op_pl_pkon(void *p);
 int qst_op_pl_pkoff(void *p);
 int qst_op_npc_chkwarp(void *p);
 void qst_op_check_npc_straggle(u8 i);
-extern "C" {
 void qst_op_unhide_ene(s32 arg0);
 void qst_op_unhide_obj(s32 arg0);
-}
 void qst_op_player_effect_nc(u8 arg0);
 void qst_op_particle_effect_nc(u8 arg0);
 void qst_op_particle(u8 arg0);
@@ -395,24 +359,18 @@ void qst_op_close_msg_qb();
 void qst_op_stack_popm(s32 arg0, s32 arg1);
 void qst_op_stack_pushm(s32 arg0, s32 arg1);
 void qst_op_stack_pop(int a0);
-extern "C" {
 void qst_op_stack_push(s32 arg0);
 void qst_op_jmp_off(s32 arg0, u8 arg1, u8 *arg2);
 void qst_op_jmp_on(s32 arg0, u8 arg1, u8 *arg2);
-}
 void qst_op_mod(s32 arg0, s32 arg1);
-extern "C" {
 void qst_op_grev(s32 arg0);
 void qst_op_rev(s32 arg0);
 void qst_op_clear(s32 arg0);
 void qst_op_set(s32 arg0);
-}
 void qst_op_leto(s32 arg0, s32 arg1);
-extern "C" {
 void qst_getargs_u16(s32 opcode);
 void qst_getargs_u16_u8_u8ptr(s32 opcode);
 void qst_getargs_u8(s32 opcode);
-}
 void qst_op_npc_crptalk_id(u8 first);
 void qst_op_npc_crptalk(u8 first);
 void qst_op_check_for_keyword();
