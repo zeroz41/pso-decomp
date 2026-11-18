@@ -1,3 +1,4 @@
+#include "pso/system/ResourceFile.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/frontend/TAdEndText.h"
@@ -104,7 +105,6 @@ s32 TKeyBoardControl__sub_8000F92C();
 void request_main_phase(s32 arg0);
 s8 func_801A5E54__Fv();
 s32 prs_decompress_alloc(int, int, int);
-int set_stream_and_load_file__6TLobbyFi(const char *);
 char *strncpy(char *, const char *, u32);
 void load_gvm_texture_archive(int, void *);
 void TKeyBoardControl__sub_8000F90C(s32);
@@ -247,7 +247,7 @@ void TItemReverseTech::load_textures() {
     hdr = (Hdr_8011A270 *)::operator new(8);
     TItemReverseTech__texture_archive = hdr;
     hdr->entries = TItemReverseTech__entry_table;
-    file = set_stream_and_load_file__6TLobbyFi(name);
+    file = (s32)load_disc_file(name);
     if (file != 0) {
         buf = (int)mem_alloc(0x200000);
         if (buf != 0 && prs_decompress_alloc(file, buf, 0x200000) > 0) {

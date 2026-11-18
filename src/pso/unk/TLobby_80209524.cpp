@@ -1,3 +1,4 @@
+#include "pso/system/ResourceFile.h"
 #include "types.h"
 #include "pso/unk/TLobby_80209524.h"
 #include "pso/system/memory.h"
@@ -728,7 +729,6 @@ struct Ent_8020A834 { s16 a; s16 b; u8 pad[0x44 - 4]; };
 struct Name_8020A834 { char s[0x20]; };
 
 extern "C" {
-s32 read_disc_file(const char *, void *);
 // The callers pass the signed file size as the count.
 s32 load_object_set_entries__6TLobbyFlPUcUl(s32, u8 *, s32);
 extern u8 *TLobby__map_set_file_buffer;

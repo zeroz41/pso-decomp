@@ -1,3 +1,4 @@
+#include "pso/system/TGStream.h"
 #include "pso/system/RlcArchive.h"
 #include "pso/system/ControllerInputState.h"
 #include "types.h"
@@ -25,15 +26,18 @@ extern void *shared_snapshot_capture;
 
 extern "C" {
 
-int get_resource_file_size__6TLobbyFv(void);
-int Dolphin_ARAlloc(void);
+u32 Dolphin_ARAlloc(u32);
 
     extern int snapshot_aligned_buffer_size;
 void TWindowSnapShot::init_default() { TLobby::aram_transfer_sync((s32)((void*)1), (u32)((void*)((TWindowSnapShot *)shared_snapshot_capture)->get_field_8()), lbl_805D669C, snapshot_aligned_buffer_size); }
 
 void TWindowSnapShot__sub_802A7DA0(void) {  }
 
-void TWindowSnapShot::alloc_buffer() { TWindowSnapShot__sub_802A7EAC(); snapshot_aligned_buffer_size = ((get_resource_file_size__6TLobbyFv() + 0x1f) & 0xffffffe0); lbl_805D669C = Dolphin_ARAlloc(); }
+void TWindowSnapShot::alloc_buffer() {
+    s32 file_size = TGStream::get_resource_file_size(get_player_motion_filename());
+    snapshot_aligned_buffer_size = (file_size + 31) & ~31;
+    lbl_805D669C = Dolphin_ARAlloc(file_size);
+}
 
 }
 
@@ -116,7 +120,7 @@ s32 TWindowSnapShot::get_size() { return *(s32 *)&this->m_name; }
 s32 TWindowSnapShot::get_field_8() { return *(s32 *)&this->m_prev; }
 int TWindowSnapShot::get_height() { return 600; }
 
-int TWindowSnapShot__sub_802A7EAC(void) {  return (int)player_motion_data_filename_ptr; }
+const char *get_player_motion_filename(void) { return player_motion_data_filename_ptr; }
 
 void TWindowSnapShot::play_open_sound() {
     play_sound_effect(0x52F16, 0, 0, 0);

@@ -1,3 +1,4 @@
+#include "pso/system/ResourceFile.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/window/TWindowMessage.h"
@@ -54,7 +55,6 @@ struct ByteBlock_20 { u8 bytes[0x20]; };
 struct ByteBlock_100 { u8 bytes[0x100]; };
 
 extern "C" {
-void read_disc_file(void *, s32);
 s32 init_quest_script_context(s32, void *);
 int check_flag_100__10TObjPlayerFPv(void *p);
 s32 has_player_active_menu__11TWindowCtrlFv(s32);
@@ -794,12 +794,12 @@ TUnk_804C8678::TUnk_804C8678(TObject *parent, const char *filename, s32 kind) : 
     switch (this->kind) {
     case 0:
         copy_name((s32)"QUEST");
-        size = ((TScene *)filename)->update_lobby_scene();
+        size = get_resource_file_size((const char *)filename);
         if (size < 0) {
             queue_destruction();
         } else {
             script = (s32)TQuestVmDownLoadServer::alloc(size + 0x400);
-            read_disc_file((void *)filename, script);
+            read_disc_file((const char *)filename, (void *)script);
             copy_name((s32)"..");
             quest_mission_manager = this;
             init_quest_script_context(script, &ctx);
@@ -808,12 +808,12 @@ TUnk_804C8678::TUnk_804C8678(TObject *parent, const char *filename, s32 kind) : 
         TQuestThread::clear_thread_state();
         break;
     case 1:
-        size = ((TScene *)filename)->update_lobby_scene();
+        size = get_resource_file_size((const char *)filename);
         if (size < 0) {
             queue_destruction();
         } else {
             script = (s32)TQuestVmDownLoadServer::alloc(size + 0x400);
-            read_disc_file((void *)filename, script);
+            read_disc_file((const char *)filename, (void *)script);
             quest_area_manager = this;
             init_quest_script_context(script, &ctx);
         }
@@ -827,12 +827,12 @@ TUnk_804C8678::TUnk_804C8678(TObject *parent, const char *filename, s32 kind) : 
 TUnk_804C8678::TUnk_804C8678(TObject *parent, const char *filename) : TObject(parent) {
     s32 size;
     copy_name((s32)"QUEST");
-    size = ((TScene *)filename)->update_lobby_scene();
+    size = get_resource_file_size((const char *)filename);
     if (size < 0) {
         queue_destruction();
     } else {
         script = (s32)TQuestVmDownLoadServer::alloc(size + 0x400);
-        read_disc_file((void *)filename, script);
+        read_disc_file((const char *)filename, (void *)script);
         copy_name((s32)"..");
         quest_mission_manager = this;
         init_quest_script_context(script, &ctx);

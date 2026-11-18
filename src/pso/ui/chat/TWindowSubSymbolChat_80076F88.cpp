@@ -1,3 +1,4 @@
+#include "pso/system/ResourceFile.h"
 #include "types.h"
 #include "pso/unk/text_80076E84.h"
 #include "pso/ui/chat/TWindowSubSymbolChat_80076F88.h"
@@ -236,7 +237,6 @@ struct Ent_80077544 { u8 b[0x58]; };
 struct Win_80077544 { u8 pad[0x15A0]; struct Ent_80077544 e[12]; };
 
 extern "C" {
-s32 set_stream_and_load_file__6TLobbyFi(char *);
 
 u8 *TWindowChat::open_symbol_chat(s32 *arg0) {
     return get_symbol_chat_preset(*arg0);
@@ -266,7 +266,7 @@ void TWindowSubSymbolChat::load_symbol_chat_data() {
     s32 data;
     struct Ent_80077544 *e;
     e = w->e;
-    data = set_stream_and_load_file__6TLobbyFi("symbolchat.dat");
+    data = (s32)load_disc_file("symbolchat.dat");
     ((TLobby *)e)->move_data((const void *)data, (u32)0x420);
     TAdSinglePlyChrSelectGC::safe_free(data);
     for (i = 0; i < 6; i++) {

@@ -1,3 +1,4 @@
+#include "pso/system/ResourceFile.h"
 #include "types.h"
 #include "pso/system/MatrixStack.h"
 #include <string.h>
@@ -285,7 +286,6 @@ void draw_projected_quads__15TObjBoss2TunnelFPvi(Vtx_8007D828 *, s32);
 extern s32 lbl_805D63F0;
 s32 get_memcard_free_files(s32);
 s32 query_memcard_capacity__15TAdPlayerLoadGCFl(s32, s32);
-s32 set_stream_and_load_file__6TLobbyFi(const char *);
 s32 is_on_current_screen__11TCameraCtrlFv(void *, s32);
 }
 f32 sample_acceleration_curve(AccelerationCurve *c, f32 t);
@@ -1162,9 +1162,9 @@ void load_data_buffers(void) {
     if (buf != NULL) {
         memset(buf, 0, 0x1818C);
     }
-    temp_r31 = ((TScene *)screen_binary_filename)->update_lobby_scene();
+    temp_r31 = get_resource_file_size(screen_binary_filename);
     if (temp_r31 <= 0x1818C) {
-        temp_r30 = set_stream_and_load_file__6TLobbyFi(screen_binary_filename);
+        temp_r30 = (s32)load_disc_file(screen_binary_filename);
         if (temp_r30 != 0) {
             if (boss2_tunnel_snapshot_buffer != NULL) {
                 memmove(boss2_tunnel_snapshot_buffer, (void *)temp_r30, temp_r31);

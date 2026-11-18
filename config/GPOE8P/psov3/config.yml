@@ -6192,6 +6192,7 @@ force_active:
   - find_free_pad_rumble_effect_slot__Fv
   - find_free_pool_entry__6TLobbyFPv
   - find_free_slot__6TLobbyFv
+  - find_gsl_entry__FPCcl
   - find_gsl_entry__FPv
   - find_heal_target__13TOHealGeneralFv
   - find_index_in_table__11TBoss6Type2FUl
@@ -6692,6 +6693,7 @@ force_active:
   - get_player__11TPlayerSoulFv
   - get_player_entry__6TLobbyFii
   - get_player_load_state__Fv
+  - get_player_motion_filename
   - get_player_pos_in_arc__13TBoss5GryphonFPviiPvPv
   - get_pos_ptr__10TObjPlayerFv
   - get_quest_data__16TQuestListOnlineFv

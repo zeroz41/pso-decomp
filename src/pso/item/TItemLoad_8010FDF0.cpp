@@ -1,3 +1,4 @@
+#include "pso/system/ResourceFile.h"
 #include "types.h"
 #include "pso/system/data/FlagWord.h"
 #include "pso/item/TItemLoad.h"
@@ -92,7 +93,6 @@ struct Sp8Buf_8010fe6c_8010FDF0 {
 };
 
 s32 apply_rel_relocations(s32 *);
-s32 read_disc_file(u32, s32);
 s32 read_checked_align__6TLobbyFlll(s32, s32, s32, void *);
 s32 prs_decompress_alloc(s32, u32, s32);
 
@@ -112,7 +112,7 @@ RelocatedFile::RelocatedFile(const char *path, s32 size) {
     if ((size != 0) && (path != NULL)) {
         buffer = mem_alloc(size);
         item_buff = create_item_buff(size);
-        if ((item_buff != 0) && (buffer != NULL) && (read_disc_file((u32)path, item_buff) > 0)) {
+        if ((item_buff != 0) && (buffer != NULL) && (read_disc_file(path, (void *)item_buff) > 0)) {
             temp_r31 = prs_decompress_alloc(item_buff, (u32)buffer, size);
             ((TUnk_8049C658 *)((s32 *)&sp8))->construct();
             sp8.field1c = (u32)buffer;

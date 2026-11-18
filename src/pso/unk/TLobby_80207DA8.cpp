@@ -1,3 +1,4 @@
+#include "pso/system/ResourceFile.h"
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/unk/TLobby_80207DA8.h"
 #include "pso/map/FloorLifecycleTables.h"
@@ -474,7 +475,7 @@ void TLobby::update_drop_item() {
     forest_rel_module = NULL;
     if ((u32) forest_rel_work_buffer != 0U) {
         drop_item_mode = TLobby::get_drop_item_mode();
-        if (((TScene *)(forest_rel_filename_table[drop_item_mode]))->update_lobby_scene() <= 0x24B8) {
+        if (get_resource_file_size((const char *)(forest_rel_filename_table[drop_item_mode])) <= 0x24B8) {
             temp_r3 = (s32 *)load_relocatable_file(forest_rel_filename_table[drop_item_mode], forest_rel_work_buffer);
             forest_rel_module = temp_r3;
             if (temp_r3 != NULL) {
@@ -534,7 +535,7 @@ void TLobby::load_item_data() {
     forest_rel_work_buffer = temp_r3;
     if (temp_r3 != 0U) {
         drop_item_mode = TLobby::get_drop_item_mode();
-        if (((TScene *)(forest_rel_filename_table[drop_item_mode]))->update_lobby_scene() <= 0x24B8) {
+        if (get_resource_file_size((const char *)(forest_rel_filename_table[drop_item_mode])) <= 0x24B8) {
             temp_r3_2 = (s32 *)load_relocatable_file(forest_rel_filename_table[drop_item_mode], forest_rel_work_buffer);
             forest_rel_module = temp_r3_2;
             if (temp_r3_2 != NULL) {
@@ -999,7 +1000,6 @@ extern "C" {
 s32 replace_file_extension__6TLobbyFPvPvPv(char *arg0, char *arg1, char *arg2);
 
 #define HA2 ((s32 (*)(s32, s32))heap_alloc__5THeapFUl)
-void read_disc_file(Buf_80208E8C *, void *);
 }
 
 s32 load_area_event_set(s32 floor, s32 area, s32 terrain, s32 entities);
@@ -1053,11 +1053,11 @@ s32 load_area_event_set(s32 floor, s32 area, s32 terrain, s32 entities) {
         return 0;
     }
     replace_file_extension__6TLobbyFPvPvPv((char *)&buf, (char *)TLobby__data_805D6068[area].terrs[terrain].ents[entities].data, (char *)event_file_extension);
-    n = ((TScene *)(&buf))->update_lobby_scene();
+    n = get_resource_file_size((const char *)buf.data);
     if (n > 0) {
         p = ((void *)HA2((s32)((*(void * *)&area_event_set_heap)), n));
         if (p != 0) {
-            read_disc_file(&buf, p);
+            read_disc_file((const char *)buf.data, p);
             ((void * *)&lobby_slot_ptr_table)[floor] = p;
             bswap_floor_event_set(floor);
             return 1;

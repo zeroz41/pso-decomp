@@ -1,3 +1,4 @@
+#include "pso/system/ResourceFile.h"
 #include "types.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC_801E0C30.h"
 #include "pso/system/date.h"
@@ -69,7 +70,6 @@ s32 CARDDelete();
 s32 CARDCheckAsync(void *, int);
 s32 CARDGetResultCode(void *);
 s32 CARDUnmount();
-s32 read_disc_file(const char*, void*);
 const Names_801E13C4 memory_card_banner_filenames = {{"vms_sys.tp", "vms_icon1.tp", "vms_icon2.tp", "vms_down.tp", "vms_capt.tp", "vms_net.tp"}};
 s32 calc_crc32_bitwise(void *, s32, s32);
 int sprintf(char *, const char *, ...);

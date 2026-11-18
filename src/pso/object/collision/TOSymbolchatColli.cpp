@@ -1,3 +1,4 @@
+#include "pso/system/ResourceFile.h"
 #include "pso/render/render_util.h"
 #include "pso/object/collision/TOSymbolchatColli.h"
 
@@ -72,7 +73,6 @@ void *find_entity_by_id(u16 id);
 void fn_8017866C(void *, s32, u16);
 void run_task__17TOSymbolchatColliFv(Obj_80178890 *self);
 u32 prs_decompress_buffer(s32 arg0, s32 arg1);
-s32 set_stream_and_load_file__6TLobbyFi(const char *);
 u32 symbolchat_colli_param_table[4];
 int symbol_chat_colli_entries;
 void *memset(void *, int, u32);
@@ -186,7 +186,7 @@ void TOSymbolchatColli::load_symbol_chat_data() {
     s32 h;
     s32 i;
     symbol_chat_colli_entries = (int)mem_alloc(0x840);
-    h = set_stream_and_load_file__6TLobbyFi(lbl_805D3190);
+    h = (s32)load_disc_file(lbl_805D3190);
     if (h != 0) {
         prs_decompress_buffer(h, symbol_chat_colli_entries);
     }
