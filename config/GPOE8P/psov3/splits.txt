@@ -4973,6 +4973,7 @@ pso/unk/TLobby_801A3C48.cpp:
 	.text       start:0x801A3C48 end:0x801A4C90
 	.rodata     start:0x80446918 end:0x80446940
 	.data       start:0x804C20E8 end:0x804C2298
+	.sbss       start:0x805D5CE8 end:0x805D5CF8
 
 pso/ui/frontend/TAdDialingGC_801A4C90.cpp:
 	.text       start:0x801A4C90 end:0x801A4D30
@@ -5259,7 +5260,7 @@ pso/unk/TLobby_801C25B4.cpp:
 	.rodata     start:0x80446F80 end:0x80447020
 	.data       start:0x804C3EA0 end:0x804C3F44
 	.bss        start:0x80511C80 end:0x80511DD8
-	.sbss       start:0x805D5D98 end:0x805D5DB8
+	.sbss       start:0x805D5D98 end:0x805D5DD0
 	.sdata2     start:0x805DC2F8 end:0x805DC300
 
 pso/player/TPlayerBattleCtrl4P_801C4F70.cpp:
@@ -5747,7 +5748,7 @@ pso/quest/QuestOpcodeHandlers.cpp:
 	.rodata     start:0x80449A40 end:0x80449CD8
 	.data       start:0x804C81D8 end:0x804C8230
 	.bss        start:0x80512220 end:0x80512790
-	.sbss       start:0x805D5ED0 end:0x805D5ED8
+	.sbss       start:0x805D5E70 end:0x805D5ED8
 	.sdata2     start:0x805DC4A0 end:0x805DC4E0
 
 pso/unk/TLobby_801F2D2C.cpp:
@@ -6439,6 +6440,7 @@ pso/technique/TTecCtrl.cpp:
 	.data       start:0x804CC170 end:0x804CC73C
 	.bss        start:0x80515F90 end:0x80516140
 	.sdata      start:0x805D37A0 end:0x805D37A8
+	.sbss       start:0x805D63A8 end:0x805D63B8
 	.sdata2     start:0x805DC7D0 end:0x805DC7EC
 
 pso/item/TItemEquipBase_8022F1C0.cpp:
@@ -12129,6 +12131,7 @@ pso/render/ModelDrawContext.cpp:
 	.text       start:0x803DC88C end:0x803DCDA8
 	.rodata     start:0x8047E3D8 end:0x8047E428
 	.bss        start:0x8058CE10 end:0x8058CE40
+	.sbss       start:0x805D7710 end:0x805D7718
 
 pso/render/MaterialAlphaCompare.cpp:
 	.text       start:0x803DCDA8 end:0x803DCDB0
@@ -12141,6 +12144,7 @@ pso/unk/text_803DCDFC.cpp:
 	.data       start:0x804FC668 end:0x804FC688
 	.bss        start:0x8058CE40 end:0x8058D520
 	.sdata      start:0x805D46C8 end:0x805D46D0
+	.sbss       start:0x805D7718 end:0x805D7748
 	.sdata2     start:0x805E0F80 end:0x805E0FB0
 
 pso/unk/text_803DD5E0.cpp:

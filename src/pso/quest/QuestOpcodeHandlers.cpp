@@ -575,6 +575,36 @@ s32 parse_r_index(const char *arg0) {
 }
 }
 
+extern "C" {
+u8 *qst_code;
+s32 *qst_function_table;
+s32 *qst_registers;
+void *qst_message_window;
+void *qst_message_window_qb;
+void *qst_list_window;
+u8 qst_result_register;
+s32 qst_call_stack_depth;
+s32 qst_pc;
+s32 lbl_805D5E94;
+quest_suspend_reason qst_suspend_reason;
+s32 lbl_805D5E9C;
+s32 qst_message_speaker;
+s32 qst_arg_count;
+u8 TLobby__data_805D5EA8;
+u8 TLobby__data_805D5EA9;
+u16 TLobby__data_805D5EAA;
+u16 TLobby__data_805D5EAC;
+void *qst_item_name_entry;
+void *qst_item_name_select;
+void *qst_item_ok_window;
+void *qst_pack_select_window;
+void *qst_pack_select_help_window;
+u32 qst_flag_buf;
+u16 qst_statistic_arg1;
+u16 qst_statistic_arg2;
+u16 qst_statistic_id;
+}
+
 u8 *TLobby__quest_script_read_ptr;
 
 void append_split_screen_hero_name(void) {

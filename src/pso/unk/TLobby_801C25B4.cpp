@@ -39,11 +39,11 @@ s32 lbl_805D5DA8;
 s32 lbl_805D5DAC;
 s32 lbl_805D5DB0;
 s32 lbl_805D5DB4;
-extern void *lobby_char_slot_array;
-extern u8 TLobby__battle_player_ready_flags[4];
-extern s32 TLobby__battle_ctrl_default_value;
-extern f32 lbl_805D5DC4;
-extern f32 lbl_805D5DC8;
+void *lobby_char_slot_array;
+u8 TLobby__battle_player_ready_flags[4];
+s32 TLobby__battle_ctrl_default_value;
+f32 lbl_805D5DC4;
+f32 lbl_805D5DC8;
 }
 
 typedef struct Lobby_801C2898 {

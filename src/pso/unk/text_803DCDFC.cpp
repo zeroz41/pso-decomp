@@ -75,22 +75,22 @@ void GXSetPixelFmt(int, int);
 void GXSetScissor(u32, u32, u32, u32);
 Tlut_803DD0D8 *fn_803DD3C8(s32);
 
-extern s32 *active_gx_render_mode;
-extern void *video_current_framebuffer;
-extern void *video_initial_draw_framebuffer;
-extern void *video_initial_display_framebuffer;
+RecoveredCallback_2be3cacebb2e frame_update_callback;
+void *lbl_805D771C;
+void *lbl_805D7720;
+s32 gx_fifo_buffer_size;
+s32 gx_fifo_buffer;
+u32 last_present_retrace_count;
+s32 video_present_interval_retraces;
+s32 *active_gx_render_mode;
+void *video_current_framebuffer;
+void *video_initial_draw_framebuffer;
+void *video_initial_display_framebuffer;
 extern u8 lbl_805D46C8;
-extern RecoveredCallback_2be3cacebb2e frame_update_callback;
-extern u32 last_present_retrace_count;
-extern s32 video_present_interval_retraces;
-extern s32 gx_fifo_buffer_size;
-extern s32 gx_fifo_buffer;
 extern s32 display_heap_size;
 extern s32 locked_cache_heap_handle;
 extern s32 tv_render_mode_obj[];
 extern Tlut_803DD0D8 gx_tlut_region_table[];
-extern void *lbl_805D771C;
-extern void *lbl_805D7720;
 
 
 #define active_gx_render_mode ((RMode_803DCDFC *)active_gx_render_mode)

@@ -182,8 +182,6 @@ u8 * free_bin_model_request(void *, s16);
 s32 release_texture_list(void *, s32);
 struct TechniqueRingwaveTextureList { u8 * value; u8 remaining[0x8]; };
 extern TechniqueRingwaveTextureList technique_ringwave_texture_list;
-extern u8 *technique_effect_bml;
-extern void **lbl_805D63B0;
 u8 *load_resource_from_descriptor(u8 *, s32, void *, s32, s32, s32);
 }
 u8 *load_gvm_texture_file(s32 arg0);
@@ -195,7 +193,9 @@ extern "C" {
 void __ct__7TObjectFP7TObject(void *, void *);
 }
 
-extern s8 lbl_805D63A8;
+s8 lbl_805D63A8;
+u8 *technique_effect_bml;
+void **lbl_805D63B0;
 extern s32 __vt__8TTecCtrl[];
 
 #define ONE_SLOT()                                                                       \
