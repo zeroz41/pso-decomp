@@ -232,9 +232,7 @@ struct Obj_80336340 { u8 pad[0x40]; void *objs[3]; };
 
 extern "C" {
 void request_main_phase(s32 arg0);
-s32 __dl__7TObjectFPv(void *);
-s32 __dt__7TObjectFv(void *, s32);
-extern s32 lbl_804EEF64[];
+extern s32 __vt__13TUnk_804EEF64[];
 u32 title_scene_instance;
 int lobby_game_mode_state;
 NJS_TEXLIST *lobby_title_texture_list;
@@ -344,29 +342,21 @@ void TUnk_804EEF64::run_task() {
 }
 
 void TUnk_804EEF64::sub_8033645C() { if (*(unsigned int*)((char*)this + 0x2c) != 0) { ((TObject *)((void*)(*(void**)((char*)this + 0x2c))))->queue_destruction(); *(int*)((char*)this + 0x2c) = 0; } }
-void *TUnk_804EEF64::destroy(s16 arg1) {
-    if (this != NULL) {
-        *(s32 **)((s8 *)this + 0x18) = lbl_804EEF64;
-        (*(s32 *)&title_scene_instance) = 0;
-        if ((u32) this->m_20 != 0U) {
-            ((TObject *)this->m_20)->queue_destruction();
-        }
-        sub_8033645C();
-        end_view_override();
-        TLobby::stop_audio_streams();
-        __dt__7TObjectFv(this, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(this);
-        }
+TUnk_804EEF64::~TUnk_804EEF64() {
+    (*(s32 *)&title_scene_instance) = 0;
+    if ((u32) this->m_20 != 0U) {
+        ((TObject *)this->m_20)->queue_destruction();
     }
-    return this;
+    sub_8033645C();
+    end_view_override();
+    TLobby::stop_audio_streams();
 }
 u8 *TUnk_804EEF64::construct_title_scene() {
     u8 *arg0 = (u8 *)this;
     void *p;
 
     __ct__7TObjectFP7TObject(arg0);
-    *(s32 **)((s8 *)arg0 + 0x18) = lbl_804EEF64;
+    *(s32 **)((s8 *)arg0 + 0x18) = __vt__13TUnk_804EEF64;
     title_scene_instance = (u32)arg0;
     this->m_30 = 0;
     *(s32 *)((s8 *)arg0 + 0x34) = 0;

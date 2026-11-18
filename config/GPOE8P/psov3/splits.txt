@@ -9969,7 +9969,7 @@ pso/ui/frontend/TAdSinglePlyChrSelectGC_80336054.cpp:
 	.text       start:0x80336054 end:0x80336874
 	.ctors      start:0x80433FEC end:0x80433FF0
 	.rodata     start:0x80477668 end:0x80477830
-	.data       start:0x804EE488 end:0x804EEF64
+	.data       start:0x804EE488 end:0x804EEF7C
 	.sbss       start:0x805D6D40 end:0x805D6D4C
 	.sdata2     start:0x805DF8E8 end:0x805DF90C
 
