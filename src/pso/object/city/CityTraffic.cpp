@@ -156,7 +156,8 @@ struct E_801819E4 { s32 a; s32 b; s32 c; s32 d; };
 
 struct O_801819E4 { u8 pad[0x42c]; E_801819E4 *entries; };
 
-extern O_801819CC *city_common_model_archive;
+O_801819CC *city_common_model_archive;
+void **city_common_texture_list;
 
 #pragma defer_codegen on
 

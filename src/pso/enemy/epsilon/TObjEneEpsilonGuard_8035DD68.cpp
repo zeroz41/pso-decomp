@@ -35,6 +35,10 @@ extern "C" void test_flag_256__9TObjCharaFv();
 
 #include "pso/player/TObjPlayer_80011014.h"
 
+s32 epsilon_guard_boss_stat_handle;
+s32 epsilon_guard_shared_handler_b;
+s32 epsilon_guard_registered_object_handle;
+TObjEneEpsilonGuardParams *TObjEneEpsilonGuard__movement_params;
 extern "C" {
 struct RecoveredGlobal_lbl_805439E0 { s32 value; u8 remaining[0xC]; };
 RecoveredGlobal_lbl_805439E0 lbl_805439E0;

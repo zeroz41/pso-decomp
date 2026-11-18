@@ -195,7 +195,9 @@ extern "C" {
 void __ct__7TObjectFP7TObject(void *);
 }
 
-extern s8 lbl_805D63A8;
+s8 lbl_805D63A8;
+u8 *technique_effect_bml;
+void **lbl_805D63B0;
 extern s32 __vt__8TTecCtrl[];
 
 #define ONE_SLOT()                                                                       \

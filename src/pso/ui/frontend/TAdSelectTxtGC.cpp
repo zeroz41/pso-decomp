@@ -101,6 +101,7 @@ struct Src_802A1838 {
     u8 v[8];
 };
 
+u32 ad_select_text_texture_handle;
 extern "C" {
 void *__ct__17TAdSelectTxtSubGCFv(void *, void *, void *);
 extern const s32 current_language;

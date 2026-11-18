@@ -76,9 +76,9 @@ extern s32 lbl_805D6F80;
 extern s32 lbl_805D6F84;
 extern s32 lbl_805D6F88;
 extern s32 lbl_805D6F8C;
-extern u8 *lbl_805D6FA0;
-extern u8 *lbl_805D6FA4;
-extern u8 *lbl_805D6FA8;
+u8 *lbl_805D6FA0;
+u8 *lbl_805D6FA4;
+u8 *lbl_805D6FA8;
 void free_bin_model_request(void *, int);
 
 

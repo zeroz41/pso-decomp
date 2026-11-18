@@ -924,18 +924,19 @@ void *TObjPlayer::get_photon_blast_entry(int kind) {
 }
 
 
+u8 *photon_blast_shared_resource;
 extern "C" {
 void free_bin_model_request(u32, int);
 extern PhotonBlastLoadCallback photon_blast_load_callback_table[10];
-extern u32 photon_blast_shared_resource;
+extern u8 *photon_blast_shared_resource;
 u8 *load_resource_from_descriptor(u8 *, int, void *, int, int, int);
 s32 run_load_callback_table(void *, int);
 void TObjPlayer__sub_801AA3B4(void) {
     s32 i;
     TLobby::call_funcs_reverse(photon_blast_load_callback_table, 0x50);
-    if (photon_blast_shared_resource != 0U) {
-        free_bin_model_request(photon_blast_shared_resource, 1);
-        photon_blast_shared_resource = 0U;
+    if (photon_blast_shared_resource != NULL) {
+        free_bin_model_request((u32)photon_blast_shared_resource, 1);
+        photon_blast_shared_resource = NULL;
     }
     for (i = 0; i < 4; i++) {
         photon_blast_donation_flags[i] = 0;
@@ -961,7 +962,7 @@ void load_photon_blast_resources(void) {
     if (p != NULL) {
         p = load_resource_from_descriptor(p, 1, &photon_blast_resource_descriptor, 0, 0, 0);
     }
-    photon_blast_shared_resource = (u32) p;
+    photon_blast_shared_resource = p;
     run_load_callback_table(photon_blast_load_callback_table, 0x50);
     for (i = 0; i < 4; i++) {
         photon_blast_donation_flags[i] = 0;

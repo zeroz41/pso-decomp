@@ -87,9 +87,6 @@ struct S_802C50EC {
     s32 b[4][3];
 };
 
-    extern int multi_ply_chr_select_active_player;
-extern s32 TAdMultiPlyChrSelectGC__select_mode;
-extern s32 TAdMultiPlyChrSelectGC__selected_slot;
 extern s32 multi_ply_chr_select_slot_table[][5];
 extern "C" {
 void copy_vec2__28TWindowSubSymbolChatPartsSetFPv(void *);
@@ -147,6 +144,10 @@ const char *TAdChrSelPlyPlateGC__name = "TAdChrSelPlyPlateGC";
 #define WIN_802C6008 ((void *)(controller_physical_port_bank + TAdMultiPlyChrSelectGC__selected_slot * 0x50 + 0x20))
 #define WIN_802C61E4 ((void *)(controller_physical_port_bank + multi_ply_chr_select_active_player * 0x50 + 0x20))
 
+int multi_ply_chr_select_active_player;
+s32 TAdMultiPlyChrSelectGC__select_mode;
+s32 TAdMultiPlyChrSelectGC__selected_slot;
+TAdChrSelPlyPlateGC *ad_chr_sel_ply_plate_instance;
 TAdChrSelPlyPlateGC *fn_802C6F20(TObject *parent, vec2f *pos) {
     if (ad_chr_sel_ply_plate_instance != NULL) {
         return NULL;

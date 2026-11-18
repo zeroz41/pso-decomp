@@ -27,8 +27,8 @@ struct DVDFileInfo_803D0AE8 {
 };
 
 extern "C" {
-extern s32 fileio_error_context;
-extern RecoveredCallback_4873a87e26d6 fileio_error_callback;
+s32 fileio_error_context;
+RecoveredCallback_4873a87e26d6 fileio_error_callback;
 s32 fileio_seek(struct File_803D0654 *arg0, s32 arg1, s32 arg2);
 s32 DVDOpen(const char *, DVDFileInfo_803D0AE8 *);
 s32 DVDClose(DVDFileInfo_803D0AE8 *);

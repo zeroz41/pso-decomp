@@ -25,8 +25,8 @@ struct Rec_80103368 { u8 pad[0x1C]; f32 v[3]; u8 pad2[0x2C - 0x28]; };
 struct M_80103368 { u8 pad[0xA4]; Rec_80103368 *recs; };
 
 extern "C" {
-extern s32 item_buffer_temp_mode;
-extern s32 item_buff_buffer;
+s32 item_buffer_temp_mode;
+s32 item_buff_buffer;
 void TItemBuff__ct(void);
 extern const char *TItemAttacker__name;
 void TItemAttacker__sub_8010349C(u32 arg0);
@@ -192,7 +192,7 @@ void TItemAttacker__sub_8010349C(u32 arg0) {
 TItemAttacker::~TItemAttacker() {}
 void TItemAttacker::run_task() { if (*(int*)((char*)this + 0x34) != 0) { queue_destruction(); } }
 
-    extern int item_nj_chunk_buffer_table[];
+__declspec(section ".data") int item_nj_chunk_buffer_table[2];
 int get_item_chunk_buffer(int a0) {  return item_nj_chunk_buffer_table[a0]; }
 
 void TItemBuff__ct(void) {

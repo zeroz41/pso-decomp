@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/item/drop/TItemDropSub_80107B74.h"
 
-extern void *TItemDropSub__instance;
+void *TItemDropSub__instance;
 
 s32 TItemDropSub__sub_80107B74(void) {
     if ((void *) TItemDropSub__instance != NULL) {

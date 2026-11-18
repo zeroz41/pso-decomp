@@ -374,6 +374,8 @@ struct Obj_80152F28 { u16 a; u16 b; };
 struct N_80152C8C { u8 pad0[7]; s8 count; u32 pos[1]; };
 
 struct Line_8014E488 { Vec p; Vec d; };
+u32 npc_player_char_data_buffer;
+s32 TNpcPlayer__data_805D5864;
 extern "C" {
 
 s16 get_actor_tp(u8 *p);

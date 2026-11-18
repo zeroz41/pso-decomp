@@ -11,6 +11,11 @@
 #include "pso/system/scene/TScene.h"
 #include "pso/system/task/TObject.h"
 
+s32 lbl_805D65F0;
+void *scene_sora_instance;
+s16 scene_sora_reflect_active;
+s8 scene_sora_recon_active_flag;
+s32 scene_sora_recon_object;
 extern "C" {
 extern s32 lbl_805D65F0;
 struct SoraReflectionRayDirection { s32 value; u8 remaining[0x8]; };

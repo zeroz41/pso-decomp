@@ -44,7 +44,10 @@ const char *lbl_805D2BEC = "ItemModel.afs";
 const char *item_load_tmp_buffer = "ItemLoad";
 const char *TItemLoad__name = "TItemLoad";
 
-extern u32 TItemLoad__completed_model_load_task_root;
+s32 TItemLoad__bml_resource;
+void *TItemLoad__model_load_task_root;
+u32 TItemLoad__completed_model_load_task_root;
+s32 *TItemLoad__model_slot_in_use;
 extern "C" {
 void *TItemLoad__sub_801107EC(void *p);
 void *lookup_item_pmt_record(u8 *item);

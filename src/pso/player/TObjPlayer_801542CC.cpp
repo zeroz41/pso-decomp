@@ -133,6 +133,11 @@ void handle_6x0B_update_object_state(G_UpdateObjectState_6x0B *packet);
 s32 resolve_player_box_contact(u8 *arg0, u8 *arg1, u8 *arg2);
 struct Obj_80156844 { u8 pad[0x1C]; u16 room; u8 pad2[0x90 - 0x1E]; void *f90; };
 
+s32 lbl_805D5868;
+s32 registered_player_count;
+s32 lbl_805D5870;
+s32 registered_entity_count;
+int player_unique_pair_entry_count;
 extern "C" {
 void TObjPlayer__sub_801550B8(u8 *arg0, u8 *arg1);
 void TObjPlayer__sub_8015434C(CollisionBody_80155FBC *set, s32 start, s32 count);

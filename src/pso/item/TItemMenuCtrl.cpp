@@ -6,7 +6,7 @@
 
 #pragma readonly_strings on
 
-extern void * TItemMenuCtrl__instance;
+void * TItemMenuCtrl__instance;
 
 TItemMenuCtrl::~TItemMenuCtrl() {
     TItemMenuCtrl__instance = 0;

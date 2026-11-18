@@ -72,3 +72,5 @@ void draw_queued_models(u32 count) {
 
 GinjaMatrix model_draw_queue_texture_matrices[10];
 void* model_draw_queue_models[10];
+
+GinjaModelQueue model_draw_queue_state;

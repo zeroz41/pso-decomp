@@ -64,6 +64,33 @@ int qst_label_address(int label);
 #include "pso/boss/dragon/TBoss1Dragon.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/ui/Language.h"
+u8 *qst_code;
+s32 *qst_function_table;
+s32 *qst_registers;
+void *qst_message_window;
+void *qst_message_window_qb;
+void *qst_list_window;
+u8 qst_result_register;
+s32 qst_call_stack_depth;
+s32 qst_pc;
+s32 lbl_805D5E94;
+quest_suspend_reason qst_suspend_reason;
+s32 lbl_805D5E9C;
+s32 qst_message_speaker;
+s32 qst_arg_count;
+u8 TLobby__data_805D5EA8;
+u8 TLobby__data_805D5EA9;
+u16 TLobby__data_805D5EAA;
+u16 TLobby__data_805D5EAC;
+void *qst_item_name_entry;
+void *qst_item_name_select;
+void *qst_item_ok_window;
+void *qst_pack_select_window;
+void *qst_pack_select_help_window;
+u32 qst_flag_buf;
+u16 qst_statistic_arg1;
+u16 qst_statistic_arg2;
+u16 qst_statistic_id;
 
 struct RecoveredGlobal_8000F7FC_lbl_80515F48 {
     s32 value;
@@ -1322,7 +1349,8 @@ extern s32 TLobby__designated_client_id;
 extern int TLobby__battle_ctrl_default_value;
 extern s32 gba_download_data_buffer;
 extern s32 gba_download_data_size;
-extern int evt2_random_enemies_mode;
+int quest_active_flag;
+int evt2_random_enemies_mode;
 extern RecoveredGlobal_8000F7FC_lbl_80515F48 fn_801F3480;
 extern Pair_801F1838 lbl_80449A38[];
 struct RecoveredGlobal_lbl_8050D3E0 { s32 value; u8 remaining[0x4C]; };

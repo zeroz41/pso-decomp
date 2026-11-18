@@ -42,6 +42,9 @@ struct Ctr_80215720 { u8 buf[0x68]; };
 // Grind/percentage steps picked by the JudgeItem appraisal rolls (name inferred from its users).
 static const s8 item_appraisal_adjust_table[] = {-10, -5, -3, -2, -1, 0, 1, 2, 3, 5, 10, 0};
 
+G_802156E0 *item_appraisal_rules;
+s32 item_appraisal_favored_weapon;
+s32 item_appraisal_score;
 extern "C" {
 struct SectionIdFavoredGrindTable { s32 value; u8 remaining[0x24]; };
 extern SectionIdFavoredGrindTable section_id_favored_grind_table;

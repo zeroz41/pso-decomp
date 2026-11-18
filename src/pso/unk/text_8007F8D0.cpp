@@ -26,11 +26,11 @@ const char lbl_80438BF0[] = "The Disc Cover is Open. \nIf you want to continue t
 const char lbl_80438C48[] = "This is not the PSO Episode 1 & 2 Plus Game Disc.\nPlease insert the PSO Episode 1 & 2 Plus Game Disc.";
 const char lbl_80438CB0[] = "The Game Disc could not be read.\nPlease read the Nintendo GameCube Instruction\nBooklet for more information.";
 const char lbl_80438D20[] = "switcher.dol";
-extern s32 lbl_805D4EB8;
-extern s16 lbl_805D4EBC;
-extern s16 disc_error_code;
-extern s32 lbl_805D4EC0;
-extern s32 lbl_805D4EC4;
+s32 lbl_805D4EB8;
+s16 lbl_805D4EBC;
+s16 disc_error_code;
+s32 lbl_805D4EC0;
+s32 lbl_805D4EC4;
 void init_disc_error_messages(void);
 #pragma push
 #pragma optimization_level 1

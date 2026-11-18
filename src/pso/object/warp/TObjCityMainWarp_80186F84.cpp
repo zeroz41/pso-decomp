@@ -25,7 +25,7 @@ s32 is_local_client_floor_leader(s32);
 s32 find_local_player_in_range__16TObjCityMainWarpFf(void *, f32);
 s32 close_windows__25TObjCityMainWarpChallengeFv();
 extern BmlResource *city_common_model_archive;
-extern s32 city_main_warp_destination_id;
+s32 city_main_warp_destination_id;
 
 void TObjCityMainWarp::update_state() {
     s32 temp_r0_2;

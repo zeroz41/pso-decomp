@@ -54,10 +54,10 @@ void clear_shop_weapon_flags(void);
 extern s32 TLobby__data_805011D8[];
 extern s32 local_client_id;
 extern s32 game_difficulty_selection;
-extern s32 lbl_805D6238;
-extern s32 shop_world_player_level;
-extern s32 shop_difficulty_tier;
-extern s32 lbl_805D6244;
+s32 lbl_805D6238;
+s32 shop_world_player_level;
+s32 shop_difficulty_tier;
+s32 lbl_805D6244;
 void init_shop_world_context(void);
 
 s16 TShopGetItemWindow::get_cursor_index() { return *(s16*)((char*)this + 0x74); }

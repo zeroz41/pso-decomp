@@ -37,7 +37,8 @@ s32 init_and_create__15TChCrCharSelectFv(s32);
 extern s32 default_scene_light_config[];
 extern s32 tl_camera;
 extern s32 tl_03;
-extern void *creation_menu_main_obj;
+void *creation_menu_main_obj;
+int creation_dressing_room_mode_flag;
 extern s32 TObjCMMainMenu__data_805D659C;
 
 void init_creation_menu_scene(void) {
@@ -96,7 +97,6 @@ u8 TObjCMMainMenu::is_state_3() {
     return (u8) (TObjCMMainMenu__data_805D659C == 3);
 }
 
-    extern int creation_dressing_room_mode_flag;
 void TObjCMMainMenu__sub_8028EC18(void) { creation_dressing_room_mode_flag = 1; }
 
 void TObjCMMainMenu__sub_8028EC24(void) {

@@ -1209,9 +1209,9 @@ void TItemWeapon::on_model_loaded() { set_weapon_flags(4); }
 struct WeaponColorDescriptor_80120304 { s32 mode; WeaponArgb first, second; };
 
 extern const f32 lbl_805DACA0;
-extern s16 weapon_node_material_index;
-extern s16 TObjPlayer__weapon_node_ids[];
-extern u8* weapon_render_callback_object;
+s16 weapon_node_material_index;
+__declspec(section ".data") s16 TObjPlayer__weapon_node_ids[4];
+u8* weapon_render_callback_object;
 extern "C" {
 s32 test_flags_any(s32 *flags, s32 mask);
 extern u8 lbl_805DACA4;

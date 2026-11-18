@@ -52,7 +52,7 @@ void subtract_vector(void *, void *);
 extern s32 __vt__25TBoss5GryphonLightningEff[];
 const char *lbl_805D4188 = "TBoss5GryphonLightningEff";
 Self_8032537C *__ct__25TBoss5GryphonLightningEffFv(Self_8032537C *self, void *parent, void *a, void *b, f32 x0, f32 x1, f32 scale);
-extern L1_80325070 **inazuma_texture_list;
+L1_80325070 **inazuma_texture_list;
 s32 project_lightning_points(void *, void *, void *, void *);
 
 void TBoss5GryphonLightningEff__sub_80325064(void* p) { *(u8*)((char*)p + 0x260) = 1; }

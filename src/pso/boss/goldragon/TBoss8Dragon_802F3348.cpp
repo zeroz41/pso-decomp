@@ -8,7 +8,7 @@ struct Ent_802F33C8 { u8 pad0[0x38]; f32 x, y, z; u8 pad44[0x60 - 0x44]; s32 rot
 
 extern "C" {
 s32 get_enemy_entity();
-extern u8 *boss8_dragon_leader_part;
+u8 *boss8_dragon_leader_part;
 f32 calc_random_ratio__10TObjPlayerFv(void *);
 void subtractive_rng_seed(void *, s32);
 void spawn_attack_object__12TBoss8DragonFllll(void *, Vec *, u16, s32, s32);

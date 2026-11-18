@@ -6,8 +6,8 @@
 
 extern "C" {
 extern void *chat_log_lines[];
-extern void *TAdScrollWinGC__chat_log_heap;
-extern void *chat_last_line_buffer;
+void *TAdScrollWinGC__chat_log_heap;
+void *chat_last_line_buffer;
 char *strncpy(char *, const char *, u32);
 u32 strlen(const char *);
 void fn_8026A14C(void) {
