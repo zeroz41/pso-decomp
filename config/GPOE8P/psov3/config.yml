@@ -6078,6 +6078,8 @@ force_active:
   - epsilon_guard_camera_step
   - epsilon_guard_params
   - eval_piecewise_curve__15TObjBoss2TunnelFf
+  - event_file_extension
+  - event_set_archive_name
   - evict_lowest_key_floor_item__Fl
   - evolve_by_level__8TItemMagFv
   - evolve_first_form__8TItemMagFv

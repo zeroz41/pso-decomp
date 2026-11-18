@@ -992,7 +992,7 @@ struct Area_80208E8C { Terr_80208E8C *terrs; s32 count; };
 struct Buf_80208E8C { u8 data[0x20]; };
 
 #define TLobby__data_805D6068 (*(Area_80208E8C * *)&TLobby__data_805D6068)
-extern u8 lbl_8044BAC8[];
+extern const char event_file_extension[] ATTRIBUTE_ALIGN(8) = ".evt";
 #define area_event_set_heap (*(s32 *)&area_event_set_heap)
 #define lobby_slot_ptr_table (*(s32 (*)[1])&lobby_slot_ptr_table)
 extern "C" {
@@ -1052,7 +1052,7 @@ s32 load_area_event_set(s32 floor, s32 area, s32 terrain, s32 entities) {
     if (TLobby__data_805D6068[area].terrs[terrain].ents == 0 || TLobby__data_805D6068[area].terrs[terrain].count - 1 < entities) {
         return 0;
     }
-    replace_file_extension__6TLobbyFPvPvPv((char *)&buf, (char *)TLobby__data_805D6068[area].terrs[terrain].ents[entities].data, (char *)lbl_8044BAC8);
+    replace_file_extension__6TLobbyFPvPvPv((char *)&buf, (char *)TLobby__data_805D6068[area].terrs[terrain].ents[entities].data, (char *)event_file_extension);
     n = ((TScene *)(&buf))->update_lobby_scene();
     if (n > 0) {
         p = ((void *)HA2((s32)((*(void * *)&area_event_set_heap)), n));
@@ -1103,7 +1103,7 @@ u8 *__nw__5THeapFUl(s32);
 #define area_event_set_heap (*(int *)&area_event_set_heap)
 void close_gsl_archive();
 void open_gsl_archive(char *name);
-extern u8 lbl_8044BAD0[];
+extern const char event_set_archive_name[] = "gsl_set_event.gsl";
 #define lobby_slot_ptr_table (*(s32 (*)[1])&lobby_slot_ptr_table)
 extern s32 lbl_805D6098;
 int __dt__5THeapFv(void*, void*);
@@ -1119,7 +1119,7 @@ void TLobby::load_set_event_gsl() {
     }
     (*(s32 *)&set_event_destroy_id) = -1;
     lbl_805D6098 = 0;
-    open_gsl_archive((char *)lbl_8044BAD0);
+    open_gsl_archive((char *)event_set_archive_name);
     if (TLobby::load_all_floor_event_sets() == 0) {
         close_gsl_archive();
         return;
