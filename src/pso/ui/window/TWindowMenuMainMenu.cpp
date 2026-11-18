@@ -14,7 +14,6 @@ WindowDescriptor window_menu_main_menu_params = {
 
 extern "C" {
 s32 setup_content_frame__15TWindowMainMenuFPv();
-extern s32 __vt__19TWindowMenuMainMenu[];
 extern const char *TWindowMenuMainMenu__class_name;
 
 void render__19TWindowMenuMainMenuFv(s32 arg0) {
@@ -52,29 +51,27 @@ void run_task__19TWindowMenuMainMenuFv(TWindowMenuMainMenu *window_menu_main_men
 }
 
 TWindowMenuMainMenu::~TWindowMenuMainMenu() {}
-u8 *TWindowMenuMainMenu__ct(TWindowMenuMainMenu *window_menu_main_menu, s32 arg1, s16 arg2) {
+TWindowMenuMainMenu::TWindowMenuMainMenu(s32 arg1, s16 arg2) : TWindowBase((u8 *)&window_menu_main_menu_params, (s16)arg2, (u8 *)arg1) {
     s32 i;
     u8 *p;
-    __ct__11TWindowBaseFPUcsPUc(window_menu_main_menu, (u8 *)&window_menu_main_menu_params, (s16)arg2, (u8 *)arg1);
-    *(s32 **)((s8 *)window_menu_main_menu + 0x18) = __vt__19TWindowMenuMainMenu;
-    p = (u8 *)window_menu_main_menu + 0x64;
+
+    p = (u8 *)this + 0x64;
     i = 0;
-    window_menu_main_menu->m_name = TWindowMenuMainMenu__class_name;
-    window_menu_main_menu->m_60 = 4;
-    window_menu_main_menu->m_61 = 0;
-    window_menu_main_menu->m_62 = 0;
-    window_menu_main_menu->m_20 = arg2;
+    this->m_name = TWindowMenuMainMenu__class_name;
+    this->m_60 = 4;
+    this->m_61 = 0;
+    this->m_62 = 0;
+    this->m_20 = arg2;
     do {
         ((TWindowMainMenu *)p)->init_color();
         i++;
         p += 0x18;
     } while (i < 8);
     for (i = 0; i < 8; i++) {
-        ((W_802AE864 *)window_menu_main_menu)->a[i] = 0;
+        ((W_802AE864 *)this)->a[i] = 0;
     }
-    ((TWindowMainMenu *)window_menu_main_menu)->update_scaled_position();
-    ((TWindowBase *)window_menu_main_menu)->save_position();
-    return (u8 *)window_menu_main_menu;
+    ((TWindowMainMenu *)this)->update_scaled_position();
+    ((TWindowBase *)this)->save_position();
 }
 
 }
