@@ -1447,8 +1447,8 @@ MIDDLEWARE: List[Tuple[str, int, str, List[str], Dict[str, Dict[str, Any]]]] = [
         "pso/network/TLobby_803FCF44.c": {"cflags": _switch(cflags_middleware, "-opt nocse")},
         "pso/network/NetPppLink.c": {"cflags": _switch(cflags_middleware, "-opt nocse")},
         "pso/network/PppFsm.c": {"cflags": _switch(cflags_middleware, "-opt nocse")},
-        "pso/network/PppIpcp.c": {"cflags": _switch(cflags_middleware, "-opt nocse")},
-        "pso/network/PppLcp.c": {"cflags": _switch(cflags_middleware, "-opt nocse")},
+        "pso/network/PppIpcp.c": {"cflags": _switch(cflags_middleware, "-opt nocse", "-str reuse,readonly")},
+        "pso/network/PppLcp.c": {"cflags": _switch(cflags_middleware, "-opt nocse", "-str reuse,readonly")},
         "pso/network/PppBuffer.c": {"cflags": _switch(cflags_middleware, "-opt nocse")},
         # PppMd5.c was built with CSE: MD5Transform matches only with it and MD5Update as RFC 1321 writes it.
         "pso/network/NetByteOrder.c": {"cflags": _switch(cflags_middleware, "-opt nocse")},

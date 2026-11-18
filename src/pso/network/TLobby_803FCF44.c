@@ -71,3 +71,9 @@ s32 set_flags_and_state(void *self) {
     return 0;
 }
 
+/* CHAP's protocol name and the message it reports when authentication fails, which TLobby_803FC178.c's CHAP code
+ * uses. They follow this file's "avetcp" in .sdata2, so this file defines them: literals of the CHAP file, which
+ * links first, would come before it. Names from their contents. */
+const char chap_protocol_name[] = "Chap";
+const char chap_failure_message[] = "Fail!!";
+

@@ -6,7 +6,6 @@
 #include "pso/network/PppMd5.h"
 
 /* TLobby_803FC178.c: PPP (LCP/IPCP/CHAP/PAP, MD5), the connection state machine and the stack's buffer streams. */
-typedef struct Blk24_8047FE50 Blk24_8047FE50;
 typedef struct RecoveredGlobal_803AA0C0_lbl_80556E88 RecoveredGlobal_803AA0C0_lbl_80556E88;
 typedef struct Sub_803FC480 Sub_803FC480;
 typedef struct Obj_803FC480 Obj_803FC480;
@@ -14,7 +13,6 @@ typedef struct Buf_803FC684 Buf_803FC684;
 typedef struct RecoveredGlobal_803F88E4_lbl_805AEEB0 RecoveredGlobal_803F88E4_lbl_805AEEB0;
 typedef struct RecoveredFields_803F88E4_arg0 RecoveredFields_803F88E4_arg0;
 typedef struct PppHeader PppHeader;
-struct Blk24_8047FE50 { u32 w[6]; };
 struct RecoveredGlobal_803AA0C0_lbl_80556E88 {
     s32 value;
     u8 remaining[0xFC];
@@ -77,9 +75,6 @@ s32 set_flags_and_state(void *self);
 void update_connection_state(int arg0);
 void MD5Transform(u32 *state, u8 *block);
 u8 *write_network_u32_be(u8 *p, u32 v);
-extern u8 lbl_805E1170;
-extern u32 lbl_8047FE18[9];
-extern Blk24_8047FE50 lbl_8047FE50;
 extern u8 lbl_805D7AC0[2];
 extern u8 lbl_805D7AC4[1];
 extern s16 lbl_805D7A7A;
@@ -88,15 +83,15 @@ extern s32 lobby_timer_list_head;
 extern s16 lbl_805D7A7C;
 extern s32 lbl_805D7A90;
 extern u8 lcp_read_value_buffer[4];
-extern u8 lbl_805D7AA8[4];
 extern u8 lobby_read_byte_buffer[1];
 extern u8 lcp_read_byte_buffer;
 extern s16 lobby_modem_connect_state;
 extern s16 ppp_auth_failed;
 extern s16 lbl_805D7A82;
 extern Buf_803FC684 lbl_805C0180;
-extern u8 lbl_805E1160;
-extern s32 lbl_805E1168;
+extern const char chap_protocol_name[5];
+extern const char chap_failure_message[7];
+extern s32 lbl_805D7AA0; /* PppFsm.c */
 extern u16 lbl_805D7A9A;
 extern u8 chap_read_byte_buffer;
 s16 TLobby__sub_803FC1CC(Conn_804004DC *c, s32 timeout);

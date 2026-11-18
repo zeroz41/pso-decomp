@@ -12462,15 +12462,17 @@ pso/network/NetworkThreadRuntime.c:
 pso/network/TLobby_803FAEA0.c:
 	.text       start:0x803FAEA0 end:0x803FC178
 	.bss        start:0x805BFF68 end:0x805C0180
+	.sbss       start:0x805D7A78 end:0x805D7A98
 
 pso/network/TLobby_803FC178.c:
 	.text       start:0x803FC178 end:0x803FCF44
 	.rodata     start:0x8047FDE0 end:0x8047FE18
 	.bss        start:0x805C0180 end:0x805C0310
+	.sbss       start:0x805D7A98 end:0x805D7AA0
 
 pso/network/TLobby_803FCF44.c:
 	.text       start:0x803FCF44 end:0x803FD0C0
-	.sdata2     start:0x805E1158 end:0x805E1160
+	.sdata2     start:0x805E1158 end:0x805E1170
 
 pso/network/NetPppLink.c:
 	.text       start:0x803FD0C0 end:0x803FD694
@@ -12482,12 +12484,18 @@ pso/network/PppFsm.c:
 
 pso/network/PppIpcp.c:
 	.text       start:0x803FED78 end:0x804004DC
+	.rodata     start:0x8047FE18 end:0x8047FE50
 	.bss        start:0x805C0328 end:0x805C0400
+	.sbss       start:0x805D7AA8 end:0x805D7AB0
+	.sdata2     start:0x805E1170 end:0x805E1178
 
 pso/network/PppLcp.c:
 	.text       start:0x804004DC end:0x80401A68
+	.rodata     start:0x8047FE50 end:0x8047FE78
 	.data       start:0x804FD628 end:0x804FD650
 	.bss        start:0x805C0400 end:0x805C04A8
+	.sbss       start:0x805D7AB0 end:0x805D7AB8
+	.sdata2     start:0x805E1178 end:0x805E1180
 
 pso/network/PppBuffer.c:
 	.text       start:0x80401A68 end:0x80401D2C
@@ -12621,6 +12629,7 @@ pso/network/NetworkMessageTransport.c:
 	.text       start:0x80425B70 end:0x80426CAC
 	.bss        start:0x805CF240 end:0x805CFC20
 	.sdata      start:0x805D4828 end:0x805D4830
+	.sbss       start:0x805D7BB0 end:0x805D7BD0
 	.sdata2     start:0x805E1190 end:0x805E1198
 
 pso/network/TLobby_80426CAC.c:
@@ -12631,6 +12640,7 @@ pso/network/TLobby_80428374.c:
 	.text       start:0x80428374 end:0x80429598
 	.rodata     start:0x80480138 end:0x804801F8
 	.bss        start:0x805D0A40 end:0x805D0AA0
+	.sbss       start:0x805D7BD0 end:0x805D7C30
 	.sdata2     start:0x805E1198 end:0x805E11F0
 
 pso/network/TLobby_80429598.c:

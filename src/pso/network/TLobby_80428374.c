@@ -26,31 +26,40 @@ typedef struct RecoveredGlobal_8042839C_lbl_805D0A40 {
 
 s32 TLobby__sub_803F77E0(void *);
 ModemSessionState lobby_net_session_state;
-extern u32 lobby_buffer_pool_alarm_handle;
+/* The session's and the buffer pool's small state (.sbss 805D7BD0-805D7C30). This compiler lays .sbss out in
+ * reverse definition order, so the last address comes first. */
+s32 lobby_buffer_pool_state;
+s32 lbl_805D7C24;
+s32 lbl_805D7C20;
+s32 TLobby__buffer_pool_limit;
+u32 TLobby__buffer_pool_start;
+u32 lbl_805D7C14;
+u32 lbl_805D7C10;
+s32 lbl_805D7C0C;
+u32 lbl_805D7C08;
+u8 *lbl_805D7C04;
+u32 lobby_buffer_pool_alarm_handle;
+s32 lbl_805D7BFC;
+s32 lobby_buffer_pool_end;
+s32 lbl_805D7BF4;
+s32 lbl_805D7BF0;
+s32 lbl_805D7BEC;
+u32 lobby_buffer_pool_size;
+u8 *lobby_second_buffer_pool_base;
+u8 *lobby_buffer_pool_base;
+s32 lobby_modem_reply_value;
+s32 lbl_805D7BD8;
+u32 lobby_modem_wait_timeout_ms;
+u32 lobby_modem_wait_start_ms;
 s16 TLobby__sub_803F96AC(void *, void *, void *);
-extern s32 lbl_805D7BEC;
-extern s32 lbl_805D7BF0;
-extern s32 lbl_805D7BF4;
-extern s32 lobby_buffer_pool_end;
-extern s32 lbl_805D7BFC;
 
 s32 net_sleep_ms(int);
 s16 TLobby__sub_804293B0(u8 *buf, s16 len);
 s16 TLobby__sub_804036FC(u16 *avail);
 s16 TLobby__sub_80403730(u8 *dst, u16 n);
-extern u32 lobby_modem_wait_start_ms;
-extern u32 lobby_modem_wait_timeout_ms;
 u8 *TLobby__sub_803FB110(void);
 s16 TLobby__sub_804037B0(void *, s32);
 
-extern s32 lbl_805D7C0C;
-extern u32 lbl_805D7C10;
-extern u32 lbl_805D7C14;
-extern u32 TLobby__buffer_pool_start;
-extern s32 TLobby__buffer_pool_limit;
-extern s32 lbl_805D7C20;
-extern s32 lbl_805D7C24;
-extern s32 lobby_buffer_pool_state;
 
 void reset_boot_state(void) {
     TLobby__sub_803F77E0((s32 *)&lobby_net_session_state);
@@ -545,7 +554,6 @@ s16 modem_script_next_token(u8 *src, u8 *dst, u8 **next) {
     return 1;
 }
 
-extern s32 lbl_805D7BD8;
 s16 TLobby__sub_804290D4(s32 idx) {
     s16 *lenp;
     u8 **bufp;
