@@ -2,6 +2,7 @@
 #include "pso/unk/text_80290B3C.h"
 #include "pso/item/TUnk_8049C658.h"
 #include "pso/item/drop/TItemDrop.h"
+
 struct Hdr_80290B3C {
     u32 off;
     u32 count;
@@ -39,6 +40,6 @@ u32 relocate_data_block_pointers(u32 arg0, u32 arg1) {
     }
     r = h->end + c.base;
     c.result = r;
-    ((TUnk_8049C658 *)(&c))->destroy(-1);
+    __dt__13TUnk_8049C658Fv(&c, -1);
     return r;
 }

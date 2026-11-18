@@ -2064,6 +2064,7 @@ pso/unk/text_800F93B4.cpp:
 
 pso/item/drop/TItemDrop_800F93F0.cpp:
 	.text       start:0x800F93F0 end:0x800F95F4
+	.data       start:0x8049C658 end:0x8049C670
 
 pso/quest/TQuestListVM_800F95F4.cpp:
 	.text       start:0x800F95F4 end:0x800F9690

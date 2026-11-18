@@ -5,7 +5,6 @@
 #include "pso/item/drop/TItemDrop.h"
 
 extern "C" {
-void *destroy__13TUnk_8049C658Fs(void *p, s16 flag);
 void __register_global_object(void *obj, void *dtor, void *link);
 extern u8 resource_load_task_root[];
 extern u8 resource_load_task_root_dtor_registration[];
@@ -22,7 +21,7 @@ s32 TLoadCtrl__sub_800F9F00(void) {
     return TLoadCtrl__fade_task;
 }
 void __sinit_TAdPlayerLoadGC_800F9EF8_cpp(void) {
-    __register_global_object(((TUnk_8049C658 *)resource_load_task_root)->construct(), (void *)destroy__13TUnk_8049C658Fs, resource_load_task_root_dtor_registration);
+    __register_global_object(((TUnk_8049C658 *)resource_load_task_root)->construct(), (void *)__dt__13TUnk_8049C658Fv, resource_load_task_root_dtor_registration);
     disc_read_filename = (s32)lbl_805D2B10;
 }
 

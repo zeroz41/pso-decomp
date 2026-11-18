@@ -118,7 +118,7 @@ RelocatedFile::RelocatedFile(const char *path, s32 size) {
             sp8.field1c = (u32)buffer;
             sp8.field20 = temp_r31;
             root = (void *)apply_rel_relocations((s32 *)&sp8);
-            ((TUnk_8049C658 *)((s32 *)&sp8))->destroy(-1);
+            __dt__13TUnk_8049C658Fv((s32 *)&sp8, -1);
         }
         TItemBuff__ct();
     }
