@@ -6256,7 +6256,10 @@ pso/ui/city/TShopEquipmentSequence.cpp:
 
 pso/item/shop/TShopGenerator.cpp:
 	.text       start:0x8021DC30 end:0x8021E2E4
+	.rodata     start:0x8044C0D0 end:0x8044C150
+	.data       start:0x804C9FA8 end:0x804CA068
 	.bss        start:0x80513ED0 end:0x80513EE0
+	.sdata      start:0x805D36C0 end:0x805D36C8
 	.sdata2     start:0x805DC6E8 end:0x805DC6F0
 
 pso/ui/city/TShopEquipmentSequence_8021E2E4.cpp:
@@ -6269,11 +6272,13 @@ pso/ui/city/TCheckRoomSequence_8021E464.cpp:
 	.text       start:0x8021E464 end:0x8021E4C4
 
 pso/ui/city/TJudgmentSequence_8021E4C4.cpp:
-	.text       start:0x8021E4C4 end:0x8021E594
+	.text       start:0x8021E4C4 end:0x8021E524
 
 pso/ui/city/TShopGetItemWindow.cpp:
-	.text       start:0x8021E594 end:0x8021EEE4
-	.data       start:0x804CA098 end:0x804CA0B8
+	.text       start:0x8021E524 end:0x8021EEE4
+	.rodata     start:0x8044C150 end:0x8044C168
+	.data       start:0x804CA068 end:0x804CA0B8
+	.sdata      start:0x805D36C8 end:0x805D36D0
 	.sdata2     start:0x805DC6F0 end:0x805DC6F4
 
 pso/ui/city/TShopGetItemWindow_8021EEE4.cpp:

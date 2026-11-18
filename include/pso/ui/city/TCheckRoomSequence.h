@@ -16,6 +16,8 @@ struct TCheckRoomSequence : public TShopSequence {
     static int get_room_data(int a0);
     static int get_room_table_entry(int a0);
     static void *create(void *arg0);
+    static void reset_slot_state();
+    static void reset_slots();
     static s32 get_item_def(u32 arg0);
     u8 unk_30[0x1C];
 };

@@ -1,26 +1,7 @@
 #include "types.h"
 #include "pso/ui/city/TJudgmentSequence_8021E4C4.h"
-#include "pso/ui/city/TShopGetItemWindow.h"
 #include "pso/ui/city/TJudgmentSequence.h"
 #include "pso/system/task/TObject.h"
-
-struct Base_8021E524_8021E4C4 { char pad[0x18]; };
-struct VObj_8021E524_8021E4C4 : Base_8021E524_8021E4C4 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-};
-struct Base_8021E55C_8021E4C4 { char pad[0x18]; };
-struct VObj_8021E55C_8021E4C4 : Base_8021E55C_8021E4C4 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-};
 
 extern "C" {
 
@@ -38,17 +19,3 @@ void *TJudgmentSequence::create(void *arg0) {
 
     extern int TJudgmentSequence__slot_flags[];
 int get_judgment_shop_slot_flags(int a0) {  return TJudgmentSequence__slot_flags[a0]; }
-
-void TShopGetItemWindow::display_message(const char *text, s32 flags) {
-    struct VObj_8021E524_8021E4C4 *o = (struct VObj_8021E524_8021E4C4 *)this->m_5c;
-    if (o != NULL) {
-        o->m5();
-    }
-}
-
-void TShopGetItemWindow::vfunc_6() {
-    struct VObj_8021E55C_8021E4C4 *o = (struct VObj_8021E55C_8021E4C4 *)this->m_5c;
-    if (o != NULL) {
-        o->m4();
-    }
-}
