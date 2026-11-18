@@ -18,4 +18,9 @@ public:
 
 typedef char TUnk_804CF918_size[sizeof(TUnk_804CF918) == 8 ? 1 : -1];
 
+extern "C" {
+// TUnk_804CF918::~TUnk_804CF918(), called by the destructors that are still written by hand.
+void *__dt__13TUnk_804CF918Fv(void *p, s16 flags);
+}
+
 #endif

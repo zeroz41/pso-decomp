@@ -34,9 +34,9 @@ struct Gauge_80256E0C { u8 p0[0x14]; f32 max; };
 extern "C" {
 void calc_bar_width__13TUnk_804CF930Fv(struct Bar_80256C00 *bar);
 extern const f32 lbl_805DCE58;
-void step_gauge_bar_width(Gauge_802571B4 *g);
+void update__13TUnk_804CF930Fv(Gauge_802571B4 *g);
 void draw_status_gauge_bar__13TUnk_804CF930FPvPvff(Gauge_80256E0C *self, void *ctx, NJS_POINT2 *pos, f32 depth, f32 len);
-void *TWindowSubStatusDisp__sub_80257298(void *arg0, s16 arg1);
+void *__dt__13TUnk_804CF930Fv(void *arg0, s16 arg1);
 }
 
 struct Gauge_80257784 {
@@ -109,7 +109,7 @@ struct Bar_8025799C {
 void update_technique_slot__10TTecRaFoieFl(s32, s32, s32);
 s32 play_sound_effect(u32, s32, s32, s32);
 #define calc_bar_width__13TUnk_804CF930Fv ((s32 (*)())calc_bar_width__13TUnk_804CF930Fv)
-#define step_gauge_bar_width ((void (*)(void *))step_gauge_bar_width)
+#define update__13TUnk_804CF930Fv ((void (*)(void *))update__13TUnk_804CF930Fv)
 void* init_from__13TUnk_804CF930FPvi(void* a0, void* a1, int a2);
 u32 update_text_color_transition(Fade_802575C0 *fade);
 void start_text_color_transition(Fade_802575C0 *arg0, u32 rgb, f32 time);
@@ -294,14 +294,14 @@ void update_status_gauge_hold(Bar_8025799C *bar) {
             update_technique_slot__10TTecRaFoieFl(slot, -0x100, 0);
         }
     } else {
-        step_gauge_bar_width(bar);
+        update__13TUnk_804CF930Fv(bar);
     }
 }
 
 void *TWindowSubStatusDisp__sub_80257AF4(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 4) = lbl_804CF948;
-        TWindowSubStatusDisp__sub_80257298(arg0, 0);
+        __dt__13TUnk_804CF930Fv(arg0, 0);
         if (arg1 > 0) {
             ::operator delete(arg0);
         }
@@ -323,4 +323,4 @@ u8 *TWindowSubStatusDisp::init_layout_entry_copy(u8 *arg1) {
 
 #undef draw_status_gauge_bar__13TUnk_804CF930FPvPvff
 #undef calc_bar_width__13TUnk_804CF930Fv
-#undef step_gauge_bar_width
+#undef update__13TUnk_804CF930Fv

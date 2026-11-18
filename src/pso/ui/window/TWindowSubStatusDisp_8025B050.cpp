@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/unk/TUnk_804CF918.h"
 #include "pso/ui/window/TWindowKeyBoardSoft_8024E68C.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8025B050.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
@@ -128,7 +129,7 @@ void TWindowSubStatusDisp::update_palette_sprite() {  }
 void *TWindowSubStatusDisp__sub_8025B2DC(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(void ***)((s8 *)arg0 + 4) = window_uv_sprite_part_vtable;
-        ((TUnk_804CF930 *)arg0)->destroy(0);
+        __dt__13TUnk_804CF918Fv(arg0, 0);
         if (arg1 > 0) {
             ::operator delete(arg0);
         }
