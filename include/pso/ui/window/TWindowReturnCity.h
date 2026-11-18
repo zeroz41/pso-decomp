@@ -16,4 +16,10 @@ struct TWindowReturnCity : public TObject {
 };
 
 typedef char TWindowReturnCity_size[sizeof(TWindowReturnCity) == 0x28 ? 1 : -1];
+
+// Floor-resource release/load pair run from the lobby session load table.
+extern "C" {
+void TWindowReturnCity__sub_8026D4BC(void);
+void TWindowReturnCity__sub_8026D4C0(void);
+}
 #endif

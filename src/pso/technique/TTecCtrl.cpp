@@ -192,7 +192,7 @@ void bind_gvm_texture_list(const char *, void *);
 }
 void reset_telepipe_visit_counts(void);
 extern "C" {
-void __ct__7TObjectFP7TObject(void *);
+void __ct__7TObjectFP7TObject(void *, void *);
 }
 
 extern s8 lbl_805D63A8;
@@ -264,8 +264,8 @@ void TLobby__sub_8022F068(void) {
     technique_effect_bml = NULL;
 }
 
-void *__ct__8TTecCtrlFv(void *tec_ctrl) {
-    __ct__7TObjectFP7TObject(tec_ctrl);
+void *__ct__8TTecCtrlFv(void *tec_ctrl, void *parent) {
+    __ct__7TObjectFP7TObject(tec_ctrl, parent);
     *(s32 **)((s8 *)tec_ctrl + 0x18) = __vt__8TTecCtrl;
     ((TTecCtrl *)tec_ctrl)->m_name = TTecCtrl__name;
     *(u32 *)((s8 *)tec_ctrl + 0x1C) = 0;

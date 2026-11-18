@@ -456,7 +456,7 @@ struct TLobby : public TObject {
     void*get_trade_obj_ptr();
     void prepare_trade_packet();
     static void spawn_npc_enemy(s16 arg0, s32 arg1, NJS_TEXLIST *texlist, void *arg3, f32 farg0, f32 farg1);
-    int forward_npc_enemy();
+    static void forward_npc_enemy();
     static unsigned char get_trade_mode();
     void set_ad_field(s32 v);
     static s32 is_online_ready();

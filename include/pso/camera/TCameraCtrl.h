@@ -148,6 +148,7 @@ struct TCameraCtrl : public TObject {
     f32 look_z;
     static void update();
     static void reset_view_state();
+    static void reset();
     static void select_active_controller(s8 arg0);
     static void calc_axes_from_angles(s32 arg0, s32 arg1, s32 arg2);
     static int get_instance();

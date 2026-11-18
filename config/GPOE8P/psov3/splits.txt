@@ -1097,6 +1097,7 @@ pso/player/TPlyGuildCardTag_8007B7EC.cpp:
 
 pso/unk/TLobby_8007B858.cpp:
 	.text       start:0x8007B858 end:0x8007BD24
+	.data       start:0x8048D4C0 end:0x8048D5C8
 
 pso/ui/window/TWindowSubComCard_8007BD24.cpp:
 	.text       start:0x8007BD24 end:0x8007BD94

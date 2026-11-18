@@ -17,15 +17,44 @@
 #include "types.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/camera/TCameraCtrl.h"
+#include "pso/unk/TLobby_802D79EC.h"
+#include "pso/enemy/recon/TObjEneRecon.h"
+#include "pso/player/TObjPlayer.h"
+#include "pso/unk/TLobby_800F7744.h"
+#include "pso/unk/text_800C7FEC.h"
+#include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/render/TFogCtrl.h"
+#include "pso/npc/TNpcPlayer_8034DAA0.h"
+#include "pso/unk/TLobby_80191218.h"
+#include "pso/player/TObjPlayer_80083B38.h"
+#include "pso/effect/TEffIndirectCtrl.h"
+#include "pso/effect/TEffIndirectCtrl_802A9284.h"
+#include "pso/unk/TLobby_802D3970.h"
+#include "pso/unk/TLobby_8032BD20.h"
+#include "pso/ui/keyboard/TKeyBoardControl.h"
+#include "pso/ui/window/TWindowSubGameEnd.h"
+#include "pso/unk/TLobby_8033ECB0.h"
+#include "pso/object/TObjSinBoard.h"
+#include "pso/unk/TLobby_8015ABD0.h"
+#include "pso/unk/TLobby_8036B204.h"
+#include "pso/technique/TTecCtrl.h"
+#include "pso/unk/text_801AA3B4.h"
+#include "pso/ui/window/TWindowReturnCity.h"
+
+void load_particle_entry_resources(void);
+void init_partner_dialogue(void);
+void load_technique_resources(void);
+void load_photon_blast_resources(void);
 
 
 extern "C" {
 void TLobby__sub_802A5154(void);
 s32 run_load_callback_table(void *, int);
-struct RecoveredGlobal_lbl_8048D4C0 { s32 value; u8 remaining[0xE4]; };
-extern RecoveredGlobal_lbl_8048D4C0 lbl_8048D4C0;
-struct RecoveredGlobal_lbl_8048D5A8 { s32 value; u8 remaining[0x1C]; };
-extern RecoveredGlobal_lbl_8048D5A8 lbl_8048D5A8;
+void TSceneSora__sub_80207430(void);
+void TFogCtrl__sub_800FBA58(void);
+void TTecLuker__sub_80234F08(void);
+void TTecLuker__sub_80234F48(void);
 void fn_80198E84(void);
 s32 __ct__9TCineCtrlFv(u32, s32);
 s32 create_area_fog_ctrl();
@@ -35,18 +64,58 @@ s32 cleanup_game_objects__9TMainTaskFv();
 s32 restore_floor_telepipes();
 s32 __ct__15TWindowCtrlMainFv();
 s32 TWindowCtrl__ct(u32, s32);
-s32 __ct__8TTecCtrlFv(u32, s32);
 u32 __nw__7TObjectFUl(s32);
 s32 ct_register__6TLobbyFv(u32, s32);
 s32 TWindowTimer__sub_80198D98();
 s32 TLobby__sub_8032BDC4(u32, s32);
-s32 TLobby__sub_8033ED24(u32, s32);
 
 extern s32 tl_00;
 extern s32 tl_01;
 extern s32 tl_06;
 extern s32 tl_particlemodel;
 extern s32 tl_fade;
+
+// Session resources, loaded front to back by TLobby::run_lobby_load_tables and released
+// back to front by TLobby::clear_session_buffers (load, release pairs).
+FloorResourceCallbacks lbl_8048D4C0[29] = {
+    {TCameraCtrl::reset_view_state, TCameraCtrl::reset},
+    {TCameraCtrl::init_default_view, TCameraCtrl::reset_default_view},
+    {(FloorResourceCallback)TLobby__sub_802D7A0C, TLobby::forward_npc_enemy},
+    {TObjEneRecon::alloc_if_valid_state, TObjEneRecon::destroy_instance},
+    {TObjPlayer::init_render_target_singleton, TObjPlayer::free_singleton},
+    {TScene::load_current_floor, TScene::free_scene_resources},
+    {TSceneSora::load_sky_resources, TSceneSora__sub_80207430},
+    {TRaderMapCore::load_map_resources, TRaderMapCore::unload_floor_map},
+    {TLobby::setup_floor_decorations, TLobby::clear_floor_flags_and_depart},
+    {TLobby::clear_flag_on_phase_e, TLobby__sub_800F7744},
+    {clear_legacy_enemy_kill_flags, release_legacy_enemy_kill_flags},
+    {load_particle_entry_resources, TParticleCtrl::free_all},
+    {TFogCtrl::update_fog_entries, TFogCtrl__sub_800FBA58},
+    {init_partner_dialogue, TNpcPlayer__sub_8034EDB8},
+    {TLobby__sub_80191270, TLobby__sub_80191264},
+    {TLobby__sub_8007BBEC, TLobby__sub_8007BBF8},
+    {reset_and_init_capture_texture, reset_and_release_capture_texture},
+    {TObjPlayer__sub_80083F38, (FloorResourceCallback)TObjPlayer__sub_80083F04},
+    {load_indirect_dat, TEffIndirectCtrl::free_all},
+    {(FloorResourceCallback)TLobby__sub_802D39BC, (FloorResourceCallback)close_trade_request__6TLobbyFPv},
+    {TLobby__sub_8032BE3C, TLobby__sub_8032BE30},
+    {TKeyBoardControl::reset_global_keys_b, TKeyBoardControl::reset_global_keys_a},
+    {TLobby__sub_80279708, TLobby__sub_802796FC},
+    {TLobby__sub_8033EE04, TLobby__sub_8033EDF8},
+    {clear_signboard_texture_buffer_pointer, TLobby::free_global_buffer},
+    {TLobby__sub_8015ABD4, TLobby__sub_8015ABD0},
+    {TLobby__sub_8036B510, TLobby__sub_8036B50C},
+    {TWindowReturnCity__sub_8026D4C0, TWindowReturnCity__sub_8026D4BC},
+    {TTecLuker__sub_80234F48, TTecLuker__sub_80234F08},
+};
+
+// Field-only resources: loaded and released only outside Pioneer 2 and the lobby.
+FloorResourceCallbacks lbl_8048D5A8[4] = {
+    {load_technique_resources, TLobby__sub_8022F068},
+    {load_photon_blast_resources, TObjPlayer__sub_801AA3B4},
+    {TCameraCtrl::load_camera_banks, TCameraCtrl::free_entries},
+    {TLobby::update_difficulty, NULL},
+};
 
 void TLobby::create_tasks() {
     u32 tmp;
@@ -66,7 +135,7 @@ void TLobby::create_tasks() {
         }
         tmp = __nw__7TObjectFUl(0x24);
         if (tmp != 0U) {
-            TLobby__sub_8033ED24(tmp, tl_particlemodel);
+            TLobby__sub_8033ED24((u8 *)tmp, (void *)tl_particlemodel);
         }
     }
     cleanup_game_objects__9TMainTaskFv();
@@ -110,7 +179,7 @@ void TLobby::create_tasks() {
     }
     tmp = __nw__7TObjectFUl(0x24);
     if (tmp != 0U) {
-        __ct__8TTecCtrlFv(tmp, tl_01);
+        __ct__8TTecCtrlFv((void *)tmp, (void *)tl_01);
     }
 }
 
@@ -121,20 +190,20 @@ void TLobby::clear_session_buffers() {
         free_obj_lobby_main();
     }
     if ((get_current_floor_area() != AREA_PIONEER2_EP1) && (get_current_floor_area() != AREA_LOBBY) && (get_current_floor_area() != AREA_PIONEER2_EP2)) {
-        TLobby::call_funcs_reverse((void*)((s32) &lbl_8048D5A8.value), (unsigned int)0x20U);
+        TLobby::call_funcs_reverse(lbl_8048D5A8, 0x20);
     }
-    TLobby::call_funcs_reverse((void*)((s32) &lbl_8048D4C0.value), (unsigned int)0xE8U);
+    TLobby::call_funcs_reverse(lbl_8048D4C0, 0xE8);
 }
 
 s32 TLobby::run_lobby_load_tables() {
     s32 temp_r3;
     s32 temp_r3_2;
-    temp_r3_2 = run_load_callback_table(&lbl_8048D4C0.value, 0xE8);
+    temp_r3_2 = run_load_callback_table(lbl_8048D4C0, 0xE8);
     if (temp_r3_2 == 0) {
         return temp_r3_2;
     }
     if ((get_current_floor_area() != AREA_PIONEER2_EP1) && (get_current_floor_area() != AREA_LOBBY) && (get_current_floor_area() != AREA_PIONEER2_EP2)) {
-        temp_r3 = run_load_callback_table(&lbl_8048D5A8.value, 0x20);
+        temp_r3 = run_load_callback_table(lbl_8048D5A8, 0x20);
         if (temp_r3 == 0) {
             return temp_r3;
         }
