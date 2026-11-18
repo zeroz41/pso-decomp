@@ -50,9 +50,6 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static s32 create_if_key_pressed();
     static int get_game_mode();
     u8 is_both_confirmed();
-    void advance_wrapped_cursor();
-    void *destroy_and_free(s16 arg1);
-    void init_image_buffer(u8 *arg1, s32 arg2);
     static void copy_name(s32 arg0);
     static void set_card_disk_id(s32 arg0);
     s32 init_char_slot_record();
