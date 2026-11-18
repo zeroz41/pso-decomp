@@ -1,0 +1,352 @@
+// Synthetic device fixture. This checks source semantics, not native ABI or hardware.
+#include <algorithm>
+#include <cassert>
+#include <cstdint>
+#include <cstring>
+#include <iostream>
+#include <string>
+#include <utility>
+#include <vector>
+
+using u8 = uint8_t;
+using u16 = uint16_t;
+using u32 = uint32_t;
+using u64 = uint64_t;
+using BOOL = int;
+using s32 = int32_t;
+struct OSContext {};
+struct OSThreadQueue {};
+struct OSResetFunctionInfo {};
+using EXICallback = void (*)(s32, OSContext *);
+enum { EXI_READ, EXI_WRITE };
+
+@@RECORDS@@
+
+static ModemSendState modem_send_state{};
+static ModemRecvState modem_recv_state{};
+static ModemResponseState modem_command_response_state{};
+static ModemConnectionInfo modem_connection_info{};
+static struct {
+    u16 f0, f2;
+    u8 f4, f5, f6, f7;
+} lbl_805D7C90{};
+static s32 lbl_805D7C98, lbl_805D7C9C;
+static OSThreadQueue lbl_805D7CA0;
+static OSResetFunctionInfo modem_reset_function_info;
+
+static std::vector<std::string> trace;
+static std::vector<std::pair<u8, u8>> writes;
+static std::vector<std::string> commands;
+static bool lock_granted, parse_done;
+static u8 device_status, fifo_count;
+static s32 fifo_length, receive_length;
+static u32 device_id, last_command;
+static EXICallback installed_callback;
+static s32 client_result;
+static bool initializing;
+
+void TAdSinglePlyChrSelectGC__sub_8042C2E4(s32, OSContext *);
+
+static void log(const std::string &entry) {
+    trace.push_back(entry);
+}
+static s32 EXILock(s32 channel, u32 device, EXICallback callback) {
+    assert(channel == 0 && device == 2);
+    assert(callback == TAdSinglePlyChrSelectGC__sub_8042C2E4);
+    log("lock");
+    return lock_granted;
+}
+static void ModemLockExi() {
+    log("lock");
+}
+static u8 ModemReadRegister(u8 reg) {
+    log("read:" + std::to_string(reg));
+    switch (reg) {
+    case 2: return device_status;
+    case 5: return fifo_count;
+    case 0xB: return fifo_length >> 8;
+    case 0xC: return fifo_length;
+    default: assert(false); return 0;
+    }
+}
+static void ModemWriteRegister(u8 reg, u8 value) {
+    writes.emplace_back(reg, value);
+    log("write:" + std::to_string(reg) + "=" + std::to_string(value));
+}
+static s32 EXIUnlock(s32 channel) {
+    assert(channel == 0);
+    log("unlock");
+    return 1;
+}
+static s32 EXISelect(s32 channel, u32 device, u32 frequency) {
+    assert(channel == 0 && device == 2);
+    log("select:" + std::to_string(frequency));
+    if (initializing && frequency == 0) {
+        assert(lbl_805D7C98 == 1 && lbl_805D7C9C == 0);
+        assert(modem_recv_state.f34 == 1);
+        assert(modem_recv_state.f14 == 0 && modem_recv_state.f38 == 0);
+    }
+    return 1;
+}
+static s32 EXIImm(s32 channel, void *buffer, s32 length, u32 direction, EXICallback callback) {
+    assert(channel == 0 && callback == nullptr);
+    log(std::string(direction == EXI_READ ? "immR:" : "immW:") + std::to_string(length));
+    if (direction == EXI_READ) {
+        if (initializing) {
+            assert(length == 4);
+            std::memcpy(buffer, &device_id, 4);
+        } else {
+            std::memset(buffer, 0x5A, length);
+        }
+    } else {
+        if (length == 1) {
+            assert((last_command & 0x4000) != 0);
+            const u8 reg = (last_command >> 8) & 0x3F;
+            const u8 value = *static_cast<u8 *>(buffer);
+            writes.emplace_back(reg, value);
+            log("write:" + std::to_string(reg) + "=" + std::to_string(value));
+            return 1;
+        }
+        last_command = 0;
+        if (length == 2) {
+            u16 command;
+            std::memcpy(&command, buffer, 2);
+            last_command = command;
+        } else {
+            assert(length == 4);
+            std::memcpy(&last_command, buffer, 4);
+        }
+        log("command:" + std::to_string(last_command));
+    }
+    return 1;
+}
+static s32 EXISync(s32 channel) {
+    assert(channel == 0);
+    log("sync");
+    return 1;
+}
+static s32 EXIDeselect(s32 channel) {
+    assert(channel == 0);
+    log("deselect");
+    return 1;
+}
+static void TAdSinglePlyChrSelectGC__sub_8042BF6C(s32 length) {
+    receive_length = length;
+    log("receive");
+}
+static void TAdSinglePlyChrSelectGC__sub_8042DE20() {
+    log("send");
+}
+static void parse_modem_command_response() {
+    log("parse");
+    if (parse_done) {
+        modem_command_response_state.done = 1;
+        modem_command_response_state.result = 3;
+    }
+}
+static void OSInitThreadQueue(OSThreadQueue *queue) {
+    assert(queue == &lbl_805D7CA0);
+    assert(lbl_805D7C98 == 0);
+    assert(lbl_805D7C90.f0 == 0x1E0 && lbl_805D7C90.f2 == 0x21);
+    assert(lbl_805D7C90.f4 == 0x62 && lbl_805D7C90.f5 == 5);
+    assert(modem_connection_info.value == 0);
+    assert(modem_send_state.data == nullptr && modem_send_state.callback == nullptr);
+    assert(modem_recv_state.buffer == nullptr && modem_recv_state.callback == nullptr);
+    assert(modem_recv_state.f34 == 0);
+    log("queue");
+}
+static void modem_write_string(char *command) {
+    commands.emplace_back(command);
+    log("send-command");
+}
+static s32 modem_wait_ok_or_error() {
+    log("wait-command");
+    return -6; // Setup deliberately ignores these results in the original.
+}
+static EXICallback EXISetExiCallback(s32 channel, EXICallback callback) {
+    assert(channel == 2 && callback == TAdSinglePlyChrSelectGC__sub_8042C2E4);
+    installed_callback = callback;
+    log("install");
+    return nullptr;
+}
+static void OSRegisterResetFunction(OSResetFunctionInfo *info) {
+    assert(info == &modem_reset_function_info);
+    log("reset-hook");
+}
+static void client(s32 result) {
+    assert(lbl_805D7C9C == 1 && modem_command_response_state.done == 0);
+    assert(modem_command_response_state.callback == client);
+    assert(trace.back() == "unlock");
+    client_result = result;
+    log("client");
+}
+
+@@FUNCTIONS@@
+
+static void reset() {
+    modem_send_state = {};
+    modem_recv_state = {};
+    modem_command_response_state = {};
+    modem_connection_info = {};
+    lbl_805D7C90 = {};
+    lbl_805D7C98 = lbl_805D7C9C = 0;
+    trace.clear();
+    writes.clear();
+    commands.clear();
+    lock_granted = true;
+    parse_done = false;
+    device_status = fifo_count = 0;
+    fifo_length = 0;
+    receive_length = -1;
+    device_id = 0x02020000;
+    last_command = 0;
+    installed_callback = nullptr;
+    client_result = -1;
+    initializing = false;
+}
+static size_t count(const std::string &entry) {
+    return std::count(trace.begin(), trace.end(), entry);
+}
+static void prepare_initializer() {
+    reset();
+    initializing = true;
+    std::memset(&modem_send_state, 0xA5, sizeof(modem_send_state));
+    std::memset(&modem_recv_state, 0xA5, sizeof(modem_recv_state));
+    std::memset(&modem_connection_info, 0xA5, sizeof(modem_connection_info));
+    std::memset(modem_command_response_state.buf, 0x6D, sizeof(modem_command_response_state.buf));
+    modem_command_response_state.callback = client;
+    modem_command_response_state.result = 19;
+    modem_command_response_state.fifo_count = 23;
+    modem_command_response_state.done = modem_command_response_state.length = 9;
+    lbl_805D7C90.f6 = 0xA7;
+    lbl_805D7C90.f7 = 0xB8;
+}
+static void check_preserved_initializer_state() {
+    assert(modem_command_response_state.callback == client);
+    assert(modem_command_response_state.result == 19 && modem_command_response_state.fifo_count == 23);
+    assert(modem_command_response_state.done == 0 && modem_command_response_state.length == 0);
+    assert(std::all_of(std::begin(modem_command_response_state.buf),
+                       std::end(modem_command_response_state.buf), [](u8 b) { return b == 0x6D; }));
+    assert(lbl_805D7C90.f6 == 0xA7 && lbl_805D7C90.f7 == 0xB8);
+}
+
+int main() {
+    // Exhaust every raw status and hardware-mask pair, including unsupported priorities.
+    for (unsigned status = 0; status < 256; ++status) {
+        for (unsigned mask = 0; mask < 256; ++mask) {
+            reset();
+            device_status = status;
+            lbl_805D7C90.f4 = mask;
+            modem_recv_state.f14 = modem_recv_state.f34 = 1;
+            lbl_805D7C90.f0 = 17;
+            fifo_length = 9;
+            modem_recv_state.capacity = 100;
+            TAdSinglePlyChrSelectGC__sub_8042C2E4(0, nullptr);
+            unsigned active = status & mask;
+            unsigned highest = 0;
+            for (unsigned bit = 1; bit <= 0x80; bit <<= 1) {
+                if (active & bit) highest = bit;
+            }
+            assert(count("send") == (highest == 0x10));
+            assert(count("receive") == (highest == 0x20 || highest == 0x40));
+            assert(count("parse") == (highest == 0x02));
+            assert(count("unlock") == (highest == 0 || highest == 0x02));
+            if (active == 0) {
+                assert(writes.empty());
+            } else {
+                assert(!writes.empty() && writes.front() == std::make_pair(u8(1), u8(0)));
+            }
+        }
+    }
+
+    // Lock failure must not read, clear the hardware mask, or unlock.
+    reset();
+    lock_granted = false;
+    TAdSinglePlyChrSelectGC__sub_8042C2E4(0, nullptr);
+    assert((trace == std::vector<std::string>{"lock"}));
+
+    // Data-ready with no async request advertises availability and masks that event.
+    reset();
+    device_status = lbl_805D7C90.f4 = 0x20;
+    TAdSinglePlyChrSelectGC__sub_8042C2E4(0, nullptr);
+    assert(modem_recv_state.f38 == 1 && lbl_805D7C90.f4 == 0);
+    assert(receive_length == -1 && trace.back() == "unlock");
+    reset();
+    device_status = lbl_805D7C90.f4 = 0x20;
+    modem_recv_state.f34 = 1;
+    TAdSinglePlyChrSelectGC__sub_8042C2E4(0, nullptr);
+    assert(modem_recv_state.f38 == 0 && lbl_805D7C90.f4 == 0);
+    assert(receive_length == -1 && trace.back() == "unlock");
+
+    // Packet length clamps to remaining capacity and delegates while retaining EXI.
+    reset();
+    device_status = lbl_805D7C90.f4 = 0x40;
+    fifo_length = 300;
+    modem_recv_state.f14 = 1;
+    modem_recv_state.capacity = 100;
+    modem_recv_state.received = 93;
+    TAdSinglePlyChrSelectGC__sub_8042C2E4(0, nullptr);
+    assert(receive_length == 7 && modem_recv_state.available == 7);
+    assert(modem_recv_state.f10 == 1 && count("unlock") == 0);
+    for (bool no_request : {false, true}) {
+        reset();
+        device_status = lbl_805D7C90.f4 = 0x40;
+        fifo_length = no_request ? 7 : 0;
+        modem_recv_state.f14 = no_request ? 0 : 1;
+        TAdSinglePlyChrSelectGC__sub_8042C2E4(0, nullptr);
+        assert(receive_length == -1 && count("unlock") == 1);
+        assert(writes.back() == std::make_pair(u8(1), u8(0x40)));
+    }
+
+    // AT FIFO counts decrease by the actual count, with callback retained after delivery.
+    reset();
+    device_status = lbl_805D7C90.f4 = 2;
+    fifo_count = 7;
+    parse_done = true;
+    modem_command_response_state.length = 2;
+    modem_command_response_state.callback = client;
+    TAdSinglePlyChrSelectGC__sub_8042C2E4(0, nullptr);
+    assert(last_command == 0x23000700 && modem_command_response_state.fifo_count == 0);
+    assert(modem_command_response_state.length == 9);
+    assert(count("immR:4") == 1 && count("immR:3") == 1);
+    assert(std::all_of(modem_command_response_state.buf + 2,
+                       modem_command_response_state.buf + 9, [](u8 b) { return b == 0x5A; }));
+    assert(client_result == 3 && lbl_805D7C9C == 0);
+    assert(modem_command_response_state.callback == client && modem_command_response_state.done == 0);
+
+    // Failed probe leaves initialized state but sends no setup commands or hooks.
+    prepare_initializer();
+    device_id = 0;
+    char country[] = "00";
+    assert(modem_init(country) == -1);
+    check_preserved_initializer_state();
+    assert(commands.empty() && writes.empty() && installed_callback == nullptr);
+    assert(count("select:0") == 1 && count("select:4") == 0 && trace.back() == "unlock");
+
+    // Successful setup uses the original register/command/hook sequence even if AT waits fail.
+    prepare_initializer();
+    assert(modem_init(country) == 1);
+    check_preserved_initializer_state();
+    const std::vector<std::pair<u8, u8>> expected_writes = {
+        {0x13, 5}, {6, 0x32}, {7, 0x40}, {0x10, 1},
+        {0x11, 0xE0}, {0xE, 0}, {0xF, 0x21}, {1, 0x62}
+    };
+    assert(writes == expected_writes);
+    assert((commands == std::vector<std::string>{"ATZ\r", "AT+GCI=00\r", "ATE0\r", "ATW1\\V0\r", "ATS95=44\r"}));
+    assert(count("send-command") == 5 && count("wait-command") == 5);
+    for (size_t i = 0; i < trace.size(); ++i) {
+        if (trace[i] == "send-command") assert(trace[i + 1] == "wait-command");
+    }
+    assert(count("command:0") == 1 && count("command:32768") == 1);
+    auto first_send = std::find(trace.begin(), trace.end(), "send-command");
+    auto last_wait = std::find(trace.rbegin(), trace.rend(), "wait-command").base() - 1;
+    auto final_setup = std::find(trace.begin(), trace.end(), "write:15=33");
+    auto mask_enable = std::find(trace.begin(), trace.end(), "write:1=98");
+    auto install = std::find(trace.begin(), trace.end(), "install");
+    assert(final_setup < first_send && last_wait < mask_enable && mask_enable < install);
+    assert(installed_callback == TAdSinglePlyChrSelectGC__sub_8042C2E4);
+    assert(trace[trace.size() - 3] == "install" && trace[trace.size() - 2] == "reset-hook");
+    assert(trace.back() == "unlock");
+
+    std::cout << "65536 status/mask pairs and control-path scenarios PASS (host stubs, not target ABI)\n";
+}

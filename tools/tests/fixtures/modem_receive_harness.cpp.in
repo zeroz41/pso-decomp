@@ -1,0 +1,227 @@
+// Synthetic hardware/host semantics fixture. Native ABI/layout is checked separately.
+#include <algorithm>
+#include <cassert>
+#include <cstddef>
+#include <cstdint>
+#include <cstring>
+#include <iostream>
+#include <string>
+#include <vector>
+
+using u8 = uint8_t;
+using u16 = uint16_t;
+using u32 = uint32_t;
+using u64 = uint64_t;
+using BOOL = int;
+using s32 = int32_t;
+struct OSContext {};
+using EXICallback = void (*)(s32, OSContext *);
+enum { EXI_READ, EXI_WRITE };
+
+// The SDK rounds target addresses as 32-bit integers. Keep host pointers full width.
+static uintptr_t OSRoundUp32B(const void *p) {
+    return (reinterpret_cast<uintptr_t>(p) + 31) & ~uintptr_t(31);
+}
+static uintptr_t OSRoundDown32B(const void *p) {
+    return reinterpret_cast<uintptr_t>(p) & ~uintptr_t(31);
+}
+
+@@RECORDS@@
+
+static ModemSendState modem_send_state{};
+static ModemRecvState modem_recv_state{};
+static struct {
+    u16 f0, f2;
+    u8 f4, f5, f6, f7;
+} lbl_805D7C90{};
+static s32 lbl_805D7C9C;
+static std::vector<std::string> trace;
+static s32 fifo_length;
+static EXICallback last_dma;
+static u32 last_command;
+static s32 client_length;
+
+static void log(const std::string &entry) {
+    trace.push_back(entry);
+}
+static void ModemLockExi() {
+    log("lock");
+}
+static void ModemWriteRegister(u8 reg, u8 value) {
+    log("wr:" + std::to_string(reg) + "=" + std::to_string(value));
+}
+static u8 ModemReadRegister(u8 reg) {
+    log("rd:" + std::to_string(reg));
+    assert(reg == 0xB || reg == 0xC);
+    return reg == 0xB ? fifo_length >> 8 : fifo_length;
+}
+static int EXISelect(s32, u32, u32) {
+    log("select");
+    return 1;
+}
+static int EXIImm(s32, void *buffer, s32 length, u32 direction, EXICallback callback) {
+    assert(callback == nullptr);
+    log(std::string(direction == EXI_READ ? "immR:" : "immW:") + std::to_string(length));
+    if (direction == EXI_READ) {
+        std::memset(buffer, 0x5A, length);
+    } else if (length == 4) {
+        std::memcpy(&last_command, buffer, 4);
+    }
+    return 1;
+}
+static int EXISync(s32) {
+    log("sync");
+    return 1;
+}
+static int EXIDma(s32, void *buffer, s32 length, u32 direction, EXICallback callback) {
+    assert(direction == EXI_READ);
+    log(callback ? "dma:async" : "dma:sync");
+    last_dma = callback;
+    std::memset(buffer, 0xC3, length);
+    return 1;
+}
+static int EXIDeselect(s32) {
+    log("deselect");
+    return 1;
+}
+static int EXIUnlock(s32) {
+    log("unlock");
+    return 1;
+}
+static void DCInvalidateRange(void *, u32) {
+    log("invalidate");
+}
+void TAdSinglePlyChrSelectGC__sub_8042C124(s32, OSContext *);
+
+static void reset() {
+    modem_send_state = {};
+    modem_recv_state = {};
+    lbl_805D7C90 = {};
+    lbl_805D7C9C = 0;
+    trace.clear();
+    last_dma = nullptr;
+    last_command = 0;
+    client_length = -1;
+    fifo_length = 0;
+}
+static size_t at(const std::string &entry) {
+    auto position = std::find(trace.begin(), trace.end(), entry);
+    assert(position != trace.end());
+    return position - trace.begin();
+}
+static void client(s32 length) {
+    assert(lbl_805D7C9C == 1);
+    assert(modem_recv_state.callback == nullptr);
+    assert(modem_recv_state.received == length);
+    assert(trace.back() == "unlock");
+    client_length = length;
+    log("client");
+    modem_recv_state.received = 99;
+}
+
+@@FUNCTIONS@@
+
+int main() {
+    alignas(32) u8 buffer[256]{};
+
+    // Async head/DMA/tail partition, deferred completion and post-callback reset.
+    reset();
+    auto &receive = modem_recv_state;
+    receive.buffer = buffer + 1;
+    receive.capacity = 100;
+    receive.callback = client;
+    lbl_805D7C90.f0 = 17;
+    TAdSinglePlyChrSelectGC__sub_8042BF6C(100);
+    assert(last_command == 0x28006400);
+    assert(receive.head_length == -1 && receive.body_length == 64 && receive.tail_length == 5);
+    assert(receive.buffer == buffer + 1 && receive.received == 0);
+    assert(last_dma == TAdSinglePlyChrSelectGC__sub_8042C124);
+    trace.clear();
+    last_dma(0, nullptr);
+    assert(client_length == 100 && receive.received == 0);
+    assert(receive.buffer == buffer + 101 && receive.body_length == 0);
+    assert(receive.tail_length == -3);
+    assert(trace[0] == "immR:4" && trace[2] == "immR:1");
+    assert(at("immR:1") < at("invalidate"));
+    assert(std::all_of(buffer + 96, buffer + 101, [](u8 value) { return value == 0x5A; }));
+    assert(at("invalidate") < at("deselect"));
+    assert(at("deselect") < at("unlock") && at("unlock") < at("client"));
+    assert(lbl_805D7C9C == 0);
+
+    // Immediate-only preparation completes directly without a DMA.
+    reset();
+    std::memset(buffer, 0, sizeof(buffer));
+    receive.buffer = buffer;
+    receive.capacity = 100;
+    TAdSinglePlyChrSelectGC__sub_8042BF6C(5);
+    assert(last_dma == nullptr && receive.received == 5 && receive.buffer == buffer + 5);
+    assert(receive.head_length == -3);
+    assert(std::all_of(buffer, buffer + 5, [](u8 value) { return value == 0x5A; }));
+
+    // Early synchronous checks have no device/lock side effects.
+    reset();
+    receive.f14 = 1;
+    s32 result = TAdSinglePlyChrSelectGC__sub_8042D7E0(buffer);
+    assert(result == -5 && trace.empty());
+    reset();
+    result = TAdSinglePlyChrSelectGC__sub_8042D7E0(buffer);
+    assert(result == 0 && trace.empty());
+
+    // Ready path with empty FIFO only reads the count and unlocks.
+    reset();
+    receive.f38 = 1;
+    result = TAdSinglePlyChrSelectGC__sub_8042D7E0(buffer);
+    assert(result == 0);
+    assert((trace == std::vector<std::string>{"lock", "rd:11", "rd:12", "unlock"}));
+    assert(receive.f38 == 0);
+
+    // First-entry setup preserves unrelated shadows and async progress.
+    reset();
+    std::memset(buffer, 0, sizeof(buffer));
+    receive.f34 = 1;
+    receive.f38 = 1;
+    receive.received = 77;
+    receive.buffer = buffer + 160;
+    lbl_805D7C90.f5 = 0xA5;
+    lbl_805D7C90.f0 = 17;
+    fifo_length = 5;
+    result = TAdSinglePlyChrSelectGC__sub_8042D7E0(buffer + 1);
+    assert(result == 5 && last_command == 0x28000500);
+    assert(std::all_of(buffer + 1, buffer + 6, [](u8 value) { return value == 0x5A; }));
+    assert(receive.f34 == 0 && receive.f38 == 0 && receive.received == 77);
+    assert(receive.buffer == buffer + 160);
+    assert(lbl_805D7C90.f5 == 0xA5 && lbl_805D7C90.f0 == 17);
+    assert(at("wr:1=32") < at("wr:19=0"));
+    assert(at("wr:19=0") < at("wr:16=0") && at("wr:16=0") < at("wr:17=1"));
+    assert(std::find(trace.begin(), trace.end(), "invalidate") == trace.end());
+
+    // Synchronous DMA uses no completion callback and invalidates only afterward.
+    reset();
+    receive.f38 = 1;
+    receive.received = 77;
+    receive.buffer = buffer + 160;
+    fifo_length = 64;
+    result = TAdSinglePlyChrSelectGC__sub_8042D7E0(buffer);
+    assert(result == 64 && last_dma == nullptr);
+    assert(receive.received == 77 && receive.buffer == buffer + 160);
+    assert(at("dma:sync") < at("invalidate"));
+    assert(at("invalidate") < at("deselect") && at("deselect") < at("unlock"));
+
+    // Mixed synchronous transfer completes both immediate slices before invalidation.
+    reset();
+    std::memset(buffer, 0, sizeof(buffer));
+    receive.f38 = 1;
+    receive.received = 77;
+    receive.buffer = buffer + 160;
+    fifo_length = 100;
+    result = TAdSinglePlyChrSelectGC__sub_8042D7E0(buffer + 1);
+    assert(result == 100 && last_dma == nullptr && client_length == -1);
+    assert(receive.received == 77 && receive.buffer == buffer + 160);
+    assert(at("dma:sync") < at("immR:1") && at("immR:1") < at("invalidate"));
+    assert(trace[at("immR:1") + 1] == "sync");
+    assert(std::all_of(buffer + 1, buffer + 32, [](u8 value) { return value == 0x5A; }));
+    assert(std::all_of(buffer + 32, buffer + 96, [](u8 value) { return value == 0xC3; }));
+    assert(std::all_of(buffer + 96, buffer + 101, [](u8 value) { return value == 0x5A; }));
+
+    std::cout << "8 receive state/order scenarios PASS (host stubs, not target ABI)\n";
+}

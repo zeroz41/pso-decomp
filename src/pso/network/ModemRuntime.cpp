@@ -107,7 +107,14 @@ typedef struct Ent_80427C6C {
 
 extern "C" {
 void TAdSinglePlyChrSelectGC__sub_8042DE20(void);
-struct ModemConnectionInfo { s32 value; s32 f4; s32 f8; char carrier[5]; char error_control[5]; char compression[6]; };
+struct ModemConnectionInfo {
+    s32 value;
+    s32 f4;
+    s32 f8;
+    char carrier[5];
+    char error_control[5];
+    char compression[6];
+};
 static ModemConnectionInfo modem_connection_info;
 static ModemResponseState modem_command_response_state;
 int atoi(const char *);
@@ -327,6 +334,18 @@ void TAdSinglePlyChrSelectGC__sub_8042C124(s32 chan, OSContext *context) {
     }
 }
 
+static inline u32 ModemLeadingZeroCount(u8 status) {
+#ifdef __MWERKS__
+    return __cntlzw(status);
+#else
+    u32 count = 32;
+    for (u32 value = status; value != 0; value >>= 1) {
+        --count;
+    }
+    return count;
+#endif
+}
+
 void TAdSinglePlyChrSelectGC__sub_8042C2E4(s32 chan, OSContext *context) {
     u8 status;
     u32 cmd;
@@ -339,7 +358,7 @@ void TAdSinglePlyChrSelectGC__sub_8042C2E4(s32 chan, OSContext *context) {
             EXIUnlock(0);
         } else {
             ModemWriteRegister(1, 0);
-            switch (__cntlzw(status)) {
+            switch (ModemLeadingZeroCount(status)) {
             case 27:
                 TAdSinglePlyChrSelectGC__sub_8042DE20();
                 break;
