@@ -142,7 +142,7 @@ struct Ctl_8024E2A8 {
     void *f3c;
 };
 extern "C" {
-void *TWindowActionPalette__ct(void *, s32);
+void *__ct__20TWindowActionPaletteFs(void *, s32);
 }
 
 TWindowCtrlPlayer::TWindowCtrlPlayer(TObject *parent, s32 arg2) : TObject(parent) {
@@ -168,7 +168,7 @@ TWindowCtrlPlayer::TWindowCtrlPlayer(TObject *parent, s32 arg2) : TObject(parent
     ((TObject *)(((struct Ctl_8024E2A8 *)this)->f30))->suspend_update();
     p = TObject::operator new(0x78);
     if (p != 0) {
-        p = TWindowActionPalette__ct(p, ((struct Ctl_8024E2A8 *)this)->f24);
+        p = __ct__20TWindowActionPaletteFs(p, ((struct Ctl_8024E2A8 *)this)->f24);
     }
     ((struct Ctl_8024E2A8 *)this)->f34 = p;
     ((TObject *)(((struct Ctl_8024E2A8 *)this)->f34))->suspend_update();
