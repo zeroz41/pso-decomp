@@ -10000,7 +10000,7 @@ pso/enemy/morfos/TObjEneMorfos_80337500.cpp:
 pso/ui/city/TShopDeleteItemWindow.cpp:
 	.text       start:0x80337910 end:0x803382E4
 	.rodata     start:0x80477B78 end:0x80477B90
-	.data       start:0x804EF198 end:0x804EF1B8
+	.data       start:0x804EF168 end:0x804EF1B8
 	.sdata      start:0x805D4250 end:0x805D4258
 	.sdata2     start:0x805DF998 end:0x805DF99C
 
