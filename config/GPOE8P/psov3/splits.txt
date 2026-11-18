@@ -5904,10 +5904,10 @@ pso/quest/TQuestVmDownLoadServer_801F9010.cpp:
 
 pso/ui/hud/TRaderMapCore.cpp:
 	.text       start:0x801F9058 end:0x801FBA20
-	.rodata     start:0x8044A7A0 end:0x8044A7D0
-	.data       start:0x804C8738 end:0x804C8848
+	.rodata     start:0x8044A698 end:0x8044A7D0
+	.data       start:0x804C8738 end:0x804C88C0
 	.bss        start:0x80512D08 end:0x805137C8
-	.sdata      start:0x805D35F0 end:0x805D3604
+	.sdata      start:0x805D35F0 end:0x805D3610
 	.sbss       start:0x805D5F28 end:0x805D5F58
 	.sdata2     start:0x805DC528 end:0x805DC5B4
 
