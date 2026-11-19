@@ -345,9 +345,6 @@ pso/boss/galgryphon/TObjBoss5Pillar_8028B714.cpp
 pso/npc/TNpcPlayer_8028B810.cpp
 pso/boss/barbaray/TObjBoss7Dust.cpp
 pso/boss/barbaray/TObjBoss7RaftSplash.cpp
-pso/object/ambient/TObjFish_802F17B0.cpp
-pso/object/ambient/TObjFish_802F1848.cpp
-pso/boss/barbaray/TObjBoss7RaftSplash_802F18E8.cpp
 pso/boss/goldragon/TObjBoss8DemoRoom.cpp
 pso/boss/goldragon/TObjBoss8Piller.cpp
 pso/boss/goldragon/TObjBoss8PillerCtrl.cpp
@@ -920,7 +917,6 @@ pso/ui/charcreate/TChCrTagOccHeader.cpp
 pso/unk/text_803369C8.cpp
 pso/unk/TLobby_803382E4.cpp
 pso/unk/TLobby_80338E9C.cpp
-pso/unk/TLobby_8033ECB0.cpp
 pso/unk/TLobby_8034C18C.cpp
 pso/unk/TLobby_8034C23C.cpp
 pso/unk/TLobby_8035D540.cpp

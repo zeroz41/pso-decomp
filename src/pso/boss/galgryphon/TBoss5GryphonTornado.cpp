@@ -73,7 +73,6 @@ extern s32 boss5_gryphon_bml_resource;
 extern s32 boss5_gryphon_texture_list;
 s32 *gryphon_tornado_particle_id_table;
 extern const f32 lbl_805D8D48;
-extern const f32 lbl_805DFFB8;
 
 void TBoss5GryphonTornado::render() {  }
 
@@ -138,7 +137,7 @@ void TBoss5GryphonTornado::run_task() {
         o->f3C *= 0.995f;
         o->pos.x += o->f34;
         o->pos.z += o->f3C;
-        add_radar_scaled_marker(&o->pos, -0x5DB4, 1, 1, lbl_805DFFB8);
+        add_radar_scaled_marker(&o->pos, -0x5DB4, 1, 1, 1.5f);
         play_persistent_sound(0x40032D05, o, &o->pos, 0, 0);
         o->timer++;
         break;

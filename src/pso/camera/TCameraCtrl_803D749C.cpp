@@ -47,8 +47,7 @@ f32 motion_blend_factor;
 const RecoveredGlobal_803D77C0_lbl_8047E3C8 lbl_8047E3C8 = {0};
 extern void *motion_sampler_function_table[3];
 extern void *motion_angle_sampler_table[4];
-struct MotionKeySamplerTable { s32 value; u8 remaining[0x20]; };
-extern MotionKeySamplerTable motion_key_sampler_table;
+extern void *motion_key_sampler_table[3];
 extern s32 motion_packed_rotation_mode;
 CameraMotionContextTable camera_motion_context_table;
 // Only pointed to by model_draw_context (.sdata 0x805D4698).
@@ -201,7 +200,7 @@ void select_motion_sampler(s32 *arg0, f32 farg0) {
     } else {
         *(s32 *)((s8 *)current_motion_context + 0x28) = (s32) *(s32 *)((s8 *)motion_angle_sampler_table + temp_r4);
     }
-    *(s32 *)((s8 *)current_motion_context + 0x2C) = (s32) motion_key_sampler_table.value;
+    *(s32 *)((s8 *)current_motion_context + 0x2C) = (s32) motion_key_sampler_table[0];
 }
 #pragma pop
 
@@ -452,3 +451,4 @@ extern "C" void interpolate_spline_cyclic_cubic(void *keys, u32 count, f32 frame
 
 void *motion_sampler_function_table[3] = { (void *)interpolate_motion_vector_keys, (void *)interpolate_spline_cyclic_cubic, (void *)interpolate_motion_vector_keys_xy };
 void *motion_angle_sampler_table[4] = { (void *)sample_motion_angle_keys, (void *)sample_motion_angle_keys, (void *)sample_motion_angle_keys, (void *)sample_motion_angle_keys_s16 };
+void *motion_key_sampler_table[3] = { (void *)interpolate_motion_key, (void *)interpolate_motion_key, (void *)interpolate_motion_key };

@@ -232,8 +232,9 @@ void interpolate_motion_vector_keys_xy(u8 *keys, s32 count, u8 *arg2, f32 farg0)
 #pragma push
 #pragma scheduling off
 
-void TObjPlayer::interpolate_motion_key(s32 count, s32 *arg2, f32 farg0) {
-    u8 *arg0 = (u8 *)this;
+// Integer-key sampler; motion_key_sampler_table (TCameraCtrl_803D749C) holds it
+// next to the vector and angle samplers, so it takes the same (keys, count, out, frame).
+void interpolate_motion_key(u8 *arg0, s32 count, s32 *arg2, f32 farg0) {
     typedef char sp8_offset[(offsetof(Stack_803D6F20, sp8) == 0x0) ? 1 : -1];
     typedef char spC_offset[(offsetof(Stack_803D6F20, spC) == 0x4) ? 1 : -1];
     typedef char sp10_offset[(offsetof(Stack_803D6F20, sp10) == 0x8) ? 1 : -1];

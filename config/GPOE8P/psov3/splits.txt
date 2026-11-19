@@ -9113,20 +9113,11 @@ pso/boss/barbaray/TObjBoss7Dust.cpp:
 	.sbss       start:0x805D6958 end:0x805D695C
 
 pso/boss/barbaray/TObjBoss7RaftSplash.cpp:
-	.text       start:0x802F15D4 end:0x802F17B0
+	.text       start:0x802F15D4 end:0x802F190C
 	.rodata     start:0x80474390 end:0x804743B0
 	.data       start:0x804E4960 end:0x804E4978
 	.sdata      start:0x805D3FE8 end:0x805D3FF0
-	.sdata2     start:0x805DEC88 end:0x805DEC90
-
-pso/object/ambient/TObjFish_802F17B0.cpp:
-	.text       start:0x802F17B0 end:0x802F1848
-
-pso/object/ambient/TObjFish_802F1848.cpp:
-	.text       start:0x802F1848 end:0x802F18E8
-
-pso/boss/barbaray/TObjBoss7RaftSplash_802F18E8.cpp:
-	.text       start:0x802F18E8 end:0x802F190C
+	.sdata2     start:0x805DEC88 end:0x805DEC94
 
 pso/unk/text_802F190C.cpp:
 	.text       start:0x802F190C end:0x802F1A58
@@ -10098,14 +10089,11 @@ pso/boss/olgaflow/TBoss6Demo21_TYPE2_DEAD.cpp:
 	.sdata2     start:0x805DFA98 end:0x805DFABC
 
 pso/player/TObjPlayer_8033E910.cpp:
-	.text       start:0x8033E910 end:0x8033ECB0
-	.rodata     start:0x804783B0 end:0x804783B8
-	.sdata2     start:0x805DFAC8 end:0x805DFAD4
-
-pso/unk/TLobby_8033ECB0.cpp:
-	.text       start:0x8033ECB0 end:0x8033EE10
-	.data       start:0x804EFA88 end:0x804EFAA0
+	.text       start:0x8033E910 end:0x8033EE10
+	.rodata     start:0x80478190 end:0x804783B8
+	.data       start:0x804EFA50 end:0x804EFAA0
 	.sbss       start:0x805D6DA0 end:0x805D6DA4
+	.sdata2     start:0x805DFAC0 end:0x805DFAD4
 
 pso/ui/frontend/TAdMcCheckGC.cpp:
 	.text       start:0x8033EE10 end:0x8033F314
@@ -10481,7 +10469,7 @@ pso/boss/galgryphon/TBoss5GryphonTornado.cpp:
 	.data       start:0x804F1308 end:0x804F1320
 	.sdata      start:0x805D4398 end:0x805D43A0
 	.sbss       start:0x805D6F10 end:0x805D6F14
-	.sdata2     start:0x805DFFA8 end:0x805DFFB8
+	.sdata2     start:0x805DFFA8 end:0x805DFFBC
 
 pso/unk/text_80355970.cpp:
 	.text       start:0x80355970 end:0x80355A1C
@@ -12150,7 +12138,7 @@ pso/camera/TCameraCtrl_803D6960.cpp:
 pso/camera/TCameraCtrl_803D749C.cpp:
 	.text       start:0x803D749C end:0x803D8030
 	.rodata     start:0x8047E3C8 end:0x8047E3D8
-	.data       start:0x804FA500 end:0x804FA51C
+	.data       start:0x804FA500 end:0x804FA528
 	.bss        start:0x8058CAB8 end:0x8058CB48
 	.sbss       start:0x805D76B0 end:0x805D76B8
 	.sdata2     start:0x805E0E88 end:0x805E0EA0
@@ -12177,7 +12165,7 @@ pso/unk/text_803D8F74.cpp:
 
 pso/math/MatrixTransforms.cpp:
 	.text       start:0x803D929C end:0x803D9650
-	.sdata2     start:0x805E0F40 end:0x805E0F48
+	.sdata2     start:0x805E0F38 end:0x805E0F48
 
 pso/unk/text_803D9650.cpp:
 	.text       start:0x803D9650 end:0x803D96A8

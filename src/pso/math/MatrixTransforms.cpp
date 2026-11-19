@@ -11,18 +11,13 @@ extern u32 current_matrix;
 f32 sin_table_lookup(int);
 f32 cos_table_lookup(int);
 
-__declspec(section ".sdata2") extern const f64 lbl_805E0F08;
-__declspec(section ".sdata2") extern const f64 lbl_805E0F10;
-__declspec(section ".sdata2") extern const f64 lbl_805E0F18;
-
-__declspec(section ".sdata2") extern const f64 lbl_805E0F38;
 void rotate_matrix_z(Matrix34* matrix, s32 angle) {
     Matrix34 rotation;
     Matrix34* selected;
     if (angle != 0) {
         if (matrix == NULL) selected = (Matrix34*)current_matrix;
         else selected = matrix;
-        PSMTXRotRad(rotation.elements, 'z', (f32)(lbl_805E0F38 * (f64)angle));
+        PSMTXRotRad(rotation.elements, 'z', (f32)((9.587378008291125e-05) * (f64)angle));
         PSMTXConcat(selected->elements, rotation.elements, selected->elements);
     }
 }

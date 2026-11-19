@@ -292,7 +292,6 @@ struct TObjPlayer : public TObjChara {
     static void copy_matrix(u32 arg0, u32 arg1);
     static s32 run_next_key_callback(s32 arg0);
     static s32 sample_next_quaternion_key(s32 arg0);
-    void interpolate_motion_key(s32 arg1, s32 *arg2, f32 farg0);
     void apply_motion_node_transform();
     void bswap_change_hp_packet();
     void init_6x2F_packet_header();

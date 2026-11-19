@@ -17877,6 +17877,8 @@ block_relocations:
   - source: 0x8047EC64
   # Bytes 0x80 0x0A 0x20 0x20 inside TPlayerBattleCtrl4P's team-battle message string (lbl_80475A34+0x1C) read as a pointer into .text.
   - source: 0x80475A50
+  # The same bytes inside TPlayerBattleCtrl's Japanese team-battle string (lbl_80478294+0x1C).
+  - source: 0x804782B0
   # Entry bytes of quest_download_lz_match_entry_table (TQuestVmDownLoadServer_803E9A24) read as pointers into .text.
   - source: 0x8047F20C
   - source: 0x8047F298
