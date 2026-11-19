@@ -46,6 +46,8 @@ struct GuildCardFile_804C89BC {
 };
 extern "C" {
 s32 card_load_followup_pending;
+s32 chr_select_save_slot;
+char chr_select_game_name_buffer[4];
 CardFileInfo_804C88C0 pso_character_card_filename = {
     "PSO_CHARACTER", "CHARACTER_FILE", 0,
     { 0x35, 0x04, 0x08, 0x1A, 0x0A, 0x07, 'T', 'T', 'T', 'U' },
@@ -63,7 +65,6 @@ GuildCardFile_804C89BC pso_guildcard_card_filename = {
 u8 TQuestVmDownLoadServer__memcard_key[0x10] = {
     0x35, 0x04, 0x08, 0x1A, 0x0A, 0x07, 'V', 'T', 'T', 'T',
 };
-__declspec(section ".data") NJS_POINT2 lbl_804C8A44 = { 0.0f, 0.0f };
 }
 struct SubtractiveRng {
     SubtractiveRng();
@@ -76,8 +77,8 @@ u32 chr_select_request_buffer[9];
 SubtractiveRng chr_select_rng_state;
 
 u32 char_select_date_stamp[3];
-__declspec(section ".data") s32 chr_select_serial_seeds[2];
-__declspec(section ".data") s32 lbl_80513918[2];
+s32 chr_select_serial_seeds[2];
+s32 lbl_80513918[2];
 
 struct Slot_801FCB04 {
     u8 pad[0x428];
@@ -108,8 +109,14 @@ extern s32 lbl_805D49B4;
 extern s32 card_load_channel;
 extern s32 guild_card_save_file_buffer;
 u32 CARDGetDiskID();
-s32 strncpy(s32 *, s32 *, s32);
-extern s32 lbl_8044A7E0[];
+s32 strncpy(s32 *, const void *, s32);
+
+// Save-message window position and size (the same rect as TSaveChCr's message window).
+static const NJS_POINT2 chr_select_save_message_window_pos = { 46.0f, 131.0f };
+static const NJS_POINT2 chr_select_save_message_window_size = { 548.0f, 220.0f };
+// Game code written over the memory card disk ID.
+static const char card_disk_game_code[] = "GPSE";
+
 s32 poll_memcard_result(void *);
 s32 render_frame__23TAdSinglePlyChrSelectGCFv();
 int memcpy(void*, void*, void*);
@@ -151,14 +158,13 @@ s32 __dt__12TPlyCharDataFv(s32 arg0, s16 arg1);
 void game_state_load(void);
 void *get_character_save_record(u16);
 
-extern s32 chr_select_game_name_buffer;
 
 void TAdSinglePlyChrSelectGC::copy_name(s32 arg0) {
     u32 var_r3;
     if (arg0 >= 0) {
         var_r3 = CARDGetDiskID();
         if (var_r3 != 0U) {
-            strncpy((s32 *)var_r3, &chr_select_game_name_buffer, 4);
+            strncpy((s32 *)var_r3, chr_select_game_name_buffer, 4);
         }
     }
 }
@@ -168,7 +174,7 @@ void TAdSinglePlyChrSelectGC::set_card_disk_id(s32 arg0) {
     if (arg0 >= 0) {
         var_r3 = CARDGetDiskID();
         if (var_r3 != 0U) {
-            strncpy((s32 *)((s32 *)var_r3), lbl_8044A7E0, 4);
+            strncpy((s32 *)var_r3, card_disk_game_code, 4);
         }
     }
 }
@@ -2086,21 +2092,15 @@ void run_save_load_sequence__23TAdSinglePlyChrSelectGCFv(void);
 s32 get_field_118__22TAdEnterSerialAccessGCFv();
 void TLobby__sub_80269C90(void);
 void TLobby__sub_80269CA4(s32);
-Win_801FEE14 *create__14TWindowMessageFlPCfUll(NJS_POINT2 *, NJS_POINT2 *, s32, s32);
+Win_801FEE14 *create__14TWindowMessageFlPCfUll(const NJS_POINT2 *, const NJS_POINT2 *, s32, s32);
 void TAdSinglePlyChrSelectGC__sub_8033B9EC(void);
 s32 TAdSinglePlyChrSelectGC__sub_8033B9F8(Win_801FEE14 *);
 void func_803DCDFC__Fv(void);
-extern NJS_POINT2 lbl_8044A7D0[];
-extern NJS_POINT2 lbl_8044A7D8[];
-extern NJS_POINT2 lbl_804C8A44[];
 extern u8 controller_input_state[];
 extern RecoveredGlobal_801FF200_lbl_80513910 chr_select_serial_seeds;
 extern u32 card_character_save_buffer;
 extern s32 card_load_sequence_state;
 extern s32 character_save_card_slot;
-extern s8 lbl_805D5FB4;
-extern f32 lbl_805D5FB8;
-extern s8 lbl_805D5FBC;
 extern void *tl_01;
 s32 save_character_to_card__23TAdSinglePlyChrSelectGCFv(void);
 s32 load_selected_char__23TAdSinglePlyChrSelectGCFv(void);
@@ -2215,17 +2215,15 @@ s32 save_character_to_card__23TAdSinglePlyChrSelectGCFv(void) {
             delete w;
         }
     }
-    if (lbl_805D5FB4 == 0) {
-        lbl_805D5FB4 = 1;
-        lbl_804C8A44[0].x = 20.0f + lbl_8044A7D0[0].x;
-        lbl_804C8A44[0].y = 10.0f + (lbl_8044A7D0[0].y + lbl_8044A7D8[0].y);
-    }
-    if (lbl_805D5FBC == 0) {
-        lbl_805D5FBC = 1;
-        lbl_805D5FB8 = lbl_8044A7D8[0].x - 40.0f;
-    }
+    // Message text origin and width inside the save message window; the original computes them and never
+    // reads them.
+    static NJS_POINT2 message_text_pos = {
+        20.0f + chr_select_save_message_window_pos.x,
+        10.0f + (chr_select_save_message_window_pos.y + chr_select_save_message_window_size.y)
+    };
+    static f32 message_text_width = chr_select_save_message_window_size.x - 40.0f;
     if (TAdSinglePlyChrSelectGC::load_save_from_card() == 0) {
-        w = create__14TWindowMessageFlPCfUll(lbl_8044A7D0, lbl_8044A7D8, 1, 4);
+        w = create__14TWindowMessageFlPCfUll(&chr_select_save_message_window_pos, &chr_select_save_message_window_size, 1, 4);
         if (w != NULL) {
             ((TWindowMessage *)w)->append_line(get_localized_text_entry(0x20, 4), 3);
             ((TWindowSubComCard *)w)->reparent_to_main_ctrl();
@@ -2273,7 +2271,7 @@ s32 save_character_to_card__23TAdSinglePlyChrSelectGCFv(void) {
         render_tick();
     }
     TLobby__sub_80269CA4(0x23);
-    w = create__14TWindowMessageFlPCfUll(lbl_8044A7D0, lbl_8044A7D8, 1, 4);
+    w = create__14TWindowMessageFlPCfUll(&chr_select_save_message_window_pos, &chr_select_save_message_window_size, 1, 4);
     TLobby__sub_80269C90();
     if (w != NULL) {
         if (TAdPlayerLoadGC::get_load_result(0) == 0xFFFFFF81 || TAdPlayerLoadGC::get_load_result(0) == 0xFFFFFF83) {
@@ -4136,7 +4134,6 @@ extern s32 card_load_channel;
 extern s32 character_save_file_block_count;
 extern s32 guild_card_save_file_block_count;
 extern s32 system_save_file_block_count;
-extern s32 chr_select_game_name_buffer;
 
 void init_char_select_globals__23TAdSinglePlyChrSelectGCFv(void) {
     s32 sp10;
@@ -4259,7 +4256,7 @@ void init_char_select_globals__23TAdSinglePlyChrSelectGCFv(void) {
     ((TAdSinglePlyChrSelectGC *)chr_select_request_buffer)->reset_slot_lists();
     {
         DVDDiskID_802019F8 *id = DVDGetCurrentDiskID();
-        strncpy((void *)&chr_select_game_name_buffer, id->gameName, 4);
+        strncpy(chr_select_game_name_buffer, id->gameName, 4);
     }
     getDateStamp((DateStamp *)char_select_date_stamp);
     DateToSeconds((DateStamp *)char_select_date_stamp, (int *)&sp8);

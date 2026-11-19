@@ -5877,9 +5877,10 @@ pso/ui/window/TWindowKeyBoardHard_801FBA48.cpp:
 pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.cpp:
 	.text       start:0x801FBF54 end:0x80202A68
 	.ctors      start:0x80433F9C end:0x80433FA0
+	.rodata     start:0x8044A7D0 end:0x8044A7E8
 	.data       start:0x804C88C0 end:0x804C8B08
 	.bss        start:0x805137C8 end:0x80513920
-	.sbss       start:0x805D5FA8 end:0x805D5FAC
+	.sbss       start:0x805D5FA8 end:0x805D5FC0
 	.sdata2     start:0x805DC5C0 end:0x805DC5CC
 
 pso/ui/frontend/TAdSinglePlyChrSelectGC_80202A68.cpp:
@@ -7449,13 +7450,10 @@ pso/ui/window/TWindowMenuIconLine_8026DE30.cpp:
 	.text       start:0x8026DE30 end:0x8026DE94
 
 pso/ui/window/TWindowShop.cpp:
-	.text       start:0x8026DE94 end:0x8026DF00
-	.rodata     start:0x8044F550 end:0x8044F55C
+	.text       start:0x8026DE94 end:0x8026DFE8
+	.rodata     start:0x8044F550 end:0x8044F574
 	.sdata      start:0x805D39D0 end:0x805D39D8
 	.sdata2     start:0x805DD340 end:0x805DD348
-
-pso/ui/city/TShopJudgmentItemWindow_8026DF00.cpp:
-	.text       start:0x8026DF00 end:0x8026DFE8
 
 pso/ui/window/TWindowSubStatusDisp_8026DFE8.cpp:
 	.text       start:0x8026DFE8 end:0x8026E1D4
@@ -9828,14 +9826,14 @@ pso/ui/frontend/TAdEnterPasswordGC.cpp:
 
 pso/ui/frontend/TAdSnAkPassConfirmGC.cpp:
 	.text       start:0x8032BE48 end:0x8032C0B4
-	.rodata     start:0x804772A8 end:0x804772C0
+	.rodata     start:0x804772A8 end:0x804772D8
 	.data       start:0x804EDAD8 end:0x804EDB10
 	.sdata      start:0x805D41F0 end:0x805D41F8
 	.sbss       start:0x805D6CB8 end:0x805D6CC0
 
 pso/ui/frontend/TAdYesNoBaseGC.cpp:
 	.text       start:0x8032C0B4 end:0x8032C504
-	.rodata     start:0x804772F0 end:0x804772F8
+	.rodata     start:0x804772D8 end:0x804772F8
 	.data       start:0x804EDB10 end:0x804EDB48
 	.sdata      start:0x805D41F8 end:0x805D4200
 	.sdata2     start:0x805DF788 end:0x805DF7A0
@@ -10022,6 +10020,7 @@ pso/ui/frontend/TAdEnterPPPPassGC.cpp:
 	.data       start:0x804EF500 end:0x804EF5B0
 	.sdata      start:0x805D4268 end:0x805D426C
 	.sbss       start:0x805D6D70 end:0x805D6D78
+	.sdata2     start:0x805DF9E8 end:0x805DF9F0
 
 pso/ui/charcreate/TChCrEffCtrlPl_80339658.cpp:
 	.text       start:0x80339658 end:0x803398CC
@@ -10039,6 +10038,7 @@ pso/ui/window/TWindowSubTradeMessage.cpp:
 pso/system/save/TSaveChCr.cpp:
 	.text       start:0x80339B64 end:0x8033A54C
 	.ctors      start:0x80433FF4 end:0x80433FF8
+	.rodata     start:0x80477CA0 end:0x80477CDC
 	.data       start:0x804EF5E0 end:0x804EF6E8
 	.sdata      start:0x805D4280 end:0x805D4288
 
@@ -10104,7 +10104,7 @@ pso/player/TObjPlayer_8033E910.cpp:
 
 pso/ui/frontend/TAdMcCheckGC.cpp:
 	.text       start:0x8033EE10 end:0x8033F314
-	.rodata     start:0x804783C8 end:0x804783D8
+	.rodata     start:0x804783B8 end:0x804783D8
 	.data       start:0x804EFAA0 end:0x804EFAC0
 	.sdata      start:0x805D42B8 end:0x805D42BC
 	.sdata2     start:0x805DFAD8 end:0x805DFADC
@@ -10114,7 +10114,7 @@ pso/unk/text_8033F314.cpp:
 
 pso/ui/frontend/TAdPlyStatusGC.cpp:
 	.text       start:0x8033F380 end:0x8033FD48
-	.rodata     start:0x804783F8 end:0x80478418
+	.rodata     start:0x804783D8 end:0x80478418
 	.data       start:0x804EFAC0 end:0x804EFB70
 	.sdata      start:0x805D42C0 end:0x805D42C8
 	.sbss       start:0x805D6DA8 end:0x805D6DC0
@@ -10122,7 +10122,7 @@ pso/ui/frontend/TAdPlyStatusGC.cpp:
 
 pso/ui/frontend/TAdPlyStatusGC_8033FD48.cpp:
 	.text       start:0x8033FD48 end:0x803403F8
-	.rodata     start:0x80478430 end:0x80478568
+	.rodata     start:0x80478418 end:0x80478568
 	.data       start:0x804EFB70 end:0x804EFB90
 	.sdata      start:0x805D42C8 end:0x805D42D0
 	.sdata2     start:0x805DFAF8 end:0x805DFB14
@@ -10292,11 +10292,11 @@ pso/boss/darkfalz/TBoss4CheckEmpty.cpp:
 
 pso/ui/frontend/TAdGameStartShineGC.cpp:
 	.text       start:0x8034A938 end:0x8034AC4C
-	.rodata     start:0x804789F8 end:0x80478A18
+	.rodata     start:0x804789E8 end:0x80478A18
 	.data       start:0x804EFFF8 end:0x804F0010
 	.sdata      start:0x805D4320 end:0x805D4328
 	.sbss       start:0x805D6E88 end:0x805D6E90
-	.sdata2     start:0x805DFD60 end:0x805DFD64
+	.sdata2     start:0x805DFD60 end:0x805DFD78
 
 pso/ui/frontend/TAdFloorLoadGC.cpp:
 	.text       start:0x8034AC4C end:0x8034AD28

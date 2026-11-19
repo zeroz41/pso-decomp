@@ -1030,7 +1030,9 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # -str readonly: every string of the unit (archive file names, class names) sits in .rodata.
     # -sdata 4: its 8-byte effect tables sit in .bss and its small data is all 4-byte words.
     "pso/object/container/TContainerAncient01.cpp": {"mw_version": "GC/1.3.2", "cflags": _switch(cflags_pso, "-str reuse,readonly", "-sdata 4")},
-    "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.cpp": {"mw_version": "GC/1.3.2"},
+    # -sdata 4: its 8-byte objects (chr_select_serial_seeds, lbl_80513918, the save message text position) sit in
+    # .bss/.data, not .sbss/.sdata, and its small data is all 4-byte words or smaller.
+    "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.cpp": {"mw_version": "GC/1.3.2", "cflags": _switch(cflags_pso, "-sdata 4")},
     "pso/quest/TQuestVmDownLoadServer.cpp": {"mw_version": "GC/1.3.2", "cflags": _switch(cflags_pso, "-inline deferred")},
     "pso/camera/TCameraCtrl.cpp": {"mw_version": "GC/1.3.2", "cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     "pso/ui/window/TWindowKeyBoardHard.cpp": {"mw_version": "GC/1.3.2", "cflags": _switch(cflags_pso, "-str reuse,readonly")},
@@ -1389,7 +1391,8 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/ui/window/TWindowRoom.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/frontend/TAdGameStartShadowGC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/boss/galgryphon/TBoss5GryphonLightning.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
-    "pso/ui/frontend/TAdSnAkPassConfirmGC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    # TAdSnAkPassConfirmGC__ct reaches each of its three .rodata window rects with its own lis/addi: -pool off.
+    "pso/ui/frontend/TAdSnAkPassConfirmGC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-pool off")},
     "pso/ui/frontend/TAdGameStartLineGC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/frontend/TAdChrSelMovePlateGC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/frontend/TAdFloorLoadCamGC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},

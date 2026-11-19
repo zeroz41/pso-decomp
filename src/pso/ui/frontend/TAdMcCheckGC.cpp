@@ -8,11 +8,12 @@
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/ui/frontend/TAdChrSelASlotGC.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/NinjaTypes.h"
 
 extern "C" {
 extern s32 memcard_cursor_instance_table[];
 s32 GXSetTexCoordGen2(s32, s32, s32, s32, s32, s32);
-s32 check_room_seq_4__16TAdChrSelASlotGCFl(void *, s32, s32);
+s32 check_room_seq_4__16TAdChrSelASlotGCFl(const void *, s32);
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
 }
 
@@ -22,14 +23,16 @@ void set_tex_coord_gen2(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
 void TLobby__sub_8033EE38(void* p) { *(s32*)((char*)p + 0x18) = 0; *(s32*)((char*)p + 0x1c) = 0; }
 void TAdMcCheckGC::render() {  }
 
-extern u8 lbl_804783B8[];
+// Check-window position per memory card slot (m_28: slot A, slot B).
+static const NJS_POINT2 mc_check_window_positions[2] = {
+    {85.0f, 183.0f},
+    {371.0f, 183.0f},
+};
 
 s32 TAdMcCheckGC::create(s32 arg1) {
     s32 temp_r31;
-    s32 temp_r5;
 
-    temp_r5 = this->m_28 * 8;
-    temp_r31 = check_room_seq_4__16TAdChrSelASlotGCFl(lbl_804783B8 + temp_r5, 1, temp_r5);
+    temp_r31 = check_room_seq_4__16TAdChrSelASlotGCFl(&mc_check_window_positions[this->m_28], 1);
     forward_trade_action_default__16TObjCityMainWarpFPviii((void *)temp_r31, (int)(get_localized_text_entry(0x16, arg1)), 0x20, 0);
     ((TAdChrSelASlotGC *)temp_r31)->set_flag_40();
     TQuestThread::set_status_flag_80((void *)temp_r31);

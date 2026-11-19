@@ -61,8 +61,5 @@ typedef char TSaveChCrActionSize[sizeof(TSaveChCrStateAction) == 12 ? 1 : -1];
 typedef char TSaveChCrEntrySize[sizeof(TSaveChCrStateActions) == 24 ? 1 : -1];
 typedef char TSaveChCrStateTaskOffset[offsetof(TSaveChCrStateActions, task) == 12 ? 1 : -1];
 
-// TSaveChCr__message_text_ids: layout known from its uses only.
-struct TSaveChCrMessageTextIds { s32 value; u8 remaining[0x20]; };
-extern TSaveChCrMessageTextIds TSaveChCr__message_text_ids;
 
 #endif

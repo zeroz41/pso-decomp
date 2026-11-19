@@ -22,7 +22,6 @@ typedef void (TAdEnterPPPPassGC::*Pmf_80339378)();
 extern "C" {
 extern u8 *password_entry_keyboard_control;
 extern s32 password_entry_dispatch_state;
-extern const f32 lbl_805DF9E8;
 void strncpy(s32, s32, s32);
 s32 memset(void *, int, int);
 extern TAdEnterBaseGC::Position password_screen_status_line_position[];
@@ -41,7 +40,6 @@ s32 forward_input__22TAdEnterSerialAccessGCFPv(void *, int, char *);
 s32 strlen(const char *);
 extern u8 controller_input_state[];
 extern u8 controller_physical_port_bank[];
-extern s32 lbl_805DF9EC;
 int request_transition__21TAdMultiChgGameModeGCFv(void*);
 
 void TAdEnterPPPPassGC::render() {
@@ -69,7 +67,7 @@ void close_windows_and_advance__17TAdEnterPPPPassGCFPv(u8 *arg0) {
     }
     temp_r4 = *(s32 *)((s8 *)arg0 + 0x24) + 1;
     *(s32 *)((s8 *)arg0 + 0x24) = temp_r4;
-    if ((f32) temp_r4 > lbl_805DF9E8) {
+    if ((f32) temp_r4 > 5.5f) {
         password_entry_dispatch_state = *(s32 *)((s8 *)arg0 + 0x20);
     }
 }
@@ -84,7 +82,7 @@ void update_password_input__17TAdEnterPPPPassGCFPv(u8 *ad_enter_serial_access_gc
     if ((*(s32 *)&((TAdEnterSerialAccessGC *)ad_enter_serial_access_gc)->m_40 == 0 && TWindowShortListCtrl__check_controller_button(controller_physical_port_bank + 0x20, 2) != 0) ||
         (*(s32 *)&((TAdEnterSerialAccessGC *)ad_enter_serial_access_gc)->m_40 == 0 && test_flag_4c__23TAdSinglePlyChrSelectGCFv(controller_input_state + 0x160, 2) != 0)) {
         mem_free(buf);
-        set_password__17TAdEnterPPPPassGCFi((s32)&lbl_805DF9EC);
+        set_password__17TAdEnterPPPPassGCFi((s32)"");
         *(s32 *)&((TAdEnterSerialAccessGC *)ad_enter_serial_access_gc)->m_20 = 2;
         password_entry_dispatch_state = 4;
         return;
