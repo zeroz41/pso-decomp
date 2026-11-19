@@ -19,4 +19,8 @@ struct TNowLoading : public TObject {
 };
 
 typedef char TNowLoading_size[sizeof(TNowLoading) == 0x3C ? 1 : -1];
+
+// Set while the ARAM transfer started by TLobby::aram_dma_blocking and friends is in flight; their DMA
+// callback clears it.
+extern volatile s32 aram_dma_pending;
 #endif

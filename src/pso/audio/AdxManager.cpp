@@ -60,7 +60,7 @@ extern "C" {
 
 void setup_adx_file_systems(s32 *arg0) {
     TLobby__sub_803CE544((void *)TLobby__sub_803CB7F8, 0);
-    cvFsAddDev("MFS", (void *)TLobby__sub_803D43B8, 0);
+    cvFsAddDev("MFS", (void *)mfci_get_interface, 0);
     TLobby__sub_803CE544((void *)TLobby__sub_803CB7F8, 0);
     cvFsAddDev("GCD", (void *)initialize_dvd_file_driver, 0);
     ((TLobby *)"GCD")->cvFsSetDefDev();

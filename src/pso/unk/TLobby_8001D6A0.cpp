@@ -2,6 +2,7 @@
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/unk/TLobby_8001D6A0.h"
+#include "pso/ui/hud/TNowLoading.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
@@ -43,8 +44,6 @@ struct Node_8001D6E0 { Node_8001D6E0 *next; Node_8001D6E0 *prev; u32 addr; u32 s
 struct Pool_8001D6E0 { u8 pad[0x2C]; Node_8001D6E0 *head; };
 
 extern "C" {
-extern s32 aram_dma_pending;
-
 s32 strncpy(int, int, int);
 extern s32 auto_reply_flags;
 Ent_8001D768 *find_free_pool_entry__6TLobbyFPv(Obj_8001D768 *self);

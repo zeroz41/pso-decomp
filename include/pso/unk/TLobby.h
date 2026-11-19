@@ -575,7 +575,6 @@ struct TLobby : public TObject {
     static void set_callback(u32 arg0, s32 arg1);
     static void notify_dvd_read();
     static void enter_lock();
-    void release_handle();
     u32 get_packet_size();
     u32 get_available_size();
     void move_data(const void * _w1, u32 _w2);
@@ -725,10 +724,6 @@ struct TLobby : public TObject {
     static void SVM_DelCbSvr(s32 arg0, s32 arg1);
     static s32 svm_set_cb_svr(s32 arg0, s32 fn, s32 arg);
     static void set_message_and_notify(char *arg0);
-    s32 get_handle_field_checked();
-    void set_list_unit(s32 unit);
-    s32 get_field4_or_report();
-    s32 get_handle_value_checked_b();
     void set_stream_channel_pan(s32 ch, s32 pan);
     static void update_active_streams();
     void update_stream_buffers();

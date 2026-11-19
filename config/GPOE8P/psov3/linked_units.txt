@@ -2134,7 +2134,6 @@ pso/unk/text_801D6D8C.cpp
 pso/unk/text_801D6DB0.cpp
 pso/unk/text_801D7134.cpp
 pso/unk/text_801D7238.cpp
-pso/unk/text_801D79DC.cpp
 pso/unk/text_801D7BF4.cpp
 pso/unk/text_801D94C8.cpp
 pso/unk/text_801D9514.cpp

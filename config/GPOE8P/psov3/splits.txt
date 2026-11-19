@@ -143,6 +143,7 @@ pso/ui/hud/TNowLoading.cpp:
 	.rodata     start:0x80434A10 end:0x80434A20
 	.data       start:0x80480C98 end:0x80480CB0
 	.sdata      start:0x805D2640 end:0x805D2648
+	.sbss       start:0x805D4A90 end:0x805D4A98
 	.sdata2     start:0x805D7EC0 end:0x805D7EC4
 
 pso/unk/TLobby_8001D6A0.cpp:
@@ -5301,10 +5302,8 @@ pso/player/TObjPlayer_801D7860.cpp:
 	.sdata2     start:0x805DC3F0 end:0x805DC3F8
 
 pso/system/data/pso_const_ids4.cpp:
-	.text       start:0x801D78E4 end:0x801D79DC
-
-pso/unk/text_801D79DC.cpp:
-	.text       start:0x801D79DC end:0x801D7A78
+	.text       start:0x801D78E4 end:0x801D7A78
+	.rodata     start:0x80447178 end:0x80447190
 
 pso/ui/hud/TMainCursor_801D7A78.cpp:
 	.text       start:0x801D7A78 end:0x801D7AC8
@@ -11939,6 +11938,7 @@ pso/unk/text_803D31A4.cpp:
 pso/system/movie/Mfci.cpp:
 	.text       start:0x803D39F8 end:0x803D43C8
 	.rodata     start:0x8047DF90 end:0x8047E220
+	.data       start:0x804FA020 end:0x804FA088
 	.bss        start:0x8058B6F0 end:0x8058C0E0
 	.sbss       start:0x805D7678 end:0x805D7680
 	.sdata2     start:0x805E0DC0 end:0x805E0DC8
