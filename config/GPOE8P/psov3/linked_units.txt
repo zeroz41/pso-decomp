@@ -644,6 +644,7 @@ pso/weapon/WeaponAttackActions.cpp
 pso/weapon/WeaponSpecialSelection.cpp
 pso/map/FloorArea_8029E764.cpp
 pso/map/FloorLifecycleTables.cpp
+pso/map/AreaEventSet.cpp
 pso/math/MatrixTransforms.cpp
 pso/math/MatrixVector.cpp
 pso/ui/frontend/TAdEndText.cpp
@@ -871,7 +872,6 @@ pso/unk/TLobby_8020D1BC.cpp
 pso/effect/TUnk_80494968.cpp
 pso/unk/text_80184C2C.cpp
 pso/unk/TLobby_8020E400.cpp
-pso/unk/TLobby_8020EED8.cpp
 pso/unk/TLobby_802173F0.cpp
 pso/unk/TLobby_8021B268.cpp
 pso/unk/TLobby_80221820.cpp

@@ -5,9 +5,9 @@
 #include "types.h"
 
 struct SetDestroyEventRecord {
-    s32 field00;
+    s32 id;          // matched by activate_first_floor_event and set_floor_event_flags (name inferred)
     s16 flags;
-    s16 field06;
+    s16 create_type; // index into floor_event_create_table: 0 none, 1 TSetEvtDestroy (name inferred)
     s16 spawn_arg0;
     s16 spawn_arg1;
     s32 delay_ticks;

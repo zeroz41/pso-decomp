@@ -5904,11 +5904,17 @@ pso/ui/frontend/TAdStorySelectGC.cpp:
 	.text       start:0x80207D44 end:0x80207DA8
 
 pso/unk/TLobby_80207DA8.cpp:
-	.text       start:0x80207DA8 end:0x8020910C
+	.text       start:0x80207DA8 end:0x80208898
 	.rodata     start:0x8044BA50 end:0x8044BAC8
 	.data       start:0x804C8C60 end:0x804C93A8
-	.bss        start:0x805139F8 end:0x80513A40
 	.sbss       start:0x805D6068 end:0x805D6090
+
+pso/map/AreaEventSet.cpp:
+	.text       start:0x80208898 end:0x8020910C
+	.rodata     start:0x8044BAC8 end:0x8044BAE8
+	.data       start:0x804C9428 end:0x804C9430
+	.bss        start:0x805139F8 end:0x80513A40
+	.sbss       start:0x805D6090 end:0x805D60A0
 
 pso/map/TSetEvtDestroy.cpp:
 	.text       start:0x8020910C end:0x80209524
@@ -6012,13 +6018,10 @@ pso/unk/TLobby_8020E400.cpp:
 	.text       start:0x8020E400 end:0x8020E700
 
 pso/unk/text_8020E700.cpp:
-	.text       start:0x8020E700 end:0x8020EED8
+	.text       start:0x8020E700 end:0x8020F034
+	.rodata     start:0x8044BC38 end:0x8044BC50
 	.bss        start:0x80513D58 end:0x80513D88
 	.sbss       start:0x805D6158 end:0x805D6160
-
-pso/unk/TLobby_8020EED8.cpp:
-	.text       start:0x8020EED8 end:0x8020F034
-	.rodata     start:0x8044BC38 end:0x8044BC40
 	.sdata2     start:0x805DC628 end:0x805DC62C
 
 pso/ui/city/TCheckRoomSequence.cpp:

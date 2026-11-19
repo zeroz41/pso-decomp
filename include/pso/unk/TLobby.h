@@ -866,7 +866,6 @@ struct TLobby : public TObject {
     static void dispatch_opcode_two_u16(u8 arg0);
     static void dispatch_stream_command(u8 arg0);
     static void invoke_command(s32 arg0);
-    void spawn_destroy_event();
     static s32 count_sync_record_bytes();
     static void import_sync_records(s16 *arg0);
     static s32 export_sync_records(s16 *arg0);
