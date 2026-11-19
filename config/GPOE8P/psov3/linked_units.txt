@@ -413,6 +413,7 @@ pso/enemy/lappy/TObjEneLappy_800F5DE0.cpp
 pso/enemy/canadin/CanadinData.cpp
 pso/enemy/canadin/TObjEneMe1Canadin.cpp
 pso/enemy/canadin/TObjEneMe1CanadinLeader.cpp
+pso/enemy/gee/GeeData.cpp
 pso/enemy/gee/TObjEneMe1Gee.cpp
 pso/enemy/gigue/TObjEneMe1GiGue.cpp
 pso/enemy/gigue/TObjEneMe1GiGueBarrier.cpp

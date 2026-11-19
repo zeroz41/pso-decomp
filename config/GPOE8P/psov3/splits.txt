@@ -1703,6 +1703,9 @@ pso/enemy/TObjEnemyCustom.cpp:
 	.sbss       start:0x805D5190 end:0x805D5198
 	.sdata2     start:0x805DA068 end:0x805DA094
 
+pso/enemy/gee/GeeData.cpp:
+	.rodata     start:0x8043BCD8 end:0x8043BD08
+
 pso/unk/text_800C7FEC.cpp:
 	.text       start:0x800C7FEC end:0x800C811C
 	.bss        start:0x80500C38 end:0x80500E38
