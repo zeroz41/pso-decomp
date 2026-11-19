@@ -7345,7 +7345,7 @@ pso/unk/TLobby_80271E48.cpp:
 pso/ui/window/TWindowSubComCard_80271E7C.cpp:
 	.text       start:0x80271E7C end:0x802752D8
 	.rodata     start:0x8044F698 end:0x8044F6F8
-	.data       start:0x804D1008 end:0x804D1148
+	.data       start:0x804D0FF0 end:0x804D1148
 	.sdata      start:0x805D3A10 end:0x805D3A14
 	.sdata2     start:0x805DD4F8 end:0x805DD540
 
@@ -7535,23 +7535,29 @@ pso/ui/window/TWindowSubShortCutList.cpp:
 	.sdata      start:0x805D3A90 end:0x805D3A98
 
 pso/ui/chat/TWindowSubShortMail_8027E620.cpp:
-	.text       start:0x8027E620 end:0x8027FD88
+	.text       start:0x8027E620 end:0x8027FB00
 	.rodata     start:0x8044FAB0 end:0x8044FAD8
 	.data       start:0x804D1A40 end:0x804D1ACC
 	.sdata      start:0x805D3A98 end:0x805D3AA0
-	.sdata2     start:0x805DD6C8 end:0x805DD6E0
+	.sdata2     start:0x805DD6C8 end:0x805DD6D8
+
+pso/unk/TUnk_804D1AD0.cpp:
+	.text       start:0x8027FB00 end:0x8027FD88
+	.data       start:0x804D1AD0 end:0x804D1AE8
+	.sdata2     start:0x805DD6D8 end:0x805DD6E0
 
 pso/ui/window/TWindowSubStatusDisp_8027FD88.cpp:
 	.text       start:0x8027FD88 end:0x80281814
 	.rodata     start:0x8044FAD8 end:0x8044FB08
-	.data       start:0x804D1AE8 end:0x804D2B20
+	.data       start:0x804D1AE8 end:0x804D2B48
 	.sdata      start:0x805D3AA0 end:0x805D3AA8
 	.sbss       start:0x805D6488 end:0x805D6490
+	.sdata2     start:0x805DD6E0 end:0x805DD710
 
 pso/ui/chat/TWindowSubSymbolChat.cpp:
 	.text       start:0x80281814 end:0x802838C4
 	.rodata     start:0x8044FB08 end:0x8044FB30
-	.data       start:0x804D2B68 end:0x804D2C14
+	.data       start:0x804D2B48 end:0x804D2C14
 	.sdata      start:0x805D3AA8 end:0x805D3AB0
 	.sbss       start:0x805D6490 end:0x805D64A8
 	.sdata2     start:0x805DD710 end:0x805DD750

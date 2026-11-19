@@ -461,6 +461,7 @@ pso/enemy/TUnk_804909C4.cpp
 pso/quest/challenge/ChallengeForceLoadouts.cpp
 pso/quest/challenge/ChallengeHunterLoadouts.cpp
 pso/quest/challenge/ChallengeRangerLoadouts.cpp
+pso/unk/TUnk_804D1AD0.cpp
 pso/weapon/TUnk_804A4238.cpp
 pso/weapon/TUnk_804A4338.cpp
 pso/weapon/SpecialProjectileWeapons.cpp
