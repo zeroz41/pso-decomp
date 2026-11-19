@@ -5273,6 +5273,7 @@ pso/unk/TLobby_801C4F80.cpp:
 
 pso/ui/frontend/TAdSinglePlyChrSelectGC_801C50A8.cpp:
 	.text       start:0x801C50A8 end:0x801C53D4
+	.data       start:0x804C3F48 end:0x804C3F60
 	.sbss       start:0x805D5DD0 end:0x805D5DD8
 	.sdata2     start:0x805DC308 end:0x805DC320
 
@@ -8841,7 +8842,7 @@ pso/unk/TLobby_802D3970.cpp:
 
 pso/ui/frontend/TAdSinglePlyChrSelectGC.cpp:
 	.text       start:0x802D3AB8 end:0x802D5098
-	.rodata     start:0x80472588 end:0x80472590
+	.rodata     start:0x80472510 end:0x80472590
 	.data       start:0x804E1A60 end:0x804E1BB0
 	.sdata      start:0x805D3F40 end:0x805D3F48
 	.sbss       start:0x805D68A0 end:0x805D68A8
@@ -9799,7 +9800,7 @@ pso/ui/frontend/TAdEnterBaseGC.cpp:
 pso/ui/frontend/TAdEnterPasswordGC.cpp:
 	.text       start:0x8032B58C end:0x8032BE48
 	.rodata     start:0x80477278 end:0x804772A8
-	.data       start:0x804EDA20 end:0x804EDAA4
+	.data       start:0x804EDA20 end:0x804EDAC0
 	.sdata      start:0x805D41E8 end:0x805D41EC
 	.sbss       start:0x805D6CB0 end:0x805D6CB8
 	.sdata2     start:0x805DF780 end:0x805DF788
@@ -9914,10 +9915,15 @@ pso/ui/frontend/TAdTrialModemChkGC.cpp:
 	.sdata      start:0x805D4240 end:0x805D4248
 
 pso/ui/frontend/TAdTrialAgreementGC.cpp:
-	.text       start:0x80335648 end:0x80335E7C
-	.rodata     start:0x80477648 end:0x80477668
-	.data       start:0x804EE420 end:0x804EE454
+	.text       start:0x80335648 end:0x80335918
+	.rodata     start:0x80477648 end:0x80477660
+	.data       start:0x804EE420 end:0x804EE458
 	.sdata      start:0x805D4248 end:0x805D4250
+
+pso/ui/TUnk_804EE458.cpp:
+	.text       start:0x80335918 end:0x80335E7C
+	.rodata     start:0x80477660 end:0x80477668
+	.data       start:0x804EE458 end:0x804EE470
 	.sdata2     start:0x805DF8B0 end:0x805DF8C4
 
 pso/unk/TLobby_80335E7C.cpp:

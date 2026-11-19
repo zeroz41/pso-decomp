@@ -7,13 +7,13 @@
 #include "pso/ui/TLogo.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/frontend/TAdEnterPPPPassGC.h"
+#include "pso/ui/frontend/TAdEnterPasswordGC.h"
 
 s32 lbl_805D63C8;
 TObject *game_mode_scene_instance;
 int TAdPlayerLoadGC__load_state;
 extern "C" {
 u8 *get_or_create__22TAdMultiPlyChrSelectGCFii(s32 arg0, s32 arg1);
-void *TAdEnterPasswordGC__ct(void *, s32);
 void *TAdEnterSerialAccessGC__ct(void *, s32);
 void *TAdEp3Exist__ct(void *, s32);
 void *TAdExNetConfirmGC__ct(void *, s32);
@@ -208,11 +208,7 @@ void TAdMultiChgGameModeGC::create_mode_scene() {
         game_mode_scene_instance = (TObject *)p;
         break;
     case 16:
-        p = TObject::operator new(0x44);
-        if (p != NULL) {
-            p = TAdEnterPasswordGC__ct(p, tl_02);
-        }
-        game_mode_scene_instance = (TObject *)p;
+        game_mode_scene_instance = new TAdEnterPasswordGC((TObject *)tl_02);
         break;
     case 17:
         p = TObject::operator new(0x3C);
