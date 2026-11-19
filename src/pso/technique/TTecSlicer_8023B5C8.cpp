@@ -415,7 +415,7 @@ void TTecSlicer::init_launch_angles(s32 *arg0, s32 *arg1, s32 arg2) {
 
 void TTecSlicer::update() {
     s32 arg0 = (s32)this;
-    if (horizontal_distance_squared((const Vec *)this->position, (const Vec *)this->destination) < 100.0f) {
+    if (horizontal_distance_squared(&this->position, (const Vec *)this->destination) < 100.0f) {
         deliver_target_hit();
         if (get_next_captured_target((TTecSlicerTargets_8023B454 *)this->capturedTargets, (Vec *)this->destination, &this->targetId, (s8 *)&this->targetPart, &this->radius) == 0) {
             ((FlagWord *)(arg0 + 0xC0))->set(1);
@@ -460,15 +460,15 @@ void TTecSlicer::render() {
         model_render_flags |= 0x10;
         set_constant_material((const NJS_ARGB *)(((f32 *)&this->argb)));
     }
-    if (this->textureHandle != 0U && this->model != 0U) {
-        set_texlist(this->textureHandle);
+    if (this->texlist != 0U && this->model != 0U) {
+        set_texlist(this->texlist);
         TParticleCtrl::begin_effect_render();
         push_matrix();
-        post_translate_matrix(this->position);
+        post_translate_matrix((const f32 *)&this->position);
         rotate_matrix_y(0, *(s32 *)((s8 *)arg0 + 0x60));
         rotate_matrix_z(0, *(s32 *)((s8 *)arg0 + 0x64));
         rotate_matrix_x(0, *(s32 *)((s8 *)arg0 + 0x5C));
-        scale_current_matrix(this->scale);
+        scale_current_matrix((const f32 *)&this->scale);
         draw_ginja_object(this->model);
         set_constant_material(&chunk_material_color_half_alpha_f32);
         TParticleCtrl::end_effect_render();
@@ -495,7 +495,7 @@ void run_task__10TTecSlicerFv(u8 *object) {
     }
     new_obj = (void *)TObject::operator new(0x60);
     if (new_obj != 0U) {
-        __ct__14TSlicerHistoryFv((u8 *)new_obj, object, ((TTecSlicer *)object)->textureHandle, var_r31, ((TTecSlicer *)object)->weaponHandle);
+        __ct__14TSlicerHistoryFv((u8 *)new_obj, object, ((TTecSlicer *)object)->texlist, var_r31, ((TTecSlicer *)object)->weaponHandle);
     }
     if (test_flags_any((s32 *)(object + 0xC0), 1) == 0) {
         ((TTecSlicer *)object)->update();
@@ -514,18 +514,10 @@ void run_task__10TTecSlicerFv(u8 *object) {
     *(u32 *)((s8 *)object + 0x108) = 0U;
     *(u32 *)((s8 *)object + 0x10C) = 0U;
 }
-void *__dt__10TTecSlicerFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__10TTecSlicer;
-        if (((TTecSlicer *)arg0)->star != NULL) { ((TObject *)(((TTecSlicer *)arg0)->star))->queue_destruction(); }
-        dt__10TTecSlicerFls((s8 *)arg0 + 0xE8, -1);
-        dt__10TTecSlicerFls((s8 *)arg0 + 0xC8, -1);
-        __dt__8TObjBaseFv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
+TTecSlicer::~TTecSlicer() {
+    if (star != NULL) { ((TObject *)star)->queue_destruction(); }
+    dt__10TTecSlicerFls((s8 *)this + 0xE8, -1);
+    dt__10TTecSlicerFls((s8 *)this + 0xC8, -1);
 }
 #define self ((Slicer_8023BBB4 *)arg0)
 #define init ((Init_8023BBB4 *)arg1)

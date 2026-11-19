@@ -55,7 +55,6 @@ void __dt__7TObjectFv(void *, int);
 void __dl__7TObjectFPv(void *);
 extern u8 __vt__11TWindowCtrl[];
 extern void *TWindowCtrl__active_window;
-TWindowCtrl_8024C160 *__dt__11TWindowCtrlFv(TWindowCtrl_8024C160 *self, s16 flag);
 void __ct__7TObjectFP7TObject(void *);
 void *TWindowBreakIn__ct(void *);
 void *__ct__11TWindowChatFP7TObjectPv(void *, s32, void *);
@@ -64,10 +63,12 @@ extern const char *TWindowCtrl__name;
 extern s32 local_client_id;
 extern s32 tl_00;
 TWindowCtrl_8024C308 *TWindowCtrl__ct(TWindowCtrl_8024C308 *self);
-TWindowCtrl_8024C160 *__dt__11TWindowCtrlFv(TWindowCtrl_8024C160 *self, s16 flag) {
+}
+
+TWindowCtrl::~TWindowCtrl() {
     s32 i;
-    if (self != NULL) {
-        self->vt = __vt__11TWindowCtrl;
+    TWindowCtrl_8024C160 *self = (TWindowCtrl_8024C160 *)this;
+    {
         for (i = 3; i >= 0; i--) {
             if (self->wins84[i] != NULL) {
                 ((TWindowBase *)(self->wins84[i]))->close();
@@ -117,13 +118,10 @@ TWindowCtrl_8024C160 *__dt__11TWindowCtrlFv(TWindowCtrl_8024C160 *self, s16 flag
         if (TWindowCtrl__active_window == self) {
             TWindowCtrl__active_window = NULL;
         }
-        __dt__7TObjectFv(self, 0);
-        if (flag > 0) {
-            __dl__7TObjectFPv(self);
-        }
     }
-    return self;
 }
+
+extern "C" {
 TWindowCtrl_8024C308 *TWindowCtrl__ct(TWindowCtrl_8024C308 *self) {
     s32 i;
     void *p;

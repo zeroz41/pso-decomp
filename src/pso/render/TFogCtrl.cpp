@@ -22,7 +22,6 @@
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/math/AngleLookup.h"
 
-
 extern "C" {
 extern u32 fog_ctrl_instance;
 s32 request_fog__8TFogCtrlFPvii(u8 *arg0, s32 arg1, s32 arg2);
@@ -35,93 +34,6 @@ const char *TFogCtrl__name = "TFogCtrl";
 const char *TFogCtrl_EOR__name = "TFogCtrl_EOR";
 s32 TFogCtrl__sub_800FAC84(void *p);
 int update_all__8TFogCtrlFv(void*);
-
-s32 TQuestVmDownLoadServer::get_serial_access() { return TAdEnterSerialAccessGC::parse_serial_value(); }
-s32 TQuestVmDownLoadServer::poll_serial_access() { return TAdEnterSerialAccessGC::parse_serial_value(); }
-void TFogCtrl_EOR::run_task() { update_all__8TFogCtrlFv(this); }
-
-}
-TFogCtrl_EOR::~TFogCtrl_EOR() {
-
-}
-
-
-u8 *TFogCtrl_EOR::init_object() {
-    u8 *arg0 = (u8 *)this;
-    __ct__7TObjectFP7TObject(arg0, &end_of_render_root);
-    *(s32 **)((s8 *)arg0 + 0x18) = __vt__12TFogCtrl_EOR;
-    m_name = TFogCtrl_EOR__name;
-    return arg0;
-}
-
-void TQuestVmDownLoadServer::destroy_instance() {
-    if ((u32) fog_ctrl_instance != 0U) {
-        ((TObject *)fog_ctrl_instance)->queue_destruction();
-    }
-    fog_ctrl_instance = 0U;
-}
-void TFogCtrl::create_instance() {
-    void *o;
-    o = TObject::operator new(0x1C);
-    if (o != NULL) {
-        o = ((TFogCtrl_EOR *)o)->init_object();
-    }
-    (*(void * *)&fog_ctrl_instance) = o;
-}
-s32 TFogCtrl::update_all(s32 arg0, s32 arg1) {
-    s32 var_r29 = 0;
-    s32 *var_r30 = TFogCtrl__fog_instance_table;
-    s32 var_r31 = 0;
-    do {
-        u32 v = (u32)var_r30[var_r31];
-        if (v != 0U) {
-            request_fog__8TFogCtrlFPvii((u8 *)v, arg0, arg1);
-        }
-        var_r29 += 1;
-        var_r31 += 1;
-    } while (var_r29 != 4);
-    return 1;
-}
-s32 TFogCtrl::apply_all(s32 arg0, s32 arg1) {
-    s32 var_r29 = 0;
-    s32 *var_r30 = TFogCtrl__fog_instance_table;
-    s32 var_r31 = 0;
-    do {
-        u32 v = (u32)var_r30[var_r31];
-        if (v != 0U) {
-            ((TFogCtrl *)v)->select_fog(arg0, arg1);
-        }
-        var_r29 += 1;
-        var_r31 += 1;
-    } while (var_r29 != 4);
-    return 1;
-}
-
-s32 TFogCtrl::update_first_active_fog() {
-    s32 i;
-    for (i = 0; i < 4; i++) {
-        if ((void *)((s32 *)&TFogCtrl__fog_instance_table)[i] != NULL) {
-            return TFogCtrl__sub_800FAC84((void *)((s32 *)&TFogCtrl__fog_instance_table)[i]);
-        }
-    }
-    return 0;
-}
-
-s32 TFogCtrl::update_all(s32 arg0) {
-    s32 var_r29;
-    s32 var_r31;
-    s32 temp_r3;
-    var_r29 = 0;
-    var_r31 = 0;
-    do {
-        temp_r3 = *(TFogCtrl__fog_instance_table + var_r31);
-        if ((u32) temp_r3 != 0U) {
-            ((TFogCtrl *)temp_r3)->restore_fog(arg0);
-        }
-        var_r29 += 1;
-        var_r31 += 1;
-    } while (var_r29 != 4);
-    return 1;
 }
 
 struct ByteBlock_8 { u8 bytes[0x8]; };
@@ -146,11 +58,6 @@ struct TFogCtrl_800FAE1C {
     f32 end;
     f32 start;
     f32 width;
-};
-
-struct RecoveredGlobal_800FB8A0___vt__8TFogCtrl {
-    s32 value;
-    u8 remaining[0x14];
 };
 
 struct O_800FB400 { u8 pad[0x174]; s32 arr[1]; };
@@ -212,8 +119,6 @@ struct TFogCtrl_800FB92C {
     s32 index;
 };
 
-typedef char RecoveredGlobal_800FB8A0___vt__8TFogCtrl_size[sizeof(RecoveredGlobal_800FB8A0___vt__8TFogCtrl) == 0x18 ? 1 : -1];
-
 struct FogParam_800FBC5C {
     s32 f0;
     s32 f4;
@@ -270,7 +175,6 @@ extern "C" {
 
 s32 TFogCtrl__sub_800FAC84(void* p);
 void TFogCtrl__sub_800FB400(O_800FB400 *self, s32 i, s32 j);
-u8 * __dt__8TFogCtrlFv(u8 *arg0, s16 arg1);
 TFogCtrl_800FB92C * __ct__8TFogCtrlFP7TObjectl(TFogCtrl_800FB92C *self, void *parent, s32 index);
 void TFogCtrl__sub_800FBA54(void);
 void TFogCtrl__sub_800FBA58(void);
@@ -281,7 +185,6 @@ u8 * __dt__7TObjectFv(void *, s16);
 void GXInitFogAdjTable(GXFogAdjTable_800FAE1C *, s32, void *);
 void GXSetFogRangeAdj(s32, s32, GXFogAdjTable_800FAE1C *);
 
-extern RecoveredGlobal_800FB8A0___vt__8TFogCtrl __vt__8TFogCtrl;
 extern s32 area_fog_row_table[];
 extern FogParam_800FBC5C fog_default_entry;
 extern u8 scene_projection_state[];
@@ -294,363 +197,192 @@ extern const f32 TFogCtrl__data_805DA948 = 0.0f;
 extern const f32 TFogCtrl__data_805DA94C = 640.0f;
 #define FOG_ZERO (*(const f32 *)&TFogCtrl__data_805DA948)
 #define FOG_MAX (*(const f32 *)&TFogCtrl__data_805DA94C)
-
-#pragma push
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-s32 TFogCtrl::select_fog_for_viewport(s32 arg0, s32 arg1, s32 arg2) {
-    if (is_split_screen() == 0) {
-        arg0 = 0;
-    }
-    if ((arg0 >= 0) && (arg0 < 4) && ((u32) TFogCtrl__fog_instance_table[arg0] != 0U)) {
-        return ((s32)((TFogCtrl *)(TFogCtrl__fog_instance_table[arg0]))->select_fog(arg1, arg2));
-    }
-    return 0;
-}
-#pragma pop
-
-#pragma push
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-s32 TFogCtrl::restore_fog_for_player(s32 arg1, s32 arg0) {
-    if (is_split_screen() == 0) {
-        arg1 = 0;
-    }
-    if ((arg1 >= 0) && (arg1 < 4)) {
-        s32 elem = *(s32 *)(((s8 *)&TFogCtrl__fog_instance_table) + arg1 * 4);
-        if ((u32) elem != 0U) {
-            return ((TFogCtrl *)elem)->restore_fog(arg0);
-        }
-    }
-    return 0;
-}
-#pragma pop
-
-#pragma push
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-s32 TFogCtrl__sub_800FAC84(void* p) { return *(s32*)((char*)*(void**)((char*)p + 0x174) + 0x40); }
 }
 void copy_fog_entry(u8 *arg0, u8 *arg1);
 s32 apply_fog_entry(void *arg0);
 void init_scene_fog_system(void);
-#pragma pop
 
-#pragma push
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-void copy_fog_entry(u8 *arg0, u8 *arg1) {
-    s32 var_r5;
-    s32 var_r7;
-    u8 *var_r6;
-    var_r5 = *(s32 *)((s8 *)arg1 + 0);
-    var_r6 = (u8 *)arg1 + 0x14;
-    var_r7 = (long) ((u8 *)arg0 + 0x14);
-    *(s32 *)((s8 *)arg0 + 0) = var_r5;
-    var_r5 = *(s32 *)((s8 *)arg1 + 4);
-    *(s32 *)((s8 *)arg0 + 4) = var_r5;
-    *(f32 *)((s8 *)arg0 + 8) = (f32) *(f32 *)((s8 *)arg1 + 8);
-    *(f32 *)((s8 *)arg0 + 0xC) = (f32) *(f32 *)((s8 *)arg1 + 0xC);
-    *(f32 *)((s8 *)arg0 + 0x10) = (f32) *(f32 *)((s8 *)arg1 + 0x10);
-    var_r5 = *(s32 *)((s8 *)arg1 + 0x14);
-    *(s32 *)((s8 *)arg0 + 0x14) = var_r5;
-    *(ByteBlock_20 *)(var_r7 + 4) = *(const ByteBlock_20 *)((s32) var_r6 + 4);
-    var_r7 += 0x20;
-    var_r6 += 0x20;
-    *(ByteBlock_8 *)((s32) arg0 + 0x38) = *(const ByteBlock_8 *)((s32) arg1 + 0x38);
+s32 area_fog_row_table[36] = {
+    33, 1, 2, 3, 4, 5, 14, 15, 30, 31, 32, 23, 16, 34, 35, 34, 19, 47,
+    96, 97, 98, 64, 65, 24, 25, 26, 27, 28, 40, 41, 66, 99, 100, 16, 73, 75,
+};
+s32 TFogCtrl__fog_instance_table[4];
+FogParam_800FBC5C fog_default_entry;
+u32 fog_entry_array;
+s32 fog_update_flags;
+u32 fog_ctrl_instance;
+
+extern "C" {
+void run_task__8TFogCtrlFv(Ctrl_800FB498 *arg0);
 }
-#pragma pop
 
-#pragma push
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
+void init_scene_fog_system(void) {
+    s32 i;
+    fog_update_flags = 0;
+    fog_default_entry.f0 = 1;
+    fog_default_entry.f4 = 0;
+    fog_default_entry.f8 = 4000.0f;
+    fog_default_entry.fC = 100.0f;
+    fog_default_entry.f10 = 0.01f;
+    fog_default_entry.f14 = 0;
+    for (i = 0; i < 8; i++) {
+        fog_default_entry.f18[i] = FOG_ZERO;
+        fog_default_entry.f38[i] = 0;
+    }
+    fog_default_entry.f18[6] = FOG_MAX;
+    fog_entry_array = (u32)mem_alloc(0x2000);
+    for (i = 0; i < 0x80; i++) {
+        copy_fog_entry((u8 *)&((FogParam_800FBC5C *)fog_entry_array)[i], (u8 *)&fog_default_entry);
+    }
+    read_disc_file(lbl_8043DA20, (void *)fog_entry_array);
+    for (i = 0; i < 4; i++) {
+        TFogCtrl__fog_instance_table[i] = 0;
+    }
+    TParticleCtrl::end_effect_render();
+    TFogCtrl::create_instance();
+    TObjFogCollisionPoison::clear_state_array();
+}
 
-void*TFogCtrl::get_entry(int a0) {  return (char*)((*(int *)&fog_entry_array)) + a0 * 64; }
-#pragma pop
+void TFogCtrl::reset() {
+    TObjFogCollisionPoison__sub_801533BC();
+    TQuestVmDownLoadServer::destroy_instance();
+    if ((u32) fog_entry_array != 0U) {
+        mem_free((void *)fog_entry_array);
+    }
+    fog_entry_array = 0U;
+    ((s32 (*)(s32))fn_803E1FC8)(-1);
+    set_scene_fog_distances((1e+03f), (1e+04f));
+    reset_scene_fog();
+    TParticleCtrl::begin_effect_render();
+}
 
-#pragma push
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-void TFogCtrl::clear_split_screen_fog() {
-    u32 temp_r3;
-    if (is_split_screen() == 1) {
-        temp_r3 = *(s32 *)((s8 *)&TFogCtrl__fog_instance_table + ((TCameraCtrl::get_nth_view_player_id((int) (TCameraCtrl::get_camera_mode())) * 4) & 0x3FFFC));
-        if (temp_r3 != 0U) {
-            ((TFogCtrl *)temp_r3)->clear_active_flag();
+void create_area_fog_ctrl(void) {
+    s32 *var_r3;
+    s32 *var_r4;
+    s32 var_r31;
+    s32 var_r5;
+    void *temp_r3;
+    void *temp_r3_2;
+    if (is_split_screen() != 0) {
+        var_r31 = 0;
+        do {
+            var_r3 = (s32 *)((u8 *)((s32 *)0x1C8));
+            temp_r3 = TObject::operator new(0x1C8);
+            if (temp_r3 != NULL) {
+                var_r4 = (s32 *)tl_02;
+                var_r5 = var_r31;
+                ((s32 (*)(int, int, int))__ct__8TFogCtrlFP7TObjectl)((int)temp_r3, (int)var_r4, (int)var_r5);
+            }
+            var_r31 += 1;
+        } while (var_r31 != 4);
+    } else {
+        var_r3 = (s32 *)((u8 *)((s32 *)0x1C8));
+        temp_r3_2 = TObject::operator new(0x1C8);
+        if (temp_r3_2 != NULL) {
+            var_r4 = (s32 *)tl_02;
+            var_r5 = 0;
+            ((s32 (*)(int, int, int))__ct__8TFogCtrlFP7TObjectl)((int)temp_r3_2, (int)var_r4, 0);
         }
     }
+    TObjFogCollisionPoison::create();
+    var_r4 = area_fog_row_table;
+    var_r3 = area_fog_row_table;
+    var_r3 = (s32 *)area_fog_row_table[get_current_floor_area()];
+    var_r4 = (s32 *)((u8 *)((s32 *)1));
+    TFogCtrl::update_all((int)var_r3, 1);
 }
-#pragma pop
 
-#pragma push
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-void TFogCtrl::update_all() {
+void TFogCtrl::update_fog_entries() {
+    s32 i;
+    s32 j;
+    s32 v;
+    if (TLobby::is_online_ready() != 0) {
+        if (!(fog_update_flags & 2)) {
+            read_disc_file(lbl_8043DA30, (void *)fog_entry_array);
+            fog_update_flags |= 2;
+        }
+    } else if (fog_update_flags & 2) {
+        read_disc_file(lbl_8043DA20, (void *)fog_entry_array);
+        fog_update_flags &= ~2;
+    }
+    i = 0;
+    j = 0;
+    do {
+        v = *(TFogCtrl__fog_instance_table + j);
+        if ((u32)v != 0U) {
+            ((void (*)(s32))TFogCtrl__sub_800FBAAC)(v);
+        }
+        i += 1;
+        j += 1;
+    } while (i != 4);
+    TParticleCtrl::end_effect_render();
+}
+
+void TFogCtrl__sub_800FBAAC(void) {  }
+
+void TFogCtrl__sub_800FBA58(void) {
     s32 var_r29;
     s32 var_r31;
     s32 temp_r3;
 
-    if (is_split_screen() == 0) {
-        var_r29 = 0;
-        var_r31 = 0;
-        do {
-            temp_r3 = *(TFogCtrl__fog_instance_table + var_r31);
-            if ((u32)temp_r3 != 0U) {
-                ((TFogCtrl *)temp_r3)->clear_active_flag();
-            }
-            var_r29 += 1;
-            var_r31 += 1;
-        } while (var_r29 != 4);
+    var_r29 = 0;
+    var_r31 = 0;
+    do {
+        temp_r3 = *(TFogCtrl__fog_instance_table + var_r31);
+        if ((u32) temp_r3 != 0U) {
+            ((s32 (*)(s32))TFogCtrl__sub_800FBA54)(temp_r3);
+        }
+        var_r29 += 1;
+        var_r31 += 1;
+    } while (var_r29 != 4);
+}
+
+void TFogCtrl__sub_800FBA54(void) {  }
+
+#pragma push
+#pragma opt_common_subs off
+TFogCtrl::TFogCtrl(TObject *parent, s32 index) : TObject(parent) {
+    s32 i;
+    f32 one;
+    m_name = TFogCtrl__name;
+    ((TFogCtrl_800FB92C *)this)->index = index;
+    if (((TFogCtrl_800FB92C *)this)->index >= 0 && ((TFogCtrl_800FB92C *)this)->index < 4) {
+        ((TFogCtrl_800FB92C **)&TFogCtrl__fog_instance_table)[((TFogCtrl_800FB92C *)this)->index] = ((TFogCtrl_800FB92C *)this);
     }
+    ((TFogCtrl_800FB92C *)this)->f20 = 0;
+    one = FOG_ZERO;
+    for (i = 0; i < 4; i++) {
+        ((TFogCtrl_800FB92C *)this)->fogs[i].entry = 0;
+        copy_fog_entry((u8 *)&((TFogCtrl_800FB92C *)this)->fogs[i], (u8 *)&fog_default_entry);
+        ((TFogCtrl_800FB92C *)this)->fogs[i].f44 = one;
+        ((TFogCtrl_800FB92C *)this)->ptrs[i] = &((TFogCtrl_800FB92C *)this)->fogs[i];
+    }
+    ((TFogCtrl_800FB92C *)this)->f184 = 0;
+    one = FOG_ZERO;
+    ((TFogCtrl_800FB92C *)this)->f19C = 0;
+    ((TFogCtrl_800FB92C *)this)->f1A0 = 0;
+    ((TFogCtrl_800FB92C *)this)->f1A4 = 0;
+    ((TFogCtrl_800FB92C *)this)->f1A8 = 0;
+    ((TFogCtrl_800FB92C *)this)->f1AC = 0;
+    ((TFogCtrl_800FB92C *)this)->f1B0 = 0;
+    ((TFogCtrl_800FB92C *)this)->f1B4 = 0;
+    ((TFogCtrl_800FB92C *)this)->f1B8 = one;
+    ((TFogCtrl_800FB92C *)this)->f1BC = one;
+    ((TFogCtrl_800FB92C *)this)->f1C0 = 0;
+    ((TFogCtrl_800FB92C *)this)->f1C = 0;
+    this->apply_slot_params(0);
 }
 #pragma pop
 
-#pragma push
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-void TFogCtrl::clear_active_flag() {
-    s32 temp_r3;
-
-    if (is_split_screen() == 0) {
-        temp_r3 = this->m_1c;
-        if (temp_r3 & 1) {
-            this->m_1c = (s32) (temp_r3 & 0xFFFFFFFE);
-            apply_fog_entry(this);
-        }
-    } else {
-        apply_fog_entry(this);
-        this->m_1c = (s32) (this->m_1c & 0xFFFFFFFE);
-    }
-}
-#pragma pop
-
-#pragma push
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-s32 apply_fog_entry(void *arg0) {
-    TFogCtrl_800FAE1C *self = (TFogCtrl_800FAE1C *)arg0;
-    GXFogAdjTable_800FAE1C tbl;
-    set_scene_fog_type(2);
-    fn_803E1FC8((self->color << 8) | (self->color >> 24));
-    set_scene_fog_distances(self->start, self->end);
-    if (is_split_screen() == 0) {
-        if (self->width >= FOG_MAX) {
-            self->width = FOG_MAX;
-        } else if (self->width <= FOG_ZERO) {
-            self->width = FOG_ZERO;
-        }
-        GXInitFogAdjTable(&tbl, (s32)self->width, scene_projection_state);
-        GXSetFogRangeAdj(1, 0x140, &tbl);
-    } else {
-        if (self->width >= (3.2e+02f)) {
-            self->width = (3.2e+02f);
-        } else if (self->width <= FOG_ZERO) {
-            self->width = FOG_ZERO;
-        }
-        GXInitFogAdjTable(&tbl, (s32)self->width, scene_projection_state);
-        GXSetFogRangeAdj(1, 0xA0, &tbl);
-    }
-    TParticleCtrl::end_effect_render();
-}
-#pragma pop
-
-#pragma push
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-extern "C" {
-s32 TFogCtrl::restore_fog(s32 arg1) {
+TFogCtrl::~TFogCtrl() {
     s32 temp_r0;
-    if (get_param() != 0) {
-        return 0;
-    }
-    temp_r0 = this->m_184;
-    if (temp_r0 == 0) {
-        return 1;
-    }
-    if ((temp_r0 == 3) && ((s32) this->m_1b4 == 0)) {
-        return 1;
-    }
-    if (arg1 & 1) {
-        this->m_20 = 1;
-    } else {
-        this->m_20 = 2;
-    }
-    this->m_19c = (s32) this->m_184;
-    this->m_1a0 = 0;
-    this->m_1a4 = 0;
-    return 1;
-}
-#pragma pop
-
-#pragma push
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-s32 TFogCtrl::select_fog(s32 arg1, s32 arg2) {
-    struct Ctrl_800FAFE0 *self = (struct Ctrl_800FAFE0 *)this;
-    if (this->get_param() != 0) {
-        return 0;
-    }
-    if (self->slots[self->selected]->identity == arg1) {
-        return 1;
-    }
-    this->load_entry_into_slot(2, arg1);
-    this->request_transition(1, arg2);
-    return 1;
-}
-#pragma pop
-
-#pragma push
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-s32 request_fog__8TFogCtrlFPvii(u8 *fog_ctrl, s32 arg1, s32 arg2) {
-  s32 var_r30;
-  s32 var_r31;
-  s32 var_r4;
-  s32 entry;
-  u8 *var_r29;
-  u8 *var_r3;
-  var_r29 = fog_ctrl;
-  var_r30 = arg1;
-  var_r31 = arg2;
-  if (((TFogCtrl *)fog_ctrl)->get_param() != 0)
-  {
-    var_r3 = (u8 *) 0;
-    return 0;
-  }
-  var_r3 = (u8 *) (var_r29 + ((*((s32 *) (((s8 *) var_r29) + 0x184))) * 4));
-  var_r3 = (u8 *) (*((u8 **) (((s8 *) var_r3) + 0x174)));
-  if (((s32) (*((s32 *) (((s8 *) var_r3) + 0x40)))) == var_r30)
-  {
-    var_r3 = (u8 *) ((void *) 1);
-    if (var_r3 && var_r3)
-    {
-    }
-    return 1;
-  }
-  var_r3 = (u8 *) var_r29;
-  entry = var_r30;
-  var_r4 = 2;
-  ((TFogCtrl *)var_r3)->load_entry_into_slot(2, (int) entry);
-  var_r3 = (u8 *) var_r29;
-  entry = var_r31;
-  var_r4 = 0;
-  ((TFogCtrl *)var_r3)->request_transition(0, (s32)((int) entry));
-  var_r3 = (u8 *) ((void *) 1);
-  return 1;
-}
-#pragma pop
-
-#pragma push
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-void TFogCtrl::request_transition(s32 arg1, s32 arg2) {
-    if (arg2 & 1) {
-        this->m_20 = 1;
-    } else {
-        this->m_20 = 2;
-    }
-    this->m_19c = (s32) this->m_184;
-    this->m_1a0 = 2;
-    this->m_1a4 = arg1;
-}
-#pragma pop
-
-s32 TFogCtrl::get_param() { return this->m_1c0; }
-
-#pragma push
-#pragma fp_contract on
-void TFogCtrl::apply_slot_params(s32 idx) {
-    FogCtrl_800FB134 *self = (FogCtrl_800FB134 *)this;
-    FogRow_800FB134 *row = self->slots[idx];
-    f32 t;
-    self->color = row->color;
-    self->end = row->end;
-    self->start = row->start;
-    self->width = FOG_MAX;
-    if (FOG_ZERO != row->end_amplitude) {
-        t = row->end_amplitude * sin_table_lookup((s32)((182.04445f) * ((f32)actor_frame_tick * row->speed + (f32)row->phases[2])));
-        self->end += t;
-    }
-    if (FOG_ZERO != row->start_amplitude) {
-        t = row->start_amplitude * sin_table_lookup((s32)((182.04445f) * ((f32)actor_frame_tick * row->speed + (f32)row->phases[4])));
-        self->start += t;
-    }
-    if (FOG_ZERO != row->width) {
-        self->width = (f32)row->phases[6] * sin_table_lookup((s32)((182.04445f) * ((f32)actor_frame_tick * row->speed))) + row->width;
-    }
-    self->dirty |= 1;
-}
-#pragma pop
-
-s32 TFogCtrl::is_controller_animated(s32 arg0, s32 arg1) {
-  f32 temp_f31;
-  f32 var_f31;
-  s32 temp_r3;
-  u8 *temp_r31;
-  temp_r3 = arg0 + (arg1 * 4);
-  temp_r31 = (u8 *) (*((u8 **) (((s8 *) temp_r3) + 0x174)));
-  temp_r3 = *((s32 *) (((s8 *) temp_r31) + 0));
-  if (temp_r3 & 2)
-  {
-    if (((FOG_ZERO != (*((f32 *) (((s8 *) temp_r31) + 0x20)))) || (FOG_ZERO != (*((f32 *) (((s8 *) temp_r31) + 0x28))))) || (((u8) (*((u8 *) (((s8 *) temp_r31) + 0x3E)))) != 0))
-    {
-      return 1;
-    }
-    return 0;
-  }
-  if (temp_r3 & 4)
-  {
-    temp_f31 = *((f32 *) (((s8 *) temp_r31) + 0x44));
-    floor_to_float((f32) temp_f31);
-    var_f31 = temp_f31 + (*((f32 *) (((s8 *) temp_r31) + 0x18)));
-    floor_to_float((f32) var_f31);
-    if (var_f31 < FOG_ZERO)
-    {
-      var_f31 += (128.0f);
-    }
-    else
-      if (var_f31 >= (128.0f))
-    {
-      var_f31 -= (128.0f);
-    }
-    *((f32 *) (((s8 *) temp_r31) + 0x44)) = var_f31;
-    return 1;
-  }
-  return 0;
-}
-
-void TFogCtrl__sub_800FB400(O_800FB400 *self, s32 i, s32 j) {
-    s32 t = self->arr[i];
-    self->arr[i] = self->arr[j];
-    self->arr[j] = t;
-}
-
-void TFogCtrl::load_entry_into_slot(s32 i, s32 entry) {
-    Ctrl_800FB424 *self = (Ctrl_800FB424 *)this;
-    s32 k;
-    Fog_800FB424 *f = self->fogs[i];
-    f->entry = entry;
-    copy_fog_entry((u8 *)f, (u8 *)TFogCtrl::get_entry(entry));
-    f->f44 = FOG_ZERO;
-    for (k = 0; k < 3; k++) {
-        f->f48[k] = 0;
+    reset_scene_fog();
+    TParticleCtrl::end_effect_render();
+    temp_r0 = this->m_1c4;
+    if ((temp_r0 >= 0) && (temp_r0 < 4)) {
+        *(s32 *)((s8 *)&TFogCtrl__fog_instance_table + (temp_r0 * 4)) = 0;
     }
 }
-
-void TFogCtrl::render() {  }
 
 #pragma push
 #pragma fp_contract on
@@ -740,191 +472,444 @@ void run_task__8TFogCtrlFv(Ctrl_800FB498 *arg0) {
 }
 #pragma pop
 
-u8 *__dt__8TFogCtrlFv(u8 *fog_ctrl, s16 arg1) {
-    s32 temp_r0;
-    if (fog_ctrl != NULL) {
-        *(s32 **)((s8 *)fog_ctrl + 0x18) = &__vt__8TFogCtrl.value;
-        reset_scene_fog();
-        TParticleCtrl::end_effect_render();
-        temp_r0 = ((TFogCtrl *)fog_ctrl)->m_1c4;
-        if ((temp_r0 >= 0) && (temp_r0 < 4)) {
-            *(s32 *)((s8 *)&TFogCtrl__fog_instance_table + (temp_r0 * 4)) = 0;
-        }
-        __dt__7TObjectFv(fog_ctrl, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv((s32) fog_ctrl);
-        }
+void TFogCtrl::render() {  }
+
+void TFogCtrl::load_entry_into_slot(s32 i, s32 entry) {
+    Ctrl_800FB424 *self = (Ctrl_800FB424 *)this;
+    s32 k;
+    Fog_800FB424 *f = self->fogs[i];
+    f->entry = entry;
+    copy_fog_entry((u8 *)f, (u8 *)TFogCtrl::get_entry(entry));
+    f->f44 = FOG_ZERO;
+    for (k = 0; k < 3; k++) {
+        f->f48[k] = 0;
     }
-    return fog_ctrl;
+}
+
+void TFogCtrl__sub_800FB400(O_800FB400 *self, s32 i, s32 j) {
+    s32 t = self->arr[i];
+    self->arr[i] = self->arr[j];
+    self->arr[j] = t;
+}
+
+s32 TFogCtrl::is_controller_animated(s32 arg0, s32 arg1) {
+  f32 temp_f31;
+  f32 var_f31;
+  s32 temp_r3;
+  u8 *temp_r31;
+  temp_r3 = arg0 + (arg1 * 4);
+  temp_r31 = (u8 *) (*((u8 **) (((s8 *) temp_r3) + 0x174)));
+  temp_r3 = *((s32 *) (((s8 *) temp_r31) + 0));
+  if (temp_r3 & 2)
+  {
+    if (((FOG_ZERO != (*((f32 *) (((s8 *) temp_r31) + 0x20)))) || (FOG_ZERO != (*((f32 *) (((s8 *) temp_r31) + 0x28))))) || (((u8) (*((u8 *) (((s8 *) temp_r31) + 0x3E)))) != 0))
+    {
+      return 1;
+    }
+    return 0;
+  }
+  if (temp_r3 & 4)
+  {
+    temp_f31 = *((f32 *) (((s8 *) temp_r31) + 0x44));
+    floor_to_float((f32) temp_f31);
+    var_f31 = temp_f31 + (*((f32 *) (((s8 *) temp_r31) + 0x18)));
+    floor_to_float((f32) var_f31);
+    if (var_f31 < FOG_ZERO)
+    {
+      var_f31 += (128.0f);
+    }
+    else
+      if (var_f31 >= (128.0f))
+    {
+      var_f31 -= (128.0f);
+    }
+    *((f32 *) (((s8 *) temp_r31) + 0x44)) = var_f31;
+    return 1;
+  }
+  return 0;
 }
 
 #pragma push
-#pragma opt_common_subs off
-}
-TFogCtrl::TFogCtrl(TObject *parent, s32 index) : TObject(parent) {
-    s32 i;
-    f32 one;
-    m_name = TFogCtrl__name;
-    ((TFogCtrl_800FB92C *)this)->index = index;
-    if (((TFogCtrl_800FB92C *)this)->index >= 0 && ((TFogCtrl_800FB92C *)this)->index < 4) {
-        ((TFogCtrl_800FB92C **)&TFogCtrl__fog_instance_table)[((TFogCtrl_800FB92C *)this)->index] = ((TFogCtrl_800FB92C *)this);
+#pragma fp_contract on
+void TFogCtrl::apply_slot_params(s32 idx) {
+    FogCtrl_800FB134 *self = (FogCtrl_800FB134 *)this;
+    FogRow_800FB134 *row = self->slots[idx];
+    f32 t;
+    self->color = row->color;
+    self->end = row->end;
+    self->start = row->start;
+    self->width = FOG_MAX;
+    if (FOG_ZERO != row->end_amplitude) {
+        t = row->end_amplitude * sin_table_lookup((s32)((182.04445f) * ((f32)actor_frame_tick * row->speed + (f32)row->phases[2])));
+        self->end += t;
     }
-    ((TFogCtrl_800FB92C *)this)->f20 = 0;
-    one = FOG_ZERO;
-    for (i = 0; i < 4; i++) {
-        ((TFogCtrl_800FB92C *)this)->fogs[i].entry = 0;
-        copy_fog_entry((u8 *)&((TFogCtrl_800FB92C *)this)->fogs[i], (u8 *)&fog_default_entry);
-        ((TFogCtrl_800FB92C *)this)->fogs[i].f44 = one;
-        ((TFogCtrl_800FB92C *)this)->ptrs[i] = &((TFogCtrl_800FB92C *)this)->fogs[i];
+    if (FOG_ZERO != row->start_amplitude) {
+        t = row->start_amplitude * sin_table_lookup((s32)((182.04445f) * ((f32)actor_frame_tick * row->speed + (f32)row->phases[4])));
+        self->start += t;
     }
-    ((TFogCtrl_800FB92C *)this)->f184 = 0;
-    one = FOG_ZERO;
-    ((TFogCtrl_800FB92C *)this)->f19C = 0;
-    ((TFogCtrl_800FB92C *)this)->f1A0 = 0;
-    ((TFogCtrl_800FB92C *)this)->f1A4 = 0;
-    ((TFogCtrl_800FB92C *)this)->f1A8 = 0;
-    ((TFogCtrl_800FB92C *)this)->f1AC = 0;
-    ((TFogCtrl_800FB92C *)this)->f1B0 = 0;
-    ((TFogCtrl_800FB92C *)this)->f1B4 = 0;
-    ((TFogCtrl_800FB92C *)this)->f1B8 = one;
-    ((TFogCtrl_800FB92C *)this)->f1BC = one;
-    ((TFogCtrl_800FB92C *)this)->f1C0 = 0;
-    ((TFogCtrl_800FB92C *)this)->f1C = 0;
-    this->apply_slot_params(0);
+    if (FOG_ZERO != row->width) {
+        self->width = (f32)row->phases[6] * sin_table_lookup((s32)((182.04445f) * ((f32)actor_frame_tick * row->speed))) + row->width;
+    }
+    self->dirty |= 1;
 }
-
 #pragma pop
 
-void TFogCtrl__sub_800FBA54(void) {  }
+s32 TFogCtrl::get_param() { return this->m_1c0; }
 
-void TFogCtrl__sub_800FBA58(void) {
+#pragma push
+#pragma inline_depth(1)
+#pragma auto_inline off
+#pragma dont_inline off
+void TFogCtrl::request_transition(s32 arg1, s32 arg2) {
+    if (arg2 & 1) {
+        this->m_20 = 1;
+    } else {
+        this->m_20 = 2;
+    }
+    this->m_19c = (s32) this->m_184;
+    this->m_1a0 = 2;
+    this->m_1a4 = arg1;
+}
+#pragma pop
+
+#pragma push
+#pragma inline_depth(1)
+#pragma auto_inline off
+#pragma dont_inline off
+s32 request_fog__8TFogCtrlFPvii(u8 *fog_ctrl, s32 arg1, s32 arg2) {
+  s32 var_r30;
+  s32 var_r31;
+  s32 var_r4;
+  s32 entry;
+  u8 *var_r29;
+  u8 *var_r3;
+  var_r29 = fog_ctrl;
+  var_r30 = arg1;
+  var_r31 = arg2;
+  if (((TFogCtrl *)fog_ctrl)->get_param() != 0)
+  {
+    var_r3 = (u8 *) 0;
+    return 0;
+  }
+  var_r3 = (u8 *) (var_r29 + ((*((s32 *) (((s8 *) var_r29) + 0x184))) * 4));
+  var_r3 = (u8 *) (*((u8 **) (((s8 *) var_r3) + 0x174)));
+  if (((s32) (*((s32 *) (((s8 *) var_r3) + 0x40)))) == var_r30)
+  {
+    var_r3 = (u8 *) ((void *) 1);
+    if (var_r3 && var_r3)
+    {
+    }
+    return 1;
+  }
+  var_r3 = (u8 *) var_r29;
+  entry = var_r30;
+  var_r4 = 2;
+  ((TFogCtrl *)var_r3)->load_entry_into_slot(2, (int) entry);
+  var_r3 = (u8 *) var_r29;
+  entry = var_r31;
+  var_r4 = 0;
+  ((TFogCtrl *)var_r3)->request_transition(0, (s32)((int) entry));
+  var_r3 = (u8 *) ((void *) 1);
+  return 1;
+}
+#pragma pop
+
+#pragma push
+#pragma inline_depth(1)
+#pragma auto_inline off
+#pragma dont_inline off
+s32 TFogCtrl::select_fog(s32 arg1, s32 arg2) {
+    struct Ctrl_800FAFE0 *self = (struct Ctrl_800FAFE0 *)this;
+    if (this->get_param() != 0) {
+        return 0;
+    }
+    if (self->slots[self->selected]->identity == arg1) {
+        return 1;
+    }
+    this->load_entry_into_slot(2, arg1);
+    this->request_transition(1, arg2);
+    return 1;
+}
+#pragma pop
+
+#pragma push
+#pragma inline_depth(1)
+#pragma auto_inline off
+#pragma dont_inline off
+s32 TFogCtrl::restore_fog(s32 arg1) {
+    s32 temp_r0;
+    if (get_param() != 0) {
+        return 0;
+    }
+    temp_r0 = this->m_184;
+    if (temp_r0 == 0) {
+        return 1;
+    }
+    if ((temp_r0 == 3) && ((s32) this->m_1b4 == 0)) {
+        return 1;
+    }
+    if (arg1 & 1) {
+        this->m_20 = 1;
+    } else {
+        this->m_20 = 2;
+    }
+    this->m_19c = (s32) this->m_184;
+    this->m_1a0 = 0;
+    this->m_1a4 = 0;
+    return 1;
+}
+#pragma pop
+
+#pragma push
+#pragma inline_depth(1)
+#pragma auto_inline off
+#pragma dont_inline off
+s32 apply_fog_entry(void *arg0) {
+    TFogCtrl_800FAE1C *self = (TFogCtrl_800FAE1C *)arg0;
+    GXFogAdjTable_800FAE1C tbl;
+    set_scene_fog_type(2);
+    fn_803E1FC8((self->color << 8) | (self->color >> 24));
+    set_scene_fog_distances(self->start, self->end);
+    if (is_split_screen() == 0) {
+        if (self->width >= FOG_MAX) {
+            self->width = FOG_MAX;
+        } else if (self->width <= FOG_ZERO) {
+            self->width = FOG_ZERO;
+        }
+        GXInitFogAdjTable(&tbl, (s32)self->width, scene_projection_state);
+        GXSetFogRangeAdj(1, 0x140, &tbl);
+    } else {
+        if (self->width >= (3.2e+02f)) {
+            self->width = (3.2e+02f);
+        } else if (self->width <= FOG_ZERO) {
+            self->width = FOG_ZERO;
+        }
+        GXInitFogAdjTable(&tbl, (s32)self->width, scene_projection_state);
+        GXSetFogRangeAdj(1, 0xA0, &tbl);
+    }
+    TParticleCtrl::end_effect_render();
+}
+#pragma pop
+
+#pragma push
+#pragma inline_depth(1)
+#pragma auto_inline off
+#pragma dont_inline off
+void TFogCtrl::clear_active_flag() {
+    s32 temp_r3;
+
+    if (is_split_screen() == 0) {
+        temp_r3 = this->m_1c;
+        if (temp_r3 & 1) {
+            this->m_1c = (s32) (temp_r3 & 0xFFFFFFFE);
+            apply_fog_entry(this);
+        }
+    } else {
+        apply_fog_entry(this);
+        this->m_1c = (s32) (this->m_1c & 0xFFFFFFFE);
+    }
+}
+#pragma pop
+
+#pragma push
+#pragma inline_depth(1)
+#pragma auto_inline off
+#pragma dont_inline off
+void TFogCtrl::update_all() {
     s32 var_r29;
     s32 var_r31;
     s32 temp_r3;
 
+    if (is_split_screen() == 0) {
+        var_r29 = 0;
+        var_r31 = 0;
+        do {
+            temp_r3 = *(TFogCtrl__fog_instance_table + var_r31);
+            if ((u32)temp_r3 != 0U) {
+                ((TFogCtrl *)temp_r3)->clear_active_flag();
+            }
+            var_r29 += 1;
+            var_r31 += 1;
+        } while (var_r29 != 4);
+    }
+}
+#pragma pop
+
+#pragma push
+#pragma inline_depth(1)
+#pragma auto_inline off
+#pragma dont_inline off
+void TFogCtrl::clear_split_screen_fog() {
+    u32 temp_r3;
+    if (is_split_screen() == 1) {
+        temp_r3 = *(s32 *)((s8 *)&TFogCtrl__fog_instance_table + ((TCameraCtrl::get_nth_view_player_id((int) (TCameraCtrl::get_camera_mode())) * 4) & 0x3FFFC));
+        if (temp_r3 != 0U) {
+            ((TFogCtrl *)temp_r3)->clear_active_flag();
+        }
+    }
+}
+#pragma pop
+
+#pragma push
+#pragma inline_depth(1)
+#pragma auto_inline off
+#pragma dont_inline off
+void*TFogCtrl::get_entry(int a0) {  return (char*)((*(int *)&fog_entry_array)) + a0 * 64; }
+#pragma pop
+
+#pragma push
+#pragma inline_depth(1)
+#pragma auto_inline off
+#pragma dont_inline off
+void copy_fog_entry(u8 *arg0, u8 *arg1) {
+    s32 var_r5;
+    s32 var_r7;
+    u8 *var_r6;
+    var_r5 = *(s32 *)((s8 *)arg1 + 0);
+    var_r6 = (u8 *)arg1 + 0x14;
+    var_r7 = (long) ((u8 *)arg0 + 0x14);
+    *(s32 *)((s8 *)arg0 + 0) = var_r5;
+    var_r5 = *(s32 *)((s8 *)arg1 + 4);
+    *(s32 *)((s8 *)arg0 + 4) = var_r5;
+    *(f32 *)((s8 *)arg0 + 8) = (f32) *(f32 *)((s8 *)arg1 + 8);
+    *(f32 *)((s8 *)arg0 + 0xC) = (f32) *(f32 *)((s8 *)arg1 + 0xC);
+    *(f32 *)((s8 *)arg0 + 0x10) = (f32) *(f32 *)((s8 *)arg1 + 0x10);
+    var_r5 = *(s32 *)((s8 *)arg1 + 0x14);
+    *(s32 *)((s8 *)arg0 + 0x14) = var_r5;
+    *(ByteBlock_20 *)(var_r7 + 4) = *(const ByteBlock_20 *)((s32) var_r6 + 4);
+    var_r7 += 0x20;
+    var_r6 += 0x20;
+    *(ByteBlock_8 *)((s32) arg0 + 0x38) = *(const ByteBlock_8 *)((s32) arg1 + 0x38);
+}
+#pragma pop
+
+#pragma push
+#pragma inline_depth(1)
+#pragma auto_inline off
+#pragma dont_inline off
+s32 TFogCtrl__sub_800FAC84(void* p) { return *(s32*)((char*)*(void**)((char*)p + 0x174) + 0x40); }
+#pragma pop
+
+#pragma push
+#pragma inline_depth(1)
+#pragma auto_inline off
+#pragma dont_inline off
+s32 TFogCtrl::restore_fog_for_player(s32 arg1, s32 arg0) {
+    if (is_split_screen() == 0) {
+        arg1 = 0;
+    }
+    if ((arg1 >= 0) && (arg1 < 4)) {
+        s32 elem = *(s32 *)(((s8 *)&TFogCtrl__fog_instance_table) + arg1 * 4);
+        if ((u32) elem != 0U) {
+            return ((TFogCtrl *)elem)->restore_fog(arg0);
+        }
+    }
+    return 0;
+}
+#pragma pop
+
+#pragma push
+#pragma inline_depth(1)
+#pragma auto_inline off
+#pragma dont_inline off
+s32 TFogCtrl::select_fog_for_viewport(s32 arg0, s32 arg1, s32 arg2) {
+    if (is_split_screen() == 0) {
+        arg0 = 0;
+    }
+    if ((arg0 >= 0) && (arg0 < 4) && ((u32) TFogCtrl__fog_instance_table[arg0] != 0U)) {
+        return ((s32)((TFogCtrl *)(TFogCtrl__fog_instance_table[arg0]))->select_fog(arg1, arg2));
+    }
+    return 0;
+}
+#pragma pop
+
+s32 TFogCtrl::update_all(s32 arg0) {
+    s32 var_r29;
+    s32 var_r31;
+    s32 temp_r3;
     var_r29 = 0;
     var_r31 = 0;
     do {
         temp_r3 = *(TFogCtrl__fog_instance_table + var_r31);
         if ((u32) temp_r3 != 0U) {
-            ((s32 (*)(s32))TFogCtrl__sub_800FBA54)(temp_r3);
+            ((TFogCtrl *)temp_r3)->restore_fog(arg0);
         }
         var_r29 += 1;
         var_r31 += 1;
     } while (var_r29 != 4);
+    return 1;
 }
 
-void TFogCtrl__sub_800FBAAC(void) {  }
-
-void TFogCtrl::update_fog_entries() {
+s32 TFogCtrl::update_first_active_fog() {
     s32 i;
-    s32 j;
-    s32 v;
-    if (TLobby::is_online_ready() != 0) {
-        if (!(fog_update_flags & 2)) {
-            read_disc_file(lbl_8043DA30, (void *)fog_entry_array);
-            fog_update_flags |= 2;
-        }
-    } else if (fog_update_flags & 2) {
-        read_disc_file(lbl_8043DA20, (void *)fog_entry_array);
-        fog_update_flags &= ~2;
-    }
-    i = 0;
-    j = 0;
-    do {
-        v = *(TFogCtrl__fog_instance_table + j);
-        if ((u32)v != 0U) {
-            ((void (*)(s32))TFogCtrl__sub_800FBAAC)(v);
-        }
-        i += 1;
-        j += 1;
-    } while (i != 4);
-    TParticleCtrl::end_effect_render();
-}
-
-void create_area_fog_ctrl(void) {
-    s32 *var_r3;
-    s32 *var_r4;
-    s32 var_r31;
-    s32 var_r5;
-    void *temp_r3;
-    void *temp_r3_2;
-    if (is_split_screen() != 0) {
-        var_r31 = 0;
-        do {
-            var_r3 = (s32 *)((u8 *)((s32 *)0x1C8));
-            temp_r3 = TObject::operator new(0x1C8);
-            if (temp_r3 != NULL) {
-                var_r4 = (s32 *)tl_02;
-                var_r5 = var_r31;
-                ((s32 (*)(int, int, int))__ct__8TFogCtrlFP7TObjectl)((int)temp_r3, (int)var_r4, (int)var_r5);
-            }
-            var_r31 += 1;
-        } while (var_r31 != 4);
-    } else {
-        var_r3 = (s32 *)((u8 *)((s32 *)0x1C8));
-        temp_r3_2 = TObject::operator new(0x1C8);
-        if (temp_r3_2 != NULL) {
-            var_r4 = (s32 *)tl_02;
-            var_r5 = 0;
-            ((s32 (*)(int, int, int))__ct__8TFogCtrlFP7TObjectl)((int)temp_r3_2, (int)var_r4, 0);
-        }
-    }
-    TObjFogCollisionPoison::create();
-    var_r4 = area_fog_row_table;
-    var_r3 = area_fog_row_table;
-    var_r3 = (s32 *)area_fog_row_table[get_current_floor_area()];
-    var_r4 = (s32 *)((u8 *)((s32 *)1));
-    TFogCtrl::update_all((int)var_r3, 1);
-}
-
-void TFogCtrl::reset() {
-    TObjFogCollisionPoison__sub_801533BC();
-    TQuestVmDownLoadServer::destroy_instance();
-    if ((u32) fog_entry_array != 0U) {
-        mem_free((void *)fog_entry_array);
-    }
-    fog_entry_array = 0U;
-    ((s32 (*)(s32))fn_803E1FC8)(-1);
-    set_scene_fog_distances((1e+03f), (1e+04f));
-    reset_scene_fog();
-    TParticleCtrl::begin_effect_render();
-}
-
-void init_scene_fog_system(void) {
-    s32 i;
-    fog_update_flags = 0;
-    fog_default_entry.f0 = 1;
-    fog_default_entry.f4 = 0;
-    fog_default_entry.f8 = 4000.0f;
-    fog_default_entry.fC = 100.0f;
-    fog_default_entry.f10 = 0.01f;
-    fog_default_entry.f14 = 0;
-    for (i = 0; i < 8; i++) {
-        fog_default_entry.f18[i] = FOG_ZERO;
-        fog_default_entry.f38[i] = 0;
-    }
-    fog_default_entry.f18[6] = FOG_MAX;
-    fog_entry_array = (u32)mem_alloc(0x2000);
-    for (i = 0; i < 0x80; i++) {
-        copy_fog_entry((u8 *)&((FogParam_800FBC5C *)fog_entry_array)[i], (u8 *)&fog_default_entry);
-    }
-    read_disc_file(lbl_8043DA20, (void *)fog_entry_array);
     for (i = 0; i < 4; i++) {
-        TFogCtrl__fog_instance_table[i] = 0;
+        if ((void *)((s32 *)&TFogCtrl__fog_instance_table)[i] != NULL) {
+            return TFogCtrl__sub_800FAC84((void *)((s32 *)&TFogCtrl__fog_instance_table)[i]);
+        }
     }
-    TParticleCtrl::end_effect_render();
-    TFogCtrl::create_instance();
-    TObjFogCollisionPoison::clear_state_array();
+    return 0;
 }
 
+s32 TFogCtrl::apply_all(s32 arg0, s32 arg1) {
+    s32 var_r29 = 0;
+    s32 *var_r30 = TFogCtrl__fog_instance_table;
+    s32 var_r31 = 0;
+    do {
+        u32 v = (u32)var_r30[var_r31];
+        if (v != 0U) {
+            ((TFogCtrl *)v)->select_fog(arg0, arg1);
+        }
+        var_r29 += 1;
+        var_r31 += 1;
+    } while (var_r29 != 4);
+    return 1;
+}
 
-s32 area_fog_row_table[36] = {
-    33, 1, 2, 3, 4, 5, 14, 15, 30, 31, 32, 23, 16, 34, 35, 34, 19, 47,
-    96, 97, 98, 64, 65, 24, 25, 26, 27, 28, 40, 41, 66, 99, 100, 16, 73, 75,
-};
-s32 TFogCtrl__fog_instance_table[4];
-FogParam_800FBC5C fog_default_entry;
-u32 fog_entry_array;
-s32 fog_update_flags;
-u32 fog_ctrl_instance;
+s32 TFogCtrl::update_all(s32 arg0, s32 arg1) {
+    s32 var_r29 = 0;
+    s32 *var_r30 = TFogCtrl__fog_instance_table;
+    s32 var_r31 = 0;
+    do {
+        u32 v = (u32)var_r30[var_r31];
+        if (v != 0U) {
+            request_fog__8TFogCtrlFPvii((u8 *)v, arg0, arg1);
+        }
+        var_r29 += 1;
+        var_r31 += 1;
+    } while (var_r29 != 4);
+    return 1;
+}
+
+void TFogCtrl::create_instance() {
+    void *o;
+    o = TObject::operator new(0x1C);
+    if (o != NULL) {
+        o = ((TFogCtrl_EOR *)o)->init_object();
+    }
+    (*(void * *)&fog_ctrl_instance) = o;
+}
+
+void TQuestVmDownLoadServer::destroy_instance() {
+    if ((u32) fog_ctrl_instance != 0U) {
+        ((TObject *)fog_ctrl_instance)->queue_destruction();
+    }
+    fog_ctrl_instance = 0U;
+}
+
+u8 *TFogCtrl_EOR::init_object() {
+    u8 *arg0 = (u8 *)this;
+    __ct__7TObjectFP7TObject(arg0, &end_of_render_root);
+    *(s32 **)((s8 *)arg0 + 0x18) = __vt__12TFogCtrl_EOR;
+    m_name = TFogCtrl_EOR__name;
+    return arg0;
+}
+
+TFogCtrl_EOR::~TFogCtrl_EOR() {
+
+}
+
+void TFogCtrl_EOR::run_task() { update_all__8TFogCtrlFv(this); }
+
+s32 TQuestVmDownLoadServer::poll_serial_access() { return TAdEnterSerialAccessGC::parse_serial_value(); }
+
+s32 TQuestVmDownLoadServer::get_serial_access() { return TAdEnterSerialAccessGC::parse_serial_value(); }
