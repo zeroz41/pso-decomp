@@ -1190,6 +1190,7 @@ pso/technique/TTecGiBarta.cpp
 pso/technique/TTecGiZonde.cpp
 pso/technique/TTecGiZonde_8023CDC4.cpp
 pso/technique/TTecGrants.cpp
+pso/technique/TechniqueRingwaveNames.cpp
 pso/technique/TTecJelin.cpp
 pso/technique/TTecKafun.cpp
 pso/technique/TTecLuker.cpp
