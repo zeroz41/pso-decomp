@@ -135,8 +135,6 @@ struct TWindowSubStatusDisp : public TWindowBase {
     void fill_card_text_entries(s32 arg1);
     static s32 query_status_field(void *arg0, s8 arg1);
     static s32 get_flag_or_zero(void *arg0, s8 arg1);
-    void *destroy_with_free(s16 arg1);
-    void*init_state(int a1, int a2);
     static void draw_split_screen_dividers();
     static void draw_tiled_background();
     static void draw_bottom_bar();

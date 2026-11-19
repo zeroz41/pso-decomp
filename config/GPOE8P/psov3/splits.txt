@@ -9889,12 +9889,13 @@ pso/ui/city/TShopDeleteItemWindow.cpp:
 pso/unk/TLobby_803382E4.cpp:
 	.text       start:0x803382E4 end:0x80338740
 	.rodata     start:0x80477B90 end:0x80477BE8
-	.data       start:0x804EF1B8 end:0x804EF43C
+	.data       start:0x804EF1B8 end:0x804EF440
 	.sbss       start:0x805D6D58 end:0x805D6D64
 	.sdata2     start:0x805DF9A0 end:0x805DF9C0
 
 pso/ui/window/TWindowSubStatusDisp_80338740.cpp:
 	.text       start:0x80338740 end:0x80338B94
+	.data       start:0x804EF440 end:0x804EF458
 	.sbss       start:0x805D6D68 end:0x805D6D70
 	.sdata2     start:0x805DF9C0 end:0x805DF9E4
 

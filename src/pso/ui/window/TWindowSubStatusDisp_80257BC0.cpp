@@ -3,6 +3,7 @@
 #include "pso/unk/TUnk_804CF930.h"
 #include "pso/unk/TUnk_804CF998.h"
 #include "pso/unk/TUnk_804CF9C8.h"
+#include "pso/unk/TUnk_804EF440.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80256B94.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80257BC0.h"
 #include "pso/system/memory.h"
@@ -249,7 +250,7 @@ void init_window_layout_entries(List_80257D44 *self, Desc_80257D44 *desc, s32 ar
             case 12:
                 o = ::operator new(0x28);
                 if (o != NULL) {
-                    o = ((TWindowSubStatusDisp *)o)->init_state((int)rec, (int)arg2);
+                    o = __ct__13TUnk_804EF440FPUcl(o, (u8 *)rec, arg2);
                 }
                 *out = o;
                 rec += 1;
