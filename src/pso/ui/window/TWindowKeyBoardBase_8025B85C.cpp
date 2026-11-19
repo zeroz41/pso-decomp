@@ -32,14 +32,9 @@ struct Kbd_8025C804 {
 
 extern "C" {
 s32 is_chat_shortcut_set(int);
-s32 TWindowKeyBoardSoft__sub_8025D664();
 s32 select_next__19TWindowKeyBoardBaseFv();
-s32 TWindowKeyBoardSoft__sub_8025D8C8();
-void TWindowKeyBoardSoft__sub_8025CFA8(void *, void *);
 s32 TWindowKeyBoardSoft__sub_803E67D4(void *, void *);
 s32 get_shared_text_buffer();
-void TWindowKeyBoardSoft__sub_8025DBDC(void *arg0, s32 arg1);
-s32 TWindowKeyBoardSoft__sub_8025D7FC();
 void export_keyboard_text(Base_8025C974 *base, char *out);
 
 int TWindowKeyBoardBase::is_alnum(u16 arg0) {
@@ -94,7 +89,7 @@ void TWindowKeyBoardBase::sub_8025B92C() {
                     *(s32 *)((s8 *)this + 0xAC) = var_r3;
                     var_r3 = TWindowKeyBoardSoft__sub_803E67D4(sp8, sp108);
                 } while (var_r3 != 0);
-                TWindowKeyBoardSoft__sub_8025CFA8(this, sp8);
+                sub_8025CFA8((s32 *)sp8);
                 sp8[0] = 0;
                 write_name_and_text((char *)sp8, (char *)sp8);
                 goto block_5;
@@ -192,7 +187,7 @@ void TWindowKeyBoardBase::vt9() {
                         *(s32 *)((s8 *)this + 0xAC) = var_r3;
                         var_r3 = TWindowKeyBoardSoft__sub_803E67D4(sp8, sp108);
                     } while (var_r3 != 0);
-                    TWindowKeyBoardSoft__sub_8025CFA8(this, sp8);
+                    sub_8025CFA8((s32 *)sp8);
                     sp8[0] = 0;
                     write_name_and_text((char *)sp8, (char *)sp8);
                     goto block_6;
@@ -224,7 +219,7 @@ void TWindowKeyBoardBase::vt8() {
                         *(s32 *)((s8 *)this + 0xAC) = var_r3;
                         var_r3 = TWindowKeyBoardSoft__sub_803E67D4(sp8, sp108);
                     } while (var_r3 != 0);
-                    TWindowKeyBoardSoft__sub_8025CFA8(this, sp8);
+                    sub_8025CFA8((s32 *)sp8);
                     sp8[0] = 0;
                     write_name_and_text((char *)sp8, (char *)sp8);
                     goto block_6;
@@ -257,7 +252,7 @@ void TWindowKeyBoardBase::vt6() {
 void TWindowKeyBoardBase::vt5() {
     if (!(*(u16 *)((s8 *)this + 0x62) & 8)) {
         if (*(s32 *)((s8 *)this + 0xB4) & 0x20) {
-            TWindowKeyBoardSoft__sub_8025C51C((u8 *)this, 2);
+            sub_8025C51C(2);
             return;
         }
         if (!(*(u16 *)((s8 *)this + 0x60) & 2) && (is_chat_shortcut_set(0xA) != 0)) {
@@ -270,7 +265,7 @@ void TWindowKeyBoardBase::vt5() {
 void TWindowKeyBoardBase::vt4() {
     if (!(*(u16 *)((s8 *)this + 0x62) & 8)) {
         if (*(s32 *)((s8 *)this + 0xB4) & 0x20) {
-            TWindowKeyBoardSoft__sub_8025C51C((u8 *)this, 1);
+            sub_8025C51C(1);
             return;
         }
         if (!(*(u16 *)((s8 *)this + 0x60) & 2) && (is_chat_shortcut_set(9) != 0)) {
@@ -283,7 +278,7 @@ void TWindowKeyBoardBase::vt4() {
 void TWindowKeyBoardBase::vt3() {
     if (!(*(u16 *)((s8 *)this + 0x62) & 8)) {
         if (*(s32 *)((s8 *)this + 0xB4) & 0x20) {
-            TWindowKeyBoardSoft__sub_8025C51C((u8 *)this, 0);
+            sub_8025C51C(0);
             return;
         }
         if (!(*(u16 *)((s8 *)this + 0x60) & 2) && (is_chat_shortcut_set(8) != 0)) {
@@ -309,7 +304,7 @@ void TWindowKeyBoardBase::vt18() {
             select_next__19TWindowKeyBoardBaseFv();
             return;
         }
-        TWindowKeyBoardSoft__sub_8025D664();
+        sub_8025D664();
     }
 }
 
@@ -324,7 +319,7 @@ void TWindowKeyBoardBase::vt16() {
       process_input();
       return;
     }
-    TWindowKeyBoardSoft__sub_8025D7FC();
+    sub_8025D7FC();
     return;
   }
   temp_r4 = (u8 *) (*((u8 **) (((s8 *)this) + 0x68)));
@@ -341,10 +336,10 @@ void TWindowKeyBoardBase::vt15() {
     u8 *temp_r4;
     if (*(u16 *)((s8 *)this + 0x60) & 4) {
         if ((*(u16 *)((s8 *)this + 0x62) & 1) && !(*(s32 *)((s8 *)this + 0xB4) & 0x20)) {
-            TWindowKeyBoardSoft__sub_8025D664();
+            sub_8025D664();
             return;
         }
-        TWindowKeyBoardSoft__sub_8025D8C8();
+        sub_8025D8C8();
         return;
     }
     temp_r4 = *(u8 **)((s8 *)this + 0x68);
@@ -493,14 +488,15 @@ void TWindowKeyBoardBase::vt0() {
     }
 }
 
-void TWindowKeyBoardSoft__sub_8025C51C(u8 *window_key_board_soft, s32 arg1) {
+#define window_key_board_soft ((u8 *)this)
+void TWindowKeyBoardBase::sub_8025C51C(s32 arg1) {
     s32 *str;
     u16 temp_r4;
     u32 temp_r3_2;
     temp_r4 = *(u16 *)((s8 *)window_key_board_soft + 0x60);
     if (temp_r4 & 2) {
         if (temp_r4 & 4) {
-            TWindowKeyBoardSoft__sub_8025DBDC(window_key_board_soft, 1);
+            ((TWindowKeyBoardBase *)window_key_board_soft)->sub_8025DBDC(1);
         }
         ((TWindowKeyBoardBase *)window_key_board_soft)->commit_composition_text();
     }
@@ -526,6 +522,7 @@ void TWindowKeyBoardSoft__sub_8025C51C(u8 *window_key_board_soft, s32 arg1) {
         ((KeyboardTextBuffer *)(window_key_board_soft + 0x6C))->append_text((u8 *)get_shared_text_buffer());
     }
 }
+#undef window_key_board_soft
 
 void TWindowKeyBoardBase::set_text(char *s) { m_text.set_text_from_string(s); }
 
@@ -535,7 +532,7 @@ void TWindowKeyBoardBase::insert_character(u16 code) {
         return;
     }
     if (!(*(u16 *)((s8 *)((u8 *)this) + 0x60) & 0x80) && *(u8 *)((s8 *)((u8 *)this) + 0x64) >= 1U) {
-        TWindowKeyBoardSoft__sub_8025DBDC(this, 1);
+        sub_8025DBDC(1);
         if (*(u8 *)((s8 *)((u8 *)this) + 0x64) == 2) {
             *(u16 *)((s8 *)((u8 *)this) + 0x60) |= 0x80;
         }
@@ -570,7 +567,7 @@ void TWindowKeyBoardBase::insert_character(u16 code) {
     }
     ((KeyboardTextBuffer *)(*(int *)((s8 *)((u8 *)this) + 0x68)))->insert_char(code);
     if (*(u8 *)((s8 *)((u8 *)this) + 0x64) == 0 && !(*(u16 *)((s8 *)((u8 *)this) + 0x60) & 0x80)) {
-        TWindowKeyBoardSoft__sub_8025DBDC(this, 0);
+        sub_8025DBDC(0);
     }
 }
 
@@ -595,7 +592,7 @@ s32 TWindowKeyBoardBase::commit_composition_text() {
     u16 *s;
     u16 *d;
     if (arg0->flags & 4) {
-        TWindowKeyBoardSoft__sub_8025DBDC(arg0, 1);
+        ((TWindowKeyBoardBase *)arg0)->sub_8025DBDC(1);
         src = arg0->src;
         i = 0;
         dst = arg0->buf;

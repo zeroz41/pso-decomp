@@ -4,6 +4,7 @@
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/KeyboardTextBuffer.h"
+#include "pso/ui/window/WindowDrawContext.h"
 
 struct TWindowKeyBoardBase : public TWindowBase {
     TWindowKeyBoardBase();
@@ -94,6 +95,24 @@ struct TWindowKeyBoardBase : public TWindowBase {
     s32 commit_composition_text();
     s32 measure_text_overflow();
     int is_key_state_2();
+    s32 sub_8025CE00(u8 *text);
+    void sub_8025CF50(int count);
+    void sub_8025CFA8(s32 *arg1);
+    void sub_8025D1C8(void *arg1);
+    s32 sub_8025D378(void *window_sub_status_disp);
+    s32 sub_8025D544(s32 *name, s8 *text);
+    void sub_8025D664();
+    void sub_8025D7FC();
+    void sub_8025D8C8();
+    void sub_8025DBDC(s32 arg1);
+    void sub_8025E148(WindowDrawContext *box, f32 *cursor, u16 *text, u32 count);
+    void sub_8025E530(WindowDrawContext *box, f32 *cursor, u16 *text, u32 count, s32 scaled);
+    void sub_8025C51C(s32 arg1);
+    void sub_8025CC48();
+    void update_close_mode();
+    void reset_input();
+    void flush_if_flagged();
+    int get_flag();
 };
 
 typedef char TWindowKeyBoardBase_size[sizeof(TWindowKeyBoardBase) == 0xB8 ? 1 : -1];

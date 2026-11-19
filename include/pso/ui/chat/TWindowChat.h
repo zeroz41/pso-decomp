@@ -30,12 +30,10 @@ public:
     void* wordSelectWindow;
     void* result;
 public:
-    void reset_input();
     void update();
     void handle_input();
     void handle_chat_input();
     u8 get_input_mode();
-    int get_flag();
     int forward_card_at_1c();
     int get_subcard_field1c();
     void set_active_flag();
@@ -45,7 +43,6 @@ public:
     int is_mode_bit4();
     int is_open();
     static u8 *open_symbol_chat(s32 *arg0);
-    void flush_if_flagged();
 };
 #include <stddef.h>
 typedef char ChatBaseSize[(sizeof(TObject)==0x1C)?1:-1];

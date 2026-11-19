@@ -7,7 +7,7 @@
 #include "pso/ui/Language.h"
 
 
-void TWindowChat::reset_input() {
+void TWindowKeyBoardBase::reset_input() {
     u8 *arg0 = (u8 *)this;
     ((KeyboardTextBuffer *)(arg0 + 0x6C))->reset_state();
     ((KeyboardTextBuffer *)(arg0 + 0x84))->reset_state();
@@ -30,7 +30,8 @@ void TWindowKeyBoardBase::set_mode1() {
 }
 
 void TWindowKeyBoardBase::set_mode0() { m_b4 = 18; }
-void TWindowKeyBoardHard__sub_8025CC48(void *arg0) {
+void TWindowKeyBoardBase::sub_8025CC48() {
+    void * arg0 = (void *)this;
     switch (current_language) {
     case LANGUAGE_JAPANESE:
         *(s32 *)((s8 *)arg0 + 0xB4) = 0;

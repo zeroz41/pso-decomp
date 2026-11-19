@@ -67,7 +67,6 @@ struct Lines_80261DD8 {
 
 s32 play_sound_effect(int, int, int, int);
 s32 draw_default_entry__9TWindowDDFl();
-int update_keyboard_close_mode(void*);
 f32 TWindowKeyBoardSoft__sub_802606E0(TWindowKeyBoardSoft *);
 void TWindowKeyBoardSoft__sub_80260760(void *self, s32 key, s32 *count, u32 *color);
 f32 TWindowKeyBoardSoft__sub_802614DC(u8 *, u8 *, f32, f32, f32, f32);
@@ -526,7 +525,7 @@ void TWindowKeyBoardSoft::set_mode0() {
 
 void TWindowKeyBoardSoft::close() {
     if (m_control != NULL) {
-        update_keyboard_close_mode(m_control);
+        ((TWindowKeyBoardBase *)m_control)->update_close_mode();
         update_focus_flags();
     }
 }

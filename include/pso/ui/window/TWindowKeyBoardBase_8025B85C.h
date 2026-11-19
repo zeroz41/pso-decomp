@@ -5,7 +5,6 @@
 
 struct TWindowKeyBoardSoft;
 extern "C" {
-void TWindowKeyBoardSoft__sub_8025C51C(u8 *arg0, s32 arg1);
 }
 
 #endif

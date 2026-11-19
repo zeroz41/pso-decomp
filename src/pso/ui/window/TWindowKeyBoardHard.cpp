@@ -624,7 +624,7 @@ struct Win_80260020 { u8 pad0[0x70]; State_80260020 *state; };
 extern "C" {
 s32 is_key_active__19TWindowKeyBoardHardFv();
 
-void TWindowKeyBoardHard::release_keyboard() { void* m = m_control; if (m) TWindowKeyBoardHard__sub_8025CC48(m); }
+void TWindowKeyBoardHard::release_keyboard() { void* m = m_control; if (m) ((TWindowKeyBoardBase *)m)->sub_8025CC48(); }
 
 #pragma pool_data off
 void TWindowKeyBoardHard::draw_status_text(void *ctx) {
@@ -690,7 +690,7 @@ void TWindowKeyBoardHard::run_task() {
                 temp_r3 = m_control;
                 *(s32 *)((s8 *)temp_r3 + 0xB4) = (s32) (*(s32 *)((s8 *)temp_r3 + 0xB4) & 0xFFFFFFBF);
                 if (!(this->m_60 & 0x40)) {
-                    TWindowKeyBoardHard__sub_8025CC48(m_control);
+                    ((TWindowKeyBoardBase *)m_control)->sub_8025CC48();
                 }
             }
             update_modifier_flags();

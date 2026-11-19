@@ -1811,11 +1811,11 @@ force_active:
   - TWindowKeyBoardHard__name
   - apply_dakuten_to_last_char__18KeyboardTextBufferFv
   - would_overflow_with__18KeyboardTextBufferFUs
-  - TWindowKeyBoardSoft__sub_8025C51C
-  - TWindowKeyBoardSoft__sub_8025CF50
-  - TWindowKeyBoardSoft__sub_8025D1C8
-  - TWindowKeyBoardSoft__sub_8025D378
-  - TWindowKeyBoardSoft__sub_8025D544
+  - sub_8025C51C__19TWindowKeyBoardBaseFl
+  - sub_8025CF50__19TWindowKeyBoardBaseFi
+  - sub_8025D1C8__19TWindowKeyBoardBaseFPv
+  - sub_8025D378__19TWindowKeyBoardBaseFPv
+  - sub_8025D544__19TWindowKeyBoardBaseFPlPSc
   - TWindowKeyBoardSoft__text_resource
   - TWindowLoadItemTexture__ct
   - __ct__13TWindowLockOnFlUs
@@ -1859,8 +1859,8 @@ force_active:
   - TWindowSubStatusDisp__sub_8025AF0C
   - TWindowSubStatusDisp__sub_8025B2DC
   - TWindowSubStatusDisp__sub_8025B760
-  - TWindowSubStatusDisp__sub_8025E148
-  - TWindowSubStatusDisp__sub_8025E530
+  - sub_8025E148__19TWindowKeyBoardBaseFP17WindowDrawContextPfPUsUl
+  - sub_8025E530__19TWindowKeyBoardBaseFP17WindowDrawContextPfPUsUll
   - TWindowSubStatusDisp__sub_80271A6C
   - TWindowSubStatusDisp__sub_802878B8
   - TWindowSubStatusDisp__sub_80287AC4
@@ -6410,7 +6410,7 @@ force_active:
   - fn_8024450C
   - fn_80248324
   - fn_802483C8
-  - fn_8025CE00
+  - sub_8025CE00__19TWindowKeyBoardBaseFPUc
   - fn_80262C2C
   - fn_80271848
   - fn_8028DBC4

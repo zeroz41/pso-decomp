@@ -10,4 +10,4 @@ bool TWindowKeyBoardBase::sub_8025CB10() {
     return this->m_text2.length != 0;
 }
 
-void TWindowChat::flush_if_flagged() { if (get_flag() != 0) { reset_input(); } }
+void TWindowKeyBoardBase::flush_if_flagged() { if (get_flag() != 0) { reset_input(); } }
