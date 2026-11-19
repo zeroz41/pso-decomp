@@ -406,7 +406,6 @@ pso/enemy/epsilon/TObjEneEpsilonGuard_8035DD68.cpp
 pso/enemy/epsilon/TObjEneEpsilonGuard_8035F5C8.cpp
 pso/enemy/gibbles/TObjEneGibbles.cpp
 pso/effect/enemy/TObjEneHoldEffect.cpp
-pso/effect/enemy/TObjEneHoldEffect_800FD814.cpp
 pso/effect/enemy/TObjEneHoldEffect_8036D070.cpp
 pso/enemy/illgill/TObjEneIllGill.cpp
 pso/enemy/lappy/TObjEneLappy.cpp
@@ -1236,7 +1235,6 @@ pso/ui/window/TWindowCtrl.cpp
 pso/ui/window/TWindowCtrlMain.cpp
 pso/ui/window/TWindowCtrlMain_800FC91C.cpp
 pso/ui/window/TWindowCtrl_8006E85C.cpp
-pso/ui/window/TWindowCtrl_800FD868.cpp
 pso/ui/window/TWindowCtrl_80145A28.cpp
 pso/ui/window/TWindowCtrl_801FBA28.cpp
 pso/ui/window/TWindowCtrl_8024A054.cpp
@@ -2052,7 +2050,6 @@ pso/unk/text_800F9FD0.cpp
 pso/unk/text_800FA260.cpp
 pso/unk/text_800FA464.cpp
 pso/unk/text_800FA7E0.cpp
-pso/unk/text_800FD930.cpp
 pso/unk/text_800FFE04.cpp
 pso/unk/text_80103674.cpp
 pso/effect/item/TItemEffEquip_80108860.cpp

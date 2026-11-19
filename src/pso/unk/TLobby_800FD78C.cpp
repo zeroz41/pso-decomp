@@ -1,10 +1,24 @@
 #include "types.h"
 #include "pso/unk/TLobby_800FD78C.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/client_id.h"
+#include "pso/effect/enemy/TObjEneHoldEffect.h"
+#include "pso/ui/window/TWindowCtrl.h"
+#include "pso/unk/text_800FD8A0.h"
+
+// One TU 0x800FD78C-0x800FD8B4: its .sbss 0x805D53A0-0x805D53B4 is one run (no pad inside) whose only user
+// here is fn_800FD8A0; the zero word at 0x805D53B4 before the 8-aligned 0x805D53B8 closes it (the next TU,
+// TObjRoomId_800FD8C8, owns 0x805D53B8-0x805D53C0). The fragments around it have no data of their own.
+s32 local_client_id;
+s32 actor_frame_tick;
+// Never stored: the control role create_player_object hands each local player (base + split-screen slot)
+// to setup_control_role; name inferred from that use.
+s32 player_control_role_base;
+s32 TLobby__designated_client_id;
+s32 lbl_805D53B0;
 
 extern "C" {
-
 int is_float_nonfinite(f32 farg0);
+}
 
 void Obj_80515BA0::init_range(s32 floor) {
     current_floor = floor;
@@ -18,14 +32,41 @@ void Obj_80515BA0::init_range(s32 floor) {
     state_flags = 0;
 }
 
-u8 fn_800FD7C0(void *arg0) {
+// The validators pass the two packed floats of a position subcommand (x, z).
+u8 fn_800FD7C0(f32 *xz) {
     int var_r31;
 
     var_r31 = 0;
-    if ((is_float_nonfinite(*(f32 *)((s8 *)arg0 + 0)) != 0) || (is_float_nonfinite(*(f32 *)((s8 *)arg0 + 4)) != 0)) {
+    if ((is_float_nonfinite(xz[0]) != 0) || (is_float_nonfinite(xz[1]) != 0)) {
         var_r31 = 1;
     }
     return (u8)var_r31;
 }
 
+u8 TObjEneHoldEffect::is_camera_visible() {
+    int var_r31;
+
+    var_r31 = 0;
+    if ((is_float_nonfinite(*(f32 *)&this->m_name) != 0) || (is_float_nonfinite(*(f32 *)&this->m_flags) != 0)) {
+        var_r31 = 1;
+    }
+    return (u8) var_r31;
+}
+
+extern void *TWindowCtrl__active_window;
+
+void TWindowCtrl::clear_flag_2() {
+    if ((void *) TWindowCtrl__active_window != NULL) {
+        *(u16 *)((s8 *)TWindowCtrl__active_window + 0x1C) = (u16) (*(u16 *)((s8 *)TWindowCtrl__active_window + 0x1C) & 0xFFFFFFFD);
+    }
+}
+
+void TWindowCtrl::set_close_flag() {
+    if ((void *) TWindowCtrl__active_window != NULL) {
+        *(u16 *)((s8 *)TWindowCtrl__active_window + 0x1C) = (u16) (*(u16 *)((s8 *)TWindowCtrl__active_window + 0x1C) | 2);
+    }
+}
+
+bool fn_800FD8A0(s32 arg0) {
+    return lbl_805D53B0 == arg0;
 }

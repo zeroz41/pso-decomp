@@ -1548,8 +1548,10 @@ MIDDLEWARE: List[Tuple[str, int, str, List[str], Dict[str, Dict[str, Any]]]] = [
         # -str reuse,readonly: its literals "Dummy" and "" sit in .sdata2 0x805E10D8 (sub_803F09A4).
         "pso/quest/QuestDownloadAramFile.cpp": {"cflags": _switch(cflags_middleware, "-str reuse,readonly")},
     }),
-    # ntInf ("Ver 1.17.00 Build:Jul 9 2002").
-    ("ntinf", 0x803F3BF8, "GC/2.6", cflags_middleware, {
+    # ntInf ("Ver 1.17.00 Build:Jul 9 2002"). GC/1.3: its buffer pointers sit on 32-byte boundaries
+    # (.sbss 0x805D79C0, 0x805D79E0) and the two entry points taking the caller's buffer 32-align their
+    # frames; 1.3 honours aligned(32) on pointers, 1.3.2-2.7 drop it, and the rest of the code is the same.
+    ("ntinf", 0x803F3BF8, "GC/1.3", cflags_middleware, {
         "pso/unk/text_803F4D84.cpp": {"cflags": _switch(cflags_middleware, "-O2", "-use_lmw_stmw off")},
     }),
     # ACCESS AVE-TCP ("avetcp.a Ver.1.16.1 Oct 23 2002"); its PPP files were

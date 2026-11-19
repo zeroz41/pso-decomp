@@ -2,6 +2,7 @@
 #include "types.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/unk/TLobby_801A2D90.h"
+#include "pso/unk/TLobby_800FD78C.h"
 #include "pso/unk/TLobby_8030A6A8.h"
 #include "pso/object/switch/TSwitch.h"
 #include "pso/object/warp/TObjLaboMapWarp_80185248.h"
@@ -23,7 +24,6 @@ extern "C" {
 s32 create_player_object(s32, s32, u32);
 u32 get_char_index__23TAdSinglePlyChrSelectGCFUi(s32);
 extern s32 local_client_id;
-extern s32 lbl_805D53A8;
 s32 reset_quest_result_callbacks__22THunterGuildSeqOfflineFPv();
 extern u32 quest_mission_manager;
 void *get_player_by_client_id(s32 i);
@@ -64,7 +64,7 @@ void TLobby::apply_char_to_players() {
             if (is_multiplayer_character_slot_selected(var_r31) != 0) {
                 temp_r3 = get_char_index__23TAdSinglePlyChrSelectGCFUi(var_r31);
                 if (temp_r3 != 0U) {
-                    create_player_object(var_r31, lbl_805D53A8 + var_r31, temp_r3);
+                    create_player_object(var_r31, player_control_role_base + var_r31, temp_r3);
                 }
             }
             var_r31 += 1;
@@ -73,7 +73,7 @@ void TLobby::apply_char_to_players() {
     }
     temp_r3_2 = get_char_index__23TAdSinglePlyChrSelectGCFUi(local_client_id);
     if (temp_r3_2 != 0U) {
-        create_player_object(0, lbl_805D53A8, temp_r3_2);
+        create_player_object(0, player_control_role_base, temp_r3_2);
     }
 }
 void TLobby::reset_quest_state() {

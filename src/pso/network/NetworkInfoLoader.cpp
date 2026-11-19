@@ -67,8 +67,6 @@ extern char default_network_entry_name[];
 extern char lbl_804FCF04[];
 extern char lbl_804FCF18[];
 extern u32 lobby_net_config_mode;
-extern Big_803F47BC *lobby_net_config_buffer;
-extern void *lobby_net_config_card_base;
 void *OSAllocFromHeap(s32 heap, u32 size);
 void OSFreeToHeap(s32 heap, void *p);
 }
@@ -79,6 +77,15 @@ extern u8 network_info_trailer_buffer[];
 extern u8 network_info_trailer_backup[];
 Save_803F3F64 *TAdPlayerLoadGC__network_config_buffer;
 s32 network_config_mode;
+s32 TAdPlayerLoadGC__player_load_value;
+// The ntInf init (TLobby__sub_803F3BF8) stores the library's version banner pointer here, as mcfs does with
+// mcfs_version_ref (name inferred from that store).
+const char *ntinf_version_ref;
+s32 lobby_net_config_load_state;
+// The config buffer and its card half sit on the 32-byte boundaries 0x805D79C0 and 0x805D79E0 (the zero words
+// between are this TU's alignment pad, as card_work_area in mcfs).
+Big_803F47BC *lobby_net_config_buffer __attribute__((aligned(32)));
+void *lobby_net_config_card_base __attribute__((aligned(32)));
 
 #pragma scheduling off
 #pragma peephole off
@@ -422,8 +429,6 @@ s32 get_or_set_network_config_mode(s32 arg0) {
     return network_config_mode;
 }
 
-s32 TAdPlayerLoadGC__player_load_value;
-
 s32 get_network_config_backup_mode(void) { return get_or_set_network_config_backup_mode(2); }
 
 s32 get_or_set_network_config_backup_mode(s32 arg0) {
@@ -513,17 +518,9 @@ u32 fn_803F4D10(u32 crc, u8 *buf, s32 len) {
 }
 #pragma pop
 
-#pragma push
-#pragma scheduling off
-#pragma peephole off
-#pragma optimization_level 1
 u32 calc_crc32(s32 buf, s32 len) {
-    u32 r = fn_803F4D10(-1, (u8 *)buf, len);
-    r ^= 0xFFFF0000;
-    r ^= 0xFFFF;
-    return r;
+    return fn_803F4D10(0xFFFFFFFF, (u8 *)buf, len) ^ 0xFFFFFFFF;
 }
-#pragma pop
 
 u32 crc32_table[256] = {
     0x00000000, 0x77073096, 0xEE0E612C, 0x990951BA, 0x076DC419, 0x706AF48F, 0xE963A535, 0x9E6495A3,

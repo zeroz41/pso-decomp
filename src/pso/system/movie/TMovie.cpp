@@ -17,6 +17,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 #include "pso/system/task/TObject.h"
 #include "pso/unk/text_80320358.h"
+#include "pso/ui/frontend/TAdEndText_80307A34.h"
 
 struct MovieState;
 
@@ -47,7 +48,6 @@ extern s32 video_initial_draw_framebuffer;
 extern s32 video_initial_display_framebuffer;
 extern int opening_movie_selector;
 extern unsigned char main_menu_scene_active_flag;
-extern int ending_movie_active_flag;
 
 const char *TMovie__name = "TMovie";
 // inferred: the eye, target and up vectors run_task passes to set_camera_look_at

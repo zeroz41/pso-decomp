@@ -2109,19 +2109,12 @@ pso/ui/font/TFontSmallTask.cpp:
 	.sdata2     start:0x805DAA00 end:0x805DAA36
 
 pso/unk/TLobby_800FD78C.cpp:
-	.text       start:0x800FD78C end:0x800FD814
-
-pso/effect/enemy/TObjEneHoldEffect_800FD814.cpp:
-	.text       start:0x800FD814 end:0x800FD868
-
-pso/ui/window/TWindowCtrl_800FD868.cpp:
-	.text       start:0x800FD868 end:0x800FD8A0
+	.text       start:0x800FD78C end:0x800FD8B4
+	.sbss       start:0x805D53A0 end:0x805D53B8
 
 pso/object/TObjRoomId_800FD8C8.cpp:
-	.text       start:0x800FD8A0 end:0x800FD930
-
-pso/unk/text_800FD930.cpp:
-	.text       start:0x800FD930 end:0x800FD944
+	.text       start:0x800FD8B4 end:0x800FD944
+	.sbss       start:0x805D53B8 end:0x805D53C0
 
 pso/system/TGStream.cpp:
 	.text       start:0x800FD944 end:0x800FE300
@@ -9154,6 +9147,7 @@ pso/player/TObjPlayer_80307618.cpp:
 
 pso/ui/frontend/TAdEndText_80307A34.cpp:
 	.text       start:0x80307A34 end:0x80307B70
+	.sbss       start:0x805D6A58 end:0x805D6A60
 	.sdata2     start:0x805DF0B0 end:0x805DF0B8
 
 pso/object/warp/TObjAreaWarp_80307B70.cpp:
@@ -12285,7 +12279,7 @@ pso/network/NetworkInfoLoader.cpp:
 	.data       start:0x804FCE68 end:0x804FD334
 	.bss        start:0x805A5F00 end:0x805A8AE8
 	.sdata      start:0x805D4708 end:0x805D4710
-	.sbss       start:0x805D79A0 end:0x805D79AC
+	.sbss       start:0x805D79A0 end:0x805D79E8 align:32
 
 pso/unk/text_803F4D84.cpp:
 	.text       start:0x803F4D84 end:0x803F632C
