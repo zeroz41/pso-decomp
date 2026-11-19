@@ -434,6 +434,7 @@ pso/enemy/panarms/TObjEnePanarms_800DCEB8.cpp
 pso/enemy/panarms/TObjEnePanarms_800DFB00.cpp
 pso/enemy/panarms/TObjEnePanarms_800DFB74.cpp
 pso/enemy/panarms/TObjEnePanarms_800F5E90.cpp
+pso/enemy/flower/FlowerRe2Data.cpp
 pso/enemy/flower/TObjEneRe2Flower.cpp
 pso/enemy/flower/TObjEneRe2Flower_800C4B78.cpp
 pso/enemy/sorcerer/TObjEneRe4Bit.cpp
