@@ -1207,5 +1207,3 @@ void TUnk_804B8DD0::render() {
         pop_matrix();
     }
 }
-
-

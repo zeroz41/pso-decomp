@@ -233,4 +233,3 @@ u8 *TObjLight__create(u8 *arg0) {
     }
     return var_r0;
 }
-

@@ -173,4 +173,3 @@ void *TAdYesNoBaseGC__ct(TAdYesNoBaseGC *ad_yes_no_base_gc) {
     }
     return ad_yes_no_base_gc;
 }
-

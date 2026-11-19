@@ -2028,4 +2028,3 @@ void TObjEneBm5Wolf::render_debug() {
 }
 #pragma pop
 void TObjEneBm3FlyNest::render_shadows() {  }
-

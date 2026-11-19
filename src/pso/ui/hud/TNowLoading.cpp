@@ -194,4 +194,3 @@ s32 TLobby::aram_transfer_sync(s32 arg0, u32 buf, s32 arg2, s32 arg3) {
     }
     return 1;
 }
-

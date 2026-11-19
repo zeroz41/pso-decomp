@@ -338,4 +338,3 @@ TLazerFenceSw::TLazerFenceSw(TObject *arg1, void *arg2) : TOKey(arg1) {
 }
 
 #pragma pop
-

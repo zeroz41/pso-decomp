@@ -202,4 +202,3 @@ u8 *TWindowSubMagPhoton__ct(TWindowSubMagPhoton *window_sub_mag_photon, s32 arg1
     return (u8 *)window_sub_mag_photon;
 }
 }
-

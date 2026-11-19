@@ -1542,4 +1542,3 @@ void TObjAreaWarpEndingJung::debug_print_area_num() {
 void *TObjAreaWarpEndingJung__create(void *set_data) {
     return new TObjAreaWarpEndingJung(tl_05, set_data);
 }
-

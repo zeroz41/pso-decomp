@@ -76,4 +76,3 @@ __declspec(section ".sdata2") const f64 radians_to_angle = 10430.38043493439;
 __declspec(section ".sdata2") const f32 screen_half_scale = 0.5f;
 __declspec(section ".sdata2") const f32 projection_unit = 1.0f;
 __declspec(section ".sdata2") const f32 screen_aspect_ratio = 1.3333334f;
-

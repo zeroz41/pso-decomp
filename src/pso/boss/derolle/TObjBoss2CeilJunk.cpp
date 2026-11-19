@@ -301,4 +301,3 @@ u8 *TObjBoss2CeilJunk__ct(struct RecoveredFields_8003A6F4_arg0 *arg0, s32 arg1, 
     return (unsigned char *) (arg0);
 }
 #pragma pop
-

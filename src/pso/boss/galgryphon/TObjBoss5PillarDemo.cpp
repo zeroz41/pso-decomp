@@ -68,4 +68,3 @@ s32 TObjBoss5PillarDemo::create() {
 
 void TObjBoss5PillarDemo__sub_8028ACE0(void) {  }
 void TObjBoss5PillarDemo__sub_8028ACE4(void) {  }
-

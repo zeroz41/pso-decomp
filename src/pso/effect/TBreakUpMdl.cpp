@@ -363,4 +363,3 @@ u8 *TBreakUpMdl::init_from_model(s32 boss2_tunnel) {
 }
 
 void TBreakUpMdl::copy(void* q) { *(u32 *)&this->m_name = *(u32*)((char*)q + 0x0); *(f32 *)&this->m_flags = *(f32*)((char*)q + 0x4); *(f32 *)&this->m_prev = *(f32*)((char*)q + 0x8); *(f32 *)&this->m_next = *(f32*)((char*)q + 0xc); *(f32 *)&this->m_up = *(f32*)((char*)q + 0x10); *(f32 *)&this->m_down = *(f32*)((char*)q + 0x14); *(f32*)((char*)this + 0x18) = *(f32*)((char*)q + 0x18); }
-
