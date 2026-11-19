@@ -8300,7 +8300,7 @@ pso/ui/frontend/TAdTitleTexGC.cpp:
 pso/ui/charcreate/TChCrTagPlBack.cpp:
 	.text       start:0x802A5208 end:0x802A559C
 	.rodata     start:0x80466710 end:0x80466760
-	.data       start:0x804DD060 end:0x804DD078
+	.data       start:0x804DD060 end:0x804DD080
 	.sdata      start:0x805D3DF0 end:0x805D3DF8
 	.sdata2     start:0x805DDFC8 end:0x805DDFEC
 
