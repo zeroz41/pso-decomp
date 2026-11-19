@@ -466,6 +466,8 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/ui/window/TWindowMakeTeam.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     # .data holds the vtable (0x804CF038) ahead of create's jump table: deferred generation of the last-to-first source.
     "pso/ui/window/TWindowEffectParty.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
+    # -inline off,deferred: .data is the layout tables, the vtable, then the jump tables.
+    "pso/ui/window/TWindowFukidasi.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     # .data holds the vtable (0x804D16C0) ahead of run_task's jump table: deferred generation of the last-to-first source.
     "pso/ui/window/TWindowSubMag.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     # .data holds the vtable (0x804DE8C8) ahead of run_task's jump table: deferred generation of the last-to-first source.

@@ -1,5 +1,4 @@
 #include "types.h"
-#include "pso/ui/window/TWindowFukidasi_80252AE4.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/ui/window/TWindowFukidasi.h"
