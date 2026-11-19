@@ -40,7 +40,6 @@ s32 get_width__19TWindowSimpleStatusFv();
 s32 draw_right_aligned_number(void *);
 void update_hp_tp_values__20TWindowSubStatusDispFPv(u8 *arg0);
 
-s32 draw_default_entry__9TWindowDDFl(void *, f32, f32);
 s32 draw_visible_window_entries(void *, void *, int);
 
 
@@ -51,8 +50,6 @@ s32 get_window_layout_position(s32);
 void update_lockon_window(u8 *arg0);
 }
 void update_status_help_item(s32 arg0);
-extern const f32 lbl_805DD470;
-extern const f32 lbl_805DD474;
 extern "C" {
 
 s32 create__19TWindowSimpleStatusFPv(int, void *);
@@ -195,21 +192,13 @@ void TWindowStatus::draw_background(u8 *arg1) {
 
 #pragma fp_contract on
 void TWindowStatus::render() {
-    u8 *arg0 = (u8 *)this;
-  f32 temp_f1;
-  u8 *new_var;
-  s32 temp_r31;
-  f32 new_var2;
-  s32 ctx;
-  temp_r31 = (s32)((TWindowBase *)arg0)->get_array_entry(0xE);
-  ((s32 (*)(void))draw_right_aligned_number)();
-  new_var2 = (f32) lbl_805DD474;
-  new_var = arg0;
-  temp_f1 = *((f32 *) (((s8 *) temp_r31) + 0x10));
-  *((f32 *) (((s8 *) temp_r31) + 8)) = (f32) ((lbl_805DD474 * temp_f1) + lbl_805DD470);
-  ctx = draw_default_entry__9TWindowDDFl((void *) arg0, (f32) temp_f1, new_var2);
-  ((TWindowStatus *)arg0)->draw_background((u8 *)ctx);
-  draw_visible_window_entries((void *) new_var, (u8 *)&this->m_24, (int) ctx);
+    s32 entry = get_array_entry(0xE);
+    s32 ctx;
+    draw_right_aligned_number((void *)entry);
+    *(f32 *)((s8 *)entry + 8) = 0.5f * *(f32 *)((s8 *)entry + 0x10) + 68.0f;
+    ctx = TWindowDD::draw_default_entry((s32)this);
+    draw_background((u8 *)ctx);
+    draw_visible_window_entries(this, &m_24, ctx);
 }
 
 void TWindowStatus::run_task() {

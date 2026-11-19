@@ -181,4 +181,7 @@ void *__dt__13TUnk_804EFBACFv(void *arg0, s16 arg1);
 void update_draw__9TWindowDDFPv(void *p);
 }
 
+// Upper bounds of the numeric word-select entries, indexed by TWindowDD::classify_id.
+extern const s32 word_select_numeric_limits[6];
+
 #endif

@@ -64,7 +64,6 @@ void append_word_select_token(s32, s32, void *);
 void TWindowDD__sub_8034740C(u8 *arg0, s32 arg1, s32 arg2);
 void TWindowDD__sub_803474CC(M_80347758 *entry, s16 id, char *word, s32 buf, s32 *pos);
 s32 TWindowDD__sub_80348D88(void *p);
-extern const s32 word_select_numeric_limits[];
 extern s32 TWindowDD__window_mode;
 s32 get_word_select_token_text(s32);
 void TWindowDD__sub_80347474(s32 arg0, s32 arg1, s32 arg2, s32 arg3);

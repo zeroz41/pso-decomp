@@ -16,7 +16,7 @@ struct TWindowTimer : public TWindowBase {
     u8 unk_48[0x4];
     f32 m_4c;
     u8 unk_50[0x10];
-    u32 m_60;
+    u32 flags;  // bit 0: counter display (init_timer_window_layout) vs play time (_alt)
     void update_chat_parts();
     void draw(s32 arg1, s32 arg2);
     void set_time(u32 secs);

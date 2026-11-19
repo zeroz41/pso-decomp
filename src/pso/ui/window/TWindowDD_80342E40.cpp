@@ -18,13 +18,14 @@ struct W_80342ED0 {
     s32 f104;
 };
 
+const s32 word_select_numeric_limits[6] = { 999999, 99, 30, 15, 200, 999 };
+
 extern "C" {
 void TWindowDD__sub_80341AF8(u8 *arg0);
-s32 open_numeric_parameter_input__9TWindowDDFPviii(void *, int, void *, void *);
+s32 open_numeric_parameter_input__9TWindowDDFPviii(void *, int, int, void *);
 s32 classify_id__9TWindowDDFs();
 s32 TWindowDD__sub_80347CC8(void *, void *);
 s32 get_current_child_index__9TWindowDDFv();
-extern void *word_select_numeric_limits[];
 s32 TWindowDD__sub_80342158(s32);
 s32 TWindowDD__sub_803435A0(void *);
 s32 TWindowDD__sub_80347C50();
