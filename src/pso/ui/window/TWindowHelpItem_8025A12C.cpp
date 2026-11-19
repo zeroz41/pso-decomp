@@ -184,7 +184,7 @@ void *destroy__15TWindowHelpItemFPvs(void *arg0, s16 arg1) {
 }
 
 u8 *TWindowHelpItem__sub_8025A594(u8 *arg0, s32 arg1, s32 arg2) {
-    ((TUnk_804CF930 *)arg0)->sub_80256BDC((s32)((void *)arg2));
+    __ct__13TUnk_804CF918Fl(arg0, arg2);
     *(s32 **)((s8 *)arg0 + 4) = ((s32 *)&lbl_804CF9F8);
     ((TWindowSubSymbolChatPartsSet *)(arg0 + 8))->copy_vec2((void *)(arg1 + 4));
     *(s32 *)((s8 *)arg0 + 0x10) = -1;

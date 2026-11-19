@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/unk/TUnk_804CF998.h"
 #include "pso/unk/TLobby_8001D6A0.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8024FBA8.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
@@ -8,8 +9,6 @@
 
 extern "C" {
     extern unsigned char lbl_804EF440[];
-void *reset_entry__20TWindowSubStatusDispFPv(void *a0, s32 _w1);
-s32 deleting_destructor__20TWindowSubStatusDispFs(void *, s32);
 void mem_free(void *p);
 extern u8 lbl_804EF440[];
 s32 get_message_10__20TWindowSubStatusDispFl(s32);
@@ -142,7 +141,7 @@ void *TWindowSubStatusDisp::destroy_with_free(s16 arg1) {
             mem_free(this->m_24);
             *(u32 *)((s8 *)this + 0x24) = 0U;
         }
-        deleting_destructor__20TWindowSubStatusDispFs(this, 0);
+        __dt__13TUnk_804CF998Fv(this, 0);
         if (arg1 > 0) {
             ::operator delete(this);
         }
@@ -150,7 +149,7 @@ void *TWindowSubStatusDisp::destroy_with_free(s16 arg1) {
     return this;
 }
 
-void*TWindowSubStatusDisp::init_state(int a1, int a2) { reset_entry__20TWindowSubStatusDispFPv(this, a2); *(int*)((char*)this + 0x4) = (int)lbl_804EF440; *(float*)((char*)this + 0x14) = 18.0f; *(unsigned char *)&this->unk_1C = 51; *(signed char *)&this->m_1d = -1; *(signed char *)&this->unk_1E = -1; this->m_1f = -1; *(signed char*)((char*)this + 0x20) = -1; *(signed char*)((char*)this + 0x21) = -1; *(int*)((char*)this + 0x24) = 0; *(int*)((char*)this + 0x18) = 0; return this; }
+void*TWindowSubStatusDisp::init_state(int a1, int a2) { __ct__13TUnk_804CF998Fl(this, a2); *(int*)((char*)this + 0x4) = (int)lbl_804EF440; *(float*)((char*)this + 0x14) = 18.0f; *(unsigned char *)&this->unk_1C = 51; *(signed char *)&this->m_1d = -1; *(signed char *)&this->unk_1E = -1; this->m_1f = -1; *(signed char*)((char*)this + 0x20) = -1; *(signed char*)((char*)this + 0x21) = -1; *(int*)((char*)this + 0x24) = 0; *(int*)((char*)this + 0x18) = 0; return this; }
 
 int TWindowSubStatusDisp__sub_80338B88(void* p) { return (*(u16*)((char*)p + 0x0) >> 2) & 0x1; }
 

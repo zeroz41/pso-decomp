@@ -7081,13 +7081,22 @@ pso/ui/window/TWindowSubStatusDisp_8025737C.cpp:
 	.sdata2     start:0x805DCED0 end:0x805DCEF0
 
 pso/ui/window/TWindowSubStatusDisp_80257BC0.cpp:
-	.text       start:0x80257BC0 end:0x8025995C
-	.rodata     start:0x8044EE58 end:0x8044F000
-	.data       start:0x804CF960 end:0x804CF994
+	.text       start:0x80257BC0 end:0x80258050
+	.rodata     start:0x8044EE58 end:0x8044EE60
+	.data       start:0x804CF960 end:0x804CF998
 	.sdata2     start:0x805DCEF0 end:0x805DCEF4
 
 pso/ui/window/WindowSubStatusDispSdata2.cpp:
 	.sdata2     start:0x805DCEF8 end:0x805DCF30
+
+pso/unk/TUnk_804CF998.cpp:
+	.text       start:0x80258050 end:0x80258164
+	.data       start:0x804CF998 end:0x804CF9B0
+
+pso/ui/window/TWindowSubStatusDisp_80258164.cpp:
+	.text       start:0x80258164 end:0x8025995C
+	.rodata     start:0x8044EE60 end:0x8044F000
+	.data       start:0x804CF9B0 end:0x804CF9C8
 
 pso/ui/window/TWindowSubStatusDisp_8025995C.cpp:
 	.text       start:0x8025995C end:0x80259DB0

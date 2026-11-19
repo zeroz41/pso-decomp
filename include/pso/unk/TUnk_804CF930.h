@@ -22,7 +22,6 @@ public:
 
     void*init_from(void*, int);
     void draw_status_gauge_bar(void *, void *, f32, f32);
-    void sub_80256BDC(s32);
 };
 
 typedef char TUnk_804CF930_size[sizeof(TUnk_804CF930) == 0x28 ? 1 : -1];

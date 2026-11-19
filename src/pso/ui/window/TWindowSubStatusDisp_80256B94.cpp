@@ -39,14 +39,13 @@ struct Gauge_802571B4 {
 struct Quad_80256E0C { f32 x0, y0, x1, y1, u0, v0, u1, v1; };
 
 extern "C" {
-extern s32 __vt__13TUnk_804CF918[];
 s32 try_open__19TWindowKeyBoardSoftFii(void *, void *);
 void draw_textured_quad_at_depth(f32 *q, f32 depth);
 void TWindowSubStatusDisp__sub_80256C40(TUnk_804CF930 *self, TWindowKeyBoardSoft *ctx, NJS_POINT2 *pos, f32 depth);
 extern s32 __vt__13TUnk_804CF930[];
 typedef void *(*Ctor_80257D44)(void *, void *, s32);
 
-void*TUnk_804CF930::init_from(void*a1, int a2) { sub_80256BDC(a2); *(int*)((char*)this + 0x4) = (int)__vt__13TUnk_804CF930; *(float*)((char*)this + 0x1c) = 0.0f; *(float*)((char*)this + 0xc) = *(float*)((char*)a1 + 0x4); *(float*)((char*)this + 0x10) = *(float*)((char*)a1 + 0x8); *(float*)((char*)this + 0x8) = *(float*)((char*)a1 + 0xc); *(float*)((char*)this + 0x14) = *(float*)((char*)a1 + 0x18); *(int*)((char*)this + 0x18) = *(int*)((char*)a1 + 0x10); *(short*)((char*)this + 0x0) = *(int*)((char*)a1 + 0x14); *(float*)((char*)this + 0x20) = *(float*)((char*)a1 + 0x1c); *(float*)((char*)this + 0x24) = *(float*)((char*)a1 + 0x20); return this; }
+void*TUnk_804CF930::init_from(void*a1, int a2) { __ct__13TUnk_804CF918Fl(this, a2); *(int*)((char*)this + 0x4) = (int)__vt__13TUnk_804CF930; *(float*)((char*)this + 0x1c) = 0.0f; *(float*)((char*)this + 0xc) = *(float*)((char*)a1 + 0x4); *(float*)((char*)this + 0x10) = *(float*)((char*)a1 + 0x8); *(float*)((char*)this + 0x8) = *(float*)((char*)a1 + 0xc); *(float*)((char*)this + 0x14) = *(float*)((char*)a1 + 0x18); *(int*)((char*)this + 0x18) = *(int*)((char*)a1 + 0x10); *(short*)((char*)this + 0x0) = *(int*)((char*)a1 + 0x14); *(float*)((char*)this + 0x20) = *(float*)((char*)a1 + 0x1c); *(float*)((char*)this + 0x24) = *(float*)((char*)a1 + 0x20); return this; }
 
 TUnk_804CF930::~TUnk_804CF930() {}
 
@@ -219,11 +218,9 @@ void TUnk_804CF918::render(TWindowKeyBoardSoft *) {  }
 
 void TUnk_804CF918::update() {}
 
-void TUnk_804CF930::sub_80256BDC(s32 arg1) {
-    u8 *arg0 = (u8 *)this;
-    *(s32 **)((s8 *)arg0 + 4) = __vt__13TUnk_804CF918;
-    *(s16 *)((s8 *)arg0 + 0) = 0;
-    this->m_2 = arg1;
+TUnk_804CF918::TUnk_804CF918(s32 m_2) {
+    this->flags = 0;
+    this->m_2 = m_2;
 }
 
 TUnk_804CF918::~TUnk_804CF918() {}

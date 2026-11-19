@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/unk/TUnk_804CF998.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8025995C.h"
 #include "pso/ui/window/TWindowSubStatusDisp_802598E4.h"
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
@@ -13,7 +14,6 @@ struct Pos_80259A84
 };
 
 extern "C" {
-void *reset_entry__20TWindowSubStatusDispFPv(void *a0, s32 _w1);
 u8 get_font_char_advance();
 s32 map_char_to_font_code(s32);
 u8 get_small_font_glyph_width();
@@ -146,7 +146,7 @@ void TWindowSubStatusDisp__sub_80259CE0(void) {  }
 void *TWindowSubStatusDisp__sub_80259CE4(void *window_sub_status_disp, s16 arg1) {
     if (window_sub_status_disp != NULL) {
         *(s32 **)((s8 *)window_sub_status_disp + 4) = lbl_804CF9C8;
-        ((TWindowSubStatusDisp *)window_sub_status_disp)->deleting_destructor(0);
+        __dt__13TUnk_804CF998Fv(window_sub_status_disp, 0);
         if (arg1 > 0) {
             ::operator delete(window_sub_status_disp);
         }
@@ -155,7 +155,7 @@ void *TWindowSubStatusDisp__sub_80259CE4(void *window_sub_status_disp, s16 arg1)
 }
 
 u8 *TWindowSubStatusDisp__sub_80259D3C(u8 *arg0, u8 *arg1, s32 arg2) {
-    reset_entry__20TWindowSubStatusDispFPv(arg0, arg2);
+    __ct__13TUnk_804CF998Fl(arg0, arg2);
     *(s32 **)((s8 *)arg0 + 4) = lbl_804CF9C8;
     *(f32 *)((s8 *)arg0 + 8) = (f32) *(f32 *)((s8 *)arg1 + 4);
     *(f32 *)((s8 *)arg0 + 0xC) = (f32) *(f32 *)((s8 *)arg1 + 8);

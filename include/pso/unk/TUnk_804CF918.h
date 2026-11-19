@@ -10,6 +10,7 @@ public:
     u16 flags;
     s16 m_2;
 
+    TUnk_804CF918(s32 m_2);
     virtual ~TUnk_804CF918();
     virtual void update();
     virtual void render(TWindowKeyBoardSoft *context);
@@ -19,6 +20,8 @@ public:
 typedef char TUnk_804CF918_size[sizeof(TUnk_804CF918) == 8 ? 1 : -1];
 
 extern "C" {
+// TUnk_804CF918::TUnk_804CF918(s32), called by the constructors that are still written by hand.
+void *__ct__13TUnk_804CF918Fl(void *p, s32 m_2);
 // TUnk_804CF918::~TUnk_804CF918(), called by the destructors that are still written by hand.
 void *__dt__13TUnk_804CF918Fv(void *p, s16 flags);
 }

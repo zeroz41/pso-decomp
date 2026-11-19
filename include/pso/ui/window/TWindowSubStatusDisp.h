@@ -102,10 +102,7 @@ struct TWindowSubStatusDisp : public TWindowBase {
     s16 get_field_2F8();
     s16 get_stat();
     s16 get_value();
-    void *dispose(s16 arg1);
     void destroy_all_items();
-    void *deleting_destructor(s16 arg1);
-    void*reset_entry(int a1, int a2);
     void set_all_values(s32 arg1);
     void set_animated_target(s32 arg1, f32 farg0);
     u8 *init_layout_entry_scaled(u8 *arg1, s32 arg2);
@@ -159,7 +156,6 @@ struct TWindowSubStatusDisp : public TWindowBase {
     static s32 get_layout_id();
     static s32 resolve_player_slot(s32 slot);
     u8 *init_layout_entry_copy(u8 *arg1);
-    u8 *init_layout_entry_rect(u8 *arg1, s32 arg2);
     void advance_state();
     void finalize_state();
     void setup_entry_msg_d1(s32 arg1);
@@ -176,7 +172,6 @@ struct TWindowSubStatusDisp : public TWindowBase {
     void set_ground_item(void *arg1, s32 arg2);
     void init_display(s32 arg1, s32 arg2);
     static void*get_entry_ptr(int a0);
-    void check_flag_4_noop();
     void update_pb_counter_approach();
     u8 *init_part_direct(u8 *arg1, s32 arg2);
     void append_entry(s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5);
