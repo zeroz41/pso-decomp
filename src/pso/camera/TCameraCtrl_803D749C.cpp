@@ -455,3 +455,5 @@ extern "C" void interpolate_spline_cyclic_cubic(void *keys, u32 count, f32 frame
 void *motion_sampler_function_table[3] = { (void *)interpolate_motion_vector_keys, (void *)interpolate_spline_cyclic_cubic, (void *)interpolate_motion_vector_keys_xy };
 void *motion_angle_sampler_table[4] = { (void *)sample_motion_angle_keys, (void *)sample_motion_angle_keys, (void *)sample_motion_angle_keys, (void *)sample_motion_angle_keys_s16 };
 void *motion_key_sampler_table[3] = { (void *)interpolate_motion_key, (void *)interpolate_motion_key, (void *)interpolate_motion_key };
+
+u32 lbl_804FA528[6] = { 0 };

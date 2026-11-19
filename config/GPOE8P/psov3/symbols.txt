@@ -45859,6 +45859,7 @@ camera_look_at_up_vector = .data:0x804FA4F0; // type:object size:0xC
 motion_sampler_function_table = .data:0x804FA500; // type:object size:0xC
 motion_angle_sampler_table = .data:0x804FA50C; // type:object size:0x10
 motion_key_sampler_table = .data:0x804FA51C; // type:object size:0xC data:4byte
+lbl_804FA528 = .data:0x804FA528; // type:object size:0x18 data:4byte
 debug_font_texture_i4 = .data:0x804FA540; // type:object size:0x2000 data:byte
 ginja_parameter_handlers = .data:0x804FC540; // type:object size:0x2C
 ginja_vertex_attributes = .data:0x804FC56C; // type:object size:0x38
