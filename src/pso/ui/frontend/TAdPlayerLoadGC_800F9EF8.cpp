@@ -3,13 +3,12 @@
 #include "pso/item/TUnk_8049C658.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/item/drop/TItemDrop.h"
+#include "pso/unk/TLobby_800F8AA8.h"
 
 extern "C" {
 void __register_global_object(void *obj, void *dtor, void *link);
 extern u8 resource_load_task_root[];
 extern u8 resource_load_task_root_dtor_registration[];
-extern "C" { extern char lbl_805DA910[]; }
-const char *lbl_805D2B10 = lbl_805DA910;
 extern s32 disc_read_filename;
 
     extern int TAdPlayerLoadGC__load_state;

@@ -1,8 +1,24 @@
+// Character-creation sprite tables, ruler lines and UI sprite helpers (one TU, .text 0x80290D1C-0x802911E8).
+// One-TU evidence: TCharaMaking__resolve_creation_sprite_table addresses the three cell tables as offsets
+// from creation_chara_sprite_entries (CW's anchor for objects defined in the same TU), the tables and
+// ccconsole_pvm_file_name_table are used by no other unit, and the .sdata2 pool 0x805DD958 {24.0f, 64.0f,
+// 0.0f, 1.0f} runs in first-use order from draw_creation_ruler_lines to fn_80291178 without a duplicate.
 #include "types.h"
-#include "pso/unk/text_80290D1C.h"
+#include "pso/system/NinjaTypes.h"
+#include "pso/ui/UISprite.h"
+#include "pso/ui/Language.h"
+#include "pso/ui/charcreate/TChCrEffWall.h"
+#include "pso/ui/charcreate/TObjCMIcon.h"
+#include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
+#include "pso/render/ChunkMaterialState.h"
+#include "pso/render/GinjaTexture.h"
+#include "pso/render/model_render_state.h"
+#include "pso/system/task/TMainTask.h"
+#include "pso/system/task/TObject.h"
+#include "pso/unk/TLobby.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/ui/charcreate/TObjCMMainMenu.h"
 
-#pragma readonly_strings on
 #pragma const_strings off
 NJS_TEXNAME creation_chara_sprite_entries[20] = {
     { "b256_cm_chara01", 0, 0 },
@@ -281,39 +297,54 @@ NJS_TEXANIM lbl_804DA570[49] = {
 
 const char *ccconsole_pvm_file_name_table[2] = { "ccconsole_j.pvm", "ccconsole_e.pvm" };
 #pragma const_strings reset
-#pragma readonly_strings reset
 
-extern "C" {
-__declspec(section ".rodata") s32 creation_ruler_line_vertices[96] = {
-    -1056964608, 0, 0, 1090519040, 0, 0, -1056964608, 1092616192,
-    0, 1090519040, 1092616192, 0, -1058013184, 1093664768, 0, 1089470464,
-    1093664768, 0, -1058013184, 1094713344, 0, 1089470464, 1094713344, 0,
-    -1058013184, 1095761920, 0, 1089470464, 1095761920, 0, -1058013184, 1096810496,
-    0, 1089470464, 1096810496, 0, -1056964608, 1097859072, 0, 1090519040,
-    1097859072, 0, -1058013184, 1098907648, 0, 1089470464, 1098907648, 0,
-    -1058013184, 1099431936, 0, 1089470464, 1099431936, 0, -1058013184, 1099956224,
-    0, 1089470464, 1099956224, 0, -1058013184, 1100480512, 0, 1089470464,
-    1100480512, 0, -1056964608, 1101004800, 0, 1090519040, 1101004800, 0,
-    -1058013184, 1101529088, 0, 1089470464, 1101529088, 0, -1058013184, 1102053376,
-    0, 1089470464, 1102053376, 0, -1058013184, 1102577664, 0, 1089470464,
-    1102577664, 0, -1058013184, 1103101952, 0, 1089470464, 1103101952, 0,
+const NJS_POINT3 creation_ruler_line_vertices[32] = {
+    { -8.0f, 0.0f, 0.0f },
+    { 8.0f, 0.0f, 0.0f },
+    { -8.0f, 10.0f, 0.0f },
+    { 8.0f, 10.0f, 0.0f },
+    { -7.5f, 11.0f, 0.0f },
+    { 7.5f, 11.0f, 0.0f },
+    { -7.5f, 12.0f, 0.0f },
+    { 7.5f, 12.0f, 0.0f },
+    { -7.5f, 13.0f, 0.0f },
+    { 7.5f, 13.0f, 0.0f },
+    { -7.5f, 14.0f, 0.0f },
+    { 7.5f, 14.0f, 0.0f },
+    { -8.0f, 15.0f, 0.0f },
+    { 8.0f, 15.0f, 0.0f },
+    { -7.5f, 16.0f, 0.0f },
+    { 7.5f, 16.0f, 0.0f },
+    { -7.5f, 17.0f, 0.0f },
+    { 7.5f, 17.0f, 0.0f },
+    { -7.5f, 18.0f, 0.0f },
+    { 7.5f, 18.0f, 0.0f },
+    { -7.5f, 19.0f, 0.0f },
+    { 7.5f, 19.0f, 0.0f },
+    { -8.0f, 20.0f, 0.0f },
+    { 8.0f, 20.0f, 0.0f },
+    { -7.5f, 21.0f, 0.0f },
+    { 7.5f, 21.0f, 0.0f },
+    { -7.5f, 22.0f, 0.0f },
+    { 7.5f, 22.0f, 0.0f },
+    { -7.5f, 23.0f, 0.0f },
+    { 7.5f, 23.0f, 0.0f },
+    { -7.5f, 24.0f, 0.0f },
+    { 7.5f, 24.0f, 0.0f },
 };
-}
 
 
-struct Desc_80290D1C { void *verts; u32 *colors; int start; int count; };
+struct Desc_80290D1C { const NJS_POINT3 *verts; u32 *colors; int start; int count; };
 
 extern "C" {
 s32 draw_line_list(void *, int, int);
-s32 __cvt_fp2unsigned(f32);
 }
-extern s32 creation_ruler_line_vertices[96];
-void draw_creation_ruler_lines(f32 farg0) {
+void draw_creation_ruler_lines(f32 fade) {
     Desc_80290D1C d;
     u32 colors[32];
     u32 c;
     s32 i;
-    c = ((u32)__cvt_fp2unsigned(24.0f * farg0) << 24) | 0xFF0000 | 0xFFA0;
+    c = ((u32)(24.0f * fade) << 24) | 0xFF0000 | 0xFFA0;
     for (i = 0; i < 32; i++) {
         colors[i] = c;
     }
@@ -322,7 +353,7 @@ void draw_creation_ruler_lines(f32 farg0) {
     d.start = 0;
     d.count = 32;
     draw_line_list(&d, 0x10, 5);
-    c = __cvt_fp2unsigned(64.0f * farg0) | 0x40400000 | 0x4000;
+    c = (u32)(64.0f * fade) | 0x40400000 | 0x4000;
     creation_ruler_line_colors[0] = creation_ruler_line_colors[1] = c;
     ((TObjPlayer *)&lbl_804DA98C)->draw_tri_fan_3d(4, 7);
 }
@@ -337,3 +368,124 @@ NJS_POINT3 lbl_804DA94C[4] = {
 u32 creation_ruler_line_colors[4] = { 0x40404000, 0x40404000, 0xFFFFFF00, 0xFFFFFF00 };
 
 NJS_POINT3COL lbl_804DA98C = { lbl_804DA94C, creation_ruler_line_colors, NULL, 4 };
+
+s16 TObjCMMainMenu::get_creation_sprite_id(s32 sprite_id) {
+    NJS_TEXANIM *cells;
+    TCharaMaking__resolve_creation_sprite_table(&cells, &sprite_id);
+    return cells[sprite_id].sx;
+}
+
+f32 ui_sprite_scale = 1.0f;
+
+extern "C" {
+
+void draw_creation_sprite_offset(s32 sprite_id, const vec2f *position, const vec2f *scale, f32 depth,
+                                 f32 alpha) {
+    NJS_TEXANIM *cells;
+    s32 id;
+    vec2f pos;
+    NJS_TEXANIM *cell;
+    ((TWindowSubSymbolChatPartsSet *)&pos)->copy_vec2((void *)position);
+    id = sprite_id;
+    TCharaMaking__resolve_creation_sprite_table(&cells, &id);
+    cell = &cells[id];
+    pos.x += (f32)cell->cx;
+    pos.y += (f32)cell->cy;
+    draw_ui_sprite_scaled(sprite_id, &pos, scale, depth, alpha);
+}
+
+// The pointers are not const: CW keeps each load after the previous store only for non-const
+// pointees (a const position/scale/tint hoists the loads above the stores). The angle and z of the
+// sprite are left unset.
+void draw_ui_sprite_tinted(s32 sprite_id, vec2f *position, vec2f *scale, UISpriteTint *tint, f32 depth) {
+    NJS_SPRITE sprite;
+    if (!(tint->alpha <= 0.0f)) {
+        sprite.p.x = position->x;
+        sprite.p.y = ui_sprite_scale * position->y;
+        sprite.sx = scale->x;
+        sprite.sy = ui_sprite_scale * scale->y;
+        sprite.tlist = &creation_sprite_table;
+        TCharaMaking__resolve_creation_sprite_table(&sprite.tanim, &sprite_id);
+        copy_argb(&saved_model_draw_color, &model_material_color);
+        set_constant_material((const NJS_ARGB *)tint);
+        TLobby::draw_with_camera((s32)&sprite, sprite_id, 0x22, depth);
+        copy_argb(&model_material_color, &saved_model_draw_color);
+    }
+}
+
+void draw_ui_sprite_shaded(s32 sprite_id, const vec2f *position, const vec2f *scale, f32 depth, f32 alpha,
+                           f32 brightness) {
+    UISpriteTint tint;
+    if (!(alpha <= 0.0f)) {
+        tint.alpha = alpha;
+        tint.channels[2] = brightness;
+        tint.channels[1] = brightness;
+        tint.channels[0] = brightness;
+        draw_ui_sprite_tinted(sprite_id, (vec2f *)position, (vec2f *)scale, &tint, depth);
+    }
+}
+
+void draw_ui_sprite_scaled(s32 sprite_id, const vec2f *position, const vec2f *scale, f32 depth, f32 alpha) {
+    if (!(alpha <= 0.0f)) {
+        draw_ui_sprite_shaded(sprite_id, position, scale, depth, alpha, 1.0f);
+    }
+}
+
+void draw_ui_sprite(s32 sprite_id, const vec2f *position, f32 depth, f32 alpha) {
+    vec2f scale;
+    if (!(alpha <= 0.0f)) {
+        scale.y = 1.0f;
+        scale.x = 1.0f;
+        draw_ui_sprite_scaled(sprite_id, position, &scale, depth, alpha);
+    }
+}
+
+}
+
+void draw_ui_sprite_opaque(s32 sprite_id, const vec2f *position, const vec2f *scale, f32 depth) {
+    draw_ui_sprite_scaled(sprite_id, position, scale, depth, 1.0f);
+}
+
+void TChCrEffWall::draw_default_sprite(s32 sprite_id, const vec2f *position, f32 depth) {
+    draw_ui_sprite(sprite_id, position, depth, 1.0f);
+}
+
+extern "C" {
+
+void *cmicon_instance;
+s32 creation_sprite_table_index;
+
+void TCharaMaking__resolve_creation_sprite_table(NJS_TEXANIM **table, s32 *id) {
+    if (*id < 143) {
+        *table = lbl_804D9670;
+        return;
+    }
+    *id -= 143;
+    if (creation_sprite_table_index == 0) {
+        *table = lbl_804DA19C;
+        return;
+    }
+    *table = lbl_804DA570;
+}
+
+void fn_80291138(void) {
+    if (cmicon_instance != NULL) {
+        ((TObject *)cmicon_instance)->queue_destruction();
+    }
+    cmicon_instance = NULL;
+    release_texture_list((GinjaTextureList *)&creation_sprite_table);
+}
+
+void fn_80291178(void) {
+    creation_sprite_table_index = 0;
+    ui_sprite_scale = 1.0f;
+    if (current_language != LANGUAGE_JAPANESE) {
+        creation_sprite_table_index = 1;
+    }
+    TObjCMIcon::init_icon_table();
+    cmicon_instance = TObjCMIcon::create(tl_06);
+    TLobby::load_texture_pvm_file(ccconsole_pvm_file_name_table[creation_sprite_table_index],
+                                  (s32)&creation_sprite_table);
+}
+
+}

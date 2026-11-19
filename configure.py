@@ -488,6 +488,9 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/camera/TCameraCtrl_8006B3D8.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     # -sdata 4: the 8-byte camera bank list 0x80488B98 sits in .data, not .sdata.
     "pso/camera/TCameraCtrl_8006C7C4.cpp": {"cflags": _switch(cflags_pso, "-sdata 4", "-str reuse,readonly")},
+    # -sdata 4: the 8-byte creation_sprite_table and ccconsole_pvm_file_name_table sit in .data while
+    # the 4-byte ui_sprite_scale is in .sdata; the texture and pvm names sit in .rodata: readonly strings.
+    "pso/ui/UISprite.cpp": {"cflags": _switch(cflags_pso, "-sdata 4", "-str reuse,readonly")},
     # -sdata 4: its 8-byte task list sits in .bss, not .sbss.
     "pso/technique/TTecZondeEff.cpp": {"cflags": _switch(cflags_pso, "-sdata 4")},
     # TBoss8DragonEffBullet__ct reaches each of its three .rodata particle tables with its own lis/addi: -pool off.

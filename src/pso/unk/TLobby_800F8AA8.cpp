@@ -16,8 +16,33 @@
 #include "pso/unk/TLobby.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_800F8A0C.h"
+#include "pso/unk/text_800F8A18.h"
+#include "pso/unk/text_800F8A78.h"
+#include "pso/unk/text_803DEE48.h"
+#include <string.h>
 
+// One TU from 0x800F8A0C: the "" lbl_805D2B10 points at opens the .sdata2 pool at 0x805DA910
+// (after the 4-byte pad that 8-aligns a TU start), then copy_name's "..", then this file's floats.
 extern "C" {
+const char *lbl_805D2B10 = "";
+
+s32 *get_player_name_copy_buffer(void) {
+    return (s32 *)player_name_copy_buffer;
+}
+
+void copy_name(s32 name) {
+    strncpy(player_name_copy_buffer, (const char *)name, 0x10);
+    if (strncmp((const char *)name, "..", 0x10) == 0) {
+        fn_800F8A78();
+    }
+    fn_803DEE48((const char *)name);
+}
+
+void fn_800F8A78(void) {
+    memset(player_name_copy_buffer, 0, 0x10);
+}
+
 s32 *lobby_checked_read_ptr_table[4] = { 0, 0, 0, 0 };
 s32 lbl_80499A10[4] = { 0, 0, 0, 0 };
 u32 lbl_80499A20[4] = { 0, 0, 0, 0 };

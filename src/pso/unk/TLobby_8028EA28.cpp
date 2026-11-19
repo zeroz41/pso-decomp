@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/ui/keyboard/TKeyBoardControl_80131C58.h"
 #include "pso/unk/TLobby_800FC3CC.h"
-#include "pso/unk/text_802910EC.h"
+#include "pso/ui/UISprite.h"
 #include "pso/camera/CreationCamera.h"
 #include "pso/unk/TLobby.h"
 #include "pso/camera/TCameraCtrl.h"

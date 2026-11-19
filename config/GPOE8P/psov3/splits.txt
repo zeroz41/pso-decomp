@@ -2032,21 +2032,13 @@ pso/unk/text_800F7DAC.cpp:
 	.sbss       start:0x805D5330 end:0x805D5338
 	.sdata2     start:0x805DA8E8 end:0x805DA90C
 
-pso/unk/text_800F8A0C.cpp:
-	.text       start:0x800F8A0C end:0x800F8A18
-
-pso/unk/text_800F8A18.cpp:
-	.text       start:0x800F8A18 end:0x800F8A78
-
-pso/unk/text_800F8A78.cpp:
-	.text       start:0x800F8A78 end:0x800F8AA8
-
 pso/unk/TLobby_800F8AA8.cpp:
-	.text       start:0x800F8AA8 end:0x800F93B4
+	.text       start:0x800F8A0C end:0x800F93B4
 	.rodata     start:0x8043D7A8 end:0x8043D9FC
 	.data       start:0x80499A00 end:0x8049C658
+	.sdata      start:0x805D2B10 end:0x805D2B18
 	.sbss       start:0x805D5338 end:0x805D5360
-	.sdata2     start:0x805DA918 end:0x805DA948
+	.sdata2     start:0x805DA910 end:0x805DA948
 
 pso/unk/text_800F93B4.cpp:
 	.text       start:0x800F93B4 end:0x800F93F0
@@ -2088,7 +2080,6 @@ pso/unk/TLobby_800F9DA0.cpp:
 pso/ui/frontend/TAdPlayerLoadGC_800F9EF8.cpp:
 	.text       start:0x800F9EF8 end:0x800F9F4C
 	.ctors      start:0x80433F6C end:0x80433F70
-	.sdata      start:0x805D2B10 end:0x805D2B18
 
 pso/unk/TLobby_800F9F4C.cpp:
 	.text       start:0x800F9F4C end:0x800F9FD0
@@ -7991,32 +7982,13 @@ pso/ui/keyboard/TKeyBoardControl_80290CB0.cpp:
 	.text       start:0x80290CB0 end:0x80290D1C
 	.sbss       start:0x805D6560 end:0x805D6568
 
-pso/unk/text_80290D1C.cpp:
-	.text       start:0x80290D1C end:0x80290DEC
-	.rodata     start:0x80464B48 end:0x80464E30
+pso/ui/UISprite.cpp:
+	.text       start:0x80290D1C end:0x802911E8
+	.rodata     start:0x80464B48 end:0x80464E38
 	.data       start:0x804D9578 end:0x804DA9A0
-	.sdata2     start:0x805DD958 end:0x805DD960
-
-pso/ui/charcreate/TObjCMMainMenu_80290DEC.cpp:
-	.text       start:0x80290DEC end:0x80290E28
-
-pso/unk/text_80290E28.cpp:
-	.text       start:0x80290E28 end:0x80290FEC
-	.rodata     start:0x80464E30 end:0x80464E38
 	.sdata      start:0x805D3C98 end:0x805D3CA0
-
-pso/unk/text_80290FEC.cpp:
-	.text       start:0x80290FEC end:0x802910A4
-
-pso/unk/text_802910A4.cpp:
-	.text       start:0x802910A4 end:0x802910C8
-
-pso/ui/charcreate/TChCrEffWall_802910C8.cpp:
-	.text       start:0x802910C8 end:0x802910EC
-
-pso/unk/text_802910EC.cpp:
-	.text       start:0x802910EC end:0x802911E8
 	.sbss       start:0x805D6568 end:0x805D6570
+	.sdata2     start:0x805DD958 end:0x805DD968
 
 pso/camera/CreationCamera.cpp:
 	.text       start:0x802911E8 end:0x80291D94

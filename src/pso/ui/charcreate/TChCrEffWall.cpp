@@ -10,7 +10,6 @@
 
 extern "C" {
 void TCameraCtrl__sub_80068EF0(void);
-void draw_default_sprite__12TChCrEffWallFv(s32, const vec2f *, f32);
 const char *TChCrEffWall__name = "TChCrEffWall";
 extern const vec2f creation_effwall_sprite_position_table[6] = {
     {0.0f, 0.0f}, {0.0f, 256.0f}, {256.0f, 0.0f}, {256.0f, 128.0f}, {256.0f, 256.0f}, {256.0f, 384.0f},
@@ -36,10 +35,10 @@ void TChCrEffWall::render() {
     s32 i;
     set_depth_buffer_settings_1();
     for (i = 0; i < 6; i++) {
-        draw_default_sprite__12TChCrEffWallFv(i + 10, &creation_effwall_sprite_position_table[i], -9935.0f);
+        draw_default_sprite(i + 10, &creation_effwall_sprite_position_table[i], -9935.0f);
     }
     for (i = 0; i < 2; i++) {
-        draw_default_sprite__12TChCrEffWallFv(i + 10, &creation_effwall_sprite_size_table[i], -9935.0f);
+        draw_default_sprite(i + 10, &creation_effwall_sprite_size_table[i], -9935.0f);
     }
     TCameraCtrl::restore_full_screen_view();
     args.colors = chcr_eff_wall_gradient_table;
