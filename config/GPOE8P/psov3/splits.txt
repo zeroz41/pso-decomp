@@ -2622,17 +2622,12 @@ pso/weapon/shoot/TItemShoot.cpp:
 	.sdata      start:0x805D2C60 end:0x805D2C74
 	.sdata2     start:0x805DAC60 end:0x805DAC6C
 
-pso/player/TObjPlayer_8011C000.cpp:
-	.text       start:0x8011C000 end:0x8011CC58
-	.rodata     start:0x8043E7C8 end:0x8043E7D8
-	.sdata2     start:0x805DAC70 end:0x805DAC78
-
-pso/item/item_param.cpp:
-	.text       start:0x8011CC58 end:0x8011CDC4
-
 pso/item/item_pmt.cpp:
-	.text       start:0x8011CDC4 end:0x8011CEC0
+	.text       start:0x8011C000 end:0x8011CEC0
+	.rodata     start:0x8043E7A8 end:0x8043E7D8
+	.sdata      start:0x805D2C78 end:0x805D2C7C
 	.sbss       start:0x805D54F0 end:0x805D5500
+	.sdata2     start:0x805DAC70 end:0x805DAC78
 
 pso/player/TObjPlayer_8011CEC0.cpp:
 	.text       start:0x8011CEC0 end:0x8011CEDC
@@ -8117,27 +8112,12 @@ pso/object/ambient/TObjFish.cpp:
 pso/map/FloorArea_8029E764.cpp:
 	.text       start:0x8029E764 end:0x8029E7BC
 
-pso/unk/text_8029E7BC.cpp:
-	.text       start:0x8029E7BC end:0x8029E89C
-
-pso/enemy/recon/TObjEneRecon_8029E89C.cpp:
-	.text       start:0x8029E89C end:0x8029EC3C
-
-pso/unk/text_8029EC3C.cpp:
-	.text       start:0x8029EC3C end:0x8029EE2C
-	.sdata2     start:0x805DDD98 end:0x805DDDA0
-
-pso/unk/text_8029EE2C.cpp:
-	.text       start:0x8029EE2C end:0x8029EE64
-
-pso/player/TObjPlayer_8029EE64.cpp:
-	.text       start:0x8029EE64 end:0x8029F428
+pso/render/reflection.cpp:
+	.text       start:0x8029E7BC end:0x8029F5B0
 	.rodata     start:0x80465E08 end:0x80465E20
-	.sdata2     start:0x805DDDA0 end:0x805DDDB8
-
-pso/system/scene/TSceneSora_8029F428.cpp:
-	.text       start:0x8029F428 end:0x8029F5B0
+	.data       start:0x804DC7B8 end:0x804DC7C4
 	.sbss       start:0x805D65F0 end:0x805D6600
+	.sdata2     start:0x805DDD88 end:0x805DDDB8
 
 pso/system/scene/TScene_8029F5B0.cpp:
 	.text       start:0x8029F5B0 end:0x8029F694

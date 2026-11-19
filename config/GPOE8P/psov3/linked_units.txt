@@ -230,6 +230,7 @@ pso/boss/volopt/TBoss3VoloptMonitor.cpp
 pso/boss/volopt/TBoss3VoloptP01.cpp
 pso/boss/volopt/TBoss3VoloptP02.cpp
 pso/boss/volopt/TBoss3Volopt_800D8ACC.cpp
+pso/render/reflection.cpp
 pso/render/MaterialColorFade.cpp
 pso/unk/SampledMotionPoints.cpp
 pso/boss/darkfalz/TBoss4CheckEmpty.cpp
@@ -446,7 +447,6 @@ pso/enemy/berura/TObjEneRe7BeruraPunch.cpp
 pso/enemy/berura/TObjEneRe7Berura_803E4CE0.cpp
 pso/enemy/recon/TObjEneRecon.cpp
 pso/enemy/recon/TObjEneReconBomb.cpp
-pso/enemy/recon/TObjEneRecon_8029E89C.cpp
 pso/enemy/recon/TObjEneRecon_80302DB0.cpp
 pso/enemy/recon/TObjEneRecobox_8031E800.cpp
 pso/enemy/recon/TObjEneRecobox_8031F800.cpp
@@ -1165,7 +1165,6 @@ pso/network/TRegister.cpp
 pso/system/save/TSaveChCr.cpp
 pso/system/scene/TScene.cpp
 pso/system/scene/TSceneSora.cpp
-pso/system/scene/TSceneSora_8029F428.cpp
 pso/system/scene/TScene_800F9D80.cpp
 pso/system/scene/TScene_801A7E40.cpp
 pso/system/scene/TScene_801FBA20.cpp
@@ -1504,7 +1503,6 @@ pso/ui/window/TWindowTradeRequest_802E0170.cpp
 pso/ui/window/TWindowUserSort.cpp
 pso/quest/TQuestListOffline_802171BC.cpp
 pso/effect/enemy/TeneFakeTecThunderEff.cpp
-pso/item/item_param.cpp
 pso/item/item_pmt.cpp
 pso/system/data/pso_const_ids.cpp
 pso/system/data/pso_const_ids3.cpp
@@ -1747,7 +1745,6 @@ pso/player/TObjPlayer_80108854.cpp
 pso/player/TObjPlayer_80109344.cpp
 pso/player/TObjPlayer_8010ECD0.cpp
 pso/player/TObjPlayer_80116578.cpp
-pso/player/TObjPlayer_8011C000.cpp
 pso/player/TObjPlayer_8011CEC0.cpp
 pso/player/TObjPlayer_8011E214.cpp
 pso/player/TObjPlayer_801542CC.cpp
@@ -1799,7 +1796,6 @@ pso/player/TObjPlayer_8023355C.cpp
 pso/player/TObjPlayer_8023C024.cpp
 pso/player/TObjPlayer_8023E480.cpp
 pso/player/TObjPlayer_80278AB4.cpp
-pso/player/TObjPlayer_8029EE64.cpp
 pso/player/TObjPlayer_8029F694.cpp
 pso/player/TObjPlayer_802A1440.cpp
 pso/player/TObjPlayer_802C367C.cpp
@@ -2246,9 +2242,6 @@ pso/unk/text_802948A8.cpp
 pso/unk/text_80298F8C.cpp
 pso/unk/text_80299420.cpp
 pso/unk/text_8029A97C.cpp
-pso/unk/text_8029E7BC.cpp
-pso/unk/text_8029EC3C.cpp
-pso/unk/text_8029EE2C.cpp
 pso/unk/text_802A0A30.cpp
 pso/unk/text_802A1020.cpp
 pso/technique/TTecKafun_802A9588.cpp
