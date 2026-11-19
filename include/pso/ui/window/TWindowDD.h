@@ -114,7 +114,7 @@ struct TWindowDD
     void destroy_menu_entry(s32 arg1);
     void set_item_pos(s32 i);
     u8 *init_last_child();
-    s32 setup_entry(s32 arg1);
+    s32 setup_entry(s16 arg1);
     s32 get_current_child_index();
     static void*get_entry(int a0, int a1);
     void init_entry_field_64(s32 arg1);

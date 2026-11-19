@@ -3,28 +3,35 @@
 
 #include "types.h"
 #include "pso/system/task/TObject.h"
+#include "pso/unk/text_80086B64.h"
+
+// One particle emitter of the floor-load effect: where it sits, how it is turned, the particle it runs.
+struct TAdFloorLoadPrtGCEmitter {
+    Vec position;
+    ParticleAngles angles;
+    TObject *particle;
+};
 
 struct TAdFloorLoadPrtGC : public TObject {
+    TAdFloorLoadPrtGC(TObject *parent);
     virtual ~TAdFloorLoadPrtGC();
-    void* m_1c;
-    u8 _pad20[0x37C];
-    u32 m_39c;
+    TAdFloorLoadPrtGCEmitter emitters[32];
+    TObject *origin_particle;
     virtual void render();
     virtual void run_task();
 };
 
 typedef char TAdFloorLoadPrtGC_size[sizeof(TAdFloorLoadPrtGC) == 0x3A0 ? 1 : -1];
 
-extern "C" {
-void fn_8034AD28(void);
-void fn_8034AD2C(void);
-}
+extern const Vec floor_load_particle_positions[12];
+extern const ParticleAngles TAdFloorLoadPrtGC__emitter_angles[12];
+extern const Vec lbl_80478B48[1];
+extern const ParticleAngles lbl_80478B54[1];
+extern const char *TAdFloorLoadPrtGC__class_name;
 
-// --- C functions defined in TAdFloorLoadPrtGC.cpp ---
 extern "C" {
 void fn_8034AD28(void);
 void fn_8034AD2C(void);
 }
-// --- end of C functions
 
 #endif

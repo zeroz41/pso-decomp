@@ -1,16 +1,24 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "types.h"
+#include "pso/ui/window/TWindowDD_803488A8.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowDD_WS_String.h"
 #include "pso/ui/window/TWindowDD_80341A08.h"
-
-#include "types.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/text_80228E98.h"
 #include <string.h>
 #include "pso/unk/TLobby.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/system/task/TObject.h"
+#include "pso/ui/window/TWindowDD_80347F34.h"
+#include "pso/ui/window/TWindowDD_80348100.h"
+#include "pso/ui/window/TWindowDD_80348304.h"
+#include "pso/ui/window/TWindowDD_8034AF68.h"
+#include "pso/ui/window/TWindowSubComCard_80244774.h"
+#include "pso/map/FloorArea.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/system/NinjaTypes.h"
 
 struct O_80347940 { u8 pad[0x20]; s32 base; void *items[1]; };
 struct E_803478DC { void *p; };
@@ -60,13 +68,12 @@ struct W_80347B70 {
 
 extern "C" {
 void show_message_by_count__9TWindowDDFll(s32, void *);
-void append_word_select_token(s32, s32, void *);
-void TWindowDD__sub_8034740C(u8 *arg0, s32 arg1, s32 arg2);
+void append_word_select_token(s16, s32, void *);
+void TWindowDD__sub_8034740C(M_80347758 *entry, s32 arg1, s32 arg2);
 void TWindowDD__sub_803474CC(M_80347758 *entry, s16 id, char *word, s32 buf, s32 *pos);
 s32 TWindowDD__sub_80348D88(void *p);
 extern s32 TWindowDD__window_mode;
-s32 get_word_select_token_text(s32);
-void TWindowDD__sub_80347474(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
+void TWindowDD__sub_80347474(M_80347758 *entry, s16 id, s32 buf, s32 *pos);
 extern const f32 lbl_805DFB54;
 void TWindowDD__sub_80347FA0(s32 arg0, s32 arg1);
 s32 TWindowDD__sub_80348DD8(void *, int);
@@ -76,7 +83,7 @@ s32 TWindowDD_is_id_in_range_5AC_5F9(s16 arg0);
 void TWindowDD__sub_80347758(M_80347758 *src, M_80347758 *dst);
 s32 TWindowDD__sub_803412A0(u32);
 TWindowDD_WS_String *TWindowDD__sub_8034146C(f32 *pos, f32 *size, u32 str, s32 style, f32 width);
-extern s32 TWindowDD__data_805DFB50;
+extern const s32 TWindowDD__data_805DFB50;
 extern const f32 lbl_805DFB60;
 extern const f32 lbl_805DFBDC;
 extern const f32 lbl_805DFBE0;
@@ -90,8 +97,6 @@ s32 refresh_status_display__9TWindowDDFv(void *);
 extern s32 local_client_id;
 extern u32 TWindowDD__work_buffer;
 extern const f32 TWindowDD__data_805DFB58;
-extern const f32 lbl_805DFCD0;
-extern const f32 lbl_805DFCD4;
 void TWindowDD__sub_80347CC8(W_80347CC8 *arg0, void *arg1);
 void TWindowDD__sub_80348D90(void *, int);
 extern const f32 TWindowDD__data_805DFB6C;
@@ -167,40 +172,17 @@ void TWindowDD::format_type6_message(s32 arg1, void *pos) {
     }
 }
 
-void TWindowDD__sub_8034740C(u8 *arg0, s32 arg1, s32 pos) {
-    TWindowDD__sub_80347474((s32)((s32) arg0), (s32)((s32) *(s16 *)((s8 *)arg0 + 4)), arg1, pos);
-    if ((s16) *(s16 *)((s8 *)arg0 + 0) > 1) {
+void TWindowDD__sub_8034740C(M_80347758 *entry, s32 arg1, s32 pos) {
+    TWindowDD__sub_80347474(entry, entry->a[0], arg1, (s32 *)pos);
+    if (entry->n > 1) {
         ((TWindowDD *)arg1)->append_prompt_newline((s32 *)pos);
-        append_word_select_token((s32) *(s16 *)((s8 *)arg0 + 6), arg1, (void *) pos);
+        append_word_select_token(entry->a[1], arg1, (void *) pos);
     }
 }
 
-void TWindowDD__sub_80347474(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
-  s32 temp_r0;
-  s32 var_r28;
-  s32 var_r29;
-  s32 id;
-  s32 var_r31;
-  int var_r3;
-  s32 var_r4;
-  s32 word;
-  s32 buf;
-  s32 pos;
-  var_r29 = arg1;
-  var_r28 = arg0;
-  id = arg2;
-  var_r31 = arg3;
-  var_r3 = var_r29;
-  buf = get_word_select_token_text((s32)((int) var_r3));
-  temp_r0 = buf;
-  var_r3 = var_r28;
-  word = temp_r0;
-  var_r4 = var_r29;
-  buf = id;
-  pos = var_r31;
-  id = (int) var_r4;
-  void TWindowDD__sub_803474CC(M_80347758 *, s32, char *, s32, s32 *);
-  TWindowDD__sub_803474CC((M_80347758 *)var_r3, id, (char *)word, buf, (s32 *)pos);
+void TWindowDD__sub_80347474(M_80347758 *entry, s16 id, s32 buf, s32 *pos) {
+    char *word = (char *)get_word_select_token_text(id);
+    TWindowDD__sub_803474CC(entry, id, word, buf, pos);
 }
 
 void TWindowDD__sub_803474CC(M_80347758 *entry, s16 id, char *word, s32 buf, s32 *pos) {
@@ -425,6 +407,7 @@ u8 *TWindowDD__sub_80347AD4(W_80347AD4 *self, s32 offset, s32 id) {
     return win;
 }
 
+#pragma push
 #pragma fp_contract on
 
 struct W_80347CC8;
@@ -485,10 +468,10 @@ void TWindowDD__sub_80347CC8(W_80347CC8 *arg0, void *window_dd) {
                 e->f8 = 580.0f - e->f10;
                 x = 580.0f;
             } else {
-                e->f8 = lbl_805DFCD0;
+                e->f8 = 0.0f;
             }
-            s->f38 = lbl_805DFCD4 * TWindowDD__data_805DFB58 + x;
-            if (x <= lbl_805DFCD0) {
+            s->f38 = 2.0f * TWindowDD__data_805DFB58 + x;
+            if (x <= 0.0f) {
                 ((TWindowDD_WS_String *)s)->update_position(TWindowDD__data_805DFB50);
             } else {
                 ((TWindowDD_WS_String *)s)->init_and_set_field50((void *)TWindowDD__data_805DFB50);
@@ -497,7 +480,7 @@ void TWindowDD__sub_80347CC8(W_80347CC8 *arg0, void *window_dd) {
     }
 }
 
-s32 TWindowDD::setup_entry(s32 arg1) {
+s32 TWindowDD::setup_entry(s16 arg1) {
     s32 var_r31;
     u32 temp_r30;
 
@@ -552,6 +535,499 @@ s32 TWindowDD::get_current_child_index() {
     }
     var_r3 = (u8 *)((void *)-1U);
     return -1;
+}
+
+}
+#pragma pop
+
+
+extern const f32 TWindowDD__data_805DFC10;
+
+    extern unsigned char lbl_804EFCA8[];
+void*TWindowDD::get_entry(int a0, int a1) {  return (char*)lbl_804EFCA8 + a1 * 8; }
+
+void TWindowDD__sub_80347F48(u8 *arg0) {
+    u8 *temp_r3;
+    temp_r3 = (u8 *)(*(u8 **)((s8 *)arg0 + 0x68));
+    if (temp_r3 != NULL) {
+        *(f32 *)((s8 *)temp_r3 + 0x30) = (f32) TWindowDD__data_805DFC10;
+        *(s32 *)((s8 *)temp_r3 + 0x50) = (s32) TWindowDD__data_805DFB50;
+    }
+}
+
+void TWindowDD::init_entry_field_64(s32 arg1) {
+    s32 arg0 = (s32)this;
+    u8 *var_r3;
+    var_r3 = (u8 *)(arg0 + (arg1 * 4));
+    var_r3 = (u8 *)(*(u8 **)((s8 *)var_r3 + 0x64));
+    if (var_r3 != NULL) {
+        ((TWindowDD_WS_String *)var_r3)->init_and_set_field50((void *)TWindowDD__data_805DFB50);
+    }
+}
+
+void TWindowDD__sub_80347FA0(s32 arg0, s32 arg1) {
+    u8 *var_r3;
+    var_r3 = (u8 *)(arg0 + (arg1 * 4));
+    var_r3 = (u8 *)(*(u8 **)((s8 *)var_r3 + 0x64));
+    if (var_r3 != NULL) {
+        ((TWindowDD_WS_String *)var_r3)->update_position(TWindowDD__data_805DFB50);
+    }
+}
+
+void TWindowDD::refresh_sub(void* p, void* a1) { TWindowDD__sub_80341AE0((u8 *)a1); ((TWindowDD *)a1)->set_mode_2(); }
+
+void TWindowDD::apply_input(void* p, void* a1) { TWindowDD__sub_80341AE0((u8 *)a1); ((TWindowDD *)a1)->reset_cursor(); }
+
+void TWindowDD::update(void* p, void* a1) { TWindowDD__sub_80341AE0((u8 *)a1); ((TWindowDD *)a1)->set_mode_2(); }
+
+
+void TWindowDD::update(s32 arg1) {
+    TWindowDD__sub_80341AF8((u8 *)arg1);
+    ((TWindowDD *)arg1)->reset_cursor();
+    if ((u32) this->m_98 != 0U) {
+        ((TWindowDD *)(this->m_98))->set_scale(((TWindowDD *)arg1)->get_field_0x74(), (s32) lbl_805DFB54);
+        ((TWindowDD *)(this->m_98))->set_value_f32(TWindowDD__sub_8034217C((u8 *)arg1));
+    }
+}
+
+extern "C" {
+int play_sound_effect(void*, void*, void*, void*);
+int refresh_sub__9TWindowDDFPvPv(void);
+int update__9TWindowDDFPvPv(void);
+int update__9TWindowDDFl(void);
+
+        extern const float lbl_805DFB98;
+    extern const float lbl_805DFB9C;
+    extern const float lbl_805DFBA0;
+void TWindowDD::set_default_coords(int a0, void* a1) { refresh_sub__9TWindowDDFPvPv(); *(float*)((char*)a1 + 0x30) = lbl_805DFB94; *(float*)((char*)a1 + 0x40) = lbl_805DFB94; *(float*)((char*)a1 + 0x34) = lbl_805DFB98; *(float*)((char*)a1 + 0x44) = lbl_805DFB98; *(float*)((char*)a1 + 0x38) = lbl_805DFB9C; *(float*)((char*)a1 + 0x48) = lbl_805DFB9C; *(float*)((char*)a1 + 0x3c) = lbl_805DFBA0; *(float*)((char*)a1 + 0x4c) = lbl_805DFBA0; }
+
+    extern const float lbl_805DFB80;
+    extern const float lbl_805DFB84;
+    extern const float lbl_805DFB88;
+    extern const float lbl_805DFB8C;
+void TWindowDD::init_layout(int a0, void* a1) { update__9TWindowDDFPvPv(); *(float*)((char*)a1 + 0x30) = lbl_805DFB80; *(float*)((char*)a1 + 0x40) = lbl_805DFB80; *(float*)((char*)a1 + 0x34) = lbl_805DFB84; *(float*)((char*)a1 + 0x44) = lbl_805DFB84; *(float*)((char*)a1 + 0x38) = lbl_805DFB88; *(float*)((char*)a1 + 0x48) = lbl_805DFB88; *(float*)((char*)a1 + 0x3c) = lbl_805DFB8C; *(float*)((char*)a1 + 0x4c) = lbl_805DFB8C; }
+
+        extern const float lbl_805DFB70;
+        extern const float lbl_805DFB78;
+void TWindowDD::set_default_positions(int a0, void* a1) { update__9TWindowDDFl(); *(float*)((char*)a1 + 0x30) = TWindowDD__data_805DFB6C; *(float*)((char*)a1 + 0x40) = TWindowDD__data_805DFB6C; *(float*)((char*)a1 + 0x34) = lbl_805DFB70; *(float*)((char*)a1 + 0x44) = lbl_805DFB70; *(float*)((char*)a1 + 0x38) = TWindowDD__data_805DFB74; *(float*)((char*)a1 + 0x48) = TWindowDD__data_805DFB74; *(float*)((char*)a1 + 0x3c) = lbl_805DFB78; *(float*)((char*)a1 + 0x4c) = lbl_805DFB78; }
+
+void TWindowDD::spawn_window() { play_sound_effect((void*)344320, (void*)0, (void*)0, (void*)0); }
+void TWindowDD::play_se() { play_sound_effect((void*)339734, (void*)0, (void*)0, (void*)0); }
+void TWindowDD::play_sound() { play_sound_effect((void*)339201, (void*)0, (void*)0, (void*)0); }
+u8 TWindowDD__sub_803482B0(u8 *arg0) {
+    s32 var_r31;
+    var_r31 = 0;
+    if ((((s32)TWindowDD_check_input_mask(arg0 + 0x1C, 2)) != 0) || (*(s32 *)((s8 *)arg0 + 0x94) & 2)) {
+        var_r31 = 1;
+    }
+    return (u8) var_r31;
+}
+
+}
+
+
+struct W_80348520 {
+    u8 pad0[0x24];
+    void *b[8];
+    u8 pad44[0x64 - 0x44];
+    void *a[6];
+    void *f7c;
+    void *f80;
+    void *f84;
+};
+
+extern "C" {
+s32 copy_chat_entry__9TWindowDDFPvPv(int, void *);
+s32 reset_selection__9TWindowDDFv(void *, void *);
+s32 TWindowDD__sub_8034435C();
+s32 TWindowDD__sub_80344568();
+s32 TWindowDD__sub_80344774();
+s32 format_message_text__9TWindowDDFPvPvUs(void *src, void *dst, u16 player);
+s32 format_german_message__9TWindowDDFPvPvUs(void *src, void *dst, u16 player);
+s32 TWindowDD__sub_80345608(void *src, void *dst, u16 player);
+s32 format_english_message__9TWindowDDFPvPvUs(void *src, void *dst, u16 player);
+s32 format_entry_text__9TWindowDDFPvPv(void *src, void *dst);
+s32 TWindowDD__sub_80346434();
+s32 TWindowDD__sub_80346640();
+
+int TWindowDD::test_input_flag_4() { return TWindowDD_check_input_mask((char*)this + 0x1c, 4); }
+
+extern s32 TWindowDD__window_mode;
+
+void TWindowDD::dispatch_state() {
+    switch ((s32) TWindowDD__window_mode) {
+    case 0:
+        TWindowDD__sub_80346640();
+        return;
+    default:
+        TWindowDD__sub_80346434();
+        return;
+    case 4:
+        TWindowDD__sub_80344774();
+        return;
+    case 2:
+        TWindowDD__sub_80344568();
+        return;
+    case 3:
+        TWindowDD__sub_8034435C();
+        return;
+    }
+}
+
+s32 TWindowDD::get_word_select_context() {
+    s32 area;
+    area = get_current_floor_area();
+    if (area == AREA_PIONEER2_EP1 || area == AREA_PIONEER2_EP2) {
+        return 1;
+    }
+    if (area == AREA_LOBBY) {
+        return 0;
+    }
+    if (TObjPlayer::get_player_count() != 0) {
+        return 4;
+    }
+    if (TLobby::is_flag_set() != 0) {
+        return 5;
+    }
+    return (this->m_bc != 0 ? 1 : 0) + 2;
+}
+
+int TWindowDD__sub_80348424(s32 _w0, s32 _w1) { return TWindowDD__sub_8034B008((s32)((void*)(1)), (_w1)); }
+
+void TWindowDD__sub_80348448(s32 arg0, s16 arg1) {
+    TWindowDD__sub_8034B008(0, ((s32) arg1));
+}
+
+s32 TWindowDD::get_mode_code() {
+    u8 *arg0 = (u8 *)this;
+    s32 temp_r3;
+    temp_r3 = *(s32 *)((s8 *)arg0 + 0xA8);
+    if (temp_r3 == 2) {
+        return 1;
+    }
+    return ((temp_r3 - 3) == 0) ? 2 : 0;
+}
+
+void TWindowDD::set_state() { *(int*)((char*)this + 0xa8) = 3; close_all_windows(); }
+
+void TWindowDD__sub_803484C4(u8 *window_dd) {
+    *(s32 *)((s8 *)window_dd + 0xA8) = 2;
+    copy_chat_entry__9TWindowDDFPvPv((int) (*(s32 *)((s8 *)window_dd + 0xC0)), window_dd + 0xC4);
+    if ((s32) ((TWindowDD *)window_dd)->m_c0 != 0) {
+        reset_selection__9TWindowDDFv(window_dd, window_dd + 0xC4);
+    }
+    ((TWindowDD *)window_dd)->close_all_windows();
+}
+
+void TWindowDD::close_all_windows() {
+    W_80348520 *w = (W_80348520 *)this;
+    s32 i;
+    if (w->f84 != NULL) {
+        ((TWindowBase *)w->f84)->close();
+        w->f84 = NULL;
+    }
+    if (w->f80 != NULL) {
+        ((TWindowBase *)w->f80)->close();
+        w->f80 = NULL;
+    }
+    if (w->f7c != NULL) {
+        ((TWindowBase *)w->f7c)->close();
+        w->f7c = NULL;
+    }
+    for (i = 0; i < 6; i++) {
+        if (w->a[i] != NULL) {
+            ((TWindowBase *)(w->a[i]))->close();
+            w->a[i] = NULL;
+        }
+    }
+    for (i = 7; i >= 0; i--) {
+        if (w->b[i] != NULL) {
+            ((TWindowBase *)(w->b[i]))->close();
+            w->b[i] = NULL;
+        }
+    }
+}
+
+s32 TWindowDD::can_append_chars(s32 arg0, s32 *arg1) {
+    s32 t = *arg1;
+    return (arg0 + t + 1) < 0x80;
+}
+
+void TWindowDD::format_message(void *src, void *dst, u16 player) {
+    switch ((s32) TWindowDD__window_mode) {
+    case 0:
+        format_entry_text__9TWindowDDFPvPv(src, dst);
+        return;
+    default:
+        format_english_message__9TWindowDDFPvPvUs(src, dst, player);
+        return;
+    case 4:
+        TWindowDD__sub_80345608(src, dst, player);
+        return;
+    case 2:
+        format_german_message__9TWindowDDFPvPvUs(src, dst, player);
+        return;
+    case 3:
+        format_message_text__9TWindowDDFPvPvUs(src, dst, player);
+        return;
+    }
+}
+
+void TWindowDD::append_prompt_newline(s32 *arg1) {
+    u8 *arg0 = (u8 *)this;
+    s32 p = *arg1;
+    if (((s32)TWindowDD::can_append_chars(3, arg1)) != 0) {
+        arg0[p++] = 0xA;
+        arg0[p++] = 0x3E;
+        arg0[p++] = 0x20;
+    }
+    *arg1 = p;
+}
+
+s32 TWindowDD::clamp_range_5FA_682(s16 arg0) {
+    if ((arg0 >= 0x5FA) && (arg0 <= 0x682)) {
+        return arg0 - 0x5FA;
+    }
+    return 0;
+}
+
+s32 TWindowDD::clamp_range_2C9_552(s16 arg0) {
+    if ((arg0 >= 0x2C9) && (arg0 <= 0x552)) {
+        return arg0 - 0x2C9;
+    }
+    return 0;
+}
+
+}
+
+
+extern "C" {
+
+s32 count_chars_since_newline__9TWindowDDFPl();
+
+void TWindowDD::show_message_by_count(s32 arg0, s32 arg1) {
+    if (count_chars_since_newline__9TWindowDDFPl() > 0xF) {
+        TWindowDD::append_char((s8)0xA, (s32)arg0, (s32 *)arg1);
+        return;
+    }
+    TWindowDD::append_char((s8)0x20, (s32)arg0, (s32 *)arg1);
+}
+
+}
+
+
+extern "C" {
+void TWindowDD::maybe_scroll(void* a1) { if (count_chars_since_newline((s32 *)a1) > 15) { TWindowDD::append_char((s8)((void*)10), (s32)this, (s32 *)a1); } }
+
+s32 TWindowDD::count_chars_since_newline(s32 *len) {
+    u8 *buf = (u8 *)this;
+    s32 n = 0;
+    s32 i;
+    for (i = *len - 1; i >= 0; i--) {
+        if (buf[i] == '\n') {
+            break;
+        }
+        n++;
+    }
+    return n;
+}
+
+void TWindowDD::append_char(s8 arg0, s32 arg1, s32 *arg2) {
+    s32 temp_r3;
+    if (TWindowDD::can_append_chars(1, (s32 *)arg2) != 0) {
+        temp_r3 = *(s32 *)((s8 *)arg2 + 0);
+        *(s32 *)((s8 *)arg2 + 0) = temp_r3 + 1;
+        *(s8 *)((s8 *)(arg1 + temp_r3) + 0) = arg0;
+    }
+}
+
+void append_word_select_token(s16 arg0, s32 arg1, void *arg2) {
+    TWindowDD::append_string((s32)(get_word_select_token_text(arg0)), (s32)arg1, (s32 *)arg2);
+}
+
+}
+
+
+struct Dst_80348A9C { u8 pad[0xc]; f32 x; f32 y; u8 pad2[4]; };
+
+struct A_803489B8 { u8 pad0[4]; f32 f4; u8 pad8[4]; f32 fC; u8 pad10[0x1C]; f32 f2C; };
+
+struct B_803489B8 { u8 pad0[4]; f32 f4; u8 pad8[0x14]; f32 f1C; u8 pad20[0x10]; };
+
+extern "C" {
+extern f32 lbl_805DFB1C;
+NJS_POINT2 TWindowDD__data_805434E8[7][8];
+extern s32 *TWindowDD__player_name_buffers;
+extern s32 *TWindowDD__data_805D6E28;
+extern s16 *lbl_805D6E34;
+extern const f32 TWindowDD__data_805DFB58;
+extern const f32 lbl_805DFB5C;
+extern const f32 TWindowDD__data_805DFB20;
+void TWindowDD__sub_803489B8(A_803489B8 *arg0, B_803489B8 *arg1, s32 arg2);
+typedef struct { char pad[0xBC]; } Buf;
+
+void TWindowDD::append_string(s32 arg0, s32 arg1, s32 *arg2) {
+    s32 temp_r31;
+
+    if (arg0 != 0) {
+        temp_r31 = strlen((const char *)arg0);
+        if (TWindowDD::can_append_chars(temp_r31, arg2) != 0) {
+            strncpy((char *)(arg1 + *arg2), (const char *)arg0, temp_r31);
+            *arg2 += temp_r31;
+        }
+    }
+}
+
+extern s32 lbl_805D63F0;
+
+void TWindowDD_WS_String::draw(s32 ctx, s32 idx, f32 farg0) {
+    Buf sp8;
+    s32 temp_r31;
+
+    temp_r31 = TWindowDD::get_draw_count((void **)(lbl_805D63F0));
+    ((TWindowDD *)(&sp8))->reset_entries(TWindowDD__sub_80348AD4(*(f32 *)&(this->m_54), farg0), -1);
+    ((TWindowDD *)(&sp8))->copy_point_table(idx);
+    TWindowDD__sub_80348A2C((void *)ctx, &sp8);
+    TWindowDD__sub_803489B8((A_803489B8 *)(ctx), (B_803489B8 *)(&sp8), 0);
+    ((TWindowDD *)(&sp8))->draw_transformed_primitive(8, temp_r31, 1);
+}
+
+#pragma push
+#pragma fp_contract on
+void TWindowDD__sub_803489B8(A_803489B8 *arg0, B_803489B8 *arg1, s32 arg2) {
+    s32 i;
+    f32 hs;
+    f32 half;
+    f32 v;
+    f32 t0;
+    f32 step;
+    f32 sc;
+    half = 0.5f * arg0->fC;
+    sc = arg0->f2C;
+    t0 = arg0->f4 + half;
+    step = TWindowDD__data_805DFB20 * sc;
+    hs = half * sc;
+    v = t0 - hs;
+    v += step * (f32) arg2;
+    for (i = 0; i < 4; i++) {
+        arg1->f4 = v;
+        arg1->f1C = v + step;
+        arg1++;
+    }
+}
+#pragma pop
+
+void TWindowDD__sub_80348A2C(void *arg0, void *arg1) {
+  f32 temp_f0;
+  f32 temp_f0_2;
+  f32 temp_f1;
+  f32 temp_f1_2;
+  s8 *new_var2;
+  f32 temp_f2;
+  f32 temp_f2_2;
+  f32 temp_f4;
+  s8 *new_var;
+  f32 var_f0;
+  temp_f2 = 0.5f * (*((f32 *) (((s8 *) arg0) + 8)));
+  temp_f1 = temp_f2 * (*((f32 *) (((s8 *) arg0) + 0x28)));
+  temp_f0 = (*((f32 *) (((s8 *) arg0) + 0))) + temp_f2;
+  temp_f2_2 = (0, temp_f0 - temp_f1);
+  temp_f4 = temp_f0 + temp_f1;
+  if (temp_f1 < lbl_805DFB1C)
+  {
+    var_f0 = (temp_f4 - temp_f2_2) / 3.0f;
+  }
+  else
+  {
+    var_f0 = lbl_805DFB1C;
+  }
+  new_var2 = ((s8 *) ((0, arg1))) + 0x90;
+  *((f32 *) (((s8 *) arg1) + 0x18)) = temp_f2_2;
+  temp_f1_2 = temp_f2_2 + var_f0;
+  temp_f0_2 = temp_f4 - var_f0;
+  *((f32 *) (((s8 *) arg1) + 0)) = temp_f2_2;
+  *((f32 *) (((s8 *) arg1) + 0x48)) = temp_f1_2;
+  *((f32 *) (((s8 *) arg1) + 0x30)) = temp_f1_2;
+  new_var = (s8 *) arg1;
+  *((f32 *) (((s8 *) arg1) + 0x78)) = temp_f0_2;
+  *((f32 *) (((s8 *) arg1) + 0x60)) = temp_f0_2;
+  *((f32 *)(new_var + 0xA8)) = temp_f4;
+  *((f32 *) new_var2) = temp_f4;
+}
+
+void TWindowDD::copy_point_table(s32 idx) {
+    Dst_80348A9C *self = (Dst_80348A9C *)this;
+    s32 i;
+    NJS_POINT2 *s = TWindowDD__data_805434E8[idx];
+    for (i = 0; i < 8; i++) {
+        self->x = s->x;
+        self->y = s->y;
+        s++;
+        self++;
+    }
+}
+
+#pragma push
+#pragma fp_contract on
+f32 TWindowDD__sub_80348AD4(f32 farg0, f32 farg1) {
+    return (-1.0f) / ((0.299f * farg1) + farg0);
+}
+#pragma pop
+
+s32 TWindowDD::get_draw_count(void **arg0) {
+    return **(s32 **)((s8 *)(*(void **)((s8 *)(*arg0) + 0x20)) + 0xC);
+}
+
+extern s32 TWindowDD__ws_data_table;
+extern s32 twindowdd_entry_count;
+
+#pragma push
+#pragma fp_contract on
+void TWindowBase::calc_inner_rect(u8 *arg1) {
+    u8 *arg0 = (u8 *)this;
+    f32 y0;
+    f32 ky;
+    f32 x0;
+    f32 x;
+    f32 y;
+    f32 w;
+    f32 h;
+    x = *(f32 *)((s8 *)arg0 + 0x40);
+    y = *(f32 *)((s8 *)arg0 + 0x44);
+    ky = lbl_805DFB5C;
+    x0 = x + TWindowDD__data_805DFB58;
+    w = *(f32 *)((s8 *)arg0 + 0x48);
+    h = *(f32 *)((s8 *)arg0 + 0x4C);
+    y0 = y + ky;
+    *(f32 *)((s8 *)arg1 + 0x10) = x0;
+    *(f32 *)((s8 *)arg1 + 0x14) = y0;
+    *(f32 *)((s8 *)arg1 + 0x18) = w - 2.0f * TWindowDD__data_805DFB58;
+    *(f32 *)((s8 *)arg1 + 0x1C) = h - 2.0f * ky;
+    *(f32 *)((s8 *)arg1 + 0x3C) = x0;
+    *(f32 *)((s8 *)arg1 + 0x40) = y0;
+    *(f32 *)((s8 *)arg1 + 0x44) = (x + w) - TWindowDD__data_805DFB58;
+    *(f32 *)((s8 *)arg1 + 0x48) = (y + h) - ky;
+    *(f32 *)((s8 *)arg1 + 0x20) = 0.5f * w + x;
+    *(f32 *)((s8 *)arg1 + 0x24) = 0.5f * h + y;
+}
+#pragma pop
+
+s32 get_word_select_token_text(s16 arg0) {
+    s32 *t = TWindowDD__player_name_buffers;
+    if (arg0 >= 0x68C && arg0 <= 0x697) {
+        return t[arg0 - 0x68C];
+    }
+    if (arg0 == 0x698) {
+        return 0;
+    }
+    return TWindowDD__data_805D6E28[lbl_805D6E34[arg0]];
+}
+
+s32 TWindowDD::get_entry(s32 arg0) {
+    if ((arg0 < 0) || (arg0 >= (s32) twindowdd_entry_count)) {
+        return 0;
+    }
+    return TWindowDD__ws_data_table + (arg0 * 8);
 }
 
 }

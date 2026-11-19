@@ -10192,27 +10192,10 @@ pso/ui/window/TWindowDD_803471C0.cpp:
 	.text       start:0x803471C0 end:0x8034725C
 
 pso/ui/window/TWindowDD_8034725C.cpp:
-	.text       start:0x8034725C end:0x80347F34
-	.rodata     start:0x804786A0 end:0x804786A8
-	.sdata2     start:0x805DFCC8 end:0x805DFCD0
-
-pso/ui/window/TWindowDD_80347F34.cpp:
-	.text       start:0x80347F34 end:0x80348304
-
-pso/ui/window/TWindowDD_80348304.cpp:
-	.text       start:0x80348304 end:0x80348738
-
-pso/ui/window/TWindowDD_80348738.cpp:
-	.text       start:0x80348738 end:0x80348794
-
-pso/ui/window/TWindowDD_80348794.cpp:
-	.text       start:0x80348794 end:0x803488A8
-
-pso/ui/window/TWindowDD_803488A8.cpp:
-	.text       start:0x803488A8 end:0x80348BF4
-	.rodata     start:0x804786A8 end:0x804786B0
+	.text       start:0x8034725C end:0x80348BF4
+	.rodata     start:0x804786A0 end:0x804786B0
 	.bss        start:0x805434E8 end:0x805436A8
-	.sdata2     start:0x805DFCD8 end:0x805DFCE8
+	.sdata2     start:0x805DFCC8 end:0x805DFCE8
 
 pso/ui/window/TWindowDD_80348BF4.cpp:
 	.text       start:0x80348BF4 end:0x80348C54
@@ -10286,14 +10269,17 @@ pso/ui/frontend/TAdFloorLoadGC.cpp:
 	.sdata      start:0x805D4328 end:0x805D4330
 
 pso/ui/frontend/TAdFloorLoadPrtGC.cpp:
-	.text       start:0x8034AD28 end:0x8034AD38
-
-pso/ui/window/TWindowDD_8034AF68.cpp:
-	.text       start:0x8034AD38 end:0x8034B110
+	.text       start:0x8034AD28 end:0x8034AED4
 	.rodata     start:0x80478A28 end:0x80478B78
 	.data       start:0x804F0028 end:0x804F0040
 	.sdata      start:0x805D4330 end:0x805D4338
+
+pso/ui/window/TWindowDD_8034AF68.cpp:
+	.text       start:0x8034AED4 end:0x8034B110
+	.rodata     start:0x80478B78 end:0x80478BB8
+	.data       start:0x804F0040 end:0x804F00A4
 	.sbss       start:0x805D6E90 end:0x805D6E98
+	.sdata2     start:0x805DFD78 end:0x805DFD84
 
 pso/quest/challenge/TChallenge4PItemSelect.cpp:
 	.text       start:0x8034B110 end:0x8034BE30

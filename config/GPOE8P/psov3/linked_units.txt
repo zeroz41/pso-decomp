@@ -1329,11 +1329,6 @@ pso/ui/window/TWindowDD_80346A84.cpp
 pso/ui/window/TWindowDD_80346F48.cpp
 pso/ui/window/TWindowDD_803471C0.cpp
 pso/ui/window/TWindowDD_8034725C.cpp
-pso/ui/window/TWindowDD_80347F34.cpp
-pso/ui/window/TWindowDD_80348304.cpp
-pso/ui/window/TWindowDD_80348738.cpp
-pso/ui/window/TWindowDD_80348794.cpp
-pso/ui/window/TWindowDD_803488A8.cpp
 pso/ui/window/TWindowDD_80348BF4.cpp
 pso/ui/window/TWindowDD_80348C54.cpp
 pso/ui/window/TWindowDD_8034AF68.cpp
