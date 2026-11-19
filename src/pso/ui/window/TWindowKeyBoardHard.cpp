@@ -612,12 +612,6 @@ void fn_8025FF8C(void *arg0) {
 #include "pso/system/NinjaTypes.h"
 
 
-extern const char lbl_8044F0CC[];
-extern const char lbl_8044F0D4[];
-extern const char keyboard_hard_status_text_a[];
-extern const char keyboard_hard_status_text_b[];
-extern const char lbl_8044F0FC[];
-extern const char lbl_8044F104[];
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
@@ -633,6 +627,7 @@ s32 is_key_active__19TWindowKeyBoardHardFv();
 
 void TWindowKeyBoardHard::release_keyboard() { void* m = *(void* *)&this->m_70; if (m) TWindowKeyBoardHard__sub_8025CC48(m); }
 
+#pragma pool_data off
 void TWindowKeyBoardHard::draw_status_text(void *ctx) {
     s32 flags;
     if (((Win_80260020 *)this)->state != NULL && current_language == LANGUAGE_JAPANESE) {
@@ -643,22 +638,23 @@ void TWindowKeyBoardHard::draw_status_text(void *ctx) {
         set_text_draw_params((s32)((Ctx_80260020 *)ctx), 0, 0, (f32)inv, 100000.0f);
         flags = ((Win_80260020 *)this)->state->flags;
         if (!(flags & 1)) {
-            draw_window_text((f32 *)&pt, lbl_8044F0CC, -1, 0, 1000000.0f);
+            draw_window_text((f32 *)&pt, "\x94\xBC\x89\x70\x90\x94", -1, 0, 1000000.0f); // 半英数
         } else if (flags & 2) {
-            draw_window_text((f32 *)&pt, lbl_8044F0D4, -1, 0, 1000000.0f);
+            draw_window_text((f32 *)&pt, "\x91\x53\x89\x70\x90\x94", -1, 0, 1000000.0f); // 全英数
         } else if (flags & 4) {
             if (flags & 8) {
-                draw_window_text((f32 *)&pt, keyboard_hard_status_text_a, -1, 0, 1000000.0f);
+                draw_window_text((f32 *)&pt, "\x91\x53\x83\x8D\x81\x5B\x83\x7D\x83\x4A\x83\x69", -1, 0, 1000000.0f); // 全ローマカナ
             } else {
-                draw_window_text((f32 *)&pt, keyboard_hard_status_text_b, -1, 0, 1000000.0f);
+                draw_window_text((f32 *)&pt, "\x91\x53\x83\x8D\x81\x5B\x83\x7D\x82\xA9\x82\xC8", -1, 0, 1000000.0f); // 全ローマかな
             }
         } else if (flags & 8) {
-            draw_window_text((f32 *)&pt, lbl_8044F0FC, -1, 0, 1000000.0f);
+            draw_window_text((f32 *)&pt, "\x91\x53\x83\x4A\x83\x69", -1, 0, 1000000.0f); // 全カナ
         } else {
-            draw_window_text((f32 *)&pt, lbl_8044F104, -1, 0, 1000000.0f);
+            draw_window_text((f32 *)&pt, "\x91\x53\x82\xA9\x82\xC8", -1, 0, 1000000.0f); // 全かな
         }
     }
 }
+#pragma pool_data reset
 
 void TWindowKeyBoardHard::render() {
     s32 temp;

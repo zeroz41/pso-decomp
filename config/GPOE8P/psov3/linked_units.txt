@@ -750,6 +750,7 @@ pso/ui/city/TJudgmentSequence_8021E4C4.cpp
 pso/ui/keyboard/TKeyBoardControl.cpp
 pso/ui/keyboard/TKeyBoardControl_8000F764.cpp
 pso/ui/keyboard/TKeyBoardControl_80131C58.cpp
+pso/ui/keyboard/TKeyBoardControl_80131F5C.cpp
 pso/ui/keyboard/TKeyBoardControl_801A57C4.cpp
 pso/unk/TLobby_80243370.cpp
 pso/ui/keyboard/TKeyBoardControl_8025CB70.cpp

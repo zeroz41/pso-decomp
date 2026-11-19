@@ -1,5 +1,6 @@
 #include "types.h"
 #include "pso/ui/window/TWindowSubComCard.h"
+#include "pso/ui/window/TWindowKeyBoardSoft.h"
 #include <string.h>
 
 #define TOLOWERCASE(x) (((x) & 0x5F) + 0x20)
@@ -265,6 +266,16 @@ char profanity_word_table[258][20] = {
     "wh0r3s",
     "wh0re",
     "",
+};
+
+u8 soft_keyboard_key_class[7 * 16] = {
+    2, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 3,
+    2, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    2, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    2, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    2, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    2, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    2, 3, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 4, 5, 6, 7,
 };
 
 s32 TWindowSubComCard::contains_profanity(char *text) {
