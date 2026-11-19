@@ -10,6 +10,7 @@
 #include "pso/effect/TBreakUpMdl.h"
 #include "pso/player/TUnk_804820C0.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/boss/derolle/TObjBoss2CeilJunk.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/unk/text_803E2D70.h"
@@ -32,7 +33,6 @@ struct Model_8002E3D4 { u8 pad[0x2C]; s32 f2C; u8 pad30[0x58 - 0x30]; Mesh_8002E
 struct Holder_8002E3D4 { u8 pad[0x42C]; Model_8002E3D4 *model; };
 
 extern "C" {
-s32 create_particle__17TObjBoss2CeilJunkFv(void *, s32);
 void TObjLight__sub_801337F8(s32);
 s32 rotate_matrix_z(int, int);
 void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
@@ -216,7 +216,7 @@ void TUnk_804820A8::run_task() {
         piece = &m_pieces[i];
         if (TObjPlayer__sub_8002EDCC(piece) != 0) {
             if ((i % 2) == 0) {
-                create_particle__17TObjBoss2CeilJunkFv(piece, 0x171);
+                TObjBoss2CeilJunk::create_particle(piece, 0x171);
             }
         }
         i += 1;
@@ -326,7 +326,7 @@ void TUnk_80482090::run_task() {
         piece = &m_pieces[i];
         if (TObjPlayer__sub_8002EDCC(piece) != 0) {
             if ((i % 2) == 0) {
-                create_particle__17TObjBoss2CeilJunkFv(piece, 0x170);
+                TObjBoss2CeilJunk::create_particle(piece, 0x170);
             }
         }
         i += 1;

@@ -243,7 +243,6 @@ pso/boss/darkfalz/TBoss4Type2_8004A978.cpp
 pso/boss/darkfalz/TBoss4Type2_80086C44.cpp
 pso/effect/particle/TParticleCtrl_800874F4.cpp
 pso/boss/darkfalz/TBoss4Type3.cpp
-pso/boss/darkfalz/TBoss4Type3_800505A8.cpp
 pso/boss/darkfalz/TBoss4Type3_800524E8.cpp
 pso/boss/darkfalz/TBoss4Type3_800D7A20.cpp
 pso/boss/darkfalz/TBoss4Zako.cpp
@@ -322,11 +321,10 @@ pso/boss/dragon/TObjBoss1Crater.cpp
 pso/boss/dragon/TObjBoss1Floor.cpp
 pso/boss/derolle/TObjBoss2CeilJunk.cpp
 pso/boss/derolle/TObjBoss2CeilJunk_8003A81C.cpp
-pso/boss/derolle/TObjBoss2CeilJunk_8003B07C.cpp
 pso/boss/derolle/TObjBoss2DustCtrl.cpp
 pso/boss/derolle/TObjBoss2RaftSplash.cpp
-pso/boss/derolle/TObjBoss2RaftSplash_8003B0A0.cpp
 pso/boss/derolle/TObjBoss2Tunnel.cpp
+pso/boss/derolle/TObjBoss2Tunnel_8003B1FC.cpp
 pso/boss/derolle/TObjBoss2Tunnel_8003B138.cpp
 pso/boss/derolle/TObjBoss2Tunnel_802F1A58.cpp
 pso/boss/derolle/TObjBoss2Tunnel_8036EF0C.cpp
@@ -1990,7 +1988,6 @@ pso/ui/window/TObjBagWarnWin.cpp
 pso/ui/charcreate/TObjCMHexTile.cpp
 pso/boss/darkfalz/TObjDFJisin.cpp
 pso/boss/darkfalz/TBoss4Type2_800522CC.cpp
-pso/boss/darkfalz/TObjDFYutai.cpp
 pso/object/TObjLiveMonitor.cpp
 pso/weapon/TUnk_804E24F0.cpp
 pso/ui/window/TWindowRoom.cpp

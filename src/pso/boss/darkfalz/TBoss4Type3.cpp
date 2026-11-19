@@ -1515,7 +1515,7 @@ void TBoss4Type3::handle_damage_taken() {
     }
     drain_player_hp(((O_80059618 *)this)->f3ba, ((O_80059618 *)this)->f3e4 - ((O_80059618 *)this)->f32c);
     ((O_80059618 *)this)->f3e4 = ((O_80059618 *)this)->f32c;
-    TBoss4Type3::create_yutai((void *)((O_80059618 *)this), (void *)2, (void *)((O_80059618 *)this)->f3ba);
+    TBoss4Type3::create_yutai(this, 2, ((O_80059618 *)this)->f3ba);
     Vec pos = *(Vec *)(p + 0x2FC);
     Vec tgt = ((O_80059618 *)this)->f480;
     Vec dir;
@@ -2019,7 +2019,7 @@ void TBoss4Type3::update_capture() {
         ((TParticleCtrl *)*(void **)((s8 *)arg0 + 0x42C))->set_position(pos);
     }
     if (this->m_398 == 0x21) {
-        TBoss4Type3::create_yutai((void *)arg0, (void *)0, (void *)((void *)this->m_3b8));
+        TBoss4Type3::create_yutai(this, 0, this->m_3b8);
     }
     if (this->m_398 == 0x1C) {
         h = (u32)spawn_particle_effect(&v, 0x38);
@@ -2103,7 +2103,7 @@ void TBoss4Type3::update_bura() {
 
 void TBoss4Type3::enter_libera() {
     u8 *arg0 = (u8 *)this;
-    TBoss4Type3::create_yutai((void *)arg0, (void *)((void *)1), (void *)((void *) this->m_3ba));
+    TBoss4Type3::create_yutai(this, 1, this->m_3ba);
     this->m_52c = 0;
     this->m_398 = 0x62;
 }

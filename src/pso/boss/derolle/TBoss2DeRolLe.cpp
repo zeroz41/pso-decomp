@@ -94,6 +94,7 @@ extern "C" void test_flag_256__9TObjCharaFv();
 #include "pso/boss/derolle/TObjBoss2CeilJunk.h"
 
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
+#include "pso/boss/derolle/TObjBoss2Tunnel_8003B138.h"
 
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
 
@@ -573,8 +574,6 @@ extern "C" {
 
 void TObjPlayer__sub_8002E7C8(void);
 
-
-s32 create_particle__17TObjBoss2CeilJunkFv(void *, s32);
 
 f32 vec3_add_to(void *, void *);
 
@@ -1511,10 +1510,6 @@ void swap_endian__13TBoss2DeRolLeFPv(void *);
 void swap_6x13_fields__13TBoss2DeRolLeFPv(void *);
 
 void init_launch__10TBoss2MineFPvPvii(u8 *arg0, u8 *arg1, s32 arg2, s32 arg3);
-
-s32 create_particle__17TObjBoss2CeilJunkFv(s32, s32);
-
-s32 TObjBoss2Tunnel__sub_8003B1D8(void *);
 
 s32 enemy_clear_target__12TObjEneDD_STFUs(void *);
 
@@ -4155,7 +4150,7 @@ void TBoss2DeRolLe__sub_80033A80(s32 arg0, s32 arg1) {
 }
 
 void spawn_ceil_junk__13TBoss2DeRolLeFii(s32 arg1, s32 arg2) {
-    create_particle__17TObjBoss2CeilJunkFv(arg2, 0x121);
+    TObjBoss2CeilJunk::create_particle((const void *)arg2, 0x121);
 }
 
 #pragma push

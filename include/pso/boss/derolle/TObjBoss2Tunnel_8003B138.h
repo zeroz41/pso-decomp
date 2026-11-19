@@ -6,7 +6,7 @@
 struct TObjBoss2Tunnel;
 extern "C" {
 void *TObjBoss2Tunnel__ct(void *arg0, void *arg1);
-void TObjBoss2Tunnel__sub_8003B1D8(void);
+void TObjBoss2Tunnel__sub_8003B1D8(void *particle);
 void TObjBoss2Tunnel__sub_8003B2B0(void);
 s32 TObjBoss2Tunnel__sub_8003C1C8(void);
 void TObjBoss2Tunnel__sub_8003C5F8(void);
@@ -24,7 +24,7 @@ void render__15TObjBoss2TunnelFv(u8 *arg0);
 // --- C functions defined in TObjBoss2Tunnel_8003B138.cpp ---
 extern "C" {
 void *TObjBoss2Tunnel__ct(void *object, void *arg1);
-void TObjBoss2Tunnel__sub_8003B1D8(void);
+void TObjBoss2Tunnel__sub_8003B1D8(void *particle);
 void TObjBoss2Tunnel__sub_8003B2B0(void);
 s32 TObjBoss2Tunnel__sub_8003C1C8(void);
 void TObjBoss2Tunnel__sub_8003C5F8(void);

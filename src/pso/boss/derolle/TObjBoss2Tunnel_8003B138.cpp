@@ -19,35 +19,9 @@
 #include "pso/render/GinjaMaterial.h"
 #pragma defer_codegen on
 
-struct Base_8003B138 { char pad[0x18]; };
-struct VObj_8003B138 : Base_8003B138 {
-    virtual void m0();
-    virtual void m1();
-};
-
-extern "C" {
-
-struct Obj_8003B250;
-void release_children__15TObjBoss2TunnelFPvf(Obj_8003B250 *arg0, f32 farg0);
-
-
-}
-
-#undef release_children__15TObjBoss2TunnelFPvf
-
-struct Child_8003B250 { u8 pad0[0x44]; f32 f44; };
-struct Obj_8003B250 { u8 pad0[0x14]; Child_8003B250 *child; };
-struct Obj_8003B1FC { u8 pad[0x14]; Obj_8003B1FC *child; u8 pad2[0x3c - 0x18]; u8 xf[0xC]; };
-
-extern "C" {
-s32 vec3_add_to(void *, void *);
-extern void *TObjBoss2Tunnel_parent_object;
-void TObjBoss2Tunnel__sub_8003B1D8(void);
-
-extern const f32 lbl_805D85D8;
-
-
-}
+u32 TObjBoss2Tunnel__global_flags;
+s32 *lbl_805D4C04;
+s32 *lbl_805D4C08;
 
 struct S_8003C108 {
     u8 pad0[0x20];
@@ -154,7 +128,6 @@ void play_persistent_sound(int, void *, int, int, int);
 void enable_fog__15TObjBoss2TunnelFv(void);
 void enable_fog__15TObjBoss2TunnelFPv(TObjBoss2Tunnel *arg0);
 void TObjBoss2Tunnel__sub_801339EC(f32, f32, f32);
-extern u32 TObjBoss2Tunnel__global_flags;
 void run_task__15TObjBoss2TunnelFv(Tunnel_8003B6E8 *o);
 void TObjBoss2Tunnel__sub_8003B2B0(void);
 void *__ct__7TObjectFP7TObject(void *, void *);
@@ -275,8 +248,6 @@ struct Tunnel_8003C45C {
 };
 
 extern "C" {
-extern s32 *lbl_805D4C04;
-extern s32 *lbl_805D4C08;
 void TObjBoss2Tunnel__sub_8003C5F8(void);
 void TObjBoss2Tunnel__sub_8003C610(void);
 u8 *TObjBoss2RaftSplash__ct(u8 *arg0, u8 *arg1, f32 *arg2, u8 *arg3, f32 *arg4);
@@ -509,7 +480,6 @@ s32 TObjBoss2Tunnel__sub_8003C1C8(void) {
     return ((u32) TObjBoss2Tunnel__global_flags >> 0xDU) & 1;
 }
 
-#define release_children__15TObjBoss2TunnelFPvf ((void (*)(u32, f32))release_children__15TObjBoss2TunnelFPvf)
 #define sub_8003C21C__15TObjBoss2TunnelFv ((s32 (*)(void *, void *))sub_8003C21C__15TObjBoss2TunnelFv)
 #define check_flag_or_state__15TObjBoss2TunnelFi ((s32 (*)(void *))check_flag_or_state__15TObjBoss2TunnelFi)
 #define is_flag_set__15TObjBoss2TunnelFv ((s32 (*)(void *))is_flag_set__15TObjBoss2TunnelFv)
@@ -537,7 +507,7 @@ void TObjBoss2Tunnel::update_particles() {
                 ((S_8003C108 *)this)->ptr[i] = r;
             }
         } else {
-            release_children__15TObjBoss2TunnelFPvf(p, t);
+            release_children((void *)p, t);
         }
     }
 }
@@ -894,16 +864,6 @@ void render__15TObjBoss2TunnelFv(u8 *arg0) {
     }
 }
 
-void TObjBoss2Tunnel__sub_8003B2B0(void) {
-    void *o;
-    o = TObject::operator new(0x1C);
-    if (o != NULL) {
-        o = __ct__7TObjectFP7TObject(o, tl_07);
-    }
-    TObjBoss2Tunnel_parent_object = o;
-}
-
-#undef release_children__15TObjBoss2TunnelFPvf
 #undef sub_8003C21C__15TObjBoss2TunnelFv
 #undef check_flag_or_state__15TObjBoss2TunnelFi
 #undef is_flag_set__15TObjBoss2TunnelFv
@@ -912,38 +872,3 @@ void TObjBoss2Tunnel__sub_8003B2B0(void) {
 #undef shift_queue_push_next__15TObjBoss2TunnelFPv
 #undef init__13TUnk_804835D8Fv
 #undef enable_fog__15TObjBoss2TunnelFv
-void release_children__15TObjBoss2TunnelFPvf(Obj_8003B250 *arg0, f32 farg0) {
-    Child_8003B250 *c;
-    while ((c = arg0->child) != NULL) {
-        c->f44 = c->f44 + farg0;
-        ((TObject *)c)->set_parent((TObject *)TObjBoss2Tunnel_parent_object);
-    }
-}
-
-void TObjBoss2Tunnel::detach_children(void *arg) {
-    Obj_8003B1FC *c;
-    while ((c = ((Obj_8003B1FC *)this)->child) != 0) {
-        vec3_add_to(c->xf, arg);
-        ((TObject *)c)->set_parent((TObject *)TObjBoss2Tunnel_parent_object);
-    }
-}
-
-void TObjBoss2Tunnel__sub_8003B1D8(void) {
-    ((void (*)(f32))release_children__15TObjBoss2TunnelFPvf)(lbl_805D85D8);
-}
-
-void TObjBoss2Tunnel::create_particle_effect(s32 position, s32 arg1, f32 farg0) {
-    void *var_r31;
-
-    var_r31 = TObject::operator new(0x78);
-    if (var_r31 != NULL) {
-        var_r31 = ((TParticleCtrl *)var_r31)->initialize_with_flags((const void *)position, (s32)(TParticleCtrl::get_particle_by_index(arg1)), 1, 0, 0, 1, (u16)0x40);
-    }
-#define release_children__15TObjBoss2TunnelFPvf ((s32 (*)(void *, f32))release_children__15TObjBoss2TunnelFPvf)
-    if (var_r31 != NULL) {
-        ((VObj_8003B138 *)var_r31)->m1();
-        release_children__15TObjBoss2TunnelFPvf(var_r31, farg0);
-    }
-}
-
-#undef release_children__15TObjBoss2TunnelFPvf

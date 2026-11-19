@@ -4,16 +4,18 @@
 #include "pso/system/task/TObject.h"
 #include "types.h"
 
+// Fades a player's model in or out over its life (TBoss4Type3::create_yutai).
 class TObjDFYutai : public TObject {
 public:
-    TObjDFYutai(s32, s32, s16);
+    TObjDFYutai(TObject *parent, s32 kind, u16 player_id);
     virtual ~TObjDFYutai();
     virtual void run_task();
     virtual void render();
-};
 
-extern "C" {
-void *__ct__11TObjDFYutaiFlls(void *arg0, s32 arg1, s32 arg2, s16 arg3);
-}
+    s32 kind;      // 0 and 2 fade out (slow, fast), 1 fades in
+    u16 player_id; // client id of the player it draws
+    f32 t;         // 1 -> 0 or 0 -> 1 by rate a frame; it ends at either end
+    f32 rate;
+};
 
 #endif

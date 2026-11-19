@@ -16,7 +16,7 @@ struct TObjBoss2CeilJunk : public TObjBase {
     u32 m_b0;
     virtual void render();
     static void *create(void *arg0);
-    static void create_particle();
+    static void create_particle(const void *position, s32 particle_index);
     u8 unk_B4[0x4];
 };
 

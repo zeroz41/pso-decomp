@@ -7,6 +7,7 @@
 #include "pso/enemy/TObjEnemy.h"
 
 struct TObjDFHorming;
+class TObjDFYutai;
 
 struct TBoss4Type3CollisionState {
     u8 unknown00[0x18]; u32 flags;
@@ -134,7 +135,7 @@ struct TBoss4Type3 : public TObjEnemy {
     void set_anim_state(s32 arg1);
     void draw();
     static s32 create(s32 arg0);
-    static void *create_yutai(void *arg0, void *arg1, void *arg2);
+    static TObjDFYutai *create_yutai(TObject *parent, s32 kind, u16 player_id);
     static f32 compute_wave_offset(f32 farg0);
     static u16 pick_random_target_player();
     static TObjDFHorming *create_horming(TObject *parent, const Vec *position, u16 target_id);
