@@ -2,22 +2,19 @@
 #define PSO_NETWORK_TPACKET_H
 
 #include "types.h"
+#include "pso/network/TUdpSocket.h"
 
-struct TPacket
-{
+class TPacket : public TUdpSocket {
+public:
+    s32 m_send_size;
+    u8 m_send_buffer[0x5B4];
+public:
+    TPacket(TObject *parent);
+    virtual ~TPacket();
+
     void clear_send_buffer();
 };
 
-extern "C" {
-void *TPacket__ct(void *packet);
-void *__dt__7TPacketFv(void *arg0, s16 arg1);
-}
-
-// --- C functions defined in TPacket.cpp ---
-extern "C" {
-void *TPacket__ct(void *packet);
-void *__dt__7TPacketFv(void *arg0, s16 arg1);
-}
-// --- end of C functions
+typedef char TPacket_size[sizeof(TPacket) == 0xE70 ? 1 : -1];
 
 #endif

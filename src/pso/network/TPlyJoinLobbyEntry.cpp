@@ -15,6 +15,8 @@
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
 #include <stddef.h>
+#include <string.h>
+#include "pso/network/TPacket.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/city/TCheckRoomSequence.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
@@ -66,7 +68,6 @@ void lobby_debug_printf_stub(const char *fmt, ...);
 s32 get_player_by_client_id(void *);
 u8 * create_player_object(s32, s32, void *);
 int sprintf(char *, const char *, ...);
-char * strncpy(char *, const char *, u32);
 s32 __dt__18TPlyJoinLobbyEntryFv(s32 arg0, s16 arg1);
 void TLobby__sub_8013AA64(void *, void *);
 void __as__16TPlyGuildCardTagFRC16TPlyGuildCardTag(void *, void *);
@@ -124,17 +125,6 @@ struct RecoveredGlobal_8013561C_lbl_805127F8 {
 struct Base_80136000 { u8 pad[0x18]; };
 
 struct Obj_80136000 : Base_80136000 { virtual ~Obj_80136000(); };
-
-struct VBase_18_80135208 { char pad[0x18]; };
-
-struct VObj_18_80135208 : VBase_18_80135208 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual s32 m4();
-    u8 pad1c[0x4];
-};
 
 struct Row_80135208 { u8 pad[8]; union { u32 ip; u32 ip_addr; }; s32 client_id; char name[16]; };
 
@@ -316,8 +306,6 @@ struct Pkt_80136C94 {
 
 typedef struct { u8 pad0[0xA]; char name[0x12]; } Ent_8013703C;
 
-s32 memcpy(void *, void *, int);
-void * memset(void *, int, u32);
 void mark_area_change_pending();
 u16 get_entity_id(void *);
 void * get_current_floor();
@@ -326,7 +314,6 @@ s32 get_flag_bit0__6TLobbyFv(void);
 void TLobby__sub_800703D0(void *, void *);
 s32 __dt__12TPlyCharDataFv(s32, s32);
 void TLobby__sub_80077798(void *, void *);
-void set_ip_address__7TSocketFUl(void*, u32);
 int bswap_packet_header__6TLobbyFv(void *);
 void update_idle_timeout__6TLobbyFPv(u8 *arg0);
 u8 * init_idle_timeout_timer(u8 *arg0, s32 arg1);
@@ -356,7 +343,6 @@ u8 * mem_alloc(s32);
 void clear_enabled_main_warps();
 s32 TLobby__sub_801A3E8C();
 s32 get_table_entry_by_index__6TLobbyFv(void *);
-VObj_18_80135208 * TPacket__ct(void*, s32);
 s32 fill_player_record__10TObjPlayerFPvPv(void *, void *);
 s32 init_player_join_record(void *);
 void send_player_data_98__9TProtocolFPvPvPvPvPvPvPv(void *, void *, void *, void *, void *, void *, void *);
@@ -370,7 +356,6 @@ s32 has_window_task_root();
 void * create__14TWindowMessageFPvll(void *, void *, int);
 void * get_window_layout_position(int);
 char * get_card_window_field__6TLobbyFv(void);
-int strncmp(const char *, const char *, unsigned long);
 
 extern u8 TKeyBoardControl__global_key_state[];
 extern u8 TLobby__data_805011D8[];
@@ -600,18 +585,14 @@ u8 *init_idle_timeout_timer(u8 *arg0, s32 arg1) {
 void activate_keyboard();
 void TLobby::open_udp_socket_for_player() {
     s32 arg0 = (s32)this;
-    VObj_18_80135208 *o = (VObj_18_80135208 *)__nw__7TObjectFUl(0xE70);
+    TPacket *o = new TPacket((TObject *)game_protocol_instance);
     if (o != NULL) {
-        o = TPacket__ct(o, (*(s32 *)&game_protocol_instance));
-    }
-    if (o != NULL) {
-        u8 *p = (u8 *)o;
-        *(s16 *)(p + 6) = arg0;
-        set_ip_address__7TSocketFUl(o, game_join_player_records[arg0].ip);
-        *(s16 *)(p + 0x20) = local_client_id + 0xFA0;
-        *(s16 *)(p + 0x22) = arg0 + 0xFA0;
-        s32 v = o->m4();
-        lobby_debug_printf_stub(lobby_debug_udp_open_format, v, p[0x1C], p[0x1D], p[0x1E], p[0x1F]);
+        o->m_id = arg0;
+        o->set_ip_address(game_join_player_records[arg0].ip);
+        o->m_dst_port = local_client_id + 0xFA0;
+        o->m_src_port = arg0 + 0xFA0;
+        s32 v = o->open();
+        lobby_debug_printf_stub(lobby_debug_udp_open_format, v, o->m_dst_addr.addr_bytes[0], o->m_dst_addr.addr_bytes[1], o->m_dst_addr.addr_bytes[2], o->m_dst_addr.addr_bytes[3]);
     }
 }
 void send_6x6F_quest_flags(s32 arg0);
@@ -1099,8 +1080,6 @@ extern s32 TLobby__login_pending_flag;
 extern s32 lobby_login_result_flag;
 void handle_login_result__6TLobbyFUi(u32 arg0);
 u8 *get_character_save_record(u32);
-void *memset(void *, int, u32);
-char *strncpy(char *, const char *, u32);
 s32 open_hard_keyboard__6TLobbyFPv(void *);
 void TLobby__sub_80077798(void *, void *);
 char *get_card_window_field__6TLobbyFv(void);
@@ -3536,7 +3515,6 @@ s32 init_serial_access__6TLobbyFv();
 s32 TAdEnterPasswordGC__sub_8013ADE4();
 u8 *heap_alloc__6TLobbyFPv(s32);
 s32 __ct__7TObjectFP7TObject(void *, void *);
-void *memset(void *, int, u32);
 void TLobby__sub_80134A20();
 void copy_player_records__6TLobbyFl();
 void apply_lobby_markers__6TLobbyFv();

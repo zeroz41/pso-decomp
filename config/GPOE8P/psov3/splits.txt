@@ -1059,11 +1059,16 @@ pso/camera/TCineCtrl.cpp:
 	.sbss       start:0x805D4E60 end:0x805D4E64
 	.sdata2     start:0x805D91D0 end:0x805D91F0
 
-pso/network/TTcpSocket.cpp:
-	.text       start:0x80078064 end:0x800790F0
-	.rodata     start:0x80438878 end:0x80438984
-	.data       start:0x8048D378 end:0x8048D4C0
+pso/network/TUdpSocket.cpp:
+	.text       start:0x80078064 end:0x80078490
+	.rodata     start:0x80438878 end:0x80438978
+	.data       start:0x8048D378 end:0x8048D468
 	.sdata      start:0x805D28B0 end:0x805D28B8
+
+pso/network/TTcpSocket.cpp:
+	.text       start:0x80078490 end:0x800790F0
+	.rodata     start:0x80438978 end:0x80438984
+	.data       start:0x8048D468 end:0x8048D4C0
 
 pso/map/CsnQuery.cpp:
 	.text       start:0x800790F0 end:0x8007A810
@@ -4934,12 +4939,10 @@ pso/ui/window/TWindowKeyBoardHard_801A529C.cpp:
 	.sbss       start:0x805D5CF8 end:0x805D5D08
 
 pso/network/TPacket.cpp:
-	.text       start:0x801A558C end:0x801A5650
+	.text       start:0x801A558C end:0x801A5694
 	.rodata     start:0x80446998 end:0x804469A0
+	.data       start:0x804C22D8 end:0x804C2304
 	.sdata      start:0x805D34C0 end:0x805D34C8
-
-pso/network/TUdpSocket.cpp:
-	.text       start:0x801A5650 end:0x801A5694
 
 pso/system/TLanguage_801A5694.cpp:
 	.text       start:0x801A5694 end:0x801A5730
