@@ -3,18 +3,30 @@
 #include "types.h"
 #include "pso/system/task/TObject.h"
 
+// The 0x20-byte trailer at the end of a relocatable data file: where its list of u16 word
+// offsets to patch sits, how many there are, and the offset of the file's root object.
+struct RelFileTrailer {
+    u32 reloc_offset;
+    u32 reloc_count;
+    u8 pad_8[8];
+    u32 root_offset;
+    u8 pad_14[0xC];
+};
+
+// A loaded relocatable data file: the image, its size and the relocated root. The ones
+// TLobby_800F8AA8.cpp loads by name are children of resource_load_task_root; their m_name
+// points at their own copy of the name (inferred: a resource load task).
 class TUnk_8049C658 : public TObject {
 public:
+    TUnk_8049C658(TObject *parent);
+    TUnk_8049C658();
     virtual ~TUnk_8049C658();
-    void *construct();
-    void *ct_object();
-    u8 unk_1C[0x20];
+
+    u8 *data;
+    s32 size;
+    void *root;
+    char name[17];
 };
 typedef char TUnk_8049C658_size[sizeof(TUnk_8049C658) == 0x3C ? 1 : -1];
-
-extern "C" {
-// TUnk_8049C658::~TUnk_8049C658(), called by the destructors that are still written by hand.
-void *__dt__13TUnk_8049C658Fv(void *p, s16 flags);
-}
 
 #endif

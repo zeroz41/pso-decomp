@@ -1,6 +1,6 @@
 #include "pso/system/TGStream.h"
 #include "pso/unk/TLobby_80131794.h"
-#include "pso/unk/text_800F93B4.h"
+#include "pso/unk/TLobby_800F8AA8.h"
 #include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/unk/text_800F7DAC.h"
 #include "pso/system/memory.h"

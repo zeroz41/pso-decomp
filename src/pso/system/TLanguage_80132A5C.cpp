@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/unk/TLobby_800F9690.h"
+#include "pso/unk/TLobby_800F8AA8.h"
 #include "pso/system/TLanguage.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"

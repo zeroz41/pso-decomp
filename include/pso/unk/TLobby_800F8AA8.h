@@ -3,6 +3,11 @@
 
 #include "types.h"
 
+struct GslArchiveEntry;
+struct RelFileTrailer;
+class TUnk_8049C658;
+class TObject;
+
 extern "C" {
 // The name copy_name last copied (16 characters, not terminated when full).
 extern char player_name_copy_buffer[16];
@@ -15,6 +20,22 @@ void TLobby__sub_800F8DD8(void);
 void TLobby__sub_800F8F34(void);
 void apply_phase_keyboard_mode(void);
 bool is_area_transfer_pending(void);
+
+// The GSL archive close hook: hands the archive's entries to fn_800FFE14.
+void fn_800F93B4(char *filename, GslArchiveEntry *entries, s32 count);
+// Reads and decrypts an encrypted archive; size receives its decompressed size.
+s32 load_encrypted_text_archive(char *name, s32 *size);
+// Loads name.pr2 and its relocations name.pr3 as one named resource file; returns its root.
+s32 load_text_resource_pair(s32 name);
+// The named resource files: load, relocate and register under resource_load_task_root.
+void load_encrypted_archive_data(s32 name);
+void *alloc_named_object(const char *name, u8 *data, s32 size, RelFileTrailer *relocs);
+void *TLobby__sub_800F9A60(const char *name, u8 *data, s32 size);
+void *apply_pointer_relocations(TUnk_8049C658 *file, RelFileTrailer *relocs);
+void *apply_rel_relocations(TUnk_8049C658 *file);
+// Sets disc_read_filename and reads the whole file into buffer; returns its size.
+s32 read_disc_file(s32 name, u8 *buffer);
+TObject *TLoadCtrl__sub_800F9F00(void);
 }
 
 #endif

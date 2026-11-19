@@ -19,4 +19,9 @@ struct TLoadCtrl : public TObject {
 };
 
 typedef char TLoadCtrl_size[sizeof(TLoadCtrl) == 0x24 ? 1 : -1];
+
+extern "C" {
+// The fade task the loader started; cleared once it is queued for destruction.
+extern s32 TLoadCtrl__fade_task;
+}
 #endif

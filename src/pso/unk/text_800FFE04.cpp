@@ -1,6 +1,5 @@
 #include "types.h"
-
-struct GslArchiveEntry;
+#include "pso/unk/text_800FFE04.h"
 
 extern "C" {
 int fn_800FFE04(void) { return 0; }

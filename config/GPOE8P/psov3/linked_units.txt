@@ -475,8 +475,6 @@ pso/item/drop/TItemDrop.cpp
 pso/item/drop/TItemDropSub.cpp
 pso/item/drop/TItemDropSub_80107B74.cpp
 pso/item/drop/TItemDropSub_80107C40.cpp
-pso/item/drop/TItemDrop_800F93F0.cpp
-pso/item/drop/TItemDrop_800F9C00.cpp
 pso/item/drop/TItemDrop_80105D0C.cpp
 pso/effect/item/TItemEffArmor.cpp
 pso/effect/item/TItemEffBringer.cpp
@@ -791,10 +789,6 @@ pso/unk/TUnk_8048E1A4.cpp
 pso/unk/TLobby_800F5CF0.cpp
 pso/unk/TLobby_800F795C.cpp
 pso/unk/TLobby_800F8AA8.cpp
-pso/unk/TLobby_800F9690.cpp
-pso/unk/TLobby_800F9A60.cpp
-pso/unk/TLobby_800F9D38.cpp
-pso/unk/TLobby_800F9DA0.cpp
 pso/unk/TLobby_800F9F4C.cpp
 pso/unk/TLobby_800FA044.cpp
 pso/unk/TLobby_800FA0A4.cpp
@@ -1142,7 +1136,6 @@ pso/quest/TQuestThreadBoard.cpp
 pso/quest/TQuestVmDownLoadServer.cpp
 pso/quest/TQuestVmDownLoadServer_8006FC34.cpp
 pso/quest/TQuestVmDownLoadServer_80080788.cpp
-pso/quest/TQuestVmDownLoadServer_800F9CE4.cpp
 pso/quest/TQuestVmDownLoadServer_801F9010.cpp
 pso/quest/TQuestVmDownLoadServer_803E5668.cpp
 pso/quest/TQuestVmDownLoadServer_803E6970.cpp
@@ -1163,7 +1156,6 @@ pso/network/TRegister.cpp
 pso/system/save/TSaveChCr.cpp
 pso/system/scene/TScene.cpp
 pso/system/scene/TSceneSora.cpp
-pso/system/scene/TScene_800F9D80.cpp
 pso/system/scene/TScene_801A7E40.cpp
 pso/system/scene/TScene_801FBA20.cpp
 pso/system/scene/TScene_8029F5B0.cpp
@@ -1841,7 +1833,6 @@ pso/quest/StoryQuestProgress.cpp
 pso/quest/TQuestListVM.cpp
 pso/ui/window/TObjNewFloorWin.cpp
 pso/quest/TQuestListVM_8007EAF8.cpp
-pso/quest/TQuestListVM_800F95F4.cpp
 pso/quest/TQuestListVM_801F4398.cpp
 pso/quest/TQuestThread.cpp
 pso/render/render_util.cpp
@@ -1940,7 +1931,6 @@ pso/ui/frontend/TAdMultiSelGameModeGC.cpp
 pso/ui/frontend/TAdMultiSelGameModeGC_802D5098.cpp
 pso/ui/frontend/TAdPlayerLoadGC.cpp
 pso/ui/frontend/TAdPlayerLoadGC_80076BBC.cpp
-pso/ui/frontend/TAdPlayerLoadGC_800F9EF8.cpp
 pso/ui/frontend/TAdPlayerLoadGC_801E0C30.cpp
 pso/ui/frontend/TAdPlayerLoadGC_803F339C.cpp
 pso/ui/frontend/TAdPlyPltAnimCtrlGC.cpp
@@ -2066,9 +2056,6 @@ pso/unk/text_800DC420.cpp
 pso/unk/text_800F5BC0.cpp
 pso/unk/text_800F7D30.cpp
 pso/unk/text_800F7DAC.cpp
-pso/unk/text_800F93B4.cpp
-pso/unk/text_800F9990.cpp
-pso/unk/text_800F9B84.cpp
 pso/unk/text_800F9FD0.cpp
 pso/unk/text_800FA260.cpp
 pso/unk/text_800FA464.cpp

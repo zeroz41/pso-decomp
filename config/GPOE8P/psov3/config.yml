@@ -646,7 +646,7 @@ force_active:
   - TLobby__sub_80072AB8
   - TLobby__sub_800F8BD8
   - TLobby__sub_800F8DD8
-  - __sinit_TAdPlayerLoadGC_800F9EF8_cpp
+  - __sinit_TLobby_800F8AA8_cpp
   - __sinit_TLobby_80103F5C_cpp
   - init_idle_timeout_timer
   - show_card_list_message
