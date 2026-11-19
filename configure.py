@@ -1422,7 +1422,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/player/PhotonBlastResults.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # -sdata 4: the 8-byte model name table sits in .data and the 8-byte 0x805007D4 in .bss, next to the 4-byte .sdata name pointer.
     "pso/enemy/berura/TObjEneRe7Berura.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-sdata 4")},
-    "pso/ui/keyboard/TKeyBoardControl.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/ui/window/TWindowKeyBoardSoft.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/boss/goldragon/TObjBoss8Piller.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # vtables come out TBoss5GryphonColli then TBoss5GryphonColli_C (text order of their dtors): written last to first, deferred.
     "pso/boss/galgryphon/TBoss5GryphonColli.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},

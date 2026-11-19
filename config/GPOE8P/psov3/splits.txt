@@ -7174,7 +7174,7 @@ pso/ui/window/TWindowKeyBoardHard.cpp:
 	.sbss       start:0x805D6450 end:0x805D6458
 	.sdata2     start:0x805DD068 end:0x805DD074
 
-pso/ui/keyboard/TKeyBoardControl.cpp:
+pso/ui/window/TWindowKeyBoardSoft.cpp:
 	.text       start:0x80260450 end:0x802627D8
 	.rodata     start:0x8044F110 end:0x8044F268
 	.data       start:0x804CFDE0 end:0x804D001C
