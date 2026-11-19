@@ -24,8 +24,8 @@ public:
     static u8 *create_particle_obj_ac(s32 arg0);
     void mark_active();
     static void free_heap();
-    static void init_heap(void *arg0);
-    void generate_child_default(s32 arg1, s32 arg2);
+    static void init_heap(u32 size);
+    static void *generate_child_default(void *param, void *pos, void *parent);
     static s32 get_particle_model(s32 arg0);
     static int get_instance();
     u32 validate_ctrl();
@@ -39,8 +39,7 @@ public:
     static void reset_particles();
     static void setup_particle_draw(s32 arg0);
 public:
-    void *alloc_child_particle(void *arg1, void *arg2, void *arg3);
-    u8 *init_random_particle(u8 *arg1, u8 *arg2, s32 arg3);
+    static void *alloc_child_particle(void *param, void *pos, void *dir, void *parent);
     u8 *construct_particle_obj(s32 arg1, s32 arg2);
     u8 *init_particle_obj(s32 arg1, s32 arg2);
     void enable();
@@ -69,9 +68,7 @@ public:
 extern "C" {
 void *__dt__13TUnk_8048E6A8Fv(void *arg0, s16 arg1);
 void *__dt__13TUnk_8048E6DCFv(void *arg0, s16 arg1);
-u8 *__dt__13TUnk_8048E728Fv(u8 *arg0, s16 arg1);
 }
-void *init_particle_base(void *arg0, void *arg1, s32 arg2);
 
 // Colour channel scaled by the fade alpha; nothing below zero, at most alpha.
 inline f32 fade_particle_channel(f32 c, f32 alpha) {

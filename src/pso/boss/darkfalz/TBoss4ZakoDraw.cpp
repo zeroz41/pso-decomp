@@ -47,8 +47,6 @@ void post_translate_matrix(void *);
 void draw_chunk_object(int);
 extern s32 falz_zako_texture_list;
 extern s32 TBoss4ZakoDraw__draw_buffer_index;
-extern const f32 lbl_805DF148;
-extern s32 TBoss4ZakoDraw__draw_buffer_index;
 struct Raw_8030A9B0 { u8 b[12]; };
 struct Ent_8030A9B0 { f32 x; f32 y; f32 z; s32 f0c; s32 f10; };
 struct Tbl_8030A9B0 { s32 count; Ent_8030A9B0 ents[1]; };
@@ -69,12 +67,6 @@ s32 TBoss4ZakoDraw__rotation_phase;
 extern s32 chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_and_mask;
 extern u32 model_render_flags;
-extern u32 lbl_805DF138;
-extern const f32 lbl_805DF13C;
-extern const f32 lbl_805DF140;
-extern const f32 lbl_805DF144;
-extern const f32 lbl_805DF148;
-extern const f32 lbl_805DF14C;
 
 
 extern u32 dark_falz_controller_instance;
@@ -135,33 +127,33 @@ void TObjPlayer__sub_8030A9B0() {
     saved_model_render_flags = old;
     saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
     saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
-    model_render_flags |= lbl_805DF138;
+    model_render_flags |= zako_model_render_flags;
     ((void (*)(int, int, u32, s32, s32, u32))set_chunk_material_override_pair)(0xFF00, 0x900, old & ~0x10, chunk_polygon_flags_or_mask, chunk_polygon_flags_and_mask, old);
     tbl = (Tbl_8030A9B0 *)((u8 *)&boss4_zako_draw_buffers + TBoss4ZakoDraw__draw_buffer_index * 0x784);
     e = tbl->ents;
     rot = (TBoss4ZakoDraw__rotation_phase << 16) / 16;
     VecCopy((Vec *)&pos, (const Vec *)(camera_ctrl_instance + 0x178));
     i = 0;
-    *(f32 *)((s8 *)&pos + 4) = lbl_805DF13C;
+    *(f32 *)((s8 *)&pos + 4) = zako_draw_height;
     for (; i < tbl->count; i++, e++) {
-        if (e->f0c != 0 || e->y < lbl_805DF140) {
+        if (e->f0c != 0 || e->y < zako_min_height) {
             continue;
         }
         d = xyz_distance(e, &pos);
-        if (d >= lbl_805DF144) {
+        if (d >= zako_fade_distance) {
             continue;
         }
-        t = d / lbl_805DF144;
-        k = lbl_805DF148 - t * (t * t);
+        t = d / zako_fade_distance;
+        k = zako_fade_full - t * (t * t);
         push_matrix();
         v = *(Raw_8030A9B0 *)e;
-        *(f32 *)((s8 *)&v + 4) = lbl_805DF13C;
+        *(f32 *)((s8 *)&v + 4) = zako_draw_height;
         post_translate_matrix(&v);
         rotate_matrix_y(0, e->f10 + rot);
-        col.a = lbl_805DF14C;
-        col.b = lbl_805DF14C;
-        col.r = lbl_805DF13C * k + lbl_805DF14C;
-        col.g = lbl_805DF14C;
+        col.a = zako_fade_color;
+        col.b = zako_fade_color;
+        col.r = zako_draw_height * k + zako_fade_color;
+        col.g = zako_fade_color;
         set_constant_material((const NJS_ARGB *)(((f32 *)&col)));
         draw_chunk_model((void *)falz_zako_chunk_model);
         pop_matrix();
@@ -179,7 +171,7 @@ void TObjPlayer::draw_area_chunk_objects() {
     s32 r31;
     s32 i;
     r31 = ((s32)get_bml_model((s32)(TBoss4Uro::get_instance_count()), 8));
-    TObjPlayer__sub_80052390(lbl_805DF148);
+    TObjPlayer__sub_80052390(zako_fade_full);
     TObjFish::set_global_param(falz_zako_texture_list);
     for (i = 0; i < t->count; i++, p++) {
         push_matrix();
@@ -191,6 +183,17 @@ void TObjPlayer::draw_area_chunk_objects() {
     }
     TObjPlayer::sync_player_globals();
 }
+
+// File-scope constants of the zako draw: .sdata2 objects in this order, defined after their
+// users: defined before TObjPlayer__sub_8030A9B0, 1.0f is scheduled after push_matrix;
+// defined before draw_area_chunk_objects, its 1.0f becomes a new pooled literal.
+// Names inferred from the uses.
+__declspec(section ".sdata2") const u32 zako_model_render_flags = 0x82C;
+__declspec(section ".sdata2") const f32 zako_draw_height = 0.5f;
+__declspec(section ".sdata2") const f32 zako_min_height = -9.5f;
+__declspec(section ".sdata2") const f32 zako_fade_distance = 75.0f;
+__declspec(section ".sdata2") const f32 zako_fade_full = 1.0f;
+__declspec(section ".sdata2") const f32 zako_fade_color = -1.0f;
 
 void TCameraCtrl__sub_8030ABF4(void) {
     s32 *var_r3;

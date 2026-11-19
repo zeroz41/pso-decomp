@@ -1079,9 +1079,7 @@ pso/effect/particle/ParticleOrbit.cpp
 pso/effect/particle/ParticleRadial.cpp
 pso/effect/particle/TParticleCtrl.cpp
 pso/effect/particle/TParticleCtrl_80085EE4.cpp
-pso/effect/particle/TParticleCtrl_800866F8.cpp
-pso/effect/particle/TParticleCtrl_800867AC.cpp
-pso/effect/particle/TParticleCtrl_800867E4.cpp
+pso/effect/particle/TParticleCtrl_80086884.cpp
 pso/effect/particle/TParticleCtrl_801D6B3C.cpp
 pso/effect/particle/TParticleCtrl_801E2EFC.cpp
 pso/effect/particle/TParticleCtrl_801E5330.cpp

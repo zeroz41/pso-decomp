@@ -81,7 +81,7 @@ void init_game_mode_select_scene(void) {
         return;
     }
     TLobby::clear_callback_and_reset_keyboard();
-    TParticleCtrl::init_heap((void *)0x100000);
+    TParticleCtrl::init_heap(0x100000);
     init_menu_scene_lights(default_scene_light_config, 4);
     TObjLight__scene_light_state.y = -1.0f * sin_table_lookup(0x1555);
     c = cos_table_lookup(0x1555);

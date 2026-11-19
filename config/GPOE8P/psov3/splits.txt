@@ -1277,19 +1277,14 @@ pso/effect/particle/TParticleCtrl.cpp:
 	.sdata2     start:0x805D9478 end:0x805D94BC
 
 pso/effect/particle/TParticleCtrl_80085EE4.cpp:
-	.text       start:0x80085EE4 end:0x800866F8
-	.rodata     start:0x80439418 end:0x80439420
+	.text       start:0x80085EE4 end:0x80086884
+	.rodata     start:0x804393F0 end:0x80439420
+	.data       start:0x8048E710 end:0x8048E740
+	.sbss       start:0x805D4EF0 end:0x805D4EF8
 	.sdata2     start:0x805D94C0 end:0x805D94E0
 
-pso/effect/particle/TParticleCtrl_800866F8.cpp:
-	.text       start:0x800866F8 end:0x800867AC
-
-pso/effect/particle/TParticleCtrl_800867AC.cpp:
-	.text       start:0x800867AC end:0x800867E4
-	.sbss       start:0x805D4EF0 end:0x805D4EF8
-
-pso/effect/particle/TParticleCtrl_800867E4.cpp:
-	.text       start:0x800867E4 end:0x80086B64
+pso/effect/particle/TParticleCtrl_80086884.cpp:
+	.text       start:0x80086884 end:0x80086B64
 	.sbss       start:0x805D4EF8 end:0x805D4F08
 
 pso/unk/text_80086B64.cpp:
@@ -9248,6 +9243,7 @@ pso/boss/darkfalz/TBoss4ZakoDraw.cpp:
 	.bss        start:0x80541E58 end:0x80542D60
 	.sdata      start:0x805D40D0 end:0x805D40D8
 	.sbss       start:0x805D6A68 end:0x805D6A78
+	.sdata2     start:0x805DF138 end:0x805DF150
 
 pso/boss/darkfalz/TBoss4ZakoDraw_8030AD58.cpp:
 	.text       start:0x8030AD58 end:0x8030ADBC

@@ -81,7 +81,7 @@ s32 TLobby::init_gryphon_area() {
     if (TLobby::check_disconnect_conditions() != 0) {
         return 0;
     }
-    TParticleCtrl::init_heap((void *)0x100000);
+    TParticleCtrl::init_heap(0x100000);
     run_load_callback_table(gryphon_area_cleanup_callbacks, 8);
     l.dir[0] = -0.46f;
     l.dir[1] = 0.88f;

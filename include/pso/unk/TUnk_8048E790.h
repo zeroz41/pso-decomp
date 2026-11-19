@@ -7,7 +7,8 @@ class TUnk_8048E790 : public TUnk_8048E728 {
 public:
     virtual ~TUnk_8048E790();
     virtual void run_task();
-    void *init_random_particle(void *, void *, void *, void *);
+    TUnk_8048E790(u8 *param, u8 *pos, u8 *dir, s32 parent, u16 flags, s16 target_id);
+    TUnk_8048E790(void *param, void *pos, void *dir, void *parent);
     void retire_orbit_particle();
     virtual void render();
     f32 unk_C0;                // 0xC0, motion frame step

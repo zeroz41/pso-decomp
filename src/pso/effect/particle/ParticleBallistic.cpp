@@ -134,9 +134,7 @@ struct Part_800890F4 {
 };
 
 extern "C" {
-void *alloc_particle_memory(int);
 f32 vec_squared_length(u8 *arg0);
-extern s32 __vt__13TUnk_8048E778[];
 s32 rand(void);
 s32 rotate_matrix_y(s32, s32);
 void project_world_to_screen(int, void *, void *);
@@ -226,22 +224,10 @@ extern const f32 TParticleCtrl__data_805D94E4;
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
 u8 *create_ballistic_particle(u8 *arg0, u8 *arg1, u8 *arg2, s32 arg3, u16 arg4, s16 arg5) {
-    u8 *temp_r3;
-    u8 *var_r0;
-    temp_r3 = (u8 *)(((u8 *)alloc_particle_memory(0xD0)));
-    var_r0 = temp_r3;
-    if (var_r0 != NULL) {
-        var_r0 = (u8 *)(construct_ballistic_particle(temp_r3, arg0, arg1, arg2, arg3, arg4, arg5));
-    }
-    return var_r0;
+    return (u8 *)new TUnk_8048E778(arg0, arg1, arg2, arg3, arg4, arg5);
 }
 void *TParticleCtrl::create_random_spread(void *arg0, void *arg1, void *arg2) {
-    void *o;
-    o = alloc_particle_memory(0xd0);
-    if (o != NULL) {
-        o = ((TUnk_8048E778 *)o)->init_particle_random_spread(arg0, arg1, arg2);
-    }
-    return o;
+    return new TUnk_8048E778(arg0, arg1, arg2);
 }
 void TUnk_8048E778::retire_ballistic_particle_if_done() {
     u8 *arg0 = (u8 *)this;
@@ -560,15 +546,14 @@ void TUnk_8048E778::render() {
 TUnk_8048E778::~TUnk_8048E778() {}
 #pragma push
 #pragma fp_contract on
-u8 *construct_ballistic_particle(void *a0, void *a1, void *a2, void *a3, s32 arg4, u16 arg5, s16 arg6) {
-    Fields0_800896E4 *p = (Fields0_800896E4 *)a0;
+TUnk_8048E778::TUnk_8048E778(void *a1, void *a2, void *a3, s32 arg4, u16 arg5, s16 arg6)
+    : TUnk_8048E728((ParticleParam *)a1, (TObject *)arg4) {
+    Fields0_800896E4 *p = (Fields0_800896E4 *)this;
     Fields1_800896E4 *d = (Fields1_800896E4 *)a1;
     Vec *pos = (Vec *)a2;
     Fields3_800896E4 *c = (Fields3_800896E4 *)a3;
     s32 temp_r0;
     f32 *v;
-    init_particle_base(a0, a1, arg4);
-    p->field_18 = __vt__13TUnk_8048E778;
     p->field_C4 = 0.0f;
     p->field_C8 = 0.0f;
     p->field_CC = 0.0f;
@@ -617,7 +602,6 @@ u8 *construct_ballistic_particle(void *a0, void *a1, void *a2, void *a3, s32 arg
     if (p->field_24 & 0x2000) {
         request_indirect_effect(0x1F);
     }
-    return (u8 *)a0;
 }
 #pragma pop
 
@@ -636,14 +620,13 @@ struct BF1_80089B50 {
 
 #pragma push
 #pragma fp_contract on
-void *TUnk_8048E778::init_particle_random_spread(void *a1, void *a2, void *a3) {
+TUnk_8048E778::TUnk_8048E778(void *a1, void *a2, void *a3)
+    : TUnk_8048E728((ParticleParam *)a1, (TObject *)a3) {
     BF0_80089B50 *p = (BF0_80089B50 *)this;
     BF1_80089B50 *d = (BF1_80089B50 *)a1;
     Vec *pos = (Vec *)a2;
     s32 temp_r0;
     f32 *v;
-    init_particle_base(this, a1, (s32)a3);
-    p->field_18 = __vt__13TUnk_8048E778;
     p->field_C4 = 0.0f;
     p->field_C8 = 0.0f;
     p->field_CC = 0.0f;
@@ -684,6 +667,5 @@ void *TUnk_8048E778::init_particle_random_spread(void *a1, void *a2, void *a3) {
     if (p->field_24 & 0x2000) {
         request_indirect_effect(0x1F);
     }
-    return this;
 }
 #pragma pop

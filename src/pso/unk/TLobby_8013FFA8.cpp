@@ -205,7 +205,7 @@ s32 TLobby::init_lobby_scene() {
     }
     init_area_lights();
     TLobby::create_tasks();
-    TParticleCtrl::init_heap((void *)0x10000);
+    TParticleCtrl::init_heap(0x10000);
     TBoss4CheckEmpty::create();
     return 1;
 }

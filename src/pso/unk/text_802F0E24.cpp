@@ -94,5 +94,5 @@ void load_boss7_common_resources(void) {
     boss7_common_texture_list = ((BmlResource *)p)->models[0].texture_list;
 
     TLobby::load_texture_pvm_file("obj_boss7_common.gvm", (s32)boss7_common_texture_list);
-    TParticleCtrl::init_heap((void *)0x50000);
+    TParticleCtrl::init_heap(0x50000);
 }

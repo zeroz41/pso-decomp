@@ -1,15 +1,8 @@
 #include "types.h"
 #include "pso/effect/particle/TParticleCtrl_800867E4.h"
 
-#include <stddef.h>
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/task/TObject.h"
-struct Stack_8008683C {
-    s32 sp8;
-    s32 spC;
-    s32 sp10;
-};
-
 struct Ent_800868C4 { u8 data[0x98]; };
 
 extern "C" {
@@ -18,39 +11,9 @@ Ent_800868C4 *particle_global_entry_table;
 Ent_800868C4 *particle_area_entry_table;
 u8 *TParticleCtrl__regular_bml_resource;
 int TParticleCtrl__texture_list;
-struct RecoveredGlobal_lbl_804393F0 { s32 value; u8 remaining[0x8]; };
-extern RecoveredGlobal_lbl_804393F0 lbl_804393F0;
 extern s32 particle_pool_limit;
 void *initialize_with_flags__13TParticleCtrlFPCvlllllUs(void *, void *, void *, s32, s32, s32, s32, s32);
 void *__ct__13TParticleCtrlFv(void *self, void *pos, void *dir, void *ent, int a, int b, int c, int d, int e);
-void *__ct__5THeapFUli(void *, void *, int);
-void *__nw__5THeapFUl(int);
-
-extern void *TParticleCtrl__heap;
-
-void TParticleCtrl::init_heap(void *arg0) {
-    void *o;
-    if (TParticleCtrl__heap == NULL) {
-        o = __nw__5THeapFUl(0x14);
-        if (o != NULL) {
-            o = __ct__5THeapFUli(o, arg0, 16);
-        }
-        TParticleCtrl__heap = o;
-    }
-}
-
-
-void TParticleCtrl::generate_child_default(s32 arg1, s32 arg2) {
-    s32 arg0 = (s32)this;
-    typedef char sp8_offset[(offsetof(Stack_8008683C, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_8008683C, spC) == 0x4) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_8008683C, sp10) == 0x8) ? 1 : -1];
-    Stack_8008683C stack;
-    stack.sp8 = *(s32 *)((s8 *)&lbl_804393F0.value + 0);
-    stack.spC = *(s32 *)((s8 *)&lbl_804393F0.value + 4);
-    stack.sp10 = *(s32 *)((s8 *)&lbl_804393F0.value + 8);
-    ((TParticleCtrl *)arg0)->alloc_child_particle((void *)arg1, (void *)&stack.sp8, (void *)arg2);
-}
 
 s32 TParticleCtrl::get_particle_model(s32 arg0) {
     if (arg0 < 3) {
