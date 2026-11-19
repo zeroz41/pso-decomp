@@ -39,6 +39,7 @@
 #include "pso/effect/TBreakUpMdl.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/math/AngleLookup.h"
+#include "pso/math/AngleUnits.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
@@ -105,18 +106,11 @@ static s32 gee_shared_handler_b_table[3];
 static s32 gee_object_handle_table[3];
 static TObjEneMe1GeeParams *gee_shared_handler_a_table[3];
 static f32 gee_camera_ctrl_vec[4];
-extern const f32 TObjEneMe1Gee__data_805DA0A8;
-extern const f32 lbl_805DA0AC;
-extern const f32 TObjEneMe1Gee__data_805DA0B4;
-extern const f32 TObjEneMe1Gee__data_805DA0C8;
-extern const f32 TObjEneMe1Gee__data_805DA0D4;
-extern const f32 lbl_805DA0B0;
 f32 atan2_float(f32 y, f32 x);
 f32 calc_elapsed_scaled__9TObjEneDDFv(void *);
 void rotate_xz_pair_by_angle(f32 *arg0, f32 *arg1, s32 arg2);
 s32 play_sound_effect(s32, u32, s16, s32);
 f32 subtract_vector(void *, void *);
-extern const f64 lbl_8043BF28;
 void TObjEneEpsilon__sub_800B92F8(u8 *arg0, s32 arg1, f32 farg0);
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
 void matrix_mult_vec(void *, Vec *, Vec *);
@@ -124,8 +118,6 @@ s32 post_translate_matrix(void *);
 s16 get_entity_id(void *);
 s32 set_part_position__9TObjEneDDFPvPvi(void *, int, int);
 s32 rand(f32);
-extern const f32 lbl_805DA0B8;
-extern const f32 TObjEneMe1Gee__data_805DA0C0;
 
 // One entry collect_enemy_target_candidates fills: an entity id and its horizontal squared distance
 // (TObjEneDD.cpp calls the same record Ent_800BB484).
@@ -149,17 +141,6 @@ s32 pack_debug_text_position(s32, s32);
 void TBoss3Volopt__sub_800D8D88(s32);
 
 s32 push_matrix();
-extern s32 lbl_8043BE98[];
-extern s32 lbl_8043BEA8[];
-extern s32 lbl_8043BEBC[];
-extern s32 lbl_8043BEC8[];
-extern s32 lbl_8043BED8[];
-extern s32 lbl_8043BEEC[];
-extern s32 lbl_8043BF0C[];
-extern const f32 lbl_805DA0BC;
-extern const f32 lbl_805DA0C4;
-extern const f32 lbl_805DA0CC;
-extern const f32 lbl_805DA0D0;
 void TObjEneEpsilon__sub_800B92AC(u8 *arg0, s32 arg1, f32 farg0);
 void free_bin_model_request(void *, s32);
 extern void *tl_04;
@@ -181,9 +162,9 @@ void TObjEneMe1Gee::load_resources() {
     s32 t;
     Vec *v;
     v = (Vec *)gee_camera_ctrl_vec;
-    gee_camera_ctrl_vec[0] = TObjEneMe1Gee__data_805DA0B4;
-    v->y = TObjEneMe1Gee__data_805DA0B4;
-    v->z = TObjEneMe1Gee__data_805DA0B4;
+    gee_camera_ctrl_vec[0] = 0.0f;
+    v->y = 0.0f;
+    v->z = 0.0f;
     if (is_split_screen() != 0) {
         TObjEneMe1Gee__resource_bundle = (BmlResource *)load_enemy_bml_resource((u8 *)&bm_ene_me1_gee_low_resource_descriptor);
     } else {
@@ -214,7 +195,7 @@ void TObjEneMe1Gee::load_resources() {
     {
         GeeAnimationBinding sp8 = {NULL, TObjEneMe1Gee__motion_parameters, 0, 4, 0};
         sp8.motions = TObjEneMe1Gee__resource_bundle->motions;
-        TLobby::spawn_npc_enemy((s16)0x10, TObjEneMe1Gee__resource_bundle->models->model, (NJS_TEXLIST *)TObjEneMe1Gee__resource_bundle->models->m_c, &sp8, 8.0f, (f32)TObjEneMe1Gee__data_805DA0C0);
+        TLobby::spawn_npc_enemy((s16)0x10, TObjEneMe1Gee__resource_bundle->models->model, (NJS_TEXLIST *)TObjEneMe1Gee__resource_bundle->models->m_c, &sp8, 8.0f, 15.0f);
     }
 }
 
@@ -286,7 +267,7 @@ void TObjEneMe1Gee::init_state() {
     this->check_state_flag_1();
     this->movementParameters = &me1_gee_init_params;
     this->initialize_enemy_state(0x36);
-    this->m_37c = lbl_805DA0B8;
+    this->m_37c = 10.0f;
     this->enemy_init_acquire_period(0x2D);
     this->enemy_init_validate_period(0x2D);
     this->set_active();
@@ -294,8 +275,8 @@ void TObjEneMe1Gee::init_state() {
     this->m_42c = gee_shared_handler_a_table[this->m_3c4];
     this->fade.reset_color();
     this->m_3e8 = 45.0f;
-    this->m_3ec = TObjEneMe1Gee__data_805DA0C0;
-    this->m_3f0 = ((TObjEneMe1Gee__data_805DA0C8 * (3.0517578e-05f * (f32) rand(45.0f))) + TObjEneMe1Gee__data_805DA0C0);
+    this->m_3ec = 15.0f;
+    this->m_3f0 = ((5.0f * (3.0517578e-05f * (f32) rand(45.0f))) + 15.0f);
     this->m_3f4 = this->m_3ec;
     this->m_3f8 = this->position.y + this->m_3f4;
     this->m_404 = 0;
@@ -311,16 +292,16 @@ void TObjEneMe1Gee::init_state() {
     this->m_43c = 0;
     this->m_440 = 0;
     this->m_444 = 0;
-    this->m_448 = TObjEneMe1Gee__data_805DA0B4;
-    this->m_44c = TObjEneMe1Gee__data_805DA0B4;
-    this->m_450 = TObjEneMe1Gee__data_805DA0B4;
-    this->m_454.x = TObjEneMe1Gee__data_805DA0B4;
-    this->m_454.y = TObjEneMe1Gee__data_805DA0B4;
-    this->m_454.z = TObjEneMe1Gee__data_805DA0B4;
+    this->m_448 = 0.0f;
+    this->m_44c = 0.0f;
+    this->m_450 = 0.0f;
+    this->m_454.x = 0.0f;
+    this->m_454.y = 0.0f;
+    this->m_454.z = 0.0f;
     this->m_460 = 0;
     this->m_464 = 0;
     copy_argb(&this->m_468, (NJS_ARGB *)&TObjEneMe1Gee__data_8043BDC0);
-    this->m_468.a = TObjEneMe1Gee__data_805DA0B4;
+    this->m_468.a = 0.0f;
     this->m_47c = 0;
     this->m_478 = 0;
     this->m_480 = 0;
@@ -427,9 +408,9 @@ void TObjEneMe1Gee::vfunc_106() {
 #pragma fp_contract on
 void TObjEneMe1Gee::calc_position(Vec *out) {
     s32 angle = TObjEneDD::get_random_scaled();
-    f32 radius = 30.0f * this->random_ratio() + lbl_805DA0B8;
+    f32 radius = 30.0f * this->random_ratio() + 10.0f;
     out->x = radius * sin_table_lookup(angle);
-    out->y = TObjEneMe1Gee__data_805DA0B4;
+    out->y = 0.0f;
     out->z = radius * cos_table_lookup(angle);
     vec3_add_to(out, &this->position);
 }
@@ -446,12 +427,12 @@ void TObjEneMe1Gee::sub_800CBF58(f32 farg0) {
     f32 temp_f3;
     temp_f3 = farg0 - this->m_3f8;
     this->m_3c8 &= 0xFFF7FFFF;
-    if (temp_f3 >= TObjEneMe1Gee__data_805DA0D4) {
-        this->m_3f8 += TObjEneMe1Gee__data_805DA0D4;
+    if (temp_f3 >= 0.5f) {
+        this->m_3f8 += 0.5f;
         return;
     }
     if (temp_f3 <= (-0.5f)) {
-        this->m_3f8 -= TObjEneMe1Gee__data_805DA0D4;
+        this->m_3f8 -= 0.5f;
         return;
     }
     this->m_3f8 = farg0;
@@ -504,7 +485,7 @@ void TObjEneMe1Gee::update_from_float_sum() {
 }
 
 void TObjEneMe1Gee::update_angle() {
-    this->rotation_y = approach_angle_limited(this->rotation_y, (s32) (lbl_8043BF28 * atan2_float(this->m_3a0.x, this->m_3a0.z)), 0x400);
+    this->rotation_y = approach_angle_limited(this->rotation_y, (s32) (RADIANS_TO_ANGLE * atan2_float(this->m_3a0.x, this->m_3a0.z)), 0x400);
     this->rotation_y = (s32) (s16) this->rotation_y;
 }
 
@@ -627,10 +608,10 @@ void TObjEneMe1Gee::update_fade_sequence() {
     case 0:
         break;
     case 1:
-        if (this->m_468.a > TObjEneMe1Gee__data_805DA0B4) {
+        if (this->m_468.a > 0.0f) {
             this->m_468.a = this->m_468.a - 0.06f;
         } else {
-            this->m_468.a = TObjEneMe1Gee__data_805DA0B4;
+            this->m_468.a = 0.0f;
             this->m_47c = 0;
         }
         this->update_packed_color();
@@ -646,11 +627,11 @@ void TObjEneMe1Gee::update_fade_sequence() {
         break;
     case 3:
         (this->m_484)++;
-        if ((f32)this->m_484 >= lbl_805DA0CC) {
+        if ((f32)this->m_484 >= 2.0f) {
             this->m_484 = 0;
             switch (TObjEneMe1Gee__fade_command_streams[this->m_480][(this->m_488)++]) {
             case 'b':
-                this->m_468.a = TObjEneMe1Gee__data_805DA0B4;
+                this->m_468.a = 0.0f;
                 break;
             case 'c':
                 this->m_47c = 0;
@@ -682,7 +663,7 @@ void TObjEneMe1Gee::destroy_subobj(const NJS_ARGB *color) {
 #pragma opt_common_subs off
 void TObjEneMe1Gee::update_packed_color() {
     u8 g = (u32)(255.0f * this->m_468.g);
-    u8 b = (u32)(lbl_805DA0D0 * (255.0f * this->m_468.b));
+    u8 b = (u32)(0.8f * (255.0f * this->m_468.b));
     u8 r = (u32)(255.0f * this->m_468.r);
     u8 a = (u32)(255.0f * this->m_468.a);
     this->m_478 = (b << 24) | (g << 16) | (r << 8) | a;
@@ -874,7 +855,7 @@ void TObjEneMe1Gee::state_move(s32 arg1) {
     case 0:
         advance_animation();
         if ((s32) this->m_3c4 == 2) {
-            this->sub_800CBE6C(lbl_805DA0AC + this->position.y);
+            this->sub_800CBE6C(25.0f + this->position.y);
         } else {
             this->update_hover_height();
         }
@@ -956,10 +937,10 @@ void TObjEneMe1Gee::state_hover(s32 arg1) {
     case 0:
         advance_animation();
         if ((s32) this->m_3c4 != 1) {
-            this->update_linked_position(TObjEneMe1Gee__data_805DA0A8);
+            this->update_linked_position(200.0f);
         }
         if ((s32) this->m_3c4 == 2) {
-            this->sub_800CBE6C(lbl_805DA0AC + this->position.y);
+            this->sub_800CBE6C(25.0f + this->position.y);
         } else {
             this->update_hover_height();
         }
@@ -1006,7 +987,7 @@ void TObjEneMe1Gee::vfunc_110(s32 arg1) {
         break;
     case 0:
         advance_animation();
-        this->update_linked_position(TObjEneMe1Gee__data_805DA0A8);
+        this->update_linked_position(200.0f);
         switch (this->m_434) {
         case 2:
             break;
@@ -1062,7 +1043,7 @@ void TObjEneMe1Gee::vfunc_111(s32 arg1) {
         break;
     case 0:
         advance_animation();
-        update_linked_position(TObjEneMe1Gee__data_805DA0A8);
+        update_linked_position(200.0f);
         update();
         update_animation_frame();
         this->vfunc_89();
@@ -1092,7 +1073,7 @@ void TObjEneMe1Gee::state_attack(s32 arg1) {
         return;
     case 0:
         advance_animation();
-        this->update_linked_position(TObjEneMe1Gee__data_805DA0A8);
+        this->update_linked_position(200.0f);
         switch (this->m_434) {
         case 0:
             temp_r3 = this->m_3c8;
@@ -1163,7 +1144,7 @@ void TObjEneMe1Gee::sub_800CA454(s32 arg1) {
     case 0:
         this->advance_animation();
         if (this->m_434 == 1) {
-            if (this->update_linked_position(TObjEneMe1Gee__data_805DA0A8) == 0) {
+            if (this->update_linked_position(200.0f) == 0) {
                 break;
             }
         } else if (((TObjEneEpsilon *)this)->update_death_check() == 0) {
@@ -1177,7 +1158,7 @@ void TObjEneMe1Gee::sub_800CA454(s32 arg1) {
                 this->m_434 = 2;
                 this->m_3c8 |= 0x40000;
             }
-            TObjEneEpsilon__sub_800B92F8((u8 *)this, 0x200, (f32)TObjEneMe1Gee__data_805DA0D4);
+            TObjEneEpsilon__sub_800B92F8((u8 *)this, 0x200, 0.5f);
             break;
         case 2:
             this->update_velocity();
@@ -1294,8 +1275,8 @@ void TObjEneMe1Gee::sub_800C9DF8(s32 arg1) {
         this->m_434 = 0;
         this->m_438 = 0x28;
         this->m_43c = 0;
-        this->m_448 = TObjEneMe1Gee__data_805DA0B4;
-        this->m_44c = TObjEneMe1Gee__data_805DA0B4;
+        this->m_448 = 0.0f;
+        this->m_44c = 0.0f;
         break;
     case 3:
         if (this->vfunc_108() == 0 && this->check_death_trigger() == 0 && this->m_434 == 5) {
@@ -1305,7 +1286,7 @@ void TObjEneMe1Gee::sub_800C9DF8(s32 arg1) {
     case 0:
         this->advance_animation();
         if (this->m_434 == 0) {
-            if (this->update_linked_position(TObjEneMe1Gee__data_805DA0A8) == 0) {
+            if (this->update_linked_position(200.0f) == 0) {
                 break;
             }
         } else if (((TObjEneEpsilon *)this)->update_death_check() == 0) {
@@ -1321,7 +1302,7 @@ void TObjEneMe1Gee::sub_800C9DF8(s32 arg1) {
                 this->m_438 = 0;
                 this->m_434 = 1;
                 if (this->m_3c8 & 0x40000) {
-                    if (this->m_3ac < lbl_805DA0B0) {
+                    if (this->m_3ac < 40.0f) {
                         this->m_434 = 2;
                         this->destroy_subobj(&TObjEneMe1Gee__data_8043BDC0);
                     }
@@ -1390,7 +1371,7 @@ void TObjEneMe1Gee::sub_800C9DF8(s32 arg1) {
                     this->m_434 = 3;
                 }
             } else {
-                if (this->m_3ac > lbl_805DA0B0) {
+                if (this->m_3ac > 40.0f) {
                     this->m_434 = 1;
                 }
                 TObjEneEpsilon__sub_800B92AC((u8 *)this, 0x200, this->m_42c->m_0);
@@ -1412,7 +1393,7 @@ void TObjEneMe1Gee::sub_800C9DF8(s32 arg1) {
                     this->m_438 = 0;
                     if (this->m_3ac < 13.0f) {
                         this->m_434 = 3;
-                    } else if (this->m_3ac < lbl_805DA0B0) {
+                    } else if (this->m_3ac < 40.0f) {
                         this->m_434 = 2;
                     } else {
                         this->m_434 = 1;
@@ -1422,7 +1403,7 @@ void TObjEneMe1Gee::sub_800C9DF8(s32 arg1) {
                         }
                     }
                 }
-            } else if (this->is_passing_frame((f32)lbl_805DA0B8) != 0) {
+            } else if (this->is_passing_frame(10.0f) != 0) {
                 this->m_408++;
                 if (this->sub_800CBA80() != 0) {
                     if (this->m_390->select_melee_contact_body(this, 1.0f) != 0) {
@@ -1467,12 +1448,12 @@ void TObjEneMe1Gee::sub_800C9A94(s32 arg1) {
         this->m_438 = 0;
         this->m_43c = 0;
         this->m_444 = 0;
-        this->m_448 = TObjEneMe1Gee__data_805DA0B4;
-        this->m_44c = TObjEneMe1Gee__data_805DA0B4;
-        this->m_450 = TObjEneMe1Gee__data_805DA0B4;
-        dir->x = TObjEneMe1Gee__data_805DA0B4;
-        dir->y = TObjEneMe1Gee__data_805DA0B4;
-        dir->z = TObjEneMe1Gee__data_805DA0B4;
+        this->m_448 = 0.0f;
+        this->m_44c = 0.0f;
+        this->m_450 = 0.0f;
+        dir->x = 0.0f;
+        dir->y = 0.0f;
+        dir->z = 0.0f;
         break;
     case 3:
         if (this->vfunc_108() == 0 && this->check_death_trigger() == 0 && this->m_43c >= 4) {
@@ -1481,7 +1462,7 @@ void TObjEneMe1Gee::sub_800C9A94(s32 arg1) {
         break;
     case 0:
         this->advance_animation();
-        if (this->update_linked_position(TObjEneMe1Gee__data_805DA0A8) != 0) {
+        if (this->update_linked_position(200.0f) != 0) {
             switch (this->m_434) {
             case 1: {
                 if (this->m_438 == 0) {
@@ -1489,7 +1470,7 @@ void TObjEneMe1Gee::sub_800C9A94(s32 arg1) {
                     this->enemy_copy_target_destination();
                     this->update_velocity();
                     t = 8192.0f * calc_elapsed_scaled__9TObjEneDDFv(this);
-                    if (t >= TObjEneMe1Gee__data_805DA0B4) {
+                    if (t >= 0.0f) {
                         t += 12288.0f;
                     } else {
                         t -= 12288.0f;
@@ -1521,7 +1502,7 @@ void TObjEneMe1Gee::sub_800C9A94(s32 arg1) {
                     c = normalize_vector_xz(&v);
                     this->move_to_wall_clamped_destination(v.x, v.z, c);
                 }
-                this->rotation_y = (s32)(lbl_8043BF28 * atan2_float(dir->x, dir->z)) + 0x8000;
+                this->rotation_y = (s32)(RADIANS_TO_ANGLE * atan2_float(dir->x, dir->z)) + 0x8000;
                 break;
             }
             case 0:
@@ -1570,7 +1551,7 @@ void TObjEneMe1Gee::sub_800C9964(s32 arg1) {
         this->update_velocity();
         this->update_angle();
         this->set_move_speed_x();
-        this->move_with_wall_slide_commit(this->m_3a0.x, this->m_3a0.z, lbl_805DA0D0);
+        this->move_with_wall_slide_commit(this->m_3a0.x, this->m_3a0.z, 0.8f);
         this->vfunc_88();
         break;
     }
@@ -1588,13 +1569,13 @@ void TObjEneMe1Gee::sub_800C96B4(s32 mode) {
         this->vfunc_96();
         this->actorFlags &= ~0x1000000;
         this->m_434 = 0;
-        if (this->m_3f8 > TObjEneMe1Gee__data_805DA0C8 + (this->position.y + this->m_3ec)) {
+        if (this->m_3f8 > 5.0f + (this->position.y + this->m_3ec)) {
             this->m_438 = 0;
         } else {
             this->m_438 = 2;
         }
-        this->m_448 = TObjEneMe1Gee__data_805DA0B4;
-        this->m_44c = TObjEneMe1Gee__data_805DA0B4;
+        this->m_448 = 0.0f;
+        this->m_44c = 0.0f;
         break;
     case 3:
         if (this->m_438 == 3) {
@@ -1606,7 +1587,7 @@ void TObjEneMe1Gee::sub_800C96B4(s32 mode) {
         VecCopy(&v, (Vec *)&this->x_speed);
         len = normalize_vector_xz(&v);
         this->move_with_wall_slide_on_ground(v.x, v.z, len);
-        len *= TObjEneMe1Gee__data_805DA0D4;
+        len *= 0.5f;
         this->x_speed = v.x * len;
         this->m_310 = v.z * len;
         switch (this->m_438) {
@@ -1627,7 +1608,7 @@ void TObjEneMe1Gee::sub_800C96B4(s32 mode) {
         case 1:
             this->m_448 += this->m_44c;
             this->m_3f8 += this->m_448;
-            if (this->m_448 >= TObjEneMe1Gee__data_805DA0B4) {
+            if (this->m_448 >= 0.0f) {
                 if (this->m_3f8 > this->position.y + this->m_3ec) {
                     this->m_3f8 = this->position.y + this->m_3ec;
                     this->m_434 = 0;
@@ -1696,7 +1677,7 @@ void TObjEneMe1Gee::state_return_home(s32 arg1) {
         return;
     case 0:
         advance_animation();
-        if (this->update_linked_position(TObjEneMe1Gee__data_805DA0A8) != 0) {
+        if (this->update_linked_position(200.0f) != 0) {
             this->m_434 = 2;
         }
         switch (this->m_434) {
@@ -1712,8 +1693,8 @@ void TObjEneMe1Gee::state_return_home(s32 arg1) {
             this->update_velocity();
             update_angle();
             set_move_speed_x();
-            if (this->m_3ac > lbl_805DA0CC) {
-                this->move_with_wall_slide_commit(this->m_3a0.x, this->m_3a0.z, lbl_805DA0D0);
+            if (this->m_3ac > 2.0f) {
+                this->move_with_wall_slide_commit(this->m_3a0.x, this->m_3a0.z, 0.8f);
             }
             break;
         }
@@ -1735,7 +1716,7 @@ void TObjEneMe1Gee::vfunc_112(s32 arg1) {
         this->m_3c8 |= 0x400000;
         this->actorFlags |= 0x01000000;
         VecCopy(&pos, (Vec *)&this->m_2fc);
-        pos.y -= TObjEneMe1Gee__data_805DA0C8;
+        pos.y -= 5.0f;
         this->refresh_and_send_entity_flags();
         return;
     case 0:
@@ -1781,7 +1762,7 @@ void TObjEneMe1Gee::state_orbit(s32 arg1) {
         advance_animation();
         this->m_3f8 = this->position.y + this->m_3ec;
         this->m_300 = this->m_3f8;
-        this->move_with_wall_slide_commit(this->m_448, this->m_44c, lbl_805DA0C4);
+        this->move_with_wall_slide_commit(this->m_448, this->m_44c, 0.2f);
     case 3:
     case 5:
     case 1:
@@ -1820,8 +1801,8 @@ void TObjEneMe1Gee::render() {
     if (this->m_3c8 & 0x400000) {
         var_r30 = 0;
     } else if (TObjEneDD::is_main_phase_15() != 0) {
-        var_r30 = this->classify_actor_view_detail(lbl_805D9E88, lbl_805D9E84, TObjEneMe1Gee__data_805DA0C0);
-    } else if (this->update_object_view_visibility(lbl_805DA0BC, TObjEneMe1Gee__data_805DA0C0) != 0) {
+        var_r30 = this->classify_actor_view_detail(lbl_805D9E88, lbl_805D9E84, 15.0f);
+    } else if (this->update_object_view_visibility(400.0f, 15.0f) != 0) {
         var_r30 = 1;
     } else {
         var_r30 = 0;
@@ -1838,7 +1819,7 @@ void TObjEneMe1Gee::render() {
         this->vfunc_113();
         push_matrix();
         post_translate_matrix(&this->position);
-        translate_matrix(0, TObjEneMe1Gee__data_805DA0B4, this->m_3f4, TObjEneMe1Gee__data_805DA0B4);
+        translate_matrix(0, 0.0f, this->m_3f4, 0.0f);
         rotate_matrix_y(0, this->rotation_y);
         temp_r0 = this->mode;
         var_r29 = 1;
@@ -1888,6 +1869,9 @@ void TObjEneMe1Gee::render() {
 
 void TObjEneMe1Gee::vfunc_114() { if (this->get_target_info() != 0) { this->sub_800CC0C4(); } }
 
+#pragma push
+// pool_data off: vfunc_115 reaches each debug string with its own lis/addi.
+#pragma pool_data off
 void TObjEneMe1Gee::vfunc_115() {
     s32 temp_r3;
     s32 temp_r3_2;
@@ -1895,25 +1879,25 @@ void TObjEneMe1Gee::vfunc_115() {
         if ((s32) this->m_3c4 == 0) {
             temp_r3 = this->m_3c8;
             if (temp_r3 & 0x100) {
-                TObjEneMe1Gee::queue_debug_text((s32)(pack_debug_text_position(0, 2)), (char *)lbl_8043BE98);
+                TObjEneMe1Gee::queue_debug_text((s32)(pack_debug_text_position(0, 2)), "TYPE:IN FIGHTER");
             } else if (temp_r3 & 0x200) {
-                TObjEneMe1Gee::queue_debug_text((s32)(pack_debug_text_position(0, 2)), (char *)lbl_8043BEA8);
+                TObjEneMe1Gee::queue_debug_text((s32)(pack_debug_text_position(0, 2)), "TYPE:OUT FIGHTER");
             } else {
-                TObjEneMe1Gee::queue_debug_text((s32)(pack_debug_text_position(0, 2)), (char *)lbl_8043BEBC);
+                TObjEneMe1Gee::queue_debug_text((s32)(pack_debug_text_position(0, 2)), "TYPE:UNKOWN");
             }
             temp_r3_2 = this->m_3c8;
             if (temp_r3_2 & 0x02000000) {
-                TObjEneMe1Gee::queue_debug_text((s32)(pack_debug_text_position(0, 3)), (char *)lbl_8043BEC8);
+                TObjEneMe1Gee::queue_debug_text((s32)(pack_debug_text_position(0, 3)), "TYPE:LOW APPEAR");
             } else if (temp_r3_2 & 0x04000000) {
-                TObjEneMe1Gee::queue_debug_text((s32)(pack_debug_text_position(0, 3)), (char *)lbl_8043BED8);
+                TObjEneMe1Gee::queue_debug_text((s32)(pack_debug_text_position(0, 3)), "TYPE:HIGH APPEAR");
             } else {
-                TObjEneMe1Gee::queue_debug_text((s32)(pack_debug_text_position(0, 3)), (char *)lbl_8043BEBC);
+                TObjEneMe1Gee::queue_debug_text((s32)(pack_debug_text_position(0, 3)), "TYPE:UNKOWN");
             }
         }
-        TObjEneMe1Gee::queue_debug_text((s32)(pack_debug_text_position(0, 4)), (char *)lbl_8043BEEC);
-        TObjEneMe1Gee::queue_debug_text((s32)(pack_debug_text_position(0, 5)), (char *)lbl_8043BF0C);
+        TObjEneMe1Gee::queue_debug_text((s32)(pack_debug_text_position(0, 4)), "APPEAR SPEED(+1.f Min:0.01f)");
+        TObjEneMe1Gee::queue_debug_text((s32)(pack_debug_text_position(0, 5)), "NEEDLE SPEED(+6.f Min:1.f)");
     }
-    if (this->update_object_view_visibility(lbl_805DA0BC, TObjEneMe1Gee__data_805DA0C0) != 0) {
+    if (this->update_object_view_visibility(400.0f, 15.0f) != 0) {
         this->draw_ground_shadow(0, 0);
         TObjPlayer::toggle_particle_effect();
         TObjFish::set_global_param(this->texlist);
@@ -1926,6 +1910,7 @@ void TObjEneMe1Gee::vfunc_115() {
         TParticleCtrl::end_effect_render();
     }
 }
+#pragma pop
 
 TUnk_8049387C::~TUnk_8049387C() {}
 
@@ -1963,6 +1948,13 @@ void TUnk_8049387C::vfunc_105() {
     }
 }
 
+// dead-stripped: only its literals survive. 10.0f (.sdata2 0x805DA0B8) is pooled after vfunc_107's
+// 0.0f and before vfunc_115's 400.0f, ahead of its first live user sub_800C9DF8 (deferred codegen
+// runs this file bottom-up). Minimal body after sub_800C9DF8's frame-10 hit check; name inferred.
+static s32 is_hit_frame(TUnk_8049387C *gee) {
+    return gee->is_passing_frame(10.0f);
+}
+
 void TUnk_8049387C::vfunc_107() {
     s32 n;
     s32 i;
@@ -1979,9 +1971,9 @@ void TUnk_8049387C::vfunc_107() {
     angle = this->rotation_y;
     b = this->set_index + 1;
     for (i = 0; i < n; i++) {
-        v.x = lbl_805DA0B0 * sin_table_lookup(angle);
-        v.y = TObjEneMe1Gee__data_805DA0B4;
-        v.z = lbl_805DA0B0 * cos_table_lookup(angle);
+        v.x = 40.0f * sin_table_lookup(angle);
+        v.y = 0.0f;
+        v.z = 40.0f * cos_table_lookup(angle);
         vec3_add_to(&v, &this->position);
         angle += 0x10000 / this->m_490;
         this->m_498[i] = create(this, &v, a++, b++);
@@ -1989,9 +1981,9 @@ void TUnk_8049387C::vfunc_107() {
         this->m_494++;
     }
     for (j = n; j < this->m_490; j++) {
-        v.x = lbl_805DA0B0 * sin_table_lookup(angle);
-        v.y = TObjEneMe1Gee__data_805DA0B4;
-        v.z = lbl_805DA0B0 * cos_table_lookup(angle);
+        v.x = 40.0f * sin_table_lookup(angle);
+        v.y = 0.0f;
+        v.z = 40.0f * cos_table_lookup(angle);
         vec3_add_to(&v, &this->position);
         angle += 0x10000 / this->m_490;
         this->m_498[j] = create(this, &v, a++, b++);
@@ -2153,7 +2145,7 @@ void TUnk_8049387C::vfunc_110(s32 arg1) {
         break;
     case 0:
         advance_animation();
-        this->update_linked_position(TObjEneMe1Gee__data_805DA0A8);
+        this->update_linked_position(200.0f);
         switch (this->m_434) {
         case 0:
             (this->m_404)--;
@@ -2180,7 +2172,7 @@ void TUnk_8049387C::vfunc_110(s32 arg1) {
             this->update();
             break;
         }
-        this->sub_800CBE6C(lbl_805DA0AC + this->position.y);
+        this->sub_800CBE6C(25.0f + this->position.y);
         this->vfunc_89();
         break;
     case 5:
@@ -2203,7 +2195,7 @@ void TUnk_8049387C::vfunc_111(s32 arg1) {
         break;
     case 0:
         advance_animation();
-        this->update_linked_position(TObjEneMe1Gee__data_805DA0A8);
+        this->update_linked_position(200.0f);
         this->update();
         this->update_animation_frame();
         this->vfunc_89();

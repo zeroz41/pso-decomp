@@ -1721,15 +1721,16 @@ pso/unk/text_800C7FEC.cpp:
 	.text       start:0x800C7FEC end:0x800C811C
 	.bss        start:0x80500C38 end:0x80500E38
 	.sbss       start:0x805D5198 end:0x805D51B0
+	.sdata2     start:0x805DA098 end:0x805DA0A4
 
 pso/enemy/gee/TObjEneMe1Gee.cpp:
 	.text       start:0x800C811C end:0x800CCB24
-	.rodata     start:0x8043BD08 end:0x8043BE98
+	.rodata     start:0x8043BD08 end:0x8043BF30
 	.data       start:0x80493780 end:0x80493CA0
 	.bss        start:0x80500E38 end:0x80500E78
 	.sdata      start:0x805D2A68 end:0x805D2A70
 	.sbss       start:0x805D51B0 end:0x805D51D0
-	.sdata2     start:0x805DA0D8 end:0x805DA154
+	.sdata2     start:0x805DA0A8 end:0x805DA154
 
 pso/enemy/gibon/TObjEneBm5GibonU.cpp:
 	.text       start:0x800CCB24 end:0x800D1E4C
@@ -1845,7 +1846,7 @@ pso/enemy/nanodrago/TObjEneNanoDrago_800D9BBC.cpp:
 
 pso/enemy/nanodrago/TObjEneNanoDrago.cpp:
 	.text       start:0x800D9C34 end:0x800DC420
-	.rodata     start:0x8043C760 end:0x8043C900
+	.rodata     start:0x8043C760 end:0x8043C908
 	.data       start:0x80494B10 end:0x80494E10
 	.sdata      start:0x805D2AA8 end:0x805D2AB0
 	.sbss       start:0x805D5248 end:0x805D5278

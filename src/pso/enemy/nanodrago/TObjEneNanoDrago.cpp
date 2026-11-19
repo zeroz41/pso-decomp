@@ -26,6 +26,7 @@
 #include "pso/render/render_util.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/math/MatrixVector.h"
+#include "pso/math/AngleUnits.h"
 
 extern "C" s32 scale_matrix(int, f32, f32, f32);
 extern "C" s32 translate_matrix(int, f32, f32, f32);
@@ -35,7 +36,6 @@ void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
 extern "C" s32 lbl_805D5870;
 extern "C" f32 atan2_float(f32, f32);
 extern "C" void vec3_add_to(void *, void *);
-extern "C" const f64 lbl_8043C900;
 extern "C" s16 get_entity_id(void *);
 extern "C" void subtract_vector(void *, void *);
 
@@ -530,7 +530,7 @@ void TObjEneNanoDrago::update_circling_state() {
             Vec d = *(Vec *)(target + 0x38);
             subtract_vector(&d, (Vec *)&position);
             if (xz_length_squared(&d) <= 160000.0f &&
-                angle_difference_abs(-(s32)(lbl_8043C900 * atan2_float(d.z, d.x)) + 0x4000, rotation_y) < 0xAAA) {
+                angle_difference_abs(-(s32)(RADIANS_TO_ANGLE * atan2_float(d.z, d.x)) + 0x4000, rotation_y) < 0xAAA) {
                 s32 next;
                 if (hp <= hpmax / 4) {
                     next = 10;
@@ -1133,7 +1133,7 @@ void TObjEneNanoDrago::add_target_in_front_arc(TObjChara *candidate) {
     if (!(((v.x * v.x) + (v.z * v.z)) > 160000.0f))
     {
       dx = v.x;
-      heading = (-((s32) (lbl_8043C900 * atan2_float(v.z, dx)))) + 0x4000;
+      heading = (-((s32) (RADIANS_TO_ANGLE * atan2_float(v.z, dx)))) + 0x4000;
       if (angle_difference_abs(heading, rotation_y) <= 0xAAA)
       {
         s16 id = get_entity_id(candidate);
@@ -1179,6 +1179,8 @@ void TObjEneNanoDrago::update_attack_parameters() {
 
 #pragma push
 #pragma opt_common_subs off
+// pool_data off: find_open_direction reaches its two Vecs and the angle double with a lis/addi each.
+#pragma pool_data off
 // The probe step and the zeroed offset find_open_direction rotates around the drago.
 const Vec lbl_8043C8E4 = { 200.0f, 0.0f, 0.0f };
 const Vec find_open_direction_zero_vec = { 0.0f, 0.0f, 0.0f };
@@ -1190,7 +1192,7 @@ void TObjEneNanoDrago::find_open_direction(Vec *direction) {
     f32 bestv;
     f32 d;
     CsnHit *h;
-    ang = (s32)(lbl_8043C900 * atan2_float(direction->x, direction->z));
+    ang = (s32)(RADIANS_TO_ANGLE * atan2_float(direction->x, direction->z));
     bestv = 0.0f;
     best = ang;
     push_matrix_from(&identity_matrix);
