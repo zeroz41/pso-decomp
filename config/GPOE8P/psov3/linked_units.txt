@@ -430,6 +430,7 @@ pso/enemy/stelth/TObjEneMe3Stelth.cpp
 pso/render/BlobShadow.cpp
 pso/enemy/merilllia/TObjEneMerillLia.cpp
 pso/enemy/moja/TObjEneMoja.cpp
+pso/enemy/morfos/MorfosData.cpp
 pso/enemy/morfos/TObjEneMorfos.cpp
 pso/enemy/morfos/TObjEneMorfosArm.cpp
 pso/enemy/morfos/TObjEneMorfos_80337500.cpp

@@ -9715,6 +9715,9 @@ pso/ui/window/TWindowSubTradeMain_80330A84.cpp:
 	.sdata      start:0x805D4228 end:0x805D4230
 	.sdata2     start:0x805DF858 end:0x805DF85C
 
+pso/enemy/morfos/MorfosData.cpp:
+	.rodata     start:0x804774A0 end:0x804774C0
+
 pso/enemy/morfos/TObjEneMorfos.cpp:
 	.text       start:0x803323D8 end:0x80335218
 	.rodata     start:0x804774C0 end:0x80477618
