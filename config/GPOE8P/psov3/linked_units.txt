@@ -2454,3 +2454,4 @@ pso/quest/QuestOpcodeHandlersData.cpp
 pso/quest/challenge/ChallengeModeData.cpp
 pso/network/TPlyJoinLobbyEntryData.cpp
 pso/player/TObjPlayer_801AF2F0Data.cpp
+pso/ui/window/TWindowHelpItem_802540ACData.cpp

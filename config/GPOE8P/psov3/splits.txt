@@ -7003,6 +7003,9 @@ pso/ui/window/TWindowFukidasi.cpp:
 	.sdata      start:0x805D3900 end:0x805D3908
 	.sdata2     start:0x805DCCE8 end:0x805DCDC4
 
+pso/ui/window/TWindowHelpItem_802540ACData.cpp:
+	.sdata2     start:0x805DCDC8 end:0x805DCDE8
+
 pso/ui/window/TWindowFukidasi_80252AE4.cpp:
 	.text       start:0x80252AE4 end:0x80252BF8
 
