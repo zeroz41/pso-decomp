@@ -327,7 +327,7 @@ struct Slot_803ED9AC {
     u8 pad17[5];
 };
 extern Slot_803ED9AC quest_download_slot_chain_table[];
-extern const u8 lbl_8047F8B8[0x100];
+extern const u8 romaji_kana_char_class_table[0x100];
 s32 strcpy(void *, void *);
 s32 dispatch_request_0x20__19TWindowKeyBoardSoftFll(void *, void *);
 s32 dispatch_request_0x1c__19TWindowKeyBoardSoftFv();
@@ -335,8 +335,6 @@ extern s32 quest_download_initialized;
 extern s32 quest_download_state;
 extern s32 lbl_805D7908;
 extern s32 lbl_805D790C;
-extern s32 lbl_805E10D8;
-extern s32 lbl_805E10E0;
 extern s32 lbl_805D7888;
 s32 TQuestVmDownLoadServer__sub_803E7098(u8 *p, u16 code);
 s32 TQuestVmDownLoadServer__sub_803EC69C(u32);

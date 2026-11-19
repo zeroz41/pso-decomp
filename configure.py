@@ -1477,6 +1477,8 @@ MIDDLEWARE: List[Tuple[str, int, str, List[str], Dict[str, Dict[str, Any]]]] = [
         "pso/quest/TQuestVmDownLoadServer_803E9A24.cpp": {"cflags": _switch(cflags_middleware, "-pool off")},
         # -str reuse,readonly: its string literal " " sits in .sdata2 0x805E10D0 (padded to the next TU at 0x805E10D8).
         "pso/quest/TQuestVmDownLoadServer_803EB0D8.cpp": {"cflags": _switch(cflags_middleware, "-str reuse,readonly")},
+        # -str reuse,readonly: its literals "Dummy" and "" sit in .sdata2 0x805E10D8 (sub_803F09A4).
+        "pso/quest/QuestDownloadAramFile.cpp": {"cflags": _switch(cflags_middleware, "-str reuse,readonly")},
     }),
     # ntInf ("Ver 1.17.00 Build:Jul 9 2002").
     ("ntinf", 0x803F3BF8, "GC/2.6", cflags_middleware, {
@@ -1874,6 +1876,8 @@ if args.target == "psov3":
                 Unit("PowerPC_EABI_Support/MSL/MSL_C/MSL_Common/Src/ansi_files.c"),
                 Unit("PowerPC_EABI_Support/MSL/MSL_C/MSL_Common/Src/buffer_io.c"),
                 Unit("PowerPC_EABI_Support/MSL/MSL_C/MSL_Common/Src/direct_io.c"),
+                # errno.c: data-only (user decision): only errno, .sbss 0x805D7330.
+                Unit("PowerPC_EABI_Support/MSL/MSL_C/MSL_Common/Src/errno.c"),
                 Unit("PowerPC_EABI_Support/MSL/MSL_C/MSL_Common/Src/FILE_POS.c"),
                 # file_io.c: PSO's fclose keeps a real `bl fflush`; -inline
                 # deferred would fold fflush into fclose and reverse the

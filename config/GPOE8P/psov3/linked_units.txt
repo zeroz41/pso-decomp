@@ -2,6 +2,7 @@
 PowerPC_EABI_Support/MSL/MSL_C/MSL_Common/Src/FILE_POS.c
 PowerPC_EABI_Support/MSL/MSL_C/MSL_Common/Src/abort_exit.c
 PowerPC_EABI_Support/MSL/MSL_C/MSL_Common/Src/alloc.c
+PowerPC_EABI_Support/MSL/MSL_C/MSL_Common/Src/errno.c
 PowerPC_EABI_Support/MSL/MSL_C/MSL_Common/Src/ansi_files.c
 PowerPC_EABI_Support/MSL/MSL_C/MSL_Common/Src/ansi_fp.c
 PowerPC_EABI_Support/MSL/MSL_C/MSL_Common/Src/buffer_io.c
@@ -667,6 +668,7 @@ pso/ui/charcreate/CreationMotion.cpp
 pso/system/scene/EndingSceneTables.cpp
 pso/system/GbaDownloadRuntime.cpp
 pso/ui/keyboard/KeyboardCharacterMaps.cpp
+pso/quest/QuestDownloadAramFile.cpp
 pso/quest/QuestDownloadBuffers.cpp
 pso/quest/QuestDownloadCharTables.c
 pso/render/RenderFadeState.cpp
@@ -2205,7 +2207,6 @@ pso/unk/text_801F469C.cpp
 pso/unk/text_801F4790.cpp
 pso/boss/darkfalz/TBoss4DarkFalz_801F4830.cpp
 pso/unk/text_801F498C.cpp
-pso/system/TMCFormatSequence_801F6554.cpp
 pso/unk/text_80203284.cpp
 pso/unk/text_8020BC50.cpp
 pso/unk/text_8020BFE4.cpp
