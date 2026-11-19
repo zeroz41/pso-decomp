@@ -38,7 +38,7 @@ struct TWindowKeyBoardSoft : public TWindowBase
     void set_mode2();
     void set_mode3();
     void sub_80261134();
-    void close();
+    void update_close_mode();
     s32 hit_test_relative(u8 *arg1, u8 *arg2);
     void draw_key_frame(f32 *rect, f32 x0, f32 y, f32 w, f32 scale, u32 color, s32 idx);
     static s32 strnlen(s8 *str, u32 max);

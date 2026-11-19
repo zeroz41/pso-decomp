@@ -1,5 +1,4 @@
 #include "types.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8025CB70.h"
 #include "pso/ui/window/TWindowKeyBoardBase.h"
 #include "pso/ui/keyboard/KeyboardCharacterMaps.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
@@ -76,7 +75,7 @@ s32 TWindowKeyBoardHard::has_non_modifier_key() {
     if (TKeyBoardControl__sub_801A58B0() != 0) {
         return 0;
     }
-    n = hardware_keyboard_state.get_key_state_2();
+    n = hardware_keyboard_state.get_pending_count();
     for (i = 0; i < n; i++) {
         c = hardware_keyboard_state.sub_8013239C(i);
         if (c != 0x61 && c != 0x4C && c != 0x50 && c != 0x5E && c != 0x5D && c != 0x5C && c != 0x5F) {
@@ -486,7 +485,7 @@ void TWindowKeyBoardHard::process_all_key_states() {
     s32 i;
     s32 n;
     if (!(c->f60 & 2)) {
-        n = hardware_keyboard_state.get_key_state_2();
+        n = hardware_keyboard_state.get_pending_count();
         for (i = 0; i < n; i++) {
             process_key_input(hardware_keyboard_state.sub_8013239C(i));
         }
@@ -671,7 +670,7 @@ void TWindowKeyBoardHard::run_task() {
     void *temp_r3;
 
     if (m_control != NULL) {
-        if ((is_key_active() == 0) && (m_control->is_key_active() == 0)) {
+        if ((is_key_active() == 0) && (m_control->is_confirmed() == 0)) {
             if (has_non_modifier_key() != 0) {
                 if (current_language == LANGUAGE_JAPANESE) {
                     this->m_68 = 0x3C;
@@ -680,7 +679,7 @@ void TWindowKeyBoardHard::run_task() {
                 temp_r3 = m_control;
                 *(s32 *)((s8 *)temp_r3 + 0xB4) = (s32) (*(s32 *)((s8 *)temp_r3 + 0xB4) & 0xFFFFFFBF);
                 if (!(this->m_60 & 0x40)) {
-                    ((TWindowKeyBoardBase *)m_control)->sub_8025CC48();
+                    m_control->sub_8025CC48();
                 }
             }
             update_modifier_flags();

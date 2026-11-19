@@ -485,7 +485,7 @@ void TWindowCtrlMain::free_all_windows() {
     if (root != NULL) {
         delete root;
     }
-    TWindowCtrlMain::free_keyboard_soft();
+    TWindowCtrlMain::free_shared_draw_context();
     TWindowCtrlMain::free_window();
 }
 

@@ -1,5 +1,4 @@
 #include "types.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8025CB70.h"
 #include "pso/ui/chat/TWindowChat.h"
 #include "pso/ui/window/TWindowKeyBoardHard.h"
 #include "pso/ui/window/TWindowKeyBoardBase.h"

@@ -1,6 +1,5 @@
 #include "types.h"
 #include "pso/ui/window/TWindowCtrl_8024B7D4.h"
-#include "pso/ui/window/TWindowKeyBoardBase_8025B85C.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
 #include "pso/ui/window/TWindowKeyBoardBase.h"
@@ -578,7 +577,7 @@ void TWindowKeyBoardBase::init() {
 
 #pragma push
 #pragma opt_propagation off
-s32 TWindowKeyBoardBase::commit_composition_text() {
+void TWindowKeyBoardBase::commit_composition_text() {
     Kbd_8025C804 *arg0 = (Kbd_8025C804 *)this;
     s32 n;
     s32 nx;

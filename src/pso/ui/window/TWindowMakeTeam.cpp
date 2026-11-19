@@ -143,11 +143,11 @@ void TWindowMakeTeam::run_task() {
         this->m_1c = 4;
     }
     case 4:
-        if (((TKeyBoardControl *)(self->keyboard))->is_active() != 0) {
+        if (((TKeyBoardControl *)(self->keyboard))->is_cancelled() != 0) {
             ((TWindowMakeTeam *)(self->menu))->set_entry_string_by_id(self->name, 0);
             this->m_1c = 1;
         }
-        if (((TKeyBoardControl *)(self->keyboard))->is_key_active() != 0) {
+        if (((TKeyBoardControl *)(self->keyboard))->is_confirmed() != 0) {
             s32 n;
             mem_free(self->name);
             self->name = ((TKeyBoardControl *)self->keyboard)->realloc_buffer();
@@ -168,11 +168,11 @@ void TWindowMakeTeam::run_task() {
         this->m_1c = 6;
     }
     case 6:
-        if (((TKeyBoardControl *)(self->keyboard))->is_active() != 0) {
+        if (((TKeyBoardControl *)(self->keyboard))->is_cancelled() != 0) {
             ((TWindowMakeTeam *)(self->menu))->set_entry_string_by_id(self->comment, 1);
             this->m_1c = 1;
         }
-        if (((TKeyBoardControl *)(self->keyboard))->is_key_active() != 0) {
+        if (((TKeyBoardControl *)(self->keyboard))->is_confirmed() != 0) {
             s32 n;
             mem_free(self->comment);
             self->comment = ((TKeyBoardControl *)self->keyboard)->realloc_buffer();

@@ -28,8 +28,8 @@ struct TKeyBoardControl : public TObject {
     void set_sub_position(u8 *pos);
     void set_text(char *s);
     char *realloc_buffer();
-    int is_active();
-    int is_key_active();
+    int is_cancelled();
+    int is_confirmed();
     static void run_main_frame();
     static void run_tasks();
     int get_fog_ctrl();

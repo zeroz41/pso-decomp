@@ -1,14 +1,11 @@
 #include "types.h"
-#include "pso/ui/window/TWindowKeyBoardHard.h"
 #include "pso/ui/window/TWindowSubComCard_80244774.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/ui/window/TWindowKeyBoardBase.h"
 #include "pso/ui/window/TWindowKeyBoardHard.h"
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
 #include "pso/ui/window/TWindowLockOn.h"
-#include "pso/ui/chat/TWindowSubShortMail.h"
 #include "pso/unk/TLobby.h"
-#include "pso/ui/window/TWindowMakeTeam.h"
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
 
 void TKeyBoardControl::hide() {

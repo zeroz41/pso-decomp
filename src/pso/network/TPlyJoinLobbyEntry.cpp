@@ -1981,13 +1981,13 @@ void handle_comcard_window__6TLobbyFv(void) {
     s32 temp_r3;
 
     if ((u32) lobby_keyboard_controller != 0U) {
-        if (((TKeyBoardControl *)lobby_keyboard_controller)->is_active() != 0) {
+        if (((TKeyBoardControl *)lobby_keyboard_controller)->is_cancelled() != 0) {
             ((s32 (*)(u32))queue_destruction__7TObjectFv)(lobby_keyboard_controller);
             lobby_keyboard_controller = 0U;
             close_all_windows__6TLobbyFv();
             return;
         }
-        if (((TKeyBoardControl *)lobby_keyboard_controller)->is_key_active() != 0) {
+        if (((TKeyBoardControl *)lobby_keyboard_controller)->is_confirmed() != 0) {
             temp_r3 = (s32)((TKeyBoardControl *)lobby_keyboard_controller)->realloc_buffer();
             ((s32 (*)(GBig_80138D3C_80137188 *, GLE_80138D3C_80137188 *, s32 *, s32, GBig_80138D3C_80137188 *))send_action__9TProtocolFR13GameListEntryPcPc)((*(GBig_80138D3C_80137188 * *)&TLobby__protocol_instance), &(*(GBig_80138D3C_80137188 * *)&TLobby__protocol_instance)->arr[lobby_selected_game_list_index], &(*(s32 *)&TLobby__data_805DB0B0), temp_r3, (*(GBig_80138D3C_80137188 * *)&TLobby__protocol_instance));
             mem_free(temp_r3);

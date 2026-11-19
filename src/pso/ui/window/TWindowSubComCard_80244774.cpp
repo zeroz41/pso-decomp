@@ -275,7 +275,6 @@ void draw_selection_bar(u8 *arg0, u8 *arg1, s32 arg2);
 void window_request_refresh(u8 *arg0);
 void window_request_show(void *arg0);
 bool is_balloon_overlapping(u8 *arg0, u8 *arg1, u8 *arg2);
-void apply_window_closing_stretch(u8 *arg0, int arg1);
 void window_request_refresh(u8 *arg0) {
     if (!((f32) *(s32 *)((s8 *)arg0 + 0x5C) >= 7.5f)) {
         *(s32 *)((s8 *)arg0 + 0x5C) = 7;
@@ -322,7 +321,7 @@ s32 TWindowBase::setup_window_draw_context(s32 arg1) {
         var_r4 = (s32) ((f32) var_r4 - 7.5f);
     }
     context->set_open_tick(var_r4);
-    apply_window_closing_stretch((u8 *)context, (*(s16 *)((s8 *)((u8 *)this) + 0x22)));
+    context->apply_closing_stretch((*(s16 *)((s8 *)((u8 *)this) + 0x22)));
     return (s32)context;
 }
 

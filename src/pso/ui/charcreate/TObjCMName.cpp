@@ -2186,7 +2186,7 @@ void TObjCMName::run_task() {
         if ((fade += 0.16666667f) > 1.0f) {
             fade = 1.0f;
         }
-        if (((TKeyBoardControl *)keyboard)->is_key_active() != 0) {
+        if (((TKeyBoardControl *)keyboard)->is_confirmed() != 0) {
             buf = (char *)((TKeyBoardControl *)keyboard)->realloc_buffer();
             sound = 0x53704;
             strncpy(name, buf, 12);

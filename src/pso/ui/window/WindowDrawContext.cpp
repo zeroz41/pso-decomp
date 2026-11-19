@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/ui/window/TWindowKeyBoardSoft_8024E68C.h"
+#include "pso/ui/window/WindowDrawContext.h"
 #include "pso/system/memory.h"
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
 #include "pso/camera/TCameraCtrl.h"
@@ -9,15 +9,8 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/player/TObjPlayer_80011014.h"
 
-struct RecoveredFields_8024E754_arg0
-{
-  u8 unknown_0[0x28];
-  f32 field_28;
-  f32 field_2C;
-};
-
 WindowDrawContext *shared_window_draw_context;
-// Keyboard offsets per player viewport for two, three and four split-screen views (camera ids 2-4).
+// Window offsets per player viewport for two, three and four split-screen views (camera ids 2-4).
 // inferred: _3p/_4p names from the camera-count switch in get_viewport_offset.
 extern const NJS_POINT2 window_viewport_offset_table[2] = {
     {0.0f, 40.0f}, {0.0f, 0.0f},
@@ -33,8 +26,8 @@ extern "C" {
 s32 __cvt_fp2unsigned(f32);
 f32 TCameraCtrl__sub_80068A04(s32);
 NJS_POINT2 *get_zero_vec2();
+}
 
-typedef struct RecoveredFields_8024E754_arg0 RecoveredFields_8024E754_arg0;
 #pragma fp_contract on
 
 #pragma push
@@ -61,32 +54,26 @@ void WindowDrawContext::transform_quad(TexturedQuad *quad) {
         quad->y1 = scale[1] * (quad->y1 - pivot[1]) + pivot[1];
     }
 }
-}
 #pragma pop
 
-void apply_window_closing_stretch(u8 *arg0, int arg1) {
-  f32 temp_f2;
-  RecoveredFields_8024E754_arg0 *new_var;
-  new_var = (RecoveredFields_8024E754_arg0 *) arg0;
-  if (arg1 != 0)
-  {
-    temp_f2 = 0.22222222f;
-    ;
-    new_var->field_28 = (f32) (new_var->field_28 * ((2.3f * (temp_f2 * ((f32) arg1))) + 1.0f));
-    new_var->field_2C = (f32) (new_var->field_2C * (1.0f - (temp_f2 * ((f32) arg1))));
-  }
+void WindowDrawContext::apply_closing_stretch(int ticks) {
+    f32 step;
+    if (ticks != 0) {
+        step = 0.22222222f;
+        scale[0] = scale[0] * ((2.3f * (step * (f32)ticks)) + 1.0f);
+        scale[1] = scale[1] * (1.0f - (step * (f32)ticks));
+    }
 }
 
 #pragma push
 #pragma opt_common_subs off
 
 void WindowDrawContext::set_open_tick(s32 arg1) {
-    u8 *arg0 = (u8 *)this;
     s32 temp_r0;
     this->open_tick = arg1;
     temp_r0 = this->open_tick;
     if (temp_r0 < 0) {
-        *(s32 *)((s8 *)arg0 + 0x34) = (s32) ((__cvt_fp2unsigned(255.0f * ((7.5f + (f32) temp_r0) / 7.5f)) << 0x18) | 0xFF0000 | 0xFFFF);
+        this->color = (s32) ((__cvt_fp2unsigned(255.0f * ((7.5f + (f32) temp_r0) / 7.5f)) << 0x18) | 0xFF0000 | 0xFFFF);
     }
 }
 #pragma pop
@@ -189,7 +176,7 @@ WindowDrawContext *WindowDrawContext::init_layout(f32 *pos, f32 *size, f32 *scal
     if (!(flags & 0x1000) && is_split_screen() != 0) {
         cam = TCameraCtrl::get_camera_no();
         if (cam != 100) {
-            ((WindowDrawContext *)pivot)->adjust_pos_for_split_screen(cam);
+            adjust_pos_for_split_screen((NJS_POINT2 *)pivot, cam);
             this->scale[0] = this->scale[0] / TCameraCtrl::get_view_scale();
             this->scale[1] = this->scale[1] / TCameraCtrl::get_fov();
         }
@@ -208,19 +195,19 @@ WindowDrawContext *WindowDrawContext::init_layout(f32 *pos, f32 *size, f32 *scal
 }
 #pragma pop
 
-void WindowDrawContext::adjust_pos_for_split_screen(s32 i) {
-    NJS_POINT2 *arg0 = (NJS_POINT2 *)this;
+void WindowDrawContext::adjust_pos_for_split_screen(NJS_POINT2 *pos, s32 i) {
     const NJS_POINT2 *p;
     if (is_split_screen() == 0 || i == 0x64) {
         return;
     }
     p = get_viewport_offset(i);
-    arg0->x = arg0->x + (p->x + TCameraCtrl__sub_80068A04(i));
-    arg0->y = arg0->y + (p->y + TCameraCtrl::get_split_offset(i));
-    arg0->x = arg0->x / TCameraCtrl::get_view_scale();
-    arg0->y = arg0->y / TCameraCtrl::get_fov();
+    pos->x = pos->x + (p->x + TCameraCtrl__sub_80068A04(i));
+    pos->y = pos->y + (p->y + TCameraCtrl::get_split_offset(i));
+    pos->x = pos->x / TCameraCtrl::get_view_scale();
+    pos->y = pos->y / TCameraCtrl::get_fov();
 }
 
+// The upper bounds are inclusive in the original, so each table can be read one entry past its end.
 const NJS_POINT2 *WindowDrawContext::get_viewport_offset(s32 i) {
     switch (TCameraCtrl::get_camera_id()) {
     case 1:
@@ -288,7 +275,7 @@ WindowDrawContext::WindowDrawContext() {
     depth = 0.0f;
 }
 
-void TWindowCtrlMain::free_keyboard_soft() {
+void TWindowCtrlMain::free_shared_draw_context() {
     if (shared_window_draw_context != NULL) {
         delete shared_window_draw_context;
         shared_window_draw_context = NULL;

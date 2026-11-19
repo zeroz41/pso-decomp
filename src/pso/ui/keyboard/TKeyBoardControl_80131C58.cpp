@@ -14,7 +14,6 @@
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
 #include "pso/ui/window/TWindowKeyBoardBase.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8025CB70.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 #include "pso/system/task/TObject.h"
 
@@ -42,7 +41,7 @@ void TKeyBoardControl::run_task() {
 }
 
 TKeyBoardControl::~TKeyBoardControl() {
-    if (m_soft != NULL) { ((TWindowBase *)m_soft)->close(); }
+    if (m_soft != NULL) { m_soft->close(); }
     if (m_hard != NULL) { m_hard->close(); }
     if (m_base != NULL) { m_base->close(); }
 }

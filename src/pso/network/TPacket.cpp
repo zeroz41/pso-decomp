@@ -9,9 +9,9 @@ TPacket::~TPacket() {
     close();
 }
 
-const char *lbl_805D34C0 = "TPacket";
+OBJECT_NAME(TPacket)
 
 TPacket::TPacket(TObject *parent) : TUdpSocket(parent) {
-    m_name = lbl_805D34C0;
+    m_name = TPacket_name;
     clear_send_buffer();
 }

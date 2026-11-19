@@ -28,7 +28,7 @@ struct KeyboardKeyState {
     static void append_next_char_global();
     void disable_disconnected_ports();
     s32 has_any_key_pressed();
-    u8 get_key_state_2();
+    u8 get_pending_count();
     void push_key_to_buffer(u8 arg1);
     void tick_key_repeat_timer(u8 arg1);
     void reset_keys();

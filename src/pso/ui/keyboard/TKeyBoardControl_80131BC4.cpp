@@ -1,25 +1,18 @@
 #include "types.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
-#include "pso/ui/window/TWindowKeyBoardHard.h"
-#include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/TWindowKeyBoardBase.h"
-#include "pso/ui/window/TWindowKeyBoardSoft.h"
-#include "pso/ui/window/TWindowMakeTeam.h"
 
 extern "C" {
-
-s32 mem_alloc();
+void *mem_alloc(u32 size);
+}
 
 char *TKeyBoardControl::realloc_buffer() {
-    s32 out;
+    char *out;
 
-    m_base->measure_text_overflow();
-    out = mem_alloc();
-    m_base->export_text((char *)out);
-    return (char *)out;
+    out = (char *)mem_alloc(m_base->measure_text_overflow());
+    m_base->export_text(out);
+    return out;
 }
 
-int TKeyBoardControl::is_active() { return m_base->is_active(); }
-int TKeyBoardControl::is_key_active() { return m_base->is_key_active(); }
-
-}
+int TKeyBoardControl::is_cancelled() { return m_base->is_cancelled(); }
+int TKeyBoardControl::is_confirmed() { return m_base->is_confirmed(); }

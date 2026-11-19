@@ -308,9 +308,9 @@ void TWindowSubShortMail::run_task() {
         ((TKeyBoardControl *)(o->w5c))->show();
         o->state = 0xC;
     case 12:
-        if (((TKeyBoardControl *)(o->w5c))->is_active() != 0) {
+        if (((TKeyBoardControl *)(o->w5c))->is_cancelled() != 0) {
             o->state = 1;
-        } else if (((TKeyBoardControl *)(o->w5c))->is_key_active() != 0) {
+        } else if (((TKeyBoardControl *)(o->w5c))->is_confirmed() != 0) {
             o->state = 0xD;
         }
         break;
@@ -408,9 +408,9 @@ void TWindowSubShortMail::run_task() {
         ((TKeyBoardControl *)(o->w5c))->show();
         o->state = 0x19;
     case 25:
-        if (((TKeyBoardControl *)(o->w5c))->is_active() != 0) {
+        if (((TKeyBoardControl *)(o->w5c))->is_cancelled() != 0) {
             o->state = 1;
-        } else if (((TKeyBoardControl *)(o->w5c))->is_key_active() != 0) {
+        } else if (((TKeyBoardControl *)(o->w5c))->is_confirmed() != 0) {
             o->state = 0x1A;
         }
         break;

@@ -45,9 +45,9 @@ struct TWindowKeyBoardBase : public TWindowBase {
     void set_mode1();
     void set_mode2();
     void set_mode3();
-    int is_key_active();
+    int is_confirmed();
     void set_flag62_bit2();
-    int is_active();
+    int is_cancelled();
     void set_flag62_bit8();
     static int is_alnum(u16 code);
     void insert_string(char *src);
@@ -92,7 +92,7 @@ struct TWindowKeyBoardBase : public TWindowBase {
     void update_input_state2();
     void set_text(char *s);
     void init();
-    s32 commit_composition_text();
+    void commit_composition_text();
     s32 measure_text_overflow();
     int is_key_state_2();
     s32 sub_8025CE00(u8 *text);

@@ -41,9 +41,7 @@ public:
     virtual short send(u8 *data);
     virtual short send(u8 *data, size_t size);
 
-    void release_entry();
     static s32 handle_socket_event(s16 received, UdpSocketEvent *event);
-    static void unlock_mutex(int _w0);
 };
 
 typedef char TUdpSocket_size[sizeof(TUdpSocket) == 0x8B8 ? 1 : -1];

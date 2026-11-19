@@ -166,7 +166,7 @@ s32 TKeyBoardControl::read_input(s32 arg0) {
 s32 TKeyBoardControl::is_key_down(s32 arg0) {
     s32 i;
     s32 n;
-    n = hardware_keyboard_state.get_key_state_2();
+    n = hardware_keyboard_state.get_pending_count();
     for (i = 0; i < n; i++) {
         if ((u8)arg0 == hardware_keyboard_state.sub_8013239C(i)) {
             return 1;
@@ -223,7 +223,7 @@ s32 TKeyBoardControl::get_ascii_key() {
   s32 temp_r3;
   s32 var_r3;
   u8 temp_r31;
-  if (hardware_keyboard_state.get_key_state_2() == 0)
+  if (hardware_keyboard_state.get_pending_count() == 0)
   {
     return 0;
   }
@@ -726,7 +726,7 @@ s32 TKeyBoardControl::poll_key_state() {
             self->f0 |= TKeyBoardControl_key_bit_table[i];
         }
     }
-    n = hardware_keyboard_state.get_key_state_2();
+    n = hardware_keyboard_state.get_pending_count();
     for (j = 0; j < n; j++) {
         ((void (*)(u8, u32 *))accumulate_key_bits)((s32)hardware_keyboard_state.sub_8013239C(j), &self->f8);
     }

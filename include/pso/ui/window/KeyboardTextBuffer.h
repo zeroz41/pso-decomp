@@ -20,10 +20,10 @@ struct KeyboardTextBuffer {
     void set_text_from_string(char *s);
     void insert_char(u16 ch);
     s32 is_buffer_blank();
-    s32 toggle_small_kana_of_last_char();
+    s32 make_last_char_small_kana();
     s32 apply_handakuten_to_last_char();
     s32 apply_dakuten_to_last_char();
-    void delete_chars(s32 arg1, s32 arg2);
+    void delete_chars(s32 pos, s32 n);
     void delete_char();
     void make_room_in_buffer(s32 pos, s32 n);
     void insert_char_slot();

@@ -241,7 +241,7 @@ void TObjItemNameEntry::set_entered_name(const char *name) {
 s32 TObjItemNameEntry::process_keyboard_input() {
     s32 text;
 
-    if (m_1c != NULL && ((TKeyBoardControl *)m_1c)->is_key_active() != 0) {
+    if (m_1c != NULL && ((TKeyBoardControl *)m_1c)->is_confirmed() != 0) {
         text = (s32)((TKeyBoardControl *)m_1c)->realloc_buffer();
         if (strcmp((const char *)text, "") == 0) {
             mem_free((void *)text);

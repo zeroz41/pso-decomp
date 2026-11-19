@@ -89,7 +89,7 @@ void update_password_input__17TAdEnterPPPPassGCFPv(u8 *ad_enter_serial_access_gc
     }
     ((TAdEnterSerialAccessGC *)ad_enter_serial_access_gc)->m_3c = *(s32 *)((s8 *)ad_enter_serial_access_gc + 0x38);
     if (password_entry_keyboard_control != NULL) {
-        if (((TKeyBoardControl *)password_entry_keyboard_control)->is_key_active() != 0) {
+        if (((TKeyBoardControl *)password_entry_keyboard_control)->is_confirmed() != 0) {
             if (TWindowShortListCtrl__check_controller_button(controller_physical_port_bank + 0x20, 2) != 0 ||
                 test_flag_4c__23TAdSinglePlyChrSelectGCFv(controller_input_state + 0x160, 2) != 0) {
                 free_menu_object(password_entry_keyboard_control);
@@ -125,7 +125,7 @@ void update_password_input__17TAdEnterPPPPassGCFPv(u8 *ad_enter_serial_access_gc
         }
     }
     if (((TAdSinglePlyChrSelectGC *)(*(s32 *)((s8 *)ad_enter_serial_access_gc + 0x2C)))->get_selected_slot() == 1 &&
-        ((TKeyBoardControl *)password_entry_keyboard_control)->is_key_active() != 0) {
+        ((TKeyBoardControl *)password_entry_keyboard_control)->is_confirmed() != 0) {
         set_password__17TAdEnterPPPPassGCFi((s32)buf);
         *(s32 *)&((TAdEnterSerialAccessGC *)ad_enter_serial_access_gc)->m_20 = 3;
         password_entry_dispatch_state = 4;

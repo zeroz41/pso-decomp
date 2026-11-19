@@ -1,7 +1,6 @@
 #include "types.h"
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/unk/TUnk_804CF918.h"
-#include "pso/ui/window/TWindowKeyBoardSoft_8024E68C.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8025B050.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/system/memory.h"

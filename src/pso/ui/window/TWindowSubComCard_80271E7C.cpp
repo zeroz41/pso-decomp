@@ -479,11 +479,11 @@ void TWindowSubComCard::run_task() {
         this->m_80 = ((u32 (*)(void*))create_keyboard__17TWindowSubComCardFi)((void *)this);
         this->m_1c = 0xAU;
     case 0xA:
-        if (((TKeyBoardControl *)(this->m_80))->is_active() != 0) {
+        if (((TKeyBoardControl *)(this->m_80))->is_cancelled() != 0) {
             this->m_1c = 1U;
             return;
         }
-        if (((TKeyBoardControl *)(this->m_80))->is_key_active() != 0) {
+        if (((TKeyBoardControl *)(this->m_80))->is_confirmed() != 0) {
             src = (s32)((TKeyBoardControl *)(this->m_80))->realloc_buffer();
             TWindowSubComCard::mask_profanity_words((char *)src, (char *)get_shared_text_buffer());
             keyboard_mode = TWindowSubComCard::get_keyboard_mode();
@@ -606,11 +606,11 @@ void TWindowSubComCard::run_task() {
         this->m_80 = ((u32 (*)(void*, int))create_keyboard__17TWindowSubComCardFii)((void *)this, this->m_24);
         this->m_1c = 0x14U;
     case 0x14:
-        if (((TKeyBoardControl *)(this->m_80))->is_active() != 0) {
+        if (((TKeyBoardControl *)(this->m_80))->is_cancelled() != 0) {
             this->m_1c = 1U;
             return;
         }
-        if (((TKeyBoardControl *)(this->m_80))->is_key_active() != 0) {
+        if (((TKeyBoardControl *)(this->m_80))->is_confirmed() != 0) {
             src = (s32)((TKeyBoardControl *)(this->m_80))->realloc_buffer();
             TWindowSubComCard::mask_profanity_words((char *)src, (char *)get_shared_text_buffer());
             ((TWindowSubComCard *)(this->m_24))->set_card_text((int) (get_shared_text_buffer()));
@@ -762,11 +762,11 @@ void TWindowSubComCard::run_task() {
         ((TKeyBoardControl *)(this->m_80))->show();
         this->m_1c = 0x22U;
     case 0x22:
-        if (((TKeyBoardControl *)(this->m_80))->is_active() != 0) {
+        if (((TKeyBoardControl *)(this->m_80))->is_cancelled() != 0) {
             this->m_1c = 1U;
             return;
         }
-        if (((TKeyBoardControl *)(this->m_80))->is_key_active() != 0) {
+        if (((TKeyBoardControl *)(this->m_80))->is_confirmed() != 0) {
             this->m_1c = 0x23U;
             return;
         }

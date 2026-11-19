@@ -30,7 +30,7 @@ struct TWindowCtrlMain : public TObject {
     static void set_depth(f32 value, s32 viewport_index);
     static void update_fade_alphas();
     static void set_value(s32 arg0, s32 arg1);
-    static void free_keyboard_soft();
+    static void free_shared_draw_context();
     void draw_strip_swap_color(s32 n, s32 flags, f32 _w3);
 };
 

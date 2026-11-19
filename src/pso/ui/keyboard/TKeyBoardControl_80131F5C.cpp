@@ -15,14 +15,11 @@
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
 #include "pso/ui/window/TWindowKeyBoardBase.h"
 #include "pso/ui/window/TWindowKeyBoardHard.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8025CB70.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 #include "pso/system/task/TObject.h"
 
 
-extern "C" {
 KeyboardKeyState hardware_keyboard_state;
-}
 
 void TKeyBoardControl__sub_80131F5C(void) {  }
 void TKeyBoardControl__sub_80131F60(void) {  }
@@ -30,8 +27,8 @@ void TWindowKeyBoardHard::set_flag60_bit200() { m_60 |= 0x200; }
 void TWindowKeyBoardHard::clear_flag60_bit200() { m_60 &= 0xfffffdff; }
 int TWindowKeyBoardHard::is_key_held() { return (m_60 >> 8) & 0x1; }
 void TWindowKeyBoardBase::set_flag62_bit2() { m_62 |= 0x2; }
-int TWindowKeyBoardBase::is_active() { return (m_60 >> 5) & 0x1; }
-int TWindowKeyBoardBase::is_key_active() { return m_60 & 0x1; }
+int TWindowKeyBoardBase::is_cancelled() { return (m_60 >> 5) & 0x1; }
+int TWindowKeyBoardBase::is_confirmed() { return m_60 & 0x1; }
 void TWindowKeyBoardBase::set_flag62_bit8() { m_62 |= 0x8; }
 
 s32 KeyboardKeyState::append_char(s8 arg1) {
@@ -84,14 +81,13 @@ void KeyboardKeyState::disable_disconnected_ports() {
     } while (var_r31 < 4);
 }
 s32 KeyboardKeyState::check_input_ready() {
-    s32 arg0 = (s32)this;
-    if (((KeyboardKeyState *)arg0)->sub_80132310() != 0) {
+    if (sub_80132310() != 0) {
         return 0;
     }
-    if (((KeyboardKeyState *)arg0)->is_key_57_pressed() != 0) {
+    if (is_key_57_pressed() != 0) {
         return 0;
     }
-    if (((KeyboardKeyState *)arg0)->sub_801321B4() != 0) {
+    if (sub_801321B4() != 0) {
         return 0;
     }
     return 1;
@@ -99,8 +95,7 @@ s32 KeyboardKeyState::check_input_ready() {
 #pragma push
 #pragma bool off
 s32 KeyboardKeyState::sub_801321B4() {
-    s32 arg0 = (s32)this;
-    if (((KeyboardKeyState *)arg0)->sub_801323C8((u8)((int)(0x56U))) != 0) {
+    if (sub_801323C8(0x56) != 0) {
         return 1;
     }
     if (hardware_keyboard_state.get_key_state() == 0) {
@@ -109,24 +104,22 @@ s32 KeyboardKeyState::sub_801321B4() {
     if ((hardware_keyboard_state.get_key_state() == 2) || (hardware_keyboard_state.get_key_state() == 4) || (hardware_keyboard_state.get_key_state() == 3)) {
         return 0;
     }
-    return ((KeyboardKeyState *)arg0)->sub_801323C8((u8)((int)(0x5BU))) != 0;
+    return sub_801323C8(0x5B) != 0;
 }
 
 s32 KeyboardKeyState::sub_80132274() {
-    if (((&hardware_keyboard_state)->get_key_state() == 0) || ((&hardware_keyboard_state)->get_key_state() == 1)) {
+    if ((hardware_keyboard_state.get_key_state() == 0) || (hardware_keyboard_state.get_key_state() == 1)) {
         return 0;
     }
     return sub_801323C8(0x5B) != 0;
 }
 
 s32 KeyboardKeyState::is_key_57_pressed() {
-    s32 arg0 = (s32)this;
-    return ((KeyboardKeyState *)arg0)->sub_801323C8((u8)((int)(0x57U))) != 0;
+    return sub_801323C8(0x57) != 0;
 }
 #pragma pop
 s32 KeyboardKeyState::sub_80132310() {
-    s32 arg0 = (s32)this;
-    if ((((KeyboardKeyState *)arg0)->sub_801323C8((u8)((int)(0x54U))) != 0) || (((KeyboardKeyState *)arg0)->sub_801323C8((u8)((int)(0x55U))) != 0)) {
+    if ((sub_801323C8(0x54) != 0) || (sub_801323C8(0x55) != 0)) {
         return 1;
     }
     return 0;
@@ -149,14 +142,13 @@ u8 KeyboardKeyState::sub_8013239C(u8 arg1) {
     return pending[arg1];
 }
 
-u8 KeyboardKeyState::get_key_state_2() { return pending_count; }
+u8 KeyboardKeyState::get_pending_count() { return pending_count; }
 
 s32 KeyboardKeyState::sub_801323C8(u8 arg1) {
     return (pressed[arg1 / 32] & (1 << (arg1 % 32))) != 0 ? 1 : 0;
 }
 
-u8 KeyboardKeyState::get_key_state() {
-    void* p = (void*)this; return *(u8*)((char*)p + 0x1); }
+u8 KeyboardKeyState::get_key_state() { return mode; }
 
 void KeyboardKeyState::push_key_to_buffer(u8 arg1) {
     u8 t;
@@ -283,7 +275,6 @@ void KeyboardKeyState::clear_key_state() {
 }
 
 void KeyboardKeyState::sub_801327DC(u8 chan) {
-    s32 arg0 = (s32)this;
     s32 sp8;
     if (poll_keyboard_port(chan, (u8 *)&sp8) == 0) {
         TKeyBoardControl__sub_803F0E90(chan, (void *)(0));

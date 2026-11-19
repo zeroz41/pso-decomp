@@ -171,11 +171,11 @@ void TWindowSubInformationBoard::run_task() {
         }
         this->m_1c = 0xAU;
     case 10:
-        if (((TKeyBoardControl *)(this->keyboard))->is_active() != 0) {
+        if (((TKeyBoardControl *)(this->keyboard))->is_cancelled() != 0) {
             this->m_1c = 0xBU;
             break;
         }
-        if (((TKeyBoardControl *)(this->keyboard))->is_key_active() != 0) {
+        if (((TKeyBoardControl *)(this->keyboard))->is_confirmed() != 0) {
             temp_r30 = (s32)((TKeyBoardControl *)(this->keyboard))->realloc_buffer();
             set_info_board_text__6TLobbyFv();
             TLobby::flush_pending_send();

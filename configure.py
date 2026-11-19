@@ -622,7 +622,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/ui/window/TWindowCtrlMain.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     # get_viewport_offset reaches each of its three .rodata viewport tables with its own lis/addi
     # (no shared .rodata base, though the tables precede the unit's pooled double): -pool off.
-    "pso/ui/window/TWindowKeyBoardSoft_8024E68C.cpp": {"cflags": _switch(cflags_pso, "-pool off")},
+    "pso/ui/window/WindowDrawContext.cpp": {"cflags": _switch(cflags_pso, "-pool off")},
     # its language letters ("J".."S") and "W:"/" D:" sit in .sdata2 as 4-byte-or-less readonly strings.
     "pso/ui/window/TWindowCtrlMain_800FC91C.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/frontend/TAdSelectTxtSubGC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},

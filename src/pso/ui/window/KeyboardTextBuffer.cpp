@@ -4,7 +4,6 @@
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/ui/Language.h"
 
-extern "C" {
 u16 keyboard_dakuten_kana_sjis[20] = {33449, 33451, 33453, 33455, 33457, 33459, 33461, 33463, 33465, 33467, 33469, 33471, 33474, 33476, 33478, 33485, 33488, 33491, 33494, 33497};
 u16 keyboard_handakuten_kana_sjis[6] = {33485, 33488, 33491, 33494, 33497, 0};
 u16 keyboard_small_kana_sjis[10] = {33440, 33442, 33444, 33446, 33448, 33474, 33506, 33508, 33510, 33517};
@@ -79,7 +78,7 @@ void KeyboardTextBuffer::insert_char(u16 ch) {
         }
         break;
     case 0xFF20:
-        toggle_small_kana_of_last_char();
+        make_last_char_small_kana();
         return;
     }
     if (would_overflow_with(ch) == 0) {
@@ -103,7 +102,7 @@ s32 KeyboardTextBuffer::is_buffer_blank() {
     return 1;
 }
 
-s32 KeyboardTextBuffer::toggle_small_kana_of_last_char() {
+s32 KeyboardTextBuffer::make_last_char_small_kana() {
     u16 *p;
     u16 c;
     s32 i;
@@ -346,6 +345,4 @@ void KeyboardTextBuffer::reset_state() {
     if (buffer != NULL) {
         *buffer = 0;
     }
-}
-
 }

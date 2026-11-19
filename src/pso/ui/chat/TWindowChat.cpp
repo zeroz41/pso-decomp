@@ -147,12 +147,12 @@ s32 TWindowChat::submit_keyboard_input() {
     if (kb == 0U) {
         return 0;
     }
-    if (((TWindowKeyBoardBase *)kb)->is_active() != 0) {
+    if (((TWindowKeyBoardBase *)kb)->is_cancelled() != 0) {
         ((TWindowKeyBoardBase *)this->composer)->reset_input();
         ((TWindowChat *)arg0)->set_input_active();
         return 1;
     }
-    if (((TWindowKeyBoardBase *)(this->composer))->is_key_active() == 0) {
+    if (((TWindowKeyBoardBase *)(this->composer))->is_confirmed() == 0) {
         return 0;
     }
     ((TWindowChat *)arg0)->set_active_flag();

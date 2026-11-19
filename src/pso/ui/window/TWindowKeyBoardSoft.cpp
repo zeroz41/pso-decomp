@@ -1,11 +1,9 @@
 #include "types.h"
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/system/ControllerInputState.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8025CB70.h"
 #include "pso/ui/window/TWindowSubMag_802627D8.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
-#include "pso/ui/window/TWindowKeyBoardBase_8025B85C.h"
 #include "pso/ui/window/TWindowChoiceSetting.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
 #include "pso/ui/Language.h"
@@ -44,7 +42,6 @@ struct Quad_80262038 {
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/TWindowSubMag.h"
 
-// TWindowKeyBoardSoft ctor descriptor; first object of the TU .data (0x804CFDE0).
 WindowDescriptor soft_keyboard_window_and_action_data = { {307.0f, 161.0f}, 50040.0f, NULL, 0x803 };
 
 struct RecoveredFields_8026088C_arg0 {
@@ -98,7 +95,7 @@ const UV_80262038 lbl_8044F204[10] = {
 void TWindowKeyBoardSoft::calc_cursor_step(s32 *arg1, s32 *arg2) {
     switch (current_language) {
     case LANGUAGE_JAPANESE:
-        if ((get_flag_bit5() != 0) || (((TWindowKeyBoardSoft *)this)->get_flag_bit6() != 0) || (((TWindowKeyBoardSoft *)this)->is_cursor_locked() != 0)) {
+        if ((get_flag_bit5() != 0) || (get_flag_bit6() != 0) || (is_cursor_locked() != 0)) {
             *arg1 = 4;
             *arg2 = 4;
             return;
@@ -112,7 +109,7 @@ void TWindowKeyBoardSoft::calc_cursor_step(s32 *arg1, s32 *arg2) {
         *arg2 = 5;
         return;
     case LANGUAGE_ENGLISH:
-        if ((get_flag_bit5() != 0) || (((TWindowKeyBoardSoft *)this)->get_flag_bit6() != 0) || (((TWindowKeyBoardSoft *)this)->is_cursor_locked() != 0)) {
+        if ((get_flag_bit5() != 0) || (get_flag_bit6() != 0) || (is_cursor_locked() != 0)) {
             *arg1 = 0;
             *arg2 = 0;
             return;
@@ -123,7 +120,7 @@ void TWindowKeyBoardSoft::calc_cursor_step(s32 *arg1, s32 *arg2) {
     case LANGUAGE_GERMAN:
     case LANGUAGE_FRENCH:
     case LANGUAGE_SPANISH:
-        if ((get_flag_bit5() != 0) || (((TWindowKeyBoardSoft *)this)->get_flag_bit6() != 0) || (((TWindowKeyBoardSoft *)this)->is_cursor_locked() != 0)) {
+        if ((get_flag_bit5() != 0) || (get_flag_bit6() != 0) || (is_cursor_locked() != 0)) {
             *arg1 = 0;
             *arg2 = 0;
             return;
@@ -165,13 +162,11 @@ f32 TWindowKeyBoardSoft::calc_key_x(s32 arg1, s32 arg2) {
 #pragma push
 #pragma fp_contract on
 s32 TWindowKeyBoardSoft::calc_key_index(s32 arg2, s32 arg3) {
-    TWindowKeyBoardSoft * window_key_board_soft = (TWindowKeyBoardSoft *)this;
     return arg2 + (arg3 * 0x10);
 }
 #pragma pop
 
 #pragma push
-#pragma fp_contract on
 #pragma fp_contract on
 f32 TWindowKeyBoardSoft::sub_802606E0() {
     return -((0.5f * (f32) (*(u8 *)((s8 *)TWindowKeyBoardSoft__language_text_resources + 0) * *(u8 *)((s8 *)TWindowKeyBoardSoft__language_text_resources + 1))) - 153.0f);
@@ -180,15 +175,12 @@ f32 TWindowKeyBoardSoft::sub_802606E0() {
 
 #pragma push
 #pragma fp_contract on
-#pragma fp_contract on
 f32 TWindowKeyBoardSoft::calc_key_coord(s32 arg1) {
-    s32 arg0 = (s32)this;
     return (19.0f * (f32) arg1) + 1.0f;
 }
 #pragma pop
 
 void TWindowKeyBoardSoft::sub_80260760(s32 key, s32 *count, u32 *color) {
-    void * self = (void *)this;
     s32 n;
     u32 c;
     switch (soft_keyboard_key_class[key]) {
@@ -242,7 +234,7 @@ void TWindowKeyBoardSoft::sub_80260808(s32 arg1) {
     if ((TWindowShortListCtrl__check_controller_button((void *) ((u8 *)&controller_input_state + temp_r5 + 0x20), 2) != 0) && (m_control != NULL)) {
         this->m_60 = (s32) (this->m_60 & 0xFFFFFFEF);
         play_sound_effect(0x52F16, 0, 0, 0);
-        ((TWindowKeyBoardBase *)m_control)->handle_backspace();
+        m_control->handle_backspace();
     }
 }
 #pragma pop
@@ -316,7 +308,7 @@ void TWindowKeyBoardSoft::sub_80260904(s32 port) {
     }
     code = *(layout->pages[kb->layout] + kb->cursor_x + kb->cursor_y * 16);
     if (code >= 3 && code <= 14) {
-        if (((TWindowKeyBoardBase *)kb->child)->get_flag62_bit8() != 0) {
+        if (kb->child->get_flag62_bit8() != 0) {
             play_sound_effect(0x53F06, 0, 0, 0);
         } else if (*(u32 *)get_chat_shortcut(code + 5) != 3) {
             play_sound_effect(0x52D01, 0, 0, 0);
@@ -342,7 +334,7 @@ void TWindowKeyBoardSoft::sub_80260904(s32 port) {
         return;
     }
     ((TWindowSubStatusDisp *)kb->child)->set_input_mode(2);
-    ((TWindowKeyBoardBase *)kb->child)->insert_character(code);
+    kb->child->insert_character(code);
 }
 
 void TWindowKeyBoardSoft::sub_80260E30(s32 port) {
@@ -522,9 +514,9 @@ void TWindowKeyBoardSoft::set_mode0() {
     }
 }
 
-void TWindowKeyBoardSoft::close() {
+void TWindowKeyBoardSoft::update_close_mode() {
     if (m_control != NULL) {
-        ((TWindowKeyBoardBase *)m_control)->update_close_mode();
+        m_control->update_close_mode();
         update_focus_flags();
     }
 }
@@ -917,7 +909,7 @@ void TWindowKeyBoardSoft::run_task() {
     s32 port;
 
     if (m_control != NULL) {
-        if ((sub_80244994__11TWindowBaseFv() != 0) && (m_control->is_key_active() == 0)) {
+        if ((sub_80244994__11TWindowBaseFv() != 0) && (m_control->is_confirmed() == 0)) {
             port = is_player_input_active(*(s16 *)((s8 *)this + 0x20));
             handle_page_cycle_input(port);
             sub_80260E30(port);
@@ -950,5 +942,5 @@ TWindowKeyBoardSoft::TWindowKeyBoardSoft(TWindowKeyBoardBase *control, s32 clien
     m_66 = 1;
     m_68 = 0.0f;
     m_control = control;
-    close();
+    update_close_mode();
 }
