@@ -1,6 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
-#include "pso/unk/text_8022BE64.h"
 #include "pso/technique/TTecRaZonde.h"
 #include "pso/system/vector.h"
 #include "pso/technique/TTecZonde.h"
@@ -210,21 +209,9 @@ struct RBurst_80238F84 { s32 entry; s32 flags; f32 scale; };
 
 struct RProfile_80238F84 { RBurst_80238F84 *entries; u32 count; };
 
-struct Obj_80238F84 {
-    u8 pad0[0x1C];
-    void *source;
-    u8 pad20[0x7A - 0x20];
-    s16 band;
-    u8 pad7C[0xB4 - 0x7C];
-    u16 sourceId;
-    u8 padB6[0xE8 - 0xB6];
-    void *proxy;
-};
-
 extern "C" {
 void create_timed_particle_emitter(void *, s32, s32, s32, void *);
 void spawn_particle_effect(void *, s32, void *);
-void run_task__11TTecRaZondeFv(Obj_80238F84 *self);
 void TTecRaZonde::create(void *origin, void *level) {
     void *o;
     o = TObject::operator new(0x150);
@@ -256,28 +243,28 @@ TTecRaZonde::~TTecRaZonde() {
 
 void TTecRaZonde::render() {  }
 
-void run_task__11TTecRaZondeFv(Obj_80238F84 *self) {
+void TTecRaZonde::run_task() {
     s32 i;
-    if (self->proxy == NULL) {
-        ((TObject *)self)->queue_destruction();
+    if (this->m_e8 == NULL) {
+        queue_destruction();
         return;
     }
-    self->source = find_entity_by_id(self->sourceId);
-    if (self->source == NULL) {
-        ((TObject *)self)->queue_destruction();
+    this->source = (u32)find_entity_by_id(this->m_b4);
+    if (this->source == 0) {
+        queue_destruction();
         return;
     }
-    for (i = 0; i < ((RProfile_80238F84 *)TTecRaZonde__band_profile_table)[self->band].count; i++) {
-        if (self->sourceId < 12) {
+    for (i = 0; i < TTecRaZonde__band_profile_table[this->band].count; i++) {
+        if (this->m_b4 < 12) {
             if (i == 1) {
-                create_timed_particle_emitter((u8 *)self->source + 0x2FC, ((RProfile_80238F84 *)TTecRaZonde__band_profile_table)[self->band].entries[i].entry, 0, 60, self->source);
+                create_timed_particle_emitter((u8 *)this->source + 0x2FC, TTecRaZonde__band_profile_table[this->band].entries[i].entry, 0, 60, (void *)this->source);
             } else {
-                spawn_particle_effect((u8 *)self->source + 0x2FC, ((RProfile_80238F84 *)TTecRaZonde__band_profile_table)[self->band].entries[i].entry, self->source);
+                spawn_particle_effect((u8 *)this->source + 0x2FC, TTecRaZonde__band_profile_table[this->band].entries[i].entry, (void *)this->source);
             }
         }
     }
-    ((TUnk_804CC148 *)self)->apply_technique_to_area_targets();
-    ((TObject *)self)->queue_destruction();
+    apply_technique_to_area_targets();
+    queue_destruction();
 }
 
 #pragma push
@@ -292,7 +279,7 @@ void *TTecRaZonde__ct(void *self_, void *source, void *origin, void *level) {
     f32 len;
     Vec a;
     Vec b;
-    construct_area_technique_base((u8 *)self_, (s32)source, (s32)origin, (s32)origin, (s32)level);
+    __ct__13TUnk_804CC148FlP3VecP3Vecl(self_, (s32)source, (Vec *)origin, (Vec *)origin, (s32)level);
     self->vt = __vt__11TTecRaZonde;
     self->f0 = (u32)TTecRaZonde_class_name;
     ((TTecRaZonde *)self)->calc_damage();
@@ -405,4 +392,3 @@ void TTecResta::play_launch_sound() {
         break;
     }
 }
-

@@ -16,6 +16,7 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/technique/TTecRaBarta.h"
 #include "pso/technique/TTecRaZonde.h"
+#include "pso/technique/TTecLuker.h"
 #include "pso/player/TObjPlayer.h"
 
 
@@ -56,16 +57,12 @@ void *spawn_particle_effect_with_flags(const void *pos, s32 id, s32 flags);
 void spawn_rafoie_explosion_bursts__13TUnk_804CCB28Fv(Obj_80237DAC *self);
 
 u16 get_entity_id(void *);
-void construct_area_technique_base(void *, void *, void *, void *, int);
 s32 is_split_screen();
 void get_bml_model(void *, s32);
 #define get_bml_model ((void * (*)(void *, int))get_bml_model)
 void attach_particle_model(void *, void *, void *, int, int, f32);
 void spawn_particle_effect(void *, s32, void *);
 #define spawn_particle_effect ((void * (*)(Vec *, int))spawn_particle_effect)
-s32 is_parents_unqueued__9TTecLukerFUl();
-s32 is_valid_and_active__10TObjPlayerFUl(int);
-#define is_valid_and_active__10TObjPlayerFUl ((s32 (*)(TObjPlayer_80237FB8 *))is_valid_and_active__10TObjPlayerFUl)
 extern void *technique_effect_bml;
 extern void *lbl_805D63B0;
 
@@ -123,7 +120,7 @@ void TTecRaFoie::vfunc_9() {
     u8 *arg0 = (u8 *)this;
     s32 handle;
 
-    switch (*(s16 *)&this->unk_7A) {
+    switch (this->band) {
     case 0:
         handle = play_sound_effect(0x4002A602, (int)(arg0 + 0x7C), 0, 0);
         if (handle >= 0) {
@@ -173,7 +170,7 @@ void TTecRaFoie::vfunc_8(void *) {
     }
     if (self->target_count != 0) {
         target = (TObjPlayer_80237FB8 *) find_entity_by_id(self->first_id);
-        if (is_parents_unqueued__9TTecLukerFUl() != 0 && is_valid_and_active__10TObjPlayerFUl(target) != 0) {
+        if (TTecLuker::is_parents_unqueued((u32)target) != 0 && TObjPlayer::is_valid_and_active((u32)target) != 0) {
             Vec point = target->pos;
             spawn_particle_effect(&point, 0x39);
             emitter = spawn_particle_effect(&point, 0x1A);
@@ -188,7 +185,6 @@ void TTecRaFoie::vfunc_8(void *) {
 
 #undef get_bml_model
 #undef play_sound_effect
-#undef is_valid_and_active__10TObjPlayerFUl
 
 #undef spawn_particle_effect
 #define spawn_rafoie_explosion_bursts__13TUnk_804CCB28Fv ((s32 (*)(void *))spawn_rafoie_explosion_bursts__13TUnk_804CCB28Fv)
@@ -565,7 +561,7 @@ void run_task__10TTecRaFoieFv(TTecRaFoie *tec_ra_foie) {
         return;
     }
     entity = find_entity_by_id(tec_ra_foie->m_f0);
-    if ((is_parents_unqueued__9TTecLukerFUl() != 0) && (is_valid_and_active__10TObjPlayerFUl(entity) != 0)) {
+    if ((TTecLuker::is_parents_unqueued(entity) != 0) && (TObjPlayer::is_valid_and_active(entity) != 0)) {
         tec_ra_foie->update_detonation((void *)(entity + 0x2FC));
     }
 }
@@ -643,7 +639,7 @@ typedef struct RecoveredFields_80238D10_arg0 RecoveredFields_80238D10_arg0;
 #pragma opt_common_subs off
 Obj_80238AE8 *TTecRaFoie__ct(Obj_80238AE8 *arg0, void * _w1, void * _w2, void * _w3, int _w4) {
     Sub_80238AE8 *t;
-    construct_area_technique_base(arg0, _w1, _w2, _w3, _w4);
+    __ct__13TUnk_804CC148FlP3VecP3Vecl(arg0, (s32)_w1, (Vec *)_w2, (Vec *)_w3, _w4);
     *(void **)((s8 *)arg0 + 0x18) = ((void * *)&__vt__10TTecRaFoie);
     ((TObjPlayer *)((u8 *)arg0 + 0xEC))->construct_target_cursor_records();
     *(u32 *)((s8 *)arg0 + 0) = (u32)TTecRaFoie_class_name;
@@ -665,7 +661,7 @@ Obj_80238AE8 *TTecRaFoie__ct(Obj_80238AE8 *arg0, void * _w1, void * _w2, void * 
 
 u8 *construct_targeted__10TTecRaFoieFPvPvPvPvi(u8 *self, void *source, void *origin, void *targets, int level) {
     u8 *proxy;
-    construct_area_technique_base(self, source, origin, origin, level);
+    __ct__13TUnk_804CC148FlP3VecP3Vecl(self, (s32)source, (Vec *)origin, (Vec *)origin, level);
     *(s32 **)((s8 *)self + 0x18) = __vt__10TTecRaFoie;
     ((TObjPlayer *)(self + 0xEC))->construct_target_cursor_records();
     *(u32 *)((s8 *)self + 0) = (u32)TTecRaFoie_class_name;

@@ -100,12 +100,11 @@ extern u8 identity_matrix[];
 extern s32 local_client_id;
 extern "C" {
 void launch_technique__10TObjPlayerFv(s32 tech, s32 unused, Player_8022D27C *pl);
-void *__nw__7TObjectFUl(u32);
 void *construct_actor_light__9TObjLightFlllllfffl(void *, Col_8022C738 *, Vec *, s32, void *, s32, f32, f32, f32);
 void *__ct__13TUnk_804CC794Fll(void *, void *, s32);
 void *__ct__13TUnk_804CC948Fll(void *, void *, s32);
 void *__ct__13TUnk_804CCD0CFll(void *, void *, s32);
-void *construct_resta_charge_sound(void *, void *, s32);
+void *__ct__13TUnk_804CC990Fll(void *, void *, s32);
 void *__ct__13TUnk_804CCAC8Fll(void *, void *, s32);
 void *__ct__13TUnk_804CC74CFll(void *, void *, s32);
 }
@@ -734,14 +733,14 @@ void capture_technique_targets__10TObjPlayerFv(int kind, Owner_8022CDE8 *owner) 
     {                                                                                            \
         Col_8022C738 c = {R, G, B, A};                                                           \
         Vec v = {0.0f, -1.0f, 0.0f};                                                             \
-        void *o = __nw__7TObjectFUl(100);                                                        \
+        void *o = TObject::operator new(100);                                                    \
         if (o != NULL) {                                                                         \
             ((void *(*)(f32, f32, f32, void *, Col_8022C738 *, Vec *, s32, void *, s32))          \
                  construct_actor_light__9TObjLightFlllllfffl)(0.1f, 0.35f, TObjLight__scene_light_state.f1C, \
                                           o, &c, &v, base, owner, tl_07);                        \
         }                                                                                        \
         if (TObjPlayer::is_locally_controlled(owner) != 0) {                                \
-            o = __nw__7TObjectFUl(0x34);                                                         \
+            o = TObject::operator new(0x34);                                                     \
             if (o != NULL) {                                                                     \
                 INIT(o, owner, tl_07);                                                           \
             }                                                                                    \
@@ -774,7 +773,7 @@ void create_technique_charge_light(u32 kind, void *owner) {
     case 15:
     case 16:
     case 17:
-        CHARGE_LIGHT_8022C738(1.0f, 1.0f, 1.0f, 1.0f, construct_resta_charge_sound)
+        CHARGE_LIGHT_8022C738(1.0f, 1.0f, 1.0f, 1.0f, __ct__13TUnk_804CC990Fll)
         break;
     case 10:
     case 11:

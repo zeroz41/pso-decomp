@@ -119,7 +119,6 @@ struct Jelin_80233808 {
 extern "C" {
 void *find_entity_by_id(u16 id);
 void run_task__9TTecJelinFv(struct Self_802336F0 *self);
-void construct_area_technique_base(void *);
 extern const char *tec_jelin_class_name_ptr;
 extern s32 __vt__9TTecJelin[];
 s32 play_sound_effect(int, void *, int, int);
@@ -130,7 +129,6 @@ void copy_technique_target_list(void *, void *);
 void __ct__13TUnk_804CC148Flll(void *, void *, void *, void *);
 Jelin_80233808 *TTecJelin__ct(Jelin_80233808 *self, void *_w1, void *_w2, void *_w3, void *_w4);
 s32 calc_technique_parameters(s32, s16, s32);
-u32 __nw__7TObjectFUl(s32 a0 = 0);
 
 void TTecJelin::init_tech_params() {
     u8 *arg0 = (u8 *)this;
@@ -151,10 +149,9 @@ void TTecJelin::vfunc_6(void *target_arg) {
 typedef struct RecoveredFields_80238D10_arg0 RecoveredFields_80238D10_arg0;
 
 void TTecJelin::create(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
-    u32 obj;
-    obj = __nw__7TObjectFUl(0x14C);
-    if (obj != 0U) {
-        construct__9TTecJelinFPviiii((Jelin_80233958 *)(obj), arg0, arg1, arg2, arg3);
+    void *obj = TObject::operator new(0x14C);
+    if (obj != NULL) {
+        construct__9TTecJelinFPviiii((Jelin_80233958 *)obj, arg0, arg1, arg2, arg3);
     }
 }
 void TTecJelin::render() {  }
@@ -227,7 +224,7 @@ Jelin_80233808 *TTecJelin__ct(Jelin_80233808 *self, void *_w1, void *_w2, void *
 
 Jelin_80233958 *construct__9TTecJelinFPviiii(Jelin_80233958 *self, s32 _w1, s32 _w2, s32 _w3, s32 _w4) {
     s32 r;
-    construct_area_technique_base(self);
+    __ct__13TUnk_804CC148FlP3VecP3Vecl(self, _w1, (Vec *)_w2, (Vec *)_w3, _w4);
     self->vt = ((s32 *)&__vt__9TTecJelin);
     ((TObjPlayer *)(self->sub))->construct_target_cursor_records();
     self->f0 = ((s32)tec_jelin_class_name_ptr);
@@ -262,4 +259,3 @@ Jelin_80233958 *construct__9TTecJelinFPviiii(Jelin_80233958 *self, s32 _w1, s32 
     }
     return self;
 }
-

@@ -1,6 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/unk/text_8022BE64.h"
 #include "pso/technique/TTecRaBarta.h"
 #include "types.h"
 
@@ -238,7 +237,7 @@ extern const f32 lbl_805DC8C4 = 5.0f;
 void TTecRaBarta::vfunc_9() {
     s32 handle;
 
-    switch (*(s16 *)&this->unk_7A) {
+    switch (this->band) {
     case 0:
         this->m_ec = play_sound_effect(0x4002A706, this->source + 0x2FC, 0, 0);
         handle = this->m_ec;
@@ -360,7 +359,6 @@ struct Self_80237BD8 {
 
 extern "C" {
 void *find_entity_by_id(u16 id);
-s32 apply_technique_to_area_targets__13TUnk_804CC148Fv(void *, int);
 
 
 extern s32 __vt__11TTecRaBarta[];
@@ -415,7 +413,6 @@ void TTecRaBarta::render() {  }
 
 void TTecRaBarta::run_task() {
     u8 *arg0 = (u8 *)this;
-    s32 temp_r4;
     if ((u32) this->m_e8 == 0U) {
         ((TObject *)arg0)->queue_destruction();
         return;
@@ -425,9 +422,8 @@ void TTecRaBarta::run_task() {
         ((TObject *)arg0)->queue_destruction();
         return;
     }
-    temp_r4 = this->age;
-    this->age = (temp_r4 + 1);
-    apply_technique_to_area_targets__13TUnk_804CC148Fv(arg0, temp_r4);
+    this->age = this->age + 1;
+    apply_technique_to_area_targets();
     if ((s32) this->age > (s16) this->m_a8) {
         ((TObject *)arg0)->queue_destruction();
     }
@@ -440,7 +436,7 @@ void TTecRaBarta::run_task() {
 void *TTecRaBarta__ct(void *self_, void *source, void *origin, void *pos, void *level) {
     s32 i;
     typedef Vec *(*VecCopyFn_80237BD8)(void *, void *);
-    construct_area_technique_base((u8 *)self_, (s32)source, (s32)origin, (s32)pos, (s32)level);
+    __ct__13TUnk_804CC148FlP3VecP3Vecl(self_, (s32)source, (Vec *)origin, (Vec *)pos, (s32)level);
     self->vt = __vt__11TTecRaBarta;
     self->f0 = TTecRaBarta_class_name;
     ((TTecRaBarta *)self)->calc_parameters();
@@ -465,13 +461,13 @@ void *TTecRaBarta__ct(void *self_, void *source, void *origin, void *pos, void *
 
 void *TTecRaBarta::construct_area(void *source, void *origin, void *level) {
     s32 i;
-    construct_area_technique_base((u8 *)this, (s32)source, (s32)origin, (s32)origin, (s32)level);
+    __ct__13TUnk_804CC148FlP3VecP3Vecl(this, (s32)source, (Vec *)origin, (Vec *)origin, (s32)level);
     *(s32 **)((s8 *)this + 0x18) = __vt__11TTecRaBarta;
     *(u32 *)&this->m_name = TTecRaBarta_class_name;
     this->m_f0 = 0;
     calc_parameters();
     if (this->m_e8 != NULL) {
-        *(f32 *)((s8 *)(*(u8 **)(this->m_e8 + 0xA4)) + 0xC) = this->m_90;
+        this->m_e8->bodies->radius = this->m_90;
     }
     for (i = 0; i < 32; i++) {
         ((Ids_80237CCC *) this)->ids[i] = 0xFFFF;

@@ -441,6 +441,9 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # .rodata holds assign_photon_blast_palette_slot's id table ahead of the earlier
     # assign_default_photon_blast_palette_slots's: deferred generation of the last-to-first source.
     "pso/system/data/pso_const_ids4.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
+    # .rodata holds render's scale vector ahead of the int-to-float constant the earlier
+    # TTecReverser::sub_8022BE64 uses: deferred generation of the last-to-first source.
+    "pso/unk/text_8022BE64.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     "pso/effect/TDuelEffectCtrl.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/effect/TDuelEffectNumber.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/effect/TDuelEffectString.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-fp_contract on")},
@@ -953,8 +956,9 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/boss/dragon/TBoss1Dragon.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/technique/TTecBarta.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # consume_telepipe_arrival reaches each .rodata object with its own lis/addi (no shared base): -pool off.
+    "pso/technique/TTecLuker.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-pool off")},
     # -sdata 4: the 8-byte recovery_technique_charge_particle_ids 0x804CC988 sits in .data, not .sdata.
-    "pso/technique/TTecLuker.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-pool off", "-sdata 4")},
+    "pso/unk/TUnk_804CC990.cpp": {"cflags": _switch(cflags_pso, "-sdata 4")},
     # -str reuse,readonly: the class name 0x8044D8A4 sits in .rodata between the emitter bands and the offset vector.
     "pso/technique/TTecMegid.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/enemy/saver/SaverLifecycle.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},

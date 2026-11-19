@@ -6192,7 +6192,7 @@ force_active:
   - finalize_and_send_60__15TObjBoss2TunnelFv
   - find_active_pad_rumble_effect_by_id__FUl
   - find_archive_entry__6TLobbyFPvPvPvPv
-  - find_area_technique_contact__FPviPvPv
+  - find_area_technique_contact__FP13TUnk_804CC148P14TObjCollidableP13CollisionBodyPv
   - find_attack_target__13TObjEneMe1GeeFPff
   - find_cached_glyph__20TWindowSubStatusDispFUs
   - find_chain_targets__11TTecGiZondeFv

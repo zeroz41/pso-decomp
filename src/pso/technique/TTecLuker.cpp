@@ -33,7 +33,6 @@ struct Stack_802340E4 {
     s32 sp20;
 };
 
-#include "pso/technique/TechniqueChargeEmitter.h"
 #include "pso/item/TItemList.h"
 #include "pso/player/TPlyItem.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
@@ -143,19 +142,16 @@ int fn_80235078(void *arg0);
 u32 get_player_by_client_id(s32);
 s32 play_sound_effect(int, void *, int, int);
 s32 __ct__7TObjectFP7TObject(void *, void *);
-extern s32 recovery_technique_charge_vtable[];
-u8 *construct_resta_charge_sound(u8 *arg0, s32 arg1, s32 arg2);
 s32 obj_setFlags30(void *, int);
 s32 init_collision_body_parts(void *, void *, int);
 s32 __ct__14TObjCollidableFP7TObject(void *, void *);
-struct TelepipeFieldCollisionBodyTemplate { s32 value; u8 remaining[0x28]; };
-extern TelepipeFieldCollisionBodyTemplate telepipe_field_collision_body_template;
 extern s32 telepipe_field_collider_vtable[];
 bool TTecLuker__sub_8023401C(u8 *arg0);
-u32 recovery_technique_charge_particle_ids[2] = { 0xB7, 0xB8 };
 void* spawn_particle_effect(float*,u32);
-void TTecLuker__updateRecoveryTechniqueCharge(TechniqueChargeEmitter* state);
 }
+// The collision body every telepipe field collider starts from: a 0.01 sphere.
+CollisionBody telepipe_field_collision_body_template = {
+    {0.0f, 0.0f, 0.0f}, 0.01f, 0.0f, 0, 0x8031F0B, {0.0f, 0.0f, 0.0f}, 0.0f};
 u8 TTecLuker__visit_counts[4] = { 0, 0, 0, 0 };
 void reset_telepipe_visit_counts(void);
 extern "C" {
@@ -207,14 +203,12 @@ s32 get_room__8TObjBaseFv(void *);
 extern s32 tl_07;
 extern s32 tl_05;
 void __dt__7TObjectFv(void *, int);
-void __dl__7TObjectFPv(void *);
 extern u8 lbl_804CCA0C[];
 Obj_8023448C *__dt__13TUnk_804CCA0CFv(Obj_8023448C *arg0, s16 arg1);
 s32 is_split_screen();
 u8 *find_entity_by_id(u16);
 extern s32 local_client_id;
 void handle_6x68_set_telepipe_state(Pkt_802341B0 *pkt);
-s32 construct_area_technique_base(void *, void *, void *);
 s32 matrix_mult_vec(int, void *, void *);
 s32 rotate_matrix_y(int, s32);
 s32 push_matrix_from(void *);
@@ -223,7 +217,7 @@ s32 pop_matrices(s32 arg0);
 extern void* __vt__9TTecLuker[];
 extern u8 identity_matrix[];
 extern "C" {
-void *TTecLuker__ct(void *arg0, void *arg1, void *arg2, void *arg3, void *arg4);
+void *TTecLuker__ct(void *self, void *source, void *pos, void *target, void *level);
 s32 mark_area_change_pending();
 s32 send_6x21_inter_level_warp(void *, s32);
 s32 get_floor_map_terrain(s32);
@@ -248,40 +242,8 @@ extern "C" {
 void *create_telepipe_visual(void *self, Vec *pos, u32 id, s32 res);
 void *__dt__13TUnk_804CC9D4Fv(void *arg0, s16 arg1);
 void *__dt__9TTecLukerFv(TTecLuker *arg0, s16 arg1);
-void stop_sound_request(s32 idx);
 s32 free_collision_body_parts(void *);
 s32 submit_cursor_candidate(void *, s32);
-
-void TTecLuker__updateRecoveryTechniqueCharge(TechniqueChargeEmitter* state) {
-    ++state->age;
-    if(state->age%10==0) {
-        for(int i=0;i<2;++i)spawn_particle_effect(state->position,recovery_technique_charge_particle_ids[i]);
-    }
-    if(!((TObjPlayer *)(state->actor))->check_flag_0x80())((TObject *)state)->queue_destruction();
-    else if(state->age>=180)((TObject *)state)->queue_destruction();
-}
-
-void *TTecLuker::destroy(s16 arg1) {
-    if (this != NULL) {
-        *(s32 **)((s8 *)this + 0x18) = recovery_technique_charge_vtable;
-        stop_sound_request((s32)(*(void **)((s8 *)this + 0x30)));
-        __dt__7TObjectFv(this, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(this);
-        }
-    }
-    return this;
-}
-
-u8 *construct_resta_charge_sound(u8 *arg0, s32 arg1, s32 arg2) {
-    __ct__7TObjectFP7TObject((void *)arg0, (void *)arg2);
-    *(s32 **)((s8 *)arg0 + 0x18) = recovery_technique_charge_vtable;
-    *(s32 *)((s8 *)arg0 + 0x1C) = arg1;
-    VecCopy((Vec *)(arg0 + 0x20), (const Vec *)((int) (*(s32 *)((s8 *)arg0 + 0x1C) + 0x2FC)));
-    ((TUnk_804CC990 *)arg0)->m_2c = 0;
-    *(s32 *)((s8 *)arg0 + 0x30) = play_sound_effect(0x4002BC20, arg0 + 0x20, 0, 0);
-    return arg0;
-}
 
 void TUnk_804CC9D4::interact(s32) { this->m_b0 = 1; }
 
@@ -308,7 +270,7 @@ void *__dt__13TUnk_804CC9D4Fv(void *arg0, s16 arg1) {
         ((TUnk_804CC9D4 *)arg0)->m_b0 = 0;
         __dt__14TObjCollidableFv(arg0, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            TObject::operator delete(arg0);
         }
     }
     return arg0;
@@ -318,7 +280,7 @@ u8 *TTecLuker::construct_field_collider(s32 arg1, s32 arg2, s32 ac) {
     __ct__14TObjCollidableFP7TObject(this, (void *)arg2);
     *(s32 **)((s8 *)((u8 *)this) + 0x18) = telepipe_field_collider_vtable;
     VecCopy((Vec *)(((u8 *)this) + 0x38), (const Vec *)(arg1));
-    init_collision_body_parts(this, &telepipe_field_collision_body_template.value, 1);
+    init_collision_body_parts(this, &telepipe_field_collision_body_template, 1);
     obj_setFlags30(this, 0x40000000);
     ((TObjPlayer *)((u8 *)this))->register_object_by_id();
     ((TUnk_804CC9D4 *)this)->cursor_action.set_telepipe();
@@ -603,7 +565,7 @@ Obj_8023448C *__dt__13TUnk_804CCA0CFv(Obj_8023448C *arg0, s16 arg1) {
         }
         __dt__7TObjectFv(arg0, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            TObject::operator delete(arg0);
         }
     }
     return arg0;
@@ -885,17 +847,17 @@ void *__dt__9TTecLukerFv(TTecLuker *tec_luker, s16 arg1) {
         tec_luker->m_f0 = 0U;
         __dt__13TUnk_804CC148Fv((void *)((TUnk_804CC148 *)tec_luker), 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(tec_luker);
+            TObject::operator delete(tec_luker);
         }
     }
     return tec_luker;
 }
 
-#define L ((Luker_80234D50 *)arg0)
-void *TTecLuker__ct(void *arg0, void *arg1, void *arg2, void *arg3, void *arg4) {
+#define L ((Luker_80234D50 *)self)
+void *TTecLuker__ct(void *self, void *source, void *pos, void *target, void *level) {
     Owner_80234D50 *o;
     void *p;
-    construct_area_technique_base(arg0, arg1, arg2);
+    __ct__13TUnk_804CC148FlP3VecP3Vecl(self, (s32)source, (Vec *)pos, (Vec *)target, (s32)level);
     L->vt = __vt__9TTecLuker;
     L->f0 = TTecLuker__name;
     L->f108 = 0;
@@ -912,8 +874,8 @@ void *TTecLuker__ct(void *arg0, void *arg1, void *arg2, void *arg3, void *arg4) 
         VecCopy((Vec *)&L->pos, (const Vec *)&L->owner->pipe_pos);
     } else {
         L->fF6 = L->owner_id;
-        if ((s32)arg4 == 0xA) {
-            VecCopy((Vec *)&L->pos, (const Vec *)arg3);
+        if ((s32)level == 0xA) {
+            VecCopy((Vec *)&L->pos, (const Vec *)target);
         } else {
             L->fx = new TUnk_804C4450;
             if (L->fx != NULL) {
@@ -930,8 +892,8 @@ void *TTecLuker__ct(void *arg0, void *arg1, void *arg2, void *arg3, void *arg4) 
             }
         }
     }
-    play_sound_effect(0x4002A818, (u8 *)arg0 + 0x20, 0, 0);
-    return arg0;
+    play_sound_effect(0x4002A818, (u8 *)self + 0x20, 0, 0);
+    return self;
 }
 #undef L
 

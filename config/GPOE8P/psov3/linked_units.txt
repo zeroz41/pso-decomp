@@ -1199,8 +1199,6 @@ pso/technique/TTecGiZonde_8023CDC4.cpp
 pso/technique/TTecGrants.cpp
 pso/technique/TTecJelin.cpp
 pso/technique/TTecKafun.cpp
-pso/technique/TTecKafun_802A9688.cpp
-pso/technique/TTecKafun_802A9710.cpp
 pso/technique/TTecLuker.cpp
 pso/technique/TTecLuker_801A1880.cpp
 pso/technique/TTecMegid.cpp
@@ -2210,7 +2208,6 @@ pso/unk/text_80299420.cpp
 pso/unk/text_8029A97C.cpp
 pso/unk/text_802A0A30.cpp
 pso/unk/text_802A1020.cpp
-pso/technique/TTecKafun_802A9588.cpp
 pso/boss/olgaflow/TBoss6PlotFalz_802AABEC.cpp
 pso/unk/text_802AE978.cpp
 pso/unk/text_802AEAA4.cpp
@@ -2385,6 +2382,7 @@ pso/technique/TTecGiFoie.cpp
 pso/enemy/panarms/TObjEnePanarms.cpp
 pso/ui/charcreate/TObjCMName.cpp
 pso/unk/TUnk_804CC948.cpp
+pso/unk/TUnk_804CC990.cpp
 pso/weapon/TItemAttackCol.cpp
 pso/unk/TLobby_803BFE50.cpp
 pso/unk/text_8020B5CC.cpp

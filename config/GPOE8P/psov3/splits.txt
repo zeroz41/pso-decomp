@@ -6390,7 +6390,7 @@ pso/technique/TTecBarta.cpp:
 
 pso/unk/text_8022BE64.cpp:
 	.text       start:0x8022BE64 end:0x8022C444
-	.rodata     start:0x8044CDF0 end:0x8044CDF8
+	.rodata     start:0x8044CDE0 end:0x8044CDF8
 	.data       start:0x804CC148 end:0x804CC170
 	.sdata2     start:0x805DC7B0 end:0x805DC7CC
 
@@ -6442,6 +6442,7 @@ pso/technique/TTecGiBarta.cpp:
 pso/technique/TTecGiFoie.cpp:
 	.text       start:0x80230D9C end:0x80231AF0
 	.rodata     start:0x8044D2A0 end:0x8044D368
+	.data       start:0x804CC800 end:0x804CC840
 	.sdata      start:0x805D37C0 end:0x805D37C4
 	.sdata2     start:0x805DC810 end:0x805DC828
 
@@ -6477,10 +6478,14 @@ pso/technique/TTecJelin.cpp:
 	.data       start:0x804CC960 end:0x804CC988
 	.sdata      start:0x805D37D8 end:0x805D37E0
 
+pso/unk/TUnk_804CC990.cpp:
+	.text       start:0x80233A90 end:0x80233C18
+	.data       start:0x804CC988 end:0x804CC9A8
+
 pso/technique/TTecLuker.cpp:
-	.text       start:0x80233A90 end:0x8023508C
+	.text       start:0x80233C18 end:0x8023508C
 	.rodata     start:0x8044D660 end:0x8044D7A8
-	.data       start:0x804CC988 end:0x804CC990
+	.data       start:0x804CC9A8 end:0x804CC9D4
 	.sdata      start:0x805D37E0 end:0x805D37E8
 	.sdata2     start:0x805DC858 end:0x805DC87C
 
@@ -8345,17 +8350,8 @@ pso/effect/TEffIndirectCtrl.cpp:
 	.sbss       start:0x805D66A8 end:0x805D66D0
 	.sdata2     start:0x805DE020 end:0x805DE030
 
-pso/technique/TTecKafun_802A9588.cpp:
-	.text       start:0x802A9588 end:0x802A9688
-
-pso/technique/TTecKafun_802A9688.cpp:
-	.text       start:0x802A9688 end:0x802A9710
-
-pso/technique/TTecKafun_802A9710.cpp:
-	.text       start:0x802A9710 end:0x802A9790
-
 pso/technique/TTecKafun.cpp:
-	.text       start:0x802A9790 end:0x802A9A08
+	.text       start:0x802A9588 end:0x802A9A08
 	.rodata     start:0x8046FC58 end:0x8046FC68
 	.data       start:0x804DDF38 end:0x804DDF60
 	.sdata      start:0x805D3E30 end:0x805D3E38
