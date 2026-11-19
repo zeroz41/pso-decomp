@@ -269,7 +269,6 @@ u8 calc_section_id_from_name();
 s32 get_creation_sprite_id__14TObjCMMainMenuFl(int);
 void fn_802947A8(void);
 int TObjCMName__sub_802948F4(TObjCMName *, char *);
-TKeyBoardControl *TKeyBoardControl__ct(void *, TObject *, s32, s32, s32, s32);
 Hair_802964B0 * __ct__14TObjCMHairMenuFv(Hair_802964B0 *arg0, void *arg1);
 void render__16TObjCMAssignMenuFv(Menu_80296928 *self);
 void * __ct__16TObjCMAssignMenuFv(void *arg0, void *parent, void *kind);
@@ -2166,10 +2165,7 @@ void TObjCMName::run_task() {
     ticks++;
     if (initialized == 0) {
         if (ticks > 1) {
-            kb = (TKeyBoardControl *)TObject::operator new(sizeof(TKeyBoardControl));
-            if (kb != NULL) {
-                kb = TKeyBoardControl__ct(kb, this, 12, 0, 0, TChCrEffCtrlPl::get_clamped_player_index());
-            }
+            kb = new TKeyBoardControl(this, 12, 0, 0, TChCrEffCtrlPl::get_clamped_player_index());
             keyboard = kb;
             ((TKeyBoardControl *)keyboard)->set_text((char *)appearance->name);
             scale = TObjCMMainMenu::get_scale();

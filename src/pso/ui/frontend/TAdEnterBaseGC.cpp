@@ -147,7 +147,6 @@ s32 TAdEndText__sub_8001B3BC(int);
 
 s32 TAdEndText__sub_8001B3EC(int);
 
-s32 TKeyBoardControl__ct(void *, s32, s32, s32, s32, s32);
 
 u32 __nw__7TObjectFUl(int);
 
@@ -363,10 +362,7 @@ u32 TAdEnterSerialAccessGC::create_keyboard_control(s32 arg0, s32 arg1) {
         return 0;
     }
     B4_8032AD30 sp8 = serial_keyboard_mode_table;
-    kb = (u8 *)__nw__7TObjectFUl(0x2C);
-    if (kb != NULL) {
-        kb = (u8 *)TKeyBoardControl__ct(kb, arg0, serial_keyboard_field_width_table[arg1], 0, sp8.b[arg1], local_client_id);
-    }
+    kb = (u8 *)new TKeyBoardControl((TObject *)arg0, serial_keyboard_field_width_table[arg1], 0, sp8.b[arg1], local_client_id);
     if (kb == NULL) {
         return 0;
     }

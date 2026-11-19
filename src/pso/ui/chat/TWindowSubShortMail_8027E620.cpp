@@ -66,7 +66,6 @@ s32 create__19TWindowMessageYesNoFPvPvPvPv(void *, s32, s32, s32);
 s32 free_member__17TWindowSubComCardFv(s32, s32);
 void open_yes_no_prompt(TChCrTagPlBack *arg0, u32 arg1, s32 arg2, s32 arg3, f32 farg0);
 void TWindowSubShortMail__sub_8027E620(void* p);
-s32 TKeyBoardControl__ct(s32, s32, s32, s32, s32, s32);
 s32 *get_shared_text_buffer(void);
 s32 __nw__7TObjectFUl(s32);
 int get_flag_bit0__6TLobbyFv(void);
@@ -545,10 +544,7 @@ s32 build_menu__19TWindowSubShortMailFv(void) {
 s32 create_keyboard__19TWindowSubShortMailFv(void) {
     s32 var_r31;
 
-    var_r31 = __nw__7TObjectFUl(0x2C);
-    if (var_r31 != 0) {
-        var_r31 = TKeyBoardControl__ct(var_r31, tl_00, 0xC6, 5, 4, local_client_id);
-    }
+    var_r31 = (s32)new TKeyBoardControl((TObject *)tl_00, 0xC6, 5, 4, local_client_id);
     update_chat_window((void *)var_r31);
     ((TKeyBoardControl *)var_r31)->set_sub_position((u8 *)(get_window_layout_position(0xBB)));
     ((TKeyBoardControl *)var_r31)->set_flag62_bit2();

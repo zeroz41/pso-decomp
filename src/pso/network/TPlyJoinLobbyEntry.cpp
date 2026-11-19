@@ -1225,7 +1225,6 @@ extern s32 TLobby__data_805D5594;
 void close_and_set_state_12__6TLobbyFv(void);
 void open_keyboard_window__6TLobbyFv(void);
 void send_room_change__6TLobbyFi(s32 arg0);
-s32 TKeyBoardControl__ct(s32, s32, s32, s32, s32, s32);
 s32 get_window_layout_position(s32);
 s32 __nw__7TObjectFUl(s32);
 void close_all_windows__6TLobbyFv(void);
@@ -2463,10 +2462,7 @@ void open_keyboard_window__6TLobbyFv(void) {
         ((s32 (*)(u32))align_menu_entry_positions)(lobby_keyboard_prompt_window);
         ((TAdChrSelASlotGC *)lobby_keyboard_prompt_window)->set_flag_40();
     }
-    var_r0 = __nw__7TObjectFUl(0x2C);
-    if (var_r0 != 0) {
-        var_r0 = TKeyBoardControl__ct(var_r0, TLobby__join_lobby_controller, 0x10, 0, 0, local_client_id);
-    }
+    var_r0 = (s32)new TKeyBoardControl((TObject *)TLobby__join_lobby_controller, 0x10, 0, 0, local_client_id);
     (*(s32 *)&lobby_keyboard_controller) = var_r0;
     ((TKeyBoardControl *)(*(s32 *)&lobby_keyboard_controller))->set_sub_position((u8 *)(get_window_layout_position(0xC4)));
     ((TKeyBoardControl *)(*(s32 *)&lobby_keyboard_controller))->set_hard_position((u8 *)get_window_layout_position(0xC5));

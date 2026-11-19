@@ -49,7 +49,6 @@ s32 check_room_seq_4__16TAdChrSelASlotGCFl(const f32 *, s32);
 void *init_status_disp__15TWindowMakeTeamFc(s8 arg0);
 s8 get_mode__6TLobbyFv();
 s32 update_selected_entry__17TWindowSubComCardFv(void *);
-void *TKeyBoardControl__ct(void *, void *, s32, s32, s32, s32);
 extern s32 local_client_id;
 void *get_window_layout_position(s32);
 char *get_shared_text_buffer(void);
@@ -134,10 +133,7 @@ void TWindowMakeTeam::run_task() {
         }
         break;
     case 3: {
-        void *kb = TObject::operator new(0x2C);
-        if (kb != NULL) {
-            kb = TKeyBoardControl__ct(kb, self, 0xE, 0, 4, local_client_id);
-        }
+        void *kb = new TKeyBoardControl((TObject *)self, 0xE, 0, 4, local_client_id);
         self->keyboard = kb;
         ((TKeyBoardControl *)(self->keyboard))->set_sub_position((u8 *)(get_window_layout_position(0xCB)));
         ((TKeyBoardControl *)self->keyboard)->set_depth(38500.0f);
@@ -163,10 +159,7 @@ void TWindowMakeTeam::run_task() {
         }
         break;
     case 5: {
-        void *kb = TObject::operator new(0x2C);
-        if (kb != NULL) {
-            kb = TKeyBoardControl__ct(kb, self, 0x10, 0, 0, local_client_id);
-        }
+        void *kb = new TKeyBoardControl((TObject *)self, 0x10, 0, 0, local_client_id);
         self->keyboard = kb;
         ((TKeyBoardControl *)(self->keyboard))->set_sub_position((u8 *)(get_window_layout_position(0xCC)));
         ((TKeyBoardControl *)self->keyboard)->set_depth(38500.0f);

@@ -63,7 +63,6 @@ void *check_room_seq_4__16TAdChrSelASlotGCFl(void *, s32);
 void *update_window_mode_from_progress__6TLobbyFPv(void *, WindowPos *);
 s32 align_menu_entry_positions(u32);
 void TWindowHelpItem__set_displayed_item_by_id(u8 *window_help_item, s32 arg1);
-u32 TKeyBoardControl__ct(void *, void *, s32, s32, s32, s32);
 void TQuestThread__sub_801F5D88(void);
 void fn_801F6520(void *p);
 void __dt__16TObjItemOKWindowFv();
@@ -271,13 +270,8 @@ TObjItemNameEntry::~TObjItemNameEntry() {
 }
 
 TObjItemNameEntry::TObjItemNameEntry(TObject *parent) : TObject(parent) {
-    u32 keyboard;
-
     m_name = TObjItemNameEntry__class_name;
-    if ((keyboard = (u32)TObject::operator new(0x2C)) != 0U) {
-        keyboard = TKeyBoardControl__ct((void *)keyboard, this, 8, 0, 1, local_client_id);
-    }
-    m_1c = (void *)keyboard;
+    m_1c = new TKeyBoardControl(this, 8, 0, 1, local_client_id);
     if (m_1c != NULL) {
         ((TKeyBoardControl *)m_1c)->set_sub_position((u8 *)get_window_layout_position(0xBF));
         ((TKeyBoardControl *)m_1c)->set_soft_position((u8 *)get_window_layout_position(0xC0));

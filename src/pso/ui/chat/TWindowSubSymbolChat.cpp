@@ -79,7 +79,6 @@ f32 get_scale__15TWindowCtrlMainFv(s32);
 extern s32 lbl_805D63F0;
 
 void TWindowSubSymbolChat__sub_80281840(Win_80281840 *arg0);
-s32 TKeyBoardControl__ct(s32, void *, s32, s32, s32, s32);
 s32 TWindowSubComCard__sub_80265660(s32, s32);
 s32 align_menu_entry_positions(s32);
 s32 TWindowSubSymbolChatPartsSet__ct(s32, s32, s16, s32 *, s32 *);
@@ -977,10 +976,7 @@ s32 TWindowSubSymbolChat::create_confirm_window() {
 s32 TWindowSubSymbolChat::create_keyboard_control() {
     s32 keyboard;
 
-    keyboard = __nw__7TObjectFUl(0x2C);
-    if (keyboard != 0) {
-        keyboard = TKeyBoardControl__ct(keyboard, this, 0x90, 1, 4, local_client_id);
-    }
+    keyboard = (s32)new TKeyBoardControl(this, 0x90, 1, 4, local_client_id);
     update_chat_window((void *)keyboard);
     ((TKeyBoardControl *)keyboard)->set_text((char *)get_keyboard_ptr__20TWindowSubSymbolChatFv(this->m_28));
     ((TKeyBoardControl *)keyboard)->set_sub_position((u8 *)(get_window_layout_position(0xBB)));

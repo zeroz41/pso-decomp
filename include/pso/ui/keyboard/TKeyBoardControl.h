@@ -4,15 +4,20 @@
 #include "types.h"
 #include "pso/system/task/TObject.h"
 
+struct TWindowKeyBoardBase;
+struct TWindowKeyBoardHard;
+struct TWindowKeyBoardSoft;
+
 struct TKeyBoardControl : public TObject {
+    TKeyBoardControl(TObject *parent, u32 width, u32 lines, u8 mode, s32 client);
     virtual ~TKeyBoardControl();
     virtual void render();
     virtual void run_task();
     u16 m_1c;
     s16 m_1e;
-    u32 m_20;
-    u32 m_24;
-    u32 m_28;
+    TWindowKeyBoardBase *m_base;
+    TWindowKeyBoardHard *m_hard;
+    TWindowKeyBoardSoft *m_soft;
     void hide();
     void show();
     void set_flag62_bit2();
