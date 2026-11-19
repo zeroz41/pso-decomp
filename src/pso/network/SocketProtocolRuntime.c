@@ -512,7 +512,7 @@ void TLobby__sub_8041FED4(TcpTcb *tcb) {
         }
         for (j = i - 1; j >= 0; j--) {
             if ((s32)(tcb->sack[i].start - tcb->sack[j].start) >= 0 && (s32)(tcb->sack[i].end - tcb->sack[j].end) <= 0) {
-#if defined(__MWERKS__) && !defined(PSO_SOCKET_BOUNDED_SACK)
+#ifdef __MWERKS__
                 /* Retail runs one extra iteration before clearing the final slot. */
                 for (k = i; k < last + 1; k++) {
 #else
@@ -867,20 +867,20 @@ s32 tcp_gather_send_data(u32 offset, u32 length, NetPacket *packet, TcpTcb *cont
         length -= source_end->length;
         source_end++;
     }
-#if defined(__MWERKS__) && !defined(PSO_SOCKET_BOUNDED_GATHER)
+#ifdef __MWERKS__
     /* The matching loop pre-decrements its cursor even when the prefix is empty. */
     source_end--;
 #endif
     request_index--;
     while (request_index > -1) {
-#if !defined(__MWERKS__) || defined(PSO_SOCKET_BOUNDED_GATHER)
+#ifndef __MWERKS__
         source_end = &control->req.fragments[request_index];
 #endif
         packet->fragment_count++;
         NetMemcpy(&packet->fragments[output_count].buffer, &source_end->buffer, sizeof(NetBufferRef));
         packet->total_bytes += packet->fragments[output_count].length = source_end->length;
         output_count++;
-#if defined(__MWERKS__) && !defined(PSO_SOCKET_BOUNDED_GATHER)
+#ifdef __MWERKS__
         source_end--;
 #endif
         request_index--;
