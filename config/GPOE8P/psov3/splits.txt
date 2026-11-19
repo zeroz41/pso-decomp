@@ -6841,12 +6841,10 @@ pso/ui/frontend/TAdVIConfigGC_80248B8C.cpp:
 	.text       start:0x80248B8C end:0x80248BE8
 
 pso/ui/window/TWindowSubStatusDisp_80248BE8.cpp:
-	.text       start:0x80248BE8 end:0x80249004
+	.text       start:0x80248BE8 end:0x80249058
 	.rodata     start:0x8044EAE8 end:0x8044EAF0
+	.data       start:0x804CE7E8 end:0x804CE804
 	.sdata2     start:0x805DCBA8 end:0x805DCBAC
-
-pso/unk/text_80249004.cpp:
-	.text       start:0x80249004 end:0x80249058
 
 pso/ui/window/TWindowSubItem_80249058.cpp:
 	.text       start:0x80249058 end:0x80249060
@@ -7435,13 +7433,11 @@ pso/ui/window/TWindowMenuIconLine_8026DE30.cpp:
 	.text       start:0x8026DE30 end:0x8026DE94
 
 pso/ui/window/TWindowShop.cpp:
-	.text       start:0x8026DE94 end:0x8026DFE8
+	.text       start:0x8026DE94 end:0x8026E1D4
 	.rodata     start:0x8044F550 end:0x8044F574
+	.data       start:0x804D0948 end:0x804D0964
 	.sdata      start:0x805D39D0 end:0x805D39D8
 	.sdata2     start:0x805DD340 end:0x805DD348
-
-pso/ui/window/TWindowSubStatusDisp_8026DFE8.cpp:
-	.text       start:0x8026DFE8 end:0x8026E1D4
 
 pso/ui/window/TWindowShortCut.cpp:
 	.text       start:0x8026E1D4 end:0x8026E7DC
@@ -7605,11 +7601,9 @@ pso/player/TObjPlayer_80278AB4.cpp:
 pso/unk/text_80278BD8.cpp:
 	.text       start:0x80278BD8 end:0x80278E48
 
-pso/unk/text_80278E48.cpp:
-	.text       start:0x80278E48 end:0x80278EA8
-
 pso/ui/window/TWindowSubEquipKind.cpp:
-	.text       start:0x80278EA8 end:0x80279044
+	.text       start:0x80278E48 end:0x80279044
+	.data       start:0x804D15B8 end:0x804D15D4
 
 pso/ui/window/TWindowSubEquip_80279044.cpp:
 	.text       start:0x80279044 end:0x802790CC
@@ -7621,6 +7615,7 @@ pso/player/TObjPlayer_802790CC.cpp:
 pso/ui/window/TWindowSubEquipList.cpp:
 	.text       start:0x8027929C end:0x80279444
 	.rodata     start:0x8044F958 end:0x8044F970
+	.data       start:0x804D15D8 end:0x804D15F4
 	.sdata      start:0x805D3A40 end:0x805D3A48
 
 pso/ui/window/TWindowSubGameEnd.cpp:
@@ -7641,6 +7636,7 @@ pso/ui/window/TWindowSubItem.cpp:
 pso/ui/window/TWindowSubItemList.cpp:
 	.text       start:0x8027ACF8 end:0x8027AF54
 	.rodata     start:0x8044F9A0 end:0x8044F9B8
+	.data       start:0x804D1688 end:0x804D16A4
 	.sdata      start:0x805D3A58 end:0x805D3A60
 
 pso/ui/window/TWindowSubLog.cpp:
@@ -9983,7 +9979,7 @@ pso/effect/enemy/TEneParticleCtrl.cpp:
 pso/unk/TLobby_80338E9C.cpp:
 	.text       start:0x80338D58 end:0x80338F9C
 	.rodata     start:0x80477C00 end:0x80477C20
-	.data       start:0x804EF4C0 end:0x804EF4E0
+	.data       start:0x804EF4C0 end:0x804EF4FC
 	.sdata      start:0x805D4260 end:0x805D4268
 
 pso/ui/frontend/TAdEnterPPPPassGC.cpp:

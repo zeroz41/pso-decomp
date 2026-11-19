@@ -27,7 +27,6 @@
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80257BC0.h"
 #include "pso/ui/city/TShopArmorListWindow.h"
-#include "pso/unk/text_80268384.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 #include "pso/system/task/TObject.h"
 
@@ -156,7 +155,6 @@ s32 lbl_804D05F8[3] = {1, 0, 8};
 WindowDescriptor lbl_804D0604 = {
     {0.0f, 0.0f}, 50050.0f, lbl_804D05F8, 3,
 };
-extern s32 __vt__19TWindowMenuIconLine[];
 
 s32 clamp_list_scroll_offset(int, void *, void *);
 s32 get_cursor_pos__14TWindowSubItemFv();
@@ -291,7 +289,7 @@ void add_battle_stat_entry(void *arg0, s32 arg1, s32 arg2, s32 arg3) {
     }
 }
 
-void TUnk_804CE7E8::advance_all_entries(s32 arg1) {
+void TWindowCheckBox::advance_all_entries(s32 arg1) {
     s32 i;
     ((s32 (*)(void *, s32))get_array_entry__11TWindowBaseFi)(this, *(s16 *)(((u8 *)this) + 0x74));
     if (((s32 (*)(void))is_flag80_set__20TWindowSubStatusDispFv)() == 0) {
@@ -556,7 +554,7 @@ void TWindowMenuIconLine::create_menu_scroll_bar() {
     f32 temp_f1;
     u32 temp_r3;
     u32 var_r0;
-    if ((u32) this->unk_84 == 0U) {
+    if ((u32) this->scroll_bar == 0U) {
         temp_f1 = this->m_38 - 8.0f;
         stack.spC = 0.0f;
         stack.sp8 = temp_f1;
@@ -565,7 +563,7 @@ void TWindowMenuIconLine::create_menu_scroll_bar() {
         if (var_r0 != 0U) {
             var_r0 = reset_selection__20TWindowSubStatusDispFv(temp_r3, &stack.sp8);
         }
-        *(u32 *)&this->unk_84 = var_r0;
+        *(u32 *)&this->scroll_bar = var_r0;
         this->m_2c = (s32) (this->m_2c | 0x80);
     }
 }
@@ -615,7 +613,7 @@ void TWindowSubStatusDisp::init_scroll_pos() {
 void TWindowMenuIconLine::center_list_selection() {
     f32 target;
 
-    if ((this->unk_84 != 0U) && (*(u32 *)((s8 *)((u8 *)this) + 0x50) == 0U)) {
+    if ((this->scroll_bar != 0U) && (*(u32 *)((s8 *)((u8 *)this) + 0x50) == 0U)) {
         f32 t = (*(f32 *)&this->m_4c - 16.0f) - 10.0f;
         target = 9.0f + (f32) (this->cursor * 0x14);
         target -= 0.5f * t;
@@ -627,14 +625,14 @@ void TWindowMenuIconLine::center_list_selection() {
 void TWindowMenuIconLine::clamp_item_list_scroll() {
     Stack_80267D14 stack;
     f32 temp_f1;
-    if ((u32) this->unk_84 != 0U) {
+    if ((u32) this->scroll_bar != 0U) {
         stack.sp8 = 0.0f;
         temp_f1 = *(f32 *)&this->m_4c - 20.0f;
         stack.spC = temp_f1;
         if ((u32) this->status_display != 0U) {
             stack.spC = temp_f1 - 6.0f;
         }
-        clamp_list_scroll_offset((int)this->unk_84, (void *) (((u8 *)this) + 0x68), &stack.sp8);
+        clamp_list_scroll_offset((int)this->scroll_bar, (void *) (((u8 *)this) + 0x68), &stack.sp8);
     }
 }
 
@@ -696,16 +694,9 @@ void TWindowMenuIconLine::vfunc_6(u32 arg1, s32 arg2) {
 }
 #undef self
 
-u8 *fn_80267F38(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
-    u8 *temp_r3;
-    u8 *var_r0;
-    ((s32 (*)(void *, void *))TShopJudgmentItemWindow__sub_80267F9C)((void *)arg1, (void *)arg2);
-    temp_r3 = (u8 *)(TObject::operator new(0x88));
-    var_r0 = temp_r3;
-    if (var_r0 != NULL) {
-        var_r0 = (u8 *)(fn_802683F4(temp_r3, arg0, arg2, arg3));
-    }
-    return var_r0;
+TWindowMenuIconLine *fn_80267F38(s32 parent, s32 position, u32 count, s16 client) {
+    ((s32 (*)(void *, void *))TShopJudgmentItemWindow__sub_80267F9C)((void *)position, (void *)count);
+    return new TWindowMenuIconLine((u8 *)parent, count, client);
 }
 
 void TShopJudgmentItemWindow__sub_80267F9C(NJS_POINT2 v, s32 x) {
@@ -787,30 +778,14 @@ TWindowMenuIconLine::~TWindowMenuIconLine() {
 }
 }
 
-struct VBase_18_2ead46 { char pad[0x18]; };
-
-struct VObj_18_2ead46 : VBase_18_2ead46 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual s32 m4(s32, s16);
-};
-
-extern "C" {
-u8 *fn_80268384(u8 *window_addition, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
-    void *__ct__15TWindowAdditionFPUcsPUc(void *, u8 *, s32, u8 *);
-    __ct__15TWindowAdditionFPUcsPUc((void *)window_addition, (u8 *)arg4, arg3, (u8 *)arg1);
-    *(s32 **)((s8 *)window_addition + 0x18) = __vt__19TWindowMenuIconLine;
-    ((VObj_18_2ead46 *)(window_addition))->m4(arg2, (s16) arg3);
-    return window_addition;
-}
-u8 *fn_802683F4(u8 *window_addition, s32 arg1, s32 arg2, s32 arg3) {
-    void *__ct__15TWindowAdditionFPUcsPUc(void *, u8 *, s32, u8 *);
-    __ct__15TWindowAdditionFPUcsPUc((void *)window_addition, (u8 *)&lbl_804D0604, arg3, (u8 *)arg1);
-    *(s32 **)((s8 *)window_addition + 0x18) = __vt__19TWindowMenuIconLine;
-    ((VObj_18_2ead46 *)(window_addition))->m4(arg2, (s16) arg3);
-    return window_addition;
+// The descriptor-taking form; the window layout comes from the caller.
+TWindowMenuIconLine::TWindowMenuIconLine(u8 *parent, u32 count, s16 client, u8 *descriptor)
+    : TWindowAddition(descriptor, client, parent) {
+    vfunc_6(count, client);
 }
 
+// The default form: the list window descriptor of this unit.
+TWindowMenuIconLine::TWindowMenuIconLine(u8 *parent, u32 count, s16 client)
+    : TWindowAddition((u8 *)&lbl_804D0604, client, parent) {
+    vfunc_6(count, client);
 }

@@ -3,17 +3,19 @@
 
 #include "pso/ui/window/TUnk_804D0948.h"
 
-class TUnk_804EF4E0 : public TUnk_804D0948 {
+// Named from the "TWindowMenuTeamStatus" class-name string vfunc_6 stores to m_name.
+class TWindowMenuTeamStatus : public TWindowShop {
 public:
     struct Entry {
         u8 unk_00[0xC];
         f32 m_0c;
     };
 
-    virtual ~TUnk_804EF4E0();
+    TWindowMenuTeamStatus(s32 arg);
+    virtual ~TWindowMenuTeamStatus();
     virtual void vfunc_6(u32 count, s32 id);
 };
 
-typedef char TUnk_804EF4E0_size[sizeof(TUnk_804EF4E0) == 0x8C ? 1 : -1];
+typedef char TWindowMenuTeamStatus_size[sizeof(TWindowMenuTeamStatus) == 0x8C ? 1 : -1];
 
 #endif

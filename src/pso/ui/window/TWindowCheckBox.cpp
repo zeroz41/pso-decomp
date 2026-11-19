@@ -4,12 +4,9 @@
 #pragma readonly_strings on
 
 
-const char *lbl_805D38B0 = "TWindowCheckBox";
+const char *TWindowCheckBox__class_name = "TWindowCheckBox";
 
-
-extern const char *lbl_805D38B0;
-
-void TUnk_804CE7E8::sub_80248B7C(s16 arg1) {
-    *(s32 *)&this->m_name = (s32) ((s32)lbl_805D38B0);
+void TWindowCheckBox::sub_80248B7C(s32 arg1) {
+    this->m_name = TWindowCheckBox__class_name;
     this->m_20 = arg1;
 }

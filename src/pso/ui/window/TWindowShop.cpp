@@ -14,32 +14,38 @@
 
 extern "C" {
 
-s32 ensure_status_display__19TWindowMenuIconLineFl();
-u8 *__nw__7TObjectFUl(int);
 s32 TShopJudgmentItemWindow__sub_80267F9C(const void *, int);
-u8 *construct_item_list__20TWindowSubStatusDispFlls(u8 *, s32, s32, s32);
+s32 get_draw_context__11TWindowBaseFPv();
+s32 draw_visible_window_entries(void *, void *, int);
+s32 draw_item_list_capacity(void *, int, int, int);
+s32 draw_window_scrollbar(void *, int, void *);
+s32 forward_render__20TWindowSubStatusDispFv(void *, int);
+u8 *get_window_layout_position(s32);
 
-const char *lbl_805D39D0 = "TWindowShop";
+const char *TWindowShop__class_name = "TWindowShop";
 
 // Item list window position per camera id (1, 2, 3-4).
 static const NJS_POINT2 TShopJudgmentItemWindow__item_list_rect_table[3] = {
     { 385.0f, 184.0f }, { 385.0f, 104.0f }, { 300.0f, 104.0f }
 };
 
-void TUnk_804D0948::sub_8026DE94() {
-    this->m_name = lbl_805D39D0;
-    ensure_status_display__19TWindowMenuIconLineFl();
+}
+
+void TWindowShop::sub_8026DE94(s32 arg) {
+    this->m_name = TWindowShop__class_name;
+    ensure_status_display(arg);
     create_menu_scroll_bar();
     this->set_depth(39000.0f);
     if (TCameraCtrl::get_camera_id() > 2) {
         set_position_xy(0.75f, 0.75f);
     }
-    *(s32 *)&this->unk_88 = 0;
+    this->unk_88 = 0;
 }
+
+extern "C" {
 
 u8 *create_item_list_window(s32 arg0, s32 arg1, s32 arg2) {
     s32 camera_id;
-    u8 *var_r0;
     camera_id = TCameraCtrl::get_camera_id();
     switch (camera_id) {
     case 1:
@@ -53,15 +59,52 @@ u8 *create_item_list_window(s32 arg0, s32 arg1, s32 arg2) {
         TShopJudgmentItemWindow__sub_80267F9C(&TShopJudgmentItemWindow__item_list_rect_table[2], arg1);
         break;
     }
-    var_r0 = __nw__7TObjectFUl(0x8C);
-    if (var_r0 != NULL) {
-        var_r0 = construct_item_list__20TWindowSubStatusDispFlls(var_r0, arg0, arg1, arg2);
-    }
-    return var_r0;
+    return (u8 *)new TWindowShop(arg0, arg1, arg2);
+}
+
 }
 
 void TShopJudgmentItemWindow::open_default(s32 a) {
     create_item_list_window(a, 0x40, local_client_id);
 }
 
+#pragma push
+#pragma fp_contract on
+void TWindowShop::render() {
+    s32 context;
+    s32 n;
+    void *p;
+    context = get_draw_context__11TWindowBaseFPv();
+    draw_window_frame((void *)context);
+    draw_visible_window_entries(this, (u8 *)this + 0x24, context);
+    if (!(this->state_flags & 0x80)) {
+        draw_selected_list_entry(context);
+    }
+    n = this->unk_88;
+    if (n > 0) {
+        draw_item_list_capacity(this, context, this->entry_count, n);
+    }
+    p = this->status_display;
+    if (p != NULL) {
+        forward_render__20TWindowSubStatusDispFv(p, context);
+    }
+    p = this->scroll_bar;
+    if (p != NULL) {
+        draw_window_scrollbar(p, context, (u8 *)&this->m_68);
+    }
+}
+#pragma pop
+
+void TWindowShop::run_task() { TWindowMenuIconLine::run_task(); }
+
+TWindowShop::~TWindowShop() {}
+
+TWindowShop::TWindowShop(u8 *parent, s32 arg, u32 count, u8 *descriptor)
+    : TWindowMenuIconLine(parent, count, local_client_id, descriptor) {
+    sub_8026DE94(arg);
+}
+
+TWindowShop::TWindowShop(s32 arg, u32 count, s32 client)
+    : TWindowMenuIconLine(get_window_layout_position(0x26), count, client) {
+    sub_8026DE94(arg);
 }

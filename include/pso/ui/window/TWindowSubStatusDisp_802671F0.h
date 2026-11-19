@@ -3,14 +3,15 @@
 
 #include "types.h"
 
+class TWindowMenuIconLine;
+
 extern "C" {
 void TAdVIConfigGC__sub_80267704(s32 arg0);
 void add_battle_stat_entry(void *arg0, s32 arg1, s32 arg2, s32 arg3);
 class TWindowBase;
 void advance_status_disp_entry(TWindowBase *arg0, s32 arg1);
-u8 *fn_80267F38(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
+TWindowMenuIconLine *fn_80267F38(s32 parent, s32 position, u32 count, s16 client);
 void push_status_disp_entry(void *arg0, s32 arg1, s32 arg2);
-void run_task__19TWindowMenuIconLineFv(u8 *arg0);
 }
 
 // --- C functions defined in TWindowSubStatusDisp_802671F0.cpp ---
@@ -18,7 +19,7 @@ extern "C" {
 void TAdVIConfigGC__sub_80267704(s32 arg0);
 void add_battle_stat_entry(void *arg0, s32 arg1, s32 arg2, s32 arg3);
 void advance_status_disp_entry(TWindowBase *arg0, s32 arg1);
-u8 *fn_80267F38(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
+TWindowMenuIconLine *fn_80267F38(s32 parent, s32 position, u32 count, s16 client);
 void push_status_disp_entry(void *arg0, s32 arg1, s32 arg2);
 }
 // --- end of C functions

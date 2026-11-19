@@ -2229,7 +2229,6 @@ pso/unk/text_802432F0.cpp
 pso/ui/window/TWindowAddition_80244238.cpp
 pso/unk/text_80248994.cpp
 pso/ui/city/THunterGuildSeqOffline_80248A14.cpp
-pso/unk/text_80249004.cpp
 pso/ui/window/TWindowChoiceSetting_80249078.cpp
 pso/unk/text_8024AADC.cpp
 pso/unk/text_8024AB18.cpp
@@ -2267,7 +2266,6 @@ pso/unk/text_802787F0.cpp
 pso/unk/text_80278964.cpp
 pso/unk/text_802789E0.cpp
 pso/unk/text_80278BD8.cpp
-pso/unk/text_80278E48.cpp
 pso/ui/window/TWindowSubTechnique_80286AA8.cpp
 pso/unk/text_8028A714.cpp
 pso/unk/text_8028A820.cpp
@@ -2474,7 +2472,6 @@ pso/enemy/panarms/TObjEnePanarms.cpp
 pso/ui/charcreate/TObjCMName.cpp
 pso/unk/TUnk_804CC948.cpp
 pso/weapon/TItemAttackCol.cpp
-pso/ui/window/TWindowSubStatusDisp_8026DFE8.cpp
 pso/unk/TLobby_803BFE50.cpp
 pso/unk/text_8020B5CC.cpp
 pso/unk/TUnk_804DDD28.cpp

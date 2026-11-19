@@ -5,6 +5,7 @@
 #include "pso/ui/window/TWindowMenuIconLine.h"
 
 struct TWindowSubShortCutList : public TWindowMenuIconLine {
+    TWindowSubShortCutList(u8 *parent, s32 index);
     virtual ~TWindowSubShortCutList();
     void set_cursor_index(s16);
     void set_flag70_bit10();

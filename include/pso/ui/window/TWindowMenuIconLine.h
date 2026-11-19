@@ -7,6 +7,8 @@ struct Scroll_8026D790;
 
 class TWindowMenuIconLine : public TWindowAddition {
 public:
+    TWindowMenuIconLine(u8 *parent, u32 count, s16 client, u8 *descriptor);
+    TWindowMenuIconLine(u8 *parent, u32 count, s16 client);
     virtual ~TWindowMenuIconLine();
     virtual void run_task();
     virtual void render();
@@ -52,13 +54,8 @@ public:
     u8 unk_7A[0x2];
     s32 m_7c;
     void * status_display;
-    Scroll_8026D790 *unk_84;
+    Scroll_8026D790 *scroll_bar; // created by create_menu_scroll_bar, drawn by draw_window_scrollbar
 };
 typedef char TWindowMenuIconLine_size[sizeof(TWindowMenuIconLine) == 0x88 ? 1 : -1];
-
-extern "C" {
-// TWindowMenuIconLine::~TWindowMenuIconLine(), called by the destructors that are still written by hand.
-void *__dt__19TWindowMenuIconLineFv(void *p, s16 flags);
-}
 
 #endif
