@@ -614,6 +614,7 @@ pso/item/TUnk_804F0C48.cpp
 pso/item/TUnk_804F0D34.cpp
 pso/item/TUnk_804F0FF0.cpp
 pso/weapon/TUnk_804F28E0.cpp
+pso/weapon/WeaponAttackActionData.cpp
 pso/weapon/WeaponAttackActions.cpp
 pso/weapon/WeaponSpecialSelection.cpp
 pso/map/FloorArea_8029E764.cpp
