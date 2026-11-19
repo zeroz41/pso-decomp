@@ -25,11 +25,10 @@ int build_item_list__9TWindowDDFPv(void);
     extern short lbl_805D6E24;
 void TWindowDD::reset_selection() { *(short*)((char*)this + 0x1c) = -1; lbl_805D6E24 = -1; build_item_list__9TWindowDDFPv(); }
 
-extern s16 lbl_805D6E24;
-
 void TWindowDD::update_selected_id() {
-    if (((s16) *(s16 *)&this->_pad1E == 1) && (TWindowDD__sub_80346FC0((s16)(*(s16 *)((s8 *)this + 4))) != 0)) {
-        lbl_805D6E24 = *(s16 *)((s8 *)this + 4);
+    s16 *msg = (s16 *)this;
+    if ((msg[1] == 1) && (TWindowDD__sub_80346FC0(msg[2]) != 0)) {
+        lbl_805D6E24 = msg[2];
     }
 }
 s32 TWindowDD__sub_80346FC0(s16 arg0) {

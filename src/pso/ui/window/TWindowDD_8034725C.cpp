@@ -486,7 +486,7 @@ s32 TWindowDD::setup_entry(s16 arg1) {
 
     s32 str;
     var_r31 = 0;
-    temp_r30 = this->m_88;
+    temp_r30 = this->m_64[2];
     if ((temp_r30 != 0U) && ((str = get_word_select_token_text(arg1)) != 0)) {
         ((TWindowDD_WS_String *)temp_r30)->set_first_entry_text(str);
         TWindowDD__sub_803412A0(temp_r30);
@@ -584,9 +584,9 @@ void TWindowDD::update(void* p, void* a1) { TWindowDD__sub_80341AE0((u8 *)a1); (
 void TWindowDD::update(s32 arg1) {
     TWindowDD__sub_80341AF8((u8 *)arg1);
     ((TWindowDD *)arg1)->reset_cursor();
-    if ((u32) this->m_98 != 0U) {
-        ((TWindowDD *)(this->m_98))->set_scale(((TWindowDD *)arg1)->get_field_0x74(), (s32) lbl_805DFB54);
-        ((TWindowDD *)(this->m_98))->set_value_f32(TWindowDD__sub_8034217C((u8 *)arg1));
+    if ((u32) this->m_7c != 0U) {
+        ((TWindowDD *)(this->m_7c))->set_scale(((TWindowDD *)arg1)->get_field_0x74(), (s32) lbl_805DFB54);
+        ((TWindowDD *)(this->m_7c))->set_value_f32(TWindowDD__sub_8034217C((u8 *)arg1));
     }
 }
 
@@ -689,7 +689,7 @@ s32 TWindowDD::get_word_select_context() {
     if (TLobby::is_flag_set() != 0) {
         return 5;
     }
-    return (this->m_bc != 0 ? 1 : 0) + 2;
+    return (this->m_a0 != 0 ? 1 : 0) + 2;
 }
 
 int TWindowDD__sub_80348424(s32 _w0, s32 _w1) { return TWindowDD__sub_8034B008((s32)((void*)(1)), (_w1)); }
@@ -713,7 +713,7 @@ void TWindowDD::set_state() { *(int*)((char*)this + 0xa8) = 3; close_all_windows
 void TWindowDD__sub_803484C4(u8 *window_dd) {
     *(s32 *)((s8 *)window_dd + 0xA8) = 2;
     copy_chat_entry__9TWindowDDFPvPv((int) (*(s32 *)((s8 *)window_dd + 0xC0)), window_dd + 0xC4);
-    if ((s32) ((TWindowDD *)window_dd)->m_c0 != 0) {
+    if ((s32) ((TWindowDD *)window_dd)->m_a4 != 0) {
         reset_selection__9TWindowDDFv(window_dd, window_dd + 0xC4);
     }
     ((TWindowDD *)window_dd)->close_all_windows();

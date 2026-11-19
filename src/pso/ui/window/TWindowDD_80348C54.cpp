@@ -41,15 +41,15 @@ void TWindowDD__sub_80348D90(S_80348D90 *self, s16 v);
 void TWindowDD__sub_80348DD8(S_80348DD8 *self, s16 v);
 
 void TWindowDD::bswap_word_select() {
-    S_80348D0C *arg0 = (S_80348D0C *)this;
+    S_80348D0C *msg = (S_80348D0C *)this;
     s32 i;
-    bswap_16(&this->m_1c);
-    bswap_16(&arg0->b);
+    bswap_16(&msg->a);
+    bswap_16(&msg->b);
     for (i = 0; i < 8; i++) {
-        bswap_16(&arg0->c[i]);
+        bswap_16(&msg->c[i]);
     }
-    bswap_32(&arg0->d);
-    bswap_32(&arg0->e);
+    bswap_32(&msg->d);
+    bswap_32(&msg->e);
 }
 
 void TWindowDD::reset_index() { *(s32*)((char*)this + 0x14) = 0; }
@@ -79,7 +79,7 @@ void TWindowDD::init_item_slots() {
     S_80348DFC *self = (S_80348DFC *)this;
     s32 i;
     self->unk2 = 0;
-    this->m_1c = 0;
+    self->count = 0;
     for (i = 0; i < 8; i++) {
         self->items[i] = -1;
     }

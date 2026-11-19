@@ -39,7 +39,7 @@ void TWindowDD__sub_80342D14(u8 *window_dd) {
             var_r31 = !update_close_flag__9TWindowDDFPv(window_dd);
         } else if (TWindowDD__sub_803482B0(window_dd) != 0) {
             TWindowDD::play_se();
-            ((TWindowDD *)window_dd)->m_c0 = 0;
+            ((TWindowDD *)window_dd)->m_a4 = 0;
             apply_entry_layout__9TWindowDDFPv(window_dd);
         }
         break;
@@ -48,8 +48,8 @@ void TWindowDD__sub_80342D14(u8 *window_dd) {
         break;
     }
     if (var_r31) {
-        ((TWindowDD *)window_dd)->m_c0 = 1;
-        if ((s32) ((TWindowDD *)window_dd)->m_a8 == -0x3C) {
+        ((TWindowDD *)window_dd)->m_a4 = 1;
+        if ((s32) ((TWindowDD *)window_dd)->m_8c == -0x3C) {
             *(s32 *)((s8 *)window_dd + 0xB4) = 0x14;
         } else {
             switch (TWindowDD__window_mode) {
