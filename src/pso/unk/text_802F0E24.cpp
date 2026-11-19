@@ -3,6 +3,7 @@
 #include "pso/unk/TLobby.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/BmlResourceDescriptor.h"
+#include "pso/system/BmlResourceLoader.h"
 
 #define ARRAY_COUNT(arr) (sizeof(arr) / sizeof((arr)[0]))
 
@@ -20,8 +21,6 @@ struct BmlResource {
 
 extern "C" {
 void release_texture_list(void *);
-void free_bin_model_request(void *, int);
-void *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 }
 
 #pragma readonly_strings on
@@ -67,6 +66,7 @@ BmlResourceDescriptor boss7_common_resource_descriptor = {
 u32 boss7_dermt_slot_table[7];
 void *boss7_common_bml_resource;
 void *boss7_common_texture_list;
+__declspec(section ".sdata2") const f32 boss7_tunnel_max_scroll_speed = 9.259259f;
 
 void free_boss7_common_resources(void) {
     s32 i;

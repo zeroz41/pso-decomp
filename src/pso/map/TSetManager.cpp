@@ -27,6 +27,35 @@ void *lbl_804C9460[6] = {
     (void *)0x0, (void *)0x0,
 };
 }
+struct ObjRow_8020E08C { s16 type; s16 flags; u8 pad04[4]; u16 id; u8 tail[0x44 - 0xA]; };
+
+struct EneRow_8020E08C { s16 type; s16 flags; u8 pad04[6]; u16 id; u8 tail[0x48 - 0xC]; };
+
+struct Rec12_8020E228 { u32 a; u16 id; u16 b; u32 c; };
+
+s32 lbl_805D60F8;
+s32 TLobby__data_805D60FC;
+s32 lbl_805D6100;
+void *TLobby__data_805D6104;
+THeap *TLobby__data_805D6108;
+ObjRow_8020E08C *TLobby__data_805D610C;
+s32 TLobby__current_floor_object_set_count;
+EneRow_8020E08C *TLobby__data_805D6114;
+s32 TLobby__current_floor_enemy_set_count;
+u32 TLobby__data_805D611C;
+s32 TLobby__data_805D6120;
+u32 TLobby__data_805D6124;
+s32 TLobby__data_805D6128;
+s32 item_drop_memory_pool_ar_addr;
+s32 item_drop_memory_pool_size;
+s16 TLobby__data_805D6134;
+ObjRow_8020E08C *TLobby__data_805D6138;
+EneRow_8020E08C *TLobby__data_805D613C;
+QuestObjectEntry *quest_object_entries;
+Rec12_8020E228 *TLobby__data_805D6144;
+s32 TLobby__data_805D6148;
+s32 TLobby__data_805D614C;
+
 void TSetManager__sub_8020D7D4(void) {  }
 typedef void (TSetManager::*Pmf_8020D7D8)();
 
@@ -60,10 +89,6 @@ void *TSetManager__ct(void *set_manager, void *parent) {
 
 }
 
-struct ObjRow_8020E08C { s16 type; s16 flags; u8 pad04[4]; u16 id; u8 tail[0x44 - 0xA]; };
-
-struct EneRow_8020E08C { s16 type; s16 flags; u8 pad04[6]; u16 id; u8 tail[0x48 - 0xC]; };
-
 struct Saved_8020E08C { u16 id; s16 flags; s16 room; s16 wave; };
 
 struct Floor_8020E08C {
@@ -77,8 +102,6 @@ struct Floor_8020E08C {
 
 struct Archive_8020E08C { void *objects; void *enemies; };
 
-struct Rec12_8020E228 { u32 a; u16 id; u16 b; u32 c; };
-
 struct Vec3_8020DB44 { s32 a, b, c; };
 
 struct Room_8020D9A0 { u8 pad0[8]; s32 name; };
@@ -90,37 +113,20 @@ struct Map_8020D9A0 { Grp_8020D9A0 *grp; s32 count; };
 struct Rec_8020D9A0 { u8 pad0[2]; s16 f2; s16 f4; u8 pad6[2]; u16 f8; u8 padA[0x3A]; };
 
 extern "C" {
-extern s16 TLobby__data_805D6134;
 s32 get_current_floor(void);
 Archive_8020E08C TLobby__data_80513A40[18];
 Floor_8020E08C TLobby__floor_enemy_group_table[18];
 u32 TLobby__data_80513C80[18];
 u32 TLobby__data_80513CC8[18];
 u32 TLobby__data_80513D10[9];
-extern ObjRow_8020E08C *TLobby__data_805D610C;
-extern EneRow_8020E08C *TLobby__data_805D6114;
-extern ObjRow_8020E08C *TLobby__data_805D6138;
-extern EneRow_8020E08C *TLobby__data_805D613C;
-extern s32 TLobby__data_805D6148;
-extern s32 TLobby__data_805D614C;
-extern s32 lbl_805D6100;
-extern void *TLobby__data_805D6104;
-extern THeap *TLobby__data_805D6108;
 void archive_pool_free(void *pool, void *node);
 s32 lookup_scene_object__6TLobbyFPv(s32, void *);
 void *memset(void *, int, unsigned long);
-extern Rec12_8020E228 *TLobby__data_805D6144;
 void read_disc_file(char *, void *);
 s32 replace_file_extension__6TLobbyFPvPvPv(char *arg0, char *arg1, char *arg2);
 void *mem_alloc(u32);
 }
 void arrive_floor_population(void);
-extern s32 lbl_805D60F8;
-extern s32 TLobby__data_805D60FC;
-extern u32 TLobby__data_805D611C;
-extern s32 TLobby__data_805D6120;
-extern u32 TLobby__data_805D6124;
-extern s32 TLobby__data_805D6128;
 void swap_object_row_endian(void *);
 extern const char lbl_8044BC24[7] = "ad.dat";
 extern const char lbl_8044BC2C[6] = "d.dat";
@@ -371,8 +377,6 @@ void TLobby::free_resources() {
 extern "C" {
 void *TQuestVmDownLoadServer__sub_8007EBDC(s32, s32);
 }
-extern s32 TLobby__current_floor_object_set_count;
-extern s32 TLobby__current_floor_enemy_set_count;
 void arrive_floor_population(void) {
     s32 index;
     Floor_8020E08C *floor;
@@ -424,9 +428,6 @@ void arrive_floor_population(void) {
         TLobby__current_floor_enemy_set_count = floor->enemies;
     }
 }
-
-extern s32 item_drop_memory_pool_ar_addr;
-extern s32 item_drop_memory_pool_size;
 
 void init_item_drop_tables(void) {
     s32 i;

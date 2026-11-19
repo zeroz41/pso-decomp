@@ -1,4 +1,5 @@
 #include "pso/boss/derolle/TObjBoss2RaftSplash.h"
+#include "pso/boss/derolle/TObjBoss2CeilJunk_8003A81C.h"
 #include "pso/system/vector.h"
 #include "types.h"
 #include "pso/boss/goldragon/TBoss8Dragon_8002CC48.h"
@@ -11,7 +12,6 @@ struct Stack_8003AED4 {
     f32 spC;
 };
 
-extern const f32 lbl_805D85B0;
 void TObjBoss2RaftSplash::run_task() {
     u8 *arg0 = (u8 *)this;
     Stack_8003AED4 stack;
@@ -23,7 +23,7 @@ void TObjBoss2RaftSplash::run_task() {
     if (temp_f0 >= temp_f1) {
         *(f32 *)((s8 *)arg0 + 0x1C) = (f32) (temp_f0 - temp_f1);
         VecCopy((Vec *)(&stack.sp8), (const Vec *)(arg0 + 0x28));
-        stack.spC += **(f32 **)((s8 *)arg0 + 0x24) - lbl_805D85B0;
+        stack.spC += **(f32 **)((s8 *)arg0 + 0x24) - boss2_tunnel_max_scroll_speed;
         TObjBoss2RaftSplash::spawn_splash((s32) &stack.sp8, 0x170, (s32)(arg0 + 0x34));
     }
 }
@@ -39,7 +39,7 @@ u8 *TObjBoss2RaftSplash__ct(u8 *object, u8 *arg1, u8 *arg2, u8 *arg3, s32 arg4) 
     __ct__7TObjectFP7TObject(object, arg1);
     *(s32 **)((s8 *)object + 0x18) = &__vt__19TObjBoss2RaftSplash.value;
     ((TObjBoss2RaftSplash *)object)->m_name = lbl_805D2700;
-    *(f32 *)((s8 *)object + 0x20) = (f32) (lbl_805D85B0 * (3.0f + rand_signed_unit()));
+    *(f32 *)((s8 *)object + 0x20) = (f32) (boss2_tunnel_max_scroll_speed * (3.0f + rand_signed_unit()));
     *(f32 *)((s8 *)object + 0x1C) = (f32) (*(f32 *)((s8 *)object + 0x20) * (3.0517578e-05f * (f32) rand()));
     VecCopy((Vec *)(object + 0x28), (const Vec *)arg2);
     VecCopy((Vec *)(object + 0x34), (const Vec *)arg3);

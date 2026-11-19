@@ -1,4 +1,5 @@
 #include "pso/boss/barbaray/TObjBoss7RaftSplash.h"
+#include "pso/unk/text_802F0E24.h"
 #include "pso/boss/goldragon/TBoss8Dragon_8002CC48.h"
 #include "pso/system/vector.h"
 
@@ -20,7 +21,6 @@ struct RecoveredGlobal_802F16CC___vt__19TObjBoss7RaftSplash { s32 value; u8 rema
 
 extern "C" {
 u16 TCameraCtrl__sub_8006A5DC();
-extern const f32 lbl_805DEC68;
 void __ct__7TObjectFP7TObject(void *, void *);
 extern RecoveredGlobal_802F16CC___vt__19TObjBoss7RaftSplash __vt__19TObjBoss7RaftSplash;
 const char *lbl_805D3FE8 = "TObjBoss7RaftSplash";
@@ -38,7 +38,7 @@ void TObjBoss7RaftSplash::run_task() {
         if (temp_f0 >= temp_f1) {
             *(f32 *)((s8 *)arg0 + 0x1C) = (f32) (temp_f0 - temp_f1);
             VecCopy((Vec *)(&stack.sp8), (const Vec *)(arg0 + 0x28));
-            stack.spC += **(f32 **)((s8 *)arg0 + 0x24) - lbl_805DEC68;
+            stack.spC += **(f32 **)((s8 *)arg0 + 0x24) - boss7_tunnel_max_scroll_speed;
             TObjFish::create_splash_particle((s32) &stack.sp8, 0x200, (s32)(arg0 + 0x34));
         }
     }
@@ -49,7 +49,7 @@ u8 *TObjBoss7RaftSplash__ct(u8 *object, u8 *arg1, u8 *arg2, u8 *arg3, s32 arg4) 
     __ct__7TObjectFP7TObject(object, arg1);
     *(s32 **)((s8 *)object + 0x18) = &__vt__19TObjBoss7RaftSplash.value;
     ((TObjBoss7RaftSplash *)object)->m_name = lbl_805D3FE8;
-    *(f32 *)((s8 *)object + 0x20) = (f32) (lbl_805DEC68 * (3.0f + rand_signed_unit()));
+    *(f32 *)((s8 *)object + 0x20) = (f32) (boss7_tunnel_max_scroll_speed * (3.0f + rand_signed_unit()));
     *(f32 *)((s8 *)object + 0x1C) = (f32) (*(f32 *)((s8 *)object + 0x20) * (3.0517578e-05f * (f32) rand()));
     VecCopy((Vec *)(object + 0x28), (const Vec *)arg2);
     VecCopy((Vec *)(object + 0x34), (const Vec *)arg3);

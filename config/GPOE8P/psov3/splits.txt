@@ -342,6 +342,7 @@ pso/boss/derolle/TObjBoss2CeilJunk_8003A81C.cpp:
 	.bss        start:0x804FE9C8 end:0x804FE9E4
 	.sdata      start:0x805D26F0 end:0x805D26F8
 	.sbss       start:0x805D4BE0 end:0x805D4BF0
+	.sdata2     start:0x805D85B0 end:0x805D85B4
 
 pso/unk/TLobby_8003A95C.cpp:
 	.text       start:0x8003A95C end:0x8003A9FC
@@ -5957,7 +5958,7 @@ pso/map/TSetManager.cpp:
 	.data       start:0x804C9448 end:0x804C9490
 	.bss        start:0x80513A40 end:0x80513D34
 	.sdata      start:0x805D3638 end:0x805D3640
-	.sbss       start:0x805D6150 end:0x805D6158
+	.sbss       start:0x805D60F8 end:0x805D6158
 
 pso/unk/TLobby_8020E400.cpp:
 	.text       start:0x8020E400 end:0x8020E700
@@ -8931,6 +8932,7 @@ pso/unk/text_802F0E24.cpp:
 	.data       start:0x804E4860 end:0x804E48D8
 	.bss        start:0x80541928 end:0x80541948
 	.sbss       start:0x805D6950 end:0x805D6958
+	.sdata2     start:0x805DEC68 end:0x805DEC6C
 
 pso/unk/text_802F0F04.cpp:
 	.text       start:0x802F0F04 end:0x802F105C

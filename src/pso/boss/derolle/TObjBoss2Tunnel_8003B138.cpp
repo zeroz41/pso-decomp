@@ -1,6 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
+#include "pso/boss/derolle/TObjBoss2CeilJunk_8003A81C.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/task/TObject.h"
@@ -126,7 +127,6 @@ typedef struct Col_8003B6E8 {
 
 extern "C" {
 s32 create_particle__20TAdLoadQuestPrtTxtGCFPvll(void *, s32, s32);
-extern const f32 lbl_805D85B0;
 struct O_8003C21C;
 u8 * sub_8003C21C__15TObjBoss2TunnelFv(O_8003C21C *self);
 s32 rotate_matrix_z(s32, s32);
@@ -523,8 +523,8 @@ void TObjBoss2Tunnel::update_particles() {
     s32 i;
     u32 r;
     u32 p;
-    if (((S_8003C108 *)this)->f20 < lbl_805D85B0) {
-        t = (-5.0f) * (((S_8003C108 *)this)->f20 / lbl_805D85B0);
+    if (((S_8003C108 *)this)->f20 < boss2_tunnel_max_scroll_speed) {
+        t = (-5.0f) * (((S_8003C108 *)this)->f20 / boss2_tunnel_max_scroll_speed);
     } else {
         t = (-5.0f);
     }
@@ -612,8 +612,8 @@ void run_task__15TObjBoss2TunnelFv(Tunnel_8003B6E8 *o) {
         break;
     case 1:
         o->f20 += (0.05f);
-        if (o->f20 > lbl_805D85B0) {
-            o->f20 = lbl_805D85B0;
+        if (o->f20 > boss2_tunnel_max_scroll_speed) {
+            o->f20 = boss2_tunnel_max_scroll_speed;
         }
         o->f1c += o->f20;
         o->f60 += o->f20;
@@ -632,8 +632,8 @@ void run_task__15TObjBoss2TunnelFv(Tunnel_8003B6E8 *o) {
         break;
     case 2: {
         o->f20 += (0.05f);
-        if (o->f20 > lbl_805D85B0) {
-            o->f20 = lbl_805D85B0;
+        if (o->f20 > boss2_tunnel_max_scroll_speed) {
+            o->f20 = boss2_tunnel_max_scroll_speed;
         }
         o->f1c += o->f20;
         if (o->f1c >= 600.0f) {
