@@ -13,12 +13,8 @@
 #include "pso/technique/TTecRaFoie.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
-struct Stack_80237194 {
-    s32 sp8;
-    s32 spC;
-    s32 sp10;
-};
-
+#include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/technique/TTecCtrl.h"
 struct Owner_80237310
 {
   u8 pad[0x30];
@@ -82,55 +78,59 @@ typedef struct Rabarta_80237494
   void **emitters;
 } Rabarta_80237494;
 
+struct VBase_18_1a504b { char pad[0x18]; };
+
+struct VObj_18_1a504b : VBase_18_1a504b {
+    virtual void m0();
+    virtual void m1();
+    virtual void m2();
+    virtual void m3();
+    virtual void m4();
+    virtual void m5(u32);
+};
+
+struct List_802370D8 { u32 items[32]; s32 count; };
+
+struct Obj_802370D8 : VObj_18_1a504b {
+    void *source;
+};
+
+struct Arr_80236EE8 { u32 w[3]; };
+
+struct Tec_80236EE8 {
+    u8 pad0[0x8A];
+    s16 type;
+    u8 pad8C[0xA4 - 0x8C];
+    s16 level;
+    u8 padA6[2];
+    u16 slot;
+    u8 padAA[2];
+    s32 active;
+};
+
 extern "C" {
-struct RecoveredGlobal_lbl_8044D8EC { s32 value; u8 remaining[0x8]; };
-extern RecoveredGlobal_lbl_8044D8EC lbl_8044D8EC;
 u16 get_entity_id(void *);
 void __ct__7TEffectFv(void *);
 void init_collision_body_parts(void *, f32 *, s32);
 void *__ct__14TObjCollidableFP7TObject(void *, void *);
 extern s32 __vt__19TTecPlayerInfluence[];
-extern "C" { extern char TTecPlayerInfluence__class_name_string[]; }
-const char *lbl_805D37F0 = TTecPlayerInfluence__class_name_string;
+const char *lbl_805D37F0 = "TTecPlayerInfluence";
 Obj_80237310 *TTecPlayerInfluence__ct(Obj_80237310 *self, Owner_80237310 *owner, void *pos, s32 level);
 void free_collision_body_parts(void *);
 
-void TTecPlayerInfluence::render() {
-    u8 *arg0 = (u8 *)this;
-    typedef char sp8_offset[(offsetof(Stack_80237194, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_80237194, spC) == 0x4) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_80237194, sp10) == 0x8) ? 1 : -1];
-    Stack_80237194 stack;
-    stack.sp8 = *(s32 *)((s8 *)&lbl_8044D8EC.value + 0);
-    stack.spC = *(s32 *)((s8 *)&lbl_8044D8EC.value + 4);
-    stack.sp10 = *(s32 *)((s8 *)&lbl_8044D8EC.value + 8);
-    approach_vector_in_place(&scale, (const Vec *)&stack.sp8, 2.7f);
-    debug_draw_sphere((const Vec *)(arg0 + 0x20), (const NJS_ARGB *)&this->color, *(f32 *)(arg0 + 0x3C));
+List_802370D8 *find_support_technique_contact_for_target__10TObjPlayerFl(void *, u32);
+List_802370D8 *gather_contacts_for_self__10TObjPlayerFl(void *, u32);
+void *spawn_particle_effect(const void *pos, s32 id);
+void *get_player_by_client_id(s32 i);
+void deliver_technique_to_party_targets(Obj_802370D8 *arg0);
+void spawn_support_tec_range_effect(Tec_80236EE8 *self);
 }
 
-void TTecPlayerInfluence::tick_lifetime() {
-    u8 *arg0 = (u8 *)this;
-    this->age = (this->age + 1);
-    if ((f32) this->age > *(f32 *)&this->unk_70) {
-        ((TObject *)arg0)->queue_destruction();
-    }
-}
+// Built with -inline off,deferred: the functions are written from the last one
+// in the object back to the first.
 
-void TTecPlayerInfluence::sub_80237258() { this->m_bc = *(f32*)((char*)this + 0x3c); }
+void TTecPlayerInfluence::vfunc_7(void *) {  }
 
-void TTecPlayerInfluence::run_task() {
-    sub_80237258();
-    this->tick_lifetime();
-}
-
-}
-TTecPlayerInfluence::~TTecPlayerInfluence() {
-    if (*(void **)((s8 *)this + 0xDC) != NULL) { free_collision_body_parts(*(void **)((s8 *)this + 0xDC)); }
-}
-
-
-typedef struct Obj_80237310 Obj_80237310;
-typedef struct Owner_80237310 Owner_80237310;
 Obj_80237310 *TTecPlayerInfluence__ct(Obj_80237310 *self, Owner_80237310 *owner, void *pos, s32 level) {
   void *p;
   __ct__7TEffectFv(self);
@@ -188,9 +188,125 @@ Obj_80237310 *TTecPlayerInfluence__ct(Obj_80237310 *self, Owner_80237310 *owner,
   return self;
 }
 
-void TTecPlayerInfluence::vfunc_7(void *) {  }
+TTecPlayerInfluence::~TTecPlayerInfluence() {
+    if (*(void **)((s8 *)this + 0xDC) != NULL) { free_collision_body_parts(*(void **)((s8 *)this + 0xDC)); }
+}
 
-typedef struct Emitter_80237494 Emitter_80237494;
-typedef struct Profile_80237494 Profile_80237494;
-typedef struct Rabarta_80237494 Rabarta_80237494;
+extern "C" {
+void TTecPlayerInfluence::run_task() {
+    sub_80237258();
+    this->tick_lifetime();
+}
 
+void TTecPlayerInfluence::sub_80237258() { this->m_bc = *(f32*)((char*)this + 0x3c); }
+
+void TTecPlayerInfluence::tick_lifetime() {
+    u8 *arg0 = (u8 *)this;
+    this->age = (this->age + 1);
+    if ((f32) this->age > *(f32 *)&this->unk_70) {
+        ((TObject *)arg0)->queue_destruction();
+    }
+}
+
+void TTecPlayerInfluence::render() {
+    u8 *arg0 = (u8 *)this;
+    Vec target = {50.0f, 50.0f, 50.0f};
+    approach_vector_in_place(&scale, &target, 2.7f);
+    debug_draw_sphere((const Vec *)(arg0 + 0x20), (const NJS_ARGB *)&this->color, *(f32 *)(arg0 + 0x3C));
+}
+
+void deliver_technique_to_party_targets(Obj_802370D8 *arg0) {
+    List_802370D8 *list;
+    s32 i;
+    if (*(u32 *)((s8 *)arg0 + 0xDC) == 0) {
+        ((TObject *)arg0)->queue_destruction();
+        return;
+    }
+    if (get_entity_id(*(void **)((s8 *)arg0 + 0x1C)) < 4) {
+        list = gather_contacts_for_self__10TObjPlayerFl(arg0, *(u32 *)((s8 *)arg0 + 0x1C));
+    } else {
+        list = find_support_technique_contact_for_target__10TObjPlayerFl(arg0, *(u32 *)((s8 *)arg0 + 0x1C));
+    }
+    for (i = 0; i < list->count; i++) {
+        if (TObjPlayer::is_valid_and_active(list->items[i]) != 0) {
+            arg0->m5(list->items[i]);
+        }
+    }
+}
+
+const s32 support_tec_range_effect_id_table[4] = {493, 505, 506, 507};
+const Arr_80236EE8 lbl_8044D908 = {{0, 0, 0}};
+void spawn_support_tec_range_effect(Tec_80236EE8 *self) {
+    s16 kind;
+    Vec pos;
+    s32 i;
+    u32 band;
+    u8 *pl;
+    s32 j;
+    s32 k;
+    if (self->active == 0) {
+        return;
+    }
+    if (self->slot >= 4) {
+        return;
+    }
+    pl = (u8 *)get_player_by_client_id(self->slot);
+    if (pl == NULL) {
+        return;
+    }
+    {
+        VecCopy((Vec *)&pos, (const Vec *)(pl + 0x38));
+        switch (self->type) {
+        case 8:
+            break;
+        case 6:
+            kind = 0xF;
+            break;
+        case 7:
+            kind = 0x10;
+            break;
+        case 9:
+            kind = 0xD;
+            break;
+        case 10:
+            kind = 0xA;
+            break;
+        }
+        band = TTecCtrl::classify_distance_band(kind, self->level, self->slot);
+        {
+            Arr_80236EE8 fx = lbl_8044D908;
+            fx.w[0] = (u32)spawn_particle_effect(&pos, support_tec_range_effect_id_table[band]);
+            if (band == 3) {
+                fx.w[1] = (u32)spawn_particle_effect(&pos, 0x1F2);
+                fx.w[2] = (u32)spawn_particle_effect(&pos, 0x19D);
+            }
+            switch ((s16)kind) {
+            case 14:
+                break;
+            case 16:
+                for (i = 0; i < 3; i++) {
+                    if (fx.w[i] != 0) {
+                        ((TParticleCtrl *)(fx.w[i]))->set_tint_color(0xFF4DFF99);
+                    }
+                }
+                break;
+            case 13:
+                for (j = 0; j < 3; j++) {
+                    if (fx.w[j] != 0) {
+                        ((TParticleCtrl *)(fx.w[j]))->set_tint_color(-0x6667);
+                    }
+                }
+                break;
+            case 10:
+                for (k = 0; k < 3; k++) {
+                    if (fx.w[k] != 0) {
+                        ((TParticleCtrl *)(fx.w[k]))->set_tint_color(0xFF337FFF);
+                    }
+                }
+                break;
+            }
+        }
+    }
+}
+
+}

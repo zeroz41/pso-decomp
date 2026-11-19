@@ -19,8 +19,7 @@ extern char shared_capture_texture_list[];
 void set_queued_main_phase(s32 arg0);
 void request_main_phase(s32 arg0);
 s32 queue_destruction__7TObjectFv();
-void *__ct__6TMovieFP7TObjectPSclll(void *, void *, void *, void *, s32, s32, s32);
-extern u8 lbl_80475450[];
+void *__ct__6TMovieFP7TObjectPSclll(void *, void *, const char *, void *, s32, s32, s32);
 extern s32 game_difficulty_selection;
 }
 extern s32 ending_movie_active_flag;
@@ -34,13 +33,13 @@ TUnk_804E71A0::TUnk_804E71A0() : TObject(tl_04) {
     case 2:
         p = TObject::operator new(0x4C);
         if (p != 0) {
-            __ct__6TMovieFP7TObjectPSclll(p, tl_00, lbl_80475450, (void *)TObjPlayer::disable_keyboard_control, 0, 1, 0);
+            __ct__6TMovieFP7TObjectPSclll(p, tl_00, "ending_normal.sfd", (void *)TObjPlayer::disable_keyboard_control, 0, 1, 0);
         }
         break;
     case 3:
         p = TObject::operator new(0x4C);
         if (p != 0) {
-            __ct__6TMovieFP7TObjectPSclll(p, tl_00, lbl_80475450, (void *)TObjPlayer::disable_keyboard_control, 0, 0, 0);
+            __ct__6TMovieFP7TObjectPSclll(p, tl_00, "ending_normal.sfd", (void *)TObjPlayer::disable_keyboard_control, 0, 0, 0);
         }
         break;
     }

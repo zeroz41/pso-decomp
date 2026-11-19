@@ -116,8 +116,6 @@ extern s32 lbl_805D63F0;
 void TObjPlayer__sub_80082C30(void);
 s32 is_on_current_screen__11TCameraCtrlFv(void *, s32);
 extern u8 controller_physical_port_bank[];
-extern GXColor_80083B8C lbl_805E1214;
-extern GXColor_80083B8C lbl_805E1218;
 }
 
 #include "pso/camera/TCameraCtrl_80082FCC.h"
@@ -142,7 +140,6 @@ void set_perspective_projection_from_fov(s32 arg0, f32 farg0, f32 farg1, f32 far
 void set_camera_look_at(u8 *eye, u8 *target, u8 *up);
 extern u8 *camera_ctrl_instance;
 extern u32 camera_render_target_singleton;
-extern GXColor_80083B8C lbl_805E1210;
 extern G_80082FCC TCameraCtrl__data_804FF634;
 void load_list_texture(s32 idx, s32 wrapS, s32 wrapT, s32 map);
 extern s32 __vt__13TUnk_8048E5DC[];
@@ -275,8 +272,6 @@ void submit_light0(s32 arg0, s32 arg1);
 void load_gx_light_slot(s32 arg0);
 extern s32 scene_projection_state[];
 extern u8 *active_gx_render_mode;
-extern GXColor_80083B8C lbl_805E120C;
-extern GXColor_80083B8C lbl_805E1208;
 void capture_viewport_texture(void);
 void setup_blended_textured_draw(void);
 
@@ -381,7 +376,7 @@ s32 get_capture_texture_pixels(void) {
 
 void capture_viewport_texture(void) {
     if (!(camera_capture_flags & 4)) {
-        GXColor_80083B8C c = lbl_805E1208;
+        GXColor_80083B8C c = {0, 0, 0, 0};
         GXSetCopyClear(c, 0xFFFFFF);
         GXSetTexCopySrc(0, 0, 0x280, 0x1E0);
         GXSetTexCopyDst(0x280, 0x1E0, 4, 0);
@@ -614,7 +609,7 @@ void end_shadow_map_pass() {
     if ((is_split_screen() == 0) && (TObjPlayer::check_all_players_ready() != 0) && ((u32) camera_ctrl_instance != 0U)) {
         pop_matrix();
         pop_matrix();
-        GXColor_80083B8C c = lbl_805E120C;
+        GXColor_80083B8C c = {0, 0, 0, 0};
         Dolphin_GXSetCopyFilter((int) (0U), NULL, (int) (0U), NULL);
         set_cull_none();
         GXSetCopyClear(c, 0xFFFFFF);
@@ -885,7 +880,8 @@ void TUnk_8048E5DC::render_shadows() {
         main_task.render_scene_passes();
         clear_camera_capture_flags_bit2();
         if ((void *) (*(u8 * *)&camera_render_target_singleton) != NULL) {
-            GXSetCopyClear(lbl_805E1210, 0xFFFFFF);
+            GXColor_80083B8C c = {0, 0, 0, 0};
+            GXSetCopyClear(c, 0xFFFFFF);
             GXSetZMode((int) (1U), 7, 1);
             GXSetTexCopySrc((int) (0U), 0, (int) (0x280U), (int) (0x1E0U));
             GXSetTexCopyDst(0x280, 0x1E0, 4, 0);
@@ -932,7 +928,8 @@ void TObjPlayer::copy_screen_to_texture(s32 mode, void *src) {
     NJS_POINT2 b;
     NJS_POINT2 v;
     void *cam;
-    GXSetCopyClear(lbl_805E1214, 0xFFFFFF);
+    GXColor_80083B8C c = {0, 0, 0, 0};
+    GXSetCopyClear(c, 0xFFFFFF);
     switch (mode) {
     case 0:
         if (src != NULL) {
@@ -966,7 +963,8 @@ void TObjPlayer::copy_screen_to_texture(s32 mode, void *src) {
         GXPixModeSync();
         break;
     case 1:
-        GXSetCopyClear(lbl_805E1218, 0xFFFFFF);
+        GXColor_80083B8C c = {0, 0, 0, 0};
+        GXSetCopyClear(c, 0xFFFFFF);
         GXSetTexCopySrc(0, 0, 0x280, 0x1E0);
         GXSetTexCopyDst(0x280, 0x1E0, 4, 0);
         GXCopyTex(shared_capture_texture_list.entries->texture->surface->pixels, 1);

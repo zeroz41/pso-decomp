@@ -1,6 +1,9 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/render/ChunkMaterialState.h"
 #include "types.h"
+#include "pso/system/NinjaTypes.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/render/model_render_state.h"
 #include "pso/map/FloorArea.h"
 #include "pso/effect/TEffect.h"
 #include "pso/math/MatrixTransforms.h"
@@ -26,7 +29,7 @@ struct Quad_80232934 { u32 a; u32 b; u32 c; u32 d; };
 
 struct Obj_80232934 {
     u8 pad[0x20];
-    u8 f20[0xC];
+    f32 f20[3];
     Vec pos;
     u8 f38[0x10];
     s32 f48;
@@ -38,19 +41,19 @@ s32 get_bml_model(s32, u32);
 void init_texture_copy_rect(TextureFrameSlot *, void *, void *, s32, s32);
 void approach_position_if_far(Vec *, Vec *, f32);
 void scale_matrix(s32, f32, f32, f32);
-void push_matrix(void);
-void post_translate_matrix(void *);
 void draw_ginja_object(void);
-extern u8 lbl_804CC868[];
 extern u8 technique_ringwave_texture_list[];
-extern s32 saved_model_render_flags;
 extern s32 technique_effect_bml;
-extern s32 model_render_flags;
 
 // ---- pso/unk/text_80232AA4
 void *find_entity_by_id(u16 id);
 
 }
+
+// One-texture list that render() fills with a copy of the ring-wave frame and draws with; same shape as
+// TEffClitical's clitical_texture_list (the 8-byte list is placed in .data, its name in .bss).
+NJS_TEXNAME lbl_80516140[1];
+__declspec(section ".data") NJS_TEXLIST lbl_804CC868 = { lbl_80516140, 1 };
 
 // ---- pso/unk/text_80232B24
 
@@ -257,7 +260,7 @@ void TUnk_804CC870::render() {
         get_current_floor_area() == AREA_LOBBY) {
         return;
     }
-    init_texture_copy_rect(&ctx, lbl_804CC868, technique_ringwave_texture_list, 0, this->m_48 + 1);
+    init_texture_copy_rect(&ctx, &lbl_804CC868, technique_ringwave_texture_list, 0, this->m_48 + 1);
     Vec v = { 1.2f, 1.2f, 1.2f };
     Quad_80232934 q = { 0, 0, 0, 0 };
     approach_alpha_clamped((f32 *)arg0->f38, (const f32 *)&q, 0.1f);
@@ -273,7 +276,7 @@ void TUnk_804CC870::render() {
     post_translate_matrix(arg0->f20);
     scale_matrix(0, arg0->pos.x, arg0->pos.y, arg0->pos.z);
     translate_matrix(0, 0.0f, 1e+01f, 0.0f);
-    TObjFish::set_global_param((s32)lbl_804CC868);
+    TObjFish::set_global_param((s32)&lbl_804CC868);
     get_bml_model(technique_effect_bml, 10);
     draw_ginja_object();
     pop_matrix();

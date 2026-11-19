@@ -948,6 +948,10 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/object/TObjChip.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     # Deferred: the vtables come out in reverse key-function order.
     "pso/technique/TTecAnti.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
+    # TTecPlayerInfluence.cpp is written from its last function back: its .rodata has the class name, render's
+    # {50, 50, 50} template, then the range-effect tables of the lower-addressed functions, then the codegen
+    # literal (only deferred code generation orders parse-time objects ahead of the earlier functions' code).
+    "pso/technique/TTecPlayerInfluence.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     # -fp_contract on: calc_technique_parameters fuses tp_cost += level * (percent / 100.0f) into fmadds;
     # the unit's other functions compile the same either way. -inline on: its 17 per-level pad_12
     # updates read the global after the inner clamp only through the inlined lowered_pad_12 (auto
@@ -1162,6 +1166,9 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # its last function back.
     "pso/object/key/TOKey.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     "pso/item/armor/TItemProShield.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
+    # TItemEffShield.cpp is written from its last function back: its three vtables (TUnk_8049F130,
+    # TUnk_8049F148, TItemEffShield) come out in .text order, the class name heads its .rodata.
+    "pso/effect/item/TItemEffShield.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     # TItemEffNeedle.cpp too: its three vtables come out in the order only
     # deferred code generation gives (TItemEffNeedlePos keeps the implicit
     # destructor).

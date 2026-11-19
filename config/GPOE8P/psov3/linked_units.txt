@@ -492,7 +492,6 @@ pso/effect/item/TItemEffLavis.cpp
 pso/effect/item/TItemEffNeedle.cpp
 pso/effect/item/TItemEffPG.cpp
 pso/effect/item/TItemEffShield.cpp
-pso/effect/item/TItemEffShield_8010A390.cpp
 pso/effect/item/TItemEffectWeapon.cpp
 pso/effect/item/TItemEffectWeapon_80115C24.cpp
 pso/item/TItemEquipBase.cpp
@@ -525,7 +524,6 @@ pso/item/armor/TItemProArmor.cpp
 pso/item/armor/TItemProArmorParticle.cpp
 pso/item/armor/TItemProShield.cpp
 pso/item/armor/TItemProShield_80076B5C.cpp
-pso/item/armor/TItemProShield_8010A650.cpp
 pso/item/armor/TItemProUnit.cpp
 pso/item/TItemReverseTech.cpp
 pso/item/TItemReverseTechCtrl.cpp
@@ -1771,10 +1769,8 @@ pso/player/TObjPlayer_800FFA88.cpp
 pso/player/TObjPlayer_8010853C.cpp
 pso/player/TObjPlayer_80108854.cpp
 pso/player/TObjPlayer_80109344.cpp
-pso/player/TObjPlayer_8010A050.cpp
 pso/player/TObjPlayer_8010ECD0.cpp
 pso/player/TObjPlayer_80116578.cpp
-pso/player/TObjPlayer_80117DD8.cpp
 pso/player/TObjPlayer_8011B86C.cpp
 pso/player/TObjPlayer_8011BADC.cpp
 pso/player/TObjPlayer_8011C000.cpp
@@ -2230,7 +2226,6 @@ pso/unk/text_8022BE64.cpp
 pso/unk/text_8022F258.cpp
 pso/technique/TTecFoie_8022FB70.cpp
 pso/technique/TTecFoie_8022FC94.cpp
-pso/unk/text_80236EE8.cpp
 pso/effect/TUnk_804CCC68_8023A434.cpp
 pso/unk/text_8023DCB8.cpp
 pso/unk/text_8023F160.cpp

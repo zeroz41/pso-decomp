@@ -38,7 +38,6 @@ extern s32 current_matrix;
 s32 tex_matrix_id_table[10] = {30, 33, 36, 39, 42, 45, 48, 51, 54, 57};
 void GXLoadTexMtxImm(void *mtx, u32 id, s32 type);
 void OSPanic(const char *, int, const char *, ...);
-extern char lbl_805D46F0[6]; /* "sorry"; .sdata not split into this unit yet */
 void Dolphin_GXInitTexObj(TexObj_803E1D90 *, void *, u16, u16, s32, s32, s32, u8);
 void GXInitTexObjCI(TexObj_803E1D90 *, void *, u16, u16, s32, s32, s32, u8, u32);
 void GXLoadTexObj(TexObj_803E1D90 *, s32);
@@ -99,9 +98,9 @@ void calc_sphere_bounds(CollisionSphere *sphere, Vec *min, Vec *max) {
     max->z = sphere->center.z + sphere->radius;
 }
 
-// 1.0f constants in .sdata, read by the assembly below (not yet split into this unit).
-extern "C" f32 lbl_805D46EC;
-extern "C" f32 lbl_805D46FC;
+// {0.0f, 1.0f} pair in .sdata; the assembly below loads only the 1.0f. A lone 0.0f would go to .sbss,
+// so the zero word before it is the pair's first element.
+extern "C" f32 lbl_805D46E8[2] = {0.0f, 1.0f};
 
 asm void translate_current_matrix_ps(f32 x, f32 y, f32 z) {
 #include "orig_asm/pso/player/TObjPlayer_803E1A58/translate_current_matrix_ps.inc"
@@ -162,10 +161,13 @@ void TObjPlayer::reload_texture(s32 arg1, u32 arg2, void *arg3) {
     if ((arg2 & 0x40000000) != 0) {
         size = arg1;
     } else {
-        OSPanic("nuReLoadTexture.c", 48, lbl_805D46F0); /* __FILE__ in the original */
+        OSPanic("nuReLoadTexture.c", 48, "sorry"); /* __FILE__ in the original */
     }
     TObjPlayer__sub_803DAE1C((s32)this, size, (u32)arg3);
 }
+
+// The second {0.0f, 1.0f} pair (TObjPlayer__sub_803E1F60 loads the 1.0f).
+extern "C" f32 lbl_805D46F8[2] = {0.0f, 1.0f};
 
 asm void TObjPlayer__sub_803E1F60(void) {
 #include "orig_asm/pso/player/TObjPlayer_803E1A58/TObjPlayer__sub_803E1F60.inc"
