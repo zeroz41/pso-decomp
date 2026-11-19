@@ -4712,7 +4712,7 @@ pso/object/TObjSinBoard.cpp:
 	.text       start:0x80197E54 end:0x801982D4
 	.rodata     start:0x80445F90 end:0x80445FF0
 	.data       start:0x804B89D8 end:0x804B8A10
-	.bss        start:0x8050DD18 end:0x8050DD50
+	.bss        start:0x8050DD18 end:0x8050DDC8
 	.sdata      start:0x805D3430 end:0x805D3438
 	.sbss       start:0x805D5C58 end:0x805D5C60
 

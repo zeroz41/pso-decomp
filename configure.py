@@ -916,7 +916,9 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # TTecGiFoie.cpp keeps its class name string in .rodata (-str readonly) and reaches each .rodata
     # object with its own lis/addi: -pool off.
     "pso/technique/TTecGiFoie.cpp": {"cflags": _switch(cflags_pso, "-fp_contract on", "-str reuse,readonly", "-pool off")},
-    "pso/object/TObjSinBoard.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    # -sdata 4: the 8-byte gogo_ball_team_scores this unit owns for LobbyGoGoBall sits in
+    # .bss, not .sbss; its own 4-byte small data is unaffected.
+    "pso/object/TObjSinBoard.cpp": {"cflags": _switch(cflags_pso, "-sdata 4", "-str reuse,readonly")},
     "pso/object/ambient/TObjGrass.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     "pso/object/lobby/LobbyGoGoBall.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     # -inline off,deferred: .rodata is in reverse .text order: run_task's (0x8029B640) Vec templates 0x804653E8/0x804653F4,
