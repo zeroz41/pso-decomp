@@ -92,8 +92,8 @@ void TWindowChoiceSetting::render() {
     draw_window_frame((void *)context);
     draw_visible_window_entries(this, (u8 *)this + 0x24, context);
     draw_setting(context);
-    if ((u32)m_78 != 0U) {
-        forward_render__20TWindowSubStatusDispFv(m_78, context);
+    if (heading != 0) {
+        forward_render__20TWindowSubStatusDispFv((s32)heading, context);
     }
     if (*(u32 *)((u8 *)this + 0x7C) != 0U) {
         draw_window_scrollbar(*(u32 *)((u8 *)this + 0x7C), context, (u8 *)this + 0x68);
@@ -102,7 +102,6 @@ void TWindowChoiceSetting::render() {
 
 void TWindowChoiceSetting::run_task() {
     u8 *arg0 = (u8 *)this;
-    u32 temp_r3;
     u32 temp_r3_2;
     u8 *input;
     u8 *temp_r30_2;
@@ -134,9 +133,8 @@ void TWindowChoiceSetting::run_task() {
         }
     }
     if ((f32) this->m_5c >= 7.5f) {
-        temp_r3 = this->m_78;
-        if (temp_r3 != 0U) {
-            ((TWindowSubStatusDisp *)temp_r3)->update_subwindow();
+        if (this->heading != 0) {
+            this->heading->update_subwindow();
         }
         temp_r3_2 = *(u32 *)&this->unk_7C;
         if (temp_r3_2 != 0U) {
