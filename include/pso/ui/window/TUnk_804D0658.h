@@ -5,6 +5,8 @@
 
 class TUnk_804D0658 : public TWindowAddition {
 public:
+    // inferred: this is TWindowMenuInfomation (its unit's class-name string).
+    TUnk_804D0658(void *parent, s32 rows);
     virtual ~TUnk_804D0658();
     virtual void run_task();
     virtual void render();
@@ -15,7 +17,6 @@ public:
     void move_cursor_prev();
     void move_next_choice();
     void request_close();
-    void *destroy_children(s16);
     int is_selected();
     int is_open();
     u8 unk_1C[0x10];

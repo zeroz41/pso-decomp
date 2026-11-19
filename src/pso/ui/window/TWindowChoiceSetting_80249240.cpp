@@ -17,10 +17,7 @@ s32 draw_visible_window_entries(void *, void *, s32);
 s32 draw_window_scrollbar(s32, s32, void *);
 s32 forward_render__20TWindowSubStatusDispFv(s32, s32);
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
-void __dl__7TObjectFPv(void *);
-void fn_80269004(void *);
 
-extern s32 __vt__20TWindowChoiceSetting[];
 
 void render__20TWindowChoiceSettingFv(u8 *arg0) {
     s32 temp_r3;
@@ -87,26 +84,15 @@ void TWindowChoiceSetting::run_task() {
     ((TWindowBase *)arg0)->update_window_entry_list(arg0 + 0x24);
 }
 
-void *__dt__20TWindowChoiceSettingFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__20TWindowChoiceSetting;
-        ((TUnk_804D0658 *)arg0)->destroy_children(0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
+TWindowChoiceSetting::~TWindowChoiceSetting() {
 }
 
 extern "C" { extern char TWindowChoiceSetting__class_name_string[]; }
 const char *lbl_805D38B8 = TWindowChoiceSetting__class_name_string;
 
-void *TWindowChoiceSetting__ct(void *window_choice_setting) {
-    fn_80269004(window_choice_setting);
-    *(s32 **)((s8 *)window_choice_setting + 0x18) = __vt__20TWindowChoiceSetting;
-    ((TWindowChoiceSetting *)window_choice_setting)->m_name = lbl_805D38B8;
-    ((TWindowChoiceSetting *)window_choice_setting)->m_80 = 0;
-    return window_choice_setting;
+TWindowChoiceSetting::TWindowChoiceSetting(void *parent, s32 rows) : TUnk_804D0658(parent, rows) {
+    m_name = lbl_805D38B8;
+    m_80 = 0;
 }
 
 }

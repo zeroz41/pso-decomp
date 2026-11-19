@@ -5,6 +5,7 @@
 #include "pso/ui/window/TUnk_804D0658.h"
 
 struct TWindowChoiceSetting : public TUnk_804D0658 {
+    TWindowChoiceSetting(void *parent, s32 rows);
     virtual ~TWindowChoiceSetting();
     void sub_80249078();
     s16 get_field_74();

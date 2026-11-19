@@ -4,8 +4,6 @@
 #include "pso/ui/window/TWindowSubComCard.h"
 
 extern "C" {
-s32 __nw__7TObjectFUl(int);
-s32 TWindowChoiceSetting__ct(int, void *, void *);
 void *get_array_entry__11TWindowBaseFi(void *, s16);
 s32 get_field_74__20TWindowChoiceSettingFv(void *);
 int fn_80268C5C(void*);
@@ -37,15 +35,8 @@ void TWindowSubComCard__sub_80249144(void *window_choice_setting) {
 }
 
 s32 create_choice_setting_window__17TWindowSubComCardFiii(s32 arg0, s32 arg1, s32 arg2) {
-    s32 temp_r3;
-    s32 var_r0;
     TWindowSubComCard__sub_80249220((void *)arg1, (void *)arg2);
-    temp_r3 = __nw__7TObjectFUl(0x84);
-    var_r0 = temp_r3;
-    if (var_r0 != 0) {
-        var_r0 = TWindowChoiceSetting__ct((int)temp_r3, (void *)arg0, (void *)arg2);
-    }
-    return var_r0;
+    return (s32)new TWindowChoiceSetting((void *)arg0, arg2);
 }
 
 int TWindowSubComCard__sub_80249220(void* p, void * _w1) { return fn_80268C5C(p); }

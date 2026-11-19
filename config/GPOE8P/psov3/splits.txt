@@ -6789,6 +6789,7 @@ pso/ui/window/TWindowSubComCard_80249120.cpp:
 pso/ui/window/TWindowChoiceSetting_80249240.cpp:
 	.text       start:0x80249240 end:0x802495FC
 	.rodata     start:0x8044EB10 end:0x8044EB18
+	.data       start:0x804CE808 end:0x804CE820
 	.sdata      start:0x805D38B8 end:0x805D38C0
 	.sdata2     start:0x805DCBC0 end:0x805DCBC4
 
@@ -7211,7 +7212,7 @@ pso/ui/window/TWindowSubStatusDisp_80268738.cpp:
 pso/ui/window/TWindowChoiceSetting.cpp:
 	.text       start:0x80268794 end:0x80269064
 	.rodata     start:0x8044F388 end:0x8044F3D0
-	.data       start:0x804D0638 end:0x804D0658
+	.data       start:0x804D0638 end:0x804D0670
 	.sdata      start:0x805D3970 end:0x805D3974
 
 pso/ui/window/TWindowSubComCard_80269064.cpp:
