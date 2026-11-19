@@ -1850,6 +1850,7 @@ pso/system/TMemberCheck.cpp
 pso/ui/font/TNECFontEORFunction.cpp
 pso/object/switch/TOSwitchAttackSub.cpp
 pso/map/TSetEvtDestroy.cpp
+pso/player/TObjPlayer_80011014Data.cpp
 pso/ui/frontend/TAdADXlogo.cpp
 pso/ui/frontend/TAdAgreementBaseGC.cpp
 pso/ui/frontend/TAdBackGC.cpp
