@@ -10877,7 +10877,7 @@ os/OSContext.c:
 os/OSError.c:
 	.text       start:0x80371DF8 end:0x803721C0
 	.data       start:0x804F40B8 end:0x804F43D8
-	.bss        start:0x80543AF0 end:0x80543B30
+	.bss        start:0x80543AF0 end:0x80543B40
 	.sdata      start:0x805D4518 end:0x805D4520
 
 os/OSFont.c:
@@ -10957,7 +10957,7 @@ mtx/vec.c:
 
 dvd/dvdlow.c:
 	.text       start:0x803770C8 end:0x80377F1C
-	.bss        start:0x805445A0 end:0x80544670
+	.bss        start:0x805445A0 end:0x80544680
 	.sdata      start:0x805D4530 end:0x805D4538
 	.sbss       start:0x805D70E0 end:0x805D7128
 
