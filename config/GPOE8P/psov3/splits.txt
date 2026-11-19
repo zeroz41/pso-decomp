@@ -4947,6 +4947,9 @@ pso/ui/keyboard/TKeyBoardControl_801A57C4.cpp:
 	.sbss       start:0x805D5D08 end:0x805D5D10
 	.sdata2     start:0x805DC0B0 end:0x805DC0C0
 
+pso/ui/keyboard/TKeyBoardControlSdata2.cpp:
+	.sdata2     start:0x805DC0C0 end:0x805DC0D0
+
 pso/unk/text_801A6A28.cpp:
 	.text       start:0x801A6A28 end:0x801A6CEC
 
