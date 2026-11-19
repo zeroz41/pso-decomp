@@ -35,16 +35,16 @@ void TWindowKeyBoardBase::sub_8025CC48() {
     switch (current_language) {
     case LANGUAGE_JAPANESE:
         *(s32 *)((s8 *)arg0 + 0xB4) = 0;
-        if (((TWindowKeyBoardHard *)(*(s16 *)((s8 *)arg0 + 0x20)))->test_card_flag_16() != 0) {
+        if (test_keyboard_card_flag_16(*(s16 *)((s8 *)arg0 + 0x20)) != 0) {
             *(s32 *)((s8 *)arg0 + 0xB4) = (s32) (*(s32 *)((s8 *)arg0 + 0xB4) | 1);
         }
-        if (((TWindowKeyBoardHard *)(*(s16 *)((s8 *)arg0 + 0x20)))->call_1A529C_with_32() != 0) {
+        if (test_keyboard_card_flag_32(*(s16 *)((s8 *)arg0 + 0x20)) != 0) {
             *(s32 *)((s8 *)arg0 + 0xB4) = (s32) (*(s32 *)((s8 *)arg0 + 0xB4) | 2);
         }
-        if (((TWindowKeyBoardHard *)(*(s16 *)((s8 *)arg0 + 0x20)))->test_card_flag_64() != 0) {
+        if (test_keyboard_card_flag_64(*(s16 *)((s8 *)arg0 + 0x20)) != 0) {
             *(s32 *)((s8 *)arg0 + 0xB4) = (s32) (*(s32 *)((s8 *)arg0 + 0xB4) | 4);
         }
-        if (((TWindowKeyBoardHard *)(*(s16 *)((s8 *)arg0 + 0x20)))->test_card_flag_0x80() != 0) {
+        if (test_keyboard_card_flag_128(*(s16 *)((s8 *)arg0 + 0x20)) != 0) {
             *(s32 *)((s8 *)arg0 + 0xB4) = (s32) (*(s32 *)((s8 *)arg0 + 0xB4) | 8);
         }
         break;

@@ -62,7 +62,6 @@ s32 TAdSinglePlyChrSelectGC__sub_80076D9C(s32 arg0, s32 arg1);
 int get_chat_shortcut(s32 arg0);
 s32 update_selected_symbol__20TWindowSubSymbolChatFv();
 s32 export_keyboard_text(int, void *);
-s32 sub_8025CB10__19TWindowKeyBoardBaseFv(s32);
 bool TWindowCtrl__sub_8024701C(Win_8024701C *w);
 void *get_player_by_client_id(s32 i);
 extern s32 local_client_id;
@@ -86,7 +85,7 @@ void fn_80247ED8(void* p);
 int TWindowSubSymbolChatHelp__sub_80247EE8(int a0);
 bool TWindowCtrl__sub_8024701C(Win_8024701C *w) {
     bool r;
-    if (sub_8025CB10__19TWindowKeyBoardBaseFv(w->f20) != 0) {
+    if (((TWindowKeyBoardBase *)w->f20)->sub_8025CB10() != 0) {
         r = true;
     } else if (!(w->flags & 2)) {
         r = true;
@@ -357,7 +356,7 @@ void TWindowChat::handle_chat_input() {
       }
     }
     else
-      if ((TWindowShortListCtrl__check_controller_button((void *)((void *) ((u8 *)&controller_input_state + 0x20)), 0x400) != 0) && (sub_8025CB10__19TWindowKeyBoardBaseFv((s32)((int) ((RecoveredFields_8024775C_arg0 *) arg0)->field_20)) == 0))
+      if ((TWindowShortListCtrl__check_controller_button((void *)((void *) ((u8 *)&controller_input_state + 0x20)), 0x400) != 0) && (((TWindowKeyBoardBase *)((RecoveredFields_8024775C_arg0 *) arg0)->field_20)->sub_8025CB10() == 0))
     {
       ((TWindowChat*)((void *) arg0))->close_all_children();
       ((RecoveredFields_8024775C_arg0 *) arg0)->field_1C = (u8) (((RecoveredFields_8024775C_arg0 *) arg0)->field_1C + 1);
@@ -410,7 +409,7 @@ void TWindowChat::run_task() {
     if ((((int)((TWindowChat *)arg0)->is_open()) == 0) && (((TWindowChat *)arg0)->is_mode_bit4() == 0) && (((TWindowChat *)arg0)->is_visible() == 0)) {
         ((TWindowChat *)arg0)->handle_chat_input();
         ((TWindowChat *)arg0)->handle_input();
-        if (sub_8025CB10__19TWindowKeyBoardBaseFv((s32)((int) ((s32)composer))) != 0) {
+        if (((TWindowKeyBoardBase *)composer)->sub_8025CB10() != 0) {
             flags = (u16) (flags | 4);
             return;
         }

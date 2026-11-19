@@ -1021,13 +1021,11 @@ u8 * get_window_layout_position(s32);
 extern "C" {
 s32 Dolphin_ARAlloc(s32);
 void TQuestVmDownLoadServer__sub_803F0C04(u32 aram_addr, s32 size, u32 owner, u32 priority, u32 timeout_ms);
-s32 sub_8025CB10__19TWindowKeyBoardBaseFv(void *);
-s32 sub_8025EB68__19TWindowKeyBoardBaseFv();
 
 void TWindowKeyBoardBase::render() {
     s32 temp_r31;
 
-    if ((sub_8025EB68__19TWindowKeyBoardBaseFv() == 0) && ((sub_8025CB10__19TWindowKeyBoardBaseFv(this) != 0) || (this->m_62 & 2))) {
+    if ((sub_8025EB68() == 0) && ((sub_8025CB10() != 0) || (this->m_62 & 2))) {
         temp_r31 = TWindowDD::draw_default_entry((s32)this);
         if (this->m_62 & 2) {
             draw_window_frame((void *)temp_r31);

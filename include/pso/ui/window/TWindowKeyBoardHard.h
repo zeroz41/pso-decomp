@@ -31,10 +31,6 @@ struct TWindowKeyBoardHard : public TWindowBase {
     static s32 test_card_flag(s32 arg1, s32 arg2);
     static void set_card_window_flags(void *arg0, s32 arg1, s32 arg2);
     int is_card_flag_set();
-    int test_card_flag_0x80();
-    int test_card_flag_64();
-    int call_1A529C_with_32();
-    int test_card_flag_16();
     static s32 test_card_flag_8(s32 client_id);
     virtual void run_task();
     static void set_bits_shift7(s32 arg0, s32 arg1);
@@ -55,6 +51,12 @@ struct TWindowKeyBoardHard : public TWindowBase {
     void clear_flag60_bit200();
     int is_key_held();
 };
+
+// The keyboard option bits of a player's character save record (the argument is the player index).
+int test_keyboard_card_flag_128(s32 client);
+int test_keyboard_card_flag_64(s32 client);
+int test_keyboard_card_flag_32(s32 client);
+int test_keyboard_card_flag_16(s32 client);
 
 typedef char TWindowKeyBoardHard_size[sizeof(TWindowKeyBoardHard) == 0x74 ? 1 : -1];
 #endif

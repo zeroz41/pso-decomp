@@ -14,7 +14,7 @@ struct TWindowKeyBoardBase : public TWindowBase {
     void draw_wrapped_text(void *, void *);
     void draw_text_glyphs(void *, void *);
     int sub_8025EB68();
-    bool sub_8025CB10();
+    s32 sub_8025CB10();
     u8 unk_1C[0x10];
     s32 m_2c;
     u8 unk_30[0x8];
