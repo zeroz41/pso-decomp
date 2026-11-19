@@ -20,7 +20,6 @@ struct Ids_80145A94 { s32 v[2]; };
 struct Buf_80145A94 { s32 hdr; s8 name[0xA0]; s8 x[0x270 - 0xA4]; };
 
 
-extern s32 lbl_8043F3E8[];
 extern s16 disc_error_code;
 s32 lbl_805D56C8;
 u16 lbl_805D56CC;
@@ -28,7 +27,7 @@ u16 lbl_805D56CE;
 int keyboard_buffer_cursor; // stored only by TLobby_801461EC; placed here by the 8-byte .sbss boundary at 0x805D56D8
 s32 TLobby__sub_80145A94(void) {
     Buf_80145A94 buf;
-    Ids_80145A94 ids;
+    Ids_80145A94 ids = {0, 1};
     s32 res;
     s32 extra;
     u32 status;
@@ -43,8 +42,6 @@ s32 TLobby__sub_80145A94(void) {
     s32 start;
     found = 0;
     lbl_805D56CC = 0;
-    ids.v[0] = lbl_8043F3E8[0];
-    ids.v[1] = lbl_8043F3E8[1];
     TLobby__sub_8042EE4C((s32 *)&status);
     if (status == 5) {
         status = 4;

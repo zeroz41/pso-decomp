@@ -3,6 +3,9 @@
 
 #include "types.h"
 
+// Pad button bits, one per repeat counter of an input record (read by input_press_or_repeat).
+extern const u32 input_button_mask_table[14];
+
 extern "C" {
 void TKeyBoardControl__sub_801A58B0(void);
 void TKeyBoardControl__sub_801A58D8(void);

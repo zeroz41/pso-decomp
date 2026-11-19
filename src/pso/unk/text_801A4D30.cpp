@@ -11,11 +11,11 @@
 #include "pso/unk/TLobby.h"
 #include "pso/system/task/TObject.h"
 typedef struct Vec_801A4D30 {
-    s32 x, y, z;
+    f32 x, y, z;
 } Vec_801A4D30;
 
 typedef struct Pair_801A4D30 {
-    s32 a, b;
+    f32 a, b;
 } Pair_801A4D30;
 
 typedef struct Obj_801A4D30 {
@@ -36,14 +36,12 @@ s32 verify_system_file__23TAdSinglePlyChrSelectGCFPv(void);
 s32 pso_system_load_gc(void);
 void *update_window_mode_from_progress__6TLobbyFPv(void *, void *);
 s32 TAdSinglePlyChrSelectGC__sub_8033B9F8(void *);
-extern Vec_801A4D30 lbl_80446940;
-extern Vec_801A4D30 lbl_8044694C;
-extern Pair_801A4D30 lbl_80446958[];
-extern Pair_801A4D30 lbl_80446960[];
+}
+
 void TUnk_804C2298::run_task() {
     Obj_801A4D30 *self = (Obj_801A4D30 *)this;
-    Vec_801A4D30 pos = lbl_80446940;
-    Vec_801A4D30 target = lbl_8044694C;
+    Vec_801A4D30 pos = {0.0f, 0.0f, 0.0f};
+    Vec_801A4D30 target = {0.0f, 0.0f, -100.0f};
     activate_camera_mode(9);
     set_active_camera_pose(&pos, &target);
     switch (self->state) {
@@ -92,8 +90,8 @@ void TUnk_804C2298::run_task() {
         if (TAdPlayerLoadGC::get_instance() == 0) {
             self->state = 8;
         } else {
-            Pair_801A4D30 a = lbl_80446958[0];
-            Pair_801A4D30 b = lbl_80446960[0];
+            Pair_801A4D30 a = {80.0f, 176.0f};
+            Pair_801A4D30 b = {479.0f, 207.0f};
             self->window = update_window_mode_from_progress__6TLobbyFPv(&a, &b);
             ((TWindowMessage *)(self->window))->append_line(get_message_text(0xC), 1);
             self->state = 7;
@@ -117,6 +115,4 @@ void TUnk_804C2298::run_task() {
     case 9:
         break;
     }
-}
-
 }

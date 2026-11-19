@@ -4,6 +4,9 @@
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/window/TMessageWindowController.h"
+#include "pso/camera/TCameraCtrl_8006B3D8.h"
+#include "pso/unk/TLobby.h"
+#include "pso/unk/text_8022350C.h"
 
 #pragma readonly_strings on
 
@@ -24,6 +27,20 @@ u32 create_window__24TMessageWindowControllerFll(void *, s32, s32);
 u8 * __ct__24TMessageWindowControllerFv(void *);
 extern RecoveredGlobal_802238D8___vt__13TShopSequence __vt__13TShopSequence;
 const char *TShopSequence__class_name = "TShopSequence";
+
+// Conversation camera per service counter; the alternate set is used while a TLobby runs.
+static const s32 service_counter_camera_table[7] = {6, 5, 3, 0, 2, 1, 4};
+static const s32 service_counter_camera_alt_table[7] = {16, 15, 13, 10, 12, 11, 14};
+
+// sequence: the calling counter sequence (unused).
+void set_service_counter_camera(s32 sequence, s32 counter) {
+    if (TLobby::get_instance() == 0) {
+        create_conversation_camera(service_counter_camera_table[counter]);
+        return;
+    }
+    create_conversation_camera(service_counter_camera_alt_table[counter]);
+}
+
 u8 *TShopSequence__ct(u8 *self, TObject *parent);
 s32 load_character_from_card__23TAdSinglePlyChrSelectGCFi(s32);
 s32 activate_body_collision__10TObjPlayerFv();

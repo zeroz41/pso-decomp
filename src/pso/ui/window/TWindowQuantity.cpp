@@ -1,3 +1,4 @@
+#pragma readonly_strings on
 #include "types.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8025A9B4.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80287570.h"
@@ -47,8 +48,7 @@ u32 calc_text_width(void);
 u8 *get_array_entry__11TWindowBaseFi(void *, s32);
 s32 get_window_layout_position(s32);
 extern s32 __vt__15TWindowQuantity[];
-extern "C" { extern char TWindowQuantity__class_name_string[]; }
-const char *lbl_805D39B0 = TWindowQuantity__class_name_string;
+const char *lbl_805D39B0 = "TWindowQuantity";
 s32 draw_window_tab(s32, s32, s32, f32);
 
 void TWindowQuantity::set_position(s32 arg1) {

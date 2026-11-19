@@ -3452,6 +3452,7 @@ pso/ui/frontend/TAdSubPlyItemGC.cpp:
 
 pso/ui/frontend/TAdSinglePlyChrSelectGC_80145778.cpp:
 	.text       start:0x80145750 end:0x80145A28
+	.rodata     start:0x8043F3D8 end:0x8043F3E8
 	.bss        start:0x8050C040 end:0x8050C0A8
 	.sbss       start:0x805D56B0 end:0x805D56C8
 	.sdata2     start:0x805DB1A8 end:0x805DB1AC
@@ -3464,6 +3465,7 @@ pso/unk/text_80145A44.cpp:
 
 pso/unk/text_80145A94.cpp:
 	.text       start:0x80145A94 end:0x80146158
+	.rodata     start:0x8043F3E8 end:0x8043F3F0
 	.sbss       start:0x805D56C8 end:0x805D56D8
 
 pso/ui/frontend/TAdExNetConfirmGC.cpp:
@@ -4983,7 +4985,7 @@ pso/ui/frontend/TAdDialingGC_801A4C90.cpp:
 
 pso/unk/text_801A4D30.cpp:
 	.text       start:0x801A4D30 end:0x801A4FC0
-	.rodata     start:0x80446968 end:0x80446970
+	.rodata     start:0x80446940 end:0x80446970
 	.data       start:0x804C22B0 end:0x804C22D8
 	.sdata2     start:0x805DC0A8 end:0x805DC0AC
 
@@ -5017,7 +5019,7 @@ pso/unk/text_801A5778.cpp:
 
 pso/ui/keyboard/TKeyBoardControl_801A57C4.cpp:
 	.text       start:0x801A57C4 end:0x801A6A28
-	.rodata     start:0x804469D8 end:0x80446A08
+	.rodata     start:0x804469A0 end:0x80446A08
 	.data       start:0x804C2308 end:0x804C2438
 	.bss        start:0x8050E208 end:0x8050E578
 	.sdata      start:0x805D34C8 end:0x805D34D0
@@ -5778,6 +5780,7 @@ pso/object/door/TObjDoor_801F3754.cpp:
 
 pso/unk/text_801F3774.cpp:
 	.text       start:0x801F3774 end:0x801F3A24
+	.rodata     start:0x80449CD8 end:0x80449D08
 	.bss        start:0x80512790 end:0x805127D0
 
 pso/unk/TLobby_801F3A24.cpp:
@@ -6294,7 +6297,7 @@ pso/ui/window/TMessageWindowController.cpp:
 
 pso/unk/text_80222C28.cpp:
 	.text       start:0x80222C28 end:0x80222DE8
-	.rodata     start:0x8044C298 end:0x8044C300
+	.rodata     start:0x8044C298 end:0x8044C340
 	.data       start:0x804CA288 end:0x804CA2A0
 	.sdata      start:0x805D36F0 end:0x805D36F8
 	.sbss       start:0x805D6258 end:0x805D6260
@@ -6315,12 +6318,9 @@ pso/ui/frontend/TAdSinglePlyChrSelectGC_802233A0.cpp:
 pso/unk/text_802233F8.cpp:
 	.text       start:0x802233F8 end:0x8022350C
 
-pso/unk/text_8022350C.cpp:
-	.text       start:0x8022350C end:0x8022356C
-
 pso/ui/city/TShopSequence.cpp:
-	.text       start:0x8022356C end:0x80223938
-	.rodata     start:0x8044C340 end:0x8044C350
+	.text       start:0x8022350C end:0x80223938
+	.rodata     start:0x8044C340 end:0x8044C388
 	.data       start:0x804CA338 end:0x804CA370
 	.sdata      start:0x805D36F8 end:0x805D3700
 
@@ -7395,6 +7395,7 @@ pso/unk/text_8026C664.cpp:
 
 pso/unk/text_8026CB5C.cpp:
 	.text       start:0x8026CB5C end:0x8026CB80
+	.rodata     start:0x8044F4C8 end:0x8044F4E0
 
 pso/ui/window/TWindowLockOn_8026CB80.cpp:
 	.text       start:0x8026CB80 end:0x8026CBA4
@@ -7411,7 +7412,7 @@ pso/ui/city/TShopEquipmentSellWindow_8026CE78.cpp:
 
 pso/ui/window/TWindowQuantity.cpp:
 	.text       start:0x8026CEEC end:0x8026D18C
-	.rodata     start:0x8044F4F0 end:0x8044F4F8
+	.rodata     start:0x8044F4E0 end:0x8044F4F8
 	.data       start:0x804D0830 end:0x804D089C
 	.sdata      start:0x805D39B0 end:0x805D39B8
 	.sdata2     start:0x805DD2D0 end:0x805DD2E4
