@@ -14,13 +14,15 @@
 #include "pso/render/render_util.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/MatrixStack.h"
+#include "pso/enemy/slime/TObjEneSlime.h"
+#include "pso/enemy/stelth/TObjEneMe3Stelth.h"
+#include "pso/object/TMotorcycle.h"
+#include "pso/unk/TLobby.h"
 
 #pragma readonly_strings on
 
 CollisionBody TObjNpcEnemy__collision_body_parts = {{0.0f, 7.5f, 0.0f}, 7.0f, 0.0f, 0, 0x30203, {0.0f, 0.0f, 0.0f}, 0.0f};
 const char *TObjNpcEnemy_class_name = "TObjNpcEnemy";
-
-struct Ent_802D732C { s16 id; u8 rest[0x22]; };
 
 extern "C" {
 s32 TObjNpcBase__ct(void *);
@@ -40,28 +42,117 @@ s32 rotate_matrix_y(int, int);
 s32 translate_matrix(int, int, f32, f32, f32);
 s32 init_motion__10TObjMotionFP16TObjMotionActionP14BmlMotionEntrys(void *, s32, s32, s16);
 
-s16 *TObjNpcEnemy::get_entry_by_index(s16 arg0) {
-    s16 *temp_r3;
+}
+
+// Called on TObjNpcEnemy__entry_table slots rather than on objects; the symbol's
+// owner is kept as the tree has it until evidence names the slot type.
+void TObjNpcEnemy::reset_anim_fields() {
+    TObjNpcEnemyEntry *entry = (TObjNpcEnemyEntry *)this;
+    entry->id = 0;
+    entry->kind = 4;
+    entry->y_offset = 0.0f;
+    entry->model = 0;
+    entry->texlist = 0;
+    entry->radius = 0.0f;
+    entry->motion.motion_entry = 0;
+    entry->motion.motion_action = 0;
+    entry->motion.action = 0;
+    entry->motion.action_mode2 = 0;
+    entry->motion.action_count = 0;
+}
+
+void TObjEneMe3Stelth::spawn_attack(s16 id, s32 model, s32 texlist, s32 motion, f32 radius, f32 y_offset) {
+    TObjNpcEnemyEntry *entry = TObjNpcEnemy::insert_slot_by_id(id);
+    if (entry != NULL) {
+        entry->id = id;
+        entry->kind = 3;
+        entry->y_offset = y_offset;
+        entry->model = model;
+        entry->texlist = texlist;
+        entry->radius = radius;
+        copy_position_data(&entry->motion, (void *)motion);
+    }
+}
+
+void copy_position_data(void *dst, void *src) {
+    TObjNpcEnemyEntryMotion *to = (TObjNpcEnemyEntryMotion *)dst;
+    TObjNpcEnemyEntryMotion *from = (TObjNpcEnemyEntryMotion *)src;
+    to->motion_entry = from->motion_entry;
+    to->motion_action = from->motion_action;
+    to->action = from->action;
+    to->action_mode2 = from->action_mode2;
+    to->action_count = from->action_count;
+}
+
+void TMotorcycle::add_entry(s16 id, s32 model, s32 texlist, f32 radius, f32 y_offset) {
+    TObjNpcEnemyEntry *entry = TObjNpcEnemy::insert_slot_by_id(id);
+    if (entry != NULL) {
+        entry->id = id;
+        entry->kind = 2;
+        entry->y_offset = y_offset;
+        entry->model = model;
+        entry->texlist = texlist;
+        entry->radius = radius;
+        entry->motion.motion_entry = 0;
+        entry->motion.motion_action = 0;
+        entry->motion.action = 0;
+        entry->motion.action_mode2 = 0;
+        entry->motion.action_count = 0;
+    }
+}
+
+void TLobby::spawn_npc_enemy(s16 id, s32 model, NJS_TEXLIST *texlist, void *motion, f32 radius, f32 y_offset) {
+    TObjNpcEnemyEntry *entry = TObjNpcEnemy::insert_slot_by_id(id);
+    if (entry != NULL) {
+        entry->id = id;
+        entry->kind = 1;
+        entry->y_offset = y_offset;
+        entry->model = model;
+        entry->texlist = (s32)texlist;
+        entry->radius = radius;
+        copy_position_data(&entry->motion, motion);
+    }
+}
+
+void TObjEneSlime::spawn_child(s16 id, s32 model, s32 texlist, f32 radius, f32 y_offset) {
+    TObjNpcEnemyEntry *entry = TObjNpcEnemy::insert_slot_by_id(id);
+    if (entry != NULL) {
+        entry->id = id;
+        entry->kind = 0;
+        entry->y_offset = y_offset;
+        entry->model = model;
+        entry->texlist = texlist;
+        entry->radius = radius;
+        entry->motion.motion_entry = 0;
+        entry->motion.motion_action = 0;
+        entry->motion.action = 0;
+        entry->motion.action_mode2 = 0;
+        entry->motion.action_count = 0;
+    }
+}
+
+TObjNpcEnemyEntry *TObjNpcEnemy::get_entry_by_index(s16 arg0) {
+    TObjNpcEnemyEntry *entry;
     if (arg0 < 0) {
         return NULL;
     }
     if (arg0 >= 0x10) {
         return NULL;
     }
-    temp_r3 = (s16 *)((u8 *)&TObjNpcEnemy__entry_table.value + (arg0 * 0x24));
-    if (*(s16 *)((s8 *)temp_r3 + 0) == 0) {
+    entry = &TObjNpcEnemy__entry_table[arg0];
+    if (entry->id == 0) {
         return NULL;
     }
-    return temp_r3;
+    return entry;
 }
 
-s16 *TObjNpcEnemy::insert_slot_by_id(s16 arg0) {
+TObjNpcEnemyEntry *TObjNpcEnemy::insert_slot_by_id(s16 arg0) {
     s32 i;
-    Ent_802D732C *e;
+    TObjNpcEnemyEntry *e;
     for (i = 0; i < 0x10; i++) {
-        e = &((Ent_802D732C *)&TObjNpcEnemy__entry_table)[i];
+        e = &TObjNpcEnemy__entry_table[i];
         if (e->id == 0) {
-            return (s16 *)e;
+            return e;
         }
         if (e->id >= arg0) {
             if (e->id == arg0) {
@@ -73,95 +164,92 @@ s16 *TObjNpcEnemy::insert_slot_by_id(s16 arg0) {
     if (i >= 0x10) {
         return NULL;
     }
-    if (((Ent_802D732C *)&TObjNpcEnemy__entry_table)[15].id != 0) {
+    if (TObjNpcEnemy__entry_table[15].id != 0) {
         return NULL;
     }
     if (i < 0xF) {
-        memmove(e + 1, e, (0xF - i) * 0x24);
+        memmove(e + 1, e, (0xF - i) * sizeof(TObjNpcEnemyEntry));
     }
     ((TObjNpcEnemy *)e)->reset_anim_fields();
-    return (s16 *)e;
+    return e;
 }
 
 void TObjNpcEnemy::reset_all_anim_fields() {
     s32 i;
     for (i = 0; i < 0x10; i++) {
-        ((TObjNpcEnemy *)(&((Ent_802D732C *)&TObjNpcEnemy__entry_table)[i]))->reset_anim_fields();
+        ((TObjNpcEnemy *)&TObjNpcEnemy__entry_table[i])->reset_anim_fields();
     }
 }
 
 s32 TObjNpcEnemy::sub_802D7444() {
-    return (**(s16 * *)&this->m_3b8 != 0x3F) ? 1 : 0;
+    return (this->entry->id != 0x3F) ? 1 : 0;
 }
 
 void TObjNpcEnemy::request_action(s32) {
-    void *temp_r4;
-
-    temp_r4 = *(void * *)&this->m_3b8;
+    TObjNpcEnemyEntry *entry = this->entry;
     if ((s16) this->mode != 2) {
-        this->requested_action = (s16) *(s16 *)((s8 *)temp_r4 + 0x1C);
+        this->requested_action = entry->motion.action;
         return;
     }
-    this->requested_action = (s16) *(s16 *)((s8 *)temp_r4 + 0x1E);
+    this->requested_action = entry->motion.action_mode2;
 }
 
-extern const f32 lbl_805DE7D8;
 
-void TObjNpcEnemy::set_npc_data(void *arg1) {
-    void *temp_r5;
+void TObjNpcEnemy::set_npc_data(void *data) {
+    TObjNpcEnemyEntry *entry;
 
-    *(void * *)&this->m_3b8 = arg1;
-    temp_r5 = *(void * *)&this->m_3b8;
-    if (temp_r5 == NULL) {
+    this->entry = (TObjNpcEnemyEntry *)data;
+    entry = this->entry;
+    if (entry == NULL) {
         this->model = 0;
         this->texlist = 0;
         this->requested_action = 0;
-        *(f32 *)((s8 *)this->bodies + 0xC) = (f32) lbl_805DE7D8;
+        *(f32 *)((s8 *)this->bodies + 0xC) = 0.0f;
         return;
     }
-    *(s32 *)&this->model = (s32) *(s32 *)((s8 *)temp_r5 + 8);
-    this->texlist = (s32) *(s32 *)(this->m_3b8 + 0xC);
-    this->requested_action = (s16) *(s16 *)((s8 *)temp_r5 + 0x1C);
-    switch ((s32) (*(u16 *)(this->m_3b8 + 2))) {
+    *(s32 *)&this->model = entry->model;
+    this->texlist = this->entry->texlist;
+    this->requested_action = entry->motion.action;
+    switch (this->entry->kind) {
     case 0:
     case 2:
     case 4:
         break;
     case 1:
     case 3:
-        init_motion__10TObjMotionFP16TObjMotionActionP14BmlMotionEntrys(this, *(s32 *)((s8 *)temp_r5 + 0x18), *(s32 *)((s8 *)temp_r5 + 0x14), this->requested_action);
+        init_motion__10TObjMotionFP16TObjMotionActionP14BmlMotionEntrys(this, entry->motion.motion_action, entry->motion.motion_entry, this->requested_action);
         break;
     }
-    *(f32 *)((s8 *)this->bodies + 0xC) = (f32) *(f32 *)(this->m_3b8 + 0x10);
+    *(f32 *)((s8 *)this->bodies + 0xC) = this->entry->radius;
 }
 
 void TObjNpcEnemy::draw_debug_info() {
     u8 *arg0 = (u8 *)this;
-    s16 *p;
+    TObjNpcEnemyEntry *p;
     draw_debug_info__11TObjNpcBaseFv();
     TObjNpcEnemy::set_global_count(0xFF00FF);
     debug_printf_at(0x130018, "<- ENEMY NUMBER");
     debug_printf_at(0x13001A, "<- MOTION TEST");
     TObjNpcEnemy::set_global_count(0xF0F0F0FF);
     p = TObjNpcEnemy::get_entry_by_index((s16) this->rotation_x);
-    if (p != *(s16 * *)&this->m_3b8) {
+    if (p != this->entry) {
         ((TObjNpcEnemy *)arg0)->set_npc_data(p);
     }
-    p = *(s16 * *)&this->m_3b8;
+    p = this->entry;
     if (p == NULL) {
         TObjNpcEnemy::set_global_count(0xFF0000FF);
         debug_printf_at(0x240018, "ERROR");
         TObjNpcEnemy::set_global_count(0xF0F0F0FF);
         return;
     }
-    switch (((u16 *) p)[1]) {
+    switch (p->kind) {
     case 0:
     case 2:
     case 4:
         break;
     case 1:
     case 3:
-        if (p[0x10] <= this->rotation_z || this->rotation_z < 0) {
+        if (p->motion.action_count <= this->rotation_z || this->rotation_z < 0) {
             TObjNpcEnemy::set_global_count(0xFF0000FF);
             debug_printf_at(0x24001A, "ERROR");
             TObjNpcEnemy::set_global_count(0xF0F0F0FF);
@@ -175,10 +263,9 @@ void TObjNpcEnemy::draw_debug_info() {
 }
 
 void TObjNpcEnemy::update_state() {
-    void *sp4;
+    TObjNpcEnemyEntry *entry = this->entry;
 
-    sp4 = *(void * *)&this->m_3b8;
-    switch ((s32) (*(u16 *)((s8 *)sp4 + 2))) {
+    switch (entry->kind) {
     case 0:
         set_motion_packed_rotation();
         draw_chunk_object(this->model);
@@ -205,9 +292,9 @@ extern s32 model_render_flags;
 
 void TObjNpcEnemy::render() {
     u8 *arg0 = (u8 *)this;
-    u8 *temp_r4;
+    TObjNpcEnemyEntry *entry;
 
-    if (((void *) this->m_3b8 != NULL) && (this->update_object_view_visibility(this->m_398, this->m_39c) != 0) && ((s32) this->m_390 == 1)) {
+    if ((this->entry != NULL) && (this->update_object_view_visibility(this->m_398, this->m_39c) != 0) && ((s32) this->m_390 == 1)) {
         select_actor_lighting((s32)arg0);
         if (((TObjNpcEnemy *)arg0)->sub_802D7444() != 0) {
             model_render_flags |= 1;
@@ -215,8 +302,8 @@ void TObjNpcEnemy::render() {
         TObjFish::set_global_param(this->texlist);
         push_matrix_from(0);
         translate_matrix_vec3(0, ((u8 *)&this->position));
-        temp_r4 = (unsigned char *) (this->m_3b8);
-        translate_matrix(0, (int)temp_r4, (f32)lbl_805DE7D8, (f32) (*(f32 *)((s8 *)temp_r4 + 4)), (f32)lbl_805DE7D8);
+        entry = this->entry;
+        translate_matrix(0, (int)entry, 0.0f, entry->y_offset, 0.0f);
         rotate_matrix_y(0, this->rotation_y);
         update_state();
         pop_matrix();
@@ -228,7 +315,6 @@ void TObjNpcEnemy::render() {
     }
 }
 
-}
 TObjNpcEnemy::~TObjNpcEnemy() {}
 
 
@@ -266,4 +352,4 @@ void * TObjNpcEnemy__create(void *arg0) {
 }
 
 
-TObjNpcEnemyEntryTable TObjNpcEnemy__entry_table;
+TObjNpcEnemyEntry TObjNpcEnemy__entry_table[16];

@@ -8872,27 +8872,13 @@ pso/ui/frontend/TAdPlayerLoadGC.cpp:
 	.bss        start:0x80540FB0 end:0x80540FF0
 	.sdata2     start:0x805DE7C0 end:0x805DE7D4
 
-pso/npc/TObjNpcEnemy_802D7070.cpp:
-	.text       start:0x802D7070 end:0x802D70AC
-
-pso/enemy/stelth/TObjEneMe3Stelth_802D70AC.cpp:
-	.text       start:0x802D70AC end:0x802D712C
-
-pso/object/TMotorcycle_802D712C.cpp:
-	.text       start:0x802D712C end:0x802D71E0
-
-pso/unk/TLobby_802D71E0.cpp:
-	.text       start:0x802D71E0 end:0x802D7260
-
-pso/enemy/slime/TObjEneSlime_802D7260.cpp:
-	.text       start:0x802D7260 end:0x802D72E4
-
 pso/npc/TObjNpcEnemy.cpp:
-	.text       start:0x802D72E4 end:0x802D79EC
+	.text       start:0x802D7070 end:0x802D79EC
 	.rodata     start:0x804725F0 end:0x80472628
 	.data       start:0x804E2680 end:0x804E2824
 	.bss        start:0x80540FF0 end:0x80541230
 	.sdata      start:0x805D3F58 end:0x805D3F60
+	.sdata2     start:0x805DE7D8 end:0x805DE7DC
 
 pso/unk/TLobby_802D79EC.cpp:
 	.text       start:0x802D79EC end:0x802D7A2C
@@ -10337,10 +10323,20 @@ pso/npc/TNpcPlayer_8034DAA0.cpp:
 	.sbss       start:0x805D6EA0 end:0x805D6EA4
 	.sdata2     start:0x805DFDF0 end:0x805DFDF8
 
+pso/effect/item/TItemEffPG_8034EFDC.cpp:
+	.text       start:0x8034EFDC end:0x8034F470
+	.data       start:0x804F0810 end:0x804F0A00
+	.sdata2     start:0x805DFDF8 end:0x805DFDFC
+
+pso/effect/item/TItemEffPG_8034F470.cpp:
+	.text       start:0x8034F470 end:0x8034FA50
+	.data       start:0x804F0A00 end:0x804F0BF0
+	.sdata2     start:0x805DFE00 end:0x805DFE04
+
 pso/effect/item/TItemEffPG.cpp:
-	.text       start:0x8034EFDC end:0x803501BC
+	.text       start:0x8034FA50 end:0x803501BC
 	.rodata     start:0x80478CB8 end:0x80478CD0
-	.data       start:0x804F0810 end:0x804F0C48
+	.data       start:0x804F0BF0 end:0x804F0C48
 	.sdata      start:0x805D4350 end:0x805D4358
 	.sdata2     start:0x805DFE08 end:0x805DFE24
 
