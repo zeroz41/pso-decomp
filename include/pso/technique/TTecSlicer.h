@@ -1,24 +1,39 @@
 #ifndef PSO_TECHNIQUE_TTECSLICER_H
 #define PSO_TECHNIQUE_TTECSLICER_H
 #include "types.h"
-#include "pso/object/base/TObjMotion.h"
 #include <stddef.h>
+#include "pso/object/base/TObjMotion.h"
+#include "pso/system/data/FlagWord.h"
 
-struct TTecSlicer : public TObjBase {
+// The targets a slicer has captured, visited in order (fn_8023B590 adds one,
+// get_next_captured_target hands out the next).
+struct TTecSlicerTargets_8023B454 {
+    u16 ids[10];
+    s8 parts[10];
+    s8 count;
+    s8 idx;
+    TTecSlicerTargets_8023B454();
+    ~TTecSlicerTargets_8023B454();
+};
+
+class TTecSlicer : public TObjBase {
+public:
+    TTecSlicer(u16 *launch, void *player, Vec *position, int angle);
     virtual ~TTecSlicer();
-    void set_launch_midpoint(void *, void *, void *);
     virtual void run_task();
+    virtual void render();
+    void set_launch_midpoint(void *, void *, void *);
     static s32 create(u16* launch);
 
     f32 direction[3];
     f32 origin[3];
     f32 destination[3];
     f32 speed, range, radius;
-    u32 flags;
+    FlagWord flags;
     u16 targetId;
     u8 targetPart, paddingC7;
-    u8 capturedTargets[0x20];
-    u8 secondaryTargets[0x20];
+    TTecSlicerTargets_8023B454 capturedTargets;
+    TTecSlicerTargets_8023B454 secondaryTargets;
     void* currentWeapon;
     void* currentPlayer;
     void* model;
@@ -33,15 +48,13 @@ struct TTecSlicer : public TObjBase {
     s32 get_field_110();
     s16 get_remain_count();
     void destroy_if_set();
-    static s32 dt(s32 arg0, s16 arg1);
-    void reset_fields_1e();
     void deliver_target_hit();
     void advance_position();
     static void init_launch_angles(s32 *arg0, s32 *arg1, s32 arg2);
     void update();
-    virtual void render();
 };
 typedef char SlicerSize[(sizeof(TTecSlicer)==0x140)?1:-1];
+typedef char SlicerPosition[(offsetof(TTecSlicer,position)==0x38)?1:-1];
 typedef char SlicerDirection[(offsetof(TTecSlicer,direction)==0x90)?1:-1];
 typedef char SlicerCapturedTargets[(offsetof(TTecSlicer,capturedTargets)==0xC8)?1:-1];
 typedef char SlicerColor[(offsetof(TTecSlicer,argb)==0x128)?1:-1];

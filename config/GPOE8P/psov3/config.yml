@@ -14632,7 +14632,7 @@ force_active:
   - reset_ending_state__14TBoss6PlotFalzFv
   - reset_entries_and_format_name__13TObjTombstoneFv
   - reset_field28__10TObjPlayerFv
-  - reset_fields_1e__10TTecSlicerFv
+  - reset_fields_1e__26TTecSlicerTargets_8023B454Fv
   - reset_fields_8c__10TNpcPlayerFv
   - reset_fields__10TItemTimerFv
   - reset_fields__14TObjEneBm5WolfFv
