@@ -712,6 +712,7 @@ pso/ui/city/TCheckRoomSequence_80222FC0.cpp
 pso/camera/TCineCtrl.cpp
 pso/object/container/TContainerAncient01.cpp
 pso/render/TDLGraph.cpp
+pso/object/TDeadSpotSdata2.cpp
 pso/object/TDeadSpot.cpp
 pso/effect/TDuelEffectNumber.cpp
 pso/effect/TDuelEffectString.cpp
