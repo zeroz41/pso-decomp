@@ -1,6 +1,5 @@
 #include "types.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8025CB70.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8025EC04.h"
 #include "pso/ui/window/TWindowKeyBoardBase.h"
 #include "pso/ui/keyboard/KeyboardCharacterMaps.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
@@ -61,12 +60,12 @@ u8 TKeyBoardControl__sub_8013239C(void *, u8);
 s32 TKeyBoardControl__sub_801A58B0(void);
 s32 set_input_mode__20TWindowSubStatusDispFUc(s32, s32);
 
-void TKeyBoardControl__sub_8025EC04(u8 *arg0) {
-    *(s32 *)((s8 *)arg0 + 0x68) = 0;
-    *(s32 *)((s8 *)arg0 + 0x60) = (s32) (*(s32 *)((s8 *)arg0 + 0x60) | 0x100);
+void TWindowKeyBoardHard::sub_8025EC04() {
+    m_68 = 0;
+    m_60 |= 0x100;
 }
 
-s32 TKeyBoardControl::is_printable_key(void *arg0, u8 arg1) {
+s32 TWindowKeyBoardHard::is_printable_key(u8 arg1) {
     if (arg1 == 0x52) {
         return 1;
     }
@@ -76,7 +75,7 @@ s32 TKeyBoardControl::is_printable_key(void *arg0, u8 arg1) {
     return arg1 <= 0x29U ? 1 : 0;
 }
 
-s32 TKeyBoardControl::has_non_modifier_key() {
+s32 TWindowKeyBoardHard::has_non_modifier_key() {
     u32 i;
     u32 n;
     u8 c;
@@ -110,8 +109,8 @@ u16 TWindowKeyBoardHard::lookup_key_char(u8 arg1) {
     return keyboard_kana_unshifted_map[arg1];
 }
 
-#define arg0 ((Ctl_8025EDB4 *)arg0_)
-s32 TKeyBoardControl::translate_key_char(void *arg0_, u8 arg1, u16 *arg2) {
+#define arg0 ((Ctl_8025EDB4 *)this)
+s32 TWindowKeyBoardHard::translate_key_char(u8 arg1, u16 *arg2) {
     s32 shift;
     u32 f;
     u16 c;
@@ -119,7 +118,7 @@ s32 TKeyBoardControl::translate_key_char(void *arg0_, u8 arg1, u16 *arg2) {
     f = arg0->flags;
     if (f & 1) {
         shift = f & 0x20;
-    } else if (TKeyBoardControl::is_printable_key(arg0, arg1) != 0) {
+    } else if (is_printable_key(arg1) != 0) {
         shift = arg0->flags & 0x20;
     } else {
         shift = arg0->flags & 0x80;
@@ -186,7 +185,7 @@ s32 TKeyBoardControl::translate_key_char(void *arg0_, u8 arg1, u16 *arg2) {
         return 1;
     }
     if (arg0->sub->flags & 4) {
-        if (TKeyBoardControl::is_printable_key(arg0, arg1) != 0) {
+        if (is_printable_key(arg1) != 0) {
             if (arg0->flags & 4) {
                 *arg2 = keyboard_jp_symbol_map[arg1];
             } else if (shift != 0) {
@@ -224,7 +223,7 @@ s32 TKeyBoardControl::translate_key_char(void *arg0_, u8 arg1, u16 *arg2) {
 }
 #undef arg0
 
-s32 TKeyBoardControl::get_input_mode() {
+s32 TWindowKeyBoardHard::get_input_mode() {
     Ctl_8025F21C *c = (Ctl_8025F21C *)this;
     if (c->f60 & 0x40) {
         return 3;
@@ -294,7 +293,7 @@ u8 TWindowKeyBoardHard::sub_8025F2F8(u8 arg1) {
         return arg1;
     }
     *(u32 *)((u8 *)this + 0x6C) = 7;
-    bit = ((TKeyBoardControl *)this)->get_input_mode();
+    bit = get_input_mode();
     for (i = 0, p = keyboard_accent_base_chars; (s32)*p != 0; i++, p++) {
         if (arg1 == *p) {
             modes = keyboard_layout_mode_table[i >> 1][idx];
@@ -468,7 +467,7 @@ void TWindowKeyBoardHard::process_key_input(u8 arg1) {
         *(s32 *)((s8 *)this + 0x6C) = 7;
         return;
     }
-    temp_r31 = TKeyBoardControl::translate_key_char(this, arg1, &sp8);
+    temp_r31 = translate_key_char(arg1, &sp8);
     if (sp8 == 0x1F) {
         *(s32 *)((s8 *)this + 0x6C) = 7;
         return;
@@ -673,7 +672,6 @@ void TWindowKeyBoardHard::render() {
 
 extern "C" {
 s32 get_window_layout_position(int);
-s32 has_non_modifier_key__16TKeyBoardControlFv(void *);
 
 
 void TWindowKeyBoardHard::run_task() {
@@ -682,7 +680,7 @@ void TWindowKeyBoardHard::run_task() {
 
     if (m_control != NULL) {
         if ((is_key_active__19TWindowKeyBoardHardFv() == 0) && (m_control->is_key_active() == 0)) {
-            if (has_non_modifier_key__16TKeyBoardControlFv(this) != 0) {
+            if (has_non_modifier_key() != 0) {
                 if (current_language == LANGUAGE_JAPANESE) {
                     this->m_68 = 0x3C;
                 }

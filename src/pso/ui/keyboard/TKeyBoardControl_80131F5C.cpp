@@ -2,7 +2,6 @@
 #include "pso/system/ControllerInputState.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/keyboard/TKeyBoardControl_80131C58.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8025EC04.h"
 #include "pso/ui/keyboard/TKeyBoardControl_803F0C50.h"
 #include "pso/ui/window/TWindowCtrl_8024A054.h"
 #include "pso/ui/window/TWindowSubComCard_80244774.h"

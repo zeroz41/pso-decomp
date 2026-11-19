@@ -3,7 +3,6 @@
 #include "pso/system/ControllerInputState.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/keyboard/TKeyBoardControl_80131C58.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8025EC04.h"
 #include "pso/ui/keyboard/TKeyBoardControl_803F0C50.h"
 #include "pso/ui/window/TWindowCtrl_8024A054.h"
 #include "pso/ui/window/TWindowSubComCard_80244774.h"
@@ -31,7 +30,7 @@ void run_task__16TKeyBoardControlFv(TKeyBoardControl *key_board_control) {
         temp_r5 = temp_r3 * 0x50;
         if (TWindowShortListCtrl__check_controller_button((void *) ((u8 *)&controller_input_state + temp_r5 + 0x20), 0x200) != 0) {
             key_board_control->m_1c = (u16) (key_board_control->m_1c & 0xFFFE);
-            TKeyBoardControl__sub_8025EC04((u8 *)key_board_control->m_24);
+            ((TWindowKeyBoardHard *)key_board_control->m_24)->sub_8025EC04();
             if ((u32) key_board_control->m_28 != 0U) {
                 window_request_show(*(void **)((s8 *)key_board_control + 0x28));
             }
@@ -72,7 +71,7 @@ TKeyBoardControl *TKeyBoardControl__ct(TKeyBoardControl *self, TObject *parent, 
     ((TWindowKeyBoardBase *)self->m_20)->set_flag62_bit8();
     o = new TWindowKeyBoardHard((TWindowKeyBoardBase *)self->m_20);
     self->m_24 = (u32)o;
-    TKeyBoardControl__sub_8025EC04((u8 *)self->m_24);
+    ((TWindowKeyBoardHard *)self->m_24)->sub_8025EC04();
     o = new TWindowKeyBoardSoft((TWindowKeyBoardBase *)self->m_20, client);
     self->m_28 = (u32)o;
     switch (mode) {

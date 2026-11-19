@@ -3,7 +3,6 @@
 #include "pso/ui/chat/TWindowChat.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowKeyBoardBase.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8025EC04.h"
 #include "pso/ui/window/TWindowKeyBoardHard_802601D4.h"
 #include "pso/ui/window/TWindowSubComCard_80244774.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -251,7 +250,7 @@ void TWindowChat::handle_dpad_shortcuts() {
 
 void TWindowChat::close_all_children() {
     void *arg0 = this;
-    TKeyBoardControl__sub_8025EC04((u8 *)(*(s32 *)((s8 *)arg0 + 0x28)));
+    ((TWindowKeyBoardHard *)(*(s32 *)((s8 *)arg0 + 0x28)))->sub_8025EC04();
     if ((u32) *(u32 *)((s8 *)arg0 + 0x30) != 0U) {
         ((TObject *)(*(void **)((s8 *)arg0 + 0x30)))->queue_destruction();
         *(u32 *)((s8 *)arg0 + 0x30) = 0U;
@@ -387,19 +386,19 @@ void TWindowChat::open_next_input_window() {
         fn_80247ED8((void*)((int) (((RecoveredFields_8024792C_arg0 *)arg0)->field_24)));
         ((TWindowSubSymbolChatPartsSet *)(((RecoveredFields_8024792C_arg0 *)arg0)->field_20 + 0x30))->copy_vec2((void*)(get_window_layout_position(0xB8)));
         *(s32 *)((s8 *)(((RecoveredFields_8024792C_arg0 *)arg0)->field_20) + 0x50) = 3;
-        TKeyBoardControl__sub_8025EC04((u8 *)((int) (((RecoveredFields_8024792C_arg0 *)arg0)->field_28)));
+        ((TWindowKeyBoardHard *)((int) (((RecoveredFields_8024792C_arg0 *)arg0)->field_28)))->sub_8025EC04();
         return;
     case 1:
         ((TWindowKeyBoardBase *)((RecoveredFields_8024792C_arg0 *)arg0)->field_20)->reset_input();
         *((RecoveredFields_8024792C_arg0 *)arg0)->field_38 = 2;
         ((RecoveredFields_8024792C_arg0 *)arg0)->field_34 = (s32)new TWindowDD((TObject *)arg0, (void *) (((u8 *)(((RecoveredFields_8024792C_arg0 *)arg0)->field_38)) + 4));
-        TKeyBoardControl__sub_8025EC04((u8 *)((int) (((RecoveredFields_8024792C_arg0 *)arg0)->field_28)));
+        ((TWindowKeyBoardHard *)((int) (((RecoveredFields_8024792C_arg0 *)arg0)->field_28)))->sub_8025EC04();
         return;
     case 2:
         ((TWindowKeyBoardBase *)((RecoveredFields_8024792C_arg0 *)arg0)->field_20)->reset_input();
         *((RecoveredFields_8024792C_arg0 *)arg0)->field_38 = 3;
         ((RecoveredFields_8024792C_arg0 *)arg0)->field_30 = (s32)new TUnk_804CE7D0((TObject *)arg0);
-        TKeyBoardControl__sub_8025EC04((u8 *)((int) (((RecoveredFields_8024792C_arg0 *)arg0)->field_28)));
+        ((TWindowKeyBoardHard *)((int) (((RecoveredFields_8024792C_arg0 *)arg0)->field_28)))->sub_8025EC04();
         return;
     }
 }
