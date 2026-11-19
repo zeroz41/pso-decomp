@@ -821,6 +821,9 @@ pso/ui/window/TObjBagWarnWin.cpp:
 	.sdata      start:0x805D2848 end:0x805D2850
 	.sdata2     start:0x805D90B8 end:0x805D90D0
 
+pso/quest/challenge/ChallengeModeData.cpp:
+	.sdata2     start:0x805D90D0 end:0x805D9100
+
 pso/quest/challenge/ChallengeModeSdata.cpp:
 	.sdata      start:0x805D2850 end:0x805D2860
 

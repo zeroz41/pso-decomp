@@ -2451,3 +2451,4 @@ pso/ui/window/WindowCtrlCallbackEntries.cpp
 pso/ui/window/WindowHelpItemCallbackEntries.cpp
 pso/ui/window/WindowFukidasiLayoutData.cpp
 pso/quest/QuestOpcodeHandlersData.cpp
+pso/quest/challenge/ChallengeModeData.cpp
