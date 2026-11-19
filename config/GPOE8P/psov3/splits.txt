@@ -5172,6 +5172,9 @@ pso/player/TObjPlayer.cpp:
 	.text       start:0x801BEC98 end:0x801C0064
 	.sbss       start:0x805D5D70 end:0x805D5D78
 
+pso/player/PlayerSharedSbss.cpp:
+	.sbss       start:0x805D5D78 end:0x805D5D90
+
 pso/system/data/pso_const_ids5.cpp:
 	.text       start:0x801C0064 end:0x801C00C4
 
