@@ -54,7 +54,6 @@ TKeyBoardControl::~TKeyBoardControl() {
 
 extern "C" {
 void __ct__7TObjectFP7TObject(void *, void *);
-void TKeyBoardControl__sub_802613A4(TKeyBoardControl *arg0);
 extern s32 __vt__16TKeyBoardControl[];
 const char *TKeyBoardControl__class_name = "TKeyBoardControl";
 
@@ -80,30 +79,30 @@ TKeyBoardControl *TKeyBoardControl__ct(TKeyBoardControl *self, TObject *parent, 
     switch (mode) {
     case 0:
         self->m_1c |= 2;
-        TKeyBoardControl__sub_8025CC3C((void *)self->m_20);
+        ((TWindowKeyBoardBase *)self->m_20)->set_mode0();
         fn_8025FF8C((void *)self->m_24);
-        ((TKeyBoardControl *)self->m_28)->release();
+        ((TWindowKeyBoardSoft *)self->m_28)->set_mode0();
         break;
     case 1:
         self->m_1c |= 2;
         self->m_1c |= 8;
         ((TKeyBoardControl *)self->m_24)->enable_caps_led();
-        TKeyBoardControl__sub_802613A4((TKeyBoardControl *)self->m_28);
-        TKeyBoardControl__sub_8025CC04((u8 *)self->m_20);
+        ((TWindowKeyBoardSoft *)self->m_28)->set_mode1();
+        ((TWindowKeyBoardBase *)self->m_20)->set_mode1();
         break;
     case 2:
         self->m_1c |= 2;
         self->m_1c |= 0x10;
         ((TKeyBoardControl *)self->m_24)->enable_kana_led();
-        ((TKeyBoardControl *)self->m_28)->release_input();
-        TKeyBoardControl__sub_8025CBCC((u8 *)self->m_20);
+        ((TWindowKeyBoardSoft *)self->m_28)->set_mode2();
+        ((TWindowKeyBoardBase *)self->m_20)->set_mode2();
         break;
     case 3:
         kb = self;
         kb->m_1c |= 0x20;
         ((TKeyBoardControl *)self->m_24)->enable_keyboard_led();
-        ((TKeyBoardControl *)self->m_28)->close();
-        TKeyBoardControl__sub_8025CBC0((void *)self->m_20);
+        ((TWindowKeyBoardSoft *)self->m_28)->set_mode3();
+        ((TWindowKeyBoardBase *)self->m_20)->set_mode3();
         break;
     }
     return kb;

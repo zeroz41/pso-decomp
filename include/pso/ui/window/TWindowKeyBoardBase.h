@@ -47,6 +47,12 @@ struct TWindowKeyBoardBase : public TWindowBase {
     virtual void run_task();
     s32 *init_text_buffer_holder();
     void insert_character(u16 arg1);
+    // The four input modes TKeyBoardControl's constructor selects (numbered by its mode argument).
+    void set_mode0();
+    void set_mode1();
+    void set_mode2();
+    void set_mode3();
+    int is_key_active();
     static int is_alnum(u16 code);
     void insert_string(char *src);
     void update_input(void* a1);

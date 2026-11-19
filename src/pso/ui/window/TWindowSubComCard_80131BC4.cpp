@@ -20,6 +20,6 @@ s32 TWindowSubComCard::realloc_buffer() {
 }
 
 int TWindowSubComCard::is_keyboard_active() { return ((TKeyBoardControl *)(this->m_20))->is_active(); }
-int TWindowSubComCard::update_keyboard() { return ((TKeyBoardControl *)(this->m_20))->is_key_active(); }
+int TWindowSubComCard::update_keyboard() { return ((TWindowKeyBoardBase *)(this->m_20))->is_key_active(); }
 
 }

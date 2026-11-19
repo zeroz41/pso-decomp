@@ -65,7 +65,7 @@ void TKeyBoardControl::clear_flag60_bit200() { *(u32*)((char*)this + 0x60) &= 0x
 int TKeyBoardControl::is_key_held() { return (*(u32*)((char*)this + 0x60) >> 8) & 0x1; }
 void TKeyBoardControl::set_flag62_bit2() { *(u16*)((char*)this + 0x62) |= 0x2; }
 int TKeyBoardControl::is_active() { return (*(u16*)((char*)this + 0x60) >> 5) & 0x1; }
-int TKeyBoardControl::is_key_active() { return *(u16*)((char*)this + 0x60) & 0x1; }
+int TWindowKeyBoardBase::is_key_active() { return m_60 & 0x1; }
 void TKeyBoardControl::set_flag62_bit8() { *(u16*)((char*)this + 0x62) |= 0x8; }
 
 s32 TKeyBoardControl::append_char(s8 arg1) {

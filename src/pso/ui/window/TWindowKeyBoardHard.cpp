@@ -563,7 +563,7 @@ void TWindowKeyBoardHard::update_modifier_flags() {
 void TKeyBoardControl::enable_keyboard_led() {
     if ((u32) *(u32 *)((s8 *)this + 0x70) != 0U) {
         *(s32 *)((s8 *)this + 0x60) = (s32) (*(s32 *)((s8 *)this + 0x60) | 0x1000);
-        TKeyBoardControl__sub_8025CBC0((void *)(*(u32 *)((s8 *)this + 0x70)));
+        ((TWindowKeyBoardBase *)(*(u32 *)((s8 *)this + 0x70)))->set_mode3();
         fn_8025FF8C(this);
     }
 }
@@ -571,7 +571,7 @@ void TKeyBoardControl::enable_keyboard_led() {
 void TKeyBoardControl::enable_kana_led() {
     if ((u32) *(u32 *)((s8 *)this + 0x70) != 0U) {
         *(s32 *)((s8 *)this + 0x60) = (s32) (*(s32 *)((s8 *)this + 0x60) | 0x800);
-        TKeyBoardControl__sub_8025CBCC((u8 *)(*(u32 *)((s8 *)this + 0x70)));
+        ((TWindowKeyBoardBase *)(*(u32 *)((s8 *)this + 0x70)))->set_mode2();
         fn_8025FF8C(this);
     }
 }
@@ -579,7 +579,7 @@ void TKeyBoardControl::enable_kana_led() {
 void TKeyBoardControl::enable_caps_led() {
     if ((u32) *(u32 *)((s8 *)this + 0x70) != 0U) {
         *(s32 *)((s8 *)this + 0x60) = (s32) (*(s32 *)((s8 *)this + 0x60) | 0x400);
-        TKeyBoardControl__sub_8025CC04((u8 *)(*(u32 *)((s8 *)this + 0x70)));
+        ((TWindowKeyBoardBase *)(*(u32 *)((s8 *)this + 0x70)))->set_mode1();
         fn_8025FF8C(this);
     }
 }
@@ -590,7 +590,7 @@ void TKeyBoardControl::enable_caps_led() {
 void fn_8025FF8C(void *arg0) {
     if ((u32) *(u32 *)((s8 *)arg0 + 0x70) != 0U) {
         *(s32 *)((s8 *)arg0 + 0x60) = (s32) (*(s32 *)((s8 *)arg0 + 0x60) | 0x40);
-        TKeyBoardControl__sub_8025CC3C((void *)(*(u32 *)((s8 *)arg0 + 0x70)));
+        ((TWindowKeyBoardBase *)(*(u32 *)((s8 *)arg0 + 0x70)))->set_mode0();
         switch (current_language) {
         case LANGUAGE_JAPANESE:
         case LANGUAGE_ENGLISH:
@@ -682,7 +682,7 @@ void TWindowKeyBoardHard::run_task() {
     void *temp_r3;
 
     if ((void *) this->m_70 != NULL) {
-        if ((is_key_active__19TWindowKeyBoardHardFv() == 0) && (((TKeyBoardControl *)(this->m_70))->is_key_active() == 0)) {
+        if ((is_key_active__19TWindowKeyBoardHardFv() == 0) && (((TWindowKeyBoardBase *)(this->m_70))->is_key_active() == 0)) {
             if (has_non_modifier_key__16TKeyBoardControlFv(this) != 0) {
                 if (current_language == LANGUAGE_JAPANESE) {
                     this->m_68 = 0x3C;

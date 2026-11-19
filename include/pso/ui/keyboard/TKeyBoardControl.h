@@ -14,9 +14,6 @@ struct TKeyBoardControl : public TObject {
     u32 m_24;
     u32 m_28;
     static void run_main_frame();
-    void close();
-    void release_input();
-    void release();
     static void run_tasks();
     int get_fog_ctrl();
     static void update();
@@ -64,7 +61,6 @@ struct TKeyBoardControl : public TObject {
     int is_key_held();
     void set_flag62_bit2();
     int is_active();
-    int is_key_active();
     void set_flag62_bit8();
     s32 append_char(s8 arg1);
     void append_next_char();

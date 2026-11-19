@@ -70,8 +70,6 @@ s32 draw_default_entry__9TWindowDDFl();
 int update_keyboard_close_mode(void*);
 f32 TWindowKeyBoardSoft__sub_802606E0(TWindowKeyBoardSoft *);
 void TWindowKeyBoardSoft__sub_80260760(void *self, s32 key, s32 *count, u32 *color);
-void TWindowKeyBoardSoft__sub_80261134(void *self);
-void TKeyBoardControl__sub_802613A4(TKeyBoardControl *arg0);
 f32 TWindowKeyBoardSoft__sub_802614DC(u8 *, u8 *, f32, f32, f32, f32);
 void TWindowKeyBoardSoft__sub_80261DD8(TWindowKeyBoardSoft *, WindowDrawContext *);
 extern s32 lbl_805D63F0;
@@ -424,8 +422,8 @@ void TWindowKeyBoardSoft::sub_80260E30(s32 port) {
     }
 }
 
-void TWindowKeyBoardSoft__sub_80261134(void *self) {
-    KeyCursor_80260E30 *kb = (KeyCursor_80260E30 *)self;
+void TWindowKeyBoardSoft::sub_80261134() {
+    KeyCursor_80260E30 *kb = (KeyCursor_80260E30 *)this;
     switch (current_language) {
     case LANGUAGE_JAPANESE:
         kb->layout = 4;
@@ -439,34 +437,25 @@ void TWindowKeyBoardSoft__sub_80261134(void *self) {
         kb->layout = 0;
         break;
     }
-    ((TWindowKeyBoardSoft *)self)->update_focus_flags();
+    update_focus_flags();
 }
 
 #pragma push
 #pragma fp_contract on
 void TWindowKeyBoardSoft::update_focus_flags() {
-    void *temp_r3;
-    void *temp_r3_2;
-    void *temp_r4;
-    void *temp_r4_2;
-
     if (current_language != LANGUAGE_JAPANESE) {
         if ((s32) current_language < 0) {
             return;
         }
         return;
     }
-    if ((s8) *(u8 *)((s8 *)this + 0x64) == 0) {
-        temp_r4 = *(void **)((s8 *)this + 0x6C);
-        *(s32 *)((s8 *)temp_r4 + 0xB4) = (s32) (*(s32 *)((s8 *)temp_r4 + 0xB4) | 1);
-        temp_r3 = *(void **)((s8 *)this + 0x6C);
-        *(s32 *)((s8 *)temp_r3 + 0xB4) = (s32) (*(s32 *)((s8 *)temp_r3 + 0xB4) & 0xFFFFFFBF);
+    if (m_64 == 0) {
+        m_control->m_b4 |= 1;
+        m_control->m_b4 &= 0xFFFFFFBF;
         return;
     }
-    temp_r4_2 = *(void **)((s8 *)this + 0x6C);
-    *(s32 *)((s8 *)temp_r4_2 + 0xB4) = (s32) (*(s32 *)((s8 *)temp_r4_2 + 0xB4) & 0xFFFFFFFE);
-    temp_r3_2 = *(void **)((s8 *)this + 0x6C);
-    *(s32 *)((s8 *)temp_r3_2 + 0xB4) = (s32) (*(s32 *)((s8 *)temp_r3_2 + 0xB4) | 0x40);
+    m_control->m_b4 &= 0xFFFFFFFE;
+    m_control->m_b4 |= 0x40;
 }
 #pragma pop
 
@@ -499,43 +488,48 @@ void TWindowKeyBoardSoft::handle_page_cycle_input(s32 arg1) {
 }
 #pragma pop
 
-void TKeyBoardControl::close() {
-    void *temp_r3;
-    *(s32 *)((s8 *)this + 0x60) = (s32) (*(s32 *)((s8 *)this + 0x60) | 0x80);
-    temp_r3 = *(void **)((s8 *)this + 0x6C);
-    if (temp_r3 != NULL) {
-        TKeyBoardControl__sub_8025CBC0(temp_r3);
-        release();
+void TWindowKeyBoardSoft::set_mode3() {
+    TWindowKeyBoardBase *control;
+    m_60 |= 0x80;
+    control = m_control;
+    if (control != NULL) {
+        control->set_mode3();
+        set_mode0();
     }
 }
 
-void TKeyBoardControl::release_input() {
-    void *temp_r3;
-    *(s32 *)((s8 *)this + 0x60) = (s32) (*(s32 *)((s8 *)this + 0x60) | 0x40);
-    temp_r3 = *(void **)((s8 *)this + 0x6C);
-    if (temp_r3 != NULL) {
-        TKeyBoardControl__sub_8025CBCC((u8 *)temp_r3);
-        release();
+void TWindowKeyBoardSoft::set_mode2() {
+    TWindowKeyBoardBase *control;
+    m_60 |= 0x40;
+    control = m_control;
+    if (control != NULL) {
+        control->set_mode2();
+        set_mode0();
     }
 }
 
-void TKeyBoardControl__sub_802613A4(TKeyBoardControl *key_board_control) {
-    *(s32 *)((s8 *)key_board_control + 0x60) = (s32) (*(s32 *)((s8 *)key_board_control + 0x60) | 0x20);
-    if (*(void **)((s8 *)key_board_control + 0x6C) != NULL) {
-        TKeyBoardControl__sub_8025CC04((u8 *)(*(void **)((s8 *)key_board_control + 0x6C)));
-        key_board_control->release();
+void TWindowKeyBoardSoft::set_mode1() {
+    m_60 |= 0x20;
+    if (m_control != NULL) {
+        m_control->set_mode1();
+        set_mode0();
     }
 }
 
-void TKeyBoardControl::release() {
-    if ((u32) *(u32 *)((s8 *)this + 0x6C) != 0U) {
-        *(s32 *)((s8 *)this + 0x60) = (s32) (*(s32 *)((s8 *)this + 0x60) | 1);
-        TKeyBoardControl__sub_8025CC3C((void *)(*(u32 *)((s8 *)this + 0x6C)));
-        TWindowKeyBoardSoft__sub_80261134(this);
+void TWindowKeyBoardSoft::set_mode0() {
+    if (m_control != NULL) {
+        m_60 |= 1;
+        m_control->set_mode0();
+        sub_80261134();
     }
 }
 
-void TWindowKeyBoardSoft::close() { if (*(unsigned int*)((char*)this + 0x6c) != 0) { update_keyboard_close_mode(*(void**)((char*)this + 0x6c)); update_focus_flags(); } }
+void TWindowKeyBoardSoft::close() {
+    if (m_control != NULL) {
+        update_keyboard_close_mode(m_control);
+        update_focus_flags();
+    }
+}
 
 s32 TWindowKeyBoardSoft::hit_test_relative(u8 *arg1, u8 *arg2) {
     u8 *arg0 = (u8 *)this;
@@ -921,8 +915,8 @@ void TWindowKeyBoardSoft::run_task() {
     f32 temp_f0;
     s32 port;
 
-    if ((u32) *(u32 *)((s8 *)this + 0x6C) != 0U) {
-        if ((sub_80244994__11TWindowBaseFv() != 0) && (((TKeyBoardControl *)(*(u32 *)((s8 *)this + 0x6C)))->is_key_active() == 0)) {
+    if (m_control != NULL) {
+        if ((sub_80244994__11TWindowBaseFv() != 0) && (m_control->is_key_active() == 0)) {
             port = is_player_input_active(*(s16 *)((s8 *)this + 0x20));
             handle_page_cycle_input(port);
             sub_80260E30(port);
