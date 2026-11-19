@@ -45,10 +45,8 @@ extern "C" {
 void blend_quaternions_nlerp(void *a, void *b, void *out, f32 t);
 f32 motion_blend_factor;
 const RecoveredGlobal_803D77C0_lbl_8047E3C8 lbl_8047E3C8 = {0};
-struct MotionSamplerFunctionTable { s32 value; u8 remaining[0x8]; };
-extern MotionSamplerFunctionTable motion_sampler_function_table;
-struct MotionAngleSamplerTable { s32 value; u8 remaining[0xC]; };
-extern MotionAngleSamplerTable motion_angle_sampler_table;
+extern void *motion_sampler_function_table[3];
+extern void *motion_angle_sampler_table[4];
 struct MotionKeySamplerTable { s32 value; u8 remaining[0x20]; };
 extern MotionKeySamplerTable motion_key_sampler_table;
 extern s32 motion_packed_rotation_mode;
@@ -197,11 +195,11 @@ void select_motion_sampler(s32 *arg0, f32 farg0) {
     *(s32 *)((s8 *)current_motion_context + 0x1C) = 0;
     set_motion_row_stride((s32)((int) (*(u16 *)((s8 *)var_r3 + 0xA) & 0xFFFFFF3F)));
     temp_r4 = temp_r31 * 4;
-    *(s32 *)((s8 *)current_motion_context + 0x24) = (s32) *(s32 *)((s8 *)&motion_sampler_function_table.value + temp_r4);
+    *(s32 *)((s8 *)current_motion_context + 0x24) = (s32) *(s32 *)((s8 *)motion_sampler_function_table + temp_r4);
     if ((s32) motion_packed_rotation_mode != 0) {
-        *(s32 *)((s8 *)current_motion_context + 0x28) = (s32) *(s32 *)((s8 *)&motion_angle_sampler_table.value + 0xC);
+        *(s32 *)((s8 *)current_motion_context + 0x28) = (s32) *(s32 *)((s8 *)motion_angle_sampler_table + 0xC);
     } else {
-        *(s32 *)((s8 *)current_motion_context + 0x28) = (s32) *(s32 *)((s8 *)&motion_angle_sampler_table.value + temp_r4);
+        *(s32 *)((s8 *)current_motion_context + 0x28) = (s32) *(s32 *)((s8 *)motion_angle_sampler_table + temp_r4);
     }
     *(s32 *)((s8 *)current_motion_context + 0x2C) = (s32) motion_key_sampler_table.value;
 }
@@ -449,3 +447,8 @@ asm void convert_color_f32_to_u8(const NJS_ARGB *src, struct _GXColor *dst) {
 asm void convert_color_u8_to_f32(const struct _GXColor *src, NJS_ARGB *dst) {
 #include "orig_asm/pso/camera/TCameraCtrl_803D749C/convert_color_u8_to_f32.inc"
 }
+
+extern "C" void interpolate_spline_cyclic_cubic(void *keys, u32 count, f32 frame, f32 *output);
+
+void *motion_sampler_function_table[3] = { (void *)interpolate_motion_vector_keys, (void *)interpolate_spline_cyclic_cubic, (void *)interpolate_motion_vector_keys_xy };
+void *motion_angle_sampler_table[4] = { (void *)sample_motion_angle_keys, (void *)sample_motion_angle_keys, (void *)sample_motion_angle_keys, (void *)sample_motion_angle_keys_s16 };

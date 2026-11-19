@@ -24,12 +24,13 @@ void DCInvalidateRange(void *, u32);
 void ARQPostRequest(void *, u32, u32, u32, u32, u32, u32, void (*)(u32));
 void clear_aram_request_busy(u32);
 extern u8 ad_warning_arq_request[];
-extern u32 ad_warning_aram_base;
-extern s32 warning_aram_load_done_flag;
-extern int TAdWarningBaseGC__aram_alloc_size;
-extern s32 aram_request_busy_flag;
+u32 ad_warning_aram_base;
+u32 TAdWarningBaseGC__aram_capacity;
+s32 warning_aram_load_done_flag;
+int TAdWarningBaseGC__aram_alloc_size;
+int lobby_count_value;
+s32 aram_request_busy_flag;
 void DCFlushRange(void *, u32);
-extern u32 TAdWarningBaseGC__aram_capacity;
 void __ct__7TObjectFP7TObject(void *);
 
 void wait_aram_request__16TAdWarningBaseGCFv(void *arg0) {

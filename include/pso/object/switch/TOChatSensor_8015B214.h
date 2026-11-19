@@ -6,7 +6,7 @@
 extern "C" {
 }
 
-// --- C functions defined in TOChatSensor_8015B214.cpp ---
+// --- C functions defined in TOChatSensor.cpp ---
 extern "C" {
 }
 // --- end of C functions

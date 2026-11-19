@@ -585,7 +585,16 @@ void TLobby::free_boss4rock() { ((TLobby *)lbl_805D60A4)->free_boss4rock(1); lbl
 s32 run_step__9TItemDropFl(int, void *);
 s32 __cvt_fp2unsigned(f32);
 s32 rand();
-extern s32 item_drop_server_seed;
+s32 item_drop_server_seed;
+s32 lbl_805D60D4;
+s32 map_set_data_handle_a;
+s32 map_set_data_handle_b;
+s32 map_set_object_id_counter;
+s32 TLobby__next_enemy_set_actor_id;
+s32 map_object_id_counter;
+s32 map_set_enemy_id_counter;
+u8 *TLobby__map_set_file_buffer;
+s32 TLobby__map_set_file_buffer_size;
 void TLobby__sub_8020A2AC(void) {
     s32 temp_r3;
     s32 temp_r3_2;
@@ -731,8 +740,6 @@ extern "C" {
 s32 read_disc_file(const char *, void *);
 // The callers pass the signed file size as the count.
 s32 load_object_set_entries__6TLobbyFlPUcUl(s32, u8 *, s32);
-extern u8 *TLobby__map_set_file_buffer;
-extern s32 TLobby__map_set_file_buffer_size;
 }
 s32 load_enemy_set_file(s32 idx, s32 arg1) {
     Name_8020A768 name;
@@ -787,12 +794,6 @@ s32 load_object_set_file(s32 idx, s32 arg1) {
     return 1;
 }
 
-extern s32 map_set_data_handle_a;
-extern s32 map_set_data_handle_b;
-extern s32 map_set_object_id_counter;
-extern s32 TLobby__next_enemy_set_actor_id;
-extern s32 map_object_id_counter;
-extern s32 map_set_enemy_id_counter;
 extern s16 TLobby__data_805D6134;
 extern s32 TLobby__data_805D6148;
 extern s32 TLobby__data_805D614C;

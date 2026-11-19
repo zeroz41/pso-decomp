@@ -5,7 +5,7 @@ extern "C" {
 
 void __dt__5THeapFv(void*, int);
 
-extern u32 TParticleCtrl__heap;
+u32 TParticleCtrl__heap;
 
 void TParticleCtrl::free_heap() {
     if ((u32) TParticleCtrl__heap != 0U) {

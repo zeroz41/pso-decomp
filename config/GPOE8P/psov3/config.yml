@@ -8358,6 +8358,7 @@ force_active:
   - lbl_805D4B34
   - lbl_805D4B40
   - lbl_805D4B90
+  - lbl_805D4BE4
   - lbl_805D4DC0
   - lbl_805D4EE0
   - lbl_805D4FF8
@@ -8397,6 +8398,7 @@ force_active:
   - lbl_805D6014
   - lbl_805D6018
   - lbl_805D60B8
+  - lbl_805D60D4
   - lbl_805D6160
   - lbl_805D6220
   - lbl_805D6228
@@ -8534,9 +8536,14 @@ force_active:
   - lbl_805D76D4
   - lbl_805D77A0
   - lbl_805D77A4
+  - lbl_805D77F4
   - lbl_805D7818
   - lbl_805D7828
+  - lbl_805D78B4
   - lbl_805D7A58
+  - lbl_805D7A5C
+  - lbl_805D7ACC
+  - lbl_805D7AEC
   - lbl_805D7CC8
   - lbl_805D7D3C
   - lbl_805D7DD8

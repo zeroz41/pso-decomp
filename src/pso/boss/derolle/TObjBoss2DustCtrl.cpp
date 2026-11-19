@@ -1,4 +1,7 @@
+#pragma defer_codegen on
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/boss/derolle/TObjBoss2DustCtrl.h"
+#include "pso/boss/derolle/TObjBoss2Dust.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/unk/text_803D96A8.h"
@@ -6,6 +9,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/MatrixOps.h"
+#include "pso/system/vector.h"
 #include "pso/system/task/TObject.h"
 
 extern "C" {
@@ -36,6 +40,7 @@ Vec boss2_dust_points[6];
 s32 boss2_dust_rotation_table[20];
 Out_8003AD54 boss2_dust_output_table[60];
 s32 boss2_dust_random_angles[10];
+extern const f32 lbl_805D85B0;
 extern const f32 lbl_805D85B8;
 extern const f32 lbl_805D85BC;
 extern const f32 lbl_805D85C0;
@@ -43,51 +48,86 @@ extern const f32 lbl_805D85C4;
 extern const f32 lbl_805D85C8;
 s32 TObjBoss2DustCtrl_dust_counter;
 
-void __ct__7TObjectFP7TObject(void *);
 extern s32 __vt__17TObjBoss2DustCtrl[];
-extern void *TObjBoss2DustCtrl__name;
 extern s32 tl_05;
 
-extern "C" {
 s32 post_translate_matrix(int);
 }
 
-extern "C" {
+struct RecoveredGlobal_8003AA9C___vt__13TObjBoss2Dust {
+    s32 value;
+    u8 remaining[0x14];
+};
+typedef char RecoveredGlobal_8003AA9C___vt__13TObjBoss2Dust_size[sizeof(RecoveredGlobal_8003AA9C___vt__13TObjBoss2Dust) == 0x18 ? 1 : -1];
 
-void boss2_dust_draw_at(s32 *arg0, s32 arg1) {
-    s32 *var_r30;
-    s32 *var_r3;
-    s32 var_r31;
-    s32 var_r4;
-    s32 var_r5;
-    var_r30 = arg0;
-    var_r31 = arg1;
-    TParticleCtrl::end_effect_render();
-    push_matrix();
-    var_r3 = var_r30;
-    post_translate_matrix((int)var_r3);
-    var_r5 = var_r31 * 0x60;
-    var_r3 = (s32 *)((s32 *)boss2_dust_output_table);
-    var_r4 = 6;
-    var_r3 = (s32 *)((u8 *)(s32 *)boss2_dust_output_table + var_r5);
-    var_r5 = 0;
-    ((TObjPlayer *)var_r3)->draw_trail_strip((void *)6, 0);
-    pop_matrix();
+extern "C" {
+s32 __ct__7TObjectFP7TObject(void *, void *);
+extern RecoveredGlobal_8003AA9C___vt__13TObjBoss2Dust __vt__13TObjBoss2Dust;
 }
 
-}
-extern "C" {
-void TObjBoss2DustCtrl__sub_8003AB5C(void) {
-    s32 temp_r0;
+#pragma push
+#pragma readonly_strings on
+const char *TObjBoss2DustCtrl__name = "TObjBoss2DustCtrl";
+const char *TObjBoss2Dust__name = "TObjBoss2Dust";
+#pragma pop
 
-    temp_r0 = TObjBoss2DustCtrl_dust_counter + 1;
-    TObjBoss2DustCtrl_dust_counter = temp_r0;
-    if (temp_r0 >= 0xA) {
-        TObjBoss2DustCtrl_dust_counter = 0;
+extern "C" {
+void fn_8003AD54(void) {
+    s32 i;
+    s32 j;
+
+    for (i = 0; i < 6; i++) {
+        s32 a = (s32)(lbl_805D85C0 * (f32)i);
+        f32 s = lbl_805D85C4 * sin_table_lookup(a);
+        boss2_dust_points[i].x = s;
+        boss2_dust_points[i].y = lbl_805D85C8 * (f32)i;
+        boss2_dust_points[i].z = lbl_805D85C4 * cos_table_lookup(a, s);
+    }
+    {
+        s32 *p = boss2_dust_rotation_table;
+        for (i = 0; i < 20; i++) {
+            *p++ = TObjPlayer::calc_random_scaled();
+        }
+    }
+    {
+        Out_8003AD54 *o = boss2_dust_output_table;
+        for (i = 0; i < 60; i++) {
+            o->x = lbl_805D85B8;
+            o->y = lbl_805D85B8;
+            o->z = lbl_805D85B8;
+            o->c = 0xFF709070;
+            o++;
+        }
+    }
+    for (j = 0; j < 10; j++) {
+        boss2_dust_random_angles[j] = TObjPlayer::calc_random_scaled();
+    }
+    TObjBoss2DustCtrl_dust_counter = 0;
+}
+
+void TObjBoss2DustCtrl__sub_8003AD50(void) {  }
+}
+
+void TObjBoss2DustCtrl::create() {
+    void* obj = TObject::operator new(0x1C);
+    if (obj != 0) {
+        ((s32 (*)(void *, s32))TObjBoss2DustCtrl__ct)(obj, tl_05);
     }
 }
+
+extern "C" {
+void *TObjBoss2DustCtrl__ct(void *boss2_dust_ctrl) {
+    void __ct__7TObjectFP7TObject(void *);
+    __ct__7TObjectFP7TObject(boss2_dust_ctrl);
+    *(s32 **)((s8 *)boss2_dust_ctrl + 0x18) = __vt__17TObjBoss2DustCtrl;
+    ((TObjBoss2DustCtrl *)boss2_dust_ctrl)->m_name = TObjBoss2DustCtrl__name;
+    return boss2_dust_ctrl;
+}
 }
 
+TObjBoss2DustCtrl::~TObjBoss2DustCtrl() {}
+
+extern "C" {
 #pragma push
 #pragma opt_propagation off
 void TObjBoss2DustCtrl::run_task() {
@@ -124,55 +164,55 @@ void TObjBoss2DustCtrl::run_task() {
 }
 #pragma pop
 
-}
+void TObjBoss2DustCtrl__sub_8003AB5C(void) {
+    s32 temp_r0;
 
-TObjBoss2DustCtrl::~TObjBoss2DustCtrl() {}
-
-void *TObjBoss2DustCtrl__ct(void *boss2_dust_ctrl) {
-    __ct__7TObjectFP7TObject(boss2_dust_ctrl);
-    *(s32 **)((s8 *)boss2_dust_ctrl + 0x18) = __vt__17TObjBoss2DustCtrl;
-    *(void * *)&((TObjBoss2DustCtrl *)boss2_dust_ctrl)->m_name = TObjBoss2DustCtrl__name;
-    return boss2_dust_ctrl;
-}
-
-void TObjBoss2DustCtrl::create() {
-    void* obj = TObject::operator new(0x1C);
-    if (obj != 0) {
-        ((s32 (*)(void *, s32))TObjBoss2DustCtrl__ct)(obj, tl_05);
+    temp_r0 = TObjBoss2DustCtrl_dust_counter + 1;
+    TObjBoss2DustCtrl_dust_counter = temp_r0;
+    if (temp_r0 >= 0xA) {
+        TObjBoss2DustCtrl_dust_counter = 0;
     }
 }
 
-void TObjBoss2DustCtrl__sub_8003AD50(void) {  }
+void boss2_dust_draw_at(s32 *arg0, s32 arg1) {
+    s32 *var_r30;
+    s32 *var_r3;
+    s32 var_r31;
+    s32 var_r4;
+    s32 var_r5;
+    var_r30 = arg0;
+    var_r31 = arg1;
+    TParticleCtrl::end_effect_render();
+    push_matrix();
+    var_r3 = var_r30;
+    post_translate_matrix((int)var_r3);
+    var_r5 = var_r31 * 0x60;
+    var_r3 = (s32 *)((s32 *)boss2_dust_output_table);
+    var_r4 = 6;
+    var_r3 = (s32 *)((u8 *)(s32 *)boss2_dust_output_table + var_r5);
+    var_r5 = 0;
+    ((TObjPlayer *)var_r3)->draw_trail_strip((void *)6, 0);
+    pop_matrix();
+}
 
-void fn_8003AD54(void) {
-    s32 i;
-    s32 j;
+u8 *__ct__13TObjBoss2DustFv(u8 *object, s32 arg1, s32 arg2) {
+    s32 TObjBoss2DustCtrl__sub_8003AB5C();
+    __ct__7TObjectFP7TObject((void *)object, (void *)arg1);
+    *(s32 **)((s8 *)object + 0x18) = &__vt__13TObjBoss2Dust.value;
+    *(const char **)((s8 *)object + 0) = TObjBoss2Dust__name;
+    VecCopy((Vec *)(object + 0x24), (const Vec *)(arg2));
+    *(s32 *)((s8 *)object + 0x1C) = 0;
+    *(s32 *)((s8 *)object + 0x20) = TObjBoss2DustCtrl__sub_8003AB5C();
+    return object;
+}
+}
 
-    for (i = 0; i < 6; i++) {
-        s32 a = (s32)(lbl_805D85C0 * (f32)i);
-        f32 s = lbl_805D85C4 * sin_table_lookup(a);
-        boss2_dust_points[i].x = s;
-        boss2_dust_points[i].y = lbl_805D85C8 * (f32)i;
-        boss2_dust_points[i].z = lbl_805D85C4 * cos_table_lookup(a, s);
+TObjBoss2Dust::~TObjBoss2Dust() {}
+
+void TObjBoss2Dust::run_task() {
+    *(f32 *)((s8 *)this + 0x2C) = (f32) (*(f32 *)((s8 *)this + 0x2C) - lbl_805D85B0);
+    *(s32 *)((s8 *)this + 0x1C) = (s32) (*(s32 *)((s8 *)this + 0x1C) + 1);
+    if ((s32) *(s32 *)((s8 *)this + 0x1C) >= 0x5A) {
+        queue_destruction();
     }
-    {
-        s32 *p = boss2_dust_rotation_table;
-        for (i = 0; i < 20; i++) {
-            *p++ = TObjPlayer::calc_random_scaled();
-        }
-    }
-    {
-        Out_8003AD54 *o = boss2_dust_output_table;
-        for (i = 0; i < 60; i++) {
-            o->x = lbl_805D85B8;
-            o->y = lbl_805D85B8;
-            o->z = lbl_805D85B8;
-            o->c = 0xFF709070;
-            o++;
-        }
-    }
-    for (j = 0; j < 10; j++) {
-        boss2_dust_random_angles[j] = TObjPlayer::calc_random_scaled();
-    }
-    TObjBoss2DustCtrl_dust_counter = 0;
 }

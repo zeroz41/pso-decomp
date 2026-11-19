@@ -35,7 +35,7 @@ struct RecoveredGlobal_8023DA10___vt__12TTecZondeEff {
     u8 remaining[0x14];
 };
 
-struct P_8023DBB4 { void *vt; s32 n; u8 pad[4]; };
+struct P_8023DBB4 { void *vt; s32 n; };
 
 struct Rec_8023D4A8 { f32 a, b, c; };
 
@@ -128,7 +128,7 @@ extern "C" {
 void __ct__7TObjectFP7TObject(void *, void *);
 extern RecoveredGlobal_8023D988___vt__12TTecZondeEff __vt__12TTecZondeEff;
 const char *TTecZondeEff_class_name = "TTecZondeEff";
-extern P_8023DBB4 tec_zonde_effect_task_list;
+P_8023DBB4 tec_zonde_effect_task_list;
 extern char lbl_804CC8C8[];
 s32 TTecZondeEff__beam_vertex_data;
 f32 rand_signed_unit();
