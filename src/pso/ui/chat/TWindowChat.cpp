@@ -27,6 +27,7 @@ struct Win_802473C8 { u8 pad0[0x1E]; u16 flags; };
 #include "pso/ui/window/TWindowSubShortCut.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/unk/TUnk_804CE7D0.h"
+#include "pso/ui/window/TWindowKeyBoardSoft.h"
 
 #pragma push
 #pragma readonly_strings on
@@ -74,7 +75,6 @@ s32 is_on_current_screen__11TCameraCtrlFv(void *, s32);
 s32 check_flag_100__10TObjPlayerFPv();
 extern u8 controller_input_state[];
 s32 __nw__7TObjectFUl(int);
-s32 TWindowKeyBoardSoft__ct(int, void *, void *);
 s32 get_window_layout_position(int);
 void *__dt__11TWindowChatFv(void *, s16);
 void *__dt__11TWindowChatFv(void *arg0, s16 arg1);
@@ -375,8 +375,6 @@ void TWindowChat::handle_chat_input() {
 
 void TWindowChat::open_next_input_window() {
     u8 *arg0 = (u8*)this;
-    s32 temp_r3;
-    s32 var_r0;
     if (((RecoveredFields_8024792C_arg0 *)arg0)->field_1E & 2) {
         *((RecoveredFields_8024792C_arg0 *)arg0)->field_38 = 1;
         ((TWindowSubSymbolChatPartsSet *)(((RecoveredFields_8024792C_arg0 *)arg0)->field_20 + 0x30))->copy_vec2((void*)(get_window_layout_position(0xB7)));
@@ -386,12 +384,7 @@ void TWindowChat::open_next_input_window() {
     switch ((s8) (((RecoveredFields_8024792C_arg0 *)arg0)->field_1C)) {
     case 0:
         *((RecoveredFields_8024792C_arg0 *)arg0)->field_38 = 1;
-        temp_r3 = __nw__7TObjectFUl(0x70);
-        var_r0 = temp_r3;
-        if (var_r0 != 0) {
-            var_r0 = TWindowKeyBoardSoft__ct((int)temp_r3, (void *) (((RecoveredFields_8024792C_arg0 *)arg0)->field_20), (void *)local_client_id);
-        }
-        ((RecoveredFields_8024792C_arg0 *)arg0)->field_24 = var_r0;
+        ((RecoveredFields_8024792C_arg0 *)arg0)->field_24 = (s32)new TWindowKeyBoardSoft((TWindowKeyBoardBase *)((RecoveredFields_8024792C_arg0 *)arg0)->field_20, local_client_id);
         fn_80247ED8((void*)((int) (((RecoveredFields_8024792C_arg0 *)arg0)->field_24)));
         ((TWindowSubSymbolChatPartsSet *)(((RecoveredFields_8024792C_arg0 *)arg0)->field_20 + 0x30))->copy_vec2((void*)(get_window_layout_position(0xB8)));
         *(s32 *)((s8 *)(((RecoveredFields_8024792C_arg0 *)arg0)->field_20) + 0x50) = 3;

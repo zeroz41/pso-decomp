@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/ui/window/WindowDrawContext.h"
 #include "pso/system/ControllerInputState.h"
 #include "pso/ui/window/TWindowSubCustomEquip.h"
 #include "pso/ui/window/TWindowSubCustomSelect.h"
@@ -19,7 +20,6 @@ struct Obj_80275DB4 { u8 pad[0x60]; char f60; u8 pad2[0x6c - 0x61]; void *f6c; }
 
 struct Win_80275F90 { u8 pad[0x66]; s16 f66; };
 
-struct Rect_80275DE8 { f32 x0, y0, x1, y1, u0, v0, u1, v1; };
 
 
 extern s32 lbl_805D63F0;
@@ -100,7 +100,6 @@ s32 can_use_palette_action__10TObjPlayerFPvUcUc(void *, u8, u8);
 u8 *get_array_entry__11TWindowBaseFi(void *, s32);
 void update_palette_item_count_label(u8 *, u8 *, s32, s32, s32);
 void draw_action_palette_icon(u8 *, s32, s32);
-s32 try_open__19TWindowKeyBoardSoftFii(s32 arg0, s32 arg1);
 void begin_screen_draw(s32 arg0);
 void draw_textured_quad_at_depth(f32 *q, f32 depth);
 void set_draw_texture_and_color(s32 idx, s32 arg1);
@@ -118,7 +117,7 @@ void TWindowSubCustomEquip::clear_flag_and_set_entry_state() {
 #pragma push
 #pragma fp_contract on
 void draw_cursor_sprite__21TWindowSubCustomEquipFPvPvif(u8 *arg0, NJS_POINT2 *arg1, s32 arg2, f32 farg0) {
-    Rect_80275DE8 r;
+    TexturedQuad r;
     const NJS_POINT2 *t;
     f32 scale;
     if (*(s32 *)((s8 *)arg0 + 0x30) < 0) {
@@ -138,7 +137,7 @@ void draw_cursor_sprite__21TWindowSubCustomEquipFPvPvif(u8 *arg0, NJS_POINT2 *ar
     r.v0 = t->y / 256.0f;
     r.u1 = (64.0f + t->x) / 256.0f;
     r.v1 = (64.0f + t->y) / 256.0f;
-    if (try_open__19TWindowKeyBoardSoftFii((s32)arg0, (s32)&r) != 0) {
+    if (((WindowDrawContext *)arg0)->clip_and_transform_quad(&r) != 0) {
         draw_textured_quad_at_depth((f32 *)&r, scale);
     }
     TWindowSubStatusDisp::get_player();

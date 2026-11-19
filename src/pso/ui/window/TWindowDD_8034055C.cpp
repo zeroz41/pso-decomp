@@ -29,7 +29,7 @@ void TWindowDD__sub_8034055C(TUnk_804EFBAC *self) {
     E_803403F8 points[8];
     Quad_8034055C q;
     s32 count;
-    TWindowKeyBoardSoft *ctx;
+    WindowDrawContext *ctx;
     s32 sel;
     s32 i;
     f32 depth;
@@ -38,7 +38,7 @@ void TWindowDD__sub_8034055C(TUnk_804EFBAC *self) {
     f32 h;
     u32 color;
 
-    ctx = (TWindowKeyBoardSoft *)TWindowDD::draw_default_entry((s32)self);
+    ctx = (WindowDrawContext *)TWindowDD::draw_default_entry((s32)self);
     if (ctx->open_tick < 0) {
         return;
     }

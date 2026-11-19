@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/ui/window/WindowDrawContext.h"
 #include "pso/ui/window/TWindowInputNumber.h"
 #include "pso/ui/window/TWindowHelpItem.h"
 #include "pso/ui/window/TWindowSubMag.h"
@@ -155,7 +156,6 @@ extern "C" {
 extern s8 controller_input_state[];
 u8 test_input_flag__18TWindowInputNumberFv(u8 *arg0);
 void draw_arrows__18TWindowInputNumberFv(TWindowInputNumber *, Ctx_802563A0 *, Digit_802561E8 *, int);
-void apply_context_transform_to_rect(Ctx_802563A0 *, Quad_802563A0 *);
 void begin_screen_draw(s32);
 void set_draw_texture_and_color(s32, s32);
 void draw_textured_quad_at_depth(f32 *q, f32 depth);
@@ -266,7 +266,7 @@ void draw_arrows__18TWindowInputNumberFv(TWindowInputNumber *self, Ctx_802563A0 
     q.v = uv->v / 256.0f;
     q.u2 = (14.0f + uv->u) / 256.0f;
     q.v2 = (12.0f + uv->v) / 256.0f;
-    apply_context_transform_to_rect(ctx, &q);
+    ((WindowDrawContext *)ctx)->transform_quad((TexturedQuad *)&q);
     draw_textured_quad_at_depth((f32 *)&q, depth);
     q.x = x;
     q.y = 25.0f + y;
@@ -276,7 +276,7 @@ void draw_arrows__18TWindowInputNumberFv(TWindowInputNumber *self, Ctx_802563A0 
     q.v = (28.0f + uv->v) / 256.0f;
     q.u2 = (14.0f + uv->u) / 256.0f;
     q.v2 = (28.0f + (12.0f + uv->v)) / 256.0f;
-    apply_context_transform_to_rect(ctx, &q);
+    ((WindowDrawContext *)ctx)->transform_quad((TexturedQuad *)&q);
     draw_textured_quad_at_depth((f32 *)&q, depth);
     q.x = x;
     q.y = 19.0f + y;
@@ -286,7 +286,7 @@ void draw_arrows__18TWindowInputNumberFv(TWindowInputNumber *self, Ctx_802563A0 
     q.v = (13.0f + uv->v) / 256.0f;
     q.u2 = (14.0f + uv->u) / 256.0f;
     q.v2 = (13.0f + (12.0f + uv->v)) / 256.0f;
-    apply_context_transform_to_rect(ctx, &q);
+    ((WindowDrawContext *)ctx)->transform_quad((TexturedQuad *)&q);
     draw_textured_quad_at_depth((f32 *)&q, depth);
     TWindowSubStatusDisp::get_player();
 }

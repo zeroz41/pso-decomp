@@ -201,7 +201,7 @@ void TUnk_804CF948::calc_bar_width() {
 #pragma fp_contract on
 #define self ((Gauge_80257784 *)this)
 #define parent ((Parent_80257784 *)context)
-void TUnk_804CF948::render(TWindowKeyBoardSoft *context) {
+void TUnk_804CF948::render(WindowDrawContext *context) {
     NJS_POINT2 pos;
     f32 scale;
     f32 lo;

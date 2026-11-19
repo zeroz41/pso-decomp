@@ -445,7 +445,7 @@ void TWindowCtrlMain::reset_all(void* _w0) {
     s32 i;
     load_hud_palette_textures();
     TWindowCtrlMain__sub_8024EF30();
-    TWindowKeyBoardSoft::get_or_create_instance();
+    WindowDrawContext::get_or_create_instance();
     TWindowCtrlMain__display_flags = 0;
     TWindowCtrlMain__window_task_root = NULL;
     TWindowCtrlMain__screen_controller = NULL;

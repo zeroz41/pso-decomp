@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/ui/window/WindowDrawContext.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TUnk_804CF0B8.h"
 #include "pso/ui/window/TWindowFukidasi.h"
@@ -201,7 +202,6 @@ void open__15TWindowFukidasiFPvPvi(u8 *arg0, u32 *arg1, s32 arg2);
 void set_text__15TWindowFukidasiFPvii(u8 *arg0, s32 arg1, s32 arg2);
 void init_flags__15TWindowFukidasiFPvi(void *arg0, s32 arg1);
 void draw_name_plate__15TWindowFukidasiFv(TUnk_804CF0B8 *, View_80252764 *, u32);
-void apply_context_transform_to_rect(View_80252764 *ctx, f32 *rect);
 void TWindowFukidasi__sub_80252C38(void *p);
 void clear_flag_20__13TUnk_804CF0B8Fv();
 s32 fn_80252CBC(void);
@@ -568,7 +568,7 @@ void draw_name_plate__15TWindowFukidasiFv(TUnk_804CF0B8 *self, View_80252764 *ar
     q[5] = 0.92578125f;
     q[6] = 0.62890625f;
     q[7] = 1.0f;
-    apply_context_transform_to_rect(arg1, q);
+    ((WindowDrawContext *)arg1)->transform_quad((TexturedQuad *)q);
     draw_textured_quad_at_depth(q, scale);
     if (textW < 20.0f)
     {
@@ -585,7 +585,7 @@ void draw_name_plate__15TWindowFukidasiFv(TUnk_804CF0B8 *self, View_80252764 *ar
     q[5] = 0.92578125f;
     q[6] = 0.75390625f;
     q[7] = 1.0f;
-    apply_context_transform_to_rect(arg1, q);
+    ((WindowDrawContext *)arg1)->transform_quad((TexturedQuad *)q);
     draw_textured_quad_at_depth(q, scale);
     if (textW > 20.0f)
     {
@@ -600,7 +600,7 @@ void draw_name_plate__15TWindowFukidasiFv(TUnk_804CF0B8 *self, View_80252764 *ar
       q[5] = 0.92578125f;
       q[6] = 0.69140625f;
       q[7] = 1.0f;
-      apply_context_transform_to_rect(arg1, q);
+      ((WindowDrawContext *)arg1)->transform_quad((TexturedQuad *)q);
       draw_textured_quad_at_depth(q, scale);
     }
     TWindowSubStatusDisp::get_player();

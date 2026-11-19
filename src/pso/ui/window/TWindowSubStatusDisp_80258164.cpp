@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/ui/window/WindowDrawContext.h"
 #include "pso/unk/TLobby.h"
 #include "pso/unk/TUnk_804CF930.h"
 #include "pso/unk/TUnk_804CF998.h"
@@ -723,7 +724,6 @@ extern s32 lbl_805D63F0;
 extern const f32 lbl_805DCF1C;
 void begin_screen_draw(s32 arg0);
 void set_draw_texture_and_color(s32 idx, s32 arg1);
-s32 try_open__19TWindowKeyBoardSoftFii(s32, s32);
 void draw_textured_quad_at_depth(f32 *q, f32 depth);
 
 void draw_item_list_icon(s32 win, u8 *pos, s32 icon, s32 style, f32 depth) {
@@ -752,7 +752,7 @@ void draw_item_list_icon(s32 win, u8 *pos, s32 icon, s32 style, f32 depth) {
         q.v[6] = edge * scale;
         edge = offset + entry[1];
         q.v[7] = edge * scale;
-        if (try_open__19TWindowKeyBoardSoftFii(win, (s32)&q) != 0) {
+        if (((WindowDrawContext *)win)->clip_and_transform_quad((TexturedQuad *)&q) != 0) {
             draw_textured_quad_at_depth(q.v, depth);
         }
         TWindowSubStatusDisp::get_player();
@@ -763,7 +763,7 @@ void draw_item_list_icon(s32 win, u8 *pos, s32 icon, s32 style, f32 depth) {
 typedef struct ItemListPosition ItemListPosition;
 typedef struct ItemListWindowView ItemListWindowView;
 #pragma fp_contract on
-void ItemListRow::render(TWindowKeyBoardSoft *context) {
+void ItemListRow::render(WindowDrawContext *context) {
   ItemListWindowView *win = (ItemListWindowView *)context;
   ItemListPosition pos;
   f32 y;

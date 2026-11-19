@@ -3,7 +3,7 @@
 
 extern const f32 lbl_805DCEF8;
 
-void TUnk_804CF998::render(TWindowKeyBoardSoft *) {}
+void TUnk_804CF998::render(WindowDrawContext *) {}
 
 void TUnk_804CF998::update() {}
 

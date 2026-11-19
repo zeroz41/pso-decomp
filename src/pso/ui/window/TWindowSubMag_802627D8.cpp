@@ -12,9 +12,9 @@ u16 * get_array_entry__11TWindowBaseFi(void * a0, s32 a1);
 u16 * get_array_entry__11TWindowBaseFi(void * a0 = 0, s32 a1 = 0);
 
 int TWindowSubMag__sub_802627D8(void* p) { return *(u32*)((char*)p + 0x60) & 0x1; }
-int TWindowKeyBoardSoft::is_cursor_locked() { return (this->m_7c >> 7) & 0x1; }
-int TWindowKeyBoardSoft::get_flag_bit6() { return (this->m_7c >> 6) & 0x1; }
-int TWindowKeyBoardSoft::get_flag_bit5() { return (this->m_7c >> 5) & 0x1; }
+int TWindowKeyBoardSoft::is_cursor_locked() { return (this->m_60 >> 7) & 0x1; }
+int TWindowKeyBoardSoft::get_flag_bit6() { return (this->m_60 >> 6) & 0x1; }
+int TWindowKeyBoardSoft::get_flag_bit5() { return (this->m_60 >> 5) & 0x1; }
 int TWindowSubMag__sub_80262808(void* p) { return *(u16*)((char*)p + 0x62) & 0x8; }
 
 void TWindowSubMag::set_mag_slot_state(s32 item) {

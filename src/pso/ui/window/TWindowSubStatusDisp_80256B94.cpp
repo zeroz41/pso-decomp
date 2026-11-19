@@ -1,6 +1,7 @@
 #pragma defer_codegen on
 
 #include "types.h"
+#include "pso/ui/window/WindowDrawContext.h"
 #include "pso/unk/TUnk_804CF918.h"
 #include "pso/system/memory.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -36,12 +37,10 @@ struct Gauge_802571B4 {
     f32 val;
 };
 
-struct Quad_80256E0C { f32 x0, y0, x1, y1, u0, v0, u1, v1; };
 
 extern "C" {
-s32 try_open__19TWindowKeyBoardSoftFii(void *, void *);
 void draw_textured_quad_at_depth(f32 *q, f32 depth);
-void TWindowSubStatusDisp__sub_80256C40(TUnk_804CF930 *self, TWindowKeyBoardSoft *ctx, NJS_POINT2 *pos, f32 depth);
+void TWindowSubStatusDisp__sub_80256C40(TUnk_804CF930 *self, WindowDrawContext *ctx, NJS_POINT2 *pos, f32 depth);
 extern s32 __vt__13TUnk_804CF930[];
 typedef void *(*Ctor_80257D44)(void *, void *, s32);
 
@@ -70,7 +69,7 @@ void TUnk_804CF930::update() {
     }
 }
 
-void TUnk_804CF930::render(TWindowKeyBoardSoft *ctx) {
+void TUnk_804CF930::render(WindowDrawContext *ctx) {
     NJS_POINT2 pos;
     f32 depth;
     f32 len;
@@ -108,7 +107,7 @@ void TUnk_804CF930::render(TWindowKeyBoardSoft *ctx) {
 
 void TUnk_804CF930::draw_status_gauge_bar(void *ctx, void *pos_arg, f32 depth, f32 len) {
     NJS_POINT2 *pos = (NJS_POINT2 *)pos_arg;
-    Quad_80256E0C q;
+    TexturedQuad q;
     f32 w;
     f32 end;
     if (len <= 0.0f) {
@@ -127,7 +126,7 @@ void TUnk_804CF930::draw_status_gauge_bar(void *ctx, void *pos_arg, f32 depth, f
     q.v0 = 0.1171875f;
     q.u1 = (230.0f + w) / 256.0f;
     q.v1 = 0.14453125f;
-    if (try_open__19TWindowKeyBoardSoftFii(ctx, &q) != 0) {
+    if (((WindowDrawContext *)ctx)->clip_and_transform_quad(&q) != 0) {
         draw_textured_quad_at_depth((f32 *)&q, depth);
     }
     if (len <= 4.0f) {
@@ -142,7 +141,7 @@ void TUnk_804CF930::draw_status_gauge_bar(void *ctx, void *pos_arg, f32 depth, f
     q.v0 = 0.1171875f;
     q.u1 = 0.97265625f;
     q.v1 = 0.14453125f;
-    if (try_open__19TWindowKeyBoardSoftFii(ctx, &q) != 0) {
+    if (((WindowDrawContext *)ctx)->clip_and_transform_quad(&q) != 0) {
         draw_textured_quad_at_depth((f32 *)&q, depth);
     }
     end = scale - 4.0f;
@@ -158,13 +157,13 @@ void TUnk_804CF930::draw_status_gauge_bar(void *ctx, void *pos_arg, f32 depth, f
     q.v0 = 0.1171875f;
     q.u1 = (252.0f + w) / 256.0f;
     q.v1 = 0.14453125f;
-    if (try_open__19TWindowKeyBoardSoftFii(ctx, &q) != 0) {
+    if (((WindowDrawContext *)ctx)->clip_and_transform_quad(&q) != 0) {
         draw_textured_quad_at_depth((f32 *)&q, depth);
     }
 }
 
-void TWindowSubStatusDisp__sub_80256C40(TUnk_804CF930 *self, TWindowKeyBoardSoft *ctx, NJS_POINT2 *pos, f32 depth) {
-    Quad_80256E0C q;
+void TWindowSubStatusDisp__sub_80256C40(TUnk_804CF930 *self, WindowDrawContext *ctx, NJS_POINT2 *pos, f32 depth) {
+    TexturedQuad q;
     f32 w;
     w = self->scale - -2.0f;
     q.x0 = -1.0f + pos->x;
@@ -175,7 +174,7 @@ void TWindowSubStatusDisp__sub_80256C40(TUnk_804CF930 *self, TWindowKeyBoardSoft
     q.v0 = 0.93359375f;
     q.u1 = 0.2265625f;
     q.v1 = 0.96875f;
-    if (try_open__19TWindowKeyBoardSoftFii(ctx, &q) != 0) {
+    if (((WindowDrawContext *)ctx)->clip_and_transform_quad(&q) != 0) {
         draw_textured_quad_at_depth((f32 *)&q, depth);
     }
     q.x0 = 20.0f + (-1.0f + pos->x);
@@ -186,7 +185,7 @@ void TWindowSubStatusDisp__sub_80256C40(TUnk_804CF930 *self, TWindowKeyBoardSoft
     q.v0 = 0.93359375f;
     q.u1 = 0.30859375f;
     q.v1 = 0.96875f;
-    if (try_open__19TWindowKeyBoardSoftFii(ctx, &q) != 0) {
+    if (((WindowDrawContext *)ctx)->clip_and_transform_quad(&q) != 0) {
         draw_textured_quad_at_depth((f32 *)&q, depth);
     }
     q.x0 = ((-1.0f + pos->x) + w) - 20.0f;
@@ -197,7 +196,7 @@ void TWindowSubStatusDisp__sub_80256C40(TUnk_804CF930 *self, TWindowKeyBoardSoft
     q.v0 = 0.93359375f;
     q.u1 = 0.48828125f;
     q.v1 = 0.96875f;
-    if (try_open__19TWindowKeyBoardSoftFii(ctx, &q) != 0) {
+    if (((WindowDrawContext *)ctx)->clip_and_transform_quad(&q) != 0) {
         draw_textured_quad_at_depth((f32 *)&q, depth);
     }
 }
@@ -214,7 +213,7 @@ void TUnk_804CF930::calc_bar_width() {
     this->width = v;
 }
 
-void TUnk_804CF918::render(TWindowKeyBoardSoft *) {  }
+void TUnk_804CF918::render(WindowDrawContext *) {  }
 
 void TUnk_804CF918::update() {}
 

@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/ui/window/WindowDrawContext.h"
 #include "pso/ui/window/TWindowPartyStatus.h"
 #include "pso/ui/window/TWindowSimpleStatus.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -37,7 +38,6 @@ s32 TWindowSubComCard__sub_802452DC(int);
 s32 TWindowSubComCard__sub_80245320(void *, void *);
 s32 TWindowSubComCard__sub_802454E4(int);
 s32 TWindowSubComCard__sub_80245558(void *, void *, void *);
-s32 apply_context_transform_to_rect(void *, void *);
 void begin_screen_draw(s32 arg0);
 void draw_textured_quad_at_depth(f32 *q, f32 depth);
 void set_draw_texture_and_color(s32 idx, s32 arg1);
@@ -104,7 +104,7 @@ void TWindowPartyStatus::draw_background(u8 *arg1) {
     stack.sp1C = 0.703125f;
     stack.sp20 = 0.4453125f;
     stack.sp24 = 0.8828125f;
-    apply_context_transform_to_rect(arg1, &stack.sp8);
+    ((WindowDrawContext *)arg1)->transform_quad((TexturedQuad *)&stack.sp8);
     draw_textured_quad_at_depth((&stack.sp8), temp_f31);
     TWindowSubStatusDisp::get_player();
     if (TWindowSubComCard__sub_80245558(arg1, arg1 + 0x10, arg1 + 0x18) != 0) {

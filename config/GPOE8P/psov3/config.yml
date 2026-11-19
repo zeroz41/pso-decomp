@@ -6755,7 +6755,7 @@ force_active:
   - get_type__15TFontSmallLobbyFPv
   - get_type__23TAdSinglePlyChrSelectGCFPv
   - get_vidlist
-  - get_viewport_offset__19TWindowKeyBoardSoftFi
+  - get_viewport_offset__17WindowDrawContextFl
   - get_weapon_set_multiplier__9TItemDataFPUc
   - get_window_control_state__Fl
   - gi_gue_njm_name_table
@@ -7103,7 +7103,7 @@ force_active:
   - init_kind_params__18TObjSeabedSuiso_CHFv
   - init_launch_angles__10TTecSlicerFPlPll
   - init_layout__17TWindowSubComCardFv
-  - init_layout__19TWindowKeyBoardSoftFv
+  - __ct__17WindowDrawContextFv
   - init_light__9TObjLightFi
   - init_light_params__15TORainbowCave01Fv
   - init_light_tables__9TObjLightFv
@@ -7213,7 +7213,7 @@ force_active:
   - init_target_vector__11TMainCursorFiii
   - init_tech_params__9TTecJelinFv
   - init_telepipe_packet_header__FPv
-  - init_text_window_layout
+  - init_layout__17WindowDrawContextFPfPfPfUlf
   - init_texture_table__22TChCrLoadAfsTextureReqFv
   - init_timer__13TObjCHTimeWinFv
   - init_timer__18TChallenge4PResultFv

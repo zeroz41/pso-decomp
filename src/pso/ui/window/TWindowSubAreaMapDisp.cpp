@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/ui/window/WindowDrawContext.h"
 #include "pso/ui/window/TWindowSubAreaMapDisp.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/ui/window/TWindowCtrl.h"
@@ -73,7 +74,6 @@ s32 get_game_play_mode();
 s32 strncpy(int, int, void *);
 const char *TWindowSubAreaMapDisp__name = "TWindowSubAreaMapDisp";
 extern s32 local_client_id;
-void apply_context_transform_to_rect(void *, void *);
 extern s32 lbl_805D63F0;
 
 s32 draw_default_entry__9TWindowDDFl();
@@ -103,7 +103,7 @@ void fn_80271848(s32 arg0, u8 *arg1) {
     r.v0 = 0.1640625f;
     r.u1 = 0.91796875f;
     r.v1 = 0.21875f;
-    apply_context_transform_to_rect(arg1, &r);
+    ((WindowDrawContext *)arg1)->transform_quad((TexturedQuad *)&r);
     draw_textured_quad_at_depth((f32 *)&r, scale);
     r.x0 = 484.0f;
     r.y0 = 346.0f;
@@ -111,7 +111,7 @@ void fn_80271848(s32 arg0, u8 *arg1) {
     r.y1 = 14.0f + r.y0;
     r.u0 = 0.9296875f;
     r.u1 = 0.9765625f;
-    apply_context_transform_to_rect(arg1, &r);
+    ((WindowDrawContext *)arg1)->transform_quad((TexturedQuad *)&r);
     draw_textured_quad_at_depth((f32 *)&r, scale);
     r.x0 = 249.0f;
     r.y0 = 272.0f;
@@ -121,7 +121,7 @@ void fn_80271848(s32 arg0, u8 *arg1) {
     r.v0 = 0.0f;
     r.u1 = 0.9921875f;
     r.v1 = 0.046875f;
-    apply_context_transform_to_rect(arg1, &r);
+    ((WindowDrawContext *)arg1)->transform_quad((TexturedQuad *)&r);
     draw_textured_quad_at_depth((f32 *)&r, scale);
     r.x0 = 249.0f;
     r.y0 = 4.2e+02f;
@@ -129,7 +129,7 @@ void fn_80271848(s32 arg0, u8 *arg1) {
     r.y1 = 12.0f + r.y0;
     r.v0 = 0.109375f;
     r.v1 = 0.15625f;
-    apply_context_transform_to_rect(arg1, &r);
+    ((WindowDrawContext *)arg1)->transform_quad((TexturedQuad *)&r);
     draw_textured_quad_at_depth((f32 *)&r, scale);
     TWindowSubStatusDisp::get_player();
 }

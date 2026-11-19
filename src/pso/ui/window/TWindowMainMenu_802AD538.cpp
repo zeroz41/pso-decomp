@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/ui/window/WindowDrawContext.h"
 #include "pso/system/ControllerInputState.h"
 #include "pso/ui/window/TWindowCtrl_8024A054.h"
 #include "pso/ui/window/TWindowMainMenu_802AD538.h"
@@ -111,8 +112,6 @@ s32 apply_choice__20TWindowChoiceSettingFllll(void *, int, int, int);
 f32 TWindowSubComCard__sub_80244784(TWindowSubComCard *);
 s32 is_window_reveal_complete__11TWindowBaseFv();
 s32 sub_80246948__11TWindowBaseFv();
-s32 try_open__19TWindowKeyBoardSoftFii(s32 arg0, s32 arg1);
-Rect_802AE2B0 * open_singleton__19TWindowKeyBoardSoftFiiii(void *, void *, s32, f32, s32);
 s32 fn_8026CB68();
 void draw_item_labels__15TWindowMainMenuFv(Item_802AD538 *p, Win_802AD538 *w);
 void park_selection__15TWindowMainMenuFPv(Menu_802AD980 *arg0);
@@ -182,7 +181,7 @@ void draw_item_labels__15TWindowMainMenuFv(Item_802AD538 *p, Win_802AD538 *w) {
         r.v0 = uv->v / 256.0f;
         r.u1 = (98.0f + uv->u) / 256.0f;
         r.v1 = (16.0f + uv->v) / 256.0f;
-        if (try_open__19TWindowKeyBoardSoftFii((s32)w, (s32)&r) != 0) {
+        if (((WindowDrawContext *)w)->clip_and_transform_quad((TexturedQuad *)&r) != 0) {
             draw_textured_quad_at_depth((f32 *)&r, scale);
         }
         TWindowSubStatusDisp::get_player();
@@ -520,9 +519,8 @@ void TWindowMainMenu::draw_entries_reversed(u8 *arg1) {
 }
 
 extern s32 lbl_805D63F0;
-void apply_context_transform_to_rect(void *, void *);
 
-void TWindowMenuMainMenu::draw_frame(TWindowKeyBoardSoft *frame) {
+void TWindowMenuMainMenu::draw_frame(WindowDrawContext *frame) {
     Rect_802AD538 q;
     f32 quad_depth;
     f32 y;
@@ -544,7 +542,7 @@ void TWindowMenuMainMenu::draw_frame(TWindowKeyBoardSoft *frame) {
         q.v0 = 0.0f;
         q.u1 = 248.0f / 256.0f;
         q.v1 = 28.0f / 256.0f;
-        apply_context_transform_to_rect(frame, &q);
+        frame->transform_quad((TexturedQuad *)&q);
         draw_textured_quad_at_depth((f32 *)&q, quad_depth);
         y += 28.0f;
         h -= 28.0f;
@@ -556,7 +554,7 @@ void TWindowMenuMainMenu::draw_frame(TWindowKeyBoardSoft *frame) {
         q.v0 = 80.0f / 256.0f;
         q.u1 = 116.0f / 256.0f;
         q.v1 = 103.0f / 256.0f;
-        apply_context_transform_to_rect(frame, &q);
+        frame->transform_quad((TexturedQuad *)&q);
         draw_textured_quad_at_depth((f32 *)&q, quad_depth);
         y += 23.0f;
         h -= 23.0f;
@@ -569,7 +567,7 @@ void TWindowMenuMainMenu::draw_frame(TWindowKeyBoardSoft *frame) {
         q.v0 = 174.0f / 256.0f;
         q.u1 = 0.0f;
         q.v1 = 132.0f / 256.0f;
-        apply_context_transform_to_rect(frame, &q);
+        frame->transform_quad((TexturedQuad *)&q);
         draw_textured_quad_at_depth((f32 *)&q, quad_depth);
         y += 42.0f;
         h -= 42.0f;
@@ -589,7 +587,7 @@ void TWindowMenuMainMenu::draw_frame(TWindowKeyBoardSoft *frame) {
         q.v0 = 103.0f / 256.0f;
         q.u1 = 116.0f / 256.0f;
         q.v1 = (103.0f + step) / 256.0f;
-        apply_context_transform_to_rect(frame, &q);
+        frame->transform_quad((TexturedQuad *)&q);
         draw_textured_quad_at_depth((f32 *)&q, quad_depth);
         y += step;
         h -= step;
@@ -602,20 +600,20 @@ void TWindowMenuMainMenu::draw_frame(TWindowKeyBoardSoft *frame) {
     q.v0 = 135.0f / 256.0f;
     q.u1 = 116.0f / 256.0f;
     q.v1 = 174.0f / 256.0f;
-    apply_context_transform_to_rect(frame, &q);
+    frame->transform_quad((TexturedQuad *)&q);
     draw_textured_quad_at_depth((f32 *)&q, quad_depth);
     TWindowSubStatusDisp::get_player();
 }
 Rect_802AE2B0 *setup_content_frame__15TWindowMainMenuFPv(u8 *window_menu_main_menu) {
     f32 v;
     Rect_802AE2B0 *r;
-    r = open_singleton__19TWindowKeyBoardSoftFiiii(window_menu_main_menu + 0x40, window_menu_main_menu + 0x48, fn_8026CB68(), ((TWindowMenuMainMenu *)window_menu_main_menu)->depth, ((TWindowMenuMainMenu *)window_menu_main_menu)->m_2c);
+    r = (Rect_802AE2B0 *)WindowDrawContext::open_singleton((f32 *)(window_menu_main_menu + 0x40), (f32 *)(window_menu_main_menu + 0x48), (f32 *)fn_8026CB68(), ((TWindowMenuMainMenu *)window_menu_main_menu)->depth, ((TWindowMenuMainMenu *)window_menu_main_menu)->m_2c);
     if (((TWindowMainMenu *)window_menu_main_menu)->is_not_split_screen() != 0) {
         v = 51.0f;
     } else {
         v = 39.0f;
     }
-    ((TWindowKeyBoardSoft *)r)->set_bounds(10.0f + r->x, r->y + v, (r->x + r->w) - 10.0f, (r->y + r->h) - 39.0f);
+    ((WindowDrawContext *)r)->set_bounds(10.0f + r->x, r->y + v, (r->x + r->w) - 10.0f, (r->y + r->h) - 39.0f);
     r->color = ((s32)(255.0f * TWindowSubComCard__sub_80244784((TWindowSubComCard *)window_menu_main_menu)) << 24) | 0xFF0000 | 0xFFFF;
     return r;
 }

@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/ui/window/WindowDrawContext.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80287570.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/object/ambient/TObjFish.h"
@@ -43,7 +44,6 @@ s32 draw_window_text(f32 *pos, const char *s, s32 color, s32 mode, f32 width);
 extern "C" {
 s32 set_text_draw_params(void *, int, int, f32, f32, f32, f32, f32, f32);
 u32 calc_text_width(char *s);
-void apply_context_transform_to_rect(void *, Rect_80287580 *);
 void begin_screen_draw(s32 arg0);
 void draw_textured_quad_at_depth(f32 *q, f32 depth);
 void set_draw_texture_and_color(s32 idx, s32 arg1);
@@ -76,7 +76,7 @@ void draw_window_tab(Obj_80287580 *obj, f32 *pos, u8 idx, f32 width) {
     r1.v0 = window_tab_uv_table[idx].v / 256.0f;
     r1.u1 = (40.0f + window_tab_uv_table[idx].u) / 256.0f;
     r1.v1 = (27.0f + window_tab_uv_table[idx].v) / 256.0f;
-    apply_context_transform_to_rect(obj, &r1);
+    ((WindowDrawContext *)obj)->transform_quad((TexturedQuad *)&r1);
     draw_textured_quad_at_depth((f32 *)&r1, scale);
     r2.x0 = 40.0f + pos[0];
     r2.y0 = pos[1];
@@ -86,7 +86,7 @@ void draw_window_tab(Obj_80287580 *obj, f32 *pos, u8 idx, f32 width) {
     r2.v0 = window_tab_uv_table[idx].v / 256.0f;
     r2.u1 = (20.0f + (40.0f + window_tab_uv_table[idx].u)) / 256.0f;
     r2.v1 = (27.0f + window_tab_uv_table[idx].v) / 256.0f;
-    apply_context_transform_to_rect(obj, &r2);
+    ((WindowDrawContext *)obj)->transform_quad((TexturedQuad *)&r2);
     draw_textured_quad_at_depth((f32 *)&r2, scale);
     r3.x0 = 40.0f + (pos[0] + w);
     r3.y0 = pos[1];
@@ -96,7 +96,7 @@ void draw_window_tab(Obj_80287580 *obj, f32 *pos, u8 idx, f32 width) {
     r3.v0 = window_tab_uv_table[idx].v / 256.0f;
     r3.u1 = (80.0f + window_tab_uv_table[idx].u) / 256.0f;
     r3.v1 = (27.0f + window_tab_uv_table[idx].v) / 256.0f;
-    apply_context_transform_to_rect(obj, &r3);
+    ((WindowDrawContext *)obj)->transform_quad((TexturedQuad *)&r3);
     draw_textured_quad_at_depth((f32 *)&r3, scale);
     TWindowSubStatusDisp::get_player();
 }

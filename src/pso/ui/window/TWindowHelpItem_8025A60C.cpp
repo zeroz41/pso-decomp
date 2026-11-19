@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/ui/window/WindowDrawContext.h"
 #include "pso/unk/TUnk_804CF918.h"
 #include "pso/ui/window/TWindowHelpItem_8025A60C.h"
 #include "pso/system/memory.h"
@@ -12,7 +13,6 @@
 
 struct UV_8025A650 { f32 u; f32 v; };
 
-struct Quad_8025A650 { f32 x0, y0, x1, y1, u0, v0, u1, v1; };
 
 struct Item_8025A650 { u8 p0[8]; f32 x; f32 y; s32 count; };
 
@@ -20,7 +20,6 @@ struct Ctx_8025A650 { u8 p0[0x10]; f32 x; f32 y; u8 p18[0x18]; s32 f30; u8 p34[4
 
 f32 get_item_star_row_width(u8 *arg0);
 extern "C" {
-s32 try_open__19TWindowKeyBoardSoftFii(void *, void *);
 void begin_screen_draw(s32 arg0);
 void draw_textured_quad_at_depth(f32 *q, f32 depth);
 void set_draw_texture_and_color(s32 idx, s32 arg1);
@@ -50,7 +49,7 @@ f32 get_item_star_row_width(u8 *arg0) {
 }
 
 void render_item_rarity_stars(Item_8025A650 *item, Ctx_8025A650 *ctx) {
-    Quad_8025A650 q;
+    TexturedQuad q;
     f32 depth2;
     f32 x;
     f32 y;
@@ -82,7 +81,7 @@ void render_item_rarity_stars(Item_8025A650 *item, Ctx_8025A650 *ctx) {
         q.v0 = uv->v / 256.0f;
         q.u1 = (16.0f + uv->u) / 256.0f;
         q.v1 = (16.0f + uv->v) / 256.0f;
-        if (try_open__19TWindowKeyBoardSoftFii(ctx, &q) != 0) {
+        if (((WindowDrawContext *)ctx)->clip_and_transform_quad(&q) != 0) {
             draw_textured_quad_at_depth((f32 *)&q, depth);
         }
         x += 17.0f;
@@ -104,7 +103,7 @@ void render_item_rarity_stars(Item_8025A650 *item, Ctx_8025A650 *ctx) {
         q.v0 = uv->v / 256.0f;
         q.u1 = (16.0f + uv->u) / 256.0f;
         q.v1 = (16.0f + uv->v) / 256.0f;
-        if (try_open__19TWindowKeyBoardSoftFii(ctx, &q) != 0) {
+        if (((WindowDrawContext *)ctx)->clip_and_transform_quad(&q) != 0) {
             draw_textured_quad_at_depth((f32 *)&q, depth2);
         }
         x += 17.0f;

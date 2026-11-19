@@ -61,7 +61,7 @@ extern NJS_POINT2 TWindowDD__data_805434E8[7][8];
 static inline f32 span_start(f32 center, f32 half_extent) { return center - half_extent; }
 static inline f32 span_end(f32 center, f32 half_extent) { return center + half_extent; }
 void TWindowDD__sub_80340A78(TWindowDD_WS_ScrollBar *self) {
-    TWindowKeyBoardSoft *rect = (TWindowKeyBoardSoft *)TWindowDD::draw_default_entry((s32)self);
+    WindowDrawContext *rect = (WindowDrawContext *)TWindowDD::draw_default_entry((s32)self);
     E_803403F8 verts[8];
     f32 quad[8];
     s32 tex;

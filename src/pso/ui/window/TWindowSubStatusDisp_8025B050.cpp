@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/ui/window/WindowDrawContext.h"
 #include "pso/unk/TUnk_804CF918.h"
 #include "pso/ui/window/TWindowKeyBoardSoft_8024E68C.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8025B050.h"
@@ -23,7 +24,6 @@ struct Ref_8025B0D0 { u8 pad0[0x10]; f32 f10; f32 f14; f32 f18; u8 pad1c[0x30 - 
 struct Quad_8025B0D0 { f32 v[8]; };
 
 extern "C" {
-void apply_context_transform_to_rect(void *, void *);
 void draw_window_uv_sprite_part(Win_8025B0D0 *arg0, Ref_8025B0D0 *arg1);
 }
 
@@ -113,9 +113,9 @@ void draw_window_uv_sprite_part(Win_8025B0D0 *arg0, Ref_8025B0D0 *arg1) {
     q.v[6] = arg0->f24;
     q.v[7] = arg0->f28;
     if (arg0->flags & 0x10) {
-        apply_context_transform_to_rect(arg1, &q);
+        ((WindowDrawContext *)arg1)->transform_quad((TexturedQuad *)&q);
         draw_textured_quad_at_depth((f32 *)&q, scale);
-    } else if (try_open__19TWindowKeyBoardSoftFii((s32)arg1, (s32)&q) != 0) {
+    } else if (((WindowDrawContext *)arg1)->clip_and_transform_quad((TexturedQuad *)&q) != 0) {
         draw_textured_quad_at_depth((f32 *)&q, scale);
     }
     TWindowSubStatusDisp::get_player();

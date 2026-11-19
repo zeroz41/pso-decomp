@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/ui/window/WindowDrawContext.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
@@ -49,7 +50,6 @@ s32 draw_default_entry__9TWindowDDFl();
 u8 * get_window_layout_position(s32);
 extern s8 controller_input_state[];
 int TWindowSubSymbolChatHelp__sub_80247EE8(int);
-void apply_context_transform_to_rect(void *, void *);
 void draw_help_icon__24TWindowSubSymbolChatHelpFiPvii(s32 arg0, Win_802845EC *arg1, s32 arg2, s32 arg3);
 
 extern s32 lbl_805D63F0;
@@ -77,7 +77,7 @@ void TWindowSubSymbolChatHelp::draw_color_palette(void *arg1) {
         q.y = 50.0f + ((Win_8028429C *)arg1)->y;
         q.x2 = 14.0f + q.x;
         q.y2 = 14.0f + q.y;
-        apply_context_transform_to_rect(((Win_8028429C *)arg1), &q);
+        ((WindowDrawContext *)arg1)->transform_quad((TexturedQuad *)&q);
         draw_textured_quad_at_depth((f32 *)&q, scale);
     }
     if (((Self_8028429C *)this)->flags & 2) {
@@ -93,7 +93,7 @@ void TWindowSubSymbolChatHelp::draw_color_palette(void *arg1) {
     q.v0 = (0.15234375f);
     q.u1 = (0.92578125f);
     q.v1 = (0.20703125f);
-    apply_context_transform_to_rect(((Win_8028429C *)arg1), &q);
+    ((WindowDrawContext *)arg1)->transform_quad((TexturedQuad *)&q);
     draw_textured_quad_at_depth((f32 *)&q, scale);
 }
 #pragma pop
@@ -120,7 +120,7 @@ void TWindowSubSymbolChatHelp::draw_help_entry(void *arg1, s32 arg2, s32 arg3) {
     q.v0 = uv->v / 256.0f;
     q.u1 = (231.0f + uv->u) / 256.0f;
     q.v1 = ((16.0f) + uv->v) / 256.0f;
-    apply_context_transform_to_rect(((Win_802844C8 *)arg1), &q);
+    ((WindowDrawContext *)arg1)->transform_quad((TexturedQuad *)&q);
     draw_textured_quad_at_depth((f32 *)&q, scale);
 }
 #pragma pop
@@ -142,7 +142,7 @@ void draw_help_icon__24TWindowSubSymbolChatHelpFiPvii(s32 arg0, Win_802845EC *ar
     q.v0 = uv->v / 256.0f;
     q.u1 = ((16.0f) + uv->u) / 256.0f;
     q.v1 = ((16.0f) + uv->v) / 256.0f;
-    apply_context_transform_to_rect(arg1, &q);
+    ((WindowDrawContext *)arg1)->transform_quad((TexturedQuad *)&q);
     draw_textured_quad_at_depth((f32 *)&q, scale);
 }
 #pragma pop

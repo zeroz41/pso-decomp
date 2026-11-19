@@ -1,3 +1,4 @@
+#include "pso/ui/window/WindowDrawContext.h"
 #include "pso/system/ResourceFile.h"
 #include "pso/system/TGStream.h"
 #include "types.h"
@@ -58,7 +59,6 @@ s32 strncpy(s32 *, u8 *, s32);
 void set_glyph_quad_extents(u8, void *);
 s32 map_char_to_font_code(u16);
 u8 get_font_char_advance(s32);
-void apply_context_transform_to_rect(void *, void *);
 s32 measure_string_len__20TWindowSubStatusDispFv(void *);
 struct KbSoft_8025CFA8 {
     u8 pad0[0xA8];
@@ -148,8 +148,8 @@ void TWindowKeyBoardSoft__sub_8025DBDC(void *, s32);
 s32 dispatch_request_0f__19TWindowKeyBoardSoftFll(void *, void *);
 s32 dispatch_request_0x10__19TWindowKeyBoardSoftFll(void *, void *);
 void fn_8025DE10(void *, void *);
-void TWindowSubStatusDisp__sub_8025E148(TWindowKeyBoardBase *, TWindowKeyBoardSoft *, f32 *, u16 *, u32);
-void TWindowSubStatusDisp__sub_8025E530(TWindowKeyBoardBase *, TWindowKeyBoardSoft *, f32 *, u16 *, u32, s32);
+void TWindowSubStatusDisp__sub_8025E148(TWindowKeyBoardBase *, WindowDrawContext *, f32 *, u16 *, u32);
+void TWindowSubStatusDisp__sub_8025E530(TWindowKeyBoardBase *, WindowDrawContext *, f32 *, u16 *, u32, s32);
 void draw_textured_quad_at_depth(void *, f32);
 s32 dispatch_request_0x27__19TWindowKeyBoardSoftFll(void *, s32 *);
 s32 dispatch_request_0x26__19TWindowKeyBoardSoftFll(void *, s32 *);
@@ -803,7 +803,7 @@ void TWindowKeyBoardBase::draw_text_glyphs(void *arg1, void *arg2) {
                 q.x = ((f32 *)arg2)[0];
                 q.y = ((f32 *)arg2)[1];
                 set_glyph_quad_extents(adv, &q);
-                apply_context_transform_to_rect(arg1, &q);
+                ((WindowDrawContext *)arg1)->transform_quad((TexturedQuad *)&q);
                 d.col[0] = lbl_804CFA84[ci];
                 d.col[1] = d.col[0];
                 d.col[2] = d.col[0];
@@ -823,7 +823,7 @@ void TWindowKeyBoardBase::draw_text_glyphs(void *arg1, void *arg2) {
     }
 }
 
-void TWindowSubStatusDisp__sub_8025E148(TWindowKeyBoardBase *self, TWindowKeyBoardSoft *box, f32 *cursor, u16 *text, u32 count) {
+void TWindowSubStatusDisp__sub_8025E148(TWindowKeyBoardBase *self, WindowDrawContext *box, f32 *cursor, u16 *text, u32 count) {
     Quad_8025E350 q;
     f32 pos[8];
     Desc_8025DECC d;
@@ -854,7 +854,7 @@ void TWindowSubStatusDisp__sub_8025E148(TWindowKeyBoardBase *self, TWindowKeyBoa
             q.x = cursor[0];
             q.y = cursor[1];
             set_glyph_quad_extents(adv, &q);
-            apply_context_transform_to_rect(box, &q);
+            box->transform_quad((TexturedQuad *)&q);
             pos[0] = q.x;
             pos[1] = q.y;
             pos[2] = q.x2;
@@ -903,7 +903,7 @@ void TWindowKeyBoardBase::draw_wrapped_text(void *arg1, void *arg2) {
                 q.x = ((f32 *)arg2)[0];
                 q.y = ((f32 *)arg2)[1];
                 set_glyph_quad_extents(adv, &q);
-                apply_context_transform_to_rect(((Box_8025E350 *)arg1), &q);
+                ((WindowDrawContext *)arg1)->transform_quad((TexturedQuad *)&q);
                 draw_textured_quad_at_depth(&q, scale);
                 ((f32 *)arg2)[0] += (f32)(s32)adv;
             }
@@ -911,7 +911,7 @@ void TWindowKeyBoardBase::draw_wrapped_text(void *arg1, void *arg2) {
     }
 }
 
-void TWindowSubStatusDisp__sub_8025E530(TWindowKeyBoardBase *self, TWindowKeyBoardSoft *box, f32 *cursor, u16 *text, u32 count, s32 scaled) {
+void TWindowSubStatusDisp__sub_8025E530(TWindowKeyBoardBase *self, WindowDrawContext *box, f32 *cursor, u16 *text, u32 count, s32 scaled) {
     Quad_8025E350 q;
     f32 depth;
     s32 code;
@@ -938,7 +938,7 @@ void TWindowSubStatusDisp__sub_8025E530(TWindowKeyBoardBase *self, TWindowKeyBoa
                 q.x = cursor[0];
                 q.y = cursor[1];
                 set_glyph_quad_extents(adv, &q);
-                apply_context_transform_to_rect(box, &q);
+                box->transform_quad((TexturedQuad *)&q);
                 draw_textured_quad_at_depth(&q, depth);
             }
             cursor[0] += (f32)adv;
@@ -961,8 +961,8 @@ void TWindowKeyBoardBase::sub_8025E6DC(u8 *arg1) {
     s32 var_r31;
     u16 temp_r3;
     u16 temp_r3_2;
-    TWindowKeyBoardSoft *ctx;
-    ctx = (TWindowKeyBoardSoft *)arg1;
+    WindowDrawContext *ctx;
+    ctx = (WindowDrawContext *)arg1;
     var_r31 = 1;
     if (!(this->m_62 & 2) || (ctx->open_tick >= 0)) {
         stack.sp10 = ctx->inner_x;

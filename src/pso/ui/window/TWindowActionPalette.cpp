@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/ui/window/WindowDrawContext.h"
 #include "pso/ui/window/TWindowActionPalette.h"
 #include "pso/item/TItem.h"
 #include "pso/player/TObjPlayer.h"
@@ -66,7 +67,6 @@ s32 TWindowSubComCard__sub_802452DC(int);
 s32 TWindowSubComCard__sub_80245320(void *, void *);
 s32 TWindowSubComCard__sub_802454E4(int);
 s32 TWindowSubComCard__sub_80245558(void *, void *, void *);
-s32 apply_context_transform_to_rect(void *, void *);
 extern s32 lbl_805D63F0;
 void draw_visible_window_entries(void *, void *, int);
 void __destroy_arr(void *, void *, int, int);
@@ -272,7 +272,7 @@ void TWindowActionPalette::draw_frame(int arg1) {
     r2.v0 = 0.421875f;
     r2.u1 = 0.35546875f;
     r2.v1 = 0.6328125f;
-    apply_context_transform_to_rect(ctx, &r2);
+    ((WindowDrawContext *)ctx)->transform_quad((TexturedQuad *)&r2);
     draw_textured_quad_at_depth((f32 *)&r2, depth);
     r3.x0 = 45.0f + ctx->x;
     r3.y0 = 53.0f + ctx->y;
@@ -282,7 +282,7 @@ void TWindowActionPalette::draw_frame(int arg1) {
     r3.v0 = 0.421875f;
     r3.u1 = 0.71875f;
     r3.v1 = 0.6328125f;
-    apply_context_transform_to_rect(ctx, &r3);
+    ((WindowDrawContext *)ctx)->transform_quad((TexturedQuad *)&r3);
     draw_textured_quad_at_depth((f32 *)&r3, depth);
     r4.x0 = ctx->x;
     r4.y0 = ctx->y;
@@ -291,7 +291,7 @@ void TWindowActionPalette::draw_frame(int arg1) {
     r4.v0 = r4.u0 = 0.0f;
     r4.u1 = 0.5859375f;
     r4.v1 = 0.41796875f;
-    apply_context_transform_to_rect(ctx, &r4);
+    ((WindowDrawContext *)ctx)->transform_quad((TexturedQuad *)&r4);
     draw_textured_quad_at_depth((f32 *)&r4, depth);
     TWindowSubStatusDisp::get_player();
     if (TWindowSubComCard__sub_80245558(ctx, (u8 *)ctx + 0x10, (u8 *)ctx + 0x18) != 0) {

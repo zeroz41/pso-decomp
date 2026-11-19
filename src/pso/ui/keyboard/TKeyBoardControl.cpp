@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/ui/window/WindowDrawContext.h"
 #include "pso/system/ControllerInputState.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8025CB70.h"
 #include "pso/ui/window/TWindowSubMag_802627D8.h"
@@ -13,7 +14,6 @@
 #include "pso/unk/text_80076BC4.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
 #include "pso/ui/window/TWindowCtrl_8024A054.h"
-#include "pso/ui/window/TWindowKeyBoardSoft_80261440.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/unk/text_8026C664.h"
@@ -73,13 +73,12 @@ void TWindowKeyBoardSoft__sub_80260760(void *self, s32 key, s32 *count, u32 *col
 void TWindowKeyBoardSoft__sub_80261134(void *self);
 void TKeyBoardControl__sub_802613A4(TKeyBoardControl *arg0);
 f32 TWindowKeyBoardSoft__sub_802614DC(u8 *, u8 *, f32, f32, f32, f32);
-void TWindowKeyBoardSoft__sub_80261DD8(TWindowKeyBoardSoft *, TWindowKeyBoardSoft *);
+void TWindowKeyBoardSoft__sub_80261DD8(TWindowKeyBoardSoft *, WindowDrawContext *);
 extern s32 lbl_805D63F0;
 s32 get_flag_bit5__19TWindowKeyBoardSoftFv();
 
 extern u8 *TWindowKeyBoardSoft__language_text_resources;
 extern void *local_client_id;
-void apply_context_transform_to_rect(void *, void *);
 void draw_color_lines(Lines_80261DD8 *l, s32 n, s32 flags, f32 scale);
 
 const char *keyboard_soft_type_name_pointer = "TWindowKeyBoardSoft";
@@ -245,10 +244,10 @@ void TWindowKeyBoardSoft__sub_80260760(void *self, s32 key, s32 *count, u32 *col
 void TWindowKeyBoardSoft::sub_80260808(s32 arg1) {
     s32 temp_r5;
     temp_r5 = arg1 * 0x50;
-    if ((TWindowShortListCtrl__check_controller_button((void *) ((u8 *)&controller_input_state + temp_r5 + 0x20), 2) != 0) && ((u32) *(u32 *)((s8 *)((u8 *)this) + 0x6C) != 0U)) {
-        this->m_7c = (s32) (this->m_7c & 0xFFFFFFEF);
+    if ((TWindowShortListCtrl__check_controller_button((void *) ((u8 *)&controller_input_state + temp_r5 + 0x20), 2) != 0) && (m_control != NULL)) {
+        this->m_60 = (s32) (this->m_60 & 0xFFFFFFEF);
         play_sound_effect(0x52F16, 0, 0, 0);
-        ((TWindowKeyBoardSoft *)(*(u32 *)((s8 *)((u8 *)this) + 0x6C)))->handle_backspace();
+        ((TWindowKeyBoardSoft *)m_control)->handle_backspace();
     }
 }
 #pragma pop
@@ -598,7 +597,7 @@ void TWindowKeyBoardSoft::spawn_key_effect(s32 arg1, s32 arg2) {
 #pragma push
 #pragma fp_contract on
 #pragma pool_data off
-void TWindowKeyBoardSoft::sub_802616BC(TWindowKeyBoardSoft *ctx) {
+void TWindowKeyBoardSoft::sub_802616BC(WindowDrawContext *ctx) {
     u32 tab_color;
     u32 page;
     s32 cursor;
@@ -648,7 +647,7 @@ void TWindowKeyBoardSoft::sub_802616BC(TWindowKeyBoardSoft *ctx) {
                 q.x = 0.5f * (f32)(18 - width) + q.x;
                 set_glyph_quad_extents(width, (u8 *)&q);
                 if (this->hit_test_relative((u8 *)ctx, (u8 *)&q) != 0) {
-                    apply_context_transform_to_rect(ctx, &q);
+                    ctx->transform_quad((TexturedQuad *)&q);
                     draw_textured_quad_at_depth((f32 *)&q, depth);
                 }
             }
@@ -671,7 +670,7 @@ void TWindowKeyBoardSoft::sub_802616BC(TWindowKeyBoardSoft *ctx) {
         q.v2 = 18.0f / 256.0f;
         if (this->hit_test_relative((u8 *)ctx, (u8 *)&q) != 0) {
             set_constant_material_color(key == cursor ? 0xFF000000 : 0xFF999999);
-            apply_context_transform_to_rect(ctx, &q);
+            ctx->transform_quad((TexturedQuad *)&q);
             draw_textured_quad_at_depth((f32 *)&q, depth);
         }
     }
@@ -699,7 +698,7 @@ void TWindowKeyBoardSoft::sub_802616BC(TWindowKeyBoardSoft *ctx) {
         q.u2 = ((f32)layout->tab_width - 2.0f) / 128.0f;
         q.v2 = 18.0f * (page + 1) / 128.0f;
         if (this->hit_test_relative((u8 *)ctx, (u8 *)&q) != 0) {
-            apply_context_transform_to_rect(ctx, &q);
+            ctx->transform_quad((TexturedQuad *)&q);
             set_constant_material_color(tab_color);
             draw_textured_quad_at_depth((f32 *)&q, depth);
         }
@@ -721,7 +720,7 @@ void TWindowKeyBoardSoft::sub_802616BC(TWindowKeyBoardSoft *ctx) {
         q.v2 = (lbl_8044F204[i].v + lbl_8044F1B4[i].y) / 128.0f;
         if (this->hit_test_relative((u8 *)ctx, (u8 *)&q) != 0) {
             set_constant_material_color(color);
-            apply_context_transform_to_rect(ctx, &q);
+            ctx->transform_quad((TexturedQuad *)&q);
             draw_textured_quad_at_depth((f32 *)&q, depth);
         }
     }
@@ -729,7 +728,7 @@ void TWindowKeyBoardSoft::sub_802616BC(TWindowKeyBoardSoft *ctx) {
 }
 #pragma pop
 
-void TWindowKeyBoardSoft__sub_80261DD8(TWindowKeyBoardSoft *self, TWindowKeyBoardSoft *ctx) {
+void TWindowKeyBoardSoft__sub_80261DD8(TWindowKeyBoardSoft *self, WindowDrawContext *ctx) {
     NJS_POINT2 v[5];
     u32 col[5];
     Lines_80261DD8 d;
@@ -809,7 +808,7 @@ void TWindowKeyBoardSoft::draw_key_frame(void *self, f32 *rect, f32 x0, f32 y, f
     q.v = uv->v / 256.0f;
     q.u2 = (10.0f + uv->u) / 256.0f;
     q.v2 = (20.0f + uv->v) / 256.0f;
-    apply_context_transform_to_rect(rect, &q);
+    ((WindowDrawContext *)rect)->transform_quad((TexturedQuad *)&q);
     draw_textured_quad_at_depth((f32 *)&q, scale);
     x3 = x0 + w;
     x4 = x3 - 10.0f;
@@ -821,7 +820,7 @@ void TWindowKeyBoardSoft::draw_key_frame(void *self, f32 *rect, f32 x0, f32 y, f
     q.v = uv->v / 256.0f;
     q.u2 = (20.0f + uv->u) / 256.0f;
     q.v2 = (20.0f + uv->v) / 256.0f;
-    apply_context_transform_to_rect(rect, &q);
+    ((WindowDrawContext *)rect)->transform_quad((TexturedQuad *)&q);
     draw_textured_quad_at_depth((f32 *)&q, scale);
     if (w <= 20.0f) {
         return;
@@ -834,14 +833,14 @@ void TWindowKeyBoardSoft::draw_key_frame(void *self, f32 *rect, f32 x0, f32 y, f
     q.v = uv->v / 256.0f;
     q.u2 = (10.0f + uv->u) / 256.0f;
     q.v2 = (20.0f + uv->v) / 256.0f;
-    apply_context_transform_to_rect(rect, &q);
+    ((WindowDrawContext *)rect)->transform_quad((TexturedQuad *)&q);
     draw_textured_quad_at_depth((f32 *)&q, scale);
 }
 
 #pragma push
 #pragma fp_contract on
 /* Key frames of the character grid and the page tabs, then the tab bar ends. */
-void TWindowKeyBoardSoft::sub_8026227C(TWindowKeyBoardSoft *ctx) {
+void TWindowKeyBoardSoft::sub_8026227C(WindowDrawContext *ctx) {
     KeyCursor_80260E30 *kb = (KeyCursor_80260E30 *)this;
     s32 cursor;
     SoftKeyLayout_80260904 *layout = (SoftKeyLayout_80260904 *)TWindowKeyBoardSoft__language_text_resources;
@@ -908,9 +907,9 @@ void TWindowKeyBoardSoft::sub_8026227C(TWindowKeyBoardSoft *ctx) {
 void TWindowKeyBoardSoft::render() {
     s32 ctx;
     ctx = draw_default_entry__9TWindowDDFl();
-    sub_8026227C((TWindowKeyBoardSoft *)ctx);
-    TWindowKeyBoardSoft__sub_80261DD8(this, (TWindowKeyBoardSoft *)ctx);
-    sub_802616BC((TWindowKeyBoardSoft *)ctx);
+    sub_8026227C((WindowDrawContext *)ctx);
+    TWindowKeyBoardSoft__sub_80261DD8(this, (WindowDrawContext *)ctx);
+    sub_802616BC((WindowDrawContext *)ctx);
 }
 
 #pragma push
@@ -943,31 +942,18 @@ void TWindowKeyBoardSoft::run_task() {
 
 extern "C" {
 s32 get_window_layout_position(int);
-extern s32 __vt__19TWindowKeyBoardSoft[];
-void __dl__7TObjectFPv(void *);
-
-void *__dt__19TWindowKeyBoardSoftFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__19TWindowKeyBoardSoft;
-        __dt__11TWindowBaseFv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
-}
-u8 *TWindowKeyBoardSoft__ct(u8 *arg0, s32 arg1, s16 arg2) {
-    __ct__11TWindowBaseFPUcsPUc((void *)arg0, (u8 *)&soft_keyboard_window_and_action_data, (s16)arg2, (u8 *)get_window_layout_position(0xBA));
-    *(s32 **)((s8 *)arg0 + 0x18) = __vt__19TWindowKeyBoardSoft;
-    *(const char **)((s8 *)arg0 + 0) = keyboard_soft_type_name_pointer;
-    *(s32 *)((s8 *)arg0 + 0x60) = 0;
-    *(s8 *)((s8 *)arg0 + 0x64) = 0;
-    *(s8 *)((s8 *)arg0 + 0x65) = 2;
-    *(s8 *)((s8 *)arg0 + 0x66) = 1;
-    *(f32 *)((s8 *)arg0 + 0x68) = 0.0f;
-    *(s32 *)((s8 *)arg0 + 0x6C) = arg1;
-    ((TWindowKeyBoardSoft *)arg0)->close();
-    return arg0;
 }
 
+TWindowKeyBoardSoft::~TWindowKeyBoardSoft() {}
+
+TWindowKeyBoardSoft::TWindowKeyBoardSoft(TWindowKeyBoardBase *control, s32 client)
+    : TWindowBase((u8 *)&soft_keyboard_window_and_action_data, client, (u8 *)get_window_layout_position(0xBA)) {
+    m_name = keyboard_soft_type_name_pointer;
+    m_60 = 0;
+    m_64 = 0;
+    m_65 = 2;
+    m_66 = 1;
+    m_68 = 0.0f;
+    m_control = control;
+    close();
 }

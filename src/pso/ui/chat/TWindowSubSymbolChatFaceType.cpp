@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/ui/window/WindowDrawContext.h"
 #include "pso/ui/chat/TWindowSubSymbolChatFaceType.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/system/ControllerInputState.h"
@@ -64,7 +65,6 @@ void TWindowSubSymbolChatFaceType__sub_80283C84(Ctx_80283C84 *, f32 *, f32, f32)
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
 void begin_screen_draw(s32);
 void set_draw_texture_and_color(s32, s32);
-void apply_context_transform_to_rect(Ctx_80283C84 *, Quad_80283C84 *);
 void draw_textured_quad_at_depth(f32 *q, f32 depth);
 extern s32 actor_frame_tick;
 extern s32 lbl_805D63F0;
@@ -139,7 +139,7 @@ void TWindowSubSymbolChatFaceType__sub_80283C84(Ctx_80283C84 *ctx, f32 *pos, f32
     q.v = 0.0f;
     q.u2 = 0.91796875f;
     q.v2 = 0.046875f;
-    apply_context_transform_to_rect(ctx, &q);
+    ((WindowDrawContext *)ctx)->transform_quad((TexturedQuad *)&q);
     draw_textured_quad_at_depth((f32 *)&q, depth);
     x = size + (x - amp);
     q.x = x;
@@ -148,7 +148,7 @@ void TWindowSubSymbolChatFaceType__sub_80283C84(Ctx_80283C84 *ctx, f32 *pos, f32
     q.y2 = 12.0f + q.y;
     q.u = 0.91796875f;
     q.u2 = 0.96484375f;
-    apply_context_transform_to_rect(ctx, &q);
+    ((WindowDrawContext *)ctx)->transform_quad((TexturedQuad *)&q);
     draw_textured_quad_at_depth((f32 *)&q, depth);
     size = size + (y - amp);
     q.x = x;
@@ -157,7 +157,7 @@ void TWindowSubSymbolChatFaceType__sub_80283C84(Ctx_80283C84 *ctx, f32 *pos, f32
     q.y2 = 12.0f + q.y;
     q.v = 0.046875f;
     q.v2 = 0.09375f;
-    apply_context_transform_to_rect(ctx, &q);
+    ((WindowDrawContext *)ctx)->transform_quad((TexturedQuad *)&q);
     draw_textured_quad_at_depth((f32 *)&q, depth);
     q.x = left;
     q.y = size;
@@ -165,7 +165,7 @@ void TWindowSubSymbolChatFaceType__sub_80283C84(Ctx_80283C84 *ctx, f32 *pos, f32
     q.y2 = 12.0f + q.y;
     q.u = 0.87109375f;
     q.u2 = 0.91796875f;
-    apply_context_transform_to_rect(ctx, &q);
+    ((WindowDrawContext *)ctx)->transform_quad((TexturedQuad *)&q);
     draw_textured_quad_at_depth((f32 *)&q, depth);
     TWindowSubStatusDisp::get_player();
 }

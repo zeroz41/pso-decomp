@@ -3,7 +3,7 @@
 
 #include "types.h"
 
-class TWindowKeyBoardSoft;
+struct WindowDrawContext;
 
 class TUnk_804CF918 {
 public:
@@ -13,7 +13,7 @@ public:
     TUnk_804CF918(s32 m_2);
     virtual ~TUnk_804CF918();
     virtual void update();
-    virtual void render(TWindowKeyBoardSoft *context);
+    virtual void render(WindowDrawContext *context);
     virtual void calc_bar_width() = 0;
 };
 

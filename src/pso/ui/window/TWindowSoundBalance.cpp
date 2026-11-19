@@ -163,7 +163,7 @@ void TWindowSoundBalance::handle_lr_input() {
 #pragma opt_common_subs off
 void TWindowSoundBalance::render() {
     TWindowSoundBalance *self = this;
-    TWindowKeyBoardSoft *entry = (TWindowKeyBoardSoft *)TWindowDD::draw_default_entry((s32)self);
+    WindowDrawContext *entry = (WindowDrawContext *)TWindowDD::draw_default_entry((s32)self);
     self->draw_window_frame(entry);
     draw_visible_window_entries((s32)self, (s32)&self->m_24, entry);
     entry->inner_x += 174.0f;
