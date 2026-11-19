@@ -682,7 +682,7 @@ void roll_armor_bonuses__9TItemDropFv(s32 rng, void *item_) {
 }
 #undef item
 
-extern u8 lbl_805DAAE0;
+extern const u8 lbl_805DAAE0;
 
 void roll_weapon_special__9TItemDropFiPvi(s32 rng, u8 *item, s32 idx) {
     u8 *chance;
@@ -1039,3 +1039,9 @@ s32 item_drop_rng_below(s32 arg0, u32 arg1) {
 }
 
 #pragma pop
+
+__declspec(section ".sdata2") extern const f32 lbl_805DAAD4 = 65536.0f;
+__declspec(section ".sdata2") extern const f32 lbl_805DAAD8 = 4294967296.0f;
+__declspec(section ".sdata2") extern const f32 lbl_805DAADC = 1.0f;
+__declspec(section ".sdata2") extern const u8 lbl_805DAAE0 = 0x80;
+__declspec(section ".sdata2") extern const f32 lbl_805DAAE4 = 3.0517578e-05f;
