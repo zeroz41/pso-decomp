@@ -129,8 +129,6 @@ s32 set_service_counter_camera(void *, int);
 s32 sub_8022397C__15TShopWindowBaseFv(void *);
 extern RecoveredGlobal_802169A8___vt__22TMedicalCenterSequence __vt__22TMedicalCenterSequence;
 extern RecoveredGlobal_TMedicalCenterSequence__data_80513E90 TMedicalCenterSequence__data_80513E90;
-u8 *TShopSequence__ct(u8 *arg0);
-u8 *TMedicalCenterSequence__ct(u8 *arg0, s32 arg1, s32 arg2);
 u8 *create_yes_no_window(s32 arg0, s32 arg1, u32 arg2, u32 arg3);
 s32 play_sound_effect(s32, s32, s32, s32);
 s32 try_spend_actor_meseta(u8 *arg0, s32 arg1);
@@ -156,18 +154,17 @@ void TMedicalCenterSequence::clear_slot_data() {
 }
 
 typedef char RecoveredGlobal_80216A70___vt__22TMedicalCenterSequence_size[sizeof(RecoveredGlobal_80216A70___vt__22TMedicalCenterSequence) == 0x38 ? 1 : -1];
-u8 *TMedicalCenterSequence__ct(u8 *medical_center_sequence, s32 arg1, s32 arg2) {
-    TShopSequence__ct((medical_center_sequence));
-    *(s32 **)((s8 *)medical_center_sequence + 0x18) = &(*(RecoveredGlobal_80216A70___vt__22TMedicalCenterSequence *)&__vt__22TMedicalCenterSequence).value;
-    ((TMedicalCenterSequence *)medical_center_sequence)->m_name = TMedicalCenterSequence__class_name;
-    ((TMedicalCenterSequence *)medical_center_sequence)->m_20 = 0;
-    *(s32 *)((s8 *)medical_center_sequence + 0x24) = arg2;
-    ((TMedicalCenterSequence *)medical_center_sequence)->m_2c = 0;
-    ((TMedicalCenterSequence *)medical_center_sequence)->m_30 = 0;
-    *(s32 *)((s8 *)medical_center_sequence + 0x34) = 0;
-    *(s32 *)((s8 *)(&TMedicalCenterSequence__data_80513E90.value) + (sub_8022397C__15TShopWindowBaseFv(medical_center_sequence) * 4)) = 1;
-    return medical_center_sequence;
+
+TMedicalCenterSequence::TMedicalCenterSequence(TObject *parent, TObjPlayer *player) : TShopSequence(parent) {
+    m_name = TMedicalCenterSequence__class_name;
+    state = 0;
+    this->player = player;
+    m_2c = 0;
+    m_30 = 0;
+    counter_camera = NULL;
+    *(s32 *)((s8 *)(&TMedicalCenterSequence__data_80513E90.value) + (sub_8022397C__15TShopWindowBaseFv(this) * 4)) = 1;
 }
+
 TMedicalCenterSequence::~TMedicalCenterSequence() {
     if ((u32) *(u32 *)((s8 *)this + 0x34) != 0U) {
         ((TObject *)(*(void **)((s8 *)this + 0x34)))->queue_destruction();
@@ -189,7 +186,7 @@ typedef char RecoveredGlobal_802169A8___vt__22TMedicalCenterSequence_size[sizeof
 
 void TMedicalCenterSequence::vfunc_11() {
     u8 *arg0 = (u8 *)this;
-    switch (this->m_20) {
+    switch (this->state) {
     case 0:
         this->restore_player_state();
         return;

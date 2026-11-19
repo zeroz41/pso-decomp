@@ -6,6 +6,7 @@
 #include "pso/ui/window/TWindowAddition.h"
 #include "pso/ui/window/TWindowSubComCardList.h"
 #include "pso/ui/city/THunterGuildSeqOffline.h"
+#include "pso/ui/city/THunterGuildSeqOffline_80213788.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/quest/TQuestThread.h"
 #include "pso/system/task/TObject.h"
@@ -76,20 +77,17 @@ extern RecoveredGlobal_80213220___vt__22THunterGuildSeqOffline __vt__22THunterGu
 s32 THunterGuildSeqOffline__quest_result_callbacks[4];
 struct THunterGuildSeqOfflineInstanceTable { s32 value; u8 remaining[0xC]; };
 THunterGuildSeqOfflineInstanceTable THunterGuildSeqOffline__instance_table;
-s32 THunterGuildSeqOffline__active_instance;
+THunterGuildSeqOffline *THunterGuildSeqOffline__active_instance;
 u8 *__dt__22THunterGuildSeqOfflineFv(u8 *arg0, s16 arg1);
 int is_quest_active(void);
 s32 sub_802239EC__13TShopSequenceFv(void *);
 extern s32 THunterGuildSeqOffline__quest_result_callbacks[];
 extern u8 *quest_mission_manager;
-u8 *TShopSequence__ct(u8 *arg0);
 const char *lbl_805D3658 = "THunterGuildSeqOffline";
-u8 *THunterGuildSeqOffline__ct(u8 *arg0, s32 arg1, s32 arg2);
 void THunterGuildSeqOffline__sub_8021339C(void);
 u16 get_entity_id(s32);
 void THunterGuildSeqOffline__sub_8021E180(void);
 void close_window__13TShopSequenceFv(void *);
-extern u8 reset_random_enemies_mode[];
 extern void *tl_00;
 void THunterGuildSeqOffline__sub_80213474(void *arg0);
 void THunterGuildSeqOffline__sub_80213410(void* p);
@@ -119,7 +117,7 @@ void THunterGuildSeqOffline::open_judgment_window() {
 
     if ((this->vfunc_10() != 0)
         && ((sub_80223A48() != 0) || (sub_802239EC__13TShopSequenceFv(this) != 0))) {
-        *(s32 *)&this->m_2c = (s32)create_yes_no_window(get_window_layout_position(0x2B), (u16)get_entity_id(this->m_24), 0, 0);
+        *(s32 *)&this->m_2c = (s32)create_yes_no_window(get_window_layout_position(0x2B), (u16)get_entity_id((s32)this->player), 0, 0);
         ((TWindowSubComCardList *)(this->m_2c))->set_selected_index(1);
         ((TWindowAddition *)(this->m_2c))->set_position_xy(get_scale(), get_scale());
         this->display_guild_message(8, 1);
@@ -221,20 +219,21 @@ u8 *__dt__22THunterGuildSeqOfflineFv(u8 *hunter_guild_seq_offline, s16 arg1) {
 }
 
 typedef char RecoveredGlobal_802132F0___vt__22THunterGuildSeqOffline_size[sizeof(RecoveredGlobal_802132F0___vt__22THunterGuildSeqOffline) == 0x38 ? 1 : -1];
-u8 *THunterGuildSeqOffline__ct(u8 *hunter_guild_seq_offline, s32 arg1, s32 arg2) {
-    TShopSequence__ct((hunter_guild_seq_offline));
-    *(s32 **)((s8 *)hunter_guild_seq_offline + 0x18) = &(*(RecoveredGlobal_802132F0___vt__22THunterGuildSeqOffline *)&__vt__22THunterGuildSeqOffline).value;
-    ((THunterGuildSeqOffline *)hunter_guild_seq_offline)->m_name = lbl_805D3658;
-    *(s32 *)((s8 *)hunter_guild_seq_offline + 0x20) = 0;
-    *(s32 *)((s8 *)hunter_guild_seq_offline + 0x2C) = 0;
-    ((THunterGuildSeqOffline *)hunter_guild_seq_offline)->m_24 = arg2;
-    *(s32 *)((s8 *)hunter_guild_seq_offline + 0x30) = 0;
-    ((THunterGuildSeqOffline *)hunter_guild_seq_offline)->m_34 = 0;
-    *(s32 *)((s8 *)hunter_guild_seq_offline + 0x38) = 0;
-    (*(u8 * *)&THunterGuildSeqOffline__active_instance) = hunter_guild_seq_offline;
-    *(s32 *)((s8 *)(&THunterGuildSeqOffline__instance_table.value) + (sub_8022397C__15TShopWindowBaseFv(hunter_guild_seq_offline) * 4)) = 1;
-    return hunter_guild_seq_offline;
 }
+
+THunterGuildSeqOffline::THunterGuildSeqOffline(TObject *parent, TObjPlayer *player) : TShopSequence(parent) {
+    m_name = lbl_805D3658;
+    state = 0;
+    m_2c = NULL;
+    this->player = player;
+    unk_30 = 0;
+    m_34 = 0;
+    unk_38 = 0;
+    THunterGuildSeqOffline__active_instance = this;
+    *(s32 *)((s8 *)(&THunterGuildSeqOffline__instance_table.value) + (sub_8022397C__15TShopWindowBaseFv(this) * 4)) = 1;
+}
+
+extern "C" {
 
 void THunterGuildSeqOffline::clear_instance_table() {
     s32 i;
@@ -258,16 +257,14 @@ void THunterGuildSeqOffline::notify_quest_thread() {
 
 void THunterGuildSeqOffline__sub_80213410(void* p) { THunterGuildSeqOffline::reset_quest_result_callbacks(p); }
 
-extern void *hunter_guild_seq_online_client_instance;
-
 void THunterGuildSeqOffline::reset_quest_result_callbacks(void* _w0) {
     s32 i;
     for (i = 0; i < 4; i++) THunterGuildSeqOffline__quest_result_callbacks[i] = -1;
 }
 
 s32 THunterGuildSeqOffline__sub_80213458(void) {
-    if ((void *) hunter_guild_seq_online_client_instance != NULL) {
-        return *(s32 *)((s8 *)hunter_guild_seq_online_client_instance + 0x20);
+    if (hunter_guild_seq_online_client_instance != NULL) {
+        return hunter_guild_seq_online_client_instance->state;
     }
     return -1;
 }
@@ -285,7 +282,7 @@ void THunterGuildSeqOffline__sub_80213474(void *shop_sequence) {
         case 1: {
             void *o = TObject::operator new(0x28);
             if (o != NULL) {
-                ((THunterGuildSeqOffline *)o)->init(tl_00, reset_random_enemies_mode);
+                ((THunterGuildSeqOffline *)o)->init(tl_00, (void *)reset_random_enemies_mode);
             }
             get_entity_id(*(s32 *)((s8 *)shop_sequence + 0x24));
             THunterGuildSeqOffline__sub_8021E180();
@@ -343,7 +340,7 @@ void THunterGuildSeqOffline::open_judgment_item_window() {
 
     if ((this->vfunc_10() != 0)
         && ((sub_80223A48() != 0) || (sub_802239EC__13TShopSequenceFv(this) != 0))) {
-        *(s32 *)((s8 *)this + 0x3C) = (s32)create_yes_no_window(get_window_layout_position(0x2B), (u16)get_entity_id(this->m_24), 0, 0);
+        *(s32 *)((s8 *)this + 0x3C) = (s32)create_yes_no_window(get_window_layout_position(0x2B), (u16)get_entity_id((s32)this->player), 0, 0);
         ((TWindowSubComCardList *)(*(s32 *)((s8 *)this + 0x3C)))->set_selected_index(1);
         ((TWindowAddition *)(*(s32 *)((s8 *)this + 0x3C)))->set_position_xy(get_scale(), get_scale());
         this->display_guild_message(8, 1);

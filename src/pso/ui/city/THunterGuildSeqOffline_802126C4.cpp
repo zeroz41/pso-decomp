@@ -15,7 +15,7 @@ void THunterGuildSeqOffline::notify_close() {
 
 void THunterGuildSeqOffline::create_quest_list_vm() {
     TQuestListVM *vm = new TQuestListVM(tl_05, THunterGuildSeqOffline__active_instance,
-                                        (TObjBase *)THunterGuildSeqOffline__active_instance->m_24);
+                                        (TObjBase *)THunterGuildSeqOffline__active_instance->player);
     if (vm != NULL) {
         vm->on_close = notify_close;
         vm->on_error = init_quest_list;

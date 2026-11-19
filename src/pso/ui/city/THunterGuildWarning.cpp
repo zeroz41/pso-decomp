@@ -1,6 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/city/THunterGuildSeqOffline.h"
+#include "pso/ui/city/THunterGuildSeqOffline_80213788.h"
 #include "pso/ui/city/THunterGuildWarning.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
@@ -364,25 +365,12 @@ void TLobby::update_guild_or_quest_phase() {
     }
 }
 
-void *THunterGuildSeqOnline_Client__ct(void *, void *, void *);
 }
 
 void *create_lobby_object_05(void *arg0) {
-    void *o = TObject::operator new(0x40);
-    if (o != NULL) {
-        o = THunterGuildSeqOnline_Client__ct(o, tl_05, arg0);
-    }
-    return o;
-}
-extern "C" {
-
-void *THunterGuildSeqOffline__sub_80214B3C(void *, void *, void *);
+    return new THunterGuildSeqOnline_Client(tl_05, (TObjPlayer *)arg0);
 }
 
 void *TLobby::create_tl05_object(void *arg0) {
-    void *o = TObject::operator new(0x44);
-    if (o != NULL) {
-        o = THunterGuildSeqOffline__sub_80214B3C(o, tl_05, arg0);
-    }
-    return o;
+    return new THunterGuildSeqOnline_Server(tl_05, (TObjPlayer *)arg0);
 }

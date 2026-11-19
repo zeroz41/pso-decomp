@@ -133,7 +133,7 @@ typedef char RecoveredGlobal_80215EF8___vt__17TJudgmentSequence_size[sizeof(Reco
 
 struct Seq_80215CB8;
 void TJudgmentSequence::vfunc_11() {
-    switch (this->m_20) {
+    switch (this->state) {
     case 0:
         this->restore_player_state();
         break;
@@ -167,21 +167,21 @@ TJudgmentSequence::~TJudgmentSequence() {
     *(s32 *)((s8 *)&TJudgmentSequence__slot_flags.value + (sub_8022397C__15TShopWindowBaseFv(this) * 4)) = 0;
 }
 
-u8 *TShopSequence__ct(u8 *arg0);
 const char *TJudgmentSequence__class_name = "TJudgmentSequence";
 
-u8 *TJudgmentSequence__ct(u8 *judgment_sequence, s32 arg1, s32 arg2) {
-    TShopSequence__ct((judgment_sequence));
-    *(s32 **)((s8 *)judgment_sequence + 0x18) = &__vt__17TJudgmentSequence.value;
-    ((TJudgmentSequence *)judgment_sequence)->m_name = TJudgmentSequence__class_name;
-    *(s32 *)((s8 *)judgment_sequence + 0x24) = arg2;
-    ((TJudgmentSequence *)judgment_sequence)->m_2c = 0;
-    *(s32 *)((s8 *)judgment_sequence + 0x30) = 0;
-    judgment_sequence_instance = (s32) judgment_sequence;
-    ((TShopWindowBase *)judgment_sequence)->set_field_20((s32)((void *) (0)));
-    *(s32 *)((s8 *)&TJudgmentSequence__slot_flags.value + (sub_8022397C__15TShopWindowBaseFv(judgment_sequence) * 4)) = 1;
-    return judgment_sequence;
 }
+
+TJudgmentSequence::TJudgmentSequence(TObject *parent, TObjPlayer *player) : TShopSequence(parent) {
+    m_name = TJudgmentSequence__class_name;
+    this->player = player;
+    m_2c = 0;
+    counter_camera = NULL;
+    judgment_sequence_instance = (s32)this;
+    set_field_20(0);
+    *(s32 *)((s8 *)&TJudgmentSequence__slot_flags.value + (sub_8022397C__15TShopWindowBaseFv(this) * 4)) = 1;
+}
+
+extern "C" {
 
 void TJudgmentSequence__sub_80216030(void) {
     s32 i;

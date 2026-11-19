@@ -5947,7 +5947,7 @@ pso/unk/text_8020E700.cpp:
 pso/ui/city/TCheckRoomSequence.cpp:
 	.text       start:0x8020F034 end:0x802115F4
 	.rodata     start:0x8044BC50 end:0x8044BC68
-	.data       start:0x804C9490 end:0x804C9664
+	.data       start:0x804C9490 end:0x804C969C
 	.bss        start:0x80513D88 end:0x80513DC8
 	.sdata      start:0x805D3640 end:0x805D3648
 	.sbss       start:0x805D6160 end:0x805D6178
@@ -6169,14 +6169,14 @@ pso/ui/city/TShopGetItemWindow_8021F0A4.cpp:
 pso/ui/city/TShopItemListWindow.cpp:
 	.text       start:0x8021F134 end:0x8021FE6C
 	.rodata     start:0x8044C168 end:0x8044C180
-	.data       start:0x804CA0B8 end:0x804CA134
+	.data       start:0x804CA0B8 end:0x804CA138
 	.sdata      start:0x805D36D0 end:0x805D36D8
 	.sdata2     start:0x805DC6F8 end:0x805DC6FC
 
 pso/ui/city/TShopItemTecSequence.cpp:
 	.text       start:0x8021FE6C end:0x802205E4
 	.rodata     start:0x8044C180 end:0x8044C198
-	.data       start:0x804CA170 end:0x804CA190
+	.data       start:0x804CA138 end:0x804CA190
 	.bss        start:0x80513EE0 end:0x80513EF0
 	.sdata      start:0x805D36D8 end:0x805D36E0
 	.sbss       start:0x805D6248 end:0x805D6258

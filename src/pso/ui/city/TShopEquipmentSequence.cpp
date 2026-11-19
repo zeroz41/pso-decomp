@@ -100,9 +100,8 @@ s32 __dl__7TObjectFPv(void *);
 extern RecoveredGlobal_8021DA90___vt__22TShopEquipmentSequence __vt__22TShopEquipmentSequence;
 struct TShopEquipmentSequenceSlotActiveFlags { s32 value; u8 remaining[0xC]; };
 TShopEquipmentSequenceSlotActiveFlags TShopEquipmentSequence__slot_active_flags;
-u8 *TShopSequence__ct(u8 *arg0);
 const char *TShopEquipmentSequence__class_name = "TShopEquipmentSequence";
-u8 *lbl_805D6228;
+TShopEquipmentSequence *lbl_805D6228;
 s32 lbl_805D622C;
 s32 lbl_805D6230;
 s32 restore_player_state__13TShopSequenceFv(void *);
@@ -225,7 +224,7 @@ typedef char RecoveredGlobal_8021DA90___vt__22TShopEquipmentSequence_size[sizeof
 
 void TShopEquipmentSequence::vfunc_11() {
     u8 *arg0 = (u8 *)this;
-    switch (this->m_20) {
+    switch (this->state) {
     case 0:
         restore_player_state__13TShopSequenceFv(arg0);
         set_field_20__15TShopWindowBaseFl(arg0, 1);
@@ -286,21 +285,22 @@ u8 *__dt__22TShopEquipmentSequenceFv(TShopEquipmentSequence *shop_equipment_sequ
     return (u8 *)shop_equipment_sequence;
 }
 typedef char RecoveredGlobal_8021DB58___vt__22TShopEquipmentSequence_size[sizeof(RecoveredGlobal_8021DB58___vt__22TShopEquipmentSequence) == 0x38 ? 1 : -1];
-u8 *TShopEquipmentSequence__ct(u8 *shop_equipment_sequence, s32 arg1, s32 arg2) {
-    TShopSequence__ct((shop_equipment_sequence));
-    *(s32 **)((s8 *)shop_equipment_sequence + 0x18) = &(*(RecoveredGlobal_8021DB58___vt__22TShopEquipmentSequence *)&__vt__22TShopEquipmentSequence).value;
-    ((TShopEquipmentSequence *)shop_equipment_sequence)->m_name = TShopEquipmentSequence__class_name;
-    ((TShopEquipmentSequence *)shop_equipment_sequence)->m_20 = 0;
-    *(s32 *)((s8 *)shop_equipment_sequence + 0x24) = arg2;
-    ((TShopEquipmentSequence *)shop_equipment_sequence)->m_2c = 0;
-    ((TShopEquipmentSequence *)shop_equipment_sequence)->m_30 = 0;
-    *(s32 *)((s8 *)shop_equipment_sequence + 0x34) = 0;
-    lbl_805D6228 = shop_equipment_sequence;
+}
+
+TShopEquipmentSequence::TShopEquipmentSequence(TObject *parent, TObjPlayer *player) : TShopSequence(parent) {
+    m_name = TShopEquipmentSequence__class_name;
+    state = 0;
+    this->player = player;
+    m_2c = 0;
+    m_30 = 0;
+    counter_camera = NULL;
+    lbl_805D6228 = this;
     lbl_805D622C = 0;
     lbl_805D6230 = 0;
-    *(s32 *)((s8 *)(&TShopEquipmentSequence__slot_active_flags.value) + (sub_8022397C__15TShopWindowBaseFv(shop_equipment_sequence) * 4)) = 1;
-    return shop_equipment_sequence;
+    *(s32 *)((s8 *)(&TShopEquipmentSequence__slot_active_flags.value) + (sub_8022397C__15TShopWindowBaseFv(this) * 4)) = 1;
 }
+
+extern "C" {
 
 void TShopEquipmentSequence__sub_8021DBE0(void) {
     s32 i;

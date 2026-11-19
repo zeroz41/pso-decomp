@@ -5,6 +5,7 @@
 #include "pso/ui/city/TShopSequence.h"
 
 struct TMedicalCenterSequence : public TShopSequence {
+    TMedicalCenterSequence(TObject *parent, TObjPlayer *player);
     virtual ~TMedicalCenterSequence();
     virtual void close_window();
     virtual void restore_player_state();
@@ -18,12 +19,9 @@ struct TMedicalCenterSequence : public TShopSequence {
     void show_declined();
     void show_already_healthy();
     s32 handle_window_input();
-    u8 unk_1C[0x4];
-    u32 m_20;
-    u8 unk_24[0x8];
     s32 m_2c;
     u32 m_30;
-    u8 unk_34[0x4];
+    TObject *counter_camera; // 0x34: set_service_counter_camera
     void show_fee_prompt();
 };
 
@@ -31,14 +29,12 @@ typedef char TMedicalCenterSequence_size[sizeof(TMedicalCenterSequence) == 0x38 
 
 extern "C" {
 void TMedicalCenterMes__sub_80216260(void);
-u8 *TMedicalCenterSequence__ct(u8 *medical_center_sequence, s32 arg1, s32 arg2);
 u8 *__dt__22TMedicalCenterSequenceFv(TMedicalCenterSequence *arg0, s16 arg1);
 }
 
 // --- C functions defined in TMedicalCenterSequence.cpp ---
 extern "C" {
 void TMedicalCenterMes__sub_80216260(void);
-u8 *TMedicalCenterSequence__ct(u8 *medical_center_sequence, s32 arg1, s32 arg2);
 u8 *__dt__22TMedicalCenterSequenceFv(TMedicalCenterSequence *arg0, s16 arg1);
 }
 // --- end of C functions

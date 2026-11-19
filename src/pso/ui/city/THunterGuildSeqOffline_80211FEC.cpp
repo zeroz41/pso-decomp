@@ -5,6 +5,7 @@
 #include "pso/unk/TLobby.h"
 #include "pso/system/TMemberCheck.h"
 #include "pso/ui/city/THunterGuildSeqOffline.h"
+#include "pso/system/task/TMainTask.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
@@ -26,7 +27,6 @@ extern s32 local_client_id;
 void *get_window_layout_position(s32);
 char *strcpy(char *, const char *);
 __declspec(section ".data") f32 member_name_window_pos[2] = {219.0f, 100.0f};
-u8 *THunterGuildSeqOffline__ct(u8 *arg0, s32 arg1, s32 arg2);
 
     extern int THunterGuildSeqOnline_Client__instance_table[];
 int THunterGuildSeqOffline__sub_80211FEC(int a0) {  return THunterGuildSeqOnline_Client__instance_table[a0]; }
@@ -34,14 +34,8 @@ int THunterGuildSeqOffline__sub_80211FEC(int a0) {  return THunterGuildSeqOnline
     extern int THunterGuildSeqOnline_Server__instance_table[];
 int THunterGuildSeqOffline__sub_80212000(int a0) {  return THunterGuildSeqOnline_Server__instance_table[a0]; }
 
-extern void *tl_05;
-
 void *THunterGuildSeqOffline::create(void *arg0) {
-    void *o = TObject::operator new(0x3C);
-    if (o != NULL) {
-        o = THunterGuildSeqOffline__ct((u8 *)o, (s32)tl_05, (s32)arg0);
-    }
-    return o;
+    return new THunterGuildSeqOffline(tl_05, (TObjPlayer *)arg0);
 }
 
     extern int THunterGuildSeqOffline__instance_table[];

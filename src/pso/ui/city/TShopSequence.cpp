@@ -10,22 +10,11 @@
 
 #pragma readonly_strings on
 
-struct VObj_802235A0_8022356C {
-    virtual void m0(int);
-};
-
-struct RecoveredGlobal_802238D8___vt__13TShopSequence { s32 value; u8 remaining[0x34]; };
-typedef char RecoveredGlobal_802238D8___vt__13TShopSequence_size[sizeof(RecoveredGlobal_802238D8___vt__13TShopSequence) == 0x38 ? 1 : -1];
-struct Del_80223850 {
-    virtual ~Del_80223850();
-};
 
 extern "C" {
 s32 get_entity_id(u32);
 u32 create_message_window__24TMessageWindowControllerFlll(void *, s32, s32, s32);
 u32 create_window__24TMessageWindowControllerFll(void *, s32, s32);
-u8 * __ct__24TMessageWindowControllerFv(void *);
-extern RecoveredGlobal_802238D8___vt__13TShopSequence __vt__13TShopSequence;
 const char *TShopSequence__class_name = "TShopSequence";
 
 // Conversation camera per service counter; the alternate set is used while a TLobby runs.
@@ -41,7 +30,6 @@ void set_service_counter_camera(s32 sequence, s32 counter) {
     create_conversation_camera(service_counter_camera_alt_table[counter]);
 }
 
-u8 *TShopSequence__ct(u8 *self, TObject *parent);
 s32 load_character_from_card__23TAdSinglePlyChrSelectGCFi(s32);
 s32 activate_body_collision__10TObjPlayerFv();
 s32 deactivate_body_collision__10TObjPlayerFv();
@@ -53,44 +41,54 @@ int send_message__24TMessageWindowControllerFll(void*);
 int format_shop_message__24TMessageWindowControllerFll(void*);
 
 int TShopSequence::vfunc_10() {
-    void *message_window_controller = *(void **)((s8 *)this + 0x28);
-    if (message_window_controller != NULL) {
-        return ((TMessageWindowController *)message_window_controller)->is_ready();
+    if (message_window != NULL) {
+        return message_window->is_ready();
     }
     return 1;
 }
 
 void TShopSequence::close_message_window() {
-    VObj_802235A0_8022356C *temp_r3;
-
-    if (*(VObj_802235A0_8022356C **)((s8 *)this + 0x28) != NULL) {
-        ((TMessageWindowController *)(*(VObj_802235A0_8022356C **)((s8 *)this + 0x28)))->close();
-        temp_r3 = *(VObj_802235A0_8022356C **)((s8 *)this + 0x28);
-        if (temp_r3 != NULL) {
-            temp_r3->m0(1);
-        }
-        *(VObj_802235A0_8022356C **)((s8 *)this + 0x28) = NULL;
+    if (message_window != NULL) {
+        message_window->close();
+        delete message_window;
+        message_window = NULL;
     }
 }
 
-u32 TShopSequence::create_message_window(s32 arg1, s32 arg2) {
-    u8 *message_window_controller;
-    u8 *temp_r3;
-    message_window_controller = (u8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x28));
-    if (message_window_controller != NULL) {
-        temp_r3 = (u8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x24));
-        if (temp_r3 != NULL) {
-            return create_message_window__24TMessageWindowControllerFlll(*(u8 **)((s8 *)((u8 *)this) + 0x28), arg1, arg2, (s32) ((u16)get_entity_id((u32)temp_r3)));
+u32 TShopSequence::create_message_window(s32 x, s32 y) {
+    if (message_window != NULL) {
+        if (player != NULL) {
+            return create_message_window__24TMessageWindowControllerFlll(message_window, x, y, (u16)get_entity_id((u32)player));
         }
-        return create_window__24TMessageWindowControllerFll(message_window_controller, arg1, arg2);
+        return create_window__24TMessageWindowControllerFll(message_window, x, y);
     }
-    return 0U;
+    return 0;
 }
 
-void TShopSequence::display_guild_message(s32 index, s32 flags) { void* m = *(void**)((char*)this + 0x28); if (m) ((TMessageWindowController *)m)->format_guild_message(index, flags); }
-void TShopSequence::vfunc_8() { void* m = *(void**)((char*)this + 0x28); if (m) send_message__24TMessageWindowControllerFll(m); }
-void TShopSequence::display_message(const char *text, s32 flags) { void* m = *(void**)((char*)this + 0x28); if (m) ((TMessageWindowController *)m)->display_message(text, flags); }
-void TShopSequence::vfunc_6() { void* m = *(void**)((char*)this + 0x28); if (m) format_shop_message__24TMessageWindowControllerFll(m); }
+void TShopSequence::display_guild_message(s32 index, s32 flags) {
+    if (message_window != NULL) {
+        message_window->format_guild_message(index, flags);
+    }
+}
+
+void TShopSequence::vfunc_8() {
+    if (message_window != NULL) {
+        send_message__24TMessageWindowControllerFll(message_window);
+    }
+}
+
+void TShopSequence::display_message(const char *text, s32 flags) {
+    if (message_window != NULL) {
+        message_window->display_message(text, flags);
+    }
+}
+
+void TShopSequence::vfunc_6() {
+    if (message_window != NULL) {
+        format_shop_message__24TMessageWindowControllerFll(message_window);
+    }
+}
+
 void TShopSequence::close_if_single_screen() {
     if ((TAdSinglePlyChrSelectGC::get_game_mode() != 0) && (is_split_screen() == 0)) {
         load_character_from_card__23TAdSinglePlyChrSelectGCFi(0);
@@ -131,24 +129,16 @@ void TShopSequence::restore_player_state() {
     }
 }
 TShopSequence::~TShopSequence() {
-    if (*(Del_80223850 **)((s8 *)this + 0x28) != NULL) {
-        delete *(Del_80223850 **)((s8 *)this + 0x28);
-        *(Del_80223850 **)((s8 *)this + 0x28) = NULL;
+    if (message_window != NULL) {
+        delete message_window;
+        message_window = NULL;
     }
-}
-u8 *TShopSequence__ct(u8 *shop_window_base, TObject *parent) {
-    s32 temp_r3;
-    s32 var_r0;
-    __ct__15TShopWindowBaseFP7TObject(shop_window_base, parent);
-    *(s32 **)((s8 *)shop_window_base + 0x18) = &__vt__13TShopSequence.value;
-    ((TShopSequence *)shop_window_base)->m_name = TShopSequence__class_name;
-    temp_r3 = (int)::operator new(0x210);
-    var_r0 = temp_r3;
-    if (var_r0 != 0) {
-        var_r0 = (long) (__ct__24TMessageWindowControllerFv((void *) temp_r3));
-    }
-    *(s32 *)((s8 *)shop_window_base + 0x28) = var_r0;
-    return shop_window_base;
 }
 
 }
+
+TShopSequence::TShopSequence(TObject *parent) : TShopWindowBase(parent) {
+    m_name = TShopSequence__class_name;
+    message_window = new TMessageWindowController();
+}
+
