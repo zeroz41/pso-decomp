@@ -6906,6 +6906,7 @@ pso/ui/window/TWindowCtrl.cpp:
 
 pso/ui/window/TWindowCtrl_8024C160.cpp:
 	.text       start:0x8024C160 end:0x8024C530
+	.data       start:0x804CEAA0 end:0x804CEAB8
 
 pso/ui/window/TWindowCtrl_8024C530.cpp:
 	.text       start:0x8024C530 end:0x8024C56C
