@@ -354,7 +354,6 @@ void TWindowChatSymbol::run_task() {
 
 extern "C" {
 s32 fn_8024491C(void *, void *);
-extern s32 __vt__17TWindowChatSymbol[];
 
 TWindowChatSymbol::~TWindowChatSymbol() {}
 
@@ -362,13 +361,10 @@ WindowDescriptor window_chat_symbol_settings = {
     {203.0f, 78.0f}, 50100.0f, &symbol_chat_layout_sprite_records, 0xB,
 };
 
-u8 *TWindowChatSymbol__ct(TWindowChatSymbol *window_chat_symbol, s32 arg1, s32 arg2) {
-    __ct__11TWindowBaseFPUcsPUc(window_chat_symbol, (u8 *)&window_chat_symbol_settings, (s16)4, (u8 *)arg1);
-    *(s32 **)((s8 *)window_chat_symbol + 0x18) = __vt__17TWindowChatSymbol;
-    window_chat_symbol->m_name = TWindowChatSymbol__name;
-    fn_8024491C((void *)window_chat_symbol, (void *)arg2);
-    window_chat_symbol->m_60 = 0;
-    window_chat_symbol->m_64 = 0;
-    return (u8 *)window_chat_symbol;
+TWindowChatSymbol::TWindowChatSymbol(s32 arg1, s32 arg2) : TWindowBase((u8 *)&window_chat_symbol_settings, (s16)4, (u8 *)arg1) {
+    this->m_name = TWindowChatSymbol__name;
+    fn_8024491C((void *)this, (void *)arg2);
+    this->m_60 = 0;
+    this->m_64 = 0;
 }
 }

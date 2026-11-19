@@ -11,6 +11,7 @@ struct SoundBalanceSettings {
 };
 
 struct TWindowSoundBalance : public TWindowBase {
+    TWindowSoundBalance(s32 arg1);
     virtual ~TWindowSoundBalance();
     int is_active();
     virtual void render();
@@ -35,13 +36,11 @@ struct TWindowSoundBalance : public TWindowBase {
 typedef char TWindowSoundBalance_size[sizeof(TWindowSoundBalance) == 0x68 ? 1 : -1];
 
 extern "C" {
-u8 *TWindowSoundBalance__ct(TWindowSoundBalance *arg0, s32 arg1);
 void render__19TWindowSoundBalanceFv(s32 arg0);
 }
 
 // --- C functions defined in TWindowSoundBalance.cpp ---
 extern "C" {
-u8 *TWindowSoundBalance__ct(TWindowSoundBalance *arg0, s32 arg1);
 void render__19TWindowSoundBalanceFv(s32 arg0);
 }
 // --- end of C functions

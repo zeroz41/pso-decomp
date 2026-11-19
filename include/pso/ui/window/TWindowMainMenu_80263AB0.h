@@ -3,7 +3,7 @@
 
 #include "types.h"
 
-// --- C functions defined in TWindowMainMenu_80263AB0.cpp ---
+// --- C functions defined in TWindowMainMenu.cpp ---
 extern "C" {
 void TWindowSubEquip__sub_80263AF4(void);
 f32 TWindowSubEquip__sub_80263AF8(u8 *arg0, u32 arg1);

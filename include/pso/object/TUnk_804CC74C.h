@@ -2,14 +2,21 @@
 #define PSO_OBJECT_TUNK_804CC74C_H
 #include "types.h"
 #include "pso/system/task/TObject.h"
+#include <dolphin/mtx/GeoTypes.h>
 
+class TObjPlayer;
+
+// The dark technique charge: spawns its three particles every 10 frames at
+// the caster m_actor while the charge flag 0x80 is set, up to 180 frames.
 class TUnk_804CC74C : public TObject {
 public:
     TUnk_804CC74C(s32 arg1, s32 arg2);
     virtual ~TUnk_804CC74C();
-    u8 unk_1C[0x10];
-    s32 m_2c;
-    u8 unk_30[0x4];
+    virtual void run_task();
+    TObjPlayer *m_actor;
+    Vec m_position;
+    s32 m_age;
+    s32 m_sound_handle;
 };
 typedef char TUnk_804CC74C_size[sizeof(TUnk_804CC74C) == 0x34 ? 1 : -1];
 

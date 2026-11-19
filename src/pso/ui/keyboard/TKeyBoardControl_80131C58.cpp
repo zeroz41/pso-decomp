@@ -1,3 +1,4 @@
+#include "pso/ui/window/TWindowKeyBoardHard.h"
 #include "types.h"
 #include "pso/system/ControllerInputState.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -54,7 +55,6 @@ TKeyBoardControl::~TKeyBoardControl() {
 
 extern "C" {
 void __ct__7TObjectFP7TObject(void *, void *);
-u8 *TWindowKeyBoardBase__ct(u8 *arg0);
 void TKeyBoardControl__sub_802613A4(TKeyBoardControl *arg0);
 extern s32 __vt__16TKeyBoardControl[];
 const char *TKeyBoardControl__class_name = "TKeyBoardControl";
@@ -69,17 +69,11 @@ TKeyBoardControl *TKeyBoardControl__ct(TKeyBoardControl *self, TObject *parent, 
     ((TKeyBoardControl *)self)->m_name = TKeyBoardControl__class_name;
     self->m_1c = 0;
     self->m_1e = client;
-    o = TObject::operator new(0xB8);
-    if (o != NULL) {
-        o = TWindowKeyBoardBase__ct((u8 *)o);
-    }
+    o = new TWindowKeyBoardBase();
     self->m_20 = (u32)o;
     ((TWindowKeyBoardBase *)self->m_20)->init_keyboard_text_field(arg2, arg3);
     ((TKeyBoardControl *)self->m_20)->set_flag62_bit8();
-    o = TObject::operator new(0x74);
-    if (o != NULL) {
-        o = TWindowKeyBoardHard__ct((TWindowKeyBoardHard *)o, self->m_20);
-    }
+    o = new TWindowKeyBoardHard(self->m_20);
     self->m_24 = (u32)o;
     TKeyBoardControl__sub_8025EC04((u8 *)self->m_24);
     o = TObject::operator new(0x70);

@@ -5,6 +5,7 @@
 #include "pso/system/task/TObject.h"
 
 struct TWindowCtrl : public TObject {
+    TWindowCtrl(TObject *parent);
     virtual ~TWindowCtrl();
     u16 m_1c;
     u16 m_1e;
@@ -28,8 +29,8 @@ struct TWindowCtrl : public TObject {
     u16 m_76;
     u8 unk_78[0x1C];
     void* m_94;
-    virtual void render();
     virtual void run_task();
+    virtual void render();
     static s32 get_flag_bit3();
     int is_player_flag_4000_set();
     static s32 is_map_visible();

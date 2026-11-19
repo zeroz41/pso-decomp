@@ -47,7 +47,6 @@ WindowDescriptor symbol_chat_help_window_layout = {
 extern "C" {
 s32 draw_default_entry__9TWindowDDFl();
 u8 * get_window_layout_position(s32);
-extern s32 __vt__24TWindowSubSymbolChatHelp[];
 extern s8 controller_input_state[];
 int TWindowSubSymbolChatHelp__sub_80247EE8(int);
 void apply_context_transform_to_rect(void *, void *);
@@ -255,16 +254,13 @@ void TWindowSubSymbolChatHelp::render() {
 void TWindowSubSymbolChatHelp::run_task() { handle_page_input(); handle_toggle_input(); ((TWindowDD *)this)->initialize_subwindow(); }
 
 TWindowSubSymbolChatHelp::~TWindowSubSymbolChatHelp() {}
-u8 *TWindowSubSymbolChatHelp__ct(TWindowSubSymbolChatHelp *window_sub_symbol_chat_help, s32 arg1, s32 arg2) {
-    __ct__11TWindowBaseFPUcsPUc(window_sub_symbol_chat_help, (u8 *)&symbol_chat_help_window_layout, (s16)(4), (u8 *)(get_window_layout_position(0x7E)));
-    *(s32 **)((s8 *)window_sub_symbol_chat_help + 0x18) = __vt__24TWindowSubSymbolChatHelp;
-    *(s32 *)((s8 *)window_sub_symbol_chat_help + 0) = (s32) TWindowSubSymbolChatHelp__name;
-    window_sub_symbol_chat_help->m_60 = 0;
-    window_sub_symbol_chat_help->m_64 = arg1;
-    window_sub_symbol_chat_help->m_68 = arg2;
-    window_sub_symbol_chat_help->m_6c = 0;
-    window_sub_symbol_chat_help->m_70 = 0;
-    return (u8 *)window_sub_symbol_chat_help;
+TWindowSubSymbolChatHelp::TWindowSubSymbolChatHelp(s32 arg1, s32 arg2) : TWindowBase((u8 *)&symbol_chat_help_window_layout, (s16)(4), (u8 *)(get_window_layout_position(0x7E))) {
+    m_name = TWindowSubSymbolChatHelp__name;
+    this->m_60 = 0;
+    this->m_64 = arg1;
+    this->m_68 = arg2;
+    this->m_6c = 0;
+    this->m_70 = 0;
 }
 
 }

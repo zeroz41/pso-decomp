@@ -2,15 +2,29 @@
 #define PSO_OBJECT_TDEADSPOT_H
 
 #include "types.h"
+#include "pso/system/task/TObject.h"
+
+class TDeadSpot : public TObject {
+public:
+    TDeadSpot(TObject *parent, Vec *point, void *texture, s32 selector, s32 delay, f32 maxScale);
+    virtual ~TDeadSpot();
+    virtual void run_task();
+    virtual void render();
+    u8 m_1C[0xC8 - 0x1C];
+};
+
+class TUnk_80494A10 : public TDeadSpot {
+public:
+    TUnk_80494A10(TObject *parent, Vec *point, void *texture, s32 selector, s32 delay, f32 maxScale);
+    virtual ~TUnk_80494A10();
+    virtual void run_task();
+    u8 m_C8[0x4];
+};
+typedef char TDeadSpot_size[sizeof(TDeadSpot) == 0xC8 ? 1 : -1];
+typedef char TUnk_80494A10_size[sizeof(TUnk_80494A10) == 0xCC ? 1 : -1];
 
 extern "C" {
-void *__dt__13TUnk_804949D8Fv(void *arg0, s16 arg1);
-void *__dt__13TUnk_804949F4Fv(void *arg0, s16 arg1);
-void *__dt__13TUnk_80494A10Fv(void *arg0, s16 arg1);
-u8 *construct_fire_base__9TDeadSpotFPvPvPvif(u8 *arg0, u8 *arg1, u8 *arg2, s32 arg3, f32 farg0);
-void *init__9TDeadSpotFPv(void *arg0, u8 *_w1, u8 *_w2, s32 _w3, f32 _w4);
 void render__9TDeadSpotFv(u8 *arg0);
-void run_task__13TUnk_804949F4Fv(void *arg0);
 }
 
 #endif

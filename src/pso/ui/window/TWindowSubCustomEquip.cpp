@@ -441,8 +441,6 @@ void TWindowSubCustomEquip::handle_decide() {
     ((TWindowSubStatusDisp *)(this->m_6c))->set_entry_state(2);
 }
 
-extern s32 __vt__21TWindowSubCustomEquip[];
-
 void TWindowSubCustomEquip::handle_cursor_input() {
     s32 temp_r29;
     u8 temp_r3_2;
@@ -534,27 +532,24 @@ TWindowSubCustomEquip::~TWindowSubCustomEquip() {
 
 u8 *get_window_layout_position(s32 index);
 
-TWindowSubCustomEquip *TWindowSubCustomEquip__ct(TWindowSubCustomEquip *self, s32 slot) {
+TWindowSubCustomEquip::TWindowSubCustomEquip(s32 slot) : TWindowBase((u8 *)&lbl_804D1488, slot, get_window_layout_position(0xF)) {
     void *heading;
-    __ct__11TWindowBaseFPUcsPUc(self, (u8 *)&lbl_804D1488, slot, get_window_layout_position(0xF));
-    *(s32 **)((s8 *)self + 0x18) = __vt__21TWindowSubCustomEquip;
-    self->m_name = TWindowSubCustomEquip__name;
-    self->m_20 = slot;
-    self->m_60 = 0;
-    self->m_61 = 1;
-    self->m_62 = 0;
-    self->m_63 = 0;
-    self->m_64 = 0;
-    self->m_65 = 1;
-    self->m_66 = 0;
-    self->m_68 = 0xB200;
+    this->m_name = TWindowSubCustomEquip__name;
+    this->m_20 = slot;
+    this->m_60 = 0;
+    this->m_61 = 1;
+    this->m_62 = 0;
+    this->m_63 = 0;
+    this->m_64 = 0;
+    this->m_65 = 1;
+    this->m_66 = 0;
+    this->m_68 = 0xB200;
     heading = (void *)::operator new(0x24);
     if (heading != NULL) {
-        heading = ((TWindowSubStatusDisp *)heading)->construct_type1_heading((s32)TWindowSubStatusDisp::get_message_10(0x23), self->m_20);
+        heading = ((TWindowSubStatusDisp *)heading)->construct_type1_heading((s32)TWindowSubStatusDisp::get_message_10(0x23), this->m_20);
     }
-    self->m_6c = (u32)heading;
-    self->refresh_palette_slots();
-    return self;
+    this->m_6c = (u32)heading;
+    this->refresh_palette_slots();
 }
 
 s32 TWindowSubCustomEquip::calc_equip_index() {

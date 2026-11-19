@@ -5,6 +5,7 @@
 #include "pso/ui/window/TWindowBase.h"
 
 struct TWindowMeseta : public TWindowBase {
+    TWindowMeseta(s32 parent, s32 client, s32 text);
     virtual ~TWindowMeseta();
     virtual void render();
     u8 _pad1C[0x8];

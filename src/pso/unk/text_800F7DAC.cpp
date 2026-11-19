@@ -56,18 +56,13 @@ void *__dt__13TUnk_804999E8Fv(void *, s16);
 void TCameraCtrl__sub_80068EF0(void);
 u32 prs_decompress_buffer(s32 arg0, s32 arg1);
 }
-void step_fade_opacity_increase(u8 *arg0);
 extern "C" {
 void * TLobby__sub_800F8498(void *arg0, void *arg1, s32 arg2, s32 arg3, u8 arg4, u8 arg5, u8 arg6, u8 arg7);
-void __dl__7TObjectFPv(void *);
-s32 __dt__7TObjectFv(void *, int);
 void __ct__7TObjectFP7TObject(void *);
 s32 TWindowCtrlMain__sub_8024CD5C(s32 viewport_index);
 u32 prs_decompress(int, int, int, int);
 u32 reset_counters__6TLobbyFv();
 
-struct RecoveredGlobal_lbl_80499970 { s32 value; u8 remaining[0x14]; };
-extern RecoveredGlobal_lbl_80499970 lbl_80499970;
 struct RecoveredGlobal_lbl_80499988 { s32 value; u8 remaining[0x14]; };
 extern RecoveredGlobal_lbl_80499988 lbl_80499988;
 extern s32 lbl_804999A0[];
@@ -247,24 +242,13 @@ s32 TUnk_80499988::sub_800F8250(f32 farg0) {
 }
 #pragma pop
 
-void *TLobby::ct_register() {
-    __ct__7TObjectFP7TObject(this);
-    *(s32 **)((s8 *)this + 0x18) = ((s32 *)&lbl_80499970);
+TUnk_80499970::TUnk_80499970(TObject *parent) : TObject(parent) {
     screen_fade_controller = this;
-    *(u32 *)((s8 *)this + 0x24) = 0;
-    return this;
+    m_24 = 0;
 }
 
-u8 *TLobby::dtor_clear_singleton(s16 arg1) {
-    if (this != NULL) {
-        *(s32 **)((s8 *)((u8 *)this) + 0x18) = &lbl_80499970.value;
-        (*(s32 *)&screen_fade_controller) = 0;
-        __dt__7TObjectFv(this, 0);
-        if (arg1 > 0) {
-            ((s32 (*)(void *))__dl__7TObjectFPv)(this);
-        }
-    }
-    return ((u8 *)this);
+TUnk_80499970::~TUnk_80499970() {
+    (*(s32 *)&screen_fade_controller) = 0;
 }
 
 s32 TLobby::get_quest_thread_state() {
@@ -315,7 +299,8 @@ void TLobby::init_fadeout_state(s32 arg0) {
 
 #pragma push
 #pragma opt_common_subs off
-void step_fade_opacity_increase(u8 *arg0) {
+void TUnk_80499970::step_fade_opacity_increase() {
+    u8 *arg0 = (u8 *)this;
     s32 (*temp_r12)();
     *(f32 *)((s8 *)arg0 + 0x1C) += 8.0f;
     if (*(f32 *)((s8 *)arg0 + 0x1C) >= (255.0f)) {
@@ -331,7 +316,7 @@ void step_fade_opacity_increase(u8 *arg0) {
 
 #pragma push
 #pragma opt_common_subs off
-void TLobby::tick_fade_counter() {
+void TUnk_80499970::tick_fade_counter() {
     u8 *arg0 = (u8 *)this;
     s32 (*temp_r12)();
     *(f32 *)((s8 *)arg0 + 0x1C) += 1.0f;
@@ -346,14 +331,13 @@ void TLobby::tick_fade_counter() {
 }
 #pragma pop
 
-void TLobby::dispatch_state() {
-
+void TUnk_80499970::run_task() {
     switch (*(s32 *)((s8 *)this + 0x24)) {
     case 1:
-        ((TUnk_80499970 *)this)->step_fade_opacity_decrease();
+        step_fade_opacity_decrease();
         return;
     case 2:
-        step_fade_opacity_increase((u8 *)this);
+        step_fade_opacity_increase();
         return;
     case 3:
         tick_fade_counter();

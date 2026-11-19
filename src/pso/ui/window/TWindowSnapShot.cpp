@@ -77,7 +77,6 @@ u8 *draw_default_entry__9TWindowDDFl();
 s32 draw_visible_window_entries(void *, void *, void *);
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
 s32 verify_snapshot_checksum__15TObjBoss2TunnelFv(void);
-extern s32 __vt__15TWindowSnapShot[];
 s32 play_sound_effect(s32, s32, s32, s32);
 
 void TWindowSnapShot::free_shared_instance() {
@@ -141,18 +140,15 @@ void TWindowSnapShot::run_task() {
 }
 
 TWindowSnapShot::~TWindowSnapShot() {}
-u8 *TWindowSnapShot__ct(TWindowSnapShot *window_snap_shot, s32 arg1) {
+TWindowSnapShot::TWindowSnapShot(s32 arg1) : TWindowBase((u8 *)&window_snapshot_layout, (s16)4, (u8 *)arg1) {
     s32 temp_r31;
-    __ct__11TWindowBaseFPUcsPUc(window_snap_shot, (u8 *)&window_snapshot_layout, (s16)4, (u8 *)arg1);
-    *(s32 **)((s8 *)window_snap_shot + 0x18) = __vt__15TWindowSnapShot;
-    *(s32 *)((s8 *)window_snap_shot + 0) = (s32) TWindowSnapShot__name;
-    window_snap_shot->m_60 = 0U;
+    m_name = TWindowSnapShot__name;
+    this->m_60 = 0U;
     if (verify_snapshot_checksum__15TObjBoss2TunnelFv() == 0) {
-        window_snap_shot->m_60 = (u8) (window_snap_shot->m_60 | 2);
+        this->m_60 = (u8) (this->m_60 | 2);
     }
-    temp_r31 = ((TWindowBase *)window_snap_shot)->get_array_entry(1);
+    temp_r31 = ((TWindowBase *)this)->get_array_entry(1);
     TWindowDuelResult::set_default_status((void *) temp_r31, get_localized_text_entry(0xF, 0x13));
-    return (u8 *)window_snap_shot;
 }
 
 RlcArchive *shared_snapshot_capture;

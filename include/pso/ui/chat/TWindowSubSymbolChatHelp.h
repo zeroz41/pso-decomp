@@ -5,6 +5,7 @@
 #include "pso/ui/window/TWindowBase.h"
 
 struct TWindowSubSymbolChatHelp : public TWindowBase {
+    TWindowSubSymbolChatHelp(s32 arg1, s32 arg2);
     virtual ~TWindowSubSymbolChatHelp();
     void draw_help_entry(void *, s32, s32);
     void draw_color_palette(void *);
@@ -23,9 +24,5 @@ struct TWindowSubSymbolChatHelp : public TWindowBase {
 };
 
 typedef char TWindowSubSymbolChatHelp_size[sizeof(TWindowSubSymbolChatHelp) == 0x74 ? 1 : -1];
-
-extern "C" {
-u8 *TWindowSubSymbolChatHelp__ct(TWindowSubSymbolChatHelp *arg0, s32 arg1, s32 arg2);
-}
 
 #endif

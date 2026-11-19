@@ -5,6 +5,7 @@
 #include "pso/ui/window/TWindowBase.h"
 
 struct TWindowKeyBoardHard : public TWindowBase {
+    TWindowKeyBoardHard(s32 arg1);
     virtual ~TWindowKeyBoardHard();
     void draw_status_text(void *);
     void update_modifier_flags();

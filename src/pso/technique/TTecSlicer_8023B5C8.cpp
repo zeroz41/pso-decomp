@@ -115,12 +115,6 @@ u8 *__ct__14TSlicerHistoryFv(u8 *object, u8 *tec_slicer, s32 arg2, u8 *arg3, s32
 
 }
 
-typedef struct TTecSlicerTargets_8023B454 {
-    u16 ids[10];
-    s8 parts[10];
-    s8 count;
-    s8 idx;
-} TTecSlicerTargets_8023B454;
 
 typedef struct TObjPlayer_8023B454 {
     u8 pad0[0xA4];
@@ -327,8 +321,6 @@ s32 test_flags_any(s32 *flags, s32 mask);
 void *get_player_by_client_id(s32 i);
 
 void __dl__7TObjectFPv(void *);
-void dt__10TTecSlicerFls(void *, int);
-extern s32 __vt__10TTecSlicer[];
 void destroy_if_set__10TTecSlicerFv(u32);
 
 f32 *get_weapon_range_record(s32, s32);
@@ -336,12 +328,11 @@ s32 get_extended_state__10TObjPlayerFv(s32);
 s8 get_captured_target_collider_index(s32);
 s32 get_captured_target_entry(s32, s32);
 s32 get_captured_target_count(s32);
-void __ct__8TObjBaseFP7TObject(void *, s32);
 f32 vector_length(void *);
 extern s32 tl_05;
 u32 csnVector(s32, s32, s32);
 
-void TTecSlicer::reset_fields_1e() { *(u8*)((char*)this + 0x1e) = 0; *(u8*)((char*)this + 0x1f) = 0; }
+TTecSlicerTargets_8023B454::TTecSlicerTargets_8023B454() { count = 0; idx = 0; }
 
 void TTecSlicer::deliver_target_hit() {
     u8 *arg0 = (u8 *)this;
@@ -417,7 +408,7 @@ void TTecSlicer::update() {
     s32 arg0 = (s32)this;
     if (horizontal_distance_squared(&this->position, (const Vec *)this->destination) < 100.0f) {
         deliver_target_hit();
-        if (get_next_captured_target((TTecSlicerTargets_8023B454 *)this->capturedTargets, (Vec *)this->destination, &this->targetId, (s8 *)&this->targetPart, &this->radius) == 0) {
+        if (get_next_captured_target(&this->capturedTargets, (Vec *)this->destination, &this->targetId, (s8 *)&this->targetPart, &this->radius) == 0) {
             ((FlagWord *)(arg0 + 0xC0))->set(1);
         } else {
             VecCopy((Vec *)(arg0 + 0x90), (const Vec *)(arg0 + 0xA8));
@@ -430,19 +421,14 @@ void TTecSlicer::update() {
 }
 
 s32 TTecSlicer::create(u16 *arg0) {
-    s32 object;
     s32 var_r31;
     u8 *player;
     var_r31 = 0;
     if (arg0 != NULL) {
         player = (u8 *)(((u8 *)get_player_by_client_id(*(u16 *)((s8 *)arg0 + 0))));
         if (player != NULL) {
-            object = ((s32)TObject::operator new(0x140));
-            if (object != 0) {
-                object = TTecSlicer__ct((void *)((void *)object), (void *)((void *)arg0), (void *)((void *)player), player + 0x38, (int)((int) (*(s32 *)((s8 *)player + 0x60))));
-            }
-            var_r31 = object;
-            TItemAttacker::spawn_item_timer((TObject *)object, (ItemTimerCallback)destroy_if_set__10TTecSlicerFv, 0x5A);
+            var_r31 = (s32)new TTecSlicer(arg0, player, (Vec *)(player + 0x38), *(s32 *)((s8 *)player + 0x60));
+            TItemAttacker::spawn_item_timer((TObject *)var_r31, (ItemTimerCallback)destroy_if_set__10TTecSlicerFv, 0x5A);
         }
     }
     return var_r31;
@@ -464,11 +450,11 @@ void TTecSlicer::render() {
         set_texlist(this->texlist);
         TParticleCtrl::begin_effect_render();
         push_matrix();
-        post_translate_matrix((const f32 *)&this->position);
+        post_translate_matrix((f32 *)&this->position);
         rotate_matrix_y(0, *(s32 *)((s8 *)arg0 + 0x60));
         rotate_matrix_z(0, *(s32 *)((s8 *)arg0 + 0x64));
         rotate_matrix_x(0, *(s32 *)((s8 *)arg0 + 0x5C));
-        scale_current_matrix((const f32 *)&this->scale);
+        scale_current_matrix((f32 *)&this->scale);
         draw_ginja_object(this->model);
         set_constant_material(&chunk_material_color_half_alpha_f32);
         TParticleCtrl::end_effect_render();
@@ -477,7 +463,10 @@ void TTecSlicer::render() {
     model_render_flags = saved_model_render_flags;
 }
 
-void run_task__10TTecSlicerFv(u8 *object) {
+#pragma push
+#pragma opt_common_subs off
+#define object ((u8 *)this)
+void TTecSlicer::run_task() {
     s32 temp_r4;
     u8 *var_r31;
     void *new_obj;
@@ -514,26 +503,23 @@ void run_task__10TTecSlicerFv(u8 *object) {
     *(u32 *)((s8 *)object + 0x108) = 0U;
     *(u32 *)((s8 *)object + 0x10C) = 0U;
 }
+#undef object
+#pragma pop
+
 TTecSlicer::~TTecSlicer() {
     if (star != NULL) { ((TObject *)star)->queue_destruction(); }
-    dt__10TTecSlicerFls((s8 *)this + 0xE8, -1);
-    dt__10TTecSlicerFls((s8 *)this + 0xC8, -1);
 }
-#define self ((Slicer_8023BBB4 *)arg0)
-#define init ((Init_8023BBB4 *)arg1)
+
+#define self ((Slicer_8023BBB4 *)this)
+#define init ((Init_8023BBB4 *)launch)
 #pragma push
 #pragma opt_common_subs off
 #pragma opt_loop_invariants off
-s32 TTecSlicer__ct(void *arg0, void *arg1, void *arg2, void *arg3, int arg4) {
+TTecSlicer::TTecSlicer(u16 *launch, void *player, Vec *position, int angle) : TObjBase((TObject *)tl_05) {
     s32 c;
     s32 ext;
     s32 i;
     s32 e;
-    __ct__8TObjBaseFP7TObject(self, tl_05);
-    self->vt = __vt__10TTecSlicer;
-    __ct__8FlagWordFv((self->fwd));
-    ((TTecSlicer *)(self->fc8))->reset_fields_1e();
-    ((TTecSlicer *)(self->fe8))->reset_fields_1e();
     self->name = TTecSlicer__name;
     ((TObject *)((TObject *)self))->TObject::disallow_rendering();
     ((TObjBase *)self)->set_entity_id(pop_free_entity_id());
@@ -547,13 +533,13 @@ s32 TTecSlicer__ct(void *arg0, void *arg1, void *arg2, void *arg3, int arg4) {
     copy_argb((NJS_ARGB *)self->color, (NJS_ARGB *)init->color);
     self->f138 = init->f2c;
     self->f13c = 1;
-    self->dir.x = sin_table_lookup(arg4);
+    self->dir.x = sin_table_lookup(angle);
     self->dir.y = 0.0f;
-    self->dir.z = cos_table_lookup(arg4);
+    self->dir.z = cos_table_lookup(angle);
     if (0.0f != vector_length(&self->dir)) {
         normalize_vector((s32)&self->dir);
     }
-    self->f10c = (s32)arg2;
+    self->f10c = (s32)player;
     self->f108 = (s32)find_item_by_id(self->f118);
     TTecSlicer::init_launch_angles((s32 *)self, (s32 *)self->f10c, init->f28);
     ((TTecSlicer *)self)->set_launch_midpoint((void *)self->f10c, &init->a, &init->b);
@@ -579,7 +565,6 @@ s32 TTecSlicer__ct(void *arg0, void *arg1, void *arg2, void *arg3, int arg4) {
     self->f108 = 0;
     self->fc4 = 0xFFFF;
     self->fc6 = 0;
-    return (s32)self;
 }
 #pragma pop
 #undef self
@@ -595,9 +580,4 @@ void TTecSlicer::destroy_if_set() {
         ((TObject *)arg0)->queue_destruction();
     }
 }
-s32 TTecSlicer::dt(s32 arg0, s16 arg1) {
-    if ((arg0 != 0) && (arg1 > 0)) {
-        __dl__FPv();
-    }
-    return arg0;
-}
+TTecSlicerTargets_8023B454::~TTecSlicerTargets_8023B454() {}

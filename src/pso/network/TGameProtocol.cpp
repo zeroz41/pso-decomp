@@ -202,6 +202,8 @@ extern "C" void handle_6xAE_set_animation_state(void *arg0);
 extern "C" void handle_6xAF_turn_or_move_lobby_chair(void *arg0);
 extern "C" void handle_6xB0_turn_or_move_lobby_chair(void *arg0);
 extern "C" void handle_6xB1();
+u32 lbl_804C5238[10] = { 0 };
+
 u8 subcommand_area_masks[36] = {
     2, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4,
     4, 4, 4, 1, 4, 4, 2, 4, 4, 4, 4, 4,

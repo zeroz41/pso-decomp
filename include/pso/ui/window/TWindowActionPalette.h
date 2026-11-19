@@ -22,6 +22,7 @@ struct Icon_80243630 {
 };
 
 struct TWindowActionPalette : public TWindowBase {
+    TWindowActionPalette(s16 slot);
     struct ChildList {
         u32 count;
         void **entries;
@@ -77,8 +78,6 @@ extern "C" {
 void draw_action_palette_icon(Icon_80243630 *icon, u16 group, u16 index);
 void update_palette_item_count_label(TWindowHelpItem *label, Icon_80243630 *icon, u16 group, u16 index, s32 client_id);
 void spawn_action_palette_slot_light(TWindowActionPalette *palette, s32 slot);
-// The constructor; a placeholder until TWindowBase's constructor carries its real name.
-TWindowActionPalette *TWindowActionPalette__ct(TWindowActionPalette *self, s16 slot);
 }
 s32 get_palette_consumable_count(u16 slot, s32 client_id);
 

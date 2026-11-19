@@ -1,21 +1,68 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
-#include "pso/technique/TechniqueChargeEmitter.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/text_80087278.h"
 #include "types.h"
 #include "pso/technique/TechniqueBoost.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
+#include "pso/object/TUnk_804CC74C.h"
+#include "pso/unk/TLobby_80226070.h"
+#include "pso/system/vector.h"
+#include "pso/technique/TTecDeband.h"
 u32 dark_technique_charge_effect_ids[3] = {0x1E7, 0x1E8, 0x1EF};
 TechniqueBoostTable::TechniqueBoostTable() {
     clear();
 }
 
-void updateDarkTechniqueCharge(TechniqueChargeEmitter* state) {
-    ++state->age;
-    if(state->age%10==0) {
-        for(int i=0;i<3;++i)spawn_particle_effect(state->position,dark_technique_charge_effect_ids[i]);
+void TUnk_804CC74C::run_task() {
+    ++m_age;
+    if(m_age%10==0) {
+        for(int i=0;i<3;++i)spawn_particle_effect(&m_position,dark_technique_charge_effect_ids[i]);
     }
-    if(!((TObjPlayer *)(state->actor))->check_flag_0x80())((TObject *)state)->queue_destruction();
-    else if(state->age>=180)((TObject *)state)->queue_destruction();
+    if(!m_actor->check_flag_0x80())queue_destruction();
+    else if(m_age>=180)queue_destruction();
 }
+
+TUnk_804CC74C::~TUnk_804CC74C() {
+    stop_sound_request(m_sound_handle);
+}
+
+struct Obj_8022F42C { u8 pad[0xA6]; s16 state; };
+
+extern "C" {
+s32 update_technique_slot__10TTecRaFoieFl(s32, s32, s32);
+s32 play_sound_effect(int, void *, int, int);
+}
+
+TUnk_804CC74C::TUnk_804CC74C(s32 arg1, s32 arg2) : TObject((TObject *)((void *)arg2)) {
+    m_actor = (TObjPlayer *)arg1;
+    VecCopy(&m_position, (const Vec *)((u8 *)m_actor + 0x2FC));
+    m_age = 0;
+    m_sound_handle = play_sound_effect(0x4002BB1F, &m_position, 0, 0);
+}
+
+void TTecDeband::play_state_sound() {
+    Obj_8022F42C *arg0 = (Obj_8022F42C *)this;
+    s32 r;
+    switch (*(s16 *)&this->m_a6) {
+    case 0:
+    case 1:
+        r = play_sound_effect(0x4002AA16, (u8 *)arg0 + 0x20, 0, 0);
+        if (r >= 0) {
+            update_technique_slot__10TTecRaFoieFl(r, 0x100, 0);
+        }
+        break;
+    case 2:
+    case 3:
+        play_sound_effect(0x4002AA16, (u8 *)arg0 + 0x20, 0, 0);
+        break;
+    case 4:
+    case 5:
+        r = play_sound_effect(0x4002AA16, (u8 *)arg0 + 0x20, 0, 0);
+        if (r >= 0) {
+            update_technique_slot__10TTecRaFoieFl(r, -0x100, 0);
+        }
+        break;
+    }
+}
+

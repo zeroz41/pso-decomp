@@ -142,30 +142,28 @@ WindowDescriptor twindow_action_palette_layout = {
     {150.0f, 107.0f}, 50000.0f, &lbl_804CDE50, 0xB28,
 };
 
-TWindowActionPalette *TWindowActionPalette__ct(TWindowActionPalette *self, s16 slot) {
+TWindowActionPalette::TWindowActionPalette(s16 slot) : TWindowBase((u8 *)&twindow_action_palette_layout, (s16)slot, (u8 *)(get_window_layout_position(0x1F))) {
     u32 i;
-    __ct__11TWindowBaseFPUcsPUc(self, (u8 *)&twindow_action_palette_layout, (s16)slot, (u8 *)(get_window_layout_position(0x1F)));
-    *(u32 **)((u8 *)self + 0x18) = __vt__20TWindowActionPalette;
-    __construct_array(self->resources, (void *)init_gc_tag, (void *)TPlyDispConfig::free_if_valid, 4, 3);
-    self->m_name = TWindowActionPalette__name;
+
+    __construct_array(this->resources, (void *)init_gc_tag, (void *)TPlyDispConfig::free_if_valid, 4, 3);
+    this->m_name = TWindowActionPalette__name;
     if (TCameraCtrl::get_camera_id() > 2) {
-        self->scale.x = 0.5f;
-        self->scale.y = 0.5f;
+        this->scale.x = 0.5f;
+        this->scale.y = 0.5f;
     } else if (TCameraCtrl::get_camera_id() == 2) {
-        self->scale.x = 0.7f;
-        self->scale.y = 0.7f;
+        this->scale.x = 0.7f;
+        this->scale.y = 0.7f;
     } else {
-        self->scale.x = 1.0f;
-        self->scale.y = 1.0f;
+        this->scale.x = 1.0f;
+        this->scale.y = 1.0f;
     }
-    self->m_58 = -1.0f;
-    self->state = 0;
-    self->m_20 = slot;
+    this->m_58 = -1.0f;
+    this->state = 0;
+    this->m_20 = slot;
     for (i = 0; i < 3; i++) {
-        ((TWindowActionPalette *)self->resources)->set_mode(0);
-        ((TWindowActionPalette *)self->resources)->set_slot(0);
+        ((TWindowActionPalette *)this->resources)->set_mode(0);
+        ((TWindowActionPalette *)this->resources)->set_slot(0);
     }
-    return self;
 }
 
 TWindowActionPalette::~TWindowActionPalette() {

@@ -9,6 +9,7 @@
 #include "pso/effect/particle/TParticleCtrl_800867E4.h"
 #include "pso/unk/text_80087278.h"
 #include "pso/object/TDeadSpot.h"
+#include "pso/unk/TUnk_804949D8.h"
 #include "pso/player/TObjPlayer_800D8FDC.h"
 #include "pso/system/memory.h"
 #include "pso/player/TObjPlayer.h"
@@ -173,12 +174,7 @@ void spawn_particles_at__12TBoss3VoloptFi(s32 arg0) {
 #define create_dead_spot__10TObjPlayerFiiif ((s32 (*)(s32, s32, s32))create_dead_spot__10TObjPlayerFiiif)
 
 void TObjPlayer::create_dead_spot(s32 arg0, s32 arg1, f32 farg0) {
-    s32 temp_r3;
-
-    temp_r3 = (s32)TObject::operator new(0x38);
-    if (temp_r3 != 0) {
-        construct_fire_base__9TDeadSpotFPvPvPvif((u8 *)temp_r3, (u8 *)tl_05, (u8 *)arg0, (s32)(create_timed_particle_emitter((void *)arg0, 0xF8, 0, (arg1))), (f32)farg0);
-    }
+    new TUnk_804949F4((TObject *)tl_05, (Vec *)arg0, (s32)create_timed_particle_emitter((void *)arg0, 0xF8, 0, arg1), farg0);
 }
 
 void TObjPlayer::spawn_effect_f8(s32 arg1, s32 arg2) {
@@ -193,12 +189,7 @@ void TObjPlayer::set_field_e4(s32 arg1, s32 arg2) {
 
 
 void create_dead_spot__10TObjPlayerFiiif(s32 arg0, s32 arg1, s32 arg2, f32 farg0) {
-    s32 temp_r3;
-
-    temp_r3 = (s32)TObject::operator new(0x38);
-    if (temp_r3 != 0) {
-        init__9TDeadSpotFPv((void *)temp_r3, (u8 *)tl_05, (u8 *)arg0, (s32)(create_timed_particle_emitter((void *)arg0, (arg1), 0, (arg2))), (f32)farg0);
-    }
+    new TUnk_804949D8((TObject *)tl_05, (Vec *)arg0, (s32)create_timed_particle_emitter((void *)arg0, arg1, 0, arg2), farg0);
 }
 
 void fn_800D911C(Vec *position) {
@@ -279,22 +270,14 @@ void TObjPlayer__sub_800D93C4(s32 point, s32 delay) {
     TObjPlayer::spawn_dead_spot(point, 2, delay, 25.0f);
 }
 
-s32 init_corner_vertices__9TDeadSpotFPv(void *, s32, s32, s32, s32, s32, f32);
-s32 __ct__9TDeadSpotFv(void *, s32, s32, s32, s32, s32, f32);
 
 
 void TObjPlayer__sub_800D93F0(s32 point, s32 selector, s32 delay, f32 farg0) {
-    void *obj = TObject::operator new(0xCC);
-    if (obj != NULL) {
-        init_corner_vertices__9TDeadSpotFPv(obj, tl_05, point, *(s32 *)((s8 *)(*(void **)((s8 *)player_corpse_mark_resource + 0x42C)) + 0xC), selector, delay, farg0);
-    }
+    new TUnk_80494A10((TObject *)tl_05, (Vec *)point, *(void **)((s8 *)(*(void **)((s8 *)player_corpse_mark_resource + 0x42C)) + 0xC), selector, delay, farg0);
 }
 
 void TObjPlayer::spawn_dead_spot(s32 point, s32 selector, s32 delay, f32 farg0) {
-    void *obj = TObject::operator new(0xC8);
-    if (obj != NULL) {
-        __ct__9TDeadSpotFv(obj, tl_05, point, *(s32 *)((s8 *)(*(void **)((s8 *)player_corpse_mark_resource + 0x42C)) + 0xC), selector, delay, farg0);
-    }
+    new TDeadSpot((TObject *)tl_05, (Vec *)point, *(void **)((s8 *)(*(void **)((s8 *)player_corpse_mark_resource + 0x42C)) + 0xC), selector, delay, farg0);
 }
 
 

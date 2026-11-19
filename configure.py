@@ -566,6 +566,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # vtables come out TUnk_804A6F78, F90, FA8 then FC0 (text order of their key functions): written last to
     # first, deferred.
     "pso/object/ambient/TObjLight_80133568.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
+    "pso/object/TDeadSpot.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     "pso/ui/hud/TMainCursor.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # vtables come out StelthReal, then the dispatch_state jump table, then Stelth: written last to first, deferred.
     "pso/enemy/stelth/TObjEneMe3Stelth.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
@@ -614,8 +615,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/ui/window/TWindowDD_80341A08.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-fp_contract on")},
     # -str readonly: every string of these units is read-only data ("SELECT"/"NEXT" of the constructor in .rodata,
     # the Spanish "\xBF"/"\xA1" marks of 0x80345608 in .sdata2, each pooled once).
-    # TWindowDD_803430BC: its vtable (0x804EFD50) sits before run_state's jump table: deferred last-to-first source.
-    "pso/ui/window/TWindowDD_803430BC.cpp": {"cflags": _switch(cflags_pso, "-inline on,deferred", "-str reuse,readonly")},
+    "pso/ui/window/TWindowDD_803430BC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-inline off,deferred")},
     "pso/ui/window/TWindowDD_8034435C.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # ws_data_load reaches each .rodata object with its own lis/addi (no shared base): -pool off.
     "pso/ui/window/TWindowDD_80346A84.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-pool off")},
@@ -1493,7 +1493,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/object/collision/TOSymbolchatColli.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/charcreate/TChCrTagInformationStr.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/quest/challenge/TChallenge4PItemSelect.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
-    "pso/ui/window/TWindowMainMenu_80263AB0.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/ui/window/TWindowMainMenu.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-inline off,deferred")},
 }
 
 # MusyX (Factor 5). Its objects carry extab/extabindex for every non-leaf

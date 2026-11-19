@@ -92,7 +92,6 @@ extern "C" {
 void __ct__7TObjectFP7TObject(void *, void *);
 void *create__14TWindowMessageFlPCfUll(void *, const void *, s32, s32);
 void *get_window_layout_position(s32);
-void *TWindowSubCustomEquip__ct(void *, s32);
 extern s32 __vt__13TUnk_804D1160[];
 extern const f32 lbl_8044F718[2] = {190.0f, 168.0f};
 }
@@ -106,10 +105,7 @@ void *TWindowSubEquip__sub_80275CB0(void *arg0, void *arg1, s32 arg2) {
     self->vt = __vt__13TUnk_804D1160;
     self->parent = arg1;
     self->x20 = arg2;
-    p = TObject::operator new(0x70);
-    if (p != NULL) {
-        p = TWindowSubCustomEquip__ct(p, self->x20);
-    }
+    p = new TWindowSubCustomEquip(self->x20);
     self->custom = p;
     TWindowSubEquip__sub_80263AF8((u8 *)self->parent, 0);
     set_depth__11TWindowBaseFf(self->custom);

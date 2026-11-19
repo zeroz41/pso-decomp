@@ -18,3 +18,10 @@ s32 TBoss4Type2::pick_weighted_random(s32 n, f32 *w, s32 *t) {
     }
     return t[n - 1];
 }
+
+__declspec(section ".sdata2") extern const f32 lbl_805D8ADC = 0.0f;
+__declspec(section ".sdata2") extern const f32 lbl_805D8AE0 = 1.0f;
+__declspec(section ".sdata2") extern const f32 lbl_805D8AE4 = 0.5f;
+__declspec(section ".sdata2") extern const u32 lbl_805D8AE8 = 0x00008829;
+__declspec(section ".sdata2") extern const f32 lbl_805D8AEC = -1.0f;
+__declspec(section ".sdata2") extern const f32 lbl_805D8AF0 = 32768.0f;

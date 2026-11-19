@@ -5,6 +5,7 @@
 
 class TUnk_804949F4 : public TObject {
 public:
+    TUnk_804949F4(TObject *parent, Vec *position, s32 emitter, f32 radius);
     virtual ~TUnk_804949F4();
     virtual void run_task();
     virtual void vfunc_6();

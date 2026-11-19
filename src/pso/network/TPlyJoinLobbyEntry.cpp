@@ -1414,7 +1414,6 @@ extern s32 TLobby__card_list_selected_index;
 extern u32 TLobby__card_list_window;
 extern u32 TLobby__download_list_window;
 extern u32 TLobby__list_window;
-extern char TLobby__data_805DB0B0[4];
 void update_card_list_window__6TLobbyFv(void);
 void update_scroll_close__6TLobbyFv(void);
 void handle_short_list_input__6TLobbyFv(void);
@@ -2042,7 +2041,7 @@ void update_card_list_window__6TLobbyFv(void) {
         TLobby__list_window = 0;
         ((void (*)(void *))__ct__13GameListEntryFv)(&e);
         __as__16TPlyGuildCardTagFRC16TPlyGuildCardTag(&e, &((Lobby_80138B7C *)(*(s32 *)&(*(s32 *)&TLobby__protocol_instance)))->cards[sel]);
-        send_action__9TProtocolFR13GameListEntryPcPc((*(s32 *)&(*(s32 *)&TLobby__protocol_instance)), &e, TLobby__data_805DB0B0, TLobby__data_805DB0B0);
+        send_action__9TProtocolFR13GameListEntryPcPc((*(s32 *)&(*(s32 *)&TLobby__protocol_instance)), &e, (char *)TLobby__data_805DB0B0, (char *)TLobby__data_805DB0B0);
         if (TLobby__card_list_window != 0) {
             ((TWindowBase *)TLobby__card_list_window)->close();
             TLobby__card_list_window = 0;

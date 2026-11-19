@@ -31,7 +31,6 @@ struct TObjLight : public TObjBase {
     static void find_light_params(f32 *dir, f32 *color, u32 id);
     static void init_light_tables();
     void bswap_data();
-    void *destroy(s16 arg1);
     static void assert_light_id(s32 arg0);
     u8 unk_DC[0x8];
     f32 m_e4;

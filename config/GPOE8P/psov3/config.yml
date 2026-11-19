@@ -1261,6 +1261,9 @@ force_active:
   - TObjEneMe1GiGue__sub_802CCBAC
   - TObjEneMe1GiGue__sub_802CD054
   - TObjEneMe1GiGue__sub_802CDAE8
+  - lbl_804949A0
+  - lbl_804C5238
+  - lbl_804FA528
   - lbl_805D6858
   - __ct__20TObjEneMe3StelthRealFP7TObjectPv
   - __ct__21TObjEneMe3ShinowaRealFP7TObjectPv
@@ -1813,7 +1816,7 @@ force_active:
   - TWindowKeyBoardSoft__sub_8025D544
   - TWindowKeyBoardSoft__text_resource
   - TWindowLoadItemTexture__ct
-  - TWindowLockOn__ct
+  - __ct__13TWindowLockOnFlUs
   - TWindowLockOn__update_for_enemy
   - TWindowLockOn__update_for_item
   - TWindowLockOn__update_for_other_player
@@ -1871,7 +1874,6 @@ force_active:
   - TWindowSubSymbolChat__sub_8028379C
   - get_technique_description_text
   - TWindowSubTradeMessage__name
-  - TWindowTimer__ct
   - TWindowTimer__sub_8019886C
   - TWindowTimer__sub_801988E8
   - TWindowTimer__sub_80198CF8
@@ -14629,7 +14631,7 @@ force_active:
   - reset_ending_state__14TBoss6PlotFalzFv
   - reset_entries_and_format_name__13TObjTombstoneFv
   - reset_field28__10TObjPlayerFv
-  - reset_fields_1e__10TTecSlicerFv
+  - reset_fields_1e__26TTecSlicerTargets_8023B454Fv
   - reset_fields_8c__10TNpcPlayerFv
   - reset_fields__10TItemTimerFv
   - reset_fields__14TObjEneBm5WolfFv
@@ -16139,7 +16141,7 @@ force_active:
   - step_demo_script__16TObjEneDellBiterFv
   - step_effect_sequence__18TObjEneRe4SorcererFv
   - step_fade_opacity_decrease__13TUnk_80499970Fv
-  - step_fade_opacity_increase__FPUc
+  - step_fade_opacity_increase__13TUnk_80499970Fv
   - step_ground_technique_projectile
   - step_line__23TObjOnlineEndingHexLineFv
   - step_placement_search__13TUnk_804C4498Fv
@@ -16537,7 +16539,7 @@ force_active:
   - tick_battle_music_timer
   - tick_countdown__11TBoss6Type1Fv
   - tick_display_timer__15TWindowHelpItemFPv
-  - tick_fade_counter__6TLobbyFv
+  - tick_fade_counter__13TUnk_80499970Fv
   - tick_flee_countdown__11TBoss6Type1Fv
   - tick_fullness_timer__8TItemMagFv
   - tick_key_repeat_timer__16TKeyBoardControlFUc

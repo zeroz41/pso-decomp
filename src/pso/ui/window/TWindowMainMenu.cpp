@@ -1,19 +1,84 @@
+#pragma defer_codegen on
+
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/unk/TLobby.h"
+#include "pso/ui/window/TWindowMainMenu_80263AB0.h"
+#include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"
+#include "pso/map/FloorArea.h"
+#include "pso/system/task/TObject.h"
+#include "pso/ui/window/TWindowMainMenu.h"
+#include "pso/player/TObjPlayer_80011014.h"
+
+struct TWindowSubItem;
+
+struct TWindowSubMag;
+
+#include "pso/unk/TUnk_804D1160.h"
+#include "pso/ui/window/TWindowSubEquip_80277E48.h"
+#include "pso/ui/window/TWindowSubGameEnd.h"
+#include "pso/ui/window/TWindowSubQuestBoard.h"
+#include "pso/ui/chat/TWindowSubSymbolChat_8028239C.h"
+#include "pso/ui/chat/TWindowSubSymbolChat.h"
+#include "pso/ui/window/TWindowSubTechnique.h"
+#include "pso/ui/chat/TWindowSubShortMail.h"
+#include "pso/unk/TUnk_804D1AD0.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/ui/window/TWindowSubComCard_80244774.h"
+#include "pso/system/task/TObject_80019A50.h"
+#include "pso/unk/text_80263A20.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/unk/TLobby.h"
+#include "pso/ui/window/TWindowSubEquip_80263AB0.h"
+#include "pso/ui/window/TWindowSubEquip.h"
 #include "pso/ui/window/TWindowLockOn.h"
 #include "pso/ui/window/TWindowMenuMainMenu.h"
 #include "pso/ui/window/TWindowMainMenu4P.h"
-#include "pso/ui/window/TWindowMainMenu.h"
-#include "pso/unk/TLobby.h"
 #include "pso/ui/window/TWindowKeyBoardHard.h"
-#include "pso/ui/window/TWindowSubEquip.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
-#include "pso/player/TObjPlayer_80011014.h"
 
-struct RecoveredGlobal_8026492C___vt__15TWindowMainMenu { s32 value; u8 remaining[0x24]; };
+const char *lbl_805D3950 = "TWindowMainMenu";
+
+extern const f32 lbl_8044F2E0[2] = {206.0f, 140.0f};
+extern "C" {
+s32 get_player_by_client_id(s32);
+struct Obj_80263D7C; struct Obj_80263DBC;
+}
+
+struct Elt80263D94_80263d94_80263B70 { s16 f0; s16 f2; s32 f4; };
+
+struct Obj_80263D7C { u8 pad[0x50]; s16 f50; u8 pad3[0x5c - 0x52]; s32 f5c; };
+
+struct E_80263DBC { s16 a; s32 b; };
+
+struct Obj_80263DBC { u8 pad[0x28]; E_80263DBC arr[4]; u8 pad2[0x50 - 0x48]; s16 f50; s16 f52; u8 pad3[0x5c - 0x54]; u32 f5c; };
+extern "C" {
+s32 init_parts__10TObjPlayerFv();
+s32 is_quest_active();
+s32 is_trade_range_bit_set(s32);
+extern s32 local_client_id;
+u32 get_window_layout_position(s32);
+s32 select_main_menu_item_10(s32);
+}
+
+#include "pso/ui/window/TWindowMainMenu1P.h"
+extern "C" {
+s32 __ct__17TWindowSubAreaMapFP7TObjectPv(int, void *, int);
+s32 __ct__17TWindowSubComCardFP7TObjectPv(int, void *, int);
+void *TWindowSubItem__ct(TWindowSubItem *arg0, s32 arg1, s32 arg2);
+s32 __ct__13TWindowSubLogFP7TObjectPv(int, void *, int);
+void *TWindowSubMag__ct(TWindowSubMag *arg0, s32 arg1, s32 arg2);
+s32 __ct__20TWindowSubQuestBoardFP7TObjectPv(int, void *, int);
+s32 __ct__18TWindowSubShortCutFP7TObjectPv(int, void *, int);
+s32 __ct__19TWindowSubShortMailFP7TObjectPv(int, void *, int);
+s32 __ct__15TWindowSubTradeFP7TObjectPv(int, void *, int);
+s32 __ct__19TWindowSubTradeMainFP7TObjectPv(int, void *, int);
+s32 __ct__22TWindowSubTradeMessageFP7TObjectl(int, void *, int);
+s32 __ct__26TWindowSubInformationBoardFP7TObjectPv(int, void *, int);
+void *__ct__13TUnk_804E0B28FP7TObjectl(void *, void *, void *);
+}
 
 struct VBase_802647CC { char pad[0x18]; };
 
@@ -40,7 +105,6 @@ struct Menu_802647CC {
     Ent_802647CC *ents;
 };
 
-
 struct Slot_802649C0 { s16 a; s16 b; s32 c; };
 
 struct Win_802649C0 {
@@ -59,83 +123,95 @@ struct Win_802649C0 {
     u8 pad58[4];
     s32 x5C;
 };
-
-// Main-menu tables (rows: item id, submenu table; 0x1F ends a table). Names inferred from their users:
-// TWindowMainMenu1P::vfunc_6 and TWindowMainMenu4P::vfunc_6 open the *_android tables when
-// TObjPlayer::is_android() holds; those lack item 3.
-TWindowMainMenuEntry main_menu_1p_item2_submenu[] = {
-    {0x09}, {0x0B}, {0x17}, {0x1A}, {0x0C}, {0x0F}, {0x1F},
-};
-
-TWindowMainMenuEntry main_menu_1p_item5_submenu[] = {
-    {0x11}, {0x12}, {0x0E}, {0x13}, {0x16}, {0x15}, {0x1F},
-};
-
-TWindowMainMenuEntry main_menu_1p_entries[] = {
-    {0x02, 0, main_menu_1p_item2_submenu}, {0x00}, {0x03}, {0x05, 0, main_menu_1p_item5_submenu},
-    {0x19}, {0x06}, {0x07}, {0x1F},
-};
-
-TWindowMainMenuEntry main_menu_1p_android_entries[] = {
-    {0x02, 0, main_menu_1p_item2_submenu}, {0x00}, {0x05, 0, main_menu_1p_item5_submenu},
-    {0x19}, {0x06}, {0x07}, {0x1F},
-};
-
-TWindowMainMenuEntry main_menu_4p_item2_submenu[] = {
-    {0x09}, {0x0B}, {0x17}, {0x1F},
-};
-
-TWindowMainMenuEntry main_menu_4p_entries[] = {
-    {0x02, 0, main_menu_4p_item2_submenu}, {0x00}, {0x03}, {0x19}, {0x06}, {0x07}, {0x1F},
-};
-
-TWindowMainMenuEntry main_menu_4p_android_entries[] = {
-    {0x02, 0, main_menu_4p_item2_submenu}, {0x00}, {0x19}, {0x06}, {0x07}, {0x1F},
-};
-
 extern "C" {
-s32 get_window_layout_position(int);
 s32 TWindowMainMenu__sub_802ADADC(int, int);
 s32 append_child_rows__15TWindowMainMenuFPvi(int, void *);
 u32 create_menu__15TWindowMainMenuFPvPv(void *, int);
-u8 * __dt__7TObjectFv(void *, s16);
-void *get_player_by_client_id(s32 i);
-void __dl__7TObjectFPv(s32);
-extern RecoveredGlobal_8026492C___vt__15TWindowMainMenu __vt__15TWindowMainMenu;
-void sub_80263D7C__15TWindowMainMenuFv(void *, int);
-void update_keyboard_card_state__15TWindowMainMenuFv(void *, int);
 int TWindowMainMenu__sub_802ADB00(u8 *arg0);
 void populate_menu__15TWindowMainMenuFPvPv(u8 *arg0, TWindowMainMenuEntry *arg1);
-void *__ct__7TObjectFP7TObject(void *);
-extern s32 lbl_805D3950;
-Win_802649C0 *TWindowMainMenu__ct(Win_802649C0 *arg0, void *arg1, s32 arg2);
 int park_selection__15TWindowMainMenuFPv(void*);
-
-void TWindowMainMenu4P::show_child_window() { if (*(unsigned int*)((char*)this + 0x1c) != 0) { window_request_show(*(void**)((char*)this + 0x1c)); ((TWindowMainMenu *)(*(void**)((char*)this + 0x1c)))->update_scaled_position(); } }
-void TWindowMainMenu::update_trade_submenu() { void* m = *(void**)((char*)this + 0x1c); if (m) ((TWindowLockOn *)m)->request_close(); }
-void TWindowMainMenu::update_submenu() {
-    if ((u32) *(u32 *)((s8 *)this + 0x1C) != 0U) {
-        park_selection__15TWindowMainMenuFPv((void*)(*(void **)((s8 *)this + 0x1C)));
-        ((TWindowMainMenu *)(*(u32 *)((s8 *)this + 0x1C)))->update_scaled_position();
-    }
-    if (is_split_screen() != 0) {
-        update_trade_submenu();
-    }
 }
-void TWindowMainMenu::close_submenu(void* a1) { if (*(unsigned int*)((char*)this + 0x1c) != 0) { ((TWindowMainMenu *)(*(void**)((char*)this + 0x1c)))->pop_level(); ((TWindowMainMenu *)(*(void**)((char*)this + 0x1c)))->clear_menu_flags(); populate_menu__15TWindowMainMenuFPvPv((u8 *)this, (TWindowMainMenuEntry *)(a1)); } }
-void TWindowMainMenu::refresh_submenu(void* a1) { if (*(unsigned int*)((char*)this + 0x1c) != 0) { park_selection__15TWindowMainMenuFPv(*(void**)((char*)this + 0x1c)); ((TWindowMainMenu *)(*(void**)((char*)this + 0x1c)))->clear_menu_flags(); populate_menu__15TWindowMainMenuFPvPv((u8 *)this, (TWindowMainMenuEntry *)(a1)); } }
 
-void TWindowMainMenu::close() { if (*(unsigned int*)((char*)this + 0x1c) != 0) { ((TWindowBase *)(*(void**)((char*)this + 0x1c)))->close(); *(int*)((char*)this + 0x1c) = 0; } }
+int test_keyboard_card_flag4(void* p) { return TWindowKeyBoardHard::test_card_flag((s32)p, 4); }
+extern "C" {
+void TWindowMainMenu::vfunc_9() {  }
 
-void TWindowMainMenu::open_menu_with_entry(s16 arg1) {
-    u32 temp_r31;
-    if ((u32) *(u32 *)((s8 *)((u8 *)this) + 0x1C) == 0U) {
-        *(u32 *)((s8 *)((u8 *)this) + 0x1C) = create_menu__15TWindowMainMenuFPvPv((void *)(get_window_layout_position(0x1A)), (int) (*(s32 *)((s8 *)((u8 *)this) + 0x54)));
+void TWindowMainMenu::vfunc_7() {  }
+
+TWindowMainMenu::TWindowMainMenu(TObject *parent, s32 client) : TObject(parent) {
+    Win_802649C0 *arg0 = (Win_802649C0 *)this;
+    s32 i;
+    arg0->x0 = (s32)lbl_805D3950;
+    arg0->x54 = client;
+    arg0->x4C = 0;
+    arg0->x50 = 0;
+    arg0->x52 = 0;
+    arg0->x48 = 0x1F;
+    for (i = 0; i < 4; i++) {
+        arg0->slots[i].a = 0;
+        arg0->slots[i].b = 0;
+        arg0->slots[i].c = 0;
     }
-    temp_r31 = *(u32 *)((s8 *)((u8 *)this) + 0x1C);
-    append_child_rows__15TWindowMainMenuFPvi((int)temp_r31, (void *)arg1);
-    TWindowMainMenu__sub_802ADADC(temp_r31, 0);
-    this->update_submenu();
+    arg0->x1C = 0;
+    arg0->x20 = 0;
+    arg0->x24 = 0;
+    arg0->x5C = 0;
+    set_scale_f();
+}
+}
+
+TWindowMainMenu::~TWindowMainMenu() {
+    u32 player;
+    if (*(s32 *)((s8 *)this + 0x4C) & 1) {
+        player = (u32)get_player_by_client_id(*(u32 *)((s8 *)this + 0x54));
+        if (player != 0U) {
+            ((TObjPlayer *)player)->init_parts();
+        }
+    }
+    close_child_window();
+    destroy_submenu();
+    close();
+}
+extern "C" {
+void TWindowMainMenu::run_task() {  }
+
+void TWindowMainMenu::render() {  }
+
+void TWindowMainMenu::handle_menu_selection() {
+    s32 id;
+    u32 node;
+    void *e;
+    if ((((Menu_802647CC *)this)->flags & 1) && !(((Menu_802647CC *)this)->flags & 4) && (node = ((Menu_802647CC *)this)->node) != 0) {
+        ((Menu_802647CC *)this)->sel = TWindowMainMenu__sub_802ADB00((u8 *)node);
+        id = ((TWindowMainMenu *)node)->get_selected_item_type();
+        update_description_text(id);
+        if (((TWindowMenuMainMenu *)node)->get_menu_flag() != 0) {
+            add_menu_entry(id);
+            e = ((Menu_802647CC *)this)->ents[((Menu_802647CC *)this)->sel].next;
+            if (e != 0) {
+                ((Menu_802647CC *)this)->ents = (Ent_802647CC *)e;
+                ((Menu_802647CC *)this)->depth++;
+                update_keyboard_card_state();
+                ((TWindowMainMenu *)((Menu_802647CC *)this))->refresh_submenu(((Menu_802647CC *)this)->ents);
+                return;
+            }
+            close_child_window();
+            this->update_submenu();
+            create_submenu(id);
+            return;
+        }
+        if (((TWindowMenuMainMenu *)node)->is_flag_set() != 0) {
+            if (((Menu_802647CC *)this)->depth <= 0) {
+                ((VObj_802647CC *)((Menu_802647CC *)this))->m6();
+                return;
+            }
+            add_menu_entry(id);
+            ((Menu_802647CC *)this)->depth--;
+            sub_80263D7C();
+            update_selection_value();
+            ((TWindowMainMenu *)((Menu_802647CC *)this))->close_submenu(((Menu_802647CC *)this)->ents);
+        }
+    }
 }
 
 void populate_menu__15TWindowMainMenuFPvPv(u8 *window_main_menu, TWindowMainMenuEntry *arg1) {
@@ -168,89 +244,436 @@ void populate_menu__15TWindowMainMenuFPvPv(u8 *window_main_menu, TWindowMainMenu
     ((TWindowMainMenu *)window_main_menu)->update_description_text(d);
 }
 
-void TWindowMainMenu::handle_menu_selection() {
-    s32 id;
-    u32 node;
-    void *e;
-    if ((((Menu_802647CC *)this)->flags & 1) && !(((Menu_802647CC *)this)->flags & 4) && (node = ((Menu_802647CC *)this)->node) != 0) {
-        ((Menu_802647CC *)this)->sel = TWindowMainMenu__sub_802ADB00((u8 *)node);
-        id = ((TWindowMainMenu *)node)->get_selected_item_type();
-        update_description_text(id);
-        if (((TWindowMenuMainMenu *)node)->get_menu_flag() != 0) {
-            add_menu_entry(id);
-            e = ((Menu_802647CC *)this)->ents[((Menu_802647CC *)this)->sel].next;
-            if (e != 0) {
-                ((Menu_802647CC *)this)->ents = (Ent_802647CC *)e;
-                update_keyboard_card_state__15TWindowMainMenuFv(((Menu_802647CC *)this), ((Menu_802647CC *)this)->depth++);
-                ((TWindowMainMenu *)((Menu_802647CC *)this))->refresh_submenu(((Menu_802647CC *)this)->ents);
-                return;
-            }
-            close_child_window();
-            this->update_submenu();
-            create_submenu(id);
-            return;
-        }
-        if (((TWindowMenuMainMenu *)node)->is_flag_set() != 0) {
-            if (((Menu_802647CC *)this)->depth <= 0) {
-                ((VObj_802647CC *)((Menu_802647CC *)this))->m6();
-                return;
-            }
-            add_menu_entry(id);
-            sub_80263D7C__15TWindowMainMenuFv(((Menu_802647CC *)this), ((Menu_802647CC *)this)->depth--);
-            update_selection_value();
-            ((TWindowMainMenu *)((Menu_802647CC *)this))->close_submenu(((Menu_802647CC *)this)->ents);
-        }
+void TWindowMainMenu::open_menu_with_entry(s16 arg1) {
+    u32 temp_r31;
+    if ((u32) *(u32 *)((s8 *)((u8 *)this) + 0x1C) == 0U) {
+        *(u32 *)((s8 *)((u8 *)this) + 0x1C) = create_menu__15TWindowMainMenuFPvPv((void *)(get_window_layout_position(0x1A)), (int) (*(s32 *)((s8 *)((u8 *)this) + 0x54)));
+    }
+    temp_r31 = *(u32 *)((s8 *)((u8 *)this) + 0x1C);
+    append_child_rows__15TWindowMainMenuFPvi((int)temp_r31, (void *)arg1);
+    TWindowMainMenu__sub_802ADADC(temp_r31, 0);
+    this->update_submenu();
+}
+
+void TWindowMainMenu::close() { if (*(unsigned int*)((char*)this + 0x1c) != 0) { ((TWindowBase *)(*(void**)((char*)this + 0x1c)))->close(); *(int*)((char*)this + 0x1c) = 0; } }
+
+void TWindowMainMenu::refresh_submenu(void* a1) { if (*(unsigned int*)((char*)this + 0x1c) != 0) { park_selection__15TWindowMainMenuFPv(*(void**)((char*)this + 0x1c)); ((TWindowMainMenu *)(*(void**)((char*)this + 0x1c)))->clear_menu_flags(); populate_menu__15TWindowMainMenuFPvPv((u8 *)this, (TWindowMainMenuEntry *)(a1)); } }
+
+void TWindowMainMenu::close_submenu(void* a1) { if (*(unsigned int*)((char*)this + 0x1c) != 0) { ((TWindowMainMenu *)(*(void**)((char*)this + 0x1c)))->pop_level(); ((TWindowMainMenu *)(*(void**)((char*)this + 0x1c)))->clear_menu_flags(); populate_menu__15TWindowMainMenuFPvPv((u8 *)this, (TWindowMainMenuEntry *)(a1)); } }
+
+void TWindowMainMenu::update_submenu() {
+    if ((u32) *(u32 *)((s8 *)this + 0x1C) != 0U) {
+        park_selection__15TWindowMainMenuFPv((void*)(*(void **)((s8 *)this + 0x1C)));
+        ((TWindowMainMenu *)(*(u32 *)((s8 *)this + 0x1C)))->update_scaled_position();
+    }
+    if (is_split_screen() != 0) {
+        update_trade_submenu();
     }
 }
 
-void TWindowMainMenu::render() {  }
-void TWindowMainMenu::run_task() {  }
+void TWindowMainMenu::update_trade_submenu() { void* m = *(void**)((char*)this + 0x1c); if (m) ((TWindowLockOn *)m)->request_close(); }
 
-u8 *__dt__15TWindowMainMenuFv(u8 *window_main_menu, s16 arg1) {
-    u32 player;
-    if (window_main_menu != NULL) {
-        *(s32 **)((s8 *)window_main_menu + 0x18) = &__vt__15TWindowMainMenu.value;
-        if (*(s32 *)((s8 *)window_main_menu + 0x4C) & 1) {
-            player = (u32)get_player_by_client_id(*(u32 *)((s8 *)window_main_menu + 0x54));
-            if (player != 0U) {
-                ((TObjPlayer *)player)->init_parts();
-            }
+void TWindowMainMenu4P::show_child_window() { if (*(unsigned int*)((char*)this + 0x1c) != 0) { window_request_show(*(void**)((char*)this + 0x1c)); ((TWindowMainMenu *)(*(void**)((char*)this + 0x1c)))->update_scaled_position(); } }
+
+void TWindowMainMenu::create_submenu(u32 arg1) {
+    s32 temp_r3_10;
+    s32 window_sub_technique;
+    s32 temp_r3_13;
+    s32 temp_r3_14;
+    s32 temp_r3_15;
+    s32 temp_r3_16;
+    s32 temp_r3_17;
+    s32 temp_r3_18;
+    s32 window_sub_game_end;
+    s32 temp_r3_2;
+    s32 window_sub_equip;
+    s32 window_sub_item;
+    s32 window_sub_mag;
+    s32 temp_r3_6;
+    s32 temp_r3_7;
+    s32 temp_r3_8;
+    s32 temp_r3_9;
+    s32 var_r0_10;
+    s32 var_r0_11;
+    s32 var_r0_13;
+    s32 var_r0_14;
+    s32 var_r0_15;
+    s32 var_r0_16;
+    s32 var_r0_17;
+    s32 var_r0_18;
+    s32 var_r0_19;
+    s32 var_r0_2;
+    s32 var_r0_3;
+    s32 var_r0_4;
+    s32 var_r0_5;
+    s32 var_r0_6;
+    s32 var_r0_7;
+    s32 var_r0_8;
+    s32 var_r0_9;
+    *(s32 *)((s8 *)((u8 *)this) + 0x4C) = (s32) (*(s32 *)((s8 *)((u8 *)this) + 0x4C) | 4);
+    destroy_submenu();
+    set_scale_f();
+    switch (arg1) {
+    case 25:
+        this->m_20 = (s32)new TUnk_804D1AD0(this, *(s32 *)((s8 *)((u8 *)this) + 0x54));
+        return;
+    case 0:
+    case 1:
+        temp_r3_2 = ((s32)TObject::operator new(0x38));
+        var_r0_2 = temp_r3_2;
+        if (var_r0_2 != 0) {
+            var_r0_2 = (s32)TWindowSubEquip__sub_80275CB0((void *)temp_r3_2, (this), (*(s32 *)((s8 *)((u8 *)this) + 0x54)));
         }
-        ((TWindowMainMenu *)window_main_menu)->close_child_window();
-        ((TWindowMainMenu *)window_main_menu)->destroy_submenu();
-        ((TWindowMainMenu *)window_main_menu)->close();
-        __dt__7TObjectFv(window_main_menu, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv((s32) window_main_menu);
+        this->m_20 = var_r0_2;
+        return;
+    case 9:
+    case 10:
+        window_sub_equip = ((s32)TObject::operator new(0x3C));
+        var_r0_3 = window_sub_equip;
+        if (var_r0_3 != 0) {
+            var_r0_3 = (s32)__ct__15TWindowSubEquipFll((TWindowSubEquip *)((u8 *)window_sub_equip), (s32)this, (*(s32 *)((s8 *)((u8 *)this) + 0x54)));
         }
+        this->m_20 = var_r0_3;
+        return;
+    case 11:
+        window_sub_item = ((s32)TObject::operator new(0x44));
+        var_r0_4 = window_sub_item;
+        if (var_r0_4 != 0) {
+            var_r0_4 = (s32)TWindowSubItem__ct((TWindowSubItem *)((void *)window_sub_item), (s32)this, (*(s32 *)((s8 *)((u8 *)this) + 0x54)));
+        }
+        this->m_20 = var_r0_4;
+        return;
+    case 23:
+    case 24:
+        window_sub_mag = ((s32)TObject::operator new(0x50));
+        var_r0_5 = window_sub_mag;
+        if (var_r0_5 != 0) {
+            var_r0_5 = (s32)TWindowSubMag__ct((TWindowSubMag *)((void *)window_sub_mag), (s32)this, (*(s32 *)((s8 *)((u8 *)this) + 0x54)));
+        }
+        this->m_20 = var_r0_5;
+        return;
+    case 26:
+    case 27:
+    case 28:
+        temp_r3_6 = ((s32)TObject::operator new(0x38));
+        var_r0_6 = temp_r3_6;
+        if (var_r0_6 != 0) {
+            var_r0_6 = __ct__15TWindowSubTradeFP7TObjectPv(temp_r3_6, this, (int) (*(s32 *)((s8 *)((u8 *)this) + 0x54)));
+        }
+        this->m_20 = var_r0_6;
+        return;
+    case 29:
+        temp_r3_7 = ((s32)TObject::operator new(0xA8));
+        var_r0_7 = temp_r3_7;
+        if (var_r0_7 != 0) {
+            var_r0_7 = __ct__19TWindowSubTradeMainFP7TObjectPv(temp_r3_7, this, (int) (*(s32 *)((s8 *)((u8 *)this) + 0x54)));
+        }
+        this->m_20 = var_r0_7;
+        return;
+    case 30:
+        temp_r3_8 = ((s32)TObject::operator new(0x2C));
+        var_r0_8 = temp_r3_8;
+        if (var_r0_8 != 0) {
+            var_r0_8 = __ct__22TWindowSubTradeMessageFP7TObjectl(temp_r3_8, this, (int) (*(s32 *)((s8 *)((u8 *)this) + 0x54)));
+        }
+        this->m_20 = var_r0_8;
+        return;
+    case 12:
+    case 13:
+        temp_r3_9 = ((s32)TObject::operator new(0x28));
+        var_r0_9 = temp_r3_9;
+        if (var_r0_9 != 0) {
+            var_r0_9 = __ct__17TWindowSubAreaMapFP7TObjectPv(temp_r3_9, this, (int) (*(s32 *)((s8 *)((u8 *)this) + 0x54)));
+        }
+        this->m_20 = var_r0_9;
+        return;
+    case 15:
+    case 16:
+        temp_r3_10 = ((s32)TObject::operator new(0x30));
+        var_r0_10 = temp_r3_10;
+        if (var_r0_10 != 0) {
+            var_r0_10 = __ct__20TWindowSubQuestBoardFP7TObjectPv(temp_r3_10, this, (int) (*(s32 *)((s8 *)((u8 *)this) + 0x54)));
+        }
+        this->m_20 = var_r0_10;
+        return;
+    case 3:
+    case 4:
+        window_sub_technique = ((s32)TObject::operator new(0x40));
+        var_r0_11 = window_sub_technique;
+        if (var_r0_11 != 0) {
+            var_r0_11 = (s32)TWindowSubTechnique__ct((TWindowSubTechnique *)((void *)window_sub_technique), (s32)this, (*(s32 *)((s8 *)((u8 *)this) + 0x54)));
+        }
+        this->m_20 = var_r0_11;
+        return;
+    case 18:
+        this->m_20 = (s32)new TWindowSubSymbolChat(this, *(s32 *)((s8 *)((u8 *)this) + 0x54));
+        return;
+    case 14:
+        temp_r3_13 = ((s32)TObject::operator new(0x88));
+        var_r0_13 = temp_r3_13;
+        if (var_r0_13 != 0) {
+            var_r0_13 = __ct__17TWindowSubComCardFP7TObjectPv(temp_r3_13, this, (int) (*(s32 *)((s8 *)((u8 *)this) + 0x54)));
+        }
+        this->m_20 = var_r0_13;
+        return;
+    case 21:
+        temp_r3_14 = ((s32)TObject::operator new(0x80));
+        var_r0_14 = temp_r3_14;
+        if (var_r0_14 != 0) {
+            var_r0_14 = __ct__13TWindowSubLogFP7TObjectPv(temp_r3_14, this, (int) (*(s32 *)((s8 *)((u8 *)this) + 0x54)));
+        }
+        this->m_20 = var_r0_14;
+        return;
+    case 6:
+        temp_r3_15 = ((s32)TObject::operator new(0x30));
+        var_r0_15 = temp_r3_15;
+        if (var_r0_15 != 0) {
+            var_r0_15 = (s32)TWindowSubQuestBoard__sub_8027CE74((u8 *)temp_r3_15, (u8 *)this, (s32)(*(s32 *)((s8 *)((u8 *)this) + 0x54)));
+        }
+        this->m_20 = var_r0_15;
+        return;
+    case 19:
+    case 20:
+        temp_r3_16 = ((s32)TObject::operator new(0x60));
+        var_r0_16 = temp_r3_16;
+        if (var_r0_16 != 0) {
+            var_r0_16 = __ct__19TWindowSubShortMailFP7TObjectPv(temp_r3_16, this, (int) (*(s32 *)((s8 *)((u8 *)this) + 0x54)));
+        }
+        this->m_20 = var_r0_16;
+        return;
+    case 22:
+        temp_r3_17 = ((s32)TObject::operator new(0x914));
+        var_r0_17 = temp_r3_17;
+        if (var_r0_17 != 0) {
+            var_r0_17 = __ct__26TWindowSubInformationBoardFP7TObjectPv(temp_r3_17, this, (int) (*(s32 *)((s8 *)((u8 *)this) + 0x54)));
+        }
+        this->m_20 = var_r0_17;
+        return;
+    case 17:
+        temp_r3_18 = ((s32)TObject::operator new(0x94));
+        var_r0_18 = temp_r3_18;
+        if (var_r0_18 != 0) {
+            var_r0_18 = __ct__18TWindowSubShortCutFP7TObjectPv(temp_r3_18, this, (int) (*(s32 *)((s8 *)((u8 *)this) + 0x54)));
+        }
+        this->m_20 = var_r0_18;
+        return;
+    case 7:
+    case 8:
+        window_sub_game_end = ((s32)TObject::operator new(0x2C));
+        var_r0_19 = window_sub_game_end;
+        if (var_r0_19 != 0) {
+            var_r0_19 = (s32)TWindowSubGameEnd__ct((TWindowSubGameEnd *)((void *)window_sub_game_end), (s32)this, (*(s32 *)((s8 *)((u8 *)this) + 0x54)));
+        }
+        this->m_20 = var_r0_19;
+    default:
+        return;
     }
-    return window_main_menu;
 }
 
-Win_802649C0 *TWindowMainMenu__ct(Win_802649C0 *arg0, void *arg1, s32 arg2) {
-    s32 i;
-    __ct__7TObjectFP7TObject(arg0);
-    arg0->vt = &__vt__15TWindowMainMenu.value;
-    arg0->x0 = lbl_805D3950;
-    arg0->x54 = arg2;
-    arg0->x4C = 0;
-    arg0->x50 = 0;
-    arg0->x52 = 0;
-    arg0->x48 = 0x1F;
-    for (i = 0; i < 4; i++) {
-        arg0->slots[i].a = 0;
-        arg0->slots[i].b = 0;
-        arg0->slots[i].c = 0;
+void TWindowMainMenu1P::create_char_select_slot() {
+    void *o;
+    destroy_submenu();
+    set_scale_f();
+    o = TObject::operator new(0x50);
+    if (o != NULL) {
+        o = __ct__13TUnk_804E0B28FP7TObjectl(o, this, this->m_54);
     }
-    arg0->x1C = 0;
-    arg0->x20 = 0;
-    arg0->x24 = 0;
-    arg0->x5C = 0;
-    ((TWindowMainMenu *)arg0)->set_scale_f();
-    return arg0;
+    *(void * *)&this->m_20 = o;
 }
 
-void TWindowMainMenu::vfunc_7() {  }
-void TWindowMainMenu::vfunc_9() {  }
+void TWindowMainMenu::destroy_submenu() { if (*(unsigned int *)&this->m_20 != 0) { ((TObject *)(*(void* *)&this->m_20))->queue_destruction(); *(int *)&this->m_20 = 0; } }
+
+void TWindowMainMenu::update_description_text(s32 arg1) {
+    if ((s32) *(s32 *)((s8 *)this + 0x48) != arg1) {
+        *(s32 *)((s8 *)this + 0x48) = arg1;
+        if ((u32) *(u32 *)((s8 *)this + 0x24) == 0U) {
+            u32 tmp = get_window_layout_position(0x1B);
+            *(u32 *)((s8 *)this + 0x24) = (u32)TWindowMessage::create(tmp, lbl_8044F2E0, 1, *(s32 *)((s8 *)this + 0x54));
+            ((TWindowBase *)(*(u32 *)((s8 *)this + 0x24)))->set_depth(49999.0f);
+            call_if_split_screen(*(u32 *)((s8 *)this + 0x24), *(s32 *)((s8 *)this + 0x54));
+        }
+        ((TWindowMessage *)(*(u32 *)((s8 *)this + 0x24)))->append_line(select_main_menu_item_10(arg1), 0x80);
+    }
 }
-int test_keyboard_card_flag4(void* p) { return TWindowKeyBoardHard::test_card_flag((s32)p, 4); }
+
+void TWindowMainMenu::close_child_window() { if (*(unsigned int*)((char*)this + 0x24) != 0) { ((TWindowBase *)(*(void**)((char*)this + 0x24)))->close(); *(int*)((char*)this + 0x24) = 0; } }
+
+void TWindowMainMenu::sub_80263FE0() {
+    toggle_help_window_on_button(*(s32 *)((s8 *)this + 0x24), *(s32 *)((s8 *)this + 0x54));
+}
+
+s32 TWindowMainMenu::filter_menu_entry(s16 *arg1, s32 *arg2) {
+    u8 *base;
+    u8 *p;
+    s32 area;
+    base = ((u8 *(*)(s32))get_player_by_client_id)(*(s32 *)((s8 *)((u8 *)this) + 0x54));
+    if (base == NULL) {
+        return 0;
+    }
+    p = base + 0x85C;
+    if (p == NULL) {
+        return 0;
+    }
+    *arg2 = 1;
+    area = get_current_floor_area();
+    switch (*arg1) {
+    case 0:
+    case 9:
+    case 23:
+        if (area == AREA_LOBBY) {
+            *arg2 = 0;
+        }
+        break;
+    case 26:
+        if (get_main_phase() != 0xF) {
+            *arg1 += 1;
+            *arg2 = 0;
+        } else if (is_trade_range_bit_set(local_client_id) == 0) {
+            *arg2 = 0;
+        }
+        break;
+    case 15:
+        if (is_quest_active() != 1) {
+            *arg2 = 0;
+        }
+        break;
+    case 3:
+        if (*(s32 *)((s8 *)p + 0x34) & 0x10) {
+            return 0;
+        }
+        if (area == AREA_LOBBY || area == AREA_PIONEER2_EP1 || area == AREA_PIONEER2_EP2) {
+            *arg1 = 4;
+        }
+        break;
+    case 12:
+        if (area == AREA_LOBBY || area == AREA_PIONEER2_EP1 || area == AREA_PIONEER2_EP2) {
+            *arg2 = 0;
+        }
+        break;
+    case 19:
+        if (get_main_phase() != 0xF && TLobby::get_short_mail_ctrl() <= 0) {
+            *arg2 = 0;
+        }
+        break;
+    case 7:
+        if (get_main_phase() == 0xF) {
+            *arg1 = 8;
+        }
+        break;
+    }
+    if (*arg2 == 0) {
+        *arg1 += 1;
+    }
+    return 1;
+}
+
+void TWindowMainMenu::update_keyboard_card_state() {
+    if (test_keyboard_card_flag4((void *)(*(s32 *)((s8 *)this + 0x54))) != 0) {
+        *(s16 *)((s8 *)this + 0x52) = 0;
+        return;
+    }
+    update_selection_value();
+}
+
+void TWindowMainMenu::update_selection_value() {
+    Obj_80263DBC *o = (Obj_80263DBC *)this;
+    E_80263DBC *e = &o->arr[o->f50];
+    if (e->b != o->f5c) {
+        o->f52 = 0;
+    } else {
+        o->f52 = e->a;
+    }
+}
+
+void TWindowMainMenu::add_menu_entry(s16 arg1) {
+    struct Elt80263D94_80263d94_80263B70 *arr = (struct Elt80263D94_80263d94_80263B70 *)this;
+    struct Elt80263D94_80263d94_80263B70 *e = (struct Elt80263D94_80263d94_80263B70 *)((char *)&arr[*(s16 *)((s8 *)((u8 *)this) + 0x50)] + 0x28);
+    e->f0 = (s16) *(s16 *)((s8 *)((u8 *)this) + 0x52);
+    e->f2 = arg1;
+    e->f4 = (s32) *(s32 *)((s8 *)((u8 *)this) + 0x5C);
+}
+
+void TWindowMainMenu::sub_80263D7C() {
+    ((Obj_80263D7C *)this)->f5c = *(s32 *)((u8 *)((Obj_80263D7C *)this) + ((Obj_80263D7C *)this)->f50 * 8 + 0x2c);
+}
+
+void TWindowMainMenu::open(s32 arg1) {
+    s32 player;
+    s32 temp_r4;
+
+    player = get_player_by_client_id((s32)(*(s32 *)((s8 *)this + 0x54)));
+    if (player != 0) {
+        temp_r4 = *(s32 *)((s8 *)this + 0x4C) | 1;
+        *(s32 *)((s8 *)this + 0x4C) = temp_r4;
+        *(s32 *)((s8 *)this + 0x5C) = arg1;
+        *(s16 *)((s8 *)this + 0x50) = 0;
+        update_keyboard_card_state();
+        populate_menu__15TWindowMainMenuFPvPv((u8 *)this, (TWindowMainMenuEntry *)*(s32 *)((s8 *)this + 0x5C));
+        ((TObjPlayer *)player)->reset_equip_slots();
+    }
+}
+
+void TWindowMainMenu::close_and_clear_flags() {
+    s32 temp_r4;
+
+    temp_r4 = *(s32 *)((s8 *)this + 0x4C);
+    *(s32 *)((s8 *)this + 0x4C) = (s32) (temp_r4 & ~5);
+    close_child_window();
+    destroy_submenu();
+    close();
+    if (get_player_by_client_id((s32)(*(s32 *)((s8 *)this + 0x54))) != 0U) {
+        init_parts__10TObjPlayerFv();
+    }
+}
+
+s32 TWindowMainMenu::close_active_submenu() {
+    *(s32 *)((s8 *)this + 0x4C) = (s32) (*(s32 *)((s8 *)this + 0x4C) & 0xFFFFFFFB);
+    destroy_submenu();
+    if ((u32) *(u32 *)((s8 *)this + 0x5C) == 0U) {
+        this->vfunc_8();
+        return 0;
+    }
+    *(s32 *)((s8 *)this + 0x48) = 0x1F;
+    sub_80263D7C();
+    update_selection_value();
+    close_submenu((void*)(*(u32 *)((s8 *)this + 0x5C)));
+    return 1;
+}
+
+void TWindowMainMenu::try_open_battle_menu(s16 arg1) {
+    s32 spC;
+    s16 sp8;
+    s32 player;
+
+    sp8 = arg1;
+    player = get_player_by_client_id(*(s32 *)((s8 *)this + 0x54));
+    if ((player != 0) && !(*(s32 *)((s8 *)this + 0x4C) & 1) && (filter_menu_entry(&sp8, &spC) != 0) && (spC != 0)) {
+        *(s32 *)((s8 *)this + 0x4C) = (s32) (*(s32 *)((s8 *)this + 0x4C) | 1);
+        *(s32 *)((s8 *)this + 0x5C) = 0;
+        open_menu_with_entry(sp8);
+        this->create_submenu(sp8);
+        ((TObjPlayer *)player)->reset_equip_slots();
+        this->vfunc_7();
+    }
+}
+
+void TWindowSubEquip::open_submenu(s32 arg0, s32 arg1) {
+    s32 create_submenu__15TWindowMainMenuFUl(s32, s16);
+    ((TWindowMainMenu *)arg0)->destroy_submenu();
+    create_submenu__15TWindowMainMenuFUl(arg0, (s16)arg1);
+}
+
+void TWindowMainMenu::set_scale_f() { *(float*)((char*)this + 0x58) = 50300.0f; }
+
+f32 TWindowSubEquip__sub_80263AF8(u8 *arg0, u32 arg1) {
+    return *(f32 *)((s8 *)arg0 + 0x58) - (f32) arg1;
+}
+
+void TWindowSubEquip__sub_80263AF4(void) {  }
+
+void call_if_split_screen(u32 object, s32 client_id) {
+    if ((is_split_screen() != 0) && (object != 0U)) {
+        fn_802449E0((u8 *)object);
+    }
+}
+}

@@ -644,12 +644,9 @@ struct TLobby : public TObject {
     static void send_challenge_records(u32 _w0);
     static s32 start_lobby_name_request();
     static void reset_tombstone_values();
-    void dispatch_state();
-    void tick_fade_counter();
     static void init_fadeout_state(s32 arg0);
     static void set_fade_params(s32 arg0);
     static s32 get_quest_thread_state();
-    void *ct_register();
     void*init_entry_fields(int a1, int a2, int a3);
     void *init_fade(void *arg1, void *arg2);
     u8 *pop_stack_entry(s16 arg1);
@@ -939,7 +936,6 @@ struct TLobby : public TObject {
     static void set_rate_mode(s32 arg0);
     void start_stream_playback(s32 arg1);
     void adxt_start_mem_idx(u8 *arg1, s32 arg2);
-    u8 *dtor_clear_singleton(s16 arg1);
     void apply_sync_item_state();
     s32 lz_compress_packet(void *src, s32 size, s32 *hdr);
     void assign_object_ids(s32 arg1, void *arg2);

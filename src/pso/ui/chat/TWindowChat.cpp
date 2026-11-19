@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/ui/window/TWindowKeyBoardHard.h"
 #include "pso/ui/chat/TWindowChat.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowKeyBoardBase.h"
@@ -75,10 +76,8 @@ extern u8 controller_input_state[];
 s32 __nw__7TObjectFUl(int);
 s32 TWindowKeyBoardSoft__ct(int, void *, void *);
 s32 get_window_layout_position(int);
-s32 TWindowDD__ct(int, void *, void *);
 void *__dt__11TWindowChatFv(void *, s16);
 void *__dt__11TWindowChatFv(void *arg0, s16 arg1);
-u8 *TWindowKeyBoardBase__ct(u8 *arg0);
 void TWindowChat__sub_80247D2C(void* p);
 s32 TWindowChat__sub_80247D50(u8 *arg0);
 int TWindowChat__sub_80247DAC(void* p);
@@ -377,9 +376,7 @@ void TWindowChat::handle_chat_input() {
 void TWindowChat::open_next_input_window() {
     u8 *arg0 = (u8*)this;
     s32 temp_r3;
-    s32 temp_r3_2;
     s32 var_r0;
-    s32 var_r0_2;
     if (((RecoveredFields_8024792C_arg0 *)arg0)->field_1E & 2) {
         *((RecoveredFields_8024792C_arg0 *)arg0)->field_38 = 1;
         ((TWindowSubSymbolChatPartsSet *)(((RecoveredFields_8024792C_arg0 *)arg0)->field_20 + 0x30))->copy_vec2((void*)(get_window_layout_position(0xB7)));
@@ -403,12 +400,7 @@ void TWindowChat::open_next_input_window() {
     case 1:
         ((s32)reset_input__11TWindowChatFv((int)((void *) (((RecoveredFields_8024792C_arg0 *)arg0)->field_20))));
         *((RecoveredFields_8024792C_arg0 *)arg0)->field_38 = 2;
-        temp_r3_2 = __nw__7TObjectFUl(0x108);
-        var_r0_2 = temp_r3_2;
-        if (var_r0_2 != 0) {
-            var_r0_2 = TWindowDD__ct(temp_r3_2, arg0, (void *) (((u8 *)(((RecoveredFields_8024792C_arg0 *)arg0)->field_38)) + 4));
-        }
-        ((RecoveredFields_8024792C_arg0 *)arg0)->field_34 = var_r0_2;
+        ((RecoveredFields_8024792C_arg0 *)arg0)->field_34 = (s32)new TWindowDD((TObject *)arg0, (void *) (((u8 *)(((RecoveredFields_8024792C_arg0 *)arg0)->field_38)) + 4));
         TKeyBoardControl__sub_8025EC04((u8 *)((int) (((RecoveredFields_8024792C_arg0 *)arg0)->field_28)));
         return;
     case 2:
@@ -477,16 +469,10 @@ TWindowChat::TWindowChat(TObject *object, void *arg2) : TObject(object) {
     m_name = window_chat_type_name_pointer;
     this->inputMode = 0;
     this->flags = 2;
-    o = ((void *)__nw__7TObjectFUl(0xB8));
-    if (o != NULL) {
-        o = TWindowKeyBoardBase__ct((u8 *)o);
-    }
+    o = new TWindowKeyBoardBase();
     this->composer = o;
     ((TWindowKeyBoardBase *)((u8 *)this->composer))->init_keyboard_text_field(200, 2);
-    o2 = ((void *)__nw__7TObjectFUl(0x74));
-    if (o2 != NULL) {
-        o2 = TWindowKeyBoardHard__ct((TWindowKeyBoardHard *)((u8 *)o2), (s32)this->composer);
-    }
+    o2 = new TWindowKeyBoardHard((s32)this->composer);
     this->hardKeyboard = o2;
     *(u32 *)((s8 *)this + 0x24) = 0;
     *(u32 *)((s8 *)this + 0x2C) = 0;

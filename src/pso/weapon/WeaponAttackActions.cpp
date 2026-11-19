@@ -1214,7 +1214,7 @@ __declspec(section ".data") s16 TObjPlayer__weapon_node_ids[4];
 u8* weapon_render_callback_object;
 extern "C" {
 s32 test_flags_any(s32 *flags, s32 mask);
-extern u8 lbl_805DACA4;
+extern const u8 lbl_805DACA4;
 }
 
 void apply_weapon_node_material() {
@@ -1586,3 +1586,9 @@ void TItemWeapon::get_gun_point(void *out) {
 }
 
 }
+
+__declspec(section ".sdata2") extern const f32 lbl_805DAC94 = 0.1f;
+__declspec(section ".sdata2") extern const f32 lbl_805DAC98 = 0.0f;
+__declspec(section ".sdata2") extern const f32 lbl_805DAC9C = 1.0f;
+__declspec(section ".sdata2") extern const f32 lbl_805DACA0 = 0.03f;
+__declspec(section ".sdata2") extern const u8 lbl_805DACA4 = 0x80;

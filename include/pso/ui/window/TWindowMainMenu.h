@@ -17,6 +17,7 @@ extern TWindowMainMenuEntry main_menu_4p_entries[];
 extern TWindowMainMenuEntry main_menu_4p_android_entries[];
 
 struct TWindowMainMenu : public TObject {
+    TWindowMainMenu(TObject *parent, s32 client);
     virtual ~TWindowMainMenu();
     virtual void vfunc_6();
     virtual void vfunc_7();
@@ -50,8 +51,8 @@ struct TWindowMainMenu : public TObject {
     void close_submenu(void* a1);
     void refresh_submenu(void* a1);
     void close();
-    void render();
-    void run_task();
+    virtual void run_task();
+    virtual void render();
     static void set_entry_field_20(s32 arg0, s32 arg1);
     int is_item_active();
     void set_symbol_chat_parts(void * _w1);
@@ -74,15 +75,6 @@ struct TWindowMainMenu : public TObject {
     void update_description_text(s32 arg1);
 };
 
-extern "C" {
-u8 *__dt__15TWindowMainMenuFv(u8 *arg0, s16 arg1);
-}
 int test_keyboard_card_flag4(void *p);
-
-// --- C functions defined in TWindowMainMenu.cpp ---
-extern "C" {
-u8 *__dt__15TWindowMainMenuFv(u8 *arg0, s16 arg1);
-}
-// --- end of C functions
 
 #endif

@@ -5,6 +5,7 @@
 #include "pso/ui/window/TWindowBase.h"
 
 struct TWindowSubQuestBoardSelect : public TWindowBase {
+    TWindowSubQuestBoardSelect();
     virtual ~TWindowSubQuestBoardSelect();
     void update_slot_display_flags();
     int is_shortcut_active();
@@ -33,6 +34,5 @@ typedef char TWindowSubQuestBoardSelect_size[sizeof(TWindowSubQuestBoardSelect) 
 extern "C" {
 s32 get_slot_flag__26TWindowSubQuestBoardSelectFic(s32 arg0, s8 arg1);
 void render__26TWindowSubQuestBoardSelectFv(u8 *arg0);
-u8 *TWindowSubQuestBoardSelect__ct(TWindowSubQuestBoardSelect *window_sub_quest_board_select);
 }
 #endif

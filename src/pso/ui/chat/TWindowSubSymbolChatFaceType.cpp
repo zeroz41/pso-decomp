@@ -224,8 +224,6 @@ void run_task__28TWindowSubSymbolChatFaceTypeFv(TWindowSubSymbolChatFaceType *wi
 
 extern "C" {
 
-extern s32 __vt__28TWindowSubSymbolChatFaceType[];
-
 TWindowSubSymbolChatFaceType::~TWindowSubSymbolChatFaceType() {
     TWindowSubStatusDisp::destroy_status_display((s32)(*(void **)((s8 *)this + 0x68)), (s16)1);
 }
@@ -257,21 +255,18 @@ extern "C" {
 s32 construct_type1_heading__20TWindowSubStatusDispFll(s32, s32, s32);
 s32 get_message_10__20TWindowSubStatusDispFl(int);
 const char *TWindowSubSymbolChatFaceType__name = TWindowSubSymbolChatFaceType__class_name_string;
-u8 *TWindowSubSymbolChatFaceType__ct(TWindowSubSymbolChatFaceType *window_sub_symbol_chat_face_type, s32 arg1, s32 arg2) {
+TWindowSubSymbolChatFaceType::TWindowSubSymbolChatFaceType(s32 arg1, s32 arg2) : TWindowBase((u8 *)&symbol_chat_face_type_window_layout, (s16)4, (u8 *)arg1) {
     s32 var_r31;
-    __ct__11TWindowBaseFPUcsPUc(window_sub_symbol_chat_face_type, (u8 *)&symbol_chat_face_type_window_layout, (s16)4, (u8 *)arg1);
-    *(s32 **)((s8 *)window_sub_symbol_chat_face_type + 0x18) = __vt__28TWindowSubSymbolChatFaceType;
-    *(s32 *)((s8 *)window_sub_symbol_chat_face_type + 0) = (s32) TWindowSubSymbolChatFaceType__name;
-    window_sub_symbol_chat_face_type->m_60 = 0;
-    window_sub_symbol_chat_face_type->m_61 = 0;
-    window_sub_symbol_chat_face_type->m_62 = 0;
-    window_sub_symbol_chat_face_type->m_64 = arg2;
+    m_name = TWindowSubSymbolChatFaceType__name;
+    this->m_60 = 0;
+    this->m_61 = 0;
+    this->m_62 = 0;
+    this->m_64 = arg2;
     var_r31 = (int)::operator new(0x24);
     if (var_r31 != 0) {
-        var_r31 = construct_type1_heading__20TWindowSubStatusDispFll(var_r31, get_message_10__20TWindowSubStatusDispFl(0x33), (s32) window_sub_symbol_chat_face_type->m_20);
+        var_r31 = construct_type1_heading__20TWindowSubStatusDispFll(var_r31, get_message_10__20TWindowSubStatusDispFl(0x33), (s32) this->m_20);
     }
-    window_sub_symbol_chat_face_type->m_68 = var_r31;
-    return (u8 *)window_sub_symbol_chat_face_type;
+    this->m_68 = var_r31;
 }
 
 }

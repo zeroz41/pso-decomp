@@ -5,6 +5,7 @@
 #include "pso/ui/window/TWindowBase.h"
 
 struct TWindowSnapShot : public TWindowBase {
+    TWindowSnapShot(s32 arg1);
     virtual ~TWindowSnapShot();
     virtual void render();
     u8 _pad1C[0x8];
@@ -28,7 +29,6 @@ struct TWindowSnapShot : public TWindowBase {
 typedef char TWindowSnapShot_size[sizeof(TWindowSnapShot) == 0x64 ? 1 : -1];
 
 extern "C" {
-u8 *TWindowSnapShot__ct(TWindowSnapShot *arg0, s32 arg1);
 const char *get_player_motion_filename(void);
 }
 s32 load_player_motion_data(void);

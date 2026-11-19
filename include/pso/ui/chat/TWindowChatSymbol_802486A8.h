@@ -5,13 +5,13 @@
 
 struct TWindowChatSymbol;
 extern "C" {
-u8 *TWindowChatSymbol__ct(TWindowChatSymbol *arg0, s32 arg1, s32 arg2);
+u8 *__ct__17TWindowChatSymbolFll(TWindowChatSymbol *arg0, s32 arg1, s32 arg2);
 void *__dt__17TWindowChatSymbolFv(void *arg0, s16 arg1);
 }
 
 // --- C functions defined in TWindowChatSymbol_802486A8.cpp ---
 extern "C" {
-u8 *TWindowChatSymbol__ct(TWindowChatSymbol *window_chat_symbol, s32 arg1, s32 arg2);
+u8 *__ct__17TWindowChatSymbolFll(TWindowChatSymbol *window_chat_symbol, s32 arg1, s32 arg2);
 void *__dt__17TWindowChatSymbolFv(void *arg0, s16 arg1);
 }
 // --- end of C functions

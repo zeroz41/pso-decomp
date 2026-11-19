@@ -1,3 +1,5 @@
+#pragma defer_codegen on
+
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -5,16 +7,10 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/ui/Language.h"
 #include "pso/ui/window/TWindowDD_8034435C.h"
+#include "pso/ui/window/TWindowDD.h"
 #include "pso/system/task/TObject.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
-
-class TWindowDD : public TObject {
-public:
-    virtual ~TWindowDD();
-    virtual void run_task();
-    virtual void render();
-};
 
 struct TWindowDD_803431C0 {
     u8 pad0[0x20];
@@ -50,7 +46,6 @@ struct TWindowDD_8034330C {
     u8 fC0[4];
     u8 fC4[4];
 };
-
 
 struct Sub_803438C4 { u8 pad[0x50]; u32 x50; };
 
@@ -133,8 +128,11 @@ struct Obj_80343C64
 #include "pso/ui/window/TWindowSubItem.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/map/FloorArea.h"
+
 struct NumberWindow;
+
 struct WordSelectPage;
+
 struct WordSelectWindowState {
     u8 unknown00[0x20];
     s32 activePage;
@@ -146,16 +144,27 @@ struct WordSelectWindowState {
 struct WindowPosition { f32 x, y; };
 
 s32 TWindowDD__window_mode;
+
 u32 TWindowDD__work_buffer;
+
 u32 window_dd_buffer_a;
+
 u32 window_dd_buffer_b;
+
 u32 TWindowDD__player_name_buffers;
+
 u32 TWindowDD__word_select_lists;
+
 u32 lbl_805D6E20;
+
 s16 lbl_805D6E24;
+
 char **TWindowDD__data_805D6E28;
+
 u32 TWindowDD__ws_data_base;
+
 u8 *TWindowDD__ws_data_table;
+
 u32 lbl_805D6E34;
 extern "C" {
 s32 free_child__9TWindowDDFv(int);
@@ -195,12 +204,19 @@ void init_entry_field_64__9TWindowDDFl(void *, int);
 void TWindowDD__sub_80347FA0(s32 arg0, s32 arg1);
 void pop_entry__9TWindowDDFv(void *);
 extern const s32 TWindowDD__data_805DFB50;
+
 extern const f32 TWindowDD__data_805DFB74;
+
 extern const f32 lbl_805DFB7C;
+
 extern const f32 lbl_805DFB80;
+
 extern const f32 lbl_805DFB88;
+
 extern const f32 TWindowDD__data_805DFBFC;
+
 extern const f32 lbl_805DFC0C;
+
 extern const f32 TWindowDD__data_805DFC10;
 void apply_entry_layout__9TWindowDDFPv(TWindowDD_8034330C *arg0);
 s32 build_player_word_lists__9TWindowDDFv();
@@ -210,13 +226,12 @@ s32 TWindowDD__sub_80347E04(void *, int);
 s32 dispatch_state__9TWindowDDFv(void *, int, int, int);
 s32 reset_index__9TWindowDDFv(void *);
 extern const f32 TWindowDD__data_805DFB6C;
+
 extern const f32 lbl_805DFB90;
 void TWindowDD__sub_803435A0(u8 *arg0);
 s32 apply_both_choices__9TWindowDDFll(void *, int);
 s32 set_clamped_page__9TWindowDDFl(int, int);
-s32 TWindowDD__sub_80340820(int);
 s32 handle_input__9TWindowDDFv(int);
-s32 TWindowDD__sub_80340910(int);
 s32 set_clamped_selection__9TWindowDDFl(int, int);
 s32 set_value_f32__9TWindowDDFl(int, int);
 s32 TWindowDD__sub_80341AE0(int);
@@ -230,9 +245,7 @@ s32 TWindowDD__sub_803482B0(void *);
 s32 test_input_flag_4__9TWindowDDFv(void *);
 s32 set_state__9TWindowDDFv(void *);
 s32 TWindowDD__sub_803484C4(void *);
-void run_task__9TWindowDDFv(u8 *arg0);
 void copy_chat_entry__9TWindowDDFPvPv(R_80343BC0 *arg0, R_80343BC0 *arg1);
-void __ct__7TObjectFP7TObject(void *);
 void *get_player_by_client_id(s32);
 s32 check_all_ready__9TWindowDDFl(s32);
 s32 is_room_free_of_active_enemies(s32 floor, s16 room);
@@ -245,82 +258,116 @@ s32 TWindowDD__sub_8034146C(NJS_POINT2 *arg0, NJS_POINT2 *arg1, s32 arg2, s32 ar
 void TWindowDD__sub_803412A0(TWindowDD_WS_String *self);
 void format_message__9TWindowDDFPvPvUs(void *src, void *dst, u16 player);
 s32 create__9TWindowDDFv(void);
-extern s32 __vt__9TWindowDD[];
 const char *word_select_type_name_pointer = "TWindowDD";
+
 extern s32 local_client_id;
+
 extern u32 TWindowDD__work_buffer;
+
 extern s16 lbl_805D6E24;
+
 extern char *lbl_805D6E64;
+
 extern s8 lbl_805D6E68;
+
 extern char *lbl_805D6E6C;
+
 extern s8 lbl_805D6E70;
+
 extern const f32 lbl_805DFB54;
+
 extern const f32 lbl_805DFB60;
+
 extern const f32 lbl_805DFB64;
+
 extern const f32 lbl_805DFB68;
+
 extern const f32 lbl_805DFBA4;
+
 extern const f32 lbl_805DFBA8;
+
 extern const f32 lbl_805DFBAC;
+
 extern const f32 lbl_805DFBB0;
+
 extern const f32 lbl_805DFBB4;
+
 extern const f32 lbl_805DFBB8;
+
 extern const f32 lbl_805DFBD0;
+
 extern const f32 lbl_805DFBD4;
+
 extern const f32 lbl_805DFBD8;
+
 extern const f32 lbl_805DFBF0;
+
 extern const f32 lbl_805DFBF4;
+
 extern const f32 lbl_805DFBF8;
-Obj_80343C64 *TWindowDD__ct(Obj_80343C64 *self, void *parent, void *arg2);
+
+
 extern const f32 lbl_805DFB70, lbl_805DFC28;
 void open_numeric_parameter_input__9TWindowDDFPviii(WordSelectWindowState* self, s32 minimum, s32 maximum, s32 initial);
-void *__dt__9TWindowDDFv(void *arg0, s16 arg1);
 void free_buffers__9TWindowDDFv(void);
 s32 update_close_flag__9TWindowDDFPv(void *arg0);
 s32 get_current_child_index__9TWindowDDFv();
 void close_all_windows__9TWindowDDFv(void *);
-void __dl__7TObjectFPv(void *);
-void __dt__7TObjectFv(void *, int);
+
+
+
 s32 classify_id__9TWindowDDFs();
 }
+
 s32 TWindowDD_check_input_mask(void *input_context, s32 arg1);
+
 void clear_window_dd_nodes(void);
 extern "C" {
-
-
 NumberWindow* __ct__18TWindowInputNumberFPvllls(void* storage, const WindowPosition* position,
                                    s32 minimum, s32 maximum, s32 initial, s16 client);
 
 extern u32 window_dd_buffer_a;
+
 extern u32 window_dd_buffer_b;
+
 extern u32 TWindowDD__player_name_buffers;
+
 extern u32 lbl_805D6E20;
+
 extern u32 ws_data_jp;
+
 extern u32 ws_data_us;
+
 extern u32 ws_data_es;
+
 extern u32 ws_data_de;
+
 extern u32 TWindowDD__ws_data_buffer;
 
 typedef struct Obj_80343C64 Obj_80343C64;
+
 typedef struct Win_80343C64 Win_80343C64;
 
 struct WordList_80344114 { u8 *words; s32 count; };
 extern "C++" void ws_data_load(void);
 void *memset(void *dst, int c, u32 n);
 extern u32 TWindowDD__ws_data_base;
+
 extern u32 lbl_805D6E34;
+
 extern NJS_POINT2 TWindowDD__data_805434E8[][8];
+
 extern const NJS_POINT2 window_dd_quad_positions[];
+
 extern const f32 window_dd_quad_scales[];
+
 extern const f32 TWindowDD__data_805DFB18;
+
 extern const f32 lbl_805DFB24;
+
 extern const f32 lbl_805DFB28;
 void set_quad_corners_scaled__9TWindowDDFfff(NJS_POINT2 *quad, f32 x, f32 y, f32 size);
 void init_ws_data_tables__9TWindowDDFv(void);
-}
-
-extern "C" {
-void TWindowDD__sub_80344114(void);
-}
 
 #pragma push
 #pragma opt_common_subs off
@@ -453,14 +500,13 @@ void free_buffers__9TWindowDDFv(void) {
     }
 }
 
-Obj_80343C64 *TWindowDD__ct(Obj_80343C64 *self, void *parent, void *arg2) {
+#define self ((Obj_80343C64 *)this)
+TWindowDD::TWindowDD(TObject *parent, void *arg2) : TObject(parent) {
   NJS_POINT2 a;
   NJS_POINT2 b;
   u8 *p;
   s32 floor;
   s32 v;
-  __ct__7TObjectFP7TObject(self);
-  self->vt = ((void * *)&__vt__9TWindowDD);
   self->m_name = word_select_type_name_pointer;
   self->f1C = (floor = lbl_805D6E24);
   build_item_list__9TWindowDDFPv((u8 *)self);
@@ -597,17 +643,19 @@ Obj_80343C64 *TWindowDD__ct(Obj_80343C64 *self, void *parent, void *arg2) {
   self->f9C = -1;
   self->fA4 = 0;
   self->f104 = 0;
-  return self;
 }
+#undef self
 
 #pragma pop
 
 TWindowDD::~TWindowDD() {
     close_all_windows__9TWindowDDFv(this);
 }
+}
 
 #pragma push
 #pragma optimization_level 1
+extern "C" {
 void copy_chat_entry__9TWindowDDFPvPv(R_80343BC0 *arg0, R_80343BC0 *arg1) {
     u32 a, b;
     arg0->a = arg1->a;
@@ -617,10 +665,12 @@ void copy_chat_entry__9TWindowDDFPvPv(R_80343BC0 *arg0, R_80343BC0 *arg1) {
     arg0->w[4] = arg1->w[4];
     arg0->w[5] = arg1->w[5];
 }
-#pragma pop
+}
 
-void run_task__9TWindowDDFv(u8 *arg0) {
-    Win_803438C4 *w = (Win_803438C4 *)arg0;
+#pragma pop
+extern "C" {
+void TWindowDD::run_task() {
+    Win_803438C4 *w = (Win_803438C4 *)this;
     Sub_803438C4 *cur;
     s32 done;
     if (w->x80 != 0) {
@@ -644,7 +694,7 @@ void run_task__9TWindowDDFv(u8 *arg0) {
         done = 0;
         if (test_input_flag_4__9TWindowDDFv(w) != 0) {
             if (w->x80 != 0) {
-                switch (TWindowDD__sub_80340820(w->x80)) {
+                switch (TWindowDD__sub_80340820((void *)w->x80)) {
                 case 0:
                     play_sound__9TWindowDDFv();
                     TWindowDD__sub_803484C4(w);
@@ -671,7 +721,7 @@ void run_task__9TWindowDDFv(u8 *arg0) {
         }
         if (done != 0) {
             w->xA8 = 0;
-            TWindowDD__sub_80340910(w->x80);
+            TWindowDD__sub_80340910((void *)w->x80);
             TWindowDD__sub_80341AF8((int)cur);
             if (w->xC4 > 0) {
                 TWindowDD__sub_80347CC8(w, &w->xC4);
@@ -999,4 +1049,5 @@ s32 update_close_flag__9TWindowDDFPv(void *arg0) {
         return 1;
     }
     return 0;
+}
 }

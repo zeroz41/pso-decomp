@@ -1337,7 +1337,6 @@ pso/ui/window/TWindowMainMenu.cpp
 pso/ui/window/TWindowMainMenu1P.cpp
 pso/ui/window/TWindowMainMenu4P.cpp
 pso/ui/window/TWindowMainMenu_8024E3CC.cpp
-pso/ui/window/TWindowMainMenu_80263AB0.cpp
 pso/ui/window/TWindowMainMenu_802AD538.cpp
 pso/ui/window/TWindowMainMenu_802AE928.cpp
 pso/ui/window/TWindowMakeTeam.cpp
@@ -1637,7 +1636,6 @@ pso/object/fence/TObjLazerFence4.cpp
 pso/object/fence/TObjLazerFenceNorm.cpp
 pso/object/ambient/TObjLight.cpp
 pso/object/ambient/TObjLight_80133568.cpp
-pso/object/ambient/TObjLight_8022F34C.cpp
 pso/object/ambient/TObjLight_8022F9E8.cpp
 pso/object/ambient/TObjLight_80235C44.cpp
 pso/object/ambient/TObjLight_80236D60.cpp
@@ -2450,3 +2448,9 @@ pso/unk/TUnk_804CCA78.cpp
 pso/ui/window/WindowCtrlCallbackEntries.cpp
 pso/ui/window/WindowHelpItemCallbackEntries.cpp
 pso/ui/window/WindowFukidasiLayoutData.cpp
+pso/quest/QuestOpcodeHandlersData.cpp
+pso/quest/challenge/ChallengeModeData.cpp
+pso/network/TPlyJoinLobbyEntryData.cpp
+pso/player/TObjPlayer_801AF2F0Data.cpp
+pso/ui/window/TWindowHelpItem_802540ACData.cpp
+pso/ui/window/TWindowMainMenuData.cpp

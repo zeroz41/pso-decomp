@@ -63,7 +63,6 @@ extern "C" {
 s32 draw_default_entry__9TWindowDDFl();
 s32 draw_visible_window_entries(void *, void *, int);
 s32 forward_render__20TWindowSubStatusDispFv(int, int);
-extern s32 __vt__15TWindowShortCut[];
 void measure_message_text_width(void *entry, f32 max_width);
 void refresh_status_display__9TWindowDDFv(void *entry);
 }
@@ -176,10 +175,7 @@ void TWindowShortCut::show_shortcut(s32 index, s32 *shortcut) {
         position.x -= 0.5f * width;
         size.y = height;
         position.y -= 0.5f * height;
-        TWindowChatSymbol *symbol = (TWindowChatSymbol *)TObject::operator new(sizeof(TWindowChatSymbol));
-        if (symbol != NULL) {
-            symbol = (TWindowChatSymbol *)TWindowChatSymbol__ct(symbol, (s32)&position, (s32)&size);
-        }
+        TWindowChatSymbol *symbol = (TWindowChatSymbol *)new TWindowChatSymbol((s32)&position, (s32)&size);
         symbol_preview = symbol;
         ((TWindowSubSymbolChatPartsSet *)symbol_preview)->set_selection((u32)preset);
         symbol_preview->set_depth(50060.0f);
@@ -211,21 +207,17 @@ TWindowShortCut::~TWindowShortCut() {
     }
     TWindowSubStatusDisp::destroy_status_display(this->heading, 1);
 }
-u8 *TWindowShortCut__ct(TWindowShortCut *window_short_cut, s32 arg1, s32 index, s32 *chat_shortcut) {
+TWindowShortCut::TWindowShortCut(s32 arg1, s32 index, s32 *chat_shortcut) : TWindowBase((u8 *)&window_short_cut_layout, (s16)4, (u8 *)arg1) {
     s32 var_r31;
-    __ct__11TWindowBaseFPUcsPUc(window_short_cut, (u8 *)&window_short_cut_layout, (s16)4, (u8 *)arg1);
-    *(s32 **)((s8 *)window_short_cut + 0x18) = __vt__15TWindowShortCut;
-    *(s32 *)((s8 *)window_short_cut + 0) = (s32) TWindowShortCut__name;
+    m_name = TWindowShortCut__name;
     var_r31 = (int)::operator new(0x24);
     if (var_r31 != 0) {
-        var_r31 = (s32)((TWindowSubStatusDisp *)var_r31)->construct_type1_heading((s32)TWindowSubStatusDisp::get_message_10(0x35), window_short_cut->m_20);
+        var_r31 = (s32)((TWindowSubStatusDisp *)var_r31)->construct_type1_heading((s32)TWindowSubStatusDisp::get_message_10(0x35), this->m_20);
     }
-    window_short_cut->heading = var_r31;
-    window_short_cut->preview_window = NULL;
-    window_short_cut->symbol_preview = NULL;
-    window_short_cut->shortcut_index = index;
-    window_short_cut->shortcut = chat_shortcut;
-    window_short_cut->show_shortcut(index, chat_shortcut);
-    return (u8 *)window_short_cut;
+    this->heading = var_r31;
+    this->preview_window = NULL;
+    this->symbol_preview = NULL;
+    this->shortcut_index = index;
+    this->shortcut = chat_shortcut;
+    this->show_shortcut(index, chat_shortcut);
 }
-

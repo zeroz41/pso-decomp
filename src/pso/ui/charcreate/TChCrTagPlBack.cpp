@@ -61,7 +61,7 @@ int render__14TChCrTagPlBackFv(void* p);
 void __dl__7TObjectFPv(void *);
 void render_shadows__7TObjectFv(void *);
 TChCrTagPlBack *__dt__14TChCrTagPlBackFv(TChCrTagPlBack *tag, s16 free);
-extern void *__vt__14TChCrTagPlBack[6];
+extern void *__vt__14TChCrTagPlBack[7];
 
 void TChCrTagPlBack::render() { draw_frame(); }
 int TChCrTagPlBack__vt4(void) { return 0; }
@@ -76,9 +76,9 @@ TChCrTagPlBack *__dt__14TChCrTagPlBackFv(TChCrTagPlBack *tag, s16 free) {
     return tag;
 }
 
-void *__vt__14TChCrTagPlBack[6] = {
+void *__vt__14TChCrTagPlBack[7] = {
     0, 0, (void *)__dt__14TChCrTagPlBackFv, (void *)update_fade__8TChCrTagFPv,
-    (void *)render__14TChCrTagPlBackFv, (void *)render_shadows__7TObjectFv,
+    (void *)render__14TChCrTagPlBackFv, (void *)render_shadows__7TObjectFv, (void *)TChCrTagPlBack__vt4,
 };
 
 }

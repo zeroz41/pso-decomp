@@ -5,6 +5,7 @@
 #include "pso/ui/window/TWindowBase.h"
 
 struct TWindowSubCustomEquip : public TWindowBase {
+    TWindowSubCustomEquip(s32 slot);
     virtual ~TWindowSubCustomEquip();
     void handle_cursor_input();
     void update_palette_slot(s32, s32, s32);

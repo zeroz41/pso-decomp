@@ -1016,8 +1016,6 @@ u8 * get_window_layout_position(s32);
 }
 void init_keyboard_text_buffer(u8 *arg0, u32 arg1, u32 arg2);
 extern "C" {
-extern s32 __vt__19TWindowKeyBoardBase[];
-u8 *TWindowKeyBoardBase__ct(u8 *arg0);
 s32 Dolphin_ARAlloc(s32);
 void TQuestVmDownLoadServer__sub_803F0C04(u32 aram_addr, s32 size, u32 owner, u32 priority, u32 timeout_ms);
 s32 sub_8025CB10__19TWindowKeyBoardBaseFv(void *);
@@ -1046,32 +1044,33 @@ TWindowKeyBoardBase::~TWindowKeyBoardBase() {
     destroy__19TWindowKeyBoardBaseFPvs((u32 *)((s8 *)this + 0x84), -1);
     destroy__19TWindowKeyBoardBaseFPvs((u32 *)((s8 *)this + 0x6C), -1);
 }
-u8 *TWindowKeyBoardBase__ct(u8 *arg0) {
+#define self ((u8 *)this)
+TWindowKeyBoardBase::TWindowKeyBoardBase() : TWindowBase((u8 *)&TWindowKeyBoardBase__window_descriptor, (s16)(4), (u8 *)(get_window_layout_position(0xB7))) {
     s32 temp_r31;
-    __ct__11TWindowBaseFPUcsPUc(arg0, (u8 *)&TWindowKeyBoardBase__window_descriptor, (s16)(4), (u8 *)(get_window_layout_position(0xB7)));
-    *(s32 **)((s8 *)arg0 + 0x18) = __vt__19TWindowKeyBoardBase;
-    ((TWindowKeyBoardBase *)(arg0 + 0x6C))->init_text_buffer_holder();
-    ((TWindowKeyBoardBase *)(arg0 + 0x84))->init_text_buffer_holder();
-    ((TWindowKeyBoardBase *)arg0)->m_name = keyboard_base_type_name_pointer;
+
+    ((TWindowKeyBoardBase *)(self + 0x6C))->init_text_buffer_holder();
+    ((TWindowKeyBoardBase *)(self + 0x84))->init_text_buffer_holder();
+    ((TWindowKeyBoardBase *)self)->m_name = keyboard_base_type_name_pointer;
     temp_r31 = current_language;
-    ((TWindowKeyBoardBase *)arg0)->init_keyboard_text_field(0, 0);
-    init_keyboard_text_buffer((arg0 + 0x84), 0, 0);
-    *(u8 **)((s8 *)arg0 + 0x68) = (unsigned char *) (arg0 + 0x6C);
-    *(s32 *)&((TWindowKeyBoardBase *)arg0)->m_b4 = 0;
-    *(s16 *)&((TWindowKeyBoardBase *)arg0)->m_62 = 0;
-    *(s8 *)&((TWindowKeyBoardBase *)arg0)->m_65 = -1;
-    *(s32 *)&((TWindowKeyBoardBase *)arg0)->m_9c = 0;
-    *(s32 *)&((TWindowKeyBoardBase *)arg0)->m_a0 = 0;
-    *(s32 *)&((TWindowKeyBoardBase *)arg0)->m_a4 = 0;
-    *(s32 *)&((TWindowKeyBoardBase *)arg0)->m_a8 = 0;
-    *(s32 *)&((TWindowKeyBoardBase *)arg0)->m_ac = 0;
+    ((TWindowKeyBoardBase *)self)->init_keyboard_text_field(0, 0);
+    init_keyboard_text_buffer((self + 0x84), 0, 0);
+    *(u8 **)((s8 *)self + 0x68) = (unsigned char *) (self + 0x6C);
+    *(s32 *)&((TWindowKeyBoardBase *)self)->m_b4 = 0;
+    *(s16 *)&((TWindowKeyBoardBase *)self)->m_62 = 0;
+    *(s8 *)&((TWindowKeyBoardBase *)self)->m_65 = -1;
+    *(s32 *)&((TWindowKeyBoardBase *)self)->m_9c = 0;
+    *(s32 *)&((TWindowKeyBoardBase *)self)->m_a0 = 0;
+    *(s32 *)&((TWindowKeyBoardBase *)self)->m_a4 = 0;
+    *(s32 *)&((TWindowKeyBoardBase *)self)->m_a8 = 0;
+    *(s32 *)&((TWindowKeyBoardBase *)self)->m_ac = 0;
     if (temp_r31 == 0) {
-        init_keyboard_text_buffer((arg0 + 0x84), 0x24, 0);
-        *(s32 *)&((TWindowKeyBoardBase *)arg0)->m_9c = (s32)mem_alloc((u32)((void *)0x194));
-        *(s32 *)&((TWindowKeyBoardBase *)arg0)->m_b0 = 0x94;
+        init_keyboard_text_buffer((self + 0x84), 0x24, 0);
+        *(s32 *)&((TWindowKeyBoardBase *)self)->m_9c = (s32)mem_alloc((u32)((void *)0x194));
+        *(s32 *)&((TWindowKeyBoardBase *)self)->m_b0 = 0x94;
     }
-    return arg0;
 }
+#undef self
+
 const char lbl_8044F098[10] = "Ask_n.dic";
 
 void TLobby::load_ask_dictionary() {
