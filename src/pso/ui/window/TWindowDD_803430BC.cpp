@@ -1,4 +1,4 @@
-<#define TOBJECT_OUT_OF_LINE_HELPERS
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowDD_WS_String.h"
