@@ -20,7 +20,7 @@ s32 setup_model_draw_state__10TObjPlayerFPv();
 }
 struct B_803E4BDC { u8 pad[0x28]; s32 f28; };
 void draw_motion_tree(NJS_OBJECT *model, NJS_MOTION *motion, f32 frame, ModelDrawCallback draw_model);
-extern s32 motion_angle_sampler_table[];
+extern void *motion_angle_sampler_table[];
 extern B_803E4BDC *current_motion_context;
 extern "C" {
 void draw_model_motion(void *arg0, void *arg1, f32 farg0);
@@ -38,13 +38,13 @@ void TObjPlayer::clear_move_state_bits() {
     chunk_render_flags &= 0xFFFFF9FF;
 }
 
-extern s32 player_chunk_draw_end_callback;
+extern s32 (*player_chunk_draw_end_callback)();
 
 void TObjPlayer::set_global_state(s32 arg0) {
-    player_chunk_draw_end_callback = arg0;
+    player_chunk_draw_end_callback = (s32 (*)())arg0;
 }
 
-extern s32 motion_packed_rotation_mode;
+s32 motion_packed_rotation_mode;
 
 void draw_blend_motion_tree(NJS_OBJECT *model, NJS_MOTION_LINK *motion, f32 blend_factor, ModelDrawCallback draw_model) {
     bind_motion_blend_channels(motion, blend_factor);
@@ -108,7 +108,7 @@ void draw_motion_tree(NJS_OBJECT *model, NJS_MOTION *motion, f32 frame, ModelDra
     bind_motion_context(motion, frame);
     model_draw_context->draw = draw_model;
     if (motion_packed_rotation_mode != 0) {
-        current_motion_context->f28 = motion_angle_sampler_table[3];
+        current_motion_context->f28 = (s32)motion_angle_sampler_table[3];
     }
     traverse_animated_node_tree(model);
 }

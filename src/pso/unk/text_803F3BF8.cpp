@@ -8,7 +8,8 @@
 // string ("ntInf Ver 1.17.00 Build:Jul  9 2002").
 extern "C" {
 extern const char *lbl_805D79AC;
-extern const char *const lbl_805E10F8;
+char lbl_804FCE38[] = "\nntInf Ver 1.17.00 Build:Jul  9 2002 09:41:44\n";
+extern const char *const lbl_805E10F8 = lbl_804FCE38;
 extern s32 lobby_net_config_mode;
 extern s32 lbl_805D7984;
 extern s32 lobby_net_config_load_state;

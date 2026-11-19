@@ -1,3 +1,4 @@
+#include "pso/system/scene/TEndingAB.h"
 #include "pso/system/task/TObject.h"
 #include "pso/enemy/balclaw/TObjEneBalClaw.h"
 #include "types.h"
@@ -33,12 +34,19 @@ typedef char TEndingC_fade_out_ticks_offset[offsetof(TEndingC, fade_out_ticks) =
 #include "pso/enemy/TObjEnemyCustom.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/object/ambient/TObjFish.h"
+#include "pso/system/NinjaTypes.h"
 
 extern "C" {
 int TKeyBoardControl__sub_8000F828(void);
 void __ct__7TObjectFP7TObject(void *, void *);
 extern void *__vt__8TEndingC[];
-extern "C" { extern char TEndingC__class_name_string[]; }
+extern "C" {
+__declspec(section ".rodata") extern const char lbl_804398E0[] = "ed_128al";
+__declspec(section ".rodata") extern const char lbl_804398EC[] = "ed_512kabe_C";
+__declspec(section ".rodata") extern const char TEndingC__class_name_string[] = "TEndingC";
+}
+NJS_TEXNAME lbl_8048EB18[2] = { {(void *)lbl_804398E0, 0, 0}, {(void *)lbl_804398EC, 0, 0} };
+__declspec(section ".data") NJS_TEXLIST TEndingC__wall_texture_list_entry = { lbl_8048EB18, 2 };
 const char *lbl_805D2960 = TEndingC__class_name_string;
 u8 *__ct__8TEndingCFv(u8 *arg0, u8 *arg1);
 int TEndingC__sub_8008C6F4(void);
@@ -49,12 +57,11 @@ void draw_textured_quad_at_depth(f32 *q, f32 depth);
 void begin_screen_draw(s32 arg0);
 s32 set_draw_texture_and_color(s32, s32, f32);
 
-extern s32 TEndingC__wall_texture_list_entry[];
 
 }
 
 void TEndingC::render() {
-    TObjFish::set_global_param((s32)TEndingC__wall_texture_list_entry);
+    TObjFish::set_global_param((s32)&TEndingC__wall_texture_list_entry);
     begin_screen_draw(1);
     set_draw_texture_and_color(1, ((s32) (255.0f * primary_opacity) << 0x18) | 0xFF0000 | 0xFFFF, 255.0f);
     draw_textured_quad_at_depth((f32 *)(render_geometry + 0x0), 0.98f);
@@ -271,10 +278,9 @@ void release_lobby__8TEndingCFv(void) {
     }
 }
 
-    int bind_gvm_texture_list(void*, void*);
+    int bind_gvm_texture_list(const char *, NJS_TEXLIST *);
 }
-    extern unsigned char lbl_804398EC[];
-void register_texture_ed_512kabe_c(void) { TEndingC__wall_texture_list = (int)TEndingC__wall_texture_list_entry; bind_gvm_texture_list(lbl_804398EC, TEndingC__wall_texture_list_entry); }
+void register_texture_ed_512kabe_c(void) { TEndingC__wall_texture_list = (int)&TEndingC__wall_texture_list_entry; bind_gvm_texture_list(lbl_804398EC, &TEndingC__wall_texture_list_entry); }
 
 #define CAT2(a, b) a##b
 #define CAT(a, b) CAT2(a, b)
@@ -284,7 +290,6 @@ extern "C" {
 s32 update_movement_status__9TObjCharaFv();
 s32 update_action_hold_status__9TObjCharaFv();
 
-    extern int TEndingAB__fade_sequence_state;
 void TEndingAB__sub_8008D5A0(void) { TEndingAB__fade_sequence_state = 1; }
 
     extern int TEndingPic__animation_state;

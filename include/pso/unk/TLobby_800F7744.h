@@ -7,7 +7,7 @@ extern "C" {
 void TLobby__sub_800F7744(void);
 }
 
-// --- C functions defined in TLobby_800F7744.cpp ---
+// --- C functions defined in TObjControl.cpp ---
 extern "C" {
 void TLobby__sub_800F7744(void);
 }

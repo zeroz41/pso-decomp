@@ -1,15 +1,20 @@
+#pragma defer_codegen on
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/boss/olgaflow/TBoss6DPB.h"
 #include "pso/effect/photon/TDPBShower.h"
+#include "pso/effect/particle/TParticleCtrl_800874F4.h"
+#include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/text_80087278.h"
 #include "pso/system/vector.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/enemy/epsilon/TObjEneEpsilonGuard.h"
 #include "types.h"
+#include "pso/boss/darkfalz/TBoss4Type2.h"
 #include "pso/boss/olgaflow/TBoss6Type2.h"
 #include "pso/boss/olgaflow/TBoss6PlotFalz.h"
 #include "pso/enemy/dd/TObjEneDD.h"
+#include "pso/ui/hud/TNowLoading.h"
 #include "pso/unk/TLobby.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/task/TObject.h"
@@ -22,6 +27,25 @@ struct W_8035D8B0 { u8 pad0[0x20]; V_8035D8B0 v; };
 struct RecoveredGlobal_8035DB70___vt__9TBoss6DPB { s32 value; u8 remaining[0x14]; };
 typedef char RecoveredGlobal_8035DB70___vt__9TBoss6DPB_size[sizeof(RecoveredGlobal_8035DB70___vt__9TBoss6DPB) == 0x18 ? 1 : -1];
 
+struct RecoveredGlobal_8035D7D0___vt__10TDPBShower {
+    s32 value;
+    u8 remaining[0x14];
+};
+typedef char RecoveredGlobal_8035D7D0___vt__10TDPBShower_size[sizeof(RecoveredGlobal_8035D7D0___vt__10TDPBShower) == 0x18 ? 1 : -1];
+
+extern "C" {
+void __ct__7TObjectFP7TObject(void *, void *);
+extern RecoveredGlobal_8035D7D0___vt__10TDPBShower __vt__10TDPBShower;
+u8 *TDPBShower__ct(u8 *arg0, u8 *arg1, u8 *arg2);
+}
+
+#pragma push
+#pragma readonly_strings on
+const char *TBoss6DPB__class_name = "TBoss6DPB";
+const char *TDPBShower__class_name = "TDPBShower";
+#pragma pop
+
+#pragma push
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
@@ -67,23 +91,71 @@ struct Shower_8035D924 {
 extern "C" {
 extern s32 tl_02;
 
-
 s32 play_sound_effect(s32, u32, int, s32);
-s32 __ct__7TObjectFP7TObject(void *, void *);
 extern RecoveredGlobal_8035DB70___vt__9TBoss6DPB __vt__9TBoss6DPB;
-extern s32 TBoss6DPB__class_name;
 
 f32 vector_length(void *);
 void subtract_vector(void *, void *);
-
-void TBoss6DPB::sub_8035D8B0() {
-    W_8035D8B0 *arg0 = (W_8035D8B0 *)this;
-    V_8035D8B0 v = arg0->v;
-    v.b = 5.0f;
-    spawn_particle_effect_with_flags(&v, 0x21C, 0x40);
-    spawn_particle_effect_with_flags(&v, 0x21D, 0x40);
-    create_TDPBShower((void *)tl_02, &arg0->v);
 }
+
+u8 *__ct__9TBoss6DPBFv(u8 *object, s32 arg1, s32 arg2, f32 farg0);
+
+#pragma push
+#pragma fp_contract on
+u8 *TBoss6Type2::create_dpb(s32 arg0, s32 arg1, f32 farg0) {
+    u8 *boss6_dpb;
+    u8 *var_r0;
+    boss6_dpb = (u8 *)(TObject::operator new(0x3C));
+    var_r0 = boss6_dpb;
+    if (var_r0 != NULL) {
+        var_r0 = (u8 *)(__ct__9TBoss6DPBFv(boss6_dpb, arg0, arg1, farg0));
+    }
+    return var_r0;
+}
+#pragma pop
+
+u8 *__ct__9TBoss6DPBFv(u8 *object, s32 arg1, s32 arg2, f32 farg0) {
+    f32 temp_f1;
+    f32 temp_f2;
+    __ct__7TObjectFP7TObject((void *)object, (void *)arg1);
+    *(s32 **)((s8 *)object + 0x18) = &__vt__9TBoss6DPB.value;
+    *(const char **)((s8 *)object + 0) = TBoss6DPB__class_name;
+    *(s32 *)((s8 *)object + 0x1C) = arg1;
+    VecCopy((Vec *)(object + 0x20), (const Vec *)(arg2));
+    *(f32 *)((s8 *)object + 0x24) = 0.0f;
+    *(f32 *)((s8 *)object + 0x2C) = farg0;
+    temp_f2 = *(f32 *)((s8 *)(TLobby::dispatch_shared_handler_a(0x2C)) + 8);
+    *(s32 *)((s8 *)object + 0x34) = (s32) temp_f2;
+    if (0.0f == temp_f2) {
+        *(s32 *)((s8 *)object + 0x34) = 0x14;
+    }
+    temp_f1 = *(f32 *)((s8 *)(TLobby::dispatch_shared_handler_a(0x2F)) + 8);
+    *(f32 *)((s8 *)object + 0x38) = temp_f1;
+    if (0.0f == temp_f1) {
+        *(f32 *)((s8 *)object + 0x38) = 1.0f;
+    }
+    play_sound_effect(0x40069410, (u32)(object + 0x20), 0, 0);
+    *(s32 *)((s8 *)object + 0x30) = 0;
+    return object;
+}
+
+TBoss6DPB::~TBoss6DPB() {}
+
+extern "C" {
+void TBoss6DPB::run_task() {
+    u8 *arg0 = (u8 *)this;
+    if (((TObjEneDD *)arg0)->query_teammate_state() == 0) {
+        *(s32 *)((s8 *)arg0 + 0x30) = (s32) (*(s32 *)((s8 *)arg0 + 0x30) + 1);
+        if ((f32) *(s32 *)((s8 *)arg0 + 0x30) > 5.0f) {
+            ((TBoss6DPB *)arg0)->apply_shower_damage_to_players();
+            play_sound_effect(0x40069411, (u32)(arg0 + 0x20), 0, 0);
+            ((TBoss6DPB *)arg0)->sub_8035D8B0();
+            ((TObject *)arg0)->queue_destruction();
+        }
+    }
+}
+
+void TBoss6DPB::render() {  }
 
 #pragma push
 #pragma opt_common_subs off
@@ -120,58 +192,53 @@ void TBoss6DPB::apply_shower_damage_to_players() {
 }
 #pragma pop
 
-void TBoss6DPB::render() {  }
-void TBoss6DPB::run_task() {
-    u8 *arg0 = (u8 *)this;
-    if (((TObjEneDD *)arg0)->query_teammate_state() == 0) {
-        *(s32 *)((s8 *)arg0 + 0x30) = (s32) (*(s32 *)((s8 *)arg0 + 0x30) + 1);
-        if ((f32) *(s32 *)((s8 *)arg0 + 0x30) > 5.0f) {
-            ((TBoss6DPB *)arg0)->apply_shower_damage_to_players();
-            play_sound_effect(0x40069411, (u32)(arg0 + 0x20), 0, 0);
-            ((TBoss6DPB *)arg0)->sub_8035D8B0();
-            ((TObject *)arg0)->queue_destruction();
+void TBoss6DPB::sub_8035D8B0() {
+    W_8035D8B0 *arg0 = (W_8035D8B0 *)this;
+    V_8035D8B0 v = arg0->v;
+    v.b = 5.0f;
+    spawn_particle_effect_with_flags(&v, 0x21C, 0x40);
+    spawn_particle_effect_with_flags(&v, 0x21D, 0x40);
+    create_TDPBShower((void *)tl_02, &arg0->v);
+}
+}
+#pragma pop
+
+void* create_TDPBShower(void* arg0, void* arg1) {
+    void* o = TObject::operator new(0x30);
+    if (o != NULL) {
+        o = TDPBShower__ct((u8 *)o, (u8 *)arg0, (u8 *)arg1);
+    }
+    return o;
+}
+
+u8 *TDPBShower__ct(u8 *dpb_shower, u8 *arg1, u8 *arg2) {
+    u8 *particle_emitter;
+    __ct__7TObjectFP7TObject(dpb_shower, arg1);
+    *(s32 **)((s8 *)dpb_shower + 0x18) = &__vt__10TDPBShower.value;
+    *(const char **)((s8 *)dpb_shower + 0) = TDPBShower__class_name;
+    ((TDPBShower *)dpb_shower)->m_countdown = 5;
+    VecCopy((Vec *)(dpb_shower + 0x1C), (const Vec *)arg2);
+    *(f32 *)((s8 *)dpb_shower + 0x20) += 300.0f;
+    particle_emitter = (u8 *)(create_particle_emitter((dpb_shower + 0x1C), 0x134));
+    ((TDPBShower *)dpb_shower)->m_2c = particle_emitter;
+    if (particle_emitter != NULL) {
+        ((TParticleCtrl *)(((TDPBShower *)dpb_shower)->m_2c))->set_flags(0x40);
+    }
+    return dpb_shower;
+}
+
+TDPBShower::~TDPBShower() {
+    if (m_2c != nullptr) TParticleCtrl::release(m_2c);
+}
+
+void TDPBShower::run_task() {
+    if (((TObjEneDD *)this)->query_teammate_state() == 0) {
+        m_position[1] += -60.0f;
+        if (m_2c != NULL) {
+            ((TParticleCtrl *)m_2c)->set_position(m_position);
+        }
+        if (--m_countdown < 0) {
+            queue_destruction();
         }
     }
 }
-}
-
-TBoss6DPB::~TBoss6DPB() {}
-
-u8 *__ct__9TBoss6DPBFv(u8 *object, s32 arg1, s32 arg2, f32 farg0) {
-    f32 temp_f1;
-    f32 temp_f2;
-    __ct__7TObjectFP7TObject((void *)object, (void *)arg1);
-    *(s32 **)((s8 *)object + 0x18) = &__vt__9TBoss6DPB.value;
-    *(s32 *)((s8 *)object + 0) = (s32) TBoss6DPB__class_name;
-    *(s32 *)((s8 *)object + 0x1C) = arg1;
-    VecCopy((Vec *)(object + 0x20), (const Vec *)(arg2));
-    *(f32 *)((s8 *)object + 0x24) = 0.0f;
-    *(f32 *)((s8 *)object + 0x2C) = farg0;
-    temp_f2 = *(f32 *)((s8 *)(TLobby::dispatch_shared_handler_a(0x2C)) + 8);
-    *(s32 *)((s8 *)object + 0x34) = (s32) temp_f2;
-    if (0.0f == temp_f2) {
-        *(s32 *)((s8 *)object + 0x34) = 0x14;
-    }
-    temp_f1 = *(f32 *)((s8 *)(TLobby::dispatch_shared_handler_a(0x2F)) + 8);
-    *(f32 *)((s8 *)object + 0x38) = temp_f1;
-    if (0.0f == temp_f1) {
-        *(f32 *)((s8 *)object + 0x38) = 1.0f;
-    }
-    play_sound_effect(0x40069410, (u32)(object + 0x20), 0, 0);
-    *(s32 *)((s8 *)object + 0x30) = 0;
-    return object;
-}
-
-#pragma push
-#pragma fp_contract on
-u8 *TBoss6Type2::create_dpb(s32 arg0, s32 arg1, f32 farg0) {
-    u8 *boss6_dpb;
-    u8 *var_r0;
-    boss6_dpb = (u8 *)(TObject::operator new(0x3C));
-    var_r0 = boss6_dpb;
-    if (var_r0 != NULL) {
-        var_r0 = (u8 *)(__ct__9TBoss6DPBFv(boss6_dpb, arg0, arg1, farg0));
-    }
-    return var_r0;
-}
-#pragma pop

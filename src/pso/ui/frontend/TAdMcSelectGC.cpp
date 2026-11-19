@@ -1,3 +1,4 @@
+#include "pso/ui/frontend/TAdDrawLineCtrl.h"
 #include "types.h"
 #include "pso/unk/text_8033F314.h"
 #include "pso/ui/frontend/TAdChrSelSlotGC.h"
@@ -27,7 +28,6 @@ struct Self_80329EC8 {
 };
 
 extern "C" {
-void *create_draw_line_ctrl__13TAdMcSelectGCFiif(void *, s32, f32);
 struct Self_80329EC8 *TAdMcSelectGC__ct(struct Self_80329EC8 *self, void *parent);
 void __ct__7TObjectFP7TObject(void *, void *);
 void *__ct__9TAdBackGCFv(void *, void *);
@@ -116,8 +116,8 @@ Self_80329EC8 *TAdMcSelectGC__ct(Self_80329EC8 *self, void *parent) {
         p = __ct__10TAdTitleGCFP7TObjectl(p, self, 0xD);
     }
     ((TAdMcSelectGC *)p)->set_field_134(0);
-    TAdMcSelectGC__sub_8032A180(create_draw_line_ctrl__13TAdMcSelectGCFiif(self, 0x16, 0.0f), 0);
-    TAdMcSelectGC__sub_8032A180(create_draw_line_ctrl__13TAdMcSelectGCFiif(self, 0x17, 0.0f), 0);
+    TAdMcSelectGC__sub_8032A180(create_draw_line_ctrl((TObject *)self, 0x16, 0.0f), 0);
+    TAdMcSelectGC__sub_8032A180(create_draw_line_ctrl((TObject *)self, 0x17, 0.0f), 0);
     p = TObject::operator new(0x128);
     if (p != NULL) {
         p = __ct__15TAdChrSelSlotGCFP7TObject(p, self);

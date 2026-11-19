@@ -108,7 +108,7 @@ s32 fn_801A51F0(int);
 s32 set_depth__11TWindowBaseFf(s32);
 s32 TWindowSubEquip__sub_80263AF8(s32, s32);
 s32 get_window_layout_position(s32);
-extern u8 lbl_8044FA28[];
+extern const f32 lbl_8044FA28[2];
 s32 align_menu_entry_positions(s32);
 }
 s32 create_titled_window_menu(s32, s32, s32, s32);
@@ -335,3 +335,5 @@ s32 TUnk_804D1818::create_option_menu_window() {
     return titled_window_menu;
 }
 }
+
+__declspec(section ".rodata") extern const f32 lbl_8044FA28[2] ATTRIBUTE_ALIGN(8) = { 302.0f, 148.0f };

@@ -571,8 +571,6 @@ struct Self_8002EFE8 {
 
 extern "C" {
 
-extern u8 *lbl_805D4BA4;
-
 void TObjPlayer__sub_8002E7C8(void);
 
 
@@ -789,10 +787,6 @@ extern u8 derolle_segment_texture_slots[];
 
 extern Light_8002F258 TObjLight__scene_light_state;
 
-extern Ctx_8002F258 *derolle_texture_list_handle;
-
-extern void *lbl_805D4BCC;
-
 extern s32 lbl_805D5564;
 
 extern s32 saved_chunk_polygon_flags_and_mask;
@@ -805,21 +799,22 @@ extern s32 chunk_polygon_flags_and_mask;
 
 }
 
-extern s32 TBoss2DeRolLe__current_attack_id;
-
-extern s32 TBoss2DeRolLe__sequence_match_index;
-
-extern s32 lbl_805D4BB0;
-
-extern u8 *lbl_805D4BB4;
-
-extern u8 *lbl_805D4BB8;
-
-extern s32 lbl_805D4BBC;
-
-extern s32 lbl_805D4BC0;
-
 void get_current_matrix(void *m);
+
+s32 TBoss2DeRolLe__base_params[1];
+s32 TBoss2DeRolLe__resistance_params[1];
+u8 *TBoss2DeRolLe__data_805D4BA0;
+u8 *lbl_805D4BA4;
+s32 TBoss2DeRolLe__current_attack_id;
+s32 TBoss2DeRolLe__sequence_match_index;
+s32 lbl_805D4BB0;
+u8 *lbl_805D4BB4;
+u8 *lbl_805D4BB8;
+s32 lbl_805D4BBC;
+s32 lbl_805D4BC0;
+u8 *TBoss2DeRolLe__instance;
+Ctx_8002F258 *derolle_texture_list_handle;
+void *lbl_805D4BCC;
 
 namespace joint_transform_view {
 
@@ -1879,9 +1874,9 @@ s32 reload_stats_keep_hp_tp__9TObjEneDDFv(void *, s32, s32, s32);
 
 extern s32 TBoss2DeRolLe__attack_params_table[];
 
-extern s32 TBoss2DeRolLe__base_params[2];
+extern s32 TBoss2DeRolLe__base_params[1];
 
-extern s32 TBoss2DeRolLe__resistance_params[2];
+extern s32 TBoss2DeRolLe__resistance_params[1];
 
 void reload_stats_for_phase__13TBoss2DeRolLeFPvi(void *self, s32 kind);
 

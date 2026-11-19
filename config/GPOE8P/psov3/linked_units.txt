@@ -321,7 +321,6 @@ pso/boss/dragon/TObjBoss1Floor.cpp
 pso/boss/derolle/TObjBoss2CeilJunk.cpp
 pso/boss/derolle/TObjBoss2CeilJunk_8003A81C.cpp
 pso/boss/derolle/TObjBoss2CeilJunk_8003B07C.cpp
-pso/boss/derolle/TObjBoss2Dust.cpp
 pso/boss/derolle/TObjBoss2DustCtrl.cpp
 pso/boss/derolle/TObjBoss2RaftSplash.cpp
 pso/boss/derolle/TObjBoss2RaftSplash_8003B0A0.cpp
@@ -359,7 +358,6 @@ pso/boss/TUnk_804848A0.cpp
 pso/boss/TUnk_80484A94.cpp
 pso/boss/TUnk_80484AFC.cpp
 pso/camera/CreationCamera.cpp
-pso/effect/photon/TDPBShower.cpp
 pso/effect/TEF_PvrWave.cpp
 pso/effect/TEffClitical.cpp
 pso/effect/TEffGuard.cpp
@@ -462,7 +460,6 @@ pso/enemy/shark/TObjEneShark.cpp
 pso/enemy/slime/TObjEneSlimeOne_800EC394.cpp
 pso/enemy/slime/TObjEneSlimeTailAttack.cpp
 pso/enemy/slime/TObjEneSlime_802D7260.cpp
-pso/enemy/TObjEnemy.cpp
 pso/enemy/TObjEnemyCustom.cpp
 pso/enemy/TObjEnemy_8020C3E0.cpp
 pso/enemy/TUnk_804909C4.cpp
@@ -808,7 +805,6 @@ pso/unk/TLobby_8007B858.cpp
 pso/unk/TLobby_8007C550.cpp
 pso/unk/TUnk_8048E1A4.cpp
 pso/unk/TLobby_800F5CF0.cpp
-pso/unk/TLobby_800F7744.cpp
 pso/unk/TLobby_800F795C.cpp
 pso/unk/TLobby_800F8AA8.cpp
 pso/unk/TLobby_800F9690.cpp
@@ -842,7 +838,6 @@ pso/unk/TLobby_8013FFA8.cpp
 pso/unk/TLobby_801404CC.cpp
 pso/unk/TLobby_80140FF4.cpp
 pso/unk/TLobby_80156B18.cpp
-pso/unk/TLobby_8015ABD0.cpp
 pso/unk/TLobby_80160804.cpp
 pso/unk/TLobby_801461EC.cpp
 pso/unk/TLobby_80191F80.cpp
@@ -1020,7 +1015,6 @@ pso/object/ruins/TOCapsuleAncient01.cpp
 pso/object/lab/TOCapsuleLabo.cpp
 pso/object/mine/TOCapsuleMachine01.cpp
 pso/object/switch/TOChatSensor.cpp
-pso/object/switch/TOChatSensor_8015B214.cpp
 pso/object/mine/TOComputerMachine01.cpp
 pso/object/mine/TOComputerMachine01_8023DD0C.cpp
 pso/object/container/TOContainerAncientEnemy.cpp
@@ -1634,7 +1628,6 @@ pso/object/fence/TLazerFenceSw.cpp
 pso/object/key/TOKeyJungleMain.cpp
 pso/object/warp/TObjAreaWarpEndingJung.cpp
 pso/object/warp/TObjAreaWarp_80307B70.cpp
-pso/ui/window/TObjBagWarnWin4P.cpp
 pso/object/base/TObjBase.cpp
 pso/object/collision/TObjBgmColCtrl.cpp
 pso/object/TObjBigTuitate.cpp
@@ -1921,8 +1914,6 @@ pso/system/TGStream.cpp
 pso/system/THeap.cpp
 pso/system/TMemberCheck.cpp
 pso/ui/font/TNECFontEORFunction.cpp
-pso/object/switch/TOChatSensorCapture.cpp
-pso/object/switch/TOChatSensorFolder.cpp
 pso/object/switch/TOSwitchAttackSub.cpp
 pso/map/TSetEvtDestroy.cpp
 pso/ui/frontend/TAdADXlogo.cpp
@@ -1944,8 +1935,6 @@ pso/ui/frontend/TAdDialingGC_80328E50.cpp
 pso/ui/frontend/TAdDialingGC_80328E90.cpp
 pso/ui/frontend/TAdDialingMessageWindow.cpp
 pso/ui/frontend/TAdDialingMessageWindow_8036A064.cpp
-pso/ui/frontend/TAdDrawLineCtrl.cpp
-pso/ui/frontend/TAdDrawLineTask.cpp
 pso/ui/frontend/TAdEnterBaseGC.cpp
 pso/ui/frontend/TAdEnterPPPPassGC.cpp
 pso/ui/frontend/TAdEnterPasswordGC.cpp
@@ -2082,8 +2071,7 @@ pso/weapon/TUnk_804A5C18.cpp
 pso/weapon/TUnk_804A6CC8.cpp
 pso/unk/TUnk_804CC870.cpp
 pso/unk/text_8000F740.cpp
-pso/ui/frontend/TAdDrawLineCtrl_80019B78.cpp
-pso/unk/text_8001A3BC.cpp
+pso/ui/frontend/DrawLine.cpp
 pso/unk/text_8001C388.cpp
 pso/unk/text_8002B164.cpp
 pso/unk/text_8004AA04.cpp
@@ -2094,7 +2082,6 @@ pso/unk/text_80052420.cpp
 pso/unk/text_80066F10.cpp
 pso/unk/text_80066F5C.cpp
 pso/unk/text_8006E82C.cpp
-pso/unk/text_8006EBC4.cpp
 pso/unk/text_8006EF80.cpp
 pso/unk/text_8006EF90.cpp
 pso/unk/text_80071A9C.cpp

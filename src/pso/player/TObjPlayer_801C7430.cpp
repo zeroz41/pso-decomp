@@ -1032,16 +1032,6 @@ struct Obj_801D2640 {
 
 struct ByteBlock_2C { u8 bytes[0x2C]; };
 
-struct RecoveredGlobal_801D2CF4_lbl_804C43CC {
-    s32 value;
-    u8 remaining[0x8];
-};
-
-struct RecoveredGlobal_801D2CF4_lbl_804C43D8 {
-    s32 value;
-    u8 remaining[0xC];
-};
-
 struct Ent_801D2AB0 { u8 d[4]; };
 
 struct Obj_801D2AB0 { u8 pad[0x14]; Ent_801D2AB0 arr[1]; };
@@ -1071,10 +1061,6 @@ struct Rec_801D3224 { u8 pad[0x1C]; Vec pos; u8 pad28[4]; };
 struct Obj_801D3224 { u8 pad[0xA4]; Rec_801D3224 *recs; };
 
 struct Slot_801D3224 { s16 a; s16 idx; };
-
-typedef char RecoveredGlobal_801D2CF4_lbl_804C43CC_size[sizeof(RecoveredGlobal_801D2CF4_lbl_804C43CC) == 0xC ? 1 : -1];
-
-typedef char RecoveredGlobal_801D2CF4_lbl_804C43D8_size[sizeof(RecoveredGlobal_801D2CF4_lbl_804C43D8) == 0x10 ? 1 : -1];
 
 typedef struct Msg_801CACD8 {
     u8 pad0[2];
@@ -1586,8 +1572,8 @@ extern const f32 TObjPlayer__data_805DC3AC;
 extern s32 fn_80152EF8[];
 const f64 lbl_80447128 = 0.1;
 const f64 lbl_80447148 = 10430.38043493439;
-extern RecoveredGlobal_801D2CF4_lbl_804C43CC attack_type_accuracy_scales;
-extern RecoveredGlobal_801D2CF4_lbl_804C43D8 attack_combo_accuracy_multipliers;
+extern f32 attack_type_accuracy_scales[3];
+extern f32 attack_combo_accuracy_multipliers[4];
 extern f32 scratch_vec[];
 extern f32 player_feedback_light_color[];
 extern void *player_slot_table[];
@@ -7617,7 +7603,7 @@ void* get_anim_field_c__10TObjPlayerFPv(void* p) { return (char*)p + 0xc; }
 #pragma dont_inline off
 f32 TObjPlayer::calc_attack_stage_multiplier(s32 arg1) {
     s32 arg0 = (s32)this;
-    return *(f32 *)((s8 *)((u8 *)(&attack_type_accuracy_scales.value) + (arg1 * 4)) + 0) * *(f32 *)((s8 *)((u8 *)(&attack_combo_accuracy_multipliers.value) + (get_validated_attack_stage((u8 *)(arg0)) * 4)) + 0);
+    return *(f32 *)((s8 *)((u8 *)(attack_type_accuracy_scales) + (arg1 * 4)) + 0) * *(f32 *)((s8 *)((u8 *)(attack_combo_accuracy_multipliers) + (get_validated_attack_stage((u8 *)(arg0)) * 4)) + 0);
 }
 extern int fold_flush_29;
 #pragma pop
@@ -8231,3 +8217,7 @@ void handle_6x8B(void) {  }
 #pragma dont_inline off
 void handle_6x64(void) {  }
 #pragma pop
+
+f32 attack_damage_scale_table[3] = { 0.9f, 1.7f, 0.5f };
+f32 attack_type_accuracy_scales[3] = { 1.0f, 0.7f, 0.5f };
+f32 attack_combo_accuracy_multipliers[4] = { 1.0f, 1.3f, 1.69f, 0.0f };

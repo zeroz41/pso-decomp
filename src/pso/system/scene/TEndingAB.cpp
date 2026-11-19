@@ -160,9 +160,9 @@ EndingWallTextureSet ending_wall_texture_sets[4] = {
 };
 
 void restore_saved_depth_alpha_state(void);
-extern s32 TEndingAB__fade_sequence_state;
+s32 TEndingAB__fade_sequence_state;
 extern s32 game_difficulty_selection;
-extern u32 ending_ab_wall_texture_list;
+EndingTextureList *ending_ab_wall_texture_list;
 void TEndingAB::advance_fade_sequence() {
     s32 temp_r0;
     s32 temp_r3;
@@ -264,13 +264,13 @@ void TEndingAB::set_fish_global_param() {
     switch (game_difficulty_selection) {
     case 0:
     case 1:
-        TObjFish::set_global_param(ending_ab_wall_texture_list);
+        TObjFish::set_global_param((s32)ending_ab_wall_texture_list);
         break;
     case 2:
-        TObjFish::set_global_param(ending_ab_wall_texture_list);
+        TObjFish::set_global_param((s32)ending_ab_wall_texture_list);
         break;
     case 3:
-        TObjFish::set_global_param(ending_ab_wall_texture_list);
+        TObjFish::set_global_param((s32)ending_ab_wall_texture_list);
         break;
     }
 }
@@ -319,34 +319,34 @@ TEndingAB::TEndingAB(TObject *arg1) : TObject(arg1) {
 extern "C" {
 
 void TEndingAB::destroy_instance() {
-    if ((u32) ending_ab_wall_texture_list != 0U) {
-        release_texture_list((void*)ending_ab_wall_texture_list);
-        ending_ab_wall_texture_list = 0U;
+    if (ending_ab_wall_texture_list != NULL) {
+        release_texture_list(ending_ab_wall_texture_list);
+        ending_ab_wall_texture_list = NULL;
     }
 }
 void TScene::bind_ending_wall_textures() {
     EndingWallTextureSet *base = ending_wall_texture_sets;
-    u8 *t;
+    EndingTextureList *t;
     if (get_ending_scene_active() != 0) {
-        t = (u8 *)&base[3].list;
-        (*(u8 * *)&ending_ab_wall_texture_list) = t;
+        t = &base[3].list;
+        ending_ab_wall_texture_list = t;
         bind_gvm_texture_list(ending_wall_archive_secret, t);
     } else {
         switch (game_difficulty_selection) {
         case 0:
         case 1:
-            t = (u8 *)&base[0].list;
-            (*(u8 * *)&ending_ab_wall_texture_list) = t;
+            t = &base[0].list;
+            ending_ab_wall_texture_list = t;
             bind_gvm_texture_list(ending_wall_archive_nh, t);
             break;
         case 2:
-            t = (u8 *)&base[1].list;
-            (*(u8 * *)&ending_ab_wall_texture_list) = t;
+            t = &base[1].list;
+            ending_ab_wall_texture_list = t;
             bind_gvm_texture_list(ending_wall_archive_sh, t);
             break;
         case 3:
-            t = (u8 *)&base[2].list;
-            (*(u8 * *)&ending_ab_wall_texture_list) = t;
+            t = &base[2].list;
+            ending_ab_wall_texture_list = t;
             bind_gvm_texture_list(ending_wall_archive_ul, t);
             break;
         }

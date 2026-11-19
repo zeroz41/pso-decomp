@@ -1,6 +1,8 @@
 #include "types.h"
 #include "pso/unk/SharedMemory.h"
 
+s32 lbl_805D7CA8;
+
 // Reset-payload relocator: copies the header+image at `arg` to 0x80003100,
 // stores it, OSResetSystem(2,0,0), clears the [0xd8] region, replays the
 // 7-entry (delta,dst,len) move/store/invalidate table at base+0x00/+0x48/

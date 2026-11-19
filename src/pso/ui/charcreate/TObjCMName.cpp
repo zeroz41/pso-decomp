@@ -114,7 +114,8 @@ void TObjCMMainMenu__sub_80298DA0(int a0);
 }
 
 extern s32 creation_resource_ready_state;
-extern s32 TObjCMMainMenu__data_805D659C;
+s32 creation_menu_selected_entry;
+s32 TObjCMMainMenu__data_805D659C;
 void request_creation_motion(s32 arg0);
 
 struct Ent_802964B0 {
