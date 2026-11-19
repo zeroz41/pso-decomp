@@ -53,3 +53,8 @@ void *TQuestVmDownLoadServer::alloc(u32 size) { return xmalloc(size); }
 
 // The unit's global TUnk_8048DF58: __sinit constructs it and registers its destructor.
 TUnk_8048DF58 lbl_805005A4;
+#pragma push
+#pragma force_active on
+u8 lbl_805005C0[0x10];
+u8 demo_camera_controller_table[0x40];
+#pragma pop
