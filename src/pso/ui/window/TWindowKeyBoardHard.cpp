@@ -3,6 +3,7 @@
 #include "pso/ui/window/TWindowKeyBoardBase.h"
 #include "pso/ui/keyboard/KeyboardCharacterMaps.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
+#include "pso/ui/keyboard/KeyboardKeyState.h"
 #include "pso/ui/window/TWindowKeyBoardHard.h"
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
 #include "pso/ui/Language.h"
@@ -50,13 +51,6 @@ struct Ctl_8025F4A0 {
 
 extern "C" {
 
-s32 TKeyBoardControl__sub_801321B4(void *);
-s32 TKeyBoardControl__sub_80132274(void *);
-s32 is_key_57_pressed__16TKeyBoardControlFi(void *);
-s32 TKeyBoardControl__sub_801323C8(void *, int);
-u8 get_key_state__16TKeyBoardControlFPv(s32 *);
-extern s32 TKeyBoardControl__global_key_state[];
-u8 TKeyBoardControl__sub_8013239C(void *, u8);
 s32 TKeyBoardControl__sub_801A58B0(void);
 s32 set_input_mode__20TWindowSubStatusDispFUc(s32, s32);
 
@@ -82,23 +76,23 @@ s32 TWindowKeyBoardHard::has_non_modifier_key() {
     if (TKeyBoardControl__sub_801A58B0() != 0) {
         return 0;
     }
-    n = ((TKeyBoardControl *)TKeyBoardControl__global_key_state)->get_key_state_2();
+    n = hardware_keyboard_state.get_key_state_2();
     for (i = 0; i < n; i++) {
-        c = TKeyBoardControl__sub_8013239C(TKeyBoardControl__global_key_state, i);
+        c = hardware_keyboard_state.sub_8013239C(i);
         if (c != 0x61 && c != 0x4C && c != 0x50 && c != 0x5E && c != 0x5D && c != 0x5C && c != 0x5F) {
             return 1;
         }
     }
-    if (TKeyBoardControl__sub_801323C8(TKeyBoardControl__global_key_state, 0x55) != 0) {
+    if (hardware_keyboard_state.sub_801323C8(0x55) != 0) {
         return 1;
     }
-    if (TKeyBoardControl__sub_801323C8(TKeyBoardControl__global_key_state, 0x54) != 0) {
+    if (hardware_keyboard_state.sub_801323C8(0x54) != 0) {
         return 1;
     }
-    if (TKeyBoardControl__sub_801323C8(TKeyBoardControl__global_key_state, 0x56) != 0) {
+    if (hardware_keyboard_state.sub_801323C8(0x56) != 0) {
         return 1;
     }
-    return TKeyBoardControl__sub_801323C8(TKeyBoardControl__global_key_state, 0x57) != 0 ? 1 : 0;
+    return hardware_keyboard_state.sub_801323C8(0x57) != 0 ? 1 : 0;
 }
 
 u16 TWindowKeyBoardHard::lookup_key_char(u8 arg1) {
@@ -123,8 +117,8 @@ s32 TWindowKeyBoardHard::translate_key_char(u8 arg1, u16 *arg2) {
     } else {
         shift = arg0->flags & 0x80;
     }
-    if (!(arg0->sub->flags & 1) || get_key_state__16TKeyBoardControlFPv(TKeyBoardControl__global_key_state) != 0) {
-        switch (get_key_state__16TKeyBoardControlFPv(TKeyBoardControl__global_key_state)) {
+    if (!(arg0->sub->flags & 1) || hardware_keyboard_state.get_key_state() != 0) {
+        switch (hardware_keyboard_state.get_key_state()) {
         case 0:
             if ((arg0->flags & 4) && current_language == LANGUAGE_JAPANESE) {
                 *arg2 = keyboard_jp_symbol_map[arg1];
@@ -247,7 +241,7 @@ s32 TWindowKeyBoardHard::poll_input() {
     if (*(s32 *)((s8 *)this + 0x60) & 0x40) {
         return 3;
     }
-    switch ((s32) get_key_state__16TKeyBoardControlFPv(TKeyBoardControl__global_key_state)) {
+    switch ((s32) hardware_keyboard_state.get_key_state()) {
     case 4:
         return 1;
     case 2:
@@ -376,7 +370,7 @@ s32 TWindowKeyBoardHard::sub_8025F4A0(u8 arg1) {
     TWindowKeyBoardSoft_8025F4A0 *w;
 
     busy = current_language;
-    switch (get_key_state__16TKeyBoardControlFPv(TKeyBoardControl__global_key_state)) {
+    switch (hardware_keyboard_state.get_key_state()) {
     case 0:
         arg1 = keyboard_jp_unshifted_map[arg1];
         break;
@@ -492,9 +486,9 @@ void TWindowKeyBoardHard::process_all_key_states() {
     s32 i;
     s32 n;
     if (!(c->f60 & 2)) {
-        n = ((TKeyBoardControl *)TKeyBoardControl__global_key_state)->get_key_state_2();
+        n = hardware_keyboard_state.get_key_state_2();
         for (i = 0; i < n; i++) {
-            process_key_input(TKeyBoardControl__sub_8013239C(TKeyBoardControl__global_key_state, i));
+            process_key_input(hardware_keyboard_state.sub_8013239C(i));
         }
     }
 }
@@ -506,34 +500,34 @@ void TWindowKeyBoardHard::update_modifier_flags() {
     u32 temp_r4;
     u8 *temp_r3_3;
     u8 *temp_r3_4;
-    if (get_key_state__16TKeyBoardControlFPv((s32 *)&TKeyBoardControl__global_key_state) != 0) {
-        if ((TKeyBoardControl__sub_801323C8(TKeyBoardControl__global_key_state, 0x56) != 0) || (TKeyBoardControl__sub_801323C8(TKeyBoardControl__global_key_state, 0x5B) != 0)) {
+    if (hardware_keyboard_state.get_key_state() != 0) {
+        if ((hardware_keyboard_state.sub_801323C8(0x56) != 0) || (hardware_keyboard_state.sub_801323C8(0x5B) != 0)) {
             arg0->field_60 |= 2;
         } else {
             arg0->field_60 &= 0xFFFFFFFD;
         }
     }
-    if (TKeyBoardControl__sub_801321B4(TKeyBoardControl__global_key_state) != 0) {
+    if (hardware_keyboard_state.sub_801321B4() != 0) {
         arg0->field_60 |= 2;
     } else {
         arg0->field_60 &= 0xFFFFFFFD;
     }
-    if (is_key_57_pressed__16TKeyBoardControlFi(TKeyBoardControl__global_key_state) != 0) {
+    if (hardware_keyboard_state.is_key_57_pressed() != 0) {
         arg0->field_60 |= 4;
     } else {
         arg0->field_60 &= 0xFFFFFFFB;
     }
-    if (TKeyBoardControl__sub_80132274(TKeyBoardControl__global_key_state) != 0) {
+    if (hardware_keyboard_state.sub_80132274() != 0) {
         arg0->field_60 |= 8;
     } else {
         arg0->field_60 &= 0xFFFFFFF7;
     }
-    if ((get_key_state__16TKeyBoardControlFPv((s32 *)&TKeyBoardControl__global_key_state) == 2) || (get_key_state__16TKeyBoardControlFPv((s32 *)&TKeyBoardControl__global_key_state) == 3)) {
+    if ((hardware_keyboard_state.get_key_state() == 2) || (hardware_keyboard_state.get_key_state() == 3)) {
         arg0->field_60 |= 1;
     } else {
         arg0->field_60 &= 0xFFFFFFFE;
     }
-    if ((TKeyBoardControl__sub_801323C8(TKeyBoardControl__global_key_state, 0x54) != 0) || (TKeyBoardControl__sub_801323C8(TKeyBoardControl__global_key_state, 0x55) != 0)) {
+    if ((hardware_keyboard_state.sub_801323C8(0x54) != 0) || (hardware_keyboard_state.sub_801323C8(0x55) != 0)) {
         arg0->field_60 |= 0x80;
     } else {
         arg0->field_60 &= 0xFFFFFF7F;

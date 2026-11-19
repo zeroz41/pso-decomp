@@ -20,6 +20,7 @@
 #include "pso/item/TItemReverseTechCtrl.h"
 #include "pso/enemy/dolmolm/TObjEneDolmOlm.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
+#include "pso/ui/keyboard/KeyboardKeyState.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/object/TObjLuker.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
@@ -324,7 +325,7 @@ void TUnk_804EEF64::run_task() {
         return;
     }
     if ((s32) *(s32 *)((s8 *)((Obj_80336340 *)this) + 0x34) < (s32) ((TUnk_804EEF64 *)((Obj_80336340 *)this))->m_38) {
-        if ((((TKeyBoardControl *)(&TKeyBoardControl__global_key_state.value))->has_any_key_pressed() != 0) || (TKeyBoardControl::any_pad_input_active() != 0)) {
+        if ((hardware_keyboard_state.has_any_key_pressed() != 0) || (TKeyBoardControl::any_pad_input_active() != 0)) {
             *(s32 *)((s8 *)((Obj_80336340 *)this) + 0x34) = 0;
         }
         TLobby__sub_803362A4(((Obj_80336340 *)this));

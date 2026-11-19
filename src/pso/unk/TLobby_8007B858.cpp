@@ -35,6 +35,7 @@
 #include "pso/unk/TLobby_802D3970.h"
 #include "pso/unk/TUnk_804EDAC0.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
+#include "pso/ui/keyboard/KeyboardKeyState.h"
 #include "pso/ui/window/TWindowSubGameEnd.h"
 #include "pso/unk/TLobby_8033ECB0.h"
 #include "pso/unk/TUnk_804EFA88.h"
@@ -99,7 +100,7 @@ FloorResourceCallbacks lbl_8048D4C0[29] = {
     {load_indirect_dat, TEffIndirectCtrl::free_all},
     {(FloorResourceCallback)TLobby__sub_802D39BC, (FloorResourceCallback)close_trade_request__6TLobbyFPv},
     {TLobby__sub_8032BE3C, TLobby__sub_8032BE30},
-    {TKeyBoardControl::reset_global_keys_b, TKeyBoardControl::reset_global_keys_a},
+    {KeyboardKeyState::reset_global_keys_b, KeyboardKeyState::reset_global_keys_a},
     {TLobby__sub_80279708, TLobby__sub_802796FC},
     {TLobby__sub_8033EE04, TLobby__sub_8033EDF8},
     {clear_signboard_texture_buffer_pointer, TLobby::free_global_buffer},

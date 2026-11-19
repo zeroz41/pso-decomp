@@ -3,6 +3,7 @@
 #include "pso/ui/keyboard/TKeyBoardControl_80131C58.h"
 #include "pso/ui/keyboard/TKeyBoardControl_801A57C4.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
+#include "pso/ui/keyboard/KeyboardKeyState.h"
 #include "pso/player/TObjPlayer.h"
 
 const u32 input_button_mask_table[14] = {
@@ -65,11 +66,8 @@ s8 keyboard_reset_button_pressed;
 s8 pad_recalibration_hold_frames[4];
 extern "C" {
 s32 is_split_screen();
-s32 TKeyBoardControl__sub_80132650(void *);
 s32 update_button_hold_counters(int);
 extern ControllerInputState controller_input_state;
-s32 TKeyBoardControl__sub_80132310(s32);
-u8 TKeyBoardControl__sub_8013239C(void *, u8);
 s32 DVDCheckDisk();
 extern s32 lbl_805D49B4;
 extern u8 lbl_805D5D09;
@@ -114,7 +112,6 @@ ControllerInputState controller_input_state;
 u8 controller_physical_port_bank[0x1B0];
 u32 pad_recalibration_counters[4];
 s32 OSGetResetButtonState();
-s32 TKeyBoardControl__sub_801323C8(void *, void *);
 
 void TKeyBoardControl::reset() { lbl_805D5D09 = 0; }
 
@@ -145,22 +142,22 @@ s32 TKeyBoardControl::check_reset_button() {
 }
 
 void TKeyBoardControl__sub_801A58B0(void) {
-    TKeyBoardControl__sub_801321B4((s32) &TKeyBoardControl__global_key_state.value);
+    hardware_keyboard_state.sub_801321B4();
 }
 
 void TKeyBoardControl__sub_801A58D8(void) {
-    TKeyBoardControl__sub_80132310((s32) &TKeyBoardControl__global_key_state.value);
+    hardware_keyboard_state.sub_80132310();
 }
 
 s32 TKeyBoardControl::check_and_read(s32 arg0) {
-    if (TKeyBoardControl::check_input_ready((s32)&TKeyBoardControl__global_key_state) != 0) {
+    if (hardware_keyboard_state.check_input_ready() != 0) {
         return TKeyBoardControl::is_key_down(arg0);
     }
     return 0;
 }
 
 s32 TKeyBoardControl::read_input(s32 arg0) {
-    if (TKeyBoardControl::check_input_ready((s32)&TKeyBoardControl__global_key_state) != 0) {
+    if (hardware_keyboard_state.check_input_ready() != 0) {
         return ((s32 (*)(s32))update_state_from_input__16TKeyBoardControlFPv)(arg0);
     }
     return 0;
@@ -169,17 +166,17 @@ s32 TKeyBoardControl::read_input(s32 arg0) {
 s32 TKeyBoardControl::is_key_down(s32 arg0) {
     s32 i;
     s32 n;
-    n = ((TKeyBoardControl *)&TKeyBoardControl__global_key_state)->get_key_state_2();
+    n = hardware_keyboard_state.get_key_state_2();
     for (i = 0; i < n; i++) {
-        if ((u8)arg0 == TKeyBoardControl__sub_8013239C(&TKeyBoardControl__global_key_state, i)) {
+        if ((u8)arg0 == hardware_keyboard_state.sub_8013239C(i)) {
             return 1;
         }
     }
     return 0;
 }
 
-void update_state_from_input__16TKeyBoardControlFPv(void *arg0) {
-    TKeyBoardControl__sub_801323C8(&TKeyBoardControl__global_key_state, arg0);
+void update_state_from_input__16TKeyBoardControlFPv(u8 arg0) {
+    hardware_keyboard_state.sub_801323C8(arg0);
 }
 
 extern s32 actor_frame_tick;
@@ -226,13 +223,13 @@ s32 TKeyBoardControl::get_ascii_key() {
   s32 temp_r3;
   s32 var_r3;
   u8 temp_r31;
-  if (((TKeyBoardControl *)(&TKeyBoardControl__global_key_state.value))->get_key_state_2() == 0)
+  if (hardware_keyboard_state.get_key_state_2() == 0)
   {
     return 0;
   }
-  var_r3 = TKeyBoardControl__sub_8013239C((void *) (&TKeyBoardControl__global_key_state.value), 0);
+  var_r3 = hardware_keyboard_state.sub_8013239C(0);
   temp_r31 = var_r3;
-  temp_r3 = TKeyBoardControl__sub_80132310((s32) (&TKeyBoardControl__global_key_state.value));
+  temp_r3 = hardware_keyboard_state.sub_80132310();
   if ((((s32) temp_r31) >= 0x2A) && (((s32) temp_r31) <= 0x32))
   {
     return temp_r31 + 7;
@@ -348,7 +345,7 @@ s32 TKeyBoardControl::read_key_checked(u8 arg0) {
 typedef char ControllerInputState_size[sizeof(ControllerInputState) == 0x1B0 ? 1 : -1];
 void TKeyBoardControl::update_input_frame() {
     u8 *key_board_control;
-    TKeyBoardControl__sub_80132650((void *) (&TKeyBoardControl__global_key_state.value));
+    hardware_keyboard_state.sub_80132650();
     if (is_split_screen() == 0) {
         key_board_control = controller_input_state.pad_160;
         ((TKeyBoardControl *)key_board_control)->poll_key_state();
@@ -511,7 +508,6 @@ void controller_stuff(void) {
 #pragma push
 #define controller_input_state ((s32 *)&controller_input_state)
 #define controller_physical_port_bank ((s32 *)controller_physical_port_bank)
-#define TKeyBoardControl__global_key_state ((u8 *)&TKeyBoardControl__global_key_state)
 
 struct Sub_801A67A4
 {
@@ -730,9 +726,9 @@ s32 TKeyBoardControl::poll_key_state() {
             self->f0 |= TKeyBoardControl_key_bit_table[i];
         }
     }
-    n = ((TKeyBoardControl *)TKeyBoardControl__global_key_state)->get_key_state_2();
+    n = hardware_keyboard_state.get_key_state_2();
     for (j = 0; j < n; j++) {
-        ((void (*)(u8, u32 *))accumulate_key_bits)(((s32 (*)(void *, u8))TKeyBoardControl__sub_8013239C)(TKeyBoardControl__global_key_state, j), &self->f8);
+        ((void (*)(u8, u32 *))accumulate_key_bits)((s32)hardware_keyboard_state.sub_8013239C(j), &self->f8);
     }
     self->f48 = self->f0;
     self->f4C = self->f8;
@@ -742,7 +738,6 @@ s32 TKeyBoardControl::poll_key_state() {
 
 #undef controller_input_state
 #undef controller_physical_port_bank
-#undef TKeyBoardControl__global_key_state
 #pragma pop
 
 void accumulate_key_bits(s32 arg0, s32 *arg1) {

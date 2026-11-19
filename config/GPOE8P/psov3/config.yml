@@ -588,8 +588,8 @@ force_active:
   - TKeyBoardControl__polling_disabled
   - TKeyBoardControl__sub_8000F764
   - TKeyBoardControl__sub_8000F9E4
-  - TKeyBoardControl__sub_80132598
-  - TKeyBoardControl__sub_801327DC
+  - sub_80132598__16KeyboardKeyStateFP16KeyboardKeyStateUcPUl
+  - sub_801327DC__16KeyboardKeyStateFUc
   - TKeyBoardControl__sub_80290D10
   - TKeyBoardControl__sub_803F0E8C
   - TKeyBoardControl__sub_803F107C
@@ -3886,14 +3886,14 @@ force_active:
   - appearing_state__14TObjEneBm5WolfFPvi
   - append_block_space__24TMessageWindowControllerFv
   - append_byte__24TMessageWindowControllerFUc
-  - append_char__16TKeyBoardControlFSc
+  - append_char__16KeyboardKeyStateFSc
   - append_color_code__6TLobbyFl
   - append_file_number__24TMessageWindowControllerFv
   - append_float_value__6TLobbyFi
   - append_int_param__6TLobbyFi
   - append_inventory_item__23TAdSinglePlyChrSelectGCFl
-  - append_next_char__16TKeyBoardControlFv
-  - append_next_char_global__16TKeyBoardControlFv
+  - append_next_char__16KeyboardKeyStateFv
+  - append_next_char_global__16KeyboardKeyStateFv
   - append_quest_name__24TMessageWindowControllerFv
   - append_quest_title__24TMessageWindowControllerFv
   - append_string
@@ -5181,7 +5181,7 @@ force_active:
   - clear_item_effect__17PlayerAttackStateFv
   - clear_item_if_player_picked_up__9TItemDropFPvPv
   - clear_item_table__10TObjPlayerFv
-  - clear_key_state__16TKeyBoardControlFv
+  - clear_key_state__16KeyboardKeyStateFv
   - clear_load_buffers__23TAdSinglePlyChrSelectGCFv
   - clear_network_info_cipher_pool__Fv
   - clear_part_flags__11TBoss6Type2Fv
@@ -13886,7 +13886,7 @@ force_active:
   - publish_light__15TEndingPicStageFv
   - push_actors_out__12TBoss3VoloptFl
   - push_attack_target_entry__FPUcl
-  - push_key_to_buffer__16TKeyBoardControlFUc
+  - push_key_to_buffer__16KeyboardKeyStateFUc
   - push_list_node__14TObjEneBm5WolfFPPvPPv
   - push_list_node__16TObjEneBm5GibonUFPPvPPv
   - push_material_color_override__10TObjPlayerFffff
@@ -14645,9 +14645,9 @@ force_active:
   - reset_hp__20TContainerAncient01RFv
   - reset_id_array__10TObjPlayerFPv
   - reset_if_door_closed__15TObjLazerFence4Fv
-  - reset_inactive_keys__16TKeyBoardControlFv
+  - reset_inactive_keys__16KeyboardKeyStateFv
   - reset_indices__11TBoss6Type2Fv
-  - reset_keys__16TKeyBoardControlFv
+  - reset_keys__16KeyboardKeyStateFv
   - reset_leader_selection__FPv
   - reset_leader_selection_static__6TLobbyFv
   - reset_map_core__17TObjEneMe1CanadinFPv
@@ -14668,7 +14668,7 @@ force_active:
   - reset_state__13TObjWarnChimeFv
   - reset_state__14TBoss7TentacleFv
   - reset_state__15TFontSmallLobbyFv
-  - reset_state__16TKeyBoardControlFi
+  - reset_state__16KeyboardKeyStateFv
   - reset_state__19TContainerAncient01Fv
   - reset_state__6TLobbyFv
   - reset_state_clear_status__16TObjEneMerillLiaFv
@@ -16544,7 +16544,7 @@ force_active:
   - tick_fade_counter__13TUnk_80499970Fv
   - tick_flee_countdown__11TBoss6Type1Fv
   - tick_fullness_timer__8TItemMagFv
-  - tick_key_repeat_timer__16TKeyBoardControlFUc
+  - tick_key_repeat_timer__16KeyboardKeyStateFUc
   - tick_material_fmt1__6TSceneFv
   - tick_material_fmt2__6TSceneFv
   - tick_persistent_sound__15TObjIllGillKageFv

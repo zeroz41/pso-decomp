@@ -7,6 +7,7 @@
 #include "pso/ui/window/TWindowSubComCard_80244774.h"
 #include "pso/unk/text_803F1804.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
+#include "pso/ui/keyboard/KeyboardKeyState.h"
 #include "pso/ui/window/TWindowLockOn.h"
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
 #include "pso/ui/window/TWindowMakeTeam.h"
@@ -20,41 +21,8 @@
 #include "pso/system/task/TObject.h"
 
 
-struct Obj_8013206C { s8 f0; u8 pad1[3]; u8 f4; };
-
-struct K_80132368 { u8 pad[0x90]; u32 tab[4]; };
-
-struct K_8013239C { u8 pad0[2]; u8 count; u8 pad3[0x82]; u8 tab[1]; };
-
-struct K_801323C8 { u8 pad[0x90]; u32 bits[8]; };
-
-struct P_8013276C { u8 a; u8 b; };
-
-struct K_8013276C { u8 pad0[2]; u8 f2; u8 pad3[0x82]; u8 t85[8]; u32 t90[4]; P_8013276C p[8]; };
-
-typedef struct Kb_80131FC8 { s8 f0; s8 f1; u8 pad; u8 f3; u8 pad2; u8 buf[0x80]; } Kb_80131FC8;
-
-typedef struct Ent_801324F8 { u8 key; s8 timer; } Ent_801324F8;
-
-typedef struct Kb_801324F8 { u8 pad[0xA0]; Ent_801324F8 ents[8]; } Kb_801324F8;
-
-struct Kb_80132650 {
-    s8 f0;
-    u8 pad1;
-    s8 f2;
-    u8 count;
-    s8 f4;
-    u8 keys[0x8B];
-    u32 tab[4];
-};
-
-struct K_8013276C;
 extern "C" {
-TKeyBoardControlGlobalKeyState TKeyBoardControl__global_key_state;
-u8 TKeyBoardControl__sub_8013239C(K_8013239C *arg0, u8 arg1);
-s32 TKeyBoardControl__sub_801323C8(K_801323C8 *arg0, u8 arg1);
-void TKeyBoardControl__sub_80132598(Kb_80132650 *, u8, u32 *);
-void TKeyBoardControl__sub_80132650(Kb_80132650 *kb);
+KeyboardKeyState hardware_keyboard_state;
 }
 
 void TKeyBoardControl__sub_80131F5C(void) {  }
@@ -67,43 +35,43 @@ int TWindowKeyBoardBase::is_active() { return (m_60 >> 5) & 0x1; }
 int TWindowKeyBoardBase::is_key_active() { return m_60 & 0x1; }
 void TWindowKeyBoardBase::set_flag62_bit8() { m_62 |= 0x8; }
 
-s32 TKeyBoardControl::append_char(s8 arg1) {
+s32 KeyboardKeyState::append_char(s8 arg1) {
     s32 r;
     u8 *p;
-    if (((Kb_80131FC8 *)this)->f3 >= 0x7C) {
+    if (raw_count >= 0x7C) {
         return 1;
     }
-    r = poll_keyboard_port((arg1), (u8 *)((s32 *)((s32 *)&((Kb_80131FC8 *)this)->buf[((Kb_80131FC8 *)this)->f3])));
+    r = poll_keyboard_port((arg1), (u8 *)((s32 *)((s32 *)&raw[raw_count])));
     if (r == -1) {
         return 0;
     }
     if (r == 0) {
-        p = ((Kb_80131FC8 *)this)->buf;
+        p = raw;
         while (*p != 0) {
             p++;
-            ((Kb_80131FC8 *)this)->f3++;
+            raw_count++;
         }
     }
-    ((Kb_80131FC8 *)this)->f1 = TKeyBoardControl__sub_803F1548(arg1);
-    ((Kb_80131FC8 *)this)->f0 = arg1;
+    mode = TKeyBoardControl__sub_803F1548(arg1);
+    port = arg1;
     return 1;
 }
 
-void TKeyBoardControl::append_next_char() {
+void KeyboardKeyState::append_next_char() {
     s32 i = 0;
-    ((Obj_8013206C *)this)->f4 = ((Obj_8013206C *)this)->f4 + 1;
+    reports = reports + 1;
     do {
         if (((s32)append_char(i)) != 0) {
             return;
         }
         i++;
     } while (i < 4);
-    ((Obj_8013206C *)this)->f0 = 4;
+    port = 4;
 }
 
-void TKeyBoardControl::append_next_char_global() { ((TKeyBoardControl *)(&TKeyBoardControl__global_key_state.value))->append_next_char(); }
+void KeyboardKeyState::append_next_char_global() { hardware_keyboard_state.append_next_char(); }
 
-void TKeyBoardControl::disable_disconnected_ports() {
+void KeyboardKeyState::disable_disconnected_ports() {
     s32 sp8;
     s32 temp_r3;
     s32 var_r31;
@@ -116,108 +84,113 @@ void TKeyBoardControl::disable_disconnected_ports() {
         var_r31 += 1;
     } while (var_r31 < 4);
 }
-s32 TKeyBoardControl::check_input_ready(s32 arg0) {
-    if (TKeyBoardControl__sub_80132310(arg0) != 0) {
+s32 KeyboardKeyState::check_input_ready() {
+    s32 arg0 = (s32)this;
+    if (((KeyboardKeyState *)arg0)->sub_80132310() != 0) {
         return 0;
     }
-    if (((s32 (*)(s32))is_key_57_pressed__16TKeyBoardControlFi)(arg0) != 0) {
+    if (((KeyboardKeyState *)arg0)->is_key_57_pressed() != 0) {
         return 0;
     }
-    if (((s32 (*)(s32))TKeyBoardControl__sub_801321B4)(arg0) != 0) {
+    if (((KeyboardKeyState *)arg0)->sub_801321B4() != 0) {
         return 0;
     }
     return 1;
 }
-bool TKeyBoardControl__sub_801321B4(s32 arg0) {
-    if (TKeyBoardControl__sub_801323C8((K_801323C8 *)(arg0), (u8)((int)(0x56U))) != 0) {
+#pragma push
+#pragma bool off
+s32 KeyboardKeyState::sub_801321B4() {
+    s32 arg0 = (s32)this;
+    if (((KeyboardKeyState *)arg0)->sub_801323C8((u8)((int)(0x56U))) != 0) {
         return 1;
     }
-    if (get_key_state__16TKeyBoardControlFPv(&TKeyBoardControl__global_key_state.value) == 0) {
+    if (hardware_keyboard_state.get_key_state() == 0) {
         return 0;
     }
-    if ((get_key_state__16TKeyBoardControlFPv(&TKeyBoardControl__global_key_state.value) == 2) || (get_key_state__16TKeyBoardControlFPv(&TKeyBoardControl__global_key_state.value) == 4) || (get_key_state__16TKeyBoardControlFPv(&TKeyBoardControl__global_key_state.value) == 3)) {
+    if ((hardware_keyboard_state.get_key_state() == 2) || (hardware_keyboard_state.get_key_state() == 4) || (hardware_keyboard_state.get_key_state() == 3)) {
         return 0;
     }
-    return TKeyBoardControl__sub_801323C8((K_801323C8 *)(arg0), (u8)((int)(0x5BU))) != 0;
+    return ((KeyboardKeyState *)arg0)->sub_801323C8((u8)((int)(0x5BU))) != 0;
 }
 
-bool TKeyBoardControl__sub_80132274(s32 arg0) {
-    if ((get_key_state__16TKeyBoardControlFPv((void*)(&TKeyBoardControl__global_key_state.value)) == 0) || (get_key_state__16TKeyBoardControlFPv((void*)(&TKeyBoardControl__global_key_state.value)) == 1)) {
+s32 KeyboardKeyState::sub_80132274() {
+    if (((&hardware_keyboard_state)->get_key_state() == 0) || ((&hardware_keyboard_state)->get_key_state() == 1)) {
         return 0;
     }
-    return ((s32)TKeyBoardControl__sub_801323C8((K_801323C8 *)(arg0), (u8)((int)(0x5BU)))) != 0;
+    return sub_801323C8(0x5B) != 0;
 }
 
-bool is_key_57_pressed__16TKeyBoardControlFi(s32 arg0) {
-    return TKeyBoardControl__sub_801323C8((K_801323C8 *)(arg0), (u8)((int)(0x57U))) != 0;
+s32 KeyboardKeyState::is_key_57_pressed() {
+    s32 arg0 = (s32)this;
+    return ((KeyboardKeyState *)arg0)->sub_801323C8((u8)((int)(0x57U))) != 0;
 }
-s32 TKeyBoardControl__sub_80132310(s32 arg0) {
-    if ((TKeyBoardControl__sub_801323C8((K_801323C8 *)(arg0), (u8)((int)(0x54U))) != 0) || (TKeyBoardControl__sub_801323C8((K_801323C8 *)(arg0), (u8)((int)(0x55U))) != 0)) {
+#pragma pop
+s32 KeyboardKeyState::sub_80132310() {
+    s32 arg0 = (s32)this;
+    if ((((KeyboardKeyState *)arg0)->sub_801323C8((u8)((int)(0x54U))) != 0) || (((KeyboardKeyState *)arg0)->sub_801323C8((u8)((int)(0x55U))) != 0)) {
         return 1;
     }
     return 0;
 }
 
-s32 TKeyBoardControl::has_any_key_pressed() {
+s32 KeyboardKeyState::has_any_key_pressed() {
     s32 i;
     for (i = 0; i < 4; i++) {
-        if (((K_80132368 *)this)->tab[i] != 0) {
+        if (pressed[i] != 0) {
             return 1;
         }
     }
     return 0;
 }
 
-u8 TKeyBoardControl__sub_8013239C(K_8013239C *arg0, u8 arg1) {
-    if (arg1 >= arg0->count) {
+u8 KeyboardKeyState::sub_8013239C(u8 arg1) {
+    if (arg1 >= pending_count) {
         return 0;
     }
-    return arg0->tab[arg1];
+    return pending[arg1];
 }
 
-u8 TKeyBoardControl::get_key_state_2() { return *(u8*)((char*)this + 0x2); }
+u8 KeyboardKeyState::get_key_state_2() { return pending_count; }
 
-s32 TKeyBoardControl__sub_801323C8(K_801323C8 *arg0, u8 arg1) {
-    return (arg0->bits[arg1 / 32] & (1 << (arg1 % 32))) != 0 ? 1 : 0;
+s32 KeyboardKeyState::sub_801323C8(u8 arg1) {
+    return (pressed[arg1 / 32] & (1 << (arg1 % 32))) != 0 ? 1 : 0;
 }
 
-u8 get_key_state__16TKeyBoardControlFPv(void* p) { return *(u8*)((char*)p + 0x1); }
+u8 KeyboardKeyState::get_key_state() {
+    void* p = (void*)this; return *(u8*)((char*)p + 0x1); }
 
-void TKeyBoardControl::push_key_to_buffer(u8 arg1) {
-    K_8013239C *arg0 = (K_8013239C *)this;
+void KeyboardKeyState::push_key_to_buffer(u8 arg1) {
     u8 t;
-    if ((get_key_state__16TKeyBoardControlFPv(&TKeyBoardControl__global_key_state) != 0 && arg1 == 0x5B) || (u8)(arg1 - 0x54) <= 2 || arg1 == 0x57) {
+    if ((hardware_keyboard_state.get_key_state() != 0 && arg1 == 0x5B) || (u8)(arg1 - 0x54) <= 2 || arg1 == 0x57) {
         return;
     }
-    t = arg0->count;
+    t = pending_count;
     if (t < 8) {
-        arg0->count = t + 1;
-        arg0->tab[t] = arg1;
+        pending_count = t + 1;
+        pending[t] = arg1;
     }
 }
 
-void TKeyBoardControl::reset_inactive_keys() {
-    s32 var_r29;
-    u8 *var_r28;
-    s32 arg0 = (s32)this;
-    var_r29 = 0;
-    var_r28 = (unsigned char *) (arg0 + 0xA0);
+void KeyboardKeyState::reset_inactive_keys() {
+    s32 i;
+    KeyboardKeyRepeat *p;
+    i = 0;
+    p = repeat;
     do {
-        if (TKeyBoardControl__sub_801323C8((K_801323C8 *)(arg0), (u8)((int)((int) (*(u8 *)((s8 *)var_r28 + 0))))) == 0) {
-            *(u8 *)((s8 *)var_r28 + 0) = 0U;
-            *(s8 *)((s8 *)var_r28 + 1) = 0x23;
+        if (sub_801323C8(p->key) == 0) {
+            p->key = 0;
+            p->timer = 0x23;
         }
-        var_r29 += 1;
-        var_r28 += 2;
-    } while (var_r29 < 8);
+        i += 1;
+        p += 1;
+    } while (i < 8);
 }
 
-void TKeyBoardControl::tick_key_repeat_timer(u8 arg1) {
-    Kb_801324F8 *arg0 = (Kb_801324F8 *)this;
-    Ent_801324F8 *p;
-    Ent_801324F8 *q;
+void KeyboardKeyState::tick_key_repeat_timer(u8 arg1) {
+    KeyboardKeyRepeat *p;
+    KeyboardKeyRepeat *q;
     s32 i;
-    p = arg0->ents;
+    p = repeat;
     for (i = 0; i < 8; i++, p++) {
         if (p->key == arg1) {
             p->timer--;
@@ -228,7 +201,7 @@ void TKeyBoardControl::tick_key_repeat_timer(u8 arg1) {
             return;
         }
     }
-    q = arg0->ents;
+    q = repeat;
     for (i = 0; i < 8; i++, q++) {
         if (q->key == 0) {
             q->key = arg1;
@@ -240,7 +213,7 @@ void TKeyBoardControl::tick_key_repeat_timer(u8 arg1) {
 // One bit per key code 0x00-0x7F: the codes that enter the key buffer (name inferred).
 static u32 valid_key_mask[4] = { 0xFFFF00C0, 0xFFFFFFFF, 0xFF0FFFFF, 0xC0000003 };
 
-void TKeyBoardControl__sub_80132598(Kb_80132650 *kb, u8 key, u32 *pressed) {
+void KeyboardKeyState::sub_80132598(KeyboardKeyState *kb, u8 key, u32 *pressed) {
     if (key != 0) {
         s32 code = key & 0x7F;
         s32 word = code / 32;
@@ -248,70 +221,70 @@ void TKeyBoardControl__sub_80132598(Kb_80132650 *kb, u8 key, u32 *pressed) {
         s32 valid = bit & valid_key_mask[word];
         if (!(key & 0x80)) {
             if (valid != 0) {
-                if (!(bit & (kb->tab[word] | pressed[(u32)word]))) {
-                    ((TKeyBoardControl *)kb)->push_key_to_buffer(key);
+                if (!(bit & (kb->pressed[word] | pressed[(u32)word]))) {
+                    kb->push_key_to_buffer(key);
                 }
-                ((TKeyBoardControl *)kb)->tick_key_repeat_timer(key);
+                kb->tick_key_repeat_timer(key);
             }
             pressed[word] |= bit;
         }
     }
 }
 
-struct K_8013276C;
-void TKeyBoardControl__sub_80132650(Kb_80132650 *kb) {
+void KeyboardKeyState::sub_80132650() {
     u32 bits[4];
     s32 i;
-    if (kb->f4 <= 0) {
-        kb->f2 = 0;
+    if (reports <= 0) {
+        pending_count = 0;
         return;
     }
-    kb->f4 = 0;
-    if (kb->f0 >= 4) {
-        ((TKeyBoardControl *)kb)->clear_key_state();
-        ((TKeyBoardControl *)kb)->reset_keys();
+    reports = 0;
+    if (port >= 4) {
+        clear_key_state();
+        reset_keys();
         return;
     }
-    kb->f2 = 0;
+    pending_count = 0;
     for (i = 0; i < 4; i++) {
         bits[i] = 0;
     }
-    for (i = 0; i < kb->count; i++) {
-        TKeyBoardControl__sub_80132598(kb, kb->keys[i], bits);
-        kb->keys[i] = 0;
+    for (i = 0; i < raw_count; i++) {
+        sub_80132598(this, raw[i], bits);
+        raw[i] = 0;
     }
-    kb->count = 0;
+    raw_count = 0;
     for (i = 0; i < 4; i++) {
-        kb->tab[i] = bits[i];
+        pressed[i] = bits[i];
     }
-    ((TKeyBoardControl *)kb)->reset_inactive_keys();
+    reset_inactive_keys();
 }
 
-void TKeyBoardControl::reset_keys() {
+void KeyboardKeyState::reset_keys() {
     s32 i;
-    ((u8 *)this)[4] = 0;
-    ((u8 *)this)[3] = 0;
+    reports = 0;
+    raw_count = 0;
     for (i = 0; i < 128; i++) {
-        ((u8 *)this)[i + 5] = 0;
+        raw[i] = 0;
     }
 }
 
-void TKeyBoardControl::clear_key_state() {
+void KeyboardKeyState::clear_key_state() {
     s32 i;
-    ((K_8013276C *)this)->f2 = 0;
+    pending_count = 0;
     for (i = 0; i < 8; i++) {
-        ((K_8013276C *)this)->t85[i] = 0;
+        pending[i] = 0;
     }
     for (i = 0; i < 8; i++) {
-        ((K_8013276C *)this)->p[i].a = 0;
-        ((K_8013276C *)this)->p[i].b = 0x23;
+        repeat[i].key = 0;
+        repeat[i].timer = 0x23;
     }
     for (i = 0; i < 4; i++) {
-        ((K_8013276C *)this)->t90[i] = 0;
+        pressed[i] = 0;
     }
 }
 
-void TKeyBoardControl__sub_801327DC(s32 arg0, u8 chan) {
+void KeyboardKeyState::sub_801327DC(u8 chan) {
+    s32 arg0 = (s32)this;
     s32 sp8;
     if (poll_keyboard_port(chan, (u8 *)&sp8) == 0) {
         TKeyBoardControl__sub_803F0E90(chan, (void *)(0));
@@ -320,28 +293,28 @@ void TKeyBoardControl__sub_801327DC(s32 arg0, u8 chan) {
 
 #pragma push
 #pragma opt_loop_invariants off
-void reset_state__16TKeyBoardControlFi(s32 arg0) {
+void KeyboardKeyState::reset_state() {
     s32 i;
-    ((u8 *)arg0)[0] = 4;
-    ((u8 *)arg0)[1] = 1;
-    ((TKeyBoardControl *)arg0)->clear_key_state();
-    ((TKeyBoardControl *)arg0)->reset_keys();
+    port = 4;
+    mode = 1;
+    clear_key_state();
+    reset_keys();
     for (i = 0; i < 4; i++) {
-        TKeyBoardControl__sub_801327DC((s32)arg0, i);
+        sub_801327DC(i);
     }
 }
 #pragma pop
 
-void TKeyBoardControl::reset_input(s32 arg0) {
+void KeyboardKeyState::reset_input() {
     TKeyBoardControl::init_pad_states();
-    reset_state__16TKeyBoardControlFi(arg0);
-    fn_803F1864((u32)((s32 *)TKeyBoardControl::append_next_char_global));
+    reset_state();
+    fn_803F1864((u32)((s32 *)KeyboardKeyState::append_next_char_global));
 }
-void TKeyBoardControl::reset_global_keys_a() {
-    ((TKeyBoardControl *)(&TKeyBoardControl__global_key_state.value))->clear_key_state();
-    ((TKeyBoardControl *)(&TKeyBoardControl__global_key_state.value))->reset_keys();
+void KeyboardKeyState::reset_global_keys_a() {
+    hardware_keyboard_state.clear_key_state();
+    hardware_keyboard_state.reset_keys();
 }
-void TKeyBoardControl::reset_global_keys_b() {
-    ((TKeyBoardControl *)(&TKeyBoardControl__global_key_state.value))->clear_key_state();
-    ((TKeyBoardControl *)(&TKeyBoardControl__global_key_state.value))->reset_keys();
+void KeyboardKeyState::reset_global_keys_b() {
+    hardware_keyboard_state.clear_key_state();
+    hardware_keyboard_state.reset_keys();
 }

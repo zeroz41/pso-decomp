@@ -4,6 +4,7 @@
 #include "pso/ui/keyboard/TKeyBoardControl_8000F764.h"
 #include "pso/system/PadRumble.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
+#include "pso/ui/keyboard/KeyboardKeyState.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/render/render_util.h"
@@ -22,7 +23,6 @@
 #include "pso/render/BlobShadow.h"
 
 extern "C" {
-s32 disable_disconnected_ports__16TKeyBoardControlFv(void *);
 int clear_split_screen_fog__8TFogCtrlFv(void*);
 }
 void update_music_sequencer(void);
@@ -33,7 +33,7 @@ extern s32 lbl_805D62B0;
 
 void TKeyBoardControl__sub_8000F764(void) {
     TKeyBoardControl::read_pads();
-    disable_disconnected_ports__16TKeyBoardControlFv(&TKeyBoardControl__global_key_state.value);
+    hardware_keyboard_state.disable_disconnected_ports();
     TKeyBoardControl::flush_input();
     update_pad_rumble();
     TLobby::reset_state_byte();
@@ -341,7 +341,7 @@ void init_game_systems(void) {
     install_depth_alpha_state();
     TKeyBoardControl::alloc_buffer();
     TKeyBoardControl__sub_8000F9E4();
-    TKeyBoardControl::reset_input((s32)&TKeyBoardControl__global_key_state);
+    hardware_keyboard_state.reset_input();
     init_buffers();
     ((TMainTask *)((u8 *)&main_task))->init_main_task();
     TLobby__sub_8007EB70();

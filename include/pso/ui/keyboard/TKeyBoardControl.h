@@ -66,25 +66,10 @@ struct TKeyBoardControl : public TObject {
     static void update_input_frame();
     static void init_pad_state();
     s32 poll_key_state();
-    s32 append_char(s8 arg1);
-    void append_next_char();
-    static void append_next_char_global();
-    static void disable_disconnected_ports();
-    static s32 check_input_ready(s32 arg0);
-    s32 has_any_key_pressed();
-    u8 get_key_state_2();
-    void push_key_to_buffer(u8 arg1);
-    void tick_key_repeat_timer(u8 arg1);
-    void reset_keys();
-    void clear_key_state();
-    static void reset_input(s32 arg0);
-    static void reset_global_keys_a();
-    static void reset_global_keys_b();
     static s32 start_get_type_async(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
     static void enable_keyboard_polling(s32 arg0);
     static void update_camera();
     static void set_key_state(s32 arg0);
-    void reset_inactive_keys();
 };
 
 typedef char TKeyBoardControl_size[sizeof(TKeyBoardControl) == 0x2C ? 1 : -1];

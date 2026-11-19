@@ -20,6 +20,7 @@
 #include "pso/unk/TLobby.h"
 #include "pso/ui/city/TCheckRoomSequence.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
+#include "pso/ui/keyboard/KeyboardKeyState.h"
 #include "pso/quest/TQuestListOnline.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TWindowKeyBoardHard.h"
@@ -357,7 +358,6 @@ void * create__14TWindowMessageFPvll(void *, void *, int);
 void * get_window_layout_position(int);
 char * get_card_window_field__6TLobbyFv(void);
 
-extern u8 TKeyBoardControl__global_key_state[];
 extern u8 TLobby__data_805011D8[];
 extern s32 TLobby__data_805D4E30;
 u8 *TLobby__protocol_instance;
@@ -532,7 +532,7 @@ void update_idle_timeout__6TLobbyFPv(u8 *object) {
     if (has_window_task_root() == 0) {
         (*(Obj_80134F9C * *)&TLobby__idle_timeout_object) = 0;
     }
-    if (((TKeyBoardControl *)TKeyBoardControl__global_key_state)->has_any_key_pressed() != 0 || TKeyBoardControl::any_pad_input_active() != 0) {
+    if (hardware_keyboard_state.has_any_key_pressed() != 0 || TKeyBoardControl::any_pad_input_active() != 0) {
         t->start = t->now;
         t->state = 0;
         if ((*(Obj_80134F9C * *)&TLobby__idle_timeout_object) != 0) {

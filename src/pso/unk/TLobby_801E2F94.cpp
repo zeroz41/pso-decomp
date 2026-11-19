@@ -13,6 +13,7 @@
 #include "pso/system/main_loop.h"
 #include "pso/ui/window/TWindowCtrlMain.h"
 #include "types.h"
+#include "pso/ui/keyboard/KeyboardKeyState.h"
 #include <dolphin/os/OSCache.h>
 #include "pso/ui/charcreate/TObjCMHairMenu.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
@@ -503,7 +504,6 @@ void TLobby__sub_803382E4(void);
 s32 read_afs_toc__6TLobbyFl(void *);
 s32 adxf_open_file__6TLobbyFiPviPv(void *, void *, int, void *);
 s32 TLobby__sub_801E3E9C(s32 arg0, s32 arg1, s32 arg2);
-s32 disable_disconnected_ports__16TKeyBoardControlFv(void *);
 s32 TKeyBoardControl__sub_801E3E24(s32 arg0, s32 arg1, s32 arg2);
 s32 GXSetViewport(f32, f32, f32, f32, f32, f32);
 s32 GXSetZMode(s32, s32, s32);
@@ -559,7 +559,7 @@ loop_2:
             TKeyBoardControl::flush_input();
             update_global_sound_frame();
             TKeyBoardControl::read_pads();
-            disable_disconnected_ports__16TKeyBoardControlFv(&TKeyBoardControl__global_key_state.value);
+            hardware_keyboard_state.disable_disconnected_ports();
             TLobby::reset_state_byte();
             goto loop_2;
         }
