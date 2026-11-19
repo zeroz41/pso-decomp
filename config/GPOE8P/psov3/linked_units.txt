@@ -1305,6 +1305,7 @@ pso/ui/window/TWindowHelpItem_802540AC.cpp
 pso/ui/window/TWindowHelpItem_80255AB4.cpp
 pso/ui/window/TWindowHelpItem_8025A12C.cpp
 pso/ui/window/TWindowHelpItem_8025A60C.cpp
+pso/ui/window/WindowHelpItemTextB.cpp
 pso/ui/window/TWindowInputNumber.cpp
 pso/ui/window/TWindowInputNumber_80211608.cpp
 pso/ui/window/TWindowKeyBoardBase.cpp

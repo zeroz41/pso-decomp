@@ -6980,6 +6980,9 @@ pso/unk/text_80253974.cpp:
 	.text       start:0x80253974 end:0x802540AC
 	.rodata     start:0x8044EDD0 end:0x8044EDD8
 
+pso/ui/window/WindowHelpItemTextB.cpp:
+	.rodata     start:0x8044EDD8 end:0x8044EDF5
+
 pso/ui/window/TWindowHelpItem_802540AC.cpp:
 	.text       start:0x802540AC end:0x802559F8
 	.data       start:0x804CF140 end:0x804CF868
