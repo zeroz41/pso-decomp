@@ -12497,6 +12497,7 @@ pso/network/NetworkThreadRuntime.c:
 	.data       start:0x804FD380 end:0x804FD3A8
 	.bss        start:0x805BFEC0 end:0x805BFF68
 	.sdata      start:0x805D4818 end:0x805D4820
+	.sbss       start:0x805D7A70 end:0x805D7A78
 	.sdata2     start:0x805E1150 end:0x805E1158
 
 pso/network/TLobby_803FAEA0.c:

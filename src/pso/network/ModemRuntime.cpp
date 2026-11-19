@@ -4,6 +4,7 @@
 #include "pso/network/NetworkMessageTransport.h"
 
 #include "types.h"
+#include <stddef.h>
 #include "dolphin/exi.h"
 #include "dolphin/os.h"
 #include "dolphin/os/OSReset.h"
@@ -51,6 +52,11 @@ struct ModemRecvState {
     s32 f38;
     void (*callback)(s32 received);
 };
+
+typedef char ModemSendStateSize[sizeof(ModemSendState) == 0x2C ? 1 : -1];
+typedef char ModemRecvStateSize[sizeof(ModemRecvState) == 0x40 ? 1 : -1];
+typedef char ModemSendCallbackOffset[offsetof(ModemSendState, callback) == 0x28 ? 1 : -1];
+typedef char ModemRecvCallbackOffset[offsetof(ModemRecvState, callback) == 0x3C ? 1 : -1];
 
 struct ModemResponseState {
     void (*callback)(s32 result);
@@ -210,7 +216,7 @@ static inline u8 ModemReadFifoByte(void) {
     return value;
 }
 
-static inline void ModemWriteRegister(u8 reg, u8 value) {
+static inline BOOL ModemWriteRegister(u8 reg, u8 value) {
     BOOL selected;
     u16 cmd = (reg | 0x40) << 8;
 
@@ -220,6 +226,7 @@ static inline void ModemWriteRegister(u8 reg, u8 value) {
     EXIImm(0, &value, 1, EXI_WRITE, NULL);
     EXISync(0);
     EXIDeselect(0);
+    return selected;
 }
 
 // Takes the EXI channel 0 lock for the modem, sleeping until wake_load_thread wakes the queue.
@@ -529,66 +536,72 @@ s32 modem_wait_ok_or_error(void) {
 }
 extern "C" {
 
-s32 modem_init(char *country)
-{
-    char buf[0x88];
-    s32 bpad;
-    s32 enabled;
-    u16 *p30;
-    u8 *p29;
-    u8 *p25;
-    u16 cmd70;
+#pragma push
+#pragma inline_depth(3)
+static inline s32 ModemRunCommand(char *command) {
+    s32 result;
+    modem_write_string(command);
+    result = modem_wait_ok_or_error();
+    return result;
+}
+
+static inline BOOL ModemWriteCommand(u16 command) {
+    BOOL selected;
+    selected = EXISelect(0, 2, 4);
+    EXIImm(0, &command, 2, EXI_WRITE, NULL);
+    EXISync(0);
+    EXIDeselect(0);
+    return selected;
+}
+
+static inline char *ModemBuildCountryCommand(char *buf, const char *country) {
+    char *result;
+    result = strcpy(buf, "AT+GCI=");
+    strcat(buf, country);
+    strcat(buf, "\r");
+    return result;
+}
+
+static char modem_setup_commands[][12] = {
+    "ATW1\\V0\r", "ATS95=44\r"
+};
+
+static inline BOOL ModemSetupCommands(char *buf, char *country) {
+    u8 value;
+    BOOL selected;
+    u16 cmd;
+    ModemRunCommand("ATZ\r");
+    ModemBuildCountryCommand(buf, country);
+    ModemRunCommand(buf);
+    ModemRunCommand("ATE0\r");
+    ModemRunCommand(modem_setup_commands[0]);
+    ModemRunCommand(modem_setup_commands[1]);
+
+    value = lbl_805D7C90.f4;
+    cmd = 0x4100;
+    selected = EXISelect(0, 2, 4);
+    EXIImm(0, &cmd, 2, EXI_WRITE, NULL);
+    EXISync(0);
+    EXIImm(0, &value, 1, EXI_WRITE, NULL);
+    EXISync(0);
+    EXIDeselect(0);
+    return selected;
+}
+
+s32 modem_init(char *country) {
+    // Keep the command text in eight-byte-aligned storage. Its character view
+    // is used by the string routines and EXI immediate transfers. The 0x88-byte
+    // storage extent fits the native frame; the original text limit is unknown.
+    u64 command_buffer[0x88 / sizeof(u64)];
+    u16 cmd;
     u32 id;
-    u8 pad2[4];
-    u16 cmd66;
-    u16 cmd64;
-    u8 pad3[4];
-    u8 b5e;
-    u16 cmd5c;
-    u8 pa1[4];
-    u8 b56;
-    u16 cmd54;
-    u8 pa2[4];
-    u8 b4e;
-    u16 cmd4c;
-    u8 pa3[4];
-    u8 b46;
-    u16 cmd44;
-    u8 pa4[4];
-    u8 b3e;
-    u16 cmd3c;
-    u8 pa5[4];
-    u8 b36;
-    u16 cmd34;
-    u8 pa6[4];
-    u8 b2e;
-    u16 cmd2c;
-    u8 pa7[4];
-    u8 b24;
-    u8 pad[0x18];
-    void TAdSinglePlyChrSelectGC__sub_8042C2E4(s32, void *);
-    void OSInitThreadQueue(void *);
-    void EXISetExiCallback(s32, void *);
 
-    enabled = OSDisableInterrupts();
-    for (;;) {
-        if (EXILock(0, 2, (EXICallback)TAdSinglePlyChrSelectGC::wake_load_thread) == 1) {
-            OSRestoreInterrupts(enabled);
-            break;
-        }
-        OSSleepThread(&lbl_805D7CA0);
-        OSRestoreInterrupts(enabled);
-    }
-
+    ModemLockExi();
     lbl_805D7C98 = 0;
-    p30 = (u16 *)&lbl_805D7C90;
-    *p30 = 0x1e0;
-    *++p30 = 0x21;
-    p29 = (u8 *)&lbl_805D7C90;
-    *(p29 += 4) = 0x62;
-    p25 = (u8 *)&lbl_805D7C90;
-    *(p25 += 5) = 5;
-
+    lbl_805D7C90.f0 = 0x1E0;
+    lbl_805D7C90.f2 = 0x21;
+    lbl_805D7C90.f4 = 0x62;
+    lbl_805D7C90.f5 = 5;
     memset(&modem_connection_info, 0, sizeof(modem_connection_info));
     memset(&modem_recv_state, 0, sizeof(modem_recv_state));
     memset(&modem_send_state, 0, sizeof(modem_send_state));
@@ -603,9 +616,10 @@ s32 modem_init(char *country)
     modem_send_state.busy = 0;
     modem_recv_state.capacity = 0;
     modem_recv_state.f34 = 1;
+
     EXISelect(0, 2, 0);
-    cmd70 = 0;
-    EXIImm(0, &cmd70, 2, EXI_WRITE, NULL);
+    cmd = 0;
+    EXIImm(0, &cmd, 2, EXI_WRITE, NULL);
     EXISync(0);
     EXIImm(0, &id, 4, EXI_READ, NULL);
     EXISync(0);
@@ -615,103 +629,22 @@ s32 modem_init(char *country)
         return -1;
     }
 
-    cmd66 = 0x8000;
-    EXISelect(0, 2, 4);
-    EXIImm(0, &cmd66, 2, EXI_WRITE, NULL);
-    EXISync(0);
-    EXIDeselect(0);
+    ModemWriteCommand(0x8000);
+    ModemWriteRegister(0x13, lbl_805D7C90.f5);
+    ModemWriteRegister(0x06, 0x32);
+    ModemWriteRegister(0x07, 0x40);
+    ModemWriteRegister(0x10, lbl_805D7C90.f0 >> 8);
+    ModemWriteRegister(0x11, lbl_805D7C90.f0);
+    ModemWriteRegister(0x0E, lbl_805D7C90.f2 >> 8);
+    ModemWriteRegister(0x0F, lbl_805D7C90.f2);
 
-    b5e = *p25;
-    cmd64 = 0x5300;
-    EXISelect(0, 2, 4);
-    EXIImm(0, &cmd64, 2, EXI_WRITE, NULL);
-    EXISync(0);
-    EXIImm(0, &b5e, 1, EXI_WRITE, NULL);
-    EXISync(0);
-    EXIDeselect(0);
-
-    b56 = 0x32;
-    cmd5c = 0x4600;
-    EXISelect(0, 2, 4);
-    EXIImm(0, &cmd5c, 2, EXI_WRITE, NULL);
-    EXISync(0);
-    EXIImm(0, &b56, 1, EXI_WRITE, NULL);
-    EXISync(0);
-    EXIDeselect(0);
-
-    b4e = 0x40;
-    cmd54 = 0x4700;
-    EXISelect(0, 2, 4);
-    EXIImm(0, &cmd54, 2, EXI_WRITE, NULL);
-    EXISync(0);
-    EXIImm(0, &b4e, 1, EXI_WRITE, NULL);
-    EXISync(0);
-    EXIDeselect(0);
-
-    b46 = (u8)(*(u16 *)&lbl_805D7C90 >> 8);
-    cmd4c = 0x5000;
-    EXISelect(0, 2, 4);
-    EXIImm(0, &cmd4c, 2, EXI_WRITE, NULL);
-    EXISync(0);
-    EXIImm(0, &b46, 1, EXI_WRITE, NULL);
-    EXISync(0);
-    EXIDeselect(0);
-
-    b3e = (u8)*(u16 *)&lbl_805D7C90;
-    cmd44 = 0x5100;
-    EXISelect(0, 2, 4);
-    EXIImm(0, &cmd44, 2, EXI_WRITE, NULL);
-    EXISync(0);
-    EXIImm(0, &b3e, 1, EXI_WRITE, NULL);
-    EXISync(0);
-    EXIDeselect(0);
-
-    b36 = (u8)(*p30 >> 8);
-    cmd3c = 0x4e00;
-    EXISelect(0, 2, 4);
-    EXIImm(0, &cmd3c, 2, EXI_WRITE, NULL);
-    EXISync(0);
-    EXIImm(0, &b36, 1, EXI_WRITE, NULL);
-    EXISync(0);
-    EXIDeselect(0);
-
-    b2e = (u8)*p30;
-    cmd34 = 0x4f00;
-    EXISelect(0, 2, 4);
-    EXIImm(0, &cmd34, 2, EXI_WRITE, NULL);
-    EXISync(0);
-    EXIImm(0, &b2e, 1, EXI_WRITE, NULL);
-    EXISync(0);
-    EXIDeselect(0);
-
-    modem_write_string("ATZ\r");
-    modem_wait_ok_or_error();
-    strcpy(buf, "AT+GCI=");
-    strcat(buf, country);
-    strcat(buf, "\r");
-    modem_write_string(buf);
-    modem_wait_ok_or_error();
-    modem_write_string("ATE0\r");
-    modem_wait_ok_or_error();
-    modem_write_string("ATW1\\V0\r");
-    modem_wait_ok_or_error();
-    modem_write_string("ATS95=44\r");
-    modem_wait_ok_or_error();
-
-    b24 = *p29;
-    cmd2c = 0x4100;
-    EXISelect(0, 2, 4);
-    EXIImm(0, &cmd2c, 2, EXI_WRITE, NULL);
-    EXISync(0);
-    EXIImm(0, &b24, 1, EXI_WRITE, NULL);
-    EXISync(0);
-    EXIDeselect(0);
-
-    EXISetExiCallback(2, (void *)TAdSinglePlyChrSelectGC__sub_8042C2E4);
+    ModemSetupCommands((char *)command_buffer, country);
+    EXISetExiCallback(2, TAdSinglePlyChrSelectGC__sub_8042C2E4);
     OSRegisterResetFunction(&modem_reset_function_info);
     EXIUnlock(0);
     return 1;
 }
+#pragma pop
 
 // AT commands a caller may not send through modem_send_at_command.
 char *modem_exi_ptr_table[22] = {

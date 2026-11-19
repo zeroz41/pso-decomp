@@ -1,4 +1,5 @@
 #include "pso/network/NetworkRuntime.h"
+#include "pso/network/text_80421620.h"
 #include "pso/unk/TLobby_801461EC.h"
 #include "pso/network/TLobby_804050DC.h"
 #pragma readonly_strings on
@@ -268,7 +269,6 @@ s32 tcp_delete(s32 a);
 s16 tcp_get_opt(s16 nh, s16 type, u32 *opt);
 short tcp_send(short nh, void (*notify)(short size, short sock_fd), char bufnum, struct send_buffs *sb);
 int tcp_stat(short nh, short *stat, short *backlog, u32 *sendwin, u32 *recvwin);
-short tcp_receive(short nh, void (*notify)(short size, short sock_fd), short len, u8 *buf);
 }
 int get_link_status();
 char *get_sock_status_name(short code);

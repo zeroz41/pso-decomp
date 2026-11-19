@@ -1971,13 +1971,13 @@ s16 tcp_get_socket_handle(s16 i) {
 
 #pragma push
 #pragma pool_data off
-s32 TLobby__sub_8041DBD4(s16 arg0, s32 arg1, s32 len, s32 arg3) {
+s32 TLobby__sub_8041DBD4(s16 handle, NetBufferRef *destination, s32 len, TcpCompletion callback) {
     s16 r;
     TcpTcb *e;
 
-    if (arg0 < 0 || arg0 >= tcp_protocol_state.count) {
+    if (handle < 0 || handle >= tcp_protocol_state.count) {
         r = -4;
-    } else if (tcp_protocol_state.tcbs[arg0].state != 1) {
+    } else if (tcp_protocol_state.tcbs[handle].state != 1) {
         r = -4;
     } else {
         r = 0;
@@ -1986,7 +1986,7 @@ s32 TLobby__sub_8041DBD4(s16 arg0, s32 arg1, s32 len, s32 arg3) {
         return -4;
     }
     e = tcp_protocol_state.tcbs;
-    e += arg0;
+    e += handle;
     switch (e->t_state) {
     case 0:
     case 4: case 5: case 6: case 7: case 8: case 9: case 10:
@@ -1995,13 +1995,13 @@ s32 TLobby__sub_8041DBD4(s16 arg0, s32 arg1, s32 len, s32 arg3) {
         }
         break;
     }
-    return TLobby__sub_8041ED8C(e, (void *)arg1, len, arg3);
+    return TLobby__sub_8041ED8C(e, destination, len, callback);
 }
 #pragma pop
 
 #pragma push
 #pragma pool_data off
-s16 tcp_start_send(s16 arg0, NetPacket *arg1, void (*completion)(s16, s16), u8 arg3) {
+s16 tcp_start_send(s16 arg0, NetPacket *arg1, TcpCompletion completion, u8 arg3) {
     s16 r;
     s16 v;
     s16 ret;
