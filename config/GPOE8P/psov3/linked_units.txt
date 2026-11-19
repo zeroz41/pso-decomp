@@ -442,6 +442,7 @@ pso/enemy/flower/TObjEneRe2Flower.cpp
 pso/enemy/flower/TObjEneRe2Flower_800C4B78.cpp
 pso/enemy/sorcerer/TObjEneRe4Bit.cpp
 pso/enemy/sorcerer/TObjEneRe4Sorcerer_800EDB98.cpp
+pso/enemy/berura/BeruraData.cpp
 pso/enemy/berura/TObjEneRe7Berura.cpp
 pso/enemy/berura/TObjEneRe7BeruraPunch.cpp
 pso/enemy/berura/TObjEneRe7Berura_803E4CE0.cpp

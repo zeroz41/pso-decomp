@@ -1398,6 +1398,9 @@ pso/enemy/beast/TObjEneBeast.cpp:
 	.sbss       start:0x805D4F38 end:0x805D4F54
 	.sdata2     start:0x805D96D8 end:0x805D9714
 
+pso/enemy/berura/BeruraData.cpp:
+	.rodata     start:0x80439DA0 end:0x80439DC0
+
 pso/player/TObjPlayer_80092A7C.cpp:
 	.text       start:0x80092A7C end:0x80092AE0
 
