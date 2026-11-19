@@ -2453,3 +2453,4 @@ pso/ui/window/WindowFukidasiLayoutData.cpp
 pso/quest/QuestOpcodeHandlersData.cpp
 pso/quest/challenge/ChallengeModeData.cpp
 pso/network/TPlyJoinLobbyEntryData.cpp
+pso/player/TObjPlayer_801AF2F0Data.cpp

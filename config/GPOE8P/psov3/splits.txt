@@ -5110,6 +5110,9 @@ pso/effect/photon/TPhotonYoulla.cpp:
 	.sbss       start:0x805D5D60 end:0x805D5D68
 	.sdata2     start:0x805DC260 end:0x805DC278
 
+pso/player/TObjPlayer_801AF2F0Data.cpp:
+	.sdata2     start:0x805DC278 end:0x805DC280
+
 pso/player/PlayerSdata2Block1.cpp:
 	.sdata2     start:0x805DC280 end:0x805DC2E0
 
