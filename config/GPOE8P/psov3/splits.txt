@@ -7014,7 +7014,7 @@ pso/ui/window/TWindowHelpItem_80253154.cpp:
 
 pso/ui/window/TWindowHelpItem_802531A0.cpp:
 	.text       start:0x802531A0 end:0x80253630
-	.sdata2     start:0x805DCDE8 end:0x805DCDEC
+	.sdata2     start:0x805DCDE8 end:0x805DCE10
 
 pso/ui/window/TWindowHelpItem_80253630.cpp:
 	.text       start:0x80253630 end:0x80253698

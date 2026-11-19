@@ -179,3 +179,13 @@ void TWindowHelpItem__vt11(u8 *window) {
         }
     }
 }
+
+__declspec(section ".sdata2") extern const f32 lbl_805DCDEC = 192.0f;
+__declspec(section ".sdata2") extern const f32 lbl_805DCDF0 = 100.0f;
+__declspec(section ".sdata2") extern const f32 lbl_805DCDF4 = 110.0f;
+__declspec(section ".sdata2") extern const f32 lbl_805DCDF8 = 0.5f;
+__declspec(section ".sdata2") extern const char lbl_805DCDFC[4] = "Hit";
+__declspec(section ".sdata2") extern const f32 lbl_805DCE00 = 132.0f;
+__declspec(section ".sdata2") extern const f32 lbl_805DCE04 = 232.0f;
+__declspec(section ".sdata2") extern const f32 lbl_805DCE08 = 172.0f;
+__declspec(section ".sdata2") extern const f32 lbl_805DCE0C = 212.0f;
