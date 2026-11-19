@@ -2435,3 +2435,4 @@ pso/unk/TUnk_804CCA78.cpp
 
 pso/ui/window/WindowCtrlCallbackEntries.cpp
 pso/ui/window/WindowHelpItemCallbackEntries.cpp
+pso/ui/window/WindowFukidasiLayoutData.cpp

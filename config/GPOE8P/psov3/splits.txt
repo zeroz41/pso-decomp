@@ -6944,6 +6944,9 @@ pso/ui/window/TWindowEffectParty.cpp:
 	.sdata      start:0x805D38F8 end:0x805D3900
 	.sdata2     start:0x805DCCB8 end:0x805DCCD8
 
+pso/ui/window/WindowFukidasiLayoutData.cpp:
+	.data       start:0x804CF080 end:0x804CF0B8
+
 pso/ui/window/TWindowSubStatusDisp_8024FBA8.cpp:
 	.text       start:0x8024FBA8 end:0x8025010C
 	.rodata     start:0x8044ECF8 end:0x8044ED08
