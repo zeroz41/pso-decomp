@@ -5,6 +5,7 @@ extern "C" {
 s32 SIRegisterPollingHandler(void *);
 s32 Dolphin_SIUnregisterPollingHandler(void *);
 u32 si_polling_callback;
+s32 TKeyBoardControl__polling_channel_mask;
 void OSClearContext(void *);
 void OSSetCurrentContext(void *);
 

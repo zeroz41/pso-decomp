@@ -4,6 +4,8 @@
 #include "pso/system/task/TObject.h"
 #include "types.h"
 
+extern "C" s16 *menu_font_palette;
+
 class TNECFontEORFunction : public TObject {
 public:
     TNECFontEORFunction();

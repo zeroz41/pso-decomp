@@ -44,8 +44,10 @@ BmlResourceDescriptor bm_obj_boss2_common_resource_descriptor = {
 };
 
 extern void *lbl_804FE9C8[];
-extern void *lbl_805D4BEC;
-extern void *boss2_tunnel_instance;
+f32 lbl_805D4BE0;
+s32 lbl_805D4BE4;
+void *boss2_tunnel_instance;
+void *lbl_805D4BEC;
 extern "C" {
 void release_texture_list(void *);
 void free_bin_model_request(void *, int);
@@ -62,7 +64,6 @@ void *TObjBoss2CeilJunk::create(void *arg0) {
     return o;
 }
 
-    extern float lbl_805D4BE0;
     extern const float lbl_805D8258;
 void __sinit_TObjBoss2CeilJunk_8003A81C_cpp(void) { lbl_805D4BE0 = lbl_805D8258; }
 void TLobby__sub_8003A874(void) {

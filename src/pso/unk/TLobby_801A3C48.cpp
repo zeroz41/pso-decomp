@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/ui/frontend/DrawLineResource.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "types.h"
@@ -256,7 +257,7 @@ FloorResourceCallbacks online_lobby_scene_callback_table[43] = {
     {TLobby::init_char_slots, TLobby__sub_801C3A40},
     {(FloorResourceCallback)TOKeyJungleMain::init_key_slots, TLobby__sub_8029B2A4},
     {(FloorResourceCallback)TLobby__sub_802D39FC, (FloorResourceCallback)TLobby__sub_802D39DC},
-    {TLobby::load_draw_line_task, TLobby::free_item_loader},
+    {load_draw_line_task_resource, free_draw_line_task_resource},
     {TObjBoss2Tunnel::reset_state, TObjBoss2Tunnel__sub_8007DD24},
     {clear_boss6_player_snapshots, NULL},
 };

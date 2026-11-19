@@ -22,7 +22,7 @@ typedef char TDPBShowerEffectOffset[(offsetof(TDPBShower, m_2c) == 0x2C) ? 1 : -
 
 void *create_TDPBShower(void *arg0, void *arg1);
 
-// --- C functions defined in TDPBShower.cpp ---
+// --- C functions defined in TBoss6DPB.cpp ---
 void *create_TDPBShower(void *arg0, void *arg1);
 // --- end of C functions
 

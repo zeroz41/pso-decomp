@@ -8,6 +8,7 @@
 #include "pso/ui/window/TWindowOptionCtrl.h"
 #include "pso/ui/frontend/TAdYesNoBaseGC.h"
 #include "pso/system/task/TObject.h"
+u32 lbl_805D6CB8;
 
 
 struct Obj_8032C004 { const char *f0; u8 pad[0x14]; void *vt; u8 pad2[0x48 - 0x1C]; s32 f48; };

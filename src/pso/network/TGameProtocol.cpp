@@ -15,7 +15,9 @@ struct TBoss8Dragon;
 struct TLobby;
 struct TObjPlayer;
 
-extern void *game_protocol_instance;
+void *game_protocol_instance;
+void *TGameProtocol__instance;
+s32 dispatching_own_subcommand;
 
 struct VBase_18_801E4260 { char pad[0x18]; };
 struct Node_801E4260 : VBase_18_801E4260 {
@@ -310,7 +312,6 @@ void __ct__7TObjectFP7TObject(void *);
 
 extern s32 __vt__13TGameProtocol[];
 const char *TGameProtocol__class_name = "TGameProtocol";
-extern void * TGameProtocol__instance;
 
 void *TGameProtocol__ct(void *game_protocol) {
     void *o;

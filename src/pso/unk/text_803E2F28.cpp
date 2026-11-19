@@ -1039,3 +1039,18 @@ void clear_chunk_render_flags() {
 
 
 u8 chunk_object_current_matrix[0x30];
+
+s32 chunk_previous_strip_flags;
+u32 chunk_strip_dirty_flags;
+u8 lbl_805D77D8;
+u8 lbl_805D77D9;
+s32 (*player_chunk_draw_end_callback)();
+u32 chunk_has_vertex_colors;
+u32 lbl_805D77E4;
+ChunkRecording_803E44D4* chunk_vertex_cache_state;
+s32 chunk_texture_record_index;
+u32 chunk_blend_header_bits;
+u32 lbl_805D77F4;
+s32 chunk_render_flags;
+s32 lbl_805D77FC;
+s32 chunk_vertex_cache_buffer;

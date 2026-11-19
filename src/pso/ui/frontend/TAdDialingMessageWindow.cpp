@@ -22,7 +22,7 @@ const NJS_POINT2 lbl_8047A400 = {0.0f, 28.0f};
 const NJS_POINT2 lbl_8047A408 = {640.0f, 84.0f};
 void __ct__7TObjectFP7TObject(void *, void *);
 
-void TAdDialingMessageWindow::set_flag_and_notify() { this->m_1c = (this->m_1c | 0x1); create_draw_line_ctrl__13TAdMcSelectGCFiif((this->m_28), 17, 0.0f); }
+void TAdDialingMessageWindow::set_flag_and_notify() { this->m_1c = (this->m_1c | 0x1); create_draw_line_ctrl((TObject *)this->m_28, 17, 0.0f); }
 
 void TAdDialingMessageWindow::run_child_tasks() { void* m = *(void* *)&this->m_28; if (m) ((TObject *)m)->run_tasks(); }
 

@@ -8,7 +8,6 @@
 
 extern "C" {
 s32 DCFlushRange(void *, int);
-extern s32 lbl_805D56B4;
 extern s32 menu_font_upload_flags;
 extern u8 lbl_805D56C0;
 extern "C" u8 lbl_8050C090[];
@@ -31,8 +30,8 @@ s32 menu_font_char_advance_table[191] = {
 };
 void TNECFontEORFunction::run_task() {
     if (menu_font_upload_flags & 2) {
-        DCFlushRange((void *)lbl_805D56B4, 0x80);
-        init_and_load_tlut(0, 2, 0x80, (void *)lbl_805D56B4);
+        DCFlushRange(menu_font_palette, 0x80);
+        init_and_load_tlut(0, 2, 0x80, menu_font_palette);
         menu_font_upload_flags &= 0xFFFFFFFD;
     }
     if (menu_font_upload_flags & 1) {

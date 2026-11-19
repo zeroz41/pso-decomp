@@ -3,7 +3,7 @@
 #include "stdarg.h"
 #include "pso/unk/TLobby.h"
 
-extern s32 lobby_callback_tables_refcount;
+s32 lobby_callback_tables_refcount;
 
 void TLobby__sub_803D3194(void) {
     lobby_callback_tables_refcount -= 1;
@@ -20,9 +20,9 @@ struct Cb_803D3678 { s32 fn; s32 arg; };
 
 extern "C" {
 s32 memset(void *, int, int);
-extern P_803D33D4 lbl_805D7664;
-extern P_803D33E4 lbl_805D766C;
-extern s32 lbl_805D765C;
+P_803D33D4 lbl_805D765C;
+P_803D33D4 lbl_805D7664;
+P_803D33E4 lbl_805D766C;
 char *strncpy(char *, const char *, unsigned long);
 void TLobby__sub_803D34B0(s32 arg0, void (*arg1)(s32), s32 arg2);
 int vsprintf(char *s, const char *fmt, va_list ap);

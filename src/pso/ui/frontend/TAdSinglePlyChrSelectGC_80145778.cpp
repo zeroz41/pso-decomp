@@ -29,7 +29,7 @@ typedef struct Glyph_80145804 {
 extern "C" {
 extern GinjaTextureList menu_font_texture_list[];
 s32 menu_font_glyph_data;
-s16 *lbl_805D56B4;
+s16 *menu_font_palette;
 s32 menu_font_upload_flags;
 Glyph_80145804 *menu_font_glyph_table;
 u8 lbl_805D56C0;
@@ -45,7 +45,7 @@ void TAdSinglePlyChrSelectGC::free_resources() {
     delete menu_font_object;
     release_texture_list(menu_font_texture_list);
     mem_free((void *)menu_font_glyph_table);
-    mem_free((void *)lbl_805D56B4);
+    mem_free((void *)menu_font_palette);
     TAdSinglePlyChrSelectGC::safe_free(menu_font_glyph_data);
 }
 #pragma pop
@@ -104,12 +104,12 @@ void load_menu_font(void) {
         *(menu_font_glyph_pixel_buffers + m) = menu_font_texture_list[0].entries[m].texture->surface->pixels;
         clear_words_80145804(*(menu_font_glyph_pixel_buffers + m), 0x2000);
     }
-    lbl_805D56B4 = (s16 *)mem_alloc(0x100);
-    clear_words_80145804((u32 *)lbl_805D56B4, 0x40);
-    lbl_805D56B4[0] = 0xFFF;
-    lbl_805D56B4[1] = 0x3FFF;
-    lbl_805D56B4[2] = 0x5FFF;
-    lbl_805D56B4[3] = 0x7FFF;
+    menu_font_palette = (s16 *)mem_alloc(0x100);
+    clear_words_80145804((u32 *)menu_font_palette, 0x40);
+    menu_font_palette[0] = 0xFFF;
+    menu_font_palette[1] = 0x3FFF;
+    menu_font_palette[2] = 0x5FFF;
+    menu_font_palette[3] = 0x7FFF;
     TObjFish::set_global_param((s32)menu_font_texture_list);
     for (i = 0; i < 2; i++) {
         TLanguage::set_entry_index(i, 0);

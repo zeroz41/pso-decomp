@@ -132,7 +132,7 @@ void set_active(void *self) {
 #pragma opt_lifetimes off
 #pragma dont_inline off
 #pragma inline_depth(4)
-extern u8 pap_read_byte_buffer[8];
+u8 pap_read_byte_buffer[8];
 static inline PapOptions *pap_options(Conn_804004DC *connection) {
     return (PapOptions *)connection->opts;
 }
