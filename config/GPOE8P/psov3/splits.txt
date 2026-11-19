@@ -20,6 +20,8 @@ pso/ui/keyboard/TKeyBoardControl_8000F764.cpp:
 	.text       start:0x8000F764 end:0x8000FD54
 	.bss        start:0x804FE020 end:0x804FE138
 	.sbss       start:0x805D49A0 end:0x805D49C4
+	.sdata2     start:0x805D7D00 end:0x805D7D14
+	.sbss2      start:0x805E1200 end:0x805E1204
 
 pso/player/TObjPlayer_80011014.cpp:
 	.text       start:0x8000FD54 end:0x80019848
@@ -2148,18 +2150,18 @@ pso/ui/window/TWindowSubStatusDisp_800FBD74.cpp:
 	.sbss       start:0x805D5398 end:0x805D53A0
 	.sdata2     start:0x805DA978 end:0x805DA9BC
 
-pso/ui/window/TWindowSubStatusDisp_800FC3E0.cpp:
-	.text       start:0x800FC3E0 end:0x800FC760
-	.rodata     start:0x8043DA90 end:0x8043DAB0
-
 pso/ui/font/TFontSmallHelp.cpp:
-	.text       start:0x800FC760 end:0x800FC91C
-	.rodata     start:0x8043DAB0 end:0x8043DAC0
+	.text       start:0x800FC3E0 end:0x800FC91C
+	.rodata     start:0x8043DA80 end:0x8043DAB0
 	.data       start:0x8049CA28 end:0x8049CA40
+	.sdata      start:0x805D2B20 end:0x805D2B24
+	.sdata2     start:0x805DA9C0 end:0x805DA9D8
 
 pso/ui/window/TWindowCtrlMain_800FC91C.cpp:
 	.text       start:0x800FC91C end:0x800FCCC8
+	.rodata     start:0x8043DAB0 end:0x8043DAC0
 	.data       start:0x8049CA40 end:0x8049CA6C
+	.sdata      start:0x805D2B28 end:0x805D2B2C
 	.sdata2     start:0x805DA9E0 end:0x805DAA00
 
 pso/ui/font/TFontSmallTask.cpp:
@@ -4990,6 +4992,7 @@ pso/ui/window/TWindowShortListCtrl_801A4FC0.cpp:
 
 pso/ui/window/TWindowSubStatusDisp_801A5228.cpp:
 	.text       start:0x801A5228 end:0x801A529C
+	.rodata     start:0x80446970 end:0x80446980
 
 pso/ui/window/TWindowKeyBoardHard_801A529C.cpp:
 	.text       start:0x801A529C end:0x801A558C
@@ -7190,6 +7193,7 @@ pso/ui/window/TWindowSubStatusDisp_8025B4A0.cpp:
 
 pso/ui/window/TWindowKeyBoardSoft_8025B85C.cpp:
 	.text       start:0x8025B85C end:0x8025CB10
+	.sdata2     start:0x805DD030 end:0x805DD036
 
 pso/ui/chat/TWindowChat_8025CB10.cpp:
 	.text       start:0x8025CB10 end:0x8025CB70

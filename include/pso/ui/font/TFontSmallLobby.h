@@ -3,6 +3,9 @@
 
 #include "types.h"
 
+// Class name of the lobby player label TObject (TObjPlayer checks its m_54c object by it).
+extern const char *TFontSmallLobby__name;
+
 struct TFontSmallLobby
 {
     u8 _pad1C[0x40C];

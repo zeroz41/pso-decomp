@@ -2251,7 +2251,6 @@ extern Color_801B6964 player_feedback_light_color[];
 extern void *player_slot_table[];
 extern u8 lobby_rule_settings[];
 extern ReturnLobby lbl_80515BA0;
-extern s32 lbl_805D2B28;
 extern "C" { extern char TObjPlayer__class_name_string[]; }
 const char *lbl_805D3530 = TObjPlayer__class_name_string;
 extern s32 actor_frame_tick;
@@ -2588,7 +2587,7 @@ void TObjPlayer::sub_801BB950() {
   if (((s32 (*)(void))is_lobby_floor_15__15TFontSmallLobbyFv)() != 0)
   {
     temp_r3_2 = ((TObjPlayer *)arg0)->m_54c;
-    if ((temp_r3_2 != 0U) && (((s32 (*)(int, void *))check_value_equals__13TUnk_804B6C24CFl)((int) temp_r3_2, (void *) lbl_805D2B28) != 0))
+    if ((temp_r3_2 != 0U) && (((s32 (*)(int, void *))check_value_equals__13TUnk_804B6C24CFl)((int) temp_r3_2, (void *) TFontSmallLobby__name) != 0))
     {
       ((TObject *)(((TObjPlayer *)arg0)->m_54c))->queue_destruction();
     }

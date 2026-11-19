@@ -1,32 +1,23 @@
 #include "types.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
+#include "pso/network/client_id.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
 
-struct CardWindowScaleTable { s32 value; u8 remaining[0xC]; };
-extern CardWindowScaleTable card_window_scale_table;
+// Card window scale for each of the four card window flag values.
+const f32 card_window_scale_table[4] = {34.0f, 51.0f, 68.0f, 0.0f};
 
-extern "C" {
-
-s32 get_character_save_record(u32 arg0);
-
-extern s32 local_client_id;
-
-f32 TWindowSubStatusDisp::get_card_window_scale(s32 _w0) {
-    return *(f32 *)((s8 *)((u8 *)&card_window_scale_table.value + (TWindowSubStatusDisp::get_card_window_flags(_w0) * 4)) + 0);
+f32 TWindowSubStatusDisp::get_card_window_scale(s32 client_id) {
+    return card_window_scale_table[get_card_window_flags(client_id)];
 }
 
-s32 TWindowSubStatusDisp::get_card_window_flags(s32 arg0) {
-    s32 var_r3;
-    void *character_save_record;
-
-    var_r3 = arg0;
-    if (var_r3 >= 4) {
-        var_r3 = local_client_id;
+// Bits 8-9 of the client's character save record word at +0x10 (1 when the slot has no record).
+s32 TWindowSubStatusDisp::get_card_window_flags(s32 client_id) {
+    if (client_id >= 4) {
+        client_id = local_client_id;
     }
-    character_save_record = (void *)get_character_save_record(var_r3);
-    if (character_save_record == NULL) {
+    u32 *record = (u32 *)get_character_save_record(client_id);
+    if (record == NULL) {
         return 1;
     }
-    return ((u32) *(u32 *)((s8 *)character_save_record + 0x10) >> 8U) & 3;
-}
-
+    return (record[4] >> 8) & 3;
 }
