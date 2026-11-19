@@ -1469,6 +1469,9 @@ MIDDLEWARE: List[Tuple[str, int, str, List[str], Dict[str, Dict[str, Any]]]] = [
     }),
     # Sega's Ginja model library.
     ("ginja", 0x803D6538, "GC/2.6", _switch(cflags_middleware, "-O3,p", "-opt nopeephole"), {
+        # -inline off,deferred: its named .sdata2 constants (0x805E0E18-0x805E0E3C), defined after the one function,
+        # sit before the function's int->double conversion constants (0x805E0E40); only deferred compilation emits that order.
+        "pso/camera/TCameraCtrl_803D676C.cpp": {"cflags": _switch(cflags_middleware, "-O3,p", "-opt nopeephole", "-inline off,deferred")},
         # Saves registers through _savegpr_N everywhere (no stmw in the unit).
         "pso/unk/text_803E2D70.cpp": {"cflags": _switch(cflags_middleware, "-O3,p", "-opt nopeephole", "-use_lmw_stmw off")},
         "pso/unk/text_803E2F28.cpp": {"cflags": _switch(cflags_middleware, "-O3,p", "-opt nopeephole", "-use_lmw_stmw off")},

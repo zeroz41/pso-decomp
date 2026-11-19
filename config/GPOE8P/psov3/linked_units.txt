@@ -1146,7 +1146,6 @@ pso/quest/TQuestListOnline.cpp
 pso/quest/TQuestThreadBoard.cpp
 pso/quest/TQuestVmDownLoadServer.cpp
 pso/quest/TQuestVmDownLoadServer_8006FC34.cpp
-pso/quest/TQuestVmDownLoadServer_8007EBDC.cpp
 pso/quest/TQuestVmDownLoadServer_80080788.cpp
 pso/quest/TQuestVmDownLoadServer_800F9CE4.cpp
 pso/quest/TQuestVmDownLoadServer_801F9010.cpp
@@ -1984,7 +1983,6 @@ pso/ui/frontend/TAdSelectTxtGC.cpp
 pso/ui/frontend/TAdSinglePlyChrSelectGC.cpp
 pso/ui/frontend/TAdSinglePlyChrSelectGC_8001ED80.cpp
 pso/ui/frontend/TAdSinglePlyChrSelectGC_8007B7E4.cpp
-pso/ui/frontend/TAdSinglePlyChrSelectGC_8007EB94.cpp
 pso/ui/frontend/TAdSinglePlyChrSelectGC_801334D4.cpp
 pso/ui/frontend/TAdSinglePlyChrSelectGC_80145778.cpp
 pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.cpp
@@ -2472,3 +2470,4 @@ pso/network/NetIpv6.c
 pso/network/NetIpv4.c
 pso/network/NetDns.c
 pso/unk/TUnk_804D1160.cpp
+pso/render/MotionDrawState.cpp

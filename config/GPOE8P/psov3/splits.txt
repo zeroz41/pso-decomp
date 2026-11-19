@@ -1053,8 +1053,9 @@ pso/camera/TCineCtrl.cpp:
 
 pso/network/TTcpSocket.cpp:
 	.text       start:0x80078064 end:0x800790F0
-	.rodata     start:0x80438890 end:0x80438984
+	.rodata     start:0x80438878 end:0x80438984
 	.data       start:0x8048D378 end:0x8048D4C0
+	.sdata      start:0x805D28B0 end:0x805D28B8
 
 pso/map/CsnQuery.cpp:
 	.text       start:0x800790F0 end:0x8007A810
@@ -1135,15 +1136,11 @@ pso/boss/derolle/TObjBoss2Tunnel.cpp:
 	.sdata2     start:0x805D9210 end:0x805D9298
 
 pso/quest/TQuestListVM_8007EAF8.cpp:
-	.text       start:0x8007EAF8 end:0x8007EB94
-
-pso/ui/frontend/TAdSinglePlyChrSelectGC_8007EB94.cpp:
-	.text       start:0x8007EB94 end:0x8007EBDC
-
-pso/quest/TQuestVmDownLoadServer_8007EBDC.cpp:
-	.text       start:0x8007EBDC end:0x8007ECF0
+	.text       start:0x8007EAF8 end:0x8007ECF0
 	.ctors      start:0x80433F54 end:0x80433F58
 	.data       start:0x8048DF58 end:0x8048DF70
+	.bss        start:0x80500598 end:0x805005C0
+	.sdata      start:0x805D28C8 end:0x805D28D0
 
 pso/render/TDLGraph.cpp:
 	.text       start:0x8007ECF0 end:0x8007F85C
@@ -12015,12 +12012,12 @@ pso/camera/TCameraCtrl_803D6538.cpp:
 
 pso/camera/TCameraCtrl_803D66DC.cpp:
 	.text       start:0x803D66DC end:0x803D676C
-	.sdata2     start:0x805E0E10 end:0x805E0E14
+	.sdata2     start:0x805E0E10 end:0x805E0E18
 
 pso/camera/TCameraCtrl_803D676C.cpp:
 	.text       start:0x803D676C end:0x803D6960
 	.bss        start:0x8058CA60 end:0x8058CAB8
-	.sdata2     start:0x805E0E40 end:0x805E0E50
+	.sdata2     start:0x805E0E18 end:0x805E0E50
 
 pso/camera/TCameraCtrl_803D6960.cpp:
 	.text       start:0x803D6960 end:0x803D749C
@@ -12034,6 +12031,9 @@ pso/camera/TCameraCtrl_803D749C.cpp:
 	.sbss       start:0x805D76B0 end:0x805D76B8
 	.sdata2     start:0x805E0E88 end:0x805E0EA0
 
+pso/render/MotionDrawState.cpp:
+	.sbss       start:0x805D76B8 end:0x805D76C0
+
 pso/unk/text_803D853C.cpp:
 	.text       start:0x803D8030 end:0x803D8BAC
 	.data       start:0x804FA540 end:0x804FC540
@@ -12044,6 +12044,7 @@ pso/unk/text_803D853C.cpp:
 
 pso/math/MatrixVector.cpp:
 	.text       start:0x803D8BAC end:0x803D8DE0
+	.sdata      start:0x805D46A8 end:0x805D46B0
 	.sdata2     start:0x805E0ED8 end:0x805E0EE8
 
 pso/unk/text_803D8DE0.cpp:
@@ -12060,9 +12061,11 @@ pso/math/MatrixTransforms.cpp:
 
 pso/unk/text_803D9650.cpp:
 	.text       start:0x803D9650 end:0x803D96A8
+	.sdata      start:0x805D46B0 end:0x805D46B8
 
 pso/unk/text_803D96A8.cpp:
 	.text       start:0x803D96A8 end:0x803D9FF0
+	.sdata      start:0x805D46B8 end:0x805D46C0
 	.sdata2     start:0x805E0F48 end:0x805E0F58
 
 pso/unk/text_803D9FF0.cpp:

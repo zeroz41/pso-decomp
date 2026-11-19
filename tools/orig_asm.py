@@ -25,7 +25,7 @@ WHERE = re.compile(r"# \.\w+:0x[0-9A-Fa-f]+ \| 0x([0-9A-Fa-f]+) \| size: 0x([0-9
 LABEL = re.compile(r"\.L_[0-9A-Fa-f]+:$")
 INSN = re.compile(r"^/\*\s*[0-9A-F]{8}\s+[0-9A-F]{8}\s+((?:[0-9A-F]{2} ){3}[0-9A-F]{2})\s*\*/\s*(.*)$")
 BRANCH = re.compile(r"^b\w*\s+(?:(?:cr\d|\d)\s*,\s*)?([A-Za-z_.@$][\w.@$]*)$")
-SDA21 = re.compile(r"([A-Za-z_$][\w$]*)@sda21\((r\d+)\)")
+SDA21 = re.compile(r"([A-Za-z_$][\w$]*(?:[+-]0x[0-9A-Fa-f]+)?)@sda21\((r\d+)\)")
 
 
 def encode(line: str) -> str:
@@ -35,7 +35,8 @@ def encode(line: str) -> str:
     word, text = m.group(1).replace(" ", ""), m.group(2).strip()
     branch = BRANCH.match(text)
     if "@" in text or (branch and not branch.group(1).startswith(".L_")):
-        # CodeWarrior writes a small-data reference as sym(rN), not sym@sda21(rN).
+        # CodeWarrior writes a small-data reference as sym(rN), not sym@sda21(rN); a reference
+        # into an object keeps its offset (sym+0x4(rN)).
         return SDA21.sub(r"\1(\2)", text)
     return f"opword 0x{word}"
 

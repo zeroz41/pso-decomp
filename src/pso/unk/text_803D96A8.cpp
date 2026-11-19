@@ -144,8 +144,9 @@ void TObjPlayer::apply_quat_rotation(f32 farg0) {
     PSMTXConcat(current_matrix, (int)sp18, current_matrix);
 }
 
-// 0.0f in .sdata, read by the assembly below (not yet split into this unit).
-extern f32 lbl_805D46B8;
+// {0.0f, 0.0f}: rotate_vector_by_current_matrix pairs the first with z so the translation column drops out
+// (name inferred). The original keeps these zeros in .sdata, which only an aggregate gets: a scalar zero goes to .sbss.
+static f32 rotation_zero[2] = {0.0f, 0.0f};
 
 asm void rotate_vector_by_current_matrix(const Vec *src, Vec *dst) {
 #include "orig_asm/pso/unk/text_803D96A8/rotate_vector_by_current_matrix.inc"

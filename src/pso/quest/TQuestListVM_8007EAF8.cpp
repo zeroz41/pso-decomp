@@ -1,37 +1,55 @@
 #include "types.h"
 #include "pso/system/debug_print.h"
+#include "pso/system/memory.h"
+#include "pso/network/TProtocol.h"
 #include "pso/quest/TQuestListVM_8007EAF8.h"
 #include "pso/quest/TQuestListVM.h"
+#include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/object/base/TObjChara.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/unk/TUnk_8048DF58.h"
+#include "pso/unk/text_803DE864.h"
 
-u8 *TObjChara::get_stats() { return m_2b0; }
+// One TU .text 0x8007EAF8-0x8007ECF0: its .sdata holds enable_v2_features, its .data the TUnk_8048DF58 vtable.
+int enable_v2_features = 1;
 
 extern "C" {
+extern TQuestVmDownLoadServer *TQuestVmDownLoadServer__instance;
+}
 
-void TLobby__sub_8007EB20(s32 arg0, ...);
-s32 xfree__FPv();
+u8 *TObjChara::get_stats() { return m_2b0; }
 
 u8 *TQuestListVM::get_quest_bin() { return decrypted_quest_buffer; }
 
 void TQuestListVM::reset() { decrypted_quest_buffer = NULL; }
 
-extern TQuestVmDownLoadServer *TQuestVmDownLoadServer__instance;
-
 TQuestVmDownLoadServer *TQuestVmDownLoadServer__sub_8007EB14(void) {
     return TQuestVmDownLoadServer__instance;
-}
-
 }
 
 void debug_print(const char *text) {
 
 }
 
+void TLobby__sub_8007EB20(const char *format, ...) {}
 
-void TLobby__sub_8007EB20(s32 arg0, ...) {}
-void TLobby__sub_8007EB70(void) {  }
+void TLobby__sub_8007EB70(void) {}
 
-void __dl__FPv(void) {
-    xfree__FPv();
+void operator delete(void *p) {
+    xfree(p);
 }
 
+void *operator new(size_t size) { return xmalloc(size); }
+
+void TAdSinglePlyChrSelectGC::safe_free(u32 arg0) {
+    if (arg0 != 0U) {
+        xfree((void *)arg0);
+    }
+}
+
+u8 *TQuestVmDownLoadServer__sub_8007EBDC(s32 a, s32 b) { return fn_803DE864(a, b); }
+
+void *TQuestVmDownLoadServer::alloc(u32 size) { return xmalloc(size); }
+
+// The unit's global TUnk_8048DF58: __sinit constructs it and registers its destructor.
+TUnk_8048DF58 lbl_805005A4;
