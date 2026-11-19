@@ -703,6 +703,7 @@ struct TLobby : public TObject {
     s32 adxf_stop();
     static s32 adxf_read_nw32(void *adxf, int nsct, void *buf);
     static s32 read_checked_align(s32 arg0, s32 arg1, s32 arg2);
+    static void *adxf_open_afs(int partition_id, int index);
     static void release_used_slots();
     static s32 read_afs_toc(s32 arg0);
     s32 demux_stream_chunks();

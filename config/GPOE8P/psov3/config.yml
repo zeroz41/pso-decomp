@@ -5286,7 +5286,7 @@ force_active:
   - confirm_mode_selection__21TAdMultiChgGameModeGCFv
   - constant_material_color
   - construct__12T_OWEHMS_ExpFP10TObjPlayer
-  - construct__13TUnk_8049F41CFPvii
+  - __ct__24ItemTextureArchiveLoaderFPCcll
   - __ct__13TUnk_804EF8C0Fv
   - __ct__9TTecJelinFlP3VecP3Vecl
   - __ct__13TUnk_804A3070FP7TObjectPUc
@@ -5327,7 +5327,7 @@ force_active:
   - construct_weapon_casing__10TObjPlayerFPUcPUcPUcPUcPUc
   - __ct__13TUnk_804A5458FP7TObjectPUc
   - construct_with_index__22TObjFogCollisionPoisonFPUcl
-  - construct_with_vtable__13TUnk_8049F40CFPvii
+  - __ct__20ItemModelChunkLoaderFPCcll
   - consume_counter__14TOTrapChainSawFPv
   - container_break_particle_parameters
   - container_break_small_debris_parameters
@@ -8204,7 +8204,7 @@ force_active:
   - lbl_80501070
   - lbl_805010E0
   - lbl_80501114
-  - lbl_80506208
+  - item_blank_texture_name
   - lbl_80509D3C
   - lbl_8050AAD4
   - lbl_8050BED0
@@ -17040,7 +17040,7 @@ force_active:
   - update_live_camera__18TObjLiveCameraCtrlFv
   - update_load_progress__12TChCrLoadReqFv
   - update_load_state__16TAdChrSelASlotGCFv
-  - update_load_state__9TItemLoadFv
+  - update_load_state__13AfsFileLoaderFv
   - update_load_status__12TQuestListVMFv
   - update_lobby_pigeon_visibility__13TUnk_804E0898Fv
   - update_lobby_selection__12TQuestListVMFv

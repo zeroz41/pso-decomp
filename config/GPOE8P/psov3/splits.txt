@@ -2358,51 +2358,13 @@ pso/unk/text_8010F168.cpp:
 pso/unk/text_8010F210.cpp:
 	.text       start:0x8010F210 end:0x8010F2AC
 
-pso/item/TItemLoad_8010F2AC.cpp:
-	.text       start:0x8010F2AC end:0x8010F3D8
-
-pso/item/TUnk_8049F3F4.cpp:
-	.text       start:0x8010F3D8 end:0x8010F52C
-
-pso/item/TItemLoad_8010F52C.cpp:
-	.text       start:0x8010F52C end:0x8010F9EC
-	.bss        start:0x80506208 end:0x80506228
-
-pso/item/TItemLoad_8010F9EC.cpp:
-	.text       start:0x8010F9EC end:0x8010FAB4
-
-pso/item/TItemLoad_8010FAB4.cpp:
-	.text       start:0x8010FAB4 end:0x8010FB74
-
-pso/item/TItemLoad_8010FB74.cpp:
-	.text       start:0x8010FB74 end:0x8010FC28
-
-pso/item/TItemLoad_8010FDF0.cpp:
-	.text       start:0x8010FC28 end:0x8010FF68
-
-pso/item/TItemLoad_8010FF68.cpp:
-	.text       start:0x8010FF68 end:0x8010FFAC
-
-pso/item/TItemLoad_8010FFAC.cpp:
-	.text       start:0x8010FFAC end:0x80110010
-
-pso/item/TItemLoad_80110010.cpp:
-	.text       start:0x80110010 end:0x80110540
-	.rodata     start:0x8043E3A8 end:0x8043E510
-	.data       start:0x8049F3A0 end:0x8049F3F4
-	.sdata      start:0x805D2BE8 end:0x805D2BF8
-	.sbss       start:0x805D5480 end:0x805D5490
-
-pso/item/TItemLoad_80110540.cpp:
-	.text       start:0x80110540 end:0x801105AC
-
-pso/item/TItemLoad_801105AC.cpp:
-	.text       start:0x801105AC end:0x80110750
-	.sbss       start:0x805D5490 end:0x805D5494
-
 pso/item/TItemLoad.cpp:
-	.text       start:0x80110750 end:0x8011085C
-	.data       start:0x8049F448 end:0x8049F460
+	.text       start:0x8010F2AC end:0x8011085C
+	.rodata     start:0x8043E3A8 end:0x8043E510
+	.data       start:0x8049F3A0 end:0x8049F460
+	.bss        start:0x80506208 end:0x80506228
+	.sdata      start:0x805D2BE8 end:0x805D2BF8
+	.sbss       start:0x805D5480 end:0x805D54A8
 
 pso/unk/text_8011085C.cpp:
 	.text       start:0x8011085C end:0x80110938

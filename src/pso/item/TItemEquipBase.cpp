@@ -1,9 +1,9 @@
 #include "types.h"
+#include "string.h"
 #include "pso/item/TItemEquipBase.h"
 #include "pso/item/TItem.h"
 #include "pso/item/TItemData.h"
 #include "pso/item/TItemHeapObject.h"
-#include "pso/item/TItemLoad_80110010.h"
 #include "pso/item/TItemTimerEvent.h"
 #include "pso/ui/frontend/TAdRicoRing_8001BEE8.h"
 #include "pso/object/key/TOKeyMachine01.h"
@@ -19,14 +19,6 @@
 #include "pso/item/TItemLoad.h"
 #include "pso/item/TItemLockCountCtrl.h"
 
-// A loaded item model as TItemLoad::find_node_by_id hands it out.
-struct ItemModelResource {
-    NJS_OBJECT *model;
-    NJS_OBJECT *second_model;
-    void *data[2];
-    s32 texture_id;
-    void *motion;
-};
 
 const char *item_equip_base_class_name = "TItemEquipBase";
 
@@ -39,7 +31,6 @@ s32 TObjPlayer__sub_800194E8(AttackParams *params);
 void *resolve_hittable_target(u16 actor_id, s32 collider);
 s32 add_actor_hp_bonus(void *actor, s32 amount);
 s32 add_actor_tp_bonus(void *actor, s32 amount);
-void *memset(void *dst, int value, unsigned long size);
 }
 
 void play_target_impact_effect(s32 unused0, s32 unused1, u16 actor_id, s16 collider) {
@@ -65,14 +56,14 @@ void TItemEquipBase::bind_loaded_resources() {
     if (item_model == NULL) {
         s16 id = model_resource_id;
         if ((id != -1) && (TItemLoad::has_resource_id(id) == 1)) {
-            resource = (ItemModelResource *)TItemLoad::find_node_by_id(model_resource_id);
+            resource = TItemLoad::find_node_by_id(model_resource_id);
             if (resource != NULL) {
-                item_model = resource->model;
-                second_model = resource->second_model;
-                texlist = resource->texture_id;
+                item_model = resource->models[0];
+                second_model = resource->models[1];
+                texlist = (s32)resource->texlist;
                 model_motion = resource->motion;
-                model_data[0] = resource->data[0];
-                model_data[1] = resource->data[1];
+                model_data[0] = resource->models[2];
+                model_data[1] = resource->models[3];
                 on_model_loaded();
             }
         }

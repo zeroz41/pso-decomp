@@ -496,17 +496,6 @@ pso/item/TItemEquipBase_8022F1C0.cpp
 pso/item/TItemHeapObject.cpp
 pso/item/TItemList_8010ED0C.cpp
 pso/item/TItemLoad.cpp
-pso/item/TItemLoad_8010F2AC.cpp
-pso/item/TItemLoad_8010F52C.cpp
-pso/item/TItemLoad_8010F9EC.cpp
-pso/item/TItemLoad_8010FAB4.cpp
-pso/item/TItemLoad_8010FB74.cpp
-pso/item/TItemLoad_8010FDF0.cpp
-pso/item/TItemLoad_8010FF68.cpp
-pso/item/TItemLoad_8010FFAC.cpp
-pso/item/TItemLoad_80110010.cpp
-pso/item/TItemLoad_80110540.cpp
-pso/item/TItemLoad_801105AC.cpp
 pso/item/TItemLockCountCtrl.cpp
 pso/item/TItemLockCountCtrl_80119238.cpp
 pso/item/mag/TItemMag.cpp
@@ -546,7 +535,6 @@ pso/object/container/TObjContainerIdo_801A0B94.cpp
 pso/object/container/TObjContainerItem.cpp
 pso/object/container/TObjContainerJung.cpp
 pso/item/TObjItemLight.cpp
-pso/item/TUnk_8049F3F4.cpp
 pso/item/TUnk_8049F770.cpp
 pso/item/TUnk_8049F828.cpp
 pso/item/TUnk_8049F8E0.cpp
