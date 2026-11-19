@@ -322,6 +322,7 @@ pso/boss/dragon/TObjBoss1Floor.cpp
 pso/boss/derolle/TObjBoss2CeilJunk.cpp
 pso/boss/derolle/TObjBoss2CeilJunk_8003A81C.cpp
 pso/boss/derolle/TObjBoss2DustCtrl.cpp
+pso/effect/enemy/TeneFakeTecThunderEffSdata2B.cpp
 pso/boss/derolle/TObjBoss2RaftSplash.cpp
 pso/boss/derolle/TObjBoss2Tunnel.cpp
 pso/boss/derolle/TObjBoss2Tunnel_8003B1FC.cpp
@@ -343,6 +344,7 @@ pso/boss/galgryphon/TObjBoss5Pillar_8028B6C0.cpp
 pso/boss/galgryphon/TObjBoss5Pillar_8028B714.cpp
 pso/npc/TNpcPlayer_8028B810.cpp
 pso/boss/barbaray/TObjBoss7Dust.cpp
+pso/boss/barbaray/TObjBoss7DustSdata2.cpp
 pso/boss/barbaray/TObjBoss7RaftSplash.cpp
 pso/boss/goldragon/TObjBoss8DemoRoom.cpp
 pso/boss/goldragon/TObjBoss8Piller.cpp
@@ -373,6 +375,7 @@ pso/enemy/deldepth/DelDepthConstants.cpp
 pso/enemy/deldepth/DelDepthData.cpp
 pso/enemy/deldepth/DelDepthMotion.cpp
 pso/enemy/EnemyFactoryTables.cpp
+pso/effect/enemy/TeneFakeTecThunderEffSdata2.cpp
 pso/enemy/saver/SaverLifecycle.cpp
 pso/enemy/sinowzoa/SinowZoaData.cpp
 pso/enemy/stelth/StelthData.cpp
@@ -384,8 +387,11 @@ pso/enemy/beast/TObjEneBeast.cpp
 pso/enemy/beast/TObjEneBeast_800C4E08.cpp
 pso/enemy/fly/TObjEneBm3Fly.cpp
 pso/enemy/fly/TObjEneBm3FlyNest.cpp
+pso/enemy/gibon/GibonData.cpp
 pso/enemy/gibon/TObjEneBm5GibonU.cpp
+pso/enemy/wolf/WolfData.cpp
 pso/enemy/wolf/TObjEneBm5Wolf.cpp
+pso/enemy/mericarol/MericarolData.cpp
 pso/enemy/mericarol/TObjEneBm9Mericarol.cpp
 pso/enemy/mericarol/TObjEneBm9Mericarol_Bomb.cpp
 pso/enemy/mericarol/TObjEneBm9Mericarol_EffCurse3.cpp
@@ -410,8 +416,10 @@ pso/effect/enemy/TObjEneHoldEffect_8036D070.cpp
 pso/enemy/illgill/TObjEneIllGill.cpp
 pso/enemy/lappy/TObjEneLappy.cpp
 pso/enemy/lappy/TObjEneLappy_800F5DE0.cpp
+pso/enemy/canadin/CanadinData.cpp
 pso/enemy/canadin/TObjEneMe1Canadin.cpp
 pso/enemy/canadin/TObjEneMe1CanadinLeader.cpp
+pso/enemy/gee/GeeData.cpp
 pso/enemy/gee/TObjEneMe1Gee.cpp
 pso/enemy/gigue/TObjEneMe1GiGue.cpp
 pso/enemy/gigue/TObjEneMe1GiGueBarrier.cpp
@@ -425,6 +433,7 @@ pso/enemy/stelth/TObjEneMe3Stelth.cpp
 pso/render/BlobShadow.cpp
 pso/enemy/merilllia/TObjEneMerillLia.cpp
 pso/enemy/moja/TObjEneMoja.cpp
+pso/enemy/morfos/MorfosData.cpp
 pso/enemy/morfos/TObjEneMorfos.cpp
 pso/enemy/morfos/TObjEneMorfosArm.cpp
 pso/enemy/morfos/TObjEneMorfos_80337500.cpp
@@ -434,10 +443,13 @@ pso/enemy/panarms/TObjEnePanarms_800DCEB8.cpp
 pso/enemy/panarms/TObjEnePanarms_800DFB00.cpp
 pso/enemy/panarms/TObjEnePanarms_800DFB74.cpp
 pso/enemy/panarms/TObjEnePanarms_800F5E90.cpp
+pso/enemy/flower/FlowerRe2Data.cpp
 pso/enemy/flower/TObjEneRe2Flower.cpp
 pso/enemy/flower/TObjEneRe2Flower_800C4B78.cpp
 pso/enemy/sorcerer/TObjEneRe4Bit.cpp
+pso/enemy/sorcerer/Re4BitData.cpp
 pso/enemy/sorcerer/TObjEneRe4Sorcerer_800EDB98.cpp
+pso/enemy/berura/BeruraData.cpp
 pso/enemy/berura/TObjEneRe7Berura.cpp
 pso/enemy/berura/TObjEneRe7BeruraPunch.cpp
 pso/enemy/berura/TObjEneRe7Berura_803E4CE0.cpp
@@ -611,6 +623,7 @@ pso/item/TUnk_804F0C48.cpp
 pso/item/TUnk_804F0D34.cpp
 pso/item/TUnk_804F0FF0.cpp
 pso/weapon/TUnk_804F28E0.cpp
+pso/weapon/WeaponAttackActionData.cpp
 pso/weapon/WeaponAttackActions.cpp
 pso/weapon/WeaponSpecialSelection.cpp
 pso/map/FloorArea_8029E764.cpp
@@ -699,6 +712,7 @@ pso/ui/city/TCheckRoomSequence_80222FC0.cpp
 pso/camera/TCineCtrl.cpp
 pso/object/container/TContainerAncient01.cpp
 pso/render/TDLGraph.cpp
+pso/object/TDeadSpotSdata2.cpp
 pso/object/TDeadSpot.cpp
 pso/effect/TDuelEffectNumber.cpp
 pso/effect/TDuelEffectString.cpp
@@ -754,6 +768,7 @@ pso/ui/hud/TLoadingCur.cpp
 pso/ui/hud/TLoadingCur_801A6DE0.cpp
 pso/unk/TLobby.cpp
 pso/unk/TLobbyEventTheme.cpp
+pso/unk/TLobbyBattleParamData.cpp
 pso/unk/TLobby_8001D6A0.cpp
 pso/unk/TLobby_8001EF5C.cpp
 pso/unk/TLobby_8002C140.cpp
@@ -763,6 +778,7 @@ pso/unk/TLobby_80067410.cpp
 pso/unk/TLobby_8006F278.cpp
 pso/unk/TLobby_80070A00.cpp
 pso/unk/TLobby_80072048.cpp
+pso/quest/challenge/ChallengeModeSdata.cpp
 pso/unk/TLobby_800726F0.cpp
 pso/unk/TLobby_8007340C.cpp
 pso/unk/TLobby_80073DAC.cpp
@@ -934,6 +950,7 @@ pso/ui/hud/TLockOnCursor.cpp
 pso/ui/TLogo.cpp
 pso/ui/TLogo_8001C134.cpp
 pso/ui/TLogo_8030818C.cpp
+pso/network/TPlyJoinLobbySdata2.cpp
 pso/ui/hud/TMainCursor.cpp
 pso/ui/hud/TMainCursor_80154090.cpp
 pso/ui/hud/TMainCursor_801D7A78.cpp
@@ -1180,6 +1197,7 @@ pso/technique/TTecGiBarta.cpp
 pso/technique/TTecGiZonde.cpp
 pso/technique/TTecGiZonde_8023CDC4.cpp
 pso/technique/TTecGrants.cpp
+pso/technique/TechniqueRingwaveNames.cpp
 pso/technique/TTecJelin.cpp
 pso/technique/TTecKafun.cpp
 pso/technique/TTecLuker.cpp
@@ -1217,6 +1235,7 @@ pso/ui/window/TWindowChoiceSetting_801A6F38.cpp
 pso/ui/window/TWindowChoiceSetting_80249610.cpp
 pso/ui/window/TWindowComCard.cpp
 pso/ui/window/TWindowCost.cpp
+pso/ui/window/TWindowCtrlSdata2.cpp
 pso/ui/window/TWindowCtrl.cpp
 pso/ui/window/TWindowCtrlMain.cpp
 pso/ui/window/TWindowCtrlMain_800FC91C.cpp
@@ -1281,6 +1300,9 @@ pso/ui/window/TWindowDD_80348C54.cpp
 pso/ui/window/TWindowDD_8034AF68.cpp
 pso/ui/window/TWindowDeposit.cpp
 pso/ui/window/TWindowDuelResult.cpp
+pso/player/PlayerDeadSpotCallbackEntries.cpp
+pso/player/PlayerSdata2Block1.cpp
+pso/player/PlayerSharedSbss.cpp
 pso/ui/window/TWindowDuelResult_801C2528.cpp
 pso/ui/window/TWindowEffectLight.cpp
 pso/ui/window/TWindowEffectParty.cpp
@@ -1295,6 +1317,7 @@ pso/ui/window/TWindowHelpItem_802540AC.cpp
 pso/ui/window/TWindowHelpItem_80255AB4.cpp
 pso/ui/window/TWindowHelpItem_8025A12C.cpp
 pso/ui/window/TWindowHelpItem_8025A60C.cpp
+pso/ui/window/WindowHelpItemTextB.cpp
 pso/ui/window/TWindowInputNumber.cpp
 pso/ui/window/TWindowInputNumber_80211608.cpp
 pso/ui/window/TWindowKeyBoardBase.cpp
@@ -1426,6 +1449,7 @@ pso/ui/window/TWindowSubStatusDisp_80255DF4.cpp
 pso/ui/window/TWindowSubStatusDisp_80256B94.cpp
 pso/ui/window/TWindowSubStatusDisp_8025737C.cpp
 pso/ui/window/TWindowSubStatusDisp_80257BC0.cpp
+pso/ui/window/WindowSubStatusDispSdata2.cpp
 pso/ui/window/TWindowSubStatusDisp_8025995C.cpp
 pso/ui/window/TWindowSubStatusDisp_80259DB0.cpp
 pso/ui/window/TWindowSubStatusDisp_8025A9B4.cpp
@@ -1812,6 +1836,7 @@ pso/ui/window/TObjNewFloorWin.cpp
 pso/quest/TQuestListVM_8007EAF8.cpp
 pso/quest/TQuestListVM_801F4398.cpp
 pso/quest/TQuestThread.cpp
+pso/render/RenderUtilData.cpp
 pso/render/render_util.cpp
 pso/render/render_util_head.cpp
 pso/unk/pso_carve_8020bf88.cpp
@@ -1840,6 +1865,7 @@ pso/system/TMemberCheck.cpp
 pso/ui/font/TNECFontEORFunction.cpp
 pso/object/switch/TOSwitchAttackSub.cpp
 pso/map/TSetEvtDestroy.cpp
+pso/player/TObjPlayer_80011014Data.cpp
 pso/ui/frontend/TAdADXlogo.cpp
 pso/ui/frontend/TAdAgreementBaseGC.cpp
 pso/ui/frontend/TAdBackGC.cpp
@@ -1895,6 +1921,7 @@ pso/ui/frontend/TAdMultiConfirmGC.cpp
 pso/ui/frontend/TAdMultiConfirmGC_802E03D0.cpp
 pso/ui/frontend/TAdMultiPlayerNoGC.cpp
 pso/ui/frontend/TAdMultiPlyChrSelectGC.cpp
+pso/ui/frontend/TAdMultiPlyChrSelectGCTables.cpp
 pso/ui/frontend/TAdMultiPlyChrSelectGC_801A6EA0.cpp
 pso/ui/frontend/TAdMultiPlyChrSelectGC_802B1850.cpp
 pso/ui/frontend/TAdMultiPlyChrSelectGC_802C6F88.cpp
@@ -2148,6 +2175,7 @@ pso/ui/window/TWindowHelpItem_80253154.cpp
 pso/ui/window/TWindowHelpItem_80253630.cpp
 pso/ui/window/TWindowSubMag_80253698.cpp
 pso/unk/text_8025373C.cpp
+pso/ui/window/WindowHelpItemTextA.cpp
 pso/unk/text_80253974.cpp
 pso/unk/text_80255A38.cpp
 pso/unk/text_8025CD10.cpp
@@ -2274,6 +2302,8 @@ pso/unk/text_803DAF30.cpp
 pso/unk/text_803DAFA8.cpp
 pso/unk/text_803DCDB0.cpp
 pso/unk/text_803DCDFC.cpp
+pso/render/RenderSbssGlobals.cpp
+pso/render/RenderUtilSdata.cpp
 pso/unk/text_803DD5E0.cpp
 pso/unk/text_803DE7E0.cpp
 pso/unk/text_803DEE48.cpp
@@ -2359,6 +2389,7 @@ pso/ui/window/TWindowSnapShot_802A5B2C.cpp
 pso/technique/TTecGiFoie.cpp
 pso/enemy/panarms/TObjEnePanarms.cpp
 pso/ui/charcreate/TObjCMName.cpp
+pso/technique/TechniqueRingwaveList.cpp
 pso/unk/TUnk_804CC948.cpp
 pso/unk/TUnk_804CC990.cpp
 pso/weapon/TItemAttackCol.cpp
@@ -2372,6 +2403,7 @@ pso/unk/text_803F3BF8.cpp
 pso/audio/AdxBsc.cpp
 pso/render/GinjaMaterial.cpp
 pso/system/movie/TMovie_80143988.cpp
+pso/ui/keyboard/TKeyBoardControlSdata2.cpp
 pso/effect/photon/PhotonBlastSummon.cpp
 pso/npc/TObjNpcKenkyuW.cpp
 pso/effect/TEF_LensFlare.cpp
@@ -2414,3 +2446,7 @@ pso/map/area/AreaMachine02.cpp
 pso/map/area/AreaVersus01.cpp
 pso/map/area/AreaVersus02.cpp
 pso/unk/TUnk_804CCA78.cpp
+
+pso/ui/window/WindowCtrlCallbackEntries.cpp
+pso/ui/window/WindowHelpItemCallbackEntries.cpp
+pso/ui/window/WindowFukidasiLayoutData.cpp

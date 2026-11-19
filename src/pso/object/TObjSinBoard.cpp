@@ -44,6 +44,9 @@ u32 TObjSinBoard__texture_buffer;
 GinjaTextureEntry TObjSinBoard__texture_name;
 __declspec(section ".data") GinjaTextureList signboard_texture_list;
 u8 TObjSinBoard__texture_surface[0x24];
+u32 gogo_ball_team_scores[2];
+f32 gogo_ball_configuration[0x15];
+f32 gogo_ball_sync_state[7];
 
 s32 is_signboard_texture_buffer_missing(void) {
     if (TObjSinBoard__texture_buffer == 0) {
