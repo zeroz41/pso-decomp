@@ -475,7 +475,7 @@ void update_palette_item_count_label(TWindowHelpItem *window_help_item, Icon_802
     *(s32 *)((s8 *)window_help_item + 0x1C) = icon->color;
     *(s32 *)((s8 *)window_help_item + 0x20) = v;
     draw_right_aligned_number(window_help_item);
-    window_help_item->m_8 = (icon->x - -25.0f) + 0.5f * *(f32 *)((s8 *)window_help_item + 0x10);
+    *(f32 *)((s8 *)window_help_item + 0x8) = (icon->x - -25.0f) + 0.5f * *(f32 *)((s8 *)window_help_item + 0x10);
     *(f32 *)((s8 *)window_help_item + 0xC) = icon->y - -28.0f;
 }
 #pragma pop

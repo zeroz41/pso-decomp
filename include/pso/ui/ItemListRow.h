@@ -2,25 +2,27 @@
 #define PSO_UI_ITEMLISTROW_H
 
 #include "types.h"
+#include "pso/unk/TUnk_804CF998.h"
 
-struct ItemListRow
+// A window list row: two icons, a label and a suffix (case 8 of init_window_layout_entries).
+class ItemListRow : public TUnk_804CF998
 {
-  u16 flags;
-  u8 pad2[6];
-  f32 x;
-  f32 y;
-  u8 pad10[4];
-  f32 height;
+public:
   s32 item;
   u8 status_icon;
   u8 category_icon;
   u8 pad1e[2];
-  s32 label;
-  s32 suffix;
+  char *label;
+  char *suffix;
   s32 status_style;
   s32 category_style;
   s32 style;
   s32 suffix_style;
+
+  ItemListRow(u8 *rec, s32 m_2);
+  virtual ~ItemListRow();
+  virtual void update();
+  virtual void render(TWindowKeyBoardSoft *context);
 };
 
 struct ItemListWindowView
@@ -51,6 +53,9 @@ typedef char ItemListRow_icons_offset[offsetof(ItemListRow, status_icon) == 0x1C
 typedef char ItemListRow_label_offset[offsetof(ItemListRow, label) == 0x20 ? 1 : -1];
 typedef char ItemListWindow_clip_offset[offsetof(ItemListWindowView, clip_top) == 0x40 ? 1 : -1];
 
-void draw_item_list_row(ItemListRow* row, ItemListWindowView* window);
+extern "C" {
+// ItemListRow::ItemListRow(u8 *, s32), called by init_window_layout_entries.
+void *__ct__11ItemListRowFPUcl(void *p, u8 *rec, s32 m_2);
+}
 
 #endif

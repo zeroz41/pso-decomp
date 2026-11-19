@@ -1307,8 +1307,6 @@ pso/ui/window/TWindowDuelResult_801C2528.cpp
 pso/ui/window/TWindowEffectLight.cpp
 pso/ui/window/TWindowEffectParty.cpp
 pso/ui/window/TWindowFukidasi.cpp
-pso/ui/window/TWindowFukidasi_80252AE4.cpp
-pso/ui/window/TWindowFukidasi_80252BF8.cpp
 pso/ui/window/TWindowGetComCard.cpp
 pso/ui/window/TWindowGetComCard_8007B54C.cpp
 pso/ui/window/TWindowHelpItem.cpp
@@ -1448,6 +1446,8 @@ pso/ui/window/TWindowSubStatusDisp_80255DF4.cpp
 pso/ui/window/TWindowSubStatusDisp_80256B94.cpp
 pso/ui/window/TWindowSubStatusDisp_8025737C.cpp
 pso/ui/window/TWindowSubStatusDisp_80257BC0.cpp
+pso/unk/TUnk_804CF998.cpp
+pso/ui/window/TWindowSubStatusDisp_80258164.cpp
 pso/ui/window/WindowSubStatusDispSdata2.cpp
 pso/ui/window/TWindowSubStatusDisp_8025995C.cpp
 pso/ui/window/TWindowSubStatusDisp_80259DB0.cpp
@@ -2447,7 +2447,6 @@ pso/unk/TUnk_804CCA78.cpp
 
 pso/ui/window/WindowCtrlCallbackEntries.cpp
 pso/ui/window/WindowHelpItemCallbackEntries.cpp
-pso/ui/window/WindowFukidasiLayoutData.cpp
 pso/quest/QuestOpcodeHandlersData.cpp
 pso/quest/challenge/ChallengeModeData.cpp
 pso/network/TPlyJoinLobbyEntryData.cpp

@@ -13,6 +13,7 @@
 #include "pso/unk/text_80087278.h"
 #include "pso/system/task/TObject.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
+#include "pso/effect/TBreakUpMdl.h"
 
 struct VB_802E74E4 { u8 pad[0xC]; };
 
@@ -108,7 +109,6 @@ extern const f32 lbl_805DE9F8;
 extern s32 lbl_80472C68[6];
 extern s32 __vt__13TUnk_804E3BC0[];
 Obj_802E72DC *TObjPlayer__sub_802E72DC(Obj_802E72DC *arg0, s32 arg1, Vec *arg2, s32 arg3);
-s32 *init_from_model__11TBreakUpMdlFl(s32 *, s32);
 s32 scale_matrix(int, f32, f32, f32);
 extern const f32 lbl_805DE9E4;
 void __ct__7TObjectFP7TObject(void *);
@@ -224,13 +224,8 @@ TUnk_804E3BD8::~TUnk_804E3BD8() {
 
 void TUnk_804E3BD8::alloc_breakup_model(s32 model) {
     s32 *temp_r4;
-    s32 *var_r0;
 
-    var_r0 = (s32 *)::operator new(0x10);
-    if (var_r0 != NULL) {
-        var_r0 = init_from_model__11TBreakUpMdlFl(var_r0, model);
-    }
-    *(s32 **)((s8 *)this + 0x1C) = var_r0;
+    *(s32 **)((s8 *)this + 0x1C) = (s32 *)new TUnk_8048FA00(model);
     temp_r4 = *(s32 **)((s8 *)this + 0x1C);
     this->m_24 = (s32) *temp_r4;
     sub_802E75B8(temp_r4);

@@ -1441,7 +1441,7 @@ pso/enemy/berura/TObjEneRe7BeruraPunch.cpp:
 pso/effect/TBreakUpMdl.cpp:
 	.text       start:0x8009680C end:0x80097100
 	.rodata     start:0x80439F30 end:0x80439F70
-	.data       start:0x8048F9E8 end:0x8048FA00
+	.data       start:0x8048F9E8 end:0x8048FA10
 	.sdata      start:0x805D2998 end:0x805D29A0
 	.sdata2     start:0x805D97C8 end:0x805D97D8
 
@@ -3187,7 +3187,7 @@ pso/network/TPlyJoinLobbyEntry.cpp:
 	.ctors      start:0x80433F80 end:0x80433F84
 	.rodata     start:0x8043ED98 end:0x8043F090
 	.data       start:0x804A6FD8 end:0x804A7130
-	.bss        start:0x80506A60 end:0x8050BEB8
+	.bss        start:0x80506A60 end:0x8050BEC0
 	.sdata      start:0x805D2CA8 end:0x805D2CB0
 	.sbss       start:0x805D5580 end:0x805D5640
 	.sdata2     start:0x805DB0A8 end:0x805DB0B0
@@ -6984,9 +6984,6 @@ pso/ui/window/TWindowEffectParty.cpp:
 	.sdata      start:0x805D38F8 end:0x805D3900
 	.sdata2     start:0x805DCCB8 end:0x805DCCD8
 
-pso/ui/window/WindowFukidasiLayoutData.cpp:
-	.data       start:0x804CF080 end:0x804CF0B8
-
 pso/ui/window/TWindowSubStatusDisp_8024FBA8.cpp:
 	.text       start:0x8024FBA8 end:0x8025010C
 	.rodata     start:0x8044ECF8 end:0x8044ED08
@@ -6994,20 +6991,14 @@ pso/ui/window/TWindowSubStatusDisp_8024FBA8.cpp:
 	.sdata2     start:0x805DCCD8 end:0x805DCCE8
 
 pso/ui/window/TWindowFukidasi.cpp:
-	.text       start:0x8025010C end:0x80252AE4
+	.text       start:0x8025010C end:0x80252C38
 	.rodata     start:0x8044ED08 end:0x8044ED80
-	.data       start:0x804CF0D0 end:0x804CF120
+	.data       start:0x804CF080 end:0x804CF120
 	.sdata      start:0x805D3900 end:0x805D3908
 	.sdata2     start:0x805DCCE8 end:0x805DCDC4
 
 pso/ui/window/TWindowHelpItem_802540ACData.cpp:
 	.sdata2     start:0x805DCDC8 end:0x805DCDE8
-
-pso/ui/window/TWindowFukidasi_80252AE4.cpp:
-	.text       start:0x80252AE4 end:0x80252BF8
-
-pso/ui/window/TWindowFukidasi_80252BF8.cpp:
-	.text       start:0x80252BF8 end:0x80252C38
 
 pso/ui/window/TWindowGetComCard.cpp:
 	.text       start:0x80252C38 end:0x802530D0
@@ -7060,6 +7051,7 @@ pso/unk/text_80255A38.cpp:
 
 pso/ui/window/TWindowHelpItem_80255AB4.cpp:
 	.text       start:0x80255AB4 end:0x80255DF4
+	.data       start:0x804CF8B0 end:0x804CF8C8
 	.sdata      start:0x805D3910 end:0x805D3918
 	.sdata2     start:0x805DCE10 end:0x805DCE14
 
@@ -7089,22 +7081,33 @@ pso/ui/window/TWindowSubStatusDisp_8025737C.cpp:
 	.sdata2     start:0x805DCED0 end:0x805DCEF0
 
 pso/ui/window/TWindowSubStatusDisp_80257BC0.cpp:
-	.text       start:0x80257BC0 end:0x8025995C
-	.rodata     start:0x8044EE58 end:0x8044F000
-	.data       start:0x804CF960 end:0x804CF994
+	.text       start:0x80257BC0 end:0x80258050
+	.rodata     start:0x8044EE58 end:0x8044EE60
+	.data       start:0x804CF960 end:0x804CF998
 	.sdata2     start:0x805DCEF0 end:0x805DCEF4
 
 pso/ui/window/WindowSubStatusDispSdata2.cpp:
 	.sdata2     start:0x805DCEF8 end:0x805DCF30
 
+pso/unk/TUnk_804CF998.cpp:
+	.text       start:0x80258050 end:0x80258164
+	.data       start:0x804CF998 end:0x804CF9B0
+
+pso/ui/window/TWindowSubStatusDisp_80258164.cpp:
+	.text       start:0x80258164 end:0x8025995C
+	.rodata     start:0x8044EE60 end:0x8044F000
+	.data       start:0x804CF9B0 end:0x804CF9C8
+
 pso/ui/window/TWindowSubStatusDisp_8025995C.cpp:
 	.text       start:0x8025995C end:0x80259DB0
 	.rodata     start:0x8044F000 end:0x8044F010
+	.data       start:0x804CF9C8 end:0x804CF9E0
 	.sdata2     start:0x805DCF30 end:0x805DCF54
 
 pso/ui/window/TWindowSubStatusDisp_80259DB0.cpp:
 	.text       start:0x80259DB0 end:0x8025A12C
 	.rodata     start:0x8044F010 end:0x8044F018
+	.data       start:0x804CF9E0 end:0x804CF9F8
 	.sdata2     start:0x805DCF58 end:0x805DCF68
 
 pso/ui/window/TWindowHelpItem_8025A12C.cpp:
@@ -9886,12 +9889,13 @@ pso/ui/city/TShopDeleteItemWindow.cpp:
 pso/unk/TLobby_803382E4.cpp:
 	.text       start:0x803382E4 end:0x80338740
 	.rodata     start:0x80477B90 end:0x80477BE8
-	.data       start:0x804EF1B8 end:0x804EF43C
+	.data       start:0x804EF1B8 end:0x804EF440
 	.sbss       start:0x805D6D58 end:0x805D6D64
 	.sdata2     start:0x805DF9A0 end:0x805DF9C0
 
 pso/ui/window/TWindowSubStatusDisp_80338740.cpp:
 	.text       start:0x80338740 end:0x80338B94
+	.data       start:0x804EF440 end:0x804EF458
 	.sbss       start:0x805D6D68 end:0x805D6D70
 	.sdata2     start:0x805DF9C0 end:0x805DF9E4
 
@@ -12135,7 +12139,7 @@ pso/unk/text_803DCDB0.cpp:
 pso/unk/text_803DCDFC.cpp:
 	.text       start:0x803DCDFC end:0x803DD5E0
 	.data       start:0x804FC668 end:0x804FC688
-	.bss        start:0x8058CE40 end:0x8058D520
+	.bss        start:0x8058CE40 end:0x8058D528
 	.sdata      start:0x805D46C8 end:0x805D46D0
 	.sbss       start:0x805D7718 end:0x805D7748
 	.sdata2     start:0x805E0F80 end:0x805E0FB0

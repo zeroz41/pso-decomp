@@ -95,15 +95,15 @@ void TWindowHelpItem::set_compare_color(s32 arg1) {
 
     temp_r0 = *(s32 *)&this->_pad1C;
     if (temp_r0 == arg1) {
-        this->m_10 = -1;
+        *(s32 *)((s8 *)this + 0x10) = -1;
         return;
     }
     if (temp_r0 > arg1) {
-        this->m_10 = 0xFF77E8FF;
+        *(s32 *)((s8 *)this + 0x10) = 0xFF77E8FF;
     } else {
-        this->m_10 = 0xFFDD8C41;
+        *(s32 *)((s8 *)this + 0x10) = 0xFFDD8C41;
     }
-    *(s32 *)&this->unk_14 = 0x1E;
+    *(s32 *)((s8 *)this + 0x14) = 0x1E;
     set_flag4_and_field1c(arg1);
 }
 
@@ -115,12 +115,12 @@ void TWindowHelpItem::set_flag4_and_field1c(s32 arg1) {
 void TWindowHelpItem::set_help_text(u32 arg1) {
     s32 temp_r3;
 
-    mem_free(this->m_vtable18);
-    this->m_vtable18 = 0;
+    mem_free(*(void **)((s8 *)this + 0x18));
+    *(void **)((s8 *)this + 0x18) = 0;
     if (arg1 != 0U) {
         temp_r3 = measure_string_len__20TWindowSubStatusDispFv(arg1);
-        *(s32 *)&this->m_vtable18 = (s32)mem_alloc(temp_r3 + 1);
-        strncpy(*(s32 *)&this->m_vtable18, arg1, temp_r3 + 1);
+        *(s32 *)((s8 *)this + 0x18) = (s32)mem_alloc(temp_r3 + 1);
+        strncpy(*(s32 *)((s8 *)this + 0x18), arg1, temp_r3 + 1);
     }
 }
 
@@ -184,7 +184,7 @@ void *destroy__15TWindowHelpItemFPvs(void *arg0, s16 arg1) {
 }
 
 u8 *TWindowHelpItem__sub_8025A594(u8 *arg0, s32 arg1, s32 arg2) {
-    ((TUnk_804CF930 *)arg0)->sub_80256BDC((s32)((void *)arg2));
+    __ct__13TUnk_804CF918Fl(arg0, arg2);
     *(s32 **)((s8 *)arg0 + 4) = ((s32 *)&lbl_804CF9F8);
     ((TWindowSubSymbolChatPartsSet *)(arg0 + 8))->copy_vec2((void *)(arg1 + 4));
     *(s32 *)((s8 *)arg0 + 0x10) = -1;

@@ -121,7 +121,7 @@ TWindowDD_WS_String *TWindowDD__sub_8034138C(TWindowDD_WS_String *self, f32 *pos
     entry = (u8 *)self->get_array_entry(0);
     if (entry != NULL) {
         set_text_entry_string(entry, str, 0x80);
-        ((TWindowHelpItem *)entry)->m_8 = 0.0f;
+        *(f32 *)((s8 *)entry + 0x8) = 0.0f;
         *(f32 *)((s8 *)entry + 0xC) = 0.0f;
         refresh_status_display__9TWindowDDFv((int)entry);
         ((TWindowHelpItem *)entry)->reset_float_field();

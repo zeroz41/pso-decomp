@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/unk/TUnk_804CF998.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8024FBA8.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8025B4A0.h"
 #include "pso/system/memory.h"
@@ -17,8 +18,6 @@ extern "C" {
 u32 calc_text_width(u32);
 s32 measure_string_len__20TWindowSubStatusDispFv(u32);
 s32 strncpy(s32, u32, s32);
-s32 deleting_destructor__20TWindowSubStatusDispFs(void *, s32);
-void *reset_entry__20TWindowSubStatusDispFPv(void *a0, s32 _w1);
 
 void *window_label_value_part_vtable[6] = {
     0, 0,
@@ -96,7 +95,7 @@ void *destroy_free_buffers__20TWindowSubStatusDispFPvs(void *window_sub_status_d
         *(void ***)((s8 *)window_sub_status_disp + 4) = window_label_value_part_vtable;
         mem_free((void *)(*(s32 *)((s8 *)window_sub_status_disp + 0x20)));
         mem_free((void *)(*(s32 *)((s8 *)window_sub_status_disp + 0x1C)));
-        deleting_destructor__20TWindowSubStatusDispFs(window_sub_status_disp, 0);
+        __dt__13TUnk_804CF998Fv(window_sub_status_disp, 0);
         if (arg1 > 0) {
             ::operator delete(window_sub_status_disp);
         }
@@ -104,7 +103,7 @@ void *destroy_free_buffers__20TWindowSubStatusDispFPvs(void *window_sub_status_d
     return window_sub_status_disp;
 }
 
-void*TWindowSubComCard::init_fields(int a1, int a2) { reset_entry__20TWindowSubStatusDispFPv(this, a2); *(int*)((char*)this + 0x4) = (int)window_label_value_part_vtable; *(float*)((char*)this + 0x14) = (18.0f); this->m_24 = -1; *(int*)((char*)this + 0x1c) = 0; this->m_20 = 0; *(int*)((char*)this + 0x18) = 0; return this; }
+void*TWindowSubComCard::init_fields(int a1, int a2) { __ct__13TUnk_804CF998Fl(this, a2); *(int*)((char*)this + 0x4) = (int)window_label_value_part_vtable; *(float*)((char*)this + 0x14) = (18.0f); this->m_24 = -1; *(int*)((char*)this + 0x1c) = 0; this->m_20 = 0; *(int*)((char*)this + 0x18) = 0; return this; }
 
 int TWindowSubComCard::is_flag_4_set() { return *(u16*)((char*)this + 0x0) & 0x4; }
 

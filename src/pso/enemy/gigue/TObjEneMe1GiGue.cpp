@@ -409,10 +409,7 @@ void TObjEneMe1GiGue::load_resources() {
     lbl_805D682C = dispatch_shared_handler_b__6TLobbyFl(0x1A);
     lbl_805D6830 = register_object__6TLobbyFl(0x1A);
     TObjEneMe1GiGue__param_table = (GiGueParameters *)TLobby::dispatch_shared_handler_a(0x1A);
-    o = ::operator new(0x10);
-    if (o != NULL) {
-        o = (void *)((TBreakUpMdl *)o)->init_from_model(TObjEneMe1GiGue__data_805D6838->models->model);
-    }
+    o = new TUnk_8048FA00(TObjEneMe1GiGue__data_805D6838->models->model);
     TObjEneMe1GiGue__barrier_obj = (TUnk_8048FA00 *)o;
     TObjEneMe1GiGue__sub_802CE4EC();
     TObjEneMe1GiGueBarrier::init_global();

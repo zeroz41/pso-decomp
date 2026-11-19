@@ -160,15 +160,9 @@ TUnk_804820C0::~TUnk_804820C0() {
 }
 
 void TObjPlayer::create_breakup_model() {
-    s32 temp_r3;
-    s32 var_r0;
-    temp_r3 = (int)::operator new(0x10);
-    var_r0 = temp_r3;
-    if (var_r0 != 0) {
-        var_r0 = (long) (((TBreakUpMdl *)temp_r3)->init_from_model(*(s32 *)((s8 *)((u8 *)lbl_805D4BA4->model) + 0x68)));
-    }
-    (*(u8 * *)&shared_breakup_model) = (unsigned char *) ((void *) var_r0);
-    TObjPlayer__sub_8002ED48((TUnk_8048FA00 *)var_r0, 0x13);
+    TUnk_8048FA00 *model = new TUnk_8048FA00(*(s32 *)((s8 *)((u8 *)lbl_805D4BA4->model) + 0x68));
+    shared_breakup_model = model;
+    TObjPlayer__sub_8002ED48(model, 0x13);
     TObjPlayer__sub_8002ECC4(shared_breakup_model, 0x13);
 }
 
@@ -266,15 +260,9 @@ void TUnk_804820A8::render() {
 }
 
 void TObjPlayer__sub_8002E7C8(void) {
-    s32 temp_r3;
-    s32 var_r0;
-    temp_r3 = (int)::operator new(0x10);
-    var_r0 = temp_r3;
-    if (var_r0 != 0) {
-        var_r0 = (long) (((TBreakUpMdl *)temp_r3)->init_from_model(*(s32 *)((s8 *)((u8 *)lbl_805D4BA4->model) + 0x58)));
-    }
-    (*(u8 * *)&lbl_805D4B8C) = (unsigned char *) ((void *) var_r0);
-    TObjPlayer__sub_8002ECC4((TUnk_8048FA00 *)var_r0, 0x1C);
+    TUnk_8048FA00 *model = new TUnk_8048FA00(*(s32 *)((s8 *)((u8 *)lbl_805D4BA4->model) + 0x58));
+    lbl_805D4B8C = model;
+    TObjPlayer__sub_8002ECC4(model, 0x1C);
 }
 
 void TObjPlayer::clear_target_ref() {

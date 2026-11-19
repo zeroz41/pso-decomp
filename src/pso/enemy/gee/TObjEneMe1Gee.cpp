@@ -148,7 +148,6 @@ s32 is_split_screen();
 s32 register_object__6TLobbyFl(s32);
 s32 dispatch_shared_handler_b__6TLobbyFl(s32);
 s32 register_boss__6TLobbyFl(s32);
-TUnk_8048FA00 *init_from_model__11TBreakUpMdlFl(TUnk_8048FA00 *, s32);
 s32 load_enemy_bml_resource(u8 *arg0);
 s32 TObjPlayer__sub_800F0928(s32);
 extern s32 lbl_8043BCD8[];
@@ -179,15 +178,9 @@ void TObjEneMe1Gee::load_resources() {
         gee_shared_handler_a_table[i] = (TObjEneMe1GeeParams *)TLobby::dispatch_shared_handler_a(lbl_8043BCFC[i]);
     }
     TObjEneMe1Gee__render_node_index = 0;
-    p = (TUnk_8048FA00 *)::operator new(0x10);
-    if (p != NULL) {
-        p = init_from_model__11TBreakUpMdlFl(p, TObjEneMe1Gee__resource_bundle->models->model);
-    }
+    p = new TUnk_8048FA00(TObjEneMe1Gee__resource_bundle->models->model);
     TObjEneMe1Gee__data_805D51C0 = p;
-    p = (TUnk_8048FA00 *)::operator new(0x10);
-    if (p != NULL) {
-        p = init_from_model__11TBreakUpMdlFl(p, TObjEneMe1Gee__resource_bundle->models->model);
-    }
+    p = new TUnk_8048FA00(TObjEneMe1Gee__resource_bundle->models->model);
     TObjEneMe1Gee__data_805D51C4 = p;
     t = ((s32 *)((NJS_OBJECT *)find_model_node(TObjEneMe1Gee__resource_bundle->models->model, 4))->model)[1];
     gee_resource_bundle_ptr = t + 4;

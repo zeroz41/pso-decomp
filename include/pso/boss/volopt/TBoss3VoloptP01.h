@@ -18,7 +18,7 @@ struct TBoss3VoloptP01Collision {
     u32 flags;
 };
 
-// Pieces built by TBreakUpMdl::init_from_model (vtable TBreakUpMdl__vtable).
+// Pieces built by TUnk_8048FA00's model constructor.
 struct TBoss3VoloptBreakupPieces {
     u8 pad_0[0xC];
     virtual ~TBoss3VoloptBreakupPieces();

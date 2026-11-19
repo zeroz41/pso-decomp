@@ -842,10 +842,7 @@ void TLobby::load_gyaranzo_resources() {
     }
     (*(s32 *)&lbl_805D5200) = (s32)find_model_node(AREA->res->r38, 0x19);
     (*(s32 *)&lbl_805D5204) = (s32)find_model_node(AREA->res->r38, 0xD);
-    p = ::operator new(0x10);
-    if (p != NULL) {
-        p = TBreakUpMdl::init(p, AREA->res->r38, get_bml_motion(gyaranzo_bml_resource, 3), 54.0f);
-    }
+    p = new TUnk_8048FA00((int)AREA->res->r38, (int)get_bml_motion(gyaranzo_bml_resource, 3), 54.0f);
     (*(struct VObj_800D3BA0_800D3B38 * *)&gyaranzo_breakup_model_obj) = (VObj_800D3BA0_800D3B38 *)p;
     gyaranzo_boss_stats_handle = register_boss__6TLobbyFl(0x1D);
     gyaranzo_boss_stats_ptr_b = dispatch_shared_handler_b__6TLobbyFl(0x1D);

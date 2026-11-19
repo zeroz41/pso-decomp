@@ -1,3 +1,5 @@
+#pragma defer_codegen on
+
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/animation/MotionContext.h"
 #include "pso/system/MatrixOps.h"
@@ -108,8 +110,6 @@ s32 push_matrix();
 s32 rotate_matrix_by_node_angles(void *, int);
 s32 scale_current_matrix(void *);
 s32 post_translate_matrix(void *);
-extern s32 TBreakUpMdl__vtable[];
-u8 *init__11TBreakUpMdlFPviif(u8 *arg0, s32 arg1, s32 arg2, f32 farg0);
 void alloc_breakup_piece_records(Brk_80096EBC *arg0, void *arg1);
 extern u32 saved_model_render_flags;
 extern u32 model_render_flags;
@@ -122,81 +122,117 @@ static const BreakUpParamRow breakup_default_param_row = { 12, 0.07f, 1.5f, 0.9f
 const char *TBreakUpMdl__class_name = "TBreakUpMdl";
 static const NJS_ARGB breakup_default_color = { 1.0f, 1.0f, 1.0f, 1.0f };
 u8 *TBreakUpMdl__ct(u8 *arg0, void *arg1, Model_80096AD8 *arg2, void *arg3, s32 arg4, void *arg5, s32 arg6);
-void *__dt_deleting__11TBreakUpMdlFPvs(void *arg0, s16 arg1);
+}
 
-void TBreakUpMdl::render() {
-    BreakUp_8009680C *self = (BreakUp_8009680C *)this;
-    Part_8009680C *part;
+void TBreakUpMdl::copy(void* q) { *(u32 *)&this->m_name = *(u32*)((char*)q + 0x0); *(f32 *)&this->m_flags = *(f32*)((char*)q + 0x4); *(f32 *)&this->m_prev = *(f32*)((char*)q + 0x8); *(f32 *)&this->m_next = *(f32*)((char*)q + 0xc); *(f32 *)&this->m_up = *(f32*)((char*)q + 0x10); *(f32 *)&this->m_down = *(f32*)((char*)q + 0x14); *(f32*)((char*)this + 0x18) = *(f32*)((char*)q + 0x18); }
+
+TUnk_8048FA00::TUnk_8048FA00(long model) {
+    alloc_breakup_piece_records((Brk_80096EBC *)this, (void *)model);
+    push_matrix_from((void *)&identity_matrix);
+    build_node_records((u8 *)model, 0);
+    pop_matrix();
+    m_8 = 0;
+}
+
+TUnk_8048FA00::TUnk_8048FA00(int model, int motion, f32 frame) {
+    m_8 = 0;
+    alloc_breakup_piece_records((Brk_80096EBC *)this, (void *)model);
+    bind_motion_context((NJS_MOTION *)motion, frame);
+    push_matrix_from((void *)&identity_matrix);
+    collect_node_positions((u8 *)model, 0);
+    pop_matrix();
+}
+
+TUnk_8048FA00::TUnk_8048FA00(long model, long motion, f32 frame) {
+    m_8 = 1;
+    alloc_breakup_piece_records((Brk_80096EBC *)this, (void *)model);
+    bind_motion_context((NJS_MOTION *)motion, frame);
+    push_matrix_from(&identity_matrix);
+    collect_node_positions((u8 *)model, 0);
+    pop_matrix();
+}
+
+void alloc_breakup_piece_records(Brk_80096EBC *arg0, void *boss2_tunnel) {
     s32 i;
-    if (self->texlist != 0) {
-        TObjFish::set_global_param((s32)self->texlist);
+    arg0->count = count_active_segments__15TObjBoss2TunnelFPv(boss2_tunnel);
+    arg0->segs = (Seg_80096EBC *)mem_alloc(arg0->count * 0x1C);
+    for (i = 0; i < arg0->count; i++) {
+        arg0->segs[i].a = 0;
+        arg0->segs[i].x = 0.0f;
+        arg0->segs[i].y = 0.0f;
+        arg0->segs[i].z = 0.0f;
     }
-    saved_model_render_flags = model_render_flags;
-    if (self->alpha < 1.0f) {
-        NJS_ARGB color = breakup_default_color;
-        model_render_flags |= 0x810;
-        set_chunk_material_override_pair(0xFF00, 0x800);
-        color.a = self->alpha;
-        set_constant_material((const NJS_ARGB *)(((f32 *)&color)));
-    }
-    for (i = 0; i < self->count; i++) {
-        part = &self->parts[i];
+}
+
+TUnk_8048FA00::~TUnk_8048FA00() {
+    mem_free(this->m_records);
+    this->m_records = 0;
+}
+
+#pragma push
+#pragma fp_contract on
+s32 TUnk_8048FA00::build_node_records(u8 *arg1, s32 arg2) {
+    u8 *temp_r31;
+    s32 temp_r30;
+    s32 temp_r4;
+    s32 var_r29;
+    u8 *var_r28;
+    var_r28 = arg1;
+    var_r29 = arg2;
+    do {
         push_matrix();
-        post_translate_matrix(part->pos);
-        rotate_matrix_by_node_angles(part->rot, 0);
-        if (self->model->is_chunk != 0) {
-            draw_ginja_model(self->model->chunks[i].model);
-        } else {
-            draw_chunk_model((void *)self->model->chunks[i].model);
+        post_translate_matrix(var_r28 + 8);
+        rotate_matrix_by_node_angles(var_r28 + 0x14, 0);
+        scale_current_matrix(var_r28 + 0x20);
+        temp_r30 = *(s32 *)((s8 *)var_r28 + 0);
+        if (!(temp_r30 & 8)) {
+            temp_r31 = (u8 *)m_records + var_r29 * 0x1C;
+            temp_r4 = (long) (temp_r31 + 4);
+            matrix_mult_vec(0, temp_r4, temp_r4);
+            VecCopy((Vec *)(temp_r31 + 0x10), (const Vec *)(temp_r31 + 4));
+            normalize_vector_xz((Vec *)(temp_r31 + 0x10));
+            var_r29 += 1;
+            *(s32 *)temp_r31 = *(s32 *)((s8 *)var_r28 + 4);
+        }
+        if (!(temp_r30 & 0x10)) {
+            var_r29 = build_node_records(*(u8 **)((s8 *)var_r28 + 0x2C), var_r29);
         }
         pop_matrix();
-    }
-    set_chunk_material_override_pair(0xFF00, 0);
-    model_render_flags = saved_model_render_flags;
+        var_r28 = (u8 *)(*(u8 **)((s8 *)var_r28 + 0x30));
+    } while (var_r28 != NULL);
+    return var_r29;
 }
 
-#pragma push
-#pragma fp_contract on
-void TBreakUpMdl::run_task() {
-    BreakUp_8009693C *self = (BreakUp_8009693C *)this;
-    Part_8009693C *p;
-    s32 i;
-    f32 gravity;
-    self->alpha -= self->fade;
-    if (self->alpha <= 0.0f) {
-        ((TObject *)self)->queue_destruction();
-    }
-    gravity = self->gravity;
-    for (i = 0; i < self->count; i++) {
-        p = &self->parts[i];
-        p->x = p->vx * self->speed + p->x;
-        p->y = p->y + p->vy;
-        p->z = p->vz * self->speed + p->z;
-        p->vy = p->vy - gravity;
-        p->rx = p->rx + p->spin;
-        p->ry = p->ry + p->spin / 2;
-    }
-    self->speed = self->speed * self->damping;
-}
-#pragma pop
-
-#pragma push
-#pragma fp_contract on
-void TBreakUpMdl::init_alpha(s32 arg1, f32 farg0) {
-    u8 *arg0 = (u8 *)this;
-    *(f32 *)((s8 *)arg0 + 0x28) = (f32) ((farg0 * (f32) arg1) + 1.0f);
-}
-#pragma pop
-
-}
-TBreakUpMdl::~TBreakUpMdl() {
-    mem_free((void *)(*(void **)((s8 *)this + 0x34)));
-    this->m_34 = 0;
+s32 TUnk_8048FA00::collect_node_positions(u8 *arg1, s32 arg2) {
+    u8 *temp_r31;
+    s32 temp_r30;
+    s32 temp_r4;
+    s32 var_r29;
+    u8 *var_r28;
+    var_r28 = arg1;
+    var_r29 = arg2;
+    do {
+        push_matrix();
+        compose_motion_node_matrix((var_r28));
+        temp_r30 = *(s32 *)((s8 *)var_r28 + 0);
+        if (!(temp_r30 & 8)) {
+            temp_r31 = (u8 *)m_records + var_r29 * 0x1C;
+            temp_r4 = (long) (temp_r31 + 4);
+            matrix_mult_vec(0, temp_r4, temp_r4);
+            VecCopy((Vec *)(temp_r31 + 0x10), (const Vec *)(temp_r31 + 4));
+            normalize_vector_xz((Vec *)(temp_r31 + 0x10));
+            var_r29 += 1;
+            *(s32 *)temp_r31 = *(s32 *)((s8 *)var_r28 + 4);
+        }
+        if (!(temp_r30 & 0x10)) {
+            var_r29 = collect_node_positions(*(u8 **)((s8 *)var_r28 + 0x2C), var_r29);
+        }
+        pop_matrix();
+        var_r28 = (u8 *)(*(u8 **)((s8 *)var_r28 + 0x30));
+    } while (var_r28 != NULL);
+    return var_r29;
 }
 
-
-#pragma push
-#pragma fp_contract on
 u8 *TBreakUpMdl__ct(u8 *break_up_mdl, void *arg1, Model_80096AD8 *arg2, void *arg3, s32 arg4, void *arg5, s32 arg6) {
     BreakUp_80096AD8 *self = (BreakUp_80096AD8 *)break_up_mdl;
     f32 base;
@@ -236,130 +272,74 @@ u8 *TBreakUpMdl__ct(u8 *break_up_mdl, void *arg1, Model_80096AD8 *arg2, void *ar
     self->f30 = self->f40;
     return break_up_mdl;
 }
+
 #pragma pop
+TBreakUpMdl::~TBreakUpMdl() {
+    mem_free((void *)(*(void **)((s8 *)this + 0x34)));
+    this->m_34 = 0;
+}
 
 #pragma push
 #pragma fp_contract on
-s32 TBreakUpMdl::collect_node_positions(u8 *arg1, s32 arg2) {
-    u8 *temp_r31;
-    s32 temp_r30;
-    s32 temp_r4;
-    s32 var_r29;
-    u8 *var_r28;
-    var_r28 = arg1;
-    var_r29 = arg2;
-    do {
-        push_matrix();
-        compose_motion_node_matrix((var_r28));
-        temp_r30 = *(s32 *)((s8 *)var_r28 + 0);
-        if (!(temp_r30 & 8)) {
-            temp_r31 = (u8 *)(*(s32 *)&this->m_flags + (var_r29 * 0x1C));
-            temp_r4 = (long) (temp_r31 + 4);
-            matrix_mult_vec(0, temp_r4, temp_r4);
-            VecCopy((Vec *)(temp_r31 + 0x10), (const Vec *)(temp_r31 + 4));
-            normalize_vector_xz((Vec *)(temp_r31 + 0x10));
-            var_r29 += 1;
-            *(s32 *)temp_r31 = *(s32 *)((s8 *)var_r28 + 4);
-        }
-        if (!(temp_r30 & 0x10)) {
-            var_r29 = collect_node_positions(*(u8 **)((s8 *)var_r28 + 0x2C), var_r29);
-        }
-        pop_matrix();
-        var_r28 = (u8 *)(*(u8 **)((s8 *)var_r28 + 0x30));
-    } while (var_r28 != NULL);
-    return var_r29;
-}
-#pragma pop
-
-#pragma push
-#pragma fp_contract on
-s32 TBreakUpMdl::build_node_records(u8 *arg1, s32 arg2) {
-    u8 *temp_r31;
-    s32 temp_r30;
-    s32 temp_r4;
-    s32 var_r29;
-    u8 *var_r28;
-    var_r28 = arg1;
-    var_r29 = arg2;
-    do {
-        push_matrix();
-        post_translate_matrix(var_r28 + 8);
-        rotate_matrix_by_node_angles(var_r28 + 0x14, 0);
-        scale_current_matrix(var_r28 + 0x20);
-        temp_r30 = *(s32 *)((s8 *)var_r28 + 0);
-        if (!(temp_r30 & 8)) {
-            temp_r31 = (u8 *)(*(s32 *)&this->m_flags + (var_r29 * 0x1C));
-            temp_r4 = (long) (temp_r31 + 4);
-            matrix_mult_vec(0, temp_r4, temp_r4);
-            VecCopy((Vec *)(temp_r31 + 0x10), (const Vec *)(temp_r31 + 4));
-            normalize_vector_xz((Vec *)(temp_r31 + 0x10));
-            var_r29 += 1;
-            *(s32 *)temp_r31 = *(s32 *)((s8 *)var_r28 + 4);
-        }
-        if (!(temp_r30 & 0x10)) {
-            var_r29 = build_node_records(*(u8 **)((s8 *)var_r28 + 0x2C), var_r29);
-        }
-        pop_matrix();
-        var_r28 = (u8 *)(*(u8 **)((s8 *)var_r28 + 0x30));
-    } while (var_r28 != NULL);
-    return var_r29;
-}
-#pragma pop
-
-void *__dt_deleting__11TBreakUpMdlFPvs(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0xC) = TBreakUpMdl__vtable;
-        mem_free((void *)(*(s32 *)((s8 *)arg0 + 4)));
-        *(s32 *)((s8 *)arg0 + 4) = 0;
-        if (arg1 > 0) {
-            ::operator delete(arg0);
-        }
-    }
-    return arg0;
+extern "C" {
+void TBreakUpMdl::init_alpha(s32 arg1, f32 farg0) {
+    u8 *arg0 = (u8 *)this;
+    *(f32 *)((s8 *)arg0 + 0x28) = (f32) ((farg0 * (f32) arg1) + 1.0f);
 }
 
-void alloc_breakup_piece_records(Brk_80096EBC *arg0, void *boss2_tunnel) {
+void TBreakUpMdl::run_task() {
+    BreakUp_8009693C *self = (BreakUp_8009693C *)this;
+    Part_8009693C *p;
     s32 i;
-    arg0->count = count_active_segments__15TObjBoss2TunnelFPv(boss2_tunnel);
-    arg0->segs = (Seg_80096EBC *)mem_alloc(arg0->count * 0x1C);
-    for (i = 0; i < arg0->count; i++) {
-        arg0->segs[i].a = 0;
-        arg0->segs[i].x = 0.0f;
-        arg0->segs[i].y = 0.0f;
-        arg0->segs[i].z = 0.0f;
+    f32 gravity;
+    self->alpha -= self->fade;
+    if (self->alpha <= 0.0f) {
+        ((TObject *)self)->queue_destruction();
     }
+    gravity = self->gravity;
+    for (i = 0; i < self->count; i++) {
+        p = &self->parts[i];
+        p->x = p->vx * self->speed + p->x;
+        p->y = p->y + p->vy;
+        p->z = p->vz * self->speed + p->z;
+        p->vy = p->vy - gravity;
+        p->rx = p->rx + p->spin;
+        p->ry = p->ry + p->spin / 2;
+    }
+    self->speed = self->speed * self->damping;
+}
 }
 
-u8 *TBreakUpMdl::setup_pieces(s32 boss2_tunnel, s32 arg2, f32 frame) {
-    *(s32 * *)&this->m_next = TBreakUpMdl__vtable;
-    *(s32 *)&this->m_prev = 1;
-    alloc_breakup_piece_records((Brk_80096EBC *)(this), (void *)boss2_tunnel);
-    bind_motion_context((NJS_MOTION *)arg2, frame);
-    push_matrix_from(&identity_matrix);
-    this->collect_node_positions((u8 *)((void *) boss2_tunnel), 0);
-    pop_matrix();
-    return ((u8 *)this);
+#pragma pop
+extern "C" {
+void TBreakUpMdl::render() {
+    BreakUp_8009680C *self = (BreakUp_8009680C *)this;
+    Part_8009680C *part;
+    s32 i;
+    if (self->texlist != 0) {
+        TObjFish::set_global_param((s32)self->texlist);
+    }
+    saved_model_render_flags = model_render_flags;
+    if (self->alpha < 1.0f) {
+        NJS_ARGB color = breakup_default_color;
+        model_render_flags |= 0x810;
+        set_chunk_material_override_pair(0xFF00, 0x800);
+        color.a = self->alpha;
+        set_constant_material((const NJS_ARGB *)(((f32 *)&color)));
+    }
+    for (i = 0; i < self->count; i++) {
+        part = &self->parts[i];
+        push_matrix();
+        post_translate_matrix(part->pos);
+        rotate_matrix_by_node_angles(part->rot, 0);
+        if (self->model->is_chunk != 0) {
+            draw_ginja_model(self->model->chunks[i].model);
+        } else {
+            draw_chunk_model((void *)self->model->chunks[i].model);
+        }
+        pop_matrix();
+    }
+    set_chunk_material_override_pair(0xFF00, 0);
+    model_render_flags = saved_model_render_flags;
 }
-
-u8 *init__11TBreakUpMdlFPviif(u8 *break_up_mdl, s32 boss2_tunnel, s32 motion, f32 frame) {
-    *(s32 * *)&((TBreakUpMdl *)break_up_mdl)->m_next = TBreakUpMdl__vtable;
-    *(s32 *)((s8 *)break_up_mdl + 8) = 0;
-    alloc_breakup_piece_records((Brk_80096EBC *)(break_up_mdl), (void *)boss2_tunnel);
-    bind_motion_context((NJS_MOTION *)motion, frame);
-    push_matrix_from((void *)&identity_matrix);
-    ((TBreakUpMdl *)break_up_mdl)->collect_node_positions((u8 *)((void *) boss2_tunnel), 0);
-    pop_matrix();
-    return break_up_mdl;
 }
-
-u8 *TBreakUpMdl::init_from_model(s32 boss2_tunnel) {
-    *(s32 * *)&this->m_next = TBreakUpMdl__vtable;
-    alloc_breakup_piece_records((Brk_80096EBC *)(this), (void *)boss2_tunnel);
-    push_matrix_from((void *)&identity_matrix);
-    this->build_node_records((u8 *)((void *) boss2_tunnel), 0);
-    pop_matrix();
-    this->m_prev = 0;
-    return ((u8 *)this);
-}
-
-void TBreakUpMdl::copy(void* q) { *(u32 *)&this->m_name = *(u32*)((char*)q + 0x0); *(f32 *)&this->m_flags = *(f32*)((char*)q + 0x4); *(f32 *)&this->m_prev = *(f32*)((char*)q + 0x8); *(f32 *)&this->m_next = *(f32*)((char*)q + 0xc); *(f32 *)&this->m_up = *(f32*)((char*)q + 0x10); *(f32 *)&this->m_down = *(f32*)((char*)q + 0x14); *(f32*)((char*)this + 0x18) = *(f32*)((char*)q + 0x18); }

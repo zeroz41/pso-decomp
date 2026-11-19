@@ -4015,3 +4015,5 @@ __declspec(section ".rodata") const char lobby_window_title_ship_jump[] = "ShipJ
 __declspec(section ".rodata") const char lobby_window_title_taisen_team[] = "TAISEN TEAM";
 }
 }
+
+u32 lbl_8050BEB8[2];
