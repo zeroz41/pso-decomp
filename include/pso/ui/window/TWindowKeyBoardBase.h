@@ -3,6 +3,7 @@
 
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
+#include "pso/ui/window/KeyboardTextBuffer.h"
 
 struct TWindowKeyBoardBase : public TWindowBase {
     TWindowKeyBoardBase();
@@ -26,16 +27,8 @@ struct TWindowKeyBoardBase : public TWindowBase {
     u8 m_65;
     u8 _pad66[0x2];
     u32 m_68;
-    u16 *m_6c;
-    s32 m_70;
-    u8 unk_74[0x8];
-    u32 m_7c;
-    u8 unk_80[0x4];
-    u16 *m_84;
-    s32 m_88;
-    u8 unk_8C[0x8];
-    s32 m_94;
-    u8 unk_98[0x4];
+    KeyboardTextBuffer m_text;
+    KeyboardTextBuffer m_text2;
     u32 m_9c;
     u32 m_a0;
     u32 m_a4;
@@ -45,7 +38,6 @@ struct TWindowKeyBoardBase : public TWindowBase {
     u32 m_b4;
     virtual void render();
     virtual void run_task();
-    s32 *init_text_buffer_holder();
     void insert_character(u16 arg1);
     // The four input modes TKeyBoardControl's constructor selects (numbered by its mode argument).
     void set_mode0();

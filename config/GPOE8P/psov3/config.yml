@@ -1809,8 +1809,8 @@ force_active:
   - TWindowHelpItem__vt7
   - TWindowHelpItem__vt9
   - TWindowKeyBoardHard__name
-  - TWindowKeyBoardSoft__sub_80080B34
-  - TWindowKeyBoardSoft__sub_80080F68
+  - apply_dakuten_to_last_char__18KeyboardTextBufferFv
+  - would_overflow_with__18KeyboardTextBufferFUs
   - TWindowKeyBoardSoft__sub_8025C51C
   - TWindowKeyBoardSoft__sub_8025CF50
   - TWindowKeyBoardSoft__sub_8025D1C8
@@ -3915,7 +3915,7 @@ force_active:
   - apply_confusion_status__14TBoss7CrawfishFv
   - apply_contact_damage__10TBoss4ZakoFv
   - apply_custom_shield_bonus__9TItemDataFlP9TItemDataP9TItemDataP10EquipStatsl
-  - apply_dakuten_to_last_char__19TWindowKeyBoardSoftFv
+  - toggle_small_kana_of_last_char__18KeyboardTextBufferFv
   - apply_defense_stat_status__13TObjEneRe4BitFPv
   - apply_direction_sign__11TBoss6Type2Ff
   - apply_drop_restrictions
@@ -7252,7 +7252,7 @@ force_active:
   - initialize_slime_instance_state__15TObjEneSlimeOneFv
   - initialize_windows__10TChallengeFv
   - inpTranslateExCtrl
-  - insert_char_slot__19TWindowKeyBoardSoftFv
+  - insert_char_slot__18KeyboardTextBufferFv
   - insert_sorted_by_id__5TItemFv
   - insert_string__19TWindowKeyBoardBaseFPc
   - instance__16TLobbyEventTheme
@@ -7279,7 +7279,7 @@ force_active:
   - is_any_player_near__Fl
   - is_balloon_overlapping__FPUcPUcPUc
   - is_broken__15TBoss3VoloptP01Fv
-  - is_buffer_blank_checked__19TWindowKeyBoardSoftFv
+  - apply_handakuten_to_last_char__18KeyboardTextBufferFv
   - is_card_confirmed__20TWindowSubSymbolChatFv
   - is_card_file_absent_a__12TAdTimeSetGCFv
   - is_card_file_absent_b__12TAdTimeSetGCFv

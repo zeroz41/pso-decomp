@@ -34,16 +34,14 @@ extern "C" {
 s32 is_chat_shortcut_set(int);
 s32 TWindowKeyBoardSoft__sub_8025D664();
 s32 select_next__19TWindowKeyBoardBaseFv();
-s32 TWindowKeyBoardSoft__sub_800808FC(int, int);
 s32 TWindowKeyBoardSoft__sub_8025D8C8();
 void TWindowKeyBoardSoft__sub_8025CFA8(void *, void *);
 s32 TWindowKeyBoardSoft__sub_803E67D4(void *, void *);
 s32 get_shared_text_buffer();
-s32 append_text__19TWindowKeyBoardSoftFPvPv(void *, s32);
+int set_text_from_string__18KeyboardTextBufferFPc(KeyboardTextBuffer *);
 void TWindowKeyBoardSoft__sub_8025DBDC(void *arg0, s32 arg1);
 s32 TWindowKeyBoardSoft__sub_8025D7FC();
 void export_keyboard_text(Base_8025C974 *base, char *out);
-int set_text_from_string__19TWindowKeyBoardSoftFPc(void*);
 
 int TWindowKeyBoardBase::is_alnum(u16 arg0) {
     if ((s32) arg0 < 0x30) {
@@ -75,7 +73,7 @@ void TWindowKeyBoardBase::vt2() {
         init();
     }
     if ((u32) *(u32 *)((s8 *)this + 0x7C) != 0U) {
-        ((TWindowKeyBoardSoft *)(self + 0x6C))->reset_state();
+        ((KeyboardTextBuffer *)(self + 0x6C))->reset_state();
     }
     *(u16 *)((s8 *)this + 0x60) = (u16) (*(u16 *)((s8 *)this + 0x60) | 0x20);
 }
@@ -364,7 +362,7 @@ void TWindowKeyBoardBase::vt20() {
         *(u16 *)((s8 *)this + 0x60) = (u16) (temp_r3 & 0xFFFFFFFB);
         return;
     }
-    ((TWindowKeyBoardSoft *)(*(void **)((s8 *)this + 0x68)))->delete_char();
+    ((KeyboardTextBuffer *)(*(void **)((s8 *)this + 0x68)))->delete_char();
     if ((*(u16 *)((s8 *)this + 0x60) & 2) && ((u32) *(u32 *)((s8 *)(*(void **)((s8 *)this + 0x68)) + 0x10) == 0U)) {
         init();
     }
@@ -396,7 +394,7 @@ void TWindowKeyBoardBase::handle_backspace() {
     return;
   }
   *((u32 *) new_var) = (u32) ((*((u32 *) new_var)) - 1);
-  ((TWindowKeyBoardSoft *)(*((u8 **) (((s8 *) arg0) + 0x68))))->delete_char();
+  ((KeyboardTextBuffer *)(*((u8 **) (((s8 *) arg0) + 0x68))))->delete_char();
   if (((*((u16 *) (((s8 *) arg0) + 0x60))) & 2) && (((u32) (*((u32 *) (((s8 *) (*((u8 **) (((s8 *) arg0) + 0x68)))) + 0x10)))) == 0U))
   {
     init();
@@ -420,7 +418,7 @@ void TWindowKeyBoardBase::vt1() {
     temp_r3 = *(u32 *)((s8 *)temp_r4_2 + 4);
     if (temp_r3 != 0U) {
         *(u32 *)((s8 *)temp_r4_2 + 4) = (temp_r3 - 1);
-        ((TWindowKeyBoardSoft *)(*(u8 **)((s8 *)this + 0x68)))->delete_char();
+        ((KeyboardTextBuffer *)(*(u8 **)((s8 *)this + 0x68)))->delete_char();
         if ((*(u16 *)((s8 *)this + 0x60) & 2) && ((u32) *(u32 *)((s8 *)(*(u8 **)((s8 *)this + 0x68)) + 0x10) == 0U)) {
             init();
         }
@@ -440,7 +438,7 @@ void TWindowKeyBoardBase::vt21() {
         return;
     }
     if ((u32) *(u32 *)((s8 *)this + 0x7C) != 0U) {
-        ((TWindowKeyBoardSoft *)(self + 0x6C))->reset_state();
+        ((KeyboardTextBuffer *)(self + 0x6C))->reset_state();
         return;
     }
     *(u16 *)((s8 *)this + 0x60) = (u16) (temp_r4 | 0x20);
@@ -481,14 +479,14 @@ void TWindowKeyBoardBase::vt19() {
     }
     temp_r4_2 = *(s32 *)((s8 *)this + 0xB4);
     if (!(temp_r4_2 & 0x80) && !(temp_r4_2 & 0x100) && !(temp_r4_2 & 0x200)) {
-        TWindowKeyBoardSoft__sub_800808FC((int) (*(s32 *)((s8 *)this + 0x68)), 0x20);
+        ((KeyboardTextBuffer *)(*(s32 *)((s8 *)this + 0x68)))->insert_char(0x20);
     }
 }
 
 void TWindowKeyBoardBase::vt0() {
     u8 *self = (u8 *)this;
     if (!(*(u16 *)((s8 *)this + 0x60) & 2)) {
-        if (!(*(u16 *)((s8 *)this + 0x62) & 4) || (((TWindowKeyBoardSoft *)(self + 0x6C))->is_buffer_blank() == 0)) {
+        if (!(*(u16 *)((s8 *)this + 0x62) & 4) || (((KeyboardTextBuffer *)(self + 0x6C))->is_buffer_blank() == 0)) {
             *(u16 *)((s8 *)this + 0x60) = (u16) (*(u16 *)((s8 *)this + 0x60) | 1);
         }
     } else {
@@ -526,11 +524,11 @@ void TWindowKeyBoardSoft__sub_8025C51C(u8 *window_key_board_soft, s32 arg1) {
                 text_builder_append((u8 *)" ");
             }
         }
-        append_text__19TWindowKeyBoardSoftFPvPv(window_key_board_soft + 0x6C, get_shared_text_buffer());
+        ((KeyboardTextBuffer *)(window_key_board_soft + 0x6C))->append_text((u8 *)get_shared_text_buffer());
     }
 }
 
-int TWindowKeyBoardBase::get_field_6c() { return set_text_from_string__19TWindowKeyBoardSoftFPc((char*)this + 0x6c); }
+int TWindowKeyBoardBase::get_field_6c() { return set_text_from_string__18KeyboardTextBufferFPc(&m_text); }
 
 void TWindowKeyBoardBase::insert_character(u16 code) {
     s32 f;
@@ -564,14 +562,14 @@ void TWindowKeyBoardBase::insert_character(u16 code) {
         return;
     }
     if (!(f & 1)) {
-        ((s32 (*)(int, u16))TWindowKeyBoardSoft__sub_800808FC)(*(int *)((s8 *)((u8 *)this) + 0x68), code);
+        ((KeyboardTextBuffer *)(*(int *)((s8 *)((u8 *)this) + 0x68)))->insert_char(code);
         return;
     }
     if (!(*(u16 *)((s8 *)((u8 *)this) + 0x60) & 2)) {
         *(void **)((s8 *)((u8 *)this) + 0x68) = (void *)(((u8 *)this) + 0x84);
         *(u16 *)((s8 *)((u8 *)this) + 0x60) |= 2;
     }
-    ((s32 (*)(int, u16))TWindowKeyBoardSoft__sub_800808FC)(*(int *)((s8 *)((u8 *)this) + 0x68), code);
+    ((KeyboardTextBuffer *)(*(int *)((s8 *)((u8 *)this) + 0x68)))->insert_char(code);
     if (*(u8 *)((s8 *)((u8 *)this) + 0x64) == 0 && !(*(u16 *)((s8 *)((u8 *)this) + 0x60) & 0x80)) {
         TWindowKeyBoardSoft__sub_8025DBDC(this, 0);
     }
@@ -579,7 +577,7 @@ void TWindowKeyBoardBase::insert_character(u16 code) {
 
 void TWindowKeyBoardBase::init() {
     u8 *arg0 = (u8 *)this;
-    ((TWindowKeyBoardSoft *)(arg0 + 0x84))->reset_state();
+    ((KeyboardTextBuffer *)(arg0 + 0x84))->reset_state();
     *(s32 *)((s8 *)arg0 + 0x68) = (s32)(arg0 + 0x6C);
     *(u16 *)((s8 *)arg0 + 0x60) = (u16) (*(u16 *)((s8 *)arg0 + 0x60) & ~0x86);
 }
@@ -621,7 +619,7 @@ s32 TWindowKeyBoardBase::commit_composition_text() {
         arg0->len = i;
         arg0->flags &= ~4;
     }
-    ((TWindowKeyBoardSoft *)(&arg0->field))->check_text_overflow(arg0->buf);
+    ((KeyboardTextBuffer *)(&arg0->field))->check_text_overflow(arg0->buf);
     s = arg0->buf;
     n = 0;
     while ((s32)*s != 0) {
@@ -629,7 +627,7 @@ s32 TWindowKeyBoardBase::commit_composition_text() {
         n++;
     }
     if (n > 0) {
-        ((TWindowKeyBoardSoft *)(&arg0->field))->make_room_in_buffer(arg0->field.cursor, n);
+        ((KeyboardTextBuffer *)(&arg0->field))->make_room_in_buffer(arg0->field.cursor, n);
         s = arg0->buf;
         d = arg0->field.buffer + arg0->field.cursor;
         while ((s32)*s != 0) {
@@ -660,7 +658,7 @@ void export_keyboard_text(Base_8025C974 *base, char *out) {
     while ((s32)*in != 0) {
         code = *in++;
         get_font_char_advance(map_char_to_font_code(code));
-        if (((TWindowKeyBoardSoft *)(&base->field))->measure_char_overflow(code, &a, &b, &c)) {
+        if (((KeyboardTextBuffer *)(&base->field))->measure_char_overflow(code, &a, &b, &c)) {
             *out = 0;
             return;
         }
@@ -681,7 +679,7 @@ s32 TWindowKeyBoardBase::measure_text_overflow() {
     u16 *p = arg0->field.buffer;
     while ((s32)*p != 0) {
         ch = *p++;
-        if (((TWindowKeyBoardSoft *)(&arg0->field))->measure_char_overflow(ch, &a, &b, &c) != 0) {
+        if (((KeyboardTextBuffer *)(&arg0->field))->measure_char_overflow(ch, &a, &b, &c) != 0) {
             break;
         }
     }

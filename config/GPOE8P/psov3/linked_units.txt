@@ -1324,7 +1324,7 @@ pso/ui/window/TWindowKeyBoardHard.cpp
 pso/ui/window/TWindowKeyBoardHard_801A529C.cpp
 pso/ui/window/TWindowKeyBoardHard_801FBA48.cpp
 pso/ui/window/TWindowKeyBoardHard_8025EB68.cpp
-pso/ui/window/TWindowKeyBoardSoft_80080798.cpp
+pso/ui/window/KeyboardTextBuffer.cpp
 pso/ui/window/TWindowKeyBoardSoft_80228BEC.cpp
 pso/ui/window/TWindowKeyBoardSoft_8024E68C.cpp
 pso/ui/window/TWindowKeyBoardBase_8025B85C.cpp

@@ -41,17 +41,6 @@ struct TWindowKeyBoardSoft : public TWindowBase
     void close();
     s32 hit_test_relative(u8 *arg1, u8 *arg2);
     static void draw_key_frame(void *self, f32 *rect, f32 x0, f32 y, f32 w, f32 scale, u32 color, s32 idx);
-    void set_text_from_string(char *s);
-    s32 is_buffer_blank();
-    s32 apply_dakuten_to_last_char();
-    s32 is_buffer_blank_checked();
-    void delete_chars(s32 arg1, s32 arg2);
-    void delete_char();
-    void make_room_in_buffer(s32 pos, s32 n);
-    void insert_char_slot();
-    s32 measure_char_overflow(u16 code, u32 *x, u32 *y, u32 *count);
-    s32 check_text_overflow(u16 *arg1);
-    void reset_state();
     static s32 strnlen(s8 *str, u32 max);
     virtual void run_task();
     s32 dispatch_by_index();
