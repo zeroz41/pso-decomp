@@ -1,24 +1,15 @@
 #ifndef PSO_TECHNIQUE_TTECSLICER_H
 #define PSO_TECHNIQUE_TTECSLICER_H
 #include "types.h"
+#include "pso/object/base/TObjMotion.h"
 #include <stddef.h>
 
-struct TTecSlicer {
+struct TTecSlicer : public TObjBase {
+    virtual ~TTecSlicer();
     void set_launch_midpoint(void *, void *, void *);
-    void run_task();
+    virtual void run_task();
     static s32 create(u16* launch);
 
-    u8 base[0x24];
-    u32 textureHandle;
-    u8 unk_28[0x8];
-    void * m_30;
-    u8 unk_34[0x4];
-    f32 position[3];
-    f32 previousPosition[3];
-    u8 unknown50[0xC];
-    s32 spin, yaw, roll;
-    f32 scale[3];
-    u8 unknown74[0x1C];
     f32 direction[3];
     f32 origin[3];
     f32 destination[3];
@@ -48,10 +39,9 @@ struct TTecSlicer {
     void advance_position();
     static void init_launch_angles(s32 *arg0, s32 *arg1, s32 arg2);
     void update();
-    void render();
+    virtual void render();
 };
 typedef char SlicerSize[(sizeof(TTecSlicer)==0x140)?1:-1];
-typedef char SlicerPosition[(offsetof(TTecSlicer,position)==0x38)?1:-1];
 typedef char SlicerDirection[(offsetof(TTecSlicer,direction)==0x90)?1:-1];
 typedef char SlicerCapturedTargets[(offsetof(TTecSlicer,capturedTargets)==0xC8)?1:-1];
 typedef char SlicerColor[(offsetof(TTecSlicer,argb)==0x128)?1:-1];
