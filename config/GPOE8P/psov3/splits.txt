@@ -6820,6 +6820,9 @@ pso/ui/window/TWindowCtrl_8024A1A8.cpp:
 	.text       start:0x8024A1A8 end:0x8024AADC
 	.sdata2     start:0x805DCBD8 end:0x805DCBE0
 
+pso/ui/window/TWindowCtrlSdata2.cpp:
+	.sdata2     start:0x805DCBE0 end:0x805DCBE8
+
 pso/unk/text_8024AADC.cpp:
 	.text       start:0x8024AADC end:0x8024AB18
 
