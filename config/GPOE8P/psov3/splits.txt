@@ -1816,12 +1816,12 @@ pso/object/TDeadSpotSdata2.cpp:
 
 pso/render/RenderFadeState_800D7BFC.cpp:
 	.text       start:0x800D7BFC end:0x800D7CF4
-	.data       start:0x804949A0 end:0x804949D4
+	.data       start:0x804949A0 end:0x804949D8
 
 pso/object/TDeadSpot.cpp:
 	.text       start:0x800D7CF4 end:0x800D87A8
 	.rodata     start:0x8043C710 end:0x8043C728
-	.data       start:0x80494A28 end:0x80494A40
+	.data       start:0x804949D8 end:0x80494A40
 	.sdata      start:0x805D2A98 end:0x805D2AA0
 	.sdata2     start:0x805DA388 end:0x805DA3C0
 
