@@ -31,7 +31,7 @@
 #include "pso/effect/TEffIndirectCtrl.h"
 #include "pso/effect/TEffIndirectCtrl_802A9284.h"
 #include "pso/unk/TLobby_802D3970.h"
-#include "pso/unk/TLobby_8032BD20.h"
+#include "pso/unk/TUnk_804EDAC0.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/ui/window/TWindowSubGameEnd.h"
 #include "pso/unk/TLobby_8033ECB0.h"
@@ -68,7 +68,6 @@ s32 TWindowCtrl__ct(u32, s32);
 u32 __nw__7TObjectFUl(s32);
 s32 ct_register__6TLobbyFv(u32, s32);
 s32 TWindowTimer__sub_80198D98();
-s32 TLobby__sub_8032BDC4(u32, s32);
 
 extern s32 tl_00;
 extern s32 tl_01;
@@ -130,10 +129,7 @@ void TLobby::create_tasks() {
         if (tmp != 0U) {
             ((TUnk_8048E5F4 *)tmp)->init_subobject((void *)tl_particlemodel, (void *)0);
         }
-        tmp = __nw__7TObjectFUl(0x84);
-        if (tmp != 0U) {
-            TLobby__sub_8032BDC4(tmp, tl_particlemodel);
-        }
+        new TUnk_804EDAC0((TObject *)tl_particlemodel);
         new TUnk_804EFA88((TObject *)tl_particlemodel);
     }
     cleanup_game_objects__9TMainTaskFv();

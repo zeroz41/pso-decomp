@@ -2453,3 +2453,4 @@ pso/network/NetIpv4.c
 pso/network/NetDns.c
 pso/unk/TUnk_804D1160.cpp
 pso/render/MotionDrawState.cpp
+pso/unk/TUnk_804EDAC0.cpp

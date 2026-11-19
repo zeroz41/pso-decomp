@@ -129,7 +129,6 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static int get_selected_count();
     static int get_data();
     s32 start_offline_seq();
-    void *destroy(s16 arg1);
     static s32 has_no_save_files(s32 chan);
     static void permute_save_blocks(void* stream, const u8* source, u8* destination, u32 size);
     u8 unk_38[0x4];

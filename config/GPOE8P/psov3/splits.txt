@@ -9662,19 +9662,23 @@ pso/ui/frontend/TAdEnterBaseGC.cpp:
 	.sdata2     start:0x805DF768 end:0x805DF780
 
 pso/ui/frontend/TAdEnterPasswordGC.cpp:
-	.text       start:0x8032B58C end:0x8032BE48
+	.text       start:0x8032B58C end:0x8032BBF0
 	.rodata     start:0x80477278 end:0x804772A8
 	.data       start:0x804EDA20 end:0x804EDAC0
 	.sdata      start:0x805D41E8 end:0x805D41EC
 	.sbss       start:0x805D6CB0 end:0x805D6CB8
 	.sdata2     start:0x805DF780 end:0x805DF788
 
+pso/unk/TUnk_804EDAC0.cpp:
+	.text       start:0x8032BBF0 end:0x8032BE50
+	.data       start:0x804EDAC0 end:0x804EDAD8
+	.sbss       start:0x805D6CB8 end:0x805D6CBC
+
 pso/ui/frontend/TAdSnAkPassConfirmGC.cpp:
-	.text       start:0x8032BE48 end:0x8032C0B4
+	.text       start:0x8032BE50 end:0x8032C0B4
 	.rodata     start:0x804772A8 end:0x804772D8
 	.data       start:0x804EDAD8 end:0x804EDB10
 	.sdata      start:0x805D41F0 end:0x805D41F8
-	.sbss       start:0x805D6CB8 end:0x805D6CC0
 
 pso/ui/frontend/TAdYesNoBaseGC.cpp:
 	.text       start:0x8032C0B4 end:0x8032C504
@@ -9903,7 +9907,7 @@ pso/ui/frontend/TAdMultiPlayerNoGC.cpp:
 pso/ui/frontend/TAdSinglePlyChrSelectGC_8033A8EC.cpp:
 	.text       start:0x8033A8EC end:0x8033BAB4
 	.rodata     start:0x80477D48 end:0x80477DA0
-	.data       start:0x804EF728 end:0x804EF8C0
+	.data       start:0x804EF728 end:0x804EF8D8
 	.sbss       start:0x805D6D80 end:0x805D6D98
 	.sdata2     start:0x805DFA30 end:0x805DFA34
 
@@ -12286,7 +12290,7 @@ pso/ui/frontend/TAdPlayerLoadGC_803F18B8.cpp:
 	.data       start:0x804FCD48 end:0x804FCE38
 	.bss        start:0x805A28C0 end:0x805A5F00
 	.sdata      start:0x805D4700 end:0x805D4708
-	.sbss       start:0x805D7940 end:0x805D7954
+	.sbss       start:0x805D7940 end:0x805D7964
 	.sdata2     start:0x805E10E8 end:0x805E10F8
 
 pso/ui/frontend/TAdPlayerLoadGC_803F339C.cpp:
@@ -12295,6 +12299,7 @@ pso/ui/frontend/TAdPlayerLoadGC_803F339C.cpp:
 pso/unk/text_803F3BF8.cpp:
 	.text       start:0x803F3BF8 end:0x803F3DD4
 	.data       start:0x804FCE38 end:0x804FCE68
+	.sbss       start:0x805D7980 end:0x805D7988 align:32
 	.sdata2     start:0x805E10F8 end:0x805E1100
 
 pso/network/NetworkInfoRequests.cpp:

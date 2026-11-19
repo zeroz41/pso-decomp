@@ -139,7 +139,7 @@ force_active:
   - TAdDialingMessageWindow__name
   - TAdDrawLineCtrl__class_name
   - TAdDrawLineTask__class_name
-  - TAdEnterPasswordGC__sub_8032BC94
+  - sub_8032BC94__13TUnk_804EDAC0FP7TObject
   - TAdEnterSerialAccessGC__input_state
   - TAdEnterSerialAccessGC__keyboard_control
   - TAdEnterSerialAccessGC__name
@@ -5287,7 +5287,7 @@ force_active:
   - constant_material_color
   - construct__12T_OWEHMS_ExpFP10TObjPlayer
   - construct__13TUnk_8049F41CFPvii
-  - construct__13TUnk_804EF8C0Fv
+  - __ct__13TUnk_804EF8C0Fv
   - construct__9TTecJelinFPviiii
   - __ct__13TUnk_804A3070FP7TObjectPUc
   - construct_area__11TTecRaBartaFPvPvPv

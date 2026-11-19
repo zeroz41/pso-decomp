@@ -34,7 +34,7 @@ void (*card_attach_callback)(s32, s32, s32);
 void (*card_detach_callback)(s32, s32, s32);
 void *saved_card_disk_id;
 // inferred: the init function stores the version banner pointer here
-extern const char *mcfs_version_ref;
+const char *mcfs_version_ref;
 
 s32 TAdPlayerLoadGC::get_or_set_channel_flag(s32 arg0, s32 arg1) {
     if (((arg0 != 0) && (arg0 != 1)) || (arg1 < 0) || (arg1 > 2)) {
@@ -49,7 +49,10 @@ s32 TAdPlayerLoadGC::get_or_set_channel_flag(s32 arg0, s32 arg1) {
 s32 TAdPlayerLoadGC::get_load_state() {
     return card_lib_state;
 }
-extern void *lbl_805D7960;
+// the work area CARDMountAsync is given (its workArea argument), stored by the init function.
+// 32-byte aligned: it sits at 0x805D7960, 8 bytes past mcfs_version_ref, as the ntInf globals
+// after it sit on 32-byte boundaries.
+void *card_work_area __attribute__((aligned(32)));
 
 #pragma push
 #pragma dont_inline off
@@ -79,7 +82,7 @@ void TAdPlayerLoadGC__sub_803F1908(s32 card_channel) {
 
     switch (TAdPlayerLoadGC__load_request_slots[card_channel].step) {
     case 1:
-        TAdPlayerLoadGC__load_request_slots[card_channel].result = CARDMountAsync(card_channel, lbl_805D7960, 0, 0);
+        TAdPlayerLoadGC__load_request_slots[card_channel].result = CARDMountAsync(card_channel, card_work_area, 0, 0);
         if (TAdPlayerLoadGC__load_request_slots[card_channel].result < 0) {
             TAdPlayerLoadGC__load_request_slots[card_channel].status = -200;
             TAdPlayerLoadGC__load_request_slots[card_channel].step = 0x18;
@@ -694,7 +697,7 @@ void TAdPlayerLoadGC__sub_803F2D20(s32 card_channel) {
 
     switch (TAdPlayerLoadGC__load_request_slots[card_channel].step) {
     case 1:
-        TAdPlayerLoadGC__load_request_slots[card_channel].result = CARDMountAsync(card_channel, lbl_805D7960, 0, 0);
+        TAdPlayerLoadGC__load_request_slots[card_channel].result = CARDMountAsync(card_channel, card_work_area, 0, 0);
         if (TAdPlayerLoadGC__load_request_slots[card_channel].result < 0) {
             TAdPlayerLoadGC__load_request_slots[card_channel].status = -200;
             TAdPlayerLoadGC__load_request_slots[card_channel].step = 0x18;
@@ -875,7 +878,7 @@ s32 TAdPlayerLoadGC__sub_803F31D8(void *work_area) {
         card_slot_info[i].sector_size = 0;
         TAdPlayerLoadGC::reset_slot_entry(i);
     }
-    lbl_805D7960 = work_area;
+    card_work_area = work_area;
     card_attach_callback = NULL;
     card_detach_callback = NULL;
     card_lib_state = 1;

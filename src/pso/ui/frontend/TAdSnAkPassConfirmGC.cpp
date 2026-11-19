@@ -9,8 +9,6 @@
 #include "pso/ui/frontend/TAdYesNoBaseGC.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/NinjaTypes.h"
-u32 lbl_805D6CB8;
-
 
 struct Obj_8032C004 { const char *f0; u8 pad[0x14]; void *vt; u8 pad2[0x48 - 0x1C]; s32 f48; };
 
@@ -26,8 +24,6 @@ static const NJS_POINT2 sn_ak_pass_confirm_message_size = {552.0f, 140.0f};
 Obj_8032C004 *TAdSnAkPassConfirmGC__ct(Obj_8032C004 *arg0);
 int request_transition__21TAdMultiChgGameModeGCFv(void*);
 int set_state_0x1a__21TAdMultiChgGameModeGCFv(void*);
-
-s32 TAdSnAkPassConfirmGC::get_confirm_state() { return this->m_1c; }
 
 void TAdSnAkPassConfirmGC::render() {
     vfunc_12();

@@ -10,32 +10,13 @@
 #include "pso/ui/frontend/TAdEnterBaseGC.h"
 #include "pso/ui/frontend/TAdEnterSerialAccessGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/ui/frontend/TAdSnAkPassConfirmGC.h"
 #include "pso/quest/TQuestThread.h"
-#include "pso/unk/TLobby_8032BD20.h"
-#include "pso/unk/TUnk_804EDAC0.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 
 
-struct Elt80364258_80364258 { s32 f0; };
-
 static const f32 enter_password_item_rect_table[2][2] = {{155.0f, 231.0f}, {155.0f, 251.0f}};
 const char *TAdEnterPasswordGC__class_name = "TAdEnterPasswordGC";
-
-struct T_8032BBF0 { u8 pad[0x20]; s32 arr[24]; s32 count; };
-
-struct B_8032BC1C { u8 pad[0x18]; };
-
-struct VObj_8032BC1C : B_8032BC1C {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-};
-
-struct O_8032BC1C { u8 pad[0x20]; VObj_8032BC1C *items[1]; };
-
-struct O2_8032BC1C { u8 pad[0x80]; s32 n; };
 
 struct Pw_8032B6A0
 {
@@ -64,8 +45,6 @@ s32 memset(void *, int, int);
 void request_main_phase(s32 arg0);
 u32 __nw__7TObjectFUl(int);
 s32 __ct__10TAdTitleGCFP7TObjectl(int, void *, int);
-void clear_password__18TAdEnterPasswordGCFPv(T_8032BBF0 *self);
-void update_children__18TAdEnterPasswordGCFPv(O_8032BC1C *arg0);
 void mem_free(void *p);
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
 s32 get_field_118__22TAdEnterSerialAccessGCFv(void);
@@ -228,8 +207,6 @@ void set_password__18TAdEnterPasswordGCFi(s32 arg0) {
 
 TAdEnterPasswordGC::~TAdEnterPasswordGC() {}
 
-extern u32 lbl_805D6CB8;
-
 TAdEnterPasswordGC::TAdEnterPasswordGC(TObject *parent) : TAdEnterBaseGC(parent) {
     u32 temp_r3;
     m_name = TAdEnterPasswordGC__class_name;
@@ -248,84 +225,5 @@ TAdEnterPasswordGC::TAdEnterPasswordGC(TObject *parent) : TAdEnterBaseGC(parent)
         __ct__10TAdTitleGCFP7TObjectl(temp_r3, this, 0xC);
     }
 }
-
-void clear_password__18TAdEnterPasswordGCFPv(T_8032BBF0 *self) {
-    s32 i;
-    for (i = 0; i < 24; i++) {
-        self->arr[i] = 0;
-    }
-    self->count = 0;
-}
-
-void update_children__18TAdEnterPasswordGCFPv(O_8032BC1C *arg0) {
-    s32 i;
-    for (i = 0; i < ((O2_8032BC1C *)arg0)->n; i++) {
-        if (arg0->items[i] != 0 && ((TObject *)(arg0->items[i]))->all_parents_unqueued_for_destruction() != 0) {
-            arg0->items[i]->m2();
-        }
-    }
-}
-
-void TAdEnterPasswordGC__sub_8032BC94(u8 *arg0, s32 arg1) {
-    s32 temp_r0;
-    temp_r0 = *(s32 *)((s8 *)arg0 + 0x80);
-    if (temp_r0 < 0x18) {
-        ((struct Elt80364258_80364258 *)(arg0 + 0x20))[temp_r0].f0 = arg1;
-        *(s32 *)((s8 *)arg0 + 0x80) = (s32) (*(s32 *)((s8 *)arg0 + 0x80) + 1);
-    }
-}
-
-s32 dispatch_input_to_instance__18TAdEnterPasswordGCFi(s32 arg0) {
-    if ((u32) lbl_805D6CB8 != 0U) {
-        if (((TAdSnAkPassConfirmGC *)lbl_805D6CB8)->get_confirm_state() != 0) {
-            return 0;
-        }
-        TAdEnterPasswordGC__sub_8032BC94((u8 *)lbl_805D6CB8, (s32)arg0);
-        return 1;
-    }
-    return 0;
-}
-
-}
-
-struct O_8032BDC4 { u8 pad[0x18]; void *vt; s32 f1c; s32 items[0x18]; s32 n; };
-
-extern "C" {
-u8 * __dt__7TObjectFv(void *, s16);
-struct RecoveredGlobal_lbl_804EDAC0 { s32 value; u8 remaining[0x14]; };
-extern RecoveredGlobal_lbl_804EDAC0 lbl_804EDAC0;
-void __ct__7TObjectFP7TObject(void *);
-O_8032BDC4 *TLobby__sub_8032BDC4(O_8032BDC4 *arg0);
-
-void TUnk_804EDAC0::render() { *(int*)((char*)this + 0x1c) = 1; update_children__18TAdEnterPasswordGCFPv((O_8032BC1C *)this); *(int*)((char*)this + 0x1c) = 0; clear_password__18TAdEnterPasswordGCFPv((T_8032BBF0 *)this); }
-
-u8 *__dt__13TUnk_804EDAC0Fv(u8 *object, s16 arg1) {
-    if (object != NULL) {
-        *(s32 **)((s8 *)object + 0x18) = &lbl_804EDAC0.value;
-        lbl_805D6CB8 = 0;
-        __dt__7TObjectFv(object, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(object);
-        }
-    }
-    return object;
-}
-
-O_8032BDC4 *TLobby__sub_8032BDC4(O_8032BDC4 *arg0) {
-    s32 i;
-    __ct__7TObjectFP7TObject(arg0);
-    arg0->vt = ((u8 *)&lbl_804EDAC0);
-    arg0->n = 0;
-    lbl_805D6CB8 = (u32)arg0;
-    for (i = 0; i < 0x18; i++) {
-        arg0->items[i] = 0;
-    }
-    arg0->f1c = 0;
-    return arg0;
-}
-
-void TLobby__sub_8032BE30(void) { lbl_805D6CB8 = 0; }
-
-void TLobby__sub_8032BE3C(void) { lbl_805D6CB8 = 0; }
 
 }

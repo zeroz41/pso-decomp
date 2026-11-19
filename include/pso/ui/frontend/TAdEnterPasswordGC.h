@@ -22,7 +22,6 @@ typedef char TAdEnterPasswordGC_size[sizeof(TAdEnterPasswordGC) == 0x44 ? 1 : -1
 
 // --- C functions defined in TAdEnterPasswordGC.cpp ---
 extern "C" {
-void TAdEnterPasswordGC__sub_8032BC94(u8 *arg0, s32 arg1);
 void close_window_and_destroy__18TAdEnterPasswordGCFPv(u8 *arg0);
 s32 dispatch_input_to_instance__18TAdEnterPasswordGCFi(s32 arg0);
 void open_keyboard_window__18TAdEnterPasswordGCFPv(s32 arg0);
