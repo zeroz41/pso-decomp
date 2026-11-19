@@ -28,6 +28,7 @@ extern "C" void render__22TAdEnterSerialAccessGCFv();
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/ui/frontend/TAdSubPlyItemGC.h"
 #include "pso/system/NinjaTypes.h"
 struct Stack_803216C0 {
     s32 sp8;
@@ -130,7 +131,6 @@ extern u8 lbl_805430BC[];
 int sprintf(char *, const char *, ...);
 void sscanf(int, const char *, ...);
 extern char lbl_80543010[];
-extern const char serial_unsigned_decimal_scan_format[4] = "%lu";
 extern char lbl_80543050[];
 s32 update_window_mode_from_progress__6TLobbyFPv(void *, void *);
 s32 load_and_verify_character_save__23TAdSinglePlyChrSelectGCFPc(void *, void *);
@@ -141,25 +141,13 @@ extern s32 __vt__22TAdEnterSerialAccessGC[];
 void TAdEnterSerialAccessGC__sub_802C4B64(void *, void *, Col_803214C4, int);
 void __dt__19TAdPlyChrSelPlateGCFv(void *, int);
 void *__ct__19TAdPlyChrSelPlateGCFv(void *, TObject *, void *);
-extern Col_803214C4 lbl_805DF4D8;
-extern const f32 lbl_805DF4F4;
-extern const f32 lbl_805DF4F8;
-extern const f32 lbl_805DF4FC;
-extern const f32 lbl_805DF500;
-extern const f32 lbl_805DF504;
-s32 render_status_line__15TAdSubPlyItemGCFi(void *, int, f32, f32, f32);
 void fn_8025DE10(void *arg0, void *arg1);
-extern const f32 TAdEnterSerialAccessGC__data_805DF4DC;
-extern char lbl_805DF4E0[4];
-extern const f32 lbl_805DF4E4;
 void draw_window_frame__11TWindowBaseFPv();
 extern V_803212F8 serial_entry_status_line_position[];
 void __dl__7TObjectFPv(void *);
 
-extern const f32 lbl_805DF4E8;
-extern s32 lbl_805DF4EC;
-extern const f32 lbl_805DF4F0;
 
+const Col_803214C4 serial_plate_color = { 0xFF };
 const NJS_POINT2 lbl_804764C8 = { 46.0f, 110.0f };
 const NJS_POINT2 lbl_804764D0 = { 548.0f, 120.0f };
 const NJS_POINT2 lbl_804764D8 = { 85.0f, 220.0f };
@@ -198,7 +186,7 @@ void TAdEnterSerialAccessGC::render() {
 
 void TAdEnterSerialAccessGC::draw_screen(void *arg0, void *arg1) {
     draw_window_frame__11TWindowBaseFPv();
-    render_status_line__15TAdSubPlyItemGCFi((void *)get_localized_text_entry(0x17, (s32)((void *)4)), -1, serial_entry_status_line_position[0].a, serial_entry_status_line_position[0].b, TAdEnterSerialAccessGC__data_805DF4DC);
+    TAdSubPlyItemGC::render_status_line(serial_entry_status_line_position[0].a, serial_entry_status_line_position[0].b, 0.8f, (const char *)get_localized_text_entry(0x17, 4), -1);
     TAdEnterSerialAccessGC::draw_serial_plates();
     TAdEnterSerialAccessGC::draw_serial_chars((s32)arg1);
 }
@@ -224,18 +212,18 @@ void TAdEnterSerialAccessGC::draw_serial_chars(s32 arg0) {
         n = r * 2 + 10;
         for (i = 0; i < n; i++, p++) {
             memset(buf, 0, 8);
-            sprintf(buf, lbl_805DF4E0, *p);
-            render_status_line__15TAdSubPlyItemGCFi(buf, -1, row[i], lbl_805DF4E4, TAdEnterSerialAccessGC__data_805DF4DC);
+            sprintf(buf, "%c", *p);
+            TAdSubPlyItemGC::render_status_line(row[i], 230.0f, 0.8f, buf, -1);
         }
         pos.x = row[((TAdEnterSerialAccessGC *)TAdEnterSerialAccessGC__keyboard_control)->get_field20_state()];
-        pos.y = lbl_805DF4E4;
+        pos.y = 230.0f;
         fn_8025DE10((void *)arg0, &pos);
     }
 }
 
 void TAdEnterSerialAccessGC::draw_serial_separators() {
-    render_status_line__15TAdSubPlyItemGCFi(&lbl_805DF4EC, -1, lbl_805DF4E8, lbl_805DF4E4, TAdEnterSerialAccessGC__data_805DF4DC);
-    render_status_line__15TAdSubPlyItemGCFi(&lbl_805DF4EC, -1, lbl_805DF4F0, lbl_805DF4E4, TAdEnterSerialAccessGC__data_805DF4DC);
+    TAdSubPlyItemGC::render_status_line(281.0f, 230.0f, 0.8f, "-", -1);
+    TAdSubPlyItemGC::render_status_line(340.0f, 230.0f, 0.8f, "-", -1);
 }
 
 typedef char RecoveredGlobal_803216C0_lbl_8047653C_size[sizeof(RecoveredGlobal_803216C0_lbl_8047653C) == 0xC ? 1 : -1];
@@ -248,15 +236,15 @@ void TAdEnterSerialAccessGC::draw_serial_plates() {
     Rect_803214C4 pa;
     Rect_803214C4 pb;
     u32 i;
-    pa.x = lbl_805DF4F4;
-    pa.y = lbl_805DF4F8;
+    pa.x = 48.0f;
+    pa.y = 18.0f;
     __ct__19TAdPlyChrSelPlateGCFv(&a, tl_clipout, &pa);
-    pb.x = lbl_805DF4FC;
-    pb.y = lbl_805DF4F8;
+    pb.x = 24.0f;
+    pb.y = 18.0f;
     __ct__19TAdPlyChrSelPlateGCFv(&b, tl_clipout, &pb);
     {
         NJS_POINT2 pos = lbl_80476548[0];
-        Col_803214C4 c = lbl_805DF4D8;
+        Col_803214C4 c = serial_plate_color;
         switch (TAdEnterSerialAccessGC__input_state) {
         case 3:
             break;
@@ -269,7 +257,7 @@ void TAdEnterSerialAccessGC::draw_serial_plates() {
             break;
         case 4:
             for (i = 0; i < 3; i++) {
-                pos.x = lbl_805DF504 * (f32)i + lbl_805DF500;
+                pos.x = 59.0f * (f32)i + 234.0f;
                 TAdEnterSerialAccessGC__sub_802C4B64(&a, &pos, c, 0);
             }
             TAdEnterSerialAccessGC::draw_serial_separators();
@@ -388,7 +376,7 @@ char *TAdEnterSerialAccessGC::convert_serial_hex_to_decimal(int arg0) {
 
 char *TAdEnterSerialAccessGC::hex_to_decimal_string(int arg0) {
     s32 v = 0;
-    sscanf(arg0, (const char *)&serial_unsigned_decimal_scan_format, &v);
+    sscanf(arg0, "%lu", &v);
     memset(lbl_80543010, 0, 0x40);
     sprintf(lbl_80543010, "%08X", v);
     return lbl_80543010;

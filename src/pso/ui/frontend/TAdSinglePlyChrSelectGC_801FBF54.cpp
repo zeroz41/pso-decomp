@@ -65,6 +65,8 @@ GuildCardFile_804C89BC pso_guildcard_card_filename = {
 u8 TQuestVmDownLoadServer__memcard_key[0x10] = {
     0x35, 0x04, 0x08, 0x1A, 0x0A, 0x07, 'V', 'T', 'T', 'T',
 };
+const char memcard_default_banner[4] = "\xF0\x04";
+const char memcard_default_icon[4] = "\x04";
 }
 struct SubtractiveRng {
     SubtractiveRng();

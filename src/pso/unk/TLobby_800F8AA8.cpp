@@ -1145,7 +1145,6 @@ s32 TLobby::run_disk_error_check() {
 extern "C" {
 void subtractive_rng_seed(s32 *rng, u32 seed);
 extern s32 lbl_805D49B4;
-extern s32 quest_download_in_progress;
 extern int TAdPlayerLoadGC__load_state;
 
 void fn_800F93B4(char *filename, GslArchiveEntry *entries, s32 count) {

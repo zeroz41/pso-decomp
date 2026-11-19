@@ -449,7 +449,8 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/boss/derolle/TObjBoss2Tunnel_802F1A58.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/unk/TLobby_803382E4.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/object/TObjControl.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
-    "pso/ui/font/TFontSmallTask.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    # -sdata 4: its 8-byte leader selection 0x805011D8 sits in .bss, not .sbss.
+    "pso/ui/font/TFontSmallTask.cpp": {"cflags": _switch(cflags_pso, "-sdata 4", "-str reuse,readonly")},
     "pso/ui/window/TWindowSubStatusDisp_80338740.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # its class-name string sits in .rodata ahead of the list size pair: readonly strings.
     "pso/ui/window/TWindowSubShortCutList.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
@@ -963,9 +964,11 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/player/TPlyPhotonChair.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/player/TPlayerBattleCtrl4P.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     "pso/object/fence/TLazerFenceSw.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
-    # Their class names ("TObjLight" 0x80445D38, "TMapCsnCtrl" 0x80445D68) open their .rodata: readonly strings.
+    # Their class names ("TObjLight" 0x80445D38, "TMapCsnCtrl" 0x80445D68, "TObjMapCsn" 0x8043F268) open
+    # their .rodata: readonly strings.
     "pso/object/ambient/TObjLight.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/map/TObjMapCsn.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/map/TMapCsnCtrl.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # TObjChip: render's colour template sits after draw_chips' in .rodata
     # while render comes first in .text, so the source runs backwards.
     "pso/object/TObjChip.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},

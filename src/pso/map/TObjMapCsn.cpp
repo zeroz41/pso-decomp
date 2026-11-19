@@ -48,7 +48,6 @@ Vec map_csn_box_face_normals[8] = {
 s32 map_csn_collision_flag_table[5] = {0, 0x8000, 0x8900, 0x800, 0x2000};
 
 extern "C" {
-extern s32 TObjMapCsn__class_name;
 u8 *__ct__10TObjMapCsnFll(TObjMapCsn *arg0, s32 arg1, s32 arg2);
 s32 matrix_mult_vec(int, void *, void *);
 s32 translate_matrix_vec3(int, void *);
@@ -169,7 +168,7 @@ TObjMapCsn::~TObjMapCsn() {
 TObjMapCsn::TObjMapCsn(s32 arg1, s32 arg2) : TObjCollidable((TObject *)arg1) {
     f32 temp_f0;
     f32 temp_f1;
-    *(s32 *)((s8 *)this + 0) = (s32) TObjMapCsn__class_name;
+    m_name = TObjMapCsn__class_name;
     ((TObjMapCsn *)(this))->apply_object_set_data((void *)arg2);
     this->actorFlags = (s32) (this->actorFlags | 0x40000000);
     this->update_state();

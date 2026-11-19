@@ -2112,6 +2112,7 @@ pso/ui/font/TFontSmallTask.cpp:
 	.ctors      start:0x80433F70 end:0x80433F74
 	.rodata     start:0x8043DAC0 end:0x8043DAF8
 	.data       start:0x8049CA70 end:0x8049CA88
+	.bss        start:0x805011D8 end:0x805011E0
 	.sdata      start:0x805D2B30 end:0x805D2B34
 	.sdata2     start:0x805DAA00 end:0x805DAA36
 
@@ -3262,10 +3263,13 @@ pso/unk/text_80140D50.cpp:
 
 pso/map/TMapCsnCtrl.cpp:
 	.text       start:0x80140F44 end:0x80140FF4
+	.rodata     start:0x8043F268 end:0x8043F278
 	.data       start:0x804A7400 end:0x804A7418
+	.sdata      start:0x805D2CD0 end:0x805D2CD8
 
 pso/unk/TLobby_80140FF4.cpp:
 	.text       start:0x80140FF4 end:0x8014106C
+	.sdata      start:0x805D2CD8 end:0x805D2CE0
 	.sbss       start:0x805D5650 end:0x805D5658
 
 pso/system/THeap.cpp:
@@ -5725,7 +5729,7 @@ pso/ui/hud/TRaderMapCore.cpp:
 	.bss        start:0x80512D08 end:0x805137C8
 	.sdata      start:0x805D35F0 end:0x805D3610
 	.sbss       start:0x805D5F28 end:0x805D5F58
-	.sdata2     start:0x805DC528 end:0x805DC5B4
+	.sdata2     start:0x805DC528 end:0x805DC5B8
 
 pso/system/scene/TScene_801FBA20.cpp:
 	.text       start:0x801FBA20 end:0x801FBA28
@@ -5743,7 +5747,7 @@ pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.cpp:
 	.data       start:0x804C88C0 end:0x804C8B08
 	.bss        start:0x805137C8 end:0x80513920
 	.sbss       start:0x805D5FA8 end:0x805D5FC0
-	.sdata2     start:0x805DC5C0 end:0x805DC5CC
+	.sdata2     start:0x805DC5B8 end:0x805DC5CC
 
 pso/ui/frontend/TAdSinglePlyChrSelectGC_80202A68.cpp:
 	.text       start:0x80202A68 end:0x80203284
@@ -9354,7 +9358,7 @@ pso/ui/frontend/TAdEnterSerialAccessGC.cpp:
 	.bss        start:0x80543010 end:0x805430E8
 	.sdata      start:0x805D4158 end:0x805D4160
 	.sbss       start:0x805D6C20 end:0x805D6C28
-	.sdata2     start:0x805DF508 end:0x805DF518
+	.sdata2     start:0x805DF4D8 end:0x805DF518
 
 pso/boss/olgaflow/TBoss6Kakusan.cpp:
 	.text       start:0x80322438 end:0x80322B50

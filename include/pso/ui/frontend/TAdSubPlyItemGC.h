@@ -14,7 +14,9 @@ public:
     virtual ~TAdSubPlyItemGC();
     virtual void run_task();
 public:
-    int render_status_line(int a1);
+    // Draws text with the menu font at (x, y). The floats come first: TAdEnterSerialAccessGC's
+    // literal pool has 281.0f before "-" (separator calls), which only that argument order creates.
+    static void render_status_line(f32 x, f32 y, f32 scale, const char *text, u32 color);
     u8 *format_level_text(int level);
 
     u8 pad_1C[4];

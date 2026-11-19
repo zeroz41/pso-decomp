@@ -25,7 +25,6 @@ void *memset(void *, int, u32);
 char *strncpy(char *, const char *, u32);
 s32 sprintf(void *, const void *, ...);
 u32 calc_text_width(char *s);
-void render_status_line__15TAdSubPlyItemGCFi(const char *, u32, f32, f32, f32);
 extern const char *TAdPlayerLoadGC__class_name;
 extern const char *TAdSubPlyItemGC__name;
 extern int TAdPlayerLoadGC__load_state;
@@ -96,15 +95,15 @@ void TAdSubPlyItemGC::render() {
         for (i = 0; i < 4; i++) {
             if (visible[i] != 0 && names[i][0] != 0) {
                 pos = name_pos;
-                render_status_line__15TAdSubPlyItemGCFi(names[i], (alpha[i] << 24) | 0x111111,
-                    1.0f + pos[i].x, name_pos[i].y, 0.39f);
-                render_status_line__15TAdSubPlyItemGCFi(names[i], (alpha[i] << 24) | 0xFFFFFF,
-                    pos[i].x, pos[i].y, 0.4f);
+                TAdSubPlyItemGC::render_status_line(1.0f + pos[i].x, name_pos[i].y, 0.39f,
+                        names[i], (alpha[i] << 24) | 0x111111);
+                TAdSubPlyItemGC::render_status_line(pos[i].x, pos[i].y, 0.4f,
+                        names[i], (alpha[i] << 24) | 0xFFFFFF);
                 if (levels[i] != 0) {
-                    render_status_line__15TAdSubPlyItemGCFi((const char *)format_level_text(levels[i]),
-                        (alpha[i] << 24) | 0x111111, 1.0f + level_pos[i].x, level_pos[i].y, 0.39f);
-                    render_status_line__15TAdSubPlyItemGCFi((const char *)format_level_text(levels[i]),
-                        (alpha[i] << 24) | 0xFFFFFF, level_pos[i].x, level_pos[i].y, 0.4f);
+                    TAdSubPlyItemGC::render_status_line(1.0f + level_pos[i].x, level_pos[i].y, 0.39f,
+                        (const char *)format_level_text(levels[i]), (alpha[i] << 24) | 0x111111);
+                    TAdSubPlyItemGC::render_status_line(level_pos[i].x, level_pos[i].y, 0.4f,
+                        (const char *)format_level_text(levels[i]), (alpha[i] << 24) | 0xFFFFFF);
                 }
             }
         }
