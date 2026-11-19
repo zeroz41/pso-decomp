@@ -620,11 +620,10 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # -sdata 4: the 8-byte texlists 0x804DCA78/98 sit in .data.
     "pso/ui/frontend/TAdTitleGC.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly", "-sdata 4")},
     "pso/ui/frontend/TAdMultiPlayerNoGC.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
-    # TAdMultiPlyChrSelectGC_802DBCC4 (0x802DBCC4-0x802DC760, one TU split in two): deferred, written
-    # last to first, since the 0x802DC3D4 functions' slot descriptors (0x80472880-88) sit below
-    # those of 0x802DBCC4 (0x80472890-), the reverse of their functions' order. The same reversal
-    # runs on through 0x802DEF54 (0x80472848-78), so the later fragments belong to this TU too.
-    "pso/ui/frontend/TAdMultiPlyChrSelectGC_802DBCC4.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
+    # TAdMultiPlyChrSelectGC (0x802DBCC4-0x802E0064): deferred, written last to first, since the
+    # functions' slot descriptors 0x80472848-0x804728A8 run in the reverse of their functions' order.
+    # -str reuse,readonly: the class name 0x80472810 sits in .rodata and "" in .sdata2 (0x805DE898).
+    "pso/ui/frontend/TAdMultiPlyChrSelectGC.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     # -str reuse,readonly: the f256_selectgamen names 0x804662D8 and the class name sit in .rodata.
     # -sdata 4: the 8-byte texlists 0x804DCB98/B8 sit in .data.
     "pso/ui/frontend/TAdSelectTxtGC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-sdata 4")},
