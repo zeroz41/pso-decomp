@@ -1605,7 +1605,7 @@ pso/enemy/fly/TObjEneBm3FlyNest.cpp:
 pso/enemy/wolf/TObjEneBm5Wolf.cpp:
 	.text       start:0x800B4820 end:0x800B8B00
 	.ctors      start:0x80433F58 end:0x80433F5C
-	.rodata     start:0x8043B3C8 end:0x8043B5C0
+	.rodata     start:0x8043B3C8 end:0x8043B5D6
 	.data       start:0x804920D0 end:0x804924EC
 	.bss        start:0x80500B40 end:0x80500B98
 	.sdata      start:0x805D2A20 end:0x805D2A28
@@ -1654,7 +1654,7 @@ pso/object/ambient/TObjGrass.cpp:
 
 pso/enemy/lappy/TObjEneLappy.cpp:
 	.text       start:0x800BFBBC end:0x800C20D0
-	.rodata     start:0x8043B7D8 end:0x8043BA28
+	.rodata     start:0x8043B7D8 end:0x8043BA5C
 	.data       start:0x80492BD8 end:0x80493078
 	.bss        start:0x80500BE0 end:0x80500C00
 	.sdata      start:0x805D2A40 end:0x805D2A48

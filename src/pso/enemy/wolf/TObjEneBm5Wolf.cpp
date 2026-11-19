@@ -160,7 +160,6 @@ extern s32 lbl_8043B3A8[];
 extern s32 lbl_8043B3B0[];
 extern s32 lbl_8043B3B8[];
 extern s32 lbl_8043B3C0[];
-extern u8 lbl_8043B5C0[];
 Vec lbl_80500B60;
 u32 lbl_80500B6C[3];
 u32 TObjEneBm5Wolf__pack_member_list[5];
@@ -260,7 +259,7 @@ void TObjEneBm5Wolf::load_resources() {
     s32 i;
 
     if (TObjEneDD::check_v2_mode() != 0) {
-        TObjEneBm5Wolf__bml_resource = (BmlResource *)load_enemy_bml_resource_named((s32)&bm_ene_bm5_wolf_resource_descriptor, (s32)lbl_8043B5C0);
+        TObjEneBm5Wolf__bml_resource = (BmlResource *)load_enemy_bml_resource_named((s32)&bm_ene_bm5_wolf_resource_descriptor, (s32)"bm_ene_bm5_wolf_a.bml");
     } else {
         TObjEneBm5Wolf__bml_resource = (BmlResource *)load_enemy_bml_resource((u8 *)&bm_ene_bm5_wolf_resource_descriptor);
     }
@@ -283,6 +282,13 @@ void TObjEneBm5Wolf::load_resources() {
     TLobby::spawn_npc_enemy(9, TObjEneBm5Wolf__bml_resource->models[1].model, (NJS_TEXLIST *)TObjEneBm5Wolf__bml_resource->models[0].m_c, &sp, TObjEneBm5Wolf__collider_params[0].radius, 0.0f);
     TLobby::spawn_npc_enemy(10, TObjEneBm5Wolf__bml_resource->models[0].model, (NJS_TEXLIST *)TObjEneBm5Wolf__bml_resource->models[0].m_c, &sp, TObjEneBm5Wolf__collider_params[0].radius, 0.0f);
     }
+}
+
+// dead-stripped: only its literals survive. The int-to-float double (.rodata 0x8043B5B8) is pooled before
+// load_resources' file name, but its only live user actor_rand_int is compiled after load_resources
+// (defer_codegen runs this file bottom-up). Minimal body after actor_rand_int's conversion; name inferred.
+static f32 actor_rand_float(s32 actor, s32 range) {
+    return (f32)range * ((TObjChara *)actor)->random_ratio();
 }
 
 void *TObjEneBm5Wolf::create(void *arg0) {
