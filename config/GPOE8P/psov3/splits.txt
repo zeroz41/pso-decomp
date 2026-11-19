@@ -7000,6 +7000,9 @@ pso/ui/window/TWindowHelpItem_802540AC.cpp:
 	.data       start:0x804CF140 end:0x804CF868
 	.sbss       start:0x805D6448 end:0x805D644C
 
+pso/ui/window/WindowHelpItemCallbackEntries.cpp:
+	.data       start:0x804CF868 end:0x804CF8B0
+
 pso/ui/window/TWindowSubMag_802559F8.cpp:
 	.text       start:0x802559F8 end:0x80255A38
 
