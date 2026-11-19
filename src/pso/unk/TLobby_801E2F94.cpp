@@ -108,12 +108,12 @@ f32 viewport_scissor_origin_x = 320.0f;
 f32 camera_viewport_center_y = 240.0f;
 void TCameraCtrl__sub_801E32D8(f32 farg0, f32 farg1);
 void GXSetScissor(u32, u32, u32, u32);
-void set_viewport_scissor__11TCameraCtrlFiPv(s32 mode, Rect_801E317C *r);
 void camera_renderer_setup_nop(void);
 s32 TObjPlayer__sub_803DAD28(u32 arg0);
 int draw_textured_vertices__10TObjPlayerFPvii(void*, s32, s32);
 
-void set_viewport_scissor__11TCameraCtrlFiPv(s32 mode, Rect_801E317C *r) {
+void TCameraCtrl::set_viewport_scissor(int mode, void *rect) {
+    Rect_801E317C *r = (Rect_801E317C *)rect;
     f32 adj;
     f32 x;
     f32 y;
