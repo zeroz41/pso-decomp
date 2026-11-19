@@ -18,3 +18,5 @@ RenderFadeState::~RenderFadeState() {}
 RenderFadeState::RenderFadeState() {
     activate_and_dispatch();
 }
+
+__declspec(section ".data") u32 lbl_804949A0[2] = { 0 };
