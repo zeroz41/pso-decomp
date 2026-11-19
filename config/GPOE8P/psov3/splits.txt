@@ -8751,10 +8751,17 @@ pso/weapon/TUnk_804E24F0.cpp:
 	.sdata2     start:0x805DE7A8 end:0x805DE7BC
 
 pso/ui/frontend/TAdPlayerLoadGC.cpp:
-	.text       start:0x802D65B4 end:0x802D7070
-	.rodata     start:0x804725C0 end:0x804725F0
-	.data       start:0x804E25E8 end:0x804E2680
+	.text       start:0x802D65B4 end:0x802D6BEC
+	.rodata     start:0x804725C0 end:0x804725D0
+	.data       start:0x804E25E8 end:0x804E2668
+	.sdata      start:0x805D3F48 end:0x805D3F50
+
+pso/ui/frontend/TAdSubPlyItemGC_802D6BEC.cpp:
+	.text       start:0x802D6BEC end:0x802D7070
+	.rodata     start:0x804725D0 end:0x804725F0
+	.data       start:0x804E2668 end:0x804E2680
 	.bss        start:0x80540FB0 end:0x80540FF0
+	.sdata      start:0x805D3F50 end:0x805D3F58
 	.sdata2     start:0x805DE7C0 end:0x805DE7D4
 
 pso/npc/TObjNpcEnemy.cpp:
