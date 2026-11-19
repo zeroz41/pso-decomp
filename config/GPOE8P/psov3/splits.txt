@@ -10181,7 +10181,7 @@ pso/ui/window/TWindowDD_8034AF68.cpp:
 	.rodata     start:0x80478B78 end:0x80478BB8
 	.data       start:0x804F0040 end:0x804F00A4
 	.sbss       start:0x805D6E90 end:0x805D6E98
-	.sdata2     start:0x805DFD78 end:0x805DFD84
+	.sdata2     start:0x805DFD78 end:0x805DFD94
 
 pso/quest/challenge/TChallenge4PItemSelect.cpp:
 	.text       start:0x8034B110 end:0x8034BE30

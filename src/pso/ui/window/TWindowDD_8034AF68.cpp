@@ -105,3 +105,8 @@ s32 TWindowDD::lookup_item_category(s32 arg0) {
 
 // Defined after lookup_item_category: its local static table comes first in .data.
 WsRecentState ws_recent_state = { 0 };
+
+__declspec(section ".sdata2") extern const s32 category0_id_count = 1;
+__declspec(section ".sdata2") extern const s32 category2_id_count = 1;
+__declspec(section ".sdata2") extern const s32 category3_id_count = 1;
+__declspec(section ".sdata2") extern const s32 category4_id_count = 4;
