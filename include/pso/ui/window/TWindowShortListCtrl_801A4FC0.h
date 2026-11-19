@@ -3,18 +3,12 @@
 
 #include "types.h"
 
+// --- C functions defined in TUnk_804C2298.cpp ---
 extern "C" {
 s32 TWindowShortListCtrl__sub_801A513C(void *p);
 int TWindowShortListCtrl__sub_801A5144(void *p);
-void *__ct__13TUnk_804C2298Fv(void *parent);
-s32 fn_801A51F0(void);
-}
-
-// --- C functions defined in TWindowShortListCtrl_801A4FC0.cpp ---
-extern "C" {
-s32 TWindowShortListCtrl__sub_801A513C(void *p);
-int TWindowShortListCtrl__sub_801A5144(void *p);
-s32 fn_801A51F0(void);
+// The idle timeout setting of the client's character save record (name inferred).
+s32 fn_801A51F0(u32 client);
 }
 // --- end of C functions
 

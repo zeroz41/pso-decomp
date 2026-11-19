@@ -4920,19 +4920,13 @@ pso/unk/TLobby_801A3C48.cpp:
 
 pso/ui/frontend/TAdDialingGC_801A4C90.cpp:
 	.text       start:0x801A4C90 end:0x801A4D30
+	.data       start:0x804C2298 end:0x804C22B0
 
-pso/unk/text_801A4D30.cpp:
-	.text       start:0x801A4D30 end:0x801A4FC0
-	.rodata     start:0x80446940 end:0x80446970
+pso/unk/TUnk_804C2298.cpp:
+	.text       start:0x801A4D30 end:0x801A529C
+	.rodata     start:0x80446940 end:0x80446998
 	.data       start:0x804C22B0 end:0x804C22D8
 	.sdata2     start:0x805DC0A8 end:0x805DC0AC
-
-pso/ui/window/TWindowShortListCtrl_801A4FC0.cpp:
-	.text       start:0x801A4FC0 end:0x801A5228
-
-pso/ui/window/TWindowSubStatusDisp_801A5228.cpp:
-	.text       start:0x801A5228 end:0x801A529C
-	.rodata     start:0x80446970 end:0x80446980
 
 pso/ui/window/TWindowKeyBoardHard_801A529C.cpp:
 	.text       start:0x801A529C end:0x801A558C
@@ -5282,13 +5276,10 @@ pso/player/TPlyItem.cpp:
 pso/ui/frontend/TAdSinglePlyChrSelectGC_801D5DAC.cpp:
 	.text       start:0x801D5DAC end:0x801D5DDC
 
-pso/unk/text_801D5DDC.cpp:
-	.text       start:0x801D5DDC end:0x801D62D0
-	.sdata2     start:0x805DC3D8 end:0x805DC3DC
-
-pso/ui/font/TFontSmallLobby_801D62D0.cpp:
-	.text       start:0x801D62D0 end:0x801D6B3C
+pso/ui/font/TFontSmallLobby.cpp:
+	.text       start:0x801D5DDC end:0x801D6B3C
 	.rodata     start:0x80447170 end:0x80447178
+	.sdata2     start:0x805DC3D8 end:0x805DC3F0
 
 pso/effect/particle/TParticleCtrl_801D6B3C.cpp:
 	.text       start:0x801D6B3C end:0x801D6BC8
@@ -6691,7 +6682,7 @@ pso/ui/window/TWindowAddition_80244238.cpp:
 pso/ui/window/TWindowArea.cpp:
 	.text       start:0x802443F0 end:0x80244774
 	.rodata     start:0x8044E640 end:0x8044E658
-	.data       start:0x804CDFE8 end:0x804CE000
+	.data       start:0x804CDFE8 end:0x804CE018
 	.sdata      start:0x805D3880 end:0x805D3888
 	.sbss       start:0x805D63E8 end:0x805D63EC
 	.sdata2     start:0x805DCAB8 end:0x805DCAC8
@@ -7579,17 +7570,18 @@ pso/ui/window/TWindowSubMag.cpp:
 	.sdata2     start:0x805DD648 end:0x805DD678
 
 pso/ui/window/TWindowSubMagPhoton.cpp:
-	.text       start:0x8027C13C end:0x8027CCC8
-	.rodata     start:0x8044FA10 end:0x8044FA30
+	.text       start:0x8027C13C end:0x8027C754
+	.rodata     start:0x8044FA10 end:0x8044FA28
 	.data       start:0x804D1720 end:0x804D1818
 	.sdata      start:0x805D3A70 end:0x805D3A78
 	.sdata2     start:0x805DD678 end:0x805DD688
 
 pso/ui/window/TWindowSubQuestBoard.cpp:
-	.text       start:0x8027CCC8 end:0x8027D1E8
-	.rodata     start:0x8044FA30 end:0x8044FA48
+	.text       start:0x8027C754 end:0x8027D1E8
+	.rodata     start:0x8044FA28 end:0x8044FA48
 	.data       start:0x804D1818 end:0x804D1848
 	.sdata      start:0x805D3A78 end:0x805D3A80
+	.sdata2     start:0x805DD688 end:0x805DD690
 
 pso/ui/window/TWindowSubQuestBoard_8027D1E8.cpp:
 	.text       start:0x8027D1E8 end:0x8027D230

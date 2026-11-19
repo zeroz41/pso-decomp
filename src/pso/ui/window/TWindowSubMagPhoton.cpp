@@ -103,19 +103,8 @@ u8 *TWindowSubMagPhoton__ct(TWindowSubMagPhoton *arg0, s32 arg1, s32 arg2, s16 a
 s32 play_sound_effect(s32, s32, s32, s32);
 s32 apply_choice__20TWindowChoiceSettingFllll(void *, int, int, int);
 void draw_cursor_sprite__21TWindowSubCustomEquipFPvPvif(void *, void *, int, f32);
-s32 get_message_10__20TWindowSubStatusDispFl(s32);
-s32 fn_801A51F0(int);
-s32 set_depth__11TWindowBaseFf(s32);
-s32 TWindowSubEquip__sub_80263AF8(s32, s32);
-s32 get_window_layout_position(s32);
-extern const f32 lbl_8044FA28[2];
-s32 align_menu_entry_positions(s32);
 }
-s32 create_titled_window_menu(s32, s32, s32, s32);
 extern "C" {
-s32 forward_trade_action_default__16TObjCityMainWarpFPviii(s32, s32, s32, s32);
-s32 is_split_screen();
-s32 update_selected_item__17TWindowOptionCtrlFv(s32);
 
 void TWindowSubMagPhoton::handle_cancel() {
     if (get_active_flag() == 0) {
@@ -212,128 +201,5 @@ u8 *TWindowSubMagPhoton__ct(TWindowSubMagPhoton *window_sub_mag_photon, s32 arg1
     init_photon_blast_entries__19TWindowSubMagPhotonFv(window_sub_mag_photon, temp_r4);
     return (u8 *)window_sub_mag_photon;
 }
-
-void TUnk_804D1818::update_photon_selection() {
-    s32 selected_menu_value;
-    s32 temp_r3;
-
-    selected_menu_value = ((TWindowMenu *)(*(s32 *)&this->unk_28))->get_selected_value();
-    temp_r3 = update_selected_item__17TWindowOptionCtrlFv(this->m_2c);
-    if ((selected_menu_value == 4) && ((s8)this->m_1d != temp_r3)) {
-        (this->m_1d) = (u8) temp_r3;
-        if ((s8)this->m_1d == 0) {
-            start_pad_rumble_client(0xC0, 0xF, (s16) *(s32 *)&(this->m_20));
-        }
-    }
 }
 
-void TUnk_804D1818::update_quest_board_card_flags() {
-    s32 selected_menu_value;
-    s32 temp_r4;
-
-    selected_menu_value = ((TWindowMenu *)(*(s32 *)&this->unk_28))->get_selected_value();
-    temp_r4 = update_selected_item__17TWindowOptionCtrlFv(this->m_2c);
-    switch (selected_menu_value) {
-    case 0:
-        ((TWindowSubQuestBoard *)(this->m_20))->set_card_flags_direct(temp_r4);
-        return;
-    case 1:
-        ((TWindowSubQuestBoard *)(this->m_20))->set_card_flags_scaled(temp_r4);
-        return;
-    case 2:
-        TWindowSubQuestBoard__sub_8027CF50(this->m_20, temp_r4);
-        return;
-    case 4:
-        ((TWindowSubQuestBoard *)(this->m_20))->clear_card_window_flags(temp_r4);
-        return;
-    case 3:
-        ((TWindowSubQuestBoard *)(this->m_20))->set_card_window_flags(temp_r4);
-        return;
-    case 5:
-        ((TWindowSubQuestBoard *)(this->m_20))->set_board_flags(temp_r4);
-        return;
-    }
-}
-
-extern const f32 lbl_805DD688;
-
-s32 TUnk_804D1818::sub_8027C884(s32 arg1) {
-    s16 var_r29;
-    s32 temp_r31;
-    s32 temp_r3;
-    temp_r31 = (s32)TWindowSubStatusDisp__sub_80248BE8((s32)(get_window_layout_position(0x16)), (s32)lbl_8044FA28, (s32)this->m_20);
-    switch (arg1) {
-    case 0:
-        ((TWindowMenuIconLine *)temp_r31)->ensure_status_display((int) (TWindowSubStatusDisp::get_message_10(0x66)));
-        TWindowSubStatusDisp::dispatch_without_flags(temp_r31, (int) (TWindowSubStatusDisp::get_message_10(0x6F)), 0);
-        TWindowSubStatusDisp::dispatch_without_flags(temp_r31, (int) (TWindowSubStatusDisp::get_message_10(0x70)), 1);
-        var_r29 = ((TWindowKeyBoardHard *)(this->m_20))->is_card_flag_set();
-        break;
-    case 1:
-        ((TWindowMenuIconLine *)temp_r31)->ensure_status_display((int) (TWindowSubStatusDisp::get_message_10(0x67)));
-        TWindowSubStatusDisp::draw_status(temp_r31, (int) (TWindowSubStatusDisp::get_message_10(0x71)), 0);
-        TWindowSubStatusDisp::draw_status(temp_r31, (int) (TWindowSubStatusDisp::get_message_10(0x72)), 1);
-        var_r29 = ((TBoss8Dragon *)(this->m_20))->test_card_flag_2();
-        break;
-    case 2:
-        ((TWindowMenuIconLine *)temp_r31)->ensure_status_display((int) (TWindowSubStatusDisp::get_message_10(0x68)));
-        TWindowSubStatusDisp::dispatch_without_flags(temp_r31, (int) (TWindowSubStatusDisp::get_message_10(0x73)), 0);
-        TWindowSubStatusDisp::dispatch_without_flags(temp_r31, (int) (TWindowSubStatusDisp::get_message_10(0x74)), 1);
-        var_r29 = test_keyboard_card_flag4((void *)this->m_20);
-        break;
-    case 4:
-        ((TWindowMenuIconLine *)temp_r31)->ensure_status_display((int) (TWindowSubStatusDisp::get_message_10(0x6A)));
-        TWindowSubStatusDisp::dispatch_without_flags(temp_r31, (int) (TWindowSubStatusDisp::get_message_10(0xA6)), 0);
-        TWindowSubStatusDisp::dispatch_without_flags(temp_r31, (int) (TWindowSubStatusDisp::get_message_10(0xA7)), 1);
-        temp_r3 = TWindowKeyBoardHard::test_card_flag_8(this->m_20);
-        this->m_1d = temp_r3;
-        var_r29 = (s16) temp_r3;
-        break;
-    case 3:
-        ((TWindowMenuIconLine *)temp_r31)->ensure_status_display((int) (TWindowSubStatusDisp::get_message_10(0x69)));
-        TWindowSubStatusDisp::dispatch_without_flags(temp_r31, (int) (TWindowSubStatusDisp::get_message_10(0x75)), 0);
-        TWindowSubStatusDisp::dispatch_without_flags(temp_r31, (int) (TWindowSubStatusDisp::get_message_10(0x76)), 1);
-        TWindowSubStatusDisp::dispatch_without_flags(temp_r31, (int) (TWindowSubStatusDisp::get_message_10(0x77)), 2);
-        TWindowSubStatusDisp::dispatch_without_flags(temp_r31, (int) (TWindowSubStatusDisp::get_message_10(0x78)), 3);
-        var_r29 = TWindowSubStatusDisp::get_card_window_flags(this->m_20);
-        break;
-    case 5:
-        ((TWindowMenuIconLine *)temp_r31)->ensure_status_display((int) (TWindowSubStatusDisp::get_message_10(0x6E)));
-        TWindowSubStatusDisp::dispatch_without_flags(temp_r31, (int) (TWindowSubStatusDisp::get_message_10(0x79)), 0);
-        TWindowSubStatusDisp::dispatch_without_flags(temp_r31, (int) (TWindowSubStatusDisp::get_message_10(0x7A)), 1);
-        TWindowSubStatusDisp::dispatch_without_flags(temp_r31, (int) (TWindowSubStatusDisp::get_message_10(0x7B)), 2);
-        TWindowSubStatusDisp::dispatch_without_flags(temp_r31, (int) (TWindowSubStatusDisp::get_message_10(0x7C)), 3);
-        var_r29 = fn_801A51F0(this->m_20);
-        break;
-    }
-    ((TWindowSubStatusDisp *)temp_r31)->set_selected_index(var_r29);
-    ((TWindowSubShortCutList *)temp_r31)->set_flag70_bit10();
-    TWindowSubEquip__sub_80263AF8((int)this->m_24, 1);
-    set_depth__11TWindowBaseFf(temp_r31);
-    return temp_r31;
-}
-
-s32 TUnk_804D1818::create_option_menu_window() {
-    s32 titled_window_menu;
-
-    titled_window_menu = create_titled_window_menu(get_window_layout_position(0x15), 6, get_message_10__20TWindowSubStatusDispFl(0x2A), this->m_20);
-    if (is_split_screen() == 0) {
-        forward_trade_action_default__16TObjCityMainWarpFPviii(titled_window_menu, get_message_10__20TWindowSubStatusDispFl(0x66), 6, 0);
-    }
-    forward_trade_action_default__16TObjCityMainWarpFPviii(titled_window_menu, get_message_10__20TWindowSubStatusDispFl(0x67), 6, 1);
-    forward_trade_action_default__16TObjCityMainWarpFPviii(titled_window_menu, get_message_10__20TWindowSubStatusDispFl(0x68), 6, 2);
-    forward_trade_action_default__16TObjCityMainWarpFPviii(titled_window_menu, get_message_10__20TWindowSubStatusDispFl(0x69), 6, 3);
-    forward_trade_action_default__16TObjCityMainWarpFPviii(titled_window_menu, get_message_10__20TWindowSubStatusDispFl(0x6A), 6, 4);
-    if (is_split_screen() == 0) {
-        forward_trade_action_default__16TObjCityMainWarpFPviii(titled_window_menu, get_message_10__20TWindowSubStatusDispFl(0x6E), 6, 5);
-    }
-    ((TWindowSubComCardList *)titled_window_menu)->set_flag70_bit10();
-    ((TWindowSubComCardList *)titled_window_menu)->update_layout_height(lbl_805DD688);
-    align_menu_entry_positions(titled_window_menu);
-    TWindowSubEquip__sub_80263AF8(*(s32 *)&this->m_24, 0);
-    set_depth__11TWindowBaseFf(titled_window_menu);
-    return titled_window_menu;
-}
-}
-
-__declspec(section ".rodata") extern const f32 lbl_8044FA28[2] ATTRIBUTE_ALIGN(8) = { 302.0f, 148.0f };

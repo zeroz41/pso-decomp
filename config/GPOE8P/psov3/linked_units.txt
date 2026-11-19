@@ -731,7 +731,7 @@ pso/effect/enemy/TEneParticleCtrl.cpp
 pso/render/TFogCtrl.cpp
 pso/ui/font/TFontSmallHelp.cpp
 pso/ui/font/TFontSmallLobby_801C013C.cpp
-pso/ui/font/TFontSmallLobby_801D62D0.cpp
+pso/ui/font/TFontSmallLobby.cpp
 pso/ui/city/THunterGuildSeqOffline.cpp
 pso/ui/city/THunterGuildSeqOffline_801F3718.cpp
 pso/ui/city/THunterGuildSeqOffline_80211FEC.cpp
@@ -1359,7 +1359,6 @@ pso/ui/window/TWindowSubStatusDisp_8026D740.cpp
 pso/ui/window/TWindowShop.cpp
 pso/ui/window/TWindowShortCut.cpp
 pso/ui/window/TWindowShortListCtrl.cpp
-pso/ui/window/TWindowShortListCtrl_801A4FC0.cpp
 pso/ui/window/TWindowShortListCtrl_80221828.cpp
 pso/ui/window/TWindowShortListCtrl_8026E7DC.cpp
 pso/ui/window/TWindowShortListCtrl_80277D3C.cpp
@@ -1433,7 +1432,6 @@ pso/ui/window/TWindowSubStatusDisp_80071774.cpp
 pso/ui/window/TWindowSubStatusDisp_80077760.cpp
 pso/ui/window/TWindowSubStatusDisp_800FBD74.cpp
 pso/ui/window/TWindowSubStatusDisp_8010EEF0.cpp
-pso/ui/window/TWindowSubStatusDisp_801A5228.cpp
 pso/ui/window/TWindowSubStatusDisp_80228C30.cpp
 pso/ui/window/TWindowSubStatusDisp_80228CC0.cpp
 pso/ui/window/TWindowSubStatusDisp_80248968.cpp
@@ -1873,7 +1871,6 @@ pso/ui/frontend/TAdChrSelPlayerGC.cpp
 pso/ui/frontend/TAdChrSelPlyPlateGC.cpp
 pso/ui/frontend/TAdChrSelSlotGC.cpp
 pso/ui/frontend/TAdDialingGC.cpp
-pso/ui/frontend/TAdDialingGC_801A4C90.cpp
 pso/ui/frontend/TAdDialingGC_80328E50.cpp
 pso/ui/frontend/TAdDialingGC_80328E90.cpp
 pso/ui/frontend/TAdDialingMessageWindow.cpp
@@ -2082,7 +2079,8 @@ pso/unk/text_801A2710.cpp
 pso/unk/text_801A2B38.cpp
 pso/unk/text_801A3014.cpp
 pso/unk/text_801A3BB8.cpp
-pso/unk/text_801A4D30.cpp
+pso/unk/TUnk_804C2298.cpp
+pso/ui/frontend/TAdDialingGC_801A4C90.cpp
 pso/unk/text_801A5778.cpp
 pso/unk/text_801A6A28.cpp
 pso/unk/text_801A6F84.cpp
@@ -2092,7 +2090,6 @@ pso/unk/text_801C543C.cpp
 pso/unk/text_801C5454.cpp
 pso/unk/text_801C5470.cpp
 pso/unk/text_801D34E0.cpp
-pso/unk/text_801D5DDC.cpp
 pso/unk/text_801D6D60.cpp
 pso/unk/text_801D6D8C.cpp
 pso/unk/text_801D6DB0.cpp

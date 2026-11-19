@@ -3,18 +3,17 @@
 #include "pso/unk/TUnk_804C2298.h"
 #include "pso/ui/frontend/TAdDialingGC.h"
 
-    extern int player_action_provider_selector;
-void TAdDialingGC__sub_801A4C90(void) { player_action_provider_selector = 1; }
-
+extern int player_action_provider_selector;
 extern s32 TAdDialingGC__instance;
+
+void TAdDialingGC__sub_801A4C90(void) { player_action_provider_selector = 1; }
 
 s32 TAdDialingGC__sub_801A4C9C(void) {
     return TAdDialingGC__instance;
 }
 
 void TUnk_804C2298::sub_801A4CA4() {
-
-    switch (this->m_20) {
+    switch (this->selection) {
     case 0:
         TAdDialingGC::select_dial_image((void *)1, 0);
         return;
@@ -30,4 +29,5 @@ void TUnk_804C2298::sub_801A4CA4() {
         return;
     }
 }
-void TUnk_804C2298::render() {  }
+
+void TUnk_804C2298::render() {}

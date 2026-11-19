@@ -37,7 +37,7 @@
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/ui/keyboard/TKeyBoardControl_80131C58.h"
 #include "pso/ui/window/TWindowCtrlMain.h"
-#include "pso/ui/window/TWindowShortListCtrl_801A4FC0.h"
+#include "pso/unk/TUnk_804C2298.h"
 #include "pso/ui/frontend/DrawLineResource.h"
 #include "pso/ui/frontend/TAdBackGC_8029A6EC.h"
 #include "pso/ui/frontend/TAdBackTxtGC.h"
@@ -499,11 +499,7 @@ void TAdMultiChgGameModeGC::create_mode_scene() {
         game_mode_scene_instance = (TObject *)p;
         break;
     case 3:
-        p = TObject::operator new(0x30);
-        if (p != NULL) {
-            p = __ct__13TUnk_804C2298Fv(p);
-        }
-        game_mode_scene_instance = (TObject *)p;
+        game_mode_scene_instance = new TUnk_804C2298();
         break;
     case 29:
         break;

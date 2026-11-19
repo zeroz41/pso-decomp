@@ -42,7 +42,7 @@
 #include "pso/system/byteswap.h"
 #include "pso/unk/text_80087278.h"
 #include "pso/unk/text_80104FCC.h"
-#include "pso/unk/text_801D5DDC.h"
+#include "pso/ui/font/TFontSmallLobby.h"
 
 const char *item_mag_class_name = "TItemMag";
 

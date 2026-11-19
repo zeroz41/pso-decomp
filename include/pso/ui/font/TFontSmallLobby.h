@@ -21,13 +21,13 @@ struct TFontSmallLobby
     void init_packet_6x8f_battle_damage();
     void bswap_6x90_set_player_battle_team();
     void send_font_state_msg();
-    static void send_photon_blast_ready();
+    void send_photon_blast_ready();
     void update_if_ready();
     void reset_state();
     static int is_valid_index(s16 arg0);
     void reset_fields();
     int set_bit1_at_40();
-    void*clear_photon_blast_ready_flag();
+    void *clear_photon_blast_ready_flag(void *src);
     int update_ready();
     s32 get_state();
     s32 get_field_04();
@@ -46,7 +46,7 @@ struct TFontSmallLobby
     void bswap_fields();
     void*copy_packet_header_6x38(void* a1);
     void send_state();
-    void*handle_photon_blast_ready();
+    void *handle_photon_blast_ready(void *src);
     static void *create(void *arg0);
     s16 get_valid_index();
     void set_section_index(s16 arg1);
@@ -55,5 +55,12 @@ struct TFontSmallLobby
     s32 construct_pb_controller();
     static s32 disable_stealth_suit_effect(s32 arg0, void * _w1);
 };
+
+extern "C" {
+// Sends 6x39 for the gauge's client id: its photon blast is ready.
+void send_6x39_photon_blast_ready(u16 *client_id);
+// Sends 6x3A for the gauge's client id: its photon blast is no longer ready.
+void send_6x3A_clear_photon_blast_ready_flag(u16 *client_id);
+}
 
 #endif
