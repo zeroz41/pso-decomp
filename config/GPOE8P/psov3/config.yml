@@ -16142,7 +16142,7 @@ force_active:
   - step_demo_script__16TObjEneDellBiterFv
   - step_effect_sequence__18TObjEneRe4SorcererFv
   - step_fade_opacity_decrease__13TUnk_80499970Fv
-  - step_fade_opacity_increase__FPUc
+  - step_fade_opacity_increase__13TUnk_80499970Fv
   - step_ground_technique_projectile
   - step_line__23TObjOnlineEndingHexLineFv
   - step_placement_search__13TUnk_804C4498Fv
@@ -16540,7 +16540,7 @@ force_active:
   - tick_battle_music_timer
   - tick_countdown__11TBoss6Type1Fv
   - tick_display_timer__15TWindowHelpItemFPv
-  - tick_fade_counter__6TLobbyFv
+  - tick_fade_counter__13TUnk_80499970Fv
   - tick_flee_countdown__11TBoss6Type1Fv
   - tick_fullness_timer__8TItemMagFv
   - tick_key_repeat_timer__16TKeyBoardControlFUc

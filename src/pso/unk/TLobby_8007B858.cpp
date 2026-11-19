@@ -66,7 +66,7 @@ s32 restore_floor_telepipes();
 s32 __ct__15TWindowCtrlMainFv();
 s32 TWindowCtrl__ct(u32, s32);
 u32 __nw__7TObjectFUl(s32);
-s32 ct_register__6TLobbyFv(u32, s32);
+s32 __ct__13TUnk_80499970FP7TObject(u32, s32);
 s32 TWindowTimer__sub_80198D98();
 
 extern s32 tl_00;
@@ -147,7 +147,7 @@ void TLobby::create_tasks() {
     }
     tmp = __nw__7TObjectFUl(0x2C);
     if (tmp != 0U) {
-        ct_register__6TLobbyFv(tmp, tl_fade);
+        __ct__13TUnk_80499970FP7TObject(tmp, tl_fade);
     }
     TLobby::set_fade_params(0);
     tmp = __nw__7TObjectFUl(0x30);

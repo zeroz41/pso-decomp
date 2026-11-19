@@ -2050,7 +2050,7 @@ pso/unk/text_800F7D30.cpp:
 pso/unk/text_800F7DAC.cpp:
 	.text       start:0x800F7DAC end:0x800F8A0C
 	.rodata     start:0x8043D798 end:0x8043D7A8
-	.data       start:0x80499988 end:0x80499A00
+	.data       start:0x80499970 end:0x80499A00
 	.sbss       start:0x805D5330 end:0x805D5338
 	.sdata2     start:0x805DA8E8 end:0x805DA90C
 
