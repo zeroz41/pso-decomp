@@ -1337,7 +1337,6 @@ pso/ui/window/TWindowMainMenu.cpp
 pso/ui/window/TWindowMainMenu1P.cpp
 pso/ui/window/TWindowMainMenu4P.cpp
 pso/ui/window/TWindowMainMenu_8024E3CC.cpp
-pso/ui/window/TWindowMainMenu_80263AB0.cpp
 pso/ui/window/TWindowMainMenu_802AD538.cpp
 pso/ui/window/TWindowMainMenu_802AE928.cpp
 pso/ui/window/TWindowMakeTeam.cpp
@@ -2454,3 +2453,4 @@ pso/quest/challenge/ChallengeModeData.cpp
 pso/network/TPlyJoinLobbyEntryData.cpp
 pso/player/TObjPlayer_801AF2F0Data.cpp
 pso/ui/window/TWindowHelpItem_802540ACData.cpp
+pso/ui/window/TWindowMainMenuData.cpp

@@ -8,8 +8,6 @@
 
 extern "C" {
 void *get_player_by_client_id(s32 i);
-void *TWindowMainMenu4P__ct(void *arg0);
-void TWindowMainMenu__ct(void *);
 s32 close_and_clear_flags__15TWindowMainMenuFv();
 
 void TWindowMainMenu4P::vfunc_9() { if (close_active_submenu() != 0) { this->show_child_window(); } }
@@ -39,8 +37,6 @@ void TWindowMainMenu4P::vfunc_6() {
 void TWindowMainMenu4P::render() {  }
 void TWindowMainMenu4P::run_task() { handle_menu_selection(); sub_80263FE0(); }
 
-extern s32 __vt__17TWindowMainMenu4P[];
-
 }
 TWindowMainMenu4P::~TWindowMainMenu4P() {
 
@@ -49,10 +45,7 @@ TWindowMainMenu4P::~TWindowMainMenu4P() {
 
 const char *TWindowMainMenu4P__name = "TWindowMainMenu4P";
 
-void *TWindowMainMenu4P__ct(void *window_main_menu4_p) {
-    TWindowMainMenu__ct(window_main_menu4_p);
-    *(s32 **)((s8 *)window_main_menu4_p + 0x18) = __vt__17TWindowMainMenu4P;
-    ((TWindowMainMenu4P *)window_main_menu4_p)->m_name = TWindowMainMenu4P__name;
-    return window_main_menu4_p;
+TWindowMainMenu4P::TWindowMainMenu4P(TObject *parent, s32 client) : TWindowMainMenu(parent, client) {
+    m_name = TWindowMainMenu4P__name;
 }
 

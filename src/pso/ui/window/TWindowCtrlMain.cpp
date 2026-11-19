@@ -23,6 +23,8 @@
 #include "pso/render/render_util.h"
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
 #include "pso/ui/window/TWindowMainMenu.h"
+#include "pso/ui/window/TWindowMainMenu1P.h"
+#include "pso/ui/window/TWindowMainMenu4P.h"
 #include "pso/ui/window/TWindowLockOn.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/unk/TLobby.h"
@@ -141,8 +143,6 @@ struct Ctl_8024E2A8 {
 };
 extern "C" {
 void *TWindowActionPalette__ct(void *, s32);
-void *TWindowMainMenu1P__ct(void *, void *, s32);
-void *TWindowMainMenu4P__ct(void *, void *, s32);
 }
 
 TWindowCtrlPlayer::TWindowCtrlPlayer(TObject *parent, s32 arg2) : TObject(parent) {
@@ -159,17 +159,9 @@ TWindowCtrlPlayer::TWindowCtrlPlayer(TObject *parent, s32 arg2) : TObject(parent
     ((struct Ctl_8024E2A8 *)this)->f38 = 0;
     ((struct Ctl_8024E2A8 *)this)->f3c = 0;
     if (is_split_screen() != 0) {
-        p = TObject::operator new(0x60);
-        if (p != 0) {
-            p = TWindowMainMenu4P__ct(p, ((struct Ctl_8024E2A8 *)this), ((struct Ctl_8024E2A8 *)this)->f24);
-        }
-        ((struct Ctl_8024E2A8 *)this)->f28 = p;
+        ((struct Ctl_8024E2A8 *)this)->f28 = new TWindowMainMenu4P(this, ((struct Ctl_8024E2A8 *)this)->f24);
     } else {
-        p = TObject::operator new(0xAC);
-        if (p != 0) {
-            p = TWindowMainMenu1P__ct(p, ((struct Ctl_8024E2A8 *)this), ((struct Ctl_8024E2A8 *)this)->f24);
-        }
-        ((struct Ctl_8024E2A8 *)this)->f28 = p;
+        ((struct Ctl_8024E2A8 *)this)->f28 = new TWindowMainMenu1P(this, ((struct Ctl_8024E2A8 *)this)->f24);
     }
     ((struct Ctl_8024E2A8 *)this)->f2c = (void *)create_message_information_window((s32)(get_window_layout_position(0x20)), (s32)lbl_8044EC4C, (s32)(((struct Ctl_8024E2A8 *)this)->f24));
     ((struct Ctl_8024E2A8 *)this)->f30 = (void *)create_status_window(((struct Ctl_8024E2A8 *)this)->f24);

@@ -90,8 +90,6 @@ const NJS_POINT2 window_layout_position_table[92] = {
 const char *TWindowMainMenu1P__name = "TWindowMainMenu1P";
 
 extern "C" {
-extern s32 __vt__17TWindowMainMenu1P[];
-void TWindowMainMenu__ct(void *);
 
 #pragma fp_contract on
 void TWindowMainMenu1P::update_backdrop_transition() {
@@ -176,23 +174,20 @@ TWindowMainMenu1P::~TWindowMainMenu1P() {
     }
 }
 
-void *TWindowMainMenu1P__ct(TWindowMainMenu1P *window_main_menu1_p) {
-    TWindowMainMenu__ct(window_main_menu1_p);
-    *(s32 **)((s8 *)window_main_menu1_p + 0x18) = __vt__17TWindowMainMenu1P;
-    window_main_menu1_p->m_name = TWindowMainMenu1P__name;
-    *(u8 *)((s8 *)window_main_menu1_p + 0x60) = 0;
-    *(u8 *)((s8 *)window_main_menu1_p + 0x61) = 0;
-    window_main_menu1_p->m_6c = 320.0f;
-    *(f32 *)((s8 *)window_main_menu1_p + 0x70) = 240.0f;
-    window_main_menu1_p->m_8c = 640.0f;
-    *(f32 *)((s8 *)window_main_menu1_p + 0x90) = 480.0f;
-    window_main_menu1_p->m_94 = 0.0f;
-    *(f32 *)((s8 *)window_main_menu1_p + 0x98) = 0.0f;
-    window_main_menu1_p->m_9c = 20.0f;
-    *(f32 *)((s8 *)window_main_menu1_p + 0xA0) = 15.0f;
-    window_main_menu1_p->m_a4 = 1.0f;
-    *(f32 *)((s8 *)window_main_menu1_p + 0xA8) = 0.85f;
-    return window_main_menu1_p;
+TWindowMainMenu1P::TWindowMainMenu1P(TObject *parent, s32 client) : TWindowMainMenu(parent, client) {
+    this->m_name = TWindowMainMenu1P__name;
+    *(u8 *)((s8 *)this + 0x60) = 0;
+    *(u8 *)((s8 *)this + 0x61) = 0;
+    this->m_6c = 320.0f;
+    *(f32 *)((s8 *)this + 0x70) = 240.0f;
+    this->m_8c = 640.0f;
+    *(f32 *)((s8 *)this + 0x90) = 480.0f;
+    this->m_94 = 0.0f;
+    *(f32 *)((s8 *)this + 0x98) = 0.0f;
+    this->m_9c = 20.0f;
+    *(f32 *)((s8 *)this + 0xA0) = 15.0f;
+    this->m_a4 = 1.0f;
+    *(f32 *)((s8 *)this + 0xA8) = 0.85f;
 }
 
 }

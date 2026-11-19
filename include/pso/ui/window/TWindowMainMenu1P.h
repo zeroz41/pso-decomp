@@ -6,6 +6,7 @@
 #include "pso/system/NinjaTypes.h"
 
 struct TWindowMainMenu1P : public TWindowMainMenu {
+    TWindowMainMenu1P(TObject *parent, s32 client);
     virtual ~TWindowMainMenu1P();
     virtual void vfunc_6();
     virtual void vfunc_8();
@@ -37,13 +38,11 @@ struct TWindowMainMenu1P : public TWindowMainMenu {
 typedef char TWindowMainMenu1P_size[sizeof(TWindowMainMenu1P) == 0xAC ? 1 : -1];
 
 extern "C" {
-void *TWindowMainMenu1P__ct(TWindowMainMenu1P *arg0);
 u8 *__dt__17TWindowMainMenu1PFv(u8 *arg0, s16 arg1);
 }
 
 // --- C functions defined in TWindowMainMenu1P.cpp ---
 extern "C" {
-void *TWindowMainMenu1P__ct(TWindowMainMenu1P *window_main_menu1_p);
 u8 *__dt__17TWindowMainMenu1PFv(u8 *arg0, s16 arg1);
 }
 // --- end of C functions
