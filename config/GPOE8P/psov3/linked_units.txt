@@ -1824,6 +1824,7 @@ pso/ui/window/TObjNewFloorWin.cpp
 pso/quest/TQuestListVM_8007EAF8.cpp
 pso/quest/TQuestListVM_801F4398.cpp
 pso/quest/TQuestThread.cpp
+pso/render/RenderUtilData.cpp
 pso/render/render_util.cpp
 pso/render/render_util_head.cpp
 pso/unk/pso_carve_8020bf88.cpp

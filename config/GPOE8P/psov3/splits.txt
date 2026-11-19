@@ -3321,6 +3321,9 @@ pso/render/render_util_head.cpp:
 	.text       start:0x801412D0 end:0x80141550
 	.rodata     start:0x8043F278 end:0x8043F298
 
+pso/render/RenderUtilData.cpp:
+	.rodata     start:0x8043F298 end:0x8043F2B0
+
 pso/render/render_util.cpp:
 	.text       start:0x80141550 end:0x80142770
 	.rodata     start:0x8043F2B0 end:0x8043F2C8
