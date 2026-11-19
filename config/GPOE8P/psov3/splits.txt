@@ -10072,7 +10072,7 @@ pso/ui/window/TWindowDD_80342E40.cpp:
 pso/ui/window/TWindowDD_803430BC.cpp:
 	.text       start:0x803430BC end:0x8034435C
 	.rodata     start:0x80478630 end:0x80478650
-	.data       start:0x804EFD68 end:0x804EFDBC
+	.data       start:0x804EFD50 end:0x804EFDBC
 	.sdata      start:0x805D42E8 end:0x805D42F0
 	.sbss       start:0x805D6E08 end:0x805D6E38
 	.sdata2     start:0x805DFCB0 end:0x805DFCC0
