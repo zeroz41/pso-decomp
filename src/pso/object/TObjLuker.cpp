@@ -14,6 +14,8 @@
 #include "pso/unk/TLobby.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/technique/TTecLuker.h"
+#include "pso/unk/TUnk_804CCA0C.h"
+#include "pso/system/task/TMainTask.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
 #include "pso/object/warp/TObjAreaWarpQuest.h"
@@ -101,7 +103,6 @@ f32 horizontal_distance_squared(void *, void *);
 s32 check_flag_100__10TObjPlayerFPv(void *);
 s32 play_persistent_sound(int, void *, void *, int, int);
 s32 TTecLuker__sub_8023401C(void *);
-void *create_telepipe_visual(void *, void *, int, int);
 s32 get_entity_id(int);
 s32 is_player_in_range__9TObjLukerFv(s32 arg0, f32 farg0);
 s32 get_main_phase();
@@ -199,7 +200,6 @@ extern Pad_801A0F34 controller_input_state[];
 s32 are_players_gathered_near(void *arg0, s32 *arg1, f32 range);
 void offset_point_toward_camera(u8 *arg0, u8 *arg1, f32 farg0);
 extern s32 local_client_id;
-extern s32 tl_07;
 s32 are_players_gathered_near(void *arg0, s32 *arg1, f32 range) {
     s32 ret;
     s32 flag;
@@ -380,7 +380,6 @@ void TObjLuker::transfer_to_town() {
 
 void TObjLuker::render() {  }
 
-extern void *tl_05;
 
 #define PBC_801A1418(x) (((u8 *(*)(s32))get_player_by_client_id)(x))
 void TObjLuker::run_task() {
@@ -388,7 +387,6 @@ void TObjLuker::run_task() {
     s32 sp8;
     u8 spC[0xC];
     u8 *p;
-    void *o;
     s32 flag;
     p = (u8 *)get_player_by_client_id(this->m_a8);
     if (p != NULL) {
@@ -408,11 +406,7 @@ void TObjLuker::run_task() {
         if (TTecLuker__sub_8023401C(p + 0x830) != 0) {
             *(s16 *)&this->m_ae = 1;
             if (*(s32 *)&this->m_b4 != 0 && *(void * *)&this->m_a4 == NULL) {
-                o = TObject::operator new(0x44);
-                if (o != NULL) {
-                    o = create_telepipe_visual(o, (u8 *)&this->position, this->m_a8, tl_07);
-                }
-                *(void * *)&this->m_a4 = o;
+                *(void * *)&this->m_a4 = new TUnk_804CCA0C(&this->position, this->m_a8, tl_07);
                 *(s32 *)&this->m_b4 = 0;
             }
             play_persistent_sound(0x4002B219, arg0, (u8 *)&this->position, 0, 0);

@@ -438,25 +438,6 @@ struct VObj_802386F8 : VBase_802386F8 {
     virtual s32 m21(s32, Damage_802386F8, s32, s32, s32, void *);
 };
 
-struct VBase_18_acd6eb { char pad[0x18]; };
-
-struct VObj_18_acd6eb : VBase_18_acd6eb {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6(s32);
-    virtual void m7();
-};
-
-struct Obj_80238AE8 : VObj_18_acd6eb {
-    void *source;
-};
-
-struct Sub_80238AE8 { u8 pad[0xA4]; u8 *inner; };
-
 extern "C" {
 void run_task__10TTecRaFoieFv(TTecRaFoie *arg0);
 void update_technique_slot__10TTecRaFoieFl(s32, s32, s32);
@@ -465,10 +446,7 @@ extern s32 tl_particle;
 s32 __ct__7TObjectFP7TObject(void *, void *);
 u8 *create_fire_explosion_effect(u8 *arg0, s32 *arg1, s16 arg2, s32 arg3, f32 farg0);
 void copy_technique_target_list(void *, void *);
-extern s32 __vt__10TTecRaFoie[];
-u8 *construct_targeted__10TTecRaFoieFPvPvPvPvi(u8 *self, void *source, void *origin, void *targets, int level);
 void clear_target_cursor_list(void *);
-Obj_80238AE8 *TTecRaFoie__ct(Obj_80238AE8 *arg0, void * _w1, void * _w2, void * _w3, int _w4);
 }
 
 u8 *create_rafoie_explosion(u8 *arg0, s32 *arg1, s16 arg2, s16 arg3, s32 arg4, f32 farg0);
@@ -614,20 +592,12 @@ void TTecRaFoie::update_detonation(void *arg1) {
     ((TObject *)self)->queue_destruction();
 }
 
-void TTecRaFoie::create(void *arg1, void *arg2, void *arg3) {
-    void *o;
-    o = TObject::operator new(0x14C);
-    if (o != NULL) {
-        TTecRaFoie__ct((Obj_80238AE8 *)(o), (void *)this, (void *)arg1, (void *)arg2, (int)arg3);
-    }
+void TTecRaFoie::create(void *origin, void *pos, void *level) {
+    new TTecRaFoie((s32)this, (Vec *)origin, (Vec *)pos, (s32)level);
 }
 
 void TTecRaFoie::create_ex(void *origin, void *targets, void *level) {
-    void *o;
-    o = TObject::operator new(0x14C);
-    if (o != NULL) {
-        construct_targeted__10TTecRaFoieFPvPvPvPvi((u8 *)o, (void *)this, (void *)origin, (void *)targets, (int)level);
-    }
+    new TTecRaFoie((s32)this, (Vec *)origin, (TargetCursorList *)targets, (s32)level);
 }
 
 TTecRaFoie::~TTecRaFoie() {
@@ -637,52 +607,37 @@ typedef struct RecoveredFields_80238D10_arg0 RecoveredFields_80238D10_arg0;
 
 #pragma push
 #pragma opt_common_subs off
-Obj_80238AE8 *TTecRaFoie__ct(Obj_80238AE8 *arg0, void * _w1, void * _w2, void * _w3, int _w4) {
-    Sub_80238AE8 *t;
-    __ct__13TUnk_804CC148FlP3VecP3Vecl(arg0, (s32)_w1, (Vec *)_w2, (Vec *)_w3, _w4);
-    *(void **)((s8 *)arg0 + 0x18) = ((void * *)&__vt__10TTecRaFoie);
-    ((TObjPlayer *)((u8 *)arg0 + 0xEC))->construct_target_cursor_records();
-    *(u32 *)((s8 *)arg0 + 0) = (u32)TTecRaFoie_class_name;
-    ((TTecRaFoie *)arg0)->calc_area_parameters();
-    clear_target_cursor_list((u8 *)arg0 + 0xEC);
-    ((TTecRaFoie *)arg0)->m_148 = 1;
-    t = *(Sub_80238AE8 **)((s8 *)arg0 + 0xE8);
-    if (t != NULL) {
-        *(f32 *)((s8 *)t->inner + 0xC) = ((TTecRaFoie *)arg0)->m_90;
+TTecRaFoie::TTecRaFoie(s32 source, Vec *origin, Vec *pos, s32 level) : TUnk_804CC148(source, origin, pos, level) {
+    ((TObjPlayer *)&m_ec)->construct_target_cursor_records();
+    m_name = TTecRaFoie_class_name;
+    calc_area_parameters();
+    clear_target_cursor_list(&m_ec);
+    m_148 = 1;
+    if (m_e8 != NULL) {
+        m_e8->bodies->radius = m_90;
     }
-    if (arg0->source != NULL) {
-        ((TTecRaFoie *)arg0)->m_b4 = get_entity_id(arg0->source);
+    if (this->source != 0) {
+        m_b4 = get_entity_id((void *)this->source);
     }
-    arg0->m6(0);
-    arg0->m7();
-    return arg0;
+    vfunc_8(0);
+    vfunc_9();
 }
 #pragma pop
 
-u8 *construct_targeted__10TTecRaFoieFPvPvPvPvi(u8 *self, void *source, void *origin, void *targets, int level) {
-    u8 *proxy;
-    __ct__13TUnk_804CC148FlP3VecP3Vecl(self, (s32)source, (Vec *)origin, (Vec *)origin, level);
-    *(s32 **)((s8 *)self + 0x18) = __vt__10TTecRaFoie;
-    ((TObjPlayer *)(self + 0xEC))->construct_target_cursor_records();
-    *(u32 *)((s8 *)self + 0) = (u32)TTecRaFoie_class_name;
-    ((TTecRaFoie *)self)->calc_area_parameters();
-    ((TTecRaFoie *)self)->m_148 = 0;
-    copy_technique_target_list(self + 0xEC, targets);
-    if (*(void **)((s8 *)self + 0x1C) != NULL) {
-        ((TTecRaFoie *)self)->m_b4 = get_entity_id(*(void **)((s8 *)self + 0x1C));
+TTecRaFoie::TTecRaFoie(s32 source, Vec *origin, TargetCursorList *list, s32 level) : TUnk_804CC148(source, origin, origin, level) {
+    ((TObjPlayer *)&m_ec)->construct_target_cursor_records();
+    m_name = TTecRaFoie_class_name;
+    calc_area_parameters();
+    m_148 = 0;
+    copy_technique_target_list(&m_ec, list);
+    if (this->source != 0) {
+        m_b4 = get_entity_id((void *)this->source);
     }
-    proxy = *(u8 **)((s8 *)self + 0xE8);
-    if (proxy != NULL) {
-        *(f32 *)((s8 *)(*(u8 **)((s8 *)proxy + 0xA4)) + 0xC) = ((TTecRaFoie *)self)->m_90;
+    if (m_e8 != NULL) {
+        m_e8->bodies->radius = m_90;
     }
-    ((TTecRaFoie *)self)->vfunc_8(0);
-    ((TTecRaFoie *)self)->vfunc_9();
-    return self;
+    vfunc_8(0);
+    vfunc_9();
 }
-
-#pragma push
-#pragma opt_loop_invariants off
-#pragma opt_common_subs off
-#pragma pop
 
 #undef spawn_rafoie_explosion_bursts__13TUnk_804CCB28Fv

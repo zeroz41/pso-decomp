@@ -5,6 +5,7 @@
 #include "pso/effect/TUnk_804CC148.h"
 
 struct TTecRaZonde : public TUnk_804CC148 {
+    TTecRaZonde(s32 source, Vec *origin, s32 level);
     virtual ~TTecRaZonde();
     virtual void vfunc_8(void *);
     virtual void vfunc_6(void *);
@@ -13,7 +14,7 @@ struct TTecRaZonde : public TUnk_804CC148 {
     void calc_damage();
     void create(void *arg1, void *arg2);
     virtual void render();
-    u8 unk_F0[0x60];
+    Vec bolt_points[8];  // the constructor's spiral; a bolt runs between each neighbouring pair
 };
 
 typedef char TTecRaZonde_size[sizeof(TTecRaZonde) == 0x150 ? 1 : -1];

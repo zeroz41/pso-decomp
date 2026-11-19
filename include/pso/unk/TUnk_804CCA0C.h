@@ -3,13 +3,20 @@
 #include "types.h"
 #include "pso/system/task/TObject.h"
 
+class TParticleCtrl;
+
+// The visual of a telepipe (TTecLuker, TObjLuker): three looping particle effects on the ground
+// below it, tinted by the owner's slot, and a marker above it. run_task pauses them while every
+// player (or the camera) is far away.
 class TUnk_804CCA0C : public TObject {
 public:
+    TUnk_804CCA0C(Vec *pos, u32 owner, TObject *parent);
     virtual ~TUnk_804CCA0C();
     virtual void run_task();
-    u8 unk_1C[0xC];
-    void * m_28;
-    u8 unk_2C[0x18];
+    TParticleCtrl *particles[3];
+    void *marker;  // create_telepipe_marker's object, only outside split screen
+    Vec pos;
+    Vec ground_pos;  // csnVecterUnder(pos), else pos
 };
 typedef char TUnk_804CCA0C_size[sizeof(TUnk_804CCA0C) == 0x44 ? 1 : -1];
 

@@ -6467,7 +6467,7 @@ pso/unk/TUnk_804CC990.cpp:
 pso/technique/TTecLuker.cpp:
 	.text       start:0x80233C18 end:0x8023508C
 	.rodata     start:0x8044D660 end:0x8044D7A8
-	.data       start:0x804CC9A8 end:0x804CC9D4
+	.data       start:0x804CC9A8 end:0x804CCA50
 	.sdata      start:0x805D37E0 end:0x805D37E8
 	.sdata2     start:0x805DC858 end:0x805DC87C
 

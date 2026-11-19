@@ -3,13 +3,18 @@
 #include "types.h"
 #include "pso/object/base/TObjMotion.h"
 
+// The selectable field of a telepipe (TTecLuker) or of a warp (TObjWarpBase): a 0.01 sphere the
+// cursor offers as a telepipe action, latched once a player interacts with it.
 class TUnk_804CC9D4 : public TObjCollidable {
 public:
+    TUnk_804CC9D4(Vec *pos, TObject *parent, s32 always_selectable);
     virtual ~TUnk_804CC9D4();
     virtual void run_task();
     virtual void interact(s32 client);
-    u8 unk_AC[0x4];
-    s32 m_b0;
+    // Inferred names: run_task offers the cursor action without the gathered-players check
+    // when this is set (warps pass 1, telepipes 0); interact sets the latch TTecLuker polls.
+    s32 always_selectable;
+    s32 interacted;
 };
 typedef char TUnk_804CC9D4_size[sizeof(TUnk_804CC9D4) == 0xB4 ? 1 : -1];
 

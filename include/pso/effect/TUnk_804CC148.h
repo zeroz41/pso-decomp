@@ -42,9 +42,4 @@ public:
 };
 typedef char TUnk_804CC148Size[sizeof(TUnk_804CC148) == 0xEC ? 1 : -1];
 
-extern "C" {
-// TUnk_804CC148::TUnk_804CC148(s32, Vec *, Vec *, s32), called by the constructors that are still written by hand.
-void *__ct__13TUnk_804CC148FlP3VecP3Vecl(void *self, s32 source, Vec *pos, Vec *target, s32 level);
-}
-
 #endif

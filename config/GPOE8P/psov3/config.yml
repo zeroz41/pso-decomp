@@ -1742,17 +1742,17 @@ force_active:
   - __ct__11TTecGiBartaFlPUcPUcl
   - __ct__11TTecGiZondeFlP3VecPvl
   - TTecGrants__ct
-  - TTecLuker__ct
+  - __ct__9TTecLukerFlP3VecP3Vecl
   - TTecLuker__sub_8023503C
   - TTecLuker__sub_80235048
   - TTecLuker__sub_80235054
   - __ct__9TTecMegidFlPUcPUcl
-  - TTecRaBarta__ct
+  - __ct__11TTecRaBartaFlP3VecP3Vecl
   - TTecRaBarta_class_name
-  - TTecRaFoie__ct
+  - __ct__10TTecRaFoieFlP3VecP3Vecl
   - TTecRaFoie_class_name
   - TTecRaZonde__band_profile_table
-  - TTecRaZonde__ct
+  - __ct__11TTecRaZondeFlP3Vecl
   - TTecRaZonde_class_name
   - TTecResta__ct
   - TTecResta__self_recovery_effect_table
@@ -5288,9 +5288,9 @@ force_active:
   - construct__12T_OWEHMS_ExpFP10TObjPlayer
   - construct__13TUnk_8049F41CFPvii
   - __ct__13TUnk_804EF8C0Fv
-  - construct__9TTecJelinFPviiii
+  - __ct__9TTecJelinFlP3VecP3Vecl
   - __ct__13TUnk_804A3070FP7TObjectPUc
-  - construct_area__11TTecRaBartaFPvPvPv
+  - __ct__11TTecRaBartaFlP3Vecl
   - __ct__13TUnk_804A68C8FP7TObjectPUc
   - construct_card_tags__17TWindowGetComCardFv
   - construct_card_window_array__23TAdSinglePlyChrSelectGCFPv
@@ -5321,7 +5321,7 @@ force_active:
   - __ct__13TUnk_804A5C18FP7TObjectPUc
   - __ct__13TUnk_804A5B20FP7TObjectPUc
   - __ct__13TUnk_804A5838FP7TObjectPUc
-  - construct_targeted__10TTecRaFoieFPvPvPvPvi
+  - __ct__10TTecRaFoieFlP3VecP16TargetCursorListl
   - __ct__9TTecBartaFlP3Vecll
   - construct_variant_b__9TWindowDDFPv
   - construct_weapon_casing__10TObjPlayerFPUcPUcPUcPUcPUc
@@ -7086,7 +7086,7 @@ force_active:
   - init_hp_state__11TBoss6Type1Fv
   - init_id_tables__6TLobbyFv
   - init_instance__13TObjEneMorfosFv
-  - init_instance__9TTecZaruaFPviiii
+  - __ct__9TTecZaruaFlP3VecP3Vecl
   - init_inventory__10TObjPlayerFv
   - init_inventory_items__10TObjPlayerFl
   - init_item_counts_max__10TObjPlayerFv

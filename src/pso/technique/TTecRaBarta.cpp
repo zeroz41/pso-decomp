@@ -153,7 +153,6 @@ extern void *lbl_805D63B0;
 s32 calc_technique_parameters(s32, s32, s32);
 extern Params_802377FC tech_high_level_linear_power_table;
 extern Scale_802377FC lbl_804CC55C;
-void calc_parameters__11TTecRaBartaFv(RaBarta_802377FC *self);
 
 s32 play_sound_effect(s32, s32, s32, s32);
 s32 update_technique_slot__10TTecRaFoieFl(s32, s32, s32);
@@ -312,56 +311,11 @@ void TTecRaBarta::vfunc_6(void *target) {
 
 }
 
-#define TTecRaBarta_class_name ((u32)TTecRaBarta_class_name)
-#define calc_parameters__11TTecRaBartaFv ((void (*)(void *))calc_parameters__11TTecRaBartaFv)
-
-typedef struct Ids_80237CCC { u8 pad[0xF8]; u16 ids[32]; } Ids_80237CCC;
-
-typedef struct TTecRaFoie_80237FB8 {
-    u8 pad0[0x7C];
-    Vec target;
-    u8 pad1[0xEC - 0x88];
-    s32 target_count;
-    u16 first_id;
-    u8 pad2[0x148 - 0xF2];
-    s32 explicit_position;
-} TTecRaFoie_80237FB8;
-
-typedef struct TObjPlayer_80237FB8 {
-    u8 pad0[0x2FC];
-    Vec pos;
-} TObjPlayer_80237FB8;
-
-struct Eff_80237BD8 { u8 pad[0xc]; f32 scale; };
-
-struct Holder_80237BD8 { u8 pad[0xa4]; Eff_80237BD8 *eff; };
-
-struct Self_80237BD8 {
-    u32 f0;
-    u8 pad4[0x18 - 4];
-    void *vt;
-    void *source;
-    u8 pos[0xc];
-    u8 pad2c[0x7c - 0x2c];
-    u8 src_pos[0xc];
-    u8 pad88[0x90 - 0x88];
-    f32 range;
-    u8 pad94[0xb4 - 0x94];
-    u16 fb4;
-    u8 padb6[0xe8 - 0xb6];
-    Holder_80237BD8 *holder;
-    u8 padec[4];
-    s32 ff0;
-    u8 padf4[4];
-    u16 ids[32];
-    s32 f138;
-};
-
 extern "C" {
 void *find_entity_by_id(u16 id);
+void mem_free(void *p);
+}
 
-
-extern s32 __vt__11TTecRaBarta[];
 struct Self_80237A94 {
     u8 pad0[0x18];
     void *vtable;
@@ -373,28 +327,14 @@ struct Self_80237A94 {
     void **objs;
 };
 
-void mem_free(void *p);
-
-void *TTecRaBarta__ct(void *self_, void *source, void *origin, void *pos, void *level);
-void create__11TTecRaBartaFPvPvPvPv(void *arg0, void *arg1, void *arg2, void *arg3);
-
-void create__11TTecRaBartaFPvPvPvPv(void *source, void *origin, void *pos, void *level) {
-    void *o;
-    o = TObject::operator new(0x13C);
-    if (o != NULL) {
-        TTecRaBarta__ct(o, source, origin, pos, level);
-    }
+void TTecRaBarta::create(void *source, void *origin, void *pos, void *level) {
+    new TTecRaBarta((s32)source, (Vec *)origin, (Vec *)pos, (s32)level);
 }
 
-void TTecRaBarta::create(void *arg1, void *arg2) {
-    void *o;
-    o = TObject::operator new(0x13C);
-    if (o != NULL) {
-        ((TTecRaBarta *)o)->construct_area(this, arg1, arg2);
-    }
+void TTecRaBarta::create(void *origin, void *level) {
+    new TTecRaBarta((s32)this, (Vec *)origin, (s32)level);
 }
 
-}
 TTecRaBarta::~TTecRaBarta() {
     u32 i;
     void *obj;
@@ -432,56 +372,42 @@ void TTecRaBarta::run_task() {
 #pragma push
 #pragma opt_common_subs off
 
-#define self ((Self_80237BD8 *)self_)
-void *TTecRaBarta__ct(void *self_, void *source, void *origin, void *pos, void *level) {
+TTecRaBarta::TTecRaBarta(s32 source, Vec *origin, Vec *pos, s32 level) : TUnk_804CC148(source, origin, pos, level) {
     s32 i;
-    typedef Vec *(*VecCopyFn_80237BD8)(void *, void *);
-    __ct__13TUnk_804CC148FlP3VecP3Vecl(self_, (s32)source, (Vec *)origin, (Vec *)pos, (s32)level);
-    self->vt = __vt__11TTecRaBarta;
-    self->f0 = TTecRaBarta_class_name;
-    ((TTecRaBarta *)self)->calc_parameters();
-    self->ff0 = 1;
-    ((VecCopyFn_80237BD8)VecCopy)(self->pos, ((VecCopyFn_80237BD8)VecCopy)(self->src_pos, pos));
-    if (self->holder != 0) {
-        self->holder->eff->scale = self->range;
+    m_name = TTecRaBarta_class_name;
+    calc_parameters();
+    m_f0 = 1;
+    VecCopy(&position, VecCopy(&target, pos));
+    if (m_e8 != NULL) {
+        m_e8->bodies->radius = m_90;
     }
     for (i = 0; i < 32; i++) {
-        self->ids[i] = 0xFFFF;
+        hit_ids[i] = 0xFFFF;
     }
-    self->f138 = 0;
-    ((TTecRaBarta *)self)->vfunc_8((void *)((s32)self->pos));
-    ((TTecRaBarta *)self)->vfunc_9();
-    if (self->source != 0) {
-        self->fb4 = get_entity_id(self->source);
+    m_138 = 0;
+    vfunc_8(&position);
+    vfunc_9();
+    if (this->source != 0) {
+        m_b4 = get_entity_id((void *)this->source);
     }
-    return self_;
 }
-#undef self
 #pragma pop
 
-void *TTecRaBarta::construct_area(void *source, void *origin, void *level) {
+TTecRaBarta::TTecRaBarta(s32 source, Vec *origin, s32 level) : TUnk_804CC148(source, origin, origin, level) {
     s32 i;
-    __ct__13TUnk_804CC148FlP3VecP3Vecl(this, (s32)source, (Vec *)origin, (Vec *)origin, (s32)level);
-    *(s32 **)((s8 *)this + 0x18) = __vt__11TTecRaBarta;
-    *(u32 *)&this->m_name = TTecRaBarta_class_name;
-    this->m_f0 = 0;
+    m_name = TTecRaBarta_class_name;
+    m_f0 = 0;
     calc_parameters();
-    if (this->m_e8 != NULL) {
-        this->m_e8->bodies->radius = this->m_90;
+    if (m_e8 != NULL) {
+        m_e8->bodies->radius = m_90;
     }
     for (i = 0; i < 32; i++) {
-        ((Ids_80237CCC *) this)->ids[i] = 0xFFFF;
+        hit_ids[i] = 0xFFFF;
     }
-    this->m_138 = 0;
-    this->vfunc_8(0);
-    this->vfunc_9();
-    if (this->source != NULL) {
-        this->m_b4 = get_entity_id(*(void * *)&this->source);
+    m_138 = 0;
+    vfunc_8(0);
+    vfunc_9();
+    if (this->source != 0) {
+        m_b4 = get_entity_id((void *)this->source);
     }
-    return this;
 }
-
-
-#undef calc_parameters__11TTecRaBartaFv
-
-#undef TTecRaBarta_class_name

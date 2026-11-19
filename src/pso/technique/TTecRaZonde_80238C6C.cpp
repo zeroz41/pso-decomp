@@ -47,29 +47,6 @@ struct RecoveredFields_80230D9C_arg0
 
 #pragma fp_contract on
 
-struct Eff_80239070 { u8 pad[0xC]; f32 scale; };
-
-struct Holder_80239070 { u8 pad[0xA4]; Eff_80239070 *eff; };
-
-struct Self_80239070 {
-    u32 f0;
-    u8 pad4[0x18 - 0x4];
-    void *vt;
-    void *source;
-    Vec pos;
-    u8 pad2c[0x78 - 0x2C];
-    s16 level;
-    s16 band;
-    u8 pad7c[0x90 - 0x7C];
-    f32 range;
-    u8 pad94[0xB4 - 0x94];
-    u16 fb4;
-    u8 padb6[0xE8 - 0xB6];
-    Holder_80239070 *holder;
-    u8 padec[0xF0 - 0xEC];
-    Vec pts[8];
-};
-
 extern "C" {
 s32 calc_technique_parameters(int, int, int);
 extern RecoveredGlobal_80230D9C_lbl_804CC510 tech_high_level_linear_power_table;
@@ -79,9 +56,7 @@ void update_technique_slot__10TTecRaFoieFl(s32 handle, s32 pitch, s32 c);
 s32 play_sound_effect(s32 id, void *pos, s32 a, s32 b);
 f32 vector_length(void *);
 void normalize_vector(void *);
-extern void *__vt__11TTecRaZonde[];
 extern s32 tl_07;
-void *TTecRaZonde__ct(void *self_, void *source, void *origin, void *level);
 #pragma push
 #pragma opt_common_subs off
 
@@ -213,11 +188,7 @@ extern "C" {
 void create_timed_particle_emitter(void *, s32, s32, s32, void *);
 void spawn_particle_effect(void *, s32, void *);
 void TTecRaZonde::create(void *origin, void *level) {
-    void *o;
-    o = TObject::operator new(0x150);
-    if (o != NULL) {
-        TTecRaZonde__ct(o, this, origin, level);
-    }
+    new TTecRaZonde((s32)this, (Vec *)origin, (s32)level);
 }
 
 }
@@ -270,8 +241,7 @@ void TTecRaZonde::run_task() {
 #pragma push
 #pragma opt_loop_invariants off
 #pragma opt_common_subs off
-#define self ((Self_80239070 *)self_)
-void *TTecRaZonde__ct(void *self_, void *source, void *origin, void *level) {
+TTecRaZonde::TTecRaZonde(s32 source, Vec *origin, s32 level) : TUnk_804CC148(source, origin, origin, level) {
     s32 ang;
     s32 i;
     s32 j;
@@ -279,18 +249,16 @@ void *TTecRaZonde__ct(void *self_, void *source, void *origin, void *level) {
     f32 len;
     Vec a;
     Vec b;
-    __ct__13TUnk_804CC148FlP3VecP3Vecl(self_, (s32)source, (Vec *)origin, (Vec *)origin, (s32)level);
-    self->vt = __vt__11TTecRaZonde;
-    self->f0 = (u32)TTecRaZonde_class_name;
-    ((TTecRaZonde *)self)->calc_damage();
-    if (self->holder != 0) {
-        self->holder->eff->scale = (5.0f) + self->range;
+    m_name = TTecRaZonde_class_name;
+    calc_damage();
+    if (m_e8 != NULL) {
+        m_e8->bodies->radius = (5.0f) + m_90;
     }
-    ((TTecRaZonde *)self)->vfunc_8(0);
+    vfunc_8(0);
     r = (0.0f);
     ang = 0;
     for (i = 0; i < 8; i++) {
-        s16 lv = self->level;
+        s16 lv = m_78;
         f32 step = (5.4f);
         if (lv >= 15 && lv < 25) {
             step = (8.1f);
@@ -299,13 +267,13 @@ void *TTecRaZonde__ct(void *self_, void *source, void *origin, void *level) {
         }
         r += step;
         ang += 0x2AAA;
-        self->pts[i].x = r * cos_table_lookup(ang) + self->pos.x;
-        self->pts[i].y = self->pos.y;
-        self->pts[i].z = r * sin_table_lookup(ang) + self->pos.z;
+        bolt_points[i].x = r * cos_table_lookup(ang) + position.x;
+        bolt_points[i].y = position.y;
+        bolt_points[i].z = r * sin_table_lookup(ang) + position.z;
     }
     for (j = 0; j < 7; j++) {
-        VecCopy((Vec *)&a, (const Vec *)&self->pts[j]);
-        VecCopy((Vec *)&b, (const Vec *)&self->pts[j + 1]);
+        VecCopy((Vec *)&a, (const Vec *)&bolt_points[j]);
+        VecCopy((Vec *)&b, (const Vec *)&bolt_points[j + 1]);
         b.x = b.x - a.x;
         b.y = b.y - a.y;
         b.z = b.z - a.z;
@@ -319,53 +287,51 @@ void *TTecRaZonde__ct(void *self_, void *source, void *origin, void *level) {
                 ((TTecZonde *)o)->construct_bolt_effect((u8 *)tl_07, (u8 *)&a, (u8 *)&b, 0x14000000, 6, len, (5.0f));
             }
         }
-        if (self->band == 5) {
+        if (band == 5) {
             u8 *o = (u8 *)TObject::operator new(0x260);
             if (o != 0) {
                 ((TTecZonde *)o)->construct_bolt_effect((u8 *)tl_07, (u8 *)&a, (u8 *)&b, 0x14000000, 6, len, (0.5f));
             }
         }
     }
-    switch (self->band) {
+    switch (band) {
     case 0: {
-        s32 h = play_sound_effect(0x4002A50A, &self->pos, 0, 0);
+        s32 h = play_sound_effect(0x4002A50A, &position, 0, 0);
         if (h >= 0) {
             update_technique_slot__10TTecRaFoieFl(h, 0x100, 0);
         }
         break;
     }
     case 1:
-        play_sound_effect(0x4002A50A, &self->pos, 0, 0);
+        play_sound_effect(0x4002A50A, &position, 0, 0);
         break;
     case 2:
     case 3: {
-        s32 h = play_sound_effect(0x4002A50A, &self->pos, 0, 0);
+        s32 h = play_sound_effect(0x4002A50A, &position, 0, 0);
         if (h >= 0) {
             update_technique_slot__10TTecRaFoieFl(h, -0x180, 0);
         }
         break;
     }
     case 4: {
-        s32 h = play_sound_effect(0x4002A50A, &self->pos, 0, 0);
+        s32 h = play_sound_effect(0x4002A50A, &position, 0, 0);
         if (h >= 0) {
             update_technique_slot__10TTecRaFoieFl(h, -0x250, 0);
         }
         break;
     }
     case 5: {
-        s32 h = play_sound_effect(0x4002A50A, &self->pos, 0, 0);
+        s32 h = play_sound_effect(0x4002A50A, &position, 0, 0);
         if (h >= 0) {
             update_technique_slot__10TTecRaFoieFl(h, -0x100, 0);
         }
         break;
     }
     }
-    if (self->source != 0) {
-        self->fb4 = get_entity_id(self->source);
+    if (this->source != 0) {
+        m_b4 = get_entity_id((void *)this->source);
     }
-    return self_;
 }
-#undef self
 #pragma pop
 
 void TTecResta::play_launch_sound() {
