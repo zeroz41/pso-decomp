@@ -21,6 +21,7 @@ s16 TWindowDD_read_resolved_value(s32 entry_id, s32 value_index);
 
 struct TWindowDD : public TObject
 {
+    TWindowDD(TObject *parent, void *arg2);
     virtual ~TWindowDD();
     virtual void run_task();
     u16 m_1c;

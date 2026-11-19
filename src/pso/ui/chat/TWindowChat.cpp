@@ -75,7 +75,6 @@ extern u8 controller_input_state[];
 s32 __nw__7TObjectFUl(int);
 s32 TWindowKeyBoardSoft__ct(int, void *, void *);
 s32 get_window_layout_position(int);
-s32 TWindowDD__ct(int, void *, void *);
 void *__dt__11TWindowChatFv(void *, s16);
 void *__dt__11TWindowChatFv(void *arg0, s16 arg1);
 u8 *TWindowKeyBoardBase__ct(u8 *arg0);
@@ -377,9 +376,7 @@ void TWindowChat::handle_chat_input() {
 void TWindowChat::open_next_input_window() {
     u8 *arg0 = (u8*)this;
     s32 temp_r3;
-    s32 temp_r3_2;
     s32 var_r0;
-    s32 var_r0_2;
     if (((RecoveredFields_8024792C_arg0 *)arg0)->field_1E & 2) {
         *((RecoveredFields_8024792C_arg0 *)arg0)->field_38 = 1;
         ((TWindowSubSymbolChatPartsSet *)(((RecoveredFields_8024792C_arg0 *)arg0)->field_20 + 0x30))->copy_vec2((void*)(get_window_layout_position(0xB7)));
@@ -403,12 +400,7 @@ void TWindowChat::open_next_input_window() {
     case 1:
         ((s32)reset_input__11TWindowChatFv((int)((void *) (((RecoveredFields_8024792C_arg0 *)arg0)->field_20))));
         *((RecoveredFields_8024792C_arg0 *)arg0)->field_38 = 2;
-        temp_r3_2 = __nw__7TObjectFUl(0x108);
-        var_r0_2 = temp_r3_2;
-        if (var_r0_2 != 0) {
-            var_r0_2 = TWindowDD__ct(temp_r3_2, arg0, (void *) (((u8 *)(((RecoveredFields_8024792C_arg0 *)arg0)->field_38)) + 4));
-        }
-        ((RecoveredFields_8024792C_arg0 *)arg0)->field_34 = var_r0_2;
+        ((RecoveredFields_8024792C_arg0 *)arg0)->field_34 = (s32)new TWindowDD((TObject *)arg0, (void *) (((u8 *)(((RecoveredFields_8024792C_arg0 *)arg0)->field_38)) + 4));
         TKeyBoardControl__sub_8025EC04((u8 *)((int) (((RecoveredFields_8024792C_arg0 *)arg0)->field_28)));
         return;
     case 2:
