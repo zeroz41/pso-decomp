@@ -2,6 +2,7 @@
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/quest/TQuestListChallenge.h"
+#include "pso/quest/TQuestListOffline.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/unk/TLobby_8030A6A8.h"
 #include "pso/ui/window/TWindowSubComCard_80244774.h"
@@ -51,7 +52,6 @@ struct Seq_802129FC : Base_802129FC {
 
 extern "C" {
 extern s32 THunterGuildSeqOffline__quest_result_callbacks[];
-List_80212B88 *TQuestListOffline__ct(void *, s32, Seq_80212B88 *, s32);
 extern s32 tl_05;
 void get_entity_id(s32);
 void THunterGuildSeqOffline__sub_8021E180();
@@ -88,13 +88,13 @@ void THunterGuildSeqOffline::handle_cancel_choice() {
     u8 *arg0 = (u8 *)this;
     s32 selected_menu_value;
     u8 *temp_r3;
-    temp_r3 = this->m_2c;
+    temp_r3 = this->choice_menu;
     if (temp_r3 != NULL) {
         if (((TWindowMenu *)temp_r3)->is_decided() != 0) {
-            selected_menu_value = ((TWindowMenu *)this->m_2c)->get_selected_value();
+            selected_menu_value = ((TWindowMenu *)this->choice_menu)->get_selected_value();
             if (selected_menu_value == 0) {
-                ((TWindowBase *)this->m_2c)->close();
-                this->m_2c = NULL;
+                ((TWindowBase *)this->choice_menu)->close();
+                this->choice_menu = NULL;
                 this->display_guild_message(9, 1);
                 *(s32 *)&this->unk_38 = 1;
                 if ((s32) *(s32 *)((s8 *)&THunterGuildSeqOffline__quest_result_callbacks + 8) != -1) {
@@ -104,8 +104,8 @@ void THunterGuildSeqOffline::handle_cancel_choice() {
                 return;
             }
             if (selected_menu_value == 1) {
-                ((TWindowBase *)this->m_2c)->close();
-                this->m_2c = NULL;
+                ((TWindowBase *)this->choice_menu)->close();
+                this->choice_menu = NULL;
                 this->display_guild_message(0xA, 1);
                 *(s32 *)&this->unk_38 = 0;
                 ((TShopWindowBase *)arg0)->set_field_20(5);
@@ -114,9 +114,9 @@ void THunterGuildSeqOffline::handle_cancel_choice() {
             goto block_8;
         }
 block_8:
-        if (((TWindowMenu *)(this->m_2c))->is_cancelled() != 0) {
-            ((TWindowBase *)this->m_2c)->close();
-            this->m_2c = NULL;
+        if (((TWindowMenu *)(this->choice_menu))->is_cancelled() != 0) {
+            ((TWindowBase *)this->choice_menu)->close();
+            this->choice_menu = NULL;
             this->display_guild_message(0xA, 1);
             *(s32 *)&this->unk_38 = 0;
             ((TShopWindowBase *)arg0)->set_field_20(5);
@@ -206,8 +206,7 @@ void THunterGuildSeqOffline::open_quest_list() {
         break;
     case 0:
     default:
-        list = (List_80212B88 *)TObject::operator new(0x58);
-        if (list != NULL) list = TQuestListOffline__ct(list, tl_05, self, self->player);
+        list = (List_80212B88 *)new TQuestListOffline((TObject *)tl_05, (TShopWindowBase *)self, (TObjBase *)self->player);
         if (list != NULL) {
             list->accepted = THunterGuildSeqOffline::request_close;
             list->cancelled = THunterGuildSeqOffline::set_state_close2;

@@ -13,6 +13,7 @@
 #include "pso/ui/chat/TWindowSubShortMail.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/unk/WindowLayoutRecord.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
 
 #pragma readonly_strings on
 
@@ -32,26 +33,65 @@ WindowDescriptor window_timer_layout = {
     {104.0f, 27.0f}, 50100.0f, &window_timer_layout_entries, 0x828,
 };
 
+const char *TWindowTimer__name = "TWindowTimer";
+
+/* Window entry view: the text entry the timer centres (x at +8). */
+struct TimerEntry {
+    u8 pad_0[8];
+    f32 x;
+};
+
+/* Position view for ease_window_timer_position (target at +0x30, current at +0x40). */
+struct Obj_80287BE8 { u8 pad[0x30]; f32 f30; f32 f34; u8 pad2[8]; f32 f40; f32 f44; };
+
 extern "C" {
 s32 draw_default_entry__9TWindowDDFl();
 s32 draw_visible_window_entries(void *, void *, int);
 s32 draw_window_tab(void *, void *, int, f32);
-extern const f32 lbl_805DD890;
 extern s32 __vt__12TWindowTimer[];
-extern "C" { extern char TWindowTimer__class_name_string[]; }
-const char *TWindowTimer__name = TWindowTimer__class_name_string;
-extern s32 lbl_805DD888;
-extern s32 lbl_805DD88C;
 s32 get_window_layout_position(s32);
 s32 __nw__7TObjectFUl(s32);
-s32 init_timer_window_layout(s32);
-s32 init_timer_window_layout_alt(s32);
+void init_timer_window_layout(TWindowTimer *self);
+void init_timer_window_layout_alt(TWindowTimer *self);
+
+#pragma push
+#pragma fp_contract on
+void init_timer_window_layout(TWindowTimer *self) {
+    f32 width;
+    TimerEntry *entry;
+    self->flags |= 1;
+    width = (f32)calc_text_width("000:000");
+    entry = (TimerEntry *)self->get_array_entry(0);
+    entry->x = 48.0f - 0.5f * width;
+}
+#pragma pop
+
+#pragma push
+#pragma fp_contract on
+void init_timer_window_layout_alt(TWindowTimer *self) {
+    f32 width;
+    TimerEntry *entry;
+    self->flags &= ~1;
+    width = (f32)calc_text_width("0'00\"00");
+    entry = (TimerEntry *)self->get_array_entry(0);
+    entry->x = 48.0f - 0.5f * width;
+}
+#pragma pop
+
+#pragma push
+#pragma fp_contract on
+void TWindowTimer::ease_window_timer_position() {
+    Obj_80287BE8 *o = (Obj_80287BE8 *)this;
+    o->f40 += 0.21f * (o->f30 - o->f40);
+    o->f44 += 0.21f * (o->f34 - o->f44);
+}
+#pragma pop
 
 void TWindowTimer::update_chat_parts() {
     u8 *arg0 = (u8 *)this;
     s32 window_layout_position;
 
-    if (this->m_60 & 1) {
+    if (this->flags & 1) {
         window_layout_position = get_window_layout_position(0xA9);
     } else if ((TWindowSubShortMail::is_active() != 0) || (is_com_card_active() != 0) || (is_guild_card_receive_active() != 0)) {
         window_layout_position = get_window_layout_position(0xA8);
@@ -61,14 +101,12 @@ void TWindowTimer::update_chat_parts() {
     ((TWindowSubSymbolChatPartsSet *)(arg0 + 0x30))->copy_vec2((void*)window_layout_position);
 }
 
-extern s32 lbl_805DD884;
-
 void TWindowTimer::draw(s32 arg1, s32 arg2) {
     s32 array_entry;
 
     array_entry = get_array_entry(0);
     text_builder_reset();
-    text_builder_append((u8 *)&lbl_805DD884);
+    text_builder_append((u8 *)"\tC8");
     append_padded_number(arg1, 3);
     text_builder_append((u8 *)"\tC7:\tC3");
     append_padded_number(arg2, 3);
@@ -88,11 +126,11 @@ void TWindowTimer::set_time(u32 secs) {
         text_builder_append((u8 *)"9'59\"59");
     } else {
         append_padded_number((hours), 1);
-        text_builder_append((u8 *)&lbl_805DD888);
+        text_builder_append((u8 *)"'");
         mins = secs / 60;
         secs %= 60;
         append_padded_number((mins), 2);
-        text_builder_append((u8 *)&lbl_805DD88C);
+        text_builder_append((u8 *)"\"");
         append_padded_number((secs), 2);
     }
     set_text_entry_string((u8 *)entry, (u32)(get_shared_text_buffer()), 0x20);
@@ -100,29 +138,25 @@ void TWindowTimer::set_time(u32 secs) {
 }
 
 void TWindowTimer::draw_tab(s32 arg0, s32 arg1) {
-    draw_window_tab((void *)arg1, (void *)(arg1 + 0x10), 3, (f32)lbl_805DD890);
+    draw_window_tab((void *)arg1, (void *)(arg1 + 0x10), 3, -64.0f);
 }
 
 s32 TWindowTimer::create() {
-    s32 window_timer;
-
-    window_timer = __nw__7TObjectFUl(0x64);
-    if (window_timer != 0) {
-        window_timer = ((s32)TWindowTimer__ct((TWindowTimer *)((u8 *)((void *)window_timer))));
+    TWindowTimer *window_timer = (TWindowTimer *)__nw__7TObjectFUl(0x64);
+    if (window_timer != NULL) {
+        window_timer = (TWindowTimer *)TWindowTimer__ct(window_timer);
     }
     init_timer_window_layout(window_timer);
-    return window_timer;
+    return (s32)window_timer;
 }
 
 s32 TWindowTimer::create_alt() {
-    s32 var_r31;
-
-    var_r31 = __nw__7TObjectFUl(0x64);
-    if (var_r31 != 0) {
-        var_r31 = ((s32)TWindowTimer__ct((TWindowTimer *)((u8 *)((void *)var_r31))));
+    TWindowTimer *window_timer = (TWindowTimer *)__nw__7TObjectFUl(0x64);
+    if (window_timer != NULL) {
+        window_timer = (TWindowTimer *)TWindowTimer__ct(window_timer);
     }
-    init_timer_window_layout_alt(var_r31);
-    return var_r31;
+    init_timer_window_layout_alt(window_timer);
+    return (s32)window_timer;
 }
 
 void render__12TWindowTimerFv(s32 arg0) {
@@ -133,7 +167,7 @@ void render__12TWindowTimerFv(s32 arg0) {
 }
 
 void run_task__12TWindowTimerFv(TWindowTimer *window_timer) {
-  if ((window_timer->m_60) & 1)
+  if ((window_timer->flags) & 1)
   {
     window_timer->draw((s32)((int) TWindowTimer::get_timer_value(0)), (s32)((int) TWindowTimer::get_timer_value(1)));
   }
@@ -145,7 +179,7 @@ u8 *TWindowTimer__ct(TWindowTimer *window_timer) {
     __ct__11TWindowBaseFPUcsPUc(window_timer, (u8 *)&window_timer_layout, (s16)4, (u8 *)(get_zero_vec2()));
     *(s32 **)((s8 *)window_timer + 0x18) = __vt__12TWindowTimer;
     *(s32 *)((s8 *)window_timer + 0) = (s32) TWindowTimer__name;
-    window_timer->m_60 = 0;
+    window_timer->flags = 0;
     window_timer->update_chat_parts();
     ((TWindowBase *)window_timer)->save_position();
     return (u8 *)window_timer;

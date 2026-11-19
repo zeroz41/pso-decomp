@@ -3,8 +3,12 @@
 #include "types.h"
 #include "pso/ui/window/TWindowAddition.h"
 
+class TWindowSubStatusDisp;
+
 class TUnk_804D0658 : public TWindowAddition {
 public:
+    // inferred: this is TWindowMenuInfomation (its unit's class-name string).
+    TUnk_804D0658(void *parent, s32 rows);
     virtual ~TUnk_804D0658();
     virtual void run_task();
     virtual void render();
@@ -15,7 +19,6 @@ public:
     void move_cursor_prev();
     void move_next_choice();
     void request_close();
-    void *destroy_children(s16);
     int is_selected();
     int is_open();
     u8 unk_1C[0x10];
@@ -31,7 +34,7 @@ public:
     u8 unk_72[0x2];
     s16 m_74;
     u8 unk_76[0x2];
-    u32 m_78;
+    TWindowSubStatusDisp *heading;  // type-1 heading made by create_sub_window (inferred)
     u8 unk_7C[0x4];
 };
 typedef char TUnk_804D0658_size[sizeof(TUnk_804D0658) == 0x80 ? 1 : -1];

@@ -23,8 +23,10 @@ void bswap_object_row_fields(void *arg0);
 extern "C" {
 void clear_floor_event_flags(void);
 }
-void create_empty_floor_event(void);
-void dispatch_wave_event_action(s32 arg0);
+struct SetDestroyEventRecord;
+void create_empty_floor_event(SetDestroyEventRecord *event);
+void spawn_destroy_event(SetDestroyEventRecord *event);
+void dispatch_wave_event_action(u8 opcode);
 extern "C" {
 void free_team_buffers__6TLobbyFv(void);
 }

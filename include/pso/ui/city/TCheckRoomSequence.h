@@ -4,13 +4,14 @@
 #include "types.h"
 #include "pso/ui/city/TShopSequence.h"
 
+class TWindowBase;
+
 struct TCheckRoomSequence : public TShopSequence {
+    TCheckRoomSequence(TObject *parent, TObjPlayer *player);
     virtual ~TCheckRoomSequence();
-    u32 m_38;
-    u32 m_3c;
-    u32 m_40;
-    u32 m_44;
-    u32 m_48;
+    virtual void vfunc_11();
+    virtual void restore_player_state();
+    virtual void close_window();
     void set_ready_flag();
     void set_position(f32 a, f32 b);
     static int get_room_data(int a0);
@@ -19,7 +20,32 @@ struct TCheckRoomSequence : public TShopSequence {
     static void reset_slot_state();
     static void reset_slots();
     static s32 get_item_def(u32 arg0);
-    u8 unk_30[0x1C];
+    // States of the vfunc_11 table, in table order.
+    void open_bank();
+    void handle_root_choice();
+    void handle_deposit_choice();
+    void open_deposit_item_window();
+    void accept_meseta_deposit(void *);
+    void begin_meseta_deposit(void *);
+    void begin_meseta_withdrawal(void *);
+    void open_get_item_window(void *);
+    void handle_withdraw_choice();
+    void accept_meseta_withdrawal(void *);
+    void sub_802100FC();
+    void sub_802100F8();
+    void handle_error_ack(void *);
+    void sub_8020F1DC();
+    void set_quest_list_mode_19(void *);
+    void open_delete_item_window(void *);
+
+    s32 pad_2c;
+    u32 pad_30;                     // 0x30: freed with TAdSinglePlyChrSelectGC::safe_free
+    TWindowBase *pad_34;            // 0x34: the deposit / item windows
+    TWindowBase *meseta_window;     // 0x38: create_meseta_window
+    TWindowBase *pad_3c;            // 0x3C: a TWindowMenu
+    TWindowBase *deposit_window;    // 0x40: the TWindowDeposit of open_bank
+    s32 pad_44;
+    TObject *counter_camera;        // 0x48: set_service_counter_camera
 };
 
 typedef char TCheckRoomSequence_size[sizeof(TCheckRoomSequence) == 0x4C ? 1 : -1];

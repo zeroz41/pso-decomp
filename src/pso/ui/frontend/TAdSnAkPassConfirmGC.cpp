@@ -8,24 +8,22 @@
 #include "pso/ui/window/TWindowOptionCtrl.h"
 #include "pso/ui/frontend/TAdYesNoBaseGC.h"
 #include "pso/system/task/TObject.h"
-u32 lbl_805D6CB8;
-
+#include "pso/system/NinjaTypes.h"
 
 struct Obj_8032C004 { const char *f0; u8 pad[0x14]; void *vt; u8 pad2[0x48 - 0x1C]; s32 f48; };
 
 extern "C" {
 void __ct__10TAdTitleGCFP7TObjectl(void *, void *, int);
 void *TAdYesNoBaseGC__ct(TAdYesNoBaseGC *arg0);
-extern u8 lbl_804772C0[];
-extern u8 lbl_804772C8[];
-extern u8 lbl_804772D0[];
 extern s32 __vt__20TAdSnAkPassConfirmGC[];
 const char *lbl_805D41F0 = "TAdSnAkPassConfirmGC";
+// Serial info window position, then the message window position and size given to init_parts.
+static const NJS_POINT2 sn_ak_pass_confirm_info_window_pos = {85.0f, 131.0f};
+static const NJS_POINT2 sn_ak_pass_confirm_message_pos = {44.0f, 231.0f};
+static const NJS_POINT2 sn_ak_pass_confirm_message_size = {552.0f, 140.0f};
 Obj_8032C004 *TAdSnAkPassConfirmGC__ct(Obj_8032C004 *arg0);
 int request_transition__21TAdMultiChgGameModeGCFv(void*);
 int set_state_0x1a__21TAdMultiChgGameModeGCFv(void*);
-
-s32 TAdSnAkPassConfirmGC::get_confirm_state() { return this->m_1c; }
 
 void TAdSnAkPassConfirmGC::render() {
     vfunc_12();
@@ -57,8 +55,8 @@ Obj_8032C004 *TAdSnAkPassConfirmGC__ct(Obj_8032C004 *parent) {
     if (p != 0) {
         __ct__10TAdTitleGCFP7TObjectl(p, parent, 0x11);
     }
-    parent->f48 = ((TWindowOptionCtrl *)lbl_804772C0)->create_serial_info_window(0);
-    ((TAdYesNoBaseGC *)parent)->init_parts(lbl_804772C8, lbl_804772D0);
+    parent->f48 = ((TWindowOptionCtrl *)&sn_ak_pass_confirm_info_window_pos)->create_serial_info_window(0);
+    ((TAdYesNoBaseGC *)parent)->init_parts((void *)&sn_ak_pass_confirm_message_pos, (void *)&sn_ak_pass_confirm_message_size);
     return parent;
 }
 

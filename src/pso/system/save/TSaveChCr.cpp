@@ -14,6 +14,7 @@
 #include "pso/ui/charcreate/TChCrCharSelect.h"
 
 #include <stddef.h>
+#include "pso/system/NinjaTypes.h"
 #include "pso/system/task/TObject.h"
 
 
@@ -21,7 +22,6 @@
 #pragma auto_inline off
 #pragma dont_inline off
 
-struct ByteBlock_20 { u8 bytes[0x20]; };
 
 struct Stack_8033A184 {
     s32 sp8;
@@ -33,19 +33,28 @@ union MemberActionStorage_8033A184 { s32 words[3]; void (TSaveChCr::*action)(); 
 
 extern TSaveChCrStateActions lbl_804EF658[];
 
+#pragma readonly_strings on
+const char *TSaveChCr__name = "TSaveChCr";
+
+// Message window position and size passed to the window create in open_message_window.
+static const NJS_POINT2 save_ch_cr_message_window_pos = {46.0f, 131.0f};
+static const NJS_POINT2 save_ch_cr_message_window_size = {548.0f, 220.0f};
+
+// Text group and entry of each message set_message_by_index shows.
+struct SaveChCrMessageText {
+    s32 group;
+    s32 entry;
+};
+
 extern "C" {
 extern s32 pso_character_card_filename[];
 extern s32 pso_system_card_filename[];
 extern s32 pso_guildcard_card_filename[];
 void *__ct__9TAdBackGCFv(void *, void *);
 void *__ct__12TAdBackTxtGCFv(void *, void *);
-u32 update_window_mode_from_progress__6TLobbyFPv(s32 *, s32 *);
-extern s32 lbl_80477CAC[];
-extern s32 lbl_80477CB4[];
+u32 update_window_mode_from_progress__6TLobbyFPv(const NJS_POINT2 *, const NJS_POINT2 *);
 s32 poll_memcard_result(s32);
 s32 poll_memcard_status__23TAdSinglePlyChrSelectGCFv();
-extern "C" { extern char TSaveChCr__class_name_string[]; }
-const char *TSaveChCr__name = TSaveChCr__class_name_string;
 s32 load_character_from_card__23TAdSinglePlyChrSelectGCFi(s32 arg0);
 int begin_action_from_char_select__10TObjPlayerFv(void*);
 extern void *tl_03;
@@ -155,16 +164,13 @@ s32 TSaveChCr::sub_80339F30() {
 
 void TSaveChCr::close_and_advance(void* a1) { close_window(); set_message_by_index((s32)a1); }
 void TSaveChCr::set_message_by_index(s32 arg1) {
-    s32 arg0 = (s32)this;
-    ByteBlock_20 sp8;
-    u8 *temp_r4;
-    sp8 = *(const ByteBlock_20 *)((s32) ((u8 *)&TSaveChCr__message_text_ids.value + -4) + 4);
-    temp_r4 = (u8 *)&sp8 + (arg1 * 8);
-    open_message_window((u32)((int) (get_localized_text_entry(*(s32 *)((s8 *)temp_r4 + 0), *(s32 *)((s8 *)temp_r4 + 4)))));
+    SaveChCrMessageText texts[4] = {{0x20, 0}, {0xB, 0x62}, {0xB, 0xC}, {0xB, 0xB}};
+    SaveChCrMessageText *text = &texts[arg1];
+    open_message_window((u32)get_localized_text_entry(text->group, text->entry));
 }
 void TSaveChCr::open_message_window(u32 arg1) {
     if ((u32) this->owned_window == 0U) {
-        *(u32 *)&this->owned_window = update_window_mode_from_progress__6TLobbyFPv(lbl_80477CAC, lbl_80477CB4);
+        *(u32 *)&this->owned_window = update_window_mode_from_progress__6TLobbyFPv(&save_ch_cr_message_window_pos, &save_ch_cr_message_window_size);
         if ((u32) this->owned_window != 0U) {
             if (arg1 != 0U) {
                 ((TWindowMessage *)(this->owned_window))->append_line(arg1, 3);

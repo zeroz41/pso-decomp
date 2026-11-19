@@ -32,18 +32,19 @@
 struct RecoveredGlobal_802D4730_lbl_804C89BC { s32 value; u8 remaining[0x74]; };
 typedef char RecoveredGlobal_802D4730_lbl_804C89BC_size[sizeof(RecoveredGlobal_802D4730_lbl_804C89BC) == 0x78 ? 1 : -1];
 
-extern const vec2f single_chr_select_item_rect_table[4];
-extern const vec2f lbl_80472530;
-extern const vec2f lbl_80472538;
-extern const vec2f lbl_80472540;
-extern const vec2f lbl_80472548;
-extern const vec2f lbl_80472550;
+const vec2f single_chr_select_item_rect_table[4] = {
+    { 131.0f, 182.0f }, { 131.0f, 225.0f }, { 131.0f, 268.0f }, { 131.0f, 311.0f },
+};
+const vec2f single_chr_select_cursor_size = { 180.0f, 38.0f };
+const vec2f single_chr_select_message_pos = { 432.0f, 172.0f };
+const vec2f single_chr_select_yes_no_pos = { 91.0f, 160.0f };
+const vec2f single_chr_select_menu_pos = { 428.0f, 132.0f };
+const vec2f single_chr_select_slot_message_pos = { 428.0f, 132.0f };
 
 struct T_802D4F2C { NJS_POINT2 p[3]; };
 
-extern const char TAdSinglePlyChrSelectGC__class_name_string[];
-const char *TAdSinglePlyChrSelectGC__class_name = TAdSinglePlyChrSelectGC__class_name_string;
-extern const T_802D4F2C single_chr_select_position_table;
+const char *TAdSinglePlyChrSelectGC__class_name = "TAdSinglePlyChrSelectGC";
+const T_802D4F2C single_chr_select_position_table = { { { 156.0f, 421.0f }, { 299.0f, 421.0f }, { 432.0f, 421.0f } } };
 
 extern "C" {
 s32 play_sound_effect(s32, s32, s32, s32);
@@ -280,7 +281,7 @@ void TAdSinglePlyChrSelectGC::handle_menu_selection() {
             return;
         case 1:
             ((TWindowOptionCtrl *)(*(s32 *)&this->unk_38))->open();
-            this->m_4c = TAdChrSelASlotGC::create_format_message_window((s32)((int) (*(s32 *)&this->m_28)), (s32)&lbl_80472538, 0);
+            this->m_4c = TAdChrSelASlotGC::create_format_message_window((s32)((int) (*(s32 *)&this->m_28)), (s32)&single_chr_select_message_pos, 0);
             *(s32 *)&this->m_20 = 9;
             return;
         case 2:
@@ -289,7 +290,7 @@ void TAdSinglePlyChrSelectGC::handle_menu_selection() {
             return;
         case 3:
             ((TWindowOptionCtrl *)(*(s32 *)&this->unk_38))->open();
-            *(s32 *)&this->unk_50 = TAdChrSelASlotGC__sub_8030C978((void *)(*(s32 *)&this->m_28), (s32)&lbl_80472538, 0);
+            *(s32 *)&this->unk_50 = TAdChrSelASlotGC__sub_8030C978((void *)(*(s32 *)&this->m_28), (s32)&single_chr_select_message_pos, 0);
             *(s32 *)&this->m_20 = 0xA;
             return;
         }
@@ -299,6 +300,8 @@ void TAdSinglePlyChrSelectGC::handle_menu_selection() {
     }
 }
 
+// pool_data off: each window position is reached with its own lis/addi.
+#pragma pool_data off
 void TAdSinglePlyChrSelectGC::handle_slot_selection() {
     s32 var_r30;
     if (*(u32 *)&this->unk_38 != 0U) {
@@ -361,18 +364,20 @@ void TAdSinglePlyChrSelectGC::handle_slot_selection() {
         if (is_slot_active__23TAdSinglePlyChrSelectGCFUi() != 0) {
             if (TAdChrSelASlotGC__sub_8030C3C0((TAdChrSelASlotGC *)(*(s32 *)&this->m_28), (u32)(TAdSinglePlyChrSelectGC__sub_801334DC((void *)(*(s32 *)&this->m_2c)))) != 0) {
                 this->m_54 = (u32)new TAdFadeGC(tl_fade, NULL);
-                *(u32 *)&this->unk_48 = TAdChrSelASlotGC::open_yes_no_window((s32)(*(s32 *)&this->m_28), (s32)&lbl_80472540, 0);
+                *(u32 *)&this->unk_48 = TAdChrSelASlotGC::open_yes_no_window((s32)(*(s32 *)&this->m_28), (s32)&single_chr_select_yes_no_pos, 0);
                 *(s32 *)&this->m_20 = 7;
                 return;
             }
-            *(u32 *)&this->unk_38 = TAdSinglePlyChrSelectGC::create_chr_warp((s32)this, (s32)&lbl_80472548);
+            *(u32 *)&this->unk_38 = TAdSinglePlyChrSelectGC::create_chr_warp((s32)this, (s32)&single_chr_select_menu_pos);
             *(s32 *)&this->m_20 = 6;
             return;
         }
-        *(u32 *)&this->m_44 = TAdChrSelASlotGC__sub_8030CA84(*(s32 *)&this->m_28, (s32)&lbl_80472550);
+        *(u32 *)&this->m_44 = TAdChrSelASlotGC__sub_8030CA84(*(s32 *)&this->m_28, (s32)&single_chr_select_slot_message_pos);
         *(s32 *)&this->m_20 = 8;
     }
 }
+
+#pragma pool_data reset
 
 void TAdSinglePlyChrSelectGC::sub_802D4570() {
     u8 *arg0 = (u8 *)this;
@@ -613,6 +618,8 @@ TAdSinglePlyChrSelectGC::~TAdSinglePlyChrSelectGC() {
     if (*(void **)((s8 *)this + 0x48) != NULL) { ((TObject *)((void *)(*(void **)((s8 *)this + 0x48))))->queue_destruction(); *(s32 *)((s8 *)this + 0x48) = 0; }
 }
 
+// pool_data off: the cursor rects and the title positions are each reached with their own lis/addi.
+#pragma pool_data off
 u8 *TAdSinglePlyChrSelectGC__ct(u8 *arg0, void *parent) {
     void *p;
     __ct__7TObjectFP7TObject(arg0, parent);
@@ -640,7 +647,7 @@ u8 *TAdSinglePlyChrSelectGC__ct(u8 *arg0, void *parent) {
     *(void **)((s8 *)arg0 + 0x34) = p;
     p = TObject::operator new(0x708);
     if (p != NULL) {
-        p = __ct__14TAdSelectCurGCFv(p, arg0, (void *)single_chr_select_item_rect_table, (void *)&lbl_80472530);
+        p = __ct__14TAdSelectCurGCFv(p, arg0, (void *)single_chr_select_item_rect_table, (void *)&single_chr_select_cursor_size);
     }
     *(void **)((s8 *)arg0 + 0x2C) = p;
     p = TObject::operator new(0x9C);
@@ -651,4 +658,4 @@ u8 *TAdSinglePlyChrSelectGC__ct(u8 *arg0, void *parent) {
     fn_802D50B8(p, &t.p[0], &t.p[1], &t.p[2]);
     return arg0;
 }
-
+#pragma pool_data reset

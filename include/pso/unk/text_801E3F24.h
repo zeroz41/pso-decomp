@@ -5,9 +5,9 @@
 
 extern "C" {
 void *TObjCMHairMenu__sub_801E3F54(void *p, void *q);
-void TObjPlayer__sub_801E3F24(s32 arg0);
-void TObjPlayer__sub_801E3F30(f32 farg0, f32 farg1, f32 farg2);
-void fn_801E3F44(f32 farg0, f32 farg1);
+void TObjPlayer__sub_801E3F24(s32 value);
+void TObjPlayer__sub_801E3F30(f32 x, f32 y, f32 z);
+void fn_801E3F44(f32 x, f32 y);
 }
 void handle_6x02(void);
 void handle_6x03(void);

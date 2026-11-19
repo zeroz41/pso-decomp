@@ -7,11 +7,13 @@
 // First function of the ntInf library: it publishes the library's version
 // string ("ntInf Ver 1.17.00 Build:Jul  9 2002").
 extern "C" {
-extern const char *lbl_805D79AC;
+extern const char *ntinf_version_ref;
 char lbl_804FCE38[] = "\nntInf Ver 1.17.00 Build:Jul  9 2002 09:41:44\n";
 extern const char *const lbl_805E10F8 = lbl_804FCE38;
-extern s32 lobby_net_config_mode;
-extern s32 lbl_805D7984;
+// 32-byte aligned like the other ntInf globals (0x805D7980, 0x805D79A0, 0x805D79C0, 0x805D79E0).
+s32 lobby_net_config_mode __attribute__((aligned(32)));
+// inferred: a second copy of the mode argument; only this function writes it, nothing reads it
+s32 lbl_805D7984;
 extern s32 lobby_net_config_load_state;
 extern u8 *lobby_net_config_buffer;
 extern u8 *lobby_net_config_card_base;
@@ -19,10 +21,10 @@ extern u8 *lobby_net_config_card_base;
 #pragma push
 #pragma scheduling off
 #pragma opt_dead_assignments off
-s32 TLobby__sub_803F3BF8(s32 backup_mode, void *buffer, s32 mode) {
-    char pad __attribute__((aligned(32)));
-    void *unused = &pad;
-    lbl_805D79AC = lbl_805E10F8;
+// The caller's work buffer is declared 32-byte aligned like lobby_net_config_buffer it lands in; GC/1.3 gives
+// the parameter an aligned home, hence the 32-aligned frame.
+s32 TLobby__sub_803F3BF8(s32 backup_mode, void *buffer __attribute__((aligned(32))), s32 mode) {
+    ntinf_version_ref = lbl_805E10F8;
     if (get_network_config_mode() != 0) {
         return -1;
     }

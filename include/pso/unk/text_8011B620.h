@@ -3,14 +3,9 @@
 
 #include "types.h"
 
+// Defined in pso/weapon/shoot/TItemShoot.cpp.
 extern "C" {
-s32 create_gun_shot(s32 arg0, s32 arg1, s32 arg2, f32 farg0);
+s32 create_gun_shot(s32 owner, s32 pos, s32 endpoint, f32 life);
 }
-
-// --- C functions defined in text_8011B620.cpp ---
-extern "C" {
-s32 create_gun_shot(s32 arg0, s32 arg1, s32 arg2, f32 farg0);
-}
-// --- end of C functions
 
 #endif

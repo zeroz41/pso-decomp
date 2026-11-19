@@ -7,6 +7,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/render/render_util.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/task/TMainTask.h"
 #include "pso/ui/MenuText.h"
 #include "pso/ui/charcreate/TObjCMHairMenu.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
@@ -24,6 +25,10 @@ static const NJS_POINT2 bar_size = {142.0f, 8.0f};
 // Built with -inline off,deferred: the functions are emitted last to first, so they are written here in
 // reverse address order.
 #pragma fp_contract on
+
+void *TDLGraph::create() {
+    return new TDLGraph(tl_clipout);
+}
 
 TDLGraph::TDLGraph(TObject *parent) : TObject(parent) {
     m_name = class_name;

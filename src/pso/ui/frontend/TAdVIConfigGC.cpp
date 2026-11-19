@@ -13,6 +13,8 @@
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
 #include "pso/ui/frontend/TAdVIConfigGC.h"
 
+#pragma readonly_strings on
+
 
 struct Name_80307D00 { char s[0x18]; };
 
@@ -23,8 +25,7 @@ struct Cfg_80307D00 {
 };
 
 s32 logo_clear_flag = 1;
-extern "C" { extern char TAdVIConfigGC__class_name_string[]; }
-const char *TAdVIConfigGC__class_name = TAdVIConfigGC__class_name_string;
+const char *TAdVIConfigGC__class_name = "TAdVIConfigGC";
 extern "C" {
 void *VIGetDTVStatus(void *);
 void *get_player_by_client_id(s32 i);
@@ -162,7 +163,6 @@ TAdVIConfigGC::~TAdVIConfigGC() {
 
 }
 
-extern const char *TAdVIConfigGC__class_name;
 
 void *TAdVIConfigGC__ct(TAdVIConfigGC *ad_vi_config_gc) {
     TAdYesNoBaseGC__ct(ad_vi_config_gc);

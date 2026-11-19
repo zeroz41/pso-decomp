@@ -12,7 +12,7 @@
 #include "pso/system/task/TObject.h"
 
 extern "C" {
-extern u8 *duel_result_window;
+u8 *duel_result_window;
 extern s32 tl_00;
 extern s32 __vt__13TUnk_804C3E60[];
 

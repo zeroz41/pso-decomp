@@ -9,6 +9,8 @@
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/Language.h"
 
+#pragma readonly_strings on
+
 struct Field_8025C974 { u16 *buffer; s32 cursor; u32 width; u32 linePixels; s32 scroll; u32 capacity; };
 
 struct Base_8025C974 { u8 pad[0x6c]; Field_8025C974 field; u8 pad2[0x30]; s32 fb4; };
@@ -39,8 +41,6 @@ s32 TWindowKeyBoardSoft__sub_803E67D4(void *, void *);
 s32 get_shared_text_buffer();
 s32 append_text__19TWindowKeyBoardSoftFPvPv(void *, s32);
 void TWindowKeyBoardSoft__sub_8025DBDC(void *arg0, s32 arg1);
-extern s32 lbl_805DD030;
-extern s32 lbl_805DD034;
 s32 TWindowKeyBoardSoft__sub_8025D7FC();
 void export_keyboard_text(Base_8025C974 *base, char *out);
 int set_text_from_string__19TWindowKeyBoardSoftFPc(void*);
@@ -513,17 +513,17 @@ void TWindowKeyBoardSoft__sub_8025C51C(u8 *window_key_board_soft, s32 arg1) {
         temp_r3_2 = *(u32 *)((s8 *)window_key_board_soft + 0x70);
         if (temp_r3_2 != 0U) {
             if (temp_r3_2 == (u32) *(u32 *)((s8 *)window_key_board_soft + 0x7C)) {
-                text_builder_append((u8 *)&lbl_805DD030);
+                text_builder_append((u8 *)" > ");
                 text_builder_append((u8 *)str);
             } else {
-                text_builder_append((u8 *)&lbl_805DD034);
+                text_builder_append((u8 *)" ");
                 text_builder_append((u8 *)str);
-                text_builder_append((u8 *)&lbl_805DD034);
+                text_builder_append((u8 *)" ");
             }
         } else {
             text_builder_append((u8 *)str);
             if ((u32) *(u32 *)((s8 *)window_key_board_soft + 0x7C) != 0U) {
-                text_builder_append((u8 *)&lbl_805DD034);
+                text_builder_append((u8 *)" ");
             }
         }
         append_text__19TWindowKeyBoardSoftFPvPv(window_key_board_soft + 0x6C, get_shared_text_buffer());

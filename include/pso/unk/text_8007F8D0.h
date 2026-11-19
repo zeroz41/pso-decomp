@@ -3,14 +3,9 @@
 
 #include "types.h"
 
+// Defined in SwitcherLaunch.cpp: loads switcher.dol and starts it on the given page.
 extern "C" {
-s32 launch_switcher_dol(const char *arg0);
+s32 launch_switcher_dol(const char *url);
 }
-
-// --- C functions defined in text_8007F8D0.cpp ---
-extern "C" {
-s32 launch_switcher_dol(const char *arg0);
-}
-// --- end of C functions
 
 #endif

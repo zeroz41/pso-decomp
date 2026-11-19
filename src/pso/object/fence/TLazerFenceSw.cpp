@@ -69,9 +69,6 @@ void *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 u8 *load_gvm_texture_file(s32 arg0);
 
 extern s32 game_difficulty_selection;
-extern u8 lbl_80445CF0[];
-extern u8 lbl_80445D08[];
-extern u8 lbl_80445D20[];
 extern "C" {
 s32 free_bin_model_request(void *, s32);
 void *__ct__18CameraDistanceFadeFv(void *self);
@@ -273,7 +270,7 @@ void TLazerFenceSw::load_resources() {
             obj = load_resource_from_descriptor(obj, 5, &fe_obj_switch_laz_j_resource_descriptor, 0, 0, 0);
         }
         lazer_fence_switch_bml_resource = obj;
-        TLazerFenceSw__texture_list = (s32)load_gvm_texture_file((s32)lbl_80445CF0);
+        TLazerFenceSw__texture_list = (s32)load_gvm_texture_file((s32)fe_obj_switch_laz_j_gvm);
     } else {
         obj = ::operator new(0x440);
         if (obj != NULL) {
@@ -281,9 +278,9 @@ void TLazerFenceSw::load_resources() {
         }
         lazer_fence_switch_bml_resource = obj;
         if (game_difficulty_selection == 3) {
-            TLazerFenceSw__texture_list = (s32)load_gvm_texture_file((s32)lbl_80445D08);
+            TLazerFenceSw__texture_list = (s32)load_gvm_texture_file((s32)fe_obj_switch_laz_a_gvm);
         } else {
-            TLazerFenceSw__texture_list = (s32)load_gvm_texture_file((s32)lbl_80445D20);
+            TLazerFenceSw__texture_list = (s32)load_gvm_texture_file((s32)fe_obj_switch_laz_gvm);
         }
     }
     lazer_fence_sw_ginja_model_table[0] = (s32)get_bml_model((BmlResource *)lazer_fence_switch_bml_resource, 0);
@@ -308,6 +305,11 @@ void TLazerFenceSw::load_resources() {
     lazer_fence_switch_scroll_node = (u8 *)find_object_node((NJS_OBJECT *)lazer_fence_sw_ginja_model_table[1], 3);
 }
 #pragma pop
+
+__declspec(section ".rodata") const char fe_obj_switch_laz_j_gvm[] = "fe_obj_switch_laz_j.gvm";
+__declspec(section ".rodata") const char fe_obj_switch_laz_a_gvm[] = "fe_obj_switch_laz_a.gvm";
+__declspec(section ".rodata") const char fe_obj_switch_laz_gvm[] = "fe_obj_switch_laz.gvm";
+
 TLazerFenceSw::~TLazerFenceSw() {
     this->unregister_object_by_id();
     free_collision_body_parts(this);
@@ -336,4 +338,3 @@ TLazerFenceSw::TLazerFenceSw(TObject *arg1, void *arg2) : TOKey(arg1) {
 }
 
 #pragma pop
-

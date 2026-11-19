@@ -8,6 +8,7 @@ s32 set_texlist(u32 texlist);
 #include "pso/unk/TLobby.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/object/ambient/TObjFish.h"
+#include "pso/ui/frontend/TAdEndText_80307A34.h"
 
 struct RecoveredGlobal_8001B3BC_lbl_804F5800 {
     s32 value;
@@ -415,7 +416,6 @@ void TAdEndText::free_resources() {
     }
 }
 
-extern s32 ending_sequence_active;
 
 typedef char RecoveredGlobal_8001B3BC_lbl_804F5800_size[sizeof(RecoveredGlobal_8001B3BC_lbl_804F5800) == 0x100 ? 1 : -1];
 

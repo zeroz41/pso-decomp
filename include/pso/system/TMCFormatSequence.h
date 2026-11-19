@@ -24,6 +24,9 @@ public:
     void check_memcard_load_result();
     void process_format_result();
     void open_windows();
+    // Stage callbacks kept at 0x1C/0x20 and called with the sequence itself.
+    static void wait_confirm_and_finish(void *self);
+    static void update_wait_confirm(void *self);
 };
 
 #endif

@@ -91,11 +91,6 @@ void TUnk_804F27E0::init_weapon_effect_descriptor(Desc_8011E5C4 *desc) {
     desc->pad_74 = (void *)TObjPlayer::create_network_object;
     desc->pad_70 = (void *)TObjPlayer__sub_8032E648;
 }
-struct Stack_80362FB4 {
-    s32 sp8;
-    s32 spC;
-    s32 sp10;
-};
 
 extern "C" {
 s16 get_validated_attack_stage(u8 *arg0);
@@ -103,8 +98,6 @@ s32 rotate_matrix_x(int, int);
 s32 push_matrix();
 s32 pop_matrix();
 f32 post_translate_matrix(void *);
-struct RecoveredGlobal_lbl_80479FC8 { s32 value; u8 remaining[0xC]; };
-extern RecoveredGlobal_lbl_80479FC8 lbl_80479FC8;
 
 void TUnk_804F27E0::update_weapon() {
     if (this->get_attack_stage() == 2) {
@@ -136,15 +129,9 @@ void TUnk_804F27E0::emit_marker_effects() {
 }
 
 void TUnk_804F27E0::vfunc_60() {
-    typedef char sp8_offset[(offsetof(Stack_80362FB4, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_80362FB4, spC) == 0x4) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_80362FB4, sp10) == 0x8) ? 1 : -1];
-    Stack_80362FB4 stack;
     if (TObjPlayer::get_player_list() == 0) {
-        stack.sp8 = *(s32 *)((s8 *)&lbl_80479FC8.value + 0);
-        stack.spC = *(s32 *)((s8 *)&lbl_80479FC8.value + 4);
-        stack.sp10 = *(s32 *)((s8 *)&lbl_80479FC8.value + 8);
-        post_translate_matrix((void *)&stack.sp8);
+        Vec offset = {0.0f, 0.0f, 0.5f};
+        post_translate_matrix(&offset);
         rotate_matrix_x(0, 0x18E3);
         if (*(s32 *)((s8 *)((u8 *)this) + 0x1FC) & 1) {
             push_matrix();

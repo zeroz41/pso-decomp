@@ -13,6 +13,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/map/FloorArea.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/ui/frontend/TAdSubPlyItemGC.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/system/MatrixOps.h"
@@ -197,7 +198,7 @@ struct Cam_802E4E44 {
     u8 pad34[0x8];
 };
 
-struct Ent_802E4C70 { s32 active; u16 id; u8 name[0x12]; void *f18; s32 f1C; f32 f20; s32 f24; };
+struct Ent_802E4C70 { s32 active; u16 id; char name[0x12]; void *f18; s32 f1C; f32 f20; s32 f24; };
 
 struct Obj_802E4C70 {
     u8 pad0[0x90];
@@ -219,7 +220,6 @@ const char *TObjOnlineEnding__name = "TObjOnlineEnding";
 static const Vec online_ending_camera_eye = {20000.0f, 0.0f, 0.0f};
 static const Vec online_ending_camera_target = {20000.0f, 0.0f, -100.0f};
 u32 calc_text_width(char *s);
-s32 render_status_line__15TAdSubPlyItemGCFi(void *, int, f32, f32, f32);
 s32 push_matrix();
 s32 post_translate_matrix(void *);
 void draw_model_motion(void *arg0, void *arg1, f32 farg0);
@@ -287,11 +287,11 @@ void TObjOnlineEnding::render() {
                 online_ending_quad_vertices_initialized = 1;
             }
             {
-                u8 *name = e->name;
-                u32 w = calc_text_width((char *)name);
+                char *name = e->name;
+                u32 w = calc_text_width(name);
                 NJS_POINT2 v = online_ending_quad_vertices[i];
                 v.x -= (f32)(w >> 1);
-                render_status_line__15TAdSubPlyItemGCFi(name, -1, v.x, v.y, 0.1f);
+                TAdSubPlyItemGC::render_status_line(v.x, v.y, 0.1f, name, -1);
             }
             push_matrix();
             post_translate_matrix(lbl_804E3A38);

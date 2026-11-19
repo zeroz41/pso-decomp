@@ -1,8 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
-#pragma push
 
 #include "pso/render/render_util.h"
-#include "pso/unk/text_8022BE64.h"
 #include "pso/system/NinjaTypes.h"
 #include "types.h"
 #include "pso/effect/TUnk_804CC148.h"
@@ -11,124 +9,68 @@
 #include "pso/technique/TTecReverser.h"
 
 #include "pso/system/task/TObject.h"
-
-struct V3_8022BEAC { s32 x; s32 y; s32 z; };
-
-struct T_8022BEAC { u8 pad[0x20]; u8 f20[0xC]; u8 f2c[0x10]; f32 f3c; u8 pad2[0x2c]; s32 state; };
-
-extern "C" {
-extern V3_8022BEAC TTecLuker__render_scale_vec;
-#pragma pop
-
-#pragma push
-
-void sub_8022C008__13TUnk_804CC148Fv(u8 *arg0);
-void count_if_within_range__13TUnk_804CC148Fv(u8 *arg0);
-extern u8 __vt__13TUnk_804CC148[];
-}
-
-extern "C" {
-f32 vector_length(void *, f32);
-
-void TTecReverser::sub_8022BE64(u8 *arg1, s32 arg2) {
-    u8 *arg0 = (u8 *)this;
-    *(f32 *)((s8 *)arg1 + 0) = (f32) (*(f32 *)((s8 *)arg1 + 0) + (f32) arg2);
-    this->speed = (f32) *(f32 *)((s8 *)arg1 + 4);
-    *(f32 *)((s8 *)arg0 + 0x70) = (f32) *(f32 *)((s8 *)arg1 + 8);
-}
-
-void TUnk_804CC148::render() {
-    T_8022BEAC *self = (T_8022BEAC *)this;
-    V3_8022BEAC v = TTecLuker__render_scale_vec;
-    switch (this->state) {
-    case 0:
-        break;
-    case 1:
-        approach_vector_in_place(&scale, (const Vec *)&v, 2.75f);
-        break;
-    }
-    debug_draw_sphere((const Vec *)self->f20, (const NJS_ARGB *)self->f2c, self->f3c);
-}
-
-void TUnk_804CC148::tick_lifetime() {
-    this->state = 1;
-    this->age = (this->age + 1);
-    if ((f32) this->age > *(f32 *)((s8 *)this + 0x70)) {
-        queue_destruction();
-    }
-}
-
-void TUnk_804CC148::count_if_within_range() {
-    u8 *arg0 = (u8 *)this;
-    Vec stack;
-    f32 temp_f1;
-    stack.x = *(f32 *)((s8 *)arg0 + 0x20) - this->m_7c;
-    stack.y = *(f32 *)((s8 *)arg0 + 0x24) - *(f32 *)((s8 *)arg0 + 0x80);
-    temp_f1 = *(f32 *)((s8 *)arg0 + 0x28);
-    stack.z = temp_f1 - this->m_84;
-    if (vector_length(&stack.x, temp_f1) <= this->speed) {
-        this->state = (this->state + 1);
-    }
-}
-
-void TUnk_804CC148::sub_8022C008() {
-    u8 *arg0 = (u8 *)this;
-    s32 temp_r3;
-
-    temp_r3 = (long) (arg0 + 0x20);
-    approach_vector_fixed_distance((Vec *)temp_r3, (Vec *)&this->m_7c, (Vec *)temp_r3, (f32) (this->speed));
-}
-
-#pragma pop
-
-#define sub_8022C008__13TUnk_804CC148Fv ((s32 (*)())sub_8022C008__13TUnk_804CC148Fv)
-#define count_if_within_range__13TUnk_804CC148Fv ((s32 (*)(void *))count_if_within_range__13TUnk_804CC148Fv)
-void free_collision_body_parts(void *);
-
-void TUnk_804CC148::run_task() {
-
-    switch (this->state) {
-    case 0:
-        sub_8022C008__13TUnk_804CC148Fv();
-        count_if_within_range();
-        return;
-    case 1:
-        this->tick_lifetime();
-        return;
-    }
-}
-
-}
-TUnk_804CC148::~TUnk_804CC148() {
-    if (*(void * *)&this->m_e8 != NULL) { free_collision_body_parts(*(void * *)&this->m_e8); }
-}
-#undef sub_8022C008__13TUnk_804CC148Fv
-#undef count_if_within_range__13TUnk_804CC148Fv
-
+#include "pso/math/MatrixVector.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/player/TObjPlayer_801542CC.h"
 
-#define __vt__13TUnk_804CC148 ((void * *)__vt__13TUnk_804CC148)
+// Built with deferred code generation (configure.py): the functions run last to first.
 
-extern "C" {
-u16 get_entity_id(s32);
-s32 get_type__10TObjPlayerFPv(void *p);
-void *__ct__7TEffectFv(void *);
-s32 init_collision_body_parts(u32, void *, s32);
-u32 __ct__14TObjCollidableFP7TObject(u32, void *);
-u32 __nw__7TObjectFUl(s32);
-
-}
-TUnk_804CC148::TUnk_804CC148(s32 arg1, s32 arg2, s32 arg4) : TEffect() {
-    u32 var_r0;
+TUnk_804CC148::TUnk_804CC148(s32 source, Vec *pos, Vec *target, s32 level) : TEffect() {
     this->m_b4 = 0xFFFF;
-    VecCopy((Vec *)(((u8 *)this) + 0x20), (const Vec *)arg2);
-    this->m_7c = 0.0f;
-    *(f32 *)((s8 *)this + 0x80) = 0.0f;
-    this->m_84 = 0.0f;
+    VecCopy(&this->position, pos);
+    VecCopy(&this->target, target);
+    this->scale.x = 1.0f;
+    this->scale.y = 1.0f;
+    this->scale.z = 1.0f;
+    this->m_74 = 0;
     this->m_b8 = 0;
-    *(f32 *)((s8 *)this + 0x3C) = 1.0f;
-    *(f32 *)((s8 *)this + 0x40) = 1.0f;
-    *(f32 *)((s8 *)this + 0x44) = 1.0f;
+    this->source = source;
+    if (level < 0) {
+        this->m_78 = 0;
+    } else if (level >= 0x1E) {
+        this->m_78 = 0x1E;
+    } else {
+        this->m_78 = level;
+    }
+    this->band = TObjPlayer::get_level_tier(this->m_78);
+    this->color.a = 0.2f;
+    this->color.r = 1.0f;
+    this->color.g = 1.0f;
+    this->color.b = 1.0f;
+    this->speed = 3.0f;
+    this->lifetime = 150.0f;
+    this->collisionBody.offset.x = 0.0f;
+    this->collisionBody.offset.y = 0.0f;
+    this->collisionBody.offset.z = 0.0f;
+    this->collisionBody.radius = 10.0f;
+    this->collisionBody.half_width = 1.0f;
+    this->collisionBody.shape = 0;
+    if (get_entity_id((TObjBase *)this->source) < 4U) {
+        if (get_type__10TObjPlayerFPv((void *)(this->source + 0x828)) != 0) {
+            this->collisionBody.flags = 0x40007;
+        } else {
+            this->collisionBody.flags = 0x40107;
+        }
+    } else {
+        this->collisionBody.flags = 0x40007;
+    }
+    this->m_e8 = new TObjCollidable(this);
+    if (this->m_e8 != NULL) {
+        init_collision_body_parts(this->m_e8, &this->collisionBody, 1);
+    }
+}
+
+TUnk_804CC148::TUnk_804CC148(s32 arg1, s32 arg2, s32 arg4) : TEffect() {
+    this->m_b4 = 0xFFFF;
+    VecCopy(&this->position, (const Vec *)arg2);
+    this->target.x = 0.0f;
+    this->target.y = 0.0f;
+    this->target.z = 0.0f;
+    this->m_b8 = 0;
+    this->scale.x = 1.0f;
+    this->scale.y = 1.0f;
+    this->scale.z = 1.0f;
     this->m_74 = 0;
     this->source = arg1;
     if (arg4 < 0) {
@@ -138,89 +80,89 @@ TUnk_804CC148::TUnk_804CC148(s32 arg1, s32 arg2, s32 arg4) : TEffect() {
     } else {
         this->m_78 = arg4;
     }
-    *(s16 *)((s8 *)this + 0x7A) = TObjPlayer::get_level_tier(this->m_78);
-    *(f32 *)((s8 *)this + 0x2C) = 0.2f;
-    *(f32 *)((s8 *)this + 0x30) = 1.0f;
-    *(f32 *)((s8 *)this + 0x34) = 1.0f;
-    *(f32 *)((s8 *)this + 0x38) = 1.0f;
+    this->band = TObjPlayer::get_level_tier(this->m_78);
+    this->color.a = 0.2f;
+    this->color.r = 1.0f;
+    this->color.g = 1.0f;
+    this->color.b = 1.0f;
     this->speed = 3.0f;
-    *(f32 *)((s8 *)this + 0x70) = 150.0f;
-    *(f32 *)((s8 *)this + 0xBC) = 0.0f;
-    this->m_c0 = 0.0f;
-    *(f32 *)((s8 *)this + 0xC4) = 0.0f;
-    this->m_c8 = 10.0f;
-    *(f32 *)((s8 *)this + 0xCC) = 1.0f;
-    this->m_d0 = 0;
-    if (get_entity_id(this->source) < 4U) {
+    this->lifetime = 150.0f;
+    this->collisionBody.offset.x = 0.0f;
+    this->collisionBody.offset.y = 0.0f;
+    this->collisionBody.offset.z = 0.0f;
+    this->collisionBody.radius = 10.0f;
+    this->collisionBody.half_width = 1.0f;
+    this->collisionBody.shape = 0;
+    if (get_entity_id((TObjBase *)this->source) < 4U) {
         if (get_type__10TObjPlayerFPv((void *)(this->source + 0x828)) != 0) {
-            *(s32 *)((s8 *)this + 0xD4) = 0x40007;
+            this->collisionBody.flags = 0x40007;
         } else {
-            *(s32 *)((s8 *)this + 0xD4) = 0x40107;
+            this->collisionBody.flags = 0x40107;
         }
     } else {
-        *(s32 *)((s8 *)this + 0xD4) = 0x40007;
+        this->collisionBody.flags = 0x40007;
     }
-    var_r0 = __nw__7TObjectFUl(0xAC);
-    if (var_r0 != 0U) {
-        var_r0 = __ct__14TObjCollidableFP7TObject(var_r0, this);
-    }
-    this->m_e8 = var_r0;
-    if (this->m_e8 != 0U) {
-        init_collision_body_parts(this->m_e8, ((u8 *)this) + 0xBC, 1);
+    this->m_e8 = new TObjCollidable(this);
+    if (this->m_e8 != NULL) {
+        init_collision_body_parts(this->m_e8, &this->collisionBody, 1);
     }
 }
 
-u8 *construct_area_technique_base(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
-    u32 var_r0;
-    __ct__7TEffectFv(arg0);
-    *(void ***)((s8 *)arg0 + 0x18) = __vt__13TUnk_804CC148;
-    ((TUnk_804CC148 *)arg0)->m_b4 = 0xFFFF;
-    VecCopy((Vec *)(arg0 + 0x20), (const Vec *)arg2);
-    VecCopy((Vec *)(arg0 + 0x7C), (const Vec *)arg3);
-    *(f32 *)((s8 *)arg0 + 0x3C) = 1.0f;
-    *(f32 *)((s8 *)arg0 + 0x40) = 1.0f;
-    *(f32 *)((s8 *)arg0 + 0x44) = 1.0f;
-    ((TUnk_804CC148 *)arg0)->m_74 = 0;
-    ((TUnk_804CC148 *)arg0)->m_b8 = 0;
-    ((TUnk_804CC148 *)arg0)->source = arg1;
-    if (arg4 < 0) {
-        ((TUnk_804CC148 *)arg0)->m_78 = 0;
-    } else if (arg4 >= 0x1E) {
-        ((TUnk_804CC148 *)arg0)->m_78 = 0x1E;
-    } else {
-        ((TUnk_804CC148 *)arg0)->m_78 = arg4;
+TUnk_804CC148::~TUnk_804CC148() {
+    if (this->m_e8 != NULL) {
+        free_collision_body_parts(this->m_e8);
     }
-    *(s16 *)((s8 *)arg0 + 0x7A) = TObjPlayer::get_level_tier(((TUnk_804CC148 *)arg0)->m_78);
-    *(f32 *)((s8 *)arg0 + 0x2C) = 0.2f;
-    *(f32 *)((s8 *)arg0 + 0x30) = 1.0f;
-    *(f32 *)((s8 *)arg0 + 0x34) = 1.0f;
-    *(f32 *)((s8 *)arg0 + 0x38) = 1.0f;
-    ((TUnk_804CC148 *)arg0)->speed = 3.0f;
-    *(f32 *)((s8 *)arg0 + 0x70) = 150.0f;
-    *(f32 *)((s8 *)arg0 + 0xBC) = 0.0f;
-    ((TUnk_804CC148 *)arg0)->m_c0 = 0.0f;
-    *(f32 *)((s8 *)arg0 + 0xC4) = 0.0f;
-    ((TUnk_804CC148 *)arg0)->m_c8 = 10.0f;
-    *(f32 *)((s8 *)arg0 + 0xCC) = 1.0f;
-    ((TUnk_804CC148 *)arg0)->m_d0 = 0;
-    if (get_entity_id(((TUnk_804CC148 *)arg0)->source) < 4U) {
-        if (get_type__10TObjPlayerFPv((void *)(((TUnk_804CC148 *)arg0)->source + 0x828)) != 0) {
-            *(s32 *)((s8 *)arg0 + 0xD4) = 0x40007;
-        } else {
-            *(s32 *)((s8 *)arg0 + 0xD4) = 0x40107;
-        }
-    } else {
-        *(s32 *)((s8 *)arg0 + 0xD4) = 0x40007;
-    }
-    var_r0 = __nw__7TObjectFUl(0xAC);
-    if (var_r0 != 0U) {
-        var_r0 = __ct__14TObjCollidableFP7TObject(var_r0, arg0);
-    }
-    ((TUnk_804CC148 *)arg0)->m_e8 = var_r0;
-    if (((TUnk_804CC148 *)arg0)->m_e8 != 0U) {
-        init_collision_body_parts(((TUnk_804CC148 *)arg0)->m_e8, arg0 + 0xBC, 1);
-    }
-    return arg0;
 }
 
-#undef __vt__13TUnk_804CC148
+void TUnk_804CC148::run_task() {
+
+    switch (this->state) {
+    case 0:
+        sub_8022C008();
+        count_if_within_range();
+        return;
+    case 1:
+        this->tick_lifetime();
+        return;
+    }
+}
+
+void TUnk_804CC148::sub_8022C008() {
+    approach_vector_fixed_distance(&this->position, &this->target, &this->position, this->speed);
+}
+
+void TUnk_804CC148::count_if_within_range() {
+    Vec diff;
+    diff.x = this->position.x - this->target.x;
+    diff.y = this->position.y - this->target.y;
+    diff.z = this->position.z - this->target.z;
+    if (vector_length(&diff) <= this->speed) {
+        this->state = (this->state + 1);
+    }
+}
+
+void TUnk_804CC148::tick_lifetime() {
+    this->state = 1;
+    this->age = (this->age + 1);
+    if ((f32) this->age > this->lifetime) {
+        queue_destruction();
+    }
+}
+
+void TUnk_804CC148::render() {
+    Vec full_scale = {50.0f, 50.0f, 50.0f}; // the scale it grows to once it has arrived
+    switch (this->state) {
+    case 0:
+        break;
+    case 1:
+        approach_vector_in_place(&scale, &full_scale, 2.75f);
+        break;
+    }
+    debug_draw_sphere(&this->position, &this->color, this->scale.x);
+}
+
+void TTecReverser::sub_8022BE64(u8 *arg1, s32 arg2) {
+    *(f32 *)((s8 *)arg1 + 0) = (f32) (*(f32 *)((s8 *)arg1 + 0) + (f32) arg2);
+    this->speed = (f32) *(f32 *)((s8 *)arg1 + 4);
+    this->lifetime = *(f32 *)((s8 *)arg1 + 8);
+}

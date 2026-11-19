@@ -3,19 +3,12 @@
 
 #include "types.h"
 
+// Defined in TAdMultiChgGameModeGC_8023E7A8.cpp. The unload/load pair runs the lobby
+// scene hook table (unload halves in reverse, then the load halves): the options and
+// time-set screens call it after a language change.
 extern "C" {
-void fn_8023F160(void);
-void fn_8023F18C(void);
-}
-
-// --- C functions defined in text_8023F160.cpp ---
-extern "C" {
-void fn_8023F160(void);
-void fn_8023F18C(void);
-}
-// --- end of C functions
-
-extern "C" {
+void unload_lobby_scene_resources(void);
+void load_lobby_scene_resources(void);
 void init_game_mode_select_scene(void);
 }
 

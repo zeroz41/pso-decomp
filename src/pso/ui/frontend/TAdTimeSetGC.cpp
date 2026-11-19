@@ -884,8 +884,8 @@ void TAdTimeSetGC::apply_settings() {
     update_music_stream_gain(*(s16 *)(state + 4));
     TLobby__sub_8022614C(state[6]);
     TLobby::init_sound_mode();
-    fn_8023F160();
-    fn_8023F18C();
+    unload_lobby_scene_resources();
+    load_lobby_scene_resources();
     TAdMultiChgGameModeGC::init_change_mode();
 }
 

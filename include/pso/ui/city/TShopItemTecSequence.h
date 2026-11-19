@@ -4,15 +4,15 @@
 #include "types.h"
 #include "pso/ui/city/TShopSequence.h"
 
+class TWindowBase;
+
 struct TShopItemTecSequence : public TShopSequence {
+    TShopItemTecSequence(TObject *parent, TObjPlayer *player);
     virtual ~TShopItemTecSequence();
     virtual void vfunc_11();
-    u8 unk_1C[0x4];
-    u32 m_20;
-    u8 unk_24[0x8];
-    s32 m_2c;
-    u8 unk_30[0x4];
-    s32 m_34;
+    TWindowBase *meseta_window;     // 0x2C: create_meseta_window
+    TWindowBase *choice_menu;       // 0x30: the buy/sell create_window_menu
+    TObject *counter_camera;        // 0x34: set_service_counter_camera
     s32 handle_select();
     s32 close_if_done();
     void open_sell_window();
@@ -24,11 +24,9 @@ struct TShopItemTecSequence : public TShopSequence {
 typedef char TShopItemTecSequence_size[sizeof(TShopItemTecSequence) == 0x38 ? 1 : -1];
 
 extern "C" {
-u8 *TShopItemTecSequence__ct(u8 *arg0, s32 arg1, s32 arg2);
 int TShopItemTecSequence__sub_8021FE6C(int a0);
 void TShopItemTecSequence__sub_80220538(void);
 void TShopItemTecSequence__sub_80220560(void);
-u8 *__dt__20TShopItemTecSequenceFv(TShopItemTecSequence *arg0, s16 arg1);
 void close__20TShopItemTecSequenceFPv(void *arg0);
 void select_and_advance__20TShopItemTecSequenceFPv(void *arg0);
 void set_judgment_target_flag(void *arg0, void *arg1);
@@ -36,11 +34,9 @@ void set_judgment_target_flag(void *arg0, void *arg1);
 
 // --- C functions defined in TShopItemTecSequence.cpp ---
 extern "C" {
-u8 *TShopItemTecSequence__ct(u8 *shop_item_tec_sequence, s32 arg1, s32 arg2);
 int TShopItemTecSequence__sub_8021FE6C(int a0);
 void TShopItemTecSequence__sub_80220538(void);
 void TShopItemTecSequence__sub_80220560(void);
-u8 *__dt__20TShopItemTecSequenceFv(TShopItemTecSequence *arg0, s16 arg1);
 void close__20TShopItemTecSequenceFPv(void *shop_window_base);
 void select_and_advance__20TShopItemTecSequenceFPv(void *shop_window_base);
 void set_judgment_target_flag(void *arg0, void *arg1);

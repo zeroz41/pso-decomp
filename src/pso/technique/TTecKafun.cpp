@@ -5,6 +5,9 @@
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/text_80087278.h"
 #include "pso/effect/TUnk_804CC148.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/player/TObjPlayer_801542CC.h"
 
 
 #pragma readonly_strings on
@@ -12,18 +15,66 @@
 
 const char *tec_kafun_class_name_ptr = "TTecKafun";
 
+struct Pair_802A9588 {
+    s32 id;
+    f32 val;
+};
 
-extern "C" {
-void *find_entity_by_id(u16 id);
-u16 get_entity_id(void *);
-s32 play_sound_effect(s32, u32, s16, s32);
-u8 * construct_area_technique_base(void *, s32, s32, s32, s16);
-extern s32 __vt__9TTecKafun[];
-extern const char *tec_kafun_class_name_ptr;
-u8 *TTecKafun__sub_802A9948(TTecKafun *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s16 arg5, f32 farg0, f32 farg1);
-u8 *TTecKafun__ct(TTecKafun *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s16 arg6, f32 farg0, f32 farg1);
+struct VBase_802A9588 { char pad[0x18]; };
 
+struct Target_802A9588 : VBase_802A9588 {
+    virtual void m0();
+    virtual void m1();
+    virtual void m2();
+    virtual void m3();
+    virtual void m4();
+    virtual void m5();
+    virtual void m6();
+    virtual void m7();
+    virtual void m8();
+    virtual void m9();
+    virtual void m10();
+    virtual void m11();
+    virtual void m12();
+    virtual void m13();
+    virtual void m14();
+    virtual void m15();
+    virtual void m16();
+    virtual void m17();
+    virtual void m18();
+    virtual void m19();
+    virtual void m20();
+    virtual void m21(s32, Pair_802A9588, s32, s32, s32);
+};
+
+void TTecKafun::vfunc_6(void *target) {
+    Pair_802A9588 p;
+    p.val = this->hit_value;
+    switch (this->hit_kind) {
+    case 15:
+    case 16:
+    case 17:
+    case 18:
+        p.id = 0;
+        ((Target_802A9588 *)target)->m21(this->source, p, 0, -1, -1);
+        p.id = this->hit_kind;
+        ((Target_802A9588 *)target)->m21(this->source, p, 0, -1, -1);
+        break;
+    default:
+        p.id = this->hit_kind;
+        ((Target_802A9588 *)target)->m21(this->source, p, 0, -1, -1);
+        break;
+    }
 }
+
+void TTecKafun::create(s32 source, s32 pos, s32 kind, s32 effect, s32 second_effect, s32 level, f32 value, f32 radius) {
+    new TTecKafun(source, (Vec *)pos, kind, effect, second_effect, level, value, radius);
+}
+
+void TTecKafun::create(s32 source, s32 pos, s32 kind, s32 effect, s32 level, f32 value, f32 radius) {
+    new TTecKafun(source, (Vec *)pos, kind, effect, level, value, radius);
+}
+
 TTecKafun::~TTecKafun() {
 
 }
@@ -31,66 +82,52 @@ TTecKafun::~TTecKafun() {
 
 void TTecKafun::render() {  }
 void TTecKafun::run_task() {
-    u8 *arg0 = (u8 *)this;
-    if ((u32) this->m_e8 == 0U) {
-        ((TObject *)arg0)->queue_destruction();
+    if (this->m_e8 == NULL) {
+        queue_destruction();
         return;
     }
-    this->source = (u32)find_entity_by_id((this->m_b4));
-    if ((u32) this->source == 0U) {
-        ((TObject *)arg0)->queue_destruction();
+    this->source = (u32)find_entity_by_id(this->m_b4);
+    if (this->source == 0U) {
+        queue_destruction();
         return;
     }
-    spawn_particle_effect((arg0 + 0x20), (this->m_f0));
-    if ((s32) this->m_fc == 1) {
-        spawn_particle_effect((arg0 + 0x20), (this->m_f4));
+    spawn_particle_effect(&this->position, this->effect);
+    if (this->has_second_effect == 1) {
+        spawn_particle_effect(&this->position, this->second_effect);
     }
-    ((TUnk_804CC148 *)arg0)->apply_technique_to_area_targets();
-    ((TObject *)arg0)->queue_destruction();
+    apply_technique_to_area_targets();
+    queue_destruction();
 }
 
-u8 *TTecKafun__ct(TTecKafun *tec_kafun, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s16 arg6, f32 farg0, f32 farg1) {
-    u8 *temp_r3;
-    u8 *temp_r3_2;
-    construct_area_technique_base(tec_kafun, arg1, arg2, arg2, arg6);
-    *(s32 **)((s8 *)tec_kafun + 0x18) = __vt__9TTecKafun;
-    *(s32 *)((s8 *)tec_kafun + 0) = (s32) ((s32)tec_kafun_class_name_ptr);
-    *(f32 *)((s8 *)tec_kafun + 0xEC) = farg0;
-    tec_kafun->m_f8 = arg3;
-    tec_kafun->m_fc = 1;
-    tec_kafun->m_f0 = arg4;
-    tec_kafun->m_f4 = arg5;
-    temp_r3 = (u8 *)(*(u8 **)((s8 *)tec_kafun + 0xE8));
-    if (temp_r3 != NULL) {
-        *(f32 *)((s8 *)(*(u8 **)((s8 *)temp_r3 + 0xA4)) + 0xC) = farg1;
+TTecKafun::TTecKafun(s32 source, Vec *pos, s32 kind, s32 effect, s32 second_effect, s32 level, f32 value, f32 radius)
+    : TUnk_804CC148(source, pos, pos, level) {
+    this->m_name = tec_kafun_class_name_ptr;
+    this->hit_value = value;
+    this->hit_kind = kind;
+    this->has_second_effect = 1;
+    this->effect = effect;
+    this->second_effect = second_effect;
+    if (this->m_e8 != NULL) {
+        this->m_e8->bodies->radius = radius;
     }
-    play_sound_effect(0x4002A50A, (u32)((u8 *)tec_kafun + 0x20), 0, 0);
-    temp_r3_2 = (u8 *)(*(u8 **)((s8 *)tec_kafun + 0x1C));
-    if (temp_r3_2 != NULL) {
-        tec_kafun->m_b4 = get_entity_id(temp_r3_2);
+    play_sound_effect(0x4002A50A, &this->position, 0, 0);
+    if (this->source != 0U) {
+        this->m_b4 = get_entity_id((TObjBase *)this->source);
     }
-    return (u8 *)tec_kafun;
 }
 
-u8 *TTecKafun__sub_802A9948(TTecKafun *tec_kafun, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s16 arg5, f32 farg0, f32 farg1) {
-    u8 *temp_r3;
-    u8 *temp_r3_2;
-    construct_area_technique_base(tec_kafun, arg1, arg2, arg2, arg5);
-    *(s32 **)((s8 *)tec_kafun + 0x18) = __vt__9TTecKafun;
-    *(s32 *)((s8 *)tec_kafun + 0) = (s32) ((s32)tec_kafun_class_name_ptr);
-    *(f32 *)((s8 *)tec_kafun + 0xEC) = farg0;
-    tec_kafun->m_f8 = arg3;
-    tec_kafun->m_fc = 0;
-    tec_kafun->m_f0 = arg4;
-    temp_r3 = (u8 *)(*(u8 **)((s8 *)tec_kafun + 0xE8));
-    if (temp_r3 != NULL) {
-        *(f32 *)((s8 *)(*(u8 **)((s8 *)temp_r3 + 0xA4)) + 0xC) = farg1;
+TTecKafun::TTecKafun(s32 source, Vec *pos, s32 kind, s32 effect, s32 level, f32 value, f32 radius)
+    : TUnk_804CC148(source, pos, pos, level) {
+    this->m_name = tec_kafun_class_name_ptr;
+    this->hit_value = value;
+    this->hit_kind = kind;
+    this->has_second_effect = 0;
+    this->effect = effect;
+    if (this->m_e8 != NULL) {
+        this->m_e8->bodies->radius = radius;
     }
-    play_sound_effect(0x4002A50A, (u32)((u8 *)tec_kafun + 0x20), 0, 0);
-    temp_r3_2 = (u8 *)(*(u8 **)((s8 *)tec_kafun + 0x1C));
-    if (temp_r3_2 != NULL) {
-        tec_kafun->m_b4 = get_entity_id(temp_r3_2);
+    play_sound_effect(0x4002A50A, &this->position, 0, 0);
+    if (this->source != 0U) {
+        this->m_b4 = get_entity_id((TObjBase *)this->source);
     }
-    return (u8 *)tec_kafun;
 }
-

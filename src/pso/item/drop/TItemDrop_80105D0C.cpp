@@ -13,6 +13,7 @@
 #include <stdlib.h>
 #include "pso/system/task/TObject.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
+#include "pso/unk/text_8010F168.h"
 
 struct Item_80105EA4 { u8 type; u8 b1; u8 b2; };
 
@@ -31,7 +32,6 @@ extern "C" {
 s32 get_game_play_mode();
 s32 get_drop_table_mode_flags(void);
 void *memset(void *dst, int c, u32 n);
-void TItemDrop__vt0(void);
 extern u8 TLobby__data_805011D8[];
 s32 item_drop_cached_offset = -1;
 const char *item_drop_class_name = "TItemDrop";
@@ -307,7 +307,7 @@ void TItemDrop::refresh_drop_table_if_changed() {
     if (item_drop_cached_offset != TItemDrop::calc_drop_offset(((TFontSmallTask *)TLobby__data_805011D8)->get_task_id()) ||
         TItemDrop__drop_table_mode_flags != get_drop_table_mode_flags()) {
         TItemDrop__section_id = ((TFontSmallTask *)TLobby__data_805011D8)->get_task_id();
-        TItemDrop__vt0();
+        load_drop_tables();
     }
 }
 
@@ -326,14 +326,6 @@ struct Tbl_80106E04 {
     u8 pad[0x34];
     u8 *chance;
     u8 *rate;
-};
-
-struct TItemDrop_80107900 {
-    const char *name;
-    u8 pad4[0x14];
-    void *vt;
-    s32 unk1C;
-    s32 *list;
 };
 
 struct Item_8010663C { u8 type; u8 sub; u8 pad2[0xE]; u32 id; };
@@ -373,12 +365,6 @@ extern const f32 lbl_805DAAD8;
 s32 item_drop_rng_below(s32 arg0, u32 arg1);
 s32 calc_random_ratio__10TObjPlayerFv(void *);
 void roll_table_ratio__9TItemDropFPvUi(u8 *arg0, u32 arg1);
-s32 __dt__7TObjectFv(void *, int);
-void *TItemDrop__sub_8010F168(void *arg0, s16 arg1);
-s32 __dl__7TObjectFPv(void *);
-struct RecoveredGlobal_lbl_8049EF88 { s32 value; u8 remaining[0x14]; };
-extern RecoveredGlobal_lbl_8049EF88 lbl_8049EF88;
-u8 *TItemDrop__sub_80107840(u8 *arg0, s16 arg1);
 void prune_weapon_attributes__9TItemDropFPvPv(void *self, Obj_80106F4C *o);
 s32 try_generate_rare_item__9TItemDropFiPvPv(s32 arg0, u8 *arg1, u8 *arg2);
 void roll_table_ratio__9TItemDropFPvUi(u8 *arg0, u32 arg1);
@@ -389,15 +375,10 @@ void generate_tool_drop__9TItemDropFiiPv(s32 arg0, s32 arg1, void *arg2);
 s32 init__9TItemDataFv(void *);
 extern const f32 lbl_805DAADC;
 s32 run_step__9TItemDropFl(s32, u32);
-s32 create_load_unload_set(void *);
-void __ct__7TObjectFP7TObject(void *, void *);
 s32 __cvt_fp2unsigned(f32);
-extern s32 __vt__9TItemDrop[];
-extern RecoveredGlobal_lbl_8049EF88 lbl_8049EF88;
 extern const f32 lbl_805DAAD4;
 extern const f32 lbl_805DAAD8;
 extern const f32 lbl_805DAAE4;
-TItemDrop_80107900 *TItemDrop__ct(TItemDrop_80107900 *self, void *parent, s8 arg2);
 
 s32 init__9TItemDataFv(void *);
 void select_enemy_drop__9TItemDropFPviiPv(u8 *self, s32 area, s32 idx, Item_8010663C *item);
@@ -415,16 +396,12 @@ void *load_relocatable_file(char *, s32);
 void close_gsl_archive(void);
 void open_gsl_archive(char *);
 s32 get_drop_table_mode_flags(void);
-void TItemDrop__vt0(void);
-void TItemDrop__vt1(void);
-void __dt__9TItemDropFv(void);
-void run_task__9TItemDropFv(void);
 void roll_armor_bonuses__9TItemDropFv(s32, void *);
 u8 TLobby__sub_801D6DDC(void *arg0);
 s32 init__9TItemDataFv(void *);
 
 
-void run_task__9TItemDropFv(void) {
+void TItemDrop::free_unit_star_tables() {
     mem_free((void *)TItemDrop__unit_star_bucket_counts);
     TItemDrop__unit_star_bucket_counts = 0;
     mem_free((void *)TItemDrop__unit_star_classes);
@@ -432,16 +409,16 @@ void run_task__9TItemDropFv(void) {
 }
 
 
-void __dt__9TItemDropFv(void) {
+void TItemDrop::alloc_unit_star_tables() {
     TItemDrop__unit_star_classes = (u8 *)mem_alloc(0x88);
     TItemDrop__unit_star_bucket_counts = (u8 *)mem_alloc(0xD);
     TItemDrop::count_unit_star_buckets();
 }
 
-void TItemDrop__vt1(void) {  }
+void TItemDrop::unload_drop_tables() {  }
 
 
-void TItemDrop__vt0(void) {
+void TItemDrop::load_drop_tables() {
     char path[0x48];
     item_drop_cached_offset = TItemDrop::calc_drop_offset(TItemDrop__section_id);
     TItemDrop__drop_table_mode_flags = get_drop_table_mode_flags();
@@ -994,49 +971,38 @@ u8 TItemDrop::select_weighted_byte(s32 base, s32 off, s32 count, s32 stride) {
     return 0xFF;
 }
 
-u8 *TItemDrop__sub_80107840(u8 *item_drop, s16 arg1) {
-  s32 var_r30;
-  s32 var_r31;
-  if (item_drop != 0)
-  {
-    *((s32 **) (((s8 *) item_drop) + 0x18)) = &lbl_8049EF88.value;
-    var_r31 = (int) (((TItemDrop *)item_drop)->m_1c);
-    TItemDrop__sub_8010F168((void *)var_r31, 1);
-    ((TItemDrop *)item_drop)->m_1c = 0;
-    TAdSinglePlyChrSelectGC::safe_free((int) TItemDrop__relocatable_load_buffer);
+TItemDrop::~TItemDrop() {
+    s32 i;
+    TItemDrop__sub_8010F168((void *)load_unload_set, 1);
+    load_unload_set = 0;
+    TAdSinglePlyChrSelectGC::safe_free(TItemDrop__relocatable_load_buffer);
     TItemDrop__relocatable_load_buffer = 0;
-    TAdSinglePlyChrSelectGC::safe_free((int) TItemDrop__second_relocatable_load_buffer);
-    var_r31 = 0;
-    var_r30 = 0;
+    TAdSinglePlyChrSelectGC::safe_free(TItemDrop__second_relocatable_load_buffer);
     TItemDrop__second_relocatable_load_buffer = 0;
-    do
-    {
-      ::operator delete((void *)(*((s32 *) (((s8 *) (((TItemDrop *)item_drop)->m_20)) + var_r31))));
-      var_r30 += 1;
-      var_r31 += 4;
+    for (i = 0; i != 0x11; i++) {
+        ::operator delete((void *)entries[i]);
     }
-    while (var_r30 != 0x11);
-    mem_free((void *)((int) (((TItemDrop *)item_drop)->m_20)));
-    ((TItemDrop *)item_drop)->m_20 = 0;
-    __dt__7TObjectFv((void *) item_drop, 0);
-    if (arg1 > 0)
-    {
-      __dl__7TObjectFPv((void *) item_drop);
-    }
-  }
-  return item_drop;
+    mem_free(entries);
+    entries = 0;
 }
 
-TItemDrop_80107900 *TItemDrop__ct(TItemDrop_80107900 *self, void *parent, s8 arg2) {
+// The drop tables' resource set (the ctor hands it to create_load_unload_set):
+// {load, unload} the drop tables, {allocate, free} the unit star tables.
+// Name inferred from item_class_load_unload_table.
+ItemClassLoadUnloadEntry item_drop_load_unload_table[3] = {
+    { TItemDrop::load_drop_tables, TItemDrop::unload_drop_tables },
+    { TItemDrop::alloc_unit_star_tables, TItemDrop::free_unit_star_tables },
+    { NULL, NULL },
+};
+
+TItemDrop::TItemDrop(TObject *parent, s8 section) : TObject(parent) {
     s32 i;
     u32 a;
     u32 b;
     s32 obj;
-    __ct__7TObjectFP7TObject(self, parent);
-    self->vt = &lbl_8049EF88.value;
-    self->name = item_drop_class_name;
-    TItemDrop__section_id = arg2;
-    self->list = (s32 *)mem_alloc(0x44);
+    m_name = item_drop_class_name;
+    TItemDrop__section_id = section;
+    entries = (s32 *)mem_alloc(0x44);
     for (i = 0; i != 0x11; i++) {
         a = __cvt_fp2unsigned(lbl_805DAAD8 * (lbl_805DAAE4 * (f32)rand()));
         b = __cvt_fp2unsigned(lbl_805DAAD4 * (lbl_805DAAE4 * (f32)rand()));
@@ -1044,29 +1010,21 @@ TItemDrop_80107900 *TItemDrop__ct(TItemDrop_80107900 *self, void *parent, s8 arg
         if (obj != 0) {
             obj = run_step__9TItemDropFl(obj, a | b);
         }
-        self->list[i] = obj;
+        entries[i] = obj;
     }
     TItemDrop__second_relocatable_load_buffer = (s32)TQuestVmDownLoadServer::alloc(0xC00);
     TItemDrop__relocatable_load_buffer = (s32)TQuestVmDownLoadServer::alloc(0xC00);
-    self->unk1C = create_load_unload_set(__vt__9TItemDrop);
-    return self;
+    load_unload_set = create_load_unload_set(item_drop_load_unload_table);
 }
 
 u8 *create_drop__9TItemDropFi(s32 parent) {
     u8 temp_r0;
     u8 *temp_r3;
-    u8 *temp_r3_2;
-    u8 *var_r0;
     temp_r3 = (u8 *)(get_char_index__23TAdSinglePlyChrSelectGCFUi(0U));
     if (temp_r3 != NULL) {
         temp_r0 = *(u8 *)((s8 *)temp_r3 + 0x3A0);
         if (((s8) temp_r0 >= 0) && ((s8) temp_r0 < 0xA)) {
-            temp_r3_2 = (u8 *)(TObject::operator new(0x24));
-            var_r0 = temp_r3_2;
-            if (var_r0 != NULL) {
-                var_r0 = (u8 *)(TItemDrop__ct((TItemDrop_80107900 *)(temp_r3_2), (void *)parent, (s8)((s8) temp_r0)));
-            }
-            return var_r0;
+            return (u8 *)new TItemDrop((TObject *)parent, (s8)temp_r0);
         }
     }
     return NULL;

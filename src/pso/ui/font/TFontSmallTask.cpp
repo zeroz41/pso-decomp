@@ -76,8 +76,6 @@ f32 vec3_dot(Vec *, Vec *);
 void push_matrix(void);
 void project_world_to_screen(int, f32 *, f32 *);
 s32 is_split_screen(void);
-s32 get_screen_height__11TCameraCtrlFv(void);
-s32 get_screen_width__11TCameraCtrlFv(void);
 f32 get_scale__15TWindowCtrlMainFv(s32);
 void begin_screen_draw(int);
 void set_draw_texture_and_color(int, u32);
@@ -136,9 +134,9 @@ void TFontSmallTask::render() {
     project_world_to_screen(0, position, screen);
     pop_matrix();
     if (is_split_screen() != 0) {
-        screen[0] -= (f32)get_screen_height__11TCameraCtrlFv();
+        screen[0] -= (f32)TCameraCtrl::get_screen_height();
         screen[0] /= TCameraCtrl::get_view_scale();
-        screen[1] -= (f32)get_screen_width__11TCameraCtrlFv();
+        screen[1] -= (f32)TCameraCtrl::get_screen_width();
         screen[1] /= TCameraCtrl::get_fov();
     }
     x = screen[0] += offset_x;
@@ -278,11 +276,13 @@ struct VObj_800FD614 : VBase_800FD614 {
     virtual void m12(); virtual void m13(); virtual s32 m14();
 };
 
+// a: the leader's level (TObjChara::get_actor_level_index), b: its section id.
 struct Out_800FD614 { s32 a; s32 b; };
 
 void reset_leader_selection(void* p);
-struct RecoveredGlobal_TLobby__data_805011D8 { s32 value; u8 remaining[0x24]; };
-extern RecoveredGlobal_TLobby__data_805011D8 TLobby__data_805011D8;
+// The leader selection find_leader_section_id fills (TLobby_801A3C48, text_801A3014) and set_world_section_id /
+// TFontSmallTask::get_task_id store and read the section id of; the .ctors entry below resets it.
+Out_800FD614 TLobby__data_805011D8;
 extern "C" {
 void call_funcs_reverse__6TLobbyFPvUi(Ent_800FD6A0 *arr, u32 size);
 s32 is_area_transfer_pending(void);
@@ -372,7 +372,7 @@ s32 run_load_callback_table(Ent_800FD6F8 *p, u32 size) {
 }
 
 void TLobby::reset_leader_selection_static() {
-    reset_leader_selection(&TLobby__data_805011D8.value);
+    reset_leader_selection(&TLobby__data_805011D8);
 }
 
 __declspec(section ".ctors") static void *const __sinit_TFontSmallTask_cpp_ref = (void *)TLobby::reset_leader_selection_static;

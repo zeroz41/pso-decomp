@@ -11,6 +11,9 @@
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/system/task/TObject.h"
+#include "pso/boss/goldragon/TBoss8Dragon_8005D700.h"
+#include "pso/unk/text_80355970.h"
+#include "pso/unk/text_80355A1C.h"
 
 
 void TBoss5GryphonTornado::sub_803554F0(u8 *boss2_tunnel) {
@@ -56,12 +59,13 @@ struct Tornado_80355570 {
     void *p58;
 };
 
-extern "C" { extern char TBoss5GryphonTornado__class_name_string[]; }
-const char *lbl_805D4398 = TBoss5GryphonTornado__class_name_string;
+// The particle ids run_task spawns (installed by TBoss8Dragon__sub_80355A20 at the end of
+// the file). Defined first: the table opens the unit's .rodata, before the class name.
+static const s32 gryphon_tornado_particle_ids[3] = {0x203, 0x204, 0x205};
+const char *TBoss5GryphonTornado__class_name = "TBoss5GryphonTornado";
 extern "C" {
 void __ct__7TObjectFP7TObject(void *, void *);
 extern s32 __vt__20TBoss5GryphonTornado[];
-extern const char *lbl_805D4398;
 s32 get_bml_motion(s32, s32);
 s32 get_bml_model(s32, s32);
 void TBoss8Dragon__sub_800640A4(s32, Vec *);
@@ -71,9 +75,8 @@ void add_radar_scaled_marker(Vec *, s32, s32, s32, f32);
 void play_persistent_sound(s32, void *, Vec *, s32, s32);
 extern s32 boss5_gryphon_bml_resource;
 extern s32 boss5_gryphon_texture_list;
-s32 *gryphon_tornado_particle_id_table;
+const s32 *gryphon_tornado_particle_id_table;
 extern const f32 lbl_805D8D48;
-extern const f32 lbl_805DFFB8;
 
 void TBoss5GryphonTornado::render() {  }
 
@@ -138,7 +141,7 @@ void TBoss5GryphonTornado::run_task() {
         o->f3C *= 0.995f;
         o->pos.x += o->f34;
         o->pos.z += o->f3C;
-        add_radar_scaled_marker(&o->pos, -0x5DB4, 1, 1, lbl_805DFFB8);
+        add_radar_scaled_marker(&o->pos, -0x5DB4, 1, 1, 1.5f);
         play_persistent_sound(0x40032D05, o, &o->pos, 0, 0);
         o->timer++;
         break;
@@ -169,10 +172,10 @@ TBoss5GryphonTornado::~TBoss5GryphonTornado() {
     if (*(void **)((s8 *)this + 0x50) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0x50)))->queue_destruction(); this->m_50 = 0; }
 }
 
-u8 *TBoss5GryphonTornado__ct(TBoss5GryphonTornado *boss5_gryphon_tornado, u8 *arg1, s32 arg2, u8 *arg3, s16 arg4) {
+u8 *TBoss5GryphonTornado__ct(TBoss5GryphonTornado *boss5_gryphon_tornado, u8 *arg1, s32 arg2, u8 *arg3, u16 arg4) {
     __ct__7TObjectFP7TObject(boss5_gryphon_tornado, arg1);
     *(s32 **)((s8 *)boss5_gryphon_tornado + 0x18) = __vt__20TBoss5GryphonTornado;
-    *(s32 *)((s8 *)boss5_gryphon_tornado + 0) = (s32) lbl_805D4398;
+    *(s32 *)((s8 *)boss5_gryphon_tornado + 0) = (s32) TBoss5GryphonTornado__class_name;
     VecCopy((Vec *)((u8 *)boss5_gryphon_tornado + 0x28), (const Vec *)arg3);
     boss5_gryphon_tornado->m_24 = arg4;
     boss5_gryphon_tornado->m_4c = arg2;
@@ -185,4 +188,38 @@ u8 *TBoss5GryphonTornado__ct(TBoss5GryphonTornado *boss5_gryphon_tornado, u8 *ar
     boss5_gryphon_tornado->m_20 = 0;
     boss5_gryphon_tornado->m_1c = 0;
     return (u8 *)boss5_gryphon_tornado;
+}
+
+extern "C" {
+s32 spawn_gryphon_tornado(s32 parent, s32 gryphon, const Vec *pos_src, u16 kind) {
+    Vec pos;
+    Res_80355570 *under;
+    f32 y;
+    TBoss5GryphonTornado *tornado;
+    VecCopy(&pos, pos_src);
+    pos.y = lbl_805D8D48;
+    under = csnVecterUnder(&pos, 0x16EF);
+    if (under == NULL) {
+        return 0;
+    }
+    y = under->inner->f4;
+    if (y > lbl_805D8D48) {
+        return 0;
+    }
+    pos.y = y;
+    tornado = (TBoss5GryphonTornado *)TObject::operator new(0x5C);
+    if (tornado != NULL) {
+        tornado = (TBoss5GryphonTornado *)TBoss5GryphonTornado__ct(tornado, (u8 *)parent, gryphon, (u8 *)&pos, kind);
+    }
+    return (s32)tornado;
+}
+}
+
+void TBoss8Dragon__sub_80355A1C(void) {  }
+void TBoss8Dragon__sub_80355A20(void) {
+    switch (TBoss8Dragon__sub_8005D700()) {
+    case 0:
+        gryphon_tornado_particle_id_table = gryphon_tornado_particle_ids;
+        break;
+    }
 }

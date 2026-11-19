@@ -5,9 +5,9 @@
 #pragma scheduling off
 #pragma peephole off
 #pragma opt_dead_assignments off
-s32 request_network_info_load(s32 channel, void *buffer) {
-    char pad __attribute__((aligned(32)));
-    void *unused = &pad;
+// The caller's buffer is declared 32-byte aligned, as the library's buffer pointers in .sbss are; GC/1.3 gives
+// the parameter an aligned home, hence the 32-aligned frame.
+s32 request_network_info_load(s32 channel, void *buffer __attribute__((aligned(32)))) {
     switch (get_network_config_mode()) {
     case 0:
         return -1;
@@ -32,15 +32,15 @@ s32 request_network_info_load(s32 channel, void *buffer) {
 
 #pragma push
 #pragma scheduling off
-s32 take_network_info_request_result(s32 *arg0, s32 *arg1) {
+s32 take_network_info_request_result(s32 *card_result, s32 *card_detail) {
     s32 r;
     s32 t;
     if (get_network_config_mode() == 0) {
         return -1;
     }
     if (network_info_load_state.request_kind == 2) {
-        *arg0 = network_info_load_state.card_result;
-        *arg1 = network_info_load_state.card_detail;
+        *card_result = network_info_load_state.card_result;
+        *card_detail = network_info_load_state.card_detail;
         t = network_info_load_state.result;
         r = t;
         if (t != 200) {
@@ -52,8 +52,8 @@ s32 take_network_info_request_result(s32 *arg0, s32 *arg1) {
             network_info_load_state.result = 0;
         }
     } else {
-        *arg0 = 0;
-        *arg1 = 0;
+        *card_result = 0;
+        *card_detail = 0;
         r = -4;
     }
     return r;

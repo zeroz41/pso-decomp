@@ -69,6 +69,8 @@
 #include "pso/math/AngleLookup.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 
+#pragma readonly_strings on
+
 #define M0(x) virtual void m##x();
 struct Base_801AF2F0 { char pad[0x18]; };
 
@@ -188,8 +190,6 @@ struct Self_801B96BC {
 void reset_status_effect_row(u8 *arg0);
 extern "C" {
 f32 TObjPlayer__sub_800192C4(void *, int);
-extern const f64 lbl_80446F38;
-extern const f64 lbl_80446F40;
 s32 calc_stat_threshold__10TObjPlayerFPv(void *arg0);
 void copy_data__6TLobbyFPvPv(void *, s32);
 u8 get_item_type__5TItemFv(void *);
@@ -2240,10 +2240,6 @@ extern f32 TObjPlayer__data_805DC28C;
 extern f32 TObjPlayer__data_805DC294;
 extern const f32 TObjPlayer__data_805DC2BC;
 extern RecoveredGlobal_802A1154_main_task TObjPlayer__sub_801BEABC;
-extern const Vec lbl_80446F2C;
-extern u8 lbl_80446F50[];
-extern u8 lbl_80446F5C[];
-extern const f64 lbl_80446F68;
 extern u8 main_phase_state[];
 extern Vec scratch_vec[];
 extern DeathItemPosition lbl_8050BF60;
@@ -2251,9 +2247,7 @@ extern Color_801B6964 player_feedback_light_color[];
 extern void *player_slot_table[];
 extern u8 lobby_rule_settings[];
 extern ReturnLobby lbl_80515BA0;
-extern s32 lbl_805D2B28;
-extern "C" { extern char TObjPlayer__class_name_string[]; }
-const char *lbl_805D3530 = TObjPlayer__class_name_string;
+const char *lbl_805D3530 = "TObjPlayer";
 extern s32 actor_frame_tick;
 extern s32 lbl_805D55C0;
 extern s32 lobby_player_count;
@@ -2588,7 +2582,7 @@ void TObjPlayer::sub_801BB950() {
   if (((s32 (*)(void))is_lobby_floor_15__15TFontSmallLobbyFv)() != 0)
   {
     temp_r3_2 = ((TObjPlayer *)arg0)->m_54c;
-    if ((temp_r3_2 != 0U) && (((s32 (*)(int, void *))check_value_equals__13TUnk_804B6C24CFl)((int) temp_r3_2, (void *) lbl_805D2B28) != 0))
+    if ((temp_r3_2 != 0U) && (((s32 (*)(int, void *))check_value_equals__13TUnk_804B6C24CFl)((int) temp_r3_2, (void *) TFontSmallLobby__name) != 0))
     {
       ((TObject *)(((TObjPlayer *)arg0)->m_54c))->queue_destruction();
     }
@@ -3604,7 +3598,7 @@ block_17:
 bool TObjPlayer::is_target_in_facing_cone(void *target_arg) {
     Vec *target = (Vec *)target_arg;
     Vec to;
-    Vec fwd = lbl_80446F2C;
+    Vec fwd = {0.0f, 0.0f, 1.0f};
     f32 x;
     f32 z;
     f32 dot;
@@ -4317,7 +4311,7 @@ void calc_move_velocity__10TObjPlayerFPvPvf(void *arg0, void *arg1, f32 farg0) {
     f32 temp_f1;
     s32 temp_r31;
 
-    temp_r31 = (s32) (lbl_80446F68 * atan2_float(*(f32 *)((s8 *)arg0 + 0), *(f32 *)((s8 *)arg0 + 8)));
+    temp_r31 = (s32) (10430.38043493439 * atan2_float(*(f32 *)((s8 *)arg0 + 0), *(f32 *)((s8 *)arg0 + 8)));
     temp_f1 = farg0 * sin_table_lookup(temp_r31);
     *(f32 *)((s8 *)arg1 + 0) = temp_f1;
     *(f32 *)((s8 *)arg1 + 4) = (f32) TObjPlayer__data_805DC278;
@@ -4338,7 +4332,7 @@ void *TObjPlayer::apply_wall_response() {
         f32 speed;
         Vec from;
         Vec to;
-        angle = (s32)(lbl_80446F68 * atan2_float(x_speed, m_310));
+        angle = (s32)(10430.38043493439 * atan2_float(x_speed, m_310));
         speed = vector_length((Vec *)unk_308);
         reach = speed + TObjPlayer__sub_8017A1A4(this, 0);
         dx = reach * sin_table_lookup(angle);
@@ -4372,7 +4366,7 @@ void *TObjPlayer::apply_wall_response() {
     origin->y = lbl_805DC2B0 + position.y;
     origin->z = position.z;
     query.rays = rays;
-    angle = (s32)(lbl_80446F68 * atan2_float(move.x, move.z));
+    angle = (s32)(10430.38043493439 * atan2_float(move.x, move.z));
     rays[0].x = reach * sin_table_lookup(angle);
     rays[0].y = TObjPlayer__data_805DC278;
     rays[0].z = reach * cos_table_lookup(angle);
@@ -4447,7 +4441,7 @@ void *TObjPlayer::apply_wall_response() {
             origin->z = corner.z + move.z;
             Vec first_ray;
             VecCopy(&first_ray, &query.rays[ray]);
-            angle = (s32)(lbl_80446F68 * atan2_float(move.x, move.z));
+            angle = (s32)(10430.38043493439 * atan2_float(move.x, move.z));
             offset = rays;
             for (i = 0; i < 8; i++) {
                 offset->x = radius * sin_table_lookup(angle);
@@ -4692,9 +4686,9 @@ void handle_6x30_change_player_level(void *arg0) {
     }
     if (((s32 (*)(Plr_801B6A5C *))check_flag_4__10TObjPlayerFv)(p) == 0) {
         if (pkt.kind == 1) {
-            spawn_level_change_feedback__10TObjPlayerFv((s32)p, (s32)lbl_80446F50);
+            spawn_level_change_feedback__10TObjPlayerFv((s32)p, (s32)"Level Down");
         } else {
-            spawn_level_change_feedback__10TObjPlayerFv((s32)p, (s32)lbl_80446F5C);
+            spawn_level_change_feedback__10TObjPlayerFv((s32)p, (s32)"Level Up");
         }
     }
 }
@@ -7961,10 +7955,10 @@ s32 calc_stat_threshold__10TObjPlayerFPv(void *player) {
         var_r31 = 0x63;
     }
     if (((TObjPlayer *)player)->is_newman() != 0) {
-        var_r31 *= lbl_80446F38;
+        var_r31 *= 0.8;
         return 0x5A - var_r31;
     }
-    var_r31 *= lbl_80446F40;
+    var_r31 *= 0.55;
     return 0x3C - var_r31;
 }
 

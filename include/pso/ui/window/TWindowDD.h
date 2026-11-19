@@ -2,6 +2,7 @@
 #define PSO_UI_WINDOW_TWINDOWDD_H
 
 #include "types.h"
+#include "pso/system/task/TObject.h"
 
 s32 TWindowDD_check_input_mask(void *input_context, s32 mask);
 extern "C" {
@@ -18,22 +19,16 @@ s16 TWindowDD_read_indexed_value(s32 entry_index, s32 value_index);
 s16 TWindowDD_read_resolved_value(s32 entry_id, s32 value_index);
 }
 
-struct TWindowDD
+struct TWindowDD : public TObject
 {
-    void run_task();
+    virtual ~TWindowDD();
+    virtual void run_task();
     u16 m_1c;
     u8 _pad1E[0x2];
-    u32 m_20;
-    u32 m_24;
-    u32 m_28;
-    u8 _pad2C[0x18];
-    u32 m_44;
-    u8 _pad48[0x1C];
-    u32 m_64;
-    u32 m_68;
-    u32 m_6c;
-    u32 m_70;
-    u8 _pad74[0x8];
+    s32 m_20;
+    u32 m_24[8];
+    u32 m_44[8];
+    u32 m_64[6];
     u32 m_7c;
     u32 m_80;
     u32 m_84;
@@ -52,10 +47,8 @@ struct TWindowDD
     u32 m_b8;
     u32 m_bc;
     u32 m_c0;
-    s16 m_c4;
-    u8 _padC6[0x1A];
-    s16 m_e0;
-    u8 _padE2[0x1A];
+    u8 m_c4[0x1C];
+    u8 m_e0[0x1C];
     u16 m_fc;
     u8 _padFE[0x2];
     u32 m_100;
@@ -100,7 +93,7 @@ struct TWindowDD
     void update_transition();
     void update();
     static s32 get_element_ptr(s32 arg0);
-    void render();
+    virtual void render();
     void reset_selection();
     void update_selected_id();
     static void build_player_word_lists();
@@ -114,7 +107,7 @@ struct TWindowDD
     void destroy_menu_entry(s32 arg1);
     void set_item_pos(s32 i);
     u8 *init_last_child();
-    s32 setup_entry(s32 arg1);
+    s32 setup_entry(s16 arg1);
     s32 get_current_child_index();
     static void*get_entry(int a0, int a1);
     void init_entry_field_64(s32 arg1);
@@ -180,5 +173,8 @@ extern "C" {
 void *__dt__13TUnk_804EFBACFv(void *arg0, s16 arg1);
 void update_draw__9TWindowDDFPv(void *p);
 }
+
+// Upper bounds of the numeric word-select entries, indexed by TWindowDD::classify_id.
+extern const s32 word_select_numeric_limits[6];
 
 #endif

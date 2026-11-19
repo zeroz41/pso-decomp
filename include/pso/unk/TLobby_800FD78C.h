@@ -25,13 +25,12 @@ public:
     u8 pad_24[4];
 };
 
-extern "C" {
-u8 fn_800FD7C0(void *arg0);
-}
+// The control role create_player_object hands the local player(s) (name inferred).
+extern s32 player_control_role_base;
 
 // --- C functions defined in TLobby_800FD78C.cpp ---
 extern "C" {
-u8 fn_800FD7C0(void *arg0);
+u8 fn_800FD7C0(f32 *xz);
 }
 // --- end of C functions
 

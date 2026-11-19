@@ -3,10 +3,13 @@
 
 #include "types.h"
 
-// --- C functions defined in TParticleCtrl_80085EE4.cpp ---
-extern "C" {
-u8 *__dt__13TUnk_8048E728Fv(u8 *arg0, s16 arg1);
-}
-// --- end of C functions
+// Child generators of an emitter: TParticleCtrl::run_task calls
+// particle_ctrl_generator_table[kind].create(param, &pos, parent).
+struct ParticleGenerator {
+    const char *name;
+    void *(*create)(void *param, void *pos, void *parent);
+};
+
+extern ParticleGenerator particle_ctrl_generator_table[];
 
 #endif

@@ -6,7 +6,6 @@
 #include "pso/technique/TTecCtrl.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/system/MatrixStack.h"
-extern "C" void *__dt__13TUnk_804CC148Fv(void *, s16);
 #include "pso/system/vector.h"
 #include "pso/effect/TUnk_804CC148.h"
 
@@ -20,6 +19,9 @@ extern "C" void *__dt__13TUnk_804CC148Fv(void *, s16);
 #include "pso/unk/text_803D96A8.h"
 #include "pso/render/render_util.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/system/task/TMainTask.h"
+#include "pso/unk/text_800870BC.h"
+#include "pso/unk/text_800871A0.h"
 
 extern "C" {
 
@@ -55,24 +57,6 @@ typedef char RecoveredGlobal_80230D9C_lbl_804CC510_size[((sizeof(RecoveredGlobal
 
 typedef char RecoveredGlobal_80230D9C_lbl_804CC55C_size[((sizeof(RecoveredGlobal_80230D9C_lbl_804CC55C)) == 0x98) ? (1) : (-1)];
 
-struct Task_80231224 {
-    u8 pad0[0x18];
-    void **vt;
-    void **emitters;
-    u8 pad1[0x44 - 0x20];
-    u8 band;
-    u8 pad2[2];
-    u8 single;
-};
-
-struct Profile_80231224 { u32 a; u32 count; };
-
-struct RecoveredGlobal_80231638___vt__10TTecGiFoie
-{
-  s32 value;
-  u8 remaining[0x24];
-};
-
 struct HitInfo_8023154C { s32 type; f32 power; };
 
 struct VBase_8023154C { char pad[0x18]; };
@@ -102,18 +86,6 @@ struct VObj_8023154C : VBase_8023154C {
     virtual void m21(void *, HitInfo_8023154C *, void *, s32, s32);
 };
 
-struct Obj_8023154C {
-    u8 pad0[0x1C];
-    void *source;
-    u8 pad20[0x88 - 0x20];
-    f32 power;
-    u8 padP[0xB8 - 0x88 - 4];
-    void *contact;
-    u8 padC[0xF8 - 0xB8 - 4];
-    u16 ids[32];
-    s32 cursor;
-};
-
 struct Rot_802312E4 { s32 x, y, z; };
 
 // Same layout as TTecGiBarta's Row_802304A0 {entry, flags, scale}.
@@ -121,70 +93,14 @@ struct Part_802312E4 { s32 id; u32 flags; f32 scale; };
 
 struct Profile_802312E4 { const Part_802312E4 *parts; u32 count; };
 
-struct Task_802312E4 {
-    u8 pad0[0x18];
-    void **vt;
-    u32 *emitters;
-    Vec pos;
-    Vec pos2;
-    f32 x38;
-    s32 x3c;
-    s32 x40;
-    u8 band;
-    s8 x45;
-    u8 x46;
-    u8 single;
-};
-
-typedef struct RecoveredGlobal_80231638___vt__10TTecGiFoie RecoveredGlobal_80231638___vt__10TTecGiFoie;
-
-typedef char RecoveredGlobal_80231638___vt__10TTecGiFoie_size[((sizeof(RecoveredGlobal_80231638___vt__10TTecGiFoie)) == 0x28) ? (1) : (-1)];
-
-struct Task_8023179C;
-
-struct GiFoie_8023179C {
-    const char *m_name;
-    u8 pad4[0x18 - 0x4];
-    void *vt;
-    void *source;
-    Vec pos;
-    u8 pad2c[0x78 - 0x2C];
-    s16 level;
-    s16 band;
-    u8 pad7c[0x90 - 0x7C];
-    f32 radius;
-    u8 pad94[0xB4 - 0x94];
-    u16 fb4;
-    u8 padb6[0xE8 - 0xB6];
-    u8 *effect;
-    Task_8023179C *tasks[3];
-    u16 ids[32];
-    s32 cursor;
-};
-
-struct Task_802312E4;
-
-void *spawn_particle_effect_with_rotation(void *pos, void *dir, s32 id, int e);
-void *spawn_continuous_particle_with_direction(void *pos, void *dir, s32 id);
 void * find_entity_by_id(u16);
 s32 update_technique_slot__10TTecRaFoieFl(s32, s32, s32);
 s32 play_sound_effect(s32, void *, s32, s32);
-void __dl__7TObjectFPv(void *);
-void __dt__7TObjectFv(void *, int);
-void __ct__7TObjectFP7TObject(void *, void *);
-void construct_area_technique_base(void *, void *, void *, void *, void *);
 s32 calc_technique_parameters(int, int, int);
-u8 * __dt__13TUnk_804CC800Fv(Task_80231224 *task, s16 flag);
-Task_802312E4 * construct_orbit__10TTecGiFoieFPvPviUciPvUc(Task_802312E4 *self, Vec *pos, s32 arg2, u8 band, s32 arg4, void *parent, u8 single);
-u8 * __dt__10TTecGiFoieFv(u8 *arg0, s16 arg1);
-void run_task__10TTecGiFoieFv(u8 *self);
-void * TTecGiFoie__ct(void *self_, void *source, void *origin, void *level);
 void matrix_mult_vec(void *, void *, void *);
 
-extern RecoveredGlobal_80231638___vt__10TTecGiFoie __vt__10TTecGiFoie;
 extern RecoveredGlobal_80230D9C_lbl_804CC510 tech_high_level_linear_power_table;
 extern RecoveredGlobal_80230D9C_lbl_804CC55C lbl_804CC55C;
-extern void *lbl_804CC800[];
 
 const char *TTecGiFoie__name = "TTecGiFoie";
 
@@ -200,260 +116,207 @@ const Profile_802312E4 TTecGiFoie__emitter_profile_table[6] = {
 
 // orbit_counts: per band, how many orbits TTecGiFoie__ct spaces evenly (360 / count degrees) around the caster.
 static const u8 orbit_counts[6] = {1, 1, 1, 2, 2, 3};
-extern s32 tl_07;
 
 // defer_codegen emits these in reverse source order: the last function in the file comes first in .text.
 #pragma defer_codegen on
 
 void TTecGiFoie::render() {  }
 
-void *TTecGiFoie__ct(void *self_, void *source, void *origin, void *level) {
-#define self ((GiFoie_8023179C *)self_)
+TTecGiFoie::TTecGiFoie(s32 source, Vec *origin, s32 level) : TUnk_804CC148(source, origin, origin, level) {
     s32 i;
     s32 j;
     s32 k;
     s32 r;
-    construct_area_technique_base(self_, source, origin, origin, level);
-    self->vt = &__vt__10TTecGiFoie.value;
-    self->m_name = TTecGiFoie__name;
-    ((TTecGiFoie *)self_)->calc_params();
-    if (self->effect != NULL) {
-        *(f32 *)((s8 *)(*(u8 **)((s8 *)self->effect + 0xA4)) + 0xC) = 5.0f + self->radius;
+    this->m_name = TTecGiFoie__name;
+    calc_params();
+    if (this->m_e8 != NULL) {
+        this->m_e8->bodies->radius = 5.0f + this->m_90;
     }
     for (i = 0; i < 32; i++) {
-        self->ids[i] = 0xFFFF;
+        this->hitIds[i] = 0xFFFF;
     }
     for (j = 0; j < 3; j++) {
-        self->tasks[j] = 0;
+        this->orbits[j] = NULL;
     }
-    self->cursor = 0;
-    for (k = 0; k < orbit_counts[self->band]; k++) {
+    this->hitCursor = 0;
+    for (k = 0; k < orbit_counts[this->band]; k++) {
         Vec v = {0.0f, 0.0f, -10.0f};
         Vec p;
         s32 angle;
         s32 step;
-        void *o;
-        step = (s32)(182.04445f * (f32)(360 / orbit_counts[self->band]));
+        step = (s32)(182.04445f * (f32)(360 / orbit_counts[this->band]));
         angle = step * k + 0x4000;
         push_matrix_from(identity_matrix);
         rotate_matrix_y(0, angle);
         matrix_mult_vec(0, &v, &v);
         pop_matrices(1);
-        p.x = self->pos.x + v.x;
-        p.y = self->pos.y + v.y;
-        p.z = self->pos.z + v.z;
-        o = TObject::operator new(0x4C);
-        if (o != NULL) {
-            o = ((Task_8023179C *(*)(void *, Vec *, s32, s32, s32, void *, u8))construct_orbit__10TTecGiFoieFPvPviUciPvUc)(o, &p, angle, self->band, self->level, (void *)tl_07, 0);
-        }
-        self->tasks[k] = (Task_8023179C *)o;
+        p.x = this->position.x + v.x;
+        p.y = this->position.y + v.y;
+        p.z = this->position.z + v.z;
+        this->orbits[k] = new TUnk_804CC800(&p, angle, this->band, this->m_78, tl_07, 0);
     }
-    switch (self->band) {
+    switch (this->band) {
     case 0:
-        r = play_sound_effect(0x4002A801, (u8 *)self_ + 0x20, 0, 0);
+        r = play_sound_effect(0x4002A801, &this->position, 0, 0);
         if (r >= 0) {
             update_technique_slot__10TTecRaFoieFl(r, 0x100, 0);
         }
         break;
     case 1:
-        play_sound_effect(0x4002A801, (u8 *)self_ + 0x20, 0, 0);
+        play_sound_effect(0x4002A801, &this->position, 0, 0);
         break;
     case 2:
     case 3:
-        r = play_sound_effect(0x4002A801, (u8 *)self_ + 0x20, 0, 0);
+        r = play_sound_effect(0x4002A801, &this->position, 0, 0);
         if (r >= 0) {
             update_technique_slot__10TTecRaFoieFl(r, -0x180, 0);
         }
         break;
     case 4:
-        r = play_sound_effect(0x4002A801, (u8 *)self_ + 0x20, 0, 0);
+        r = play_sound_effect(0x4002A801, &this->position, 0, 0);
         if (r >= 0) {
             update_technique_slot__10TTecRaFoieFl(r, -0x250, 0);
         }
         break;
     case 5:
-        r = play_sound_effect(0x4002A801, (u8 *)self_ + 0x20, 0, 0);
+        r = play_sound_effect(0x4002A801, &this->position, 0, 0);
         if (r >= 0) {
             update_technique_slot__10TTecRaFoieFl(r, -0x100, 0);
         }
         break;
     default:
-        play_sound_effect(0x4002A801, (u8 *)self_ + 0x20, 0, 0);
+        play_sound_effect(0x4002A801, &this->position, 0, 0);
         break;
     }
-    if (self->source != NULL) {
-        self->fb4 = get_entity_id((TObjBase *)self->source);
+    if (this->source != NULL) {
+        this->m_b4 = get_entity_id((TObjBase *)this->source);
     }
-    return self_;
-#undef self
 }
 
 #pragma push
 #pragma opt_common_subs off
 #pragma opt_propagation off
 #pragma opt_dead_assignments off
-void run_task__10TTecGiFoieFv(u8 *self) {
+void TTecGiFoie::run_task() {
     f32 distance;
-    if (*(void **)((s8 *)self + 0xE8) == NULL) {
-        ((TObject *)self)->queue_destruction();
+    if (this->m_e8 == NULL) {
+        queue_destruction();
         return;
     }
-    *(void **)((s8 *)self + 0x1C) = find_entity_by_id(((TTecGiFoie *)self)->m_b4);
-    if (*(void **)((s8 *)self + 0x1C) == NULL) {
-        ((TObject *)self)->queue_destruction();
+    this->source = (u32)find_entity_by_id(this->m_b4);
+    if (this->source == 0) {
+        queue_destruction();
         return;
     }
-    if (TTecLuker::is_parents_unqueued(((TTecGiFoie *)self)->m_ec) != 0) {
-        distance = newton_sqrtf(horizontal_distance_squared((Vec *)(*(u8 **)((s8 *)self + 0xEC) + 0x2C), (Vec *)(self + 0x20)));
-        if (*(u8 **)((s8 *)self + 0xE8) != NULL) {
-            *(f32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 **)((s8 *)self + 0xE8)) + 0xA4)) + 0xC) = 5.0f + distance;
+    if (TTecLuker::is_parents_unqueued((u32)this->orbits[0]) != 0) {
+        distance = newton_sqrtf(horizontal_distance_squared(&this->orbits[0]->pad_2C, &this->position));
+        if (this->m_e8 != NULL) {
+            this->m_e8->bodies->radius = 5.0f + distance;
         }
-        ((TUnk_804CC148 *)self)->apply_technique_to_area_targets();
-        if (distance >= ((TTecGiFoie *)self)->m_90) {
-            ((TObject *)self)->queue_destruction();
+        apply_technique_to_area_targets();
+        if (distance >= this->m_90) {
+            queue_destruction();
         }
     }
 }
 #pragma pop
 
-#pragma push
-#pragma opt_common_subs off
-#pragma opt_propagation off
-#pragma opt_dead_assignments off
-u8 *__dt__10TTecGiFoieFv(u8 *arg0, s16 arg1) {
-  s32 temp_r30;
-  s32 var_r29;
-  s32 var_r31;
-  if (arg0 != 0)
-  {
-    var_r31 = 0;
-    var_r29 = var_r31;
-    var_r31 = 0;
-    *((s32 **) (((s8 *) arg0) + 0x18)) = &__vt__10TTecGiFoie.value;
-    do
-    {
-      temp_r30 = var_r31 + 0xEC;
-      if (TTecLuker::is_parents_unqueued(*((s32 *) (((s8 *) arg0) + temp_r30))) != 0)
-      {
-        ((TObject *)((void *)(*((s32 *) (((s8 *) arg0) + temp_r30)))))->queue_destruction();
-      }
-      var_r29 += 1;
-      var_r31 += 4;
+TTecGiFoie::~TTecGiFoie() {
+    s32 i;
+    for (i = 0; i < 3; i++) {
+        if (TTecLuker::is_parents_unqueued((u32)this->orbits[i]) != 0) {
+            this->orbits[i]->queue_destruction();
+        }
     }
-    while (var_r29 < 3);
-    __dt__13TUnk_804CC148Fv((void *)((TUnk_804CC148 *)arg0), 0);
-    if (arg1 > 0)
-    {
-      ((s32 (*)(void *))__dl__7TObjectFPv)((void *) arg0);
-    }
-  }
-  return arg0;
 }
-#pragma pop
 
 #pragma push
 #pragma opt_common_subs off
 #pragma opt_propagation off
 #pragma opt_dead_assignments off
 void TTecGiFoie::vfunc_6(void *target) {
-    Obj_8023154C *self = (Obj_8023154C *)this;
     s32 found = 0;
     s32 i;
     for (i = 0; i < 32; i++) {
-        if (self->ids[i] == get_entity_id((TObjBase *)target)) {
+        if (this->hitIds[i] == get_entity_id((TObjBase *)target)) {
             found = 1;
         }
     }
     if (found == 0) {
-        self->ids[*(s32 *)&this->m_138] = get_entity_id((TObjBase *)target);
-        *(s32 *)&this->m_138 += 1;
-        if (*(s32 *)&this->m_138 >= 32) {
-            *(s32 *)&this->m_138 = 31;
+        this->hitIds[this->hitCursor] = get_entity_id((TObjBase *)target);
+        this->hitCursor += 1;
+        if (this->hitCursor >= 32) {
+            this->hitCursor = 31;
         }
         HitInfo_8023154C tmp;
         tmp.type = 1;
         tmp.power = this->m_88;
         HitInfo_8023154C info = tmp;
-        ((VObj_8023154C *)target)->m21(self->source, &info, self->contact, 1, -1);
+        ((VObj_8023154C *)target)->m21((void *)this->source, &info, (void *)this->m_b8, 1, -1);
     }
 }
 #pragma pop
 
-void TTecGiFoie::create(void *arg0, void *origin, void *level) {
-    void *o;
-    o = TObject::operator new(0x13C);
-    if (o != NULL) {
-        TTecGiFoie__ct(o, arg0, origin, level);
-    }
+void TTecGiFoie::create(void *source, void *origin, void *level) {
+    new TTecGiFoie((s32)source, (Vec *)origin, (s32)level);
 }
 
-Task_802312E4 *construct_orbit__10TTecGiFoieFPvPviUciPvUc(Task_802312E4 *self, Vec *pos, s32 arg2, u8 band, s32 arg4, void *parent, u8 single) {
-    __ct__7TObjectFP7TObject(self, parent);
-    self->vt = lbl_804CC800;
-    self->x46 = 0;
-    self->pos.x = pos->x;
-    self->pos.y = pos->y;
-    self->pos.z = pos->z;
-    self->band = band;
-    self->x45 = arg4;
-    VecCopy((Vec *)&self->pos2, (const Vec *)&self->pos);
-    self->x3c = arg2;
-    self->x38 = 0.0f;
-    self->x40 = 0;
-    self->single = single;
-    if (self->single != 0) {
+TUnk_804CC800::TUnk_804CC800(Vec *pos, s32 angle, s32 band, s32 level, TObject *parent, u8 single) : TObject(parent) {
+    this->pad_46 = 0;
+    this->pad_20.x = pos->x;
+    this->pad_20.y = pos->y;
+    this->pad_20.z = pos->z;
+    this->pad_44 = band;
+    this->pad_45 = level;
+    VecCopy(&this->pad_2C, &this->pad_20);
+    this->pad_3C = angle;
+    this->pad_38 = 0.0f;
+    this->pad_40 = 0;
+    this->pad_47 = single;
+    if (this->pad_47 != 0) {
         Rot_802312E4 r;
-        self->emitters = (u32 *)mem_alloc(4);
+        this->pad_1C = (TParticleCtrl **)mem_alloc(4);
         r.x = 0;
         r.y = 0;
         r.z = 0x4000;
-        self->emitters[0] = (u32)spawn_continuous_particle_with_direction(&self->pos, &r, 0x19D);
-        self->x38 = 5.0f;
+        this->pad_1C[0] = (TParticleCtrl *)spawn_continuous_particle_with_direction(&this->pad_20, &r, 0x19D);
+        this->pad_38 = 5.0f;
     } else {
         s32 i;
-        self->emitters = (u32 *)mem_alloc(TTecGiFoie__emitter_profile_table[self->band].count * 4);
-        for (i = 0; i < TTecGiFoie__emitter_profile_table[self->band].count; i++) {
+        this->pad_1C = (TParticleCtrl **)mem_alloc(TTecGiFoie__emitter_profile_table[this->pad_44].count * 4);
+        for (i = 0; i < TTecGiFoie__emitter_profile_table[this->pad_44].count; i++) {
             Rot_802312E4 r;
             const Part_802312E4 *p;
             r.x = 0;
             r.y = 0;
             r.z = 0x4000;
-            p = &TTecGiFoie__emitter_profile_table[self->band].parts[i];
-            self->emitters[i] = (u32)spawn_particle_effect_with_rotation(&self->pos, &r, p->id, (p->flags & 0x1000) ? 0x2000 : 0);
-            if (self->band == 2) {
-                if (arg4 >= 0xF && arg4 < 0x19) {
-                    if (i <= 1 && self->emitters[i] != 0) {
-                        ((TParticleCtrl *)(self->emitters[i]))->set_scale(1.3f, 1.3f);
+            p = &TTecGiFoie__emitter_profile_table[this->pad_44].parts[i];
+            this->pad_1C[i] = (TParticleCtrl *)spawn_particle_effect_with_rotation(&this->pad_20, &r, p->id, (p->flags & 0x1000) ? 0x2000 : 0);
+            if (this->pad_44 == 2) {
+                if (level >= 0xF && level < 0x19) {
+                    if (i <= 1 && this->pad_1C[i] != NULL) {
+                        this->pad_1C[i]->set_scale(1.3f, 1.3f);
                     }
-                } else if (arg4 >= 0x19 && arg4 < 0x1E) {
-                    if (i <= 1 && self->emitters[i] != 0) {
-                        ((TParticleCtrl *)(self->emitters[i]))->set_scale(1.3f, 1.8f);
+                } else if (level >= 0x19 && level < 0x1E) {
+                    if (i <= 1 && this->pad_1C[i] != NULL) {
+                        this->pad_1C[i]->set_scale(1.3f, 1.8f);
                     }
                 }
             }
         }
     }
-    return self;
 }
 
-u8 *__dt__13TUnk_804CC800Fv(Task_80231224 *task, s16 flag) {
+TUnk_804CC800::~TUnk_804CC800() {
     u32 i;
-    if (task != NULL) {
-        task->vt = lbl_804CC800;
-        if (task->single != 0) {
-            ((TObject *)task->emitters[0])->queue_destruction();
-        } else {
-            for (i = 0; i < ((Profile_80231224 *)&TTecGiFoie__emitter_profile_table)[task->band].count; i++) {
-                ((TObject *)task->emitters[i])->queue_destruction();
-            }
-        }
-        mem_free(task->emitters);
-        __dt__7TObjectFv(task, 0);
-        if (flag > 0) {
-            __dl__7TObjectFPv(task);
+    if (this->pad_47 != 0) {
+        this->pad_1C[0]->queue_destruction();
+    } else {
+        for (i = 0; i < TTecGiFoie__emitter_profile_table[this->pad_44].count; i++) {
+            this->pad_1C[i]->queue_destruction();
         }
     }
-    return (u8 *)task;
+    mem_free(this->pad_1C);
 }
 
 void TUnk_804CC800::run_task() {

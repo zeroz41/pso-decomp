@@ -4,20 +4,25 @@
 #include "types.h"
 #include "pso/effect/TUnk_804CC148.h"
 
+class TUnk_804C4450;
+class TUnk_804CC9D4;
+class TUnk_804CCA0C;
+
+// The telepipe technique: places a pipe (field + visual) near its caster and, once a player
+// selects it, warps everyone back to the city. Field names below are inferred from use.
 struct TTecLuker : public TUnk_804CC148 {
+    TTecLuker(s32 source, Vec *pos, Vec *target, s32 level);
     virtual ~TTecLuker();
     virtual void vfunc_6(void *);
     virtual void run_task();
-    u32 m_ec;
-    u32 m_f0;
-    s16 m_f4;
-    u16 m_f6;
-    u32 m_f8;
-    void* m_fc;
-    u8 _pad100[0x8];
-    u32 m_108;
-    u32 m_10c;
-    void *destroy(s16 arg1);
+    TUnk_804C4450 *placement;  // the placement search a local caster starts for the pipe
+    TUnk_804CC9D4 *field;  // the selectable field at pipe_pos
+    s16 floor;  // get_current_floor() when cast
+    u16 traveller;  // the client the pipe belongs to (local_client_id or the caster)
+    TUnk_804CCA0C *visual;
+    Vec pipe_pos;
+    s32 phase;  // 0 placing, 1 open, 2 warping, 3 warp, 4 done
+    s32 warp_frames;  // frames spent in phase 2
     static void apply_all_players();
     static void create_for_player(int arg0, s32 arg1);
     void init_fields(s16 arg1);
@@ -28,7 +33,6 @@ struct TTecLuker : public TUnk_804CC148 {
     void byteswap_telepipe_packet();
     void set_state(s32 v);
     static s32 is_parents_unqueued(u32 arg0);
-    u8 *construct_field_collider(s32 arg1, s32 arg2, s32 arg3);
 };
 
 typedef char TTecLuker_size[sizeof(TTecLuker) == 0x110 ? 1 : -1];

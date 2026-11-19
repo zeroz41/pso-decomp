@@ -3,13 +3,17 @@
 #include "types.h"
 #include "pso/system/task/TObject.h"
 
+struct TWindowChatSymbol;
+struct TWindowSubComCardList;
+
 class TUnk_804CE7D0 : public TObject {
 public:
+    TUnk_804CE7D0(TObject *parent);
     virtual ~TUnk_804CE7D0();
     virtual void render();
     virtual void run_task();
-    u8 unk_1C[0x4];
-    s32 m_20;
+    TWindowSubComCardList *preset_list;  // the 12 symbol chat presets (inferred)
+    TWindowChatSymbol *chat_symbol;  // the symbol chat editor it opens (inferred)
 };
 typedef char TUnk_804CE7D0_size[sizeof(TUnk_804CE7D0) == 0x24 ? 1 : -1];
 

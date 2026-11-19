@@ -1,6 +1,9 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/render/ChunkMaterialState.h"
 #include "types.h"
+#include "pso/system/NinjaTypes.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/render/model_render_state.h"
 #include "pso/map/FloorArea.h"
 #include "pso/effect/TEffect.h"
 #include "pso/math/MatrixTransforms.h"
@@ -13,6 +16,7 @@
 #include "pso/system/vector.h"
 #include "pso/unk/text_80232B24.h"
 #include "pso/unk/TUnk_804CC888.h"
+#include "pso/unk/TUnk_804CCA78.h"
 #include "pso/unk/TLobby_80226070.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
@@ -26,7 +30,7 @@ struct Quad_80232934 { u32 a; u32 b; u32 c; u32 d; };
 
 struct Obj_80232934 {
     u8 pad[0x20];
-    u8 f20[0xC];
+    f32 f20[3];
     Vec pos;
     u8 f38[0x10];
     s32 f48;
@@ -38,19 +42,19 @@ s32 get_bml_model(s32, u32);
 void init_texture_copy_rect(TextureFrameSlot *, void *, void *, s32, s32);
 void approach_position_if_far(Vec *, Vec *, f32);
 void scale_matrix(s32, f32, f32, f32);
-void push_matrix(void);
-void post_translate_matrix(void *);
 void draw_ginja_object(void);
-extern u8 lbl_804CC868[];
 extern u8 technique_ringwave_texture_list[];
-extern s32 saved_model_render_flags;
 extern s32 technique_effect_bml;
-extern s32 model_render_flags;
 
 // ---- pso/unk/text_80232AA4
 void *find_entity_by_id(u16 id);
 
 }
+
+// One-texture list that render() fills with a copy of the ring-wave frame and draws with; same shape as
+// TEffClitical's clitical_texture_list (the 8-byte list is placed in .data, its name in .bss).
+NJS_TEXNAME lbl_80516140[1];
+__declspec(section ".data") NJS_TEXLIST lbl_804CC868 = { lbl_80516140, 1 };
 
 // ---- pso/unk/text_80232B24
 
@@ -106,7 +110,6 @@ Obj_80232B7C *construct_grants_flash(Obj_80232B7C *self, s32 id, void *parent, V
 void attach_particle_model(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0);
 void *spawn_particle_effect(const void *pos, s32 id);
 }
-u8 *construct_timed_sound_voice(u8 *arg0, s32 arg1, s16 arg2, s32 arg3, s32 arg4, s32 arg5);
 
 // Per level tier (TObjPlayer::get_level_tier): the particle emitters TUnk_804CC888 keeps alive and
 // the effects it spawns when it ends.
@@ -195,10 +198,7 @@ void TUnk_804CC888::run_task() {
             dir = -0x100;
             break;
         }
-        p = TObject::operator new(0x28);
-        if (p != 0) {
-            construct_timed_sound_voice((u8 *)p, (s32)((Ctl_80232C50 *)this)->f30, (s16)(0xF), 0x4002A60D, (s32)dir, (s32)tl_07);
-        }
+        new TUnk_804CCA78((Vec *)((Ctl_80232C50 *)this)->f30, 0xF, 0x4002A60D, dir, (TObject *)tl_07);
         ((TObject *)((Ctl_80232C50 *)this))->queue_destruction();
     }
 }
@@ -257,7 +257,7 @@ void TUnk_804CC870::render() {
         get_current_floor_area() == AREA_LOBBY) {
         return;
     }
-    init_texture_copy_rect(&ctx, lbl_804CC868, technique_ringwave_texture_list, 0, this->m_48 + 1);
+    init_texture_copy_rect(&ctx, &lbl_804CC868, technique_ringwave_texture_list, 0, this->m_48 + 1);
     Vec v = { 1.2f, 1.2f, 1.2f };
     Quad_80232934 q = { 0, 0, 0, 0 };
     approach_alpha_clamped((f32 *)arg0->f38, (const f32 *)&q, 0.1f);
@@ -273,7 +273,7 @@ void TUnk_804CC870::render() {
     post_translate_matrix(arg0->f20);
     scale_matrix(0, arg0->pos.x, arg0->pos.y, arg0->pos.z);
     translate_matrix(0, 0.0f, 1e+01f, 0.0f);
-    TObjFish::set_global_param((s32)lbl_804CC868);
+    TObjFish::set_global_param((s32)&lbl_804CC868);
     get_bml_model(technique_effect_bml, 10);
     draw_ginja_object();
     pop_matrix();

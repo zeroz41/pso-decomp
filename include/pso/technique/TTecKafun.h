@@ -7,15 +7,17 @@
 struct TTecKafun : public TUnk_804CC148 {
     virtual ~TTecKafun();
     virtual void vfunc_6(void *);
-    u8 _padEC[0x4];
-    u32 m_f0;
-    u32 m_f4;
-    u32 m_f8;
-    u32 m_fc;
+    f32 hit_value;         // vfunc_6 passes it with hit_kind to the target
+    s32 effect;            // particle effect run_task spawns at its position
+    s32 second_effect;     // spawned too while has_second_effect is 1
+    s32 hit_kind;          // vfunc_6 sends 15..18 after a kind-0 hit
+    s32 has_second_effect;
     virtual void render();
     virtual void run_task();
-    static void create(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, f32 farg0, f32 farg1);
-    static void create(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0, f32 farg1);
+    TTecKafun(s32 source, Vec *pos, s32 kind, s32 effect, s32 second_effect, s32 level, f32 value, f32 radius);
+    TTecKafun(s32 source, Vec *pos, s32 kind, s32 effect, s32 level, f32 value, f32 radius);
+    static void create(s32 source, s32 pos, s32 kind, s32 effect, s32 second_effect, s32 level, f32 value, f32 radius);
+    static void create(s32 source, s32 pos, s32 kind, s32 effect, s32 level, f32 value, f32 radius);
 };
 
 typedef char TTecKafun_size[sizeof(TTecKafun) == 0x100 ? 1 : -1];

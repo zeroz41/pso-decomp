@@ -17,13 +17,66 @@
 #include "pso/unk/TLobby.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_800F8A0C.h"
+#include "pso/unk/text_800F8A18.h"
+#include "pso/unk/text_800F8A78.h"
+#include "pso/unk/text_803DEE48.h"
+#include "pso/ui/frontend/TAdPlayerLoadGC.h"
+#include "pso/ui/charcreate/TObjCMHairMenu.h"
+#include "pso/camera/TCameraCtrl.h"
+#include "pso/item/TUnk_8049C658.h"
+#include "pso/item/drop/TItemDrop_800F93F0.h"
+#include "pso/quest/TQuestListVM.h"
+#include "pso/quest/TQuestVmDownLoadServer.h"
+#include "pso/system/TGStream.h"
+#include "pso/system/byteswap.h"
+#include "pso/system/scene/TScene.h"
+#include "pso/system/task/TMainTask.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/unk/TLobby_8007C550.h"
+#include "pso/unk/text_8007C0CC.h"
+#include "pso/unk/text_800F9B84.h"
+#include "pso/unk/text_800FFE04.h"
+#include "pso/system/TLoadCtrl.h"
+#include "pso/unk/TLobby_803382E4.h"
+#include "pso/player/TObjPlayer_801A5AEC.h"
+#include <stdio.h>
+#include <string.h>
+
+// One TU from 0x800F8A0C: the "" lbl_805D2B10 points at opens the .sdata2 pool at 0x805DA910
+// (after the 4-byte pad that 8-aligns a TU start), then copy_name's "..", then this file's floats.
+extern "C" {
+const char *lbl_805D2B10 = "";
+}
+
+// The parent of every loaded resource file (TUnk_8049C658): __sinit constructs it and
+// registers its destructor, then gives disc_read_filename its empty name.
+TUnk_8049C658 resource_load_task_root;
+char player_name_copy_buffer[16];
 
 extern "C" {
+const char *disc_read_filename = lbl_805D2B10;
+
+s32 *get_player_name_copy_buffer(void) {
+    return (s32 *)player_name_copy_buffer;
+}
+
+void copy_name(s32 name) {
+    strncpy(player_name_copy_buffer, (const char *)name, 0x10);
+    if (strncmp((const char *)name, "..", 0x10) == 0) {
+        fn_800F8A78();
+    }
+    fn_803DEE48((const char *)name);
+}
+
+void fn_800F8A78(void) {
+    memset(player_name_copy_buffer, 0, 0x10);
+}
+
 s32 *lobby_checked_read_ptr_table[4] = { 0, 0, 0, 0 };
 s32 lbl_80499A10[4] = { 0, 0, 0, 0 };
 u32 lbl_80499A20[4] = { 0, 0, 0, 0 };
 u32 lbl_80499A30[4] = { 0, 0, 0, 0 };
-const char *disc_read_filename;
 u8 lobby_font_texture_loaded;
 s32 *pending_file_read_handle_ref;
 s32 pending_file_read_sector_count;
@@ -928,10 +981,6 @@ void TLobby::reset_state_byte() {
 
 #pragma push
 
-#include "pso/ui/frontend/TAdPlayerLoadGC.h"
-#include "pso/ui/charcreate/TObjCMHairMenu.h"
-#include "pso/camera/TCameraCtrl.h"
-
 extern "C" {
 
 void TLobby::wait_ready_loop() {
@@ -1090,3 +1139,345 @@ s32 TLobby::run_disk_error_check() {
 #pragma pop
 
 #undef pending_file_read_flush_requested
+
+// .text 0x800F93B4-0x800F9F4C: the GSL archive close hook, the resource load tasks (TUnk_8049C658
+// children of resource_load_task_root, one per relocatable data file), the quest and text
+// archive decryption, the disc-file wrappers and TLobby::run_frame; __sinit closes the TU.
+extern "C" {
+void subtractive_rng_seed(s32 *rng, u32 seed);
+extern s32 lbl_805D49B4;
+extern int TAdPlayerLoadGC__load_state;
+
+void fn_800F93B4(char *filename, GslArchiveEntry *entries, s32 count) {
+    fn_800FFE14(fn_800FFE04(), entries, count);
+}
+}
+
+TUnk_8049C658::~TUnk_8049C658() {}
+
+extern "C" {
+s32 TItemDrop__sub_800F9448(s32 data, s32 size) {
+    TUnk_8049C658 file;
+
+    if (size > 0) {
+        file.data = (u8 *)data;
+        file.size = size;
+        return (s32)apply_rel_relocations(&file);
+    }
+    return 0;
+}
+
+s32 load_relocatable_file(s32 name, s32 buffer) {
+    TUnk_8049C658 file;
+    s32 size = read_disc_file((const char *)name, (void *)buffer);
+
+    if (size > 0) {
+        file.size = size;
+        file.data = (u8 *)buffer;
+        return (s32)apply_rel_relocations(&file);
+    }
+    return 0;
+}
+
+void free_data_file(void *p) { TAdSinglePlyChrSelectGC::safe_free((u32)p); }
+
+void *load_data_file(const char *path) { return load_disc_file(path); }
+}
+
+void TLobby::free_nodes_with_id(u32 root) {
+    TUnk_8049C658 *file = (TUnk_8049C658 *)resource_load_task_root.m_down;
+
+    while (file != NULL) {
+        if ((u32)file->root == root) {
+            TAdSinglePlyChrSelectGC::safe_free((u32)file->data);
+            delete file;
+        }
+        file = (TUnk_8049C658 *)file->m_next;
+    }
+}
+
+u32 decrypt_quest_data(void *src, s32 size, void *dst, u32 capacity) {
+    QuestDownloadFile *file = (QuestDownloadFile *)src;
+    s32 rng[60];
+    u32 decompressed_size;
+    u32 seed;
+
+    decompressed_size = file->decompressed_size;
+    seed = file->seed;
+    bswap_32(&decompressed_size);
+    bswap_32(&seed);
+    if (decompressed_size > capacity) {
+        return 0U;
+    }
+    __ct__14SubtractiveRngFv(&rng[0]);
+    subtractive_rng_seed(&rng[0], seed);
+    ((TAdSinglePlyChrSelectGC *)(&rng[0]))->crypt_data_be((u32 *)file->data, size - 8);
+    prs_decompress_buffer((s32)file->data, (s32)dst);
+    return decompressed_size;
+}
+
+u32 TLobby::write_packet_header(s32 size, s32 dst, u32 capacity) {
+    s32 rng[60];
+    u32 v0 = (u32)*(s32 *)&this->m_name;
+    s32 v4 = *(s32 *)&this->m_flags;
+
+    if (v0 > capacity) {
+        return 0U;
+    }
+    __ct__14SubtractiveRngFv(rng);
+    subtractive_rng_seed(rng, v4);
+    subtractive_rng_xor_buffer(rng, (u32 *)&this->m_prev, size - 8);
+    prs_decompress_buffer((s32)&this->m_prev, dst);
+    return v0;
+}
+
+s32 TLobby::alloc_download_quest(s32 size, s32 *out_size) {
+    s32 rng[60];
+    s32 v0 = *(s32 *)&this->m_name;
+    s32 v4 = *(s32 *)&this->m_flags;
+    s32 ret;
+
+    ret = (s32)TQuestVmDownLoadServer::alloc(v0);
+    if (ret == 0) {
+        return 0;
+    }
+    __ct__14SubtractiveRngFv(rng);
+    subtractive_rng_seed(rng, v4);
+    subtractive_rng_xor_buffer(rng, (u32 *)&this->m_prev, size - 8);
+    prs_decompress_buffer((s32)&this->m_prev, ret);
+    if (out_size != NULL) {
+        *out_size = v0;
+    }
+    return ret;
+}
+
+extern "C" {
+s32 load_encrypted_text_archive(char *name, s32 *out_size) {
+    s32 size;
+    s32 h;
+    u8 *buf;
+    s32 ret;
+    s32 sp8;
+    s32 rng[60];
+
+    size = get_resource_file_size(name);
+    if (size <= 0) {
+        return 0;
+    }
+    if ((size <= 0x40000) && (TLobby::tmp_buf_is_free() != 0)) {
+        buf = (u8 *)TLobby::tmp_buf_use_req(load_file_prc_buffer_tag);
+        read_disc_file(name, buf);
+        ret = ((TLobby *)buf)->alloc_download_quest(size, &sp8);
+        TLobby::tmp_buf_release(load_file_prc_buffer_tag);
+    } else {
+        TGStream st(name, 1);
+        buf = (u8 *)TQuestVmDownLoadServer::alloc(0x800);
+        st.read_sectors_sync(1, buf);
+        sp8 = *(s32 *)((s8 *)buf + 0);
+        h = *(s32 *)((s8 *)buf + 4);
+        TAdSinglePlyChrSelectGC::safe_free((u32)buf);
+        ret = (s32)TQuestVmDownLoadServer::alloc(sp8);
+        buf = load_disc_file(name);
+        __ct__14SubtractiveRngFv(rng);
+        subtractive_rng_seed(rng, h);
+        subtractive_rng_xor_buffer(rng, (u32 *)(buf + 8), size - 8);
+        prs_decompress_buffer((s32)(buf + 8), ret);
+        TAdSinglePlyChrSelectGC::safe_free((u32)buf);
+    }
+    if (out_size != NULL) {
+        *out_size = sp8;
+    }
+    return ret;
+}
+
+s32 load_text_resource_pair(s32 name) {
+    s32 size;
+    char path[0x40];
+    s32 data;
+    s32 relocs;
+    s32 root;
+
+    sprintf(path, "%s.pr2", name);
+    data = load_encrypted_text_archive(path, &size);
+    sprintf(path, "%s.pr3", name);
+    relocs = load_encrypted_text_archive(path, &size);
+    root = (s32)alloc_named_object((const char *)name, (u8 *)data, size, (RelFileTrailer *)relocs);
+    TAdSinglePlyChrSelectGC::safe_free((u32)relocs);
+    return root;
+}
+
+void load_encrypted_archive_data(s32 name) {
+    s32 size;
+
+    TLobby__sub_800F9A60((const char *)name, (u8 *)load_encrypted_text_archive((char *)name, &size), size);
+}
+
+void *alloc_named_object(const char *name, u8 *data, s32 size, RelFileTrailer *relocs) {
+    TUnk_8049C658 *file = new TUnk_8049C658(&resource_load_task_root);
+
+    memset(file->name, 0, sizeof(file->name));
+    strncpy(file->name, name, sizeof(file->name) - 1);
+    file->m_name = file->name;
+    file->data = data;
+    file->size = size;
+    return apply_pointer_relocations(file, relocs);
+}
+
+void *TLobby__sub_800F9A60(const char *name, u8 *data, s32 size) {
+    TUnk_8049C658 *file = new TUnk_8049C658(&resource_load_task_root);
+
+    memset(file->name, 0, sizeof(file->name));
+    strncpy(file->name, name, sizeof(file->name) - 1);
+    file->m_name = file->name;
+    file->data = data;
+    file->size = size;
+    return apply_rel_relocations(file);
+}
+}
+
+s32 create_named_object(s32 name) {
+    s32 size = get_resource_file_size((const char *)name);
+    TUnk_8049C658 *file;
+
+    if (size > 0) {
+        file = new TUnk_8049C658(&resource_load_task_root);
+        memset(file->name, 0, sizeof(file->name));
+        strncpy(file->name, (const char *)name, sizeof(file->name) - 1);
+        file->m_name = file->name;
+        file->data = load_disc_file((const char *)name);
+        file->size = size;
+        return (s32)apply_rel_relocations(file);
+    }
+    return 0;
+}
+
+void clear_resource_load_tasks(void) {
+    resource_load_task_root.delete_children();
+}
+
+extern "C" {
+void *apply_pointer_relocations(TUnk_8049C658 *file, RelFileTrailer *relocs) {
+    u32 i;
+    u32 n = relocs->reloc_count;
+    u16 *offsets = (u16 *)(relocs + 1);
+    u32 *p = (u32 *)file->data;
+
+    for (i = 0; i < n; i++) {
+        p += *offsets++;
+        *p += (u32)file->data;
+    }
+    file->root = (void *)(relocs->root_offset + (u32)file->data);
+    return file->root;
+}
+
+void *apply_rel_relocations(TUnk_8049C658 *file) {
+    u16 *offsets;
+    u8 *cur;
+    RelFileTrailer *trailer;
+    u8 *data;
+
+    data = file->data;
+    trailer = (RelFileTrailer *)(data + file->size) - 1;
+    offsets = (u16 *)(trailer->reloc_offset + (u32)data);
+    cur = data;
+    u32 n = trailer->reloc_count;
+    u32 i;
+    for (i = 0; i < n; i++) {
+        cur += *offsets++ * 4;
+        *(u32 *)cur += (u32)file->data;
+    }
+    file->root = (void *)(trailer->root_offset + (u32)file->data);
+    return file->root;
+}
+}
+
+TUnk_8049C658::TUnk_8049C658(TObject *parent) : TObject(parent) {}
+
+TUnk_8049C658::TUnk_8049C658() : TObject(NULL) {}
+
+s32 TQuestVmDownLoadServer::is_ready() {
+    TLobby::wait_ready_loop();
+    if (lbl_805D49B4 != 0) {
+        return 0;
+    }
+    if (quest_download_in_progress != 0) {
+        return 0;
+    }
+    return quest_download_server_ready ? 1 : 0;
+}
+
+u8 *load_disc_file(const char *filename) {
+    disc_read_filename = filename;
+    return TGStream::load_file(filename);
+}
+
+s32 read_disc_file_sectors(const char *filename, void *destination) {
+    disc_read_filename = filename;
+    return TGStream::load_sct_file(filename, (u8 *)destination);
+}
+
+s32 get_resource_file_size(const char *filename) {
+    return TGStream::get_resource_file_size(filename);
+}
+
+extern "C" {
+TLobby *adxf_open__6TLobbyFUii(const char *, s32);
+
+s32 get_disc_file_size(const char *filename) {
+    TLobby *handle = adxf_open__6TLobbyFUii(filename, 0);
+    if (handle == NULL) {
+        return -1;
+    }
+    s32 size = handle->adxf_get_fsize_byte();
+    handle->close_adxf_handle();
+    return size;
+}
+
+s32 read_disc_file(const char *filename, void *destination) {
+    disc_read_filename = filename;
+    return TGStream::read_whole_file(filename, (u8 *)destination);
+}
+
+void TLobby::run_frame() {
+    TObject *fade_task;
+
+    func_803DCDFC__Fv();
+    TLobby__sub_800F8F34();
+    tl_su->run_tasks();
+    tl_camera->run_tasks();
+    tl_07->run_tasks();
+    tl_particle->run_tasks();
+    fade_task = TLoadCtrl__sub_800F9F00();
+    if (fade_task != NULL && fade_task->all_parents_unqueued_for_destruction() != 0) {
+        tl_fade->run_tasks();
+    }
+    set_depth_buffer_settings_1();
+    tl_su->render_nodes();
+    tl_07->render_nodes();
+    tl_particle->render_nodes();
+    fade_task = TLoadCtrl__sub_800F9F00();
+    if (fade_task != NULL && fade_task->all_parents_unqueued_for_destruction() != 0) {
+        tl_fade->render_nodes();
+    }
+    tl_su->debug_render();
+    tl_su->debug_update();
+    if (TQuestVmDownLoadServer::is_ready() != 0) {
+        system_reset();
+        fn_801E2C50();
+    }
+    restore_saved_depth_alpha_state();
+    if (func_801A5E54__Fv() != 0) {
+        TLobby__sub_800F8AD0();
+    }
+    TLobby__sub_803382E4();
+    render_tick();
+}
+}
+
+void TAdPlayerLoadGC::set_state(int state) { TAdPlayerLoadGC__load_state = state; }
+
+extern "C" {
+TObject *TLoadCtrl__sub_800F9F00(void) {
+    return (TObject *)TLoadCtrl__fade_task;
+}
+}

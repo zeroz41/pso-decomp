@@ -35,14 +35,6 @@
 
 extern const char *bm_o_rock_jungle_motion_names[1];
 
-// "o_rock_jungle_05.GVM", "o_rock_jungle_04.GVM" and "o_rock_jungle_123.GVM",
-// the texture lists of each floor. As literals the compiler reaches them from
-// one .rodata base, the original loads each with its own lis/addi: kept out
-// of the unit until that is explained.
-extern const char lbl_804658EC[];
-extern const char lbl_80465904[];
-extern const char lbl_8046591C[];
-
 // The jungle rocks (gc11m, gc31m, gc52m) and the pieces the small and
 // middle ones break into (hahen).
 const char *bm_o_rock_jungle_model_names[6] = {
@@ -71,6 +63,10 @@ GinjaTextureList *TORockJungleS01__texture_resource;
 
 const char *TORockJungleS01__name = "TORockJungleS01";
 
+// The original reaches each texture-list name with its own lis/addi while the
+// L01 constructor reaches its .rodata from one pooled base: pool_data is off
+// for this function only.
+#pragma pool_data off
 void TORockJungleS01::load_resources() {
     BmlResource *resource;
 
@@ -81,18 +77,19 @@ void TORockJungleS01::load_resources() {
     TORockJungleS01__bml_resource = resource;
     switch (get_current_floor_area()) {
     case AREA_SEASIDE:
-        TORockJungleS01__texture_resource = (GinjaTextureList *)load_gvm_texture_file((s32)lbl_804658EC);
+        TORockJungleS01__texture_resource = (GinjaTextureList *)load_gvm_texture_file((s32)"o_rock_jungle_05.GVM");
         break;
     case AREA_MOUNTAIN:
-        TORockJungleS01__texture_resource = (GinjaTextureList *)load_gvm_texture_file((s32)lbl_80465904);
+        TORockJungleS01__texture_resource = (GinjaTextureList *)load_gvm_texture_file((s32)"o_rock_jungle_04.GVM");
         break;
     case AREA_JUNGLE_EAST:
     default:
-        TORockJungleS01__texture_resource = (GinjaTextureList *)load_gvm_texture_file((s32)lbl_8046591C);
+        TORockJungleS01__texture_resource = (GinjaTextureList *)load_gvm_texture_file((s32)"o_rock_jungle_123.GVM");
         break;
     }
     TMotorcycle::add_entry(0x3E, get_model(0), get_jungle_rock_texture_resource(0), 5.0f, 0.0f);
 }
+#pragma pool_data reset
 
 void TORockJungleS01::free_globals() {
     if (TORockJungleS01__texture_resource != NULL) {

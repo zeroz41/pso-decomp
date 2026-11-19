@@ -7,6 +7,9 @@
 #include "pso/system/debug_print.h"
 #include "pso/unk/TLobby.h"
 
+// The LZSS decoder's stream pointers, after its window and trees.
+struct LzssStream { u8 pad[0x7220]; u8 *in; s8 *out; u8 *in_end; };
+
 struct L_8013FF20 { u8 pad0[0x1012]; s16 a[0x1000]; u8 pad1[0x5016 - 0x3012]; s16 b[0x1101]; };
 
 #define NIL_8013FCB0 0x1000
@@ -308,20 +311,25 @@ void TLobby::init_lookup_tables() {
 }
 
 void TLobby__sub_8013FF64(u8 *arg0, s8 arg1) {
-    s8 *temp_r5;
-    temp_r5 = *(s8 **)((s8 *)arg0 + 0x7224);
-    *(s8 **)((s8 *)arg0 + 0x7224) = (temp_r5 + 1);
-    *temp_r5 = arg1;
+    LzssStream *s = (LzssStream *)arg0;
+    *s->out++ = arg1;
 }
 }
 
 u8 lzss_input_exhausted(u8 *arg0) {
-    return (u8) ((u32) *(u32 *)((s8 *)arg0 + 0x7220) > (u32) *(u32 *)((s8 *)arg0 + 0x7228));
+    LzssStream *s = (LzssStream *)arg0;
+    return s->in > s->in_end;
 }
 
 u8 lzss_read_byte(u8 *arg0) {
-    u8 *temp_r4;
-    temp_r4 = *(u8 **)((s8 *)arg0 + 0x7220);
-    *(u8 **)((s8 *)arg0 + 0x7220) = (temp_r4 + 1);
-    return *temp_r4;
+    LzssStream *s = (LzssStream *)arg0;
+    return *s->in++;
+}
+
+// The decoder's input (src, src + size) and output (dst) pointers.
+void TLobby::set_range(int src, int size, int dst) {
+    LzssStream *s = (LzssStream *)this;
+    s->in = (u8 *)src;
+    s->out = (s8 *)dst;
+    s->in_end = (u8 *)(src + size);
 }

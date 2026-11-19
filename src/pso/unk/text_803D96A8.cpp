@@ -37,14 +37,13 @@ s32 find_free_slot__10TObjPlayerFPvPv(void *, int);
 s32 TObjPlayer__sub_803DAD24(int, int);
 extern s32 record_array_ptr;
 
-__declspec(section ".sdata2") extern const f64 lbl_805E0F48;
 void rotate_matrix_x(Matrix34* matrix, s32 angle) {
     Matrix34 rotation;
     Matrix34* selected;
     if (angle != 0) {
         if (matrix == NULL) selected = (Matrix34*)current_matrix;
         else selected = matrix;
-        PSMTXRotRad(&rotation, 'x', (f32)(lbl_805E0F48 * (f64)angle));
+        PSMTXRotRad(&rotation, 'x', (f32)((9.587378008291125e-05) * (f64)angle));
         PSMTXConcat((int)selected, (int)&rotation, (int)selected);
     }
 }
@@ -145,8 +144,9 @@ void TObjPlayer::apply_quat_rotation(f32 farg0) {
     PSMTXConcat(current_matrix, (int)sp18, current_matrix);
 }
 
-// 0.0f in .sdata, read by the assembly below (not yet split into this unit).
-extern f32 lbl_805D46B8;
+// {0.0f, 0.0f}: rotate_vector_by_current_matrix pairs the first with z so the translation column drops out
+// (name inferred). The original keeps these zeros in .sdata, which only an aggregate gets: a scalar zero goes to .sbss.
+static f32 rotation_zero[2] = {0.0f, 0.0f};
 
 asm void rotate_vector_by_current_matrix(const Vec *src, Vec *dst) {
 #include "orig_asm/pso/unk/text_803D96A8/rotate_vector_by_current_matrix.inc"

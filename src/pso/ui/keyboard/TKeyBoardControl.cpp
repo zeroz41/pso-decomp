@@ -84,7 +84,7 @@ void draw_color_lines(Lines_80261DD8 *l, s32 n, s32 flags, f32 scale);
 
 const char *keyboard_soft_type_name_pointer = "TWindowKeyBoardSoft";
 
-/* Per key class (indexed through TWindowKeyBoardSoft__data_804CB7C8): steps back to the class's first column,
+/* Per key class (indexed through soft_keyboard_key_class): steps back to the class's first column,
    and lbl_8044F138 the columns left to its last one (read from the cursor moves in sub_80260E30). */
 const s8 TWindowKeyBoardSoft__data_8044F124[20] = { 0, 0, 0, -1, 0, -1, -2, -3, 0, -1, -2, -3, -4, -5, -6, -7, -8, -9, 0, 0 };
 const u8 lbl_8044F138[20] = { 0, 0, 1, 0, 3, 2, 1, 0, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0, 0, 0 };
@@ -152,7 +152,7 @@ void TWindowKeyBoardSoft::calc_cursor_step(s32 *arg1, s32 *arg2) {
 #pragma fp_contract on
 s32 TWindowKeyBoardSoft::sub_802605DC() {
     s32 idx = TWindowKeyBoardSoft::calc_key_index(this, (s32)(((Win_802605DC *)this)->f65), (s32)(((Win_802605DC *)this)->f66));
-    return idx + TWindowKeyBoardSoft__data_8044F124[((u8 *)&TWindowKeyBoardSoft__data_804CB7C8)[idx]];
+    return idx + TWindowKeyBoardSoft__data_8044F124[soft_keyboard_key_class[idx]];
 }
 #pragma pop
 
@@ -164,7 +164,7 @@ f32 TWindowKeyBoardSoft::calc_key_x(s32 arg1, s32 arg2) {
   s32 temp_r31;
   s32 key;
   key = TWindowKeyBoardSoft::calc_key_index(this, arg1, arg2);
-  temp_r31 = arg1 + TWindowKeyBoardSoft__data_8044F124[((u8 *)&TWindowKeyBoardSoft__data_804CB7C8.value)[key]];
+  temp_r31 = arg1 + TWindowKeyBoardSoft__data_8044F124[soft_keyboard_key_class[key]];
   TWindowKeyBoardSoft__sub_80260760((void *) this, (int) key, &sp8, NULL);
   new_var = TWindowKeyBoardSoft::calc_key_coord((s32)this, sp8);
   return 1.0f + ((19.0f * ((f32) temp_r31)) + (0.5f * new_var));
@@ -197,7 +197,7 @@ f32 TWindowKeyBoardSoft::calc_key_coord(s32 arg0, s32 arg1) {
 void TWindowKeyBoardSoft__sub_80260760(void *self, s32 key, s32 *count, u32 *color) {
     s32 n;
     u32 c;
-    switch (((u8 *)&TWindowKeyBoardSoft__data_804CB7C8.value)[key]) {
+    switch (soft_keyboard_key_class[key]) {
     case 0:
         n = 1;
         c = 0xFF173D84;
@@ -405,10 +405,10 @@ void TWindowKeyBoardSoft::sub_80260E30(s32 port) {
         return;
     }
     if (dx > 0) {
-        kb->cursor_x += lbl_8044F138[((u8 *)&TWindowKeyBoardSoft__data_804CB7C8.value)[(s8)kb->cursor_x + (s8)kb->cursor_y * 16]] + 1;
+        kb->cursor_x += lbl_8044F138[soft_keyboard_key_class[(s8)kb->cursor_x + (s8)kb->cursor_y * 16]] + 1;
     }
     if (dx < 0) {
-        kb->cursor_x += TWindowKeyBoardSoft__data_8044F124[((u8 *)&TWindowKeyBoardSoft__data_804CB7C8.value)[(s8)kb->cursor_x + (s8)kb->cursor_y * 16]] - 1;
+        kb->cursor_x += TWindowKeyBoardSoft__data_8044F124[soft_keyboard_key_class[(s8)kb->cursor_x + (s8)kb->cursor_y * 16]] - 1;
     }
     kb->cursor_y += dy;
     if ((s8)kb->cursor_x < 0) {

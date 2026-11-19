@@ -16,9 +16,6 @@ struct TWindowRoom : public TWindowBase {
     u8 unknown4C[0x14];
     f32 tabParameter;
 
-    static void *operator new(unsigned long size) {
-        return TObject::operator new(size);
-    }
     TWindowRoom(char *title);
     virtual ~TWindowRoom();
     void *get_title_entry();

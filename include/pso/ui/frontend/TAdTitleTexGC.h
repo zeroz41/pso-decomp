@@ -15,6 +15,7 @@ public:
 
 extern "C" {
 void *__ct__13TAdTitleTexGCFv(void *ad_title_tex_gc);
+void TLobby__sub_802A5154(void);
 }
 
 #endif

@@ -10,6 +10,7 @@
 #include "pso/ui/frontend/TAdVIConfigGC.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/unk/TUnk_804CC9D4.h"
 #include "pso/ui/window/TWindowSubComCardList.h"
 #include "pso/object/warp/TObjWarpString.h"
 #include "pso/object/warp/TObjMapWarpForest.h"
@@ -462,16 +463,11 @@ s32 quest_warp_enabled = 1;
 const char *TObjWarpBase__name = "TObjWarpBase";
 
 TObjWarpBase::TObjWarpBase(TObject *parent, void *set_data) : TObjCollidable(parent) {
-    void *collider;
     m_name = TObjWarpBase__name;
     apply_object_set_data(set_data);
     warp_range = 10.0f;
     menu_window = 0;
-    collider = TObject::operator new(0xB4);
-    if (collider != NULL) {
-        collider = ((TTecLuker *)collider)->construct_field_collider((s32)&position, (s32)this, 1);
-    }
-    field_collider = collider;
+    field_collider = new TUnk_804CC9D4(&position, this, 1);
     user_client_id = 0xFFFF;
 }
 
@@ -1546,4 +1542,3 @@ void TObjAreaWarpEndingJung::debug_print_area_num() {
 void *TObjAreaWarpEndingJung__create(void *set_data) {
     return new TObjAreaWarpEndingJung(tl_05, set_data);
 }
-

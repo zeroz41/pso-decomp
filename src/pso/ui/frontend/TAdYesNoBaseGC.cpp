@@ -25,14 +25,13 @@ struct VObj_18 : VBase_18 {
     virtual s32 m8();
 };
 
-struct T_8032C118 { s32 a; s32 b; };
+#include "pso/system/NinjaTypes.h"
 
 extern "C" {
 s32 update_window_mode_from_progress__6TLobbyFPv(void *, void *);
 void align_menu_entry_positions(s32);
 void update_layout_height__21TWindowSubComCardListFf(f32);
 u8 *init_shop_judgment_window(void *p);
-extern T_8032C118 lbl_804772E8[];
 struct VtBase8032C1C8_8032C188 { char pad[0x18]; };
 struct VtObj8032C1C8_8032C188 : VtBase8032C1C8_8032C188 {
     virtual void m0();
@@ -52,6 +51,9 @@ void *__ct__9TAdBackGCFv(void *, void *);
 void copy_vec2__28TWindowSubSymbolChatPartsSetFPv(void *);
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, s32);
 
+#pragma readonly_strings on
+const char *TAdYesNoBaseGC__class_name = "TAdYesNoBaseGC";
+
 s32 TAdYesNoBaseGC::sub_8032C0B4() {
     u8 *arg0 = (u8 *)this;
     s32 temp_r31;
@@ -62,8 +64,8 @@ s32 TAdYesNoBaseGC::sub_8032C0B4() {
 
 s32 TAdYesNoBaseGC::create_menu_window() {
     TAdYesNoBaseGC *arg0 = this;
-    T_8032C118 t = lbl_804772E8[0];
-    s32 r = (s32)init_shop_judgment_window(&t);
+    NJS_POINT2 pos = {85.0f, 384.0f};
+    s32 r = (s32)init_shop_judgment_window(&pos);
     update_layout_height__21TWindowSubComCardListFf(470.0f);
     align_menu_entry_positions(r);
     ((TWindowSubComCardList *)r)->set_selected_index((s16)arg0->m_2c);
@@ -145,15 +147,12 @@ TAdYesNoBaseGC::~TAdYesNoBaseGC() {
 }
 
 
-extern "C" { extern char TAdYesNoBaseGC__class_name_string[]; }
-const char *lbl_805D41F8 = TAdYesNoBaseGC__class_name_string;
-
 void *TAdYesNoBaseGC__ct(TAdYesNoBaseGC *ad_yes_no_base_gc) {
     void *o;
     void *o2;
     __ct__7TObjectFP7TObject(ad_yes_no_base_gc);
     *(s32 **)((s8 *)ad_yes_no_base_gc + 0x18) = __vt__14TAdYesNoBaseGC;
-    ad_yes_no_base_gc->m_name = lbl_805D41F8;
+    ad_yes_no_base_gc->m_name = TAdYesNoBaseGC__class_name;
     ad_yes_no_base_gc->m_28 = 0;
     *(f32 *)((s8 *)ad_yes_no_base_gc + 0x30) = 46.0f;
     ad_yes_no_base_gc->m_34 = 131.0f;
@@ -174,4 +173,3 @@ void *TAdYesNoBaseGC__ct(TAdYesNoBaseGC *ad_yes_no_base_gc) {
     }
     return ad_yes_no_base_gc;
 }
-

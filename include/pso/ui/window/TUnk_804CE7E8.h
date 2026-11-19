@@ -3,16 +3,18 @@
 #include "types.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
 
-class TUnk_804CE7E8 : public TWindowMenuIconLine {
+// Named from the "TWindowCheckBox" class-name string the constructor (via sub_80248B7C) stores to m_name.
+class TWindowCheckBox : public TWindowMenuIconLine {
 public:
-    virtual ~TUnk_804CE7E8();
+    TWindowCheckBox(u8 *parent, s32 client);
+    virtual ~TWindowCheckBox();
     virtual void run_task();
     virtual void render();
     void advance_all_entries(s32);
-    void sub_80248B7C(s16);
+    void sub_80248B7C(s32);
     void sync_level_field();
     u8 unk_88[0x4];
 };
-typedef char TUnk_804CE7E8_size[sizeof(TUnk_804CE7E8) == 0x8C ? 1 : -1];
+typedef char TWindowCheckBox_size[sizeof(TWindowCheckBox) == 0x8C ? 1 : -1];
 
 #endif

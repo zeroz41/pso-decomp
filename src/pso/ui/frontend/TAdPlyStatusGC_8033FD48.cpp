@@ -12,6 +12,9 @@
 
 struct E_8034009C { Vec a; Vec b; s32 f18; };
 
+#pragma readonly_strings on
+const char *TBoss6Demo15_TYPE2_WAIT__class_name = "TBoss6Demo15_TYPE2_WAIT";
+
 static const Vec lbl_80478430 = {-10000.0f, 0.0f, 0.0f};
 // Ten map CSN objects created by fn_8034009C: position, scale, angle.
 static const E_8034009C lbl_8047843C[10] = {
@@ -267,8 +270,6 @@ struct WaitDemoLayout {
 };
 
 void __ct__7TObjectFP7TObject(TObject *self, TObject *parent);
-extern "C" { extern char lbl_80478418[]; }
-const char *lbl_805D42C8 = lbl_80478418;
 extern s32 lbl_804DF614[];
 __declspec(section ".data") s32 lbl_804EFB70[2] = {0x1F, 0x21};
 s32 get_bml_model(s32 bml, s32 index);
@@ -285,7 +286,7 @@ void *TObjFish__sub_8034029C(TBoss6Demo15_TYPE2_WAIT *wait, TObjFish *fish) {
     s32 i;
     __ct__7TObjectFP7TObject(wait, (TObject *)fish);
     *(s32 **)((u8 *)wait + 0x18) = __vt__23TBoss6Demo15_TYPE2_WAIT;
-    wait->m_name = lbl_805D42C8;
+    wait->m_name = TBoss6Demo15_TYPE2_WAIT__class_name;
     self->fish = fish;
     bml = TObjFish::get_fish_count();
     for (i = 0; i < 2; i++) {

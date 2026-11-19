@@ -7,7 +7,9 @@
 #include "pso/unk/TLobby_8020E400.h"
 #include "pso/item/TItemData.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include <stdlib.h>
 
+#pragma readonly_strings on
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
@@ -17,7 +19,12 @@ struct Ent_8020EC68 { u8 pad[0x10]; s32 v; };
 
 struct Item_8020E934 { u8 b[0x14]; };
 
-struct Ctr_8020E934 { u8 b[0x74]; };
+// Shop stock draw pool: up to 100 entry ids and their count (pop_byte/push_shop_pool_entry).
+struct ShopPool {
+    u8 entries[0x64];
+    s32 count;
+    u8 pad_68[0xC];
+};
 
 struct Tbl_8020E934 { u8 pad[8]; u8 *pairs; u8 count; };
 
@@ -37,7 +44,7 @@ s32 lbl_80513D78[4];
 Tbl_8020E934 ** lbl_805D6158;
 s32 lbl_805D615C;
 extern s32 shop_difficulty_tier;
-void push_shop_pool_entry(Ctr_8020E934 *, u8);
+void push_shop_pool_entry(ShopPool *, u8);
 void init__9TItemDataFv(Item_8020E934 *);
 s32 is_duplicate_shop_shield_or_unit(Item_8020E934 *, s32);
 s32 is_duplicate_shop_armor(Rec_8020E700 *arg0, s32 arg1);
@@ -67,7 +74,7 @@ s32 is_duplicate_shop_shield_or_unit(Item_8020E934 *arg0, s32 arg1) {
 
 void generate_shop_unit_pool(s32 arg0) {
     Item_8020E934 item;
-    Ctr_8020E934 ctr;
+    ShopPool ctr;
     Item_8020E934 *dst;
     s32 cnt;
     s32 n;
@@ -114,7 +121,7 @@ void generate_shop_unit_pool(s32 arg0) {
 
 void generate_shop_shield_pool(s32 arg0) {
     Item_8020E934 item;
-    Ctr_8020E934 ctr;
+    ShopPool ctr;
     Item_8020E934 *dst;
     s32 n;
     Tbl_8020E934 *tbl;
@@ -172,7 +179,7 @@ void generate_shop_shield_pool(s32 arg0) {
 
 void generate_shop_armor_pool(s32 arg0) {
     Item_8020E934 item;
-    Ctr_8020E934 ctr;
+    ShopPool ctr;
     Item_8020E934 *dst;
     s32 n;
     s32 cnt;
@@ -296,14 +303,24 @@ void TLobby::free_rocks() {
 // ---- pso/unk/text_8020EE2C
 
 #include "pso/unk/text_8020EE2C.h"
+#include "pso/unk/text_800F9B84.h"
 extern "C" {
 s32 mem_alloc(s32);
 }
-s32 create_named_object(s32 arg0);
-extern u8 lbl_8044BC40[];
+
+// Dead-stripped from the DOL: no code of it survives, only its literals. The TU's int-to-float
+// constant (0x4330000080000000, .rodata 0x8044BC38) is pooled ahead of "ArmorRandom.rel"
+// (0x8044BC40), yet load_armor_random_table is compiled before shuffle_shop_pool, the constant's
+// one surviving user: a function compiled ahead of it converted an int. This reconstruction draws
+// a random pool index the way shuffle_shop_pool (and ShopToolStock's roll_shop_technique_level)
+// draws. Name inferred.
+s32 draw_shop_pool_index(s32 count) {
+    return (s32)((f32)count * (3.0517578e-05f * (f32)rand()));
+}
+
 void load_armor_random_table(void) {
     s32 i;
-    lbl_805D6158 = (Tbl_8020E934 **)create_named_object((s32)lbl_8044BC40);
+    lbl_805D6158 = (Tbl_8020E934 **)create_named_object((s32)"ArmorRandom.rel");
     for (i = 0; i < 4; i++) {
         lbl_80513D78[i] = 0;
     }
@@ -316,3 +333,57 @@ void load_armor_random_table(void) {
     }
     lbl_805D615C = 0;
 }
+
+// ---- pso/unk/TLobby_8020EED8
+
+// Called on a draw pool (ShopPool), not on a lobby: takes the last entry.
+s32 TLobby::pop_byte() {
+    ShopPool *pool = (ShopPool *)this;
+    s32 count = pool->count;
+
+    if (count > 0) {
+        s32 last = count - 1;
+        pool->count = last;
+        return pool->entries[last];
+    }
+    return -1;
+}
+
+// ---- pso/unk/text_8020EEFC
+
+#include "pso/unk/text_8020EEFC.h"
+
+extern "C" {
+void shuffle_shop_pool_n_times(void *pool, s32 times) {
+    while (times-- > 0) {
+        shuffle_shop_pool(pool);
+    }
+}
+}
+void shuffle_shop_pool(void *pool_) {
+    ShopPool *pool = (ShopPool *)pool_;
+    s32 i;
+    s32 k;
+    u8 t;
+    for (i = 0; i < pool->count; i++) {
+        k = (s32)((f32)pool->count * (3.0517578e-05f * (f32)rand()));
+        t = pool->entries[i];
+        pool->entries[i] = pool->entries[k];
+        pool->entries[k] = t;
+    }
+}
+
+// ---- pso/unk/TLobby_8020F00C
+
+#include "pso/ui/hud/TRaderMapCore.h"
+
+void push_shop_pool_entry(ShopPool *pool, u8 entry) {
+    s32 count;
+    count = pool->count;
+    if (count < 0x64) {
+        pool->count = count + 1;
+        pool->entries[count] = entry;
+    }
+}
+
+void TLobby::reset_counter_64() { ((ShopPool *)this)->count = 0; }

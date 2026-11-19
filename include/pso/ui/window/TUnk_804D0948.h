@@ -3,14 +3,17 @@
 #include "types.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
 
-class TUnk_804D0948 : public TWindowMenuIconLine {
+// Named from the "TWindowShop" class-name string both constructors (via sub_8026DE94) store to m_name.
+class TWindowShop : public TWindowMenuIconLine {
 public:
-    virtual ~TUnk_804D0948();
-    void sub_8026DE94();
+    TWindowShop(u8 *parent, s32 arg, u32 count, u8 *descriptor);
+    TWindowShop(s32 arg, u32 count, s32 client);
+    virtual ~TWindowShop();
+    void sub_8026DE94(s32 arg);
     virtual void render();
     virtual void run_task();
-    u8 unk_88[0x4];
+    s32 unk_88;
 };
-typedef char TUnk_804D0948_size[sizeof(TUnk_804D0948) == 0x8C ? 1 : -1];
+typedef char TWindowShop_size[sizeof(TWindowShop) == 0x8C ? 1 : -1];
 
 #endif

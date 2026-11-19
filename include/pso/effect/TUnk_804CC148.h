@@ -2,10 +2,14 @@
 #define PSO_UNK_TUNK_804CC148_H
 #include "types.h"
 #include "pso/effect/TEffect.h"
+#include "pso/object/base/TObjMotion.h"
 
+// Base of the area techniques: TTecGrants, TTecJelin, TTecZarua, TTecReverser, TTecRaBarta,
+// TTecRaFoie, TTecRaZonde, TTecGiFoie, TTecLuker and TTecKafun derive from it.
 class TUnk_804CC148 : public TEffect {
 public:
     TUnk_804CC148(s32 arg1, s32 arg2, s32 arg4);
+    TUnk_804CC148(s32 source, Vec *pos, Vec *target, s32 level);
     virtual ~TUnk_804CC148();
     virtual void vfunc_6(void *);
     virtual void tick_lifetime();
@@ -17,13 +21,11 @@ public:
     void count_if_within_range();
     virtual void render();
     virtual void run_task();
-    u8 unk_70[0x4];
+    f32 lifetime;  // tick_lifetime destroys it once age passes this
     s32 m_74;
     s16 m_78;
-    u8 unk_7A[0x2];
-    f32 m_7c;
-    u8 unk_80[0x4];
-    f32 m_84;
+    s16 band;  // TObjPlayer::get_level_tier(level)
+    Vec target;  // sub_8022C008 moves position toward it
     f32 m_88;
     u8 unk_8C[0x4];
     f32 m_90;
@@ -35,14 +37,9 @@ public:
     u16 m_b4;
     u8 unk_B6[0x2];
     s32 m_b8;
-    u8 unk_BC[0x4];
-    f32 m_c0;
-    u8 unk_C4[0x4];
-    f32 m_c8;
-    u8 unk_CC[0x4];
-    s32 m_d0;
-    u8 unk_D4[0x14];
-    u32 m_e8;
+    CollisionBody collisionBody;
+    TObjCollidable *m_e8;
 };
+typedef char TUnk_804CC148Size[sizeof(TUnk_804CC148) == 0xEC ? 1 : -1];
 
 #endif

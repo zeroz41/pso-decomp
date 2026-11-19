@@ -21,9 +21,13 @@
 
 s16 ppp_buffer_read(void *self, void *dst, u16 n);
 
-#define PCO_RD16(p) (ppp_buffer_read((p), lbl_805D7A70, 2) != 2 ? -1 : read_network_u16_be(lbl_805D7A70))
-#define PCO_RD32(p) (ppp_buffer_read((p), lbl_805D7A70, 4) != 4 ? 0 : TLobby__sub_80402AFC(lbl_805D7A70))
-#define PCO_RD8(p) (ppp_buffer_read((p), lbl_805D7A74, 1) != 1 ? -1 : (s16)lbl_805D7A74[0])
+/* The scratch bytes the configure-option readers below read a 16/32-bit or 8-bit field into. */
+u8 ppp_option_byte_buf[1];
+u8 ppp_option_word_buf[4];
+
+#define PCO_RD16(p) (ppp_buffer_read((p), ppp_option_word_buf, 2) != 2 ? -1 : read_network_u16_be(ppp_option_word_buf))
+#define PCO_RD32(p) (ppp_buffer_read((p), ppp_option_word_buf, 4) != 4 ? 0 : TLobby__sub_80402AFC(ppp_option_word_buf))
+#define PCO_RD8(p) (ppp_buffer_read((p), ppp_option_byte_buf, 1) != 1 ? -1 : (s16)ppp_option_byte_buf[0])
 
 void NetStoreCurrentThread(s32 *thread) {
     *thread = (s32)OSGetCurrentThread();
@@ -410,7 +414,7 @@ s32 TLobby__sub_803FA318(u8* self, u8* src, s32 h) {
             return -1;
         }
         for (k = len - 2; k-- > 0;) {
-            r = (ppp_buffer_read(&h, &(*(u8*)&lbl_805D7A74), 1) != 1) ? -1 : (s16)(*(u8*)&lbl_805D7A74);
+            r = PCO_RD8(&h);
             if (r == -1) {
                 return -1;
             }
@@ -488,10 +492,10 @@ inline u32 first_803FA664(Sub_803FA664 *s) {
 }
 
 inline s32 read_803FA664(u32 *p) {
-    if (ppp_buffer_read(p, lbl_805D7A74, 1) != 1) {
+    if (ppp_buffer_read(p, ppp_option_byte_buf, 1) != 1) {
         return -1;
     }
-    return (s16)lbl_805D7A74[0];
+    return (s16)ppp_option_byte_buf[0];
 }
 
 s32 verify_message_sequence(Obj_803FA664 *obj, Msg_803FA664 *msg, u32 expected) {
@@ -765,12 +769,9 @@ void TLobby__sub_803FADA0(PppFrame **pbuf, A_803FADA0 *hdr, s32 type, s32 total_
         break;
     }
     while (n-- > 0) {
-        *p++ = ppp_buffer_read(src, lbl_805D7A74, 1) != 1 ? -1 : (s16)lbl_805D7A74[0];
+        *p++ = ppp_buffer_read(src, ppp_option_byte_buf, 1) != 1 ? -1 : (s16)ppp_option_byte_buf[0];
     }
     b->len += total_len;
 }
 
 u32 ppp_ipv6cp_protocol_state[0x2A];
-
-u8 lbl_805D7A74[1];
-u8 lbl_805D7A70[4];

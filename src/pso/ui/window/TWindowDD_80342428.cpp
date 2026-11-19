@@ -24,7 +24,7 @@ void TWindowDD__sub_80342428(u8 *window_dd) {
       if (TWindowDD__sub_80342158((int) (*((s32 *) (((s8 *) new_var) + 0x24)))) == 0x685)
       {
         *((s32 *) (((s8 *) window_dd) + 0xB4)) = 0x14;
-        ((TWindowDD *)window_dd)->m_a8 = -0x3C;
+        ((TWindowDD *)window_dd)->m_8c = -0x3C;
         TWindowDD__sub_803435A0((void *) window_dd);
         return;
       }

@@ -39,8 +39,8 @@ void translate_matrix_vec3(u8 *arg0, u8 *arg1) {
     translate_matrix((f32) (*(f32 *)((s8 *)arg1 + 0)), (f32) (*(f32 *)((s8 *)arg1 + 4)), (f32) (*(f32 *)((s8 *)arg1 + 8)));
 }
 
-// 1.0f in .sdata, read by the assembly below (not yet split into this unit).
-extern f32 lbl_805D46AC;
+// {0.0f, 1.0f}: matrix_identity reads its 1.0f (the Dolphin SDK keeps the same table as Unit01 in mtx.c).
+static f32 Unit01[] = {0.0f, 1.0f};
 
 asm void matrix_identity(MtxP m) {
 #include "orig_asm/pso/math/MatrixVector/matrix_identity.inc"

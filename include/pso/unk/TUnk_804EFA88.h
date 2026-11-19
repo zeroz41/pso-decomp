@@ -3,13 +3,25 @@
 #include "types.h"
 #include "pso/system/task/TObject.h"
 
+// One indirect-effect draw record (0x24 bytes): render() draws each queued record.
+struct Item_8033EB4C {
+    u8 a[0xC];
+    u8 b[0xC];
+    s32 p18;
+    s32 p1C;
+    u16 scene;
+    u8 effect_kind;  // indirect effect kind
+    u8 pad23;
+};
+
 class TUnk_804EFA88 : public TObject {
 public:
+    TUnk_804EFA88(TObject *parent);
     virtual ~TUnk_804EFA88();
     virtual void run_task();
     virtual void render();
-    u8 unk_1C[0x4];
-    s32 m_20;
+    Item_8033EB4C *entries;  // 16 records, mem_alloc(0x240) by the constructor
+    s32 entry_count;
 };
 typedef char TUnk_804EFA88_size[sizeof(TUnk_804EFA88) == 0x24 ? 1 : -1];
 

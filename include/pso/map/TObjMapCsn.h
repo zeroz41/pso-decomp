@@ -5,6 +5,9 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/vector.h"
 
+// Defined by TMapCsnCtrl.cpp, whose .sdata and .rodata it opens.
+extern const char *TObjMapCsn__class_name;
+
 // object set data passed (as an address) to TObjMapCsn::create
 struct MapCsnSetData {
     u8 pad_0[0xC];

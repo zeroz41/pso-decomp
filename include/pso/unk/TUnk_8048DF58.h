@@ -5,8 +5,8 @@
 
 class TUnk_8048DF58 : public TObject {
 public:
-    TUnk_8048DF58();
-    virtual ~TUnk_8048DF58();
+    TUnk_8048DF58() : TObject(0) {}
+    virtual ~TUnk_8048DF58() {}
 };
 
 #endif

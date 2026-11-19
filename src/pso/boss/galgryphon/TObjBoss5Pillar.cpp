@@ -2,6 +2,7 @@
 #include "types.h"
 #include "pso/boss/galgryphon/TObjBoss5Pillar.h"
 #include "pso/boss/galgryphon/TObjBoss5PillarDemo.h"
+#include "pso/boss/galgryphon/TObjBoss5PillarSmoke.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/vector.h"
@@ -111,4 +112,3 @@ u8 *TObjBoss5Pillar__ct(TObjBoss5Pillar *boss5_pillar, u8 *arg1, u8 *arg2) {
     boss5_pillar->m_44 = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)lbl_805D4DD8 + 0x430)) + 0x1C);
     return (u8 *)boss5_pillar;
 }
-

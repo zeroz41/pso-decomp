@@ -2,6 +2,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/boss/derolle/TObjBoss2DustCtrl.h"
 #include "pso/boss/derolle/TObjBoss2Dust.h"
+#include "pso/boss/derolle/TObjBoss2CeilJunk_8003A81C.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/unk/text_803D96A8.h"
@@ -40,7 +41,6 @@ Vec boss2_dust_points[6];
 s32 boss2_dust_rotation_table[20];
 Out_8003AD54 boss2_dust_output_table[60];
 s32 boss2_dust_random_angles[10];
-extern const f32 lbl_805D85B0;
 extern const f32 lbl_805D85B8;
 extern const f32 lbl_805D85BC;
 extern const f32 lbl_805D85C0;
@@ -210,7 +210,7 @@ u8 *__ct__13TObjBoss2DustFv(u8 *object, s32 arg1, s32 arg2) {
 TObjBoss2Dust::~TObjBoss2Dust() {}
 
 void TObjBoss2Dust::run_task() {
-    *(f32 *)((s8 *)this + 0x2C) = (f32) (*(f32 *)((s8 *)this + 0x2C) - lbl_805D85B0);
+    *(f32 *)((s8 *)this + 0x2C) = (f32) (*(f32 *)((s8 *)this + 0x2C) - boss2_tunnel_max_scroll_speed);
     *(s32 *)((s8 *)this + 0x1C) = (s32) (*(s32 *)((s8 *)this + 0x1C) + 1);
     if ((s32) *(s32 *)((s8 *)this + 0x1C) >= 0x5A) {
         queue_destruction();

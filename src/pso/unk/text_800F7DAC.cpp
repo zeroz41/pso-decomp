@@ -428,7 +428,7 @@ void *THunterGuildSeqOffline::init(void *arg1, void *arg2) {
     __ct__13TUnk_804999E8FP7TObject(this, tl_fade);
     *(s32 * *)((u8 *)this + 0x18) = lbl_804999D0;
     *(void **)((s8 *)this + 0x24) = arg2;
-    *(f32 *)&this->m_38 = (0.0f);
+    *(f32 *)&this->pad_1c = (0.0f);
     *(u8 *)((s8 *)this + 0x20) = 0;
     *(u8 *)((s8 *)this + 0x21) = 0;
     *(u8 *)((s8 *)this + 0x22) = 0;

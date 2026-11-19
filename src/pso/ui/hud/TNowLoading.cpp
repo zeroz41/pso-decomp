@@ -25,12 +25,13 @@ typedef struct TNowLoading_8001D3A8 {
     Vec pos;
 } TNowLoading_8001D3A8;
 
+volatile s32 aram_dma_pending;
+
 extern "C" {
 extern f32 lbl_804FF5E8[];
 extern u32 camera_ctrl_instance;
 void DCInvalidateRange(void *, u32);
 void ARQPostRequest(void *, u32, u32, u32, u32, u32, u32, void *);
-extern s32 aram_dma_pending;
 s32 TLoadingCur__ct(void *, void *, void *);
 s32 __ct__7TObjectFP7TObject(void *, void *);
 s32 TAdLoadNetworkGC__ct(void *, void *, void *);
@@ -153,11 +154,11 @@ s32 TLobby::aram_dma_blocking(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     u8 sp8[0x20];
     s32 len;
     len = (arg3 + 0x1F) & ~0x1F;
-    (*(volatile s32 *)&aram_dma_pending) = 1;
+    aram_dma_pending = 1;
     DCInvalidateRange((void *)arg2, len);
     ARQPostRequest(sp8, arg0, 1, 1, arg1, arg2, len, (void *)TLobby__sub_8001D9DC);
     for (;;) {
-        if ((*(volatile s32 *)&aram_dma_pending) == 0) break;
+        if (aram_dma_pending == 0) break;
     }
     DCInvalidateRange((void *)arg2, len);
     return 1;
@@ -184,13 +185,12 @@ s32 TLobby::aram_transfer_sync(s32 arg0, u32 buf, s32 arg2, s32 arg3) {
         return 0;
     }
     len = (arg3 + 0x1F) & ~0x1F;
-    (*(volatile s32 *)&aram_dma_pending) = 1;
+    aram_dma_pending = 1;
     DCFlushRange((void *)buf, len);
     ARQPostRequest(sp8, arg0, 0, 1, buf, arg2, len, (void *)TLobby__sub_8001D9DC);
     for (;;) {
-        if ((*(volatile s32 *)&aram_dma_pending) == 0) break;
+        if (aram_dma_pending == 0) break;
         TLobby::run_frame();
     }
     return 1;
 }
-

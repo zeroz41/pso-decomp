@@ -2,21 +2,26 @@
 #define PSO_UI_TUNK_804EE458_H
 #include "types.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/NinjaTypes.h"
 
 class TUnk_804EE458 : public TObject {
 public:
     TUnk_804EE458(int a1);
     virtual ~TUnk_804EE458();
     virtual void render();
+    virtual void run_task();
     s32 sub_8033596C();
-    u8 unk_1C[0x4];
-    int m_20;
-    u8 unk_24[0x4];
-    float m_28;
-    u8 unk_2C[0x4];
-    float m_30;
-    u8 unk_34[0x4];
-    int m_38;
+    void draw_record_with_camera(s32 record, s32 camera);
+    void update_title_prompt();
+    void handle_cursor_input();
+    // Field names are inferred from use: run_task switches on state (0 prompt, 1 cursor, 2 done),
+    // handle_cursor_input wraps cursor in 0..3, render passes color to set_constant_material,
+    // update_title_prompt pulses color.a with frame.
+    s32 owner;
+    s32 cursor;
+    s32 state;
+    NJS_ARGB color;
+    s32 frame;
 };
 typedef char TUnk_804EE458_size[sizeof(TUnk_804EE458) == 0x3C ? 1 : -1];
 

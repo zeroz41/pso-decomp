@@ -15,25 +15,25 @@ static f32 unused_param_4;
 
 static s32 legacy_enemy_kill_received[128];
 
-// This unit's .sdata2 pool holds 0.0f, 50.0f, 15.0f in that order, while
-// init_override_params stores 50.0f first; no store order of plain literals
-// gives both, so the pool stays outside the unit and is named here.
-extern const f32 lbl_805DA098;
-extern const f32 lbl_805DA09C;
-extern const f32 lbl_805DA0A0;
-
 void restore_cameras_if_overridden() {
     if (camera_override_active != 0) {
         restore_player_cameras();
     }
 }
 
+// dead-stripped: only its literals survive. This unit's .sdata2 pool holds 0.0f, 50.0f, 15.0f in
+// that order, but init_override_params, the only live user, loads 50.0f first: a stripped function
+// before it made 0.0f. Minimal body after init_override_params' store; name inferred.
+static void clear_override_param_1() {
+    unused_param_1 = 0.0f;
+}
+
 void init_override_params() {
-    unused_param_0 = lbl_805DA09C;
+    unused_param_0 = 50.0f;
     unused_param_2 = 0;
     unused_param_3 = 0;
-    unused_param_1 = lbl_805DA098;
-    unused_param_4 = lbl_805DA0A0;
+    unused_param_1 = 0.0f;
+    unused_param_4 = 15.0f;
 }
 
 void reset_camera_override() {

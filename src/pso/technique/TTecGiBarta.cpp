@@ -85,29 +85,6 @@ struct Obj_802309AC {
 };
 
 
-struct TTecGiBarta_80230B48 {
-    u8 pad0[0x18];
-    void *vtable;
-    u8 pad1c[0xC6 - 0x1C];
-    s16 band;
-    u8 padc8[0x130 - 0xC8];
-    void **emitters;
-};
-
-struct TTecGiBarta_80230C58 {
-    s32 f0;
-    u8 pad4[0x18 - 4];
-    void *vtable;
-    void *owner;
-    u8 pad20[0xC8 - 0x20];
-    s16 fc8;
-    u8 padca[0x12C - 0xCA];
-    f32 f12c;
-    u8 pad130[4];
-    u16 slots[32];
-    s32 f174;
-};
-
 struct Row_802304A0 { u32 entry; u32 flags; f32 scale; };
 struct Band_802304A0 { const Row_802304A0 *rows; u32 count; };
 struct Angles_802304A0 { s32 a[3]; };
@@ -123,11 +100,6 @@ struct Shot_802304A0 {
     u16 source;
     u8 padCA[0x130 - 0xCA];
     void **emitters;
-};
-
-struct Obj_80230CFC {
-    u8 pad0[0x134];
-    u16 ids[32];
 };
 
 extern "C" {
@@ -146,12 +118,6 @@ extern RecoveredGlobal_802308A0_lbl_804CC510 tech_high_level_linear_power_table;
 extern RecoveredGlobal_802308A0_lbl_804CC55C lbl_804CC55C;
 u16 get_entity_id(void *);
 void mem_free(void *p);
-void __dl__7TObjectFPv(void *);
-extern void *__vt__11TTecGiBarta[];
-TTecGiBarta_80230B48 *__dt__11TTecGiBartaFv(TTecGiBarta_80230B48 *self, s16 deleting);
-void __ct__13TUnk_804CCC68FlPUcPUcl();
-TTecGiBarta_80230C58 *TTecGiBarta__ct(TTecGiBarta_80230C58 *self, void * _w1, void * _w2, void * _w3, void * _w4);
-void construct_facing_technique__10TObjPlayerFPviPvii();
 s32 play_sound_effect(s32, s32, s32, s32);
 void *find_entity_by_id(u16 id);
 s32 update_technique_slot__10TTecRaFoieFl(s32, s32, s32);
@@ -345,10 +311,10 @@ void TTecGiBarta::vfunc_8(void *target) {
         }
     }
     if (found == 0) {
-        self->ids[*(s32 *)&this->m_174] = get_entity_id(((VObj_802309AC *)target));
-        *(s32 *)&this->m_174 += 1;
-        if (*(s32 *)&this->m_174 >= 32) {
-            *(s32 *)&this->m_174 = 31;
+        self->ids[this->hitCursor] = get_entity_id(((VObj_802309AC *)target));
+        this->hitCursor += 1;
+        if (this->hitCursor >= 32) {
+            this->hitCursor = 31;
         }
         HitInfo_802309AC tmp;
         tmp.type = 2;
@@ -359,34 +325,20 @@ void TTecGiBarta::vfunc_8(void *target) {
 }
 
 void TTecGiBarta::create(void *arg1, void *arg2, void *arg3) {
-    void *o;
-    o = TObject::operator new(0x178);
-    if (o != NULL) {
-        TTecGiBarta__ct((TTecGiBarta_80230C58 *)(o), this, arg1, arg2, arg3);
-    }
+    new TTecGiBarta((s32)this, (u8 *)arg1, (u8 *)arg2, (s32)arg3);
 }
 
 void TTecGiBarta::create_ex(void *arg1, void *arg2, void *arg3) {
-    void *o;
-    o = TObject::operator new(0x178);
-    if (o != NULL) {
-        ((TTecGiBarta *)o)->construct_facing(this, arg1, arg2, arg3);
-    }
+    new TTecGiBarta((s32)this, (Vec *)arg1, (s32)arg2, (s32)arg3);
 }
 
-TTecGiBarta_80230B48 *__dt__11TTecGiBartaFv(TTecGiBarta_80230B48 *self, s16 deleting) {
-    if (self) {
-        self->vtable = __vt__11TTecGiBarta;
-        for (u32 i = 0; i < TTecGiBarta__emitter_profile_table[self->band].count; ++i) {
-            if (self->emitters[i]) {
-                ((TObject *)self->emitters[i])->queue_destruction();
-            }
+TTecGiBarta::~TTecGiBarta() {
+    for (u32 i = 0; i < TTecGiBarta__emitter_profile_table[band].count; ++i) {
+        if (emitters[i]) {
+            ((TObject *)emitters[i])->queue_destruction();
         }
-        mem_free(self->emitters);
-        __dt__13TUnk_804CCC68Fv(self, 0);
-        if (deleting > 0) __dl__7TObjectFPv(self);
     }
-    return self;
+    mem_free(emitters);
 }
 
 void TTecGiBarta::run_task() {
@@ -400,42 +352,37 @@ void TTecGiBarta::run_task() {
     dispatch_all_technique_contacts();
 }
 
-TTecGiBarta_80230C58 *TTecGiBarta__ct(TTecGiBarta_80230C58 *self, void * _w1, void * _w2, void * _w3, void * _w4) {
+TTecGiBarta::TTecGiBarta(s32 source, u8 *pos, u8 *target, s32 level)
+    : TUnk_804CCC68(source, pos, target, level) {
     s32 i;
-    __ct__13TUnk_804CCC68FlPUcPUcl();
-    self->vtable = __vt__11TTecGiBarta;
-    self->f0 = (s32)TTecGiBarta__class_name;
-    ((TTecGiBarta *)self)->calc_params();
-    self->f12c = 12.0f;
-    for (i = 0; i < 32; i++) {
-        self->slots[i] = 0xFFFF;
-    }
-    self->f174 = 0;
-    if (self->owner) {
-        self->fc8 = ((s16)get_entity_id(self->owner));
-    }
-    ((TTecGiBarta *)self)->create_particles();
-    ((TTecGiBarta *)self)->update_technique_by_phase();
-    return self;
-}
-
-u8 *TTecGiBarta::construct_facing(void * _w1, void * _w2, void * _w3, void * _w4) {
-    u8 *arg0 = (u8 *)this;
-    s32 i;
-    construct_facing_technique__10TObjPlayerFPviPvii();
-    (*(void * *)((u8 *)this + 0x18)) = __vt__11TTecGiBarta;
-    *(s32 *)&this->m_name = (s32)TTecGiBarta__class_name;
+    m_name = TTecGiBarta__class_name;
     calc_params();
-    for (i = 0; i < 0x20; i++) {
-        ((Obj_80230CFC *)arg0)->ids[i] = 0xFFFF;
+    halfWidth = 12.0f;
+    for (i = 0; i < 32; i++) {
+        hitIds[i] = 0xFFFF;
     }
-    this->m_174 = 0;
-    if (this->source != 0) {
-        *(s16 *)&this->sourceId = get_entity_id(*(void * *)&this->source);
+    hitCursor = 0;
+    if (this->source) {
+        sourceId = get_entity_id((void *)this->source);
     }
     create_particles();
     update_technique_by_phase();
-    return arg0;
+}
+
+TTecGiBarta::TTecGiBarta(s32 source, Vec *pos, s32 angle, s32 level)
+    : TUnk_804CCC68(source, pos, angle, level) {
+    s32 i;
+    m_name = TTecGiBarta__class_name;
+    calc_params();
+    for (i = 0; i < 0x20; i++) {
+        hitIds[i] = 0xFFFF;
+    }
+    hitCursor = 0;
+    if (this->source != 0) {
+        sourceId = get_entity_id((void *)this->source);
+    }
+    create_particles();
+    update_technique_by_phase();
 }
 
 void TTecGiBarta::render() {  }

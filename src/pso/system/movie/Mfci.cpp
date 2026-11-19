@@ -1,6 +1,6 @@
 // CRI MFCI ("MFCI/GC Ver.1.03", the banner that heads this file's string pool): the memory-file
 // device of CRI's file system. A file name is "<address>.<size>" in hex and a read copies from that
-// address. mfci_callback_table (0x804FA020) is the device's function table; TLobby__sub_803D43B8
+// address. mfci_callback_table (0x804FA020) is the device's function table; mfci_get_interface
 // returns it.
 #include "types.h"
 #include <stdio.h>
@@ -20,7 +20,6 @@ char mfci_error_message_buffer[0x12C];
 MfciFilePool mfci_file_pool;
 MfciErrorCallback mfci_error_callback;
 s32 mfci_error_callback_context;
-extern char mfci_callback_table[];
 
 inline MfciFileEntry *find_free_803D4058(void) {
     MfciFileEntry *r = 0;
@@ -88,11 +87,11 @@ static u32 mfci_get_adr_size(char *fname, u32 *size) {
     return v;
 }
 
-// The five TLobby members below take an MfciFileEntry handle as this: mfci_callback_table holds them
-// next to mfci_open, mfci_close and mfci_request_read. inferred: CRI's mfCiGetNumTr, mfCiSetSctLen,
-// mfCiGetSctLen, mfCiGetStat and mfCiStopTr, by their slots in that table.
-s32 TLobby::get_handle_field_checked() {
-    MfciFileEntry *file = (MfciFileEntry *)this;
+// The five calls below take an MfciFileEntry handle: mfci_callback_table holds them next to
+// mfci_open, mfci_close and mfci_request_read, and nothing else calls them (they were misowned as
+// non-static TLobby members). inferred: CRI's mfCiGetNumTr, mfCiSetSctLen, mfCiGetSctLen,
+// mfCiGetStat and mfCiStopTr, by their slots in that table.
+s32 mfci_get_num_transferred(MfciFileEntry *file) {
     if (file == NULL) {
         if (mfci_error_callback != NULL) {
             mfci_error_callback(mfci_error_callback_context, "E0092912:handl is null.", NULL);
@@ -102,23 +101,21 @@ s32 TLobby::get_handle_field_checked() {
     return file->read_bytes;
 }
 
-void TLobby::set_list_unit(s32 unit) {
-    MfciFileEntry *file = (MfciFileEntry *)this;
+void mfci_set_sector_length(MfciFileEntry *file, s32 length) {
     if (file == NULL) {
         if (mfci_error_callback != NULL) {
             mfci_error_callback(mfci_error_callback_context, "E0040302:handl is null.", NULL);
         }
     } else {
         s32 old = file->position_sector * file->block_size;
-        file->block_size = unit;
+        file->block_size = length;
         file->sector_count = (file->block_size - 1 + file->file_size) / file->block_size;
         file->position_sector = old / file->block_size;
-        file->read_bytes = file->read_sectors * unit;
+        file->read_bytes = file->read_sectors * length;
     }
 }
 
-s32 TLobby::get_field4_or_report() {
-    MfciFileEntry *file = (MfciFileEntry *)this;
+s32 mfci_get_sector_length(MfciFileEntry *file) {
     if (file == NULL) {
         if (mfci_error_callback != NULL) {
             mfci_error_callback(mfci_error_callback_context, "E0040301:handl is null.", NULL);
@@ -128,8 +125,7 @@ s32 TLobby::get_field4_or_report() {
     return file->block_size;
 }
 
-s32 TLobby::get_handle_value_checked_b() {
-    MfciFileEntry *file = (MfciFileEntry *)this;
+s32 mfci_get_status(MfciFileEntry *file) {
     if (file == NULL) {
         if (mfci_error_callback != NULL) {
             mfci_error_callback(mfci_error_callback_context, "E0092912:handl is null.", NULL);
@@ -139,8 +135,7 @@ s32 TLobby::get_handle_value_checked_b() {
     return file->state;
 }
 
-void TLobby::release_handle() {
-    MfciFileEntry *file = (MfciFileEntry *)this;
+void mfci_stop_transfer(MfciFileEntry *file) {
     if (file == NULL) {
         if (mfci_error_callback != NULL) {
             mfci_error_callback(mfci_error_callback_context, "E0092912:handl is null.", NULL);
@@ -304,13 +299,31 @@ void mfci_set_error_callback(s32 callback, s32 context) {
     mfci_error_callback_context = context;
 }
 
-void TLobby__sub_803D43A8(void) {
+void mfci_exec_server(void) {
     s32 i;
     for (i = 0x28; i != 0; i--) {
     }
 }
 
-char *TLobby__sub_803D43B8(void) {
+MfciDeviceInterface mfci_callback_table = {
+    mfci_exec_server,
+    mfci_set_error_callback,
+    mfci_parse_file_size,
+    NULL,
+    mfci_open,
+    mfci_close,
+    mfci_seek,
+    mfci_get_position,
+    mfci_request_read,
+    NULL,
+    mfci_stop_transfer,
+    mfci_get_status,
+    mfci_get_sector_length,
+    mfci_set_sector_length,
+    mfci_get_num_transferred,
+};
+
+MfciDeviceInterface *mfci_get_interface(void) {
     mfci_version_pointer;
-    return mfci_callback_table;
+    return &mfci_callback_table;
 }

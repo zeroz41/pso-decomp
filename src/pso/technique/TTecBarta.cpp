@@ -64,28 +64,6 @@ struct Obj_8022B8F4 {
     s32 cursor;
 };
 
-struct TTecBarta_8022BC10 {
-    const char *name;
-    u8 pad4[0x18 - 4];
-    void *vtable;
-    void *owner;
-    u8 pad20[0xC8 - 0x20];
-    s16 fc8;
-    u8 padca[0x114 - 0xCA];
-    u32 f114;
-    u8 pad118[0x134 - 0x118];
-    u16 slots[32];
-    s32 f174;
-};
-
-struct Obj_8022BCB8 {
-    u8 pad0[0x18];
-    void *vt;
-    void *source;
-    u8 pad20[0x134 - 0x20];
-    u16 ids[32];
-};
-
 struct List_8022BD74 { u32 ids[16]; s32 vals[16]; s32 count; };
 
 struct VBase_8022BD74 { u8 pad[0x18]; };
@@ -111,14 +89,8 @@ extern "C" {
 s32 calc_technique_parameters(int, int, int);
 extern RecoveredGlobal_8022B6FC_lbl_804CC510 tech_high_level_linear_power_table;
 extern RecoveredGlobal_8022B6FC_lbl_804CC55C lbl_804CC55C;
-extern TechniqueContactVtable __vt__9TTecBarta;
 void mem_free(void *p);
-void __dl__7TObjectFPv(TTecBarta*);
-TTecBarta* __dt__9TTecBartaFv(TTecBarta* self,s16 deleting);
 u16 get_entity_id(void *);
-void __ct__13TUnk_804CCC68FlPUcPUcl();
-TTecBarta_8022BC10 *TTecBarta__ct(TTecBarta_8022BC10 *self, void * _w1, void * _w2, void * _w3, void * _w4);
-void construct_facing_technique__10TObjPlayerFPviPvii();
 s32 get_bml_model(s32, s32);
 void attach_particle_model(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0);
 void *create_timed_particle_emitter(void *owner, s32 id, s32 b, s32 c);
@@ -149,7 +121,6 @@ const TechniqueEmitterSourceTable TTecBarta__emitter_bands[6] = {
     {lbl_8044CCE4, 4}, {lbl_8044CD14, 4}, {lbl_8044CD44, 7},
 };
 const char *TTecBarta__class_name = "TTecBarta";
-u8 *construct_tec_barta_facing(TTecBarta *arg0, void *_w1, void *_w2, void *_w3, void *_w4);
 void move_ground_technique_projectile(void *p);
 extern s32 technique_effect_bml;
 extern s32 lbl_805D63B0;
@@ -264,19 +235,11 @@ void TTecBarta::init_parameters() {
 }
 
 void TTecBarta::create(void *arg1, void *arg2, void *arg3) {
-    void *o;
-    o = TObject::operator new(0x178);
-    if (o != NULL) {
-        TTecBarta__ct((TTecBarta_8022BC10 *)(o), this, arg1, arg2, arg3);
-    }
+    new TTecBarta((s32)this, (u8 *)arg1, (u8 *)arg2, (s32)arg3);
 }
 
 void TTecBarta::create_ex(void *arg1, void *arg2, void *arg3) {
-    void *o;
-    o = TObject::operator new(0x178);
-    if (o != NULL) {
-        construct_tec_barta_facing((TTecBarta *)((u8 *)o), (void *)this, (void *)((void *)arg1), (void *)((void *)arg2), (void *)((void *)arg3));
-    }
+    new TTecBarta((s32)this, (Vec *)arg1, (s32)arg2, (s32)arg3);
 }
 
 void TTecBarta::vfunc_8(void *target) {
@@ -302,20 +265,14 @@ void TTecBarta::vfunc_8(void *target) {
     }
 }
 
-TTecBarta* __dt__9TTecBartaFv(TTecBarta* self,s16 deleting) {
-    if(self) {
-        *(void **)((u8 *)self + 0x18) = &__vt__9TTecBarta;
-        for(u32 i=0;i<TTecBarta__emitter_bands[self->band].count;++i) {
-            if(self->emitters[i]) {
-                ((TObject *)self->emitters[i])->queue_destruction();
-                self->emitters[i]=0;
-            }
+TTecBarta::~TTecBarta() {
+    for (u32 i = 0; i < TTecBarta__emitter_bands[band].count; ++i) {
+        if (emitters[i]) {
+            ((TObject *)emitters[i])->queue_destruction();
+            emitters[i] = 0;
         }
-        mem_free(self->emitters);
-        __dt__13TUnk_804CCC68Fv(self, 0);
-        if(deleting>0)__dl__7TObjectFPv(self);
     }
-    return self;
+    mem_free(emitters);
 }
 
 void TTecBarta::run_task() {
@@ -350,44 +307,42 @@ void TTecBarta::run_task() {
 
 void TTecBarta::render() {  }
 
-TTecBarta_8022BC10 *TTecBarta__ct(TTecBarta_8022BC10 *self, void * _w1, void * _w2, void * _w3, void * _w4) {
-    s32 i;
-    __ct__13TUnk_804CCC68FlPUcPUcl();
-    self->vtable = ((void * *)&__vt__9TTecBarta);
-    self->name = TTecBarta__class_name;
-    ((TTecBarta *)self)->init_parameters();
-    self->f114 = 0x40003;
-    for (i = 0; i < 32; i++) {
-        self->slots[i] = 0xFFFF;
-    }
-    self->f174 = 0;
-    ((TTecBarta *)self)->create_particle_emitters();
-    ((TTecBarta *)self)->update_technique_by_state();
-    if (self->owner) {
-        self->fc8 = ((s16)get_entity_id(self->owner));
-    }
-    return self;
-}
 }
 
-u8 *construct_tec_barta_facing(TTecBarta *tec_barta, void * _w1, void * _w2, void * _w3, void * _w4) {
+TTecBarta::TTecBarta(s32 source, u8 *pos, u8 *target, s32 level)
+    : TUnk_804CCC68(source, pos, target, level) {
     s32 i;
-    construct_facing_technique__10TObjPlayerFPviPvii();
-    *(void **)((s8 *)tec_barta + 0x18) = ((u8 *)&__vt__9TTecBarta);
-    tec_barta->m_name = TTecBarta__class_name;
-    tec_barta->init_parameters();
-    for (i = 0; i < 0x20; i++) {
-        ((Obj_8022BCB8 *)tec_barta)->ids[i] = 0xFFFF;
+    m_name = TTecBarta__class_name;
+    init_parameters();
+    collisionBody.flags = 0x40003;
+    for (i = 0; i < 32; i++) {
+        hitIds[i] = 0xFFFF;
     }
-    tec_barta->hitCursor = 0;
-    *(s32 *)((s8 *)tec_barta + 0x114) = 0x40003;
-    *(f32 *)((s8 *)tec_barta + 0x24) += 5.0f;
-    tec_barta->create_particle_emitters();
-    tec_barta->update_technique_by_state();
-    if (*(void **)((s8 *)tec_barta + 0x1C) != 0) {
-        tec_barta->sourceId = get_entity_id(*(void **)((s8 *)tec_barta + 0x1C));
+    hitCursor = 0;
+    create_particle_emitters();
+    update_technique_by_state();
+    if (this->source) {
+        sourceId = get_entity_id((void *)this->source);
     }
-    return (u8 *)tec_barta;
+}
+
+// The facing form starts 5 units higher.
+TTecBarta::TTecBarta(s32 source, Vec *pos, s32 angle, s32 level)
+    : TUnk_804CCC68(source, pos, angle, level) {
+    s32 i;
+    m_name = TTecBarta__class_name;
+    init_parameters();
+    for (i = 0; i < 32; i++) {
+        hitIds[i] = 0xFFFF;
+    }
+    hitCursor = 0;
+    collisionBody.flags = 0x40003;
+    position.y += 5.0f;
+    create_particle_emitters();
+    update_technique_by_state();
+    if (this->source) {
+        sourceId = get_entity_id((void *)this->source);
+    }
 }
 
 void TUnk_804CCC68::vfunc_6() {  }

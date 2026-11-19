@@ -2,6 +2,7 @@
 #define PSO_PLAYER_TUNK_804CCC68_H
 #include "types.h"
 #include "pso/effect/TEffect.h"
+#include "pso/object/base/TObjMotion.h"
 
 struct TechniqueContactActor;
 struct TechniqueContactBody;
@@ -9,6 +10,7 @@ struct TechniqueContactBody;
 class TUnk_804CCC68 : public TEffect {
 public:
     TUnk_804CCC68(s32 arg1, u8 *arg2, u8 *arg3, s32 arg4);
+    TUnk_804CCC68(s32 source, Vec *pos, s32 angle, s32 level);
     virtual ~TUnk_804CCC68();
     void check_technique_projectile_wall_hit();
     void move_technique_projectile();
@@ -33,7 +35,7 @@ public:
     f32 power;
     u8 parameters[0x28];
     TechniqueContactBody* contact;
-    u8 beforeProxy[0x2c];
+    CollisionBody collisionBody;
     TechniqueContactActor* proxy;
     f32 halfWidth;
 };

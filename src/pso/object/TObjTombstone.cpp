@@ -44,9 +44,6 @@ s32 get_bml_texlist(s32, s32);
 s32 get_bml_model(s32, s32);
 u8 *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 void free_bin_model_request(void *, int);
-// TCameraCtrl.h declares these short; the callers here take an int (no extsh).
-s32 get_screen_width__11TCameraCtrlFv();
-s32 get_screen_height__11TCameraCtrlFv();
 s32 PPCSync();
 u32 calc_text_width(const char *);
 void draw_menu_font_string(const char *, u32, s32, f32, f32, f32);
@@ -576,9 +573,9 @@ s32 TObjTombstone::project_to_screen(void *arg0, f32 *arg1, Vec *arg2) {
     project_world_to_screen(0, arg2, arg1);
     pop_matrix();
     if (is_split_screen() != 0) {
-        arg1[0] -= (f32)get_screen_height__11TCameraCtrlFv();
+        arg1[0] -= (f32)TCameraCtrl::get_screen_height();
         arg1[0] /= TCameraCtrl::get_view_scale();
-        arg1[1] -= (f32)get_screen_width__11TCameraCtrlFv();
+        arg1[1] -= (f32)TCameraCtrl::get_screen_width();
         arg1[1] /= TCameraCtrl::get_fov();
     }
     return 1;

@@ -3,11 +3,7 @@
 
 #include "types.h"
 
-s32 request_network_info_load(s32 channel, void *buffer);
-s32 take_network_info_request_result(s32 *arg0, s32 *arg1);
-
-// --- C functions defined in NetworkInfoRequests.cpp ---
-s32 request_network_info_load(s32 channel, void *buffer);
-// --- end of C functions
+s32 request_network_info_load(s32 channel, void *buffer __attribute__((aligned(32))));
+s32 take_network_info_request_result(s32 *card_result, s32 *card_detail);
 
 #endif

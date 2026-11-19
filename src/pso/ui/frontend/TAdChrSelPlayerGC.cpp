@@ -13,7 +13,7 @@ extern const char *lbl_805D3F78;
 
 void TUnk_804E3008::sub_802E0F58(s32 arg1) {
     this->m_name = lbl_805D3F78;
-    *(s32 *)((s8 *)this + 0xFC) = 0;
+    state = 0;
     this->m_100 = 0;
     this->m_110 = 0;
     *(s32 *)((s8 *)this + 0x104) = arg1;

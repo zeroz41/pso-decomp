@@ -211,10 +211,8 @@ u8 *__ct__13TObjBoss7DustFv(u8 *object, s32 arg1, s32 arg2) {
 
 TObjBoss7Dust::~TObjBoss7Dust() {}
 
-extern const f32 lbl_805DEC68;
-
 void TObjBoss7Dust::run_task() {
-    *(f32 *)((s8 *)this + 0x2C) = (f32) (*(f32 *)((s8 *)this + 0x2C) - lbl_805DEC68);
+    *(f32 *)((s8 *)this + 0x2C) = (f32) (*(f32 *)((s8 *)this + 0x2C) - boss7_tunnel_max_scroll_speed);
     *(s32 *)((s8 *)this + 0x1C) = (s32) (*(s32 *)((s8 *)this + 0x1C) + 1);
     if ((s32) *(s32 *)((s8 *)this + 0x1C) >= 0x5A) {
         queue_destruction();

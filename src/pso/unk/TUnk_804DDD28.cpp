@@ -35,7 +35,6 @@ extern "C" {
 void TLobby__sub_802A7BC8(void* p);
 extern u32 snapshot_image_buffer;
 void TLobby__sub_802A7BD8(void);
-s32 fn_802A5C3C(u32 *arg0);
 s32 memcpy(s32, s32, s32);
 void fn_802A6070(void *p, s32 v);
 void fn_802A6078(void *p, s32 v);
@@ -136,14 +135,13 @@ void TLobby__sub_802A7BD8(void) {
     }
 }
 }
-extern void *shared_snapshot_capture;
 extern s32 snapshot_buffer_size;
 s32 copy_if_space(void);
 s32 copy_if_space(void) {
-    if (fn_802A5C3C((u32 *)shared_snapshot_capture) >= 0x258) {
+    if (shared_snapshot_capture->fn_802A5C3C() >= 0x258) {
         return 0;
     }
-    memcpy((*(s32 *)&snapshot_image_buffer), ((TWindowSnapShot *)shared_snapshot_capture)->get_size(), snapshot_buffer_size);
+    memcpy((*(s32 *)&snapshot_image_buffer), shared_snapshot_capture->get_size(), snapshot_buffer_size);
     return 1;
 }
 

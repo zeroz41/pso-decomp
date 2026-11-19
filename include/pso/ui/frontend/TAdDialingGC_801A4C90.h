@@ -3,12 +3,7 @@
 
 #include "types.h"
 
-extern "C" {
-void TAdDialingGC__sub_801A4C90(void);
-s32 TAdDialingGC__sub_801A4C9C(void);
-}
-
-// --- C functions defined in TAdDialingGC_801A4C90.cpp ---
+// --- C functions defined in TUnk_804C2298.cpp ---
 extern "C" {
 void TAdDialingGC__sub_801A4C90(void);
 s32 TAdDialingGC__sub_801A4C9C(void);

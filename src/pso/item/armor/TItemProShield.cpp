@@ -16,6 +16,9 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/unk/text_803D96A8.h"
+#include "pso/player/TObjPlayer_80117DD8.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/render/render_util.h"
 
 // What play_shield_sound_cue reads (TObjPlayer::reset_status_block clears it).
 struct ShieldSoundCue {
@@ -36,14 +39,11 @@ s16 obj_getS16_2BA(u8 *p);
 void TObjPlayer__sub_8036414C(void);
 void TObjPlayer__sub_80364198(void);
 // The item file helpers (TItemDrop_800F93F0.cpp).
-// The class name and the effect table's file name. This object really starts
-// at 0x80117E50: TObjPlayer_80117DD8.cpp's last two functions (the nearby
-// player checks, whose doubles follow these strings in .rodata) belong here
-// and are not folded until the first of them matches.
-extern "C" { extern char TItemProShield__class_name_string[]; }
-const char *TItemProShield__name = TItemProShield__class_name_string;
-extern "C" { extern char lbl_8043E630[]; }
-const char *lbl_805D2C3C = lbl_8043E630;
+// The class name and the effect table's file name. This object starts at
+// 0x80117E50 with the nearby player checks (the last two functions below),
+// whose doubles follow these strings in .rodata.
+const char *TItemProShield__name = "TItemProShield";
+const char *lbl_805D2C3C = "ItemShieldEntry.dat";
 // Called with the client unextended and the item index widened to int, as
 // this TU saw TItemEffShield::ct_init and the TUnk_8049F130 constructor.
 void __ct__13TUnk_8049F148FP7TObjects(void *effect, TItemHeapObject *parent, u16 client);
@@ -274,4 +274,55 @@ void TItemProShield::apply_shield_effect_flags() {
     case 0:
         return;
     }
+}
+
+s32 TObjPlayer::count_nearby_players_with_shield(u16 idx, u8 *item) {
+    s32 key;
+    TObjPlayer *me;
+    s32 count;
+    u16 i;
+    TObjPlayer *other;
+    void *it;
+    count = 0;
+    me = get_player_by_client_id(idx);
+    if (me != NULL && item != NULL) {
+        key = me->get_floor();
+        for (i = 0; i != 4; i++) {
+            if (i != idx) {
+                other = get_player_by_client_id(i);
+                if (other != NULL && key == other->get_floor() &&
+                    horizontal_distance_squared(&me->position, &other->position) < 2500.0 &&
+                    (it = (void *)((TItemData *)other)->test_flag3()) != NULL &&
+                    item[2] == ((TItem *)it)->get_item_index()) {
+                    count++;
+                }
+            }
+        }
+    }
+    return count;
+}
+
+s32 TObjPlayer__sub_80117E50(u16 idx) {
+    TObjPlayer *me;
+    s32 mask;
+    s32 found = 0;
+    s32 floor;
+    u16 i;
+    TObjPlayer *other;
+    me = get_player_by_client_id(idx);
+    if (me != NULL) {
+        mask = (me->class_flags & 1) ? 2 : 1;
+        floor = me->get_floor();
+        for (i = 0; i != 4; i++) {
+            if (i != idx) {
+                other = get_player_by_client_id(i);
+                if (other != NULL && (other->class_flags & mask) && floor == other->get_floor() &&
+                    horizontal_distance_squared(&me->position, &other->position) < 400.0) {
+                    found = 1;
+                    break;
+                }
+            }
+        }
+    }
+    return found;
 }

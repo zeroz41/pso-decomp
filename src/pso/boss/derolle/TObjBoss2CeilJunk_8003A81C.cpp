@@ -2,6 +2,7 @@
 #include "pso/boss/derolle/TObjBoss2CeilJunk_8003A81C.h"
 #include "pso/boss/derolle/TObjBoss2CeilJunk.h"
 #include "pso/system/BmlResourceDescriptor.h"
+#include "pso/system/BmlResourceLoader.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/unk/TLobby.h"
@@ -43,16 +44,15 @@ BmlResourceDescriptor bm_obj_boss2_common_resource_descriptor = {
     0,
 };
 
-extern void *lbl_804FE9C8[];
+void *lbl_804FE9C8[7];
 f32 lbl_805D4BE0;
 s32 lbl_805D4BE4;
 void *boss2_tunnel_instance;
 void *lbl_805D4BEC;
+__declspec(section ".sdata2") const f32 boss2_tunnel_max_scroll_speed = 9.259259f;
 extern "C" {
 void release_texture_list(void *);
-void free_bin_model_request(void *, int);
 void *TObjBoss2CeilJunk__ct(void *, void *, void *);
-void *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 
 extern void *tl_05;
 
@@ -90,7 +90,5 @@ void load_boss2_common_resource(void) {
         TLobby::load_texture_pvm_file("obj_boss2_common.gvm", (s32)lbl_805D4BEC);
     }
 }
-
-void *lbl_804FE9C8[7];
 
 __declspec(section ".ctors") static void *const __sinit_TObjBoss2CeilJunk_8003A81C_cpp_ref = (void *)__sinit_TObjBoss2CeilJunk_8003A81C_cpp;

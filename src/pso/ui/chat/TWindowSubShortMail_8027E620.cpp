@@ -6,13 +6,11 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/quest/TQuestThread.h"
 #include "pso/ui/chat/TWindowSubShortMail.h"
-#include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowSubComCardList.h"
 #include "pso/ui/window/TWindowMessageYesNo.h"
 #include "pso/ui/window/TWindowSubShortCutList.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
-#include "pso/unk/TUnk_804D1AD0.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/city/TShopArmorListWindow.h"
 #include "pso/ui/window/TWindowMakeTeam.h"
@@ -25,7 +23,6 @@
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/ui/frontend/TAdChrSelASlotGC.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8027FD88.h"
-#include "pso/ui/window/TWindowAddition.h"
 #include "pso/system/task/TObject.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
@@ -109,7 +106,6 @@ struct ShortMail_8027EF98 {
 };
 
 extern "C" {
-s32 create_window_menu(s32 arg0, s32 arg1, s32 arg2);
 void *send_cmd_133__17TWindowSubComCardFv(void);
 void *send_command__17TWindowSubComCardFi(s32);
 void update_display_value__17TWindowSubComCardFUiUiPv(u32 arg0, u32 arg1, s32 *arg2);
@@ -118,106 +114,12 @@ void TWindowSubShortMail__sub_80131998(void *);
 void TWindowSubShortMail__sub_8027E620(void *p);
 }
 
-s32 create_titled_window_menu(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 void remove_short_mail_by_id(u32 id);
 
 extern "C" {
 void get_keyboard_field_6c__15TWindowMakeTeamFv(void *, void *);
-struct VObj_8027FBF0_Base_8027fbf0_8027E620 { char pad[0x18]; };
-
-struct VObj_8027FBF0_8027E620 : VObj_8027FBF0_Base_8027fbf0_8027E620 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-};
-
 void TLobby__sub_802258C8(void);
-void __dl__7TObjectFPv(void *);
-void __dt__7TObjectFv(void *, int);
-void fn_8027FD94(void *p, s16 v);
-s32 is_player_input_active(s32);
 extern s32 __vt__19TWindowSubShortMail[];
-}
-
-extern s32 status_category_window_vtable[];
-
-extern "C" {
-s32 __ct__7TObjectFP7TObject(void *, void *);
-s32 TWindowSubStatusDisp__ct(int, int);
-}
-
-u8 *construct_status_category_window(u8 *arg0, s32 arg1, s32 arg2) {
-    s32 storage;
-    s32 var_r0;
-    __ct__7TObjectFP7TObject((void *)arg0, (void *)arg1);
-    *(s32 **)((s8 *)arg0 + 0x18) = status_category_window_vtable;
-    *(s32 *)((s8 *)arg0 + 0x20) = arg1;
-    *(s32 *)((s8 *)arg0 + 0x1C) = arg2;
-    *(s32 *)((s8 *)arg0 + 0x24) = ((TUnk_804D1AD0 *)arg0)->create_status_category_menu();
-    storage = __nw__7TObjectFUl(0x74);
-    var_r0 = storage;
-    if (var_r0 != 0) {
-        var_r0 = TWindowSubStatusDisp__ct(storage, (int) (*(s32 *)((s8 *)arg0 + 0x1C)));
-    }
-    ((TUnk_804D1AD0 *)arg0)->m_28 = var_r0;
-    if (TCameraCtrl::get_camera_id() > 2) {
-        ((TWindowAddition *)(*(s32 *)((s8 *)arg0 + 0x24)))->set_position_xy(0.84f, 0.84f);
-        fn_8027FD88((void *)(((TUnk_804D1AD0 *)arg0)->m_28), 0.84f, 0.84f);
-    }
-    return arg0;
-}
-
-void *TUnk_804D1AD0::destroy(s16 arg1) {
-    if (this != NULL) {
-        *(s32 **)((s8 *)this + 0x18) = status_category_window_vtable;
-        if (*(void * *)&this->m_28 != NULL) { ((TWindowBase *)(*(void * *)&this->m_28))->close(); *(s32 *)&this->m_28 = 0; }
-        if (*(void * *)&(*(u32 *)&this->unk_24) != NULL) { ((TWindowBase *)(*(void * *)&(*(u32 *)&this->unk_24)))->close(); *(s32 *)&(*(u32 *)&this->unk_24) = 0; }
-        __dt__7TObjectFv(this, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(this);
-        }
-    }
-    return this;
-}
-
-void TUnk_804D1AD0::run_task() {
-    is_player_input_active(*(s32 *)&this->unk_1C);
-    if (((TWindowMenu *)(*(s32 *)&this->unk_24))->is_cancelled() != 0) {
-        ((VObj_8027FBF0_8027E620 *) this->m_20)->m7();
-    }
-    fn_8027FD94((void *)this->m_28, ((TWindowMenu *)(*(s32 *)&this->unk_24))->get_selected_value());
-}
-
-void TUnk_804D1AD0::render() {  }
-
-s32 TUnk_804D1AD0::create_status_category_menu() {
-    u8 *arg0 = (u8 *)this;
-  s32 temp_r31;
-  s32 var_r31;
-  if (TCameraCtrl::get_camera_id() > 2)
-  {
-    temp_r31 = ((s32 (*)(int)) get_window_layout_position)(0x18);
-    var_r31 = create_window_menu(temp_r31, 3, (*((s32 *) (((s8 *) arg0) + 0x1C))));
-  }
-  else
-  {
-    temp_r31 = ((s32 (*)(int)) get_message_10__20TWindowSubStatusDispFl)(0x1D);
-    var_r31 = create_titled_window_menu((int) ((s32 (*)(int)) get_window_layout_position)(0x18), 3, temp_r31, (*((s32 *) (((s8 *) arg0) + 0x1C))));
-  }
-  forward_trade_action_default__16TObjCityMainWarpFPviii((void *)var_r31, (int) ((s32 (*)(int)) get_message_10__20TWindowSubStatusDispFl)(0x10A), 0x36, 0);
-  forward_trade_action_default__16TObjCityMainWarpFPviii((void *)var_r31, (int) ((s32 (*)(int)) get_message_10__20TWindowSubStatusDispFl)(0x10B), 0x36, 1);
-  forward_trade_action_default__16TObjCityMainWarpFPviii((void *)var_r31, (int) ((s32 (*)(int)) get_message_10__20TWindowSubStatusDispFl)(0x10C), 0x36, 2);
-  ((TWindowSubComCardList *)var_r31)->set_flag70_bit10();
-  ((TWindowSubComCardList *)var_r31)->update_layout_height(202.0f);
-  ((s32 (*)(int)) align_menu_entry_positions)((int) var_r31);
-  return var_r31;
 }
 
 u8 get_field_cc__19TWindowSubShortMailFPv(void* p) { return *(u8*)((char*)p + 0xcc); }

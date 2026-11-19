@@ -11,10 +11,6 @@ extern u32 current_matrix;
 f32 sin_table_lookup(int);
 f32 cos_table_lookup(int);
 
-__declspec(section ".sdata2") extern const f64 lbl_805E0F08;
-__declspec(section ".sdata2") extern const f64 lbl_805E0F10;
-__declspec(section ".sdata2") extern const f64 lbl_805E0F18;
-
 void rotate_matrix_z(Matrix34* matrix, s32 angle) {
     // Game angles have 65536 units per turn. The original uses a single-precision pi.
     const f64 radians_per_angle_unit = 2.0 * 3.141592f / 65536.0;

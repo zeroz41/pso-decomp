@@ -30,7 +30,8 @@ struct TWindowOptionCtrl : public TObject {
     void init_selection_indices();
     void apply_and_close(s32 arg1);
     s32 handle_input(s32 arg1);
-    void update_selected_item();
+    // The cursor position of the entry at m_88.
+    s32 update_selected_item();
     static void add_menu_item(s32 arg1, s32 arg2, s32 arg3);
     static void set_field_value(s32 arg0, s16 arg1);
     static s16 get_option_field_C();

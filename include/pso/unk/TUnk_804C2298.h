@@ -3,20 +3,25 @@
 #include "types.h"
 #include "pso/system/task/TObject.h"
 
+// The scene TAdMultiChgGameModeGC creates for game mode 3: a short list (TWindowOptionCtrl) whose
+// choice picks the dial image, then the system file check and load (reading inferred).
 class TUnk_804C2298 : public TObject {
 public:
     TUnk_804C2298();
-    virtual ~TUnk_804C2298();
-    void *destroy(s16);
     void sub_801A4CA4();
+    // render is the first virtual declared: the vtable comes out with it, ahead of run_task's
+    // jump table.
     virtual void render();
     virtual void run_task();
-    u8 unk_1C[0x2];
-    u16 m_1e;
-    s32 m_20;
-    u8 unk_24[0x4];
-    void * m_28;
-    u8 unk_2C[0x4];
+    virtual ~TUnk_804C2298();
+    s8 state;
+    u8 pad_1d;
+    s16 timer;
+    // The short list choice; 4 until one is made (name inferred).
+    s32 selection;
+    TObject *list;
+    TObject *window;
+    TObject *card;
 };
 typedef char TUnk_804C2298_size[sizeof(TUnk_804C2298) == 0x30 ? 1 : -1];
 

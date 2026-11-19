@@ -139,7 +139,7 @@ force_active:
   - TAdDialingMessageWindow__name
   - TAdDrawLineCtrl__class_name
   - TAdDrawLineTask__class_name
-  - TAdEnterPasswordGC__sub_8032BC94
+  - sub_8032BC94__13TUnk_804EDAC0FP7TObject
   - TAdEnterSerialAccessGC__input_state
   - TAdEnterSerialAccessGC__keyboard_control
   - TAdEnterSerialAccessGC__name
@@ -548,7 +548,7 @@ force_active:
   - TItemAttacker__sub_8010349C
   - TItemData__sub_8010CAB0
   - TItemDisconnectCtrl__name
-  - TItemDrop__ct
+  - __ct__9TItemDropFP7TObjectSc
   - TItemDrop__data_805D53CC
   - TItemDrop__data_805D53D0
   - TItemDrop__gsl_adxf_handle
@@ -646,7 +646,7 @@ force_active:
   - TLobby__sub_80072AB8
   - TLobby__sub_800F8BD8
   - TLobby__sub_800F8DD8
-  - __sinit_TAdPlayerLoadGC_800F9EF8_cpp
+  - __sinit_TLobby_800F8AA8_cpp
   - __sinit_TLobby_80103F5C_cpp
   - init_idle_timeout_timer
   - show_card_list_message
@@ -1735,24 +1735,24 @@ force_active:
   - TTecAnti__sub_8022AD94
   - TTecAnti_name_ref
   - TTecBarta__class_name
-  - TTecBarta__ct
+  - __ct__9TTecBartaFlPUcPUcl
   - TTecDeband__ct
   - TTecDeband__sub_8022F948
   - TTecGiBarta__class_name
-  - TTecGiBarta__ct
-  - TTecGiZonde__ct
+  - __ct__11TTecGiBartaFlPUcPUcl
+  - __ct__11TTecGiZondeFlP3VecPvl
   - TTecGrants__ct
-  - TTecLuker__ct
+  - __ct__9TTecLukerFlP3VecP3Vecl
   - TTecLuker__sub_8023503C
   - TTecLuker__sub_80235048
   - TTecLuker__sub_80235054
-  - TTecMegid__ct
-  - TTecRaBarta__ct
+  - __ct__9TTecMegidFlPUcPUcl
+  - __ct__11TTecRaBartaFlP3VecP3Vecl
   - TTecRaBarta_class_name
-  - TTecRaFoie__ct
+  - __ct__10TTecRaFoieFlP3VecP3Vecl
   - TTecRaFoie_class_name
   - TTecRaZonde__band_profile_table
-  - TTecRaZonde__ct
+  - __ct__11TTecRaZondeFlP3Vecl
   - TTecRaZonde_class_name
   - TTecResta__ct
   - TTecResta__self_recovery_effect_table
@@ -5286,11 +5286,11 @@ force_active:
   - confirm_mode_selection__21TAdMultiChgGameModeGCFv
   - constant_material_color
   - construct__12T_OWEHMS_ExpFP10TObjPlayer
-  - construct__13TUnk_8049F41CFPvii
-  - construct__13TUnk_804EF8C0Fv
-  - construct__9TTecJelinFPviiii
+  - __ct__24ItemTextureArchiveLoaderFPCcll
+  - __ct__13TUnk_804EF8C0Fv
+  - __ct__9TTecJelinFlP3VecP3Vecl
   - __ct__13TUnk_804A3070FP7TObjectPUc
-  - construct_area__11TTecRaBartaFPvPvPv
+  - __ct__11TTecRaBartaFlP3Vecl
   - __ct__13TUnk_804A68C8FP7TObjectPUc
   - construct_card_tags__17TWindowGetComCardFv
   - construct_card_window_array__23TAdSinglePlyChrSelectGCFPv
@@ -5300,8 +5300,8 @@ force_active:
   - __ct__13TUnk_804A0FA0FP7TObjectPUc
   - construct_entry_array
   - construct_entry_array__6TLobbyFv
-  - construct_facing__11TTecGiBartaFPvPvPvPv
-  - construct_facing__9TTecMegidFllll
+  - __ct__11TTecGiBartaFlP3Vecll
+  - __ct__9TTecMegidFlP3Vecll
   - construct_gi_gue_bazooka__FPUcPUcl
   - construct_global_arrays__6TLobbyFv
   - construct_grants_flash
@@ -5321,13 +5321,13 @@ force_active:
   - __ct__13TUnk_804A5C18FP7TObjectPUc
   - __ct__13TUnk_804A5B20FP7TObjectPUc
   - __ct__13TUnk_804A5838FP7TObjectPUc
-  - construct_targeted__10TTecRaFoieFPvPvPvPvi
-  - construct_tec_barta_facing__FP9TTecBartaPvPvPvPv
+  - __ct__10TTecRaFoieFlP3VecP16TargetCursorListl
+  - __ct__9TTecBartaFlP3Vecll
   - construct_variant_b__9TWindowDDFPv
   - construct_weapon_casing__10TObjPlayerFPUcPUcPUcPUcPUc
   - __ct__13TUnk_804A5458FP7TObjectPUc
   - construct_with_index__22TObjFogCollisionPoisonFPUcl
-  - construct_with_vtable__13TUnk_8049F40CFPvii
+  - __ct__20ItemModelChunkLoaderFPCcll
   - consume_counter__14TOTrapChainSawFPv
   - container_break_particle_parameters
   - container_break_small_debris_parameters
@@ -6194,7 +6194,7 @@ force_active:
   - finalize_and_send_60__15TObjBoss2TunnelFv
   - find_active_pad_rumble_effect_by_id__FUl
   - find_archive_entry__6TLobbyFPvPvPvPv
-  - find_area_technique_contact__FPviPvPv
+  - find_area_technique_contact__FP13TUnk_804CC148P14TObjCollidableP13CollisionBodyPv
   - find_attack_target__13TObjEneMe1GeeFPff
   - find_cached_glyph__20TWindowSubStatusDispFUs
   - find_chain_targets__11TTecGiZondeFv
@@ -7090,7 +7090,7 @@ force_active:
   - init_hp_state__11TBoss6Type1Fv
   - init_id_tables__6TLobbyFv
   - init_instance__13TObjEneMorfosFv
-  - init_instance__9TTecZaruaFPviiii
+  - __ct__9TTecZaruaFlP3VecP3Vecl
   - init_inventory__10TObjPlayerFv
   - init_inventory_items__10TObjPlayerFl
   - init_item_counts_max__10TObjPlayerFv
@@ -8208,7 +8208,7 @@ force_active:
   - lbl_80501070
   - lbl_805010E0
   - lbl_80501114
-  - lbl_80506208
+  - item_blank_texture_name
   - lbl_80509D3C
   - lbl_8050AAD4
   - lbl_8050BED0
@@ -17046,7 +17046,7 @@ force_active:
   - update_live_camera__18TObjLiveCameraCtrlFv
   - update_load_progress__12TChCrLoadReqFv
   - update_load_state__16TAdChrSelASlotGCFv
-  - update_load_state__9TItemLoadFv
+  - update_load_state__13AfsFileLoaderFv
   - update_load_status__12TQuestListVMFv
   - update_lobby_pigeon_visibility__13TUnk_804E0898Fv
   - update_lobby_selection__12TQuestListVMFv
@@ -17883,6 +17883,8 @@ block_relocations:
   - source: 0x8047EC64
   # Bytes 0x80 0x0A 0x20 0x20 inside TPlayerBattleCtrl4P's team-battle message string (lbl_80475A34+0x1C) read as a pointer into .text.
   - source: 0x80475A50
+  # The same bytes inside TPlayerBattleCtrl's Japanese team-battle string (lbl_80478294+0x1C).
+  - source: 0x804782B0
   # Entry bytes of quest_download_lz_match_entry_table (TQuestVmDownLoadServer_803E9A24) read as pointers into .text.
   - source: 0x8047F20C
   - source: 0x8047F298

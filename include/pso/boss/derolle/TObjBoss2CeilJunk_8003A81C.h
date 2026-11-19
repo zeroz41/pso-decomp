@@ -3,10 +3,9 @@
 
 #include "types.h"
 
-extern "C" {
-void TLobby__sub_8003A874(void);
-void __sinit_TObjBoss2CeilJunk_8003A81C_cpp(void);
-}
+// Shared by the Boss2 dust, raft splash and tunnel objects: TObjBoss2Tunnel clamps its
+// scroll speed (f20) to it and the dust/splash objects drift by it each frame.
+extern const f32 boss2_tunnel_max_scroll_speed;
 
 // --- C functions defined in TObjBoss2CeilJunk_8003A81C.cpp ---
 extern "C" {

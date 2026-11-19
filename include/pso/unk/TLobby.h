@@ -111,7 +111,7 @@ struct TLobby : public TObject {
     void copy_header(void *arg1);
     static void free_char_select();
     static void update_boss1_objects();
-    int forward_floor_2CB44();
+    static void forward_floor_2CB44();
     static void init_bosses();
     static void init_boss2_stage();
     static void create_boss2_tunnel();
@@ -149,8 +149,8 @@ struct TLobby : public TObject {
     void bswap_enemy_state();
     static void wait_ready_loop();
     static s32 run_disk_error_check();
-    u32 write_packet_header(s32 arg1, s32 arg2, u32 arg3);
-    s32 alloc_download_quest(s32 arg1, s32 *arg2);
+    u32 write_packet_header(s32 size, s32 dst, u32 capacity);
+    s32 alloc_download_quest(s32 size, s32 *out_size);
     static void run_frame();
     static void free_static_buffer(void* a0);
     static void alloc_from_heap(void* a0);
@@ -572,7 +572,6 @@ struct TLobby : public TObject {
     static void set_callback(u32 arg0, s32 arg1);
     static void notify_dvd_read();
     static void enter_lock();
-    void release_handle();
     u32 get_packet_size();
     u32 get_available_size();
     void move_data(const void * _w1, u32 _w2);
@@ -700,6 +699,7 @@ struct TLobby : public TObject {
     s32 adxf_stop();
     static s32 adxf_read_nw32(void *adxf, int nsct, void *buf);
     static s32 read_checked_align(s32 arg0, s32 arg1, s32 arg2);
+    static void *adxf_open_afs(int partition_id, int index);
     static void release_used_slots();
     static s32 read_afs_toc(s32 arg0);
     s32 demux_stream_chunks();
@@ -711,12 +711,6 @@ struct TLobby : public TObject {
     s32 cv_fs_tell();
     void cv_fs_close();
     void cvFsSetDefDev();
-    s32 get_handle_field_20();
-    s32 get_field10_or_report();
-    s32 get_handle_value_checked();
-    s32 get_handle_field_1c();
-    static s32 get_dvd_file_size(const char *name);
-    static void poll_dvd_requests();
     static void log_printf(const char *fmt, ...);
     static void init_callback_tables();
     static s32 run_worker_callbacks_slot5();
@@ -727,10 +721,6 @@ struct TLobby : public TObject {
     static void SVM_DelCbSvr(s32 arg0, s32 arg1);
     static s32 svm_set_cb_svr(s32 arg0, s32 fn, s32 arg);
     static void set_message_and_notify(char *arg0);
-    s32 get_handle_field_checked();
-    void set_list_unit(s32 unit);
-    s32 get_field4_or_report();
-    s32 get_handle_value_checked_b();
     void set_stream_channel_pan(s32 ch, s32 pan);
     static void update_active_streams();
     void update_stream_buffers();
@@ -858,11 +848,11 @@ struct TLobby : public TObject {
     static s32 get_drop_item_mode();
     static void update_drop_item();
     static void load_item_data();
-    static void relink_objects();
-    static void dispatch_opcode_two_u16(u8 arg0);
-    static void dispatch_stream_command(u8 arg0);
-    static void invoke_command(s32 arg0);
-    void spawn_destroy_event();
+    static void relink_objects(s16 a, s16 b);
+    static void dispatch_opcode_two_u16(u8 opcode);
+    static void dispatch_stream_command(u8 opcode);
+    static void invoke_command(u8 opcode);
+    static void free(void *p);
     static s32 count_sync_record_bytes();
     static void import_sync_records(s16 *arg0);
     static s32 export_sync_records(s16 *arg0);
@@ -1024,7 +1014,6 @@ struct TLobby : public TObject {
     void set_split_screen_name();
     static void create_singleton(void *arg0);
     void byteswap_event_packet();
-    void handle_random_enemies_choice();
     static s32 check_all_battle_flags(void *);
     static s32 check_battle_end(void *);
     s32 check_timeout(s32 timer);
@@ -1032,7 +1021,6 @@ struct TLobby : public TObject {
     void set_flag_270();
     void show_score_results();
     static s32 check_all_players_ready(void *);
-    void *init_with_name(void *arg1, void *arg2, void *arg3);
     static s32 assign_player_id(void *);
     void send_neg50(void* a1);
     static void init_and_set_flag();

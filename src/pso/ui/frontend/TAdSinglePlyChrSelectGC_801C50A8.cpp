@@ -1,19 +1,16 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
-#include "pso/unk/text_801C51D4.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801C50A8.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/map/FloorArea.h"
 #include "pso/unk/TUnk_804C3F48.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/task/TMainTask.h"
 #include "pso/player/TObjPlayer_80011014.h"
 
 extern "C" {
-extern int active_character_save_record;
     extern int duel_result_window;
-u32 ad_single_ply_chr_select_instance;
-u32 __nw__7TObjectFUl(s32);
-extern s32 tl_00;
+TObject *ad_single_ply_chr_select_instance;
 void TAdSinglePlyChrSelectGC::set_slot(int a0) { *(short*)((char*)active_character_save_record + 0x21b0) = a0; }
 u16 TAdSinglePlyChrSelectGC::get_char_select_slot() {
     return *(u16 *)((s8 *)(*(u8 * *)&active_character_save_record) + 0x21B0);
@@ -36,26 +33,21 @@ u16 TAdSinglePlyChrSelectGC__sub_801C5114(void) {
 }
 void TAdSinglePlyChrSelectGC__sub_801C5120(void) { duel_result_window = 0; }
 void TAdSinglePlyChrSelectGC::destroy() {
-    if ((u32) ad_single_ply_chr_select_instance != 0U) {
-        ((TObject *)ad_single_ply_chr_select_instance)->queue_destruction();
+    if (ad_single_ply_chr_select_instance != NULL) {
+        ad_single_ply_chr_select_instance->queue_destruction();
     }
 }
-void TAdSinglePlyChrSelectGC__sub_801C5158(void) { (*(int *)&ad_single_ply_chr_select_instance) = 0; }
+void TAdSinglePlyChrSelectGC__sub_801C5158(void) { ad_single_ply_chr_select_instance = NULL; }
 s32 TAdSinglePlyChrSelectGC::create_if_key_pressed() {
     s32 area;
-    u32 var_r0;
     area = get_current_floor_area();
     if ((area != AREA_BATTLE1) && (area != AREA_BATTLE2)) {
         return 0;
     }
-    if ((u32) ad_single_ply_chr_select_instance != 0U) {
+    if (ad_single_ply_chr_select_instance != NULL) {
         return 0;
     }
-    var_r0 = __nw__7TObjectFUl(0x28);
-    if (var_r0 != 0U) {
-        var_r0 = (u32)fn_801C5380((u8 *)var_r0, tl_00);
-    }
-    ad_single_ply_chr_select_instance = var_r0;
+    ad_single_ply_chr_select_instance = new TUnk_804C3F48(tl_00);
     return 1;
 }
 
@@ -67,11 +59,6 @@ struct Self_801C51D4 { u8 pad[0x1C]; s32 life; s32 timer; Ply_801C51D4 *owner; }
 
 extern "C" {
 s32 update_battle_controller__10TObjPlayerFv();
-s32 __ct__7TObjectFP7TObject(void *, void *);
-struct RecoveredGlobal_lbl_804C3F48 { s32 value; u8 remaining[0x14]; };
-extern RecoveredGlobal_lbl_804C3F48 lbl_804C3F48;
-u8 * __dt__7TObjectFv(void *, s16);
-void __dl__7TObjectFPv(s32);
 f32 xz_distance_squared(void *, void *);
 void *get_player_by_client_id(s32 i);
 void update_technique_slot__10TTecRaFoieFl(void *, s32, s32);
@@ -110,25 +97,14 @@ void TUnk_804C3F48::run_task() {
 }
 #pragma pop
 
-u8 *__dt__13TUnk_804C3F48Fv(u8 *object, s16 arg1) {
-    if (object != NULL) {
-        *(s32 **)((s8 *)object + 0x18) = &lbl_804C3F48.value;
-        ad_single_ply_chr_select_instance = 0;
-        __dt__7TObjectFv(object, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv((s32) object);
-        }
-    }
-    return object;
 }
 
-u8 *fn_801C5380(u8 *arg0, s32 arg1) {
-    __ct__7TObjectFP7TObject((void *)arg0, (void *)arg1);
-    *(s32 **)((s8 *)arg0 + 0x18) = &lbl_804C3F48.value;
-    *(s32 *)((s8 *)arg0 + 0x1C) = 0x3DE;
-    ((TUnk_804C3F48 *)arg0)->m_20 = 0x1E;
-    *(s32 *)((s8 *)arg0 + 0x24) = update_battle_controller__10TObjPlayerFv();
-    return arg0;
+TUnk_804C3F48::~TUnk_804C3F48() {
+    ad_single_ply_chr_select_instance = NULL;
 }
 
+TUnk_804C3F48::TUnk_804C3F48(TObject *parent) : TObject(parent) {
+    life = 0x3DE;
+    timer = 0x1E;
+    owner = update_battle_controller__10TObjPlayerFv();
 }

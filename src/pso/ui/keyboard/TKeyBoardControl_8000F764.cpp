@@ -131,7 +131,6 @@ void TLobby__sub_8020E3BC(void);
 extern u8 gx_default_light_obj[];
 extern void *video_initial_draw_framebuffer;
 extern void *video_initial_display_framebuffer;
-extern GXColor_8000FA00 lbl_805E1200;
 void init_disc_error_messages(void);
 void load_menu_font(void);
 void load_ply_level_tbl(void);
@@ -273,16 +272,17 @@ void TKeyBoardControl__sub_8000F9E4(void) {
     main_phase_state.prev = 1;
 }
 void init_gx_lighting_defaults(void) {
-    const GXColor_8000FA00 ambientColor = {32, 32, 32, 255};
-    const GXColor_8000FA00 materialColor = {255, 255, 255, 255};
-    const GXColor_8000FA00 lightColor = {255, 255, 255, 255};
-    GXSetCopyClear(lbl_805E1200, 0xFFFFFF);
+    GXColor_8000FA00 ambient = {0x20, 0x20, 0x20, 0xFF};
+    GXColor_8000FA00 material = {0xFF, 0xFF, 0xFF, 0xFF};
+    GXColor_8000FA00 light = {0xFF, 0xFF, 0xFF, 0xFF};
+    GXColor_8000FA00 clear = {0x00, 0x00, 0x00, 0x00};
+    GXSetCopyClear(clear, 0xFFFFFF);
     GXInitLightPos(gx_default_light_obj, 0.0f, 10000.0f, 0.0f);
-    GXInitLightColor(gx_default_light_obj, lightColor);
+    GXInitLightColor(gx_default_light_obj, light);
     GXLoadLightObjImm(gx_default_light_obj, 1);
-    GXSetChanAmbColor(0, ambientColor);
-    GXSetChanAmbColor(2, lightColor);
-    GXSetChanMatColor(4, materialColor);
+    GXSetChanAmbColor(0, ambient);
+    GXSetChanAmbColor(2, light);
+    GXSetChanMatColor(4, material);
     GXCopyDisp(video_initial_display_framebuffer, 1);
     GXCopyDisp(video_initial_draw_framebuffer, 1);
     set_cull_none();

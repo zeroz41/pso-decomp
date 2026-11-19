@@ -186,9 +186,7 @@ u32 __nw__7TObjectFUl(int);
 f32 vector_length(void *);
 s32 normalize_vector(void *);
 extern const f64 lbl_8044DC00;
-extern s32 __vt__13TUnk_804CCC68[];
 
-u8 *construct_facing_technique__10TObjPlayerFPviPvii(u8 *arg0, s32 arg1, u8 *arg2, s32 arg3, s32 arg4);
 void free_collision_body_parts(void *);
 void __dl__7TObjectFPv(void *);
 void __dt__7TEffectFv(void *, int);
@@ -245,23 +243,23 @@ TUnk_804CCC68::TUnk_804CCC68(s32 arg1, u8 *arg2, u8 *arg3, s32 arg4) : TEffect()
         normalize_vector(((u8 *)this) + 0x48);
     }
     direction_to_rotation_xz((((u8 *)this) + 0x48), (s32 *)(((u8 *)this) + 0x54), (s32 *)(((u8 *)this) + 0x5C));
-    *(f32 *)((s8 *)this + 0xFC) = 0.0f;
-    *(f32 *)((s8 *)this + 0x100) = 0.0f;
-    *(f32 *)((s8 *)this + 0x104) = 0.0f;
+    this->collisionBody.offset.x = 0.0f;
+    this->collisionBody.offset.y = 0.0f;
+    this->collisionBody.offset.z = 0.0f;
     if (get_entity_id(this->source) < 4U && get_type__10TObjPlayerFPv((void *)(this->source + 0x828)) != 0) {
-        *(f32 *)((s8 *)this + 0x104) = (-1e+01f);
+        this->collisionBody.offset.z = (-1e+01f);
     }
-    *(f32 *)((s8 *)this + 0x108) = 5.0f;
-    *(f32 *)((s8 *)this + 0x10C) = 1.0f;
-    *(s32 *)((s8 *)this + 0x110) = 1;
+    this->collisionBody.radius = 5.0f;
+    this->collisionBody.half_width = 1.0f;
+    this->collisionBody.shape = 1;
     if (get_entity_id(this->source) < 4U) {
         if (get_type__10TObjPlayerFPv((void *)(this->source + 0x828)) != 0) {
-            *(s32 *)((s8 *)this + 0x114) = 0x40007;
+            this->collisionBody.flags = 0x40007;
         } else {
-            *(s32 *)((s8 *)this + 0x114) = 0x40107;
+            this->collisionBody.flags = 0x40107;
         }
     } else {
-        *(s32 *)((s8 *)this + 0x114) = 0x40007;
+        this->collisionBody.flags = 0x40007;
     }
     var_r0 = __nw__7TObjectFUl(0xAC);
     if (var_r0 != 0U) {
@@ -269,76 +267,75 @@ TUnk_804CCC68::TUnk_804CCC68(s32 arg1, u8 *arg2, u8 *arg3, s32 arg4) : TEffect()
     }
     *(u32 *)((s8 *)this + 0x128) = var_r0;
     if (*(u32 *)((s8 *)this + 0x128) != 0U) {
-        init_collision_body_parts(*(u32 *)((s8 *)this + 0x128), ((u8 *)this) + 0xFC, 1);
+        init_collision_body_parts(*(u32 *)((s8 *)this + 0x128), &this->collisionBody, 1);
     }
 }
 
-u8 *construct_facing_technique__10TObjPlayerFPviPvii(u8 *arg0, s32 arg1, u8 *arg2, s32 arg3, s32 arg4) {
+// The facing form: the technique starts at `pos` and flies along the y angle
+// `angle` instead of towards a target point.
+TUnk_804CCC68::TUnk_804CCC68(s32 source, Vec *pos, s32 angle, s32 level) : TEffect() {
     u32 var_r0;
-    __ct__7TEffectFv(arg0);
-    *(s32 **)((s8 *)arg0 + 0x18) = __vt__13TUnk_804CCC68;
-    ((TObjPlayer *)(arg0 + 0x84))->register_object();
-    ((TUnk_804CCC68 *)arg0)->sourceId = 0xFFFF;
-    *(f32 *)((s8 *)arg0 + 0x20) = *(f32 *)((s8 *)arg2 + 0);
-    *(f32 *)((s8 *)arg0 + 0x24) = *(f32 *)((s8 *)arg2 + 4);
-    *(f32 *)((s8 *)arg0 + 0x28) = *(f32 *)((s8 *)arg2 + 8);
-    *(f32 *)((s8 *)arg0 + 0x3C) = 1.0f;
-    *(f32 *)((s8 *)arg0 + 0x40) = 1.0f;
-    *(f32 *)((s8 *)arg0 + 0x44) = 1.0f;
-    ((TUnk_804CCC68 *)arg0)->traveled = 0.0f;
-    ((TUnk_804CCC68 *)arg0)->source = arg1;
-    if (arg4 < 0) {
-        ((TUnk_804CCC68 *)arg0)->level = 0;
-    } else if (arg4 >= 0x1E) {
-        ((TUnk_804CCC68 *)arg0)->level = 0x1E;
+    ((TObjPlayer *)(((u8 *)this) + 0x84))->register_object();
+    this->sourceId = 0xFFFF;
+    this->position.x = pos->x;
+    this->position.y = pos->y;
+    this->position.z = pos->z;
+    this->scale.x = 1.0f;
+    this->scale.y = 1.0f;
+    this->scale.z = 1.0f;
+    this->traveled = 0.0f;
+    this->source = source;
+    if (level < 0) {
+        this->level = 0;
+    } else if (level >= 0x1E) {
+        this->level = 0x1E;
     } else {
-        ((TUnk_804CCC68 *)arg0)->level = arg4;
+        this->level = level;
     }
-    ((TUnk_804CCC68 *)arg0)->band = TObjPlayer::get_level_tier(((TUnk_804CCC68 *)arg0)->level);
-    *(f32 *)((s8 *)arg0 + 0x2C) = 1.0f;
-    *(f32 *)((s8 *)arg0 + 0x30) = 1.0f;
-    *(f32 *)((s8 *)arg0 + 0x34) = 1.0f;
-    *(f32 *)((s8 *)arg0 + 0x38) = 1.0f;
-    *(s32 *)((s8 *)arg0 + 0x54) = 0;
-    *(s32 *)((s8 *)arg0 + 0x58) = arg3;
-    *(s32 *)((s8 *)arg0 + 0x54) = 0;
-    ((TUnk_804CCC68 *)arg0)->halfWidth = 4.0f;
-    ((TUnk_804CCC68 *)arg0)->speed = 3.0f;
-    ((TUnk_804CCC68 *)arg0)->range = 3e+01f;
-    *(f32 *)((s8 *)arg0 + 0x48) = sin_table_lookup(*(s32 *)((s8 *)arg0 + 0x58));
-    *(f32 *)((s8 *)arg0 + 0x4C) = 0.0f;
-    *(f32 *)((s8 *)arg0 + 0x50) = cos_table_lookup(*(s32 *)((s8 *)arg0 + 0x58));
-    if (0.0f != vector_length(arg0 + 0x48)) {
-        normalize_vector(arg0 + 0x48);
+    this->band = TObjPlayer::get_level_tier(this->level);
+    this->color.a = 1.0f;
+    this->color.r = 1.0f;
+    this->color.g = 1.0f;
+    this->color.b = 1.0f;
+    this->angles[0] = 0;
+    this->angles[1] = angle;
+    this->angles[0] = 0;
+    this->halfWidth = 4.0f;
+    this->speed = 3.0f;
+    this->range = 3e+01f;
+    this->direction.x = sin_table_lookup(this->angles[1]);
+    this->direction.y = 0.0f;
+    this->direction.z = cos_table_lookup(this->angles[1]);
+    if (0.0f != vector_length(&this->direction)) {
+        normalize_vector(&this->direction);
     }
-    direction_to_rotation_xz((arg0 + 0x48), (s32 *)(arg0 + 0x54), (s32 *)(arg0 + 0x5C));
-    *(f32 *)((s8 *)arg0 + 0xFC) = 0.0f;
-    *(f32 *)((s8 *)arg0 + 0x100) = 0.0f;
-    *(f32 *)((s8 *)arg0 + 0x104) = 0.0f;
-    if (get_entity_id(((TUnk_804CCC68 *)arg0)->source) < 4U && get_type__10TObjPlayerFPv((void *)(((TUnk_804CCC68 *)arg0)->source + 0x828)) != 0) {
-        *(f32 *)((s8 *)arg0 + 0x104) = (-1e+01f);
+    direction_to_rotation_xz((u8 *)&this->direction, &this->angles[0], &this->angles[2]);
+    this->collisionBody.offset.x = 0.0f;
+    this->collisionBody.offset.y = 0.0f;
+    this->collisionBody.offset.z = 0.0f;
+    if (get_entity_id(this->source) < 4U && get_type__10TObjPlayerFPv((void *)(this->source + 0x828)) != 0) {
+        this->collisionBody.offset.z = (-1e+01f);
     }
-    *(f32 *)((s8 *)arg0 + 0x108) = 5.0f;
-    *(f32 *)((s8 *)arg0 + 0x10C) = 1.0f;
-    *(s32 *)((s8 *)arg0 + 0x110) = 1;
-    if (get_entity_id(((TUnk_804CCC68 *)arg0)->source) < 4U) {
-        if (get_type__10TObjPlayerFPv((void *)(((TUnk_804CCC68 *)arg0)->source + 0x828)) != 0) {
-            *(s32 *)((s8 *)arg0 + 0x114) = 0x40007;
+    this->collisionBody.radius = 5.0f;
+    this->collisionBody.half_width = 1.0f;
+    this->collisionBody.shape = 1;
+    if (get_entity_id(this->source) < 4U) {
+        if (get_type__10TObjPlayerFPv((void *)(this->source + 0x828)) != 0) {
+            this->collisionBody.flags = 0x40007;
         } else {
-            *(s32 *)((s8 *)arg0 + 0x114) = 0x40107;
+            this->collisionBody.flags = 0x40107;
         }
     } else {
-        *(s32 *)((s8 *)arg0 + 0x114) = 0x40007;
+        this->collisionBody.flags = 0x40007;
     }
     var_r0 = __nw__7TObjectFUl(0xAC);
     if (var_r0 != 0U) {
-        var_r0 = __ct__14TObjCollidableFP7TObject(var_r0, arg0);
+        var_r0 = __ct__14TObjCollidableFP7TObject(var_r0, this);
     }
-    *(u32 *)((s8 *)arg0 + 0x128) = var_r0;
-    if (*(u32 *)((s8 *)arg0 + 0x128) != 0U) {
-        init_collision_body_parts(*(u32 *)((s8 *)arg0 + 0x128), arg0 + 0xFC, 1);
+    *(u32 *)((s8 *)this + 0x128) = var_r0;
+    if (*(u32 *)((s8 *)this + 0x128) != 0U) {
+        init_collision_body_parts(*(u32 *)((s8 *)this + 0x128), &this->collisionBody, 1);
     }
-    return arg0;
 }
 
 void TUnk_804CCC68::vfunc_8(void *) {  }

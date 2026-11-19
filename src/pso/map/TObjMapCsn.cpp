@@ -1,9 +1,9 @@
 #include "types.h"
-#include "pso/unk/text_80140D50.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/vector.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/map/TObjMapCsn.h"
+#include "pso/map/TMapCsnCtrl.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/MatrixStack.h"
 
@@ -29,6 +29,8 @@ struct Csn_801946D0 {
     Vec verts[8];
 };
 
+const char *TMapCsnCtrl__class_name = "TMapCsnCtrl";
+
 // Corner indices of the 8 side triangles of the collision box (two per side face).
 s8 map_csn_box_triangle_indices[24] = {
     2, 1, 0, 0, 3, 2, 6, 2, 3, 3, 7, 6,
@@ -45,7 +47,6 @@ Vec map_csn_box_face_normals[8] = {
 s32 map_csn_collision_flag_table[5] = {0, 0x8000, 0x8900, 0x800, 0x2000};
 
 extern "C" {
-extern s32 TObjMapCsn__class_name;
 u8 *__ct__10TObjMapCsnFll(TObjMapCsn *arg0, s32 arg1, s32 arg2);
 s32 matrix_mult_vec(int, void *, void *);
 s32 translate_matrix_vec3(int, void *);
@@ -166,7 +167,7 @@ TObjMapCsn::~TObjMapCsn() {
 TObjMapCsn::TObjMapCsn(s32 arg1, s32 arg2) : TObjCollidable((TObject *)arg1) {
     f32 temp_f0;
     f32 temp_f1;
-    *(s32 *)((s8 *)this + 0) = (s32) TObjMapCsn__class_name;
+    m_name = TObjMapCsn__class_name;
     ((TObjMapCsn *)(this))->apply_object_set_data((void *)arg2);
     this->actorFlags = (s32) (this->actorFlags | 0x40000000);
     this->update_state();

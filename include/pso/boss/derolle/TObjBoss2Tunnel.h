@@ -104,7 +104,8 @@ struct TObjBoss2Tunnel : public TObject {
     static s32 check_both(s32 arg0);
     static void enable_and_trigger();
     static void reset_player_state();
-    static void create_particle_effect(s32 arg0, s32 arg1, f32 farg0);
+    static void create_particle_effect(const void *position, s32 particle_index, f32 speed);
+    static void release_children(void *particle, f32 speed);
     void detach_children(void *arg);
     static void set_global_flag_100();
     static s32 is_active();

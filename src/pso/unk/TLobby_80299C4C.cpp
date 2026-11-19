@@ -23,20 +23,18 @@
 #include "pso/system/TLoadCtrl_80227390.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/system/task/TMainTask.h"
+#include "pso/unk/TUnk_804DC7C4.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 
 extern "C" {
 s32 is_quest_active();
 s32 load_floor_sound_bank();
-extern void *tl_05;
 s32 TLobby__sub_801403B4(s32);
 u32 __nw__7TObjectFUl(s32);
-s32 create_instance__10TSceneSoraFPv(void*, s32);
 }
 void init_music_sequencer(s32);
 void init_area_lights(void);
-
-extern s32 tl_particlemodel;
 
 void TLobby::update_floor_state_deferred() { TLobby::refresh_render_state(); TLobby::stop_audio_streams(); unload_current_floor_resources(); TLobby::update_current_floor(); TLobby::clear_session_buffers(); }
 
@@ -69,11 +67,9 @@ s32 init_jungle_area(void) {
 
 void TLobby::update_scene_alt() { TLobby::refresh_render_state(); TLobby::stop_audio_streams(); unload_current_floor_resources(); TLobby::update_current_floor(); TLobby::clear_session_buffers(); }
 
-#define CIS ((s32 (*)(s32, s32))create_instance__10TSceneSoraFPv)
 
 s32 initialize_boss_scene(void) {
     s32 area;
-    u32 temp_new;
 
     get_current_floor_area();
     load_floor_sound_bank();
@@ -82,10 +78,7 @@ s32 initialize_boss_scene(void) {
     }
     init_area_lights();
     if (is_split_screen() == 0) {
-        temp_new = __nw__7TObjectFUl(0x3C);
-        if (temp_new != 0U) {
-            CIS(temp_new, tl_particlemodel);
-        }
+        new TUnk_804DC7C4(tl_particlemodel);
     }
     TLobby::create_tasks();
     TLobby__sub_801403B4(0);

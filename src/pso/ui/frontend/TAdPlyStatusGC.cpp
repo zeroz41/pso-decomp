@@ -66,10 +66,9 @@ extern RecoveredGlobal_8033FB8C___vt__14TAdPlyStatusGC __vt__14TAdPlyStatusGC;
 extern u32 ply_status_gc_instance;
 void update_shown__14TAdPlyStatusGCFv(struct RecoveredFields_8033F9DC_arg0 *arg0);
 void set_depth__11TWindowBaseFf(f32);
-s32 create_callback__22TAdEnterSerialAccessGCFPvPvPv(void *, void *, void *);
+s32 create_callback__22TAdEnterSerialAccessGCFPvPvPv(const void *, const void *, void *);
 void draw_status_window__14TAdPlyStatusGCFPvPv(void *arg0, void *arg1);
-extern u8 lbl_804783D8[];
-s32 TAdPlyStatusGC__sub_8033F8B0(void *arg0, void *arg1);
+s32 TAdPlyStatusGC__sub_8033F8B0(void *arg0, const void *arg1);
 s32 disallow_rendering__7TObjectFv();
 s32 get_localized_text_entry(s32 arg0, s32 arg1);
 void __ct__7TObjectFP7TObject(void *, void *);
@@ -95,6 +94,15 @@ u32 ply_status_index;
 s32 TAdPlyStatusGC__is_shown;
 void close_window__14TAdPlyStatusGCFv(void *arg0);
 void render__14TAdPlyStatusGCFv(void* p);
+
+// Status window position handed to TAdEnterSerialAccessGC::create_callback.
+static const NJS_POINT2 ply_status_window_position = {199.0f, 112.0f};
+// Status window offset per TAdPlyStatusGC__window_offset_index.
+static const NJS_POINT2 ply_status_window_offset_table[3] = {
+    {426.0f, 250.0f},
+    {223.0f, 243.0f},
+    {223.0f, 243.0f},
+};
 
 const char *TAdPlyStatusGC__class_name = "TAdPlyStatusGC";
 
@@ -126,7 +134,6 @@ struct Status_8033F3D8 { u8 pad[8]; u32 f8; };
 
 void draw_window_frame__11TWindowBaseFPv(void *);
 Status_8033F3D8 **get_status_sub__14TAdPlyStatusGCFv(s32);
-extern NJS_POINT2 ply_status_window_offset_table[];
 void draw_status_window__14TAdPlyStatusGCFPvPv(void *window_base, void *arg1) {
     Item_8033F3D8 items[3];
     Box_8033F3D8 box;
@@ -239,8 +246,8 @@ void TAdPlyStatusGC::format_status_strings() {
     }
 }
 
-s32 TAdPlyStatusGC__sub_8033F8B0(void *arg0, void *ad_enter_serial_access_gc) {
-    s32 r = create_callback__22TAdEnterSerialAccessGCFPvPvPv(ad_enter_serial_access_gc, lbl_804783D8, (void *)draw_status_window__14TAdPlyStatusGCFPvPv);
+s32 TAdPlyStatusGC__sub_8033F8B0(void *arg0, const void *ad_enter_serial_access_gc) {
+    s32 r = create_callback__22TAdEnterSerialAccessGCFPvPvPv(ad_enter_serial_access_gc, &ply_status_window_position, (void *)draw_status_window__14TAdPlyStatusGCFPvPv);
     set_depth__11TWindowBaseFf(60000.0f);
     return r;
 }
@@ -287,7 +294,7 @@ void update_shown__14TAdPlyStatusGCFv(struct RecoveredFields_8033F9DC_arg0 *arg0
     TAdPlyStatusGC__is_shown = 1;
     if ((s32) TAdPlyStatusGC__window_offset_index < 3) {
         if ((u32) arg0->field_6C == 0) {
-            arg0->field_6C = TAdPlyStatusGC__sub_8033F8B0(arg0, (void *)((s32) ((u8 *)&ply_status_window_offset_table + (TAdPlyStatusGC__window_offset_index * 8))));
+            arg0->field_6C = TAdPlyStatusGC__sub_8033F8B0(arg0, &ply_status_window_offset_table[TAdPlyStatusGC__window_offset_index]);
         }
         player_index = ((s32)TAdPlyStatusGC::get_player_index());
         if (player_index != 0) {

@@ -24,6 +24,7 @@ void find_motion_key_interval(void *keys, s32 stride, s32 count, f32 t, void *k0
 void find_motion_key_interval_u16(u8 *keys, u32 stride, u32 count, f32 t, u16 * *k0, u16 * *k1, f32 *frac);
 u32 find_motion_key_partition_u16(u8 *base, u32 stride, u32 hi, u32 key);
 u32 find_motion_key_partition_u32(u8 *base, u32 stride, u32 hi, u32 key);
+void interpolate_motion_key(u8 *keys, s32 count, s32 *out, f32 frame);
 void interpolate_motion_quaternion_keys(u32 keys, u32 count, s32 output, f32 frame);
 void interpolate_motion_vector_keys(u8 *keys, s32 count, u8 *arg2, f32 farg0);
 void interpolate_motion_vector_keys_xy(u8 *keys, s32 count, u8 *arg2, f32 farg0);

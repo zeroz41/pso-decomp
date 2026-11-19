@@ -5,6 +5,7 @@
 #include "pso/ui/window/TWindowMenuIconLine.h"
 
 struct TWindowSubEquipKind : public TWindowMenuIconLine {
+    TWindowSubEquipKind(u8 *parent, s32 client);
     virtual ~TWindowSubEquipKind();
     void draw_tab_label(void *);
     virtual void render();
@@ -15,18 +16,10 @@ struct TWindowSubEquipKind : public TWindowMenuIconLine {
 
 typedef char TWindowSubEquipKind_size[sizeof(TWindowSubEquipKind) == 0x8C ? 1 : -1];
 
-extern "C" {
-u8 *TWindowSubEquipKind__ct(u8 *window_sub_equip_kind, s32 arg1, s16 arg2);
-void *__dt__19TWindowSubEquipKindFv(void *arg0, s16 arg1);
-void render__19TWindowSubEquipKindFv(u8 *arg0);
-}
+extern const char *TWindowSubEquipKind__class_name;
 
-// --- C functions defined in TWindowSubEquipKind.cpp ---
 extern "C" {
-u8 *TWindowSubEquipKind__ct(u8 *window_sub_equip_kind, s32 arg1, s16 arg2);
-void *__dt__19TWindowSubEquipKindFv(void *arg0, s16 arg1);
-void render__19TWindowSubEquipKindFv(u8 *arg0);
+u8 *create_equip_kind_window(s32 parent, s32 position, s32 client);
 }
-// --- end of C functions
 
 #endif

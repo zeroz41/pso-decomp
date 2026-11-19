@@ -5,55 +5,45 @@
 #include "pso/ui/frontend/TAdEndText.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/unk/TLobby.h"
 #include "pso/system/task/TObject.h"
+#include "pso/player/TUnk_804E71A0.h"
+#include "pso/player/TObjPlayer_801A5AEC.h"
+#include "pso/unk/text_803DCDFC.h"
+#include "pso/unk/text_800FA464.h"
+#include "pso/camera/TCameraCtrl_803D6538.h"
+
+// .sbss 0x805D6A58-0x805D6A60 is one TU's run: 0x805D6A5C is not 8-aligned, so both words belong to the TU that
+// starts at 0x805D6A58 after TAdGameStartBackGC's pad word. Between TAdGameStartBackGC and TBoss7Crawfish only this
+// unit (start_ending_sequence) and TObjPlayer_80307618 (the TUnk_804E71A0 it creates) use them.
+s32 ending_sequence_active;
+s32 ending_movie_active_flag;
 
 extern "C" {
-s32 TKeyBoardControl__sub_8000F92C();
-void request_main_phase(s32 arg0);
-s8 func_801A5E54__Fv();
-void func_803DCDFC__Fv(void);
-void TKeyBoardControl__sub_8000F90C(s32 arg0);
-void set_queued_main_phase(s32 arg0);
-void reset_controller_input_state(void);
 s32 set_copy_clear_color_argb(s32, s32, s32);
-s32 __ct__13TUnk_804E71A0Fv();
 }
-void process_async_file_reads(void);
-void set_screen_size(f32 farg0, f32 farg1);
-extern int ending_sequence_active;
-
 
 void TAdEndText::cleanup() { ending_sequence_active = 0; main_task.delete_layer_children(); TLobby::free_ending_callback(); TLobby::free_keyboard_soft_resources(); TAdEndText::free_resources(); render_tick(); }
 void TKeyBoardControl::run_main_frame() {
-    s32 *var_r3;
     func_803DCDFC__Fv();
     controller_stuff();
     TKeyBoardControl::update_input_frame();
-    var_r3 = (s32 *)&main_task;
-    var_r3 = (s32 *)&main_task;
     main_task.begin_frame();
-    var_r3 = (s32 *)&main_task;
-    var_r3 = (s32 *)&main_task;
     main_task.run_task();
-    var_r3 = (s32 *)&main_task;
-    var_r3 = (s32 *)&main_task;
     main_task.render();
-    var_r3 = (s32 *)&main_task;
-    var_r3 = (s32 *)&main_task;
     main_task.render_screen_overlay();
     process_async_file_reads();
     if (func_801A5E54__Fv() != 0) {
         TKeyBoardControl__sub_8000F92C();
     }
     if (TQuestVmDownLoadServer::is_ready() != 0) {
-        var_r3 = NULL;
         request_main_phase(0);
     }
     render_tick();
 }
 void start_ending_sequence(void) {
-    (*(s32 *)&ending_sequence_active) = 1;
+    ending_sequence_active = 1;
     set_screen_size(1.0f, 0.85f);
     set_copy_clear_color_argb(0, 0, 0);
     reset_controller_input_state();
@@ -62,8 +52,6 @@ void start_ending_sequence(void) {
     TAdEndText::load_ending_font();
     TLobby::update_keyboard_menu();
     TLobby::set_ending_callback();
-    if (TObject::operator new(0x1C) != 0U) {
-        __ct__13TUnk_804E71A0Fv();
-    }
+    new TUnk_804E71A0;
     render_tick();
 }

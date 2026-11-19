@@ -7,7 +7,8 @@ class TUnk_8048E778 : public TUnk_8048E728 {
 public:
     virtual ~TUnk_8048E778();
     virtual void run_task();
-    void *init_particle_random_spread(void *, void *, void *);
+    TUnk_8048E778(void *param, void *pos, void *dir, s32 parent, u16 flags, s16 target_id);
+    TUnk_8048E778(void *param, void *pos, void *parent);
     void retire_ballistic_particle_if_done();
     void draw_sprite_quad(s32);
     virtual void render();

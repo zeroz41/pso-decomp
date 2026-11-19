@@ -19,6 +19,7 @@
 #include <stddef.h>
 #include "pso/effect/item/TItemEffOrgaFlowShot.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel_802F2070.h"
+#include "pso/unk/text_802F0E24.h"
 #include "pso/system/vector.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/player/TObjPlayer_80011014.h"
@@ -90,7 +91,6 @@ void __dl__7TObjectFPv(void *);
 u32 __nw__7TObjectFUl(s32);
 void TObjBoss2Tunnel__sub_802F2278(void);
 s32 TObjBoss2Tunnel__sub_802F22F4(void);
-extern const f32 lbl_805DEC68;
 s32 init_piecewise_curve(void *, f32, f32, f32, f32, f32);
 f32 update_position__15TObjBoss2TunnelFv(void *);
 void __dl__7TObjectFPv(void *);
@@ -269,8 +269,8 @@ void TUnk_804E4B3C::sub_802F273C() {  }
 
 void TUnk_804E4B3C::advance_effect_timer() {
     this->scroll_speed += 0.05f;
-    if (this->scroll_speed > lbl_805DEC68) {
-        this->scroll_speed = (f32) lbl_805DEC68;
+    if (this->scroll_speed > boss7_tunnel_max_scroll_speed) {
+        this->scroll_speed = (f32) boss7_tunnel_max_scroll_speed;
     }
 }
 
@@ -357,17 +357,17 @@ void TUnk_804E4B3C::sub_802F2400() {
             return;
         }
         if (temp_f1 < 100.0f) {
-            TItemEffOrgaFlowShot::approach_value((f32 *)((s8 *)this + 0x5C), 0.02f, (f32)((f32) (0.1f * lbl_805DEC68)));
+            TItemEffOrgaFlowShot::approach_value((f32 *)((s8 *)this + 0x5C), 0.02f, (f32)((f32) (0.1f * boss7_tunnel_max_scroll_speed)));
             TItemEffOrgaFlowShot::approach_value(&segment_x, (-1.0f), (-50.0f));
             return;
         }
         if (temp_f1 < 200.0f) {
-            TItemEffOrgaFlowShot::approach_value((f32 *)((s8 *)this + 0x5C), 0.04f, (f32)((f32) (0.2f * lbl_805DEC68)));
+            TItemEffOrgaFlowShot::approach_value((f32 *)((s8 *)this + 0x5C), 0.04f, (f32)((f32) (0.2f * boss7_tunnel_max_scroll_speed)));
             TItemEffOrgaFlowShot::approach_value(&segment_x, (-1.0f), (-30.000002f));
             return;
         }
         if (temp_f1 < 300.0f) {
-            TItemEffOrgaFlowShot::approach_value((f32 *)((s8 *)this + 0x5C), 0.06f, (f32)((f32) (0.3f * lbl_805DEC68)));
+            TItemEffOrgaFlowShot::approach_value((f32 *)((s8 *)this + 0x5C), 0.06f, (f32)((f32) (0.3f * boss7_tunnel_max_scroll_speed)));
             TItemEffOrgaFlowShot::approach_value(&segment_x, (-1.0f), (-15.000001f));
         }
     }

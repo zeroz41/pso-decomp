@@ -118,7 +118,6 @@ extern s32 lbl_805D4BEC;
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 void forward_switch_phase_stats__13TBoss2DeRolLeFi(s32 arg0);
-s32 create_particle__17TObjBoss2CeilJunkFv(void *, int);
 s32 is_valid_target__9TObjEneDDFv(void *);
 s32 vec3_add_to(void *, void *);
 s32 subtract_vector(void *, void *);
@@ -199,7 +198,7 @@ void run_task__17TObjBoss2CeilJunkFv(Junk_8003A314 *o) {
                 p.y += (5.0f);
                 break;
             }
-            create_particle__17TObjBoss2CeilJunkFv(&p, id);
+            TObjBoss2CeilJunk::create_particle(&p, id);
         }
         break;
     case 1:
@@ -237,7 +236,7 @@ void run_task__17TObjBoss2CeilJunkFv(Junk_8003A314 *o) {
             if (o->pos.y <= o->f54) {
                 o->pos.y = o->f54;
                 hit = 1;
-                create_particle__17TObjBoss2CeilJunkFv(&o->pos, 0x160);
+                TObjBoss2CeilJunk::create_particle(&o->pos, 0x160);
             }
             if (hit != 0) {
                 o->vel.y *= (-0.5f);
@@ -302,4 +301,3 @@ u8 *TObjBoss2CeilJunk__ct(struct RecoveredFields_8003A6F4_arg0 *arg0, s32 arg1, 
     return (unsigned char *) (arg0);
 }
 #pragma pop
-

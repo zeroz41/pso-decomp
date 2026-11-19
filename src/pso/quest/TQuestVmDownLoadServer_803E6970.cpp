@@ -239,7 +239,7 @@ bool TQuestVmDownLoadServer__sub_803E6F98(s32 arg0) {
     if (TQuestVmDownLoadServer__sub_803E7098(&spC, code) != 1) {
         return 0;
     }
-    return (lbl_8047F8B8[spC] & 0xF) == 0xB;
+    return (romaji_kana_char_class_table[spC] & 0xF) == 0xB;
 }
 
 bool TQuestVmDownLoadServer__sub_803E7018(s32 arg0) {
@@ -253,7 +253,7 @@ bool TQuestVmDownLoadServer__sub_803E7018(s32 arg0) {
     if (TQuestVmDownLoadServer__sub_803E7098(&spC, code) != 1) {
         return 0;
     }
-    return (lbl_8047F8B8[spC] & 0xF) == 0xA;
+    return (romaji_kana_char_class_table[spC] & 0xF) == 0xA;
 }
 
 s32 TQuestVmDownLoadServer__sub_803E7098(u8 *p, u16 code) {

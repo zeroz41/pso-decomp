@@ -3,15 +3,17 @@
 
 #include "types.h"
 
+// An allocator's entry points; xmalloc, xfree and fn_803DE864 call slots 0-2 of global_allocator, and
+// sys_allocator_func_table fills all four with the system heap's functions.
 struct AllocatorCallbacks {
-    void *(*allocate)(u32 bytes, AllocatorCallbacks *allocator);
-    void (*release)(void *allocation, AllocatorCallbacks *allocator);
+    void *(*allocate)(u32 size);
+    void (*release)(void *ptr);
+    void *(*allocate_zeroed)(s32 count, s32 size);
+    void *(*reallocate)(void *ptr, u32 size);
 };
 
 extern "C" {
-extern AllocatorCallbacks *global_allocator;
-void *xmalloc__FUl(u32 bytes);
-void xfree__FPv(void *allocation);
+extern const AllocatorCallbacks *global_allocator;
 }
 
 #endif

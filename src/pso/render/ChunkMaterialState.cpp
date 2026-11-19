@@ -32,7 +32,7 @@ s32 Dolphin_PADRead(void *, void *);
 extern s32 keyboard_pad_status_buffer[];
 extern s32 TKeyBoardControl__pad_status_buffer[];
 extern Ent_803DEBC8 pad_button_map_table[];
-extern u32 keyboard_pad_button_count;
+u32 keyboard_pad_button_count = 12;
 extern ChunkMaterialColor model_material_color;
 extern u8 TObjLight__gx_light_objects[];
 extern s32 chunk_polygon_flags_or_mask;

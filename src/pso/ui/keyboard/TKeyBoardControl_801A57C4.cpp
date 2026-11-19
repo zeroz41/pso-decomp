@@ -5,6 +5,11 @@
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/player/TObjPlayer.h"
 
+const u32 input_button_mask_table[14] = {
+    0x10, 0x20, 0x40, 0x80, 0x100000, 0x200000, 0x400000, 0x800000,
+    0x4000000, 0x8000000, 0x10000000, 0x20000000, 0x20000, 0x10000,
+};
+
 struct Pad_801A5C4C {
     u8 pad0[0x20];
     u32 hold;

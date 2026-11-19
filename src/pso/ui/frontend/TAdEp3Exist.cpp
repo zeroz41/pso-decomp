@@ -14,6 +14,7 @@
 #include "pso/ui/frontend/TAdEnterSerialAccessGC.h"
 #include "pso/ui/frontend/TAdScrollWinGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/ui/frontend/TAdSubPlyItemGC.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 
@@ -82,7 +83,6 @@ void TAdEp3Exist__sub_8036F574(u8 *arg0);
 u8 TAdEp3Exist__sub_8036F590(u8 *arg0);
 s32 get_localized_text_entry(s32 arg0, s32 arg1);
 u32 calc_text_width(char *s);
-s32 render_status_line__15TAdSubPlyItemGCFi(int, int, f32, f32, f32);
 s32 load_and_verify_character_save__23TAdSinglePlyChrSelectGCFPc(void *, void *);
 u8 *get_instance__23TAdSinglePlyChrSelectGCFv(void);
 void __ct__7TObjectFP7TObject(void);
@@ -106,7 +106,8 @@ int request_transition__21TAdMultiChgGameModeGCFv(void*);
 void TAdEp3Exist::draw_message_window(s32 arg1) {
     s32 arg0 = (s32)this;
     ((TWindowBase *)arg0)->draw_window_frame((void *) (arg1));
-    render_status_line__15TAdSubPlyItemGCFi((int) (get_localized_text_entry(0x2C, 0xA)), -1, (f32) (320.0f - (f32) (calc_text_width((char *)(get_localized_text_entry(0x2C, 0xA))) >> 1U)), 394.0f, 0.8f);
+    f32 x = 320.0f - (f32)(calc_text_width((char *)get_localized_text_entry(0x2C, 0xA)) >> 1U);
+    TAdSubPlyItemGC::render_status_line(x, 394.0f, 0.8f, (const char *)get_localized_text_entry(0x2C, 0xA), -1);
 }
 
 void TAdEp3Exist::render() {
@@ -334,4 +335,3 @@ s32 prs_decompress(Prs_8036F5B0 *c, u8 *src, s32 arg2, s32 arg3) {
     return size;
 }
 #pragma pop
-

@@ -3,14 +3,9 @@
 
 #include "types.h"
 
+// Defined in SwitcherLaunch.cpp.
 extern "C" {
 void TAdTrialModemChkGC__sub_8007FA24(s32 arg0);
 }
-
-// --- C functions defined in text_8007FA24.cpp ---
-extern "C" {
-void TAdTrialModemChkGC__sub_8007FA24(s32 arg0);
-}
-// --- end of C functions
 
 #endif

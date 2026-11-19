@@ -78,7 +78,6 @@ public:
     static void clear_field2A0();
     static void split_time_hms(s32 arg0, s32 *arg1, s32 *arg2, s32 *arg3);
     static void *alloc(u32 size);
-    static void register_global_instance_dtor();
     void clear_flag4_bit4();
     static s32 is_ready();
     static s32 get_serial_access();
@@ -172,5 +171,15 @@ void seed_download_rng(s32 seed);
 // quest_download_file_header: layout known from its uses only.
 struct QuestDownloadFileHeader { s32 value; u8 remaining[0x38]; };
 extern QuestDownloadFileHeader quest_download_file_header;
+
+// Set while a quest file is being downloaded (TQuestVmDownLoadServer::load_quest_data sets it).
+extern s32 quest_download_in_progress;
+
+// Defined with the memory-card file constants (TAdSinglePlyChrSelectGC_801FBF54.cpp, next to
+// TQuestVmDownLoadServer__memcard_key). Names inferred: the quest file requests store them in their
+// banner (+0x44) and icon (+0x48) fields, which TAdPlayerLoadGC__sub_801E14E8 then replaces with the
+// loaded banner/icon buffers; build_save_file_image copies 0x1800 (banner) / 0x800 (icon) bytes from them.
+extern "C" const char memcard_default_banner[];
+extern "C" const char memcard_default_icon[];
 
 #endif

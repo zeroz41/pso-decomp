@@ -15,8 +15,10 @@ struct TWindowSubMag;
 #include "pso/ui/window/TWindowSubGameEnd.h"
 #include "pso/ui/window/TWindowSubQuestBoard.h"
 #include "pso/ui/chat/TWindowSubSymbolChat_8028239C.h"
+#include "pso/ui/chat/TWindowSubSymbolChat.h"
 #include "pso/ui/window/TWindowSubTechnique.h"
 #include "pso/ui/chat/TWindowSubShortMail.h"
+#include "pso/unk/TUnk_804D1AD0.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/ui/window/TWindowSubComCard_80244774.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -289,10 +291,8 @@ void TWindowMainMenu1P::create_char_select_slot() {
     *(void * *)&this->m_20 = o;
 }
 void TWindowMainMenu::create_submenu(u32 arg1) {
-    s32 temp_r3;
     s32 temp_r3_10;
     s32 window_sub_technique;
-    s32 window_sub_symbol_chat;
     s32 temp_r3_13;
     s32 temp_r3_14;
     s32 temp_r3_15;
@@ -308,10 +308,8 @@ void TWindowMainMenu::create_submenu(u32 arg1) {
     s32 temp_r3_7;
     s32 temp_r3_8;
     s32 temp_r3_9;
-    s32 var_r0;
     s32 var_r0_10;
     s32 var_r0_11;
-    s32 var_r0_12;
     s32 var_r0_13;
     s32 var_r0_14;
     s32 var_r0_15;
@@ -332,12 +330,7 @@ void TWindowMainMenu::create_submenu(u32 arg1) {
     set_scale_f();
     switch (arg1) {
     case 25:
-        temp_r3 = ((s32)TObject::operator new(0x2C));
-        var_r0 = temp_r3;
-        if (var_r0 != 0) {
-            var_r0 = (s32)construct_status_category_window((u8 *)temp_r3, (s32)this, (s32)(*(s32 *)((s8 *)((u8 *)this) + 0x54)));
-        }
-        this->m_20 = var_r0;
+        this->m_20 = (s32)new TUnk_804D1AD0(this, *(s32 *)((s8 *)((u8 *)this) + 0x54));
         return;
     case 0:
     case 1:
@@ -428,12 +421,7 @@ void TWindowMainMenu::create_submenu(u32 arg1) {
         this->m_20 = var_r0_11;
         return;
     case 18:
-        window_sub_symbol_chat = ((s32)TObject::operator new(0x60));
-        var_r0_12 = window_sub_symbol_chat;
-        if (var_r0_12 != 0) {
-            var_r0_12 = (s32)TWindowSubSymbolChat__ct((TWindowSubSymbolChat *)((void *)window_sub_symbol_chat), (s32)this, (*(s32 *)((s8 *)((u8 *)this) + 0x54)));
-        }
-        this->m_20 = var_r0_12;
+        this->m_20 = (s32)new TWindowSubSymbolChat(this, *(s32 *)((s8 *)((u8 *)this) + 0x54));
         return;
     case 14:
         temp_r3_13 = ((s32)TObject::operator new(0x88));

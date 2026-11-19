@@ -186,13 +186,13 @@ void TWindowDD__sub_80340A78(TWindowDD_WS_ScrollBar *self) {
 void TWindowDD::init() { initialize_subwindow(); ((TWindowBase *)this)->update_fade(); }
 
 void TWindowDD::set_value_f32(s32 arg1) {
-    *(f32 *)&this->m_88 = (f32) arg1;
+    *(f32 *)&this->m_64[2] = (f32) arg1;
 }
 
 void TWindowDD::set_scale(s32 arg1, s32 arg2) {
-    *(f32 *)&this->m_80 = (f32) arg1;
-    *(f32 *)&this->m_84 = (f32) arg2;
-    *(f32 *)&this->m_7c = (f32) (1.0f / *(f32 *)&this->m_80);
+    *(f32 *)&this->m_64[0] = (f32) arg1;
+    *(f32 *)&this->m_64[1] = (f32) arg2;
+    *(f32 *)&this->m_44[7] = (f32) (1.0f / *(f32 *)&this->m_64[0]);
 }
 
 extern "C" {

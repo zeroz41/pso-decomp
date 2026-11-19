@@ -30,7 +30,7 @@ void TWindowDD::update_layout() {
     if (test_input_flag_4() != 0) {
         TWindowDD::play_sound();
         *(s32 *)((s8 *)this + 0xB4) = 0x14;
-        this->m_a8 = -0x3C;
+        this->m_8c = -0x3C;
         TWindowDD__sub_803435A0(this);
         return;
     }

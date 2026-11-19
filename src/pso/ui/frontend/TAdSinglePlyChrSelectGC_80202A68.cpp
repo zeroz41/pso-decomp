@@ -103,9 +103,6 @@ struct P_801FDFB8 { u8 pad[0x41C]; u8 a[0x39A8 - 0x41C]; B8_801FDFB8 f278C; s32 
 
 extern "C" {
 s32 __destroy_arr(s32, s32 *, s32, s32);
-extern int card_character_save_buffer;
-extern s32 *active_character_save_record;
-extern int TAdSinglePlyChrSelectGC__selection_index;
 s32 *TAdSinglePlyChrSelectGC__sub_80202B38(Obj_80202B38 *self, s32 i);
 Ent_80202B1C *TAdSinglePlyChrSelectGC__sub_80202B1C(Obj_80202B1C *self, s32 i);
 void __construct_array(void *, void *, void *, int, int);
@@ -157,35 +154,30 @@ int TAdSinglePlyChrSelectGC::get_selection() {  return TAdSinglePlyChrSelectGC__
 
 void TAdSinglePlyChrSelectGC::set_global_flags(s32 arg0) {
     if ((s32 *) active_character_save_record != NULL) {
-        *active_character_save_record |= arg0;
+        *(s32 *)active_character_save_record |= arg0;
     }
 }
 
 int TAdSinglePlyChrSelectGC::get_instance() {  return card_character_save_buffer; }
 
-    extern int card_load_sequence_state;
 void TAdSinglePlyChrSelectGC::set_player_index(int a0) { card_load_sequence_state = a0; }
 
-    extern int chr_select_save_slot;
 void TAdSinglePlyChrSelectGC::set_save_slot(int a0) { chr_select_save_slot = a0; }
 
 void TAdSinglePlyChrSelectGC::clear_flags(s32 arg0) {
     if ((s32 *) active_character_save_record != NULL) {
-        *active_character_save_record &= ~arg0;
+        *(s32 *)active_character_save_record &= ~arg0;
     }
 }
 
 u8 TAdSinglePlyChrSelectGC::check_flag(s32 arg0) {
     if ((s32 *) active_character_save_record != NULL) {
-        return (u8) ((*active_character_save_record & arg0) != 0);
+        return (u8) ((*(s32 *)active_character_save_record & arg0) != 0);
     }
     return 0U;
 }
 
-    extern int lbl_805D5FA0;
-void TAdSinglePlyChrSelectGC::set_state(int a0) { lbl_805D5FA0 = a0; }
-
-    extern int chr_select_game_mode;
+void TAdSinglePlyChrSelectGC::set_state(int a0) { chr_select_scene_state = a0; }
 
 void TAdSinglePlyChrSelectGC::clear_slot_lists() {
     Obj_80202C08 *self = (Obj_80202C08 *)this;

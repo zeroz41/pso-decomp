@@ -5,9 +5,19 @@
 #include "pso/system/task/TObject.h"
 
 struct TItemDrop : public TObject {
+    TItemDrop(TObject *parent, s8 section);
     virtual ~TItemDrop();
-    u32 m_1c;
-    u32 m_20;
+    // create_load_unload_set(item_drop_load_unload_table) (name inferred).
+    s32 load_unload_set;
+    // 17 run_step-seeded entries the ctor allocates (name inferred).
+    s32 *entries;
+    // item_drop_load_unload_table's {load, unload} pairs (names inferred:
+    // the first opens ItemPT.gsl/ItemRT.gsl, the second allocates and frees
+    // the unit star tables).
+    static void load_drop_tables();
+    static void unload_drop_tables();
+    static void alloc_unit_star_tables();
+    static void free_unit_star_tables();
     static s32 run_step(s32 arg0);
     static void clear_item_if_player_picked_up(void* p, void* a1);
     static s32 calc_drop_offset(s32 arg0);

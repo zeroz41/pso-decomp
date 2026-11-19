@@ -10,7 +10,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_8029A914.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_8028D5D4.h"
-#include "pso/unk/text_802910EC.h"
+#include "pso/ui/UISprite.h"
 #include "pso/camera/CreationCamera.h"
 #include "pso/ui/charcreate/TObjCMMainMenu.h"
 #include "pso/camera/TCameraCtrl.h"

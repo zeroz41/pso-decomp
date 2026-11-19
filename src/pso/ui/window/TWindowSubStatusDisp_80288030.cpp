@@ -11,7 +11,6 @@ void text_builder_append(u8 *str);
 u8 *get_card_data_ptr__17TWindowSubComCardFv(s32);
 void *TWindowSubComCard__sub_8027523C(void *p);
 s32 strcmp(void *, int);
-extern u8 lbl_805DD898;
 u8 *init_heading_entry__20TWindowSubStatusDispFPvPvici(u8 *arg0, u8 *arg1, s32 arg2, s8 arg3, s32 arg4);
 extern const f32 lbl_8044FCF0[2] = { 0.0f, -13.0f };
 }
@@ -75,20 +74,20 @@ void TWindowSubStatusDisp::fill_card_text_entries(s32 arg1) {
     temp_r27 = *(s32 *)((s8 *)temp_r3 + 0x18);
     temp_r26 = *(s32 *)((s8 *)temp_r3 + 0x20);
     text_builder_reset();
-    text_builder_append((&lbl_805DD898));
+    text_builder_append((u8 *)":");
     text_builder_append((u8 *)(((TWindowSubStatusDisp *)arg1)->get_sub_disp_ptr()));
     set_text_entry_string((u8 *)temp_r31, (u32)(get_shared_text_buffer()), 0x60);
     text_builder_reset();
-    text_builder_append((&lbl_805DD898));
+    text_builder_append((u8 *)":");
     text_builder_append((u8 *)(((TWindowSubComCard *)arg1)->get_name()));
     set_text_entry_string((u8 *)temp_r30, (u32)(get_shared_text_buffer()), 0x60);
     text_builder_reset();
-    text_builder_append((&lbl_805DD898));
+    text_builder_append((u8 *)":");
     text_builder_append((u8 *)(TWindowSubComCard__sub_8027523C((void *)arg1)));
     set_text_entry_string((u8 *)temp_r29, (u32)(get_shared_text_buffer()), 0x60);
     if ((s8) *get_card_data_ptr__17TWindowSubComCardFv(arg1) != 0) {
         text_builder_reset();
-        text_builder_append((&lbl_805DD898));
+        text_builder_append((u8 *)":");
         text_builder_append((get_card_data_ptr__17TWindowSubComCardFv(arg1)));
         set_text_entry_string((u8 *)temp_r28, (u32)(get_shared_text_buffer()), 0x60);
         ((TWindowSubStatusDisp *)temp_r27)->clear_visible_flag();

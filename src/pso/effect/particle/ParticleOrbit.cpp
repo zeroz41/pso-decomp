@@ -149,8 +149,6 @@ struct ODesc_8008B060 {
 struct OIVec_8008B060 { s32 x, y, z; };
 
 extern "C" {
-void *alloc_particle_memory(int);
-extern s32 __vt__13TUnk_8048E790[];
 s32 rand(void);
 s32 is_particle_sprite_additive__13TUnk_8048E728Fv(void *, s32);
 s32 append_node_to_tail__13TParticleCtrlFPvPv(s32, void *);
@@ -232,22 +230,10 @@ extern const f32 TParticleCtrl__data_805D94E4;
 
 
 u8 *create_orbit_particle(u8 *arg0, u8 *arg1, u8 *arg2, s32 arg3, u16 arg4, s16 arg5) {
-    u8 *particle_memory;
-    u8 *var_r0;
-    particle_memory = (u8 *)(((u8 *)alloc_particle_memory(0xE0)));
-    var_r0 = particle_memory;
-    if (var_r0 != NULL) {
-        var_r0 = (u8 *)(init_orbit_sprite_particle(particle_memory, arg0, arg1, arg2, arg3, arg4, arg5));
-    }
-    return var_r0;
+    return (u8 *)new TUnk_8048E790(arg0, arg1, arg2, arg3, arg4, arg5);
 }
-void *TParticleCtrl::alloc_child_particle(void *arg1, void *arg2, void *arg3) {
-    void *o;
-    o = alloc_particle_memory(0xe0);
-    if (o != NULL) {
-        o = ((TUnk_8048E790 *)o)->init_random_particle(this, arg1, arg2, arg3);
-    }
-    return o;
+void *TParticleCtrl::alloc_child_particle(void *param, void *pos, void *dir, void *parent) {
+    return new TUnk_8048E790(param, pos, dir, parent);
 }
 void TUnk_8048E790::retire_orbit_particle() {
     u8 *arg0 = (u8 *)this;
@@ -421,7 +407,7 @@ void TUnk_8048E790::render() {
         *(f32 *)((s8 *)arg0 + 0x8C) = (f32) (*(f32 *)((s8 *)arg0 + 0x8C) * *(f32 *)((s8 *)arg0 + 0xA8));
         temp_r3 = this->flags;
         if (temp_r3 & 0x200) {
-            if (((is_split_screen() == 0) || !(this->flags & 0x400)) && ((u32) *(u32 *)&this->unk_B4 != 0U) && ((u32) this->m_b0 != 0U)) {
+            if (((is_split_screen() == 0) || !(this->flags & 0x400)) && ((u32) this->unk_B4 != 0U) && ((u32) this->m_b0 != 0U)) {
                 sp8.x = this->pos.x + this->attach.x;
                 sp8.y = this->pos.y + this->attach.y;
                 sp8.z = this->pos.z + this->attach.z;
@@ -454,7 +440,7 @@ void TUnk_8048E790::render() {
                         ((TUnk_8048E728 *)arg0)->apply_particle_model_fade_color(0);
                     }
                 }
-                TObjFish::set_global_param(*(u32 *)&this->unk_B4);
+                TObjFish::set_global_param(this->unk_B4);
                 set_draw_list_mask(3);
                 if ((u32) this->motion != 0U) {
                     draw_ginja_model_with_motion((void *)this->m_b0, (void *)this->motion, (f32)this->motion_frame);
@@ -474,10 +460,10 @@ void TUnk_8048E790::render() {
                 return;
             }
             if (*(u8 *)((s8 *)this->param + 0x88) & 0x20) {
-                append_node_to_tail__13TParticleCtrlFPvPv(((s32 *)((u8 *)&TParticleCtrl__data_80511F70 + 0xD8))[this->sprite_index], (u8 *)&this->pad_6c);
+                append_node_to_tail__13TParticleCtrlFPvPv(((s32 *)((u8 *)&TParticleCtrl__data_80511F70 + 0xD8))[this->sprite_index], (u8 *)&this->unk_6C);
                 return;
             }
-            append_node_to_tail__13TParticleCtrlFPvPv(((s32 *)&TParticleCtrl__data_80511F70)[this->sprite_index], (u8 *)&this->pad_6c);
+            append_node_to_tail__13TParticleCtrlFPvPv(((s32 *)&TParticleCtrl__data_80511F70)[this->sprite_index], (u8 *)&this->unk_6C);
         }
     }
 }
@@ -485,14 +471,13 @@ void TUnk_8048E790::render() {
 TUnk_8048E790::~TUnk_8048E790() {}
 #pragma push
 #pragma fp_contract on
-u8 *init_orbit_sprite_particle(u8 *object, u8 *arg1, u8 *arg2, u8 *arg3, s32 arg4, u16 arg5, s16 arg6) {
-    Obj_8008AC24 *o = (Obj_8008AC24 *)object;
+TUnk_8048E790::TUnk_8048E790(u8 *arg1, u8 *arg2, u8 *arg3, s32 arg4, u16 arg5, s16 arg6)
+    : TUnk_8048E728((ParticleParam *)arg1, (TObject *)arg4) {
+    Obj_8008AC24 *o = (Obj_8008AC24 *)this;
     Desc_8008AC24 *d = (Desc_8008AC24 *)arg1;
     Vec *p = (Vec *)arg2;
     IVec_8008AC24 *v = (IVec_8008AC24 *)arg3;
     s32 temp_r0;
-    init_particle_base(object, arg1, arg4);
-    o->f18 = __vt__13TUnk_8048E790;
     o->f98 = v->x;
     o->f9C = v->y;
     o->fA0 = v->z;
@@ -526,21 +511,19 @@ u8 *init_orbit_sprite_particle(u8 *object, u8 *arg1, u8 *arg2, u8 *arg3, s32 arg
     if (o->f24 & 0x2000) {
         request_indirect_effect(0x1F);
     }
-    return object;
 }
 #pragma pop
 
 #pragma push
 #pragma fp_contract on
 
-void *TUnk_8048E790::init_random_particle(void *arg1, void *arg2, void *arg3, void *arg4) {
+TUnk_8048E790::TUnk_8048E790(void *arg1, void *arg2, void *arg3, void *arg4)
+    : TUnk_8048E728((ParticleParam *)arg1, (TObject *)arg4) {
     OObj_8008B060 *o = (OObj_8008B060 *)this;
     ODesc_8008B060 *d = (ODesc_8008B060 *)arg1;
     Vec *p = (Vec *)arg2;
     OIVec_8008B060 *v = (OIVec_8008B060 *)arg3;
     s32 temp_r0;
-    init_particle_base(this, arg1, (s32)arg4);
-    o->f18 = __vt__13TUnk_8048E790;
     o->f98 = v->x;
     o->f9C = v->y;
     o->fA0 = v->z;
@@ -569,6 +552,5 @@ void *TUnk_8048E790::init_random_particle(void *arg1, void *arg2, void *arg3, vo
     if (o->f24 & 0x2000) {
         request_indirect_effect(0x1F);
     }
-    return this;
 }
 #pragma pop

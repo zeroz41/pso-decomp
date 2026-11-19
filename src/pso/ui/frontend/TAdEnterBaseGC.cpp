@@ -16,6 +16,8 @@
 
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
+#include "pso/ui/frontend/TAdSubPlyItemGC.h"
+
 #include "pso/ui/window/TWindowMakeTeam.h"
 
 #include "pso/ui/window/TWindowMessage.h"
@@ -124,7 +126,6 @@ u32 strlen(const char *);
 
 void draw_window_frame__11TWindowBaseFPv();
 
-void render_status_line__15TAdSubPlyItemGCFi(s32, int, f32, f32, f32);
 
 s32 update_window_mode_from_progress__6TLobbyFPv(const void *, const void *);
 
@@ -382,7 +383,7 @@ u32 TAdEnterSerialAccessGC::create_keyboard_control(s32 arg0, s32 arg1) {
 
 void fn_8032AC9C(void *arg0, void *arg1) {
     draw_window_frame__11TWindowBaseFPv();
-    render_status_line__15TAdSubPlyItemGCFi(get_localized_text_entry(0x17, 4), -1, password_screen_status_line_position[0].x, password_screen_status_line_position[0].y, 0.8f);
+    TAdSubPlyItemGC::render_status_line(password_screen_status_line_position[0].x, password_screen_status_line_position[0].y, 0.8f, (const char *)get_localized_text_entry(0x17, 4), -1);
     switch (TAdEnterBaseGC__entry_mode) {
     case 0:
     case 1:

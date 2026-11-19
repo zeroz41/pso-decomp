@@ -50,11 +50,10 @@ void TObjBoss1Floor__sub_8002CB40(void);
 void TObjBoss1Floor__sub_8002CB78(void);
 void render_projected_shadow_receiver(u8 *arg0, s32 arg1);
 s32 push_matrix();
-int create_instance__14TObjBoss1FloorFv(void*);
 s32 end_effect_render__13TParticleCtrlFv(int);
 
 void TLobby::update_boss1_objects() { TBoss8Dragon::free_resources(); TObjBoss1Rock__sub_8002E3CC(); TObjBoss1Crater__sub_8002C7B4(); TObjBoss1Floor__sub_8002CB40(); TLobby::free_char_select(); }
-int TLobby::forward_floor_2CB44() { return create_instance__14TObjBoss1FloorFv(this); }
+void TLobby::forward_floor_2CB44() { TObjBoss1Floor::create_instance(); }
 void TLobby::init_bosses() { load_dragon_ground_assets(); TObjBoss1Floor__sub_8002CB78(); TObjBoss1Crater__sub_8002C7B8(); TObjBoss1Rock__sub_8002E3D0(); TBoss8Dragon__sub_8002D5F8(); }
 
 extern u8 *lbl_805D4B50;

@@ -597,8 +597,8 @@ void TWindowOptionCtrl::warn_if_empty(u8 *arg0) {
 extern "C" {
 s32 TWindowOptionCtrl::handle_input(s32 language) {
     if (TLanguage::set_language((s8) language) != 0) {
-        fn_8023F160();
-        fn_8023F18C();
+        unload_lobby_scene_resources();
+        load_lobby_scene_resources();
         if ((u32) *(u32 *)((s8 *)this + 0x34) != 0U) {
             ((TObject *)(*(void **)((s8 *)this + 0x34)))->queue_destruction();
             *(u32 *)((s8 *)this + 0x34) = 0U;

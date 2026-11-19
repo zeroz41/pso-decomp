@@ -5,11 +5,11 @@
 #include "pso/ui/city/TShopSequence.h"
 
 struct THunterGuildSeqOffline : public TShopSequence {
+    THunterGuildSeqOffline(TObject *parent, TObjPlayer *player);
     virtual ~THunterGuildSeqOffline();
     virtual void close_window();
     virtual void restore_player_state();
     void vfunc_11();
-    u32 m_38;
     void handle_select();
     void open_judgment_window();
     void resolve_active_quest_result();
@@ -17,8 +17,6 @@ struct THunterGuildSeqOffline : public TShopSequence {
     static void clear_instance_table();
     static void notify_quest_thread();
     static void reset_quest_result_callbacks(void* _w0);
-    void handle_confirm_window();
-    void open_judgment_item_window();
     static void *create(void *arg0);
     static s32 check_party_gathered();
     static void set_state_close();
@@ -37,21 +35,13 @@ struct THunterGuildSeqOffline : public TShopSequence {
     void open_quest_list();
     void handle_window_input();
     void *init(void *arg1, void *arg2);
-    u8 unk_20[0x4];
-    s32 m_24;
-    u8 unk_28[0x4];
-    u8 * m_2c;
-    u8 unk_30[0x4];
-    s32 m_34;
-    u8 unk_38[0x4];
+    u8 *choice_menu;         // 0x2C: create_yes_no_window
+    TObject *counter_camera; // 0x30: set_service_counter_camera
+    u32 m_34;                // 0x34: the quest thread create_in_root starts
+    s32 unk_38;
     void advance_matching_entries(s32 arg1, s32 arg2);
-    void update_shop_close();
-    void update_close_shop();
-    void handle_close();
-    void restore_and_init_quest_list();
     static void clear_slots();
     static void reset_quest_list_vm();
-    void init_window();
     static void clear_slot_flags();
     static void zero_four_slots();
 };

@@ -388,10 +388,14 @@ public:
 	void bswap();
 };
 
+typedef void (*PsoCommandFn)(game_command_header *);
+
+// One entry of pso_command_dispatch_table (TGameProtocol.cpp): a 6x subcommand, the floor
+// areas it runs in (subcommand_area_masks) and its handler.
 struct PsoCommandHandler {
     u16 command;
     u16 area_mask;
-    void (*handle)(game_command_header *);
+    PsoCommandFn handle;
 };
 
 typedef char PsoCommandHandler_size[sizeof(PsoCommandHandler) == 8 ? 1 : -1];

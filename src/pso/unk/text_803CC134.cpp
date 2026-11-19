@@ -11,7 +11,8 @@ s32 lobby_adxf_open_file_handle;
 s32 lobby_afs_toc_entry_index;
 s32 adxf_log_write_index;
 s32 lbl_805D75E4;
-extern const char *const volatile lbl_805E0D80;
+/* points at the ADXF version/build banner above */
+const char *const volatile adxf_build_string = lbl_8047C7E8;
 
 u8 lbl_8057B7B0[0x20];
 u8 lbl_8057B7D0[0x1000];
@@ -34,7 +35,7 @@ void TLobby::dec_ref_and_reset_tables() {
 }
 
 void TLobby::init_afs_adxf_state() {
-    lbl_805E0D80;
+    adxf_build_string;
     if (lbl_805D75D0 == 0) {
         memset(adxf_file_handle_pool, 0, 0x1380);
         memset(afs_archive_toc_table, 0, 0x400);

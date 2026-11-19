@@ -33,16 +33,6 @@ s32 lbl_805D78F8;
 s32 lbl_805D78FC;
 s32 lbl_805D7900;
 s32 quest_download_file_handle;  // what the quest-file open returns; -1 = closed (named from use)
-s32 lbl_805D7908;
-s32 lbl_805D790C;
-// The ARAM file opened by sub_803F0C04 and read through ARQPostRequest (names from those parameters).
-u32 quest_download_aram_size;
-File_803F09FC quest_download_aram_file;
-u32 quest_download_aram_timeout;
-u32 quest_download_aram_priority;
-u32 quest_download_aram_owner;
-s32 quest_download_aram_dma_pending;
-u32 quest_download_aram_base;
 
 extern "C" {
 #pragma push
@@ -305,7 +295,7 @@ void TQuestVmDownLoadServer__sub_803EB4D4(void) {
     }
     buf = &lbl_805A0340[pos];
     for (; pos < lbl_805D78A4; pos++) {
-        TQuestVmDownLoadServer__sub_803EC95C(buf, lbl_805E10D0, 0);
+        TQuestVmDownLoadServer__sub_803EC95C(buf, (const u8 *)" ", 0);
         buf++;
     }
 }
@@ -1818,19 +1808,19 @@ s32 TQuestVmDownLoadServer::select_best_slot_entry(s32 idx, s32 max, s32 want) {
 #pragma pop
 
 s32 TQuestVmDownLoadServer__sub_803EDB20(u8 arg0) {
-    return lbl_8047F8B8[arg0] & 0x20;
+    return romaji_kana_char_class_table[arg0] & 0x20;
 }
 
 s32 TQuestVmDownLoadServer__sub_803EDB3C(u8 arg0) {
-    return lbl_8047F8B8[arg0] & 0x40;
+    return romaji_kana_char_class_table[arg0] & 0x40;
 }
 
 s32 TQuestVmDownLoadServer__sub_803EDB58(u8 arg0) {
-    return lbl_8047F8B8[arg0] & 0x80;
+    return romaji_kana_char_class_table[arg0] & 0x80;
 }
 
 s32 TQuestVmDownLoadServer__sub_803EDB74(u8 arg0) {
-    return lbl_8047F8B8[arg0] & 0xC0;
+    return romaji_kana_char_class_table[arg0] & 0xC0;
 }
 
 s32 TQuestVmDownLoadServer::sum_entry_sizes(s32 start, s32 n) {
@@ -2102,7 +2092,7 @@ s32 convert_romaji_to_kana(u16 *src, s32 n, u16 *out, s32 *count) {
     u8 c2;
     u16 mode;
     s32 c;
-    kind = lbl_8047F8B8[src[0] & 0xFF] & 0xF;
+    kind = romaji_kana_char_class_table[src[0] & 0xFF] & 0xF;
     *count = 1;
     if (kind <= 9) {
         if (kind <= 5) {
@@ -2161,7 +2151,7 @@ s32 convert_romaji_to_kana(u16 *src, s32 n, u16 *out, s32 *count) {
         if (mode == 1 && c2 == 0x27) {
             return 2;
         }
-        kind = lbl_8047F8B8[c2] & 0xF;
+        kind = romaji_kana_char_class_table[c2] & 0xF;
         if (kind == 7 && mode == 3) {
             out[0] += 2;
             return 2;
@@ -2199,7 +2189,7 @@ s32 convert_romaji_to_kana(u16 *src, s32 n, u16 *out, s32 *count) {
                 break;
             }
             p++;
-            kind = lbl_8047F8B8[*p & 0xFF] & 0xF;
+            kind = romaji_kana_char_class_table[*p & 0xFF] & 0xF;
             if ((kind >= 6 && kind <= 12) || len > 4) {
                 return -2;
             }
@@ -3456,114 +3446,6 @@ s32 TQuestVmDownLoadServer__sub_803F08E4(s8 *quest_vm_down_load_server) {
     return 3;
 }
 
-s32 TQuestVmDownLoadServer__sub_803F09A4(void) {
-    s32 var_r3;
-    quest_download_state = 0;
-    quest_download_initialized = 1;
-    lbl_805D7908 = 0;
-    lbl_805D790C = 0;
-    var_r3 = dispatch_request_0x20__19TWindowKeyBoardSoftFll(&lbl_805E10D8, &lbl_805E10E0);
-    if (var_r3 == 0) {
-        var_r3 = dispatch_request_0x1c__19TWindowKeyBoardSoftFv();
-    }
-    if (var_r3 > 0) {
-        var_r3 = -1;
-    }
-    return var_r3;
-}
-
-s32 TQuestVmDownLoadServer__sub_803F09FC(void *arg0, int arg1, int arg2) {
-    s32 r;
-    switch (arg2) {
-    case 0:
-        if (arg1 < 0) {
-            return -1;
-        }
-        quest_download_aram_file.remain = quest_download_aram_size - arg1;
-        quest_download_aram_file.pos = arg1;
-        break;
-    case 1:
-        r = quest_download_aram_file.remain - arg1;
-        if (r < 0 || (u32)r > quest_download_aram_size) {
-            return -1;
-        }
-        quest_download_aram_file.remain = r;
-        quest_download_aram_file.pos += arg1;
-        break;
-    case 2:
-        if (arg1 > 0) {
-            return -1;
-        }
-        quest_download_aram_file.remain = -arg1;
-        arg1 = quest_download_aram_size + arg1;
-        quest_download_aram_file.pos = arg1 - 1;
-        break;
-    }
-    return quest_download_aram_file.pos;
-}
-
-const char aram_dma_timeout_message[] = "ASKDIC:ARAM DMA Timeout!!\n";
-
-u32 TQuestVmDownLoadServer::aram_dma_read(void *h, void *dst, int size) {
-    u32 n;
-    u32 len;
-    u32 start;
-    u8 *base;
-    base = quest_download_aram_dma_buffer;
-    n = quest_download_aram_file.remain;
-    if ((u32)quest_download_aram_file.remain >= (u32)size) {
-        n = size;
-    }
-    len = n;
-    if (n & 3) {
-        len = (n | 3) + 1;
-    }
-    DCInvalidateRange(base + 0x40, 0x2000);
-    (*(u32 *)&quest_download_aram_dma_pending) = 1;
-    ARQPostRequest(base + 0x2040, quest_download_aram_owner, 1, quest_download_aram_priority, quest_download_aram_base + quest_download_aram_file.pos,
-                   (u32)(base + 0x40), len, TQuestVmDownLoadServer__sub_803F0BE8);
-    start = OSGetTick();
-    for (;;) {
-        if ((*(u32 *)&quest_download_aram_dma_pending) == 0) {
-            memcpy(dst, base + 0x40, n);
-            break;
-        }
-        if (OSGetTick() - start > quest_download_aram_timeout) {
-            (*(u32 *)&quest_download_aram_dma_pending) = 0;
-            ARQRemoveRequest(base + 0x2040);
-            OSReport(aram_dma_timeout_message);
-            return -1;
-        }
-    }
-    quest_download_aram_file.remain -= n;
-    quest_download_aram_file.pos += n;
-    return n;
-}
-
-s32 TQuestVmDownLoadServer__sub_803F0BD8(void * _w0) {
-    return 0;
-}
-
-s32 TQuestVmDownLoadServer__sub_803F0BE0(void * _w0, void * _w1) {
-    return 1;
-}
-
-void TQuestVmDownLoadServer__sub_803F0BE8(u8 *arg0) {
-    if ((u32) *(u32 *)((s8 *)arg0 + 4) == (u32) quest_download_aram_owner) {
-        quest_download_aram_dma_pending = 0;
-    }
-}
-
-void TQuestVmDownLoadServer__sub_803F0C04(u32 aram_addr, s32 size, u32 owner, u32 priority, u32 timeout_ms) {
-    quest_download_aram_base = aram_addr;
-    quest_download_aram_file.remain = size;
-    quest_download_aram_file.pos = 0;
-    quest_download_aram_owner = owner;
-    quest_download_aram_size = quest_download_aram_file.remain;
-    quest_download_aram_priority = priority;
-    quest_download_aram_timeout = timeout_ms * (__OSBusClock / 4 / 1000);
-}
-
 }
 
 u16 lbl_805A02A8[0x4C];
@@ -3572,4 +3454,3 @@ RecoveredGlobal_803E6ACC_lbl_805A0470 quest_download_scratch_storage;
 RecoveredGlobal_803E6ACC_lbl_805A0498 quest_download_entry_table;
 RecoveredGlobal_803E6ACC_lbl_805A05D0 quest_download_buffer_storage;
 u8 lbl_805A0698[0x28];
-u8 quest_download_aram_dma_buffer[0x2060];

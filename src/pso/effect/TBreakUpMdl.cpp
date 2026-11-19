@@ -72,6 +72,18 @@ struct Seg_80096AD8 { s32 f0; f32 a[3]; f32 b[3]; };
 
 struct Model_80096AD8 { s32 count; Seg_80096AD8 *segs; };
 
+// The parameter row the ctor copies to +0x38 (the defaults when the caller passes none); field names follow
+// the run_task/ctor uses (init_alpha(fade_frames, fade), speed, damping, gravity, the rise base and scale).
+struct BreakUpParamRow {
+    s32 fade_frames;
+    f32 fade;
+    f32 speed;
+    f32 damping;
+    f32 gravity;
+    f32 rise_base;
+    f32 rise_scale;
+};
+
 struct BreakUp_80096AD8 {
     s32 f0;
     u8 pad4[0x18 - 0x4];
@@ -99,17 +111,16 @@ s32 post_translate_matrix(void *);
 extern s32 TBreakUpMdl__vtable[];
 u8 *init__11TBreakUpMdlFPviif(u8 *arg0, s32 arg1, s32 arg2, f32 farg0);
 void alloc_breakup_piece_records(Brk_80096EBC *arg0, void *arg1);
-extern NJS_ARGB breakup_default_color;
 extern u32 saved_model_render_flags;
 extern u32 model_render_flags;
 void __ct__7TObjectFP7TObject(void *, void *);
 s32 rand(void);
 void rotate_vector_by_matrix(s32, void *, void *);
 void rotate_matrix_y(s32, s32);
-extern u8 breakup_default_param_row[];
 extern s32 __vt__11TBreakUpMdl[];
-extern "C" { extern char TBreakUpMdl__class_name_string[]; }
-const char *TBreakUpMdl__class_name = TBreakUpMdl__class_name_string;
+static const BreakUpParamRow breakup_default_param_row = { 12, 0.07f, 1.5f, 0.9f, 0.12f, 0.5f, 0.5f };
+const char *TBreakUpMdl__class_name = "TBreakUpMdl";
+static const NJS_ARGB breakup_default_color = { 1.0f, 1.0f, 1.0f, 1.0f };
 u8 *TBreakUpMdl__ct(u8 *arg0, void *arg1, Model_80096AD8 *arg2, void *arg3, s32 arg4, void *arg5, s32 arg6);
 void *__dt_deleting__11TBreakUpMdlFPvs(void *arg0, s16 arg1);
 
@@ -197,7 +208,7 @@ u8 *TBreakUpMdl__ct(u8 *break_up_mdl, void *arg1, Model_80096AD8 *arg2, void *ar
     self->f0 = (s32)TBreakUpMdl__class_name;
     self->model = arg2;
     if (arg3 == NULL) {
-        ((TBreakUpMdl *)(&self->f38))->copy(breakup_default_param_row);
+        ((TBreakUpMdl *)(&self->f38))->copy((void *)&breakup_default_param_row);
     } else {
         ((TBreakUpMdl *)(&self->f38))->copy(arg3);
     }
@@ -352,4 +363,3 @@ u8 *TBreakUpMdl::init_from_model(s32 boss2_tunnel) {
 }
 
 void TBreakUpMdl::copy(void* q) { *(u32 *)&this->m_name = *(u32*)((char*)q + 0x0); *(f32 *)&this->m_flags = *(f32*)((char*)q + 0x4); *(f32 *)&this->m_prev = *(f32*)((char*)q + 0x8); *(f32 *)&this->m_next = *(f32*)((char*)q + 0xc); *(f32 *)&this->m_up = *(f32*)((char*)q + 0x10); *(f32 *)&this->m_down = *(f32*)((char*)q + 0x14); *(f32*)((char*)this + 0x18) = *(f32*)((char*)q + 0x18); }
-

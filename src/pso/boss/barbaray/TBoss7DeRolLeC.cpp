@@ -1212,7 +1212,6 @@ void TObjFish__sub_802ECBDC(Fish_802ECBDC *self);
 
 void TObjFish__sub_802ECC44(Fish_802ECC44 *self);
 
-s32 spawn_default_particle__8TObjFishFv(s32, s32);
 
 s32 TObjFish__sub_802F18E8(void *);
 
@@ -2328,7 +2327,7 @@ void fn_802EC52C(s32 arg0, s32 arg1) {
 }
 
 void spawn_particle_201__8TObjFishFii(s32 arg1, s32 arg2) {
-    spawn_default_particle__8TObjFishFv(arg2, 0x201);
+    TObjFish::spawn_default_particle(arg2, 0x201);
 }
 #pragma push
 #pragma fp_contract on

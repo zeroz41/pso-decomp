@@ -17,6 +17,11 @@
 #include "pso/network/TUdpSocket.h"
 #include "pso/unk/TLobby.h"
 
+// The socket class names: TTcpSocket's and TUdpSocket's constructors store them in m_name. Both strings open this
+// unit's .rodata and both pointers sit in its .sdata, so the two classes' names live in this file.
+OBJECT_NAME(TTcpSocket)
+OBJECT_NAME(TUdpSocket)
+
 struct Sock_80078110 { char pad[0x1c]; s32 f1c; u16 port; u8 pad22[2]; s32 addr; s16 fd; };
 
 struct Q_80078110 { s32 len; s32 v; u8 pad[0xc]; };

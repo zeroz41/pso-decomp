@@ -13,6 +13,7 @@
 #include "pso/unk/TLobby.h"
 #include "pso/ui/frontend/TAdEnterSerialAccessGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/ui/frontend/TAdSubPlyItemGC.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
@@ -48,7 +49,6 @@ void *__ct__14TAdSelectCurGCFv(void *, TObject *, void *, void *);
 extern s32 __vt__18TAdAgreementBaseGC[];
 Obj_80329AA8 *TAdAgreementBaseGC__ct(Obj_80329AA8 *arg0, void *arg1);
 void *get_localized_text_entry(int, u32);
-s32 render_status_line__15TAdSubPlyItemGCFi(void *, int, f32, f32, f32);
 void draw_window_frame__11TWindowBaseFPv();
 
 void TAdAgreementBaseGC::check_main_task_state() {
@@ -65,7 +65,7 @@ void TAdAgreementBaseGC::draw_agreement_text() {
     for (i = 0; i < 2; i++) {
         pos[i].x = 320.0f - (f32) (calc_text_width((char *)(get_localized_text_entry(0x1B, i))) >> 1);
         pos[i].y = 20.0f * (f32) i + 394.0f;
-        render_status_line__15TAdSubPlyItemGCFi(get_localized_text_entry(0x1B, i), -1, pos[i].x, pos[i].y, 0.8f);
+        TAdSubPlyItemGC::render_status_line(pos[i].x, pos[i].y, 0.8f, (const char *)get_localized_text_entry(0x1B, i), -1);
     }
 }
 #pragma pop
@@ -171,4 +171,3 @@ void TAdAgreementBaseGC::vfunc_6() {  }
 void TAdAgreementBaseGC::vfunc_7() {  }
 void TAdAgreementBaseGC::vfunc_8() {  }
 void fn_80329BAC(void* p) { *(s32*)((char*)p + 0xb8) = 1; }
-

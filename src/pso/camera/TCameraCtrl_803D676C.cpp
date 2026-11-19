@@ -28,16 +28,6 @@ extern Disp_803D676C *active_gx_render_mode;
 #pragma push
 #pragma use_lmw_stmw off
 
-// The pool before the int->double constants (0x805E0E18-0x805E0E3C) is still read
-// through its labels: as literals, 0.85f is loaded before the conversion and 1.0f
-// changes the register allocation.
-extern const f32 lbl_805E0E18;
-extern const f64 lbl_805E0E20;
-extern const f64 lbl_805E0E28;
-extern const f32 lbl_805E0E30;
-extern const f32 lbl_805E0E34;
-extern const f32 lbl_805E0E38;
-
 void set_perspective_projection_from_fov(s32 arg0, f32 farg0, f32 farg1, f32 farg2) {
     s32 h;
     f32 c;
@@ -47,21 +37,21 @@ void set_perspective_projection_from_fov(s32 arg0, f32 farg0, f32 farg1, f32 far
     f32 b;
     f32 a;
     f32 one;
-    h = (s32)((f32)arg0 * lbl_805E0E18) / 2;
+    h = (s32)((f32)arg0 * fov_angle_scale) / 2;
     c = cos_table_lookup(h);
     r = atan((sin_table_lookup(h) / c) / farg0);
-    C_MTXPerspective(&scene_projection_state, lbl_805E0E20 * ((s32)(lbl_805E0E28 * r) * 2), farg0, farg1, farg2);
+    C_MTXPerspective(&scene_projection_state, angle_to_degrees * ((s32)(radians_to_angle * r) * 2), farg0, farg1, farg2);
     GXSetProjection(&scene_projection_state, 0);
     scene_projection_state.f40 = 0;
     scene_projection_state.f44 = farg1;
     scene_projection_state.f48 = farg2;
     scene_projection_state.f4C = farg0;
-    sc = lbl_805E0E30 * ((f32)active_gx_render_mode->h * scene_projection_state.m[1][1]);
+    sc = screen_half_scale * ((f32)active_gx_render_mode->h * scene_projection_state.m[1][1]);
     scene_projection_state.f50 = sc;
-    one = lbl_805E0E34;
+    one = projection_unit;
     scene_projection_state.f54 = one / sc;
     lbl_8058D4F8.f18 = sc;
-    x = farg0 / lbl_805E0E38;
+    x = farg0 / screen_aspect_ratio;
     lbl_8058D4F8.f1c = x;
     lbl_8058D4F8.f20 = one;
     lbl_8058D4F8.f24 = one / farg0;
@@ -75,3 +65,14 @@ void set_perspective_projection_from_fov(s32 arg0, f32 farg0, f32 farg1, f32 far
     *(f32 *)((s8 *)&camera_clip_parameters + 4) = farg1;
 }
 #pragma pop
+
+// .sdata2 0x805E0E18-0x805E0E3C: named constants defined after their user (declared in the header), so they
+// stay memory loads and precede the int->double conversion constants of the deferred-compiled function.
+// As literals, 0.85f is loaded before the conversion and 1.0f takes another register.
+// Names inferred from the use: angle scale, 360/65536, 65536/(2*pi), half screen height, 1, 4:3.
+__declspec(section ".sdata2") const f32 fov_angle_scale = 0.85f;
+__declspec(section ".sdata2") const f64 angle_to_degrees = 0.0054931640625;
+__declspec(section ".sdata2") const f64 radians_to_angle = 10430.38043493439;
+__declspec(section ".sdata2") const f32 screen_half_scale = 0.5f;
+__declspec(section ".sdata2") const f32 projection_unit = 1.0f;
+__declspec(section ".sdata2") const f32 screen_aspect_ratio = 1.3333334f;

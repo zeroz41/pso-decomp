@@ -292,7 +292,6 @@ struct TObjPlayer : public TObjChara {
     static void copy_matrix(u32 arg0, u32 arg1);
     static s32 run_next_key_callback(s32 arg0);
     static s32 sample_next_quaternion_key(s32 arg0);
-    void interpolate_motion_key(s32 arg1, s32 *arg2, f32 farg0);
     void apply_motion_node_transform();
     void bswap_change_hp_packet();
     void init_6x2F_packet_header();
@@ -1110,9 +1109,6 @@ struct TObjPlayer : public TObjChara {
     void collect_owner_fields_recursive();
     static void set_global_color_rgba(u32 v);
     static void set_global_color_rgba_alt_b(u32 v);
-    void update_chara_making_if_state3();
-    void update_chara_making();
-    void draw_model_with_arg(void* a1);
     static void draw_player_model_by_client(u16 arg0, s32 arg1, f32 farg0, f32 farg1);
     static void draw_player_model_by_id(s32 arg0, f32 farg0);
     void draw_shadowed_node_tree();

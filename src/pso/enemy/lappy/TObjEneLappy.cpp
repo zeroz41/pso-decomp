@@ -1385,8 +1385,6 @@ s32 register_boss__6TLobbyFl(s32);
 s32 load_resource_from_descriptor(s32, int, void *, int, int, int);
 }
 u8 *load_gvm_texture_file(s32 arg0);
-extern u8 lbl_8043BA28[];
-extern u8 lbl_8043BA44[];
 extern s32 game_difficulty_selection;
 extern s32 TLobby__event_theme_id;
 
@@ -1499,9 +1497,9 @@ void TObjEneLappy::load_resources() {
     }
     if (TLobby::get_instance() == 0) {
         if (rare) {
-            (*(u32 *)&rappy_alternate_texture_list) = (u32)load_gvm_texture_file((s32)lbl_8043BA28);
+            (*(u32 *)&rappy_alternate_texture_list) = (u32)load_gvm_texture_file((s32)re3_b_lappy_base_niji_gvm);
         } else {
-            (*(u32 *)&rappy_alternate_texture_list) = (u32)load_gvm_texture_file((s32)lbl_8043BA44);
+            (*(u32 *)&rappy_alternate_texture_list) = (u32)load_gvm_texture_file((s32)re3_b_lappy_base_ao_gvm);
         }
     } else {
         (*(u32 *)&rappy_alternate_texture_list) = *(s32 *)(*(u8 **)(RES_800C17B8 + 0x42C) + 0x1C);
@@ -1528,6 +1526,9 @@ void TObjEneLappy::load_resources() {
         }
     }
 }
+
+__declspec(section ".rodata") const char re3_b_lappy_base_niji_gvm[] = "re3_b_lappy_base_niji.gvm";
+__declspec(section ".rodata") const char re3_b_lappy_base_ao_gvm[] = "re3_b_lappy_base_ao.gvm";
 
 #undef RES_800C17B8
 extern "C" {

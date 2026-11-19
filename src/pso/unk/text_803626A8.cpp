@@ -10,7 +10,6 @@
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/enemy/epsilon/TObjEneEpsilonGuard.h"
 #include "pso/enemy/dd/TObjEneDD_ST.h"
-#include "pso/weapon/TUnk_804F26E0.h"
 #include "pso/system/BmlResourceDescriptor.h"
 
 
@@ -56,9 +55,6 @@ s32 rotate_matrix_y(int, int);
 s32 push_matrix_from(void *);
 s32 pop_matrix();
 f32 post_translate_matrix(void *);
-void *spawn_particle_effect(const void *pos, s32 id);
-s16 get_validated_attack_stage(u8 *arg0);
-extern s32 knuckle_marker_joint_table[];
 s32 dispatch_shared_handler_a__6TLobbyFl(int);
 s32 register_object__6TLobbyFl(int);
 s32 dispatch_shared_handler_b__6TLobbyFl(int);
@@ -94,43 +90,10 @@ const char *bm_ene_epsilon_motion_names[5] = {
 BmlResourceDescriptor TObjEneEpsilonGuard__resource_descriptor = { "bm_ene_epsilon.bml", bm_ene_epsilon_model_names, bm_ene_epsilon_motion_names, 7, 4 };
 Unk_804F252C lbl_804F252C = { 0x10000, 0, 0.3f, 0 };
 
-extern const f32 lbl_805E0258;
-extern const f32 lbl_805E025C;
-
 const char *TObjEneEpsilon__class_name = "TObjEneEpsilon";
-
-u8 *create_s_rank_knuckle(u8 *arg0);
 
 // The original TU was compiled deferred: functions are written last-to-first.
 #pragma defer_codegen on
-
-TUnk_804F26E0::~TUnk_804F26E0() {}
-
-u8 *create_s_rank_knuckle(u8 *item) {
-    if (item != NULL) {
-        return (u8 *)new TUnk_804F26E0(tl_05, item);
-    }
-    return NULL;
-}
-
-TUnk_804F26E0::TUnk_804F26E0(TObject *parent, u8 *item) : TUnk_804A4948(parent, item) {}
-
-// S-rank knuckle marker (was s_rank_knuckle_marker): effect at the owner's knuckle joint.
-void TUnk_804F26E0::vfunc_62() {
-  u8 sp8[0x10];
-  s32 n;
-  owner->get_anim_node_position(knuckle_marker_joint_table[(owner->has_valid_handle() * 3) + get_validated_attack_stage(((u8 *)owner) + 0x7CC)], (Vec *)sp8);
-  spawn_particle_effect(sp8, 0x1D0);
-}
-
-// S-rank knuckle equip hook (was s_rank_knuckle_equip): sets the owner's EVP.
-void TUnk_804F26E0::vfunc_57() {
-    ((PlayerAttackState *)(*(s32 *)&this->owner + 0x7CC))->set_evp(lbl_805E025C);
-}
-
-void TUnk_804F26E0::vfunc_58() {
-    ((PlayerAttackState *)(*(s32 *)&this->owner + 0x7CC))->set_evp(lbl_805E0258);
-}
 
 TObjEneEpsilon::TObjEneEpsilon(TObject *parent) : TObjEneDD_ST(parent) {
     m_name = TObjEneEpsilon__class_name;

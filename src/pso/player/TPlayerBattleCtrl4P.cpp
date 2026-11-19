@@ -8,6 +8,7 @@
 #include "types.h"
 #include "pso/player/TPlayerBattleCtrl4P.h"
 #include "pso/unk/TLobby.h"
+#include "pso/unk/TUnk_804C3E88.h"
 #include "pso/object/trap/TOMineTrap.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/player/TObjPlayer.h"
@@ -160,17 +161,6 @@ void request_active_window_close(void);
 s32 send_code_45_1__10TObjPlayerFl();
 }
 extern const char *TPlayerBattleCtrl4P_player_name_formats[];
-// Code strings of start_match/start_duel/record_battle_results_after_delay ("SCORE", "%s %s",
-// "start.adx", "duel1.adx", "duel2.adx", "win.adx", "lose.adx"): kept as the split's symbols. As
-// literals CW addresses all three of start_match through one hoisted .rodata base, the original
-// loads each by its own lis/addi.
-extern char lbl_80475B90[];
-extern char lbl_80475B98[];
-extern char lbl_80475BA0[];
-extern char lbl_80475BAC[];
-extern char lbl_80475BB8[];
-extern s32 lbl_80475BC4[];
-extern s32 lbl_80475BCC[];
 extern void *__vt__19TPlayerBattleCtrl4P[6];
 extern s16 battle_event_second_table[];
 extern s32 local_client_id;
@@ -669,9 +659,9 @@ void TPlayerBattleCtrl4P::record_battle_results_after_delay() {
         calculate_split_screen_battle_rankings(this);
         record_split_screen_battle_results(this);
         if ((s32) split_screen_battle_rankings[0].id == (s32) local_client_id) {
-            TPlayerBattleCtrl4P::notify_lobby((void*)this, (void*)lbl_80475BC4, (void*)0x96);
+            TPlayerBattleCtrl4P::notify_lobby((void*)this, (void*)"win.adx", (void*)0x96);
         } else {
-            TPlayerBattleCtrl4P::notify_lobby((void*)this, (void*)lbl_80475BCC, (void*)0x96);
+            TPlayerBattleCtrl4P::notify_lobby((void*)this, (void*)"lose.adx", (void*)0x96);
         }
         set_score((s32)((void*)(3)));
     }
@@ -789,8 +779,7 @@ void TPlayerBattleCtrl4P::start_duel() {
     s32 i;
     s32 j;
     u32 p;
-    char *name;
-    void *w;
+    const char *name;
     s32 st;
     TObjEneRe4Sorcerer__sub_801E3F14(4);
     TObjEneRe4Sorcerer__sub_801E3F18();
@@ -803,11 +792,8 @@ void TPlayerBattleCtrl4P::start_duel() {
         }
     }
     this->reset_score_counters();
-    name = get_current_floor_area() == AREA_BATTLE1 ? lbl_80475BAC : lbl_80475BB8;
-    w = TObject::operator new(0x40);
-    if (w != NULL) {
-        ((TLobby *)w)->init_with_name((void *)this, (void *)name, (void *)(0x2D));
-    }
+    name = get_current_floor_area() == AREA_BATTLE1 ? "duel1.adx" : "duel2.adx";
+    new TUnk_804C3E88(this, name, 0x2D);
     for (j = 0; j < 8; j++) {
         ((O_80311618 *)this)->flags[j] = 1;
         if (battle_event_second_table[j] == 0) {
@@ -1205,6 +1191,8 @@ void TPlayerBattleCtrl4P::update_timed_events(s32 frames) {
 
 void request_split_screen_battle_event(void* p) { *(s32*)((char*)p + 0x260) = 1; }
 
+// start_match loads each of its strings with its own lis/addi (no pooled .rodata base).
+#pragma pool_data off
 void TPlayerBattleCtrl4P::start_match() {
     char buf[0x40];
     Ent_80310830 *e;
@@ -1212,17 +1200,18 @@ void TPlayerBattleCtrl4P::start_match() {
     VObj_80310830 *p;
     reset_score_counters();
     calculate_split_screen_battle_rankings(this);
-    TWindowCtrl::init_all((void*)lbl_80475B90, (void*)0x200);
+    TWindowCtrl::init_all((void*)"SCORE", (void*)0x200);
     for (i = 0; i < 4; i++) {
         e = &((Ent_80310830 *)&split_screen_battle_rankings)[i];
         p = (VObj_80310830 *)get_player_by_client_id(e->id);
         if (p != 0) {
-            sprintf(buf, lbl_80475B98, TPlayerBattleCtrl4P_player_name_formats[e->idx], p->v10());
+            sprintf(buf, "%s %s", TPlayerBattleCtrl4P_player_name_formats[e->idx], p->v10());
             TWindowCtrl::init_all((void*)buf, (void*)0x200);
         }
     }
-    TPlayerBattleCtrl4P::notify_lobby(this, lbl_80475BA0, (void *)0x3C);
+    TPlayerBattleCtrl4P::notify_lobby(this, (void *)"start.adx", (void *)0x3C);
 }
+#pragma pool_data reset
 
 void TPlayerBattleCtrl4P::update_players() {
     s32 var_r31;
