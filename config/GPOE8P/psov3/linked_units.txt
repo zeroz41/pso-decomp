@@ -777,6 +777,7 @@ pso/unk/TLobby_80067410.cpp
 pso/unk/TLobby_8006F278.cpp
 pso/unk/TLobby_80070A00.cpp
 pso/unk/TLobby_80072048.cpp
+pso/quest/challenge/ChallengeModeSdata.cpp
 pso/unk/TLobby_800726F0.cpp
 pso/unk/TLobby_8007340C.cpp
 pso/unk/TLobby_80073DAC.cpp
