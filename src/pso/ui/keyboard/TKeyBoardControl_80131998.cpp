@@ -1,7 +1,6 @@
 #include "types.h"
 #include "pso/ui/window/TWindowKeyBoardHard.h"
 #include "pso/ui/window/TWindowSubComCard_80244774.h"
-#include "pso/ui/chat/TWindowSubShortMail_80131998.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/ui/window/TWindowLockOn.h"
 #include "pso/ui/chat/TWindowSubShortMail.h"
@@ -9,7 +8,8 @@
 #include "pso/ui/window/TWindowMakeTeam.h"
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
 
-void TWindowSubShortMail__sub_80131998(void *arg0) {
+void TKeyBoardControl::hide() {
+    TKeyBoardControl *arg0 = this;
     u16 temp_r3;
 
     temp_r3 = *(u16 *)((s8 *)arg0 + 0x1C);
@@ -23,7 +23,7 @@ void TWindowSubShortMail__sub_80131998(void *arg0) {
         }
     }
 }
-void TWindowSubShortMail::hide_window() {
+void TKeyBoardControl::show() {
     u16 temp_r3;
 
     temp_r3 = *(u16 *)((s8 *)this + 0x1C);

@@ -6,6 +6,7 @@
 #include <string.h>
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/task/TObject.h"
+#include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/network/TProtocol.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/item/TObjItemNameSelect.h"
@@ -40,7 +41,6 @@
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/unk/text_8024AB98.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
-#include "pso/unk/text_80131ADC.h"
 #include "pso/unk/text_8026CB5C.h"
 #include "pso/map/FloorArea.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
@@ -242,8 +242,8 @@ void TObjItemNameEntry::set_entered_name(const char *name) {
 s32 TObjItemNameEntry::process_keyboard_input() {
     s32 text;
 
-    if (m_1c != NULL && ((TWindowSubComCard *)m_1c)->update_keyboard() != 0) {
-        text = ((TWindowSubComCard *)m_1c)->realloc_buffer();
+    if (m_1c != NULL && ((TKeyBoardControl *)m_1c)->is_key_active() != 0) {
+        text = (s32)((TKeyBoardControl *)m_1c)->realloc_buffer();
         if (strcmp((const char *)text, "") == 0) {
             mem_free((void *)text);
             free_menu_object(m_1c);
@@ -279,9 +279,9 @@ TObjItemNameEntry::TObjItemNameEntry(TObject *parent) : TObject(parent) {
     }
     m_1c = (void *)keyboard;
     if (m_1c != NULL) {
-        ((TWindowMakeTeam *)m_1c)->set_sub_position((u8 *)get_window_layout_position(0xBF));
-        fn_80131ADC((u8 *)m_1c, (u8 *)get_window_layout_position(0xC0));
-        fn_80131B18((u8 *)m_1c, (u8 *)fn_8026CB5C());
+        ((TKeyBoardControl *)m_1c)->set_sub_position((u8 *)get_window_layout_position(0xBF));
+        ((TKeyBoardControl *)m_1c)->set_soft_position((u8 *)get_window_layout_position(0xC0));
+        ((TKeyBoardControl *)m_1c)->set_hard_position((u8 *)fn_8026CB5C());
     }
     m_20 = check_room_seq_4__16TAdChrSelASlotGCFl(get_window_layout_position(0x56), 1);
     if (m_20 != NULL) {

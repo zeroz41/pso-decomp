@@ -30,7 +30,6 @@
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/ui/window/TWindowMakeTeam.h"
 #include "pso/ui/window/TWindowSubComCard.h"
-#include "pso/unk/text_80131ADC.h"
 #include "pso/object/TObjLuker.h"
 #include "pso/unk/TLobby_801E2F94.h"
 #include "pso/unk/text_801E3F24.h"
@@ -271,7 +270,6 @@ s32 get_creation_sprite_id__14TObjCMMainMenuFl(int);
 void fn_802947A8(void);
 int TObjCMName__sub_802948F4(TObjCMName *, char *);
 TKeyBoardControl *TKeyBoardControl__ct(void *, TObject *, s32, s32, s32, s32);
-int get_keyboard_field_6c__15TWindowMakeTeamFv(TKeyBoardControl *, char *);
 Hair_802964B0 * __ct__14TObjCMHairMenuFv(Hair_802964B0 *arg0, void *arg1);
 void render__16TObjCMAssignMenuFv(Menu_80296928 *self);
 void * __ct__16TObjCMAssignMenuFv(void *arg0, void *parent, void *kind);
@@ -2173,14 +2171,14 @@ void TObjCMName::run_task() {
                 kb = TKeyBoardControl__ct(kb, this, 12, 0, 0, TChCrEffCtrlPl::get_clamped_player_index());
             }
             keyboard = kb;
-            get_keyboard_field_6c__15TWindowMakeTeamFv(keyboard, (char *)appearance->name);
+            ((TKeyBoardControl *)keyboard)->set_text((char *)appearance->name);
             scale = TObjCMMainMenu::get_scale();
             pos[0] = 148.0f;
             pos[1] = 137.0f * scale;
-            ((TWindowMakeTeam *)keyboard)->set_sub_position((u8 *)pos);
+            ((TKeyBoardControl *)keyboard)->set_sub_position((u8 *)pos);
             pos[0] = 53.0f;
             pos[1] = 178.0f * scale;
-            fn_80131ADC((u8 *)keyboard, (u8 *)pos);
+            ((TKeyBoardControl *)keyboard)->set_soft_position((u8 *)pos);
             initialized = 1;
         }
     } else if (active == 0) {
@@ -2192,8 +2190,8 @@ void TObjCMName::run_task() {
         if ((fade += 0.16666667f) > 1.0f) {
             fade = 1.0f;
         }
-        if (((TWindowSubComCard *)keyboard)->update_keyboard() != 0) {
-            buf = (char *)((TWindowSubComCard *)keyboard)->realloc_buffer();
+        if (((TKeyBoardControl *)keyboard)->is_key_active() != 0) {
+            buf = (char *)((TKeyBoardControl *)keyboard)->realloc_buffer();
             sound = 0x53704;
             strncpy(name, buf, 12);
             name[12] = 0;

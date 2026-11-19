@@ -38,7 +38,6 @@ s32 TWindowKeyBoardSoft__sub_8025D8C8();
 void TWindowKeyBoardSoft__sub_8025CFA8(void *, void *);
 s32 TWindowKeyBoardSoft__sub_803E67D4(void *, void *);
 s32 get_shared_text_buffer();
-int set_text_from_string__18KeyboardTextBufferFPc(KeyboardTextBuffer *);
 void TWindowKeyBoardSoft__sub_8025DBDC(void *arg0, s32 arg1);
 s32 TWindowKeyBoardSoft__sub_8025D7FC();
 void export_keyboard_text(Base_8025C974 *base, char *out);
@@ -528,7 +527,7 @@ void TWindowKeyBoardSoft__sub_8025C51C(u8 *window_key_board_soft, s32 arg1) {
     }
 }
 
-int TWindowKeyBoardBase::get_field_6c() { return set_text_from_string__18KeyboardTextBufferFPc(&m_text); }
+void TWindowKeyBoardBase::set_text(char *s) { m_text.set_text_from_string(s); }
 
 void TWindowKeyBoardBase::insert_character(u16 code) {
     s32 f;

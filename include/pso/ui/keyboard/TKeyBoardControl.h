@@ -13,6 +13,18 @@ struct TKeyBoardControl : public TObject {
     u32 m_20;
     u32 m_24;
     u32 m_28;
+    void hide();
+    void show();
+    void set_flag62_bit2();
+    void set_depth(f32 depth);
+    void set_position(void *pos);
+    void set_soft_position(u8 *pos);
+    void set_hard_position(u8 *pos);
+    void set_sub_position(u8 *pos);
+    void set_text(char *s);
+    char *realloc_buffer();
+    int is_active();
+    int is_key_active();
     static void run_main_frame();
     static void run_tasks();
     int get_fog_ctrl();

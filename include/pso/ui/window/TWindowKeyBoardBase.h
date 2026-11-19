@@ -89,7 +89,7 @@ struct TWindowKeyBoardBase : public TWindowBase {
     void vt21();
     void handle_backspace();
     void update_input_state2();
-    int get_field_6c();
+    void set_text(char *s);
     void init();
     s32 commit_composition_text();
     s32 measure_text_overflow();

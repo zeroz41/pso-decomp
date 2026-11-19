@@ -2,6 +2,7 @@
 
 #include "types.h"
 
+#include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/system/task/TObject.h"
 
 #include "pso/system/task/TObject_80019A50.h"
@@ -109,7 +110,6 @@ s32 TAdEnterBaseGC__entry_mode;
 
 extern "C" {
 
-char *realloc_buffer__17TWindowSubComCardFv(void *);
 
 
 void fn_8025DE10(void *arg0, void *arg1);
@@ -151,7 +151,6 @@ s32 TKeyBoardControl__ct(void *, s32, s32, s32, s32, s32);
 
 u32 __nw__7TObjectFUl(int);
 
-int get_keyboard_field_6c__15TWindowMakeTeamFv(void* p);
 
 extern s32 local_client_id;
 
@@ -371,9 +370,9 @@ u32 TAdEnterSerialAccessGC::create_keyboard_control(s32 arg0, s32 arg1) {
     if (kb == NULL) {
         return 0;
     }
-    ((TWindowMakeTeam *)kb)->set_sub_position((u8 *)serial_keyboard_position_table[arg1]);
+    ((TKeyBoardControl *)kb)->set_sub_position((u8 *)serial_keyboard_position_table[arg1]);
     if (((s32 (*)(s32, s32))has_serial_input__22TAdEnterSerialAccessGCFv)(arg0, arg1) != 0) {
-        ((int (*)(void *, u8 *))get_keyboard_field_6c__15TWindowMakeTeamFv)(kb, get_serial_text__22TAdEnterSerialAccessGCFii(arg0, arg1));
+        ((TKeyBoardControl *)kb)->set_text((char *)get_serial_text__22TAdEnterSerialAccessGCFii(arg0, arg1));
     }
     if (arg1 != 3) {
         update_chat_window(kb);
@@ -429,7 +428,7 @@ void draw_masked_password_field(s32 arg0) {
         __ct__19TAdPlyChrSelPlateGCFv(&plate, tl_clipout, &p1);
         Word_8032AACC w = password_field_box_color;
         TAdEnterSerialAccessGC__sub_802C4B64(&plate, password_field_box_pos, &w, 0);
-        str = realloc_buffer__17TWindowSubComCardFv(password_entry_keyboard_control);
+        str = ((TKeyBoardControl *)password_entry_keyboard_control)->realloc_buffer();
         len = strlen(str);
         mem_free(str);
         memset(buf, 0, 0x80);

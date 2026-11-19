@@ -3116,17 +3116,17 @@ pso/unk/TLobby_80131794.cpp:
 	.text       start:0x80131794 end:0x80131998
 	.sdata2     start:0x805DB070 end:0x805DB078
 
-pso/ui/chat/TWindowSubShortMail_80131998.cpp:
+pso/ui/keyboard/TKeyBoardControl_80131998.cpp:
 	.text       start:0x80131998 end:0x80131A5C
 
-pso/ui/window/TWindowMakeTeam_80131A5C.cpp:
+pso/ui/keyboard/TKeyBoardControl_80131A5C.cpp:
 	.text       start:0x80131A5C end:0x80131AA4
 
-pso/ui/chat/TWindowSubShortMail_80131AA4.cpp:
+pso/ui/keyboard/TKeyBoardControl_80131AA4.cpp:
 	.text       start:0x80131AA4 end:0x80131BC4
 	.sdata2     start:0x805DB078 end:0x805DB080
 
-pso/ui/window/TWindowSubComCard_80131BC4.cpp:
+pso/ui/keyboard/TKeyBoardControl_80131BC4.cpp:
 	.text       start:0x80131BC4 end:0x80131C58
 
 pso/ui/keyboard/TKeyBoardControl_80131C58.cpp:

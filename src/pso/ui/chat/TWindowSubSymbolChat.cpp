@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/ui/chat/TWindowChatSymbol.h"
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -87,7 +88,6 @@ s32 __nw__7TObjectFUl(int);
 
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
 s32 get_cursor_pos__20TWindowShortListCtrlFv(s32);
-s32 get_keyboard_field_6c__15TWindowMakeTeamFv(s32, s32);
 s32 get_keyboard_ptr__20TWindowSubSymbolChatFv(s32);
 s32 refresh_parts__20TWindowSubSymbolChatFv();
 s32 refresh_with_default_list__20TWindowSubStatusDispFll(s32, f32 *);
@@ -777,12 +777,12 @@ void TWindowSubSymbolChat::run_task() {
         this->m_58 = ((TWindowSubSymbolChat *)arg0)->create_keyboard_control();
         this->m_1c = 0x29U;
     case 41:
-        if (((TWindowSubComCard *)(this->m_58))->is_keyboard_active() != 0) {
+        if (((TKeyBoardControl *)(this->m_58))->is_active() != 0) {
             this->m_1c = 4U;
             return;
         }
-        if (((TWindowSubComCard *)(this->m_58))->update_keyboard() != 0) {
-            temp_r3_2 = ((TWindowSubComCard *)(this->m_58))->realloc_buffer();
+        if (((TKeyBoardControl *)(this->m_58))->is_key_active() != 0) {
+            temp_r3_2 = (s32)((TKeyBoardControl *)(this->m_58))->realloc_buffer();
             ((TWindowSubSymbolChat *)(this->m_28))->set_entry_name((void *)temp_r3_2);
             mem_free((void *)temp_r3_2);
             this->m_1c = 4U;
@@ -982,9 +982,9 @@ s32 TWindowSubSymbolChat::create_keyboard_control() {
         keyboard = TKeyBoardControl__ct(keyboard, this, 0x90, 1, 4, local_client_id);
     }
     update_chat_window((void *)keyboard);
-    get_keyboard_field_6c__15TWindowMakeTeamFv(keyboard, get_keyboard_ptr__20TWindowSubSymbolChatFv(this->m_28));
-    ((TWindowMakeTeam *)keyboard)->set_sub_position((u8 *)(get_window_layout_position(0xBB)));
-    ((TWindowMakeTeam *)keyboard)->set_keyboard_flag62_bit2();
+    ((TKeyBoardControl *)keyboard)->set_text((char *)get_keyboard_ptr__20TWindowSubSymbolChatFv(this->m_28));
+    ((TKeyBoardControl *)keyboard)->set_sub_position((u8 *)(get_window_layout_position(0xBB)));
+    ((TKeyBoardControl *)keyboard)->set_flag62_bit2();
     ((TWindowSubComCard *)keyboard)->destroy_keyboard();
     return keyboard;
 }
