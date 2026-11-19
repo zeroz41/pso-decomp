@@ -11,8 +11,7 @@ s32 strncpy(void *, void *, int);
 s32 strcpy(void *, void *);
 s32 strlen(void *);
 void mem_free(void *);
-extern s32 lbl_804DD098[];
-u32 mem_alloc();
+void *mem_alloc(u32 size);
 s32 memset(void *, int, int);
 
 }
@@ -63,116 +62,96 @@ u32 RlcHeader::read_be32(const s8 *bytes) {
     return value;
 }
 
-s32 fn_802A5C3C(u32 *arg0) {
-    u32 temp_r0;
-    temp_r0 = *arg0;
-    if (temp_r0 == 0U) {
-        ((TWindowSnapShot *)arg0)->set_mode(7);
+s32 RlcArchive::fn_802A5C3C() {
+    if (header == NULL) {
+        set_mode(7);
         return -1;
     }
-    return ((RlcHeader *)temp_r0)->get_chunk_count();
+    return header->get_chunk_count();
 }
 
-void fn_802A5C7C(void *arg0) {
-    *(s32 *)((s8 *)arg0 + 4) = (s32) (*(s32 *)((s8 *)arg0 + 8) + ((RlcHeader *)(*(s32 *)((s8 *)arg0 + 0)))->get_directory_offset());
-}
-void fn_802A5CB8(void* p) { *(u32*)((char*)p + 0x0) = *(u32*)((char*)p + 0x8); }
+void RlcArchive::fn_802A5C7C() { directory = (RlcDirectoryEntry *)(buffer + header->get_directory_offset()); }
+void RlcArchive::fn_802A5CB8() { header = (RlcHeader *)buffer; }
 
-void fn_802A5CC4(u8 *arg0, s32 arg1) {
-    if (strlen((void *)arg1) > 0x1F) {
-        strncpy(arg0 + 0x1C, (void *)arg1, 0x1F);
-        *(s8 *)((s8 *)arg0 + 0x3B) = 0;
+void RlcArchive::fn_802A5CC4(s32 file) {
+    if (strlen((void *)file) > 0x1F) {
+        strncpy(name, (void *)file, 0x1F);
+        name[0x1F] = 0;
         return;
     }
-    strcpy(arg0 + 0x1C, (void *)arg1);
+    strcpy(name, (void *)file);
 }
 
-void TWindowSnapShot::free_buffer() {
-    if (this->m_prev != NULL) {
-        mem_free(this->m_prev);
-        this->m_prev = 0;
+void RlcArchive::free_buffer() {
+    if (buffer != NULL) {
+        mem_free(buffer);
+        buffer = 0;
     }
 }
 
-s32 alloc_buffer__15TWindowSnapShotFPv(TWindowSnapShot *window_snap_shot) {
-    window_snap_shot->get_buffer_size();
-    *(u32 *)((s8 *)window_snap_shot + 8) = mem_alloc();
-    if ((u32) *(u32 *)((s8 *)window_snap_shot + 8) == 0U) {
-        window_snap_shot->set_mode(4);
+s32 RlcArchive::alloc_buffer() {
+    buffer = (u8 *)mem_alloc(get_buffer_size());
+    if (buffer == 0) {
+        set_mode(4);
         return 0;
     }
     return 1;
 }
-s32 TWindowSnapShot::open_stream(s32 name) {
-    *(s32 *)&this->m_next = TGStream::read_whole_file((s32)name, (u8 *)(*(s32 *)&this->m_prev));
-    if (TWindowSnapShot__sub_802A605C((u8 *)this) == 0) {
+s32 RlcArchive::open_stream(s32 file) {
+    file_size = TGStream::read_whole_file(file, buffer);
+    if (fn_802A605C() == 0) {
         set_mode(2);
         free_buffer();
         return 0;
     }
     return 1;
 }
-s32 init__15TWindowSnapShotFPvi(TWindowSnapShot *window_snap_shot, s32 arg1) {
-    *(s32 *)((s8 *)window_snap_shot + 0xC) = ((TLobby *)arg1)->get_resource_file_size();
-    if (TWindowSnapShot__sub_802A605C((u8 *)window_snap_shot) == 0) {
-        window_snap_shot->set_mode(1);
+s32 RlcArchive::init(s32 file) {
+    file_size = ((TLobby *)file)->get_resource_file_size();
+    if (fn_802A605C() == 0) {
+        set_mode(1);
         return 0;
     }
     return 1;
 }
-void TWindowSnapShot::reset() {
-    u8 *arg0 = (u8 *)this;
-    *(s32 *)&this->m_name = 0;
-    *(s32 *)&this->m_flags = 0;
-    memset((u8 *)&this->_pad1C, 0, 0x20);
-    *(s32 *)&this->m_prev = 0;
-    *(s32 *)&this->m_next = 0;
-    *(s32 *)&this->m_down = 0;
-    *(s32 *)((s8 *)arg0 + 0x18) = 0;
-}
-void *TWindowSnapShot__sub_802A5EDC(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x3C) = lbl_804DD098;
-        if (arg1 > 0) {
-            ::operator delete(arg0);
-        }
-    }
-    return arg0;
+void RlcArchive::reset() {
+    header = 0;
+    directory = 0;
+    memset(name, 0, 0x20);
+    buffer = 0;
+    file_size = 0;
+    loaded = 0;
+    error = 0;
 }
 
-u8 *TWindowSnapShot::init_and_reset() {
-    u8 *arg0 = (u8 *)this;
-    this->m_3c = lbl_804DD098;
-    reset();
-    return arg0;
-}
+RlcArchive::~RlcArchive() {}
 
-void TWindowSnapShot::update_both() { free_buffer(); reset(); }
-s32 TWindowSnapShot::start_capture(s32 arg1) {
-    if (arg1 == 0) {
+RlcArchive::RlcArchive() { reset(); }
+
+void RlcArchive::update_both() { free_buffer(); reset(); }
+s32 RlcArchive::start_capture(s32 file) {
+    if (file == 0) {
         set_mode(3);
         return 0;
     }
-    if (init__15TWindowSnapShotFPvi(this, arg1) == 0) {
+    if (init(file) == 0) {
         return 0;
     }
-    if (alloc_buffer__15TWindowSnapShotFPv(this) == 0) {
+    if (alloc_buffer() == 0) {
         return 0;
     }
-    if (open_stream(arg1) == 0) {
+    if (open_stream(file) == 0) {
         return 0;
     }
-    fn_802A5CB8(this);
-    fn_802A5C7C(this);
-    fn_802A5CC4((u8 *)this, (s32)arg1);
-    *(s32 *)&this->m_down = 1;
+    fn_802A5CB8();
+    fn_802A5C7C();
+    fn_802A5CC4(file);
+    loaded = 1;
     return 1;
 }
 int TWindowSnapShot::get_width() { return 32; }
-void TWindowSnapShot::set_mode(s32 v) { *(s32*)((char*)this + 0x18) = v; }
-s32 TWindowSnapShot::get_buffer_size() { return *(s32 *)&this->m_next; }
-s32 TWindowSnapShot__sub_802A605C(u8 *arg0) {
-    return (u8) (*(s32 *)((s8 *)arg0 + 0xC) != 0);
-}
+void RlcArchive::set_mode(s32 v) { error = v; }
+s32 RlcArchive::get_buffer_size() { return file_size; }
+s32 RlcArchive::fn_802A605C() { return (u8)(file_size != 0); }
 void fn_802A6070(void* p, s32 v) { *(s32*)((char*)p + 0x4) = v; }
 void fn_802A6078(void* p, s32 v) { *(s32*)((char*)p + 0x0) = v; }

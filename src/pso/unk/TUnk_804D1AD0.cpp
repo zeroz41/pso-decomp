@@ -13,16 +13,10 @@
 #include "pso/ui/window/WindowLayout.h"
 
 TUnk_804D1AD0::TUnk_804D1AD0(TWindowMainMenu *parent, s32 client) : TObject(parent) {
-    void *storage;
     main_menu = parent;
     client_id = client;
     category_menu = create_status_category_menu();
-    // TWindowSubStatusDisp keeps a hand constructor until its other caller (TAdMultiPlyChrSelectGC) can use new.
-    storage = TObject::operator new(0x74);
-    if (storage != NULL) {
-        storage = TWindowSubStatusDisp__ct((SD_80281760 *)storage, client_id);
-    }
-    status_disp = (TWindowSubStatusDisp *)storage;
+    status_disp = new TWindowSubStatusDisp(client_id);
     if (TCameraCtrl::get_camera_id() > 2) {
         category_menu->set_position_xy(0.84f, 0.84f);
         fn_8027FD88(status_disp, 0.84f, 0.84f);

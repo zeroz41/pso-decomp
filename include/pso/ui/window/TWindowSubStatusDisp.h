@@ -16,6 +16,7 @@ struct TWindowSubStatusDisp : public TWindowBase {
         RECORD_SET_EP2_SPLIT
     };
 
+    TWindowSubStatusDisp(s32 client);
     virtual ~TWindowSubStatusDisp();
     void calc_row_width();
     virtual void run_task();

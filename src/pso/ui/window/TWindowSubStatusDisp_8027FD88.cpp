@@ -14,6 +14,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowBase.h"
+#include "pso/ui/window/WindowLayout.h"
 
 const char *TWindowSubStatusDisp__class_name = "TWindowSubStatusDisp";
 extern "C" {
@@ -333,14 +334,10 @@ const s32 status_disp_vt5_message_ids[4] = {0x91, 0x92, 0x91, 0x92};
 
 #include "types.h"
 
-struct SD_80281760 { const char *f0; u8 pad4[0x14]; void *vt; u8 pad1c[4]; s16 f20; u8 pad22[0x3E]; s16 f60; s16 f62; u8 pad64[4]; void *f68; f32 f6c; f32 f70; };
 extern "C" {
 s32 fn_8026C7AC(void *arg0, s8 arg1);
 s32 handle_list_page_flip_input(int);
 void *init__21TWindowSubComCardListFiii(void *, int, int, s32);
-s32 get_window_layout_position(int);
-
-extern s32 __vt__20TWindowSubStatusDisp[];
 void *get_player_by_client_id(s32 i);
 s32 draw_visible_window_entries(void *, void *, s32);
 s32 draw_list_page_indicator(s32, s32);
@@ -350,23 +347,21 @@ s32 delete_if_allocated(s32 arg0, s16 arg1);
 // list type of m_68 per page (inferred: the page-flip list kind passed to fn_8026C7AC)
 const u8 lbl_805DD6F4[4] = {3, 4, 4, 0};
 
-SD_80281760 *TWindowSubStatusDisp__ct(SD_80281760 *arg0, s32 arg1) {
-    void *w;
-    __ct__11TWindowBaseFPUcsPUc(arg0, (u8 *)TWindowSubStatusDisp__window_layout, (s16)arg1, (u8 *)(get_window_layout_position(0x19)));
-    arg0->vt = ((u8 *)&__vt__20TWindowSubStatusDisp);
-    arg0->f0 = TWindowSubStatusDisp__class_name;
-    arg0->f20 = arg1;
-    arg0->f60 = 0;
-    arg0->f62 = arg0->f60;
-    arg0->f6c = 1.0f;
-    arg0->f70 = 1.0f;
-    w = ::operator new(0xC);
-    if (w != NULL) {
-        w = init__21TWindowSubComCardListFiii(w, 0, 3, arg1);
+TWindowSubStatusDisp::TWindowSubStatusDisp(s32 client)
+    : TWindowBase((u8 *)TWindowSubStatusDisp__window_layout, client, (u8 *)get_window_layout_position(0x19)) {
+    void *list;
+    m_name = TWindowSubStatusDisp__class_name;
+    m_20 = client;
+    page = 0;
+    m_62 = page;
+    scale_x = 1.0f;
+    scale_y = 1.0f;
+    list = ::operator new(0xC);
+    if (list != NULL) {
+        list = init__21TWindowSubComCardListFiii(list, 0, 3, client);
     }
-    arg0->f68 = w;
-    ((TWindowSubStatusDisp *)arg0)->dispatch_page_init();
-    return arg0;
+    m_68 = (u32)list;
+    dispatch_page_init();
 }
 
 TWindowSubStatusDisp::~TWindowSubStatusDisp() {

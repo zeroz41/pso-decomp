@@ -3,12 +3,7 @@
 
 #include "types.h"
 
-// Field view of a TWindowSubStatusDisp under construction (TWindowSubStatusDisp_8027FD88.cpp).
-struct SD_80281760;
-
 extern "C" {
-// The hand constructor: storage from TObject::operator new(0x74), the client id.
-SD_80281760 *TWindowSubStatusDisp__ct(SD_80281760 *arg0, s32 arg1);
 void fn_8027FD88(void *p, f32 a, f32 b);
 void fn_8027FD94(void *p, s16 v);
 void vt0__20TWindowSubStatusDispFv(u8 *arg0);

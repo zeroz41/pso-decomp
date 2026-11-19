@@ -21,7 +21,6 @@
 extern "C" {
 extern s32 lbl_805D669C;
 }
-extern void *shared_snapshot_capture;
 
 extern "C" {
 
@@ -29,18 +28,13 @@ int get_resource_file_size__6TLobbyFv(void);
 int Dolphin_ARAlloc(void);
 
     extern int snapshot_aligned_buffer_size;
-void TWindowSnapShot::init_default() { TLobby::aram_transfer_sync((s32)((void*)1), (u32)((void*)((TWindowSnapShot *)shared_snapshot_capture)->get_field_8()), lbl_805D669C, snapshot_aligned_buffer_size); }
+void TWindowSnapShot::init_default() { TLobby::aram_transfer_sync((s32)((void*)1), (u32)((void*)shared_snapshot_capture->get_field_8()), lbl_805D669C, snapshot_aligned_buffer_size); }
 
 void TWindowSnapShot__sub_802A7DA0(void) {  }
 
 void TWindowSnapShot::alloc_buffer() { TWindowSnapShot__sub_802A7EAC(); snapshot_aligned_buffer_size = ((get_resource_file_size__6TLobbyFv() + 0x1f) & 0xffffffe0); lbl_805D669C = Dolphin_ARAlloc(); }
 
 }
-
-struct Base_802A7DDC { char pad[0x3C]; };
-struct VObj_802A7DDC : Base_802A7DDC {
-    virtual void m0(int);
-};
 
 struct Stack_802A7F00 {
     f32 sp8;
@@ -83,37 +77,26 @@ extern s32 __vt__15TWindowSnapShot[];
 s32 play_sound_effect(s32, s32, s32, s32);
 
 void TWindowSnapShot::free_shared_instance() {
-    struct VObj_802A7DDC *o;
-    ((TWindowSnapShot *)shared_snapshot_capture)->update_both();
-    o = (struct VObj_802A7DDC *)shared_snapshot_capture;
-    if (o != NULL) {
-        o->m0(1);
-    }
+    shared_snapshot_capture->update_both();
+    delete shared_snapshot_capture;
     shared_snapshot_capture = NULL;
 }
 }
 
 s32 load_player_motion_data(void) {
-    s32 temp_r3;
-    s32 var_r0;
-    if ((void *) (*(u8 * *)&shared_snapshot_capture) != NULL) {
+    if (shared_snapshot_capture != NULL) {
         return 0;
     }
-    temp_r3 = (int)::operator new(0x40);
-    var_r0 = temp_r3;
-    if (var_r0 != 0) {
-        var_r0 = (long) (((TWindowSnapShot *)temp_r3)->init_and_reset());
-    }
-    (*(u8 * *)&shared_snapshot_capture) = (unsigned char *) ((void *) var_r0);
-    if ((u32) var_r0 == 0U) {
+    shared_snapshot_capture = new RlcArchive;
+    if (shared_snapshot_capture == NULL) {
         return 0;
     }
-    ((TWindowSnapShot *)var_r0)->start_capture((s32)player_motion_data_filename_ptr);
+    shared_snapshot_capture->start_capture((s32)player_motion_data_filename_ptr);
     return 1;
 }
 
-s32 TWindowSnapShot::get_size() { return *(s32 *)&this->m_name; }
-s32 TWindowSnapShot::get_field_8() { return *(s32 *)&this->m_prev; }
+s32 RlcArchive::get_size() { return (s32)header; }
+s32 RlcArchive::get_field_8() { return (s32)buffer; }
 int TWindowSnapShot::get_height() { return 600; }
 
 int TWindowSnapShot__sub_802A7EAC(void) {  return (int)player_motion_data_filename_ptr; }
@@ -168,7 +151,7 @@ u8 *TWindowSnapShot__ct(TWindowSnapShot *window_snap_shot, s32 arg1) {
     return (u8 *)window_snap_shot;
 }
 
-void *shared_snapshot_capture;
+RlcArchive *shared_snapshot_capture;
 u32 snapshot_image_buffer;
 s32 snapshot_buffer_size;
 s32 lbl_805D669C;
