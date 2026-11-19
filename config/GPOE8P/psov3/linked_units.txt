@@ -764,6 +764,7 @@ pso/ui/hud/TLoadingCur.cpp
 pso/ui/hud/TLoadingCur_801A6DE0.cpp
 pso/unk/TLobby.cpp
 pso/unk/TLobbyEventTheme.cpp
+pso/unk/TLobbyBattleParamData.cpp
 pso/unk/TLobby_8001D6A0.cpp
 pso/unk/TLobby_8001EF5C.cpp
 pso/unk/TLobby_8002C140.cpp
