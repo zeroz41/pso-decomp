@@ -2160,6 +2160,7 @@ pso/ui/window/TWindowHelpItem_80253154.cpp
 pso/ui/window/TWindowHelpItem_80253630.cpp
 pso/ui/window/TWindowSubMag_80253698.cpp
 pso/unk/text_8025373C.cpp
+pso/ui/window/WindowHelpItemTextA.cpp
 pso/unk/text_80253974.cpp
 pso/unk/text_80255A38.cpp
 pso/unk/text_8025CD10.cpp
