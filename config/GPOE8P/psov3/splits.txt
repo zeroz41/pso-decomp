@@ -1441,7 +1441,7 @@ pso/enemy/berura/TObjEneRe7BeruraPunch.cpp:
 pso/effect/TBreakUpMdl.cpp:
 	.text       start:0x8009680C end:0x80097100
 	.rodata     start:0x80439F30 end:0x80439F70
-	.data       start:0x8048F9E8 end:0x8048FA00
+	.data       start:0x8048F9E8 end:0x8048FA10
 	.sdata      start:0x805D2998 end:0x805D29A0
 	.sdata2     start:0x805D97C8 end:0x805D97D8
 
