@@ -1160,6 +1160,10 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # TItemMag's vtable precedes its switch tables: deferred, and written from
     # its last function back.
     "pso/item/mag/TItemMag.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
+    # TItemShoot.cpp's five vtables come out RotZ, Gun, Particle, Model, Shoot
+    # (their .text order) and its class-name strings sit in .rodata: deferred,
+    # written from its last function back.
+    "pso/weapon/shoot/TItemShoot.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     # The bridges' vtables come out in the reverse of their .text order:
     # deferred, written from the unit's last function back. -fp_contract on:
     # TObjHashiBase::update_object_view_visibility fuses its multiply-adds.

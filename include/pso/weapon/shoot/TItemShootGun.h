@@ -11,11 +11,13 @@ public:
 
 public:
     TItemShootGun(void* owner, const Vec* pos, const Vec* endpoint, f32 life);
-    virtual ~TItemShootGun();
+    // render is the key function (the vtable follows its definition order).
     virtual void render();
     virtual void hook();
+    virtual ~TItemShootGun();
 public:
     static u32 create(s32 owner, s32 pos, s32 endpoint, f32 life);
+    void set_texture_id(s32 id);
 };
 
 #endif

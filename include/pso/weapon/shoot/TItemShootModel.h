@@ -13,10 +13,12 @@ public:
 
 public:
     TItemShootModel(void* owner, const Vec* pos, const Vec* dir, f32 life);
+    // render is declared first: it is the key function that puts the vtable
+    // in TItemShoot.cpp (the destructor's kept copy is in another TU).
+    virtual void render();
     virtual ~TItemShootModel();
     void sub_80129118(s32, s32);
     s32 is_owner_alive();
-    virtual void render();
 };
 
 #endif

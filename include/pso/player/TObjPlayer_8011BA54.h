@@ -3,14 +3,9 @@
 
 #include "types.h"
 
+// Defined in pso/weapon/shoot/TItemShoot.cpp.
 extern "C" {
-s32 create_shoot_model__10TObjPlayerFUiiif(u32 owner, s32 arg1, s32 arg2, f32 farg0);
+s32 create_shoot_model__10TObjPlayerFUiiif(u32 owner, s32 pos, s32 dir, f32 life);
 }
-
-// --- C functions defined in text_8011BA54.cpp ---
-extern "C" {
-s32 create_shoot_model__10TObjPlayerFUiiif(u32 owner, s32 arg1, s32 arg2, f32 farg0);
-}
-// --- end of C functions
 
 #endif

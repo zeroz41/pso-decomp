@@ -15,7 +15,7 @@ public:
  Vec m_dir;
  Vec m_44;
  TObject* m_50;
- void* m_54;
+ s32 m_owner_item_id; // the owner item's get_item_id(); find_equipped_item(id) == NULL ends the shot
 
 public:
     TItemShoot(void* owner, const Vec* pos, const Vec* dir, f32 life);
@@ -23,10 +23,8 @@ public:
     virtual void hook();
     virtual void run_task();
 public:
-    static s32 spawn_shoot_particle();
-    static u32 spawn_shoot_particle_attached(s32 arg0, s32 arg1, s32 arg2, f32 farg0);
-    void set_texture_id(s32 v);
-    void set_particle_flags(s16 v);
+    static s32 spawn_shoot_particle(u32 owner, s32 pos, s32 dir, f32 life);
+    static u32 spawn_shoot_particle_attached(u32 owner, s32 pos, s32 dir, f32 life);
 };
 
 #endif

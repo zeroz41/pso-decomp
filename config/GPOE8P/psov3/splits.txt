@@ -2617,73 +2617,12 @@ pso/unk/text_8011A780.cpp:
 	.sbss       start:0x805D54E0 end:0x805D54F0
 	.sdata2     start:0x805DAC58 end:0x805DAC5C
 
-pso/weapon/shoot/TItemShootModelRotZ.cpp:
-	.text       start:0x8011B260 end:0x8011B328
-
-pso/unk/text_8011B328.cpp:
-	.text       start:0x8011B328 end:0x8011B3B0
-
-pso/weapon/shoot/TItemShootGun.cpp:
-	.text       start:0x8011B3B0 end:0x8011B444
-
-pso/weapon/shoot/TItemShootGun_8011B444.cpp:
-	.text       start:0x8011B444 end:0x8011B598
-
-pso/weapon/shoot/TItemShootGun_8011B598.cpp:
-	.text       start:0x8011B598 end:0x8011B620
-
-pso/unk/text_8011B620.cpp:
-	.text       start:0x8011B620 end:0x8011B694
-
-pso/weapon/shoot/TItemShootParticle_8011B694.cpp:
-	.text       start:0x8011B694 end:0x8011B704
-
-pso/weapon/shoot/TItemShootParticle.cpp:
-	.text       start:0x8011B704 end:0x8011B86C
-
-pso/player/TObjPlayer_8011B86C.cpp:
-	.text       start:0x8011B86C end:0x8011B8F8
-
-pso/weapon/shoot/TItemShootModel.cpp:
-	.text       start:0x8011B8F8 end:0x8011BA54
-
-pso/player/TObjPlayer_8011BA54.cpp:
-	.text       start:0x8011BA54 end:0x8011BADC
-
-pso/player/TObjPlayer_8011BADC.cpp:
-	.text       start:0x8011BADC end:0x8011BB2C
-
 pso/weapon/shoot/TItemShoot.cpp:
-	.text       start:0x8011BB2C end:0x8011BD88
+	.text       start:0x8011B260 end:0x8011C000
+	.rodata     start:0x8043E738 end:0x8043E7A8
 	.data       start:0x804A04A8 end:0x804A0534
-	.sdata2     start:0x805DAC68 end:0x805DAC6C
-
-pso/weapon/shoot/TItemShoot_8011BD88.cpp:
-	.text       start:0x8011BD88 end:0x8011BDC8
-
-pso/weapon/shoot/TItemShoot_8011BDC8.cpp:
-	.text       start:0x8011BDC8 end:0x8011BE50
-
-pso/unk/text_8011BE50.cpp:
-	.text       start:0x8011BE50 end:0x8011BEF0
-
-pso/unk/text_8011BEF0.cpp:
-	.text       start:0x8011BEF0 end:0x8011BF3C
-
-pso/weapon/shoot/TItemShootModelRotZ_dtor.cpp:
-	.text       start:0x8011BF3C end:0x8011BF94
-
-pso/weapon/shoot/TItemShoot_8011BF94.cpp:
-	.text       start:0x8011BF94 end:0x8011BF9C
-
-pso/weapon/shoot/TItemShootHook.cpp:
-	.text       start:0x8011BF9C end:0x8011BFA0
-
-pso/weapon/shoot/TItemShoot_8011BFA0.cpp:
-	.text       start:0x8011BFA0 end:0x8011BFA8
-
-pso/weapon/shoot/TItemShootGun_dtor.cpp:
-	.text       start:0x8011BFA8 end:0x8011C000
+	.sdata      start:0x805D2C60 end:0x805D2C74
+	.sdata2     start:0x805DAC60 end:0x805DAC6C
 
 pso/player/TObjPlayer_8011C000.cpp:
 	.text       start:0x8011C000 end:0x8011CC58
