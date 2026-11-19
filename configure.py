@@ -1387,7 +1387,9 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # The pad rumble and Ninja helper code contract multiply-adds into fmadds/fnmsubs.
     "pso/system/PadRumble.cpp": {"cflags": _switch(cflags_pso, "-fp_contract on")},
     "pso/render/NinjaUtil.cpp": {"cflags": _switch(cflags_pso, "-fp_contract on")},
-    "pso/render/TFogCtrl.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    # Its vtable sits after TFogCtrl_EOR's: deferred generation of the last-to-first source. Inlining stays
+    # on so copy_fog_entry's block copies fold in instead of becoming out-of-line ByteBlock assignments.
+    "pso/render/TFogCtrl.cpp": {"cflags": _switch(cflags_pso, "-inline on,deferred", "-str reuse,readonly")},
     # The render helpers (0x801412D0-0x80142770): GC/1.3.2, one .sdata2 pool. Only
     # 1.3.2 keeps approach_vector_fixed_distance's early-out copy unscheduled.
     "pso/render/render_util.cpp": {"mw_version": "GC/1.3.2", "cflags": [*_switch(cflags_pso, "-fp_contract on"), "-DPSO_SDK_COMPACT_MATH"]},

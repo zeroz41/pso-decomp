@@ -2111,7 +2111,7 @@ pso/unk/TLobby_800FA848.cpp:
 pso/render/TFogCtrl.cpp:
 	.text       start:0x800FA8A4 end:0x800FBD74
 	.rodata     start:0x8043DA20 end:0x8043DA70
-	.data       start:0x8049C670 end:0x8049C718
+	.data       start:0x8049C670 end:0x8049C730
 	.bss        start:0x80501188 end:0x805011D8
 	.sdata      start:0x805D2B18 end:0x805D2B20
 	.sbss       start:0x805D5388 end:0x805D5394
