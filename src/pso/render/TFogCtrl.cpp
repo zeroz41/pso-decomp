@@ -22,7 +22,6 @@
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/math/AngleLookup.h"
 
-
 extern "C" {
 extern u32 fog_ctrl_instance;
 s32 request_fog__8TFogCtrlFPvii(u8 *arg0, s32 arg1, s32 arg2);
@@ -35,14 +34,7 @@ const char *TFogCtrl__name = "TFogCtrl";
 const char *TFogCtrl_EOR__name = "TFogCtrl_EOR";
 s32 TFogCtrl__sub_800FAC84(void *p);
 int update_all__8TFogCtrlFv(void*);
-
-
 }
-
-
-
-
-
 
 struct ByteBlock_8 { u8 bytes[0x8]; };
 
@@ -205,44 +197,10 @@ extern const f32 TFogCtrl__data_805DA948 = 0.0f;
 extern const f32 TFogCtrl__data_805DA94C = 640.0f;
 #define FOG_ZERO (*(const f32 *)&TFogCtrl__data_805DA948)
 #define FOG_MAX (*(const f32 *)&TFogCtrl__data_805DA94C)
-
-
-
 }
 void copy_fog_entry(u8 *arg0, u8 *arg1);
 s32 apply_fog_entry(void *arg0);
 void init_scene_fog_system(void);
-
-
-
-
-
-
-
-
-extern "C" {
-
-
-
-
-
-
-
-
-
-
-
-
-}
-
-
-
-
-
-
-
-
-
 
 s32 area_fog_row_table[36] = {
     33, 1, 2, 3, 4, 5, 14, 15, 30, 31, 32, 23, 16, 34, 35, 34, 19, 47,

@@ -1,4 +1,4 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
+<#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowDD_WS_String.h"
@@ -290,14 +290,6 @@ extern "C" {
 NumberWindow* __ct__18TWindowInputNumberFPvllls(void* storage, const WindowPosition* position,
                                    s32 minimum, s32 maximum, s32 initial, s16 client);
 
-
-
-
-
-
-
-
-
 extern u32 window_dd_buffer_a;
 extern u32 window_dd_buffer_b;
 extern u32 TWindowDD__player_name_buffers;
@@ -324,8 +316,6 @@ extern const f32 lbl_805DFB24;
 extern const f32 lbl_805DFB28;
 void set_quad_corners_scaled__9TWindowDDFfff(NJS_POINT2 *quad, f32 x, f32 y, f32 size);
 void init_ws_data_tables__9TWindowDDFv(void);
-
-
 }
 
 extern "C" {
