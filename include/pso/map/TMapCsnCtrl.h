@@ -15,4 +15,7 @@ public:
 };
 typedef char TMapCsnCtrlExtent[sizeof(TMapCsnCtrl) == 0x81C ? 1 : -1];
 
+// Defined by the map collision unit (TObjMapCsn.cpp), whose .sdata and .rodata it opens.
+extern const char *TMapCsnCtrl__class_name;
+
 #endif

@@ -2,8 +2,6 @@
 
 #include "types.h"
 
-extern const char *TMapCsnCtrl__class_name;
-
 void TMapCsnCtrl::sub_80140F44() {
     unk_1C = 0;
 }

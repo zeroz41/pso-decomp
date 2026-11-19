@@ -25,6 +25,13 @@ struct TLazerFenceSw : public TOKey {
 
 typedef char TLazerFenceSw_size[sizeof(TLazerFenceSw) == 0x118 ? 1 : -1];
 
+// The texture lists TLazerFenceSw::load_resources picks from. The unit defines
+// them after that function, which reaches each with its own lis/addi while it
+// reaches the .data it uses from one pooled base.
+extern const char fe_obj_switch_laz_j_gvm[];
+extern const char fe_obj_switch_laz_a_gvm[];
+extern const char fe_obj_switch_laz_gvm[];
+
 extern "C" {
 void TLazerFenceSw__sub_8018A554(void *p, f32 v);
 }

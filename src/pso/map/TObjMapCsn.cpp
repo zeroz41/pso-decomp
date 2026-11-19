@@ -4,6 +4,7 @@
 #include "pso/system/vector.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/map/TObjMapCsn.h"
+#include "pso/map/TMapCsnCtrl.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/MatrixStack.h"
 
@@ -28,6 +29,8 @@ struct Csn_801946D0 {
     Tri_801946D0 tris[8];
     Vec verts[8];
 };
+
+const char *TMapCsnCtrl__class_name = "TMapCsnCtrl";
 
 // Corner indices of the 8 side triangles of the collision box (two per side face).
 s8 map_csn_box_triangle_indices[24] = {

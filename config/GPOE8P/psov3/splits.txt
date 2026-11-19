@@ -4739,7 +4739,7 @@ pso/object/fence/TObjLazerFence4.cpp:
 
 pso/object/fence/TLazerFenceSw.cpp:
 	.text       start:0x801936E0 end:0x80193FE4
-	.rodata     start:0x80445C00 end:0x80445CF0
+	.rodata     start:0x80445C00 end:0x80445D38
 	.data       start:0x804B8318 end:0x804B840C
 	.bss        start:0x8050DCE8 end:0x8050DD08
 	.sdata      start:0x805D33B0 end:0x805D33B4
@@ -4748,13 +4748,16 @@ pso/object/fence/TLazerFenceSw.cpp:
 
 pso/object/ambient/TObjLight.cpp:
 	.text       start:0x80193FE4 end:0x80194670
-	.rodata     start:0x80445D50 end:0x80445D78
+	.rodata     start:0x80445D38 end:0x80445D68
 	.data       start:0x804B8410 end:0x804B8444
+	.sdata      start:0x805D33B8 end:0x805D33C0
 	.sdata2     start:0x805DBE98 end:0x805DBEBC
 
 pso/map/TObjMapCsn.cpp:
 	.text       start:0x80194670 end:0x80194AEC
+	.rodata     start:0x80445D68 end:0x80445D78
 	.data       start:0x804B8448 end:0x804B850C
+	.sdata      start:0x805D33C0 end:0x805D33C8
 	.sdata2     start:0x805DBEC0 end:0x805DBECC
 
 pso/object/TObjMesBase.cpp:
@@ -5074,7 +5077,7 @@ pso/effect/photon/TPhotonConcentrate.cpp:
 	.rodata     start:0x80446A50 end:0x80446A78
 	.data       start:0x804C3288 end:0x804C32C0
 	.sdata      start:0x805D34D0 end:0x805D34D8
-	.sdata2     start:0x805DC0F8 end:0x805DC104
+	.sdata2     start:0x805DC0F8 end:0x805DC110
 
 pso/player/PhotonBlastResults.cpp:
 	.text       start:0x801A826C end:0x801AA508
@@ -7879,21 +7882,18 @@ pso/boss/galgryphon/TObjBoss5FloorGrass.cpp:
 	.sdata      start:0x805D3B20 end:0x805D3B28
 
 pso/boss/galgryphon/TObjBoss5PillarDemo.cpp:
-	.text       start:0x8028AB38 end:0x8028AE9C
+	.text       start:0x8028AB38 end:0x8028ACE8
 	.rodata     start:0x80450CA0 end:0x80450CB8
 	.data       start:0x804D35F0 end:0x804D3608
 	.sdata      start:0x805D3B28 end:0x805D3B30
-	.sbss       start:0x805D64D0 end:0x805D64D8
 	.sdata2     start:0x805DD908 end:0x805DD90C
 
 pso/boss/galgryphon/TObjBoss5PillarSmoke.cpp:
-	.text       start:0x8028AE9C end:0x8028AEA4
-
-pso/boss/galgryphon/TObjBoss5PillarSmoke_8028AEA4.cpp:
-	.text       start:0x8028AEA4 end:0x8028B08C
-	.rodata     start:0x80450CB8 end:0x80450CD0
+	.text       start:0x8028ACE8 end:0x8028B08C
+	.rodata     start:0x80450CB8 end:0x80450CE8
 	.data       start:0x804D3608 end:0x804D3620
 	.sdata      start:0x805D3B30 end:0x805D3B38
+	.sbss       start:0x805D64D0 end:0x805D64D8
 
 pso/boss/galgryphon/TObjBoss5Pillar_8028B08C.cpp:
 	.text       start:0x8028B08C end:0x8028B190
@@ -8205,7 +8205,7 @@ pso/ui/frontend/TAdRayGC.cpp:
 
 pso/object/jungle/TORockJungleL01.cpp:
 	.text       start:0x8029C030 end:0x8029CC68
-	.rodata     start:0x80465788 end:0x804658EC
+	.rodata     start:0x80465788 end:0x80465932
 	.data       start:0x804DC378 end:0x804DC528
 	.sdata      start:0x805D3D38 end:0x805D3D48
 	.sbss       start:0x805D65D0 end:0x805D65D8

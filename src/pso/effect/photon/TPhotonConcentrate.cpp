@@ -60,13 +60,8 @@ void rotate_matrix_z(void *, s32);
 void subtract_vector(void *, void *);
 f32 xyz_distance(void *, void *);
 extern u8 identity_matrix[];
-extern const f32 lbl_805DC104;
-extern const f32 lbl_805DC108;
-extern const f32 lbl_805DC10C;
 void run_task__18TPhotonConcentrateFv(PC_801A7E7C *self) {
-  f32 sn;
   Vec delta;
-  float new_var;
   Owner_801A7E7C *owner;
   u32 a;
   VecCopy((Vec *)&delta, (const Vec *)&self->pos);
@@ -94,17 +89,14 @@ void run_task__18TPhotonConcentrateFv(PC_801A7E7C *self) {
     {
       self->total = 0.00001f;
     }
-    a = lbl_805DC10C * (self->dist / self->total);
-    sn = sin_table_lookup(lbl_805DC108 * ((f32) a));
+    a = 180.0f * (self->dist / self->total);
     {
-      f32 scale = self->total / 10.0f;
       Vec off;
       Vec xf;
-      new_var = lbl_805DC104 * scale;
+      off.x = 4.0f * (self->total / 10.0f) * sin_table_lookup(182.04445f * ((f32) a));
       off.y = (off.z = 0.0f);
-      off.x = new_var * sn;
       push_matrix_from(identity_matrix);
-      rotate_matrix_z(0, lbl_805DC108 * ((f32) self->angle));
+      rotate_matrix_z(0, 182.04445f * ((f32) self->angle));
       rotate_vector_by_matrix(0, &off, &xf);
       pop_matrices(1);
       VecCopy((Vec *)&off, (const Vec *)&xf);
@@ -112,7 +104,7 @@ void run_task__18TPhotonConcentrateFv(PC_801A7E7C *self) {
       owner = self->owner;
       if (owner != 0)
       {
-        rotate_matrix_y(0, lbl_805DC108 * ((f32) ((s32)(owner->angle - 0x5A))));
+        rotate_matrix_y(0, 182.04445f * ((f32) ((s32)(owner->angle - 0x5A))));
         rotate_vector_by_matrix(0, &off, &xf);
       }
       pop_matrices(1);

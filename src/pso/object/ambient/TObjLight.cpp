@@ -65,7 +65,6 @@ extern s32 tl_05;
 s32 __ct__8TObjBaseFP7TObject(void *);
 extern s32 __vt__9TObjLight[];
 extern RecoveredGlobal_80194528_TObjLight__data_80506320 TObjLight__scene_light_state;
-extern s32 lbl_805D33B8;
 Actor_80193FE8 *get_player_data__10TObjPlayerFi(s32);
 u16 get_entity_id(void *);
 f32 xyz_distance_squared(void *, void *);
@@ -76,14 +75,18 @@ void matrix_mult_vec(void *, void *, void *);
 f32 vector_length(void *);
 void rotate_matrix_z(void *, s32);
 void normalize_vector(void *);
-extern const Vec lbl_80445D44;
 extern u8 identity_matrix[];
 extern u8 *camera_ctrl_instance;
 
+const char *TObjLight__class_name = "TObjLight";
+
 void TObjLight::render() {  }
 
+// The original reaches the forward vector's initialiser with its own lis/addi, not
+// from a pooled .rodata base: pool_data is off for this function.
 #pragma push
 #pragma fp_contract on
+#pragma pool_data off
 void TObjLight::run_task() {
     Light_80193FE8 *self = (Light_80193FE8 *)this;
     s32 hi;
@@ -92,7 +95,7 @@ void TObjLight::run_task() {
         return;
     }
     {
-    Vec fwd = lbl_80445D44;
+    Vec fwd = {0.0f, 0.0f, -1.0f};
     VecCopy((Vec *)&self->base_dir, (const Vec *)(((u8 *)&TObjLight__scene_light_state) + 0xC));
     self->flags = 0;
     if (self->param[0] >= 10000.0f) {
@@ -196,7 +199,7 @@ typedef char RecoveredGlobal_80194528_TObjLight__data_80506320_size[sizeof(Recov
 u8 *TObjLight__ct(TObjLight *light, s32 arg1, u8 *arg2) {
     __ct__8TObjBaseFP7TObject(light);
     *(s32 **)((s8 *)light + 0x18) = __vt__9TObjLight;
-    *(s32 *)((s8 *)light + 0) = (s32) lbl_805D33B8;
+    light->m_name = TObjLight__class_name;
     ((TObjLight *)(light))->apply_object_set_data(arg2);
     light->m_90 = (s32) *(s16 *)((s8 *)arg2 + 8);
     *(f32 *)((s8 *)light + 0xF0) = 0.5f;
@@ -231,5 +234,3 @@ u8 *TObjLight__create(u8 *arg0) {
     return var_r0;
 }
 
-
-extern "C" { extern const char TMapCsnCtrl__class_name_string[12] = "TMapCsnCtrl"; }
