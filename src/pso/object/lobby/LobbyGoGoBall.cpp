@@ -7,7 +7,7 @@
 #include "types.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/unk/text_80198A2C.h"
-#include "pso/unk/text_80235A20.h"
+#include "pso/unk/TUnk_804CCA78.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/render/GinjaMaterial.h"
@@ -1089,7 +1089,6 @@ void TUnk_804B8DD0::update_effects() {
     Vec v2b;
     Vec vda;
     Vec vdb;
-    void *o;
     if (*(u16 *)((s8 *)&gogo_ball_configuration + 0x48) == 0) {
         (this->m_30)++;
         if (this->m_30 == 1) {
@@ -1131,20 +1130,14 @@ void TUnk_804B8DD0::update_effects() {
                 VecCopy((Vec *)&vda, &this->pos);
                 vda.y += 7.0f;
                 spawn_particle_effect_with_flags(&vda, 0x20E, 0x40);
-                o = (void *)TObject::operator new(0x28);
-                if (o != NULL) {
-                    construct_timed_sound_voice((u8 *)o, (s32)&this->pos, (s16)(5), 0x4002A90C, 0, (s32)tl_05);
-                }
+                new TUnk_804CCA78(&this->pos, 5, 0x4002A90C, 0, tl_05);
             }
         } else {
             if (this->m_30 % 5 == 0 && this->m_30 <= 0x32) {
                 VecCopy((Vec *)&vdb, &this->pos);
                 vdb.y += 7.0f;
                 spawn_particle_effect_with_flags(&vdb, 0x20F, 0x40);
-                o = (void *)TObject::operator new(0x28);
-                if (o != NULL) {
-                    construct_timed_sound_voice((u8 *)o, (s32)&this->pos, (s16)(5), 0x4002A90C, 0, (s32)tl_05);
-                }
+                new TUnk_804CCA78(&this->pos, 5, 0x4002A90C, 0, tl_05);
             }
         }
     }

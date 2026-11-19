@@ -16,6 +16,7 @@
 #include "pso/system/vector.h"
 #include "pso/unk/text_80232B24.h"
 #include "pso/unk/TUnk_804CC888.h"
+#include "pso/unk/TUnk_804CCA78.h"
 #include "pso/unk/TLobby_80226070.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
@@ -109,7 +110,6 @@ Obj_80232B7C *construct_grants_flash(Obj_80232B7C *self, s32 id, void *parent, V
 void attach_particle_model(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0);
 void *spawn_particle_effect(const void *pos, s32 id);
 }
-u8 *construct_timed_sound_voice(u8 *arg0, s32 arg1, s16 arg2, s32 arg3, s32 arg4, s32 arg5);
 
 // Per level tier (TObjPlayer::get_level_tier): the particle emitters TUnk_804CC888 keeps alive and
 // the effects it spawns when it ends.
@@ -198,10 +198,7 @@ void TUnk_804CC888::run_task() {
             dir = -0x100;
             break;
         }
-        p = TObject::operator new(0x28);
-        if (p != 0) {
-            construct_timed_sound_voice((u8 *)p, (s32)((Ctl_80232C50 *)this)->f30, (s16)(0xF), 0x4002A60D, (s32)dir, (s32)tl_07);
-        }
+        new TUnk_804CCA78((Vec *)((Ctl_80232C50 *)this)->f30, 0xF, 0x4002A60D, dir, (TObject *)tl_07);
         ((TObject *)((Ctl_80232C50 *)this))->queue_destruction();
     }
 }

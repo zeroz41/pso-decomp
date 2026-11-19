@@ -2430,3 +2430,4 @@ pso/map/area/AreaMachine01.cpp
 pso/map/area/AreaMachine02.cpp
 pso/map/area/AreaVersus01.cpp
 pso/map/area/AreaVersus02.cpp
+pso/unk/TUnk_804CCA78.cpp
