@@ -323,15 +323,9 @@ void TObjEneMe1Canadin::load_resources() {
         lbl_80500954[i] = (TObjEneMe1CanadinParams *)TLobby::dispatch_shared_handler_a(lbl_8043A1A4[i]);
     }
     TObjEneMe1Canadin__render_node_index = 0;
-    p = ::operator new(0x10);
-    if (p != NULL) {
-        p = ((TBreakUpMdl *)p)->init_from_model(bm_ene_me1_mb_resource->models[1].model);
-    }
+    p = new TUnk_8048FA00(bm_ene_me1_mb_resource->models[1].model);
     lbl_805D4FDC = (TUnk_8048FA00 *)p;
-    p = ::operator new(0x10);
-    if (p != NULL) {
-        p = ((TBreakUpMdl *)p)->init_from_model(bm_ene_me1_mb_resource->models[0].model);
-    }
+    p = new TUnk_8048FA00(bm_ene_me1_mb_resource->models[0].model);
     lbl_805D4FE0 = (TUnk_8048FA00 *)p;
     model = bm_ene_me1_mb_resource->models[1].model;
     lbl_805D4FE4 = (s32 *)(((s32 *)((NJS_OBJECT *)find_model_node(model, 3))->model)[1] + 4);

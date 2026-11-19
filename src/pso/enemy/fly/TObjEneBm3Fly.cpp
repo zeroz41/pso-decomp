@@ -92,10 +92,7 @@ const Bm3FlyAnimationBinding bm3_fly_resource_binding_desc = { NULL, bm3_fly_act
 void TObjEneBm3Fly::load_resources() {
     TUnk_8048FA00 *model;
     bm3_fly_nest_resources = TObjEneBm3FlyNest::sub_800B4158();
-    model = (TUnk_8048FA00 *)::operator new(0x10);
-    if (model != NULL) {
-        model = (TUnk_8048FA00 *)((TBreakUpMdl *)model)->init_from_model(bm3_fly_nest_resources->models[0].model);
-    }
+    model = new TUnk_8048FA00(bm3_fly_nest_resources->models[0].model);
     TObjEneBm3Fly__breakup_model = model;
     bm3_fly_boss_stat_handle = (u8 *)TLobby::register_boss(0);
     TObjEneBm3Fly__attack_params = (AttackParams *)TLobby::dispatch_shared_handler_b(0);

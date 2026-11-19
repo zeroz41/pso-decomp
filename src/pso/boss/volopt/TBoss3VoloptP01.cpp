@@ -189,10 +189,7 @@ void TBoss3VoloptP01::init_breakup_effect() {
     TBoss3VoloptBreakupPieces *pieces;
 
     TBoss3VoloptP01__resource_bundle = boss3_volopt_resources;
-    pieces = (TBoss3VoloptBreakupPieces *)::operator new(0x10);
-    if (pieces != NULL) {
-        pieces = (TBoss3VoloptBreakupPieces *)((TBreakUpMdl *)pieces)->init_from_model(TBoss3VoloptP01__resource_bundle->models[17].model);
-    }
+    pieces = (TBoss3VoloptBreakupPieces *)new TUnk_8048FA00(TBoss3VoloptP01__resource_bundle->models[17].model);
     TBoss3VoloptP01__breakup_model = pieces;
     volopt_p01_chunk_list = (TBoss3VoloptChunkList *)find_model_node(TBoss3VoloptP01__resource_bundle->models[17].model, 0xD);
     volopt_p01_boss_stat_handle_a = TLobby::register_boss(0x22);

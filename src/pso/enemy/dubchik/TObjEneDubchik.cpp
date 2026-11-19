@@ -522,10 +522,7 @@ extern "C" void TObjPlayer__sub_800AA82C(void) {
     lbl_805D509C = (Node_800AA82C *)find_model_node(dubchik_resource->mdl->f8, 0x15);
     lbl_805D50A0 = (Node_800AA82C *)find_model_node(dubchik_resource->mdl->f8, 0x2A);
     ((NJS_OBJECT *)find_model_node(*(s32 *)((u8 *)dubchik_resource->mdl + 0x18), 0x15))->evalflags |= 8;
-    p = ::operator new(0x10);
-    if (p != NULL) {
-        p = ((TBreakUpMdl *)p)->init_from_model(dubchik_resource->mdl->f8);
-    }
+    p = new TUnk_8048FA00(dubchik_resource->mdl->f8);
     breakup_model_ptr = p;
     p = new SampledMotionPoints(2, 28.0f, 35.0f, 1.0f);
     lbl_80500AF0[0] = (s32)p;

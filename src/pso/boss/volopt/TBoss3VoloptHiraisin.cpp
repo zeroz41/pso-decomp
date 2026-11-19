@@ -27,8 +27,6 @@ s32 minimap_render_dot(Vec *pos, s32 color, s16 a2, s32 a3);
 void init_collision_body_parts(TObject *obj, void *parts, s32 count);
 void free_collision_body_parts(TObject *obj);
 
-TUnk_8048FA00 *init_from_model__11TBreakUpMdlFl(TUnk_8048FA00 *obj, s32 model);
-
 extern u32 model_render_flags;
 extern u32 saved_model_render_flags;
 extern TObject *tl_04;
@@ -322,10 +320,7 @@ void TBoss3VoloptHiraisin::init_models() {
     volopt_hiraisin_resources = boss3_volopt_resources;
     volopt_hiraisin_spin_node = (ModelNode *)find_model_node(get_bml_model(boss3_volopt_resources, 0x10), 0xB);
     volopt_hiraisin_spin_node->flags &= ~2;
-    breakup = (TUnk_8048FA00 *)::operator new(0x10);
-    if (breakup != NULL) {
-        breakup = init_from_model__11TBreakUpMdlFl(breakup, get_bml_model(volopt_hiraisin_resources, 0x10));
-    }
+    breakup = new TUnk_8048FA00(get_bml_model(volopt_hiraisin_resources, 0x10));
     volopt_hiraisin_breakup_model = breakup;
     volopt_hiraisin_stats = TLobby::register_boss(0x24);
     volopt_hiraisin_stats_b = TLobby::dispatch_shared_handler_b(0x24);

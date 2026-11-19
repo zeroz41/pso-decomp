@@ -274,16 +274,10 @@ void TObjEneMe3Stelth::load_shared_resources() {
     }
     motion = TObjEneMe3Stelth__bml_resource->motions[TObjEneMe3Stelth__animation_descriptors[5].motion].motion;
     if (is_split_screen() != 0) {
-        p = ::operator new(0x10);
-        if (p != NULL) {
-            p = TBreakUpMdl::init(p, TObjEneMe3Stelth__bml_resource->models->model, (s32)motion, (f32)(((NJS_MOTION *)motion)->nbFrame - 1));
-        }
+        p = new TUnk_8048FA00((int)TObjEneMe3Stelth__bml_resource->models->model, (int)motion, (f32)(((NJS_MOTION *)motion)->nbFrame - 1));
         TObjEneMe3Stelth__breakup_model = (TUnk_8048FA00 *)p;
     } else {
-        p = ::operator new(0x10);
-        if (p != NULL) {
-            p = ((TBreakUpMdl *)p)->setup_pieces(TObjEneMe3Stelth__bml_resource->models->model, (s32)motion, (f32)(((NJS_MOTION *)motion)->nbFrame - 1));
-        }
+        p = new TUnk_8048FA00((long)TObjEneMe3Stelth__bml_resource->models->model, (long)motion, (f32)(((NJS_MOTION *)motion)->nbFrame - 1));
         TObjEneMe3Stelth__breakup_model = (TUnk_8048FA00 *)p;
     }
     {

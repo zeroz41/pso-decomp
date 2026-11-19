@@ -273,10 +273,7 @@ void TObjEneMe3SinowZoa::load_resources() {
         TObjEneMe3SinowZoa__material_color_pointers[2] = NULL;
     }
     motion = TObjEneMe3SinowZoa__bml_resource->motions[lbl_804E8880[5].motion].motion;
-    breakup = (TUnk_8048FA00 *)::operator new(0x10);
-    if (breakup != NULL) {
-        breakup = TBreakUpMdl::init(breakup, TObjEneMe3SinowZoa__bml_resource->models->model, (s32)motion, motion->frameCount - 1);
-    }
+    breakup = new TUnk_8048FA00((int)TObjEneMe3SinowZoa__bml_resource->models->model, (int)motion, motion->frameCount - 1);
     TObjEneMe3SinowZoa__breakup_model = breakup;
     {
         DelDepthAnimationBinding info = lbl_80475FA8;

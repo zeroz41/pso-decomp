@@ -112,15 +112,9 @@ void TObjEneEpsilonGuard::load_assets() {
         p = load_resource_from_descriptor(p, 1, &TObjEneEpsilonGuard__resource_descriptor, 0, 0, 0);
     }
     lbl_805D6FA0 = p;
-    p = (u8 *)::operator new(0x10);
-    if (p != NULL) {
-        p = ((TBreakUpMdl *)p)->init_from_model((s32)(get_bml_model(lbl_805D6FA0, 5)));
-    }
+    p = (u8 *)new TUnk_8048FA00((s32)(get_bml_model(lbl_805D6FA0, 5)));
     lbl_805D6FA4 = p;
-    p = (u8 *)::operator new(0x10);
-    if (p != NULL) {
-        p = ((TBreakUpMdl *)p)->init_from_model((s32)(get_bml_model(lbl_805D6FA0, 6)));
-    }
+    p = (u8 *)new TUnk_8048FA00((s32)(get_bml_model(lbl_805D6FA0, 6)));
     lbl_805D6FA8 = p;
     lbl_805D6F80 = register_boss__6TLobbyFl(0x23);
     lbl_805D6F84 = dispatch_shared_handler_b__6TLobbyFl(0x23);

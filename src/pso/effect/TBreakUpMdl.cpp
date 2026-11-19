@@ -110,8 +110,6 @@ s32 push_matrix();
 s32 rotate_matrix_by_node_angles(void *, int);
 s32 scale_current_matrix(void *);
 s32 post_translate_matrix(void *);
-extern s32 __vt__13TUnk_8048FA00[];
-u8 *init__11TBreakUpMdlFPviif(u8 *arg0, s32 arg1, s32 arg2, f32 farg0);
 void alloc_breakup_piece_records(Brk_80096EBC *arg0, void *arg1);
 extern u32 saved_model_render_flags;
 extern u32 model_render_flags;
@@ -128,36 +126,30 @@ u8 *TBreakUpMdl__ct(u8 *arg0, void *arg1, Model_80096AD8 *arg2, void *arg3, s32 
 
 void TBreakUpMdl::copy(void* q) { *(u32 *)&this->m_name = *(u32*)((char*)q + 0x0); *(f32 *)&this->m_flags = *(f32*)((char*)q + 0x4); *(f32 *)&this->m_prev = *(f32*)((char*)q + 0x8); *(f32 *)&this->m_next = *(f32*)((char*)q + 0xc); *(f32 *)&this->m_up = *(f32*)((char*)q + 0x10); *(f32 *)&this->m_down = *(f32*)((char*)q + 0x14); *(f32*)((char*)this + 0x18) = *(f32*)((char*)q + 0x18); }
 
-u8 *TBreakUpMdl::init_from_model(s32 boss2_tunnel) {
-    *(s32 * *)&this->m_next = __vt__13TUnk_8048FA00;
-    alloc_breakup_piece_records((Brk_80096EBC *)(this), (void *)boss2_tunnel);
+TUnk_8048FA00::TUnk_8048FA00(long model) {
+    alloc_breakup_piece_records((Brk_80096EBC *)this, (void *)model);
     push_matrix_from((void *)&identity_matrix);
-    this->build_node_records((u8 *)((void *) boss2_tunnel), 0);
+    build_node_records((u8 *)model, 0);
     pop_matrix();
-    this->m_prev = 0;
-    return ((u8 *)this);
+    m_8 = 0;
 }
 
-u8 *init__11TBreakUpMdlFPviif(u8 *break_up_mdl, s32 boss2_tunnel, s32 motion, f32 frame) {
-    *(s32 * *)&((TBreakUpMdl *)break_up_mdl)->m_next = __vt__13TUnk_8048FA00;
-    *(s32 *)((s8 *)break_up_mdl + 8) = 0;
-    alloc_breakup_piece_records((Brk_80096EBC *)(break_up_mdl), (void *)boss2_tunnel);
+TUnk_8048FA00::TUnk_8048FA00(int model, int motion, f32 frame) {
+    m_8 = 0;
+    alloc_breakup_piece_records((Brk_80096EBC *)this, (void *)model);
     bind_motion_context((NJS_MOTION *)motion, frame);
     push_matrix_from((void *)&identity_matrix);
-    ((TBreakUpMdl *)break_up_mdl)->collect_node_positions((u8 *)((void *) boss2_tunnel), 0);
+    collect_node_positions((u8 *)model, 0);
     pop_matrix();
-    return break_up_mdl;
 }
 
-u8 *TBreakUpMdl::setup_pieces(s32 boss2_tunnel, s32 arg2, f32 frame) {
-    *(s32 * *)&this->m_next = __vt__13TUnk_8048FA00;
-    *(s32 *)&this->m_prev = 1;
-    alloc_breakup_piece_records((Brk_80096EBC *)(this), (void *)boss2_tunnel);
-    bind_motion_context((NJS_MOTION *)arg2, frame);
+TUnk_8048FA00::TUnk_8048FA00(long model, long motion, f32 frame) {
+    m_8 = 1;
+    alloc_breakup_piece_records((Brk_80096EBC *)this, (void *)model);
+    bind_motion_context((NJS_MOTION *)motion, frame);
     push_matrix_from(&identity_matrix);
-    this->collect_node_positions((u8 *)((void *) boss2_tunnel), 0);
+    collect_node_positions((u8 *)model, 0);
     pop_matrix();
-    return ((u8 *)this);
 }
 
 void alloc_breakup_piece_records(Brk_80096EBC *arg0, void *boss2_tunnel) {
@@ -179,7 +171,7 @@ TUnk_8048FA00::~TUnk_8048FA00() {
 
 #pragma push
 #pragma fp_contract on
-s32 TBreakUpMdl::build_node_records(u8 *arg1, s32 arg2) {
+s32 TUnk_8048FA00::build_node_records(u8 *arg1, s32 arg2) {
     u8 *temp_r31;
     s32 temp_r30;
     s32 temp_r4;
@@ -194,7 +186,7 @@ s32 TBreakUpMdl::build_node_records(u8 *arg1, s32 arg2) {
         scale_current_matrix(var_r28 + 0x20);
         temp_r30 = *(s32 *)((s8 *)var_r28 + 0);
         if (!(temp_r30 & 8)) {
-            temp_r31 = (u8 *)(*(s32 *)&this->m_flags + (var_r29 * 0x1C));
+            temp_r31 = (u8 *)m_records + var_r29 * 0x1C;
             temp_r4 = (long) (temp_r31 + 4);
             matrix_mult_vec(0, temp_r4, temp_r4);
             VecCopy((Vec *)(temp_r31 + 0x10), (const Vec *)(temp_r31 + 4));
@@ -211,7 +203,7 @@ s32 TBreakUpMdl::build_node_records(u8 *arg1, s32 arg2) {
     return var_r29;
 }
 
-s32 TBreakUpMdl::collect_node_positions(u8 *arg1, s32 arg2) {
+s32 TUnk_8048FA00::collect_node_positions(u8 *arg1, s32 arg2) {
     u8 *temp_r31;
     s32 temp_r30;
     s32 temp_r4;
@@ -224,7 +216,7 @@ s32 TBreakUpMdl::collect_node_positions(u8 *arg1, s32 arg2) {
         compose_motion_node_matrix((var_r28));
         temp_r30 = *(s32 *)((s8 *)var_r28 + 0);
         if (!(temp_r30 & 8)) {
-            temp_r31 = (u8 *)(*(s32 *)&this->m_flags + (var_r29 * 0x1C));
+            temp_r31 = (u8 *)m_records + var_r29 * 0x1C;
             temp_r4 = (long) (temp_r31 + 4);
             matrix_mult_vec(0, temp_r4, temp_r4);
             VecCopy((Vec *)(temp_r31 + 0x10), (const Vec *)(temp_r31 + 4));

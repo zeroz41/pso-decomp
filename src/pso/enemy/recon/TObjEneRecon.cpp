@@ -46,6 +46,7 @@
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/enemy/deldepth/DelDepthData.h"
 #include "pso/boss/volopt/TBoss3VoloptP01.h"
+#include "pso/effect/TBreakUpMdl.h"
 
 #pragma readonly_strings on
 
@@ -1675,19 +1676,11 @@ extern "C" {
 s32 register_object__6TLobbyFl(int);
 s32 dispatch_shared_handler_b__6TLobbyFl(int);
 s32 register_boss__6TLobbyFl(int);
-s32 init_from_model__11TBreakUpMdlFl(int, void *);
 typedef struct RecoveredFields_8031E708_temp_r5 RecoveredFields_8031E708_temp_r5;
 void TObjEneRecon::load_resources() {
-  s32 temp_r3;
-  s32 var_r4;
   u8 *temp_r5;
   TObjEneRecon__recobox_static_instance = (BmlResource *)TObjEneRecobox__sub_803201D0();
-  temp_r3 = (var_r4 = (int)::operator new(0x10));
-  if (var_r4 != 0)
-  {
-    var_r4 = init_from_model__11TBreakUpMdlFl((int) temp_r3, (void *)TObjEneRecon__recobox_static_instance->models->model);
-  }
-  boss3_volopt_instance = (VObj_8031E650 *)var_r4;
+  boss3_volopt_instance = (VObj_8031E650 *)new TUnk_8048FA00((long)TObjEneRecon__recobox_static_instance->models->model);
   recon_intro_stage = 0;
   recon_model_matrix_ptr = 0;
   lbl_805D6AF0 = register_boss__6TLobbyFl(0x42);
