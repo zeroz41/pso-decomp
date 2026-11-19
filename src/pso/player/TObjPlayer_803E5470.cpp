@@ -1,6 +1,7 @@
 #include "pso/system/ModelDrawCallback.h"
 #include "pso/animation/MotionContext.h"
 #include "types.h"
+#include "pso/render/ChunkPolygonList.h"
 #include "pso/unk/text_803E4D8C.h"
 #include <stddef.h>
 #include "pso/player/TObjPlayer.h"
@@ -300,13 +301,6 @@ RecoveredGlobal_lbl_8058DC00 lbl_8058DC00;
 
 extern "C" {
 
-typedef struct {
-    f32 x, y, z;
-    u8 pad0C[0x18 - 0x0C];
-    u32 color;
-    u32 pad1C;
-} Vtx_803E549C;
-
 typedef union {
     u8 u8;
     u16 u16;
@@ -337,7 +331,7 @@ void TObjPlayer::update_render_state() {
 
 #pragma push
 #pragma use_lmw_stmw off
-void draw_chunk_color_tex_strips(s16 *p, Vtx_803E549C *verts, u32 flags, s32 big) {
+void draw_chunk_color_tex_strips(s16 *p, ChunkColorVertex *verts, u32 flags, s32 big) {
     s32 draw;
     u32 count;
     s32 extra;
@@ -374,7 +368,7 @@ void draw_chunk_color_tex_strips(s16 *p, Vtx_803E549C *verts, u32 flags, s32 big
             GXBegin(0x98, 0, n);
         }
         do {
-            Vtx_803E549C *v = &verts[p[0]];
+            ChunkColorVertex *v = &verts[p[0]];
             u32 c;
             s16 s = p[1];
             s16 t = p[2];

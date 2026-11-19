@@ -1,3 +1,4 @@
+#include "pso/system/ResourceFile.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/unk/TLobby_801E43E4.h"
 #include "pso/object/base/TObjChara.h"
@@ -1657,7 +1658,6 @@ struct Npc_80150EC4 {
 extern s32 lbl_805D6EA0;
 
 extern "C" {
-void read_disc_file(const char *name, void *buf);
 u8 *load_npc_player_template(s32 index);
 }
 

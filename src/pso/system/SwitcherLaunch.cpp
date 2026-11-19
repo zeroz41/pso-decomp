@@ -1,3 +1,4 @@
+#include "pso/system/ResourceFile.h"
 #include "types.h"
 #include "pso/system/scene/TScene.h"
 #include "pso/unk/SharedMemory.h"
@@ -12,7 +13,6 @@ extern "C" {
 void TAdTrialModemChkGC__sub_8042EC14(int, int);
 void fn_8042ED98(int, const char *);
 void fn_8042EF48(int);
-void read_disc_file(const char *, s32);
 void VIWaitForRetrace(void);
 void VIFlush(void);
 void VISetBlack(s32);
@@ -77,8 +77,8 @@ s32 launch_switcher_dol(const char *url) {
     char buf[0x100];
     s32 r;
     s32 v;
-    r = ((TScene *)switcher_dol_filename)->update_lobby_scene();
-    read_disc_file(switcher_dol_filename, v = resource_decompress_buffer);
+    r = get_resource_file_size(switcher_dol_filename);
+    read_disc_file(switcher_dol_filename, (void *)(v = resource_decompress_buffer));
     VISetBlack(1);
     VIFlush();
     VIWaitForRetrace();

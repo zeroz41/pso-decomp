@@ -226,7 +226,6 @@ struct SceneProjectionState { s32 value; u8 remaining[0x54]; };
 extern SceneProjectionState scene_projection_state;
 s32 camera_renderer_setup_nop(void *, int);
 s32 fn_803D64F8(void *);
-s32 set_viewport_scissor__11TCameraCtrlFiPv(int, void *);
 s32 activate_camera_mode(s32 arg0);
 bool TCameraCtrl__sub_800689F4(void);
 Cam_80068958 *get_character_select_request_buffer(void);
@@ -1527,7 +1526,7 @@ void TCameraCtrl::reset_viewport_scissor() {
     if (*(s32 *)((s8 *)&TCameraCtrl__view_state + 8) & 0x200) {
         *(s32 *)((s8 *)&TCameraCtrl__view_state + 8) = (s32) (*(s32 *)((s8 *)&TCameraCtrl__view_state + 8) & 0xFFFFFDFF);
     }
-    set_viewport_scissor__11TCameraCtrlFiPv(0, rect);
+    TCameraCtrl::set_viewport_scissor(0, rect);
 }
 #pragma pop
 #pragma push

@@ -304,7 +304,7 @@ RelocatedFile::RelocatedFile(const char *path, s32 size) {
     if ((size != 0) && (path != NULL)) {
         buffer = mem_alloc(size);
         item_buff = create_item_buff(size);
-        if ((item_buff != 0) && (buffer != NULL) && (read_disc_file((s32)path, (u8 *)item_buff) > 0)) {
+        if ((item_buff != 0) && (buffer != NULL) && (read_disc_file(path, (void *)item_buff) > 0)) {
             decompressed_size = prs_decompress_alloc(item_buff, (u32)buffer, size);
             TUnk_8049C658 file;
             file.data = (u8 *)buffer;

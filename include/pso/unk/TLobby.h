@@ -151,9 +151,6 @@ struct TLobby : public TObject {
     static s32 run_disk_error_check();
     u32 write_packet_header(s32 size, s32 dst, u32 capacity);
     s32 alloc_download_quest(s32 size, s32 *out_size);
-    static s32 set_stream_and_load_file(int name);
-    static void set_stream_state(int name);
-    static s32 get_file_size();
     static void run_frame();
     static void free_static_buffer(void* a0);
     static void alloc_from_heap(void* a0);
@@ -632,7 +629,6 @@ struct TLobby : public TObject {
     static void wait_for_lock_release();
     static void adxm_goto_mwidle_border();
     static void dec_ref_and_clear_buffer();
-    s32 get_resource_file_size();
     static void read_data_sync(s32 arg0, s32 arg1, s32 arg2);
     s32 get_battle_ctrl_default();
     static s32 find_free_chat_log_slot();

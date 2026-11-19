@@ -1,3 +1,4 @@
+#include "pso/system/ResourceFile.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/network/GbaJoybootState.h"
 #include "pso/system/GbaDownloadRuntime.h"
@@ -25,11 +26,9 @@ const u8 joyboot_game_code[4] = {'G', 'P', 'O', 'E'};
 u32 create__8TDLGraphFv();
 void xfree__FPv(void*);
 s32 xmalloc__FUl(s32);
-s32 read_disc_file(s32, u32);
 int GBAInit(void*);
 s32 GBAGetProcessStatus(s32, u8 *);
 u32 SIProbe(s32);
-u32 update_lobby_scene__6TSceneFv();
 
 
 void TLobby::destroy_singleton() {
@@ -93,14 +92,14 @@ void gba_joyboot_transfer_callback(s32 arg0, s32 arg1) {
 void TLobby::send_data(s32 arg0) {
     u32 temp_r3;
 
-    temp_r3 = update_lobby_scene__6TSceneFv();
+    temp_r3 = get_resource_file_size((const char *)arg0);
     gba_download_data_size = temp_r3;
     if (temp_r3 > 0x40000U) {
         gba_download_data_size = 0U;
         return;
     }
     if ((u32) gba_download_data_buffer != 0U) {
-        read_disc_file(arg0, gba_download_data_buffer);
+        read_disc_file((const char *)arg0, (void *)gba_download_data_buffer);
         return;
     }
     gba_download_data_size = 0U;

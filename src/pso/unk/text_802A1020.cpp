@@ -1,3 +1,4 @@
+#include "pso/system/ResourceFile.h"
 #include "types.h"
 #include "pso/unk/text_802A1020.h"
 #include "pso/unk/text_802A1144.h"
@@ -22,8 +23,6 @@ typedef struct Entry_802A1020 {
 
 s32 opening_movie_selector = 1;
 extern "C" {
-u8 *set_stream_and_load_file__6TLobbyFi(const char *);
-u32 get_file_size__6TLobbyFv(const char *);
 s32 TKeyBoardControl__sub_8000F92C();
 s32 request_queued_main_phase();
 void request_main_phase(s32 arg0);
@@ -76,13 +75,13 @@ s32 verify_game_file_integrity(void) {
     s32 j;
     s32 k;
     for (i = 0; i < 11; i++) {
-        size = get_file_size__6TLobbyFv(file_integrity_table[i].file);
+        size = get_disc_file_size(file_integrity_table[i].file);
         if (size != file_integrity_table[i].size) {
             lobby_cursor_active_flag = 1;
             return 1;
         }
         if (file_integrity_table[i].size <= 1000000) {
-            buf = set_stream_and_load_file__6TLobbyFi(file_integrity_table[i].file);
+            buf = load_disc_file(file_integrity_table[i].file);
             if (buf == NULL) {
                 TAdSinglePlyChrSelectGC::safe_free((u32)buf);
                 lobby_cursor_active_flag = 0;

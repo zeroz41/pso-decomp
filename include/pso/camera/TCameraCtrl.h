@@ -97,6 +97,7 @@ struct TCameraCtrl : public TObject {
     static void reset_default_view();
     static void init_default_view();
     static void reset_viewport_scissor();
+    static void set_viewport_scissor(int mode, void *rect);
     void*get_target();
     void resolve_anchor_obstruction();
     void clamp_to_target_obstruction();

@@ -1,3 +1,4 @@
+#include "pso/system/ResourceFile.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #pragma readonly_strings on
 
@@ -73,7 +74,6 @@ void Dolphin_GXSetIndTexCoordScale(s32, s32, s32);
 void Dolphin_GXSetIndTexOrder(s32, s32, s32);
 void GXSetTevIndWarp(s32, s32, s32, s32, s32);
 s32 DCFlushRange(s32, s32);
-s32 read_disc_file(const char *, void *);
 void set_texture_name(void *, void *, void *, s32);
 void load_texture_list(void *);
 void release_texture_list(void *);

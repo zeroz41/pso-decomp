@@ -58,7 +58,6 @@ Vec *get_target__11TCameraCtrlFv(void *);
 }
 void direction_to_pitch_yaw(u8 *arg0, s32 *arg1, s32 *arg2);
 extern "C" {
-void set_viewport_scissor__11TCameraCtrlFiPv(s32, void *);
 void GXSetScissorBoxOffset(s32, s32);
 f32 vector_length(void *);
 void normalize_vector(void *);
@@ -222,7 +221,7 @@ void TUnk_80488A28::post_update_view() {
     if (TCameraCtrl__view_state.flags & 0x200) {
         GXSetScissorBoxOffset((s32)-(TCameraCtrl__data_804FF634.x - 320.0f), (s32)-(TCameraCtrl__data_804FF634.y - 240.0f));
         TCameraCtrl__sub_801E32D8(TCameraCtrl__data_804FF634.x, TCameraCtrl__data_804FF634.y);
-        set_viewport_scissor__11TCameraCtrlFiPv(2, TCameraCtrl__data_804FF634.f30);
+        TCameraCtrl::set_viewport_scissor(2, TCameraCtrl__data_804FF634.f30);
     }
 }
 

@@ -12,12 +12,14 @@ f32 sin_table_lookup(int);
 f32 cos_table_lookup(int);
 
 void rotate_matrix_z(Matrix34* matrix, s32 angle) {
+    // Game angles have 65536 units per turn. The original uses a single-precision pi.
+    const f64 radians_per_angle_unit = 2.0 * 3.141592f / 65536.0;
     Matrix34 rotation;
     Matrix34* selected;
     if (angle != 0) {
         if (matrix == NULL) selected = (Matrix34*)current_matrix;
         else selected = matrix;
-        PSMTXRotRad(rotation.elements, 'z', (f32)((9.587378008291125e-05) * (f64)angle));
+        PSMTXRotRad(rotation.elements, 'z', (f32)(radians_per_angle_unit * (f64)angle));
         PSMTXConcat(selected->elements, rotation.elements, selected->elements);
     }
 }

@@ -143,7 +143,7 @@ s32 TLobby::load_texture_pvm_file(const char *name, s32 arg1) {
     if (((TLobby *)path)->compare_file_extension("gvm") != 0) {
         change_file_extension__6TLobbyFPvPvPv(0, path, "gvm");
     }
-    size = ((TLobby *)path)->get_resource_file_size();
+    size = TGStream::get_resource_file_size((const char *)path);
     if (size <= 0) {
         TLobby::debug_print("psoLoadTexturePvmFile:%s file not found.", name);
         return -1;
@@ -159,7 +159,7 @@ s32 TLobby::load_texture_pvm_file(const char *name, s32 arg1) {
     } else {
         buf = TLobby::tmp_buf_use_req("LoadTexturePvm");
     }
-    TGStream::load_sct_file((s32)path, buf);
+    TGStream::load_sct_file((const char *)path, (u8 *)buf);
     ret = load_gvm_texture_archive(buf, (void *)arg1);
     if (allocated != 0) {
         TAdSinglePlyChrSelectGC::safe_free(buf);
@@ -221,7 +221,7 @@ u8 *load_gvm_texture_file(s32 name) {
     GvmFileHeader hdr;
     big = 0;
     TLobby::pump_frames();
-    size = ((TLobby *)name)->get_resource_file_size();
+    size = TGStream::get_resource_file_size((const char *)name);
     if (size <= 0) {
         TLobby::debug_print("LoadPvmFileTls:%s load error.", name);
         return NULL;
@@ -233,7 +233,7 @@ u8 *load_gvm_texture_file(s32 name) {
     } else {
         buf = TLobby::tmp_buf_use_req("LoadPvmFileTls");
     }
-    TGStream::load_sct_file(name, buf);
+    TGStream::load_sct_file((const char *)name, (u8 *)buf);
     count = TLanguage::read_file_header(buf, &hdr);
     if (count == 0) {
         if (big != 0) {

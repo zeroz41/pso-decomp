@@ -1,6 +1,7 @@
 #ifndef PSO_UNK_TLOBBY_800F8AA8_H
 #define PSO_UNK_TLOBBY_800F8AA8_H
 
+#include "pso/system/ResourceFile.h"
 #include "types.h"
 
 struct GslArchiveEntry;
@@ -33,8 +34,6 @@ void *alloc_named_object(const char *name, u8 *data, s32 size, RelFileTrailer *r
 void *TLobby__sub_800F9A60(const char *name, u8 *data, s32 size);
 void *apply_pointer_relocations(TUnk_8049C658 *file, RelFileTrailer *relocs);
 void *apply_rel_relocations(TUnk_8049C658 *file);
-// Sets disc_read_filename and reads the whole file into buffer; returns its size.
-s32 read_disc_file(s32 name, u8 *buffer);
 TObject *TLoadCtrl__sub_800F9F00(void);
 }
 

@@ -98,7 +98,7 @@ s32 RlcArchive::alloc_buffer() {
     return 1;
 }
 s32 RlcArchive::open_stream(s32 file) {
-    file_size = TGStream::read_whole_file(file, buffer);
+    file_size = TGStream::read_whole_file((const char *)file, buffer);
     if (fn_802A605C() == 0) {
         set_mode(2);
         free_buffer();
@@ -107,7 +107,7 @@ s32 RlcArchive::open_stream(s32 file) {
     return 1;
 }
 s32 RlcArchive::init(s32 file) {
-    file_size = ((TLobby *)file)->get_resource_file_size();
+    file_size = TGStream::get_resource_file_size((const char *)file);
     if (fn_802A605C() == 0) {
         set_mode(1);
         return 0;

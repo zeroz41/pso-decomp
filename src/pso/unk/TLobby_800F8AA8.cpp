@@ -1,3 +1,4 @@
+#include "pso/system/ResourceFile.h"
 #include "pso/ui/MenuText.h"
 #include "types.h"
 #include "pso/unk/text_800F7DAC.h"
@@ -54,7 +55,7 @@ TUnk_8049C658 resource_load_task_root;
 char player_name_copy_buffer[16];
 
 extern "C" {
-s32 disc_read_filename = (s32)lbl_805D2B10;
+const char *disc_read_filename = lbl_805D2B10;
 
 s32 *get_player_name_copy_buffer(void) {
     return (s32 *)player_name_copy_buffer;
@@ -1168,7 +1169,7 @@ s32 TItemDrop__sub_800F9448(s32 data, s32 size) {
 
 s32 load_relocatable_file(s32 name, s32 buffer) {
     TUnk_8049C658 file;
-    s32 size = read_disc_file(name, (u8 *)buffer);
+    s32 size = read_disc_file((const char *)name, (void *)buffer);
 
     if (size > 0) {
         file.size = size;
@@ -1180,7 +1181,7 @@ s32 load_relocatable_file(s32 name, s32 buffer) {
 
 void free_data_file(void *p) { TAdSinglePlyChrSelectGC::safe_free((u32)p); }
 
-void *load_data_file(const char *path) { return (void *)TLobby::set_stream_and_load_file((int)path); }
+void *load_data_file(const char *path) { return load_disc_file(path); }
 }
 
 void TLobby::free_nodes_with_id(u32 root) {
@@ -1259,24 +1260,24 @@ s32 load_encrypted_text_archive(char *name, s32 *out_size) {
     s32 sp8;
     s32 rng[60];
 
-    size = ((TScene *)name)->update_lobby_scene();
+    size = get_resource_file_size(name);
     if (size <= 0) {
         return 0;
     }
     if ((size <= 0x40000) && (TLobby::tmp_buf_is_free() != 0)) {
         buf = (u8 *)TLobby::tmp_buf_use_req(load_file_prc_buffer_tag);
-        read_disc_file((s32)name, buf);
+        read_disc_file(name, buf);
         ret = ((TLobby *)buf)->alloc_download_quest(size, &sp8);
         TLobby::tmp_buf_release(load_file_prc_buffer_tag);
     } else {
         TGStream st(name, 1);
         buf = (u8 *)TQuestVmDownLoadServer::alloc(0x800);
-        st.read_sectors_sync(1, (s32)buf);
+        st.read_sectors_sync(1, buf);
         sp8 = *(s32 *)((s8 *)buf + 0);
         h = *(s32 *)((s8 *)buf + 4);
         TAdSinglePlyChrSelectGC::safe_free((u32)buf);
         ret = (s32)TQuestVmDownLoadServer::alloc(sp8);
-        buf = (u8 *)TLobby::set_stream_and_load_file((s32)name);
+        buf = load_disc_file(name);
         __ct__14SubtractiveRngFv(rng);
         subtractive_rng_seed(rng, h);
         subtractive_rng_xor_buffer(rng, (u32 *)(buf + 8), size - 8);
@@ -1335,7 +1336,7 @@ void *TLobby__sub_800F9A60(const char *name, u8 *data, s32 size) {
 }
 
 s32 create_named_object(s32 name) {
-    s32 size = ((TScene *)name)->update_lobby_scene();
+    s32 size = get_resource_file_size((const char *)name);
     TUnk_8049C658 *file;
 
     if (size > 0) {
@@ -1343,7 +1344,7 @@ s32 create_named_object(s32 name) {
         memset(file->name, 0, sizeof(file->name));
         strncpy(file->name, (const char *)name, sizeof(file->name) - 1);
         file->m_name = file->name;
-        file->data = (u8 *)TLobby::set_stream_and_load_file(name);
+        file->data = load_disc_file((const char *)name);
         file->size = size;
         return (s32)apply_rel_relocations(file);
     }
@@ -1405,43 +1406,36 @@ s32 TQuestVmDownLoadServer::is_ready() {
     return quest_download_server_ready ? 1 : 0;
 }
 
-s32 TLobby::set_stream_and_load_file(int name) {
-    disc_read_filename = name;
-    return TGStream::load_file(name);
+u8 *load_disc_file(const char *filename) {
+    disc_read_filename = filename;
+    return TGStream::load_file(filename);
+}
+
+s32 read_disc_file_sectors(const char *filename, void *destination) {
+    disc_read_filename = filename;
+    return TGStream::load_sct_file(filename, (u8 *)destination);
+}
+
+s32 get_resource_file_size(const char *filename) {
+    return TGStream::get_resource_file_size(filename);
 }
 
 extern "C" {
-int load_sct_file__8TGStreamFll(void);
-}
+TLobby *adxf_open__6TLobbyFUii(const char *, s32);
 
-void TLobby::set_stream_state(int name) {
-    disc_read_filename = name;
-    load_sct_file__8TGStreamFll();
-}
-
-int TScene::update_lobby_scene() { return ((TLobby *)this)->get_resource_file_size(); }
-
-extern "C" {
-s32 adxf_get_fsize_byte__6TLobbyFv();
-s32 adxf_open__6TLobbyFUii(s32, s32);
-
-s32 TLobby::get_file_size() {
-    s32 temp_r31;
-    s32 temp_r3;
-    s32 uninit;
-
-    temp_r3 = adxf_open__6TLobbyFUii(uninit, 0);
-    if (temp_r3 == 0) {
+s32 get_disc_file_size(const char *filename) {
+    TLobby *handle = adxf_open__6TLobbyFUii(filename, 0);
+    if (handle == NULL) {
         return -1;
     }
-    temp_r31 = adxf_get_fsize_byte__6TLobbyFv();
-    ((TLobby *)temp_r3)->close_adxf_handle();
-    return temp_r31;
+    s32 size = handle->adxf_get_fsize_byte();
+    handle->close_adxf_handle();
+    return size;
 }
 
-s32 read_disc_file(s32 name, u8 *buffer) {
-    disc_read_filename = name;
-    return TGStream::read_whole_file(name, buffer);
+s32 read_disc_file(const char *filename, void *destination) {
+    disc_read_filename = filename;
+    return TGStream::read_whole_file(filename, (u8 *)destination);
 }
 
 void TLobby::run_frame() {

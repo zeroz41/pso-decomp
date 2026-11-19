@@ -1,3 +1,4 @@
+#include "pso/system/ResourceFile.h"
 #include "types.h"
 #include "pso/player/TObjPlayer_800666B0.h"
 #include "pso/unk/TUnk_80488B68.h"
@@ -221,7 +222,7 @@ void TCameraCtrl::load_camera_banks() {
         return;
     }
     for (j = 0; j < n; j++) {
-        sz = ((TScene *)(b->entries[j].filename))->update_lobby_scene();
+        sz = get_resource_file_size((const char *)(b->entries[j].filename));
         if (sz <= -1) {
             return;
         }

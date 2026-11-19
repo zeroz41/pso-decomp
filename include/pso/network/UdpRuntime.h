@@ -71,7 +71,6 @@ s16 NetValidateLocalAddress(NetworkAddress* address);
 s16 compare_sockaddr(NetworkAddress *a, NetworkAddress *b);
 s32 reset_stack_module(void);
 s32 init_ucb_entries(void);
-void expire_timeout_entries(void* tcb);
 #ifdef __cplusplus
 }
 #endif

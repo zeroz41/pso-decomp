@@ -1,3 +1,4 @@
+#include "pso/system/ResourceFile.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/system/task/TObject.h"
@@ -267,7 +268,6 @@ struct O_800FB400;
 struct FogCtrl_800FB134;
 extern "C" {
 
-void read_disc_file(const char *, void *);
 s32 TFogCtrl__sub_800FAC84(void* p);
 void TFogCtrl__sub_800FB400(O_800FB400 *self, s32 i, s32 j);
 u8 * __dt__8TFogCtrlFv(u8 *arg0, s16 arg1);

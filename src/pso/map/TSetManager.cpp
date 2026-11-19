@@ -1,3 +1,4 @@
+#include "pso/system/ResourceFile.h"
 #include "pso/map/TSetManager.h"
 #include "types.h"
 
@@ -122,7 +123,6 @@ u32 TLobby__data_80513D10[9];
 void archive_pool_free(void *pool, void *node);
 s32 lookup_scene_object__6TLobbyFPv(s32, void *);
 void *memset(void *, int, unsigned long);
-void read_disc_file(char *, void *);
 s32 replace_file_extension__6TLobbyFPvPvPv(char *arg0, char *arg1, char *arg2);
 void *mem_alloc(u32);
 }
@@ -176,7 +176,7 @@ s32 load_map_decoration_rows(s32 map, s32 grp, s32 room) {
     } else {
         replace_file_extension__6TLobbyFPvPvPv((char *)path, (char *)r->name, (char *)lbl_8044BC2C);
     }
-    size = ((TScene *)path)->update_lobby_scene();
+    size = get_resource_file_size((const char *)path);
     if (size < 0) {
         return 0;
     }

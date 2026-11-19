@@ -1,3 +1,4 @@
+#include "pso/system/ResourceFile.h"
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/unk/TLobby_80207DA8.h"
 #include "pso/map/FloorLifecycleTables.h"
@@ -474,7 +475,7 @@ void TLobby::update_drop_item() {
     forest_rel_module = NULL;
     if ((u32) forest_rel_work_buffer != 0U) {
         drop_item_mode = TLobby::get_drop_item_mode();
-        if (((TScene *)(forest_rel_filename_table[drop_item_mode]))->update_lobby_scene() <= 0x24B8) {
+        if (get_resource_file_size((const char *)(forest_rel_filename_table[drop_item_mode])) <= 0x24B8) {
             temp_r3 = (s32 *)load_relocatable_file(forest_rel_filename_table[drop_item_mode], forest_rel_work_buffer);
             forest_rel_module = temp_r3;
             if (temp_r3 != NULL) {
@@ -533,7 +534,7 @@ void TLobby::load_item_data() {
     forest_rel_work_buffer = temp_r3;
     if (temp_r3 != 0U) {
         drop_item_mode = TLobby::get_drop_item_mode();
-        if (((TScene *)(forest_rel_filename_table[drop_item_mode]))->update_lobby_scene() <= 0x24B8) {
+        if (get_resource_file_size((const char *)(forest_rel_filename_table[drop_item_mode])) <= 0x24B8) {
             temp_r3_2 = (s32 *)load_relocatable_file(forest_rel_filename_table[drop_item_mode], forest_rel_work_buffer);
             forest_rel_module = temp_r3_2;
             if (temp_r3_2 != NULL) {
