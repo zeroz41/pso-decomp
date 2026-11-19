@@ -53,6 +53,9 @@ struct TWindowKeyBoardBase : public TWindowBase {
     void set_mode2();
     void set_mode3();
     int is_key_active();
+    void set_flag62_bit2();
+    int is_active();
+    void set_flag62_bit8();
     static int is_alnum(u16 code);
     void insert_string(char *src);
     void update_input(void* a1);

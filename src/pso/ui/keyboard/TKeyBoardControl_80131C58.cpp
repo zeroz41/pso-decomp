@@ -17,7 +17,6 @@
 #include "pso/ui/window/TWindowKeyBoardBase.h"
 #include "pso/ui/window/TWindowKeyBoardHard_802601D4.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8025CB70.h"
-#include "pso/unk/text_8025FF8C.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 #include "pso/system/task/TObject.h"
 
@@ -37,7 +36,7 @@ void run_task__16TKeyBoardControlFv(TKeyBoardControl *key_board_control) {
                 window_request_show(*(void **)((s8 *)key_board_control + 0x28));
             }
         }
-    } else if (((s32)((TKeyBoardControl *)(key_board_control->m_24))->is_key_held()) == 0) {
+    } else if (((s32)((TWindowKeyBoardHard *)(key_board_control->m_24))->is_key_held()) == 0) {
         key_board_control->m_1c = (u16) (key_board_control->m_1c | 1);
         if ((u32) key_board_control->m_28 != 0U) {
             ((TWindowLockOn *)(*(void **)((s8 *)key_board_control + 0x28)))->request_close();
@@ -70,8 +69,8 @@ TKeyBoardControl *TKeyBoardControl__ct(TKeyBoardControl *self, TObject *parent, 
     o = new TWindowKeyBoardBase();
     self->m_20 = (u32)o;
     ((TWindowKeyBoardBase *)self->m_20)->init_keyboard_text_field(arg2, arg3);
-    ((TKeyBoardControl *)self->m_20)->set_flag62_bit8();
-    o = new TWindowKeyBoardHard(self->m_20);
+    ((TWindowKeyBoardBase *)self->m_20)->set_flag62_bit8();
+    o = new TWindowKeyBoardHard((TWindowKeyBoardBase *)self->m_20);
     self->m_24 = (u32)o;
     TKeyBoardControl__sub_8025EC04((u8 *)self->m_24);
     o = new TWindowKeyBoardSoft((TWindowKeyBoardBase *)self->m_20, client);
@@ -80,27 +79,27 @@ TKeyBoardControl *TKeyBoardControl__ct(TKeyBoardControl *self, TObject *parent, 
     case 0:
         self->m_1c |= 2;
         ((TWindowKeyBoardBase *)self->m_20)->set_mode0();
-        fn_8025FF8C((void *)self->m_24);
+        ((TWindowKeyBoardHard *)self->m_24)->set_mode0();
         ((TWindowKeyBoardSoft *)self->m_28)->set_mode0();
         break;
     case 1:
         self->m_1c |= 2;
         self->m_1c |= 8;
-        ((TKeyBoardControl *)self->m_24)->enable_caps_led();
+        ((TWindowKeyBoardHard *)self->m_24)->set_mode1();
         ((TWindowKeyBoardSoft *)self->m_28)->set_mode1();
         ((TWindowKeyBoardBase *)self->m_20)->set_mode1();
         break;
     case 2:
         self->m_1c |= 2;
         self->m_1c |= 0x10;
-        ((TKeyBoardControl *)self->m_24)->enable_kana_led();
+        ((TWindowKeyBoardHard *)self->m_24)->set_mode2();
         ((TWindowKeyBoardSoft *)self->m_28)->set_mode2();
         ((TWindowKeyBoardBase *)self->m_20)->set_mode2();
         break;
     case 3:
         kb = self;
         kb->m_1c |= 0x20;
-        ((TKeyBoardControl *)self->m_24)->enable_keyboard_led();
+        ((TWindowKeyBoardHard *)self->m_24)->set_mode3();
         ((TWindowKeyBoardSoft *)self->m_28)->set_mode3();
         ((TWindowKeyBoardBase *)self->m_20)->set_mode3();
         break;

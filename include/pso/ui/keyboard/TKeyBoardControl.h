@@ -31,9 +31,6 @@ struct TKeyBoardControl : public TObject {
     static s32 has_non_modifier_key();
     static s32 translate_key_char(void *arg0_, u8 arg1, u16 *arg2);
     s32 get_input_mode();
-    void enable_keyboard_led();
-    void enable_kana_led();
-    void enable_caps_led();
     static void update_main_menu_scene();
     static void update_menu_scene();
     static void flush_input();
@@ -56,12 +53,6 @@ struct TKeyBoardControl : public TObject {
     static void update_input_frame();
     static void init_pad_state();
     s32 poll_key_state();
-    void set_flag60_bit200();
-    void clear_flag60_bit200();
-    int is_key_held();
-    void set_flag62_bit2();
-    int is_active();
-    void set_flag62_bit8();
     s32 append_char(s8 arg1);
     void append_next_char();
     static void append_next_char_global();

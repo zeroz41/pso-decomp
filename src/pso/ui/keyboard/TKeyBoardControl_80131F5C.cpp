@@ -14,9 +14,9 @@
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
 #include "pso/ui/window/TWindowKeyBoardBase.h"
+#include "pso/ui/window/TWindowKeyBoardHard.h"
 #include "pso/ui/window/TWindowKeyBoardHard_802601D4.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8025CB70.h"
-#include "pso/unk/text_8025FF8C.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 #include "pso/system/task/TObject.h"
 
@@ -60,13 +60,13 @@ void TKeyBoardControl__sub_80132650(Kb_80132650 *kb);
 
 void TKeyBoardControl__sub_80131F5C(void) {  }
 void TKeyBoardControl__sub_80131F60(void) {  }
-void TKeyBoardControl::set_flag60_bit200() { *(u32*)((char*)this + 0x60) |= 0x200; }
-void TKeyBoardControl::clear_flag60_bit200() { *(u32*)((char*)this + 0x60) &= 0xfffffdff; }
-int TKeyBoardControl::is_key_held() { return (*(u32*)((char*)this + 0x60) >> 8) & 0x1; }
-void TKeyBoardControl::set_flag62_bit2() { *(u16*)((char*)this + 0x62) |= 0x2; }
-int TKeyBoardControl::is_active() { return (*(u16*)((char*)this + 0x60) >> 5) & 0x1; }
+void TWindowKeyBoardHard::set_flag60_bit200() { m_60 |= 0x200; }
+void TWindowKeyBoardHard::clear_flag60_bit200() { m_60 &= 0xfffffdff; }
+int TWindowKeyBoardHard::is_key_held() { return (m_60 >> 8) & 0x1; }
+void TWindowKeyBoardBase::set_flag62_bit2() { m_62 |= 0x2; }
+int TWindowKeyBoardBase::is_active() { return (m_60 >> 5) & 0x1; }
 int TWindowKeyBoardBase::is_key_active() { return m_60 & 0x1; }
-void TKeyBoardControl::set_flag62_bit8() { *(u16*)((char*)this + 0x62) |= 0x8; }
+void TWindowKeyBoardBase::set_flag62_bit8() { m_62 |= 0x8; }
 
 s32 TKeyBoardControl::append_char(s8 arg1) {
     s32 r;

@@ -4,8 +4,10 @@
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
 
+struct TWindowKeyBoardBase;
+
 struct TWindowKeyBoardHard : public TWindowBase {
-    TWindowKeyBoardHard(s32 arg1);
+    TWindowKeyBoardHard(TWindowKeyBoardBase *control);
     virtual ~TWindowKeyBoardHard();
     void draw_status_text(void *);
     void update_modifier_flags();
@@ -23,7 +25,7 @@ struct TWindowKeyBoardHard : public TWindowBase {
     u32 m_64;
     u32 m_68;
     u32 m_6c;
-    u32 m_70;
+    TWindowKeyBoardBase *m_control;
     void release_keyboard();
     virtual void render();
     static s32 test_card_flag(s32 arg1, s32 arg2);
@@ -40,6 +42,13 @@ struct TWindowKeyBoardHard : public TWindowBase {
     static void clear_card_window_flag(s32 arg0, s32 arg1);
     static void set_card_window_flag(s32 arg0, s32 arg1);
     int is_key_active();
+    void set_mode0();
+    void set_mode1();
+    void set_mode2();
+    void set_mode3();
+    void set_flag60_bit200();
+    void clear_flag60_bit200();
+    int is_key_held();
 };
 
 typedef char TWindowKeyBoardHard_size[sizeof(TWindowKeyBoardHard) == 0x74 ? 1 : -1];

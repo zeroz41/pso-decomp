@@ -15505,7 +15505,7 @@ force_active:
   - set_flag3c8_bit8__23TObjEneMe1CanadinLeaderFv
   - set_flag4c_bit8__13TWindowSubLogFv
   - set_flag60_bit8__13TWindowSubMagFv
-  - set_flag62_bit8__16TKeyBoardControlFv
+  - set_flag62_bit8__19TWindowKeyBoardBaseFv
   - set_flag_10__17TWindowSubComCardFv
   - set_flag_270__6TLobbyFPv
   - set_flag_4e4__12TBoss8DragonFPv

@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/ui/window/TWindowKeyBoardHard.h"
 #include "pso/ui/window/TWindowSubComCard_80244774.h"
 #include "pso/ui/chat/TWindowSubShortMail_80131998.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
@@ -15,7 +16,7 @@ void TWindowSubShortMail__sub_80131998(void *arg0) {
     if (!(temp_r3 & 4)) {
         *(u16 *)((s8 *)arg0 + 0x1C) = (u16) (temp_r3 | 4);
         if ((u32) *(u32 *)((s8 *)arg0 + 0x24) != 0U) {
-            ((TKeyBoardControl *)(*(void **)((s8 *)arg0 + 0x24)))->set_flag60_bit200();
+            ((TWindowKeyBoardHard *)(*(void **)((s8 *)arg0 + 0x24)))->set_flag60_bit200();
         }
         if ((u32) *(u32 *)((s8 *)arg0 + 0x28) != 0U) {
             ((TWindowLockOn *)(*(void **)((s8 *)arg0 + 0x28)))->request_close();
@@ -29,7 +30,7 @@ void TWindowSubShortMail::hide_window() {
     if (temp_r3 & 4) {
         *(u16 *)((s8 *)this + 0x1C) = (u16) (temp_r3 & 0xFFFFFFFB);
         if ((u32) this->m_24 != 0U) {
-            ((TKeyBoardControl *)(this->m_24))->clear_flag60_bit200();
+            ((TWindowKeyBoardHard *)(this->m_24))->clear_flag60_bit200();
         }
         if (!(*(u16 *)((s8 *)this + 0x1C) & 1) && ((u32) this->m_28 != 0U)) {
             window_request_show(*(void * *)&this->m_28);
