@@ -520,7 +520,6 @@ struct Pkt_8020851C {
 
 extern "C" {
 void set_destroy_event__6TLobbyFi(int a0);
-int link_matching_objects__6TLobbyFss(void);
 
 void TLobby::load_item_data() {
     s32 *temp_r3_2;
@@ -551,7 +550,7 @@ s32 wave_event_stream_cursor;
 int wave_event_stop_requested;
 s32 wave_event_trigger_count;
 s32 wave_event_first_switch_set;
-void TLobby::relink_objects() { link_matching_objects__6TLobbyFss(); wave_event_stop_requested = 1; }
+void TLobby::relink_objects(s16 a, s16 b) { link_matching_objects(a, b); wave_event_stop_requested = 1; }
 }
 extern s32 local_client_id;
 void send_6x67_wave_trigger_event(s32 arg0);
@@ -596,76 +595,59 @@ void send_6x05_wave_set_switch(s16 arg0) {
     }
     ((G_SwitchStateChanged_6x05 *)(&pkt))->send();
 }
-extern "C" {
-
-int link_matching_objects__6TLobbyFPv(void* p);
-int spawn_objects_at_pos__6TLobbyFPv(void* p);
-void TLobby__sub_80208648(void);
-int spawn_objects_at_pos__6TLobbyFss(void*);
-
-int link_matching_objects__6TLobbyFPv(void* p) { return ((int (*)(void *))link_matching_objects__6TLobbyFss)(p); }
-int spawn_objects_at_pos__6TLobbyFPv(void* p) { return spawn_objects_at_pos__6TLobbyFss(p); }
-}
-void request_wave_event_stop(void);
-void dispatch_wave_event_action(s32 arg0);
+int link_matching_objects__6TLobbyFPv(void *p) { return ((int (*)(void *))TLobby::link_matching_objects)(p); }
+int spawn_objects_at_pos__6TLobbyFPv(void *p) { return ((int (*)(void *))TLobby::spawn_objects_at_pos)(p); }
 
 void request_wave_event_stop(void) { wave_event_stop_requested = 1; }
 
 void TLobby__sub_80208648(void) {  }
 
-typedef struct {
-    s32 x0;
-    s32 (*fn)(s32);
-} Ent_8020864C;
+// Wave event script opcodes, indexed by the opcode byte: decode reads the opcode's operands from the script
+// stream and calls action with them, so each action has the signature its decoder calls it with.
+typedef void (*WaveEventActionFunc)();
+struct WaveEventAction {
+    void (*decode)(u8 opcode);
+    WaveEventActionFunc action;
+};
 
-s32 read_be_u32(void);
-extern Ent_8020864C wave_event_action_table[];
+WaveEventAction wave_event_action_table[16] = {
+    { TLobby::invoke_command, TLobby__sub_80208648 },
+    { TLobby::invoke_command, request_wave_event_stop },
+    { 0, 0 },
+    { 0, 0 },
+    { 0, 0 },
+    { 0, 0 },
+    { 0, 0 },
+    { 0, 0 },
+    { TLobby::dispatch_opcode_two_u16, (WaveEventActionFunc)spawn_objects_at_pos__6TLobbyFPv },
+    { TLobby::dispatch_opcode_two_u16, (WaveEventActionFunc)link_matching_objects__6TLobbyFPv },
+    { TLobby::dispatch_stream_command, (WaveEventActionFunc)send_6x05_wave_set_switch },
+    { TLobby::dispatch_stream_command, (WaveEventActionFunc)send_6x05_wave_clear_switch },
+    { dispatch_wave_event_action, (WaveEventActionFunc)send_6x67_wave_trigger_event },
+    { TLobby::dispatch_opcode_two_u16, (WaveEventActionFunc)TLobby::relink_objects },
+};
 
-void dispatch_wave_event_action(s32 arg0) {
-    Ent_8020864C *temp_r3;
-    s32 (*temp_r31)(s32);
-
-    temp_r3 = wave_event_action_table;
-    temp_r3 += (u8)arg0;
-    temp_r31 = temp_r3->fn;
-    temp_r31(((s32 (*)(void *))read_be_u32)(temp_r3));
+void dispatch_wave_event_action(u8 opcode) {
+    void (*action)(s32) = (void (*)(s32))wave_event_action_table[opcode].action;
+    action(read_be_u32());
 }
 
-u16 read_stream_u16(void);
+void TLobby::dispatch_opcode_two_u16(u8 opcode) {
+    void (*action)(u16, u16) = (void (*)(u16, u16))wave_event_action_table[opcode].action;
+    u16 a = read_stream_u16();
+    action(a, read_stream_u16());
+}
+
+void TLobby::dispatch_stream_command(u8 opcode) {
+    void (*action)(u16) = (void (*)(u16))wave_event_action_table[opcode].action;
+    action(read_stream_u16());
+}
+
+void TLobby::invoke_command(u8 opcode) {
+    wave_event_action_table[opcode].action();
+}
+
 extern "C" {
-void TLobby::dispatch_opcode_two_u16(u8 arg0) {
-    void (*f)(s32, s32) = (void (*)(s32, s32))wave_event_action_table[arg0].fn;
-    s32 a = ((s32 (*)(void))read_stream_u16)();
-    f(a, ((s32 (*)(void))read_stream_u16)());
-}
-
-typedef struct Ent_ {
-    s32 a;
-    s32 (*fn)(s32);
-} Ent;
-#define wave_event_action_table (*(Ent (*)[1])&wave_event_action_table)
-void TLobby::dispatch_stream_command(u8 arg0) {
-    s32 (*temp_r31)(s32);
-    Ent *temp_r3;
-    temp_r3 = wave_event_action_table;
-    temp_r3 += arg0;
-    temp_r31 = temp_r3->fn;
-    temp_r31(((s32 (*)(void *))read_stream_u16)(temp_r3));
-}
-
-#undef wave_event_action_table
-
-#define wave_event_action_table (*(u8 (*)[1])&wave_event_action_table)
-
-void TLobby::invoke_command(s32 arg0) {
-    u8 *temp_r3 = wave_event_action_table;
-    temp_r3 += ((u8)arg0) * 8;
-
-    (*(s32 (**)(void *))((s8 *)temp_r3 + 4))(temp_r3);
-}
-
-#undef wave_event_action_table
-
 s32 memcpy(s32 *, s32, s32);
 }
 
@@ -692,9 +674,6 @@ u16 read_stream_u16(void) {
 }
 
 unsigned char read_stream_u8(void);
-typedef void (*Fn_8020881C)();
-struct H_8020881C { Fn_8020881C fn; u32 b; };
-#define wave_event_action_table (*(H_8020881C (*)[1])&wave_event_action_table)
 #define wave_event_stop_requested (*(s32 *)&wave_event_stop_requested)
 extern "C" {
 s32 run_wave_event_actions(void);
@@ -709,12 +688,12 @@ s32 run_wave_event_actions(void) {
     wave_event_trigger_count = 0;
     wave_event_first_switch_set = 1;
     while (wave_event_stop_requested == 0) {
-        wave_event_action_table[read_stream_u8()].fn();
+        u8 opcode = read_stream_u8();
+        wave_event_action_table[opcode].decode(opcode);
     }
     return wave_event_trigger_count;
 }
 
-#undef wave_event_action_table
 #undef wave_event_stream_base
 #undef wave_event_stream_cursor
 extern "C" {

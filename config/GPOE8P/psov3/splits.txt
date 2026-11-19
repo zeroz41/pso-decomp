@@ -5833,7 +5833,7 @@ pso/ui/frontend/TAdStorySelectGC.cpp:
 pso/unk/TLobby_80207DA8.cpp:
 	.text       start:0x80207DA8 end:0x80208898
 	.rodata     start:0x8044BA50 end:0x8044BAC8
-	.data       start:0x804C8C60 end:0x804C93A8
+	.data       start:0x804C8C60 end:0x804C9428
 	.sbss       start:0x805D6068 end:0x805D6090
 
 pso/map/AreaEventSet.cpp:
@@ -6293,16 +6293,14 @@ pso/unk/TLobby_80226070.cpp:
 	.sdata2     start:0x805DC740 end:0x805DC760
 
 pso/unk/TLobby_80226C3C.cpp:
-	.text       start:0x80226C3C end:0x80227A2C
-	.rodata     start:0x8044C860 end:0x8044C8D0
+	.text       start:0x80226C3C end:0x80227AA0
+	.ctors      start:0x80433FA0 end:0x80433FA4
+	.rodata     start:0x8044C858 end:0x8044C8D0
 	.data       start:0x804CB838 end:0x804CBE98
 	.bss        start:0x80514C60 end:0x80514F58
+	.sdata      start:0x805D3710 end:0x805D3728
 	.sbss       start:0x805D62D8 end:0x805D6338
-
-pso/unk/TLobby_80227A2C.cpp:
-	.text       start:0x80227A2C end:0x80227AA0
-	.ctors      start:0x80433FA0 end:0x80433FA4
-	.sdata      start:0x805D3710 end:0x805D3714
+	.sdata2     start:0x805DC760 end:0x805DC768
 
 pso/unk/TLobby_80227AA0.cpp:
 	.text       start:0x80227AA0 end:0x80228154
@@ -11879,17 +11877,11 @@ pso/unk/TLobby_803CFE68.cpp:
 	.text       start:0x803CFE68 end:0x803CFEA0
 
 pso/unk/text_803CFEA0.cpp:
-	.text       start:0x803CFEA0 end:0x803D0C28
+	.text       start:0x803CFEA0 end:0x803D0DEC
 	.rodata     start:0x8047DAB8 end:0x8047DCF0
-	.sbss       start:0x805D7608 end:0x805D7610
-
-pso/unk/TLobby_803D0C28.cpp:
-	.text       start:0x803D0C28 end:0x803D0C34
-
-pso/unk/text_803D0C34.cpp:
-	.text       start:0x803D0C34 end:0x803D0DEC
+	.data       start:0x804F9D98 end:0x804F9E00
 	.bss        start:0x80581EA8 end:0x80582F58
-	.sbss       start:0x805D7610 end:0x805D7614
+	.sbss       start:0x805D7608 end:0x805D7614
 
 pso/unk/TLobby_803D0DEC.cpp:
 	.text       start:0x803D0DEC end:0x803D0F1C
@@ -12142,20 +12134,9 @@ pso/unk/TLobby_803DE778.cpp:
 	.text       start:0x803DE778 end:0x803DE7E0
 
 pso/unk/text_803DE7E0.cpp:
-	.text       start:0x803DE7E0 end:0x803DE838
+	.text       start:0x803DE7E0 end:0x803DE9C4
+	.rodata     start:0x8047E428 end:0x8047E438
 	.sbss       start:0x805D77A8 end:0x805D77B0
-
-pso/unk/text_803DE838.cpp:
-	.text       start:0x803DE838 end:0x803DE864
-
-pso/unk/text_803DE864.cpp:
-	.text       start:0x803DE864 end:0x803DE890
-
-pso/unk/text_803DE890.cpp:
-	.text       start:0x803DE890 end:0x803DE8BC
-
-pso/unk/text_803DE8BC.cpp:
-	.text       start:0x803DE8BC end:0x803DE9C4
 
 pso/render/ChunkMaterialState.cpp:
 	.text       start:0x803DE9C4 end:0x803DEE48

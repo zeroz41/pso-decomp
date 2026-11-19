@@ -715,12 +715,6 @@ struct TLobby : public TObject {
     s32 cv_fs_tell();
     void cv_fs_close();
     void cvFsSetDefDev();
-    s32 get_handle_field_20();
-    s32 get_field10_or_report();
-    s32 get_handle_value_checked();
-    s32 get_handle_field_1c();
-    static s32 get_dvd_file_size(const char *name);
-    static void poll_dvd_requests();
     static void log_printf(const char *fmt, ...);
     static void init_callback_tables();
     static s32 run_worker_callbacks_slot5();
@@ -862,10 +856,11 @@ struct TLobby : public TObject {
     static s32 get_drop_item_mode();
     static void update_drop_item();
     static void load_item_data();
-    static void relink_objects();
-    static void dispatch_opcode_two_u16(u8 arg0);
-    static void dispatch_stream_command(u8 arg0);
-    static void invoke_command(s32 arg0);
+    static void relink_objects(s16 a, s16 b);
+    static void dispatch_opcode_two_u16(u8 opcode);
+    static void dispatch_stream_command(u8 opcode);
+    static void invoke_command(u8 opcode);
+    static void free(void *p);
     static s32 count_sync_record_bytes();
     static void import_sync_records(s16 *arg0);
     static s32 export_sync_records(s16 *arg0);

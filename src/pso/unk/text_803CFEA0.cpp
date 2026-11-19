@@ -1,13 +1,13 @@
 #include "types.h"
 #include "pso/unk/TLobby.h"
 #include "pso/system/GcciRequests.h"
+#include "pso/unk/TLobby_803D0C28.h"
+#include "pso/unk/text_803D0C34.h"
 
 extern const char gcci_version_string[] = "\nGCCI Ver.1.07 Build:Jun 13 2002 19:00:24\n";
 
 typedef s32 (*RecoveredCallback_4873a87e26d6)(s32, s32 *, s32);
 
-typedef s32 (*RecoveredCallback_803D0014)(s32, s32 *, s32);
-struct S_803D0014 { u8 pad[2]; s8 f; };
 
 
 struct File_803D0654 {
@@ -29,13 +29,14 @@ struct DVDFileInfo_803D0AE8 {
 extern "C" {
 s32 fileio_error_context;
 RecoveredCallback_4873a87e26d6 fileio_error_callback;
+volatile s32 lbl_805D7610;
 s32 fileio_seek(struct File_803D0654 *arg0, s32 arg1, s32 arg2);
 s32 DVDOpen(const char *, DVDFileInfo_803D0AE8 *);
 s32 DVDClose(DVDFileInfo_803D0AE8 *);
 char *strcat(char *, const char *);
 char *strcpy(char *, const char *);
 u32 strlen(const char *);
-extern char dvd_default_path_buffer[];
+extern char dvd_default_path_buffer[0x100];
 extern GcciStatus dvd_active_request;
 s32 DVDGetCommandBlockStatus(void *);
 s32 DVDGetDriveStatus(void);
@@ -43,15 +44,14 @@ s32 DVDCancel(void *);
 u32 OSGetTick(void);
 void *memset(void *, int, u32);
 extern GcciRequest dvd_request_table[40];
-s32 TLobby::get_handle_field_20() {
-    u8 *arg0 = (u8 *)this;
-    if (arg0 == NULL) {
-        if (((s32 (*)(s32, s32 *, s32)) fileio_error_callback) != NULL) {
+s32 get_handle_field_20(GcciRequest *handle) {
+    if (handle == NULL) {
+        if (fileio_error_callback != NULL) {
             fileio_error_callback(fileio_error_context, (s32 *)"E0092912:handl is null.", 0);
         }
         return 0;
     }
-    return *(s32 *)((s8 *)arg0 + 0x20);
+    return handle->done;
 }
 void set_fileio_unit_size(File_803D0654 *file, s32 unit) {
     s32 old;
@@ -76,26 +76,25 @@ void set_fileio_unit_size(File_803D0654 *file, s32 unit) {
     file->f20 = file->f24 * unit;
 }
 
-s32 TLobby::get_field10_or_report() {
-    u8 *arg0 = (u8 *)this;
-    if (arg0 == NULL) {
-        if (((s32 (*)(s32, s32 *, s32)) fileio_error_callback) != NULL) {
+s32 get_field10_or_report(GcciRequest *handle) {
+    if (handle == NULL) {
+        if (fileio_error_callback != NULL) {
             fileio_error_callback(fileio_error_context, (s32 *)"E0040301:handl is null.", 0);
         }
         return 0;
     }
-    return *(s32 *)&this->m_up;
+    return handle->unit;
 }
 
-s32 TLobby::get_handle_value_checked() {
-    S_803D0014 *arg0 = (S_803D0014 *)this;
-    if (arg0 == 0) {
-        if ((*(RecoveredCallback_803D0014 *)&fileio_error_callback) != 0) {
-            (*(RecoveredCallback_803D0014 *)&fileio_error_callback)(fileio_error_context, (s32 *)"E0092912:handl is null.", 0);
+
+s32 get_handle_value_checked(GcciRequest *handle) {
+    if (handle == 0) {
+        if (fileio_error_callback != 0) {
+            fileio_error_callback(fileio_error_context, (s32 *)"E0092912:handl is null.", 0);
         }
         return 0;
     }
-    return arg0->f;
+    return handle->state;
 }
 
 inline s32 dvd_request_idle(GcciRequest *r) {
@@ -106,7 +105,7 @@ inline s32 dvd_request_idle(GcciRequest *r) {
     return idle;
 }
 
-void TLobby__sub_803D006C(void *arg) {
+void cancel_dvd_request(void *arg) {
     GcciRequest *r = (GcciRequest *)arg;
     u32 start;
     u32 now;
@@ -283,15 +282,14 @@ s32 gcCiReqRd(void *arg, s32 count, void *buf) {
     return r->count;
 }
 
-s32 TLobby::get_handle_field_1c() {
-    u8 *arg0 = (u8 *)this;
-    if (arg0 == NULL) {
-        if (((s32 (*)(s32, s32 *, s32)) fileio_error_callback) != NULL) {
+s32 get_handle_field_1c(GcciRequest *handle) {
+    if (handle == NULL) {
+        if (fileio_error_callback != NULL) {
             fileio_error_callback(fileio_error_context, (s32 *)"E0092912:handl is null.", 0);
         }
         return 0;
     }
-    return *(s32 *)((s8 *)arg0 + 0x1c);
+    return handle->pos;
 }
 
 s32 fileio_seek(struct File_803D0654 *arg0, s32 arg1, s32 arg2) {
@@ -312,7 +310,7 @@ s32 fileio_seek(struct File_803D0654 *arg0, s32 arg1, s32 arg2) {
     arg0->pos = (arg0->pos > 0) ? arg0->pos : 0;
     return arg0->pos;
 }
-void TLobby__sub_803D0714(void *arg) {
+void close_dvd_request(void *arg) {
     GcciRequest *rr;
     GcciRequest *r = (GcciRequest *)arg;
     u32 start;
@@ -445,7 +443,7 @@ GcciRequest *gcCiOpen(const char *name, s32 arg1, s32 mode) {
 
 
 typedef s32 (*RecoveredCallback_4873a87e26d6)(s32, s32 *, s32);
-s32 TLobby::get_dvd_file_size(const char *name) {
+s32 gcCiGetFileSize(const char *name) {
     s32 size;
     u32 len;
     u32 i;
@@ -484,4 +482,94 @@ s32 TLobby::get_dvd_file_size(const char *name) {
     return size;
 }
 
+}
+
+extern "C" {
+// Installs the error callback and its context (inferred: CRI's gcCiEntryErrFunc, by its device interface slot).
+void set_fileio_error_callback(RecoveredCallback_4873a87e26d6 callback, s32 context) {
+    fileio_error_callback = callback;
+    fileio_error_context = context;
+}
+
+void poll_dvd_requests(void) {
+    GcciRequest *r;
+    s32 i;
+    s32 n;
+    for (i = 0; i < 40; i++) {
+        r = &dvd_request_table[i];
+        if ((s32)r->active == 1 && (s32)r->state == 2) {
+            r->status = DVDGetCommandBlockStatus(r->block);
+            dvd_active_request.status = r->status;
+            switch (r->status) {
+            case -1:
+            case 11:
+                r->state = 3;
+                dvd_active_request.state = 3;
+                break;
+            case 0:
+                n = r->count * r->unit;
+                DCInvalidateRange(r->buf, n);
+                r->done = n;
+                r->pos += r->count;
+                r->state = dvd_active_request.state = 1;
+                break;
+            case 10:
+                n = DVDGetTransferredSize(r->block);
+                DCInvalidateRange(r->buf, n);
+                r->done = r->unit * (n / r->unit);
+                r->pos += n / r->unit;
+                r->state = dvd_active_request.state = 0;
+                break;
+            }
+        }
+    }
+}
+}
+
+// The "GCD" device's entry points, in the slots the cvFs layer calls (cvFsAddDev registers
+// initialize_dvd_file_driver, which returns this table).
+struct DvdFileDriverInterface {
+    void (*exec_server)(void);
+    void (*entry_err_func)(RecoveredCallback_4873a87e26d6 callback, s32 context);
+    s32 (*get_file_size)(const char *name);
+    void *pad_0C;
+    GcciRequest *(*open)(const char *name, s32 arg1, s32 mode);
+    void (*close)(void *handle);
+    s32 (*seek)(File_803D0654 *handle, s32 offset, s32 whence);
+    s32 (*tell)(GcciRequest *handle);
+    s32 (*request_read)(void *handle, s32 count, void *buf);
+    void *pad_24;
+    void (*stop_transfer)(void *handle);
+    s32 (*get_status)(GcciRequest *handle);
+    s32 (*get_sector_length)(GcciRequest *handle);
+    void (*set_sector_length)(File_803D0654 *handle, s32 unit);
+    s32 (*get_transferred)(GcciRequest *handle);
+    void *pad_3C[11];
+};
+
+DvdFileDriverInterface dvd_file_driver_interface = {
+    poll_dvd_requests, set_fileio_error_callback, gcCiGetFileSize, 0, gcCiOpen, close_dvd_request, fileio_seek,
+    get_handle_field_1c, gcCiReqRd, 0, cancel_dvd_request, get_handle_value_checked, get_field10_or_report,
+    set_fileio_unit_size, get_handle_field_20,
+};
+
+DvdFileDriverInterface *initialize_dvd_file_driver(void) {
+    lbl_805D7610 = lbl_805D7610;
+    memset(dvd_default_path_buffer, 0, sizeof(dvd_default_path_buffer));
+    fileio_error_callback = 0;
+    fileio_error_context = 0;
+    memset(&dvd_active_request, 0, sizeof(dvd_active_request));
+    return &dvd_file_driver_interface;
+}
+
+#pragma push
+#pragma scheduling off
+void set_dvd_synchronous_read_mode(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
+    dvd_synchronous_read_enabled = arg3;
+}
+#pragma pop
+extern "C" {
+GcciStatus dvd_active_request;
+GcciRequest dvd_request_table[40];
+char dvd_default_path_buffer[0x100] ATTRIBUTE_ALIGN(8);
 }

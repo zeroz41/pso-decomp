@@ -6,7 +6,7 @@
 struct GcciRequest {
     u8 active;
     u8 unknown01;
-    u8 state;
+    s8 state;
     u8 unknown03[5];
     void *buf;
     s32 status;

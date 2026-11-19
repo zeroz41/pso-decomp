@@ -26,7 +26,7 @@ void clear_floor_event_flags(void);
 struct SetDestroyEventRecord;
 void create_empty_floor_event(SetDestroyEventRecord *event);
 void spawn_destroy_event(SetDestroyEventRecord *event);
-void dispatch_wave_event_action(s32 arg0);
+void dispatch_wave_event_action(u8 opcode);
 extern "C" {
 void free_team_buffers__6TLobbyFv(void);
 }

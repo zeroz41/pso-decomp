@@ -764,7 +764,6 @@ pso/object/container/TContainerAncient01_8018A55C.cpp
 pso/ui/TLevelSelect.cpp
 pso/system/TLoadCtrl.cpp
 pso/ui/frontend/TAdSinglePlyChrSelectGC_8001C5E8.cpp
-pso/unk/TLobby_80227A2C.cpp
 pso/unk/TLobby_80227AA0.cpp
 pso/unk/TLobby_80228154.cpp
 pso/unk/TLobby_80228818.cpp
@@ -939,8 +938,6 @@ pso/unk/TLobby_803CE1E4.cpp
 pso/unk/TLobby_803CE200.cpp
 pso/unk/TLobby_803CE478.cpp
 pso/unk/TLobby_803CFE68.cpp
-pso/unk/TLobby_803D0C28.cpp
-pso/unk/text_803D0C34.cpp
 pso/unk/TLobby_803D0DEC.cpp
 pso/unk/text_803D31A4.cpp
 pso/unk/TLobby_803D43C8.cpp
@@ -2351,10 +2348,6 @@ pso/unk/text_803DCDB0.cpp
 pso/unk/text_803DCDFC.cpp
 pso/unk/text_803DD5E0.cpp
 pso/unk/text_803DE7E0.cpp
-pso/unk/text_803DE838.cpp
-pso/unk/text_803DE864.cpp
-pso/unk/text_803DE890.cpp
-pso/unk/text_803DE8BC.cpp
 pso/unk/text_803DEE48.cpp
 pso/unk/text_803DF204.cpp
 pso/unk/text_803E2070.cpp
