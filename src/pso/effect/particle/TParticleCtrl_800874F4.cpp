@@ -1,3 +1,4 @@
+#include "pso/system/ResourceFile.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/NinjaTypes.h"
 #include "pso/effect/particle/ParticleRadial.h"
@@ -186,7 +187,6 @@ s32 release_texture_list(void*);
 void mem_free(void *p);
 extern u32 TParticleCtrl__regular_bml_resource;
 extern u32 TParticleCtrl__texture_list;
-s32 read_disc_file(s32, s32);
 s32 mem_alloc(s32);
 // particle_pool_limit: declared s32 above (part 1)
 // particle_global_entry_table: declared s32 above (part 1)
@@ -647,7 +647,8 @@ void TParticleCtrl::free_all() {
 }
 void TParticleCtrl::init_particle_buffer() {
     s32 temp_r3;
-    temp_r3 = read_disc_file((s32)TParticleCtrl__particle_entry_path, ((*(s32 *)&particle_global_entry_table) = mem_alloc(0x13000)));
+    particle_global_entry_table = mem_alloc(0x13000);
+    temp_r3 = read_disc_file((const char *)TParticleCtrl__particle_entry_path, (void *)particle_global_entry_table);
     particle_pool_limit = 0;
     if (temp_r3 >= 0) {
         particle_pool_limit = (u32) temp_r3 / 152U;
@@ -679,7 +680,8 @@ void load_particle_entry_resources(void) {
     } else {
         sprintf(name, lbl_804394BC, area);
     }
-    read_disc_file((s32)name, particle_area_entry_table = mem_alloc(0x2600));
+    particle_area_entry_table = mem_alloc(0x2600);
+    read_disc_file(name, (void *)particle_area_entry_table);
     p = ::operator new(0x440);
     if (p != 0) {
         p = load_resource_from_descriptor(p, 1, particle_regular_bml_descriptor, 0, 0, 0);

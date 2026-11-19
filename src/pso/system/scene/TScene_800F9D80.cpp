@@ -1,7 +1,6 @@
-#include "types.h"
-#include "pso/system/scene/TScene.h"
-#include "pso/unk/TLobby.h"
+#include "pso/system/ResourceFile.h"
+#include "pso/system/TGStream.h"
 
-
-int TScene::update_lobby_scene() { return ((TLobby *)this)->get_resource_file_size(); }
-
+s32 get_resource_file_size(const char *filename) {
+    return TGStream::get_resource_file_size(filename);
+}

@@ -1,3 +1,4 @@
+#include "pso/system/ResourceFile.h"
 #include "pso/ui/MenuText.h"
 #include "types.h"
 #include "pso/unk/text_800F7DAC.h"
@@ -22,7 +23,7 @@ s32 *lobby_checked_read_ptr_table[4] = { 0, 0, 0, 0 };
 s32 lbl_80499A10[4] = { 0, 0, 0, 0 };
 u32 lbl_80499A20[4] = { 0, 0, 0, 0 };
 u32 lbl_80499A30[4] = { 0, 0, 0, 0 };
-s32 disc_read_filename;
+const char *disc_read_filename;
 u8 lobby_font_texture_loaded;
 s32 *pending_file_read_handle_ref;
 s32 pending_file_read_sector_count;

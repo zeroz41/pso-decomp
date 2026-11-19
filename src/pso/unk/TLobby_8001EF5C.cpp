@@ -1,3 +1,4 @@
+#include "pso/system/ResourceFile.h"
 #include "types.h"
 #include "pso/system/BmlResource.h"
 #include "pso/object/ambient/TObjFish_8001ED90.h"
@@ -165,7 +166,6 @@ void check_bin_model_loaded__6TLobbyFPvPv(Obj_8001F8D8 *self, void * _w1);
 s32 bind_bml_motion(struct Lobby_8001FB6C *self, s32 idx, void *bytes);
 s32 change_file_extension__6TLobbyFPvPvPv(char *arg0, char *arg1, char *arg2);
 s32 load_gvm_texture_archive(s32, s32);
-s32 set_stream_state__6TLobbyFi(s32, s32);
 s32 create_file_load_entry__6TLobbyFllUllPPv(void *, s32, void *, void *, void *);
 s32 TLobby__sub_800F9FF4(s32);
 s32 release_texture_list(void *);
@@ -173,7 +173,7 @@ Lobby_8001FE7C *free_bin_model_request(Lobby_8001FE7C *self, s16 del);
 u32 prs_decompress_buffer(s32 arg0, s32 arg1);
 char *strncpy(char *dest, const char *src, unsigned long num);
 extern u8 *resource_decompress_buffer;
-extern s32 disc_read_filename;
+
 extern const char *lbl_805D2B10;
 TBinModel *load_resource_from_descriptor(TBinModel *self, s32 kind, Desc_80020004 *desc, s32 on_loaded, s32 on_loaded_arg, s32 load_buffer);
 s32 bind_bml_model(Lobby_8001FBEC *arg0, u32 arg1, s32 arg2, s32 arg3);
@@ -269,7 +269,7 @@ void TLobby::load_texture_sub(void *arg1, s32 arg2) {
     char buf[0x20];
     s32 size;
     change_file_extension__6TLobbyFPvPvPv((char *)buf, (char *)arg1, "gvm");
-    size = TGStream::load_sct_file((s32)buf, (s32)lobby_download_buffer);
+    size = TGStream::load_sct_file(buf, (u8 *)lobby_download_buffer);
     if (size > 0x40000) {
         TLobby::debug_print("LoadTextureSub: %s too large.", buf);
     } else if (size > 0) {
@@ -643,7 +643,7 @@ s32 TLobby::load_bin_motion(s32 arg1, s32 arg2) {
     s32 size;
     s32 data;
     arg0->entries[arg2].data = 0;
-    size = set_stream_state__6TLobbyFi(arg1, lobby_download_buffer);
+    size = read_disc_file_sectors((const char *)arg1, (void *)lobby_download_buffer);
     if (size == 0) {
         TLobby::debug_print("LoadBinMotion: %s load failed.", arg1);
         return 0;
@@ -664,7 +664,7 @@ s32 TLobby::load_bin_model(s32 arg1, s32 arg2) {
     s32 size;
     ((Lobby_8001FD98 *)this)->entries[arg2].motion = NULL;
     ((Lobby_8001FD98 *)this)->entries[arg2].texture = NULL;
-    size = ((TLobby *)arg1)->get_resource_file_size();
+    size = TGStream::get_resource_file_size((const char *)arg1);
     if (size <= 0) {
         TLobby::debug_print("LoadBinModel: %s load failed.", arg1);
         return 0;
@@ -672,7 +672,7 @@ s32 TLobby::load_bin_model(s32 arg1, s32 arg2) {
     if (size > 0x40000) {
         TLobby::debug_print("LoadBinModel: tmpbuf overflow(%x)", size - 0x40000);
     }
-    set_stream_state__6TLobbyFi(arg1, lobby_download_buffer);
+    read_disc_file_sectors((const char *)arg1, (void *)lobby_download_buffer);
     bind_bml_model((Lobby_8001FBEC *)(this), size, arg2, lobby_download_buffer);
     if (((Lobby_8001FD98 *)this)->entries[arg2].texture != NULL) {
         this->load_texture_sub((void *)arg1, (s32)arg2);
@@ -803,10 +803,10 @@ TBinModel *load_resource_from_descriptor(TBinModel *self, s32 kind, Desc_8002000
                 case 1:
                     buf = (s32)TQuestVmDownLoadServer::alloc(size + 0x800);
                     if (buf != 0) {
-                        disc_read_filename = desc->name;
+                        disc_read_filename = (const char *)desc->name;
                         st.read_data((s32)((void *)buf), (s32)size);
                         st.align_read_offset(blk);
-                        disc_read_filename = (s32)lbl_805D2B10;
+                        disc_read_filename = lbl_805D2B10;
                         prs_decompress_buffer(buf, (s32)resource_decompress_buffer);
                         TAdSinglePlyChrSelectGC::safe_free(buf);
                         bind_bml_model((Lobby_8001FBEC *)(self), size, i, (s32)((s32)resource_decompress_buffer));
@@ -817,7 +817,7 @@ TBinModel *load_resource_from_descriptor(TBinModel *self, s32 kind, Desc_8002000
                 default:
                     st.read_data((s32)resource_decompress_buffer, (s32)size);
                     st.align_read_offset(blk);
-                    disc_read_filename = (s32)lbl_805D2B10;
+                    disc_read_filename = lbl_805D2B10;
                     bind_bml_model((Lobby_8001FBEC *)(self), size, i, (s32)((s32)resource_decompress_buffer));
                     break;
                 }
@@ -971,7 +971,7 @@ TBinModel *init_bin_model_request(TBinModel *self, s32 kind, u32 *models, u32 *m
             req.f8 = (s32 *)&self->ents16[i].b;
             req.fC = (Ctx_8001FA1C *)self;
             req.f10 = (s32)&self->ents16[i];
-            req.f14 = ((TLobby *)*p)->get_resource_file_size();
+            req.f14 = TGStream::get_resource_file_size((const char *)*p);
             create_named_entry__6TLobbyFiiUiiPv(*p, lobby_download_buffer, (u32)load_bin_model_callback, &req, (void **)&handle);
             TLobby__sub_8001EDD8(self, handle);
         }

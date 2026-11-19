@@ -1,3 +1,4 @@
+#include "pso/system/ResourceFile.h"
 #include "pso/system/NinjaTypes.h"
 #include "types.h"
 #include "pso/ui/hud/TRaderMapCore.h"
@@ -65,7 +66,6 @@ extern u32 TObjLight__light_entry_data;
 extern s32 TObjLight__active_light_count;
 extern s32 light_entry_file_size;
 __declspec(section ".rodata") char lbl_8043ED80[] = "lightentry.bin";
-s32 read_disc_file(void *, u32);
 void GXInitLightSpot(void *, s32, f32);
 void GXInitLightDistAttn(void *, s32, f32, f32);
 extern s32 TObjLight__light_count;
@@ -323,11 +323,11 @@ TUnk_804A6FC0::~TUnk_804A6FC0() {}
 
 void load_light_entry_file(void) {
     TObjLight__light_entry_data = 0;
-    light_entry_file_size = ((TScene *)lbl_8043ED80)->update_lobby_scene();
+    light_entry_file_size = get_resource_file_size(lbl_8043ED80);
     if (light_entry_file_size > 0) {
         TObjLight__light_entry_data = (s32)TQuestVmDownLoadServer::alloc(light_entry_file_size);
         if (TObjLight__light_entry_data) {
-            read_disc_file(lbl_8043ED80, TObjLight__light_entry_data);
+            read_disc_file(lbl_8043ED80, (void *)TObjLight__light_entry_data);
         }
     }
 }

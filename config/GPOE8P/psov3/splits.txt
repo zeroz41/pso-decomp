@@ -5910,7 +5910,7 @@ pso/ui/frontend/TAdStorySelectGC.cpp:
 
 pso/unk/TLobby_80207DA8.cpp:
 	.text       start:0x80207DA8 end:0x8020910C
-	.rodata     start:0x8044BA50 end:0x8044BAC8
+	.rodata     start:0x8044BA50 end:0x8044BAE8
 	.data       start:0x804C8C60 end:0x804C93A8
 	.bss        start:0x805139F8 end:0x80513A40
 	.sbss       start:0x805D6068 end:0x805D6090

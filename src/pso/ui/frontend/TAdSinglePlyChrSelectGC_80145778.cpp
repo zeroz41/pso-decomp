@@ -1,3 +1,4 @@
+#include "pso/system/ResourceFile.h"
 #include "pso/ui/MenuText.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
 #include "types.h"
@@ -63,7 +64,6 @@ typedef struct Font_80145804 {
 } Font_80145804;
 
 extern "C" {
-s32 set_stream_and_load_file__6TLobbyFi(void *);
 void set_texture_name(void *, void *, u32, u32);
 void load_texture_list(void *);
 extern u8 lbl_8043F3D8[];
@@ -93,7 +93,7 @@ void load_menu_font(void) {
     u32 u;
     u32 v;
     TLobby::load_font_texture();
-    menu_font_glyph_data = set_stream_and_load_file__6TLobbyFi(lbl_8043F3D8);
+    menu_font_glyph_data = (s32)load_disc_file((const char *)lbl_8043F3D8);
     TLobby::release_menu_font();
     for (i = 0; i < 2; i++) {
         ((TObjPlayer *)(menu_font_render_rects + i))->set_render_rect(0, 0x208, 0x100, 0x100);

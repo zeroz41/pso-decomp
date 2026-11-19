@@ -12,10 +12,11 @@ public:
     TGStream(void *name, s32 direct_read_mode);
     ~TGStream();
 
-    static s32 load_file(s32 name);
-    static s32 read_whole_file(s32 name, u8 *dst);
-    static s32 load_sct_file(s32 name, s32 dst);
-    void read_sectors_sync(s32 sector_count, s32 destination);
+    static s32 get_resource_file_size(const char *filename);
+    static u8 *load_file(const char *name);
+    static s32 read_whole_file(const char *name, u8 *dst);
+    static s32 load_sct_file(const char *name, u8 *dst);
+    void read_sectors_sync(s32 sector_count, void *destination);
     static void reset();
     s32 get_file_size();
     void align_read_offset(s32 alignment);

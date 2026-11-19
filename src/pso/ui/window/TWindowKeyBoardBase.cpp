@@ -1,3 +1,5 @@
+#include "pso/system/ResourceFile.h"
+#include "pso/system/TGStream.h"
 #include "types.h"
 #include "pso/ui/window/TWindowKeyBoardBase_8008102C.h"
 #include "pso/ui/window/TWindowKeyBoardBase.h"
@@ -1016,7 +1018,6 @@ void init_keyboard_text_buffer(u8 *arg0, u32 arg1, u32 arg2);
 extern "C" {
 extern s32 __vt__19TWindowKeyBoardBase[];
 u8 *TWindowKeyBoardBase__ct(u8 *arg0);
-s32 set_stream_and_load_file__6TLobbyFi(s32 *);
 s32 Dolphin_ARAlloc(s32);
 void TQuestVmDownLoadServer__sub_803F0C04(u32 aram_addr, s32 size, u32 owner, u32 priority, u32 timeout_ms);
 s32 sub_8025CB10__19TWindowKeyBoardBaseFv(void *);
@@ -1078,10 +1079,10 @@ void TLobby::load_ask_dictionary() {
     s32 size;
     s32 aligned;
     s32 aram;
-    size = ((TLobby *)lbl_8044F098)->get_resource_file_size();
+    size = TGStream::get_resource_file_size((const char *)lbl_8044F098);
     aligned = (size + 0x1F) & ~0x1F;
     aram = Dolphin_ARAlloc(aligned);
-    data = set_stream_and_load_file__6TLobbyFi((s32 *)lbl_8044F098);
+    data = (s32)load_disc_file(lbl_8044F098);
     TLobby::aram_transfer_sync(3, data, aram, aligned);
     TAdSinglePlyChrSelectGC::safe_free(data);
     TQuestVmDownLoadServer__sub_803F0C04(aram, size, 3, 1, 0x2710);

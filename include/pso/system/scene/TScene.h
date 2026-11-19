@@ -31,7 +31,6 @@ public:
     static void bind_ending_wall_textures();
     static void set_scene(int a0);
     static void apply_single_screen_state();
-    int update_lobby_scene();
     static void set_ready();
     static void reset_counter();
     static int get_status();

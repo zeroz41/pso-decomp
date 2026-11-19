@@ -1,3 +1,4 @@
+#include "pso/system/ResourceFile.h"
 #include "types.h"
 #include "pso/item/drop/TItemDrop_800F93F0.h"
 #include "pso/item/TUnk_8049C658.h"
@@ -20,8 +21,6 @@ extern "C" {
 extern Head_800F957C resource_load_task_root[];
 int safe_free__23TAdSinglePlyChrSelectGCFUl(void*);
 s32 apply_rel_relocations(void *);
-s32 read_disc_file(void *, void *);
-void *set_stream_and_load_file__6TLobbyFi(const char *path);
 
 TUnk_8049C658::~TUnk_8049C658() {}
 
@@ -59,7 +58,7 @@ s32 load_relocatable_file(s32 arg0, s32 arg1) {
     Drop_800F9448 d;
     s32 n;
 
-    n = read_disc_file((void *) arg0, (void *) arg1);
+    n = read_disc_file((const char *)arg0, (void *) arg1);
     if (n > 0) {
         d.b = n;
         d.a = arg1;
@@ -70,7 +69,7 @@ s32 load_relocatable_file(s32 arg0, s32 arg1) {
 
 #pragma pop
 int free_data_file(void* p) { return safe_free__23TAdSinglePlyChrSelectGCFUl(p); }
-void *load_data_file(const char *path) { return set_stream_and_load_file__6TLobbyFi(path); }
+void *load_data_file(const char *path) { return load_disc_file(path); }
 void TLobby::free_nodes_with_id(u32 arg0) {
     N_800F957C *n = resource_load_task_root->first;
     while (n != 0) {

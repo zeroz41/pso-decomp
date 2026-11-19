@@ -1,3 +1,4 @@
+#include "pso/system/ResourceFile.h"
 #include "types.h"
 #include "pso/system/vector.h"
 #include "pso/unk/TLobby.h"
@@ -115,8 +116,8 @@ void TLoadCtrl__sub_80226DA0(s32 index) {
         void *buf;
         TLoadCtrl::step();
         /* the original marks the stream busy while evaluating the call's arguments */
-        ((void (*)(const char *, void *))TLobby::set_stream_state)(bgm_stream_files[index],
-                                                                    (lbl_805D6330 = 1, buf = lbl_80514C60[0]));
+        read_disc_file_sectors(bgm_stream_files[index],
+                               (lbl_805D6330 = 1, buf = lbl_80514C60[0]));
         ((TLobby *)lbl_804CB850[1])->adxt_start_mem_idx((u8 *)buf, 0);
         set_field_40_and_notify__6TLobbyFs(lbl_804CB850[1], get_music_base_gain());
         TLobby__sub_803C94DC((u8 *)lbl_804CB850[1], 0);

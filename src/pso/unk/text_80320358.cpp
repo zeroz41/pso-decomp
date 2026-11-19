@@ -1,3 +1,4 @@
+#include "pso/system/ResourceFile.h"
 #include "types.h"
 #include "pso/boss/olgaflow/TBoss6Zanzo.h"
 #include "pso/unk/text_80320358.h"
@@ -72,7 +73,6 @@ struct S_80320358 {
 };
 
 extern "C" {
-s32 read_disc_file(void *, void *);
 s32 OSLink(void *, void *);
 void OSUnlink(void *);
 S_80320358 *fn_80320358(S_80320358 *arg0, s16 arg1);
@@ -108,13 +108,13 @@ u8 *load_rel_module(u8 *arg0, s32 arg1) {
     u32 size2;
     *(void **)((s8 *)arg0 + 0) = NULL;
     *(void **)((s8 *)arg0 + 4) = NULL;
-    size = ((TScene *)arg1)->update_lobby_scene();
+    size = get_resource_file_size((const char *)arg1);
     if (size > 0) {
         *(void **)((s8 *)arg0 + 4) = xmalloc(size);
         if ((void *) *(void **)((s8 *)arg0 + 4) == NULL) {
             return arg0;
         }
-        read_disc_file((void *)arg1, *(void **)((s8 *)arg0 + 4));
+        read_disc_file((const char *)arg1, *(void **)((s8 *)arg0 + 4));
         size2 = *(u32 *)((s8 *)(*(void **)((s8 *)arg0 + 4)) + 0x20);
         if (size2 != 0U) {
             *(void **)((s8 *)arg0 + 0) = xmalloc(size2);

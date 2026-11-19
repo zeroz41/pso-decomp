@@ -40,7 +40,7 @@ typedef char TWindowSnapShot_size[sizeof(TWindowSnapShot) == 0x64 ? 1 : -1];
 
 extern "C" {
 u8 *TWindowSnapShot__ct(TWindowSnapShot *arg0, s32 arg1);
-int TWindowSnapShot__sub_802A7EAC(void);
+const char *get_player_motion_filename(void);
 }
 s32 load_player_motion_data(void);
 extern "C" {

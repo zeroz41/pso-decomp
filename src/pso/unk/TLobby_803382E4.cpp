@@ -1,3 +1,4 @@
+#include "pso/system/ResourceFile.h"
 #include "types.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel_803E2BAC.h"
 #include "pso/unk/TLobby_803382E4.h"
@@ -32,7 +33,6 @@ struct A_80338608 { u8 pad[0x14]; u32 col; };
 struct B_80338608 { u8 pad[0xC]; u32 col; };
 
 extern "C" {
-s32 set_stream_state__6TLobbyFi(const char *, int);
 s32 load_gvm_texture_archive(int, void *);
 s32 lobby_request_flags;
 void TCameraCtrl__sub_80068EF0(void);
@@ -162,7 +162,7 @@ void TLobby::load_now_loading_texture() {
     if (!(lobby_request_flags & 2)) {
         temp_r31 = (s32)TQuestVmDownLoadServer::alloc(0x11000);
         temp_r3 = (s32)TQuestVmDownLoadServer::alloc(0x2000);
-        set_stream_state__6TLobbyFi("NowLoading.prs", temp_r3);
+        read_disc_file_sectors("NowLoading.prs", (void *)temp_r3);
         prs_decompress_buffer((temp_r3), (temp_r31));
         load_gvm_texture_archive(temp_r31, lbl_804EF1DC);
         TAdSinglePlyChrSelectGC::safe_free(temp_r3);

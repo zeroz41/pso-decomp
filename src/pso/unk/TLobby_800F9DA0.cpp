@@ -1,3 +1,5 @@
+#include "pso/system/ResourceFile.h"
+#include "pso/system/TGStream.h"
 #include "types.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC_800F9EF8.h"
 #include "pso/unk/TLobby_800F9DA0.h"
@@ -11,12 +13,10 @@
 
 extern "C" {
 
-int read_whole_file__8TGStreamFlPUc(void);
 void TLobby__sub_800F8AD0(void);
 void TLobby__sub_800F8F34(void);
 void TLobby__sub_803382E4(void);
-s32 adxf_get_fsize_byte__6TLobbyFv();
-s32 adxf_open__6TLobbyFUii(s32, s32);
+TLobby *adxf_open__6TLobbyFUii(const char *, s32);
 s32 all_parents_unqueued_for_destruction__7TObjectFv();
 void restore_saved_depth_alpha_state(void);
 void fn_801E2C50(void);
@@ -24,22 +24,20 @@ s8 func_801A5E54__Fv();
 void func_803DCDFC__Fv(void);
 void system_reset(void);
 
-s32 TLobby::get_file_size() {
-    s32 temp_r31;
-    s32 temp_r3;
-    s32 uninit;
-
-    temp_r3 = adxf_open__6TLobbyFUii(uninit, 0);
-    if (temp_r3 == 0) {
+s32 get_disc_file_size(const char *filename) {
+    TLobby *handle = adxf_open__6TLobbyFUii(filename, 0);
+    if (handle == NULL) {
         return -1;
     }
-    temp_r31 = adxf_get_fsize_byte__6TLobbyFv();
-    ((TLobby *)temp_r3)->close_adxf_handle();
-    return temp_r31;
+    s32 size = handle->adxf_get_fsize_byte();
+    handle->close_adxf_handle();
+    return size;
 }
 
-    extern int disc_read_filename;
-void read_disc_file(int a0) { disc_read_filename = a0; read_whole_file__8TGStreamFlPUc(); }
+s32 read_disc_file(const char *filename, void *destination) {
+    disc_read_filename = filename;
+    return TGStream::read_whole_file(filename, (u8 *)destination);
+}
 
 extern s32 tl_su;
 extern s32 tl_camera;
