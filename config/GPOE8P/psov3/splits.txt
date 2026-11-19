@@ -1727,6 +1727,9 @@ pso/enemy/gee/TObjEneMe1Gee.cpp:
 	.sbss       start:0x805D51B0 end:0x805D51D0
 	.sdata2     start:0x805DA0A8 end:0x805DA154
 
+pso/enemy/gibon/GibonData.cpp:
+	.rodata     start:0x8043BF30 end:0x8043BF50
+
 pso/enemy/gibon/TObjEneBm5GibonU.cpp:
 	.text       start:0x800CCB24 end:0x800D1E4C
 	.ctors      start:0x80433F5C end:0x80433F60
