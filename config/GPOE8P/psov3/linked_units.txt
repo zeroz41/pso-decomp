@@ -386,6 +386,7 @@ pso/enemy/fly/TObjEneBm3Fly.cpp
 pso/enemy/fly/TObjEneBm3FlyNest.cpp
 pso/enemy/gibon/TObjEneBm5GibonU.cpp
 pso/enemy/wolf/TObjEneBm5Wolf.cpp
+pso/enemy/mericarol/MericarolData.cpp
 pso/enemy/mericarol/TObjEneBm9Mericarol.cpp
 pso/enemy/mericarol/TObjEneBm9Mericarol_Bomb.cpp
 pso/enemy/mericarol/TObjEneBm9Mericarol_EffCurse3.cpp
