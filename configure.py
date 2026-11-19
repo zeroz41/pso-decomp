@@ -499,6 +499,8 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # vtables come out TUnk_80488AD8, TUnk_80488AF0 then TUnk_80488B08 (the text order of their
     # dtors): written last to first, deferred.
     "pso/camera/TCameraCtrl_8006B3D8.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
+    # -sdata 4: its last .bss object (0x8050BEB8) is 8 bytes.
+    "pso/network/TPlyJoinLobbyEntry.cpp": {"cflags": _switch(cflags_pso, "-sdata 4")},
     # -sdata 4: the 8-byte load/release callback tables of BOSS01 (0x804A7358), BOSS02 (0x804A7360)
     # and BOSS05 (0x804A7368) sit in .data, not .sdata.
     "pso/map/area/AreaBoss01.cpp": {"cflags": _switch(cflags_pso, "-sdata 4")},
@@ -1539,6 +1541,8 @@ MIDDLEWARE: List[Tuple[str, int, str, List[str], Dict[str, Dict[str, Any]]]] = [
         # -inline off,deferred: its named .sdata2 constants (0x805E0E18-0x805E0E3C), defined after the one function,
         # sit before the function's int->double conversion constants (0x805E0E40); only deferred compilation emits that order.
         "pso/camera/TCameraCtrl_803D676C.cpp": {"cflags": _switch(cflags_middleware, "-O3,p", "-opt nopeephole", "-inline off,deferred")},
+        # -sdata 4: its last .bss object (0x8058D520) is 8 bytes.
+        "pso/unk/text_803DCDFC.cpp": {"cflags": _switch(cflags_middleware, "-O3,p", "-opt nopeephole", "-sdata 4")},
         # Saves registers through _savegpr_N everywhere (no stmw in the unit).
         "pso/unk/text_803E2D70.cpp": {"cflags": _switch(cflags_middleware, "-O3,p", "-opt nopeephole", "-use_lmw_stmw off")},
         "pso/unk/text_803E2F28.cpp": {"cflags": _switch(cflags_middleware, "-O3,p", "-opt nopeephole", "-use_lmw_stmw off")},
