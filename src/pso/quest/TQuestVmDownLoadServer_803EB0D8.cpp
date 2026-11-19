@@ -305,7 +305,7 @@ void TQuestVmDownLoadServer__sub_803EB4D4(void) {
     }
     buf = &lbl_805A0340[pos];
     for (; pos < lbl_805D78A4; pos++) {
-        TQuestVmDownLoadServer__sub_803EC95C(buf, lbl_805E10D0, 0);
+        TQuestVmDownLoadServer__sub_803EC95C(buf, (const u8 *)" ", 0);
         buf++;
     }
 }

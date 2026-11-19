@@ -19,7 +19,8 @@ u8 *TLobby__gba_joyboot_send_buffer;
 u8 gba_joyboot_status;
 unsigned char lbl_805D6CD9;
 short lbl_805D6CDA;
-extern const f32 TLobby__data_805DF7A4;
+// The game code the GBA program header carries at 0xAC (calc_joyboot_checksum copies it in).
+const u8 joyboot_game_code[4] = {'G', 'P', 'O', 'E'};
 
 u32 create__8TDLGraphFv();
 void xfree__FPv(void*);
@@ -83,7 +84,7 @@ void gba_joyboot_transfer_callback(s32 arg0, s32 arg1) {
     }
     GbaJoybootState* q = TLobby__data_805434A8;
     q->timeout_counter = q->timeout_counter + 1;
-    if ((f32)q->timeout_counter >= TLobby__data_805DF7A4) {
+    if ((f32)q->timeout_counter >= 120.0f) {
         TLobby__data_805434A8[0].timeout_counter = 0x78;
         TLobby__data_805D6CCC = 2;
     }
@@ -152,7 +153,6 @@ void *memmove(void *, const void *, u32);
 s32 rand();
 void *memset(void *, int, u32);
 s32 GBAJoyBootAsync(s32, s32, s32, u8 *, s32, u8 *, void (*)(s32, s32));
-extern const u8 lbl_805DF7A0[4];
 
 
 #pragma push
@@ -187,7 +187,7 @@ void TLobby::calc_joyboot_checksum() {
     s32 k;
     u8 c;
     for (i = 0; i < 4; i++) {
-        data[0xAC + i] = lbl_805DF7A0[i];
+        data[0xAC + i] = joyboot_game_code[i];
     }
     q = data + 0xA0;
     c = 0xE7;
@@ -215,7 +215,7 @@ void TLobby__sub_8032CB6C(void) {
         TLobby__data_805434A8[0].probe_counter = 0;
         TLobby__data_805434A8[0].device_present = 1;
     } else {
-        if (TLobby__data_805434A8[0].probe_counter >= TLobby__data_805DF7A4) {
+        if (TLobby__data_805434A8[0].probe_counter >= 120.0f) {
             *(volatile u16 *)&TLobby__data_805434A8[0].probe_counter = 0x78;
             *(volatile s8 *)&TLobby__data_805434A8[0].device_present = 0;
             *(volatile s32 *)&TLobby__data_805D6CCC = 2;
@@ -250,7 +250,7 @@ void update_gba_joyboot_transfer(void) {
             }
             GbaJoybootState *q = TLobby__data_805434A8;
             q->timeout_counter = q->timeout_counter + 1;
-            if ((f32)q->timeout_counter >= TLobby__data_805DF7A4) {
+            if ((f32)q->timeout_counter >= 120.0f) {
                 TLobby__data_805434A8[0].timeout_counter = 0x78;
                 TLobby__data_805D6CCC = 2;
             }

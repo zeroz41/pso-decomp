@@ -414,7 +414,6 @@ s32 TQuestVmDownLoadServer__sub_803F0268(const char *name, s16 len, Out_803F0268
 s32 TQuestVmDownLoadServer__sub_803E7390(u8 a, u8 b, u8 c);
 extern u8 lbl_80596258[];
 extern u8 lbl_805D7894[4];
-extern const u8 lbl_805E10D0[2];
 s32 TQuestVmDownLoadServer__sub_803EC884(u16 arg0);
 s32 TQuestVmDownLoadServer__sub_803EDB20(u8 arg0);
 s32 TQuestVmDownLoadServer__sub_803EDB3C(u8 arg0);

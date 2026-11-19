@@ -2244,7 +2244,6 @@ pso/unk/text_80248994.cpp
 pso/ui/city/THunterGuildSeqOffline_80248A14.cpp
 pso/unk/text_80249004.cpp
 pso/ui/window/TWindowChoiceSetting_80249078.cpp
-pso/unk/text_802497A8.cpp
 pso/unk/text_8024AADC.cpp
 pso/unk/text_8024AB18.cpp
 pso/unk/text_8024AB54.cpp
@@ -2355,6 +2354,7 @@ pso/unk/text_8035B6B0.cpp
 pso/unk/text_8035B750.cpp
 pso/unk/text_8035D444.cpp
 pso/unk/text_803626A8.cpp
+pso/weapon/TUnk_804F26E0.cpp
 pso/unk/text_8036A3CC.cpp
 pso/network/PSOV3Encryption_8036AE2C.cpp
 pso/unk/text_8036B748.cpp
@@ -2365,7 +2365,6 @@ pso/effect/enemy/TObjEneHoldEffect_8036D0C0.cpp
 pso/unk/text_8036F764.cpp
 pso/unk/text_80396328.cpp
 pso/unk/text_8039739C.cpp
-pso/unk/text_803C1668.cpp
 pso/unk/text_803CC070.cpp
 pso/unk/text_803CC134.cpp
 pso/unk/text_803CC294.cpp

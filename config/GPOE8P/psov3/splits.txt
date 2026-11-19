@@ -6888,16 +6888,13 @@ pso/ui/window/TWindowSubComCard_802495FC.cpp:
 pso/ui/window/TWindowChoiceSetting_80249610.cpp:
 	.text       start:0x80249610 end:0x802497A8
 
-pso/unk/text_802497A8.cpp:
-	.text       start:0x802497A8 end:0x80249920
-
 pso/ui/window/TWindowComCard.cpp:
-	.text       start:0x80249920 end:0x8024A054
+	.text       start:0x802497A8 end:0x8024A054
 	.rodata     start:0x8044EB18 end:0x8044EBC8
 	.data       start:0x804CE820 end:0x804CE9C8
 	.sdata      start:0x805D38C0 end:0x805D38C4
 	.sbss       start:0x805D63F8 end:0x805D6400
-	.sdata2     start:0x805DCBD0 end:0x805DCBD4
+	.sdata2     start:0x805DCBC8 end:0x805DCBD4
 
 pso/ui/window/TWindowCtrl_8024A054.cpp:
 	.text       start:0x8024A054 end:0x8024A148
@@ -9850,7 +9847,7 @@ pso/system/GbaDownloadRuntime.cpp:
 	.rodata     start:0x80477310 end:0x80477320
 	.bss        start:0x805434A8 end:0x805434B0
 	.sbss       start:0x805D6CC0 end:0x805D6CE0
-	.sdata2     start:0x805DF7A8 end:0x805DF7B0
+	.sdata2     start:0x805DF7A0 end:0x805DF7B0
 
 pso/ui/frontend/TAdWarningBaseGC_8032CE1C.cpp:
 	.text       start:0x8032CE1C end:0x8032D154
@@ -10717,13 +10714,18 @@ pso/enemy/epsilon/TObjEneEpsilonGuard_8035F5C8.cpp:
 	.sdata2     start:0x805E0208 end:0x805E0248
 
 pso/unk/text_803626A8.cpp:
-	.text       start:0x803626A8 end:0x80362DE8
+	.text       start:0x803626A8 end:0x80362C28
 	.rodata     start:0x80479EA0 end:0x80479FC8
-	.data       start:0x804F24E8 end:0x804F27DC
+	.data       start:0x804F24E8 end:0x804F26E0
 	.bss        start:0x80543A18 end:0x80543A48
 	.sdata      start:0x805D4468 end:0x805D4470
 	.sbss       start:0x805D6FA0 end:0x805D6FAC
 	.sdata2     start:0x805E0248 end:0x805E0258
+
+pso/weapon/TUnk_804F26E0.cpp:
+	.text       start:0x80362C28 end:0x80362DE8
+	.data       start:0x804F26E0 end:0x804F27DC
+	.sdata2     start:0x805E0258 end:0x805E0260
 
 pso/player/TObjPlayer_80362E60.cpp:
 	.text       start:0x80362DE8 end:0x803631A0
@@ -11802,13 +11804,11 @@ musyx/runtime/Chorus/chorus_fx.c:
 	.sdata2     start:0x805E0C98 end:0x805E0CA0
 
 pso/unk/TLobby_803BFE50.cpp:
-	.text       start:0x803BFE50 end:0x803C1668
+	.text       start:0x803BFE50 end:0x803C1A58
 	.bss        start:0x80570AC0 end:0x80571480
-
-pso/unk/text_803C1668.cpp:
-	.text       start:0x803C1668 end:0x803C1A58
 	.sdata      start:0x805D4650 end:0x805D4658
 	.sbss       start:0x805D7510 end:0x805D7518
+	.sdata2     start:0x805E0CA0 end:0x805E0CC0
 
 pso/audio/AdxAiff.cpp:
 	.text       start:0x803C1A58 end:0x803C25F8
@@ -11949,6 +11949,7 @@ pso/unk/text_803CC134.cpp:
 	.rodata     start:0x8047C7E8 end:0x8047C818
 	.bss        start:0x8057B7B0 end:0x8057DF50
 	.sbss       start:0x805D75D0 end:0x805D75E8
+	.sdata2     start:0x805E0D80 end:0x805E0D84
 
 pso/unk/TLobby_803CC274.cpp:
 	.text       start:0x803CC274 end:0x803CC294
@@ -12181,7 +12182,7 @@ pso/unk/text_803D9650.cpp:
 
 pso/unk/text_803D96A8.cpp:
 	.text       start:0x803D96A8 end:0x803D9FF0
-	.sdata2     start:0x805E0F50 end:0x805E0F58
+	.sdata2     start:0x805E0F48 end:0x805E0F58
 
 pso/unk/text_803D9FF0.cpp:
 	.text       start:0x803D9FF0 end:0x803DA038
@@ -12416,6 +12417,7 @@ pso/quest/TQuestVmDownLoadServer_803EB0D8.cpp:
 	.data       start:0x804FCD10 end:0x804FCD34
 	.bss        start:0x80596668 end:0x805A2720
 	.sbss       start:0x805D7890 end:0x805D7930
+	.sdata2     start:0x805E10D0 end:0x805E10D8
 
 pso/ui/keyboard/TKeyBoardControl_803F0C50.cpp:
 	.text       start:0x803F0C50 end:0x803F1804
@@ -12494,6 +12496,7 @@ pso/network/NetworkThreadRuntime.c:
 	.data       start:0x804FD380 end:0x804FD3A8
 	.bss        start:0x805BFEC0 end:0x805BFF68
 	.sdata      start:0x805D4818 end:0x805D4820
+	.sbss       start:0x805D7A70 end:0x805D7A78
 	.sdata2     start:0x805E1150 end:0x805E1158
 
 pso/network/TLobby_803FAEA0.c:

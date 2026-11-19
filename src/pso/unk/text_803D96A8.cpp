@@ -37,14 +37,13 @@ s32 find_free_slot__10TObjPlayerFPvPv(void *, int);
 s32 TObjPlayer__sub_803DAD24(int, int);
 extern s32 record_array_ptr;
 
-__declspec(section ".sdata2") extern const f64 lbl_805E0F48;
 void rotate_matrix_x(Matrix34* matrix, s32 angle) {
     Matrix34 rotation;
     Matrix34* selected;
     if (angle != 0) {
         if (matrix == NULL) selected = (Matrix34*)current_matrix;
         else selected = matrix;
-        PSMTXRotRad(&rotation, 'x', (f32)(lbl_805E0F48 * (f64)angle));
+        PSMTXRotRad(&rotation, 'x', (f32)((9.587378008291125e-05) * (f64)angle));
         PSMTXConcat((int)selected, (int)&rotation, (int)selected);
     }
 }
