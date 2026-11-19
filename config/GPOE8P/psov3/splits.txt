@@ -8720,6 +8720,9 @@ pso/enemy/gibbles/TObjEneGibbles.cpp:
 	.sbss       start:0x805D68A8 end:0x805D68C8
 	.sdata2     start:0x805DE7E0 end:0x805DE888
 
+pso/ui/frontend/TAdMultiPlyChrSelectGCTables.cpp:
+	.rodata     start:0x804727A0 end:0x804728B0
+
 pso/ui/frontend/TAdMultiPlyChrSelectGC.cpp:
 	.text       start:0x802DBCC4 end:0x802E0064
 	.rodata     start:0x804728B0 end:0x804728B8

@@ -1895,6 +1895,7 @@ pso/ui/frontend/TAdMultiConfirmGC.cpp
 pso/ui/frontend/TAdMultiConfirmGC_802E03D0.cpp
 pso/ui/frontend/TAdMultiPlayerNoGC.cpp
 pso/ui/frontend/TAdMultiPlyChrSelectGC.cpp
+pso/ui/frontend/TAdMultiPlyChrSelectGCTables.cpp
 pso/ui/frontend/TAdMultiPlyChrSelectGC_801A6EA0.cpp
 pso/ui/frontend/TAdMultiPlyChrSelectGC_802B1850.cpp
 pso/ui/frontend/TAdMultiPlyChrSelectGC_802C6F88.cpp
