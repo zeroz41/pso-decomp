@@ -1447,6 +1447,9 @@ pso/enemy/bringer/BringerEffects.cpp:
 	.sdata      start:0x805D29A8 end:0x805D29B0
 	.sdata2     start:0x805D9850 end:0x805D9888
 
+pso/enemy/canadin/CanadinData.cpp:
+	.rodata     start:0x8043A180 end:0x8043A1B0
+
 pso/enemy/canadin/TObjEneMe1Canadin.cpp:
 	.text       start:0x8009AB4C end:0x8009F7AC
 	.rodata     start:0x8043A1B0 end:0x8043A3E4

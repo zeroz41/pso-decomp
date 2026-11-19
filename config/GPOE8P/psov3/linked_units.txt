@@ -410,6 +410,7 @@ pso/effect/enemy/TObjEneHoldEffect_8036D070.cpp
 pso/enemy/illgill/TObjEneIllGill.cpp
 pso/enemy/lappy/TObjEneLappy.cpp
 pso/enemy/lappy/TObjEneLappy_800F5DE0.cpp
+pso/enemy/canadin/CanadinData.cpp
 pso/enemy/canadin/TObjEneMe1Canadin.cpp
 pso/enemy/canadin/TObjEneMe1CanadinLeader.cpp
 pso/enemy/gee/TObjEneMe1Gee.cpp
