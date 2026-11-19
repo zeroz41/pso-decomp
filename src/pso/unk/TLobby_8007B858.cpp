@@ -35,6 +35,7 @@
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/ui/window/TWindowSubGameEnd.h"
 #include "pso/unk/TLobby_8033ECB0.h"
+#include "pso/unk/TUnk_804EFA88.h"
 #include "pso/object/TObjSinBoard.h"
 #include "pso/unk/TLobby_8015ABD0.h"
 #include "pso/unk/TLobby_8036B204.h"
@@ -133,10 +134,7 @@ void TLobby::create_tasks() {
         if (tmp != 0U) {
             TLobby__sub_8032BDC4(tmp, tl_particlemodel);
         }
-        tmp = __nw__7TObjectFUl(0x24);
-        if (tmp != 0U) {
-            TLobby__sub_8033ED24((u8 *)tmp, (void *)tl_particlemodel);
-        }
+        new TUnk_804EFA88((TObject *)tl_particlemodel);
     }
     cleanup_game_objects__9TMainTaskFv();
     TScene::create();

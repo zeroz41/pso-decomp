@@ -16,6 +16,7 @@ struct Item_8033EB4C {
 
 class TUnk_804EFA88 : public TObject {
 public:
+    TUnk_804EFA88(TObject *parent);
     virtual ~TUnk_804EFA88();
     virtual void run_task();
     virtual void render();

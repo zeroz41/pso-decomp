@@ -155,10 +155,8 @@ void TUnk_804EFA88::run_task() {
 
 extern "C" {
 TUnk_804EFA88 *lbl_805D6DA0;
-s32 __ct__7TObjectFP7TObject(u8 *, void *);
-extern s32 __vt__13TUnk_804EFA88[];
-
 }
+
 TUnk_804EFA88::~TUnk_804EFA88() {
     if (this->entries != NULL) {
         mem_free(this->entries);
@@ -167,27 +165,16 @@ TUnk_804EFA88::~TUnk_804EFA88() {
 }
 
 
-u8 *TLobby__sub_8033ED24(u8 *arg0, void *parent) {
-  s32 var_r31;
-  s32 var_r30;
-  __ct__7TObjectFP7TObject(arg0, parent);
-  *((s32 **) (((s8 *) arg0) + 0x18)) = __vt__13TUnk_804EFA88;
-  ((TUnk_804EFA88 *)arg0)->entry_count = 0;
-  ((TUnk_804EFA88 *)arg0)->entries = (Item_8033EB4C *)mem_alloc(0x240);
-  if (((TUnk_804EFA88 *)arg0)->entries != NULL)
-  {
-    var_r30 = 0;
-    var_r31 = 0;
-    do
-    {
-      TLobby__sub_8033EE38((u8 *)((TUnk_804EFA88 *)arg0)->entries + var_r31);
-      var_r30 += 1;
-      var_r31 += 0x24;
+TUnk_804EFA88::TUnk_804EFA88(TObject *parent) : TObject(parent) {
+    s32 i;
+    entry_count = 0;
+    entries = (Item_8033EB4C *)mem_alloc(0x240);
+    if (entries != NULL) {
+        for (i = 0; i < 0x10; i++) {
+            TLobby__sub_8033EE38(&entries[i]);
+        }
     }
-    while (var_r30 < 0x10);
-  }
-  lbl_805D6DA0 = (TUnk_804EFA88 *)arg0;
-  return arg0;
+    lbl_805D6DA0 = this;
 }
 
 void TLobby::release_indexed_entry(s32 arg0) {
