@@ -1136,15 +1136,15 @@ pso/quest/TQuestListVM_8007EAF8.cpp:
 	.sdata      start:0x805D28C8 end:0x805D28D0
 
 pso/render/TDLGraph.cpp:
-	.text       start:0x8007ECF0 end:0x8007F85C
+	.text       start:0x8007ECF0 end:0x8007F898
 	.rodata     start:0x80438A98 end:0x80438AF8
 	.data       start:0x8048DF70 end:0x8048DF88
 	.sdata      start:0x805D28D0 end:0x805D28D8
 	.sbss       start:0x805D4EB0 end:0x805D4EB8
 	.sdata2     start:0x805D9298 end:0x805D92D8
 
-pso/render/TDLGraph_8007F85C.cpp:
-	.text       start:0x8007F85C end:0x8007FA94
+pso/system/SwitcherLaunch.cpp:
+	.text       start:0x8007F898 end:0x8007FA94
 	.rodata     start:0x80438AF8 end:0x80438D30
 	.data       start:0x8048DF88 end:0x8048DFA0
 	.sbss       start:0x805D4EB8 end:0x805D4EC8
@@ -5149,7 +5149,7 @@ pso/ui/window/TWindowDuelResult_801C2528.cpp:
 pso/unk/TLobby_801C25B4.cpp:
 	.text       start:0x801C25B4 end:0x801C4F70
 	.rodata     start:0x80446F80 end:0x80447020
-	.data       start:0x804C3EA0 end:0x804C3F44
+	.data       start:0x804C3E78 end:0x804C3F44
 	.bss        start:0x80511C80 end:0x80511DD8
 	.sdata      start:0x805D3538 end:0x805D3558
 	.sbss       start:0x805D5D98 end:0x805D5DCC
@@ -5538,16 +5538,10 @@ pso/effect/particle/TParticleCtrl_801E2EFC.cpp:
 	.text       start:0x801E2EFC end:0x801E2F94
 
 pso/unk/TLobby_801E2F94.cpp:
-	.text       start:0x801E2F94 end:0x801E3F14
+	.text       start:0x801E2F94 end:0x801E3F60
 	.rodata     start:0x80449730 end:0x80449738
 	.sdata      start:0x805D3580 end:0x805D3590
 	.sdata2     start:0x805DC418 end:0x805DC444
-
-pso/enemy/sorcerer/TObjEneRe4Sorcerer_801E3F14.cpp:
-	.text       start:0x801E3F14 end:0x801E3F24
-
-pso/unk/text_801E3F24.cpp:
-	.text       start:0x801E3F24 end:0x801E3F60
 
 pso/network/TGameProtocol.cpp:
 	.text       start:0x801E3F60 end:0x801E43E4
@@ -5751,7 +5745,7 @@ pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.cpp:
 	.rodata     start:0x8044A7D0 end:0x8044A7E8
 	.data       start:0x804C88C0 end:0x804C8B08
 	.bss        start:0x805137C8 end:0x80513920
-	.sbss       start:0x805D5FA8 end:0x805D5FC0
+	.sbss       start:0x805D5F58 end:0x805D5FC0
 	.sdata2     start:0x805DC5B8 end:0x805DC5CC
 
 pso/ui/frontend/TAdSinglePlyChrSelectGC_80202A68.cpp:

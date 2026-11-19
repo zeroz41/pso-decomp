@@ -172,7 +172,7 @@ TBoss5GryphonTornado::~TBoss5GryphonTornado() {
     if (*(void **)((s8 *)this + 0x50) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0x50)))->queue_destruction(); this->m_50 = 0; }
 }
 
-u8 *TBoss5GryphonTornado__ct(TBoss5GryphonTornado *boss5_gryphon_tornado, u8 *arg1, s32 arg2, u8 *arg3, s16 arg4) {
+u8 *TBoss5GryphonTornado__ct(TBoss5GryphonTornado *boss5_gryphon_tornado, u8 *arg1, s32 arg2, u8 *arg3, u16 arg4) {
     __ct__7TObjectFP7TObject(boss5_gryphon_tornado, arg1);
     *(s32 **)((s8 *)boss5_gryphon_tornado + 0x18) = __vt__20TBoss5GryphonTornado;
     *(s32 *)((s8 *)boss5_gryphon_tornado + 0) = (s32) TBoss5GryphonTornado__class_name;
@@ -191,12 +191,12 @@ u8 *TBoss5GryphonTornado__ct(TBoss5GryphonTornado *boss5_gryphon_tornado, u8 *ar
 }
 
 extern "C" {
-s32 spawn_gryphon_tornado(s32 parent, s32 arg1, s32 pos_src, s16 arg3) {
+s32 spawn_gryphon_tornado(s32 parent, s32 gryphon, const Vec *pos_src, u16 kind) {
     Vec pos;
     Res_80355570 *under;
     f32 y;
     TBoss5GryphonTornado *tornado;
-    VecCopy(&pos, (const Vec *)pos_src);
+    VecCopy(&pos, pos_src);
     pos.y = lbl_805D8D48;
     under = csnVecterUnder(&pos, 0x16EF);
     if (under == NULL) {
@@ -209,7 +209,7 @@ s32 spawn_gryphon_tornado(s32 parent, s32 arg1, s32 pos_src, s16 arg3) {
     pos.y = y;
     tornado = (TBoss5GryphonTornado *)TObject::operator new(0x5C);
     if (tornado != NULL) {
-        tornado = (TBoss5GryphonTornado *)TBoss5GryphonTornado__ct(tornado, (u8 *)parent, arg1, (u8 *)&pos, arg3);
+        tornado = (TBoss5GryphonTornado *)TBoss5GryphonTornado__ct(tornado, (u8 *)parent, gryphon, (u8 *)&pos, kind);
     }
     return (s32)tornado;
 }

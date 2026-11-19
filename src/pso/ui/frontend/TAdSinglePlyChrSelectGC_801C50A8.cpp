@@ -9,7 +9,6 @@
 #include "pso/player/TObjPlayer_80011014.h"
 
 extern "C" {
-extern int active_character_save_record;
     extern int duel_result_window;
 TObject *ad_single_ply_chr_select_instance;
 void TAdSinglePlyChrSelectGC::set_slot(int a0) { *(short*)((char*)active_character_save_record + 0x21b0) = a0; }

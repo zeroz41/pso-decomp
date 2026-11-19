@@ -2,8 +2,6 @@
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
-extern u32 secondary_card_character_save_buffer;
-
     extern int lbl_805D69E8;
 int TAdMultiPlyChrSelectGC::get_chr_select_state() {  return lbl_805D69E8; }
 

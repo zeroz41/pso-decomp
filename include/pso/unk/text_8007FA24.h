@@ -3,7 +3,7 @@
 
 #include "types.h"
 
-// Defined in TDLGraph_8007F85C.cpp.
+// Defined in SwitcherLaunch.cpp.
 extern "C" {
 void TAdTrialModemChkGC__sub_8007FA24(s32 arg0);
 }

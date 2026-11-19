@@ -1025,7 +1025,6 @@ struct TLobby : public TObject {
     void set_flag_270();
     void show_score_results();
     static s32 check_all_players_ready(void *);
-    void *init_with_name(void *arg1, void *arg2, void *arg3);
     static s32 assign_player_id(void *);
     void send_neg50(void* a1);
     static void init_and_set_flag();

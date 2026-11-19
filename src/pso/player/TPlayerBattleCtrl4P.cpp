@@ -8,6 +8,7 @@
 #include "types.h"
 #include "pso/player/TPlayerBattleCtrl4P.h"
 #include "pso/unk/TLobby.h"
+#include "pso/unk/TUnk_804C3E88.h"
 #include "pso/object/trap/TOMineTrap.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/player/TObjPlayer.h"
@@ -779,7 +780,6 @@ void TPlayerBattleCtrl4P::start_duel() {
     s32 j;
     u32 p;
     const char *name;
-    void *w;
     s32 st;
     TObjEneRe4Sorcerer__sub_801E3F14(4);
     TObjEneRe4Sorcerer__sub_801E3F18();
@@ -793,10 +793,7 @@ void TPlayerBattleCtrl4P::start_duel() {
     }
     this->reset_score_counters();
     name = get_current_floor_area() == AREA_BATTLE1 ? "duel1.adx" : "duel2.adx";
-    w = TObject::operator new(0x40);
-    if (w != NULL) {
-        ((TLobby *)w)->init_with_name((void *)this, (void *)name, (void *)(0x2D));
-    }
+    new TUnk_804C3E88(this, name, 0x2D);
     for (j = 0; j < 8; j++) {
         ((O_80311618 *)this)->flags[j] = 1;
         if (battle_event_second_table[j] == 0) {

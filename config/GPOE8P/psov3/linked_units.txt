@@ -438,7 +438,6 @@ pso/enemy/flower/TObjEneRe2Flower.cpp
 pso/enemy/flower/TObjEneRe2Flower_800C4B78.cpp
 pso/enemy/sorcerer/TObjEneRe4Bit.cpp
 pso/enemy/sorcerer/TObjEneRe4Sorcerer_800EDB98.cpp
-pso/enemy/sorcerer/TObjEneRe4Sorcerer_801E3F14.cpp
 pso/enemy/berura/TObjEneRe7Berura.cpp
 pso/enemy/berura/TObjEneRe7BeruraPunch.cpp
 pso/enemy/berura/TObjEneRe7Berura_803E4CE0.cpp
@@ -700,7 +699,6 @@ pso/ui/city/TCheckRoomSequence_80222FC0.cpp
 pso/camera/TCineCtrl.cpp
 pso/object/container/TContainerAncient01.cpp
 pso/render/TDLGraph.cpp
-pso/render/TDLGraph_8007F85C.cpp
 pso/object/TDeadSpot.cpp
 pso/effect/TDuelEffectNumber.cpp
 pso/effect/TDuelEffectString.cpp
@@ -1835,6 +1833,7 @@ pso/system/PadRumble.cpp
 pso/system/RefCountedWorkBuffer.cpp
 pso/audio/SjMemoryBuffer.cpp
 pso/audio/SjRingBuffer.cpp
+pso/system/SwitcherLaunch.cpp
 pso/system/TGStream.cpp
 pso/system/THeap.cpp
 pso/system/TMemberCheck.cpp
@@ -2097,7 +2096,6 @@ pso/unk/text_801DFC3C.cpp
 pso/unk/text_801E051C.cpp
 pso/unk/text_801E078C.cpp
 pso/unk/text_801E0C08.cpp
-pso/unk/text_801E3F24.cpp
 pso/unk/text_801E4BCC.cpp
 pso/effect/particle/TParticleCtrl_801E4E7C.cpp
 pso/unk/text_801E4EB0.cpp

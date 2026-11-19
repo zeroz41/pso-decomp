@@ -590,3 +590,33 @@ void bswap_32(u32 *p) {
     u32 v = *p;
     *p = (v >> 24) | ((v >> 8) & 0xFF00) | ((v << 8) & 0xFF0000) | (v << 24);
 }
+
+// Empty hooks after the byte-swap helpers; callers in the battle, Dark Falz and Sorcerer code.
+void TObjEneRe4Sorcerer__sub_801E3F14(void) {  }
+void TObjEneRe4Sorcerer__sub_801E3F18(void) {  }
+
+void TObjEneRe4Sorcerer__sub_801E3F1C(f32, f32) {  }
+
+void TObjEneRe4Sorcerer__sub_801E3F20(void) {  }
+
+// GX FIFO write helpers and a word copy used by the draw helpers above; the 6x subcommand
+// handlers after them open TGameProtocol.cpp.
+void TObjPlayer__sub_801E3F24(s32 value) {
+    *(s32 *)0xCC008000 = value;
+}
+
+void TObjPlayer__sub_801E3F30(f32 x, f32 y, f32 z) {
+    *(f32 *)0xCC008000 = x;
+    *(f32 *)0xCC008000 = y;
+    *(f32 *)0xCC008000 = z;
+}
+
+void fn_801E3F44(f32 x, f32 y) {
+    *(f32 *)0xCC008000 = x;
+    *(f32 *)0xCC008000 = y;
+}
+
+void *TObjCMHairMenu__sub_801E3F54(void *p, void *q) {
+    *(u32 *)p = *(u32 *)q;
+    return p;
+}
