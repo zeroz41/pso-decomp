@@ -1,29 +1,9 @@
 #include "types.h"
 #include "pso/unk/text_801E3F24.h"
-#include "pso/system/debug_print.h"
-#include "pso/map/FloorArea.h"
-#include "pso/object/door/TObjDoorKey.h"
-#include "pso/player/TObjPlayer_80011014.h"
 
-struct Ent_801E3FA4 {
-    u16 id;
-    u16 mask;
-    void (*fn)(void *);
-};
-
-struct Msg_801E3FA4 {
-    u8 a;
-    u8 b;
-};
-
+// GX FIFO write helpers and a word copy, called only by the draw helpers of
+// TLobby_801E2F94.cpp; the 6x subcommand handlers after them open TGameProtocol.cpp.
 extern "C" {
-int sprintf(char *, const char *, ...);
-extern char pso_data2_receive_log_format[];
-extern u8 subcommand_area_masks[];
-extern Ent_801E3FA4 pso_command_dispatch_table[];
-void dispatch_6x_subcommand(Msg_801E3FA4 *arg0);
-s32 bswap_switch_activate_token__6TLobbyFv();
-
 void TObjPlayer__sub_801E3F24(s32 arg0) {
     *(s32 *)0xCC008000 = arg0;
 }
@@ -43,30 +23,4 @@ void *TObjCMHairMenu__sub_801E3F54(void *p, void *q) {
     *(u32 *)p = *(u32 *)q;
     return p;
 }
-}
-
-void handle_6x9E_player_camera_shutter_sound(void) {
-
-}
-
-void handle_6x04_legacy_activate_switch_by_token(void *arg0) {
-    bswap_switch_activate_token__6TLobbyFv();
-    TObjDoorKey__sub_8018FAEC(*(u16 *)((s8 *)arg0 + 2), *(u16 *)((s8 *)arg0 + 4));
-}
-
-void handle_6x03(void) {  }
-void handle_6x02(void) {  }
-
-void dispatch_6x_subcommand(Msg_801E3FA4 *arg0) {
-    s32 i;
-    char buf[0x80];
-    s32 key = arg0->a;
-    for (i = 0; pso_command_dispatch_table[i].id != 0; i++) {
-        if (key == pso_command_dispatch_table[i].id && (pso_command_dispatch_table[i].mask & subcommand_area_masks[get_current_floor_area()])) {
-            sprintf(buf, pso_data2_receive_log_format, arg0->a, arg0->b);
-            debug_print(buf);
-            pso_command_dispatch_table[i].fn(arg0);
-            return;
-        }
-    }
 }

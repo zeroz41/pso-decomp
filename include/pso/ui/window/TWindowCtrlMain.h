@@ -35,4 +35,9 @@ struct TWindowCtrlMain : public TObject {
 };
 
 typedef char TWindowCtrlMain_size[sizeof(TWindowCtrlMain) == 0x1C ? 1 : -1];
+
+extern "C" {
+// TWindowCtrlMain::reset_all(0): the load hook the scene hook tables pair with free_all_windows.
+void TWindowCtrlMain__sub_8024D838(void);
+}
 #endif

@@ -1131,7 +1131,6 @@ pso/player/TPlyPhotonChair_801BEC44.cpp
 pso/network/TPlyRecvLogin.cpp
 pso/player/TPlySmth.cpp
 pso/network/TPlyStartGame.cpp
-pso/network/TPsoDataBuf.cpp
 pso/effect/sprite/TQuadSpriteCol.cpp
 pso/effect/sprite/TQuadSpriteNormal.cpp
 pso/effect/sprite/TQuadSpriteScl.cpp
@@ -1895,7 +1894,6 @@ pso/ui/frontend/TAdEnterBaseGC.cpp
 pso/ui/frontend/TAdEnterPPPPassGC.cpp
 pso/ui/frontend/TAdEnterPasswordGC.cpp
 pso/ui/frontend/TAdEnterSerialAccessGC.cpp
-pso/ui/frontend/TAdEnterSerialAccessGC_8023EA94.cpp
 pso/ui/frontend/TAdEnterSerialAccessGC_802ACF04.cpp
 pso/ui/frontend/TAdEnterSerialAccessGC_802E0110.cpp
 pso/ui/frontend/TAdEp3Exist.cpp
@@ -1924,8 +1922,6 @@ pso/ui/frontend/TAdMcSelectGC.cpp
 pso/ui/frontend/TAdMcSelectMcGC.cpp
 pso/ui/frontend/TAdMultiChgGameModeGC.cpp
 pso/ui/frontend/TAdMultiChgGameModeGC_8023E7A8.cpp
-pso/ui/frontend/TAdMultiChgGameModeGC_8023EAC4.cpp
-pso/ui/frontend/TAdMultiChgGameModeGC_8023F4E4.cpp
 pso/ui/frontend/TAdMultiChgGameModeGC_8036DE10.cpp
 pso/ui/frontend/TAdMultiConfirmGC.cpp
 pso/ui/frontend/TAdMultiConfirmGC_802E03D0.cpp
@@ -2047,8 +2043,6 @@ pso/unk/text_80077AA4.cpp
 pso/unk/text_80077AE8.cpp
 pso/unk/text_8007B370.cpp
 pso/unk/text_8007C0CC.cpp
-pso/unk/text_8007F8D0.cpp
-pso/unk/text_8007FA24.cpp
 pso/effect/TDuelEffectCtrl.cpp
 pso/unk/text_80086B64.cpp
 pso/unk/text_80086D50.cpp
@@ -2141,7 +2135,6 @@ pso/unk/text_801E051C.cpp
 pso/unk/text_801E078C.cpp
 pso/unk/text_801E0C08.cpp
 pso/unk/text_801E3F24.cpp
-pso/unk/text_801E416C.cpp
 pso/unk/text_801E4BCC.cpp
 pso/effect/particle/TParticleCtrl_801E4E7C.cpp
 pso/unk/text_801E4EB0.cpp
@@ -2175,8 +2168,6 @@ pso/unk/text_8022BE64.cpp
 pso/unk/text_8022F258.cpp
 pso/effect/TUnk_804CCC68_8023A434.cpp
 pso/unk/text_8023DCB8.cpp
-pso/unk/text_8023F160.cpp
-pso/unk/text_8023F3F8.cpp
 pso/unk/text_8023F660.cpp
 pso/unk/text_802432F0.cpp
 pso/ui/window/TWindowAddition_80244238.cpp
@@ -2270,8 +2261,6 @@ pso/unk/text_8034960C.cpp
 pso/unk/text_80349B8C.cpp
 pso/unk/text_8034D3D0.cpp
 pso/item/TUnk_804F112C.cpp
-pso/unk/text_80355970.cpp
-pso/unk/text_80355A1C.cpp
 pso/unk/text_80355C1C.cpp
 pso/unk/text_80356E30.cpp
 pso/unk/text_80357058.cpp

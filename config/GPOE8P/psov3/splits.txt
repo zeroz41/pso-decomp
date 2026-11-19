@@ -1152,15 +1152,10 @@ pso/render/TDLGraph.cpp:
 	.sdata2     start:0x805D9298 end:0x805D92D8
 
 pso/render/TDLGraph_8007F85C.cpp:
-	.text       start:0x8007F85C end:0x8007F8D0
-
-pso/unk/text_8007F8D0.cpp:
-	.text       start:0x8007F8D0 end:0x8007FA24
-	.rodata     start:0x80438B40 end:0x80438D30
+	.text       start:0x8007F85C end:0x8007FA94
+	.rodata     start:0x80438AF8 end:0x80438D30
+	.data       start:0x8048DF88 end:0x8048DFA0
 	.sbss       start:0x805D4EB8 end:0x805D4EC8
-
-pso/unk/text_8007FA24.cpp:
-	.text       start:0x8007FA24 end:0x8007FA94
 
 pso/effect/TDuelEffectCtrl.cpp:
 	.text       start:0x8007FA94 end:0x8007FE78
@@ -5577,17 +5572,11 @@ pso/enemy/sorcerer/TObjEneRe4Sorcerer_801E3F14.cpp:
 	.text       start:0x801E3F14 end:0x801E3F24
 
 pso/unk/text_801E3F24.cpp:
-	.text       start:0x801E3F24 end:0x801E405C
-
-pso/network/TPsoDataBuf.cpp:
-	.text       start:0x801E405C end:0x801E416C
-
-pso/unk/text_801E416C.cpp:
-	.text       start:0x801E416C end:0x801E4260
+	.text       start:0x801E3F24 end:0x801E3F60
 
 pso/network/TGameProtocol.cpp:
-	.text       start:0x801E4260 end:0x801E43E4
-	.rodata     start:0x80449738 end:0x80449748
+	.text       start:0x801E3F60 end:0x801E43E4
+	.rodata     start:0x80449738 end:0x80449798
 	.data       start:0x804C5260 end:0x804C57E0
 	.sdata      start:0x805D3590 end:0x805D3594
 	.sbss       start:0x805D5E48 end:0x805D5E58
@@ -6598,29 +6587,12 @@ pso/player/TObjPlayer_8023E480.cpp:
 	.sbss       start:0x805D63C0 end:0x805D63C8
 
 pso/ui/frontend/TAdMultiChgGameModeGC_8023E7A8.cpp:
-	.text       start:0x8023E7A8 end:0x8023EA94
-	.rodata     start:0x8044DCE8 end:0x8044DD18
-	.data       start:0x804CCE98 end:0x804CCED0
-
-pso/ui/frontend/TAdEnterSerialAccessGC_8023EA94.cpp:
-	.text       start:0x8023EA94 end:0x8023EAC4
-
-pso/ui/frontend/TAdMultiChgGameModeGC_8023EAC4.cpp:
-	.text       start:0x8023EAC4 end:0x8023F160
-	.rodata     start:0x8044DD18 end:0x8044DD28
-	.data       start:0x804CCED0 end:0x804CCFB8
-	.sbss       start:0x805D63C8 end:0x805D63D4
-
-pso/unk/text_8023F160.cpp:
-	.text       start:0x8023F160 end:0x8023F3F8
-	.sdata2     start:0x805DC9B8 end:0x805DC9C0
-
-pso/unk/text_8023F3F8.cpp:
-	.text       start:0x8023F3F8 end:0x8023F4E4
-
-pso/ui/frontend/TAdMultiChgGameModeGC_8023F4E4.cpp:
-	.text       start:0x8023F4E4 end:0x8023F660
+	.text       start:0x8023E7A8 end:0x8023F660
+	.rodata     start:0x8044DCE8 end:0x8044DD28
+	.data       start:0x804CCDA8 end:0x804CCFB8
 	.sdata      start:0x805D3848 end:0x805D3850
+	.sbss       start:0x805D63C8 end:0x805D63D4
+	.sdata2     start:0x805DC9B8 end:0x805DC9C0
 
 pso/unk/text_8023F660.cpp:
 	.text       start:0x8023F660 end:0x8023F734
@@ -10294,17 +10266,12 @@ pso/ui/frontend/TAdPlyPltAnimCtrlGC.cpp:
 	.sbss       start:0x805D6F08 end:0x805D6F0C
 
 pso/boss/galgryphon/TBoss5GryphonTornado.cpp:
-	.text       start:0x803554F0 end:0x80355970
+	.text       start:0x803554F0 end:0x80355A58
+	.rodata     start:0x804792D8 end:0x80479300
 	.data       start:0x804F1308 end:0x804F1320
 	.sdata      start:0x805D4398 end:0x805D43A0
 	.sbss       start:0x805D6F10 end:0x805D6F14
 	.sdata2     start:0x805DFFA8 end:0x805DFFBC
-
-pso/unk/text_80355970.cpp:
-	.text       start:0x80355970 end:0x80355A1C
-
-pso/unk/text_80355A1C.cpp:
-	.text       start:0x80355A1C end:0x80355A58
 
 pso/player/TObjPlayer_80355A58.cpp:
 	.text       start:0x80355A58 end:0x80355C1C

@@ -3,10 +3,10 @@
 
 #include "types.h"
 
-// --- C functions defined in text_8023F3F8.cpp ---
+// The front-end phases' frame loop (main_phase_table), defined in
+// TAdMultiChgGameModeGC_8023E7A8.cpp.
 extern "C" {
-void fn_8023F3F8(void);
+void run_game_mode_select_frame(void);
 }
-// --- end of C functions
 
 #endif

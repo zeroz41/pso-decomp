@@ -455,6 +455,8 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/ui/window/TWindowSubShortCutList.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # its class name ("TChCrCharSelect", 0x80464E60) opens its .rodata ahead of its tables: readonly strings.
     "pso/ui/charcreate/TChCrCharSelect.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    # its class name ("TBoss5GryphonTornado", 0x804792E4) follows the particle id table in .rodata: readonly strings.
+    "pso/boss/galgryphon/TBoss5GryphonTornado.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # its class name sits in .rodata and the "" its name fallback points at opens its .sdata2: readonly strings.
     # .data holds the vtable ahead of run_task's jump table: deferred generation of the last-to-first source.
     "pso/ui/window/TWindowMakeTeam.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
@@ -726,7 +728,8 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/ui/window/TObjNewFloorWin.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # Its ctor reaches each .rodata object with its own lis/addi (no shared base): -pool off.
     "pso/ui/frontend/TAdMultiChgGameModeGC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-pool off")},
-    "pso/ui/frontend/TAdMultiChgGameModeGC_8023EAC4.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    # -str reuse,readonly: create_mode_scene's "advr.adx" sits in the unit's .rodata.
+    "pso/ui/frontend/TAdMultiChgGameModeGC_8023E7A8.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/frontend/TAdMultiSelGameModeGC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/frontend/TAdMultiChgGameModeGC_8036DE10.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # -str reuse,readonly: the class name string 0x80477DA0 sits in .rodata.
