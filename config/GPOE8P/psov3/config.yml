@@ -3899,7 +3899,7 @@ force_active:
   - append_string
   - append_string_to_buffer__Fl
   - append_text__24TMessageWindowControllerFPCc
-  - append_text_entry__19TWindowKeyBoardSoftFPUc
+  - append_text_entry__19TWindowKeyBoardBaseFPUc
   - append_title_string__24TMessageWindowControllerFv
   - apply__16CameraViewParamsFv
   - apply_armor_effect_flags__13TItemProArmorFv
@@ -5274,7 +5274,7 @@ force_active:
   - collect_plist_strips_by_texture__FPvPsl
   - collect_targets_in_arc__15TBoss3VoloptP02Fv
   - collect_targets_in_front__15TBoss3VoloptP02Fv
-  - commit_composition_text__19TWindowKeyBoardSoftFv
+  - commit_composition_text__19TWindowKeyBoardBaseFv
   - complete_and_destroy__13TOCtrlDubchikFv
   - compute_follow_target__11TCameraCtrlFv
   - compute_random_dir_vec__11TBoss6Type2FlPUcll
@@ -7254,7 +7254,7 @@ force_active:
   - inpTranslateExCtrl
   - insert_char_slot__19TWindowKeyBoardSoftFv
   - insert_sorted_by_id__5TItemFv
-  - insert_string__19TWindowKeyBoardSoftFPc
+  - insert_string__19TWindowKeyBoardBaseFPc
   - instance__16TLobbyEventTheme
   - interact__19TOMonumentAncient02Fl
   - interact_player_neg1__11TOVS2Wall01Fv
@@ -17013,7 +17013,7 @@ force_active:
   - update_in_inventory__8TItemMagFv
   - update_indirect_texture_wave__FlllllUc
   - update_input__18TChallenge4PResultFv
-  - update_input__19TWindowKeyBoardSoftFPv
+  - update_input__19TWindowKeyBoardBaseFPv
   - update_input_number__18TShopGetItemWindowFv
   - update_intro_cutscene__12TBoss3VoloptFv
   - update_intro_phase__19TPlayerBattleCtrl4PFv

@@ -345,33 +345,33 @@ extern u8 keyboard_de_unshifted_map[];
 extern u8 keyboard_es_unshifted_map[];
 
 s32 TWindowKeyBoardHard::sub_8025F4A0(u8 arg1) {
-    static void (TWindowKeyBoardSoft::*control_key_handlers[26])() = {
-        &TWindowKeyBoardSoft::vt0,
-        &TWindowKeyBoardSoft::vt21,
-        &TWindowKeyBoardSoft::vt3,
-        &TWindowKeyBoardSoft::vt4,
-        &TWindowKeyBoardSoft::vt5,
-        &TWindowKeyBoardSoft::vt6,
-        &TWindowKeyBoardSoft::vt7,
-        &TWindowKeyBoardSoft::vt8,
-        &TWindowKeyBoardSoft::vt9,
-        &TWindowKeyBoardSoft::vt10,
-        &TWindowKeyBoardSoft::vt11,
-        &TWindowKeyBoardSoft::vt12,
-        &TWindowKeyBoardSoft::vt13,
-        &TWindowKeyBoardSoft::vt14,
-        &TWindowKeyBoardSoft::sub_8025B928,
-        &TWindowKeyBoardSoft::sub_8025BA44,
-        &TWindowKeyBoardSoft::sub_8025BA28,
-        &TWindowKeyBoardSoft::sub_8025B92C,
-        &TWindowKeyBoardSoft::update_input_state,
-        &TWindowKeyBoardSoft::vt1,
-        &TWindowKeyBoardSoft::vt20,
-        &TWindowKeyBoardSoft::vt15,
-        &TWindowKeyBoardSoft::vt16,
-        &TWindowKeyBoardSoft::vt17,
-        &TWindowKeyBoardSoft::vt18,
-        &TWindowKeyBoardSoft::vt19,
+    static void (TWindowKeyBoardBase::*control_key_handlers[26])() = {
+        &TWindowKeyBoardBase::vt0,
+        &TWindowKeyBoardBase::vt21,
+        &TWindowKeyBoardBase::vt3,
+        &TWindowKeyBoardBase::vt4,
+        &TWindowKeyBoardBase::vt5,
+        &TWindowKeyBoardBase::vt6,
+        &TWindowKeyBoardBase::vt7,
+        &TWindowKeyBoardBase::vt8,
+        &TWindowKeyBoardBase::vt9,
+        &TWindowKeyBoardBase::vt10,
+        &TWindowKeyBoardBase::vt11,
+        &TWindowKeyBoardBase::vt12,
+        &TWindowKeyBoardBase::vt13,
+        &TWindowKeyBoardBase::vt14,
+        &TWindowKeyBoardBase::sub_8025B928,
+        &TWindowKeyBoardBase::sub_8025BA44,
+        &TWindowKeyBoardBase::sub_8025BA28,
+        &TWindowKeyBoardBase::sub_8025B92C,
+        &TWindowKeyBoardBase::update_input_state,
+        &TWindowKeyBoardBase::vt1,
+        &TWindowKeyBoardBase::vt20,
+        &TWindowKeyBoardBase::vt15,
+        &TWindowKeyBoardBase::vt16,
+        &TWindowKeyBoardBase::vt17,
+        &TWindowKeyBoardBase::vt18,
+        &TWindowKeyBoardBase::vt19,
     };
     s32 busy;
     u32 t;
@@ -399,7 +399,7 @@ s32 TWindowKeyBoardHard::sub_8025F4A0(u8 arg1) {
         return 0;
     }
     if (arg1 < 26) {
-        (((TWindowKeyBoardSoft *)((Ctl_8025F4A0 *)this)->f70)->*control_key_handlers[arg1])();
+        (((TWindowKeyBoardBase *)((Ctl_8025F4A0 *)this)->f70)->*control_key_handlers[arg1])();
         return 1;
     }
     switch (arg1) {
@@ -421,7 +421,7 @@ s32 TWindowKeyBoardHard::sub_8025F4A0(u8 arg1) {
             if (t & 1) {
                 w->fB4 = t & ~1;
                 TWindowKeyBoardHard::clear_card_window_flag(((Ctl_8025F4A0 *)this)->f20, 0);
-                ((TWindowKeyBoardSoft *)(((Ctl_8025F4A0 *)this)->f70))->init();
+                ((TWindowKeyBoardBase *)(((Ctl_8025F4A0 *)this)->f70))->init();
             } else {
                 w->fB4 = t | 1;
                 TWindowKeyBoardHard::clear_card_window_flag(((Ctl_8025F4A0 *)this)->f20, 1);

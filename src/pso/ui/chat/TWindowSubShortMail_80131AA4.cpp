@@ -4,6 +4,7 @@
 #include "pso/unk/text_80131ADC.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowMakeTeam.h"
+#include "pso/ui/window/TWindowKeyBoardBase.h"
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 
@@ -41,6 +42,6 @@ void TWindowMakeTeam::set_sub_position(u8 *arg1) {
     save_position__11TWindowBaseFv((void *)this->m_20, (int)temp_r4, (int)temp_r5, (f32)temp_f1);
 }
 
-int TWindowMakeTeam::get_keyboard_field_6c() { return ((TWindowKeyBoardSoft *)(this->m_20))->get_field_6c(); }
+int TWindowMakeTeam::get_keyboard_field_6c() { return ((TWindowKeyBoardBase *)(this->m_20))->get_field_6c(); }
 
 }

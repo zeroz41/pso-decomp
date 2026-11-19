@@ -25,6 +25,7 @@ extern "C" void render__22TAdEnterSerialAccessGCFv();
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
 #include "pso/ui/TLevelSelect.h"
 #include "pso/unk/TLobby.h"
+#include "pso/ui/window/TWindowKeyBoardBase.h"
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
@@ -726,7 +727,7 @@ s32 TAdEnterSerialAccessGC::get_field20_state() {
     if (temp_r3 == 0U) {
         return 0;
     }
-    return ((TWindowKeyBoardSoft *)temp_r3)->get_state();
+    return ((TWindowKeyBoardBase *)temp_r3)->get_state();
 }
 
 void TAdEnterSerialAccessGC__sub_80322418(s32 arg0, s32 arg1) {

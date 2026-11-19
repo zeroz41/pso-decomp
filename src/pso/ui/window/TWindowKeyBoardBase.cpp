@@ -351,7 +351,7 @@ void TWindowKeyBoardSoft__sub_8025D1C8(void *arg0, void *arg1) {
 
 #pragma push
 #pragma opt_propagation off
-void TWindowKeyBoardSoft::insert_string(char *src) {
+void TWindowKeyBoardBase::insert_string(char *src) {
     KbSoft_8025D264 *self = (KbSoft_8025D264 *)this;
     s32 n;
     u8 *p = self->buf;
@@ -386,7 +386,7 @@ void TWindowKeyBoardSoft::insert_string(char *src) {
 }
 #pragma pop
 
-void TWindowKeyBoardSoft::update_input(void* a1) { TWindowKeyBoardSoft__sub_8025D1C8(this, *(void**)((char*)this + 0xa0)); insert_string((char *)(a1)); }
+void TWindowKeyBoardBase::update_input(void* a1) { TWindowKeyBoardSoft__sub_8025D1C8(this, *(void**)((char*)this + 0xa0)); insert_string((char *)(a1)); }
 
 #pragma push
 #pragma optimization_level 2
@@ -399,7 +399,7 @@ s32 TWindowKeyBoardSoft__sub_8025D378(void *arg0, void *window_sub_status_disp) 
 }
 #pragma pop
 
-void TWindowKeyBoardSoft::append_text_entry(u8 *arg1) {
+void TWindowKeyBoardBase::append_text_entry(u8 *arg1) {
     u8 *arg0 = (u8 *)this;
     Rec_8025D3CC *rec;
     s32 idx;
@@ -423,7 +423,7 @@ void TWindowKeyBoardSoft::append_text_entry(u8 *arg1) {
     *(u32 *)(arg0 + 0xA4) = *(u32 *)(arg0 + 0xA0);
 }
 
-void TWindowKeyBoardSoft::write_name_and_text(char *name, char *text) {
+void TWindowKeyBoardBase::write_name_and_text(char *name, char *text) {
     KbSoft_8025D47C *self = (KbSoft_8025D47C *)this;
     u8 *p = self->buf;
     s32 n1 = strnlen__19TWindowKeyBoardSoftFPScUl(name, 0x100);
@@ -462,7 +462,7 @@ s32 TWindowKeyBoardSoft__sub_8025D544(void *arg0, s32 *name, s8 *text) {
 }
 #pragma pop
 
-void TWindowKeyBoardSoft::set_kanji_mode() {
+void TWindowKeyBoardBase::set_kanji_mode() {
     s8 sp8[0x200];
 
     if (!(*(u16 *)((s8 *)this + 0x60) & 0x10)) {
@@ -472,7 +472,7 @@ void TWindowKeyBoardSoft::set_kanji_mode() {
     }
 }
 
-void TWindowKeyBoardSoft::set_kana_mode() {
+void TWindowKeyBoardBase::set_kana_mode() {
     s8 sp8[0x200];
 
     if (!(*(u16 *)((s8 *)this + 0x60) & 0x10)) {
@@ -515,7 +515,7 @@ void TWindowKeyBoardSoft__sub_8025D664(void *arg0) {
         }
         rec[2] = self->sel;
         self->sel = i;
-        ((TWindowKeyBoardSoft *)self)->write_name_and_text(name, text);
+        ((TWindowKeyBoardBase *)self)->write_name_and_text(name, text);
     } else {
         kind = self->buf[2];
         rec[2] = self->sel;
@@ -526,7 +526,7 @@ void TWindowKeyBoardSoft__sub_8025D664(void *arg0) {
 }
 #undef self
 
-void TWindowKeyBoardSoft::process_input() {
+void TWindowKeyBoardBase::process_input() {
     u8 *arg0 = (u8 *)this;
     u8 sp108[0x100];
     u8 sp8[0x100];
@@ -566,13 +566,13 @@ void TWindowKeyBoardSoft__sub_8025D7FC(KbSoft_8025D7FC *self) {
         if (i > n) {
             TWindowKeyBoardSoft__sub_803E67D4(name, text);
             ((s32 (*)(void *, int))TWindowKeyBoardSoft__sub_8025CF50)(self, self->sel);
-            ((TWindowKeyBoardSoft *)self)->append_text_entry((u8 *)text);
+            ((TWindowKeyBoardBase *)self)->append_text_entry((u8 *)text);
             return;
         }
     }
     self->sel = i;
     self->count = n;
-    ((TWindowKeyBoardSoft *)self)->write_name_and_text((char *)((s32 *)name), (char *)((s8 *)text));
+    ((TWindowKeyBoardBase *)self)->write_name_and_text((char *)((s32 *)name), (char *)((s8 *)text));
 }
 
 void TWindowKeyBoardSoft__sub_8025D8C8(KbSoft_8025D8C8 *self) {
@@ -595,16 +595,16 @@ void TWindowKeyBoardSoft__sub_8025D8C8(KbSoft_8025D8C8 *self) {
         if (i > n) {
             dispatch_request_0x22__19TWindowKeyBoardSoftFll(name, text);
             ((s32 (*)(void *, int))TWindowKeyBoardSoft__sub_8025CF50)(self, self->sel);
-            ((TWindowKeyBoardSoft *)self)->append_text_entry((u8 *)text);
+            ((TWindowKeyBoardBase *)self)->append_text_entry((u8 *)text);
             return;
         }
     }
     self->sel = i;
     self->count = n;
-    ((TWindowKeyBoardSoft *)self)->write_name_and_text((char *)((s32 *)name), (char *)((s8 *)text));
+    ((TWindowKeyBoardBase *)self)->write_name_and_text((char *)((s32 *)name), (char *)((s8 *)text));
 }
 
-void TWindowKeyBoardSoft::select_next() {
+void TWindowKeyBoardBase::select_next() {
     struct { u8 _pad[0x100]; } sp108;
     struct { u8 _pad[0x100]; } sp8;
 
@@ -620,7 +620,7 @@ void TWindowKeyBoardSoft::select_next() {
     }
 }
 
-void TWindowKeyBoardSoft::update() {
+void TWindowKeyBoardBase::update() {
     u8 sp108[0x100];
     u8 sp8[0x100];
 
@@ -636,7 +636,7 @@ void TWindowKeyBoardSoft::update() {
     }
 }
 
-void TWindowKeyBoardSoft::convert_input_text() {
+void TWindowKeyBoardBase::convert_input_text() {
     s8 sp108[0x100];
     s8 sp8[0x100];
     u16 *var_r3;

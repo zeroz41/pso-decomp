@@ -5,7 +5,7 @@
 #include "pso/ui/window/TWindowSubMag_802627D8.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
-#include "pso/ui/window/TWindowKeyBoardSoft_8025B85C.h"
+#include "pso/ui/window/TWindowKeyBoardBase_8025B85C.h"
 #include "pso/ui/window/TWindowChoiceSetting.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
 #include "pso/ui/Language.h"
@@ -247,7 +247,7 @@ void TWindowKeyBoardSoft::sub_80260808(s32 arg1) {
     if ((TWindowShortListCtrl__check_controller_button((void *) ((u8 *)&controller_input_state + temp_r5 + 0x20), 2) != 0) && (m_control != NULL)) {
         this->m_60 = (s32) (this->m_60 & 0xFFFFFFEF);
         play_sound_effect(0x52F16, 0, 0, 0);
-        ((TWindowKeyBoardSoft *)m_control)->handle_backspace();
+        ((TWindowKeyBoardBase *)m_control)->handle_backspace();
     }
 }
 #pragma pop
@@ -259,8 +259,8 @@ void TWindowKeyBoardSoft::update_keyboard_child_input_from_controller(s32 arg1) 
     if (TWindowShortListCtrl__check_controller_button((void *)((void *) ((u8 *)&controller_input_state + (arg1 * 0x50) + 0x20)), 0x400) != 0) {
         temp_r3 = ((RecoveredFields_8026088C_arg0 *)((u8 *)this))->field_6C;
         if (temp_r3 != 0U) {
-            ((TWindowKeyBoardSoft *)temp_r3)->update_input_state2();
-            if (((TWindowKeyBoardSoft *)(((RecoveredFields_8026088C_arg0 *)((u8 *)this))->field_6C))->is_key_state_2() != 0) {
+            ((TWindowKeyBoardBase *)temp_r3)->update_input_state2();
+            if (((TWindowKeyBoardBase *)(((RecoveredFields_8026088C_arg0 *)((u8 *)this))->field_6C))->is_key_state_2() != 0) {
                 ((RecoveredFields_8026088C_arg0 *)((u8 *)this))->field_60 = (s32) (((RecoveredFields_8026088C_arg0 *)((u8 *)this))->field_60 | 0x10);
             }
         }
@@ -275,7 +275,7 @@ struct KeyCursor_80260E30 {
     s8 cursor_y;
     u8 pad_67;
     f32 pad_68; /* inferred: decaying tab-bar fade, 0.0 in the ctor */
-    TWindowKeyBoardSoft *child;
+    TWindowKeyBoardBase *child;
 };
 
 /* Layout table of the soft keyboard: one 16-column key-code grid per page. */
@@ -289,15 +289,15 @@ struct SoftKeyLayout_80260904 {
 void TWindowKeyBoardSoft__sub_80260904(void *self, s32 port) {
     KeyCursor_80260E30 *kb = (KeyCursor_80260E30 *)self;
     SoftKeyLayout_80260904 *layout = (SoftKeyLayout_80260904 *)TWindowKeyBoardSoft__language_text_resources;
-    static void (TWindowKeyBoardSoft::*key_actions[])() = {
-        &TWindowKeyBoardSoft::vt0,  &TWindowKeyBoardSoft::vt1,  &TWindowKeyBoardSoft::vt2,
-        &TWindowKeyBoardSoft::vt3,  &TWindowKeyBoardSoft::vt4,  &TWindowKeyBoardSoft::vt5,
-        &TWindowKeyBoardSoft::vt6,  &TWindowKeyBoardSoft::vt7,  &TWindowKeyBoardSoft::vt8,
-        &TWindowKeyBoardSoft::vt9,  &TWindowKeyBoardSoft::vt10, &TWindowKeyBoardSoft::vt11,
-        &TWindowKeyBoardSoft::vt12, &TWindowKeyBoardSoft::vt13, &TWindowKeyBoardSoft::vt14,
-        &TWindowKeyBoardSoft::vt15, &TWindowKeyBoardSoft::vt16, &TWindowKeyBoardSoft::vt17,
-        &TWindowKeyBoardSoft::vt18, &TWindowKeyBoardSoft::vt19, &TWindowKeyBoardSoft::vt20,
-        &TWindowKeyBoardSoft::vt21,
+    static void (TWindowKeyBoardBase::*key_actions[])() = {
+        &TWindowKeyBoardBase::vt0,  &TWindowKeyBoardBase::vt1,  &TWindowKeyBoardBase::vt2,
+        &TWindowKeyBoardBase::vt3,  &TWindowKeyBoardBase::vt4,  &TWindowKeyBoardBase::vt5,
+        &TWindowKeyBoardBase::vt6,  &TWindowKeyBoardBase::vt7,  &TWindowKeyBoardBase::vt8,
+        &TWindowKeyBoardBase::vt9,  &TWindowKeyBoardBase::vt10, &TWindowKeyBoardBase::vt11,
+        &TWindowKeyBoardBase::vt12, &TWindowKeyBoardBase::vt13, &TWindowKeyBoardBase::vt14,
+        &TWindowKeyBoardBase::vt15, &TWindowKeyBoardBase::vt16, &TWindowKeyBoardBase::vt17,
+        &TWindowKeyBoardBase::vt18, &TWindowKeyBoardBase::vt19, &TWindowKeyBoardBase::vt20,
+        &TWindowKeyBoardBase::vt21,
     };
     u16 code;
 
@@ -339,7 +339,7 @@ void TWindowKeyBoardSoft__sub_80260904(void *self, s32 port) {
     if (((TWindowKeyBoardSoft *)self)->get_flag_bit5() != 0 && (code < 'A' || code > 'Z')) {
         return;
     }
-    if (((TWindowKeyBoardSoft *)self)->get_flag_bit6() != 0 && TWindowKeyBoardSoft::is_alnum(code) == 0) {
+    if (((TWindowKeyBoardSoft *)self)->get_flag_bit6() != 0 && TWindowKeyBoardBase::is_alnum(code) == 0) {
         return;
     }
     if (((TWindowKeyBoardSoft *)self)->is_cursor_locked() != 0 && (code < '0' || code > '9')) {
@@ -630,7 +630,7 @@ void TWindowKeyBoardSoft::sub_802616BC(WindowDrawContext *ctx) {
             if (this->get_flag_bit5() != 0 && (code < 'A' || code > 'Z')) {
                 code = 22;
             }
-            if (this->get_flag_bit6() != 0 && TWindowKeyBoardSoft::is_alnum(code) == 0) {
+            if (this->get_flag_bit6() != 0 && TWindowKeyBoardBase::is_alnum(code) == 0) {
                 code = 22;
             }
             if (this->is_cursor_locked() != 0 && (code < '0' || code > '9')) {
