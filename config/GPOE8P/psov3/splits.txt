@@ -1059,11 +1059,16 @@ pso/camera/TCineCtrl.cpp:
 	.sbss       start:0x805D4E60 end:0x805D4E64
 	.sdata2     start:0x805D91D0 end:0x805D91F0
 
-pso/network/TTcpSocket.cpp:
-	.text       start:0x80078064 end:0x800790F0
-	.rodata     start:0x80438878 end:0x80438984
-	.data       start:0x8048D378 end:0x8048D4C0
+pso/network/TUdpSocket.cpp:
+	.text       start:0x80078064 end:0x80078490
+	.rodata     start:0x80438878 end:0x80438978
+	.data       start:0x8048D378 end:0x8048D468
 	.sdata      start:0x805D28B0 end:0x805D28B8
+
+pso/network/TTcpSocket.cpp:
+	.text       start:0x80078490 end:0x800790F0
+	.rodata     start:0x80438978 end:0x80438984
+	.data       start:0x8048D468 end:0x8048D4C0
 
 pso/map/CsnQuery.cpp:
 	.text       start:0x800790F0 end:0x8007A810
@@ -1191,7 +1196,7 @@ pso/player/TObjPlayer_80080750.cpp:
 pso/quest/TQuestVmDownLoadServer_80080788.cpp:
 	.text       start:0x80080788 end:0x80080798
 
-pso/ui/window/TWindowKeyBoardSoft_80080798.cpp:
+pso/ui/window/KeyboardTextBuffer.cpp:
 	.text       start:0x80080798 end:0x8008102C
 	.data       start:0x8048DFF8 end:0x8048E040
 
@@ -1673,7 +1678,7 @@ pso/enemy/lappy/TObjEneLappy.cpp:
 
 pso/enemy/flower/TObjEneRe2Flower_800C20D0.cpp:
 	.text       start:0x800C20D0 end:0x800C2A88
-	.sdata2     start:0x805D9FA0 end:0x805D9FAC
+	.sdata2     start:0x805D9FA0 end:0x805D9FC8
 
 pso/unk/text_800C2A88.cpp:
 	.text       start:0x800C2A88 end:0x800C2CE0
@@ -3111,17 +3116,17 @@ pso/unk/TLobby_80131794.cpp:
 	.text       start:0x80131794 end:0x80131998
 	.sdata2     start:0x805DB070 end:0x805DB078
 
-pso/ui/chat/TWindowSubShortMail_80131998.cpp:
+pso/ui/keyboard/TKeyBoardControl_80131998.cpp:
 	.text       start:0x80131998 end:0x80131A5C
 
-pso/ui/window/TWindowMakeTeam_80131A5C.cpp:
+pso/ui/keyboard/TKeyBoardControl_80131A5C.cpp:
 	.text       start:0x80131A5C end:0x80131AA4
 
-pso/ui/chat/TWindowSubShortMail_80131AA4.cpp:
+pso/ui/keyboard/TKeyBoardControl_80131AA4.cpp:
 	.text       start:0x80131AA4 end:0x80131BC4
 	.sdata2     start:0x805DB078 end:0x805DB080
 
-pso/ui/window/TWindowSubComCard_80131BC4.cpp:
+pso/ui/keyboard/TKeyBoardControl_80131BC4.cpp:
 	.text       start:0x80131BC4 end:0x80131C58
 
 pso/ui/keyboard/TKeyBoardControl_80131C58.cpp:
@@ -4934,12 +4939,10 @@ pso/ui/window/TWindowKeyBoardHard_801A529C.cpp:
 	.sbss       start:0x805D5CF8 end:0x805D5D08
 
 pso/network/TPacket.cpp:
-	.text       start:0x801A558C end:0x801A5650
+	.text       start:0x801A558C end:0x801A5694
 	.rodata     start:0x80446998 end:0x804469A0
+	.data       start:0x804C22D8 end:0x804C2304
 	.sdata      start:0x805D34C0 end:0x805D34C8
-
-pso/network/TUdpSocket.cpp:
-	.text       start:0x801A5650 end:0x801A5694
 
 pso/system/TLanguage_801A5694.cpp:
 	.text       start:0x801A5694 end:0x801A5730
@@ -6960,7 +6963,7 @@ pso/ui/window/TWindowDeposit.cpp:
 	.sdata      start:0x805D38E8 end:0x805D38F0
 	.sdata2     start:0x805DCC60 end:0x805DCC74
 
-pso/ui/window/TWindowKeyBoardSoft_8024E68C.cpp:
+pso/ui/window/WindowDrawContext.cpp:
 	.text       start:0x8024E68C end:0x8024EF3C
 	.rodata     start:0x8044EC70 end:0x8044ECC0
 	.sbss       start:0x805D6420 end:0x805D6428
@@ -7140,7 +7143,7 @@ pso/ui/window/TWindowSubStatusDisp_8025B4A0.cpp:
 	.data       start:0x804CFA58 end:0x804CFA70
 	.sdata2     start:0x805DD008 end:0x805DD030
 
-pso/ui/window/TWindowKeyBoardSoft_8025B85C.cpp:
+pso/ui/window/TWindowKeyBoardBase_8025B85C.cpp:
 	.text       start:0x8025B85C end:0x8025CB10
 	.sdata2     start:0x805DD030 end:0x805DD036
 
@@ -7171,10 +7174,10 @@ pso/ui/window/TWindowKeyBoardHard.cpp:
 	.sbss       start:0x805D6450 end:0x805D6458
 	.sdata2     start:0x805DD068 end:0x805DD074
 
-pso/ui/keyboard/TKeyBoardControl.cpp:
+pso/ui/window/TWindowKeyBoardSoft.cpp:
 	.text       start:0x80260450 end:0x802627D8
 	.rodata     start:0x8044F110 end:0x8044F268
-	.data       start:0x804CFDE0 end:0x804D0004
+	.data       start:0x804CFDE0 end:0x804D001C
 	.sdata      start:0x805D3938 end:0x805D3940
 	.sbss       start:0x805D6458 end:0x805D6460
 	.sdata2     start:0x805DD078 end:0x805DD0D8

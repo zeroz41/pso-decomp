@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/ui/window/WindowDrawContext.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/object/ambient/TObjFish.h"
@@ -25,7 +26,6 @@ struct Quad_8026D790 { f32 x, y, r, b, u, v, ur, vb; };
 
 extern "C" {
 void __dl__FPv(void);
-void apply_context_transform_to_rect(void *, Quad_8026D790 *);
 s32 copy_position__11TWindowMenuFPv();
 s32 clamp_list_scroll_offset(NJS_POINT2 *a, NJS_POINT2 *b, NJS_POINT2 *c);
 void draw_window_scrollbar(Scroll_8026D790 *scroll, Ctx_8026D790 *c, f32 *offset);
@@ -75,7 +75,7 @@ void draw_window_scrollbar(Scroll_8026D790 *scroll, Ctx_8026D790 *c, f32 *offset
     q.v = 0.23046875f;
     q.ur = 0.94921875f;
     q.vb = 0.25f;
-    apply_context_transform_to_rect(c, &q);
+    ((WindowDrawContext *)c)->transform_quad((TexturedQuad *)&q);
     draw_textured_quad_at_depth((f32 *)&q, depth);
     set_constant_material_color(calc_pulse_flash_color(0x86, 0xFF, 0x41, scroll->frame, 0x1C2, 0x12C, 0x13B, 0x14A));
     depth = -1.0f / (0.1495f + c->x38);
@@ -96,7 +96,7 @@ void draw_window_scrollbar(Scroll_8026D790 *scroll, Ctx_8026D790 *c, f32 *offset
     q.v = 0.23046875f;
     q.ur = 0.9765625f;
     q.vb = 0.25f;
-    apply_context_transform_to_rect(c, &q);
+    ((WindowDrawContext *)c)->transform_quad((TexturedQuad *)&q);
     draw_textured_quad_at_depth((f32 *)&q, depth);
     TWindowSubStatusDisp::get_player();
 }

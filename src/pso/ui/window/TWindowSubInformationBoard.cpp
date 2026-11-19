@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowSubComCard_80244774.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -40,11 +41,9 @@ s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
 s32 play_sound_effect(int, int, int, int);
 s32 set_info_board_text__6TLobbyFv();
 extern s32 controller_input_state[];
-s32 TKeyBoardControl__ct(s32, s32, s32, s32, s32, s32);
 s32 get_info_board_ptr__6TLobbyFv();
 s32 get_window_layout_position(s32);
 s32 __nw__7TObjectFUl(s32);
-s32 get_keyboard_field_6c__15TWindowMakeTeamFv(s32, s32);
 s32 align_menu_entry_positions(int);
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
 void *draw_card_icon__17TWindowSubComCardFll(s32, s32, void *);
@@ -172,12 +171,12 @@ void TWindowSubInformationBoard::run_task() {
         }
         this->m_1c = 0xAU;
     case 10:
-        if (((TWindowSubComCard *)(this->keyboard))->is_keyboard_active() != 0) {
+        if (((TKeyBoardControl *)(this->keyboard))->is_cancelled() != 0) {
             this->m_1c = 0xBU;
             break;
         }
-        if (((TWindowSubComCard *)(this->keyboard))->update_keyboard() != 0) {
-            temp_r30 = ((TWindowSubComCard *)(this->keyboard))->realloc_buffer();
+        if (((TKeyBoardControl *)(this->keyboard))->is_confirmed() != 0) {
+            temp_r30 = (s32)((TKeyBoardControl *)(this->keyboard))->realloc_buffer();
             set_info_board_text__6TLobbyFv();
             TLobby::flush_pending_send();
             mem_free((void *)temp_r30);
@@ -263,13 +262,10 @@ u32 TWindowSubInformationBoard::show_card_a7() {
 s32 TWindowSubInformationBoard::open_keyboard(s32 arg0) {
     s32 keyboard;
 
-    keyboard = __nw__7TObjectFUl(0x2C);
-    if (keyboard != 0) {
-        keyboard = TKeyBoardControl__ct(keyboard, arg0, 0xC6, 5, 4, local_client_id);
-    }
-    get_keyboard_field_6c__15TWindowMakeTeamFv(keyboard, TLobby::get_card_window_field());
-    ((TWindowMakeTeam *)keyboard)->set_sub_position((u8 *)(get_window_layout_position(0xBB)));
-    ((TWindowMakeTeam *)keyboard)->set_keyboard_flag62_bit2();
+    keyboard = (s32)new TKeyBoardControl((TObject *)arg0, 0xC6, 5, 4, local_client_id);
+    ((TKeyBoardControl *)keyboard)->set_text((char *)TLobby::get_card_window_field());
+    ((TKeyBoardControl *)keyboard)->set_sub_position((u8 *)(get_window_layout_position(0xBB)));
+    ((TKeyBoardControl *)keyboard)->set_flag62_bit2();
     ((TWindowSubComCard *)keyboard)->destroy_keyboard();
     return keyboard;
 }

@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/ui/window/WindowDrawContext.h"
 #include "pso/unk/TUnk_804CF9C8.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8025995C.h"
 #include "pso/ui/window/TWindowSubStatusDisp_802598E4.h"
@@ -21,7 +22,6 @@ s32 TWindowSubStatusDisp__sub_800FC248(s32);
 s32 build_small_font_glyph_quad(s32, Pos_80259A84 *);
 s32 set_glyph_quad_extents(s32, Pos_80259A84 *);
 s32 calc_gauge_scale__20TWindowSubStatusDispFUsPvl(s32, Pos_80259A84 *, s32);
-s32 try_open__19TWindowKeyBoardSoftFii(void *, Pos_80259A84 *);
 void begin_screen_draw(s32 arg0);
 s32 draw_textured_quad_at_depth(Pos_80259A84 *, f32);
 void set_draw_texture_and_color(s32 idx, s32 arg1);
@@ -56,7 +56,7 @@ void draw_right_aligned_number(void *arg0) {
 
 typedef struct Pos_80259A84 Pos_80259A84;
 #pragma fp_contract on
-void TUnk_804CF9C8::render(TWindowKeyBoardSoft *window_key_board_soft) {
+void TUnk_804CF9C8::render(WindowDrawContext *context) {
   f32 t;
   Pos_80259A84 pos;
   f32 x;
@@ -71,23 +71,23 @@ void TUnk_804CF9C8::render(TWindowKeyBoardSoft *window_key_board_soft) {
   f32 h;
   h = this->y;
   w = this->x;
-  t = (h / 21.0f) + (w / (window_key_board_soft->inner_w));
+  t = (h / 21.0f) + (w / (context->inner_w));
   t *= 7.5f;
-  t = 17.0f * (((f32) (window_key_board_soft->open_tick)) - t);
+  t = 17.0f * (((f32) (context->open_tick)) - t);
   if (t <= 0.0f)
   {
     return;
   }
   mode = (this->flags >> 2) & 1;
   n = this->value;
-  x = (window_key_board_soft->inner_x) + w;
-  y = (window_key_board_soft->inner_y) + h;
-  scale = (-1.0f) / ((0.299f * this->depth) + (window_key_board_soft->depth));
+  x = (context->inner_x) + w;
+  y = (context->inner_y) + h;
+  scale = (-1.0f) / ((0.299f * this->depth) + (context->depth));
   switch (mode)
   {
     case 0:
       TWindowSubStatusDisp::reset_gauge(0);
-      window_key_board_soft = window_key_board_soft;
+      context = context;
       break;
     case 1:
       begin_screen_draw(1);
@@ -122,7 +122,7 @@ void TUnk_804CF9C8::render(TWindowKeyBoardSoft *window_key_board_soft) {
         build_small_font_glyph_quad(g, &pos);
         break;
     }
-    if (try_open__19TWindowKeyBoardSoftFii(window_key_board_soft, &pos) != 0)
+    if (context->clip_and_transform_quad((TexturedQuad *)&pos) != 0)
     {
       draw_textured_quad_at_depth(&pos, scale);
     }

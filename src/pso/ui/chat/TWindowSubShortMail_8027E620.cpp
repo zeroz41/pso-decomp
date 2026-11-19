@@ -2,6 +2,7 @@
 
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/quest/TQuestThread.h"
@@ -54,7 +55,6 @@ int get_card_entry__17TWindowSubComCardFi();
 void TWindowSubShortMail__sub_8027FAD0(u8 *);
 s32 get_card_window_area__6TLobbyFv();
 void * get_mail_ptr__19TWindowSubShortMailFPv(void *);
-s32 realloc_buffer__17TWindowSubComCardFv(s32);
 s32 check_room_seq_4__16TAdChrSelASlotGCFl(s32, s32);
 s32 draw_card_icon__17TWindowSubComCardFll(s32, s32, s32);
 s32 fn_8007B83C(s32);
@@ -66,7 +66,6 @@ s32 create__19TWindowMessageYesNoFPvPvPvPv(void *, s32, s32, s32);
 s32 free_member__17TWindowSubComCardFv(s32, s32);
 void open_yes_no_prompt(TChCrTagPlBack *arg0, u32 arg1, s32 arg2, s32 arg3, f32 farg0);
 void TWindowSubShortMail__sub_8027E620(void* p);
-s32 TKeyBoardControl__ct(s32, s32, s32, s32, s32, s32);
 s32 *get_shared_text_buffer(void);
 s32 __nw__7TObjectFUl(s32);
 int get_flag_bit0__6TLobbyFv(void);
@@ -110,14 +109,12 @@ void *send_cmd_133__17TWindowSubComCardFv(void);
 void *send_command__17TWindowSubComCardFi(s32);
 void update_display_value__17TWindowSubComCardFUiUiPv(u32 arg0, u32 arg1, s32 *arg2);
 s32 TWindowSubShortMail__sub_8007B834(void *);
-void TWindowSubShortMail__sub_80131998(void *);
 void TWindowSubShortMail__sub_8027E620(void *p);
 }
 
 void remove_short_mail_by_id(u32 id);
 
 extern "C" {
-void get_keyboard_field_6c__15TWindowMakeTeamFv(void *, void *);
 void TLobby__sub_802258C8(void);
 extern s32 __vt__19TWindowSubShortMail[];
 }
@@ -306,20 +303,20 @@ void TWindowSubShortMail::run_task() {
         if (o->w5c == NULL) {
             o->w5c = ((void * (*)()) create_keyboard__19TWindowSubShortMailFv)();
         }
-        ((TWindowSubShortMail *)(o->w5c))->set_position(((void *)((s32 (*)(int)) get_window_layout_position)(0xBB)));
+        ((TKeyBoardControl *)(o->w5c))->set_position(((void *)((s32 (*)(int)) get_window_layout_position)(0xBB)));
         free_menu_object(o->w5c);
-        ((TWindowSubShortMail *)(o->w5c))->hide_window();
+        ((TKeyBoardControl *)(o->w5c))->show();
         o->state = 0xC;
     case 12:
-        if (((TWindowSubComCard *)(o->w5c))->is_keyboard_active() != 0) {
+        if (((TKeyBoardControl *)(o->w5c))->is_cancelled() != 0) {
             o->state = 1;
-        } else if (((TWindowSubComCard *)(o->w5c))->update_keyboard() != 0) {
+        } else if (((TKeyBoardControl *)(o->w5c))->is_confirmed() != 0) {
             o->state = 0xD;
         }
         break;
     case 13:
-        ((TWindowSubShortMail *)(o->w5c))->set_position(((void *)((s32 (*)(int)) get_window_layout_position)(0xBC)));
-        TWindowSubShortMail__sub_80131998(o->w5c);
+        ((TKeyBoardControl *)(o->w5c))->set_position(((void *)((s32 (*)(int)) get_window_layout_position)(0xBC)));
+        ((TKeyBoardControl *)o->w5c)->hide();
         o->w50 = ((void * (*)(void *, s32)) open_confirm_prompt__19TWindowSubShortMailFPvi)(o, o->f20);
         o->state = 0xE;
     case 14:
@@ -404,22 +401,22 @@ void TWindowSubShortMail::run_task() {
         if (o->w40 != NULL) { ((TWindowBase *)o->w40)->close(); o->w40 = NULL; }
         if (o->w5c == NULL) {
             o->w5c = ((void * (*)()) create_keyboard__19TWindowSubShortMailFv)();
-            get_keyboard_field_6c__15TWindowMakeTeamFv(o->w5c, ((void * (*)()) get_card_window_area__6TLobbyFv)());
+            ((TKeyBoardControl *)o->w5c)->set_text((char *)((void * (*)()) get_card_window_area__6TLobbyFv)());
         }
-        ((TWindowSubShortMail *)(o->w5c))->set_position(((void *)((s32 (*)(int)) get_window_layout_position)(0xBB)));
+        ((TKeyBoardControl *)(o->w5c))->set_position(((void *)((s32 (*)(int)) get_window_layout_position)(0xBB)));
         free_menu_object(o->w5c);
-        ((TWindowSubShortMail *)(o->w5c))->hide_window();
+        ((TKeyBoardControl *)(o->w5c))->show();
         o->state = 0x19;
     case 25:
-        if (((TWindowSubComCard *)(o->w5c))->is_keyboard_active() != 0) {
+        if (((TKeyBoardControl *)(o->w5c))->is_cancelled() != 0) {
             o->state = 1;
-        } else if (((TWindowSubComCard *)(o->w5c))->update_keyboard() != 0) {
+        } else if (((TKeyBoardControl *)(o->w5c))->is_confirmed() != 0) {
             o->state = 0x1A;
         }
         break;
     case 26:
-        ((TWindowSubShortMail *)(o->w5c))->set_position(((void *)((s32 (*)(int)) get_window_layout_position)(0xBC)));
-        TWindowSubShortMail__sub_80131998(o->w5c);
+        ((TKeyBoardControl *)(o->w5c))->set_position(((void *)((s32 (*)(int)) get_window_layout_position)(0xBC)));
+        ((TKeyBoardControl *)o->w5c)->hide();
         if (o->w50 == NULL) {
             o->w50 = ((void * (*)(void *)) open_delete_confirm_dialog__19TWindowSubShortMailFv)(o);
         }
@@ -429,7 +426,7 @@ void TWindowSubShortMail::run_task() {
             o->state = 0x18;
         } else if (((TWindowMessageYesNo *)(o->w50))->is_child_visible() != 0) {
             if (((TWindowSubComCard *)(o->w50))->get_slot_or_neg1() == 0) {
-                void *b = ((void * (*)(void *)) realloc_buffer__17TWindowSubComCardFv)(o->w5c);
+                void *b = ((TKeyBoardControl *)o->w5c)->realloc_buffer();
                 ((TLobby *)b)->set_short_mail_text();
                 mem_free(b);
                 o->state = 1;
@@ -547,13 +544,10 @@ s32 build_menu__19TWindowSubShortMailFv(void) {
 s32 create_keyboard__19TWindowSubShortMailFv(void) {
     s32 var_r31;
 
-    var_r31 = __nw__7TObjectFUl(0x2C);
-    if (var_r31 != 0) {
-        var_r31 = TKeyBoardControl__ct(var_r31, tl_00, 0xC6, 5, 4, local_client_id);
-    }
+    var_r31 = (s32)new TKeyBoardControl((TObject *)tl_00, 0xC6, 5, 4, local_client_id);
     update_chat_window((void *)var_r31);
-    ((TWindowMakeTeam *)var_r31)->set_sub_position((u8 *)(get_window_layout_position(0xBB)));
-    ((TWindowMakeTeam *)var_r31)->set_keyboard_flag62_bit2();
+    ((TKeyBoardControl *)var_r31)->set_sub_position((u8 *)(get_window_layout_position(0xBB)));
+    ((TKeyBoardControl *)var_r31)->set_flag62_bit2();
     ((TWindowSubComCard *)var_r31)->destroy_keyboard();
     return var_r31;
 }
@@ -652,7 +646,7 @@ void TWindowSubShortMail::close() {
     s32 temp_r30;
     s32 var_r29;
 
-    src = ((TWindowSubComCard *)this->m_5c)->realloc_buffer();
+    src = (s32)((TKeyBoardControl *)this->m_5c)->realloc_buffer();
     TWindowSubComCard::mask_profanity_words((char *)src, (char *)get_shared_text_buffer());
     TLobby::send_simple_mail(this->m_2c, (void *)(get_shared_text_buffer()));
     mem_free((void *)src);

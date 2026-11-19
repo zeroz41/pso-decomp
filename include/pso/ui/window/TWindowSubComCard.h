@@ -69,9 +69,6 @@ struct TWindowSubComCard : public TObject {
     static void init_and_press_b(s32 arg0);
     static void update_press();
     static void select_card_entry(s32 arg0);
-    s32 realloc_buffer();
-    int is_keyboard_active();
-    int update_keyboard();
     static s32 contains_profanity(char *text);
     static void mask_profanity_words(char *src, char *dst);
     s32 get_field_20();

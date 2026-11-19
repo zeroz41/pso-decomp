@@ -3,7 +3,7 @@
 
 #include "types.h"
 
-struct TWindowKeyBoardSoft;
+struct WindowDrawContext;
 
 class TUnk_804CFA28 {
 public:
@@ -11,7 +11,7 @@ public:
     s16 m_2;
     virtual ~TUnk_804CFA28();
     virtual void update();
-    virtual void render(TWindowKeyBoardSoft *);
+    virtual void render(WindowDrawContext *);
     f32 x;
     f32 y;
     f32 width;

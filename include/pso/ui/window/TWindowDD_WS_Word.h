@@ -43,10 +43,10 @@ public:
     f32 pad_88; // scroll offset (fraction of a 20-unit row drawn as partial strips)
     s32 m_8c;
 };
-class TWindowKeyBoardSoft;
+struct WindowDrawContext;
 
 extern "C" {
-void TWindowDD__sub_80341674(TWindowDD_WS_Word *self, TWindowKeyBoardSoft *rect);
+void TWindowDD__sub_80341674(TWindowDD_WS_Word *self, WindowDrawContext *rect);
 }
 
 typedef char TWindowDD_WS_Word_size[sizeof(TWindowDD_WS_Word) == 0x90 ? 1 : -1];

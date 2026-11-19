@@ -17,19 +17,19 @@ const char *lbl_805D42E0 = "TWindowDD_WS_Word";
 
 extern "C" {
 int refresh_status_display__9TWindowDDFv(void *);
-void draw_visible_window_entries(TWindowDD_WS_Word *, TWindowDDWordEntryList *, TWindowKeyBoardSoft *);
+void draw_visible_window_entries(TWindowDD_WS_Word *, TWindowDDWordEntryList *, WindowDrawContext *);
 extern const s32 TWindowDD__data_805DFC14;
 extern const s32 lbl_805DFC18;
 }
 
 void TWindowDD_WS_Word::render() {
     TWindowDD_WS_Word *self = this;
-    TWindowKeyBoardSoft *entry;
+    WindowDrawContext *entry;
     TUnk_804CFA28 *item;
     s32 idx;
     s32 i;
     s32 j;
-    entry = (TWindowKeyBoardSoft *)TWindowDD::draw_default_entry((s32)self);
+    entry = (WindowDrawContext *)TWindowDD::draw_default_entry((s32)self);
     self->calc_inner_rect((u8 *)entry);
     TWindowDD__sub_80341674(self, entry);
     if (self->m_8c != 0) {
@@ -64,7 +64,7 @@ extern const f32 lbl_805DFB40;
 extern const f32 lbl_805DFB44;
 extern void *lbl_805D63F0;
 
-void TWindowDD__sub_80341674(TWindowDD_WS_Word *self, TWindowKeyBoardSoft *rect) {
+void TWindowDD__sub_80341674(TWindowDD_WS_Word *self, WindowDrawContext *rect) {
     E_803403F8 verts[8];
     E_803403F8 *v;
     s32 tex;

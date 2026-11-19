@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/ui/window/WindowDrawContext.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/unk/text_8026C664.h"
 #include "pso/unk/TLobby_8001D6A0.h"
@@ -25,7 +26,6 @@ struct Stack_8026C708
 };
 
 extern "C" {
-void apply_context_transform_to_rect(void *, void *);
 void fn_8026C664(u8 *arg0, f32 farg0, f32 farg1, f32 farg2, f32 farg3) {
   f32 buffer_8[8];
   buffer_8[0] = farg0;
@@ -40,7 +40,7 @@ void fn_8026C664(u8 *arg0, f32 farg0, f32 farg1, f32 farg2, f32 farg3) {
   buffer_8[5] = 0.3984375f;
   buffer_8[6] = 0.8359375f;
   buffer_8[7] = 0.45703125f;
-  apply_context_transform_to_rect(arg0, &buffer_8[0]);
+  ((WindowDrawContext *)arg0)->transform_quad((TexturedQuad *)&buffer_8[0]);
   draw_textured_quad_at_depth(&buffer_8[0], farg2);
 }
 typedef struct Stack_8026C708 Stack_8026C708;
@@ -60,7 +60,7 @@ void fn_8026C708(u8 *arg0, f32 farg0, f32 farg1, f32 farg2, f32 farg3) {
   stack.sp1C = 0.3984375f;
   stack.sp20 = 0.95703125f;
   stack.sp24 = 0.45703125f;
-  apply_context_transform_to_rect(arg0, &stack.sp8);
+  ((WindowDrawContext *)arg0)->transform_quad((TexturedQuad *)&stack.sp8);
   draw_textured_quad_at_depth(&stack.sp8, farg2);
 }
 

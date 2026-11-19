@@ -34,6 +34,7 @@
 #include "pso/ui/TLogo.h"
 #include "pso/ui/TLogo_8001C134.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
+#include "pso/ui/keyboard/KeyboardKeyState.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/ui/keyboard/TKeyBoardControl_80131C58.h"
 #include "pso/ui/window/TWindowCtrlMain.h"
@@ -131,7 +132,7 @@ FloorResourceCallbacks game_mode_select_scene_callbacks[23] = {
     {TLobby__sub_8026ACDC, fn_8026AC50},
     {register_player_prate, TAdPlyPltAnimGC__sub_8035615C},
     {load_data_buffers, TObjBoss2Tunnel::free_buffers},
-    {TKeyBoardControl::reset_global_keys_b, TKeyBoardControl::reset_global_keys_a},
+    {KeyboardKeyState::reset_global_keys_b, KeyboardKeyState::reset_global_keys_a},
     {TWindowCtrlMain__sub_8024D838, TWindowCtrlMain::free_all_windows},
     {TLobby::set_ending_callback, TLobby::free_ending_callback},
     {TKeyBoardControl__sub_80131F60, TKeyBoardControl__sub_80131F5C},

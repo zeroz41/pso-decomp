@@ -6,6 +6,7 @@
 #include <string.h>
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/task/TObject.h"
+#include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/network/TProtocol.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/item/TObjItemNameSelect.h"
@@ -40,7 +41,6 @@
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/unk/text_8024AB98.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
-#include "pso/unk/text_80131ADC.h"
 #include "pso/unk/text_8026CB5C.h"
 #include "pso/map/FloorArea.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
@@ -63,7 +63,6 @@ void *check_room_seq_4__16TAdChrSelASlotGCFl(void *, s32);
 void *update_window_mode_from_progress__6TLobbyFPv(void *, WindowPos *);
 s32 align_menu_entry_positions(u32);
 void TWindowHelpItem__set_displayed_item_by_id(u8 *window_help_item, s32 arg1);
-u32 TKeyBoardControl__ct(void *, void *, s32, s32, s32, s32);
 void TQuestThread__sub_801F5D88(void);
 void fn_801F6520(void *p);
 void __dt__16TObjItemOKWindowFv();
@@ -242,8 +241,8 @@ void TObjItemNameEntry::set_entered_name(const char *name) {
 s32 TObjItemNameEntry::process_keyboard_input() {
     s32 text;
 
-    if (m_1c != NULL && ((TWindowSubComCard *)m_1c)->update_keyboard() != 0) {
-        text = ((TWindowSubComCard *)m_1c)->realloc_buffer();
+    if (m_1c != NULL && ((TKeyBoardControl *)m_1c)->is_confirmed() != 0) {
+        text = (s32)((TKeyBoardControl *)m_1c)->realloc_buffer();
         if (strcmp((const char *)text, "") == 0) {
             mem_free((void *)text);
             free_menu_object(m_1c);
@@ -271,17 +270,12 @@ TObjItemNameEntry::~TObjItemNameEntry() {
 }
 
 TObjItemNameEntry::TObjItemNameEntry(TObject *parent) : TObject(parent) {
-    u32 keyboard;
-
     m_name = TObjItemNameEntry__class_name;
-    if ((keyboard = (u32)TObject::operator new(0x2C)) != 0U) {
-        keyboard = TKeyBoardControl__ct((void *)keyboard, this, 8, 0, 1, local_client_id);
-    }
-    m_1c = (void *)keyboard;
+    m_1c = new TKeyBoardControl(this, 8, 0, 1, local_client_id);
     if (m_1c != NULL) {
-        ((TWindowMakeTeam *)m_1c)->set_sub_position((u8 *)get_window_layout_position(0xBF));
-        fn_80131ADC((u8 *)m_1c, (u8 *)get_window_layout_position(0xC0));
-        fn_80131B18((u8 *)m_1c, (u8 *)fn_8026CB5C());
+        ((TKeyBoardControl *)m_1c)->set_sub_position((u8 *)get_window_layout_position(0xBF));
+        ((TKeyBoardControl *)m_1c)->set_soft_position((u8 *)get_window_layout_position(0xC0));
+        ((TKeyBoardControl *)m_1c)->set_hard_position((u8 *)fn_8026CB5C());
     }
     m_20 = check_room_seq_4__16TAdChrSelASlotGCFl(get_window_layout_position(0x56), 1);
     if (m_20 != NULL) {

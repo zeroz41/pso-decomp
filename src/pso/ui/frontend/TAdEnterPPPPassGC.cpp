@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/frontend/TAdEnterPPPPassGC.h"
 #include "pso/unk/text_8014618C.h"
@@ -32,7 +33,6 @@ s32 TLobby__sub_80145DB4(int);
 s8 *TLobby__sub_80146D14(void);
 s8 *TLobby__sub_80146D44(void);
 int reset_mode_state__21TAdMultiChgGameModeGCFv(void*);
-char *realloc_buffer__17TWindowSubComCardFv(u8 *);
 void mem_free(void *);
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
 void play_sound_effect(int, int, int, int);
@@ -78,7 +78,7 @@ int request_transition__17TAdEnterPPPPassGCFPv(void* p) { return request_transit
 void update_password_input__17TAdEnterPPPPassGCFPv(u8 *ad_enter_serial_access_gc) {
     char *buf;
     s32 cur;
-    buf = realloc_buffer__17TWindowSubComCardFv(password_entry_keyboard_control);
+    buf = ((TKeyBoardControl *)password_entry_keyboard_control)->realloc_buffer();
     if ((*(s32 *)&((TAdEnterSerialAccessGC *)ad_enter_serial_access_gc)->m_40 == 0 && TWindowShortListCtrl__check_controller_button(controller_physical_port_bank + 0x20, 2) != 0) ||
         (*(s32 *)&((TAdEnterSerialAccessGC *)ad_enter_serial_access_gc)->m_40 == 0 && test_flag_4c__23TAdSinglePlyChrSelectGCFv(controller_input_state + 0x160, 2) != 0)) {
         mem_free(buf);
@@ -89,7 +89,7 @@ void update_password_input__17TAdEnterPPPPassGCFPv(u8 *ad_enter_serial_access_gc
     }
     ((TAdEnterSerialAccessGC *)ad_enter_serial_access_gc)->m_3c = *(s32 *)((s8 *)ad_enter_serial_access_gc + 0x38);
     if (password_entry_keyboard_control != NULL) {
-        if (((TWindowSubComCard *)password_entry_keyboard_control)->update_keyboard() != 0) {
+        if (((TKeyBoardControl *)password_entry_keyboard_control)->is_confirmed() != 0) {
             if (TWindowShortListCtrl__check_controller_button(controller_physical_port_bank + 0x20, 2) != 0 ||
                 test_flag_4c__23TAdSinglePlyChrSelectGCFv(controller_input_state + 0x160, 2) != 0) {
                 free_menu_object(password_entry_keyboard_control);
@@ -125,7 +125,7 @@ void update_password_input__17TAdEnterPPPPassGCFPv(u8 *ad_enter_serial_access_gc
         }
     }
     if (((TAdSinglePlyChrSelectGC *)(*(s32 *)((s8 *)ad_enter_serial_access_gc + 0x2C)))->get_selected_slot() == 1 &&
-        ((TWindowSubComCard *)password_entry_keyboard_control)->update_keyboard() != 0) {
+        ((TKeyBoardControl *)password_entry_keyboard_control)->is_confirmed() != 0) {
         set_password__17TAdEnterPPPPassGCFi((s32)buf);
         *(s32 *)&((TAdEnterSerialAccessGC *)ad_enter_serial_access_gc)->m_20 = 3;
         password_entry_dispatch_state = 4;

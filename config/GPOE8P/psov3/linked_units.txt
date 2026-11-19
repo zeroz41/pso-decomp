@@ -743,7 +743,7 @@ pso/ui/city/THunterGuildSeqOffline_80213788.cpp
 pso/ui/city/THunterGuildWarning.cpp
 pso/ui/city/TJudgmentSequence.cpp
 pso/ui/city/TJudgmentSequence_8021E4C4.cpp
-pso/ui/keyboard/TKeyBoardControl.cpp
+pso/ui/window/TWindowKeyBoardSoft.cpp
 pso/ui/keyboard/TKeyBoardControl_8000F764.cpp
 pso/ui/keyboard/TKeyBoardControl_80131C58.cpp
 pso/ui/keyboard/TKeyBoardControl_80131F5C.cpp
@@ -1324,10 +1324,10 @@ pso/ui/window/TWindowKeyBoardHard.cpp
 pso/ui/window/TWindowKeyBoardHard_801A529C.cpp
 pso/ui/window/TWindowKeyBoardHard_801FBA48.cpp
 pso/ui/window/TWindowKeyBoardHard_8025EB68.cpp
-pso/ui/window/TWindowKeyBoardSoft_80080798.cpp
+pso/ui/window/KeyboardTextBuffer.cpp
 pso/ui/window/TWindowKeyBoardSoft_80228BEC.cpp
-pso/ui/window/TWindowKeyBoardSoft_8024E68C.cpp
-pso/ui/window/TWindowKeyBoardSoft_8025B85C.cpp
+pso/ui/window/WindowDrawContext.cpp
+pso/ui/window/TWindowKeyBoardBase_8025B85C.cpp
 pso/ui/window/TWindowLoadItemTexture.cpp
 pso/ui/window/TWindowLockOn_800F5DD8.cpp
 pso/ui/window/TWindowLockOn_8026CB80.cpp
@@ -1338,7 +1338,7 @@ pso/ui/window/TWindowMainMenu_8024E3CC.cpp
 pso/ui/window/TWindowMainMenu_802AD538.cpp
 pso/ui/window/TWindowMainMenu_802AE928.cpp
 pso/ui/window/TWindowMakeTeam.cpp
-pso/ui/window/TWindowMakeTeam_80131A5C.cpp
+pso/ui/keyboard/TKeyBoardControl_80131A5C.cpp
 pso/ui/window/TWindowMenuMainMenu.cpp
 pso/ui/window/TWindowMeseta.cpp
 pso/ui/window/TWindowMessage.cpp
@@ -1383,7 +1383,7 @@ pso/ui/window/TWindowSubComCard_8007BDD8.cpp
 pso/ui/window/TWindowSubComCard_8007BE70.cpp
 pso/ui/window/TWindowSubComCard_8007BF08.cpp
 pso/ui/window/TWindowSubComCard_8007BF48.cpp
-pso/ui/window/TWindowSubComCard_80131BC4.cpp
+pso/ui/keyboard/TKeyBoardControl_80131BC4.cpp
 pso/ui/window/TWindowSubComCard_80225E0C.cpp
 pso/ui/window/TWindowSubComCard_80244774.cpp
 pso/ui/window/TWindowSubComCard_802495FC.cpp
@@ -1423,8 +1423,8 @@ pso/ui/window/TWindowSubQuestBoard_8027D1E8.cpp
 pso/ui/window/TWindowSubShortCut.cpp
 pso/ui/window/TWindowSubShortCutList.cpp
 pso/ui/window/TWindowSubShortCut_80246FB0.cpp
-pso/ui/chat/TWindowSubShortMail_80131998.cpp
-pso/ui/chat/TWindowSubShortMail_80131AA4.cpp
+pso/ui/keyboard/TKeyBoardControl_80131998.cpp
+pso/ui/keyboard/TKeyBoardControl_80131AA4.cpp
 pso/ui/chat/TWindowSubShortMail_80246CB8.cpp
 pso/ui/chat/TWindowSubShortMail_8027E620.cpp
 pso/ui/chat/TWindowSubShortMail_802A571C.cpp

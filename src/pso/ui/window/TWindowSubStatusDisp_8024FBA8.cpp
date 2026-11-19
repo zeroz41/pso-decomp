@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/ui/window/WindowDrawContext.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
 #include "pso/ui/Language.h"
@@ -38,8 +39,6 @@ u8 get_small_font_glyph_width(s32);
 s32 TWindowSubStatusDisp__sub_800FC248(s32);
 void calc_plain_glyph_quad(s32, void *);
 void build_small_font_glyph_quad(s32, void *);
-void apply_context_transform_to_rect(s32, void *);
-s32 clip_textured_quad__19TWindowKeyBoardSoftFPvPv(s32, void *);
 void begin_screen_draw(s32);
 void draw_textured_quad_at_depth(void *, f32);
 void set_draw_texture_and_color(s32, u32);
@@ -95,8 +94,8 @@ s32 draw_small_font_string_clipped(f32 *pos, const char *s, u32 color, f32 width
             }
             x += (f32)adv;
             width -= (f32)adv;
-            if (text_clip_enabled_flag == 0 || clip_textured_quad__19TWindowKeyBoardSoftFPvPv(text_draw_clip_context, &q) != 0) {
-                apply_context_transform_to_rect(text_draw_clip_context, &q);
+            if (text_clip_enabled_flag == 0 || ((WindowDrawContext *)text_draw_clip_context)->clip_textured_quad((TexturedQuad *)&q) != 0) {
+                ((WindowDrawContext *)text_draw_clip_context)->transform_quad((TexturedQuad *)&q);
                 draw_textured_quad_at_depth(&q, text_draw_depth);
             }
         }
@@ -182,16 +181,16 @@ s32 draw_window_text(f32 *pos, const char *s, s32 color, s32 mode, f32 width) {
             ok = 0;
             q.x2 = q.x + width;
         }
-        if (text_clip_enabled_flag == 0 || ((TWindowKeyBoardSoft *)text_draw_clip_context)->is_point_in_bounds(&q) != 0) {
+        if (text_clip_enabled_flag == 0 || ((WindowDrawContext *)text_draw_clip_context)->is_point_in_bounds((TexturedQuad *)&q) != 0) {
             calc_gauge_scale__20TWindowSubStatusDispFUsPvl(glyph, &q, col);
             set_glyph_quad_extents(adv, &q);
             if ((f32)(u8)adv > width) {
                 q.x2 = q.x + width;
             }
             if (text_clip_enabled_flag != 0) {
-                clip_textured_quad__19TWindowKeyBoardSoftFPvPv(text_draw_clip_context, &q);
+                ((WindowDrawContext *)text_draw_clip_context)->clip_textured_quad((TexturedQuad *)&q);
             }
-            apply_context_transform_to_rect(text_draw_clip_context, &q);
+            ((WindowDrawContext *)text_draw_clip_context)->transform_quad((TexturedQuad *)&q);
             draw_textured_quad_at_depth(&q, text_draw_depth);
         }
         x += (f32)(u8)adv;

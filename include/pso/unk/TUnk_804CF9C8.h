@@ -14,7 +14,7 @@ public:
     TUnk_804CF9C8(u8 *rec, s32 m_2);
     virtual ~TUnk_804CF9C8();
     virtual void update();
-    virtual void render(TWindowKeyBoardSoft *window_key_board_soft);
+    virtual void render(WindowDrawContext *context);
 };
 
 typedef char TUnk_804CF9C8_size[sizeof(TUnk_804CF9C8) == 0x24 ? 1 : -1];

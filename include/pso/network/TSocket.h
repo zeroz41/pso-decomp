@@ -39,7 +39,7 @@ public:
     virtual ~TSocket();
 
     virtual int open() = 0;
-    virtual short close() = 0;
+    virtual void close() = 0;
     virtual void recv() = 0;
     virtual short send(u8 *data) = 0;
     virtual short send(u8 *data, size_t size) = 0;

@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/ui/window/WindowDrawContext.h"
 #include "pso/ui/window/TWindowComCard.h"
 #include "pso/ui/window/TWindowLockOn.h"
 #include "pso/ui/window/TWindowSimpleStatus.h"
@@ -144,7 +145,6 @@ s32 TWindowSubComCard__sub_80245320(Rect_80270394 *, u8 *);
 s32 TWindowSubComCard__sub_802454E4(s32);
 s32 TWindowSubComCard__sub_80245558(u8 *, NJS_POINT2 *, NJS_POINT2 *);
 s32 get_width__19TWindowSimpleStatusFv();
-s32 apply_context_transform_to_rect(u8 *, Rect_80270394 *);
 s32 start_text_color_transition(void *, s32, f32);
 }
 s32 get_status_effect_icon_index(u32 arg0);
@@ -541,7 +541,7 @@ void TWindowSimpleStatus::draw_background(u8 *arg1) {
     r.v0 = 0.3125f;
     r.u1 = 0.8828125f;
     r.v1 = 0.44921875f;
-    apply_context_transform_to_rect(arg1, &r);
+    ((WindowDrawContext *)arg1)->transform_quad((TexturedQuad *)&r);
     draw_textured_quad_at_depth(&r, scale);
     TWindowSubStatusDisp::get_player();
     if (TWindowSubComCard__sub_80245558(arg1, &pos, &size) != 0) {

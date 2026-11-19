@@ -22,7 +22,7 @@ public:
   ItemListRow(u8 *rec, s32 m_2);
   virtual ~ItemListRow();
   virtual void update();
-  virtual void render(TWindowKeyBoardSoft *context);
+  virtual void render(WindowDrawContext *context);
 };
 
 struct ItemListWindowView

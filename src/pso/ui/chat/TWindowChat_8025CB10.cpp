@@ -3,11 +3,14 @@
 #include "pso/ui/chat/TWindowChat.h"
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
 
-bool TWindowKeyBoardBase::sub_8025CB10() {
-    if ((u32) this->m_7c != 0U) {
+#pragma push
+#pragma bool off
+s32 TWindowKeyBoardBase::sub_8025CB10() {
+    if ((u32) this->m_text.length != 0U) {
         return 1;
     }
-    return this->m_94 != 0;
+    return this->m_text2.length != 0;
 }
+#pragma pop
 
-void TWindowChat::flush_if_flagged() { if (get_flag() != 0) { reset_input(); } }
+void TWindowKeyBoardBase::flush_if_flagged() { if (get_flag() != 0) { reset_input(); } }

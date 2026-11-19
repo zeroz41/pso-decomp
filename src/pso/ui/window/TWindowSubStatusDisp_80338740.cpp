@@ -70,7 +70,7 @@ s32 TWindowSubStatusDisp::get_flag_or_zero(void *arg0, s8 arg1) {
     return get_message_10__20TWindowSubStatusDispFl(arg1 + 0x10D);
 }
 
-void TUnk_804EF440::render(TWindowKeyBoardSoft *context) {
+void TUnk_804EF440::render(WindowDrawContext *context) {
   Win_80338890 *win = (Win_80338890 *)context;
   f32 scale;
   f32 y;

@@ -11,6 +11,7 @@
 
 EXTERN_OBJECT_NAME(TTcpSocket);
 extern TTcpSocket *tcp_socket_table[16];
+extern const char *sock_status_names[17];
 
 class TTcpSocket : public TSocket {
 public:
@@ -25,7 +26,7 @@ public:
     virtual ~TTcpSocket();
 
     virtual int open();
-    virtual short close();
+    virtual void close();
     virtual void recv();
     virtual short send(u8 *data);
     virtual short send(u8 *data, size_t size);
@@ -36,13 +37,5 @@ public:
 
     static void notify(short size, short sock_fd);
 };
-
-extern "C" {
-void *__dt__10TUdpSocketFv(void *arg0, s16 arg1);
-}
-
-// udp_socket_slots: layout known from its uses only.
-struct UdpSocketSlots { s32 value; u8 remaining[0x3C]; };
-extern UdpSocketSlots udp_socket_slots;
 
 #endif

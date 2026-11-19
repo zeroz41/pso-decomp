@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -48,12 +49,8 @@ s32 check_room_seq_4__16TAdChrSelASlotGCFl(const f32 *, s32);
 void *init_status_disp__15TWindowMakeTeamFc(s8 arg0);
 s8 get_mode__6TLobbyFv();
 s32 update_selected_entry__17TWindowSubComCardFv(void *);
-void *TKeyBoardControl__ct(void *, void *, s32, s32, s32, s32);
 extern s32 local_client_id;
 void *get_window_layout_position(s32);
-void get_lobby_field_20__15TWindowMakeTeamFv(void *, f32);
-void get_keyboard_field_6c__15TWindowMakeTeamFv(void *, char *);
-char *realloc_buffer__17TWindowSubComCardFv(void *);
 char *get_shared_text_buffer(void);
 s32 measure_string_len__20TWindowSubStatusDispFv(char *);
 char *strncpy(char *, const char *, u32);
@@ -136,27 +133,24 @@ void TWindowMakeTeam::run_task() {
         }
         break;
     case 3: {
-        void *kb = TObject::operator new(0x2C);
-        if (kb != NULL) {
-            kb = TKeyBoardControl__ct(kb, self, 0xE, 0, 4, local_client_id);
-        }
+        void *kb = new TKeyBoardControl((TObject *)self, 0xE, 0, 4, local_client_id);
         self->keyboard = kb;
-        ((TWindowMakeTeam *)(self->keyboard))->set_sub_position((u8 *)(get_window_layout_position(0xCB)));
-        get_lobby_field_20__15TWindowMakeTeamFv(self->keyboard, 38500.0f);
+        ((TKeyBoardControl *)(self->keyboard))->set_sub_position((u8 *)(get_window_layout_position(0xCB)));
+        ((TKeyBoardControl *)self->keyboard)->set_depth(38500.0f);
         update_chat_window(self->keyboard);
-        get_keyboard_field_6c__15TWindowMakeTeamFv(self->keyboard, self->name);
+        ((TKeyBoardControl *)self->keyboard)->set_text((char *)self->name);
         ((TWindowMakeTeam *)(self->menu))->set_entry_string_by_id(NULL, 0);
         this->m_1c = 4;
     }
     case 4:
-        if (((TWindowSubComCard *)(self->keyboard))->is_keyboard_active() != 0) {
+        if (((TKeyBoardControl *)(self->keyboard))->is_cancelled() != 0) {
             ((TWindowMakeTeam *)(self->menu))->set_entry_string_by_id(self->name, 0);
             this->m_1c = 1;
         }
-        if (((TWindowSubComCard *)(self->keyboard))->update_keyboard() != 0) {
+        if (((TKeyBoardControl *)(self->keyboard))->is_confirmed() != 0) {
             s32 n;
             mem_free(self->name);
-            self->name = realloc_buffer__17TWindowSubComCardFv(self->keyboard);
+            self->name = ((TKeyBoardControl *)self->keyboard)->realloc_buffer();
             TWindowSubComCard::mask_profanity_words(self->name, get_shared_text_buffer());
             n = measure_string_len__20TWindowSubStatusDispFv(self->name);
             strncpy(self->name, get_shared_text_buffer(), n);
@@ -165,26 +159,23 @@ void TWindowMakeTeam::run_task() {
         }
         break;
     case 5: {
-        void *kb = TObject::operator new(0x2C);
-        if (kb != NULL) {
-            kb = TKeyBoardControl__ct(kb, self, 0x10, 0, 0, local_client_id);
-        }
+        void *kb = new TKeyBoardControl((TObject *)self, 0x10, 0, 0, local_client_id);
         self->keyboard = kb;
-        ((TWindowMakeTeam *)(self->keyboard))->set_sub_position((u8 *)(get_window_layout_position(0xCC)));
-        get_lobby_field_20__15TWindowMakeTeamFv(self->keyboard, 38500.0f);
-        get_keyboard_field_6c__15TWindowMakeTeamFv(self->keyboard, self->comment);
+        ((TKeyBoardControl *)(self->keyboard))->set_sub_position((u8 *)(get_window_layout_position(0xCC)));
+        ((TKeyBoardControl *)self->keyboard)->set_depth(38500.0f);
+        ((TKeyBoardControl *)self->keyboard)->set_text((char *)self->comment);
         ((TWindowMakeTeam *)(self->menu))->set_entry_string_by_id(NULL, 1);
         this->m_1c = 6;
     }
     case 6:
-        if (((TWindowSubComCard *)(self->keyboard))->is_keyboard_active() != 0) {
+        if (((TKeyBoardControl *)(self->keyboard))->is_cancelled() != 0) {
             ((TWindowMakeTeam *)(self->menu))->set_entry_string_by_id(self->comment, 1);
             this->m_1c = 1;
         }
-        if (((TWindowSubComCard *)(self->keyboard))->update_keyboard() != 0) {
+        if (((TKeyBoardControl *)(self->keyboard))->is_confirmed() != 0) {
             s32 n;
             mem_free(self->comment);
-            self->comment = realloc_buffer__17TWindowSubComCardFv(self->keyboard);
+            self->comment = ((TKeyBoardControl *)self->keyboard)->realloc_buffer();
             TWindowSubComCard::mask_profanity_words(self->comment, get_shared_text_buffer());
             n = measure_string_len__20TWindowSubStatusDispFv(self->comment);
             strncpy(self->comment, get_shared_text_buffer(), n);

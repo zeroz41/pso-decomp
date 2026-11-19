@@ -3,7 +3,6 @@
 #include "pso/network/packet_copy.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/window/TWindowKeyBoardHard.h"
-#include "pso/network/TPacket.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 extern "C" {

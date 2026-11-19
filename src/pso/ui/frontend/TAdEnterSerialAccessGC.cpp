@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/system/ControllerInputState.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/frontend/TAdEnterSerialAccessGC.h"
@@ -25,6 +26,7 @@ extern "C" void render__22TAdEnterSerialAccessGCFv();
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
 #include "pso/ui/TLevelSelect.h"
 #include "pso/unk/TLobby.h"
+#include "pso/ui/window/TWindowKeyBoardBase.h"
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
@@ -202,7 +204,7 @@ void TAdEnterSerialAccessGC::draw_serial_chars(s32 arg0) {
     u32 i;
     s32 r;
     if (TAdEnterSerialAccessGC__keyboard_control != 0) {
-        str = ((TWindowSubComCard *)TAdEnterSerialAccessGC__keyboard_control)->realloc_buffer();
+        str = (s32)((TKeyBoardControl *)TAdEnterSerialAccessGC__keyboard_control)->realloc_buffer();
         memset(text, 0, 0xFF);
         strncpy((s32) text, str, 0xFF);
         mem_free((void *)str);
@@ -407,7 +409,7 @@ void TAdEnterSerialAccessGC__sub_80321B28(u8 *ad_enter_serial_access_gc, int arg
   unsigned int temp_r3_6;
   unsigned int temp_r3_7;
   unsigned int temp_r3_9;
-  temp_r30 = ((TWindowSubComCard *)TAdEnterSerialAccessGC__keyboard_control)->realloc_buffer();
+  temp_r30 = (s32)((TKeyBoardControl *)TAdEnterSerialAccessGC__keyboard_control)->realloc_buffer();
   if (((((int) (*(int *)&((TAdEnterSerialAccessGC *)ad_enter_serial_access_gc)->m_4c)) == 0) && (TWindowShortListCtrl__check_controller_button((void *) ((u8 *)&controller_physical_port_bank + 0x20), 2) != 0)) || ((((int) (*(int *)&((TAdEnterSerialAccessGC *)ad_enter_serial_access_gc)->m_4c)) == 0) && (test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) ((u8 *)&controller_input_state + 0x160), 2) != 0)))
   {
     switch ((int) TAdEnterSerialAccessGC__input_state)
@@ -490,7 +492,7 @@ void TAdEnterSerialAccessGC__sub_80321B28(u8 *ad_enter_serial_access_gc, int arg
         ((TAdEnterSerialAccessGC *)temp_r3_7)->set_active();
       }
     }
-    if ((((TWindowSubComCard *)TAdEnterSerialAccessGC__keyboard_control)->update_keyboard() != 0) && (forward_input__22TAdEnterSerialAccessGCFPv((void *) ad_enter_serial_access_gc, (void *) arg1, (int) temp_r30) == 0))
+    if ((((TKeyBoardControl *)TAdEnterSerialAccessGC__keyboard_control)->is_confirmed() != 0) && (forward_input__22TAdEnterSerialAccessGCFPv((void *) ad_enter_serial_access_gc, (void *) arg1, (int) temp_r30) == 0))
     {
       free_menu_object((void *)TAdEnterSerialAccessGC__keyboard_control);
       play_sound_effect(0x53F06, 0, 0, 0);
@@ -726,7 +728,7 @@ s32 TAdEnterSerialAccessGC::get_field20_state() {
     if (temp_r3 == 0U) {
         return 0;
     }
-    return ((TWindowKeyBoardSoft *)temp_r3)->get_state();
+    return ((TWindowKeyBoardBase *)temp_r3)->get_state();
 }
 
 void TAdEnterSerialAccessGC__sub_80322418(s32 arg0, s32 arg1) {

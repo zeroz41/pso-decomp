@@ -3,11 +3,17 @@
 
 #include "types.h"
 #include <stddef.h>
+#include "pso/ui/window/TWindowBase.h"
+#include "pso/ui/window/WindowDrawContext.h"
 
-struct TWindowKeyBoardSoft
+struct TWindowKeyBoardBase;
+
+struct TWindowKeyBoardSoft : public TWindowBase
 {
-    void sub_8026227C(TWindowKeyBoardSoft *);
-    void sub_802616BC(TWindowKeyBoardSoft *);
+    TWindowKeyBoardSoft(TWindowKeyBoardBase *control, s32 client);
+    virtual ~TWindowKeyBoardSoft();
+    void sub_8026227C(WindowDrawContext *);
+    void sub_802616BC(WindowDrawContext *);
     void sub_80260E30(s32);
     void spawn_key_effect(s32, s32);
     void handle_page_cycle_input(s32);
@@ -17,109 +23,26 @@ struct TWindowKeyBoardSoft
     int get_flag_bit5();
     int get_flag_bit6();
     int is_cursor_locked();
-    static int is_alnum(u16 code);
-    void render();
-    f32 x;
-    f32 y;
-    f32 w;
-    f32 h;
-    f32 inner_x;
-    f32 inner_y;
-    f32 inner_w;
-    f32 inner_h;
-    f32 pivot[2];
-    f32 scale[2];
-    s32 open_tick;
-    u32 color;
-    f32 depth;
-    u8 _pad3C[0x8];
-    u16 m_60;
-    u16 m_62;
-    u8 m_64;
-    u8 m_65;
-    u8 m_66;
-    u8 _pad67[0x1];
-    u32 m_68;
-    u32 m_6c;
-    u8 _pad70[0xC];
-    u32 m_7c;
-    u8 _pad80[0x2C];
-    u32 m_ac;
-    u8 _padB0[0x4];
-    u32 m_b4;
-    static f32 calc_key_coord(s32 arg0, s32 arg1);
+    virtual void render();
+    u8 _pad1C[0x44];
+    u32 m_60;
+    s8 m_64;
+    s8 m_65;
+    s8 m_66;
+    f32 m_68;
+    TWindowKeyBoardBase *m_control;
+    f32 calc_key_coord(s32 arg1);
     void update_focus_flags();
-    void close();
+    void set_mode0();
+    void set_mode1();
+    void set_mode2();
+    void set_mode3();
+    void sub_80261134();
+    void update_close_mode();
     s32 hit_test_relative(u8 *arg1, u8 *arg2);
-    static void draw_key_frame(void *self, f32 *rect, f32 x0, f32 y, f32 w, f32 scale, u32 color, s32 idx);
-    void insert_string(char *src);
-    void update_input(void* a1);
-    void append_text_entry(u8 *arg1);
-    void write_name_and_text(char *name, char *text);
-    void set_kanji_mode();
-    void set_kana_mode();
-    void process_input();
-    void select_next();
-    void update();
-    void convert_input_text();
-    void set_text_from_string(char *s);
-    s32 is_buffer_blank();
-    s32 apply_dakuten_to_last_char();
-    s32 is_buffer_blank_checked();
-    void delete_chars(s32 arg1, s32 arg2);
-    void delete_char();
-    void make_room_in_buffer(s32 pos, s32 n);
-    void insert_char_slot();
-    s32 measure_char_overflow(u16 code, u32 *x, u32 *y, u32 *count);
-    s32 check_text_overflow(u16 *arg1);
-    void reset_state();
+    void draw_key_frame(f32 *rect, f32 x0, f32 y, f32 w, f32 scale, u32 color, s32 idx);
     static s32 strnlen(s8 *str, u32 max);
-    void scale_point_about_pivot(f32 *q);
-    void set_open_tick(s32 arg1);
-    void set_bounds(f32 a, f32 b, f32 c, f32 d);
-    void shrink_clip_right();
-    void animate_scale();
-    s32 is_point_in_bounds(void *arg1);
-    void adjust_pos_for_split_screen(s32 arg1);
-    static u32 get_or_create_instance();
-    static u32 free_singleton(u32 arg0, s16 arg1);
-    u32 init_layout();
-    s32 get_state();
-    void update_input_state();
-    void sub_8025B928();
-    void sub_8025B92C();
-    void sub_8025BA28();
-    void sub_8025BA44();
-    void vt0();
-    void vt1();
-    void vt2();
-    void vt3();
-    void vt4();
-    void vt5();
-    void vt6();
-    void vt7();
-    void vt8();
-    void vt9();
-    void vt10();
-    void vt11();
-    void vt12();
-    void vt13();
-    void vt14();
-    void vt15();
-    void vt16();
-    void vt17();
-    void vt18();
-    void vt19();
-    void vt20();
-    void vt21();
-    void handle_backspace();
-    void update_input_state2();
-    int get_field_6c();
-    void init();
-    s32 commit_composition_text();
-    s32 measure_text_overflow();
-    int is_key_state_2();
-    void run_task();
+    virtual void run_task();
     s32 dispatch_by_index();
     static void dispatch_request_0x28(s32 a, s32 b);
     static void dispatch_request_0x27(s32 a, s32 b);
@@ -136,11 +59,16 @@ struct TWindowKeyBoardSoft
     static void dispatch_request_0f(s32 a, s32 b);
     void calc_cursor_step(s32 *arg1, s32 *arg2);
     f32 calc_key_x(s32 arg1, s32 arg2);
-    static s32 calc_key_index(TWindowKeyBoardSoft *arg1, s32 arg2, s32 arg3);
+    s32 calc_key_index(s32 arg2, s32 arg3);
+    f32 sub_802606E0();
+    void sub_80260760(s32 key, s32 *count, u32 *color);
+    void sub_80260904(s32 port);
+    f32 sub_802614DC(u8 *arg1, f32 farg0, f32 farg1, f32 farg2, f32 farg3);
+    void sub_80261DD8(WindowDrawContext *ctx);
+    int get_flag_bit0();
 };
 
-typedef char TWindowKeyBoardSoft_depth_offset[offsetof(TWindowKeyBoardSoft, depth) == 0x38 ? 1 : -1];
-typedef char TWindowKeyBoardSoft_m_60_offset[offsetof(TWindowKeyBoardSoft, m_60) == 0x44 ? 1 : -1];
+typedef char TWindowKeyBoardSoft_size[sizeof(TWindowKeyBoardSoft) == 0x70 ? 1 : -1];
 
 // Key class of each cell of the 16 x 7 key grid, indexed by x + y * 16: 0/1 one-cell keys, 2..17 the cells
 // of the wide keys (it picks the key width and colour). Defined after profanity_word_table (name inferred).

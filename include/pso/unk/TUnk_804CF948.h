@@ -7,7 +7,7 @@ class TUnk_804CF948 : public TUnk_804CF930 {
 public:
     virtual ~TUnk_804CF948();
     virtual void update();
-    virtual void render(TWindowKeyBoardSoft *context);
+    virtual void render(WindowDrawContext *context);
     virtual void calc_bar_width();
 
     s16 shown;

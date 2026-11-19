@@ -586,10 +586,6 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # -inline off,deferred: the constructor reaches __vt__16TObjEneRe2Flower through the .data anchor
     # (setup_data + 388) and the vtable sits before dispatch_action's jump table.
     "pso/enemy/flower/TObjEneRe2Flower.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
-    # TObjEneRe2Flower_800C20D0 (0x800C20D0-0x800C2A88, one TU split in three): deferred, written last
-    # to first, since the attack parameter block of TObjEneDD__sub_800C2628 (0x8043BBA0) sits below
-    # the render offset of TObjEneRe2Flower::render (0x8043BBB4), the reverse of their functions' order.
-    "pso/enemy/flower/TObjEneRe2Flower_800C20D0.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     # -inline off,deferred: .data is the attach-joint table, then __vt__10TObjPlayer, then the
     # jump tables; written last to first, deferred.
     "pso/player/TObjPlayer_801AF2F0.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
@@ -626,7 +622,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/ui/window/TWindowCtrlMain.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     # get_viewport_offset reaches each of its three .rodata viewport tables with its own lis/addi
     # (no shared .rodata base, though the tables precede the unit's pooled double): -pool off.
-    "pso/ui/window/TWindowKeyBoardSoft_8024E68C.cpp": {"cflags": _switch(cflags_pso, "-pool off")},
+    "pso/ui/window/WindowDrawContext.cpp": {"cflags": _switch(cflags_pso, "-pool off")},
     # its language letters ("J".."S") and "W:"/" D:" sit in .sdata2 as 4-byte-or-less readonly strings.
     "pso/ui/window/TWindowCtrlMain_800FC91C.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/frontend/TAdSelectTxtSubGC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
@@ -1426,7 +1422,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/player/PhotonBlastResults.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # -sdata 4: the 8-byte model name table sits in .data and the 8-byte 0x805007D4 in .bss, next to the 4-byte .sdata name pointer.
     "pso/enemy/berura/TObjEneRe7Berura.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-sdata 4")},
-    "pso/ui/keyboard/TKeyBoardControl.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/ui/window/TWindowKeyBoardSoft.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/boss/goldragon/TObjBoss8Piller.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # vtables come out TBoss5GryphonColli then TBoss5GryphonColli_C (text order of their dtors): written last to first, deferred.
     "pso/boss/galgryphon/TBoss5GryphonColli.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},

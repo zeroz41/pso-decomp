@@ -20,7 +20,7 @@ public:
     TUnk_804EF440(u8 *rec, s32 m_2);
     virtual ~TUnk_804EF440();
     virtual void update();
-    virtual void render(TWindowKeyBoardSoft *context);
+    virtual void render(WindowDrawContext *context);
 };
 
 typedef char TUnk_804EF440_size[sizeof(TUnk_804EF440) == 0x28 ? 1 : -1];

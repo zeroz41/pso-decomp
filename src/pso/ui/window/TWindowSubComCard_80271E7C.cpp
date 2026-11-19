@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/quest/TQuestThread.h"
 #include "pso/ui/window/TWindowUserSort.h"
 #include "pso/ui/window/TWindowSubComCardList.h"
@@ -157,10 +158,8 @@ s32 create_keyboard__17TWindowSubComCardFi(s32 arg0);
 s32 create_keyboard__17TWindowSubComCardFii(s32 arg0, s32 arg1);
 void update_display_value__17TWindowSubComCardFUiUiPv(u32 arg0, u32 arg1, s32 *arg2);
 void update_selection__17TWindowSubComCardFiii(s32 arg0, s32 arg1, s32 arg2);
-s32 TKeyBoardControl__ct(s32, s32, s32, s32, s32, s32);
 s32 __nw__7TObjectFUl(s32);
 s32 get_kbd_ptr__14TWindowComCardFv(s32);
-s32 get_keyboard_field_6c__15TWindowMakeTeamFv(s32, s32);
 s32 set_depth__11TWindowBaseFf(f32);
 
 struct ComCardRec_80272A98 { u32 id; char name[0xD0]; };
@@ -196,7 +195,6 @@ s32 TWindowSubComCard__sub_8027346C(void);
 s32 TWindowSubComCard__sub_800778B4(void *, int);
 void TWindowSubComCard__sub_8007AF10(s32 arg0);
 s32 update_press__17TWindowSubComCardFv(int);
-void TWindowSubShortMail__sub_80131998(void *arg0);
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
 s32 play_sound_effect(int, int, int, int);
 s32 TLobby__sub_8024259C();
@@ -481,12 +479,12 @@ void TWindowSubComCard::run_task() {
         this->m_80 = ((u32 (*)(void*))create_keyboard__17TWindowSubComCardFi)((void *)this);
         this->m_1c = 0xAU;
     case 0xA:
-        if (((TWindowSubComCard *)(this->m_80))->is_keyboard_active() != 0) {
+        if (((TKeyBoardControl *)(this->m_80))->is_cancelled() != 0) {
             this->m_1c = 1U;
             return;
         }
-        if (((TWindowSubComCard *)(this->m_80))->update_keyboard() != 0) {
-            src = ((TWindowSubComCard *)(this->m_80))->realloc_buffer();
+        if (((TKeyBoardControl *)(this->m_80))->is_confirmed() != 0) {
+            src = (s32)((TKeyBoardControl *)(this->m_80))->realloc_buffer();
             TWindowSubComCard::mask_profanity_words((char *)src, (char *)get_shared_text_buffer());
             keyboard_mode = TWindowSubComCard::get_keyboard_mode();
             ((TWindowSubComCard *)keyboard_mode)->set_text((void *)(get_shared_text_buffer()));
@@ -608,12 +606,12 @@ void TWindowSubComCard::run_task() {
         this->m_80 = ((u32 (*)(void*, int))create_keyboard__17TWindowSubComCardFii)((void *)this, this->m_24);
         this->m_1c = 0x14U;
     case 0x14:
-        if (((TWindowSubComCard *)(this->m_80))->is_keyboard_active() != 0) {
+        if (((TKeyBoardControl *)(this->m_80))->is_cancelled() != 0) {
             this->m_1c = 1U;
             return;
         }
-        if (((TWindowSubComCard *)(this->m_80))->update_keyboard() != 0) {
-            src = ((TWindowSubComCard *)(this->m_80))->realloc_buffer();
+        if (((TKeyBoardControl *)(this->m_80))->is_confirmed() != 0) {
+            src = (s32)((TKeyBoardControl *)(this->m_80))->realloc_buffer();
             TWindowSubComCard::mask_profanity_words((char *)src, (char *)get_shared_text_buffer());
             ((TWindowSubComCard *)(this->m_24))->set_card_text((int) (get_shared_text_buffer()));
             mem_free((void *)src);
@@ -759,23 +757,23 @@ void TWindowSubComCard::run_task() {
         if ((u32) this->m_80 == 0U) {
             this->m_80 = create_keyboard__19TWindowSubShortMailFv();
         }
-        ((TWindowSubShortMail *)(this->m_80))->set_position((void *)(get_window_layout_position(0xBB)));
+        ((TKeyBoardControl *)(this->m_80))->set_position((void *)(get_window_layout_position(0xBB)));
         free_menu_object((void *)this->m_80);
-        ((TWindowSubShortMail *)(this->m_80))->hide_window();
+        ((TKeyBoardControl *)(this->m_80))->show();
         this->m_1c = 0x22U;
     case 0x22:
-        if (((TWindowSubComCard *)(this->m_80))->is_keyboard_active() != 0) {
+        if (((TKeyBoardControl *)(this->m_80))->is_cancelled() != 0) {
             this->m_1c = 1U;
             return;
         }
-        if (((TWindowSubComCard *)(this->m_80))->update_keyboard() != 0) {
+        if (((TKeyBoardControl *)(this->m_80))->is_confirmed() != 0) {
             this->m_1c = 0x23U;
             return;
         }
         break;
     case 0x23:
-        ((TWindowSubShortMail *)(this->m_80))->set_position((void *)(get_window_layout_position(0xBC)));
-        TWindowSubShortMail__sub_80131998((void *)this->m_80);
+        ((TKeyBoardControl *)(this->m_80))->set_position((void *)(get_window_layout_position(0xBC)));
+        ((TKeyBoardControl *)this->m_80)->hide();
         this->m_70 = open_confirm_prompt__19TWindowSubShortMailFPvi((this), (this->m_20));
         this->m_1c = 0x24U;
     case 0x24:
@@ -1673,13 +1671,10 @@ s32 create_keyboard__17TWindowSubComCardFi(s32 parent) {
     s32 keyboard_mode;
 
     keyboard_mode = TWindowSubComCard::get_keyboard_mode();
-    keyboard = __nw__7TObjectFUl(0x2C);
-    if (keyboard != 0) {
-        keyboard = TKeyBoardControl__ct(keyboard, parent, 0xC6, 3, 4, local_client_id);
-    }
-    get_keyboard_field_6c__15TWindowMakeTeamFv(keyboard, get_kbd_ptr__14TWindowComCardFv(keyboard_mode));
-    ((TWindowMakeTeam *)keyboard)->set_sub_position((u8 *)(get_window_layout_position(0xBB)));
-    ((TWindowMakeTeam *)keyboard)->set_keyboard_flag62_bit2();
+    keyboard = (s32)new TKeyBoardControl((TObject *)parent, 0xC6, 3, 4, local_client_id);
+    ((TKeyBoardControl *)keyboard)->set_text((char *)get_kbd_ptr__14TWindowComCardFv(keyboard_mode));
+    ((TKeyBoardControl *)keyboard)->set_sub_position((u8 *)(get_window_layout_position(0xBB)));
+    ((TKeyBoardControl *)keyboard)->set_flag62_bit2();
     ((TWindowSubComCard *)keyboard)->destroy_keyboard();
     return keyboard;
 }
@@ -1687,13 +1682,10 @@ s32 create_keyboard__17TWindowSubComCardFi(s32 parent) {
 s32 create_keyboard__17TWindowSubComCardFii(s32 parent, s32 arg1) {
     s32 keyboard;
 
-    keyboard = __nw__7TObjectFUl(0x2C);
-    if (keyboard != 0) {
-        keyboard = TKeyBoardControl__ct(keyboard, parent, 0xC6, 3, 4, local_client_id);
-    }
-    get_keyboard_field_6c__15TWindowMakeTeamFv(keyboard, get_card_entry_data__17TWindowSubComCardFv(arg1));
-    ((TWindowMakeTeam *)keyboard)->set_sub_position((u8 *)(get_window_layout_position(0xBB)));
-    ((TWindowMakeTeam *)keyboard)->set_keyboard_flag62_bit2();
+    keyboard = (s32)new TKeyBoardControl((TObject *)parent, 0xC6, 3, 4, local_client_id);
+    ((TKeyBoardControl *)keyboard)->set_text((char *)get_card_entry_data__17TWindowSubComCardFv(arg1));
+    ((TKeyBoardControl *)keyboard)->set_sub_position((u8 *)(get_window_layout_position(0xBB)));
+    ((TKeyBoardControl *)keyboard)->set_flag62_bit2();
     ((TWindowSubComCard *)keyboard)->destroy_keyboard();
     return keyboard;
 }
@@ -1772,7 +1764,7 @@ void TWindowSubComCard::sub_802721D8() {
   s32 temp_r30;
   u8 *lobby;
   u8 *message;
-  temp_r30 = ((TWindowSubComCard *)(*((u8 **) (((s8 *) ((u8 *)this)) + 0x80))))->realloc_buffer();
+  temp_r30 = (s32)((TKeyBoardControl *)(*((u8 **) (((s8 *) ((u8 *)this)) + 0x80))))->realloc_buffer();
   lobby = (u8 *) ((u8* (*)(void))get_selected_guild_card_record)();
   TWindowSubComCard::mask_profanity_words((char *)temp_r30, (char *)get_shared_text_buffer());
   new_var = (u8 *)get_shared_text_buffer();

@@ -3,14 +3,49 @@
 
 #include "types.h"
 #include "pso/macros.h"
+#include "pso/network/TSocket.h"
 
 EXTERN_OBJECT_NAME(TUdpSocket);
 
-struct TUdpSocket
-{
-    void release_entry();
-    static s32 handle_socket_event(s16 arg0, u8 *arg1);
-    static void unlock_mutex(int _w0);
+struct UdpSocketEventPair { s32 w[2]; };
+struct UdpSocketEventAddr { s32 w[5]; };
+
+// The record handle_socket_event copies out of each received datagram's event.
+struct UdpSocketEventRecord {
+    UdpSocketEventPair ab;
+    UdpSocketEventAddr c;
+    UdpSocketEventAddr d;
+    u16 e;
 };
+
+// How handle_socket_event reads the start of the event (the record's first two words).
+struct UdpSocketEvent {
+    s16 socket;
+    s16 size;
+    u8 *buffer;
+};
+
+class TUdpSocket : public TSocket {
+public:
+    UdpSocketEventRecord m_event;
+public:
+    TUdpSocket(TObject *parent) : TSocket(parent) {
+        m_name = TUdpSocket_name;
+    }
+
+    virtual ~TUdpSocket();
+
+    virtual int open();
+    virtual void close();
+    virtual void recv();
+    virtual short send(u8 *data);
+    virtual short send(u8 *data, size_t size);
+
+    static s32 handle_socket_event(s16 received, UdpSocketEvent *event);
+};
+
+typedef char TUdpSocket_size[sizeof(TUdpSocket) == 0x8B8 ? 1 : -1];
+
+extern TUdpSocket *udp_socket_slots[16];
 
 #endif

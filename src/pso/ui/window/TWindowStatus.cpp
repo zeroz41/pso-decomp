@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/ui/window/WindowDrawContext.h"
 #include "pso/ui/window/TWindowStatus.h"
 #include "pso/ui/window/TWindowSimpleStatus.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -27,7 +28,6 @@ s32 TWindowSubComCard__sub_802452DC(int);
 s32 TWindowSubComCard__sub_80245320(void *, void *);
 s32 TWindowSubComCard__sub_802454E4(int);
 s32 TWindowSubComCard__sub_80245558(void *, void *, void *);
-s32 apply_context_transform_to_rect(void *, void *);
 void draw_photon_blast_gauge_ring(s32, void *, const f32 *, f32, f32);
 void begin_screen_draw(s32 arg0);
 s32 draw_textured_quad_at_depth(void *, f32);
@@ -180,7 +180,7 @@ void TWindowStatus::draw_background(u8 *arg1) {
     q.v0 = 0.0f;
     q.u1 = 0.890625f;
     q.v1 = 0.296875f;
-    apply_context_transform_to_rect(arg1, &q);
+    ((WindowDrawContext *)arg1)->transform_quad((TexturedQuad *)&q);
     draw_textured_quad_at_depth(&q, s);
     TWindowSubStatusDisp::get_player();
     if (TWindowSubComCard__sub_80245558(arg1, arg1 + 0x10, arg1 + 0x18) != 0) {

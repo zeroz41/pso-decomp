@@ -3,6 +3,8 @@
 
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
+#include "pso/ui/window/KeyboardTextBuffer.h"
+#include "pso/ui/window/WindowDrawContext.h"
 
 struct TWindowKeyBoardBase : public TWindowBase {
     TWindowKeyBoardBase();
@@ -12,7 +14,7 @@ struct TWindowKeyBoardBase : public TWindowBase {
     void draw_wrapped_text(void *, void *);
     void draw_text_glyphs(void *, void *);
     int sub_8025EB68();
-    bool sub_8025CB10();
+    s32 sub_8025CB10();
     u8 unk_1C[0x10];
     s32 m_2c;
     u8 unk_30[0x8];
@@ -26,16 +28,8 @@ struct TWindowKeyBoardBase : public TWindowBase {
     u8 m_65;
     u8 _pad66[0x2];
     u32 m_68;
-    u16 *m_6c;
-    s32 m_70;
-    u8 unk_74[0x8];
-    u32 m_7c;
-    u8 unk_80[0x4];
-    u16 *m_84;
-    s32 m_88;
-    u8 unk_8C[0x8];
-    s32 m_94;
-    u8 unk_98[0x4];
+    KeyboardTextBuffer m_text;
+    KeyboardTextBuffer m_text2;
     u32 m_9c;
     u32 m_a0;
     u32 m_a4;
@@ -45,8 +39,82 @@ struct TWindowKeyBoardBase : public TWindowBase {
     u32 m_b4;
     virtual void render();
     virtual void run_task();
-    s32 *init_text_buffer_holder();
     void insert_character(u16 arg1);
+    // The four input modes TKeyBoardControl's constructor selects (numbered by its mode argument).
+    void set_mode0();
+    void set_mode1();
+    void set_mode2();
+    void set_mode3();
+    int is_confirmed();
+    void set_flag62_bit2();
+    int is_cancelled();
+    void set_flag62_bit8();
+    static int is_alnum(u16 code);
+    void insert_string(char *src);
+    void update_input(void* a1);
+    void append_text_entry(u8 *arg1);
+    void write_name_and_text(char *name, char *text);
+    void set_kanji_mode();
+    void set_kana_mode();
+    void process_input();
+    void select_next();
+    void update();
+    void convert_input_text();
+    s32 get_state();
+    void update_input_state();
+    void sub_8025B928();
+    void sub_8025B92C();
+    void sub_8025BA28();
+    void sub_8025BA44();
+    void vt0();
+    void vt1();
+    void vt2();
+    void vt3();
+    void vt4();
+    void vt5();
+    void vt6();
+    void vt7();
+    void vt8();
+    void vt9();
+    void vt10();
+    void vt11();
+    void vt12();
+    void vt13();
+    void vt14();
+    void vt15();
+    void vt16();
+    void vt17();
+    void vt18();
+    void vt19();
+    void vt20();
+    void vt21();
+    void handle_backspace();
+    void update_input_state2();
+    void set_text(char *s);
+    void init();
+    void commit_composition_text();
+    s32 measure_text_overflow();
+    int is_key_state_2();
+    s32 sub_8025CE00(u8 *text);
+    void sub_8025CF50(int count);
+    void sub_8025CFA8(s32 *arg1);
+    void sub_8025D1C8(void *arg1);
+    s32 sub_8025D378(void *window_sub_status_disp);
+    s32 sub_8025D544(s32 *name, s8 *text);
+    void sub_8025D664();
+    void sub_8025D7FC();
+    void sub_8025D8C8();
+    void sub_8025DBDC(s32 arg1);
+    void sub_8025E148(WindowDrawContext *box, f32 *cursor, u16 *text, u32 count);
+    void sub_8025E530(WindowDrawContext *box, f32 *cursor, u16 *text, u32 count, s32 scaled);
+    void sub_8025C51C(s32 arg1);
+    void sub_8025CC48();
+    void update_close_mode();
+    void reset_input();
+    void flush_if_flagged();
+    int get_flag();
+    void export_text(char *out);
+    int get_flag62_bit8();
 };
 
 typedef char TWindowKeyBoardBase_size[sizeof(TWindowKeyBoardBase) == 0xB8 ? 1 : -1];
