@@ -494,6 +494,11 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # vtables come out TUnk_80488AD8, TUnk_80488AF0 then TUnk_80488B08 (the text order of their
     # dtors): written last to first, deferred.
     "pso/camera/TCameraCtrl_8006B3D8.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
+    # -sdata 4: the 8-byte load/release callback tables of BOSS01 (0x804A7358), BOSS02 (0x804A7360)
+    # and BOSS05 (0x804A7368) sit in .data, not .sdata.
+    "pso/map/area/AreaBoss01.cpp": {"cflags": _switch(cflags_pso, "-sdata 4")},
+    "pso/map/area/AreaBoss02.cpp": {"cflags": _switch(cflags_pso, "-sdata 4")},
+    "pso/map/area/AreaBoss05.cpp": {"cflags": _switch(cflags_pso, "-sdata 4")},
     # -sdata 4: the 8-byte camera bank list 0x80488B98 sits in .data, not .sdata.
     "pso/camera/TCameraCtrl_8006C7C4.cpp": {"cflags": _switch(cflags_pso, "-sdata 4", "-str reuse,readonly")},
     # -sdata 4: the 8-byte creation_sprite_table and ccconsole_pvm_file_name_table sit in .data while

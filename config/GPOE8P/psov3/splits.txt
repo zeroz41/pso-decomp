@@ -3245,24 +3245,90 @@ pso/ui/TLogo.cpp:
 	.sdata      start:0x805D2CC8 end:0x805D2CD0
 
 pso/unk/text_8013F810.cpp:
-	.text       start:0x8013F810 end:0x8013FFA8
+	.text       start:0x8013F810 end:0x8013FFBC
 	.rodata     start:0x8043F168 end:0x8043F188
 
-pso/unk/TLobby_8013FFA8.cpp:
-	.text       start:0x8013FFA8 end:0x801404CC
-	.data       start:0x804A7358 end:0x804A7368
+pso/map/area/AreaAncient01.cpp:
+	.text       start:0x8013FFBC end:0x8014005C
+	.rodata     start:0x8043F188 end:0x8043F193
+
+pso/map/area/AreaAncient02.cpp:
+	.text       start:0x8014005C end:0x801400F4
+	.rodata     start:0x8043F198 end:0x8043F1A3
+
+pso/map/area/AreaAncient03.cpp:
+	.text       start:0x801400F4 end:0x8014018C
+	.rodata     start:0x8043F1A8 end:0x8043F1B3
+
+pso/map/area/AreaBoss01.cpp:
+	.text       start:0x8014018C end:0x80140308
+	.rodata     start:0x8043F1B8 end:0x8043F1C3
+	.data       start:0x804A7358 end:0x804A7360
 	.sdata2     start:0x805DB0F0 end:0x805DB120
 
-pso/unk/TLobby_801404CC.cpp:
-	.text       start:0x801404CC end:0x80140D50
-	.data       start:0x804A7368 end:0x804A7400
+pso/map/area/AreaBoss02.cpp:
+	.text       start:0x80140308 end:0x801403B8
+	.rodata     start:0x8043F1C8 end:0x8043F1D1
+	.data       start:0x804A7360 end:0x804A7368
+
+pso/map/area/AreaBoss03.cpp:
+	.text       start:0x801403B8 end:0x80140444
+
+pso/map/area/AreaBoss04.cpp:
+	.text       start:0x80140444 end:0x801404CC
+
+pso/map/area/AreaBoss05.cpp:
+	.text       start:0x801404CC end:0x801405EC
+	.rodata     start:0x8043F1D8 end:0x8043F1E4
+	.data       start:0x804A7368 end:0x804A7370
 	.sdata2     start:0x805DB120 end:0x805DB150
 
-pso/unk/text_80140D50.cpp:
-	.text       start:0x80140D50 end:0x80140F44
+pso/map/area/AreaCave01.cpp:
+	.text       start:0x801405EC end:0x801406AC
+	.rodata     start:0x8043F1E8 end:0x8043F1F3
+
+pso/map/area/AreaCave02.cpp:
+	.text       start:0x801406AC end:0x8014074C
+	.rodata     start:0x8043F1F8 end:0x8043F203
+
+pso/map/area/AreaCave03.cpp:
+	.text       start:0x8014074C end:0x801407EC
+	.rodata     start:0x8043F208 end:0x8043F213
+
+pso/map/area/AreaCity.cpp:
+	.text       start:0x801407EC end:0x801408E0
+	.data       start:0x804A7370 end:0x804A73D0
+
+pso/map/area/AreaForest01.cpp:
+	.text       start:0x801408E0 end:0x80140980
+	.rodata     start:0x8043F218 end:0x8043F225
+
+pso/map/area/AreaForest02.cpp:
+	.text       start:0x80140980 end:0x80140A24
+	.rodata     start:0x8043F228 end:0x8043F235
+
+pso/map/area/AreaLobby.cpp:
+	.text       start:0x80140A24 end:0x80140AEC
+	.data       start:0x804A73D0 end:0x804A7400
+
+pso/map/area/AreaMachine01.cpp:
+	.text       start:0x80140AEC end:0x80140BAC
+	.rodata     start:0x8043F238 end:0x8043F245
+
+pso/map/area/AreaMachine02.cpp:
+	.text       start:0x80140BAC end:0x80140C4C
+	.rodata     start:0x8043F248 end:0x8043F255
+
+pso/map/area/AreaVersus01.cpp:
+	.text       start:0x80140C4C end:0x80140D20
+	.rodata     start:0x8043F258 end:0x8043F260
+
+pso/map/area/AreaVersus02.cpp:
+	.text       start:0x80140D20 end:0x80140DFC
+	.rodata     start:0x8043F260 end:0x8043F268
 
 pso/map/TMapCsnCtrl.cpp:
-	.text       start:0x80140F44 end:0x80140FF4
+	.text       start:0x80140DFC end:0x80140FF4
 	.rodata     start:0x8043F268 end:0x8043F278
 	.data       start:0x804A7400 end:0x804A7418
 	.sdata      start:0x805D2CD0 end:0x805D2CD8

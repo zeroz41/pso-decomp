@@ -1,5 +1,4 @@
 #include "types.h"
-#include "pso/unk/text_80140D50.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/vector.h"
 #include "pso/object/base/TObjMotion.h"

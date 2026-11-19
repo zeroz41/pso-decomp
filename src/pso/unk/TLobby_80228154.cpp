@@ -15,9 +15,7 @@
 #include "pso/math/MatrixVector.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/render/model_render_state.h"
-#include "pso/unk/TLobby_801404CC.h"
-#include "pso/unk/TLobby_8013FFA8.h"
-#include "pso/unk/text_80140D50.h"
+#include "pso/map/area/AreaScene.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/MatrixStack.h"
 

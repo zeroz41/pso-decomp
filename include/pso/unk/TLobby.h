@@ -111,7 +111,7 @@ struct TLobby : public TObject {
     void copy_header(void *arg1);
     static void free_char_select();
     static void update_boss1_objects();
-    int forward_floor_2CB44();
+    static void forward_floor_2CB44();
     static void init_bosses();
     static void init_boss2_stage();
     static void create_boss2_tunnel();
