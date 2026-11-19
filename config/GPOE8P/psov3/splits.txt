@@ -1517,6 +1517,9 @@ pso/effect/enemy/TEneEffHamon.cpp:
 	.sbss       start:0x805D5030 end:0x805D5038
 	.sdata2     start:0x805D99E0 end:0x805D99F0
 
+pso/effect/enemy/TeneFakeTecThunderEffSdata2.cpp:
+	.sdata2     start:0x805D99F0 end:0x805D9A10
+
 pso/effect/enemy/TeneFakeTecThunderEff.cpp:
 	.text       start:0x800A39A8 end:0x800A4288
 	.rodata     start:0x8043A718 end:0x8043A738
