@@ -462,6 +462,8 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/ui/window/TWindowMakeTeam.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     # .data holds the vtable (0x804CF038) ahead of create's jump table: deferred generation of the last-to-first source.
     "pso/ui/window/TWindowEffectParty.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
+    # .data holds the vtable (0x804D16C0) ahead of run_task's jump table: deferred generation of the last-to-first source.
+    "pso/ui/window/TWindowSubMag.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     # .data holds the vtable (0x804DE8C8) ahead of run_task's jump table: deferred generation of the last-to-first source.
     "pso/ui/window/TWindowSubTrade.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     # .data holds the vtable (0x804D1568) ahead of the switch table: deferred generation of the last-to-first source.
@@ -1431,7 +1433,9 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/boss/darkfalz/TObjDFDemoF_80050134.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/boss/dragon/TObjBoss1Floor.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/object/TObjParticle.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
-    "pso/quest/TQuestListOffline_802171BC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    # .data holds the vtable ahead of vfunc_11's jump table and .rodata init_quest_list_window's window size
+    # ahead of update_list_navigation's: deferred generation of the last-to-first source.
+    "pso/quest/TQuestListOffline.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     "pso/ui/window/TWindowMessage.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/window/TWindowRoom.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/frontend/TAdGameStartShadowGC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},

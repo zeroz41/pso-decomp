@@ -2098,7 +2098,7 @@ pso/ui/font/TFontSmallHelp.cpp:
 	.rodata     start:0x8043DA80 end:0x8043DAB0
 	.data       start:0x8049CA28 end:0x8049CA40
 	.sdata      start:0x805D2B20 end:0x805D2B24
-	.sdata2     start:0x805DA9C0 end:0x805DA9D8
+	.sdata2     start:0x805DA9C0 end:0x805DA9E0
 
 pso/ui/window/TWindowCtrlMain_800FC91C.cpp:
 	.text       start:0x800FC91C end:0x800FCCC8
@@ -6003,15 +6003,13 @@ pso/ui/city/TMedicalCenterSequence.cpp:
 	.sdata      start:0x805D3678 end:0x805D3680
 	.sdata2     start:0x805DC688 end:0x805DC690
 
-pso/ui/window/TWindow.cpp:
-	.text       start:0x80216B44 end:0x802171BC
-	.sbss       start:0x805D61D8 end:0x805D61DC
-
-pso/quest/TQuestListOffline_802171BC.cpp:
-	.text       start:0x802171BC end:0x802173F0
-	.rodata     start:0x8044BDA0 end:0x8044BE9C
+pso/quest/TQuestListOffline.cpp:
+	.text       start:0x80216B44 end:0x802173F0
+	.rodata     start:0x8044BDA0 end:0x8044BEB0
 	.data       start:0x804C9900 end:0x804C9CE8
 	.sdata      start:0x805D3680 end:0x805D3684
+	.sbss       start:0x805D61D8 end:0x805D61DC
+	.sdata2     start:0x805DC690 end:0x805DC6A0
 
 pso/unk/TLobby_802173F0.cpp:
 	.text       start:0x802173F0 end:0x80217454
@@ -7500,7 +7498,7 @@ pso/ui/window/TWindowSubLog.cpp:
 pso/ui/window/TWindowSubMag.cpp:
 	.text       start:0x8027B2B8 end:0x8027C13C
 	.rodata     start:0x8044F9D8 end:0x8044FA10
-	.data       start:0x804D16D8 end:0x804D1720
+	.data       start:0x804D16C0 end:0x804D1720
 	.sdata      start:0x805D3A68 end:0x805D3A70
 	.sdata2     start:0x805DD648 end:0x805DD678
 

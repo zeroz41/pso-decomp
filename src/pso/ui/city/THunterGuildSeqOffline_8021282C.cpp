@@ -2,6 +2,7 @@
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/quest/TQuestListChallenge.h"
+#include "pso/quest/TQuestListOffline.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/unk/TLobby_8030A6A8.h"
 #include "pso/ui/window/TWindowSubComCard_80244774.h"
@@ -51,7 +52,6 @@ struct Seq_802129FC : Base_802129FC {
 
 extern "C" {
 extern s32 THunterGuildSeqOffline__quest_result_callbacks[];
-List_80212B88 *TQuestListOffline__ct(void *, s32, Seq_80212B88 *, s32);
 extern s32 tl_05;
 void get_entity_id(s32);
 void THunterGuildSeqOffline__sub_8021E180();
@@ -206,8 +206,7 @@ void THunterGuildSeqOffline::open_quest_list() {
         break;
     case 0:
     default:
-        list = (List_80212B88 *)TObject::operator new(0x58);
-        if (list != NULL) list = TQuestListOffline__ct(list, tl_05, self, self->player);
+        list = (List_80212B88 *)new TQuestListOffline((TObject *)tl_05, (TShopWindowBase *)self, (TObjBase *)self->player);
         if (list != NULL) {
             list->accepted = THunterGuildSeqOffline::request_close;
             list->cancelled = THunterGuildSeqOffline::set_state_close2;

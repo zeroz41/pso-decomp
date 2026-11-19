@@ -587,7 +587,7 @@ void TWindowSubMag::start_scroll(f32 farg0) {
     temp_r4 = *(u16 *)((s8 *)this + 0x70);
     if (temp_r4 & 0x20) {
         *(u16 *)((s8 *)this + 0x70) = (u16) (temp_r4 & 0xFFFFFFDF);
-        *(f32 *)&this->m_3c = farg0;
+        *(f32 *)&this->card = farg0;
         *(s32 *)((s8 *)this + 0x50) = 3;
     }
 }

@@ -14,6 +14,12 @@
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/task/TObject_8001A448.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/math/MatrixVector.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/unk/text_803D853C.h"
+#include "pso/unk/text_803D96A8.h"
 
 #pragma readonly_strings on
 
@@ -22,26 +28,9 @@ const char *TFontSmallHelp__name = "TFontSmallHelp";
 // The view axis the label must face to be drawn (render's dot test); the name is inferred.
 static const Vec help_text_forward = {0.0f, 0.0f, -1.0f};
 
-// The last two literals of render's pool (-1.0f, 0.1495f): the literal form puts them in the
-// wrong order, so they stay unowned until the original expression is found.
-extern const f32 lbl_805DA9D8;
-extern const f32 lbl_805DA9DC;
-
 extern "C" {
 extern s32 localized_alphabet_list;
-extern u8 identity_matrix[];
 extern TCameraCtrl *camera_ctrl_instance;
-void push_matrix_from(void *src);
-void rotate_matrix_y(void *m, s32 angle);
-void rotate_matrix_x(void *m, s32 angle);
-void rotate_matrix_z(void *m, s32 angle);
-void rotate_vector_by_matrix(void *m, Vec *src, Vec *dst);
-void pop_matrix(void);
-f32 vec3_dot(const Vec *a, const Vec *b);
-void push_matrix(void);
-void project_world_to_screen(void *m, Vec *pos, f32 *screen);
-s32 get_screen_height__11TCameraCtrlFv(void);
-s32 get_screen_width__11TCameraCtrlFv(void);
 }
 
 void TWindowSubStatusDisp::render_forward() {
@@ -106,9 +95,9 @@ void TFontSmallHelp::render() {
     project_world_to_screen(NULL, &pos, screen);
     pop_matrix();
     if (is_split_screen() != 0) {
-        screen[0] -= (f32)get_screen_height__11TCameraCtrlFv();
+        screen[0] -= (f32)TCameraCtrl::get_screen_height();
         screen[0] /= TCameraCtrl::get_view_scale();
-        screen[1] -= (f32)get_screen_width__11TCameraCtrlFv();
+        screen[1] -= (f32)TCameraCtrl::get_screen_width();
         screen[1] /= TCameraCtrl::get_fov();
     }
     screen[0] -= 0.5f * text_width;
@@ -124,9 +113,9 @@ void TFontSmallHelp::render() {
     }
     rgba |= color;
     TCameraCtrl::get_camera_no();
-    f32 sum = lbl_805DA9DC + TWindowCtrlMain::get_scale();
-    f32 size = lbl_805DA9D8;
-    size /= sum;
+    f32 scale = TWindowCtrlMain::get_scale();
+    f32 size = -1.0f;
+    size /= 0.1495f + scale;
     draw_small_font_text((void *)rgba, text, screen[0], screen[1], size);
 }
 #pragma pop
@@ -139,10 +128,6 @@ struct HelpTextPlayerState {
 };
 typedef char HelpTextPlayerPosition[offsetof(HelpTextPlayerState, position) == 0x84C ? 1 : -1];
 typedef char HelpTextPlayerIdentity[offsetof(HelpTextPlayerState, identity) == 0xDB0 ? 1 : -1];
-
-extern "C" {
-TObject *get_instance__15TWindowCtrlMainFv();
-}
 
 void TFontSmallHelp::run_task() {
     HelpTextPlayerState *player = (HelpTextPlayerState *)get_player_by_client_id(player_id);
@@ -158,7 +143,7 @@ void TFontSmallHelp::run_task() {
     age_ticks += 1;
     s32 lifetime = lifetime_ticks;
     if (lifetime > 0 && age_ticks >= lifetime) {
-        disallow_rendering__7TObjectFv(this);
+        disallow_rendering();
         queue_destruction();
     }
 }
@@ -166,11 +151,11 @@ void TFontSmallHelp::run_task() {
 TFontSmallHelp::~TFontSmallHelp() {}
 
 TFontSmallHelp::TFontSmallHelp(u32 player, u32 text_color, s32 lifetime, u32 text_id)
-    : TObject(get_instance__15TWindowCtrlMainFv()) {
+    : TObject((TObject *)TWindowCtrlMain::get_instance()) {
     m_name = TFontSmallHelp__name;
     HelpTextPlayerState *owner = (HelpTextPlayerState *)get_player_by_client_id(player);
     if (owner == NULL) {
-        disallow_rendering__7TObjectFv(this);
+        disallow_rendering();
         queue_destruction();
         return;
     }

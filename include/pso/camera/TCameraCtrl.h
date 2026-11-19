@@ -118,8 +118,8 @@ struct TCameraCtrl : public TObject {
     void set_pos_target(void *arg1, void *arg2, s32 arg3);
     static void set_active_camera_flag();
     s32 set_field_100(s32 v);
-    static short get_screen_width();
-    static short get_screen_height();
+    static s32 get_screen_width();
+    static s32 get_screen_height();
     static s32 should_update();
     void copy_position_vectors(void *arg1, void *arg2);
     static void update_single_screen();

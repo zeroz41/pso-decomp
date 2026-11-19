@@ -1222,7 +1222,6 @@ pso/technique/TTecZondeEff.cpp
 pso/network/TUdpSocket.cpp
 pso/network/TUserAns.cpp
 pso/network/TUserAns_801E0198.cpp
-pso/ui/window/TWindow.cpp
 pso/ui/window/TWindowActionPalette.cpp
 pso/ui/window/TWindowActionPalette_801C1890.cpp
 pso/ui/window/TWindowArea.cpp
@@ -1491,7 +1490,7 @@ pso/ui/window/TWindowTimer.cpp
 pso/ui/window/TWindowTradeRequest.cpp
 pso/ui/window/TWindowTradeRequest_802E0170.cpp
 pso/ui/window/TWindowUserSort.cpp
-pso/quest/TQuestListOffline_802171BC.cpp
+pso/quest/TQuestListOffline.cpp
 pso/effect/enemy/TeneFakeTecThunderEff.cpp
 pso/item/item_pmt.cpp
 pso/system/data/pso_const_ids.cpp

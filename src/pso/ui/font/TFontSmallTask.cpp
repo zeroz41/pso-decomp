@@ -76,8 +76,6 @@ f32 vec3_dot(Vec *, Vec *);
 void push_matrix(void);
 void project_world_to_screen(int, f32 *, f32 *);
 s32 is_split_screen(void);
-s32 get_screen_height__11TCameraCtrlFv(void);
-s32 get_screen_width__11TCameraCtrlFv(void);
 f32 get_scale__15TWindowCtrlMainFv(s32);
 void begin_screen_draw(int);
 void set_draw_texture_and_color(int, u32);
@@ -136,9 +134,9 @@ void TFontSmallTask::render() {
     project_world_to_screen(0, position, screen);
     pop_matrix();
     if (is_split_screen() != 0) {
-        screen[0] -= (f32)get_screen_height__11TCameraCtrlFv();
+        screen[0] -= (f32)TCameraCtrl::get_screen_height();
         screen[0] /= TCameraCtrl::get_view_scale();
-        screen[1] -= (f32)get_screen_width__11TCameraCtrlFv();
+        screen[1] -= (f32)TCameraCtrl::get_screen_width();
         screen[1] /= TCameraCtrl::get_fov();
     }
     x = screen[0] += offset_x;
