@@ -2375,6 +2375,7 @@ pso/ui/window/TWindowSnapShot_802A5B2C.cpp
 pso/technique/TTecGiFoie.cpp
 pso/enemy/panarms/TObjEnePanarms.cpp
 pso/ui/charcreate/TObjCMName.cpp
+pso/technique/TechniqueRingwaveList.cpp
 pso/unk/TUnk_804CC948.cpp
 pso/unk/TUnk_804CC990.cpp
 pso/weapon/TItemAttackCol.cpp
