@@ -19,8 +19,7 @@
 
 extern "C" {
 extern u8 *text_language_group_table;
-extern void *__vt__15TWindowHelpItem[];
-extern s32 TWindowHelpItem__object_vtable[];
+extern void *window_help_item_layout[];
 extern "C" { extern char TWindowHelpItem__class_name_string[]; }
 const char *window_help_item_class_name = TWindowHelpItem__class_name_string;
 extern TWindowHelpItem::CallbackWords __ptmf_null;
@@ -29,7 +28,6 @@ void *init__21TWindowSubComCardListFiii(void *p, s32 a, s32 b, s32 c);
 s32 handle_list_page_flip_input(s32);
 s32 draw_visible_window_entries(void *, void *, int);
 s32 draw_list_page_indicator(int, int);
-void __dl__7TObjectFPv(void *);
 s32 decay_page_arrow_offset(s32);
 
 void TWindowHelpItem::update_cursor_selection() {
@@ -49,20 +47,20 @@ void TWindowHelpItem::update_cursor_selection() {
     this->m_9c = -1;
 }
 
-void TWindowHelpItem__sub_80255B20(u8 *arg0) {
+void TWindowHelpItem::render() {
     s32 temp_r3;
     u8 temp_r3_2;
 
-    temp_r3 = ((TWindowBase *)arg0)->setup_window_draw_context((s32)(arg0 + 0xA8));
-    ((TWindowBase *)arg0)->draw_window_frame((void *)temp_r3);
-    draw_visible_window_entries(arg0, arg0 + 0x24, temp_r3);
-    temp_r3_2 = ((TWindowHelpItem *)arg0)->m_60;
+    temp_r3 = this->setup_window_draw_context((s32)((u8 *)this + 0xA8));
+    this->draw_window_frame((void *)temp_r3);
+    draw_visible_window_entries(this, (u8 *)this + 0x24, temp_r3);
+    temp_r3_2 = this->m_60;
     if ((temp_r3_2 & 1) && (temp_r3_2 & 2)) {
-        draw_list_page_indicator((int) (((TWindowHelpItem *)arg0)->m_64), temp_r3);
+        draw_list_page_indicator((int) (this->m_64), temp_r3);
     }
 }
 
-void TWindowHelpItem::update_display() {
+void TWindowHelpItem::run_task() {
     u8 *arg0 = (u8 *)this;
     if (!(this->m_2c & 2)) {
         this->m_5c = 0x01000000;
@@ -85,44 +83,33 @@ void TWindowHelpItem::update_display() {
     }
 }
 
-void *TWindowHelpItem::dt(s16 arg1) {
-    if (this != NULL) {
-        this->m_vtable18 = TWindowHelpItem__object_vtable;
-        delete_if_allocated(this->m_64, 1);
-        __dt__11TWindowBaseFv(this, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(this);
-        }
-    }
-    return this;
+TWindowHelpItem::~TWindowHelpItem() {
+    delete_if_allocated(this->m_64, 1);
 }
 
 }
-TWindowHelpItem::TWindowHelpItem(void *pos, u16 idx) {
-    TWindowHelpItem *self = this;
+TWindowHelpItem::TWindowHelpItem(void *pos, u16 idx) : TWindowBase((u8 *)window_help_item_layout, (s16)idx, (u8 *)pos) {
     void *p;
-    __ct__11TWindowBaseFPUcsPUc(self, (u8 *)__vt__15TWindowHelpItem, (s16)idx, (u8 *)pos);
-    self->m_vtable18 = ((s32 *)&TWindowHelpItem__object_vtable);
-    self->m_00 = (u32)window_help_item_class_name;
-    ((TWindowSubSymbolChatPartsSet *)((u8 *)self + 0x30))->copy_vec2(pos);
-    ((TWindowBase *)self)->save_position();
-    self->m_60 = 0;
+    this->m_name = window_help_item_class_name;
+    ((TWindowSubSymbolChatPartsSet *)((u8 *)this + 0x30))->copy_vec2(pos);
+    this->save_position();
+    this->m_60 = 0;
     p = ::operator new(0xc);
     if (p != 0) {
-        p = init__21TWindowSubComCardListFiii(p, 0, 3, self->m_20);
+        p = init__21TWindowSubComCardListFiii(p, 0, 3, this->m_20);
     }
-    self->m_64 = (u32)p;
-    self->m_68 = 0;
-    self->m_6c = 0;
-    self->m_70 = 0;
-    self->m_9c = -1;
-    self->m_a0 = -1;
-    self->m_a4 = -1;
-    self->m_callback = __ptmf_null;
-    self->m_a8 = 1.0f;
-    self->m_ac = 1.0f;
-    ((TWindowHelpItem *)self)->dispatch_item_help();
-    call_if_split_screen((u32)self, self->m_20);
+    this->m_64 = (u32)p;
+    this->m_68 = 0;
+    this->m_6c = 0;
+    this->m_70 = 0;
+    this->m_9c = -1;
+    this->m_a0 = -1;
+    this->m_a4 = -1;
+    this->m_callback = __ptmf_null;
+    this->m_a8 = 1.0f;
+    this->m_ac = 1.0f;
+    this->dispatch_item_help();
+    call_if_split_screen((u32)this, this->m_20);
 }
 
 s32 get_help_text_string(s32 arg0) {

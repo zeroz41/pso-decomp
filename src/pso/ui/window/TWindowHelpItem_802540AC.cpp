@@ -357,7 +357,7 @@ void *TWindowHelpItem__description_text_layout[9] = {
     (void *)0x0, (void *)0x3f000000, (void *)0xffffffff, (void *)0x0,
     (void *)0x0,
 };
-void *__vt__15TWindowHelpItem[5] = {
+void *window_help_item_layout[5] = {
     (void *)0x43640000, (void *)0x43380000, (void *)0x4717f400, (void *)0x0,
     (void *)0x3,
 };

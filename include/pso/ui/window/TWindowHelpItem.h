@@ -2,22 +2,18 @@
 #define PSO_UI_WINDOW_TWINDOWHELPITEM_H
 
 #include "types.h"
-#include "pso/system/task/TObject.h"
+#include "pso/ui/window/TWindowBase.h"
 
-struct TWindowHelpItem
+struct TWindowHelpItem : public TWindowBase
 {
+    virtual ~TWindowHelpItem();
+    virtual void render();
+    virtual void run_task();
     void sub_802534B0();
     void update_tech_disk_details();
     void init_text(void *);
     void sub_80255E24();
     void set_flag60_bit4();
-    u32 m_00;
-    u8 unk_4[0x4];
-    f32 m_8;
-    u8 unk_C[0x4];
-    s32 m_10;
-    u8 unk_14[0x4];
-    void *m_vtable18;
     u8 _pad1C[0x4];
     s16 m_20;
     u8 _pad22[0x2];
@@ -56,8 +52,6 @@ struct TWindowHelpItem
     void set_displayed_item_data(void* a1, void* a2);
     void set_items_and_refresh(void* a1, void* a2);
     void update_cursor_selection();
-    void update_display();
-    void *dt(s16 arg1);
     void set_flag0_bit20();
     void update_visible_flags();
     static void draw_number_value(void *entry, f32 *pos, s32 value, s32 color, s32 percent);
