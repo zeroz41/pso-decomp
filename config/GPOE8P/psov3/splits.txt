@@ -3192,6 +3192,9 @@ pso/network/TPlyJoinLobbyEntry.cpp:
 	.sbss       start:0x805D5580 end:0x805D5640
 	.sdata2     start:0x805DB0A8 end:0x805DB0B0
 
+pso/network/TPlyJoinLobbyEntryData.cpp:
+	.sdata2     start:0x805DB0B0 end:0x805DB0B8
+
 pso/network/TPlyJoinLobbySdata2.cpp:
 	.sdata2     start:0x805DB0B8 end:0x805DB0C8
 
