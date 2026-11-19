@@ -1292,6 +1292,7 @@ pso/ui/window/TWindowDD_80348C54.cpp
 pso/ui/window/TWindowDD_8034AF68.cpp
 pso/ui/window/TWindowDeposit.cpp
 pso/ui/window/TWindowDuelResult.cpp
+pso/player/PlayerDeadSpotCallbackEntries.cpp
 pso/ui/window/TWindowDuelResult_801C2528.cpp
 pso/ui/window/TWindowEffectLight.cpp
 pso/ui/window/TWindowEffectParty.cpp
