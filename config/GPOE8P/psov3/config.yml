@@ -1735,18 +1735,18 @@ force_active:
   - TTecAnti__sub_8022AD94
   - TTecAnti_name_ref
   - TTecBarta__class_name
-  - TTecBarta__ct
+  - __ct__9TTecBartaFlPUcPUcl
   - TTecDeband__ct
   - TTecDeband__sub_8022F948
   - TTecGiBarta__class_name
-  - TTecGiBarta__ct
-  - TTecGiZonde__ct
+  - __ct__11TTecGiBartaFlPUcPUcl
+  - __ct__11TTecGiZondeFlP3VecPvl
   - TTecGrants__ct
   - TTecLuker__ct
   - TTecLuker__sub_8023503C
   - TTecLuker__sub_80235048
   - TTecLuker__sub_80235054
-  - TTecMegid__ct
+  - __ct__9TTecMegidFlPUcPUcl
   - TTecRaBarta__ct
   - TTecRaBarta_class_name
   - TTecRaFoie__ct
@@ -5300,8 +5300,8 @@ force_active:
   - __ct__13TUnk_804A0FA0FP7TObjectPUc
   - construct_entry_array
   - construct_entry_array__6TLobbyFv
-  - construct_facing__11TTecGiBartaFPvPvPvPv
-  - construct_facing__9TTecMegidFllll
+  - __ct__11TTecGiBartaFlP3Vecll
+  - __ct__9TTecMegidFlP3Vecll
   - construct_gi_gue_bazooka__FPUcPUcl
   - construct_global_arrays__6TLobbyFv
   - construct_grants_flash
@@ -5322,7 +5322,7 @@ force_active:
   - __ct__13TUnk_804A5B20FP7TObjectPUc
   - __ct__13TUnk_804A5838FP7TObjectPUc
   - construct_targeted__10TTecRaFoieFPvPvPvPvi
-  - construct_tec_barta_facing__FP9TTecBartaPvPvPvPv
+  - __ct__9TTecBartaFlP3Vecll
   - construct_variant_b__9TWindowDDFPv
   - construct_weapon_casing__10TObjPlayerFPUcPUcPUcPUcPUc
   - __ct__13TUnk_804A5458FP7TObjectPUc

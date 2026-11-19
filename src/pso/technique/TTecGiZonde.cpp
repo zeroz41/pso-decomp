@@ -151,15 +151,10 @@ s16 get_entity_id(void *);
 s32 update_technique_slot__10TTecRaFoieFl(s32, s32, s32);
 s32 play_sound_effect(s32, void *, s32, s32);
 s32 copy_technique_target_list(void *, void *);
-s32 construct_facing_technique__10TObjPlayerFPviPvii(void *, void *, void *, s32);
-extern s32 __vt__11TTecGiZonde[];
-u8 *TTecGiZonde__ct(u8 *arg0, void *arg1, void *arg2, void *arg3, void * _w4);
 f32 vector_length(Vec *);
 void normalize_vector(Vec *);
 u8 *construct_helper_effect__11TTecGiZondeFPvPvPvPvi(u8 *arg0, u8 *arg1, u8 *arg2, u8 *arg3, s32 arg4);
 extern s32 tl_07;
-void *__dt__11TTecGiZondeFv(void *arg0, s16 arg1);
-void __dl__7TObjectFPv(void *);
 
 #define UNQ(e) ((s32 (*)(u32)) is_parents_unqueued__9TTecLukerFUl)(e)
 s32 TTecGiZonde::find_chain_targets() {
@@ -349,23 +344,10 @@ s32 TTecGiZonde::find_chain_targets() {
 }
 
 void TTecGiZonde::create(void *arg1, void *arg2, void *arg3) {
-    void *o;
-    o = TObject::operator new(0x18C);
-    if (o != NULL) {
-        TTecGiZonde__ct((u8 *)o, (void *)this, (void *)arg1, (void *)arg2, (void *)arg3);
-    }
+    new TTecGiZonde((s32)this, (Vec *)arg1, arg2, (s32)arg3);
 }
 
-void *__dt__11TTecGiZondeFv(void *player, s16 arg1) {
-    if (player != NULL) {
-        *(s32 **)((s8 *)player + 0x18) = __vt__11TTecGiZonde;
-        __dt__13TUnk_804CCC68Fv(player, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(player);
-        }
-    }
-    return player;
-}
+TTecGiZonde::~TTecGiZonde() {}
 
 void TTecGiZonde::deliver_chain_hits() {
     s32 i;
@@ -393,44 +375,42 @@ void TTecGiZonde::run_task() {
     }
     queue_destruction();
 }
-u8 *TTecGiZonde__ct(u8 *arg0, void *arg1, void *arg2, void *arg3, void * _w4) {
+// The chain starts at `pos` with no facing (angle 0).
+TTecGiZonde::TTecGiZonde(s32 source, Vec *pos, void *targets, s32 level) : TUnk_804CCC68(source, pos, 0, level) {
     s32 h;
-    construct_facing_technique__10TObjPlayerFPviPvii(arg0, arg1, arg2, 0);
-    *(s32 **)((s8 *)arg0 + 0x18) = __vt__11TTecGiZonde;
-    ((TObjPlayer *)(arg0 + 0x130))->construct_target_cursor_records();
-    ((TObject *)arg0)->m_name = TTecGiZonde_name_ref;
-    ((TTecGiZonde *)arg0)->init_parameters();
-    copy_technique_target_list(arg0 + 0x130, arg3);
-    switch (((TTecGiZonde *)arg0)->band) {
+    ((TObjPlayer *)this->targetList)->construct_target_cursor_records();
+    m_name = TTecGiZonde_name_ref;
+    init_parameters();
+    copy_technique_target_list(this->targetList, targets);
+    switch (band) {
     case 0:
-        if ((h = play_sound_effect(0x4002A509, arg0 + 0x20, 0, 0)) >= 0) {
+        if ((h = play_sound_effect(0x4002A509, &position, 0, 0)) >= 0) {
             update_technique_slot__10TTecRaFoieFl(h, 0x100, 0);
         }
         break;
     case 1:
-        play_sound_effect(0x4002A509, arg0 + 0x20, 0, 0);
+        play_sound_effect(0x4002A509, &position, 0, 0);
         break;
     case 2:
     case 3:
-        if ((h = play_sound_effect(0x4002A509, arg0 + 0x20, 0, 0)) >= 0) {
+        if ((h = play_sound_effect(0x4002A509, &position, 0, 0)) >= 0) {
             update_technique_slot__10TTecRaFoieFl(h, -0x180, 0);
         }
         break;
     case 4:
-        if ((h = play_sound_effect(0x4002A509, arg0 + 0x20, 0, 0)) >= 0) {
+        if ((h = play_sound_effect(0x4002A509, &position, 0, 0)) >= 0) {
             update_technique_slot__10TTecRaFoieFl(h, -0x250, 0);
         }
         break;
     case 5:
-        if ((h = play_sound_effect(0x4002A509, arg0 + 0x20, 0, 0)) >= 0) {
+        if ((h = play_sound_effect(0x4002A509, &position, 0, 0)) >= 0) {
             update_technique_slot__10TTecRaFoieFl(h, -0x100, 0);
         }
         break;
     }
-    if (((TTecGiZonde *)arg0)->source != 0U) {
-        ((TTecGiZonde *)arg0)->sourceId = get_entity_id((void *)((TTecGiZonde *)arg0)->source);
+    if (this->source != 0U) {
+        sourceId = get_entity_id((void *)this->source);
     }
-    return arg0;
 }
 
 }

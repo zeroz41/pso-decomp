@@ -1205,7 +1205,6 @@ pso/technique/TTecBarta.cpp
 pso/technique/TTecCtrl.cpp
 pso/technique/TTecDeband.cpp
 pso/technique/TTecFoie.cpp
-pso/technique/TTecFoie_802301EC.cpp
 pso/technique/TTecGiBarta.cpp
 pso/technique/TTecGiZonde.cpp
 pso/technique/TTecGiZonde_8023CDC4.cpp
@@ -2189,8 +2188,6 @@ pso/unk/text_80225CD8.cpp
 pso/unk/text_80228C54.cpp
 pso/unk/text_8022BE64.cpp
 pso/unk/text_8022F258.cpp
-pso/technique/TTecFoie_8022FB70.cpp
-pso/technique/TTecFoie_8022FC94.cpp
 pso/effect/TUnk_804CCC68_8023A434.cpp
 pso/unk/text_8023DCB8.cpp
 pso/unk/text_8023F160.cpp

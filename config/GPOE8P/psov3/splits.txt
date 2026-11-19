@@ -6367,6 +6367,7 @@ pso/technique/TTecAnti.cpp:
 pso/technique/TTecBarta.cpp:
 	.text       start:0x8022B418 end:0x8022BE64
 	.rodata     start:0x8044CC78 end:0x8044CDE0
+	.data       start:0x804CC120 end:0x804CC148
 	.sdata      start:0x805D3798 end:0x805D379C
 	.sdata2     start:0x805DC7A0 end:0x805DC7B0
 
@@ -6407,24 +6408,17 @@ pso/object/ambient/TObjLight_8022F9E8.cpp:
 	.text       start:0x8022F9E8 end:0x8022FB70
 	.data       start:0x804CC788 end:0x804CC7B0
 
-pso/technique/TTecFoie_8022FB70.cpp:
-	.text       start:0x8022FB70 end:0x8022FC94
-
-pso/technique/TTecFoie_8022FC94.cpp:
-	.text       start:0x8022FC94 end:0x802301E8
+pso/technique/TTecFoie.cpp:
+	.text       start:0x8022FB70 end:0x80230378
 	.rodata     start:0x8044D0B8 end:0x8044D180
+	.data       start:0x804CC7B0 end:0x804CC7D8
 	.sdata      start:0x805D37B0 end:0x805D37B8
 	.sdata2     start:0x805DC7F8 end:0x805DC7FC
-
-pso/technique/TTecFoie.cpp:
-	.text       start:0x802301E8 end:0x802301EC
-
-pso/technique/TTecFoie_802301EC.cpp:
-	.text       start:0x802301EC end:0x80230378
 
 pso/technique/TTecGiBarta.cpp:
 	.text       start:0x80230378 end:0x80230D9C
 	.rodata     start:0x8044D180 end:0x8044D2A0
+	.data       start:0x804CC7D8 end:0x804CC800
 	.sdata      start:0x805D37B8 end:0x805D37BC
 	.sdata2     start:0x805DC800 end:0x805DC810
 
@@ -6437,6 +6431,7 @@ pso/technique/TTecGiFoie.cpp:
 pso/technique/TTecGiZonde.cpp:
 	.text       start:0x80231AF0 end:0x80232830
 	.rodata     start:0x8044D368 end:0x8044D380
+	.data       start:0x804CC840 end:0x804CC868
 	.sdata      start:0x805D37C8 end:0x805D37D0
 	.sdata2     start:0x805DC828 end:0x805DC83C
 
@@ -6475,6 +6470,7 @@ pso/technique/TTecLuker.cpp:
 pso/technique/TTecMegid.cpp:
 	.text       start:0x8023508C end:0x80235B24
 	.rodata     start:0x8044D7A8 end:0x8044D8C8
+	.data       start:0x804CCA50 end:0x804CCA78
 	.sdata      start:0x805D37E8 end:0x805D37F0
 	.sdata2     start:0x805DC880 end:0x805DC888
 

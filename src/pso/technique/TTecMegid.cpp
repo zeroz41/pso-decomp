@@ -56,26 +56,6 @@ struct RecoveredFields_802308A0_arg0
   s16 field_F0;
 };
 
-struct TTecGiBartaData_80230B48 { u8 pad[4]; u32 count; };
-
-struct TTecGiBarta_80230B48 {
-    u8 pad0[0x18];
-    void *vtable;
-    u8 pad1c[0xC6 - 0x1C];
-    s16 band;
-    u8 padc8[0x130 - 0xC8];
-    void **emitters;
-};
-
-struct Obj_8023589C {
-    u8 pad0[0x134];
-    u16 ids[32];
-};
-
-struct Obj_80235940 {
-    u8 pad0[0x134];
-    u16 ids[32];
-};
 
 struct HitInfo_80235490 { s32 type; f32 power; };
 
@@ -120,7 +100,6 @@ struct Obj_80235490 {
     s32 cursor;
 };
 
-struct TTecGiBartaData_80230B48;
 
 struct Row_80235740 { u32 entry; u32 flags; f32 scale; };
 
@@ -206,17 +185,11 @@ extern RecoveredGlobal_80235348_lbl_804CC510 tech_high_level_linear_power_table;
 extern RecoveredGlobal_80235348_lbl_804CC55C lbl_804CC55C;
 void mem_free(void *p);
 void __dl__7TObjectFPv(void *);
-extern void *__vt__9TTecMegid[];
-TTecGiBarta_80230B48 *__dt__9TTecMegidFv(TTecGiBarta_80230B48 *self, s16 deleting);
 u16 get_entity_id(void *);
-void __ct__13TUnk_804CCC68FlPUcPUcl();
-u8 *TTecMegid__ct(TTecMegid *arg0, s32 _w1, s32 _w2, s32 _w3, s32 _w4);
-void construct_facing_technique__10TObjPlayerFPviPvii();
 s32 play_sound_effect(s32, s32, s32, s32);
 }
 u32 get_technique_caster_flags(s32 technique, u16 actor);
 extern "C" {
-void TTecMegid__vt6(Obj_80235490 *self, VObj_80235490 *target);
 void *find_entity_by_id(u16);
 s32 push_matrix_from(void *src);
 void rotate_matrix_y(s32, s32);
@@ -351,67 +324,53 @@ void TTecMegid::init_parameters() {
   ((RecoveredFields_80235348_arg0 *) arg0)->field_70 = (f32) ((RecoveredFields_80235348_arg0 *) arg0)->field_D4;
 }
 
-void TTecMegid__vt6(Obj_80235490 *self, VObj_80235490 *target) {
+void TTecMegid::vfunc_8(void *target) {
     s32 found = 0;
     s32 i;
     for (i = 0; i < 32; i++) {
-        if (self->ids[i] == get_entity_id(target)) {
+        if (hitIds[i] == get_entity_id(target)) {
             found = 1;
         }
     }
     if (found == 0) {
-        self->ids[self->cursor] = get_entity_id(target);
-        self->cursor += 1;
-        if (self->cursor >= 32) {
-            self->cursor = 31;
+        hitIds[hitCursor] = get_entity_id(target);
+        hitCursor += 1;
+        if (hitCursor >= 32) {
+            hitCursor = 31;
         }
         HitInfo_80235490 tmp;
         tmp.type = 5;
-        tmp.power = self->power;
+        tmp.power = power;
         if (get_entity_id(target) < 4 && ((TObjChara *)target)->obj_isState3_324() != 0) {
             return;
         }
         HitInfo_80235490 info = tmp;
-        target->m21(self->source, &info, self->contact, 0x12, -1);
+        ((VObj_80235490 *)target)->m21((void *)source, &info, contact, 0x12, -1);
         play_sound_effect(0x4002AD29, (s32)((u8 *)target + 0x38), 0, 0);
-        if (self->fc8 < 12) {
-            if ((get_technique_caster_flags(0x12, self->fc8) & 1) == 0) {
-                ((TObject *)self)->queue_destruction();
+        if (sourceId < 12) {
+            if ((get_technique_caster_flags(0x12, sourceId) & 1) == 0) {
+                queue_destruction();
             }
         }
     }
 }
 
 void TTecMegid::create(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
-    u32 obj;
-    obj = __nw__7TObjectFUl(0x17C);
-    if (obj != 0U) {
-        TTecMegid__ct((TTecMegid *)((u8 *)obj), (s32)arg0, (s32)arg1, (s32)arg2, (s32)arg3);
-    }
+    new TTecMegid(arg0, (u8 *)arg1, (u8 *)arg2, arg3);
 }
 void TTecMegid::create_ex(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
-    u32 obj;
-    obj = __nw__7TObjectFUl(0x17C);
-    if (obj != 0U) {
-        ((TTecMegid *)obj)->construct_facing(arg0, arg1, arg2, arg3);
-    }
+    new TTecMegid(arg0, (Vec *)arg1, arg2, arg3);
 }
 void TTecMegid::render() {  }
 
 typedef struct RecoveredFields_802308A0_arg0 RecoveredFields_802308A0_arg0;
-TTecGiBarta_80230B48 *__dt__9TTecMegidFv(TTecGiBarta_80230B48 *self, s16 deleting) {
-    if (self) {
-        self->vtable = __vt__9TTecMegid;
-        for (u32 i = 0; i < TTecMegid__emitter_bands[self->band].count; ++i) {
-            if (self->emitters[i]) {
-                ((TObject *)self->emitters[i])->queue_destruction();
-            }
+TTecMegid::~TTecMegid() {
+    for (u32 i = 0; i < TTecMegid__emitter_bands[band].count; ++i) {
+        if (emitters[i]) {
+            ((TObject *)emitters[i])->queue_destruction();
         }
-        mem_free(self->emitters);
-        __dt__13TUnk_804CCC68Fv(self, 0);
-        if (deleting > 0) __dl__7TObjectFPv(self);
     }
-    return self;
+    mem_free(emitters);
 }
 
 void run_task__9TTecMegidFv(Obj_80235740 *self) {
@@ -442,44 +401,39 @@ void run_task__9TTecMegidFv(Obj_80235740 *self) {
     dispatch_technique_contact__13TUnk_804CCC68Fv(self, 1);
 }
 
-u8 *TTecMegid__ct(TTecMegid *tec_megid, s32 _w1, s32 _w2, s32 _w3, s32 _w4) {
+// The aimed form: the technique flies from `pos` towards `target`.
+TTecMegid::TTecMegid(s32 source, u8 *pos, u8 *target, s32 level) : TUnk_804CCC68(source, pos, target, level) {
     s32 i;
-    __ct__13TUnk_804CCC68FlPUcPUcl();
-    *(void **)((s8 *)tec_megid + 0x18) = __vt__9TTecMegid;
-    tec_megid->m_name = TTecMegid__class_name;
-    tec_megid->init_parameters();
-    *(f32 *)((s8 *)tec_megid + 0x178) = 0.0f;
+    m_name = TTecMegid__class_name;
+    init_parameters();
+    *(f32 *)((s8 *)this + 0x178) = 0.0f;
     for (i = 0; i < 0x20; i++) {
-        ((Obj_8023589C *)tec_megid)->ids[i] = 0xFFFF;
+        hitIds[i] = 0xFFFF;
     }
-    tec_megid->m_174 = 0;
-    tec_megid->spawn_particle_emitters();
-    tec_megid->update_by_state();
-    if (*(void **)((s8 *)tec_megid + 0x1C) != 0) {
-        tec_megid->sourceId = get_entity_id(*(void **)((s8 *)tec_megid + 0x1C));
+    hitCursor = 0;
+    spawn_particle_emitters();
+    update_by_state();
+    if (*(void **)((s8 *)this + 0x1C) != 0) {
+        sourceId = get_entity_id(*(void **)((s8 *)this + 0x1C));
     }
-    return (u8 *)tec_megid;
 }
 }
 
-u8 *TTecMegid::construct_facing(s32 _w1, s32 _w2, s32 _w3, s32 _w4) {
-    u8 *arg0 = (u8 *)this;
+// The facing form: the technique starts at `pos` and flies along the y angle `angle`.
+TTecMegid::TTecMegid(s32 source, Vec *pos, s32 angle, s32 level) : TUnk_804CCC68(source, pos, angle, level) {
     s32 i;
-    construct_facing_technique__10TObjPlayerFPviPvii();
-    *(void **)((s8 *)arg0 + 0x18) = __vt__9TTecMegid;
-    this->m_name = TTecMegid__class_name;
+    m_name = TTecMegid__class_name;
     init_parameters();
-    *(f32 *)((s8 *)arg0 + 0x178) = 0.0f;
+    *(f32 *)((s8 *)this + 0x178) = 0.0f;
     for (i = 0; i < 0x20; i++) {
-        ((Obj_80235940 *)arg0)->ids[i] = 0xFFFF;
+        hitIds[i] = 0xFFFF;
     }
-    this->m_174 = 0;
+    hitCursor = 0;
     spawn_particle_emitters();
     update_by_state();
-    if (*(void **)((s8 *)arg0 + 0x1C) != 0) {
-        this->sourceId = get_entity_id(*(void **)((s8 *)arg0 + 0x1C));
+    if (*(void **)((s8 *)this + 0x1C) != 0) {
+        sourceId = get_entity_id(*(void **)((s8 *)this + 0x1C));
     }
-    return arg0;
 }
 
 void TUnk_804CCA78::run_task() {
