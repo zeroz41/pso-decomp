@@ -1,5 +1,7 @@
 #include "pso/map/FloorResourceCallbacks.h"
 #include "pso/unk/TLobby_8007B858.h"
+#include "pso/ui/window/TWindowCtrl.h"
+#include "pso/unk/TUnk_80499970.h"
 #include "pso/system/TLanguage.h"
 #include "pso/npc/TNpcPlayer.h"
 #include "pso/unk/TUnk_804F07C8.h"
@@ -64,9 +66,7 @@ s32 activate_triggered_floor_events();
 s32 cleanup_game_objects__9TMainTaskFv();
 s32 restore_floor_telepipes();
 s32 __ct__15TWindowCtrlMainFv();
-s32 TWindowCtrl__ct(u32, s32);
 u32 __nw__7TObjectFUl(s32);
-s32 __ct__13TUnk_80499970FP7TObject(u32, s32);
 s32 TWindowTimer__sub_80198D98();
 
 extern s32 tl_00;
@@ -141,14 +141,8 @@ void TLobby::create_tasks() {
     if (tmp != 0U) {
         __ct__15TWindowCtrlMainFv();
     }
-    tmp = __nw__7TObjectFUl(0xE8);
-    if (tmp != 0U) {
-        TWindowCtrl__ct(tmp, tl_00);
-    }
-    tmp = __nw__7TObjectFUl(0x2C);
-    if (tmp != 0U) {
-        __ct__13TUnk_80499970FP7TObject(tmp, tl_fade);
-    }
+    new TWindowCtrl((TObject *)tl_00);
+    new TUnk_80499970((TObject *)tl_fade);
     TLobby::set_fade_params(0);
     tmp = __nw__7TObjectFUl(0x30);
     if (tmp != 0U) {

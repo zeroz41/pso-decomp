@@ -51,82 +51,74 @@ struct TWindowCtrl_8024C308 {
 };
 
 extern "C" {
-void __dt__7TObjectFv(void *, int);
-void __dl__7TObjectFPv(void *);
-extern u8 __vt__11TWindowCtrl[];
 extern void *TWindowCtrl__active_window;
-void __ct__7TObjectFP7TObject(void *);
 void *TWindowBreakIn__ct(void *);
 void *__ct__11TWindowChatFP7TObjectPv(void *, s32, void *);
 void *__ct__17TWindowCtrlPlayerFP7TObjectl(void *, void *, s32);
 extern const char *TWindowCtrl__name;
 extern s32 local_client_id;
 extern s32 tl_00;
-TWindowCtrl_8024C308 *TWindowCtrl__ct(TWindowCtrl_8024C308 *self);
 }
 
 TWindowCtrl::~TWindowCtrl() {
-    s32 i;
     TWindowCtrl_8024C160 *self = (TWindowCtrl_8024C160 *)this;
-    {
-        for (i = 3; i >= 0; i--) {
-            if (self->wins84[i] != NULL) {
-                ((TWindowBase *)(self->wins84[i]))->close();
-                self->wins84[i] = NULL;
-            }
+    s32 i;
+    for (i = 3; i >= 0; i--) {
+        if (self->wins84[i] != NULL) {
+            ((TWindowBase *)(self->wins84[i]))->close();
+            self->wins84[i] = NULL;
         }
-        if (self->f44 != NULL) {
-            ((TWindowBase *)self->f44)->close();
-            self->f44 = NULL;
+    }
+    if (self->f44 != NULL) {
+        ((TWindowBase *)self->f44)->close();
+        self->f44 = NULL;
+    }
+    if (self->f34 != NULL) {
+        ((TWindowBase *)self->f34)->close();
+        self->f34 = NULL;
+    }
+    if (self->f30 != NULL) {
+        ((TWindowBase *)self->f30)->close();
+        self->f30 = NULL;
+    }
+    if (self->f40 != NULL) {
+        ((TObject *)self->f40)->queue_destruction();
+        self->f40 = NULL;
+    }
+    if (self->f3C != NULL) {
+        ((TObject *)self->f3C)->queue_destruction();
+        self->f3C = NULL;
+    }
+    for (i = 2; i >= 0; i--) {
+        if (self->wins78[i] != NULL) {
+            ((TWindowBase *)(self->wins78[i]))->close();
+            self->wins78[i] = NULL;
         }
-        if (self->f34 != NULL) {
-            ((TWindowBase *)self->f34)->close();
-            self->f34 = NULL;
+    }
+    for (i = 11; i >= 0; i--) {
+        if (self->objs[i] != NULL) {
+            ((TObject *)self->objs[i])->queue_destruction();
+            self->objs[i] = NULL;
         }
-        if (self->f30 != NULL) {
-            ((TWindowBase *)self->f30)->close();
-            self->f30 = NULL;
-        }
-        if (self->f40 != NULL) {
-            ((TObject *)self->f40)->queue_destruction();
-            self->f40 = NULL;
-        }
-        if (self->f3C != NULL) {
-            ((TObject *)self->f3C)->queue_destruction();
-            self->f3C = NULL;
-        }
-        for (i = 2; i >= 0; i--) {
-            if (self->wins78[i] != NULL) {
-                ((TWindowBase *)(self->wins78[i]))->close();
-                self->wins78[i] = NULL;
-            }
-        }
-        for (i = 11; i >= 0; i--) {
-            if (self->objs[i] != NULL) {
-                ((TObject *)self->objs[i])->queue_destruction();
-                self->objs[i] = NULL;
-            }
-        }
-        if (self->f38 != NULL) {
-            ((TObject *)self->f38)->queue_destruction();
-            self->f38 = NULL;
-        }
-        if (self->f2C != NULL) {
-            ((TWindowBase *)self->f2C)->close();
-            self->f2C = NULL;
-        }
-        if (TWindowCtrl__active_window == self) {
-            TWindowCtrl__active_window = NULL;
-        }
+    }
+    if (self->f38 != NULL) {
+        ((TObject *)self->f38)->queue_destruction();
+        self->f38 = NULL;
+    }
+    if (self->f2C != NULL) {
+        ((TWindowBase *)self->f2C)->close();
+        self->f2C = NULL;
+    }
+    if (TWindowCtrl__active_window == self) {
+        TWindowCtrl__active_window = NULL;
     }
 }
 
 extern "C" {
-TWindowCtrl_8024C308 *TWindowCtrl__ct(TWindowCtrl_8024C308 *self) {
+TWindowCtrl::TWindowCtrl(TObject *parent) : TObject(parent) {
+    TWindowCtrl_8024C308 *self = (TWindowCtrl_8024C308 *)this;
     s32 i;
     void *p;
-    __ct__7TObjectFP7TObject(self);
-    self->vt = __vt__11TWindowCtrl;
     self->name = TWindowCtrl__name;
     if (TWindowCtrl__active_window != NULL) {
         ((TObject *)TWindowCtrl__active_window)->queue_destruction();
@@ -192,7 +184,6 @@ TWindowCtrl_8024C308 *TWindowCtrl__ct(TWindowCtrl_8024C308 *self) {
     if (TObjPlayer::get_player_count() == 1) {
         TWindowCtrl::open_status_112();
     }
-    return self;
 }
 
 }

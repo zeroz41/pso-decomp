@@ -1,6 +1,6 @@
 #include "types.h"
 
-// Data-only unit split off TWindowCtrl callback entries at 0x804CE9C8; the referencing units keep these extern (the __vt__11TWindowCtrl vtable at 0x804CEAA0 is left for real-class work).
+// Data-only unit split off TWindowCtrl callback entries at 0x804CE9C8; the referencing units keep these extern.
 
 extern u8 TWindowCtrlMain__sub_8024D85C[];
 extern u8 TWindowCtrlMain__sub_8024D868[];
