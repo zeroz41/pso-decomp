@@ -31,8 +31,8 @@ struct TextLayoutRecord {
     const char *text;
 };
 
-// Types 4 and 5 (0x1C bytes), read by TWindowSubStatusDisp__sub_80259D3C and
-// TWindowSubStatusDisp::init_layout_entry_scaled.
+// Types 4 and 5 (0x1C bytes), read by the TUnk_804CF9C8 and TUnk_804CF9E0
+// constructors.
 struct ValueLayoutRecord {
     s32 type;
     f32 pos[2];

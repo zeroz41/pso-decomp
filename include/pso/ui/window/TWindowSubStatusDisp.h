@@ -105,7 +105,6 @@ struct TWindowSubStatusDisp : public TWindowBase {
     void destroy_all_items();
     void set_all_values(s32 arg1);
     void set_animated_target(s32 arg1, f32 farg0);
-    u8 *init_layout_entry_scaled(u8 *arg1, s32 arg2);
     static void update_palette_sprite();
     void set_string(u32 arg1);
     void set_text(u32 arg1, s32 arg2, s32 arg3);
@@ -172,7 +171,6 @@ struct TWindowSubStatusDisp : public TWindowBase {
     void set_ground_item(void *arg1, s32 arg2);
     void init_display(s32 arg1, s32 arg2);
     static void*get_entry_ptr(int a0);
-    void update_pb_counter_approach();
     u8 *init_part_direct(u8 *arg1, s32 arg2);
     void append_entry(s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5);
     s32 update_hp_entry();

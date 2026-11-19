@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/unk/TUnk_804CF9C8.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80259DB0.h"
 #include "pso/ui/window/TWindowSubStatusDisp_802598E4.h"
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
@@ -9,7 +10,6 @@ extern "C" {
 f32 fabs_float(f32, f32);
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
 }
-extern s32 lbl_804CF9E0[];
 
 #pragma fp_contract on
 
@@ -68,41 +68,29 @@ void set_status_entry_target(void *arg0, s32 arg1) {
 #pragma push
 #pragma fp_contract on
 
-void TWindowSubStatusDisp::update_pb_counter_approach() {
+void TUnk_804CF9E0::update() {
     f32 temp_f2;
     f32 temp_f30;
-    if (*(f32 *)((s8 *)((u8 *)this) + 0x28) != *(f32 *)((s8 *)((u8 *)this) + 0x24)) {
-        if (*(u16 *)((s8 *)((u8 *)this) + 0) & 8) {
+    if (this->target != this->current) {
+        if (this->flags & 8) {
             play_persistent_sound(0x44E03, (s32)this, 0, 0, 0);
         }
-        temp_f2 = *(f32 *)((s8 *)((u8 *)this) + 0x28);
-        temp_f30 = temp_f2 - *(f32 *)((s8 *)((u8 *)this) + 0x24);
-        if (((f32 (*)(f32)) fabs_float)(temp_f30) < (fabs_float((f32) (*(f32 *)((s8 *)((u8 *)this) + 0x2C)), temp_f2))) {
-            *(f32 *)((s8 *)((u8 *)this) + 0x24) = (f32) *(f32 *)((s8 *)((u8 *)this) + 0x28);
+        temp_f2 = this->target;
+        temp_f30 = temp_f2 - this->current;
+        if (((f32 (*)(f32)) fabs_float)(temp_f30) < (fabs_float(this->step, temp_f2))) {
+            this->current = this->target;
         } else {
-            *(f32 *)((s8 *)((u8 *)this) + 0x24) = (f32) (*(f32 *)((s8 *)((u8 *)this) + 0x24) + *(f32 *)((s8 *)((u8 *)this) + 0x2C));
+            this->current = this->current + this->step;
         }
-        *(s32 *)((s8 *)((u8 *)this) + 0x20) = (s32) *(f32 *)((s8 *)((u8 *)this) + 0x24);
+        this->value = (s32)this->current;
     }
 }
 #pragma pop
 
-void *TWindowSubStatusDisp__sub_8025A04C(void *window_sub_status_disp, s16 arg1) {
-    if (window_sub_status_disp != NULL) {
-        *(s32 **)((s8 *)window_sub_status_disp + 4) = lbl_804CF9E0;
-        TWindowSubStatusDisp__sub_80259CE4(window_sub_status_disp, (s16)((s16)(0)));
-        if (arg1 > 0) {
-            ::operator delete(window_sub_status_disp);
-        }
-    }
-    return window_sub_status_disp;
-}
-u8 *TWindowSubStatusDisp::init_layout_entry_scaled(u8 *arg1, s32 arg2) {
-    u8 *arg0 = (u8 *)this;
-    TWindowSubStatusDisp__sub_80259D3C(arg0, arg1, arg2);
-    *(s32 **)((s8 *)arg0 + 4) = lbl_804CF9E0;
-    *(f32 *)((s8 *)arg0 + 0x28) = (f32) *(s32 *)((s8 *)arg0 + 0x20);
-    *(f32 *)((s8 *)arg0 + 0x24) = (f32) *(s32 *)((s8 *)arg0 + 0x20);
-    *(f32 *)((s8 *)arg0 + 0x2C) = 0.0f;
-    return arg0;
+TUnk_804CF9E0::~TUnk_804CF9E0() {}
+
+TUnk_804CF9E0::TUnk_804CF9E0(u8 *rec, s32 m_2) : TUnk_804CF9C8(rec, m_2) {
+    this->target = this->value;
+    this->current = this->value;
+    this->step = 0.0f;
 }

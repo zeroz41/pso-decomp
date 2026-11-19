@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/unk/TUnk_804CF998.h"
+#include "pso/unk/TUnk_804CF9C8.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8025995C.h"
 #include "pso/ui/window/TWindowSubStatusDisp_802598E4.h"
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
@@ -25,7 +25,6 @@ s32 try_open__19TWindowKeyBoardSoftFii(void *, Pos_80259A84 *);
 void begin_screen_draw(s32 arg0);
 s32 draw_textured_quad_at_depth(Pos_80259A84 *, f32);
 void set_draw_texture_and_color(s32 idx, s32 arg1);
-extern s32 lbl_804CF9C8[];
 
 void draw_right_aligned_number(void *arg0) {
     s32 n;
@@ -55,10 +54,9 @@ void draw_right_aligned_number(void *arg0) {
 }
 }
 
-void render_numeric_digit_entries(u8 *arg0, u8 *arg1);
 typedef struct Pos_80259A84 Pos_80259A84;
 #pragma fp_contract on
-void render_numeric_digit_entries(u8 *arg0, u8 *window_key_board_soft) {
+void TUnk_804CF9C8::render(TWindowKeyBoardSoft *window_key_board_soft) {
   f32 t;
   Pos_80259A84 pos;
   f32 x;
@@ -71,20 +69,20 @@ void render_numeric_digit_entries(u8 *arg0, u8 *window_key_board_soft) {
   u8 d;
   f32 w;
   f32 h;
-  h = *((f32 *) (((s8 *) arg0) + 0xC));
-  w = *((f32 *) (((s8 *) arg0) + 8));
-  t = (h / 21.0f) + (w / (((TWindowKeyBoardSoft *)window_key_board_soft)->inner_w));
+  h = this->y;
+  w = this->x;
+  t = (h / 21.0f) + (w / (window_key_board_soft->inner_w));
   t *= 7.5f;
-  t = 17.0f * (((f32) (((TWindowKeyBoardSoft *)window_key_board_soft)->open_tick)) - t);
+  t = 17.0f * (((f32) (window_key_board_soft->open_tick)) - t);
   if (t <= 0.0f)
   {
     return;
   }
-  mode = ((*((u16 *) (((s8 *) arg0) + 0))) >> 2) & 1;
-  n = *((s32 *) (((s8 *) arg0) + 0x20));
-  x = (((TWindowKeyBoardSoft *)window_key_board_soft)->inner_x) + w;
-  y = (((TWindowKeyBoardSoft *)window_key_board_soft)->inner_y) + h;
-  scale = (-1.0f) / ((0.299f * (*((f32 *) (((s8 *) arg0) + 0x18)))) + (((TWindowKeyBoardSoft *)window_key_board_soft)->depth));
+  mode = (this->flags >> 2) & 1;
+  n = this->value;
+  x = (window_key_board_soft->inner_x) + w;
+  y = (window_key_board_soft->inner_y) + h;
+  scale = (-1.0f) / ((0.299f * this->depth) + (window_key_board_soft->depth));
   switch (mode)
   {
     case 0:
@@ -94,7 +92,7 @@ void render_numeric_digit_entries(u8 *arg0, u8 *window_key_board_soft) {
     case 1:
       begin_screen_draw(1);
       TWindowSubStatusDisp::render_forward();
-      set_draw_texture_and_color(0, *((s32 *) (((s8 *) arg0) + 0x1C)));
+      set_draw_texture_and_color(0, this->style);
       break;
   }
   do
@@ -109,7 +107,7 @@ void render_numeric_digit_entries(u8 *arg0, u8 *window_key_board_soft) {
       if (1)
       {
         case 0:
-          r = calc_gauge_scale__20TWindowSubStatusDispFUsPvl(((u8 (*)(u16)) map_char_to_font_code)(d + 0x30), &pos, *((s32 *) (((s8 *) arg0) + 0x1C)));
+          r = calc_gauge_scale__20TWindowSubStatusDispFUsPvl(((u8 (*)(u16)) map_char_to_font_code)(d + 0x30), &pos, this->style);
           pos.y = y;
           x -= (u8) r;
           pos.x = x;
@@ -141,27 +139,15 @@ void render_numeric_digit_entries(u8 *arg0, u8 *window_key_board_soft) {
   }
 }
 
-void TWindowSubStatusDisp__sub_80259CE0(void) {  }
+void TUnk_804CF9C8::update() {}
 
-void *TWindowSubStatusDisp__sub_80259CE4(void *window_sub_status_disp, s16 arg1) {
-    if (window_sub_status_disp != NULL) {
-        *(s32 **)((s8 *)window_sub_status_disp + 4) = lbl_804CF9C8;
-        __dt__13TUnk_804CF998Fv(window_sub_status_disp, 0);
-        if (arg1 > 0) {
-            ::operator delete(window_sub_status_disp);
-        }
-    }
-    return window_sub_status_disp;
-}
+TUnk_804CF9C8::~TUnk_804CF9C8() {}
 
-u8 *TWindowSubStatusDisp__sub_80259D3C(u8 *arg0, u8 *arg1, s32 arg2) {
-    __ct__13TUnk_804CF998Fl(arg0, arg2);
-    *(s32 **)((s8 *)arg0 + 4) = lbl_804CF9C8;
-    *(f32 *)((s8 *)arg0 + 8) = (f32) *(f32 *)((s8 *)arg1 + 4);
-    *(f32 *)((s8 *)arg0 + 0xC) = (f32) *(f32 *)((s8 *)arg1 + 8);
-    *(f32 *)((s8 *)arg0 + 0x18) = (f32) *(f32 *)((s8 *)arg1 + 0xC);
-    *(s16 *)((s8 *)arg0 + 0) = (s16) *(s32 *)((s8 *)arg1 + 0x14);
-    *(s32 *)((s8 *)arg0 + 0x1C) = (s32) *(s32 *)((s8 *)arg1 + 0x10);
-    *(s32 *)((s8 *)arg0 + 0x20) = (s32) *(s32 *)((s8 *)arg1 + 0x18);
-    return arg0;
+TUnk_804CF9C8::TUnk_804CF9C8(u8 *rec, s32 m_2) : TUnk_804CF998(m_2) {
+    this->x = *(f32 *)(rec + 4);
+    this->y = *(f32 *)(rec + 8);
+    this->depth = *(f32 *)(rec + 0xC);
+    this->flags = *(s32 *)(rec + 0x14);
+    this->style = *(s32 *)(rec + 0x10);
+    this->value = *(s32 *)(rec + 0x18);
 }

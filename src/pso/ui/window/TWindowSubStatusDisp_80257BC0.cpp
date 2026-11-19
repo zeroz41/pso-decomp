@@ -2,6 +2,7 @@
 #include "pso/unk/TLobby.h"
 #include "pso/unk/TUnk_804CF930.h"
 #include "pso/unk/TUnk_804CF998.h"
+#include "pso/unk/TUnk_804CF9C8.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80256B94.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80257BC0.h"
 #include "pso/system/memory.h"
@@ -71,8 +72,6 @@ void* init_from__13TUnk_804CF930FPvi(void* a0, void* a1, int a2);
 u8 * init_layout_entry_copy__20TWindowSubStatusDispFPUc(u8 *arg0, u8 *arg1);
 void draw_visible_window_entries(void *self, List_80257BC0 *list, void *ctx);
 void init_window_layout_entries(List_80257D44 *self, Desc_80257D44 *desc, s32 arg2);
-void * TWindowSubStatusDisp__sub_80259D3C(void *, void *, s32);
-void * init_layout_entry_scaled__20TWindowSubStatusDispFPUcl(void *, void *, s32);
 void * TWindowHelpItem__sub_8025A594(void *, void *, s32);
 void * TWindowHelpItem__sub_8025A95C(void *, void *, s32);
 }
@@ -186,7 +185,7 @@ void init_window_layout_entries(List_80257D44 *self, Desc_80257D44 *desc, s32 ar
             case 4:
                 o = ::operator new(0x24);
                 if (o != NULL) {
-                    o = TWindowSubStatusDisp__sub_80259D3C(o, rec, arg2);
+                    o = __ct__13TUnk_804CF9C8FPUcl(o, (u8 *)rec, arg2);
                 }
                 *out = o;
                 rec += 0x1C / 4;
@@ -194,7 +193,7 @@ void init_window_layout_entries(List_80257D44 *self, Desc_80257D44 *desc, s32 ar
             case 5:
                 o = ::operator new(0x30);
                 if (o != NULL) {
-                    o = init_layout_entry_scaled__20TWindowSubStatusDispFPUcl(o, rec, arg2);
+                    o = __ct__13TUnk_804CF9E0FPUcl(o, (u8 *)rec, arg2);
                 }
                 *out = o;
                 rec += 0x1C / 4;
