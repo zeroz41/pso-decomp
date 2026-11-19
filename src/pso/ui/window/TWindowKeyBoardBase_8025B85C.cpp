@@ -34,7 +34,6 @@ extern "C" {
 s32 is_chat_shortcut_set(int);
 s32 TWindowKeyBoardSoft__sub_803E67D4(void *, void *);
 s32 get_shared_text_buffer();
-void export_keyboard_text(Base_8025C974 *base, char *out);
 
 int TWindowKeyBoardBase::is_alnum(u16 arg0) {
     if ((s32) arg0 < 0x30) {
@@ -634,7 +633,8 @@ s32 TWindowKeyBoardBase::commit_composition_text() {
 }
 #pragma pop
 
-void export_keyboard_text(Base_8025C974 *base, char *out) {
+void TWindowKeyBoardBase::export_text(char *out) {
+    Base_8025C974 * base = (Base_8025C974 *)this;
     u32 a = 0;
     u32 b = 0;
     u32 c = 0;

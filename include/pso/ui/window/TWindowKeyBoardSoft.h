@@ -65,6 +65,7 @@ struct TWindowKeyBoardSoft : public TWindowBase
     void sub_80260904(s32 port);
     f32 sub_802614DC(u8 *arg1, f32 farg0, f32 farg1, f32 farg2, f32 farg3);
     void sub_80261DD8(WindowDrawContext *ctx);
+    int get_flag_bit0();
 };
 
 typedef char TWindowKeyBoardSoft_size[sizeof(TWindowKeyBoardSoft) == 0x70 ? 1 : -1];

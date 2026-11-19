@@ -68,7 +68,6 @@ struct Lines_80261DD8 {
 s32 play_sound_effect(int, int, int, int);
 s32 draw_default_entry__9TWindowDDFl();
 extern s32 lbl_805D63F0;
-s32 get_flag_bit5__19TWindowKeyBoardSoftFv();
 
 extern u8 *TWindowKeyBoardSoft__language_text_resources;
 extern void *local_client_id;
@@ -99,12 +98,12 @@ const UV_80262038 lbl_8044F204[10] = {
 void TWindowKeyBoardSoft::calc_cursor_step(s32 *arg1, s32 *arg2) {
     switch (current_language) {
     case LANGUAGE_JAPANESE:
-        if ((get_flag_bit5__19TWindowKeyBoardSoftFv() != 0) || (((TWindowKeyBoardSoft *)this)->get_flag_bit6() != 0) || (((TWindowKeyBoardSoft *)this)->is_cursor_locked() != 0)) {
+        if ((get_flag_bit5() != 0) || (((TWindowKeyBoardSoft *)this)->get_flag_bit6() != 0) || (((TWindowKeyBoardSoft *)this)->is_cursor_locked() != 0)) {
             *arg1 = 4;
             *arg2 = 4;
             return;
         }
-        if (TWindowSubMag__sub_802627D8((void *)this) != 0) {
+        if (get_flag_bit0() != 0) {
             *arg1 = 4;
             *arg2 = 5;
             return;
@@ -113,7 +112,7 @@ void TWindowKeyBoardSoft::calc_cursor_step(s32 *arg1, s32 *arg2) {
         *arg2 = 5;
         return;
     case LANGUAGE_ENGLISH:
-        if ((get_flag_bit5__19TWindowKeyBoardSoftFv() != 0) || (((TWindowKeyBoardSoft *)this)->get_flag_bit6() != 0) || (((TWindowKeyBoardSoft *)this)->is_cursor_locked() != 0)) {
+        if ((get_flag_bit5() != 0) || (((TWindowKeyBoardSoft *)this)->get_flag_bit6() != 0) || (((TWindowKeyBoardSoft *)this)->is_cursor_locked() != 0)) {
             *arg1 = 0;
             *arg2 = 0;
             return;
@@ -124,12 +123,12 @@ void TWindowKeyBoardSoft::calc_cursor_step(s32 *arg1, s32 *arg2) {
     case LANGUAGE_GERMAN:
     case LANGUAGE_FRENCH:
     case LANGUAGE_SPANISH:
-        if ((get_flag_bit5__19TWindowKeyBoardSoftFv() != 0) || (((TWindowKeyBoardSoft *)this)->get_flag_bit6() != 0) || (((TWindowKeyBoardSoft *)this)->is_cursor_locked() != 0)) {
+        if ((get_flag_bit5() != 0) || (((TWindowKeyBoardSoft *)this)->get_flag_bit6() != 0) || (((TWindowKeyBoardSoft *)this)->is_cursor_locked() != 0)) {
             *arg1 = 0;
             *arg2 = 0;
             return;
         }
-        if (TWindowSubMag__sub_802627D8((void *)this) != 0) {
+        if (get_flag_bit0() != 0) {
             *arg1 = 0;
             *arg2 = 1;
             return;
@@ -317,7 +316,7 @@ void TWindowKeyBoardSoft::sub_80260904(s32 port) {
     }
     code = *(layout->pages[kb->layout] + kb->cursor_x + kb->cursor_y * 16);
     if (code >= 3 && code <= 14) {
-        if (TWindowSubMag__sub_80262808(kb->child) != 0) {
+        if (((TWindowKeyBoardBase *)kb->child)->get_flag62_bit8() != 0) {
             play_sound_effect(0x53F06, 0, 0, 0);
         } else if (*(u32 *)get_chat_shortcut(code + 5) != 3) {
             play_sound_effect(0x52D01, 0, 0, 0);

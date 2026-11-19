@@ -615,7 +615,6 @@ struct State_80260020 { u8 pad0[0xB4]; s32 flags; };
 struct Win_80260020 { u8 pad0[0x70]; State_80260020 *state; };
 
 extern "C" {
-s32 is_key_active__19TWindowKeyBoardHardFv();
 
 void TWindowKeyBoardHard::release_keyboard() { void* m = m_control; if (m) ((TWindowKeyBoardBase *)m)->sub_8025CC48(); }
 
@@ -650,7 +649,7 @@ void TWindowKeyBoardHard::draw_status_text(void *ctx) {
 
 void TWindowKeyBoardHard::render() {
     s32 temp;
-    if (((s32) this->m_68 > 0) && (is_key_active__19TWindowKeyBoardHardFv() == 0)) {
+    if (((s32) this->m_68 > 0) && (is_key_active() == 0)) {
         temp = TWindowDD::draw_default_entry((s32)this);
         draw_status_text((Ctx_80260020 *)(temp));
     }
@@ -672,7 +671,7 @@ void TWindowKeyBoardHard::run_task() {
     void *temp_r3;
 
     if (m_control != NULL) {
-        if ((is_key_active__19TWindowKeyBoardHardFv() == 0) && (m_control->is_key_active() == 0)) {
+        if ((is_key_active() == 0) && (m_control->is_key_active() == 0)) {
             if (has_non_modifier_key() != 0) {
                 if (current_language == LANGUAGE_JAPANESE) {
                     this->m_68 = 0x3C;

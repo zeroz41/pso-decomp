@@ -60,7 +60,6 @@ extern "C" {
 s32 TAdSinglePlyChrSelectGC__sub_80076D9C(s32 arg0, s32 arg1);
 int get_chat_shortcut(s32 arg0);
 s32 update_selected_symbol__20TWindowSubSymbolChatFv();
-s32 export_keyboard_text(int, void *);
 bool TWindowCtrl__sub_8024701C(Win_8024701C *w);
 void *get_player_by_client_id(s32 i);
 extern s32 local_client_id;
@@ -164,7 +163,7 @@ s32 TWindowChat::submit_keyboard_input() {
             update_selected_symbol__20TWindowSubSymbolChatFv();
         }
     } else {
-        export_keyboard_text((int)this->composer, (void *) ((u8 *) this->result + 4));
+        ((TWindowKeyBoardBase *)this->composer)->export_text((char *)this->result + 4);
     }
     ((TWindowKeyBoardBase *)this->composer)->reset_input();
     return 1;

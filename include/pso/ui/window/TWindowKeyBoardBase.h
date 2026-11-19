@@ -113,6 +113,8 @@ struct TWindowKeyBoardBase : public TWindowBase {
     void reset_input();
     void flush_if_flagged();
     int get_flag();
+    void export_text(char *out);
+    int get_flag62_bit8();
 };
 
 typedef char TWindowKeyBoardBase_size[sizeof(TWindowKeyBoardBase) == 0xB8 ? 1 : -1];

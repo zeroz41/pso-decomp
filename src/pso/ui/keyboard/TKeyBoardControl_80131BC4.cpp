@@ -8,7 +8,6 @@
 
 extern "C" {
 
-s32 export_keyboard_text(s32, s32);
 s32 mem_alloc();
 
 char *TKeyBoardControl::realloc_buffer() {
@@ -16,7 +15,7 @@ char *TKeyBoardControl::realloc_buffer() {
 
     m_base->measure_text_overflow();
     out = mem_alloc();
-    export_keyboard_text((s32)m_base, out);
+    m_base->export_text((char *)out);
     return (char *)out;
 }
 
