@@ -2606,7 +2606,7 @@ pso/weapon/WeaponAttackActions.cpp:
 	.rodata     start:0x8043E858 end:0x8043E868
 	.bss        start:0x80506248 end:0x80506250
 	.sbss       start:0x805D5510 end:0x805D5518
-	.sdata2     start:0x805DAC88 end:0x805DAC94
+	.sdata2     start:0x805DAC88 end:0x805DACA8
 
 pso/weapon/TItemWeapon.cpp:
 	.text       start:0x80120908 end:0x80121278
