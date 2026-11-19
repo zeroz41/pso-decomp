@@ -1238,11 +1238,11 @@ pso/ui/window/TWindowCallBack.cpp
 pso/ui/window/TWindowChallengeResult.cpp
 pso/ui/chat/TWindowChat.cpp
 pso/ui/chat/TWindowChatSymbol.cpp
+pso/ui/chat/TUnk_804CE7D0.cpp
 pso/ui/chat/TWindowChat_8025CB10.cpp
 pso/ui/window/TWindowCheckBox.cpp
 pso/ui/window/TWindowChoiceSetting.cpp
 pso/ui/window/TWindowChoiceSetting_801A6F38.cpp
-pso/ui/window/TWindowChoiceSetting_80249240.cpp
 pso/ui/window/TWindowChoiceSetting_80249610.cpp
 pso/ui/window/TWindowComCard.cpp
 pso/ui/window/TWindowCost.cpp
@@ -1397,7 +1397,6 @@ pso/ui/window/TWindowSubComCard_8007BF48.cpp
 pso/ui/window/TWindowSubComCard_80131BC4.cpp
 pso/ui/window/TWindowSubComCard_80225E0C.cpp
 pso/ui/window/TWindowSubComCard_80244774.cpp
-pso/ui/window/TWindowSubComCard_80249120.cpp
 pso/ui/window/TWindowSubComCard_802495FC.cpp
 pso/ui/window/TWindowSubComCard_80265410.cpp
 pso/ui/window/TWindowSubComCard_80266BC4.cpp

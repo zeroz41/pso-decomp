@@ -25,6 +25,7 @@ struct Win_802473C8 { u8 pad0[0x1E]; u16 flags; };
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/TWindowSubShortCut.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
+#include "pso/unk/TUnk_804CE7D0.h"
 
 #pragma push
 #pragma readonly_strings on
@@ -72,7 +73,6 @@ s32 is_on_current_screen__11TCameraCtrlFv(void *, s32);
 s32 check_flag_100__10TObjPlayerFPv();
 extern u8 controller_input_state[];
 s32 __nw__7TObjectFUl(int);
-s32 construct_symbol_chat_selection(int, void *);
 s32 TWindowKeyBoardSoft__ct(int, void *, void *);
 s32 get_window_layout_position(int);
 s32 TWindowDD__ct(int, void *, void *);
@@ -378,10 +378,8 @@ void TWindowChat::open_next_input_window() {
     u8 *arg0 = (u8*)this;
     s32 temp_r3;
     s32 temp_r3_2;
-    s32 temp_r3_3;
     s32 var_r0;
     s32 var_r0_2;
-    s32 var_r0_3;
     if (((RecoveredFields_8024792C_arg0 *)arg0)->field_1E & 2) {
         *((RecoveredFields_8024792C_arg0 *)arg0)->field_38 = 1;
         ((TWindowSubSymbolChatPartsSet *)(((RecoveredFields_8024792C_arg0 *)arg0)->field_20 + 0x30))->copy_vec2((void*)(get_window_layout_position(0xB7)));
@@ -416,12 +414,7 @@ void TWindowChat::open_next_input_window() {
     case 2:
         ((s32)reset_input__11TWindowChatFv((int)((void *) (((RecoveredFields_8024792C_arg0 *)arg0)->field_20))));
         *((RecoveredFields_8024792C_arg0 *)arg0)->field_38 = 3;
-        temp_r3_3 = __nw__7TObjectFUl(0x24);
-        var_r0_3 = temp_r3_3;
-        if (var_r0_3 != 0) {
-            var_r0_3 = construct_symbol_chat_selection(temp_r3_3, arg0);
-        }
-        ((RecoveredFields_8024792C_arg0 *)arg0)->field_30 = var_r0_3;
+        ((RecoveredFields_8024792C_arg0 *)arg0)->field_30 = (s32)new TUnk_804CE7D0((TObject *)arg0);
         TKeyBoardControl__sub_8025EC04((u8 *)((int) (((RecoveredFields_8024792C_arg0 *)arg0)->field_28)));
         return;
     }

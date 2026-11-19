@@ -6718,11 +6718,17 @@ pso/ui/chat/TWindowChat.cpp:
 	.sdata      start:0x805D38A0 end:0x805D38A8
 
 pso/ui/chat/TWindowChatSymbol.cpp:
-	.text       start:0x80247EFC end:0x80248940
-	.rodata     start:0x8044E7D8 end:0x8044EAD8
+	.text       start:0x80247EFC end:0x80248774
+	.rodata     start:0x8044E7D8 end:0x8044EAC0
 	.data       start:0x804CE2E8 end:0x804CE7CC
 	.sdata      start:0x805D38A8 end:0x805D38B0
-	.sdata2     start:0x805DCB78 end:0x805DCBA8
+	.sdata2     start:0x805DCB78 end:0x805DCBA0
+
+pso/ui/chat/TUnk_804CE7D0.cpp:
+	.text       start:0x80248774 end:0x80248940
+	.rodata     start:0x8044EAC0 end:0x8044EAD8
+	.data       start:0x804CE7D0 end:0x804CE7E8
+	.sdata2     start:0x805DCBA0 end:0x805DCBA8
 
 pso/ui/window/TWindowOptionCtrl_80248940.cpp:
 	.text       start:0x80248940 end:0x80248968
@@ -6763,20 +6769,11 @@ pso/ui/window/TWindowSubStatusDisp_80249060.cpp:
 	.text       start:0x80249060 end:0x80249078
 
 pso/ui/window/TWindowChoiceSetting_80249078.cpp:
-	.text       start:0x80249078 end:0x80249120
-	.rodata     start:0x8044EB08 end:0x8044EB10
-	.sdata2     start:0x805DCBB0 end:0x805DCBB8
-
-pso/ui/window/TWindowSubComCard_80249120.cpp:
-	.text       start:0x80249120 end:0x80249240
-	.sdata2     start:0x805DCBB8 end:0x805DCBC0
-
-pso/ui/window/TWindowChoiceSetting_80249240.cpp:
-	.text       start:0x80249240 end:0x802495FC
-	.rodata     start:0x8044EB10 end:0x8044EB18
+	.text       start:0x80249078 end:0x802495FC
+	.rodata     start:0x8044EAF0 end:0x8044EB18
 	.data       start:0x804CE808 end:0x804CE820
 	.sdata      start:0x805D38B8 end:0x805D38C0
-	.sdata2     start:0x805DCBC0 end:0x805DCBC4
+	.sdata2     start:0x805DCBB0 end:0x805DCBC4
 
 pso/ui/window/TWindowSubComCard_802495FC.cpp:
 	.text       start:0x802495FC end:0x80249610
