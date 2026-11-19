@@ -2405,12 +2405,13 @@ pso/item/TItemEquipBase.cpp:
 	.rodata     start:0x8043E2C8 end:0x8043E2D7
 	.data       start:0x8049F178 end:0x8049F244
 	.sdata      start:0x805D2BE0 end:0x805D2BE4
-	.sdata2     start:0x805DAB60 end:0x805DAB64
+	.sdata2     start:0x805DAB60 end:0x805DAB68
 
 pso/item/TItemData.cpp:
 	.text       start:0x8010B848 end:0x8010ECD0
 	.rodata     start:0x8043E2D8 end:0x8043E3A0
 	.data       start:0x8049F248 end:0x8049F3A0
+	.sdata2     start:0x805DAB68 end:0x805DAB90
 
 pso/player/TObjPlayer_8010ECD0.cpp:
 	.text       start:0x8010ECD0 end:0x8010ED0C
@@ -5185,7 +5186,7 @@ pso/player/TObjPlayer_801AEFFC.cpp:
 
 pso/player/TObjPlayer_801AF2F0.cpp:
 	.text       start:0x801AF290 end:0x801BC140
-	.rodata     start:0x80446F48 end:0x80446F50
+	.rodata     start:0x80446F20 end:0x80446F70
 	.data       start:0x804C3BA8 end:0x804C3E38
 	.sdata      start:0x805D3530 end:0x805D3538
 
@@ -5264,6 +5265,7 @@ pso/ui/window/TWindowDuelResult_801C2528.cpp:
 	.text       start:0x801C23A8 end:0x801C25B4
 	.rodata     start:0x80446F78 end:0x80446F80
 	.data       start:0x804C3E60 end:0x804C3E78
+	.sbss       start:0x805D5D90 end:0x805D5D98
 	.sdata2     start:0x805DC2E0 end:0x805DC2E8
 
 pso/unk/TLobby_801C25B4.cpp:
@@ -5313,7 +5315,7 @@ pso/player/TObjPlayer_801C7430.cpp:
 	.text       start:0x801C7430 end:0x801D34E0
 	.rodata     start:0x80447128 end:0x80447150
 	.data       start:0x804C4020 end:0x804C43E8
-	.sdata2     start:0x805DC360 end:0x805DC374
+	.sdata2     start:0x805DC360 end:0x805DC3B8
 
 pso/unk/text_801D34E0.cpp:
 	.text       start:0x801D34E0 end:0x801D3518
@@ -10724,6 +10726,7 @@ pso/unk/text_803626A8.cpp:
 
 pso/player/TObjPlayer_80362E60.cpp:
 	.text       start:0x80362DE8 end:0x803631A0
+	.rodata     start:0x80479FC8 end:0x80479FD8
 	.data       start:0x804F27E0 end:0x804F28E0
 	.sdata2     start:0x805E0260 end:0x805E0268
 
