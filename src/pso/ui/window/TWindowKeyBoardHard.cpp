@@ -659,7 +659,6 @@ void TWindowKeyBoardHard::render() {
 }
 
 
-#include "pso/ui/window/TWindowKeyBoardHard_802601D4.h"
 
 #include "pso/ui/window/TWindowBase.h"
 

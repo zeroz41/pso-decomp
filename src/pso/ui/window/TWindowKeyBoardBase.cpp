@@ -54,7 +54,6 @@ struct KbSoft_8025D264 {
 };
 
 extern "C" {
-s32 strnlen__19TWindowKeyBoardSoftFPScUl(void *, u32);
 s32 strncpy(s32 *, u8 *, s32);
 void set_glyph_quad_extents(u8, void *);
 s32 map_char_to_font_code(u16);
@@ -402,7 +401,7 @@ void TWindowKeyBoardBase::append_text_entry(u8 *arg1) {
     rec = *(Rec_8025D3CC **)(arg0 + 0xA0);
     idx = rec->len;
     p = (u8 *)(idx + (s32)rec);
-    n = ((s32 (*)(void *, u32, s32))strnlen__19TWindowKeyBoardSoftFPScUl)(arg1, 0x100, (s32)rec);
+    n = TWindowKeyBoardSoft::strnlen((s8 *)arg1, 0x100);
     p[3] = idx;
     p[4] = n;
     p[5] = 1;
@@ -420,7 +419,7 @@ void TWindowKeyBoardBase::append_text_entry(u8 *arg1) {
 void TWindowKeyBoardBase::write_name_and_text(char *name, char *text) {
     KbSoft_8025D47C *self = (KbSoft_8025D47C *)this;
     u8 *p = self->buf;
-    s32 n1 = strnlen__19TWindowKeyBoardSoftFPScUl(name, 0x100);
+    s32 n1 = TWindowKeyBoardSoft::strnlen((s8 *)name, 0x100);
     s32 n2;
     p[1] = n1;
     p[2] = self->kind;
@@ -428,7 +427,7 @@ void TWindowKeyBoardBase::write_name_and_text(char *name, char *text) {
     strncpy((s32 *)p, (u8 *)name, n1);
     p += n1;
     n1 = (s8)n1;
-    n2 = strnlen__19TWindowKeyBoardSoftFPScUl(text, 0x100);
+    n2 = TWindowKeyBoardSoft::strnlen((s8 *)text, 0x100);
     p[0] = n1;
     p[1] = n2;
     p[2] = 1;
@@ -444,7 +443,7 @@ void TWindowKeyBoardBase::write_name_and_text(char *name, char *text) {
 #pragma optimization_level 2
 s32 TWindowKeyBoardBase::sub_8025D544(s32 *name, s8 *text) {
     void * arg0 = (void *)this;
-    s32 name_len = strnlen__19TWindowKeyBoardSoftFPScUl(name, 0x100);
+    s32 name_len = TWindowKeyBoardSoft::strnlen((s8 *)name, 0x100);
     s32 text_len = TWindowKeyBoardSoft::strnlen(text, 0x100);
     s32 room = 0x94 - (((KbSoft_8025D47C *)arg0)->buf - ((KbSoft_8025D47C *)arg0)->base);
 

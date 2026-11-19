@@ -15,7 +15,6 @@
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
 #include "pso/ui/window/TWindowKeyBoardBase.h"
 #include "pso/ui/window/TWindowKeyBoardHard.h"
-#include "pso/ui/window/TWindowKeyBoardHard_802601D4.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8025CB70.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 #include "pso/system/task/TObject.h"

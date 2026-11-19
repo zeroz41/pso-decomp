@@ -32,7 +32,6 @@ struct Kbd_8025C804 {
 
 extern "C" {
 s32 is_chat_shortcut_set(int);
-s32 select_next__19TWindowKeyBoardBaseFv();
 s32 TWindowKeyBoardSoft__sub_803E67D4(void *, void *);
 s32 get_shared_text_buffer();
 void export_keyboard_text(Base_8025C974 *base, char *out);
@@ -114,7 +113,7 @@ void TWindowKeyBoardBase::update_input_state() {
             update();
             return;
         }
-        select_next__19TWindowKeyBoardBaseFv();
+        select_next();
         return;
     }
     if (temp_r4 & 2) {
@@ -301,7 +300,7 @@ void TWindowKeyBoardBase::vt17() {
 void TWindowKeyBoardBase::vt18() {
     if (*(u16 *)((s8 *)this + 0x60) & 4) {
         if (*(u16 *)((s8 *)this + 0x62) & 1) {
-            select_next__19TWindowKeyBoardBaseFv();
+            select_next();
             return;
         }
         sub_8025D664();
@@ -447,7 +446,7 @@ void TWindowKeyBoardBase::update_input_state2() {
             update();
             return;
         }
-        select_next__19TWindowKeyBoardBaseFv();
+        select_next();
         return;
     }
     if (temp_r4 & 2) {
@@ -464,7 +463,7 @@ void TWindowKeyBoardBase::vt19() {
             update();
             return;
         }
-        select_next__19TWindowKeyBoardBaseFv();
+        select_next();
         return;
     }
     if (temp_r4 & 2) {
