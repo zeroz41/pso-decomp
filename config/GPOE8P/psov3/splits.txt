@@ -8950,6 +8950,9 @@ pso/unk/text_802F0E24.cpp:
 	.sbss       start:0x805D6950 end:0x805D6958
 	.sdata2     start:0x805DEC68 end:0x805DEC6C
 
+pso/boss/barbaray/TObjBoss7DustSdata2.cpp:
+	.sdata2     start:0x805DEC70 end:0x805DEC88
+
 pso/unk/text_802F0F04.cpp:
 	.text       start:0x802F0F04 end:0x802F105C
 	.data       start:0x804E48D8 end:0x804E4930
