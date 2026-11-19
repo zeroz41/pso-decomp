@@ -1679,7 +1679,7 @@ pso/unk/text_800C2A88.cpp:
 pso/unk/text_800C2CE0.cpp:
 	.text       start:0x800C2CE0 end:0x800C3088
 	.rodata     start:0x8043BA60 end:0x8043BA68
-	.sdata2     start:0x805D9FD0 end:0x805D9FD4
+	.sdata2     start:0x805D9FD0 end:0x805DA000
 
 pso/enemy/flower/FlowerRe2Data.cpp:
 	.rodata     start:0x8043BA68 end:0x8043BBD0
