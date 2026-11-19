@@ -12,6 +12,7 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_801C7430.h"
+#include "pso/player/TObjPlayer_801D2E20.h"
 #include "pso/player/PlayerAttackController.h"
 #include "pso/system/task/TObject.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
@@ -1040,14 +1041,6 @@ struct Pos_801D2964 { u8 bytes[0x8]; };
 
 struct Pkt_801D2964 { u8 hdr[4]; Pos_801D2964 pos; };
 
-struct Ent_801D32A0 { u16 a; s16 b; };
-
-struct Self_801D32A0 { u8 pad[0x20]; f32 f20; f32 f24; f32 f28; f32 f2c; s32 count; Ent_801D32A0 ents[1]; };
-
-struct Cur_801D32A0 { u8 pad[0x28]; f32 x28; f32 x2c; f32 x30; u8 pad2[8]; f32 x3c; u8 pad3[0x5C]; u8 lock[4]; };
-
-struct Pl_801D32A0 { u8 pad[0x424]; void *cursor; };
-
 struct E_801D2B2C { u8 d[4]; };
 
 struct Obj_801D2B2C { s32 n; E_801D2B2C e[1]; };
@@ -1055,12 +1048,6 @@ struct Obj_801D2B2C { s32 n; E_801D2B2C e[1]; };
 struct E_801D2C18 { u8 d[4]; };
 
 struct Obj_801D2C18 { s32 n; E_801D2C18 e[1]; };
-
-struct Rec_801D3224 { u8 pad[0x1C]; Vec pos; u8 pad28[4]; };
-
-struct Obj_801D3224 { u8 pad[0xA4]; Rec_801D3224 *recs; };
-
-struct Slot_801D3224 { s16 a; s16 idx; };
 
 typedef struct Msg_801CACD8 {
     u8 pad0[2];
@@ -1105,13 +1092,11 @@ s32 clear_velocity(void *);
 s32 add_actor_tp(u8 *arg0, s32 arg1);
 s32 add_actor_hp(u8 *arg0, s16 arg1);
 s32 trigger_switch_attack__10TObjPlayerFPvi(void *, s32);
-void VecCopy__FP3VecPC3Vec(void *, void *);
 s32 is_locally_controlled__10TObjPlayerFPv(void *);
 s32 obj_isState2_324__9TObjCharaFv(void *);
 s32 get_actor_hp__9TObjCharaFv(void * a0 = 0);
 s32 obj_isState3_324__9TObjCharaFv();
 s32 TObjPlayer__sub_8001943C(void *, s32);
-s16 get_entity_id(void *);
 void obj_setFlags30(void *, u32);
 s32 get_current_floor(void);
 Item_801CE928 * get_item_field_6__10TObjPlayerFPv(void *);
@@ -1128,12 +1113,9 @@ s32 init_entry_fields__6TLobbyFiii(int, int, void *, void *);
 u32 activate_d04_slot__10TObjPlayerFv(s32);
 s32 spawn_appearance_effect__10TObjPlayerFUs();
 s32 is_frozen__10TObjPlayerFv();
-s16 get_type_id__10TObjPlayerFv(void* p);
-void * TObjPlayer__sub_80116620(void *, s32);
 int sub_8011E204__10TObjPlayerFl(void*, void*);
 s32 weapon_has_extra_attack();
 void set_action_type__10TObjPlayerFs(void *p, s16 v);
-int get_captured_target_entry(void*, int);
 s32 get_captured_target_count(s32 *arg0);
 }
 void increment_burst_counter(u8 *arg0);
@@ -1141,7 +1123,6 @@ s32 get_burst_counter(void *);
 extern "C" {
 s32 copy_attack_targets(void *, void *);
 int TObjPlayer__sub_8012AF00(void*);
-void TObjPlayer__sub_8012AF80(void *);
 s32 publish_actor_light_scalars(u16, f32, f32);
 s32 canSetMenuCursorAction(s32, void *, s32, u8);
 void TMainCursor__sub_8013DFC4(u8 *arg0);
@@ -1187,8 +1168,6 @@ void play_footstep_sound__10TObjPlayerFv(void *, f32, f32);
 void TObjPlayer__sub_801B4430(s32 arg0);
 void send_code_49_1__10TObjPlayerFi(s32 arg0);
 s32 check_flag_100__10TObjPlayerFPv(void *);
-Cur_801D32A0 * TObjPlayer__sub_801B57E8(void *);
-u16 get_action_palette_entry__10TObjPlayerFl(void *, s32);
 u16 TObjPlayer__sub_801B5AF8(void *, s32);
 u32 resolve_move_collision__10TObjPlayerFv(void *);
 s32 damp_planar_velocity();
@@ -1461,24 +1440,7 @@ s32 TObjPlayer__sub_801D2BB8(s32 arg0, s32 arg1);
 void TObjPlayer__sub_801D2CAC(u8 *arg0);
 void TObjPlayer__sub_801D2CC4(void* p, f32 v);
 void* get_technique_data__10TObjPlayerFPv(void* p);
-void* get_anim_field_c__10TObjPlayerFPv(void* p);
 int on_attack_finished__10TObjPlayerFPv(void* p);
-void clear_lockon_list__10TObjPlayerFPvPvff(s32 *arg0, void * _w1, f32 _w2, f32 _w3);
-s16 get_validated_attack_stage(u8 *arg0);
-s32 TObjPlayer__sub_801D2EE8(s16 arg0);
-s16 TObjPlayer__sub_801D2F0C(void *arg0);
-s16 TObjPlayer__sub_801D2F4C(s16 *arg0);
-s32 TObjPlayer__sub_801D2F8C(s16 arg0);
-void queue_physical_attack_input(PlayerAttackController *self, TObjPlayer *obj, s32 arg2, s16 arg3);
-void apply_anim_action__10TObjPlayerFPvi(u8 *arg0, s32 arg1);
-s32 get_first_target_position__10TObjPlayerFPvPv(void *arg0, Vec *out);
-void * capture_lockon_targets(Self_801D32A0 *self, Pl_801D32A0 *player);
-int TObjPlayer__sub_801D345C(void* p);
-void handle_6x54(void);
-void handle_6x8C(void);
-void handle_6x65(void);
-void handle_6x8B(void);
-void handle_6x64(void);
 s16 TAdSinglePlyChrSelectGC__sub_801D5DDC(void *);
 s32 reset_photon_blast_gauge(void *);
 int is_pb_palette_bank_empty(void*);
@@ -1504,7 +1466,6 @@ s32 construct_actor_light_task(void *, f32 *, f32 *, int, void *, f32, s32);
 s32 construct_revival_particle_effect(void *, void *, s32);
 void TObjPlayer__sub_8024ABDC(s32 arg0);
 void TLobby__sub_8024AC20(s32 arg0);
-void dispatch_to_child__11TWindowCtrlFPv(u16, s32);
 }
 void reset_cameras_to_actor(void *actor, s32 arg1);
 void bswap_6x45_packet(void *p);
@@ -1524,7 +1485,6 @@ u8 get_6x46_strike_packet_size(s32 arg0);
 void add_death_sink_progress(u8 *arg0, f32 farg0);
 f32 get_attack_controller_rate(void* p);
 void emit_heavy_attack_particles(s32 arg0, s32 arg1);
-void begin_player_attack(u8 *arg0, s32 arg1, s16 arg2, s32 arg3);
 void add_photon_blast_charge(u8 *arg0, f32 farg0);
 void create_technique_charge_light(u32 kind, void *owner);
 void release_photon_blast_requests(void *registry);
@@ -1577,10 +1537,6 @@ extern void *player_slot_table[];
 extern const char *lbl_805D3530;
 extern const char *TWindowReturnCity__class_name;
 extern u8 *TObjPlayer__shared_photon_blast_state;
-extern const f32 lbl_805DC3B8;
-extern const f32 lbl_805DC3BC;
-extern const f32 lbl_805DC3C0;
-extern const f32 lbl_805DC3C4;
 extern u32 tl_03;
 extern s32 tl_07;
 extern s32 tl_particlemodel;
@@ -7692,513 +7648,6 @@ void emit_heavy_attack_particles(s32 arg0, s32 arg1) {
     TObjPlayer::check_hit_by_id(arg0, arg1, 0x1B7);
 }
 extern int fold_flush_32;
-#pragma pop
-
-#pragma push
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-
-void clear_lockon_list__10TObjPlayerFPvPvff(s32 *arg0, void * _w1, f32 _w2, f32 _w3) {
-    s32 var_r31;
-    u8 *var_r30;
-    var_r30 = (u8 *)((void *)((u8 *)(arg0) + 4));
-    var_r31 = 0;
-    *(s32 *)((s8 *)arg0 + 0) = 0;
-    do {
-        TObjPlayer__sub_8012AF80(var_r30);
-        var_r31 += 1;
-        var_r30 = (u8 *)((void *)((u8 *)(var_r30) + 4));
-    } while (var_r31 < 0xA);
-}
-extern int fold_flush_33;
-#pragma pop
-
-#pragma push
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-void TObjPlayer::advance_and_clamp_state() {
-    if ((*(s16 *)((s8 *)this + 0x10) = *(s16 *)((s8 *)this + 0x10) + 1) > 2) {
-        set_saved_attack_stage((s16)(2));
-    }
-}
-extern int fold_flush_34;
-#pragma pop
-
-#pragma push
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-s16 get_validated_attack_stage(u8 *arg0) {
-    s16 var_r31;
-    var_r31 = *(s16 *)((s8 *)arg0 + 0x10);
-    if (TObjPlayer__sub_801D2EE8((s16)((void*)((int) (var_r31)))) == 0) {
-        var_r31 = 0;
-    }
-    return var_r31;
-}
-extern int fold_flush_35;
-#pragma pop
-
-#pragma push
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-s32 TObjPlayer__sub_801D2EE8(s16 arg0) {
-    if ((arg0 < 0) || (arg0 >= 3)) {
-        return 0;
-    }
-    return 1;
-}
-extern int fold_flush_36;
-#pragma pop
-
-#pragma push
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-s16 TObjPlayer__sub_801D2F0C(void *arg0) {
-    s16 var_r31;
-    var_r31 = *(s16 *)((s8 *)arg0 + 2);
-    if (TObjPlayer__sub_801D2F8C((s16)(var_r31)) == 0) {
-        var_r31 = 0;
-    }
-    return var_r31;
-}
-extern int fold_flush_37;
-#pragma pop
-
-#pragma push
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-s16 TObjPlayer__sub_801D2F4C(s16 *arg0) {
-    s16 var_r31;
-    var_r31 = *arg0;
-    if (TObjPlayer__sub_801D2F8C((s16)((s16)((int) (var_r31)))) == 0) {
-        var_r31 = 0;
-    }
-    return var_r31;
-}
-extern int fold_flush_38;
-#pragma pop
-
-#pragma push
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-s32 TObjPlayer__sub_801D2F8C(s16 arg0) {
-    if ((arg0 < 0) || (arg0 >= 3)) {
-        return 0;
-    }
-    return 1;
-}
-extern int fold_flush_39;
-#pragma pop
-
-#pragma push
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-void queue_physical_attack_input(PlayerAttackController *self, TObjPlayer *obj, s32 arg2, s16 arg3) {
-    s16 t;
-    if (((int (*)(void*, int))test_flags_any)((void*)(((void *)get_anim_field_c__10TObjPlayerFPv((void*)(self)))), 2) == 0 ||
-        ((TObjPlayer *)self)->is_flag32_clear() == 0) {
-        ((FlagWord *)((void *)get_anim_field_c__10TObjPlayerFPv((void*)(self))))->set(4);
-    }
-    if (((int (*)(void*, int))test_flags_any)((void*)(((void *)get_anim_field_c__10TObjPlayerFPv((void*)(self)))), 2) != 0 &&
-        ((int (*)(void*, int))test_flags_any)((void*)(((void *)get_anim_field_c__10TObjPlayerFPv((void*)(self)))), 4) == 0) {
-        ((FlagWord *)((void *)get_anim_field_c__10TObjPlayerFPv((void*)(self))))->set(1);
-        ((TObjPlayer *)self)->advance_and_clamp_state();
-        if (get_validated_attack_stage((u8 *)self) > arg3) {
-            ((TObjPlayer *)self)->set_saved_attack_stage(arg3);
-        }
-        t = get_action_palette_entry__10TObjPlayerFl(obj, arg2);
-        ((TObjPlayer *)obj)->get_field_340(2);
-        ((TObjPlayer *)self)->set_attack_target((s16)(t));
-        dispatch_to_child__11TWindowCtrlFPv(((s32 (*)(void *))get_entity_id)(obj), arg2);
-    }
-}
-extern int fold_flush_40;
-#pragma pop
-
-#pragma push
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-s32 TObjPlayer::update_if_flag8_set() {
-    s32 arg0 = (s32)this;
-    if (((int (*)(void*, int))test_flags_any)((void*)(arg0 + 0xC), 8) != 0) {
-        return tick_countdown_timer();
-    }
-    return 0;
-}
-extern int fold_flush_41;
-#pragma pop
-
-#pragma push
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-s32 TObjPlayer::tick_countdown_timer() {
-    u8 *arg0 = (u8 *)this;
-    s32 temp_r0;
-
-    temp_r0 = *(s32 *)((s8 *)arg0 + 0x1C) - 1;
-    *(s32 *)((s8 *)arg0 + 0x1C) = temp_r0;
-    if (temp_r0 < 0) {
-        ((FlagWord *)(arg0 + 0xC))->set(1);
-        return 1;
-    }
-    return 0;
-}
-extern int fold_flush_42;
-#pragma pop
-
-#pragma push
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-void apply_anim_action__10TObjPlayerFPvi(u8 *arg0, s32 arg1) {
-    ((FlagWord *)((void *) (arg0 + 0xC)))->set(2);
-    *(s32 *)((s8 *)arg0 + 0x1C) = (s32) ((TObjPlayer *)arg1)->get_attack_recovery_count();
-    TObjPlayer::check_status_flag_128((void*)((void *) (arg1)));
-}
-extern int fold_flush_43;
-#pragma pop
-
-#pragma push
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-void begin_player_attack(u8 *player, s32 arg1, s16 arg2, s32 arg3) {
-  s8 *new_var;
-  ((TObjPlayer *)player)->set_saved_attack_stage((s16)((void *) arg2));
-  *((s32 *) (((s8 *) player) + 0x14)) = arg3;
-  *((s16 *) (((s8 *) player) + 0x12)) = 0;
-  new_var = (s8 *) player;
-  *((s32 *) (((s8 *) player) + 0x18)) = 0;
-  ((FlagWord *)((void *) (player + 0xC)))->clear(0x1F);
-  *((s32 *) (new_var + 0x1C)) = 6;
-  *((f32 *) (new_var + 4)) = (f32) (*((f32 *) (((s8 *) player) + 8)));
-  if ((s16) (*((s16 *) (((s8 *) player) + 0))))
-  {
-    *((f32 *) (((s8 *) player) + 4)) = (f32) ((*((f32 *) (new_var + 4))) * lbl_805DC3B8);
-  }
-}
-extern int fold_flush_44;
-#pragma pop
-
-#pragma push
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-
-s32 get_first_target_position__10TObjPlayerFPvPv(void *arg0, Vec *out) {
-    Slot_801D3224 *s = (Slot_801D3224 *)TObjPlayer__sub_801D345C((void*)(arg0));
-    u16 uid = ((TObjPlayer *)s)->get_uid();
-    Obj_801D3224 *o;
-    if (uid == 0xFFFF) {
-        return 0;
-    }
-    o = ((Obj_801D3224 * (*)(u16))find_entity_by_id)(uid);
-    if (o == NULL) {
-        return 0;
-    }
-    ((void (*)(Vec *, Vec *))VecCopy__FP3VecPC3Vec)(out, &o->recs[s->idx].pos);
-    return 1;
-}
-extern int fold_flush_45;
-#pragma pop
-
-#pragma push
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-void *capture_lockon_targets(Self_801D32A0 *self, Pl_801D32A0 *player) {
-    Cur_801D32A0 *cur;
-    s32 n;
-    Ent_801D32A0 *e;
-    s32 i;
-    void *obj;
-    if (player->cursor == 0) return 0;
-    ((void (*)(void *))clear_lockon_list__10TObjPlayerFPvPvff)(&self->count);
-    cur = TObjPlayer__sub_801B57E8(player);
-    if (cur == 0) return 0;
-    if (TMainCursor__sub_8013E900(cur) != 2) return 0;
-    self->f20 = cur->x28;
-    self->f24 = cur->x2c;
-    self->f28 = cur->x30;
-    self->f2c = cur->x3c;
-    n = ((TLockOnCursor *)(cur->lock))->get_target();
-    e = self->ents;
-    ((TNpcPlayer *)(&self->count))->set_state(n);
-    for (i = 0; i != n; i++) {
-        obj = TObjPlayer__sub_80116620(cur->lock, i);
-        ((TNpcPlayer *)e)->set_field_0(get_type_id__10TObjPlayerFv(obj));
-        ((TNpcPlayer *)e)->set_field2(((TObjPlayer *)obj)->get_obj_id());
-        e++;
-    }
-    ((TMainCursor *)(player->cursor))->set_cursor_pos(self->ents[0].a, self->ents[0].b);
-    return &self->count;
-}
-extern int fold_flush_46;
-#pragma pop
-
-#pragma push
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-void TObjPlayer::reset_movement_state() {
-    *(s16 *)((s8 *)((u8 *)this) + 2) = 0;
-    *(s16 *)((s8 *)((u8 *)this) + 0) = 0;
-    *(f32 *)((s8 *)((u8 *)this) + 4) = (f32) lbl_805DC3BC;
-    *(s16 *)((s8 *)((u8 *)this) + 0x12) = 0;
-    *(s16 *)((s8 *)((u8 *)this) + 0x10) = 0;
-    *(s32 *)((s8 *)((u8 *)this) + 0x14) = 0;
-    *(s32 *)((s8 *)((u8 *)this) + 0x18) = 0;
-    *(s32 *)((s8 *)((u8 *)this) + 0x1C) = 0;
-    *(f32 *)((s8 *)((u8 *)this) + 0x20) = (f32) lbl_805DC3C0;
-    *(f32 *)((s8 *)((u8 *)this) + 0x24) = (f32) lbl_805DC3BC;
-    *(f32 *)((s8 *)((u8 *)this) + 0x28) = (f32) lbl_805DC3BC;
-    *(f32 *)((s8 *)((u8 *)this) + 0x2C) = (f32) lbl_805DC3C4;
-    clear_lockon_list__10TObjPlayerFPvPvff((s32 *)((void *)(((u8 *)this) + 0x30)), (void *)this, lbl_805DC3C0, lbl_805DC3BC);
-}
-extern int fold_flush_47;
-#pragma pop
-
-#pragma push
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-s16 TObjPlayer::get_obj_id() { return *(s16*)((char*)this + 0x2); }
-#pragma pop
-
-#pragma push
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-void TObjPlayer::set_saved_attack_stage(s16 v) { *(s16*)((char*)this + 0x10) = v; }
-#pragma pop
-
-#pragma push
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-int TObjPlayer::is_flag32_clear() { return (((int (*)(void*, int))test_flags_any)((void*)((char*)this + 0xc), 32)) == 0; }
-#pragma pop
-
-#pragma push
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-int TObjPlayer__sub_801D345C(void* p) { return get_captured_target_entry((char*)p + 0x30, 0); }
-#pragma pop
-
-#pragma push
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-int TObjPlayer::get_field_340(int _w1) { return ((TObjPlayer *)((char*)this + 0x340))->set_action_palette_mode(); }
-#pragma pop
-
-#pragma push
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-int TObjPlayer::check_status_flag_128(void* p) { return ((int (*)(void*, int))sub_8011E204__10TObjPlayerFl)(p, 128); }
-#pragma pop
-
-#pragma push
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-void handle_6x54(void) {  }
-#pragma pop
-
-#pragma push
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-void handle_6x8C(void) {  }
-#pragma pop
-
-#pragma push
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-void handle_6x65(void) {  }
-#pragma pop
-
-#pragma push
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-void handle_6x8B(void) {  }
-#pragma pop
-
-#pragma push
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-void handle_6x64(void) {  }
 #pragma pop
 
 f32 attack_damage_scale_table[3] = { 0.9f, 1.7f, 0.5f };

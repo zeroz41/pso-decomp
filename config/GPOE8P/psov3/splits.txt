@@ -2223,6 +2223,7 @@ pso/item/TItemDisconnectCtrl.cpp:
 pso/item/drop/TItemDrop_80105D0C.cpp:
 	.text       start:0x80105D0C end:0x80107B74
 	.rodata     start:0x8043E0C8 end:0x8043E130
+	.data       start:0x8049EF70 end:0x8049EFA0
 	.sdata      start:0x805D2B78 end:0x805D2B80
 	.sbss       start:0x805D5458 end:0x805D5478
 	.sdata2     start:0x805DAAB8 end:0x805DAAD4
@@ -5178,10 +5179,14 @@ pso/player/PlayerTaskEffects.cpp:
 	.sdata2     start:0x805DC320 end:0x805DC360
 
 pso/player/TObjPlayer_801C7430.cpp:
-	.text       start:0x801C7430 end:0x801D34E0
+	.text       start:0x801C7430 end:0x801D2E20
 	.rodata     start:0x80447128 end:0x80447150
 	.data       start:0x804C4020 end:0x804C43E8
 	.sdata2     start:0x805DC360 end:0x805DC3B8
+
+pso/player/TObjPlayer_801D2E20.cpp:
+	.text       start:0x801D2E20 end:0x801D34E0
+	.sdata2     start:0x805DC3B8 end:0x805DC3C8
 
 pso/unk/text_801D34E0.cpp:
 	.text       start:0x801D34E0 end:0x801D3518
@@ -8050,7 +8055,7 @@ pso/map/FloorArea_8029E764.cpp:
 pso/render/reflection.cpp:
 	.text       start:0x8029E7BC end:0x8029F5B0
 	.rodata     start:0x80465E08 end:0x80465E20
-	.data       start:0x804DC7B8 end:0x804DC7C4
+	.data       start:0x804DC7B8 end:0x804DC7DC
 	.sbss       start:0x805D65F0 end:0x805D6600
 	.sdata2     start:0x805DDD88 end:0x805DDDB8
 
@@ -11766,6 +11771,7 @@ pso/unk/text_803CFEA0.cpp:
 	.rodata     start:0x8047DAB8 end:0x8047DCF0
 	.data       start:0x804F9D98 end:0x804F9E00
 	.bss        start:0x80581EA8 end:0x80582F58
+	.sdata      start:0x805D4690 end:0x805D4694
 	.sbss       start:0x805D7608 end:0x805D7614
 
 pso/unk/TLobby_803D0DEC.cpp:
@@ -11906,6 +11912,7 @@ pso/camera/TCameraCtrl_803D749C.cpp:
 	.rodata     start:0x8047E3C8 end:0x8047E3D8
 	.data       start:0x804FA500 end:0x804FA528
 	.bss        start:0x8058CAB8 end:0x8058CB48
+	.sdata      start:0x805D4698 end:0x805D469C
 	.sbss       start:0x805D76B0 end:0x805D76B8
 	.sdata2     start:0x805E0E88 end:0x805E0EA0
 

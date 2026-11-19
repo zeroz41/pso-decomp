@@ -337,7 +337,6 @@ void GXSetTevOrder(s32 stage, s32 coord, s32 map, s32 color);
 const f64 lbl_80465E18 = 0.0054931640625;
 extern u32 camera_ctrl_instance;
 extern "C" {
-int set_instance__6TSceneFi(void *f);
 void VecCopy__FP3VecPC3Vec(Vec *, Vec *);
 void normalize_vector(Vec *);
 const Vec sora_reflection_up_vec = {0.0f, 1.0f, 0.0f};
@@ -512,66 +511,50 @@ void TUnk_804DC7C4::render_shadows() {
 }
 
 void TUnk_804DC7C4::render() {  }
-int TScene::set_scene_callbacks() {
+void TUnk_804DC7C4::run_task() {
     TScene::set_id((int)((void *)TObjPlayer::setup_projection_texture));
     TScene::set_active_scene((int)((void *)TObjPlayer::clear_state_if_flag80));
-    return set_instance__6TSceneFi((void *)TObjPlayer__sub_8029EE2C);
+    TScene::set_instance((int)((void *)TObjPlayer__sub_8029EE2C));
 }
 }
 
-extern "C" {
-s32 __ct__7TObjectFP7TObject();
-s32 __dl__7TObjectFPv(void *);
-s32 __dt__7TObjectFv(void *, s32);
-
-extern s32 lbl_804DC7C4[];
-
-void *TUnk_804DC7C4::destroy(s16 arg1) {
-    if (this != NULL) {
-        *(s32 **)((s8 *)this + 0x18) = lbl_804DC7C4;
-        scene_sora_reflect_active = 0;
-        scene_sora_recon_active_flag = 0;
-        lbl_805D65F0 = 0;
-        if ((u32) this->m_20 != 0U) {
-            ((TObject *)(this->m_20))->queue_destruction();
-            this->m_20 = 0U;
-        }
-        TScene::set_id(0);
-        TScene::set_active_scene(0);
-        TScene::set_instance(0);
-        __dt__7TObjectFv(this, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(this);
-        }
-    }
-    return this;
-}
-
-void *create_instance__10TSceneSoraFPv(void *arg0) {
-    void *obj;
-
-    __ct__7TObjectFP7TObject();
-    *(s32 **)((s8 *)arg0 + 0x18) = lbl_804DC7C4;
+TUnk_804DC7C4::~TUnk_804DC7C4() {
     scene_sora_reflect_active = 0;
     scene_sora_recon_active_flag = 0;
-    if ((void *) scene_sora_instance != NULL) {
-        return arg0;
+    lbl_805D65F0 = 0;
+    if (indirect_effect != NULL) {
+        indirect_effect->queue_destruction();
+        indirect_effect = NULL;
     }
-    scene_sora_instance = arg0;
-    *(s32 *)((s8 *)arg0 + 0x1C) = (s32) scene_sora_recon_object;
+    TScene::set_id(0);
+    TScene::set_active_scene(0);
+    TScene::set_instance(0);
+}
+
+TUnk_804DC7C4::TUnk_804DC7C4(TObject *parent) : TObject(parent) {
+    void *obj;
+
+    scene_sora_reflect_active = 0;
+    scene_sora_recon_active_flag = 0;
+    if (scene_sora_instance != NULL) {
+        return;
+    }
+    scene_sora_instance = this;
+    recon_object = scene_sora_recon_object;
     obj = TObject::operator new(0x20);
     if (obj != NULL) {
         obj = construct_indirect_effect_task((u8 *)obj, 0x28, 1, (u8 *)tl_05);
     }
-    *(void **)((s8 *)arg0 + 0x20) = obj;
-    *(f32 *)((s8 *)arg0 + 0x24) = 0.0f;
-    ((TUnk_804DC7C4 *)arg0)->m_28 = 0.0f;
-    *(f32 *)((s8 *)arg0 + 0x2C) = 0.0f;
-    ((TUnk_804DC7C4 *)arg0)->m_30 = 0.0f;
-    *(f32 *)((s8 *)arg0 + 0x34) = 1.0f;
-    ((TUnk_804DC7C4 *)arg0)->m_38 = 0.0f;
-    return arg0;
+    indirect_effect = (TObject *)obj;
+    reflect_pos.x = 0.0f;
+    reflect_pos.y = 0.0f;
+    reflect_pos.z = 0.0f;
+    reflect_normal.x = 0.0f;
+    reflect_normal.y = 1.0f;
+    reflect_normal.z = 0.0f;
 }
+
+extern "C" {
 s32 TSceneSora::get_state() { return *(s32*)((char*)this + 0x20); }
 void TSceneSora::set_scene_flag(int a0) { (*(int *)&lbl_805D65F0) = a0; }
 void TSceneSora::copy_reflection_vec(u8 *arg0) {

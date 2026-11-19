@@ -156,7 +156,10 @@ void cancel_dvd_request(void *arg) {
 }
 
 
-extern s32 dvd_synchronous_read_enabled;
+// Explicitly zeroed: the flag sits in .sdata, not .sbss.
+#pragma explicit_zero_data on
+s32 dvd_synchronous_read_enabled = 0;
+#pragma explicit_zero_data off
 void DCInvalidateRange(void *, u32);
 s32 DVDGetTransferredSize(void *);
 s32 DVDReadAsyncPrio(void *, void *, s32, s32, void (*)(void), s32);

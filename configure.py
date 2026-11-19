@@ -870,7 +870,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # update_title_tex_positions' pooled double although that code comes first (written last to first,
     # deferred); strings in .rodata; the 8-byte texlists in .data.
     "pso/ui/frontend/TAdTitleTexGC.cpp": {"mw_version": "GC/1.3.2", "cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly", "-sdata 4")},
-    # TItemDrop: its strings sit in .rodata and .sdata2 (-str reuse,readonly), and TItemDrop__vt0
+    # TItemDrop: its strings sit in .rodata and .sdata2 (-str reuse,readonly), and TItemDrop::load_drop_tables
     # loads each string with its own lis/addi (-pool off).
     "pso/item/drop/TItemDrop_80105D0C.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-pool off")},
     # -inline off,deferred: .text runs Brakable05..TOWreckAncient but the strings, __name pointers and tables run the other way.

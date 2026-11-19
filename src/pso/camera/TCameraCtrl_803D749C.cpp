@@ -7,6 +7,7 @@
 #include <stddef.h>
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/system/ModelDrawCallback.h"
 struct RecoveredGlobal_803D77C0_lbl_8047E3C8 {
     s32 value;
     u8 remaining[0xC];
@@ -50,8 +51,10 @@ extern void *motion_angle_sampler_table[4];
 extern void *motion_key_sampler_table[3];
 extern s32 motion_packed_rotation_mode;
 CameraMotionContextTable camera_motion_context_table;
-// Only pointed to by model_draw_context (.sdata 0x805D4698).
-u8 lbl_8058CB38[0x10];
+// The context model_draw_context points to (name inferred from it).
+ModelDrawContext default_model_draw_context;
+// Const for its users, but placed in .sdata (not .sdata2) in the DOL.
+__declspec(section ".sdata") ModelDrawContext *const model_draw_context = &default_model_draw_context;
 void rotate_matrix_by_node_angles(void *, int);
 void scale_current_matrix(void *);
 void post_translate_matrix(void *);

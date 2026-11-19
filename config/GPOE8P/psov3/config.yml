@@ -548,7 +548,7 @@ force_active:
   - TItemAttacker__sub_8010349C
   - TItemData__sub_8010CAB0
   - TItemDisconnectCtrl__name
-  - TItemDrop__ct
+  - __ct__9TItemDropFP7TObjectSc
   - TItemDrop__data_805D53CC
   - TItemDrop__data_805D53D0
   - TItemDrop__gsl_adxf_handle

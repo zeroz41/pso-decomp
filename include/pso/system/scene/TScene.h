@@ -71,8 +71,6 @@ public:
     void apply_uv_offset(s16 arg1, s16 arg2);
     void *destroy_buffers(s16 arg1);
     void *init_buffers(s32 arg1, s32 arg2);
-public:
-    static int set_scene_callbacks();
 };
 
 #include <stddef.h>

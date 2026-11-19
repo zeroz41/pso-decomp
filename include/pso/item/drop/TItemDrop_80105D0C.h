@@ -5,11 +5,7 @@
 
 void init_item_drop_globals(void);
 extern "C" {
-u8 *TItemDrop__sub_80107840(u8 *arg0, s16 arg1);
 int TItemDrop__sub_80107B04(void);
-void TItemDrop__vt0(void);
-void TItemDrop__vt1(void);
-void __dt__9TItemDropFv(void);
 void apply_item_data__9TItemDropFPvPv(void *arg0, void *item);
 void calc_drop_item__9TItemDropFlPvl(s32 rng, void *arg1, s32 arg2);
 void calc_drop_rarity__9TItemDropFllPv(s32 rng, s32 arg1, void *item_);
@@ -31,7 +27,6 @@ u32 roll_channel_below__9TItemDropFlUl(u8 *arg0, s32 count, u32 arg2);
 u16 roll_meseta_range__9TItemDropFllll(void *self, s32 arg1, s32 a, s32 b, s32 c);
 void roll_table_ratio__9TItemDropFPvUi(u8 *arg0, u32 arg1);
 void roll_weapon_special__9TItemDropFiPvi(s32 rng, u8 *item, s32 idx);
-void run_task__9TItemDropFv(void);
 void select_box_item__9TItemDropFiiPv(s32 arg0, s32 arg1, u8 *item);
 s32 select_rare_box_item__9TItemDropFllPUc(s32 arg0, s32 arg1, u8 *arg2);
 void select_weapon_drop__9TItemDropFv(s32 rng, s32 level, u8 *item);
@@ -44,11 +39,7 @@ s32 try_generate_rare_item__9TItemDropFiPvPv(s32 arg0, u8 *arg1, u8 *arg2);
 // --- C functions defined in TItemDrop_80105D0C.cpp ---
 void init_item_drop_globals(void);
 extern "C" {
-u8 *TItemDrop__sub_80107840(u8 *arg0, s16 arg1);
 int TItemDrop__sub_80107B04(void);
-void TItemDrop__vt0(void);
-void TItemDrop__vt1(void);
-void __dt__9TItemDropFv(void);
 void apply_item_data__9TItemDropFPvPv(void *arg0, void *item);
 void calc_drop_item__9TItemDropFlPvl(s32 rng, void *arg1, s32 arg2);
 void calc_drop_rarity__9TItemDropFllPv(s32 rng, s32 arg1, void *item_);
@@ -68,7 +59,6 @@ u16 roll_meseta_range__9TItemDropFllll(void *self, s32 arg1, s32 a, s32 b, s32 c
 void roll_table_ratio__9TItemDropFPvUi(u8 *arg0, u32 arg1);
 u8 roll_technique_level__9TItemDropFllll(s32 self, s32 table, s32 row, s32 col, s32 stride);
 void roll_weapon_special__9TItemDropFiPvi(s32 rng, u8 *item, s32 idx);
-void run_task__9TItemDropFv(void);
 void select_box_item__9TItemDropFiiPv(s32 arg0, s32 arg1, u8 *item);
 s32 select_rare_box_item__9TItemDropFllPUc(s32 arg0, s32 arg1, u8 *arg2);
 void select_weapon_drop__9TItemDropFv(s32 rng, s32 level, u8 *item);

@@ -860,11 +860,6 @@ TItem *find_unique_combination_target(TObjPlayer *player, TItemData *item) {
 
 // The item class resource sets, one {load, unload} pair each, ended by a null pair;
 // init_game_resources hands the table to create_load_unload_set.
-struct ItemClassLoadUnloadEntry {  // inferred: from item_class_load_unload_table
-    void (*load)();
-    void (*unload)();
-};
-
 ItemClassLoadUnloadEntry item_class_load_unload_table[15] = {
     { load_items, unload_items },
     { TObjPlayer__sub_80121060, TObjPlayer__sub_8012105C },
@@ -1369,8 +1364,6 @@ Item_801057A8 *spawn_dropped_item_from_msg(Msg_801057A8 *arg0, s32 arg1) {
     }
     return item;
 }
-
-s32 create_load_unload_set(ItemClassLoadUnloadEntry *table);
 
 void TObjPlayer::free_item_globals() { TItemDrop__sub_8010F168((void *)item_class_load_handle, (s16)((void*)1)); item_class_load_handle = 0; TItemLoad::free_all(); TItemBuff::free_all_and_init(); }
 
