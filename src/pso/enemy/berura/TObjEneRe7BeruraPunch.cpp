@@ -45,7 +45,7 @@ void TObjEneRe7BeruraPunch::apply_hit_if_active(void *target, f32 *) {
 
 }
 
-struct Pair_80096150 { s32 a; s32 b; };
+struct Pair_80096150 { f32 a; s32 b; };
 
 extern "C" {
 
@@ -53,8 +53,6 @@ s32 TObjEneRe7Berura__sub_80094D98();
 
 void TObjEneRe7Berura__sub_80094C68(TObjEneRe7Berura *self);
 s32 refresh_collision_body_centers__14TObjCollidableFv(void *, void *, f32, f32);
-extern Pair_80096150 lbl_80439F28[];
-
 s32 post_translate_matrix(void *);
 s32 scale_matrix(s32, f32, f32, f32);
 s32 push_matrix();
@@ -162,7 +160,7 @@ s32 TObjEneRe7BeruraPunch::sub_80096150() {
     if (owner != 0) {
         owner->reload_stats_from_tables();
     }
-    Pair_80096150 p = lbl_80439F28[0];
+    Pair_80096150 p = { 3.0f, 3 };
     if (TObjEneDD::check_v2_mode() != 0) {
         p.b &= ~2;
     }

@@ -18,17 +18,18 @@
 #include <stdlib.h>
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 
+// The class names of the four Canadin effects, in .sdata/.rodata order (LineFade's run_task and ctor sit in
+// TObjEneDarkGunner.cpp, a split piece of this TU).
+const char *TObjEneMe1Canadin_EffLineFade__class_name = "TObjEneMe1Canadin_EffLineFade";
+const char *TObjEneMe1Canadin_EffLine__name = "TObjEneMe1Canadin_EffLine";
+const char *TObjEneMe1Canadin_EffDischarge__name = "TObjEneMe1Canadin_EffDischarge";
+const char *TObjEneMe1Canadin_EffLight__name = "TObjEneMe1Canadin_EffLight";
+
 extern "C" {
-__declspec(section ".rodata") extern const char TObjEneMe1Canadin_EffLine__class_name[] ATTRIBUTE_ALIGN(4) = "TObjEneMe1Canadin_EffLine";
-__declspec(section ".rodata") extern const char TObjEneMe1Canadin_EffDischarge__class_name[] ATTRIBUTE_ALIGN(4) = "TObjEneMe1Canadin_EffDischarge";
-__declspec(section ".rodata") extern const char TObjEneMe1Canadin_EffLight__class_name[] ATTRIBUTE_ALIGN(4) = "TObjEneMe1Canadin_EffLight";
 
 extern Vec camera_pitch_rotated_up_vector;
 struct CanadinRandomScale { f32 value; u32 padding; };
 __declspec(section ".sdata2") extern const CanadinRandomScale canadin_random_scale;
-extern const char *TObjEneMe1Canadin_EffLight__name;
-extern const char *TObjEneMe1Canadin_EffDischarge__name;
-extern const char *TObjEneMe1Canadin_EffLine__name;
 void draw_line_list(VoloptLineList *lines, s32 count, u32 flags);
 extern s32 __vt__26TObjEneMe1Canadin_EffLight[];
 extern s32 __vt__30TObjEneMe1Canadin_EffDischarge[];
