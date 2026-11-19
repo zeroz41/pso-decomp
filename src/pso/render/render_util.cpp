@@ -424,7 +424,7 @@ f32 vec_distance_squared(u8 *a, u8 *b) {
 }
 
 // The original pools +1e-5f before -1e-5f although it loads -1e-5f first, which no source
-// order reproduces here; the two constants are read by address (see render_util_head.cpp).
+// order reproduces here; the two constants are read by address and defined at the end of this file.
 extern "C" const f32 lbl_805DB15C; // 1e-5f
 extern "C" const f32 lbl_805DB160; // -1e-5f
 
@@ -532,3 +532,6 @@ void save_model_material_color(void *owner) {
 }
 
 void save_model_render_flags(void *owner) { color_draw_saved_render_flags = model_render_flags; }
+
+__declspec(section ".sdata2") extern const f32 lbl_805DB15C = 1e-05f;
+__declspec(section ".sdata2") extern const f32 lbl_805DB160 = -1e-05f;
