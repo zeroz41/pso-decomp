@@ -1932,6 +1932,9 @@ pso/enemy/slime/TObjEneSlimeOne_800EC394.cpp:
 	.sbss       start:0x805D52B8 end:0x805D52C8
 	.sdata2     start:0x805DA760 end:0x805DA768
 
+pso/enemy/sorcerer/Re4BitData.cpp:
+	.rodata     start:0x8043D2B0 end:0x8043D2F0
+
 pso/enemy/sorcerer/TObjEneRe4Bit.cpp:
 	.text       start:0x800ECA40 end:0x800EDB98
 	.data       start:0x80496CD0 end:0x80496EE0
