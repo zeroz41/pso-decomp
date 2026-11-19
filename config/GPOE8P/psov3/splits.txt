@@ -350,6 +350,9 @@ pso/boss/derolle/TObjBoss2CeilJunk_8003A81C.cpp:
 	.sbss       start:0x805D4BE0 end:0x805D4BF0
 	.sdata2     start:0x805D85B0 end:0x805D85B4
 
+pso/effect/enemy/TeneFakeTecThunderEffSdata2B.cpp:
+	.sdata2     start:0x805D85B8 end:0x805D85D0
+
 pso/unk/TLobby_8003A95C.cpp:
 	.text       start:0x8003A95C end:0x8003A9FC
 
