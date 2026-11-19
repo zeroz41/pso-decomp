@@ -141,4 +141,3 @@ TShopSequence::TShopSequence(TObject *parent) : TShopWindowBase(parent) {
     m_name = TShopSequence__class_name;
     message_window = new TMessageWindowController();
 }
-

@@ -4,16 +4,26 @@
 #include "types.h"
 #include "pso/ui/city/TShopSequence.h"
 
+class TWindowBase;
+
 // The hunter's guild counter in an online lobby: the client side (vtable 0x804C9740) and the
 // server side (vtable 0x804C97F0). Both derive straight from TShopSequence (their ctors call it).
 struct THunterGuildSeqOnline_Client : public TShopSequence {
     THunterGuildSeqOnline_Client(TObject *parent, TObjPlayer *player);
     virtual ~THunterGuildSeqOnline_Client();
-    s32 pad_2c;     // 0x2C: an object the dtor queues for destruction
+    void vfunc_11();
+    void restore_player_state();
+    void close_window();
+    void handle_confirm_window();
+    void open_judgment_item_window();
+    void update_shop_close();
+    void update_close_shop();
+    void handle_close();
+    TObject *counter_camera;  // 0x2C: set_service_counter_camera
     s32 pad_30;
     s32 pad_34;
-    s32 pad_38;
-    s32 pad_3c;     // 0x3C: a window the dtor closes
+    TObject *quest_thread;    // 0x38: TQuestThread::create_in_root
+    TWindowBase *choice_menu; // 0x3C: create_yes_no_window
 };
 
 typedef char THunterGuildSeqOnline_Client_size[sizeof(THunterGuildSeqOnline_Client) == 0x40 ? 1 : -1];
@@ -21,11 +31,15 @@ typedef char THunterGuildSeqOnline_Client_size[sizeof(THunterGuildSeqOnline_Clie
 struct THunterGuildSeqOnline_Server : public TShopSequence {
     THunterGuildSeqOnline_Server(TObject *parent, TObjPlayer *player);
     virtual ~THunterGuildSeqOnline_Server();
-    s32 pad_2c;     // 0x2C: an object the dtor queues for destruction
+    void vfunc_11();
+    void restore_player_state();
+    void close_window();
+    void init_window();
+    TObject *counter_camera;  // 0x2C: set_service_counter_camera
     s32 pad_30;
     s32 pad_34;
-    s32 pad_38;     // 0x38: a window the dtor closes
-    s32 pad_3c;
+    TWindowBase *choice_menu; // 0x38: create_yes_no_window
+    TObject *quest_thread;    // 0x3C: TQuestThread::create_in_root
     s32 pad_40;
 };
 
@@ -45,11 +59,8 @@ void THunterGuildSeqOffline__sub_80213E64(void);
 void THunterGuildSeqOffline__sub_80213EBC(void);
 void THunterGuildSeqOffline__sub_80213F78(void);
 void THunterGuildSeqOffline__sub_802145F8(u8 *shop_sequence);
-u8 *__dt__28THunterGuildSeqOnline_ClientFv(u8 *arg0, s16 arg1);
-u8 *__dt__28THunterGuildSeqOnline_ServerFv(u8 *arg0, s16 arg1);
 void fn_80214254(u8 *shop_window_base);
 void reset_random_enemies_mode(void);
-void restore_shop_and_init_quest_state(void *shop_window_base);
 void update__15TShopWindowBaseFPv(void *shop_sequence);
 }
 // --- end of C functions

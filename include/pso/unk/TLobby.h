@@ -1017,7 +1017,6 @@ struct TLobby : public TObject {
     void set_split_screen_name();
     static void create_singleton(void *arg0);
     void byteswap_event_packet();
-    void handle_random_enemies_choice();
     static s32 check_all_battle_flags(void *);
     static s32 check_battle_end(void *);
     s32 check_timeout(s32 timer);

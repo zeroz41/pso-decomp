@@ -1109,9 +1109,6 @@ struct TObjPlayer : public TObjChara {
     void collect_owner_fields_recursive();
     static void set_global_color_rgba(u32 v);
     static void set_global_color_rgba_alt_b(u32 v);
-    void update_chara_making_if_state3();
-    void update_chara_making();
-    void draw_model_with_arg(void* a1);
     static void draw_player_model_by_client(u16 arg0, s32 arg1, f32 farg0, f32 farg1);
     static void draw_player_model_by_id(s32 arg0, f32 farg0);
     void draw_shadowed_node_tree();

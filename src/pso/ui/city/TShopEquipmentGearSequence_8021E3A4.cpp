@@ -1,5 +1,4 @@
 #include "types.h"
-#include "pso/ui/city/TShopEquipmentGearSequence_8021B438.h"
 #include "pso/ui/city/TShopItemTecSequence.h"
 #include "pso/ui/city/TShopEquipmentGearSequence_8021E3A4.h"
 #include "pso/ui/city/TShopEquipmentGearSequence.h"

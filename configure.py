@@ -1111,6 +1111,21 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # .data holds the vtable (0x804CA138) ahead of vfunc_11's switch table although the dtor
     # follows vfunc_11: deferred generation of the last-to-first source.
     "pso/ui/city/TShopItemTecSequence.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
+    # .data holds the vtable (0x804C9E38) ahead of vfunc_11's switch table although the dtor
+    # follows vfunc_11: deferred generation of the last-to-first source.
+    "pso/ui/city/TShopEquipmentGearSequence.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
+    # .data holds the vtable (0x804C9F48) ahead of vfunc_11's switch table: deferred
+    # generation of the last-to-first source, as for the gear shop.
+    "pso/ui/city/TShopEquipmentSequence.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
+    # .data holds the vtable (0x804C9DD8) ahead of vfunc_11's switch table although the dtor
+    # follows vfunc_11: deferred generation of the last-to-first source.
+    "pso/ui/city/TShopArmorListWindow.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
+    # .data holds the vtable (0x804C96D8) ahead of vfunc_11's switch table although the dtor
+    # follows vfunc_11: deferred generation of the last-to-first source.
+    "pso/ui/city/THunterGuildSeqOffline.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
+    # .data holds the client vtable (0x804C9740) ahead of both vfunc_11 switch tables although the
+    # client dtor follows its vfunc_11: deferred generation of the last-to-first source.
+    "pso/ui/city/THunterGuildSeqOffline_80213788.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     "pso/boss/barbaray/TBoss7LaserLight.cpp": {"cflags": _switch(cflags_pso, "-inline deferred")},
     # Its two string literals, the class names, sit in the unit's .rodata after the level table.
     "pso/boss/barbaray/TBoss7PhotonBullet_802EF26C.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},

@@ -6032,7 +6032,7 @@ pso/ui/city/THunterGuildSeqOffline_8021282C.cpp:
 pso/ui/city/THunterGuildSeqOffline.cpp:
 	.text       start:0x80212D9C end:0x80213788
 	.rodata     start:0x8044BCA0 end:0x8044BCB8
-	.data       start:0x804C9710 end:0x804C973C
+	.data       start:0x804C96D8 end:0x804C9740
 	.bss        start:0x80513DC8 end:0x80513DE8
 	.sdata      start:0x805D3658 end:0x805D3660
 	.sbss       start:0x805D6188 end:0x805D6190
@@ -6040,7 +6040,7 @@ pso/ui/city/THunterGuildSeqOffline.cpp:
 
 pso/ui/city/THunterGuildSeqOffline_80213788.cpp:
 	.text       start:0x80213788 end:0x80214BC4
-	.data       start:0x804C9778 end:0x804C97F0
+	.data       start:0x804C9740 end:0x804C9828
 	.bss        start:0x80513DE8 end:0x80513E80
 	.sbss       start:0x805D6190 end:0x805D61C0
 	.sdata2     start:0x805DC658 end:0x805DC660
@@ -6102,7 +6102,7 @@ pso/ui/window/TWindowSubComCard.cpp:
 pso/quest/TQuestListVM.cpp:
 	.text       start:0x802183F8 end:0x80219EE8
 	.rodata     start:0x8044BEE8 end:0x8044BF58
-	.data       start:0x804C9D50 end:0x804C9DD4
+	.data       start:0x804C9D50 end:0x804C9DD8
 	.sdata      start:0x805D3690 end:0x805D3694
 	.sbss       start:0x805D6200 end:0x805D6214
 	.sdata2     start:0x805DC6B0 end:0x805DC6C0
@@ -6114,7 +6114,7 @@ pso/quest/StoryQuestProgress.cpp:
 pso/ui/city/TShopArmorListWindow.cpp:
 	.text       start:0x8021A394 end:0x8021B268
 	.rodata     start:0x8044C040 end:0x8044C058
-	.data       start:0x804C9E08 end:0x804C9E34
+	.data       start:0x804C9DD8 end:0x804C9E38
 	.sdata      start:0x805D3698 end:0x805D36A0
 	.sdata2     start:0x805DC6C0 end:0x805DC6C4
 
@@ -6124,7 +6124,7 @@ pso/unk/TLobby_8021B268.cpp:
 pso/ui/city/TShopEquipmentGearSequence.cpp:
 	.text       start:0x8021B288 end:0x8021B974
 	.rodata     start:0x8044C058 end:0x8044C078
-	.data       start:0x804C9E70 end:0x804C9E90
+	.data       start:0x804C9E38 end:0x804C9E90
 	.bss        start:0x80513EB0 end:0x80513EC0
 	.sdata      start:0x805D36A0 end:0x805D36A8
 	.sbss       start:0x805D6218 end:0x805D6224
@@ -6140,14 +6140,14 @@ pso/ui/city/TShopEquipmentListWindow.cpp:
 pso/ui/city/TShopEquipmentSellWindow.cpp:
 	.text       start:0x8021C870 end:0x8021D524
 	.rodata     start:0x8044C098 end:0x8044C0B8
-	.data       start:0x804C9EF0 end:0x804C9F44
+	.data       start:0x804C9EF0 end:0x804C9F48
 	.sdata      start:0x805D36B0 end:0x805D36B8
 	.sdata2     start:0x805DC6D8 end:0x805DC6DC
 
 pso/ui/city/TShopEquipmentSequence.cpp:
 	.text       start:0x8021D524 end:0x8021DC30
 	.rodata     start:0x8044C0B8 end:0x8044C0D0
-	.data       start:0x804C9F80 end:0x804C9FA8
+	.data       start:0x804C9F48 end:0x804C9FA8
 	.bss        start:0x80513EC0 end:0x80513ED0
 	.sdata      start:0x805D36B8 end:0x805D36C0
 	.sbss       start:0x805D6228 end:0x805D6238
@@ -8807,7 +8807,7 @@ pso/unk/TLobby_802E03C8.cpp:
 pso/ui/frontend/TAdMultiConfirmGC_802E03D0.cpp:
 	.text       start:0x802E03D0 end:0x802E0F58
 	.rodata     start:0x804728D0 end:0x80472920
-	.data       start:0x804E2F68 end:0x804E3008
+	.data       start:0x804E2F68 end:0x804E3040
 	.sbss       start:0x805D68D8 end:0x805D68DC
 	.sdata2     start:0x805DE8A8 end:0x805DE8E8
 
