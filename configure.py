@@ -586,10 +586,6 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # -inline off,deferred: the constructor reaches __vt__16TObjEneRe2Flower through the .data anchor
     # (setup_data + 388) and the vtable sits before dispatch_action's jump table.
     "pso/enemy/flower/TObjEneRe2Flower.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
-    # TObjEneRe2Flower_800C20D0 (0x800C20D0-0x800C2A88, one TU split in three): deferred, written last
-    # to first, since the attack parameter block of TObjEneDD__sub_800C2628 (0x8043BBA0) sits below
-    # the render offset of TObjEneRe2Flower::render (0x8043BBB4), the reverse of their functions' order.
-    "pso/enemy/flower/TObjEneRe2Flower_800C20D0.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     # -inline off,deferred: .data is the attach-joint table, then __vt__10TObjPlayer, then the
     # jump tables; written last to first, deferred.
     "pso/player/TObjPlayer_801AF2F0.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},

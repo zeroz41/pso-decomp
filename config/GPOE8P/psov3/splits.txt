@@ -1673,7 +1673,7 @@ pso/enemy/lappy/TObjEneLappy.cpp:
 
 pso/enemy/flower/TObjEneRe2Flower_800C20D0.cpp:
 	.text       start:0x800C20D0 end:0x800C2A88
-	.sdata2     start:0x805D9FA0 end:0x805D9FAC
+	.sdata2     start:0x805D9FA0 end:0x805D9FC8
 
 pso/unk/text_800C2A88.cpp:
 	.text       start:0x800C2A88 end:0x800C2CE0
