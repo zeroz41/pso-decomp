@@ -2431,3 +2431,5 @@ pso/map/area/AreaMachine02.cpp
 pso/map/area/AreaVersus01.cpp
 pso/map/area/AreaVersus02.cpp
 pso/unk/TUnk_804CCA78.cpp
+
+pso/ui/window/WindowCtrlCallbackEntries.cpp
