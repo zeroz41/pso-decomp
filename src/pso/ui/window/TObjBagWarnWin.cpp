@@ -1,16 +1,77 @@
-#include "pso/ui/window/TObjBagWarnWin.h"
-#include "pso/ui/window/TWindowMessage.h"
-#include "pso/ui/window/TWindowBase.h"
-#include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
-#include "pso/unk/text_8006EF80.h"
-#include "pso/camera/TCameraCtrl.h"
-#include "pso/ui/window/TWindowAddition.h"
-#include "pso/map/FloorArea.h"
-#include "types.h"
-#include "pso/unk/TLobby.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#pragma defer_codegen on
 
 #pragma readonly_strings on
+
+#include "pso/ui/window/TObjBagWarnWin4P.h"
+
+#include "pso/ui/window/TWindowMessage.h"
+
+#include "pso/ui/window/TWindowBase.h"
+
+#include "types.h"
+
+#include "pso/ui/hud/TRaderMapCore.h"
+
+#include "pso/ui/window/TWindowCtrl.h"
+
+#include "pso/player/TObjPlayer.h"
+
+const char *TObjBagWarnWin__name = "TObjBagWarnWin";
+
+const char *TObjBagWarnWin4P__name = "TObjBagWarnWin4P";
+
+#include "pso/unk/text_8006EBC4.h"
+
+#include "pso/ui/window/TObjBagWarnWin.h"
+
+#include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
+
+#include "pso/unk/text_8006EF80.h"
+
+#include "pso/camera/TCameraCtrl.h"
+
+#include "pso/ui/window/TWindowAddition.h"
+
+#include "pso/map/FloorArea.h"
+
+#include "pso/unk/TLobby.h"
+
+extern "C" {
+s32 has_window_task_root();
+
+void *__ct__16TObjBagWarnWin4PFv(void *arg0);
+
+u32 create__14TWindowMessageFlPCfUll(s32, void *, s32, s32);
+
+void *get_player_by_client_id(s32 i);
+
+s32 get_message_text(s32);
+s32 get_entity_id();
+
+s32 has_player_active_menu__11TWindowCtrlFv(u16);
+
+s32 is_slot_visible__11TWindowCtrlFv(u16);
+
+s32 get_window_layout_position(s32);
+
+void __ct__7TObjectFP7TObject(void *);
+
+s32 get_character_save_record(u32 arg0);
+
+s32 is_active__19THunterGuildWarningFv();
+
+s32 is_level_capped__23TAdSinglePlyChrSelectGCFv();
+
+s32 strncpy(void *, s32, s32);
+
+extern f32 TObjBagWarnWin4P__message_window_size[2];
+
+extern s32 __vt__16TObjBagWarnWin4P[];
+}
+
+extern "C" {
+s32 __nw__7TObjectFUl(int);
+}
 
 struct Sub_8006EC20 {
     u8 pad[0x1C];
@@ -25,16 +86,79 @@ struct Ctrl_8006EC20 {
     u8 pad44[0xD00 - 0x44];
     Sub_8006EC20 *pD00;
 };
-
 extern "C" {
 s32 has_window_task_root();
+
 void *get_player_by_client_id(s32 i);
+
 s32 TLobby__sub_80211C3C();
+
 extern s32 local_client_id;
+
 u32 create__14TWindowMessageFPvll(s32, void *, s32);
+
 s32 get_window_layout_position(s32);
+
 s32 strncpy(void *, s32, s32);
-extern u8 TObjBagWarnWin__message_window_size[];
+
+extern f32 TObjBagWarnWin__message_window_size[2];
+
+extern u8 *text_language_group_table;
+
+s32 get_message_text(s32 arg0) {
+    return *(s32 *)((s8 *)(*(s32 *)((s8 *)text_language_group_table + 0x2C)) + (arg0 * 4));
+}
+
+void *TObjBagWarnWin::create(void *bag_warn_win) {
+    void *o = (void *)new TObjBagWarnWin((TObject *)bag_warn_win);
+    return o;
+}
+}
+
+TObjBagWarnWin::TObjBagWarnWin(TObject *parent) : TObject(parent) {
+    this->m_name = TObjBagWarnWin__name;
+    message_window = NULL;
+    open_delay = 0;
+}
+extern "C" {
+TObjBagWarnWin::~TObjBagWarnWin() {}
+
+void TObjBagWarnWin::open_message_window() {
+    message_window = (TWindowMessage *)create__14TWindowMessageFPvll(get_window_layout_position(0x38), TObjBagWarnWin__message_window_size, 1);
+    if (message_window != NULL) {
+        message_window->set_depth(70200.0f);
+        if (TCameraCtrl::get_camera_id() == 4) {
+            message_window->set_position_xy(0.8f, 0.8f);
+        }
+        strncpy(message_text, get_message_text(0x59), 0x7F);
+        message_text[0x7F] = 0;
+        message_window->append_line((int)message_text, (int)0);
+    }
+}
+
+void TObjBagWarnWin::run_task() {
+    s32 temp_r0;
+    if (message_window == NULL) {
+        if (has_window_task_root() != 0) {
+            if (TObjBagWarnWin::should_show_warning(this) != 0) {
+                temp_r0 = open_delay - 1;
+                open_delay = temp_r0;
+                if (temp_r0 < 0) {
+                    open_delay = 0;
+                }
+            } else {
+                open_delay = 0x1E;
+            }
+            if (open_delay == 0) {
+                open_message_window();
+            }
+        }
+    } else if (TObjBagWarnWin::should_show_warning(this) == 0) {
+        message_window->close();
+        message_window = NULL;
+        open_delay = 0x1E;
+    }
+}
 
 s32 TObjBagWarnWin::should_show_warning(void *arg0) {
     Ctrl_8006EC20 *ctrl;
@@ -67,63 +191,95 @@ s32 TObjBagWarnWin::should_show_warning(void *arg0) {
     return 1;
 }
 
-void TObjBagWarnWin::run_task() {
+s32 fn_8006EBC4(s32 bag_warn_win4_p) {
+    s32 temp_r3;
+    s32 var_r0;
+    if (TWindowCtrl::is_map_visible() == 0) {
+        temp_r3 = __nw__7TObjectFUl(0xA4);
+        var_r0 = temp_r3;
+        if (var_r0 != 0) {
+            var_r0 = ((s32 (*)(int, void *))__ct__16TObjBagWarnWin4PFv)((int)temp_r3, (void *)bag_warn_win4_p);
+        }
+        return var_r0;
+    }
+    return 0;
+}
+
+void *__ct__16TObjBagWarnWin4PFv(void *bag_warn_win4_p) {
+    __ct__7TObjectFP7TObject(bag_warn_win4_p);
+    *(s32 **)((s8 *)bag_warn_win4_p + 0x18) = __vt__16TObjBagWarnWin4P;
+    ((TObjBagWarnWin4P *)bag_warn_win4_p)->m_name = TObjBagWarnWin4P__name;
+    *(u32 *)((s8 *)bag_warn_win4_p + 0x1C) = 0;
+    *(u32 *)((s8 *)bag_warn_win4_p + 0xA0) = 0;
+    return bag_warn_win4_p;
+}
+
+TObjBagWarnWin4P::~TObjBagWarnWin4P() {}
+
+void TObjBagWarnWin4P::create_window() {
+    u8 *arg0 = (u8 *)this;
+    s32 r3 = get_window_layout_position(0x5B);
+    *(u32 *)((s8 *)arg0 + 0x1C) = create__14TWindowMessageFlPCfUll(r3, TObjBagWarnWin4P__message_window_size, 1, 4);
+    if ((u32) *(u32 *)((s8 *)arg0 + 0x1C) != 0U) {
+        strncpy(arg0 + 0x20, get_message_text(0x69), 0x7F);
+        *(s8 *)((s8 *)arg0 + 0x9F) = 0;
+        ((TWindowMessage *)(*(u32 *)((s8 *)arg0 + 0x1C)))->append_line((int)(arg0 + 0x20), (int)0);
+    }
+}
+
+void TObjBagWarnWin4P::run_task() {
+    u8 *arg0 = (u8 *)this;
     s32 temp_r0;
-    if (message_window == NULL) {
+    if ((u32) *(u32 *)((s8 *)arg0 + 0x1C) == 0U) {
         if (has_window_task_root() != 0) {
-            if (TObjBagWarnWin::should_show_warning(this) != 0) {
-                temp_r0 = open_delay - 1;
-                open_delay = temp_r0;
+            if (TObjBagWarnWin4P::check_can_open(arg0) != 0) {
+                temp_r0 = *(s32 *)((s8 *)arg0 + 0xA0) - 1;
+                *(s32 *)((s8 *)arg0 + 0xA0) = temp_r0;
                 if (temp_r0 < 0) {
-                    open_delay = 0;
+                    *(s32 *)((s8 *)arg0 + 0xA0) = 0;
                 }
             } else {
-                open_delay = 0x1E;
+                *(s32 *)((s8 *)arg0 + 0xA0) = 0x1E;
             }
-            if (open_delay == 0) {
-                open_message_window();
+            if ((s32) *(s32 *)((s8 *)arg0 + 0xA0) == 0) {
+                create_window();
             }
         }
-    } else if (TObjBagWarnWin::should_show_warning(this) == 0) {
-        message_window->close();
-        message_window = NULL;
-        open_delay = 0x1E;
+    } else if (TObjBagWarnWin4P::check_can_open(arg0) == 0) {
+        ((TWindowBase *)(*(u32 *)((s8 *)arg0 + 0x1C)))->close();
+        *(u32 *)((s8 *)arg0 + 0x1C) = 0U;
+        *(s32 *)((s8 *)arg0 + 0xA0) = 0x1E;
     }
 }
-void TObjBagWarnWin::open_message_window() {
-    message_window = (TWindowMessage *)create__14TWindowMessageFPvll(get_window_layout_position(0x38), TObjBagWarnWin__message_window_size, 1);
-    if (message_window != NULL) {
-        message_window->set_depth(70200.0f);
-        if (TCameraCtrl::get_camera_id() == 4) {
-            message_window->set_position_xy(0.8f, 0.8f);
+
+s32 TObjBagWarnWin4P::check_can_open(void * _w0) {
+    s32 i;
+    s32 var_r30;
+
+    for (i = 0; i < 4; i++) {
+        if ((get_player_by_client_id(i) != 0U) && (has_player_active_menu__11TWindowCtrlFv(get_entity_id()) != 0)) {
+            return 0;
         }
-        strncpy(message_text, get_message_text(0x59), 0x7F);
-        message_text[0x7F] = 0;
-        message_window->append_line((int)message_text, (int)0);
     }
+    for (i = 0; i < 4; i++) {
+        if ((get_player_by_client_id(i) != 0U) && (is_slot_visible__11TWindowCtrlFv(get_entity_id()) != 0)) {
+            return 0;
+        }
+    }
+    if (is_active__19THunterGuildWarningFv() != 0) {
+        return 0;
+    }
+    i = 0;
+    var_r30 = 0;
+    do {
+        if ((get_player_by_client_id(var_r30) != 0U) && (get_character_save_record(var_r30) != 0U) && (is_level_capped__23TAdSinglePlyChrSelectGCFv() != 0)) {
+            i = 1;
+        }
+        var_r30 += 1;
+    } while (var_r30 < 4);
+    return i;
 }
-TObjBagWarnWin::~TObjBagWarnWin() {}
-
-const char *TObjBagWarnWin__name = "TObjBagWarnWin";
-
-}
-TObjBagWarnWin::TObjBagWarnWin(TObject *parent) : TObject(parent) {
-    this->m_name = TObjBagWarnWin__name;
-    message_window = NULL;
-    open_delay = 0;
-}
-
-extern "C" {
-extern u8 *text_language_group_table;
-
-void *TObjBagWarnWin::create(void *bag_warn_win) {
-    void *o = (void *)new TObjBagWarnWin((TObject *)bag_warn_win);
-    return o;
-}
-s32 get_message_text(s32 arg0) {
-    return *(s32 *)((s8 *)(*(s32 *)((s8 *)text_language_group_table + 0x2C)) + (arg0 * 4));
 }
 
-}
-
-extern "C" { extern const char TObjBagWarnWin4P__class_name_string[17] = "TObjBagWarnWin4P"; }
+__declspec(section ".data") f32 TObjBagWarnWin__message_window_size[2] = {350.0f, 120.0f};
+__declspec(section ".data") f32 TObjBagWarnWin4P__message_window_size[2] = {350.0f, 120.0f};

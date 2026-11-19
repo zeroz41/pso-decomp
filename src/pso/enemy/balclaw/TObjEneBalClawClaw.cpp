@@ -65,9 +65,10 @@ CollisionBody TObjEneBalClawClaw__collision_body_template = {{0.0f, 18.0f, 0.0f}
 extern void *tl_04;
 }
 
-extern u8 *lbl_805D4F28;
-extern u8 *lbl_805D4F2C;
-extern u8 *lbl_805D4F30;
+u8 *lbl_805D4F28[1];
+u8 *lbl_805D4F2C[1];
+u8 *lbl_805D4F30[1];
+u8 *lbl_805D4F34[1];
 
 const char *balclaw_claw_class_name = "TObjEneBalClawClaw";
 
@@ -108,7 +109,7 @@ void TObjEneBalClawClaw::sub_80091A38() {
     init_collision_body_parts(this, &TObjEneBalClawClaw__collision_body_template, 1);
     this->variant = 0;
     this->movementParameters = &lbl_8048F100;
-    this->bind_enemy_combat_stats(lbl_805D4F28, lbl_805D4F2C, lbl_805D4F30);
+    this->bind_enemy_combat_stats(lbl_805D4F28[0], lbl_805D4F2C[0], lbl_805D4F30[0]);
     this->sub_80090824();
     this->requested_action = 0;
     this->set_animation(this->requested_action);

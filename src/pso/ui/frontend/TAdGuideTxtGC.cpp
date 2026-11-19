@@ -78,7 +78,7 @@ TAdGuideTxtGC_802B19E8 *__ct__13TAdGuideTxtGCFv(TAdGuideTxtGC_802B19E8 *o) {
         o->b[i] = (void *)"";
         o->c[i] = 0;
     }
-    create_draw_line_ctrl__13TAdMcSelectGCFiif((s32)o, 9, 0.0f);
+    create_draw_line_ctrl((TObject *)o, 9, 0.0f);
     return o;
 }
 #pragma pop

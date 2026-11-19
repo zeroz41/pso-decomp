@@ -234,7 +234,8 @@ void TAdMultiPlyChrSelectGC::update_state_option() {
     }
 }
 
-extern s32 lbl_805D68C8;
+s32 lbl_805D68C8;
+s32 multi_chr_select_serial_access_state;
 
 void TAdMultiPlyChrSelectGC::update_card_confirm() {
 

@@ -36,6 +36,11 @@ s32 net_param_ring_buffer_size = 0x2000;
 s32 net_default_thread_priority = 0x10;
 
 /* CodeWarrior emits these .sbss globals in reverse order of definition. */
+Ent_803F9B48 *lobby_thread_pool_base;
+u16 lobby_thread_pool_count;
+LobbyBufferSlot *lobby_buffer_slots;
+u16 lobby_buffer_slot_count;
+s32 lbl_805D7A5C;
 s32 lbl_805D7A58;
 s16 dns_resolver_timeouts[3];
 u32 net_param_word_i;

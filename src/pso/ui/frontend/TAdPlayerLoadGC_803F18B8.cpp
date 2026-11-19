@@ -25,14 +25,14 @@ CardInfo_803F31D8 card_slot_info[4];
 
 s32 player_load_channel_flags[2] = {0, 0};
 // inferred: set to 1 by the init function (TAdPlayerLoadGC__sub_803F31D8) and checked first by every entry point
-extern s32 card_lib_state;
+s32 card_lib_state;
 // inferred: re-entrancy count of the card poll (TAdPlayerLoadGC__sub_803F2F1C), raised on entry, dropped on exit
-extern u8 card_poll_depth;
+u8 card_poll_depth;
 // inferred: called when a slot's probe turns ready (0), with the card's sizes
-extern void (*card_attach_callback)(s32, s32, s32);
+void (*card_attach_callback)(s32, s32, s32);
 // inferred: called when a ready slot's probe turns to no card (-3), with the sizes it had
-extern void (*card_detach_callback)(s32, s32, s32);
-extern void *saved_card_disk_id;
+void (*card_detach_callback)(s32, s32, s32);
+void *saved_card_disk_id;
 // inferred: the init function stores the version banner pointer here
 extern const char *mcfs_version_ref;
 

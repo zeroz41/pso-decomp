@@ -70,8 +70,6 @@ struct TLobby : public TObject {
     void apply_lobby_markers();
     static s32 get_option_state();
     static void install_game_join_handlers();
-    static void free_item_loader();
-    static void load_draw_line_task();
     static void send_or_handle_packet(void *arg0, void *arg1, void *arg2, void *arg3, u32 arg4);
     void merge_adjacent_free_blocks();
     static void sync_auto_reply_state();

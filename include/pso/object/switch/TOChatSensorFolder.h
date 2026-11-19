@@ -13,7 +13,7 @@ extern "C" {
 void *TOChatSensorFolder__ct(void *chat_sensor_folder);
 }
 
-// --- C functions defined in TOChatSensorFolder.cpp ---
+// --- C functions defined in TOChatSensor.cpp ---
 extern "C" {
 void *TOChatSensorFolder__ct(void *chat_sensor_folder);
 }

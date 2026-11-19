@@ -11,7 +11,15 @@
 #include "pso/system/task/TObject.h"
 
 extern "C" {
-extern s32 TLobby__data_805D6CCC;
+u32 gba_download_data_buffer;
+u32 gba_download_graph;
+u32 gba_download_data_size;
+s32 TLobby__data_805D6CCC;
+s32 gba_joyboot_send_buffer;
+u8 *TLobby__gba_joyboot_send_buffer;
+u8 gba_joyboot_status;
+unsigned char lbl_805D6CD9;
+short lbl_805D6CDA;
 extern const f32 TLobby__data_805DF7A4;
 
 u32 create__8TDLGraphFv();
@@ -21,9 +29,6 @@ int GBAInit(void*);
 s32 GBAGetProcessStatus(s32, u8 *);
 u32 SIProbe(s32);
 
-extern u32 gba_download_data_buffer;
-extern u32 gba_download_graph;
-extern u32 gba_download_data_size;
 
 void TLobby::destroy_singleton() {
     if ((u32) gba_download_graph != 0U) {
@@ -145,14 +150,9 @@ extern "C" {
 void *memmove(void *, const void *, u32);
 s32 rand();
 void *memset(void *, int, u32);
-extern u8 *TLobby__gba_joyboot_send_buffer;
 s32 GBAJoyBootAsync(s32, s32, s32, u8 *, s32, u8 *, void (*)(s32, s32));
-extern s32 gba_joyboot_send_buffer;
-extern u8 gba_joyboot_status;
 extern const u8 lbl_805DF7A0[4];
 
-    extern unsigned char lbl_805D6CD9;
-    extern short lbl_805D6CDA;
 
 #pragma push
 #pragma fp_contract on

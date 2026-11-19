@@ -13,6 +13,9 @@
 
 #include "pso/network/PppBuffer.h"
 
+u8 lbl_805D7AC4[1];
+u8 lbl_805D7AC0[2];
+
 void TLobby__sub_804053B8(B_80403F4C *, u8 **);
 u8 *TLobby__sub_8040555C(B_80403F4C *, u8 *, s32);
 s16 TLobby__sub_80403F4C(void *ov, PppFrame **spp) {

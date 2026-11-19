@@ -19,6 +19,8 @@ struct Desc_802E55B8 { NJS_POINT2 *pts; u32 *cols; s32 z; s32 n; };
 struct P2_802E530C { s16 x, y; };
 struct Hex_802E530C { u8 pad[0x1C]; P2_802E530C pts[32]; f32 f9C; };
 
+int multiplay_texture_f512_handle;
+
 const char *TObjOnlineEndingHexMove__name = "TObjOnlineEndingHexMove";
 static const NJS_POINT2 lbl_80472C00[] = {{320.0f, 240.0f}};
 const char *TObjOnlineEndingHexLine__name = "TObjOnlineEndingHexLine";
