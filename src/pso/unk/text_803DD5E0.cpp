@@ -17,7 +17,7 @@ struct Ent_803DD6DC { s32 f0; s32 f4; s32 f8; };
 
 struct Obj_803DD6DC { struct Ent_803DD6DC *ents; u32 count; };
 
-typedef struct Info_803DDA68 { u32 f0; s32 f4; s32 f8; s32 fC; s32 f10; s32 f14; } Info_803DDA68;
+typedef struct Info_803DDA68 { uaddr f0; s32 f4; s32 f8; s32 fC; s32 f10; s32 f14; } Info_803DDA68;
 
 typedef struct Ent_803DDA68 { Info_803DDA68 *info; s32 f4; s32 f8; } Ent_803DDA68;
 

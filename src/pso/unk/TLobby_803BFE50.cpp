@@ -41,7 +41,7 @@ typedef struct S_803C0628 {
 struct Snd_803C0F98 {
     u8 pad0[4];
     s32 state;
-    s32 lobby;
+    saddr lobby;
     u8 pad0C[2];
     s8 channels;
     u8 pad0F[0x50 - 0x0F];
@@ -67,7 +67,7 @@ struct Snd_803C0F98 {
 struct Snd_803C0BE8 {
     u8 pad0[4];
     s32 state;
-    s32 lobby;
+    saddr lobby;
     u8 pad0C[2];
     s8 channels;
     u8 pad0F[0x50 - 0x0F];

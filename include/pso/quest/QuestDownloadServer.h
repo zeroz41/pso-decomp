@@ -132,7 +132,7 @@ struct Ent_803EA960 {
 struct Node_803ECDC4 { s32 *link; u32 id; u8 pad[4]; Node_803ECDC4 *next; };
 
 struct Obj_803EADD4 {
-    s32 x0;
+    saddr x0;
     Node_803ECDC4 *x4;
     Node_803ECD8C *x8;
     Node_803ECD54 *xc;

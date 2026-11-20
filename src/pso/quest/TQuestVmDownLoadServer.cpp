@@ -197,7 +197,7 @@ struct Src_801F8E4C {
     char name[0x10];
     char title[0x24];
     s32 f34;
-    u32 f38;
+    uaddr f38;
 };
 
 struct Src_801F8F14 {

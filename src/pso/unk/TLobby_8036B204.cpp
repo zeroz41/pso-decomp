@@ -9,7 +9,7 @@
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 
-struct Obj_8036B2E8 { u8 pad0[0x1C]; u32 base; s32 t[4]; };
+struct Obj_8036B2E8 { u8 pad0[0x1C]; uaddr base; s32 t[4]; };
 struct Obj_8036B340 { u8 pad0[0x1C]; u32 base; s32 t[4]; };
 
 struct Ent_8036B424 { u8 b[0x3C]; };

@@ -1,7 +1,7 @@
 #include "types.h"
 struct Obj_8028A998 { u8 pad[0x2c]; Obj_8028A998 *f2c; Obj_8028A998 *next; };
 
-struct M_8028A9CC { u32 flags; u8 pad4[0x28]; u32 f2c; M_8028A9CC *next; };
+struct M_8028A9CC { u32 flags; u8 pad4[0x28]; uaddr f2c; M_8028A9CC *next; };
 
 extern "C" {
 void clear_child_target_refs(Obj_8028A998 *o, Obj_8028A998 *x);

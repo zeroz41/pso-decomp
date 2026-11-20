@@ -12,7 +12,7 @@ struct AsyncFileReadRequest {
     u8 pad34[8];
     s32 tex;
     u8 pad40[0x24];
-    s32 mode;
+    saddr mode;
 };
 
 extern "C" {

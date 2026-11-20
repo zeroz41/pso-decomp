@@ -35,7 +35,7 @@ s32 push_matrix();
 s32 post_translate_matrix(void *);
 extern void *lbl_80485550[3];
 
-struct O_8004D9A8 { u8 pad0[0xBC]; s32 bc[6]; s32 d4[6]; s32 ec[6]; f32 f104; f32 f108; f32 f10c; };
+struct O_8004D9A8 { u8 pad0[0xBC]; saddr bc[6]; s32 d4[6]; saddr ec[6]; f32 f104; f32 f108; f32 f10c; };
 void fn_8004D9A8(u8 *arg0) {
     O_8004D9A8 *o = (O_8004D9A8 *)arg0;
     s32 i;

@@ -9,7 +9,7 @@ struct TMovie : public TObject {
     virtual ~TMovie();
     virtual void run_task();
     u32 m_1c;
-    u32 m_20;
+    uaddr m_20;
     void* m_24;
     u8 unk_28[0x4];
     u32 m_2c;

@@ -6,7 +6,7 @@
 
 typedef s32 (*RecoveredCallback_4873a87e26d6)(s32, const char *, s32);
 
-struct Ent_803CF958 { u32 a; char name[12]; };
+struct Ent_803CF958 { uaddr a; char name[12]; };
 
 struct CvFsDevVtbl {
     u8 pad0[8];

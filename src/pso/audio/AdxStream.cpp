@@ -26,7 +26,7 @@ struct S_803C8678 {
     s8 busy;
     s8 retry;
     Strm_803C8678 *strm;
-    u32 h;
+    uaddr h;
     s32 fC;
     s32 base;
     s32 size;

@@ -106,7 +106,7 @@ struct TBinModel {
     void request_motions(u32 *list);
 };
 
-struct Desc_80020004 { s32 name; u8 pad4[8]; s16 n16; s16 n8; };
+struct Desc_80020004 { saddr name; u8 pad4[8]; s16 n16; s16 n8; };
 
 struct Rec_80020004 { char name[0x20]; s32 size; u8 pad24[8]; s32 texSize; u8 pad30[0x10]; };
 

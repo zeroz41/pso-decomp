@@ -9,7 +9,7 @@
 
 struct Ent_803E5670 {
     u8 pad[0xC];
-    u32 c;
+    uaddr c;
     u8 pad2[0x1C - 0x10];
 };
 
