@@ -150,7 +150,6 @@ void load_labo_design_object_table();
 void load_chat_sensor();
 void load_turiten_singo_resources();
 void load_city_common_resources();
-void load_computer_resources();
 void load_lazer_fence_norm_resources();
 void free_warp_jung_beam_resources();
 void load_warp_beam_resources();

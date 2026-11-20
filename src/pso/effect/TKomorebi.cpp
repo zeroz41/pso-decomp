@@ -1,3 +1,4 @@
+#include "pso/render/GinjaUvScroll.h"
 #include "pso/object/fence/TObjLazerFenceNorm.h"
 #include "types.h"
 #include "pso/effect/TKomorebi.h"
@@ -37,7 +38,6 @@ u8 *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 extern s32 komorebi_last_uv_update_frame;
 AnimationMotion *get_bml_motion(BmlResource *, s32);
 void free_bin_model_request(void*, int);
-s32 scroll_ginja_mesh_uvs(s32, s32, s32, s32, s32);
 s32 post_translate_matrix(void *);
 s32 scale_matrix(s32, f32, f32, f32);
 s32 push_matrix();
@@ -52,7 +52,7 @@ void TKomorebi::render() {
     if ((this->update_object_view_visibility(400.0f, 20.0f) != 0) && !(xz_distance_squared((u8 *)&this->position, camera_ctrl_instance + 0x178) < 1600.0f)) {
         TParticleCtrl::begin_effect_render();
         if ((s32) actor_frame_tick != (s32) komorebi_last_uv_update_frame) {
-            scroll_ginja_mesh_uvs(*(s32 *)((s8 *)this->model + 4), 0, (s32) this->scale.x, 0, 1);
+            scroll_ginja_mesh_uvs(static_cast<NJS_OBJECT *>(this->model)->model, 0, (s32) this->scale.x, 0, 1);
             komorebi_last_uv_update_frame = actor_frame_tick;
         }
         push_matrix();

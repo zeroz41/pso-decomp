@@ -1,3 +1,4 @@
+#include "pso/render/GinjaUvScroll.h"
 #include "pso/map/TMapCsnCtrl.h"
 #include "pso/system/ResourceFile.h"
 #include "types.h"
@@ -180,7 +181,6 @@ void rotate_matrix_by_node_angles(s32 *, s32);
 void PPCSync();
 
 
-void scroll_ginja_mesh_uvs(void *, s32, s32, u16, s32);
 
 
 struct Ang_8020533C { s32 x, y, z; };

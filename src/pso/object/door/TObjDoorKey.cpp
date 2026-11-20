@@ -1,3 +1,4 @@
+#include "pso/render/GinjaUvScroll.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/object/door/TObjDoorKey.h"
@@ -123,7 +124,6 @@ s32 load_resource_from_descriptor(s32, int, void *, int, int, int);
 }
 u8 *load_gvm_texture_file(s32 arg0);
 extern "C" {
-void scroll_ginja_mesh_uvs(void *, int, int, int, int);
 void PPCSync();
 void push_matrix();
 void post_translate_matrix(void *);

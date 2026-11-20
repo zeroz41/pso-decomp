@@ -1,3 +1,4 @@
+#include "pso/render/GinjaUvScroll.h"
 #include "types.h"
 #include "pso/object/fence/TLazerFenceSw.h"
 
@@ -114,7 +115,6 @@ struct Sw_801936E0 {
     f32 f110;
     u32 f114;
 };
-void scroll_ginja_mesh_uvs(u32, s32, s32, u16, s32);
 void PPCSync(void);
 void push_matrix(void);
 void post_translate_matrix(void *);
@@ -132,7 +132,7 @@ void TLazerFenceSw::draw_laser_beam() {
     TObjFish::set_global_param((s32)TLazerFenceSw__texture_list);
     if (actor_frame_tick != self->f114 && self->f110 >= 1.0f) {
         self->f114 = actor_frame_tick;
-        scroll_ginja_mesh_uvs(*(u32 *)(lazer_fence_switch_scroll_node + 4), 0, (s32)self->f110, 5, 1);
+        scroll_ginja_mesh_uvs(reinterpret_cast<NJS_OBJECT *>(lazer_fence_switch_scroll_node)->model, 0, (s32)self->f110, 5, 1);
         PPCSync();
         self->f110 = self->f110 - (f32)(s32)self->f110;
     }

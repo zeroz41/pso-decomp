@@ -24,6 +24,8 @@
 #include "pso/object/warp/TObjAreaWarpForest.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/object/TObjComputer.h"
+#include "pso/object/TObjGbAdvance.h"
+#include "pso/object/TMotorcycle.h"
 #include "pso/object/fence/TObjLazerFence4.h"
 #include "pso/object/lobby/TObjSuisouLobby.h"
 #include "pso/object/container/TObjContainerIdo.h"
@@ -187,8 +189,6 @@ void* TObjCity_Season_XmasTree__create(void* placement);
 void* TObjCity_Season_ValentineHeart__create(void* placement);
 void* TObjCity_Season_EasterEgg__create(void* placement);
 void* create__16TObjCityMainWarpFv(void* placement);
-void* TObjGbAdvance__create(void* placement);
-void* create__12TObjComputerFv(void* placement);
 void* TObjContainerBase__create(void* placement);
 void* TContainerAncient01R__create(void* placement);
 void* TObjDoaEx01__create(void* placement);
@@ -206,7 +206,6 @@ void* create__15TObjLazerFence4Fv(void* placement);
 void* create__13TLazerFenceSwFv(void* placement);
 void* TObjLight__create(void* placement);
 void* create__10TObjMapCsnFl(void* placement);
-void* create__11TMotorcycleFv(void* placement);
 void* TObjParticle__create(void* placement);
 void* TObjQuestCol2__create(void* placement);
 void* TObjQuestColALock2__create(void* placement);
@@ -356,13 +355,13 @@ ObjectFactoryEntry object_factories_floor_01[63] = {
     { 0x0084, create__13TLazerFenceSwFv, 250000.0f, 0 },
     { 0x0085, TKomorebi__create, 250000.0f, 0 },
     { 0x0086, TButterfly__create, 250000.0f, 0 },
-    { 0x0087, create__11TMotorcycleFv, 250000.0f, 0 },
+    { 0x0087, create_stage_motorcycle, 250000.0f, 0 },
     { 0x0088, TObjContainerItem::create, 250000.0f, 0 },
     { 0x0091, TObjContainerEnemy::create, 250000.0f, 0 },
     { 0x0092, TObjContainerBase__create, 250000.0f, 0 },
     { 0x0093, TObjContainerAbeEnemy__create, 250000.0f, 0 },
     { 0x0089, TObjTank__create, 250000.0f, 0 },
-    { 0x008B, create__12TObjComputerFv, 250000.0f, 0 },
+    { 0x008B, create_stage_computer, 250000.0f, 0 },
     { 0x008C, TObjContainerIdo::create, 250000.0f, 0 },
     { 0x0002, TObjAreaWarpForest__create, 250000.0f, 0 },
     { 0x0003, TObjMapWarpForest__create, 250000.0f, 0 },
@@ -421,13 +420,13 @@ ObjectFactoryEntry object_factories_floor_02[64] = {
     { 0x0084, create__13TLazerFenceSwFv, 250000.0f, 0 },
     { 0x0085, TKomorebi__create, 250000.0f, 0 },
     { 0x0086, TButterfly__create, 250000.0f, 0 },
-    { 0x0087, create__11TMotorcycleFv, 250000.0f, 0 },
+    { 0x0087, create_stage_motorcycle, 250000.0f, 0 },
     { 0x0088, TObjContainerItem::create, 250000.0f, 0 },
     { 0x0091, TObjContainerEnemy::create, 250000.0f, 0 },
     { 0x0092, TObjContainerBase__create, 250000.0f, 0 },
     { 0x0093, TObjContainerAbeEnemy__create, 250000.0f, 0 },
     { 0x0089, TObjTank__create, 250000.0f, 0 },
-    { 0x008B, create__12TObjComputerFv, 250000.0f, 0 },
+    { 0x008B, create_stage_computer, 250000.0f, 0 },
     { 0x008C, TObjContainerIdo::create, 250000.0f, 0 },
     { 0x0002, TObjAreaWarpForest__create, 250000.0f, 0 },
     { 0x0003, TObjMapWarpForest__create, 250000.0f, 0 },
@@ -511,7 +510,7 @@ ObjectFactoryEntry object_factories_floor_03[59] = {
     { 0x00DE, TODummyKeyCave01::create, 250000.0f, 0 },
     { 0x0024, TOSwitchAttack::create, 250000.0f, 0 },
     { 0x00DF, TORockCaveBL01__create, 250000.0f, 0 },
-    { 0x008B, create__12TObjComputerFv, 250000.0f, 0 },
+    { 0x008B, create_stage_computer, 250000.0f, 0 },
     { 0x0025, TOSwitchTimer::create, 250000.0f, 0 },
     { 0x0026, TOChatSensor__create, 250000.0f, 0 },
     { -1, 0, 250000.0f, 0 },
@@ -589,7 +588,7 @@ ObjectFactoryEntry object_factories_floor_04[75] = {
     { 0x0021, TOSymbolchatColli::create, 250000.0f, 0 },
     { 0x0024, TOSwitchAttack::create, 250000.0f, 0 },
     { 0x00E0, TORockCaveBL02__create, 250000.0f, 0 },
-    { 0x008B, create__12TObjComputerFv, 250000.0f, 0 },
+    { 0x008B, create_stage_computer, 250000.0f, 0 },
     { 0x0025, TOSwitchTimer::create, 250000.0f, 0 },
     { 0x0026, TOChatSensor__create, 250000.0f, 0 },
     { -1, 0, 250000.0f, 0 },
@@ -661,7 +660,7 @@ ObjectFactoryEntry object_factories_floor_05[69] = {
     { 0x0021, TOSymbolchatColli::create, 250000.0f, 0 },
     { 0x0024, TOSwitchAttack::create, 250000.0f, 0 },
     { 0x00E1, TORockCaveBL03__create, 250000.0f, 0 },
-    { 0x008B, create__12TObjComputerFv, 250000.0f, 0 },
+    { 0x008B, create_stage_computer, 250000.0f, 0 },
     { 0x0025, TOSwitchTimer::create, 250000.0f, 0 },
     { 0x0026, TOChatSensor__create, 250000.0f, 0 },
     { -1, 0, 250000.0f, 0 },
@@ -727,7 +726,7 @@ ObjectFactoryEntry object_factories_floor_06[64] = {
     { 0x0021, TOSymbolchatColli::create, 250000.0f, 0 },
     { 0x00DE, TODummyKeyCave01::create, 250000.0f, 0 },
     { 0x0024, TOSwitchAttack::create, 250000.0f, 0 },
-    { 0x008B, create__12TObjComputerFv, 250000.0f, 0 },
+    { 0x008B, create_stage_computer, 250000.0f, 0 },
     { 0x0025, TOSwitchTimer::create, 250000.0f, 0 },
     { 0x0026, TOChatSensor__create, 250000.0f, 0 },
     { 0x0167, TOTrapAncient02R::create, 250000.0f, 0 },
@@ -796,7 +795,7 @@ ObjectFactoryEntry object_factories_floor_07[66] = {
     { 0x0021, TOSymbolchatColli::create, 250000.0f, 0 },
     { 0x00DE, TODummyKeyCave01::create, 250000.0f, 0 },
     { 0x0024, TOSwitchAttack::create, 250000.0f, 0 },
-    { 0x008B, create__12TObjComputerFv, 250000.0f, 0 },
+    { 0x008B, create_stage_computer, 250000.0f, 0 },
     { 0x0025, TOSwitchTimer::create, 250000.0f, 0 },
     { 0x0026, TOChatSensor__create, 250000.0f, 0 },
     { 0x0167, TOTrapAncient02R::create, 250000.0f, 0 },
@@ -868,7 +867,7 @@ ObjectFactoryEntry object_factories_floor_08[71] = {
     { 0x0165, TOContainerAncientItemNone::create, 250000.0f, 0 },
     { 0x00DE, TODummyKeyCave01::create, 250000.0f, 0 },
     { 0x0024, TOSwitchAttack::create, 250000.0f, 0 },
-    { 0x008B, create__12TObjComputerFv, 250000.0f, 0 },
+    { 0x008B, create_stage_computer, 250000.0f, 0 },
     { 0x0166, TOWreckAncientBrakable05__create, 250000.0f, 0 },
     { 0x0096, TObjLazerFenceExtra__create, 250000.0f, 0 },
     { 0x0167, TOTrapAncient02R::create, 250000.0f, 0 },
@@ -941,7 +940,7 @@ ObjectFactoryEntry object_factories_floor_09[70] = {
     { 0x0165, TOContainerAncientItemNone::create, 250000.0f, 0 },
     { 0x00DE, TODummyKeyCave01::create, 250000.0f, 0 },
     { 0x0024, TOSwitchAttack::create, 250000.0f, 0 },
-    { 0x008B, create__12TObjComputerFv, 250000.0f, 0 },
+    { 0x008B, create_stage_computer, 250000.0f, 0 },
     { 0x0166, TOWreckAncientBrakable05__create, 250000.0f, 0 },
     { 0x0096, TObjLazerFenceExtra__create, 250000.0f, 0 },
     { 0x0167, TOTrapAncient02R::create, 250000.0f, 0 },
@@ -1007,7 +1006,7 @@ ObjectFactoryEntry object_factories_floor_10[71] = {
     { 0x0163, TOContainerAncientEnemyCommon__create, 250000.0f, 0 },
     { 0x0164, TOContainerAncientEnemyRare__create, 250000.0f, 0 },
     { 0x0160, create__22TObjFogCollisionPoisonFPv, 250000.0f, 0 },
-    { 0x008B, create__12TObjComputerFv, 250000.0f, 0 },
+    { 0x008B, create_stage_computer, 250000.0f, 0 },
     { 0x001F, TObjRaderHideCol__create, 250000.0f, 0 },
     { 0x0022, TOKeyCol::create, 250000.0f, 0 },
     { 0x0023, TOAttackableCol::create, 250000.0f, 0 },
@@ -1161,7 +1160,7 @@ ObjectFactoryEntry object_factories_floor_16[44] = {
     { 0x0165, TOContainerAncientItemNone::create, 250000.0f, 0 },
     { 0x00DE, TODummyKeyCave01::create, 250000.0f, 0 },
     { 0x0024, TOSwitchAttack::create, 250000.0f, 0 },
-    { 0x008B, create__12TObjComputerFv, 250000.0f, 0 },
+    { 0x008B, create_stage_computer, 250000.0f, 0 },
     { 0x0025, TOSwitchTimer::create, 250000.0f, 0 },
     { 0x0026, TOChatSensor__create, 250000.0f, 0 },
     { -1, 0, 250000.0f, 0 },
@@ -1214,7 +1213,7 @@ ObjectFactoryEntry object_factories_floor_17[50] = {
     { 0x0165, TOContainerAncientItemNone::create, 250000.0f, 0 },
     { 0x00DE, TODummyKeyCave01::create, 250000.0f, 0 },
     { 0x0024, TOSwitchAttack::create, 250000.0f, 0 },
-    { 0x008B, create__12TObjComputerFv, 250000.0f, 0 },
+    { 0x008B, create_stage_computer, 250000.0f, 0 },
     { 0x0025, TOSwitchTimer::create, 250000.0f, 0 },
     { 0x0026, TOChatSensor__create, 250000.0f, 0 },
     { -1, 0, 250000.0f, 0 },
@@ -1257,7 +1256,7 @@ ObjectFactoryEntry object_factories_floors_21_22[60] = {
     { 0x0023, TOAttackableCol::create, 250000.0f, 0 },
     { 0x0020, TOSwitchItem::create, 250000.0f, 0 },
     { 0x0021, TOSymbolchatColli::create, 250000.0f, 0 },
-    { 0x008B, create__12TObjComputerFv, 250000.0f, 0 },
+    { 0x008B, create_stage_computer, 250000.0f, 0 },
     { 0x00DE, TODummyKeyCave01::create, 250000.0f, 0 },
     { 0x0025, TOSwitchTimer::create, 250000.0f, 0 },
     { 0x0026, TOChatSensor__create, 250000.0f, 0 },
@@ -1377,7 +1376,7 @@ ObjectFactoryEntry object_factories_floors_19_20[66] = {
     { 0x0023, TOAttackableCol::create, 250000.0f, 0 },
     { 0x0020, TOSwitchItem::create, 250000.0f, 0 },
     { 0x0021, TOSymbolchatColli::create, 250000.0f, 0 },
-    { 0x008B, create__12TObjComputerFv, 250000.0f, 0 },
+    { 0x008B, create_stage_computer, 250000.0f, 0 },
     { 0x00DE, TODummyKeyCave01::create, 250000.0f, 0 },
     { 0x0025, TOSwitchTimer::create, 250000.0f, 0 },
     { 0x0026, TOChatSensor__create, 250000.0f, 0 },
@@ -1435,7 +1434,7 @@ ObjectFactoryEntry object_factories_floor_23[65] = {
     { 0x0022, TOKeyCol::create, 250000.0f, 0 },
     { 0x0020, TOSwitchItem::create, 250000.0f, 0 },
     { 0x0021, TOSymbolchatColli::create, 250000.0f, 0 },
-    { 0x008B, create__12TObjComputerFv, 250000.0f, 0 },
+    { 0x008B, create_stage_computer, 250000.0f, 0 },
     { 0x0025, TOSwitchTimer::create, 250000.0f, 0 },
     { 0x0026, TOChatSensor__create, 250000.0f, 0 },
     { 0x0085, TKomorebi__create, 250000.0f, 0 },
@@ -1503,7 +1502,7 @@ ObjectFactoryEntry object_factories_floor_24[67] = {
     { 0x0022, TOKeyCol::create, 250000.0f, 0 },
     { 0x0020, TOSwitchItem::create, 250000.0f, 0 },
     { 0x0021, TOSymbolchatColli::create, 250000.0f, 0 },
-    { 0x008B, create__12TObjComputerFv, 250000.0f, 0 },
+    { 0x008B, create_stage_computer, 250000.0f, 0 },
     { 0x0025, TOSwitchTimer::create, 250000.0f, 0 },
     { 0x0026, TOChatSensor__create, 250000.0f, 0 },
     { 0x0085, TKomorebi__create, 250000.0f, 0 },
@@ -1573,7 +1572,7 @@ ObjectFactoryEntry object_factories_floor_25[66] = {
     { 0x0022, TOKeyCol::create, 250000.0f, 0 },
     { 0x0020, TOSwitchItem::create, 250000.0f, 0 },
     { 0x0021, TOSymbolchatColli::create, 250000.0f, 0 },
-    { 0x008B, create__12TObjComputerFv, 250000.0f, 0 },
+    { 0x008B, create_stage_computer, 250000.0f, 0 },
     { 0x0025, TOSwitchTimer::create, 250000.0f, 0 },
     { 0x0026, TOChatSensor__create, 250000.0f, 0 },
     { 0x0085, TKomorebi__create, 250000.0f, 0 },
@@ -1642,7 +1641,7 @@ ObjectFactoryEntry object_factories_floor_26[63] = {
     { 0x0022, TOKeyCol::create, 250000.0f, 0 },
     { 0x0020, TOSwitchItem::create, 250000.0f, 0 },
     { 0x0021, TOSymbolchatColli::create, 250000.0f, 0 },
-    { 0x008B, create__12TObjComputerFv, 250000.0f, 0 },
+    { 0x008B, create_stage_computer, 250000.0f, 0 },
     { 0x0025, TOSwitchTimer::create, 250000.0f, 0 },
     { 0x0026, TOChatSensor__create, 250000.0f, 0 },
     { 0x0085, TKomorebi__create, 250000.0f, 0 },
@@ -1708,7 +1707,7 @@ ObjectFactoryEntry object_factories_floor_27[66] = {
     { 0x0022, TOKeyCol::create, 250000.0f, 0 },
     { 0x0020, TOSwitchItem::create, 250000.0f, 0 },
     { 0x0021, TOSymbolchatColli::create, 250000.0f, 0 },
-    { 0x008B, create__12TObjComputerFv, 250000.0f, 0 },
+    { 0x008B, create_stage_computer, 250000.0f, 0 },
     { 0x0025, TOSwitchTimer::create, 250000.0f, 0 },
     { 0x0026, TOChatSensor__create, 250000.0f, 0 },
     { 0x0085, TKomorebi__create, 250000.0f, 0 },
@@ -1776,7 +1775,7 @@ ObjectFactoryEntry object_factories_floor_34[61] = {
     { 0x0022, TOKeyCol::create, 250000.0f, 0 },
     { 0x0020, TOSwitchItem::create, 250000.0f, 0 },
     { 0x0021, TOSymbolchatColli::create, 250000.0f, 0 },
-    { 0x008B, create__12TObjComputerFv, 250000.0f, 0 },
+    { 0x008B, create_stage_computer, 250000.0f, 0 },
     { 0x0025, TOSwitchTimer::create, 250000.0f, 0 },
     { 0x0026, TOChatSensor__create, 250000.0f, 0 },
     { 0x0200, TObjContainerJung::create, 250000.0f, 0 },
@@ -1840,7 +1839,7 @@ ObjectFactoryEntry object_factories_floor_35[64] = {
     { 0x0022, TOKeyCol::create, 250000.0f, 0 },
     { 0x0020, TOSwitchItem::create, 250000.0f, 0 },
     { 0x0021, TOSymbolchatColli::create, 250000.0f, 0 },
-    { 0x008B, create__12TObjComputerFv, 250000.0f, 0 },
+    { 0x008B, create_stage_computer, 250000.0f, 0 },
     { 0x0025, TOSwitchTimer::create, 250000.0f, 0 },
     { 0x0026, TOChatSensor__create, 250000.0f, 0 },
     { 0x0200, TObjContainerJung::create, 250000.0f, 0 },
@@ -1908,7 +1907,7 @@ ObjectFactoryEntry object_factories_floor_28[62] = {
     { 0x0022, TOKeyCol::create, 250000.0f, 0 },
     { 0x0020, TOSwitchItem::create, 250000.0f, 0 },
     { 0x0021, TOSymbolchatColli::create, 250000.0f, 0 },
-    { 0x008B, create__12TObjComputerFv, 250000.0f, 0 },
+    { 0x008B, create_stage_computer, 250000.0f, 0 },
     { 0x0025, TOSwitchTimer::create, 250000.0f, 0 },
     { 0x0026, TOChatSensor__create, 250000.0f, 0 },
     { 0x0220, TObjFish__create, 250000.0f, 0 },
@@ -1973,7 +1972,7 @@ ObjectFactoryEntry object_factories_floor_29[62] = {
     { 0x0022, TOKeyCol::create, 250000.0f, 0 },
     { 0x0020, TOSwitchItem::create, 250000.0f, 0 },
     { 0x0021, TOSymbolchatColli::create, 250000.0f, 0 },
-    { 0x008B, create__12TObjComputerFv, 250000.0f, 0 },
+    { 0x008B, create_stage_computer, 250000.0f, 0 },
     { 0x0025, TOSwitchTimer::create, 250000.0f, 0 },
     { 0x0026, TOChatSensor__create, 250000.0f, 0 },
     { 0x0220, TObjFish__create, 250000.0f, 0 },

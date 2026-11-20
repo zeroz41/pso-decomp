@@ -748,7 +748,7 @@ force_active:
   - TMedicalCenterMes__slot_flags
   - TMemberCheck__previous_member_count
   - TMotorcycle__collision_parts
-  - TMotorcycle__ct
+  - __ct__11TMotorcycleFP7TObjectP13ObjectSetData
   - TNpcPlayer__name
   - TNpcPlayer__sub_80152A30
   - TNpcPlayer__sub_80152A34
@@ -990,7 +990,7 @@ force_active:
   - TObjCity_Season_XmasWreath__ct
   - TObjCity_Season_XmasWreath__name
   - TObjCollision__ct
-  - TObjComputer__ct
+  - __ct__12TObjComputerFP7TObjectP13ObjectSetData
   - TObjContainerAbeEnemy__name
   - TObjContainerAbeEnemy__vt77
   - TObjContainerBase__ct
