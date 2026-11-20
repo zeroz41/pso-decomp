@@ -1175,7 +1175,7 @@ struct TObjPlayer : public TObjChara {
     static void load_lobby_pigeon_resource();
     static void *create_object_by_type(u8 *item);
     void *find_by_section_id(u16 section);
-    void create_party_effects(s32 id);
+    void create_party_effects(saddr id);
     u16 find_first_valid_target_id();
     void process_all_elements();
     static void mult_vec_array(u32 arg0, s32 arg1);

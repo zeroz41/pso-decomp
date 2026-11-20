@@ -57,7 +57,7 @@ void *TObjPlayer::find_by_section_id(u16 section) {
     return 0;
 }
 
-void TObjPlayer::create_party_effects(s32 id) {
+void TObjPlayer::create_party_effects(saddr id) {
     s32 n;
     saddr i;
     saddr sec;
