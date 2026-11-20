@@ -59,8 +59,8 @@ s32 TAdSinglePlyChrSelectGC__sub_801FDA4C();
 
 int request_queued_main_phase(void*);
 extern void *character_select_scene_resource_callbacks[];
-int check_room_seq_4__16TAdChrSelASlotGCFl(void*, void*);
-int forward_trade_action_default__16TObjCityMainWarpFPviii(void*, void*, void*, void*);
+int check_room_seq_4__16TAdChrSelASlotGCFl(void*, s32);
+int forward_trade_action_default__16TObjCityMainWarpFPviii(void*, saddr, s32, s32);
 
 s32 get_card_file_info__15TAdPlayerLoadGCFiPvPv(int, void *, int);
 s32 query_memcard_capacity__15TAdPlayerLoadGCFl(int, int);
@@ -277,7 +277,7 @@ void TAdSinglePlyChrSelectGC::handle_load_result() {
     s32 cw;
     s32 inst;
     uaddr obj;
-    s32 src;
+    saddr src;
     switch (poll_memcard_result(*(s32 *)((s8 *)((u8 *)this) + 0x24))) {
     case 0:
         seed_character_select_serial_rng(get_field_118__22TAdEnterSerialAccessGCFv());
@@ -472,8 +472,8 @@ void close_window__23TAdSinglePlyChrSelectGCFPv(void *arg0) {
         }
     }
 }
-void TAdSinglePlyChrSelectGC::init_warp() { close_window__23TAdSinglePlyChrSelectGCFPv(this); *(int*)((char*)this + 0x3c) = check_room_seq_4__16TAdChrSelASlotGCFl((void *)lbl_80477D58, (void*)2); forward_trade_action_default__16TObjCityMainWarpFPviii((void*)(*(saddr *)((char*)this + 0x3c)), (void*)((int)get_message_text((saddr)((void*)14))), (void*)6, (void*)1); ((TWindowSubComCardList *)(*(saddr *)((char*)this + 0x3c)))->update_layout_height(289.0f); }
-void TAdSinglePlyChrSelectGC::init_warps() { close_window__23TAdSinglePlyChrSelectGCFPv(this); *(int*)((char*)this + 0x3c) = check_room_seq_4__16TAdChrSelASlotGCFl((void *)lbl_80477D58, (void*)2); forward_trade_action_default__16TObjCityMainWarpFPviii((void*)(*(saddr *)((char*)this + 0x3c)), (void*)((int)get_message_text((saddr)((void*)13))), (void*)6, (void*)0); forward_trade_action_default__16TObjCityMainWarpFPviii((void*)(*(saddr *)((char*)this + 0x3c)), (void*)((int)get_message_text((saddr)((void*)14))), (void*)6, (void*)1); ((TWindowSubComCardList *)(*(saddr *)((char*)this + 0x3c)))->update_layout_height(289.0f); }
+void TAdSinglePlyChrSelectGC::init_warp() { close_window__23TAdSinglePlyChrSelectGCFPv(this); *(int*)((char*)this + 0x3c) = check_room_seq_4__16TAdChrSelASlotGCFl((void *)lbl_80477D58, 2); forward_trade_action_default__16TObjCityMainWarpFPviii((void*)(*(saddr *)((char*)this + 0x3c)), (saddr)get_message_text(14), 6, 1); ((TWindowSubComCardList *)(*(saddr *)((char*)this + 0x3c)))->update_layout_height(289.0f); }
+void TAdSinglePlyChrSelectGC::init_warps() { close_window__23TAdSinglePlyChrSelectGCFPv(this); *(int*)((char*)this + 0x3c) = check_room_seq_4__16TAdChrSelASlotGCFl((void *)lbl_80477D58, 2); forward_trade_action_default__16TObjCityMainWarpFPviii((void*)(*(saddr *)((char*)this + 0x3c)), (saddr)get_message_text(13), 6, 0); forward_trade_action_default__16TObjCityMainWarpFPviii((void*)(*(saddr *)((char*)this + 0x3c)), (saddr)get_message_text(14), 6, 1); ((TWindowSubComCardList *)(*(saddr *)((char*)this + 0x3c)))->update_layout_height(289.0f); }
 
 LAYOUT_ASSERT(RecoveredGlobal_8033B264_lbl_804EF728_size, sizeof(RecoveredGlobal_8033B264_lbl_804EF728) == 0x198);
 

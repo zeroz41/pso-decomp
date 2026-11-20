@@ -37,7 +37,7 @@ struct CreationShapeNode { u32 eval_flags; CreationShapeModel *model; f32 pos[3]
 extern "C" {
 void TAdSinglePlyChrSelectGC__sub_802905A4(void* p, void* q);
 }
-void reset_creation_shape_set(s32 arg0);
+void reset_creation_shape_set(saddr arg0);
 s32 char_select_active_flag;
 int char_creation_figure_draw_flag;
 u32 creation_figure_rotation_y;
@@ -290,8 +290,8 @@ struct Sel_802902CC {
     saddr a4;
     saddr a8;
     s32 c[3];
-    s32 d[3];
-    s32 e[3];
+    saddr d[3];
+    saddr e[3];
 };
 
 s32 load_resource_from_descriptor(s32, s32, s32, s32, s32, s32);
@@ -454,7 +454,7 @@ s32 TAdSinglePlyChrSelectGC::is_active() {
 int TAdSinglePlyChrSelectGC__sub_802905B8(void) {  return char_creation_figure_draw_flag; }
 void TAdSinglePlyChrSelectGC__sub_802905A4(void* p, void* q) { *(u32*)((char*)p + 0x0) = *(u32*)((char*)q + 0x0); *(u32*)((char*)p + 0x4) = *(u32*)((char*)q + 0x4); }
 }
-void reset_creation_shape_set(s32 arg0) {
+void reset_creation_shape_set(saddr arg0) {
     TAdSinglePlyChrSelectGC__sub_802905A4((void*)arg0, (void*)((void *)&creation_empty_model_node));
 }
 #pragma push
@@ -790,7 +790,7 @@ void TAdSinglePlyChrSelectGC::get_sorted_region_samples(s32 *samples) {
     s32 x;
     s32 i;
     TCharaMaking__sub_8028E3A0();
-    map_shape_region_samples((saddr)(((void *)find_shape_triangle_region((u8 *)this))), (s32 *)samples);
+    map_shape_region_samples(find_shape_triangle_region((u8 *)this), (s32 *)samples);
     for (i = 0; i < 2; i++) {
         for (j = 2; j > i; j--) {
             x = samples[j];

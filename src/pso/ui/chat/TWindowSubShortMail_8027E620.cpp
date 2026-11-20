@@ -457,7 +457,7 @@ s32 TWindowSubShortMail::refresh_mail_list(void *arg1) {
     u32 id;
     s32 i;
     s16 sel;
-    s32 e;
+    saddr e;
     id = ((TWindowMenuIconLine *)arg1)->get_cursor_value();
     sel = -1;
     TLobby::clear_lobby_flag();
@@ -639,7 +639,7 @@ void TWindowSubShortMail::update_mail_count() {
 void TWindowSubShortMail::close() {
     saddr src;
     s32 short_mail_ctrl;
-    s32 temp_r30;
+    saddr temp_r30;
     s32 var_r29;
 
     src = (saddr)((TKeyBoardControl *)this->m_5c)->realloc_buffer();
