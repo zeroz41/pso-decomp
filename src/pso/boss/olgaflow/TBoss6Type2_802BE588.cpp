@@ -217,7 +217,7 @@ void TBoss6Type2::init_attack_params() {
 
     this->state_duration = 0x4B;
     this->state_timer = 0x4B;
-    *(s32 *)&this->unk_504 = 0;
+    this->m_504 = 0;
     switch (this->m_374) {
     case 4:
         this->m_46c = 0;
@@ -240,8 +240,8 @@ void TBoss6Type2::init_attack_params() {
 void TBoss6Type2::update_zako_phase() {
     s32 temp_r0;
 
-    if (((s32) *(s32 *)&this->unk_504 == 0) && (this->turn_toward_target_position() == 0)) {
-        *(s32 *)&this->unk_504 = 1;
+    if (((s32) this->m_504 == 0) && (this->turn_toward_target_position() == 0)) {
+        this->m_504 = 1;
     }
     update_zako();
     temp_r0 = this->state_timer - 1;
@@ -287,8 +287,8 @@ void TBoss6Type2::send_state_action() {
 void TBoss6Type2::update_zako_spawn_timer() {
     s32 temp_r0;
 
-    if (((s32) *(s32 *)&this->unk_504 == 0) && (this->turn_toward_target_position() == 0)) {
-        *(s32 *)&this->unk_504 = 1;
+    if (((s32) this->m_504 == 0) && (this->turn_toward_target_position() == 0)) {
+        this->m_504 = 1;
     }
     update_zako();
     temp_r0 = this->state_timer - 1;
