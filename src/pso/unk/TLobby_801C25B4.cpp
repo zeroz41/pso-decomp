@@ -371,7 +371,7 @@ int TKeyBoardControl__sub_8000F828(void);
 void TAdSinglePlyChrSelectGC__sub_801C5120(void);
 void TAdSinglePlyChrSelectGC__sub_801C5158(void);
 void *__construct_new_array(void *, void *, void *, s32, s32);
-s32 destroy_char_data__10TObjPlayerFis(s32 arg0, s16 arg1);
+s32 destroy_char_data__10TObjPlayerFis(saddr arg0, s16 arg1);
 void init_char_data__10TObjPlayerFv(void);
 
 void *get_window_layout_position(s32);

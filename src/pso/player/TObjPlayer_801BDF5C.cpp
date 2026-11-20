@@ -148,7 +148,7 @@ int subtract_photon_blast_charge(void*, f32);
 int add_photon_blast_chain_charge(void*);
 int set__8FlagWordFUl(void*, int);
 
-s32 destroy_char_data__10TObjPlayerFis(s32 arg0, s16 arg1) {
+s32 destroy_char_data__10TObjPlayerFis(saddr arg0, s16 arg1) {
     if (arg0 != 0) {
         __dt__12TPlyCharDataFv(arg0 + 0xC, -1);
         if (arg1 > 0) {
