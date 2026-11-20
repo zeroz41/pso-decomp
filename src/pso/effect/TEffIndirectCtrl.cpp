@@ -88,7 +88,7 @@ const char *indirect_dat_filename = "indirect.dat";
 const char *indinfo_dat_filename = "indinfo.dat";
 const char *TEffIndirectCtrl__name = "TEffIndirectCtrl";
 
-s32 TEffIndirectCtrl__source_buffers[8];
+saddr TEffIndirectCtrl__source_buffers[8];
 TEffIndirectCtrl *indirect_effect_ctrl_table[6];
 E_802A9568 *indirect_recipe_buffer;
 u8 indirect_effect_ctrl_count;
@@ -157,7 +157,7 @@ void load_indirect_dat(void) {
         TEffIndirectCtrl__source_buffers[i] = 0;
     }
     for (i = 0; i < 8; i++) {
-        TEffIndirectCtrl__source_buffers[i] = (s32)xmalloc(0x1020);
+        TEffIndirectCtrl__source_buffers[i] = (saddr)xmalloc(0x1020);
         if ((u32)TEffIndirectCtrl__source_buffers[i] == 0) {
             fail = 1;
         }
@@ -218,7 +218,7 @@ s32 get_indirect_source_id(u8 arg0) {
     return *(s32 *)(TEffIndirectCtrl__source_buffers[var_r3] + 8);
 }
 
-s32 get_indirect_source_pixels(u8 arg0) {
+saddr get_indirect_source_pixels(u8 arg0) {
     u8 var_r3;
     var_r3 = arg0;
     if (var_r3 >= 8U) {
