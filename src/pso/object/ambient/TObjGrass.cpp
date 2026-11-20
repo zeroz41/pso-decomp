@@ -285,7 +285,7 @@ s32 register_object__6TLobbyFl(int);
 s32 dispatch_shared_handler_b__6TLobbyFl(int);
 s32 register_boss__6TLobbyFl(int);
 u8 *load_resource_from_descriptor(void *, int, void *, int, int, int);
-s32 load_enemy_bml_resource_named(s32 arg0, s32 arg1);
+s32 load_enemy_bml_resource_named(saddr arg0, saddr arg1);
 extern s32 lbl_805D5140;
 extern u32 TObjGrass__bml_resource;
 extern s32 grass_combat_stats_handle;
@@ -386,7 +386,7 @@ Vec grass_camera_vec;
 Vec grass_render_vec;
 Vec grass_origin_vec;
 extern u8 lbl_804FF5E8[];
-f32 calc_xz_distance_sq(s32 arg0, u32 arg1, void *arg2);
+f32 calc_xz_distance_sq(saddr arg0, uaddr arg1, void *arg2);
 extern void *tl_04;
 struct VBase_14_d701ad { char pad[0x14]; };
 struct VObj_14_d701ad : VBase_14_d701ad {
@@ -414,7 +414,7 @@ struct VObj_18_ca64a0 : VBase_18_ca64a0 {
     virtual s32 m9(f32, f32, f32);
 };
 void restore_scene_lighting(void);
-void select_actor_lighting(s32 obj);
+void select_actor_lighting(saddr obj);
 void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
 extern s32 saved_model_render_flags;
 extern s32 saved_chunk_polygon_flags_and_mask;
@@ -501,7 +501,7 @@ TObjGrass::~TObjGrass() {
 void TObjGrass::load_resources() {
     u8 *p;
     if (TObjEneDD::check_v2_mode() != 0) {
-        TObjGrass__resource_bundle = (u32) load_enemy_bml_resource_named((s32)bm_ene_grass_resource_descriptor, (s32)((void *)"bm_ene_grass_a.bml"));
+        TObjGrass__resource_bundle = (u32) load_enemy_bml_resource_named((saddr)bm_ene_grass_resource_descriptor, (saddr)((void *)"bm_ene_grass_a.bml"));
     } else {
         p = (u8 *)::operator new(0x440);
         if (p != NULL) {
@@ -640,7 +640,7 @@ void TObjGrass::render() {
     if (*(s32 *)((s8 *)arg0 + 0x3A8) == 0) {
         return;
     }
-    select_actor_lighting((s32)self);
+    select_actor_lighting((saddr)self);
     TObjFish::set_global_param(*(s32 *)((s8 *)arg0 + 0x24));
     push_matrix();
     translate_matrix(0, (0.0f), *(f32 *)((s8 *)arg0 + 0x35C), (0.0f));
@@ -1068,7 +1068,7 @@ s32 TObjGrass::is_target_in_attack_range() {
     if (obj_testFlags30(0x2000) != 0) {
         BIND(2)
     }
-    dist = calc_xz_distance_sq((s32)this, (u32)this->target, (void *)&v);
+    dist = calc_xz_distance_sq((saddr)this, (uaddr)this->target, (void *)&v);
     ang = angle_difference_abs(this->rotation_y, (s32)((10430.38043493439) * atan2_float(v.x, v.z)));
     t = this->target;
     if (*(u8 **)((s8 *)t + 0xA4) != NULL) {

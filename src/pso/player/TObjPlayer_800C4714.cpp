@@ -72,7 +72,7 @@ typedef struct Obj_800C55E0 {
 
 extern "C" {
 s32 vec3_add_to(void *, void *);
-s32 is_area_attack_target_eligible(s32, s32);
+s32 is_area_attack_target_eligible(saddr, s32);
 
 void __dl__7TObjectFPv(void *);
 u8 *__ct__13TUnk_804928CCFP7TObjectP8TObjBase(u8 *arg0, s32 arg1, u32 arg2);
@@ -140,7 +140,7 @@ struct Obj_800C4754 : VBase_800C4754 {
 
 extern "C" {
 
-s32 *csnVecterUnder(s32 origin, s32 mask);
+s32 *csnVecterUnder(saddr origin, s32 mask);
 u32 csnVector(void *, void *, int);
 void *spawn_particle_effect_with_rotation(void *pos, void *dir, s32 id, int e);
 void TObjEneDD__sub_800C2618(void *p);
@@ -213,7 +213,7 @@ s32 TObjEneRe2Flower_Bomb::area_attack_deliver_direct(void *recoil, s32 arg2, vo
                 break;
             }
             if (obj_is_hit_receivable((u8 *)p) != 0 && (u32)p != this->owner &&
-                is_area_attack_target_eligible((s32)this, *(s32 *)((s8 *)p + 0x30)) != 0 &&
+                is_area_attack_target_eligible((saddr)this, *(s32 *)((s8 *)p + 0x30)) != 0 &&
                 !(fabs_float(*(f32 *)&(this->m_b8) - *(f32 *)((s8 *)p + 0x300)) > 30.0f)) {
                 ok = 1;
                 if (object != 0 && attack_target_history_add((s32)object, p) == 0) {
@@ -263,7 +263,7 @@ void TObjEneRe2Flower_Bomb::run_task() {
         o->start.x += o->velA.x;
         o->start.y += o->fF0;
         o->start.z += o->velA.z;
-        hit = (Hit_800C4754 *)csnVecterUnder((s32)&o->start, 0x16EF);
+        hit = (Hit_800C4754 *)csnVecterUnder((saddr)&o->start, 0x16EF);
         if (hit != NULL) {
             o->pos.y = *(f32 *)(hit->tri + 4);
             VecCopy((Vec *)&o->accel, (const Vec *)(hit->tri + 0xC));

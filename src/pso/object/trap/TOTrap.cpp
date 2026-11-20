@@ -29,7 +29,7 @@ struct Obj_80178E10 { u8 pad0[0x2A8]; u8 *target; u8 pad1[0x7A]; s16 state; u8 p
 const char *lbl_805D3198 = "TOTrap";
 
 extern "C" {
-s32 get_entity_id(u32);
+s32 get_entity_id(uaddr);
 
 extern s32 game_difficulty_selection;
 s32 fn_80171314(void *);
@@ -172,7 +172,7 @@ f32 TOTrap::receive_physical_attack(void *arg1, f32) {
     send_object_state_update(&sp8);
     if (arg1 != 0U)
     {
-      temp_r3 = get_entity_id((u32)((void *) arg1));
+      temp_r3 = get_entity_id((uaddr)((void *) arg1));
       if (temp_r3 < 0x1000U)
       {
         temp_r3_2 = (saddr)get_player_by_client_id(((int) ((s32) temp_r3)));

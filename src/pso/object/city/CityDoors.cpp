@@ -135,13 +135,13 @@ extern s32 city_common_texture_list;
 extern "C" {
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 }
-u8 * load_gvm_texture_file(s32);
+u8 * load_gvm_texture_file(saddr);
 extern "C" {
 void render__18TObjCityDoor_LobbyFv(void* p);
 s32 post_translate_matrix(void *);
 s32 draw_ginja_object();
 s32 push_matrix();
-s32 free_bin_model_request(s32, s32);
+s32 free_bin_model_request(saddr, s32);
 s32 release_texture_list(void*);
 }
 
@@ -151,7 +151,7 @@ void TLobby::free_map_resources() {
         TAdSinglePlyChrSelectGC::safe_free(city_common_texture_list);
         city_common_texture_list = 0U;
     }
-    free_bin_model_request((s32)city_common_model_archive, 1);
+    free_bin_model_request((saddr)city_common_model_archive, 1);
     city_common_model_archive = 0;
 }
 struct BmObjCityCommonResourceDescriptor { const char * value; const char * * models; const char * * motions; u32 counts; u32 padding; };
@@ -167,7 +167,7 @@ void load_city_common_resources(void) {
         var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 5, &bm_obj_city_common_resource_descriptor.value, 0, 0, 0));
     }
     (*(s32 *)&city_common_model_archive) = var_r0;
-    (*(u8 * *)&city_common_texture_list) = load_gvm_texture_file((s32)city_common_texture_filename);
+    (*(u8 * *)&city_common_texture_list) = load_gvm_texture_file((saddr)city_common_texture_filename);
 }
 extern "C" {
 void TObjCityDoor_Lobby::render() { if (is_phase_e__9TObjEneDDFPv(this) != 0) { process_lobby_action_14(); } }
@@ -312,7 +312,7 @@ u8 *TObjCityDoor_Lobby__create(s32 arg0) {
 u32 get_map_count__10TObjMapCsnFv();
 void __dl__7TObjectFPv(void *);
 }
-void remove_value_from_id_list(s32 arg0, u32 arg1);
+void remove_value_from_id_list(s32 arg0, uaddr arg1);
 
 extern s32 __vt__18TObjCityDoor_Lobby[];
 
@@ -321,7 +321,7 @@ u8 *__dt__18TObjCityDoor_LobbyFPvs(u8 *city_door_lobby, s16 arg1) {
     if (city_door_lobby != NULL) {
         *(s32 **)((s8 *)city_door_lobby + 0x18) = __vt__18TObjCityDoor_Lobby;
         if (((s32) ((TObjCityDoor_Lobby *)city_door_lobby)->m_250 != 0) && (TObjMapCsn::get_map_count() != 0U)) {
-            remove_value_from_id_list(TObjMapCsn::get_map_count(), (u32)(city_door_lobby + 0x90));
+            remove_value_from_id_list(TObjMapCsn::get_map_count(), (uaddr)(city_door_lobby + 0x90));
         }
         __dt__8TObjBaseFv(city_door_lobby, 0);
         if (arg1 > 0) {
@@ -466,7 +466,7 @@ void TObjCityDoor_Med::run_task() {
 s32 get_game_play_mode();
 }
 s32 is_rader_map_active(void);
-u8 *init_city_door(u8 *, s32, s32, u8 *);
+u8 *init_city_door(u8 *, saddr, saddr, u8 *);
 
 
 void *TObjCityDoor_Med__create(void *set) {
@@ -492,7 +492,7 @@ void *dt__16TObjCityDoor_MedFPvs(void *object, s16 arg1) {
 
 extern u8 city_door_med_params[]; __declspec(section ".sdata") extern const char *TObjCityDoor_Med__name;
 void *TObjCityDoor_Med__ct(void *o, void *parent, void *set) {
- init_city_door((u8*)o,(s32)parent,(s32)set,city_door_med_params);
+ init_city_door((u8*)o,(saddr)parent,(saddr)set,city_door_med_params);
  *(s32 **)((u8 *)o + 0x18)=__vt__16TObjCityDoor_Med;*(s32 *)((u8 *)o + 0)=(s32)TObjCityDoor_Med__name;
  ((TObjCityDoor_Med *)o)->m_b0=(f32)(*(u32 *)((u8 *)get_city_common_motion(11) + 4)-1);
  return o;
@@ -566,7 +566,7 @@ void TObjCityDoor_Warp::run_task() {
 
 void city_door_tick_opening__13TUnk_804B5BA8Fv(void *);
 s32 update_technique_slot__10TTecRaFoieFl(s32, s32, s32);
-s32 play_sound_effect(s32, s32, s32, s32);
+s32 play_sound_effect(s32, saddr, s32, s32);
 void city_door_tick_opening__17TObjCityDoor_WarpFv(u8 *arg0);
 void city_door_play_close_sound__17TObjCityDoor_WarpFv(s32 arg0);
 void city_door_play_open_sound__17TObjCityDoor_WarpFv(s32 arg0);
@@ -590,7 +590,7 @@ void TObjCityDoor_Warp::city_door_tick_opening() {
     f32 temp_f1;
     temp_f1 = this->m_b4;
     if ((temp_f1 >= 24.0f) && (temp_f1 <= 25.0f)) {
-        update_technique_slot__10TTecRaFoieFl((s32)(play_sound_effect(0x42A04, (s32)((void *) (arg0 + 0x38)), 0, 0)), -0x500, 0);
+        update_technique_slot__10TTecRaFoieFl((s32)(play_sound_effect(0x42A04, (saddr)((void *) (arg0 + 0x38)), 0, 0)), -0x500, 0);
     }
     ((TUnk_804B5BA8 *)arg0)->TUnk_804B5BA8::city_door_tick_opening();
 }
@@ -675,7 +675,7 @@ void *dt__17TObjCityDoor_WarpFPvs(void *object, s16 arg1) {
 
 extern u8 city_door_warp_params[]; __declspec(section ".sdata") extern const char *TObjCityDoor_Warp__name;
 void *TObjCityDoor_Warp__ct(void *o, void *parent, void *set) {
- init_city_door((u8*)o,(s32)parent,(s32)set,city_door_warp_params);
+ init_city_door((u8*)o,(saddr)parent,(saddr)set,city_door_warp_params);
  FOLD_F(o,s32*,0x18)=__vt__17TObjCityDoor_Warp;FOLD_F(o,s32,0)=(s32)TObjCityDoor_Warp__name;
  FOLD_F(o,f32,0xB0)=(f32)(FOLD_F(get_city_common_motion(8),u32,4)-1);
  return o;
@@ -762,7 +762,7 @@ void *dt__18TObjCityDoor_GuildFPvs(void *object, s16 arg1) {
 
 extern u8 TObjCityDoor_Guild__params[]; __declspec(section ".sdata") extern const char *TObjCityDoor_Guild__name;
 void *TObjCityDoor_Guild__ct(void *o, void *parent, void *set) {
- init_city_door((u8*)o,(s32)parent,(s32)set,TObjCityDoor_Guild__params);
+ init_city_door((u8*)o,(saddr)parent,(saddr)set,TObjCityDoor_Guild__params);
  FOLD_F(o,s32*,0x18)=__vt__18TObjCityDoor_Guild;FOLD_F(o,s32,0)=(s32)TObjCityDoor_Guild__name;
  FOLD_F(o,f32,0xB0)=(f32)(FOLD_F(get_city_common_motion(12),u32,4)-1);
  return o;
@@ -1047,7 +1047,7 @@ void *TObjPlayer__sub_80182D24(void *collidable, s16 arg1) {
 }
 }
 extern RecoveredGlobal_80182D8C_lbl_80443F20 city_door_init_params;
-u8 *init_city_door(u8 *arg0, s32 arg1, s32 arg2, u8 *arg3);
+u8 *init_city_door(u8 *arg0, saddr arg1, saddr arg2, u8 *arg3);
 LAYOUT_ASSERT(RecoveredGlobal_80182D8C_lbl_80443F20_size, sizeof(RecoveredGlobal_80182D8C_lbl_80443F20) == 0x2C);
 u8 *init_city_door(u8 *arg0, s32 arg1, s32 arg2, u8 *arg3) {
     struct CopyStack_80182D8C { u8 bytes[0x2C]; };

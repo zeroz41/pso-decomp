@@ -42,7 +42,7 @@ void draw_node_tree__18TObjLaboDesignBaseFiPv(s32 arg0, u8 *arg1);
 s32 init_collision_body_parts(void *, int, int);
 s32 __ct__14TObjCollidableFP7TObject();
 s32 create__10TObjMapCsnFl(void *, f32, f32);
-u8 *TObjLaboDesignBase__ct(u8 *arg0, s32 arg1, s32 arg2, s32 arg3);
+u8 *TObjLaboDesignBase__ct(u8 *arg0, saddr arg1, saddr arg2, s32 arg3);
 void *TObjLaboDesignBase__create(void *arg0);
 void *TObjLaboDesignBase__sub_80364D38(void *arg0);
 void *alloc_and_construct__18TObjLaboDesignBaseFPv(void *arg0);
@@ -147,7 +147,7 @@ void *labo_design_entry_table[66] = {
 void *create_instance__18TObjLaboDesignBaseFPv(void *arg0) {
     void *o = TObject::operator new(0xC0);
     if (o != NULL) {
-        o = TObjLaboDesignBase__ct((u8 *)o, (s32)tl_05, (s32)arg0, 5);
+        o = TObjLaboDesignBase__ct((u8 *)o, (saddr)tl_05, (saddr)arg0, 5);
     }
     return o;
 }
@@ -163,7 +163,7 @@ void *create_obj_labo_design_base(void *arg0);
 void *create_obj_labo_design_base(void *arg0) {
     void *o = TObject::operator new(0xC0);
     if (o != NULL) {
-        o = TObjLaboDesignBase__ct((u8 *)o, (s32)tl_05, (s32)arg0, 4);
+        o = TObjLaboDesignBase__ct((u8 *)o, (saddr)tl_05, (saddr)arg0, 4);
     }
     return o;
 }
@@ -171,7 +171,7 @@ void *create_obj_labo_design_base(void *arg0) {
 void *TObjLaboDesignBase__sub_80364D38(void *arg0) {
     void *o = TObject::operator new(0xC0);
     if (o != NULL) {
-        o = TObjLaboDesignBase__ct((u8 *)o, (s32)tl_05, (s32)arg0, 3);
+        o = TObjLaboDesignBase__ct((u8 *)o, (saddr)tl_05, (saddr)arg0, 3);
     }
     return o;
 }
@@ -179,7 +179,7 @@ void *TObjLaboDesignBase__sub_80364D38(void *arg0) {
 void *create_labo_design_base(void *arg0) {
     void *o = TObject::operator new(0xC0);
     if (o != NULL) {
-        o = TObjLaboDesignBase__ct((u8 *)o, (s32)tl_05, (s32)arg0, 2);
+        o = TObjLaboDesignBase__ct((u8 *)o, (saddr)tl_05, (saddr)arg0, 2);
     }
     return o;
 }
@@ -187,7 +187,7 @@ void *create_labo_design_base(void *arg0) {
 void *alloc_and_construct__18TObjLaboDesignBaseFPv(void *arg0) {
     void *o = TObject::operator new(0xC0);
     if (o != NULL) {
-        o = TObjLaboDesignBase__ct((u8 *)o, (s32)tl_05, (s32)arg0, 1);
+        o = TObjLaboDesignBase__ct((u8 *)o, (saddr)tl_05, (saddr)arg0, 1);
     }
     return o;
 }
@@ -195,7 +195,7 @@ void *alloc_and_construct__18TObjLaboDesignBaseFPv(void *arg0) {
 void *TObjLaboDesignBase__create(void *arg0) {
     void *o = TObject::operator new(0xC0);
     if (o != NULL) {
-        o = TObjLaboDesignBase__ct((u8 *)o, (s32)tl_05, (s32)arg0, 0);
+        o = TObjLaboDesignBase__ct((u8 *)o, (saddr)tl_05, (saddr)arg0, 0);
     }
     return o;
 }

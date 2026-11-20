@@ -400,7 +400,7 @@ s32 evaluate_ground_triangles(Vec *origin_arg, u32 mask_arg, CsnGroup **list_arg
 #undef GT_EPS_EDGE
 extern s32 csn_query_map_object[];
 void *query_prepared_wall_polygons(void *self);
-s32 query_wall_segment(void *arg0, void *arg1, void *arg2, s32 arg3);
+s32 query_wall_segment(void *arg0, void *arg1, void *arg2, saddr arg3);
 CsnGroup *select_ground_query_groups(CsnVector *arg0, u32 arg1);
 s32 prepare_wall_query_polygons(void *arg0, f32 r, s32 mask);
 #pragma pop
@@ -442,7 +442,7 @@ s32 select_deepest_wall_ray(Query_80079608 *q, Result_80079608 *r) {
         end.x = q->origin.x + off->x;
         end.y = q->origin.y + off->y;
         end.z = q->origin.z + off->z;
-        if (query_wall_segment(&q->origin, &end, q->flags, (s32)hit) != 0) {
+        if (query_wall_segment(&q->origin, &end, q->flags, (saddr)hit) != 0) {
             f32 dz = end.z - hit->pos.z;
             f32 dx = end.x - hit->pos.x;
             d = fabs_float(dx * hit->normal.x + dz * hit->normal.z);

@@ -1457,7 +1457,7 @@ int bswap_16__FPUs(void*);
 int bswap_32__FPUl(void*);
 void update_players__6TLobbyFv(s32 arg0);
 u8 * get_character_save_record(u16);
-s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
+s32 play_persistent_sound(s32 id, saddr a1, u32 src, s32 a3, s32 flags);
 u32 __nw__7TObjectFUl(s32);
 s32 capture_technique_targets__10TObjPlayerFv(void *, void *);
 void launch_technique__10TObjPlayerFv(s32, s32, void *);
@@ -1484,7 +1484,7 @@ void send_6x46_attack_finished(u8 *arg0);
 u8 get_6x46_strike_packet_size(s32 arg0);
 void add_death_sink_progress(u8 *arg0, f32 farg0);
 f32 get_attack_controller_rate(void* p);
-void emit_heavy_attack_particles(s32 arg0, s32 arg1);
+void emit_heavy_attack_particles(saddr arg0, s32 arg1);
 void add_photon_blast_charge(u8 *arg0, f32 farg0);
 void create_technique_charge_light(u32 kind, void *owner);
 void release_photon_blast_requests(void *registry);
@@ -3984,7 +3984,7 @@ void TObjPlayer::update_photon_blast_action() {
       ((TObjPlayer *)(arg0 + 0x4AC))->set_field8((int) (*((s16 *) (((s8 *) TObjPlayer::get_photon_blast_entry(((TFontSmallLobby *)(arg0 + 0x4AC))->get_valid_index())) + 0x12))));
       ((TObjPlayer *)(arg0 + 0x4AC))->set_field_0c(-0.2f);
     }
-      play_persistent_sound(0x4002A823, (s32)arg0, 0, 0, 0);
+      play_persistent_sound(0x4002A823, (saddr)arg0, 0, 0, 0);
       break;
     case 1:
       this->frame = (f32) ((this->frame) + TObjPlayer__sub_801D2A98((void *) (arg0 + 0x4AC)));
@@ -4011,7 +4011,7 @@ void TObjPlayer::update_photon_blast_action() {
       ((TObjPlayer *)arg0)->get_photon_blast_complete_threshold();
       ((s32 (*)(void *))TObjPlayer__sub_801D2A78)((void *) (arg0 + 0x4AC));
     }
-      play_persistent_sound(0x4002A823, (s32)arg0, 0, 0, 0);
+      play_persistent_sound(0x4002A823, (saddr)arg0, 0, 0, 0);
       break;
     case 3:
       if (((s32 (*)(void *))TObjPlayer__sub_801D2A50)((void *) (arg0 + 0x4AC)) != 0)
@@ -7628,7 +7628,7 @@ s32 TObjPlayer::get_field_1c() { return *(s32*)((char*)this + 0x1c); }
 #pragma dont_inline off
 void TObjPlayer::request_heavy_attack_particles() {
     u16 *arg0 = (u16 *)this;
-    emit_heavy_attack_particles((s32)((s8 *)arg0 + 4), (s32)(*arg0));
+    emit_heavy_attack_particles((saddr)((s8 *)arg0 + 4), (s32)(*arg0));
 }
 extern int fold_flush_31;
 #pragma pop

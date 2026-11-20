@@ -203,7 +203,7 @@ struct Pair_80198F14 { s32 a; s32 b; };
 extern "C" {
 void *load_resource_from_descriptor(void *, int, void *, int, int, int);
 }
-u8 *load_gvm_texture_file(s32 arg0);
+u8 *load_gvm_texture_file(saddr arg0);
 struct ByteBlock_C { u8 bytes[0xc]; };
 struct G_80199078 { u8 pad[0x10]; s16 flags; };
 struct Fx_801994DC {
@@ -230,7 +230,7 @@ void direction_to_rotation_xz(u8 *arg0, s32 *arg1, s32 *arg2);
 extern "C" {
 struct Seg_80199674 { Vec a; Vec b; };
 struct Hit_80199674 { u32 f0; Seg_80199674 *seg; };
-s32 *csnVectorUnder(s32 arg0, u32 *arg1, s32 arg2);
+s32 *csnVectorUnder(saddr arg0, u32 *arg1, s32 arg2);
 f32 xyz_distance(Vec *, void *);
 }
 extern u8 saved_model_draw_color[];
@@ -256,7 +256,7 @@ f32 vector_length(Vec *);
 void normalize_vector(Vec *);
 struct Glob_80199A44 { u8 pad[0x1C]; f32 scale; u8 pad20[0x28]; u16 kind; };
 s32 matrix_mult_vec(int, void *, void *);
-void rotate_matrix_about_axis(u8 *arg0, s32 arg1, s32 arg2);
+void rotate_matrix_about_axis(u8 *arg0, saddr arg1, s32 arg2);
 void translate_matrix_vec3(u8 *arg0, u8 *arg1);
 f32 vec_squared_length(void *);
 void set_chunk_material_override_pair(s32, s32);
@@ -584,7 +584,7 @@ void TUnk_804B8E18::render() {
     scale_matrix(0, rate, rate, rate);
     set_constant_material((const NJS_ARGB *)((&color)));
     if (vec_squared_length(&dir)) {
-        rotate_matrix_about_axis((u8 *)(0), (s32)&dir, unk_338);
+        rotate_matrix_about_axis((u8 *)(0), (saddr)&dir, unk_338);
     }
     rotate_matrix_y(0, unk_334);
     if (lobby_gvm_texture_handles != 0 && (*(void**)&gogo_ball_bml_resource) != 0) {
@@ -721,7 +721,7 @@ void draw_shadow_on_ground(u8 *arg0) {
     f32 k;
     Vec scale;
 
-    hit = (Hit_80199674 *)csnVectorUnder((s32)(arg0 + 0x38), (u32 *)(arg0 + 0x120), 0x15);
+    hit = (Hit_80199674 *)csnVectorUnder((saddr)(arg0 + 0x38), (u32 *)(arg0 + 0x120), 0x15);
     if (hit != 0) {
         Seg_80199674 *src = hit->seg;
         Seg_80199674 seg;
@@ -910,15 +910,15 @@ void TLanguage::load_lobby_textures() {
         obj = load_resource_from_descriptor(obj, 5, language_lobby_texture_descriptor, 0, 0, 0);
     }
     (*(void**)&gogo_ball_bml_resource) = obj;
-    lobby_gvm_texture_handles[0] = (s32)load_gvm_texture_file((s32)"robby_chu.gvm");
-    lobby_gvm_texture_handles[1] = (s32)load_gvm_texture_file((s32)"biri_ball.gvm");
-    lobby_gvm_texture_handles[2] = (s32)load_gvm_texture_file((s32)"bom_ball.gvm");
-    lobby_gvm_texture_handles[3] = (s32)load_gvm_texture_file((s32)"soft_ball.gvm");
-    lobby_gvm_texture_handles[4] = (s32)load_gvm_texture_file((s32)"rokeorange_churoke.gvm");
-    lobby_gvm_texture_handles[5] = (s32)load_gvm_texture_file((s32)"rokeblue_pso_churoke.gvm");
-    lobby_gvm_texture_handles[6] = (s32)load_gvm_texture_file((s32)"robby_cat.gvm");
-    lobby_gvm_texture_handles[7] = (s32)load_gvm_texture_file((s32)"fd_obj804_gorl03.gvm");
-    lobby_gvm_texture_handles[8] = (s32)load_gvm_texture_file((s32)"fd_obj804_gorl03_b.gvm");
+    lobby_gvm_texture_handles[0] = (s32)load_gvm_texture_file((saddr)"robby_chu.gvm");
+    lobby_gvm_texture_handles[1] = (s32)load_gvm_texture_file((saddr)"biri_ball.gvm");
+    lobby_gvm_texture_handles[2] = (s32)load_gvm_texture_file((saddr)"bom_ball.gvm");
+    lobby_gvm_texture_handles[3] = (s32)load_gvm_texture_file((saddr)"soft_ball.gvm");
+    lobby_gvm_texture_handles[4] = (s32)load_gvm_texture_file((saddr)"rokeorange_churoke.gvm");
+    lobby_gvm_texture_handles[5] = (s32)load_gvm_texture_file((saddr)"rokeblue_pso_churoke.gvm");
+    lobby_gvm_texture_handles[6] = (s32)load_gvm_texture_file((saddr)"robby_cat.gvm");
+    lobby_gvm_texture_handles[7] = (s32)load_gvm_texture_file((saddr)"fd_obj804_gorl03.gvm");
+    lobby_gvm_texture_handles[8] = (s32)load_gvm_texture_file((saddr)"fd_obj804_gorl03_b.gvm");
 }
 #pragma pool_data reset
 

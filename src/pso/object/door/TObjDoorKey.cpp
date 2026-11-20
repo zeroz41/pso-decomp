@@ -118,7 +118,7 @@ void debug_draw_key_id__5TOKeyFv();
 s32 get_bml_model(s32, int);
 s32 load_resource_from_descriptor(s32, int, void *, int, int, int);
 }
-u8 *load_gvm_texture_file(s32 arg0);
+u8 *load_gvm_texture_file(saddr arg0);
 extern "C" {
 void scroll_ginja_mesh_uvs(void *, int, int, int, int);
 void PPCSync();
@@ -317,7 +317,7 @@ void TObjDoorKey::load_resources() {
         r = load_resource_from_descriptor(r, 5, &TObjDoorKey__resource_descriptor, 0, 0, 0);
     }
     (*(s32 *)&door_key_resource_handle) = r;
-    TObjDoorKey__texture_handle = (s32)load_gvm_texture_file((s32)"fe_obj_switch.gvm");
+    TObjDoorKey__texture_handle = (s32)load_gvm_texture_file((saddr)"fe_obj_switch.gvm");
     TObjDoorKey__ginja_model_table[0] = get_bml_model((*(s32 *)&door_key_resource_handle), 1);
     TObjDoorKey__ginja_model_table[1] = get_bml_model((*(s32 *)&door_key_resource_handle), 2);
     s32 t = get_bml_model((*(s32 *)&door_key_resource_handle), 0);

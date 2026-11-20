@@ -33,10 +33,10 @@ u32 TMotorcycle__bml_resource;
 u32 TMotorcycle__texture_list;
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 }
-u8 * load_gvm_texture_file(s32);
+u8 * load_gvm_texture_file(saddr);
 extern "C" {
 s32 init_collision_body_parts(void *, void *, int);
-void *TObjMesBase__ct(TObjMesBase *arg0, s32 arg1, s32 arg2);
+void *TObjMesBase__ct(TObjMesBase *arg0, saddr arg1, saddr arg2);
 extern const s32 lbl_80445DF4[];
 extern CollisionBody TMotorcycle__collision_parts[1];
 extern s32 __vt__11TMotorcycle[];
@@ -124,7 +124,7 @@ void TMotorcycle::load_resources() {
         var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 5, &motorcycle_resource_descriptor, 0, 0, 0));
     }
     (*(u8 * *)&TMotorcycle__bml_resource) = (unsigned char *) ((void *) var_r0);
-    (*(u8 * *)&TMotorcycle__texture_list) = load_gvm_texture_file((s32) "obj_motorcycle.GVM");
+    (*(u8 * *)&TMotorcycle__texture_list) = load_gvm_texture_file((saddr) "obj_motorcycle.GVM");
     TMotorcycle::add_entry((s16)(0x3C), (s32)((void *) (((s32)get_bml_model((void *)((*(u8 * *)&TMotorcycle__bml_resource)), 0)))), (s32)((void *) ((*(u8 * *)&TMotorcycle__texture_list))), 16.0f, 0.0f);
     TMotorcycle::add_entry((s16)(0x3D), (s32)((void *) (((s32)get_bml_model((void *)((*(u8 * *)&TMotorcycle__bml_resource)), 1)))), (s32)((void *) ((*(u8 * *)&TMotorcycle__texture_list))), 16.0f, 0.0f);
 }
@@ -135,7 +135,7 @@ TMotorcycle::~TMotorcycle() {
 }
 #define self ((Moto_801951C8 *)arg0)
 void *TMotorcycle__ct(void *arg0, void *arg1, void *arg2) {
-    TObjMesBase__ct((TObjMesBase *)arg0, (s32)arg1, (s32)arg2);
+    TObjMesBase__ct((TObjMesBase *)arg0, (saddr)arg1, (saddr)arg2);
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__11TMotorcycle;
     self->x0 = motorcycle_class_name;
     self->xBC = fabs_float(self->x68);

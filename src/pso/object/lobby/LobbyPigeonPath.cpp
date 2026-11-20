@@ -158,7 +158,7 @@ struct Obj_802C22A4 {
 struct PigeonMovement { s32 motion; f32 pathSpeed, animationSpeed, lookAhead; s32 turnStep; };
 
 extern "C" {
-s32 *csnVecterUnder(s32 origin, s32 mask);
+s32 *csnVecterUnder(saddr origin, s32 mask);
 void vec3_add_to(void *, void *);
 
 s32 get_bml_model(void *, s32);
@@ -338,7 +338,7 @@ void free_bin_model_request(void*, int);
 s32 debug_draw_line(s32 *, s32 *, s32, s32);
 }
 
-u8 *load_gvm_texture_file(s32 arg0);
+u8 *load_gvm_texture_file(saddr arg0);
 extern "C" {
 
 s32 sub_802C1BFC__13TUnk_804E0910Fv(Obj_802C1BFC *self);
@@ -585,7 +585,7 @@ void TObjPlayer::load_seabed_dolphin() {
         o = ((Obj_802C2958 * (*)(Obj_802C2958 *, s32, void *, s32, s32, s32))load_resource_from_descriptor)(o, 5, &bm_obj_seabed_dolphin_resource_descriptor, 0, 0, 0);
     }
     (*(Obj_802C2958 * *)&seabed_dolphin_bml_archive) = o;
-    seabed_dolphin_texture_handle = (s32)load_gvm_texture_file((s32)("obj_seabed_dolphin.gvm"));
+    seabed_dolphin_texture_handle = (s32)load_gvm_texture_file((saddr)("obj_seabed_dolphin.gvm"));
     Q_802C2958 q = *(Q_802C2958 *)seabed_dolphin_anim_binding;
     q.a = (*(Obj_802C2958 * *)&seabed_dolphin_bml_archive)->f430;
     TLobby::spawn_npc_enemy((s16)0x40, (s32)(((s32 (*)(void *, s32, s32, s32, s32, const void *))get_bml_model)((*(Obj_802C2958 * *)&seabed_dolphin_bml_archive), 0, ((Q_802C2958 *)seabed_dolphin_anim_binding)->c, ((Q_802C2958 *)seabed_dolphin_anim_binding)->b, ((Q_802C2958 *)seabed_dolphin_anim_binding)->a, seabed_dolphin_anim_binding)), (NJS_TEXLIST *)seabed_dolphin_texture_handle, &q, (f32)((16.0f)), (f32)((1e+01f)));
@@ -723,7 +723,7 @@ s32 TUnk_804E094C::update_path_follow_rotation(void *, f32) {
         Hit_802C22A4 *hit;
         vec3_add_to(&p, &self->pos);
         p.y += (1e+04f);
-        hit = (Hit_802C22A4 *)csnVecterUnder((s32)&p, 0x16EF);
+        hit = (Hit_802C22A4 *)csnVecterUnder((saddr)&p, 0x16EF);
         if (hit != NULL) {
             self->pos.y = hit->n->y;
         }
@@ -789,7 +789,7 @@ void TObjPlayer::load_jungle_ebi_resources() {
         var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 5, &bm_obj_jungle_ebi_resource_descriptor, 0, 0, 0));
     }
     (*(s32 *)&jungle_ebi_model_resource) = var_r0;
-    (*(u8 * *)&jungle_ebi_texture_gvm_handle) = load_gvm_texture_file((s32)("obj_jungle_ebi.gvm"));
+    (*(u8 * *)&jungle_ebi_texture_gvm_handle) = load_gvm_texture_file((saddr)("obj_jungle_ebi.gvm"));
 }
 
 void TObjPlayer::free_chr_select() {
@@ -962,7 +962,7 @@ void TObjPlayer::load_jungle_bird_resources() {
         var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 5, &bm_obj_jungle_bird_resource_descriptor, 0, 0, 0));
     }
     (*(s32 *)&jungle_bird_bml_resource) = var_r0;
-    (*(u8 * *)&lobby_pigeon_texture_gvm) = load_gvm_texture_file((s32)("obj_jungle_bird.gvm"));
+    (*(u8 * *)&lobby_pigeon_texture_gvm) = load_gvm_texture_file((saddr)("obj_jungle_bird.gvm"));
 }
 
 void TObjPlayer::free_statics() {
@@ -1145,7 +1145,7 @@ void TObjPlayer::load_kamome_resources() {
         var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 5, &bm_obj_jungle_kamome_resource_descriptor, 0, 0, 0));
     }
     (*(s32 *)&lobby_kamome_model_resource) = var_r0;
-    (*(u8 * *)&lobby_kamome_texture_gvm_handle) = load_gvm_texture_file((s32)("obj_jungle_kamome.gvm"));
+    (*(u8 * *)&lobby_kamome_texture_gvm_handle) = load_gvm_texture_file((saddr)("obj_jungle_kamome.gvm"));
 }
 
 void TObjPlayer::destroy_instance() {

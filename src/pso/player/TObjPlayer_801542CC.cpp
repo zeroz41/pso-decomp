@@ -164,15 +164,15 @@ extern unsigned char lbl_8050DAD0[];
 extern int player_unique_pair_entry_count;
 void free_collision_body_parts(G_80156720 *arg0);
 u16 get_entity_id(int);
-s32 *csnVectorUnder(s32 arg0, u32 *arg1, s32 arg2);
-s32 *csnVecterUnder(s32 origin, s32 mask);
+s32 *csnVectorUnder(saddr arg0, u32 *arg1, s32 arg2);
+s32 *csnVecterUnder(saddr origin, s32 mask);
 u16 TObjRoomId__sub_801A1DB8(u16);
 s32 project_actor_to_ground(Obj_80156844 *self, Vec *pos, Vec *normal);
 }
 s32 test_collider_sphere_overlap_xz(s32 arg0, u8 *arg1, u32 arg2);
 extern int player_battle_param_table[];
-s32 resolve_actor_sphere_contact(u8 *arg0, s32 arg1, s32 arg2);
-s32 respond_to_body_contact(u8 *arg0, u32 arg1, u8 *arg2);
+s32 resolve_actor_sphere_contact(u8 *arg0, s32 arg1, saddr arg2);
+s32 respond_to_body_contact(u8 *arg0, uaddr arg1, u8 *arg2);
 extern "C" {
 void TOTrapAncient02R__sub_80154D78(void);
 void TObjPlayer__sub_801542F4(s32 a);
@@ -802,7 +802,7 @@ s32 respond_to_body_contact(u8 *actor, u32 arg1, u8 *arg2) {
     if (arg1 != 0 && arg2 != NULL) {
         switch (*(s32 *)(arg2 + 0x14)) {
         case 0:
-            return resolve_actor_sphere_contact(actor, arg1, (s32)arg2);
+            return resolve_actor_sphere_contact(actor, arg1, (saddr)arg2);
         default:
             return resolve_player_box_contact((u8 *)actor, (u8 *)arg1, (u8 *)((saddr)arg2));
         }
@@ -1144,7 +1144,7 @@ void TObjCollidable::check_object_collisions() {
                 if (actor_body_contact != NULL) {
                     temp_r3_3 = *(void **)((s8 *)this + 0xA4);
                     *(s32 *)((s8 *)temp_r3_3 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r3_3 + 0x18) | 0x80000);
-                    if ((TObjPlayer::check_flag_pair(*(s32 *)((s8 *)(*(void **)((s8 *)this + 0xA4)) + 0x18), *(s32 *)((s8 *)actor_body_contact + 0x18)) == 0) && (respond_to_body_contact((u8 *)this, (u32)temp_r3, (u8 *)actor_body_contact) != 0)) {
+                    if ((TObjPlayer::check_flag_pair(*(s32 *)((s8 *)(*(void **)((s8 *)this + 0xA4)) + 0x18), *(s32 *)((s8 *)actor_body_contact + 0x18)) == 0) && (respond_to_body_contact((u8 *)this, (uaddr)temp_r3, (u8 *)actor_body_contact) != 0)) {
                         temp_r3_4 = *(void **)((s8 *)this + 0xA4);
                         *(s32 *)((s8 *)temp_r3_4 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r3_4 + 0x18) | 0x400000);
                     }
@@ -1216,9 +1216,9 @@ s32 project_actor_to_ground(Obj_80156844 *self, Vec *pos, Vec *normal) {
     }
     coll = self->f90;
     if (coll != 0) {
-        hit = (Hit_80156844 *)csnVectorUnder((s32)&v, (u32 *)coll, flags);
+        hit = (Hit_80156844 *)csnVectorUnder((saddr)&v, (u32 *)coll, flags);
     } else {
-        hit = (Hit_80156844 *)csnVecterUnder((s32)&v, flags);
+        hit = (Hit_80156844 *)csnVecterUnder((saddr)&v, flags);
     }
     if (hit == NULL) {
         return 0;

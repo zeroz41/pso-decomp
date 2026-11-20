@@ -66,7 +66,7 @@ LAYOUT_ASSERT(BmlResourceBlock_804B00A8_descriptor_offset, offsetof(BmlResourceB
 // The 6x67 packet receive_physical_attack sends (its fields are not named yet).
 struct Pk_8015BAE0 { u8 pad[2]; u16 id; s32 a; s32 b; s32 c; };
 
-void play_container_break_sound(s32 arg0);
+void play_container_break_sound(saddr arg0);
 
 
 extern const f32 lbl_805DB398;
@@ -307,7 +307,7 @@ void TUnk_804B08BC::vfunc_79() const {
     new TObjChip(tl_05, &b);
     spawn_particle_effect(&this->position, 0x45);
     spawn_particle_effect(&this->position, 0x46);
-    play_container_break_sound((s32)this);
+    play_container_break_sound((saddr)this);
 }
 
 TOContainerAncientItemCommon::TOContainerAncientItemCommon(void *set_data) : TUnk_804B08BC(set_data) {
@@ -491,7 +491,7 @@ void TOContainerAncientEnemy::vfunc_79() const {
         spawn_particle_effect(&this->position, 0x46);
         new TObjChip(tl_05, &a);
         new TObjChip(tl_05, &b);
-        play_container_break_sound((s32)this);
+        play_container_break_sound((saddr)this);
     }
 }
 

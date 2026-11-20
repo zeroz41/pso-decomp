@@ -91,7 +91,7 @@ s32 get_window_layout_position(s32);
 s32 free_member__17TWindowSubComCardFv(void *, int);
 s32 forward_slot_selection__16TAdChrSelASlotGCFPvPv(void *, s32, s32, f32);
 s32 is_local_client_floor_leader();
-s32 TObjWarpBossMulti__sub_8019E570(s32 arg0, f32 farg0);
+s32 TObjWarpBossMulti__sub_8019E570(saddr arg0, f32 farg0);
 BmlResource *boss_warp_resource_bundle;
 s32 boss_warp_base_model;
 s32 boss_warp_confirmation_model;
@@ -458,7 +458,7 @@ void TObjWarpBoss::update_warp_confirmation() {
         motion = warp_boss_motion;
         break;
     case 1:
-        if (sub_8019E418() == 0 && (u32) TObjWarpBossMulti__sub_8019E570((s32)this, warp_range) != 0) {
+        if (sub_8019E418() == 0 && (u32) TObjWarpBossMulti__sub_8019E570((saddr)this, warp_range) != 0) {
             update_warp_dialogs();
             warp_player(local_client_id);
             state_step = 2;
@@ -506,7 +506,7 @@ void TObjWarpBoss::update_warp_confirmation() {
         state_step = 4;
         break;
     case 4:
-        if ((u32) TObjWarpBossMulti__sub_8019E570((s32)this, warp_range) == 0) {
+        if ((u32) TObjWarpBossMulti__sub_8019E570((saddr)this, warp_range) == 0) {
             state_step = 1;
             break;
         }
@@ -576,7 +576,7 @@ void TObjWarpBoss::update_state() {
         return;
     case 1:
         if (TObjWarpBossMulti::get_boss_warp_flag() == 0) {
-            player = TObjWarpBossMulti__sub_8019E570((s32)this, warp_range);
+            player = TObjWarpBossMulti__sub_8019E570((saddr)this, warp_range);
             if (player != 0) {
                 TObjWarpBossMulti::notify_player(this, local_client_id);
                 confirm_area_transfer((void *)player);
@@ -759,7 +759,7 @@ s32 TObjWarpBoss::sub_8019E418() {
     if (TObjWarpBossMulti::is_lobby_active() == 0) {
         return 0;
     }
-    if ((controller_input_state.controllers[0].stick_magnitude > 0.25f) || (TObjWarpBossMulti__sub_8019E570((s32)this, warp_range) == 0U)) {
+    if ((controller_input_state.controllers[0].stick_magnitude > 0.25f) || (TObjWarpBossMulti__sub_8019E570((saddr)this, warp_range) == 0U)) {
         return 1;
     }
     return 0;

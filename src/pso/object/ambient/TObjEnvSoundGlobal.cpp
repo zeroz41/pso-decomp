@@ -89,7 +89,7 @@ const Row_80190AA0 *environment_sound_tables_by_area[36] = {
     NULL, NULL, lbl_80445820, lbl_80445820,
 };
 
-s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
+s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 f32 xz_distance_squared(void *, void *);
 extern u8 *camera_ctrl_instance;
 void run_task__14TObjEnvSoundExFv(Env_80190624 *o);
@@ -210,10 +210,10 @@ void TObjEnvSound::run_task() {
         case 0:
             break;
         case 1:
-            play_persistent_sound((s32)this->m_98, (s32)arg0, (u32)(arg0 + 0x38), 0, 0);
+            play_persistent_sound((s32)this->m_98, (saddr)arg0, (uaddr)(arg0 + 0x38), 0, 0);
             return;
         case 2:
-            play_persistent_sound((s32)this->m_98, (s32)arg0, (u32)(arg0 + 0x38), (s32)this->m_94, 2);
+            play_persistent_sound((s32)this->m_98, (saddr)arg0, (uaddr)(arg0 + 0x38), (s32)this->m_94, 2);
             break;
         }
     }
@@ -273,10 +273,10 @@ void run_task__14TObjEnvSoundExFv(Env_80190624 *o) {
         case 0:
             break;
         case 1:
-            play_persistent_sound((s32)o->f9C, (s32)o, (u32)((f32 *)o->pos), 0, 0);
+            play_persistent_sound((s32)o->f9C, (saddr)o, (uaddr)((f32 *)o->pos), 0, 0);
             break;
         case 2:
-            play_persistent_sound((s32)o->f9C, (s32)o, (u32)((f32 *)(0)), (s32)((s32)o->vol), 2);
+            play_persistent_sound((s32)o->f9C, (saddr)o, (uaddr)((f32 *)(0)), (s32)((s32)o->vol), 2);
             break;
         }
     } else {
@@ -289,10 +289,10 @@ void run_task__14TObjEnvSoundExFv(Env_80190624 *o) {
             case 0:
                 break;
             case 1:
-                play_persistent_sound((s32)o->f9C, (s32)o, (u32)((f32 *)o->pos), 0, 0);
+                play_persistent_sound((s32)o->f9C, (saddr)o, (uaddr)((f32 *)o->pos), 0, 0);
                 break;
             case 2:
-                play_persistent_sound((s32)o->f9C, (s32)o, (u32)((f32 *)(0)), (s32)((s32)o->vol), 2);
+                play_persistent_sound((s32)o->f9C, (saddr)o, (uaddr)((f32 *)(0)), (s32)((s32)o->vol), 2);
                 break;
             }
         }
@@ -360,10 +360,10 @@ void TObjEnvSoundGlobal::run_task() {
     case 0:
         break;
     case 1:
-        play_persistent_sound((s32)self->sound, (s32)self, (u32)self->pos, 0, 0);
+        play_persistent_sound((s32)self->sound, (saddr)self, (uaddr)self->pos, 0, 0);
         break;
     case 2:
-        play_persistent_sound((s32)self->sound, (s32)self, (u32)(0), (s32)self->param, 2);
+        play_persistent_sound((s32)self->sound, (saddr)self, (u32)(0), (s32)self->param, 2);
         break;
     }
 }

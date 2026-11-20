@@ -432,7 +432,7 @@ struct Plr_800F6BF0 : VBase_800F6BF0 {
     virtual void m12(s32);
 };
 
-f32 TObjPlayer__sub_800192C4(s32, s32);
+f32 TObjPlayer__sub_800192C4(saddr, s32);
 
 u16 obj_getArrU16_FC(void *, int);
 
@@ -659,9 +659,9 @@ block_14:
     *(s16 *)((s8 *)((u8 *)this) + 0x2F6) = (s16) *(s16 *)((s8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x31C)) + 4);
     this->m_2f8 = (s16) *(s16 *)((s8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x31C)) + 0xA);
     *(s16 *)((s8 *)((u8 *)this) + 0x2FA) = (s16) *(s16 *)((s8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x31C)) + 8);
-    this->add_to_field_2c8((s32)((f32)this->get_field_2c0() * TObjPlayer__sub_800192C4((s32)this, 2)));
-    this->add_to_field_2ca((s32)((f32)this->get_field_2c2() * TObjPlayer__sub_800192C4((s32)this, 2)));
-    this->add_to_field_2ce((s32)((f32)this->get_atp() * TObjPlayer__sub_800192C4((s32)this, 3)));
+    this->add_to_field_2c8((s32)((f32)this->get_field_2c0() * TObjPlayer__sub_800192C4((saddr)this, 2)));
+    this->add_to_field_2ca((s32)((f32)this->get_field_2c2() * TObjPlayer__sub_800192C4((saddr)this, 2)));
+    this->add_to_field_2ce((s32)((f32)this->get_atp() * TObjPlayer__sub_800192C4((saddr)this, 3)));
     return 1;
 }
 

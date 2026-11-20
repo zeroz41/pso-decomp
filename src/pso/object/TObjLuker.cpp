@@ -85,7 +85,7 @@ struct Luker_801A1260
 };
 
 extern "C" {
-s32 play_sound_effect(s32, u32, s16, s32);
+s32 play_sound_effect(s32, uaddr, s16, s32);
 void close_windows__9TObjLukerFPv(Obj_801A0DB4 *self);
 Ctrl_801A0E38 *get_player_by_client_id(u16 id);
 s32 is_split_screen(void);
@@ -434,7 +434,7 @@ void TObjLuker::run_task() {
                         p = PBC_801A1418(local_client_id);
                         if (p != NULL) {
                             TObjPlayer::play_effect_default((int)p, (int)0xA);
-                            play_sound_effect(0x40022D1A, (u32)(arg0 + 0x38), 0, 0);
+                            play_sound_effect(0x40022D1A, (uaddr)(arg0 + 0x38), 0, 0);
                         }
                         TWindowCtrl::init_all_slots();
                         *(s32 *)&this->m_b8 = 1;

@@ -13,7 +13,7 @@ extern s32 __vt__13TObjPlayerSet[];
 #pragma readonly_strings on
 const char *TObjPlayer__player_set_class_name = "TObjPlayerSet";
 #pragma pop
-u8 *TObjPlayerSet__ct(TObjPlayerSet *arg0, s32 arg1, s32 arg2);
+u8 *TObjPlayerSet__ct(TObjPlayerSet *arg0, saddr arg1, saddr arg2);
 
 void TObjPlayerSet::render() {  }
 void TObjPlayerSet::run_task() {  }
@@ -23,7 +23,7 @@ extern void *tl_06;
 void *TObjPlayerSet::create(void *arg0) {
     void *o = TObject::operator new(0x90);
     if (o != NULL) {
-        o = TObjPlayerSet__ct((TObjPlayerSet *)((u8 *)o), (s32)tl_06, (s32)arg0);
+        o = TObjPlayerSet__ct((TObjPlayerSet *)((u8 *)o), (saddr)tl_06, (saddr)arg0);
     }
     return o;
 }

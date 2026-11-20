@@ -66,7 +66,7 @@ s32 __ct__11TPlayerSoulFP7TObjectUs();
 
 
 s32 check_flag_0x8000__10TObjPlayerFv();
-s32 get_entity_id(s32);
+s32 get_entity_id(saddr);
 s32 obj_isState3_324__9TObjCharaFv(s32);
 
 extern s32 tl_06;
@@ -1168,7 +1168,7 @@ void TForceOperate::run_task() {
             ((TMainCursor *)(((TObjPlayer *)temp_r31)->m_424 + 0x4F8))->get_id();
             entity = find_entity_by_id();
             if (entity != NULL) {
-                ((VObj_801C57D0 *)entity)->m11(get_entity_id((s32)temp_r31));
+                ((VObj_801C57D0 *)entity)->m11(get_entity_id((saddr)temp_r31));
                 queue_destruction();
             }
         }

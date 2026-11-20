@@ -847,7 +847,7 @@ u32 csnVecterUnder(void *, int);
 u32 csnVector(void *, void *, s32);
 u32 subtractive_rng_next();
 void create__10TObjPlayerFUiii(u32, s32, s32);
-s32 spawn_particle_effect_with_flags(s32, s32, s32);
+s32 spawn_particle_effect_with_flags(saddr, s32, s32);
 s32 set_owner_id__13TParticleCtrlFUs(s32, s32);
 s32 create_font_small_task(u32, s32, s32, s32, s32 *, s16, s32);
 s32 create_font_small_task_default_color(u32, s32, s32, s32, s32 *, s16);
@@ -858,7 +858,7 @@ s32 lerp_angle_half__Fll(s32, s32);
 s32 approach_angle_limited(s32, s32, s32);
 void __dt__10TObjMotionFv(void *, int);
 void * find_entity_by_id(s32 id);
-s32 project_actor_to_ground(s32, s32, s32);
+s32 project_actor_to_ground(saddr, saddr, s32);
 s32 record_damage_stats__10TOMineTrapFUiUis(void *, void *, void *);
 s32 get_player_by_client_id(s32);
 int bswap_16__FPUs(void*);
@@ -1280,7 +1280,7 @@ void TObjChara::enemy_spawn_zalure_effect() {
 void TObjChara::trigger_switch_attack() {
     s32 particle_effect_with_flags;
 
-    particle_effect_with_flags = spawn_particle_effect_with_flags((s32)this + 0x2FC, 0x1FE, 0x50);
+    particle_effect_with_flags = spawn_particle_effect_with_flags((saddr)this + 0x2FC, 0x1FE, 0x50);
     if (particle_effect_with_flags != 0) {
         set_owner_id__13TParticleCtrlFUs(particle_effect_with_flags, ((s32 (*)(TObjChara *))get_entity_id)(this));
     }
@@ -4114,7 +4114,7 @@ void move_with_wall_slide(u8 *arg0) {
   VecCopy__FP3VecPC3Vec((s32)&next, (s32)&self->cur);
   vec3_add_to(&next, &self->vel);
   next.y += (1e+01f);
-  if ((csnVecterUnder(&next, 0xE0) == 0) && (project_actor_to_ground((s32) self, (s32)&next, 0) != 0))
+  if ((csnVecterUnder(&next, 0xE0) == 0) && (project_actor_to_ground((saddr) self, (saddr)&next, 0) != 0))
   {
     VecCopy__FP3VecPC3Vec((s32)&self->pos, (s32)&next);
   }
@@ -4174,7 +4174,7 @@ s32 TObjPlayer__sub_800181DC(u8 *arg0, Vec arg1) {
 s32 select_enemy_destination(Obj_800182A0 *self, Vec *arg1, int flags) {
     Vec d;
     s32 a;
-    if (project_actor_to_ground((s32)self, (s32)arg1, 0) != 0) {
+    if (project_actor_to_ground((saddr)self, (saddr)arg1, 0) != 0) {
         ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&d, arg1);
         if (!(flags & 1)) {
             d.y = self->pos.y;

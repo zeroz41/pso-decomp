@@ -981,14 +981,14 @@ extern "C" {
 void *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 
 
-u8 *TContainerAncient01__ct(u8 *arg0, s32 arg1, s32 arg2);
+u8 *TContainerAncient01__ct(u8 *arg0, saddr arg1, saddr arg2);
 void free_bin_model_request(void*, int);
 
 
 void *TContainerAncient01::create(void *arg0) {
     void *o = TObject::operator new(0x370);
     if (o != NULL) {
-        o = TContainerAncient01__ct((u8 *)o, (s32)tl_05, (s32)arg0);
+        o = TContainerAncient01__ct((u8 *)o, (saddr)tl_05, (saddr)arg0);
     }
     return o;
 }

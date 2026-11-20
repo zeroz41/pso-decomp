@@ -73,7 +73,7 @@ void *TObjDoor__create(void *arg0);
 void free_bin_model_request(void*, int);
 extern s32 TObjDoor__resource_param;
 extern u32 door_resource_handle;
-u8 *TObjDoorJung__ct(u8 *arg0, s32 arg1, s32 arg2);
+u8 *TObjDoorJung__ct(u8 *arg0, saddr arg1, saddr arg2);
 void *TObjDoorJung__create(void *arg0);
 void update_opening_glow__8TObjDoorFPv(u8 *arg0);
 extern s32 saved_model_render_flags;
@@ -82,7 +82,7 @@ void render__8TObjDoorFPv(Door_8018E40C *arg0);
 s32 draw_closed__8TObjDoorFPv(Door_8018E5F4 *arg0);
 u8 *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 }
-u8 *load_gvm_texture_file(s32 arg0);
+u8 *load_gvm_texture_file(saddr arg0);
 extern "C" {
 s32 get_bml_model(s32, s32);
 s32 get_bml_motion(s32, s32);
@@ -91,9 +91,9 @@ void set_active_camera_pose(u8 *arg0, u8 *arg1);
 s32 restore_player_cameras(void);
 s32 activate_camera_mode(s32);
 }
-s32 check_player_door_proximity(s32 arg0, s32 arg1, f32 farg0);
+s32 check_player_door_proximity(saddr arg0, s32 arg1, f32 farg0);
 extern "C" {
-s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
+s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 u8 is_current_floor_switch_set(s32 id);
 extern s32 TObjDoor__data_805D5BC8;
 s32 init_collision_body_parts(void *, void *, s32);
@@ -436,25 +436,25 @@ void TObjDoor::update_state() {
         return;
     case 2:
         set_indexed_flags(0, 1);
-        if(check_player_door_proximity((s32)this, 0, (7e+01f))!=0) {
+        if(check_player_door_proximity((saddr)this, 0, (7e+01f))!=0) {
             this->frame=(0.0f);this->state=4;clear_player_status_flag(0, 1);
         }
         break;
     case 4:
-        play_persistent_sound(0x49e08, (s32)this, (u32)&this->position, 0, 0);
+        play_persistent_sound(0x49e08, (saddr)this, (uaddr)&this->position, 0, 0);
         this->frame+=(1.8f);
         if(this->frame>(TObjDoor__motion_table[0]->frameCount-1)) {
             this->frame=(TObjDoor__motion_table[0]->frameCount-1);this->state=5;
         }
         break;
     case 3:
-        play_persistent_sound(0x49e08, (s32)this, (u32)&this->position, 0, 0);
+        play_persistent_sound(0x49e08, (saddr)this, (uaddr)&this->position, 0, 0);
         this->frame-=1.8f;
         if(this->frame<0.0f) {this->frame=0.0f;this->state=2;}
         break;
     case 5:
         clear_player_status_flag(0, 1);
-        if(check_player_door_proximity((s32)this, 1, 100.0f)!=0) {this->state=3;set_indexed_flags(0, 1);}
+        if(check_player_door_proximity((saddr)this, 1, 100.0f)!=0) {this->state=3;set_indexed_flags(0, 1);}
         break;
     }
 }
@@ -553,7 +553,7 @@ void TObjDoor::load_resources() {
         p = (s32)load_resource_from_descriptor((void *)p, 5, &door_resource_descriptor, 0, 0, 0);
     }
     door_resource_handle = p;
-    TObjDoor__resource_param = (s32)load_gvm_texture_file((s32)lbl_80445588);
+    TObjDoor__resource_param = (s32)load_gvm_texture_file((saddr)lbl_80445588);
     TObjDoor__model_resource_ptrs.f0 = get_bml_model(door_resource_handle, 4);
     TObjDoor__model_resource_ptrs.f4 = get_bml_model(door_resource_handle, 3);
     TObjDoor__model_resource_ptrs.c = (Node_8018E358 *)get_bml_model(door_resource_handle, 0);
@@ -566,7 +566,7 @@ void TObjDoor::load_resources() {
 void *TObjDoorJung__create(void *arg0) {
     void *o = TObject::operator new(0xD8);
     if (o != NULL) {
-        o = TObjDoorJung__ct((u8 *)o, (s32)tl_05, (s32)arg0);
+        o = TObjDoorJung__ct((u8 *)o, (saddr)tl_05, (saddr)arg0);
     }
     return o;
 }

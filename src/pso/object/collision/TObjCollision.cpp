@@ -11,10 +11,10 @@
 extern "C" void *__ct__14TObjCollidableFP7TObject(void *, s32);
 
 extern "C" {
-u32 init_collision_body_parts(void *, s32, s32);
+u32 init_collision_body_parts(void *, saddr, s32);
 extern s32 __vt__13TObjCollision[];
 const char *lbl_805D2830 = "TObjCollision";
-u8 *TObjCollision__ct(u8 *arg0, s32 arg1, s32 arg2);
+u8 *TObjCollision__ct(u8 *arg0, saddr arg1, saddr arg2);
 void free_collision_body_parts(void *);
 
 void TObjCollision::render() {  }
@@ -25,7 +25,7 @@ extern void *tl_06;
 void *TObjCollision::create(void *arg0) {
     void *o = TObject::operator new(0xD8);
     if (o != NULL) {
-        o = TObjCollision__ct((u8 *)o, (s32)tl_06, (s32)arg0);
+        o = TObjCollision__ct((u8 *)o, (saddr)tl_06, (saddr)arg0);
     }
     return o;
 }
@@ -62,7 +62,7 @@ u8 *TObjCollision__ct(u8 *arg0, s32 arg1, s32 arg2) {
     } else {
         ((TObjCollision *)arg0)->m_c4 = (s32) (((TObjCollision *)arg0)->m_c4 | 0x100);
     }
-    init_collision_body_parts(arg0, (s32)(arg0 + 0xAC), 1);
+    init_collision_body_parts(arg0, (saddr)(arg0 + 0xAC), 1);
     ((TObjPlayer *)arg0)->register_object_by_id();
     return arg0;
 }

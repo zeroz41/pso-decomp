@@ -77,12 +77,12 @@ int emit_zalure_support_effect(void* p, int a1);
 int emit_deband_support_effect(void* p, int a1);
 void* get_surface_contact_point(void* p);
 void emit_grass_footstep_effect(s32 arg0);
-void emit_water_step_particles(s32 owner, s32 position);
+void emit_water_step_particles(s32 owner, saddr position);
 void emit_water_footstep_effect(s32 arg0);
-void emit_sand_step_particles(s32 owner, s32 position);
+void emit_sand_step_particles(s32 owner, saddr position);
 void emit_sand_footstep_effect(s32 arg0);
-void emit_idle_water_splash(s32 owner, s32 position);
-void emit_photon_blast_feedback_effects(s32 arg0, s32 arg1);
+void emit_idle_water_splash(s32 owner, saddr position);
+void emit_photon_blast_feedback_effects(saddr arg0, s32 arg1);
 void prepare_heavy_attack_particles(u8 *arg0);
 void emit_jellen_support_effect(u8 *arg0);
 void emit_shifta_support_effect(u8 *arg0);
@@ -253,7 +253,7 @@ void emit_shifta_support_effect(u8 *arg0) {
 #pragma pop
 
 void emit_idle_water_effect(s32 arg0) {
-    emit_idle_water_splash((arg0 + 4), (s32)(get_surface_contact_point((void*)arg0)));
+    emit_idle_water_splash((arg0 + 4), (saddr)(get_surface_contact_point((void*)arg0)));
 }
 
 void* get_surface_contact_point(void* p) { return (char*)p + 0x24; }
@@ -269,11 +269,11 @@ void TObjPlayer::check_hit_by_id_431_from_packet() {
 }
 
 void emit_sand_footstep_effect(s32 arg0) {
-    emit_sand_step_particles((arg0 + 4), (s32)(get_surface_contact_point((void*)arg0)));
+    emit_sand_step_particles((arg0 + 4), (saddr)(get_surface_contact_point((void*)arg0)));
 }
 
 void emit_water_footstep_effect(s32 arg0) {
-    emit_water_step_particles((arg0 + 4), (s32)(get_surface_contact_point((void*)arg0)));
+    emit_water_step_particles((arg0 + 4), (saddr)(get_surface_contact_point((void*)arg0)));
 }
 
 void emit_grass_footstep_effect(s32 arg0) {
@@ -286,7 +286,7 @@ void* TObjPlayer__sub_801BF31C(void* p) { return (char*)p + 0x18; }
 
 void TObjPlayer::emit_photon_blast_feedback_from_packet() {
     u16 *arg0 = (u16 *)this;
-    emit_photon_blast_feedback_effects((s32)((s8 *)arg0 + 4), (s32)(*arg0));
+    emit_photon_blast_feedback_effects((saddr)((s8 *)arg0 + 4), (s32)(*arg0));
 }
 
 void emit_photon_blast_feedback_effects(s32 arg0, s32 arg1) {

@@ -158,7 +158,7 @@ struct Ido_8018C18C {
 u8 is_current_floor_switch_set(s32 id);
 f32 xyz_distance(void *, void *);
 void rotate_vector_by_matrix(int, void *, void *);
-s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
+s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 extern u8 identity_matrix[];
 
 #pragma push
@@ -202,7 +202,7 @@ void run_task__16TObjContainerIdoFv(Ido_8018C18C *self) {
             self->pos.y -= v.y;
             self->pos.z -= v.z;
             self->e0 |= 0x04000000;
-            play_persistent_sound(0x4B717, (s32)self, (u32)&self->pos, 0, 0);
+            play_persistent_sound(0x4B717, (saddr)self, (uaddr)&self->pos, 0, 0);
         } else if (!(self->e0 & 0x01000000)) {
             play_sound_effect(0x4C118, &self->pos, 0, 0);
             self->e0 |= 0x01000000;
@@ -220,7 +220,7 @@ void run_task__16TObjContainerIdoFv(Ido_8018C18C *self) {
             self->pos.y += w.y;
             self->pos.z += w.z;
             self->e0 |= 0x04000000;
-            play_persistent_sound(0x4B717, (s32)self, (u32)&self->pos, 0, 0);
+            play_persistent_sound(0x4B717, (saddr)self, (uaddr)&self->pos, 0, 0);
         } else if (!(self->e0 & 0x01000000)) {
             play_sound_effect(0x4C118, &self->pos, 0, 0);
             self->e0 |= 0x01000000;
@@ -270,7 +270,7 @@ u32 container_ido_texture_gvm_handle;
 extern "C" {
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 }
-u8 * load_gvm_texture_file(s32);
+u8 * load_gvm_texture_file(saddr);
 extern s32 __vt__16TObjContainerIdo[];
 extern "C" {
 void free_bin_model_request(void*, int);
@@ -299,7 +299,7 @@ void TObjContainerIdo::load_resources() {
         var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 5, &container_ido_resource_descriptor, 0, 0, 0));
     }
     (*(s32 *)&TObjContainerIdo__model_resource) = var_r0;
-    (*(u8 * *)&container_ido_texture_gvm_handle) = load_gvm_texture_file((s32) "obj_containerido.GVM");
+    (*(u8 * *)&container_ido_texture_gvm_handle) = load_gvm_texture_file((saddr) "obj_containerido.GVM");
 }
 TObjContainerIdo::~TObjContainerIdo() {
     this->unregister_object_by_id();

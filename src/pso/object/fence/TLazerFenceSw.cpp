@@ -66,7 +66,7 @@ extern u8 lbl_80445CD8[];
 
 void *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 }
-u8 *load_gvm_texture_file(s32 arg0);
+u8 *load_gvm_texture_file(saddr arg0);
 
 extern s32 game_difficulty_selection;
 extern "C" {
@@ -270,7 +270,7 @@ void TLazerFenceSw::load_resources() {
             obj = load_resource_from_descriptor(obj, 5, &fe_obj_switch_laz_j_resource_descriptor, 0, 0, 0);
         }
         lazer_fence_switch_bml_resource = obj;
-        TLazerFenceSw__texture_list = (s32)load_gvm_texture_file((s32)fe_obj_switch_laz_j_gvm);
+        TLazerFenceSw__texture_list = (s32)load_gvm_texture_file((saddr)fe_obj_switch_laz_j_gvm);
     } else {
         obj = ::operator new(0x440);
         if (obj != NULL) {
@@ -278,9 +278,9 @@ void TLazerFenceSw::load_resources() {
         }
         lazer_fence_switch_bml_resource = obj;
         if (game_difficulty_selection == 3) {
-            TLazerFenceSw__texture_list = (s32)load_gvm_texture_file((s32)fe_obj_switch_laz_a_gvm);
+            TLazerFenceSw__texture_list = (s32)load_gvm_texture_file((saddr)fe_obj_switch_laz_a_gvm);
         } else {
-            TLazerFenceSw__texture_list = (s32)load_gvm_texture_file((s32)fe_obj_switch_laz_gvm);
+            TLazerFenceSw__texture_list = (s32)load_gvm_texture_file((saddr)fe_obj_switch_laz_gvm);
         }
     }
     lazer_fence_sw_ginja_model_table[0] = (s32)get_bml_model((BmlResource *)lazer_fence_switch_bml_resource, 0);

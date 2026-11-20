@@ -206,7 +206,7 @@ void TOTrapChainSawDamage__sub_802C9C00(u8 *arg0, s32 arg1);
 void rotate_matrix_y(int, void *);
 void push_matrix(void);
 void post_translate_matrix(void *);
-void set_model_node_callback(s32 arg0);
+void set_model_node_callback(saddr arg0);
 void draw_ginja_model_with_motion(void *, void *, f32);
 
 extern s32 __vt__17TOTrapChainSawKey[];
@@ -390,7 +390,7 @@ void TOTrapChainSawKey::vfunc_25() {
     push_matrix();
     rotate_matrix_y(0, *(void **)((s8 *)this + 0x60));
     rotate_matrix_y(0, *(void **)((s8 *)this + 0xD4));
-    set_model_node_callback((s32)((s32 *)TParticleCtrl__sub_802C8464));
+    set_model_node_callback((saddr)((s32 *)TParticleCtrl__sub_802C8464));
     draw_ginja_motion(*(NJS_OBJECT **)((s8 *)this + 0xC8), *(NJS_MOTION **)((s8 *)this + 0xBC), *(f32 *)((s8 *)this + 0xB4));
     set_model_node_callback(0);
     if (*(s32 *)((s8 *)this + 0xF0) == 1) {

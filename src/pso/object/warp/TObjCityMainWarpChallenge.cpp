@@ -35,7 +35,7 @@ const char *lbl_805D32B8 = "TObjCityMainWarpChallenge";
 static const char lbl_80444A44[] = "<- NEXT STAGE No.%d";
 static const char lbl_80444A58[] = "<- KEY ID : %d";
 
-void initialize_option_dialog(void *dialog, s32 message, s32 position, f32 width);
+void initialize_option_dialog(void *dialog, saddr message, s32 position, f32 width);
 
 extern "C" {
 f32 xz_distance_squared(void *, void *);
@@ -206,7 +206,7 @@ void TObjCityMainWarpChallenge::sub_801875F8() {
         if (this->yes_no_window == 0) {
             this->yes_no_window = TWindowMessageYesNo::create(this, (void *)local_client_id, (void *)0, (void *)0);
             if (this->yes_no_window != 0) {
-                initialize_option_dialog(this->yes_no_window, (s32)TWindowSubStatusDisp::get_message_10(0x42), get_window_layout_position(0x36), 368.0f);
+                initialize_option_dialog(this->yes_no_window, (saddr)TWindowSubStatusDisp::get_message_10(0x42), get_window_layout_position(0x36), 368.0f);
             }
         }
         break;

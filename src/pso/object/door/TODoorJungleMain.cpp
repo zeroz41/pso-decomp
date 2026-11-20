@@ -81,7 +81,7 @@ void *TODoorJungleMain__create(void *arg0);
 
 extern void *tl_05;
 }
-s32 is_any_player_near(s32 arg0);
+s32 is_any_player_near(saddr arg0);
 
 void clear_story_flag_in_bank(s32 n, s32 flag);
 
@@ -130,12 +130,12 @@ extern "C" {
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 }
 
-u8 * load_gvm_texture_file(s32);
+u8 * load_gvm_texture_file(saddr);
 extern "C" {
 
 s32 get_bml_motion(void *, s32);
 
-u32 init_collision_body_parts(void *, s32, s32);
+u32 init_collision_body_parts(void *, saddr, s32);
 
 void *__ct__10TODoorBaseFP7TObject(void *a0);
 
@@ -169,7 +169,7 @@ extern s32 game_difficulty_selection;
 
 s32 minimap_render_gate(void *, u32, u16, s32, s32);
 
-s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
+s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 
 s32 matrix_mult_vec(void *, void *, void *);
 
@@ -192,7 +192,7 @@ u8 *TODoorJungleMain__ct(TODoorJungleMain *arg0, s32 arg1, s32 arg2) {
     arg0->motion = (AnimationMotion *)get_bml_motion((*(u8 * *)&TODoorJungleMain__bml_resource), 0);
     arg0->animation_step = 1.0f;
     ((TODoorJungleMain *)arg0)->animation_end_frame = 0.0f;
-    init_collision_body_parts(arg0, (s32) TODoorJungleMain_collision_body_parts, 1);
+    init_collision_body_parts(arg0, (saddr) TODoorJungleMain_collision_body_parts, 1);
     ((TObjCollidable *)arg0)->refresh_collision_body_centers();
     ((TObjPlayer *)arg0)->register_object_by_id();
     arg0->view_range = 800.0f;
@@ -243,7 +243,7 @@ void TODoorJungleMain::run_task() {
             flag = 0;
             *(f32 *)&this->animation_end_frame = (f32)(u32)(*(s32 *)((s8 *)(*(u8 * *)&this->motion) + 4) - 1);
         } else {
-            play_persistent_sound(0x43220, (s32)arg0, (u32)&this->position, 0, 0);
+            play_persistent_sound(0x43220, (saddr)arg0, (uaddr)&this->position, 0, 0);
         }
         if (flag != 0) {
             if (++*(s32 *)&this->m_d8 % 30 == 0) {
@@ -284,7 +284,7 @@ void TODoorJungleMain::update_door_switch_state() {
         if (self->count > 0 && self->count != prev) {
             play_sound_effect(0x4C123, self->xf, 0, 0);
         }
-        if (self->count == 3 && is_any_player_near((s32)self) != 0) {
+        if (self->count == 3 && is_any_player_near((saddr)self) != 0) {
             self->flags |= 1;
         } else {
             self->flags &= ~1;
@@ -325,7 +325,7 @@ void TODoorJungleMain::load_resources() {
         var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 0x1, &bm_o_jungle_doormain_resource_descriptor, 0, 0, 0));
     }
     (*(s32 *)&TODoorJungleMain__bml_resource) = var_r0;
-    (*(u8 * *)&door_jungle_main_gvm_texture) = load_gvm_texture_file((s32) "o_jungle_doormain.gvm");
+    (*(u8 * *)&door_jungle_main_gvm_texture) = load_gvm_texture_file((saddr) "o_jungle_doormain.gvm");
 }
 
 void TODoorJungleMain::free_static_resources() {

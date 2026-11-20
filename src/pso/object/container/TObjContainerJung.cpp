@@ -90,7 +90,7 @@ extern const TObjChipParams lbl_804453E4 = {
 };
 
 extern "C" {
-u32 init_collision_body_parts(void *, s32, s32);
+u32 init_collision_body_parts(void *, saddr, s32);
 s32 free_collision_body_parts(void *);
 s32 post_translate_matrix(void *);
 s32 push_matrix();
@@ -101,9 +101,9 @@ s32 get_model__19TObjContainerJungExFl(s32);
 s32 get_model_by_index__17TObjContainerJungFl(s32);
 s32 set_global_param__8TObjFishFl();
 u8 *get_bml_model(void *, int);
-s32 free_bin_model_request(s32, s32);
+s32 free_bin_model_request(saddr, s32);
 }
-void play_container_break_sound(s32 arg0);
+void play_container_break_sound(saddr arg0);
 
 struct Obj_8018CBF0 { u8 pad0[0x84]; s32 id; };
 struct Obj_8018CB44 { u8 pad0[0x1C]; u16 f1C; u8 pad1[0x62]; u32 f80; s32 f84; };
@@ -142,7 +142,7 @@ void TObjContainerJungEx::load_resource_instance() {
 
 void TObjContainerJungEx::free_data() {
     if (TObjContainerJungEx__resource_bundle != NULL) {
-        free_bin_model_request((s32)TObjContainerJungEx__resource_bundle, 1);
+        free_bin_model_request((saddr)TObjContainerJungEx__resource_bundle, 1);
         TObjContainerJungEx__resource_bundle = NULL;
     }
 }
@@ -165,7 +165,7 @@ TObjContainerJung::TObjContainerJung(TObject *parent, void *set_data) : TUnk_804
     m_name = TObjContainerJung__name;
     mode = 0;
     actorFlags |= 0x60000000;
-    init_collision_body_parts(this, (s32)&container_jung_collision_desc, 1);
+    init_collision_body_parts(this, (saddr)&container_jung_collision_desc, 1);
     register_object_by_id();
     VecCopy(&center, &position);
     VecCopy((Vec *)&m_2fc, &position);
@@ -271,7 +271,7 @@ void TObjContainerJung::vfunc_79() const {
         if (o != 0) {
             __ct__8TObjChipFP7TObjectPC14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&b);
         }
-        play_container_break_sound((s32)self);
+        play_container_break_sound((saddr)self);
     }
 }
 #pragma pop
@@ -313,7 +313,7 @@ TObjContainerJungEx::TObjContainerJungEx(TObject *parent, void *set_data) : TUnk
     m_name = TObjContainerJungEx__name;
     mode = 0;
     actorFlags |= 0x60000000;
-    init_collision_body_parts(this, (s32)&container_jung_collision_desc, 1);
+    init_collision_body_parts(this, (saddr)&container_jung_collision_desc, 1);
     register_object_by_id();
     VecCopy(&center, &position);
     VecCopy((Vec *)&m_2fc, &position);
@@ -414,7 +414,7 @@ void TObjContainerJungEx::vfunc_79() const {
     if (o != NULL) {
         __ct__8TObjChipFP7TObjectPC14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&b);
     }
-    play_container_break_sound((s32)self);
+    play_container_break_sound((saddr)self);
 }
 #pragma pop
 
@@ -427,7 +427,7 @@ TObjContainerJungEnemy::TObjContainerJungEnemy(TObject *parent, void *set_data) 
     load_models();
     mode = 0;
     actorFlags |= 0x60000000;
-    init_collision_body_parts(this, (s32)&container_jung_collision_desc, 1);
+    init_collision_body_parts(this, (saddr)&container_jung_collision_desc, 1);
     register_object_by_id();
     VecCopy(&center, &position);
     VecCopy((Vec *)&m_2fc, &position);
@@ -572,7 +572,7 @@ void TObjContainerJungEnemy::vfunc_79() const {
         if (o != 0) {
             __ct__8TObjChipFP7TObjectPC14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&b);
         }
-        play_container_break_sound((s32)self);
+        play_container_break_sound((saddr)self);
     }
 }
 #pragma pop

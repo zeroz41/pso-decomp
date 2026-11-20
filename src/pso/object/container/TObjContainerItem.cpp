@@ -295,7 +295,7 @@ extern const TObjChipParams lbl_80444EA8 = {
 extern const char seabed_container_texture_filename[];
 extern const char forest_box_texture_filename_a[];
 extern const char forest_box_texture_filename_n[];
-void play_container_break_sound(s32 arg0);
+void play_container_break_sound(saddr arg0);
 BmlResource *lbl_805D5B78;
 s32 lbl_805D5B7C;
 TObjChipParams *lbl_805D5B80;
@@ -308,7 +308,7 @@ void post_translate_matrix(const void *);
 extern const f32 lbl_805DBCF8;
 u32 init_collision_body_parts(void *, void *, s32);
 }
-u8 *load_gvm_texture_file(s32 arg0);
+u8 *load_gvm_texture_file(saddr arg0);
 extern s32 local_client_id;
 extern const f32 lbl_805DBCF4;
 extern "C" {
@@ -363,7 +363,7 @@ void load_forest_box_resources(void) {
             bundle = load_resource_from_descriptor(bundle, 5, &bm_obj_seabed_con_resource_descriptor, 0, 0, 0);
         }
         lbl_805D5B78 = (BmlResource *)bundle;
-        lbl_805D5B7C = (s32)load_gvm_texture_file((s32)seabed_container_texture_filename);
+        lbl_805D5B7C = (s32)load_gvm_texture_file((saddr)seabed_container_texture_filename);
         lbl_805D5B80 = &forest_box_break_params[2];
         lbl_805D5B84 = &forest_box_break_params[3];
         node = (u32 *)find_object_node((NJS_OBJECT *)(get_bml_model(lbl_805D5B78, 1)), 2);
@@ -377,7 +377,7 @@ void load_forest_box_resources(void) {
             bundle = load_resource_from_descriptor(bundle, 5, &fe_obj_hako01_hahen02_resource_descriptor, 0, 0, 0);
         }
         lbl_805D5B78 = (BmlResource *)bundle;
-        lbl_805D5B7C = TLobby::is_online_ready() != 0 ? (s32)load_gvm_texture_file((s32)forest_box_texture_filename_a) : (s32)load_gvm_texture_file((s32)((s32)forest_box_texture_filename_n));
+        lbl_805D5B7C = TLobby::is_online_ready() != 0 ? (s32)load_gvm_texture_file((saddr)forest_box_texture_filename_a) : (s32)load_gvm_texture_file((s32)((s32)forest_box_texture_filename_n));
         lbl_805D5B80 = &forest_box_break_params[0];
         lbl_805D5B84 = &forest_box_break_params[1];
         break;
@@ -411,7 +411,7 @@ void TLobby::load_console_resources() {
             p = load_resource_from_descriptor(p, 5, &bm_obj_seabed_con_rare_resource_descriptor, 0, 0, 0);
         }
         container_breakup_model_archive = (BmlResource *)p;
-        lbl_805D5B8C = (u32)load_gvm_texture_file((s32)"obj_seabed_con_rare.gvm");
+        lbl_805D5B8C = (u32)load_gvm_texture_file((saddr)"obj_seabed_con_rare.gvm");
         break;
     case AREA_GAL_GRYPHON:
     default:
@@ -420,7 +420,7 @@ void TLobby::load_console_resources() {
             p = load_resource_from_descriptor(p, 5, &fe_obj_con_hahen1_resource_descriptor, 0, 0, 0);
         }
         container_breakup_model_archive = (BmlResource *)p;
-        lbl_805D5B8C = (u32)load_gvm_texture_file((s32)"obj_abecon.gvm");
+        lbl_805D5B8C = (u32)load_gvm_texture_file((saddr)"obj_abecon.gvm");
         break;
     }
 }
@@ -670,7 +670,7 @@ void TObjContainerItem::vfunc_79() const {
         if (o != NULL) {
             __ct__8TObjChipFP7TObjectPC14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&b);
         }
-        play_container_break_sound((s32)self);
+        play_container_break_sound((saddr)self);
     }
 }
 
@@ -796,7 +796,7 @@ void TObjContainerEnemy::vfunc_79() const {
         if (o != NULL) {
             __ct__8TObjChipFP7TObjectPC14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&b);
         }
-        play_container_break_sound((s32)self);
+        play_container_break_sound((saddr)self);
     }
 }
 
@@ -905,7 +905,7 @@ void TObjContainerNoItem::vfunc_79() const {
         if (o != NULL) {
             __ct__8TObjChipFP7TObjectPC14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&b);
         }
-        play_container_break_sound((s32)self);
+        play_container_break_sound((saddr)self);
     }
 }
 
@@ -1012,7 +1012,7 @@ void TObjContainerBase::vfunc_79() const {
     if (o != NULL) {
         __ct__8TObjChipFP7TObjectPC14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&b);
     }
-    play_container_break_sound((s32)this);
+    play_container_break_sound((saddr)this);
 }
 
 #pragma pop
@@ -1151,7 +1151,7 @@ void TObjContainerAbeEnemy::vfunc_79() const {
         if (o != NULL) {
             __ct__8TObjChipFP7TObjectPC14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&b);
         }
-        play_container_break_sound((s32)self);
+        play_container_break_sound((saddr)self);
     }
 }
 

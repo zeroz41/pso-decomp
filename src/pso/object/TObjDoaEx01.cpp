@@ -171,7 +171,7 @@ s32 get_bml_motion(s32, s32);
 
 s32 rotate_matrix_y(s32, s32);
 s32 set_global_param__8TObjFishFl();
-s32 draw_ginja_model_with_motion(s32, s32, f32);
+s32 draw_ginja_model_with_motion(saddr, s32, f32);
 
 s32 TObjDoaEx01::draw_object_tree(s32 arg1) {
     NjObj_8018DD0C *obj = (NjObj_8018DD0C *)arg1;
@@ -241,7 +241,7 @@ void TObjDoaEx01::draw_model() {
         temp_f31 = this->animation_frame;
         if (temp_f31 > 0.0f) {
             temp_r31 = get_bml_motion((TObjDoaEx01__resource_bundle), 0);
-            draw_ginja_model_with_motion((s32)get_bml_model((void *)TObjDoaEx01__resource_bundle, 0), temp_r31, temp_f31);
+            draw_ginja_model_with_motion((saddr)get_bml_model((void *)TObjDoaEx01__resource_bundle, 0), temp_r31, temp_f31);
         } else {
             this->draw_object_tree((temp_r31));
         }

@@ -93,7 +93,7 @@ extern "C" {
 s32 get_current_floor();
 void subtractive_rng_seed(void *, s32);
 s32 __ct__14SubtractiveRngFv(void *);
-u8 *fn_800832EC(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0);
+u8 *fn_800832EC(u8 *arg0, s32 arg1, s32 arg2, saddr arg3, saddr arg4, f32 farg0);
 extern s32 tl_particlemodel;
 }
 
@@ -152,7 +152,7 @@ TObjLiveCameraCtrl::TObjLiveCameraCtrl(TObject *parent) : TObject(parent) {
     }
     p = TObject::operator new(0x3C);
     if (p != 0) {
-        p = fn_800832EC((u8 *)p, (s32)tl_particlemodel, (s32)lbl_804757E0[((Cam_8030BED4 *)this)->f4c], (s32)(((Cam_8030BED4 *)this)->f34), (s32)(((Cam_8030BED4 *)this)->f40), 0.5f);
+        p = fn_800832EC((u8 *)p, (s32)tl_particlemodel, (s32)lbl_804757E0[((Cam_8030BED4 *)this)->f4c], (saddr)(((Cam_8030BED4 *)this)->f34), (saddr)(((Cam_8030BED4 *)this)->f40), 0.5f);
     }
     ((Cam_8030BED4 *)this)->f50 = p;
 }

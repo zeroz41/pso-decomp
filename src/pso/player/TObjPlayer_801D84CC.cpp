@@ -84,7 +84,7 @@ void TObjPlayer__sub_801D8664(s32 arg0, s8 arg1, s8 arg2) {
 }
 
 void restore_scene_lighting(void);
-void select_actor_lighting(s32 obj);
+void select_actor_lighting(saddr obj);
 s32 TObjPlayer__sub_801BAC48(void *);
 }
 int player_ending_motion_object;
@@ -107,7 +107,7 @@ TUnk_804C4540 *TUnk_804C4540::create(TPlyCharData *data) {
 
 void TUnk_804C4540::render() {
     if ((obj_testFlags30(0x02000000) == 0) && ((s32)m_cfc == 0)) {
-        select_actor_lighting((s32)this);
+        select_actor_lighting((saddr)this);
         push_matrix();
         translate_matrix_vec3(0, (u8 *)&position);
         rotate_matrix_y(0, rotation_y);
@@ -148,8 +148,8 @@ void TObjPlayer__sub_801BFF80(u8 *arg0);
 void init__17TPlyInventoryItemFv(u8 *arg0);
 }
 void create_player_ending_motion(void);
-s32 create_named_object(s32 arg0);
-void create_player_ending_motion(void) { TObjPlayer::alloc_shared_buffers(); player_ending_motion_object = create_named_object((s32)"PlyEndingMotionData.rel"); }
+s32 create_named_object(saddr arg0);
+void create_player_ending_motion(void) { TObjPlayer::alloc_shared_buffers(); player_ending_motion_object = create_named_object((saddr)"PlyEndingMotionData.rel"); }
 
 TUnk_804C4540::TUnk_804C4540(TObject *parent, TUnk_801D8A4C *src) : TObjPlayer(parent, src) {
     set_floor_index(1);
