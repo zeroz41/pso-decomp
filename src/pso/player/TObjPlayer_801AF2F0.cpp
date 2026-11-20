@@ -6256,7 +6256,7 @@ s32 TObjPlayer::get_next_level_exp() {
     return ((s32 (*)(s8, s32))get_current_state_field__10TObjPlayerFScl)(((s8 (*)(void *))get_class_index__10TObjPlayerFv)(this), actor_level_index + 1);
 }
 
-void TObjPlayer::vfunc_78(saddr arg1) {
+void TObjPlayer::vfunc_78(s32 arg1) {
     s32 spC;
     s32 sp8;
 

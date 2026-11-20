@@ -59,7 +59,7 @@ struct TObjPlayer : public TObjChara {
     virtual s32 add_actor_exp(s32);
     virtual void reset_pose();
     s8 get_class_index();
-    virtual void get_pos(saddr);
+    virtual void get_pos(s32);
     virtual void apply_switch_attack();
     virtual void enemy_spawn_jellen_effect();
     virtual void trigger_switch_attack();
@@ -70,7 +70,7 @@ struct TObjPlayer : public TObjChara {
     virtual s32 update_flag30_timer();
     virtual s32 update_movement_status();
     virtual s32 update_shock_clock();
-    virtual void vfunc_78(saddr);
+    virtual void vfunc_78(s32);
     virtual s32 vfunc_79();
     void set_floor(s32);
     void set_input_mode(s32);
