@@ -5,6 +5,7 @@
 #include "pso/object/base/TObjMotion.h"
 
 struct TAdVIConfigGC;
+struct TObjPlayer;
 
 struct TObjWarpBase : public TObjCollidable {
     TObjWarpBase(TObject *parent, void *set_data);
@@ -23,5 +24,7 @@ struct TObjWarpBase : public TObjCollidable {
     u8 pad_ba[2];
 };
 typedef char TObjWarpBase_size[sizeof(TObjWarpBase) == 0xBC ? 1 : -1];
+
+extern "C" TObjPlayer *find_warp_player_in_range(TObjWarpBase *warp, u16 client_id, f32 range);
 
 #endif

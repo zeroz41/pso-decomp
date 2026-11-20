@@ -212,20 +212,16 @@ void TObjCityMainWarp__sub_80186AB8(void);
 
 #pragma push
 #pragma fp_contract on
-s32 TObjCityMainWarp::find_local_player_in_range(f32 farg0) {
-    s32 arg0 = (s32)this;
-    s32 player;
-    s32 current_floor;
-    s32 temp_r3b;
-    player = (s32)get_player_by_client_id(local_client_id);
-    if (player != 0) {
-        current_floor = get_current_floor();
-        temp_r3b = ((TObjPlayer *)player)->get_floor();
-        if ((temp_r3b == current_floor) && (xz_distance_squared(arg0 + 0x38, player + 0x38) < (farg0 * farg0))) {
+TObjPlayer *TObjCityMainWarp::find_local_player_in_range(f32 range) {
+    TObjPlayer *player = get_player_by_client_id(local_client_id);
+    if (player != NULL) {
+        s32 current_floor = get_current_floor();
+        s32 player_floor = player->get_floor();
+        if ((player_floor == current_floor) && (xz_distance_squared((s32)&position, (s32)&player->position) < (range * range))) {
             return player;
         }
     }
-    return 0;
+    return NULL;
 }
 #pragma pop
 
@@ -675,7 +671,7 @@ void TObjCityAreaWarp::render() { if (TObjEneDD::is_main_phase_15() != 0) { do_w
 
 void TObjCityAreaWarp::debug_print_area_num() { this->do_warp(); }
 
-void TObjCityAreaWarp::confirm_area_transfer(void *) {
+void TObjCityAreaWarp::confirm_area_transfer(TObjPlayer *) {
     play_sound_effect(0x40003205, 0, 0, 0);
     TLobby__data_805D5CE8 = 1;
 }

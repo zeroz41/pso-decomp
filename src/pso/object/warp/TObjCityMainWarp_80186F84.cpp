@@ -22,14 +22,14 @@
 extern "C" {
 extern s32 local_client_id;
 s32 is_local_client_floor_leader(s32);
-s32 find_local_player_in_range__16TObjCityMainWarpFf(void *, f32);
+TObjPlayer *find_local_player_in_range__16TObjCityMainWarpFf(void *, f32);
 s32 close_windows__25TObjCityMainWarpChallengeFv();
 extern BmlResource *city_common_model_archive;
 s32 city_main_warp_destination_id;
 
 void TObjCityMainWarp::update_state() {
     s32 temp_r0_2;
-    s32 temp_r3;
+    TObjPlayer *player;
 
     switch (*(s16 *)((s8 *)this + 0xE0)) {
     case 0:
@@ -41,11 +41,11 @@ void TObjCityMainWarp::update_state() {
         return;
     case 1:
         if (TObjCityMainWarp::get_phase_flag() == 0) {
-            temp_r3 = find_local_player_in_range(*(f32 *)((s8 *)this + 0xAC));
-            if (temp_r3 != 0) {
+            player = find_local_player_in_range(warp_range);
+            if (player != NULL) {
                 TObjCityMainWarp::notify_player_warp(this, local_client_id);
                 *(s32 *)((s8 *)this + 0xBC) = (s32) city_main_warp_destination_id;
-                this->confirm_area_transfer((void *)temp_r3);
+                this->confirm_area_transfer(player);
                 *(s16 *)((s8 *)this + 0xE0) = 2;
             }
         }
@@ -76,7 +76,7 @@ void TObjCityMainWarp::update_warp_sequence() {
         arg0->motion = city_common_model_archive->motions[5].motion;
         break;
     case 1:
-        if (((u32 (*)(f32))find_local_player_in_range__16TObjCityMainWarpFf)(arg0->warp_range) != 0) {
+        if (((TObjPlayer *(*)(f32))find_local_player_in_range__16TObjCityMainWarpFf)(arg0->warp_range) != 0) {
             ((TObjCityMainWarpChallenge *)arg0)->sub_801875F8();
             if (arg0->warp_triggered == 0) {
                 arg0->trigger_warp_effect(local_client_id);

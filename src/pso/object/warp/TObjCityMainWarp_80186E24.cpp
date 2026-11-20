@@ -2,6 +2,7 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowSubComCard_80244774.h"
 #include "pso/object/warp/TObjCityMainWarp_80186E24.h"
+#include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/unk/text_8024ACEC.h"
 #include "pso/unk/text_8024AD30.h"
 #include "pso/ui/window/TWindowSubComCard.h"
@@ -12,7 +13,7 @@
 extern "C" {
 
 s32 get_message_10__20TWindowSubStatusDispFl(s32);
-u32 find_local_player_in_range__16TObjCityMainWarpFf(f32);
+TObjPlayer *find_local_player_in_range__16TObjCityMainWarpFf(f32);
 void request_active_window_close(void);
 s32 align_menu_entry_positions(u32);
 u32 check_room_seq_4__16TAdChrSelASlotGCFl(s32, s32);
@@ -27,7 +28,7 @@ void update_challenge_warp_window(void *arg0) {
         *(s32 *)((s8 *)arg0 + 0xD0) = 0;
         return;
     case 1:
-        if (find_local_player_in_range__16TObjCityMainWarpFf(*(f32 *)((s8 *)arg0 + 0xAC)) != 0U) {
+        if (find_local_player_in_range__16TObjCityMainWarpFf(*(f32 *)((s8 *)arg0 + 0xAC)) != NULL) {
             if ((u32) *(u32 *)((s8 *)arg0 + 0xB0) == 0U) {
                 *(u32 *)((s8 *)arg0 + 0xB0) = check_room_seq_4__16TAdChrSelASlotGCFl(get_window_layout_position(0x35), 7);
                 if ((u32) *(u32 *)((s8 *)arg0 + 0xB0) != 0U) {

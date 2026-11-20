@@ -91,7 +91,7 @@ s32 get_window_layout_position(s32);
 s32 free_member__17TWindowSubComCardFv(void *, int);
 s32 forward_slot_selection__16TAdChrSelASlotGCFPvPv(void *, s32, s32, f32);
 s32 is_local_client_floor_leader();
-s32 TObjWarpBossMulti__sub_8019E570(s32 arg0, f32 farg0);
+TObjPlayer *TObjWarpBossMulti__sub_8019E570(s32 arg0, f32 farg0);
 BmlResource *boss_warp_resource_bundle;
 s32 boss_warp_base_model;
 s32 boss_warp_confirmation_model;
@@ -564,7 +564,7 @@ void TObjWarpBoss::update_warp_state() {
 }
 
 void TObjWarpBoss::update_state() {
-    s32 player;
+    TObjPlayer *player;
 
     switch (state_step) {
     case 0:
@@ -579,7 +579,7 @@ void TObjWarpBoss::update_state() {
             player = TObjWarpBossMulti__sub_8019E570((s32)this, warp_range);
             if (player != 0) {
                 TObjWarpBossMulti::notify_player(this, local_client_id);
-                confirm_area_transfer((void *)player);
+                confirm_area_transfer(player);
                 state_step = 2;
             }
         }
@@ -717,15 +717,14 @@ void TObjWarpBoss::close_windows() {
 
 #pragma push
 #pragma fp_contract on
-s32 TObjWarpBossMulti__sub_8019E570(s32 arg0, f32 farg0) {
+TObjPlayer *TObjWarpBossMulti__sub_8019E570(s32 arg0, f32 farg0) {
     s32 current_floor;
     s32 temp_r3b;
-    s32 player;
-    player = (s32)get_player_by_client_id(local_client_id);
+    TObjPlayer *player = get_player_by_client_id(local_client_id);
     if (player != 0) {
         current_floor = get_current_floor();
-        temp_r3b = ((TObjPlayer *)player)->get_floor();
-        if ((temp_r3b == current_floor) && (xz_distance_squared(&((TObjAreaWarp *)arg0)->position, &((TObjPlayer *)player)->position) < (farg0 * farg0))) {
+        temp_r3b = player->get_floor();
+        if ((temp_r3b == current_floor) && (xz_distance_squared(&((TObjAreaWarp *)arg0)->position, &player->position) < (farg0 * farg0))) {
             return player;
         }
     }

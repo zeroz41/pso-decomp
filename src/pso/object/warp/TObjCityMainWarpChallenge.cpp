@@ -41,7 +41,7 @@ f32 xz_distance_squared(void *, void *);
 char *strcpy(char *, const char *);
 extern s32 local_client_id;
 s32 is_local_client_floor_leader(s32);
-s32 find_local_player_in_range__16TObjCityMainWarpFf(void *, f32);
+TObjPlayer *find_local_player_in_range__16TObjCityMainWarpFf(void *, f32);
 s32 close_windows__25TObjCityMainWarpChallengeFv();
 void fn_80248994(TWindowBase *list, u32 color, s32 pos);
 void request_active_window_close(void);
@@ -301,7 +301,7 @@ void TObjCityMainWarpChallenge::update_challenge_state() {
         motion = city_common_model_archive->motions[5].motion;
         break;
     case 1:
-        if (((u32 (*)(f32))find_local_player_in_range__16TObjCityMainWarpFf)(warp_range) != 0) {
+        if (((TObjPlayer *(*)(f32))find_local_player_in_range__16TObjCityMainWarpFf)(warp_range) != 0) {
             sub_801875F8();
             trigger_warp_effect(local_client_id);
             state_step = 2;
@@ -347,7 +347,7 @@ void TObjCityMainWarpChallenge::update_challenge_state() {
         state_step = 4;
         break;
     case 4:
-        if (((u32 (*)(f32))find_local_player_in_range__16TObjCityMainWarpFf)(warp_range) == 0) {
+        if (((TObjPlayer *(*)(f32))find_local_player_in_range__16TObjCityMainWarpFf)(warp_range) == 0) {
             state_step = 1;
             break;
         }

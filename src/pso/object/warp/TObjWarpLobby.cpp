@@ -79,7 +79,6 @@ int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int 
 s32 check_room_seq_4__16TAdChrSelASlotGCFl(f32 *, s32, f32);
 
 s32 is_idle__6TLobbyFv();
-void *find_warp_player_in_range(void *self, u16 client_id, f32 range);
 extern s32 local_client_id;
 
 void run_task__13TObjWarpLobbyFv(VO_801A0894 *arg0);
@@ -128,7 +127,7 @@ void run_task__13TObjWarpLobbyFv(VO_801A0894 *arg0) {
         ((TObjWarpLobby *)arg0)->m_c8 = 0.0f;
     }
     *(f32 *)((s8 *)arg0 + 0xC4) += 336.0f;
-    if ((find_warp_player_in_range(arg0, (u16) local_client_id, ((TObjWarpLobby *)arg0)->warp_range) != 0U) && (arg0->m14() != 0)) {
+    if ((find_warp_player_in_range((TObjWarpLobby *)arg0, (u16)local_client_id, ((TObjWarpLobby *)arg0)->warp_range) != NULL) && (arg0->m14() != 0)) {
         if (((u32) ((TObjWarpLobby *)arg0)->menu_window == 0U) && (is_idle__6TLobbyFv() != 0)) {
             ((TObjWarpLobby *)arg0)->open_lobby_menu();
         }

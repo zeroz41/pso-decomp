@@ -10,7 +10,7 @@ struct TObjAreaWarpEnding : public TObjAreaWarp {
     TObjAreaWarpEnding(TObject *parent, void *set_data);
     virtual ~TObjAreaWarpEnding();
     virtual void debug_print_area_num();
-    virtual void confirm_area_transfer(void *player);
+    virtual void confirm_area_transfer(TObjPlayer *player);
     virtual void open_confirm_window(s32 client_id);
     void render();
     void run_task();
