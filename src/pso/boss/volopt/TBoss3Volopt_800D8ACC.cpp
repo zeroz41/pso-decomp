@@ -187,7 +187,7 @@ void TObjPlayer::set_field_e4(s32 arg1, s32 arg2) {
 #undef create_dead_spot__10TObjPlayerFiiif
 
 
-void create_dead_spot__10TObjPlayerFiiif(s32 arg0, s32 arg1, s32 arg2, f32 farg0) {
+void create_dead_spot__10TObjPlayerFiiif(saddr arg0, s32 arg1, s32 arg2, f32 farg0) {
     new TUnk_804949D8((TObject *)tl_05, (Vec *)arg0, (saddr)create_timed_particle_emitter((void *)arg0, arg1, 0, arg2), farg0);
 }
 
@@ -271,7 +271,7 @@ void TObjPlayer__sub_800D93C4(s32 point, s32 delay) {
 
 
 
-void TObjPlayer__sub_800D93F0(s32 point, s32 selector, s32 delay, f32 farg0) {
+void TObjPlayer__sub_800D93F0(saddr point, s32 selector, s32 delay, f32 farg0) {
     new TUnk_80494A10((TObject *)tl_05, (Vec *)point, *(void **)((s8 *)(*(void **)((s8 *)player_corpse_mark_resource + 0x42C)) + 0xC), selector, delay, farg0);
 }
 
