@@ -1,5 +1,9 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "versions.h"
+#if VERSION == VERSION_GPOP8P
+#define __ct__6TMovieFP7TObjectPSclll __ct__6TMovieFP7TObjectPScllll
+#endif
 #include "pso/item/TItemEquipVariant_80120CF8.h"
 #include "pso/player/TObjPlayer_80307618.h"
 #include "pso/player/TObjPlayer.h"

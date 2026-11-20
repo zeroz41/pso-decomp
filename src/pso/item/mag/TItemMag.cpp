@@ -1,6 +1,7 @@
 #include "pso/system/NinjaTypes.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/item/mag/TItemMag.h"
+#include "versions.h"
 
 #include <stdlib.h>
 #include <string.h>
@@ -789,7 +790,11 @@ void TItemMag::refresh_invincibility() {
 }
 
 void TItemMag::request_action(s32 action) {
+#if VERSION == VERSION_GPOP8P
+    if (TLobby::is_flag_set() != 0 &&
+#else
     if ((TLobby::is_flag_set() != 0 || is_challenge_mode_active() != 0) &&
+#endif
         (action == MAG_ACTION_REVERSER || action == MAG_ACTION_RESTA)) {
         return;
     }

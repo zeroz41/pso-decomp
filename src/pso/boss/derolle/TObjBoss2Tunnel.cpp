@@ -1,5 +1,6 @@
 #include "pso/system/ResourceFile.h"
 #include "types.h"
+#include "versions.h"
 #include "pso/system/MatrixStack.h"
 #include <string.h>
 #include "pso/ui/window/TWindowBase.h"
@@ -735,7 +736,9 @@ void TObjBoss2Tunnel::reset_state() {
     TObjBoss2Tunnel__snapshot_buffer = 0;
     TObjBoss2Tunnel__snapshot_state = 0;
     TObjBoss2Tunnel__snapshot_saved_flag = 0;
+#if VERSION != VERSION_GPOP8P
     TQuestListVM::reset();
+#endif
 }
 
 void TObjBoss2Tunnel__sub_8007DD24(void) {  }
@@ -901,6 +904,17 @@ s32 TObjBoss2Tunnel__sub_8007D1D0(void) {
     f32 limit;
     f32 t;
 
+#if VERSION == VERSION_GPOP8P
+    if (get_main_phase() == 0xF && (is_boss_area() != 0 || is_quest_active() != 0)) {
+        return 0;
+    }
+    if (TCameraCtrl__sub_80069304() != 0) {
+        return 0;
+    }
+    if (is_split_screen() != 0) {
+        return 0;
+    }
+#else
     if (get_main_phase() == 0xF &&
         (is_boss_area() != 0 || is_quest_active() != 0 || TQuestVmDownLoadServer__sub_8007EB14() != 0)) {
         return 0;
@@ -917,6 +931,7 @@ s32 TObjBoss2Tunnel__sub_8007D1D0(void) {
     if (TAdPlayerLoadGC::get_instance() != 0) {
         return 0;
     }
+#endif
     pad = (PadSlot *)TKeyBoardControl__sub_803DEB74(0x12);
     if (is_on_current_screen__11TCameraCtrlFv(&controller_physical_port_bank.controllers[3], 0x20000) != 0) {
         if (boss2_tunnel_state_flag == 0) {
