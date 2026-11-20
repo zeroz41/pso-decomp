@@ -160,6 +160,10 @@ public:
     static void copy_angle_state(void *arg0, void *dst, void *src);
     void update_target_from_state();
     static void init_state_zero(void *arg0);
+    static void set_flag_4e4(void *p);
+    static void sync_target_pos(void *p);
+    static s32 restore_target_pos(void *p);
+    static s32 copy_pos_to_field688(void *p);
     void flush_pending_effect();
     void scale_size(f32 farg0, f32 farg1, f32 farg2);
     void fire_at_angle(s32 arg1);

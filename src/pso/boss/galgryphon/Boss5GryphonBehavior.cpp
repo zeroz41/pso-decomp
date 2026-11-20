@@ -211,7 +211,6 @@ s32 TBoss1Dragon__sub_80027A80(void *, const void *);
 s32 TBoss8Dragon__sub_800670E0(int, void *);
 void TBoss8Dragon__sub_8006442C(Dragon_8006442C *arg0);
 s32 TBoss8Dragon__sub_8005FAE0(u8 *arg0);
-void set_flag_4e4__12TBoss8DragonFPv(void* p);
 s32 spawn_particle_effect_with_flags(void *, s32, s32);
 TParticleCtrl *spawn_continuous_particle_effect_with_flags(void *parent, s32 idx, s32 flags);
 u8 *__ct__22TBoss5GryphonShockWaveFP7TObjectlPUcPUcls(u8 *arg0, u8 *arg1_parent, s32 arg2, u8 *arg3, u8 *arg4, s32 arg5, s16 arg6);
@@ -2336,7 +2335,7 @@ void TBoss5Gryphon::update_offscreen_climb(s32 event) {
     case ENEMY_STATE_ENTER:
         self->requested_action = 0x13;
         self->vfunc_96();
-        set_flag_4e4__12TBoss8DragonFPv(self);
+        TBoss8Dragon::set_flag_4e4(self);
         self->set_flight_height();
         self->m_4c0 |= 4;
         self->m_6e0 = 0;
@@ -2737,7 +2736,7 @@ void TBoss5Gryphon::handle_takeoff_state(s32 event) {
     case ENEMY_STATE_ENTER:
         self->requested_action = 0x14;
         self->vfunc_96();
-        set_flag_4e4__12TBoss8DragonFPv(self);
+        TBoss8Dragon::set_flag_4e4(self);
         self->set_flight_height();
         self->m_4c0 |= 4;
         self->update_particle_positions();
@@ -2815,7 +2814,7 @@ void TBoss5Gryphon::handle_descend_state(s32 arg1) {
     case ENEMY_STATE_ENTER:
         arg0->requested_action = 0x16;
         ((TBoss5Gryphon *)arg0)->vfunc_96();
-        set_flag_4e4__12TBoss8DragonFPv(arg0);
+        TBoss8Dragon::set_flag_4e4(arg0);
         arg0->set_flight_height();
         *(u32 *)((s8 *)arg0 + 0x4C0) |= 4;
         arg0->update_particle_positions();
@@ -2878,7 +2877,7 @@ void TBoss5Gryphon::fn_800615FC(s32 event) {
     case ENEMY_STATE_ENTER:
         self->requested_action = 0x13;
         self->vfunc_96();
-        set_flag_4e4__12TBoss8DragonFPv(self);
+        TBoss8Dragon::set_flag_4e4(self);
         self->set_flight_height();
         self->m_4c0 |= 0x104;
         self->m_6dc = 0;
@@ -2962,7 +2961,7 @@ void TBoss5Gryphon::update_dive_motion(s32 arg1) {
     case ENEMY_STATE_ENTER:
         this->requested_action = 7;
         ((TBoss5Gryphon *)arg0)->vfunc_96();
-        set_flag_4e4__12TBoss8DragonFPv(arg0);
+        TBoss8Dragon::set_flag_4e4(arg0);
         ((TBoss5Gryphon *)arg0)->set_flight_height();
         *(s32 *)((s8 *)arg0 + 0x4C0) |= 4;
         ((TBoss5Gryphon *)arg0)->enable_particles();
@@ -3030,7 +3029,7 @@ void TBoss5Gryphon::update_bezier_descent(s32 event) {
     case ENEMY_STATE_ENTER:
         self->requested_action = 9;
         self->vfunc_96();
-        set_flag_4e4__12TBoss8DragonFPv(self);
+        TBoss8Dragon::set_flag_4e4(self);
         self->set_flight_height();
         self->m_4c0 |= 4;
         self->enable_particles();
@@ -3200,7 +3199,7 @@ void TBoss5Gryphon::fn_80062114(s32 event) {
     case ENEMY_STATE_ENTER:
         self->requested_action = 6;
         self->vfunc_96();
-        set_flag_4e4__12TBoss8DragonFPv(self);
+        TBoss8Dragon::set_flag_4e4(self);
         self->set_flight_height();
         self->m_4c0 |= 4;
         self->m_6dc = 0;
@@ -3292,7 +3291,7 @@ void TBoss5Gryphon::move_to_motion_destination(s32 event) {
     case ENEMY_STATE_ENTER:
         self->requested_action = 4;
         self->vfunc_96();
-        set_flag_4e4__12TBoss8DragonFPv(self);
+        TBoss8Dragon::set_flag_4e4(self);
         self->set_flight_height();
         self->m_6ec = initial_angle_800623E4(self);
         break;
@@ -3329,7 +3328,7 @@ void TBoss5Gryphon::circle_arena(s32 arg1) {
     case ENEMY_STATE_ENTER:
         ((Obj_80062550 *)this)->fb8 = 4;
         this->vfunc_96();
-        set_flag_4e4__12TBoss8DragonFPv(this);
+        TBoss8Dragon::set_flag_4e4(this);
         this->set_flight_height();
         ((Obj_80062550 *)this)->f490 = 0;
         return;
@@ -3370,7 +3369,7 @@ void TBoss5Gryphon::fn_80062660(s32 event) {
     case ENEMY_STATE_ENTER:
         self->requested_action = 4;
         self->vfunc_96();
-        set_flag_4e4__12TBoss8DragonFPv(self);
+        TBoss8Dragon::set_flag_4e4(self);
         self->set_flight_height();
         break;
     case ENEMY_STATE_UPDATE:
@@ -3482,7 +3481,7 @@ void TBoss5Gryphon::update_demo_state(u32 arg1) {
     switch (arg1) {
     case ENEMY_STATE_ENTER:
         this->requested_action = 0;
-        ((s32 (*)(void))set_flag_4e4__12TBoss8DragonFPv)();
+        ((s32 (*)(void))TBoss8Dragon::set_flag_4e4)();
         this->set_flight_height();
         advance_animation();
         *(f32 *)((s8 *)this + 0x38) = 0.0f;
@@ -3592,7 +3591,7 @@ void TBoss5Gryphon::update_death_state(u32 arg1) {
     case ENEMY_STATE_ENTER:
         F(s16, 0xB8) = 0x1A;
         ((TBoss5Gryphon *)arg0)->vfunc_95();
-        set_flag_4e4__12TBoss8DragonFPv(arg0);
+        TBoss8Dragon::set_flag_4e4(arg0);
         ((TBoss5Gryphon *)arg0)->set_flight_height();
         F(s32, 0x4C0) |= 0xC4;
         F(s32, 0x6DC) = 0;
@@ -3683,7 +3682,7 @@ void TBoss5Gryphon::update_landing_attack(u32 arg1) {
     case ENEMY_STATE_ENTER:
         this->requested_action = 5;
         ((TBoss5Gryphon *)arg0)->vfunc_96();
-        set_flag_4e4__12TBoss8DragonFPv(arg0);
+        TBoss8Dragon::set_flag_4e4(arg0);
         ((TBoss5Gryphon *)arg0)->set_flight_height();
         *(u32 *)((s8 *)arg0 + 0x4C0) |= 4;
         *(s32 *)((s8 *)arg0 + 0x6DC) = 0;
@@ -3751,7 +3750,7 @@ void TBoss5Gryphon::update_shockwave_attack(u32 arg1) {
     case ENEMY_STATE_ENTER:
         this->requested_action = 0x18;
         ((TBoss5Gryphon *)self)->vfunc_96();
-        set_flag_4e4__12TBoss8DragonFPv(self);
+        TBoss8Dragon::set_flag_4e4(self);
         ((TBoss5Gryphon *)self)->set_flight_height();
         self->state = 0;
         self->f6E0 = 0;
@@ -3849,7 +3848,7 @@ void TBoss5Gryphon::update_ground_takeoff(u32 arg1) {
                 ((void (*)(f32, void *, s32))move_along_angle__13TBoss5GryphonFPvif)(lbl_805D8DF8, arg0, this->rotation_y);
                 *(u32 *)((s8 *)arg0 + 0x4C0) |= 4;
                 ((TBoss8Dragon *)arg0)->run_default_state();
-                set_flag_4e4__12TBoss8DragonFPv(arg0);
+                TBoss8Dragon::set_flag_4e4(arg0);
                 start_camera_shake(0x14, lbl_805D8EA4);
                 ((TBoss5Gryphon *)arg0)->play_se(0x40033409);
                 *(s32 *)((s8 *)arg0 + 0x6E0) = 1;
@@ -3885,7 +3884,7 @@ void TBoss5Gryphon::update_ground_takeoff(u32 arg1) {
         }
         break;
     case ENEMY_STATE_LEAVE:
-        set_flag_4e4__12TBoss8DragonFPv(arg0);
+        TBoss8Dragon::set_flag_4e4(arg0);
         ((TBoss5Gryphon *)arg0)->set_flight_height();
         *(u32 *)((s8 *)arg0 + 0x4C0) &= ~4;
         break;
@@ -4504,7 +4503,7 @@ void TBoss5Gryphon::enter_low_flight_mode() { this->m_4e4 = 2; }
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-void set_flag_4e4__12TBoss8DragonFPv(void* p) { *(s32*)((char*)p + 0x4e4) = 1; }
+void TBoss8Dragon::set_flag_4e4(void* p) { *(s32*)((char*)p + 0x4e4) = 1; }
 #pragma pop
 
 #pragma push
