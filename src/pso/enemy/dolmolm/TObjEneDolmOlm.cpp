@@ -366,7 +366,7 @@ struct Res_80302784 { u8 pad[0x42C]; Ent_80302784 *x42C; Pair_80302784 *x430; };
 extern "C" {
 s32 TObjEneDolmOlm__sub_80300CF0(void);
 extern s32 TObjEneDolmOlm__effect_render_state;
-s32 play_sound_effect(void *, void *, int, int);
+s32 play_sound_effect(s32, void *, int, int);
 void TObjPlayer__sub_800D92BC(s32 point, s32 delay);
 f32 vec3_add_to(void *, void *);
 s32 rotate_vector_by_matrix(int, void *, void *);
@@ -990,7 +990,7 @@ s32 TObjEneDolmOlm__sub_80301C3C(void *arg0_) {
                 VecCopy((Vec *)&v, (const Vec *)(*(u8 **)((s8 *)arg0 + 0x2A8) + 0x2FC));
             }
             ((TObjMotion *)arg0)->advance_animation();
-            play_sound_effect((void *)((TObjEnemy *)(arg0))->remap_sound_for_area(0x4003B205), arg0 + 0x38, 0, 0);
+            play_sound_effect(((TObjEnemy *)(arg0))->remap_sound_for_area(0x4003B205), arg0 + 0x38, 0, 0);
             if (horizontal_distance_squared(arg0 + 0x29C, arg0 + 0x38) < 0.00001f || ((VObj_18_cc39a7 *)(arg0))->m17(0x1E) != 0) {
                 Vec a = v;
                 if (select_enemy_destination(arg0, &a, 1) != 0) {
@@ -1094,7 +1094,7 @@ s32 TObjEneDolmOlm__sub_8030177C(void *arg0_) {
             if (((TObjEnemy *)arg0)->turn_toward_direction(arg0->move->turn, (Vec *)&v) < (*(Param_8030177C ** *)&TObjEneDolmOlm__behavior_params_by_variant)[arg0->kind]->angle) {
                 arg0->f328 = 3;
                 arg0->fb8 = 0xC;
-                play_sound_effect((void *)((TObjEnemy *)(arg0))->remap_sound_for_area(0x4003A804), &arg0->pos, 0, 0);
+                play_sound_effect(((TObjEnemy *)(arg0))->remap_sound_for_area(0x4003A804), &arg0->pos, 0, 0);
                 spawn_particle_effect(&arg0->pos, 0x20E);
             }
         } else {
@@ -1372,19 +1372,19 @@ void TObjEneDolmOlm::vfunc_94() {
 }
 void TObjEneDolmOlm::vfunc_95() {
     saddr arg0 = (saddr)this;
-    play_sound_effect((void *) (((TObjEnemy *)((void *)arg0))->remap_sound_for_area(0x4003AD00)), (void *)(arg0 + 0x38), 0, 0);
+    play_sound_effect((((TObjEnemy *)((void *)arg0))->remap_sound_for_area(0x4003AD00)), (void *)(arg0 + 0x38), 0, 0);
 }
 void TObjEneDolmOlm::vfunc_96() {
     saddr arg0 = (saddr)this;
-    play_sound_effect((void *) (((TObjEnemy *)((void *)arg0))->remap_sound_for_area(0x4003B203)), (void *)(arg0 + 0x38), 0, 0);
+    play_sound_effect((((TObjEnemy *)((void *)arg0))->remap_sound_for_area(0x4003B203)), (void *)(arg0 + 0x38), 0, 0);
 }
 void TObjEneDolmOlm::vfunc_97() {
     saddr arg0 = (saddr)this;
-    play_sound_effect((void *) (((TObjEnemy *)((void *)arg0))->remap_sound_for_area(0x4003A802)), (void *)(arg0 + 0x38), 0, 0);
+    play_sound_effect((((TObjEnemy *)((void *)arg0))->remap_sound_for_area(0x4003A802)), (void *)(arg0 + 0x38), 0, 0);
 }
 void TObjEneDolmOlm::vfunc_98() {
     saddr arg0 = (saddr)this;
-    play_sound_effect((void *) (((TObjEnemy *)((void *)arg0))->remap_sound_for_area(0x4003A801)), (void *)(arg0 + 0x38), 0, 0);
+    play_sound_effect((((TObjEnemy *)((void *)arg0))->remap_sound_for_area(0x4003A801)), (void *)(arg0 + 0x38), 0, 0);
 }
 void TObjEneDolmOlm::init_body_sub() {
     spawn_ground_effects__14TObjEneDolmOlmFPvPv((u8 *)this, (Vec *)((s8 *)this + 0x38));

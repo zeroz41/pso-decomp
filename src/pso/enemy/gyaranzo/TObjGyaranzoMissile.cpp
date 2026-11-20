@@ -61,7 +61,7 @@ s32 remap_area_sound_id(s32 arg0, s32 arg1);
 void *find_entity_by_id(u16);
 void init_all_slots__10TObjPlayerFv(void *);
 void check_enemy_body_collisions(void *);
-s32 play_sound_effect(void *, void *, int, int);
+s32 play_sound_effect(s32, void *, int, int);
 Target_800D4990 *find_active_entity_by_id(u16);
 }
 s32 get_gyaranzo_missile_int_parameter(s32 i);
@@ -105,7 +105,7 @@ void TObjGyaranzoMissile::sub_800D47B4() {
         }
     }
     spawn_particle_effect(&position, 0xFB);
-    play_sound_effect((void *)remap_area_sound_id(0x4003A80C, 0x19), &position, 0, 0);
+    play_sound_effect(remap_area_sound_id(0x4003A80C, 0x19), &position, 0, 0);
     queue_destruction();
 }
 

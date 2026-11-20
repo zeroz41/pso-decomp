@@ -59,7 +59,7 @@ void spawn_dead_spot_scale15(s32 point, s32 delay);
 void *find_entity_by_id(u16 id);
 void free_collision_body_parts(void *);
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
-s32 play_sound_effect(void *, void *, int, int);
+s32 play_sound_effect(s32, void *, int, int);
 f32 sin_table_lookup(int);
 f32 cos_table_lookup(int);
 s32 vec3_add_to(void *, void *);
@@ -497,7 +497,7 @@ void TObjEneBm3FlyNest::spawn_child() {
             next_child_id++;
             spawned_count++;
             spawn_particle_effect(&unk_3c8[1], 0xC8);
-            play_sound_effect((void *)remap_sound_for_area(0x4003AB27), &position, 0, 0);
+            play_sound_effect(remap_sound_for_area(0x4003AB27), &position, 0, 0);
             TObjPlayer::play_effect_if_v2(-0x400);
         }
     }
@@ -568,7 +568,7 @@ void TObjEneBm3FlyNest::handle_appear(s32 reason) {
                 unk_4d0 = 1;
                 unk_4c8 = 0;
                 spawn_particle_effect(&position, 0xF0);
-                play_sound_effect((void *)remap_sound_for_area(0x4003B72A), &position, 0, 0);
+                play_sound_effect(remap_sound_for_area(0x4003B72A), &position, 0, 0);
             }
             break;
         case 1:
@@ -734,7 +734,7 @@ void TObjEneBm3FlyNest::sub_800B318C(s32 reason) {
     case 0:
         advance_animation();
         if ((is_passing_frame(10.0f) != 0) || (is_passing_frame(28.0f) != 0)) {
-            play_sound_effect((void *)remap_sound_for_area(0x4003B72A), &position, 0, 0);
+            play_sound_effect(remap_sound_for_area(0x4003B72A), &position, 0, 0);
         }
         if (is_passing_frame(9.0f) != 0) {
             spawn_particle_effect(&position, 0xF0);
@@ -820,7 +820,7 @@ void TObjEneBm3FlyNest::handle_motion_event(s32 reason) {
         vfunc_96();
         noop__12TBoss8DragonFv(this);
         TBoss8Dragon__sub_800BB7D4(this, 0xF1);
-        play_sound_effect((void *)remap_sound_for_area(0x4003A829), &position, 0, 0);
+        play_sound_effect(remap_sound_for_area(0x4003A829), &position, 0, 0);
         if (unk_3a8 != 0) {
             requested_action = 6;
             unk_4b0 = 0.0f;
@@ -906,7 +906,7 @@ void TObjEneBm3FlyNest::state_dying(s32 reason) {
                 }
                 unk_4cc += 1;
                 if (unk_4cc >= 0x14) {
-                    play_sound_effect((void *)remap_sound_for_area(0x4003AD2B), &position, 0, 0);
+                    play_sound_effect(remap_sound_for_area(0x4003AD2B), &position, 0, 0);
                     unk_4cc = 0;
                 }
             }

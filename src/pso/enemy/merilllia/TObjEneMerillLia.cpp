@@ -444,7 +444,7 @@ struct VObj_18_4c2345 : VBase_18_4c2345 {
 void move_with_wall_slide(u8 *arg0);
 
 extern "C" {
-s32 play_sound_effect(void *, void *, int, int);
+s32 play_sound_effect(s32, void *, int, int);
 void TObjEneMerillLia__sub_800D4EC8(saddr arg0);
 void vfunc_99__16TObjEneMerillLiaFv(s32 arg0);
 void vfunc_98__16TObjEneMerillLiaFv(s32 arg0);
@@ -1705,31 +1705,31 @@ void TObjEneMerillLia::vfunc_94() {
 }
 
 void TObjEneMerillLia__sub_800D501C(saddr arg0) {
-    play_sound_effect((void *) (((TObjEnemy *)((void *)arg0))->remap_sound_for_area(0x3B206)), (void *)(arg0 + 0x38), 0, 0);
+    play_sound_effect((((TObjEnemy *)((void *)arg0))->remap_sound_for_area(0x3B206)), (void *)(arg0 + 0x38), 0, 0);
 }
 
 void TObjEneMerillLia::vfunc_96() {
     saddr arg0 = (saddr)this;
-    play_sound_effect((void *) (((TObjEnemy *)((void *)arg0))->remap_sound_for_area(0x3AB02)), (void *)(arg0 + 0x38), 0, 0);
+    play_sound_effect((((TObjEnemy *)((void *)arg0))->remap_sound_for_area(0x3AB02)), (void *)(arg0 + 0x38), 0, 0);
 }
 
 void TObjEneMerillLia::vfunc_97() {
     saddr arg0 = (saddr)this;
-    play_sound_effect((void *) (((TObjEnemy *)((void *)arg0))->remap_sound_for_area(0x3B201)), (void *)(arg0 + 0x38), 0, 0);
+    play_sound_effect((((TObjEnemy *)((void *)arg0))->remap_sound_for_area(0x3B201)), (void *)(arg0 + 0x38), 0, 0);
 }
 
 void TObjEneMerillLia::vfunc_98() {
     saddr arg0 = (saddr)this;
-    play_sound_effect((void *) (((TObjEnemy *)((void *)arg0))->remap_sound_for_area(0x3AD00)), (void *)(arg0 + 0x38), 0, 0);
+    play_sound_effect((((TObjEnemy *)((void *)arg0))->remap_sound_for_area(0x3AD00)), (void *)(arg0 + 0x38), 0, 0);
 }
 
 void TObjEneMerillLia::vfunc_99() {
     saddr arg0 = (saddr)this;
-    play_sound_effect((void *) (((TObjEnemy *)((void *)arg0))->remap_sound_for_area(0x3B205)), (void *)(arg0 + 0x38), 0, 0);
+    play_sound_effect((((TObjEnemy *)((void *)arg0))->remap_sound_for_area(0x3B205)), (void *)(arg0 + 0x38), 0, 0);
 }
 
 void TObjEneMerillLia__sub_800D4EC8(saddr arg0) {
-    play_sound_effect((void *) (((TObjEnemy *)((void *)arg0))->remap_sound_for_area(0x3AD04)), (void *)(arg0 + 0x38), 0, 0);
+    play_sound_effect((((TObjEnemy *)((void *)arg0))->remap_sound_for_area(0x3AD04)), (void *)(arg0 + 0x38), 0, 0);
 }
 
 void spawn_ground_effect__16TObjEneMerillLiaFPv(u8 *motion) {
