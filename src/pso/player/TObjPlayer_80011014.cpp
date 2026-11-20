@@ -1405,7 +1405,7 @@ void TObjChara::vfunc_76(f32) {  }
 void TObjChara::vfunc_75(f32) {  }
 extern "C" {
 
-void assign_slots_from_list(void *arg0, s32 arg1) {
+void assign_slots_from_list(void *arg0, saddr arg1) {
     s32 var_r31;
 
     if (arg1 != 0) {

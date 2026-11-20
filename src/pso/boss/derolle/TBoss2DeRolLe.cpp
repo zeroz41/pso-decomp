@@ -1252,7 +1252,7 @@ void set_position_index__13TBoss2DeRolLeFPvi(void *, s32);
 
 void TBoss2DeRolLe__sub_800327C8(void *arg0, void *arg1, int arg2, int arg3);
 
-void assign_slots_from_list(void *, s32);
+void assign_slots_from_list(void *, saddr);
 
 
 s32 VecCopy__FP3VecPC3Vec(int, void *);

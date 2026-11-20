@@ -942,7 +942,7 @@ void fn_802EC52C(s32 arg0, saddr arg1);
 
 void TParticleCtrl__sub_802EC550(PCtrl_802EC550 *o);
 
-void assign_slots_from_list(void *arg0, s32 arg1);
+void assign_slots_from_list(void *arg0, saddr arg1);
 void TBoss7Tentacle__sub_802F0AD0(void *a0);
 
 void handle_tentacle_attack_state__8TObjFishFPvUii(Fish_802E9ADC *o, u32 arg1, s32 arg2);

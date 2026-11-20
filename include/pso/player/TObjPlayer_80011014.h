@@ -22,7 +22,7 @@ void add_id_to_slots__10TObjPlayerFiUs(s32 arg0, u16 arg1);
 }
 void apply_actor_gravity(TObjEnemy *enemy, s32 *arg1, f32 farg0);
 extern "C" {
-void assign_slots_from_list(void *arg0, s32 arg1);
+void assign_slots_from_list(void *arg0, saddr arg1);
 f32 atan2_float(f32 y, f32 x);
 void attach_mine_trap__10TObjPlayerFiUi(saddr arg0, u32 arg1);
 f32 random_ratio__9TObjCharaFv(s32 arg0);
