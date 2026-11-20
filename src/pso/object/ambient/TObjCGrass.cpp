@@ -192,7 +192,7 @@ void TObjCGrass::load_resources() {
         if (var_r0 != NULL) {
             var_r0 = (u8 *)(load_resource_from_descriptor(temp_r3, 1, &bm_ene_cgrass_resource_descriptor, 0, 0, 0));
         }
-        TObjCGrass_bml_resource = (u32) var_r0;
+        TObjCGrass_bml_resource = (uaddr) var_r0;
     }
     CGrassAnimBinding binding = cgrass_anim_binding;
     binding.motions = *(s32 *)((s8 *)TObjCGrass_bml_resource + 0x430);

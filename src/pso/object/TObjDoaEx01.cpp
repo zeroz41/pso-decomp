@@ -173,7 +173,7 @@ s32 rotate_matrix_y(s32, s32);
 s32 set_global_param__8TObjFishFl();
 s32 draw_ginja_model_with_motion(saddr, s32, f32);
 
-s32 TObjDoaEx01::draw_object_tree(s32 arg1) {
+s32 TObjDoaEx01::draw_object_tree(saddr arg1) {
     NjObj_8018DD0C *obj = (NjObj_8018DD0C *)arg1;
     u32 flags = obj->evalflags;
     push_matrix();
@@ -201,11 +201,11 @@ s32 TObjDoaEx01::draw_object_tree(s32 arg1) {
         }
     }
     if (obj->child != 0) {
-        draw_object_tree((s32)obj->child);
+        draw_object_tree((saddr)obj->child);
     }
     pop_matrix();
     if (obj->sibling != 0) {
-        draw_object_tree((s32)obj->sibling);
+        draw_object_tree((saddr)obj->sibling);
     }
 }
 

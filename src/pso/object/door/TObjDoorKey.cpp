@@ -291,7 +291,7 @@ TObjDoorKey::TObjDoorKey(TObject *arg1, void *arg2) : TOKey(arg1) {
     this->register_object_by_id();
     Vec pos = *(Vec *)((s8 *)this + 0x38);
     pos.y += 10.0f;
-    this->m_f8 = (s32)spawn_continuous_particle_effect_with_flags(&pos, 0x60, 0x40);
+    this->m_f8 = (saddr)spawn_continuous_particle_effect_with_flags(&pos, 0x60, 0x40);
     this->cursor_action.set_use();
 }
 
@@ -333,7 +333,7 @@ void * TObjEnvSoundGlobal__create(void *rader_map_core) {
     }
     o = TObject::operator new(0x9C);
     if (o != NULL) {
-        o = TObjEnvSoundGlobal__ct((u8 *)o, (s32)tl_05, (s32)rader_map_core);
+        o = TObjEnvSoundGlobal__ct((u8 *)o, (saddr)tl_05, (s32)rader_map_core);
     }
     return o;
 }

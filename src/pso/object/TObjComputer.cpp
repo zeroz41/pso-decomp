@@ -171,7 +171,7 @@ void load_computer_resources(void) {
         if (p != NULL) {
             p = load_resource_from_descriptor(p, 5, &fe_obj_tanmatu02_resource_descriptor, 0, 0, 0);
         }
-        TObjComputer__model_archive = (u32) p;
+        TObjComputer__model_archive = (uaddr) p;
         TObjComputer__texture_gvm_handle = (u32)load_gvm_texture_file((saddr)"fe_obj_computer.gvm");
         computer_uv_scroll_phase = 1;
         break;

@@ -83,7 +83,7 @@ u8 is_current_floor_switch_set(s32 id);
 extern void *tl_05;
 }
 
-u8 *TODummyKeyCave01__ct(u8 *dummy_key_cave01, s32 arg1, saddr arg2) {
+u8 *TODummyKeyCave01__ct(u8 *dummy_key_cave01, saddr arg1, saddr arg2) {
     __ct__8TObjBaseFP7TObject(dummy_key_cave01);
     *(s32 **)((s8 *)dummy_key_cave01 + 0x18) = __vt__16TODummyKeyCave01;
     ((TObject *)dummy_key_cave01)->m_name = TODummyKeyCave01__class_name;
@@ -111,7 +111,7 @@ void TODummyKeyCave01__sub_80165E88(void) {  }
 void *TODummyKeyCave01::create(void *arg0) {
     void *o = TObject::operator new(0xD4);
     if (o != NULL) {
-        o = TODummyKeyCave01__ct((u8 *)o, (s32)tl_05, (s32)arg0);
+        o = TODummyKeyCave01__ct((u8 *)o, (saddr)tl_05, (s32)arg0);
     }
     return o;
 }

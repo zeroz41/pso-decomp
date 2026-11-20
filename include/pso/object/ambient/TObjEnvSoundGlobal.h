@@ -19,7 +19,7 @@ LAYOUT_ASSERT(TObjEnvSoundGlobal_size, sizeof(TObjEnvSoundGlobal) == 0x9C);
 extern "C" {
 void *TObjEnvSoundEx__create(void *arg0);
 u8 *TObjEnvSoundEx__ct(u8 *arg0, s32 arg1, s32 arg2);
-u8 *TObjEnvSoundGlobal__ct(u8 *arg0, s32 parent, s32 arg2);
+u8 *TObjEnvSoundGlobal__ct(u8 *arg0, saddr parent, s32 arg2);
 void *__dt__14TObjEnvSoundExFv(void *arg0, s16 arg1);
 void *__dt__18TObjEnvSoundGlobalFv(void *arg0, s16 arg1);
 void copy_pair__18TObjEnvSoundGlobalFPvPv(void *p, void *q);

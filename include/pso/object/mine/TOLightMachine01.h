@@ -24,7 +24,7 @@ struct TOLightMachine01 : public TObjBase {
 LAYOUT_ASSERT(TOLightMachine01_size, sizeof(TOLightMachine01) == 0xB0);
 
 extern "C" {
-u8 *TOLightMachine01__ct(TOLightMachine01 *arg0, s32 arg1);
+u8 *TOLightMachine01__ct(TOLightMachine01 *arg0, saddr arg1);
 void *__dt__16TOLightMachine01Fv(void *arg0, s16 arg1);
 }
 

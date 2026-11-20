@@ -76,7 +76,7 @@ u8 *TObjTank__ct(u8 *arg0, s32 arg1, saddr arg2) {
 void *TObjTank__create(void *arg0) {
     void *o = TObject::operator new(0xAC);
     if (o != NULL) {
-        o = TObjTank__ct((u8 *)o, (s32)tl_05, (s32)arg0);
+        o = TObjTank__ct((u8 *)o, (s32)tl_05, (saddr)arg0);
     }
     return o;
 }

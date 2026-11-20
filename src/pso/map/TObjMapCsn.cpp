@@ -183,6 +183,6 @@ TObjMapCsn::TObjMapCsn(s32 arg1, s32 arg2) : TObjCollidable((TObject *)arg1) {
     this->m_bc = (f32) ((temp_f1 * temp_f1) + (temp_f0 * temp_f0));
     this->m_c0 = (s32) *(s32 *)((s8 *)this + 0x88);
     if (((u32)TObjMapCsn::get_map_count()) != 0U) {
-        fn_80140EA8((((u32)TObjMapCsn::get_map_count())), (s32)this);
+        fn_80140EA8((((u32)TObjMapCsn::get_map_count())), (saddr)this);
     }
 }

@@ -16,7 +16,7 @@ LAYOUT_ASSERT(TObjTank_size, sizeof(TObjTank) == 0xAC);
 
 extern "C" {
 void *TObjTank__create(void *arg0);
-u8 *TObjTank__ct(u8 *arg0, s32 arg1, s32 arg2);
+u8 *TObjTank__ct(u8 *arg0, s32 arg1, saddr arg2);
 void *__dt__8TObjTankFv(void *arg0, s16 arg1);
 }
 

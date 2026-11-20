@@ -61,7 +61,7 @@ struct Stack_8029E7BC
 };
 
 typedef struct Stack_8029E7BC Stack_8029E7BC;
-s32 fn_8029E7BC(s32 arg0, u8 *arg1) {
+s32 fn_8029E7BC(saddr arg0, u8 *arg1) {
   Stack_8029E7BC stack;
   s32 area;
   s32 var_r31;
@@ -411,7 +411,7 @@ void TUnk_804DC7C4::render_shadows() {
     {
         Vec off = p->pos2FC;
         off.y += 10.0f;
-        hit = fn_8029E7BC((s32)&off, (u8 *)&o->pos24);
+        hit = fn_8029E7BC((saddr)&off, (u8 *)&o->pos24);
     }
     if (is_boss_area() != 0) {
         hit = 1;

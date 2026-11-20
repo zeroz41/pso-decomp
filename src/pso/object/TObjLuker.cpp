@@ -104,7 +104,7 @@ s32 check_flag_100__10TObjPlayerFPv(void *);
 s32 play_persistent_sound(int, void *, void *, int, int);
 s32 TTecLuker__sub_8023401C(void *);
 s32 get_entity_id(int);
-s32 is_player_in_range__9TObjLukerFv(s32 arg0, f32 farg0);
+s32 is_player_in_range__9TObjLukerFv(saddr arg0, f32 farg0);
 s32 get_main_phase();
 s32 mark_area_change_pending();
 s32 send_6x21_inter_level_warp(int, void *);
@@ -413,7 +413,7 @@ void TObjLuker::run_task() {
             switch (this->m_b0) {
             case 0:
                 sp8 = 0;
-                if (is_player_in_range__9TObjLukerFv((s32)((s32) arg0), 10.0f) != 0) {
+                if (is_player_in_range__9TObjLukerFv((s32)((saddr) arg0), 10.0f) != 0) {
                     flag = 0;
                     if (is_split_screen() != 0) {
                         if (are_players_gathered_near((u8 *)&this->position, &sp8, 10.0f) != 0) {

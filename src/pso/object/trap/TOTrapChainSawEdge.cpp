@@ -581,8 +581,8 @@ void TOTrapChainSawDamage__vt14(Obj_802C8C60 *arg0, f32 _w1) {
     v = arg0->fF8;
     arg0->fF8 = v < 0 ? 0 : (v > 1 ? 1 : v);
     arg0->fC8 = get_model__17TOTrapChainSawKeyFl(a.v[arg0->fF8], _w1);
-    arg0->fBC = (s32)TOTrapChainSawKey::get_motion(b.v[arg0->fF8]);
-    arg0->f24 = (s32)fn_802C9924(0);
+    arg0->fBC = (saddr)TOTrapChainSawKey::get_motion(b.v[arg0->fF8]);
+    arg0->f24 = (saddr)fn_802C9924(0);
     arg0->fB4 = (0.0f);
     arg0->fB8 = (1.0f);
 }

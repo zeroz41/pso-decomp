@@ -89,7 +89,7 @@ s32 fn_80248994(void *, u32, int);
 void request_active_window_close(void);
 s32 get_window_layout_position(s32);
 s32 free_member__17TWindowSubComCardFv(void *, int);
-s32 forward_slot_selection__16TAdChrSelASlotGCFPvPv(void *, s32, s32, f32);
+s32 forward_slot_selection__16TAdChrSelASlotGCFPvPv(void *, saddr, s32, f32);
 s32 is_local_client_floor_leader();
 s32 TObjWarpBossMulti__sub_8019E570(saddr arg0, f32 farg0);
 BmlResource *boss_warp_resource_bundle;
@@ -340,7 +340,7 @@ s32 TObjWarpBoss::update_warp_dialogs() {
       yes_no_window = TWindowMessageYesNo::create(this, (void *)local_client_id, (void *)0, (void *)0);
       if (yes_no_window != 0)
       {
-        forward_slot_selection__16TAdChrSelASlotGCFPvPv(yes_no_window, (s32)TWindowSubStatusDisp::get_message_10(0x41), ((s32)get_window_layout_position(0x36)), 368.0f);
+        forward_slot_selection__16TAdChrSelASlotGCFPvPv(yes_no_window, (saddr)TWindowSubStatusDisp::get_message_10(0x41), ((s32)get_window_layout_position(0x36)), 368.0f);
         free_member__17TWindowSubComCardFv(yes_no_window, 1);
         ((TWindowSubShortMail *)yes_no_window)->notify_warp_flag70();
         begin_player_keyboard_hold(local_client_id);

@@ -211,7 +211,7 @@ void TOAttackableCol::vfunc_6(s16 *arg1, s32 arg2) {
 
 int TOAttackableCol::handle_6x91_update_state() { return clear_player_status_flag__14TObjCollidableFlUl(this, 0, 1); }
 
-f32 TOAttackableCol::apply_hit(s32 arg1) {
+f32 TOAttackableCol::apply_hit(saddr arg1) {
     u8 *arg0 = (u8 *)this;
   s32 temp_r0;
   s32 temp_r0_2;
@@ -338,11 +338,11 @@ s32 TOAttackableCol::select_melee_contact_body(void *, f32) { return 1; }
 
 int TOAttackableCol::calc_distance_accuracy_penalty(void *, void *, void *, float) { return 1; }
 
-f32 TOAttackableCol::receive_physical_attack(void *_w1, f32) { return this->apply_hit((s32)_w1); }
+f32 TOAttackableCol::receive_physical_attack(void *_w1, f32) { return this->apply_hit((saddr)_w1); }
 
-f32 TOAttackableCol::receive_direct_attack(void *_w1, DirectAttackPayload, void *, s32, s32) { return this->apply_hit((s32)_w1); }
+f32 TOAttackableCol::receive_direct_attack(void *_w1, DirectAttackPayload, void *, s32, s32) { return this->apply_hit((saddr)_w1); }
 
-f32 TOAttackableCol::receive_weapon_special_attack(void *_w1, void *) { return this->apply_hit((s32)_w1); }
+f32 TOAttackableCol::receive_weapon_special_attack(void *_w1, void *) { return this->apply_hit((saddr)_w1); }
 
 void TOAttackableCol::apply_knockback_from_attacker(u8 *, f32) {  }
 

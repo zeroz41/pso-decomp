@@ -167,7 +167,7 @@ void TOSwitchAttack::run_task() {
 void *TOSwitchAttack::create(void *arg0) {
     void *o = TObject::operator new(0xAC);
     if (o != NULL) {
-        o = TOSwitchAttack__ct((u8 *)o, (s32)tl_05, (s32)arg0);
+        o = TOSwitchAttack__ct((u8 *)o, (saddr)tl_05, (s32)arg0);
     }
     return o;
 }
@@ -180,7 +180,7 @@ TOSwitchAttack::~TOSwitchAttack() {
 
 }
 
-u8 *TOSwitchAttack__ct(u8 *switch_attack, s32 arg1, saddr arg2) {
+u8 *TOSwitchAttack__ct(u8 *switch_attack, saddr arg1, saddr arg2) {
     __ct__8TObjBaseFP7TObject(switch_attack);
     *(s32 **)((s8 *)switch_attack + 0x18) = __vt__14TOSwitchAttack;
     ((TOSwitchAttack *)switch_attack)->m_name = TOSwitchAttack__name;

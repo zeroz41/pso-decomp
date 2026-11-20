@@ -65,7 +65,7 @@ void TOLightMachine01::render() {
 void *TOLightMachine01::create(void *arg0) {
     void *o = TObject::operator new(0xB0);
     if (o != NULL) {
-        o = TOLightMachine01__ct((TOLightMachine01 *)((u8 *)o), (s32)arg0);
+        o = TOLightMachine01__ct((TOLightMachine01 *)((u8 *)o), (saddr)arg0);
     }
     return o;
 }

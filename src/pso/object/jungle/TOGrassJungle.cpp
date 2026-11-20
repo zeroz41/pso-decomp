@@ -27,7 +27,7 @@ extern void *tl_05;
 void *TOGrassJungle__create(void *arg0) {
     void *o = TObject::operator new(0x94);
     if (o != NULL) {
-        o = TOGrassJungle__ct((TOGrassJungle *)((u8 *)o), (s32)tl_05, (s32)arg0);
+        o = TOGrassJungle__ct((TOGrassJungle *)((u8 *)o), (saddr)tl_05, (s32)arg0);
     }
     return o;
 }

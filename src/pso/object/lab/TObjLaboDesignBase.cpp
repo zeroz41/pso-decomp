@@ -38,7 +38,7 @@ f32 rotate_matrix_by_node_angles(void *, void *);
 s32 push_matrix();
 s32 scale_current_matrix(void *);
 s32 post_translate_matrix(void *);
-void draw_node_tree__18TObjLaboDesignBaseFiPv(s32 arg0, u8 *arg1);
+void draw_node_tree__18TObjLaboDesignBaseFiPv(saddr arg0, u8 *arg1);
 s32 init_collision_body_parts(void *, int, int);
 s32 __ct__14TObjCollidableFP7TObject();
 s32 create__10TObjMapCsnFl(void *, f32, f32);
@@ -211,7 +211,7 @@ s32 TObjLaboDesignBase::update_object_view_visibility(f32 near_dist, f32 far_dis
     return TObjBase::update_object_view_visibility(near_dist, far_dist);
 }
 
-void draw_node_tree__18TObjLaboDesignBaseFiPv(s32 arg0, u8 *arg1) {
+void draw_node_tree__18TObjLaboDesignBaseFiPv(saddr arg0, u8 *arg1) {
     saddr temp_r31;
     u8 *temp_r4;
     u8 *var_r30;
@@ -253,7 +253,7 @@ void render__18TObjLaboDesignBaseFPv(u8 *arg0) {
     push_matrix();
     post_translate_matrix(arg0 + 0x38);
     rotate_matrix_y(0, (int) (*(s32 *)((s8 *)arg0 + 0x60)));
-    draw_node_tree__18TObjLaboDesignBaseFiPv((s32)arg0, (u8 *)((int) (get_bml_model((BmlResource *)(*(saddr *)((s8 *)arg0 + 0xAC)), 0))));
+    draw_node_tree__18TObjLaboDesignBaseFiPv((saddr)arg0, (u8 *)((int) (get_bml_model((BmlResource *)(*(saddr *)((s8 *)arg0 + 0xAC)), 0))));
     pop_matrix();
     TParticleCtrl::end_effect_render();
 }

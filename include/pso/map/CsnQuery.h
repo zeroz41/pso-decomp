@@ -98,7 +98,7 @@ void TObjPlayer__sub_80079110(CsnHit *hit);
 void TObjPlayer__sub_80079114(void);
 s32 TObjPlayer__sub_80079118(const char *name);
 void TObjPlayer__sub_8007911C(void);
-void TObjPlayer__sub_80079120(s32 _w0);
+void TObjPlayer__sub_80079120(saddr _w0);
 void TObjPlayer__sub_80079124(void *_w0, void *_w1);
 s32 *csnVecterUnder(s32 origin, s32 mask);
 s32 *csnVectorUnder(Vec *arg0, u32 *arg1, s32 arg2);

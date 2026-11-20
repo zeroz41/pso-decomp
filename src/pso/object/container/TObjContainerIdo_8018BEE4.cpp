@@ -257,7 +257,7 @@ extern void *tl_05;
 void *TObjContainerIdo::create(void *arg0) {
     void *o = TObject::operator new(0x10C);
     if (o != NULL) {
-        o = TObjContainerIdo__ct((u8 *)o, (s32)tl_05, (s32)arg0);
+        o = TObjContainerIdo__ct((u8 *)o, (saddr)tl_05, (s32)arg0);
     }
     return o;
 }
@@ -308,7 +308,7 @@ TObjContainerIdo::~TObjContainerIdo() {
 }
 
 
-u8 *TObjContainerIdo__ct(u8 *arg0, s32 arg1, saddr arg2) {
+u8 *TObjContainerIdo__ct(u8 *arg0, saddr arg1, saddr arg2) {
     s32 i;
     ((TUnk_804B97C0 *)arg0)->init_positions();
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__16TObjContainerIdo;

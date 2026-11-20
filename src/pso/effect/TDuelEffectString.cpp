@@ -70,7 +70,7 @@ extern "C" {
 s32 __cvt_fp2unsigned(f32);
 extern s32 lbl_805D63F0;
 
-void TDuelEffectNumber::calc_digit_transform(s32 arg0, f32 *arg1, f32 *arg2, s32 arg3) {
+void TDuelEffectNumber::calc_digit_transform(saddr arg0, f32 *arg1, f32 *arg2, s32 arg3) {
     if (arg3 < 0xA) {
         *arg1 = 2.5f - 1.5f * ((f32) arg3 / 10.0f);
     } else {
@@ -93,7 +93,7 @@ void TDuelEffectString::render() {
     f32 alpha;
     s32 color;
 
-    TDuelEffectNumber::calc_digit_transform((s32)this, &scale, &alpha, pad_28);
+    TDuelEffectNumber::calc_digit_transform((saddr)this, &scale, &alpha, pad_28);
     color = __cvt_fp2unsigned(4278190080.0f * alpha) | 0xFF0000 | 0xFFFF;
     set_additive_blend();
     begin_screen_draw(1);

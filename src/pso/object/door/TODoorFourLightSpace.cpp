@@ -89,7 +89,7 @@ TODoorFourLightRuins::TODoorFourLightRuins(s32 arg1, s32 arg2) : TODoorBase((TOb
     init_collision_body_parts(((u8 *)this), &TODoorFourLight__collision_body_params, 1);
     ((TObjCollidable *)this)->refresh_collision_body_centers();
     ((TObjPlayer *)this)->register_object_by_id();
-    this->m_d4 = (s32)fn_8028A78C(0);
+    this->m_d4 = (saddr)fn_8028A78C(0);
     this->texlist = (s32)fn_8028A750(0);
     *(u8 **)((s8 *)this + 0xBC) = fn_8028A714(0);
     this->animation_end_frame = (f32) ((f32) *(u32 *)((s8 *)(*(u8 **)((s8 *)this + 0xBC)) + 4) - 1.0f);
@@ -299,7 +299,7 @@ TODoorFourLightSpace::TODoorFourLightSpace(s32 arg1, s32 arg2) : TODoorBase((TOb
     init_collision_body_parts(((u8 *)this), &TODoorFourLight__collision_body_params, 1);
     ((TObjCollidable *)this)->refresh_collision_body_centers();
     ((TObjPlayer *)this)->register_object_by_id();
-    this->m_d4 = (s32)fn_8028A78C(0);
+    this->m_d4 = (saddr)fn_8028A78C(0);
     this->texlist = (s32)fn_8028A750(0);
     *(u8 **)((s8 *)this + 0xBC) = fn_8028A714(0);
     this->animation_end_frame = (f32) ((f32) *(u32 *)((s8 *)(*(u8 **)((s8 *)this + 0xBC)) + 4) - 1.0f);

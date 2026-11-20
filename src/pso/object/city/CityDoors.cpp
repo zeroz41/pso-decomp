@@ -572,12 +572,12 @@ void city_door_play_close_sound__17TObjCityDoor_WarpFv(s32 arg0);
 void city_door_play_open_sound__17TObjCityDoor_WarpFv(s32 arg0);
 
 void TObjCityDoor_Warp::city_door_play_close_sound() {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     update_technique_slot__10TTecRaFoieFl((s32)(play_sound_effect(0x42A05, arg0 + 0x38, 0, 0)), -0x500, 0);
 }
 
 void TObjCityDoor_Warp::city_door_play_open_sound() {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     if (is_rader_map_active() != 0) {
         s32 r = play_sound_effect(0x42A04, arg0 + 0x38, 0, 0);
         update_technique_slot__10TTecRaFoieFl((s32)(r), -0x800, 0);
@@ -958,12 +958,12 @@ void TUnk_804B5BA8::dispatch_state() {
 }
 
 void TUnk_804B5BA8::city_door_play_open_sound() {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     play_sound_effect(0x42A04, arg0 + 0x38, 0, 0);
 }
 
 void TUnk_804B5BA8::city_door_play_close_sound() {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     play_sound_effect(0x42A05, arg0 + 0x38, 0, 0);
 }
 

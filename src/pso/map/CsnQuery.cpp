@@ -124,13 +124,13 @@ s32 get_csn_group_flags(u8 arg0);
 void TObjPlayer__sub_80079108(void);
 s32 TObjPlayer__sub_80079118(const char *);
 void TObjPlayer__sub_8007911C(void);
-void TObjPlayer__sub_80079120(s32);
+void TObjPlayer__sub_80079120(saddr);
 }
 s32 evaluate_ground_triangles(Vec *origin, u32 mask, CsnGroup **groups);
 extern s32 lbl_80500140[];
 extern "C" {
 s32 *csnVectorUnder(Vec *arg0, u32 *arg1, s32 arg2);
-void TObjPlayer__sub_80079120(s32 _w0);
+void TObjPlayer__sub_80079120(saddr _w0);
 extern u32 lbl_804FFD40[];
 s32 *csnVecterUnder(s32 arg0, s32 arg1);
 void TObjPlayer__sub_80079124(void *, void *);
@@ -167,7 +167,7 @@ void TObjPlayer__sub_80079114(void) {  }
 // inferred: name - every caller passes its own function name ("csnLookAt()", ...)
 s32 TObjPlayer__sub_80079118(const char *name) {  }
 void TObjPlayer__sub_8007911C(void) {  }
-void TObjPlayer__sub_80079120(s32 _w0) {  }
+void TObjPlayer__sub_80079120(saddr _w0) {  }
 void TObjPlayer__sub_80079124(void * _w0, void * _w1) {  }
 
 #pragma push
@@ -888,7 +888,7 @@ s32 *csnVectorUnder(Vec *arg0, u32 *arg1, s32 arg2) {
     s32 *var_r31;
     TObjPlayer__sub_80079108();
     TObjPlayer__sub_8007911C();
-    TObjPlayer__sub_80079120((s32)arg0);
+    TObjPlayer__sub_80079120((saddr)arg0);
     var_r31 = lbl_80500140;
     if ((u32) *arg1 == 0U) {
         if (((uaddr)refill_csn_candidate_cache((Vec *)(arg0), (M_80079C64 **)(arg1), arg2)) == 0U) {

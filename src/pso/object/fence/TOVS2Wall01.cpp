@@ -122,7 +122,7 @@ void handle_6x86_hit_destructible_object(WallHitPacket *wall_hit_packet) {
             break;
         case 1:
             o->mode = 1;
-            init__11TOVS2Wall01Fi((s32)o);
+            init__11TOVS2Wall01Fi((saddr)o);
             break;
         }
         o->access_object_saved_state(&spC, 1);
@@ -182,7 +182,7 @@ void TOVS2Wall01::vfunc_6(s16 *arg1, s32 arg2) {
     } else {
         this->m_33c = 0;
         if (arg2 != 0) {
-            init__11TOVS2Wall01Fi((s32)this);
+            init__11TOVS2Wall01Fi((saddr)this);
         }
     }
 }
