@@ -503,7 +503,7 @@ s32 TWindowHelpItem::get_help_value(u16 slot, s32 client_id) {
     return item->get_amount();
 }
 
-void TWindowHelpItem::set_help_text(s32 arg0, s32 arg1) {
+void TWindowHelpItem::set_help_text(saddr arg0, saddr arg1) {
     if (((TBoss8Dragon *)arg1)->test_card_flag_2() != 0) {
         set_sprite_uv_from_pixels((u8 *)arg0, 92.0f, 56.0f);
         return;

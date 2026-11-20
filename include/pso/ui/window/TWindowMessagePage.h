@@ -10,7 +10,7 @@ struct TWindowMessagePage : public TWindowMessage {
     s32 is_ready();
     void update_message();
     void set_message(void *msg, s32 flags);
-    static u8 *create(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
+    static u8 *create(s32 arg0, saddr arg1, saddr arg2, s32 arg3);
     static void set_text(s32 a, s32 b, s32 c);
     void render();
     void run_task();

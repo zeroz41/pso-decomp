@@ -7,7 +7,7 @@
 struct TWindowChatSymbol;
 
 struct TWindowShortCut : public TWindowBase {
-    TWindowShortCut(s32 arg1, s32 index, s32 *chat_shortcut);
+    TWindowShortCut(saddr arg1, s32 index, s32 *chat_shortcut);
     virtual ~TWindowShortCut();
     virtual void render();
     u8 _pad1C[0x4];

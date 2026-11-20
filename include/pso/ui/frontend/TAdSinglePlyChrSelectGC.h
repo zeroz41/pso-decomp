@@ -96,7 +96,7 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     s32 load_preview_models();
     void request_texture_loads();
     s32 try_claim_load_slot();
-    static void *calc_preview_offset(void *arg0, s32 arg1, s32 arg2, s32 arg3);
+    static void *calc_preview_offset(void *arg0, s32 arg1, saddr arg2, s32 arg3);
     s32 get_result();
     static void init_entry_tables(void* _w0);
     static u8 is_active();

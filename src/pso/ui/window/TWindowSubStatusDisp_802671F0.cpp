@@ -390,7 +390,7 @@ void TShopEquipmentSellWindow::add_item(saddr arg1, s32 arg2, s32 arg3) {
     }
 }
 
-void TShopJudgmentItemWindow::add_list_entry(s32 arg1, s32 arg2) {
+void TShopJudgmentItemWindow::add_list_entry(saddr arg1, s32 arg2) {
     s16 temp_r4;
     if (arg1 != 0) {
         temp_r4 = (s16) this->m_72;
@@ -662,7 +662,7 @@ void TWindowMenuIconLine::update_scroll_offset() {
   }
 }
 
-void TWindowMenuIconLine::draw_selected_list_entry(s32 window_key_board_soft) {
+void TWindowMenuIconLine::draw_selected_list_entry(saddr window_key_board_soft) {
     u16 *temp_r3;
 
     if (!(this->state_flags & 0x80)) {

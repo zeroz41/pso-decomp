@@ -720,7 +720,7 @@ void TWindowMenu::draw_selected_bar(u8 *window_key_board_soft) {
     }
 }
 
-void TWindowMenu::render_selected_entry(s32 window_key_board_soft) {
+void TWindowMenu::render_selected_entry(saddr window_key_board_soft) {
     u16 *temp_r3;
 
     temp_r3 = ((u16 * (*)(void *, int))get_array_entry__11TWindowBaseFi)(this, *(s16 *)&this->m_78);

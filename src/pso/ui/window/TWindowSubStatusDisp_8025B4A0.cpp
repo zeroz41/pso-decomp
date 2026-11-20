@@ -40,7 +40,7 @@ void TWindowSubStatusDisp::set_string(uaddr arg1) {
     }
 }
 
-void TWindowSubStatusDisp::set_text(u32 arg1, s32 arg2, s32 arg3) {
+void TWindowSubStatusDisp::set_text(uaddr arg1, s32 arg2, s32 arg3) {
     s32 temp_r3;
 
     mem_free((void *)(*(saddr *)((s8 *)this + 0x1C)));
@@ -56,7 +56,7 @@ void TWindowSubStatusDisp::set_text(u32 arg1, s32 arg2, s32 arg3) {
     set_string(arg2);
 }
 
-void TWindowSubStatusDisp::set_text(u32 arg1, s32 arg2) {
+void TWindowSubStatusDisp::set_text(uaddr arg1, s32 arg2) {
     s32 temp_r3;
     f64 tmp;
 

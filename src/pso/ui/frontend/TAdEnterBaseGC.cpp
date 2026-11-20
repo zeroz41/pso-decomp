@@ -353,7 +353,7 @@ void TAdEnterSerialAccessGC::create_default_callback() {
     TAdEnterSerialAccessGC::create_callback((void *)lbl_80477188, (void *)lbl_80477190, (void *)fn_8032AC9C);
 }
 
-u32 TAdEnterSerialAccessGC::create_keyboard_control(s32 arg0, s32 arg1) {
+u32 TAdEnterSerialAccessGC::create_keyboard_control(saddr arg0, s32 arg1) {
     u8 *kb;
     if (arg1 < 0 || arg1 >= 4) {
         return 0;

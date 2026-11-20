@@ -479,7 +479,7 @@ u32 pack_weapon_trail_color(void *weapon) {
     return (__cvt_fp2unsigned(255.0f * w.alpha) << 24 | __cvt_fp2unsigned(255.0f * w.red) << 16 | __cvt_fp2unsigned(255.0f * w.green) << 8) | __cvt_fp2unsigned(255.0f * w.blue);
 }
 
-void TUnk_804F1320::spawn_pg_effect(void *arg1, s32 item, f32 farg0) {
+void TUnk_804F1320::spawn_pg_effect(void *arg1, saddr item, f32 farg0) {
     S_8035016C prm;
     if (item < 0 || item >= 200) {
         return;

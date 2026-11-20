@@ -51,7 +51,7 @@ void run_task__19TWindowMenuMainMenuFv(TWindowMenuMainMenu *window_menu_main_men
 }
 
 TWindowMenuMainMenu::~TWindowMenuMainMenu() {}
-TWindowMenuMainMenu::TWindowMenuMainMenu(s32 arg1, s16 arg2) : TWindowBase((u8 *)&window_menu_main_menu_params, (s16)arg2, (u8 *)arg1) {
+TWindowMenuMainMenu::TWindowMenuMainMenu(saddr arg1, s16 arg2) : TWindowBase((u8 *)&window_menu_main_menu_params, (s16)arg2, (u8 *)arg1) {
     s32 i;
     u8 *p;
 

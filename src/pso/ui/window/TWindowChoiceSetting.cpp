@@ -152,7 +152,7 @@ void TUnk_804D0658::clamp_scroll() {
 
 void draw_selection_bar(u8 *arg0, u8 *arg1, s32 arg2);
 
-void TUnk_804D0658::draw_setting(s32 window_key_board_soft) {
+void TUnk_804D0658::draw_setting(saddr window_key_board_soft) {
     u16 *temp_r3;
 
     temp_r3 = ((u16 * (*)(void *, s16))get_array_entry__11TWindowBaseFi)(this, this->m_74);

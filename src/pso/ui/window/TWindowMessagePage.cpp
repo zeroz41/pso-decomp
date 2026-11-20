@@ -53,7 +53,7 @@ void TWindowMessagePage::set_message(void *msg, s32 flags) {
     update_message();
 }
 
-u8 *TWindowMessagePage::create(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
+u8 *TWindowMessagePage::create(s32 arg0, saddr arg1, saddr arg2, s32 arg3) {
     u8 *window_message_page;
     u8 *var_r0;
     TLobby__sub_80269DA4((void *)arg1, (void *)arg2);

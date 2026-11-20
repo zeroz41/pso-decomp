@@ -103,7 +103,7 @@ void TWindowMeseta::run_task() {
 
 TWindowMeseta::~TWindowMeseta() {}
 #define self ((Meseta_80269244 *)this)
-TWindowMeseta::TWindowMeseta(s32 arg1, s32 arg2, s32 str)
+TWindowMeseta::TWindowMeseta(saddr arg1, s32 arg2, s32 str)
     : TWindowBase((u8 *)&TWindowMeseta__window_descriptor, (s16)arg2, (u8 *)arg1) {
     Sub_80269244 *a;
     Sub_80269244 *b;

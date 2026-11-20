@@ -203,7 +203,7 @@ void TAdMultiChgGameModeGC::set_change_mode_flags() {
     multi_chg_game_mode_state = 1;
     game_mode_scene_change_state = 1;
 }
-void TAdMultiChgGameModeGC::apply_bgm_col_ctrl(s32 name) {
+void TAdMultiChgGameModeGC::apply_bgm_col_ctrl(saddr name) {
     if (strcmp((const char *)TLobby::get_current_slot_entry(), (const char *)name) != 0) {
         play_area_music((char *)name);
     }

@@ -258,7 +258,7 @@ u32 TWindowSubInformationBoard::show_card_a7() {
     return (uaddr)window;
 }
 
-s32 TWindowSubInformationBoard::open_keyboard(s32 arg0) {
+s32 TWindowSubInformationBoard::open_keyboard(saddr arg0) {
     saddr keyboard;
 
     keyboard = (saddr)new TKeyBoardControl((TObject *)arg0, 0xC6, 5, 4, local_client_id);

@@ -13,7 +13,7 @@ public:
     virtual void run_task();
 public:
     static void queue_destruction();
-    static void create_instance(s32 arg0);
+    static void create_instance(saddr arg0);
     static u8 is_active();
     void close_windows();
     void sub_80211774(void *arg);

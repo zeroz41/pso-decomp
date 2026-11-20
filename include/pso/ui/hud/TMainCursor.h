@@ -29,7 +29,7 @@ public:
 };
 
 struct TMainCursor : public TObject {
-    TMainCursor(TObject *parent, s32 target_index, s32 target_id, s32 action_palette, s32 active, u16 offset_y, f32 size);
+    TMainCursor(TObject *parent, saddr target_index, s32 target_id, s32 action_palette, s32 active, u16 offset_y, f32 size);
     virtual ~TMainCursor();
     s32 bind_action_channels();
     void sub_8013E724(f32);

@@ -297,7 +297,7 @@ void set_symbol_chat_parts__20TWindowSubSymbolChatFiPv(saddr arg0, void *arg1) {
     } while (j < 0xC);
 }
 
-void TWindowSubSymbolChat::init_layout_entries(s32 player) {
+void TWindowSubSymbolChat::init_layout_entries(saddr player) {
     saddr arg0 = (saddr)this;
     init_window_layout_entries((void *)arg0, &symbol_chat_layout_sprite_records, (void *)player);
 }
@@ -361,7 +361,7 @@ WindowDescriptor window_chat_symbol_settings = {
     {203.0f, 78.0f}, 50100.0f, &symbol_chat_layout_sprite_records, 0xB,
 };
 
-TWindowChatSymbol::TWindowChatSymbol(s32 arg1, s32 arg2) : TWindowBase((u8 *)&window_chat_symbol_settings, (s16)4, (u8 *)arg1) {
+TWindowChatSymbol::TWindowChatSymbol(saddr arg1, saddr arg2) : TWindowBase((u8 *)&window_chat_symbol_settings, (s16)4, (u8 *)arg1) {
     this->m_name = TWindowChatSymbol__name;
     fn_8024491C((void *)this, (void *)arg2);
     this->m_60 = 0;

@@ -192,7 +192,7 @@ void TWindowSoundBalance::run_task() {
 TWindowSoundBalance::~TWindowSoundBalance() {}
 #pragma push
 #pragma fp_contract on
-TWindowSoundBalance::TWindowSoundBalance(s32 arg1) : TWindowBase((u8 *)&window_sound_balance_settings, (s16)4, (u8 *)arg1) {
+TWindowSoundBalance::TWindowSoundBalance(saddr arg1) : TWindowBase((u8 *)&window_sound_balance_settings, (s16)4, (u8 *)arg1) {
     u8 *e;
     SoundBalanceSettings *st;
 

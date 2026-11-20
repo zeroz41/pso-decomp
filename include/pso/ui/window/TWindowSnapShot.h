@@ -5,7 +5,7 @@
 #include "pso/ui/window/TWindowBase.h"
 
 struct TWindowSnapShot : public TWindowBase {
-    TWindowSnapShot(s32 arg1);
+    TWindowSnapShot(saddr arg1);
     virtual ~TWindowSnapShot();
     virtual void render();
     u8 _pad1C[0x8];

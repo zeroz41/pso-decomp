@@ -13,7 +13,7 @@ public:
     virtual void run_task();
     virtual void render();
     void draw();
-    void draw_setting(s32);
+    void draw_setting(saddr);
     void clamp_scroll();
     void update_scroll_offset();
     void move_cursor_prev();

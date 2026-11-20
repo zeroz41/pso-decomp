@@ -5,7 +5,7 @@
 #include "pso/ui/window/TWindowBase.h"
 
 struct TWindowSubSymbolChatFaceType : public TWindowBase {
-    TWindowSubSymbolChatFaceType(s32 arg1, s32 arg2);
+    TWindowSubSymbolChatFaceType(saddr arg1, s32 arg2);
     virtual ~TWindowSubSymbolChatFaceType();
     void update_parts_entries();
     void handle_input();

@@ -51,7 +51,7 @@ s32 create_equip_list_window(void *, const NJS_POINT2 *, s32);
 
 // Built with deferred code generation (the vtable precedes the switch table
 // in .data), so the functions are written from the last one back.
-TWindowSubEquip::TWindowSubEquip(s32 arg1, s32 arg2) : TObject((TObject *)((void *)arg1)) {
+TWindowSubEquip::TWindowSubEquip(saddr arg1, s32 arg2) : TObject((TObject *)((void *)arg1)) {
     void *p;
     m_name = TWindowSubEquip__class_name;
     this->m_2c = arg1;

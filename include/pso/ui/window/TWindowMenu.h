@@ -9,7 +9,7 @@ struct TWindowMenu : public TWindowAddition {
     saddr get_selected_entry();
     int sub_80266BB8();
     u8 test_menu_flag();
-    void render_selected_entry(s32);
+    void render_selected_entry(saddr);
     void draw_selected_bar(u8 *);
     void layout_entries();
     void update_scroll_value();

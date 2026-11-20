@@ -268,7 +268,7 @@ s32 create_gun_shot(s32 owner, s32 pos, s32 endpoint, f32 life) {
     return (saddr)new TItemShootGun((void *)owner, (const Vec *)pos, (const Vec *)endpoint, life);
 }
 
-u32 TItemShootGun::create(s32 owner, s32 pos, s32 endpoint, f32 life) {
+u32 TItemShootGun::create(saddr owner, saddr pos, saddr endpoint, f32 life) {
     TItemShootGun *result;
 
     spawn_particle_effect((void *)pos, 0x1BF);

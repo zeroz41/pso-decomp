@@ -9,7 +9,7 @@ typedef void (*ItemTimerCallback)(TObject *object);
 
 class TItemAttacker : public TObject {
 public:
-    TItemAttacker(s32 arg1, s32 arg2, s32 arg3, s32 arg4);
+    TItemAttacker(saddr arg1, saddr arg2, s32 arg3, saddr arg4);
     virtual ~TItemAttacker();
     virtual void run_task();
 public:

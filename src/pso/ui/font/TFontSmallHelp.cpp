@@ -150,7 +150,7 @@ void TFontSmallHelp::run_task() {
 
 TFontSmallHelp::~TFontSmallHelp() {}
 
-TFontSmallHelp::TFontSmallHelp(u32 player, u32 text_color, s32 lifetime, u32 text_id)
+TFontSmallHelp::TFontSmallHelp(u32 player, u32 text_color, s32 lifetime, uaddr text_id)
     : TObject((TObject *)TWindowCtrlMain::get_instance()) {
     m_name = TFontSmallHelp__name;
     HelpTextPlayerState *owner = (HelpTextPlayerState *)get_player_by_client_id(player);

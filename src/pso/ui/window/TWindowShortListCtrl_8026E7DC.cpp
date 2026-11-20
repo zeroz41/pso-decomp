@@ -73,7 +73,7 @@ void TWindowShortListCtrl::update_cursor_pos() {
 
 s16 TWindowShortListCtrl::get_cursor_pos() { return *(s16*)((char*)this + 0x78); }
 
-void TWindowShortListCtrl::set_card_window_flags(s32 arg0, s32 arg1) {
+void TWindowShortListCtrl::set_card_window_flags(saddr arg0, s32 arg1) {
     TWindowKeyBoardHard::set_card_window_flags((void *)arg0, (s32)(arg1 << 0x10), (s32)0xFFFCFFFF);
 }
 
@@ -328,7 +328,7 @@ void TWindowShortListCtrl::run_task() {
 
 void TWindowShortListCtrl::render() {}
 
-void *TWindowShortListCtrl::create_window(s32 arg1, s32 arg2_arg) {
+void *TWindowShortListCtrl::create_window(s32 arg1, saddr arg2_arg) {
     void *window_menu;
 
     window_menu = (void *)create_window_menu(arg1, 0x13, client_id);

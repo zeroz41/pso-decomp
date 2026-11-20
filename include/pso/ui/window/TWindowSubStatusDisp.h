@@ -107,8 +107,8 @@ struct TWindowSubStatusDisp : public TWindowBase {
     void set_animated_target(s32 arg1, f32 farg0);
     static void update_palette_sprite();
     void set_string(uaddr arg1);
-    void set_text(u32 arg1, s32 arg2, s32 arg3);
-    void set_text(u32 arg1, s32 arg2);
+    void set_text(uaddr arg1, s32 arg2, s32 arg3);
+    void set_text(uaddr arg1, s32 arg2);
     void clamp_scroll_offset();
     void add_list_entry(s32 arg1);
     void refresh_selected_entry(s32 arg1);

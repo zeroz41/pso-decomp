@@ -157,7 +157,7 @@ s32 try_buy_item(s32 arg0, void *item);
 
 }
 
-TShopItemListWindow::TShopItemListWindow(s32 parent, s32 arg2, s32 arg3) : TShopWindowBase((TObject *)parent) {
+TShopItemListWindow::TShopItemListWindow(saddr parent, s32 arg2, s32 arg3) : TShopWindowBase((TObject *)parent) {
     s32 sp8;
     this->m_name = TShopItemListWindow__class_name;
     this->m_24 = arg3;

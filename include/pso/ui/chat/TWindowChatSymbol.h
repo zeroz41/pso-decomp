@@ -5,7 +5,7 @@
 #include "pso/ui/window/TWindowBase.h"
 
 struct TWindowChatSymbol : public TWindowBase {
-    TWindowChatSymbol(s32 arg1, s32 arg2);
+    TWindowChatSymbol(saddr arg1, saddr arg2);
     virtual ~TWindowChatSymbol();
     virtual void render();
     u8 unk_1C[0x4];

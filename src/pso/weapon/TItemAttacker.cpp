@@ -146,7 +146,7 @@ void spawn_item_attacker(s32 arg0, u32 arg1, s32 frames, u8 *arg3) {
     }
 }
 
-TItemAttacker::TItemAttacker(s32 arg1, s32 arg2, s32 arg3, s32 arg4) : TObject((TObject *)arg1) {
+TItemAttacker::TItemAttacker(saddr arg1, saddr arg2, s32 arg3, saddr arg4) : TObject((TObject *)arg1) {
     u8* temp_r5;
     u8 *entity;
     *(s32 *)((s8 *)this + 0) = (s32) ((saddr)TItemAttacker__name);

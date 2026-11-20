@@ -112,7 +112,7 @@ void TWindowHelpItem::set_flag4_and_field1c(s32 arg1) {
     *(s32 *)&this->_pad1C = arg1;
 }
 
-void TWindowHelpItem::set_help_text(u32 arg1) {
+void TWindowHelpItem::set_help_text(uaddr arg1) {
     s32 temp_r3;
 
     mem_free(*(void **)((s8 *)this + 0x18));

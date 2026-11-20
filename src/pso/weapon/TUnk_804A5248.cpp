@@ -43,7 +43,7 @@ extern u32 __vt__13TUnk_804A5248[];
 
 }
 
-TItemWeaponRifle* TItemWeaponRifle::initialize(s32 parent,u8* item) {
+TItemWeaponRifle* TItemWeaponRifle::initialize(saddr parent,u8* item) {
     TItemWeaponRifle* self=this;
     __ct__11TItemWeaponFP7TObjectPUc((TItemWeapon *)((u8 *)self), (void *)parent, item);
     self->dispatch=__vt__13TUnk_804A5248;

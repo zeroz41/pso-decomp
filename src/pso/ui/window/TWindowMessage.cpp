@@ -350,7 +350,7 @@ WindowDescriptor *TLobby__sub_80269CB4(void) {
     return &message_window_settings;
 }
 
-u8 *TWindowMessage::create(s32 arg0, const f32 *size, u32 arg2, s32 arg3) {
+u8 *TWindowMessage::create(s32 arg0, const f32 *size, uaddr arg2, s32 arg3) {
     u8 *temp_r3;
     u8 *var_r0;
     ((s32 (*)(void *, void *))TLobby__sub_80269DA4)((void *)size, (void *)arg2);
@@ -362,7 +362,7 @@ u8 *TWindowMessage::create(s32 arg0, const f32 *size, u32 arg2, s32 arg3) {
     return var_r0;
 }
 
-u8 *TWindowMessage::create(void *arg0, s32 arg1, s32 arg2) {
+u8 *TWindowMessage::create(void *arg0, saddr arg1, s32 arg2) {
     return TWindowMessage::create((saddr)arg0, (const f32 *)arg1, (u32)arg2, 4);
 }
 

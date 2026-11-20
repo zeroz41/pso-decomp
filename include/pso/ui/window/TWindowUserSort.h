@@ -5,7 +5,7 @@
 #include "pso/ui/window/TWindowBase.h"
 
 struct TWindowUserSort : public TWindowBase {
-    TWindowUserSort(s32 arg1, s32 arg2);
+    TWindowUserSort(saddr arg1, s32 arg2);
     virtual void render();
     virtual ~TWindowUserSort();
     u8 _pad1C[0x8];

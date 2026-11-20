@@ -5,7 +5,7 @@
 #include "pso/ui/city/TShopWindowBase.h"
 
 struct TShopItemListWindow : public TShopWindowBase {
-    TShopItemListWindow(s32 parent, s32, s32);
+    TShopItemListWindow(saddr parent, s32, s32);
     virtual ~TShopItemListWindow();
     void prepare_tool_purchase();
     void handle_amount_confirm();

@@ -319,7 +319,7 @@ saddr TChCrLoadReq::calc_preview_last_index(s32 display_index, s32 region_index)
     return stride + region_index * stride - 1 + chr_select_preview_base_offset_table[display_index];
 }
 
-void *TAdSinglePlyChrSelectGC::calc_preview_offset(void *arg0, s32 arg1, s32 arg2, s32 arg3) {
+void *TAdSinglePlyChrSelectGC::calc_preview_offset(void *arg0, s32 arg1, saddr arg2, s32 arg3) {
     return (void *)(arg2 + (arg3 * chr_select_preview_stride_table[arg1] + chr_select_preview_base_offset_table[arg1]));
 }
 

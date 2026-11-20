@@ -11,7 +11,7 @@ struct SoundBalanceSettings {
 };
 
 struct TWindowSoundBalance : public TWindowBase {
-    TWindowSoundBalance(s32 arg1);
+    TWindowSoundBalance(saddr arg1);
     virtual ~TWindowSoundBalance();
     int is_active();
     virtual void render();

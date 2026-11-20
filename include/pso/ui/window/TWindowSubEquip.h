@@ -5,7 +5,7 @@
 #include "pso/system/task/TObject.h"
 
 struct TWindowSubEquip : public TObject {
-    TWindowSubEquip(s32 arg1, s32 arg2);
+    TWindowSubEquip(saddr arg1, s32 arg2);
     virtual ~TWindowSubEquip();
     int build_equipment_list();
     u8 m_1c;

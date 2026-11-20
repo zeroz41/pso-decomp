@@ -7,7 +7,7 @@
 struct WindowDrawContext;
 
 struct TWindowMenuMainMenu : public TWindowBase {
-    TWindowMenuMainMenu(s32 arg1, s16 arg2);
+    TWindowMenuMainMenu(saddr arg1, s16 arg2);
     virtual ~TWindowMenuMainMenu();
     void handle_navigation_input();
     void handle_confirm();

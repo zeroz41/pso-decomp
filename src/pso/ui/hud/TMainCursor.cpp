@@ -1319,7 +1319,7 @@ s32 try_move__11TMainCursorFiii(saddr arg0, u8 arg1, u8 arg2) {
 
 int TMainCursor::check_type_and_enabled(u8 type, u8 enabled) { return matches_type_and_enabled__11TMainCursorFiUcUc((saddr)this, type, enabled); }
 
-TMainCursor::TMainCursor(TObject *parent, s32 target_index, s32 target_id, s32 action_palette, s32 active,
+TMainCursor::TMainCursor(TObject *parent, saddr target_index, s32 target_id, s32 action_palette, s32 active,
                          u16 offset_y, f32 size)
     : TObject(parent) {
     m_name = main_cursor_class_name;

@@ -5,7 +5,7 @@
 #include "pso/ui/window/TWindowBase.h"
 
 struct TWindowCallBack : public TWindowBase {
-    TWindowCallBack(s32 arg1, u8 *arg2, s32 arg3);
+    TWindowCallBack(saddr arg1, u8 *arg2, s32 arg3);
     virtual ~TWindowCallBack();
     void render();
     void run_task();

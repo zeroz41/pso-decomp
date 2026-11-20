@@ -207,7 +207,7 @@ TWindowShortCut::~TWindowShortCut() {
     }
     TWindowSubStatusDisp::destroy_status_display(this->heading, 1);
 }
-TWindowShortCut::TWindowShortCut(s32 arg1, s32 index, s32 *chat_shortcut) : TWindowBase((u8 *)&window_short_cut_layout, (s16)4, (u8 *)arg1) {
+TWindowShortCut::TWindowShortCut(saddr arg1, s32 index, s32 *chat_shortcut) : TWindowBase((u8 *)&window_short_cut_layout, (s16)4, (u8 *)arg1) {
     saddr var_r31;
     m_name = TWindowShortCut__name;
     var_r31 = (saddr)::operator new(0x24);

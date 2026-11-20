@@ -224,7 +224,7 @@ int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int 
 
 // Written last-to-first: the unit is built with deferred code generation (see configure.py).
 
-TShopArmorListWindow::TShopArmorListWindow(s32 parent, s32 arg2, s32 arg3) : TShopWindowBase((TObject *)parent) {
+TShopArmorListWindow::TShopArmorListWindow(saddr parent, s32 arg2, s32 arg3) : TShopWindowBase((TObject *)parent) {
     s32 sp8;
     this->m_name = TShopArmorListWindow__class_name;
     this->m_24 = arg3;

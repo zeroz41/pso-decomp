@@ -135,7 +135,7 @@ void TWindowTimer::set_time(u32 secs) {
     ((TWindowHelpItem *)entry)->reset_float_field();
 }
 
-void TWindowTimer::draw_tab(s32 arg0, s32 arg1) {
+void TWindowTimer::draw_tab(s32 arg0, saddr arg1) {
     draw_window_tab((void *)arg1, (void *)(arg1 + 0x10), 3, -64.0f);
 }
 

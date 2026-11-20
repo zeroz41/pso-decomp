@@ -140,7 +140,7 @@ void TWindowSnapShot::run_task() {
 }
 
 TWindowSnapShot::~TWindowSnapShot() {}
-TWindowSnapShot::TWindowSnapShot(s32 arg1) : TWindowBase((u8 *)&window_snapshot_layout, (s16)4, (u8 *)arg1) {
+TWindowSnapShot::TWindowSnapShot(saddr arg1) : TWindowBase((u8 *)&window_snapshot_layout, (s16)4, (u8 *)arg1) {
     saddr temp_r31;
     m_name = TWindowSnapShot__name;
     this->m_60 = 0U;

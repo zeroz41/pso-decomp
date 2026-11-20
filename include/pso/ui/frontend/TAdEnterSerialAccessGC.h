@@ -42,7 +42,7 @@ struct TAdEnterSerialAccessGC : public TAdEnterBaseGC {
     static int forward_input(void* p);
     void reset_input_state();
     static void draw_serial_chars(saddr arg0);
-    static u32 create_keyboard_control(s32 arg0, s32 arg1);
+    static u32 create_keyboard_control(saddr arg0, s32 arg1);
 };
 
 LAYOUT_ASSERT(TAdEnterSerialAccessGC_size, sizeof(TAdEnterSerialAccessGC) == 0x68);
