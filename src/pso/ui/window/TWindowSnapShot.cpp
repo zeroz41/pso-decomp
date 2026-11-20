@@ -73,7 +73,6 @@ WindowDescriptor window_snapshot_layout = {
 
 extern "C" {
 s32 TObjBoss2Tunnel__sub_8007CAE8(f32 *, f32);
-u8 *draw_default_entry__9TWindowDDFl();
 s32 draw_visible_window_entries(void *, void *, void *);
 s32 verify_snapshot_checksum__15TObjBoss2TunnelFv(void);
 s32 play_sound_effect(s32, s32, s32, s32);
@@ -111,7 +110,7 @@ void TWindowSnapShot::play_open_sound() {
 void render__15TWindowSnapShotFv(u8 *arg0) {
     Stack_802A7F00 stack;
     u8 *temp_r3;
-    temp_r3 = draw_default_entry__9TWindowDDFl();
+    temp_r3 = (u8 *)TWindowDD::draw_default_entry((s32)arg0);
     ((TWindowBase *)arg0)->draw_window_frame(temp_r3);
     draw_visible_window_entries(arg0, arg0 + 0x24, temp_r3);
     if (!(((TWindowSnapShot *)arg0)->m_60 & 2)) {

@@ -2,6 +2,7 @@
 #include "pso/ui/charcreate/TChCrEffFade.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "types.h"
+#include "pso/system/vector.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/window/TWindowCtrlMain.h"
@@ -56,7 +57,7 @@ void fn_80293E58(void *arg0, f32 scale) {
     NJS_POINT2 p;
     f32 s = 12.0f * scale;
     s32 odd = 1;
-    ((TWindowSubSymbolChatPartsSet *)(&p))->copy_vec2((void *)&grid_start);
+    copy_vec2(&p, (void *)&grid_start);
     for (; p.y < grid_end.y; p.y += 10.38f) {
         p.x = grid_start.x;
         if (odd == 0) {

@@ -46,31 +46,25 @@ static CollisionBody TOCtrlDubchik__collision_body = { { 0.0f, 0.0f, 0.0f }, 5.0
 static const char *TOCtrlDubchik__name = "TOCtrlDubchik";
 
 extern "C" {
-s32 exchange_object_state__9TObjEnemyFls(void *, void *, int);
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 extern u32 TOCtrlDubchik__shared_resource;
-s32 try_start_action__9TObjCharaFll(void *, void *, void *);
-s32 roll_physical_accuracy__9TObjCharaFPvlf(void *, void *, void *, f32);
 extern s32 registered_player_count;
 extern s32 lbl_805D5870;
 void dubchik_start_dying(u8 *arg0);
 void free_bin_model_request(void*, int);
-s32 select_melee_contact_body__9TObjCharaFPvf();
 
 void TOCtrlDubchik::apply_knockback_from_attacker(u8 *, f32) {  }
 
 s32 TOCtrlDubchik::roll_physical_accuracy(void *arg1, s32 arg2, f32 farg0) {
-    u8 *arg0 = (u8 *)this;
     if (this->mode != 0) {
-        return roll_physical_accuracy__9TObjCharaFPvlf((void *)arg0, (void *)arg1, (void *)arg2, (f32)farg0);
+        return TObjChara::roll_physical_accuracy(arg1, arg2, farg0);
     }
     return 0;
 }
 
 s32 TOCtrlDubchik::try_start_action(s32 arg1, s32 arg2) {
-    u8 *arg0 = (u8 *)this;
     if (this->mode != 0) {
-        return try_start_action__9TObjCharaFll((void *)arg0, (void *)arg1, (void *)arg2);
+        return TObjChara::try_start_action(arg1, arg2);
     }
     return 0;
 }
@@ -82,9 +76,9 @@ f32 TOCtrlDubchik::receive_direct_attack(void *attacker, DirectAttackPayload pay
     return 0.0f;
 }
 
-s32 TOCtrlDubchik::select_melee_contact_body(void *, f32) {
+s32 TOCtrlDubchik::select_melee_contact_body(void *arg1, f32 farg0) {
     if (this->mode != 0) {
-        return select_melee_contact_body__9TObjCharaFPvf();
+        return TObjChara::select_melee_contact_body(arg1, farg0);
     }
     return 0;
 }
@@ -307,10 +301,10 @@ void TOCtrlDubchik::decay_timer_and_clear_flag() {
 void TOCtrlDubchik::complete_and_destroy() {
     u8 *arg0 = (u8 *)this;
     s32 sp8;
-    if (exchange_object_state__9TObjEnemyFls(arg0, &sp8, 1) != 0) {
+    if (((TObjEnemy *)arg0)->exchange_object_state(&sp8, 1) != 0) {
         sp8 = 1;
         ((TObjEnemy *)arg0)->send_6x0A_enemy_state(&sp8);
-        exchange_object_state__9TObjEnemyFls(arg0, &sp8, 0);
+        ((TObjEnemy *)arg0)->exchange_object_state(&sp8, 0);
         vfunc_79(&sp8);
         ((TOCtrlDubchik *)arg0)->sub_8015CA74();
         ((TObjCollidable *)arg0)->set_flag8();

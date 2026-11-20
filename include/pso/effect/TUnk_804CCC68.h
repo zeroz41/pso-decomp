@@ -23,7 +23,7 @@ public:
     virtual void vfunc_8(void *);
     void advance_lifetime_or_destroy();
     void dispatch_all_technique_contacts();
-    void dispatch_technique_contact();
+    void dispatch_technique_contact(s32);
     u8 *query_technique_player_contacts(s32);
     u8 *query_technique_enemy_contacts(s32);
     f32 range;

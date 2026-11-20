@@ -14,6 +14,7 @@
 #include "pso/object/warp/TObjAreaWarpQuest.h"
 #include "pso/system/task/TObject.h"
 #include "pso/npc/TNpcPlayer.h"
+#include "pso/ui/window/TWindowSubComCard_802A5748.h"
 
 struct Base_8026D208 { char pad[0x18]; };
 struct VObj_8026D208 : Base_8026D208 {
@@ -37,9 +38,6 @@ s32 prepare_hospital_return__10TObjPlayerFv();
 s32 __ct__7TObjectFP7TObject(void *, void *);
 s32 get_window_layout_position(int);
 void TWindowCtrl__sub_8026D4E8(void);
-s32 free_member__17TWindowSubComCardFv(int, int);
-s32 forward_slot_selection__16TAdChrSelASlotGCFPvPv(int, int, int, f32);
-s32 create__19TWindowMessageYesNoFPvPvPvPv(void *, int, int, int);
 extern s32 __vt__17TWindowReturnCity[];
 #pragma push
 #pragma readonly_strings on
@@ -134,14 +132,14 @@ u8 *TWindowReturnCity__ct(TWindowReturnCity *window_return_city, s32 arg1, s32 a
   *((s32 **) (((s8 *) window_return_city) + 0x18)) = __vt__17TWindowReturnCity;
   *((s32 *) (((s8 *) window_return_city) + 0)) = (s32) TWindowReturnCity__class_name;
   window_return_city->m_24 = arg2;
-  temp_r31 = create__19TWindowMessageYesNoFPvPvPvPv((void *) window_return_city, window_return_city->m_24, 0, 0);
+  temp_r31 = (s32)TWindowMessageYesNo::create((void *)((void *) window_return_city), (void *)(window_return_city->m_24), 0, 0);
   window_return_city->m_1c = temp_r31;
   if (window_return_city)
   {
   }
   temp_r31 = get_window_layout_position(0x23);
-  forward_slot_selection__16TAdChrSelASlotGCFPvPv(window_return_city->m_1c, (int) TWindowSubStatusDisp::get_message_10(0x43), (int) temp_r31, 206.0f);
-  free_member__17TWindowSubComCardFv(window_return_city->m_1c, 1);
+  open_yes_no_prompt_with_text((TChCrTagPlBack *)window_return_city->m_1c, (s32)(TWindowSubStatusDisp::get_message_10(0x43)), (s32)temp_r31, 206.0f);
+  set_menu_selected_index((TWindowSubComCard *)window_return_city->m_1c, 1);
   fn_8024AC64((window_return_city->m_24));
   TWindowCtrl::set_close_flag();
   TWindowCtrl__sub_8026D4E8();

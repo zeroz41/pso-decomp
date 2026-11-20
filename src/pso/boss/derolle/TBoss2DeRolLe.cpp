@@ -819,11 +819,9 @@ namespace joint_transform_view {
 
 extern "C" {
 
-void get_camera_ctrl__9TObjEneDDFv(s32, s32);
 
-void update_camera_sequence__9TObjEneDDFv(void);
 
-s32 mult_vec_array__10TObjPlayerFUll(int, void *, void *, int);
+s32 matrix_mult_vec_array(int, void *, void *, int);
 
 s32 subtract_vector(void *, void *);
 
@@ -1187,7 +1185,6 @@ void TBoss2DeRolLe__sub_800313F8(DR_800313F8 *o, u32 arg1, s32 arg2);
 s32 VecCopy__FP3VecPC3Vec(int, void *);
 
 
-s32 get_flag_b4__9TObjEneDDFv(void *);
 
 void fill_value_array(s32);
 
@@ -1291,7 +1288,6 @@ void spawn_ceil_junk__13TBoss2DeRolLeFii(s32 arg1, s32 arg2);
 
 int play_sound_effect(void*, int, int, int);
 
-s32 get_flag_b4__9TObjEneDDFv(void *);
 
 CameraPlayback *get_scripted_camera_playback(void);
 
@@ -1427,7 +1423,6 @@ s32 VecCopy__FP3VecPC3Vec(int, void *);
 
 
 
-s32 get_flag_b4__9TObjEneDDFv(void *);
 
 void TBoss2DeRolLe__sub_8002F73C(Obj_8002F73C *self, u32 kind);
 
@@ -1506,16 +1501,13 @@ void swap_6x13_fields__13TBoss2DeRolLeFPv(void *);
 
 void init_launch__10TBoss2MineFPvPvii(u8 *arg0, u8 *arg1, s32 arg2, s32 arg3);
 
-s32 enemy_clear_target__12TObjEneDD_STFUs(void *);
 
 s32 enemy_set_target_id(void * a0 = 0, u16 a1 = 0);
 
 void project_sound_origin_from_camera(s32 arg0, u8 *arg1, f32 farg0);
 
 
-s32 vfunc_93__9TObjEneDDFv();
 
-s32 is_alive__8TObjBaseFv();
 
 u8 *get_enemy_entity(u16 arg0);
 
@@ -1858,7 +1850,6 @@ extern u8 identity_matrix[];
 
 f32 calc_node_height__13TBoss2DeRolLeFPv(Obj_80034B60 *self);
 
-s32 reload_stats_keep_hp_tp__9TObjEneDDFv(void *, s32, s32, s32);
 
 extern s32 TBoss2DeRolLe__attack_params_table[];
 
@@ -2175,9 +2166,7 @@ void backup_pos__13TBoss2DeRolLeFi(s32 arg0);
 
 void TBoss2DeRolLe__sub_8003508C(void *arg0);
 
-s32 query_teammate_state__9TObjEneDDFv();
 
-s32 is_main_phase_15__9TObjEneDDFv();
 
 s32 add_radar_scaled_marker(void *, int, int, int, f32);
 
@@ -2453,10 +2442,8 @@ void *__ct__14TBoss2TentacleFP7TObjectll(void *, void *, void *, s32);
 
 s32 __ct__12TObjEneDD_STFP7TObject(void *, void *);
 
-s32 is_main_phase_15__9TObjEneDDFv();
 
 
-s32 init_model__9TObjEneDDFP13CollisionBodyl(void *, void *, int, void *);
 
 
 u8 *__ct__17AreaAttackHistoryFl(u8 *arg0, s32 arg1);
@@ -3075,7 +3062,7 @@ void *TBoss2DeRolLe__ct(void *arg0, void *arg1, void *arg2) {
     {
         // exchange_object_state copies the object's whole 12-byte lobby record
         u32 flags[3];
-        if (((TObjEnemy *)self)->exchange_object_state((s32)flags, (s16)1) != 0 && (flags[0] & 0x12008) == 0x12008) {
+        if (((TObjEnemy *)self)->exchange_object_state(flags, 1) != 0 && (flags[0] & 0x12008) == 0x12008) {
             self->f3C0 |= 0x8000;
         }
     }
@@ -3086,7 +3073,7 @@ void *TBoss2DeRolLe__ct(void *arg0, void *arg1, void *arg2) {
         self->f34 = *(s32 *)((s8 *)q + 0x28);
         q = *(u8 **)((s8 *)lbl_805D4BA4 + 0x42C);
         self->f24 = *(s32 *)((s8 *)q + 0x2C);
-        init_model__9TObjEneDDFP13CollisionBodyl(self, (u8 *)lbl_804822A8, 3, q);
+        ((TObjEneDD *)self)->init_model((CollisionBody *)((u8 *)lbl_804822A8), 3);
     }
     ((TBoss2DeRolLe *)self)->motion_flags = 0;
     ((TObjMotion *)self)->set_field_d8((s32)((u8 *)lbl_804823A8));
@@ -3217,7 +3204,7 @@ void *TBoss2DeRolLe__ct(void *arg0, void *arg1, void *arg2) {
     self->f73C = 0;
     self->f3C8 = 0;
     self->f3CC = controller_input_state + 0x70;
-    if (((s32 (*)(void *))is_main_phase_15__9TObjEneDDFv)(controller_input_state) != 0) {
+    if (TObjEneDD::is_main_phase_15() != 0) {
         if (((TObjEneDD *)self)->update_lobby_state() != 0) {
             self->f3F4 = 0;
         } else {
@@ -3367,7 +3354,7 @@ void run_task__13TBoss2DeRolLeFPv(u8 *arg0) {
         break;
     }
   }
-  temp_r30 = query_teammate_state__9TObjEneDDFv();
+  temp_r30 = TObjEneDD::query_teammate_state();
   (((TBoss2DeRolLe *)(arg0))->update_attack_stat_status());
   (((TBoss2DeRolLe *)(arg0))->update_defense_stat_status());
   if (temp_r30 == 0)
@@ -3534,7 +3521,7 @@ void reload_stats_for_phase__13TBoss2DeRolLeFPvi(void *self, s32 kind) {
         b = 0;
         break;
     }
-    reload_stats_keep_hp_tp__9TObjEneDDFv(self, TBoss2DeRolLe__base_params[a], TBoss2DeRolLe__attack_params_table[i], TBoss2DeRolLe__resistance_params[b]);
+    ((TObjEneDD *)self)->reload_stats_keep_hp_tp((u8 *)TBoss2DeRolLe__base_params[a], (u8 *)TBoss2DeRolLe__attack_params_table[i], (u8 *)TBoss2DeRolLe__resistance_params[b]);
 }
 
 void forward_switch_phase_stats__13TBoss2DeRolLeFi(s32 arg0) {
@@ -3851,7 +3838,7 @@ void pick_random_target__13TBoss2DeRolLeFi(s32 actor) {
 
     n = TLobby::get_game_mode();
     if (n == 0) {
-        enemy_clear_target__12TObjEneDD_STFUs((void *)actor);
+        ((TObjEneDD_ST *)((void *)actor))->enemy_clear_target();
         return;
     }
     if (n == 1) {
@@ -3860,10 +3847,10 @@ void pick_random_target__13TBoss2DeRolLeFi(s32 actor) {
         return;
     }
     j = (s32) floor_to_float((f32) n * ((TObjChara *)actor)->random_ratio());
-    enemy_clear_target__12TObjEneDD_STFUs((void *)actor);
+    ((TObjEneDD_ST *)((void *)actor))->enemy_clear_target();
     for (i = 0; i < n; i++) {
         p = (s32)TObjPlayer::get_player_data(j);
-        if (is_alive__8TObjBaseFv() != 0) {
+        if (((TObjBase *)p)->is_alive() != 0) {
             ((TObjEneDD_ST *)actor)->set_target_player((void *)p);
             return;
         }
@@ -3890,7 +3877,7 @@ void TBoss2DeRolLe__sub_800341F0(Obj_800341F0 *self) {
 }
 
 void update_check__13TBoss2DeRolLeFPv(void *arg0) {
-    vfunc_93__9TObjEneDDFv();
+    ((TObjEneDD *)arg0)->TObjEneDD::vfunc_93();
     if ((*(s32 *)((s8 *)arg0 + 0x3C0) & 8) || (TObjEneDD::check_v2_mode() != 0)) {
         ((s32 (*)(void *))clear_play_flags__13TBoss2DeRolLeFv)(arg0);
     }
@@ -5669,13 +5656,13 @@ void TBoss2DeRolLe__sub_80030898(u8 *arg0, u32 arg1, s32 arg2) {
         }
         return;
     case 2:
-        if (((s32 (*)(void))get_flag_b4__9TObjEneDDFv)() != 0) {
+        if (((TObjEneDD *)arg0)->get_flag_b4() != 0) {
             set_state_and_send__13TBoss2DeRolLeFPvi((Obj_80034034 *)arg0, 2);
             return;
         }
         break;
     case 9:
-        if (((s32 (*)(void))get_flag_b4__9TObjEneDDFv)() != 0) {
+        if (((TObjEneDD *)arg0)->get_flag_b4() != 0) {
             advance_action_sequence__13TBoss2DeRolLeFPv((Obj_80034034 *)arg0);
             return;
         }
@@ -6231,7 +6218,7 @@ void handle_death_state__13TBoss2DeRolLeFPvPv(void *arg0, void *arg1) {
             assign_slots_from_list(o, o->slots[i]);
         }
         ((TObjEnemy *)o)->refresh_and_send_entity_flags();
-        TBoss4DarkFalz::dispatch_by_main_phase((u16)((void *)0x20));
+        set_story_flag_or_send_quest_flag((u16)((void *)0x20));
         ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&o->pos, &save);
         ((TObjEnemy *)o)->update_prev_position();
         o->flags30 = 0x12008;
@@ -6305,27 +6292,27 @@ extern "C" {
 
 void TObjPlayer__sub_8002F61C(void) {
     if ((s32) TBoss2DeRolLe__current_attack_id == derolle_attack_sequence_id_table[TBoss2DeRolLe__sequence_match_index]) {
-        get_camera_ctrl__9TObjEneDDFv((s32) &lbl_804FE31C.value, lbl_805D4BB4);
+        forward_transform_to_view((const Vec *)&lbl_804FE31C.value, (Vec *)lbl_805D4BB4);
         TBoss2DeRolLe__sequence_match_index += 1;
         lbl_805D4BB4 += 0xC;
     }
     if ((s32) TBoss2DeRolLe__current_attack_id == 0x33) {
         push_matrix();
-        update_camera_sequence__9TObjEneDDFv();
-        mult_vec_array__10TObjPlayerFUll(0, (void *)&derolle_part_transform_template.value, (void *)lbl_805D4BB8, 4);
+        forward_split_screen_view_matrix();
+        matrix_mult_vec_array(0, (void *)&derolle_part_transform_template.value, (void *)lbl_805D4BB8, 4);
         pop_matrix();
         subtract_vector((void *)(lbl_805D4BB8 + 0xC), (void *)lbl_805D4BB8);
     }
     if ((lbl_805D4BB0 & 0x80) && ((s32) TBoss2DeRolLe__current_attack_id >= 0x4D) && ((s32) TBoss2DeRolLe__current_attack_id <= 0x58)) {
         push_matrix();
-        update_camera_sequence__9TObjEneDDFv();
+        forward_split_screen_view_matrix();
         get_current_matrix((void *)lbl_805D4BC0);
         pop_matrix();
         lbl_805D4BC0 += 0x30;
     }
     if (((s32) TBoss2DeRolLe__current_attack_id >= 0x1D) && ((s32) TBoss2DeRolLe__current_attack_id <= 0x20)) {
         push_matrix();
-        update_camera_sequence__9TObjEneDDFv();
+        forward_split_screen_view_matrix();
         get_current_matrix((void *)lbl_805D4BBC);
         pop_matrix();
         lbl_805D4BBC += 0x30;

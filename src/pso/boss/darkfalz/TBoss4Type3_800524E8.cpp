@@ -4,6 +4,7 @@
 #include "pso/boss/darkfalz/TBoss4Type3.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/math/AngleLookup.h"
+#include "pso/player/TObjPlayer.h"
 
 struct Player_8005254C { u8 pad[0x30]; u32 flags; };
 

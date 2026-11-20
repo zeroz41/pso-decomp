@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/render/MaterialColorFade.h"
 #include "pso/ui/charcreate/TObjCMMainMenu_8028EA88.h"
 #include "pso/render/render_util.h"
@@ -506,7 +507,6 @@ extern "C" {
 void *TCMCharacter__ct(void *arg0, void *arg1);
 extern Vec TObjLight__scene_light_state;
 extern void *creation_player_character;
-s32 is_active__23TAdSinglePlyChrSelectGCFv(void *self);
 s32 is_state_3__14TObjCMMainMenuFv(s32);
 s32 is_state_4__14TObjCMMainMenuFv(s32);
 
@@ -547,7 +547,7 @@ s32 TCharaMaking::update_main_menu(s32 arg0) {
 }
 
 void TCharaMaking::run_task() {
-    if (!is_active__23TAdSinglePlyChrSelectGCFv(this)) return;
+    if (!TAdSinglePlyChrSelectGC::is_active()) return;
     if (TCharaMaking::update_main_menu((s32)this)) return;
 }
 

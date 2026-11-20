@@ -25,7 +25,7 @@ struct TWindowOptionCtrl : public TObject {
     u32 m_44;
     u32 m_48;
     TAdPlayerLoadGC *player_load; // memory-card watcher made by the ctor
-    static void set_params(void *arg0, s16 arg1, s8 arg2);
+    static void set_params(void *arg0, s16 arg1, s16 arg2);
     void apply_selection_change();
     void init_selection_indices();
     void apply_and_close(s32 arg1);
@@ -35,7 +35,7 @@ struct TWindowOptionCtrl : public TObject {
     static void add_menu_item(s32 arg1, s32 arg2, s32 arg3);
     static void set_field_value(s32 arg0, s16 arg1);
     static s32 get_option_field_C();
-    static void warn_if_empty(u8 *arg0);
+    static const char *text_or_default(const char *text);
     s32 create_serial_info_window(s32 arg1);
     static s32 open_yes_no_window(s32 arg0, s32 arg1, s32 arg2);
     s32 create_option_menu();

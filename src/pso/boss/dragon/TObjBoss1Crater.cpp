@@ -271,12 +271,11 @@ struct Obj_8002C730 { f32 x; u8 pad[4]; f32 z; };
 
 extern "C" {
 f32 calc_nearest_crater_distance(Obj_8002C730 *self);
-int is_count_below_limit__15TObjBoss1CraterFv(void *, void *);
 
 void *TObjBoss1Crater::create(void *arg1) {
     void *x1;
     void *o;
-    if (is_count_below_limit__15TObjBoss1CraterFv(this, arg1) == 0) {
+    if (TObjBoss1Crater::is_count_below_limit() == 0) {
         return NULL;
     }
     x1 = (void *)TBoss1Dragon::get_instance();

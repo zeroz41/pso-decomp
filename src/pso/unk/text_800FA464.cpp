@@ -2,6 +2,7 @@
 #include "pso/system/TGStream.h"
 #include "pso/unk/text_800FA464.h"
 #include "pso/unk/TLobby.h"
+#include "pso/unk/TLobby_803DE778.h"
 struct AsyncFileReadRequest {
     u32 flags;
     u8 pad04[4];
@@ -90,7 +91,7 @@ void process_async_file_reads(void) {
                 ((TLobby *)dst)->copy_u16_array((u16 *)async_file_read_sector_buffer, (s32)(n / 2));
                 break;
             default:
-                ((TLobby *)dst)->move_data((const void *)async_file_read_sector_buffer, (u32)n);
+                move_data((void *)(dst), (const void *)((const void *)async_file_read_sector_buffer), (u32)n);
                 break;
             }
             TLobby::destroy_instance();

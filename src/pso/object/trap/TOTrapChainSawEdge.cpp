@@ -358,7 +358,7 @@ void TOTrapChainSawKey::vfunc_14() {
 
 void TOTrapChainSawKey::update_state() {
     u8 *arg0 = (u8 *)this;
-    ((s32 (*)())update_state__14TOTrapChainSawFv)();
+    TOTrapChainSaw::update_state();
     *(f32 *)((s8 *)arg0 + 0x104) = (f32) (*(f32 *)((s8 *)arg0 + 0x104) + *(f32 *)((s8 *)arg0 + 0x108));
     if (*(f32 *)((s8 *)arg0 + 0x104) > (f32) (u32) (*(s32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x100)) + 4) - 1)) {
         *(f32 *)((s8 *)arg0 + 0x104) = 0.0f;
@@ -398,7 +398,7 @@ void TOTrapChainSawKey::vfunc_16() {
     *(f32 *)((s8 *)((u8 *)this) + 0x108) = (1.0f);
 }
 
-void TOTrapChainSawKey::decode_params() { ((int (*)(void*))decode_params__14TOTrapChainSawFv)(this); }
+void TOTrapChainSawKey::decode_params() { TOTrapChainSaw::decode_params(); }
 
 void *TOTrapChainSawKey::create() {
     void *o = TObject::operator new(0x10C);
@@ -487,7 +487,7 @@ void TOTrapChainSawDamage::vfunc_25() {
 #pragma dont_inline off
 #pragma inline_depth(1)
 void TOTrapChainSawDamage::update_state() {
-    ((s32 (*)())update_state__14TOTrapChainSawFv)();
+    TOTrapChainSaw::update_state();
     if ((s32) *(s32 *)((s8 *)this + 0xF0) == 1) {
         this->clear_player_status_flag(1, 0x100);
         return;
@@ -542,7 +542,7 @@ void TOTrapChainSawDamage__vt14(Obj_802C8C60 *arg0, f32 _w1) {
 #pragma dont_inline off
 #pragma inline_depth(1)
 void TOTrapChainSawDamage::decode_params() {
-    ((s32 (*)(void))decode_params__14TOTrapChainSawFv)();
+    TOTrapChainSaw::decode_params();
     *(f32 *)((s8 *)this + 0xFC) = (f32) *(f32 *)((s8 *)this + 0x6C);
 }
 #pragma pop

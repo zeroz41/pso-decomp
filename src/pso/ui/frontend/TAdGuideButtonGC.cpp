@@ -5,8 +5,9 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/object/ambient/TObjFish.h"
+#include "pso/system/vector.h"
 extern "C" {
-s32 render_status_disp__23TAdSinglePlyChrSelectGCFff(const char *, f32, f32, f32);
+s32 draw_menu_font_string_white(const char *, f32, f32, f32);
 extern const GuideButtonPoint guide_button_atlas_origins[4] = {
     {212.0f,78.0f},{190.0f,78.0f},{234.0f,78.0f},{190.0f,100.0f},
 };
@@ -20,7 +21,7 @@ TAdGuideButtonGC *guide_button_instance;
 #pragma push
 #pragma fp_contract on
 void TAdGuideButtonGC::draw_label(int style, const char *text) {
-    render_status_disp__23TAdSinglePlyChrSelectGCFff(text, 22.0f + quads[0].x0, 1.0f + quads[0].y0, 22.0f);
+    draw_menu_font_string_white(text, 22.0f + quads[0].x0, 1.0f + quads[0].y0, 22.0f);
 }
 #pragma pop
 void TAdGuideButtonGC::draw_quad(int style) {
@@ -41,8 +42,8 @@ void TAdGuideButtonGC::render() {
 void TAdGuideButtonGC::setup_button(GuideButtonSpec *spec) {
     s32 i;
     this->kind = spec->kind;
-    ((TWindowSubSymbolChatPartsSet *)(&this->from))->copy_vec2(&spec->from);
-    ((TWindowSubSymbolChatPartsSet *)(&this->to))->copy_vec2(&spec->to);
+    copy_vec2((&this->from), &spec->from);
+    copy_vec2((&this->to), &spec->to);
     this->alpha_step = spec->alpha_step;
     this->duration = spec->duration;
     this->label = spec->label;

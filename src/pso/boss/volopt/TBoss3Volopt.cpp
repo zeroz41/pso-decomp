@@ -44,6 +44,7 @@
 #include "pso/system/BmlResourceLoad.h"
 #include <stdlib.h>
 #include "pso/object/base/TObjChara.h"
+#include "pso/unk/TLobby_803DE778.h"
 #pragma readonly_strings on
 
 // Camera offsets for the follow camera, from TLobby's shared parameter tables.
@@ -392,7 +393,7 @@ TBoss3Volopt::TBoss3Volopt(void *set_data) : TObjEnemyCustom(tl_04) {
     next_action = 0;
     mode = 0;
     m_3bc = 0;
-    TBoss4DarkFalz::dispatch_by_main_phase(0x29);
+    set_story_flag_or_send_quest_flag(0x29);
     volopt_camera_focus = NULL;
     volopt_p01_tech = -1;
     clear_lobby_object_state();
@@ -647,7 +648,7 @@ void TBoss3Volopt::select_phase1_attack() {
                 attack.id = entity_id;
                 attack.count = max_targets < count ? max_targets : count;
                 attack.tech = 3.0f * random_ratio();
-                ((TLobby *)attack.order)->move_data(volopt_p01_order, 6);
+                move_data((void *)(attack.order), (const void *)(volopt_p01_order), 6);
                 attack.send();
                 if (max_targets < 5) {
                     max_targets++;
@@ -710,7 +711,7 @@ void TBoss3Volopt::select_phase1_attack() {
                 targets.init();
                 targets.id = entity_id;
                 targets.count = max_targets < count_v1 ? max_targets : count_v1;
-                ((TLobby *)targets.order)->move_data(volopt_p01_order, 6);
+                move_data((void *)(targets.order), (const void *)(volopt_p01_order), 6);
                 targets.send();
                 if (max_targets < 5) {
                     max_targets++;
@@ -1422,7 +1423,7 @@ void handle_6x15_vol_opt_boss_actions(TBoss3VoloptActionPacket *packet) {
 
 void handle_6x16_vol_opt_boss_actions(TBoss3VoloptTargetsPacket *packet) {
     packet->swap();
-    ((TLobby *)volopt_p01_order)->move_data(packet->order, 6);
+    move_data((void *)(volopt_p01_order), (const void *)(packet->order), 6);
     TBoss3Volopt::set_primary_p01s(packet->count);
     volopt_p01_tech = -1;
 }
@@ -1469,7 +1470,7 @@ void TBoss3Volopt::stop_rumble() {
 }
 
 void TBoss3Volopt::update_phase() {
-    TBoss4DarkFalz::dispatch_by_main_phase(0x2A);
+    set_story_flag_or_send_quest_flag(0x2A);
     if (get_main_phase() == 0xF) {
         TBoss3VoloptCtrl::dispatch_state(0);
         return;
@@ -1487,7 +1488,7 @@ void TBoss3Volopt::update_phase() {
 
 void handle_6x84_vol_opt_boss_actions(TBoss3VoloptAttackPacket *packet) {
     packet->swap();
-    ((TLobby *)volopt_p01_order)->move_data(packet->order, 6);
+    move_data((void *)(volopt_p01_order), (const void *)(packet->order), 6);
     volopt_p01_tech = packet->tech;
     TBoss3Volopt::set_primary_p01s(packet->count);
 }

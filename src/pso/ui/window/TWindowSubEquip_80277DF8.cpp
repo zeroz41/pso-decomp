@@ -36,7 +36,6 @@ f32 TWindowSubEquip__sub_80263AF8(u8 *arg0, u32 arg1);
 void *get_window_layout_position(int);
 s32 mark_unequippable_items(int);
 s32 create_equip_kind_window(void *, const NJS_POINT2 *, int);
-s32 is_usable__14TWindowSubItemFl();
 void *get_player_by_client_id(s32 i);
 s32 play_sound_effect(s32, s32, s32, s32);
 s32 is_player_input_active(s32);
@@ -136,7 +135,8 @@ void TWindowSubEquip::run_task() {
             this->m_1c = 3U;
             return;
         }
-        if ((get_player_by_client_id(this->m_28) != 0U) && (is_usable__14TWindowSubItemFl() != 0)) {
+        void *selected_player;
+        if (((selected_player = get_player_by_client_id(this->m_28)) != 0U) && (TWindowSubItem::is_usable((s32)selected_player) != 0)) {
             apply_slot_selection();
             this->m_1c = 1U;
         }

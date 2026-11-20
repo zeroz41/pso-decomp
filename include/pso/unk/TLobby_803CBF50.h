@@ -8,7 +8,7 @@ void TLobby__sub_803CBF50(void);
 void TLobby__sub_803CBF90(void);
 void TLobby__sub_803CBFB0(void);
 void TLobby__sub_803CBFF0(void);
-void TLobby__sub_803CC030(void);
+void TLobby__sub_803CC030(struct GcrnaStream *stream, s32 enabled);
 }
 
 // --- C functions defined in TLobby_803CBF50.cpp ---
@@ -17,7 +17,7 @@ void TLobby__sub_803CBF50(void);
 void TLobby__sub_803CBF90(void);
 void TLobby__sub_803CBFB0(void);
 void TLobby__sub_803CBFF0(void);
-void TLobby__sub_803CC030(void);
+void TLobby__sub_803CC030(struct GcrnaStream *stream, s32 enabled);
 }
 // --- end of C functions
 

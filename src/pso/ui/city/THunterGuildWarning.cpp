@@ -196,12 +196,11 @@ s32 TPlayerBattleCtrl4P::fn_80211B10(s32 id) {
 // ---- pso/unk/TLobby_80211C1C
 
 #include "pso/unk/TLobby.h"
+#include "pso/quest/TQuestListOnline.h"
 
 extern "C" {
 
-int get_selected_quest_id__16TQuestListOnlineFv(void*);
-
-int TLobby::get_selected_quest_id() { return get_selected_quest_id__16TQuestListOnlineFv(this); }
+int TLobby::get_selected_quest_id() { return TQuestListOnline::get_selected_quest_id(); }
 
 }
 
@@ -248,11 +247,10 @@ s32 TLobby__sub_80211C3C(void) {
 
 extern "C" {
 
-s32 create__22THunterGuildSeqOfflineFPv(s32);
 
 s32 TLobby::handle_main_phase(s32 arg0) {
     if (get_main_phase() == 0xE) {
-        return create__22THunterGuildSeqOfflineFPv(arg0);
+        return (s32)THunterGuildSeqOffline::create((void *)arg0);
     }
     if (get_main_phase() == 0xF) {
         if ((s32) local_client_id == (s32) TLobby__designated_client_id) {

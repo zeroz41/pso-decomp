@@ -24,6 +24,7 @@
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/system/task/TObject.h"
+#include "pso/unk/TLobby.h"
 
 #pragma readonly_strings on
 
@@ -74,7 +75,6 @@ s32 align_menu_entry_positions(s32);
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
 s32 create_window_menu_default(f32 *, s32, f32);
 
-s32 is_idle__6TLobbyFv();
 extern s32 local_client_id;
 
 void run_task__13TObjWarpLobbyFv(TObjWarpLobby *arg0);
@@ -122,7 +122,7 @@ void run_task__13TObjWarpLobbyFv(TObjWarpLobby *arg0) {
     }
     arg0->beam_phase += 336.0f;
     if ((find_warp_player_in_range(arg0, (u16)local_client_id, arg0->warp_range) != NULL) && (arg0->is_warp_enabled() != 0)) {
-        if (((u32) arg0->menu_window == 0U) && (is_idle__6TLobbyFv() != 0)) {
+        if (((u32) arg0->menu_window == 0U) && (TLobby::is_idle() != 0)) {
             arg0->open_lobby_menu();
         }
         if (((u32) arg0->menu_window != 0U) && (((TWindowMenu *)(arg0->menu_window))->is_decided() != 0)) {

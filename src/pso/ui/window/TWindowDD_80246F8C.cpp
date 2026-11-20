@@ -3,11 +3,10 @@
 
 extern "C" {
 
-s32 measure_message_text_width(f32);
+s32 measure_message_text_width(void *entry, f32 max_width);
 
-
-void TWindowDD::refresh_status_display() {
-    measure_message_text_width(1000000.0f);
+void measure_message_text_width_default(void *entry) {
+    measure_message_text_width(entry, 1000000.0f);
 }
 
 }

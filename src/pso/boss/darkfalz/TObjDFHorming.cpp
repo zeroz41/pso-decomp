@@ -25,6 +25,7 @@
 
 #include "pso/system/task/TObject.h"
 #include "pso/boss/darkfalz/TBoss4Thanks_8035C8F0.h"
+#include "pso/enemy/dd/TObjEneDD.h"
 
 #pragma readonly_strings on
 
@@ -677,7 +678,7 @@ void TBoss4DarkFalz::handle_defeat() {
     }
     flags[0] = 0x800;
     ((TObjEnemy *)arg0)->send_6x0A_enemy_state(flags);
-    ((TObjEnemy *)arg0)->exchange_object_state((s32)flags, (s16)0);
+    ((TObjEnemy *)arg0)->exchange_object_state(flags, 0);
     ((VObj_18_8004B654 *)(arg0))->m77(flags);
     ((TObjEnemy *)arg0)->send_entity_set_flags();
     ((TObject *)arg0)->queue_destruction();
@@ -835,7 +836,6 @@ typedef struct Msg_8004BFA4 {
 } Msg_8004BFA4;
 
 extern "C" {
-s32 query_teammate_state__9TObjEneDDFv();
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 void TBoss4Type2__sub_80056EA8(void *, s32);
 void TBoss4Type3__sub_80059DCC(TBoss4Type3 *self, u32 packed);
@@ -859,7 +859,7 @@ void TBoss4DarkFalz::run_task() {
     if (((s32) this->m_37c != 0) && (TObjPlayer::check_demo_mode() != 0)) {
         ((TBoss4DarkFalz *)arg0)->change_state(0);
     }
-    if (query_teammate_state__9TObjEneDDFv() == 0) {
+    if (TObjEneDD::query_teammate_state() == 0) {
         ((TBoss4DarkFalz *)arg0)->update_visible_flag();
         if ((s32) this->m_378 == 0) {
             ((TBoss4DarkFalz *)arg0)->sub_8004B0F8();

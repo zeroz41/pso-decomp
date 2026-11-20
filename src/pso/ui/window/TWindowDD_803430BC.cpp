@@ -206,7 +206,6 @@ void apply_entry_layout__9TWindowDDFPv(TWindowDD_8034330C *arg0);
 void TWindowDD__sub_80347A4C(u8 *arg0, s32 arg1);
 u8 *TWindowDD__sub_80347AD4(void *, s32, s32);
 s32 TWindowDD__sub_80347E04(void *, int);
-s32 dispatch_state__9TWindowDDFv(void *, int, int, int);
 extern const f32 TWindowDD__data_805DFB6C;
 
 extern const f32 lbl_805DFB90;
@@ -223,7 +222,6 @@ void *TWindowDD__sub_80340F70(void);
 s32 TWindowDD__sub_80342384(s32 arg0, s32 arg1);
 s32 TWindowDD__sub_8034146C(NJS_POINT2 *arg0, NJS_POINT2 *arg1, s32 arg2, s32 arg3, f32 farg0);
 void TWindowDD__sub_803412A0(TWindowDD_WS_String *self);
-s32 create__9TWindowDDFv(void);
 const char *word_select_type_name_pointer = "TWindowDD";
 
 extern s32 local_client_id;
@@ -591,7 +589,7 @@ TWindowDD::TWindowDD(TObject *parent, void *arg2) : TObject(parent) {
       ((Win_80343C64 *) p)->f48 = 2.0f;
     }
   }
-  self->f80 = create__9TWindowDDFv();
+  self->f80 = (s32)TWindowDD::create();
   self->f84 = 0;
   self->fA8 = 0;
   self->fAC = 0;
@@ -803,8 +801,8 @@ void TWindowDD__sub_803435A0(u8 *arg0) {
     if (*(s32 *)((s8 *)arg0 + 0xB4) == 1 || *(s32 *)((s8 *)arg0 + 0xB4) == 2 || *(s32 *)((s8 *)arg0 + 0xB4) == 8 || *(s32 *)((s8 *)arg0 + 0xB4) == 0xF || *(s32 *)((s8 *)arg0 + 0xB4) == 0x11) {
         ((TWindowDD *)(arg0 + 0xC4))->reset_index();
     }
-    temp_r29 = get_entry__9TWindowDDFii(arg0, *(s32 *)((s8 *)arg0 + 0xB0));
-    temp_r31 = get_entry__9TWindowDDFii(arg0, *(s32 *)((s8 *)arg0 + 0xB4));
+    temp_r29 = (s32 *)TWindowDD::get_entry((int)arg0, *(s32 *)((s8 *)arg0 + 0xB0));
+    temp_r31 = (s32 *)TWindowDD::get_entry((int)arg0, *(s32 *)((s8 *)arg0 + 0xB4));
     temp_r3 = arg0 + *(s32 *)((s8 *)arg0 + 0x20) * 4;
     temp_r3 = *(u8 **)((s8 *)temp_r3 + 0x24);
     if (temp_r3 != NULL) {
@@ -842,13 +840,13 @@ void TWindowDD__sub_803435A0(u8 *arg0) {
     temp_r3_5 = *(s32 *)((s8 *)temp_r31 + 0);
     if (!(temp_r3_5 & 8)) {
         if (temp_r3_5 & 1) {
-            *(s32 *)((s8 *)arg0 + 0x90) = dispatch_state__9TWindowDDFv(arg0, (int) (*(s32 *)((s8 *)arg0 + 0xB4)), (int) (*(s32 *)((s8 *)arg0 + 0x8C)), 0);
+            *(s32 *)((s8 *)arg0 + 0x90) = dispatch_by_window_mode(arg0, (int) (*(s32 *)((s8 *)arg0 + 0xB4)), (int) (*(s32 *)((s8 *)arg0 + 0x8C)), 0);
             if ((temp_r3 = TWindowDD__sub_80347AD4(arg0, 2, *(s32 *)((s8 *)arg0 + 0x90))) != NULL) {
                 ((TWindowDD *)temp_r3)->set_pos_and_data(TWindowDD__data_805DFC10);
             }
             TWindowDD__sub_80347F48((arg0));
         } else {
-            *(s32 *)((s8 *)arg0 + 0x90) = dispatch_state__9TWindowDDFv(arg0, (int) (*(s32 *)((s8 *)arg0 + 0xB4)), (int) (*(s32 *)((s8 *)arg0 + 0x8C)), 0);
+            *(s32 *)((s8 *)arg0 + 0x90) = dispatch_by_window_mode(arg0, (int) (*(s32 *)((s8 *)arg0 + 0xB4)), (int) (*(s32 *)((s8 *)arg0 + 0x8C)), 0);
             if ((temp_r3 = TWindowDD__sub_80347AD4(arg0, 2, *(s32 *)((s8 *)arg0 + 0x90))) != NULL) {
                 ((TWindowDD *)temp_r3)->set_pos_and_data(lbl_805DFB80);
             }
@@ -903,8 +901,8 @@ void apply_entry_layout__9TWindowDDFPv(TWindowDD_8034330C *arg0) {
     u8 *w;
     u8 *child;
     s32 id;
-    prev = get_entry__9TWindowDDFii(arg0, arg0->fB0);
-    entry = get_entry__9TWindowDDFii(arg0, arg0->ids[arg0->depth]);
+    prev = (s32 *)TWindowDD::get_entry((int)arg0, arg0->fB0);
+    entry = (s32 *)TWindowDD::get_entry((int)arg0, arg0->ids[arg0->depth]);
     w = ((TWindowDD *)arg0)->init_last_child();
     if (w != NULL) {
         if (*entry & 1) {

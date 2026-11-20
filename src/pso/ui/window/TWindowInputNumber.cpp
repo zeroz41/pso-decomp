@@ -40,7 +40,6 @@ extern "C" {
 
 s32 play_sound_effect(s32 a0 = 0, s32 a1 = 0, s32 a2 = 0, s32 a3 = 0);
 s32 is_confirmed__18TWindowInputNumberFv();
-s32 save_position__11TWindowBaseFv();
 
 void TWindowInputNumber::mark_confirmed() {
     if (!(this->inputFlags & 8) && (TWindowInputNumber::is_confirmed() == 0)) {
@@ -161,7 +160,6 @@ void draw_textured_quad_at_depth(f32 *q, f32 depth);
 extern s32 lbl_805D63F0;
 s32 draw_visible_window_entries(void *, void *, int);
 void __dl__7TObjectFPv(void *);
-s32 forward_render__20TWindowSubStatusDispFv(void *, int);
 
 void TWindowInputNumber::create(s32 arg1) {
     u32 var_r0;
@@ -294,14 +292,14 @@ void TWindowInputNumber::render() {
     TWindowInputNumber *arg0 = this;
     s32 ctx;
 
-    ctx = ((TWindowBase *)arg0)->setup_window_draw_context((s32)((u8 *)arg0 + 0x74));
+    ctx = ((TWindowBase *)arg0)->setup_window_draw_context((f32 *)((u8 *)arg0 + 0x74));
     ((TWindowBase *)arg0)->draw_window_frame((void *)ctx);
     draw_visible_window_entries(arg0, (u8 *)arg0 + 0x24, ctx);
     draw_arrows__18TWindowInputNumberFv(arg0, (Ctx_802563A0 *)ctx, (Digit_802561E8 *)((TWindowBase *)arg0)->get_array_entry(arg0->selectedDigit), arg0->is_confirmed());
     {
         void *temp_ptr = (void *) arg0->unknown70;
         if (temp_ptr != NULL) {
-            forward_render__20TWindowSubStatusDispFv(temp_ptr, ctx);
+            ((TWindowSubStatusDisp *)((void *)(temp_ptr)))->forward_render((void *)(ctx));
         }
     }
 }
@@ -321,16 +319,16 @@ void TWindowInputNumber::run_task() {
     if ((((TWindowInputNumber *)arg0)->is_confirmed() == 0) && !(*(u16 *)((s8 *)arg0 + 0x60) & 0x40) && (((TWindowBase *)arg0)->sub_80244994() != 0)) {
         if (*(u16 *)((s8 *)arg0 + 0x60) & 0x10) {
             input = (u8 *)controller_input_state + (temp_r30 * 0x50) + 0x20;
-            if ((TWindowChoiceSetting::apply_choice((s32)input, 0x10, 6, 1) != 0) || (((TWindowInputNumber *)arg0)->is_locked(0x10) != 0)) {
+            if ((test_buttons_press_or_repeat((s32)input, 0x10, 6, 1) != 0) || (((TWindowInputNumber *)arg0)->is_locked(0x10) != 0)) {
                 ((TWindowInputNumber *)arg0)->update_value();
             }
-            if ((TWindowChoiceSetting::apply_choice((s32)input, 0x20, 6, 1) != 0) || (((TWindowInputNumber *)arg0)->is_locked(0x20) != 0)) {
+            if ((test_buttons_press_or_repeat((s32)input, 0x20, 6, 1) != 0) || (((TWindowInputNumber *)arg0)->is_locked(0x20) != 0)) {
                 ((TWindowInputNumber *)arg0)->update();
             }
-            if ((TWindowChoiceSetting::apply_choice((s32)input, 0x40, 6, 1) != 0) || (((TWindowInputNumber *)arg0)->is_locked(0x40) != 0)) {
+            if ((test_buttons_press_or_repeat((s32)input, 0x40, 6, 1) != 0) || (((TWindowInputNumber *)arg0)->is_locked(0x40) != 0)) {
                 ((TWindowInputNumber *)arg0)->move_cursor_next();
             }
-            if ((TWindowChoiceSetting::apply_choice((s32)input, 0x80, 6, 1) != 0) || (((TWindowInputNumber *)arg0)->is_locked(0x80) != 0)) {
+            if ((test_buttons_press_or_repeat((s32)input, 0x80, 6, 1) != 0) || (((TWindowInputNumber *)arg0)->is_locked(0x80) != 0)) {
                 ((TWindowInputNumber *)arg0)->handle_decrement();
             }
         } else {
@@ -399,5 +397,5 @@ s32 TWindowInputNumber::is_locked(s32 arg1) {
     if (this->inputFlags & 0x20) {
         return 0;
     }
-    return TWindowChoiceSetting::apply_choice((s32)(controller_input_state + 0x160), (s32)arg1, 6, 1);
+    return test_buttons_press_or_repeat((s32)(controller_input_state + 0x160), (s32)arg1, 6, 1);
 }

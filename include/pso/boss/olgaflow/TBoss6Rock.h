@@ -64,7 +64,7 @@ struct TBoss6Rock : public TObjCollidable {
     static void spawn_crush_rocks(Vec *point, s32 kind);
     void break_rocks_in_radius(f32 r);
     s32 push_out_of_rocks(f32 r);
-    static s32 get_point(s32 arg0, s32 arg1, f32 *arg2);
+    static s32 get_point(s32 i, Vec *out, f32 *radius);
 };
 
 typedef char TBoss6Rock_size[sizeof(TBoss6Rock) == 0xE8 ? 1 : -1];

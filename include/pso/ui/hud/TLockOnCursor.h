@@ -136,11 +136,11 @@ struct TLockOnCursor : public TObject {
     static void free_cursor_resources();
     int render_part();
     void update_cursor_pos();
-    int set_flag_8_bit0();
-    int update_ring();
-    int is_bit1_set();
+    void set_flag_8_bit0();
+    void update_ring();
+    void is_bit1_set();
     int is_inactive();
-    int update_ring_sub();
+    void update_ring_sub();
     int test_flag_1_at_8();
     s32 get_target();
     s32 release_target();

@@ -53,7 +53,6 @@ s32 fn_801B7CEC(void *player, s32 kind, u8 group, u8 index);
 s32 fn_8002AE08(void *p);
 u16 select_action_palette_and_apply__10TObjPlayerFlll(TObjPlayer *, int, int, int);
 u16 get_entry_by_index__20TWindowActionPaletteFPll(int, int);
-u16 get_slot_type_for_index__20TWindowActionPaletteFPll(int, int);
 s32 is_action_channel_available__10TObjPlayerFii(s32 arg0, s32 arg1);
 s32 TObjPlayer__sub_80354D5C(s32 arg0);
 s32 TObjPlayer__sub_80354C7C(s32);
@@ -195,7 +194,7 @@ void TWindowActionPalette::run_task() {
     v = select_action_palette_and_apply__10TObjPlayerFlll(player, 0, 0, 0);
     if (v == 0) {
         v = get_entry_by_index__20TWindowActionPaletteFPll(effect, 1);
-        update_slot_sprites(0, get_slot_type_for_index__20TWindowActionPaletteFPll(effect, 1), v);
+        update_slot_sprites(0, TWindowActionPalette::get_slot_type_for_index((s32 *)effect, 1), v);
     } else {
         update_slot_sprites(0, 7, v);
     }
@@ -203,10 +202,10 @@ void TWindowActionPalette::run_task() {
         update_slot_icon(1, 7, 7);
     } else {
         v = get_entry_by_index__20TWindowActionPaletteFPll(effect, 2);
-        update_slot_sprites(1, get_slot_type_for_index__20TWindowActionPaletteFPll(effect, 2), v);
+        update_slot_sprites(1, TWindowActionPalette::get_slot_type_for_index((s32 *)effect, 2), v);
     }
     v = get_entry_by_index__20TWindowActionPaletteFPll(effect, 3);
-    update_slot_sprites(2, get_slot_type_for_index__20TWindowActionPaletteFPll(effect, 3), v);
+    update_slot_sprites(2, TWindowActionPalette::get_slot_type_for_index((s32 *)effect, 3), v);
     target = TObjPlayer::get_current_target_id();
     if (target == 0xFFFF || target == m_20 || player->get_photon_blast_charge() <= 0) {
         if (((TWindowActionPalette *)((u8 *)player + 0x500))->handle_input_forward() != 0) {
@@ -227,7 +226,7 @@ void TWindowActionPalette::run_task() {
 }
 
 void TWindowActionPalette::render() {
-    s32 context = setup_window_draw_context((s32)&scale);
+    s32 context = setup_window_draw_context((f32 *)&scale);
     draw_visible_window_entries(this, &children, context);
     draw_frame(context);
 }

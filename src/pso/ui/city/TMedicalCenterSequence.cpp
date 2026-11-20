@@ -132,9 +132,7 @@ u8 *create_yes_no_window(s32 arg0, s32 arg1, u32 arg2, u32 arg3);
 s32 play_sound_effect(s32, s32, s32, s32);
 s32 try_spend_actor_meseta(u8 *arg0, s32 arg1);
 int sub_802239EC__13TShopSequenceFv(void *);
-s32 close_window__13TShopSequenceFv(void *);
 int obj_getPtr2B0_20(u8 *p);
-int restore_player_state__13TShopSequenceFv(void*);
 void send_code50_packet__10TObjPlayerFi(s32 arg0);
 void send_code_49_1__10TObjPlayerFi(s32 arg0);
 
@@ -220,7 +218,7 @@ void TMedicalCenterSequence::vfunc_11() {
     }
 }
 
-void TMedicalCenterSequence::restore_player_state() { restore_player_state__13TShopSequenceFv(this); set_field_20((s32)((void*)((void*)1))); }
+void TMedicalCenterSequence::restore_player_state() { TShopSequence::restore_player_state(); set_field_20((s32)((void*)((void*)1))); }
 
 typedef struct Stack_80216830 Stack_80216830;
 typedef struct VBase_18_a93f07 VBase_18_a93f07;
@@ -324,7 +322,7 @@ s32 TMedicalCenterSequence::handle_window_input() {
 
 void TMedicalCenterSequence::close_window() {
     if ((this->vfunc_10() != 0) && ((sub_80223A48() != 0) || (sub_802239EC__13TShopSequenceFv(this) != 0))) {
-        close_window__13TShopSequenceFv(this);
+        this->TShopSequence::close_window();
         queue_destruction();
     }
 }
@@ -368,7 +366,7 @@ void TMedicalCenterMes::run_task() {
             player = (TObjPlayer *)get_player_by_client_id(local_client_id);
         }
         THunterGuildSeqOffline__sub_8021E180(get_entity_id((s32)player));
-        ((TWindowCtrl *)((u16)get_entity_id((s32)player)))->suppress_slot();
+        TWindowCtrl::suppress_slot((u16)get_entity_id((s32)player));
         f32 pos[2] = {332.0f, 80.0f};
         u16 id = (u16)get_entity_id((s32)player);
         create_message_window(((s32 (*)(int))get_window_layout_position)(0x2C), (s32)pos, id);
@@ -392,7 +390,7 @@ void TMedicalCenterMes::run_task() {
         }
         close();
         if (player != NULL) {
-            ((TWindowCtrl *)((u16)get_entity_id((s32)player)))->unsuppress_slot();
+            TWindowCtrl::unsuppress_slot((u16)get_entity_id((s32)player));
         }
         TShopGenerator::clear_slot_active(get_entity_id((s32)player));
         queue_destruction();

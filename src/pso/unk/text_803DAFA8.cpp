@@ -3,6 +3,7 @@
 #include "pso/unk/text_803DAF30.h"
 #include "pso/unk/text_803DAFA8.h"
 #include "pso/unk/TLobby.h"
+#include "pso/unk/TLobby_803DE778.h"
 struct Obj_803DB20C { u8 pad[0x1c]; void *p; };
 
 struct Tex_803DB15C { u32 fmt; u32 pad4; u32 pad8; u32 w; u32 h; u32 sz; u32 flags; };
@@ -49,7 +50,7 @@ s32 fn_803DAFA8(struct Hdr_803DAFA8 *arg0, struct Out_803DAFA8 *arg1) {
     case 0x4C505647:
         sp8 = arg0->size;
         fn_803DAF30((u32 *)&sp8);
-        ((TLobby *)(arg1->buf))->move_data(arg0->data, sp8 - 8);
+        move_data((void *)((arg1->buf)), (const void *)(arg0->data), sp8 - 8);
         arg1->f6 = arg0->fa;
         arg1->f8 = arg0->fc;
         arg1->fa = arg0->fe;

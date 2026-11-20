@@ -147,7 +147,6 @@ void bswap_32__FPUl(void *);
 s32 handle_game_join__6TLobbyFPv(void *);
 char *strcpy(char *, const char *);
 void *memset(void *, int, u32);
-void get_team_state__6TLobbyFPv();
 }
 void clear_floor_population();
 extern s32 TLobby__designated_client_id;
@@ -262,7 +261,7 @@ FloorResourceCallbacks lobby_area_reload_callbacks[9] = {
     { TLobby::update_drop_item, NULL },
     { clear_floor_population, NULL },
     { TLobby::load_set_gsl_files, clear_map_set_data },
-    { TLobby::load_set_event_gsl, get_team_state__6TLobbyFPv },
+    { TLobby::load_set_event_gsl, (FloorResourceCallback)TLobby::get_team_state },
     { init_switch_table, clear_switch_table },
     { reset_shop_stock_and_params, clear_all_shop_stock },
     { TLobby::update_difficulty, NULL },
@@ -365,7 +364,7 @@ void reload_lobby_floor_scene(void) {
     promote_area_floor(&floor_transition_state);
     TLobby::reset_counter();
     reset_story_select__6TLobbyFPv();
-    get_team_state__6TLobbyFPv();
+    TLobby::get_team_state();
     clear_floor_population();
     TKeyBoardControl::update();
     TLobby::create_map_csn_ctrl();
@@ -517,7 +516,7 @@ s32 start_quest_mission(void) {
     TAdStorySelectGC::set_state(0);
     TKeyBoardControl::update();
     TLobby::free_objects();
-    get_team_state__6TLobbyFPv();
+    TLobby::get_team_state();
     clear_floor_population();
     TQuestThread::clear_all_floor_handlers();
     TLobby::create_map_csn_ctrl();

@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/unk/TUnk_804CF930.h"
 #include "pso/unk/TUnk_804CF948.h"
 #include "pso/system/memory.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -33,7 +34,6 @@ struct Gauge_80256E0C { u8 p0[0x14]; f32 max; };
 
 extern "C" {
 extern const f32 lbl_805DCE58;
-void draw_status_gauge_bar__13TUnk_804CF930FPvPvff(Gauge_80256E0C *self, void *ctx, NJS_POINT2 *pos, f32 depth, f32 len);
 }
 
 struct Gauge_80257784 {
@@ -65,7 +65,6 @@ struct Parent_80257784 {
 
 extern "C" {
 s32 TWindowSubStatusDisp__sub_80256C40(void *, void *, void *, f32);
-#define draw_status_gauge_bar__13TUnk_804CF930FPvPvff ((s32 (*)(void *, void *, void *, f32, f32))draw_status_gauge_bar__13TUnk_804CF930FPvPvff)
 s32 begin_screen_draw(s32, f32, f32, f32);
 void set_draw_texture_and_color(s32 idx, s32 arg1);
 }
@@ -252,9 +251,9 @@ void TUnk_804CF948::render(WindowDrawContext *context) {
         }
         if (hi > 0.0f) {
             set_constant_material_color(col);
-            draw_status_gauge_bar__13TUnk_804CF930FPvPvff(self, parent, &pos, scale, hi);
+            ((TUnk_804CF930 *)self)->draw_status_gauge_bar(parent, &pos, scale, hi);
             set_constant_material_color(self->f18);
-            draw_status_gauge_bar__13TUnk_804CF930FPvPvff(self, parent, &pos, scale, lo);
+            ((TUnk_804CF930 *)self)->draw_status_gauge_bar(parent, &pos, scale, lo);
         }
         TWindowSubStatusDisp::get_player();
     }
@@ -310,4 +309,3 @@ u8 *TWindowSubStatusDisp::init_layout_entry_copy(u8 *arg1) {
 }
 }
 
-#undef draw_status_gauge_bar__13TUnk_804CF930FPvPvff

@@ -20,10 +20,8 @@
 
 
 extern "C" {
-int get_selection__19TWindowSubTechniqueFPsPll(void*, void* a1);
 void *get_player_by_client_id(s32 i);
 s32 is_palette_entry_displayable__10TObjPlayerFv(u8 *arg0, u8 kind, u8 sub);
-s32 get_message_10__20TWindowSubStatusDispFl(int);
 s32 set_depth__11TWindowBaseFf(int);
 }
 s32 create_titled_window_menu(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
@@ -46,10 +44,10 @@ void set_selected_index__21TWindowSubComCardListFs(s32, s32);
 s32 get_technique_name(s16);
 s32 can_use_palette_action__10TObjPlayerFPvUcUc(u32, s32, u8);
 s32 add_text_entry__19TWindowSubTradeMainFllll(s32, s32, s32, s16, s32);
-s32 draw_text_gray__17TWindowSubComCardFllll(s32, s32, s32, s16);
+
 s32 forward_trade_action_default__16TObjCityMainWarpFPviii(s32, s32, s32, s16);
 
-int TWindowSubTechnique::get_current_selection(void* _w1) { return get_selection__19TWindowSubTechniqueFPsPll(this, _w1); }
+void TWindowSubTechnique::get_current_selection(s16 *arg0, s32 *arg1, s32 client) { TWindowSubTechnique::get_selection(arg0, arg1, client); }
 
 s32 TWindowSubTechnique::is_technique_available(s32 sub, s32 arg1) {
     s32 player;
@@ -75,10 +73,11 @@ s32 TWindowSubTechnique::lookup_technique(s32 arg0, s32 arg1) {
 }
 void TWindowSubTechnique::draw_technique_row(s32 id, s32 arg1, s32 arg2) {
     s32 technique_name;
+    void add_gray_text_entry(s32, s32, s32, s16);
 
     technique_name = get_technique_name(id);
     if (TWindowSubTechnique::lookup_technique(id, arg1) == 0) {
-        draw_text_gray__17TWindowSubComCardFllll(arg2, technique_name, 6, id);
+        add_gray_text_entry(arg2, technique_name, 6, id);
         return;
     }
     if (TWindowSubTechnique::is_technique_available(id, arg1) == 0) {
@@ -106,7 +105,7 @@ void TWindowSubTechnique::rebuildTechniqueList(s32 list, s32 category) {
 
 s32 TWindowSubTechnique::create_title_window() {
   s32 titled_window_menu;
-  titled_window_menu = create_titled_window_menu((int) get_window_layout_position(0x13), 5, (0, get_message_10__20TWindowSubStatusDispFl(0x30)), (this->playerIndex));
+  titled_window_menu = create_titled_window_menu((int) get_window_layout_position(0x13), 5, (0, (s32)TWindowSubStatusDisp::get_message_10(0x30)), (this->playerIndex));
   TWindowSubEquip__sub_80263AF8((u8 *)this->m_30, 1);
   set_depth__11TWindowBaseFf((int) titled_window_menu);
   ((TWindowSubComCardList *)titled_window_menu)->set_flag70_bit100();
@@ -145,7 +144,7 @@ s32 get_technique_description_text(s32 arg0);
 u8 *calc_technique_parameters(s16, u8, s32);
 s32 *get_shared_text_buffer();
 s32 get_cast_technique_level(void *, int);
-s32 validate_and_clear_slot__10TObjPlayerFv(void *, int);
+s32 validate_and_clear_slot__10TObjPlayerFPvs(void *, int);
 void text_builder_append_int(s32 arg0);
 void text_builder_append(u8 *str);
 }
@@ -155,8 +154,6 @@ s32 try_equip_item__10TObjPlayerFii(s32, s32);
 void play_sound_effect(s32, s32, s32, s32);
 // set_depth__11TWindowBaseFf declared above
 s32 is_player_input_active(s32);
-s32 update_selection__19TWindowSubTechniqueFPsPl(void *, void *, s32);
-void get_current_selection__19TWindowSubTechniqueFPv(void *, void *, s32);
 void *create_title_window__19TWindowSubTechniqueFv(void *, s32);
 extern Pad_802870C4 controller_input_state[];
 void *TWindowSubTechnique__ct(TWindowSubTechnique *arg0, s32 arg1, s32 arg2);
@@ -170,7 +167,7 @@ s32 create_titled_window_menu(s32, s32, s32, s32);
 s32 TWindowSubTechnique::open_menu() {
     s32 titled_window_menu;
 
-    titled_window_menu = create_titled_window_menu(get_window_layout_position(0x12), 5, get_message_10__20TWindowSubStatusDispFl(0x2F), this->playerIndex);
+    titled_window_menu = create_titled_window_menu(get_window_layout_position(0x12), 5, (s32)TWindowSubStatusDisp::get_message_10(0x2F), this->playerIndex);
     TWindowSubEquip__sub_80263AF8((u8 *)this->m_30, 0);
     set_depth__11TWindowBaseFf(titled_window_menu);
     ((TWindowSubComCardList *)titled_window_menu)->set_flag70_bit100();
@@ -197,7 +194,7 @@ void TWindowSubTechnique::update_selected_help(s32 arg1) {
   player = (s32)get_player_by_client_id((this->playerIndex));
   if (player != 0)
   {
-    if (validate_and_clear_slot__10TObjPlayerFv((void *)(player + 0x428), (int) tech) != 0)
+    if (validate_and_clear_slot__10TObjPlayerFPvs((void *)(player + 0x428), (int) tech) != 0)
     {
       tech = 0x13;
       cast_technique_level = saved_reg_r30;
@@ -246,12 +243,12 @@ void TWindowSubTechnique::run_task() {
         }
         ((TAdChrSelASlotGC *)(self->sel))->set_flag_40();
         TQuestThread::set_status_flag_80(self->sel);
-        get_current_selection__19TWindowSubTechniqueFPv(self->f20, self->f24, self->player);
+        TWindowSubTechnique::get_current_selection((s16 *)self->f20, (s32 *)self->f24, self->player);
         ((TWindowSubComCard *)(self->list))->clear_flag_and_release();
         self->state = 2;
     case 2: {
         s32 r = ((TWindowSubTechnique *)self)->sub_80286AA8();
-        if (r == 1 || update_selection__19TWindowSubTechniqueFPsPl(self->f20, self->f24, self->player) != 0) {
+        if (r == 1 || TWindowSubTechnique::update_selection((s16 *)self->f20, (s32 *)self->f24, self->player) != 0) {
             ((TWindowSubTechnique *)self)->rebuildTechniqueList((s32)(self->sel), (s32)(((TWindowMenu *)self->list)->get_selected_value()));
             if (r != 0) {
                 ((TWindowSubComCardList *)(self->sel))->set_selected_index(0);
@@ -277,7 +274,7 @@ void TWindowSubTechnique::run_task() {
         self->state = 4;
     case 4:
         ((TObjPlayer *)ply)->update_cursor((s16)((TWindowMenu *)self->sel)->get_selected_value());
-        if (update_selection__19TWindowSubTechniqueFPsPl(self->f20, self->f24, self->player) != 0) {
+        if (TWindowSubTechnique::update_selection((s16 *)self->f20, (s32 *)self->f24, self->player) != 0) {
             ((TWindowSubTechnique *)self)->rebuildTechniqueList((s32)(self->sel), (s32)(((TWindowMenu *)self->list)->get_selected_value()));
         }
         update_selected_help((s16)((TWindowMenu *)self->sel)->get_selected_value());

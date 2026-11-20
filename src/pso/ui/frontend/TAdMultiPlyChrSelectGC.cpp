@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/ui/frontend/TAdChrMoveEffectGC.h"
 #include "types.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC_802DBCC4.h"
 #include "pso/ui/window/TWindowSubComCardList.h"
@@ -40,6 +41,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/ui/frontend/TAdChrSelBSlotGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/ui/window/TWindowSubComCard_802A5748.h"
 
 struct Info_802DC024 {
     s32 val[4];
@@ -53,9 +55,6 @@ extern "C" {
 s32 get_localized_text_entry(s32 arg0, s32 arg1);
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
 s32 create_window_menu_default(void *, int);
-s32 free_member__17TWindowSubComCardFv(int, int);
-s32 forward_slot_selection__16TAdChrSelASlotGCFPvPv(int, int, void *, f32);
-s32 create__19TWindowMessageYesNoFPvPvPvPv(void *, int, int, int);
 extern s32 lbl_804728A8[];
 extern s32 lbl_804728A0[];
 s32 align_menu_entry_positions(int);
@@ -74,9 +73,7 @@ s32 is_multiplayer_character_slot_selected(s32 arg0);
 extern "C" {
 s32 TAdMultiPlyChrSelectGC__sub_802C6558();
 s32 TAdMultiPlyChrSelectGC__sub_802C658C(s32 arg0);
-s32 clear_entries__18TAdChrMoveEffectGCFv();
 s32 get_instance__22TAdMultiPlyChrSelectGCFv(s32);
-int request_scene_change__21TAdMultiChgGameModeGCFv(void*);
 }
 
 u8 player_number_text_buffer[0x80];
@@ -1264,8 +1261,11 @@ void TAdMultiPlyChrSelectGC::reset_to_select() {
     Stack_802DDF40 stack;
     s32 temp_r31;
     s32 temp_r3;
-    if (TAdMultiPlyChrSelectGC::get_global_state() != 0U) {
-        clear_entries__18TAdChrMoveEffectGCFv();
+    {
+        TAdChrMoveEffectGC *effect = (TAdChrMoveEffectGC *)TAdMultiPlyChrSelectGC::get_global_state();
+        if (effect != NULL) {
+            effect->clear_entries();
+        }
     }
     if (TAdMultiPlyChrSelectGC__sub_802C6558() > 0) {
         if ((is_slot_active__23TAdSinglePlyChrSelectGCFUi(TAdMultiPlyChrSelectGC__sub_802C658C(TAdMultiPlyChrSelectGC__sub_802C6920())) == 0) || ((s32) this->m_54 == 0)) {
@@ -1604,8 +1604,11 @@ void TAdMultiPlyChrSelectGC::update_state() {
             ((TObject *)(*(void * *)&this->unk_80))->queue_destruction();
             *(u32 *)&this->unk_80 = 0U;
         }
-        if (TAdMultiPlyChrSelectGC::get_global_state() != 0U) {
-            clear_entries__18TAdChrMoveEffectGCFv();
+        {
+            TAdChrMoveEffectGC *effect = (TAdChrMoveEffectGC *)TAdMultiPlyChrSelectGC::get_global_state();
+            if (effect != NULL) {
+                effect->clear_entries();
+            }
         }
         *(s32 *)&this->m_20 = 0x12;
     }
@@ -1755,8 +1758,11 @@ void TAdMultiPlyChrSelectGC__sub_802DD010(void *arg0) {
             ((TObject *)(*(void **)((s8 *)arg0 + 0x80)))->queue_destruction();
             *(u32 *)((s8 *)arg0 + 0x80) = 0U;
         }
-        if (TAdMultiPlyChrSelectGC::get_global_state() != 0U) {
-            clear_entries__18TAdChrMoveEffectGCFv();
+        {
+            TAdChrMoveEffectGC *effect = (TAdChrMoveEffectGC *)TAdMultiPlyChrSelectGC::get_global_state();
+            if (effect != NULL) {
+                effect->clear_entries();
+            }
         }
         *(s32 *)((s8 *)arg0 + 0x20) = 0x17;
     }
@@ -2083,8 +2089,11 @@ void TAdMultiPlyChrSelectGC__sub_802DC440(void *arg0) {
         if (((TAdMultiPlyChrSelectGC *)(*(s32 *)((s8 *)arg0 + 0x68)))->get_player_index() < 0xE) {
             *(s32 *)((s8 *)arg0 + 0x58) = 0;
         }
-        if (TAdMultiPlyChrSelectGC::get_global_state() != 0U) {
-            clear_entries__18TAdChrMoveEffectGCFv();
+        {
+            TAdChrMoveEffectGC *effect = (TAdChrMoveEffectGC *)TAdMultiPlyChrSelectGC::get_global_state();
+            if (effect != NULL) {
+                effect->clear_entries();
+            }
         }
         *(s32 *)((s8 *)arg0 + 0x20) = 0x1D;
         return;
@@ -2099,8 +2108,11 @@ void TAdMultiPlyChrSelectGC__sub_802DC440(void *arg0) {
             ((TObject *)(*(void **)((s8 *)arg0 + 0x80)))->queue_destruction();
             *(u32 *)((s8 *)arg0 + 0x80) = 0U;
         }
-        if (TAdMultiPlyChrSelectGC::get_global_state() != 0U) {
-            clear_entries__18TAdChrMoveEffectGCFv();
+        {
+            TAdChrMoveEffectGC *effect = (TAdChrMoveEffectGC *)TAdMultiPlyChrSelectGC::get_global_state();
+            if (effect != NULL) {
+                effect->clear_entries();
+            }
         }
         ((TAdMultiPlyChrSelectGC *)(*(s32 *)((s8 *)arg0 + 0x5C)))->reset_cursor_state();
         *(s32 *)((s8 *)arg0 + 0x20) = 0x24;
@@ -2124,15 +2136,21 @@ void TAdMultiPlyChrSelectGC__sub_802DC310(void *arg0) {
         if (((TAdMultiPlyChrSelectGC *)(*(s32 *)((s8 *)arg0 + 0x68)))->get_player_index() < 0xE) {
             *(s32 *)((s8 *)arg0 + 0x58) = 0;
         }
-        if (TAdMultiPlyChrSelectGC::get_global_state() != 0U) {
-            clear_entries__18TAdChrMoveEffectGCFv();
+        {
+            TAdChrMoveEffectGC *effect = (TAdChrMoveEffectGC *)TAdMultiPlyChrSelectGC::get_global_state();
+            if (effect != NULL) {
+                effect->clear_entries();
+            }
         }
         *(s32 *)((s8 *)arg0 + 0x20) = 0x1D;
         return;
     }
     if (((TAdMultiPlyChrSelectGC *)(*(s32 *)((s8 *)arg0 + 0x6C)))->get_mode() == 0x1D) {
-        if (TAdMultiPlyChrSelectGC::get_global_state() != 0U) {
-            clear_entries__18TAdChrMoveEffectGCFv();
+        {
+            TAdChrMoveEffectGC *effect = (TAdChrMoveEffectGC *)TAdMultiPlyChrSelectGC::get_global_state();
+            if (effect != NULL) {
+                effect->clear_entries();
+            }
         }
         *(s32 *)((s8 *)arg0 + 0x20) = 0x1D;
         ((TAdMultiPlyChrSelectGC *)(*(s32 *)((s8 *)arg0 + 0x68)))->set_cursor_index(1);
@@ -2140,7 +2158,7 @@ void TAdMultiPlyChrSelectGC__sub_802DC310(void *arg0) {
     }
 }
 
-int TAdMultiPlyChrSelectGC::request_scene_change() { return request_scene_change__21TAdMultiChgGameModeGCFv(this); }
+void TAdMultiPlyChrSelectGC::request_scene_change() { TAdMultiChgGameModeGC::request_scene_change(); }
 
 s32 TAdMultiPlyChrSelectGC__sub_802DC294(TAdMultiPlyChrSelectGC *arg0, s32 arg1) {
     switch (arg1) {
@@ -2258,25 +2276,25 @@ s32 TAdMultiPlyChrSelectGC__sub_802DBE4C(void *, s32 *desc) {
 s32 TAdMultiPlyChrSelectGC::create_confirm_window() {
     void *u1;
     int u2;
-    s32 r = create__19TWindowMessageYesNoFPvPvPvPv(u1, u2, 0, 0);
-    forward_slot_selection__16TAdChrSelASlotGCFPvPv(r, get_localized_text_entry(0x1F, 8), lbl_80472898, 196.0f);
-    free_member__17TWindowSubComCardFv(r, 1);
+    s32 r = (s32)TWindowMessageYesNo::create((void *)(u1), (void *)(u2), 0, 0);
+    open_yes_no_prompt_with_text((TChCrTagPlBack *)r, (s32)(get_localized_text_entry(0x1F, 8)), (s32)lbl_80472898, 196.0f);
+    set_menu_selected_index((TWindowSubComCard *)r, 1);
     return r;
 }
 
 s32 TAdMultiPlyChrSelectGC__sub_802DBD64(s32 arg0) {
     s32 temp_r31;
-    temp_r31 = create__19TWindowMessageYesNoFPvPvPvPv((void *)arg0, (int) (TAdMultiPlyChrSelectGC::get_clamped_cursor()), 0, 0);
-    forward_slot_selection__16TAdChrSelASlotGCFPvPv(temp_r31, (int) (get_localized_text_entry(0x1F, 9)), lbl_804728A0, 196.0f);
-    free_member__17TWindowSubComCardFv(temp_r31, 1);
+    temp_r31 = (s32)TWindowMessageYesNo::create((void *)((void *)arg0), (void *)((int) (TAdMultiPlyChrSelectGC::get_clamped_cursor())), 0, 0);
+    open_yes_no_prompt_with_text((TChCrTagPlBack *)temp_r31, (s32)(get_localized_text_entry(0x1F, 9)), (s32)lbl_804728A0, 196.0f);
+    set_menu_selected_index((TWindowSubComCard *)temp_r31, 1);
     return temp_r31;
 }
 
 s32 TAdMultiPlyChrSelectGC__sub_802DBCE8(s32 arg0) {
     s32 temp_r31;
-    temp_r31 = create__19TWindowMessageYesNoFPvPvPvPv((void *)arg0, (int) (TAdMultiPlyChrSelectGC::get_clamped_cursor()), 0, 0);
-    forward_slot_selection__16TAdChrSelASlotGCFPvPv(temp_r31, (int) (get_localized_text_entry(0x1F, 0xA)), lbl_804728A8, 209.0f);
-    free_member__17TWindowSubComCardFv(temp_r31, 1);
+    temp_r31 = (s32)TWindowMessageYesNo::create((void *)((void *)arg0), (void *)((int) (TAdMultiPlyChrSelectGC::get_clamped_cursor())), 0, 0);
+    open_yes_no_prompt_with_text((TChCrTagPlBack *)temp_r31, (s32)(get_localized_text_entry(0x1F, 0xA)), (s32)lbl_804728A8, 209.0f);
+    set_menu_selected_index((TWindowSubComCard *)temp_r31, 1);
     return temp_r31;
 }
 

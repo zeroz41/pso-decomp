@@ -35,7 +35,6 @@ u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 s32 get_bml_texlist(int, int);
 s32 get_bml_model(int, int);
 extern s32 __vt__16TObjNpcSoutokufu[];
-f32 calc_sq_offset__12TBoss8DragonFf(void *, void *, f32);
 extern void *lbl_805D4DD8;
 void free_bin_model_request(void*, int);
 
@@ -81,7 +80,7 @@ void TBoss8Dragon::trigger_switches_in_range(void *arg0, void *arg1, void *arg2)
     Ow_80289710 *ow;
     ow = (*(Gl_80289710 * *)&lbl_805D4DD8)->owner;
     list = ow->list;
-    off = calc_sq_offset__12TBoss8DragonFf(arg2, ow, 50.0f);
+    off = ((TBoss8Dragon *)arg2)->calc_sq_offset(50.0f);
     for (n = list->head; n != NULL; n = n->next) {
         if (!(n->flags & 8) && ((TBoss8Dragon *)arg1)->is_within_xz_distance((u8 *)n, (f32)off) != 0) {
             sp[0] = n->f8;

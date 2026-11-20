@@ -16,6 +16,7 @@
 #include "pso/ui/city/TShopArmorListWindow.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/city/TShopWindowBase.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
 
 #include "pso/ui/window/TWindowAddition.h"
 #include "pso/ui/window/TWindowMenu.h"
@@ -74,7 +75,6 @@ u32 get_entity_id(s32);
 u8 *create_yes_no_window(s32 position, u16 client, u32 arg2, u32 arg3);
 s32 get_window_layout_position(s32);
 void memset(void *, int, int);
-s32 get_item_record__23TShopJudgmentItemWindowFPv(s32, s32, s32);
 s32 store_item_in_bank(u8 *item, s32 arg1, s32 slot);
 void copy_bank_to_card_window(s32 slot);
 s32 sub_802239EC__13TShopSequenceFv(void *);
@@ -297,7 +297,7 @@ void TShopKeepItemWindow::handle_deposit_confirm() {
         if (r == 0) {
             i = ((TWindowMenuIconLine *)this->item_list_window)->get_cursor_value();
             if (store_item_in_bank((u8 *)&this->entries[i].data, this->deposit_count, base) != 0) {
-                get_item_record__23TShopJudgmentItemWindowFPv(this->m_24, this->entries[i].item->get_item_id(), this->deposit_count);
+                delete_item((void *)this->m_24, (s32)(this->entries[i].item->get_item_id()), (s32)this->deposit_count);
                 copy_bank_to_card_window(base);
                 play_sound_effect(0x52D01, 0, 0, 0);
                 ((TWindowBase *)this->confirm_window)->close();

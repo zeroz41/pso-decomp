@@ -15,12 +15,10 @@ struct W_80071868 { u8 pad[0x2288]; E_80071868 e[3]; u8 pad2[0xc]; s32 def; };
 struct G_800718D0 { u8 pad[0xC]; s32 fc; u8 rest[0x100]; };
 
 extern "C" {
-s32 get_layout_id__20TWindowSubStatusDispFv(void *);
 s32 TWindowSubStatusDisp__sub_8006F0D8(void *, void *);
 u32 get_character_save_record(u32);
 extern RecoveredGlobal_80071820_lbl_804FF820 lbl_804FF820;
 extern s32 lbl_805D2858;
-s32 get_slot_clamped__6TLobbyFv(s32);
 extern G_800718D0 challenge_mode_state;
 s32 TLobby__sub_80071654(u16);
 
@@ -75,7 +73,7 @@ s32 TWindowSubStatusDisp__sub_80071868(u16 id, s32 slot) {
     } else {
         v = w->def;
     }
-    return get_slot_clamped__6TLobbyFv(v);
+    return (s32)TLobby::get_slot_clamped((u32)(v));
 }
 
 s32 TWindowSubStatusDisp__sub_800718D0(void) {
@@ -84,12 +82,12 @@ s32 TWindowSubStatusDisp__sub_800718D0(void) {
     s32 sum;
     s32 i;
     s32 r;
-    hash = ((TWindowSubStatusDisp *)(-1))->calc_layout_hash();
+    hash = TWindowSubStatusDisp::calc_layout_hash(-1);
     if (TLobby::is_flag_set() == 0 || get_character_save_record(0xFFFF) == 0) {
         return hash;
     }
     sum = 0;
-    last = get_layout_id__20TWindowSubStatusDispFv((void *)-1);
+    last = TWindowSubStatusDisp::get_layout_id(-1);
     for (i = 0; i <= last - 2; i++) {
         r = TWindowSubStatusDisp__sub_80071A24(i, 0xFFFF, -1);
         if (r == 0) {
@@ -114,7 +112,7 @@ s32 TWindowSubStatusDisp__sub_80071988(u16 arg0, s32 slot) {
     }
     p = (s32 *)TWindowSubStatusDisp__sub_8006F0D8((void *)(w + 0x21C4), (void *)slot);
     sum = 0;
-    n = get_layout_id__20TWindowSubStatusDispFv((void *)slot);
+    n = TWindowSubStatusDisp::get_layout_id(slot);
     for (i = 0; i < n; i++, p++) {
         r = TLobby::get_valid_slot(*p);
         if (r == 0) {
@@ -129,7 +127,7 @@ s32 TWindowSubStatusDisp__sub_80071A24(s32 arg0, u16 arg1, s32 slot) {
     s32 temp_r3;
     u32 character_save_record;
     character_save_record = get_character_save_record((u32)arg1);
-    temp_r3 = get_layout_id__20TWindowSubStatusDispFv((void *)slot);
+    temp_r3 = TWindowSubStatusDisp::get_layout_id(slot);
     if ((arg0 < 0) || (arg0 >= temp_r3) || (character_save_record == 0U)) {
         return 0;
     }

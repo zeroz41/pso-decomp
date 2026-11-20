@@ -76,7 +76,6 @@ struct TItemData {
     void adjust_count(s32 arg1);
     static void add_stat_ptr(s16 *arg0, s32 arg1);
     void add_bonus(s16 arg1);
-    void update_player_field();
     void set_present_color(s8 color);
     s32 get_type_nibble();
     void add_weapon_stat_bonuses(s32 player, s16 *out, s32 unused, s16 *out2, s32 _w5);

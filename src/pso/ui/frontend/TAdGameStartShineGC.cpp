@@ -9,6 +9,7 @@
 #include "pso/player/TObjPlayer.h"
 
 #include "pso/system/NinjaTypes.h"
+#include "pso/system/vector.h"
 
 #pragma readonly_strings on
 
@@ -109,7 +110,7 @@ Shine_8034AB4C *__ct__19TAdGameStartShineGCFv(Shine_8034AB4C *self) {
     self->name = lbl_805D4320;
     self->f1C = 1.0f;
     self->f20 = 1.0f;
-    ((TWindowSubSymbolChatPartsSet *)(&self->x24))->copy_vec2((void *)&game_start_shine_origin);
+    copy_vec2((&self->x24), (void *)&game_start_shine_origin);
     self->x2C = self->x24;
     self->y30 = self->y28;
     self->x34 = self->x24 + game_start_shine_extent.x;

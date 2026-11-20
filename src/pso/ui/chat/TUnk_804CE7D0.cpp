@@ -48,7 +48,7 @@ TUnk_804CE7D0::TUnk_804CE7D0(TObject *parent) : TObject(parent) {
         if (is_symbol_chat_preset_in_use((u32 *)symbol_chat_preset) != 0) {
             forward_trade_action_default__16TObjCityMainWarpFPviii(preset_list, (s32) temp_r30, 0x66, i);
         } else {
-            TWindowSubComCard::draw_text_gray((s32)preset_list, (s32)temp_r30, 0x46, (s32)i);
+            add_gray_text_entry((TWindowSubTradeMain *)preset_list, (const char *)temp_r30, 0x46, (s32)i);
         }
         i += 1;
     } while (i < 0xC);

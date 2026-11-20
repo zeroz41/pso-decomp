@@ -29,7 +29,6 @@ struct VObj_18 : VBase_18 {
 
 extern "C" {
 void align_menu_entry_positions(s32);
-void update_layout_height__21TWindowSubComCardListFf(f32);
 u8 *init_shop_judgment_window(void *p);
 struct VtBase8032C1C8_8032C188 { char pad[0x18]; };
 struct VtObj8032C1C8_8032C188 : VtBase8032C1C8_8032C188 {
@@ -47,7 +46,7 @@ void *TAdYesNoBaseGC__ct(TAdYesNoBaseGC *arg0);
 void *__ct__12TAdBackTxtGCFv(void *, void *);
 void __ct__7TObjectFP7TObject(void *);
 void *__ct__9TAdBackGCFv(void *, void *);
-void copy_vec2__28TWindowSubSymbolChatPartsSetFPv(void *);
+void copy_vec2__FPvPv(void *);
 
 #pragma readonly_strings on
 const char *TAdYesNoBaseGC__class_name = "TAdYesNoBaseGC";
@@ -64,15 +63,15 @@ s32 TAdYesNoBaseGC::create_menu_window() {
     TAdYesNoBaseGC *arg0 = this;
     NJS_POINT2 pos = {85.0f, 384.0f};
     s32 r = (s32)init_shop_judgment_window(&pos);
-    update_layout_height__21TWindowSubComCardListFf(470.0f);
+    ((TWindowSubComCardList *)r)->update_layout_height(470.0f);
     align_menu_entry_positions(r);
     ((TWindowSubComCardList *)r)->set_selected_index((s16)arg0->m_2c);
     return r;
 }
 
 void TAdYesNoBaseGC::init_parts(void *arg1, void *arg2) {
-    copy_vec2__28TWindowSubSymbolChatPartsSetFPv((void *)((char *)this + 48));
-    ((void (*)(void *, void *))copy_vec2__28TWindowSubSymbolChatPartsSetFPv)((void *)((char *)this + 56), arg2);
+    copy_vec2__FPvPv((void *)((char *)this + 48));
+    ((void (*)(void *, void *))copy_vec2__FPvPv)((void *)((char *)this + 56), arg2);
 }
 
 extern s8 controller_input_state[];

@@ -140,23 +140,18 @@ struct Win_80244DFC { u8 pad[0xC]; Win_80244DFC *next; };
 
 struct Rect_802455CC { f32 x, y, w, h; u8 pad10[0x20 - 0x10]; f32 px, py, sx, sy; u8 pad30[0x38 - 0x30]; f32 depth; };
 
-void disallow_rendering__7TObjectFv(TObject *);
-int copy_vec2__28TWindowSubSymbolChatPartsSetFPv(void*);
+int copy_vec2__FPvPv(void*);
 s32 play_sound_effect(s32, s32, s32, s32);
 int TWindowSubComCard__sub_80244774(void);
 f32 TWindowSubComCard__sub_80244784(TWindowSubComCard *arg0);
-void save_position__11TWindowBaseFv(void* p);
 void TWindowSubTradeMain__sub_802448E4(void *arg0);
 void fn_8024491C(void *arg0);
 void fn_80244958(void *arg0);
 void fn_802449E0(u8 *arg0);
 Win_80244DFC * find_overlapping_balloon__15TWindowFukidasiFPvPvPvPv(Win_80244DFC *self, void *a, void *b, Win_80244DFC *p);
-s32 sub_80246948__11TWindowBaseFv();
 int TWindowFukidasi__sub_8024695C(void *p);
 TObject *TWindowCtrlMain__sub_8024CE24(void);
 s32 init_window_layout_entries(void *, int, int);
-s32 sub_8026CC28__11TWindowBaseFv();
-s32 resort_window_order__11TWindowBaseFv(void *);
 
 extern int lbl_805D3614;
 
@@ -165,7 +160,7 @@ extern "C" {
 
 int TWindowSubComCard__sub_80244774(void) {  return lbl_805D3614; }
 
-s32 TWindowSubComCard::get_field_20() { return this->m_20; }
+u32 TWindowSubComCard::get_field_20() { return this->m_20; }
 
 f32 TWindowSubComCard__sub_80244784(TWindowSubComCard *window_sub_com_card) {
     f32 v = window_sub_com_card->calc_offset();
@@ -208,26 +203,26 @@ void TWindowSubComCard::reparent_to_main_ctrl() {
 void TWindowBase::save_position() { *(f32*)((char*)this + 0x40) = *(f32*)((char*)this + 0x30); *(f32*)((char*)this + 0x44) = *(f32*)((char*)this + 0x34); *(f32*)((char*)this + 0x48) = *(f32*)((char*)this + 0x38); *(f32*)((char*)this + 0x4c) = *(f32*)((char*)this + 0x3c); }
 
 void TWindowSubTradeMain__sub_802448E4(void *arg0) {
-    copy_vec2__28TWindowSubSymbolChatPartsSetFPv((void*)((void *)((char *)arg0 + 48)));
+    copy_vec2__FPvPv((void*)((void *)((char *)arg0 + 48)));
     *(u32 *)((s8 *)arg0 + 0x50) = 3;
 }
 
 void fn_8024491C(void *arg0) {
     struct VOff_8024491C_arg0_card_1 *self = (struct VOff_8024491C_arg0_card_1 *)arg0;
-    copy_vec2__28TWindowSubSymbolChatPartsSetFPv(self->f_38);
-    ((void (*)(void *, void *))copy_vec2__28TWindowSubSymbolChatPartsSetFPv)((void *)((char *)arg0 + 72), self->f_38);
+    copy_vec2__FPvPv(self->f_38);
+    ((void (*)(void *, void *))copy_vec2__FPvPv)((void *)((char *)arg0 + 72), self->f_38);
 }
 
 void fn_80244958(void *arg0) {
     struct VOff_80244958_arg0_card_1 *self = (struct VOff_80244958_arg0_card_1 *)arg0;
-    copy_vec2__28TWindowSubSymbolChatPartsSetFPv(self->f_30);
-    ((void (*)(void *, void *))copy_vec2__28TWindowSubSymbolChatPartsSetFPv)((void *)((char *)arg0 + 64), self->f_30);
+    copy_vec2__FPvPv(self->f_30);
+    ((void (*)(void *, void *))copy_vec2__FPvPv)((void *)((char *)arg0 + 64), self->f_30);
 }
 
 #pragma push
 #pragma fp_contract on
 s32 TWindowBase::sub_80244994() {
-    if (sub_80246948__11TWindowBaseFv() != 0) {
+    if (this->sub_80246948() != 0) {
         return 0;
     }
     return (s32) ((u32) __cntlzw(*(s32 *)((s8 *)this + 0x2C) & 4) >> 5);
@@ -303,10 +298,10 @@ void window_request_show(void *object) {
     ((TObject *)object)->allow_rendering();
 }
 
-s32 TWindowBase::setup_window_draw_context(s32 arg1) {
+s32 TWindowBase::setup_window_draw_context(f32 *scale) {
     WindowDrawContext *context;
     s32 var_r4;
-    context = WindowDrawContext::open_singleton((f32 *)(((u8 *)this) + 0x40), (f32 *)(((u8 *)this) + 0x48), (f32 *)arg1, *(f32 *)((s8 *)((u8 *)this) + 0x54), *(s32 *)((s8 *)((u8 *)this) + 0x2C));
+    context = WindowDrawContext::open_singleton((f32 *)(((u8 *)this) + 0x40), (f32 *)(((u8 *)this) + 0x48), scale, *(f32 *)((s8 *)((u8 *)this) + 0x54), *(s32 *)((s8 *)((u8 *)this) + 0x2C));
     if (*(s32 *)((s8 *)((u8 *)this) + 0x2C) & 0x40) {
         context->animate_scale();
     }
@@ -326,7 +321,7 @@ s32 TWindowBase::setup_window_draw_context(s32 arg1) {
 }
 
 s32 TWindowDD::draw_default_entry(s32 arg0) {
-    return ((TWindowBase *)arg0)->setup_window_draw_context((s32)fn_8026CB68());
+    return ((TWindowBase *)arg0)->setup_window_draw_context((f32 *)fn_8026CB68());
 }
 
 void TWindowBase::set_depth(f32 farg0) {
@@ -375,9 +370,9 @@ Win_80244DFC *find_overlapping_balloon__15TWindowFukidasiFPvPvPvPv(Win_80244DFC 
     return 0;
 }
 
-void TWindowFukidasi::find_balloon_overlap_for(s32 arg1) {
+void *TWindowFukidasi::find_balloon_overlap_for(s32 arg1) {
     s32 arg0 = (s32)this;
-    find_overlapping_balloon__15TWindowFukidasiFPvPvPvPv((Win_80244DFC *)(arg0), (void *)(arg0 + 0x30), (void *)(arg0 + 0x38), (Win_80244DFC *)(arg1));
+    return find_overlapping_balloon__15TWindowFukidasiFPvPvPvPv((Win_80244DFC *)(arg0), (void *)(arg0 + 0x30), (void *)(arg0 + 0x38), (Win_80244DFC *)(arg1));
 }
 
 void TWindowBase::sub_80244F2C(u8 *arg1, u8 *arg2, s16 arg3) {
@@ -385,14 +380,14 @@ void TWindowBase::sub_80244F2C(u8 *arg1, u8 *arg2, s16 arg3) {
     s32 temp_r3;
     s32 temp_r3_2;
     *(s32 *)((s8 *)((u8 *)this) + 0) = (s32) TWindowBase__name;
-    ((s32 (*)(void *, void *))copy_vec2__28TWindowSubSymbolChatPartsSetFPv)((void *) (((u8 *)this) + 0x30), arg2);
-    ((s32 (*)(void *, void *))copy_vec2__28TWindowSubSymbolChatPartsSetFPv)((void *) (((u8 *)this) + 0x38), arg1);
-    ((s32 (*)(void *))save_position__11TWindowBaseFv)(this);
+    ((s32 (*)(void *, void *))copy_vec2__FPvPv)((void *) (((u8 *)this) + 0x30), arg2);
+    ((s32 (*)(void *, void *))copy_vec2__FPvPv)((void *) (((u8 *)this) + 0x38), arg1);
+    ((TWindowBase *)(this))->save_position();
     temp_f1 = *(f32 *)((s8 *)arg1 + 8);
     *(f32 *)((s8 *)((u8 *)this) + 0x1C) = temp_f1;
     *(f32 *)((s8 *)((u8 *)this) + 0x54) = -10000.0f;
     *(s32 *)((s8 *)((u8 *)this) + 0x2C) = (s32) *(s32 *)((s8 *)arg1 + 0x10);
-    ((s32 (*)(void *, f32))resort_window_order__11TWindowBaseFv)(this, temp_f1);
+    resort_window_order();
     *(s32 *)((s8 *)((u8 *)this) + 0x50) = 0;
     *(s16 *)((s8 *)((u8 *)this) + 0x20) = arg3;
     init_window_layout_entries((void *) (((u8 *)this) + 0x24), (int) (*(s32 *)((s8 *)arg1 + 0xC)), (int) (*(s16 *)((s8 *)((u8 *)this) + 0x20)));
@@ -400,7 +395,7 @@ void TWindowBase::sub_80244F2C(u8 *arg1, u8 *arg2, s16 arg3) {
     *(s16 *)((s8 *)((u8 *)this) + 0x22) = 0;
     temp_r3 = *(s32 *)((s8 *)((u8 *)this) + 0x2C);
     if (!(temp_r3 & 1) && !(temp_r3 & 2)) {
-        ((s32 (*)(void *))disallow_rendering__7TObjectFv)(this);
+        ((TObject *)this)->disallow_rendering();
     }
     temp_r3_2 = *(s32 *)((s8 *)((u8 *)this) + 0x2C);
     if ((temp_r3_2 & 1) && (temp_r3_2 & 2) && !(temp_r3_2 & 0x20)) {
@@ -887,7 +882,7 @@ void TWindowBase::update_fade() {
 
     temp_r5 = (*(u32 *)((u8 *)this + 0x50));
     if (temp_r5 == 0) {
-        ((s32 (*)(void))save_position__11TWindowBaseFv)();
+        ((TWindowBase *)this)->save_position();
         return;
     }
     *(f32 *)&(*(s32 *)((u8 *)this + 0x40)) += (*(f32 *)&(*(void * *)((u8 *)this + 0x30)) - *(f32 *)&(*(s32 *)((u8 *)this + 0x40))) / (f32) temp_r5;
@@ -933,7 +928,7 @@ void TWindowSubComCard::update_open_close() {
     }
     temp_r5 = *(s32 *)&this->m_2c;
     if (!(temp_r5 & 2)) {
-        if ((temp_r5 & 0x10) && (((s32 (*)(void *))sub_80246948__11TWindowBaseFv)(arg0) != 0)) {
+        if ((temp_r5 & 0x10) && (((TWindowBase *)arg0)->sub_80246948() != 0)) {
             ((TObject *)arg0)->queue_destruction();
         }
     } else if (temp_r5 & 1) {

@@ -55,7 +55,6 @@ s32 __ct__22TQuestVmDownLoadServerFP7TObject(void *, s32);
 extern s32 tl_00;
 
 struct Pair_801F6E08 { f32 a; f32 b; };extern "C" {
-s32 create_window__24TMessageWindowControllerFll(void*, s32, void*);
 s32 get_window_layout_position(s32);
 s32 poll_memcard_result(s32);
 }
@@ -73,6 +72,8 @@ extern s32 lbl_805D49B4;
 #include "pso/ui/frontend/TAdMcSelectGC.h"
 #include "pso/ui/frontend/TAdWarningBaseGC.h"
 #include "pso/ui/window/TMessageWindowController.h"
+#include "pso/unk/TLobby_803DE778.h"
+#include "pso/ui/window/TWindowMessagePage.h"
 
 struct SubtractiveRng {
     SubtractiveRng();
@@ -171,12 +172,9 @@ Src_801F718C quest_download_file_info;
 QuestDownloadFileHeader quest_download_file_header;
 SubtractiveRng TQuestVmDownLoadServer__rng_cipher_state;
 __declspec(section ".data") u32 download_rng_seed_pair[2];
-u32 create__13TAdMcSelectGCFPv(s32);
 s32 get_memcard_free_files(s32);
-s32 query_memcard_capacity__15TAdPlayerLoadGCFl(s32, int);
 u8 *init_shop_judgment_window(void *p);
 s32 TQuestVmDownLoadServer__sub_801F8538(void *data, s32 size);
-s32 draw_window_bg__23TAdSinglePlyChrSelectGCFllll(s32, void *, s32, s32);
 }
 extern s32 tl_03;
 typedef char SubtractiveRng_size[sizeof(SubtractiveRng) == 0xE8 ? 1 : -1];
@@ -194,7 +192,6 @@ int strncmp(const char *, const char *, u32);
 
 struct Pos_801F8A40 { f32 a, b; };
 extern "C" {
-u32 set_text__18TWindowMessagePageFlll(void *, void *, int);
 char *strtok(char *, const char *);
 }
 
@@ -309,7 +306,7 @@ void TQuestVmDownLoadServer::begin_file_download() {
     if (TQuestVmDownLoadServer__download_window == 0) {
         static const Pos_801F8A40 window_size = {444.0f, 84.0f};
         Pos_801F8A40 pos = window_size;
-        TQuestVmDownLoadServer__download_window = set_text__18TWindowMessagePageFlll((void *)get_window_layout_position(0x2F), &pos, 1);
+        TQuestVmDownLoadServer__download_window = (u32)TWindowMessagePage::set_text((s32)get_window_layout_position(0x2F), (s32)&pos, 1);
         ((TWindowMessage *)TQuestVmDownLoadServer__download_window)->append_line(get_message_text(0x3E), 0x81);
         ((TWindowMessage *)TQuestVmDownLoadServer__download_window)->complete_reveal();
         TQuestVmDownLoadServer__total_download_bytes = 0;
@@ -454,11 +451,11 @@ void TQuestVmDownLoadServer::encrypt_download_data(s32 size) {
     ((TAdSinglePlyChrSelectGC *)(&TQuestVmDownLoadServer__rng_cipher_state))->apply_rng_cipher(((u32 *)this), size & ~3);
     src = TQuestVmDownLoadServer::alloc(size);
     dst = TQuestVmDownLoadServer::alloc(size);
-    ((TLobby *)src)->move_data((const void *)this, (u32)size);
+    move_data((void *)(src), (const void *)((const void *)this), (u32)size);
     subtractive_rng_seed(&TQuestVmDownLoadServer__rng_cipher_state, download_rng_seed_pair[1]);
     subtractive_rng_make_shuffle((s32 *)&TQuestVmDownLoadServer__rng_cipher_state);
     TAdSinglePlyChrSelectGC::permute_save_blocks(&TQuestVmDownLoadServer__rng_cipher_state, (const u8*)src, (u8*)dst, (u32)size);
-    ((TLobby *)this)->move_data((const void *)dst, (u32)size);
+    move_data((void *)(this), (const void *)((const void *)dst), (u32)size);
     TAdSinglePlyChrSelectGC::safe_free((u32)dst);
     TAdSinglePlyChrSelectGC::safe_free((u32)src);
 }
@@ -467,11 +464,11 @@ void TQuestVmDownLoadServer::unshuffle_and_decrypt(void *data, s32 size) {
     void *dst;
     src = TQuestVmDownLoadServer::alloc(size);
     dst = TQuestVmDownLoadServer::alloc(size);
-    ((TLobby *)src)->move_data((const void *)((u32 *)data), (u32)size);
+    move_data((void *)(src), (const void *)((const void *)((u32 *)data)), (u32)size);
     subtractive_rng_seed(&TQuestVmDownLoadServer__rng_cipher_state, download_rng_seed_pair[1]);
     subtractive_rng_make_shuffle((s32 *)&TQuestVmDownLoadServer__rng_cipher_state);
     subtractive_rng_unshuffle((void *)&TQuestVmDownLoadServer__rng_cipher_state, (const u8 *)src, (u8 *)dst, (u32)size);
-    ((TLobby *)((u32 *)data))->move_data((const void *)dst, (u32)size);
+    move_data((void *)(((u32 *)data)), (const void *)((const void *)dst), (u32)size);
     TAdSinglePlyChrSelectGC::safe_free((u32)dst);
     TAdSinglePlyChrSelectGC::safe_free((u32)src);
     subtractive_rng_seed(&TQuestVmDownLoadServer__rng_cipher_state, download_rng_seed_pair[0]);
@@ -504,7 +501,7 @@ s32 TQuestVmDownLoadServer::verify_checksum(const void *arg0, s32 arg1) {
   {
     return 0;
   }
-  ((TLobby *)temp_r3)->move_data((const void *)arg0, (u32)arg1);
+  move_data((void *)(temp_r3), (const void *)((const void *)arg0), (u32)arg1);
   temp_r29 = *((s32 *) (((s8 *) temp_r3) + 4));
   *((s32 *) (((s8 *) temp_r3) + 4)) = 0;
   temp_r31 = TQuestVmDownLoadServer__sub_801F8538(temp_r3, arg1);
@@ -725,7 +722,7 @@ void TQuestVmDownLoadServer::update_mc_select() {
             if (lobby_player_construction_window != 0) {
                 ((TObject *)((void *)lobby_player_construction_window))->disallow_rendering();
             }
-            *(u32 *)&this->m_29c = create__13TAdMcSelectGCFPv(tl_03);
+            *(u32 *)&this->m_29c = (u32)TAdMcSelectGC::create((void *)tl_03);
         }
         if ((void *) this->m_29c != NULL) {
             TAdMcSelectGC::select_if_mc_present();
@@ -767,7 +764,7 @@ void TQuestVmDownLoadServer::open() {
         if (temp_r3 != 0U) {
             ((TObject *)((void *)temp_r3))->disallow_rendering();
         }
-        *(u32 *)&this->m_29c = create__13TAdMcSelectGCFPv(tl_03);
+        *(u32 *)&this->m_29c = (u32)TAdMcSelectGC::create((void *)tl_03);
     }
     this->state = 4;
     show_status_message(get_localized_text_entry(0x29, 1), 1);
@@ -798,7 +795,7 @@ void TQuestVmDownLoadServer::check_memcard_slot() {
         slot = t;
     }
     if (TAdPlayerLoadGC::probe_card_slot(slot) != 0 && TAdPlayerLoadGC::probe_and_check_card(slot) != 0) {
-        cap = query_memcard_capacity__15TAdPlayerLoadGCFl(slot, 0);
+        cap = (s32)TAdPlayerLoadGC::query_memcard_capacity(slot, 0);
         switch (cap) {
         case -0xFD:
             seq = (u8 *)new TMCFormatSequence((TObject *)(void *)arg0, (void *)(void *)((void *)slot));
@@ -951,7 +948,7 @@ void TQuestVmDownLoadServer::build_file_slot_image() {
 void TQuestVmDownLoadServer::load_quest_data() {
     TAdSinglePlyChrSelectGC::set_quest_download_server(this->m_25c);
     lbl_805D49B4 = 1;
-    if (draw_window_bg__23TAdSinglePlyChrSelectGCFllll(this->m_25c, (u8 *)&this->m_270, (s32)(*(s32 *)&this->m_260), (s32)(*(s32 *)&this->unk_264)) == 0) {
+    if (TAdSinglePlyChrSelectGC::draw_window_bg(this->m_25c, (s32)&this->m_270, (s32)(*(s32 *)&this->m_260), (s32)(*(s32 *)&this->unk_264)) == 0) {
         this->state = 0xA;
         show_status_message(get_message_text(0xC), 1);
         quest_download_in_progress = 1;
@@ -1020,7 +1017,7 @@ void TQuestVmDownLoadServer::write_memcard_file() {
 void TQuestVmDownLoadServer::write_quest_data_named() {
     TAdSinglePlyChrSelectGC::set_quest_download_server(this->m_25c);
     lbl_805D49B4 = 1;
-    if (draw_window_bg__23TAdSinglePlyChrSelectGCFllll(this->m_25c, (u8 *)&this->m_27d, (s32)this->m_260, this->m_268) == 0) {
+    if (TAdSinglePlyChrSelectGC::draw_window_bg(this->m_25c, (s32)&this->m_27d, (s32)this->m_260, this->m_268) == 0) {
         this->state = 0xD;
         show_status_message(get_message_text(0xC), 1);
         return;
@@ -1100,7 +1097,7 @@ void TQuestVmDownLoadServer::build_file_info_image() {
 void TQuestVmDownLoadServer::write_quest_data() {
     TAdSinglePlyChrSelectGC::set_quest_download_server(this->m_25c);
     lbl_805D49B4 = 1;
-    if (draw_window_bg__23TAdSinglePlyChrSelectGCFllll(this->m_25c, (void *)quest_file_99_name, (s32)(*(s32 *)&this->m_260), (s32)(*(s32 *)&this->unk_26C)) == 0) {
+    if (TAdSinglePlyChrSelectGC::draw_window_bg(this->m_25c, (s32)quest_file_99_name, (s32)(*(s32 *)&this->m_260), (s32)(*(s32 *)&this->unk_26C)) == 0) {
         this->state = 0x10;
         show_status_message(get_message_text(0xC), 1);
         return;
@@ -1190,7 +1187,7 @@ void TQuestVmDownLoadServer::show_status_message(s32 text, s32 arg2) {
     if (*(u32*)(arg0 + 0x294) == 0) {
         static const Pair_801F6E08 window_size = {444.0f, 84.0f};
         Pair_801F6E08 sp = window_size;
-        *(s32*)(arg0 + 0x294) = create_window__24TMessageWindowControllerFll(arg0 + 0x1C, get_window_layout_position(0x2F), &sp);
+        *(s32*)(arg0 + 0x294) = (s32)((TMessageWindowController *)(arg0 + 0x1C))->create_window(get_window_layout_position(0x2F), (s32)&sp);
     }
     ((TMessageWindowController *)(arg0 + 0x1C))->display_message((const char *)text, (s32)(arg2 | 0x80));
 }
@@ -1314,7 +1311,6 @@ struct MCFmt_801F68FC {
 struct Pair_801F68FC { f32 a; f32 b; };
 
 extern "C" {
-s32 is_message_window_ready__18TWindowMessagePageFv();
 s32 start_memcard_format(s32, s32, s32, s32, s32);
 }
 
@@ -1323,7 +1319,7 @@ void TMCFormatSequence::open_windows() {
     if (self->f34 == 0) {
         static const Pair_801F68FC window_size = {444.0f, 84.0f};
         Pair_801F68FC t = window_size;
-        self->f34 = set_text__18TWindowMessagePageFlll((void *)get_window_layout_position(0x2F), &t, 1);
+        self->f34 = (u32)TWindowMessagePage::set_text((s32)get_window_layout_position(0x2F), (s32)&t, 1);
         show_message(get_localized_text_entry(self->f2C, self->f30), 0);
     }
     if (self->f38 == 0) {
@@ -1388,7 +1384,7 @@ void TMCFormatSequence::update_wait_confirm(void *arg0) {
     s32 (*temp_r12)(void *);
     void *self = arg0;
     arg0 = *(void **)((s8 *)arg0 + 0x34);
-    if (arg0 == NULL || ((is_message_window_ready__18TWindowMessagePageFv() != 0) && (TWindowShortListCtrl__check_controller_button((u8 *)&controller_input_state + 0x20, 4) != 0))) {
+    if (arg0 == NULL || ((((TWindowMessagePage *)arg0)->is_message_window_ready() != 0) && (TWindowShortListCtrl__check_controller_button((u8 *)&controller_input_state + 0x20, 4) != 0))) {
         temp_r12 = *(s32 (**)(void *))((s8 *)self + 0x1C);
         if (temp_r12 != NULL) {
             temp_r12(self);
@@ -1400,7 +1396,7 @@ void TMCFormatSequence::wait_confirm_and_finish(void *arg0) {
     s32 (*temp_r12)(void *);
     void *self = arg0;
     arg0 = *(void **)((s8 *)arg0 + 0x34);
-    if (arg0 == NULL || ((is_message_window_ready__18TWindowMessagePageFv() != 0) && (TWindowShortListCtrl__check_controller_button((u8 *)&controller_input_state + 0x20, 4) != 0))) {
+    if (arg0 == NULL || ((((TWindowMessagePage *)arg0)->is_message_window_ready() != 0) && (TWindowShortListCtrl__check_controller_button((u8 *)&controller_input_state + 0x20, 4) != 0))) {
         temp_r12 = *(s32 (**)(void *))((s8 *)self + 0x20);
         if (temp_r12 != NULL) {
             temp_r12(self);

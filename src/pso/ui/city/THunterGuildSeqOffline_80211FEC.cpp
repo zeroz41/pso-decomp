@@ -10,6 +10,7 @@
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80248BE8.h"
 
 
 struct Seq_80212304 {
@@ -134,7 +135,7 @@ void TMemberCheck::open_member_name_window() {
         ((TWindowBase *)self->win)->close();
         self->win = 0;
     }
-    self->win = TWindowSubStatusDisp::refresh_with_default_list((s32)(get_window_layout_position(0xBD)), (s32)member_name_window_pos);
+    self->win = create_check_box_window_for_local_client((const NJS_POINT2 *)get_window_layout_position(0xBD), (const void *)member_name_window_pos);
     if (self->win != 0) {
         ((TWindowSubTradeMain *)(self->win))->set_visible();
         ((TWindowSubTradeMain *)(self->win))->set_close_flag();

@@ -139,7 +139,6 @@ extern "C" {
 void mem_free(void *p);
 u16 get_entity_id(void *);
 void *find_entity_by_id(u16 id);
-void dispatch_technique_contact__13TUnk_804CCC68Fv(void *, s32);
 // foie_emitter_parts_N (inferred, after TTecGiFoie's emitter_parts_N): the particle parts entry N of
 // TTecFoie__emitter_profile_table spawns; the scale of part 0x14 grows with the band.
 static const Binding_8022FC94 foie_emitter_parts_0[1] = {{0x14, 2, 1.0f}};
@@ -282,7 +281,7 @@ void TTecFoie::run_task() {
     }
     move_technique_projectile();
     advance_lifetime_or_destroy();
-    dispatch_technique_contact__13TUnk_804CCC68Fv(this, 1);
+    dispatch_technique_contact(1);
 }
 
 // The aimed form (create_ex): flies from `pos` towards `target`.

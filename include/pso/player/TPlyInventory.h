@@ -9,18 +9,8 @@
 
 class TPlyInventoryItem {
 public:
-    void init() {
-        m_present[0] = 0;
-        m_present[1] = -1;
-        m_flags = 0;
-        m_present[3] = 0;
-        m_present[2] = 0;
-        m_data.init();
-    };
-    void bswap() {
-        bswap_32(&m_flags);
-        m_data.bswap();
-    };
+    void init();
+    void bswap();
 public:
     char m_present[4];
     u32 m_flags;

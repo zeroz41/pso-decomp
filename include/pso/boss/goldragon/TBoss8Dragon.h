@@ -187,6 +187,7 @@ public:
     static int set_state_1(void* p);
     static int check_condition_default(void* p);
     void spawn_effect();
+    void play_effect_sound(s32 sound_id);
     f32 calc_step_value();
     s32 check_damage_reaction();
     void pick_next_action();
@@ -246,7 +247,6 @@ public:
     void copy_vectors();
     void send_swapped_packet();
     void bswap_packet();
-    void copy_position(s32 arg1);
     void queue_destruction();
     static void trigger_switches_in_range(void *arg0, void *arg1, void *arg2);
     static s32 calc_binomial_coefficient(s32 n, s32 k);

@@ -6,6 +6,7 @@
 #include "types.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/math/AngleLookup.h"
+#include "pso/system/vector.h"
 
 #pragma readonly_strings on
 
@@ -62,7 +63,7 @@ TChCrEffCtrlPl::TChCrEffCtrlPl(TObject *object) : TObject(object) {
     m_name = TChCrEffCtrlPl__name;
     sprite_id = get_clamped_player_index() + 0x8B;
     m_20 = get_clamped_player_index() + 0xBC;
-    ((TWindowSubSymbolChatPartsSet *)&pos)->copy_vec2((void *)&lbl_80477C70);
+    copy_vec2(&pos, (void *)&lbl_80477C70);
     fade = 0.0f;
     m_34 = 0;
 }

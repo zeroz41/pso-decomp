@@ -208,7 +208,6 @@ extern "C" {
 void TLobby__sub_80225238(int a0, int a1);
 extern s32 __vt__24TShopEquipmentListWindow[];
 const char *TShopEquipmentListWindow__class_name = "TShopEquipmentListWindow";
-int set_field_20__15TShopWindowBaseFl(void*, int);
 int obj_getPtr2B0_20(u8 *p);
 s32 check_equip_requirements(void *self, TItemData *p, s32 *out);
 s32 get_entity_id(s32);
@@ -468,7 +467,7 @@ s32 TShopEquipmentListWindow::handle_confirm() {
     }
 }
 
-int TShopEquipmentListWindow::get_list_item8() { return set_field_20__15TShopWindowBaseFl(this, 8); }
+int TShopEquipmentListWindow::get_list_item8() { set_field_20(8); }
 
 s32 TShopEquipmentListWindow::open_menu_window() {
     f32 scale;

@@ -275,9 +275,7 @@ struct Self_8011EDFC {
 
 s32 TObjectV8047c128_subtract_hp(u8 *arg0, s16 arg1);
 s32 get_entity_id(void *);
-s32 get_mode__11TCameraCtrlFPv(void *);
 u8 * csnVector(void *, void *, s32);
-s32 set_action_type__10TObjPlayerFs(int, int);
 f32 get_attack_accuracy_scale(s16 *arg0);
 void TObjPlayer__sub_80121228(void *p, u32 v);
 f32 horizontal_distance_squared(void *, void *);
@@ -328,7 +326,7 @@ void TItemWeapon::spawn_light_task() {
 void TItemWeapon::restore_action_type() {
     u8 *arg0 = (u8 *)this;
     if (((TItemWeapon *)arg0)->test_weapon_flags(0x04000000) != 0U) {
-        set_action_type__10TObjPlayerFs((int) (*(s32 *)&this->owner + 0x7CC), 2);
+        ((TObjPlayer *)(*(s32 *)&this->owner + 0x7CC))->set_action_type((s16)2);
         ((TItemWeapon *)arg0)->clear_weapon_flags(0x04000000);
     }
 }
@@ -336,9 +334,9 @@ void TItemWeapon::restore_action_type() {
 void TItemWeapon::remap_extra_attack_type() {
     if ((this->test_weapon_flags(0x20) != 0U) && (TObjPlayer__sub_801D2F4C((s16 *)(*(s32 *)((s8 *)this + 0xF0) + 0x7CC)) == 2)) {
         if (this->test_weapon_flags(0x100000) != 0U) {
-            set_action_type__10TObjPlayerFs((int) (*(s32 *)((s8 *)this + 0xF0) + 0x7CC), 0);
+            ((TObjPlayer *)(*(s32 *)((s8 *)this + 0xF0) + 0x7CC))->set_action_type((s16)0);
         } else {
-            set_action_type__10TObjPlayerFs((int) (*(s32 *)((s8 *)this + 0xF0) + 0x7CC), 1);
+            ((TObjPlayer *)(*(s32 *)((s8 *)this + 0xF0) + 0x7CC))->set_action_type((s16)1);
         }
         set_weapon_flags(0x04000000);
     }
@@ -446,7 +444,7 @@ void TItemWeapon::update_trail_slot(s32 slot) {
     if (is_default_camera() != 0 && has_no_defer_render() == 0 &&
         owner->test_action_mask(0xE0) != 0 &&
         owner->is_flag_b0_4() == 0 &&
-        !(get_mode__11TCameraCtrlFPv(((u8 *)&main_task)) & 0x78)) {
+        !((s32)main_task.get_task_flags() & 0x78)) {
         if (trails[slot] != NULL) {
             get_joint_position(trail_start_joints[slot], &a);
             get_joint_position(trail_end_joints[slot], &b);
@@ -1070,7 +1068,6 @@ void TObjPlayer::draw_status_icons(void* a1, void* a2) { ((TItemWeapon *)this)->
 
 extern "C" {
 
-s32 test_flag30_bit0x100000__10TObjPlayerFv(void*);
 void TItemEffectWeapon__sub_8036340C(void*);
 void TItemEffectWeapon__sub_80363410(void*);
 
@@ -1148,7 +1145,7 @@ void TItemWeapon::update_equipped() {
         }
         if(stage>=0) ((TItemWeapon *)self)->set_weapon_flags(0x10);
         else clear_weapon_flags(0x10);
-        if(stage>=0 || test_flag30_bit0x100000__10TObjPlayerFv(self->owner)) self->update_attack();
+        if(stage>=0 || ((TObjPlayer *)self->owner)->test_flag30_bit0x100000()) self->update_attack();
         else self->update_idle();
         if(self->model_motion) {
             self->motion_frame+=lbl_805DAC9C;
@@ -1548,7 +1545,6 @@ void TItemWeapon::on_equip() {
 // ---- pso/player/TObjPlayer_801207E8
 typedef struct { f32 sp8; f32 spC; f32 sp10; } FloatTriplet;
 
-s32 get_view_matrix__11TCameraCtrlFv();
 s32 push_matrix();
 
 
@@ -1572,7 +1568,7 @@ s32 TItemWeapon::get_joint_position(s32 joint, void *out) {
         floats.sp8 = lbl_805DAC98;
         push_matrix();
         TObjPlayer::copy_matrix(0, (u32)get_model_joint_matrix(owner, joint));
-        TCameraCtrl::concat_matrix(0, get_view_matrix__11TCameraCtrlFv());
+        TCameraCtrl::concat_matrix(0, (s32)TCameraCtrl::get_view_matrix());
         transform_point_by_current_matrix(&floats.sp8, out);
         pop_matrix();
     } else {

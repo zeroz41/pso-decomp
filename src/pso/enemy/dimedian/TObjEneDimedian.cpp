@@ -33,6 +33,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/unk/text_803E2D70.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
+#include "pso/unk/text_803D853C.h"
 
 struct VBase_14_800A7BEC { char pad[0x14]; };
 
@@ -116,7 +117,6 @@ struct Player_800A7CA4 : VBase18_800A7CA4 {
 extern "C" {
 s32 play_sound_effect(s32, s32, s32, s32);
 s32 TObjPlayer__sub_800A0554(void *);
-s32 mult_vec_array__10TObjPlayerFUll(int, int, void *, int);
 s32 push_matrix();
 s32 post_translate_matrix(void *);
 extern s32 dimedian_type3_object;
@@ -239,7 +239,7 @@ void TObjEneDimedian::vfunc_93() {
     set_matrix_identity(0);
     post_translate_matrix(&o->pos);
     rotate_matrix_y(0, this->rotation_y);
-    mult_vec_array__10TObjPlayerFUll(0, e, &a, 2);
+    matrix_mult_vec_array(NULL, (const Vec *)e, &a, 2);
     pop_matrix();
     eff = o->effs[idx];
     if (eff != NULL) {

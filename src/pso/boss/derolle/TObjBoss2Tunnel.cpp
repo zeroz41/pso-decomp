@@ -55,6 +55,7 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 #include "pso/camera/TCameraCtrl_801A6E60.h"
+#include "pso/unk/TLobby_803DE778.h"
 
 // Two debug chunk models other units draw with draw_chunk_object: debug_chunk_object (TObjEneBm3FlyNest,
 // TObjEneRecobox, and TObjHMS_EZRope_Player through lbl_8048DEF4) and lbl_805D28BC (TBoss1Dragon, TBoss2Mine,
@@ -271,14 +272,11 @@ s32 TAdPlayerLoadGC__sub_801E1538(void *, void *);
 s32 poll_memcard_result(s32 chan);
 extern s32 lbl_805D49B4;
 s32 draw_textured_screen_quad__10TObjPlayerFUlPfPfl(int, void *, void *, int, f32);
-void poll_load_status__15TAdPlayerLoadGCFl(s32 a, void *b);
 u32 calc_crc32_bitwise(u8 *arg0, u32 arg1);
 void TAdPlayerLoadGC__sub_801E14E4(void *);
 void TAdPlayerLoadGC__sub_801E14E8(u8 *arg0, s32 arg1);
 void build_save_file_image__15TAdPlayerLoadGCFPvPv(void *, void *, void *);
-s32 load_player__23TAdSinglePlyChrSelectGCFllll(s32, const char *, void *, s32);
 extern char episode_i_and_ii_card_filename[];
-VObj_8007C5C0 *create__8TDLGraphFv(void);
 s8 func_801A5E54__Fv(void);
 extern u32 camera_ctrl_instance;
 s32 verify_snapshot_checksum__15TObjBoss2TunnelFv();
@@ -286,7 +284,6 @@ void set_depth_buffer_settings_1__Fv(void);
 void draw_projected_quads__15TObjBoss2TunnelFPvi(Vtx_8007D828 *, s32);
 extern s32 lbl_805D63F0;
 s32 get_memcard_free_files(s32);
-s32 query_memcard_capacity__15TAdPlayerLoadGCFl(s32, s32);
 }
 f32 sample_acceleration_curve(AccelerationCurve *c, f32 t);
 void init_acceleration_curve(AccelerationCurve *c, f32 a, f32 d, f32 length, f32 speed);
@@ -695,8 +692,8 @@ f32 TObjBoss2Tunnel::eval_piecewise_curve(f32 farg0) {
 }
 
 #pragma pop
-void TObjBoss2Tunnel::update_position() {
-    eval_piecewise_curve(*(f32 *)&this->_pad1C);
+f32 TObjBoss2Tunnel::update_position() {
+    return eval_piecewise_curve(*(f32 *)&this->_pad1C);
 }
 
 #pragma push
@@ -967,7 +964,7 @@ s32 TObjBoss2Tunnel__sub_8007D1D0(void) {
         frame->snapshot.width = 0x100;
         frame->snapshot.height = 0xC0;
         p += 8;
-        ((TLobby *)p)->move_data((void *)get_capture_texture_pixels(), 0x18000);
+        move_data((void *)(p), (const void *)((void *)get_capture_texture_pixels()), 0x18000);
         p += 0x18000;
         *p++ = 0x18;
         *p++ = 2;
@@ -1022,7 +1019,7 @@ s32 TObjBoss2Tunnel__sub_8007D1D0(void) {
         cmd.sound_id = 0x52B20;
         ((TObjBoss2Tunnel *)&cmd)->finalize_and_send_60();
         if (memcard_check_snapshot(0, NULL) != 0) {
-            if (load_player__23TAdSinglePlyChrSelectGCFllll(1, TObjBoss2Tunnel__data_80438A08, frame->save_image, 0xF) == 0) {
+            if (TAdSinglePlyChrSelectGC::load_player(1, (s32)TObjBoss2Tunnel__data_80438A08, (s32)frame->save_image, 0xF) == 0) {
                 t = 0.0f;
                 graph = (TDLGraph *)TDLGraph::create();
                 if (get_main_phase() == 0xF) {
@@ -1135,7 +1132,7 @@ s32 memcard_check_snapshot(s32 arg0, s32 *arg1) {
         }
         return 0;
     }
-    if (query_memcard_capacity__15TAdPlayerLoadGCFl(1, 0) < 0xF) {
+    if ((s32)TAdPlayerLoadGC::query_memcard_capacity(1, 0) < 0xF) {
         if (arg1 != NULL) {
             *arg1 = -1;
         }
@@ -1240,7 +1237,7 @@ s32 TObjBoss2Tunnel::save_snapshot_to_card() {
     c.data = boss2_tunnel_snapshot_buffer;
     build_save_file_image__15TAdPlayerLoadGCFPvPv(TObjBoss2Tunnel__snapshot_buffer, &c, boss2_tunnel_snapshot_buffer);
     TAdPlayerLoadGC__sub_801E14E4(&c);
-    if (load_player__23TAdSinglePlyChrSelectGCFllll(1, TObjBoss2Tunnel__data_80438A08, TObjBoss2Tunnel__snapshot_buffer, 0xF) != 0) {
+    if (TAdSinglePlyChrSelectGC::load_player(1, (s32)TObjBoss2Tunnel__data_80438A08, (s32)TObjBoss2Tunnel__snapshot_buffer, 0xF) != 0) {
         return 0;
     }
     lbl_805D49B4 = 1;
@@ -1298,7 +1295,7 @@ void TObjBoss2Tunnel__sub_8007CAE8(u32 arg0) {
         stack.sp10 = 192.0f;
         stack.sp14 = 144.0f;
     } else {
-        ((TWindowSubSymbolChatPartsSet *)(&stack.sp10))->copy_vec2((void *)arg0);
+        copy_vec2((&stack.sp10), (void *)arg0);
     }
     stack.sp8 = 345.6f;
     stack.spC = 259.2f;
@@ -1360,7 +1357,7 @@ void TObjBoss2Tunnel::show_message_and_wait(s32 arg0) {
 }
 
 void TObjBoss2Tunnel::poll_pso_screen_load() {
-    poll_load_status__15TAdPlayerLoadGCFl(1, ((u8 *)&TObjBoss2Tunnel__data_80438A08));
+    TAdPlayerLoadGC::delete_memcard_file(1, (const char *)(((u8 *)&TObjBoss2Tunnel__data_80438A08)));
 }
 
 s32 TObjBoss2Tunnel::run_confirm_message_loop() {
@@ -1379,7 +1376,7 @@ s32 TObjBoss2Tunnel::run_confirm_message_loop() {
         ((TWindowBase *)win)->set_depth(36900.0f);
     }
     ((TWindowMessage *)win)->complete_reveal();
-    graph = create__8TDLGraphFv();
+    graph = (VObj_8007C5C0 *)TDLGraph::create();
     if (graph != NULL) {
         ((TDLGraph *)graph)->set_graph_param(2);
     }

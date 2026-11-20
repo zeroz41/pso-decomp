@@ -55,7 +55,6 @@ struct E_80263DBC { s16 a; s32 b; };
 
 struct Obj_80263DBC { u8 pad[0x28]; E_80263DBC arr[4]; u8 pad2[0x50 - 0x48]; s16 f50; s16 f52; u8 pad3[0x5c - 0x54]; u32 f5c; };
 extern "C" {
-s32 init_parts__10TObjPlayerFv();
 s32 is_quest_active();
 s32 is_trade_range_bit_set(s32);
 extern s32 local_client_id;
@@ -614,6 +613,7 @@ void TWindowMainMenu::open(s32 arg1) {
 }
 
 void TWindowMainMenu::close_and_clear_flags() {
+    void *player;
     s32 temp_r4;
 
     temp_r4 = *(s32 *)((s8 *)this + 0x4C);
@@ -621,8 +621,8 @@ void TWindowMainMenu::close_and_clear_flags() {
     close_child_window();
     destroy_submenu();
     close();
-    if (get_player_by_client_id((s32)(*(s32 *)((s8 *)this + 0x54))) != 0U) {
-        init_parts__10TObjPlayerFv();
+    if ((player = (void *)get_player_by_client_id((s32)(*(s32 *)((s8 *)this + 0x54)))) != 0U) {
+        ((TObjPlayer *)player)->init_parts();
     }
 }
 

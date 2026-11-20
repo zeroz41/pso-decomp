@@ -15,7 +15,7 @@ void TWindowSubSymbolChat::clear_flag_bit2(s32 *arg0) {
     *arg0 &= 0xFFFFFFFD;
 }
 
-s16 TWindowSubSymbolChat::get_cursor_pos() {
+s32 TWindowSubSymbolChat::get_cursor_pos() {
     return *(s16 *)((s8 *)this + 0x6C);
 }
 

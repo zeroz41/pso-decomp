@@ -39,7 +39,6 @@ struct VObj_8032C594_8032C504 : Base_8032C594_8032C504 {
 extern "C" {
 extern s32 __vt__17TAdExNetConfirmGC[];
 const char *lbl_805D4200 = "TAdExNetConfirmGC";
-int request_scene_change__21TAdMultiChgGameModeGCFv(void*);
 
 void TAdExNetConfirmGC::render() {
     struct VObj_8032C504 *o = (struct VObj_8032C504 *)this;
@@ -54,7 +53,7 @@ void TAdExNetConfirmGC::vfunc_7() {
     get_localized_text_entry(0x22, 0);
 }
 
-int TAdExNetConfirmGC::vfunc_6() { return request_scene_change__21TAdMultiChgGameModeGCFv(this); }
+int TAdExNetConfirmGC::vfunc_6() { TAdMultiChgGameModeGC::request_scene_change(); }
 
 void TAdExNetConfirmGC::run_task() {
     struct VObj_8032C594_8032C504 *o = (struct VObj_8032C594_8032C504 *)this;

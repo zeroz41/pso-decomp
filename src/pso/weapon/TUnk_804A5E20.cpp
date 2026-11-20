@@ -28,7 +28,7 @@ TUnk_804A5E20::TUnk_804A5E20(TObject *parent, u8 *item) : TItemWeapon(parent, it
     set_weapon_flags(2);
     hit_callback = (WeaponHitCallback)spawn_target_needle;
     impact_callback = (WeaponHitCallback)spawn_needle_wall_impact;
-    shot_callback = (WeaponShotCallback)create_shoot_model__10TObjPlayerFUiiif;
+    shot_callback = (WeaponShotCallback)TObjPlayer::create_shoot_model;
 }
 
 u8 *TObjPlayer::create_init_state_2(u8 *item) {

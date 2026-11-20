@@ -22,6 +22,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/map/TSetEvtDestroy.h"
 #include "pso/system/byteswap.h"
+#include "pso/unk/TLobby_803DE778.h"
 
 #pragma readonly_strings on
 
@@ -295,7 +296,6 @@ s32 load_area_event_set(s32 floor, s32 area, s32 terrain, s32 entities);
 #define lobby_slot_ptr_table (*(s32 (*)[1])&lobby_slot_ptr_table)
 #define area_event_set_heap (*(s32 *)&area_event_set_heap)
 extern "C" {
-void free_team_buffers__6TLobbyFv(void);
 #define lobby_slot_ptr_table (*(s32 (*)[1])&lobby_slot_ptr_table)
 #define area_event_set_heap (*(s32 *)&area_event_set_heap)
 
@@ -312,7 +312,7 @@ s32 TLobby::add_player(s32 arg0, s32 arg1, s32 arg2) {
     }
     temp_r3 = HA2(area_event_set_heap, arg2);
     if (temp_r3 != 0) {
-        ((TLobby *)temp_r3)->move_data((const void *)arg1, (u32)arg2);
+        move_data((void *)(temp_r3), (const void *)((const void *)arg1), (u32)arg2);
         *((s32 *)((s8 *)lobby_slot_ptr_table + temp_r29)) = temp_r3;
         bswap_floor_event_set(arg0);
         return 1;
@@ -320,7 +320,7 @@ s32 TLobby::add_player(s32 arg0, s32 arg1, s32 arg2) {
     return 0;
 }
 
-void free_team_buffers__6TLobbyFv(void) {
+void TLobby::free_team_buffers() {
     s32 i;
     for (i = 17; i >= 0; i--) {
         if ((u32)((s32 *)&lobby_slot_ptr_table)[i] != 0) {
@@ -388,7 +388,7 @@ void open_gsl_archive(char *name);
 #define lobby_slot_ptr_table (*(s32 (*)[1])&lobby_slot_ptr_table)
 int __dt__5THeapFv(void*, void*);
 
-int TLobby::get_team_state(void* p) { return ((int (*)(void *))free_team_buffers__6TLobbyFv)(p); }
+void TLobby::get_team_state() { TLobby::free_team_buffers(); }
 
 #define area_event_set_heap (*(int *)&area_event_set_heap)
 

@@ -4,7 +4,7 @@
 #include "types.h"
 
 extern "C" {
-int TLobby__sub_80207E24(void *p, s32 size);
+void TLobby__sub_80207E24(void *p, s32 size);
 void TLobby__sub_80207E44(void);
 void TLobby__sub_80207E48(void);
 void TLobby__sub_80207F10(void);
@@ -27,9 +27,6 @@ struct SetDestroyEventRecord;
 void create_empty_floor_event(SetDestroyEventRecord *event);
 void spawn_destroy_event(SetDestroyEventRecord *event);
 void dispatch_wave_event_action(u8 opcode);
-extern "C" {
-void free_team_buffers__6TLobbyFv(void);
-}
 s32 get_floor_scene_table(s32 arg0);
 extern "C" {
 int link_matching_objects__6TLobbyFPv(void *p);
@@ -40,7 +37,6 @@ u16 read_stream_u16(void);
 unsigned char read_stream_u8(void);
 void request_wave_event_stop(void);
 extern "C" {
-void reset_story_select__6TLobbyFv(void);
 void run_floor_cleanup_callbacks__6TLobbyFi(s32 arg0);
 }
 s32 run_floor_initialize_callbacks(s32 arg0);

@@ -32,6 +32,7 @@
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/system/BmlResourceLoad.h"
 #include "pso/unk/TLobby.h"
+#include "pso/unk/text_803D853C.h"
 
 #include "pso/object/base/TObjChara.h"
 
@@ -252,8 +253,6 @@ typedef struct Moja_800AEBB8 {
 } Moja_800AEBB8;
 
 extern "C" {
-s32 update_movement_status__9TObjCharaFv();
-s32 update_action_hold_status__9TObjCharaFv();
 
 f32 enemy_pursue_point(void *, s32, Vec *, void *, f32, f32);
 s32 select_enemy_destination(void *, Vec *, int);
@@ -280,7 +279,6 @@ s32 angle_difference_abs(s32, s32);
 
 s32 obj_is_hit_receivable();
 
-s32 mult_vec_array__10TObjPlayerFUll(int, int, void *, int);
 void set_matrix_identity(u8 *arg0);
 s32 push_matrix();
 
@@ -762,7 +760,7 @@ void TObjEneMoja::vfunc_28() {
 
 s32 TObjEneMoja::update_action_hold_status() {
     void *temp_r3;
-    if (update_action_hold_status__9TObjCharaFv() != 0) {
+    if (TObjChara::update_action_hold_status() != 0) {
         switch (this->mode) {
         case 0:
         case 1:
@@ -785,7 +783,7 @@ s32 TObjEneMoja::update_action_hold_status() {
 
 s32 TObjEneMoja::update_movement_status() {
     void *temp_r3;
-    if (update_movement_status__9TObjCharaFv() != 0) {
+    if (TObjChara::update_movement_status() != 0) {
         switch (this->mode) {
         case 0:
         case 1:
@@ -1241,7 +1239,7 @@ s32 TObjEneMoja::update_punch_attack(void *self_800ADAAC) {
                 set_matrix_identity(0);
                 post_translate_matrix(arg0 + 0x38);
                 rotate_matrix_y(0, *(s32 *)(arg0 + 0x60));
-                mult_vec_array__10TObjPlayerFUll(0, e, &sp8, 2);
+                matrix_mult_vec_array(NULL, (const Vec *)e, &sp8, 2);
                 ((s32 (*)())pop_matrix)();
                 o = *(V398_800ADAAC **)(arg0 + 0x398);
                 if (o != NULL) {

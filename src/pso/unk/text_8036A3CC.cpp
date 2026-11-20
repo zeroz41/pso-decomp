@@ -3,6 +3,7 @@
 #include <string.h>
 #include "pso/unk/text_8036A3CC.h"
 #include "pso/object/collision/TObjBgmColCtrl.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
 struct Inst_8036A3CC { u8 pad0[0x1155C]; u32 flags[2]; };
 
@@ -11,7 +12,6 @@ struct FlagLink_8036A514 {
     s32 linked;
 };
 
-extern "C" Inst_8036A3CC *get_instance__23TAdSinglePlyChrSelectGCFv(void);
 
 // Song titles shown in the options jukebox, one per music flag.
 const char *option_name_table[49] = {
@@ -157,7 +157,7 @@ u32 *get_flag_word_mask(s32 arg0, u32 *mask) {
         return 0;
     }
     *mask = 1 << (arg0 & 0x1F);
-    return &get_instance__23TAdSinglePlyChrSelectGCFv()->flags[word];
+    return &((Inst_8036A3CC *)TAdSinglePlyChrSelectGC::get_instance())->flags[word];
 }
 
 void unlock_sequencer_flag(s32 arg0) {

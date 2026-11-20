@@ -19,7 +19,6 @@ s32 TShopJudgmentItemWindow__sub_80267F9C(void *, int);
 s32 get_draw_context__11TWindowBaseFPv();
 s32 draw_visible_window_entries(void *, void *, s32);
 s32 draw_window_scrollbar(s32, s32, void *);
-s32 forward_render__20TWindowSubStatusDispFv(s32, s32);
 
 extern s32 local_client_id;
 
@@ -28,8 +27,8 @@ u8 *TWindowSubStatusDisp__sub_80248BE8(s32 arg0, s32 arg1, s32 arg2) {
     return (u8 *)new TWindowCheckBox((u8 *)arg0, arg2);
 }
 
-void *TWindowSubStatusDisp::refresh_with_default_list(s32 a, s32 b) {
-    return TWindowSubStatusDisp__sub_80248BE8(a, b, local_client_id);
+void *create_check_box_window_for_local_client(const NJS_POINT2 *layout_position, const void *position) {
+    return TWindowSubStatusDisp__sub_80248BE8((s32)layout_position, (s32)position, local_client_id);
 }
 
 void TWindowCheckBox::render() {
@@ -40,7 +39,7 @@ void TWindowCheckBox::render() {
     draw_visible_window_entries(this, ((u8 *)this) + 0x24, temp_r3);
     ((TWindowMenuIconLine *)((u8 *)this))->draw_selected_list_entry(temp_r3);
     if ((u32) *(u32 *)((s8 *)((u8 *)this) + 0x80) != 0U) {
-        forward_render__20TWindowSubStatusDispFv(*(u32 *)((s8 *)((u8 *)this) + 0x80), temp_r3);
+        ((TWindowSubStatusDisp *)((void *)(*(u32 *)((s8 *)((u8 *)this) + 0x80))))->forward_render((void *)(temp_r3));
     }
     if ((u32) *(u32 *)((s8 *)((u8 *)this) + 0x84) != 0U) {
         draw_window_scrollbar(*(u32 *)((s8 *)((u8 *)this) + 0x84), temp_r3, ((u8 *)this) + 0x68);
@@ -59,18 +58,18 @@ void TWindowCheckBox::run_task() {
     if ((((TWindowMenuIconLine *)arg0)->get_flag() == 0) && (((TWindowMenuIconLine *)arg0)->is_decided() == 0) && (((TWindowBase *)arg0)->sub_80244994() != 0)) {
         if (*(u16 *)((s8 *)arg0 + 0x70) & 0x10) {
             input = (u8 *)&controller_input_state + (temp_r31 * 0x50) + 0x20;
-            if ((TWindowChoiceSetting::apply_choice((s32)input, 0x10, 6, 1) != 0) || (TWindowChoiceSetting::apply_choice((s32)((void *) ((u8 *)&controller_input_state + 0x160)), 0x10, 6, 1) != 0)) {
+            if ((test_buttons_press_or_repeat((s32)input, 0x10, 6, 1) != 0) || (test_buttons_press_or_repeat((s32)((void *) ((u8 *)&controller_input_state + 0x160)), 0x10, 6, 1) != 0)) {
                 ((TWindowMenuIconLine *)arg0)->move_cursor();
             }
-            if ((TWindowChoiceSetting::apply_choice((s32)input, 0x20, 6, 1) != 0) || (TWindowChoiceSetting::apply_choice((s32)((void *) ((u8 *)&controller_input_state + 0x160)), 0x20, 6, 1) != 0)) {
+            if ((test_buttons_press_or_repeat((s32)input, 0x20, 6, 1) != 0) || (test_buttons_press_or_repeat((s32)((void *) ((u8 *)&controller_input_state + 0x160)), 0x20, 6, 1) != 0)) {
                 ((TWindowMenuIconLine *)arg0)->move_cursor_next();
             }
         } else {
             temp_r29_2 = (u8 *)&controller_input_state + (temp_r31 * 0x50) + 0x20;
-            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((int)temp_r29_2, 0x10, 6, 1) != 0) || (TWindowChoiceSetting::apply_choice((s32)((void *) ((u8 *)&controller_input_state + 0x160)), 0x10, 6, 1) != 0)) {
+            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((int)temp_r29_2, 0x10, 6, 1) != 0) || (test_buttons_press_or_repeat((s32)((void *) ((u8 *)&controller_input_state + 0x160)), 0x10, 6, 1) != 0)) {
                 ((TWindowMenuIconLine *)arg0)->move_cursor();
             }
-            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((int)temp_r29_2, 0x20, 6, 1) != 0) || (TWindowChoiceSetting::apply_choice((s32)((void *) ((u8 *)&controller_input_state + 0x160)), 0x20, 6, 1) != 0)) {
+            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((int)temp_r29_2, 0x20, 6, 1) != 0) || (test_buttons_press_or_repeat((s32)((void *) ((u8 *)&controller_input_state + 0x160)), 0x20, 6, 1) != 0)) {
                 ((TWindowMenuIconLine *)arg0)->move_cursor_next();
             }
         }

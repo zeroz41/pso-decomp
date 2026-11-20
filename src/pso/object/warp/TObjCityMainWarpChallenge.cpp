@@ -32,6 +32,8 @@
 #include "pso/unk/text_803D853C.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/window/TWindowSubComCard_802A5748.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80248BE8.h"
 const char *lbl_805D32B8 = "TObjCityMainWarpChallenge";
 static const char lbl_80444A44[] = "<- NEXT STAGE No.%d";
 static const char lbl_80444A58[] = "<- KEY ID : %d";
@@ -48,15 +50,11 @@ void fn_80248994(TWindowBase *list, u32 color, s32 pos);
 void request_active_window_close(void);
 void begin_player_keyboard_hold(s32 arg0);
 s32 get_window_layout_position(s32);
-s32 free_member__17TWindowSubComCardFv(void *, int);
-s32 forward_slot_selection__16TAdChrSelASlotGCFPvPv(void *, s32, s32, f32);
 extern s32 city_main_warp_destination_id;
 s32 post_translate_matrix(void *);
-s32 update_floor_switch_state__16TObjCityMainWarpFv();
 void draw_ginja_model_with_motion(void *model, void *motion, f32 frame);
 s32 rotate_matrix_y(s32, s32);
 s32 push_matrix();
-s32 update_state__16TObjCityMainWarpFv();
 extern s32 camera_ctrl_instance;
 
 TObjCityMainWarpChallenge::TObjCityMainWarpChallenge(TObject *parent, void *set_data) : TObjAreaWarp(parent, set_data) {
@@ -167,13 +165,13 @@ void TObjCityMainWarpChallenge::update_state() {
         update_warp_sequence();
         return;
     case 2:
-        update_state__16TObjCityMainWarpFv();
+        ((TObjCityMainWarp *)this)->update_state();
         return;
     case 3:
         update_challenge_warp_window(this);
         return;
     case 4:
-        update_floor_switch_state__16TObjCityMainWarpFv();
+        ((TObjCityMainWarp *)this)->update_floor_switch_state();
         return;
     }
 }
@@ -190,12 +188,12 @@ void TObjCityMainWarpChallenge::sub_801875F8() {
         if (this->yes_no_window == 0) {
             this->yes_no_window = TWindowMessageYesNo::create(this, (void *)local_client_id, (void *)0, (void *)0);
             if (this->yes_no_window != 0) {
-                forward_slot_selection__16TAdChrSelASlotGCFPvPv(this->yes_no_window, (s32)TWindowSubStatusDisp::get_message_10(0x41), get_window_layout_position(0x36), 368.0f);
-                free_member__17TWindowSubComCardFv(this->yes_no_window, 1);
+                open_yes_no_prompt_with_text((TChCrTagPlBack *)this->yes_no_window, (s32)(TWindowSubStatusDisp::get_message_10(0x41)), (s32)(get_window_layout_position(0x36)), 368.0f);
+                set_menu_selected_index((TWindowSubComCard *)this->yes_no_window, 1);
                 ((TWindowSubShortMail *)this->yes_no_window)->notify_warp_flag70();
                 begin_player_keyboard_hold(local_client_id);
                 request_active_window_close();
-                ((TWindowCtrl *)local_client_id)->suppress_slot();
+                TWindowCtrl::suppress_slot(local_client_id);
             }
         }
         break;
@@ -211,7 +209,7 @@ void TObjCityMainWarpChallenge::sub_801875F8() {
     if (this->player_list_window == 0) {
         pos[0] = 229.0f;
         pos[1] = 104.0f;
-        this->player_list_window = TWindowSubStatusDisp::refresh_with_default_list(get_window_layout_position(0x34), (s32)pos);
+        this->player_list_window = create_check_box_window_for_local_client((const NJS_POINT2 *)get_window_layout_position(0x34), (const void *)pos);
         if (this->player_list_window != 0) {
             ((TWindowSubTradeMain *)this->player_list_window)->set_visible();
             ((TWindowSubTradeMain *)this->player_list_window)->set_close_flag();
@@ -226,7 +224,7 @@ void TObjCityMainWarpChallenge::sub_801875F8() {
             ((THunterGuildSeqOffline *)this->player_list_window)->advance_matching_entries(this->player_in_range[j] != 0, j);
             color = 0xF0F0F0FF;
             if (this->state == 1 && (player = get_player_by_client_id(j)) != NULL &&
-                player->check_player_flag1() != 0) {
+                ((TObjPlayer *)player)->check_player_flag1() != 0) {
                 color = 0xFFFF00FF;
             }
             fn_80248994((TWindowBase *)this->player_list_window, color, j);
@@ -275,10 +273,10 @@ void TObjCityMainWarpChallenge::count_players_in_warp_radius() {
     if (pl2 != NULL && pl2->get_floor() == get_current_floor()) {
         if (xz_distance_squared(&pl2->position, &position) <= (25.0f + warp_range) * (25.0f + warp_range)) {
             if (TObjWarpBossMulti::is_flag_clear(pl2) != 0) {
-                pl2->check_technique_flag();
+                pl2->set_flag_4096();
             }
         } else if (TObjWarpBossMulti::is_flag_clear(pl2) == 0) {
-            pl2->has_item_flag_4096();
+            pl2->clear_flag_4096();
         }
     }
 }

@@ -214,13 +214,10 @@ void *create_timed_particle_emitter(void *owner, s32 id, s32 b, s32 c);
 s32 TObjEneMe1Canadin__sub_8009E860(TObjEneMe1Canadin *self, f32 *out, f32 _w2);
 void TObjEneEpsilon__sub_800B92AC(u8 *arg0, s32 arg1, f32 farg0);
 int select_and_apply_target__12TObjEneDD_STFf(void*);
-s32 get_camera_ctrl__9TObjEneDDFv(Vec *, Vec *);
-s32 update_camera_sequence__9TObjEneDDFv();
 void TObjEneDD__sub_800BA5A4(void *, void *, void *);
 s32 is_player_entity_id(u16 arg0);
 void set_part_position__9TObjEneDDFPvPvi(void *, s32, s32);
 s32 collect_enemy_target_candidates(void *, Entry_8009E860 *);
-void clear_attack_receipts__9TObjEneDDFv();
 void TBoss3Volopt__sub_800D8D88(s32 arg0);
 s32 trigger_dell_biter_events__10TObjPlayerFv(void *, f32);
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
@@ -1697,7 +1694,7 @@ void TObjEneMe1Canadin__sub_8009C510(TObjEneMe1Canadin *self, s32 arg1) {
         self->vfunc_89();
         break;
     case 5:
-        clear_attack_receipts__9TObjEneDDFv();
+        ((TObjEneDD *)self)->clear_attack_receipts();
         if (self->m_3FC == 5) {
             self->requested_action = 1;
         } else {
@@ -1912,7 +1909,7 @@ void fn_8009BD00(void) {
     case 2:
     case 3:
         push_matrix();
-        update_camera_sequence__9TObjEneDDFv();
+        forward_split_screen_view_matrix();
         temp_r5 = TObjEneMe1Canadin__render_point_cursor;
         TObjEneMe1Canadin__render_point_cursor = temp_r5 + 1;
         matrix_mult_vec(0, &lbl_80500960, temp_r5);
@@ -1927,7 +1924,7 @@ void fn_8009BD00(void) {
     case 14:
         pos = TObjEneMe1Canadin__render_point_cursor;
         TObjEneMe1Canadin__render_point_cursor = pos + 1;
-        get_camera_ctrl__9TObjEneDDFv(&lbl_80500960, pos);
+        forward_transform_to_view(&lbl_80500960, pos);
         break;
     }
     TObjEneMe1Canadin__render_node_index += 1;

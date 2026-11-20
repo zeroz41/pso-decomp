@@ -46,7 +46,6 @@ void *get_player_by_client_id(s32 i);
 void draw_action_palette_icon(void *, int, u16);
 void init_window_layout_entries(void *, const void *, s16);
 s32 *get_shared_text_buffer(void);
-u8 calc_display_grade__9TItemDataFv(void *);
 s32 check_equip_requirements(void *self, TItemData *p, s32 *out);
 void text_builder_append();
 }
@@ -158,7 +157,7 @@ void TWindowHelpItem::sub_802534B0() {
     set_text_entry_string((e), (u32)(get_shared_text_buffer()), 0x20);
     ((TWindowHelpItem *)e)->reset_float_field();
     e2 = (u8 *)((TWindowBase *)this)->get_array_entry(1);
-    *(s32 *)(e2 + 0x10) = calc_display_grade__9TItemDataFv(*(void **)(((u8 *)this) + 0x68));
+    *(s32 *)(e2 + 0x10) = (u8)((TItemData *)(*(void **)(((u8 *)this) + 0x68)))->calc_display_grade();
 }
 
 void TWindowHelpItem__vt11(u8 *window) {

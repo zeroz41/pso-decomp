@@ -25,7 +25,6 @@
 extern "C" {
 
 s32 post_translate_matrix(void *);
-s32 is_owner_alive__15TItemShootModelFv();
 s32 push_matrix();
 void __ct__15TItemShootModelFPvPC3VecPC3Vecf(void *);
 

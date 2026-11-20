@@ -18,6 +18,7 @@
 #include "pso/ui/frontend/TAdLdQuestPrtGC.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/enemy/dd/TObjEneDD.h"
 
 
 const char TBoss6GravBall__class_name_string[] = "TBoss6GravBall";
@@ -177,7 +178,7 @@ void TBoss6GravBall__sub_803233AC(u8 *self) {
     for (i = 0; i < n; i++) {
         pl = (PL_803233AC *)TObjPlayer::get_player_data(i);
         id = get_entity_id(pl) + 5;
-        if (((TBoss6PlotFalz *)pl)->is_active() == 0) {
+        if (((TObjPlayer *)pl)->is_active() == 0) {
             ((TBoss6GravBall *)self)->destroy_part((s32)((void *)id));
             continue;
         }
@@ -223,7 +224,7 @@ void TBoss6GravBall__sub_80323544(u8 *self) {
     for (i = 0; i < n; i++) {
         pl = (PL_80323544 *)TObjPlayer::get_player_data(i);
         id = get_entity_id(pl) + 5;
-        if (((TBoss6PlotFalz *)pl)->is_active() == 0) {
+        if (((TObjPlayer *)pl)->is_active() == 0) {
             ((TBoss6GravBall *)self)->destroy_part((s32)((void *)id));
             continue;
         }
@@ -325,12 +326,9 @@ typedef void (TBoss6GravBall::*ActP_80323BBC)(void *);
 typedef void (TBoss6GravBall::*Act0_80323BBC)();
 
 extern "C" {
-s32 check_demo_mode__10TObjPlayerFv(void *);
-s32 query_teammate_state__9TObjEneDDFv(void);
 void VecCopy__FP3VecPC3Vec(void *, void *);
 
 s32 play_persistent_sound(int, void *, void *, int, int);
-s32 clamp_to_ground__14TBoss6GravBallFv();
 
 
 
@@ -400,7 +398,7 @@ void update_charge_effects__14TBoss6GravBallFPv(u8 *self) {
 void update_state__14TBoss6GravBallFPv(u8 *arg0) {
     s32 temp_r3;
     s32 temp_r3_2;
-    temp_r3 = clamp_to_ground__14TBoss6GravBallFv();
+    temp_r3 = ((TBoss6GravBall *)arg0)->clamp_to_ground();
     if (temp_r3 != 0) {
         TBoss6GravBall__sub_803236F8((TBoss6GravBall *)arg0);
     }
@@ -443,7 +441,7 @@ void run_task__14TBoss6GravBallFv(TBoss6GravBall_80323BBC *arg0) {
     if (((TObjPlayer *)(arg0))->check_demo_mode() != 0) {
         return;
     }
-    if (query_teammate_state__9TObjEneDDFv() != 0) {
+    if (TObjEneDD::query_teammate_state() != 0) {
         return;
     }
     static ActP_80323BBC tbl[3] = {

@@ -10,13 +10,13 @@
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/player/TObjPlayer.h"
 extern "C" {
 s32 get_player_by_client_id(s32);
 s32 has_window_task_root();
 char* strncpy(char*, const char*, int);
 char* strcat(char*, const char*);
 void* get_window_layout_position(s32);
-u32 create__14TWindowMessageFPvll(void*, void*, s32);
 extern s32 local_client_id;
 extern const char TObjDeadListWin_class_name[] = "TObjDeadListWin";
 const char* TObjDeadListWin_name = TObjDeadListWin_class_name;
@@ -28,7 +28,7 @@ extern const char dead_list_name_separator[] = "\n";
 void TObjDeadListWin::build_dead_list_window() {
     char text[0x44];
     s32 i;
-    m_window_handle = create__14TWindowMessageFPvll(get_window_layout_position(0x3C), dead_list_window_position, 1);
+    m_window_handle = (u32)TWindowMessage::create((const NJS_POINT2 *)(get_window_layout_position(0x3C)), (const f32 *)dead_list_window_position, 1);
     if (m_window_handle != 0U) {
         text[0] = 0;
         strcat(text, dead_list_text_prefix);

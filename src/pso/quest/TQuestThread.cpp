@@ -57,7 +57,6 @@ struct ByteBlock_100 { u8 bytes[0x100]; };
 extern "C" {
 s32 init_quest_script_context(s32, void *);
 int check_flag_100__10TObjPlayerFPv(void *p);
-s32 has_player_active_menu__11TWindowCtrlFv(s32);
 void *get_window_layout_position(s32);
 s32 align_menu_entry_positions(u32);
 void TWindowHelpItem__set_displayed_item_by_id(u8 *window_help_item, s32 arg1);
@@ -328,7 +327,7 @@ void TQuestThreadBoard::run_task() {
             state = QST_RUNNING;
         }
         if (TWindowShortListCtrl__check_controller_button(controller_input_state + 0x20, 8) != 0 ||
-            has_player_active_menu__11TWindowCtrlFv(local_client_id) == 0) {
+            TWindowCtrl::has_player_active_menu(local_client_id) == 0) {
             TWindowCtrl::clear_flag();
             TWindowCtrl::clear_flag_2();
             TLobby::close_windows();
@@ -348,7 +347,7 @@ void TQuestThreadBoard::run_task() {
             TWindowCtrl::clear_flag_2();
         }
         if (TWindowShortListCtrl__check_controller_button(controller_input_state + 0x20, 8) != 0 ||
-            has_player_active_menu__11TWindowCtrlFv(local_client_id) == 0) {
+            TWindowCtrl::has_player_active_menu(local_client_id) == 0) {
             if (ctx.message_window != NULL) {
                 ((TWindowBase *)ctx.message_window)->close();
                 ctx.message_window = NULL;
@@ -665,7 +664,7 @@ void handle_6x77_sync_quest_register(u8 *packet) {
     TUnk_804C8678 *root;
     s32 *registers;
     u16 index;
-    bswap_header__6TLobbyFPv(packet);
+    TLobby::bswap_header(packet);
     root = quest_mission_manager;
     if (root != NULL) {
         index = *(u16 *)(packet + 4);

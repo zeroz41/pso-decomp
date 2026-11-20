@@ -23,6 +23,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
+#include "pso/unk/text_803D853C.h"
 extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
 extern "C" void test_flag_1000__9TObjCharaFv();
@@ -178,7 +179,6 @@ s32 rotate_vector_by_matrix(int, void *, void *);
 extern RecoveredGlobal_800ABA9C_lbl_8058D490 identity_matrix;
 void vfunc_94__12TObjEneSharkFv(u8 *arg0);
 void vfunc_83__12TObjEneSharkFv(Obj_800ABCBC *arg0);
-s32 mult_vec_array__10TObjPlayerFUll(int, int, void *, int);
 void set_matrix_identity(u8 *arg0);
 extern u32 TObjEneShark__attack_motion_3_trail;
 extern u32 shark_attack4_trail_buffer;
@@ -265,7 +265,7 @@ void TObjEneShark::vfunc_93() {
     set_matrix_identity(0);
     post_translate_matrix(&o->pos);
     rotate_matrix_y(0, this->rotation_y);
-    mult_vec_array__10TObjPlayerFUll(0, e, &a, 2);
+    matrix_mult_vec_array(NULL, (const Vec *)e, &a, 2);
     pop_matrix();
     eff = o->effs[idx];
     if (eff != NULL) {

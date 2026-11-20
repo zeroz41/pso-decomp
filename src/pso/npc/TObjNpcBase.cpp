@@ -125,7 +125,6 @@ struct Lim_8014854C { u8 pad0[8]; s32 lim; };
 
 extern "C" {
 s32 approach_angle_limited(s32, s32, s32);
-f32 random_ratio__9TObjCharaFv();
 }
 void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
 extern "C" {
@@ -149,7 +148,6 @@ s32 subtract_vector(void *, void *);
 extern s32 local_client_id;
 extern u8 *quest_mission_manager;
 extern u8 *quest_area_manager;
-s32 has_interactor__14TObjCollidableFv();
 
 void TObjNpcBase::interact(s32 client) {
     TObjPlayer *player;
@@ -179,7 +177,7 @@ void TObjNpcBase::interact(s32 client) {
 #define F(T, o) (*(T *)(arg0 + (o)))
 
 void TObjNpcBase::debug_draw_talk() {
-    if ((has_interactor__14TObjCollidableFv() != 0) && (get_player_by_client_id(this->interactor) != NULL)) {
+    if ((has_interactor() != 0) && (get_player_by_client_id(this->interactor) != NULL)) {
         debug_printf_at(0x1A0020, "TALK");
     }
 }
@@ -354,7 +352,7 @@ void TObjNpcBase::update_wandering() {
         v.y = 0.0f;
         v.x = 0.0f;
         v.z = 1.0f;
-        angle = (s32)(182.04445f * (360.0f * random_ratio__9TObjCharaFv()));
+        angle = (s32)(182.04445f * (360.0f * this->random_ratio()));
         push_matrix_from(identity_matrix);
         rotate_matrix_y(0, angle);
         rotate_vector_by_matrix(0, &v, &v);

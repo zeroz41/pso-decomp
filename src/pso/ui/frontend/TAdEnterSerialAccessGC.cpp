@@ -32,6 +32,7 @@ extern "C" void render__22TAdEnterSerialAccessGCFv();
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/frontend/TAdSubPlyItemGC.h"
 #include "pso/system/NinjaTypes.h"
+#include "pso/ui/frontend/TAdEnterSerialAccessGC_8032AD30.h"
 struct Stack_803216C0 {
     s32 sp8;
     s32 spC;
@@ -124,7 +125,6 @@ struct SerialAccessEnteredValueTable { s32 value; u8 remaining[0xC]; };
 extern SerialAccessEnteredValueTable serial_access_entered_value_table;
 int serial_to_hex_string__22TAdEnterSerialAccessGCFi(void);
 s32 play_sound_effect(int, int, int, int);
-s32 forward_input__22TAdEnterSerialAccessGCFPv(void *, void *, int);
 s32 strlen(int);
 u32 TAdEnterSerialAccessGC__keyboard_control;
 s32 TAdEnterSerialAccessGC__input_state;
@@ -471,7 +471,7 @@ void TAdEnterSerialAccessGC__sub_80321B28(u8 *ad_enter_serial_access_gc, int arg
   *(int *)&((TAdEnterSerialAccessGC *)ad_enter_serial_access_gc)->m_64 = (int) (*(int *)&((TAdEnterSerialAccessGC *)ad_enter_serial_access_gc)->m_60);
   if (((unsigned int) TAdEnterSerialAccessGC__keyboard_control) != 0U)
   {
-    if (forward_input__22TAdEnterSerialAccessGCFPv((void *) ad_enter_serial_access_gc, (void *) arg1, (int) temp_r30) != 0)
+    if (forward_validate_input((void *)ad_enter_serial_access_gc, (s32)arg1, (char *)temp_r30) != 0)
     {
       *(int *)&((TAdEnterSerialAccessGC *)ad_enter_serial_access_gc)->m_60 = 1;
       temp_r3_6 = *(unsigned int *)&((TAdEnterSerialAccessGC *)ad_enter_serial_access_gc)->m_54;
@@ -489,7 +489,7 @@ void TAdEnterSerialAccessGC__sub_80321B28(u8 *ad_enter_serial_access_gc, int arg
         ((TAdEnterSerialAccessGC *)temp_r3_7)->set_active();
       }
     }
-    if ((((TKeyBoardControl *)TAdEnterSerialAccessGC__keyboard_control)->is_confirmed() != 0) && (forward_input__22TAdEnterSerialAccessGCFPv((void *) ad_enter_serial_access_gc, (void *) arg1, (int) temp_r30) == 0))
+    if ((((TKeyBoardControl *)TAdEnterSerialAccessGC__keyboard_control)->is_confirmed() != 0) && (forward_validate_input((void *)ad_enter_serial_access_gc, (s32)arg1, (char *)temp_r30) == 0))
     {
       free_menu_object((void *)TAdEnterSerialAccessGC__keyboard_control);
       play_sound_effect(0x53F06, 0, 0, 0);
@@ -517,7 +517,7 @@ void TAdEnterSerialAccessGC__sub_80321B28(u8 *ad_enter_serial_access_gc, int arg
       }
     }
   }
-  if ((((TAdSinglePlyChrSelectGC *)(*(unsigned int *)&((TAdEnterSerialAccessGC *)ad_enter_serial_access_gc)->m_54))->get_selected_slot() == 1) && (forward_input__22TAdEnterSerialAccessGCFPv((void *) ad_enter_serial_access_gc, (void *) arg1, (int) temp_r30) != 0))
+  if ((((TAdSinglePlyChrSelectGC *)(*(unsigned int *)&((TAdEnterSerialAccessGC *)ad_enter_serial_access_gc)->m_54))->get_selected_slot() == 1) && (forward_validate_input((void *)ad_enter_serial_access_gc, (s32)arg1, (char *)temp_r30) != 0))
   {
     temp_r3_11 = *(unsigned int *)&((TAdEnterSerialAccessGC *)ad_enter_serial_access_gc)->m_58;
     if (temp_r3_11 != 0U)

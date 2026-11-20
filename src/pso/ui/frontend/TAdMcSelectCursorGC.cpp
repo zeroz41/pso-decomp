@@ -47,7 +47,6 @@ void play_sound_effect(s32, s32, s32, s32);
 extern u8 controller_input_state[];
 extern u8 controller_physical_port_bank[];
 void restore_saved_depth_alpha_state(void);
-s32 defer_render__7TObjectFv();
 
 s32 TAdMcSelectCursorGC__texture_entry;
 
@@ -67,7 +66,7 @@ void TAdMcSelectCursorGC::render() {
         }
         goto block_5;
     }
-    if (defer_render__7TObjectFv() == 0) {
+    if ((s32)this->defer_render() == 0) {
         set_depth_buffer_settings_2();
 block_5:
         set_additive_blend();
@@ -91,7 +90,7 @@ void TAdMcSelectCursorGC::run_task() {
     if (self->f1C == 0) {
         t = TAdMcSelectCursorGC::get_cursor_type(1 - self->f20);
         if (TAdMultiPlyChrSelectGC::dispatch_draw_command((s32)(controller_physical_port_bank + 0x20), 0x80, 6, 1) != 0 ||
-            TWindowChoiceSetting::apply_choice((s32)(controller_input_state + 0x160), 0x80, 6, 1) != 0) {
+            test_buttons_press_or_repeat((s32)(controller_input_state + 0x160), 0x80, 6, 1) != 0) {
             if (TAdMcSelectCursorGC__sub_8032A6D8((void *)t) >= 4) {
                 self->f20++;
                 if (self->f20 > 1) {
@@ -99,7 +98,7 @@ void TAdMcSelectCursorGC::run_task() {
                 }
             }
         } else if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((s32)(controller_physical_port_bank + 0x20), 0x40, 6, 1) != 0 ||
-                    TWindowChoiceSetting::apply_choice((s32)(controller_input_state + 0x160), 0x40, 6, 1) != 0) &&
+                    test_buttons_press_or_repeat((s32)(controller_input_state + 0x160), 0x40, 6, 1) != 0) &&
                    TAdMcSelectCursorGC__sub_8032A6D8((void *)t) >= 4) {
             self->f20--;
             if (self->f20 < 0) {

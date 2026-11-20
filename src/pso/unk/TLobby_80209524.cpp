@@ -38,12 +38,12 @@
 #include "pso/system/TGStream.h"
 #include "pso/unk/TLobby_8020B334.h"
 #include "pso/unk/text_8020B5CC.h"
+#include "pso/unk/TLobby_803DE778.h"
 
 // ---- pso/unk/TLobby_80209524
 
 extern "C" {
 
-void move_data__6TLobbyFPCvUl(void *destination, const void *source, u32 size);
 void *mem_alloc(u32 size);
 void mem_free(void *memory);
 
@@ -148,14 +148,14 @@ void TLobby::append_swapped_u32(s32 *arg0) {
     if (challenge_action_buffer != NULL) {
         sp8 = *arg0;
         bswap_32((u32 *)&sp8);
-        move_data__6TLobbyFPCvUl((void *)(challenge_action_buffer + challenge_action_size), &sp8, 4);
+        move_data((void *)(challenge_action_buffer + challenge_action_size), &sp8, 4);
         challenge_action_size += 4;
     }
 }
 
 void ChallengeEventCommand::append() const {
     if (challenge_action_buffer != NULL) {
-        move_data__6TLobbyFPCvUl(challenge_action_buffer + challenge_action_size, &opcode, 1);
+        move_data(challenge_action_buffer + challenge_action_size, &opcode, 1);
         challenge_action_size += 1;
     }
 }
@@ -510,19 +510,19 @@ void build_challenge_enemy_set(s32 floor) {
             header.eventOffset = sizeof(ChallengeEventHeader);
             header.eventCount = challenge_event_count;
             header.commandOffset = challenge_event_count * sizeof(ChallengeFixedEvent) + sizeof(ChallengeEventHeader);
-            move_data__6TLobbyFPCvUl(output, &header, sizeof(header));
+            move_data(output, &header, sizeof(header));
             if (challenge_event_count > 0) {
                 output += sizeof(header);
-                move_data__6TLobbyFPCvUl(output, challenge_event_buffer, challenge_event_count * sizeof(ChallengeFixedEvent));
+                move_data(output, challenge_event_buffer, challenge_event_count * sizeof(ChallengeFixedEvent));
             }
             if (static_cast<s32>(commandSize) > 0) {
                 output += challenge_event_count * sizeof(ChallengeFixedEvent);
-                move_data__6TLobbyFPCvUl(output, challenge_event_source + input.commandOffset, commandSize);
+                move_data(output, challenge_event_source + input.commandOffset, commandSize);
             }
             if (static_cast<s32>(addedSize) > 0) {
                     u8 *tail = output;
                 tail += commandSize;
-                move_data__6TLobbyFPCvUl(tail, challenge_action_buffer, addedSize);
+                move_data(tail, challenge_action_buffer, addedSize);
             }
         }
     }
@@ -692,10 +692,8 @@ void TLobby__sub_8020A6B0(s32 player) {
 
 extern "C" {
 
-int rebuild_entry__6TLobbyFv(void);
-int init_sub_state__6TLobbyFv(void);
 
-void TLobby::init_sub_objects() { init_sub_state__6TLobbyFv(); rebuild_entry__6TLobbyFv(); }
+void TLobby::init_sub_objects() { TLobby::init_sub_state(); TLobby::rebuild_entry(); }
 
 }
 

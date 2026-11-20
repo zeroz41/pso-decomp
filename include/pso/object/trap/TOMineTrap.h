@@ -23,8 +23,8 @@ struct TOMineTrap : public TOMine {
     s32 m_380;
     u16 get_trap_type();
     static int get_trap_count();
-    static void set_instance(int a0);
-    static void set_trap_count(int a0);
+    static int set_instance(int a0);
+    static int set_trap_count(int a0);
     s32 matches_id(u16 arg1);
     void set_state();
     s32 find_target_in_range();
@@ -36,7 +36,6 @@ struct TOMineTrap : public TOMine {
     virtual f32 receive_physical_attack(void *, f32);
     void sync_position();
     void send_state_packet(u16 idx);
-    int update_trap_sub();
     s32 show_owner_message(TObjChara *player);
 };
 

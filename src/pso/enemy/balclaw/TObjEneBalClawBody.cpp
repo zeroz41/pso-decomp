@@ -386,7 +386,7 @@ void TObjPlayer__sub_8008FAD0(TObjEneBalClawBody *body) {
         break;
     case 1:
         if (body->target == NULL) {
-            reset_enemy_state__10TObjPlayerFv();
+            ((TObjPlayer *)body)->reset_enemy_state();
             break;
         }
         play_persistent_sound(0x4003B235, (s32)body, (u32)&body->position, 0, 0);
@@ -539,7 +539,7 @@ void TObjPlayer__sub_8008F1DC(TObjEneBalClawBody *body) {
         break;
     case 1:
         if (body->target == NULL) {
-            reset_enemy_state__10TObjPlayerFv();
+            ((TObjPlayer *)body)->reset_enemy_state();
         } else {
             body->y_speed = 0.0f;
             calc_velocity_toward_destination(body, *(Vec *)&body->m_2fc, *(Vec *)&((TObjChara *)body->target)->m_2fc, 0.7f);
@@ -648,7 +648,7 @@ void TObjPlayer__sub_8008EDE8(TObjEneBalClawBody *body) {
         break;
     case 1:
         if (body->target == NULL) {
-            reset_enemy_state__10TObjPlayerFv();
+            ((TObjPlayer *)body)->reset_enemy_state();
         } else {
             body->y_speed = 0.0f;
             calc_velocity_toward_destination(body, *(Vec *)&body->m_2fc, *(Vec *)&((TObjChara *)body->target)->m_2fc, 0.7f);
@@ -671,7 +671,7 @@ void TObjPlayer__sub_8008EDE8(TObjEneBalClawBody *body) {
         break;
     case 2:
         if (body->target == NULL) {
-            reset_enemy_state__10TObjPlayerFv();
+            ((TObjPlayer *)body)->reset_enemy_state();
         } else {
             body->y_speed = 0.0f;
             calc_velocity_toward_destination(body, *(Vec *)&body->m_2fc, *(Vec *)&((TObjChara *)body->target)->m_2fc, 0.7f);

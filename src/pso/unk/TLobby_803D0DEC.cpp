@@ -31,10 +31,12 @@ void TLobby::set_callback(u32 arg0, s32 arg1) {
     lobby_log_callback_arg = arg1;
 }
 
-void TLobby::notify_dvd_read() {
+extern "C" {
+void lsc_interrupt_lock_leave(void *) {
     middleware_interrupt_lock_leave();
 }
 
-void TLobby::enter_lock() {
+void lsc_interrupt_lock_enter(void *) {
     middleware_interrupt_lock_enter();
+}
 }

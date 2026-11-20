@@ -15,6 +15,7 @@
 #include "pso/system/vector.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/enemy/TObjEnemy.h"
+#include "pso/unk/text_803D853C.h"
 
 #include "pso/object/ambient/TObjGrass.h"
 #include "pso/render/TUnk_80494938.h"
@@ -280,7 +281,6 @@ extern s32 TObjGrass__render_node_index;
 extern u32 lbl_805D5158;
 extern u32 lbl_805D515C;
 void TObjGrass__sub_800BCA2C(void *);
-s32 mult_vec_array__10TObjPlayerFUll(int, int, void *, int);
 s32 scale_matrix(int, f32, f32, f32);
 void set_matrix_identity(u8 *arg0);
 s32 push_matrix();
@@ -311,10 +311,7 @@ s32 copy_position_if_valid__10TObjPlayerFii(void *, Vec);
 s32 obj_is_hit_receivable(void *);
 s32 is_split_screen();
 extern s32 local_client_id;
-s32 set_param__9TObjEnemyFl(void *, int, int);
 s32 init_collision_body_parts(void *, void *, int);
-s32 update_movement_status__9TObjCharaFv();
-s32 update_action_hold_status__9TObjCharaFv();
 
 extern const char *bm_ene_grass_model_names[2];
 extern const char *bm_ene_grass_motion_names[9];
@@ -431,7 +428,7 @@ TObjGrass::TObjGrass(TObject *parent, void *set_data) : TObjEnemy(parent) {
     *(s32 *)&motion_list = t;
     scale.y = (1.3f);
     variant = 0;
-    set_param__9TObjEnemyFl(this, 0xC, t);
+    ((TObjEnemy *)this)->set_param(0xC);
     resetTimer = 0x1E;
     timer = resetTimer;
     subtype = 0;
@@ -753,7 +750,7 @@ void TObjGrass::vfunc_28() {
 
 
 s32 TObjGrass::update_action_hold_status() {
-    if (update_action_hold_status__9TObjCharaFv() != 0) {
+    if (TObjChara::update_action_hold_status() != 0) {
         switch (this->mode) {
         case 0:
             this->m_3ac = 0;
@@ -768,7 +765,7 @@ s32 TObjGrass::update_action_hold_status() {
 
 
 s32 TObjGrass::update_movement_status() {
-    if (update_movement_status__9TObjCharaFv() != 0) {
+    if (TObjChara::update_movement_status() != 0) {
         switch (this->mode) {
         case 0:
             this->m_3ac = 0;
@@ -1194,7 +1191,7 @@ void TObjGrass::sub_800BDD70() {
                 post_translate_matrix((u8 *)&this->position);
                 rotate_matrix_y(0, this->rotation_y);
                 scale_matrix(0, (1.3f), (1.3f), (1.3f));
-                mult_vec_array__10TObjPlayerFUll(0, ent, &sp14, 2);
+                matrix_mult_vec_array(NULL, (const Vec *)ent, &sp14, 2);
                 pop_matrix();
                 if (((VObj_800BDD70 **)(arg0 + 0x3CC))[idx] != NULL) {
                     ((VObj_800BDD70 **)(arg0 + 0x3CC))[idx]->m4((s32 *)&sp14, (s32 *)&sp20);

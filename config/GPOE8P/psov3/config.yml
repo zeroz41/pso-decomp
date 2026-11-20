@@ -7343,7 +7343,6 @@ force_active:
   - is_p02_idle__12TBoss3VoloptFv
   - is_partner_counter_reached__FPsll
   - is_phase_active__15TObjBoss2TunnelFl
-  - is_phase_e__9TObjEneDDFPv
   - is_photon_blast_presentation_admitted__FUlPv
   - is_any_city_player_in_range__13TUnk_804B5BA8FPC3Vecf
   - is_player_in_range__10TObjRoomIdFUsf
@@ -17826,6 +17825,7 @@ force_active:
   - adx_stream_ring_buffer_storage
   - calc_segment_xz_distance_sq
   - check_line_hits_walls__10TObjPlayerFPvPviPv
+  - check_phase_e
   - copy_wall_polygon__10TObjPlayerFPUc
   - evaluate_ground_triangles__FP3VecUlPP8CsnGroup
   - intersect_wall_triangle_one_sided

@@ -49,7 +49,6 @@ struct Pair_800B23A0 { s32 k; Ent_800B23A0 *e; };
 
 void free_bin_model_request(void*, int);
 void rotate_xz_pair_by_angle(f32 *arg0, f32 *arg1, s32 arg2);
-void get_camera_ctrl__9TObjEneDDFv(const Vec *origin, Vec *out);
 s32 TBoss8Dragon__sub_800BB7D4(void *, s32);
 s32 pack_debug_text_position(s32, s32);
 s32 load_enemy_bml_resource_named(s32 arg0, s32 arg1);
@@ -974,7 +973,7 @@ void TObjEneBm3FlyNest::init() { init_params(); }
 void TObjEneBm3FlyNest::capture_attachment(void * _w0) {
     switch (lbl_805D510C) {
     case 36: case 45:
-        get_camera_ctrl__9TObjEneDDFv(&TObjEneBm3FlyNest__attachment_sample_origin, TObjEneBm3FlyNest_attachment_point_ptr++);
+        forward_transform_to_view(&TObjEneBm3FlyNest__attachment_sample_origin, TObjEneBm3FlyNest_attachment_point_ptr++);
         break;
     }
     ++lbl_805D510C;
@@ -986,7 +985,7 @@ void TObjEneBm3FlyNest::handle_attachment_sample(s32 arg0) {
         pos = lbl_805D5114;
         bm3_fly_nest_attachment_index += 1;
         lbl_805D5114 = pos + 1;
-        get_camera_ctrl__9TObjEneDDFv(&TObjEneBm3FlyNest__attachment_sample_origin, pos);
+        forward_transform_to_view(&TObjEneBm3FlyNest__attachment_sample_origin, pos);
     }
     TObjEneBm3FlyNest::capture_attachment((void *)arg0);
 }

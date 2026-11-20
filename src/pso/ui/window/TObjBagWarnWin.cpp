@@ -9,6 +9,7 @@
 #include "pso/ui/window/TWindowBase.h"
 
 #include "types.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
 #include "pso/ui/hud/TRaderMapCore.h"
 
@@ -48,9 +49,7 @@ void *get_player_by_client_id(s32 i);
 s32 get_message_text(s32);
 s32 get_entity_id();
 
-s32 has_player_active_menu__11TWindowCtrlFv(u16);
 
-s32 is_slot_visible__11TWindowCtrlFv(u16);
 
 s32 get_window_layout_position(s32);
 
@@ -59,7 +58,6 @@ void __ct__7TObjectFP7TObject(void *);
 s32 get_character_save_record(u32 arg0);
 
 
-s32 is_level_capped__23TAdSinglePlyChrSelectGCFv();
 
 s32 strncpy(void *, s32, s32);
 
@@ -94,7 +92,6 @@ s32 TLobby__sub_80211C3C();
 
 extern s32 local_client_id;
 
-u32 create__14TWindowMessageFPvll(s32, void *, s32);
 
 s32 get_window_layout_position(s32);
 
@@ -123,7 +120,7 @@ extern "C" {
 TObjBagWarnWin::~TObjBagWarnWin() {}
 
 void TObjBagWarnWin::open_message_window() {
-    message_window = (TWindowMessage *)create__14TWindowMessageFPvll(get_window_layout_position(0x38), TObjBagWarnWin__message_window_size, 1);
+    message_window = (TWindowMessage *)TWindowMessage::create((const NJS_POINT2 *)(get_window_layout_position(0x38)), (const f32 *)TObjBagWarnWin__message_window_size, 1);
     if (message_window != NULL) {
         message_window->set_depth(70200.0f);
         if (TCameraCtrl::get_camera_id() == 4) {
@@ -256,22 +253,23 @@ s32 TObjBagWarnWin4P::check_can_open(void * _w0) {
     s32 var_r30;
 
     for (i = 0; i < 4; i++) {
-        if ((get_player_by_client_id(i) != 0U) && (has_player_active_menu__11TWindowCtrlFv(get_entity_id()) != 0)) {
+        if ((get_player_by_client_id(i) != 0U) && (TWindowCtrl::has_player_active_menu((u16)get_entity_id()) != 0)) {
             return 0;
         }
     }
     for (i = 0; i < 4; i++) {
-        if ((get_player_by_client_id(i) != 0U) && (is_slot_visible__11TWindowCtrlFv(get_entity_id()) != 0)) {
+        if ((get_player_by_client_id(i) != 0U) && (TWindowCtrl::is_slot_visible((u16)get_entity_id()) != 0)) {
             return 0;
         }
     }
     if (THunterGuildWarning::is_active() != 0) {
         return 0;
     }
+    TAdSinglePlyChrSelectGC *record;
     i = 0;
     var_r30 = 0;
     do {
-        if ((get_player_by_client_id(var_r30) != 0U) && (get_character_save_record(var_r30) != 0U) && (is_level_capped__23TAdSinglePlyChrSelectGCFv() != 0)) {
+        if ((get_player_by_client_id(var_r30) != 0U) && ((record = (TAdSinglePlyChrSelectGC *)get_character_save_record(var_r30)) != 0U) && (record->is_level_capped() != 0)) {
             i = 1;
         }
         var_r30 += 1;

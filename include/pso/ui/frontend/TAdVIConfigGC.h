@@ -2,12 +2,13 @@
 #define PSO_UI_FRONTEND_TADVICONFIGGC_H
 
 #include "types.h"
+#include "pso/system/vector.h"
 #include "pso/ui/frontend/TAdYesNoBaseGC.h"
 
 struct TAdVIConfigGC : public TAdYesNoBaseGC {
     virtual ~TAdVIConfigGC();
     u32 m_48;
-    u8 *init(f32 farg0);
+    u8 *init(const Vec *position, f32 radius);
     virtual void render();
     void set_field48_clear_global();
     static void enable_progressive_mode(void * _w0);

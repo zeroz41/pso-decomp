@@ -68,7 +68,7 @@ extern const Ent_8035C35C boss4_thanks_emitter_table[4] = {
 f32 xyz_distance(void *, const void *);
 void TObjPlayer__sub_80052390(void);
 void post_translate_matrix(const f32 *);
-int dispatch_by_main_phase__14TBoss4DarkFalzFUs(void*);
+int set_story_flag_or_send_quest_flag(void*);
 
 s32 fn_8035C2B4(void) {
     return get_story_flag(0x99) != 0;
@@ -76,8 +76,8 @@ s32 fn_8035C2B4(void) {
 s32 TBoss4Thanks::is_door_0x97_open() {
     return get_story_flag(0x97) != 0;
 }
-int TBoss4Thanks::dispatch_main_phase_153() { return dispatch_by_main_phase__14TBoss4DarkFalzFUs((void*)(153)); }
-int TBoss4Thanks::dispatch_main_phase() { return dispatch_by_main_phase__14TBoss4DarkFalzFUs((void*)(151)); }
+int TBoss4Thanks::dispatch_main_phase_153() { return set_story_flag_or_send_quest_flag((void*)(153)); }
+int TBoss4Thanks::dispatch_main_phase() { return set_story_flag_or_send_quest_flag((void*)(151)); }
 
 
 void TBoss4Thanks::update_particle_emitters() {

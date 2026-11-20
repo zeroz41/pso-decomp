@@ -8,8 +8,6 @@
 
 extern "C" {
 
-u8 get_item_type__5TItemFv();
-s32 get_item_id__5TItemFv();
 void *get_player_by_client_id(s32 i);
 
 void TObjPlayer::build_shop_item_list() {
@@ -27,13 +25,13 @@ void TObjPlayer::build_shop_item_list() {
         temp_r30 = ((TObjPlayer *)(*(s32 *)((s8 *)player + 0xD00)))->run_and_get_result((int)spC);
         for (i = 0; i < temp_r30; i++) {
             temp_r3_2 = (s32)find_item_by_id(spC[i]);
-            if ((temp_r3_2 != 0) && (get_item_type__5TItemFv() == 0) && (((TItem *)temp_r3_2)->check_equip_requirements((TObjPlayer *)player, (s16 *)(&sp8)) != 0) && (((TItem *)temp_r3_2)->test_item_flags(8) == 0U) && (((TItem *)temp_r3_2)->get_usable_action_flags(8, 0) != 0U)) {
+            if ((temp_r3_2 != 0) && (((TItem *)temp_r3_2)->get_item_type() == 0) && (((TItem *)temp_r3_2)->check_equip_requirements((TObjPlayer *)player, (s16 *)(&sp8)) != 0) && (((TItem *)temp_r3_2)->test_item_flags(8) == 0U) && (((TItem *)temp_r3_2)->get_usable_action_flags(8, 0) != 0U)) {
                 ((TShopJudgmentItemWindow *)((u8 *)this))->add_list_entry(temp_r3_2, spC[i]);
             }
         }
         slot_value = TObjPlayer::get_slot_value(player + 0xD04, 6);
         if (slot_value != 0) {
-            temp_r5 = get_item_id__5TItemFv();
+            temp_r5 = ((TItem *)slot_value)->get_item_id();
             ((TShopJudgmentItemWindow *)((u8 *)this))->add_list_entry(slot_value, temp_r5);
         }
         if (*(s16 *)((s8 *)((u8 *)this) + 0x72) <= 0) {

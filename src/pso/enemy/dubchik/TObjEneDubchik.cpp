@@ -43,6 +43,7 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/task/TObject.h"
+#include "pso/unk/text_803D853C.h"
 
 struct VBase_800AA704 { u8 pad[0xC]; };
 struct VObj_800AA704 : VBase_800AA704 {
@@ -214,10 +215,8 @@ s32 post_translate_matrix(void *);
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 s32 update_enemy_wander_move(void *, Vec *, s32, f32);
-s32 sub_8004292C__15TObjEnemyCustomFv();
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
 void TObjPlayer__sub_800A9E9C(void *arg0_);
-s32 update_shock_clock__9TObjCharaFv();
 
 struct Ids_800AA82C { s16 v[2]; };
 __declspec(section ".data") s32 lbl_805009A0[2];
@@ -364,7 +363,6 @@ struct Ene_800A93E4 {
     VO_800A93E4 *model;
 };
 
-s32 mult_vec_array__10TObjPlayerFUll(int, u32, void *, int);
 
 
 }
@@ -771,7 +769,7 @@ extern "C" void TObjPlayer__sub_800A9E9C(void *arg0_) {
         break;
     case 0:
         *(s32 *)((s8 *)arg0 + 0x388) |= 0x01800000;
-        sub_8004292C__15TObjEnemyCustomFv();
+        ((TObjEnemyCustom *)arg0)->sub_8004292C();
         if (*(s32 *)((s8 *)arg0 + 0x380) != 0) {
             if (TObjEneDD::check_v2_mode() == 0) {
                 if (*(s16 *)((s8 *)arg0 + 0x392) != 0) {
@@ -1087,12 +1085,12 @@ extern "C" void TObjPlayer__sub_800A93E4(void *arg0_) {
         post_translate_matrix(&e->pos);
         rotate_matrix_y(0, e->angle);
         if (h0 != 0) {
-            mult_vec_array__10TObjPlayerFUll(0, h0, &a1, 2);
+            matrix_mult_vec_array(NULL, (const Vec *)h0, &a1, 2);
             e->model->m4(&a1, &b1);
         }
         if (h1 != 0) {
             s32 pa = (s32)&a2;
-            mult_vec_array__10TObjPlayerFUll(0, h1, (void *)pa, 2);
+            matrix_mult_vec_array(NULL, (const Vec *)h1, (Vec *)pa, 2);
             e->model->m4((Vec *)pa, &b2);
         }
         pop_matrix();
@@ -1375,7 +1373,7 @@ void TObjEneDubchik::sub_800A8A7C() {
 
 s32 TObjEneDubchik::update_shock_clock() {
     s32 arg0 = (s32)this;
-    if (update_shock_clock__9TObjCharaFv() != 0) {
+    if (TObjChara::update_shock_clock() != 0) {
         ((TObjPlayer *)arg0)->clear_state7_flag();
         return 1;
     }

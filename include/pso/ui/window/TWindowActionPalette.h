@@ -62,13 +62,13 @@ struct TWindowActionPalette : public TWindowBase {
     void set_slot(u8 v);
     void set_mode(u8 v);
     int handle_input_forward();
-    static void is_channel_active_at(s32 arg0, s32 arg1, s32 arg2);
+    static s32 is_channel_active_at(s32 arg0, s32 arg1, s32 arg2);
     static void set_palette_entry(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
     static void set_slot_by_index(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
     static void set_slot_mode(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
     static void get_entry_by_index(s32 *arg0, s32 arg1);
-    static u8 *get_slot_type(s32 arg0, s32 arg1, s32 arg2);
-    static void get_slot_type_for_index(s32 *arg0, s32 arg1);
+    static u16 get_slot_type(void *arg0, s32 arg1, s32 arg2);
+    static u16 get_slot_type_for_index(s32 *arg0, s32 arg1);
 };
 
 struct TWindowHelpItem;

@@ -91,7 +91,6 @@ extern "C" s32 check_path_obstructed(void *, Vec *);
 extern "C" void calc_velocity_toward_destination(void *, Vec, Vec, f32);
 extern "C" void project_actor_to_ground(void *, void *, s32);
 extern "C" void TObjPlayer__sub_800D92BC(s32 point, s32 delay);
-extern "C" s32 refresh_lobby_state__10TObjPlayerFv();
 
 #pragma push
 #pragma dont_inline off
@@ -933,7 +932,7 @@ void TObjEneNanoDrago::update_knockback_state() {
 void TObjEneNanoDrago::update_dying_state() {
     switch (state) {
     case 0:
-        refresh_lobby_state__10TObjPlayerFv();
+        ((TObjPlayer *)this)->refresh_lobby_state();
         send_entity_set_flags();
         timer = 0x1E;
         play_sound_effect(0x4003A825, &position, 0, 0);

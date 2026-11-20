@@ -121,7 +121,7 @@ struct TBoss6Type2 : public TObjEnemy
     void init_collected_entries();
     void copy_vec2(void* q);
     s32 check_target();
-    int is_falz_ready();
+    u16 is_falz_ready();
     void reset_counters();
     void cache_fish_params();
     void update_zako();
@@ -206,7 +206,7 @@ struct TBoss6Type2 : public TObjEnemy
     void reset_state_timers();
     void tick_timer_460();
     void select_attack_state();
-    void set_action_field_0x408(s16 v);
+    void set_action_field_0x408(u16 v);
     void set_target_nodes(void* a1, void* a2);
     void set_anim_frame(s32 v);
     void destroy_part_object(s32 arg1);

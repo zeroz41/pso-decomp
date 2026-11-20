@@ -23,6 +23,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/TLanguage_801E4874.h"
+#include "pso/ui/frontend/TAdVIConfigGC.h"
 
 // Built -inline off,deferred: the functions below are written last-to-first, which puts
 // __vt__19TObjGoalWarpAncient before __vt__18TObjMapWarpAncient in .data (the key function
@@ -43,7 +44,6 @@ const char *TObjGoalWarpAncient__class_name = "TObjGoalWarpAncient";
 BmlResource *ancient_warp_shared_resource;
 GinjaTextureList *goal_warp_ancient_gvm_texture;
 
-extern "C" void *init__13TAdVIConfigGCFf(void *, void *, f32);
 
 extern "C" NJS_OBJECT *get_ancient_warp_model(s32 index) {
     return (NJS_OBJECT *)get_bml_model(ancient_warp_shared_resource, index);
@@ -161,7 +161,7 @@ TObjGoalWarpAncient::TObjGoalWarpAncient(TObject *parent, void *set_data) : TObj
     if (is_split_screen() == 1) {
         void *p = ::operator new(0x88);
         if (p != NULL) {
-            p = init__13TAdVIConfigGCFf(p, &position, 20.0f);
+            p = ((TAdVIConfigGC *)p)->init(&position, 20.0f);
         }
         vi_config = (TAdVIConfigGC *)p;
     } else {

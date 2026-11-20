@@ -122,7 +122,6 @@ s32 test_flags_any(s32 *flags, s32 mask);
 extern s32 lbl_805D5440;
 void *memcpy(void *, const void *, u32);
 void spawn_dropped_item_from_msg(void *, s32);
-s32 get_sync_counter__6TLobbyFi(u16);
 s32 bswap_player_packet__6TLobbyFv();
 
 void TLobby__sub_801036CC(void) {
@@ -230,7 +229,7 @@ s32 TLobby::write_sync_item_state() {
         dst->slots[i] = floor_item_next_sort_keys[i];
     }
     for (b = 0; b != 0xC; b++) {
-        dst->boss[b] = get_sync_counter__6TLobbyFi(b);
+        dst->boss[b] = TLobby::get_sync_counter(b);
     }
     for (i = 0; i < 0xF; i++) {
         dst->counts[i] = (*(s32 **)&floor_item_counts_by_floor)[i];

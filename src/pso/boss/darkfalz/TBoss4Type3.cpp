@@ -350,7 +350,6 @@ struct VObj_8005B218 : VBase_8005B218 {
     virtual void m21(s32, Dmg_8005B218 *, s32, s32, s32);
 };
 
-f32 random_ratio__9TObjCharaFv(void *);
 u16 get_entity_id(void *);
 s32 is_split_screen();
 s32 get_bml_motion(s32, s32);
@@ -372,7 +371,6 @@ S_8005AD50 * __dt__11TBoss4Type3Fv(S_8005AD50 *o, s16 flag);
 void * __ct__13TObjBs4CutAtkFv(void *arg0, s32 arg1, s32 arg2, s32 arg3);
 void * create__13TObjBs4CutAtkFPvPvPv(void *arg0, void *arg1, void *arg2);
 void request_follow_camera_offsets(void *arg0, void *arg1, u16 arg2);
-int toggle_particle_effect__10TObjPlayerFv(void*);
 s32 __ct__11TObjControlFP7TObject(s32, s32);
 void *__dt__9TObjEnemyFv(TObjEnemy *arg0, s16 arg1);
 void free_collision_body_parts(void *);
@@ -778,7 +776,7 @@ void TObjBs4CutAtk::run_task() {
 
     lo = (u16)this->angle;
     hi = lo + 0x71C;
-    if (((TObjEneDD *)this)->query_teammate_state() != 0) {
+    if (TObjEneDD::query_teammate_state() != 0) {
         return;
     }
     for (i = 0; i < TLobby::get_game_mode(); i++) {
@@ -1046,7 +1044,7 @@ void TBoss4Type3::advance_afterimage() {
 }
 
 void TBoss4Type3::draw() {
-    ((void (*)(void *))toggle_particle_effect__10TObjPlayerFv)(this);
+    ((TObjPlayer *)this)->toggle_particle_effect();
     push_matrix();
     ((void (*)(void *))post_translate_matrix)((void *)((char *)this + 56));
     ((void (*)(int, void *))rotate_matrix_y)(0, *(void * *)&this->rotation_y);
@@ -1325,7 +1323,7 @@ void TBoss4Type3::spawn_random_effect() {
     s32 arg0 = (s32)this;
     s32 temp_r5;
 
-    temp_r5 = (s32) (15.99f * ((f32 (*)(void))random_ratio__9TObjCharaFv)());
+    temp_r5 = (s32) (15.99f * ((TObjChara *)this)->random_ratio());
     send_packed_action(0xF, temp_r5, temp_r5);
 }
 
@@ -1411,7 +1409,7 @@ s32 TBoss4Type3::choose_attack_heading_sector() {
 }
 
 s32 TBoss4Type3::get_random_scaled(void * _w0) {
-    return (s32) (15.84f * ((f32 (*)(void))random_ratio__9TObjCharaFv)());
+    return (s32) (15.84f * ((TObjChara *)_w0)->random_ratio());
 }
 
 void TBoss4Type3::turn_toward_player(s32 arg1) {

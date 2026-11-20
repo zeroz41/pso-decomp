@@ -1,6 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/technique/TTecAnti.h"
+#include "pso/technique/TTecLuker.h"
 #include "pso/unk/TUnk_804CC0E8.h"
 #include "pso/effect/particle/TParticleCtrl_800867E4.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -127,7 +128,6 @@ AntiRow_8022AE10 TTecAnti__self_effect_rows[4] = {
 extern s32 __vt__13TUnk_804CC0E8[];
 Obj_8022AE10 *construct_self_effect__8TTecAntiFPvPvPviPv(Obj_8022AE10 *self, const Vec *body, const Vec *ground, s32 actor, void *parent);
 void *find_entity_by_id(u16 id);
-s32 is_parents_unqueued__9TTecLukerFUl();
 void deliver_technique_to_party_targets(void *);
 void run_task__8TTecAntiFv(Anti_8022B150 *self);
 s32 is_split_screen();
@@ -207,7 +207,7 @@ void run_task__8TTecAntiFv(Anti_8022B150 *self) {
             if (self->count != 0) {
                 for (i = 0; i < self->count; i++) {
                     target = (u32)find_entity_by_id(self->targets[i].id);
-                    if ((is_parents_unqueued__9TTecLukerFUl() != 0) && (TObjPlayer::is_valid_and_active(target) != 0)) {
+                    if ((TTecLuker::is_parents_unqueued(target) != 0) && (TObjPlayer::is_valid_and_active(target) != 0)) {
                         ((TTecAnti *)self)->vfunc_7((void *)target);
                     }
                 }

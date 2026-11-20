@@ -19,6 +19,7 @@
 #include "pso/map/FloorArea.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/NinjaTypes.h"
+#include "pso/system/vector.h"
 
 struct O_80347940 { u8 pad[0x20]; s32 base; void *items[1]; };
 struct E_803478DC { void *p; };
@@ -51,10 +52,6 @@ struct W_80347C50 {
     u8 pad90[0xB0 - 0x90];
     s32 fB0;
 };
-
-/* TWindowDD::dispatch_state forwards its four arguments to the formatter and returns its result;
-   the header declares it static void(). */
-typedef s32 (*DispatchStateFn_80347C50)(void *, s32, s32, s32);
 
 struct W_80347B70 {
     u8 pad0[0x20];
@@ -91,8 +88,6 @@ extern const f32 lbl_805DFBE8;
 extern const f32 lbl_805DFBEC;
 extern const f32 lbl_805DFC28;
 void TWindowDD__sub_80347E04(W_80347E04 *arg0, s32 arg1);
-E_80347CC8 *get_array_entry__11TWindowBaseFi(void *, s32);
-s32 refresh_status_display__9TWindowDDFv(void *);
 extern s32 local_client_id;
 extern u32 TWindowDD__work_buffer;
 extern const f32 TWindowDD__data_805DFB58;
@@ -441,7 +436,7 @@ void TWindowDD::update_selection_state() {
 void TWindowDD__sub_80347C50(W_80347C50 *self) {
     s32 next;
 
-    next = ((DispatchStateFn_80347C50)TWindowDD::dispatch_state)(self, self->fB0, self->f88,
+    next = dispatch_by_window_mode((u8 *)self, self->fB0, self->f88,
                                                                    self->child[self->depth]->get_field_68());
     if (next != self->f8C) {
         self->f8C = next;
@@ -459,9 +454,9 @@ void TWindowDD__sub_80347CC8(W_80347CC8 *arg0, void *window_dd) {
     TWindowDD::format_message(window_dd, (void *)TWindowDD__work_buffer, local_client_id);
     s = arg0->f70;
     if (s != NULL) {
-        e = get_array_entry__11TWindowBaseFi(s, 0);
+        e = (E_80347CC8 *)((TWindowBase *)s)->get_array_entry(0);
         if (e != NULL) {
-            refresh_status_display__9TWindowDDFv(e);
+            measure_message_text_width_default(e);
             x = 10.0f + e->f10;
             if (x >= 580.0f) {
                 e->f8 = 580.0f - e->f10;
@@ -517,7 +512,7 @@ void TWindowDD__sub_80347E04(W_80347E04 *arg0, s32 arg1) {
         if (o != NULL) {
             ((TWindowBase *)o)->set_depth(lbl_805DFC28);
             TWindowDD__sub_803412A0((u32)o);
-            ((TWindowSubSymbolChatPartsSet *)(o + 0x40))->copy_vec2(&v);
+            copy_vec2((o + 0x40), &v);
             ((TWindowDD_WS_String *)o)->init_and_set_field50((void *)TWindowDD__data_805DFB50);
             arg0->f74[arg1] = o;
         }
@@ -638,38 +633,33 @@ struct W_80348520 {
 extern "C" {
 s32 copy_chat_entry__9TWindowDDFPvPv(int, void *);
 s32 reset_selection__9TWindowDDFv(void *, void *);
-s32 TWindowDD__sub_8034435C();
-s32 TWindowDD__sub_80344568();
-s32 TWindowDD__sub_80344774();
+s32 TWindowDD__sub_8034435C(u8 *, u32, s32, s32);
+s32 TWindowDD__sub_80344568(u8 *, u32, s32, s32);
+s32 TWindowDD__sub_80344774(u8 *, u32, s32, s32);
 s32 format_message_text__9TWindowDDFPvPvUs(void *src, void *dst, u16 player);
 s32 format_german_message__9TWindowDDFPvPvUs(void *src, void *dst, u16 player);
 s32 TWindowDD__sub_80345608(void *src, void *dst, u16 player);
 s32 format_english_message__9TWindowDDFPvPvUs(void *src, void *dst, u16 player);
 s32 format_entry_text__9TWindowDDFPvPv(void *src, void *dst);
-s32 TWindowDD__sub_80346434();
-s32 TWindowDD__sub_80346640();
+s32 TWindowDD__sub_80346434(u8 *, u32, s32, s32);
+s32 TWindowDD__sub_80346640(u8 *, u32, s32, s32);
 
 int TWindowDD::test_input_flag_4() { return TWindowDD_check_input_mask((char*)this + 0x1c, 4); }
 
 extern s32 TWindowDD__window_mode;
 
-void TWindowDD::dispatch_state() {
+s32 dispatch_by_window_mode(u8 *window_dd, u32 arg1, s32 arg2, s32 arg3) {
     switch ((s32) TWindowDD__window_mode) {
     case 0:
-        TWindowDD__sub_80346640();
-        return;
+        return TWindowDD__sub_80346640(window_dd, arg1, arg2, arg3);
     default:
-        TWindowDD__sub_80346434();
-        return;
+        return TWindowDD__sub_80346434(window_dd, arg1, arg2, arg3);
     case 4:
-        TWindowDD__sub_80344774();
-        return;
+        return TWindowDD__sub_80344774(window_dd, arg1, arg2, arg3);
     case 2:
-        TWindowDD__sub_80344568();
-        return;
+        return TWindowDD__sub_80344568(window_dd, arg1, arg2, arg3);
     case 3:
-        TWindowDD__sub_8034435C();
-        return;
+        return TWindowDD__sub_8034435C(window_dd, arg1, arg2, arg3);
     }
 }
 

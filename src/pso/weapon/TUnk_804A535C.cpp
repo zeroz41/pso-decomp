@@ -57,7 +57,7 @@ extern "C" {
 
 s32 post_translate_matrix(void *);
 s32 push_matrix();
-s32 is_owner_alive__15TItemShootModelFv();
+s32 TItemShootModel::is_owner_alive();
 }
 
 
@@ -65,7 +65,7 @@ extern "C" {
 
 void TUnk_804A5340::render() {
     u8 *arg0 = (u8 *)this;
-    if ((is_owner_alive__15TItemShootModelFv() != 0) && ((u32) this->m_58 != 0U) && ((u32) this->m_5C != 0U)) {
+    if ((TItemShootModel::is_owner_alive() != 0) && ((u32) this->m_58 != 0U) && ((u32) this->m_5C != 0U)) {
         push_matrix();
         set_texlist((int)this->m_5C);
         post_translate_matrix(arg0 + 0x1C);

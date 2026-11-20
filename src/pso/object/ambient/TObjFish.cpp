@@ -421,7 +421,6 @@ s32 TObjFish::init_fish_school(void *arg1_arg, s32 arg2, s32 arg3) {
 
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
-#define init_fish_school__8TObjFishFPvll ((s32 (*)(void *, void *, int, int))init_fish_school__8TObjFishFPvll)
 
 const char *lbl_805D3D58 = TObjFish__class_name_string;
 extern "C" {
@@ -467,7 +466,7 @@ u8 *TObjFish__ct(u8 *fish, s32 arg1, u8 *arg2) {
     if ((s32) ((TObjFish *)fish)->m_94 < 1) {
         ((TObjFish *)fish)->m_94 = 1;
     }
-    if (init_fish_school__8TObjFishFPvll(fish, fish + 0x68, (int) (*(s32 *)((s8 *)arg2 + 0x30)), (int) (*(s32 *)((s8 *)arg2 + 0x34))) == 0) {
+    if (((TObjFish *)fish)->init_fish_school(fish + 0x68, (int) (*(s32 *)((s8 *)arg2 + 0x30)), (int) (*(s32 *)((s8 *)arg2 + 0x34))) == 0) {
         ((TObject *)fish)->queue_destruction();
     }
     return fish;
@@ -600,4 +599,3 @@ void TObjFish::load_area_resource() {
 }
 
 }
-#undef init_fish_school__8TObjFishFPvll

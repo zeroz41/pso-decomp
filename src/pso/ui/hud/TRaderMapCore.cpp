@@ -8,6 +8,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/hud/TRaderMapCore.h"
+#include "pso/system/BmlResource.h"
 #include "pso/map/FloorArea.h"
 #include "pso/render/render_util.h"
 
@@ -303,7 +304,6 @@ void scale_matrix(s32, f32, f32, f32);
 void draw_ginja_object(void *child);
 int get_entity_id(void*);
 s32 get_current_floor(void);
-s32 get_floor__10TObjPlayerFv(void);
 s32 TLobby__sub_801C19D0(void *);
 s32 should_show_map__13TRaderMapCoreFv(void);
 // Marker colours (a, r, g, b) per player slot: red, green, yellow, blue.
@@ -315,7 +315,6 @@ static const Vec4_801F9E9C radar_player_slot_color_table[4] = {
 };
 extern s32 local_client_id;
 NJS_POINT2 TRaderMapCore__sub_801F9D38(TRaderMapCore *self);
-s32 apply_packed_flags__13TRaderMapCoreFllll(void *, s32, s32, s32);
 extern Pad_801FAF24 controller_input_state[];
 void GXSetViewport(f32, f32, f32, f32, f32, f32);
 
@@ -410,7 +409,6 @@ struct MRec_801FB490 { f32 v[3]; s32 a0; f32 a4; s16 h[2]; u8 padac[0x28 - 0x18]
 extern "C" {
 
 
-void *init_map_ptr__13TRaderMapCoreFv(void *, int);
 s32 fn_803D64F8(void *);
 }
 
@@ -426,10 +424,6 @@ extern "C" {
 void bind_gvm_texture_list(char *, u8 *);
 }
 extern s32 lbl_805D49B4;
-extern "C" {
-
-s32 get_bml_model(s32);
-}
 
 
 // The unit was built -inline off,deferred, which emits functions in reverse source order: they are
@@ -439,8 +433,8 @@ extern "C" {
 
 TUnk_804C88A8::~TUnk_804C88A8() {}
 
-void TRaderMapCore::init_map_ptr() {
-    get_bml_model(TRaderMapCore__frame_model_resource);
+s32 TRaderMapCore::init_map_ptr(s32 index) {
+    return get_bml_model((BmlResource *)TRaderMapCore__frame_model_resource, index);
 }
 
 void TRaderMapCore::reset() { *(float *)&this->m_prev = 0.0f; *(float *)&this->m_flags = 0.0f; *(float *)&this->m_name = 0.0f; *(int *)&this->m_next = 0; *(float *)&this->m_up = 1.0f; *(short *)&this->m_down = 0; *(short*)((char*)this + 0x16) = -1; *(float *)&this->texlist = 1.0f; *(float *)&this->m_20 = 1.0f; *(float *)&this->entity_id = 1.0f; *(float*)((char*)this + 0x18) = 1.0f; }
@@ -544,9 +538,9 @@ TRaderMapCore::TRaderMapCore(TObject *parent) : TObjBase(parent) {
     s32 i;
     u32 j;
     m_name = rader_map_core_name_ptr;
-    m_178 = init_map_ptr__13TRaderMapCoreFv(&m_90, 2);
-    m_17c = init_map_ptr__13TRaderMapCoreFv(&m_90, 0);
-    m_180 = init_map_ptr__13TRaderMapCoreFv(&m_90, 1);
+    m_178 = (void *)((TRaderMapCore *)&m_90)->init_map_ptr(2);
+    m_17c = (void *)((TRaderMapCore *)&m_90)->init_map_ptr(0);
+    m_180 = (void *)((TRaderMapCore *)&m_90)->init_map_ptr(1);
     for (i = 0; i < 3; i++) {
         g = (GRec_801FB490 *)&TRaderMapCore__map_view_state + i;
         fn_803D64F8(g);
@@ -706,10 +700,10 @@ void TRaderMapCore::update_pan_zoom_input() {
         if (test_previous_buttons_packed(controller_input_state[((TRaderMapCore *)(self->f184))->get_map_id()].ctl, 0x80) != 0) {
             self->f188 -= 6.0f;
         }
-        if (apply_packed_flags__13TRaderMapCoreFllll(controller_input_state[((TRaderMapCore *)(self->f184))->get_map_id()].ctl, 0x20000, 0x27, 1) != 0) {
+        if (TRaderMapCore::apply_packed_flags((s32)controller_input_state[((TRaderMapCore *)(self->f184))->get_map_id()].ctl, 0x20000, 0x27, 1) != 0) {
             self->f190 -= 6.0f;
         }
-        if (apply_packed_flags__13TRaderMapCoreFllll(controller_input_state[((TRaderMapCore *)(self->f184))->get_map_id()].ctl, 0x10000, 0x27, 1) != 0) {
+        if (TRaderMapCore::apply_packed_flags((s32)controller_input_state[((TRaderMapCore *)(self->f184))->get_map_id()].ctl, 0x10000, 0x27, 1) != 0) {
             self->f190 += 6.0f;
         }
         TRaderMapCore::pan_horizontal(self->f188);
@@ -1134,7 +1128,7 @@ void TRaderMapCore::gather_player_markers() {
         }
         if (SHOW(this) == 0) {
             p = (Player_801F9E9C *)get_player_by_client_id(i);
-            if (p != NULL && floor == get_floor__10TObjPlayerFv() &&
+            if (p != NULL && floor == ((TObjPlayer *)p)->get_floor() &&
                 ((TObjPlayer *)p)->is_body_collision_inactive() == 0) {
                 VecCopy((Vec *)e, (const Vec *)p->pos);
                 e->y = 10.0f;
@@ -1146,7 +1140,7 @@ void TRaderMapCore::gather_player_markers() {
             }
         } else if (team != 0) {
             p = (Player_801F9E9C *)get_player_by_client_id(i);
-            if (p != NULL && floor == get_floor__10TObjPlayerFv() &&
+            if (p != NULL && floor == ((TObjPlayer *)p)->get_floor() &&
                 team == TLobby__sub_801C19D0(p->sub828) &&
                 ((TObjPlayer *)p)->is_body_collision_inactive() == 0) {
                 VecCopy((Vec *)e, (const Vec *)p->pos);

@@ -1,11 +1,10 @@
 #include "types.h"
 #include "pso/unk/TLobby.h"
+#include "pso/system/THeap.h"
 
 extern "C" {
 
-int heap_alloc__5THeapFUl(void*, void*);
 
-    extern int obj_heap;
-void TLobby::heap_alloc(void* a0) { heap_alloc__5THeapFUl((void*)obj_heap, a0); }
+    void *alloc_from_obj_heap(size_t size) { return obj_heap->heap_alloc(size); }
 
 }

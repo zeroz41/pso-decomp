@@ -29,6 +29,7 @@
 #include "pso/unk/text_80087278.h"
 #include "pso/render/render_util.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
+#include "pso/enemy/dd/TObjEneDD.h"
 
 #pragma readonly_strings on
 extern "C" TObjEnemy *__ct__9TObjEnemyFP7TObject(void *, void *);
@@ -74,7 +75,6 @@ struct Tmp_80324A00 { s32 a; u8 pad4[2]; s16 b; u8 pad8[8]; };
 
 extern "C" {
 f32 vector_length(void *);
-s32 render_shadows__9TObjEnemyFv();
 s32 VecCopy__FP3VecPC3Vec(s32, s32);
 s32 project_actor_to_ground(void *, void *, int);
 f32 vec3_add_to(void *, void *);
@@ -82,7 +82,6 @@ f32 subtract_vector(void *, void *);
 f32 normalize_vector(void *);
 f64 TBoss5GryphonLightningWing__sub_80324CEC(f32);
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
-s32 exchange_object_state__9TObjEnemyFls(void *, void *, int);
 s32 init_collision_body_parts(void *, void *, int);
 static u32 TBoss6Mine__collision_body_template[11] = {
     0, 0, 0, 0x41700000, 0, 0, 0x801B, 0, 0, 0, 0,
@@ -105,7 +104,7 @@ s32 __nw__7TObjectFUl(s32);
 void TBoss6Mine::render_shadows() {
     u8 *arg0 = (u8 *)this;
     if (*(f32 *)((s8 *)arg0 + 0x3C) >= (0.0f)) {
-        render_shadows__9TObjEnemyFv();
+        TObjEnemy::render_shadows();
     }
 }
 
@@ -183,7 +182,7 @@ void TBoss6Mine::explode_damage_players() {
     n = TLobby::get_game_mode();
     for (i = 0; i < n; i++) {
         pl = (u8 *)TObjPlayer::get_player_data(i);
-        if (((TBoss6PlotFalz *)pl)->is_active() != 0) {
+        if (((TObjPlayer *)pl)->is_active() != 0) {
             Vec v = *(Vec *) (arg0 + 0x38);
             subtract_vector(&v, pl + 0x38);
             v.y = 0.0f;
@@ -334,7 +333,6 @@ void TBoss6Mine::state_0() {
 }
 #pragma pop
 
-int query_teammate_state__9TObjEneDDFv(void);
 void add_radar_scaled_marker(void *pos, u32 color, s32 a2, s32 a3, f32 scale);
 
 void TBoss6Mine::run_task() {
@@ -347,7 +345,7 @@ void TBoss6Mine::run_task() {
         queue_destruction();
         return;
     }
-    if (query_teammate_state__9TObjEneDDFv() != 0) {
+    if (TObjEneDD::query_teammate_state() != 0) {
         return;
     }
     VecCopy(&this->prev_position, &this->position);
@@ -411,10 +409,10 @@ s32 TBoss6Mine__ct(s32 arg0, s32 parent, TBoss6MineSetData *set_data) {
     ((TBoss6Mine *)THIS)->seed = set_data->seed;
     ((TObjChara *)THIS)->add_flags_2e4(8);
     ((TBoss3Volopt *)THIS)->apply_set_data(set_data);
-    if (exchange_object_state__9TObjEnemyFls(THIS, &tmp, 1) != 0) {
+    if (((TObjEnemy *)THIS)->exchange_object_state(&tmp, 1) != 0) {
         tmp.a = 0;
         tmp.b = 0;
-        exchange_object_state__9TObjEnemyFls(THIS, &tmp, 0);
+        ((TObjEnemy *)THIS)->exchange_object_state(&tmp, 0);
     }
     ((TBoss3Volopt *)THIS)->next_action = TObjFish::get_fish_count();
     ((TBoss3Volopt *)THIS)->texlist = 0;

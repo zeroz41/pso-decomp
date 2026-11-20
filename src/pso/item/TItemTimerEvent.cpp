@@ -70,7 +70,7 @@ void fn_801108C8(u8 *arg0, s32 arg1);
 s32 is_item_area_enabled(s32 area);
 s32 set_flag_10000__10TObjPlayerFv();
 
-void TObjPlayer::sub_8011E204(s32 arg1) {
+void TObjPlayer::clear_state_flags(s32 arg1) {
   s32 *new_var;
   int new_var2;
     TObjPlayer *arg0 = (TObjPlayer *)this;
@@ -81,7 +81,7 @@ void TObjPlayer::sub_8011E204(s32 arg1) {
 
 void fn_8011E1D4(TObjPlayer *player) {
     if (!(player->class_flags & CLASS_FLAG_ANDROID)) {
-        ((TObjPlayer *)player)->sub_8011E204(0x10000);
+        ((TObjPlayer *)player)->clear_state_flags(0x10000);
     }
 }
 

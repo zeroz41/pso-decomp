@@ -165,10 +165,8 @@ extern const f32 lbl_805DCF08;
 void TWindowSubStatusDisp__sub_80258A28(u8 *arg0, s32 arg1, s32 arg2);
 void init_status_entry__20TWindowSubStatusDispFPvcUii(u8 *arg0, s8 arg1, u32 arg2, s32 arg3);
 void select_item_icon__20TWindowSubStatusDispFPviUcUci(void *arg0, s32 arg1, u8 arg2, u8 arg3, s32 arg4);
-s32 is_wrapped__9TItemDataFPv(s32);
 void *get_player_by_client_id(s32 i);
 s32 check_equip_requirements(void *self, TItemData *p, s32 *out);
-u8 calc_display_grade__9TItemDataFv(s32);
 
 void TWindowSubStatusDisp::update_item_icon_colors(void *item) {
     s16 sp8;
@@ -252,7 +250,7 @@ void TWindowSubStatusDisp::update_item_colors(s32 arg1) {
     s32 temp_r30;
     s32 player;
 
-    if (is_wrapped__9TItemDataFPv(arg1) != 0) {
+    if (TItemData::is_wrapped((void *)arg1) != 0) {
         *(s32 *)((s8 *)this + 0x30) = -1;
         return;
     }
@@ -283,7 +281,7 @@ void TWindowSubStatusDisp::update_item_colors(s32 arg1) {
                 *(u16 *)((s8 *)this + 0) = (u16) (*(u16 *)((s8 *)this + 0) | 0x800);
                 return;
             }
-            if (calc_display_grade__9TItemDataFv(arg1) >= 9U) {
+            if ((u8)((TItemData *)arg1)->calc_display_grade() >= 9U) {
                 *(s32 *)((s8 *)this + 0x30) = -0x1600;
                 return;
             }
@@ -585,7 +583,6 @@ void TWindowSubStatusDisp::init_item_row(void *arg1, s32 arg2) {
 
 #undef select_item_icon__20TWindowSubStatusDispFPviUcUci
 
-#define is_wrapped__9TItemDataFPv ((int (*)(void*))is_wrapped__9TItemDataFPv)
 #define update_stat_line_if_positive__20TWindowSubStatusDispFPvi ((int (*)(void*, void*))update_stat_line_if_positive__20TWindowSubStatusDispFPvi)
 #define select_item_icon__20TWindowSubStatusDispFPviUcUci ((int (*)(void*, void*, void*, void*, void*))select_item_icon__20TWindowSubStatusDispFPviUcUci)
 #define replace_owned_string__20TWindowSubStatusDispFPviiii ((int (*)(void*, void*, void*, void*, void*))replace_owned_string__20TWindowSubStatusDispFPviiii)
@@ -613,7 +610,6 @@ void TWindowSubStatusDisp::set_item_info(void* a1, int a2, void* a3) {
 
 }
 
-#undef is_wrapped__9TItemDataFPv
 #undef update_stat_line_if_positive__20TWindowSubStatusDispFPvi
 #undef select_item_icon__20TWindowSubStatusDispFPviUcUci
 #undef replace_owned_string__20TWindowSubStatusDispFPviiii
@@ -646,10 +642,8 @@ extern const f32 lbl_805DCF10;
 extern const f32 lbl_805DCF18;
 extern "C" {
 void calc_row_width__20TWindowSubStatusDispFv(Row_8025930C *arg0);
-s32 measure_string_len__20TWindowSubStatusDispFv(s32);
 char *strncpy(char *, const char *, unsigned long);
 s32 replace_owned_string__20TWindowSubStatusDispFPviiii(void *arg0, s32 src, s32 buf, s32 mask, s32 copy);
-#define is_wrapped__9TItemDataFPv ((s32 (*)(void *))is_wrapped__9TItemDataFPv)
 
 void TWindowSubStatusDisp::set_ground_item(void *it, s32 arg2) {
     s32 item_data;
@@ -690,7 +684,7 @@ s32 replace_owned_string__20TWindowSubStatusDispFPviiii(void *arg0, s32 src, s32
         mem_free((void *)buf);
     }
     if ((u32)src != 0 && copy != 0) {
-        n = measure_string_len__20TWindowSubStatusDispFv(src);
+        n = (s32)measure_string_len((const char *)(src));
         buf = mem_alloc(n + 1);
         strncpy((char *)buf, (const char *)src, n + 1);
         *flags |= mask;
@@ -842,7 +836,6 @@ void ItemListRow::update() {
     if (((TWindowSubStatusDisp *)this)->is_flag_4_set()) return;
 }
 
-#undef is_wrapped__9TItemDataFPv
 
 ItemListRow::~ItemListRow() {
     u16 flags;

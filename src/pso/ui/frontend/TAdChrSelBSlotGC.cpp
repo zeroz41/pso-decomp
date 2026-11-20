@@ -25,6 +25,7 @@
 #include "pso/unk/TLobby.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/vector.h"
 
 static const ChrSelPlateLayout chr_sel_b_slot_plate_layout = { 180.0f, 38.0f, { 0xBC, 0x98, 0x36, 0x00 }, 0 };
 // Plate positions of the four entries
@@ -41,13 +42,11 @@ struct S_8030E3BC { s32 x; s32 y; };
 
 extern "C" {
 u32 TAdChrSelASlotGC__sub_8030CB08(TAdChrSelASlotGC *arg0, s32 kind, s32 text);
-s32 push_plate_position__19TAdPlyChrSelPlateGCFv(int, void *);
 extern G_8030E3BC chr_select_b_slot_entry;
 G_8030E3BC *TAdChrSelBSlotGC__sub_8030E3BC(s32 arg0, s32 arg1, s32 arg2, void *arg3);
 void set_entry_text__15TAdSubPlyItemGCFPvPv(void *item, G_8030E3BC *entry);
 void add_plate_rect__20TAdChrSelMovePlateGCFPvPv(void *plate, void *position);
 void TAdChrSelBSlotGC__sub_8030E624(TAdChrSelBSlotGC *self);
-s32 is_slot_value_ready__19TAdPlyChrSelPlateGCFl(s32 plate, s32 i);
 s32 is_slot_state_one__16TAdChrSelBSlotGCFlUl(s32 arg0, u32 i);
 
 void TAdChrSelBSlotGC::render() {
@@ -69,7 +68,7 @@ G_8030E3BC *TAdChrSelBSlotGC__sub_8030E3BC(s32 arg0, s32 arg1, s32 i, void *arg3
     chr_select_b_slot_entry.a = arg1;
     chr_select_b_slot_entry.b = e != NULL ? e->x : get_localized_text_entry(0x16, 0x1C);
     chr_select_b_slot_entry.c = e != NULL ? e->y + 1 : 0;
-    ((TWindowSubSymbolChatPartsSet *)(chr_select_b_slot_entry.v))->copy_vec2(arg3);
+    copy_vec2((chr_select_b_slot_entry.v), arg3);
     return &chr_select_b_slot_entry;
 }
 
@@ -121,7 +120,7 @@ void TAdChrSelBSlotGC__sub_8030E624(TAdChrSelBSlotGC *self) {
     u32 i;
     s32 slot;
 
-    if (is_slot_value_ready__19TAdPlyChrSelPlateGCFl(self->m_2c, 2)) {
+    if (((TAdPlyChrSelPlateGC *)self->m_2c)->is_slot_value_ready(2)) {
         ((TAdChrSelSlotGC *)*(void **)((s8 *)self + 0x28))->init_slot_entry(2, (void *)&lbl_80475908);
         slot = (s32)self;
         for (i = 0; i < 4; i++) {
@@ -137,10 +136,10 @@ void TAdChrSelBSlotGC__sub_8030E624(TAdChrSelBSlotGC *self) {
 void TAdChrSelBSlotGC::reset_plate_positions() {
     u8 *arg0 = (u8 *)this;
     if (((TAdChrSelBSlotGC *)arg0)->get_global_state() == 0x19) {
-        push_plate_position__19TAdPlyChrSelPlateGCFv(this->m_2c, (void *)&lbl_804758E8[0]);
-        push_plate_position__19TAdPlyChrSelPlateGCFv(this->m_2c, (void *)&lbl_804758E8[1]);
-        push_plate_position__19TAdPlyChrSelPlateGCFv(this->m_2c, (void *)&lbl_804758E8[2]);
-        push_plate_position__19TAdPlyChrSelPlateGCFv(this->m_2c, (void *)&lbl_804758E8[3]);
+        ((TAdPlyChrSelPlateGC *)this->m_2c)->push_plate_position((void *)&lbl_804758E8[0]);
+        ((TAdPlyChrSelPlateGC *)this->m_2c)->push_plate_position((void *)&lbl_804758E8[1]);
+        ((TAdPlyChrSelPlateGC *)this->m_2c)->push_plate_position((void *)&lbl_804758E8[2]);
+        ((TAdPlyChrSelPlateGC *)this->m_2c)->push_plate_position((void *)&lbl_804758E8[3]);
         this->m_1c = 0x13;
     }
 }
@@ -331,7 +330,6 @@ void TAdChrSelBSlotGC::check_cancel_and_close() {
 G_8030E3BC chr_select_b_slot_entry;
 
 extern "C" {
-s32 get_state_result__22TAdMultiPlyChrSelectGCFv();
 s32 TAdChrSelASlotGC__sub_8030C4F8(TAdChrSelASlotGC *self, s32 kind);
 s32 TAdChrSelASlotGC__sub_8030C5C0(TAdChrSelASlotGC *self, s32 kind);
 s32 TAdChrSelASlotGC__sub_8030C688(TAdChrSelASlotGC *self, s32 kind);
@@ -432,8 +430,7 @@ void update_card_confirm__16TAdChrSelBSlotGCFPv(void *ad_chr_sel_b_slot_gc) {
         case 0:
             if (((u32) *(u32 *)((s8 *)ad_chr_sel_b_slot_gc + 0x70) == 0U) && (TAdChrSelBSlotGC::get_global_slot_data() != 0U)) {
                 if (TAdMultiPlyChrSelectGC::get_state() != 0U) {
-                    TAdMultiPlyChrSelectGC::get_state();
-                    var_r31 = get_state_result__22TAdMultiPlyChrSelectGCFv();
+                    var_r31 = ((TAdMultiPlyChrSelectGC *)TAdMultiPlyChrSelectGC::get_state())->get_state_result();
                 } else {
                     var_r31 = 0;
                 }
@@ -478,8 +475,7 @@ void TAdChrSelBSlotGC__sub_8030F13C(u8 *ad_chr_sel_b_slot_gc) {
     }
     if (((s32) ((TAdChrSelBSlotGC *)ad_chr_sel_b_slot_gc)->m_24 > 0xA) && ((u32) ((TAdChrSelBSlotGC *)ad_chr_sel_b_slot_gc)->m_6c == 0U) && (TAdChrSelBSlotGC::get_global_slot_data() != 0U)) {
         if (TAdMultiPlyChrSelectGC::get_state() != 0U) {
-            TAdMultiPlyChrSelectGC::get_state();
-            var_r31 = get_state_result__22TAdMultiPlyChrSelectGCFv();
+            var_r31 = ((TAdMultiPlyChrSelectGC *)TAdMultiPlyChrSelectGC::get_state())->get_state_result();
         } else {
             var_r31 = 0;
         }

@@ -43,6 +43,7 @@
 #include "pso/boss/darkfalz/TBoss4Type3_800524E8.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/unk/text_803D8F74.h"
+#include "pso/enemy/dd/TObjEneDD.h"
 
 
 const char *TObjDFUsoTower__name = "TObjDFUsoTower";
@@ -161,7 +162,6 @@ struct Ang_80050808 { s32 x, y, z; };
 extern "C" {
 u16 find_nearest_visible_player(void *, int, f32);
 int queue_destruction__13TObjDFHormingFPv(void* p);
-s32 query_teammate_state__9TObjEneDDFv();
 }
 void direction_to_rotation_xz(u8 *arg0, s32 *arg1, s32 *arg2);
 extern "C" {
@@ -226,7 +226,6 @@ struct Ball_8005123C {
 };
 
 
-Player_80050D74 * get_player_data__10TObjPlayerFi(s32);
 u16 get_entity_id(void *);
 f32 atan2_float(f32 y, f32 x);
 f32 newton_sqrtf(f32);
@@ -874,7 +873,7 @@ void damage_players_near_point(s32 arg0, Vec *arg1) {
     hit.type = 0x11;
     hit.value = 0.0f;
     for (i = 0; i < TLobby::get_game_mode(); i++) {
-        p = get_player_data__10TObjPlayerFi(i);
+        p = (Player_80050D74 *)TObjPlayer::get_player_data(i);
         if (p != NULL && TBoss4Type3__sub_8005254C(get_entity_id(p)) != 0 &&
             !(p->class_flags & CLASS_FLAG_ANDROID) &&
             !(xyz_distance(&pos, &p->pos) > 20.0f)) {
@@ -947,7 +946,7 @@ void run_task__13TObjDFHormingFv(u8 *arg0) {
     S_80050808 s;
     u8 *p;
     s32 i;
-    if (query_teammate_state__9TObjEneDDFv() != 0) {
+    if (TObjEneDD::query_teammate_state() != 0) {
         return;
     }
     if (((TObjDFHorming *)arg0)->m_334 == 0xFFFF || (p = (u8 *)get_player_by_client_id(((TObjDFHorming *)arg0)->m_334)) == NULL) {

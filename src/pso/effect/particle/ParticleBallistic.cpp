@@ -143,9 +143,7 @@ void project_world_to_screen(int, void *, void *);
 s32 push_matrix(f32);
 s32 post_translate_matrix(void *);
 void rotate_vector_by_current_matrix(void *, void *);
-s32 is_particle_sprite_additive__13TUnk_8048E728Fv(void *, s32);
 s32 append_node_to_tail__13TParticleCtrlFPvPv(s32, void *);
-s32 all_parents_unqueued_for_destruction__7TObjectFv();
 void draw_ginja_object(void *child);
 void draw_ginja_model_with_motion(void *model, void *motion, f32 frame);
 extern u8 *camera_ctrl_instance;
@@ -394,7 +392,7 @@ void TUnk_8048E778::render() {
     Part_800890F4 *p = (Part_800890F4 *)this;
     u16 flags;
     int id;
-    if (all_parents_unqueued_for_destruction__7TObjectFv() == 0) {
+    if ((s32)this->all_parents_unqueued_for_destruction() == 0) {
         return;
     }
     if (p->def->flags & 4) {
@@ -504,7 +502,7 @@ void TUnk_8048E778::render() {
             s32 st = model_render_flags;
             saved_model_render_flags = st;
             model_render_flags = st | 0x8021;
-            if (is_particle_sprite_additive__13TUnk_8048E728Fv(p, st) != 0) {
+            if (((TUnk_8048E728 *)p)->is_particle_sprite_additive(st) != 0) {
                 ((TUnk_8048E728 *)p)->apply_particle_model_fade_color(1);
             } else {
                 ((TUnk_8048E728 *)p)->apply_particle_model_fade_color(0);

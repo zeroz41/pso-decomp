@@ -3,6 +3,7 @@
 #include <stddef.h>
 #include "pso/object/ambient/TObjFish.h"
 #include "types.h"
+#include "pso/item/TItem.h"
 #include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/unk/text_80087278.h"
@@ -72,6 +73,7 @@
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/npc/TNpcPlayer.h"
+#include "pso/technique/TTecDeband.h"
 
 #pragma readonly_strings on
 
@@ -121,16 +123,12 @@ s32 TBoss3Volopt__sub_800D8D88(void *, f32);
 void TObjEneMe3Stelth__sub_800F3FE4(TObjEneMe3Stelth *stelth, s32 arg1);
 f32 *TBoss3Volopt__sub_800F059C(void *);
 f32 atan2_float(f32 y, f32 x);
-s32 mult_vec_array__10TObjPlayerFUll(int, int, void *, int);
 void TObjEneMe3Stelth__sub_800F348C(TObjEneMe3Stelth *stelth, s32 arg1);
-s32 move_to_shot_position__9TObjEneDDFfff(void *, int, f32, f32, f32);
 void TObjEneMe3Stelth__sub_800F3214(TObjEneMe3Stelth *stelth, s32 arg1);
-s32 create__10TTecDebandFlll(void *, void *, s32);
 
 
 u32 get_item_field_6__10TObjPlayerFPv(void *);
 f32 fabs_float(f32);
-s32 get_item_id__5TItemFv(void);
 void TObjEneDD__sub_800BA438(void *, void *);
 
 
@@ -188,7 +186,6 @@ TObjMotionAction TObjEneMe3Stelth__animation_descriptors[13] = {
 
 s32 free_bin_model_request(BmlResource *, s32);
 
-int create__20TObjEneMe3StelthRealFPv(void*);
 
 
 
@@ -304,7 +301,7 @@ void TObjEneMe3Stelth::load_shared_resources() {
                                                   reinterpret_cast<GinjaTextureList *>(TObjEneMe3Stelth__bml_resource->models->m_c), &b, 8.0f, 0.0f);
     }
 }
-int TObjEneMe3Stelth::create_real() { return create__20TObjEneMe3StelthRealFPv(this); }
+int TObjEneMe3Stelth::create_real() { return (int)TObjEneMe3StelthReal::create(this); }
 void TObjEneMe3Stelth::free_shared_resources() {
     if (TObjEneMe3Stelth__trail_buffer != NULL) {
         delete TObjEneMe3Stelth__trail_buffer;
@@ -516,8 +513,9 @@ void TObjEneMe3Stelth::attack_and_unequip() {
         if (d > 0.0f) {
             if (sub_800F47D4() != 0) {
                 TObjChara *t = target;
-                if (TObjPlayer::is_locally_controlled(t) != 0 && get_item_field_6__10TObjPlayerFPv(t) != 0) {
-                    TObjPlayer::send_6x26_unequip_item((void *)t, (void *)(get_item_id__5TItemFv()));
+                TItem *held;
+                if (TObjPlayer::is_locally_controlled(t) != 0 && (held = (TItem *)get_item_field_6__10TObjPlayerFPv(t)) != 0) {
+                    TObjPlayer::send_6x26_unequip_item((void *)t, (void *)(held->get_item_id()));
                     ((TObjPlayer *)t)->get_hand_joint_position((s32)&m_3f8);
                     spawn_particle_effect(&m_3f8, 0x1D0);
                 }
@@ -1120,7 +1118,7 @@ void TObjEneMe3Stelth__sub_800F348C(TObjEneMe3Stelth *stelth, s32 arg1) {
                 set_matrix_identity(0);
                 post_translate_matrix((f32 *)&stelth->position);
                 rotate_matrix_y(0, stelth->rotation_y);
-                mult_vec_array__10TObjPlayerFUll(0, entry, points, 2);
+                matrix_mult_vec_array(NULL, (const Vec *)entry, (Vec *)points, 2);
                 pop_matrix();
             }
         }
@@ -1176,7 +1174,7 @@ void TObjEneMe3Stelth__sub_800F3214(TObjEneMe3Stelth *stelth, s32 arg1) {
             TObjEneMe3Stelth__sub_800F0C90(stelth);
             temp_f1 = stelth->frame;
             if ((temp_f1 >= 0.0f) && (temp_f1 <= 5.0f)) {
-                move_to_shot_position__9TObjEneDDFfff(stelth, (int) TObjEneMe3Stelth__behavior_params_by_variant[stelth->m_3c8], stelth->m_3a0, stelth->m_3a8, TObjEneMe3Stelth__behavior_params_by_variant[stelth->m_3c8]->m_08);
+                ((TObjEneDD *)stelth)->move_to_shot_position(stelth->m_3a0, stelth->m_3a8, TObjEneMe3Stelth__behavior_params_by_variant[stelth->m_3c8]->m_08);
             } else {
                 stelth->vfunc_102();
             }
@@ -1325,7 +1323,7 @@ void TObjEneMe3Stelth::update_state_resta_cast(s32 arg1) {
             if (m_428 == 5) {
                 TTecSifta::create((void *)this, (u8 *)&position, (void *)(TObjEneDD::clamp_frame_index(TObjEneMe3Stelth__behavior_params_by_variant[m_3c8]->support_tech_level)));
             } else if (m_428 == 0xA) {
-                create__10TTecDebandFlll(this, (u8 *)&position, TObjEneDD::clamp_frame_index(TObjEneMe3Stelth__behavior_params_by_variant[m_3c8]->support_tech_level));
+                TTecDeband::create(this, (u8 *)&position, (s32)(TObjEneDD::clamp_frame_index(TObjEneMe3Stelth__behavior_params_by_variant[m_3c8]->support_tech_level)));
                 m_424 = 1;
                 m_428 = 0;
             }

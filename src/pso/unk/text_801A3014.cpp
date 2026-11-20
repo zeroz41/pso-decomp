@@ -61,6 +61,7 @@
 #include "pso/boss/derolle/TObjBoss2Tunnel_8007CF0C.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8036D774.h"
 #include "pso/boss/olgaflow/TBoss6Type2_8036DC80.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F764.h"
 
 
 
@@ -214,7 +215,6 @@ s32 apply_phase_keyboard_mode();
 s32 TLobby__sub_801A2E00();
 s32 for_each_player_slot__10TObjPlayerFv(void *);
 s32 rebuild_player_inventory(void *);
-s32 get_team_state__6TLobbyFPv();
 }
 void clear_floor_population(void);
 extern "C" {
@@ -228,7 +228,6 @@ s8 func_801A5E54__Fv();
 s32 run_save_load_sequence__23TAdSinglePlyChrSelectGCFv();
 s32 func_803DCDFC__Fv();
 s32 TLobby__sub_8006EF90();
-s32 get_fog_ctrl__16TKeyBoardControlFv();
 u16 TCameraCtrl__sub_8006A5DC();
 s8 TLobby__sub_801A3C40();
 s32 TWindowCtrlMain__sub_8024CB7C();
@@ -304,7 +303,7 @@ void TLobby::reload_offline_area() {
     promote_area_floor(&floor_transition_state);
     TLobby::backup_story_select();
     TKeyBoardControl::update();
-    get_team_state__6TLobbyFPv();
+    TLobby::get_team_state();
     clear_floor_population();
     TLobby__sub_80207E48();
     TLobby::create_map_csn_ctrl();
@@ -364,7 +363,7 @@ void TLobby::rebuild_area_keep_players() {
     TAdStorySelectGC::set_state(0);
     TKeyBoardControl::update();
     TLobby::reset_quest_state();
-    get_team_state__6TLobbyFPv();
+    TLobby::get_team_state();
     clear_floor_population();
     TQuestThread::clear_all_floor_handlers();
     TLobby::create_map_csn_ctrl();
@@ -559,7 +558,7 @@ void run_split_screen_frame(void) {
     if (id >= 0) {
         TCameraCtrl::set_mode(id);
         main_task.run_task();
-        get_fog_ctrl__16TKeyBoardControlFv();
+        forward_clear_split_screen_fog();
         TCameraCtrl::set_split_viewport(1, 0);
         main_task.render();
         if (camera_ctrl_instance != NULL) {
@@ -577,7 +576,7 @@ void run_split_screen_frame(void) {
                     ((VObj_801A37D0 *)camera_ctrl_instance)->m1();
                 }
                 TCameraCtrl::set_split_viewport(TCameraCtrl::get_camera_id(), i);
-                get_fog_ctrl__16TKeyBoardControlFv();
+                forward_clear_split_screen_fog();
                 main_task.render();
                 TCameraCtrl::sync_split_view_slots(i, 0);
                 TWindowCtrlMain__sub_8024CB8C();
@@ -587,7 +586,7 @@ void run_split_screen_frame(void) {
                     main_task.run_task();
                 }
                 TCameraCtrl::set_split_viewport(1, 0);
-                get_fog_ctrl__16TKeyBoardControlFv();
+                forward_clear_split_screen_fog();
                 main_task.render();
                 TCameraCtrl::sync_split_view_slots(i, 1);
                 TWindowCtrlMain__sub_8024CB7C();

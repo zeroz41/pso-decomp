@@ -45,7 +45,7 @@ public:
     s32 recalc_combat_stats(void *, void *, void *, f32, f32);
     s32 set_motion_params(void *);
     void show_miss_popup(const float *);
-    void try_apply_damage(u32, s32);
+    void try_apply_damage(const Vec *pos, s32 damage);
     s32 subtract_actor_tp(s32);
     void sub_80010DE8(u16, u8, u8);
     s16 clamp_hp();
@@ -109,6 +109,7 @@ public:
     virtual void apply_switch_attack();
     virtual void enemy_spawn_jellen_effect();
     virtual void trigger_switch_attack();
+    void trigger_switch_attack(const Vec *pos);
     virtual void enemy_spawn_zalure_effect();
     // Recomputes the combat stats and clamps HP and TP to their maxima.
     virtual void recalc_stats();

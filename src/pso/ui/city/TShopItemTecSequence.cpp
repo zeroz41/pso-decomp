@@ -106,7 +106,6 @@ struct VObj_8021FE80_8021FE6C : Base_8021FE80_8021FE6C {
 };
 
 s32 sub_802239EC__13TShopSequenceFv(void *);
-s32 close_window__13TShopSequenceFv(void *);
 
     extern int shop_tool_stock_counts[];
 typedef struct Stack_802202BC Stack_802202BC;
@@ -260,7 +259,7 @@ void TShopItemTecSequence::open_sell_window() {
 s32 TShopItemTecSequence::close_if_done() {
     if ((this->vfunc_10() != 0) && ((sub_80223A48() != 0) || (sub_802239EC__13TShopSequenceFv(this) != 0))) {
         close_if_single_screen();
-        close_window__13TShopSequenceFv(this);
+        this->TShopSequence::close_window();
         queue_destruction();
     }
 }

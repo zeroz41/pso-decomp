@@ -19,6 +19,7 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/unk/TLobby_803DE778.h"
 
 extern "C" {
 s32 TProtocol__send_60(int, int, int);
@@ -289,7 +290,7 @@ int TLanguage::read_file_header(int cursor, void *header) {
 }
 
 void TLanguage::read_into_buffer(s32 arg0, s32 arg1) {
-    ((TLobby *)arg0)->move_data((const void *)TLanguage__read_cursor, (u32)arg1);
+    move_data((void *)(arg0), (const void *)((const void *)TLanguage__read_cursor), (u32)arg1);
     TLanguage__read_cursor += arg1;
 }
 

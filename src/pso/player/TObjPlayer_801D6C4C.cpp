@@ -2,20 +2,20 @@
 #include "pso/player/TObjPlayer_801D6C4C.h"
 #include "pso/system/memory.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/effect/particle/TParticleCtrl.h"
 
 extern "C" {
 
-s32 destroy_particle__13TParticleCtrlFv();
 int clear_player_sub_object_slots(void*);
 
 void TObjPlayer::reset_particle_ctrl(s32 *arg0) {
     *arg0 = 0;
-    destroy_particle__13TParticleCtrlFv();
+    ((TParticleCtrl *)arg0)->destroy_particle();
 }
 
 s32 destroy__10TObjPlayerFis(s32 arg0, s16 arg1) {
     if (arg0 != 0) {
-        destroy_particle__13TParticleCtrlFv();
+        ((TParticleCtrl *)arg0)->destroy_particle();
         if (arg1 > 0) {
             ::operator delete((void *)arg0);
         }

@@ -7,6 +7,7 @@
 #include "pso/render/reflection.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
 #include "pso/player/TObjPlayer_803E4954.h"
+#include "pso/unk/text_803D853C.h"
 #pragma defer_codegen on
 
 #include "types.h"
@@ -56,6 +57,8 @@ struct VObj_80301690_80300CE4 : Base_80301690_80300CE4 {
 #include "pso/unk/TLobby.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/boss/volopt/TBoss3VoloptHiraisin.h"
+#include "pso/effect/TUnk_80494968.h"
+#include "pso/system/task/TMainTask.h"
 
 struct RecoveredGlobal_80300FC0_lbl_8058D490 { s32 value; u8 remaining[0x2C]; };
 typedef char RecoveredGlobal_80300FC0_lbl_8058D490_size[sizeof(RecoveredGlobal_80300FC0_lbl_8058D490) == 0x30 ? 1 : -1];
@@ -378,7 +381,6 @@ s32 TObjEneDolmOlm__sub_80301C3C(void *);
 extern u32 TObjEneDolmOlm__resource_bundle;
 void __dt__13TUnk_80494938Fv(void *, int);
 void free_collision_body_parts(void *);
-s32 mult_vec_array__10TObjPlayerFUll(int, int, void *, int);
 void set_matrix_identity(u8 *arg0);
 s32 push_matrix();
 s32 post_translate_matrix(void *);
@@ -424,8 +426,6 @@ void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
 extern "C" {
 s32 select_enemy_destination(void *, void *, int);
 s32 copy_position_if_valid__10TObjPlayerFii(void *, void *);
-s32 dispatch_shared_handler_a__6TLobbyFl(int);
-s32 register_object__6TLobbyFl(int);
 u8 *load_resource_from_descriptor(void *, int, void *, int, int, int);
 extern u32 dolm_olm_combat_stat_id_pair;
 extern u32 TObjEneDolmOlm__shared_handler_ids;
@@ -439,8 +439,6 @@ void free_bin_model_request(void*, int);
 void *__ct__11TObjControlFP7TObject(void *, void *);
 u8 *__ct__14TObjEneDolmOlmFll(u8 *, s32, s32);
 void mem_free(void*);
-s32 get_mode__11TCameraCtrlFPv(void *);
-s32 create__13TUnk_80494968FUlUl(u32, u32);
 s32 init_collision_body_parts(void *, void *, int);
 extern const char *obj_ene_dolm_olm_class_name;
 extern "C" {
@@ -542,7 +540,6 @@ s32 lbl_804E68D0[22] = {
 
     extern int lbl_805D69E8;
 
-extern void *tl_04;
 
 typedef struct RecoveredFields_8030247C_arg0 RecoveredFields_8030247C_arg0;
 typedef struct VBase_18_477421 VBase_18_477421;
@@ -634,8 +631,8 @@ TObjEneDolmOlm::TObjEneDolmOlm(s32 arg1, s32 arg2) : TUnk_80493450((TObject *)ar
     }
     ((VObj_14_fa0828 *) (((u8 *)this) + 0x3A8))->m3();
     this->m_390 = 1;
-    *(s32 *)&this->m_3c4 = create__13TUnk_80494968FUlUl(0xA0303030, col);
-    *(s32 *)&this->m_3c8 = create__13TUnk_80494968FUlUl(0xA0303030, col);
+    *(s32 *)&this->m_3c4 = (s32)TUnk_80494968::create(0xA0303030, col);
+    *(s32 *)&this->m_3c8 = (s32)TUnk_80494968::create(0xA0303030, col);
     *(f32 *)&this->m_398 = ((f32 **) TObjEneDolmOlm__behavior_params_by_variant)[*(s32 *)&this->variant][0];
     *(f32 *)&this->m_3a0 = ((f32 **) TObjEneDolmOlm__behavior_params_by_variant)[*(s32 *)&this->variant][1];
     *(f32 *)((s8 *)this + 0x39C) = ((f32 **) TObjEneDolmOlm__behavior_params_by_variant)[*(s32 *)&this->variant][2];
@@ -690,10 +687,10 @@ void TObjEneDolmOlm::load_shared_resources() {
     ((s32 *) dolm_olm_combat_stat_id_pair)[1] = (s32)TLobby::register_boss(0x50);
     ((s32 *) TObjEneDolmOlm__shared_handler_ids)[0] = (s32)TLobby::dispatch_shared_handler_b(0x54);
     ((s32 *) TObjEneDolmOlm__shared_handler_ids)[1] = (s32)TLobby::dispatch_shared_handler_b(0x55);
-    ((s32 *) TObjEneDolmOlm__registered_object_ids)[0] = register_object__6TLobbyFl(0x4E);
-    ((s32 *) TObjEneDolmOlm__registered_object_ids)[1] = register_object__6TLobbyFl(0x4F);
-    ((s32 *) TObjEneDolmOlm__behavior_params_by_variant)[0] = dispatch_shared_handler_a__6TLobbyFl(0x4E);
-    ((s32 *) TObjEneDolmOlm__behavior_params_by_variant)[1] = dispatch_shared_handler_a__6TLobbyFl(0x4F);
+    ((s32 *) TObjEneDolmOlm__registered_object_ids)[0] = (s32)TLobby::register_object(0x4E);
+    ((s32 *) TObjEneDolmOlm__registered_object_ids)[1] = (s32)TLobby::register_object(0x4F);
+    ((s32 *) TObjEneDolmOlm__behavior_params_by_variant)[0] = (s32)TLobby::dispatch_shared_handler_a(0x4E);
+    ((s32 *) TObjEneDolmOlm__behavior_params_by_variant)[1] = (s32)TLobby::dispatch_shared_handler_a(0x4F);
     TObjEneDolmOlm__effect_render_state = 0;
     {
         s16 ids[2] = { 69, 79 };
@@ -901,7 +898,7 @@ void TObjEneDolmOlm::render() {
     }
 }
 s32 TObjEneDolmOlm::render_model_if_visible() {
-    if (get_mode__11TCameraCtrlFPv(((s32 *)&main_task)) & 0x20) {
+    if ((s32)main_task.get_task_flags() & 0x20) {
         if (push_reflection_matrix((Vec *)(((u8 *)this) + 0x3D8)) != 0) {
             TObjFish::set_global_param(this->texlist);
             push_matrix();
@@ -1349,7 +1346,7 @@ void TObjEneDolmOlm::vfunc_93() {
     set_matrix_identity(0);
     post_translate_matrix(&o->pos);
     rotate_matrix_y(0, this->rotation_y);
-    mult_vec_array__10TObjPlayerFUll(0, e, &a, 2);
+    matrix_mult_vec_array(NULL, (const Vec *)e, &a, 2);
     pop_matrix();
     eff = o->effs[idx];
     if (eff != NULL) {

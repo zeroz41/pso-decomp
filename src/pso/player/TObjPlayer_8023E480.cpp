@@ -1,5 +1,6 @@
 #include "pso/system/ResourceFile.h"
 #include "types.h"
+#include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/unk/text_800F7DAC.h"
 #include "pso/unk/TLobby.h"
@@ -29,7 +30,6 @@ extern s32 lbl_805D63C0;
 extern s32 lbl_805D63C4;
 int release_texture_list();
 s32 load_texture_list();
-int set_global_param__8TObjFishFl();
 
 }
 
@@ -37,7 +37,7 @@ s32 set_texlist(u32 texlist) {
     if (texlist == 0U) {
         return 0;
     }
-    set_global_param__8TObjFishFl();
+    TObjFish::set_global_param((s32)texlist);
     return 1;
 }
 

@@ -1,6 +1,7 @@
 #include "pso/network/FloorEventCommand.h"
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/network/TGameProtocol.h"
+#include "pso/unk/text_800C7FEC.h"
 #include "pso/ui/window/TWindowKeyBoardHard_801A529C.h"
 #include "pso/unk/TLobby_801C25B4.h"
 #include "pso/unk/TLobby_80227AA0.h"
@@ -423,14 +424,14 @@ void TPsoDataBuf::recv_pso_data_buf(size_t size) {
 
     while (remaining > 0) {
         command = (game_command_header *)cursor;
-        ((TLobby *)command)->bswap_packet_header();
+        bswap_client_id_header((G_ClientIDHeader *)command);
         if ((u8)command->size != 0) {
             u32 command_size = (u8)command->size * 4;
             cursor += command_size;
             remaining -= command_size;
-            ((TLobby *)command)->bswap_packet_header();
+            bswap_client_id_header((G_ClientIDHeader *)command);
         } else {
-            ((TLobby *)command)->bswap_packet_header();
+            bswap_client_id_header((G_ClientIDHeader *)command);
             extended_game_command_header *extended = (extended_game_command_header *)cursor;
             bswap_extended_subcommand_header(extended);
             cursor += extended->size;

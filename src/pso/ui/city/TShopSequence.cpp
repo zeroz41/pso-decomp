@@ -7,14 +7,13 @@
 #include "pso/camera/TCameraCtrl_8006B3D8.h"
 #include "pso/unk/TLobby.h"
 #include "pso/unk/text_8022350C.h"
+#include "pso/ui/window/TWindowCtrl.h"
 
 #pragma readonly_strings on
 
 
 extern "C" {
 s32 get_entity_id(u32);
-u32 create_message_window__24TMessageWindowControllerFlll(void *, s32, s32, s32);
-u32 create_window__24TMessageWindowControllerFll(void *, s32, s32);
 const char *TShopSequence__class_name = "TShopSequence";
 
 // Conversation camera per service counter; the alternate set is used while a TLobby runs.
@@ -31,11 +30,7 @@ void set_service_counter_camera(s32 sequence, s32 counter) {
 }
 
 s32 load_character_from_card__23TAdSinglePlyChrSelectGCFi(s32);
-s32 activate_body_collision__10TObjPlayerFv();
-s32 deactivate_body_collision__10TObjPlayerFv();
 void *get_player_by_client_id(s32 i);
-s32 suppress_slot__11TWindowCtrlFv(u16);
-s32 unsuppress_slot__11TWindowCtrlFv(u16);
 s32 is_split_screen();
 int send_message__24TMessageWindowControllerFll(void*);
 int format_shop_message__24TMessageWindowControllerFll(void*);
@@ -58,9 +53,9 @@ void TShopSequence::close_message_window() {
 u32 TShopSequence::create_message_window(s32 x, s32 y) {
     if (message_window != NULL) {
         if (player != NULL) {
-            return create_message_window__24TMessageWindowControllerFlll(message_window, x, y, (u16)get_entity_id((u32)player));
+            return (u32)message_window->create_message_window(x, y, (u16)get_entity_id((u32)player));
         }
-        return create_window__24TMessageWindowControllerFll(message_window, x, y);
+        return (u32)message_window->create_window(x, y);
     }
     return 0;
 }
@@ -98,12 +93,13 @@ void TShopSequence::close_window() {
     s32 var_r31;
 
     if ((u32) *(u32 *)((s8 *)this + 0x24) != 0U) {
-        unsuppress_slot__11TWindowCtrlFv(get_entity_id(*(u32 *)((s8 *)this + 0x24)));
+        TWindowCtrl::unsuppress_slot((u16)get_entity_id(*(u32 *)((s8 *)this + 0x24)));
         if (TRaderMapCore::is_not_split_screen() != 1) {
             var_r31 = 0;
             do {
-                if (get_player_by_client_id(var_r31) != 0U) {
-                    activate_body_collision__10TObjPlayerFv();
+                void *player = get_player_by_client_id(var_r31);
+                if (player != NULL) {
+                    ((TObjPlayer *)player)->activate_body_collision();
                 }
                 var_r31 += 1;
             } while (var_r31 < 4);
@@ -119,13 +115,14 @@ void TShopSequence::restore_player_state() {
         if (TRaderMapCore::is_not_split_screen() != 1) {
             var_r31 = 0;
             do {
-                if (get_player_by_client_id(var_r31) != 0U) {
-                    deactivate_body_collision__10TObjPlayerFv();
+                void *player = get_player_by_client_id(var_r31);
+                if (player != NULL) {
+                    ((TObjPlayer *)player)->deactivate_body_collision();
                 }
                 var_r31 += 1;
             } while (var_r31 < 4);
         }
-        suppress_slot__11TWindowCtrlFv(get_entity_id(*(u32 *)((s8 *)this + 0x24)));
+        TWindowCtrl::suppress_slot((u16)get_entity_id(*(u32 *)((s8 *)this + 0x24)));
     }
 }
 TShopSequence::~TShopSequence() {

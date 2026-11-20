@@ -44,14 +44,10 @@ s32 TWindowCtrl__sub_8024A228(s32);
 void *__ct__15TWindowHelpItemFPvUs(void *, s32, s32);
 s32 get_window_layout_position(int);
 void *create_equip_kind_window(s32, const NJS_POINT2 *, s32);
-s32 update_selection__19TWindowSubTechniqueFPsPl(void *, void *, s32);
-void get_current_selection__19TWindowSubTechniqueFPv(void *, void *, s32);
 s32 create_window_menu(s32 arg0, s32 arg1, s32 arg2);
 s32 end_player_keyboard_hold(s32);
 s32 TWindowCtrl__sub_8024A1A8();
-s32 has_player_active_menu__11TWindowCtrlFv(s32);
 s32 TWindowHelpItem__set_displayed_item_by_id(void *);
-s32 set_flag70_bit10__21TWindowSubComCardListFv();
 }
 
 // The class name TObject::m_name points at.
@@ -115,7 +111,7 @@ TWindowShortListCtrl::TWindowShortListCtrl(TObject *parent, s32 client_id) : TOb
 
 TWindowShortListCtrl::~TWindowShortListCtrl() {
     TObjPlayer *player = get_player_by_client_id(client_id);
-    if (player != NULL && has_player_active_menu__11TWindowCtrlFv(client_id) == 0 && TWindowCtrl__sub_8024A1A8() == 0) {
+    if (player != NULL && TWindowCtrl::has_player_active_menu(client_id) == 0 && TWindowCtrl__sub_8024A1A8() == 0) {
         player->init_parts();
     }
     end_player_keyboard_hold(client_id);
@@ -273,14 +269,14 @@ void TWindowShortListCtrl::run_task() {
         return;
     case 9:
         if (tech_window == NULL) {
-            get_current_selection__19TWindowSubTechniqueFPv(&m_20, &m_28, client_id);
+            TWindowSubTechnique::get_current_selection((s16 *)&m_20, (s32 *)&m_28, client_id);
             tech_window = create_window(get_window_layout_position(1), (s32)&short_list_window_pos);
         }
         ((TWindowSubComCard *)tech_window)->clear_flag_and_release();
         state = 10;
     case 10:
         ((TObjPlayer *)player)->update_cursor((s16)((TWindowMenu *)tech_window)->get_selected_value());
-        if (update_selection__19TWindowSubTechniqueFPsPl(&m_20, &m_28, client_id) != 0) {
+        if (TWindowSubTechnique::update_selection((s16 *)&m_20, (s32 *)&m_28, client_id) != 0) {
             refresh_technique_rows((s32)tech_window, (void *)&short_list_window_pos);
         }
         if (TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[idx], 0x400) != 0) {
@@ -331,7 +327,7 @@ void *TWindowShortListCtrl::create_window(s32 arg1, s32 arg2_arg) {
     void *window_menu;
 
     window_menu = (void *)create_window_menu(arg1, 0x13, client_id);
-    set_flag70_bit10__21TWindowSubComCardListFv();
+    ((TWindowSubComCardList *)window_menu)->set_flag70_bit10();
     ((TWindowSubComCardList *)window_menu)->m_5c = 0x01000000;
     ((TWindowSubComCardList *)window_menu)->set_flag70_bit100();
     refresh_technique_rows((s32)window_menu, (void *)arg2_arg);

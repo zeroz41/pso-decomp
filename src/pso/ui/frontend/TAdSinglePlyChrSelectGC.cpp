@@ -51,7 +51,7 @@ extern "C" {
 s32 play_sound_effect(s32, s32, s32, s32);
 extern char controller_input_state[];
 s32 poll_memcard_result(s32 chan);
-s32 load_player__23TAdSinglePlyChrSelectGCFv();
+s32 load_guild_card_save();
 u32 TAdChrSelASlotGC__sub_8030CB08(TAdChrSelASlotGC *arg0, s32 kind, s32 text);
 extern RecoveredGlobal_802D4730_lbl_804C89BC pso_guildcard_card_filename;
 void set_queued_main_phase(s32 arg0);
@@ -437,7 +437,7 @@ void TAdSinglePlyChrSelectGC::sub_802D4730() {
                 ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x40)))->close();
                 *(u32 *)((s8 *)arg0 + 0x40) = 0U;
             }
-            load_player__23TAdSinglePlyChrSelectGCFv();
+            load_guild_card_save();
             *(s32 *)((s8 *)arg0 + 0x20) = 3;
             return;
         }

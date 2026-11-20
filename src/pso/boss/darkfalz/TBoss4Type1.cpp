@@ -198,7 +198,6 @@ struct Stack_80053670 {
     f32 sp10;
 };
 
-f32 random_ratio__9TObjCharaFv(void *);
 void VecCopy__FP3VecPC3Vec(void *, void *);
 u16 get_entity_id(void *);
 f32 atan2_float(f32 y, f32 x);
@@ -1278,13 +1277,16 @@ void TBoss4Type2::tick_state_398_timer() {
     }
 }
 
-void TWindowSubSymbolChatPartsSet::copy_vec2(void* q) { *(f32*)((char*)this + 0x0) = *(f32*)((char*)q + 0x0); *(f32*)((char*)this + 0x4) = *(f32*)((char*)q + 0x4); }
+void copy_vec2(void *dst, void *src) {
+    ((f32 *)dst)[0] = ((f32 *)src)[0];
+    ((f32 *)dst)[1] = ((f32 *)src)[1];
+}
 
 void TBoss4Type2::start_motion_for_index() {
     S_80052E10 *self = (S_80052E10 *)this;
     set_motion_index(((s32 *)lbl_804861F4)[self->idx]);
     self->f3c8 = 0;
-    ((TWindowSubSymbolChatPartsSet *)((u8 *)boss4_type1_xz_offset_table + 0x28))->copy_vec2(&((P2_80052E10 *)lbl_80486200)[self->idx]);
+    copy_vec2(((u8 *)boss4_type1_xz_offset_table + 0x28), &((P2_80052E10 *)lbl_80486200)[self->idx]);
     self->f3d0 = 6;
     if (self->f374 == 5) {
         self->f398 = 0x12C;
@@ -1370,7 +1372,7 @@ void TBoss4Type2::update_scale_state() {
     s32 var_r31;
 
     if ((s32) *(s32 *)((s8 *)this + 0x398) == 0) {
-        if (((f32 (*)(void))random_ratio__9TObjCharaFv)() < 0.5) {
+        if (((TObjChara *)this)->random_ratio() < 0.5) {
             ((s32 (*)(void *))TBoss4Type2__sub_80053504)(this);
             return;
         }
@@ -1429,7 +1431,7 @@ void TBoss4Type2::init_timer() {
 
 void TBoss4Type2::sub_800528B8() {
     if ((s32) *(s32 *)((s8 *)this + 0x398) == 0) {
-        if (((f32 (*)(void))random_ratio__9TObjCharaFv)() < 0.75f) {
+        if (((TObjChara *)this)->random_ratio() < 0.75f) {
             ((s32 (*)(void *))TBoss4Type2__sub_800535A8)(this);
             return;
         }

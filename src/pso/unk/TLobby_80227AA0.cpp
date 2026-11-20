@@ -80,7 +80,7 @@ void TLobby::set_mode(s32 arg0) {
         TLobby::on_set_mode(0);
         break;
     }
-    set_mode__6TLobbyFPvi((s32 *)&sound_control_state, arg0);
+    sound_control_state.set_output_mode(arg0);
 }
 extern "C" {
 
@@ -188,7 +188,7 @@ s32 play_packed_sound_once(u32 arg0, s32 position, s32 arg2, s32 arg3) {
 extern "C" {
 
 void is_sound_enabled(void) {
-    is_ready__6TLobbyFPv(&sound_control_state);
+    sound_control_state.is_ready();
 }
 }
 
@@ -230,7 +230,7 @@ void load_floor_sound_bank(s32 arg0) {
                 TLobby::run_disk_error_check();
                 TLobby__sub_803CB81C();
                 TLobby::run_frame();
-            } while (((s32 (*)(void *))is_ready__6TLobbyFPv)((void *)&sound_control_state) == 0);
+            } while (sound_control_state.is_ready() == 0);
             TLobby__sub_80226B64(0);
         }
     }

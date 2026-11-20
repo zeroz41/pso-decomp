@@ -174,7 +174,7 @@ void TUnk_8048E1A4::render() {
     VObj_80081EA4 *p;
     ok = 1;
     p = (VObj_80081EA4 *)find_active_entity_by_id(*(u16 *)((s8 *)arg0 + 0x358));
-    if (p != NULL && all_parents_unqueued_for_destruction__7TObjectFv() != 0) {
+    if (p != NULL && ((TObject *)p)->all_parents_unqueued_for_destruction() != 0) {
         ok = p->m8(400.0f, 20.0f);
     }
     if (ok != 0) {

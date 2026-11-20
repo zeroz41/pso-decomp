@@ -5,6 +5,7 @@
 #include "pso/render/GinjaTexture.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/unk/TLobby_800FD78C.h"
 #include "pso/unk/TLobby_80070A00.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/system/vector.h"
@@ -152,7 +153,6 @@ s64 fn_8019B480(void *arg0, void *arg1);
 void fade_and_destroy__14TObjWarpStringFPv(u8 *arg0);
 void TObjWarpString__sub_8019B728(void *arg0);
 void update_fade_in__14TObjWarpStringFPv(u8 *arg0);
-void sub_8019B77C__14TObjWarpStringFv(void *arg0);
 u8 * __ct__14TObjWarpStringFv(u8 *arg0, u8 *arg1, s32 arg2, s16 arg3);
 s32 can_warp__11TObjMapWarpFlUs(void *, u16);
 void TObjAreaWarpQuest__sub_8019DCD8(TObjPlayer *, s32);
@@ -166,7 +166,6 @@ void __ct__7TObjectFP7TObject(void *, void *);
 s32 align_menu_entry_positions(u32);
 s32 get_window_layout_position(s32);
 void *destroy__13TAdVIConfigGCFPvs(void *arg0, s16 arg1);
-s32 init__13TAdVIConfigGCFf(int, void *, f32);
 s32 get_game_play_mode(int);
 s32 PPCSync();
 int sprintf(char *, const char *, ...);
@@ -738,7 +737,7 @@ void handle_6x94_inter_level_warp(game_command_header *command) {
     if (packet->floor != get_current_floor()) {
         floor_transition_state.set_next_floor(packet->floor, get_floor_map_terrain(packet->floor));
         mark_area_change_pending();
-        ((TWindowCtrl *)local_client_id)->suppress_slot();
+        TWindowCtrl::suppress_slot(local_client_id);
         TNpcPlayer::send_inter_level_warp_all(floor_transition_state.get_next_floor());
         void *p = get_player_by_client_id(local_client_id);
         if (p != 0) {
@@ -780,7 +779,7 @@ TObjAreaWarpForest::TObjAreaWarpForest(TObject *parent, void *set_data) : TObjAr
         temp_r3_2 = (int)::operator new(0x88);
         var_r0 = temp_r3_2;
         if (var_r0 != 0) {
-            var_r0 = init__13TAdVIConfigGCFf(temp_r3_2, &position, 20.0f);
+            var_r0 = (s32)((TAdVIConfigGC *)temp_r3_2)->init(&position, 20.0f);
         }
         *(s32 *)((s8 *)this + 0xC0) = var_r0;
     } else {
@@ -881,7 +880,7 @@ TObjAreaWarpQuest::TObjAreaWarpQuest(TObject *parent, void *set_data) : TObjArea
         temp_r3 = (int)::operator new(0x88);
         var_r0 = temp_r3;
         if (var_r0 != 0) {
-            var_r0 = init__13TAdVIConfigGCFf(temp_r3, &position, 20.0f);
+            var_r0 = (s32)((TAdVIConfigGC *)temp_r3)->init(&position, 20.0f);
         }
         *(s32 *)((s8 *)this + 0xC0) = var_r0;
     } else {
@@ -1004,7 +1003,7 @@ TObjAreaWarpEnding::TObjAreaWarpEnding(TObject *parent, void *set_data) : TObjAr
         temp_r3 = (int)::operator new(0x88);
         var_r0 = temp_r3;
         if (var_r0 != 0) {
-            var_r0 = init__13TAdVIConfigGCFf(temp_r3, &position, 20.0f);
+            var_r0 = (s32)((TAdVIConfigGC *)temp_r3)->init(&position, 20.0f);
         }
         *(s32 *)((s8 *)this + 0xC0) = var_r0;
     } else {
@@ -1108,7 +1107,7 @@ void TKeyBoardControl::dispatch_select_phase() {
     switch (TAdStorySelectGC::get_story_select()) {
     case 0:
         if (should_record_episode1_quest_completion() != 0) {
-            TBoss4DarkFalz::dispatch_by_main_phase(0x3FE);
+            set_story_flag_or_send_quest_flag(0x3FE);
             request_main_phase(0xC);
         } else {
             request_main_phase(0x10);
@@ -1198,7 +1197,7 @@ void TObjWarpString::run_task() {
 
     switch (*(s32 *)((s8 *)this + 0x4C)) {
     case 0:
-        ((s32 (*)(void))sub_8019B77C__14TObjWarpStringFv)();
+        ((TObjWarpString *)this)->sub_8019B77C();
         return;
     case 1:
         ((s32 (*)(void))update_fade_in__14TObjWarpStringFPv)();

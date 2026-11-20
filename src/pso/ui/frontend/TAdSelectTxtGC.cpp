@@ -7,6 +7,7 @@
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/NinjaTypes.h"
+#include "pso/system/vector.h"
 
 // The select screen's text textures, English set then Japanese set. inferred: names from the f256_selectgamen_*
 // texture files they list; TLobby__sub_802A194C picks a set by current_language (0 = Japanese).
@@ -150,7 +151,7 @@ void TAdSelectTxtGC::init_slot_entries(void *arg1_arg, void *arg2) {
         e = (Ent_802A1838 *)((u8 *)arg0 + i * 0x14);
         e->f0 = arg2;
         e->f4 = i;
-        ((TWindowSubSymbolChatPartsSet *)(e->v))->copy_vec2(arg1->v);
+        copy_vec2((e->v), arg1->v);
         e->f10 = arg1->f0;
         arg0->tasks[i] = NULL;
     }

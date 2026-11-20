@@ -151,9 +151,7 @@ struct OIVec_8008B060 { s32 x, y, z; };
 
 extern "C" {
 s32 rand(void);
-s32 is_particle_sprite_additive__13TUnk_8048E728Fv(void *, s32);
 s32 append_node_to_tail__13TParticleCtrlFPvPv(s32, void *);
-s32 all_parents_unqueued_for_destruction__7TObjectFv();
 s32 rotate_matrix_y(s32, s32);
 void draw_ginja_object(void *child);
 void draw_ginja_model_with_motion(void *model, void *motion, f32 frame);
@@ -400,7 +398,7 @@ void TUnk_8048E790::render() {
     f32 temp_f3;
     s32 temp_r4;
     u16 temp_r3;
-    if (all_parents_unqueued_for_destruction__7TObjectFv() != 0) {
+    if ((s32)this->all_parents_unqueued_for_destruction() != 0) {
         temp_f3 = *(f32 *)((s8 *)this->param + 0x70) * cos_table_lookup(this->m_dc);
         this->m_88 = (f32) (this->m_28 * (1.0f + temp_f3));
         *(f32 *)((s8 *)arg0 + 0x8C) = (f32) (*(f32 *)&this->unk_2C * (1.0f - temp_f3));
@@ -435,7 +433,7 @@ void TUnk_8048E790::render() {
                     temp_r4 = model_render_flags;
                     saved_model_render_flags = temp_r4;
                     model_render_flags = temp_r4 | 0x8021;
-                    if (is_particle_sprite_additive__13TUnk_8048E728Fv(arg0, temp_r4) != 0) {
+                    if (((TUnk_8048E728 *)arg0)->is_particle_sprite_additive(temp_r4) != 0) {
                         ((TUnk_8048E728 *)arg0)->apply_particle_model_fade_color(1);
                     } else {
                         ((TUnk_8048E728 *)arg0)->apply_particle_model_fade_color(0);

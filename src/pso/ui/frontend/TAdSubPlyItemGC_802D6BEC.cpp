@@ -7,6 +7,7 @@
 #include "pso/ui/frontend/TAdSubPlyItemGC.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
 #include <string.h>
+#include "pso/system/vector.h"
 
 const char *TAdSubPlyItemGC__name = "TAdSubPlyItemGC";
 
@@ -51,7 +52,7 @@ void set_entry_text__15TAdSubPlyItemGCFPvPv(TAdSubPlyItemGC *self, Entry_802D6DA
     s32 i = e->idx;
     strncpy(self->names[i], e->str, 0xFE);
     self->levels[i] = e->id;
-    ((TWindowSubSymbolChatPartsSet *)(&self->name_pos[i]))->copy_vec2(&e->pos);
+    copy_vec2((&self->name_pos[i]), &e->pos);
     self->level_pos[i].x = (180.0f + self->name_pos[i].x) -
                            (f32)calc_text_width((char *)self->format_level_text(self->levels[i]));
     self->level_pos[i].y = 20.0f + self->name_pos[i].y;

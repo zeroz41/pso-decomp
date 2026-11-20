@@ -9,7 +9,6 @@
 
 // The spread of the five needles (launch_shot angles).
 const s32 lbl_8043E968[6] = {0, 2184, -2184, 4551, -4551, 0};
-extern s32 create_shoot_model__10TObjPlayerFUiiif[];
 
 void TUnk_804A4648::emit_marker_effects() {
     WeaponVector pos;
@@ -30,7 +29,7 @@ TUnk_804A4648::TUnk_804A4648(TObject *parent, u8 *item) : TUnk_804A4948(parent, 
     set_weapon_flags(2);
     hit_callback = (WeaponHitCallback)spawn_target_needle;
     impact_callback = (WeaponHitCallback)spawn_needle_wall_impact;
-    shot_callback = (WeaponShotCallback)create_shoot_model__10TObjPlayerFUiiif;
+    shot_callback = (WeaponShotCallback)TObjPlayer::create_shoot_model;
 }
 
 u8 *TObjPlayer::create_state_2(u8 *arg0) {

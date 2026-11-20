@@ -15,7 +15,6 @@ typedef struct TPlyStartGame_801E0580 {
 extern "C" {
 void bswap__13TPlyStartGameFv(TPlyStartGame_801E0580 *self);
 void copy_game_list_entry(void *, const void *);
-int bswap__16TPlyGuildCardTagFv(void*);
 s32 copy_ply_meet_user_extension(void *, void *);
 
 void bswap__13TPlyStartGameFv(TPlyStartGame_801E0580 *self) {
@@ -66,7 +65,7 @@ void TMenuList<GameListEntry, 64, 1>::bswap() {
     }
 }
 
-int bswap_game_list_entry(void* p) { return bswap__16TPlyGuildCardTagFv(p); }
+void bswap_game_list_entry(void *p) { ((TPlyGuildCardTag *)p)->bswap(); }
 
 TMenuList<GameListEntry, 64, 1>::TMenuList(const TMenuList &o) {
     header = o.header;

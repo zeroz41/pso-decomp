@@ -2,6 +2,7 @@
 #include "pso/player/PlayerAttackParams.h"
 #include "pso/npc/NpcModelRegistry.h"
 #include "pso/npc/NpcAnimationBinding.h"
+#include "pso/technique/TTecZarua.h"
 #include "pso/unk/text_800DC420.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/player/TObjPlayer_803E4954.h"
@@ -89,7 +90,6 @@ void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
 extern "C" {
 u16 find_nearest_visible_player(void *, int, f32);
 s32 create__9TTecJelinFllll(void *, void *, void *, s32);
-s32 create_instance__9TTecZaruaFllll(void *, void *, void *, s32);
 void check_enemy_body_collisions(void *arg0);
 s32 check_path_obstructed(void *, Vec *);
 void *find_entity_by_id(u16 id);
@@ -933,7 +933,7 @@ void TObjEneMe1GiGue__sub_802CC45C(TObjEneMe1GiGue *gigue) {
             if (gigue->frame >= 10.0f) {
                 TObjEneMe1GiGue__sub_802CB03C(gigue);
                 gigue->state = 3;
-                create_instance__9TTecZaruaFllll(gigue, &gigue->m_2fc, &gigue->m_2fc, get_gigue_int_parameter(gigue, 2));
+                TTecZarua::create_instance((s32)gigue, (Vec *)&gigue->m_2fc, (Vec *)&gigue->m_2fc, get_gigue_int_parameter(gigue, 2));
                 create__9TTecJelinFllll(gigue, &gigue->m_2fc, &gigue->m_2fc, get_gigue_int_parameter(gigue, 2));
             }
             break;

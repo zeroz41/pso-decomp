@@ -63,6 +63,8 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/system/task/TObject.h"
+#include "pso/boss/galgryphon/TBoss5Gryphon.h"
+#include "pso/system/task/TMainTask.h"
 
 
 extern "C" {
@@ -80,20 +82,16 @@ s32 TObjEneDellBiter__scrolling_uv_polygon_list;
 s32 TObjEneDellBiter__last_uv_scroll_tick;
 void fill_value_array(s32 address);
 s32 enemy_validate_retained_target(u8 *ene_dd_st);
-u32 enemy_probe_wall_ahead__13TBoss5GryphonFfff(void *, f32, f32, f32);
 s16 get_attack_params_atp_min(void *p);
 s32 obj_is_hit_receivable(u8 *arg0);
 u16 get_entity_id(void *);
 void obj_setFlags30(void *, s32);
 void free_bin_model_request(void*, int);
 void attach_particle_model(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0);
-s32 get_mode__11TCameraCtrlFPv(void *);
 u32 csnLookAt(void *, void *);
 void rotate_xz_pair_by_angle(f32 *arg0, f32 *arg1, s32 arg2);
 s32 TObjPlayer__sub_800A04F0(void *);
-void enemy_clear_target__12TObjEneDD_STFUs(void *);
 void enemy_set_target_id(void *, u16);
-s32 get_camera_ctrl__9TObjEneDDFv(void *, int);
 s32 pack_debug_text_position(s32, s32);
 s32 attack_target_history_add(s32 object, s32 target);
 void fn_800D8830(void *owner, void *pos);
@@ -106,7 +104,6 @@ s32 post_translate_matrix(void *);
 extern Vec dellbiter_demo_camera_vec;
 extern s32 actor_frame_tick;
 extern s32 game_difficulty_selection;
-extern void *tl_04;
 
 extern "C" {
 s32 is_split_screen();
@@ -602,7 +599,7 @@ s32 TObjEneDellBiter::select_farthest_visible_player() {
         enemy_set_target_id(this, id);
         return 1;
     }
-    enemy_clear_target__12TObjEneDD_STFUs(this);
+    this->enemy_clear_target();
     return 0;
 }
 
@@ -1040,7 +1037,7 @@ void TObjEneDellBiter::fn_803044AC(s32 reason) {
                 this->update_velocity();
             }
             hit = 0;
-            if (enemy_probe_wall_ahead__13TBoss5GryphonFfff(this, target_direction.x, target_direction.z, 30.0f * TObjEneDellBiter__movement_params->rush_speed) != 0) {
+            if ((u32)((TBoss5Gryphon *)this)->enemy_probe_wall_ahead(target_direction.x, target_direction.z, 30.0f * TObjEneDellBiter__movement_params->rush_speed) != 0) {
                 hit = 1;
             }
             this->move_clamped_on_ground(target_direction.x, target_direction.z, TObjEneDellBiter__movement_params->rush_speed);
@@ -1459,7 +1456,7 @@ void TObjEneDellBiter::step_demo_script() {
     case 32:
         pos = TObjEneDellBiter__demo_script_cursor;
         TObjEneDellBiter__demo_script_cursor = pos + 0xC;
-        get_camera_ctrl__9TObjEneDDFv(&dellbiter_demo_camera_vec, pos);
+        forward_transform_to_view((const Vec *)&dellbiter_demo_camera_vec, (Vec *)pos);
         break;
     }
     TObjEneDellBiter__demo_script_step += 1;
@@ -1588,7 +1585,7 @@ void TObjEneDellBiter::vfunc_106() {
 #pragma pool_data reset
 
 s32 TObjEneDellBiter::render_model_if_visible() {
-    if (get_mode__11TCameraCtrlFPv(((s32 *)&main_task)) & 0x20) {
+    if ((s32)main_task.get_task_flags() & 0x20) {
         if (push_reflection_matrix(&reflection_position) != 0) {
             TObjFish::set_global_param(texlist);
             push_matrix();

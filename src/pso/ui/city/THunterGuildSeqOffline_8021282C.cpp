@@ -16,6 +16,7 @@
 #include "pso/quest/TQuestListVM.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/quest/TQuestThread.h"
+#include "pso/ui/city/TShopSequence.h"
 
 
 struct Base_80212B88 { char pad[0x18]; };
@@ -56,7 +57,6 @@ extern s32 tl_05;
 void get_entity_id(s32);
 void THunterGuildSeqOffline__sub_8021E180();
 void fn_802233F8(void *);
-void close_window__13TShopSequenceFv(void *);
 s32 sub_802239EC__13TShopSequenceFv(void *);
 extern void *tl_00;
 struct Base_80212858_8021282C { char pad[0x18]; };
@@ -175,7 +175,7 @@ void THunterGuildSeqOffline::close_window() {
         THunterGuildSeqOffline__sub_8021E180();
         break;
     }
-    close_window__13TShopSequenceFv(arg0);
+    ((TShopSequence *)arg0)->TShopSequence::close_window();
     fn_802233F8(arg0);
     THunterGuildWarning::queue_destruction();
     ((TObject *)arg0)->queue_destruction();

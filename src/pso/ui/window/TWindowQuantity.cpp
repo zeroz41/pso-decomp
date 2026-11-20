@@ -56,7 +56,7 @@ void TWindowQuantity::set_position(s32 arg1) {
 
 void render__15TWindowQuantityFv(s32 arg0) {
     s32 ctx;
-    ctx = ((TWindowBase *)arg0)->setup_window_draw_context(arg0 + 0x64);
+    ctx = ((TWindowBase *)arg0)->setup_window_draw_context((f32 *)(arg0 + 0x64));
     ((TWindowQuantity *)arg0)->set_position(ctx);
     draw_visible_window_entries((void *)arg0, (void *)(arg0 + 0x24), (int)ctx);
 }

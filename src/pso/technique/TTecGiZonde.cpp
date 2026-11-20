@@ -3,6 +3,7 @@
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/technique/TTecZonde.h"
 #include "pso/technique/TTecGiZonde.h"
+#include "pso/technique/TTecLuker.h"
 #include "pso/technique/TTecAnti.h"
 #include "pso/technique/TTecCtrl.h"
 #include "pso/player/TObjPlayer.h"
@@ -147,7 +148,6 @@ void TTecGiZonde::vfunc_8(void *arg1_arg) {
 
 extern "C" {
 void *find_entity_by_id(u16 id);
-s32 is_parents_unqueued__9TTecLukerFUl();
 s16 get_entity_id(void *);
 s32 play_sound_effect(s32, void *, s32, s32);
 s32 copy_technique_target_list(void *, void *);
@@ -156,7 +156,7 @@ void normalize_vector(Vec *);
 u8 *construct_helper_effect__11TTecGiZondeFPvPvPvPvi(u8 *arg0, u8 *arg1, u8 *arg2, u8 *arg3, s32 arg4);
 extern s32 tl_07;
 
-#define UNQ(e) ((s32 (*)(u32)) is_parents_unqueued__9TTecLukerFUl)(e)
+#define UNQ(e) TTecLuker::is_parents_unqueued(e)
 s32 TTecGiZonde::find_chain_targets() {
     Chain_80231C58 *self = (Chain_80231C58 *)this;
     Vec d;
@@ -354,7 +354,7 @@ void TTecGiZonde::deliver_chain_hits() {
     u32 actor;
     for (i = 0; i < ((GChain_80232598 *)this)->count; i++) {
         actor = (u32)find_entity_by_id(((GChain_80232598 *)this)->targets[i].id);
-        if (is_parents_unqueued__9TTecLukerFUl() != 0 && TObjPlayer::is_valid_and_active(actor) != 0) {
+        if (TTecLuker::is_parents_unqueued(actor) != 0 && TObjPlayer::is_valid_and_active(actor) != 0) {
             this->vfunc_8((void *)actor);
         }
     }

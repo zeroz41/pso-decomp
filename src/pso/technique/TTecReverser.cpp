@@ -111,7 +111,7 @@ void TUnk_804CCC68::dispatch_all_technique_contacts() {
     }
 }
 
-void TUnk_804CCC68::dispatch_technique_contact() {
+void TUnk_804CCC68::dispatch_technique_contact(s32) {
     u8 *var_r31;
     if ((u32) *(u32 *)((s8 *)((u8 *)this) + 0x128) == 0U) {
         queue_destruction();

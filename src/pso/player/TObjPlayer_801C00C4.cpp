@@ -10,9 +10,9 @@ struct O_801C0124 { u8 pad[0x48]; u8 arr[1]; };
 extern "C" {
 u8 TObjPlayer__sub_801C010C(O_801C010C *self, s16 i);
 u8 TObjPlayer__sub_801C0124(O_801C0124 *self, s16 i);
-int set_field_0_s32(void*);
+void set_field_0_s32(void*, s32);
 
-int TObjPlayer::forward_801C210C() { return set_field_0_s32(this); }
+void TObjPlayer::forward_801C210C(void *p, int v) { set_field_0_s32(p, v); }
 
     extern int player_action_provider_selector;
 
@@ -35,6 +35,6 @@ u8 TObjPlayer__sub_801C0124(O_801C0124 *self, s16 i) {
     return self->arr[i];
 }
 
-int TObjPlayer::get_item_count_max() { return 255; }
+u8 TObjPlayer::get_item_count_max() { return 255; }
 
 }

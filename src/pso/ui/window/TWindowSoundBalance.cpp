@@ -58,8 +58,6 @@ WindowDescriptor window_sound_balance_settings = {
 extern "C" {
 s32 play_sound_effect(s32, s32, s32, s32);
 u32 calc_text_width();
-s32 get_field_20__17TWindowSubComCardFv();
-s32 refresh_status_display__9TWindowDDFv(u8 *);
 const char *TWindowSoundBalance__name = "TWindowSoundBalance";
 s32 draw_visible_window_entries(s32, s32, void *);
 
@@ -141,12 +139,12 @@ void TWindowSoundBalance::sub_8027095C() {
 void TWindowSoundBalance::handle_lr_input() {
     u8 *input;
     input = (u8 *)&controller_input_state.controllers[0];
-    if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((int)input, 0x30, 6, 1) != 0) || (TWindowChoiceSetting::apply_choice((s32)((void *) ((u8 *)&controller_input_state.keyboard)), 0x30, 6, 1) != 0)) {
+    if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((int)input, 0x30, 6, 1) != 0) || (test_buttons_press_or_repeat((s32)((void *) ((u8 *)&controller_input_state.keyboard)), 0x30, 6, 1) != 0)) {
         play_sound_effect(0x54100, (s32)(0U), 0, 0);
-        if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((int)input, 0x10, 6, 1) != 0) || (TWindowChoiceSetting::apply_choice((s32)((void *) ((u8 *)&controller_input_state.keyboard)), 0x10, 6, 1) != 0)) {
+        if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((int)input, 0x10, 6, 1) != 0) || (test_buttons_press_or_repeat((s32)((void *) ((u8 *)&controller_input_state.keyboard)), 0x10, 6, 1) != 0)) {
             this->selection = (this->selection - 1);
         }
-        if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((int)input, 0x20, 6, 1) != 0) || (TWindowChoiceSetting::apply_choice((s32)((void *) ((u8 *)&controller_input_state.keyboard)), 0x20, 6, 1) != 0)) {
+        if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((int)input, 0x20, 6, 1) != 0) || (test_buttons_press_or_repeat((s32)((void *) ((u8 *)&controller_input_state.keyboard)), 0x20, 6, 1) != 0)) {
             this->selection = (this->selection + 1);
         }
         if ((s8) this->selection < 0) {
@@ -202,13 +200,13 @@ TWindowSoundBalance::TWindowSoundBalance(s32 arg1) : TWindowBase((u8 *)&window_s
     this->music_gain = 1;
     this->sound_effect_gain = 1;
     e = (u8 *)get_array_entry(0);
-    get_field_20__17TWindowSubComCardFv();
+    ((TWindowSubComCard *)e)->get_field_20();
     *(f32 *)((s8 *)e + 8) = 231.0f - 0.5f * calc_text_width();
-    refresh_status_display__9TWindowDDFv(e);
+    measure_message_text_width_default(e);
     e = (u8 *)get_array_entry(1);
-    get_field_20__17TWindowSubComCardFv();
+    ((TWindowSubComCard *)e)->get_field_20();
     *(f32 *)((s8 *)e + 8) = 231.0f - 0.5f * calc_text_width();
-    refresh_status_display__9TWindowDDFv(e);
+    measure_message_text_width_default(e);
     st = (SoundBalanceSettings *)TAdSinglePlyChrSelectGC::get_global_state();
     if (st == 0) {
         this->set_music_gain(0);

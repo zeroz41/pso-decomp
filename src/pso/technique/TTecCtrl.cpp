@@ -28,6 +28,8 @@
 #include "pso/technique/TTecZondeEff.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/technique/TTecDeband.h"
+#include "pso/ui/hud/TMainCursor.h"
+#include "pso/technique/TTecResta.h"
 
 TechniqueParams lbl_80515F90;
 // Per player: the technique boosts of the equipped weapon and shield.
@@ -78,7 +80,6 @@ typedef struct Params_8022C738 { u8 pad0[0x12]; s16 f12; u8 pad14[0x20 - 0x14]; 
 typedef struct LightData_8022C738 { u8 pad0[0x1C]; f32 f1C; u8 pad20[4]; } LightData_8022C738;
 
 extern "C" {
-Cursor_8022CDE8 *find_by_pos__11TMainCursorFss(u32, int, s16);
 void *TObjPlayer__sub_80116620(void *, int);
 s32 get_obj_id__10TObjPlayerFv(void *);
 void set_slot_type_state__10TObjPlayerFllss(void *, int, u16, s32);
@@ -90,7 +91,6 @@ Ent_8022D27C *find_entity_by_id(u16);
 void get_hand_joint_position__10TObjPlayerFl(void *, void *);
 Target_8022D27C *get_technique_data__10TObjPlayerFPv(void *);
 u8 get_cast_technique_level(void *, int);
-void create__9TTecRestaFPvPvPvPv(void *, void *, void *, int);
 void matrix_mult_vec(int, void *, void *);
 void rotate_matrix_y(int, int);
 void push_matrix_from(void *);
@@ -626,7 +626,7 @@ void launch_technique__10TObjPlayerFv(s32 tech, s32 unused, Player_8022D27C *pl)
         break;
     case 15:
         COLLECT_8022D27C()
-        create__9TTecRestaFPvPvPvPv(pl, &hand, &list, get_cast_technique_level(td, 15));
+        TTecResta::create(pl, &hand, &list, (void *)get_cast_technique_level(td, 15));
         break;
     case 16:
         COLLECT_8022D27C()
@@ -664,7 +664,7 @@ void capture_technique_targets__10TObjPlayerFv(int kind, Owner_8022CDE8 *owner) 
         return;
     }
     ((TObjPlayer *)(owner->slots))->reset_slots();
-    c = find_by_pos__11TMainCursorFss(owner->f424, 3, kind);
+    c = (Cursor_8022CDE8 *)((TMainCursor *)owner->f424)->find_by_pos(3, kind);
     if (c == NULL) {
         return;
     }

@@ -54,7 +54,6 @@ void TObjEneBm3Fly__play_orbit_flight_sound(TObjEneBm3Fly *fly);
 f32 calc_scaled_value__15TObjBoss2TunnelFlf(int, int, f32, f32);
 void TObjEneBm3Fly__sub_800B02C8(TObjEneBm3Fly *arg0, s32 arg1);
 f32 atan2_float(f32, f32);
-s32 enemy_clear_target__12TObjEneDD_STFUs(void *);
 extern const f32 lbl_805D9E80;
 s32 is_vec_xz_cross_negative(void *, void *);
 void TObjEneBm3Fly__sub_800B0F70(TObjEneBm3Fly *arg0, s32 arg1);
@@ -64,7 +63,6 @@ s32 collect_enemy_target_candidates(void *, EnemyTargetCandidate *, f32);
 u16 get_entity_id(void *);
 void TObjEneBm3Fly__sub_800B0B20(TObjEneBm3Fly *arg0, s32 arg1);
 u32 TObjEneEpsilon__sub_800B92F8(void *, s32, f32);
-u32 move_with_wall_slide_commit__9TObjEneDDFfff(TObjEneDD *, f32, f32, f32);
 void free_collision_body_parts(void *);
 extern void *tl_04;
 
@@ -332,7 +330,7 @@ void TObjEneBm3Fly::update_collide_flag() {
 }
 
 void TObjEneBm3Fly::update_dd_flag(f32 x, f32 z, f32 speed) {
-    if (move_with_wall_slide_commit__9TObjEneDDFfff(this, x, z, speed) != 0U) {
+    if (this->move_with_wall_slide_commit(x, z, speed) != 0U) {
         this->m_428 |= 2;
         return;
     }
@@ -482,7 +480,7 @@ void TObjEneBm3Fly::sub_800B1214(s32 arg1) {
         p->y = this->m_444;
         p->z = (3e+01f) * cos_table_lookup(this->m_448) + this->m_41c.z;
         this->rotation_y = (s32)(10430.38043493439 * atan2_float(this->m_40c.x, this->m_40c.z));
-        enemy_clear_target__12TObjEneDD_STFUs(this);
+        ((TObjEneDD_ST *)(this))->enemy_clear_target();
         break;
     case 3:
         if (this->m_3c4 == 2) {
@@ -559,7 +557,7 @@ void TObjEneBm3Fly__sub_800B0F70(TObjEneBm3Fly *arg0, s32 arg1) {
         if (is_vec_xz_cross_negative(&d, &arg0->m_430) != 0) {
             arg0->m_3d8 *= -1;
         }
-        enemy_clear_target__12TObjEneDD_STFUs(arg0);
+        ((TObjEneDD_ST *)(arg0))->enemy_clear_target();
         arg0->m_3c8 = -1;
         break;
     case 3:
@@ -752,7 +750,7 @@ void TObjEneBm3Fly::execute_action(s32 arg1) {
     case 0:
         advance_animation();
         if (((TObjEneEpsilon *)this)->update_death_check() == 0) {
-            enemy_clear_target__12TObjEneDD_STFUs(this);
+            ((TObjEneDD_ST *)(this))->enemy_clear_target();
         }
         switch (this->m_3c0) {
         case 0:

@@ -32,7 +32,7 @@ s32 init_spaceship_area(void) {
     if ((get_main_phase() != 0xE) || (is_quest_active() == 0)) {
         switch (get_current_floor_area()) {
         case AREA_VR_SPACESHIP_BETA:
-            TBoss4DarkFalz::dispatch_by_main_phase(0x4E);
+            set_story_flag_or_send_quest_flag(0x4E);
             break;
         }
     }

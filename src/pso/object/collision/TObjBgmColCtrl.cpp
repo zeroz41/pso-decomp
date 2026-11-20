@@ -92,7 +92,6 @@ extern s32 bgm_zone_category;
 struct Zone_8017E748 { u8 pad[0x9C]; s32 category; };
 
 extern "C" {
-s32 is_within_distance__10TObjBgmColFf(f32);
 s32 __ct__8TObjBaseFP7TObject();
 
 extern s32 __vt__10TObjBgmCol[];
@@ -156,7 +155,7 @@ s32 TObjBgmCol::check() {
     f32 temp_f0;
 
     temp_f0 = this->m_98;
-    if (is_within_distance__10TObjBgmColFf(temp_f0 * temp_f0) != 0) {
+    if (is_within_distance(temp_f0 * temp_f0) != 0) {
         if ((s32) this->m_90 != 0) {
             this->m_90 = 0;
             return 1;

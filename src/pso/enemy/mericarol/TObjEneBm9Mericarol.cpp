@@ -57,7 +57,6 @@ struct Sub_800ACA10 { u8 pad[0x18]; s32 level; };
 
 s32 tick_period_counter(s32 arg0, s32 *arg1, s32 arg2);
 extern "C" {
-void enemy_clear_target__12TObjEneDD_STFUs(TObjEneDD_ST *self);
 extern s32 game_difficulty_selection;
 void vec3_add_to(Vec *dst, const Vec *src);
 void TBoss8Dragon__sub_800BB7D4(TObjEneBm9Mericarol *self, s32 arg1);
@@ -67,10 +66,8 @@ s32 approach_angle_limited(s32 from, s32 to, s32 max_step);
 s32 angle_difference_abs(s32 a, s32 b);
 void fn_802CE510(TObjEneBm9Mericarol *owner);
 s32 attack_target_history_add(AreaAttackHistory *history, TObjChara *target);
-void mult_vec_array__10TObjPlayerFUll(u32 matrix, Vec *src, Vec *dst, s32 count);
 void create__9TTecKafunFllllllff(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, f32 farg0, f32 farg1);
 void enemy_set_target_id(TObjEneBm9Mericarol *self, u16 id);
-u16 set_squared_value__9TObjEneDDFf(TObjEneBm9Mericarol *self, f32 range);
 u16 enemy_find_nearest_player_in_range(u8 *self, f32 range);
 }
 
@@ -494,7 +491,7 @@ void TObjEneBm9Mericarol::sub_802D05BC(s32 arg1) {
         m_438 |= 0x28;
         m_438 &= ~0x10;
         set_field_378(2);
-        enemy_clear_target__12TObjEneDD_STFUs(this);
+        this->enemy_clear_target();
         m_46c.start_fade_in();
         ((TBoss3Volopt *)&position)->play_area_sound_effect();
         return;
@@ -523,7 +520,7 @@ void TObjEneBm9Mericarol::handle_event(s32 arg1) {
         sub_802D093C();
         m_438 &= ~0x28;
         set_field_378(2);
-        enemy_clear_target__12TObjEneDD_STFUs(this);
+        this->enemy_clear_target();
         return;
     case 3:
         if (try_set_mode8_if_flag2() == 0 && update_linked_position(250.0f) != 0) {
@@ -587,7 +584,7 @@ void TObjEneBm9Mericarol::sub_802D01D8(s32 arg1) {
         if (tick_period_counter((s32)this, &m_450, 0x14) != 0) {
             if (m_3ac > 30.0f) {
                 if (vfunc_99() != 0) {
-                    target = set_squared_value__9TObjEneDDFf(this, m_3ac - 30.0f);
+                    target = enemy_nearest_visible_enemy(this, m_3ac - 30.0f);
                 }
                 if (target == 0xFFFF) {
                     target = enemy_find_nearest_player_in_range((u8 *)this, (f32)(m_3ac - 30.0f));
@@ -721,8 +718,8 @@ void TObjEneBm9Mericarol::sub_802CFB64(s32 arg1) {
                 set_matrix_identity(0);
                 post_translate_matrix(&position.x);
                 rotate_matrix_y(0, rotation_y);
-                mult_vec_array__10TObjPlayerFUll(0, points0, trail0, 2);
-                mult_vec_array__10TObjPlayerFUll(0, points1, trail1, 2);
+                matrix_mult_vec_array(NULL, (const Vec *)points0, (Vec *)trail0, 2);
+                matrix_mult_vec_array(NULL, (const Vec *)points1, (Vec *)trail1, 2);
                 pop_matrix();
                 if (m_3c0[0] != NULL) {
                     m_3c0[0]->vfunc_6(&trail0[0], &trail0[1]);

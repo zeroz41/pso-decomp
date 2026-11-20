@@ -172,12 +172,10 @@ struct O_80056C30 {
 
 struct Obj_80056DF0 { u8 pad0[0x3AC]; s32 i3AC; s32 i3B0; f32 f3B4; f32 f3B8; f32 f3BC; };
 
-f32 random_ratio__9TObjCharaFv(void *);
 u16 get_entity_id(void *);
 s32 get_bml_motion(s32, s32);
 s32 get_bml_texlist(BmlResource *resource, s32 index);
 s32 get_bml_model(BmlResource *resource, s32 index);
-s32 pick_random_target_player__11TBoss4Type3Fv(void);
 s32 TBoss4DarkFalz__sub_8004AF5C(s32, s16 *, s16 *);
 s32 TBoss4DarkFalz__sub_8004B4F0(void *, void *);
 void TObjPlayer__sub_80052390(f32 x);
@@ -704,7 +702,7 @@ void TBoss4Type2::choose_next_action() {
     Vec grid;
     s32 r;
     s32 id;
-    id = ((s32 (*)(void *))pick_random_target_player__11TBoss4Type3Fv)(this);
+    id = TBoss4Type3::pick_random_target_player();
     if (((Obj_80056A54 *)this)->f32c <= ((Obj_80056A54 *)this)->f3ec && (u16)id != 0xFFFF) {
         r = TBoss4Type2::pick_weighted_random(4, boss4_type2_next_action_weights_a, boss4_type2_next_actions_a);
     } else {
@@ -1231,7 +1229,7 @@ void TBoss4Type2::md_stop4_enter() {
 void TBoss4Type2::md_stop_idle() {
     void *boss4_type2 = (void *)this;
     if ((s32) *(s32 *)((s8 *)boss4_type2 + 0x398) == 0) {
-        if (((f32 (*)(void))random_ratio__9TObjCharaFv)() < 0.75f) {
+        if (((TObjChara *)this)->random_ratio() < 0.75f) {
             ((TBoss4Type2 *)boss4_type2)->choose_next_action();
             return;
         }

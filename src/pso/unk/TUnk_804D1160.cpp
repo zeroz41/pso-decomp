@@ -1,6 +1,7 @@
 #pragma defer_codegen on
 
 #include "types.h"
+#include "pso/player/TObjPlayer.h"
 #include "pso/ui/window/TWindowMainMenu_80263AB0.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -63,7 +64,6 @@ s32 *get_shared_text_buffer(void);
 s32 weapon_has_extra_attack();
 void *get_player_by_client_id(s32 i);
 u8 get_cast_technique_level(void *, s16);
-s32 validate_and_clear_slot__10TObjPlayerFv(void *, s16);
 void text_builder_append_int(s32);
 void text_builder_append();
 u8 *calc_technique_parameters(u16, u8, s32);
@@ -215,7 +215,7 @@ void TUnk_804D1160::update_customize_help_text(void *ev_arg) {
         text_builder_append();
         break;
     case 3:
-        if (validate_and_clear_slot__10TObjPlayerFv(pl + 0x428, ev->id) != 0) {
+        if (TObjPlayer::validate_and_clear_slot(pl + 0x428, ev->id) != 0) {
             break;
         }
         get_technique_name(ev->id);

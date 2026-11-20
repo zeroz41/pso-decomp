@@ -5,7 +5,6 @@
 
 #include <stddef.h>
 #include "pso/unk/TLobby.h"
-#include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 struct Induction_80219EE8_var_r31 { u8 bytes[0x8]; };
 
 struct Pair_80219F64 { s32 a; s32 b; };
@@ -13,7 +12,7 @@ struct Pair_80219F64 { s32 a; s32 b; };
 extern const s32 episode1_story_quest_flag_pairs[];
 extern const Pair_80219F64 episode2_story_quest_flag_pairs[];
 extern "C" {
-s32 dispatch_by_main_phase__14TBoss4DarkFalzFUs(s32);
+s32 set_story_flag_or_send_quest_flag(s32);
 }
 typedef char Induction_80219EE8_var_r31_size_check[sizeof(Induction_80219EE8_var_r31) == 0x8 ? 1 : -1];
 s32 should_record_episode1_quest_completion(void) {
@@ -67,60 +66,60 @@ void clear_episode1_quest_availability(void* unusedDifficulty) {
     } while (var_r29 < 0x1A);
 }
 void apply_story_quest_unlock_rules(void* unusedDifficulty) {
-    TBoss4DarkFalz::dispatch_by_main_phase(0x64);
-    TBoss4DarkFalz::dispatch_by_main_phase(0x66);
-    TBoss4DarkFalz::dispatch_by_main_phase(0x6A);
+    set_story_flag_or_send_quest_flag(0x64);
+    set_story_flag_or_send_quest_flag(0x66);
+    set_story_flag_or_send_quest_flag(0x6A);
     if ((get_story_flag(0x65) != 0) && (get_story_flag(0x67) != 0) && (get_story_flag(0x6B) != 0)) {
-        TBoss4DarkFalz::dispatch_by_main_phase(0x6C);
-        TBoss4DarkFalz::dispatch_by_main_phase(0x6E);
-        TBoss4DarkFalz::dispatch_by_main_phase(0x70);
-        TBoss4DarkFalz::dispatch_by_main_phase(0x74);
+        set_story_flag_or_send_quest_flag(0x6C);
+        set_story_flag_or_send_quest_flag(0x6E);
+        set_story_flag_or_send_quest_flag(0x70);
+        set_story_flag_or_send_quest_flag(0x74);
     }
     if ((get_story_flag(0x65) != 0) && (get_story_flag(0x67) != 0) && (get_story_flag(0x6B) != 0) && (get_story_flag(0x18) != 0)) {
-        TBoss4DarkFalz::dispatch_by_main_phase(0x68);
-        TBoss4DarkFalz::dispatch_by_main_phase(0x76);
-        TBoss4DarkFalz::dispatch_by_main_phase(0x78);
-        TBoss4DarkFalz::dispatch_by_main_phase(0x7E);
-        TBoss4DarkFalz::dispatch_by_main_phase(0x84);
+        set_story_flag_or_send_quest_flag(0x68);
+        set_story_flag_or_send_quest_flag(0x76);
+        set_story_flag_or_send_quest_flag(0x78);
+        set_story_flag_or_send_quest_flag(0x7E);
+        set_story_flag_or_send_quest_flag(0x84);
     }
     if ((get_story_flag(0x77) != 0) && (get_story_flag(0x79) != 0) && (get_story_flag(0x7F) != 0) && (get_story_flag(0x85) != 0)) {
-        TBoss4DarkFalz::dispatch_by_main_phase(0x7A);
-        TBoss4DarkFalz::dispatch_by_main_phase(0x80);
+        set_story_flag_or_send_quest_flag(0x7A);
+        set_story_flag_or_send_quest_flag(0x80);
     }
     if ((get_story_flag(0x65) != 0) && (get_story_flag(0x67) != 0) && (get_story_flag(0x6B) != 0) && (get_story_flag(0x21) != 0)) {
-        TBoss4DarkFalz::dispatch_by_main_phase(0x82);
-        TBoss4DarkFalz::dispatch_by_main_phase(0x86);
-        TBoss4DarkFalz::dispatch_by_main_phase(0x8A);
+        set_story_flag_or_send_quest_flag(0x82);
+        set_story_flag_or_send_quest_flag(0x86);
+        set_story_flag_or_send_quest_flag(0x8A);
     }
     if ((get_story_flag(0x65) != 0) && (get_story_flag(0x67) != 0) && (get_story_flag(0x6B) != 0) && (get_story_flag(0x30) != 0)) {
-        TBoss4DarkFalz::dispatch_by_main_phase(0x92);
-        TBoss4DarkFalz::dispatch_by_main_phase(0x88);
+        set_story_flag_or_send_quest_flag(0x92);
+        set_story_flag_or_send_quest_flag(0x88);
     }
     if (get_story_flag(0x71) != 0) {
-        TBoss4DarkFalz::dispatch_by_main_phase(0x72);
+        set_story_flag_or_send_quest_flag(0x72);
     }
     if (get_story_flag(0x7B) != 0) {
-        TBoss4DarkFalz::dispatch_by_main_phase(0x7C);
+        set_story_flag_or_send_quest_flag(0x7C);
     }
     if ((get_story_flag(0x8B) != 0) && (get_story_flag(0x7F) != 0) && (get_story_flag(0x21) != 0)) {
-        TBoss4DarkFalz::dispatch_by_main_phase(0x8C);
+        set_story_flag_or_send_quest_flag(0x8C);
     }
     if ((get_story_flag(0x7F) != 0) && (get_story_flag(0x30) != 0)) {
-        TBoss4DarkFalz::dispatch_by_main_phase(0x90);
+        set_story_flag_or_send_quest_flag(0x90);
     }
     if ((get_story_flag(0x8D) != 0) && (get_story_flag(0x30) != 0) && (get_story_flag(0x91) != 0)) {
-        TBoss4DarkFalz::dispatch_by_main_phase(0x8E);
-        TBoss4DarkFalz::dispatch_by_main_phase(0x94);
+        set_story_flag_or_send_quest_flag(0x8E);
+        set_story_flag_or_send_quest_flag(0x94);
     }
-    dispatch_by_main_phase__14TBoss4DarkFalzFUs(-1);
+    set_story_flag_or_send_quest_flag(-1);
     if (get_story_flag(0x95) != 0) {
-        TBoss4DarkFalz::dispatch_by_main_phase(0x9F);
+        set_story_flag_or_send_quest_flag(0x9F);
     }
     if (get_story_flag(0xA1) != 0) {
-        TBoss4DarkFalz::dispatch_by_main_phase(0xA2);
+        set_story_flag_or_send_quest_flag(0xA2);
     }
     if (get_story_flag(0xA3) != 0) {
-        TBoss4DarkFalz::dispatch_by_main_phase(0xA4);
+        set_story_flag_or_send_quest_flag(0xA4);
     }
 }
 void refresh_story_quest_availability(void* p) { clear_episode1_quest_availability(p); apply_story_quest_unlock_rules(p); }

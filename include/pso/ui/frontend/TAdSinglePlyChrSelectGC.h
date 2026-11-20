@@ -41,7 +41,6 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     void noop_laser();
     void forward_to_field_0x14(void* a1);
     void set_vec3(void* q);
-    void render_status_disp(f32 arg1, f32 arg2);
     static void free_resources();
     static void set_slot(int a0);
     static u16 get_char_select_slot();
@@ -52,7 +51,7 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static void copy_name(s32 arg0);
     static void set_card_disk_id(s32 arg0);
     s32 init_char_slot_record();
-    u8 is_level_capped();
+    s32 is_level_capped();
     s32 find_entry(s32 arg1);
     s32 register_in_free_room_slot(s32 arg1);
     static s32 is_ready();
@@ -87,8 +86,8 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     void*copy_item_data(void* a1);
     void*init_guild_card_tag();
     void clear_inventory_slot();
-    static void draw_window_bg(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
-    static void load_player(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
+    static s32 draw_window_bg(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
+    static s32 load_player(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
     static s32 load_player_slot(s32 chan, const char *file_name, void *buffer);
     s32 try_acquire_slot();
     s32 are_all_selections_done();

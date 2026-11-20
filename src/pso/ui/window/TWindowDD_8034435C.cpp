@@ -35,8 +35,6 @@ s32 TWindowDD__sub_8034740C(DD_803461CC *, char *, s32 *);
 s32 TWindowDD__sub_80347474(DD_803461CC *, s32, char *, s32 *);
 s32 append_word_select_token(s32, char *, s32 *);
 s32 format_entry_text__9TWindowDDFPvPv(DD_803461CC *arg0, char *arg1);
-List_803467CC *get_element_ptr__9TWindowDDFl(s16);
-List_803467CC *get_entry__9TWindowDDFl(s32, s16);
 s32 TWindowDD__sub_80347758(DD_803461CC *, DD_803461CC *);
 s32 TWindowDD__sub_803474CC(DD_803461CC *, s32, char *, char *, s32 *);
 char fn_80228C54(char);
@@ -1357,7 +1355,7 @@ s32 TWindowDD__sub_80346640(u8 *arg0, u32 arg1, s32 arg2, s32 value_index) {
 #define BUF_803467CC ((Buf_803467CC *)TWindowDD__word_select_lists)
 void build_item_list__9TWindowDDFPv(u8 *arg0) {
     s32 kind;
-    s16 id;
+    s32 id;
     List_803467CC *sel;
     s32 idx;
     List_803467CC *entry;
@@ -1391,11 +1389,11 @@ void build_item_list__9TWindowDDFPv(u8 *arg0) {
     }
     sel = NULL;
     idx = *(s16 *)(arg0 + 0x1C) - 0x7F;
-    entry = get_entry__9TWindowDDFl(kind, *(s16 *)(arg0 + 0x1C));
+    entry = (List_803467CC *)TWindowDD::get_entry(kind);
     if (entry != NULL && idx >= 0 && idx < entry->count) {
-        sel = get_element_ptr__9TWindowDDFl(entry->items[idx]);
+        sel = (List_803467CC *)TWindowDD::get_element_ptr(entry->items[idx]);
     }
-    extra = get_element_ptr__9TWindowDDFl(id);
+    extra = (List_803467CC *)TWindowDD::get_element_ptr(id);
     n = 0;
     a = BUF_803467CC->a;
     b = BUF_803467CC->b;

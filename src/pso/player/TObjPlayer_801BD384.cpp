@@ -23,14 +23,13 @@
 extern "C" {
 u16 get_entity_id(void *);
 s32 sub_801AF454__10TObjPlayerFl(void *, u16);
-s32 select_class_action_provider__10TObjPlayerFv(void *, int);
 extern s32 TObjPlayer__shared_model_buffer;
 void TObjPlayer::sub_801BD318() {
     u8 *arg0 = (u8 *)this;
     s32 temp_r4;
     temp_r4 = get_entity_id(arg0) * 0xC00;
     (*(s32 *)&this->joint_matrices) = (s32) (TObjPlayer__shared_model_buffer + temp_r4);
-    select_class_action_provider__10TObjPlayerFv(arg0, temp_r4);
+    ((TObjPlayer *)arg0)->select_class_action_provider();
     sub_801AF454__10TObjPlayerFl(arg0, get_entity_id(arg0));
     ((TObjPlayer *)arg0)->init_idle_animation();
     ((TObjPlayer *)arg0)->draw();
@@ -100,7 +99,6 @@ void sub_801BBC2C__10TObjPlayerFv(void *, void *);
 void init_battle__10TObjPlayerFv(void *, void *);
 void init_session_technique_caps__10TObjPlayerFPvPv(void *, void *);
 void TObjPlayer__sub_801BCAB0(void *, void *);
-void init_player_data__10TObjPlayerFv(void *, void *);
 void is_flag_set_550__10TObjPlayerFv(void *, void *);
 void sub_801BD240__10TObjPlayerFv(void *, void *);
 void init_player_telepipe_record(void *);
@@ -152,7 +150,7 @@ TObjPlayer::TObjPlayer(TObject *parent, TUnk_801D8A4C *src) : TObjChara(parent) 
     this->entity_id = 0;
     this->setup_control_role(7);
     ((Fn_vpvp_801BD570)update_body_parts__10TObjPlayerFv)(this, src);
-    init_player_data__10TObjPlayerFv(this, src->stats);
+    this->init_player_data(src->stats);
     this->init_data_table_ptr();
 }
 

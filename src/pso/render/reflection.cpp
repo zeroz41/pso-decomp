@@ -204,7 +204,6 @@ void TObjEneRecon::notify_scene(s32 arg0) {
 
 extern "C" {
 
-s32 init_render_target__10TObjPlayerFv();
 
 
 void TObjEneRecon::destroy_instance() {
@@ -229,7 +228,7 @@ void TObjEneRecon::alloc_if_valid_state() {
         temp_r3 = (int)::operator new(0x28);
         scene_sora_recon_object = temp_r3;
         if (temp_r3 != 0U) {
-            init_render_target__10TObjPlayerFv();
+            ((TObjPlayer *)temp_r3)->init_render_target();
             lbl_805D65F0 = scene_sora_recon_object + 0x1C;
         }
     }

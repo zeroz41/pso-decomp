@@ -63,7 +63,6 @@ extern TObject *tl_clipout;
 extern TObject *tl_fadeafter;
 extern "C" {
 void TCameraCtrl__sub_80068EF0(void);
-s32 get_nth_view_player_id__11TCameraCtrlFl(s32);
 }
 struct VObj_8024C820 {
     char pad[0x18];
@@ -121,7 +120,6 @@ u16 get_current_target_id__10TObjPlayerFv();
 s32 is_player_input_active(s32);
 int TWindowCtrl__sub_8024C7D4(void *p);
 extern Pad_8024DCE8 controller_input_state[];
-u32 is_action_active__10TObjPlayerFv(void *);
 int TWindowMainMenu__sub_8024E3F4(void *p);
 void TWindowCtrl__sub_8024DAAC(void *arg0);
 s32 TWindowMainMenu__sub_8024E3E0(void *);
@@ -308,7 +306,7 @@ void TWindowCtrl::update_main_menu_request() {
         TWindowCtrl::update_focused();
         return;
     }
-    if (is_action_active__10TObjPlayerFv((void *) p) != 0) {
+    if ((u32)((TObjPlayer *)p)->is_action_active() != 0) {
         return;
     }
     if (key == 0x1F) {
@@ -823,7 +821,7 @@ TWindowCtrlScreen::~TWindowCtrlScreen() {
 void TWindowCtrlScreen::render() {
     u16 viewport_index;
     if (is_window_display_enabled() != 0) {
-        viewport_index = get_nth_view_player_id__11TCameraCtrlFl(TCameraCtrl::get_camera_no());
+        viewport_index = (s32)TCameraCtrl::get_nth_view_player_id(TCameraCtrl::get_camera_no());
         set_default_alpha_blend();
         TParticleCtrl::begin_effect_render();
         TWindowCtrlMain__instance->render_nodes();

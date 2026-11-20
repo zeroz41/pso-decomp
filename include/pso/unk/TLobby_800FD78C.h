@@ -49,6 +49,7 @@ extern s32 player_control_role_base;
 // --- C functions defined in TLobby_800FD78C.cpp ---
 extern "C" {
 u8 fn_800FD7C0(f32 *xz);
+s32 has_nonfinite_position(f32 *xz);
 }
 // --- end of C functions
 

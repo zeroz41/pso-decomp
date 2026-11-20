@@ -143,6 +143,7 @@
 #include "pso/item/drop/TItemDropSub_80107B74.h"
 #include "pso/ui/window/TWindowSubComCard_80077788.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/player/TPlyPhotonChair.h"
 
 // ---- TLobby_80104374.cpp
 
@@ -375,7 +376,7 @@ void *item_tool_factory_table[24] = {
 void normalize_drop_area(s32 *p);
 
 void TLobby::set_boss_buf_entry(int a0, int a1) { item_sync_counter_table[(unsigned short)(a1)] = a0; }
-int TLobby::get_sync_counter(int a0) {  return item_sync_counter_table[(unsigned short)(a0)]; }
+int TLobby::get_sync_counter(u16 a0) {  return item_sync_counter_table[a0]; }
 s32 TLobby::get_item_data(u32 arg0) {
     if (arg0 != 0U) {
         return get_item_icon_index();
@@ -755,9 +756,6 @@ struct MagData_80104DAC { u8 b[0x10]; };
 
 struct Rec_80104DAC { u8 pad0[6]; u8 b6; u8 b7; u8 b8; u8 b9; u8 bA; u8 bB; u8 bC; };
 
-extern "C" {
-s32 get_actor_section_id__15TPlyPhotonChairFv(void *);
-}
 Rec_80104DAC *find_item_combination_recipe(u8 *, void *);
 extern "C" {
 void *lookup_item_pmt_record(u8 *);
@@ -821,7 +819,7 @@ s32 find_eligible_combination_recipe(s32 arg0, u8 *item) {
         }
         v = rec->bC;
         if (v != 0xFF) {
-            if (v != get_actor_section_id__15TPlyPhotonChairFv(o)) {
+            if (v != (s32)((TPlyPhotonChair *)(o))->get_actor_section_id()) {
                 return 0;
             }
         }

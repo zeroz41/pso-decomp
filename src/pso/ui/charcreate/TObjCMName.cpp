@@ -36,6 +36,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/system/vector.h"
 
 
 struct Menu_80296D68
@@ -1838,7 +1839,7 @@ const char *TObjCMAutoMkData__name = "TObjCMAutoMkData";
 TObjCMAutoMkData::TObjCMAutoMkData(TObject *parent) : TObject(parent) {
     m_name = TObjCMAutoMkData__name;
     appearance = creation_player_character;
-    ((TWindowSubSymbolChatPartsSet *)&width)->copy_vec2((u8 *)appearance + 0x48);
+    copy_vec2(&width, (u8 *)appearance + 0x48);
     fade = 0.0f;
     state = 0;
     TChCrEffTag::set_eff_tag(0xB);

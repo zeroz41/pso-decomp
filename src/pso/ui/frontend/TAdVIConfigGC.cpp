@@ -12,6 +12,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
 #include "pso/ui/frontend/TAdVIConfigGC.h"
+#include "pso/system/vector.h"
 
 #pragma readonly_strings on
 
@@ -37,7 +38,6 @@ void *TAdVIConfigGC__ct(TAdVIConfigGC *arg0);
 void *destroy__13TAdVIConfigGCFPvs(void *arg0, s16 arg1);
 int OSSetProgressiveMode(void*);
 void *TAdYesNoBaseGC__ct(TAdYesNoBaseGC *arg0);
-s32 VecCopy__FP3VecPC3Vec(void *);
 int VIWaitForRetrace(void);
 int VIConfigure(void*);
 int VIFlush(void);
@@ -108,9 +108,9 @@ void *destroy__13TAdVIConfigGCFPvs(void *arg0, s16 arg1) {
 
 extern "C" {
 
-u8 *TAdVIConfigGC::init(f32 farg0) {
+u8 *TAdVIConfigGC::init(const Vec *position, f32 farg0) {
     u8 *arg0 = (u8 *)this;
-    VecCopy__FP3VecPC3Vec((u8 *)&this->m_prev);
+    VecCopy((Vec *)&this->m_prev, position);
     *(f32 *)&this->m_name = (f32) (farg0 * farg0);
     *(s32 *)&this->m_24 = 0;
     memset((u8 *)&this->m_28, 0, 0x60);

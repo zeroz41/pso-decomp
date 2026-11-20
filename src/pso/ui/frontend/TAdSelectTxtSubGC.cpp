@@ -8,6 +8,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/vector.h"
 
 const char *ad_select_txt_sub_gc_class_name = "TAdSelectTxtSubGC";
 s32 status_disp_texture_handle;
@@ -89,7 +90,7 @@ Txt_802A37A0 *__ct__17TAdSelectTxtSubGCFv(Txt_802A37A0 *arg0, void *parent, Src_
     arg0->f0 = ad_select_txt_sub_gc_class_name;
     arg0->f7c = src->f0;
     arg0->f1c = src->f4;
-    ((TWindowSubSymbolChatPartsSet *)(&arg0->f64))->copy_vec2(src->v8);
+    copy_vec2((&arg0->f64), src->v8);
     arg0->f80 = src->f10;
     arg0->f84 = -1;
     arg0->f74 = 2.0f;

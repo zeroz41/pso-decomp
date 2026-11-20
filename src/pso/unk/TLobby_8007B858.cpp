@@ -209,7 +209,7 @@ s32 is_area_transfer_pending();
 s32 apply_phase_keyboard_mode();
 s32 load_area_gsl();
 s32 close_gsl_archive();
-s32 update_key_machine__6TLobbyFv();
+
 
 s32 TLobby::check_disconnect_conditions() {
     apply_phase_keyboard_mode();
@@ -218,7 +218,7 @@ s32 TLobby::check_disconnect_conditions() {
         return 1;
     }
     load_area_gsl();
-    if (update_key_machine__6TLobbyFv() == 0) {
+    if (TLobby::update_key_machine() == 0) {
         close_gsl_archive();
         TLobby::reset_and_invoke();
         return 1;

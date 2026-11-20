@@ -76,9 +76,7 @@ f32 vec_squared_length(u8 *arg0);
 void set_queued_main_phase(s32 arg0);
 void request_main_phase(s32 arg0);
 s32 rand(void);
-s32 is_particle_sprite_additive__13TUnk_8048E728Fv(void *, s32);
 s32 append_node_to_tail__13TParticleCtrlFPvPv(s32, void *);
-s32 all_parents_unqueued_for_destruction__7TObjectFv();
 s32 rotate_matrix_y(s32, s32);
 s32 push_matrix(f32);
 s32 pop_matrix();
@@ -276,7 +274,7 @@ void TUnk_8048E7A8::render() {
     Vec pos;
     f32 len;
     u16 flags;
-    if (all_parents_unqueued_for_destruction__7TObjectFv() == 0) {
+    if ((s32)this->all_parents_unqueued_for_destruction() == 0) {
         return;
     }
     if (*(u8 *)((s8 *)(*(u8 * *)&this->param) + 0x88) & 4) {
@@ -342,7 +340,7 @@ void TUnk_8048E7A8::render() {
                 s32 temp_r4 = model_render_flags;
                 saved_model_render_flags = temp_r4;
                 model_render_flags = temp_r4 | 0x8021;
-                if (is_particle_sprite_additive__13TUnk_8048E728Fv(arg0, temp_r4) != 0) {
+                if (((TUnk_8048E728 *)arg0)->is_particle_sprite_additive(temp_r4) != 0) {
                     ((TUnk_8048E728 *)arg0)->apply_particle_model_fade_color(1);
                 } else {
                     ((TUnk_8048E728 *)arg0)->apply_particle_model_fade_color(0);

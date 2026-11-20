@@ -101,7 +101,6 @@ void unlock_main_warp_destination(s32 id);
 
 void clear_enabled_main_warps(void);
 
-s32 get_floor_warp_bit__16TObjCityMainWarpFl();
 
 
 s32 align_menu_entry_positions(int);
@@ -109,7 +108,7 @@ s32 align_menu_entry_positions(int);
 
 s32 get_window_layout_position(s32);
 
-void * init__13TAdVIConfigGCFf(void *, void *, f32);
+void * init__13TAdVIConfigGCFPC3Vecf(void *, void *, f32);
 
 s32 get_game_play_mode();
 
@@ -119,7 +118,6 @@ s32 push_matrix();
 
 s32 post_translate_matrix(void *);
 
-s32 set_global_param__8TObjFishFl(s32);
 
 
 
@@ -147,9 +145,7 @@ extern s32 lbl_805D55C0;
 
 s32 *TObjCityMainWarp__sub_80186AF4(void);
 
-s32 update_warp_flags_from_story__16TObjCityMainWarpFv();
 
-s32 init_visible_mask__16TObjCityMainWarpFv();
 
 }
 
@@ -305,10 +301,10 @@ void update_main_warp_visible_mask(s32 arg0) {
         TObjCityMainWarp::update_unlock_flags();
         break;
     case 1:
-        init_visible_mask__16TObjCityMainWarpFv();
+        TObjCityMainWarp::init_visible_mask();
         break;
     case 2:
-        update_warp_flags_from_story__16TObjCityMainWarpFv();
+        TObjCityMainWarp::update_warp_flags_from_story();
         break;
     }
     for (i = 11; i < 15; i++) {
@@ -399,10 +395,10 @@ void TObjCityMainWarp::update_warp_flags_from_story() {
     }
 }
 
-void TObjCityMainWarp::clear_active_bit() {
+void TObjCityMainWarp::clear_active_bit(s32 floor) {
     s32 temp_r3;
 
-    temp_r3 = get_floor_warp_bit__16TObjCityMainWarpFl();
+    temp_r3 = TObjCityMainWarp::get_floor_warp_bit(floor);
     if (temp_r3 >= 0) {
         TObjCityMainWarp__enabled_destinations &= ~(1 << temp_r3);
     }
@@ -414,7 +410,7 @@ void unlock_main_warp_destination(s32 id) {
     if (TLobby::get_instance() == 0) {
         TObjCityMainWarp::set_active_bit(id);
         if (id == 8) {
-            TBoss4DarkFalz::dispatch_by_main_phase(0x30);
+            set_story_flag_or_send_quest_flag(0x30);
         }
     } else {
         switch (id) {
@@ -444,7 +440,7 @@ TObjCityMainWarp::TObjCityMainWarp(TObject *parent, void *set_data) : TObjAreaWa
     if (is_split_screen() == 1) {
         p = ::operator new(0x88);
         if (p != NULL) {
-            p = init__13TAdVIConfigGCFf(p, &position, 25.0f);
+            p = init__13TAdVIConfigGCFPC3Vecf(p, &position, 25.0f);
         }
         vi_config = (TAdVIConfigGC *)p;
     } else {

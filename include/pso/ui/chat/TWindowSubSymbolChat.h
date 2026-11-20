@@ -49,9 +49,9 @@ struct TWindowSubSymbolChat : public TObject {
     void remove_slot_shift_down(s32 i);
     void set_entry(s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6);
     void add(s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5);
-    void set_entry_bits(u16 v, s32 a, s32 idx, s32 b, s32 c);
+    void set_entry_bits(s32 v, s32 a, s32 idx, s32 b, s32 c);
     void set_symbol_flags(s32 arg1, s32 arg2);
-    void refresh_parts();
+    static s32 count_instance_empty_slots();
     void update_layout();
     void update_symbol_chat_result();
     void update_selected_symbol();
@@ -85,7 +85,7 @@ struct TWindowSubSymbolChat : public TObject {
     virtual void run_task();
     static void set_flag_bit2(s32 *arg0);
     static void clear_flag_bit2(s32 *arg0);
-    s16 get_cursor_pos();
+    s32 get_cursor_pos();
     s32 get_cursor_x();
     void clear_flag60_bit2();
     void clear_flag60_bit4();
@@ -93,7 +93,6 @@ struct TWindowSubSymbolChat : public TObject {
     void set_flag60_bit1();
     void set_flag60_bit2();
     void set_selection_and_refresh(s32 arg1);
-    static void update_display(s32 arg0);
     void init_layout_entries(s32 arg1);
     void set_from_key(s32 arg1);
     s32 select_symbol_chat_record(s8 *arg1, s32 *arg2);

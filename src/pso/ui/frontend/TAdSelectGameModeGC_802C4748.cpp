@@ -36,7 +36,7 @@ const S16_802C4944 select_game_mode_button_rect = {{{185.0f, 198.0f}, {155.0f, 2
 
 s32 TAdSelectGameModeGC__cached_mode_value;
 extern "C" {
-int enable_camera__19TAdSelectGameModeGCFv(void);
+
 s32 free_sub_ctrls__19TAdSelectGameModeGCFv();
 s32 play_sound_effect(int, int, int, int);
 extern s32 TAdSelectGameModeGC__cached_mode_value;
@@ -56,14 +56,14 @@ int fn_802C4748(void* p) { return sync_char_select_state__10TObjPlayerFv(p); }
 
 void TAdSelectGameModeGC::render() {  }
 
-int TAdSelectGameModeGC::call_enable_camera(void* p) { return enable_camera__19TAdSelectGameModeGCFv(); }
+void TAdSelectGameModeGC::call_enable_camera(void* p) { TAdSelectGameModeGC::enable_camera(); }
 void TAdSelectGameModeGC__sub_802C478C(void) {
     s32 mode_data;
     if (get_main_phase() == 0xE) {
         mode_data = TAdSelectGameModeGC::get_mode_data();
         switch (mode_data) {
         case 0:
-            ((s32)enable_camera__19TAdSelectGameModeGCFv());
+            TAdSelectGameModeGC::enable_camera();
             return;
         case 1:
             ((s32)TAdMultiPlyChrSelectGC__sub_802C6558());

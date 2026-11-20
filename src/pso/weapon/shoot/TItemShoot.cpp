@@ -90,7 +90,7 @@ s32 spawn_shoot_particle_9f(u32 owner, s32 pos, s32 dir, f32 life) {
 }
 
 s32 create_shoot_model_with_particles(u32 owner, s32 pos, s32 dir, f32 life) {
-    s32 model = create_shoot_model__10TObjPlayerFUiiif(owner, pos, dir, life);
+    s32 model = TObjPlayer::create_shoot_model(owner, pos, dir, life);
     TItemShootParticle *particle = (TItemShootParticle *)TObjPlayer::spawn_shoot_particle(owner, pos, dir, life);
     if ((u32)model != 0U && particle != NULL) {
         ((TItemShootModel *)model)->m_60 = 0x4000;
@@ -102,7 +102,7 @@ s32 create_shoot_model_with_particles(u32 owner, s32 pos, s32 dir, f32 life) {
 }
 
 u32 TItemShoot::spawn_shoot_particle_attached(u32 owner, s32 pos, s32 dir, f32 life) {
-    u32 model = create_shoot_model__10TObjPlayerFUiiif(owner, pos, dir, life);
+    u32 model = TObjPlayer::create_shoot_model(owner, pos, dir, life);
     u32 particle = (u32)TObjPlayer::spawn_shoot_particle(owner, pos, dir, life);
     if (model != 0U && particle != 0U) {
         ((TItemShootParticle *)particle)->spawn_slot_emitter(0x1BD, 0);
@@ -169,7 +169,7 @@ s32 TItemShootModel::is_owner_alive() {
     return all_parents_unqueued_for_destruction() != 0 ? 1 : 0;
 }
 
-s32 create_shoot_model__10TObjPlayerFUiiif(u32 owner, s32 pos, s32 dir, f32 life) {
+s32 TObjPlayer::create_shoot_model(u32 owner, s32 pos, s32 dir, f32 life) {
     TItemShootModel *model = NULL;
     if (0.0f != life && owner != 0U) {
         model = new TItemShootModel((void *)owner, (const Vec *)pos, (const Vec *)dir, life);

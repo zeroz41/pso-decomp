@@ -540,19 +540,19 @@ f32 TLobby::get_field_2a4() { return *(f32*)((char*)this + 0x2a4); }
 s32 TLobby::get_field_0x280() { return *(s32*)((char*)this + 0x280); }
 void TLobby::set_menu_index(s32 v) { *(s32*)((char*)this + 0x280) = v; }
 extern "C" {
-void set_mode__6TLobbyFPvi(void *arg0, s32 arg1) {
-    switch (arg1) {
+void SoundControlState::set_output_mode(s32 mode) {
+    switch (mode) {
     case 0:
         sndOutputMode(0);
-        *(s32 *)((s8 *)arg0 + 0x2A0) = arg1;
+        this->output_mode = mode;
         return;
     case 1:
         sndOutputMode(1);
-        *(s32 *)((s8 *)arg0 + 0x2A0) = arg1;
+        this->output_mode = mode;
         return;
     case 2:
         sndOutputMode(2);
-        *(s32 *)((s8 *)arg0 + 0x2A0) = arg1;
+        this->output_mode = mode;
         return;
     }
 }
@@ -709,8 +709,8 @@ s32 TLobby__sub_8023FFB8(SoundControlState *self, int id);
 s32 adxf_get_stat(void *handle);
 u32 sndPushGroup(void *prj_data, u16 gid, void *samples, void *sdir, void *pool);
 
-u8 is_ready__6TLobbyFPv(void *arg0) {
-    return (u8) (*(s32 *)((s8 *)arg0 + 0x298) == 1);
+s32 SoundControlState::is_ready() {
+    return (u8) (load_state == 1);
 }
 void TLobby__sub_8023FCC0(SoundControlState *self) {
     s32 i;
@@ -949,7 +949,7 @@ s32 init_sound_aux_effects(SoundControlState *self) {
     self->group_state = -1;
     self->f2BC = 0;
     self->depth = 0;
-    set_mode__6TLobbyFPvi(self, 1);
+    self->set_output_mode(1);
     memset(lbl_80517BEC, 0, sizeof(lbl_80517BEC));
     result = TLobby__sub_801E3E9C(0, "SOUND.BIN", lbl_80517BEC, 0xA0);
     if (result != 0) {

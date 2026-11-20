@@ -187,7 +187,6 @@ extern "C" {
 int sprintf(char *, const char *, ...);
 char *strcpy(char *, const char *);
 void *memset(void *, int, u32);
-s32 all_parents_unqueued_for_destruction__7TObjectFv();
 extern u8 *camera_ctrl_instance;
 void VecCopy__FP3VecPC3Vec(void *, const void *);
 void TParticleCtrl__sub_800884F0(void *p, void *dir);
@@ -227,7 +226,7 @@ void run_task__13TParticleCtrlFv(Ctrl_8008767C *self) {
     s32 kind;
     u8 *p;
     f32 step;
-    if (all_parents_unqueued_for_destruction__7TObjectFv() == 0) {
+    if (((TObject *)self)->all_parents_unqueued_for_destruction() == 0) {
         return;
     }
     if (self->delay-- <= 0) {

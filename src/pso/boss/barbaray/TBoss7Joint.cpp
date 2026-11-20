@@ -15,7 +15,6 @@
 
 extern "C" {
 extern const f32 lbl_805DE9F0;
-s32 reload_stats_keep_hp_tp__9TObjEneDDFv(void *, int, int, int);
 u32 __nw__7TObjectFUl(int);
 s32 TObjPlayer__sub_802E72DC(void *, void *, void *, int);
 
@@ -23,7 +22,7 @@ int TBoss7Joint::is_part_active() { return *(u32*)((char*)this + 0x3bc) & 0x1; }
 
 void TBoss7Joint::init_boss_stats() {
     *(s32 *)((s8 *)((u8 *)this) + 0x3BC) = *(s32 *)((s8 *)((u8 *)this) + 0x3BC) | 1;
-    reload_stats_keep_hp_tp__9TObjEneDDFv(this, (s32)TLobby::register_boss(0x10), (s32)TLobby::dispatch_shared_handler_b(0xF), (s32)TLobby::register_object(0x10));
+    this->reload_stats_keep_hp_tp((u8 *)(TLobby::register_boss(0x10)), (u8 *)(TLobby::dispatch_shared_handler_b(0xF)), (u8 *)(TLobby::register_object(0x10)));
     this->hp = 0x4E20;
     this->hpmax = 0x4E20;
     u32 p = __nw__7TObjectFUl(0x2C);
@@ -79,7 +78,6 @@ s32 add_radar_scaled_marker(void *, int, int, int, f32);
 struct VOff_802EE9A4_arg0_802EE9A4 { char pad_0[0x2FC]; char f_2FC[1]; };
 
 s32 apply_damage_and_set_effect__8TObjFishFl(int, int, int);
-u32 is_part_active__11TBoss7JointFv(void *, int);
 
 void TBoss7Joint::store_position() {
     struct VOff_802EE9A4_arg0_802EE9A4 *self = (struct VOff_802EE9A4_arg0_802EE9A4 *)this;
@@ -94,7 +92,7 @@ void TBoss7Joint::vfunc_62() {
 
     temp_r4 = this->hp;
     temp_r31 = this->hpmax - temp_r4;
-    if (is_part_active__11TBoss7JointFv(this, temp_r4) != 0U) {
+    if (this->is_part_active() != 0U) {
         TObjFish__sub_802EC468((s32)(((u8 *)this) + 0x38), 15.0f, 12.0f);
         apply_damage_and_set_effect__8TObjFishFl((int) (*(s32 *)((s8 *)((u8 *)this) + 0x10)), temp_r31, this->m_2d4);
     } else {

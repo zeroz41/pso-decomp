@@ -69,7 +69,7 @@ struct TAdMultiPlyChrSelectGC : public TObject {
     void collect_player_slots();
     s32 get_state_result();
     static u8 *format_player_number_text(s32 arg0, s32 arg1);
-    int request_scene_change();
+    void request_scene_change();
     void check_cancel_input();
     void handle_input();
     void update_input_state();

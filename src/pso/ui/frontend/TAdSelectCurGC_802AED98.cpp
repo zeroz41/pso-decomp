@@ -19,6 +19,7 @@ public:
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/render/GinjaTexture.h"
 #include "pso/ui/frontend/TAdSelectCurGC_801A6E20.h"
+#include "pso/system/vector.h"
 
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -88,12 +89,12 @@ void run_task__14TAdSelectCurGCFv(TAdSelectCurGC_802AED98 *o) {
         }
         if (ok != 0) {
             if (TAdMultiPlyChrSelectGC::dispatch_draw_command((s32)(controller_input_state + 0x20), 0x10, 6, 1) != 0 ||
-                TWindowChoiceSetting::apply_choice((s32)(controller_input_state + 0x160), 0x10, 6, 1) != 0) {
+                test_buttons_press_or_repeat((s32)(controller_input_state + 0x160), 0x10, 6, 1) != 0) {
                 play_sound_effect(0x54100, 0, 0, 0);
                 o->fA4--;
             }
             if (TAdMultiPlyChrSelectGC::dispatch_draw_command((s32)(controller_input_state + 0x20), 0x20, 6, 1) != 0 ||
-                TWindowChoiceSetting::apply_choice((s32)(controller_input_state + 0x160), 0x20, 6, 1) != 0) {
+                test_buttons_press_or_repeat((s32)(controller_input_state + 0x160), 0x20, 6, 1) != 0) {
                 play_sound_effect(0x54100, 0, 0, 0);
                 o->fA4++;
             }
@@ -146,8 +147,8 @@ TAdSelectCurGC_802AF0E0 *__ct__14TAdSelectCurGCFv(TAdSelectCurGC_802AF0E0 *o, vo
     __ct__7TObjectFP7TObject(o);
     o->vt18 = __vt__14TAdSelectCurGC;
     o->name = TAdSelectCurGC__name;
-    ((TWindowSubSymbolChatPartsSet *)((u8 *)o + 0x1C))->copy_vec2(a);
-    ((TWindowSubSymbolChatPartsSet *)((u8 *)o + 0x9C))->copy_vec2(b);
+    copy_vec2(((u8 *)o + 0x1C), a);
+    copy_vec2(((u8 *)o + 0x9C), b);
     o->fA4 = 0;
     o->fA8 = 0;
     o->fAC = 0;

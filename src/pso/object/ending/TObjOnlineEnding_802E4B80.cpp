@@ -1,6 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/window/TWindowChallengeResult.h"
+#include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjMotion.h"
@@ -196,7 +197,6 @@ s32 *TLobby__sub_80070ACC();
 TWindowChallengeResult *TWindowChallengeResult__ct(TWindowChallengeResult *, const void *, s32, s32);
 s32 TWindowSubStatusDisp__sub_800718D0();
 s32 __dl__7TObjectFPv(void *);
-s32 get_layout_id__20TWindowSubStatusDispFv(s32);
 
 void TObjOnlineEnding::create_result_window() {
     s32 temp_r31;
@@ -206,7 +206,7 @@ void TObjOnlineEnding::create_result_window() {
 
     result_window = NULL;
     if (TLobby::is_flag_set() != 0) {
-        temp_r30 = get_layout_id__20TWindowSubStatusDispFv(-1) - 1;
+        temp_r30 = TWindowSubStatusDisp::get_layout_id(-1) - 1;
         {
         s32 t = TLobby::get_online_result_value();
         if (t == temp_r30) {

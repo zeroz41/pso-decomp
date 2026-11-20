@@ -124,7 +124,6 @@ typedef struct Node_801D56D0 {
     struct Node_801D56D0 *child;
 } Node_801D56D0;
 extern "C" {
-u8 *get_ptr_4__10TObjPlayerFv();
 s32 __construct_new_array(void *, void *, int, int, int);
 void fn_801C1BA8(void *, void *);
 s32 fn_801D40D4(s32 arg0, Rec_801D40D4 *arg1, u8 *arg2);
@@ -431,7 +430,7 @@ void TObjPlayer::destroy_subobjects_recursive() {
 
 void TObjPlayer::destroy_subobjects(int a1) { item_reduce_target_player = a1; inventory_walk_progress_count = 0; ((TObjPlayer *)this->unk_1C4)->destroy_subobjects_recursive(); this->unk_1C4->queue_destruction(); ((TObject *)(this->m_1c8))->run_tasks(); ((TObject *)(this->m_1c8))->run_tasks(); ((TObject *)(this->m_1c8))->queue_destruction(); }
 
-void *TObjPlayer::set_mode_and_refresh_object(s32 item_data) { inventory_search_item_data = item_data; return find_matching_inventory_item_node(((TObjPlayer *)this)->unk_1C4); }
+void *TObjPlayer::set_mode_and_refresh_object(void *item_data) { inventory_search_item_data = (s32)item_data; return find_matching_inventory_item_node(((TObjPlayer *)this)->unk_1C4); }
 
 void TObjPlayer::find_first_inventory_entry(int a1) { inventory_search_item_data = a1; ((TObjPlayer *)this->unk_1C4)->find_inventory_item_matching_data(); }
 
@@ -440,7 +439,7 @@ s32 TObjPlayer::count_items_by_id(s32 arg1) {
     TItem *item;
 
     if (TItemData::lookup_item_def((void *)arg1) != 0) {
-        node = set_mode_and_refresh_object(arg1);
+        node = set_mode_and_refresh_object((void *)arg1);
         if (node != NULL) {
             item = (TItem *)((TObjPlayer *)node)->get_owner_if_alive();
             if ((item != NULL) && (item->all_parents_unqueued_for_destruction() != 0)) {
@@ -760,10 +759,11 @@ int reset(void* p) { return memset(p, 0, 28); }
 s32 fn_801D4270(s32 arg0) {
     s32 i;
     u8 *p;
-    if ((u32)get_char_index__23TAdSinglePlyChrSelectGCFUi(0xFFFF) == 0) {
+    void *list = (void *)get_char_index__23TAdSinglePlyChrSelectGCFUi(0xFFFF);
+    if ((u32)list == 0) {
         return 0;
     }
-    p = get_ptr_4__10TObjPlayerFv();
+    p = (u8 *)((TObjPlayer *)list)->get_ptr_4();
     for (i = 0; i < 30; i++, p += 0x1C) {
         if (*(s32 *)(p + 0x14) == arg0) {
             return 1;
@@ -780,7 +780,7 @@ void remove_list_entry_by_id(s32 arg0) {
     s32 rem;
     cnt = ((u8 *)get_char_index__23TAdSinglePlyChrSelectGCFUi(0xFFFF));
     if (cnt != NULL) {
-        p = ((Ent_801D41B4 *)get_ptr_4__10TObjPlayerFv());
+        p = ((Ent_801D41B4 *)((TObjPlayer *)cnt)->get_ptr_4());
         n = *cnt;
         for (i = 0; i < n; p++, i++) {
             if (p->id == arg0) {

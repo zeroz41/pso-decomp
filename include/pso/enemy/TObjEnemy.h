@@ -28,7 +28,7 @@ struct TObjEnemy : public TObjChara {
     virtual void apply_set_data(void *);
     virtual void clear_lobby_object_state();
     virtual s32 vfunc_74(s32);
-    s32 exchange_object_state(s32, s16);
+    s32 exchange_object_state(void *record, s16 mode);
     virtual const char *get_name();
     TObjEnemy* groupRoot();
     u32 subtype;

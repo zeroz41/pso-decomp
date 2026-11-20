@@ -183,11 +183,10 @@ struct Pl_80120C5C : PlB_80120C5C {
 struct T_80120C5C { s32 a; s32 b; s32 c; u16 d; u8 e; };
 
 extern "C" {
-u8 get_item_group__5TItemFv();
 extern T_80120C5C lbl_8043E828[];
 void TItemWeapon::request_equipped_model() {
     Pl_80120C5C *arg0 = (Pl_80120C5C *)this;
-    u8 v = get_item_group__5TItemFv();
+    u8 v = this->get_item_group();
     if (v >= 0xAA) {
         T_80120C5C t;
         t.a = lbl_8043E828[0].a;
@@ -320,7 +319,7 @@ void TObjPlayer::set_model_id(s16 v) { this->m_116 = v; }
 s16 TObjPlayer::is_status_subsystem_ready() { return TObjPlayer__sub_801D2F4C((s16 *)((char*)this + 0x7cc)); }
 void*TObjPlayer::get_extended_state() { return ((TObjPlayer *)((char*)this + 0x7cc))->get_state_ptr(); }
 f32 TObjPlayer::query_extended_state() { return get_attack_damage_scale((s16 *)((char*)this + 0x7cc)); }
-void TObjPlayer::test_flag30_bit0x100000() { obj_testFlags30((u32)((void*)1048576)); }
+int TObjPlayer::test_flag30_bit0x100000() { return obj_testFlags30((u32)((void*)1048576)); }
 }
 void* get_model_joint_matrix(void* a0, int a1) {  return (char*)(*(int*)((char*)a0 + 0xdb4)) + a1 * 48; }
 void TObjPlayer::set_action_type(s16 v) { *(s16*)((char*)this + 0x0) = v; }

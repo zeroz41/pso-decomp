@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/network/TProtocol.h"
 #include "pso/ui/window/TWindowKeyBoardHard_801A529C.h"
 #include "pso/network/packet_copy.h"
 #include "pso/unk/TLobby.h"
@@ -7,15 +8,12 @@
 
 extern "C" {
 u16 to_be_uint16_t__FUs(u16);
-void handle_command__9TProtocolFP6packet(void *, void *);
 extern void *TLobby__protocol_instance;
 s32 deferred_packet_buffer;
 s32 deferred_packet_buffer_used;
 s32 lbl_805D5D00;
 s32 lbl_805D5D04;
 void *get_character_save_record();
-s32 memcpy(s32, void *, u16);
-s32 memset(s32, s32, s32);
 }
 
 s32 TWindowKeyBoardHard::test_card_flag(s32 arg1, s32 arg2) {
@@ -56,7 +54,7 @@ void TLobby::drain_deferred_packets() {
         if (p[0] == 0) {
             break;
         }
-        handle_command__9TProtocolFP6packet(TLobby__protocol_instance, p);
+        ((TProtocol *)TLobby__protocol_instance)->handle_command((struct packet *)p);
         deferred_packet_buffer_used += n;
     }
 }
@@ -65,7 +63,7 @@ void copy_packet(packet *arg0) {
 
     len = (u16) to_be_uint16_t__FUs(*(u16 *)((s8 *)arg0 + 2));
     if (deferred_packet_buffer_used + len <= 0x10000) {
-        memcpy(deferred_packet_buffer + deferred_packet_buffer_used, arg0, len);
+        memcpy((void *)(deferred_packet_buffer + deferred_packet_buffer_used), arg0, (u16)len);
         deferred_packet_buffer_used += len;
     }
 }
@@ -73,7 +71,7 @@ void copy_packet(packet *arg0) {
 void buffer_reset(void) {
     deferred_packet_buffer_used = 0;
     lbl_805D5D00 = 0;
-    memset(deferred_packet_buffer, 0, 0x10000);
+    memset((void *)deferred_packet_buffer, 0, 0x10000);
     lbl_805D5D04 = 1;
 }
 extern "C" {
@@ -87,7 +85,7 @@ void alloc_work_buffer(void) {
     lbl_805D5D00 = 0;
     lbl_805D5D04 = 0;
     deferred_packet_buffer = (s32)mem_alloc(0x10000);
-    memset(deferred_packet_buffer, 0, 0x10000);
+    memset((void *)deferred_packet_buffer, 0, 0x10000);
 }
 }
 

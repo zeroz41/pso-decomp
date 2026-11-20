@@ -25,8 +25,6 @@ struct C_801C1BA8 { u32 w[5]; };
 struct S_801C1BA8 { u8 a; u8 b; u8 c; u8 d; s32 e; C_801C1BA8 f; };
 
 extern "C" {
-int set__8FlagWordFUl(void*, int);
-int clear__8FlagWordFUl(void*, int);
 int TWindowActionPalette__sub_801C1C20(void* p);
 s32 test_flags_any(s32 *flags, s32 mask);
 void *TWindowActionPalette__sub_801C1C68(O_801C1C68 *self, s32 i);
@@ -106,11 +104,11 @@ void TObjPlayer__sub_801C1AC8(void *self) {
 
 void TObjPlayer__sub_801C1B0C(void) {  }
 
-int TObjPlayer::set_flags_bit2() { return set__8FlagWordFUl((char*)this + 0x1c, 2); }
+void TObjPlayer::set_flags_bit2() { ((FlagWord *)((char*)this + 0x1c))->set(2); }
 
-int TObjPlayer::set_flags_bit1() { return set__8FlagWordFUl((char*)this + 0x1c, 1); }
+void TObjPlayer::set_flags_bit1() { ((FlagWord *)((char*)this + 0x1c))->set(1); }
 
-int TObjPlayer::clear_flag_1_at_1c() { return clear__8FlagWordFUl((char*)this + 0x1c, 1); }
+void TObjPlayer::clear_flag_1_at_1c() { ((FlagWord *)((char*)this + 0x1c))->clear(1); }
 
 s32 fn_801C1B88(void* p) { return *(s32*)((char*)p + 0x0); }
 
@@ -134,9 +132,9 @@ int TWindowActionPalette::handle_input_forward() { return TWindowActionPalette__
 
 int TWindowActionPalette__sub_801C1C20(void* p) { return *(u32*)((char*)p + 0x0) == 0; }
 
-void TWindowActionPalette::is_channel_active_at(s32 arg0, s32 i, s32 arg2) {
+s32 TWindowActionPalette::is_channel_active_at(s32 arg0, s32 i, s32 arg2) {
     s32 *p = (s32 *)((s32)TWindowActionPalette__sub_801C1C68((O_801C1C68 *)(arg0), i));
-    ((TMainCursor *)(p + arg2))->is_channel_active();
+    return ((TMainCursor *)(p + arg2))->is_channel_active();
 }
 
 void *TWindowActionPalette__sub_801C1C68(O_801C1C68 *self, s32 i) {
@@ -146,8 +144,8 @@ void *TWindowActionPalette__sub_801C1C68(O_801C1C68 *self, s32 i) {
     return self->b;
 }
 
-void is_action_channel_active(s32 *arg0, s32 arg1) {
-    TWindowActionPalette::is_channel_active_at((s32) arg0, *arg0, arg1);
+s32 is_action_channel_active(s32 *arg0, s32 arg1) {
+    return TWindowActionPalette::is_channel_active_at((s32) arg0, *arg0, arg1);
 }
 
 void TWindowActionPalette::set_palette_entry(s32 arg0, s32 i, s32 arg2, s32 arg3, s32 arg4) {
@@ -182,17 +180,14 @@ void TWindowActionPalette::get_entry_by_index(s32 *arg0, s32 arg1) {
     TWindowActionPalette__sub_801C1D7C((s32)((s32) arg0), (s32)(*arg0), arg1);
 }
 
-u8 *TWindowActionPalette::get_slot_type(s32 arg0, s32 i, s32 arg2) {
+u16 TWindowActionPalette::get_slot_type(void *arg0, s32 i, s32 arg2) {
   s32 new_var;
-  u8 *var_r3;
   new_var = ((s32)TWindowActionPalette__sub_801C1C68((O_801C1C68 *)(arg0), i));
-  var_r3 = (u8 *) (new_var + (arg2 * 4));
-  var_r3 = (u8 *) ((void *) ((TMainCursor *)var_r3)->get_type());
-  return var_r3;
+  return ((TMainCursor *)(new_var + (arg2 * 4)))->get_type();
 }
 
-void TWindowActionPalette::get_slot_type_for_index(s32 *arg0, s32 arg1) {
-    TWindowActionPalette::get_slot_type((s32)((s32) arg0), (s32)(*arg0), arg1);
+u16 TWindowActionPalette::get_slot_type_for_index(s32 *arg0, s32 arg1) {
+    return TWindowActionPalette::get_slot_type(arg0, (s32)(*arg0), arg1);
 }
 
 void* ref_primary_action_palette(void* p) { return p; }

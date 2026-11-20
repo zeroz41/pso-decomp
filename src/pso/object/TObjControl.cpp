@@ -451,7 +451,6 @@ s32 is_split_screen();
 
 s32 get_current_floor();
 
-s32 exchange_object_state__9TObjEnemyFls(void *, void *, int);
 
 s32 is_quest_active();
 
@@ -1100,7 +1099,7 @@ s32 TObjEnemy::vfunc_74(s32 kind) {
     s32 ret;
     ret = 0;
     if (this->entity_id >= 0x1000 && this->entity_id < 0x4000) {
-        exchange_object_state__9TObjEnemyFls(this, &pkt, 1);
+        this->exchange_object_state(&pkt, 1);
         pkt.diff = this->hpmax - this->hp;
         pkt.id = this->actorFlags;
         switch (kind) {
@@ -1115,7 +1114,7 @@ s32 TObjEnemy::vfunc_74(s32 kind) {
             pkt.bv = 0.1f * ((f32)TObjPlayer__sub_8001943C(this, 3) / 30.0f - 40.0f);
             break;
         }
-        ret = exchange_object_state__9TObjEnemyFls(this, &pkt, 0);
+        ret = this->exchange_object_state(&pkt, 0);
         if (ret != 0) {
             send_6x0A_enemy_state(&pkt);
         }
@@ -1129,7 +1128,7 @@ void TObjEnemy::send_6x0A_enemy_state(void *state_in) {
     u32 new_flags;
     if (((Pkt_800F65D0 *)state_in) != NULL) {
         ((TLobby *)(&state))->copy_header(((Pkt_800F65D0 *)state_in));
-    } else if (this->exchange_object_state((s32)&state, 1) == 0) {
+    } else if (this->exchange_object_state(&state, 1) == 0) {
         return;
     }
     init_6x0A_enemy_state_packet(&msg);

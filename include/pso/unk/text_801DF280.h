@@ -8,8 +8,8 @@ void bswap_c0_lobby_entries(void *p);
 void bswap_choice_search_config(void *p);
 void bswap_cmd_88_body(void *p);
 void bswap_cmd_88_marker_record(void *p);
-int bswap_cmd_8a_header(void *p);
-int bswap_packet_header_cmd_b1(void *p);
+void bswap_cmd_8a_header(void *p);
+void bswap_packet_header_cmd_b1(void *p);
 void bswap_save_packet(s32 arg0);
 extern "C" {
 s32 *copy_entry_table(s32 *arg0, s32 *arg1);

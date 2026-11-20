@@ -42,10 +42,9 @@ extern WindowCtrlApplyDefaultVecCallbackEntry window_ctrl_apply_default_vec_call
 struct Win_8024AF34 { virtual void m0(); };
 typedef void (Win_8024AF34::*Pmf_8024AF34)();
 void call_window_method__11TWindowCtrlFPvi(void *, Pmf_8024AF34);
-Win_8024AF34 *get_window__11TWindowCtrlFl(void *self);
 
-void TWindowCtrl::suppress_slot() {
-    s32 arg0 = (s32)this;
+void TWindowCtrl::suppress_slot(s32 client) {
+    s32 arg0 = client;
     typedef char sp8_offset[(offsetof(Stack_8024AEAC, sp8) == 0x0) ? 1 : -1];
     typedef char spC_offset[(offsetof(Stack_8024AEAC, spC) == 0x4) ? 1 : -1];
     typedef char sp10_offset[(offsetof(Stack_8024AEAC, sp10) == 0x8) ? 1 : -1];
@@ -56,8 +55,8 @@ void TWindowCtrl::suppress_slot() {
     ((void (*)(void *, void *))call_window_method__11TWindowCtrlFPvi)((void *)arg0, (void *)&stack.sp8);
 }
 
-void TWindowCtrl::unsuppress_slot() {
-    s32 arg0 = (s32)this;
+void TWindowCtrl::unsuppress_slot(s32 client) {
+    s32 arg0 = client;
     typedef char sp8_offset[(offsetof(Stack_8024AEF0, sp8) == 0x0) ? 1 : -1];
     typedef char spC_offset[(offsetof(Stack_8024AEF0, spC) == 0x4) ? 1 : -1];
     typedef char sp10_offset[(offsetof(Stack_8024AEF0, sp10) == 0x8) ? 1 : -1];
@@ -69,14 +68,13 @@ void TWindowCtrl::unsuppress_slot() {
 }
 
 void call_window_method__11TWindowCtrlFPvi(void *self, Pmf_8024AF34 pmf) {
-    Win_8024AF34 *w = get_window__11TWindowCtrlFl(self);
+    Win_8024AF34 *w = (Win_8024AF34 *)TWindowCtrl::get_window((s32)self);
     if (w != NULL) {
         (w->*pmf)();
     }
 }
 
-void TWindowCtrl::has_player_active_menu() {
-    s32 arg0 = (s32)this;
+s32 TWindowCtrl::has_player_active_menu(s32 arg0) {
     typedef char sp8_offset[(offsetof(Stack_8024AF74, sp8) == 0x0) ? 1 : -1];
     typedef char spC_offset[(offsetof(Stack_8024AF74, spC) == 0x4) ? 1 : -1];
     typedef char sp10_offset[(offsetof(Stack_8024AF74, sp10) == 0x8) ? 1 : -1];
@@ -84,7 +82,7 @@ void TWindowCtrl::has_player_active_menu() {
     stack.sp8 = *(s32 *)((s8 *)&TWindowCtrl__player_menu_query_cb.value + 0);
     stack.spC = *(s32 *)((s8 *)&TWindowCtrl__player_menu_query_cb.value + 4);
     stack.sp10 = *(s32 *)((s8 *)&TWindowCtrl__player_menu_query_cb.value + 8);
-    TWindowCtrl__sub_8024B098((void *)arg0, (void *)&stack.sp8);
+    return TWindowCtrl__sub_8024B098((void *)arg0, (void *)&stack.sp8);
 }
 
 void TWindowCtrl::apply_default_vec(s32 arg0, s32 arg1) {

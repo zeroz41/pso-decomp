@@ -148,7 +148,7 @@ s32 TAdMultiSelGameModeGC::build_mode_menu(s32 arg1) {
         if (TAdMultiSelGameModeGC::is_mode_entry_enabled(this, arg1, i) != 0) {
             forward_trade_action_default__16TObjCityMainWarpFPviii((void *)r, (int)(get_localized_text_entry(0x18, i + b.v[arg1])), 6, (int)(i + a.v[arg1]));
         } else {
-            TWindowSubComCard::draw_text_gray(r, get_localized_text_entry(0x18, i + b.v[arg1]), 6, i + a.v[arg1]);
+            add_gray_text_entry((TWindowSubTradeMain *)r, (const char *)(get_localized_text_entry(0x18, i + b.v[arg1])), 6, i + a.v[arg1]);
         }
         ((TWindowSubComCardList *)r)->update_layout_height(206.0f);
         ((TWindowSubComCardList *)r)->set_selected_index(a.v[arg1]);

@@ -7,6 +7,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/system/vector.h"
 
 struct O_80355148 { u8 pad[0x1c]; s32 state; };
 
@@ -117,7 +118,7 @@ void TAdPlyPltAnimCtrlGC::run_task() {
     }
 }
 
-void TAdPlyPltAnimCtrlGC::init(void* a1) { TAdPlyPltAnimCtrlGC__sub_80355168((u8 *)this); ((TWindowSubSymbolChatPartsSet *)((char*)this + 0x24))->copy_vec2(a1); this->m_1c = 1; }
+void TAdPlyPltAnimCtrlGC::init(void* a1) { TAdPlyPltAnimCtrlGC__sub_80355168((u8 *)this); copy_vec2(((char*)this + 0x24), a1); this->m_1c = 1; }
 
 void TAdPlyPltAnimCtrlGC__sub_80355168(u8 *arg0) {
     s32 var_r31;

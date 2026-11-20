@@ -73,13 +73,12 @@ extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 extern const f32 lbl_805D9E84;
 extern const f32 lbl_805D9E88;
-s32 get_camera_ctrl__9TObjEneDDFv(Vec *, Vec *);
 f32 atan2_float(f32 y, f32 x);
 s32 TObjEneRe7Berura__sub_8009518C(TObjEneRe7Berura *);
 void TObjEneRe7Berura__sub_800940E8(TObjEneRe7Berura *self, s32 arg1);
 s32 enemy_validate_retained_target(u8 *arg0);
 void TObjEneDD__sub_800BA378(s32 arg0, u8 *arg1);
-s32 mult_vec_array__10TObjPlayerFUll(int, int, void *, int);
+s32 matrix_mult_vec_array(int, int, void *, int);
 void set_matrix_identity(u8 *arg0);
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
 void TObjEneRe7Berura__sub_8009472C(TObjEneRe7Berura *self, s32 arg1);
@@ -113,11 +112,9 @@ s32 TObjPlayer__sub_800A0554(void *);
 s32 enemy_set_target_id(TObjEneRe7Berura *, u16);
 
 
-int reload_stats_keep_hp_tp__9TObjEneDDFv(void *self, void *a, void *b, void *c);
 s32 clear_attack_receipts();
 s32 load_enemy_bml_resource_named(s32 arg0, s32 arg1);
 s32 load_enemy_bml_resource(u8 *arg0);
-s32 set_field_378__9TObjEneDDFl(void *, s32, s32);
 s32 angle_diff_s16(s32);
 void free_collision_body_parts(void *);
 }
@@ -657,15 +654,11 @@ void TObjEneRe7Berura::destroy_parts() {
 }
 
 void TObjEneRe7Berura::reload_stats_from_tables() {
-    reload_stats_keep_hp_tp__9TObjEneDDFv(this, ((void * *)TObjEneRe7Berura__stat_handle_table)[TObjEneRe7Berura__data_80439DA8[1]],
-                            ((void * *)TObjEneRe7Berura__data_805007D4)[TObjEneRe7Berura__data_80439DB0[1]],
-                            ((void * *)TObjEneRe7Berura__shared_object_handles)[TObjEneRe7Berura__data_80439DB8[1]]);
+    this->reload_stats_keep_hp_tp((u8 *)(((void * *)TObjEneRe7Berura__stat_handle_table)[TObjEneRe7Berura__data_80439DA8[1]]), (u8 *)(((void * *)TObjEneRe7Berura__data_805007D4)[TObjEneRe7Berura__data_80439DB0[1]]), (u8 *)(((void * *)TObjEneRe7Berura__shared_object_handles)[TObjEneRe7Berura__data_80439DB8[1]]));
 }
 
 void TObjEneRe7Berura__sub_80094C68(TObjEneRe7Berura *self) {
-    reload_stats_keep_hp_tp__9TObjEneDDFv(self, ((void * *)TObjEneRe7Berura__stat_handle_table)[TObjEneRe7Berura__data_80439DA8[0]],
-                            ((void * *)TObjEneRe7Berura__data_805007D4)[TObjEneRe7Berura__data_80439DB0[0]],
-                            ((void * *)TObjEneRe7Berura__shared_object_handles)[TObjEneRe7Berura__data_80439DB8[0]]);
+    ((TObjEneDD *)self)->reload_stats_keep_hp_tp((u8 *)(((void * *)TObjEneRe7Berura__stat_handle_table)[TObjEneRe7Berura__data_80439DA8[0]]), (u8 *)(((void * *)TObjEneRe7Berura__data_805007D4)[TObjEneRe7Berura__data_80439DB0[0]]), (u8 *)(((void * *)TObjEneRe7Berura__shared_object_handles)[TObjEneRe7Berura__data_80439DB8[0]]));
 }
 
 void TObjEneRe7Berura::play_band_sound() {
@@ -744,7 +737,7 @@ void TObjEneRe7Berura::state_attack(s32 arg1) {
         temp_r5 = m_3c0;
         m_3c0 = temp_r5 & ~5;
         m_3c0 = m_3c0 | 2;
-        set_field_378__9TObjEneDDFl(this, 3, temp_r5);
+        this->set_field_378(3);
         TObjPlayer__sub_800A0554(&m_3d8);
         ((TBoss3Volopt *)&position)->play_area_se_with_particle();
         init_fields4B8();
@@ -1192,7 +1185,7 @@ void TObjEneRe7Berura__sub_80093888(TObjEneRe7Berura *actor, s32 arg1) {
                 set_matrix_identity(0);
                 post_translate_matrix(&actor->position);
                 rotate_matrix_y(0, actor->rotation_y);
-                mult_vec_array__10TObjPlayerFUll(0, entry, &sp8, 4);
+                matrix_mult_vec_array(0, entry, &sp8, 4);
                 pop_matrix();
                 actor->m_440[0]->vfunc_6(&sp8, &sp14);
                 actor->m_440[1]->vfunc_6(&sp20, &sp2C);
@@ -1388,7 +1381,7 @@ void TObjEneRe7Berura::demo_frame_callback() {
         break;
     case 0x4C:
     case 0x50:
-        get_camera_ctrl__9TObjEneDDFv(re7_berura_demo_camera_ptr, re7_berura_demo_camera_ptr);
+        forward_transform_to_view(re7_berura_demo_camera_ptr, re7_berura_demo_camera_ptr);
         re7_berura_demo_camera_ptr++;
         break;
     case 0x21:

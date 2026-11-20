@@ -26,6 +26,7 @@ struct Mine_80368C14 { u8 pad[0x38]; Vec pos; };
 #include "pso/object/ambient/TObjFish.h"
 
 #include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/enemy/dd/TObjEneDD.h"
 
 #pragma readonly_strings on
 extern "C" TObjEnemy *__ct__9TObjEnemyFP7TObject(void *, void *);
@@ -104,7 +105,6 @@ void *__vt__13TBoss6MagMine[11] = {
     (void *)0x0, (void *)0x0, (void *)0x0,
 };
 void vec3_add_to(void *, void *);
-s32 query_teammate_state__9TObjEneDDFv();
 void add_radar_scaled_marker(void *, int, int, int, f32);
 void vt2__13TBoss6MagMineFv(u8 *arg0);
 void vt1__13TBoss6MagMineFv(u8 *arg0);
@@ -223,7 +223,7 @@ void explode__13TBoss6MagMineFPv(Mine_80368C14 *o) {
     s32 i;
     for (i = 0; i < n; i++) {
         u8 *pl = (u8 *)TObjPlayer::get_player_data(i);
-        if (((TBoss6PlotFalz *)pl)->is_active() != 0 && TObjPlayer::is_locally_controlled(pl) != 0) {
+        if (((TObjPlayer *)pl)->is_active() != 0 && TObjPlayer::is_locally_controlled(pl) != 0) {
             Vec v = o->pos;
             subtract_vector(&v, pl + 0x38);
             v.y = 0.0f;
@@ -244,7 +244,7 @@ s32 is_player_in_range__13TBoss6MagMineFPv(void *arg0_) {
     n = TLobby::get_game_mode();
     for (i = 0; i < n; i++) {
         p = (void *)TObjPlayer::get_player_data(i);
-        if (((TBoss6PlotFalz *)p)->is_active() != 0) {
+        if (((TObjPlayer *)p)->is_active() != 0) {
             ((void (*)(Vec *, Vec *))VecCopy__FP3VecPC3Vec)(&d, &((P_80368CE4 *)p)->pos);
             subtract_vector(&d, &arg0->home);
             d.y = 0.0f;
@@ -353,7 +353,7 @@ void TUnk_804F322C::run_task() {
     if (TBoss6PlotFalz::is_boss_active() == 0) {
         self->state = 4;
     }
-    if (query_teammate_state__9TObjEneDDFv() != 0) {
+    if (TObjEneDD::query_teammate_state() != 0) {
         return;
     }
     ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&self->prev, &self->pos);
@@ -420,10 +420,10 @@ s32 TBoss6MagMine__ct(s32 arg0, s32 parent, s32 arg2) {
     VecCopy__FP3VecPC3Vec(arg0 + 0x384, arg2 + 0x4C);
     ((TObjChara *)self)->add_flags_2e4(8);
     ((TBoss3Volopt *)(self))->apply_set_data((void *)arg2);
-    if (((TObjEnemy *)self)->exchange_object_state((s32)&key, (s16)1) != 0) {
+    if (((TObjEnemy *)self)->exchange_object_state(&key, 1) != 0) {
         key.a = 0;
         key.c = 0;
-        ((TObjEnemy *)self)->exchange_object_state((s32)&key, (s16)0);
+        ((TObjEnemy *)self)->exchange_object_state(&key, 0);
     }
     *(s32 *)((s8 *)self + 0x374) = TObjFish::get_fish_count();
     ((TBoss3Volopt *)self)->texlist = 0;

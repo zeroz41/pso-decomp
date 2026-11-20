@@ -231,7 +231,7 @@ void TAdEnterBaseGC::fn_8032B318(Position *position) {
     position->y = lbl_804771D8[1];
 }
 
-int TAdEnterSerialAccessGC::forward_input(void* p) { return ((int (*)(void *))validate_input__22TAdEnterSerialAccessGCFPviPv)(p); }
+int forward_validate_input(void *window, s32 mode, char *buf) { return validate_input__22TAdEnterSerialAccessGCFPviPv(window, mode, buf); }
 
 int validate_input__22TAdEnterSerialAccessGCFPviPv(void *arg0, s32 arg1, char *arg2) {
     s32 i;
@@ -351,8 +351,8 @@ s32 TAdEnterSerialAccessGC::show_message_window(void *arg0, void *arg1) {
     return r;
 }
 
-void TAdEnterSerialAccessGC::create_default_callback() {
-    TAdEnterSerialAccessGC::create_callback((void *)lbl_80477188, (void *)lbl_80477190, (void *)fn_8032AC9C);
+void *TAdEnterSerialAccessGC::create_default_callback() {
+    return TAdEnterSerialAccessGC::create_callback((void *)lbl_80477188, (void *)lbl_80477190, (void *)fn_8032AC9C);
 }
 
 u32 TAdEnterSerialAccessGC::create_keyboard_control(s32 arg0, s32 arg1) {
@@ -433,7 +433,7 @@ void draw_masked_password_field(s32 arg0) {
         }
         buf[len] = 0;
         len = calc_text_width("*");
-        ((TAdSinglePlyChrSelectGC *)buf)->render_status_disp(password_field_text_pos[0], password_field_text_pos[1]);
+        draw_menu_font_string_white((const char *)buf, password_field_text_pos[0], password_field_text_pos[1]);
         NJS_POINT2 p2;
         p2.x = password_field_text_pos[0] + (f32) (len * ((TAdEnterSerialAccessGC *)password_entry_keyboard_control)->get_field20_state());
         p2.y = password_field_text_pos[1];

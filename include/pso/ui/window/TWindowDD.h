@@ -64,7 +64,6 @@ struct TWindowDD : public TObject
     static s32 check_all_ready(s32 arg0);
     void update_com_card();
     int initialize_subwindow();
-    static void refresh_status_display();
     void set_mode_2();
     void reset_cursor();
     void handle_scroll_input();
@@ -118,7 +117,6 @@ struct TWindowDD : public TObject
     static void play_se();
     static void play_sound();
     int test_input_flag_4();
-    static void dispatch_state();
     s32 get_word_select_context();
     s32 get_mode_code();
     void set_state();
@@ -168,6 +166,8 @@ s32 TWindowDD_check_input_mask(void *input_context, s32 arg1);
 extern "C" {
 void *__dt__13TUnk_804EFBACFv(void *arg0, s16 arg1);
 void update_draw__9TWindowDDFPv(void *p);
+void measure_message_text_width_default(void *entry);
+s32 dispatch_by_window_mode(u8 *window_dd, u32 arg1, s32 arg2, s32 arg3);
 }
 
 // Upper bounds of the numeric word-select entries, indexed by TWindowDD::classify_id.

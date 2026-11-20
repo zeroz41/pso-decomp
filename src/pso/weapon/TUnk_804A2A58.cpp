@@ -11,9 +11,8 @@
 #include "pso/system/task/TMainTask.h"
 
 extern "C" {
-
 u32 spawn_shoot_particle__10TObjPlayerFUlllf(void *, s32, s32, f32);
-u32 create_shoot_model__10TObjPlayerFUiiif();
+
 int rotate_matrix_y(void*, void*);
 }
 
@@ -22,7 +21,7 @@ u32 baranz_launcher_create_shot(void *player, s32 arg1, s32 arg2, f32 farg0) {
     u32 temp_r30;
     void *temp_r4;
 
-    temp_r31 = create_shoot_model__10TObjPlayerFUiiif();
+    temp_r31 = TObjPlayer::create_shoot_model((u32)player, arg1, arg2, farg0);
     temp_r30 = spawn_shoot_particle__10TObjPlayerFUlllf(player, arg1, arg2, farg0);
     if ((temp_r31 != 0U) && (temp_r30 != 0U)) {
         temp_r4 = *(void **)((s8 *)player + 0x188);
@@ -40,14 +39,13 @@ u32 baranz_launcher_create_shot(void *player, s32 arg1, s32 arg2, f32 farg0) {
 void TUnk_804A2A58::vfunc_60() { if (TObjPlayer::get_player_list() == 1) { rotate_matrix_y((void*)0, *(void **)&rotation_y); } }
 
 extern "C" {
-s32 is_model_shown__5TItemFv(void *, int);
 void TUnk_804A2A58::emit_marker_effects() {
     u8 *arg0 = (u8 *)this;
     s32 sp8;
     s32 temp_r4;
     temp_r4 = spin_speed;
     spin_speed = (temp_r4 + 0x2AAA);
-    if (is_model_shown__5TItemFv(arg0, temp_r4) != 0) {
+    if (((TItem *)(arg0))->is_model_shown() != 0) {
         ((TItemWeapon *)arg0)->get_joint_position(2, &sp8);
         this->launch_shot((u8 *)&sp8, 0, 0x4FA, 1);
         ((TItemWeapon *)arg0)->get_joint_position(3, &sp8);

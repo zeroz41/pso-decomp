@@ -56,6 +56,9 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/ui/frontend/TAdVIConfigGC.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80248BE8.h"
+
 
 
 #pragma defer_codegen on
@@ -87,8 +90,6 @@ extern "C" {
 s32 fn_80248994(void *, u32, int);
 void request_active_window_close(void);
 s32 get_window_layout_position(s32);
-s32 free_member__17TWindowSubComCardFv(void *, int);
-s32 forward_slot_selection__16TAdChrSelASlotGCFPvPv(void *, s32, s32, f32);
 s32 is_local_client_floor_leader();
 TObjPlayer *find_local_boss_warp_player(TObjAreaWarp *warp, f32 range);
 BmlResource *boss_warp_resource_bundle;
@@ -113,7 +114,6 @@ extern s32 camera_ctrl_instance;
 extern s32 lbl_805D55C0;
 
 
-void *init__13TAdVIConfigGCFf(void *, void *, f32);
 int check_flag_100__10TObjPlayerFPv(void *p);
 s32 align_menu_entry_positions(u32);
 
@@ -326,6 +326,7 @@ void TObjWarpBoss::update() {
 }
 
 s32 TObjWarpBoss::update_warp_dialogs() {
+    void *player;
   s32 i;
   int j;
   u32 color;
@@ -338,12 +339,12 @@ s32 TObjWarpBoss::update_warp_dialogs() {
       yes_no_window = TWindowMessageYesNo::create(this, (void *)local_client_id, (void *)0, (void *)0);
       if (yes_no_window != 0)
       {
-        forward_slot_selection__16TAdChrSelASlotGCFPvPv(yes_no_window, (s32)TWindowSubStatusDisp::get_message_10(0x41), ((s32)get_window_layout_position(0x36)), 368.0f);
-        free_member__17TWindowSubComCardFv(yes_no_window, 1);
+        open_yes_no_prompt_with_text((TChCrTagPlBack *)yes_no_window, (s32)(TWindowSubStatusDisp::get_message_10(0x41)), (s32)(get_window_layout_position(0x36)), 368.0f);
+        set_menu_selected_index((TWindowSubComCard *)yes_no_window, 1);
         ((TWindowSubShortMail *)yes_no_window)->notify_warp_flag70();
         begin_player_keyboard_hold(local_client_id);
         request_active_window_close();
-        ((TWindowCtrl *)local_client_id)->suppress_slot();
+        TWindowCtrl::suppress_slot(local_client_id);
       }
     }
       break;
@@ -363,7 +364,7 @@ s32 TObjWarpBoss::update_warp_dialogs() {
   {
     pos[0] = 229.0f;
     pos[1] = 104.0f;
-    player_list_window = TWindowSubStatusDisp::refresh_with_default_list((s32)(((s32)get_window_layout_position(0x34))), (s32)pos);
+    player_list_window = create_check_box_window_for_local_client((const NJS_POINT2 *)get_window_layout_position(0x34), (const void *)pos);
     if (player_list_window != 0)
     {
       ((TWindowSubTradeMain *)player_list_window)->set_visible();
@@ -433,11 +434,11 @@ void TObjWarpBoss::update_warp_occupants() {
         if (xz_distance_squared(&pl2->position, &position) <= (25.0f + warp_range) * (25.0f + warp_range)) {
             if (TObjWarpBossMulti::is_flag_clear(pl2) != 0) {
                 local_player_in_range = 1;
-                pl2->check_technique_flag();
+                pl2->set_flag_4096();
             }
         } else if (TObjWarpBossMulti::is_flag_clear(pl2) == 0 && local_player_in_range != 0) {
             local_player_in_range = 0;
-            pl2->has_item_flag_4096();
+            pl2->clear_flag_4096();
         }
     }
 }
@@ -614,7 +615,7 @@ void TObjWarpBoss::warp_boss_handle_window() {
                 }
                 begin_player_keyboard_hold(local_client_id);
                 request_active_window_close();
-                ((TWindowCtrl *)local_client_id)->suppress_slot();
+                TWindowCtrl::suppress_slot(local_client_id);
             }
         } else {
             if (menu_window != 0) {
@@ -623,7 +624,7 @@ void TObjWarpBoss::warp_boss_handle_window() {
             }
             end_player_keyboard_hold(local_client_id);
             TWindowCtrl::clear_flag();
-            ((TWindowCtrl *)local_client_id)->unsuppress_slot();
+            TWindowCtrl::unsuppress_slot(local_client_id);
         }
         if (player_on_dest_floor == 0) {
             next_state = 0;
@@ -636,7 +637,7 @@ void TObjWarpBoss::warp_boss_handle_window() {
         }
         end_player_keyboard_hold(local_client_id);
         TWindowCtrl::clear_flag();
-        ((TWindowCtrl *)local_client_id)->unsuppress_slot();
+        TWindowCtrl::unsuppress_slot(local_client_id);
         break;
     }
 }
@@ -711,7 +712,7 @@ void TObjWarpBoss::close_windows() {
     }
     end_player_keyboard_hold(local_client_id);
     TWindowCtrl::clear_flag();
-    ((TWindowCtrl *)local_client_id)->unsuppress_slot();
+    TWindowCtrl::unsuppress_slot(local_client_id);
 }
 
 #pragma push
@@ -815,7 +816,7 @@ TObjWarpBossMulti::TObjWarpBossMulti(TObject *parent, void *set_data) : TObjArea
     if (TRaderMapCore::is_not_split_screen() == 1) {
         void *p = ::operator new(0x88);
         if (p != NULL) {
-            p = init__13TAdVIConfigGCFf(p, &position, 19.0f);
+            p = ((TAdVIConfigGC *)p)->init(&position, 19.0f);
         }
         vi_config = (TAdVIConfigGC *)p;
     } else {
@@ -843,12 +844,12 @@ void TObjWarpBossMulti::run_task() {
                 if (xz_distance_squared(&((TObjPlayer *)pl)->position, &position) <= (r = 25.0f + warp_range) * r) {
                     if (TObjWarpBossMulti::is_flag_clear((void*)pl) != 0) {
                         player_in_range[i] = 1;
-                        ((TObjPlayer *)pl)->check_technique_flag();
+                        ((TObjPlayer *)pl)->set_flag_4096();
                     }
                 } else if (TObjWarpBossMulti::is_flag_clear((void*)pl) == 0) {
                     if (player_in_range[i] != 0) {
                         player_in_range[i] = 0;
-                        ((TObjPlayer *)pl)->has_item_flag_4096();
+                        ((TObjPlayer *)pl)->clear_flag_4096();
                     }
                 }
             }

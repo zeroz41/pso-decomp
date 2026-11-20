@@ -93,7 +93,7 @@ u8 *TBoss6Thanks__ct(TBoss6Thanks *arg0, u8 *arg1);
 int TBoss6Thanks__sub_8035CB40(void);
 void TBoss6Thanks__sub_8035CCAC(s32 arg0);
 f32 xyz_distance(const void *, const void *);
-int dispatch_by_main_phase__14TBoss4DarkFalzFUs(void*);
+int set_story_flag_or_send_quest_flag(void*);
 
 s32 fn_8035CAE0(void) {
     return get_story_flag(0x9A) != 0;
@@ -101,8 +101,8 @@ s32 fn_8035CAE0(void) {
 s32 TBoss6Thanks::check_ship_door() {
     return get_story_flag(0x98) != 0;
 }
-int TBoss6Thanks__sub_8035CB40(void) { return dispatch_by_main_phase__14TBoss4DarkFalzFUs((void*)(154)); }
-int TBoss6Thanks::dispatch_darkfalz_phase() { return dispatch_by_main_phase__14TBoss4DarkFalzFUs((void*)(152)); }
+int TBoss6Thanks__sub_8035CB40(void) { return set_story_flag_or_send_quest_flag((void*)(154)); }
+int TBoss6Thanks::dispatch_darkfalz_phase() { return set_story_flag_or_send_quest_flag((void*)(152)); }
 
 void TBoss6Thanks::update_particle_emitters() {
     Obj_8035CB88 *o = (Obj_8035CB88 *)this;
@@ -153,7 +153,7 @@ int TBoss6Thanks::is_player_near(void *arg0) {
     r = 30.0f;
     for (i = 0; i < n; i++) {
         p = (u8 *)TObjPlayer::get_player_data(i);
-        if (p != NULL && ((TBoss6PlotFalz *)p)->is_active() != 0 &&
+        if (p != NULL && ((TObjPlayer *)p)->is_active() != 0 &&
             xyz_distance(p + 0x38, &boss6_thanks_position) <= r) {
             return 1;
         }
@@ -322,7 +322,7 @@ s32 any_player_has_listed_equipment(void) {
     s32 i;
     for (i = 0; i < n; i++) {
         void *pl = (void *)TObjPlayer::get_player_data(i);
-        if (pl != NULL && ((TBoss6PlotFalz *)pl)->is_active() != 0) {
+        if (pl != NULL && ((TObjPlayer *)pl)->is_active() != 0) {
             s32 j;
             for (j = 0; j < 10; j++) {
                 const u8 *e = listed_equipment_table[j];

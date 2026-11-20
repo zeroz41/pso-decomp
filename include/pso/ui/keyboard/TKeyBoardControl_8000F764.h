@@ -4,6 +4,8 @@
 #include "types.h"
 
 extern "C" {
+// Calls TFogCtrl::clear_split_screen_fog().
+void forward_clear_split_screen_fog(void);
 void TKeyBoardControl__sub_8000F764(void);
 void TKeyBoardControl__sub_8000F7FC(void);
 }

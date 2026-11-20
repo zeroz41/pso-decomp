@@ -167,7 +167,6 @@ struct RecoveredFields_800C3088_arg0
 
 extern "C" {
 TParticleCtrl *create_particle_emitter(const void *pos, s32 id);
-s32 check_hit_flag__16TObjEneRe2FlowerFv(void *);
 s32 TObjPlayer__sub_800C4A5C(int, void *, void *, int);
 s32 play_sound_effect(void *, void *, int, int);
 u32 __nw__7TObjectFUl(int);
@@ -187,11 +186,9 @@ typedef struct VObj_18_880cfd VObj_18_880cfd;
 
 #include "pso/enemy/epsilon/TObjEneEpsilon.h"
 extern "C" {
-s32 enemy_clear_target__12TObjEneDD_STFUs(void *);
 extern const f32 lbl_805D9FF0;
 f32 atan2_float(f32 y, f32 x);
 s32 enemy_set_target_id(void *, u16);
-u16 set_squared_value__9TObjEneDDFf(void *, f32);
 u16 enemy_find_nearest_player_in_range(u8 *self, f32 range);
 }
 
@@ -213,9 +210,6 @@ struct V_Sub_800c38d0 : Base_Sub_800c38d0 {
     virtual s32 m5();
 };
 
-extern "C" {
-s32 get_flag_11__16TObjEneRe2FlowerFv();
-}
 
 
 extern "C" {
@@ -589,7 +583,7 @@ int TObjEneRe2Flower::get_flag_11() { return (m_3c4 >> 11) & 0x1; }
 
 extern "C" {
 s32 fn_800C3A60(s32 arg0, s32 arg1) {
-    if (get_flag_11__16TObjEneRe2FlowerFv() != 0) {
+    if (((TObjEneRe2Flower *)arg0)->get_flag_11() != 0) {
         switch (arg1) {
         case 0x4003A10E:
             return 0x4003A339;
@@ -638,7 +632,7 @@ void TObjEneDD::handle_state(s32 arg1) {
         ((TObjEneRe2Flower *)arg0)->clear_child_flags();
         *(s32 *)((s8 *)arg0 + 0x3C4) = (s32) (*(s32 *)((s8 *)arg0 + 0x3C4) | 8);
         ((TObjEneDD *)arg0)->set_field_378(2);
-        enemy_clear_target__12TObjEneDD_STFUs(arg0);
+        ((TObjEneDD_ST *)(arg0))->enemy_clear_target();
         ((TUnk_80494938 *)(arg0 + 0x3F4))->start_fade_in();
         if (((TObjEneRe2Flower *)arg0)->get_flag_11() != 0) {
             ((TBoss3Volopt *)(arg0 + 0x38))->play_area_se_with_particle();
@@ -673,10 +667,10 @@ void handle_flower_state_change(TObjEneDD *ene_dd, s32 arg1) {
         ((TObjEneRe2Flower *)ene_dd)->clear_child_flags();
         *(s32 *)((s8 *)ene_dd + 0x3C4) = (s32) (*(s32 *)((s8 *)ene_dd + 0x3C4) & 0xFFFFFFF7);
         ene_dd->set_field_378(2);
-        enemy_clear_target__12TObjEneDD_STFUs(ene_dd);
+        ((TObjEneDD_ST *)(ene_dd))->enemy_clear_target();
         return;
     case 3:
-        if ((((s32 (*)())check_hit_flag__16TObjEneRe2FlowerFv)() == 0) && (((TObjEneDD_ST *)ene_dd)->update_linked_position(lbl_805D9FF0) != 0)) {
+        if ((((TObjEneRe2Flower *)ene_dd)->check_hit_flag() == 0) && (((TObjEneDD_ST *)ene_dd)->update_linked_position(lbl_805D9FF0) != 0)) {
             ((TObjEneDD *)ene_dd)->transition_enemy_state(3);
         }
     case 5:
@@ -716,7 +710,7 @@ void TObjEneDD::state_chase_target(s32 arg1) {
         }
         break;
     case 3:
-        if (((s32 (*)())check_hit_flag__16TObjEneRe2FlowerFv)() == 0) {
+        if (((TObjEneRe2Flower *)arg0)->check_hit_flag() == 0) {
             d = *(f32 *)((s8 *)arg0 + 0x3AC);
             if (d > lbl_805D9FE0 || *(void **)((s8 *)arg0 + 0x390) == NULL) {
                 ((TObjEneDD *)arg0)->transition_enemy_state(2);
@@ -736,7 +730,7 @@ void TObjEneDD::state_chase_target(s32 arg1) {
         if (tick_period_counter((s32)arg0, (s32 *)(arg0 + 0x3D0), 0x14) != 0) {
             if (*(f32 *)((s8 *)arg0 + 0x3AC) > lbl_805D9FEC) {
                 if (this->vfunc_99() != 0) {
-                    idx = set_squared_value__9TObjEneDDFf(arg0, *(f32 *)((s8 *)arg0 + 0x3AC) - lbl_805D9FEC);
+                    idx = enemy_nearest_visible_enemy(arg0, *(f32 *)((s8 *)arg0 + 0x3AC) - lbl_805D9FEC);
                 }
                 if (idx == 0xFFFF) {
                     idx = enemy_find_nearest_player_in_range(arg0, *(f32 *)((s8 *)arg0 + 0x3AC) - lbl_805D9FEC);

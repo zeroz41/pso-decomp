@@ -6,10 +6,7 @@
 struct O_80337054 { u8 pad[0x3CC]; s32 f3cc; u8 pad2[0x410 - 0x3D0]; s32 f410; };
 
 extern "C" {
-void spawn_mag_mines__11TBoss6Type2Fv();
 int play_sound_effect(void*, void*, void*, void*);
-s32 turn_toward_target__11TBoss6Type2Fv();
-s32 fly_toward_target__11TBoss6Type2Fv();
 s32 TBoss6Type2__sub_8032FB84();
 
 void TBoss6Type2::update_recover_timer() {
@@ -61,7 +58,7 @@ void TBoss6Type2::start_mag_mines_state() {
     this->m_3cc = 0x25;
     switch (arg0->f410) {
     case 0:
-        spawn_mag_mines__11TBoss6Type2Fv();
+        spawn_mag_mines();
         break;
     default:
         break;
@@ -70,7 +67,7 @@ void TBoss6Type2::start_mag_mines_state() {
 }
 
 void TBoss6Type2::update_effect_subsystems() {
-    turn_toward_target__11TBoss6Type2Fv();
+    turn_toward_target();
     apply_random_drift();
     push_out_from_target();
     push_out_from_points();
@@ -81,7 +78,7 @@ void TBoss6Type2::update_effect_subsystems() {
 }
 void TBoss6Type2::sub_80337108() {  }
 void TBoss6Type2::update_attack_state() {
-    fly_toward_target__11TBoss6Type2Fv();
+    fly_toward_target();
     push_out_from_target();
     enforce_min_distance();
     if ((s32) this->m_40c == 0) {

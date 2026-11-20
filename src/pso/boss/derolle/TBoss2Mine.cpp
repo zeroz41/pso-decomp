@@ -25,7 +25,6 @@
 struct Mine_80038760; struct O_80038908;
 
 extern "C" {
-f32 calc_elapsed_scaled__9TObjEneDDFv(void *);
 }
 struct Mine_800377E8 { u8 pad[0x404]; Vec vel; };
 
@@ -552,7 +551,6 @@ typedef struct Tbl_80038BA0 {
 extern "C" {
 
 
-s32 init_model__9TObjEneDDFP13CollisionBodyl(void *, void *, int, int);
 
 extern u8 *lbl_805D4BA4;
 
@@ -641,7 +639,7 @@ void init__10TBoss2MineFPvi(u8 *boss2_mine, s32 arg1) {
     *(s32 *)((s8 *)boss2_mine + 0x34) = *(s32 *)((s8 *)(*(u8 **)((s8 *)lbl_805D4BA4 + 0x42C)) + 0x38);
     temp_r6 = *(u8 **)((s8 *)lbl_805D4BA4 + 0x42C);
     ((TBoss2Mine *)boss2_mine)->texlist = *(s32 *)((s8 *)temp_r6 + 0x2C);
-    init_model__9TObjEneDDFP13CollisionBodyl(boss2_mine, (u8 *)lbl_80482CD8, 1, (int)temp_r6);
+    ((TObjEneDD *)boss2_mine)->init_model((CollisionBody *)((u8 *)lbl_80482CD8), 1);
     ((TObjEneDD *)boss2_mine)->reset_hp((u8 *)(TLobby::register_boss(((s32 *)boss2_mine_params)[arg1])), (u8 *)(TLobby::dispatch_shared_handler_b(((s32 *)lbl_80482C90)[arg1])), (u8 *)(TLobby::register_object(((s32 *)lbl_80482C98)[arg1])));
     ((TObjEneDD *)boss2_mine)->check_state_flag_2();
     *(Rec_80038BA0 **)((s8 *)boss2_mine + 0x350) = &((Rec_80038BA0 *)lbl_80482CA0)[arg1];
@@ -976,7 +974,6 @@ void TUnk_80482EC0::vfunc_88() {
 }
 
 #undef play_sound_effect
-#define calc_elapsed_scaled__9TObjEneDDFv ((f32 (*)(void *, int, int))calc_elapsed_scaled__9TObjEneDDFv)
 #define play_sound_effect ((s32 (*)(int, void *, int, int, int))play_sound_effect)
 void TBoss2Mine::set_launch_position_velocity(u8 *arg1, u8 *arg2) {
     u8 *arg0 = (u8 *)this;
@@ -1060,7 +1057,7 @@ void TUnk_80482EC0::vfunc_106(s32 arg1) {
         this->rotation_x = 0x8000;
         *(s32 *)((s8 *)((u8 *)this) + 0x3B0) = 0;
         *(s32 *)((s8 *)((u8 *)this) + 0x3C8) = 0;
-        temp_r7 = (s32) ((3e+01f) * calc_elapsed_scaled__9TObjEneDDFv(this, 0x8000, temp_r5));
+        temp_r7 = (s32) ((3e+01f) * this->calc_elapsed_scaled());
         *(s32 *)((s8 *)((u8 *)this) + 0x3CC) = (temp_r7 + 0xB4);
         play_sound_effect(0x4003A804, (void *) (((u8 *)this) + 0x2FC), 0, 0, temp_r7);
         init_params(0x1E, (f32) ((0.25f)));
@@ -1113,7 +1110,6 @@ TUnk_80482D04::TUnk_80482D04(TObject *parent, u16 entity_id, s32 set_index)
     direction.z = 0.0f;
 }
 
-#undef calc_elapsed_scaled__9TObjEneDDFv
 #undef play_sound_effect
 TUnk_80482D04::~TUnk_80482D04() {}
 
@@ -1258,7 +1254,7 @@ void TUnk_80482D04::vfunc_106(s32 arg1) {
         this->rotation_x = 0;
         *(s32 *)((s8 *)arg0 + 0x3B0) = 0;
         *(s32 *)((s8 *)arg0 + 0x3C8) = 0;
-        *(s32 *)((s8 *)arg0 + 0x3CC) = (s32)((6e+01f) * calc_elapsed_scaled__9TObjEneDDFv(arg0)) + 0xF0;
+        *(s32 *)((s8 *)arg0 + 0x3CC) = (s32)((6e+01f) * ((TObjEneDD *)arg0)->calc_elapsed_scaled()) + 0xF0;
         ((TBoss2Mine *)arg0)->init_params(0x1E, (0.25f));
         break;
     case 3:

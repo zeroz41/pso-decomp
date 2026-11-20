@@ -197,7 +197,6 @@ void matrix_mult_vec(s32, Vec *, Vec *);
 }
 s32 pop_matrices(s32 arg0);
 extern "C" {
-void dispatch_technique_contact__13TUnk_804CCC68Fv(Obj_80235740 *, s32);
 extern u8 identity_matrix[];
 void run_task__9TTecMegidFv(Obj_80235740 *self);
 void *get_bml_model(s32, u32);
@@ -397,7 +396,7 @@ void run_task__9TTecMegidFv(Obj_80235740 *self) {
     }
     ((TUnk_804CCC68 *)self)->move_technique_projectile();
     ((TUnk_804CCC68 *)self)->advance_lifetime_or_destroy();
-    dispatch_technique_contact__13TUnk_804CCC68Fv(self, 1);
+    ((TUnk_804CCC68 *)self)->dispatch_technique_contact(1);
 }
 
 // The aimed form: the technique flies from `pos` towards `target`.

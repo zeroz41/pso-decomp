@@ -10,9 +10,9 @@ public:
     virtual void run_task();
     virtual void render();
 public:
-    bool is_slot_value_ready(s32 i);
+    s32 is_slot_value_ready(s32 i);
     void reset_selection_slots();
-    void push_plate_position();
+    void push_plate_position(void *pos);
 
     NJS_POINT2 plate_pos[32];  // 0x1C: top-left corner of each plate (inferred)
     u8 pad_11C[0x100];

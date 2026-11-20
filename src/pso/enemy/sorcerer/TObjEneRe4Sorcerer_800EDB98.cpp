@@ -116,10 +116,8 @@ void render__18TObjEneRe4SorcererFv(u8 *arg0);
 u16 get_entity_id(TObjBase *object);
 s32 *csnLookAt(s32 arg0, s32 arg1);
 s32 enemy_bind_or_clear_target(void *, u16);
-s32 enemy_clear_target__12TObjEneDD_STFUs(void *);
 void enemy_set_target_id(void *, u16);
 int is_target_ranger(void *p);
-s32 transform_relative_position__9TObjEneDDFPv(void *, void *);
 f32 horizontal_distance_squared(void *, void *);
 void scale_matrix(s32, s32, f32, f32, f32);
 
@@ -129,7 +127,6 @@ s32 TObjPlayer__sub_800A04F0(void *);
 void *__dt__13TUnk_80490470Fv(void *arg0, s16 arg1);
 void *__dt__12TObjEneDD_STFv(void *arg0, s16 arg1);
 int TObjEneDD__sub_800BA804(u16 arg0);
-s32 init_model__9TObjEneDDFP13CollisionBodyl(void *, void *, int, int);
 u32 vfunc_101__9TObjEneDDFPUc();
 s32 load_enemy_bml_resource_named(s32 arg0, s32 arg1);
 s32 load_enemy_bml_resource(u8 *arg0);
@@ -777,7 +774,7 @@ void TObjEneRe4Sorcerer__sub_800EE1CC(TObjEneRe4Sorcerer *self, s32 arg1) {
             bit->set_attack_flag();
         }
         self->m_3c8 &= 0xFFFFFFF7;
-        enemy_clear_target__12TObjEneDD_STFUs(self);
+        ((TObjEneDD_ST *)(self))->enemy_clear_target();
         break;
     }
 }
@@ -794,7 +791,7 @@ void TObjEneRe4Sorcerer::update_state_machine(s32 reason) {
         set_field_378(6);
         vfunc_95();
         m_3c8 &= ~2;
-        enemy_clear_target__12TObjEneDD_STFUs(this);
+        ((TObjEneDD_ST *)(this))->enemy_clear_target();
         init_float_params();
         if (vfunc_99() != 0) {
             m_4e4 = 3;
@@ -980,7 +977,7 @@ void TObjEneRe4Sorcerer::state_wait(s32 arg1) {
         set_field_378(4);
         m_3c8 &= 0xFFFFFFFD;
         vfunc_95();
-        enemy_clear_target__12TObjEneDD_STFUs(this);
+        ((TObjEneDD_ST *)(this))->enemy_clear_target();
         return;
     case 3:
         if (try_attack(160000.0f, 160000.0f) != 0) {
@@ -1236,7 +1233,7 @@ s32 TObjEneRe4Sorcerer::cast_technique() {
     Vec v;
     s32 frame;
     Vec *src;
-    if (transform_relative_position__9TObjEneDDFPv(this, m_390) != 0) {
+    if (is_target_unobstructed_from((TObjEneDD *)this, m_390) != 0) {
         TObjEneRe4Bit *bit = (TObjEneRe4Bit *)find_entity_by_id(bit_ids[0]);
         if (bit != NULL) {
             src = bit->get_spell_data();
@@ -1422,7 +1419,7 @@ s32 TObjEneRe4Sorcerer::try_attack(f32 farg0, f32 farg1) {
     if (enemy_has_live_target() != 0) {
         return 1;
     }
-    enemy_clear_target__12TObjEneDD_STFUs(this);
+    ((TObjEneDD_ST *)(this))->enemy_clear_target();
     return 0;
 }
 
@@ -1468,11 +1465,11 @@ s32 TObjEneRe4Sorcerer::select_attack_target(f32 farg0, f32 farg1) {
         if (((TObjBase *)q)->is_alive() != 0) {
             e = horizontal_distance_squared(&this->m_2fc, &q->m_2fc);
             if (is_target_ranger(q) != 0) {
-                if (e < farg0 && transform_relative_position__9TObjEneDDFPv(this, q) != 0) {
+                if (e < farg0 && is_target_unobstructed_from((TObjEneDD *)this, (TObjChara *)q) != 0) {
                     farg0 = e;
                     tA = ((s32 (*)(void *))get_entity_id)(q);
                 }
-            } else if (e < farg1 && transform_relative_position__9TObjEneDDFPv(this, q) != 0) {
+            } else if (e < farg1 && is_target_unobstructed_from((TObjEneDD *)this, (TObjChara *)q) != 0) {
                 farg1 = e;
                 tB = ((s32 (*)(void *))get_entity_id)(q);
             }
@@ -1487,7 +1484,7 @@ s32 TObjEneRe4Sorcerer::select_attack_target(f32 farg0, f32 farg1) {
         return 1;
     }
     }
-    enemy_clear_target__12TObjEneDD_STFUs(this);
+    ((TObjEneDD_ST *)(this))->enemy_clear_target();
     return 0;
 }
 #pragma pop
@@ -1550,7 +1547,7 @@ void TObjEneRe4Sorcerer::run_task() {
     }
     if (vfunc_83() != 4) {
         if (TObjEneDD__sub_800BA804(m_38c) != 0 && find_entity_by_id(m_38c) == NULL) {
-            enemy_clear_target__12TObjEneDD_STFUs(this);
+            ((TObjEneDD_ST *)(this))->enemy_clear_target();
         }
         vfunc_85();
         calc_orb_positions();
@@ -1607,7 +1604,7 @@ void TObjEneRe4Sorcerer::init_enemy() {
     model = (void *)sorcerer_bml_resource->models->model;
     models = sorcerer_bml_resource->models;
     texlist = models->m_c;
-    init_model__9TObjEneDDFP13CollisionBodyl(this, re4_sorcerer_collision_body_part_table, 1, (int)models);
+    this->init_model((CollisionBody *)re4_sorcerer_collision_body_part_table, 1);
     set_field_d8((s32)re4_sorcerer_action_params);
     set_field_dc((s32)sorcerer_bml_resource->motions);
     requested_action = 0;

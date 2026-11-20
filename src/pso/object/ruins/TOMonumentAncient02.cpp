@@ -58,7 +58,7 @@ const char *TOMonumentAncient02__class_name = "TOMonumentAncient02";
 BmlResource *TOMonumentAncient02__bml_resource;
 // TBoss4DarkFalz.h declares this with a u16 flag, but this caller passes the
 // full word (no clrlwi); 35 callers share that declaration.
-extern "C" s32 dispatch_by_main_phase__14TBoss4DarkFalzFUs(u32 flag);
+extern "C" s32 set_story_flag_or_send_quest_flag(u32 flag);
 
 // Restores the saved state: 2 (activated) replays its main-phase step. Once
 // all three tablets' flags (0x2C-0x2E) are set, phase 0x2F runs.
@@ -66,7 +66,7 @@ void TOMonumentAncient02::vfunc_6(s16 *state, s32) {
     object_state = *state;
     switch (object_state) {
     case 2:
-        dispatch_by_main_phase__14TBoss4DarkFalzFUs(story_flag);
+        set_story_flag_or_send_quest_flag(story_flag);
         activated = 1;
         break;
     default:
@@ -77,7 +77,7 @@ void TOMonumentAncient02::vfunc_6(s16 *state, s32) {
         break;
     }
     if (get_story_flag(0x2C) != 0 && get_story_flag(0x2D) != 0 && get_story_flag(0x2E) != 0) {
-        dispatch_by_main_phase__14TBoss4DarkFalzFUs(0x2F);
+        set_story_flag_or_send_quest_flag(0x2F);
     }
     access_object_saved_state(state, 0);
 }

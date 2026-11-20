@@ -27,7 +27,6 @@ char *strncpy(char *, const char *, u32);
 void *memcpy(void *, const void *, u32);
 extern char memory_card_character_dir_name[];
 extern s32 lbl_805D49B4;
-void poll_load_status__15TAdPlayerLoadGCFl(s32, void *);
 }
 extern char pso_character_card_filename[];
 extern char pso_guildcard_card_filename[];
@@ -75,7 +74,7 @@ void TAdSinglePlyChrSelectGC__sub_801FBB1C(void) {
     if (TAdPlayerLoadGC::probe_and_check_card(0) != 0) {
         r = TAdPlayerLoadGC::find_card_file(0, pso_character_card_filename);
         if (r == 0 || (u32)r == 0xFFFFFF41U) {
-            poll_load_status__15TAdPlayerLoadGCFl(0, pso_character_card_filename);
+            TAdPlayerLoadGC::delete_memcard_file(0, (const char *)(pso_character_card_filename));
         }
     }
 }
@@ -85,7 +84,7 @@ void TAdSinglePlyChrSelectGC__sub_801FBB7C(void) {
     if (TAdPlayerLoadGC::probe_and_check_card(0) != 0) {
         r = TAdPlayerLoadGC::find_card_file(0, pso_guildcard_card_filename);
         if (r == 0 || (u32)r == 0xFFFFFF41U) {
-            poll_load_status__15TAdPlayerLoadGCFl(0, pso_guildcard_card_filename);
+            TAdPlayerLoadGC::delete_memcard_file(0, (const char *)(pso_guildcard_card_filename));
         }
     }
 }
@@ -95,7 +94,7 @@ void TAdSinglePlyChrSelectGC::try_load_system_file() {
     if (TAdPlayerLoadGC::probe_and_check_card(0) != 0) {
         r = TAdPlayerLoadGC::find_card_file(0, pso_system_card_filename);
         if (r == 0 || (u32)r == 0xFFFFFF41U) {
-            poll_load_status__15TAdPlayerLoadGCFl(0, pso_system_card_filename);
+            TAdPlayerLoadGC::delete_memcard_file(0, (const char *)(pso_system_card_filename));
         }
     }
 }

@@ -110,7 +110,6 @@ extern s32 quest_mission_manager;
 void THunterGuildSeqOffline__sub_80213980(Obj_80213980 *self);
 s32 set_service_counter_camera(void *, s32);
 s32 sub_802239EC__13TShopSequenceFv(void *);
-s32 restore_player_state__13TShopSequenceFv();
 
     extern int evt2_random_enemies_mode;
 
@@ -229,7 +228,6 @@ u8 *create_yes_no_window(s32 arg0, s32 arg1, u32 arg2, u32 arg3);
 s32 sub_802239EC__13TShopSequenceFv(void *);
 s32 get_window_layout_position(s32);
 
-s32 restore_player_state__13TShopSequenceFv();
 
 }
 

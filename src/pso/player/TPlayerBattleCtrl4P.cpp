@@ -33,6 +33,8 @@
 #include "pso/player/TUnk_804B6C24.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 
+extern "C" s32 check_player_flag1__10TObjPlayerFv(void);
+
 struct Base_803107D0_8031058C { char pad[0x18]; };
 struct VObj_803107D0_8031058C : Base_803107D0_8031058C {
     virtual void v0();
@@ -158,7 +160,6 @@ void end_player_keyboard_hold(s32 arg0);
 void begin_player_keyboard_hold(s32 arg0);
 s32 release_attached_resource__10TObjPlayerFv();
 void request_active_window_close(void);
-s32 send_code_45_1__10TObjPlayerFl();
 }
 extern const char *TPlayerBattleCtrl4P_player_name_formats[];
 extern void *__vt__19TPlayerBattleCtrl4P[6];
@@ -172,12 +173,9 @@ Rank_801C343C split_screen_battle_rankings[4];
 struct Ids_80311C2C { s32 a; s32 b; s32 c; s32 d; };
 struct O_80311C2C { u8 pad[0x20]; void *w0; void *w1; u8 pad2[0x294 - 0x28]; Ids_80311C2C *ids; };
 extern "C" {
-s32 set_state__19TPlayerBattleCtrl4PFv(void *, int);
-s32 has_player_active_menu__11TWindowCtrlFv(s32);
 s32 align_menu_entry_positions(void *);
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
 void *create_window_menu_default(void *, int);
-void *create__14TWindowMessageFPvll(void *, void *, int);
 void *get_window_layout_position(int);
 void TLobby__sub_801036CC();
 void TLobby__sub_8020BC50();
@@ -351,8 +349,7 @@ void *__vt__19TPlayerBattleCtrl4P[6] = {
 void TPlayerBattleCtrl4P::open_intro_window() {
     if (this->intro_window == NULL) {
         BattleIntroWindowSize size = {328.0f, 166.0f};
-        this->intro_window = create__14TWindowMessageFPvll(
-            get_window_layout_position(0x52), &size, 1);
+        this->intro_window = TWindowMessage::create((const NJS_POINT2 *)(get_window_layout_position(0x52)), (const f32 *)(&size), 1);
     }
     lbl_805D6AB0 = 0;
     set_score(1);
@@ -580,9 +577,9 @@ void TPlayerBattleCtrl4P::wait_for_result_window_close() { if (close_windows_on_
 
 void TPlayerBattleCtrl4P::update_rematch_menu() {
     static const BattleIntroWindowSize size = {216.0f, 84.0f};
-    if (has_player_active_menu__11TWindowCtrlFv(local_client_id) == 0) {
+    if (TWindowCtrl::has_player_active_menu(local_client_id) == 0) {
         if (((O_80311C2C *)this)->w0 == NULL) {
-            ((O_80311C2C *)this)->w0 = create__14TWindowMessageFPvll(get_window_layout_position(0x53), (void *)&size, 1);
+            ((O_80311C2C *)this)->w0 = TWindowMessage::create((const NJS_POINT2 *)(get_window_layout_position(0x53)), (const f32 *)(&size), 1);
             if (((O_80311C2C *)this)->w0 != NULL) {
                 ((TWindowMessage *)(((O_80311C2C *)this)->w0))->append_line(((O_80311C2C *)this)->ids->a, 0x80);
             }
@@ -619,6 +616,7 @@ void TPlayerBattleCtrl4P::update_rematch_menu() {
 #pragma scheduling off
 
 void TPlayerBattleCtrl4P::close_rematch_menu() {
+    void *player;
     u32 var_r31;
     if ((u32) this->intro_window != 0U) {
         ((TWindowBase *)this->intro_window)->close();
@@ -652,7 +650,7 @@ void TPlayerBattleCtrl4P::record_battle_results_after_delay() {
     TPlayerBattleCtrl4P::update_all_players();
     temp_r4 = ready_timer;
     ready_timer = (temp_r4 - 1);
-    if ((set_state__19TPlayerBattleCtrl4PFv(this, temp_r4) != 0) || ((s32) ready_timer <= 0)) {
+    if ((set_state() != 0) || ((s32) ready_timer <= 0)) {
         reset_score_counters();
         calculate_split_screen_battle_rankings(this);
         record_split_screen_battle_results(this);
@@ -1022,7 +1020,7 @@ void TPlayerBattleCtrl4P::remove_player(void *arg0, u16 arg1, s32 arg2) {
     if (arg2 != 0) {
         begin_player_keyboard_hold(id);
         request_active_window_close();
-        ((TWindowCtrl *)id)->suppress_slot();
+        TWindowCtrl::suppress_slot(id);
     }
 }
 
@@ -1114,13 +1112,14 @@ void send_code_45_to_window__19TPlayerBattleCtrl4PFPvii(void *arg0, s32 arg1, s3
 
     temp_r31 = (u16)arg1;
     temp_r30 = arg2;
-    if (get_player_by_client_id(temp_r31) != 0U) {
-        send_code_45_1__10TObjPlayerFl();
+    s32 player;
+    if ((player = (s32)get_player_by_client_id(temp_r31)) != 0U) {
+        TObjPlayer::send_code_45_1(player);
     }
     if (temp_r30 != 0) {
         end_player_keyboard_hold(temp_r31);
         TWindowCtrl::clear_flag();
-        ((TWindowCtrl *)temp_r31)->unsuppress_slot();
+        TWindowCtrl::unsuppress_slot(temp_r31);
     }
 }
 

@@ -9,9 +9,7 @@
 
 extern "C" {
 void mem_free(void *p);
-s32 get_message_10__20TWindowSubStatusDispFl(s32);
 void *mem_alloc(u32 size);
-s32 measure_string_len__20TWindowSubStatusDispFv(void *);
 s32 strncpy(int, void *, int);
 typedef struct
 {
@@ -41,7 +39,7 @@ void TWindowSubStatusDisp__sub_80338740(u8 *arg0, s32 arg1, s32 arg2, s8 arg3, s
     } else {
         *(s8 *)((s8 *)arg0 + 0x1C) = 0x33;
     }
-    temp_r3 = measure_string_len__20TWindowSubStatusDispFv((void *)arg2);
+    temp_r3 = (s32)measure_string_len((const char *)((void *)arg2));
     *(s32 *)((s8 *)arg0 + 0x24) = (s32)mem_alloc((temp_r3 + 1));
     strncpy((int) (*(s32 *)((s8 *)arg0 + 0x24)), (void *)arg2, (int)temp_r3);
     *(s8 *)((s8 *)temp_r3 + (*(s32 *)((s8 *)arg0 + 0x24))) = 0;
@@ -55,19 +53,19 @@ void TWindowSubStatusDisp__sub_80338740(u8 *arg0, s32 arg1, s32 arg2, s8 arg3, s
 }
 
 void TWindowSubStatusDisp__sub_803387F8(void *arg0, s8 arg1) {
-    get_message_10__20TWindowSubStatusDispFl(arg1 + 0x113);
+    (s32)TWindowSubStatusDisp::get_message_10(arg1 + 0x113);
 }
 s32 TWindowSubStatusDisp::query_status_field(void *arg0, s8 arg1) {
     if (arg1 == 0) {
         return 0;
     }
-    return get_message_10__20TWindowSubStatusDispFl(arg1 + 0x110);
+    return (s32)TWindowSubStatusDisp::get_message_10(arg1 + 0x110);
 }
 s32 TWindowSubStatusDisp::get_flag_or_zero(void *arg0, s8 arg1) {
     if (arg1 == 0) {
         return 0;
     }
-    return get_message_10__20TWindowSubStatusDispFl(arg1 + 0x10D);
+    return (s32)TWindowSubStatusDisp::get_message_10(arg1 + 0x10D);
 }
 
 void TUnk_804EF440::render(WindowDrawContext *context) {

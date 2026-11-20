@@ -32,6 +32,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/object/warp/TObjWarpBase.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
+#include "pso/ui/frontend/TAdVIConfigGC.h"
 
 const char *bm_obj_warp_jung_model_names[3] = { "fe_obj_warp_dodai.gj", "fe_obj_warp_jogo_light.gj", NULL };
 __declspec(section ".data") const char *bm_obj_warp_jung_motion_names[2] = { "fe_obj_warp_jogo_light.njm", NULL };
@@ -64,7 +65,6 @@ s32 align_menu_entry_positions(u32);
 s32 get_window_layout_position(s32);
 
 void * TObjWarpJung__create(void *arg0);
-void * init__13TAdVIConfigGCFf(void *, void *, f32);
 s32 get_game_play_mode(void);
 
 void TObjWarpJungMain::render() {
@@ -157,7 +157,7 @@ TObjWarpJungMain::TObjWarpJungMain(TObject *parent, void *set_data) : TObjAreaWa
     if (TRaderMapCore::is_not_split_screen() == 1) {
         void *p = ::operator new(0x88);
         if (p != NULL) {
-            p = init__13TAdVIConfigGCFf(p, &position, 20.0f);
+            p = ((TAdVIConfigGC *)p)->init(&position, 20.0f);
         }
         vi_config = (TAdVIConfigGC *)p;
     } else {
@@ -218,7 +218,7 @@ TObjWarpJung::TObjWarpJung(TObject *parent, void *set_data) : TObjAreaWarp(paren
     if (TRaderMapCore::is_not_split_screen() == 1) {
         void *p = ::operator new(0x88);
         if (p != NULL) {
-            p = init__13TAdVIConfigGCFf(p, &position, 20.0f);
+            p = ((TAdVIConfigGC *)p)->init(&position, 20.0f);
         }
         vi_config = (TAdVIConfigGC *)p;
     } else {

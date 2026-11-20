@@ -77,7 +77,6 @@ struct TBoss4DarkFalz : public TObjEnemy {
     static int get_instance_count();
     static void push_players_out_of_zone(s32 arg0, s32 arg1);
     static void *create_demo1(void *arg0, void *arg1, void *arg2);
-    static void dispatch_by_main_phase(u16 arg0);
     void begin_defeat_sequence();
     void update_countdown_shrink();
     void get_demo2_params(u16 *a, u16 *b, u16 *out);
@@ -115,6 +114,10 @@ struct TBoss4DarkFalzState {
     TBoss4DarkFalzHandler update_leader;
     TBoss4DarkFalzHandler update;
 };
+
+extern "C" {
+void set_story_flag_or_send_quest_flag(u16 flag);
+}
 
 typedef char TBoss4DarkFalz_size[sizeof(TBoss4DarkFalz) == 0x39C ? 1 : -1];
 #endif

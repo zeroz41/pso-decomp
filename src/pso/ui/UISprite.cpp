@@ -18,6 +18,7 @@
 #include "pso/unk/TLobby.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/charcreate/TObjCMMainMenu.h"
+#include "pso/system/vector.h"
 
 #pragma const_strings off
 NJS_TEXNAME creation_chara_sprite_entries[20] = {
@@ -385,7 +386,7 @@ void draw_creation_sprite_offset(s32 sprite_id, const vec2f *position, const vec
     s32 id;
     vec2f pos;
     NJS_TEXANIM *cell;
-    ((TWindowSubSymbolChatPartsSet *)&pos)->copy_vec2((void *)position);
+    copy_vec2(&pos, (void *)position);
     id = sprite_id;
     TCharaMaking__resolve_creation_sprite_table(&cells, &id);
     cell = &cells[id];

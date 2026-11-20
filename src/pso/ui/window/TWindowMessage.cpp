@@ -70,9 +70,7 @@ struct Q_80269664 {
 struct Ent_80269664 { u8 pad0[0xC]; f32 y; u8 pad10[4]; f32 h; };
 
 extern "C" {
-u8 *get_array_entry__11TWindowBaseFi(void *, s32);
 
-u32 get_field_20__17TWindowSubComCardFv(void *);
 
 void TWindowMessage::scroll_up_line(u8 *arg1) {
     f32 d;
@@ -84,7 +82,7 @@ void TWindowMessage::scroll_up_line(u8 *arg1) {
     this->m_6c -= d;
     *(f32 *)(((u8 *)this) + 0x80) -= d;
     for (; i < this->line_count; i++) {
-        e = get_array_entry__11TWindowBaseFi(this, i);
+        e = (u8 *)((TWindowBase *)this)->get_array_entry(i);
         *(f32 *)(e + 0xC) -= d;
     }
     *(f32 *)(arg1 + 0xC) = 0.0f;
@@ -96,7 +94,7 @@ void TWindowMessage::advance_reveal_cursor() {
     u16 *e;
     s32 t;
     e = ((u16 *)((TWindowBase *)((Msg_802695A8 *)this))->get_array_entry(((Msg_802695A8 *)this)->cur));
-    while (get_field_20__17TWindowSubComCardFv(e) != 0 && (*e & 0x10)) {
+    while (((TWindowSubComCard *)e)->get_field_20() != 0 && (*e & 0x10)) {
         t = ((Msg_802695A8 *)this)->cur + 1;
         ((Msg_802695A8 *)this)->cur = t;
         if (t >= ((Msg_802695A8 *)this)->cnt) {
@@ -120,7 +118,7 @@ void TWindowMessage::update_line_timers() {
     s32 idx;
     f32 h;
     for (i = 0; i < (u32)((Q_80269664 *)this)->capacity; i++) {
-        if (get_field_20__17TWindowSubComCardFv(get_array_entry__11TWindowBaseFi(this, i)) != 0) {
+        if (((TWindowSubComCard *)((u8 *)((TWindowBase *)this)->get_array_entry(i)))->get_field_20() != 0) {
             if ((((Q_80269664 *)this)->meta[i].flags & 4) && ((Q_80269664 *)this)->meta[i].timer > 0) {
                 ((Q_80269664 *)this)->meta[i].timer--;
             }
@@ -129,7 +127,7 @@ void TWindowMessage::update_line_timers() {
     idx = ((Q_80269664 *)this)->oldest;
     e = (Ent_80269664 *)((TWindowBase *)((Q_80269664 *)this))->get_array_entry(idx);
     m = &((Q_80269664 *)this)->meta[idx];
-    while (get_field_20__17TWindowSubComCardFv(e) != 0 && m->timer <= 0 && (m->flags & 4)) {
+    while (((TWindowSubComCard *)e)->get_field_20() != 0 && m->timer <= 0 && (m->flags & 4)) {
         m->flags &= ~4;
         h = (1.0f) + (e->y + e->h);
         if (((Q_80269664 *)this)->height < h) {
@@ -151,9 +149,9 @@ void TWindowMessage::retire_scrolled_lines() {
     Q_802697B4 *w = (Q_802697B4 *)this;
     u8 *e;
     Meta_802697B4 *m;
-    e = get_array_entry__11TWindowBaseFi(w, w->oldest);
+    e = (u8 *)((TWindowBase *)w)->get_array_entry(w->oldest);
     m = &w->meta[w->oldest];
-    while (get_field_20__17TWindowSubComCardFv(e) != 0 && *(f32 *)(e + 0xC) + *(f32 *)(e + 0x14) < w->scroll) {
+    while (((TWindowSubComCard *)e)->get_field_20() != 0 && *(f32 *)(e + 0xC) + *(f32 *)(e + 0x14) < w->scroll) {
         ((TWindowMessage *)w)->scroll_up_line(e);
         m->flags = 0;
         m->timer = 0;
@@ -165,7 +163,7 @@ void TWindowMessage::retire_scrolled_lines() {
         if (++w->oldest >= w->capacity) {
             w->oldest = 0;
         }
-        e = get_array_entry__11TWindowBaseFi(w, w->oldest);
+        e = (u8 *)((TWindowBase *)w)->get_array_entry(w->oldest);
         m = &w->meta[w->oldest];
         if (m->flags & 8) {
             m->flags &= ~8;
@@ -211,7 +209,7 @@ s32 TWindowOptionCtrl::add_label_value_line(const char *arg1, const char *arg2, 
     text_builder_append((u8 *)arg1);
     text_builder_append((u8 *)sep);
     text_builder_append((u8 *)arg2);
-    e = get_array_entry__11TWindowBaseFi(this, *(s32 *)(((u8 *)this) + 0x88));
+    e = (u8 *)((TWindowBase *)this)->get_array_entry(*(s32 *)(((u8 *)this) + 0x88));
     r = append_message_window_line((TWindowMessage *)this, get_shared_text_buffer(), arg3 | 2, -1);
     if (r != 0) {
         x = (0.5f) * (*(f32 *)(((u8 *)this) + 0x38) - 8.0f);
@@ -364,12 +362,12 @@ u8 *TWindowMessage::create(s32 arg0, const f32 *size, u32 arg2, s32 arg3) {
     return var_r0;
 }
 
-u8 *TWindowMessage::create(void *arg0, s32 arg1, s32 arg2) {
-    return TWindowMessage::create((s32)arg0, (const f32 *)arg1, (u32)arg2, 4);
+u8 *TWindowMessage::create(const NJS_POINT2 *pos, const f32 *size, s32 rows) {
+    return TWindowMessage::create((s32)pos, size, (u32)rows, 4);
 }
 
 u8 *create_message_window_for_size(NJS_POINT2 *pos, NJS_POINT2 *size) {
-    return TWindowMessage::create(pos, (s32)size, (s32)((s32)((s32) TWindowSubStatusDisp::round_away_from_zero((size->y - 2e+01f) / 2e+01f) + 2)));
+    return TWindowMessage::create(pos, (const f32 *)size, (s32)((s32)((s32) TWindowSubStatusDisp::round_away_from_zero((size->y - 2e+01f) / 2e+01f) + 2)));
 }
 
 s32 TLobby__sub_80269DA4(NJS_POINT2 size, void *arg1) {

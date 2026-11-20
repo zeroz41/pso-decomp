@@ -90,12 +90,10 @@ struct Seq_8021B518 { u8 pad[0x24]; s32 f24; u8 pad28[4]; void *win; };
 extern "C" {
 
 s32 sub_802239EC__13TShopSequenceFv(void *);
-s32 close_window__13TShopSequenceFv(void *);
 
 s32 lbl_805D6218;
 s32 lbl_805D621C;
 
-unsigned short get_child_field1c__13TShopSequenceFv(void *);
 s32 set_service_counter_camera(void *, int);
 s32 get_window_layout_position(int, f32);
 s32 TShopEquipmentGearSequence__window_slot_table[4];
@@ -194,7 +192,7 @@ s32 TShopEquipmentGearSequence::open_greeting() {
   stack.spC = 80.0f;
   this->create_message_window(get_window_layout_position(0x2C, 332.0f), (s32)&stack.sp8);
   PSO_VCALL_VObj_18_a93f07_m4(this, 0x2b, 1);
-  meseta_window = (TWindowBase *)create_meseta_window((s32) get_child_field1c__13TShopSequenceFv(this));
+  meseta_window = (TWindowBase *)create_meseta_window((s32) ((u16)((TShopSequence *)this)->get_child_field1c()));
   this->set_field_20(2);
   counter_camera = (TObject *)set_service_counter_camera((void *) this, 0x4);
 }
@@ -257,7 +255,7 @@ void TShopEquipmentGearSequence::open_sell_window() {
 void TShopEquipmentGearSequence::try_close() {
     if ((this->vfunc_10() != 0) && ((sub_80223A48() != 0) || (sub_802239EC__13TShopSequenceFv(this) != 0))) {
         close_if_single_screen();
-        close_window__13TShopSequenceFv(this);
+        this->TShopSequence::close_window();
         queue_destruction();
     }
 }

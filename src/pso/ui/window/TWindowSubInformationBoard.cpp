@@ -18,6 +18,7 @@
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
+#include "pso/ui/window/TWindowSubComCard.h"
 
 struct VBase_18_204a81 { char pad[0x18]; };
 
@@ -45,7 +46,6 @@ s32 __nw__7TObjectFUl(s32);
 s32 align_menu_entry_positions(int);
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
 void *create_titled_window_menu_default(s32, s32, void *);
-s32 draw_text_gray__17TWindowSubComCardFllll(void *, void *, int, int);
 
 extern s32 local_client_id;
 
@@ -205,7 +205,7 @@ u32 TWindowSubInformationBoard::create_info_board_menu() {
   }
   else
   {
-    TWindowSubComCard::draw_text_gray((s32) temp_r31, (s32) TWindowSubStatusDisp::get_message_10(0x117), 6, 3);
+    add_gray_text_entry((TWindowSubTradeMain *)temp_r31, (const char *)(TWindowSubStatusDisp::get_message_10(0x117)), 6, 3);
   }
   forward_trade_action_default__16TObjCityMainWarpFPviii(temp_r31, (int) TWindowSubStatusDisp::get_message_10(0x118), 6, 9);
   ((TWindowSubComCardList *)temp_r31)->set_flag70_bit10();
@@ -230,11 +230,11 @@ u32 TWindowSubInformationBoard::sub_8034CDE0() {
         if (it->f10 != 0) {
             forward_trade_action_default__16TObjCityMainWarpFPviii(w, (int)it, 0x16, (int)i);
         } else {
-            draw_text_gray__17TWindowSubComCardFllll(w, it, 0x16, i);
+            add_gray_text_entry((TWindowSubTradeMain *)w, (const char *)it, 0x16, i);
         }
     }
     if (((TWindowSubComCardList *)w)->get_field_72() <= 0) {
-        draw_text_gray__17TWindowSubComCardFllll(w, TWindowSubStatusDisp::get_message_10(0xD2), 6, -1);
+        add_gray_text_entry((TWindowSubTradeMain *)w, (const char *)(TWindowSubStatusDisp::get_message_10(0xD2)), 6, -1);
     }
     ((TWindowSubComCardList *)w)->set_flag70_bit10();
     ((TWindowSubComCardList *)w)->set_scroll_target(223.0f, 184.0f);
@@ -244,7 +244,7 @@ u32 TWindowSubInformationBoard::sub_8034CDE0() {
 u32 TWindowSubInformationBoard::open_card_info_window() {
     static const f32 size[2] = {188.0f, 160.0f};
     u8 *window;
-    window = TWindowMessage::create((void *)get_window_layout_position(0xA5), (s32)size, 1);
+    window = TWindowMessage::create((const NJS_POINT2 *)get_window_layout_position(0xA5), (const f32 *)size, 1);
     this->shown_index = -1;
     return (u32)window;
 }
@@ -252,7 +252,7 @@ u32 TWindowSubInformationBoard::open_card_info_window() {
 u32 TWindowSubInformationBoard::show_card_a7() {
     static const f32 size[2] = {206.0f, 180.0f};
     u8 *window;
-    window = TWindowMessage::create((void *)get_window_layout_position(0xA7), (s32)size, 1);
+    window = TWindowMessage::create((const NJS_POINT2 *)get_window_layout_position(0xA7), (const f32 *)size, 1);
     this->shown_index = -1;
     return (u32)window;
 }

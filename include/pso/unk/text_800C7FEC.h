@@ -17,4 +17,6 @@ void handle_6x09_legacy_kill_enemy(G_LegacyKillEnemy_6x09 *cmd);
 void release_legacy_enemy_kill_flags();
 void clear_legacy_enemy_kill_flags();
 
+void bswap_client_id_header(G_ClientIDHeader *header);
+
 #endif

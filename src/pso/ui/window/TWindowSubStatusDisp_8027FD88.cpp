@@ -326,7 +326,6 @@ extern "C" {
 s32 build_player_class_stat_template(s32 arg0, s32 arg1);
 s32 build_player_equipment_requirement_stats(int, void *);
 s32 get_shared_text_buffer();
-s32 get_layout_id__20TWindowSubStatusDispFv(s32);
 const s32 status_disp_vt5_message_ids[4] = {0x91, 0x92, 0x91, 0x92};
 }
 
@@ -391,7 +390,7 @@ void TWindowSubStatusDisp::render() {
     s32 temp_r3;
 
     if (get_player_by_client_id(this->m_20) != 0U) {
-        temp_r3 = this->setup_window_draw_context((s32)(((u8 *)this) + 0x6C));
+        temp_r3 = this->setup_window_draw_context((f32 *)(((u8 *)this) + 0x6C));
         draw_window_frame((void *)temp_r3);
         draw_visible_window_entries(this, ((u8 *)this) + 0x24, temp_r3);
         draw_list_page_indicator(this->m_68, temp_r3);
@@ -809,7 +808,7 @@ void vt5__20TWindowSubStatusDispFv(u8 *window_base) {
   type = ((TWindowSubStatusDisp *)new_var)->get_display_mode();
   e = (u16 *) (void *)((TWindowBase *)window_base)->get_array_entry(0);
   set_text_entry_string((u8 *)e, (s32)TWindowSubStatusDisp::get_message_10(status_disp_vt5_message_ids[type]), 0);
-  n = get_layout_id__20TWindowSubStatusDispFv(type);
+  n = TWindowSubStatusDisp::get_layout_id(type);
   i = 0;
   do
   {

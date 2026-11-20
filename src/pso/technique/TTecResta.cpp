@@ -130,7 +130,6 @@ void run_task__9TTecRestaFv(Resta_802399F8 *self);
 s32 is_split_screen(void);
 s32 copy_technique_target_list(void *, void *);
 void *TTecResta__ct(TTecResta *arg0, void *arg1, void *arg2, void *arg3, void *arg4);
-void create__9TTecRestaFPvPvPvPv(void *arg0, void *arg1, void *arg2, void *arg3);
 int spawn_support_tec_range_effect(void*);
 
 
@@ -293,7 +292,7 @@ void TTecResta::create(void *owner, void *pos, void *level) {
     }
 }
 
-void create__9TTecRestaFPvPvPvPv(void *owner, void *pos, void *arg2, void *level) {
+void TTecResta::create(void *owner, void *pos, void *arg2, void *level) {
     void *o;
     o = TObject::operator new(0x140);
     if (o != NULL) {

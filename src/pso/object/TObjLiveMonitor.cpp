@@ -4,6 +4,7 @@
 #include "pso/unk/text_8020BFE4.h"
 #include "pso/object/TObjLiveMonitor.h"
 #include "types.h"
+#include "pso/object/door/TObjDoorJung.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/camera/TObjLiveCameraCtrl.h"
 #include "pso/player/TObjPlayer_8023E480.h"

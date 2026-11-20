@@ -89,8 +89,8 @@ typedef struct Anim_802F0BE8 { u8 pad0[4]; u32 n; } Anim_802F0BE8;
 
 s32 attach_particle_model(int, int, int, int, int, f32);
 f32 horizontal_distance_squared(void *, void *);
-s32 notify_fish_obj__10TObjPlayerFPv(int);
 s32 queue_boss_effect__10TObjPlayerFPv(int);
+struct AnimationMotion *get_boss7_motion(s32 kind);
 s32 TObjPlayer__sub_802E80A0();
 void rotate_matrix_by_node_angles(void *, int);
 s32 scale_current_matrix(void *);
@@ -127,7 +127,7 @@ void TObjPlayer__sub_802F0D30(void) {
     s32 i;
 
     src = (Node_802EFF24 *)queue_boss_effect__10TObjPlayerFPv(1);
-    notify_fish_obj__10TObjPlayerFPv(0x11);
+    get_boss7_motion(0x11);
     dst = lbl_80541528;
     for (i = 0; i < 12; i++) {
         copy_model_node((u8 *)dst, (u8 *)src);
@@ -154,7 +154,7 @@ void TObjPlayer__sub_802F0D2C(void) {  }
 TBoss7Tentacle::TBoss7Tentacle(TObject *object, s32 arg2, s32 arg3) : TObject(object) {
     m_name = TBoss7Tentacle__name;
     (*(s32 *)((s8 *)(this) + (0x1C))) = ((s32 (*)(s32))queue_boss_effect__10TObjPlayerFPv)(1);
-    (*(Anim_802F0BE8 * *)((s8 *)(this) + (0x20))) = ((Anim_802F0BE8 * (*)(s32))notify_fish_obj__10TObjPlayerFPv)(0x11);
+    (*(Anim_802F0BE8 * *)((s8 *)(this) + (0x20))) = (Anim_802F0BE8 *)get_boss7_motion(0x11);
     (*(s32 *)((s8 *)(this) + (0x130))) = arg2;
     (*(s32 *)((s8 *)(this) + (0x4C))) = arg3;
     (*(s32 *)((s8 *)(this) + (0x30))) = 0;
@@ -537,9 +537,9 @@ extern "C" {
 
 void TObjPlayer__sub_802EFEC4(void) {
     lbl_805D6948 = queue_boss_effect__10TObjPlayerFPv(5);
-    *(s32 *)((s8 *)(&boss7_tentacle_needle_target_state.value) + 0) = notify_fish_obj__10TObjPlayerFPv(0x13);
-    *(s32 *)((s8 *)(&boss7_tentacle_needle_target_state.value) + 4) = notify_fish_obj__10TObjPlayerFPv(0x14);
-    *(s32 *)((s8 *)(&boss7_tentacle_needle_target_state.value) + 8) = notify_fish_obj__10TObjPlayerFPv(0x12);
+    *(s32 *)((s8 *)(&boss7_tentacle_needle_target_state.value) + 0) = (s32)get_boss7_motion(0x13);
+    *(s32 *)((s8 *)(&boss7_tentacle_needle_target_state.value) + 4) = (s32)get_boss7_motion(0x14);
+    *(s32 *)((s8 *)(&boss7_tentacle_needle_target_state.value) + 8) = (s32)get_boss7_motion(0x12);
 }
 
 void fn_802EFEA8(void) {

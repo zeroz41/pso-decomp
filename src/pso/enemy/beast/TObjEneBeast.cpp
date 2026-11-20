@@ -11,6 +11,7 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
+#include "pso/unk/text_803D853C.h"
 extern "C" void render__12TObjEneBeastFv();
 
 #include "pso/effect/TUnk_80494968.h"
@@ -50,7 +51,6 @@ void draw_chunk_object(void *child);
 void restore_scene_lighting(void);
 void select_actor_lighting(s32 obj);
 s32 push_matrix();
-s32 set_global_param__8TObjFishFl(s32);
 extern s32 model_render_flags;
 }
 #include "pso/boss/volopt/TBoss3Volopt.h"
@@ -125,7 +125,6 @@ s32 init_collision_body_parts(void *, void *, int);
 f32 vec3_add_to(void *, void *);
 s32 rotate_vector_by_matrix(int, void *, void *);
 extern RecoveredGlobal_80091E08_lbl_8058D490 identity_matrix;
-void mult_vec_array__10TObjPlayerFUll(int, u32, void *, int);
 void set_matrix_identity(u8 *arg0);
 extern void *beast_claw_trail_instance;
 extern void *boss4_type3_instance;
@@ -198,7 +197,7 @@ void TObjEneBeast::vfunc_93() {
             set_matrix_identity(0);
             post_translate_matrix(&self->pos);
             rotate_matrix_y(0, this->rotation_y);
-            mult_vec_array__10TObjPlayerFUll(0, entry, &pos, 2);
+            matrix_mult_vec_array(NULL, (const Vec *)entry, &pos, 2);
             pop_matrix();
             eff = self->effects[idx];
             if (eff != NULL) {
@@ -344,7 +343,6 @@ void TObjEneBeast::render() {
 #undef obj_setFlags30
 #undef play_sound_effect
 #undef translate_matrix
-#undef set_global_param__8TObjFishFl
 #undef update_if_active__15TObjEnemyCustomFl
 #undef TObjEneBalClawClaw__sub_800914A4
 #undef find_active_entity_by_id

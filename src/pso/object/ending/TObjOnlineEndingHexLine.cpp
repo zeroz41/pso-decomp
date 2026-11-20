@@ -9,6 +9,7 @@
 #include <stdlib.h>
 #include "pso/render/render_util.h"
 #include "pso/camera/TCameraCtrl_801A6E60.h"
+#include "pso/system/vector.h"
 
 struct Param_802E5CB0 { f32 a; f32 b; s32 c; f32 d; };
 typedef char Param_802E5CB0_size[sizeof(Param_802E5CB0) == 0x10 ? 1 : -1];
@@ -327,7 +328,7 @@ s32 calc_rotated_hex_point__23TObjOnlineEndingHexLineFPvPv(NJS_POINT2 *arg0, End
     p.y = p.y * sc;
     p.x = p.x + ctr.x;
     p.y = p.y + ctr.y;
-    ((TWindowSubSymbolChatPartsSet *)arg0)->copy_vec2(&p);
+    copy_vec2(arg0, &p);
     return 1;
 }
 #pragma pop

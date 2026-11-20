@@ -236,7 +236,6 @@ s32 __ct__9TObjEnemyFP7TObject(void *);
 s32 free_collision_body_parts(void *);
 s32 init_collision_body_parts(void *, void *, int);
 s32 project_actor_to_ground(void *, void *, int);
-void free_if_valid__10TObjPlayerFl(void*);
 s32 __dl__7TObjectFPv(void *);
 s32 vec3_add_to(void *, void *);
 s32 matrix_mult_vec(int, void *, void *);
@@ -1494,7 +1493,7 @@ void TObjPlayer::cleanup_effects() {
         player_effect_bml_resource = 0U;
     }
     if ((u32) TObjPlayer__effect_resource != 0U) {
-        free_if_valid__10TObjPlayerFl((void*)TObjPlayer__effect_resource);
+        TObjPlayer::free_if_valid((s32)TObjPlayer__effect_resource);
         TObjPlayer__effect_resource = 0U;
     }
     TObjPlayer::reset_effect_count();

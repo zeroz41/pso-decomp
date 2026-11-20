@@ -9,6 +9,7 @@
 #include "pso/render/GinjaMaterial.h"
 #include "pso/render/GinjaTexture.h"
 #include "types.h"
+#include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/object/city/CityDoors.h"
 #include "pso/render/render_util.h"
 #include "pso/system/task/TObject.h"
@@ -33,6 +34,7 @@
 #include "pso/math/MatrixVector.h"
 #include "pso/map/TObjMapCsn.h"
 #include "pso/unk/TLobby_80226070.h"
+#include "pso/unk/text_803D853C.h"
 
 
 struct RecoveredGlobal_8018289C_lbl_80443F4C
@@ -173,7 +175,7 @@ void load_city_common_resources(void) {
     city_common_texture_list = (GinjaTextureList *)load_gvm_texture_file((s32)city_common_texture_filename);
 }
 extern "C" {
-void TObjCityDoor_Lobby::render() { if (is_phase_e__9TObjEneDDFPv(this) != 0) { process_lobby_action_14(); } }
+void TObjCityDoor_Lobby::render() { if (check_phase_e(this) != 0) { process_lobby_action_14(); } }
 void TObjCityDoor_Lobby::process_lobby_action_14() {
     if (this->update_object_view_visibility(400.0f, 70.0f) != 0) {
         TObjFish::set_global_param((s32)city_common_texture_list);
@@ -191,7 +193,7 @@ void dispatch_lobby_action__18TObjCityDoor_LobbyFv(s32 arg0);
 void TObjCityDoor_Lobby::run_task() {  }
 void TObjCityDoor_Lobby::dispatch_lobby_action() {
     s32 arg0 = (s32)this;
-    if (is_phase_e__9TObjEneDDFPv((void *)arg0) != 0) {
+    if (check_phase_e((void *)arg0) != 0) {
         ((TObjCityDoor_Lobby *)arg0)->build_door_collision_triangles();
         return;
     }
@@ -202,7 +204,6 @@ void TObjCityDoor_Lobby::dispatch_lobby_action() {
 #pragma fp_contract on
 
 void vec3_add_to(Vec *, Vec *);
-void mult_vec_array__10TObjPlayerFUll(s32, Vec *, Vec *, s32);
 s32 push_matrix(void);
 extern Vec city_door_lobby_collision_vertices[];
 
@@ -243,7 +244,7 @@ s32 TObjCityDoor_Lobby::build_door_collision_triangles() {
         t1 += 2;
         j += 2;
     }
-    mult_vec_array__10TObjPlayerFUll(0, city_door_lobby_collision_vertices, collision_vertices, 10);
+    matrix_mult_vec_array(NULL, (const Vec *)city_door_lobby_collision_vertices, (Vec *)(collision_vertices), 10);
     zero = 0.0f;
     t = collision_faces;
     three = 3.0f;
@@ -271,9 +272,7 @@ s32 TObjCityDoor_Lobby::build_door_collision_triangles() {
 
 Obj_80181F10 *TObjCityDoor_Lobby__ct(Obj_80181F10 *, void *, s32);
 extern void *tl_05;
-int is_phase_e__9TObjEneDDFv(void*);
-
-int is_phase_e__9TObjEneDDFPv(void* p) { return is_phase_e__9TObjEneDDFv(p); }
+int check_phase_e(void *) { return TObjEneDD::is_phase_e(); }
 u8 *TObjCityDoor_Lobby__create(s32 arg0) {
     u8 *temp_r3;
     u8 *var_r0;
@@ -347,7 +346,7 @@ Obj_80181F10 *TObjCityDoor_Lobby__ct(Obj_80181F10 *self, void *parent, s32 arg2)
     self->collision_model.vertex_count = 10;
     self->collision_model.vertices = self->collision_vertices;
     self->x250 = 0;
-    if (is_phase_e__9TObjEneDDFPv(self) != 0) {
+    if (check_phase_e(self) != 0) {
         ((TObjCityDoor_Lobby *)self)->build_door_collision_triangles();
         if (TObjMapCsn::get_collision_controller() != NULL) {
             register_slot(TObjMapCsn::get_collision_controller(), &self->collision_group);

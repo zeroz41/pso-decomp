@@ -15,6 +15,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/system/task/TObject.h"
+#include "pso/enemy/dd/TObjEneDD.h"
 
 
 #pragma readonly_strings on
@@ -65,11 +66,9 @@ f32 vector_length(void *);
 extern s32 __vt__13TBoss6Kakusan[];
 const char *TBoss6Kakusan__name = "TBoss6Kakusan";
 u8 *TBoss6Kakusan__ct(u8 *arg0, TObject *parent, Vec *pos, Vec *dir, u16 target_client, f32 speed);
-s32 query_teammate_state__9TObjEneDDFv();
 }
 void direction_to_rotation_xz(u8 *arg0, s32 *arg1, s32 *arg2);
 extern "C" {
-s32 is_active__14TBoss6PlotFalzFv();
 int TBoss6Kakusan__sub_8032263C(void);
 void vec3_add_to(void *, void *);
 void subtract_vector(void *, void *);
@@ -177,7 +176,7 @@ void TBoss6Kakusan::run_task() {
     f32 speed;
     u8 *pl;
     if (TObjPlayer::check_demo_mode() != 0) return;
-    if (query_teammate_state__9TObjEneDDFv() != 0) return;
+    if (TObjEneDD::query_teammate_state() != 0) return;
     VecCopy((Vec *)&this->m_48, (const Vec *)&this->m_30);
     if ((s8)boss6_kakusan_homing_start_initialized == 0) {
         TBoss6Kakusan__homing_start_frame = 7;
@@ -191,7 +190,7 @@ void TBoss6Kakusan::run_task() {
         speed = vector_length((u8 *)&this->m_3c);
         if (!(speed <= 1e-05f)) {
             pl = (u8 *)get_player_by_client_id(this->m_20);
-            if (is_active__14TBoss6PlotFalzFv() != 0) {
+            if (((TObjPlayer *)pl)->is_active() != 0) {
                 VecCopy((Vec *)&v, (const Vec *)(pl + 0x38));
                 v.y += 10.0f;
                 subtract_vector(&v, (u8 *)&this->m_30);

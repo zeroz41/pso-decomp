@@ -78,7 +78,6 @@ extern BmlResourceDescriptor language_lobby_texture_descriptor;
 extern Pair_80198F14 gogo_ball_team_scores[];
 void bswap_6x79_gogo_ball__12TWindowTimerFi(s32);
 void TObjPlayer__sub_801994DC(s32,void*,void*,s32,void*,f32);
-int TWindowTimer__sub_8019A770(void*);
 f32 xyz_distance(Vec*,void*);
 f32 vector_length(Vec*);
 void normalize_vector(Vec*);
@@ -291,8 +290,6 @@ struct Timer_8019A104 {
 extern "C" {
 void bswap_6x79_gogo_ball__12TWindowTimerFi(s32 arg0);
 void TWindowTimer__sub_8019A6F8(void* p);
-int close_timer_window__11TWindowCtrlFv(void*);
-int TWindowTimer__sub_8019A770(void* p);
 }
 void add_gogo_ball_three_point_score(s32 i);
 void add_gogo_ball_one_point_score(s32 i);
@@ -309,7 +306,7 @@ f32 atan2_float(f32, f32);
 #define gogo_ball_team_scores (*(int (*)[1])&gogo_ball_team_scores)
 #define vector_length ((f32 (*)(void*,f32))vector_length)
 #define xyz_distance ((f32 (*)(void*,void*))xyz_distance)
-int TWindowTimer__sub_8019A770(void* p) { return close_timer_window__11TWindowCtrlFv(p); }
+void TWindowTimer__sub_8019A770() { TWindowCtrl::close_timer_window(); }
 
 void add_gogo_ball_one_point_score(s32 i) {
     ((s32 *)&gogo_ball_team_scores)[i] += 1;
@@ -748,7 +745,6 @@ void draw_shadow_on_ground(u8 *arg0) {
 
 #pragma pop
 
-#define TWindowTimer__sub_8019A770 ((void (*)(void))TWindowTimer__sub_8019A770)
 #define bswap_6x79_gogo_ball__12TWindowTimerFi ((s32 (*)(void))bswap_6x79_gogo_ball__12TWindowTimerFi)
 #define controller_input_state (*(s32 (*)[1])&controller_input_state)
 #define gogo_ball_configuration (*(u8 (*)[1])&gogo_ball_configuration)
@@ -887,7 +883,6 @@ void TUnk_804B8E00::render() {
     (*(G_80199078 *)&gogo_ball_sync_state).flags &= ~0x20;
 }
 
-#undef TWindowTimer__sub_8019A770
 #undef bswap_6x79_gogo_ball__12TWindowTimerFi
 #undef controller_input_state
 #undef gogo_ball_configuration

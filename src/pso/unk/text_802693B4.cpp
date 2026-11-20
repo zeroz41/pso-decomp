@@ -13,12 +13,11 @@ struct Win_80269454 { u8 pad[0x5c]; u32 f5c; u8 pad2[0xc]; f32 f6c; u8 pad3[0xc]
 struct Win_802693B4 { u8 pad[0x6c]; f32 f6c; u8 pad2[0x84 - 0x70]; f32 f84; u8 pad3[4]; u32 count; };
 
 extern "C" {
-s32 is_window_reveal_complete__11TWindowBaseFv();
 
 s32 TWindowMessagePage::is_message_window_ready() {
     Entry_80269454 *e;
     u32 i;
-    if (is_window_reveal_complete__11TWindowBaseFv() == 0) {
+    if (((TWindowBase *)this)->is_window_reveal_complete() == 0) {
         return 0;
     }
     if (((struct Win_802693B4 *)this)->f6c != ((struct Win_802693B4 *)this)->f84) {

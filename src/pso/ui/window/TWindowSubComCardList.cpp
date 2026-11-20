@@ -44,7 +44,6 @@ s32 draw_visible_window_entries(void *, void *, s32);
 s32 draw_list_page_indicator(s32, s32);
 void __dl__7TObjectFPv(void *);
 void *__dt__11TWindowMenuFv(void *arg0, s16 arg1);
-s32 forward_render__20TWindowSubStatusDispFv(s32, s32);
 s32 run_task__11TWindowMenuFv();
 
 void render__21TWindowSubComCardListFv(TWindowSubComCardList *arg0) {
@@ -56,7 +55,7 @@ void render__21TWindowSubComCardListFv(TWindowSubComCardList *arg0) {
     ((TWindowMenu *)arg0)->render_selected_entry(temp_r3);
     arg0->draw_card_list_selection((u8 *)temp_r3);
     if ((u32) arg0->m_88 != 0U) {
-        forward_render__20TWindowSubStatusDispFv(arg0->m_88, temp_r3);
+        ((TWindowSubStatusDisp *)((void *)(arg0->m_88)))->forward_render((void *)(temp_r3));
     }
     if ((u32) arg0->m_8c != 0U) {
         draw_list_page_indicator(arg0->m_8c, temp_r3);

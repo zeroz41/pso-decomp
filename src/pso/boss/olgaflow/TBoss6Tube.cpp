@@ -15,6 +15,7 @@
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/MatrixStack.h"
+#include "pso/enemy/dd/TObjEneDD.h"
 
 const char *boss06_tube_dat_model_names[4] = { "boss06_light01.gj", "boss06_light02.gj", "boss06_tube01.gj", NULL };
 const char *boss06_tube_dat_motion_names[1] = { NULL };
@@ -36,7 +37,6 @@ void TBoss6Tube__sub_802B129C(u8 *arg0);
 s32 TBoss6Tube__previous_scroll_phase;
 f32 TBoss6Tube__scroll_delta;
 void get_bml_model(s32, s32);
-s32 query_teammate_state__9TObjEneDDFv(void);
 void draw_ginja_object(void);
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
 
@@ -48,7 +48,7 @@ void TBoss6Tube::render() {
     f32 start;
     f32 y;
     s32 i;
-    if (query_teammate_state__9TObjEneDDFv() != 0) {
+    if (TObjEneDD::query_teammate_state() != 0) {
         return;
     }
     mode = 0;
@@ -163,11 +163,10 @@ void TBoss6Tube::update_timer() {
     }
 }
 
-s32 query_teammate_state__9TObjEneDDFv();
 
 void TBoss6Tube::run_task() {
 
-    if ((TBoss6EmptyWarp__sub_802B1018() == 0) && (query_teammate_state__9TObjEneDDFv() == 0)) {
+    if ((TBoss6EmptyWarp__sub_802B1018() == 0) && (TObjEneDD::query_teammate_state() == 0)) {
         switch (this->m_1c) {
         case 0:
             update_timer();

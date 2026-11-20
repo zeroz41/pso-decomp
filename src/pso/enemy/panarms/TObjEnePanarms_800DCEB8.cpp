@@ -197,7 +197,6 @@ f32 atan2_float(f32 y, f32 x);
 s32 approach_angle_limited(s32, s32, s32);
 f32 vector_length(void *);
 void TObjEnePanarms__sub_800E1D38(void *arg0);
-s32 refresh_lobby_state__10TObjPlayerFv();
 s32 TObjEnePanarms__sub_800DE528(void *arg0, Vec *arg1);
 s32 subtract_vector(void *, void *);
 s32 normalize_vector(void *);
@@ -898,7 +897,7 @@ void TObjEnePanarms::enter_dead() {
     s16 st;
     Vec v;
     this->m_388 = 0xA4;
-    refresh_lobby_state__10TObjPlayerFv();
+    ((TObjPlayer *)this)->refresh_lobby_state();
     this->send_entity_set_flags();
     st = 5;
     if (find_nearest_visible_player(this, &v.x, 200.0f) != 0xFFFF) {

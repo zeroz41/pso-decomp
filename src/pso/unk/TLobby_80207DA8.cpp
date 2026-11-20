@@ -273,13 +273,12 @@ FloorSceneEntry floor_scene_table[36] = { { lbl_804C90E0, 1 }, { lbl_804C90E8, 1
 const char *forest_rel_filename_table[6] = { "SetDataTableOff.rel", "SetDataTableOffUlti.rel", "SetDataTableOn.rel", "SetDataTableOnUlti.rel", "SetDataTable_TGS2001.rel", 0 };
 s32 get_floor_scene_table(s32 arg0);
 extern "C" {
-void reset_story_select__6TLobbyFv(void);
 void TLobby__sub_80207E44(void);
-int copy_table_entries__6TLobbyFUl(void*, s32);
+
 void randomize_adventure_maps(void);
 
     extern int story_select_pending_state;
-void reset_story_select__6TLobbyFv(void) { TAdStorySelectGC::set_state((s32)((void*)0)); story_select_pending_state = -1; }
+void TLobby::reset_story_select() { TAdStorySelectGC::set_state((s32)((void*)0)); story_select_pending_state = -1; }
 
 s32 TLobby::is_scene_ready() {
     s32 temp_r3;
@@ -293,7 +292,7 @@ s32 TLobby::is_scene_ready() {
     }
     return 0;
 }
-int TLobby__sub_80207E24(void* p, s32 size) { return copy_table_entries__6TLobbyFUl(p, size); }
+void TLobby__sub_80207E24(void* p, s32 size) { ((TLobby *)p)->copy_table_entries(size); }
 void TLobby__sub_80207E44(void) {  }
 void TLobby__sub_80207E48(void) { randomize_adventure_maps(); }
 }
@@ -312,8 +311,8 @@ s32 get_floor_scene_table(s32 arg0) {
 extern "C" {
 
 
-int TLobby::reset_story_select(void* p) { return ((int (*)(void*))reset_story_select__6TLobbyFv)(p); }
-void TLobby__sub_80207F10(void) { reset_story_select__6TLobbyFv(); }
+void TLobby::reset_story_select(void* p) { TLobby::reset_story_select(); }
+void TLobby__sub_80207F10(void) { TLobby::reset_story_select(); }
 }
 
 struct R_80207F30 { s16 a; s16 b; u16 c; };
@@ -381,7 +380,7 @@ s32 run_floor_initialize_callbacks(s32 arg0) {
     return 1;
 }
 
-void TLobby::update_key_machine() { get_current_floor_area(); ((int (*)(void))run_floor_initialize_callbacks)(); }
+s32 TLobby::update_key_machine() { get_current_floor_area(); return ((int (*)(void))run_floor_initialize_callbacks)(); }
 void bswap_enemy_set_row(void *arg0) {
     ((s32 (*)(s32))bswap_16__FPUs)((s32)arg0);
     bswap_enemy_set_row_fields((void *)((void *)((char *)arg0 + 4)));

@@ -57,7 +57,6 @@ s16 count_nearby_players_with_shield__10TObjPlayerFUsPUc(u16, s8 *);
 
 TParticleCtrl *create_particle_emitter(const void *pos, s32 id);
 int get_item_field_6__10TObjPlayerFPv(void *p);
-u8 get_item_group__5TItemFv();
 void play_sound_effect(s32, void *, s32, s32);
 void run_task__14TItemEffShieldFv(Shield_8010A4C0 *self);
 }
@@ -184,7 +183,7 @@ void TUnk_8049F148::run_task() {
         temp_r3_3 = get_item_field_6__10TObjPlayerFPv(player);
         if ((u32) *(u32 *)&this->unk_1C != 0U) {
             s32 var_r30 = 0;
-            if ((temp_r3_3 != 0U) && (get_item_group__5TItemFv() == 0x1A)) {
+            if ((temp_r3_3 != 0U) && (((TItem *)temp_r3_3)->get_item_group() == 0x1A)) {
                 var_r30 = 1;
             }
             if (var_r30 != 0) {

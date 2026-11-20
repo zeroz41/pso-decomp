@@ -144,7 +144,7 @@ TBoss6DPB::~TBoss6DPB() {}
 extern "C" {
 void TBoss6DPB::run_task() {
     u8 *arg0 = (u8 *)this;
-    if (((TObjEneDD *)arg0)->query_teammate_state() == 0) {
+    if (TObjEneDD::query_teammate_state() == 0) {
         *(s32 *)((s8 *)arg0 + 0x30) = (s32) (*(s32 *)((s8 *)arg0 + 0x30) + 1);
         if ((f32) *(s32 *)((s8 *)arg0 + 0x30) > 5.0f) {
             ((TBoss6DPB *)arg0)->apply_shower_damage_to_players();
@@ -170,7 +170,7 @@ void TBoss6DPB::apply_shower_damage_to_players() {
     n = TLobby::get_game_mode();
     for (i = 0; i < n; i++) {
         pl = (Pl_8035D924 *)TObjPlayer::get_player_data(i);
-        if (((TBoss6PlotFalz *)pl)->is_active() != 0) {
+        if (((TObjPlayer *)pl)->is_active() != 0) {
             VecCopy((Vec *)&v, (const Vec *)((u8 *)pl + 0x38));
             subtract_vector(&v, &arg0->pos);
             v.y = 0.0f;
@@ -232,7 +232,7 @@ TDPBShower::~TDPBShower() {
 }
 
 void TDPBShower::run_task() {
-    if (((TObjEneDD *)this)->query_teammate_state() == 0) {
+    if (TObjEneDD::query_teammate_state() == 0) {
         m_position[1] += -60.0f;
         if (m_2c != NULL) {
             ((TParticleCtrl *)m_2c)->set_position(m_position);

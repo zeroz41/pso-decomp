@@ -64,7 +64,6 @@ int forward_trade_action_default__16TObjCityMainWarpFPviii(void*, void*, void*, 
 u32 __nw__7TObjectFUl(int);
 
 s32 get_card_file_info__15TAdPlayerLoadGCFiPvPv(int, void *, int);
-s32 query_memcard_capacity__15TAdPlayerLoadGCFl(int, int);
 extern char pso_guildcard_card_filename[];
 extern char pso_character_card_filename[];
 s32 start_memcard_read(s32, void *, u32, s32);
@@ -218,7 +217,7 @@ void TAdSinglePlyChrSelectGC::check_memcard_space() {
     case -1:
         break;
     default:
-        if (arg0->flag_count <= query_memcard_capacity__15TAdPlayerLoadGCFl(arg0->chr_select_state, 0)) {
+        if (arg0->flag_count <= (s32)TAdPlayerLoadGC::query_memcard_capacity(arg0->chr_select_state, 0)) {
             arg0->state = 7;
         } else {
             arg0->state = 0xA;

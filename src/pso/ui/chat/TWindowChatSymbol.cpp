@@ -62,7 +62,6 @@ struct SymbolChatSpriteLayout {
     SpritePartLayoutRecord recs[25];
 };
 
-u8 * draw_default_entry__9TWindowDDFl();
 void fn_80248324(Ctl_80248324 *c, s32 arg1, s32 arg2);
 s32 draw_visible_window_entries(void *, void *, void *, f32, f32, f32);
 s32 init_window_layout_entries(void *, void *, void *);
@@ -193,8 +192,8 @@ void TWindowSubSymbolChatPartsSet::set_part_sprite(void *arg0, s16 id, s32 a, s3
 #undef o
 #pragma pop
 
-void TWindowSubSymbolChatPartsSet::get_entry_offset_d(s32 arg1) {
-    this->get_array_entry(arg1 + 0xD);
+u16 *TWindowSubSymbolChatPartsSet::get_entry_offset_d(s32 arg1) {
+    return (u16 *)this->get_array_entry(arg1 + 0xD);
 }
 
 void apply_part_to_window__28TWindowSubSymbolChatPartsSetFPvPvi(Obj_80248088 *arg0, Part_80248088 *arg1, s32 arg2) {
@@ -250,12 +249,12 @@ void TWindowSubSymbolChatPartsSet__sub_802482B8(s32 arg0, s32 arg1) {
     ((TWindowBase *)arg0)->get_array_entry(arg1 + 0x1);
 }
 
-void TWindowSubSymbolChatPartsSet::get_parts_entry(s32 arg1) {
-    this->get_array_entry(arg1 + 9);
+u16 *TWindowSubSymbolChatPartsSet::get_parts_entry(s32 arg1) {
+    return (u16 *)this->get_array_entry(arg1 + 9);
 }
 
-void get_parts_entry__28TWindowSubSymbolChatPartsSetFii(s32 arg0, s32 arg1) {
-    ((TWindowBase *)arg0)->get_array_entry(arg1 + 5);
+u16 *TWindowSubSymbolChatPartsSet::get_parts_entry(int arg0, int arg1) {
+    return (u16 *)((TWindowBase *)arg0)->get_array_entry(arg1 + 5);
 }
 
 void fn_80248324(Ctl_80248324 *c, s32 arg1, s32 cur) {
@@ -332,7 +331,7 @@ void render__17TWindowChatSymbolFv(u8 *window_chat_symbol) {
     f32 temp_f2;
     u8 *c_arg;
 
-    c_arg = draw_default_entry__9TWindowDDFl();
+    c_arg = (u8 *)TWindowDD::draw_default_entry((s32)window_chat_symbol);
     if ((s32) *(s32 *)((s8 *)c_arg + 0x30) < 0) {
         *(f32 *)((s8 *)c_arg + 0x28) = (f32) ((f32) *(s32 *)&((TWindowChatSymbol *)window_chat_symbol)->m_5c / 7.5f);
         *(f32 *)((s8 *)c_arg + 0x2C) = (f32) *(f32 *)((s8 *)c_arg + 0x28);

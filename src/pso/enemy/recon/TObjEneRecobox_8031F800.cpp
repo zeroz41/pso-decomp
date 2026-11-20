@@ -164,7 +164,6 @@ void remove_tracked_target__12TObjEneReconFPvPv(Obj_8031EFAC *o, u8 *target);
 
 s32 is_anim_5__12TObjEneReconFv();
 
-s32 refresh_lobby_state__10TObjPlayerFv();
 
 
 
@@ -284,7 +283,6 @@ u32 create__12TObjEneReconFPvPvPvPvPv(void *, u16, s32, Vec *, Vec *);
 
 s32 remap_area_sound_id__14TObjEneRecoboxFUl(s32, s32, s32);
 
-Vec *get_field_38_ptr__12TObjEneReconFv(void *, s32);
 
 
 }
@@ -1029,7 +1027,7 @@ void TObjEneRecon::update_child_spawn() {
     }
     id = ((TObjEneRecon *)o)->alloc_child_id();
     arg = o->f2C + (id - o->f1C);
-    VecCopy((Vec *)&pos, (const Vec *)(get_field_38_ptr__12TObjEneReconFv(o, o->f2C)));
+    VecCopy((Vec *)&pos, (const Vec *)(((TObjEneRecon *)o)->get_field_38_ptr()));
     if (id == 0xFFFF) {
         o->f414 = o->f3F4;
         return;
@@ -1207,7 +1205,7 @@ void TObjEneRecon__sub_8031F408(void *ene_dd, s32 arg1) {
 void TObjEneRecon::handle_death_state(s32 arg1) {
     switch (arg1) {
     case 4:
-        refresh_lobby_state__10TObjPlayerFv();
+        ((TObjPlayer *)this)->refresh_lobby_state();
         *(s32 *)&this->m_428 = (s32) (*(s32 *)&this->m_428 | 1);
         TObjEneRecobox__sub_8031F1A8(this);
         this->vfunc_95();

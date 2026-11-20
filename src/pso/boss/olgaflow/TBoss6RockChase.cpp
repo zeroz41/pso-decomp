@@ -21,6 +21,7 @@ extern "C" void *__ct__14TObjCollidableFP7TObject(void *, s32);
 #include "pso/boss/olgaflow/TBoss6PlotFalz.h"
 #include "pso/unk/TLobby.h"
 #include "pso/object/ambient/TObjFish.h"
+#include "pso/enemy/dd/TObjEneDD.h"
 
 struct Stack_8036D6D4 {
     s32 sp8;
@@ -89,8 +90,6 @@ __declspec(section ".rodata") RecoveredGlobal_8036D4E0_lbl_8047ACE8 boss6_rock_c
 };
 extern s32 __vt__15TBoss6RockChase[];
 const char *TBoss6RockChase__name = TBoss6RockChase__class_name_string;
-s32 query_teammate_state__9TObjEneDDFv(void);
-Param_8036D1B4 *dispatch_shared_handler_a__6TLobbyFl(s32);
 f32 vector_length(void *);
 int subtract_vector(void *, void *);
 extern RecoveredGlobal_8036D4E0_lbl_8047ACE8 boss6_rock_chase_model_radius_table;
@@ -115,13 +114,13 @@ s32 TBoss6RockChase::damage_players_in_range() {
         Ent_8036D1B4 *tbl = (Ent_8036D1B4 *)&boss6_rock_chase_model_radius_table;
         range = tbl[self->xB0].range;
     }
-    dmg = dispatch_shared_handler_a__6TLobbyFl(0x2C)->v;
+    dmg = ((Param_8036D1B4 *)TLobby::dispatch_shared_handler_a(0x2C))->v;
     if (dmg < 1) {
         dmg = 20;
     }
     for (i = 0; i < n; i++) {
         pl = (Player_8036D1B4 *)TObjPlayer::get_player_data(i);
-        if (((TBoss6PlotFalz *)pl)->is_active() != 0) {
+        if (((TObjPlayer *)pl)->is_active() != 0) {
             VecCopy((Vec *)&d, (const Vec *)&pl->pos);
             subtract_vector(&d, &self->pos);
             d.y = 0.0f;
@@ -146,7 +145,7 @@ void TBoss6RockChase::render() { push_matrix(this); post_translate_matrix((char*
 void TBoss6RockChase::run_task() {
     u8 *arg0 = (u8 *)this;
     s32 temp_r3;
-    if (query_teammate_state__9TObjEneDDFv() == 0) {
+    if (TObjEneDD::query_teammate_state() == 0) {
         temp_r3 = this->m_b4;
         if (temp_r3 > 0) {
             this->m_b4 = (temp_r3 - 1);
@@ -202,14 +201,14 @@ u8 *TBoss6RockChase__ct(TBoss6RockChase *boss6_rock_chase, s32 arg1, s32 arg2, s
 }
 #pragma pop
 
-s32 TBoss6RockChase::spawn(s32 arg0, s32 arg1) {
+TBoss6RockChase *TBoss6RockChase::spawn(TObject *parent, const Vec *position) {
     typedef char sp8_offset[(offsetof(Stack_8036D6D4, sp8) == 0x0) ? 1 : -1];
     typedef char spC_offset[(offsetof(Stack_8036D6D4, spC) == 0x4) ? 1 : -1];
     Stack_8036D6D4 stack;
     s32 boss6_rock_chase;
     s32 var_r0;
     s32 var_r31;
-    VecCopy((Vec *)(&stack.sp8), (const Vec *)(arg1));
+    VecCopy((Vec *)(&stack.sp8), position);
     var_r31 = 0;
     stack.spC = 450.0f;
     if ((3.0517578e-05f * (f32) rand()) < 0.5f) {
@@ -218,8 +217,8 @@ s32 TBoss6RockChase::spawn(s32 arg0, s32 arg1) {
     boss6_rock_chase = __nw__7TObjectFUl(0xC8);
     var_r0 = boss6_rock_chase;
     if (var_r0 != 0) {
-        var_r0 = ((s32)TBoss6RockChase__ct((TBoss6RockChase *)((u8 *)boss6_rock_chase), (s32)arg0, (s32)((void *)&stack.sp8), (s32)var_r31));
+        var_r0 = ((s32)TBoss6RockChase__ct((TBoss6RockChase *)((u8 *)boss6_rock_chase), (s32)parent, (s32)((void *)&stack.sp8), (s32)var_r31));
     }
-    return var_r0;
+    return (TBoss6RockChase *)var_r0;
 }
 

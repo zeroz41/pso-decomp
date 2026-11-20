@@ -14,7 +14,7 @@ public:
     static void operator delete(void *p);
     void apply_particle_model_fade_color(s32);
     void draw_particle_refraction_quad();
-    s32 is_particle_sprite_additive();
+    s32 is_particle_sprite_additive(s32 render_flags);
     u16 sprite_index;          // 0x1C, index into the particle sprite table
     u8 pad_1e[0x2];
     ParticleParam *param;      // 0x20

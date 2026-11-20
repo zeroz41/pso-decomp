@@ -10,7 +10,6 @@ struct Ctrl_8024B1A0 { u8 pad[0x1C]; u16 flags; };
 struct Win_8024B1A0 { u8 pad[0x40]; f32 x; f32 y; f32 w; f32 h; };
 
 extern "C" {
-s32 get_flag_bit1__13TUnk_804CF0B8Fv();
 extern Ctrl_8024B1A0 *TWindowCtrl__active_window;
 extern const f32 lbl_805DCBE0;
 extern const f32 lbl_805DCBE4;
@@ -30,7 +29,7 @@ s8 TUnk_804CF0B8::alloc_nearest_free_slot() {
     if (TWindowCtrl__active_window == NULL) {
         return 0;
     }
-    if (get_flag_bit1__13TUnk_804CF0B8Fv() != 0) {
+    if (get_flag_bit1() != 0) {
         TWindowCtrl__active_window->flags |= 0x200;
         return 3;
     }
@@ -64,7 +63,7 @@ s8 TUnk_804CF0B8::alloc_nearest_free_slot() {
 }
 #pragma pop
 
-void TWindowCtrl::set_field28(s16 arg0) {
+void TWindowCtrl::set_field28(u16 arg0) {
     if ((void *) (*(void * *)&TWindowCtrl__active_window) != NULL) {
         *(s16 *)((s8 *)(*(void * *)&TWindowCtrl__active_window) + 0x28) = arg0;
     }

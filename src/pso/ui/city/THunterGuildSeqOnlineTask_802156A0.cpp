@@ -208,7 +208,7 @@ bool TLobby::is_slot_match() {
 s32 is_slot_match__6TLobbyFv();
 
 
-void update_all__6TLobbyFi(s32 arg0) {
+void update_item_appraisal(s32 arg0) {
     if ((u32) item_appraisal_rules != 0U) {
         item_appraisal_score = 0;
         item_appraisal_favored_weapon = is_slot_match__6TLobbyFv();

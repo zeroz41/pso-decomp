@@ -1,3 +1,4 @@
+#include "pso/unk/TLobby_80228C84.h"
 #include "types.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
@@ -44,7 +45,6 @@ struct Pair_802D26C8 { Half_802D26C8 h[2]; };
 
 extern "C" {
 s32 get_shared_text_buffer();
-s32 refresh_player_status__6TLobbyFv(s32);
 s32 text_builder_append();
 }
 void text_builder_reset(void);
@@ -156,7 +156,7 @@ void TLobby::update_trade_proposal_state() {
 #pragma scheduling off
 s32 TLobby__sub_802D268C(void) {
     text_builder_reset();
-    ((TLobby *)TLobby__trade_partner_client_id)->refresh_player_status();
+    refresh_player_status(TLobby__trade_partner_client_id);
     TWindowSubStatusDisp::get_message_10(0xF6);
     text_builder_append();
     return get_shared_text_buffer();
@@ -380,10 +380,8 @@ typedef struct S_802D2BC0 {
 } S_802D2BC0;
 
 extern "C" {
-s32 byteswap_trade_packet__6TLobbyFv();
 
 void handle_trade_received_items(S_802D2BC0 *arg0);
-s32 get_message_10__20TWindowSubStatusDispFl(s32);
 
 void TLobby::handle_reset_choice(s32 arg0) {
     if ((s8) TLobby__trade_proposal_state != 0) {
@@ -421,7 +419,7 @@ void handle_6xA6_modify_trade_proposal(u8 *arg0) {
     s32 (*temp_r12)(void *);
     u16 temp_r3;
     u8 temp_r5;
-    byteswap_trade_packet__6TLobbyFv();
+    ((TLobby *)arg0)->byteswap_trade_packet();
     temp_r3 = *(u16 *)((s8 *)arg0 + 2);
     if ((temp_r3 < 4U) && (temp_r5 = *(u8 *)((s8 *)arg0 + 4), ((temp_r5 < 8U) != 0))) {
         if ((TLobby__trade_partner_client_id != 4) && ((s32) temp_r3 != TLobby__trade_partner_client_id)) {
@@ -485,11 +483,11 @@ struct VObj_802D2E28_0x30_802D2B64 {
 
 s32 format_trade_out_of_range_message(s32 arg0) {
     if ((s32) local_client_id == arg0) {
-        return ((s32 (*)(s32))get_message_10__20TWindowSubStatusDispFl)(0xF0);
+        return (s32)TWindowSubStatusDisp::get_message_10(0xF0);
     }
     text_builder_reset();
-    ((TLobby *)arg0)->refresh_player_status();
-    ((s32 (*)(s32))get_message_10__20TWindowSubStatusDispFl)(0xEF);
+    refresh_player_status(arg0);
+    (s32)TWindowSubStatusDisp::get_message_10(0xEF);
     text_builder_append();
     return get_shared_text_buffer();
 }
@@ -502,11 +500,11 @@ s32 TLobby::show_event_message(s32 arg0, s32 arg1, s32 arg2) {
         return 0;
     case 1:
         if (arg0 == (s32) local_client_id) {
-            return ((s32 (*)(s32))get_message_10__20TWindowSubStatusDispFl)(0xF4);
+            return (s32)TWindowSubStatusDisp::get_message_10(0xF4);
         }
         text_builder_reset();
-        ((TLobby *)arg0)->refresh_player_status();
-        ((s32 (*)(s32))get_message_10__20TWindowSubStatusDispFl)(0xEA);
+        refresh_player_status(arg0);
+        (s32)TWindowSubStatusDisp::get_message_10(0xEA);
         text_builder_append();
         return get_shared_text_buffer();
     case 2:
@@ -516,29 +514,29 @@ s32 TLobby::show_event_message(s32 arg0, s32 arg1, s32 arg2) {
         }
         text_builder_reset();
         if (arg0 == (s32) local_client_id) {
-            ((s32 (*)(s32))get_message_10__20TWindowSubStatusDispFl)(0xF3);
+            (s32)TWindowSubStatusDisp::get_message_10(0xF3);
             text_builder_append();
         } else {
-            ((TLobby *)arg0)->refresh_player_status();
-            ((s32 (*)(s32))get_message_10__20TWindowSubStatusDispFl)(0xE8);
+            refresh_player_status(arg0);
+            (s32)TWindowSubStatusDisp::get_message_10(0xE8);
             text_builder_append();
         }
         ((VObj_802D2E28_0x30_802D2B64 *)item)->vma();
         text_builder_append();
-        ((s32 (*)(s32))get_message_10__20TWindowSubStatusDispFl)(0xE9);
+        (s32)TWindowSubStatusDisp::get_message_10(0xE9);
         text_builder_append();
         return get_shared_text_buffer();
     case 3:
         if (arg0 == (s32) local_client_id) {
-            return ((s32 (*)(s32))get_message_10__20TWindowSubStatusDispFl)(0xF2);
+            return (s32)TWindowSubStatusDisp::get_message_10(0xF2);
         }
         text_builder_reset();
-        ((TLobby *)arg0)->refresh_player_status();
-        ((s32 (*)(s32))get_message_10__20TWindowSubStatusDispFl)(0xE7);
+        refresh_player_status(arg0);
+        (s32)TWindowSubStatusDisp::get_message_10(0xE7);
         text_builder_append();
         return get_shared_text_buffer();
     case 4:
-        return ((s32 (*)(s32))get_message_10__20TWindowSubStatusDispFl)(0xEE);
+        return (s32)TWindowSubStatusDisp::get_message_10(0xEE);
     default:
         return 0;
     }
@@ -692,7 +690,7 @@ void TLobby::send_trade_proposal_result(s8 arg0, s8 arg1) {
   ((TLobby *)(&packet.header))->prepare_and_send_trade_packet((void *)((s32) new_var));
 }
 
-void send_modify_trade_proposal__6TLobbyFi(s32 arg0) {
+void send_6xA6_modify_trade_proposal(s32 arg0) {
     G_ModifyTradeProposal_6xA6 packet;
     TObjPlayer *player;
     u8 *temp_r3_2;
@@ -745,7 +743,7 @@ void handle_trade_partner_cancel(void *arg0) {
     switch (*(u8 *)((s8 *)arg0 + 5)) {
     case 4:
         text_builder_reset();
-        ((TLobby *)TLobby__trade_partner_client_id)->refresh_player_status();
+        refresh_player_status(TLobby__trade_partner_client_id);
         TWindowSubStatusDisp::get_message_10(0xED);
         text_builder_append();
         reset__6TLobbyFi(get_shared_text_buffer());
@@ -896,7 +894,7 @@ void update_status_message__6TLobbyFPv(O_802D368C *self) {
     switch (self->state) {
     case 0:
         text_builder_reset();
-        ((s32 (*)(int))refresh_player_status__6TLobbyFv)(TLobby__trade_partner_client_id);
+        refresh_player_status(TLobby__trade_partner_client_id);
         TWindowSubStatusDisp::get_message_10(0xF1);
         text_builder_append();
         ((s32 (*)())get_shared_text_buffer)();
@@ -917,7 +915,7 @@ void handle_trade_request_reply(void *arg0) {
         return;
     case 3:
         text_builder_reset();
-        ((s32 (*)(int))refresh_player_status__6TLobbyFv)(TLobby__trade_partner_client_id);
+        refresh_player_status(TLobby__trade_partner_client_id);
         TWindowSubStatusDisp::get_message_10(0xD8);
         text_builder_append();
         ((s32 (*)())get_shared_text_buffer)();

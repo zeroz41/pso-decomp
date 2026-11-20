@@ -140,7 +140,7 @@ extern "C" {
 u32 obj_getArrWord_254(LockOnEnemyView *, s32);
 s16 obj_getS16_2BA(LockOnEnemyView *);
 u16 get_entity_id(void *);
-void refresh_status_display__9TWindowDDFv(void *);
+void measure_message_text_width_default(void *);
 void init_window_layout_entries(void *, void *, int);
 s32 draw_visible_window_entries(void *, void *, int);
 s32 get_window_layout_position(int);
@@ -191,7 +191,7 @@ void TWindowLockOn::run_task() {
 void TWindowLockOn::render() {
     s32 context;
 
-    context = setup_window_draw_context((s32)&m_68);
+    context = setup_window_draw_context((f32 *)&m_68);
     draw_window_frame((void *)context);
     if (m_30 == m_40 && m_34 == m_44 && m_38 == m_48 && m_3c == m_4c) {
         draw_visible_window_entries(this, &m_24, context);
@@ -262,7 +262,7 @@ void TWindowLockOn::update_for_other_player(TObjCollidable *player) {
     id = get_entity_id(player);
     ((TWindowLockOn *)w)->update_for_player_index(id);
     ((TWindowHelpItem *)w)->reset_float_field();
-    refresh_status_display__9TWindowDDFv(w);
+    measure_message_text_width_default(w);
     m_38 = 34.0f + w->w;
     m_3c = 49.0f;
     m_38 += 28.0f;

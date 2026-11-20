@@ -7,7 +7,7 @@
 struct TPlyPhotonChair : public TObjBase {
     virtual ~TPlyPhotonChair();
     u16 sub_8035B530();
-    s8 get_actor_section_id();
+    s32 get_actor_section_id();
     u8 unk_90[0x2];
     u16 m_92;
     u32 m_94;

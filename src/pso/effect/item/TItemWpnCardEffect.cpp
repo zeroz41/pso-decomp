@@ -39,7 +39,6 @@ u8 *create_guardianna(u8 *item);
 const char *item_wpn_card_effect_class_name = "TItemWpnCardEffect";
 
 extern "C" {
-s32 all_parents_unqueued_for_destruction__7TObjectFv();
 s32 rotate_matrix_y(int, int);
 s32 push_matrix();
 s32 pop_matrix();
@@ -68,7 +67,6 @@ void *spawn_particle_effect_with_rotation(void *pos, void *dir, s32 id, int e);
 void *spawn_particle_effect(const void *pos, s32 id);
 
 void *find_entity_by_id(u16 id);
-s8 get_mode__5TItemFv();
 
 
 #pragma push
@@ -188,11 +186,12 @@ TUnk_804EDD44::~TUnk_804EDD44() {
 void TUnk_804EDD44::run_task() {
     s32 i;
     u8 *arg0 = (u8 *)this;
-    if (find_item_by_id(((TUnk_804EDD44 *)arg0)->m_60) == 0U) {
+    TItem *card = (TItem *)find_item_by_id(((TUnk_804EDD44 *)arg0)->m_60);
+    if (card == NULL) {
         ((TObject *)arg0)->queue_destruction();
         return;
     }
-    if (get_mode__5TItemFv() != 2) {
+    if (card->get_mode() != 2) {
         ((TObject *)arg0)->queue_destruction();
         return;
     }
@@ -315,7 +314,7 @@ void TUnk_804EDD20::render() {
   u8 *var_r29;
   var_f0 = (-1.0f);
   var_r29 = (u8 *) this;
-  if ((!((this->m_80) <= var_f0)) && (all_parents_unqueued_for_destruction__7TObjectFv() != 0))
+  if ((!((this->m_80) <= var_f0)) && ((s32)this->all_parents_unqueued_for_destruction() != 0))
   {
     id = (s32 *) (*((s32 **) (((s8 *) var_r29) + 0x60)));
     equipped_item = (s32 *) find_equipped_item((s32)id);

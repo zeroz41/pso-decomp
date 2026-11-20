@@ -273,7 +273,7 @@ void TParticleCtrl::mark_active() {
     request_indirect_effect(0x1F);
 }
 
-s32 TUnk_8048E728::is_particle_sprite_additive() {
+s32 TUnk_8048E728::is_particle_sprite_additive(s32) {
     return TParticleCtrl__data_80511F70[sprite_index]->definition->flags & 1;
 }
 

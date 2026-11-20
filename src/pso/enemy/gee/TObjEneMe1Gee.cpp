@@ -134,7 +134,6 @@ extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 extern const f32 lbl_805D9E84;
 extern const f32 lbl_805D9E88;
-void get_camera_ctrl__9TObjEneDDFv(s32, s32);
 u32 vfunc_101__9TObjEneDDFPUc();
 s32 collect_enemy_target_candidates(void *, TargetCandidate *, f32);
 s32 pack_debug_text_position(s32, s32);
@@ -1768,12 +1767,12 @@ void TObjEneMe1Gee::advance_camera_ctrl_step() {
     case 4:
         pos = gee_camera_ctrl_step_ptr;
         gee_camera_ctrl_step_ptr = pos + 0xC;
-        get_camera_ctrl__9TObjEneDDFv((s32)gee_camera_ctrl_vec, pos);
+        forward_transform_to_view((const Vec *)gee_camera_ctrl_vec, (Vec *)pos);
         break;
     case 7:
         temp_r4_2 = gee_camera_ctrl_step_ptr;
         gee_camera_ctrl_step_ptr = temp_r4_2 + 0xC;
-        get_camera_ctrl__9TObjEneDDFv((s32)gee_camera_ctrl_vec, temp_r4_2);
+        forward_transform_to_view((const Vec *)gee_camera_ctrl_vec, (Vec *)temp_r4_2);
         break;
     }
     TObjEneMe1Gee__render_node_index += 1;

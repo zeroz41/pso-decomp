@@ -42,6 +42,7 @@
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/enemy/berura/TObjEneRe7BeruraPunch.h"
+#include "pso/system/task/TMainTask.h"
 // .rodata holds the table strings, the class name, the 803350AC binding template, then the Vecs in
 // reverse .text order and the doubles in .text order: deferred codegen, functions written last to first.
 #pragma defer_codegen on
@@ -426,10 +427,8 @@ struct D_80333290 { u8 pad0[0x1C]; s32 f1C; u8 pad20[4]; s32 f24; s32 f28; };
 
 extern "C" {
 f32 atan2_float(f32, f32);
-s32 update_linked_position__12TObjEneDD_STFf(f32);
 extern int TObjEneMorfos__param_table;
 void TObjEneMorfos__sub_80333AD0(u8 *arg0, s32 arg1);
-s32 get_flag_b4__9TObjEneDDFv();
 s32 play_sound_effect(s32, u32, s16, s32);
 void TObjEneMorfos__sub_80333690(TObjEneMorfos *arg0, s32 arg1);
 s32 enemy_validate_retained_target(u8 *arg0);
@@ -648,17 +647,13 @@ struct VObj_14_c1c33b : VBase_14_c1c33b {
     virtual s32 m4();
 };
 
-f32 receive_physical_attack__9TObjCharaFPvf(void *, void *, f32);
 u16 get_entity_id(void *);
 void free_bin_model_request(void*, int);
-s32 get_mode__11TCameraCtrlFPv(void *);
 s32 TObjPlayer__sub_800A04F0(void *);
 void TObjPlayer__sub_800A0554(void *);
 void *__dt__13TUnk_80490470Fv(void *arg0, s16 arg1);
 void enemy_set_target_id(void *, u16);
 void *__dt__12TObjEneDD_STFv(void *arg0, s16 arg1);
-s32 get_camera_ctrl__9TObjEneDDFv(void *, int);
-s32 clear_attack_receipts__9TObjEneDDFv();
 void *__dt__13TUnk_80494938Fv(void *arg0, s16 arg1);
 s32 angle_difference_abs(s32, s32);
 s32 angle_diff_s16(s32);
@@ -791,7 +786,6 @@ extern s32 lbl_805D6D28;
 extern s32 lbl_805D6D2C;
 extern float morfos_projectile_speed;
 extern float morfos_param_table_speed_copy;
-extern void *tl_04;
 
 
 void *lbl_804EE0C0[7] = {
@@ -1185,10 +1179,10 @@ f32 TObjEneMorfos__vt20(Obj_80334A4C *arg0, Obj_80334A4C *att, f32 scale) {
         } else {
             arg0->f3C0 &= ~0x10;
             arg0->f3C0 |= 0x20;
-            ret = receive_physical_attack__9TObjCharaFPvf(arg0, att, scale);
+            ret = ((TObjChara *)arg0)->TObjChara::receive_physical_attack(att, scale);
         }
     } else {
-        ret = receive_physical_attack__9TObjCharaFPvf(arg0, att, scale);
+        ret = ((TObjChara *)arg0)->TObjChara::receive_physical_attack(att, scale);
     }
     return ret;
 }
@@ -1427,7 +1421,7 @@ void TObjEneMorfos::state_appear(s32 arg1) {
     case 0:
         switch (*(s32 *)((s8 *)this + 0x4B0)) {
         case 0:
-            if (update_linked_position__12TObjEneDD_STFf(400.0f) != 0) {
+            if (update_linked_position(400.0f) != 0) {
                 *(s32 *)((s8 *)this + 0x4B0) = 1;
                 enemy_copy_target_destination();
                 update_velocity();
@@ -1468,7 +1462,7 @@ void TObjEneMorfos__sub_80334030(u8 *ene_dd, s32 arg1) {
         ((VObj_14_2f517b *)(ene_dd + (1032)))->m2();
         return;
     case 3:
-        if (update_linked_position__12TObjEneDD_STFf(400.0f) != 0) {
+        if (((TObjEneDD_ST *)ene_dd)->update_linked_position(400.0f) != 0) {
             ((TObjEneDD *)ene_dd)->transition_enemy_state((s32)1);
         }
     case 5:
@@ -1961,7 +1955,7 @@ void TObjEneMorfos__sub_80332DBC(u8 *ene_morfos, s32 arg1) {
         ((TObjEneDD_ST *)ene_morfos)->set_active();
         return;
     case 3:
-        if (get_flag_b4__9TObjEneDDFv() != 0) {
+        if (((TObjEneDD *)ene_morfos)->get_flag_b4() != 0) {
             temp_r3 = *(s32 *)((s8 *)ene_morfos + 0x3C0);
             if (temp_r3 & 0x20) {
                 *(s32 *)((s8 *)ene_morfos + 0x3C0) = (s32) (temp_r3 & 0xFFFFFFDF);
@@ -1981,7 +1975,7 @@ void TObjEneMorfos__sub_80332DBC(u8 *ene_morfos, s32 arg1) {
         ((TObjMotion *)ene_morfos)->advance_animation();
         return;
     case 5:
-        clear_attack_receipts__9TObjEneDDFv();
+        ((TObjEneDD *)ene_morfos)->clear_attack_receipts();
         ((TObjEneDD *)ene_morfos)->clear_field_388();
         break;
     }
@@ -2049,7 +2043,7 @@ void TObjEneMorfos::record_camera_path_point() {
     case 6:
     case 10: {
         Vec pos = morfos_camera_path_origin;
-        get_camera_ctrl__9TObjEneDDFv(&pos, TObjEneMorfos__camera_path_cursor);
+        forward_transform_to_view((const Vec *)&pos, (Vec *)TObjEneMorfos__camera_path_cursor);
         TObjEneMorfos__camera_path_cursor += 0xC;
         break;
     }
@@ -2075,18 +2069,18 @@ void TObjEneMorfos::render_part(s32 idx, s32 mode) {
     if (self->f3C0 & 2) {
         if (self->body.m8() != 0) {
             self->body.m6();
-            if (get_mode__11TCameraCtrlFPv(((s32 *)&main_task)) & 0x200) {
+            if ((s32)main_task.get_task_flags() & 0x200) {
                 ((TObjMotion *)self)->draw();
             }
             self->body.m7();
         }
     } else if (vis != 0) {
         part->m6();
-        if (get_mode__11TCameraCtrlFPv(((s32 *)&main_task)) & 0x200) {
+        if ((s32)main_task.get_task_flags() & 0x200) {
             ((TObjMotion *)self)->draw();
         }
         part->m7();
-    } else if (!(get_mode__11TCameraCtrlFPv(((s32 *)&main_task)) & 0x200)) {
+    } else if (!((s32)main_task.get_task_flags() & 0x200)) {
         if (mode == 1) {
             ((TObjMotion *)self)->draw();
         } else {
@@ -2139,7 +2133,7 @@ void render__13TObjEneMorfosFv(u8 *ene_morfos) {
     }
 }
 s32 TObjEneMorfos::render_model_if_visible() {
-    if (get_mode__11TCameraCtrlFPv((void *) (((s32 *)&main_task))) & 0x20) {
+    if ((s32)main_task.get_task_flags() & 0x20) {
         if (push_reflection_matrix((Vec *)(((u8 *)this) + 0x3C8)) != 0) {
             TObjFish::set_global_param(this->texlist);
             push_matrix();
@@ -2161,7 +2155,7 @@ s32 TObjEneMorfos::render_model_if_visible() {
 #pragma opt_common_subs off
 void TObjEneMorfos::draw_body() {
     u8 *arg0 = (u8 *)this;
-    if (get_mode__11TCameraCtrlFPv((void *)&main_task) & 0x200) {
+    if ((s32)main_task.get_task_flags() & 0x200) {
         TObjFish::set_global_param((int)((void *) (*(s32 *)((s8 *)(((RecoveredFields_803326CC_TObjEneMorfos__data_805D6D14 *)(*(u8 * *)&TObjEneMorfos__instance))->field_42C) + 0x2C))));
         push_matrix();
         post_translate_matrix(arg0 + 0x498);

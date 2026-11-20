@@ -37,7 +37,7 @@ void TWindowMeseta::render() {
     s32 ctx;
     s32 arg0 = (s32)this;
 
-    ctx = ((TWindowBase *)arg0)->setup_window_draw_context(arg0 + 0x6C);
+    ctx = ((TWindowBase *)arg0)->setup_window_draw_context((f32 *)(arg0 + 0x6C));
     ((TWindowMeseta *)arg0)->draw_value(ctx);
     draw_visible_window_entries(arg0, arg0 + 0x24, ctx);
 }
@@ -84,7 +84,6 @@ struct Meseta_80269244 {
 };
 
 extern "C" {
-s32 get_meseta_value__13TWindowMesetaFv();
 extern const char *TWindowMeseta__class_name;
 
 
@@ -92,7 +91,7 @@ void TWindowMeseta::run_task() {
     u8 *arg0 = (u8 *)this;
     s32 temp_r3;
 
-    temp_r3 = get_meseta_value__13TWindowMesetaFv();
+    temp_r3 = this->get_meseta_value();
     if (temp_r3 != (s32) this->m_68) {
         this->m_68 = temp_r3;
         ((TWindowSubStatusDisp *)(((TWindowBase *)arg0)->get_array_entry(1)))->set_animated_target(this->m_68, 9.0f);
@@ -109,7 +108,7 @@ TWindowMeseta::TWindowMeseta(s32 arg1, s32 arg2, s32 str)
     Sub_80269244 *b;
     m_name = TWindowMeseta__class_name;
     self->x64 = arg2;
-    self->meseta = ((s32 (*)(void *))get_meseta_value__13TWindowMesetaFv)(this);
+    self->meseta = this->get_meseta_value();
     a = (Sub_80269244 *)get_array_entry(0);
     b = (Sub_80269244 *)get_array_entry(1);
     set_text_entry_string((u8 *)a, str, 0);

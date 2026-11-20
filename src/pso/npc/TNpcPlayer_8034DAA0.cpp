@@ -8,6 +8,7 @@
 #include "pso/unk/TLobby.h"
 #include "pso/technique/TTecReverser.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/item/armor/TItemProShield.h"
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/unk/TLobby_801E43E4.h"
 #include "pso/system/byteswap.h"
@@ -100,10 +101,9 @@ public:
 };
 
 extern "C" {
-void set_hp_clamped__10TObjPlayerFs(Player_8034DAA0 *, s32);
 s32 obj_getS16_2BA(Player_8034DAA0 *);
 void obj_setFlags30(void *, u32);
-s32 get_field_2b8__14TItemProShieldFv(Player_8034DAA0 *);
+
 void set_tp__10TObjPlayerFs(Player_8034DAA0 *, s32);
 
 }
@@ -124,7 +124,6 @@ typedef struct VObj_18_dac7f3 VObj_18_dac7f3;
 
 
 
-s32 notify_field1c__10TObjPlayerFl();
 s32 send_item_pickup_request__10TObjPlayerFl();
 
 
@@ -233,7 +232,6 @@ s32 set_arrival_override_coords(s32, s32, f32, f32, f32);
 s32 get_entity_id(s32);
 void send_6x21_inter_level_warp(void *obj, s32 value);
 void send_6x24_teleport_player(u16 slot, void *pos, s32 heading);
-s32 end_camera_pan__10TObjPlayerFv();
 int sprintf(char *, const char *, ...);
 char *strcpy(char *, const char *);
 u32 strlen(const char *);
@@ -256,7 +254,7 @@ void notify_partner_room_cleared(s32 arg0);
 void quest_player_face_actor(u16 src, u16 dst);
 
 
-#define NOTIFY_8034E814 ((void (*)(void *))notify_field1c__10TObjPlayerFl)
+#define NOTIFY_8034E814(x) TObjPlayer::notify_field1c((s32)(x))
 
 
 // Compiled with -inline off,deferred: the functions are written in reverse of their
@@ -282,8 +280,9 @@ void TNpcPlayer::apply_to_battle_player_slot(u16 arg0, s16 arg1) {
 }
 
 void TNpcPlayer::end_camera_pan_for_client(u16 arg0) {
-    if (((u32)get_player_by_client_id(arg0)) != 0U) {
-        end_camera_pan__10TObjPlayerFv();
+    s32 tmp_player;
+    if ((tmp_player = (s32)get_player_by_client_id(arg0)) != 0U) {
+        ((TObjPlayer *)tmp_player)->end_camera_pan();
     }
 }
 
@@ -319,7 +318,7 @@ void init_partner_dialogue(void) {
 
 void TNpcPlayer__sub_8034EDB8(void) { lbl_805D6EA0 = 0; }
 
-void TNpcPlayer::send_npc_create(s16 arg0, s16 arg1) {
+void TNpcPlayer::send_npc_create(s32 arg0, s32 arg1) {
     Stack_8034ED58 stack;
     build_6x69_npc_control(&stack.sp8);
     stack.spE = 0xFFFF;
@@ -330,7 +329,8 @@ void TNpcPlayer::send_npc_create(s16 arg0, s16 arg1) {
     ((TNpcPlayer *)(&stack.sp8))->send_state_60();
 }
 
-void TNpcPlayer::send_npc_control_notify_players(s16 arg0, u16 arg1, s16 arg2) {
+void TNpcPlayer::send_npc_control_notify_players(s32 arg0, s32 arg1, s32 arg2) {
+    s32 tmp_player;
     Stack_8034ECD0 stack;
     s32 var_r31;
     build_6x69_npc_control(&stack.sp8);
@@ -341,8 +341,8 @@ void TNpcPlayer::send_npc_control_notify_players(s16 arg0, u16 arg1, s16 arg2) {
     stack.sp12 = arg2;
     stack.spE = arg1;
 loop_1:
-    if (((u32)get_player_by_client_id(var_r31)) != 0U) {
-        notify_field1c__10TObjPlayerFl();
+    if ((tmp_player = (s32)get_player_by_client_id(var_r31)) != 0U) {
+        TObjPlayer::notify_field1c(tmp_player);
     } else {
         var_r31 += 1;
         if (var_r31 < 4) {
@@ -352,7 +352,7 @@ loop_1:
     ((TNpcPlayer *)(&stack.sp8))->send_state_60();
 }
 
-void TNpcPlayer::create_default_companion(s16 arg0, s16 arg1, u8 *arg2, s32 arg3) {
+void TNpcPlayer::create_default_companion(u16 arg0, s32 arg1, u8 *arg2, s32 arg3) {
     Stack_8034EC40 stack;
     build_6x69_npc_control(&stack.sp8);
     stack.spE = 0xFFFF;
@@ -378,7 +378,8 @@ void TNpcPlayer::create_companion(u16 leader, u16 slot, s32 appearance, f32 *p, 
     send_6x24_teleport_player(pkt.slot, p, heading);
 }
 
-void TNpcPlayer::send_npc_control_create(s16 arg0, u16 arg1, s16 arg2, u8 *arg3, s32 arg4) {
+void TNpcPlayer::send_npc_control_create(u16 arg0, u16 arg1, s32 arg2, u8 *arg3, s32 arg4) {
+    s32 tmp_player;
     Stack_8034EB08 stack;
     s32 var_r31;
     build_6x69_npc_control(&stack.sp8);
@@ -388,8 +389,8 @@ void TNpcPlayer::send_npc_control_create(s16 arg0, u16 arg1, s16 arg2, u8 *arg3,
     stack.sp10 = 3;
     stack.sp12 = arg2;
 loop_1:
-    if (((u32)get_player_by_client_id(var_r31)) != 0U) {
-        notify_field1c__10TObjPlayerFl();
+    if ((tmp_player = (s32)get_player_by_client_id(var_r31)) != 0U) {
+        TObjPlayer::notify_field1c(tmp_player);
     } else {
         var_r31 += 1;
         if (var_r31 < 4) {
@@ -401,7 +402,7 @@ loop_1:
     ((TNpcPlayer *)(&stack.sp8))->send_state_60();
 }
 
-void TNpcPlayer::send_npc_stop_6x69(s16 arg0) {
+void TNpcPlayer::send_npc_stop_6x69(s32 arg0) {
     Stack_8034EAC4 stack;
     build_6x69_npc_control(&stack.sp8);
     stack.spC = arg0;
@@ -409,7 +410,7 @@ void TNpcPlayer::send_npc_stop_6x69(s16 arg0) {
     ((TNpcPlayer *)(&stack.sp8))->send_state_60();
 }
 
-void TNpcPlayer::send_npc_control_6x69(s16 arg0) {
+void TNpcPlayer::send_npc_control_6x69(s32 arg0) {
     Stack_8034EA80 stack;
     build_6x69_npc_control(&stack.sp8);
     stack.spC = arg0;
@@ -522,7 +523,7 @@ void TNpcPlayer::apply_to_players(s32 arg0, void *arg1, s32 arg2) {
     } while (var_r31 < 4);
 }
 
-void TNpcPlayer::send_6x3e_to_all_players(void *pos, s16 arg) {
+void TNpcPlayer::send_6x3e_to_all_players(void *pos, s32 arg) {
     Pkt_8034E64C pkt;
     s32 i;
     s32 p;
@@ -598,7 +599,7 @@ void TNpcPlayer::disable_partner_chatter() { lbl_805D6EA0 = (lbl_805D6EA0 | 0x2)
 
 void TNpcPlayer::enable_partner_chatter() { lbl_805D6EA0 = (lbl_805D6EA0 & 0xfffffffd); }
 
-void TNpcPlayer::send_stop_at_position(u16 id, void *pos, s16 arg) {
+void TNpcPlayer::send_stop_at_position(u16 id, void *pos, s32 arg) {
     struct Pkt_8034E3A0 pkt;
     s16 flag;
     u8 *p;
@@ -750,12 +751,13 @@ void TObjPlayer::update_4p_battle_ctrls() {
 }
 
 void TObjPlayer::notify_all_battle_players() {
+    s32 tmp_player;
     s32 var_r31;
 
     var_r31 = 0;
     do {
-        if (get_player_by_client_id(var_r31) != 0U) {
-            notify_field1c__10TObjPlayerFl();
+        if ((tmp_player = (s32)get_player_by_client_id(var_r31)) != 0U) {
+            TObjPlayer::notify_field1c(tmp_player);
         }
         var_r31 += 1;
     } while (var_r31 < 4);
@@ -893,7 +895,7 @@ void TLobby__sub_8034DAA0(s32 arg0, u32 arg1) {
         break;
     }
     case 10:
-        set_hp_clamped__10TObjPlayerFs(p, get_field_2b8__14TItemProShieldFv(p));
+        ((TObjPlayer *)p)->set_hp_clamped(((TItemProShield *)p)->get_field_2b8());
         break;
     case 11:
         set_tp__10TObjPlayerFs(p, obj_getS16_2BA(p));

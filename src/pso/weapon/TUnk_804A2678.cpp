@@ -30,7 +30,6 @@ s32 __ct__7TObjectFP7TObject(void *, void *);
 extern s32 item_follow_effect_vtable[];
 u32 __nw__7TObjectFUl(s32 a0 = 0);
 void run_task__13TUnk_804A2660Fv(void *arg0);
-s8 get_mode__5TItemFv();
 void __dl__7TObjectFPv(void *);
 void __dt__7TObjectFv(void *, int);
 
@@ -49,7 +48,7 @@ void TUnk_804A2660::run_task() {
     var_r31 = 0;
     if ((u32) *(u32 *)&this->unk_24 != 0U) {
         item = (s32)find_item_by_id(*(s32 *)&this->unk_1C);
-        if ((item != 0) && (get_mode__5TItemFv() == 2)) {
+        if ((item != 0) && (((TItem *)item)->get_mode() == 2)) {
             var_r31 = 1;
             if (((TItemWeapon *)item)->get_joint_position(this->m_20, sp8) != 0) {
                 ((TParticleCtrl *)*(u32 *)&this->unk_24)->set_position(sp8);

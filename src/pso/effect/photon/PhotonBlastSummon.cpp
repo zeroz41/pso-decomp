@@ -27,6 +27,7 @@ extern "C" { void setup_photon_blast_camera__13TUnk_804C3248Fv(u8 *); }
 
 #include <stddef.h>
 #include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/enemy/dd/TObjEneDD.h"
 
 struct RecoveredGlobal_801A7310_TCameraCtrl__data_804FF628 {
     s32 value;
@@ -196,7 +197,6 @@ struct Obj_801A7428 {
 extern "C" {
 void set_active_camera_pose_from_params(u8 *arg0);
 void update_photon_blast_camera_pose(struct PbCamera_801A73B0 *self);
-void get_camera_ctrl__9TObjEneDDFv(Vec *, Vec *);
 extern Vec lbl_80446A44;
 extern struct Reg_801A7578 photon_blast_joint_origins[];
 extern s32 photon_blast_joint_index;
@@ -264,7 +264,7 @@ void publish_photon_blast_joint_origins(void) {
         struct Node_801A7578 *node = &photon_blast_joint_origins->list[i];
         if (photon_blast_joint_index == node->id) {
             Vec origin = lbl_80446A44;
-            get_camera_ctrl__9TObjEneDDFv(&origin, &node->pos);
+            forward_transform_to_view(&origin, &node->pos);
         }
     }
     photon_blast_joint_index += 1;
@@ -411,7 +411,7 @@ void TUnk_804C3248::update_if_active() {
 
 void TUnk_804C3248::enter_scene() {
     s32 arg0 = (s32)this;
-    ((s32 (*)(void))setup_photon_blast_camera__13TUnk_804C3248Fv)();
+    ((TUnk_804C3248 *)this)->setup_photon_blast_camera();
     reset_state__10TSceneSoraFv(arg0);
     ((s32 (*)(s32))apply_all_default__8TFogCtrlFv)(arg0);
     TObjPlayer__sub_800D8A60();

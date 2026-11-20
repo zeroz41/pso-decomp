@@ -58,18 +58,15 @@ struct Card_8033F6A8 {
 struct Save_8033F6A8 { u8 pad[0xC]; u32 fC; };
 
 extern "C" {
-s32 allow_rendering__7TObjectFv();
 extern s32 TAdPlyStatusGC__window_offset_index;
 extern s32 TAdPlyStatusGC__is_shown;
 void update_hidden__14TAdPlyStatusGCFv(u8 *arg0);
 extern RecoveredGlobal_8033FB8C___vt__14TAdPlyStatusGC __vt__14TAdPlyStatusGC;
 extern u32 ply_status_gc_instance;
 void update_shown__14TAdPlyStatusGCFv(struct RecoveredFields_8033F9DC_arg0 *arg0);
-void set_depth__11TWindowBaseFf(f32);
 s32 create_callback__22TAdEnterSerialAccessGCFPvPvPv(const void *, const void *, void *);
 void draw_status_window__14TAdPlyStatusGCFPvPv(void *arg0, void *arg1);
 s32 TAdPlyStatusGC__sub_8033F8B0(void *arg0, const void *arg1);
-s32 disallow_rendering__7TObjectFv();
 s32 get_localized_text_entry(s32 arg0, s32 arg1);
 void __ct__7TObjectFP7TObject(void *, void *);
 void *__construct_array(void *, void *, void *, u32, u32);
@@ -247,7 +244,7 @@ void TAdPlyStatusGC::format_status_strings() {
 
 s32 TAdPlyStatusGC__sub_8033F8B0(void *arg0, const void *ad_enter_serial_access_gc) {
     s32 r = create_callback__22TAdEnterSerialAccessGCFPvPvPv(ad_enter_serial_access_gc, &ply_status_window_position, (void *)draw_status_window__14TAdPlyStatusGCFPvPv);
-    set_depth__11TWindowBaseFf(60000.0f);
+    ((TWindowBase *)r)->set_depth(60000.0f);
     return r;
 }
 
@@ -277,7 +274,7 @@ void update_hidden__14TAdPlyStatusGCFv(u8 *arg0) {
     if ((s32) TAdPlyStatusGC__window_offset_index < 3) {
         player_index = ((s32)TAdPlyStatusGC::get_player_index());
         if (player_index != 0) {
-            allow_rendering__7TObjectFv();
+            ((TObject *)player_index)->allow_rendering();
             ((TAdGuideButtonGC *)player_index)->setup_button((GuideButtonSpec *)(arg0 + 0x48));
         }
         temp_r5 = TAdMultiPlyChrSelectGC::get_status() * 0x50;
@@ -297,7 +294,7 @@ void update_shown__14TAdPlyStatusGCFv(struct RecoveredFields_8033F9DC_arg0 *arg0
         }
         player_index = ((s32)TAdPlyStatusGC::get_player_index());
         if (player_index != 0) {
-            allow_rendering__7TObjectFv();
+            ((TObject *)player_index)->allow_rendering();
             ((TAdGuideButtonGC *)player_index)->setup_button((GuideButtonSpec *)(&arg0->unknown_20[4]));
         }
         temp_r5 = TAdMultiPlyChrSelectGC::get_status() * 0x50;
@@ -313,8 +310,11 @@ void close_window__14TAdPlyStatusGCFv(void *arg0) {
         ((TWindowBase *)window_base)->close();
         *(u32 *)((s8 *)arg0 + 0x6C) = 0U;
     }
-    if (TAdPlyStatusGC::get_player_index() != 0U) {
-        disallow_rendering__7TObjectFv();
+    {
+        s32 player_index = TAdPlyStatusGC::get_player_index();
+        if ((u32)player_index != 0U) {
+            ((TObject *)player_index)->disallow_rendering();
+        }
     }
 }
 }
@@ -365,8 +365,11 @@ TAdPlyStatusGC_8033FC14 *TAdPlyStatusGC__ct(TAdPlyStatusGC_8033FC14 *self, void 
     self->elems[1].f18 = 8;
     self->elems[1].f1C = 0x1E;
     create_guide_button((TObject *)self, (GuideButtonSpec *)self->elems);
-    if (TAdPlyStatusGC::get_player_index() != 0U) {
-        disallow_rendering__7TObjectFv();
+    {
+        s32 player_index = TAdPlyStatusGC::get_player_index();
+        if ((u32)player_index != 0U) {
+            ((TObject *)player_index)->disallow_rendering();
+        }
     }
     return self;
 }

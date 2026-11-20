@@ -162,7 +162,6 @@ struct Target_8013B70C {
 };
 
 extern "C" {
-s32 get_mode__11TCameraCtrlFPv(void *);
 extern u8 shared_effect_texture_list[];
 s32 check_flag_100__10TObjPlayerFPv(void *);
 s32 play_sound_effect(s32, void *, s32, s32);
@@ -201,6 +200,7 @@ void *lbl_804A71C4[6] = {
 }
 
 extern "C" {
+
 s32 set_offset_y__11TMainCursorFs(void *, u16);
 s32 check_field_24__11TMainCursorFv();
 s32 get_rader_map__11TMainCursorFv(void *, void *);
@@ -217,7 +217,6 @@ f32 vec3_dot(void *, void *);
 s32 target_in_vertical_cone(Vec *p, Vec *q, s32 yaw, f32 range, f32 dist);
 extern Vec scratch_vec;
 s32 target_in_xz_cone(Vec *p, Vec *q, Vec *r, s32 yaw, f32 range, f32 dist);
-s32 set_size__11TMainCursorFf(f32);
 s32 TMainCursor__sub_8013F168(void *);
 s32 try_add_target_candidate__11TMainCursorFPvPvPvPv(u8 *cursor, u8 *player, u8 *target, Best_8013C288 *best);
 struct Ent_8013C678 { u32 id; f32 key; };
@@ -275,7 +274,6 @@ extern "C" {
 int TLockOnCursor__sub_8013EB34(void);
 void translate_matrix_vec3(u8 *arg0, u8 *arg1);
 void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
-s32 is_effect_channel_active__10TObjPlayerFll(s32, s32);
 void *TObjPlayer__sub_80116620(void *, s32);
 void TMainCursor__sub_8013EA00(void *, s32);
 s32 update_cursor_pos__13TLockOnCursorFv(void *);
@@ -288,7 +286,6 @@ void TMainCursor__sub_8013E9A0(void *p);
 Tech_8013CDE4 *get_photon_blast_entry__10TObjPlayerFi(s16);
 extern f32 lbl_8050BF60[3];
 int TObjPlayer__sub_801B066C(void *p);
-s32 get_selected_entry__11TMainCursorFv(s32, s32);
 #define C_8013CDE4 ((s32)cur)
 #define TECH_8013CDE4(t)                                          \
     cur->f3c = (t)->fc;                                           \
@@ -332,7 +329,6 @@ void __destroy_arr(void *, void *, int, int);
 void reset_nearest_target_record(void *);
 extern "C" {
 void TLockOnCursor__sub_8013EC1C(void *);
-s32 get_mode__11TCameraCtrlFPv(void *);
 
 Rec_8013EB6C *TLockOnCursor__sub_8013EB6C(Obj_8013EB6C *, s32);
 void render__13TLockOnCursorFv(s32 arg0);
@@ -352,10 +348,6 @@ extern "C" {
 int TObjPlayer__sub_8013A820(void* a0 = 0);
 }
 extern const f32 lbl_805DB0C4;
-extern "C" {
-
-int set__8FlagWordFUl(void*, int);
-}
 
 extern "C" {
 
@@ -368,7 +360,6 @@ struct Rec_8013E870 { u8 pad[0x124]; };
 struct Obj_8013E870 { u8 pad[0x5c]; Rec_8013E870 recs[1]; };
 
 extern "C" {
-int clear__8FlagWordFUl(void*, int);
 
 }
 
@@ -555,7 +546,7 @@ void render__13TLockOnCursorFv(s32 arg0) {
         if (TCameraCtrl::get_camera_no() != TCameraCtrl::get_split_screen_view_index(((TLockOnCursor *)arg0)->get_target_id())) {
             return;
         }
-    } else if (get_mode__11TCameraCtrlFPv(&main_task) & 0x10) {
+    } else if ((s32)main_task.get_task_flags() & 0x10) {
         return;
     }
     for (i = 0; i < 4; i++) {
@@ -718,7 +709,7 @@ void TMainCursor::sort_list(s32 arg0, s32 arg1) {
 
     temp_r4 = arg1 * 0x124;
     temp_r30 = arg0 + temp_r4 + 0x5C;
-    if (get_selected_entry__11TMainCursorFv(temp_r30, temp_r4) != 0) {
+    if (((TMainCursor *)temp_r30)->get_selected_entry() != 0) {
         temp_r31 = TMainCursor__sub_8013F168((void *)(temp_r30 + 0x40));
         TMainCursor::quick_sort(temp_r30, (s32)get_record_at__11TMainCursorFPvi((void *)(temp_r30 + 0x40), 0), 0, temp_r31 - 1);
     }
@@ -927,7 +918,7 @@ s32 TMainCursor::get_action_cursor_priority(void *arg0, s32 player, s32 index) {
     sub = ((TObjPlayer *)player)->get_action_palette_entry(index);
     switch (kind) {
     case 1:
-        if (is_effect_channel_active__10TObjPlayerFll(player, 0) != 0) {
+        if (TObjPlayer::is_effect_channel_active(player, 0) != 0) {
             return 1;
         }
         break;
@@ -942,7 +933,7 @@ s32 TMainCursor::get_action_cursor_priority(void *arg0, s32 player, s32 index) {
         }
         break;
     case 4:
-        if (is_effect_channel_active__10TObjPlayerFll(player, index) != 0 && is_current_area_item_enabled() != 0 && ((TObjPlayer *)player)->test_action_mask(0x43001E) != 0 && ((s32)sub == 0xA || (s32)sub == 9)) {
+        if (TObjPlayer::is_effect_channel_active(player, index) != 0 && is_current_area_item_enabled() != 0 && ((TObjPlayer *)player)->test_action_mask(0x43001E) != 0 && ((s32)sub == 0xA || (s32)sub == 9)) {
             return 0xF;
         }
         break;
@@ -1102,8 +1093,7 @@ void TMainCursor::reset_cursor_parts() {
     var_r30 = 0;
     *(f32 *)((s8 *)arg0 + 0x18) = (f32) TMainCursor__data_805DB0C0;
     do {
-        get_record_at__11TMainCursorFPvi((u8 *)&this->m_40, var_r30);
-        set_size__11TMainCursorFf(TMainCursor__data_805DB0C0);
+        ((TMainCursor *)get_record_at__11TMainCursorFPvi((u8 *)&this->m_40, var_r30))->set_size(TMainCursor__data_805DB0C0);
         set_cursor_id__11TMainCursorFs((void *)get_record_at__11TMainCursorFPvi((u8 *)&this->m_40, var_r30), 0xFFFF);
         var_r30 += 1;
     } while (var_r30 < 0xA);
@@ -1199,7 +1189,7 @@ s32 try_add_target_candidate__11TMainCursorFPvPvPvPv(u8 *cursor, u8 *player, u8 
             slot = TMainCursor__sub_8013F168(cursor + 0x40);
             TMainCursor__sub_8013F13C((s32 *)(cursor + 0x40));
         }
-        ((void (*)(s32, f32))set_size__11TMainCursorFf)((s32)get_record_at__11TMainCursorFPvi(cursor + 0x40, slot), dist);
+        ((TMainCursor *)get_record_at__11TMainCursorFPvi(cursor + 0x40, slot))->set_size(dist);
         ((TMainCursor *)(get_record_at__11TMainCursorFPvi(cursor + 0x40, slot)))->set_field2(i);
         set_cursor_id__11TMainCursorFs((void *)get_record_at__11TMainCursorFPvi(cursor + 0x40, slot), get_entity_id((TObjBase *)player));
         found = 1;
@@ -1423,7 +1413,7 @@ void TMainCursor::render() {
         if (no != cam) {
             return;
         }
-    } else if (get_mode__11TCameraCtrlFPv(((u8 *)&main_task)) & 0x10) {
+    } else if ((s32)main_task.get_task_flags() & 0x10) {
         return;
     }
     switch (*(s32 *)(arg0 + 0x1C)) {
@@ -1864,7 +1854,7 @@ u16 TMainCursor::get_id() { return this->m_flags; }
 
 extern "C" {
 
-int TMainCursor__sub_8013E310(void* p) { return set__8FlagWordFUl((char*)p + 0x20, 2); }
+void TMainCursor__sub_8013E310(void* p) { ((FlagWord *)((char*)p + 0x20))->set(2); }
 
 u8 TMainCursor__sub_8013E338(void* p) { return ((TMainCursor *)p)->get_enabled(); }
 
@@ -1894,7 +1884,7 @@ int TMainCursor__sub_8013E40C(TMainCursor *main_cursor, u16 arg1) {
 
 void*TMainCursor::get_list() { return (char*)this + 0xc; }
 
-int TMainCursor::update_target_sub() { return set__8FlagWordFUl((char*)this + 0x20, 1); }
+void TMainCursor::update_target_sub() { ((FlagWord *)((char*)this + 0x20))->set(1); }
 
 u16 TMainCursor::get_render_flag() { return TMainCursor__sub_8013E4A0((char*)this + 0x24); }
 
@@ -1920,7 +1910,7 @@ s16 TMainCursor__sub_8013E570(void* p) { return *(s16*)((char*)p + 0x6); }
 
 }
 
-int TMainCursor::check_flag_4() { return set__8FlagWordFUl((char*)this + 0x20, 4); }
+void TMainCursor::check_flag_4() { ((FlagWord *)((char*)this + 0x20))->set(4); }
 
 u8 TMainCursor::forward_13E338_at_60() { return TMainCursor__sub_8013E338((char*)this + 0x60); }
 
@@ -2031,15 +2021,15 @@ int TLockOnCursor::render_part() { return test_flags_any((s32 *)((char*)this + 0
 
 void TLockOnCursor::update_cursor_pos() { ((TMainCursor *)((char*)this + 0xc))->is_same_target((char*)this + 0x14); }
 
-int TLockOnCursor::set_flag_8_bit0() { return set__8FlagWordFUl((char*)this + 0x8, 1); }
+void TLockOnCursor::set_flag_8_bit0() { ((FlagWord *)((char*)this + 0x8))->set(1); }
 
-int TLockOnCursor::update_ring() { return clear__8FlagWordFUl((char*)this + 0x8, 1); }
+void TLockOnCursor::update_ring() { ((FlagWord *)((char*)this + 0x8))->clear(1); }
 
-int TLockOnCursor::is_bit1_set() { return set__8FlagWordFUl((char*)this + 0x8, 2); }
+void TLockOnCursor::is_bit1_set() { ((FlagWord *)((char*)this + 0x8))->set(2); }
 
 int TLockOnCursor::is_inactive() { return (test_flags_any((s32 *)((char*)this + 0x1c), 2)) == 0; }
 
-int TLockOnCursor::update_ring_sub() { return clear__8FlagWordFUl((char*)this + 0x8, 2); }
+void TLockOnCursor::update_ring_sub() { ((FlagWord *)((char*)this + 0x8))->clear(2); }
 
 extern "C" {
 

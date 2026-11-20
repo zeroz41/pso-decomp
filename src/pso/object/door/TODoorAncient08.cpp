@@ -369,6 +369,6 @@ void TODoorAncient08::door_ancient08_sync_state(void *src_arg) {
         pkt.id = entity_id;
         pkt.state = st.a;
         pkt.kind = obj->kind;
-        update_and_send_60__6TLobbyFPv(&pkt);
+        TLobby::update_and_send_60(&pkt);
     }
 }

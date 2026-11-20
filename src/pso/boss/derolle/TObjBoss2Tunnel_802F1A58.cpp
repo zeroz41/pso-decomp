@@ -26,6 +26,7 @@
 #include <stdlib.h>
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/enemy/dd/TObjEneDD.h"
 
 struct Nd_802F2348 { u8 pad[0xC]; Nd_802F2348 *next; };
 struct Li_802F2348 { u8 pad[0x14]; Nd_802F2348 *head; };
@@ -76,14 +77,12 @@ void __dt__7TObjectFv(void *, int);
 extern "C" void *__ct__14TObjCollidableFP7TObject(void *, TObject *);
 extern "C" {
 void __dl__7TObjectFPv(void *);
-s32 get_mode__11TCameraCtrlFPv(void *p);
 extern s32 __vt__18TObjBoss7TunnelCol[];
 }
 struct GE_802F1DAC { s32 a, b, obj, d; };
 struct GE_802F1E54 { s32 a, b, obj, d; };
 extern "C" {
 s32 draw_ginja_object(int);
-s32 is_in_camera_range__18TObjBoss7TunnelColFv(void *);
 extern u8 *boss7_common_bml_resource;
 extern u8 *boss7_common_texture_list;
 void __dt__7TObjectFv(void *, int);
@@ -92,7 +91,6 @@ u32 __nw__7TObjectFUl(s32);
 void TObjBoss2Tunnel__sub_802F2278(void);
 s32 TObjBoss2Tunnel__sub_802F22F4(void);
 s32 init_piecewise_curve(void *, f32, f32, f32, f32, f32);
-f32 update_position__15TObjBoss2TunnelFv(void *);
 void __dl__7TObjectFPv(void *);
 void __dt__7TObjectFv(void *, int);
 void TObjBoss2Tunnel__sub_802F2C4C(void);
@@ -100,7 +98,6 @@ void TObjBoss2Tunnel__sub_802F2C50(void);
 void TObjBoss2Tunnel__sub_802F2C84(void);
 void TObjBoss2Tunnel__sub_802F22DC(void);
 void TObjBoss2Tunnel__sub_802F22C4(void);
-s32 query_teammate_state__9TObjEneDDFv();
 }
 void draw_particle_effect(void *a0);
 void draw_tunnel_segment(u8 *arg0);
@@ -239,7 +236,7 @@ void TUnk_804E4B3C::update_phase_motion() {
         if (TObjBoss2Tunnel::check_both((s32)arg0) == 0) {
             *(s32 *)((s8 *)arg0 + 0x4C) = 3;
             sp8 = fabs_float((f32) (*(f32 *)((s8 *)arg0 + 0x54)));
-            init_piecewise_curve(arg0 + 0x20, 0.1f, (-0.1f), (f32) (*(f32 *)((s8 *)arg0 + 0x54)), (f32) (-update_position__15TObjBoss2TunnelFv(arg0 + 0x20)), 2.0f);
+            init_piecewise_curve(arg0 + 0x20, 0.1f, (-0.1f), (f32) (*(f32 *)((s8 *)arg0 + 0x54)), (f32) (-((TObjBoss2Tunnel *)(arg0 + 0x20))->update_position()), 2.0f);
             return;
         }
         if (((TObjBoss2Tunnel *)(arg0 + 0x20))->advance_phase(&sp8) != 0) {
@@ -378,7 +375,7 @@ void TUnk_804E4B3C::sub_802F23FC() {  }
 void TUnk_804E4B3C::render() {
     u8 *arg0 = (u8 *)this;
     Nd_802F2348 *n;
-    if (query_teammate_state__9TObjEneDDFv() == 0) {
+    if (TObjEneDD::query_teammate_state() == 0) {
         for (n = (*(Li_802F2348 **)((s8 *)arg0 + 0x90))->head; n != 0; n = n->next) {
             draw_particle_effect(n);
         }
@@ -498,7 +495,7 @@ void TUnk_804E4B24::run_task() {
 
 extern "C" {
 void fn_802F1E54(u8 *arg0) {
-    if (((s32 (*)(void))is_in_camera_range__18TObjBoss7TunnelColFv)() != 0) {
+    if (((TObjBoss7TunnelCol *)arg0)->is_in_camera_range() != 0) {
         set_draw_list_mask(1);
         TObjFish::set_global_param((int)boss7_common_texture_list);
         push_matrix();
@@ -512,7 +509,7 @@ void fn_802F1E54(u8 *arg0) {
 
 extern "C" {
 void fn_802F1DAC(u8 *arg0) {
-    if (((s32 (*)(void))is_in_camera_range__18TObjBoss7TunnelColFv)() != 0) {
+    if (((TObjBoss7TunnelCol *)arg0)->is_in_camera_range() != 0) {
         set_draw_list_mask(2);
         TObjFish::set_global_param((int)boss7_common_texture_list);
         push_matrix();
@@ -560,7 +557,7 @@ void draw_tunnel_segment(u8 *boss7_tunnel_col) {
 s32 TObjBoss7TunnelCol::is_in_camera_range() {
     f32 temp_f1;
 
-    if (get_mode__11TCameraCtrlFPv(((s32 *)&main_task)) & 0x20) {
+    if ((s32)main_task.get_task_flags() & 0x20) {
         temp_f1 = *(f32 *)&this->texlist;
         if ((temp_f1 < -300.0f) && (300.0f < temp_f1)) {
             return 0;

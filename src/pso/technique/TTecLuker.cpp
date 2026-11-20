@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/unk/TLobby_800FD78C.h"
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/unk/TLobby_800FD78C.h"
 #include "pso/player/TObjPlayer.h"

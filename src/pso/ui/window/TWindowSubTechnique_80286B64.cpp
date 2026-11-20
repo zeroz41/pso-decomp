@@ -5,13 +5,11 @@
 
 extern "C" {
 
-int get_selection__19TWindowSubTechniqueFPsPll(void*, void* a1 = 0);
-
-s32 TWindowSubTechnique::update_selection(s16 *arg0, s32 *arg1) {
+s32 TWindowSubTechnique::update_selection(s16 *arg0, s32 *arg1, s32 client) {
     s32 spC;
     s16 sp8;
 
-    get_selection__19TWindowSubTechniqueFPsPll(&sp8, &spC);
+    TWindowSubTechnique::get_selection(&sp8, &spC, client);
     if ((sp8 == (s16) *arg0) && (spC == (s32) *arg1)) {
         return 0;
     }

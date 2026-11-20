@@ -51,7 +51,7 @@ s32 init_jungle_area(void) {
     if ((get_main_phase() != 0xE) || (is_quest_active() == 0)) {
         switch (((s32)get_current_floor_area())) {
         case 0x17:
-            TBoss4DarkFalz::dispatch_by_main_phase(0x51);
+            set_story_flag_or_send_quest_flag(0x51);
             break;
         }
     }
@@ -92,10 +92,10 @@ s32 initialize_boss_scene(void) {
         area = get_current_floor_area();
         switch (area) {
         case AREA_SEABED_UPPER:
-            TBoss4DarkFalz::dispatch_by_main_phase(0x54);
+            set_story_flag_or_send_quest_flag(0x54);
             break;
         case AREA_SEABED_LOWER:
-            TBoss4DarkFalz::dispatch_by_main_phase(0x55);
+            set_story_flag_or_send_quest_flag(0x55);
             break;
         }
     }
@@ -106,7 +106,6 @@ extern "C" {
 const char *TObjChallenge4PRetry__class_name = "TObjChallenge4PRetry";
 
 s32 TLobby__sub_8024AC20(int);
-u32 create__14TWindowMessageFPvll(s32, s32 *, s32);
 s32 TLobby__sub_80292F5C();
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
 s32 get_player_by_client_id(int);
@@ -131,7 +130,7 @@ void TObjChallenge4PRetry::open_message_window() {
         ((TWindowBase *)(*(void **)((s8 *)this + 0x30)))->close();
         *(u32 *)((s8 *)this + 0x30) = 0U;
     }
-    *(u32 *)((s8 *)this + 0x30) = create__14TWindowMessageFPvll(get_window_layout_position(0x39), message_window_position, 1);
+    *(u32 *)((s8 *)this + 0x30) = (u32)TWindowMessage::create((const NJS_POINT2 *)(get_window_layout_position(0x39)), (const f32 *)message_window_position, 1);
     if ((u32) *(u32 *)((s8 *)this + 0x30) != 0U) {
         ((TWindowMessage *)(*(u32 *)((s8 *)this + 0x30)))->append_line(get_message_text(0x5E), 1);
     }
@@ -167,14 +166,14 @@ void send_giveup_to_all_players__6TLobbyFv(void) {
         if ((player != 0) && (((TObjPlayer *)player)->check_player_flag1() != 0)) {
             TObjPlayer::send_code_45_1(player);
         }
-        ((TWindowCtrl *)var_r31)->unsuppress_slot();
+        TWindowCtrl::unsuppress_slot(var_r31);
         TLobby__sub_8024AC20(var_r31);
         var_r31 += 1;
     } while (var_r31 < 4);
 }
 
     extern int local_client_id;
-void close_giveup_window__6TLobbyFPv(void* a0) { ((TWindowCtrl *)local_client_id)->suppress_slot(); play_effect_all_players__6TLobbyFPv(a0); }
+void close_giveup_window__6TLobbyFPv(void* a0) { TWindowCtrl::suppress_slot(local_client_id); play_effect_all_players__6TLobbyFPv(a0); }
 
 void play_all_players_effect__6TLobbyFPv(void* a0) { TObjPlayer__sub_8024ABDC((local_client_id)); play_effect_all_players__6TLobbyFPv(a0); }
 

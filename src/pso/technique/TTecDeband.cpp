@@ -1,6 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/technique/TTecDeband.h"
+#include "pso/technique/TTecLuker.h"
 #include "pso/system/task/TObject_80019A50.h"
 
 #include "pso/technique/TTecAnti.h"
@@ -71,7 +72,6 @@ s32 TTecPlayerInfluence__ct(void *, void *, void *, void *);
 extern s32 __vt__10TTecDeband[];
 extern const char *tec_deband_class_name_ptr;
 void *find_entity_by_id(u16 id);
-s32 is_parents_unqueued__9TTecLukerFUl();
 s32 deliver_technique_to_party_targets(void *);
 void run_task__10TTecDebandFv(Deband_8022F73C *self);
 s32 is_split_screen();
@@ -112,7 +112,7 @@ void TTecDeband::create(s32 owner, s32 pos, s32 arg2, s32 level) {
         TTecDeband__ct(obj, owner, pos, arg2, level);
     }
 }
-void TTecDeband::create(s32 owner, s32 pos, s32 level) {
+void TTecDeband::create(void *owner, void *pos, s32 level) {
     u32 obj;
     obj = __nw__7TObjectFUl(0x140);
     if (obj != 0U) {
@@ -146,7 +146,7 @@ void run_task__10TTecDebandFv(Deband_8022F73C *self) {
             if (self->count != 0) {
                 for (i = 0; i < self->count; i++) {
                     target = (u32)find_entity_by_id(self->targets[i].id);
-                    if ((is_parents_unqueued__9TTecLukerFUl() != 0) && (TObjPlayer::is_valid_and_active(target) != 0)) {
+                    if ((TTecLuker::is_parents_unqueued(target) != 0) && (TObjPlayer::is_valid_and_active(target) != 0)) {
                         ((TTecDeband *)self)->vfunc_7((void *)target);
                     }
                 }

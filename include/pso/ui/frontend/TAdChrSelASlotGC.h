@@ -48,7 +48,6 @@ struct TAdChrSelASlotGC : public TObject {
     void create_children(s32 arg1);
     void init(s32 arg1);
     s32 get_slot_index();
-    void forward_slot_selection(void* a1, void* a2);
     u8 unk_34[0x4];
     s32 m_38;
     TAdSubPlyItemGC *player_items;

@@ -28,7 +28,6 @@ s32 TObjPlayer__sub_801C1F50(void *);
 u32 get_item_field_6__10TObjPlayerFPv(void *);
 s32 weapon_has_extra_attack(u32);
 int check_flag_100__10TObjPlayerFPv(void *p);
-s32 validate_and_clear_slot__10TObjPlayerFv(void *, s32);
 s32 TObjPlayer__sub_801AF694(void *, s32);
 u16 get_entity_id(void *);
 s32 TWindowCtrl__sub_8024A228(s32);
@@ -150,7 +149,7 @@ bool can_use_palette_action__10TObjPlayerFPvUcUc(TObjPlayer_801D8044 *self, u8 k
         }
         break;
     case 3:
-        if (validate_and_clear_slot__10TObjPlayerFv(self->slots, arg) != 0) {
+        if (TObjPlayer::validate_and_clear_slot(self->slots, arg) != 0) {
             return 0;
         }
         if (check_flag_100__10TObjPlayerFPv(self) != 0) {
@@ -228,7 +227,7 @@ bool can_use_palette_action__10TObjPlayerFPvUcUc(TObjPlayer_801D8044 *self, u8 k
             break;
         }
         if (arg < 0xd || arg > 0x10) {
-            if (((TObjPlayer *)((void *)self->fd00))->set_mode_and_refresh_object((s32)&item) == 0) {
+            if (((TObjPlayer *)((void *)self->fd00))->set_mode_and_refresh_object(&item) == 0) {
                 return 0;
             }
         } else {
@@ -292,7 +291,6 @@ struct Obj_801D8474 { s8 a; u8 b; };
 extern "C" {
 
 s32 TObjPlayer__sub_801D8664(s32, s16, s16);
-void *get_anim_table_entry__10TObjPlayerFl();
 s32 TObjPlayer__sub_801D84A8(void* p);
 s32 TObjPlayer__sub_801D84F0(void* p);
 int bswap_16__FPUs(void*);
@@ -320,7 +318,7 @@ s32 TObjPlayer__sub_801D84F0(void* p) { return *(s32*)((char*)p + 0x4); }
 void TObjPlayer::set_animation_from_data(s32 arg0, s32 arg1) {
     void *temp_r3;
 
-    temp_r3 = get_anim_table_entry__10TObjPlayerFl();
+    temp_r3 = (void *)((TObjPlayer *)arg0)->get_anim_table_entry(arg1);
     TObjPlayer__sub_801D8664(arg0, *(s16 *)((s8 *)temp_r3 + 0), *(s16 *)((s8 *)temp_r3 + 2));
     ((TUnk_804C4540 *)arg0)->set_animation_default(arg1);
 }

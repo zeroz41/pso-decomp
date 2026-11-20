@@ -41,6 +41,7 @@ extern BmlResourceDescriptor boss6_plot_falz_resource_descriptor;
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/object/TObjControl.h"
 #include "pso/boss/olgaflow/TBoss6Thanks_8035D1F4.h"
+#include "pso/enemy/dd/TObjEneDD.h"
 
 #pragma readonly_strings on
 const char *boss06_plotfalz_dat_model_names[15] = {
@@ -264,7 +265,7 @@ s32 TBoss6PlotFalz::damage_player_hp(s32 arg0, u32 arg1) {
     u16 id;
     id = arg0;
     v = arg1;
-    if (id == 0xFFFF || (p = get_player_by_client_id(id)) == NULL || ((TBoss6PlotFalz *)p)->is_active() == 0) {
+    if (id == 0xFFFF || (p = get_player_by_client_id(id)) == NULL || ((TObjPlayer *)p)->is_active() == 0) {
         return 0;
     }
     hp = ((TObjChara *)p)->get_actor_hp();
@@ -302,7 +303,7 @@ s32 TBoss6PlotFalz::sort_active_players() {
     n = 0;
     for (i = 0; i < registered_player_count; i++) {
         p = (Player_802AAE78 *)TObjPlayer::get_player_data(i);
-        if (p != NULL && ((TBoss6PlotFalz *)p)->is_active() != 0 && p->f32c != 0) {
+        if (p != NULL && ((TObjPlayer *)p)->is_active() != 0 && p->f32c != 0) {
             boss6_plot_falz_player_order_table[n] = get_entity_id(p);
             vals[n] = p->f32c;
             n++;
@@ -333,7 +334,7 @@ u16 TBoss6PlotFalz::pick_random_active_player() {
     n = 0;
     for (i = 0; i < registered_player_count; i++) {
         p = (Player_802AAE78 *)TObjPlayer::get_player_data(i);
-        if (p != NULL && ((TBoss6PlotFalz *)p)->is_active() != 0) {
+        if (p != NULL && ((TObjPlayer *)p)->is_active() != 0) {
             ids[n] = get_entity_id(p);
             n++;
         }
@@ -344,7 +345,7 @@ u16 TBoss6PlotFalz::pick_random_active_player() {
     return ids[(s32)(((f32)n - 0.1f) * (3.0517578125e-05f * (f32)rand()))];
 }
 
-s32 TBoss6PlotFalz::is_active() {
+s32 TObjPlayer::is_active() {
     if ((is_state_1f__14TBoss6PlotFalzFUi() != 0) && !(this->actorFlags & 0x02000800)) {
         return 1;
     }
@@ -538,7 +539,7 @@ void TBoss6PlotFalz::award_exp_and_destroy() {
     Msg_802AB490 m;
     m.a = 0x800;
     ((TObjEnemy *)arg0)->send_6x0A_enemy_state(&m);
-    ((TObjEnemy *)arg0)->exchange_object_state((s32)&m, (s16)0);
+    ((TObjEnemy *)arg0)->exchange_object_state(&m, 0);
     this->vfunc_79((s32 *)&m);
     ((TObjEnemy *)arg0)->send_entity_set_flags();
     ((TObject *)arg0)->queue_destruction();
@@ -964,7 +965,6 @@ extern "C" {
 void refresh_players_equipment__14TBoss6PlotFalzFPv(void *self);
 void scroll_strip_uvs(u32, s16, s16);
 s32 get_bml_model(BmlResource *resource, s32 index);
-s32 alloc_tables__6TLobbyFll(s32, s32, s32);
 void build_tables__14TBoss6PlotFalzFPvPvi(Obj_8004AA80 *arg0, Rec_8004AA80 *arg1, s32 arg2);
 extern s32 lbl_805D5868;
 extern s32 lbl_805D5870;
@@ -1032,7 +1032,7 @@ void build_tables__14TBoss6PlotFalzFPvPvi(Obj_8004AA80 *arg0, Rec_8004AA80 *arg1
         t = (s32)find_model_node(get_bml_model((BmlResource *)h, r->a), r->b);
         p = (s32)::operator new(0x14);
         if (p != 0) {
-            p = alloc_tables__6TLobbyFll(p, t, r->c);
+            p = (s32)((TLobby *)p)->alloc_tables(t, r->c);
         }
         arg0->items[i] = p;
     }
@@ -1109,7 +1109,6 @@ void TBoss6EmptyWarp::init_warp() { place_players_in_warp_circle(); TBoss6PlotFa
 
 void release_all_players_control_lock(void);
 void end_cutscene_camera__14TBoss6PlotFalzFPv(void *self);
-void start_freeze__10TObjPlayerFv();
 void TBoss6PlotFalz__sub_802AC724(u8 *arg0, u32 arg1);
 void end_cutscene_camera__14TBoss6PlotFalzFPv(void *self) {
     s32 i;
@@ -1128,8 +1127,9 @@ void TBoss6PlotFalz::freeze_all_players() {
     s32 i;
     TWindowCtrl::init_all_slots();
     for (i = 0; i < registered_player_count; i++) {
-        if (TObjPlayer::get_player_data(i) != 0) {
-            start_freeze__10TObjPlayerFv();
+        TObjPlayer *player = TObjPlayer::get_player_data(i);
+        if (player != 0) {
+            player->start_freeze();
         }
     }
 }
@@ -1162,7 +1162,6 @@ struct Msg_802AC7E4 { u8 pad[2]; u16 id; s8 phase; s8 mode; };
 struct Boss_802AC7E4 { u8 pad[0x37C]; u8 mode; };
 
 extern "C" {
-s32 query_teammate_state__9TObjEneDDFv();
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 void fn_802E52AC(void);
 void TItemEffOrgaFlowShot__sub_80357210(void);
@@ -1177,9 +1176,6 @@ extern s32 TBoss6PlotFalz__instance;
 u8 *get_enemy_entity(u16 arg0);
 void fn_802ACD40();
 void handle_6xA3_olga_flow_boss_actions(Msg_802AC7E4 *m);
-s32 register_object__6TLobbyFl(int);
-s32 dispatch_shared_handler_b__6TLobbyFl(int);
-s32 register_boss__6TLobbyFl(int);
 void TItemEffOrgaFlowShot__sub_80357204(void);
 int free_bin_model_request(void*, void*);
 
@@ -1187,7 +1183,7 @@ void TBoss6PlotFalz::render() {  }
 
 void TBoss6PlotFalz::run_task() {
     u8 *arg0 = (u8 *)this;
-    if (query_teammate_state__9TObjEneDDFv() == 0) {
+    if (TObjEneDD::query_teammate_state() == 0) {
         ((TBoss6PlotFalz *)arg0)->set_visible_flag();
         if ((s32) *(s32 *)((s8 *)arg0 + 0x374) == 0) {
             ((TBoss6PlotFalz *)arg0)->call_state_action();
@@ -1276,10 +1272,10 @@ TBoss6PlotFalz::TBoss6PlotFalz(TObject *parent, void *set_data) : TObjEnemy(pare
     apply_set_data(set_data);
     TBoss4DarkFalz__sub_8004B4F0(((u8 *)this + 0x388), set_data);
     m_38a = 0;
-    if (exchange_object_state((s32)&sp8, (s16)(1)) != 0) {
+    if (exchange_object_state(&sp8, 1) != 0) {
         sp8.a = 0;
         sp8.c = 0;
-        exchange_object_state((s32)&sp8, (s16)(0));
+        exchange_object_state(&sp8, 0);
     }
     VecCopy((Vec *)((u8 *)this + 0x44), (const Vec *)(VecCopy((Vec *)((u8 *)this + 0x50), (const Vec *)(VecCopy((Vec *)((u8 *)this + 0x74), (const Vec *)((u8 *)this + 0x38))))));
     VecCopy((Vec *)((u8 *)this + 0x2FC), (const Vec *)((u8 *)this + 0x38));
@@ -1287,9 +1283,9 @@ TBoss6PlotFalz::TBoss6PlotFalz(TObject *parent, void *set_data) : TObjEnemy(pare
     *(f32 *)((s8 *)this + 0x30C) = 0.0f;
     *(f32 *)((s8 *)this + 0x308) = 0.0f;
     *(s32 *)((s8 *)this + 0x2A8) = 0;
-    temp_r30 = register_boss__6TLobbyFl(0x2C);
-    temp_r29 = dispatch_shared_handler_b__6TLobbyFl(0x2C);
-    temp_r6 = register_object__6TLobbyFl(0x2C);
+    temp_r30 = (s32)TLobby::register_boss(0x2C);
+    temp_r29 = (s32)TLobby::dispatch_shared_handler_b(0x2C);
+    temp_r6 = (s32)TLobby::register_object(0x2C);
     bind_enemy_combat_stats((u8 *)temp_r30, (u8 *)temp_r29, (u8 *)temp_r6);
     register_entity_by_id((u8 *)this);
     actorFlags = (s32) (actorFlags | 0x02000000);

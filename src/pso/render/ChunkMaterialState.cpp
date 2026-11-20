@@ -6,6 +6,7 @@
 #include "pso/unk/TLobby.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/render/MaterialColorFade.h"
+#include "pso/unk/TLobby_803DE778.h"
 
 struct Ent_803DEBC8 { u32 mask; u32 val; };
 
@@ -189,7 +190,7 @@ void TObjPlayer::init_matrix_stack(s32 arg0, s32 arg1) {
     current_matrix = 0xE0000000;
     matrix_stack_limit = (arg1 - 1) * 0x30 + 0xE0000000;
     PSMTXIdentity(identity_matrix == 0 ? (u8 *)0xE0000000 : identity_matrix);
-    ((TLobby *)matrix_stack_base)->move_data(identity_matrix, 0x30);
+    move_data((void *)(matrix_stack_base), (const void *)(identity_matrix), 0x30);
 }
 
 void init_light_globals(s32, s32) {
