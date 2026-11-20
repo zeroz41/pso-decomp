@@ -128,7 +128,7 @@ TPhotonConcentrate::~TPhotonConcentrate() {
 }
 TPhotonConcentrate::TPhotonConcentrate(u8 *arg1, s32 arg2, s32 arg3) : TObjCollidable((TObject *)arg2) {
     f32 temp_f1;
-    *(s32 *)((s8 *)this + 0) = (s32) TPhotonConcentrate__class_name;
+    *(saddr *)((s8 *)this + 0) = (saddr) TPhotonConcentrate__class_name;
     VecCopy((Vec *)(((u8 *)this) + 0xAC), (const Vec *)(VecCopy((Vec *)(((u8 *)this) + 0xB8), (const Vec *)((const Vec *)arg1))));
     VecCopy((Vec *)(((u8 *)this) + 0xD0), (const Vec *)(arg1 + 0xC));
     VecCopy((Vec *)(((u8 *)this) + 0xC4), (const Vec *)(arg1 + 0x18));

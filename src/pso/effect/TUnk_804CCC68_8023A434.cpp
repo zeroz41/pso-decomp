@@ -37,7 +37,7 @@ void TUnk_804CCC68::check_technique_projectile_wall_hit() {
     stack.sp1C = *(f32 *)((s8 *)((u8 *)this) + 0x28);
     temp_r3 = (u8 *)(csnVector(&stack.sp8, &stack.sp14, 0x100));
     if (temp_r3 != NULL) {
-        VecCopy((Vec *)(((u8 *)this) + 0x20), (const Vec *)(*(s32 *)((s8 *)temp_r3 + 4)));
+        VecCopy((Vec *)(((u8 *)this) + 0x20), (const Vec *)(*(saddr *)((s8 *)temp_r3 + 4)));
         this->vfunc_6();
         queue_destruction();
     }

@@ -176,7 +176,7 @@ u8 *TItemEffPG__visual_ct(u8 *arg0, u8 *arg1, u8 *arg2) {
     *(f32 *)((s8 *)arg0 + 0x2C) = 0.0f;
     ((TUnk_804F0BF0 *)arg0)->m_30 = 0.0f;
     *(f32 *)((s8 *)arg0 + 0x34) = 0.0f;
-    *(s32 *)((s8 *)arg0 + 0x38) = (s32)create_particle_emitter((arg0 + 0x5C), 0x83);
+    *(saddr *)((s8 *)arg0 + 0x38) = (saddr)create_particle_emitter((arg0 + 0x5C), 0x83);
     ((TUnk_804F0BF0 *)arg0)->m_58 = 0;
     return arg0;
 }

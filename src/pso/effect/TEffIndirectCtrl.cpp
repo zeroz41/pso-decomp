@@ -40,7 +40,7 @@ struct Ctrl_802A8728 {
 struct P2C_802A8B58 { void *a; s32 b; };
 
 struct Ctrl_802A8B58 {
-    s32 f0;
+    saddr f0;
     u8 pad4[0x18 - 4];
     void *vt;
     u32 f1c;
@@ -411,7 +411,7 @@ Ctrl_802A8B58 *TEffIndirectCtrl__ct(Ctrl_802A8B58 *self, s32 kind, void *parent)
     u8 k;
     __ct__7TObjectFP7TObject(self, parent);
     self->vt = ((s32 *)&__vt__16TEffIndirectCtrl);
-    self->f0 = (s32)TEffIndirectCtrl__name;
+    self->f0 = (saddr)TEffIndirectCtrl__name;
     self->f28 = ::operator new(0x24);
     self->f2c = (P2C_802A8B58 *)::operator new(8);
     {

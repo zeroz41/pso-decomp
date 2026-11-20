@@ -27,7 +27,7 @@ struct Self_801ACE1C {
     u8 pad0[0x24];
     s32 f24;
     u8 pad1[0x34 - 0x28];
-    s32 f34;
+    saddr f34;
     u8 pad2[0x60 - 0x38];
     s32 f60;
     u8 pad3[0x68 - 0x64];

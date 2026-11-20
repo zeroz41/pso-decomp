@@ -289,7 +289,7 @@ void TParticleCtrl::mark_active() {
 }
 
 s32 TUnk_8048E728::is_particle_sprite_additive() {
-    return **(s32 **)((s8 *)(*(s32 *)((s8 *)&TParticleCtrl__data_80511F70.value + (this->sprite_index * 4))) + 0x28) & 1;
+    return **(s32 **)((s8 *)(*(saddr *)((s8 *)&TParticleCtrl__data_80511F70.value + (this->sprite_index * 4))) + 0x28) & 1;
 }
 
 #pragma push

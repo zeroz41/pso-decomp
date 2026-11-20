@@ -187,7 +187,7 @@ void set_particle_tint_color(u8 *arg0, void *arg1);
 void free_bin_model_request(void*, int);
 s32 release_texture_list(void*);
 void mem_free(void *p);
-extern u32 TParticleCtrl__regular_bml_resource;
+extern uaddr TParticleCtrl__regular_bml_resource;
 extern u32 TParticleCtrl__texture_list;
 s32 mem_alloc(s32);
 // particle_pool_limit: declared s32 above (part 1)
@@ -403,7 +403,7 @@ struct ParticleVec {
 };
 
 struct ParticleCtrlData {
-    s32 descriptor;
+    saddr descriptor;
     u8 pad04[0x14];
     void *vtable;
     f32 field1C;
@@ -498,7 +498,7 @@ void *__ct__13TParticleCtrlFv(
 {
     __ct__7TObjectFP7TObject(particle, tl_07);
     particle->vtable = __vt__13TParticleCtrl;
-    particle->descriptor = (s32)TParticleCtrl__class_name_descriptor[0];
+    particle->descriptor = (saddr)TParticleCtrl__class_name_descriptor[0];
     particle->field4C = 0;
     particle->field50 = 0;
     particle->field54 = 0;
@@ -551,7 +551,7 @@ void *initialize_with_direction__13TParticleCtrlFPvPvPviiiii(
 {
     __ct__7TObjectFP7TObject(particle, tl_07);
     particle->vtable = __vt__13TParticleCtrl;
-    particle->descriptor = (s32)TParticleCtrl__class_name_descriptor[0];
+    particle->descriptor = (saddr)TParticleCtrl__class_name_descriptor[0];
     particle->field4C = 0;
     particle->field50 = 0;
     particle->field54 = 0;

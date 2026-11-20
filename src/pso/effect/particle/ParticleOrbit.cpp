@@ -496,7 +496,7 @@ TUnk_8048E790::TUnk_8048E790(u8 *arg1, u8 *arg2, u8 *arg3, s32 arg4, u16 arg5, s
     o->f2C = o->f28;
     temp_r0 = (s32)((f32)d->f4C * (3.0517578e-05f * (f32)rand()) + (f32)d->f48);
     if (d->f88 & 1) {
-        o->f5C = 1.0f / (f32)*(s32 *)((s8 *)(*(void **)((s8 *)(*(s32 *)((s8 *)TParticleCtrl__data_80511F70 + (o->f1C * 4))) + 0x28)) + 0xC);
+        o->f5C = 1.0f / (f32)*(s32 *)((s8 *)(*(void **)((s8 *)(*(saddr *)((s8 *)TParticleCtrl__data_80511F70 + (o->f1C * 4))) + 0x28)) + 0xC);
     } else {
         o->f5C = 1.0f / (f32)temp_r0;
     }
@@ -537,7 +537,7 @@ TUnk_8048E790::TUnk_8048E790(void *arg1, void *arg2, void *arg3, void *arg4)
     o->f2C = o->f28;
     temp_r0 = (s32)((f32)d->f4C * (3.0517578e-05f * (f32)rand()) + (f32)d->f48);
     if (d->f88 & 1) {
-        o->f5C = 1.0f / (f32)*(s32 *)((s8 *)(*(void **)((s8 *)(*(s32 *)((s8 *)((s32 *)&TParticleCtrl__data_80511F70) + (o->f1C * 4))) + 0x28)) + 0xC);
+        o->f5C = 1.0f / (f32)*(s32 *)((s8 *)(*(void **)((s8 *)(*(saddr *)((s8 *)((s32 *)&TParticleCtrl__data_80511F70) + (o->f1C * 4))) + 0x28)) + 0xC);
     } else {
         o->f5C = 1.0f / (f32)temp_r0;
     }

@@ -59,7 +59,7 @@ CollisionBody laser_fence_collision_body_parts[2][3] = {
 };
 
 s32 lazer_fence_norm_texture_list;
-s32 lazer_fence_norm_bml_resource;
+saddr lazer_fence_norm_bml_resource;
 
 struct Obj_80192554 { u8 pad0[0x38]; u8 f38[0x24]; s32 f5C; s32 f60; u8 pad64[0x48]; s32 fAC; u8 padB0[8]; f32 fB8; s32 fBC; s32 fC0; s32 fC4; s32 fC8[4]; };
 extern "C" {

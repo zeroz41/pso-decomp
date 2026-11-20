@@ -403,7 +403,7 @@ TUnk_8048E7A8::TUnk_8048E7A8(u8 *arg1, u8 *arg2, s32 arg3, u16 arg4, s16 arg5)
     ((Fields_arg0*)this)->field_2C = (f32) ((Fields_arg0*)this)->field_28;
     temp_r0 = (s32) (((f32) ((Fields_arg1*)arg1)->field_4C * (3.0517578e-05f * (f32) rand())) + (f32) ((Fields_arg1*)arg1)->field_48);
     if (((Fields_arg1*)arg1)->field_88 & 1) {
-        ((Fields_arg0*)this)->field_5C = (f32) (1.0f / (f32) *(s32 *)((s8 *)(*(void **)((s8 *)(*(s32 *)((s8 *)&TParticleCtrl__data_80511F70 + (((Fields_arg0*)this)->field_1C * 4))) + 0x28)) + 0xC));
+        ((Fields_arg0*)this)->field_5C = (f32) (1.0f / (f32) *(s32 *)((s8 *)(*(void **)((s8 *)(*(saddr *)((s8 *)&TParticleCtrl__data_80511F70 + (((Fields_arg0*)this)->field_1C * 4))) + 0x28)) + 0xC));
     } else {
         ((Fields_arg0*)this)->field_5C = (f32) (1.0f / (f32) temp_r0);
     }
@@ -433,7 +433,7 @@ TUnk_8048E7A8::TUnk_8048E7A8(void *arg1, void *arg2, void *arg3)
     ((Fields_arg0*)((u8 *)this))->field_2C = (f32) ((Fields_arg0*)((u8 *)this))->field_28;
     temp_r0 = (s32) (((f32) ((Fields_arg1*)arg1)->field_4C * (3.0517578e-05f * (f32) rand())) + (f32) ((Fields_arg1*)arg1)->field_48);
     if (((Fields_arg1*)arg1)->field_88 & 1) {
-        ((Fields_arg0*)((u8 *)this))->field_5C = (f32) (1.0f / (f32) *(s32 *)((s8 *)(*(void **)((s8 *)(*(s32 *)((s8 *)TParticleCtrl__data_80511F70 + (((Fields_arg0*)((u8 *)this))->field_1C * 4))) + 0x28)) + 0xC));
+        ((Fields_arg0*)((u8 *)this))->field_5C = (f32) (1.0f / (f32) *(s32 *)((s8 *)(*(void **)((s8 *)(*(saddr *)((s8 *)TParticleCtrl__data_80511F70 + (((Fields_arg0*)((u8 *)this))->field_1C * 4))) + 0x28)) + 0xC));
     } else {
         ((Fields_arg0*)((u8 *)this))->field_5C = (f32) (1.0f / (f32) temp_r0);
     }

@@ -37,7 +37,7 @@ struct Laser_801AC36C {
     f32 f358;
     f32 f35C;
     u8 pad360[4];
-    s32 f364;
+    saddr f364;
     u8 pad368[4];
     s32 f36C;
     s16 f370;
@@ -142,7 +142,7 @@ Laser_801AC36C *TPhotonLaser__ct(Laser_801AC36C *self, Params_801AC36C *p, void 
     self->f34C.z *= p->scale;
     self->f358 = p->f24;
     self->f35C = p->f2C;
-    self->f364 = (s32)create_particle_emitter(&self->f340, 0x134);
+    self->f364 = (saddr)create_particle_emitter(&self->f340, 0x134);
     self->f36C = 0;
     return self;
 }

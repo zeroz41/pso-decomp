@@ -88,7 +88,7 @@ struct BreakUpParamRow {
 };
 
 struct BreakUp_80096AD8 {
-    s32 f0;
+    saddr f0;
     u8 pad4[0x18 - 0x4];
     s32 *vtable;
     s32 count;
@@ -241,7 +241,7 @@ u8 *TBreakUpMdl__ct(u8 *break_up_mdl, void *arg1, Model_80096AD8 *arg2, void *ar
     s32 i;
     __ct__7TObjectFP7TObject(self, arg1);
     self->vtable = __vt__11TBreakUpMdl;
-    self->f0 = (s32)TBreakUpMdl__class_name;
+    self->f0 = (saddr)TBreakUpMdl__class_name;
     self->model = arg2;
     if (arg3 == NULL) {
         ((TBreakUpMdl *)(&self->f38))->copy((void *)&breakup_default_param_row);

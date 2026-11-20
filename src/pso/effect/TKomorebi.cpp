@@ -29,7 +29,7 @@ s32 get_bml_model(void *, int);
 s32 __ct__8TObjBaseFP7TObject(void *);
 extern s32 __vt__9TKomorebi[];
 extern const char *komorebi_class_name;
-extern u32 TKomorebi__resource_bundle;
+extern uaddr TKomorebi__resource_bundle;
 u8 *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 extern s32 komorebi_last_uv_update_frame;
 s32 get_bml_motion(s32, s32);
@@ -82,8 +82,8 @@ u8 *TKomorebi__ct(u8 *komorebi, s32 arg1, s32 arg2) {
     VecCopy((Vec *)(komorebi + 0x38), (const Vec *)(arg2 + 0xC));
     copy_xyz(komorebi + 0x5C, (void *)(arg2 + 0x18));
     VecCopy((Vec *)(komorebi + 0x68), (const Vec *)(arg2 + 0x24));
-    *(s32 *)((s8 *)komorebi + 0x34) = get_bml_model((void *) ((*(s32 *)&TKomorebi__resource_bundle)), 0);
-    ((TKomorebi *)komorebi)->texlist = get_bml_texlist((void *) ((*(s32 *)&TKomorebi__resource_bundle)), 0);
+    *(s32 *)((s8 *)komorebi + 0x34) = get_bml_model((void *) ((*(saddr *)&TKomorebi__resource_bundle)), 0);
+    ((TKomorebi *)komorebi)->texlist = get_bml_texlist((void *) ((*(saddr *)&TKomorebi__resource_bundle)), 0);
     return komorebi;
 }
 
@@ -107,7 +107,7 @@ void TKomorebi::load_resources() {
     if (p != 0) {
         p = load_resource_from_descriptor(p, 1, &TKomorebi__resource_descriptor, 0, 0, 0);
     }
-    TKomorebi__resource_bundle = (u32)p;
+    TKomorebi__resource_bundle = (uaddr)p;
     komorebi_last_uv_update_frame = 0;
 }
 void TObjLazerFenceExtra::init_models() {
@@ -144,6 +144,6 @@ BmlResourceDescriptor TKomorebi__resource_descriptor = { (char *)"bm_fe_obj_komo
 __declspec(section ".sdata") const char *bm_fe_obj_komo_motion_names[1] = { NULL };
 
 const char *komorebi_class_name = "TKomorebi";
-u32 TKomorebi__resource_bundle;
+uaddr TKomorebi__resource_bundle;
 s32 komorebi_last_uv_update_frame;
 }

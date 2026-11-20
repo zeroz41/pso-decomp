@@ -6,7 +6,7 @@
 
 struct TPhotonMagicSquare : public TObjBase {
     virtual ~TPhotonMagicSquare();
-    u32 m_90;
+    uaddr m_90;
     u8 unk_94[0x4];
     f32 m_98;
     u8 unk_9C[0x4];

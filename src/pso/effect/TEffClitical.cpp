@@ -58,7 +58,7 @@ void TEffClitical::render() {
     post_translate_matrix(arg0 + 0x20);
     rotate_matrix_y(0, (int) (*(s32 *)((s8 *)camera_ctrl_instance + 0x194)));
     scale_matrix(0, (f32) (*(f32 *)((s8 *)arg0 + 0x3C)), (f32) (*(f32 *)((s8 *)arg0 + 0x40)), (f32) (*(f32 *)((s8 *)arg0 + 0x44)));
-    draw_chunk_object((void *)(*(s32 *)effect_rel));
+    draw_chunk_object((void *)(*(saddr *)effect_rel));
     pop_matrix();
     copy_slot_to_anim_frame((TextureFrameSlot *)&sp8);
     model_render_flags = saved_model_render_flags;

@@ -65,7 +65,7 @@ u8 is_current_floor_switch_set(s32 id);
 
 AnimationMotion *get_bml_motion(BmlResource *resource, s32 index);
 s32 get_bml_model(BmlResource *resource, s32 index);
-extern s32 lazer_fence_norm_bml_resource;
+extern saddr lazer_fence_norm_bml_resource;
 f32 xz_distance_squared(void *, s32);
 
 extern s32 camera_ctrl_instance;

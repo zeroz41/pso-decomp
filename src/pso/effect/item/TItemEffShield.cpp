@@ -81,7 +81,7 @@ void TItemProShield::create_shield_effect(s32 arg0, u16 arg1, u32 arg2) {
 }
 
 TItemEffShield::TItemEffShield(TObject *arg1, s16 arg2, s32 arg3) : TObject(arg1) {
-    *(s32 *)((s8 *)this + 0) = (s32) TItemEffShield__class_name;
+    *(saddr *)((s8 *)this + 0) = (saddr) TItemEffShield__class_name;
     *(s32 *)((s8 *)this + 0x34) = arg3;
     *(s16 *)((s8 *)this + 0x44) = arg2;
     *(s32 *)((s8 *)this + 0x38) = 0;
@@ -175,7 +175,7 @@ void TUnk_8049F148::run_task() {
         if (temp_r3_2 != (s32) this->m_20) {
             this->m_20 = temp_r3_2;
             if ((is_current_area_item_enabled() != 0) && (temp_r3_2 == player->get_floor())) {
-                *(u32 *)&this->unk_1C = (u32)create_particle_emitter(sp8, 0x101);
+                *(uaddr *)&this->unk_1C = (uaddr)create_particle_emitter(sp8, 0x101);
             } else {
                 *(u32 *)&this->unk_1C = 0U;
             }
@@ -187,7 +187,7 @@ void TUnk_8049F148::run_task() {
                 var_r30 = 1;
             }
             if (var_r30 != 0) {
-                ((TParticleCtrl *)(*(u32 *)&this->unk_1C))->clear_active_flag();
+                ((TParticleCtrl *)(*(uaddr *)&this->unk_1C))->clear_active_flag();
             } else {
                 ((TParticleCtrl *)(*(u32 *)&this->unk_1C))->enable();
             }

@@ -115,7 +115,7 @@ void *__dt__16TBGLightningCtrlFv(void *base, s16 arg1) {
 u8 *TBGLightningCtrl__ct(u8 *bg_lightning_ctrl, s32 parent, s32 arg2) {
     __ct__8TObjBaseFP7TObject((void *)bg_lightning_ctrl, (void *)parent);
     *(s32 **)((s8 *)bg_lightning_ctrl + 0x18) = (s32 *)__vt__16TBGLightningCtrl;
-    *(s32 *)((s8 *)bg_lightning_ctrl + 0) = (s32) TBGLightningCtrl__name;
+    *(saddr *)((s8 *)bg_lightning_ctrl + 0) = (saddr) TBGLightningCtrl__name;
     ((TBGLightningCtrl *)(bg_lightning_ctrl))->apply_object_set_data((void *)arg2);
     ((TBGLightningCtrl *)bg_lightning_ctrl)->m_90 = 0;
     return bg_lightning_ctrl;
@@ -132,7 +132,7 @@ void *TBGLightningCtrl__create(void *arg0) {
 
 void TBGLightningCtrl::destroy_instance() {
     if ((u32) (*(u32 *)&bg_lightning_texture_handle) != 0U) {
-        release_texture_list((void*)(*(u32 *)&bg_lightning_texture_handle));
+        release_texture_list((void*)(*(uaddr *)&bg_lightning_texture_handle));
         TAdSinglePlyChrSelectGC::safe_free((*(u32 *)&bg_lightning_texture_handle));
         (*(u32 *)&bg_lightning_texture_handle) = 0U;
     }
@@ -280,7 +280,7 @@ u8 *__ct__12TBGLightningFv(u8 *object, void *arg1, s32 arg2, f32 farg0) {
 
     __ct__7TObjectFP7TObject(object, arg1);
     *(void **)((s8 *)object + 0x18) = (void *) __vt__12TBGLightning;
-    *(s32 *)((s8 *)object + 0) = (s32) TBGLightning__name;
+    *(saddr *)((s8 *)object + 0) = (saddr) TBGLightning__name;
     temp_f2 = (f32) rand();
     temp_f1 = (3.0517578e-05f) * temp_f2;
     temp_r5 = (s8) ((2.0f) * temp_f1);

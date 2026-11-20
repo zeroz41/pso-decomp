@@ -19,7 +19,7 @@ struct TEffIndirectCtrl : public TObject {
     void sub_802A955C();
     virtual void run_task();
     u32 m_1c;
-    u32 m_20;
+    uaddr m_20;
     u8 m_24;
     u8 m_25;
     u8 _pad26[0x2];

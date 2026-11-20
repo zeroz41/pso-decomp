@@ -126,9 +126,9 @@ struct Part_800890F4 {
     f32 scx;
     f32 scy;
     u8 padAC[0xB0 - 0xAC];
-    u32 model;
+    uaddr model;
     u32 texlist;
-    u32 motion;
+    uaddr motion;
     f32 frame;
     u8 padC0[0xC4 - 0xC0];
     Vec vel;

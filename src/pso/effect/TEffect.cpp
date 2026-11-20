@@ -15,7 +15,7 @@ struct EffectTextureFile {
 static const EffectTextureFile effect_texture_file = {&shared_effect_texture_list, "effect_nt.gvm"};
 const char *TEffect__class_name = "TEffect";
 
-s32 effect_rel;
+saddr effect_rel;
 s32 particle_texture_id_table[54];
 
 void approach_vector_in_place(Vec *current, const Vec *target, f32 step) {

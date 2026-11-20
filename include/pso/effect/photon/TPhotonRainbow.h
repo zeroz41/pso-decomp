@@ -8,8 +8,8 @@ struct TPhotonRainbow : public TObjBase {
     virtual ~TPhotonRainbow();
     u32 m_90;
     u32 m_94;
-    u32 m_98;
-    u32 m_9c;
+    uaddr m_98;
+    uaddr m_9c;
     u8 _padA0[0x8];
     u32 m_a8;
     virtual void render();

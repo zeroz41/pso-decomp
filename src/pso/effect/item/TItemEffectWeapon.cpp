@@ -147,12 +147,12 @@ void TItemEffectWeapon::render_trail() {
 
 
 TItemEffectWeapon::~TItemEffectWeapon() {
-    TItemEffectWeapon::release_trail_buffer((void*)*(s32 *)((s8 *)this + 0x1C));
+    TItemEffectWeapon::release_trail_buffer((void*)*(saddr *)((s8 *)this + 0x1C));
 }
 
 TItemEffectWeapon::TItemEffectWeapon(s32 arg1, s32 param) : TItemHeapObject((TObject*)arg1) {
     m_name = TItemEffectWeapon__class_name;
-    *(s32 *)((s8 *)this + 0x1C) = (s32)TItemEffectWeapon::allocate_trail_buffer();
+    *(saddr *)((s8 *)this + 0x1C) = (saddr)TItemEffectWeapon::allocate_trail_buffer();
     this->color = param;
     this->vertex_count = 0;
     this->field_28 = 0;

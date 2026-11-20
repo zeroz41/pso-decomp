@@ -220,13 +220,13 @@ void TUnk_804EDD44::start_card_effect_flash() {
     u8 *arg0 = (u8 *)this;
     uaddr p;
     u32 q;
-    *(u32 *)((s8 *)arg0 + 0x1C) = (u32)spawn_particle_effect_with_rotation(((u8 *)&this->unk_64), ((u8 *)&this->unk_54), 0x1B9, 0x104);
+    *(uaddr *)((s8 *)arg0 + 0x1C) = (uaddr)spawn_particle_effect_with_rotation(((u8 *)&this->unk_64), ((u8 *)&this->unk_54), 0x1B9, 0x104);
     p = *(u32 *)((s8 *)arg0 + 0x1C);
     if (p != 0U) {
         ((TParticleCtrl *)p)->set_scale(1.5f, 1.5f);
         q = this->m_50;
         if (q != 0U) {
-            ((TParticleCtrl *)(*(u32 *)((s8 *)arg0 + 0x1C)))->set_tint_color(q);
+            ((TParticleCtrl *)(*(uaddr *)((s8 *)arg0 + 0x1C)))->set_tint_color(q);
         }
     }
     spawn_particle_effect(((u8 *)&this->unk_64), 0x30);
@@ -377,7 +377,7 @@ void TUnk_804EDC28::emit_marker_effects() {
     s32 sp8;
 
     this->get_joint_position(4, &sp8);
-    if (get_validated_attack_stage((u8 *)(*(s32 *)&(*(NJS_MOTION_LINK *)((u8 *)this + 0xE4)).frame[1] + 0x7CC)) == 2) {
+    if (get_validated_attack_stage((u8 *)(*(saddr *)&(*(NJS_MOTION_LINK *)((u8 *)this + 0xE4)).frame[1] + 0x7CC)) == 2) {
         this->fire_shot_at_target(&sp8, (void *)*(s32 *)&(*(s16 *)((u8 *)this + 0xF4)), 0);
         this->fire_shot_at_target(&sp8, (void *)*(s32 *)&(*(s16 *)((u8 *)this + 0xF4)), 0x1555);
         this->fire_shot_at_target(&sp8, (void *)*(s32 *)&(*(s16 *)((u8 *)this + 0xF4)), -0x1555);

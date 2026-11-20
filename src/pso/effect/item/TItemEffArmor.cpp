@@ -144,7 +144,7 @@ struct Self_80108020 {
     const char *f0;
     u8 pad4[0x14];
     void *vt;
-    s32 f1C;
+    saddr f1C;
     u8 pad20[4];
     f32 f24;
     f32 f28;
@@ -218,7 +218,7 @@ Self_80108020 *TItemEffArmor__ct(Self_80108020 *self, u8 *obj, f32 a, f32 b) {
     self->f5C = default_scene_light_config.f20;
     self->f60 = default_scene_light_config.f1C;
     self->f64 = (1.0f - self->f5C) / 14.5f;
-    self->f1C = (s32)create_particle_emitter(self->f6C + 0x38, 0x1BA);
+    self->f1C = (saddr)create_particle_emitter(self->f6C + 0x38, 0x1BA);
     copy_argb((NJS_ARGB *)self->v38, (NJS_ARGB *)&lbl_8043E140);
     {
         Vec v = { 0.0f, 1.0f, 0.0f };
