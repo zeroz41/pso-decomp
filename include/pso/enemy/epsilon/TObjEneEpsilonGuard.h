@@ -22,7 +22,7 @@ struct TObjEneEpsilonGuardParams {
 
 struct TObjEneEpsilonGuard : public TObjEneEpsilon {
     virtual ~TObjEneEpsilonGuard();
-    void sub_803626A8(s32, s32);
+    void sub_803626A8(saddr, s32);
     void update_guard_state();
     void sub_8035EA90();
     void handle_event(s32);
