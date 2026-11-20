@@ -1,22 +1,19 @@
 #include "types.h"
 #include "pso/object/door/TObjDoorJung.h"
-
-struct Ent_8023DBEC { const char *name; u32 a; u32 b; };
-
-struct List_8023DBEC { Ent_8023DBEC *ents; u32 count; };
+#include "pso/render/GinjaTexture.h"
 
 extern "C" {
 s32 strcmp(const char *, const char *);
 void set_material_texture_slot(void *);
 
-s32 TObjDoorJung::find_entry_by_name(const char *name) {
-    Ent_8023DBEC *ents;
+s32 find_texture_entry_by_name(GinjaTextureList *texlist, const char *name) {
+    GinjaTextureEntry *entries;
     u32 i;
-    if (this != NULL) {
-        ents = ((List_8023DBEC *)this)->ents;
-        if (ents != NULL) {
-            for (i = 0; i < ((List_8023DBEC *)this)->count; i++) {
-                if (strcmp(name, ents[i].name) == 0) {
+    if (texlist != NULL) {
+        entries = texlist->entries;
+        if (entries != NULL) {
+            for (i = 0; i < texlist->count; i++) {
+                if (strcmp(name, entries[i].name) == 0) {
                     return i;
                 }
             }

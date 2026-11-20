@@ -1,3 +1,4 @@
+#include "pso/render/GinjaTexture.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/system/task/TMainTask.h"
@@ -300,9 +301,9 @@ void load_warp_beam_resources(void) {
     warp_jung_beam_models[5] = root->sibling->model;
     warp_jung_beam_mesh_node = root->sibling->sibling->sibling->model;
     warp_jung_last_scroll_tick = 0;
-    warp_jung_beam_entry_index = ((TObjDoorJung *)warp_jung_model_handle)->find_entry_by_name("ts064_beam_aka");
-    warp_jung_beam_blue_tex_entry = ((TObjDoorJung *)warp_jung_model_handle)->find_entry_by_name("ts064_beam_ao");
-    warp_jung_nakalight_tex_entry = ((TObjDoorJung *)warp_jung_model_handle)->find_entry_by_name("ts032_warp_nakalight");
+    warp_jung_beam_entry_index = find_texture_entry_by_name((GinjaTextureList *)warp_jung_model_handle, "ts064_beam_aka");
+    warp_jung_beam_blue_tex_entry = find_texture_entry_by_name((GinjaTextureList *)warp_jung_model_handle, "ts064_beam_ao");
+    warp_jung_nakalight_tex_entry = find_texture_entry_by_name((GinjaTextureList *)warp_jung_model_handle, "ts032_warp_nakalight");
 }
 
 void TObjWarpJungMain::debug_print_area_num() {}

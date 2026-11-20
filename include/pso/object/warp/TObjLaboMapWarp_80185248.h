@@ -13,7 +13,7 @@ void *TObjCityMainWarp__ct(void *arg0, void *arg1, void *arg2);
 void *TObjCityMapWarp__ct(void *arg0);
 void *TObjLaboMapWarp__ct(void *arg0);
 void clear_enabled_main_warps(void);
-void run_task__15TObjLaboMapWarpFv(u8 *arg0);
+void run_task__15TObjLaboMapWarpFv(TObjLaboMapWarp *warp);
 void run_task__16TObjCityMainWarpFv(TObjCityMainWarp *arg0);
 void unlock_main_warp_destination(s32 id);
 }

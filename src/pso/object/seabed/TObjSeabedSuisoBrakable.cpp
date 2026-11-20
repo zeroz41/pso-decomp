@@ -14,7 +14,6 @@
 #include "pso/system/TLanguage_801E4874.h"
 #include "pso/object/switch/TSwitch.h"
 #include "pso/ui/window/TWindowKeyBoardHard_801FBA48.h"
-#include "pso/object/door/TObjDoorJung.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/player/TObjPlayer_80011014.h"
@@ -38,10 +37,10 @@ NJS_OBJECT *TObjSeabedSuisoBrakable::model12_nodes[3];
 NJS_OBJECT *TObjSeabedSuisoBrakable::model13_nodes[3];
 
 void TObjSeabedSuisoBrakable::free_static_resources() {
-    if (texture_list != 0) {
-        release_texture_list((GinjaTextureList *)texture_list);
-        TAdSinglePlyChrSelectGC::safe_free(texture_list);
-        texture_list = 0;
+    if (texture_list != NULL) {
+        release_texture_list(texture_list);
+        TAdSinglePlyChrSelectGC::safe_free((u32)texture_list);
+        texture_list = NULL;
     }
     if (bml_resource != NULL) {
         free_bin_model_request(bml_resource, 1);
@@ -51,35 +50,35 @@ void TObjSeabedSuisoBrakable::free_static_resources() {
 
 void TObjSeabedSuisoBrakable::load_resources() {
     s32 i;
-    void *p;
+    void *loaded;
     NJS_OBJECT *model;
 
     switch (get_current_floor_area()) {
     case AREA_SEABED_LOWER: {
-        p = ::operator new(0x440);
-        if (p != NULL) {
-            p = load_resource_from_descriptor(p, 1, &bm_obj_seabed_suiso_2_resource_descriptor, 0, 0, 0);
+        loaded = ::operator new(0x440);
+        if (loaded != NULL) {
+            loaded = load_resource_from_descriptor(loaded, 1, &bm_obj_seabed_suiso_2_resource_descriptor, 0, 0, 0);
         }
-        bml_resource = (BmlResource *)p;
-        if ((texture_list = (u32)load_gvm_texture_file((s32)"obj_seabed_suiso_2.GVM")) != 0) {
+        bml_resource = static_cast<BmlResource *>(loaded);
+        if ((texture_list = (GinjaTextureList *)load_gvm_texture_file((s32)"obj_seabed_suiso_2.GVM")) != NULL) {
             SeabedSuisoTextureNames names = seabed_suiso_2_texture_names;
             for (i = 0; i < 5; i++) {
-                texture_entries[i] = ((TObjDoorJung *)texture_list)->find_entry_by_name(names.name[i]);
+                texture_entries[i] = find_texture_entry_by_name(texture_list, names.name[i]);
             }
         }
         break;
     }
     case AREA_SEABED_UPPER:
     default: {
-        p = ::operator new(0x440);
-        if (p != NULL) {
-            p = load_resource_from_descriptor(p, 1, &bm_obj_seabed_suiso_resource_descriptor, 0, 0, 0);
+        loaded = ::operator new(0x440);
+        if (loaded != NULL) {
+            loaded = load_resource_from_descriptor(loaded, 1, &bm_obj_seabed_suiso_resource_descriptor, 0, 0, 0);
         }
-        bml_resource = (BmlResource *)p;
-        if ((texture_list = (u32)load_gvm_texture_file((s32)"obj_seabed_suiso.GVM")) != 0) {
+        bml_resource = static_cast<BmlResource *>(loaded);
+        if ((texture_list = (GinjaTextureList *)load_gvm_texture_file((s32)"obj_seabed_suiso.GVM")) != NULL) {
             SeabedSuisoTextureNames names = seabed_suiso_texture_names;
             for (i = 0; i < 5; i++) {
-                texture_entries[i] = ((TObjDoorJung *)texture_list)->find_entry_by_name(names.name[i]);
+                texture_entries[i] = find_texture_entry_by_name(texture_list, names.name[i]);
             }
         }
         break;
@@ -90,10 +89,10 @@ void TObjSeabedSuisoBrakable::load_resources() {
         model12_nodes[1] = find_object_node(model, 2);
         model12_nodes[2] = find_object_node(model, 4);
     }
-    if ((p = (void *)get_bml_model(bml_resource, 13)) != NULL) {
-        model13_nodes[0] = find_object_node((NJS_OBJECT *)p, 1);
-        model13_nodes[1] = find_object_node((NJS_OBJECT *)p, 2);
-        model13_nodes[2] = find_object_node((NJS_OBJECT *)p, 3);
+    if ((loaded = (NJS_OBJECT *)get_bml_model(bml_resource, 13)) != NULL) {
+        model13_nodes[0] = find_object_node(static_cast<NJS_OBJECT *>(loaded), 1);
+        model13_nodes[1] = find_object_node(static_cast<NJS_OBJECT *>(loaded), 2);
+        model13_nodes[2] = find_object_node(static_cast<NJS_OBJECT *>(loaded), 3);
         for (i = 0; i < 3; i++) {
             if (model13_nodes[i] != NULL) {
                 model13_nodes[i]->evalflags |= 0x100000;
