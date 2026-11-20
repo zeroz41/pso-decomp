@@ -25,6 +25,7 @@ struct TBoss4Zako {
  void update_sink_state();
     static s32 create(saddr arg0);
     void set_state3();
+    static void update_state3(void *p);
     void update_orbit_velocity();
     static s32 queue_entry(void *v, s32 a, s32 b);
     void update_target_position();

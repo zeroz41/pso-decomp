@@ -283,7 +283,6 @@ extern saddr __vt__10TBoss4Zako[];
 extern const char *TBoss4Zako__name;
 s32 TBoss4Zako__ct(saddr arg0, saddr arg1, saddr arg2);
 
-void update_state3__10TBoss4ZakoFPv(void* p);
 s32 free_collision_body_parts(void *);
 
 void *__dt__9TObjEnemyFv(TObjEnemy *arg0, s16 arg1);
@@ -410,7 +409,7 @@ void *__dt__10TBoss4ZakoFv(void *arg0, s16 arg1) {
 }
 #pragma pop
 #pragma push
-void update_state3__10TBoss4ZakoFPv(void* p) { if (*(int*)((char*)p + 0x374) != 3) { ((TBoss4Zako *)p)->set_state3(); } }
+void TBoss4Zako::update_state3(void* p) { if (*(int*)((char*)p + 0x374) != 3) { ((TBoss4Zako *)p)->set_state3(); } }
 #pragma pop
 }
 
@@ -1393,7 +1392,7 @@ saddr __vt__10TBoss4Zako[83] = {
     (saddr)vfunc_60__9TObjCharaFv,
     (saddr)vfunc_61__9TObjCharaFv,
     (saddr)vfunc_62__9TObjCharaFv,
-    (saddr)update_state3__10TBoss4ZakoFPv,
+    (saddr)TBoss4Zako::update_state3,
     (saddr)reset_pose__9TObjCharaFv,
     (saddr)get_anim_node_position__9TObjCharaFlP3Vec,
     (saddr)vfunc_66__9TObjCharaFv,

@@ -80,6 +80,7 @@ struct TBoss2DeRolLe : public TObjEneDD_ST {
     u8 _pad740[0x18];
     u32 m_758;
     u8 unk_740[0x1C];
+    static void reset_fields_3d0(void *p);
 };
 
 LAYOUT_ASSERT(TBoss2DeRolLe_size, sizeof(TBoss2DeRolLe) == 0x75C);
@@ -138,7 +139,6 @@ int play_sound(void *p, int a1);
 void reload_stats_for_phase__13TBoss2DeRolLeFPvi(void *self, s32 kind);
 void render__13TBoss2DeRolLeFv(u8 *arg0);
 void render_body__13TBoss2DeRolLeFv(u8 *arg0);
-void reset_fields_3d0__13TBoss2DeRolLeFPv(void *p);
 void reset_parts__13TBoss2DeRolLeFv(void);
 void run_task__13TBoss2DeRolLeFPv(u8 *arg0);
 void send_6x13__13TBoss2DeRolLeFPv(void *p);

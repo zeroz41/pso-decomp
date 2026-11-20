@@ -1470,7 +1470,6 @@ void TBoss2DeRolLe__sub_80033A80(s32 arg0, saddr arg1);
 
 void advance_action_sequence__13TBoss2DeRolLeFPv(Obj_80034034 *self);
 
-void reset_fields_3d0__13TBoss2DeRolLeFPv(void* p);
 
 void set_params__13TBoss2DeRolLeFPvPv(void *arg0, void *arg1);
 
@@ -2438,7 +2437,6 @@ struct VObj_18_bd2ad6 : VBase_18_bd2ad6 {
 
 s32 fill_value_array(void *);
 
-void reset_fields_3d0__13TBoss2DeRolLeFPv(void *p);
 
 void *__ct__9TBoss2FinFv(void *, void *, void *, void *);
 
@@ -3220,7 +3218,7 @@ void *TBoss2DeRolLe__ct(void *arg0, void *arg1, void *arg2) {
     } else {
         self->f3F4 = 0;
     }
-    reset_fields_3d0__13TBoss2DeRolLeFPv(self);
+    TBoss2DeRolLe::reset_fields_3d0(self);
     if (!(self->f3C0 & 0x8000)) {
         ((TBoss2DeRolLe *)self)->mode = 1;
         ((VObj_18_bd2ad6 *)self)->m85(((TBoss2DeRolLe *)self)->mode, 4);
@@ -3963,7 +3961,7 @@ void set_params__13TBoss2DeRolLeFPvPv(void *arg0, void *arg1) {
     ((TObjEneDD *)arg0)->transition_enemy_state(*(s16 *)((s8 *)arg1 + 4));
 }
 
-void reset_fields_3d0__13TBoss2DeRolLeFPv(void* p) { *(s32*)((char*)p + 0x3d0) = 0; *(s32*)((char*)p + 0x3d4) = 0; }
+void TBoss2DeRolLe::reset_fields_3d0(void* p) { *(s32*)((char*)p + 0x3d0) = 0; *(s32*)((char*)p + 0x3d4) = 0; }
 
 void advance_action_sequence__13TBoss2DeRolLeFPv(Obj_80034034 *self) {
     s32 retry;
