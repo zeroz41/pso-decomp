@@ -7,7 +7,7 @@
 #pragma opt_dead_assignments off
 // The caller's buffer is declared 32-byte aligned, as the library's buffer pointers in .sbss are; GC/1.3 gives
 // the parameter an aligned home, hence the 32-aligned frame.
-s32 request_network_info_load(s32 channel, void *buffer __attribute__((aligned(32)))) {
+s32 request_network_info_load(s32 channel, void *buffer ATTRIBUTE_ALIGN_PARAM(32)) {
     switch (get_network_config_mode()) {
     case 0:
         return -1;

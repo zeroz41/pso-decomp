@@ -11,7 +11,6 @@ public:
     virtual void render();
 public:
     void destroy_and_flag();
-    static void render();
 };
 
 extern "C" {

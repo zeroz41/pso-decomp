@@ -250,7 +250,7 @@ void TWindowSubSymbolChatPartsSet__sub_802482B8(s32 arg0, s32 arg1) {
     ((TWindowBase *)arg0)->get_array_entry(arg1 + 0x1);
 }
 
-void TWindowSubSymbolChatPartsSet::get_parts_entry(s32 arg1) {
+void TWindowSubSymbolChatPartsSet::get_parts_entry(long arg1) {
     this->get_array_entry(arg1 + 9);
 }
 

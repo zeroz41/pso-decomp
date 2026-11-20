@@ -12,7 +12,6 @@ public:
     virtual void run_task();
     virtual void render();
 public:
-    static void render();
 };
 
 extern "C" {

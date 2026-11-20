@@ -10,7 +10,6 @@ public:
     virtual void run_task();
     virtual void render();
 public:
-    static void render();
     static s32 check_players_ready(void * _w0);
     static s32 is_input_phase_active();
     static void set_default_camera();

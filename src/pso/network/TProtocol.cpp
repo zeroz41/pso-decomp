@@ -1276,7 +1276,7 @@ void TProtocol::recv_error(packet &pkt) {
 	}
 };
 
-int TProtocol::handle_command(struct packet *pkt) {
+int TProtocol::handle_command(union packet *pkt) {
 	static const command_handler_entry handlers[] = {
 		{ 0x01, &TProtocol::recv_error },
 		{ 0x03, &TProtocol::recv_regist },
@@ -1362,7 +1362,7 @@ int TProtocol::handle_command(struct packet *pkt) {
 }
 
 void TProtocol::parse_packet() {
-	const int max_packet_size = sizeof(struct packet);
+	const int max_packet_size = sizeof(union packet);
 	while (!is_empty()) {
 		m_packet.bytes[m_packet_offset++] = next();
 		if (m_packet_offset == sizeof(packet_header)) {
@@ -1382,7 +1382,7 @@ void TProtocol::parse_packet() {
 			if (m_is_encrypted) {
 				m_recv_crypt.encrypt(&m_packet.pkt.data, m_packet_size-sizeof(packet_header));
 			}
-			struct packet *pkt = &m_packet;
+			union packet *pkt = &m_packet;
 			m_packet_size = 0;
 			m_packet_offset = 0;
 			if (m_handle_pings_only) {

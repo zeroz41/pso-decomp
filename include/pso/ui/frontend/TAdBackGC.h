@@ -11,7 +11,6 @@ public:
     virtual void run_task();
     virtual void render();
 public:
-    static void run_task();
 };
 
 int draw_title_background_layer(void *p, int a1, int a2, f32 a3);

@@ -56,6 +56,8 @@ typedef __SIZE_TYPE__ size_t;
 
 #define AT_ADDRESS(addr) : (addr)
 #define ATTRIBUTE_ALIGN(num) __attribute__((aligned(num)))
+/* An aligned parameter, which the console's compiler gives an aligned home in the frame. A port defines it empty. */
+#define ATTRIBUTE_ALIGN_PARAM(num) __attribute__((aligned(num)))
 #define DECL_WEAK __declspec(weak)
 #define __REGISTER register
 

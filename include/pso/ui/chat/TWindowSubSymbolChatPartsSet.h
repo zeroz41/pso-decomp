@@ -36,7 +36,7 @@ struct TWindowSubSymbolChatPartsSet : public TWindowChatSymbol {
     void set_pos(s16 arg1, s16 arg2);
     static void set_part_sprite(void *arg0, s16 id, s32 a, s32 b);
     void get_entry_offset_d(s32 arg1);
-    void get_parts_entry(s32 arg1);
+    void get_parts_entry(long arg1);
 };
 
 LAYOUT_ASSERT(TWindowSubSymbolChatPartsSet_size, sizeof(TWindowSubSymbolChatPartsSet) == 0x98);

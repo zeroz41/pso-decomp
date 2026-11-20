@@ -32,7 +32,7 @@ extern u32 new_ip_addr;
 extern u16 new_port;
 extern TPlyMeetUserExtension meet_user_settings;
 extern u32 game_variations[16][2];
-extern void copy_packet(struct packet *pkt);
+extern void copy_packet(union packet *pkt);
 
 class TBlockedSenders {
 public:
@@ -79,13 +79,10 @@ struct _packet {
     u8 data[];
 };
 
-template<size_t n = 0>
-union flex_packet {
+union packet {
     struct _packet pkt;
-    u8 bytes[(n) ? n : sizeof(packet_header)];
+    u8 bytes[0x7c00];
 };
-
-struct packet : public flex_packet<0x7c00> {};
 
 #define RECV_PACKET_HANDLERS \
     o(handle_unused_login, void) \
@@ -195,7 +192,7 @@ public:
     TPlyClientConfig m_client_config;
     int m_packet_offset;
     int m_packet_size;
-    struct packet m_packet;
+    union packet m_packet;
     struct recv_packet_handlers m_recv_handlers;
 private:
     static void operator delete(void *ptr) { obj_heap->heap_free(ptr); };
@@ -230,7 +227,7 @@ public:
     void handle_cmd_9F(packet &pkt);
     void handle_cmd_AB(packet &pkt);
     void handle_cmd_AC(packet &pkt);
-    int handle_command(struct packet *pkt);
+    int handle_command(union packet *pkt);
     void parse_packet();
     void seq_jump(u8 *some_struct, TPlyMeetUserExtension &extension);
 

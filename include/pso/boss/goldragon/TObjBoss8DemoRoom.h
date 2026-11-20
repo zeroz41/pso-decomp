@@ -10,7 +10,6 @@ public:
     virtual void run_task();
     virtual void render();
 public:
-    static void render();
     static void free_static_instance();
     static void load_resource();
 };
