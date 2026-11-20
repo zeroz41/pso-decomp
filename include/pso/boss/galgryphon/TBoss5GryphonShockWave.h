@@ -15,7 +15,7 @@ struct TBoss5GryphonShockWave : public TObject {
     void* m_2c;
     u8 _pad30[0x8];
     u32 m_38;
-    u32 m_3c;
+    uaddr m_3c;
     void* m_40;
     u8 _pad44[0xC];
     void* m_50;

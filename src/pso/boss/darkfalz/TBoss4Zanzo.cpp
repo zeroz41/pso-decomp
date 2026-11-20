@@ -1321,7 +1321,7 @@ void TBoss4Type2::md_recover_update() {
   if (temp_r0 < 0)
   {
     ((s32 (*)(s32, void *, s32, s32))play_sound_effect)(0x4003AD1A, boss4_type2 + 0x38, 0, 1);
-    TTecResta::create((void *)boss4_type2, boss4_type2 + 0x38, (void *)(*((int *) (((s8 *) boss4_type2) + 0x428))));
+    TTecResta::create((void *)boss4_type2, boss4_type2 + 0x38, (void *)(*((saddr *) (((s8 *) boss4_type2) + 0x428))));
     ((TBoss4Type2 *)((void *) boss4_type2))->change_action((int) (*((int *) (((s8 *) boss4_type2) + 0x424))));
   }
 }

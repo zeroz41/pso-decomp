@@ -36,8 +36,8 @@ struct TBoss4Type3 : public TObjEnemy {
     virtual void apply_poison_status();
     s32 m_374;
     ModelNodeTables node_tables;
-    u32 m_38c;
-    s32 m_390;
+    uaddr m_38c;
+    saddr m_390;
     TBoss4Type3CollisionState *m_394;
     s32 m_398;
     f32 m_39c;

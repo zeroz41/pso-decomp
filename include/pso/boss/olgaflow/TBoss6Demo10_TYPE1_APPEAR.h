@@ -13,9 +13,9 @@ public:
     u8 unk_1C[0x4];
     s32 m_20;
     u8 unk_24[0x4];
-    s32 m_28;
+    saddr m_28;
     u8 unk_2C[0x4];
-    s32 m_30;
+    saddr m_30;
     u8 unk_34[0x4];
     s32 m_38;
     u8 unk_3C[0x24];

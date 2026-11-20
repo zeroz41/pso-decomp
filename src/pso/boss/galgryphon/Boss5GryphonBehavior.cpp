@@ -284,7 +284,7 @@ struct Stack_8005E1E8 {
 
 struct Obj_8005E058 { u8 pad0[0x3C0]; Vec src[10]; u8 pad438[0xB0]; Vec dst[10]; };
 
-struct Obj_8005E0C0 { u8 pad[0x34]; s32 f34; u8 pad38[0x24]; s32 f5c; s32 f60; s32 f64; u8 pad68[0x90]; s32 ff8; u8 pad_fc[0x3C0 - 0xFC]; u8 f3c0[0x100]; s32 f4c0; };
+struct Obj_8005E0C0 { u8 pad[0x34]; saddr f34; u8 pad38[0x24]; s32 f5c; s32 f60; s32 f64; u8 pad68[0x90]; saddr ff8; u8 pad_fc[0x3C0 - 0xFC]; u8 f3c0[0x100]; s32 f4c0; };
 
 
 struct Obj_8005E4D4 { u8 pad[0x734]; void *parts[16]; };
@@ -1020,7 +1020,7 @@ struct Obj_8005D708 {
     u8 pad0[0x24];
     s32 f24;
     u8 pad28[0xC];
-    s32 f34;
+    saddr f34;
     u8 pad38[0x28];
     s32 f60;
     u8 pad64[0xD8 - 0x64];

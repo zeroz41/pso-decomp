@@ -125,7 +125,7 @@ struct Crater_8002C288 : VBase_8002C288 {
     virtual void m11();
     virtual s32 m12(void *, Arg_8002C288 *, void *);
     u8 pad1c[0xAC - 0x1C];
-    u32 fAC;
+    uaddr fAC;
     u8 padB0[0xB4 - 0xB0];
     void *fB4;
     s32 fB8[4];

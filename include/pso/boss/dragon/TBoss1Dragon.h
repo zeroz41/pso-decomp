@@ -26,7 +26,7 @@ struct DragonModelNode {
     f32 unknown34;
 };
 
-struct DragonEffectResource { s32 particle_ids[8]; };
+struct DragonEffectResource { saddr particle_ids[8]; };
 
 struct DragonControllerInput {
     u8 unk_0[0x8];

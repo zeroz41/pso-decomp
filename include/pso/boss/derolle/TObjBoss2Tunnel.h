@@ -37,8 +37,8 @@ struct TObjBoss2Tunnel : public TObject {
     void* m_20;
     u32 m_24;
     u32 m_28;
-    u32 m_2c;
-    u32 m_30;
+    uaddr m_2c;
+    uaddr m_30;
     u32 m_34;
     u32 m_38;
     u8 _pad3C[0x8];

@@ -32,11 +32,11 @@ void TObjDFDemoF::render() {
     temp_r4 = *((unsigned int *) (((s8 *) temp_r30) + 0xAC));
     if (temp_r4 == 0U)
     {
-      draw_chunk_object((void *)(*((int *) (((s8 *) temp_r30) + 0x94))));
+      draw_chunk_object((void *)(*((saddr *) (((s8 *) temp_r30) + 0x94))));
     }
     else
     {
-      draw_model_motion((void *)(*((int *) (((s8 *) temp_r30) + 0x94))), (void *)temp_r4, this->m_b8);
+      draw_model_motion((void *)(*((saddr *) (((s8 *) temp_r30) + 0x94))), (void *)temp_r4, this->m_b8);
     }
     var_r29 += 1;
     var_r31 += 4;

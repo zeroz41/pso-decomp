@@ -29,9 +29,9 @@
 #pragma readonly_strings on
 
 typedef struct Rec_8004E918 {
-    s32 a;
+    saddr a;
     s32 b;
-    s32 c;
+    saddr c;
 } Rec_8004E918;
 
 typedef struct Obj_8004E918 {

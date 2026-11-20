@@ -364,7 +364,7 @@ void update_charge_effects__14TBoss6GravBallFPv(u8 *self) {
     }
     *(s32 *)((s8 *)self + 0xB8) = (s32) (*(s32 *)((s8 *)self + 0xB8) + 1);
     *(s32 *)((s8 *)self + 0xB4) = (s32) (*(s32 *)((s8 *)self + 0xB4) + 1);
-    switch (((TBoss6GravBall *)((int) (*(s32 *)((s8 *)self + 0xAC))))->get_state()) {
+    switch (((TBoss6GravBall *)((saddr) (*(saddr *)((s8 *)self + 0xAC))))->get_state()) {
     case 29:
     case 30:
     case 39:
@@ -416,7 +416,7 @@ void update_state__14TBoss6GravBallFPv(u8 *arg0) {
         }
         TBoss6GravBall__sub_80323544((arg0));
         play_persistent_sound(0x4003B51A, arg0, arg0 + 0xC8, 0, 0);
-        switch (((TBoss6GravBall *)((int) (*(s32 *)((s8 *)arg0 + 0xAC))))->get_state()) {
+        switch (((TBoss6GravBall *)((saddr) (*(saddr *)((s8 *)arg0 + 0xAC))))->get_state()) {
         case 0x27:
             return;
         case 0x1D:

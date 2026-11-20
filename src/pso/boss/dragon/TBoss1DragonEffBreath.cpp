@@ -27,7 +27,7 @@ void TBoss1DragonEffBreath::run_task() {
         return;
     }
     if (temp_f1 < 30.0f) {
-        ((TBoss1Dragon *)((int) TBoss1Dragon::get_instance()))->deliver_breath_attack((saddr)(arg0 + 0x1C), (s32)((int)this->m_34));
+        ((TBoss1Dragon *)((saddr) TBoss1Dragon::get_instance()))->deliver_breath_attack((saddr)(arg0 + 0x1C), (s32)((int)this->m_34));
     }
 }
 

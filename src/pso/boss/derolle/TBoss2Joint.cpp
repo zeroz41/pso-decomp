@@ -390,7 +390,7 @@ void TBoss2Joint::vfunc_28() {  }
 void TBoss2Joint::run_task() {
     u8 *arg0 = (u8 *)this;
     if (TObjPlayer::check_demo_mode() == 0) {
-        VecCopy((Vec *)(arg0 + 0x38), (const Vec *)((int) (*(s32 *)((s8 *)arg0 + 0x390))));
+        VecCopy((Vec *)(arg0 + 0x38), (const Vec *)((saddr) (*(saddr *)((s8 *)arg0 + 0x390))));
         this->vfunc_83();
         if (((VObj_18 *)(arg0))->m84() == 0) {
             this->dispatch_action(this->mode, 3);

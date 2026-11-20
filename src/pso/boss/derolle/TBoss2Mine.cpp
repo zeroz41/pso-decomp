@@ -882,7 +882,7 @@ void TBoss2Mine::vfunc_107(s32 arg1) {
       *((s32 *) (((s8 *) arg0) + 0x3B0)) = 0;
       *((s32 *) (((s8 *) arg0) + 0x3C8)) = 0;
       *((s32 *) (((s8 *) arg0) + 0x3CC)) = 0;
-      create_timed_particle_emitter((void *)((*((s32 *) (((s8 *) arg0) + 0xA4))) + 0x1C), 0x16A, 0, 6);
+      create_timed_particle_emitter((void *)((*((saddr *) (((s8 *) arg0) + 0xA4))) + 0x1C), 0x16A, 0, 6);
       return;
     case 3:
       if (((s32) (*((s32 *) (((s8 *) arg0) + 0x3CC)))) == 2)
@@ -899,7 +899,7 @@ void TBoss2Mine::vfunc_107(s32 arg1) {
       *((ByteBlock_14 *) (((saddr)(copy_storage_800384C8.bytes - 0x4)) + 4)) = *((const ByteBlock_14 *) (((saddr) (((u8 *)&boss2_mine_collision_desc.value) - 4)) + 4));
       *((f32 *)(copy_storage_800384C8.bytes + 0x4)) = TBoss2DeRolLe__sub_80034CEC();
       TObjEneDD__sub_800BA5A4(arg0, copy_storage_800384C8.bytes);
-      spawn_particle_effect_with_flags((void *)((*((s32 *) (((s8 *) arg0) + 0xA4))) + 0x1C), 0x16B, 0x40);
+      spawn_particle_effect_with_flags((void *)((*((saddr *) (((s8 *) arg0) + 0xA4))) + 0x1C), 0x16B, 0x40);
       *((s32 *) (((s8 *) arg0) + 0x3CC)) = 2;
       play_sound_effect(0x4003AD05, (uaddr)(arg0 + 0x2FC), 0, 0);
     }

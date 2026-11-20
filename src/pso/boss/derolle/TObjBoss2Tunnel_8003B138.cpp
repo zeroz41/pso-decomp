@@ -193,7 +193,7 @@ static Vec boss2_tunnel_particle_pos_table[4] = {
 
 struct S_8003C21C { u8 pad[0x1f]; u8 x; };
 
-struct O_8003C21C { u8 pad[0x5c]; s32 p; };
+struct O_8003C21C { u8 pad[0x5c]; saddr p; };
 
 extern "C" {
 s32 TObjBoss2Tunnel__sub_8003C1C8(void);

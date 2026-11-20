@@ -252,9 +252,9 @@ struct T2_802BB498 { u8 pad0[0x374]; s32 f374; };
 
 struct T2_802BB554 { u8 pad0[0x374]; s32 f374; };
 
-struct T2_802BB768 { u8 pad0[0x410]; u32 f410; u32 f414; };
+struct T2_802BB768 { u8 pad0[0x410]; uaddr f410; uaddr f414; };
 
-struct T2_802BB7C0 { u8 pad0[0x410]; u32 f410; u32 f414; };
+struct T2_802BB7C0 { u8 pad0[0x410]; uaddr f410; uaddr f414; };
 
 struct Ent_802BBD88 { u8 pad0[0x18]; u32 f; u8 pad1c[0x10]; };
 
@@ -2684,7 +2684,7 @@ void TBoss6Type2::update_part_positions() {
             if (idx >= 0) {
                 VecCopy((Vec *)((Vec *)(&v)), (const Vec *)((Vec *)((Vec *)((u8 *)o + idx * 0xC + 0x59C))));
             }
-            ((TParticleCtrl *)(s32)o->arr[i])->set_position(&v);
+            ((TParticleCtrl *)(saddr)o->arr[i])->set_position(&v);
         }
         i++;
     } while (i < 14);

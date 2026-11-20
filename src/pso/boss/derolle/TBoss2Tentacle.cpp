@@ -86,7 +86,7 @@ void draw_model_motion(void *arg0, void *arg1, f32 farg0);
 extern DragonModelNode tentacle_model_nodes[];
 void render__14TBoss2TentacleFv(u8 *arg0);
 void emit_effect_and_step__13TBoss2DeRolLeFPvPv(void *arg0, void *arg1);
-s32 get_instance__13TBoss2DeRolLeFv(void);
+saddr get_instance__13TBoss2DeRolLeFv(void);
 void TBoss2Tentacle__sub_8003998C(void);
 void TBoss2Tentacle__sub_80039CB4(void* p);
 void TBoss2Tentacle__sub_80039D50(void* p);

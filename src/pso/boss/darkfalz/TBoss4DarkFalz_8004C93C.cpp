@@ -150,7 +150,7 @@ typedef struct Obj_8004C940 {
     s32 f380;
     u8 pad384[0x39C - 0x384];
     Vec pos;
-    s32 f3a8;
+    saddr f3a8;
 } Obj_8004C940;
 
 void TBoss4DarkFalz::begin_defeat_sequence() {

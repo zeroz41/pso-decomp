@@ -131,7 +131,7 @@ struct Self_8005AE60 {
     u8 pad340[0x378 - 0x340];
     ModelNodeTables node_tables;
     s32 f38C;
-    s32 f390;
+    saddr f390;
     s32 f394;
     u8 pad398[0x3A0 - 0x398];
     s32 f3A0;
@@ -270,7 +270,7 @@ struct O_800590F4
   u8 pad3ac[0x3F4 - 0x3AC];
   f32 f3f4;
   u8 pad3f8[0x51C - 0x3F8];
-  s32 f51c[2];
+  saddr f51c[2];
   VObj_800590F4 *f524[2];
 };
 

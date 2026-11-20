@@ -245,7 +245,7 @@ struct Boss_802B6C30 {
     Vec b;
 };
 
-struct Anim_802B81A4 { s32 id; f32 t; s32 f8; f32 blend; f32 f10; s32 prevId; f32 prevT; };
+struct Anim_802B81A4 { saddr id; f32 t; s32 f8; f32 blend; f32 f10; s32 prevId; f32 prevT; };
 
 struct Boss_802B81A4 {
     u8 pad0[0x3FC];

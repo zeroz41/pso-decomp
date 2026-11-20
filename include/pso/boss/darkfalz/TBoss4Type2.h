@@ -12,8 +12,8 @@ struct TBoss4Type2Params
 {
     f32 move_seconds;
     u8 pad_04[0x14];
-    s32 rafoie_level;
-    s32 rabarta_level;
+    saddr rafoie_level;
+    saddr rabarta_level;
     s32 power;
 };
 

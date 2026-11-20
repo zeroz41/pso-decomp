@@ -3892,7 +3892,7 @@ void TBoss7LaserPtcl__sub_802E8FCC(u8 *arg0, u32 arg1) {
                 fill_value_array((saddr)(*(PointerBuffer **)((s8 *)arg0 + 0x718)));
                 ((TObjMotion *)arg0)->set_field_b8(0xD);
                 if (((TObjEneDD_ST *)arg0)->enemy_check_target_valid() != 0) {
-                    VecCopy__FP3VecPC3Vec((saddr)((saddr)temp_r30), (void *)((int) (*(s32 *)((s8 *)arg0 + 0x390) + 0x38)));
+                    VecCopy__FP3VecPC3Vec((saddr)((saddr)temp_r30), (void *)((saddr) (*(saddr *)((s8 *)arg0 + 0x390) + 0x38)));
                 } else {
                     *(f32 *)((s8 *)arg0 + 0x76C) = 0.0f;
                     *(f32 *)((s8 *)temp_r30 + 4) = 0.0f;
@@ -3940,7 +3940,7 @@ void TBoss7LaserPtcl__sub_802E8FCC(u8 *arg0, u32 arg1) {
             }
             temp_r3 = (u8 *)(csnVector((s32 *)&sp8, src, 0x16EF));
             if (temp_r3 != NULL) {
-                VecCopy__FP3VecPC3Vec((saddr)((saddr)src), (void *)((int) (*(s32 *)((s8 *)temp_r3 + 4))));
+                VecCopy__FP3VecPC3Vec((saddr)((saddr)src), (void *)((saddr) (*(saddr *)((s8 *)temp_r3 + 4))));
                 if ((u32) *(u32 *)((s8 *)arg0 + 0x71C) == 0U) {
                     *(TUnk_804E4788 **)((s8 *)arg0 + 0x71C) = new TUnk_804E4788((TObject *)arg0, 6, 0x208);
                 } else {
@@ -4601,7 +4601,7 @@ void TObjPlayer__sub_802E7F30(void *unused, s32 arg1) {
     if (1)
     {
       var_r4 = (s32 *)lbl_804739AC;
-      var_r4 = (s32 *) (*((s32 *) (((s8 *)lbl_804739AC) + var_r31)));
+      var_r4 = (s32 *) (*((saddr *) (((s8 *)lbl_804739AC) + var_r31)));
       model_node = (u8 *) find_model_node(queue_boss_effect__10TObjPlayerFPv(0), (saddr) var_r4);
     }
     if (model_node != 0)
@@ -4612,7 +4612,7 @@ void TObjPlayer__sub_802E7F30(void *unused, s32 arg1) {
     var_r3 = (u8 *) 0;
     var_r4 = (s32 *)lbl_804739D4;
     var_r4 = (s32 *)lbl_804739D4;
-    var_r4 = (s32 *) (*((s32 *) (((s8 *)lbl_804739D4) + var_r31)));
+    var_r4 = (s32 *) (*((saddr *) (((s8 *)lbl_804739D4) + var_r31)));
     temp_r3_2 = (u8 *) find_model_node(queue_boss_effect__10TObjPlayerFPv(0), (saddr) var_r4);
     if (temp_r3_2 != 0)
     {

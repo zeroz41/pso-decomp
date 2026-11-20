@@ -30,7 +30,7 @@ struct TBoss6Mine : public TObjEnemy {
     virtual void vfunc_62();
     virtual void render_shadows();
     virtual void render();
-    u32 m_374;
+    uaddr m_374;
     TObjEnemy *owner;
     s32 heading;
     s32 state;

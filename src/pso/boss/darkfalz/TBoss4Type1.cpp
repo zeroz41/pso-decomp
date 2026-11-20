@@ -68,7 +68,7 @@ typedef struct Spot_80052CDC {
 
 typedef struct Obj_80052CDC {
     u8 pad0[0x38C];
-    s32 owner;
+    saddr owner;
     u8 pad390[0x398 - 0x390];
     s32 timer;
     u8 pad39c[0x3A8 - 0x39C];

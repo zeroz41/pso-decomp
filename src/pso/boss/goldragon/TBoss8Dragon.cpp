@@ -181,13 +181,13 @@ struct Stack_802F4760 {
 
 struct Obj_802F44D8 {
     u8 pad0[0x34];
-    s32 f34;
+    saddr f34;
     u8 v38[0x5C - 0x38];
     s32 f5C;
     s32 f60;
     s32 f64;
     u8 v68[0xF8 - 0x68];
-    s32 fF8;
+    saddr fF8;
     u8 padFC[0x3C0 - 0xFC];
     s32 f3C0;
     u8 pad3C4[0x3EC - 0x3C4];
@@ -1151,7 +1151,7 @@ void sync_target_pos__12TBoss8DragonFPv(void *p);
 void TBoss8Dragon__sub_802FC060(void *, s32);
 extern void *TBoss8Dragon__dive_height_curve[];
 struct Pair_802F8578 { f32 a; f32 b; };
-struct Ids_802F8578 { u8 pad[0x8]; s32 id8; s32 idC; };
+struct Ids_802F8578 { u8 pad[0x8]; saddr id8; saddr idC; };
 struct Dragon_802F8578 : VObj_18_444bc5 {
     u8 pad1C[0x38 - 0x1C];
     Vec pos;

@@ -13,7 +13,7 @@ struct TBoss2LaserLight : public TObject {
     u8 _pad2C[0xC];
     void* m_38;
     u8 _pad3C[0x4];
-    u32 m_40;
+    uaddr m_40;
     virtual void render();
     virtual void run_task();
 };

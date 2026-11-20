@@ -551,7 +551,7 @@ struct Self_8002EFE8 {
     u8 pad0[0x24];
     s32 x24;
     u8 pad28[0x34 - 0x28];
-    s32 x34;
+    saddr x34;
     u8 pos[0xC];
     u8 pad44[0x5C - 0x44];
     s32 rotX;
@@ -567,7 +567,7 @@ struct Self_8002EFE8 {
     f32 fixedFrame;
     f32 speed;
     u8 pad360[0x5E0 - 0x360];
-    s32 joints[10];
+    saddr joints[10];
 };
 
 extern "C" {
@@ -767,7 +767,7 @@ struct Me_8002F258 : VObj_18_3a6650 {
     u8 pad4e8[0x540 - 0x4E8];
     Vec mids[10];
     u8 pad5b8[0x5E0 - 0x5B8];
-    s32 joints[10];
+    saddr joints[10];
     u8 pad608[0x6A4 - 0x608];
     f32 height;
 };
@@ -949,7 +949,7 @@ struct Rol_8002F7C4 : VObj_18_8002F7C4 {
     u8 pad5B8[0x5E0 - 0x5B8];
     s32 slots[10];
     u8 pad608[0x620 - 0x608];
-    s32 tent[4];
+    saddr tent[4];
     u8 pad630[0x654 - 0x630];
     s32 f654;
     u8 pad658[0x6A4 - 0x658];
@@ -1359,7 +1359,7 @@ struct Obj_80030720 {
     u8 f4D0[0x524 - 0x4D0];
     u8 f524[0x630 - 0x524];
     saddr f630[5];
-    s32 f644[3];
+    saddr f644[3];
     u8 pad650[4];
     s32 f654;
 };
@@ -1712,7 +1712,7 @@ struct RecoveredFields_80034C2C_arg0 {
     f32 field_3AC;
 };
 
-struct Obj_80034B60 { u8 pad0[0x34]; s32 f34; u8 pad1[0xC0 - 0x38]; f32 fC0; u8 pad2[0xF8 - 0xC4]; s32 fF8; };
+struct Obj_80034B60 { u8 pad0[0x34]; saddr f34; u8 pad1[0xC0 - 0x38]; f32 fC0; u8 pad2[0xF8 - 0xC4]; saddr fF8; };
 
 struct Base_80034E90 { char pad[0x18]; };
 
@@ -2119,8 +2119,8 @@ struct Self_80035420 {
     u8 pad1C[0x5E0 - 0x1C];
     void *a5E0[10];
     s32 x608[4];
-    s32 x618;
-    s32 x61C;
+    saddr x618;
+    saddr x61C;
     void *a620[4];
     void *a630[5];
     void *a644[3];
@@ -3100,7 +3100,7 @@ void *TBoss2DeRolLe__ct(void *arg0, void *arg1, void *arg2) {
     ((TBoss2DeRolLe *)self)->requested_action = 0;
     ((TObjMotion *)self)->set_animation(((TBoss2DeRolLe *)self)->requested_action);
     ((TObjMotion *)self)->set_field_b8(((TBoss2DeRolLe *)self)->requested_action);
-    ((TObjEneDD *)self)->reset_hp((u8 *)TBoss2DeRolLe__base_params, (u8 *)(((s32 *)TBoss2DeRolLe__attack_params_table)[0]), (u8 *)TBoss2DeRolLe__resistance_params);
+    ((TObjEneDD *)self)->reset_hp((u8 *)TBoss2DeRolLe__base_params, (u8 *)(((saddr *)TBoss2DeRolLe__attack_params_table)[0]), (u8 *)TBoss2DeRolLe__resistance_params);
     ((TObjEneDD *)self)->check_state_flag_2();
     ((TBoss2DeRolLe *)self)->movementParameters = (u8 *)lbl_8048228C;
     ((TObjEneDD *)self)->initialize_enemy_state(0x2D);

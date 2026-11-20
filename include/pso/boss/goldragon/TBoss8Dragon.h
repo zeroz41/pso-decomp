@@ -127,7 +127,7 @@ public:
     const s32 *m_760;
     void* m_764;
     u8 unk_768[0xC];
-    s32 m_774;
+    saddr m_774;
     u8 unk_778[0xD4];
     s32 m_84c;
     s32 m_850;

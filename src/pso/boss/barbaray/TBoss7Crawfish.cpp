@@ -65,7 +65,7 @@ struct Stack_80308B38 {
 
 struct Msg_803086A8 { void *p; s32 one; Vec pos; s32 id; };
 
-struct Slot_803086A8 { u32 a; s32 b; };
+struct Slot_803086A8 { uaddr a; s32 b; };
 
 struct Obj_803086A8 { u8 pad[0x3A4]; s32 count; Slot_803086A8 slots[4]; };
 
