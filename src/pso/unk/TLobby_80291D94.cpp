@@ -1058,7 +1058,7 @@ void TLobby__sub_80293218(s32 arg0) {
 
 #pragma push
 #pragma scheduling off
-void copy_tombstone_spot(TObjTombstoneSpot *destination, const TObjTombstoneSpot *source) {
+extern "C++" void copy_tombstone_spot(TObjTombstoneSpot *destination, const TObjTombstoneSpot *source) {
     volatile TObjTombstoneSpot *output = destination;
     const volatile TObjTombstoneSpot *input = source;
     output->phase = input->phase;
