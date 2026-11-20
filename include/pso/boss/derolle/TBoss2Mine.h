@@ -33,26 +33,45 @@ struct TBoss2Mine : public TObjEneDD {
     void apply_paralysis();
     void apply_poison_status();
     void vfunc_28();
-    u8 _pad390[0x20];
-    u32 m_3b0;
-    u8 _pad3B4[0x14];
-    u32 m_3c8;
-    u32 m_3cc;
     void set_launch_position_velocity(u8 *arg1, u8 *arg2);
     void render();
     void set_state_by_distance(s32 arg1);
     void update_move_flag();
     void save_position();
     void run_task();
+
+    u8 unk_374[0x8];
+    f32 m_37c;
+    u8 unk_380[0xC];
+    u32 m_38c;
+    Vec m_390;
+    Vec m_39c;
+    s32 m_3a8;
+    f32 m_3ac;
+    u32 m_3b0;
+    f32 m_3b4;
+    f32 m_3b8;
+    s32 m_3bc;
+    s32 m_3c0;
+    s32 m_3c4;
+    s32 m_3c8;
+    s32 m_3cc;
+    s32 m_3d0;
+    u8 unk_3D4[0x4];
+    s32 m_3d8;
+    f32 m_3dc;
+    f32 m_3e0;
+    f32 m_3e4;
+    f32 m_3e8;
+    f32 m_3ec;
 };
+typedef char TBoss2Mine_size[sizeof(TBoss2Mine) == 0x3F0 ? 1 : -1];
+
+struct TUnk_80482D04;
 
 extern "C" {
-void vfunc_106__13TUnk_80482D04Fl(u8 *arg0, s32 arg1);
-void vfunc_105__13TUnk_80482D04Fl(u8 *arg0, s32 arg1);
-void vfunc_106__13TUnk_80482EC0Fl(u8 *arg0, s32 arg1);
-void vfunc_105__13TUnk_80482EC0Fl(u8 *arg0, s32 arg1);
-void init__10TBoss2MineFPvi(u8 *arg0, s32 arg1);
-void init_launch__10TBoss2MineFPvPvii(u8 *arg0, u8 *arg1, s32 arg2, s32 arg3);
+void init__10TBoss2MineFPvi(TBoss2Mine *self, s32 variant);
+void init_launch__10TBoss2MineFPvPvii(TUnk_80482D04 *self, Vec *pos, TObjBase *owner, s32 slot);
 }
 
 #endif

@@ -1501,7 +1501,6 @@ void swap_endian__13TBoss2DeRolLeFPv(void *);
 
 void swap_6x13_fields__13TBoss2DeRolLeFPv(void *);
 
-void init_launch__10TBoss2MineFPvPvii(u8 *arg0, u8 *arg1, s32 arg2, s32 arg3);
 
 
 s32 enemy_set_target_id(void * a0 = 0, u16 a1 = 0);
@@ -5718,7 +5717,7 @@ void TBoss2DeRolLe__sub_80030720(Obj_80030720 *self, u32 arg1, s32 arg2) {
                 }
             } else if (((TObjEneDD_ST *)self)->enemy_has_live_target() != 0) {
                 for (j = 0; j < 3; j++) {
-                    init_launch__10TBoss2MineFPvPvii((u8 *)self->f644[j], (u8 *)pos, (s32)self->f390, (s32)j);
+                    init_launch__10TBoss2MineFPvPvii((TUnk_80482D04 *)self->f644[j], (Vec *)pos, (TObjBase *)self->f390, j);
                 }
             }
             ((int (*)(int, void *))play_sound)(0x4003A303, self->f524);
