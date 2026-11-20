@@ -8,7 +8,7 @@ s32 free_bin_model_request(s32, s32);
 s32 release_texture_list(void*);
 
 extern s32 lbl_805D4B50;
-extern u32 dragon_common_texture_list;
+extern uaddr dragon_common_texture_list;
 
 void TLobby::free_char_select() {
     if ((u32) dragon_common_texture_list != 0U) {

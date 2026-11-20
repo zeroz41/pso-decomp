@@ -25,7 +25,7 @@ s32 create_player_object(s32, s32, u32);
 u32 get_char_index__23TAdSinglePlyChrSelectGCFUi(s32);
 extern s32 local_client_id;
 s32 reset_quest_result_callbacks__22THunterGuildSeqOfflineFPv();
-extern u32 quest_mission_manager;
+extern uaddr quest_mission_manager;
 void *get_player_by_client_id(s32 i);
 
 void TLobby::reset_keyboard_input() { TKeyBoardControl::reset(); TKeyBoardControl__sub_8000F92C(); clear_keyboard_key_state(); TKeyBoardControl__sub_8000F95C(); TLobby::clear_counter(); }

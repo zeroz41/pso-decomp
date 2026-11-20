@@ -10,8 +10,8 @@ s32 TLobby__sub_80269DA4(s32 a0 = 0, s32 a1 = 0);
 
 void TLobby::set_timer(f32 v) { *(f32*)((char*)this + 0x94) = v; }
 
-s32 TLobby::open_message_scroll_window(s32 arg0, s32 arg1, s32 arg2) {
-    s32 window_message_scroll;
+s32 TLobby::open_message_scroll_window(s32 arg0, s32 arg1, saddr arg2) {
+    saddr window_message_scroll;
 
     TLobby__sub_80269CA4(0x23);
     TLobby__sub_80269DA4(arg1, 1);

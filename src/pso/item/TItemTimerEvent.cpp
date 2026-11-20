@@ -107,7 +107,7 @@ void TItemTimerEvent::notify_if_active(int arg0) {
 }
 
 void TItemTimerEvent::check_battle_ctrl(int arg0) {
-    u32 player = get_player_by_client_id(arg0);
+    uaddr player = get_player_by_client_id(arg0);
     if (player != 0U) {
         fn_8011E1D4((TObjPlayer *)player);
     }

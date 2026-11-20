@@ -92,7 +92,7 @@ typedef struct Hdr_8022525C
 extern "C" {
 extern G_80225550 shop_weapon_stock_buffers;
 void get_shop_weapon_stock_item(C14_80225550 *dst, s32 idx, s32 tbl);
-extern u32 lobby_weapon_random_tables_ptr;
+extern uaddr lobby_weapon_random_tables_ptr;
 extern Cnt_80224B7C shop_weapon_stock_counts[];
 s32 is_duplicate_shop_weapon(C14_80224B7C *item, s32 tbl);
 void push_shop_pool_entry(void *, u8);
@@ -108,7 +108,7 @@ void roll_shop_weapon_first_bonus(Obj_80224DF0 *obj);
 void sort_shop_items(s32, s32, s32);
 
 
-u32 lobby_weapon_random_tables_ptr;
+uaddr lobby_weapon_random_tables_ptr;
 int shop_weapon_stock_level;
 
 s32 TLobby::classify_level_bracket_wide(s32 arg0) {

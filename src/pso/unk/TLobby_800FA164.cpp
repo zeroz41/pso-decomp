@@ -11,9 +11,9 @@ u8 *link_into_list__6TLobbyFv();
 
 struct Ent_800fa164;
 
-s32 TLobby::create_file_load_entry(s32 arg0, s32 arg1, u32 arg2, s32 arg3, void **arg4) {
+s32 TLobby::create_file_load_entry(saddr arg0, s32 arg1, u32 arg2, saddr arg3, void **arg4) {
     struct Ent_800fa164 *var_r31;
-    s32 temp_r3;
+    saddr temp_r3;
 
     if (arg4 != NULL) {
         *arg4 = NULL;

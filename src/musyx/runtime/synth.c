@@ -808,7 +808,7 @@ void synthForceLowPrecisionUpdate(void *arg0) {
     synthAddJob((SYNTH_VOICE_SV *)arg0, 1, 0);
 }
 
-void synthKeyStateUpdate(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6) {
+void synthKeyStateUpdate(saddr arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6) {
     synthAddJob((SYNTH_VOICE_SV *) (arg0), (int) (2), (int) (0));
 }
 

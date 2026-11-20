@@ -27,7 +27,7 @@ void play_cue_stream_file(s32 arg0);
 void TLobby__sub_803C94DC(u8 *arg0, s32 arg1);
 s32 TLobby__sub_803C9CB0(s32);
 void *lbl_805D62D8;
-u32 lbl_805D62DC;
+uaddr lbl_805D62DC;
 s32 lbl_805D62E0;
 s32 lbl_805D62E4;
 s32 music_fade_slot_index;

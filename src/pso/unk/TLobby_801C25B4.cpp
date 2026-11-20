@@ -63,7 +63,7 @@ extern "C" {
 u8 TLobby__sub_801C2614(void);
 s32 TLobby__sub_801C2678(void);
 extern s16 battle_event_second_table[];
-extern s32 local_client_id;
+extern saddr local_client_id;
 extern s32 TLobby__designated_client_id;
 u32 get_player_by_client_id(s32);
 s32 TLobby__sub_801C19D0(void *);
@@ -148,7 +148,7 @@ u16 get_entity_id(void *);
 void build_6x7D_set_battle_mode_data(void *);
 extern u8 lobby_rule_settings[];
 extern s32 TLobby__battle_team_table[];
-extern s32 local_client_id;
+extern saddr local_client_id;
 
 void clear_counter__6TLobbyFPv(void *a0);
 struct Lobby_801C484C;
@@ -193,7 +193,7 @@ void reset_cameras_to_actor(void *actor, s32 arg1);
 extern "C" {
 s32 TObjPlayer__send_selected_spawn_position(s32, u16);
 extern u16 battle_mode_data_table[];
-extern s32 tl_05;
+extern saddr tl_05;
 void send_6x7D_set_battle_mode_data(void *);
 s32 obj_set_flag_20000();
 s32 TLobby__sub_801C417C();
@@ -204,8 +204,8 @@ void TLobby__sub_8020BB18(void);
 void TLobby__sub_8020BCE4(void);
 void clear_trap_counts(s8 *arg0);
 
-extern s32 tl_00;
-extern s32 tl_01;
+extern saddr tl_00;
+extern saddr tl_01;
 }
 
 struct Stack_801C3CFC {
@@ -355,14 +355,14 @@ void handle_6x7E(void);
 void TLobby__sub_801C38A4(void);
 void TLobby__sub_801B09A4(void);
 
-extern s32 tl_00;
+extern saddr tl_00;
 
 void end_player_keyboard_hold(s32 arg0);
 s32 send_code_45_1__10TObjPlayerFl();
-extern s32 local_client_id;
+extern saddr local_client_id;
 
 void begin_player_keyboard_hold(s32 arg0);
-extern s32 local_client_id;
+extern saddr local_client_id;
 void request_active_window_close(void);
 s32 TLobby__sub_801C417C(void);
 void __destroy_new_array(void *, void *);
@@ -377,12 +377,12 @@ void init_char_data__10TObjPlayerFv(void);
 void *create__14TWindowMessageFPvll(void *, void *, s32);
 void *get_window_layout_position(s32);
 extern Flags_801C3AF4 *controller_input_state[];
-extern s32 local_client_id;
+extern saddr local_client_id;
 void TLobby__sub_801C3AF4(Lobby_801C3AF4 *self);
 
 extern s32 TLobby__battle_team_table[];
 
-extern s32 local_client_id;
+extern saddr local_client_id;
 void handle_6x7D_set_battle_mode_data(Pkt_801C374C *pkt);
 s64 OSGetTime();
 
@@ -421,7 +421,7 @@ s32 forward_trade_action_default__16TObjCityMainWarpFPviii(void *, s32, int, int
 void *check_room_seq_4__16TAdChrSelASlotGCFl(void *, int);
 extern Flags_801C3AF4 *controller_input_state[];
 
-extern s32 local_client_id;
+extern saddr local_client_id;
 extern s32 TLobby__designated_client_id;
 void update_duel_result__6TLobbyFPv(u8 *arg0);
 
@@ -435,7 +435,7 @@ s32 TLobby__sub_801C4FC4(void *p);
 
 void TLobby__sub_801036CC(void);
 void TLobby__sub_8020BC50(void);
-extern u32 quest_mission_manager;
+extern uaddr quest_mission_manager;
 void TLobby__sub_801C38E8(void *arg0);
 
 
@@ -1114,8 +1114,8 @@ void TLobby__sub_801C3A40(void) {
     }
 }
 
-void TLobby::init_battle_ctrl(s32 arg0, s32 arg1) {
-    u32 player_battle_ctrl;
+void TLobby::init_battle_ctrl(s32 arg0, saddr arg1) {
+    uaddr player_battle_ctrl;
     if ((u32) (*(u32 *)&TLobby__battle_mode_data_ptr) == 0U) {
         player_battle_ctrl = (uaddr)TObject::operator new(0x278);
         if (player_battle_ctrl != 0U) {
@@ -1235,7 +1235,7 @@ s32 calc_player_rankings__6TLobbyFPv(Lobby_801C484C *) {
     s32 n;
     s32 i;
     s32 j;
-    u32 p;
+    uaddr p;
     s32 rank;
     s32 m;
     s32 k;
@@ -1302,7 +1302,7 @@ s32 record_local_battle_placement(void *arg0) {
     s32 n;
     s32 s;
     s32 r;
-    u32 pl;
+    uaddr pl;
 
     slot = -1;
     for (i = 0; i < 4; i++) {
@@ -1424,7 +1424,7 @@ void TPlayerBattleCtrl::init_battle_round() {
 
 void TLobby::start_duel_battle() {
     const char *name;
-    u32 p;
+    uaddr p;
     s32 area;
     s32 i;
     TObjEneRe4Sorcerer__sub_801E3F14(4);
@@ -1501,7 +1501,7 @@ void send_6x7D_set_battle_mode_data(void *) {
 }
 
 void TLobby::finish_chr_select_scene_init() {
-    s32 temp_r3;
+    saddr temp_r3;
     TLobby::init_scene_objects();
     temp_r3 = update_battle_controller__10TObjPlayerFv();
     if (temp_r3 != 0) {
@@ -1735,7 +1735,7 @@ u8 TLobby__sub_801C2614(void) {
 }
 
 s32 TLobby::check_all_battle_flags(void *) {
-    u32 player;
+    uaddr player;
     s32 var_r31;
 
     var_r31 = 0;

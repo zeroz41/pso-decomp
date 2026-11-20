@@ -297,7 +297,7 @@ void AfsPartition::read(s32 buffer) {
 
 RelocatedFile::RelocatedFile(const char *path, s32 size) {
     s32 decompressed_size;
-    s32 item_buff;
+    saddr item_buff;
 
     buffer = NULL;
     root = NULL;

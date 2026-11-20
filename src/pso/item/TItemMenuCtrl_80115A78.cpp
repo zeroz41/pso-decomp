@@ -8,7 +8,7 @@ extern "C" {
 s32 TItemMenuCtrl__ct(u32, s32);
 s32 set_menu_flags__13TItemMenuCtrlFv(u32, s32);
 
-extern u32 TItemMenuCtrl__instance;
+extern uaddr TItemMenuCtrl__instance;
 extern s32 tl_05;
 
 void TItemMenuCtrl::open_menu(u32 arg0) {

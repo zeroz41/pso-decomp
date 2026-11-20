@@ -239,7 +239,7 @@ void TObjItemNameEntry::set_entered_name(const char *name) {
 }
 
 s32 TObjItemNameEntry::process_keyboard_input() {
-    s32 text;
+    saddr text;
 
     if (m_1c != NULL && ((TKeyBoardControl *)m_1c)->is_confirmed() != 0) {
         text = (saddr)((TKeyBoardControl *)m_1c)->realloc_buffer();
@@ -437,7 +437,7 @@ TQuestThreadBoard::TQuestThreadBoard(TObject *root, s32 label) : TObject(NULL) {
 }
 
 void QuestVmContext::copy(QuestVmContext *src) {
-    s32 tmp;
+    saddr tmp;
     s32 to;
     u8 *from;
     tmp = (saddr)src->code;

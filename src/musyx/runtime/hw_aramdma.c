@@ -17,7 +17,7 @@ StreamBuffer_803BDCD0 *aramIdleStreamBuffers;
 #define lbl_8056E158 (*(AramQueues_803BDCD0 *)&aramQueueLo)
 #define lbl_8056E3DC (*(Obj_803BDCB8 *)&aramQueueHi)
 
-void aramQueueCallback(u32 ptr) {
+void aramQueueCallback(uaddr ptr) {
     u32 i;
     ARQRequest_803BDCD0 *arq;
     ARAMTransferQueue_803BDCD0 *aramQueue;

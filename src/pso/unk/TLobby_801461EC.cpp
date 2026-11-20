@@ -33,7 +33,7 @@ void TLobby__sub_801469B8(void* p);
 void *get_account_entry(int idx);
 void TLobby__sub_8014715C(void* p, void* q);
 s32 TLobby__sub_8040A3C0();
-s32 lobby_local_ip_addr;
+saddr lobby_local_ip_addr;
 s32 lobby_dns_server_addr;
 s32 lobby_dns_server_addr2;
 s32 lobby_connect_battle_flag;
@@ -43,7 +43,7 @@ s32 lbl_805D56F0;
 s32 lbl_805D56F4;
 s32 TLobby__connect_pending_flags;
 s32 TLobby__battle_flag;
-u32 lbl_805D5700;
+uaddr lbl_805D5700;
 s32 TLobby__net_session_mode;
 int lbl_805D5708;
 s32 lbl_805D570C;
@@ -551,7 +551,7 @@ char *get_modem_phone_number(s32 idx) {
     return lobby_account_entries[2].phone[idx].number;
 }
 
-void TLobby::set_ppp_password(s32 arg0) {
+void TLobby::set_ppp_password(saddr arg0) {
     u8 *temp_r31;
     TLobby__sub_8014618C();
     TLobby::is_state_active();

@@ -32,11 +32,11 @@ struct Ent_801F3A80 {
 extern "C" {
 void convert_quest_object_rows(struct QuestObjRow_801F3AD8 *rows, u32 byte_size);
 extern s16 quest_floor_designations[];
-s32 TLobby__data_805D5EE0;
+saddr TLobby__data_805D5EE0;
 s32 alloc__22TQuestVmDownLoadServerFUl();
 
 void refresh_quest_list__6TLobbyFi(s32 arg0) {
-    s32 temp_r3;
+    saddr temp_r3;
 
     if (get_resource_file_size((const char *)arg0) >= 0) {
         temp_r3 = alloc__22TQuestVmDownLoadServerFUl();
@@ -359,7 +359,7 @@ extern B_801F4340* TLobby__data_805D6144;
 extern s16 TLobby__data_805D6134;
 
 void open_session__6TLobbyFi(s32 arg0) {
-    s32 t;
+    saddr t;
 
     if (get_resource_file_size((const char *)arg0) >= 0) {
         t = (TLobby__data_805D5EE0 = alloc__22TQuestVmDownLoadServerFUl());

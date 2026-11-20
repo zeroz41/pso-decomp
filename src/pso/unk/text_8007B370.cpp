@@ -31,7 +31,7 @@ typedef struct VBase_18_26c590 VBase_18_26c590;
 typedef struct VObj_18_26c590 VObj_18_26c590;
 s32 fill_guild_card_from_player(u8 *ply_guild_card_tag, u32 arg1) {
   unsigned char new_var;
-  s32 player;
+  saddr player;
   u8 *temp_r4;
   player = (saddr)get_player_by_client_id(arg1);
   if (player == 0)

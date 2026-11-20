@@ -10,7 +10,7 @@
 extern "C" {
 void fn_802898EC(void);
 int forward_pillar_2B710__19TObjBoss5PillarCtrlFv(void);
-extern u32 boss5_ctrl_instance;
+extern uaddr boss5_ctrl_instance;
 void fn_802898E8(void);
 s32 update_pillar__19TObjBoss5PillarCtrlFv();
 

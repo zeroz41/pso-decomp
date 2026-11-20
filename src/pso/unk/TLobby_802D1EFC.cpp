@@ -95,9 +95,9 @@ void TLobby::clear_stale_entries(u8 *arg0) {
 s32 TLobby::add_trade_item(u32 arg1, s32 arg2) {
     ItemB_802D20C8 a;
     ItemA_802D20C8 b;
-    u32 item;
+    uaddr item;
     Entry_802D20C8 *e;
-    u32 found;
+    uaddr found;
     s32 i;
     if (arg1 == 0xFFFFFF01) {
         s32 *t = (s32 *) this->get_trade_obj_ptr();

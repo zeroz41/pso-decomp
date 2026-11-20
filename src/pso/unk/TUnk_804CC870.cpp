@@ -160,7 +160,7 @@ void TUnk_804CC888::run_task() {
     u32 i;
     s32 dir;
     u8 *obj;
-    s32 r;
+    saddr r;
     void *p;
     ((Ctl_80232C50 *)this)->timer++;
     if (((Ctl_80232C50 *)this)->timer % 5 == 0) {

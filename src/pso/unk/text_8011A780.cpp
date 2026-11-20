@@ -76,8 +76,8 @@ struct Req_8011AD1C {
 s32 lbl_805D54E0;
 s32 build_item_id_mode;
 // The per-client item id tables (12 s32 each, allocated by TItemIdCounters).
-s32 item_sync_counter_table;
-s32 item_id_counter_table;
+saddr item_sync_counter_table;
+saddr item_id_counter_table;
 void handle_box_drop_directive(void *);
 extern "C" {
 void handle_6x5A_pick_up_item_request(Msg_8011A9D8 *msg);

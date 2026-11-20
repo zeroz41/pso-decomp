@@ -47,7 +47,7 @@ void TLobby::transfer_trade_item_amount(u32 key, s32 arg2) {
     }
 }
 void TLobby::move_trade_item_amount(u32 key, s32 arg2) {
-  s32 var_r3;
+  saddr var_r3;
   u8 *temp_r3;
   u8 *temp_r3_2;
   temp_r3 = (u8 *) TLobby__sub_802D2334(((u8 *)this) + 0xF8, key);

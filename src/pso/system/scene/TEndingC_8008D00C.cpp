@@ -269,7 +269,7 @@ u8 *__ct__8TEndingCFv(u8 *object, u8 *arg1) {
 void release_lobby__8TEndingCFv(void);
 void release_texture_list(void*);
 
-u32 TEndingC__wall_texture_list;
+uaddr TEndingC__wall_texture_list;
 
 void release_lobby__8TEndingCFv(void) {
     if ((u32) TEndingC__wall_texture_list != 0U) {
@@ -307,7 +307,7 @@ void TObjEneBalClaw::clear_flag_in_state7() {
 }
 
 s32 TObjEneBalClaw::update_movement_status() {
-    s32 arg0 = (saddr)this;
+    saddr arg0 = (saddr)this;
     if (update_movement_status__9TObjCharaFv() != 0) {
         ((TObjEneBalClaw *)arg0)->clear_flag_in_state7();
         return 1;
@@ -316,7 +316,7 @@ s32 TObjEneBalClaw::update_movement_status() {
 }
 
 s32 TObjEneBalClaw::update_action_hold_status() {
-    s32 arg0 = (saddr)this;
+    saddr arg0 = (saddr)this;
     if (update_action_hold_status__9TObjCharaFv() != 0) {
         ((TObjEneBalClaw *)arg0)->clear_flag_in_state7();
         return 1;

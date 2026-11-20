@@ -322,7 +322,7 @@ s32 get_floor_map_terrain(s32 arg0);
 }
 struct Buf12_80207718_80207644 { s32 a, b, c; };
 
-s32 story_select_pending_state = -1;
+saddr story_select_pending_state = -1;
 int story_select_current = -1;
 void TLobby::backup_story_select() { selected_episode = story_select_current; }
 

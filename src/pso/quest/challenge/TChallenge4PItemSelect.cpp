@@ -133,7 +133,7 @@ void TChallenge4PResult::run_task() {
 void TChallenge4PResult::update_input() {
     s32 temp_r3;
     s32 temp_r5;
-    u32 p;
+    uaddr p;
 
     if ((uaddr) this->message_window == 0U) {
         this->show_message((s32)((s32)(get_localized_text_entry(0x2B, 6))));
@@ -332,7 +332,7 @@ void update_entries__18TChallenge4PResultFii(s32 arg0, s32 arg1) {
     s32 *var_r30 = TChallenge4PResult__slot_entries;
     s32 var_r31 = 0;
     do {
-        u32 v = (u32)var_r30[var_r31];
+        uaddr v = (u32)var_r30[var_r31];
         if (v != 0U) {
             ((TChallenge4PResult *)v)->set_entry_item((void *)arg0, arg1);
         }
@@ -411,7 +411,7 @@ void TChallenge4PItemSelect::submit_selected_item() {
     LAYOUT_ASSERT(sp9_offset, offsetof(Stack_8034B158, sp9) == 0x1);
     LAYOUT_ASSERT(spA_offset, offsetof(Stack_8034B158, spA) == 0x2);
     Stack_8034B158 stack;
-    u32 temp_r3_2;
+    uaddr temp_r3_2;
     u8 *temp_r31;
     u8 *window_menu;
     window_menu = (u8 *)((u8 *)menu_window);

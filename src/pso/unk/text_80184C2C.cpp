@@ -89,7 +89,7 @@ int city_season_xmas_model_table[6];
 s32 lbl_805D5B30;
 void *lbl_805D5B34;
 void *lbl_805D5B38;
-s32 lbl_805D5B3C;
+saddr lbl_805D5B3C;
 s32 lbl_805D5B40;
 s32 lbl_805D5B44;
 void *lbl_805D5B48;
@@ -160,7 +160,7 @@ extern "C" void TLobby__sub_80184DF4(void) {
     u8 *tmp;
     u8 *base;
     u8 *ent;
-    s32 ph;
+    saddr ph;
     void *p;
     s32 off;
 

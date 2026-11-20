@@ -47,7 +47,7 @@ typedef struct Lobby_8001FD98 {
 struct Ctx_8001FA1C { s32 f0; s32 f4; u8 pad8[0x43C - 8]; s32 f43C; };
 
 struct Lobby_8001FA1C {
-    s32 f0;
+    saddr f0;
     s32 *f4;
     s32 *f8;
     Ctx_8001FA1C *fC;
@@ -153,11 +153,11 @@ extern "C" {
 s32 xmalloc__FUl(s32);
 char TLobby__tmp_buf_name[0x20];
 u8 bml_load_state;
-s32 lobby_download_buffer;
+saddr lobby_download_buffer;
 s32 lbl_805D4AD0;
 s32 tmp_buf_in_use_flag;
-u32 bml_load_buffer;
-u32 lobby_bml_file_handle;
+uaddr bml_load_buffer;
+uaddr lobby_bml_file_handle;
 u8 * lbl_805D4AE0;
 Rec_8001F128 * bml_header_record_ptr;
 s32 bml_load_entry_index;
@@ -419,7 +419,7 @@ s32 TLobby::load_bml_exec(u8 *arg0, u8 *arg1) {
             TLobby::reset_read_state();
             switch ((s8) bml_load_state) {
             case 1: {
-                s32 p = (saddr)TQuestVmDownLoadServer::alloc(bml_header_record_ptr->rawSize);
+                saddr p = (saddr)TQuestVmDownLoadServer::alloc(bml_header_record_ptr->rawSize);
                 if (p != 0) {
                     prs_decompress_buffer((saddr)lobby_bml_read_buffer, p);
                     bind_bml_motion((Lobby_8001FB6C *) self, self->nmodel++, (void *) p);
@@ -737,7 +737,7 @@ TBinModel *load_resource_from_descriptor(TBinModel *self, s32 kind, Desc_8002000
     Rec_80020004 *first;
     s32 sectors;
     s32 size;
-    s32 buf;
+    saddr buf;
     u32 flags;
     ((TLobby *)self)->reset_battle_state();
     self->flags = kind | 0x100;
@@ -824,7 +824,7 @@ TBinModel *load_resource_from_descriptor(TBinModel *self, s32 kind, Desc_8002000
                     if (e->b != NULL) {
                         s32 tsize = rec->texSize;
                         if (tsize != 0) {
-                            s32 tbuf = (saddr)TQuestVmDownLoadServer::alloc(tsize + 0x800);
+                            saddr tbuf = (saddr)TQuestVmDownLoadServer::alloc(tsize + 0x800);
                             st.read_data((saddr)((void *)tbuf), (s32)tsize);
                             st.align_read_offset(blk);
                             prs_decompress_buffer(tbuf, (saddr)resource_decompress_buffer);
@@ -851,7 +851,7 @@ TBinModel *load_resource_from_descriptor(TBinModel *self, s32 kind, Desc_8002000
                 }
                 switch (bml_load_state) {
                 case 1: {
-                    s32 mb = (saddr)TQuestVmDownLoadServer::alloc(sz + 0x800);
+                    saddr mb = (saddr)TQuestVmDownLoadServer::alloc(sz + 0x800);
                     st.read_data((saddr)((void *)mb), (s32)sz);
                     st.align_read_offset(blk);
                     prs_decompress_buffer(mb, (saddr)resource_decompress_buffer);

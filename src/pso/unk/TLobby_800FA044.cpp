@@ -7,7 +7,7 @@ extern "C" {
 u8 *alloc_from_heap__6TLobbyFPv(s32);
 u8 *link_into_list__6TLobbyFv();
 
-void TLobby::add_named_entry(s32 arg0, s32 arg1) {
+void TLobby::add_named_entry(s32 arg0, saddr arg1) {
     u8 *var_r31;
 
     var_r31 = alloc_from_heap__6TLobbyFPv(0x68);

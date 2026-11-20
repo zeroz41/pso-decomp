@@ -26,13 +26,13 @@ s32 quest_download_match_length_limit;
 s16 lbl_805D78E0;
 s32 lbl_805D78E4;
 s32 lbl_805D78E8;
-s32 quest_text_entry_len;
-s32 quest_text_cursor_pos;
+saddr quest_text_entry_len;
+saddr quest_text_cursor_pos;
 s32 quest_download_server_state;
-s32 lbl_805D78F8;
+saddr lbl_805D78F8;
 s32 lbl_805D78FC;
 s32 lbl_805D7900;
-s32 quest_download_file_handle;  // what the quest-file open returns; -1 = closed (named from use)
+saddr quest_download_file_handle;  // what the quest-file open returns; -1 = closed (named from use)
 
 extern "C" {
 #pragma push
@@ -1849,7 +1849,7 @@ inline s32 entry_text_width(Ent_803E6B70 *end) {
     }
     return width;
 }
-extern "C" s32 TQuestVmDownLoadServer__sub_803EDC20(u32 arg0) {
+extern "C" s32 TQuestVmDownLoadServer__sub_803EDC20(uaddr arg0) {
   s32 *rec = lbl_805D78C8;
   u8 *out = (u8 *) lbl_805D78BC;
   s32 cnt = quest_text_end;
@@ -3288,7 +3288,7 @@ s32 TQuestVmDownLoadServer__sub_803F0500(u8 *name, s16 len, Out_803E8C2C *out) {
     s16 blen;
     s16 cnt;
     s16 pre;
-    s32 idx;
+    saddr idx;
     s32 first;
     u8 *page;
     u8 *p;

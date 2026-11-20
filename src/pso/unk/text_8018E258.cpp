@@ -9,10 +9,10 @@ f32 xyz_distance(void *, void *);
 }
 s32 check_player_door_proximity(s32 arg0, s32 arg1, f32 farg0);
 s32 check_player_door_proximity(s32 arg0, s32 arg1, f32 farg0) {
-    s32 p;
+    saddr p;
     s32 i;
     s32 j;
-    s32 q;
+    saddr q;
     if (arg1 == 1) {
         for (i = 0; i < 0xC; i++) {
             p = (saddr)get_player_by_client_id(i);

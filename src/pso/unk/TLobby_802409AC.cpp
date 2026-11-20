@@ -949,7 +949,7 @@ extern "C" {
 s32 seq_jump__9TProtocolFPUcR21TPlyMeetUserExtension(int, void *, void *);
 struct RecoveredGlobal_TLobby__data_8050AAAC { s32 value; u8 remaining[0x24]; };
 extern RecoveredGlobal_TLobby__data_8050AAAC TLobby__data_8050AAAC;
-extern u32 TLobby__protocol_instance;
+extern uaddr TLobby__protocol_instance;
 char *get_shared_text_buffer();
 void text_builder_append(char *);
 }

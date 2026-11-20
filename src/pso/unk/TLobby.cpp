@@ -20,7 +20,7 @@ void *TAdScrollWinGC__ct(TAdScrollWinGC *arg0, void *arg1, s32 arg2, s32 arg3);
 extern u8 lobby_scroll_text_buffer[];
 extern s32 TLobby__data_805D5594;
 extern void *lobby_scroll_text_window;
-extern s32 tl_window;
+extern saddr tl_window;
 void on_game_player_add__6TLobbyFiii();
 void handle_game_join__6TLobbyFPv();
 
@@ -46,7 +46,7 @@ void TLobby::dispatch_by_index(s32 arg0) {
     }
 }
 
-void TLobby::open_scroll_text_window(s32 arg0) {
+void TLobby::open_scroll_text_window(saddr arg0) {
     void *obj;
     if (lobby_scroll_text_window == 0) {
         strncpy((char *)lobby_scroll_text_buffer, (const char *)arg0, 0x1000);

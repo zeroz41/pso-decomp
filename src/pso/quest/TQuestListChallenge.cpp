@@ -127,7 +127,7 @@ struct QLC_80288FDC {
     u8 pad2[0x30 - 0x28];
     VObj_80288FDC *obj;
     u8 pad3[0x38 - 0x34];
-    u32 list;
+    uaddr list;
     u8 pad4[0x50 - 0x3C];
     s32 f50;
     s32 count;
@@ -167,7 +167,7 @@ extern __declspec(section ".rodata") const PairPad_80288DA4 lbl_80450AB4[1];
 #pragma push
 #pragma opt_common_subs off
 s32 get_selected_quest_text__19TQuestListChallengeFv(void) {
-    u32 temp_r3;
+    uaddr temp_r3;
     if ((void *) (*(u8 * *)&TQuestListChallenge__active_instance) != NULL) {
         temp_r3 = *(u32 *)((s8 *)(*(u8 * *)&TQuestListChallenge__active_instance) + 0x38);
         if (temp_r3 != 0U) {

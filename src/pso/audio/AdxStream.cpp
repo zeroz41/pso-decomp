@@ -72,7 +72,7 @@ struct AdxStreamFile {
     s8 b2;
     u8 pad3;
     s32 arg;
-    u32 handle;
+    uaddr handle;
     s32 fC;
     s32 f10;
     s32 size;

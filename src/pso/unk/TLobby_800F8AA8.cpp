@@ -910,7 +910,7 @@ void TLobby::clear_player_slot_tables(s32 n) {
 }
 
 void TLobby::set_entry_params(s32 arg1, s32 arg2, s32 arg3) {
-    s32 arg0 = (saddr)this;
+    saddr arg0 = (saddr)this;
     lobby_checked_read_ptr_table[arg1] = (s32 *)arg0;
     lbl_80499A10[arg1] = arg2;
     lbl_80499A20[arg1] = arg3;
@@ -1292,8 +1292,8 @@ s32 load_encrypted_text_archive(char *name, s32 *out_size) {
 s32 load_text_resource_pair(s32 name) {
     s32 size;
     char path[0x40];
-    s32 data;
-    s32 relocs;
+    saddr data;
+    saddr relocs;
     s32 root;
 
     sprintf(path, "%s.pr2", name);

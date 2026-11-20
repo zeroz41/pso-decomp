@@ -293,7 +293,7 @@ void *__vt__11TObjDFDemo0[13] = {
 Obj_8004DEE0 *TObjDFDemo0__ct(void *arg0, void *parent) {
     Obj_8004DEE0 *self = (Obj_8004DEE0 *)arg0;
     s32 k;
-    s32 h;
+    saddr h;
     s32 i;
     s32 j;
 

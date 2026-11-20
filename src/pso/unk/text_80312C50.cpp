@@ -58,10 +58,10 @@ void *TObjPlayer::find_by_section_id(u16 section) {
     return 0;
 }
 
-void TObjPlayer::create_party_effects(s32 id) {
+void TObjPlayer::create_party_effects(saddr id) {
     s32 n;
     s32 i;
-    s32 sec;
+    saddr sec;
     Ply_80312D4C *ent;
     u8 *e;
     n = TObjPlayer__sub_803131AC(this);
@@ -96,7 +96,7 @@ u16 TObjPlayer::find_first_valid_target_id() {
 
 void TObjPlayer__sub_80312E98(void *o, u16 id) {
     s32 n = TObjPlayer__sub_803131AC(o);
-    s32 i;
+    saddr i;
     for (i = 0; i < n; i++) {
         if (id == ((u16)((TObjPlayer *)(get_element__10TObjPlayerFPvi(o, i)))->get_section_id())) {
             ((TObjPlayer *)o)->process_indexed_element((saddr)((void*)((void *)i)));
@@ -107,7 +107,7 @@ void TObjPlayer__sub_80312E98(void *o, u16 id) {
 void TObjPlayer::process_all_elements() { { int n = TObjPlayer__sub_803131AC(this); int i; for (i = 0; i < n; i++) { process_indexed_element((saddr)((void*)i)); } } }
 
 void append_photon_blast_request(s32 arg0, s16 arg1, s16 arg2) {
-    s32 temp_r3;
+    saddr temp_r3;
     temp_r3 = ((saddr)TObjPlayer__sub_80312FB0((TObjPlayer *)((u8 *)arg0)));
     if (temp_r3 != 0) {
         ((TObjPlayer *)temp_r3)->check_flag_at_4();

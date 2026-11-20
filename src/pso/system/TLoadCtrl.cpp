@@ -30,7 +30,7 @@ struct Obj_8001C620 { u8 pad[0x1C]; s32 f1c; s32 f20; };
 extern "C" {
 s32 __ct__9TAdFadeGCFP7TObjectPv(int, int, int);
 s32 TLoadCtrl__loading_mode;
-s32 TLoadCtrl__fade_task;
+saddr TLoadCtrl__fade_task;
 extern s32 tl_fade;
 bool TLoadCtrl__sub_8001C60C(void);
 void TNowLoading__sub_8001D4D4(void);
@@ -39,7 +39,7 @@ void TLoadCtrl__sub_80226DA0(s32 index);
 void fn_8034AD2C(void);
 extern s32 lbl_80515BA0[];
 extern s32 tl_su;
-extern s32 tl_camera;
+extern saddr tl_camera;
 s32 TNowLoading__ct(s32, void *, const Vec *);
 void set_active_camera_pose(u8 *arg0, u8 *arg1);
 s32 activate_camera_mode(s32 arg0);
@@ -63,7 +63,7 @@ extern void *camera_ctrl_instance;
 
 void TLoadCtrl::run_task() {
     Obj_8001C620 *self = (Obj_8001C620 *)this;
-    s32 o;
+    saddr o;
     if (TLoadCtrl__instance != 0U) {
         if ((u32)TLoadCtrl__fade_task != 0U && ((TObject *)TLoadCtrl__fade_task)->all_parents_unqueued_for_destruction() == 0) {
             TLoadCtrl__fade_task = 0;
@@ -140,7 +140,7 @@ TLoadCtrl::TLoadCtrl(s32 arg1) : TObject((TObject *)((void *)arg1)) {
 extern "C" {
 
 void TLoadCtrl::cleanup_scene() {
-    u32 t;
+    uaddr t;
 
     t = TLoadCtrl__instance;
     if (t != 0U) {

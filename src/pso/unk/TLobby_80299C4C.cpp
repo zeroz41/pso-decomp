@@ -140,7 +140,7 @@ void TObjChallenge4PRetry::open_message_window() {
 void TObjChallenge4PRetry::close_window() { if (*(unsigned int*)((char*)this + 0x2c) != 0) { ((TWindowBase *)(*(void**)((char*)this + 0x2c)))->close(); *(int*)((char*)this + 0x2c) = 0; } }
 
 void TObjChallenge4PRetry::open_giveup_window() {
-    u32 temp;
+    uaddr temp;
 
     temp = *(u32 *)((s8 *)this + 0x2C);
     if (temp != 0U) {
@@ -159,7 +159,7 @@ void TObjChallenge4PRetry::open_giveup_window() {
 
 void send_giveup_to_all_players__6TLobbyFv(void) {
     s32 player;
-    s32 var_r31;
+    saddr var_r31;
 
     var_r31 = 0;
     do {
@@ -314,7 +314,7 @@ void TObjChallenge4PRetry::update_giveup() {
     TLobby::play_effect_all_players(this);
     flag = 1;
     for (i = 0; i < 4; i++) {
-        u32 ctrl = get_player_by_client_id(i);
+        uaddr ctrl = get_player_by_client_id(i);
         if (ctrl != 0U && ((TObjCollidable *)ctrl)->obj_testFlags30(0x02000000) != 0) {
             flag = 0;
             break;

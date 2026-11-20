@@ -300,10 +300,10 @@ void TItemReverseTech::run_task() {
     Vec eye = {0.0f, 0.0f, 0.0f};
     Vec at = {0.0f, 0.0f, -100.0f};
 
-    u32 temp_r3;
-    u32 object;
-    u32 temp_r3_3;
-    u32 var_r0;
+    uaddr temp_r3;
+    uaddr object;
+    uaddr temp_r3_3;
+    uaddr var_r0;
 
     activate_camera_mode(9);
     set_active_camera_pose((u8 *)&eye, (u8 *)&at);

@@ -7,8 +7,8 @@
 struct TSceneSora : public TObjBase {
     TSceneSora(s32 _w1);
     virtual ~TSceneSora();
-    u32 m_90;
-    u32 m_94;
+    uaddr m_90;
+    uaddr m_94;
     u32 m_98;
     virtual void render();
     virtual void run_task();

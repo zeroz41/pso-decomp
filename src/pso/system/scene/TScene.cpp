@@ -374,7 +374,7 @@ s32 current_floor_index;
 floor_area current_floor_area_type;
 s32 scene_resource_index;
 SceneMaterialRoot *TScene__data_805D5FCC;
-u32 TScene__texture_wave_resource;
+uaddr TScene__texture_wave_resource;
 s8 TScene__floor_scene_ready_flag;
 s32 current_lobby_id;
 s32 lobby_online_ready_flag;
@@ -387,16 +387,16 @@ RecoveredCallback_2be3cacebb2e TScene__render_callback;
 s32 lbl_805D5FF8;
 u32 TScene__map_rel_load_buffer;
 u32 TScene__collision_file_buffer;
-u32 TScene__texture_animation_buffer;
+uaddr TScene__texture_animation_buffer;
 u32 TScene__supplementary_rel_buffer;
 s32 lbl_805D600C;
 s32 TScene__map_rel_load_size_limit;
 s32 lbl_805D6014;
 s32 lbl_805D6018;
 s32 TScene__loaded_floor_rel_file_index;
-u32 TScene__data_805D6020;
+uaddr TScene__data_805D6020;
 s32 floor_bin_file_size;
-u32 TScene__material_info_buffer;
+uaddr TScene__material_info_buffer;
 s32 scene_file_buffer_size;
 
 extern "C" {
@@ -880,8 +880,8 @@ void TScene::load_map_texture_archive(s32 name) {
     char sp8[0x20];
     s32 area;
     s32 var_r30;
-    u32 temp_r3;
-    u32 temp_r3_2;
+    uaddr temp_r3;
+    uaddr temp_r3_2;
 
     area = get_current_floor_area();
     TScene__texture_animation_buffer = 0U;
@@ -945,8 +945,8 @@ void TScene::load_floor_bin_file(s32 name) {
 void TScene::load_file_to_buffer(s32 name) {
     s32 sp8[8];
     s32 temp_r31;
-    u32 temp_r3;
-    u32 temp_r3_2;
+    uaddr temp_r3;
+    uaddr temp_r3_2;
 
     TScene__material_info_buffer = 0U;
     scene_file_buffer_size = 0;

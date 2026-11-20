@@ -10,9 +10,9 @@ u8 *link_into_list__6TLobbyFv();
 
 struct Ent_800fa388;
 
-s32 TLobby::request_file_read(s32 arg0, s32 arg1, s32 *arg2, void **arg3) {
+s32 TLobby::request_file_read(saddr arg0, s32 arg1, s32 *arg2, void **arg3) {
     struct Ent_800fa388 *var_r31;
-    s32 temp_r3;
+    saddr temp_r3;
 
     if (arg3 != NULL) {
         *arg3 = NULL;

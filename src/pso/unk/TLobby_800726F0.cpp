@@ -51,7 +51,7 @@ int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int 
 void TLobby__sub_8024AC20(s32 arg0);
 s32 get_player_by_client_id(s32);
 s32 check_player_flag1__6TLobbyFv();
-extern s32 local_client_id;
+extern saddr local_client_id;
 void TObjPlayer__sub_8024ABDC(s32 arg0);
 extern s32 TLobby__designated_client_id;
 u8 is_challenge_lobby__6TLobbyFv(void);
@@ -133,13 +133,13 @@ void TLobby__sub_800728FC(u8 *arg0) {
     *(s8 *)((s8 *)arg0 + 1) = 2;
 }
 void TLobby::bswap_6x7C_packet() {
-    s32 arg0 = (saddr)this;
+    saddr arg0 = (saddr)this;
     ((G_ClientIDHeader *)arg0)->bswap();
     bswap_16((u16 *)(arg0 + 4));
     ((TLobby *)(arg0 + 8))->bswap_challenge_battle_records();
 }
 void TLobby::send_6x7C_packet() {
-    s32 cmd = (saddr)this;
+    saddr cmd = (saddr)this;
     bswap_6x7C_packet();
     send_subcommand((u8 *)cmd);
 }
@@ -149,7 +149,7 @@ void TLobby::init_pkt_cmd_7C() {
 }
 
 s32 TLobby::bswap_challenge_battle_records() {
-    s32 arg0 = (saddr)this;
+    saddr arg0 = (saddr)this;
     S_80072994 *s = (S_80072994 *)arg0;
     s32 i;
     bswap_16((u16 *)arg0);

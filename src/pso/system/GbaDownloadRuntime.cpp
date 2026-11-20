@@ -13,8 +13,8 @@
 #include "pso/system/task/TObject.h"
 
 extern "C" {
-u32 gba_download_data_buffer;
-u32 gba_download_graph;
+uaddr gba_download_data_buffer;
+uaddr gba_download_graph;
 u32 gba_download_data_size;
 s32 TLobby__data_805D6CCC;
 s32 gba_joyboot_send_buffer;
@@ -41,7 +41,7 @@ void TLobby::destroy_singleton() {
 }
 
 void TLobby::init_graph() {
-    u32 temp_r3;
+    uaddr temp_r3;
 
     if ((u32) gba_download_graph == 0U) {
         temp_r3 = (uaddr)TDLGraph::create();
@@ -90,7 +90,7 @@ void gba_joyboot_transfer_callback(s32 arg0, s32 arg1) {
     }
 }
 
-void TLobby::send_data(s32 arg0) {
+void TLobby::send_data(saddr arg0) {
     u32 temp_r3;
 
     temp_r3 = get_resource_file_size((const char *)arg0);

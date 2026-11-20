@@ -244,7 +244,7 @@ s32 TLobby__sub_8029204C(void);
 void TLobby__sub_8026A328(void *);
 int TLobby__sub_80292268(void);
 
-extern u32 challenge_retry_object;
+extern uaddr challenge_retry_object;
 
 void TLobby::draw_if_ready2() {
     if ((is_challenge_mode_active() != 0) && (TLobby::is_multi_ready() != 0) && ((u32) challenge_retry_object != 0U)) {
@@ -331,7 +331,7 @@ s32 TLobby__sub_8029204C(void) {
     return best;
 }
 
-u32 challenge_retry_object;
+uaddr challenge_retry_object;
 s32 split_screen_challenge_created; // inferred: setup_split_screen sets it once it has created the TChallenge4P
 s32 split_screen_flag;
 s32 challenge_mode_active_flag;
@@ -451,7 +451,7 @@ void TLobby::set_encoded_name_and_color(u8 *arg0, s32 arg1) {
     *(s32 *)((s8 *)&lbl_804DB1F0 + 0x18) = (s32) (arg1 | 0xFF000000);
 }
 void TLobby::set_split_screen_name() {
-    s32 arg0 = (saddr)this;
+    saddr arg0 = (saddr)this;
     strncpy(split_screen_player_name, (const char *)arg0, 0x20);
     split_screen_player_name[0x1F] = 0;
 }
@@ -666,7 +666,7 @@ s32 TLobby__sub_80292AB4(s32 arg0, s32 arg1, s32 slot) {
     s32 *flags;
     s32 i;
     Ent_80292AB4 *e;
-    s32 w;
+    saddr w;
     lo = calc_entry_offset__20TWindowSubStatusDispFv(slot);
     hi = calc_layout_hash__20TWindowSubStatusDispFv(slot);
     if (GCW_80292AB4((u16)arg1) == NULL) {
@@ -1020,7 +1020,7 @@ s32 export_character_data__10TObjPlayerFPvPv(u32, u32);
 u32 get_char_index__23TAdSinglePlyChrSelectGCFUi(u32);
 }
 void *create_obj_tag_challenge(void *arg0);
-extern s32 tl_07;
+extern saddr tl_07;
 void *create_ch_time_win(void *arg0);
 void setup_split_screen(void);
 
@@ -1085,7 +1085,7 @@ void TLobby::copy_struct(u8 *arg1) {
 }
 
 void TLobby::spawn_player_tombstones2() {
-    s32 i;
+    saddr i;
     Rec_802932EC *r;
     Tag_802932EC *t;
     TLobby::reset_tombstone_values();

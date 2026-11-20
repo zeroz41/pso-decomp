@@ -210,7 +210,7 @@ void adxt_stat_decinfo(Strm_803CAB38 *self) {
 #define arg0 ((u8 *)self)
     s32 TLobby__sub_803CBF50(s32, s32, s32);
     s32 trigger_sub_task__6TLobbyFv(int, int);
-    s32 t = self->f4;
+    saddr t = self->f4;
     s32 k;
     s32 n1;
     char buf[32];
@@ -343,7 +343,7 @@ struct Conn_803CAEB4
 s32 process_audio_stream_input(int);
 
 void TLobby__sub_803CAEB4(Conn_803CAEB4 *o) {
-  s32 lobby = o->lobby;
+  saddr lobby = o->lobby;
   Ring_803CAEB4 *ring = o->ring;
   Buf_803CAEB4 a;
   Buf_803CAEB4 c;

@@ -32,7 +32,7 @@ struct TItemDrop : public TObject {
     u32 roll_channel_below(s32 count, u32 arg2);
     void generate_drop_item(s32 idx, u8 *item);
     static s32 select_rare_box_item(s32 arg0, s32 arg1, u8 *arg2);
-    static s32 drop_item(s32 arg0, s32 arg1, s32 arg2);
+    static s32 drop_item(s32 arg0, s32 arg1, saddr arg2);
     static void calc_drop_rarity(s32 rng, s32 arg1, void *item_);
     static void init_rare_item_data(void *arg0, void *item_data);
     static void handle_type3(void* p, void* a1);

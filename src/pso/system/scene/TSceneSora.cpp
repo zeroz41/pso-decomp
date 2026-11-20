@@ -122,7 +122,7 @@ TSceneSora::TSceneSora(s32 _w1) : TObjBase((TObject *)_w1) {
 extern "C" {
 
 void TSceneSora::create_instance() {
-    s32 scene_sora;
+    saddr scene_sora;
 
     if ((u32) TSceneSora__sky_bml_resource != 0U) {
         scene_sora = (saddr)TObject::operator new(0xA4);
@@ -153,7 +153,7 @@ void TSceneSora::load_sky_resources() {
     Ent_80207478 *tbl;
     s32 ok;
     void *p;
-    u32 o;
+    uaddr o;
     TSceneSora__instance = 0;
     TSceneSora__sky_bml_resource = 0;
     TSceneSora__has_sky_motion = 0;

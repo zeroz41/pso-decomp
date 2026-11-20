@@ -131,7 +131,7 @@ u32 salInitDsp(u32 flags) {
 }
 
 
-void salCtrlDsp(s32 arg0) {
+void salCtrlDsp(saddr arg0) {
     u16 *temp_r31;
     salBuildCommandList((void *) (arg0), (int) (salGetStartDelay()));
     temp_r31 = dspCmdList;

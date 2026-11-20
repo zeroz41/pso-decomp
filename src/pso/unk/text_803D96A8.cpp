@@ -23,7 +23,7 @@ struct Ent_803D9E38 { u8 *p; s32 a; s32 b; };
 struct Tbl_803D9E38 { u8 pad[8]; Ent_803D9E38 arr[1]; };
 
 extern u32 matrix_stack_base;
-extern u32 current_matrix;
+extern uaddr current_matrix;
 extern "C" {
 f32 PSMTXConcat(int, int, int);
 extern u32 matrix_stack_limit;
@@ -91,7 +91,7 @@ asm f32 normalize_vector(Vec *v) {
 #pragma push
 #pragma scheduling off
 s32 push_matrix_from(void *src) {
-    u32 next = current_matrix + 0x30;
+    uaddr next = current_matrix + 0x30;
     if (next > matrix_stack_limit) {
         return 0;
     }
@@ -249,7 +249,7 @@ s32 TObjPlayer__sub_803D9E38(s32 *arg0, u32 arg1, s32 *arg2, u32 *arg3) {
     s32 temp_r0;
     s32 temp_r3;
     s32 record_index;
-    s32 temp_r6;
+    saddr temp_r6;
     u8 *temp_r29;
     u8 *temp_r31;
     temp_r6 = *(s32 *)((s8 *)arg0 + 0);

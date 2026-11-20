@@ -71,7 +71,7 @@ const char seabed02_multi_gsl_path[] = "gsl_seabed02_multi.gsl";
 const char empty_gsl_path[4] = "";
 char *gsl_archive_path_buffer_ptr = (char *)gsl_archive_entries;
 s32 gstream_tmp_buffer;
-u32 TItemDrop__gsl_adxf_handle;
+uaddr TItemDrop__gsl_adxf_handle;
 s32 TItemDrop__gsl_entry_count;
 s32 TItemDrop__data_805D53CC;
 s32 TItemDrop__data_805D53D0;
@@ -293,7 +293,7 @@ void TGStream::align_read_offset(s32 alignment) {
     gstream_buffer_read_offset = alignment * ((gstream_buffer_read_offset + alignment - 1) / alignment);
 }
 
-s32 TGStream::read_data(s32 dst, s32 size) {
+s32 TGStream::read_data(saddr dst, s32 size) {
     s32 total;
     s32 n;
     total = 0;

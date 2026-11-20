@@ -157,7 +157,7 @@ void TLobby::handle_flag2_request() {
 
 void TLobby::load_now_loading_texture() {
     s32 temp_r31;
-    s32 temp_r3;
+    saddr temp_r3;
     if (!(lobby_request_flags & 2)) {
         temp_r31 = (saddr)TQuestVmDownLoadServer::alloc(0x11000);
         temp_r3 = (saddr)TQuestVmDownLoadServer::alloc(0x2000);

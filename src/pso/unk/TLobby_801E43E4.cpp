@@ -24,7 +24,7 @@
 extern "C" {
 s32 TProtocol__send_60(int, int, int);
 s32 dispatch_6x_subcommand(void *);
-extern u32 TLobby__protocol_instance;
+extern uaddr TLobby__protocol_instance;
 s32 load_gvm_texture_archive(u32, void *);
 s32 load_texture_list(s32 **);
 s32 append_command_to_batch_buffer(void *, s32);
@@ -112,7 +112,7 @@ void send_subcommand(void *cmd) {
 
 void TLobby::update_players() {
     void *var_r31;
-    s32 cmd = (saddr)this;
+    saddr cmd = (saddr)this;
 
     if ((s32) TLobby__join_state_flag == 1) {
         send_subcommand((u8 *)cmd);
@@ -132,9 +132,9 @@ void TLobby::update_players() {
 
 void TLobby::bswap_switch_activate_token() { ((G_ClientIDHeader *)this)->bswap(); bswap_16((u16 *)((char*)this + 0x4)); bswap_16((u16 *)((char*)this + 0x6)); }
 
-s32 TLobby::load_texture_pvm_file(const char *name, s32 arg1) {
+s32 TLobby::load_texture_pvm_file(const char *name, saddr arg1) {
     char path[0x40];
-    u32 buf;
+    uaddr buf;
     s32 allocated;
     s32 size;
     s32 ret;
@@ -192,7 +192,7 @@ s32 TLobby::pso_load_texture() {
     return ret;
 }
 
-void TObjPlayer::free_if_valid(s32 texlist) {
+void TObjPlayer::free_if_valid(saddr texlist) {
     if (texlist != 0) {
         release_texture_list((GinjaTextureList *)texlist);
         TAdSinglePlyChrSelectGC::safe_free(texlist);
@@ -207,7 +207,7 @@ struct GvmFileHeader {
     u16 count;
 };
 
-s32 TLanguage__read_cursor;
+saddr TLanguage__read_cursor;
 
 u8 *load_gvm_texture_file(s32 name) {
     s32 count;
@@ -215,7 +215,7 @@ u8 *load_gvm_texture_file(s32 name) {
     NJS_TEXLIST *res;
     NJS_TEXNAME *ent;
     u8 *str;
-    u32 buf;
+    uaddr buf;
     u32 big;
     s32 size;
     GvmFileHeader hdr;

@@ -64,7 +64,7 @@ struct TLobby : public TObject {
     static void set_pre_retrace_callback();
     static void shutdown_buffers();
     static void dispatch_by_index(s32 arg0);
-    static void open_scroll_text_window(s32 arg0);
+    static void open_scroll_text_window(saddr arg0);
     void render();
     void copy_player_records(s32 arg1);
     void apply_lobby_markers();
@@ -155,7 +155,7 @@ struct TLobby : public TObject {
     static void free_static_buffer(void* a0);
     static void alloc_from_heap(void* a0);
     static void pump_frames();
-    static void add_named_entry(s32 arg0, s32 arg1);
+    static void add_named_entry(s32 arg0, saddr arg1);
     static void notify_and_close();
     static void destroy_instance();
     static void pop_and_close();
@@ -177,7 +177,7 @@ struct TLobby : public TObject {
     static void set_boss_buf_entry(int a0, int a1);
     static int get_sync_counter(int a0);
     static s32 get_item_data(u32 arg0);
-    static void forward_message(s32 arg0, u32 arg1);
+    static void forward_message(saddr arg0, uaddr arg1);
     static void mark_selected();
     static int get_drop_flag();
     static void handle_select_confirm();
@@ -488,7 +488,7 @@ struct TLobby : public TObject {
     static void reset_info_board();
     static int get_lobby_texlist();
     void set_timer(f32 v);
-    static s32 open_message_scroll_window(s32 arg0, s32 arg1, s32 arg2);
+    static s32 open_message_scroll_window(s32 arg0, s32 arg1, saddr arg2);
     static void *create_dialing_message_window(void *arg0, void *arg1);
     static void free_singleton_805D7018();
     void *reset_counters();
@@ -695,7 +695,7 @@ struct TLobby : public TObject {
     static s32 adxf_seek(void *adxf, int pos, int type);
     s32 adxf_stop();
     static s32 adxf_read_nw32(void *adxf, int nsct, void *buf);
-    static s32 read_checked_align(s32 arg0, s32 arg1, s32 arg2);
+    static s32 read_checked_align(saddr arg0, s32 arg1, saddr arg2);
     static void *adxf_open_afs(int partition_id, int index);
     static void release_used_slots();
     static s32 read_afs_toc(s32 arg0);
@@ -729,7 +729,7 @@ struct TLobby : public TObject {
     static void init_graph();
     static void free_buffer();
     static void alloc_buffer();
-    static void send_data(s32 arg0);
+    static void send_data(saddr arg0);
     static void update_alloc_size();
     static u8 get_selected_slot();
     void update_model_load();
@@ -784,8 +784,8 @@ struct TLobby : public TObject {
     static void load_font_texture();
     static void reset_state_byte();
     static void reset_state(void *p);
-    static s32 create_file_load_entry(s32 arg0, s32 arg1, u32 arg2, s32 arg3, void **arg4);
-    static s32 request_file_read(s32 arg0, s32 arg1, s32 *arg2, void **arg3);
+    static s32 create_file_load_entry(saddr arg0, s32 arg1, u32 arg2, saddr arg3, void **arg4);
+    static s32 request_file_read(saddr arg0, s32 arg1, s32 *arg2, void **arg3);
     static void reset_lobby_state();
     static void init_keyboard_buffer();
     static s32 poll_connect();
@@ -797,7 +797,7 @@ struct TLobby : public TObject {
     static void flush_pending_flags();
     static s32 run_connect_sequence();
     static void call_146CA0_with_5708();
-    static void set_ppp_password(s32 arg0);
+    static void set_ppp_password(saddr arg0);
     static void load_network_configs();
     static void teardown_boss2();
     static s32 set_dns_servers();
@@ -810,7 +810,7 @@ struct TLobby : public TObject {
     void send_subcommand_to_client(u32 arg1);
     void send_60_sized();
     void bswap_switch_activate_token();
-    static s32 load_texture_pvm_file(const char *name, s32 arg1);
+    static s32 load_texture_pvm_file(const char *name, saddr arg1);
     s32 pso_load_texture();
     static unsigned char read_packet_byte();
     static void close_windows();
@@ -886,7 +886,7 @@ struct TLobby : public TObject {
     static void update_photon_chair();
     static void init_player_forward();
     static void release_indexed_entry(s32 arg0);
-    static s32 destroy_ep3_exist(s32 arg0, s16 arg1);
+    static s32 destroy_ep3_exist(saddr arg0, s16 arg1);
     static void free_global_buffers();
     void fill_guild_card_from_char(s32 arg1);
     void roll_item_grind_bonus();
@@ -910,7 +910,7 @@ struct TLobby : public TObject {
     static s32 ar_alloc();
     static s32 get_state_zero();
     static s32 process_connection_state();
-    static void forward_notify_error(s32 arg0, s32 arg1);
+    static void forward_notify_error(s32 arg0, saddr arg1);
     static void clear_net_buffer_1680();
     static void clear_buffer_1680();
     static s32 write_zero_padded_block(void *arg0p);
@@ -967,7 +967,7 @@ struct TLobby : public TObject {
     void send_compressed_packet_6c();
     void send_cmd_6B();
     u8 *create_new_floor_windows();
-    static AdxbDecoder *alloc_record(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
+    static AdxbDecoder *alloc_record(s32 arg0, saddr arg1, s32 arg2, s32 arg3);
     s32 write_adx_header(Strm_803C5B50 *s);
     static void append_float_value(s32 arg0);
     static void append_int_param(s32 arg0);
@@ -1020,7 +1020,7 @@ struct TLobby : public TObject {
     static s32 assign_player_id(void *);
     void send_neg50(void* a1);
     static void init_and_set_flag();
-    static void init_battle_ctrl(s32 arg0, s32 arg1);
+    static void init_battle_ctrl(s32 arg0, saddr arg1);
     static void init_char_slots();
     static void send_battle_mode_params(s8 arg0, s32 arg1, s32 arg2);
     static void apply_game_settings(s32 arg0, s32 arg1);

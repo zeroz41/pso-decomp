@@ -52,7 +52,7 @@ void archive_pool_free(Pool_8001D7AC *pool, Node_8001D7AC *node);
 Node_8001D808 *archive_pool_alloc(Pool_8001D808 *pool, u32 size);
 
 void send_disable_auto_reply__9TProtocolFv(s32);
-extern s32 TLobby__protocol_instance;
+extern saddr TLobby__protocol_instance;
 
 s32 aram_read_sync__6TLobbyFllll(s32, s32);
 s32 aram_transfer_sync__6TLobbyFlUlll(s32, void *, s32);
@@ -206,7 +206,7 @@ s32 get_card_window_area__6TLobbyFv(void) {
     return get_character_save_record(0xFFFF) + 0x2050;
 }
 void TLobby::set_short_mail_text() {
-    s32 arg0 = (saddr)this;
+    saddr arg0 = (saddr)this;
     u8 *temp_r31;
     temp_r31 = (u8 *)(get_character_save_record((0xFFFFU)) + 0x2050);
     TWindowSubComCard::mask_profanity_words((char *)arg0, (char *)get_shared_text_buffer());
@@ -796,7 +796,7 @@ void TLobby__sub_8001E998(f32 farg0, f32 farg1, f32 farg2, f32 farg3) {
 #pragma fp_contract on
 void TLobby__sub_8001EA5C(f32 x, f32 y, f32 size, f32 alpha) {
     s32 frames;
-    s32 text_color;
+    saddr text_color;
     s32 color;
     s32 beat;
     f32 scale;

@@ -28,10 +28,10 @@ extern const f32 lbl_805DCDF4;
 extern const f32 lbl_805DCDF8;
 s32 TItemData::update_mag_status_gauges() {
     s32 sp8[4];
-    s32 a;
-    s32 b;
-    s32 c;
-    s32 d;
+    saddr a;
+    saddr b;
+    saddr c;
+    saddr d;
     s32 var_r31;
     ((MagStats *)sp8)->init();
     var_r31 = 0;
@@ -94,13 +94,13 @@ s32 TItemData::update_mag_status_gauges() {
 #pragma fp_contract on
 void TWindowHelpItem__vt10(u8 *window_base) {
     s32 mag[4];
-    s32 a;
+    saddr a;
     s32 b;
-    s32 c;
-    s32 lv;
-    s32 sy;
-    s32 iq;
-    s32 up;
+    saddr c;
+    saddr lv;
+    saddr sy;
+    saddr iq;
+    saddr up;
     ((MagStats *)mag)->init();
     init_window_layout_entries(window_base + 0x24, lbl_804CF30C, *(s16 *)((s8 *)window_base + 0x20));
     *(PM_80253D10 *)((s8 *)window_base + 0xB0) = TWindowHelpItem__mag_growth_update_callback;

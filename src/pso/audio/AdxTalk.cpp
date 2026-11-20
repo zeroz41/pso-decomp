@@ -187,7 +187,7 @@ struct VObj_803C9E38 { VT_803C9E38 *vt; };
 struct Obj_803C9E38 {
     u8 f0; s8 f1; u8 f2; s8 f3; void *f4; void *f8; s32 fc; u8 pad_10[4];
     VObj_803C9E38 *f14; VObj_803C9E38 *objs[13]; s32 f4c; u8 pad_50[0x94 - 0x50];
-    s32 f94; s8 f98; u8 pad_99[3]; s32 f9c; s32 fa0;
+    saddr f94; s8 f98; u8 pad_99[3]; s32 f9c; s32 fa0;
 };
 
 struct VObj_803CA194;
@@ -218,7 +218,7 @@ struct Ch_803CA3C4 {
     void *f10;
     s32 f14;
     void *f18[2];
-    s32 f20;
+    saddr f20;
     s32 f24;
     s32 f28;
     s32 f2c;

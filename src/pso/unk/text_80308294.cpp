@@ -15,7 +15,7 @@ typedef struct SlicerLaunchData_8012D9C8 {
 } SlicerLaunchData_8012D9C8;
 
 
-extern s32 tl_05;
+extern saddr tl_05;
 extern "C" {
 s32 create_fire_explosion_effect(void *, void *, s32, s32, f32);
 void *TObjPlayer__sub_802E449C(void *a0);

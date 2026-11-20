@@ -34,7 +34,7 @@ int player_action_provider_selector;
 
 extern "C" {
 void TLobby__sub_802A7BC8(void* p);
-extern u32 snapshot_image_buffer;
+extern uaddr snapshot_image_buffer;
 void TLobby__sub_802A7BD8(void);
 void fn_802A6070(void *p, s32 v);
 void fn_802A6078(void *p, s32 v);
@@ -68,7 +68,7 @@ s32 TLobby::get_hold_effect_size_by_type() {
 s32 TLobby::send_packet(s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
     s32 temp_r31;
     s32 temp_r31_2;
-    s32 temp_r3;
+    saddr temp_r3;
     s32 temp_r0;
     temp_r31_2 = (arg3 + 0x1F) & 0xFFFFFFE0;
     temp_r3 = (saddr)mem_alloc(temp_r31_2);
@@ -167,7 +167,7 @@ void TLobby::alloc_snapshot_buffer() {
 }
 
 void set_slot_position__6TLobbyFii(s32 arg0, s32 arg1) {
-    s32 temp_r31;
+    saddr temp_r31;
     temp_r31 = ((RlcHeader *)(*(saddr *)&snapshot_image_buffer))->get_directory_offset();
     temp_r31 = (*(s32 *)&snapshot_image_buffer) + temp_r31;
     temp_r31 = temp_r31 + arg0 * 8;

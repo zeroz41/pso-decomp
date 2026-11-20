@@ -1127,7 +1127,7 @@ LAYOUT_ASSERT(RecoveredGlobal_803E875C_lbl_8058DE08_size, sizeof(RecoveredGlobal
 #pragma push
 #pragma opt_common_subs off
 void TQuestVmDownLoadServer::set_file_info_name() {
-    s32 arg0 = (saddr)this;
+    saddr arg0 = (saddr)this;
     strcpy((char *)&(*(RecoveredGlobal_803E875C_lbl_8058DE08 *)&quest_vm_download_server_file_info).value, (const char *)arg0);
 }
 #pragma pop
@@ -1136,8 +1136,8 @@ s32 TQuestVmDownLoadServer__sub_803E8788(int _w0, void * _w1, int _w2) {
     return -1;
 }
 
-s32 TQuestVmDownLoadServer::aram_read_thunk(u32 arg1, int _w2) {
-    s32 arg0 = (saddr)this;
+s32 TQuestVmDownLoadServer::aram_read_thunk(uaddr arg1, int _w2) {
+    saddr arg0 = (saddr)this;
     return TQuestVmDownLoadServer::aram_dma_read((void *)arg0, (void *)arg1, (int)_w2);
 }
 

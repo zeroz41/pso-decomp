@@ -24,7 +24,7 @@ int dispatch_message_window_text(void *w, int text, int flags) {
 }
 
 s32 create_quest_message_window_at(s32 arg0, s32 arg1) {
-    s32 temp_r3;
+    saddr temp_r3;
     s32 var_r0;
     TLobby__sub_80269DA4((void *)arg1, 1);
     temp_r3 = (saddr)TObject::operator new(0x94);

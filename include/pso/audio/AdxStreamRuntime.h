@@ -12,7 +12,7 @@ typedef struct Ent_803C9608 {
     char state;
     s8 stat;
     u8 pad_2[0x4 - 0x2];
-    s32 f4;
+    saddr f4;
     u8 *f8;
     s32 fC;
     u8 pad_10[0x18 - 0x10];

@@ -386,7 +386,7 @@ void TLobby__sub_803C0238(AudioStreamInputState *st) {
 
 void TLobby__sub_803C0628(void *arg0_, s32 *arg1, s32 *arg2, s32 *arg3) {
     S_803C0628 *arg0 = (S_803C0628 *)arg0_;
-    s32 h;
+    saddr h;
     s32 i;
     s32 t;
     s32 v;

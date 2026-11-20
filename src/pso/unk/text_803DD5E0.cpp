@@ -137,7 +137,7 @@ s32 read_gvrt_file_header(Obj_803DDA68 *obj, s32 idx) {
     FileInfo_803DD784 fi;
     u32 n;
     s32 r;
-    u32 base = (uaddr)gvrt_header_read_buffer;
+    uaddr base = (uaddr)gvrt_header_read_buffer;
     FileInfo_803DD784 *pfi;
     u32 size;
     TObjPlayer__sub_803DA7E0();

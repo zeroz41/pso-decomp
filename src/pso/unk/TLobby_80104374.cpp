@@ -382,7 +382,7 @@ s32 TLobby::get_item_data(u32 arg0) {
     }
     return 0;
 }
-void TLobby::forward_message(s32 buf, u32 arg1) {
+void TLobby::forward_message(saddr buf, uaddr arg1) {
     if (arg1 != 0U) {
         ((TItemData *)arg1)->format_item_name((char *)buf);
     }
@@ -472,7 +472,7 @@ void TLobby::forward_to_player(int arg0, void *item) {
 }
 void TLobby::handle_player_event(s32 arg0, s32 arg1) {
     TObjPlayer *player;
-    u32 item;
+    uaddr item;
     player = get_player_by_client_id((u16)arg0);
     if ((player != NULL) && ((TObjPlayer::is_locally_controlled(player) == 1) || ((player->obj_isState3_324() == 1) && ((s32) local_client_id == (s32) TLobby__designated_client_id)) || ((player->is_script_controlled() == 1) && ((s32) local_client_id == (s32) TLobby__designated_client_id)))) {
         item = 0U;
@@ -506,7 +506,7 @@ void TLobby::handle_player_event(s32 arg0, s32 arg1) {
 
 // ---- TShopEquipmentSellWindow_801047B4.cpp
 
-s32 TShopEquipmentSellWindow::get_item_data_value(u32 arg0) {
+s32 TShopEquipmentSellWindow::get_item_data_value(uaddr arg0) {
     s32 sp8[4];
 
     if (arg0 != 0U) {
@@ -763,7 +763,7 @@ extern "C" {
 void *lookup_item_pmt_record(u8 *);
 }
 
-u8 TItemData::is_item_usable(s32 arg0, u8 *item) {
+u8 TItemData::is_item_usable(saddr arg0, u8 *item) {
     if (TItemData::is_wrapped(item) != 0) {
         return 1U;
     }

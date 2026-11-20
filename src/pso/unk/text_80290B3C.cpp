@@ -12,7 +12,7 @@ u32 relocate_data_block_pointers(u32 arg0, u32 arg1) {
     RelFileTrailer *h;
     u32 i;
     u32 n;
-    u32 r;
+    uaddr r;
     c.data = (u8 *)arg0;
     c.size = arg1;
     h = (RelFileTrailer *)((uaddr)c.data + c.size) - 1;

@@ -22,7 +22,7 @@ extern s32 challenge_mode_state[];
 extern "C" {
 
 
-extern u32 challenge_task;
+extern uaddr challenge_task;
 extern s32 challenge_task_created;
 extern s32 TLobby__data_805D4E30;
 

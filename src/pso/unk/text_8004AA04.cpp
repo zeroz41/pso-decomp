@@ -25,11 +25,11 @@ void ModelNodeTables::destroy() {
 }
 
 void ModelNodeTables::init(const ModelNodeSpec *specs, s32 spec_count) {
-    s32 h;
+    saddr h;
     s32 i;
     const ModelNodeSpec *r;
     s32 t;
-    s32 p;
+    saddr p;
     s32 j;
     h = TBoss4Uro::get_instance_count();
     if (h == 0 || specs == NULL || spec_count < 1) {

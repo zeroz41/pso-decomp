@@ -86,7 +86,7 @@ extern s32 local_client_id;
 void TLobby__sub_800738F4(void *, s32);
 }
 void *create_obj_tag_challenge(void *arg0);
-extern s32 tl_07;
+extern saddr tl_07;
 void *create_ch_time_win(void *arg0);
 extern "C" {
 Info_800703D0 *TLobby__sub_800703D0(Info_800703D0 *dst, Info_800703D0 *src);

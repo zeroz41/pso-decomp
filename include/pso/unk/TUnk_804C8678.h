@@ -8,7 +8,7 @@ class TUnk_804C8678 : public TObject {
 public:
     u8 unk_1C[0x24 - 0x1C];
     QuestVmContext ctx;
-    s32 script;
+    saddr script;
     u8 unk_19C[4];
     s32 kind;
 

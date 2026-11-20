@@ -845,7 +845,7 @@ s32 TItemMag::apply_feed(MagStats *change) {
 
 void TItemMag::cast_support_technique(s32 technique) {
     TargetCursorList targets;
-    s32 level = stats.iq / 40;
+    saddr level = stats.iq / 40;
 
     if (owner == NULL) {
         return;

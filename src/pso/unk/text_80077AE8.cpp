@@ -3,7 +3,7 @@
 #include "pso/unk/text_80077B34.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
-extern u32 lbl_805D4E58;
+extern uaddr lbl_805D4E58;
 
 void TAdSinglePlyChrSelectGC__sub_80077AE8(s32 src) {
     if ((u32) lbl_805D4E58 == 0U) {

@@ -6,7 +6,7 @@ extern "C" {
 s32 create_load_unload_set(ItemClassLoadUnloadEntry *arg0) {
     s32 found;
     s32 i;
-    s32 r;
+    saddr r;
     if (arg0 != 0) {
         found = 0;
         i = 0;

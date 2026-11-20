@@ -73,7 +73,7 @@ s32 get_bml_motion(s32, s32);
 s32 get_bml_texlist(s32, s32);
 s32 get_bml_model(s32, s32);
 void *spawn_particle_effect(const void *pos, s32 id);
-s32 freeze_shell_bml_resource;
+saddr freeze_shell_bml_resource;
 extern s32 technique_effect_bml;
 extern s32 lbl_805D63B0;
 s32 push_matrix();
@@ -85,7 +85,7 @@ extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 
 s32 TUnk_8048E1A4::freeze_shell_hold() {
-    s32 p;
+    saddr p;
     p = find_active_entity_by_id(*(u16 *)((s8 *)this + 0x358));
     if (p == 0) {
         return;
@@ -207,7 +207,7 @@ void TUnk_8048E1A4::render() {
 s32 __ct__13TUnk_8048E1A4FPUcPUc(u32, u32, s32, s32);
 u16 get_entity_id(void *);
 
-void create__10TObjPlayerFUiii(u32 arg0, s32 arg1, s32 arg2) {
+void create__10TObjPlayerFUiii(uaddr arg0, s32 arg1, s32 arg2) {
     u16 entity_id;
 
     u32 obj;
@@ -269,7 +269,7 @@ struct RecoveredFields_8008213C_temp_r3 {
 extern "C" {
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 TParticleCtrl *create_particle_emitter(const void *pos, s32 id);
-extern s32 tl_05;
+extern saddr tl_05;
 void free_bin_model_request(void*, int);
 
 void TLobby::destroy_global_singleton() {
@@ -280,7 +280,7 @@ void TLobby::destroy_global_singleton() {
 }
 
 void TLobby::load_freeze_ice_resource() {
-    s32 temp_r3;
+    saddr temp_r3;
     s32 var_r0;
     temp_r3 = (saddr)::operator new(0x440);
     var_r0 = temp_r3;

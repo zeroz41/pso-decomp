@@ -66,7 +66,7 @@ void snd_handle_irq(void) {
     hwIRQLeaveCritical();
 }
 
-s32 hwInit(u32 arg0, s32 arg1, s32 arg2, u32 arg3) {
+s32 hwInit(uaddr arg0, s32 arg1, s32 arg2, u32 arg3) {
     hwInitIrq();
     salFrame = 0;
     salAuxFrame = 0;

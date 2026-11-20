@@ -96,8 +96,8 @@ extern "C" {
 void mem_free(void *p);
 u32 TLobby__floor_item_entry_pool;
 Ent_801037A0 **floor_item_row_table;
-s32 floor_item_counts_by_floor;
-s32 floor_item_free_id_stack;
+saddr floor_item_counts_by_floor;
+saddr floor_item_free_id_stack;
 int floor_item_free_id_count;
 u16 *floor_item_next_sort_keys;
 FlagWord lbl_805D5430;

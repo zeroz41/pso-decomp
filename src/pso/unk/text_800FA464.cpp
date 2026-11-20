@@ -24,7 +24,7 @@ AsyncFileReadRequest *async_file_read_current_request;
 void *lobby_stack_entry_list_tail;
 s32 lobby_list_entry_count;
 s32 async_file_read_state;
-u32 async_file_read_sector_buffer;
+uaddr async_file_read_sector_buffer;
 u32 lobby_download_state_ptr;
 s32 lobby_list_next_id;
 s32 game_heap;

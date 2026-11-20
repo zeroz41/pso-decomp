@@ -465,7 +465,7 @@ s32 TLobby__data_805D6068;
 s32 forest_rel_set_data_table;
 // inferred: the SetDataTable*.rel module load_relocatable_file returns
 s32 *forest_rel_module;
-u32 forest_rel_work_buffer;
+uaddr forest_rel_work_buffer;
 
 void TLobby::update_drop_item() {
     s32 *temp_r3;

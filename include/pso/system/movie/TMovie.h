@@ -23,7 +23,7 @@ struct TMovie : public TObject {
     static void flush_cache();
     static void flip_frame_buffer();
     static void flush_and_reset();
-    static void calc_frame_buffer_size(s32 arg0, s32 arg1);
+    static void calc_frame_buffer_size(saddr arg0, saddr arg1);
     s32 stop_if_advanced();
     s32 check_finished();
     bool is_playback_finished();

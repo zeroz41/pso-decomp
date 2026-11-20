@@ -14,7 +14,7 @@ struct TItemTimerEvent : public TItemHeapObject {
     u8 _pad1E[0x2];
     u32 m_20;
     u32 m_24;
-    u32 m_28;
+    uaddr m_28;
     static void clear_timer_slot(u16 arg0);
     static void start_event_by_index(u16 arg0);
     static void check_battle_ctrl(int arg0);

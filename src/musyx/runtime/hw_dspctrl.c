@@ -29,7 +29,7 @@ s32 (*salMessageCallback)(s32, s32);
 u32 salInitDspCtrl(u8 numVoices, u8 numStudios, u32 defaultStudioDPL2) {
     u32 i;
     u32 j;
-    u32 itdPtr;
+    uaddr itdPtr;
 
     salNumVoices = numVoices;
     salMaxStudioNum = numStudios;
@@ -1639,7 +1639,7 @@ void salHandleAuxProcessing(void) {
     s32 bufs[3];
     u8 i;
     Voice_803B8B40 *v;
-    s32 buf;
+    saddr buf;
 
     i = 0;
     v = (Voice_803B8B40 *)lbl_805663D8;

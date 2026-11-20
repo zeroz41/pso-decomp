@@ -292,7 +292,7 @@ s32 TLobby::adxf_stop() {
     return stop_803CC980((Snd_803CC980 *)this);
 }
 
-s32 TLobby::read_checked_align(s32 arg0, s32 arg1, s32 arg2) {
+s32 TLobby::read_checked_align(saddr arg0, s32 arg1, saddr arg2) {
     if (arg2 & 0x1F) {
         TLobby::notify_error("E0120401:'buf' isn't 32byte alignment.(ADXF_ReadNw)");
         return -3;
@@ -553,7 +553,7 @@ Slot_803CD16C *adxf_open_afs__6TLobbyFii(s32 arg0, s32 arg1) {
 }
 
 inline s32 open_803CD3A8(Slot_803CD16C *s, u32 name, s32 mode) {
-    u32 h;
+    uaddr h;
     s32 sz;
     if (name == 0) {
         TLobby::notify_error("E9081901:illigal parameter fname=null.(ADXF_Open)");

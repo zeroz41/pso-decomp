@@ -23,7 +23,7 @@ void TLobby::set_packet_flags(s32 arg1) {
 }
 
 void TLobby::clear_entry() {
-    s32 arg0 = (saddr)this;
+    saddr arg0 = (saddr)this;
     if (arg0 != 0) {
         TLobby::init_once();
         memset((void *)arg0, 0, 0x30);

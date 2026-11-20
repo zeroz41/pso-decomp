@@ -91,7 +91,7 @@ void TLobby::close_windows() {
 }
 }
 
-extern u32 quest_mission_manager;
+extern uaddr quest_mission_manager;
 
 quest_suspend_reason dispatch_quest_opcode(void) {
     s32 op;
@@ -234,7 +234,7 @@ void TLobby::free_luker_object() {
 }
 
 void TLobby::set_flag_80000() {
-    s32 arg0 = (saddr)this;
+    saddr arg0 = (saddr)this;
     ((TObjPlayer *)arg0)->test_action_mask(0x80000);
 }
 void TLobby::set_flag_40000() {
@@ -244,7 +244,7 @@ void TLobby__sub_801F3314(s32 arg0) {
     ((TObjPlayer *)arg0)->test_action_mask(0x10000);
 }
 void TLobby::set_flag_8000() {
-    s32 arg0 = (saddr)this;
+    saddr arg0 = (saddr)this;
     ((TObjPlayer *)arg0)->test_action_mask(0x8000);
 }
 int TLobby::check_flag_24576() { return ((TObjPlayer *)this)->test_action_mask(24576); }
@@ -298,7 +298,7 @@ int TLobby::copy_position() { return VecCopy__FP3VecPC3Vec(this); }
 #pragma fp_contract on
 void TLobby::bswap_entry_words(s32 arg0) {
     s32 var_r31;
-    s32 temp_r30;
+    saddr temp_r30;
     s32 var_r29;
     var_r29 = 0;
     var_r31 = 0;

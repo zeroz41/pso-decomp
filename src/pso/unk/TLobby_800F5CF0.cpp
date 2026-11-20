@@ -39,7 +39,7 @@ void *TLobby::alloc_tables(s32 ctx, s32 arg2) {
     return this;
 }
 void TObjEnemy::clear_lobby_object_state() {
-    s32 arg0 = (saddr)this;
+    saddr arg0 = (saddr)this;
     LAYOUT_ASSERT(sp8_offset, offsetof(Stack_800F5D80, sp8) == 0x0);
     LAYOUT_ASSERT(spE_offset, offsetof(Stack_800F5D80, spE) == 0x6);
     Stack_800F5D80 stack;

@@ -74,7 +74,7 @@ void init_disc_error_messages(void) {
 s32 launch_switcher_dol(const char *url) {
     char buf[0x100];
     s32 r;
-    s32 v;
+    saddr v;
     r = get_resource_file_size(switcher_dol_filename);
     read_disc_file(switcher_dol_filename, (void *)(v = resource_decompress_buffer));
     VISetBlack(1);

@@ -24,7 +24,7 @@ struct Mgr_8036B424 {
 extern "C" {
 s32 TLobby__sub_8036B1AC(s32);
 extern s32 __vt__13TUnk_804F3640[];
-u32 slot_entity_dispatcher_instance;
+uaddr slot_entity_dispatcher_instance;
 void __ct__7TObjectFP7TObject(void *);
 Mgr_8036B424 *TLobby__sub_8036B424(Mgr_8036B424 *arg0, void * _w1);
 

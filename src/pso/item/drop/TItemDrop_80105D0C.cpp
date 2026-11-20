@@ -607,7 +607,7 @@ s32 TItemDrop::select_rare_box_item(s32 arg0, s32 arg1, u8 *arg2) {
     return 0;
 }
 
-s32 TItemDrop::drop_item(s32 arg0, s32 arg1, s32 arg2) {
+s32 TItemDrop::drop_item(s32 arg0, s32 arg1, saddr arg2) {
     if ((TItemDrop::can_drop() == 1) && ((s32 *) TItemDrop__rare_item_table_file != NULL) && (arg1 > 0) && (arg1 < 0x58)) {
         return try_generate_rare_item__9TItemDropFiPvPv((s32)arg0, (u8 *)(*TItemDrop__rare_item_table_file + (arg1 * 4)), (u8 *)arg2);
     }

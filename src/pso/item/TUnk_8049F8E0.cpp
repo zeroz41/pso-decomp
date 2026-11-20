@@ -16,7 +16,7 @@ s32 send_6x33_revive_player(s32, s32);
 #pragma scheduling off
 void TUnk_8049F8E0::apply_use_effect() {
     s32 temp_r3;
-    u32 temp_r424;
+    uaddr temp_r424;
     if (sub_801A1DDC__10TObjPlayerFv(this->owner) != 0) {
         temp_r424 = (u32)this->owner->m_424;
         if (temp_r424 != 0U) {

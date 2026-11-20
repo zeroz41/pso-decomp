@@ -55,7 +55,7 @@ typedef struct Hdr_8022525C
 
 extern "C" {
 void sort_shop_items(s32, s32, s32);
-u32 lobby_tool_random_rel;
+uaddr lobby_tool_random_rel;
 int shop_tool_stock_level;
 s32 shop_tool_stock_counts[4];
 s32 shop_tool_stock_table[4];
@@ -394,7 +394,7 @@ void clear_shop_tool_flags(void) {
 }
 
 void TLobby::copy_shop_item_entry(s32 arg1, s32 arg2) {
-    s32 arg0 = (saddr)this;
+    saddr arg0 = (saddr)this;
     *(ByteBlock_14 *)(arg0) = *(const ByteBlock_14 *)(shop_tool_stock_buffers[arg2] + (arg1 * 0x14));
 }
 void mark_shop_tool_sold_out(s32 a, s32 b) {
@@ -429,7 +429,7 @@ void TLobby::free_all_rocks() {
     s32 var_r30 = 0;
     s32 var_r31 = 3;
     do {
-        u32 v = (u32)var_r29[var_r31];
+        uaddr v = (u32)var_r29[var_r31];
         if (v != 0U) {
             mem_free((void *)v);
             var_r29[var_r31] = (s32)var_r30;

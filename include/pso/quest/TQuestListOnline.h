@@ -13,10 +13,10 @@ struct TQuestListOnline : public TShopWindowBase {
     s32 (*callback2c)();
     s32 (*callback30)();
     s32 (*callback34)();
-    u32 list_window;
-    u32 description_window;
-    u32 info_window;
-    u32 confirm_window;
+    uaddr list_window;
+    uaddr description_window;
+    uaddr info_window;
+    uaddr confirm_window;
     s32 selected_index;
     u8 selected_entry[0x1C];
     s32 selection_stage;

@@ -121,7 +121,7 @@ struct Pl_801A40D8 : PlB_801A40D8 {
 extern "C" {
 s32 reset_quest_result_callbacks__22THunterGuildSeqOfflineFPv();
 void clear_enabled_main_warps(void);
-extern u32 quest_mission_manager;
+extern uaddr quest_mission_manager;
 int is_quest_active(void);
 void TLobby__sub_801A4C6C(void* p);
     extern int challenge_task_created;
@@ -151,7 +151,7 @@ void get_team_state__6TLobbyFPv();
 }
 void clear_floor_population();
 extern s32 TLobby__designated_client_id;
-extern s32 game_protocol_instance;
+extern saddr game_protocol_instance;
 extern "C" {
 s32 __dt__7TObjectFv(void *, s32);
 s32 find_leader_section_id(void *, s32);
@@ -276,7 +276,7 @@ Pair_801A3CFC lobby_udp_test_game_entries[2] = {
 void deactivate_keyboard(void);
 void send_keepalive(u8 *arg0);
 extern s32 actor_frame_tick;
-extern u32 TLobby__protocol_instance;
+extern uaddr TLobby__protocol_instance;
 extern s32 TLobby__lobby_state_flags;
 void process_async_file_reads(void);
 void update_sound_request_slots(void);
@@ -294,7 +294,7 @@ void clear_quest_floor_designations(void);
 extern u8 TLobby__data_805011D8[];
 s32 start_quest_mission(void);
 extern u8 game_variations[];
-extern u32 quest_area_manager;
+extern uaddr quest_area_manager;
 s32 change_floor_reload_area(void);
 void load_battle_param_entry(void);
 extern s32 TLobby__lobby_number;

@@ -1220,13 +1220,13 @@ void deserialize_mag__9TItemDataFPvPv(Raw_8010D614 *src, Mag_8010D614 *dst) {
 
 f32 TItemData::get_shield_set_multiplier(u8 *arg1) {
     u8 *arg0 = (u8 *)this;
-  s32 temp_r31;
+  saddr temp_r31;
   f32 var_f31;
-  s32 temp_r30;
-  s32 temp_r30_2;
-  s32 temp_r30_3;
-  s32 temp_r31_2;
-  s32 temp_r31_3;
+  saddr temp_r30;
+  saddr temp_r30_2;
+  saddr temp_r30_3;
+  saddr temp_r31_2;
+  saddr temp_r31_3;
   u8 temp_r0;
   u8 *temp_r3;
   temp_r0 = *((u8 *) (((s8 *) arg0) + 2));
@@ -1271,19 +1271,19 @@ f32 TItemData::get_shield_set_multiplier(u8 *arg1) {
 f32 TItemData::get_armor_set_multiplier(u8 *arg1) {
     u8 *arg0 = (u8 *)this;
     f32 v;
-    s32 b1;
-    s32 a1;
-    s32 a2;
-    s32 b2;
-    s32 a3;
-    s32 b3;
+    saddr b1;
+    saddr a1;
+    saddr a2;
+    saddr b2;
+    saddr a3;
+    saddr b3;
     s32 i;
     s32 found;
     s32 hit;
     s32 j;
     s32 hit2;
     s32 k;
-    s32 p;
+    saddr p;
     u8 c;
     v = 1.0f;
     switch (arg0[2]) {
@@ -1368,12 +1368,12 @@ f32 TItemData::get_armor_set_multiplier(u8 *arg1) {
 f32 TItemData::get_weapon_set_multiplier(u8 *item_data) {
     u8 *arg0 = (u8 *)this;
   f32 var_f31;
-  s32 temp_r31;
-  s32 temp_r30;
-  s32 temp_r30_2;
-  s32 temp_r30_3;
-  s32 temp_r31_2;
-  s32 temp_r31_3;
+  saddr temp_r31;
+  saddr temp_r30;
+  saddr temp_r30_2;
+  saddr temp_r30_3;
+  saddr temp_r31_2;
+  saddr temp_r31_3;
   u8 temp_r0;
   u8 *item;
   temp_r0 = *((u8 *) (((s8 *) arg0) + 1));

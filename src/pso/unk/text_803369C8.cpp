@@ -92,7 +92,7 @@ void rotate_title_background_quad(s32 owner, u8 *quad, u8 *center, s32 angle, f3
 void draw_title_rings(s32 owner, f32 depth, s32 frame) {
     TitleQuad q;
     f32 pos[2];
-    s32 angle;
+    saddr angle;
     s32 i;
     u32 color;
 

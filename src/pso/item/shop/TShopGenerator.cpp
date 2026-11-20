@@ -77,7 +77,7 @@ extern u8 controller_input_state[];
 extern s32 local_client_id;
 extern s32 lbl_805D55C0;
 void TMedicalCenterMes__sub_80216260(void);
-extern s32 tl_05;
+extern saddr tl_05;
 // run_task reads the bool through an int-returning call (no clrlwi after either call); kept as found.
 bool is_player_in_service_range__14TShopGeneratorFPUcf(u8 *self, u8 *player, f32 range);
 }
@@ -120,7 +120,7 @@ s32 TShopGenerator::is_no_service_active(void *self, s32 player) {
 void TShopGenerator::run_task() {
     ShopService *service;
     s32 i;
-    s32 p;
+    saddr p;
     int (*get_slot_flag)(int);
     service = &TShopGenerator__service_dispatch_table[this->set_params[0]];
     if (this->m_94 > 0) {
@@ -151,7 +151,7 @@ void TShopGenerator::run_task() {
             service->create((void *)p);
         }
     } else {
-        s32 q;
+        saddr q;
         int (*get_slot_flag2)(int);
         q = (saddr)get_player_by_client_id(local_client_id);
         if (q == 0) return;

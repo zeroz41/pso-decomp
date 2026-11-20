@@ -22,6 +22,6 @@ LAYOUT_ASSERT(TLoadCtrl_size, sizeof(TLoadCtrl) == 0x24);
 
 extern "C" {
 // The fade task the loader started; cleared once it is queued for destruction.
-extern s32 TLoadCtrl__fade_task;
+extern saddr TLoadCtrl__fade_task;
 }
 #endif

@@ -110,7 +110,7 @@ s32 TLobby__sub_8006F38C(s32 arg0) {
     u32 *flags;
     s32 i;
     Entry_8006F38C *e;
-    u32 w;
+    uaddr w;
     lo = calc_entry_offset__20TWindowSubStatusDispFv(-1);
     hi = calc_layout_hash__20TWindowSubStatusDispFv(-1);
     if (get_character_save_record(0xFFFF) == 0) {
@@ -258,7 +258,7 @@ s32 TLobby__sub_8006F6B0(s32 clear_time) {
     return ret;
 }
 void TLobby::set_name_string() {
-    s32 arg0 = (saddr)this;
+    saddr arg0 = (saddr)this;
     strncpy((char *)&lobby_name_string_buffer.value, (const char *)arg0, 0x1F);
     *(s8 *)((s8 *)&lobby_name_string_buffer.value + 0x1F) = 0;
 }

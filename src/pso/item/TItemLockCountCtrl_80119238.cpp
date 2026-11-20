@@ -43,14 +43,14 @@ void TItemLockCountCtrl::lock_effect(u16 client, u32 effect) {
 
 
 void TItemEquipBase__sub_80119100(int arg0) {
-    u32 temp = get_player_by_client_id(arg0);
+    uaddr temp = get_player_by_client_id(arg0);
     if (temp != 0U) {
         ((TObjEneDD_ST *)temp)->sub_800F5864(0x20);
     }
 }
 
 void notify_stealth_enemies_10(int arg0) {
-    u32 temp = get_player_by_client_id(arg0);
+    uaddr temp = get_player_by_client_id(arg0);
     if (temp != 0U) {
         ((TObjEneDD_ST *)temp)->sub_800F5864(0x10);
     }
@@ -58,77 +58,77 @@ void notify_stealth_enemies_10(int arg0) {
 
 
 void TItemEquipBase__sub_80119168(int arg0) {
-    u32 temp = get_player_by_client_id(arg0);
+    uaddr temp = get_player_by_client_id(arg0);
     if (temp != 0U) {
         ((TObjEneDD_ST *)temp)->sub_800F5864(8);
     }
 }
 
 void TItemEquipBase__sub_8011919C(int arg0) {
-    u32 temp = get_player_by_client_id(arg0);
+    uaddr temp = get_player_by_client_id(arg0);
     if (temp != 0U) {
         ((TObjEneDD_ST *)temp)->sub_800F5864(4);
     }
 }
 
 void TItemEquipBase__sub_801191D0(int arg0) {
-    u32 temp = get_player_by_client_id(arg0);
+    uaddr temp = get_player_by_client_id(arg0);
     if (temp != 0U) {
         ((TObjEneDD_ST *)temp)->sub_800F5864(2);
     }
 }
 
 void fn_80119204(int arg0) {
-    u32 temp = get_player_by_client_id(arg0);
+    uaddr temp = get_player_by_client_id(arg0);
     if (temp != 0U) {
         ((TObjEneDD_ST *)temp)->sub_800F5864(1);
     }
 }
 
 void TItemLockCountCtrl__sub_80119238(int arg0) {
-    u32 temp = get_player_by_client_id(arg0);
+    uaddr temp = get_player_by_client_id(arg0);
     if (temp != 0U) {
         ((TObjBase *)temp)->obj_clearFlags30(0x40);
     }
 }
 
 void TItemLockCountCtrl__sub_8011926C(int arg0) {
-    u32 temp = get_player_by_client_id(arg0);
+    uaddr temp = get_player_by_client_id(arg0);
     if (temp != 0U) {
         ((TObjEneDD_ST *)temp)->sub_800F5874(0x20);
     }
 }
 
 void TItemLockCountCtrl__sub_801192A0(int arg0) {
-    u32 temp = get_player_by_client_id(arg0);
+    uaddr temp = get_player_by_client_id(arg0);
     if (temp != 0U) {
         ((TObjEneDD_ST *)temp)->sub_800F5874(0x10);
     }
 }
 
 void notify_stealth_enemies_08(int arg0) {
-    u32 temp = get_player_by_client_id(arg0);
+    uaddr temp = get_player_by_client_id(arg0);
     if (temp != 0U) {
         ((TObjEneDD_ST *)temp)->sub_800F5874(8);
     }
 }
 
 void apply_battle_ctrl_effect(int arg0) {
-    u32 temp = get_player_by_client_id(arg0);
+    uaddr temp = get_player_by_client_id(arg0);
     if (temp != 0U) {
         ((TObjEneDD_ST *)temp)->sub_800F5874(4);
     }
 }
 
 void TItemLockCountCtrl__sub_8011933C(int arg0) {
-    u32 temp = get_player_by_client_id(arg0);
+    uaddr temp = get_player_by_client_id(arg0);
     if (temp != 0U) {
         ((TObjEneDD_ST *)temp)->sub_800F5874(2);
     }
 }
 
 void TItemLockCountCtrl::apply_unit_immunity(int arg0) {
-    u32 temp = get_player_by_client_id(arg0);
+    uaddr temp = get_player_by_client_id(arg0);
     if (temp != 0U) {
         ((TObjEneDD_ST *)temp)->sub_800F5874(1);
     }

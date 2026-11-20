@@ -45,7 +45,7 @@ struct Rec_803DA8E4 { u32 a; u32 b; u32 c; Obj_803DA8E4 *obj; s32 cnt; s32 v14; 
 
 struct B_803DAE1C { u32 a; u32 b; Obj_803DAD84 *c; };
 
-extern s32 record_array_ptr;
+extern saddr record_array_ptr;
 extern "C" {
 void TObjPlayer__sub_803DAC1C(s32 arg0);
 s32 fn_803DB20C(void *);
@@ -118,7 +118,7 @@ s32 TObjPlayer__sub_803DA84C(u8 *arg0, s32 arg1, s32 arg2, s32 arg3) {
     u32 temp_r0;
     u32 temp_r6;
     u32 temp_r7;
-    u32 var_r5;
+    uaddr var_r5;
     temp_r7 = arg2 & 0xFFFFFFFC;
     temp_r6 = arg3 & 0xFFFFFFFC;
     if (temp_r6 == 0) {

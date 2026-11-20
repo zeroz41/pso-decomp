@@ -386,7 +386,7 @@ inline void free_803C3E88(AdxbDecoder *r) {
         r->used = 0;
     }
 }
-AdxbDecoder *TLobby::alloc_record(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
+AdxbDecoder *TLobby::alloc_record(s32 arg0, saddr arg1, s32 arg2, s32 arg3) {
     s32 i;
     AdxbDecoder *r;
     for (i = 0; i < 16; i++) {

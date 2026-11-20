@@ -59,8 +59,8 @@ struct Ent_802098AC;
 struct SpawnRecord_8020A9C4;
 struct SetEntry_80209D34;
 
-s32 item_drop_rng;
-s32 lbl_805D60A4;
+saddr item_drop_rng;
+saddr lbl_805D60A4;
 u8 *lbl_805D60A8;
 u8 *lbl_805D60AC;
 u8 *TLobby__item_data_table_buffer;
@@ -80,7 +80,7 @@ struct Hdr_8020967C { s32 type; s32 size; s32 id; s32 x; };
 
 extern "C" {
 u8 *TLobby__sub_80209584(u8 *arg0, s32 arg1) {
-    s32 temp_r3;
+    saddr temp_r3;
     s32 var_r0;
     temp_r3 = (saddr)::operator new(0xE8);
     var_r0 = temp_r3;
@@ -150,7 +150,7 @@ void TLobby::append_swapped_u32(s32 *arg0) {
 }
 
 void TLobby::append_entity_entry() {
-    s32 arg0 = (saddr)this;
+    saddr arg0 = (saddr)this;
     if (lbl_805D60C4 != NULL) {
         ((TLobby *)(lbl_805D60C4 + lbl_805D60C8))->move_data((s32 *)arg0, 1);
         lbl_805D60C8 += 1;
@@ -586,7 +586,7 @@ void TLobby::free_boss4rock() { ((TLobby *)lbl_805D60A4)->free_boss4rock(1); lbl
 // ---- pso/unk/text_8020A2AC
 s32 run_step__9TItemDropFl(int, void *);
 s32 __cvt_fp2unsigned(f32);
-s32 item_drop_server_seed;
+saddr item_drop_server_seed;
 s32 lbl_805D60D4;
 s32 map_set_data_handle_a;
 s32 map_set_data_handle_b;
@@ -598,7 +598,7 @@ u8 *TLobby__map_set_file_buffer;
 s32 TLobby__map_set_file_buffer_size;
 void TLobby__sub_8020A2AC(void) {
     s32 temp_r3;
-    s32 temp_r3_2;
+    saddr temp_r3_2;
     s32 var_r0;
     s32 var_r0_2;
     if (TRaderMapCore::is_not_split_screen() == 1) {
@@ -646,7 +646,7 @@ void TLobby__sub_8020A48C(void* p) { bswap_32((u32 *)p); bswap_32((u32 *)((char*
 struct ByteBlock_14 { u8 bytes[0x14]; };
 
 void TLobby::copy_record_entry(s32 arg1) {
-    s32 arg0 = (saddr)this;
+    saddr arg0 = (saddr)this;
     *(ByteBlock_14 *)(arg0) = *(const ByteBlock_14 *)(arg1);
     *(s16 *)((s8 *)arg0 + 0x14) = (s16) *(s16 *)((s8 *)arg1 + 0x14);
     *(s16 *)((s8 *)arg0 + 0x16) = (s16) *(s16 *)((s8 *)arg1 + 0x16);
@@ -773,7 +773,7 @@ s32 load_object_set_file(s32 idx, s32 arg1) {
     Ent_8020A834 *p;
     s32 n;
     s32 i;
-    s32 floor;
+    saddr floor;
     TLobby::replace_file_extension(name.s, (char *)arg1, (char *)"o.dat");
     size = read_disc_file(name.s, TLobby__map_set_file_buffer);
     if (size < 0) {
@@ -877,7 +877,7 @@ int TLobby::rebuild_entry() { return clear_record_flags_a__6TLobbyFv(this); }
 
 s32 load_area_enemy_set(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     char buf[0x28];
-    s32 name;
+    saddr name;
     s32 size;
     u8 *p;
     s32 count;
@@ -962,7 +962,7 @@ s32 load_area_object_set(s32 arg0, s32 lobby, s32 arg2, s32 arg3) {
     char name[0x20];
     MapSetVariant *subs;
     MapSetEntry *items;
-    s32 id;
+    saddr id;
     s32 len;
     Rec_8020AD40 *r;
     s32 n;
@@ -1071,7 +1071,7 @@ void TLobby::free_data_60F0() {
 }
 
 s32 TLobby::init_handle(s32 arg0) {
-    u32 temp_r3;
+    uaddr temp_r3;
 
     temp_r3 = alloc__22TQuestVmDownLoadServerFUl();
     TLobby__map_set_file_buffer = (u8 *)temp_r3;

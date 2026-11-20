@@ -36,7 +36,7 @@ s32 TQuestVmDownLoadServer__bin_download_complete;
 s32 TQuestVmDownLoadServer__pvr_download_complete;
 s32 TQuestVmDownLoadServer__gba_download_complete;
 u8 TQuestVmDownLoadServer__download_kind;
-u32 TQuestVmDownLoadServer__download_window;
+uaddr TQuestVmDownLoadServer__download_window;
 s32 quest_download_in_progress;
 s32 TQuestVmDownLoadServer__total_download_bytes;
 s32 TQuestVmDownLoadServer__received_file_bytes;
@@ -62,7 +62,7 @@ s32 poll_memcard_result(s32);
 void set_ready__6TSceneFv(void *);
 }
 extern s32 lbl_805D55C0;
-extern u32 lobby_player_construction_window;
+extern uaddr lobby_player_construction_window;
 extern s32 lbl_805D49B4;
 
 
@@ -699,7 +699,7 @@ void TQuestVmDownLoadServer::count_download_file_blocks() {
     this->state = 0x15;
 }
 void TQuestVmDownLoadServer::close_window() {
-    u32 temp_r3;
+    uaddr temp_r3;
     this->state = 2;
     temp_r3 = (uaddr) this->m_290;
     if (temp_r3 != 0U) {
@@ -758,7 +758,7 @@ void TQuestVmDownLoadServer::update_mc_select() {
 void TQuestVmDownLoadServer::open() {
     if ((uaddr) this->m_29c == 0U) {
         TScene::reset_counter();
-        u32 temp_r3 = lobby_player_construction_window;
+        uaddr temp_r3 = lobby_player_construction_window;
         if (temp_r3 != 0U) {
             ((TObject *)((void *)temp_r3))->disallow_rendering();
         }
@@ -785,7 +785,7 @@ void TQuestVmDownLoadServer::handle_confirm_input() {
 #pragma opt_propagation off
 void TQuestVmDownLoadServer::check_memcard_slot() {
     u8 *arg0 = (u8 *)this;
-    s32 slot;
+    saddr slot;
     s32 cap;
     u8 *seq;
     {
@@ -1404,7 +1404,7 @@ void TMCFormatSequence::wait_confirm_and_finish(void *arg0) {
     }
 }
 void TMCFormatSequence::show_message(s32 arg1, s32 arg2) {
-    u32 v = this->m_34;
+    uaddr v = this->m_34;
     if (v != 0U) {
         ((TWindowMessage *)v)->append_line(arg1, arg2 | 0x81);
     }

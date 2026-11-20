@@ -43,8 +43,8 @@ void func_803DCDFC__Fv(void);
 
 extern s8 controller_input_state[];
 extern s8 controller_physical_port_bank[];
-extern s32 video_initial_draw_framebuffer;
-extern s32 video_initial_display_framebuffer;
+extern saddr video_initial_draw_framebuffer;
+extern saddr video_initial_display_framebuffer;
 extern int opening_movie_selector;
 extern unsigned char main_menu_scene_active_flag;
 

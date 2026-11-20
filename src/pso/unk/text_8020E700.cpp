@@ -247,7 +247,7 @@ void clear_shop_armor_flags(void) {
 }
 
 void TLobby::copy_armor_shop_entry(s32 arg1, s32 arg2) {
-    s32 arg0 = (saddr)this;
+    saddr arg0 = (saddr)this;
     *(ByteBlock_14 *)(arg0) = ((const ByteBlock_14 *)lbl_80513D78[arg2])[arg1];
 }
 
@@ -282,10 +282,10 @@ void mem_free(void *p);
 void TLobby::free_rocks() {
     s32 var_r28 = 3;
     s32 *var_r29 = lbl_80513D78;
-    s32 var_r30 = 0;
+    saddr var_r30 = 0;
     s32 var_r31 = 3;
     do {
-        u32 v = (u32)var_r29[var_r31];
+        uaddr v = (u32)var_r29[var_r31];
         if (v != 0U) {
             mem_free((void *)v);
             var_r29[var_r31] = var_r30;

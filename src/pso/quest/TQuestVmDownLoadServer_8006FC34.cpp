@@ -154,7 +154,7 @@ void TLobby::update_card_save_info() {
 }
 
 void TLobby::spawn_player_tombstones() {
-    s32 i;
+    saddr i;
     Rec_8006FE7C *rec;
     Info_8006FE7C *info;
     TLobby::reset_tombstone_values();

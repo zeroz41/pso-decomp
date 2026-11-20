@@ -10,7 +10,7 @@ extern s32 info_board_state_flags;
 extern u32 information_board_response_buffer;
 s32 send_info_board_request__9TProtocolFv(u32);
 
-extern u32 TLobby__protocol_instance;
+extern uaddr TLobby__protocol_instance;
 
 void TLobby::init_once_data(u32 arg0) {
     if ((u32) information_board_response_buffer == 0U) {
@@ -35,7 +35,7 @@ saddr TLobby::get_card_window_field() {
     return get_character_save_record(0xFFFF) + 0x20FC;
 }
 void TLobby::set_info_board_text() {
-    s32 arg0 = (saddr)this;
+    saddr arg0 = (saddr)this;
     u8 *temp_r31;
     temp_r31 = (u8 *)(get_character_save_record((0xFFFFU)) + 0x20FC);
     TWindowSubComCard::mask_profanity_words((char *)arg0, (char *)get_shared_text_buffer());

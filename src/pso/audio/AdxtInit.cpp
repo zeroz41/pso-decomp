@@ -100,6 +100,6 @@ s32 TLobby::process_connection_state() {
     return 0;
 }
 
-void TLobby::forward_notify_error(s32 arg0, s32 arg1) {
+void TLobby::forward_notify_error(s32 arg0, saddr arg1) {
     TLobby::notify_error((const char *)arg1);
 }

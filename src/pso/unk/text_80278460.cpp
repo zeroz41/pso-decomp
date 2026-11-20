@@ -16,7 +16,7 @@ void mark_unequippable_items(Wn_80278460 *arg0) {
     s32 i;
     u8 *item;
     u16 *e;
-    u32 t;
+    uaddr t;
     item = (u8 *)get_player_by_client_id(arg0->f20);
     if (item != NULL) {
         for (i = 0; (s16)i < arg0->f76; i++) {

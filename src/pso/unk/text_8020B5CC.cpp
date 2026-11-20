@@ -32,8 +32,8 @@ void archive_pool_free(u32, void *);
 void *archive_pool_alloc(u32, u32);
 extern Slot_8020B970 TLobby__data_80513A40[];
 extern Tbl_8020B970 TLobby__floor_enemy_group_table[];
-extern u32 TLobby__data_805D6104;
-extern u32 TLobby__data_805D6108;
+extern uaddr TLobby__data_805D6104;
+extern uaddr TLobby__data_805D6108;
 extern Src_8020B970 *TLobby__data_805D610C;
 extern Src_8020B7C4 *TLobby__data_805D6114;
 
@@ -108,7 +108,7 @@ int TLobby__sub_8020B5CC(SerializedAreaSetFlags *buf) {
 #pragma opt_propagation off
 s32 init_quest_floor_enemies(s32 idx, Src_8020B7C4 *src, u32 size) {
     if (TLobby__data_805D6108 != 0 && TLobby__data_805D6104 != 0) {
-    u32 sz = size;
+    uaddr sz = size;
     s32 n = (0, sz / 72);
     Tbl_8020B970 *t = &TLobby__floor_enemy_group_table[idx];
     Src_8020B7C4 *s;
@@ -160,7 +160,7 @@ s32 init_quest_floor_enemies(s32 idx, Src_8020B7C4 *src, u32 size) {
 #pragma opt_propagation off
 s32 load_floor_enemy_group_entries__6TLobbyFiPvUi(s32 idx, Src_8020B970 *src, u32 size) {
     if (TLobby__data_805D6108 != 0 && TLobby__data_805D6104 != 0) {
-    u32 sz = size;
+    uaddr sz = size;
     s32 n = sz / 68;
     Tbl_8020B970 *t = &TLobby__floor_enemy_group_table[idx];
     Src_8020B970 *s;

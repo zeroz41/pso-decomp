@@ -70,11 +70,11 @@ s32 restore_floor_telepipes();
 s32 __ct__15TWindowCtrlMainFv();
 s32 TWindowTimer__sub_80198D98();
 
-extern s32 tl_00;
-extern s32 tl_01;
-extern s32 tl_06;
-extern s32 tl_particlemodel;
-extern s32 tl_fade;
+extern saddr tl_00;
+extern saddr tl_01;
+extern saddr tl_06;
+extern saddr tl_particlemodel;
+extern saddr tl_fade;
 
 // Session resources, loaded front to back by TLobby::run_lobby_load_tables and released
 // back to front by TLobby::clear_session_buffers (load, release pairs).
@@ -119,7 +119,7 @@ FloorResourceCallbacks lbl_8048D5A8[4] = {
 };
 
 void TLobby::create_tasks() {
-    u32 tmp;
+    uaddr tmp;
     create_area_fog_ctrl();
     if (is_split_screen() == 0) {
         tmp = (uaddr)TObject::operator new(0x20);
@@ -249,7 +249,7 @@ void TLobby__sub_8007BBEC(void) { quest_collision_next_id = 0; }
 
 void TLobby__sub_8007BBF8(void) { quest_collision_next_id = 0; }
 
-extern s32 TLobby__protocol_instance;
+extern saddr TLobby__protocol_instance;
 
 s32 TWindowSubComCard::get_card_slot(s32 arg0) {
     s32 state;

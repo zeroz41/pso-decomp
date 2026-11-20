@@ -30,7 +30,7 @@ struct Win_802758C8 {
     u8 pad0[0x20];
     s32 player;
     u8 pad24[0x30 - 0x24];
-    s32 lobby;
+    saddr lobby;
     u16 kind;
     u16 id;
 };

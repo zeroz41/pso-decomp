@@ -12,7 +12,7 @@ public:
     u8 unk_1C[0x4];
     s32 m_20;
     u8 unk_24[0x4];
-    u32 m_28;
+    uaddr m_28;
     u32 m_2c;
     u32 m_30;
     u8 unk_34[0x4];
