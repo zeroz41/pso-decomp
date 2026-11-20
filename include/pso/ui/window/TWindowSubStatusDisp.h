@@ -86,7 +86,7 @@ struct TWindowSubStatusDisp : public TWindowBase {
     static void reset_gauge(void* p);
     static f32 get_card_window_scale(s32 _w0);
     static s32 get_card_window_flags(s32 arg0);
-    void measure_string_len();
+    s32 measure_string_len();
     static void append_play_time(u32 arg0);
     static void append_comma();
     s8 *copy_message_page_text();

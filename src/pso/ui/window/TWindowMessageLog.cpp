@@ -117,7 +117,6 @@ void TWindowMessageLog::update_scroll_animation() {
 
 extern "C" {
 u8 *heap_alloc__5THeapFUl(s32, s32);
-s32 measure_string_len__20TWindowSubStatusDispFv(void *);
 extern saddr TAdScrollWinGC__chat_log_heap;
 extern u8 *chat_last_line_buffer;
 struct ChatLogLines { s32 value; u8 remaining[0x74]; };
@@ -190,7 +189,7 @@ void cache_last_chat_line(uaddr text) {
     }
     if (text != 0U) {
         temp_r31 = chat_text_lacks_language_tag((const char *)(text));
-        size = measure_string_len__20TWindowSubStatusDispFv((void *)text) + 1;
+        size = ((TWindowSubStatusDisp *)text)->measure_string_len() + 1;
         if (temp_r31 != 0) {
             size += 2;
         }

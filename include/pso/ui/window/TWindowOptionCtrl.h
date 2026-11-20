@@ -35,7 +35,7 @@ struct TWindowOptionCtrl : public TObject {
     static void add_menu_item(saddr arg1, s32 arg2, s32 arg3);
     static void set_field_value(s32 arg0, s16 arg1);
     static s16 get_option_field_C();
-    static void warn_if_empty(u8 *arg0);
+    static u8 *warn_if_empty(u8 *arg0);
     saddr create_serial_info_window(s32 arg1);
     static saddr open_yes_no_window(s32 arg0, s32 arg1, s32 arg2);
     saddr create_option_menu();

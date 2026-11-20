@@ -58,7 +58,6 @@ extern "C" {
 void set_glyph_quad_extents(u8, void *);
 s32 map_char_to_font_code(u16);
 u8 get_font_char_advance(s32);
-s32 measure_string_len__20TWindowSubStatusDispFv(void *);
 struct KbSoft_8025CFA8 {
     u8 pad0[0xA8];
     s32 sel;
@@ -346,7 +345,7 @@ void TWindowKeyBoardBase::insert_string(char *src) {
     KbSoft_8025D264 *self = (KbSoft_8025D264 *)this;
     s32 n;
     u8 *p = self->buf;
-    s8 len = measure_string_len__20TWindowSubStatusDispFv(src);
+    s8 len = ((TWindowSubStatusDisp *)src)->measure_string_len();
     KbRec_8025D264 *rec;
     u8 *dst;
     s8 total;
@@ -385,7 +384,7 @@ s32 TWindowKeyBoardBase::sub_8025D378(void *window_sub_status_disp) {
     void * arg0 = (void *)this;
     KbSoft_8025D264 *self = (KbSoft_8025D264 *)arg0;
     s32 len = ((KbRec_8025D264 *)self->buf)->len;
-    s32 need = measure_string_len__20TWindowSubStatusDispFv(window_sub_status_disp);
+    s32 need = ((TWindowSubStatusDisp *)window_sub_status_disp)->measure_string_len();
 
     return (self->remain >= need - len) ? 1 : 0;
 }
