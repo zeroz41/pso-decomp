@@ -264,9 +264,9 @@ Blk_803FA2A8 lbl_804FD380 = {0};
  * types lbl_804FD398 gives lengths 10 and 6, Interface-Identifier and IPv6-Compression-Protocol). */
 s16 ipv6cp_default_option_flags = 6;
 void *TLobby__sub_803FABDC(void *self);
-s32 TLobby__sub_803FA4A4(u8 *self, u8 *src, s32 h);
-s32 TLobby__sub_803FA7B0(u8 *self, u8 *src, void *h);
-s32 TLobby__sub_803FA318(u8* self, u8* src, s32 n);
+s32 TLobby__sub_803FA4A4(Conn_804004DC *self, PppHeader *src, s32 h);
+s32 TLobby__sub_803FA7B0(Conn_804004DC *self, PppHeader *src, void *h);
+s32 TLobby__sub_803FA318(Conn_804004DC *self, PppHeader *src, s32 n);
 void TLobby__sub_803FD694(u8 *arg0);
 s32 verify_message_sequence();
 void TLobby__sub_803F9FAC(u8 *ctx) {
@@ -374,25 +374,9 @@ void TLobby__sub_803FA2A8(P_803FA2A8 *o) {
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
-inline u32 optbit_803FA318(u32 bit) {
-    s32 f;
-    if (bit < 8) {
-        return bit;
-    }
-    f = 0;
-    if (bit >= 0x80 && bit < 0x90) {
-        f = 1;
-    }
-    if (f) {
-        bit -= 0x78;
-    } else {
-        bit = 0;
-    }
-    return bit;
-}
-s32 TLobby__sub_803FA318(u8* self, u8* src, s32 h) {
-    u8* m = *(u8**)(self + 0x30);
-    s32 cnt = *(s16*)(src + 2);
+s32 TLobby__sub_803FA318(Conn_804004DC *self, PppHeader *src, s32 h) {
+    u8* m = (u8 *)self->opts;
+    s32 cnt = src->len;
     s16 k;
     s32 r;
     u32 bit;
@@ -400,7 +384,7 @@ s32 TLobby__sub_803FA318(u8* self, u8* src, s32 h) {
     s32 pad;
     u8 pair[2];
 
-    if (src[1] != self[1]) {
+    if (src->id != self->id) {
         return -1;
     }
     while (cnt > 0 && (s16)read_2_bytes(pair, &h) != -1) {
@@ -409,7 +393,7 @@ s32 TLobby__sub_803FA318(u8* self, u8* src, s32 h) {
         if (cnt < 0) {
             return -1;
         }
-        bit = optbit_803FA318(pair[0]);
+        bit = ppp_configure_option_bit(pair[0]);
         if (!(*(s16*)(m + 0x1c) & (1 << bit))) {
             return -1;
         }
@@ -419,7 +403,7 @@ s32 TLobby__sub_803FA318(u8* self, u8* src, s32 h) {
                 return -1;
             }
         }
-        bit = optbit_803FA318(pair[0]);
+        bit = ppp_configure_option_bit(pair[0]);
         *(s16*)(m + 0x1c) &= ~(1 << bit);
     }
     return 0;
@@ -431,7 +415,7 @@ s32 NetIPv6CPParseConfigureOption(void *self, u8 *out, u8 *src, u8 *c, s16 flag)
 #pragma dont_inline off
 #pragma inline_depth(4)
 #pragma opt_common_subs on
-s32 TLobby__sub_803FA4A4(u8 *self, u8 *src, s32 h) {
+s32 TLobby__sub_803FA4A4(Conn_804004DC *self, PppHeader *src, s32 h) {
     u8 *bits;
     u8 *p;
     s32 cnt;
@@ -440,11 +424,11 @@ s32 TLobby__sub_803FA4A4(u8 *self, u8 *src, s32 h) {
     u32 bit;
     s32 f;
     u8 pair[2];
-    m = *(u32 *)(self + 0x30);
-    cnt = *(s16 *)(src + 2);
+    m = (u32)self->opts;
+    cnt = src->len;
     bits = (u8 *)m;
     p = (u8 *)m;
-    if (src[1] != self[1]) {
+    if (src->id != self->id) {
         return -1;
     }
     while (cnt > 0 && (s16)read_2_bytes(pair, &h) != -1) {
@@ -454,7 +438,7 @@ s32 TLobby__sub_803FA4A4(u8 *self, u8 *src, s32 h) {
         }
         if (pair[0] < 8) { bit = pair[0]; } else { f = 0; if (pair[0] >= 0x80 && pair[0] < 0x90) { f = 1; } if (f) { bit = pair[0] - 0x78; } else { bit = 0; } }
         if (!(*(s16 *)(bits + 0x1c) & (1 << bit))) {
-            bit = optbit_803FA318(pair[0]);
+            bit = ppp_configure_option_bit(pair[0]);
             *(s16 *)(bits + 0x1c) |= 1 << bit;
         }
         r = NetIPv6CPParseConfigureOption(&h, bits, p, pair, 0);
@@ -462,7 +446,7 @@ s32 TLobby__sub_803FA4A4(u8 *self, u8 *src, s32 h) {
             return -1;
         }
         if (r == 4) {
-            bit = optbit_803FA318(pair[0]);
+            bit = ppp_configure_option_bit(pair[0]);
             *(s16 *)(bits + 0x1c) &= ~(1 << bit);
         }
     }
@@ -498,18 +482,18 @@ inline s32 read_803FA664(u32 *p) {
     return (s16)ppp_option_byte_buf[0];
 }
 
-s32 verify_message_sequence(Obj_803FA664 *obj, Msg_803FA664 *msg, u32 expected) {
+s32 verify_message_sequence(Obj_803FA664 *obj, PppHeader *msg, u32 expected) {
     s16 err;
     s16 a;
     s16 b;
     u32 cur;
 
     err = 0;
-    if (msg->b1 != obj->b1) {
+    if (msg->id != obj->b1) {
         return -1;
     }
     cur = first_803FA664(obj->p30);
-    if (msg->h2 != get_field_4((void *)cur)) {
+    if (msg->len != get_field_4((void *)cur)) {
         err = 1;
     } else {
         while ((a = read_803FA664(&cur)) != -1) {
@@ -531,7 +515,7 @@ s32 verify_message_sequence(Obj_803FA664 *obj, Msg_803FA664 *msg, u32 expected) 
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
-s32 TLobby__sub_803FA7B0(u8 *self, u8 *src, void *h)
+s32 TLobby__sub_803FA7B0(Conn_804004DC *self, PppHeader *src, void *h)
 {
   u32 sh;
   PppFrame *blk;
@@ -545,9 +529,9 @@ s32 TLobby__sub_803FA7B0(u8 *self, u8 *src, void *h)
   s32 ppp_fsm_send_packet(void *, u8, u8, void *); /* declared here with other parameter types; the definition is s32 (void *, int, int, void *) */
   s16 NetIPv6CPParseConfigureOption(void *self, u8 *out, u8 *src, u8 *c, s16 flag); /* declared s16 here; the definition returns s32 */
   self = self;
-  new_var = *((u8 **) (self + 0x30));
+  new_var = (u8 *)self->opts;
   m = new_var;
-  cnt = *((s16 *)(src + 2));
+  cnt = src->len;
   state = 2;
   blk = 0;
   *((s16 *)(m + 0x50)) = 0;
@@ -574,33 +558,33 @@ s32 TLobby__sub_803FA7B0(u8 *self, u8 *src, void *h)
     }
     if (res != 4)
     {
-      sh = optbit_803FA318(pair[0]);
+      sh = ppp_configure_option_bit(pair[0]);
       *((s16 *)(m + 0x50)) |= 1 << sh;
     }
     TLobby__sub_803FADA0(&blk, (A_803FADA0 *) (m + 0x50), pair[0], pair[1], &h);
     if (res > 3)
     {
-      ppp_fsm_send_packet(self, state, src[1], blk);
+      ppp_fsm_send_packet(self, state, src->id, blk);
     }
   }
 
   if (state == 3)
   {
-    if (self[6] != 0)
+    if (self->f6 != 0)
     {
-      self[6]--;
+      self->f6--;
     }
     else
     {
       state = 4;
-      ppp_fsm_send_packet(self, 4, src[1], blk);
+      ppp_fsm_send_packet(self, 4, src->id, blk);
     }
   }
   if (state > 3)
   {
     return (s16) (2 != state);
   }
-  ppp_fsm_send_packet(self, state, src[1], blk);
+  ppp_fsm_send_packet(self, state, src->id, blk);
   return (s16) (2 != state);
 }
 #pragma pop

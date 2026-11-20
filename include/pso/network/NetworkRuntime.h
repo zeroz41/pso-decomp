@@ -11,7 +11,6 @@ typedef struct Q_803FA2A8 Q_803FA2A8;
 typedef struct P_803FA2A8 P_803FA2A8;
 typedef struct A_803FADA0 A_803FADA0;
 typedef struct PppFrame PppFrame;
-typedef struct Msg_803FA664 Msg_803FA664;
 struct Ent_803F9B48 { s32 active; u32 key; u8 pad[0x328 - 8]; };
 struct Ent_803F9C78 { s32 active; u32 key; u8 pad[0x318 - 8]; void (*fn)(struct Ent_803F9C78 *); u8 pad2[0x328 - 0x31C]; };
 struct Blk_803FA2A8 { s32 w[6]; };
@@ -31,7 +30,6 @@ struct P_803FA2A8 { u8 pad[0x30]; Q_803FA2A8 *q; };
 struct PppFrame { u8 *data; u16 len; };
 typedef char PppFrame_size_check[sizeof(struct PppFrame) == 8 ? 1 : -1];
 struct A_803FADA0 { u8 pad0[4]; u32 a; u32 b; };
-struct Msg_803FA664 { u8 pad0; u8 b1; s16 h2; };
 /* The network stack's thread (lbl_805C18A0, TLobby_804048E8.c): the mutex the stack's callers hold, the thread running
  * run_net_thread_loop (start_network_thread) and how long that loop sleeps between polls. */
 typedef struct NetThreadState {

@@ -1,3 +1,4 @@
+#include "pso/network/NetworkTimer.h"
 /* The network stack's message transport (a C library, built with GC/1.2.5n): the message thread and its queues
  * between the Ethernet/PPPoE receive path and the stack, the receive filter (local address, multicast addresses,
  * protocol registrations) and the EXI link status. */
@@ -18,7 +19,6 @@ typedef struct Msg_804264F4 { u32 f0; u32 f4; s32 f8; } Msg_804264F4;
 
 s32 OSInitMessageQueue(void *, void *, int);
 s16 TLobby__sub_803F9B94(void *, void *);
-void NetRegisterTimer(int, int, void (*)(void));
 s32 init_bba_exi_adapter(void *);
 /* The message queues (OSMessageQueue + messages) and, below, the channel table: only this file uses them. */
 static u8 lbl_805CF240[0xA0];
@@ -38,7 +38,6 @@ s32 OSSendMessage(void *mq, void *msg, s32 flags);
 void TLobby__sub_80426190(EthernetReceiveFilter *);
 s16 TLobby__sub_80426110(EthernetReceiveFilter *o, u16 arg1, u16 arg2);
 s32 OSReceiveMessage(void *, void *, int);
-s32 NetUnregisterTimer(void *fn);
 u8 *TLobby__sub_804256B8(s32);
 s32 TLobby__sub_8042558C(void *);
 extern const u8 lbl_805E1190[8] = { 255, 255, 255, 255, 255, 255, 0, 0 };
@@ -57,7 +56,7 @@ void reset_message_thread(void) {
         deactivate_entry_by_key((u32)((void *)lobby_message_thread_handle));
         lobby_message_thread_handle = 0;
     }
-    NetUnregisterTimer((void *)update_exi_status);
+    NetUnregisterTimer(update_exi_status);
     network_link_status_cache = -1;
     lobby_exi_prev_status = 0;
     lobby_exi_stable_count = 0;

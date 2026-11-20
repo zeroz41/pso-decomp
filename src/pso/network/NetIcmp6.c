@@ -48,7 +48,7 @@ s16 NetIPv6HandleIcmpMessage(NetPacket *pkt, u8 *src, u8 *dst, u8 hop_limit, s16
         return -1;
     }
     body = &pkt->fragments[1];
-    set_value_and_enable(&ref, (s32)&icmp);
+    NetBufferRefInitKind1(&ref, (s32)&icmp);
     netbuf_copy_by_ref(&ref, &body->buffer, 8);
     switch (icmp.type) {
     case 128:
@@ -66,16 +66,16 @@ s16 NetIPv6HandleIcmpMessage(NetPacket *pkt, u8 *src, u8 *dst, u8 hop_limit, s16
             NetMemcpy(&reply->fragments[i].buffer, buf, 8);
         }
         r = TLobby__sub_8040D718(0x81, 0, dst, src, reply, iface);
-        release_entry(reply);
+        NetReleasePacket(reply);
         return r;
     case 1:
         netbuf_ref_advance(&body->buffer, 8);
-        set_value_and_enable(&ref, (s32)&ip);
+        NetBufferRefInitKind1(&ref, (s32)&ip);
         netbuf_copy_by_ref(&ref, &body->buffer, sizeof(ip));
         netbuf_ref_advance(&body->buffer, sizeof(ip));
         switch (ip.next_header) {
         case 17:
-            set_value_and_enable(&ref, (s32)&udp);
+            NetBufferRefInitKind1(&ref, (s32)&udp);
             netbuf_copy_by_ref(&ref, &body->buffer, sizeof(udp));
             TLobby__sub_80420D38(udp.src_port, icmp.code);
             break;
@@ -87,7 +87,7 @@ s16 NetIPv6HandleIcmpMessage(NetPacket *pkt, u8 *src, u8 *dst, u8 hop_limit, s16
         mtu = icmp.pointer;
         if (mtu > 0 && mtu < 0x8000) {
             netbuf_ref_advance(&body->buffer, 8);
-            set_value_and_enable(&ref, (s32)&ip);
+            NetBufferRefInitKind1(&ref, (s32)&ip);
             netbuf_copy_by_ref(&ref, &body->buffer, sizeof(ip));
             TLobby__sub_80411DEC(&ip.dst, mtu);
         }
@@ -207,11 +207,11 @@ s16 icmp6_send_error(void *a, u8 *src, s16 c, s16 flag) {
     pkt->fragment_count = 0;
     pkt->total_bytes = c;
     pkt->fragments[pkt->fragment_count].length = c;
-    set_value_and_enable(&pkt->fragments[pkt->fragment_count].buffer, (s32)src);
+    NetBufferRefInitKind1(&pkt->fragments[pkt->fragment_count].buffer, (s32)src);
     pkt->fragment_count += 1;
     pkt->total_bytes += 8;
     pkt->fragments[pkt->fragment_count].length = 8;
-    set_value_and_enable(&pkt->fragments[pkt->fragment_count].buffer, (s32)a);
+    NetBufferRefInitKind1(&pkt->fragments[pkt->fragment_count].buffer, (s32)a);
     pkt->fragment_count += 1;
     if (pkt->total_bytes + 0x28 > 0x500) {
         d = len = pkt->total_bytes - 0x4d8;
@@ -224,7 +224,7 @@ s16 icmp6_send_error(void *a, u8 *src, s16 c, s16 flag) {
     msg->checksum = 0;
     msg->checksum = calc_ipv6_pseudo_header_checksum(&buf, p, 0x3a, pkt, 1);
     r = TLobby__sub_80410A98((s32)pkt, p, &buf, 0, (void *)0x3a);
-    release_entry(pkt);
+    NetReleasePacket(pkt);
     return r;
 }
 
@@ -249,7 +249,7 @@ s16 TLobby__sub_8040D718(u8 type, u8 code, u8 *src, u8 *dst, NetPacket *pkt, s16
         netbuf_ref_advance(&pkt->fragments[pkt->fragment_count - 1].buffer, sizeof(hdr));
         pkt->fragments[pkt->fragment_count - 1].length -= sizeof(hdr);
         pkt->fragments[pkt->fragment_count].length = sizeof(hdr);
-        set_value_and_enable(&pkt->fragments[pkt->fragment_count].buffer, (s32)&hdr);
+        NetBufferRefInitKind1(&pkt->fragments[pkt->fragment_count].buffer, (s32)&hdr);
         pkt->fragment_count++;
         break;
     default:

@@ -2,17 +2,8 @@
 #define PSO_NETWORK_NETWORK_DISPATCH_H
 
 #include "types.h"
+#include "pso/network/NetworkTimer.h"
 #include <stddef.h>
-
-typedef void (*NetTimerCallback)(void);
-
-#ifdef __cplusplus
-extern "C" {
-#endif
-s32 NetRegisterTimer(s32 period, s16 locked, NetTimerCallback fn);
-#ifdef __cplusplus
-}
-#endif
 
 /* A protocol handler: NetRunProtocolDispatchLoop passes it a message's payload, detail, first and second fields. */
 typedef void (*NetProtocolHandler)(s32, s16, s16, s16);

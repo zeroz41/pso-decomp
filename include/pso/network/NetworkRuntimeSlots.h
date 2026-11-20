@@ -1,6 +1,7 @@
 #ifndef PSO_NETWORK_NETWORKRUNTIMESLOTS_H
 #define PSO_NETWORK_NETWORKRUNTIMESLOTS_H
 #include "types.h"
+#include <stddef.h>
 #include "dolphin/os/OSMessage.h"
 #include "dolphin/os/OSMutex.h"
 #include "dolphin/os/OSAlarm.h"
@@ -27,6 +28,12 @@ typedef struct NetworkMessageQueueSlot {
     NetworkMessageSlot messages[32];
     OSMessage pending[32];
 } NetworkMessageQueueSlot;
+
+typedef char NetworkAlarmSlot_size[(sizeof(NetworkAlarmSlot) == 0x58) ? 1 : -1];
+typedef char NetworkMutexSlot_size[(sizeof(NetworkMutexSlot) == 0x20) ? 1 : -1];
+typedef char NetworkMessageQueueSlot_size[(sizeof(NetworkMessageQueueSlot) == 0x3A8) ? 1 : -1];
+typedef char NetworkMutexSlot_mutex_offset[(offsetof(NetworkMutexSlot, mutex) == 8) ? 1 : -1];
+typedef char NetworkMessageQueueSlot_queue_offset[(offsetof(NetworkMessageQueueSlot, queue) == 8) ? 1 : -1];
 #ifdef __cplusplus
 extern "C" {
 #endif

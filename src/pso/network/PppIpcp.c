@@ -6,7 +6,6 @@
 #include "pso/network/TLobby_804050DC.h"
 #include "pso/network/TLobby_8041112C.h"
 #include "pso/network/PppIpcp.h"
-typedef struct Self_803FF698 Self_803FF698;
 typedef struct P_803FF48C P_803FF48C;
 /* This file's functions. */
 void free_field_98(void *self);
@@ -22,7 +21,6 @@ extern s32 is_timed_out(void);
 
 extern IpcpState lbl_805C0328;
 
-struct Self_803FF698 { u8 f0; u8 f1; u8 pad2[0x2E]; IpcpConfig *f30; };
 
 #include <stddef.h>
 #include "pso/network/NetStackTypes.h"
@@ -112,9 +110,9 @@ after:
 
 struct P_803FF48C;
 void TLobby__sub_803FF48C(P_803FF48C *);
-extern s32 TLobby__sub_803FF50C(Self_803FF698 *self, u8 *item, s32 arg);
-extern s32 TLobby__sub_803FF698(Self_803FF698 *self, u8 *item, s32 arg);
-extern s32 TLobby__sub_803FF9A4(void *self, u8 *src, u32 bits);
+extern s32 TLobby__sub_803FF50C(Conn_804004DC *self, PppHeader *item, s32 arg);
+extern s32 TLobby__sub_803FF698(Conn_804004DC *self, PppHeader *item, s32 arg);
+extern s32 TLobby__sub_803FF9A4(Conn_804004DC *self, PppHeader *src, u32 bits);
 extern PppFrame *TLobby__sub_80400174(void *self);
 void TLobby__sub_803FEF4C(u8 *self) {
     const IpcpOptions *src = &lbl_8047FE18;
@@ -298,23 +296,6 @@ void TLobby__sub_803FF48C(P_803FF48C *o) {
     q->peer.flags = q->peer.flags | q->peer.want.flags;
 }
 
-inline u32 optbit_803FF50C(u32 bit) {
-    s32 f;
-    if (bit < 8) {
-        return bit;
-    }
-    f = 0;
-    if (bit >= 0x80 && bit < 0x90) {
-        f = 1;
-    }
-    if (f) {
-        bit -= 0x78;
-    } else {
-        bit = 0;
-    }
-    return bit;
-}
-
 inline u32 optbit_803FFB84(u16 bit) {
     if (bit < 8) {
         return bit;
@@ -324,9 +305,9 @@ inline u32 optbit_803FFB84(u16 bit) {
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
-extern s32 TLobby__sub_803FF50C(Self_803FF698 *self, u8 *item, s32 arg) {
-    IpcpConfig *bits = self->f30;
-    s32 count = *(s16 *)(item + 2);
+extern s32 TLobby__sub_803FF50C(Conn_804004DC *self, PppHeader *item, s32 arg) {
+    IpcpConfig *bits = (IpcpConfig *)self->opts;
+    s32 count = item->len;
     s16 k;
     s32 r;
     u32 bit;
@@ -334,7 +315,7 @@ extern s32 TLobby__sub_803FF50C(Self_803FF698 *self, u8 *item, s32 arg) {
     s32 pad;
     u8 hdr[2];
 
-    if (item[1] != self->f1) {
+    if (item->id != self->id) {
         return -1;
     }
     while (count > 0 && (s16)read_2_bytes((void *)hdr, &arg) != -1) {
@@ -343,7 +324,7 @@ extern s32 TLobby__sub_803FF50C(Self_803FF698 *self, u8 *item, s32 arg) {
         if (count < 0) {
             return -1;
         }
-        bit = optbit_803FF50C(hdr[0]);
+        bit = ppp_configure_option_bit(hdr[0]);
         if (!(bits->local.got.flags & (1 << bit))) {
             return -1;
         }
@@ -353,7 +334,7 @@ extern s32 TLobby__sub_803FF50C(Self_803FF698 *self, u8 *item, s32 arg) {
                 return -1;
             }
         }
-        bit = optbit_803FF50C(hdr[0]);
+        bit = ppp_configure_option_bit(hdr[0]);
         bits->local.got.flags &= ~(1 << bit);
     }
     return 0;
@@ -363,7 +344,7 @@ extern s32 TLobby__sub_803FF50C(Self_803FF698 *self, u8 *item, s32 arg) {
 #pragma dont_inline off
 #pragma inline_depth(4)
 #pragma opt_common_subs on
-extern s32 TLobby__sub_803FF698(Self_803FF698 *self, u8 *item, s32 arg) {
+extern s32 TLobby__sub_803FF698(Conn_804004DC *self, PppHeader *item, s32 arg) {
     IpcpConfig *bits;
     IpcpSide *p;
     s32 count;
@@ -372,11 +353,11 @@ extern s32 TLobby__sub_803FF698(Self_803FF698 *self, u8 *item, s32 arg) {
     u32 bit;
     s32 f;
     u8 hdr[2];
-    m = (u8 *)self->f30;
-    count = *(s16 *)(item + 2);
+    m = (u8 *)self->opts;
+    count = item->len;
     bits = (IpcpConfig *)m;
     p = (IpcpSide *)m;
-    if (item[1] != self->f1) {
+    if (item->id != self->id) {
         return -1;
     }
     while (count > 0 && (s16)read_2_bytes((void *)hdr, &arg) != -1) {
@@ -386,7 +367,7 @@ extern s32 TLobby__sub_803FF698(Self_803FF698 *self, u8 *item, s32 arg) {
         }
         if (hdr[0] < 8) { bit = hdr[0]; } else { f = 0; if (hdr[0] >= 0x80 && hdr[0] < 0x90) { f = 1; } if (f) { bit = hdr[0] - 0x78; } else { bit = 0; } }
         if (!(bits->local.got.flags & (1 << bit))) {
-            bit = optbit_803FF50C(hdr[0]);
+            bit = ppp_configure_option_bit(hdr[0]);
             bits->local.got.flags |= 1 << bit;
         }
         r = ipcp_merge_config_options(&arg, bits, p, hdr, 0);
@@ -394,7 +375,7 @@ extern s32 TLobby__sub_803FF698(Self_803FF698 *self, u8 *item, s32 arg) {
             return -1;
         }
         if (r == 4) {
-            bit = optbit_803FF50C(hdr[0]);
+            bit = ppp_configure_option_bit(hdr[0]);
             bits->local.got.flags &= ~(1 << bit);
         }
     }
@@ -426,17 +407,17 @@ inline s32 read_803FA664(u32 *p) {
     }
     return (s16)lcp_read_byte_buffer;
 }
-s32 TLobby__sub_803FF858(Obj_803FF858 *obj_803_ff858, Msg_803FA664 *msg_803_fa664, u32 arg2) {
+s32 TLobby__sub_803FF858(Obj_803FF858 *obj_803_ff858, PppHeader *msg_803_fa664, u32 arg2) {
     u32 cur;
     s16 err;
     s16 a;
     s16 b;
     err = 0;
-    if (msg_803_fa664->b1 != obj_803_ff858->b1) {
+    if (msg_803_fa664->id != obj_803_ff858->b1) {
         return -1;
     }
     cur = first_803FA664(obj_803_ff858->p30);
-    if (msg_803_fa664->h2 != get_field_4((void *)cur)) {
+    if (msg_803_fa664->len != get_field_4((void *)cur)) {
         err = 1;
     } else {
         while ((a = read_803FA664(&cur)) != -1) {
@@ -456,7 +437,7 @@ s32 TLobby__sub_803FF858(Obj_803FF858 *obj_803_ff858, Msg_803FA664 *msg_803_fa66
 #pragma pop
 #pragma pop
 
-extern s32 TLobby__sub_803FF9A4(void *self, u8 *src, u32 bits) {
+extern s32 TLobby__sub_803FF9A4(Conn_804004DC *self, PppHeader *src, u32 bits) {
     u32 sh;
     void *buf;
     unsigned int new_var;
@@ -468,8 +449,8 @@ extern s32 TLobby__sub_803FF9A4(void *self, u8 *src, u32 bits) {
     s16 res;
     s32 ppp_fsm_send_packet(void *, u8, u8, void *); /* declared here with other parameter types; the definition is s32 (void *, int, int, void *) */
     void TLobby__sub_80400338(PppFrame **pbuf, IpcpOptions *opt, s32 type, s32 len, void *src);
-    base = *(IpcpConfig **)((u8 *)self + 0x30);
-    n = *(s16 *)(src + 2);
+    base = (IpcpConfig *)self->opts;
+    n = src->len;
     k = 2;
     buf = 0;
     base->peer.got.flags = 0;
@@ -495,22 +476,22 @@ extern s32 TLobby__sub_803FF9A4(void *self, u8 *src, u32 bits) {
         }
         TLobby__sub_80400338((PppFrame **)&buf, &base->peer.got, hdr[0], hdr[1], &bits);
         if (res > 3) {
-            ppp_fsm_send_packet(self, k, src[1], buf);
+            ppp_fsm_send_packet(self, k, src->id, buf);
         }
     }
 
     if (k == 3) {
-        if (((u8 *)self)[6] != 0) {
-            ((u8 *)self)[6]--;
+        if (self->f6 != 0) {
+            self->f6--;
         } else {
             k = 4;
-            ppp_fsm_send_packet(self, 4, src[1], buf);
+            ppp_fsm_send_packet(self, 4, src->id, buf);
         }
     }
     if (k > 3) {
         return (s16)(2 != k);
     }
-    ppp_fsm_send_packet(self, k, src[1], buf);
+    ppp_fsm_send_packet(self, k, src->id, buf);
     return (s16)(2 != k);
 }
 #pragma push

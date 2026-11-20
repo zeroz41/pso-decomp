@@ -124,11 +124,10 @@ s16 NetValidateLocalAddress(NetworkAddress* address) {
     }
 }
 
-s16 is_multicast_address(void *self, s16 arg1) {
-    NetworkAddress *addr = (NetworkAddress *)self;
+s16 NetIsMulticastAddress(NetworkAddress *addr, s16 interface_id) {
     switch (addr->family) {
     case 4:
-        return NetIPv4IsBroadcast(addr->ipv4, arg1);
+        return NetIPv4IsBroadcast(addr->ipv4, interface_id);
     case 6:
         return NetIPv6IsMulticast(addr->address);
     case 0:
@@ -151,7 +150,7 @@ s16 is_addr_unspecified(u8 *arg0) {
     }
 }
 
-s16 compare_sockaddr(NetworkAddress *a, NetworkAddress *b) {
+s16 NetCompareAddresses(NetworkAddress *a, NetworkAddress *b) {
     switch (a->family) {
     case 4:
         if (b->family != 4) {

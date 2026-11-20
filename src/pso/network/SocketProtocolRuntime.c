@@ -8,8 +8,6 @@
 #include "pso/network/NetTcpState.h"
 #include "pso/network/text_80421620.h"
 
-void TLobby__sub_8041FDA0(TcpTcb *o, s16 idx, u32 start, u32 end);
-void TLobby__sub_8041FED4(TcpTcb *tcb);
 void TLobby__sub_8041F66C(TcpTcb *o);
 
 s32 TLobby__sub_8041ED8C(TcpTcb *self, NetBufferRef *destination, u32 len, TcpCompletion callback) {
@@ -553,7 +551,7 @@ s32 TLobby__sub_8041FFF8(u32 acknowledged, TcpTcb *control) {
         ack.remaining = acknowledged;
         request_ref.kind = 1;
         if (acknowledged != 0 && control->snd_count != 0) {
-            set_value_and_enable(&request_ref, (s32)&request);
+            NetBufferRefInitKind1(&request_ref, (s32)&request);
             NetMemcpy(&cursor, &control->snd_buf, 8);
             if ((s32)control->snd_head != 0) {
                 netbuf_ref_advance(&cursor, control->snd_head * sizeof(request));
@@ -690,7 +688,7 @@ s32 tcp_gather_send_data(u32 offset, u32 length, NetPacket *packet, TcpTcb *cont
         request_ref.kind = 1;
         remaining = length;
         if (length != 0 && control->snd_count != 0) {
-            set_value_and_enable(&request_ref, (s32)&request);
+            NetBufferRefInitKind1(&request_ref, (s32)&request);
             ring_index = control->snd_head;
             NetMemcpy(&ring_cursor, &control->snd_buf, sizeof(NetBufferRef));
             if (ring_index != 0) {

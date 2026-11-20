@@ -17,28 +17,7 @@
 #include "pso/network/TLobby_8041112C.h"
 #include "pso/network/text_80421620.h"
 /* The object header the stack's records share (laid out like TObject's fields). */
-typedef struct TObjectFields {
-    const char *m_name;
-    u16 m_flags;
-    u16 m_id;
-    void *m_prev;
-    void *m_next;
-    void *m_up;
-    void *m_down;
-} TObjectFields;
-typedef struct Hdr_8040B6E4 Hdr_8040B6E4;
-typedef struct Pkt_8040B6E4 Pkt_8040B6E4;
-typedef struct Q_8040B6E4 Q_8040B6E4;
-typedef struct QT_8040B6E4 QT_8040B6E4;
-typedef struct Hdr_8040B790 Hdr_8040B790;
-typedef struct Pkt_8040B790 Pkt_8040B790;
-typedef struct Q_8040B790 Q_8040B790;
-typedef struct QT_8040B790 QT_8040B790;
-s32 build_dns_query_a(void *self, char *name, s16 len);
-s32 build_dns_query_aaaa(void *self, char *name, s16 len);
-s32 close_and_reset_connection(void *self);
 void complete_pending_request(s16 id);
-void dispatch_request_callback(void *self, s16 status);
 void tick_connection_timeouts(void);
 s32 append_to_list(DnsHost *o, DnsAddr *n);
 NetworkAddress *find_next_active_record(DnsQuery *a);
@@ -49,25 +28,27 @@ extern void TLobby__sub_8040BE40(DnsQuery *self, s16 a, s16 b);
 
 #include <stddef.h>
 
-typedef struct Hdr_8040B6E4 { u16 id; u8 f2; u8 f3; s16 qd; s16 an; s16 ns; s16 ar; u8 body[4]; } Hdr_8040B6E4;
-
-typedef struct Pkt_8040B6E4 { u8 pad0[2]; s16 len; Hdr_8040B6E4 *hdr; } Pkt_8040B6E4;
-
-typedef struct Q_8040B6E4 { u8 pad0[6]; u16 id; u8 pad8[0x10]; Pkt_8040B6E4 *pkt; } Q_8040B6E4;
-
-typedef struct QT_8040B6E4 { s16 type; s16 cls; } QT_8040B6E4;
-
-typedef struct Hdr_8040B790 { u16 id; u8 f2; u8 f3; s16 qd; s16 an; s16 ns; s16 ar; u8 body[4]; } Hdr_8040B790;
-
-typedef struct Pkt_8040B790 { u8 pad0[2]; s16 len; Hdr_8040B790 *hdr; } Pkt_8040B790;
-
-typedef struct Q_8040B790 { u8 pad0[6]; u16 id; u8 pad8[0x10]; Pkt_8040B790 *pkt; } Q_8040B790;
-
-typedef struct QT_8040B790 { s16 type; s16 cls; } QT_8040B790;
-
 
 #include "pso/network/IPv6Send.h"
 #include "pso/network/NetStackTypes.h"
+
+typedef struct DnsQueryHeader {
+    u16 id;
+    u8 flags_high;
+    u8 flags_low;
+    s16 questions;
+    s16 answers;
+    s16 authority;
+    s16 additional;
+} DnsQueryHeader;
+
+typedef struct DnsQuestion {
+    s16 type;
+    s16 dns_class;
+} DnsQuestion;
+
+typedef char DnsQueryHeader_size_check[sizeof(DnsQueryHeader) == DNS_HEADER_SIZE ? 1 : -1];
+typedef char DnsQuestion_size_check[sizeof(DnsQuestion) == DNS_QUESTION_FIXED_SIZE ? 1 : -1];
 
 s32 dns_compare_addr(DnsAddr *arg0, DnsAddr *arg1);
 
@@ -88,7 +69,7 @@ s32 TLobby__sub_8040A3C0(void) {
     i = 0;
     while (i < m->nqueries) {
         if (e->active != 0) {
-            close_and_reset_connection((void *)e);
+            NetConnectionCloseAndReset(e);
         }
         i++;
         e++;
@@ -104,7 +85,7 @@ s16 init_net_tables(void) {
     s16 i;
 
     NetMemset(g, 0, sizeof(DnsResolverState));
-    init_net_config(g);
+    NetInitNetworkConfig(g);
     {
         DnsBuffer *p = g->buffers;
         i = 0;
@@ -187,7 +168,7 @@ s32 close_connection_by_index(s16 i) {
     if (i < 0 || i > g->nqueries) { return -2; }
     e = (DnsQuery *)((u8 *)g->queries + i * 0x3C);
     if (e->active == 0) { return -2; }
-    return close_and_reset_connection((void *)e);
+    return NetConnectionCloseAndReset(e);
 }
 #pragma pop
 
@@ -258,7 +239,7 @@ extern s16 TLobby__sub_8040A698(s16 idx, void *buf, s16 *len, void *buf2, s16 *l
         }
     } else {
         if (e->status <= 0 && e->outstanding <= 0) {
-            dispatch_request_callback((void *)e, 1);
+            NetDispatchRequestCallback(e, 1);
         }
         return -1;
     }
@@ -271,7 +252,6 @@ extern s16 TLobby__sub_8040A698(s16 idx, void *buf, s16 *len, void *buf2, s16 *l
 }
 #pragma pop
 
-s16 udp_open(s16 a, void* b, void* c, u16 d, void* e, void* f);
 s32 AT_DNS_UdpReceiver(s16 mode, UdpDatagram *req);
 DnsHost *dns_alloc_host(void);
 static inline DnsHost *dns_find_host(DnsResolverState *g, char *name, s16 len) {
@@ -332,7 +312,7 @@ static inline DnsQuery *dns_alloc_query(DnsResolverState *g) {
     return e;
 }
 static inline s16 dns_open_socket(DnsQuery *e) {
-    e->socket = udp_open(0, 0, 0, 0x35, complete_pending_request, AT_DNS_UdpReceiver);
+    e->socket = udp_open(0, 0, 0, 0x35, (s32)complete_pending_request, AT_DNS_UdpReceiver);
     return e->socket;
 }
 static inline s16 dns_send_query(DnsQuery *e, NetworkAddress *dst) {
@@ -397,7 +377,7 @@ s16 dns_open_addr(char *name, s16 len, s32 type)
     }
   }
   if ((q->msg = dns_alloc_buffer(g)) == NULL) {
-    close_and_reset_connection(q);
+    NetConnectionCloseAndReset(q);
     return -0x43;
   }
   q->id = g->next_id++;
@@ -405,12 +385,12 @@ s16 dns_open_addr(char *name, s16 len, s32 type)
   q->server = g->server;
   q->status = 0;
   if ((server = dns_next_server(g, q)) == NULL) {
-    close_and_reset_connection(q);
+    NetConnectionCloseAndReset(q);
     return -0x44;
   }
   r = dns_open_socket(q);
   if (r < 0) {
-    close_and_reset_connection(q);
+    NetConnectionCloseAndReset(q);
     return r;
   }
   if (req->host == NULL) {
@@ -421,7 +401,7 @@ s16 dns_open_addr(char *name, s16 len, s32 type)
   }
   switch (req->family) {
     case 0:
-      build_dns_query_aaaa(q, name, len);
+      NetDnsBuildQueryAAAA(q, name, len);
       if (dns_send_query(q, server) < 0) {
         q->timer = 1;
         q->status++;
@@ -431,14 +411,14 @@ s16 dns_open_addr(char *name, s16 len, s32 type)
       }
       break;
     case 4:
-      build_dns_query_a(q, name, len);
+      NetDnsBuildQueryA(q, name, len);
       if (dns_send_query(q, server) < 0) {
         q->timer = 1;
       }
       q->status++;
       break;
     case 6:
-      build_dns_query_aaaa(q, name, len);
+      NetDnsBuildQueryAAAA(q, name, len);
       if (dns_send_query(q, server) < 0) {
         q->timer = 1;
       }
@@ -536,7 +516,7 @@ extern s16 TLobby__sub_8040ADE8(u8 *self) {
     return ret;
 }
 
-extern void TLobby__sub_8040C178(DnsHost *self, s32 x);
+extern void TLobby__sub_8040C178(DnsHost *self, s16 x);
 void TLobby__sub_8040AFE0(void);
 void TLobby__sub_8040B3B4(void);
 
@@ -783,7 +763,7 @@ s32 AT_DNS_UdpReceiver(s16 mode, UdpDatagram *req)
   if (e->outstanding == 0)
   {
     e->status = 0;
-    dispatch_request_callback((void *) e, 0);
+    NetDispatchRequestCallback(e, 0);
   }
   return 0;
 }
@@ -810,67 +790,65 @@ void complete_pending_request(s16 id) {
     if ((e = find_8040B654(id)) != NULL) {
         e->timer = 1;
         if (e->status < 0) {
-            dispatch_request_callback((void *)e, 0);
+            NetDispatchRequestCallback(e, 0);
         }
     }
 }
 
 #pragma push
 #pragma opt_propagation off
-s32 build_dns_query_aaaa(void *self, char *name, s16 len) {
+s32 NetDnsBuildQueryAAAA(DnsQuery *q, char *name, s16 len) {
     s32 TLobby__sub_8040B838(u8 *dst, char *src, s16 len);
-    Q_8040B6E4 *q = (Q_8040B6E4 *)self;
-    Hdr_8040B6E4 *h;
+    DnsQueryHeader *h;
     u8 *body;
     s32 n;
     s16 total;
-    QT_8040B6E4 qt;
-    h = q->pkt->hdr;
+    DnsQuestion qt;
+    h = (DnsQueryHeader *)q->msg->data;
     h->id = q->id;
-    body = h->body;
-    h->f2 = 1;
-    h->f3 = 0;
-    h->qd = 1;
-    h->an = 0;
-    h->ns = 0;
-    h->ar = 0;
+    body = (u8 *)h + DNS_HEADER_SIZE;
+    h->flags_high = 1;
+    h->flags_low = 0;
+    h->questions = 1;
+    h->answers = 0;
+    h->authority = 0;
+    h->additional = 0;
     n = TLobby__sub_8040B838(body, name, len);
     qt.type = DNS_TYPE_AAAA;
     body += (s16)n;
-    qt.cls = DNS_CLASS_IN;
+    qt.dns_class = DNS_CLASS_IN;
     total = n + DNS_HEADER_SIZE;
     NetMemcpy(body, &qt, DNS_QUESTION_FIXED_SIZE);
-    q->pkt->len = total + DNS_QUESTION_FIXED_SIZE;
+    q->msg->len = total + DNS_QUESTION_FIXED_SIZE;
     return 0;
 }
 #pragma pop
 
 #pragma push
 #pragma opt_propagation off
-s32 build_dns_query_a(void *self, char *name, s16 len) {
+s32 NetDnsBuildQueryA(DnsQuery *q, char *name, s16 len) {
     s32 TLobby__sub_8040B838(u8 *dst, char *src, s16 len);
-    Q_8040B790 *q = (Q_8040B790 *)self;
-    Hdr_8040B790 *h;
+    DnsQueryHeader *h;
     u8 *body;
     s32 n;
     s16 total;
-    QT_8040B790 qt;
-    h = q->pkt->hdr;
+    DnsQuestion qt;
+    h = (DnsQueryHeader *)q->msg->data;
     h->id = q->id;
-    body = h->body;
-    h->f2 = 1;
-    h->f3 = 0;
-    h->qd = 1;
-    h->an = 0;
-    h->ns = 0;
-    h->ar = 0;
+    body = (u8 *)h + DNS_HEADER_SIZE;
+    h->flags_high = 1;
+    h->flags_low = 0;
+    h->questions = 1;
+    h->answers = 0;
+    h->authority = 0;
+    h->additional = 0;
     n = TLobby__sub_8040B838(body, name, len);
     qt.type = DNS_TYPE_A;
     body += (s16)n;
-    qt.cls = DNS_CLASS_IN;
+    qt.dns_class = DNS_CLASS_IN;
     total = n + DNS_HEADER_SIZE;
     NetMemcpy(body, &qt, DNS_QUESTION_FIXED_SIZE);
-    q->pkt->len = total + DNS_QUESTION_FIXED_SIZE;
+    q->msg->len = total + DNS_QUESTION_FIXED_SIZE;
     return 0;
 }
 #pragma pop
@@ -1183,7 +1161,7 @@ inline void cancel_8040BE40(DnsPtr *o, s16 b) {
             e->status = -0x42;
             e->outstanding = 0;
             e->req.ptr.entry = NULL;
-            dispatch_request_callback(e, b);
+            NetDispatchRequestCallback(e, b);
         }
         i++;
         e++;
@@ -1191,7 +1169,6 @@ inline void cancel_8040BE40(DnsPtr *o, s16 b) {
 }
 extern void TLobby__sub_8040BE40(DnsQuery *self, s16 a, s16 b)
 {
-    void TLobby__sub_8040C178(DnsHost *self, s16 x); /* declared here with an s16 2nd argument; the definition takes s32 */
     DnsPtr *o;
     DnsHost *p;
     switch (self->kind) {
@@ -1215,47 +1192,46 @@ extern void TLobby__sub_8040BE40(DnsQuery *self, s16 a, s16 b)
     }
     self->status = a;
     self->outstanding = 0;
-    dispatch_request_callback(self, b);
+    NetDispatchRequestCallback(self, b);
 }
 
-inline s32 close_8040BF38(u8 *p, s32 id) {
+inline s32 close_8040BF38(DnsQuery *query, s32 id) {
     s32 r;
     if ((s16)id < 0) {
         return 0;
     }
     r = udp_close(id);
-    *(s16 *)((s8 *)p + 4) = -1;
+    query->socket = -1;
     return r;
 }
-s32 close_and_reset_connection(void *self) {
-    u8 *arg0 = (u8 *)self;
-    s16 *temp_r3_2;
-    s16 *temp_r3_3;
+s32 NetConnectionCloseAndReset(DnsQuery *self) {
+    DnsBuffer *message;
+    DnsBuffer *reply;
     s32 temp_r3;
     s32 var_r31;
-    var_r31 = close_8040BF38(arg0, *(s16 *)&((TObjectFields *)self)->m_flags);
+    var_r31 = close_8040BF38(self, self->socket);
     net_lock();
-    temp_r3_2 = (s16 *)(*(s16 **)((s8 *)arg0 + 0x18));
-    if (temp_r3_2 != NULL) {
-        *(s16 *)((s8 *)temp_r3_2 + 0) = 0;
-        *(s16 **)((s8 *)arg0 + 0x18) = NULL;
+    message = self->msg;
+    if (message != NULL) {
+        message->used = 0;
+        self->msg = NULL;
     }
-    temp_r3_3 = (s16 *)(*(s16 **)((s8 *)arg0 + 0x1C));
-    if (temp_r3_3 != NULL) {
-        *(s16 *)((s8 *)temp_r3_3 + 0) = 0;
-        *(s16 **)((s8 *)arg0 + 0x1C) = NULL;
+    reply = self->reply;
+    if (reply != NULL) {
+        reply->used = 0;
+        self->reply = NULL;
     }
-    *(s32 *)((s8 *)arg0 + 0x34) = 0;
-    *(s32 *)((s8 *)arg0 + 0x28) = 0;
-    *(s32 *)((s8 *)arg0 + 0x38) = 0;
-    *(s32 *)((s8 *)arg0 + 0x2C) = 0;
-    *(s16 *)&((TObjectFields *)self)->m_name = 0;
-    *(s16 *)&((TObjectFields *)self)->m_prev = 0;
-    *(s16 *)&((TObjectFields *)self)->m_up = -0x41;
-    *(s16 *)((s8 *)arg0 + 0x12) = 0;
-    if (*(u32 *)&((TObjectFields *)self)->m_next != 0xFFFFFFFFU) {
-        resume_thread((s32)((TObjectFields *)self)->m_next);
-        *(s32 *)&((TObjectFields *)self)->m_next = -1;
+    self->req.lookup.cb = NULL;
+    self->req.ptr.cb = NULL;
+    self->req.lookup.host = NULL;
+    self->req.ptr.entry = NULL;
+    self->active = 0;
+    self->kind = 0;
+    self->status = -0x41;
+    self->outstanding = 0;
+    if (self->waiter != 0xFFFFFFFFU) {
+        resume_thread(self->waiter);
+        self->waiter = -1;
     }
     net_unlock();
     return var_r31;
@@ -1275,7 +1251,7 @@ void reset_connection_requests(DnsPtr *o, s16 arg1) {
             e->status = -0x42;
             e->outstanding = 0;
             e->req.ptr.entry = 0;
-            dispatch_request_callback((void *)e, arg1);
+            NetDispatchRequestCallback(e, arg1);
         }
         i++;
         e++;
@@ -1308,9 +1284,8 @@ DnsHost *dns_alloc_host(void) {
     return found;
 }
 
-void TLobby__sub_8040C178(DnsHost *self, s32 x)
+void TLobby__sub_8040C178(DnsHost *self, s16 x)
 {
-    void dispatch_request_callback(void* p, s32 x); /* declared here with an s32 2nd argument; the definition takes s16 */
   DnsResolverState *base;
   DnsAddr *e;
   s16 j;
@@ -1341,7 +1316,7 @@ void TLobby__sub_8040C178(DnsHost *self, s32 x)
       q->status = -0x42;
       q->outstanding = 0;
       q->req.lookup.host = (void *) 0;
-      dispatch_request_callback(q, x);
+      NetDispatchRequestCallback(q, x);
     }
   }
 
@@ -1487,8 +1462,7 @@ s32 append_to_list(DnsHost *o, DnsAddr *n) {
 s16 TLobby__sub_8040C8A8(u8 *, u8 *, s16);
 s16 TLobby__sub_8040C978(void *);
 
-void dispatch_request_callback(void *self, s16 status) {
-    DnsQuery *connection = (DnsQuery *)self;
+void NetDispatchRequestCallback(DnsQuery *connection, s16 status) {
     DnsLookupRequest *a;
     DnsPtrRequest *b;
     s32 err;

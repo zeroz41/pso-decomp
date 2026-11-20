@@ -1,4 +1,5 @@
 #include "pso/network/NetworkRuntime.h"
+#include "pso/network/UdpRuntime.h"
 #include "pso/network/text_80421620.h"
 #include "pso/unk/TLobby_801461EC.h"
 #include "pso/network/TLobby_804050DC.h"
@@ -39,7 +40,6 @@ struct Q2_800782B8 { s32 len; s32 v; u8 pad[0xc]; };
 extern "C" {
 UdpSocketEventRecord *copy_udp_socket_event_record(UdpSocketEventRecord *dst, UdpSocketEventRecord *src);
 s16 udp_send(int, void *, void *, int, void *, int, void *);
-s16 udp_open(void *, int, void *, int, int, s32 (*)(s16, UdpSocketEvent *));
 s32 udp_close(s32 a);
 }
 TTcpSocket *tcp_socket_table[16] = {0};
@@ -135,20 +135,20 @@ int TUdpSocket::open() {
     return m_sock_fd;
 }
 
-s32 TUdpSocket::handle_socket_event(s16 received, UdpSocketEvent *event) {
+s32 TUdpSocket::handle_socket_event(s16 received, UdpDatagram *event) {
     int slot = event->socket - 0x400;
     TUdpSocket *socket = udp_socket_slots[slot];
     if (socket == NULL) {
         return 1;
     }
     if (received == 0) {
-        event->buffer = socket->m_packet_buffer;
+        event->buf = socket->m_packet_buffer;
         copy_udp_socket_event_record(&socket->m_event, (UdpSocketEventRecord *)event);
-        event->size = 0x800;
+        event->len = 0x800;
     } else {
         socket->m_buffer_cleared = false;
         socket->m_buffer_offset = 0;
-        socket->m_size = event->size;
+        socket->m_size = event->len;
         if (socket->m_callback != NULL) {
             socket->m_callback(socket);
         }

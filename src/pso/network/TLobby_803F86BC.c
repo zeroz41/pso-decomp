@@ -68,7 +68,7 @@ static s32 lobby_net_recv_desc[641];
 void TLobby__sub_803F86BC(void *cfg) {
 }
 
-void init_net_config(DnsResolverState *c) {
+void NetInitNetworkConfig(DnsResolverState *c) {
     u8 *buf = (u8 *)lobby_net_config_block;
     c->next_id = 0;
     c->f2 = 0x3F;
@@ -118,7 +118,7 @@ void TLobby__sub_803F87C8(u8 *cfg) {
 void TLobby__sub_803F87DC(void *cfg) {
 }
 
-void init_ipv6_interface_config(Ipv6ProtocolState *cfg) {
+void NetInitIpv6InterfaceConfig(Ipv6ProtocolState *cfg) {
     cfg->nsockets = 1;
     cfg->traffic_class = 0;
     cfg->flow_label = 0;
@@ -131,7 +131,7 @@ void TLobby__sub_803F8864(void *cfg) {
 }
 
 /* Fills ipv6_address_routing_state. */
-void init_udp_socket_config(Ipv6State *o) {
+void NetInitIpv6RoutingState(Ipv6State *o) {
     o->route_count = 0x1A;
     o->count = 3;
     o->max_addrs = 9;
@@ -153,7 +153,7 @@ void init_udp_socket_config(Ipv6State *o) {
 void TLobby__sub_803F88E0(void *cfg) {
 }
 
-void init_buffer_descriptor_b(Ipv6NdState *cfg) {
+void NetInitIpv6NeighborDiscovery(Ipv6NdState *cfg) {
     u8 *block;
     cfg->npending = 2;
     block = (u8 *)lobby_net_config_block;
@@ -182,7 +182,7 @@ void TLobby__sub_803F8930(u8 *cfg) {
 void TLobby__sub_803F8958(void *cfg) {
 }
 
-void init_buffer_descriptor_a(Ipv4RoutingState *cfg) {
+void NetInitIpv4RoutingState(Ipv4RoutingState *cfg) {
     cfg->nroutes = 0x1A;
     cfg->nifaces = 3;
     cfg->max_aliases = 9;
@@ -224,7 +224,7 @@ void TLobby__sub_803F8A0C(NetPacketPool *cfg) {
 void TLobby__sub_803F8A24(void *cfg) {
 }
 
-void init_net_buffer_config(ArpState *cfg) {
+void NetInitNetworkBufferConfig(ArpState *cfg) {
     cfg->nentries = 8;
     cfg->nifaces = 3;
     cfg->nholds = 2;
@@ -252,7 +252,7 @@ void TLobby__sub_803F8AB8(void *cfg) {
     reset_message_thread();
 }
 
-void init_net_func_table(EthernetState *cfg) {
+void NetInitFunctionTable(EthernetState *cfg) {
     Big_803F8AD8 *g = (Big_803F8AD8 *)lobby_net_config_block;
     g->bba.init = (s16 (*)(s16))TLobby__sub_80426B88;
     g->bba.open = (s16 (*)(s16, u16))open_channel_checked;
@@ -274,7 +274,7 @@ void init_net_func_table(EthernetState *cfg) {
 void TLobby__sub_803F8B78(void *cfg) {
 }
 
-void init_net_recv_desc(LoopbackState *cfg) {
+void NetInitReceiveDescriptor(LoopbackState *cfg) {
     cfg->slot_size = 0x500;
     cfg->slot_count = 2;
     cfg->slot_used = (s16 *)&lbl_805D7A58;

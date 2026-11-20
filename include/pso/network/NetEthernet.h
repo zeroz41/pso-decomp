@@ -2,7 +2,7 @@
 #define PSO_NETWORK_NETETHERNET_H
 /* The Ethernet layer (lbl_805C1AD8, src/pso/network/TLobby_804050DC.c): its drivers, one link per driver (registered
  * with the dispatcher by init_net_sockets), the EtherTypes bound on the links and the received-frame buffers.
- * init_net_func_table sets the counts and the arrays. */
+ * NetInitFunctionTable sets the counts and the arrays. */
 #include "types.h"
 
 #ifdef __cplusplus

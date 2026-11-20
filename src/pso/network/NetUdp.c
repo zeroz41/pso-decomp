@@ -73,7 +73,7 @@ inline void add_item_80420FC8(NetPacket *pkt, void *data, s32 len) {
     s32 off = pkt->total_bytes;
     pkt->fragments[n].length = len;
     pkt->total_bytes = off + len;
-    set_value_and_enable(&pkt->fragments[n].buffer, (s32)data);
+    NetBufferRefInitKind1(&pkt->fragments[n].buffer, (s32)data);
     pkt->fragment_count++;
 }
 
@@ -85,7 +85,7 @@ s16 udp_input(NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst, s16 arg3
     NetPacketFragment *frag;
     UdpControlBlock *e;
     frag = &pkt->fragments[1];
-    set_value_and_enable(sp20, (s32)&hdr);
+    NetBufferRefInitKind1((NetBufferRef *)sp20, (s32)&hdr);
     netbuf_copy_by_ref(sp20, &frag->buffer, 8);
     if (hdr.sum != 0 && (u16)TLobby__sub_8040D8F0(src, dst, 0x11, pkt, 0) != 0) {
         return -1;
@@ -101,14 +101,14 @@ s16 udp_input(NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst, s16 arg3
             if (e->remoteAddress.family != 0 && e->remoteAddress.family != src->family) {
                 goto next;
             }
-        } else if (compare_sockaddr(&e->remoteAddress, src) != 0) {
+        } else if (NetCompareAddresses(&e->remoteAddress, src) != 0) {
             goto next;
         }
         if (is_addr_unspecified((u8 *)&e->localAddress) != 0) {
             if (e->localAddress.family != 0 && e->localAddress.family != dst->family) {
                 goto next;
             }
-        } else if (compare_sockaddr(&e->localAddress, dst) != 0) {
+        } else if (NetCompareAddresses(&e->localAddress, dst) != 0) {
             goto next;
         }
         if (e->remotePort != 0 && e->remotePort != hdr.src) {
@@ -128,7 +128,7 @@ s16 udp_input(NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst, s16 arg3
         i++;
         e++;
     }
-    if (is_multicast_address(dst, arg3) == 1) {
+    if (NetIsMulticastAddress(dst, arg3) == 1) {
         return 0;
     }
     return -2;

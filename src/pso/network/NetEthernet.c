@@ -68,7 +68,7 @@ s16 init_net_sockets(void) {
     EthDriver *d;
     EthLink **pe;
 
-    init_net_func_table(&lbl_805C1AD8);
+    NetInitFunctionTable(&lbl_805C1AD8);
     pe = &lbl_805C1AD8.links;
     NetMemset(*pe, 0, lbl_805C1AD8.nlinks * sizeof(EthLink));
     NetMemset(lbl_805C1AD8.sockets, 0, lbl_805C1AD8.nsockets * sizeof(EthSocket));

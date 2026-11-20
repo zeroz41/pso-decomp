@@ -29,7 +29,6 @@ struct V_803FE600;
 
 NetworkDispatchState network_dispatch_state;
 
-s32 NetUnregisterTimer(void* p);
 
 void TLobby__sub_80419A00(void) {
     NetMemset(&network_dispatch_state.lock_handle, 0, offsetof(NetworkDispatchState, unknown_F4));
@@ -147,7 +146,7 @@ extern void NetRunTimerDispatchLoop(void) {
     }
 }
 
-extern s32 NetUnregisterTimer(void *fn) {
+extern s32 NetUnregisterTimer(NetTimerCallback fn) {
     NetworkDispatchState *g = &network_dispatch_state;
     s16 i;
 
@@ -155,7 +154,7 @@ extern s32 NetUnregisterTimer(void *fn) {
         return -0x100;
     }
     for (i = 0; i < 10; i++) {
-        if (network_dispatch_state.timers[i].active != 0 && (void *)network_dispatch_state.timers[i].fn == fn) {
+        if (network_dispatch_state.timers[i].active != 0 && network_dispatch_state.timers[i].fn == fn) {
             g->timers[i].active = 0;
             g->timers[i].fn = NULL;
             g->timers[i].lock_callback = 0;

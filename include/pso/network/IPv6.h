@@ -151,7 +151,7 @@ typedef struct Ipv6FragmentHeader {
     u32 ident;
 } Ipv6FragmentHeader;
 typedef char Ipv6FragmentHeader_size_check[sizeof(Ipv6FragmentHeader) == 8 ? 1 : -1];
-/* ipv6_protocol_state: init_ipv6_interface_config fills it. */
+/* ipv6_protocol_state: NetInitIpv6InterfaceConfig fills it. */
 typedef struct Ipv6ProtocolState {
     s16 nsockets;
     u8 pad2[2];

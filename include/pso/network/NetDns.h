@@ -1,9 +1,10 @@
 #ifndef PSO_NETWORK_NETDNS_H
 #define PSO_NETWORK_NETDNS_H
-/* The DNS resolver (dns_resolver_state, src/pso/network/TLobby_804050DC.c).  init_net_config sets its limits and
+/* The DNS resolver (dns_resolver_state, src/pso/network/TLobby_804050DC.c).  NetInitNetworkConfig sets its limits and
  * carves its pools out of one static block; init_net_tables clears them. */
 #include "types.h"
 #include "pso/network/UdpRuntime.h"
+#include <stddef.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -155,7 +156,26 @@ typedef char DnsPtr_size_check[sizeof(DnsPtr) == 0x11C ? 1 : -1];
 typedef char DnsQuery_size_check[sizeof(DnsQuery) == 0x3C ? 1 : -1];
 typedef char DnsResolverState_size_check[sizeof(DnsResolverState) == 0x48 ? 1 : -1];
 
+typedef char DnsLookupRequestSize[sizeof(DnsLookupRequest) == 0x1c ? 1 : -1];
+typedef char DnsPtrRequestSize[sizeof(DnsPtrRequest) == 0x10 ? 1 : -1];
+typedef char DnsQueryIdOffset[offsetof(DnsQuery, id) == 6 ? 1 : -1];
+typedef char DnsQueryKindOffset[offsetof(DnsQuery, kind) == 8 ? 1 : -1];
+typedef char DnsQueryTimerOffset[offsetof(DnsQuery, timer) == 0xa ? 1 : -1];
+typedef char DnsQueryStatusOffset[offsetof(DnsQuery, status) == 0x10 ? 1 : -1];
+typedef char DnsQueryMessageOffset[offsetof(DnsQuery, msg) == 0x18 ? 1 : -1];
+typedef char DnsQueryReplyOffset[offsetof(DnsQuery, reply) == 0x1c ? 1 : -1];
+typedef char DnsQueryRequestOffset[offsetof(DnsQuery, req) == 0x20 ? 1 : -1];
+typedef char DnsQueryLookupCallbackOffset[offsetof(DnsQuery, req) + offsetof(DnsLookupRequest, cb) == 0x34 ? 1 : -1];
+typedef char DnsQueryLookupHostOffset[offsetof(DnsQuery, req) + offsetof(DnsLookupRequest, host) == 0x38 ? 1 : -1];
+typedef char DnsQueryPtrCallbackOffset[offsetof(DnsQuery, req) + offsetof(DnsPtrRequest, cb) == 0x28 ? 1 : -1];
+typedef char DnsQueryPtrEntryOffset[offsetof(DnsQuery, req) + offsetof(DnsPtrRequest, entry) == 0x2c ? 1 : -1];
+
 extern DnsResolverState dns_resolver_state;
+
+s32 NetDnsBuildQueryAAAA(DnsQuery *query, char *name, s16 length);
+s32 NetDnsBuildQueryA(DnsQuery *query, char *name, s16 length);
+s32 NetConnectionCloseAndReset(DnsQuery *connection);
+void NetDispatchRequestCallback(DnsQuery *connection, s16 status);
 
 
 #ifdef __cplusplus
