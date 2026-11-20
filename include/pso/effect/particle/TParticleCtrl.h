@@ -5,6 +5,8 @@
 #include "types.h"
 #include <dolphin/mtx/GeoTypes.h>
 
+struct ParticleParam;
+
 class TParticleCtrl : public TObject {
 public:
     virtual ~TParticleCtrl();
@@ -43,13 +45,13 @@ public:
     u8 *construct_particle_obj(s32 arg1, s32 arg2);
     u8 *init_particle_obj(s32 arg1, s32 arg2);
     void enable();
-    void *initialize_with_flags(const void *position, s32 particle_index, s32 field30, s32 field34, s32 field38, s32 use_self, u16 flags);
-    void *initialize(const void *position, s32 particle_index, s32 field30, s32 field34, s32 field38, s32 use_self);
+    void *initialize_with_flags(const void *position, ParticleParam *entry, s32 field30, s32 field34, s32 field38, s32 use_self, u16 flags);
+    void *initialize(const void *position, ParticleParam *entry, s32 field30, s32 field34, s32 field38, s32 use_self);
     void attach_model(s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0);
     static void free_system();
     static void free_all();
     static void init_particle_buffer();
-    static s32 get_particle_by_index(s32 arg0);
+    static ParticleParam *get_particle_by_index(s32 arg0);
 
     void set_scale(f32, f32);
     // Restarts the emission with entry `index` of particleentry.dat
@@ -58,7 +60,9 @@ public:
     // Copies the emission direction; dir points at three words.
     void set_direction(void *dir);
     void set_flags(u16 flags);
-    u8 pad_1c[0x24];
+    u8 pad_1c[0xC];
+    ParticleParam *emitter_entry;
+    u8 pad_2c[0x14];
     f32 field_40;
     f32 field_44;
     u8 pad_48[0x18];
