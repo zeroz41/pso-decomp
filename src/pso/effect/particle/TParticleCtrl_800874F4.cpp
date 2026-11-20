@@ -365,7 +365,6 @@ void clear_active_flag__13TParticleCtrlFv(void* p) { *(u16*)((char*)p + 0x2c) &=
 void TParticleCtrl::enable() { *(u16*)((char*)this + 0x2c) |= 0x1; }
 extern "C" {
 void __dt__7TObjectFv(void *, int);
-void __dl__7TObjectFPv(void *);
 void render__7TObjectFv(void);
 void render_shadows__7TObjectFv(void);
 void *__dt__13TParticleCtrlFv(void *self, s16 flag);
@@ -382,7 +381,7 @@ void *__dt__13TParticleCtrlFv(void *self, s16 flag) {
         *(void **)((u8 *)self + 0x18) = __vt__13TParticleCtrl;
         __dt__7TObjectFv(self, 0);
         if (flag > 0) {
-            __dl__7TObjectFPv(self);
+            TObject::operator delete(self);
         }
     }
     return self;

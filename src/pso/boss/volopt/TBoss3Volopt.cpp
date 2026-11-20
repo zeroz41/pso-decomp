@@ -43,6 +43,7 @@
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/system/BmlResourceLoad.h"
 #include <stdlib.h>
+#include "pso/object/base/TObjChara.h"
 #pragma readonly_strings on
 
 // Camera offsets for the follow camera, from TLobby's shared parameter tables.
@@ -64,11 +65,9 @@ struct VoloptShutterNode {
 };
 
 extern "C" {
-f32 random_ratio__9TObjCharaFv(TObject *actor);
 f32 fabs_float(f32 x);
 f32 newton_sqrtf(f32 x);
 s32 get_current_floor(void);
-s16 get_actor_hp__9TObjCharaFv(u8 *p);
 s32 play_persistent_sound(u32 id, TObject *source, f32 *pos, s32, s32);
 u16 find_nearest_visible_player(TObject *self, s32 flags, f32 range);
 s32 is_local_client_floor_leader();
@@ -604,7 +603,7 @@ void TBoss3Volopt::select_phase1_attack() {
             }
             if (found != 0) {
                 if ((core = (TBoss3VoloptCore *)find_entity_by_id(volopt_core_id)) != NULL && core->is_mode_0() != 0) {
-                    moves = (s32)(2.0f * random_ratio__9TObjCharaFv(this)) + 2;
+                    moves = (s32)(2.0f * ((TObjChara *)this)->random_ratio()) + 2;
                     move_core.init();
                     move_core.id = entity_id;
                     move_core.action = 0;
@@ -647,7 +646,7 @@ void TBoss3Volopt::select_phase1_attack() {
                 attack.init();
                 attack.id = entity_id;
                 attack.count = max_targets < count ? max_targets : count;
-                attack.tech = 3.0f * random_ratio__9TObjCharaFv(this);
+                attack.tech = 3.0f * ((TObjChara *)this)->random_ratio();
                 ((TLobby *)attack.order)->move_data(volopt_p01_order, 6);
                 attack.send();
                 if (max_targets < 5) {
@@ -668,7 +667,7 @@ void TBoss3Volopt::select_phase1_attack() {
             }
             if (found != 0) {
                 if ((core = (TBoss3VoloptCore *)find_entity_by_id(volopt_core_id)) != NULL && core->is_mode_0() != 0) {
-                    moves = (s32)(2.0f * random_ratio__9TObjCharaFv(this)) + 2;
+                    moves = (s32)(2.0f * ((TObjChara *)this)->random_ratio()) + 2;
                     move_core_v1.init();
                     move_core_v1.id = entity_id;
                     move_core_v1.action = 0;
@@ -775,7 +774,7 @@ void TBoss3Volopt::select_phase2_attack() {
             return;
         }
         {
-            f32 roll = total * random_ratio__9TObjCharaFv(this);
+            f32 roll = total * ((TObjChara *)this)->random_ratio();
             s32 i;
             attack_step = -1;
             for (i = 0; i < n; i++) {
@@ -850,7 +849,7 @@ void TBoss3Volopt::select_phase2_attack() {
                 packet.init();
                 packet.id = entity_id;
                 packet.action = 7;
-                packet.param = 40.0f * random_ratio__9TObjCharaFv(this);
+                packet.param = 40.0f * ((TObjChara *)this)->random_ratio();
                 packet.send();
                 attack_delay = 30.0f * (f32)p02->count_dead_parts() + 30.0f;
             }
@@ -920,7 +919,7 @@ void TBoss3Volopt::select_phase2_attack() {
                 packet.init();
                 packet.id = entity_id;
                 packet.action = 7;
-                packet.param = 40.0f * random_ratio__9TObjCharaFv(this);
+                packet.param = 40.0f * ((TObjChara *)this)->random_ratio();
                 packet.send();
                 attack_delay = 30.0f * (f32)p02->count_dead_parts() + 30.0f;
             }
@@ -1285,8 +1284,8 @@ s32 TBoss3Volopt::shuffle_p01_order() {
         return count;
     }
     for (i = 0; i < count * 5; i++) {
-        a = (s32)((f32)count * random_ratio__9TObjCharaFv(this));
-        b = (s32)((f32)count * random_ratio__9TObjCharaFv(this));
+        a = (s32)((f32)count * ((TObjChara *)this)->random_ratio());
+        b = (s32)((f32)count * ((TObjChara *)this)->random_ratio());
         if (a != b) {
             swap = volopt_p01_order[a];
             volopt_p01_order[a] = volopt_p01_order[b];
@@ -1551,7 +1550,7 @@ u16 TBoss3Volopt::find_strongest_player() {
     for (i = 0; i < volopt_candidate_count; i++) {
         player = candidate_players[i];
         if (player != NULL) {
-            s16 hp = get_actor_hp__9TObjCharaFv((u8 *)player);
+            s16 hp = ((TObjChara *)((u8 *)player))->get_actor_hp();
             if (hp > best_hp) {
                 best_hp = hp;
                 best = player;

@@ -67,7 +67,6 @@ extern "C" {
 
 void __ct__11TItemWeaponFP7TObjectPUc(void *);
 u8 *__nw__5TItemFUl(s32);
-void __dl__7TObjectFPv(void *);
 s32 post_translate_matrix(void *);
 s32 draw_weapon_at_joint(void *, s32, void *);
 s32 warn_if_gauge_low__10TObjPlayerFv(s32);
@@ -131,7 +130,7 @@ void *TObjPlayer__sub_8012417C(void *object, s16 arg1) {
         *(s32 **)((s8 *)object + 0x18) = ((s32 *)__vt__13TUnk_804A2018);
         __dt__7TObjectFv(object, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(object);
+            TObject::operator delete(object);
         }
     }
     return object;

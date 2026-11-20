@@ -88,7 +88,6 @@ extern u8 *boss7_common_bml_resource;
 extern u8 *boss7_common_texture_list;
 void __dt__7TObjectFv(void *, int);
 void __dl__7TObjectFPv(void *);
-u32 __nw__7TObjectFUl(s32);
 void TObjBoss2Tunnel__sub_802F2278(void);
 s32 TObjBoss2Tunnel__sub_802F22F4(void);
 s32 init_piecewise_curve(void *, f32, f32, f32, f32, f32);
@@ -318,7 +317,7 @@ void TUnk_804E4B3C::update_dust_spawn() {
         v.x = 200.0f * rand_signed_unit();
         v.y = 90.0f * (3.0517578125e-05f * (f32)rand()) + 10.0f;
         v.z = 600.0f;
-        p = __nw__7TObjectFUl(0x30);
+        p = (u32)TObject::operator new(0x30);
         if (p != 0U) {
             __ct__13TObjBoss7DustFv((u8 *)p, (s32)tl_05, (s32)&v);
         }
@@ -533,7 +532,7 @@ void draw_tunnel_segment(u8 *boss7_tunnel_col) {
     u8 *var_r3;
     u8 *var_r4;
     var_r30 = boss7_tunnel_col;
-    if (is_in_camera_range__18TObjBoss7TunnelColFv(boss7_tunnel_col) != 0) {
+    if (((TObjBoss7TunnelCol *)boss7_tunnel_col)->is_in_camera_range() != 0) {
         var_r3 = (u8 *)((void *)2);
         var_r4 = (u8 *)(*(u8 **)((s8 *)var_r30 + 0x3C));
         var_r4 += *(s32 *)((s8 *)var_r30 + 0x38) * 4;

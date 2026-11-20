@@ -77,7 +77,6 @@ void run_task__10TTecDebandFv(Deband_8022F73C *self);
 s32 is_split_screen();
 void copy_technique_target_list(void *, void *, s32);
 s32 calc_technique_parameters(s32, s16, s32);
-u32 __nw__7TObjectFUl(s32 a0 = 0);
 int spawn_support_tec_range_effect(void*);
 
 int TTecDeband::init_params() { return spawn_support_tec_range_effect(this); }
@@ -107,14 +106,14 @@ void TTecDeband::vfunc_7(void *arg1_arg) {
 
 void TTecDeband::create(s32 owner, s32 pos, s32 arg2, s32 level) {
     u32 obj;
-    obj = __nw__7TObjectFUl(0x140);
+    obj = (u32)TObject::operator new(0x140);
     if (obj != 0U) {
         TTecDeband__ct(obj, owner, pos, arg2, level);
     }
 }
 void TTecDeband::create(s32 owner, s32 pos, s32 level) {
     u32 obj;
-    obj = __nw__7TObjectFUl(0x140);
+    obj = (u32)TObject::operator new(0x140);
     if (obj != 0U) {
         TTecDeband__sub_8022F948((TTecDeband *)((u8 *)obj), (s32)((s32)owner), (s32)((s32)pos), (s32)((s32)level));
     }

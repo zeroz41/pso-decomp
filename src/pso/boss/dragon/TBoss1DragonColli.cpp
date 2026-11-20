@@ -41,7 +41,6 @@ struct O_8002B4CC {
 };
 
 extern "C" {
-s32 __nw__7TObjectFUl(int);
 s32 __ct__7TObjectFP7TObject(void *, void *);
 extern void *__vt__17TBoss1DragonColli[];
 u8 *TBoss1DragonColli__ct(u8 *arg0, s32 arg1);
@@ -78,7 +77,6 @@ s32 free_collision_body_parts(void *);
 void set_matrix_identity(u8 *arg0);
 int rotate_matrix_y(void*, void*);
 int push_matrix(void*);
-s32 __dl__7TObjectFPv(void *);
 
 u8 *TBoss1DragonColli__ct(u8 *object, s32 arg1) {
     Vec stack;
@@ -94,7 +92,7 @@ u8 *TBoss1DragonColli__ct(u8 *object, s32 arg1) {
     stack.x = 0.0f;
     stack.y = 0.0f;
     stack.z = 0.0f;
-    temp_r3 = __nw__7TObjectFUl(0xB8);
+    temp_r3 = (s32)TObject::operator new(0xB8);
     var_r0 = temp_r3;
     if (var_r0 != 0) {
         var_r0 = TBoss1DragonColli_C__ct(temp_r3, object, 1, &stack.x, 25.0f);
@@ -103,7 +101,7 @@ u8 *TBoss1DragonColli__ct(u8 *object, s32 arg1) {
     stack.x = -4.0f;
     stack.y = 0.0f;
     stack.z = 40.0f;
-    temp_r3_2 = __nw__7TObjectFUl(0xB8);
+    temp_r3_2 = (s32)TObject::operator new(0xB8);
     var_r0_2 = temp_r3_2;
     if (var_r0_2 != 0) {
         var_r0_2 = TBoss1DragonColli_C__ct(temp_r3_2, object, 3, &stack.x, 10.0f);
@@ -112,7 +110,7 @@ u8 *TBoss1DragonColli__ct(u8 *object, s32 arg1) {
     stack.x = -4.0f;
     stack.y = 0.0f;
     stack.z = -100.0f;
-    temp_r3_3 = __nw__7TObjectFUl(0xB8);
+    temp_r3_3 = (s32)TObject::operator new(0xB8);
     var_r0_3 = temp_r3_3;
     if (var_r0_3 != 0) {
         var_r0_3 = TBoss1DragonColli_C__ct(temp_r3_3, object, 5, &stack.x, 10.0f);
@@ -149,7 +147,7 @@ void *__dt__19TBoss1DragonColli_CFv(void *collidable, s16 arg1) {
         free_collision_body_parts(collidable);
         __dt__14TObjCollidableFv(collidable, 0);
         if ((s16) arg1 > 0) {
-            __dl__7TObjectFPv(collidable);
+            TObject::operator delete(collidable);
         }
     }
     return collidable;

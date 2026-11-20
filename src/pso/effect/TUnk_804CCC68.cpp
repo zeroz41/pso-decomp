@@ -182,7 +182,6 @@ f32 atan2_float(f32 y, f32 x);
 void *__ct__7TEffectFv(void *);
 s32 init_collision_body_parts(u32, void *, int);
 u32 __ct__14TObjCollidableFP7TObject(u32, void *);
-u32 __nw__7TObjectFUl(int);
 f32 vector_length(void *);
 s32 normalize_vector(void *);
 extern const f64 lbl_8044DC00;
@@ -261,7 +260,7 @@ TUnk_804CCC68::TUnk_804CCC68(s32 arg1, u8 *arg2, u8 *arg3, s32 arg4) : TEffect()
     } else {
         this->collisionBody.flags = 0x40007;
     }
-    var_r0 = __nw__7TObjectFUl(0xAC);
+    var_r0 = (u32)TObject::operator new(0xAC);
     if (var_r0 != 0U) {
         var_r0 = __ct__14TObjCollidableFP7TObject(var_r0, this);
     }
@@ -328,7 +327,7 @@ TUnk_804CCC68::TUnk_804CCC68(s32 source, Vec *pos, s32 angle, s32 level) : TEffe
     } else {
         this->collisionBody.flags = 0x40007;
     }
-    var_r0 = __nw__7TObjectFUl(0xAC);
+    var_r0 = (u32)TObject::operator new(0xAC);
     if (var_r0 != 0U) {
         var_r0 = __ct__14TObjCollidableFP7TObject(var_r0, this);
     }

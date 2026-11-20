@@ -49,7 +49,6 @@ s32 __ct__8TObjBaseFP7TObject(void *, void *);
 }
 u8 *load_gvm_texture_file(s32 arg0);
 extern "C" {
-void __dl__7TObjectFPv(void *);
 s32 __ct__7TObjectFP7TObject(u8 *, void *);
 void fn_802A9DF4(Obj_802A9DF4 *self, Vec *dir);
 void fn_802A9F48(Obj_802A9F48 *self, Vec *dir);
@@ -107,7 +106,7 @@ void *__dt__16TBGLightningCtrlFv(void *base, s16 arg1) {
         *(s32 **)((s8 *)base + 0x18) = (s32 *)__vt__16TBGLightningCtrl;
         __dt__8TObjBaseFv(base, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(base);
+            TObject::operator delete(base);
         }
     }
     return base;

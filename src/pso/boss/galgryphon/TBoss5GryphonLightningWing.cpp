@@ -42,7 +42,6 @@ struct Wing_80351C18 {
 };
 
 extern "C" {
-s32 __nw__7TObjectFUl(int);
 extern const f32 lbl_805D8D48;
 s32 TBoss5GryphonLightning__ct(f32);
 extern u8 __vt__26TBoss5GryphonLightningWing[];
@@ -126,7 +125,7 @@ s32 spawn_lightning_wing__12TBoss8DragonFiiiiii(s32 arg0, s32 arg1, s32 mid, s32
             position.y = ground_height;
         }
     }
-    allocation = __nw__7TObjectFUl(0xA0);
+    allocation = (s32)TObject::operator new(0xA0);
     effect = allocation;
     if (effect != 0) {
         effect = __ct__26TBoss5GryphonLightningWingFv(allocation, (void *)((void*)arg0), (void *)((void*)arg1), (void *)((void*)mid), &position, (void *)((void*)arg4), (void *)((void*)arg5));

@@ -25,6 +25,7 @@
 #include "pso/map/FloorArea.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/MatrixStack.h"
+#include "pso/system/task/TObject.h"
 
 u16 TObjPlayer::get_entity_type() { return *(u16*)((char*)this + 0x0); }
 void* TObjPlayer__sub_801AA66C(void* p, void* a1) { *(short*)(p) = *(unsigned short*)(a1); *(short*)((char*)p + 0x2) = *(short*)((char*)a1 + 0x2); *(void**)((char*)p + 0x4) = *(void**)((char*)a1 + 0x4); TObjPlayer__sub_801AA6E4((u8 *)((char*)p + 0x8), (u8 *)((char*)a1 + 0x8)); TObjPlayer__sub_801AA6E4((u8 *)((char*)p + 0xc), (u8 *)((char*)a1 + 0xc)); TObjPlayer__sub_801AA6E4((u8 *)((char*)p + 0x10), (u8 *)((char*)a1 + 0x10)); TObjPlayer__sub_801AA6E4((u8 *)((char*)p + 0x14), (u8 *)((char*)a1 + 0x14)); return p; }
@@ -80,7 +81,6 @@ void *find_entity_by_id(u16 id);
 u8 *construct_photon_magic_square_normal(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
 extern "C" {
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
-u32 __nw__7TObjectFUl(int);
 
 s32 TPhotonLine__ct(void *, void *, void *, u16);
 s32 rotate_vector_by_matrix(int, void *, void *);
@@ -131,7 +131,7 @@ void TPhotonEstlla::spawn_line() {
         packet.pos = self->pos;
         packet.dir = direction;
         packet.pad_1C = this->m_150;
-        line = __nw__7TObjectFUl(0x378);
+        line = (u32)TObject::operator new(0x378);
         if (line) {
             TPhotonLine__ct((void *)line, &packet, self, this->m_17c);
         }
@@ -183,7 +183,7 @@ void TPhotonEstlla::run_task() {
             stack.y = 3e+01f + *(f32 *)((s8 *)entity + 0x3C);
             stack.z = *(f32 *)((s8 *)entity + 0x40);
         }
-        photon_magic_square = __nw__7TObjectFUl(0xD0);
+        photon_magic_square = (u32)TObject::operator new(0xD0);
         if (photon_magic_square != 0U) {
             construct_photon_magic_square_normal((u8 *)photon_magic_square, (s32)arg0, 1, (s32)&stack.x, 0x78);
         }
@@ -259,13 +259,13 @@ TPhotonEstlla::TPhotonEstlla(u8 *arg1) : TUnk_804C3248() {
     switch (get_current_floor_area()) {
     case AREA_DRAGON: case AREA_DE_ROL_LE: case AREA_VOL_OPT: case AREA_DARK_FALZ:
     case AREA_GAL_GRYPHON: case AREA_OLGA_FLOW: case AREA_BARBA_RAY: case AREA_GOL_DRAGON:
-        p = (void *)__nw__7TObjectFUl(0xAC);
+        p = (void *)(u32)TObject::operator new(0xAC);
         if (p != NULL) {
             ((u8 *(*)(void *, void *, void *, int)) TPhotonRainbow__ct)(p, this, ((u8 *)this) + 0x38, 1);
         }
         break;
     default:
-        p = (void *)__nw__7TObjectFUl(0xAC);
+        p = (void *)(u32)TObject::operator new(0xAC);
         if (p != NULL) {
             ((u8 *(*)(void *, void *, void *, int)) TPhotonRainbow__ct)(p, this, ((u8 *)this) + 0x38, 0);
         }
@@ -288,7 +288,7 @@ TPhotonEstlla::TPhotonEstlla(u8 *arg1) : TUnk_804C3248() {
             pos.y = 3e+01f + *(f32 *)((s8 *)e + 0x3C);
             pos.z = *(f32 *)((s8 *)e + 0x40);
         }
-        p = (void *)__nw__7TObjectFUl(0xD0);
+        p = (void *)(u32)TObject::operator new(0xD0);
         if (p != NULL) {
             construct_photon_magic_square_normal((u8 *)p, (s32)this, 1, (s32)&pos, 0x78);
         }

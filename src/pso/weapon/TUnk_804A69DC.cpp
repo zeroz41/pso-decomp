@@ -20,6 +20,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/system/task/TObject.h"
 
 extern "C" {
 
@@ -57,7 +58,6 @@ void *TUnk_804A69C0::init_shoot_model() {
 s32 update_technique_slot__10TTecRaFoieFl(int, int, int);
 s32 play_sound_effect(int, int, int, int);
 s32 init_shoot_model__13TUnk_804A69C0Fv(int, void *, void *, void *, f32);
-s32 __nw__7TObjectFUl(int);
 s32 create_shoot_model__10TObjPlayerFiiif(s32 arg0, s32 arg1, s32 arg2, f32 farg0);
 void TObjPlayer__sub_801307D0(void *arg0);
 
@@ -67,7 +67,7 @@ s32 create_shoot_model__10TObjPlayerFiiif(s32 arg0, s32 arg1, s32 arg2, f32 farg
     s32 var_r3;
     var_r3 = 0;
     if (arg0 != 0) {
-        temp_r3 = __nw__7TObjectFUl(0x6C);
+        temp_r3 = (s32)TObject::operator new(0x6C);
         var_r0 = temp_r3;
         if (var_r0 != 0) {
             var_r0 = init_shoot_model__13TUnk_804A69C0Fv((int)temp_r3, (void *)arg0, (void *)arg1, (void *)arg2, (f32)farg0);

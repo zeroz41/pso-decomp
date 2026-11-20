@@ -30,7 +30,6 @@ extern s32 __vt__13TUnk_804ED598[];
 int GXSetNumIndStages(int);
 int GXSetTevDirect(int);
 extern s32 __vt__13TUnk_804ED5B0[];
-s32 __nw__7TObjectFUl(int);
 s32 __ct__7TObjectFP7TObject(void *, void *);
 extern s32 tl_05;
 s32 GXSetNumTexGens(int);
@@ -93,7 +92,7 @@ u8 *create_telepipe_marker(u8 *arg0, s32 arg1, s8 arg2, s8 arg3, s32 arg4, s32 a
     ((TUnk_804ED598 *)arg0)->m_30 = arg2;
     *(s8 *)((s8 *)arg0 + 0x31) = arg3;
     ((TUnk_804ED598 *)arg0)->m_34 = arg5;
-    temp_r3 = __nw__7TObjectFUl(0x20);
+    temp_r3 = (s32)TObject::operator new(0x20);
     var_r0 = temp_r3;
     if (var_r0 != 0) {
         var_r0 = (s32)construct_indirect_effect_task((u8 *)temp_r3, 0x1F, 0, (u8 *)tl_05);

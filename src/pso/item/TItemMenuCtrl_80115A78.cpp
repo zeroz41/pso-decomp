@@ -6,7 +6,6 @@
 extern "C" {
 
 s32 TItemMenuCtrl__ct(u32, s32);
-u32 __nw__7TObjectFUl(s32);
 s32 set_menu_flags__13TItemMenuCtrlFv(u32, s32);
 
 extern u32 TItemMenuCtrl__instance;
@@ -14,7 +13,7 @@ extern s32 tl_05;
 
 void TItemMenuCtrl::open_menu(u32 arg0) {
     u32 obj;
-    if (((u32) TItemMenuCtrl__instance == 0U) && ((obj = __nw__7TObjectFUl(0x20)) != 0U)) {
+    if (((u32) TItemMenuCtrl__instance == 0U) && ((obj = (u32)TObject::operator new(0x20)) != 0U)) {
         TItemMenuCtrl__ct(obj, tl_05);
     }
     if (arg0 < 7U) {

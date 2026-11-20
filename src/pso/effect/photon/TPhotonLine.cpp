@@ -69,7 +69,6 @@ extern s32 __vt__11TPhotonLine[];
 Line_801ACD14 *TPhotonLine__ct(Line_801ACD14 *self, Params_801ACD14 *p, void *parent, u16 arg3);
 s32 check_path_obstructed(void *, Vec *);
 u16 get_entity_id(void *);
-u8 *get_battle_param__10TObjPlayerFi(s32);
 void *spawn_particle_effect(const void *pos, s32 id);
 }
 void queue_photon_blast_hit(u32 identity, s32 kind, s32 allow_duplicate, f32 scale);
@@ -97,7 +96,7 @@ void run_task__11TPhotonLineFv(Line_801ACB14 *self) {
     ((TObjCollidable *)self)->mark_enemy_body_contacts();
     if (self->fA4->f18 & 0x100000) {
         for (i = 0; i < 16; i++) {
-            p = get_battle_param__10TObjPlayerFi(i);
+            p = ((u8 *)TObjPlayer::get_battle_param(i));
             if (p == NULL) {
                 break;
             }

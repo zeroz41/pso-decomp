@@ -81,7 +81,6 @@ struct Chase_8036D1B4 {
 struct Param_8036D1B4 { u8 pad[0xC]; f32 v; };
 
 extern "C" {
-s32 __nw__7TObjectFUl(int);
 s32 get_bml_model(int, int);
 int TBoss6Rock__sub_80353A04(void);
 int TBoss6Rock__sub_80353A0C(void);
@@ -92,7 +91,6 @@ __declspec(section ".rodata") RecoveredGlobal_8036D4E0_lbl_8047ACE8 boss6_rock_c
 extern s32 __vt__15TBoss6RockChase[];
 const char *TBoss6RockChase__name = TBoss6RockChase__class_name_string;
 s32 query_teammate_state__9TObjEneDDFv(void);
-Param_8036D1B4 *dispatch_shared_handler_a__6TLobbyFl(s32);
 f32 vector_length(void *);
 int subtract_vector(void *, void *);
 extern RecoveredGlobal_8036D4E0_lbl_8047ACE8 boss6_rock_chase_model_radius_table;
@@ -117,7 +115,7 @@ s32 TBoss6RockChase::damage_players_in_range() {
         Ent_8036D1B4 *tbl = (Ent_8036D1B4 *)&boss6_rock_chase_model_radius_table;
         range = tbl[self->xB0].range;
     }
-    dmg = dispatch_shared_handler_a__6TLobbyFl(0x2C)->v;
+    dmg = ((Param_8036D1B4 *)TLobby::dispatch_shared_handler_a(0x2C))->v;
     if (dmg < 1) {
         dmg = 20;
     }
@@ -217,7 +215,7 @@ s32 TBoss6RockChase::spawn(s32 arg0, s32 arg1) {
     if ((3.0517578e-05f * (f32) rand()) < 0.5f) {
         var_r31 = 1;
     }
-    boss6_rock_chase = __nw__7TObjectFUl(0xC8);
+    boss6_rock_chase = (s32)TObject::operator new(0xC8);
     var_r0 = boss6_rock_chase;
     if (var_r0 != 0) {
         var_r0 = ((s32)TBoss6RockChase__ct((TBoss6RockChase *)((u8 *)boss6_rock_chase), (s32)arg0, (s32)((void *)&stack.sp8), (s32)var_r31));

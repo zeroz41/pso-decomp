@@ -95,8 +95,6 @@ Obj_8012C4E4 *TObjPlayer__sub_8012C4E4(Obj_8012C4E4 *self, void *owner, const vo
     return self;
 }
 
-u32 spawn_shoot_particle__10TObjPlayerFUlllf(s32, s32, s32, f32);
-u32 __nw__7TObjectFUl(s32);
 }
 
 u32 rocket_punch_create_shot(s32 owner, s32 arg1, s32 arg2, f32 farg0) {
@@ -105,11 +103,11 @@ u32 rocket_punch_create_shot(s32 owner, s32 arg1, s32 arg2, f32 farg0) {
 
     var_r31 = 0U;
     if (owner != 0) {
-        var_r31 = __nw__7TObjectFUl(0x6C);
+        var_r31 = (u32)TObject::operator new(0x6C);
         if (var_r31 != 0U) {
             var_r31 = (u32)TObjPlayer__sub_8012C4E4((Obj_8012C4E4 *)var_r31, (void *)owner, (const void *)arg1, (const void *)arg2, farg0);
         }
-        temp_r30 = spawn_shoot_particle__10TObjPlayerFUlllf(owner, arg1, arg2, farg0);
+        temp_r30 = ((u32)TObjPlayer::spawn_shoot_particle(owner, arg1, arg2, farg0));
         if ((var_r31 != 0U) && (temp_r30 != 0U)) {
             ((TItemShootParticle *)temp_r30)->spawn_slot_emitter(0x1BB, 0);
             ((TObject *)temp_r30)->set_parent((TObject *)var_r31);

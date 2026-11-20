@@ -13,7 +13,6 @@
 
 extern "C" {
 
-void __dl__7TObjectFPv(void *);
 
 typedef struct Data_80050194 Data_80050194;
 typedef struct Obj_80050194 Obj_80050194;
@@ -70,7 +69,7 @@ void *__dt__11TObjDFDemoFFPvs(void *base, s16 arg1) {
         restore_player_cameras();
         __dt__8TObjBaseFv(base, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(base);
+            TObject::operator delete(base);
         }
     }
     return base;

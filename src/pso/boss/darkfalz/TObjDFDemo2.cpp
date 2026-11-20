@@ -78,7 +78,6 @@ s32 __ct__8TObjBaseFP7TObject(void *, void *);
 extern s32 boss4_zanzo_bml_index_table[];
 void *__dt__11TObjDFDemo2Fv(void *arg0, s16 arg1);
 void *TObjDFDemo2__ct(void *, void *, void *, void *, void *);
-void __dl__7TObjectFPv(void *);
 
 void vfunc_6__8TObjBaseFPsl();
 void get_name__8TObjBaseFv();
@@ -168,7 +167,7 @@ void *__dt__11TObjDFDemo2Fv(void *base, s16 arg1) {
         *(s32 **)((s8 *)base + 0x18) = (s32 *)__vt__11TObjDFDemo2;
         __dt__8TObjBaseFv(base, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(base);
+            TObject::operator delete(base);
         }
     }
     return base;

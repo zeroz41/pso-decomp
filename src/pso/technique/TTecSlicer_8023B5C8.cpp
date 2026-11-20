@@ -324,7 +324,6 @@ void __dl__7TObjectFPv(void *);
 void destroy_if_set__10TTecSlicerFv(u32);
 
 f32 *get_weapon_range_record(s32, s32);
-s32 get_extended_state__10TObjPlayerFv(s32);
 s8 get_captured_target_collider_index(s32);
 s32 get_captured_target_entry(s32, s32);
 s32 get_captured_target_count(s32);
@@ -548,7 +547,7 @@ TTecSlicer::TTecSlicer(u16 *launch, void *player, Vec *position, int angle) : TO
     VecCopy((Vec *)((s32)self + 0x9C), (const Vec *)((s32)self + 0x38));
     VecCopy((Vec *)((s32)self + 0xA8), (const Vec *)((s32)self + 0x38));
     self->fbc = 0.0f;
-    ext = get_extended_state__10TObjPlayerFv(self->f10c);
+    ext = ((s32)((TObjPlayer *)self->f10c)->get_extended_state());
     if (ext != 0) {
         if (get_captured_target_count(ext) == 0) {
             ((FlagWord *)((s32)self->fwd))->set(1);

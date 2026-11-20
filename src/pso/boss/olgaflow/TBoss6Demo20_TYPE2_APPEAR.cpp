@@ -185,7 +185,6 @@ typedef struct O_8033D6DC {
 
 extern "C" {
 s32 __dt__7TObjectFv(void *, int);
-s32 __dl__7TObjectFPv(void *);
 s32 refresh_players_equipment__14TBoss6PlotFalzFPv();
 extern s32 __vt__25TBoss6Demo20_TYPE2_APPEAR[];
 O_8033D9E4 *__dt__25TBoss6Demo20_TYPE2_APPEARFv(O_8033D9E4 *arg0, s16 arg1);
@@ -285,7 +284,7 @@ O_8033D9E4 *__dt__25TBoss6Demo20_TYPE2_APPEARFv(O_8033D9E4 *arg0, s16 arg1) {
         }
         __dt__7TObjectFv(arg0, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            TObject::operator delete(arg0);
         }
     }
     return arg0;

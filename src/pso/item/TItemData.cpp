@@ -102,7 +102,6 @@ s32 update_player_field__9TItemDataFv(void *);
 u8 get_technique_learn_limit(u8, u8);
 extern "C" {
 void *get_player_by_client_id(s32 i);
-s16 *get_class_stat_entry__10TObjPlayerFPUc(void *);
 u8 get_cast_technique_level(void *, int);
 s32 is_invalid_slot__10TObjPlayerFUc();
 void *calc_technique_parameters(u8, u8, s32);
@@ -848,7 +847,6 @@ extern "C" {
 s32 TObjPlayer__sub_80117E50(u16);
 s32 get_technique_name(s32 arg0);
 s32 get_text_collection(s32 arg0);
-s8 *get_item_by_slot_flag__10TObjPlayerFUc(u8);
 void TItemData__clear_unidentified_flag(void *arg0);
 s32 get_unit_attribute_index__10TObjPlayerFUc(u8);
 
@@ -1103,19 +1101,19 @@ s32 TItemData::calc_action_flags(s32 mask, u8 *player) {
           switch (((u8 *)this)[2])
           {
             case 0:
-              if ((get_class_stat_entry__10TObjPlayerFPUc(player)[0 / 2] <= ((s16 *) quest)[0 / 2]) || (update_player_field__9TItemDataFv(player) != 0))
+              if ((((s16 *)TObjPlayer::get_class_stat_entry((u8 *)player))[0 / 2] <= ((s16 *) quest)[0 / 2]) || (update_player_field__9TItemDataFv(player) != 0))
             {
               hit = 1;
             }
               break;
             case 1:
-              if ((get_class_stat_entry__10TObjPlayerFPUc(player)[2 / 2] <= ((s16 *) quest)[2 / 2]) || (update_player_field__9TItemDataFv(player) != 0))
+              if ((((s16 *)TObjPlayer::get_class_stat_entry((u8 *)player))[2 / 2] <= ((s16 *) quest)[2 / 2]) || (update_player_field__9TItemDataFv(player) != 0))
             {
               hit = 1;
             }
               break;
             case 2:
-              if ((get_class_stat_entry__10TObjPlayerFPUc(player)[4 / 2] <= ((s16 *) quest)[4 / 2]) || (update_player_field__9TItemDataFv(player) != 0))
+              if ((((s16 *)TObjPlayer::get_class_stat_entry((u8 *)player))[4 / 2] <= ((s16 *) quest)[4 / 2]) || (update_player_field__9TItemDataFv(player) != 0))
             {
               hit = 1;
             }
@@ -1133,13 +1131,13 @@ s32 TItemData::calc_action_flags(s32 mask, u8 *player) {
             }
               break;
             case 5:
-              if ((get_class_stat_entry__10TObjPlayerFPUc(player)[8 / 2] <= ((s16 *) quest)[8 / 2]) || (update_player_field__9TItemDataFv(player) != 0))
+              if ((((s16 *)TObjPlayer::get_class_stat_entry((u8 *)player))[8 / 2] <= ((s16 *) quest)[8 / 2]) || (update_player_field__9TItemDataFv(player) != 0))
             {
               hit = 1;
             }
               break;
             case 6:
-              if ((get_class_stat_entry__10TObjPlayerFPUc(player)[0xC / 2] <= ((s16 *) quest)[0xC / 2]) || (update_player_field__9TItemDataFv(player) != 0))
+              if ((((s16 *)TObjPlayer::get_class_stat_entry((u8 *)player))[0xC / 2] <= ((s16 *) quest)[0xC / 2]) || (update_player_field__9TItemDataFv(player) != 0))
             {
               hit = 1;
             }
@@ -1748,7 +1746,7 @@ void TItemData::format_item_name(char *buf) {
             }
             return;
         }
-        slot = get_item_by_slot_flag__10TObjPlayerFUc(item->flags);
+        slot = ((s8 *)TObjPlayer::get_item_by_slot_flag(item->flags));
         if (is_rare_item__9TItemDataFPv(arg0) != 0) {
             if (check_item_flags() == 1) {
                 if (item->grind != 0) {

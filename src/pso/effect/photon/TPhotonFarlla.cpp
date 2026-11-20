@@ -135,7 +135,6 @@ void *find_entity_by_id(u16 id);
 u8 *construct_photon_magic_square_normal(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
 extern "C" {
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
-u32 __nw__7TObjectFUl(int);
 
 #pragma push
 #pragma opt_common_subs off
@@ -162,7 +161,7 @@ void TPhotonFarlla::run_task() {
             VecCopy((Vec *)(&stack.sp20), (const Vec *)(entity + 0x38));
             stack.sp24 += 3e+01f;
         }
-        photon_magic_square = __nw__7TObjectFUl(0xD0);
+        photon_magic_square = (u32)TObject::operator new(0xD0);
         if (photon_magic_square != 0U) {
             construct_photon_magic_square_normal((u8 *)photon_magic_square, (s32)arg0, 0, (s32)&stack.sp20, 0x78);
         }
@@ -213,7 +212,6 @@ void TPhotonFarlla::run_task() {
 }
 #pragma pop
 s32 free_collision_body_parts(void *);
-s32 __dl__7TObjectFPv(void *);
 
 extern void *lbl_804C3564[];
 
@@ -226,7 +224,7 @@ void *destroy__13TPhotonFarllaFPvs(void *photon_farlla, s16 arg1) {
         free_collision_body_parts(photon_farlla);
         __dt__13TUnk_804C3248Fv(photon_farlla, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(photon_farlla);
+            TObject::operator delete(photon_farlla);
         }
     }
     return photon_farlla;
@@ -304,13 +302,13 @@ u8 *TPhotonFarlla__ct(u8 *arg0, u8 *arg1) {
     switch (get_current_floor_area()) {
     case AREA_DRAGON: case AREA_DE_ROL_LE: case AREA_VOL_OPT: case AREA_DARK_FALZ:
     case AREA_GAL_GRYPHON: case AREA_OLGA_FLOW: case AREA_BARBA_RAY: case AREA_GOL_DRAGON:
-        p = (void *)__nw__7TObjectFUl(0xAC);
+        p = (void *)(u32)TObject::operator new(0xAC);
         if (p != NULL) {
             ((u8 *(*)(void *, void *, void *, int)) TPhotonRainbow__ct)(p, arg0, arg0 + 0x38, 1);
         }
         break;
     default:
-        p = (void *)__nw__7TObjectFUl(0xAC);
+        p = (void *)(u32)TObject::operator new(0xAC);
         if (p != NULL) {
             ((u8 *(*)(void *, void *, void *, int)) TPhotonRainbow__ct)(p, arg0, arg0 + 0x38, 0);
         }
@@ -332,7 +330,7 @@ u8 *TPhotonFarlla__ct(u8 *arg0, u8 *arg1) {
             VecCopy((Vec *)&pos, (const Vec *)(e + 0x38));
             pos.y += 3e+01f;
         }
-        p = (void *)__nw__7TObjectFUl(0xD0);
+        p = (void *)(u32)TObject::operator new(0xD0);
         if (p != NULL) {
             construct_photon_magic_square_normal((u8 *)p, (s32)arg0, 0, (s32)&pos, 0x78);
         }

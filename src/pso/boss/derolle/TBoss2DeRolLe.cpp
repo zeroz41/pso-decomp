@@ -1429,7 +1429,6 @@ struct Obj_80030898 { u8 pad0[0x544]; Rec_80030898 recs[8]; };
 
 s32 VecCopy__FP3VecPC3Vec(int, void *);
 
-int get_player_data__10TObjPlayerFi(int a0);
 
 
 s32 get_flag_b4__9TObjEneDDFv(void *);
@@ -2232,13 +2231,9 @@ extern u32 lbl_805D4BA4;
 
 extern s32 current_scene_light;
 
-s32 dispatch_shared_handler_a__6TLobbyFl(s32);
 
-s32 register_object__6TLobbyFl(s32);
 
-s32 dispatch_shared_handler_b__6TLobbyFl(int);
 
-s32 register_boss__6TLobbyFl(int);
 
 void TObjPlayer__sub_8002E7C8(void);
 
@@ -2968,16 +2963,16 @@ void load_resources__13TBoss2DeRolLeFv(void) {
     lbl_805D4BBC = 0;
     lbl_805D4BC0 = 0;
     for (i = 0; i < 1; i++) {
-        TBoss2DeRolLe__base_params[i] = register_boss__6TLobbyFl(de_rol_le_base_param_ids[i]);
+        TBoss2DeRolLe__base_params[i] = ((s32)TLobby::register_boss(de_rol_le_base_param_ids[i]));
     }
     for (i = 0; i < 3; i++) {
-        ((s32 *)TBoss2DeRolLe__attack_params_table)[i] = dispatch_shared_handler_b__6TLobbyFl(TBoss2DeRolLe__shared_handler_id_table[i]);
+        ((s32 *)TBoss2DeRolLe__attack_params_table)[i] = ((s32)TLobby::dispatch_shared_handler_b(TBoss2DeRolLe__shared_handler_id_table[i]));
     }
     for (i = 0; i < 1; i++) {
-        TBoss2DeRolLe__resistance_params[i] = register_object__6TLobbyFl(de_rol_le_resistance_param_ids[i]);
+        TBoss2DeRolLe__resistance_params[i] = ((s32)TLobby::register_object(de_rol_le_resistance_param_ids[i]));
     }
     for (i = 0; i < 1; i++) {
-        TBoss2DeRolLe__data_805D4BA0[i] = dispatch_shared_handler_a__6TLobbyFl(de_rol_le_shared_handler_a_ids[i]);
+        TBoss2DeRolLe__data_805D4BA0[i] = ((s32)TLobby::dispatch_shared_handler_a(de_rol_le_shared_handler_a_ids[i]));
     }
     TBoss2DeRolLe__instance = 0;
     TBoss2Tentacle__sub_8003A0AC();
@@ -3320,7 +3315,7 @@ u8 *__dt__13TBoss2DeRolLeFv(u8 *arg0, s16 arg1) {
         __dt__7TObjectFv(arg0 + 0x3D8, -1);
         __dt__12TObjEneDD_STFv(self, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(self);
+            TObject::operator delete(self);
         }
     }
     return arg0;
@@ -3351,7 +3346,7 @@ void run_task__13TBoss2DeRolLeFPv(u8 *arg0) {
     *((s32 *) (((s8 *) arg0) + 0x3C0)) = (s32) ((*((s32 *) (((s8 *) arg0) + 0x3C0))) | 0x40);
     new TUnk_80482090((TObject *) arg0, *((u32 *) (((s8 *) arg0) + 0x618)));
   }
-  if ((is_main_phase_15__9TObjEneDDFv() != 0) && (((s32) (*((s32 *) (((s8 *) arg0) + 0x3C8)))) == 0))
+  if ((TObjEneDD::is_main_phase_15() != 0) && (((s32) (*((s32 *) (((s8 *) arg0) + 0x3C8)))) == 0))
   {
     if (((TObjEneDD *)arg0)->update_lobby_state() != 0)
     {
@@ -3866,14 +3861,14 @@ void pick_random_target__13TBoss2DeRolLeFi(s32 actor) {
         return;
     }
     if (n == 1) {
-        p = get_player_data__10TObjPlayerFi(0);
+        p = ((int)TObjPlayer::get_player_data(0));
         ((TObjEneDD_ST *)actor)->set_target_player((void *)p);
         return;
     }
     j = (s32) floor_to_float((f32) n * ((TObjChara *)actor)->random_ratio());
     enemy_clear_target__12TObjEneDD_STFUs((void *)actor);
     for (i = 0; i < n; i++) {
-        p = get_player_data__10TObjPlayerFi(j);
+        p = ((int)TObjPlayer::get_player_data(j));
         if (is_alive__8TObjBaseFv() != 0) {
             ((TObjEneDD_ST *)actor)->set_target_player((void *)p);
             return;
@@ -4496,7 +4491,7 @@ void TBoss2DeRolLe__sub_80032E38(void *arg0, void *arg1) {
             } else if (o->fC0 >= 18.0f) {
                 o->pos.x -= 5.0f;
             }
-            if (get_flag_b4__9TObjEneDDFv(o) != 0) {
+            if (((TObjEneDD *)o)->get_flag_b4() != 0) {
                 o->f6E0 = 2;
                 o->f3C0 |= 0x100;
             }
@@ -5731,12 +5726,12 @@ void TBoss2DeRolLe__sub_80030720(Obj_80030720 *self, u32 arg1, s32 arg2) {
         set_position_index__13TBoss2DeRolLeFPvi(self, self->f654);
         break;
     case 2:
-        if (get_flag_b4__9TObjEneDDFv(self) != 0) {
+        if (((TObjEneDD *)self)->get_flag_b4() != 0) {
             set_state_and_send__13TBoss2DeRolLeFPvi((Obj_80034034 *)self, 2);
         }
         break;
     case 9:
-        if (get_flag_b4__9TObjEneDDFv(self) != 0) {
+        if (((TObjEneDD *)self)->get_flag_b4() != 0) {
             advance_action_sequence__13TBoss2DeRolLeFPv((Obj_80034034 *)self);
         }
         break;
@@ -6017,7 +6012,7 @@ void TBoss2DeRolLe__sub_8002FE60(void *arg0, u32 arg1) {
             if (TObjEneDD::check_v2_mode() != 0) {
                 self->phase = 4;
             }
-            if (get_flag_b4__9TObjEneDDFv(self) != 0) {
+            if (((TObjEneDD *)self)->get_flag_b4() != 0) {
                 self->phase = 4;
             }
             break;

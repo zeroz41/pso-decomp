@@ -54,7 +54,6 @@ void *create_timed_particle_emitter(void *owner, s32 id, s32 b, s32 c);
 void *spawn_particle_effect(const void *pos, s32 id);
 s32 is_item_area_enabled();
 void *get_player_by_client_id(s32 i);
-s16 count_nearby_players_with_shield__10TObjPlayerFUsPUc(u16, s8 *);
 
 TParticleCtrl *create_particle_emitter(const void *pos, s32 id);
 int get_item_field_6__10TObjPlayerFPv(void *p);
@@ -71,11 +70,10 @@ TItemEffShield::~TItemEffShield() {}
 extern "C" {
 
 s32 __ct__14TItemEffShieldFP7TObjectsl(u32, s32, u16, u32);
-u32 __nw__7TObjectFUl(s32);
 
 void TItemProShield::create_shield_effect(s32 arg0, u16 arg1, u32 arg2) {
     u32 obj;
-    if ((arg0 != 0) && ((u16) arg1 != 0xFFFF) && (arg2 != 0U) && ((obj = __nw__7TObjectFUl(0x48)) != 0U)) {
+    if ((arg0 != 0) && ((u16) arg1 != 0xFFFF) && (arg2 != 0U) && ((obj = (u32)TObject::operator new(0x48)) != 0U)) {
         __ct__14TItemEffShieldFP7TObjectsl(obj, arg0, arg1, arg2);
     }
 }
@@ -229,7 +227,7 @@ void TUnk_8049F130::run_task() {
         sp8.a = 1;
         sp8.b = 2;
         sp8.c = *(u8 *)((s8 *)this + 0x2A);
-        if ((count_nearby_players_with_shield__10TObjPlayerFUsPUc(this->m_28, &sp8.a) > 0) && ((s32) this->m_20 != -1)) {
+        if ((((s16)TObjPlayer::count_nearby_players_with_shield(this->m_28, (u8 *)&sp8.a)) > 0) && ((s32) this->m_20 != -1)) {
             player = (s32)get_player_by_client_id(this->m_28);
             if (player != 0) {
                 get_field_3e0__12TBoss3VoloptFv();

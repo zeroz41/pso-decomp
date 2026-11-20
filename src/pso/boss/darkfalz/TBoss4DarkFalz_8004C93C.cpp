@@ -22,6 +22,7 @@
 #include "pso/system/task/TObject.h"
 
 #include "pso/player/TObjPlayer.h"
+#include "pso/boss/darkfalz/TBoss4Type2.h"
 
 extern const char dark_falz_state_name_editor[] = "EDITOR";
 extern const char dark_falz_state_name_wait_casket[] = "WAIT_CASKET";
@@ -300,7 +301,6 @@ struct S_8004CB28 {
 extern "C" {
 struct RecoveredGlobal_lbl_80485448 { s32 value; u8 remaining[0x8]; };
 extern RecoveredGlobal_lbl_80485448 lbl_80485448;
-void *create__11TBoss4Type2Fl(void *);
 void normalize_vector(Vec *);
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
 s32 is_timer_expired__14TBoss4DarkFalzFv();
@@ -365,7 +365,7 @@ void TBoss4DarkFalz::update_spawn_type2_countdown() {
         a.d.a8 = 1;
         a.d.a0 = o->f2c + 0x1FF;
         a.d.a6 = this->entity_id + 0x1FF;
-        (*(void * *)&TBoss4DarkFalz__type2_instance) = create__11TBoss4Type2Fl(&a);
+        (*(void * *)&TBoss4DarkFalz__type2_instance) = ((void *)TBoss4Type2::create((s32)&a));
         TBoss4DarkFalz::dispatch_by_main_phase(0x34);
         ((TBoss4DarkFalz *)o)->change_state(8);
     }

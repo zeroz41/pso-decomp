@@ -227,7 +227,6 @@ struct Ball_8005123C {
 };
 
 
-Player_80050D74 * get_player_data__10TObjPlayerFi(s32);
 u16 get_entity_id(void *);
 f32 atan2_float(f32 y, f32 x);
 f32 newton_sqrtf(f32);
@@ -876,7 +875,7 @@ void damage_players_near_point(s32 arg0, Vec *arg1) {
     hit.type = 0x11;
     hit.value = 0.0f;
     for (i = 0; i < TLobby::get_game_mode(); i++) {
-        p = get_player_data__10TObjPlayerFi(i);
+        p = ((Player_80050D74 *)TObjPlayer::get_player_data(i));
         if (p != NULL && TBoss4Type3__sub_8005254C(get_entity_id(p)) != 0 &&
             !(p->class_flags & CLASS_FLAG_ANDROID) &&
             !(xyz_distance(&pos, &p->pos) > 20.0f)) {

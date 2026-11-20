@@ -16,7 +16,6 @@ extern "C" {
 
 u8 *get_captured_target_entry(s32, s32);
 s32 get_captured_target_count();
-s32 get_extended_state__10TObjPlayerFv(int);
 
 void TUnk_804A65E0::emit_marker_effects() {
     s32 state;
@@ -26,7 +25,7 @@ void TUnk_804A65E0::emit_marker_effects() {
 
     if (is_mode_two_and_ready() != 0) {
         get_joint_position(0, &cast_point);
-        state = get_extended_state__10TObjPlayerFv((int)owner);
+        state = ((s32)((TObjPlayer *)((int)owner))->get_extended_state());
         if (state != 0) {
             targets.count = get_captured_target_count();
             record = targets.records;

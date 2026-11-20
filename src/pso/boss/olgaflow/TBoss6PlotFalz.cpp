@@ -974,7 +974,6 @@ extern "C" {
 void refresh_players_equipment__14TBoss6PlotFalzFPv(void *self);
 void scroll_strip_uvs(u32, s16, s16);
 s32 get_bml_model(BmlResource *resource, s32 index);
-s32 alloc_tables__6TLobbyFll(s32, s32, s32);
 void build_tables__14TBoss6PlotFalzFPvPvi(Obj_8004AA80 *arg0, Rec_8004AA80 *arg1, s32 arg2);
 extern s32 lbl_805D5868;
 extern s32 lbl_805D5870;
@@ -1042,7 +1041,7 @@ void build_tables__14TBoss6PlotFalzFPvPvi(Obj_8004AA80 *arg0, Rec_8004AA80 *arg1
         t = (s32)find_model_node(get_bml_model((BmlResource *)h, r->a), r->b);
         p = (s32)::operator new(0x14);
         if (p != 0) {
-            p = alloc_tables__6TLobbyFll(p, t, r->c);
+            p = ((s32)((TLobby *)p)->alloc_tables(t, r->c));
         }
         arg0->items[i] = p;
     }
@@ -1079,7 +1078,6 @@ void refresh_players_equipment__14TBoss6PlotFalzFPv(void *self) {
         }
     }
 }
-u8 *get_hit_data__14TBoss4DarkFalzFv(void *);
 void set_position_from__8TObjBaseFPv();
 }
 void reset_cameras_to_actor(void *, s32);
@@ -1103,7 +1101,7 @@ void place_players_in_warp_circle(void) {
             pos.z += 350.0f * cos_table_lookup(ang);
             ((void (*)(void *, void *))set_position_from__8TObjBaseFPv)(p, &pos);
             ((TBoss4DarkFalz *)p)->save_position();
-            *(s32 *)(get_hit_data__14TBoss4DarkFalzFv(p) + 4) = ang + 0x8000;
+            *(s32 *)(((u8 *)((TBoss4DarkFalz *)p)->get_hit_data()) + 4) = ang + 0x8000;
             ((TObjPlayer *)p)->refresh_equipment_slot();
             if (TObjPlayer::is_locally_controlled((void *)p) != 0) {
                 reset_cameras_to_actor(p, 0);
@@ -1188,9 +1186,6 @@ extern s32 TBoss6PlotFalz__instance;
 u8 *get_enemy_entity(u16 arg0);
 void fn_802ACD40();
 void handle_6xA3_olga_flow_boss_actions(Msg_802AC7E4 *m);
-s32 register_object__6TLobbyFl(int);
-s32 dispatch_shared_handler_b__6TLobbyFl(int);
-s32 register_boss__6TLobbyFl(int);
 void TItemEffOrgaFlowShot__sub_80357204(void);
 int free_bin_model_request(void*, void*);
 
@@ -1298,9 +1293,9 @@ TBoss6PlotFalz::TBoss6PlotFalz(TObject *parent, void *set_data) : TObjEnemy(pare
     *(f32 *)((s8 *)this + 0x30C) = 0.0f;
     *(f32 *)((s8 *)this + 0x308) = 0.0f;
     *(s32 *)((s8 *)this + 0x2A8) = 0;
-    temp_r30 = register_boss__6TLobbyFl(0x2C);
-    temp_r29 = dispatch_shared_handler_b__6TLobbyFl(0x2C);
-    temp_r6 = register_object__6TLobbyFl(0x2C);
+    temp_r30 = ((s32)TLobby::register_boss(0x2C));
+    temp_r29 = ((s32)TLobby::dispatch_shared_handler_b(0x2C));
+    temp_r6 = ((s32)TLobby::register_object(0x2C));
     bind_enemy_combat_stats((u8 *)temp_r30, (u8 *)temp_r29, (u8 *)temp_r6);
     register_entity_by_id((u8 *)this);
     actorFlags = (s32) (actorFlags | 0x02000000);

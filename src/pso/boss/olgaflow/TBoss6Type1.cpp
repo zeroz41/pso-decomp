@@ -31,6 +31,7 @@
 
 
 #include <stddef.h>
+#include "pso/system/task/TObject.h"
 
 struct Obj_802B4B34 { u8 pad[0x508]; s32 f508; s32 arr[1]; };
 
@@ -288,7 +289,6 @@ extern "C" {
 u8 *get_enemy_entity(u16 arg0);
 f32 vector_length(void *, f32);
 f32 subtract_vector(void *, const void *);
-Player_802B6B34 *get_player_data__10TObjPlayerFi(s32);
 f32 fabs_float(f32);
 s32 get_entity_id(void *);
 s32 TBoss6Type1__sub_802B5FDC(u8 *arg0);
@@ -306,7 +306,6 @@ f32 project_point_onto_line(void *, void *, void *);
 f32 xyz_distance(void *, void *);
 void TBoss6Type1__sub_802B6C30(Boss_802B6C30 *self);
 s32 get_bml_texlist(s32, s32);
-void clear_render_callback__8TObjFishFv(u32);
 void draw_model_motion(void *arg0, void *arg1, f32 farg0);
 // init_collision_body_parts copies these 7 spheres in TBoss6Type1__ct.
 CollisionBody lbl_804DF4E0[7] = {
@@ -406,7 +405,6 @@ u8 * TBoss6Type1__sub_802B96C0(s32 arg0, s32 arg1);
 s32 render_shadows__9TObjEnemyFv();
 s32 TBoss6Type1__ct(s32, s32, s32);
 s32 __ct__11TObjControlFP7TObject(s32, s32);
-s32 __nw__7TObjectFUl(s32);
 #define VLEN(p) ((f32 (*)(void *))vector_length)(p)
 
 struct ArgPair_802B7530 {
@@ -553,7 +551,6 @@ struct Tmp_802B93C4 { s32 a; s16 b; s16 c; u8 pad[0x10]; };
 s32 TObjFish__sub_800E3124(u8 *list, s32 vecs);
 void build_tables__14TBoss6PlotFalzFPvPvi(void *, const void *, int);
 void TBoss6Type1__sub_802B854C(void *);
-s32 create_zanzo__11TBoss6Type1FPvPvPv(void *, int, int);
 extern u8 __vt__11TBoss6Type1[];
 
 }
@@ -645,9 +642,9 @@ s32 TBoss6Type1::create(s32 arg2_) {
     s32 arg0_;
     s32 var_r4;
 
-    arg0_ = __nw__7TObjectFUl(0x684);
+    arg0_ = (s32)TObject::operator new(0x684);
     if (arg0_ != 0) {
-        var_r4 = __nw__7TObjectFUl(0x20);
+        var_r4 = (s32)TObject::operator new(0x20);
         if (var_r4 != 0) {
             var_r4 = __ct__11TObjControlFP7TObject(var_r4, tl_04);
         }
@@ -704,8 +701,8 @@ s32 TBoss6Type1__ct(s32 arg0_, s32 parent, s32 arg2_) {
     *(s32 *)((s8 *)arg0 + 0x650) = TObjFish__sub_800E3124((u8 *)boss6_type1_model_node_desc_b, (s32)(arg0 + 0x5FC));
     build_tables__14TBoss6PlotFalzFPvPvi(arg0 + 0x658, boss6_type1_build_table, 2);
     build_tables__14TBoss6PlotFalzFPvPvi(arg0 + 0x66C, lbl_80470EA0, 1);
-    *(s32 *)((s8 *)arg0 + 0x400) = create_zanzo__11TBoss6Type1FPvPvPv(arg0, 7, 0xF);
-    *(s32 *)((s8 *)arg0 + 0x404) = create_zanzo__11TBoss6Type1FPvPvPv(arg0, 2, 0xF);
+    *(s32 *)((s8 *)arg0 + 0x400) = ((s32)TBoss6Type1::create_zanzo(arg0, (void *)7, (void *)0xF));
+    *(s32 *)((s8 *)arg0 + 0x404) = ((s32)TBoss6Type1::create_zanzo(arg0, (void *)2, (void *)0xF));
     *(s32 *)((s8 *)arg0 + 0x414) = 0;
     *(s8 *)((s8 *)arg0 + 0x41C) = 0;
     TBoss6Type1__sub_802B96C0((s32)(arg0 + 0x420), (s32)&lbl_80470EAC);
@@ -1182,7 +1179,7 @@ void TBoss6Type1::draw_part_motions() {
             if (0.0f == a->blend) {
                 ((TObjFish *)cb)->set_draw_callback_list();
                 draw_model_motion((void *)id, (void *)a->id, a->t);
-                clear_render_callback__8TObjFishFv(cb);
+                ((TObjFish *)cb)->clear_render_callback();
             } else {
                 b.ids[0] = a->prevId;
                 b.ts[0] = a->prevT;
@@ -1190,7 +1187,7 @@ void TBoss6Type1::draw_part_motions() {
                 b.ts[1] = a->t;
                 ((TObjFish *)cb)->set_draw_callback_list();
                 draw_model_blend_motion((void *)id, &b, a->blend);
-                clear_render_callback__8TObjFishFv(cb);
+                ((TObjFish *)cb)->clear_render_callback();
             }
         }
     }
@@ -1466,7 +1463,7 @@ void TBoss6Type1::update_beam_attack() {
     ((TBoss6Type1 *)self)->init_parts();
     n = TLobby::get_game_mode();
     for (i = 0; i < n; i++) {
-        Player_802B6B34 *p = get_player_data__10TObjPlayerFi(i);
+        Player_802B6B34 *p = ((Player_802B6B34 *)TObjPlayer::get_player_data(i));
         if (is_active__14TBoss6PlotFalzFv() != 0) {
             Vec *a = &self->a;
             VecCopy((Vec *)&v, (const Vec *)&p->pos);
@@ -1689,7 +1686,7 @@ void TBoss6Type1__sub_802B6C30(Boss_802B6C30 *self) {
     B.y = self->f4DC * (b->y - mid.y) + mid.y;
     B.z = self->f4DC * (b->z - mid.z) + mid.z;
     for (i = 0; i < n; i++) {
-        pl = ((Player_802B6C30 *)get_player_data__10TObjPlayerFi(i));
+        pl = ((Player_802B6C30 *)((Player_802B6B34 *)TObjPlayer::get_player_data(i)));
         if (is_active__14TBoss6PlotFalzFv() == 0) {
             continue;
         }
@@ -1777,7 +1774,7 @@ void TBoss6Type1::damage_players_in_range() {
     Player_802B6B34 *p;
     n = TLobby::get_game_mode();
     for (i = 0; i < n; i++) {
-        p = get_player_data__10TObjPlayerFi(i);
+        p = ((Player_802B6B34 *)TObjPlayer::get_player_data(i));
         if (is_active__14TBoss6PlotFalzFv() != 0) {
             V3_802B6B34 v = p->pos;
             v.y = 0.0f;
@@ -2199,7 +2196,7 @@ void fire_at_all_players__11TBoss6Type1FPvf(Boss_802B5AD4 *self, f32 dy) {
         me.y += dy;
     }
     for (i = 0; i < n; i++) {
-        p = get_player_data__10TObjPlayerFi(i);
+        p = ((Player_802B6B34 *)TObjPlayer::get_player_data(i));
         VecCopy((Vec *)&ofs, (const Vec *)&TBoss6Type1__data_80470FB4);
         if (p == 0) continue;
         VecCopy((Vec *)&pp, (const Vec *)((u8 *)p + 0x38));

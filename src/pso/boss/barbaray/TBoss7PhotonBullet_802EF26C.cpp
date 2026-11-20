@@ -76,7 +76,6 @@ s32 project_actor_to_ground(void *, void *, void *);
 extern const f32 lbl_805DEA00;
 extern const f32 lbl_805DEA04;
 void run_task__18TBoss7PhotonBulletFv(Bullet_802EF2AC *arg0);
-void __dl__7TObjectFPv(void *);
 
 void render__18TBoss7PhotonBulletFv(u8 *arg0) {
     if (*(s32 *)((s8 *)arg0 + 0xE8) & 1) {
@@ -137,7 +136,7 @@ void *__dt__18TBoss7PhotonBulletFv(void *arg0, s16 arg1) {
         if (*(void **)((s8 *)arg0 + 0xF4) != NULL) { ((TObject *)(*(void **)((s8 *)arg0 + 0xF4)))->queue_destruction(); }
         __dt__13TUnk_804928CCFv(arg0, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            TObject::operator delete(arg0);
         }
     }
     return arg0;
@@ -182,7 +181,6 @@ typedef struct Pad_802EF604 {
 extern "C" {
 extern void *__vt__15TBoss7PhotonPad[];
 
-u32 __nw__7TObjectFUl(int);
 
 void run_task__15TBoss7PhotonPadFv(Pad_802EF604 *self);
 void __dt__7TObjectFv(void *, s16);
@@ -198,7 +196,7 @@ void TBoss7PhotonPad::run_task() {
     if (self->timer <= 0) {
         st = TBoss7Joint::get_state();
         if (st != 0) {
-            p = __nw__7TObjectFUl(0xF8);
+            p = (u32)TObject::operator new(0xF8);
             if (p != 0) {
                 ((s32 (*)(void *, void *, s32, s32, void *, f32))TBoss7PhotonBullet__ct)((void *)p, self->parent, st, self->unk1C, self->pos, 1.5f * boss7_photon_bullet_level_table[self->level].d);
             }
@@ -216,7 +214,7 @@ void *__dt__15TBoss7PhotonPadFv(void *self, s16 arg1) {
         *(void ***)((s8 *)self + 0x18) = __vt__15TBoss7PhotonPad;
         __dt__7TObjectFv(self, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(self);
+            TObject::operator delete(self);
         }
     }
     return self;

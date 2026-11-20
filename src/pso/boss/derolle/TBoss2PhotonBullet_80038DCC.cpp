@@ -58,7 +58,6 @@ f32 TBoss2DeRolLe__sub_80034CF8(void);
 s32 project_actor_to_ground(void *, void *, void *);
 extern const f32 lbl_805D8268;
 extern const f32 lbl_805D826C;
-void __dl__7TObjectFPv(void *);
 extern void *__vt__18TBoss2PhotonBullet[];
 void render__18TBoss2PhotonBulletFv(u8 *arg0) {
     if (*(s32 *)((s8 *)arg0 + 0xDC) & 1) {
@@ -117,7 +116,7 @@ void *__dt__18TBoss2PhotonBulletFv(void *arg0, s16 arg1) {
         if (*(void **)((s8 *)arg0 + 0xE4) != NULL) { ((TObject *)(*(void **)((s8 *)arg0 + 0xE4)))->queue_destruction(); *(s32 *)((s8 *)arg0 + 0xE4) = 0; }
         __dt__13TUnk_804928CCFv(arg0, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            TObject::operator delete(arg0);
         }
     }
     return arg0;

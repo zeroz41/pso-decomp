@@ -28,10 +28,8 @@ int get_item_system_generation(void);
 extern "C" {
 s32 __ct__7TObjectFP7TObject(void *, void *);
 extern s32 item_follow_effect_vtable[];
-u32 __nw__7TObjectFUl(s32 a0 = 0);
 void run_task__13TUnk_804A2660Fv(void *arg0);
 s8 get_mode__5TItemFv();
-void __dl__7TObjectFPv(void *);
 void __dt__7TObjectFv(void *, int);
 
 void render__7TObjectFv();
@@ -75,7 +73,7 @@ void *destroy_item_follow_effect(void *object, s16 arg1) {
         if (*(void **)((s8 *)object + 0x24) != NULL) { ((TObject *)((void *)(*(void **)((s8 *)object + 0x24))))->queue_destruction(); }
         __dt__7TObjectFv(object, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(object);
+            TObject::operator delete(object);
         }
     }
     return object;
@@ -94,7 +92,7 @@ u8 *construct_item_follow_effect(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg
 }
 void spawn_item_follow_effect(s32 arg0, u32 arg1, s32 arg2, s32 arg3) {
     u32 obj;
-    if ((arg0 != 0) && (arg1 != 0U) && ((obj = __nw__7TObjectFUl(0x2C)) != 0U)) {
+    if ((arg0 != 0) && (arg1 != 0U) && ((obj = (u32)TObject::operator new(0x2C)) != 0U)) {
         construct_item_follow_effect((u8 *)obj, (s32)arg0, (s32)arg1, (s32)arg2, (s32)arg3);
     }
 }

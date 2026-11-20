@@ -878,7 +878,6 @@ void fill_value_array(s32 address);
 
 u8 *csnVector(s32 *, void *, s32);
 
-u32 __nw__7TObjectFUl(int);
 
 void set_state_and_send__14TBoss7DeRolLeCFl(u8 *arg0, s32 arg1);
 #define set_state_and_send__14TBoss7DeRolLeCFl ((s32 (*)(void *, int))set_state_and_send__14TBoss7DeRolLeCFl)
@@ -1258,11 +1257,8 @@ struct PktA_802ED62C { u8 hdr[2]; u16 a; s16 b; s16 c; s32 d; };
 struct PktB_802ED62C { u8 hdr[2]; u16 a; s16 b; s16 c; };
 
 extern "C" {
-s32 register_object__6TLobbyFl(s32);
 
-s32 dispatch_shared_handler_b__6TLobbyFl(s32);
 
-s32 register_boss__6TLobbyFl(s32);
 
 s32 reload_stats_keep_hp_tp__9TObjEneDDFv(void *, s32, s32, s32);
 
@@ -1601,7 +1597,7 @@ void TBoss7DeRolLeC::run_task() {
         this->unk_628 = (s32) (temp_r3 & 0xFFFFFF7F);
         this->unk_628 = (s32) (this->unk_628 | 0x40);
         {
-            void *p = (void *) __nw__7TObjectFUl(0x3C);
+            void *p = (void *) (u32)TObject::operator new(0x3C);
             if (p != NULL) {
                 ((TObjPlayer *)p)->init_breakup_pieces(this, (s32)this->unk_6D4);
             }
@@ -1803,7 +1799,7 @@ void TBoss7PhotonBullet__sub_802ED5A0(void *arg0, int arg1) {
         v = 0x11;
         break;
     }
-    reload_stats_keep_hp_tp__9TObjEneDDFv(arg0, register_boss__6TLobbyFl(0xF), dispatch_shared_handler_b__6TLobbyFl(v), register_object__6TLobbyFl(0xF));
+    reload_stats_keep_hp_tp__9TObjEneDDFv(arg0, ((s32)TLobby::register_boss(0xF)), ((s32)TLobby::dispatch_shared_handler_b(v)), ((s32)TLobby::register_object(0xF)));
 }
 
 void TBoss7PhotonBullet::emit_hit_effect(void *arg1) {
@@ -3447,7 +3443,7 @@ void TObjFish__sub_802E9DBC(u8 *arg0, u32 arg1, s32 arg2) {
                 }
                 TObjFish::set_effect_target_position(self, (void *) 0x3A107, self->eff);
                 {
-                    u32 o = __nw__7TObjectFUl(0x60);
+                    u32 o = (u32)TObject::operator new(0x60);
                     if (o != 0) {
                         TBoss7LaserPtcl__sub_8035AE54((u8 *)o, (s32)self, (s32)&self->p4DC);
                     }
@@ -3905,7 +3901,7 @@ void TBoss7LaserPtcl__sub_802E8FCC(u8 *arg0, u32 arg1) {
                 if ((u32) *(u32 *)((s8 *)arg0 + 0x7A8) != 0U) {
                     ((TObject *)(*(void **)((s8 *)arg0 + 0x7A8)))->queue_destruction();
                 }
-                boss7_laser_ptcl = __nw__7TObjectFUl(0x58);
+                boss7_laser_ptcl = (u32)TObject::operator new(0x58);
                 if (boss7_laser_ptcl != 0U) {
                     boss7_laser_ptcl = (u32)TBoss7LaserPtcl__ct((u8 *)boss7_laser_ptcl, (u8 *)arg0, (u8 *)((u8 *)arg0 + 0x4DC), (u8 *)temp_r30);
                 }

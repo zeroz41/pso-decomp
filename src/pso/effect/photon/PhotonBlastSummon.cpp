@@ -37,7 +37,6 @@ extern "C" {
 s32 set_scripted_camera_pose(int, int, void *);
 extern RecoveredGlobal_801A7310_TCameraCtrl__data_804FF628 TCameraCtrl__view_state;
 extern u32 lbl_805D5D20;
-const f32 *get_photon_blast_entry__10TObjPlayerFi(s32);
 }
 s32 photon_blast_joint_index;
 s32 photon_blast_hit_count;
@@ -68,7 +67,7 @@ void clear_photon_blast_hits(void) {
 void queue_deferred_photon_blast_hit(u32 arg0, s32 arg1, s32 arg2) {
     s32 found = 0;
     if (deferred_photon_blast_hit_count < 0x20) {
-        const f32 *e = get_photon_blast_entry__10TObjPlayerFi(arg1);
+        const f32 *e = ((const f32 *)TObjPlayer::get_photon_blast_entry(arg1));
         if (arg2 == 0) {
             s32 i;
             for (i = 0; i < deferred_photon_blast_hit_count; i++) {
@@ -94,7 +93,7 @@ void queue_photon_blast_hit(u32 identity, s32 kind, s32 allow_duplicate, f32 sca
     if (photon_blast_hit_count >= 32) {
         return;
     }
-    entry = get_photon_blast_entry__10TObjPlayerFi(kind);
+    entry = ((const f32 *)TObjPlayer::get_photon_blast_entry(kind));
     if (allow_duplicate == 0) {
         for (i = 0; i < photon_blast_hit_count; i++) {
             if (photon_blast_hit_queue[i].identity == identity) {

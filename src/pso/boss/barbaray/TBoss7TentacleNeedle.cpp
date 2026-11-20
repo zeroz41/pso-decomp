@@ -128,7 +128,7 @@ void TObjPlayer__sub_802F0D30(void) {
     s32 i;
 
     src = (Node_802EFF24 *)queue_boss_effect__10TObjPlayerFPv(1);
-    notify_fish_obj__10TObjPlayerFPv(0x11);
+    TObjPlayer::notify_fish_obj((void*)0x11);
     dst = lbl_80541528;
     for (i = 0; i < 12; i++) {
         copy_model_node((u8 *)dst, (u8 *)src);

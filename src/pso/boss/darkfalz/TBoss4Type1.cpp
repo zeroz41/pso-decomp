@@ -219,7 +219,6 @@ void TBoss4Type2__sub_80054DA8(TBoss4Type2 *boss);
 void create_all_tenchu_furu__11TBoss4Type2Fi(s32 arg0);
 void TBoss4Type2__sub_80054FC0(u8 *center, f32 min_dist);
 void TBoss4Type2__sub_80055300(void);
-Vec * get_position_ptr__10TObjPlayerFv(void *);
 void * create__9TBoss4UroFi(Params_80052CDC *);
 int toggle_particle_effect__10TObjPlayerFv(void*);
 void free_collision_body_parts(void *);
@@ -854,7 +853,7 @@ void TBoss4Type1::push_players_out_of_colliders() {
     for (p = 0; p < registered_player_count; p++) {
         pl = (u8 *)TObjPlayer::get_player_data(p);
         if (pl != NULL && ((TBoss3Volopt *)pl)->get_field_3e0() == 0xE) {
-            Vec pos = *get_position_ptr__10TObjPlayerFv(pl);
+            Vec pos = *((Vec *)((TObjPlayer *)pl)->get_position_ptr());
             Vec d;
             Vec q;
             for (j = 0; j < o->count; j++) {

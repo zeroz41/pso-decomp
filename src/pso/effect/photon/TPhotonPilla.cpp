@@ -189,7 +189,6 @@ void TPhotonPilla::run_task() {
 }
 
 s32 free_collision_body_parts(void *);
-s32 __dl__7TObjectFPv(void *);
 
 extern void *lbl_804C3ACC[];
 
@@ -202,7 +201,7 @@ void *destroy__12TPhotonPillaFPvs(void *photon_pilla, s16 arg1) {
         free_collision_body_parts(photon_pilla);
         __dt__13TUnk_804C3248Fv(photon_pilla, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(photon_pilla);
+            TObject::operator delete(photon_pilla);
         }
     }
     return photon_pilla;

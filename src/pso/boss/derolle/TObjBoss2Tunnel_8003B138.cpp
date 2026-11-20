@@ -17,6 +17,7 @@
 #include <stdlib.h>
 #include "pso/unk/text_803D96A8.h"
 #include "pso/render/GinjaMaterial.h"
+#include "pso/ui/frontend/TAdLoadQuestPrtTxtGC.h"
 #pragma defer_codegen on
 
 u32 TObjBoss2Tunnel__global_flags;
@@ -100,7 +101,6 @@ typedef struct Col_8003B6E8 {
 } Col_8003B6E8;
 
 extern "C" {
-s32 create_particle__20TAdLoadQuestPrtTxtGCFPvll(void *, s32, s32);
 struct O_8003C21C;
 u8 * sub_8003C21C__15TObjBoss2TunnelFv(O_8003C21C *self);
 s32 rotate_matrix_z(s32, s32);
@@ -501,7 +501,7 @@ void TObjBoss2Tunnel::update_particles() {
     for (i = 0; i < 4; i++) {
         p = ((S_8003C108 *)this)->ptr[i];
         if (p == 0) {
-            r = create_particle__20TAdLoadQuestPrtTxtGCFPvll(&boss2_tunnel_particle_pos_table[i], 0x171, 1);
+            r = ((s32)TAdLoadQuestPrtTxtGC::create_particle(&boss2_tunnel_particle_pos_table[i], 0x171, 1));
             if (r != 0) {
                 ((TParticleCtrl *)r)->enable();
                 ((S_8003C108 *)this)->ptr[i] = r;

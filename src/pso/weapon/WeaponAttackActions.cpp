@@ -39,6 +39,7 @@
 
 
 #include "pso/player/TObjPlayer_8011C000.h"
+#include "pso/system/task/TObject.h"
 
 
 // ---- pso/item/WeaponAttackActions
@@ -87,7 +88,6 @@ s32 subtract_vector(void *, void *);
 s32 transform_point_by_current_matrix(void *, void *);
 extern s32 identity_matrix[];
 extern const f32 lbl_805DAC94;
-u32 __nw__7TObjectFUl(u32);
 void construct_actor_light_task(u32, void *, void *, s32, s32, s32, f32);
 extern A12_8011E3E8 lbl_8043E838[];
 extern A16_8011E3E8 lbl_8043E844[];
@@ -318,7 +318,7 @@ void TItemWeapon::spawn_light_task() {
     Obj_8011E3E8 *arg0 = (Obj_8011E3E8 *)this;
     A12_8011E3E8 a = lbl_8043E838[0];
     A16_8011E3E8 b = lbl_8043E844[0];
-    u32 p = __nw__7TObjectFUl(0x64);
+    u32 p = (u32)TObject::operator new(0x64);
     if (p != 0) {
         ((void (*)(f32, u32, void *, void *, s32, s32, s32))construct_actor_light_task)(0.2f, p, &b, &a, 1, arg0->f0, (s32)tl_07);
     }
@@ -1548,7 +1548,6 @@ void TItemWeapon::on_equip() {
 // ---- pso/player/TObjPlayer_801207E8
 typedef struct { f32 sp8; f32 spC; f32 sp10; } FloatTriplet;
 
-s32 get_view_matrix__11TCameraCtrlFv();
 s32 push_matrix();
 
 
@@ -1572,7 +1571,7 @@ s32 TItemWeapon::get_joint_position(s32 joint, void *out) {
         floats.sp8 = lbl_805DAC98;
         push_matrix();
         TObjPlayer::copy_matrix(0, (u32)get_model_joint_matrix(owner, joint));
-        TCameraCtrl::concat_matrix(0, get_view_matrix__11TCameraCtrlFv());
+        TCameraCtrl::concat_matrix(0, ((s32)TCameraCtrl::get_view_matrix()));
         transform_point_by_current_matrix(&floats.sp8, out);
         pop_matrix();
     } else {

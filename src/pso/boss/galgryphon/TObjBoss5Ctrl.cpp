@@ -5,6 +5,9 @@
 #include "pso/system/SoundEffect.h"
 #include <stdlib.h>
 #include "pso/system/task/TObject.h"
+#include "pso/boss/galgryphon/TObjBoss5FloorGrass.h"
+#include "pso/boss/galgryphon/TObjBoss5FloorStone.h"
+#include "pso/boss/galgryphon/TObjBoss5PillarCtrl.h"
 
 #pragma readonly_strings on
 #pragma fp_contract on
@@ -15,9 +18,6 @@ extern "C" {
 s32 __ct__7TObjectFP7TObject(void *, void *);
 s32 get_current_floor(f32, f32, f32);
 s32 is_room_enemy_set_cleared(s32, s32);
-u32 create__19TObjBoss5FloorStoneFv();
-u32 create__19TObjBoss5FloorGrassFv();
-u32 create__19TObjBoss5PillarCtrlFv(void *);
 s32 is_split_screen();
 extern void *__vt__13TObjBoss5Ctrl[];
 const char *lbl_805D2828 = "TObjBoss5Ctrl";
@@ -55,13 +55,13 @@ void *TObjBoss5Ctrl__ct(void *boss5_pillar_ctrl, void *parent) {
     if (is_room_enemy_set_cleared(get_current_floor(60.0f, temp_f2, temp_f3), 1) == 0) {
         if (is_split_screen() == 0) {
             if ((u32) *(u32 *)((s8 *)boss5_pillar_ctrl + 0x1C) == 0U) {
-                *(u32 *)((s8 *)boss5_pillar_ctrl + 0x1C) = create__19TObjBoss5FloorGrassFv();
+                *(u32 *)((s8 *)boss5_pillar_ctrl + 0x1C) = ((u32)TObjBoss5FloorGrass::create());
             }
             if ((u32) *(u32 *)((s8 *)boss5_pillar_ctrl + 0x20) == 0U) {
-                *(u32 *)((s8 *)boss5_pillar_ctrl + 0x20) = create__19TObjBoss5FloorStoneFv();
+                *(u32 *)((s8 *)boss5_pillar_ctrl + 0x20) = ((u32)TObjBoss5FloorStone::create());
             }
             if ((u32) *(u32 *)((s8 *)boss5_pillar_ctrl + 0x24) == 0U) {
-                *(u32 *)((s8 *)boss5_pillar_ctrl + 0x24) = create__19TObjBoss5PillarCtrlFv(boss5_pillar_ctrl);
+                *(u32 *)((s8 *)boss5_pillar_ctrl + 0x24) = ((u32)((TObjBoss5PillarCtrl *)boss5_pillar_ctrl)->create());
             }
         }
         if ((u32) *(u32 *)((s8 *)boss5_pillar_ctrl + 0x28) == 0U) {

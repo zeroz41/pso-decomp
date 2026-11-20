@@ -4,6 +4,7 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/enemy/dd/TObjEneDD_ST.h"
 #include "pso/item/TItemLockCountCtrl.h"
+#include "pso/system/task/TObject.h"
 
 struct Base_801193D8 { char pad[0x18]; };
 
@@ -14,7 +15,6 @@ struct VObj_801193D8 : Base_801193D8 {
 // The lock-counted item effects (TItemLockCountCtrl objects), one per effect.
 VObj_801193D8 *item_effect_object_table[7];
 extern "C" {
-void *__nw__7TObjectFUl(u32);
 u32 get_player_by_client_id(u16);
 s32 obj_setFlags30(u32, s32);
 }
@@ -150,7 +150,7 @@ void TItemLockCountCtrl::free_all() {
     }
 }
 #define MK_80119444(idx, a, b)                                   \
-    p = __nw__7TObjectFUl(0x2C);                                 \
+    p = TObject::operator new(0x2C);                                 \
     if (p != 0) {                                                \
         p = TItemLockCountCtrl__ct(p, 0, 0xC, a, b);             \
     }                                                            \

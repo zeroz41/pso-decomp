@@ -52,7 +52,6 @@ struct S_EF94 {
 };
 
 extern "C" {
-void __dl__7TObjectFPv(void *);
 s32 vec3_add_to(void *, void *);
 f32 vector_length(void *);
 s32 normalize_vector(void *);
@@ -180,7 +179,7 @@ S_EF94 *__dt__11TObjDFDemo3Fv(S_EF94 *o, s16 flag) {
         }
         __dt__8TObjBaseFv(o, 0);
         if (flag > 0) {
-            __dl__7TObjectFPv(o);
+            TObject::operator delete(o);
         }
     }
     return o;

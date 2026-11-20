@@ -277,7 +277,6 @@ void TAdPlayerLoadGC__sub_801E14E8(u8 *arg0, s32 arg1);
 void build_save_file_image__15TAdPlayerLoadGCFPvPv(void *, void *, void *);
 s32 load_player__23TAdSinglePlyChrSelectGCFllll(s32, const char *, void *, s32);
 extern char episode_i_and_ii_card_filename[];
-VObj_8007C5C0 *create__8TDLGraphFv(void);
 s8 func_801A5E54__Fv(void);
 extern u32 camera_ctrl_instance;
 s32 verify_snapshot_checksum__15TObjBoss2TunnelFv();
@@ -292,7 +291,6 @@ f32 sample_acceleration_curve(AccelerationCurve *c, f32 t);
 void init_acceleration_curve(AccelerationCurve *c, f32 a, f32 d, f32 length, f32 speed);
 extern "C" {
 void __dl__FPv(void);
-s32 get_view_matrix__11TCameraCtrlFv();
 int vec3_add_to(void*, void*);
 int is_float_nonfinite(f32 farg0);
 f32 vec_squared_length();
@@ -388,7 +386,7 @@ void TObjBoss2Tunnel::render(void* a1) { push_matrix(); TObjPlayer::invert_matri
 #pragma fp_contract on
 void TObjBoss2Tunnel::transform_vec_by_camera(s32 arg0, s32 arg1, s32 arg2) {
     push_matrix();
-    TCameraCtrl::concat_matrix(0, get_view_matrix__11TCameraCtrlFv());
+    TCameraCtrl::concat_matrix(0, ((s32)TCameraCtrl::get_view_matrix()));
     matrix_mult_vec(NULL, (const Vec *)arg1, (Vec *)arg2);
     pop_matrix();
 }
@@ -1380,7 +1378,7 @@ s32 TObjBoss2Tunnel::run_confirm_message_loop() {
         ((TWindowBase *)win)->set_depth(36900.0f);
     }
     ((TWindowMessage *)win)->complete_reveal();
-    graph = create__8TDLGraphFv();
+    graph = ((VObj_8007C5C0 *)TDLGraph::create());
     if (graph != NULL) {
         ((TDLGraph *)graph)->set_graph_param(2);
     }

@@ -11,25 +11,22 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/system/task/TObject.h"
 
 
 extern "C" {
 extern const f32 lbl_805DE9F0;
-s32 register_object__6TLobbyFl(int);
-s32 dispatch_shared_handler_b__6TLobbyFl(int);
-s32 register_boss__6TLobbyFl(int);
 s32 reload_stats_keep_hp_tp__9TObjEneDDFv(void *, int, int, int);
-u32 __nw__7TObjectFUl(int);
 s32 TObjPlayer__sub_802E72DC(void *, void *, void *, int);
 
 int TBoss7Joint::is_part_active() { return *(u32*)((char*)this + 0x3bc) & 0x1; }
 
 void TBoss7Joint::init_boss_stats() {
     *(s32 *)((s8 *)((u8 *)this) + 0x3BC) = *(s32 *)((s8 *)((u8 *)this) + 0x3BC) | 1;
-    reload_stats_keep_hp_tp__9TObjEneDDFv(this, register_boss__6TLobbyFl(0x10), dispatch_shared_handler_b__6TLobbyFl(0xF), register_object__6TLobbyFl(0x10));
+    reload_stats_keep_hp_tp__9TObjEneDDFv(this, ((s32)TLobby::register_boss(0x10)), ((s32)TLobby::dispatch_shared_handler_b(0xF)), ((s32)TLobby::register_object(0x10)));
     this->hp = 0x4E20;
     this->hpmax = 0x4E20;
-    u32 p = __nw__7TObjectFUl(0x2C);
+    u32 p = (u32)TObject::operator new(0x2C);
     if (p != 0U) {
         TObjPlayer__sub_802E72DC((void *)p, this, ((u8 *)this) + 0x38, index);
     }
