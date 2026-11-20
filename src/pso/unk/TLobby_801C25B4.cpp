@@ -1728,7 +1728,7 @@ u8 TLobby__sub_801C2614(void) {
       var_r0 = 1;
     }
     var_r3 = (u8 *) ((void *) var_r0);
-    return (u8) var_r3;
+    return (u8) (uaddr) var_r3;
   }
   var_r3 = (u8 *) 0;
   return 0U;

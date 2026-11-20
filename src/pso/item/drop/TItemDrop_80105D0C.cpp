@@ -63,7 +63,7 @@ void unload_item_drop_globals(void) {  }
 // inferred: the load half of unload_item_drop_globals' pair in item_class_load_unload_table.
 void init_item_drop_globals(void) { item_desync_detected = 0; }
 
-void TItemDrop::clear_item_if_player_picked_up(void* p, void* a1) { if (is_unsealable_item((u8 *)a1) == 1) { ((TItemData *)a1)->set_packed_value((u16)((void*)0)); } }
+void TItemDrop::clear_item_if_player_picked_up(void* p, void* a1) { if (is_unsealable_item((u8 *)a1) == 1) { ((TItemData *)a1)->set_packed_value((u16)0); } }
 
 s32 get_drop_table_mode_flags(void) {
     s32 f = 0;

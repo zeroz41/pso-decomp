@@ -561,11 +561,11 @@ void TObjPlayer::setup_tev_passclr() {
 #pragma peephole off
 void setup_chunk_tev_stages(void) {
     if ((u32) (model_render_flags & 0x80000) != 0) {
-        GXSetNumTevStages((saddr)((void *) ((u8)(lbl_805D77D8 + 1))));
-        GXSetNumTexGens((u8)((void *) ((u8)(lbl_805D77D9 + 1))));
+        GXSetNumTevStages((saddr)((u8)(lbl_805D77D8 + 1)));
+        GXSetNumTexGens((u8)((u8)(lbl_805D77D9 + 1)));
     } else {
-        GXSetNumTevStages((saddr)((void *) (1U)));
-        GXSetNumTexGens((u8)((void *) (1U)));
+        GXSetNumTevStages((saddr)(1U));
+        GXSetNumTexGens((u8)(1U));
     }
     GXSetTevOp(0, 0);
     GXSetTevOrder(0, 0, 0, 4);

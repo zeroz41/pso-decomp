@@ -1364,7 +1364,7 @@ Item_801057A8 *spawn_dropped_item_from_msg(Msg_801057A8 *arg0, s32 arg1) {
     return item;
 }
 
-void TObjPlayer::free_item_globals() { TItemDrop__sub_8010F168((void *)item_class_load_handle, (s16)((void*)1)); item_class_load_handle = 0; TItemLoad::free_all(); TItemBuff::free_all_and_init(); }
+void TObjPlayer::free_item_globals() { TItemDrop__sub_8010F168((void *)item_class_load_handle, (s16)1); item_class_load_handle = 0; TItemLoad::free_all(); TItemBuff::free_all_and_init(); }
 
 void TObjPlayer::init_game_resources() {
     init_item_chunk_buffers();
