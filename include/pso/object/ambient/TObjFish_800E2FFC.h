@@ -4,7 +4,7 @@
 #include "types.h"
 
 extern "C" {
-s32 TObjFish__sub_800E3124(u8 *list, s32 vecs);
+saddr TObjFish__sub_800E3124(u8 *list, saddr vecs);
 s32 TObjFish__sub_800E3188(s32 arg0, s16 arg1);
 }
 

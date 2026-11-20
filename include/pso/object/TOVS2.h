@@ -10,7 +10,7 @@ public:
     TOVS2(void *set_data, s32 index);
     virtual ~TOVS2();
     virtual void render();
-    s32 m_c8;  // the map-collision object TObjMapCsn::create made for it
+    saddr m_c8;  // the map-collision object TObjMapCsn::create made for it
     s32 m_cc;  // the last update_object_view_visibility result
 };
 

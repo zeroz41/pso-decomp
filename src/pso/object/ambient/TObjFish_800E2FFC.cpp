@@ -24,7 +24,7 @@ struct State_800E3074 { s32 counter; Entry_800E3074 *list; Param_800E3074 *param
 struct Arg_800E3074 { Entry_800E3074 *list; Param_800E3074 *params; };
 
 extern "C" {
-u8 * fn_800E31C4(void *, void *, s32);
+u8 * fn_800E31C4(void *, void *, saddr);
 State_800E2FFC TObjFish_draw_callback_state;
 
 void TObjFish::draw_callback_transform_to_view() {
@@ -67,14 +67,14 @@ void TObjFish::init_state_1(void *arg0) {
     TObjFish__sub_800E3188((s32)arg0, (s16)(1));
 }
 
-s32 TObjFish__sub_800E3124(u8 *list, s32 vecs) {
-    s32 temp_r3;
-    s32 var_r0;
+saddr TObjFish__sub_800E3124(u8 *list, saddr vecs) {
+    saddr temp_r3;
+    saddr var_r0;
     if (((TObjFish *)list)->is_entry_table_valid() != 0) {
-        temp_r3 = (int)::operator new(8);
+        temp_r3 = (saddr)::operator new(8);
         var_r0 = temp_r3;
         if (var_r0 != 0) {
-            var_r0 = (long) (fn_800E31C4((void *) temp_r3, list, vecs));
+            var_r0 = (saddr) (fn_800E31C4((void *) temp_r3, list, vecs));
         }
         return var_r0;
     }

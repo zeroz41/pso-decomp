@@ -47,7 +47,7 @@ Vec map_csn_box_face_normals[8] = {
 s32 map_csn_collision_flag_table[5] = {0, 0x8000, 0x8900, 0x800, 0x2000};
 
 extern "C" {
-u8 *__ct__10TObjMapCsnFll(TObjMapCsn *arg0, s32 arg1, s32 arg2);
+u8 *__ct__10TObjMapCsnFll(TObjMapCsn *arg0, s32 arg1, saddr arg2);
 s32 matrix_mult_vec(int, void *, void *);
 s32 translate_matrix_vec3(int, void *);
 s32 rotate_vector_by_matrix(int, void *, void *);
@@ -149,12 +149,12 @@ s32 TObjMapCsn::build_box_triangles() {
     return pop_matrix();
 }
 
-s32 TObjMapCsn::create(s32 arg0) {
-    s32 map_csn;
+saddr TObjMapCsn::create(saddr arg0) {
+    saddr map_csn;
 
-    map_csn = (s32)TObject::operator new(0x254);
+    map_csn = (saddr)TObject::operator new(0x254);
     if (map_csn != 0) {
-        map_csn = ((s32)__ct__10TObjMapCsnFll((TObjMapCsn *)((u8 *)map_csn), (s32)(TObjMapCsn::get_map_count()), (s32)arg0));
+        map_csn = ((saddr)__ct__10TObjMapCsnFll((TObjMapCsn *)((u8 *)map_csn), (s32)(TObjMapCsn::get_map_count()), arg0));
     }
     return map_csn;
 }

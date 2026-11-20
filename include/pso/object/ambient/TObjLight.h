@@ -23,7 +23,7 @@ struct TObjLight : public TObjBase {
     virtual void run_task();
     void*init_light(int a1);
     void unregister_and_free();
-    static u32 alloc_light_slot();
+    static uaddr alloc_light_slot();
     static void init_directional_light();
     static void free_shared_data();
     static void apply_distant_light();

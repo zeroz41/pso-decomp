@@ -311,7 +311,7 @@ TOVS2::TOVS2(void *set_data, s32 index) : TObjMapObject((TObject *)tl_05) {
     texlist = get_bml_texlist(TOVS2Wall01__bml_resource, index);
     init_collision_body_parts(this, &ovs2wall01_collision_parts[index], 1);
     register_object_by_id();
-    m_c8 = TObjMapCsn::create((s32)set_data);
+    m_c8 = TObjMapCsn::create((saddr)set_data);
     m_cc = 1;
 }
 TOVS2::~TOVS2() {

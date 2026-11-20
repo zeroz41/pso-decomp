@@ -38,7 +38,7 @@ uaddr TObjGrass__bml_resource;
 s32 grass_combat_stats_handle;
 s32 lbl_805D514C;
 s32 TObjGrass__render_node_index;
-u32 TObjGrass__resource_bundle;
+uaddr TObjGrass__resource_bundle;
 uaddr lbl_805D5158;
 uaddr lbl_805D515C;
 
@@ -262,7 +262,7 @@ extern "C" {
 s32 minimap_render_dot(void *, s32, s32, s32);
 s32 play_persistent_sound(s32, void *, void *, s32, s32);
 s32 play_sound_effect(void *, void *, int, int);
-extern u32 TObjGrass__resource_bundle;
+extern uaddr TObjGrass__resource_bundle;
 void TObjGrass__sub_800BFB68(O_800BFB68 *self);
 s32 free_collision_body_parts(void *);
 f32 step_toward_destination__10TObjPlayerFPvPvf(void *, Vec, f32);
@@ -284,7 +284,7 @@ s32 register_object__6TLobbyFl(int);
 s32 dispatch_shared_handler_b__6TLobbyFl(int);
 s32 register_boss__6TLobbyFl(int);
 u8 *load_resource_from_descriptor(void *, int, void *, int, int, int);
-s32 load_enemy_bml_resource_named(saddr arg0, saddr arg1);
+saddr load_enemy_bml_resource_named(saddr arg0, saddr arg1);
 extern s32 lbl_805D5140;
 extern uaddr TObjGrass__bml_resource;
 extern s32 grass_combat_stats_handle;
@@ -500,13 +500,13 @@ TObjGrass::~TObjGrass() {
 void TObjGrass::load_resources() {
     u8 *p;
     if (TObjEneDD::check_v2_mode() != 0) {
-        TObjGrass__resource_bundle = (u32) load_enemy_bml_resource_named((saddr)bm_ene_grass_resource_descriptor, (saddr)((void *)"bm_ene_grass_a.bml"));
+        TObjGrass__resource_bundle = (uaddr) load_enemy_bml_resource_named((saddr)bm_ene_grass_resource_descriptor, (saddr)((void *)"bm_ene_grass_a.bml"));
     } else {
         p = (u8 *)::operator new(0x440);
         if (p != NULL) {
             p = load_resource_from_descriptor(p, 1, bm_ene_grass_resource_descriptor, 0, 0, 0);
         }
-        TObjGrass__resource_bundle = (u32) p;
+        TObjGrass__resource_bundle = (uaddr) p;
     }
     TObjGrass__render_node_index = 0;
     grass_origin_vec.x = grass_origin_vec.y = grass_origin_vec.z = (0.0f);

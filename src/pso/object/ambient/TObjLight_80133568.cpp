@@ -527,18 +527,18 @@ void submit_scene_ambient_color(void) {
 
 void TObjLight__sub_801336DC(void) {  }
 
-u32 TObjLight::alloc_light_slot() {
+uaddr TObjLight::alloc_light_slot() {
     s32 i;
-    u32 *p;
+    uaddr *p;
     void *r;
-    p = ((u32 *)&TObjLight__data_80506370);
+    p = ((uaddr *)&TObjLight__data_80506370);
     for (i = 0; i < 3; p++, i++) {
         if (*p == 0) {
             r = ::operator new(0x2C);
             if (r != 0) {
                 r = ((void *)((TObjLight *)r)->init_light(i));
             }
-            *p = (u32)r;
+            *p = (uaddr)r;
             TObjLight__active_light_count++;
             return *p;
         }

@@ -220,7 +220,7 @@ public:
     u8 unk_2DA[0x2];
     u32 m_2dc;
     void* m_2e0;
-    u32 m_2e4;
+    uaddr m_2e4;
     u8 unk_2E8[0x2];
     s16 m_2ea;
     u8 unk_2EC[0x2];
