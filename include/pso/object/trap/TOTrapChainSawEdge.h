@@ -16,12 +16,14 @@ struct TOTrapChainSawEdge : public TOTrapChainSaw {
 
 typedef char TOTrapChainSawEdge_size[sizeof(TOTrapChainSawEdge) == 0x108 ? 1 : -1];
 
+class TObjPlayer;
+struct TOTrapChainSawDamage;
 struct GinjaTextureList;
 struct NJS_OBJECT;
 
 extern "C" {
 void *TOTrapChainSawDamage__ct(void *arg0, void *arg1, void *arg2);
-void TOTrapChainSawDamage__vt16(u8 *arg0, u8 *arg1);
+void TOTrapChainSawDamage__vt16(TOTrapChainSawDamage *trap, TObjPlayer *player);
 void update_state__20TOTrapChainSawDamageFv(void *arg0);
 u8 *TOTrapChainSawEdge__ct(u8 *arg0);
 u8 *TOTrapChainSawKey__ct(u8 *arg0, void *_w1, void *_w2);

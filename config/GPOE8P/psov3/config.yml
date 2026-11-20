@@ -5332,7 +5332,7 @@ force_active:
   - __ct__13TUnk_804A5458FP7TObjectPUc
   - construct_with_index__22TObjFogCollisionPoisonFPUcl
   - __ct__20ItemModelChunkLoaderFPCcll
-  - consume_counter__14TOTrapChainSawFPv
+  - consume_counter__14TOTrapChainSawFP10TObjPlayer
   - container_break_particle_parameters
   - container_break_small_debris_parameters
   - container_ido_collision_parts
@@ -15529,7 +15529,7 @@ force_active:
   - set_guard_state__18TObjEneEpsilonBodyFv
   - set_handle_6x78_entry__FUsl
   - set_help_message__17TWindowSubComCardFl
-  - set_hit_cooldown_for_player__14TOTrapChainSawFPv
+  - set_hit_cooldown_for_player__14TOTrapChainSawFP10TObjPlayer
   - set_hit_flags_and_notify__19TBoss3VoloptMonitorFv
   - set_hold_flags__18TObjEneRe4SorcererFPv
   - set_hover_target_position__13TObjEneMorfosFv
@@ -17467,9 +17467,9 @@ force_active:
   - vfunc_16__18TORockCaveBrakableFv
   - vfunc_16__18TOTrapChainSawEdgeFv
   - vfunc_16__23TObjSeabedSuisoBrakableFv
-  - vfunc_18__14TOTrapChainSawFv
+  - vfunc_18__14TOTrapChainSawFP10TObjPlayer
   - vfunc_18__15TORockJungleM01Fv
-  - vfunc_18__17TOTrapChainSawKeyFv
+  - vfunc_18__17TOTrapChainSawKeyFP10TObjPlayer
   - vfunc_22__13TUnk_804B5BA8Fv
   - vfunc_25__11TOKeyCave01Fv
   - vfunc_25__14TOKeyAncient01Fv

@@ -1,3 +1,4 @@
+#include "pso/object/trap/TOTrapAncient02R.h"
 #include "pso/map/CsnGroundQuery.h"
 #include "types.h"
 #include "pso/map/CsnGroundCandidates.h"
@@ -175,7 +176,6 @@ extern int player_battle_param_table[];
 s32 resolve_actor_sphere_contact(u8 *arg0, s32 arg1, s32 arg2);
 s32 respond_to_body_contact(u8 *arg0, u32 arg1, u8 *arg2);
 extern "C" {
-void TOTrapAncient02R__sub_80154D78(void);
 void TObjPlayer__sub_801542F4(s32 a);
 void reset_global_table(void);
 u8 test_elt_flag__13TUnk_80493450Fll(void *arg0, s32 arg1, s32 arg2);
@@ -534,7 +534,7 @@ void *find_entity_by_id(u16 id) {
     return 0;
 }
 
-void TOTrapAncient02R__sub_80154D78(void) {  }
+void TOTrapAncient02R__sub_80154D78(TObject *) {  }
 void TObjPlayer::init_all_slots() { { int i; for (i = 0; i < 16; i++) { TObjPlayer__sub_80154E28((int)((void*)i), (int)((void*)0)); } } }
 s32 TObjPlayer::find_or_alloc_slot(u32 arg0) {
     s32 var_r31;

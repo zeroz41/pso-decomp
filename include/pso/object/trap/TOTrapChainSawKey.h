@@ -12,7 +12,7 @@ struct TOTrapChainSawKey : public TOTrapChainSaw {
     virtual void update_state();
     virtual void decode_params();
     virtual void vfunc_16();
-    virtual void vfunc_18();
+    virtual void vfunc_18(TObjPlayer *player);
     virtual void vfunc_14();
     virtual void vfunc_25();
     virtual int check_player_contact();
