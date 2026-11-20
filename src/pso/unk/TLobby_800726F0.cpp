@@ -237,8 +237,8 @@ void TLobby::send_45_and_close_windows(void * _w0) {
     ((TWindowCtrl *)local_client_id)->unsuppress_slot();
     TLobby__sub_8024AC20(local_client_id);
 }
-void TLobby::show_ctrl_and_play_effect(void* a0) { ((TWindowCtrl *)(*(saddr *)&local_client_id))->suppress_slot(); play_player_default_effect__6TLobbyFv((saddr)a0); }
-void TLobby::play_default_effect(void* a0) { TObjPlayer__sub_8024ABDC(((*(int *)&local_client_id))); play_player_default_effect__6TLobbyFv((saddr)a0); }
+void TLobby::show_ctrl_and_play_effect(void* a0) { ((TWindowCtrl *)(*(saddr *)&local_client_id))->suppress_slot(); ((TLobby *)a0)->play_player_default_effect(); }
+void TLobby::play_default_effect(void* a0) { TObjPlayer__sub_8024ABDC(((*(int *)&local_client_id))); ((TLobby *)a0)->play_player_default_effect(); }
 void play_player_default_effect__6TLobbyFv(s32 _w0) {
     s32 player;
     player = get_player_by_client_id(local_client_id);
@@ -263,7 +263,7 @@ void TObjChallengeRetry::update_destroy_countdown() {
     }
 }
 void TObjChallengeRetry::handle_loss_sequence() {
-    play_player_default_effect__6TLobbyFv((saddr)this);
+    ((TLobby *)this)->play_player_default_effect();
     switch (TLobby__sub_80070DA8()) {
     case 0:
         play_cue_stream_file((saddr)(s32 *)"lose.adx");
@@ -308,7 +308,7 @@ void TObjChallengeRetry::update_challenge_retry() {
         }
         TLobby::send_challenge_retry_cmd(challenge_retry_cmd_table[selected_menu_value]);
         TLobby::send_45_and_close_windows(this);
-        play_player_default_effect__6TLobbyFv((saddr)this);
+        ((TLobby *)this)->play_player_default_effect();
         this->m_24 = 1;
         *(s32 *)&this->_pad1c = 3;
         return;

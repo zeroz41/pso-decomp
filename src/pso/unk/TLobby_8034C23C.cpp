@@ -4,11 +4,11 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/window/TWindowSubComCard.h"
+#include "pso/network/TProtocol.h"
 
 extern "C" {
 extern s32 info_board_state_flags;
 extern u32 information_board_response_buffer;
-s32 send_info_board_request__9TProtocolFv(u32);
 
 extern uaddr TLobby__protocol_instance;
 
@@ -17,7 +17,7 @@ void TLobby::init_once_data(u32 arg0) {
         information_board_response_buffer = arg0;
         info_board_state_flags &= 0xFFFFFFFD;
         if ((u32) TLobby__protocol_instance != 0U) {
-            send_info_board_request__9TProtocolFv(TLobby__protocol_instance);
+            ((TProtocol *)TLobby__protocol_instance)->send_info_board_request();
         }
     }
 }

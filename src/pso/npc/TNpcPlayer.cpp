@@ -441,7 +441,6 @@ s32 is_any_teammate_in_state__10TObjPlayerFv(void *self);
 s32 try_send_6x27_use_item(s32, s32, void *);
 void *get_player_by_client_id(s32 i);
 s8 get_cast_technique_level(void *, s16);
-void update_players__6TLobbyFv(s32 arg0);
 void __ct__7TObjectFP7TObject(void *, void *);
 Tec_80150B90 * calc_technique_parameters(s32, s32, s32);
 s32 is_active__12TTecReverserFv(void *);
@@ -1718,13 +1717,13 @@ void init_6x40_walk_packet(void* a0) { *(float*)((char*)a0 + 0x8) = 0.0f; *(floa
 
 void TNpcPlayer::swap_endian() { ((G_ClientIDHeader *)this)->bswap(); ((VectorXZF *)((char*)this + 0x4))->bswap(); bswap_32((u32 *)((char*)this + 0xc)); }
 
-void TNpcPlayer::sync_from_lobby() { swap_endian(); update_players__6TLobbyFv((saddr)this); }
+void TNpcPlayer::sync_from_lobby() { swap_endian(); ((TLobby *)this)->update_players(); }
 
 void TNpcPlayer::reset_move_state() { *(float*)((char*)this + 0x8) = 0.0f; *(float*)((char*)this + 0x4) = 0.0f; *(unsigned char*)((char*)this + 0x0) = 66; *(unsigned char*)((char*)this + 0x1) = 3; }
 
 void TNpcPlayer::init_model() { ((G_ClientIDHeader *)this)->bswap(); ((VectorXZF *)((char*)this + 0x4))->bswap(); }
 
-void TNpcPlayer::reset_model() { init_model(); update_players__6TLobbyFv((saddr)this); }
+void TNpcPlayer::reset_model() { init_model(); ((TLobby *)this)->update_players(); }
 
 void TNpcPlayer__sub_80152D64(void* p) { *(u8*)((char*)p + 0x3) = 0; *(u8*)((char*)p + 0x2) = 0; *(u8*)((char*)p + 0x1) = 0; *(u8*)((char*)p + 0x0) = 0; }
 
@@ -1765,7 +1764,7 @@ void init_6x43_attack_packet(u8 *arg0) {
 
 void bswap_6x43_packet(void* p) { ((G_ClientIDHeader *)p)->bswap(); bswap_16((u16 *)((char*)p + 0x4)); bswap_16((u16 *)((char*)p + 0x6)); }
 
-void TNpcPlayer::update_lobby() { bswap_6x43_packet(this); update_players__6TLobbyFv((saddr)this); }
+void TNpcPlayer::update_lobby() { bswap_6x43_packet(this); ((TLobby *)this)->update_players(); }
 
 void init_6x44_attack_packet(u8 *arg0) {
     *(s16 *)((s8 *)arg0 + 4) = 0;
@@ -1776,7 +1775,7 @@ void init_6x44_attack_packet(u8 *arg0) {
 
 void bswap_6x44_packet(void* p) { ((G_ClientIDHeader *)p)->bswap(); bswap_16((u16 *)((char*)p + 0x4)); bswap_16((u16 *)((char*)p + 0x6)); }
 
-void TNpcPlayer::update_players() { bswap_6x44_packet(this); update_players__6TLobbyFv((saddr)this); }
+void TNpcPlayer::update_players() { bswap_6x44_packet(this); ((TLobby *)this)->update_players(); }
 
 void init_6x45_attack_packet(u8 *arg0) {
     *(s16 *)((s8 *)arg0 + 4) = 0;
@@ -1787,7 +1786,7 @@ void init_6x45_attack_packet(u8 *arg0) {
 
 void bswap_6x45_packet(void* p) { ((G_ClientIDHeader *)p)->bswap(); bswap_16((u16 *)((char*)p + 0x4)); bswap_16((u16 *)((char*)p + 0x6)); }
 
-void TNpcPlayer::update() { bswap_6x45_packet(this); update_players__6TLobbyFv((saddr)this); }
+void TNpcPlayer::update() { bswap_6x45_packet(this); ((TLobby *)this)->update_players(); }
 
 void TNpcPlayer__sub_80152A78(s16 *self) {
     s32 i;
