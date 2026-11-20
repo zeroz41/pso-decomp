@@ -692,8 +692,6 @@ void TObjMapWarp::process_player_warps() {
     }
 }
 
-static const WarpDebugOffset warp_debug_destination_offset = {{0.0f, 0.0f, -3.0f}};
-
 void TObjMapWarp::draw_debug_destinations() {
     u8 *arg0 = (u8 *)this;
     Warp_8019D0A8 *self = (Warp_8019D0A8 *)arg0;
@@ -707,12 +705,7 @@ void TObjMapWarp::draw_debug_destinations() {
     TObjNpcEnemy::set_global_count(0xF0F0F0FF);
     for (i = 0; i < 4; i++) {
         Vec b;
-        WarpDebugOffset a;
-        // Preserve the three word loads from the debug offset inside the loop.
-        const volatile u32 *words = warp_debug_destination_offset.words;
-        a.words[0] = words[0];
-        a.words[1] = words[1];
-        a.words[2] = words[2];
+        Vec a = {0.0f, 0.0f, -3.0f};
         push_matrix_from(identity_matrix);
         post_translate_matrix(&self->pos);
         rotate_matrix_y(0, self->yaw);
@@ -726,8 +719,8 @@ void TObjMapWarp::draw_debug_destinations() {
         pop_matrix();
         VecCopy((Vec *)&b, (const Vec *)end);
         b.y += 5.0f;
-        a.position.y += 5.0f;
-        debug_draw_line(&b, &a.position, 0xFFFF0000, 0xFFFF0000);
+        a.y += 5.0f;
+        debug_draw_line(&b, &a, 0xFFFF0000, 0xFFFF0000);
         fn_80141CB4(end, 15.0f);
     }
 }
