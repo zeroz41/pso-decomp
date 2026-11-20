@@ -782,7 +782,7 @@ void update_duel_result__6TLobbyFPv(u8 *arg0) {
         *(void **)((s8 *)arg0 + 0x54) = p;
         q = (void *)update_battle_controller__10TObjPlayerFv();
         if (q != NULL) {
-            if (((TLobby *)q)->check_player_flag1() == 0) {
+            if (((TObjPlayer *)q)->check_player_flag1() == 0) {
                 TLobby::close_and_play_effect((u16)local_client_id, 1);
             }
             ((TObjPlayer *)q)->release_attached_resource();
@@ -841,10 +841,10 @@ void update_duel_result__6TLobbyFPv(u8 *arg0) {
                         *(s32 *)((s8 *)arg0 + 0x20) = 7;
                     }
                 }
-                if (q != NULL && ((TLobby *)q)->check_player_flag1() == 0) {
+                if (q != NULL && ((TObjPlayer *)q)->check_player_flag1() == 0) {
                     TLobby::close_and_play_effect((u16)local_client_id, 1);
                 }
-            } else if (q != NULL && ((TLobby *)q)->check_player_flag1() != 0) {
+            } else if (q != NULL && ((TObjPlayer *)q)->check_player_flag1() != 0) {
                 TLobby::handle_battle_result((u16)local_client_id, 1);
             }
         }
@@ -859,7 +859,7 @@ void update_duel_result__6TLobbyFPv(u8 *arg0) {
             *(void **)((s8 *)arg0 + 0x50) = NULL;
         }
         p = (void *)update_battle_controller__10TObjPlayerFv();
-        if (p != NULL && ((TLobby *)p)->check_player_flag1() != 0) {
+        if (p != NULL && ((TObjPlayer *)p)->check_player_flag1() != 0) {
             TLobby::handle_battle_result((u16)local_client_id, 1);
         }
         *(s32 *)((s8 *)arg0 + 0x20) = 8;

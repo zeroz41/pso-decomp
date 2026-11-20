@@ -384,7 +384,7 @@ void TOTrapSeabed01::play_sounds() {
     TObjChipSpawnParams params;
     SeabedTrapFragmentSpawn *fragment;
     s32 i;
-    copy_transform__8TObjChipFPvPv((u8 *)&params, (u8 *)&TOTrapSeabed01__transform_params);
+    TObjChip::copy_transform(&params, const_cast<TObjChipParams *>(&TOTrapSeabed01__transform_params));
     params.chip.textures = TOTrapSeabed01__texture_file;
     for (i = 0; i < 6; i++) {
         fragment = &seabed_trap_fragment_spawns[i];
@@ -418,7 +418,7 @@ void TOTrapSeabed01::sub_802C9D38() {
         if (target != NULL) {
             held = get_player_by_client_id(get_entity_id((TObjBase *)target));
             if (held != NULL) {
-                if (((TLobby *)held)->check_player_flag1() != 0) {
+                if (held->check_player_flag1() != 0) {
                     TObjPlayer::send_code_45_1((s32)held);
                 }
                 obj_clear_flag30_20000(held);
@@ -426,7 +426,7 @@ void TOTrapSeabed01::sub_802C9D38() {
         }
     } else if (target != NULL && local_client_id == get_entity_id((TObjBase *)target)) {
         held = get_player_by_client_id(local_client_id);
-        if (held != NULL && ((TLobby *)held)->check_player_flag1() != 0) {
+        if (held != NULL && held->check_player_flag1() != 0) {
             TObjPlayer::send_code_45_1((s32)held);
         }
     }

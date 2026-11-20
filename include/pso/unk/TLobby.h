@@ -115,7 +115,6 @@ struct TLobby : public TObject {
     static void init_bosses();
     static void init_boss2_stage();
     static void create_boss2_tunnel();
-    s32 check_player_flag1();
     static int is_boss_phase_reached();
     static void cleanup_pillar_demo();
     static void cleanup_boss5_pillars();

@@ -326,7 +326,7 @@ void TObjNpcBase::update_conversation() {
             }
             if (F(void *, 0x2A8) != 0 && local_client_id == get_entity_id(F(void *, 0x2A8))) {
                 p = (u32) get_player_by_client_id(local_client_id);
-                if (p != 0 && ((TLobby *)p)->check_player_flag1() != 0) {
+                if (p != 0 && ((TObjPlayer *)p)->check_player_flag1() != 0) {
                     TObjPlayer::send_code_45_1((s32)((void *)p));
                 }
             }

@@ -248,7 +248,7 @@ void TObjVoloptCage::run_task() {
 TObjVoloptCage::~TObjVoloptCage() {
     TObjPlayer *player = get_player_by_client_id(targetId);
     if (player != NULL && TObjPlayer::is_locally_controlled(player) != 0) {
-        if (((TLobby *)player)->check_player_flag1() != 0) {
+        if (player->check_player_flag1() != 0) {
             TObjPlayer::send_code_45_1((s32)player);
         }
         obj_clear_flag30_20000(player);
@@ -298,8 +298,8 @@ void obj_clear_flag30_20000(TObjBase *actor) {
     actor->obj_clearFlags30(0x20000);
 }
 
-s32 TLobby::check_player_flag1() {
-    return ((TObjPlayer *)this)->check_flag(1);
+s32 TObjPlayer::check_player_flag1() {
+    return check_flag(1);
 }
 
 s32 TObjPlayer::check_flag(s32 flag) {

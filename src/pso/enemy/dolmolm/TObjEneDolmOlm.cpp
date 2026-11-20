@@ -1067,7 +1067,7 @@ s32 TObjEneDolmOlm__sub_8030177C(void *arg0_) {
             arg0->fb8 = 2;
         } else {
             Obj_8030177C *p = arg0->target;
-            if (((TLobby *)p)->check_player_flag1() != 0) {
+            if (((TObjPlayer *)p)->check_player_flag1() != 0) {
                 if (fabs_float(p->pos.y - arg0->pos.y) < 20.0f) {
                     arg0->f326 = 5;
                     arg0->f328 = 1;
@@ -1124,7 +1124,7 @@ s32 TObjEneDolmOlm__sub_8030177C(void *arg0_) {
                     Obj_8030177C *pl = (Obj_8030177C *)get_player_by_client_id((u16)a);
                     if (pl != 0 && TObjPlayer::is_locally_controlled(pl) != 0 &&
                         ((TObject *)pl)->all_parents_unqueued_for_destruction() != 0 &&
-                        ((TObjCollidable *)pl)->obj_testFlags30(0x800) == 0 && ((TLobby *)pl)->check_player_flag1() == 0) {
+                        ((TObjCollidable *)pl)->obj_testFlags30(0x800) == 0 && ((TObjPlayer *)pl)->check_player_flag1() == 0) {
                         TObjPlayer::play_effect((s32)pl, (s32)((s32)(30.0f * (f32)(*(Param_8030177C ** *)&TObjEneDolmOlm__behavior_params_by_variant)[arg0->kind]->power)), 2);
                     }
                 }

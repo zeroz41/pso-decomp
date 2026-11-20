@@ -296,7 +296,7 @@ s32 update_challenge_result_player_locks() {
     if (active) {
         for (s32 i = 0; i < 4; ++i) {
             TObjPlayer *player = ((TObjPlayer *)get_player_by_client_id(i));
-            if (player && ((TLobby *)player)->check_player_flag1() == 0) {
+            if (player && ((TObjPlayer *)player)->check_player_flag1() == 0) {
                 TObjPlayer::play_effect_default((int)player, (int)(-1));
                 obj_set_flag_20000(player);
                 get_player_result__18TChallenge4PResultFPv(player, 0);
@@ -312,7 +312,7 @@ s32 update_challenge_result_player_locks() {
     } else {
         for (s32 i = 0; i < 4; ++i) {
             TObjPlayer *player = ((TObjPlayer *)get_player_by_client_id(i));
-            if (player && ((TLobby *)player)->check_player_flag1() != 0) {
+            if (player && ((TObjPlayer *)player)->check_player_flag1() != 0) {
                 TObjPlayer::send_code_45_1((s32)player);
                 obj_clear_flag30_20000(player);
                 ((TChallenge4PResult *)player)->get_player_rank();

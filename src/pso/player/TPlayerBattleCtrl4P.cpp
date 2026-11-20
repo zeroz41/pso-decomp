@@ -172,7 +172,6 @@ Rank_801C343C split_screen_battle_rankings[4];
 struct Ids_80311C2C { s32 a; s32 b; s32 c; s32 d; };
 struct O_80311C2C { u8 pad[0x20]; void *w0; void *w1; u8 pad2[0x294 - 0x28]; Ids_80311C2C *ids; };
 extern "C" {
-s32 check_player_flag1__6TLobbyFv();
 s32 set_state__19TPlayerBattleCtrl4PFv(void *, int);
 s32 has_player_active_menu__11TWindowCtrlFv(s32);
 s32 align_menu_entry_positions(void *);
@@ -551,6 +550,8 @@ void TPlayerBattleCtrl4P::wait_before_recording_results() {
 
 #pragma optimization_level 1
 
+extern "C" s32 check_player_flag1__10TObjPlayerFv();
+
 void TPlayerBattleCtrl4P::open_result_windows() {
   u32 var_r31;
   s32 player;
@@ -565,7 +566,7 @@ void TPlayerBattleCtrl4P::open_result_windows() {
     player = ((s32)get_player_by_client_id(var_r31));
     if (player != 0)
     {
-      if (check_player_flag1__6TLobbyFv() == 0)
+      if (check_player_flag1__10TObjPlayerFv() == 0)
       {
         TPlayerBattleCtrl4P::remove_player((void *) ((s32)this), (int) ((u16) var_r31), 1);
       }
@@ -633,7 +634,8 @@ void TPlayerBattleCtrl4P::close_rematch_menu() {
     }
     var_r31 = 0;
     do {
-        if ((((s32)get_player_by_client_id(var_r31)) != 0U) && (check_player_flag1__6TLobbyFv() != 0)) {
+        TObjPlayer *player = (TObjPlayer *)get_player_by_client_id(var_r31);
+        if (player != NULL && player->check_player_flag1() != 0) {
             send_code_45_to_window__19TPlayerBattleCtrl4PFPvii((this), ((u16) var_r31), 1);
         }
         var_r31 += 1;
