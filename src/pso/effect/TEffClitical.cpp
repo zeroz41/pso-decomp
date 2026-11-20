@@ -46,7 +46,7 @@ void TEffClitical::render() {
     s32 sp8;
     s32 temp_r3;
     set_depth_buffer_settings_1();
-    init_texture_copy_rect((void *)((void *)&sp8), (s32)&clitical_texture_list, (s32)technique_ringwave_texture_list, 0, (s32)((int) (*(s32 *)((s8 *)arg0 + 0x70) + 1)));
+    init_texture_copy_rect((void *)((void *)&sp8), (saddr)&clitical_texture_list, (saddr)technique_ringwave_texture_list, 0, (s32)((int) (*(s32 *)((s8 *)arg0 + 0x70) + 1)));
     temp_r3 = model_render_flags;
     saved_model_render_flags = temp_r3;
     model_render_flags = temp_r3 | 0x10;
@@ -136,7 +136,7 @@ void TEffClitical::create() {
     }
 }
 
-void init_texture_copy_rect(void *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
+void init_texture_copy_rect(void *arg0, saddr arg1, saddr arg2, s32 arg3, s32 arg4) {
     *(s32 *)((s8 *)arg0 + 0) = arg2;
     *(s32 *)((s8 *)arg0 + 4) = arg1;
     *(s32 *)((s8 *)arg0 + 8) = arg4;

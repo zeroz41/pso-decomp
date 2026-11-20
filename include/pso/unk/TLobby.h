@@ -333,7 +333,7 @@ struct TLobby : public TObject {
     void bswap_4_words();
     static void init_scene_objects();
     int sync_game_state();
-    static s32 spawn_matching_objects(s16 arg0, s16 arg1, s32 arg2);
+    static s32 spawn_matching_objects(s16 arg0, s16 arg1, saddr arg2);
     static s32 link_matching_objects(s16 arg0, s16 arg1);
     static s32 spawn_objects_at_pos(s16 arg0, s16 arg1);
     static void create_objects(s32 arg0);

@@ -11,7 +11,7 @@ public:
     TDuelEffectNumber(TObject *arg1, void *arg2, void *arg3);
     virtual ~TDuelEffectNumber();
     void sub_8007FF28(s32);
-    void sub_8007FFF4(s32);
+    void sub_8007FFF4(saddr);
     virtual void run_task();
     virtual void render();
     // 0x1C: the screen position the ctor copies from its second argument; 0x24: its third argument.

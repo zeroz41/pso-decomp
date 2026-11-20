@@ -57,7 +57,7 @@ s32 append_wave_member(s32, void *);
 extern s32 TLobby__data_805D60FC;
 extern s32 TLobby__data_805D6144;
 
-s32 TLobby::spawn_matching_objects(s16 arg0, s16 arg1, s32 arg2) {
+s32 TLobby::spawn_matching_objects(s16 arg0, s16 arg1, saddr arg2) {
     s16 temp_r0;
     s16 temp_r3;
     s32 object_type;

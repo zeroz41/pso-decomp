@@ -62,7 +62,7 @@ void TDuelEffectNumber::sub_8007FF28(s32 arg1) {
 #pragma push
 #pragma fp_contract on
 #pragma opt_common_subs off
-void TDuelEffectNumber::sub_8007FFF4(s32 arg1) {
+void TDuelEffectNumber::sub_8007FFF4(saddr arg1) {
     f32 scale;
     f32 b;
     f32 c;
@@ -108,7 +108,7 @@ void TDuelEffectNumber::render() {
     begin_screen_draw(1);
     TObjFish::set_global_param(lbl_805D63F0);
     set_draw_texture_and_color(6, -1);
-    sub_8007FFF4((s32)((s32 *)&sp8));
+    sub_8007FFF4((saddr)((s32 *)&sp8));
     ((s32 (*)(void *, s32 *))sub_8007FF28__17TDuelEffectNumberFl)(this, (s32 *)&sp8);
     TWindowSubStatusDisp::get_player();
     set_default_alpha_blend();

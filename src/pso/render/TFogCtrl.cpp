@@ -402,7 +402,7 @@ void run_task__8TFogCtrlFv(Ctrl_800FB498 *arg0) {
     update = 0;
     switch (arg0->mode) {
     case 0:
-        if (TFogCtrl::is_controller_animated((s32)arg0, arg0->selected) != 0) {
+        if (TFogCtrl::is_controller_animated((saddr)arg0, arg0->selected) != 0) {
             update = 1;
         }
         break;
@@ -492,7 +492,7 @@ void TFogCtrl__sub_800FB400(O_800FB400 *self, s32 i, s32 j) {
     self->arr[j] = t;
 }
 
-s32 TFogCtrl::is_controller_animated(s32 arg0, s32 arg1) {
+s32 TFogCtrl::is_controller_animated(saddr arg0, s32 arg1) {
   f32 temp_f31;
   f32 var_f31;
   saddr temp_r3;
