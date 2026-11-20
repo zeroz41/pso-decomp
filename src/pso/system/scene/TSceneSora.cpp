@@ -57,7 +57,7 @@ void TSceneSora::render() {
         push_matrix();
         rotate_matrix_y(0, this->rotation_y);
         if (sky_motion != NULL) {
-            draw_ginja_model_with_motion(sky_model, sky_motion, motion_frame);
+            draw_ginja_model_with_motion(sky_model, sky_motion, m_a0);
         } else {
             draw_ginja_object(sky_model);
         }
@@ -68,9 +68,9 @@ void TSceneSora::render() {
 
 void TSceneSora::run_task() {
     if (sky_motion != NULL) {
-        motion_frame += motion_step;
-        if (motion_frame > (sky_motion->frameCount - 1)) {
-            motion_frame = 0.0f;
+        m_a0 += motion_step;
+        if (m_a0 > (sky_motion->frameCount - 1)) {
+            m_a0 = 0.0f;
         }
     } else {
         switch (get_current_floor_area()) {
@@ -96,7 +96,7 @@ TSceneSora::TSceneSora(s32 _w1) : TObjBase((TObject *)_w1) {
     }
     sky_textures = reinterpret_cast<GinjaTextureList *>(get_bml_texlist(TSceneSora__sky_bml_resource, 0));
     motion_step = 0.1f;
-    motion_frame = 0.0f;
+    m_a0 = 0.0f;
 }
 extern "C" {
 

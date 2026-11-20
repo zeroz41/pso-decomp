@@ -764,7 +764,7 @@ TObjAreaWarpForest::TObjAreaWarpForest(TObject *parent, void *set_data) : TObjAr
     u32 temp_r0;
     u32 temp_r3;
     m_name = TObjAreaWarpForest__name;
-    beam_frame = 0.0f;
+    m_c4 = 0.0f;
     beam_rotation = 0;
     temp_r0 = set_params[2];
     temp_r3 = temp_r0 >> 0x1FU;
@@ -792,9 +792,9 @@ TObjAreaWarpForest::TObjAreaWarpForest(TObject *parent, void *set_data) : TObjAr
 TObjAreaWarpForest::~TObjAreaWarpForest() {}
 
 void TObjAreaWarpForest::run_task() {
-    beam_frame += 4.0f;
-    if (static_cast<f32>(beam_motion->frameCount - 1) < beam_frame) {
-        beam_frame = 0.0f;
+    m_c4 += 4.0f;
+    if (static_cast<f32>(beam_motion->frameCount - 1) < m_c4) {
+        m_c4 = 0.0f;
     }
     beam_rotation += 0x150;
     handle_area_selection();
@@ -837,7 +837,7 @@ void TObjAreaWarpForest::render() {
         TParticleCtrl::end_effect_render();
         pop_matrix();
         TParticleCtrl::begin_effect_render();
-        draw_ginja_model_with_motion(beam_model, beam_motion, this->beam_frame);
+        draw_ginja_model_with_motion(beam_model, beam_motion, this->m_c4);
         TParticleCtrl::end_effect_render();
         pop_matrix();
     }
@@ -992,7 +992,7 @@ TObjAreaWarpEnding::TObjAreaWarpEnding(TObject *parent, void *set_data) : TObjAr
     u32 temp_r0;
     u32 temp_r4;
     m_name = TObjAreaWarpEnding__name;
-    beam_frame = 0.0f;
+    m_c4 = 0.0f;
     beam_rotation = 0;
     temp_r0 = set_params[2];
     temp_r4 = temp_r0 >> 0x1FU;
@@ -1016,9 +1016,9 @@ TObjAreaWarpEnding::TObjAreaWarpEnding(TObject *parent, void *set_data) : TObjAr
 TObjAreaWarpEnding::~TObjAreaWarpEnding() {}
 
 void TObjAreaWarpEnding::run_task() {
-    beam_frame += 4.0f;
-    if (static_cast<f32>(beam_motion->frameCount - 1) < beam_frame) {
-        beam_frame = 0.0f;
+    m_c4 += 4.0f;
+    if (static_cast<f32>(beam_motion->frameCount - 1) < m_c4) {
+        m_c4 = 0.0f;
     }
     beam_rotation += 0x150;
     handle_area_selection();
@@ -1058,7 +1058,7 @@ void TObjAreaWarpEnding::render() {
     TParticleCtrl::end_effect_render();
     pop_matrix();
     TParticleCtrl::begin_effect_render();
-    draw_ginja_model_with_motion(beam_model, beam_motion, beam_frame);
+    draw_ginja_model_with_motion(beam_model, beam_motion, m_c4);
     TParticleCtrl::end_effect_render();
     pop_matrix();
 }
@@ -1333,9 +1333,9 @@ TObjAreaWarpEndingJung::TObjAreaWarpEndingJung(TObject *parent, void *set_data) 
 TObjAreaWarpEndingJung::~TObjAreaWarpEndingJung() {}
 
 void TObjAreaWarpEndingJung::run_task() {
-    this->beam_frame += 4.0f;
-    if (this->beam_frame > (TObjWarpJung::get_static_field4_as_float() - 1.0f)) {
-        this->beam_frame = 0.0f;
+    this->m_c4 += 4.0f;
+    if (this->m_c4 > (TObjWarpJung::get_static_field4_as_float() - 1.0f)) {
+        this->m_c4 = 0.0f;
     }
     handle_area_selection();
 }
@@ -1360,7 +1360,7 @@ void TObjAreaWarpEndingJung::render() {
         rotate_matrix_y(0, this->rotation_y);
         TObjWarpJung::render_warp(0);
         TParticleCtrl::begin_effect_render();
-        TObjWarpJung::render_warp_effect(1, (s32) this->beam_frame);
+        TObjWarpJung::render_warp_effect(1, (s32) this->m_c4);
         TParticleCtrl::end_effect_render();
         pop_matrix();
     }

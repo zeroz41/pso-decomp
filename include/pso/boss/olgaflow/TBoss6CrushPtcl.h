@@ -12,7 +12,7 @@ public:
     virtual ~TBoss6CrushPtcl();
     virtual void run_task();
 
-    s32 age;
+    s32 m_1C;
     TParticleCtrl *dust_emitter;
     TParticleCtrl *debris_emitter;
 

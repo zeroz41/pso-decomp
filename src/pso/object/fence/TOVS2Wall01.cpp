@@ -425,10 +425,10 @@ TOVS2Wall01::TOVS2Wall01(void *set_data) : TObjChara((TObject *)tl_05) {
     register_object_by_id();
     mode = 0;
     view_range = 800.0f;
-    model_radius = 50.0f + static_cast<GinjaModelBounds *>(static_cast<NJS_OBJECT *>(model)->model)->radius;
+    m_338 = 50.0f + static_cast<GinjaModelBounds *>(static_cast<NJS_OBJECT *>(model)->model)->radius;
     initial_hits = set_params[0];
     m_33c = initial_hits + 0x100;
-    fade.activate_and_dispatch();
+    m_340.activate_and_dispatch();
     m_35c = 1;
 }
 #pragma pop
@@ -443,13 +443,13 @@ void *TOVS2Wall01::create(void *set_data) {
 void TOVS2Wall01::render() {
     u8 *arg0 = (u8 *)this;
     s32 var_r31;
-    fade.update();
-    *(s32 *)&this->m_35c = this->update_object_view_visibility(view_range, model_radius);
+    m_340.update();
+    *(s32 *)&this->m_35c = this->update_object_view_visibility(view_range, m_338);
     if ((s32) this->m_35c == 1) {
         if (TRaderMapCore::is_not_split_screen() == 1) {
             var_r31 = 0;
         } else {
-            var_r31 = fade.updateFromCamera(&position.x);
+            var_r31 = m_340.updateFromCamera(&position.x);
         }
         if (var_r31 != 0) {
             saved_model_render_flags = model_render_flags;

@@ -73,11 +73,11 @@ void TLobby::update_card_save_info() {
     card->tombstone.phase = TWindowSubStatusDisp::resolve_player_slot(-1);
     card->tombstone.layout = challenge_mode_state.v0;
     card->tombstone.floor = get_current_floor();
-    if (card->tombstone.record_count < 0) {
-        card->tombstone.record_count = 0x270F;
+    if (card->tombstone.unk_4 < 0) {
+        card->tombstone.unk_4 = 0x270F;
     }
-    if (++card->tombstone.record_count > 0x270F) {
-        card->tombstone.record_count = 0x270F;
+    if (++card->tombstone.unk_4 > 0x270F) {
+        card->tombstone.unk_4 = 0x270F;
     }
     VecCopy((Vec *)&card->tombstone.position, (const Vec *)&ply->position);
     getDateStamp((DateStamp *)&date);
@@ -138,7 +138,7 @@ void TLobby::spawn_player_tombstones() {
         rec = &challenge_mode_state.recs[i];
         if (rec->active != 0 && get_player_by_client_id(i) != NULL) {
             info = &rec->record;
-            if (info->record_count > 0 && info->phase == TWindowSubStatusDisp::resolve_player_slot(-1)
+            if (info->unk_4 > 0 && info->phase == TWindowSubStatusDisp::resolve_player_slot(-1)
                 && info->layout == challenge_mode_state.v0 && static_cast<s8>(info->floor) == challenge_mode_state.v8) {
                 TObjTombstone::create(static_cast<TObject *>(tl_07), i, info);
             }

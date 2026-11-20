@@ -23,7 +23,7 @@ struct TObjTombstoneSpot {
     s8 phase;
     s8 layout;
     s8 floor;
-    u8 reserved_03;
+    u8 unk_3;
     Vec position;
 };
 
@@ -34,7 +34,7 @@ struct TObjTombstoneRecord {
     s8 layout;
     u8 floor;  // compared with get_current_floor
     u8 unk_3;
-    s16 record_count;
+    s16 unk_4;
     s16 unk_6;
     u32 date;      // year-2000 << 28 | month << 24 | day << 16 | hour << 8 | minute
     s32 rt_index;  // passed to enemy_name_for_rt_index

@@ -18,7 +18,7 @@ struct TSceneSora : public TObjBase {
     static void create_instance();
     static void load_sky_resources();
     f32 motion_step;
-    f32 motion_frame;
+    f32 m_a0;
     static void update(s32 _w0);
     s32 get_state();
     static void set_scene_flag(int a0);
@@ -26,6 +26,6 @@ struct TSceneSora : public TObjBase {
 };
 
 typedef char TSceneSora_motion_offset[offsetof(TSceneSora, sky_motion) == 0x94 ? 1 : -1];
-typedef char TSceneSora_frame_offset[offsetof(TSceneSora, motion_frame) == 0xA0 ? 1 : -1];
+typedef char TSceneSora_frame_offset[offsetof(TSceneSora, m_a0) == 0xA0 ? 1 : -1];
 typedef char TSceneSora_size[sizeof(TSceneSora) == 0xA4 ? 1 : -1];
 #endif

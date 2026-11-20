@@ -1064,7 +1064,7 @@ extern "C++" void copy_tombstone_spot(TObjTombstoneSpot *destination, const TObj
     output->phase = input->phase;
     output->layout = input->layout;
     output->floor = input->floor;
-    output->reserved_03 = input->reserved_03;
+    output->unk_3 = input->unk_3;
 #ifdef __MWERKS__
     __memcpy(&destination->position, &source->position, sizeof(Vec));
 #else
