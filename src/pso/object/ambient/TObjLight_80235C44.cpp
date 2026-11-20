@@ -313,7 +313,7 @@ saddr find_support_technique_contact(void *self, int target, void *_w2, void *_w
     return (saddr)&technique_contact_query_results;
 }
 
-s32 *TObjPlayer::gather_player_contacts(u32 actor, s32 _w2, s32 _w3) {
+s32 *TObjPlayer::gather_player_contacts(uaddr actor, saddr _w2, s32 _w3) {
     saddr arg0 = (saddr)this;
     Stack_80236290 stack;
     s32 temp_r0;
@@ -438,11 +438,11 @@ void TUnk_804CC148::find_area_contact(s32 arg1) {
     find_area_technique_contact(this, this->m_e8, &this->collisionBody, (void *)arg1);
 }
 
-void TObjPlayer::collect_body_contacts_for_target(s32 player) {
+void TObjPlayer::collect_body_contacts_for_target(saddr player) {
     collect_body_contacts((int)(this->blend.motion[1]), (u8 *)&this->previous_action, (void *)player);
 }
 
-void TObjPlayer::find_support_technique_contact_for_target(s32 arg1) {
+void TObjPlayer::find_support_technique_contact_for_target(saddr arg1) {
     u8 *arg0 = (u8 *)this;
     find_support_technique_contact((void *)arg0, (int)this->motion_list, (u8 *)&this->motion_flags, (void *)arg1);
 }

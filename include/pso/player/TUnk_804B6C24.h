@@ -11,7 +11,7 @@ public:
     virtual void render();
     virtual void run_task();
     virtual ~TUnk_804B6C24();
-    BOOL check_value_equals(s32) const;
+    BOOL check_value_equals(saddr) const;
     virtual void vfunc_79() const;
     virtual void vfunc_80();
     virtual void vfunc_81();

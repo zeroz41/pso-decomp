@@ -11,7 +11,7 @@ s32 get_char_data__10TObjPlayerFv(s32);
 
 extern s32 tl_03;
 
-s32 TObjPlayer::create(u32 arg0, s32 arg1) {
+s32 TObjPlayer::create(u32 arg0, saddr arg1) {
     s32 temp_r31;
     s32 var_r30;
 

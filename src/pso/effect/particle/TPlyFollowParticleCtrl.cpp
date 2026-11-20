@@ -165,7 +165,7 @@ void emit_player_sprite_particle(s32 arg0, s32 arg1, s32 arg2) {
 
 void*TObjPlayer::init_follow_particle_ctrl() { TPlyFollowParticleCtrl__sub_8030A694(); *(int*)(this) = 0; *(int*)((char*)this + 0x4) = 0; return this; }
 
-s32 TObjPlayer::dt_follow_particle_ctrl(s32 arg0, s16 arg1) {
+s32 TObjPlayer::dt_follow_particle_ctrl(saddr arg0, s16 arg1) {
     if (arg0 != 0) {
         __dt__22TPlyFollowParticleCtrlFis(arg0, 0);
         if (arg1 > 0) {
@@ -228,7 +228,7 @@ s32 TObjPlayer__sub_80309E4C(s32 arg0, s16 arg1) {
     return arg0;
 }
 
-void TObjPlayer::update_follow_particle(s32 arg1) {
+void TObjPlayer::update_follow_particle(saddr arg1) {
     ((TPlyFollowParticleCtrl *)this)->set_type(get_entity_id((TObjBase *)arg1));
 }
 

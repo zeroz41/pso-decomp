@@ -2660,7 +2660,7 @@ void TObjPlayer::update_service_hold() {
 
 void TObjPlayer::service_hold_phase2_nop() {  }
 
-void TObjPlayer::set_motion(s32 arg0) {
+void TObjPlayer::set_motion(saddr arg0) {
     if (is_status_flag_200__10TObjPlayerFv() != 0) {
         if (((TObjCollidable *)arg0)->obj_testFlags30(0x400) != 0) {
             ((s32 (*)(s32, s32, s32))run_action_state_phase__10TObjPlayerFisi)(arg0, 0xE, 5);
@@ -3573,7 +3573,7 @@ void TObjPlayer__sub_801CB580(saddr arg0, s16 arg1) {
 
 void TObjPlayer__sub_801CB5FC(void) {  }
 
-void TObjPlayer::apply_velocity_if_ready(s32 arg0) {
+void TObjPlayer::apply_velocity_if_ready(saddr arg0) {
     if (((u32 (*)(void))resolve_move_collision__10TObjPlayerFv)() == 0U) {
         ((TObjPlayer *)arg0)->apply_velocity();
     }
@@ -3666,7 +3666,7 @@ s32 TObjPlayer::can_guard() {
 
 void TObjPlayer::set_flag_0x100000(void* p) { ((int (*)(void*))clear_velocity)(p); ((int (*)(void*, void*))obj_setFlags30)(p, (void*)1048576); }
 
-void TObjPlayer::apply_velocity_if_free(s32 arg0) {
+void TObjPlayer::apply_velocity_if_free(saddr arg0) {
     damp_planar_velocity();
     if ((u32)((TObjPlayer *)arg0)->resolve_move_collision() == 0U) {
         ((TObjPlayer *)arg0)->apply_velocity();
@@ -3740,7 +3740,7 @@ void TObjPlayer::complete_guard_reaction() {
 
 void TObjPlayer__sub_801CBB80(void) {  }
 
-void TObjPlayer::select_hit_action(s32 arg0) {
+void TObjPlayer::select_hit_action(saddr arg0) {
     if (((s32 (*)(void))check_flag30_bit20__10TObjPlayerFi)() != 0) {
         ((s32 (*)(s32, s32, s32))run_action_state_phase__10TObjPlayerFisi)(arg0, 0x13, 5);
         return;
@@ -5882,7 +5882,7 @@ void TObjPlayer::cleanup_idle_entry() { obj_clearFlags30((uaddr)((void*)3840)); 
 
 void TObjPlayer::exit_idle_state() {  }
 
-void TObjPlayer::update_action(s32 arg0) {
+void TObjPlayer::update_action(saddr arg0) {
     u32 temp_r3;
 
     temp_r3 = ((u32 (*)(void))resolve_move_collision__10TObjPlayerFv)();

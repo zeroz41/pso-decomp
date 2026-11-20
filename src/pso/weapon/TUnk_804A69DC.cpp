@@ -161,7 +161,7 @@ TUnk_804A69DC::TUnk_804A69DC(TObject *parent, u8 *item) : TItemWeapon(parent, it
     charge_ready = 1;
 }
 
-u8 *TObjPlayer::create_state_35_alt(s32 arg0) {
+u8 *TObjPlayer::create_state_35_alt(saddr arg0) {
     if (arg0 != 0) {
         return (u8 *)new TUnk_804A69DC(tl_05, (u8 *)arg0);
     }

@@ -67,7 +67,7 @@ TUnk_804A4848::TUnk_804A4848(TObject *parent, u8 *item) : TUnk_804A4948(parent, 
     blend_off = 1;
 }
 
-u8 *TObjPlayer::create_state_8012a418(s32 arg0) {
+u8 *TObjPlayer::create_state_8012a418(saddr arg0) {
     if (arg0 != 0) {
         return (u8 *)new TUnk_804A4848(tl_05, (u8 *)arg0);
     }

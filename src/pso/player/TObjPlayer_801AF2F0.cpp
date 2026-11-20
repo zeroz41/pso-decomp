@@ -5097,7 +5097,7 @@ void TObjPlayer::set_action_palette_entry(s32 arg1, s32 arg2, s32 arg3, s32 arg4
 
 #pragma push
 #pragma fp_contract on
-void TObjPlayer::refresh_party_cursors(s32 arg0) {
+void TObjPlayer::refresh_party_cursors(saddr arg0) {
     TObjPlayer::update_party_cursors(((TObjPlayer *)arg0)->refresh_effect(), arg0);
 }
 #pragma pop
@@ -6800,7 +6800,7 @@ void foreach_player__10TObjPlayerFv(s32 (*arg0)(u32)) {
 
 void reset_volopt_state__10TObjPlayerFv(void) { ((int (*)(void))get_field_3e0__12TBoss3VoloptFv)(); is_item_area_enabled(); }
 
-void TObjPlayer::play_phase_transition_sound(s32 arg0) {
+void TObjPlayer::play_phase_transition_sound(saddr arg0) {
     if (((get_main_phase() == 0xE) || (get_main_phase() == 0xF)) && (((s32 (*)(void))is_lobby_floor_15__15TFontSmallLobbyFv)() != 0)) {
         draw_chunk_object((void *)arg0);
         return;

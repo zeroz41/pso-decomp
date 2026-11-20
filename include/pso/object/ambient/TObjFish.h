@@ -50,7 +50,7 @@ struct TObjFish : public TObjBase {
     static void load_models();
     void update_attached_orientation();
     void destroy_child();
-    static s32 set_global_param(s32 arg0);
+    static s32 set_global_param(saddr arg0);
     void handle_death_state(u32 arg1);
     static void spawn_via_trap(s32 arg0, s32 arg1, s32 arg2);
     static void set_effect_target_position(void* p, void* a1, void* a2);

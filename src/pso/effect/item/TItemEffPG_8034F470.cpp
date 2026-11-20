@@ -84,7 +84,7 @@ void TUnk_804F0AF8::vfunc_60() {
     }
 }
 
-u8 *TObjPlayer::create_gi_gue_bazooka(s32 arg0) {
+u8 *TObjPlayer::create_gi_gue_bazooka(saddr arg0) {
     if (arg0 != 0) {
         return (u8 *)new TUnk_804F0A00(tl_05, (u8 *)arg0);
     }
@@ -130,7 +130,7 @@ void TUnk_804F0A00::init_weapon_effect_descriptor(Desc_8011E5C4 *desc) {
     desc->flags |= 0x80;
 }
 
-s32 TObjPlayer::spawn_fire_explosion(u32 a0, saddr a1) {
+s32 TObjPlayer::spawn_fire_explosion(uaddr a0, saddr a1) {
     S_802E449C info;
     void *o;
     TObjPlayer__sub_802E449C(&info);
@@ -144,7 +144,7 @@ s32 TObjPlayer::spawn_fire_explosion(u32 a0, saddr a1) {
     }
 }
 
-void TObjPlayer::spawn_fire_explosion_at_item(s32 arg0, s32 arg1) {
+void TObjPlayer::spawn_fire_explosion_at_item(s32 arg0, saddr arg1) {
     Ctx_80125628 *ctx = (Ctx_80125628 *)arg1;
     u32 p = (u32)find_item_by_id(arg0);
     if (p != 0U) {

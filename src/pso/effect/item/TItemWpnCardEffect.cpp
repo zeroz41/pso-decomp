@@ -266,12 +266,12 @@ void TUnk_804EDD44::anchor_card_effect() {
     }
   }
 }
-void TObjPlayer::create_and_init_effect(s32 item_id, u32 *arg1, s32 direction) {
+void TObjPlayer::create_and_init_effect(s32 item_id, u32 *arg1, saddr direction) {
     if ((arg1 != NULL) && ((u32) *arg1 != 0U)) {
         new TUnk_804EDD20(tl_05, (ActorBodyHit *)arg1, (f32 *)direction, 0, item_id);
     }
 }
-void TObjPlayer::alloc_and_init(s32 item_id, s32 arg1, s32 direction) {
+void TObjPlayer::alloc_and_init(s32 item_id, saddr arg1, saddr direction) {
     new TUnk_804EDD20(tl_05, (f32 *)arg1, (f32 *)direction, 0, item_id);
 }
 TUnk_804EDD20::TUnk_804EDD20(TObject *parent, ActorBodyHit *hit, f32 *direction, s32 tint, s32 item_id)

@@ -37,7 +37,7 @@ TParticleCtrl *create_particle_emitter(const void *pos, s32 id) {
     if (particle_pool_limit > id) {
         p = TObject::operator new(0x78);
         if (p != 0) {
-            p = ((TParticleCtrl *)p)->initialize(pos, (s32)(&(*(Ent_800874F4 * *)&particle_global_entry_table)[id]), 0, 0, 0, 0);
+            p = ((TParticleCtrl *)p)->initialize(pos, (saddr)(&(*(Ent_800874F4 * *)&particle_global_entry_table)[id]), 0, 0, 0, 0);
         }
         return (TParticleCtrl *)p;
     }
@@ -45,7 +45,7 @@ TParticleCtrl *create_particle_emitter(const void *pos, s32 id) {
         s32 idx = id - 0x200;
         p = TObject::operator new(0x78);
         if (p != 0) {
-            p = ((TParticleCtrl *)p)->initialize(pos, (s32)(&(*(Ent_800874F4 * *)&particle_area_entry_table)[idx]), 0, 0, 0, 0);
+            p = ((TParticleCtrl *)p)->initialize(pos, (saddr)(&(*(Ent_800874F4 * *)&particle_area_entry_table)[idx]), 0, 0, 0, 0);
         }
         return (TParticleCtrl *)p;
     }
@@ -592,14 +592,14 @@ void *initialize_with_direction__13TParticleCtrlFPvPvPviiiii(
     return particle;
 }
 
-void *TParticleCtrl::initialize_with_flags(const void *position, s32 particle_index, s32 field30, s32 field34, s32 field38, s32 use_self, u16 flags) {
+void *TParticleCtrl::initialize_with_flags(const void *position, saddr particle_index, s32 field30, s32 field34, s32 field38, s32 use_self, u16 flags) {
     INITIALIZE_PARTICLE(((ParticleCtrlData *)this), position, particle_index, field30, field34,
                         field38, use_self, flags, CLEAR_PARTICLE_DIRECTION,
                         position);
     return ((ParticleCtrlData *)this);
 }
 
-void *TParticleCtrl::initialize(const void *position, s32 particle_index, s32 field30, s32 field34, s32 field38, s32 use_self) {
+void *TParticleCtrl::initialize(const void *position, saddr particle_index, s32 field30, s32 field34, s32 field38, s32 use_self) {
     INITIALIZE_PARTICLE(((ParticleCtrlData *)this), position, particle_index, field30, field34,
                         field38, use_self, 0, CLEAR_PARTICLE_DIRECTION,
                         position);
@@ -652,7 +652,7 @@ void TParticleCtrl::init_particle_buffer() {
         particle_pool_limit = (u32) temp_r3 / 152U;
     }
 }
-s32 TParticleCtrl::get_particle_by_index(s32 arg0) {
+saddr TParticleCtrl::get_particle_by_index(s32 arg0) {
     if (arg0 >= 0x200) {
         return particle_area_entry_table + ((arg0 - 0x200) * 0x98);
     }

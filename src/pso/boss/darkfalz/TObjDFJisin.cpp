@@ -477,7 +477,7 @@ void boss6type2_draw_models(s32 arg0, s32 arg1, s32 arg2, uaddr arg3, uaddr arg4
 }
 
 extern "C" {
-void TObjPlayer::draw_player_model_by_client(u16 arg0, s32 arg1, f32 farg0, f32 farg1) {
+void TObjPlayer::draw_player_model_by_client(u16 arg0, saddr arg1, f32 farg0, f32 farg1) {
     u8 *p;
     uaddr a;
     u32 b;

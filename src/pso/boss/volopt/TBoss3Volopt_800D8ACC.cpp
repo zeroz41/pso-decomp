@@ -172,7 +172,7 @@ void spawn_particles_at__12TBoss3VoloptFi(saddr arg0) {
 
 #define create_dead_spot__10TObjPlayerFiiif ((s32 (*)(s32, s32, s32))create_dead_spot__10TObjPlayerFiiif)
 
-void TObjPlayer::create_dead_spot(s32 arg0, s32 arg1, f32 farg0) {
+void TObjPlayer::create_dead_spot(saddr arg0, s32 arg1, f32 farg0) {
     new TUnk_804949F4((TObject *)tl_05, (Vec *)arg0, (saddr)create_timed_particle_emitter((void *)arg0, 0xF8, 0, arg1), farg0);
 }
 
@@ -275,7 +275,7 @@ void TObjPlayer__sub_800D93F0(s32 point, s32 selector, s32 delay, f32 farg0) {
     new TUnk_80494A10((TObject *)tl_05, (Vec *)point, *(void **)((s8 *)(*(void **)((s8 *)player_corpse_mark_resource + 0x42C)) + 0xC), selector, delay, farg0);
 }
 
-void TObjPlayer::spawn_dead_spot(s32 point, s32 selector, s32 delay, f32 farg0) {
+void TObjPlayer::spawn_dead_spot(saddr point, s32 selector, s32 delay, f32 farg0) {
     new TDeadSpot((TObject *)tl_05, (Vec *)point, *(void **)((s8 *)(*(void **)((s8 *)player_corpse_mark_resource + 0x42C)) + 0xC), selector, delay, farg0);
 }
 

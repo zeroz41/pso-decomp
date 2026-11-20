@@ -44,7 +44,7 @@ void TObjPlayer__sub_80128A74(s32 a, uaddr b, s32 c, s32 d) {
 
 }
 
-void TObjPlayer::notify_hit_target(u32 arg0, u32 arg1, u32 arg2, u32 arg3) {
+void TObjPlayer::notify_hit_target(u32 arg0, uaddr arg1, u32 arg2, uaddr arg3) {
     if ((arg1 != 0U) && (arg3 != 0U)) {
         ((TObjPlayer *)arg1)->clear_rico_ring_flag();
         spawn_particle_effect((void *)arg3, 0x45);
@@ -71,7 +71,7 @@ TUnk_804A4020::TUnk_804A4020(void *owner, const Vec *pos, const Vec *dir, f32 li
     sub_80129118(TObjPlayer__sub_801290D0((u8 *)owner), ((TObjBase *)owner)->get_texlist());
 }
 
-u32 TObjPlayer::spawn_shot_effect(s32 owner, s32 origin, s32 end, f32 frames) {
+u32 TObjPlayer::spawn_shot_effect(saddr owner, saddr origin, saddr end, f32 frames) {
     TUnk_804A4020 *model = NULL;
     TItemShootParticle *particle;
     if (owner != 0) {
@@ -164,7 +164,7 @@ TUnk_804A403C::TUnk_804A403C(TObject *parent, u8 *item) : TUnk_804A4948(parent, 
     flags.reset();
 }
 
-u8 *TObjPlayer::create_event_callbacks_state(s32 arg0) {
+u8 *TObjPlayer::create_event_callbacks_state(saddr arg0) {
     if (arg0 != 0) {
         return (u8 *)new TUnk_804A403C(tl_05, (u8 *)arg0);
     }

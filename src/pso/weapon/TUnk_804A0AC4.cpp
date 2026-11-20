@@ -55,7 +55,7 @@ TUnk_804A0AC4::TUnk_804A0AC4(TObject *parent, u8 *item) : TItemWeapon(parent, it
     shot_speed = 10.0f;
 }
 
-u8 *TObjPlayer::create_state_34(s32 arg0) {
+u8 *TObjPlayer::create_state_34(saddr arg0) {
     if (arg0 != 0) {
         return (u8 *)new TUnk_804A0AC4(tl_05, (u8 *)arg0);
     }
