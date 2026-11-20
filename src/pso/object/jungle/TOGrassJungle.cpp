@@ -50,8 +50,8 @@ void TOGrassJungle::load_resources() {
     }
     TOGrassJungle__bml_resource = archive;
     TOGrassJungle__grass_gvm_texture = (GinjaTextureList *)load_gvm_texture_file((s32)"o_grass_jungle.gvm");
-    TMotorcycle::add_entry(0x3F, get_bml_model(TOGrassJungle__bml_resource, 0),
-        (s32)TOGrassJungle__grass_gvm_texture, 12.0f, -10.0f);
+    TMotorcycle::add_entry(0x3F, reinterpret_cast<NJS_OBJECT *>(get_bml_model(TOGrassJungle__bml_resource, 0)),
+                           TOGrassJungle__grass_gvm_texture, 12.0f, -10.0f);
 }
 
 s32 __ct__8TObjBaseFP7TObject(void *, void *);

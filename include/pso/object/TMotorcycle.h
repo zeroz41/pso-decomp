@@ -4,6 +4,8 @@
 #include "types.h"
 #include "pso/object/TObjMesBase.h"
 
+struct GinjaTextureList;
+
 struct TMotorcycle : public TObjMesBase {
     TMotorcycle(TObject *parent, ObjectSetData *placement);
     virtual ~TMotorcycle();
@@ -14,7 +16,7 @@ struct TMotorcycle : public TObjMesBase {
     virtual void render();
     static void free_statics();
     static void load_resources();
-    static void add_entry(s16 arg0, s32 arg1, s32 arg2, f32 farg0, f32 farg1);
+    static void add_entry(s16 id, NJS_OBJECT *model, GinjaTextureList *textures, f32 radius, f32 y_offset);
 };
 
 typedef char TMotorcycle_size[sizeof(TMotorcycle) == 0xC0 ? 1 : -1];

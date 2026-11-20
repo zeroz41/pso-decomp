@@ -133,7 +133,8 @@ void TOTrapAncient01::load_resources() {
         resource = load_resource_from_descriptor(resource, 1, &bm_o_trap_ancient01_resource_descriptor, 0, 0, 0);
     }
     TOTrapAncient01__bml_resource = resource;
-    TMotorcycle::add_entry(0x39, get_bml_model(TOTrapAncient01__bml_resource, 3), get_bml_texlist(resource, 3), 20.0f, 0.0f);
+    TMotorcycle::add_entry(0x39, reinterpret_cast<NJS_OBJECT *>(get_bml_model(TOTrapAncient01__bml_resource, 3)),
+                           reinterpret_cast<GinjaTextureList *>(get_bml_texlist(resource, 3)), 20.0f, 0.0f);
 }
 
 void TOTrapAncient01::release_static_resource() {

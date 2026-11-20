@@ -84,14 +84,14 @@ void copy_position_data(void *dst, void *src) {
     to->action_count = from->action_count;
 }
 
-void TMotorcycle::add_entry(s16 id, s32 model, s32 texlist, f32 radius, f32 y_offset) {
+void TMotorcycle::add_entry(s16 id, NJS_OBJECT *model, GinjaTextureList *textures, f32 radius, f32 y_offset) {
     TObjNpcEnemyEntry *entry = TObjNpcEnemy::insert_slot_by_id(id);
     if (entry != NULL) {
         entry->id = id;
         entry->kind = 2;
         entry->y_offset = y_offset;
-        entry->model = model;
-        entry->texlist = texlist;
+        entry->model = reinterpret_cast<s32>(model);
+        entry->texlist = reinterpret_cast<s32>(textures);
         entry->radius = radius;
         entry->motion.motion_entry = 0;
         entry->motion.motion_action = 0;

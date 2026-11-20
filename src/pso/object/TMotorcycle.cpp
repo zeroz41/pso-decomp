@@ -107,10 +107,10 @@ void TMotorcycle::load_resources() {
     }
     TMotorcycle__bml_resource = storage;
     TMotorcycle__texture_list = reinterpret_cast<GinjaTextureList *>(load_gvm_texture_file((s32)"obj_motorcycle.GVM"));
-    TMotorcycle::add_entry(0x3C, get_bml_model(TMotorcycle__bml_resource, 0),
-                          reinterpret_cast<s32>(TMotorcycle__texture_list), 16.0f, 0.0f);
-    TMotorcycle::add_entry(0x3D, get_bml_model(TMotorcycle__bml_resource, 1),
-                          reinterpret_cast<s32>(TMotorcycle__texture_list), 16.0f, 0.0f);
+    TMotorcycle::add_entry(0x3C, reinterpret_cast<NJS_OBJECT *>(get_bml_model(TMotorcycle__bml_resource, 0)),
+                           TMotorcycle__texture_list, 16.0f, 0.0f);
+    TMotorcycle::add_entry(0x3D, reinterpret_cast<NJS_OBJECT *>(get_bml_model(TMotorcycle__bml_resource, 1)),
+                           TMotorcycle__texture_list, 16.0f, 0.0f);
 }
 
 TMotorcycle::~TMotorcycle() {

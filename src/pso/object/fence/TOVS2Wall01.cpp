@@ -336,7 +336,8 @@ void TOVS2Wall01::load_resources() {
     var_r0 = load_resource_from_descriptor((int) temp_r3, 1, &bm_o_vs2_resource_descriptor, 0, 0, 0);
   }
   TOVS2Wall01__bml_resource = (BmlResource *)var_r0;
-  TMotorcycle::add_entry(0x3A, (int) get_bml_model(TOVS2Wall01__bml_resource, 5), (int) get_bml_texlist((BmlResource *)var_r0, 5), 10.0f, 0.0f);
+  TMotorcycle::add_entry(0x3A, reinterpret_cast<NJS_OBJECT *>(get_bml_model(TOVS2Wall01__bml_resource, 5)),
+                        reinterpret_cast<GinjaTextureList *>(get_bml_texlist((BmlResource *)var_r0, 5)), 10.0f, 0.0f);
 }
 void TOVS2Wall01::release_model() {
     if (TOVS2Wall01__bml_resource != NULL) {
