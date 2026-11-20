@@ -32,7 +32,7 @@ void TObjPlayer::sync_char_select_state() { get_char_index__23TAdSinglePlyChrSel
 
 void *get_player_by_client_id(s32 i);
 
-s32 try_assign_battle_ctrl__10TObjPlayerFiUs(s32 arg0, u16 arg1) {
+s32 try_assign_battle_ctrl__10TObjPlayerFiUs(saddr arg0, u16 arg1) {
     s32 temp = (saddr)get_player_by_client_id((arg1));
     if (temp == 0) {
         return 0;

@@ -2334,7 +2334,7 @@ u8 *TAdSinglePlyChrSelectGC__sub_801FFC74(u8 *arg0, u8 *arg1);
 s32 update_elapsed_time__23TAdSinglePlyChrSelectGCFPv(void *);
 saddr get_character_save_record(u32);
 s32 get_char_index__23TAdSinglePlyChrSelectGCFUi(u32);
-s32 try_assign_battle_ctrl__10TObjPlayerFiUs(s32, u16);
+s32 try_assign_battle_ctrl__10TObjPlayerFiUs(saddr, u16);
 s32 TLobby__sub_8030A770(void);
 s32 get_character_select_request_buffer();
 u32 get_player_by_client_id(s32);
