@@ -16,7 +16,7 @@ public:
     void sub_8034B8BC();
     void sub_8034B8B0();
     virtual void run_task();
-    void show_message(s32 text_handle);
+    void show_message(saddr text_handle);
     void handle_third_reward();
     s32 state_1c;
     s32 wait_frames;

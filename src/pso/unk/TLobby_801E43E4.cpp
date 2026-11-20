@@ -288,7 +288,7 @@ int TLanguage::read_file_header(int cursor, void *header) {
     return hdr->count;
 }
 
-void TLanguage::read_into_buffer(s32 arg0, s32 arg1) {
+void TLanguage::read_into_buffer(saddr arg0, s32 arg1) {
     ((TLobby *)arg0)->move_data((const void *)TLanguage__read_cursor, (u32)arg1);
     TLanguage__read_cursor += arg1;
 }

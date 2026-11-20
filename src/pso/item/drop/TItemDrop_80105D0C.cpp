@@ -615,7 +615,7 @@ s32 TItemDrop::drop_item(s32 arg0, s32 arg1, saddr arg2) {
 }
 
 
-void TItemDrop::calc_drop_rarity(s32 rng, s32 arg1, void *item_) {
+void TItemDrop::calc_drop_rarity(saddr rng, s32 arg1, void *item_) {
     u8 temp_r3;
     u8 call_res;
 
@@ -768,7 +768,7 @@ void build_weapon_type_weights__9TItemDropFiPvi(saddr rng, Obj_80106F4C *item, s
     }
 }
 
-void TItemDrop::calc_drop_item(s32 rng, void *arg1, s32 arg2) {
+void TItemDrop::calc_drop_item(saddr rng, void *arg1, s32 arg2) {
     if ((u8) *(u8 *)((s8 *)arg1 + 0) == 0) {
         *(s8 *)((s8 *)arg1 + 3) = ((TItemDrop *)rng)->select_weighted_byte((s32)((s32)(*(s32 *)((s8 *)TItemDrop__common_probability_table + 0xC))), (s32)((s32)(clamp_s32(arg2, 0, 3))), 9, 4);
     }
@@ -887,7 +887,7 @@ block_18:
     return 0;
 }
 
-u16 TItemDrop::roll_meseta_range(s32 arg1, s32 a, s32 b, s32 c) {
+u16 TItemDrop::roll_meseta_range(saddr arg1, s32 a, s32 b, s32 c) {
     Pair_801075B4 *tbl = (Pair_801075B4 *)arg1;
     u32 lo = tbl[b + a * c].lo;
     u32 hi = tbl[b + a * c].hi;
@@ -904,7 +904,7 @@ u16 TItemDrop::roll_meseta_range(s32 arg1, s32 a, s32 b, s32 c) {
     }
 }
 
-u8 TItemDrop::roll_technique_level(s32 table, s32 row, s32 col, s32 stride) {
+u8 TItemDrop::roll_technique_level(saddr table, s32 row, s32 col, s32 stride) {
     Pair_80107640 *tbl = (Pair_80107640 *)table;
     u32 lo = tbl[col + row * stride].lo;
     u32 hi = tbl[col + row * stride].hi;

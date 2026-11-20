@@ -33,14 +33,14 @@ struct TItemDrop : public TObject {
     void generate_drop_item(s32 idx, u8 *item);
     static s32 select_rare_box_item(s32 arg0, s32 arg1, u8 *arg2);
     static s32 drop_item(s32 arg0, s32 arg1, saddr arg2);
-    static void calc_drop_rarity(s32 rng, s32 arg1, void *item_);
+    static void calc_drop_rarity(saddr rng, s32 arg1, void *item_);
     static void init_rare_item_data(void *arg0, void *item_data);
     static void handle_type3(void* p, void* a1);
     static void apply_item_data(void *arg0, void *item);
     static void set_flag(void *arg0, void *item);
-    static void calc_drop_item(s32 rng, void *arg1, s32 arg2);
-    u16 roll_meseta_range(s32 arg1, s32 a, s32 b, s32 c);
-    u8 roll_technique_level(s32 table, s32 row, s32 col, s32 stride);
+    static void calc_drop_item(saddr rng, void *arg1, s32 arg2);
+    u16 roll_meseta_range(saddr arg1, s32 a, s32 b, s32 c);
+    u8 roll_technique_level(saddr table, s32 row, s32 col, s32 stride);
     u8 select_weighted_byte(s32 base, s32 off, s32 count, s32 stride);
     s8 get_bool_from_1d6ddc();
 };

@@ -1180,7 +1180,7 @@ void TQuestVmDownLoadServer::check_client_connections() {
         }
     }
 }
-void TQuestVmDownLoadServer::show_status_message(s32 text, s32 arg2) {
+void TQuestVmDownLoadServer::show_status_message(saddr text, s32 arg2) {
     u8*arg0 = (u8*)this;
     if (*(u32*)(arg0 + 0x294) == 0) {
         static const Pair_801F6E08 window_size = {444.0f, 84.0f};

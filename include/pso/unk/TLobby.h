@@ -105,7 +105,7 @@ struct TLobby : public TObject {
     static s32 load_bml_exec(u8 *arg0, u8 *arg1);
     static void free_chr_select_data();
     static void init_download_buffers();
-    s32 load_bin_motion(s32 arg1, s32 arg2);
+    s32 load_bin_motion(saddr arg1, s32 arg2);
     void reset_battle_state();
     static s32 get_game_mode();
     void copy_header(void *arg1);
@@ -670,7 +670,7 @@ struct TLobby : public TObject {
     void byteswap_6x75_packet();
     void pick_random_entry();
     static void pick_weighted_entry(s32 *arg0, s32 *arg1);
-    void copy_record_entry(s32 arg1);
+    void copy_record_entry(saddr arg1);
     static s32 load_all_floor_enemy_sets();
     static s32 load_all_floor_object_sets();
     static int get_object_type(int a0);
@@ -735,7 +735,7 @@ struct TLobby : public TObject {
     void update_model_load();
     void copy_player_record(u8 *arg1);
     u8 *init_memory_pool(s32 arg1, s32 arg2, s32 arg3);
-    s32 load_bin_model(s32 arg1, s32 arg2);
+    s32 load_bin_model(saddr arg1, s32 arg2);
     static void init_on_main_phase();
     static void copy_state_block();
     static saddr get_unit_list();
@@ -957,8 +957,8 @@ struct TLobby : public TObject {
     s32 init_guild_card_tag();
     static void dispatch_command(s32 arg0);
     static void send_slot_entity_or_local(u16 arg0, s32 arg1);
-    void send_slot_entity(u16 arg1, s32 arg2);
-    void start_entry_timer(u16 arg1, s32 src);
+    void send_slot_entity(u16 arg1, saddr arg2);
+    void start_entry_timer(u16 arg1, saddr src);
     void destroy_matching_children();
     static void finish_chr_select_scene_init();
     void start_duel_battle();

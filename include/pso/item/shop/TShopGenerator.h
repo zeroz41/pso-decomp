@@ -5,7 +5,7 @@
 #include "pso/object/base/TObjMotion.h"
 
 struct TShopGenerator : public TObjBase {
-    TShopGenerator(s32);
+    TShopGenerator(saddr);
     virtual ~TShopGenerator();
     bool is_player_in_service_range(u8 *, f32);
     virtual void run_task();

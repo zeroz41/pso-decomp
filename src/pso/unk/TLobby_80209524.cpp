@@ -645,7 +645,7 @@ void TLobby__sub_8020A48C(void* p) { bswap_32((u32 *)p); bswap_32((u32 *)((char*
 #pragma dont_inline off
 struct ByteBlock_14 { u8 bytes[0x14]; };
 
-void TLobby::copy_record_entry(s32 arg1) {
+void TLobby::copy_record_entry(saddr arg1) {
     saddr arg0 = (saddr)this;
     *(ByteBlock_14 *)(arg0) = *(const ByteBlock_14 *)(arg1);
     *(s16 *)((s8 *)arg0 + 0x14) = (s16) *(s16 *)((s8 *)arg1 + 0x14);

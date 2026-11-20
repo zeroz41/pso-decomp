@@ -121,7 +121,7 @@ TUnk_804DDD28::TUnk_804DDD28() {}
 
 s32 TUnk_804DDD28::get_cell_address(s32, s32) { return 0; }
 int TUnk_804DDD28::vfunc_4() { return 0; }
-int TUnk_804DDD28::vfunc_8(s32, s32) { return 0; }
+int TUnk_804DDD28::vfunc_8(saddr, saddr) { return 0; }
 int TUnk_804DDD28::vfunc_9(s32, s32, s32) { return 0; }
 void TUnk_804DDD28::vfunc_14() {  }
 int TUnk_804DDD28::vfunc_75() { return 0; }

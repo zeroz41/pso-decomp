@@ -634,7 +634,7 @@ s32 bind_bml_model(Lobby_8001FBEC *arg0, u32 arg1, s32 arg2, s32 arg3) {
     return 1;
 }
 
-s32 TLobby::load_bin_motion(s32 arg1, s32 arg2) {
+s32 TLobby::load_bin_motion(saddr arg1, s32 arg2) {
     Lobby_8001FB6C *arg0 = (Lobby_8001FB6C *)this;
     u32 offset;
     s32 tag;
@@ -658,7 +658,7 @@ s32 TLobby::load_bin_motion(s32 arg1, s32 arg2) {
     return 1;
 }
 
-s32 TLobby::load_bin_model(s32 arg1, s32 arg2) {
+s32 TLobby::load_bin_model(saddr arg1, s32 arg2) {
     s32 size;
     ((Lobby_8001FD98 *)this)->entries[arg2].motion = NULL;
     ((Lobby_8001FD98 *)this)->entries[arg2].texture = NULL;

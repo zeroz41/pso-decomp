@@ -62,7 +62,7 @@ void *TScene::destroy_buffers(s16 arg1) {
 extern s32 scroll_uv_entry_write_cursor;
 extern s32 scroll_uv_coordinate_write_cursor;
 
-void *TScene::init_buffers(s32 arg1, s32 arg2) {
+void *TScene::init_buffers(saddr arg1, s32 arg2) {
     s32 temp_r0;
 
     *(s32 *)&this->m_flags = 0;

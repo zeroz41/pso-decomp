@@ -171,7 +171,7 @@ void TShopGenerator::run_task() {
 TShopGenerator::~TShopGenerator() {
 }
 
-TShopGenerator::TShopGenerator(s32 arg1) : TObjBase((TObject *)tl_05) {
+TShopGenerator::TShopGenerator(saddr arg1) : TObjBase((TObject *)tl_05) {
     s32 temp_r0;
     m_name = TShopGenerator__class_name;
     this->apply_object_set_data((void *)arg1);

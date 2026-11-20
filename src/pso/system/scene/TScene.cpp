@@ -778,7 +778,7 @@ void TScene::load_current_floor() {
     TScene__visibility_radius_margin = 0.0f;
 }
 
-void TScene::load_scene_data(s32 name) {
+void TScene::load_scene_data(saddr name) {
     struct Sp8Buf20_80206494 sp8;
     s32 temp_r31;
     u32 temp_r3;
@@ -815,7 +815,7 @@ void TScene::load_scene_data(s32 name) {
     TLobby::debug_print("TScene : CANNOT LOAD COLLISION DATA");
 }
 
-void TScene::load_scene_rel_file(s32 arg0) {
+void TScene::load_scene_rel_file(saddr arg0) {
     u8 id[0x28];
     s32 area;
     s32 size;
@@ -859,7 +859,7 @@ void TScene::load_scene_rel_file(s32 arg0) {
     }
 }
 
-void TScene::load_supplementary_t_rel(s32 name) {
+void TScene::load_supplementary_t_rel(saddr name) {
     u8 id[0x20];
     s32 n;
     TScene__texture_wave_resource = 0;
@@ -876,7 +876,7 @@ void TScene::load_supplementary_t_rel(s32 name) {
     }
 }
 
-void TScene::load_map_texture_archive(s32 name) {
+void TScene::load_map_texture_archive(saddr name) {
     char sp8[0x20];
     s32 area;
     s32 var_r30;
@@ -914,7 +914,7 @@ void TScene::load_map_texture_archive(s32 name) {
     }
 }
 
-void TScene::load_floor_bin_file(s32 name) {
+void TScene::load_floor_bin_file(saddr name) {
     u8 sp8[0x20];
     s32 size;
     TScene__data_805D6020 = 0U;
@@ -942,7 +942,7 @@ void TScene::load_floor_bin_file(s32 name) {
     }
 }
 
-void TScene::load_file_to_buffer(s32 name) {
+void TScene::load_file_to_buffer(saddr name) {
     s32 sp8[8];
     s32 temp_r31;
     uaddr temp_r3;
@@ -1097,7 +1097,7 @@ void load_scene_map_file(saddr arg0) {
     }
 }
 
-void TScene::load_tam_file(s32 name) {
+void TScene::load_tam_file(saddr name) {
     u8 sp8[0x20];
     TLobby::replace_file_extension((char *)((s32 *)sp8), (char *)name, (char *)((s32 *)".tam"));
     if (get_resource_file_size((const char *)sp8) <= lbl_805D6018) {
@@ -1109,7 +1109,7 @@ void TScene::load_tam_file(s32 name) {
     }
 }
 
-void TScene::load_floor_rel_file(s32 name) {
+void TScene::load_floor_rel_file(saddr name) {
     u8 id[0x20];
     TLobby::replace_file_extension((char *)((s32 *)id), (char *)name, (char *)((s32 *)"t.rel"));
     if (get_resource_file_size((const char *)id) <= TScene__loaded_floor_rel_file_index) {

@@ -70,7 +70,7 @@ public:
     void destroy();
     void close();
     void check_client_connections();
-    void show_status_message(s32 arg1, s32 arg2);
+    void show_status_message(saddr arg1, s32 arg2);
     void close_message();
     void check_cancel_input();
     static void create();

@@ -25,8 +25,8 @@ public:
     virtual int vfunc_4();
     virtual int vfunc_5(s32);
     virtual int vfunc_6(s32, s32, s32);
-    virtual int vfunc_7(s32, s32);
-    virtual int vfunc_8(s32, s32);
+    virtual int vfunc_7(saddr, saddr);
+    virtual int vfunc_8(saddr, saddr);
     virtual int vfunc_9(s32, s32, s32);
     virtual int vfunc_10();
     virtual int vfunc_11();

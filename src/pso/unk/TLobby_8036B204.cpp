@@ -41,7 +41,7 @@ void dispatch_by_index__6TLobbyFUsi(u16 arg0, s32 src) {
         ((TLobby *)slot_entity_dispatcher_instance)->start_entry_timer(arg0, src);
     }
 }
-void TLobby::send_slot_entity(u16 arg1, s32 arg2) {
+void TLobby::send_slot_entity(u16 arg1, saddr arg2) {
     u32 temp_r6;
     temp_r6 = *(u32 *)((s8 *)this + 0x1C);
     if (temp_r6 != 0U) {
@@ -50,7 +50,7 @@ void TLobby::send_slot_entity(u16 arg1, s32 arg2) {
     }
     TLobby__sub_8036B1AC(arg2);
 }
-void TLobby::start_entry_timer(u16 arg1, s32 src) {
+void TLobby::start_entry_timer(u16 arg1, saddr src) {
     Obj_8036B2E8 *arg0 = (Obj_8036B2E8 *)this;
     if (arg0->base != 0) {
         s32 i = arg1;

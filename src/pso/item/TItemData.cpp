@@ -206,7 +206,7 @@ s32 TItemData::get_type_nibble() {
 
 #pragma push
 #pragma opt_common_subs off
-void TItemData::apply_custom_shield_bonus(s32 player, TItemData *a, TItemData *b, EquipStats *stats, s32) {
+void TItemData::apply_custom_shield_bonus(saddr player, TItemData *a, TItemData *b, EquipStats *stats, s32) {
     if (data1.data_u8[0] == 1 && data1.data_u8[1] == 2) {
         u8 id = data1.data_u8[2];
         if (id >= 0x53 && id <= 0x82) {
@@ -1424,7 +1424,7 @@ f32 TItemData::get_weapon_set_multiplier(u8 *item_data) {
   return var_f31;
 }
 
-f32 TItemData::get_set_bonus_multiplier(s32 player) {
+f32 TItemData::get_set_bonus_multiplier(saddr player) {
     u8 *item = (u8 *)this;
     switch (item[0]) {
     case 0:
@@ -1441,7 +1441,7 @@ f32 TItemData::get_set_bonus_multiplier(s32 player) {
     return 1.0f;
 }
 
-void TItemData::apply_equip_effects(s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5) {
+void TItemData::apply_equip_effects(s32 arg1, saddr arg2, saddr arg3, saddr arg4, s32 arg5) {
 
     if ((arg1 != 0) || (arg1 = (saddr)get_player_by_client_id(local_client_id), ((arg1 == 0) == 0))) {
         get_set_bonus_multiplier(arg1);

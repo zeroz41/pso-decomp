@@ -62,8 +62,8 @@ struct TItemData {
     f32 get_shield_set_multiplier(u8 *arg1);
     f32 get_armor_set_multiplier(u8 *arg1);
     f32 get_weapon_set_multiplier(u8 *arg1);
-    void apply_equip_effects(s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5);
-    void apply_custom_shield_bonus(s32 player, TItemData *a, TItemData *b, EquipStats *stats, s32);
+    void apply_equip_effects(s32 arg1, saddr arg2, saddr arg3, saddr arg4, s32 arg5);
+    void apply_custom_shield_bonus(saddr player, TItemData *a, TItemData *b, EquipStats *stats, s32);
     s32 calc_buy_price();
     void format_item_name(char *buf);
     int calc_display_grade();
@@ -92,7 +92,7 @@ struct TItemData {
     u16 get_packed_value();
     void decode_packed_name_chars(s8 *out);
     void add_mag_stat_bonuses(s32 player, u8 *a, u8 *b, EquipStats *st, s32 w5);
-    f32 get_set_bonus_multiplier(s32 player);
+    f32 get_set_bonus_multiplier(saddr player);
 };
 
 extern "C" {
