@@ -241,7 +241,7 @@ public:
     f32 y_speed;
     f32 m_310;
     s32 m_314;
-    u32 m_318;
+    uaddr m_318;  // the actor's AttackParams
     ActorParamBlock *param_block;  // get_actor_param_block
     u8 unk_320[0x2];
     s16 m_322;

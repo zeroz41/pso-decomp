@@ -174,7 +174,7 @@ void TUnk_80488AF0::run_task() {
     }
 }
 
-void TCameraCtrl::create(s32 arg0, s32 arg1, s32 arg2) {
+void TCameraCtrl::create(saddr arg0, s32 arg1, s32 arg2) {
     new TUnk_80488AF0((Vec *)arg0, arg1, arg2, (TObject *)tl_07);
 }
 

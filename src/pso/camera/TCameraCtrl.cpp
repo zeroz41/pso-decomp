@@ -741,7 +741,7 @@ void TCameraCtrl::calc_rotated_axes() {
 #pragma push
 #pragma opt_common_subs off
 #pragma opt_propagation off
-void TCameraCtrl::calc_axes_from_angles(s32 arg0, s32 arg1, s32 arg2) {
+void TCameraCtrl::calc_axes_from_angles(saddr arg0, s32 arg1, s32 arg2) {
     Vec right = {1.0f, 0.0f, 0.0f};
     Vec up = {0.0f, 1.0f, 0.0f};
     push_matrix_from((void *)&identity_matrix.value);
@@ -1713,7 +1713,7 @@ void TCameraCtrl::restore_full_screen_view() {
 }
 
 
-void TCameraCtrl::copy_view_state(s32 src) {
+void TCameraCtrl::copy_view_state(saddr src) {
     saddr dst = (saddr)this;
     *(O_80068FCC *)dst = *(O_80068FCC *)src;
 }

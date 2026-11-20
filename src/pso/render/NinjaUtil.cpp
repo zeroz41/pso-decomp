@@ -92,7 +92,7 @@ static void find_model_node_walk(NJS_OBJECT *node) {
     }
 }
 
-s32 find_model_node(uaddr root, s32 index) {
+saddr find_model_node(uaddr root, s32 index) {
     NJS_OBJECT *node = (NJS_OBJECT *)root;
     if (node == NULL) {
         return NULL;
