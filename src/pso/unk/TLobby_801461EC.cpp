@@ -28,7 +28,7 @@ s32 TLobby__sub_80407358();
 s32 TLobby__sub_8041509C();
 s16 TLobby__sub_80423064(s16 idx, s32 arg1);
 void TLobby__sub_80424CA8(void);
-s32 TLobby__sub_80424CF4(void *, void *, s32 timeout);
+s32 TLobby__sub_80424CF4(s32 session, s32 ip, s32 timeout);
 void TLobby__sub_801469B8(void* p);
 void *get_account_entry(int idx);
 void TLobby__sub_8014715C(void* p, void* q);
@@ -456,7 +456,7 @@ void TLobby::flush_pending_flags() {
     TLobby::teardown_boss2();
     if (TLobby__sub_80145EE4() != 0) {
         if (TLobby__connect_pending_flags & 0x10) {
-            TLobby__sub_80424CF4((void *)((s16) lobby_net_session_id), (void *)lobby_local_ip_addr, 3);
+            TLobby__sub_80424CF4((s16) lobby_net_session_id, lobby_local_ip_addr, 3);
             TLobby__connect_pending_flags &= 0xFFFFFFEF;
             TLobby__sub_80424CA8();
         }

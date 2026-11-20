@@ -388,18 +388,18 @@ void TChallenge4PItemSelect::open_menu() {
     waitFrames = temp_r0;
     if (temp_r0 <= 0) {
         temp_r30 = fn_8034BE30(result);
-        (u32 &)menu_window = create_window_menu(get_window_layout_position(0x42), 8, temp_r30);
-        if ((u32) (u32 &)menu_window != 0U) {
+        menu_window = (void *)create_window_menu(get_window_layout_position(0x42), 8, temp_r30);
+        if ((uaddr)menu_window != 0U) {
             var_r29 = 0;
             do {
                 forward_trade_action_default__16TObjCityMainWarpFPviii((u32 &)menu_window, get_text_collection(challenge4p_item_select_text_ids[var_r29]), 6, var_r29);
                 var_r29 += 1;
             } while (var_r29 < 8);
-            ((TWindowSubComCardList *)((u32 &)menu_window))->set_scroll_target(252.0f, 1.4e+02f);
+            ((TWindowSubComCardList *)menu_window)->set_scroll_target(252.0f, 1.4e+02f);
             TWindowSubComCard__sub_80265500((u32 &)menu_window);
-            ((TWindowBase *)((u32 &)menu_window))->set_depth(3.9e+04f);
+            ((TWindowBase *)menu_window)->set_depth(3.9e+04f);
             if (TCameraCtrl::get_instance() > 2) {
-                ((TWindowAddition *)((u32 &)menu_window))->set_position_xy(0.9f, 0.9f);
+                ((TWindowAddition *)menu_window)->set_position_xy(0.9f, 0.9f);
             }
             state = 1;
         }

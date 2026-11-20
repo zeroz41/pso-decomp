@@ -930,7 +930,7 @@ void TLobby__sub_80424CA8(void) {
     lbl_805D7B14 = TLobby__sub_804250A8(0);
 }
 
-s32 TLobby__sub_80424CF4(void *, void *, s32 timeout) {
+s32 TLobby__sub_80424CF4(s32 session, s32 ip, s32 timeout) {
     s32 state;
     *(volatile s32 *)&dhcp_state = 6;
     *(volatile s32 *)&dhcp_step = 0;

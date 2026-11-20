@@ -9,10 +9,10 @@
 
 extern "C" {
 s32 sub_80246948__11TWindowBaseFv(void *);
-s32 is_player_input_active(void *);
+s32 is_player_input_active(s32 param_1);
 }
 void toggle_help_window_on_button(uaddr arg0, s32 arg1) {
-    if ((is_split_screen() != 0) && (arg0 != 0U) && (TWindowShortListCtrl__check_controller_button((void *) ((u8 *)&controller_input_state + (is_player_input_active((void *)arg1) * 0x50) + 0x20), 0x400) != 0)) {
+    if ((is_split_screen() != 0) && (arg0 != 0U) && (TWindowShortListCtrl__check_controller_button((void *) ((u8 *)&controller_input_state + (is_player_input_active(arg1) * 0x50) + 0x20), 0x400) != 0)) {
         if (sub_80246948__11TWindowBaseFv((void *)arg0) != 0) {
             window_request_show((void *)arg0);
             return;
