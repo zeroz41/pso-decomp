@@ -76,7 +76,7 @@ struct _packet {
         header.bswap();
     };
     packet_header header;
-    u8 data[];
+    u8 data[0x7c00 - sizeof(packet_header)];
 };
 
 union packet {
