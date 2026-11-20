@@ -1021,7 +1021,7 @@ void handle_6x19_dark_falz_actions(Msg_8004BFA4 *arg0) {
 
 void TBoss4DarkFalz::cleanup_global() { TBoss4DarkFalz::free_global_instance(); TBoss4DarkFalz__sub_8030AD38(); free_bin_model_request((void*)darkfalz_dat_resource, (void*)1); darkfalz_dat_resource = 0; }
 
-extern s32 tl_04;
+extern saddr tl_04;
 
 void TBoss4DarkFalz::load_resources() {
     saddr temp_r3;

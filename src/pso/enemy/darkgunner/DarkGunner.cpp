@@ -550,7 +550,7 @@ void *__vt__17TObjEneDarkGunner[83] = {
 extern u8 identity_matrix[];
 saddr lbl_805D5004;
 extern f32 player_scale_factor;
-extern u32 player_effect_bml_resource;
+extern uaddr player_effect_bml_resource;
 extern uaddr TObjPlayer__effect_resource;
 extern s32 lbl_805D5014;
 extern s32 lbl_805D5018;
@@ -1639,7 +1639,7 @@ void TObjPlayer::clear_counter() { this->m_340 = 0; }
 
 void TObjPlayer::set_cancel_flag() { *(s32 *)&this->m_340 = 1; }
 f32 player_scale_factor;
-u32 player_effect_bml_resource;
+uaddr player_effect_bml_resource;
 uaddr TObjPlayer__effect_resource;
 s32 lbl_805D5014;
 s32 lbl_805D5018;

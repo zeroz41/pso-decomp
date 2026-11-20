@@ -49,7 +49,7 @@ extern const f32 lbl_805D85C8;
 s32 TObjBoss2DustCtrl_dust_counter;
 
 extern s32 __vt__17TObjBoss2DustCtrl[];
-extern s32 tl_05;
+extern saddr tl_05;
 
 s32 post_translate_matrix(int);
 }

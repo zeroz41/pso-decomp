@@ -42,6 +42,7 @@ extern BmlResourceDescriptor boss6_plot_falz_resource_descriptor;
 #include "pso/object/TObjControl.h"
 #include "pso/boss/olgaflow/TBoss6Thanks_8035D1F4.h"
 #include "pso/enemy/dd/TObjEneDD.h"
+#include "pso/system/task/TMainTask.h"
 
 #pragma readonly_strings on
 const char *boss06_plotfalz_dat_model_names[15] = {
@@ -1182,7 +1183,7 @@ extern "C" {
 s32 restore_player_cameras();
 void play_area_music(char *name);
 s32 is_ending_or_split_screen__14TBoss6PlotFalzFv(void *);
-extern s32 TBoss6PlotFalz__instance;
+extern saddr TBoss6PlotFalz__instance;
 u8 *get_enemy_entity(u16 arg0);
 void fn_802ACD40();
 void handle_6xA3_olga_flow_boss_actions(Msg_802AC7E4 *m);
@@ -1320,8 +1321,6 @@ TBoss6PlotFalz::TBoss6PlotFalz(TObject *parent, void *set_data) : TObjEnemy(pare
 
 void TBoss6PlotFalz::free_all() { TBoss4DarkFalz::free_global_instance(); TBoss6Tube::free_resources(); TBoss6Rock::free_data(); TItemEffOrgaFlowShot__sub_80357204(); free_bin_model_request((void*)obj_fish_count, (void*)1); obj_fish_count = 0; }
 
-extern s32 tl_04;
-
 void TBoss6PlotFalz::load_resources() {
     saddr temp_r3;
     saddr var_r0;
@@ -1349,7 +1348,7 @@ s32 TObjFish::get_phase() { return *(s32*)((char*)this + 0x378); }
 saddr TObjFish::get_fish_count() {  return obj_fish_count; }
 
 u16 boss6_plot_falz_player_order_table[4];
-s32 TBoss6PlotFalz__instance;
+saddr TBoss6PlotFalz__instance;
 uaddr TBoss6PlotFalz__type1_instance;
 uaddr TBoss6PlotFalz__type2_instance;
 s32 plot_falz_phase;

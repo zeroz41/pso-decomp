@@ -678,7 +678,7 @@ extern const f32 lbl_805D8EC0;
 extern const float lbl_805D8EC4;
 extern const f32 lbl_805D8EC8;
 extern s32 model_render_flags;
-extern s32 tl_01;
+extern saddr tl_01;
 
 #pragma push
 #pragma fp_contract on

@@ -6,10 +6,10 @@
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/task/TMainTask.h"
 
 extern "C" {
 extern void *lbl_805D4DD8;
-extern s32 tl_02;
 extern s32 __vt__19TObjBoss5PillarDemo[];
 #pragma push
 #pragma readonly_strings on
@@ -61,7 +61,7 @@ s32 TObjBoss5PillarDemo::create() {
     boss5_pillar_demo = (saddr)TObject::operator new(0x4C);
     var_r0 = boss5_pillar_demo;
     if (var_r0 != 0) {
-        var_r0 = ((saddr)TObjBoss5PillarDemo__ct((TObjBoss5PillarDemo *)((u8 *)boss5_pillar_demo), (s32)tl_02, temp_r31 + 8));
+        var_r0 = ((saddr)TObjBoss5PillarDemo__ct((TObjBoss5PillarDemo *)((u8 *)boss5_pillar_demo), (saddr)tl_02, temp_r31 + 8));
     }
     return var_r0;
 }

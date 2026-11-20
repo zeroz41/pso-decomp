@@ -58,7 +58,7 @@ void *get_player_by_client_id(s32 i);
 s32 minimap_render_dot(void *, int, int, int);
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
 void subtract_vector(void *, void *);
-extern s32 tl_05;
+extern saddr tl_05;
 s32 obj_setFlags30(void *, int);
 
 u16 get_entity_id(void *);

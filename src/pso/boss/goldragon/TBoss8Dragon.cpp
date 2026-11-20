@@ -52,6 +52,7 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/render/MaterialAlphaCompare.h"
+#include "pso/system/task/TMainTask.h"
 
 struct FadeE_802FCF00 { u8 b[0x1C]; };
 
@@ -745,8 +746,7 @@ extern s32 TLobby__designated_client_id;
 extern u8 controller_input_state[];
 extern s32 lbl_805D6990;
 extern f32 boss8_dragon_visibility_distance;
-extern s32 lbl_805D28BC;
-extern TObject *tl_04;
+extern void *lbl_805D28BC;
 
 extern "C" {
 struct Obj_802F7B70;
@@ -1279,7 +1279,6 @@ f32 calc_random_ratio__10TObjPlayerFv(void *);
 // Slot 87: per-action event dispatch through a table of handler members.
 }
 void create_boss8_piller_ctrl(saddr arg0, s32 arg1, f32 farg0);
-extern s32 tl_01;
 struct VBase_18_802FD47C { char pad[0x18]; };
 struct VObj_18_802FD47C : VBase_18_802FD47C {
     virtual void m0();
@@ -5551,7 +5550,7 @@ void TBoss8Dragon::sub_802F4DD4(s32 arg1) {
         *flag = 1;
         p = TObject::operator new(0x28);
         if (p != 0) {
-            __ct__16TBoss8DragonDemoFv((u8 *)p, (s32)tl_01, (saddr)flag, 0.5f);
+            __ct__16TBoss8DragonDemoFv((u8 *)p, (saddr)tl_01, (saddr)flag, 0.5f);
         }
         o->fB8 = 0x1A;
         TWindowCtrl::init_all_slots();

@@ -458,7 +458,7 @@ struct Boss_802B8EE0;
 extern "C" {
 
 
-extern s32 tl_04;
+extern saddr tl_04;
 
 struct VBase_18_f05d67 { char pad[0x18]; };
 struct VObj_18_f05d67 : VBase_18_f05d67 {

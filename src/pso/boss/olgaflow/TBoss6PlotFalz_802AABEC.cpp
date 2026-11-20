@@ -5,7 +5,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 
 
-extern s32 TBoss6PlotFalz__instance;
+extern saddr TBoss6PlotFalz__instance;
 
 u8 TBoss6PlotFalz::is_flag_set() {
     return (u8) (TBoss6PlotFalz__instance != 0);

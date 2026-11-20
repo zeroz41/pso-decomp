@@ -495,7 +495,7 @@ void *spawn_directional_particle(void *pos, void *dir, s32 id);
 void rotate_vector_by_matrix(saddr, void *, void *);
 void subtract_vector(void *, void *);
 extern u8 identity_matrix[];
-extern s32 tl_07;
+extern saddr tl_07;
 
 s32 TObjEneBm5GibonU::get_clamped_level() {
     player_stats *p = (player_stats *)m_2b0;

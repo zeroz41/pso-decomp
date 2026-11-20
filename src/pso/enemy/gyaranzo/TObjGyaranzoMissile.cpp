@@ -50,7 +50,7 @@ s32 init_collision_body_parts(void *, void *, int);
 s32 __ct__14TObjCollidableFP7TObject(void *, int);
 extern f32 identity_matrix[12];
 extern saddr gyaranzo_bml_resource;
-extern s32 tl_04;
+extern saddr tl_04;
 s32 matrix_mult_vec(int, int, int);
 s32 rotate_matrix_x(int, int);
 extern s32 __vt__19TObjGyaranzoMissile[];

@@ -389,7 +389,7 @@ TBoss6Mine::~TBoss6Mine() {
 }
 
 
-extern s32 tl_04;
+extern saddr tl_04;
 
 #pragma push
 #pragma fp_contract on

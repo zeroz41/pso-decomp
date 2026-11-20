@@ -404,7 +404,7 @@ TUnk_804F322C::~TUnk_804F322C() {
 }
 
 
-extern s32 tl_04;
+extern saddr tl_04;
 
 #pragma push
 #pragma opt_common_subs off

@@ -8,7 +8,7 @@
 
 
 extern void *lbl_805D4DD8;
-extern s32 boss5_common_texture_list;
+extern void *boss5_common_texture_list;
 const char *TObjBoss5FloorStone__name = "TObjBoss5FloorStone";
 
 void TObjBoss5FloorStone::render() {

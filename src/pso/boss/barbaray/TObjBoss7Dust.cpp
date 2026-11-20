@@ -13,6 +13,7 @@
 #include "types.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/task/TMainTask.h"
 
 // TObjBoss7DustCtrl and TObjBoss7Dust share one TU, built deferred and written from the unit's last
 // function back: Dust's code comes first in .text, yet DustCtrl's class name precedes Dust's in .sdata
@@ -105,8 +106,6 @@ void fn_802F1454(void) {
 void TObjBoss7DustCtrl__sub_802F1450(void) {  }
 
 }
-
-extern s32 tl_05;
 
 void TObjBoss7DustCtrl::create() {
     void* obj = TObject::operator new(0x1C);

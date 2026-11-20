@@ -26,7 +26,7 @@ saddr load_enemy_bml_resource_named(saddr arg0, saddr arg1);
 saddr load_enemy_bml_resource(u8 *arg0);
 }
 u8 *load_gvm_texture_file(s32 arg0);
-s32 lbl_805D4B50;
+saddr lbl_805D4B50;
 s32 dragon_common_texture_list;
 s32 TObjBoss1Crater__instance_count;
 void load_dragon_ground_assets(void);

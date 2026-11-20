@@ -259,7 +259,7 @@ RecoveredGlobal_lbl_80501010 lbl_80501010;
 void *slime_bml_resource;
 int lbl_805D52B4;
 extern s32 registered_player_count;
-extern s32 tl_04;
+extern saddr tl_04;
 
 
 void vfunc_6__8TObjBaseFPsl();

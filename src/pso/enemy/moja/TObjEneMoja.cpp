@@ -35,6 +35,7 @@
 
 
 #include "pso/system/task/TObject.h"
+#include "pso/system/task/TMainTask.h"
 
 extern "C" {
 s32 spawn_particle_effect(s32, s32);
@@ -313,11 +314,9 @@ extern "C" {
 void *spawn_directional_particle(void *pos, void *dir, s32 id);
 
 extern s32 game_difficulty_selection;
-extern s32 tl_07;
 
 void *__ct__11TObjControlFP7TObject(void *, void *);
 }
-extern void *tl_04;
 
 // The Moja's models and motions, and the archive that holds them; the second
 // set is the one Ultimate loads.

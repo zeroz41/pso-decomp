@@ -36,6 +36,7 @@
 #include "pso/render/render_util.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/technique/TTecRaBarta.h"
+#include "pso/system/task/TMainTask.h"
 
 
 extern "C" {
@@ -201,7 +202,6 @@ TObjEneDelDepth::ActionPair deldepth_actions[] = {
 }
 void direction_to_rotation_xz(u8 *arg0, s32 *arg1, s32 *arg2);
 void restore_render_scissor(s32 arg0);
-extern s32 tl_04;
 
 extern s32 saved_model_render_flags;
 extern s32 saved_chunk_polygon_flags_and_mask;

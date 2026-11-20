@@ -52,6 +52,7 @@
 #include "pso/object/TObjControl.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/technique/TTecRaBarta.h"
+#include "pso/system/task/TMainTask.h"
 
 
 struct Obj_8005683C;
@@ -257,7 +258,6 @@ static const Vec boss4_type2_follow_camera_offset_a = {0.0f, 19.8f, -5.0f};
 static const Vec boss4_type2_follow_camera_offset_b = {0.0f, 15.43f, 55.42f};
 const char *TBoss4Zanzo__name = "TBoss4Zanzo";
 extern s32 model_render_flags;
-extern s32 tl_04;
 
 extern "C" {
 struct TBoss4Type2_80057048 { u8 pad[0x374]; s32 action; u8 pad378[0x3E0 - 0x378]; s32 move_count; u8 pad3e4[0x42C - 0x3E4]; void *parts[8]; };

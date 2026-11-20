@@ -393,7 +393,7 @@ extern s32 local_client_id;
 saddr TObjFish__sub_800E3124(u8 *list, saddr vecs);
 s32 init_collision_body_parts(void *, void *, int);
 extern s32 model_render_flags;
-extern s32 tl_04;
+extern saddr tl_04;
 
 extern "C" {
 void apply_poison_status__11TBoss4Type3Fv();

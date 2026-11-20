@@ -2226,7 +2226,6 @@ s32 normalize_vector(void *);
 
 s32 push_matrix();
 
-extern u32 lbl_805D4BA4;
 
 extern s32 current_scene_light;
 
@@ -2254,7 +2253,6 @@ extern saddr TBoss2DeRolLe__resistance_params[1];
 
 extern s32 TBoss2DeRolLe__data_805D4BA0[1];
 
-extern u32 lbl_805D4BA4;
 
 extern s32 TBoss2DeRolLe__current_attack_id;
 
@@ -2339,7 +2337,6 @@ int bswap_16__FPUs(void*);
 
 int bswap_32__FPUl(void*);
 
-extern u32 lbl_805D4BA4;
 
 typedef struct VBase_18_bd2ad6 VBase_18_bd2ad6;
 
@@ -2481,7 +2478,6 @@ extern saddr TBoss2DeRolLe__resistance_params;
 
 extern u8 *TBoss2DeRolLe__data_805D4BA0;
 
-extern u32 lbl_805D4BA4;
 
 extern s32 TBoss2DeRolLe__instance;
 
@@ -3034,9 +3030,9 @@ void reset_parts__13TBoss2DeRolLeFv(void) {
     TBoss2Fin__sub_800367C0();
     TBoss2Mine__sub_80038D84();
     TBoss2Tentacle__sub_8003A0A8();
-    if ((u32) lbl_805D4BA4 != 0U) {
+    if (lbl_805D4BA4 != 0) {
         free_bin_model_request((void*)lbl_805D4BA4, 1);
-        lbl_805D4BA4 = 0U;
+        lbl_805D4BA4 = 0;
     }
 }
 

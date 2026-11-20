@@ -160,7 +160,7 @@ struct Glob_800267B8 { u8 *value; u8 remaining[0x8]; };
 extern f32 lbl_805D4AF8;
 extern f32 boss1_dragon_gravity;
 extern const f32 lbl_805D4B40;
-extern s32 tl_05;
+extern saddr tl_05;
 
 f32 sample_acceleration_curve(AccelerationCurve *c, f32 t);
 void init_acceleration_curve(AccelerationCurve *c, f32 a, f32 d, f32 length, f32 speed);
@@ -182,7 +182,7 @@ u8 *__ct__16TBoss1DragonDemoFv(u8 *arg0, saddr arg1, s32 arg2, f32 farg0);
 s32 play_sound_effect(s32, s32, s32, s32);
 s32 play_cue_stream_file(void *, int);
 void *spawn_particle_effect_with_rotation(void *pos, void *dir, s32 id, int e);
-extern s32 tl_01;
+extern saddr tl_01;
 extern const u8 boss1_dragon_death_cue_filename[];
 
 s32 VecCopy__FP3VecPC3Vec(s32, s32);
@@ -245,8 +245,8 @@ void TBoss1Dragon__sub_80028B28(TBoss1Dragon *arg0);
 void TBoss1Dragon__sub_80027A80(u8 *arg0, u8 *arg1);
 s32 enemy_set_target_id(void *, u16);
 u8 *TBoss1Dragon__ct(TBoss1Dragon *, void *, void *);
-extern s32 tl_04;
-extern s32 tl_02;
+extern saddr tl_04;
+extern saddr tl_02;
 void project_sound_origin_from_camera(s32 arg0, u8 *arg1, f32 farg0);
 s32 query_teammate_state__9TObjEneDDFv();
 s32 is_main_phase_15__9TObjEneDDFv();
@@ -4304,7 +4304,7 @@ void update_from_data__12TBoss1DragonFv(void) {
     ((s32 (*)(f32, f32, f32))sweep_body_attack_spheres__12TBoss1DragonFv)(10.0f, (-60.0f), (-140.0f));
 }
 
-extern s32 lbl_805D28BC;
+extern void *lbl_805D28BC;
 #pragma push
 #pragma fp_contract on
 void sweep_body_attack_spheres__12TBoss1DragonFv(u8 *arg0, f32 a, f32 b, f32 c) {

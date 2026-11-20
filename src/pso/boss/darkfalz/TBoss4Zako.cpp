@@ -179,7 +179,7 @@ static StateHandlerPmfOverlay TBoss4Zako_state_handlers[5] = {
 };
 static s8 TBoss4Zako_state_handlers_initialized;
 
-extern s32 tl_04;
+extern saddr tl_04;
 
 struct Obj_8005C6E4 {
     u8 pad0[0x38];

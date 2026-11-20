@@ -19,6 +19,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/task/TObject.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/system/task/TMainTask.h"
 
 struct V_8035D8B0 { s32 a; f32 b; s32 c; };
 
@@ -89,7 +90,6 @@ struct Shower_8035D924 {
 };
 
 extern "C" {
-extern s32 tl_02;
 
 s32 play_sound_effect(s32, u32, int, s32);
 extern RecoveredGlobal_8035DB70___vt__9TBoss6DPB __vt__9TBoss6DPB;
