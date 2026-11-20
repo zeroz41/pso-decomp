@@ -355,7 +355,7 @@ s32 TObjEnemy::calc_joint_matrices(f32 at_frame) {
     return 1;
 }
 
-s32 TObjPlayer::calc_joint_matrices(NJS_MOTION *with, f32 at_frame, s32 matrices) {
+s32 TObjPlayer::calc_joint_matrices(NJS_MOTION *with, f32 at_frame, saddr matrices) {
     if (with == NULL || model == NULL) {
         return 0;
     }

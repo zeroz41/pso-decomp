@@ -113,7 +113,7 @@ s32 scale_matrix(int, f32, f32, f32);
 extern const f32 lbl_805DE9E4;
 void __ct__7TObjectFP7TObject(void *);
 
-    extern int multiplay_texture_f512_handle;
+    extern saddr multiplay_texture_f512_handle;
 }
 void set_chunk_blend(u32 x);
 void draw_chunk_model(void *arg0);

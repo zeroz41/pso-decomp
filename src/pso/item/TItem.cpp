@@ -104,7 +104,7 @@ FlagWord item_render_state;
 #pragma pop
 int item_registry_count;
 TItem **item_registry_sorted_entries;
-void (*model_node_draw_callback)(s32 model);
+void (*model_node_draw_callback)(saddr model);
 void (*model_node_visit_callback)(NJS_OBJECT *object);
 TItemIdCounters *item_id_counters;
 u8 *model_node_matrix_output_cursor;

@@ -68,7 +68,7 @@ void TObjPlayer::concat_matrix(uaddr arg0, uaddr arg1) {
 #pragma push
 #pragma peephole off
 #pragma fp_contract on
-void TCameraCtrl::concat_matrix(u32 arg0, u32 arg1) {
+void TCameraCtrl::concat_matrix(uaddr arg0, uaddr arg1) {
     u32 var_r4;
     u32 elements;
     var_r4 = arg1;

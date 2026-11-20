@@ -262,7 +262,7 @@ f32 vector_length(void *);
 const f64 lbl_8044D8D0[1] = {0.5};
 s32 obj_is_hit_receivable();
 
-s32 TObjPlayer::is_valid_and_active(u32 arg0) {
+s32 TObjPlayer::is_valid_and_active(uaddr arg0) {
     if (arg0 == 0U) {
         return 0;
     }

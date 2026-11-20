@@ -710,7 +710,7 @@ void set_ginja_post_tev_stage_count(s32 x) {
 }
 #pragma pop
 
-void set_ginja_draw_end_callback(s32 arg0) {
+void set_ginja_draw_end_callback(saddr arg0) {
     ginja_draw_end_callback = (RecoveredCallback_d26337a2813d)arg0;
 }
 

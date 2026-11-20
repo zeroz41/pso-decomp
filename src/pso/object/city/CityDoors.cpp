@@ -1015,7 +1015,7 @@ void TUnk_804B5BA8::begin_state_1() {
     }
 }
 
-s32 TObjPlayer::is_player_in_range(s32 arg0, s32 arg1, f32 farg0) {
+s32 TObjPlayer::is_player_in_range(saddr arg0, saddr arg1, f32 farg0) {
     saddr player;
     s32 temp_r3_2;
     s32 var_r30;
@@ -1032,7 +1032,7 @@ loop_1:
     }
     goto loop_1;
 }
-s32 TUnk_804B5BA8::check_player_in_range(s32 _w1, f32 _w2) { return TObjPlayer::is_player_in_range((s32)(this), (s32)((s8 *)this + 0x38), _w2); }
+s32 TUnk_804B5BA8::check_player_in_range(s32 _w1, f32 _w2) { return TObjPlayer::is_player_in_range((saddr)(this), (saddr)((s8 *)this + 0x38), _w2); }
 void *TObjPlayer__sub_80182D24(void *collidable, s16 arg1) {
     if (collidable != NULL) {
         *(s32 **)((s8 *)collidable + 0x18) = city_door_base_vtable;

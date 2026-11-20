@@ -115,7 +115,7 @@ void *TPlyPtclObjectRightHand::get_center() {
 
 s32 emit_player_particle(void* p, void* a1, void* a2) { return spawn_particle_effect(a1, a2); }
 
-s32 TObjPlayer::check_hit_by_id(s32 arg0, s32 arg1, s32 arg2) {
+s32 TObjPlayer::check_hit_by_id(saddr arg0, s32 arg1, s32 arg2) {
     s32 particle_effect_with_flags;
     u32 entity;
 
@@ -201,7 +201,7 @@ void emit_idle_water_splash(s32 owner, s32 position) {
 }
 
 
-s32 TObjPlayer::check_hit_by_id_431(void* p, int a1) { return TObjPlayer::check_hit_by_id((s32)p, (s32)a1, 431); }
+s32 TObjPlayer::check_hit_by_id_431(void* p, int a1) { return TObjPlayer::check_hit_by_id((saddr)p, (s32)a1, 431); }
 
 Fol_80309E9C *TObjPlayer__sub_80309E9C(Fol_80309E9C *o) {
     s32 i;
@@ -238,11 +238,11 @@ void TObjPlayer::update_child(void *ply_ptcl_object_right_hand) {
     ((TObjPlayer *)(self->f_4))->create_right_hand_ptcl(ply_ptcl_object_right_hand);
 }
 
-void TObjPlayer::clear_foot_stamp(s32 arg0, s32 arg1) {
+void TObjPlayer::clear_foot_stamp(saddr arg0, saddr arg1) {
     TPlayerFootStamp::create((void *)arg1, (void *)0);
 }
 
-void TObjPlayer::enable_foot_stamp(s32 arg1, s32 arg2) {
+void TObjPlayer::enable_foot_stamp(saddr arg1, saddr arg2) {
     TPlayerFootStamp::create((void *)arg2, (void *)1);
 }
 
