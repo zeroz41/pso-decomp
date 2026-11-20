@@ -1,12 +1,15 @@
 #include "types.h"
+#include "pso/unk/text_8028A820.h"
 #include "pso/boss/goldragon/TBoss8Dragon_8028A8F8.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 
 extern "C" {
 f32 calc_sq_offset__12TBoss8DragonFf(s32, void *, f32);
 extern void *lbl_805D4DD8;
-    extern int green_door_texture_handle;
-int TBoss8Dragon::get_instance() {  return green_door_texture_handle; }
+
+GinjaTextureList *get_green_door_textures() {
+    return green_door_texture_handle;
+}
 void TBoss8Dragon__sub_8028A900(void *self, s32 arg1, s32 arg2) {
     f32 temp_f31;
     void *temp_r31;

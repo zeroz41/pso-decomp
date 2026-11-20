@@ -22,7 +22,7 @@ BmlResourceDescriptor TOSensorGeneral01__resource_descriptor = {
 };
 const char *TOSensorGeneral01__class_name = "TOSensorGeneral01";
 BmlResource *sensor_general_shared_bml_archive;
-s32 *TOSensorGeneral01__texture_lists;
+GinjaTextureList **TOSensorGeneral01__texture_lists;
 
 void TOSensorGeneral01::update_switch_off() {
     rotation_y = rotation_y + 0x147;
@@ -64,27 +64,27 @@ void TOSensorGeneral01::render() {
         rotate_matrix_y(NULL, rotation_y);
         object = (NJS_OBJECT *)model;
         translate_matrix(0, object->pos[0], object->pos[1], object->pos[2]);
-        TObjFish::set_global_param(TOSensorGeneral01__texture_lists[0]);
+        TObjFish::set_global_param((s32)TOSensorGeneral01__texture_lists[0]);
         draw_ginja_model((s32)object->model);
         TParticleCtrl::begin_effect_render();
         object = object->child;
         translate_matrix(0, object->pos[0], object->pos[1], object->pos[2]);
-        TObjFish::set_global_param(TOSensorGeneral01__texture_lists[lamps_dark < 1]);
+        TObjFish::set_global_param((s32)TOSensorGeneral01__texture_lists[lamps_dark < 1]);
         draw_ginja_model((s32)object->model);
         object = object->sibling;
         translate_matrix(0, object->pos[0], object->pos[1], object->pos[2]);
-        TObjFish::set_global_param(TOSensorGeneral01__texture_lists[lamps_dark < 2]);
+        TObjFish::set_global_param((s32)TOSensorGeneral01__texture_lists[lamps_dark < 2]);
         draw_ginja_model((s32)object->model);
         object = object->sibling;
         translate_matrix(0, object->pos[0], object->pos[1], object->pos[2]);
-        TObjFish::set_global_param(TOSensorGeneral01__texture_lists[lamps_dark < 3]);
+        TObjFish::set_global_param((s32)TOSensorGeneral01__texture_lists[lamps_dark < 3]);
         draw_ginja_model((s32)object->model);
         TParticleCtrl::end_effect_render();
         object = object->sibling;
         push_matrix();
         translate_matrix(0, object->pos[0], object->pos[1], object->pos[2]);
         rotate_matrix_y(NULL, head_angle);
-        TObjFish::set_global_param(TOSensorGeneral01__texture_lists[1]);
+        TObjFish::set_global_param((s32)TOSensorGeneral01__texture_lists[1]);
         draw_ginja_model((s32)object->model);
         pop_matrix();
         pop_matrix();
@@ -97,7 +97,7 @@ void *TOSensorGeneral01::create(void *set_data) {
 
 void TOSensorGeneral01::free_assets() {
     if (TOSensorGeneral01__texture_lists != NULL) {
-        TObjPlayer::free_if_valid(TOSensorGeneral01__texture_lists[0]);
+        TObjPlayer::free_if_valid((s32)TOSensorGeneral01__texture_lists[0]);
         if (TOSensorGeneral01__texture_lists != NULL) {
             mem_free(TOSensorGeneral01__texture_lists);
             TOSensorGeneral01__texture_lists = NULL;
@@ -115,9 +115,9 @@ void TOSensorGeneral01::load_assets() {
         resource = load_resource_from_descriptor(resource, 1, &TOSensorGeneral01__resource_descriptor, 0, 0, 0);
     }
     sensor_general_shared_bml_archive = resource;
-    TOSensorGeneral01__texture_lists = (s32 *)mem_alloc(8);
-    TOSensorGeneral01__texture_lists[1] = sensor_general_shared_bml_archive->models[0].m_c;
-    TOSensorGeneral01__texture_lists[0] = (s32)load_gvm_texture_file((s32) "fs_obj_sensor_r.gvm");
+    TOSensorGeneral01__texture_lists = (GinjaTextureList **)mem_alloc(2 * sizeof(*TOSensorGeneral01__texture_lists));
+    TOSensorGeneral01__texture_lists[1] = (GinjaTextureList *)sensor_general_shared_bml_archive->models[0].m_c;
+    TOSensorGeneral01__texture_lists[0] = (GinjaTextureList *)load_gvm_texture_file((s32) "fs_obj_sensor_r.gvm");
 }
 
 TOSensorGeneral01::~TOSensorGeneral01() {}
@@ -126,7 +126,7 @@ TOSensorGeneral01::TOSensorGeneral01(TObject *parent, void *set_data) : TOSensor
     m_name = TOSensorGeneral01__class_name;
     apply_object_set_data(set_data);
     init_switch_id();
-    texlist = TOSensorGeneral01__texture_lists[0];
+    texlist = (s32)TOSensorGeneral01__texture_lists[0];
     model = (void *)sensor_general_shared_bml_archive->models[0].model;
     view_range = 400.0f;
     model_radius = ((GinjaModelBounds *)((NJS_OBJECT *)model)->model)->radius;
