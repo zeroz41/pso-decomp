@@ -76,7 +76,6 @@ s16 TLobby__sub_80415690(); /* declared s16 here; the definition returns s32 */
 s16 NetIPv6InitNeighborDiscovery();
 s16 init_packet_fragment_pools();
 s16 TLobby__sub_80419A34(int); /* declared here with an int argument and an s16 return; the definition takes no arguments and returns s32 */
-s16 NetInitializeDispatcher();
 s16 NetTCPInit();
 /* inferred: the avetcp.a version strings (names from their contents); init_network_stack checks the banner's
    leading '\n' through avetcp_version_banner_ptr */

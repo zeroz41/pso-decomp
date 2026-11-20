@@ -1,7 +1,25 @@
 #ifndef PSO_NETWORK_NETWORKRUNTIMESLOTS_H
 #define PSO_NETWORK_NETWORKRUNTIMESLOTS_H
 #include "types.h"
+#include <stddef.h>
+#include "pso/network/NetworkRuntime.h"
+#include "dolphin/os/OSThread.h"
 #include "dolphin/os/OSMessage.h"
+
+struct NetworkThreadSlot {
+    s32 active;
+    NetThreadHandle key;
+    OSThread thread;
+    NetThreadEntry entry;
+    u32 stack_size;
+    u8 *stack;
+    u8 pad_324[4];
+};
+
+typedef char NetworkThreadSlot_size[(sizeof(NetworkThreadSlot) == 0x328) ? 1 : -1];
+typedef char NetworkThreadSlot_thread_offset[(offsetof(NetworkThreadSlot, thread) == 0x08) ? 1 : -1];
+typedef char NetworkThreadSlot_entry_offset[(offsetof(NetworkThreadSlot, entry) == 0x318) ? 1 : -1];
+typedef char NetworkThreadSlot_stack_offset[(offsetof(NetworkThreadSlot, stack) == 0x320) ? 1 : -1];
 #include "dolphin/os/OSMutex.h"
 #include "dolphin/os/OSAlarm.h"
 

@@ -43,10 +43,10 @@ s32 TLobby__sub_80419A34(void) {
 
 s32 TLobby__sub_80419A7C(void) {
     lock_mutex(network_dispatch_state.lock_handle);
-    cancel_thread_if_running((void *)network_dispatch_state.thread_ids[1]);
-    cancel_thread_if_running((void *)network_dispatch_state.thread_ids[0]);
-    deactivate_entry_by_key(network_dispatch_state.thread_ids[1]);
-    deactivate_entry_by_key(network_dispatch_state.thread_ids[0]);
+    cancel_thread_if_running((void *)network_dispatch_state.timer_thread_handle);
+    cancel_thread_if_running((void *)network_dispatch_state.protocol_thread_handle);
+    deactivate_entry_by_key(network_dispatch_state.timer_thread_handle);
+    deactivate_entry_by_key(network_dispatch_state.protocol_thread_handle);
     clear_slot_for_handle(network_dispatch_state.queue_handle);
     unlock_mutex(network_dispatch_state.lock_handle);
     NetReleaseMutex(network_dispatch_state.lock_handle);
@@ -57,26 +57,25 @@ extern void NetRunProtocolDispatchLoop(void);
 extern void NetRunTimerDispatchLoop(void);
 extern s16 TLobby__sub_803F94F0(void *);
 extern s16 TLobby__sub_803F96AC(void *);
-extern s16 TLobby__sub_803F9B94(void *, void *);
-extern s32 NetInitializeDispatcher(void) {
+s16 NetInitializeDispatcher(void) {
     s32 *p4 = &network_dispatch_state.queue_handle;
-    s32 *p8;
-    s32 *p12;
+    NetThreadHandle *p8;
+    NetThreadHandle *p12;
     if (TLobby__sub_803F94F0(p4) < 0) {
         return -0x100;
     }
-    if (TLobby__sub_803F96AC(&network_dispatch_state) < 0) {
+    if (TLobby__sub_803F96AC(&network_dispatch_state.lock_handle) < 0) {
         clear_slot_for_handle(*p4);
         return -0x100;
     }
-    p8 = (s32 *)&network_dispatch_state.thread_ids[0];
-    if (TLobby__sub_803F9B94((void *)NetRunProtocolDispatchLoop, p8) < 0) {
+    p8 = &network_dispatch_state.protocol_thread_handle;
+    if (TLobby__sub_803F9B94(NetRunProtocolDispatchLoop, p8) < 0) {
         clear_slot_for_handle(*p4);
         NetReleaseMutex(network_dispatch_state.lock_handle);
         return -0x100;
     }
-    p12 = (s32 *)&network_dispatch_state.thread_ids[1];
-    if (TLobby__sub_803F9B94((void *)NetRunTimerDispatchLoop, p12) < 0) {
+    p12 = &network_dispatch_state.timer_thread_handle;
+    if (TLobby__sub_803F9B94(NetRunTimerDispatchLoop, p12) < 0) {
         deactivate_entry_by_key(*p8);
         clear_slot_for_handle(*p4);
         NetReleaseMutex(network_dispatch_state.lock_handle);
@@ -92,7 +91,7 @@ extern void NetYieldOutsideDispatcherThread(void) {
     s32 self;
 
     NetStoreCurrentThread(&self);
-    if (self != g->thread_ids[0] && self != g->thread_ids[1]) {
+    if (self != g->protocol_thread_handle && self != g->timer_thread_handle) {
         unlock_mutex(g->lock_handle);
         NetYieldThread();
         lock_mutex(g->lock_handle);

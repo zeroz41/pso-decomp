@@ -104,9 +104,9 @@ void NetResumeThread(u32 thread) {
 }
 
 void deactivate_entry_by_key(u32 key) {
-    Ent_803F9B48 *p;
+    NetworkThreadSlot *p;
     u16 n = lobby_thread_pool_count;
-    Ent_803F9B48 *base = lobby_thread_pool_base;
+    NetworkThreadSlot *base = lobby_thread_pool_base;
     s32 i;
     p = base;
     for (i = 0; i < n; i++) {
@@ -118,9 +118,9 @@ void deactivate_entry_by_key(u32 key) {
     }
 }
 
-s32 TLobby__sub_803F9B94(s32 fn, s32 *out_key) {
+s16 TLobby__sub_803F9B94(NetThreadEntry entry, NetThreadHandle *out_key) {
     u16 n = lobby_thread_pool_count;
-    Ent_803F9B48 *tbl = lobby_thread_pool_base;
+    NetworkThreadSlot *tbl = lobby_thread_pool_base;
     s32 i;
     for (i = 0; i < n; i++) {
         if (tbl[i].active == 0) {
@@ -131,24 +131,27 @@ s32 TLobby__sub_803F9B94(s32 fn, s32 *out_key) {
         return -1;
     }
     {
-        s32 off = i * 0x328;
-        u8 *e = (u8 *)tbl + off;
-        *(s32 *)(e + 0x318) = fn;
-        e = (u8 *)lobby_thread_pool_base + off;
-        if (OSCreateThread((OSThread *)((u8 *)lobby_thread_pool_base + off + 8), (void *(*)(void *))run_current_thread_callback, 0, *(u8 **)(e + 0x320) + *(s32 *)(e + 0x31c), *(u32 *)(e + 0x31c), net_default_thread_priority, 1) == 1) {
+        s32 off = i * sizeof(NetworkThreadSlot);
+        NetworkThreadSlot *slot = (NetworkThreadSlot *)((u8 *)tbl + off);
+        slot->entry = entry;
+        slot = (NetworkThreadSlot *)((u8 *)lobby_thread_pool_base + off);
+        if (OSCreateThread((OSThread *)((u8 *)lobby_thread_pool_base + off + offsetof(NetworkThreadSlot, thread)), run_current_thread_callback, NULL,
+                           slot->stack + slot->stack_size, slot->stack_size, net_default_thread_priority, 1) == 1) {
             lobby_thread_pool_base[i].active = 1;
-            *out_key = (s32)lobby_thread_pool_base[i].key;
+            *out_key = lobby_thread_pool_base[i].key;
             return 0;
         }
     }
     return -1;
 }
 
-s32 run_current_thread_callback(void) {
+#pragma push
+#pragma opt_propagation off
+void *run_current_thread_callback(void *unused) {
     u32 key = (u32)OSGetCurrentThread();
-    Ent_803F9C78 *p;
+    NetworkThreadSlot *p;
     u16 n = lobby_thread_pool_count;
-    Ent_803F9C78 *base = (*(Ent_803F9C78 * *)&lobby_thread_pool_base);
+    NetworkThreadSlot *base = lobby_thread_pool_base;
     s32 i;
     p = base;
     for (i = 0; i < n; i++) {
@@ -159,11 +162,13 @@ s32 run_current_thread_callback(void) {
         return 0;
     }
     {
-        Ent_803F9C78 *e = &base[i];
-        e->fn(e);
+        NetworkThreadSlot *e = &base[i];
+        NetThreadEntry entry = e->entry;
+        entry();
     }
     return 0;
 }
+#pragma pop
 
 s32 NetSetDefaultThreadPriority(s32 priority) {
     if ((priority < 0) || (priority > 0x1F)) {

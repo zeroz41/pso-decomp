@@ -17,7 +17,6 @@
 typedef struct Msg_804264F4 { u32 f0; u32 f4; s32 f8; } Msg_804264F4;
 
 s32 OSInitMessageQueue(void *, void *, int);
-s16 TLobby__sub_803F9B94(void *, void *);
 void NetRegisterTimer(int, int, void (*)(void));
 s32 init_bba_exi_adapter(void *);
 /* The message queues (OSMessageQueue + messages) and, below, the channel table: only this file uses them. */
@@ -31,7 +30,7 @@ u32 lbl_805D7BC4;
 u32 lobby_exi_stable_target;
 u32 lobby_exi_stable_count;
 s32 lobby_exi_prev_status;
-s32 lobby_message_thread_handle;
+NetThreadHandle lobby_message_thread_handle;
 s32 lbl_805D7BB0;
 s16 network_link_status_cache = -1;
 s32 OSSendMessage(void *mq, void *msg, s32 flags);
@@ -296,7 +295,7 @@ s16 TLobby__sub_804262CC(EthernetReceiveFilter *config) {
     OSInitMessageQueue(lbl_805CF240, lbl_805CF240 + 0x20, 0x20);
     OSInitMessageQueue(pppoe_message_queue, pppoe_message_queue + 0x20, 0x20);
     OSInitMessageQueue(lbl_805CF380, lbl_805CF380 + 0x20, 0xA);
-    if (TLobby__sub_803F9B94((void *) message_thread_loop, &lobby_message_thread_handle) < 0) {
+    if (TLobby__sub_803F9B94(message_thread_loop, &lobby_message_thread_handle) < 0) {
         return -1;
     }
     NetResumeThread((u32)lobby_message_thread_handle);

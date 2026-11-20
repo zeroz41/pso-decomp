@@ -70,9 +70,8 @@ s32 copy_default_and_get_state__23TAdSinglePlyChrSelectGCFv(void *self);
 void net_sleep_ms(s32);
 s32 TLobby__sub_80428094(s16);
 void modem_hangup(void);
-extern u8 run_net_thread_loop[];
+void run_net_thread_loop(void);
 s16 TLobby__sub_803F96AC(void *);
-s16 TLobby__sub_803F9B94(void *, void *);
 s32 TAdSinglePlyChrSelectGC__sub_8042DD70(s32 arg0, s32 arg1, s32 arg2);
 s32 TAdSinglePlyChrSelectGC__sub_8042E184(void);
 s32 modem_dial(s32, s32, void *);
@@ -110,7 +109,7 @@ s32 lobby_ring_buffer_write_pos;
 s32 lobby_ring_buffer_size;
 s32 send_ring_buffer_base;
 u32 TLobby__send_ring_mutex;
-s32 queue_thread_handle;
+NetThreadHandle queue_thread_handle;
 /* inferred: PppLink.used for the 4 packet slots init_buffer_desc_b hands out */
 s16 packet_buffer_used[4];
 /* inferred: one in-use flag per modem buffer, the 4 that init_modem_buffer_config hands out (like PppLink.used) */
@@ -640,7 +639,7 @@ s32 open_network_transport(A_803F8314 *cfg) {
             if (TLobby__sub_803F96AC(&TLobby__send_ring_mutex) < 0) {
                 return 2;
             }
-            if (TLobby__sub_803F9B94((void *)queue_thread_main, &queue_thread_handle) < 0) {
+            if (TLobby__sub_803F9B94(queue_thread_main, &queue_thread_handle) < 0) {
                 return 2;
             }
             NetResumeThread(queue_thread_handle);
