@@ -12,7 +12,7 @@ void TObjPlayer__sub_801AA64C(O_801AA64C *p);
 
 }
 
-s32 TObjPlayer__sub_801AA584(s32 arg0, s16 arg1) {
+s32 TObjPlayer__sub_801AA584(saddr arg0, s16 arg1) {
     if ((arg0 != 0) && (arg1 > 0)) {
         ((s32)__dl__FPv((void*)arg0));
     }

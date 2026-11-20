@@ -350,7 +350,7 @@ void TTecSlicer::deliver_target_hit() {
     }
 }
 
-void destroy_on_collision__10TTecSlicerFi(s32 arg0, s32 _w1) {
+void destroy_on_collision__10TTecSlicerFi(saddr arg0, s32 _w1) {
     if (csnVector(arg0 + 0x44, arg0 + 0x38, 0x8100) != 0U) {
         ((TObject *)arg0)->queue_destruction();
     }

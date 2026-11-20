@@ -92,7 +92,7 @@ extern "C" {
 void TObjPlayer__sub_801C6FCC(void*, f32);
 void TObjPlayer__sub_801C6FDC(void);
 void TObjPlayer__sub_801C6FE0(void*, f32, f32, f32);
-f32 apply_stat_multipliers__10TObjPlayerFiif(s32, s32, f32);
+f32 apply_stat_multipliers__10TObjPlayerFiif(saddr, saddr, f32);
 void apply_stat_multipliers_default__10TObjPlayerFv(void);
 void set_stat_scale__10TObjPlayerFPvf(void*, f32);
 s32 test_flags_any(s32 *flags, s32 mask);
@@ -107,9 +107,9 @@ s32 get_slot_value__10TObjPlayerFPvi(s32 *arg0, s32 arg1);
 
 extern "C" {
 
-f32 apply_stat_multipliers__10TObjPlayerFiif(s32 arg0, s32 arg1, f32 farg0);
+f32 apply_stat_multipliers__10TObjPlayerFiif(saddr arg0, saddr arg1, f32 farg0);
 s32 test_flags_any(s32 *flags, s32 mask);
-s32 is_flag30_8_set__10TObjPlayerFi(s32);
+s32 is_flag30_8_set__10TObjPlayerFi(saddr);
 
 
 }
@@ -232,7 +232,7 @@ s32 get_slot_value__10TObjPlayerFPvi(s32 *arg0, s32 arg1);
 
 
 extern "C" {
-f32 apply_stat_multipliers__10TObjPlayerFiif(s32 arg0, s32 arg1, f32 farg0);
+f32 apply_stat_multipliers__10TObjPlayerFiif(saddr arg0, saddr arg1, f32 farg0);
 }
 
 
@@ -715,7 +715,7 @@ void apply_stat_multipliers_default__10TObjPlayerFv(void) {
 
 
 extern "C" {
-f32 apply_stat_multipliers__10TObjPlayerFiif(s32 arg0, s32 arg1, f32 farg0) {
+f32 apply_stat_multipliers__10TObjPlayerFiif(saddr arg0, saddr arg1, f32 farg0) {
     f32 var_f31;
 
     var_f31 = farg0;

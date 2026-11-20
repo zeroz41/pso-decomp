@@ -186,7 +186,7 @@ void *lbl_804933D8[24] = {
 
 // The bomb's first function: its 30.0 opens this file's literal pool at
 // 0x805DA000, while the Flower file's pool already holds 30.0 at 0x805D9FEC.
-s32 TObjEneRe2Flower_Bomb::area_attack_deliver_direct(void *recoil, s32 arg2, void *object, f32 range) {
+s32 TObjEneRe2Flower_Bomb::area_attack_deliver_direct(void *recoil, saddr arg2, void *object, f32 range) {
     s32 result;
     s32 flags;
     saddr p;

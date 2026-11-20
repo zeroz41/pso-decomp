@@ -40,7 +40,7 @@ u8 *get_class_attack_template(TObjPlayer *arg0);
 stats *get_class_base_stats(s8 arg0);
 s32 TObjPlayer__sub_801D8DCC(TObjPlayer *arg0);
 s32 get_max_level__10TObjPlayerFv(s32);
-s32 TObjPlayer__sub_801D91B8(s32 arg0);
+s32 TObjPlayer__sub_801D91B8(saddr arg0);
 s32 classify_action_state__10TObjPlayerFv(void *);
 s32 TBoss4DarkFalz__sub_801D94C0(void* p);
 void TObjPlayer__sub_801D92A4(void);
@@ -329,7 +329,7 @@ const TPlyInventoryItem *class_starting_inventory_table[12] = {
     lbl_80448F3C, lbl_80448FC8, lbl_80449054, lbl_804490E0,
 };
 
-s32 TObjPlayer__sub_801D91B8(s32 arg0) {
+s32 TObjPlayer__sub_801D91B8(saddr arg0) {
     return TObjPlayer::get_current_state_field(((TObjPlayer *)arg0)->get_class_index(), get_max_level__10TObjPlayerFv(arg0));
 }
 

@@ -71,7 +71,7 @@ s32 TTecPlayerInfluence__ct(void *, void *, void *, void *);
 int TTecSifta__sub_8023AC88(void* p);
 extern s32 __vt__9TTecSifta[];
 extern const char *TTecSifta__name;
-u8 *TTecSifta__sub_8023B17C(TTecSifta *arg0, s32 arg1, s32 arg2, s32 arg3);
+u8 *TTecSifta__sub_8023B17C(TTecSifta *arg0, saddr arg1, saddr arg2, saddr arg3);
 s32 update_technique_slot__10TTecRaFoieFl(s32, s32, s32);
 s32 play_sound_effect(int, void *, int, int);
 s32 is_split_screen();
@@ -216,7 +216,7 @@ void *TTecSifta__ct(void *arg0_, void *owner, void *pos, void *arg3, void *level
 #undef arg0
 #pragma pop
 
-u8 *TTecSifta__sub_8023B17C(TTecSifta *arg0, s32 owner, s32 pos, s32 level) {
+u8 *TTecSifta__sub_8023B17C(TTecSifta *arg0, saddr owner, saddr pos, saddr level) {
     u32 temp_r3_2;
     u8 *temp_r3;
     TTecPlayerInfluence__ct((void *)arg0, (void *)owner, (void *)pos, (void *)level);

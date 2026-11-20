@@ -335,7 +335,7 @@ u8 *TUnk_804A7488::init_parts() {
 
 void TUnk_804A7488::sub_8035B66C() { model = NULL; }
 
-extern u32 chao_npc_instance_handle;
+extern uaddr chao_npc_instance_handle;
 
 void TPlyPhotonChair::free_instance() {
     if ((u32) chao_npc_instance_handle != 0U) {

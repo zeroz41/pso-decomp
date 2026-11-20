@@ -111,7 +111,7 @@ s32 get_entity_id(int);
 s32 TTecPlayerInfluence__ct(void *, void *, void *, void *);
 extern s32 __vt__9TTecResta[];
 extern const char *TTecResta__name;
-u8 *TTecResta__sub_80239C48(TTecResta *arg0, s32 arg1, s32 arg2, s32 arg3);
+u8 *TTecResta__sub_80239C48(TTecResta *arg0, saddr arg1, saddr arg2, saddr arg3);
 f32 *calc_technique_parameters(s32, s32, s32);
 s32 is_technique_ready__8TTecCtrlFv(int);
 extern RecoveredGlobal_802394B0_lbl_804CC55C lbl_804CC55C;
@@ -155,7 +155,7 @@ void TTecReverser::vfunc_6(void *arg1_arg) {
     }
 }
 
-u8 *TTecResta__sub_80239C48(TTecResta *arg0, s32 owner, s32 pos, s32 level) {
+u8 *TTecResta__sub_80239C48(TTecResta *arg0, saddr owner, saddr pos, saddr level) {
     u32 temp_r3_2;
     u8 *temp_r3;
     TTecPlayerInfluence__ct((void *)arg0, (void *)owner, (void *)pos, (void *)level);

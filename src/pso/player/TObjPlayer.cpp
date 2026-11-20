@@ -69,7 +69,7 @@ int test_flags_any(void*, int);
 u8 TObjPlayer__sub_801BF460(s32 *arg0, s32 arg1);
 void TObjPlayer__sub_801BF488(s32 *arg0, s32 arg1);
 void TObjPlayer__sub_801BF4A0(s32 *arg0, s32 arg1);
-void emit_idle_water_effect(s32 arg0);
+void emit_idle_water_effect(saddr arg0);
 void TObjPlayer__sub_801BEEAC(u8 *arg0, u8 *arg1);
 s32 get_entity_id(int);
 }
@@ -78,9 +78,9 @@ int emit_deband_support_effect(void* p, int a1);
 void* get_surface_contact_point(void* p);
 void emit_grass_footstep_effect(s32 arg0);
 void emit_water_step_particles(s32 owner, saddr position);
-void emit_water_footstep_effect(s32 arg0);
+void emit_water_footstep_effect(saddr arg0);
 void emit_sand_step_particles(s32 owner, saddr position);
-void emit_sand_footstep_effect(s32 arg0);
+void emit_sand_footstep_effect(saddr arg0);
 void emit_idle_water_splash(s32 owner, saddr position);
 void emit_photon_blast_feedback_effects(saddr arg0, s32 arg1);
 void prepare_heavy_attack_particles(u8 *arg0);
@@ -252,7 +252,7 @@ void emit_shifta_support_effect(u8 *arg0) {
 }
 #pragma pop
 
-void emit_idle_water_effect(s32 arg0) {
+void emit_idle_water_effect(saddr arg0) {
     emit_idle_water_splash((arg0 + 4), (saddr)(get_surface_contact_point((void*)arg0)));
 }
 
@@ -268,11 +268,11 @@ void TObjPlayer::check_hit_by_id_431_from_packet() {
     TObjPlayer::check_hit_by_id_431((s8 *)arg0 + 4, *arg0);
 }
 
-void emit_sand_footstep_effect(s32 arg0) {
+void emit_sand_footstep_effect(saddr arg0) {
     emit_sand_step_particles((arg0 + 4), (saddr)(get_surface_contact_point((void*)arg0)));
 }
 
-void emit_water_footstep_effect(s32 arg0) {
+void emit_water_footstep_effect(saddr arg0) {
     emit_water_step_particles((arg0 + 4), (saddr)(get_surface_contact_point((void*)arg0)));
 }
 
@@ -476,7 +476,7 @@ u8 *TObjPlayer__sub_801BF9F0(u8 *arg0, s16 arg1) {
     return arg0;
 }
 
-s32 TObjPlayer__sub_801BFA4C(s32 arg0, s16 arg1) {
+s32 TObjPlayer__sub_801BFA4C(saddr arg0, s16 arg1) {
     if (arg0 != 0) {
         TObjPlayer::free_if_valid(arg0, 0);
         if (arg1 > 0) {

@@ -53,7 +53,7 @@ s32 __ct__13TUnk_804CC148Flll(void *, void *, void *, void *);
 extern RecoveredGlobal_8023A094_lbl_804CC1CC technique_param_table;
 extern s32 __vt__12TTecReverser[];
 const char *lbl_805D3818 = "TTecReverser";
-u8 *TTecReverser__ct(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
+u8 *TTecReverser__ct(u8 *arg0, saddr arg1, saddr arg2, saddr arg3, saddr arg4);
 void __ct__7TObjectFP7TObject(void *self, void *parent);
 void *create_timed_particle_emitter(void *owner, s32 idx, s32 b, s32 c);
 extern s32 __vt__13TUnk_804CCC28[];
@@ -140,7 +140,7 @@ void TUnk_804CCC68::dispatch_technique_contact() {
     }
 }
 
-u8 *TTecReverser__ct(u8 *tec_reverser, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
+u8 *TTecReverser__ct(u8 *tec_reverser, saddr arg1, saddr arg2, saddr arg3, saddr arg4) {
     u32 temp_r3;
     __ct__13TUnk_804CC148Flll((void *)tec_reverser, (void *)arg1, (void *)arg2, (void *)arg4);
     *(s32 **)((s8 *)tec_reverser + 0x18) = __vt__12TTecReverser;

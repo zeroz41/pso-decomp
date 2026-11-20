@@ -162,7 +162,7 @@ void TObjPlayer__sub_801BCC50(void) {  }
 u8 *get_class_attack_template(TObjPlayer *arg0);
 u8 *get_class_defense_template(TObjPlayer *arg0);
 s32 copy_data__6TLobbyFPvPv(void *);
-void set_move_mode__10TObjPlayerFi(s32 arg0);
+void set_move_mode__10TObjPlayerFi(saddr arg0);
 
 extern const f32 TObjPlayer__data_805DC28C;
 

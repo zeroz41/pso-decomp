@@ -8,7 +8,7 @@
 extern s32 process_callback_list__10TObjPlayerFl[];
 extern s32 player_node_matrix_cursor;
 extern s32 player_node_matrix_count;
-extern s32 node_matrix_array_base;
+extern saddr node_matrix_array_base;
 extern s32 player_apply_callback_fn;
 
 void TObjPlayer::apply_with_callback(saddr arg1, f32 farg0) {

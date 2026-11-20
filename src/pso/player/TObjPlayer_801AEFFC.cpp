@@ -10,7 +10,7 @@ s32 init_pad_binding(void *, void *, int);
 s32 update_movement_by_screen__10TObjPlayerFv(s32);
 s32 TObjPlayer__sub_801AF868(s32);
 s32 check_flag_800000__10TObjPlayerFPv(s32);
-void emit_idle_water_effect(s32 arg0);
+void emit_idle_water_effect(saddr arg0);
 int has_water_ground_flag(void *p);
 void TObjPlayer__sub_801BEF60(void *p, s32 v);
 

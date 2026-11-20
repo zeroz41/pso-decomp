@@ -15,7 +15,7 @@ void export_state_to_record__10TObjPlayerFPvPv(u8 *arg0, s8 *arg1);
 
 extern s32 local_client_id;
 
-s32 sync_state__10TObjPlayerFi(s32 arg0) {
+s32 sync_state__10TObjPlayerFi(saddr arg0) {
     uaddr temp_r3;
     temp_r3 = update_battle_controller__10TObjPlayerFv();
     if (temp_r3 == 0U) {
@@ -41,7 +41,7 @@ s32 try_assign_battle_ctrl__10TObjPlayerFiUs(s32 arg0, u16 arg1) {
     return 1;
 }
 
-s32 update_battle__10TObjPlayerFi(s32 arg0) {
+s32 update_battle__10TObjPlayerFi(saddr arg0) {
     s32 r;
     r = update_battle_controller__10TObjPlayerFv();
     if (r == 0) {

@@ -59,7 +59,7 @@ s32 copy_technique_target_list(void *, void *);
 s32 __ct__13TUnk_804CC148Flll(void *, void *, void *, void *);
 extern s32 __vt__10TTecGrants[];
 extern s32 tec_grants_class_name;
-u8 *TTecGrants__ct(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
+u8 *TTecGrants__ct(u8 *arg0, saddr arg1, saddr arg2, saddr arg3, saddr arg4);
 
 void TTecGrants::render() {  }
 
@@ -114,7 +114,7 @@ TTecGrants::~TTecGrants() {
 
 }
 
-u8 *TTecGrants__ct(u8 *tec_grants, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
+u8 *TTecGrants__ct(u8 *tec_grants, saddr arg1, saddr arg2, saddr arg3, saddr arg4) {
     u32 temp_r3;
     __ct__13TUnk_804CC148Flll((void *)tec_grants, (void *)arg1, (void *)arg2, (void *)arg4);
     *(s32 **)((s8 *)tec_grants + 0x18) = __vt__10TTecGrants;

@@ -13,7 +13,7 @@ void TObjPlayer::reset_particle_ctrl(s32 *arg0) {
     destroy_particle__13TParticleCtrlFv();
 }
 
-s32 destroy__10TObjPlayerFis(s32 arg0, s16 arg1) {
+s32 destroy__10TObjPlayerFis(saddr arg0, s16 arg1) {
     if (arg0 != 0) {
         destroy_particle__13TParticleCtrlFv();
         if (arg1 > 0) {

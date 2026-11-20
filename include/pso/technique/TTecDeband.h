@@ -22,8 +22,8 @@ struct TTecDeband : public TTecPlayerInfluence {
 LAYOUT_ASSERT(TTecDeband_size, sizeof(TTecDeband) == 0x140);
 
 extern "C" {
-s32 TTecDeband__ct(u32 a0, s32 owner, s32 pos, s32 arg3, s32 level);
-u8 *TTecDeband__sub_8022F948(TTecDeband *arg0, s32 owner, s32 pos, s32 level);
+s32 TTecDeband__ct(uaddr a0, saddr owner, saddr pos, saddr arg3, saddr level);
+u8 *TTecDeband__sub_8022F948(TTecDeband *arg0, saddr owner, saddr pos, saddr level);
 void *__dt__10TTecDebandFv(void *arg0, s16 arg1);
 }
 

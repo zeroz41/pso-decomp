@@ -232,7 +232,7 @@ void TUnk_804928CC::vfunc_16(void *arg1, void *arg2) {
     this->call_vt13_with_default(arg1, arg2, 0);
 }
 
-s32 TUnk_804928CC::area_attack_deliver_direct(void *recoil, s32 arg2, void *object, f32 range) {
+s32 TUnk_804928CC::area_attack_deliver_direct(void *recoil, saddr arg2, void *object, f32 range) {
     s32 hit = 0;
     s32 mask = 0;
     Tgt_800BC250 *t;

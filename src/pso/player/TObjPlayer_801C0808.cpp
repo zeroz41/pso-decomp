@@ -109,7 +109,7 @@ void TObjPlayer__sub_801C0C04(u8 *arg0) {
 
 void TObjPlayer::send_swapped_packet_6x30() { swap_endian__10TObjPlayerFi((saddr)this); send_subcommand((u8 *)this); }
 
-void swap_endian__10TObjPlayerFi(s32 packet) {
+void swap_endian__10TObjPlayerFi(saddr packet) {
     ((G_ClientIDHeader *)packet)->bswap();
     bswap_16((u16 *)(packet + 4));
     bswap_16((u16 *)(packet + 6));
@@ -271,7 +271,7 @@ void TObjPlayer::set_code_43_6() { *(u8*)((char*)this + 0x0) = 43; *(u8*)((char*
 
 void TObjPlayer::send_cmd_item_data() { bswap_cmd_item_data(); send_subcommand((u8 *)this); }
 
-void bswap_fields__10TObjPlayerFi(s32 arg0) {
+void bswap_fields__10TObjPlayerFi(saddr arg0) {
     ((G_ClientIDHeader *)arg0)->bswap();
     bswap_16((u16 *)(arg0 + 6));
     bswap_16((u16 *)(arg0 + 4));

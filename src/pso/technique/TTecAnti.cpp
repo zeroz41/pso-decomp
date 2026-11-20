@@ -114,7 +114,7 @@ s32 TTecPlayerInfluence__ct(void *, void *, void *, void *);
 extern s32 __vt__8TTecAnti[];
 extern RecoveredGlobal_8022B288_lbl_804CC1CC technique_param_table;
 extern const char *TTecAnti_name_ref;
-u8 *TTecAnti__ct(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
+u8 *TTecAnti__ct(u8 *arg0, saddr arg1, saddr arg2, saddr arg3, saddr arg4);
 S_8022B3E8 *copy_technique_target_list(S_8022B3E8 *d, S_8022B3E8 *s);
 void set_owner_id__13TParticleCtrlFUs(void *, s32);
 void __ct__7TObjectFP7TObject(void *, void *);
@@ -165,7 +165,7 @@ void TTecAnti::copy_params(u8 *arg1) {
     *(s16 *)((s8 *)arg0 + 0x2A) = (s16) *(s16 *)((s8 *)arg1 + 0x2A);
 }
 
-u8 *TTecAnti__ct(u8 *arg0, s32 owner, s32 pos, s32 arg3, s32 level) {
+u8 *TTecAnti__ct(u8 *arg0, saddr owner, saddr pos, saddr arg3, saddr level) {
     u32 temp_r3_2;
     u8 *temp_r3;
     TTecPlayerInfluence__ct((void *)arg0, (void *)owner, (void *)pos, (void *)level);

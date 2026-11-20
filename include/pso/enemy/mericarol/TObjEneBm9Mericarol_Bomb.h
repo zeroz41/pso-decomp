@@ -12,7 +12,7 @@ public:
     virtual ~TObjEneBm9Mericarol_Bomb();
     virtual void render();
     virtual void run_task();
-    virtual s32 area_attack_deliver_direct(void *recoil, s32 arg2, void *object, f32 range);
+    virtual s32 area_attack_deliver_direct(void *recoil, saddr arg2, void *object, f32 range);
     u16 owner_id;              // get_entity_id(owner); find_entity_by_id on impact
     u8 pad_B2[0x2];
     Vec pos;                   // the bomb's own position: ground-checked, moved by velocity

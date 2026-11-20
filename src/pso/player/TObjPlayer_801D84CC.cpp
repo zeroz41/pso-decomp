@@ -51,7 +51,7 @@ void set_equip_slot_entry(s32 arg0, s32 arg1, s32 arg2);
 s32 get_item_id__5TItemFv();
 u16 get_entity_id(void *);
 
-void process_trade_target__10TObjPlayerFiPv(s32 arg0, void *player) {
+void process_trade_target__10TObjPlayerFiPv(saddr arg0, void *player) {
     void *item;
 
     ((s32 (*)())get_entity_id)();
@@ -87,7 +87,7 @@ void restore_scene_lighting(void);
 void select_actor_lighting(saddr obj);
 s32 TObjPlayer__sub_801BAC48(void *);
 }
-int player_ending_motion_object;
+saddr player_ending_motion_object;
 void save_render_material_state(u8 *arg0);
 extern "C" {
 void translate_matrix_vec3(u8 *arg0, u8 *arg1);

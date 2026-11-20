@@ -160,7 +160,7 @@ void run_task__10TTecDebandFv(Deband_8022F73C *self) {
 }
 
 #pragma opt_common_subs off
-s32 TTecDeband__ct(u32 a0, s32 owner, s32 pos, s32 arg3, s32 level) {
+s32 TTecDeband__ct(uaddr a0, saddr owner, saddr pos, saddr arg3, saddr level) {
 #define arg0 ((u8 *)a0)
     u32 temp_r3_2;
     u8 *temp_r3;
@@ -189,7 +189,7 @@ s32 TTecDeband__ct(u32 a0, s32 owner, s32 pos, s32 arg3, s32 level) {
 }
 #pragma opt_common_subs reset
 
-u8 *TTecDeband__sub_8022F948(TTecDeband *arg0, s32 owner, s32 pos, s32 level) {
+u8 *TTecDeband__sub_8022F948(TTecDeband *arg0, saddr owner, saddr pos, saddr level) {
     u32 temp_r3_2;
     u8 *temp_r3;
     TTecPlayerInfluence__ct((void *)arg0, (void *)owner, (void *)pos, (void *)level);

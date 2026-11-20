@@ -120,7 +120,7 @@ s32 push_matrix_from(void *);
 s32 rotate_vector_by_current_matrix(void *, void *);
 s32 pop_matrix();
 extern f32 identity_matrix[12];
-u8 * TObjPlayer__sub_80155028(s32 arg0, s32 arg1);
+u8 * TObjPlayer__sub_80155028(saddr arg0, saddr arg1);
 s32 build_collision_box_corners(Vec pos, s32 facing, CollisionBody *body, CollisionBox *out);
 s32 subtract_vector(void *, void *);
 extern s32 enable_v2_features;
@@ -169,7 +169,7 @@ s32 *csnVecterUnder(saddr origin, s32 mask);
 u16 TObjRoomId__sub_801A1DB8(u16);
 s32 project_actor_to_ground(Obj_80156844 *self, Vec *pos, Vec *normal);
 }
-s32 test_collider_sphere_overlap_xz(s32 arg0, u8 *arg1, u32 arg2);
+s32 test_collider_sphere_overlap_xz(s32 arg0, u8 *arg1, uaddr arg2);
 extern int player_battle_param_table[];
 s32 resolve_actor_sphere_contact(u8 *arg0, s32 arg1, saddr arg2);
 s32 respond_to_body_contact(u8 *arg0, uaddr arg1, u8 *arg2);
@@ -631,13 +631,13 @@ s32 build_collision_box_corners(Vec origin, s32 facing, CollisionBody *body, Col
     return 0;
 }
 
-u8 * TObjPlayer__sub_80155028(s32 arg0, s32 arg1) {
+u8 * TObjPlayer__sub_80155028(saddr arg0, saddr arg1) {
     *(ByteBlock_60 *)(arg0) = *(const ByteBlock_60 *)(arg1);
     return (u8 *)arg0;
 }
 }
 
-s32 test_collider_sphere_overlap_xz(s32 arg0, u8 *arg1, u32 arg2) {
+s32 test_collider_sphere_overlap_xz(s32 arg0, u8 *arg1, uaddr arg2) {
     LAYOUT_ASSERT(sp8_offset, offsetof(Stack_80155050, sp8) == 0x0);
     LAYOUT_ASSERT(spC_offset, offsetof(Stack_80155050, spC) == 0x4);
     LAYOUT_ASSERT(sp14_offset, offsetof(Stack_80155050, sp14) == 0xC);
