@@ -485,11 +485,11 @@ s32 TLobby::use_item(saddr arg1, s32 key, s32 arg3) {
     if (node == NULL) {
         return 0;
     }
-    reduce_item_amount(arg1, (s32)node, arg3);
+    reduce_item_amount(arg1, (saddr)node, arg3);
     return 1;
 }
 
-void TLobby::reduce_item_amount(s32 player, s32 arg2, s32 arg3) {
+void TLobby::reduce_item_amount(s32 player, saddr arg2, s32 arg3) {
     s16 count;
     TItem *item;
 

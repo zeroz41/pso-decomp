@@ -278,7 +278,7 @@ struct TLobby : public TObject {
     void bswap_set_battle_mode_data();
     void send_6x7D_set_battle_mode_data();
     static s32 free_if_positive(s32 arg0, s16 arg1);
-    void reduce_item_amount(s32 arg1, s32 arg2, s32 arg3);
+    void reduce_item_amount(s32 arg1, saddr arg2, s32 arg3);
     s32 use_item(saddr arg1, s32 arg2, s32 arg3);
     void set_globals_and_update(int a1, int a2);
     int set_globals_and_notify(int a1, int a2);
