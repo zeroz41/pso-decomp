@@ -28,7 +28,7 @@ struct TBoss6Rock : public TObjCollidable {
     virtual void render();
     void sub_80353F5C();
     s32 m_ac;            // index into TBoss6Rock__instance_table and the point table
-    u32 m_b0;            // the TObjMapCsn made when it lands
+    uaddr m_b0;           // the TObjMapCsn made when it lands
     s32 m_b4;            // kind (index into TBoss6Rock__data_80479258)
     s32 m_b8;            // kind of the next fall
     s32 m_bc;            // fast fall (1)

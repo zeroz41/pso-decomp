@@ -29,7 +29,7 @@ u16 get_entity_id(void *);
 int TObjEneRe7BeruraPunch::is_patrol_active() { return (*(u32 *)&this->owner_id >> 2) & 0x1; }
 
 void TObjEneRe7BeruraPunch::apply_hit_if_active(void *target, f32 *) {
-    s32 entity;
+    saddr entity;
 
     apply_hit_if_active__13TUnk_804928CCFPvPf();
     if (TObjEneDD::check_v2_mode() != 0) {

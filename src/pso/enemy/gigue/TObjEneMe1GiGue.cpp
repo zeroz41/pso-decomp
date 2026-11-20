@@ -94,7 +94,7 @@ s32 check_path_obstructed(void *, Vec *);
 void *find_entity_by_id(u16 id);
 s32 enemy_turn_half_toward_dest(void *);
 s32 is_split_screen();
-s32 find_active_entity_by_id(int);
+saddr find_active_entity_by_id(int);
 void * __ct__11TObjControlFP7TObject(void *, void *);
 s32 minimap_render_dot(void *, int, int, int);
 TObjEneMe1GiGue *TObjEneMe1GiGue__ct(TObjEneMe1GiGue *self, TObject *parent, void *set_data);

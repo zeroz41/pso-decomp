@@ -901,7 +901,7 @@ void check_enemy_body_collisions(void *arg0);
 s32 obj_is_hit_receivable(void);
 s32 attack_target_history_add(saddr, TObjPlayer *);
 s32 is_player_entity_id(u16);
-int get_item_field_6__10TObjPlayerFPv(void *p);
+saddr get_item_field_6__10TObjPlayerFPv(void *p);
 void TObjEneDD__sub_800BA438(s32 arg0, u8 *arg1);
 
 

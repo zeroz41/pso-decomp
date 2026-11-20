@@ -814,7 +814,7 @@ void TObjEneMe1CanadinLeader__sub_8009E334(TObjEneMe1Canadin *self) {
 s32 TObjEneMe1CanadinLeader__sub_8009E31C(TObjEneMe1Canadin *self, s32 mask) {
     return (self->m_3C8 & mask) != 0;
 }
-s32 fn_8009E300(TObjEneMe1Canadin *self) {
+saddr fn_8009E300(TObjEneMe1Canadin *self) {
     if (self->m_3C8 & 0x40000) {
         return (saddr)self->m_390;
     }

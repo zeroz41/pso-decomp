@@ -76,7 +76,7 @@ extern const f32 lbl_805DF294;
 s32 get_mode__11TCameraCtrlFPv(void *);
 void draw_blob_shadow(s32 arg0);
 s32 free_collision_body_parts(void *);
-s32 init_collision_body_parts(void *, void *, int);
+saddr init_collision_body_parts(void *, void *, int);
 void scale_matrix_vec3(u8 *arg0, u8 *arg1);
 s32 rotate_matrix_z(int, int);
 s32 rotate_matrix_x(int, void *);

@@ -207,8 +207,8 @@ struct Raw_800A10A0 { u8 b[12]; };
 void calc_velocity_toward_destination(void *, Vec, Vec, f32);
 s32 check_path_obstructed(void *, Vec *);
 f32 atan2_float(f32, f32);
-int get_bml_texlist(void*, void*);
-int get_bml_model(void*);
+saddr get_bml_texlist(void*, void*);
+saddr get_bml_model(void*);
 void free_bin_model_request(void*, int);
 void * __dt__13TUnk_80490470Fv(void *, s16);
 s32 trigger_targets_action__10TObjPlayerFv();
@@ -1633,7 +1633,7 @@ s32 TObjPlayer__sub_800A3210(s32 i, s32 _w1, s32 _w2) {
 
 int TObjPlayer::is_flag_set_388_bit26() { return (*(u32 *)&this->unk_388 >> 26) & 0x1; }
 
-void TObjEneDarkGunner::set_fields_24_34_from_global(void*a1) { *(int *)&this->model = get_bml_model((void*)((*(saddr *)&player_effect_bml_resource))); *(int *)&this->texlist = get_bml_texlist((void*)((*(saddr *)&player_effect_bml_resource)), a1); }
+void TObjEneDarkGunner::set_fields_24_34_from_global(void*a1) { this->model = (void *)get_bml_model((void*)((*(saddr *)&player_effect_bml_resource))); this->texlist = get_bml_texlist((void*)((*(saddr *)&player_effect_bml_resource)), a1); }
 
 void TObjPlayer::clear_counter() { this->m_340 = 0; }
 

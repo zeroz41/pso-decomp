@@ -160,7 +160,7 @@ void TObjEneMe1Canadin__sub_8009EB98(TObjEneMe1Canadin *self, f32 height);
 void fn_8009BD00(void);
 void fn_8009E1D4(TObjEneMe1Canadin *canadin, Vec *pos);
 void fn_8009E2DC(TObjEneMe1Canadin *self);
-s32 fn_8009E300(TObjEneMe1Canadin *self);
+saddr fn_8009E300(TObjEneMe1Canadin *self);
 void fn_8009E378(TObjEneMe1Canadin *self);
 }
 

@@ -398,7 +398,7 @@ s32 get_bml_motion(u32, int);
 
 s32 free_bin_model_request(u32, s32);
 
-u32 load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
+uaddr load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 
 
 

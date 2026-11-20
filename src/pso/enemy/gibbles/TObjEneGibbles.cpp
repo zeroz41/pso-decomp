@@ -125,10 +125,10 @@ void apply_actor_gravity(TObjEnemy *arg0, s32 *arg1, f32 farg0);
 extern "C" {
 s16 get_attack_params_atp_min(void *);
 s32 get_current_floor();
-s32 get_enemy_entity();
+saddr get_enemy_entity();
 void check_enemy_body_collisions(void *arg0);
 s32 submit_cursor_candidate(void *, int);
-u32 get_player_by_client_id(void *);
+uaddr get_player_by_client_id(void *);
 s32 minimap_render_dot(void *, int, int, int);
 void TObjEneGibbles__sub_802D7DAC(saddr arg0);
 s32 TObjEneGibbles__sub_802D9644(void *, s32, f32);

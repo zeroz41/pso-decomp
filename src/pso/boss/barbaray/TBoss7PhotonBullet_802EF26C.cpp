@@ -220,7 +220,7 @@ void *__dt__15TBoss7PhotonPadFv(void *self, s16 arg1) {
     return self;
 }
 }
-TBoss7PhotonPad::TBoss7PhotonPad(s32 arg1, s32 arg2, s32 arg3, s32 arg4) : TObject((TObject *)arg1) {
+TBoss7PhotonPad::TBoss7PhotonPad(saddr arg1, s32 arg2, saddr arg3, s32 arg4) : TObject((TObject *)arg1) {
     this->m_name = TBoss7PhotonPad__name;
     *(s32 *)((s8 *)this + 0x1C) = arg2;
     *(s32 *)((s8 *)this + 0x2C) = arg4;

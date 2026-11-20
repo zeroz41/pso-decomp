@@ -6,7 +6,7 @@
 extern "C" {
 void *TObjEneRecobox__create(void *arg0);
 u8 *TObjEneRecobox__ct(u8 *arg0, s32 arg1, u8 *arg2);
-int TObjEneRecobox__sub_803201D0(void);
+saddr TObjEneRecobox__sub_803201D0(void);
 void dispatch_state__12TObjEneReconFiUii(saddr arg0, u32 arg1, s32 arg2);
 void run_task__14TObjEneRecoboxFv(u8 *arg0);
 }
@@ -15,7 +15,7 @@ void run_task__14TObjEneRecoboxFv(u8 *arg0);
 extern "C" {
 void *TObjEneRecobox__create(void *arg0);
 u8 *TObjEneRecobox__ct(u8 *ene_recobox, s32 arg1, u8 *arg2);
-int TObjEneRecobox__sub_803201D0(void);
+saddr TObjEneRecobox__sub_803201D0(void);
 void dispatch_state__12TObjEneReconFiUii(saddr ene_dd, u32 arg1, s32 arg2);
 }
 // --- end of C functions

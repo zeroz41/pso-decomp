@@ -9,7 +9,7 @@
 // contact, on the floor or when its time runs out, damaging what it hits.
 class TUnk_80484AFC : public TObjCollidable {
 public:
-    s32 model;
+    saddr model;
     s32 textures;
     Vec velocity;
     u8 pad_c0[0xC];

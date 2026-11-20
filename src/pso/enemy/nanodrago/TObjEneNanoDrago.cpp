@@ -131,7 +131,7 @@ struct NanoDragoAnimationBinding {
 extern "C" void obj_setFlags30(void *, u32);
 extern "C" void free_bin_model_request(void*, int);
 extern "C" u8 * load_resource_from_descriptor(void *, s32, s32 *, s32, s32, s32);
-extern "C" s32 find_active_entity_by_id(int);
+extern "C" saddr find_active_entity_by_id(int);
 
 
 int initialize_enemy_photon_effect(void *p);

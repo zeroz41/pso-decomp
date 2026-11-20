@@ -715,7 +715,7 @@ void *TObjEneRecobox__vtable[107] = {
 
 #define TObjEneRecobox__attack_params ((u8 *)TObjEneRecobox__attack_params)
 #define TObjEneRecobox__vtable ((u8 *)TObjEneRecobox__vtable)
-int TObjEneRecobox__sub_803201D0(void);
+saddr TObjEneRecobox__sub_803201D0(void);
 
 void *TObjEneRecobox__create(void *arg0);
 
@@ -795,7 +795,7 @@ void TObjEneRecobox::release_static_instance() {
     }
 }
 
-int TObjEneRecobox__sub_803201D0(void) {  return (*(int *)&TObjEneRecobox__static_instance); }
+saddr TObjEneRecobox__sub_803201D0(void) {  return (*(int *)&TObjEneRecobox__static_instance); }
 
 u32 TObjEneRecobox::remap_area_sound_id(u32 arg0) {
     u32 ret;
