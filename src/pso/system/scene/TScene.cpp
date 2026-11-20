@@ -38,11 +38,6 @@ struct Tbl_8020335C { s32 v[8]; };
 extern struct Tbl_8020335C group_selection_area_id_table;
 
 
-struct FloorMapSelection {
-    s32 area;
-    u8 rest[0x8];
-};
-
 
 extern "C" s32 is_item_area_enabled(s32 area);
 
@@ -303,10 +298,7 @@ extern u8 lbl_8044A80C[];
 struct Ent_802066BC { char *name; s32 idx; };
 
 
-struct Res_8020681C { s32 table; s32 index; s32 pad; };
 
-
-struct Res_80207038 { s32 table; s32 index; s32 pad; };
 extern "C" {
 
 s32 get_player_name_copy_buffer();
@@ -466,7 +458,7 @@ s32 is_boss_area() {
 void set_current_floor_area(s32 floor) {
     FloorMapSelection selection;
     current_floor_index = floor;
-    if (get_floor_map_selection(floor, (u8 *)&selection.area) == 1) {
+    if (get_floor_map_selection(floor, &selection) == 1) {
         current_floor_area_type = (floor_area)selection.area;
     }
 }
@@ -730,7 +722,7 @@ void TScene::load_current_floor() {
     Ent_802066BC *tbl;
     s32 ent;
     s32 found;
-    Res_80207038 res;
+    FloorMapSelection res;
     s32 path[11];
     lbl_805D5FF8 = 0;
     TScene__map_rel_load_buffer = 0;
@@ -747,10 +739,10 @@ void TScene::load_current_floor() {
     floor_bin_file_size = 0;
     scene_file_buffer_size = 0;
     TScene__data_805D5FE8 = -1;
-    if (get_floor_map_selection(current_floor_index, (u8 *)&res) == 1) {
-        tbl = (Ent_802066BC *)get_floor_scene_table(res.table);
-        scene_resource_index = res.index;
-        ent = tbl[res.index].idx;
+    if (get_floor_map_selection(current_floor_index, &res) == 1) {
+        tbl = (Ent_802066BC *)get_floor_scene_table(res.area);
+        scene_resource_index = res.terrain;
+        ent = tbl[res.terrain].idx;
     }
     copy_name((s32)((s32 *)TScene__current_floor_name));
     TScene::load_scene_rel_file(ent);
@@ -1022,16 +1014,16 @@ void load_floor_scene(void) {
     Ent_802066BC *tbl;
     s32 ent;
     s32 found;
-    Res_8020681C res;
+    FloorMapSelection res;
     s32 path[11];
     if (TScene__data_805D5FCC != NULL && *(u32 *)((s8 *)TScene__data_805D5FCC + 0x14) != 0) {
         release_texture_list(*(u32 *)((s8 *)TScene__data_805D5FCC + 0x14));
         *(u32 *)((s8 *)TScene__data_805D5FCC + 0x14) = 0;
     }
-    if (get_floor_map_selection(current_floor_index, (u8 *)&res) == 1) {
-        tbl = (Ent_802066BC *)get_floor_scene_table(res.table);
-        scene_resource_index = res.index;
-        ent = tbl[res.index].idx;
+    if (get_floor_map_selection(current_floor_index, &res) == 1) {
+        tbl = (Ent_802066BC *)get_floor_scene_table(res.area);
+        scene_resource_index = res.terrain;
+        ent = tbl[res.terrain].idx;
     }
     copy_name((s32)((s32 *)TScene__current_floor_name));
     load_scene_map_file(ent);

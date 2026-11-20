@@ -2,38 +2,29 @@
 #define PSO_UNK_TLOBBY_80207644_H
 
 #include "types.h"
+#include <stddef.h>
+
+struct FloorMapSelection {
+    s32 area;
+    s32 terrain;
+    s32 entities;
+};
+
+typedef char FloorMapSelectionSize[sizeof(FloorMapSelection) == 0xC ? 1 : -1];
+typedef char FloorMapSelectionTerrainOffset[offsetof(FloorMapSelection, terrain) == 4 ? 1 : -1];
 
 extern "C" {
 void TLobby__sub_80207BB0(void);
+s32 get_floor_map_selection(s32 floor, FloorMapSelection *selection);
+s32 lookup_floor_map_selection(s32 floor, FloorMapSelection *selection);
+s32 get_floor_map_terrain(s32 floor);
+void randomize_adventure_maps(void);
 }
 s32 get_boss_warp_destination(void);
-extern "C" {
-s32 get_floor_map_selection(s32 arg0, u8 *arg1);
-s32 get_floor_map_terrain(s32 arg0);
-}
 void init_floor_map_registry(void);
-// The area id of the map on a floor (as get_current_floor_area), -1 when it has none.
+// The area id of the map on a floor, or -1 when it has none.
 s32 get_floor_area(s32 floor);
-extern "C" {
-void randomize_adventure_maps(void);
-}
-s32 set_floor_map_selection(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
-void set_floor_map_variant(s32 arg0, s32 arg1);
-
-// --- C functions defined in TLobby_80207644.cpp ---
-extern "C" {
-void TLobby__sub_80207BB0(void);
-}
-s32 get_boss_warp_destination(void);
-extern "C" {
-s32 get_floor_map_selection(s32 arg0, u8 *arg1);
-s32 get_floor_map_terrain(s32 arg0);
-void randomize_adventure_maps(void);
-}
-// --- end of C functions
-
-// floor_map_registry: layout known from its uses only.
-struct FloorMapRegistry { s32 value; u8 remaining[0xD4]; };
-extern FloorMapRegistry floor_map_registry;
+s32 set_floor_map_selection(s32 floor, s32 area, s32 terrain, s32 entities);
+void set_floor_map_variant(s32 floor, s32 terrain);
 
 #endif

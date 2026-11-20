@@ -922,18 +922,6 @@ int TLobby::init_sub_state() { return clear_record_flags_b__6TLobbyFv(this); }
 
 // ---- pso/unk/text_8020AD40
 
-struct Stack_8020AF0C {
-    s32 sp8;
-    s32 spC;
-    s32 sp10;
-};
-
-struct Stack_8020AFA4 {
-    s32 sp8;
-    s32 spC;
-    s32 sp10;
-};
-
 struct Rec_8020AD40 { u8 pad0[2]; s16 f2; u8 pad4[0x40]; };
 
 extern "C" {
@@ -994,15 +982,15 @@ s32 load_area_object_set(s32 arg0, s32 lobby, s32 arg2, s32 arg3) {
 }
 
 s32 TLobby::load_all_floor_enemy_sets() {
-    Stack_8020AF0C stack;
+    FloorMapSelection stack;
     s32 var_r31;
     var_r31 = 0;
 loop_1:
-    if ((get_floor_map_selection(var_r31, (u8 *)&stack.sp8) == 1) && (stack.sp8 >= 0)) {
+    if ((get_floor_map_selection(var_r31, &stack) == 1) && (stack.area >= 0)) {
         if (is_area_transfer_pending() != 0) {
             return 0;
         }
-        load_area_enemy_set(var_r31, stack.sp8, stack.spC, stack.sp10);
+        load_area_enemy_set(var_r31, stack.area, stack.terrain, stack.entities);
         goto block_6;
     }
 block_6:
@@ -1016,15 +1004,15 @@ block_6:
     goto loop_1;
 }
 s32 TLobby::load_all_floor_object_sets() {
-    Stack_8020AFA4 stack;
+    FloorMapSelection stack;
     s32 var_r31;
     var_r31 = 0;
 loop_1:
-    if ((get_floor_map_selection(var_r31, (u8 *)&stack.sp8) == 1) && (stack.sp8 >= 0)) {
+    if ((get_floor_map_selection(var_r31, &stack) == 1) && (stack.area >= 0)) {
         if (is_area_transfer_pending() != 0) {
             return 0;
         }
-        load_area_object_set(var_r31, stack.sp8, stack.spC, stack.sp10);
+        load_area_object_set(var_r31, stack.area, stack.terrain, stack.entities);
         goto block_6;
     }
 block_6:

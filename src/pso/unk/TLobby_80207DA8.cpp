@@ -1,3 +1,4 @@
+#include "pso/unk/TLobby_80207644.h"
 #include "pso/map/MapSetArchive.h"
 #include "pso/system/ResourceFile.h"
 #include "pso/network/protocol/protocol_types.h"
@@ -273,7 +274,6 @@ s32 get_floor_scene_table(s32 arg0);
 extern "C" {
 void reset_story_select__6TLobbyFv(void);
 void TLobby__sub_80207E44(void);
-s32 get_floor_map_selection(int, void *);
 int copy_table_entries__6TLobbyFUl(void*, s32);
 void randomize_adventure_maps(void);
 
@@ -296,7 +296,9 @@ int TLobby__sub_80207E24(void* p, s32 size) { return copy_table_entries__6TLobby
 void TLobby__sub_80207E44(void) {  }
 void TLobby__sub_80207E48(void) { randomize_adventure_maps(); }
 }
-int TLobby::lookup_scene_object(void* p) { return ((int (*)(void*))get_floor_map_selection)(p); }
+s32 lookup_floor_map_selection(s32 floor, FloorMapSelection *selection) {
+    return get_floor_map_selection(floor, selection);
+}
 s32 get_floor_scene_table(s32 arg0) {
     if (arg0 > 0x23) {
         return 0;

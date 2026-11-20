@@ -107,8 +107,6 @@ void TLobby::handle_msg_type1_for_idle_slots() {
 
 }
 
-struct Sel_801F3E1C { s32 area; s32 terrain; s32 entities; };
-
 extern "C" {
 s32 memset(void *, int, int);
 int init_sub_state__6TLobbyFv(void);
@@ -166,7 +164,7 @@ void clear_quest_floor_designations(void) {
 
 void populate_quest_floor_sets(void) {
     s32 i;
-    Sel_801F3E1C sel;
+    FloorMapSelection sel;
     TLobby::init_handle(0x8000);
     for (i = 0; i < 18; i++) {
         switch (((s16 *)&quest_floor_designations)[i]) {
@@ -177,7 +175,7 @@ void populate_quest_floor_sets(void) {
             break;
         case 1:
         case 2:
-            if (get_floor_map_selection(i, (u8 *)&sel) == 1 && sel.area >= 0) {
+            if (get_floor_map_selection(i, &sel) == 1 && sel.area >= 0) {
                 open_gsl_archive("gsl_set_object.gsl");
                 load_area_object_set(i, sel.area, sel.terrain, sel.entities);
                 close_gsl_archive();

@@ -1,3 +1,4 @@
+#include "pso/unk/TLobby_80207644.h"
 #include "pso/map/MapSetArchive.h"
 #include "pso/map/FloorPopulation.h"
 #include "pso/system/ResourceFile.h"
@@ -88,8 +89,6 @@ void *TSetManager__ct(void *set_manager, void *parent) {
 
 }
 
-struct Vec3_8020DB44 { s32 a, b, c; };
-
 struct Rec_8020D9A0 { u8 pad0[2]; s16 f2; s16 f4; u8 pad6[2]; u16 f8; u8 padA[0x3A]; };
 
 extern "C" {
@@ -104,7 +103,6 @@ u32 TLobby__data_80513D10[9];
 u8 lbl_80513D34[0x24];
 #pragma pop
 void archive_pool_free(void *pool, void *node);
-s32 lookup_scene_object__6TLobbyFPv(s32, void *);
 void *memset(void *, int, unsigned long);
 s32 replace_file_extension__6TLobbyFPvPvPv(char *arg0, char *arg1, char *arg2);
 void *mem_alloc(u32);
@@ -190,7 +188,7 @@ void TLobby::clear_floor_flags_and_depart() {
 #pragma pop
 
 void TLobby::setup_floor_decorations() {
-    Vec3_8020DB44 v;
+    FloorMapSelection v;
     s32 r;
     arrive_floor_population();
     (*(s32 *)&TLobby__data_805D611C) = 0;
@@ -202,8 +200,8 @@ void TLobby::setup_floor_decorations() {
     lbl_805D60F8 = get_current_floor_area();
     r = get_current_floor();
     TLobby__data_805D60FC = r;
-    if (lookup_scene_object__6TLobbyFPv(r, &v) != 0) {
-        load_map_decoration_rows(v.a, v.b, v.c);
+    if (lookup_floor_map_selection(r, &v) != 0) {
+        load_map_decoration_rows(v.area, v.terrain, v.entities);
         return;
     }
     lbl_805D60F8 = -1;

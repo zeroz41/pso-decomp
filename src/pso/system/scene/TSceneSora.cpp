@@ -33,8 +33,6 @@ struct TSceneSora_80207238 {
     f32 frame;
 };
 
-struct Ref_80207478 { s32 id; s32 idx; s32 pad; };
-
 struct Ent_80207478 { s32 f0; char *name; };
 
 struct Res_80207478 { void *buf; s32 n; };
@@ -57,9 +55,8 @@ u8 *__ct__10TSceneSoraFl(TSceneSora *arg0, s32 _w1);
 void draw_ginja_model_with_motion(void *model, void *motion, f32 frame);
 s32 rotate_matrix_y(int, int);
 s32 set_global_param__8TObjFishFl();
-void *get_current_floor();
+s32 get_current_floor();
 u32 init_bin_model_request(void *, int, Res_80207478 *, Res_80207478 *, int, int, int);
-s32 lookup_scene_object__6TLobbyFPv(void *, Ref_80207478 *);
 void *adxf_open__6TLobbyFUii(char *, int);
 extern char sky_model_ext_s_njm[];
 extern char sky_model_ext_sm_gj[];
@@ -147,7 +144,7 @@ void TSceneSora__sub_80207430(void) {
 void TSceneSora::load_sky_resources() {
     char name2[0x20];
     char name1[0x20];
-    Ref_80207478 ref;
+    FloorMapSelection ref;
     Res_80207478 b;
     Res_80207478 a;
     Ent_80207478 *tbl;
@@ -157,16 +154,16 @@ void TSceneSora::load_sky_resources() {
     TSceneSora__instance = 0;
     TSceneSora__sky_bml_resource = 0;
     TSceneSora__has_sky_motion = 0;
-    if (lookup_scene_object__6TLobbyFPv(get_current_floor(), &ref) != 0) {
+    if (lookup_floor_map_selection(get_current_floor(), &ref) != 0) {
         ok = 0;
-        tbl = (Ent_80207478 *)get_floor_scene_table(ref.id);
-        replace_file_extension__6TLobbyFPvPvPv(name1, tbl[ref.idx].name, sky_model_ext_s_njm);
+        tbl = (Ent_80207478 *)get_floor_scene_table(ref.area);
+        replace_file_extension__6TLobbyFPvPvPv(name1, tbl[ref.terrain].name, sky_model_ext_s_njm);
         if (TRaderMapCore::is_not_split_screen() == 1) {
-            replace_file_extension__6TLobbyFPvPvPv(name2, tbl[ref.idx].name, sky_model_ext_sm_gj);
+            replace_file_extension__6TLobbyFPvPvPv(name2, tbl[ref.terrain].name, sky_model_ext_sm_gj);
             ok = get_resource_file_size((const char *)name2);
         }
         if (ok <= 0) {
-            replace_file_extension__6TLobbyFPvPvPv(name2, tbl[ref.idx].name, sky_model_ext_s_gj);
+            replace_file_extension__6TLobbyFPvPvPv(name2, tbl[ref.terrain].name, sky_model_ext_s_gj);
         }
         p = adxf_open__6TLobbyFUii(name2, 0);
         if (p != NULL) {

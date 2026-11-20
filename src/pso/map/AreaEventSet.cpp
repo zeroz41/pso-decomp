@@ -1,3 +1,4 @@
+#include "pso/unk/TLobby_80207644.h"
 #include "pso/map/MapSetArchive.h"
 // Area event sets: the per-floor event records (".evt" files from gsl_set_event.gsl), their
 // byte swapping, sync records and the destroy-event spawn. One TU: its .rodata opens 8-aligned at
@@ -26,7 +27,6 @@
 
 extern "C" {
 s32 is_area_transfer_pending();
-s32 get_floor_map_selection(int, void *);
 }
 
 int set_event_destroy_id;
@@ -358,24 +358,18 @@ s32 load_area_event_set(s32 floor, s32 area, s32 terrain, s32 entities) {
 #undef area_event_set_heap
 #undef lobby_slot_ptr_table
 
-struct Stack_80208F7C {
-    s32 sp8;
-    s32 spC;
-    s32 sp10;
-};
-
 extern "C" {
 
 s32 TLobby::load_all_floor_event_sets() {
-    Stack_80208F7C stack;
+    FloorMapSelection stack;
     s32 var_r31;
     var_r31 = 0;
 loop_1:
-    if ((get_floor_map_selection(var_r31, &stack.sp8) == 1) && (stack.sp8 >= 0)) {
+    if ((get_floor_map_selection(var_r31, &stack) == 1) && (stack.area >= 0)) {
         if (is_area_transfer_pending() != 0) {
             return 0;
         }
-        ((s32 (*)(int, int, int, int))load_area_event_set)(var_r31, stack.sp8, stack.spC, stack.sp10);
+        ((s32 (*)(int, int, int, int))load_area_event_set)(var_r31, stack.area, stack.terrain, stack.entities);
         goto block_6;
     }
 block_6:

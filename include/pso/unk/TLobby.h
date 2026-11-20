@@ -837,7 +837,6 @@ struct TLobby : public TObject {
     static void setup_quest_list();
     static void init_id_tables();
     static s32 is_scene_ready();
-    static int lookup_scene_object(void* p);
     static int reset_story_select(void* p);
     static void update_current_floor();
     static void update_key_machine();
