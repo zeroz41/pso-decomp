@@ -29,6 +29,7 @@
 #include "pso/unk/text_80087278.h"
 #include "pso/render/render_util.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
+#include "pso/system/task/TObject.h"
 
 #pragma readonly_strings on
 extern "C" TObjEnemy *__ct__9TObjEnemyFP7TObject(void *, void *);
@@ -101,7 +102,6 @@ s32 get_bml_texlist(BmlResource *resource, s32 index);
 s32 get_bml_model(BmlResource *resource, s32 index);
 int rotate_matrix_y(void*, void*);
 int push_matrix(void*);
-s32 __nw__7TObjectFUl(s32);
 
 void TBoss6Mine::render_shadows() {
     u8 *arg0 = (u8 *)this;
@@ -460,9 +460,9 @@ TBoss6Mine *TBoss6Mine::create(TBoss6MineSetData *set_data) {
     s32 var_r31;
     s32 var_r4;
 
-    var_r31 = __nw__7TObjectFUl(0x3D0);
+    var_r31 = (s32)TObject::operator new(0x3D0);
     if (var_r31 != 0) {
-        var_r4 = __nw__7TObjectFUl(0x20);
+        var_r4 = (s32)TObject::operator new(0x20);
         if (var_r4 != 0) {
             var_r4 = __ct__11TObjControlFP7TObject(var_r4, tl_04);
         }

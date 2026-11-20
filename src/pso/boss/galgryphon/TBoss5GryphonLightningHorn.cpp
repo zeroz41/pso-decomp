@@ -50,7 +50,6 @@ f32 sin_table_lookup(int);
 f32 cos_table_lookup(int, f32, f32);
 extern s32 __vt__26TBoss5GryphonLightningHorn[];
 u8 *__ct__26TBoss5GryphonLightningHornFv(u8 *arg0, s32 arg1, s32 arg2, s32 arg3);
-s32 __nw__7TObjectFUl(int);
 
 void TBoss8Dragon::queue_destruction() { TObject::queue_destruction(); }
 
@@ -222,7 +221,7 @@ s32 TBoss8Dragon::spawn_ground_lightning(s32 arg0, s32 arg1, s32 arg2) {
         }
     }
     position.y += 12.0f;
-    allocation = __nw__7TObjectFUl(0xA8);
+    allocation = (s32)TObject::operator new(0xA8);
     effect = allocation;
     if (effect != 0) {
         effect = (s32)__ct__26TBoss5GryphonLightningHornFv((u8*)allocation, arg0, (s32)&position, arg2);

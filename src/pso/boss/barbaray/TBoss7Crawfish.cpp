@@ -104,7 +104,6 @@ s32 exchange_object_state__9TObjEnemyFls(void *, void *, int);
 s32 get_mode__11TCameraCtrlFPv(void *);
 s32 obj_is_hit_receivable(u8 *arg0);
 void reset_global_table(void);
-Slot_803086A8 *get_attack_entry__16TObjOnlineEndingFi(s32);
 s32 apply_hit_to_target__14TBoss7CrawfishFPvPv(void *, void *);
 void TBoss7Crawfish__sub_803087D4(s32 arg0, s32 arg1);
 int TBoss7Crawfish__sub_80308BEC(void* p);
@@ -131,7 +130,7 @@ void TBoss7Crawfish::register_attack_hits() {
     TObjPlayer::apply_status_effect((s32)&msg);
     for (i = 0; i != TObjOnlineEnding::get_instance(); i++) {
         if ((u32)((Obj_803086A8 *)this)->count < 4) {
-            e = get_attack_entry__16TObjOnlineEndingFi(i);
+            e = ((Slot_803086A8 *)TObjOnlineEnding::get_attack_entry(i));
             for (j = 0; j != ((Obj_803086A8 *)this)->count; j++) {
                 if (((Obj_803086A8 *)this)->slots[j].a == e->a && ((Obj_803086A8 *)this)->slots[j].b == e->b) {
                     break;

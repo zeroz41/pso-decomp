@@ -504,7 +504,6 @@ s32 draw__10TObjMotionFv(void *);
 u8 * find_entity_by_id();
 void free_collision_body_parts(void *);
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
-void __dl__7TObjectFPv(void *);
 s32 render_nodes__7TObjectFv(s32, s32);
 void __dt__7TObjectFv(void *, int);
 void TBoss5GryphonLightningEff__sub_80325064(void *p);
@@ -1230,7 +1229,7 @@ void TBoss5Gryphon::render_with_fade(s32 arg1) {
     rotate_matrix_z(0, this->rotation_z);
     scale_matrix(0, 2.0f, 2.0f, 2.0f);
     TObjPlayer::toggle_particle_effect();
-    draw__10TObjMotionFv(this);
+    ((TObjMotion *)this)->draw();
     TParticleCtrl::end_effect_render();
     TObjLight__sub_801337F8((void *)current_scene_light);
     pop_matrix();
@@ -4787,7 +4786,7 @@ Obj_80065658 *__dt__13TBoss5GryphonFv(Obj_80065658 *o, s16 flag) {
         __dt__7TObjectFv(o->f4c4, -1);
         __dt__12TObjEneDD_STFv(o, 0);
         if (flag > 0) {
-            __dl__7TObjectFPv(o);
+            TObject::operator delete(o);
         }
     }
     return o;

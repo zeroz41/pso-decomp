@@ -354,7 +354,6 @@ struct VObj_8005B218 : VBase_8005B218 {
 f32 random_ratio__9TObjCharaFv(void *);
 u16 get_entity_id(void *);
 s32 is_split_screen();
-s16 * register_boss__6TLobbyFl(s32);
 s32 get_bml_motion(s32, s32);
 s32 get_bml_texlist(BmlResource *resource, s32 index);
 s32 get_bml_model(BmlResource *resource, s32 index);
@@ -379,7 +378,6 @@ s32 __ct__11TObjControlFP7TObject(s32, s32);
 void *__dt__9TObjEnemyFv(TObjEnemy *arg0, s16 arg1);
 void free_collision_body_parts(void *);
 void TObjEneRe4Sorcerer__sub_801E3F1C(f32, f32);
-void __dl__7TObjectFPv(void *);
 void * __nw__7TObjectFUl(int);
 void __ct__7TObjectFP7TObject(void *);
 s32 create__9TTecMegidFllll(void *, Vec *, u8 *, s32);
@@ -738,14 +736,13 @@ void submit_cursor_candidate(void *, int);
 struct O_80059618;
 struct Obj_8005A1AC;
 struct Ply_80059ABC;
-s32 create__13TUnk_80494968FUlUl(s32, s32);
 
 Self_8005AE60 *TBoss4Type3__ct(Self_8005AE60 *, s32, s32 *);
 }
 
 void * create__13TObjBs4CutAtkFPvPvPv(void *arg0, void *arg1, void *arg2) {
     void *o;
-    o = __nw__7TObjectFUl(0x28);
+    o = TObject::operator new(0x28);
     if (o != NULL) {
         o = __ct__13TObjBs4CutAtkFv((void *)o, (s32)arg0, (s32)arg1, (s32)arg2);
     }
@@ -794,7 +791,7 @@ void TObjBs4CutAtk::run_task() {
             Dmg_8005B218 d;
             id = *(s32 *)&this->m_up;
             d.type = 0;
-            d.val = *register_boss__6TLobbyFl(0x38);
+            d.val = *((s16 *)TLobby::register_boss(0x38));
             {
                 Dmg_8005B218 t = d;
                 p->m21(id, &t, 0, -1, -1);
@@ -865,11 +862,11 @@ Self_8005AE60 *TBoss4Type3__ct(Self_8005AE60 *self, s32 parent, s32 *arg2) {
     p = (s32)new SampledMotionPoints(2, 3.0f, 9.0f, 0.6f);
     *(s32 *)((u8 *)self + 0x51C) = p;
     ((SampledMotionPoints *)(*(s32 *)((u8 *)self + 0x51C)))->sample_two_nodes((NJS_OBJECT *)model, (NJS_MOTION *)get_bml_motion(self->f390, ((s32 *)&TBoss4Type3__anim_state_table)[0x44 / 4]), 0x16, 0x17);
-    *(s32 *)((u8 *)self + 0x524) = create__13TUnk_80494968FUlUl(0xA0303030, 0xFFFF0088);
+    *(s32 *)((u8 *)self + 0x524) = ((s32)TUnk_80494968::create(0xA0303030, 0xFFFF0088));
     p = (s32)new SampledMotionPoints(2, 3.0f, 9.0f, 0.6f);
     *(s32 *)((u8 *)self + 0x520) = p;
     ((SampledMotionPoints *)(*(s32 *)((u8 *)self + 0x520)))->sample_two_nodes((NJS_OBJECT *)model, (NJS_MOTION *)get_bml_motion(self->f390, ((s32 *)&TBoss4Type3__anim_state_table)[0x58 / 4]), 9, 10);
-    *(s32 *)((u8 *)self + 0x528) = create__13TUnk_80494968FUlUl(0xA0303030, 0xFFFF0088);
+    *(s32 *)((u8 *)self + 0x528) = ((s32)TUnk_80494968::create(0xA0303030, 0xFFFF0088));
     clear_motion_packed_rotation();
     ((TBoss4Type3 *)self)->create_particle_emitters();
     self->node_tables.init(boss4_type3_model_node_specs, 2);
@@ -927,7 +924,7 @@ S_8005AD50 *__dt__11TBoss4Type3Fv(S_8005AD50 *o, s16 flag) {
         o->f394 = 0;
         __dt__9TObjEnemyFv((TObjEnemy *)o, 0);
         if (flag > 0) {
-            __dl__7TObjectFPv(o);
+            TObject::operator delete(o);
         }
     }
     return o;

@@ -1462,7 +1462,6 @@ extern "C" {
 s32 get_mode__11TCameraCtrlFPv(void *);
 u8 *find_entity_by_id(void);
 extern u8 *camera_ctrl_instance;
-s32 isFading__15RenderFadeStateCFv(int);
 s32 has_enough_enemies__12TBoss8DragonFv();
 // (from _802F3F20)
 s32 draw__10TObjMotionFv(void *, int);
@@ -1507,11 +1506,11 @@ Node_802FDDD4 *clone_node_tree__12TBoss8DragonFPvPvi(Node_802FDDD4 *src, Node_80
     cur->v = v;
     if (src->c0 != NULL) {
         cur->c0 = dst;
-        dst = clone_node_tree__12TBoss8DragonFPvPvi(src->c0, dst, v);
+        dst = ((Node_802FDDD4 *)TBoss8Dragon::clone_node_tree((void *)src->c0, (void *)dst, v));
     }
     if (src->c1 != NULL) {
         cur->c1 = dst;
-        dst = clone_node_tree__12TBoss8DragonFPvPvi(src->c1, dst, v);
+        dst = ((Node_802FDDD4 *)TBoss8Dragon::clone_node_tree((void *)src->c1, (void *)dst, v));
     }
     return dst;
 }
@@ -2763,7 +2762,7 @@ void TBoss8Dragon::freeze_player_at_self() {
     player = ((u8 * (*)(s32))get_player_by_client_id)(this->m_750);
     if (player != NULL) {
         if (((TObjPlayer *)player)->get_floor() == get_current_floor()) {
-            start_freeze__10TObjPlayerFv((int)player);
+            ((TObjPlayer *)((int)player))->start_freeze();
             ((ProtectionTimer *)(player + 0x644))->set_frames(0x14);
             ((TObjPlayer *)player)->actorFlags = (s32) (((TObjPlayer *)player)->actorFlags & 0xFFEFFFDF);
             VecCopy__FP3VecPC3Vec(player + 0x38, (u8 *)&this->position);
@@ -5955,7 +5954,7 @@ void TBoss8Dragon::draw_with_fade(s32 arg1, s32 arg2) {
             ((RenderFadeState *)(&((Obj_802F4114 *)((u8 *)this))->fades[arg2]))->restore();
         }
         temp_r31 = (u8 *)&((Obj_802F4114 *)((u8 *)this))->fades[arg2];
-        if (isFading__15RenderFadeStateCFv((int)temp_r31) != 0) {
+        if (((RenderFadeState *)((int)temp_r31))->isFading() != 0) {
             ((VObj_14_681f8e *)(temp_r31))->m6();
         }
         push_matrix();

@@ -21,7 +21,6 @@ void run_task__15TBoss6SwordShotFv(u8 *arg0);
 void render__7TObjectFv();
 void render_shadows__7TObjectFv();
 void __dt__7TObjectFv(void *, int);
-void __dl__7TObjectFPv(void *);
 void *__vt__15TBoss6SwordShot[6] = {
     0, 0, (void *)__dt__15TBoss6SwordShotFv, (void *)run_task__15TBoss6SwordShotFv,
     (void *)render__7TObjectFv, (void *)render_shadows__7TObjectFv,
@@ -56,7 +55,6 @@ struct VObj_8035663C : VBase_8035663C {
 extern "C" {
 u8 test_rock_bit__15TBoss6SwordWaveFiUc(s32 arg0, u8 arg1);
 void set_bit__15TBoss6SwordWaveFiUc(s32 arg0, u8 arg1);
-f32 *dispatch_shared_handler_a__6TLobbyFl(s32);
 s32 __ct__7TObjectFP7TObject(void *, void *);
 extern RecoveredGlobal_80356B18___vt__15TBoss6SwordWave __vt__15TBoss6SwordWave;
 extern const char *TBoss6SwordWave__name;
@@ -145,7 +143,7 @@ void *__dt__15TBoss6SwordShotFv(void *arg0, s16 arg1) {
         *(void **)((u8 *)arg0 + 0x18) = __vt__15TBoss6SwordShot;
         __dt__7TObjectFv(arg0, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            TObject::operator delete(arg0);
         }
     }
     return arg0;
@@ -181,7 +179,7 @@ u8 *TBoss6SwordShot__ct(void *arg0, s32 arg1, s32 arg2, s32 arg3, f32 farg0) {
     VecCopy((Vec *)&self->pos, (const Vec *)arg2);
     self->speed = farg0;
     self->f30 = 0;
-    v = *dispatch_shared_handler_a__6TLobbyFl(0x2B);
+    v = *((f32 *)TLobby::dispatch_shared_handler_a(0x2B));
     self->life = (s32)v;
     if (0.0f == v) {
         self->life = 0x14;
@@ -400,7 +398,7 @@ u8 *__ct__15TBoss6SwordWaveFv(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, 
     *(f32 *)((s8 *)arg0 + 0x50) = (f32) 0.0f;
     *(f32 *)((s8 *)arg0 + 0x54) = (f32) 0.0f;
     *(f32 *)((s8 *)arg0 + 0x58) = (f32) 0.0f;
-    temp_f2 = *dispatch_shared_handler_a__6TLobbyFl(0x2C);
+    temp_f2 = *((f32 *)TLobby::dispatch_shared_handler_a(0x2C));
     *(s32 *)((s8 *)arg0 + 0x5C) = (s32) temp_f2;
     if (0.0f == temp_f2) {
         *(s32 *)((s8 *)arg0 + 0x5C) = 0x14;

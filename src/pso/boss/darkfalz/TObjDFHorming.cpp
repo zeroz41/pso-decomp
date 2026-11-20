@@ -169,7 +169,6 @@ E_8004AB90 dark_falz_push_zone_table[3] = {
 
 
 extern "C" {
-u8 *get_player_data__10TObjPlayerFi(s32);
 s32 vec3_add_to(void *, void *);
 f32 vector_length(void *);
 s32 subtract_vector(void *, void *);
@@ -289,7 +288,7 @@ u16 TBoss4Type3::pick_random_target_player() {
     u8 *p;
     n = 0;
     for (i = 0; i < registered_player_count; i++) {
-        p = get_player_data__10TObjPlayerFi(i);
+        p = ((u8 *)TObjPlayer::get_player_data(i));
         if (p != NULL && TBoss4Type3__sub_8005254C(get_entity_id(p)) != 0) {
             buf[n++] = get_entity_id(p);
             if (n >= 4) {
@@ -392,7 +391,6 @@ void create__10TBoss4ZakoFl(void *);
 Desc_8004BD58 TBoss4DarkFalz__data_804FF1E8;
 extern s32 game_difficulty_selection;
 
-Hit_8004B7DC *get_hit_data__14TBoss4DarkFalzFv(void *);
 }
 void reset_cameras_to_actor(void *, s32);
 
@@ -727,7 +725,7 @@ void TBoss4DarkFalz__sub_8004B7DC(TBoss4DarkFalz *boss4_dark_falz) {
             v.z += 2.5e+02f * cos_table_lookup(ang);
             ((TObjBase *)p)->set_position_from(&v);
             ((TBoss4DarkFalz *)p)->save_position();
-            get_hit_data__14TBoss4DarkFalzFv(p)->f4 = ang + 0x8000;
+            ((Hit_8004B7DC *)((TBoss4DarkFalz *)p)->get_hit_data())->f4 = ang + 0x8000;
             ((TObjPlayer *)p)->refresh_equipment_slot();
             if (TObjPlayer::is_locally_controlled(p) != 0) {
                 reset_cameras_to_actor(p, 0);
@@ -852,7 +850,6 @@ s32 TBoss4DarkFalz__ct(s32 a0, s32 arg1, s32 a2);
 int TBoss4DarkFalz__sub_8030AD38(void);
 int free_bin_model_request(void*, void*);
 s32 __ct__11TObjControlFP7TObject(s32, s32);
-s32 __nw__7TObjectFUl(s32);
 
 void TBoss4DarkFalz::render() {  }
 
@@ -1045,9 +1042,9 @@ s32 TBoss4DarkFalz::create(s32 arg0) {
     s32 var_r31;
     s32 var_r4;
 
-    var_r31 = __nw__7TObjectFUl(0x3AC);
+    var_r31 = (s32)TObject::operator new(0x3AC);
     if (var_r31 != 0) {
-        var_r4 = __nw__7TObjectFUl(0x20);
+        var_r4 = (s32)TObject::operator new(0x20);
         if (var_r4 != 0) {
             var_r4 = __ct__11TObjControlFP7TObject(var_r4, tl_04);
         }

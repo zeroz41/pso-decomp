@@ -1233,7 +1233,6 @@ void TBoss6Mag::run_task() {
 }
 void *__dt__9TObjEnemyFv(TObjEnemy *arg0, s16 arg1);
 s32 free_collision_body_parts(void *);
-s32 __dl__7TObjectFPv(void *);
 
 void *fn_8033068C(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
@@ -1247,7 +1246,7 @@ void *fn_8033068C(void *arg0, s16 arg1) {
         TBoss6Type2__instance_slots[*(s32 *)((s8 *)arg0 + 0x384)] = 0;
         __dt__9TObjEnemyFv((TObjEnemy *)arg0, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            TObject::operator delete(arg0);
         }
     }
     return arg0;
