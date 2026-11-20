@@ -1,4 +1,5 @@
 #include "types.h"
+#include "versions.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_80202A68.h"
 #include "pso/unk/text_8007C0CC.h"
 #include "pso/ui/window/TWindowKeyBoardHard_801FBA48.h"
@@ -68,6 +69,7 @@ void draw_ginja_box_tree(u8 *arg0) {
         var_r30 = (u8 *)(*(u8 **)((s8 *)var_r30 + 0x30));
     } while (var_r30 != NULL);
 }
+#if VERSION == VERSION_GPOE8P
 extern "C" {
 
 void TAdSinglePlyChrSelectGC__sub_801FBB1C(void) {
@@ -175,3 +177,4 @@ s32 TAdSinglePlyChrSelectGC::wait_for_card_load(s32 arg0) {
     }
     return 1;
 }
+#endif

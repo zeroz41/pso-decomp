@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "versions.h"
 #include "pso/unk/TUnk_804C2298.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -151,7 +152,11 @@ TUnk_804C2298::TUnk_804C2298() : TObject((TObject *)tl_00) {
     if (o3 != NULL) {
         __ct__10TAdTitleGCFP7TObjectl(o3, this, 3);
     }
+#if VERSION == VERSION_GPOP8P
+    TKeyBoardControl__sub_8000F90C(1);
+#else
     TKeyBoardControl__sub_8000F90C(9);
+#endif
     this->selection = 4;
     this->state = 0;
     this->timer = 0;

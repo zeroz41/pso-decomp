@@ -1,4 +1,5 @@
 #include "types.h"
+#include "versions.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/ui/keyboard/TKeyBoardControl_80290CB0.h"
 #include "pso/ui/charcreate/TObjCMMainMenu_8028EA88.h"
@@ -13,7 +14,11 @@ s32 set_copy_clear_color_argb(s32, s32, s32);
 void TKeyBoardControl::update_main_menu_scene() {
     set_copy_clear_color_argb(0, 0, 0xFF);
     reset_controller_input_state();
+#if VERSION == VERSION_GPOP8P
+    TKeyBoardControl__sub_8000F90C(1);
+#else
     TKeyBoardControl__sub_8000F90C(2);
+#endif
     set_queued_main_phase(6);
     if ((u8) main_menu_scene_active_flag != 0) {
         TKeyBoardControl__sub_80290D10();
