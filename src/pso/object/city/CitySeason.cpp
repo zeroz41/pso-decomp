@@ -890,7 +890,7 @@ void TObjCity_Season_XmasTree::render() {
         draw_model_motion((void *)(*(saddr *)((s8 *)(*(void **)((s8 *)temp_r3 + 0x42C)) + 0x78)), (void *)(*(saddr *)((s8 *)(*(void **)((s8 *)temp_r3 + 0x430)) + 0xC)), this->m_b0);
         draw_model_motion((void *)(*(saddr *)((s8 *)(*(void **)((s8 *)temp_r3 + 0x42C)) + 0x68)), (void *)(*(saddr *)((s8 *)(*(void **)((s8 *)temp_r3 + 0x430)) + 4)), this->m_b0);
         draw_chunk_object((void *)(*(saddr *)((s8 *)(*(void **)((s8 *)temp_r3 + 0x42C)) + 0x88)));
-        draw_chunk_object((void *)(*(s32 *)((s8 *)(*(void **)((s8 *)temp_r3 + 0x42C)) + 0x98)));
+        draw_chunk_object((void *)(*(saddr *)((s8 *)(*(void **)((s8 *)temp_r3 + 0x42C)) + 0x98)));
         pop_matrix();
     }
 }
@@ -924,7 +924,7 @@ void TObjCity_Season_XmasWreath::render() {
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         ((s32 (*)(int, int))rotate_matrix_y)(0, this->rotation_y);
-        draw_chunk_object((void *)(*(s32 *)((s8 *)(*(u8 **)((s8 *)temp_r31 + 0x42C)) + 0x58)));
+        draw_chunk_object((void *)(*(saddr *)((s8 *)(*(u8 **)((s8 *)temp_r31 + 0x42C)) + 0x58)));
         pop_matrix();
     }
 }
@@ -970,7 +970,7 @@ void TObjCity_Season_HalloweenPumpkin::render() {
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         ((s32 (*)(int, int))rotate_matrix_y)(0, this->rotation_y);
-        draw_chunk_object((void *)(*(s32 *)((s8 *)(*(u8 **)((s8 *)temp_r31 + 0x42C)) + 8)));
+        draw_chunk_object((void *)(*(saddr *)((s8 *)(*(u8 **)((s8 *)temp_r31 + 0x42C)) + 8)));
         pop_matrix();
     }
 }

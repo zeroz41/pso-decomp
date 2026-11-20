@@ -62,7 +62,7 @@ extern s32 TObjLight__actor_light_count;
 f32 vector_length(void *);
 f32 normalize_vector(void *);
 extern f32 default_scene_light_config[];
-extern u32 TObjLight__light_entry_data;
+extern uaddr TObjLight__light_entry_data;
 extern s32 TObjLight__active_light_count;
 extern s32 light_entry_file_size;
 __declspec(section ".rodata") char lbl_8043ED80[] = "lightentry.bin";
@@ -325,7 +325,7 @@ void load_light_entry_file(void) {
     TObjLight__light_entry_data = 0;
     light_entry_file_size = get_resource_file_size(lbl_8043ED80);
     if (light_entry_file_size > 0) {
-        TObjLight__light_entry_data = (s32)TQuestVmDownLoadServer::alloc(light_entry_file_size);
+        TObjLight__light_entry_data = (saddr)TQuestVmDownLoadServer::alloc(light_entry_file_size);
         if (TObjLight__light_entry_data) {
             read_disc_file(lbl_8043ED80, (void *)TObjLight__light_entry_data);
         }
@@ -577,5 +577,5 @@ void *lbl_805D5564;
 s32 TObjLight__active_light_count;
 s32 TObjLight__actor_light_count;
 s32 TObjLight__light_count;
-u32 TObjLight__light_entry_data;
+uaddr TObjLight__light_entry_data;
 s32 light_entry_file_size;

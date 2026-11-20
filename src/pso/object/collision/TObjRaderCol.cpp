@@ -249,7 +249,7 @@ void TObjRaderIcon::render() {  }
 void *TObjRaderIcon__create(void *arg0) {
     void *o = TObject::operator new(0xA4);
     if (o != NULL) {
-        o = TObjRaderIcon__ct((u8 *)o, (s32)tl_05, (s32)arg0);
+        o = TObjRaderIcon__ct((u8 *)o, (s32)tl_05, (saddr)arg0);
     }
     return o;
 }

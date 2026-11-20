@@ -160,9 +160,9 @@ void TLanguage::load_container_fragment_textures() {
         }
         ancient_container_resource_bundle = (BmlResource *)p;
         ancient_container_fragment_texture_lists = (u32 *)mem_alloc(0xC);
-        ancient_container_fragment_texture_lists[0] = (u32)load_gvm_texture_file((s32)"fs_obj_ex_box2.gvm");
-        ancient_container_fragment_texture_lists[1] = (u32)load_gvm_texture_file((s32)"fe_obj_ex_box2_hahen01.gvm");
-        ancient_container_fragment_texture_lists[2] = (u32)load_gvm_texture_file((s32)"fe_obj_ex_box2_hahen02.gvm");
+        ancient_container_fragment_texture_lists[0] = (u32)load_gvm_texture_file((saddr)"fs_obj_ex_box2.gvm");
+        ancient_container_fragment_texture_lists[1] = (u32)load_gvm_texture_file((saddr)"fe_obj_ex_box2_hahen01.gvm");
+        ancient_container_fragment_texture_lists[2] = (u32)load_gvm_texture_file((saddr)"fe_obj_ex_box2_hahen02.gvm");
     } else if (enable_v2_features == 1 &&
                (area == AREA_BATTLE2 || area == AREA_VR_TEMPLE_ALPHA || area == AREA_VR_TEMPLE_BETA || area == AREA_BARBA_RAY)) {
         p = ::operator new(0x440);
@@ -171,9 +171,9 @@ void TLanguage::load_container_fragment_textures() {
         }
         ancient_container_resource_bundle = (BmlResource *)p;
         ancient_container_fragment_texture_lists = (u32 *)mem_alloc(0xC);
-        ancient_container_fragment_texture_lists[0] = (u32)load_gvm_texture_file((s32)"fs_obj_o_vs2container_r.gvm");
-        ancient_container_fragment_texture_lists[1] = (u32)load_gvm_texture_file((s32)"fe_obj_o_vs2cont_hahen1_r.gvm");
-        ancient_container_fragment_texture_lists[2] = (u32)load_gvm_texture_file((s32)"fe_obj_o_vs2cont_hahen2_r.gvm");
+        ancient_container_fragment_texture_lists[0] = (u32)load_gvm_texture_file((saddr)"fs_obj_o_vs2container_r.gvm");
+        ancient_container_fragment_texture_lists[1] = (u32)load_gvm_texture_file((saddr)"fe_obj_o_vs2cont_hahen1_r.gvm");
+        ancient_container_fragment_texture_lists[2] = (u32)load_gvm_texture_file((saddr)"fe_obj_o_vs2cont_hahen2_r.gvm");
     } else {
         p = ::operator new(0x440);
         if (p != NULL) {
@@ -181,9 +181,9 @@ void TLanguage::load_container_fragment_textures() {
         }
         ancient_container_resource_bundle = (BmlResource *)p;
         ancient_container_fragment_texture_lists = (u32 *)mem_alloc(0xC);
-        ancient_container_fragment_texture_lists[0] = (u32)load_gvm_texture_file((s32)"fe_obj_o_container_r.gvm");
-        ancient_container_fragment_texture_lists[1] = (u32)load_gvm_texture_file((s32)"fe_obj_o_container_hahen01r.gvm");
-        ancient_container_fragment_texture_lists[2] = (u32)load_gvm_texture_file((s32)"fe_obj_o_container_hahen02r.gvm");
+        ancient_container_fragment_texture_lists[0] = (u32)load_gvm_texture_file((saddr)"fe_obj_o_container_r.gvm");
+        ancient_container_fragment_texture_lists[1] = (u32)load_gvm_texture_file((saddr)"fe_obj_o_container_hahen01r.gvm");
+        ancient_container_fragment_texture_lists[2] = (u32)load_gvm_texture_file((saddr)"fe_obj_o_container_hahen02r.gvm");
     }
 }
 

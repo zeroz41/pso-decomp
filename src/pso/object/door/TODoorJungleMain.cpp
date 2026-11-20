@@ -124,7 +124,7 @@ struct Door_8029B428 : VObj_8029B428 {
 
 uaddr TODoorJungleMain__bml_resource;
 
-u32 door_jungle_main_gvm_texture;
+uaddr door_jungle_main_gvm_texture;
 extern "C" {
 
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);

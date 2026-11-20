@@ -83,11 +83,11 @@ BmlResourceDescriptor bm_obj_lobby_pigeon_resource_descriptor = { "bm_obj_lobby_
 uaddr seabed_dolphin_bml_archive;
 saddr seabed_dolphin_texture_handle;
 uaddr jungle_ebi_model_resource;
-u32 jungle_ebi_texture_gvm_handle;
+uaddr jungle_ebi_texture_gvm_handle;
 uaddr jungle_bird_bml_resource;
-u32 lobby_pigeon_texture_gvm;
+uaddr lobby_pigeon_texture_gvm;
 uaddr lobby_kamome_model_resource;
-u32 lobby_kamome_texture_gvm_handle;
+uaddr lobby_kamome_texture_gvm_handle;
 uaddr lobby_pigeon_bml_archive;
 u32 lobby_pigeon_lobby_type;
 

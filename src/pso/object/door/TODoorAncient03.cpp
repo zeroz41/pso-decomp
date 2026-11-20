@@ -73,7 +73,7 @@ void TODoorAncient03::load_resources() {
     s32 *texlists = (s32 *)mem_alloc(2 * sizeof(s32));
     door_ancient03_texlists = texlists;
     texlists[0] = door_ancient03_archive->models[0].m_c;
-    door_ancient03_texlists[1] = (s32)load_gvm_texture_file((s32)"fe_obj_o_door03g.gvm");
+    door_ancient03_texlists[1] = (s32)load_gvm_texture_file((saddr)"fe_obj_o_door03g.gvm");
 }
 
 void TODoorAncient03::free_resources() {

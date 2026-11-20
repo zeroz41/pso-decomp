@@ -80,7 +80,7 @@ void TOBarrierEnergy01::load_resources() {
     barrier_energy_shared_bml_archive = archive;
     barrier_energy_model = (void *)get_bml_model(archive, 0);
     barrier_energy_texlists = (s32 *)mem_alloc(3 * sizeof(s32));
-    barrier_energy_texlists[0] = (s32)load_gvm_texture_file((s32)"fs_obj_laz_guard_r.gvm");
+    barrier_energy_texlists[0] = (s32)load_gvm_texture_file((saddr)"fs_obj_laz_guard_r.gvm");
     barrier_energy_texlists[1] = get_bml_texlist(barrier_energy_shared_bml_archive, 1);
     barrier_energy_texlists[2] = get_bml_texlist(barrier_energy_shared_bml_archive, 0);
 }

@@ -132,8 +132,8 @@ void load_turiten_singo_resources(void) {
         }
         TOHangceilingCave01__model_archive = (BmlResource *)p;
         turiten_singo_texture_lists = (s32 *)mem_alloc(0xC);
-        turiten_singo_texture_lists[0] = (s32)load_gvm_texture_file((s32)"fs_obj_turiten_singo.gvm");
-        turiten_singo_texture_lists[1] = (s32)load_gvm_texture_file((s32)"fs_obj_turiten_singo_r.gvm");
+        turiten_singo_texture_lists[0] = (s32)load_gvm_texture_file((saddr)"fs_obj_turiten_singo.gvm");
+        turiten_singo_texture_lists[1] = (s32)load_gvm_texture_file((saddr)"fs_obj_turiten_singo_r.gvm");
         turiten_singo_texture_lists[2] = get_bml_texlist(TOHangceilingCave01__model_archive, 1);
         TOHangceilingCave01__model_root = (NJS_OBJECT *)get_bml_model(TOHangceilingCave01__model_archive, 2);
         turiten_singo_key_model_index = 1;

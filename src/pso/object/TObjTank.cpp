@@ -28,7 +28,7 @@ s32 push_matrix();
 s32 post_translate_matrix(void *);
 s32 draw_ginja_object();
 uaddr tank_bml_resource;
-u32 TObjTank__texture_list;
+uaddr TObjTank__texture_list;
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 s32 init_collision_body_parts(void *, void *, int);
 extern s32 __vt__8TObjTank[];

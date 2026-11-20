@@ -219,7 +219,7 @@ void TObjCityMainWarpChallenge::sub_801875F8() {
             ((TWindowSubTradeMain *)this->player_list_window)->set_visible();
             ((TWindowSubTradeMain *)this->player_list_window)->set_close_flag();
             for (i = 0; i < this->player_count; i++) {
-                TWindowSubStatusDisp::dispatch_without_flags((s32)this->player_list_window, (s32)this->player_names[i], i);
+                TWindowSubStatusDisp::dispatch_without_flags((saddr)this->player_list_window, (s32)this->player_names[i], i);
             }
         }
         request_active_window_close();

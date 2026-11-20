@@ -67,7 +67,7 @@ void TObjGoalWarpAncient::load_resources() {
         resource = load_resource_from_descriptor(resource, 1, &bm_o_warp_ancient_resource_descriptor, 0, 0, 0);
     }
     ancient_warp_shared_resource = resource;
-    goal_warp_ancient_gvm_texture = (s32)load_gvm_texture_file((s32)"de_obj2_swarp_beam_r.gvm");
+    goal_warp_ancient_gvm_texture = (s32)load_gvm_texture_file((saddr)"de_obj2_swarp_beam_r.gvm");
 }
 
 void TObjMapWarpAncient::free_globals() {

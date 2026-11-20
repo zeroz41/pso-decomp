@@ -372,7 +372,7 @@ s32 TObjWarpBoss::update_warp_dialogs() {
       ((TWindowSubTradeMain *)player_list_window)->set_close_flag();
       for (i = 0; i < player_count; i++)
       {
-        TWindowSubStatusDisp::dispatch_without_flags((s32)player_list_window, (s32)player_names[i], (s32)i);
+        TWindowSubStatusDisp::dispatch_without_flags((saddr)player_list_window, (s32)player_names[i], (s32)i);
       }
     }
     request_active_window_close();

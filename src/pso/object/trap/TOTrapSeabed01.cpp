@@ -132,7 +132,7 @@ void TOTrapSeabed01::load_resources() {
         resource = load_resource_from_descriptor(resource, 5, &seabed_trap_resource_descriptor, 0, 0, 0);
     }
     TOTrapSeabed01__bml_resource = resource;
-    TOTrapSeabed01__texture_file = (u32)load_gvm_texture_file((s32)"obj_seabed_turigane.gvm");
+    TOTrapSeabed01__texture_file = (u32)load_gvm_texture_file((saddr)"obj_seabed_turigane.gvm");
     TOTrapSeabed01__ginja_model = find_object_node((NJS_OBJECT *)get_bml_model(TOTrapSeabed01__bml_resource, 0), 5);
     lbl_805D681C = 0;
     seabed01_ginja_mesh_index = -1;

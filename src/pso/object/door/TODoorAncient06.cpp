@@ -108,8 +108,8 @@ void TODoorAncient06::load_resources() {
     }
     bml_resource = resource;
     texture_lists = (s32 *)mem_alloc(8);
-    texture_lists[0] = (s32)load_gvm_texture_file((s32)"fs_obj_door07_m_02_r.gvm");
-    texture_lists[1] = (s32)load_gvm_texture_file((s32)"fs_obj_door07_m_02_g.gvm");
+    texture_lists[0] = (s32)load_gvm_texture_file((saddr)"fs_obj_door07_m_02_r.gvm");
+    texture_lists[1] = (s32)load_gvm_texture_file((saddr)"fs_obj_door07_m_02_g.gvm");
     model_nodes = (NJS_OBJECT *)mem_alloc(3 * sizeof(NJS_OBJECT));
     if (bml_resource != NULL && model_nodes != NULL) {
         copy_model_node((u8 *)&model_nodes[0], (u8 *)bml_resource->models[0].model);

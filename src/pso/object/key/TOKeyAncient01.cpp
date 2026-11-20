@@ -88,9 +88,9 @@ void TOKeyAncient01::load_resources() {
     TOKeyAncient01__shared_resource_object = resource;
     TOKeyAncient01__texture_lists = (s32 *)mem_alloc(0x10);
     TOKeyAncient01__texture_lists[0] = TOKeyAncient01__shared_resource_object->models[0].m_c;
-    TOKeyAncient01__texture_lists[1] = (s32)load_gvm_texture_file((s32) "o_key_ancient01b.gvm");
-    TOKeyAncient01__texture_lists[2] = (s32)load_gvm_texture_file((s32) "o_key_ancient01g.gvm");
-    TOKeyAncient01__texture_lists[3] = (s32)load_gvm_texture_file((s32) "o_key_ancient01p.gvm");
+    TOKeyAncient01__texture_lists[1] = (s32)load_gvm_texture_file((saddr) "o_key_ancient01b.gvm");
+    TOKeyAncient01__texture_lists[2] = (s32)load_gvm_texture_file((saddr) "o_key_ancient01g.gvm");
+    TOKeyAncient01__texture_lists[3] = (s32)load_gvm_texture_file((saddr) "o_key_ancient01p.gvm");
 }
 
 TOKeyAncient01::~TOKeyAncient01() {

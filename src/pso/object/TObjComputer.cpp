@@ -114,7 +114,7 @@ const char *TObjGbAdvance__class_name = "TObjGbAdvance";
 const s16 TObjComputer__data_805DBCD8[2] = {1, 0};
 
 uaddr TObjComputer__model_archive;
-u32 TObjComputer__texture_gvm_handle;
+uaddr TObjComputer__texture_gvm_handle;
 s16 computer_uv_scroll_phase;
 uaddr TObjGbAdvance__data_805D5B74;
 
@@ -163,7 +163,7 @@ void load_computer_resources(void) {
             p = load_resource_from_descriptor(p, 5, &fs_obj_tanmatu02_resource_descriptor, 0, 0, 0);
         }
         TObjComputer__model_archive = (uaddr) p;
-        TObjComputer__texture_gvm_handle = (u32)load_gvm_texture_file((saddr)"fs_obj_tanmatu02.gvm");
+        TObjComputer__texture_gvm_handle = (uaddr)load_gvm_texture_file((saddr)"fs_obj_tanmatu02.gvm");
         computer_uv_scroll_phase = 0;
         break;
     default:
@@ -172,7 +172,7 @@ void load_computer_resources(void) {
             p = load_resource_from_descriptor(p, 5, &fe_obj_tanmatu02_resource_descriptor, 0, 0, 0);
         }
         TObjComputer__model_archive = (uaddr) p;
-        TObjComputer__texture_gvm_handle = (u32)load_gvm_texture_file((saddr)"fe_obj_computer.gvm");
+        TObjComputer__texture_gvm_handle = (uaddr)load_gvm_texture_file((saddr)"fe_obj_computer.gvm");
         computer_uv_scroll_phase = 1;
         break;
     }

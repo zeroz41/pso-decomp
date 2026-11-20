@@ -14,7 +14,7 @@
 extern "C" {
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 BmlResource *TOGrassJungle__bml_resource;
-u32 TOGrassJungle__grass_gvm_texture;
+uaddr TOGrassJungle__grass_gvm_texture;
 const char *bm_o_grass_jungle_motion_names[1] = { NULL };
 const char *bm_o_grass_jungle_model_names[3] = { "fe_obj_kusa_hinata.gj", "fe_obj_kusa_kage.gj", NULL };
 BmlResourceDescriptor ograss_jungle_resource_descriptor = { "bm_o_grass_jungle.bml", bm_o_grass_jungle_model_names, bm_o_grass_jungle_motion_names, 2, 0 };

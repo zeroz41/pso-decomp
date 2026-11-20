@@ -444,7 +444,7 @@ void load_forest_warp_resources(void) {
         resource = load_resource_from_descriptor(resource, 5, &forest_warp_resource_descriptor, 0, 0, 0);
     }
     forest_warp_bml_resource = resource;
-    forest_warp_texture_list = (u32)load_gvm_texture_file((s32)"fs_obj_warp.gvm");
+    forest_warp_texture_list = (u32)load_gvm_texture_file((saddr)"fs_obj_warp.gvm");
 }
 
 

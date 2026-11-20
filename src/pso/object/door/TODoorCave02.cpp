@@ -151,14 +151,14 @@ void TODoorCave02::load_resources() {
             resource = load_resource_from_descriptor(resource, 1, &door_cave02_a_resource_descriptor, 0, 0, 0);
         }
         bml_resource = resource;
-        texture_lists[0] = (s32)load_gvm_texture_file((s32)"fs_obj_do_doa02r_a.gvm");
+        texture_lists[0] = (s32)load_gvm_texture_file((saddr)"fs_obj_do_doa02r_a.gvm");
     } else {
         resource = (BmlResource *)::operator new(0x440);
         if (resource != NULL) {
             resource = load_resource_from_descriptor(resource, 1, &door_cave02_resource_descriptor, 0, 0, 0);
         }
         bml_resource = resource;
-        texture_lists[0] = (s32)load_gvm_texture_file((s32)"fs_obj_do_doa02r.gvm");
+        texture_lists[0] = (s32)load_gvm_texture_file((saddr)"fs_obj_do_doa02r.gvm");
     }
     texture_lists[1] = bml_resource->models[0].m_c;
 }

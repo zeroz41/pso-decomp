@@ -155,7 +155,7 @@ void TODoorVS2Door01::load_resources() {
     bml_resource = resource;
     texture_lists = (s32 *)mem_alloc(8);
     texture_lists[1] = bml_resource->models[0].m_c;
-    texture_lists[0] = (s32)load_gvm_texture_file((s32)"fs_obj_o_vs2door01lr.gvm");
+    texture_lists[0] = (s32)load_gvm_texture_file((saddr)"fs_obj_o_vs2door01lr.gvm");
 }
 
 TODoorVS2Door01::~TODoorVS2Door01() {
