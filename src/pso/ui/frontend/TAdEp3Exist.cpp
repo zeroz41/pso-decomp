@@ -249,7 +249,7 @@ int prs_read_control_bit(Obj_8036F4DC *arg0) {
     return t & 1;
 }
 
-s32 TAdEp3Exist::free_if_valid(s32 arg0, s16 arg1) {
+saddr TAdEp3Exist::free_if_valid(saddr arg0, s16 arg1) {
     if ((arg0 != 0) && (arg1 > 0)) {
         ::operator delete((void *)arg0);
     }

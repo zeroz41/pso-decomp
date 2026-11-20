@@ -302,7 +302,7 @@ void TWindowSubShortMail::run_task() {
         if (o->w5c == NULL) {
             o->w5c = ((void * (*)()) create_keyboard__19TWindowSubShortMailFv)();
         }
-        ((TKeyBoardControl *)(o->w5c))->set_position(((void *)((s32 (*)(int)) get_window_layout_position)(0xBB)));
+        ((TKeyBoardControl *)(o->w5c))->set_position((void *)get_window_layout_position(0xBB));
         free_menu_object(o->w5c);
         ((TKeyBoardControl *)(o->w5c))->show();
         o->state = 0xC;
@@ -314,7 +314,7 @@ void TWindowSubShortMail::run_task() {
         }
         break;
     case 13:
-        ((TKeyBoardControl *)(o->w5c))->set_position(((void *)((s32 (*)(int)) get_window_layout_position)(0xBC)));
+        ((TKeyBoardControl *)(o->w5c))->set_position((void *)get_window_layout_position(0xBC));
         ((TKeyBoardControl *)o->w5c)->hide();
         o->w50 = ((void * (*)(void *, s32)) open_confirm_prompt__19TWindowSubShortMailFPvi)(o, o->f20);
         o->state = 0xE;
@@ -402,7 +402,7 @@ void TWindowSubShortMail::run_task() {
             o->w5c = ((void * (*)()) create_keyboard__19TWindowSubShortMailFv)();
             ((TKeyBoardControl *)o->w5c)->set_text((char *)((void * (*)()) get_card_window_area__6TLobbyFv)());
         }
-        ((TKeyBoardControl *)(o->w5c))->set_position(((void *)((s32 (*)(int)) get_window_layout_position)(0xBB)));
+        ((TKeyBoardControl *)(o->w5c))->set_position((void *)get_window_layout_position(0xBB));
         free_menu_object(o->w5c);
         ((TKeyBoardControl *)(o->w5c))->show();
         o->state = 0x19;
@@ -414,7 +414,7 @@ void TWindowSubShortMail::run_task() {
         }
         break;
     case 26:
-        ((TKeyBoardControl *)(o->w5c))->set_position(((void *)((s32 (*)(int)) get_window_layout_position)(0xBC)));
+        ((TKeyBoardControl *)(o->w5c))->set_position((void *)get_window_layout_position(0xBC));
         ((TKeyBoardControl *)o->w5c)->hide();
         if (o->w50 == NULL) {
             o->w50 = ((void * (*)(void *)) open_delete_confirm_dialog__19TWindowSubShortMailFv)(o);

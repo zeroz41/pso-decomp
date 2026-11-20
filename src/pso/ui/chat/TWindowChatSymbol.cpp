@@ -54,7 +54,7 @@ struct Win_80248374 { u8 pad[0x2C]; int f2c; };
 extern "C" {
 void setup_part_sprites__28TWindowSubSymbolChatPartsSetFPvPvPvUsiiii(Part_802480EC *arg0, Part_802480EC *arg1, Part_802480EC *arg2, u16 arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7);
 void apply_part_to_window__28TWindowSubSymbolChatPartsSetFPvPvi(Obj_80248088 *arg0, Part_80248088 *arg1, s32 arg2);
-struct Ctl_80248324 { u8 pad[4]; s32 *tbl; };
+struct Ctl_80248324 { u8 pad[4]; Part_802480EC **tbl; };
 
 struct SymbolChatSpriteLayout {
     u32 cols;
@@ -259,8 +259,8 @@ void get_parts_entry__28TWindowSubSymbolChatPartsSetFii(saddr arg0, s32 arg1) {
 }
 
 void fn_80248324(Ctl_80248324 *c, s32 arg1, s32 cur) {
-    s32 *p = c->tbl + cur;
-    setup_part_sprites__28TWindowSubSymbolChatPartsSetFPvPvPvUsiiii((Part_802480EC *)(p[5]), (Part_802480EC *)(p[9]), (Part_802480EC *)(p[1]), (u16)((u8)arg1), (s32)((arg1 >> 8) & 7), (s32)((arg1 >> 11) & 1), (s32)((arg1 >> 12) & 1), cur);
+    Part_802480EC **p = c->tbl + cur;
+    setup_part_sprites__28TWindowSubSymbolChatPartsSetFPvPvPvUsiiii(p[5], p[9], p[1], (u16)((u8)arg1), (s32)((arg1 >> 8) & 7), (s32)((arg1 >> 11) & 1), (s32)((arg1 >> 12) & 1), cur);
 }
 }
 

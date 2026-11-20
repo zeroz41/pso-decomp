@@ -41,11 +41,11 @@ struct TWin_8020F070 { u8 pad[0x44]; };
 
 struct TCheckRoomSequence_8020F070 { u8 pad[0x44]; TWin_8020F070 *win; };
 
-struct Obj_8020F268 { u8 pad[0x28]; void (*cb0)(u8 *); void (*cb1)(u32); };
+struct Obj_8020F268 { u8 pad[0x28]; void (*cb0)(u8 *); void (*cb1)(uaddr); };
 
 struct Seq_8020F268 { u8 pad[0x24]; saddr f24; };
 
-struct Obj_8020F2D8 { u8 pad[0x60]; void (*cb0)(u8 *); void (*cb1)(u32); };
+struct Obj_8020F2D8 { u8 pad[0x60]; void (*cb0)(u8 *); void (*cb1)(uaddr); };
 
 struct Seq_8020F2D8 { u8 pad[0x24]; saddr f24; };
 
@@ -152,7 +152,7 @@ int set_field_20__15TShopWindowBaseFl(void*, void*);
 int reset_controller_input_state(void *);
 void *__ct__21TShopDeleteItemWindowFPvPvPv(void *arg0, void *arg1, void *arg2, void *arg3);
 void notify_quest_list_vm__18TCheckRoomSequenceFPv(u8 *arg0);
-void init_check__18TCheckRoomSequenceFUi(u32 arg0);
+void init_check__18TCheckRoomSequenceFUi(uaddr arg0);
 extern void *tl_05;
 void open_delete_item_window__18TCheckRoomSequenceFPv(Seq_8020F268 *self);
 void *__ct__18TShopGetItemWindowFPvPvPv(void *arg0, void *arg1, void *arg2, void *arg3);
@@ -256,7 +256,7 @@ void finish_room_check__18TCheckRoomSequenceFPv(u8 *arg0) {
 }
 #pragma pop
 
-void init_check__18TCheckRoomSequenceFUi(u32 arg0) {
+void init_check__18TCheckRoomSequenceFUi(uaddr arg0) {
     if (arg0 != 0U) {
         TCheckRoomSequence__error_return_text_id = 0x46;
         TCheckRoomSequence__error_return_state = 2;

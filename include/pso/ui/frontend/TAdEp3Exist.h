@@ -20,7 +20,7 @@ struct TAdEp3Exist : public TObject {
     int request_scene_change();
     void close_window();
     virtual void run_task();
-    static s32 free_if_valid(s32 arg0, s16 arg1);
+    static saddr free_if_valid(saddr arg0, s16 arg1);
 };
 
 LAYOUT_ASSERT(TAdEp3Exist_size, sizeof(TAdEp3Exist) == 0x38);

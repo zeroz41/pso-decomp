@@ -209,7 +209,7 @@ void TShopItemTecSequence::update_buy_sell_choice() {
     s32 r;
     if (((Seq_80220110 *)this)->win == NULL) {
         u16 id = get_entity_id(((Seq_80220110 *)this)->x24);
-        ((Seq_80220110 *)this)->win = (void *)create_window_menu((saddr)((void *)((s32 (*)(int))get_window_layout_position)(0x2B)), (saddr)((void *)2), id);
+        ((Seq_80220110 *)this)->win = (void *)create_window_menu(((saddr (*)(int))get_window_layout_position)(0x2B), (saddr)((void *)2), id);
         forward_trade_action_default__16TObjCityMainWarpFPviii(((Seq_80220110 *)this)->win, get_shop_text(4), 6, 0);
         forward_trade_action_default__16TObjCityMainWarpFPviii(((Seq_80220110 *)this)->win, get_shop_text(6), 6, 1);
         ((TWindowSubComCard *)(((Seq_80220110 *)this)->win))->calc_window_size();

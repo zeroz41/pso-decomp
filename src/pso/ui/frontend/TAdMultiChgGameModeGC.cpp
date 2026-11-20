@@ -84,7 +84,7 @@ loop_1:
 typedef struct RecoveredFields_802FFCE4_arg0 RecoveredFields_802FFCE4_arg0;
 void TAdMultiChgGameModeGC::run_task() {
     RecoveredFields_802FFCE4_arg0 *arg0 = (RecoveredFields_802FFCE4_arg0 *)this;
-  s32 *new_var;
+  saddr *new_var;
   s32 temp_r4;
   TAdMultiChgGameModeGC::set_default_camera();
   arg0->field_20 = TAdSinglePlyChrSelectGC__sub_801334DC((void *)arg0->field_2C);

@@ -20,7 +20,7 @@ void TAdVIConfigGC::apply_config_if_valid(s32 item_id, s32 arg1) {
         spawn_fire_explosion_at(temp_r3, arg1);
     }
 }
-void spawn_nug2000_hit_explosion(s32 item_id, s32 arg1) {
+void spawn_nug2000_hit_explosion(s32 item_id, saddr arg1) {
     Ctx_80125628 *ctx = (Ctx_80125628 *)arg1;
     u32 p = (uaddr)find_item_by_id(item_id);
     if (p != 0U) {
