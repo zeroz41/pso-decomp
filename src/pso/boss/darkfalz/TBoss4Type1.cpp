@@ -853,7 +853,7 @@ void TBoss4Type1::push_players_out_of_colliders() {
     pop_matrix();
     for (p = 0; p < registered_player_count; p++) {
         pl = (u8 *)TObjPlayer::get_player_data(p);
-        if (pl != NULL && ((TBoss3Volopt *)pl)->get_field_3e0() == 0xE) {
+        if (pl != NULL && ((TObjPlayer *)pl)->get_area() == 0xE) {
             Vec pos = *get_position_ptr__10TObjPlayerFv(pl);
             Vec d;
             Vec q;

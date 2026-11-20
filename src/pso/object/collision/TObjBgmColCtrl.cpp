@@ -1,3 +1,4 @@
+#include "pso/player/TObjPlayer_801AF2F0.h"
 #include "types.h"
 #include "pso/object/collision/TObjBgmColCtrl.h"
 #include "pso/system/TLoadCtrl_80227390.h"
@@ -34,7 +35,6 @@ u32 TObjBgmColCtrl__current_theme_id;
 
 void create_bgm_col_zones(void);
 extern "C" {
-void *get_player_by_client_id(s32 client);
 u32 __ct__7TObjectFP7TObject(int, int);
 extern u32 TObjBgmColCtrl__instance;
 extern s32 tl_05;
@@ -172,7 +172,7 @@ s32 TObjBgmCol::check() {
 }
 
 s32 TObjBgmCol::is_within_distance(f32 farg0) {
-    TObjPlayer *player = static_cast<TObjPlayer *>(get_player_by_client_id(local_client_id));
+    TObjPlayer *player = get_player_by_client_id(local_client_id);
     if ((player != NULL) && (xyz_distance_squared(&player->position, &position) < farg0)) {
         return 1;
     }

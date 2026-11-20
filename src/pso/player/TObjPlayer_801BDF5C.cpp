@@ -689,7 +689,7 @@ int TObjPlayer::is_status_flag_200() { return this->actorFlags & 0x200; }
 int TObjPlayer__sub_801BEABC(void* p) { return ((TObjPlayer *)p)->end_camera_pan(); }
 int TObjPlayer::start_freeze_self() { return start_freeze(); }
 void TObjPlayer::set_floor(s32 v) { this->current_floor = v; }
-void TObjPlayer::set_floor_index(s32 v) { *(s32*)((char*)this + 0x3e0) = v; }
+void TObjPlayer::set_floor_index(s32 v) { current_area = v; }
 
 extern "C" {
 

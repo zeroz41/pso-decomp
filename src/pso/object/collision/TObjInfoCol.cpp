@@ -1,3 +1,4 @@
+#include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/system/ControllerInputState.h"
@@ -13,7 +14,6 @@
 #pragma readonly_strings on
 
 extern "C" {
-void *get_player_by_client_id(s32 client);
 s32 is_idle__6TLobbyFv();
 s32 check_flag_100__10TObjPlayerFPv();
 extern s32 local_client_id;
@@ -24,7 +24,7 @@ void TObjInfoCol::bswap_6x78() { ((G_ClientIDHeader *)this)->bswap(); bswap_16((
 }
 
 s32 TObjInfoCol::is_target_in_range(f32 radius_squared) {
-    TObjPlayer *player = static_cast<TObjPlayer *>(get_player_by_client_id(local_client_id));
+    TObjPlayer *player = get_player_by_client_id(local_client_id);
     if (player != 0 &&
         xyz_distance_squared(&player->position, &position) < radius_squared) {
         return 1;

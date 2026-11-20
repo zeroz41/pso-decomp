@@ -49,10 +49,9 @@ int get_item_system_generation(void);
 const s32 lbl_8043E280[8] = { 1, 1, 1, 0, 1, 0, 0, 0 };
 const s32 lbl_8043E2A0[8] = { -1, 446, 447, 145, 32, 416, 417, 177 };
 extern "C" {
-s32 get_field_3e0__12TBoss3VoloptFv();
 void *create_timed_particle_emitter(void *owner, s32 id, s32 b, s32 c);
 void *spawn_particle_effect(const void *pos, s32 id);
-s32 is_item_area_enabled();
+s32 is_item_area_enabled(s32 area);
 void *get_player_by_client_id(s32 i);
 s16 count_nearby_players_with_shield__10TObjPlayerFUsPUc(u16, s8 *);
 
@@ -232,8 +231,7 @@ void TUnk_8049F130::run_task() {
         if ((count_nearby_players_with_shield__10TObjPlayerFUsPUc(this->m_28, &sp8.a) > 0) && ((s32) this->m_20 != -1)) {
             player = (s32)get_player_by_client_id(this->m_28);
             if (player != 0) {
-                get_field_3e0__12TBoss3VoloptFv();
-                if (is_item_area_enabled() == 1) {
+                if (is_item_area_enabled(((TObjPlayer *)player)->get_area()) == 1) {
                     if ((s32) *(s32 *)&this->unk_24 == 0) {
                         create_timed_particle_emitter((void *)(player + 0x2FC), this->m_20, 0, 0xA);
                     } else {

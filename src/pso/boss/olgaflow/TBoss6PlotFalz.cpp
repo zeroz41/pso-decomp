@@ -141,7 +141,6 @@ void *get_player_data__10TObjPlayerFi(s32 i);
 s32 is_state_1f__14TBoss6PlotFalzFUi(u32 arg0);
 s16 get_entity_id(void *);
 u8 *get_player_by_client_id(s32);
-s32 get_field_3e0__12TBoss3VoloptFv(void *p);
 extern u32 TBoss6PlotFalz__type1_instance;
 extern u32 TBoss6PlotFalz__type2_instance;
 extern s32 saved_model_render_flags;
@@ -359,7 +358,6 @@ s32 TBoss6PlotFalz::is_active() {
 #undef is_state_1f__14TBoss6PlotFalzFUi
 
 #define update_random_shake__14TBoss6PlotFalzFPv ((s32 (*)(void *))update_random_shake__14TBoss6PlotFalzFPv)
-#define get_field_3e0__12TBoss3VoloptFv ((s32 (*)())get_field_3e0__12TBoss3VoloptFv)
 
 struct Stack_802AB1C8 {
     s32 sp8;
@@ -385,7 +383,7 @@ extern RecoveredGlobal_TBoss6PlotFalz__data_804DE66C TBoss6PlotFalz__data_804DE6
 void TBoss6EmptyWarp__sub_802B1004(void *p);
 
 s32 is_state_1f__14TBoss6PlotFalzFUi(u32 arg0) {
-    if ((arg0 == 0U) || (get_field_3e0__12TBoss3VoloptFv() != 0x1F)) {
+    if ((arg0 == 0U) || (((TObjPlayer *)arg0)->get_area() != 0x1F)) {
         return 0;
     }
     return 1;
@@ -465,7 +463,6 @@ void TBoss6PlotFalz::set_state(s32 arg1) {
 
 }
 #undef update_random_shake__14TBoss6PlotFalzFPv
-#undef get_field_3e0__12TBoss3VoloptFv
 
 #define get_player_data__10TObjPlayerFi ((Player_802AB3E0 *(*)(int))get_player_data__10TObjPlayerFi)
 #define is_state_1f__14TBoss6PlotFalzFUi ((int (*)(Player_802AB3E0 *))is_state_1f__14TBoss6PlotFalzFUi)
@@ -1073,7 +1070,7 @@ void refresh_players_equipment__14TBoss6PlotFalzFPv(void *self) {
     for (i = 0; i < registered_player_count; i++) {
         p = get_player_data__10TObjPlayerFi(i);
         if (p != 0) {
-            if (get_field_3e0__12TBoss3VoloptFv(p) == 0x1f) {
+            if (((TObjPlayer *)p)->get_area() == 0x1f) {
                 ((TObjPlayer *)p)->refresh_equipment_slot();
             }
         }
@@ -1097,7 +1094,7 @@ void place_players_in_warp_circle(void) {
     }
     for (i = 0; i < registered_player_count; i++) {
         void *p = get_player_data__10TObjPlayerFi(i);
-        if (p != NULL && get_field_3e0__12TBoss3VoloptFv(p) == 0x1F) {
+        if (p != NULL && ((TObjPlayer *)p)->get_area() == 0x1F) {
             Vec pos = lbl_804705A8;
             pos.x += 350.0f * sin_table_lookup(ang);
             pos.z += 350.0f * cos_table_lookup(ang);

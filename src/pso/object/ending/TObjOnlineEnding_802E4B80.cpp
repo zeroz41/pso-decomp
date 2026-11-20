@@ -9,7 +9,6 @@
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/object/ending/TObjOnlineEnding.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/unk/TLobby.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
@@ -356,7 +355,7 @@ void *TObjOnlineEnding__ct(void *arg0, void *parent) {
     }
     for (i = 0; i < 4; i++) {
         pl = (u8 *)get_player_by_client_id(i);
-        if (pl != 0 && self->ending_area == ((TBoss3Volopt *)pl)->get_field_3e0()) {
+        if (pl != 0 && self->ending_area == ((TObjPlayer *)pl)->get_area()) {
             s32 c;
             e = &self->players[self->player_count];
             e->active = 1;

@@ -1298,7 +1298,7 @@ s16 TBoss3VoloptP02::collect_targets_in_front() {
         if (player == NULL || get_entity_id(player) >= 0x1000) {
             break;
         }
-        if (((TBoss3Volopt *)player)->get_field_3e0() != 0xD) {
+        if (((TObjPlayer *)player)->get_area() != 0xD) {
             continue;
         }
         if (player->actorFlags & 0x02000800) {
@@ -1330,7 +1330,7 @@ u16 TBoss3VoloptP02::find_facing_player() {
         if (player == NULL || get_entity_id(player) >= 0x1000) {
             break;
         }
-        if (((TBoss3Volopt *)player)->get_field_3e0() != 0xD) {
+        if (((TObjPlayer *)player)->get_area() != 0xD) {
             continue;
         }
         if (player->actorFlags & 0x02000800) {

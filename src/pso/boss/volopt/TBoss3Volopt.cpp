@@ -373,8 +373,8 @@ void VoloptPhase2Message::swap() {
     }
 }
 
-s32 TBoss3Volopt::get_field_3e0() {
-    return m_3e0;
+s32 TObjPlayer::get_area() {
+    return current_area;
 }
 
 void TBoss3Volopt::reset_photon_effect() {
@@ -567,7 +567,7 @@ void TBoss3Volopt::move_to_arena(s32 phase2) {
             for (i = 0; i < registered_player_count; i++) {
                 player = TObjPlayer::get_player_data(i);
                 if (player != NULL && TObjRoomId__sub_801A1DB8(get_entity_id(player)) == 0 &&
-                    ((TBoss3Volopt *)player)->get_field_3e0() == 0xD) {
+                    ((TObjPlayer *)player)->get_area() == 0xD) {
                     send_position(player, &volopt_phase2_player_positions[i], volopt_phase2_player_angles[i]);
                 }
             }

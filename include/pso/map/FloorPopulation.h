@@ -71,6 +71,9 @@ typedef char LobbyFloorRows_enemy_rows_offset[offsetof(LobbyFloorRows, enemy_row
 typedef char LobbyPoolEntry_size[sizeof(LobbyPoolEntry) == 8 ? 1 : -1];
 
 extern "C" {
+// The original callers pass the floor; these return the currently loaded rows.
+FloorObjectSetRow *get_active_floor_object_rows(s32 floor);
+EnemySetRecord *get_active_floor_enemy_rows(s32 floor);
 extern FloorObjectSetRow *TLobby__data_805D610C;
 extern FloorObjectSetRow *floor_decoration_rows;
 extern s32 TLobby__data_805D6120;

@@ -7,11 +7,7 @@ extern "C" {
 void obj_setFlags30(u32, int);
 s32 get_current_floor();
 void *find_entity_by_id(u16 id);
-EnemySetRecord *resolve_matching_object__6TLobbyFv();
-s32 get_object_type__6TLobbyFi();
 void TLobby__sub_8020BCE4(void);
-FloorObjectSetRow *get_object_count__6TLobbyFPv();
-s32 get_obj_table_entry__6TLobbyFi();
 extern TObject *tl_02;
 extern TObject *tl_05;
 extern TObject *tl_06;
@@ -23,10 +19,8 @@ void TLobby__sub_8020BC50(void) {
     s32 n;
     FloorObjectSetRow *p;
     s32 i;
-    get_current_floor();
-    p = get_object_count__6TLobbyFPv();
-    get_current_floor();
-    n = get_obj_table_entry__6TLobbyFi();
+    p = get_active_floor_object_rows(get_current_floor());
+    n = TLobby::get_obj_table_entry(get_current_floor());
     for (i = 0; i < n; i++, p++) {
         if (p->object != 0) {
             destroy_child_recursive__6TLobbyFPvPv(tl_02, p->object);
@@ -42,10 +36,8 @@ void TLobby__sub_8020BCE4(void) {
     EnemySetRecord *p;
     s32 n;
     s32 i;
-    get_current_floor();
-    p = resolve_matching_object__6TLobbyFv();
-    get_current_floor();
-    n = get_object_type__6TLobbyFi();
+    p = get_active_floor_enemy_rows(get_current_floor());
+    n = TLobby::get_object_type(get_current_floor());
     for (i = 0; i < n; i++, p++) {
         u32 r = (u32)find_entity_by_id(p->id);
         if (r != 0) {

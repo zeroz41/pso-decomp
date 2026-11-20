@@ -1139,11 +1139,11 @@ s32 TLobby__sub_8020B308(void) {
 
 extern "C" {
 
-int get_matching_object__6TLobbyFv(void*);
-int get_object_count__6TLobbyFv(void*);
+EnemySetRecord *get_loaded_enemy_set_rows();
+FloorObjectSetRow *get_loaded_object_set_rows();
 
-int TLobby::resolve_matching_object() { return get_matching_object__6TLobbyFv(this); }
-int get_object_count__6TLobbyFPv(void* p) { return get_object_count__6TLobbyFv(p); }
+EnemySetRecord *get_active_floor_enemy_rows(s32) { return get_loaded_enemy_set_rows(); }
+FloorObjectSetRow *get_active_floor_object_rows(s32) { return get_loaded_object_set_rows(); }
 
 // ---- pso/unk/text_8020B374
 s32 TLobby::init_floor_enemy_count(s32 arg0, u8 *arg1, u32 arg2) {

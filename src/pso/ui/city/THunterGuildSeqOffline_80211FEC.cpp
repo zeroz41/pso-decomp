@@ -6,7 +6,6 @@
 #include "pso/system/TMemberCheck.h"
 #include "pso/ui/city/THunterGuildSeqOffline.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
 #include "pso/player/TObjPlayer.h"
@@ -52,7 +51,7 @@ s32 THunterGuildSeqOffline__sub_80212074(void) {
     if (player == 0) {
         return 0;
     }
-    temp_r3_3 = ((TBoss3Volopt *)player)->get_field_3e0();
+    temp_r3_3 = ((TObjPlayer *)player)->get_area();
     if ((temp_r3_3 != 0x12) && ((temp_r3_3 >= 0x12) || (temp_r3_3 != 0))) {
         return 0;
     }
@@ -79,7 +78,7 @@ s32 THunterGuildSeqOffline::check_party_gathered() {
     for (i = 0; i < 4; i++) {
         u32 q = (u32)get_player_by_client_id(i);
         if (q != 0) {
-            switch (((TBoss3Volopt *)q)->get_field_3e0()) {
+            switch (((TObjPlayer *)q)->get_area()) {
             case 0:
             case 0x12:
                 break;

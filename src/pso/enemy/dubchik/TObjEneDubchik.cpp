@@ -924,7 +924,7 @@ void TObjEneDubchik::update_fall_apart() {
         ((TObjPlayer *)this)->set_invuln_flags();
         requested_action = 4;
         enemy_set_heading_velocity(-7.0f, this, rotation_y);
-        ((TObjPlayer *)this)->render_model_and_set_attach_points();
+        render_model_and_set_attach_points();
         for (i = 0; i < 3; i++) {
             if (parts[i] == NULL && random_ratio() >= 0.5f) {
                 parts[i] = new TUnk_80491478(i, this, (s32)variant != 0 ? dubchik_variant_texlist : dubchik_texlist, &part_offsets[i]);
@@ -990,7 +990,7 @@ void TObjEneDubchik::update_fall_apart() {
         break;
     case 3: {
         s32 all_done;
-        ((TObjPlayer *)this)->render_model_and_set_attach_points();
+        render_model_and_set_attach_points();
         play_persistent_sound(remap_sound_for_area(0x4003AD07), (s32)this, (u32)&position, 0, 0);
         all_done = 1;
         for (i = 0; i < 3; i++) {
@@ -1351,11 +1351,11 @@ void TObjEneDubchik::sub_800A8B8C() {
     TObjPlayer__sub_800AAFF0(*(u8 **)((s8 *)this + 0x318), sub_800AAF78(this->collapsed ? 5 : 1));
 }
 
-void TObjPlayer::render_model_and_set_attach_points() {
-    render_anim_model_at_pos__15TObjEnemyCustomFv();
-    this->get_anim_node_position(0x13, (Vec *)&this->unk_3D4);
-    this->get_anim_node_position(0x28, (Vec *)&this->unk_3E0);
-    this->get_anim_node_position(0x29, (Vec *)&this->m_3ec);
+void TObjEneDubchik::render_model_and_set_attach_points() {
+    render_anim_model_at_pos();
+    get_anim_node_position(0x13, &part_offsets[0]);
+    get_anim_node_position(0x28, &part_offsets[1]);
+    get_anim_node_position(0x29, &part_offsets[2]);
 }
 
 void TObjEneDubchik::sub_800A8A7C() {

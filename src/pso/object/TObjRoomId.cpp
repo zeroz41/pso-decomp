@@ -1,3 +1,4 @@
+#include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/render/render_util.h"
 #include "types.h"
@@ -22,12 +23,11 @@ const char *TObjRoomId__name = "TObjRoomId";
 static const Vec room_id_base_normal = {0.0f, 0.0f, -1.0f};
 
 extern "C" {
-void *get_player_by_client_id(s32 client);
 u16 TObjRoomId__sub_801A1DB8(u16 x);
 }
 
 s32 TObjRoomId::is_player_in_range(u16 id, f32 range_squared) {
-    TObjPlayer *p = static_cast<TObjPlayer *>(get_player_by_client_id(id));
+    TObjPlayer *p = get_player_by_client_id(id);
     if (p == 0) {
         return 0;
     }
@@ -88,7 +88,7 @@ void TObjRoomId::run_task() {
     matrix_mult_vec(0, &v, &o->normal);
     pop_matrices(1);
     for (s32 i = 0; i < 4; i++) {
-        TObjPlayer *p = static_cast<TObjPlayer *>(get_player_by_client_id(i));
+        TObjPlayer *p = get_player_by_client_id(i);
         if (p == NULL) {
             continue;
         }

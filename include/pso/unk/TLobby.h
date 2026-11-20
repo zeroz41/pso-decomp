@@ -333,8 +333,6 @@ struct TLobby : public TObject {
     static void attach_objects_by_id(s32 arg0);
     static void assign_objects_to_slots(u8 *arg0, s32 arg1);
     static void free_resources();
-    static int get_matching_object();
-    static int get_object_count();
     static s32 get_lobby_group(s32 arg0);
     static s32 get_shield_shop_tier_for_level(s32 arg0);
     static s32 get_armor_shop_tier_for_level(s32 arg0);
@@ -843,7 +841,6 @@ struct TLobby : public TObject {
     static int get_destroy_event_obj();
     static void free_data_60F0();
     static s32 init_handle(s32 arg0);
-    int resolve_matching_object();
     void bswap_player_fields();
     void send_player_update();
     static void update_guild_or_quest_phase();

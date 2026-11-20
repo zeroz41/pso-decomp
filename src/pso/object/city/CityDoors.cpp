@@ -1,3 +1,5 @@
+#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/map/FloorArea.h"
 #include "pso/map/TMapCsnCtrl.h"
 #include "pso/system/BmlResourceLoader.h"
 #include "pso/system/BmlResource.h"
@@ -42,7 +44,6 @@ struct RecoveredGlobal_80182D8C_lbl_80443F20 {
     u8 remaining[0x28];
 };
 extern "C" {
-void *get_player_by_client_id(s32 client);
 extern const char city_door_asset_de_obj_bigbeam_gj[];
 __declspec(section ".rodata") const char city_door_asset_de_obj_bigbeam_gj[] ATTRIBUTE_ALIGN(4) = "de_obj_bigbeam.gj";
 extern const char city_door_asset_de_obj_citybeam_gj[];
@@ -900,7 +901,6 @@ void city_door_play_close_sound__13TUnk_804B5BA8Fv(s32 arg0);
 void begin_state_1__13TUnk_804B5BA8Fv(void *arg0);
 void check_ground_or_fall__13TUnk_804B5BA8Fv(void *arg0);
 void dispatch_state__13TUnk_804B5BA8Fv(void *arg0);
-s32 get_field_3e0__12TBoss3VoloptFv(TObjPlayer *player);
 
 void TUnk_804B5BA8::vfunc_22() {
     VObj_8018291C *arg0 = (VObj_8018291C *)this;
@@ -985,13 +985,13 @@ void TUnk_804B5BA8::begin_state_1() {
 
 s32 TUnk_804B5BA8::is_any_city_player_in_range(const Vec *center, f32 range_squared) {
     TObjPlayer *player;
-    s32 temp_r3_2;
+    s32 area;
     s32 var_r30;
 
     var_r30 = 0;
 loop_1:
-    player = static_cast<TObjPlayer *>(get_player_by_client_id(var_r30));
-    if ((player != 0) && ((temp_r3_2 = get_field_3e0__12TBoss3VoloptFv(player), ((temp_r3_2 == 0) != 0)) || (temp_r3_2 == 0x12)) && (horizontal_distance_squared(center, &player->position) < range_squared)) {
+    player = get_player_by_client_id(var_r30);
+    if ((player != 0) && ((area = player->get_area(), ((area == AREA_PIONEER2_EP1) != 0)) || (area == AREA_PIONEER2_EP2)) && (horizontal_distance_squared(center, &player->position) < range_squared)) {
         return 1;
     }
     var_r30 += 1;

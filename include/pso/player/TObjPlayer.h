@@ -176,7 +176,7 @@ struct TObjPlayer : public TObjChara {
     u8 unk_3D4[0x4];
     s32 m_3d8;
     s32 m_3dc;
-    u8 unk_3E0[0x4];
+    s32 current_area;
     s32 current_floor;
     u8 unk_3E8[0x4];
     s32 m_3ec;
@@ -390,6 +390,7 @@ struct TObjPlayer : public TObjChara {
     void send_head();
     void init_packet_9a();
     s32 get_floor();
+    s32 get_area();
     static s32 get_player_count();
     void reset_lobby_model();
     void reset_type();
@@ -436,7 +437,6 @@ struct TObjPlayer : public TObjChara {
     s16 get_field_2c8();
     void set_flag_start_effect();
     void clear_state7_flag();
-    void render_model_and_set_attach_points();
     void update_timed_state();
     void run_synced_state_handler();
     static void *create_dubchik(void *arg0);
@@ -1595,6 +1595,7 @@ typedef char PlayerHairTargetOffset[(offsetof(TObjPlayer, m_8ac) == 0x8AC) ? 1 :
 typedef char PlayerHairWaitOffset[(offsetof(TObjPlayer, m_cfc) == 0xCFC) ? 1 : -1];
 typedef char PlayerInventoryObjectOffset[(offsetof(TObjPlayer, inventory_objects) == 0xD00) ? 1 : -1];
 
+typedef char TObjPlayer_area_offset[offsetof(TObjPlayer, current_area) == 0x3E0 ? 1 : -1];
 typedef char TObjPlayer_npc_control_offset[offsetof(TObjPlayer, npc_control) == 0x678 ? 1 : -1];
 typedef char TObjPlayer_size[sizeof(TObjPlayer) == 0xDB8 ? 1 : -1];
 
