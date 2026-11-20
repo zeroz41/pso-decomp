@@ -328,9 +328,6 @@ u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 s32 main_cursor_model;
 void load_target_cursor_models(void);
 extern "C" {
-Obj_8013DCCC *release_target__13TLockOnCursorFv(void *);
-Obj_8013DCCC *cleanup_field__13TLockOnCursorFv(void *);
-Obj_8013DCCC *cleanup_field_3c__13TLockOnCursorFv(void *);
 void __destroy_arr(void *, void *, int, int);
 }
 void reset_nearest_target_record(void *);
@@ -467,15 +464,15 @@ TUnk_8013F0A0::~TUnk_8013F0A0() {}
 
 TLockOnCursor::~TLockOnCursor() {
     Obj_8013DCCC *p;
-    p = cleanup_field_3c__13TLockOnCursorFv(this);
+    p = (Obj_8013DCCC *)((TLockOnCursor *)this)->cleanup_field_3c();
     if (p != NULL) {
         delete p;
     }
-    p = cleanup_field__13TLockOnCursorFv(this);
+    p = (Obj_8013DCCC *)((TLockOnCursor *)this)->cleanup_field();
     if (p != NULL) {
         delete p;
     }
-    p = release_target__13TLockOnCursorFv(this);
+    p = (Obj_8013DCCC *)((TLockOnCursor *)this)->release_target();
     if (p != NULL) {
         delete p;
     }
@@ -519,13 +516,13 @@ void TLockOnCursor::reset_and_spawn_cursors() {
     unk_4ec.reset_state();
     TLockOnCursor__sub_8013EC1C(&unk_508);
     reset_nearest_target_record(&nearest_target);
-    if (cleanup_field_3c__13TLockOnCursorFv((void *)arg0) == NULL) {
+    if ((Obj_8013DCCC *)((TLockOnCursor *)arg0)->cleanup_field_3c() == NULL) {
         ((TMainCursor *)arg0)->set_sub_cursor_value((saddr)new TLOC_Start(tl_loc_start, get_target_id()));
     }
-    if (cleanup_field__13TLockOnCursorFv((void *)arg0) == NULL) {
+    if ((Obj_8013DCCC *)((TLockOnCursor *)arg0)->cleanup_field() == NULL) {
         ((TMainCursor *)arg0)->set_target((saddr)new TLOC_End(tl_loc_end, get_target_id()));
     }
-    if (release_target__13TLockOnCursorFv((void *)arg0) == NULL) {
+    if ((Obj_8013DCCC *)((TLockOnCursor *)arg0)->release_target() == NULL) {
         list_clear = (TLOC_ListClear *)TObject::operator new(sizeof(TLOC_ListClear));
         if (list_clear != NULL) {
             list_clear = (TLOC_ListClear *)list_clear->init_lockon(tl_window, get_target_id());
@@ -2070,15 +2067,15 @@ void TLockOnCursor__sub_8013EB80(void* p) { *(s32*)((char*)p + 0x4) = 0; }
 
 void TLockOnCursor__sub_8013EB8C(void* p) { *(s32*)((char*)p + 0x4) = 1; }
 
-s32 TLockOnCursor::release_target() { return TLockOnCursor__sub_8013EBBC((void*)((char*)this + 0x3c)); }
+saddr TLockOnCursor::release_target() { return TLockOnCursor__sub_8013EBBC((void*)((char*)this + 0x3c)); }
 
 s32 TLockOnCursor__sub_8013EBBC(void* p) { return *(s32*)((char*)p + 0x8); }
 
-s32 TLockOnCursor::cleanup_field() { return TLockOnCursor__sub_8013EBE8((void*)((char*)this + 0x3c)); }
+saddr TLockOnCursor::cleanup_field() { return TLockOnCursor__sub_8013EBE8((void*)((char*)this + 0x3c)); }
 
 s32 TLockOnCursor__sub_8013EBE8(void* p) { return *(s32*)((char*)p + 0x4); }
 
-s32 TLockOnCursor::cleanup_field_3c() { return TLockOnCursor__sub_8013EC14((void*)((char*)this + 0x3c)); }
+saddr TLockOnCursor::cleanup_field_3c() { return TLockOnCursor__sub_8013EC14((void*)((char*)this + 0x3c)); }
 
 s32 TLockOnCursor__sub_8013EC14(void* p) { return *(s32*)((char*)p + 0x0); }
 

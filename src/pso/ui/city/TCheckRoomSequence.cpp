@@ -164,7 +164,6 @@ extern s32 TCheckRoomSequence__active_instance;
 void finish_room_check__18TCheckRoomSequenceFPv(u8 *arg0);
 s32 sub_802239EC__13TShopSequenceFv(void *);
 void handle_error_ack__18TCheckRoomSequenceFPv(u8 *arg0);
-s32 get_room_data__18TCheckRoomSequenceFi(int);
 void accept_meseta_withdrawal__18TCheckRoomSequenceFPv(u8 *arg0);
 s32 try_spend_actor_meseta(u8 *arg0, s32 arg1);
 void accept_meseta_deposit__18TCheckRoomSequenceFPv(u8 *arg0);
@@ -190,7 +189,6 @@ s32 align_menu_entry_positions(int);
 s32 forward_trade_action_default__16TObjCityMainWarpFPviii(int, int, int, int);
 uaddr create_window_menu(saddr, int, u16);
 void handle_root_choice__18TCheckRoomSequenceFv(u8 *arg0);
-s32 get_room_table_entry__18TCheckRoomSequenceFi(s32);
 void *__ct__19TShopKeepItemWindowFPvPvPv(TShopKeepItemWindow *arg0, void *arg1, void *arg2, void *arg3);
 void init_check_params__18TCheckRoomSequenceFUi(uaddr arg0);
 void open_deposit_item_window__18TCheckRoomSequenceFv(u8 *arg0);
@@ -329,7 +327,7 @@ void accept_meseta_withdrawal__18TCheckRoomSequenceFPv(u8 *arg0) {
         ((TObjPlayer *)(*(saddr *)((s8 *)arg0 + 0x24)))->add_meseta(temp_r31);
         copy_bank_to_card_window(temp_r3);
         if ((u32) *(u32 *)((s8 *)arg0 + 0x40) != 0U) {
-            TWindowMainMenu::set_entry_field_20((int) (*(u32 *)((s8 *)arg0 + 0x40)), (int) (get_room_data__18TCheckRoomSequenceFi(temp_r3)));
+            TWindowMainMenu::set_entry_field_20((int) (*(u32 *)((s8 *)arg0 + 0x40)), (int) (TCheckRoomSequence::get_room_data(temp_r3)));
         }
         ((VObj_18_a93f07 *)(arg0))->m4(0x46, 1);
         ((TShopWindowBase *)arg0)->set_field_20(2);
@@ -352,7 +350,7 @@ void begin_meseta_withdrawal__18TCheckRoomSequenceFPv(Seq_8020F478 *self) {
     void *w;
     s32 count;
     s32 n;
-    count = get_room_data__18TCheckRoomSequenceFi(((TShopWindowBase *)self)->sub_8022397C());
+    count = TCheckRoomSequence::get_room_data(((TShopWindowBase *)self)->sub_8022397C());
     if (count > 0) {
         n = 999999 - obj_getPtr2B0_20((u8 *)self->f24);
         n = (n < count) ? n : count;
@@ -398,7 +396,7 @@ void accept_meseta_deposit__18TCheckRoomSequenceFPv(u8 *arg0) {
         try_spend_actor_meseta((u8 *)(*(saddr *)((s8 *)arg0 + 0x24)), (temp_r31));
         copy_bank_to_card_window(temp_r3);
         if ((u32) *(u32 *)((s8 *)arg0 + 0x40) != 0U) {
-            TWindowMainMenu::set_entry_field_20((int) (*(u32 *)((s8 *)arg0 + 0x40)), (int) (get_room_data__18TCheckRoomSequenceFi(temp_r3)));
+            TWindowMainMenu::set_entry_field_20((int) (*(u32 *)((s8 *)arg0 + 0x40)), (int) (TCheckRoomSequence::get_room_data(temp_r3)));
         }
         ((VObj_18_a93f07 *)(arg0))->m4(0x46, 1);
         ((TShopWindowBase *)arg0)->set_field_20(2);
@@ -462,7 +460,7 @@ void begin_meseta_deposit__18TCheckRoomSequenceFPv(Seq_8020F730 *self) {
 void open_deposit_item_window__18TCheckRoomSequenceFv(u8 *arg0) {
     void *mem;
     Win_8020F8C0 *w;
-    if (get_room_table_entry__18TCheckRoomSequenceFi(((TShopWindowBase *)arg0)->sub_8022397C()) > 0xC8) {
+    if (TCheckRoomSequence::get_room_table_entry(((TShopWindowBase *)arg0)->sub_8022397C()) > 0xC8) {
         ((VObj_18_a93f07 *)(arg0))->m4(0x3C, 1);
         TCheckRoomSequence__error_return_text_id = 0x46;
         TCheckRoomSequence__error_return_state = 2;
@@ -686,13 +684,13 @@ void open_bank__18TCheckRoomSequenceFv(u8 *arg0) {
     v.y = 80.0f;
     ((TShopSequence *)arg0)->create_message_window((s32)(get_window_layout_position(0x2C)), (saddr)&v);
     ((VObj_18_a93f07 *)(arg0))->m4(0x31, 1);
-    *(s32 *)((s8 *)arg0 + 0x38) = create_meseta_window(get_child_field1c__13TShopSequenceFv(arg0));
+    *(s32 *)((s8 *)arg0 + 0x38) = create_meseta_window((s16)((TShopSequence *)arg0)->get_child_field1c());
     w = TObject::operator new(0x6C);
     if (w != NULL) {
-        w = TWindowDeposit__ct(w, get_child_field1c__13TShopSequenceFv(arg0));
+        w = TWindowDeposit__ct(w, (s16)((TShopSequence *)arg0)->get_child_field1c());
     }
     *(void **)((s8 *)arg0 + 0x40) = w;
-    TWindowMainMenu::set_entry_field_20(*(s32 *)((s8 *)arg0 + 0x40), get_room_data__18TCheckRoomSequenceFi(((TShopWindowBase *)arg0)->sub_8022397C()));
+    TWindowMainMenu::set_entry_field_20(*(s32 *)((s8 *)arg0 + 0x40), TCheckRoomSequence::get_room_data(((TShopWindowBase *)arg0)->sub_8022397C()));
     *(s32 *)((s8 *)arg0 + 0x2C) = 0;
     *(s32 *)((s8 *)arg0 + 0x48) = set_service_counter_camera(arg0, 6);
     ((TShopWindowBase *)arg0)->set_field_20(2);

@@ -80,7 +80,6 @@ struct VObj_8021D7B8 : Base_8021D7B8 {
 struct Seq_8021D7B8 { u8 pad[0x24]; void *f24; u8 pad28[4]; void *win; };
 
 extern "C" {
-unsigned short get_child_field1c__13TShopSequenceFv(void *);
 saddr set_service_counter_camera(void *, int);
 s32 get_window_layout_position(int, f32);
 s32 TShopEquipmentSequence__slot_active_flags[4];
@@ -196,7 +195,7 @@ s32 TShopEquipmentSequence::open_greeting() {
   stack.spC = 80.0f;
   ((TShopSequence *)arg0)->create_message_window(get_window_layout_position(0x2C, 332.0f), (saddr)&stack.sp8);
   (((VObj_18_a93f07 *)(arg0))->m4(0x27, 1));
-  meseta_window = (TWindowBase *)create_meseta_window((s32) get_child_field1c__13TShopSequenceFv(arg0));
+  meseta_window = (TWindowBase *)create_meseta_window((s32) (unsigned short)((TShopSequence *)arg0)->get_child_field1c());
   ((TShopWindowBase *)arg0)->set_field_20(2);
   counter_camera = (TObject *)set_service_counter_camera((void *) arg0, 3);
 }

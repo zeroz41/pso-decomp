@@ -143,9 +143,9 @@ struct TLockOnCursor : public TObject {
     int update_ring_sub();
     int test_flag_1_at_8();
     s32 get_target();
-    s32 release_target();
-    s32 cleanup_field();
-    s32 cleanup_field_3c();
+    saddr release_target();
+    saddr cleanup_field();
+    saddr cleanup_field_3c();
     void reset_and_spawn_cursors();
 };
 

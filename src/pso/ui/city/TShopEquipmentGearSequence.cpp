@@ -94,7 +94,6 @@ s32 sub_802239EC__13TShopSequenceFv(void *);
 s32 lbl_805D6218;
 s32 lbl_805D621C;
 
-unsigned short get_child_field1c__13TShopSequenceFv(void *);
 saddr set_service_counter_camera(void *, int);
 s32 get_window_layout_position(int, f32);
 s32 TShopEquipmentGearSequence__window_slot_table[4];
@@ -193,7 +192,7 @@ s32 TShopEquipmentGearSequence::open_greeting() {
   stack.spC = 80.0f;
   this->create_message_window(get_window_layout_position(0x2C, 332.0f), (saddr)&stack.sp8);
   PSO_VCALL_VObj_18_a93f07_m4(this, 0x2b, 1);
-  meseta_window = (TWindowBase *)create_meseta_window((s32) get_child_field1c__13TShopSequenceFv(this));
+  meseta_window = (TWindowBase *)create_meseta_window((s32) (unsigned short)TShopSequence::get_child_field1c());
   this->set_field_20(2);
   counter_camera = (TObject *)set_service_counter_camera((void *) this, 0x4);
 }
