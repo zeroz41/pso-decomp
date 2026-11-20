@@ -4,6 +4,7 @@
 #pragma dont_inline off
 
 #include "types.h"
+#include "pso/ui/window/TWindowCost.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/network/protocol/protocol_types.h"
@@ -142,7 +143,6 @@ extern "C" {
 const char *TShopItemListWindow__class_name = "TShopItemListWindow";
 s32 sub_802239EC__13TShopSequenceFv(void *);
 s32 play_sound_effect(int, int, int, int);
-s32 get_item_count__24TShopEquipmentSellWindowFv(void *a, s32 b);
 int obj_getPtr2B0_20(u8 *p);
 s32 get_entity_id(void *);
 s32 TShopItemTecSequence__sub_8021FE6C();
@@ -281,7 +281,7 @@ void TShopItemListWindow::build_item_list(void *p) {
     if (W->cost == NULL) {
         W->cost = create_cost_window(get_entity_id(W->player));
         if ((c = W->cost) != NULL && W->recs[0].price > 0) {
-            get_item_count__24TShopEquipmentSellWindowFv(c, W->recs[0].price);
+            ((TWindowCost *)c)->set_cost(W->recs[0].price);
         }
     }
 }
@@ -321,7 +321,7 @@ s32 TShopItemListWindow::handle_tool_list_select(void *p) {
             ((TWindowSubStatusDisp *)(W->status))->set_entry1_field20(n);
         }
         if (W->sell != NULL && i != W->cur && (e = (u8 *)W + i * 0x14, *(s32 *)(e + 0x68) > 0)) {
-            get_item_count__24TShopEquipmentSellWindowFv(W->sell, *(s32 *)(e + 0x68));
+            ((TWindowCost *)W->sell)->set_cost(*(s32 *)(e + 0x68));
         }
         W->cur = i;
     }

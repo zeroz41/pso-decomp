@@ -4749,7 +4749,7 @@ force_active:
   - calc_attack_params__12TBoss8DragonFPvl
   - calc_battle_score__19TPlayerBattleCtrl4PFPvPv
   - calc_bone_offsets_recursive__19TObjEZBoneRotPlayerFPvll
-  - calc_box_escape_axis__10TNpcPlayerFv
+  - calc_box_escape_axis__10TNpcPlayerFP3VecP3VecP3VecP3VecP3VecP3VecPf
   - calc_burrow_speed__12TBoss1DragonFPv
   - calc_ci4_tile_offset__FUlUl
   - calc_circle_offset__14TObjEneBm5WolfFPvPvPv
@@ -14725,7 +14725,7 @@ force_active:
   - rotate_animated_node__20TODragonflyMachine01Fv
   - rotate_heading_by_stick__11TCameraCtrlFv
   - rotate_title_background_quad__FlPUcPUclf
-  - route_around_object__10TNpcPlayerFv
+  - route_around_object__10TNpcPlayerFP3Vec
   - run_active_state__18TObjEneBalClawClawFv
   - run_and_return_arg__10TObjPlayerFl
   - run_confirm_message_loop__15TObjBoss2TunnelFv
@@ -15337,7 +15337,7 @@ force_active:
   - select_phase1_attack__12TBoss3VoloptFv
   - select_phase2_attack__12TBoss3VoloptFv
   - select_rare_box_item__9TItemDropFiiPv
-  - select_recovery_action__10TNpcPlayerFv
+  - select_recovery_action__10TNpcPlayerFl
   - select_sequence__12TBoss1DragonFi
   - select_subtype__12TObjEneBeastFv
   - select_subtype__14TObjEneBm5WolfFv

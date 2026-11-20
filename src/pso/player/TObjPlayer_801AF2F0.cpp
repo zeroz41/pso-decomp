@@ -1969,7 +1969,7 @@ void TObjPlayer__sub_801BE864(void *, u8);
 void apply_status_effect__10TObjPlayerFPv(void *);
 void swap_endian__10TObjPlayerFi(s32 arg0);
 void bswap_fields__10TObjPlayerFi(s32 arg0);
-s32 init_shield_params__10TObjPlayerFl(void *, void *, void *, int, int);
+void init_shield_params(void *out, void *player, void *stats, s32 level, void *extra);
 void init_inventory_list__10TObjPlayerFPv(void *);
 s32 TObjPlayer__sub_801BE8F4(void *, s32, s32);
 void *TObjPlayer__sub_801BE918(void *a0, int a1, void *a2, void *a3);
@@ -4509,9 +4509,9 @@ void TObjPlayer::check_level_up() {
                     }
                     var_r30 += 1;
                 } while (var_r30 < 0xD);
-                init_shield_params__10TObjPlayerFl(&sp40, arg0, this->m_2b0, this->m_318, (int) (*(s32 *)((s8 *)arg0 + 0x31C)));
+                init_shield_params(&sp40, arg0, this->m_2b0, this->m_318, (void *) (*(s32 *)((s8 *)arg0 + 0x31C)));
                 ((TObjPlayer *)arg0)->apply_exp_level_growth();
-                init_shield_params__10TObjPlayerFl(&sp24, arg0, this->m_2b0, this->m_318, (int) (*(s32 *)((s8 *)arg0 + 0x31C)));
+                init_shield_params(&sp24, arg0, this->m_2b0, this->m_318, (void *) (*(s32 *)((s8 *)arg0 + 0x31C)));
                 var_r31 = 0;
                 do {
                     temp_r30_2 = (u8 *)TObjPlayer::get_slot_value((s32 *)this->equipped_items, var_r31);

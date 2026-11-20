@@ -38,7 +38,6 @@ s32 copy_bank_to_card_window(int);
 s32 copy_bank_item_with_stack_limit(s32 idx, void *data, s32 *out, s32 slot);
 s32 sub_802239EC__13TShopSequenceFv(void *);
 TWindowInputNumber *__ct__18TWindowInputNumberFPvllls(void *, s32, s32, s32, s32, s16);
-s32 get_room_table_entry__18TCheckRoomSequenceFi(void);
 TWindowHelpItem *__ct__15TWindowHelpItemFPvUs(void *, s32, u16);
 void add_item_info_entry__20TWindowSubStatusDispFlll(TWindowMenuIconLine *, void *, s32, s32);
 void TWindowSetLevelUp__sub_8026DE28(TWindowMenuIconLine *, s32);
@@ -150,8 +149,7 @@ void TShopGetItemWindow::rebuild_item_list() {
     s32 i;
     TWindowHelpItem *help;
     m_54 = 1;
-    x = sub_8022397C();
-    m_50 = get_room_table_entry__18TCheckRoomSequenceFi();
+    m_50 = TCheckRoomSequence::get_room_table_entry(x = sub_8022397C());
     if (m_50 == 0) {
         ((TShopMessageTarget *)this)->vfunc_6(0x3E, 1);
         set_field_20(6);

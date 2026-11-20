@@ -8,6 +8,7 @@ struct TWindowCost : public TWindowMeseta {
     TWindowCost(s32 arg1, s32 arg2, s32 str);
     virtual ~TWindowCost();
     virtual void run_task();
+    void set_cost(s32 cost);
 };
 
 typedef char TWindowCost_size[sizeof(TWindowCost) == 0x74 ? 1 : -1];

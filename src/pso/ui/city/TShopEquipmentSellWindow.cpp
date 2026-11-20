@@ -6,6 +6,7 @@
 #include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "types.h"
+#include "pso/ui/window/TWindowCost.h"
 #include "pso/ui/window/TWindowSubComCard_80244774.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/text_80222C28.h"
@@ -170,7 +171,6 @@ void *__ct__15TWindowHelpItemFPvUs(void *, s32, u16);
 void TWindowHelpItem__set_displayed_item_by_id(void *arg0, s32 arg1);
 void *create_window_quantity(u16 arg0);
 void *create_cost_window(u16);
-void get_item_count__24TShopEquipmentSellWindowFv(void *, s32);
 int sub_802239EC__13TShopSequenceFv(void *);
 s32 play_sound_effect(s32, s32, s32, s32);
 void *__ct__18TWindowInputNumberFPvllls(void *, s32, s32, s32, s32, s16);
@@ -337,10 +337,10 @@ void TShopEquipmentSellWindow::build_sell_list() {
     if (self->cost_win == NULL) {
         self->cost_win = create_cost_window(get_entity_id((s32)self->owner));
         if (self->cost_win != NULL && self->entries[0].price > 0) {
-            get_item_count__24TShopEquipmentSellWindowFv(self->cost_win, self->entries[0].price);
+            ((TWindowCost *)self->cost_win)->set_cost(self->entries[0].price);
         }
     } else if (self->entries[self->cursor].price > 0) {
-        get_item_count__24TShopEquipmentSellWindowFv(self->cost_win, self->entries[self->cursor].price);
+        ((TWindowCost *)self->cost_win)->set_cost(self->entries[self->cursor].price);
     }
 }
 
@@ -363,7 +363,7 @@ void TShopEquipmentSellWindow::handle_selection() {
             }
         }
         if (w->cost_win != NULL && i != w->sel && w->entries[i].price > 0) {
-            get_item_count__24TShopEquipmentSellWindowFv(w->cost_win, w->entries[i].price);
+            ((TWindowCost *)w->cost_win)->set_cost(w->entries[i].price);
         }
         w->sel = i;
     }

@@ -169,6 +169,9 @@ struct TNpcPlayer : public TObject {
     void update_combat_action();
     u8 *destroy_and_materialize_player(s16 arg1);
     void request_technique_cast(s32 kind);
+    s32 select_recovery_action(s32 arg1);
+    s32 route_around_object(Vec *out);
+    void calc_box_escape_axis(Vec *a, Vec *b, Vec *c, Vec *d, Vec *pos, Vec *axis, f32 *reach);
 };
 
 typedef char TNpcPlayer_size[sizeof(TNpcPlayer) == 0xE8 ? 1 : -1];

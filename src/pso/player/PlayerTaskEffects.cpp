@@ -366,6 +366,7 @@ s32 get_current_floor();
 s32 is_room_free_of_active_enemies(s32, s32);
 s32 get_room__8TObjBaseFv(s32);
 void set_params__10TObjPlayerFPvPvPviPv(void *arg0, void *arg1, void *arg2, s32 arg3, void *arg4);
+void init_shield_params(void *out, void *player, void *stats, s32 level, void *extra);
 s16 obj_getS16_2BA(u8 *p);
 extern Arrival_801C5F84 TObjPlayer__arrival_override_table[12];
 void set_arrival_override_coords(u16 arg0, s32 arg1, f32 farg0, f32 farg1, f32 farg2);
@@ -980,10 +981,10 @@ void set_params__10TObjPlayerFPvPvPviPv(void *arg0, void *arg1, void *arg2, s32 
     *(s16 *)((s8 *)arg0 + 0x14) = (s16) *(s16 *)((s8 *)arg4 + 0xA);
 }
 
-void TObjPlayer::init_shield_params(s32 arg1) {
-    ((void (*)()) set_params__10TObjPlayerFPvPvPviPv)();
-    *(s16 *)((s8 *)this + 0x16) = ((TItemProShield *)arg1)->get_field_2b8();
-    *(s16 *)((s8 *)this + 0x18) = obj_getS16_2BA((u8 *)arg1);
+void init_shield_params(void *out, void *player, void *stats, s32 level, void *extra) {
+    set_params__10TObjPlayerFPvPvPviPv(out, player, stats, level, extra);
+    *(s16 *)((s8 *)out + 0x16) = ((TItemProShield *)player)->get_field_2b8();
+    *(s16 *)((s8 *)out + 0x18) = obj_getS16_2BA((u8 *)player);
 }
 
 void TObjPlayer::calc_pos_delta(void *arg1, void *arg2) {

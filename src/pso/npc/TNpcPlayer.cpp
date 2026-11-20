@@ -148,7 +148,6 @@ s32 try_update_target_flag__10TNpcPlayerFPvi(void *arg0, s32 arg1);
 s32 check_and_set_reached__10TNpcPlayerFPv(void *arg0);
 s32 needs_movement__10TNpcPlayerFPvPvi(TNpcPlayer *self, void *_w1, int _w2);
 void select_path_waypoint__10TNpcPlayerFv(TNpcPlayer *self);
-s32 select_recovery_action__10TNpcPlayerFv(TNpcPlayer *self, s32 arg1);
 TNpcPlayer *TNpcPlayer__ct(TNpcPlayer *self, s32 a, s32 b, s16 kind, s32 arg4, void *parent);
 TNpcPlayer *construct_partner__10TNpcPlayerFPviisPv(TNpcPlayer *self, s32 a, s32 b, s16 kind, void *parent);
 void set_technique_seed_level(Obj_801528A8 *self, s16 i, u8 v);
@@ -1350,10 +1349,6 @@ extern void *__vt__10TNpcPlayer[];
 
 
 
-extern "C" {
-void calc_box_escape_axis__10TNpcPlayerFv(void *, Vec *, Vec *, Vec *, Vec *, Vec *, Vec *, f32 *);
-s32 route_around_object__10TNpcPlayerFv(TNpcPlayer *self, Vec *out);
-}
 
 
 
@@ -1863,7 +1858,7 @@ void TNpcPlayer::decide_action() {
             return;
         }
         m_80 = m_80 & 0xFFFFFEFF;
-        if (select_recovery_action__10TNpcPlayerFv(this, 1) != 0) {
+        if (select_recovery_action(1) != 0) {
             temp_r3 = m_80;
             if (temp_r3 & 0x200) {
                 request_chatter(0x13);
@@ -1903,7 +1898,7 @@ void TNpcPlayer::decide_action() {
             m_8e = 0;
         }
         if ((check_return_to_leader() != 0) && (m_84 == 0)) {
-            if (select_recovery_action__10TNpcPlayerFv(this, 0) != 0) {
+            if (select_recovery_action(0) != 0) {
                 request_chatter(0x13);
                 change_ai_state(8);
                 m_80 = m_80 & 0xFFFFFF7F;
@@ -1919,7 +1914,7 @@ void TNpcPlayer::decide_action() {
                     change_ai_state(1);
                 }
             }
-        } else if (select_recovery_action__10TNpcPlayerFv(this, 1) != 0) {
+        } else if (select_recovery_action(1) != 0) {
             ((s32 (*)(void *, int))reset_partner_counter)((void *) (m_5c), 8);
             temp_r3_3 = m_80;
             if (temp_r3_3 & 0x200) {
@@ -2099,7 +2094,8 @@ s32 TNpcPlayer::calc_follow_goal() {
 }
 #pragma pop
 
-s32 select_recovery_action__10TNpcPlayerFv(TNpcPlayer *self, s32 arg1) {
+s32 TNpcPlayer::select_recovery_action(s32 arg1) {
+    TNpcPlayer * self = this;
     u8 flags = 0;
     Unk_8014F844 *tgt;
     u8 *ent;
@@ -2616,7 +2612,7 @@ void select_path_waypoint__10TNpcPlayerFv(TNpcPlayer *self) {
         return;
     }
     if (((TNpcPlayer *)self->m_78)->get_action_state() & 0x20) {
-        if (route_around_object__10TNpcPlayerFv(self, (Vec *)(&route)) != 0 && self->m_8c < 30) {
+        if (self->route_around_object((Vec *)(&route)) != 0 && self->m_8c < 30) {
             ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&self->m_d0, &route);
         } else {
             if (self->m_8d > 15) {
@@ -3219,7 +3215,8 @@ void partner_compute_stalled_detour(TNpcPlayer *self, Vec *from, Vec *to, Vec *d
 
 #pragma push
 #pragma fp_contract on
-s32 route_around_object__10TNpcPlayerFv(TNpcPlayer *self, Vec *out) {
+s32 TNpcPlayer::route_around_object(Vec *out) {
+    TNpcPlayer * self = this;
     CollisionBody info;
     Vec perp;
     Vec to;
@@ -3304,7 +3301,7 @@ s32 route_around_object__10TNpcPlayerFv(TNpcPlayer *self, Vec *out) {
         if (0.0f != vector_length(&dir)) {
             normalize_vector(&dir);
         }
-        calc_box_escape_axis__10TNpcPlayerFv(self, &c0, &c1, &c2, &c3, &self->m_78->m_94->position, &axis, &dist);
+        self->calc_box_escape_axis(&c0, &c1, &c2, &c3, &self->m_78->m_94->position, &axis, &dist);
         VecCopy__FP3VecPC3Vec(&esc, (int) &axis);
         if (vec3_dot(&dir, &esc) < 0.0f) {
             esc.x = -esc.x;
@@ -3336,8 +3333,7 @@ s32 route_around_object__10TNpcPlayerFv(TNpcPlayer *self, Vec *out) {
 }
 #pragma pop
 
-void calc_box_escape_axis__10TNpcPlayerFv(void *self, Vec *a, Vec *b, Vec *c,
-                                          Vec *d, Vec *pos, Vec *axis, f32 *reach) {
+void TNpcPlayer::calc_box_escape_axis(Vec *a, Vec *b, Vec *c, Vec *d, Vec *pos, Vec *axis, f32 *reach) {
     Vec point1;
     Vec point2;
     Vec first;
