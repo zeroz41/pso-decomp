@@ -7,7 +7,6 @@ extern "C" {
 s32 add_actor_tp_bonus(void *, int);
 s32 add_actor_hp_bonus(void *, int);
 s32 get_class_index__10TObjPlayerFv(void *);
-s32 is_camera_mode_active__10TObjPlayerFv();
 
 extern "C" {
 extern "C" {
@@ -24,7 +23,7 @@ void TObjPlayer::apply_luck_reward(u8 arg1) {
     saddr arg0 = (saddr)this;
 
     var_r31 = arg1;
-    if (is_camera_mode_active__10TObjPlayerFv() != 0) {
+    if (TObjPlayer::is_camera_mode_active() != 0) {
         var_r31 *= 5;
     }
     ((TObjPlayer *)arg0)->add_lck(var_r31);
@@ -37,7 +36,7 @@ void TObjPlayer::add_dfp_material(u8 arg1) {
     saddr arg0 = (saddr)this;
 
     var_r31 = arg1;
-    if (is_camera_mode_active__10TObjPlayerFv() != 0) {
+    if (TObjPlayer::is_camera_mode_active() != 0) {
         var_r31 *= 5;
     }
     ((TObjPlayer *)arg0)->add_dfp(var_r31);
@@ -50,7 +49,7 @@ void TObjPlayer::add_evp_material(u8 arg1) {
     saddr arg0 = (saddr)this;
 
     var_r31 = arg1;
-    if (is_camera_mode_active__10TObjPlayerFv() != 0) {
+    if (TObjPlayer::is_camera_mode_active() != 0) {
         var_r31 *= 5;
     }
     ((TObjPlayer *)arg0)->add_evp(var_r31);
@@ -63,7 +62,7 @@ void TObjPlayer::add_mst_and_item(u8 arg1) {
     saddr arg0 = (saddr)this;
 
     var_r31 = arg1;
-    if (is_camera_mode_active__10TObjPlayerFv() != 0) {
+    if (TObjPlayer::is_camera_mode_active() != 0) {
         var_r31 *= 5;
     }
     ((TObjPlayer *)arg0)->add_mst(var_r31);
@@ -76,7 +75,7 @@ void TObjPlayer::add_stat_and_item(u8 arg1) {
     saddr arg0 = (saddr)this;
 
     var_r31 = arg1;
-    if (is_camera_mode_active__10TObjPlayerFv() != 0) {
+    if (TObjPlayer::is_camera_mode_active() != 0) {
         var_r31 *= 5;
     }
     ((TObjPlayer *)arg0)->add_stat(var_r31);
@@ -89,7 +88,7 @@ void TObjPlayer::set_speed_scaled_by_camera(u8 arg1) {
     saddr arg0 = (saddr)this;
 
     var_r31 = arg1;
-    if (is_camera_mode_active__10TObjPlayerFv() != 0) {
+    if (TObjPlayer::is_camera_mode_active() != 0) {
         var_r31 *= 5;
     }
     add_actor_tp_bonus((void *)arg0, (int)var_r31);
@@ -101,7 +100,7 @@ void TObjPlayer::apply_speed_with_camera_scale(u8 arg1) {
     saddr arg0 = (saddr)this;
 
     var_r31 = arg1;
-    if (is_camera_mode_active__10TObjPlayerFv() != 0) {
+    if (TObjPlayer::is_camera_mode_active() != 0) {
         var_r31 *= 5;
     }
     add_actor_hp_bonus((void *)arg0, (int)var_r31);

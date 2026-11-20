@@ -5,7 +5,7 @@ extern "C" {
 
 void *get_character_save_record(s32);
 
-s16 TObjOnlineEnding::get_card_window_value() {
+s32 TObjOnlineEnding::get_card_window_value() {
     if (get_character_save_record(0xFFFF) == NULL) {
         return 0x3E7;
     }

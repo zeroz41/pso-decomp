@@ -6,7 +6,7 @@ extern "C" {
 
 u16 get_entity_id();
 
-u16 TObjAreaWarp::find_active_player() {
+s32 TObjAreaWarp::find_active_player() {
     u32 temp_r31;
     s32 var_r30;
 

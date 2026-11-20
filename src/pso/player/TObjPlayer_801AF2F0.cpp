@@ -1821,9 +1821,6 @@ s32 get_dest_area__17TObjAreaWarpQuestFv(void *);
 void fn_8019DD24(void *p, u32 v);
 u16 TObjRoomId__sub_801A1DB8(s32);
 s32 reset_motion_fields__8TObjBaseFv();
-s32 is_final_phase__10TObjPlayerFv();
-s32 is_camera_ready__10TObjPlayerFv();
-s32 is_camera_mode_active__10TObjPlayerFv();
 void handle_6x9B_level_up_all_techniques(void *arg0);
 void TObjPlayer__sub_801AF554(void *arg0, s8 arg1);
 void play_voice_pair__10TObjPlayerFPv(TObjPlayer *arg0);
@@ -1990,7 +1987,6 @@ s32 TObjPlayer__sub_801BCA0C(void *);
 s32 TObjPlayer__sub_801BCD50(void *);
 s32 TObjPlayer__sub_801BD3A4(void *);
 void create_player_instance__10TObjPlayerFll(u16, Rec_801B09A4 *);
-s32 check_camera_mode__10TObjPlayerFv();
 void * update_battle_controller__10TObjPlayerFv();
 s32 check_flag_4__10TObjPlayerFv(void *);
 void clear_flag_4000_callback__10TObjPlayerFv(void);
@@ -2529,7 +2525,7 @@ void TObjPlayer__sub_801BBB70(void) {  }
 void TObjPlayer::setup_fresh_player_state(u8 *arg1) {
     this->hp = (s16) this->hpmax;
     this->tp = (s16) this->tpmax;
-    if ((obj_isState2_324__9TObjCharaFv() != 0) && (((s32 (*)(void))is_lobby_floor_15__15TFontSmallLobbyFv)() == 0) && (check_camera_mode__10TObjPlayerFv() == 0)) {
+    if ((obj_isState2_324__9TObjCharaFv() != 0) && (((s32 (*)(void))is_lobby_floor_15__15TFontSmallLobbyFv)() == 0) && (TObjPlayer::check_camera_mode() == 0)) {
         deactivate_body_collision();
     }
     if (this->is_android() != 0) {
@@ -2652,7 +2648,7 @@ void TObjPlayer::reset_motion_fields() {
     ((s32 (*)(void *))TObjPlayer__sub_801BB8A8)((void *)arg0);
     if ((TObjPlayer::is_locally_controlled((void *)arg0) != 0) && (((s32 (*)(void))is_key_machine_ready__10TObjPlayerFv)() != 0) && (((TObjPlayer *)arg0)->check_flag(0x800) == 0) && ((((TObjCollidable *)arg0)->obj_testFlags30(0x800) != 0) || (((s16 (*)(void *))get_actor_hp__9TObjCharaFv)((void *)arg0) <= 0))) {
         ((TObjBase *)arg0)->obj_clearFlags30((u32)(0x800));
-        if (check_camera_mode__10TObjPlayerFv() != 0) {
+        if (TObjPlayer::check_camera_mode() != 0) {
             ((s32 (*)(void *))send_code_49_1__10TObjPlayerFi)((void *)arg0);
         } else {
             if (is_single_screen() == 0) {
@@ -5726,7 +5722,7 @@ void TObjPlayer::revive() {
 }
 
 void TObjPlayer::update_rotation() {
-    if ((check_camera_mode__10TObjPlayerFv() == 0) && (((s32 (*)(void *))reset_volopt_state__10TObjPlayerFv)(this) != 0) && (((s32 (*)(void))is_technique_ready__8TTecCtrlFv)() == 0) && (obj_isState3_324() == 0)) {
+    if ((TObjPlayer::check_camera_mode() == 0) && (((s32 (*)(void *))reset_volopt_state__10TObjPlayerFv)(this) != 0) && (((s32 (*)(void))is_technique_ready__8TTecCtrlFv)() == 0) && (obj_isState3_324() == 0)) {
         set_hp_clamped((s16) ((s16) this->hpmax / 2));
         return;
     }
@@ -6132,12 +6128,12 @@ void complete_deferred_player_death(void) {
         p->m62();
         return;
     }
-    if (is_camera_mode_active__10TObjPlayerFv() != 0) {
+    if (TObjPlayer::is_camera_mode_active() != 0) {
         TObjPlayer::send_6x4E_player_revivable((saddr)p);
         return;
     }
     if (get_main_phase() == 0xE) {
-        if (check_camera_mode__10TObjPlayerFv() != 0) {
+        if (TObjPlayer::check_camera_mode() != 0) {
             if (((TObjPlayer *)p)->get_anim_id() == 1) {
                 ((s32 (*)(void *, int))prepare_guild_return__10TObjPlayerFPv)(p, 0);
                 return;
@@ -6690,7 +6686,7 @@ void handle_6x2F_change_player_hp(saddr arg0) {
     }
 }
 
-u8 TObjPlayer::is_in_tl03_state() {
+s32 TObjPlayer::is_in_tl03_state() {
     int var_r31;
 
     var_r31 = 0;
@@ -7471,7 +7467,7 @@ void record_damage_stats__10TOMineTrapFUiUis(u32 arg0, u32 arg1, s16 arg2) {
           ((int (*)(u32, u32, s16)) accumulate_damage_stats)(temp_r3 + 0x78C, arg0, arg2);
         }
       }
-      if (is_final_phase__10TObjPlayerFv() != 0)
+      if (TObjPlayer::is_final_phase() != 0)
       {
         ((TFontSmallLobby *)(&pkt))->init_packet_6x8f_battle_damage();
         pkt.a = ((u16 (*)(u32))get_entity_id)(obj);
@@ -7583,7 +7579,7 @@ u8 is_key_machine_ready__10TObjPlayerFv(void) {
 s32 TObjPlayer::check_technique_castable(saddr arg0) {
     s32 area;
 
-    if ((((s32 (*)(void))is_technique_ready__8TTecCtrlFv)() != 0) || (is_camera_mode_active__10TObjPlayerFv() != 0) || (is_boss_area() != 0)) {
+    if ((((s32 (*)(void))is_technique_ready__8TTecCtrlFv)() != 0) || (TObjPlayer::is_camera_mode_active() != 0) || (is_boss_area() != 0)) {
         ((TObjPlayer *)arg0)->check_technique_flag();
         return 0;
     }
@@ -7862,7 +7858,7 @@ s32 is_action_available__10TObjPlayerFi(saddr arg0) {
     if ((is_current_area_item_enabled() == 0) || (is_boss_area() != 0)) {
         return 0;
     }
-    if (is_camera_ready__10TObjPlayerFv() != 0) {
+    if (TObjPlayer::is_camera_ready() != 0) {
         return (u32)__cntlzw(((TObjCollidable *)arg0)->obj_testFlags30(0x20000)) >> 5;
     }
     return ((TObjPlayer *)arg0)->is_android() != 0 ? 1 : 0;

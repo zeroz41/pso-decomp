@@ -209,7 +209,6 @@ struct Cnt_8031224C { s32 n[2]; };
 struct Strs_8031224C { u8 pad[0x18]; char *fmt; };
 struct O_8031224C { u8 pad[0x20]; void *w0; u8 pad2[0x240 - 0x24]; s32 timer; u8 pad3[0x274 - 0x244]; s32 team[4]; u8 pad4[0x294 - 0x284]; Strs_8031224C *strs; };
 extern "C" {
-s32 is_battle_decided__19TPlayerBattleCtrl4PFv(void *);
 void update__19TPlayerBattleCtrl4PFv(void *);
 s32 __ct__15TDuelEffectCtrlFP7TObjectUc(void *, void *, s32);
 s32 update_all_players__19TPlayerBattleCtrl4PFv();
@@ -473,7 +472,7 @@ void TPlayerBattleCtrl4P::update_battle_time_and_rankings() {
         set_split_screen_battle_phase(3);
         return;
     }
-    if (is_battle_decided__19TPlayerBattleCtrl4PFv(this) != 0) {
+    if (is_battle_decided() != 0) {
         if (--result_confirm_timer <= 0) {
             set_split_screen_battle_phase(3);
         }
@@ -1126,7 +1125,7 @@ void send_code_45_to_window__19TPlayerBattleCtrl4PFPvii(void *arg0, s32 arg1, s3
 
 #undef get_player_by_client_id
 
-u8 TPlayerBattleCtrl4P::is_battle_decided() {
+s32 TPlayerBattleCtrl4P::is_battle_decided() {
     O_803109D4 *o = (O_803109D4 *)this;
     s32 count = 0;
     s32 i = 0;

@@ -155,7 +155,7 @@ u16 TObjRoomId__sub_801A1DB8(u16 x) {
     return r;
 }
 
-u8 TObjPlayer::sub_801A1DDC() {
+s32 TObjPlayer::sub_801A1DDC() {
     if (is_split_screen() != 0) {
         return 1U;
     }

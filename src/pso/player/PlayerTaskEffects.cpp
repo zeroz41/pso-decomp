@@ -122,7 +122,6 @@ void request_player_size_restore(PlayerScaleState* state);
 void *TObjPlayer__sub_801C7360(void *arg0, void *arg1);
 int validate_6x87_shrink_player(PlayerShrinkPacket*);
 void handle_6x87_shrink_player(const PlayerShrinkPacket* input);
-int check_camera_mode__10TObjPlayerFv();
 void restore_shrunken_font__10TObjPlayerFv(PlayerRestoreSizePacket*, const PlayerRestoreSizePacket*);
 void bswap_g_client_id_header(void *p);
 int validate_6x88_restore_shrunken_player(PlayerRestoreSizePacket*);
@@ -642,7 +641,7 @@ void handle_6x87_shrink_player(const PlayerShrinkPacket* input) {
     ((TObjPlayer *)(&packet))->bswap_shrink();
     if (validate_6x87_shrink_player(&packet)) {
         TObjPlayer* player = get_player_by_client_id(packet.actor_id);
-        if (player && check_camera_mode__10TObjPlayerFv())
+        if (player && TObjPlayer::check_camera_mode())
             ((TObjPlayer *)((u8 *)&player->scale_state))->handle_6x87_shrink(packet.scalar);
     }
 }
@@ -678,7 +677,7 @@ void handle_6x88_restore_shrunken_player(const PlayerRestoreSizePacket* input) {
     bswap_g_client_id_header(&packet);
     if (validate_6x88_restore_shrunken_player(&packet)) {
         TObjPlayer* player = get_player_by_client_id(packet.actor_id);
-        if (player && check_camera_mode__10TObjPlayerFv())
+        if (player && TObjPlayer::check_camera_mode())
             ((TObjPlayer *)(&player->scale_state))->clear_shrink_flag();
     }
 }

@@ -12,9 +12,7 @@
 
 extern "C" {
 
-void for_each_player_slot__10TObjPlayerFv(void *);
 s32 sub_801A1DDC__10TObjPlayerFv(s32);
-s32 is_final_phase__10TObjPlayerFv();
 s32 obj_isState2_324__9TObjCharaFv();
 
 extern "C" {
@@ -38,7 +36,7 @@ void TObjPlayer::reset_area_entry_state() {
     ((TObjPlayer *)((char *)this + 1588))->enter_battle_state();
     x = TObjPlayer::is_locally_controlled(this);
     if (x != 0) {
-        for_each_player_slot__10TObjPlayerFv(update_photon_chair__10TObjPlayerFv);
+        ((TObjPlayer *)update_photon_chair__10TObjPlayerFv)->for_each_player_slot();
     }
 }
 
@@ -123,7 +121,7 @@ void TObjPlayer::update_state() {
         ((TObjPlayer *)arg0)->sync_current_area();
         ((TObjPlayer *)arg0)->sync_current_floor();
     }
-    if ((is_final_phase__10TObjPlayerFv() != 0) && (sub_801A1DDC__10TObjPlayerFv(arg0) != 0)) {
+    if ((TObjPlayer::is_final_phase() != 0) && (sub_801A1DDC__10TObjPlayerFv(arg0) != 0)) {
         ((TObjPlayer *)arg0)->apply_state_transform();
     }
 }

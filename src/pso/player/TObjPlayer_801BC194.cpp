@@ -18,7 +18,6 @@ u16 get_entity_id(void *);
 }
 void reset_cameras_to_actor(void *actor, s32 arg1);
 extern "C" {
-s32 sub_801A1DDC__10TObjPlayerFv(void *);
 s32 is_key_machine_ready__10TObjPlayerFv();
 void *get_player_by_client_id(s32);
 s32 has_active_camera_event__10TObjPlayerFv(void *);
@@ -76,7 +75,7 @@ void TObjPlayer::place_on_area_entry() {
     clear_movement_history((u8 *)&this->m_6ac);
     if (TObjPlayer::is_single_screen() != 0) {
         reset_cameras_to_actor(arg0, 0);
-    } else if (sub_801A1DDC__10TObjPlayerFv(arg0) != 0) {
+    } else if (((TObjPlayer *)arg0)->sub_801A1DDC() != 0) {
         if (TObjPlayer::is_locally_controlled(arg0) == 0 && (p = get_player_by_client_id(local_client_id)) != NULL) {
             reset_cameras_to_actor(p, 0);
         } else {
@@ -88,19 +87,18 @@ void TObjPlayer::place_on_area_entry() {
 
 extern "C" {
 
-s32 check_camera_mode__10TObjPlayerFv();
 void TObjPlayer__sub_801BEEAC(u8 *arg0, u8 *arg1);
 void TObjPlayer__sub_801BEEE0(void *p, void *q);
 void TObjPlayer__sub_801BEF30(void *p, void *q);
 
 s32 TObjPlayer::has_active_camera_event() {
     if (TLobby::get_instance() == 0) {
-        if ((check_camera_mode__10TObjPlayerFv() == 0) && (TLevelSelect::get_difficulty_flag_bit(0, 0xB) == 0) && (TLevelSelect::get_difficulty_flag_bit(1, 0xB) == 0) && (TLevelSelect::get_difficulty_flag_bit(2, 0xB) == 0) && (TLevelSelect::get_difficulty_flag_bit(3, 0xB) == 0)) {
+        if ((TObjPlayer::check_camera_mode() == 0) && (TLevelSelect::get_difficulty_flag_bit(0, 0xB) == 0) && (TLevelSelect::get_difficulty_flag_bit(1, 0xB) == 0) && (TLevelSelect::get_difficulty_flag_bit(2, 0xB) == 0) && (TLevelSelect::get_difficulty_flag_bit(3, 0xB) == 0)) {
             return 0;
         }
         goto block_14;
     }
-    if ((TLobby::get_instance() == 1) && (check_camera_mode__10TObjPlayerFv() == 0) && (TLevelSelect::get_difficulty_flag_bit(0, 0x5B) == 0) && (TLevelSelect::get_difficulty_flag_bit(1, 0x5B) == 0) && (TLevelSelect::get_difficulty_flag_bit(2, 0x5B) == 0) && (TLevelSelect::get_difficulty_flag_bit(3, 0x5B) == 0)) {
+    if ((TLobby::get_instance() == 1) && (TObjPlayer::check_camera_mode() == 0) && (TLevelSelect::get_difficulty_flag_bit(0, 0x5B) == 0) && (TLevelSelect::get_difficulty_flag_bit(1, 0x5B) == 0) && (TLevelSelect::get_difficulty_flag_bit(2, 0x5B) == 0) && (TLevelSelect::get_difficulty_flag_bit(3, 0x5B) == 0)) {
         return 0;
     }
 block_14:

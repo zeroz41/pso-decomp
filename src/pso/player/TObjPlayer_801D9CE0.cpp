@@ -14,7 +14,6 @@ typedef struct Techs_801D9D24 {
 
 extern "C" {
 void TObjPlayer__sub_801D9E2C(void *, s16);
-u8 get_item_count_max__10TObjPlayerFv(void);
 void TObjPlayer__sub_801D2CC4(void *, f32);
 s32 TObjPlayer__sub_801D9E08(void *);
 void TObjPlayer__sub_801D9E10(void *p, s16 v);
@@ -31,7 +30,7 @@ void TObjPlayer::reset_tech_state() {
     u8 v;
     s32 i;
     n = TObjPlayer__sub_801D9E08(self);
-    v = get_item_count_max__10TObjPlayerFv();
+    v = TObjPlayer::get_item_count_max();
     for (i = 0; i < n; i++) {
         self->levels[i] = v;
         self->caps[i] = v;

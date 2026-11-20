@@ -17,7 +17,7 @@ struct TObjOnlineEnding : public TObjBase {
     u8 _padA8[0xA0];
     u32 m_148;
     u32 m_14c;
-    static s16 get_card_window_value();
+    static s32 get_card_window_value();
     static int get_instance();
     static void*get_attack_entry(int a0);
     void close_window();

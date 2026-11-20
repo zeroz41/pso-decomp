@@ -35,6 +35,6 @@ u8 TObjPlayer__sub_801C0124(O_801C0124 *self, s16 i) {
     return self->arr[i];
 }
 
-int TObjPlayer::get_item_count_max() { return 255; }
+u8 TObjPlayer::get_item_count_max() { return 255; }
 
 }

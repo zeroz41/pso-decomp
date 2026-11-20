@@ -101,7 +101,7 @@ struct TObjPlayer : public TObjChara {
     void update_body_parts();
     void sub_801BD318();
     void sub_801BD240();
-    u8 sub_801A1DDC();
+    s32 sub_801A1DDC();
     void vfunc_77();
     void vfunc_76(f32 charge);
     void vfunc_75(f32);
@@ -537,9 +537,9 @@ struct TObjPlayer : public TObjChara {
     static void destroy_buffer_pair_instance();
     int check_flag_0x80();
     static void free_buffer_pair();
-    static u8 is_final_phase();
-    static u8 is_camera_ready();
-    static u8 is_camera_mode_active();
+    static s32 is_final_phase();
+    static s32 is_camera_ready();
+    static s32 is_camera_mode_active();
     static s32 is_single_screen();
     static s32 is_player_valid_target(s32 arg0);
     void update_movement_effects();
@@ -564,7 +564,7 @@ struct TObjPlayer : public TObjChara {
     static void free_shared_data();
     static void finalize_shared();
     static void init_shared();
-    static u8 check_camera_mode();
+    static s32 check_camera_mode();
     int is_android();
     int is_newman();
     int check_stat_flag_41c();
@@ -645,7 +645,7 @@ struct TObjPlayer : public TObjChara {
     int forward_801C210C();
     static int get_hold_effect_count();
     void set_technique_id(s16 v);
-    static int get_item_count_max();
+    static u8 get_item_count_max();
     void *init();
     void set_field4(s32 v);
     u8 get_field_5();
@@ -969,9 +969,9 @@ struct TObjPlayer : public TObjChara {
     void level_up_all_techniques(s32 add);
     static u8 clamp_to_max(saddr arg0, u8 arg1, u8 arg2);
     void validate_and_clear_slot();
-    static u8 is_invalid_slot(u8 arg0);
-    static u8 is_valid_technique_id(s16 arg0);
-    static u8 is_valid_technique_slot(u8 arg0);
+    static s32 is_invalid_slot(u8 arg0);
+    static s32 is_valid_technique_id(s16 arg0);
+    static s32 is_valid_technique_slot(u8 arg0);
     void set_tech_level(s16 arg1);
     void reset_slots();
     void set_field_1c(f32 v);
@@ -1262,7 +1262,7 @@ struct TObjPlayer : public TObjChara {
     int get_field_828();
     static void play_phase_transition_sound(saddr arg0);
     void check_flag_40000();
-    u8 is_in_tl03_state();
+    s32 is_in_tl03_state();
     void sync_status_effect_flags();
     void cancel_status_effects();
     s32 get_next_level_exp();
