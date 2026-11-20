@@ -510,7 +510,7 @@ s32 TScene::find_section_at_position() {
 }
 
 s32 TScene::get_player_ctrl_field(u16 arg0) {
-    u32 player;
+    uaddr player;
 
     player = (uaddr)get_player_by_client_id((arg0));
     if (player != 0U) {

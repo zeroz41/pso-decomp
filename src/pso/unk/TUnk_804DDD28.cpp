@@ -146,7 +146,7 @@ s32 copy_if_space(void) {
 }
 
 void TLobby::alloc_snapshot_buffer() {
-  s32 temp_r31;
+  saddr temp_r31;
   s32 max_players;
   u32 temp_r3;
   u8 *temp_r31_3;

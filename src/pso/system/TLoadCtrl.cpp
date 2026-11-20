@@ -12,7 +12,7 @@
 
 #include "pso/system/vector.h"
 
-u32 TLoadCtrl__instance;
+uaddr TLoadCtrl__instance;
 
 void TLoadCtrl::set_field1C(s32 arg0) {
     if ((void *) TLoadCtrl__instance != NULL) {

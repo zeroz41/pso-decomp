@@ -42,7 +42,7 @@ void dispatch_by_index__6TLobbyFUsi(u16 arg0, s32 src) {
     }
 }
 void TLobby::send_slot_entity(u16 arg1, saddr arg2) {
-    u32 temp_r6;
+    uaddr temp_r6;
     temp_r6 = *(u32 *)((s8 *)this + 0x1C);
     if (temp_r6 != 0U) {
         TLobby::copy_symbol_chat_entry((void *)arg2, (void *)(temp_r6 + (arg1 * 0x3C)));

@@ -8,7 +8,7 @@
 u32 relocate_data_block_pointers(u32 arg0, u32 arg1) {
     TUnk_8049C658 c;
     u16 *idx;
-    u32 p;
+    uaddr p;
     RelFileTrailer *h;
     u32 i;
     u32 n;

@@ -171,11 +171,11 @@ void TLobby__sub_8006F48C(void) {
 s32 TLobby__sub_8006F5B0(saddr arg0) {
     s32 temp_r30;
     s32 temp_r3;
-    s32 temp_r3_2;
+    saddr temp_r3_2;
     s32 temp_r3_3;
     s32 valid_slot;
     s32 var_r28;
-    u32 character_save_record;
+    uaddr character_save_record;
     character_save_record = get_character_save_record(0xFFFF);
     temp_r3 = get_layout_id__20TWindowSubStatusDispFv(-1);
     if ((character_save_record == 0U) || ((s32) challenge_mode_state.value < 0) || ((s32) challenge_mode_state.value >= temp_r3)) {

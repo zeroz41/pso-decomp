@@ -242,7 +242,7 @@ s32 TObjPlayer::is_gvm_load_ok() {
 #pragma pop
 
 s32 TObjPlayer__sub_803D9E38(s32 *arg0, u32 arg1, s32 *arg2, u32 *arg3) {
-    s32 sp8;
+    saddr sp8;
     u32 j;
     s32 *temp_r4;
     s32 *temp_r4_2;

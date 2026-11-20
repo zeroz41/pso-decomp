@@ -946,7 +946,7 @@ u8 select_weighted_column_u16__9TItemDropFiiiii(saddr rng, saddr base, s32 off, 
     return 0xFF;
 }
 
-u8 TItemDrop::select_weighted_byte(s32 base, s32 off, s32 count, s32 stride) {
+u8 TItemDrop::select_weighted_byte(saddr base, s32 off, s32 count, s32 stride) {
     u8 *p = (u8 *)(base + off);
     u32 total = 0;
     u32 r;

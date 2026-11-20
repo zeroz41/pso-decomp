@@ -475,7 +475,7 @@ void draw_strip_list_pos_nrm__10TObjPlayerFPvPvUi(s16 *list, Vtx_803E36C4 *verts
     } while (--count != 0);
 }
 }
-s32 dispatch_chunk_vertex_list(u32*, s32);
+s32 dispatch_chunk_vertex_list(u32*, saddr);
 #pragma pop
 
 #pragma push
@@ -809,7 +809,7 @@ void push_reordered_matrix_ps(void);
 void transform_vertex_list__10TObjPlayerFv(ChunkVertexJob *job, s32 matrix);
 }
 
-s32 dispatch_chunk_vertex_list(u32 *list, s32 buffer) {
+s32 dispatch_chunk_vertex_list(u32 *list, saddr buffer) {
     u32 info;
     u32 length;
     s32 total;

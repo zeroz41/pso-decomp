@@ -70,7 +70,7 @@ const char seabed01_multi_gsl_path[] = "gsl_seabed01_multi.gsl";
 const char seabed02_multi_gsl_path[] = "gsl_seabed02_multi.gsl";
 const char empty_gsl_path[4] = "";
 char *gsl_archive_path_buffer_ptr = (char *)gsl_archive_entries;
-s32 gstream_tmp_buffer;
+saddr gstream_tmp_buffer;
 uaddr TItemDrop__gsl_adxf_handle;
 s32 TItemDrop__gsl_entry_count;
 s32 TItemDrop__data_805D53CC;

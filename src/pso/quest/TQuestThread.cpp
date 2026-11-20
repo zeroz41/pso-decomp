@@ -438,7 +438,7 @@ TQuestThreadBoard::TQuestThreadBoard(TObject *root, s32 label) : TObject(NULL) {
 
 void QuestVmContext::copy(QuestVmContext *src) {
     saddr tmp;
-    s32 to;
+    saddr to;
     u8 *from;
     tmp = (saddr)src->code;
     from = (u8 *)src + 0x30;

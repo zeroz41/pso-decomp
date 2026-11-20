@@ -453,7 +453,7 @@ void TAdSinglePlyChrSelectGC__sub_801C50F0(u16);
 u16 TAdSinglePlyChrSelectGC__sub_801C50FC();
 void TAdSinglePlyChrSelectGC__sub_801C5108(u16);
 u16 TAdSinglePlyChrSelectGC__sub_801C5114();
-void handle_6x7F_battle_scores(s32 arg0);
+void handle_6x7F_battle_scores(saddr arg0);
 int play_cue_stream_file(void*);
 void play_area_music(char *name);
 s32 TObjPlayer__sub_801AFFD0();
@@ -987,7 +987,7 @@ void TLobby::apply_game_settings(s32 arg0, s32 arg1) {
         if ((s32) CFG->b[9] == 1 && TLobby::get_game_mode() == 4) {
             s32 toggle = 1;
             for (s32 i = 0; i < 4; i++) {
-                u32 p = ((u32 (*)(s32))get_player_by_client_id)(i);
+                uaddr p = ((u32 (*)(s32))get_player_by_client_id)(i);
                 if (p != 0U) {
                     toggle = 1 - toggle;
                     s32 v = 2;
@@ -1004,7 +1004,7 @@ void TLobby::apply_game_settings(s32 arg0, s32 arg1) {
         }
         set_field_a__6TLobbyFPvUc(lobby_rule_settings, (u8) (flag != 0));
         for (s32 i = 0; i < 4; i++) {
-            u32 p = player_slot_table[i];
+            uaddr p = player_slot_table[i];
             if (p != 0U) {
                 ((TLobby *)(p + 0x78C))->set_scale(lbl_805D3538);
                 ((TLobby *)(p + 0x78C))->set_pos_z(lbl_805D3548);
@@ -1038,7 +1038,7 @@ void TLobby::send_battle_mode_params(s8 arg0, s32 arg1, s32 arg2) {
 s32 check_team_balance__6TLobbyFPvi(Lobby_801C484C *self, s32 arg1) {
     s32 i;
     s32 t;
-    u32 pl;
+    uaddr pl;
     if (TLobby::get_game_mode() <= 1) {
         return 1;
     }
@@ -1174,7 +1174,7 @@ void TLobby__sub_801C38A4(void) {
 }
 
 void handle_6x7D_set_battle_mode_data(Pkt_801C374C *pkt) {
-    u32 p;
+    uaddr p;
     s32 i;
     ((TLobby *)pkt)->bswap_set_battle_mode_data();
     switch (pkt->type) {
@@ -1219,7 +1219,7 @@ void handle_6x7D_set_battle_mode_data(Pkt_801C374C *pkt) {
 
 void handle_6x7E(void) {  }
 
-void handle_6x7F_battle_scores(s32 arg0) {
+void handle_6x7F_battle_scores(saddr arg0) {
     bswap_packet_header__6TLobbyFv();
     memcpy(TLobby__duel_result_table, (void *)(arg0 + 4), 0x20);
     lbl_805D5DAC = 1;
@@ -1357,7 +1357,7 @@ void TLobby::send_neg50(void* a1) { play_cue_stream_file(this); show_duel_result
 
 s32 TLobby::assign_player_id(void *) {
     s32 temp_r3;
-    s32 temp_r3_2;
+    saddr temp_r3_2;
 
     temp_r3_2 = update_battle_controller__10TObjPlayerFv();
     if (temp_r3_2 == 0) {
@@ -1384,7 +1384,7 @@ void TUnk_804C3E88::run_task() {
 
 void TPlayerBattleCtrl::init_battle_round() {
   s32 char_select_slot;
-  s32 temp_r3;
+  saddr temp_r3;
   s32 var_ctr;
   s32 var_r3;
   s32 i;
@@ -1448,9 +1448,9 @@ void TLobby::start_duel_battle() {
 }
 
 void init__6TLobbyFPv(void *arg0) {
-    s32 temp_r3;
+    saddr temp_r3;
     s32 var_r31;
-    u32 player;
+    uaddr player;
 
     ((TLobby *)arg0)->set_flag_270();
     TLobby::close_and_play_effect((u16) local_client_id, 1);

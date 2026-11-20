@@ -333,7 +333,7 @@ void TLobby::start_udp_test_game() {
 }
 
 s32 TLobby::construct_entry_array() {
-    s32 arg0 = (saddr)this;
+    saddr arg0 = (saddr)this;
     __construct_array((void *)(arg0 + 0x84), (void *)TLobby__sub_8013A23C, 0, 0x20, 4);
     return arg0;
 }

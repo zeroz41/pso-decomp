@@ -127,7 +127,7 @@ void *TItemObject::get_center() {
 
 void send_star_atomizer_targets(TObjPlayer *player) {
     G_UseStarAtomizer_6x66 cmd;
-    s32 cursor;
+    saddr cursor;
     s32 i;
     if (player != NULL && sub_801A1DDC__10TObjPlayerFv(player) != 0 && (TMainCursor *)player->m_424 != NULL) {
         cursor = ((TMainCursor *)player->m_424)->find_by_pos(4, 0xA);

@@ -94,7 +94,7 @@ struct Save_801039BC {
 
 extern "C" {
 void mem_free(void *p);
-u32 TLobby__floor_item_entry_pool;
+uaddr TLobby__floor_item_entry_pool;
 Ent_801037A0 **floor_item_row_table;
 saddr floor_item_counts_by_floor;
 saddr floor_item_free_id_stack;

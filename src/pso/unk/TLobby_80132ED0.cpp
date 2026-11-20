@@ -4,7 +4,7 @@
 #include "pso/ui/Language.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
-extern s32 text_language_group_table;
+extern saddr text_language_group_table;
 extern "C" {
 s32 get_localized_text_entry(s32 arg0, s32 arg1);
 void TLobby::update_menu_cursor() {

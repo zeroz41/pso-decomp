@@ -2778,7 +2778,7 @@ void qst_op_get_eventflag16(u8 a0, u8 a1) {
 
 void qst_op_set_enemy_movement_data(s32 arg0) {
     ByteBlock_30 sp8;
-    u32 temp_r3;
+    uaddr temp_r3;
     temp_r3 = ((int (*)(int))qst_label_address)(arg0);
     if (temp_r3 != 0U) {
         sp8 = *(const ByteBlock_30 *)(temp_r3 - 4 + 4);
@@ -2789,7 +2789,7 @@ void qst_op_set_enemy_movement_data(s32 arg0) {
 
 void qst_op_set_enemy_resist_data(s32 arg0) {
     ByteBlock_20 sp8;
-    u32 temp_r3;
+    uaddr temp_r3;
     temp_r3 = ((int (*)(int))qst_label_address)(arg0);
     if (temp_r3 != 0U) {
         sp8 = *(const ByteBlock_20 *)(temp_r3 - 4 + 4);
@@ -2800,7 +2800,7 @@ void qst_op_set_enemy_resist_data(s32 arg0) {
 
 void qst_op_set_enemy_attack_data(s32 arg0) {
     ByteBlock_30 sp8;
-    u32 temp_r3;
+    uaddr temp_r3;
     temp_r3 = ((int (*)(int))qst_label_address)(arg0);
     if (temp_r3 != 0U) {
         sp8 = *(const ByteBlock_30 *)(temp_r3 - 4 + 4);
@@ -2812,7 +2812,7 @@ void qst_op_set_enemy_attack_data(s32 arg0) {
 void qst_op_set_enemy_physical_data(int _w0) {
     struct CopyStack_801EAC48 { u8 bytes[0x24]; };
     CopyStack_801EAC48 copy_storage_801EAC48;
-    u32 temp_r3;
+    uaddr temp_r3;
     temp_r3 = ((u32)((int (*)(int))qst_label_address)(_w0));
     if (temp_r3 != 0U) {
         *(ByteBlock_24 *)(copy_storage_801EAC48.bytes) = *(const ByteBlock_24 *)((temp_r3 - 4) + 4);
@@ -3191,7 +3191,7 @@ void qst_op_get_gender(s32 arg0, s32 arg1) {
 }
 
 void qst_op_disable_techs(s32 arg0) {
-    u32 temp_r3;
+    uaddr temp_r3;
     temp_r3 = ((u32 (*)(int, int))get_player_by_client_id)((int)(qst_registers[(u8)arg0]), (saddr)qst_registers);
     if (temp_r3 != 0U) {
         TLobby__sub_801F3694((void *)(temp_r3 + 0x428));
@@ -3199,7 +3199,7 @@ void qst_op_disable_techs(s32 arg0) {
 }
 
 void qst_op_enable_techs(s32 arg0) {
-    u32 temp_r3;
+    uaddr temp_r3;
     temp_r3 = ((u32 (*)(int, int))get_player_by_client_id)((int)(qst_registers[(u8)arg0]), (saddr)qst_registers);
     if (temp_r3 != 0U) {
         TFontSmallLobby__sub_801C013C((void *)(temp_r3 + 0x428));
@@ -3697,7 +3697,7 @@ void qst_op_set_shrink_cam1(u8 arg0) {
 }
 
 void qst_op_unshrink(s32 arg0) {
-    s32 temp_r3;
+    saddr temp_r3;
     temp_r3 = ((s32)((u32 (*)(int, int))get_player_by_client_id)((int)(qst_registers[(u8)arg0]), (saddr)qst_registers));
     if ((temp_r3 != 0) && (((s32 (*)(void))obj_isState2_324__9TObjCharaFv)() == 0)) {
         request_player_size_restore((PlayerScaleState *)(temp_r3 + 0x5B0));
@@ -3705,7 +3705,7 @@ void qst_op_unshrink(s32 arg0) {
 }
 
 void qst_op_shrink(s32 arg0) {
-    s32 temp_r3;
+    saddr temp_r3;
     temp_r3 = ((s32)((u32 (*)(int, int))get_player_by_client_id)((int)(qst_registers[(u8)arg0]), (saddr)qst_registers));
     if ((temp_r3 != 0) && (((s32 (*)(void))obj_isState2_324__9TObjCharaFv)() == 0)) {
         request_player_shrink((PlayerScaleState *)(temp_r3 + 0x5B0));
@@ -3718,7 +3718,7 @@ void qst_op_shrink(s32 arg0) {
 #pragma opt_dead_assignments off
 void qst_op_read_switch_flag_on_floor(s32 arg0) {
     s32 var_r31;
-    s32 var_r4;
+    saddr var_r4;
     u8 *id;
     var_r31 = (arg0 * 4) & 0x3FC;
     var_r4 = ((saddr)qst_registers);
@@ -4296,7 +4296,7 @@ void qst_op_find_inventory_item_ex(u8 arg0, u8 arg1) {
 
 void qst_op_item_check(u32 first, u32 destination) {
     Item_801EE77C item;
-    u32 player;
+    uaddr player;
     void *slot;
     void *owner;
     player = get_player_by_client_id(local_client_id);
@@ -4929,7 +4929,7 @@ void qst_op_particle_id(u8 first) {
     s32 lifetime = qst_registers[i++];
     u16 id = (u16) qst_registers[i++];
     f32 height = (f32) qst_registers[i];
-    s32 actor = (saddr)find_entity_by_id(id);
+    saddr actor = (saddr)find_entity_by_id(id);
     if (actor != 0) {
         VecCopy(&point, (const Vec *) (actor + 0x38));
         point.y += height;
@@ -5496,7 +5496,7 @@ void qst_op_stack_push(s32 arg0) {
     qst_call_stack_push((int) (qst_registers[(u8)arg0]));
 }
 
-void qst_op_switch_call(s32 arg0, u8 arg1, s32 arg2) {
+void qst_op_switch_call(s32 arg0, u8 arg1, saddr arg2) {
     s32 temp_r3;
     temp_r3 = qst_registers[(u8)arg0];
     if ((temp_r3 < (s32) arg1) && (temp_r3 >= 0)) {
@@ -5504,7 +5504,7 @@ void qst_op_switch_call(s32 arg0, u8 arg1, s32 arg2) {
     }
 }
 
-void qst_op_switch_jmp(s32 arg0, u8 arg1, s32 arg2) {
+void qst_op_switch_jmp(s32 arg0, u8 arg1, saddr arg2) {
     s32 temp_r3;
     temp_r3 = qst_registers[(u8)arg0];
     if ((temp_r3 < (s32) arg1) && (temp_r3 >= 0)) {

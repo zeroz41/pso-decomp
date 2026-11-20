@@ -41,7 +41,7 @@ struct TItemDrop : public TObject {
     static void calc_drop_item(saddr rng, void *arg1, s32 arg2);
     u16 roll_meseta_range(saddr arg1, s32 a, s32 b, s32 c);
     u8 roll_technique_level(saddr table, s32 row, s32 col, s32 stride);
-    u8 select_weighted_byte(s32 base, s32 off, s32 count, s32 stride);
+    u8 select_weighted_byte(saddr base, s32 off, s32 count, s32 stride);
     s8 get_bool_from_1d6ddc();
 };
 

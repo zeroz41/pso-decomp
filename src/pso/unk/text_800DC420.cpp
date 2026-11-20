@@ -63,7 +63,7 @@ struct Ang_800DC83C { s32 x, y, z; };
 
 extern "C" {
 s32 *csnVecterUnder(s32 origin, s32 mask);
-extern s32 lbl_805D5254;
+extern saddr lbl_805D5254;
 extern D_800DC448 *nano_drago_entry_params_resource;
 u16 get_entity_id(void *);
 s32 is_split_screen();

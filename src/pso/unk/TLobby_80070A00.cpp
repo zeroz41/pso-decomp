@@ -438,7 +438,7 @@ s32 TLobby__sub_800712D8(s32 idx, s32 value, s32 arg) {
 }
 
 s32 *TLobby__sub_800713C8(void) {
-    s32 character_save_record;
+    saddr character_save_record;
     character_save_record = get_character_save_record(0xFFFFU);
     decode_obfuscated_string__6TLobbyFPvi((void *)&lbl_804FF82C.value, (void *)(character_save_record + 0x229C), 0xC, character_save_record);
     return &lbl_804FF82C.value;

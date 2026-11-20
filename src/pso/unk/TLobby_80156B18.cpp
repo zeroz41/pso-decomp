@@ -8,7 +8,7 @@
 
 void TLobby::bswap_60_header(void* p) { ((TLobby *)p)->bswap_header(); }
 void TLobby::bswap_header() {
-    s32 arg0 = (saddr)this;
+    saddr arg0 = (saddr)this;
     ((G_ClientIDHeader *)this)->bswap();
     bswap_32((u32 *)(arg0 + 4));
     bswap_32((u32 *)(arg0 + 8));

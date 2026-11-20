@@ -667,8 +667,8 @@ void set_clock_offset_from_server_time(TLobby *packet) {
 }
 
 s32 TLobby::calc_time_from_hms() {
-    s32 arg0 = (saddr)this;
-  s32 *new_var;
+    saddr arg0 = (saddr)this;
+  saddr *new_var;
   int new_var2;
   s32 temp_r31_2;
   s32 temp_r31;

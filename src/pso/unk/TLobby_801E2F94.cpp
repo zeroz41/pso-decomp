@@ -359,7 +359,7 @@ void TObjPlayer::draw_tri_fan_3d(s32 n, u32 flags) {
 
 // Reads one Ninja chunk (NJCM, NJTL, NMDM, ...) at file + *offset into dst (or a fresh
 // allocation), stores its type, then applies the POF0 pointer-offset list that follows.
-s32 *TLobby__sub_801E38A0(s32 file, s32 *offset, s32 *type, s32 *dst, s32 *size_out) {
+s32 *TLobby__sub_801E38A0(saddr file, s32 *offset, s32 *type, s32 *dst, s32 *size_out) {
     u8 *p;
     s32 *buf;
     s32 pos;

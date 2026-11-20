@@ -12,7 +12,7 @@ void update_players_in_range(u8 *arg0);
 #pragma fp_contract on
 void update_players_in_range(u8 *arg0) {
     s32 temp_r30;
-    s32 player;
+    saddr player;
     s32 var_r28;
     *(s32 *)((s8 *)arg0 + 0x14) = 1;
     *(s32 *)((s8 *)arg0 + 0x18) = 0;

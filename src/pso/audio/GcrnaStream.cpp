@@ -32,7 +32,7 @@ u32 lbl_805D7688;
 u8 *gcrna_audio_allocation;
 s32 gcrna_uses_caller_buffer;
 s32 lbl_805D7694;
-u32 gcrna_aligned_audio_storage;
+uaddr gcrna_aligned_audio_storage;
 
 extern "C" const char *const volatile gcrna_version_pointer = "\nGCRNA Ver.0.97 Build:Jun 13 2002 19:01:27\n";
 

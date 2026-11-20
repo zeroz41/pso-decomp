@@ -84,7 +84,7 @@ void bswap_cmd_db_regist_connect_reply(packet_header *arg0) {
     bswap_32((u32 *)((char *)arg0 + 76));
 }
 
-s32 construct_cmd_db_regist_connect_reply(s32 arg0) {
+s32 construct_cmd_db_regist_connect_reply(saddr arg0) {
     __ct__8TPlySmthFv((void *)(arg0 + 0x44));
     return arg0;
 }

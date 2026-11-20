@@ -547,7 +547,7 @@ void TLobby::load_item_data() {
     }
 }
 
-s32 wave_event_stream_base;
+saddr wave_event_stream_base;
 s32 wave_event_stream_cursor;
 int wave_event_stop_requested;
 s32 wave_event_trigger_count;

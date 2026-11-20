@@ -40,7 +40,7 @@ uaddr TQuestVmDownLoadServer__download_window;
 s32 quest_download_in_progress;
 s32 TQuestVmDownLoadServer__total_download_bytes;
 s32 TQuestVmDownLoadServer__received_file_bytes;
-s32 TQuestVmDownLoadServer__instance;
+saddr TQuestVmDownLoadServer__instance;
 
 struct QVm_801F6D24 {
     u8 pad0[0x294];

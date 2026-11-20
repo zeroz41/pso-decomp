@@ -95,7 +95,7 @@ s32 TItemData::update_mag_status_gauges() {
 void TWindowHelpItem__vt10(u8 *window_base) {
     s32 mag[4];
     saddr a;
-    s32 b;
+    saddr b;
     saddr c;
     saddr lv;
     saddr sy;

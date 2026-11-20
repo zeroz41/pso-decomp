@@ -179,7 +179,7 @@ s32 adxf_get_stat(u32);
 s32 adxf_get_fsize_sct(void);
 u32 adxf_open__6TLobbyFUii(void *, s32);
 void TItemDrop__sub_800FE2D8(void);
-s32 TLobby__sub_801E38A0(s32, s32, s32, s32, u32 *);
+s32 TLobby__sub_801E38A0(saddr, s32, s32, s32, u32 *);
 s32 load_nj_chunk_model_resource(s32, s32, s32);
 int xfree__FPv(void*);
 

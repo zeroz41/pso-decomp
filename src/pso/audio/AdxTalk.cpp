@@ -221,7 +221,7 @@ struct Ch_803CA3C4 {
     saddr f20;
     s32 f24;
     s32 f28;
-    s32 f2c;
+    saddr f2c;
     s32 f30;
     s32 f34;
     s32 f38;

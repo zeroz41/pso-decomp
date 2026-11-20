@@ -343,7 +343,7 @@ s32 play_sound_effect(s32 id, Vec *src, s32 a2, s32 flags) {
 }
 
 
-extern u32 camera_ctrl_instance;
+extern uaddr camera_ctrl_instance;
 extern "C" {
 void *get_player_by_client_id(s32 i);
 s32 TLobby__sub_8023F880(s32 arg0);
@@ -383,7 +383,7 @@ s32 check_sound_admission_range(const Vec *pos) {
 void update_sound_request_slots(void) {
     s32 i;
     s32 r;
-    u32 p;
+    uaddr p;
     SndEnt_8022675C *e;
     s16 *t;
     if (lbl_805D62B0 != 0) {

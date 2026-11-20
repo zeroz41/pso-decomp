@@ -32,7 +32,7 @@ int TLobby__sub_802D2358(void*);
 }
 
 void TLobby::set_trade_field_4(s32 arg1) {
-    s32 arg0 = (saddr)this;
+    saddr arg0 = (saddr)this;
     *(s32 *)((s8 *)(((TLobby *)(arg0 + 0xF8))->get_trade_obj_ptr()) + 4) = arg1;
 }
 

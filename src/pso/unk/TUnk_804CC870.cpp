@@ -235,7 +235,7 @@ TUnk_804CC870::~TUnk_804CC870() {
 
 void TUnk_804CC870::run_task() {
     u8 *arg0 = (u8 *)this;
-    s32 entity;
+    saddr entity;
     entity = (saddr)find_entity_by_id((*(u16 *)((s8 *)arg0 + 0x1C)));
     if (entity != 0) {
         VecCopy((Vec *)(arg0 + 0x20), (const Vec *)(entity + 0x38));

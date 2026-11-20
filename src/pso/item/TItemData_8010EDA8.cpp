@@ -61,7 +61,7 @@ s16 MagStats::get_pow_level() {
 }
 
 void TItemData::update_player_field() {
-    s32 arg0 = (saddr)this;
+    saddr arg0 = (saddr)this;
     ((TObjPlayer *)(arg0 + 0x374))->can_use_more_materials(get_class_index__10TObjPlayerFv());
 }
 saddr get_item_description_text(s32 arg0) {

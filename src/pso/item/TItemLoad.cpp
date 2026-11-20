@@ -27,7 +27,7 @@ extern "C" {
 // wrong parameters and text_800F7D30.h gives prs_decompress_alloc two.
 s32 adxf_get_stat(void *handle);
 s32 load_gvm_texture_archive(s32 data, NJS_TEXLIST *texlist);
-void *TLobby__sub_801E38A0(s32 data, u32 *pos, s32 *tag, u8 *dst, s32 *size);
+void *TLobby__sub_801E38A0(saddr data, u32 *pos, s32 *tag, u8 *dst, s32 *size);
 void TLobby__sub_801E3E9C(s32 partition_id, const char *path, void *partition_info, s32);
 s32 prs_decompress_alloc(s32 src, u32 dst, s32 size);
 }
