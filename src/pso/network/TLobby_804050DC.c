@@ -1391,12 +1391,12 @@ void netbuf_copy_by_ref(void *a, void *b, s32 v) {
 }
 #pragma pop
 
-void release_entry(NetPacket *packet) {
+void release_entry(NetPacket *e) {
     s16 i;
     s16 n = lobby_udp_socket_table.count;
     NetPacket *p = lobby_udp_socket_table.packets;
     for (i = 0; i < n; i++, p++) {
-        if (p->in_use == 1 && p == packet) {
+        if (p->in_use == 1 && p == e) {
             p->in_use = 0;
             return;
         }

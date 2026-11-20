@@ -97,7 +97,7 @@ s32 TLobby__sub_80406328(s32 self, s16 type);
 s16 dispatch_handler_by_index(s16 arg0, s32 arg1, s32 arg2, s32 arg3);
 s16 dispatch_by_addr_family(s32 arg0, NetworkAddress *arg1, NetworkAddress *arg2, u8 *arg3, void *arg4, void *arg5);
 s16 AT_IP_SetSrcFromDst(Out_8040D95C *arg0, In_8040D95C *arg1);
-s16 is_multicast_address(NetworkAddress *addr, s16 interface_id);
+s16 is_multicast_address(NetworkAddress *addr, s16 arg1);
 s16 is_addr_unspecified(u8 *arg0);
 s16 AT_IP4_IsReachable(u32 arg0, u32 arg1);
 s16 TLobby__sub_8040DA54(u8 *arg0, u8 *arg1);

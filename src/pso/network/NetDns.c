@@ -36,15 +36,15 @@ typedef struct DnsQueryHeader {
     u16 id;
     u8 flags_high;
     u8 flags_low;
-    s16 questions;
-    s16 answers;
-    s16 authority;
-    s16 additional;
+    s16 qd;
+    s16 an;
+    s16 ns;
+    s16 ar;
 } DnsQueryHeader;
 
 typedef struct DnsQuestion {
     s16 type;
-    s16 dns_class;
+    s16 cls;
 } DnsQuestion;
 
 typedef char DnsQueryHeader_size_check[sizeof(DnsQueryHeader) == DNS_HEADER_SIZE ? 1 : -1];
@@ -809,14 +809,14 @@ s32 build_dns_query_aaaa(DnsQuery *q, char *name, s16 len) {
     body = (u8 *)h + DNS_HEADER_SIZE;
     h->flags_high = 1;
     h->flags_low = 0;
-    h->questions = 1;
-    h->answers = 0;
-    h->authority = 0;
-    h->additional = 0;
+    h->qd = 1;
+    h->an = 0;
+    h->ns = 0;
+    h->ar = 0;
     n = TLobby__sub_8040B838(body, name, len);
     qt.type = DNS_TYPE_AAAA;
     body += (s16)n;
-    qt.dns_class = DNS_CLASS_IN;
+    qt.cls = DNS_CLASS_IN;
     total = n + DNS_HEADER_SIZE;
     NetMemcpy(body, &qt, DNS_QUESTION_FIXED_SIZE);
     q->msg->len = total + DNS_QUESTION_FIXED_SIZE;
@@ -838,14 +838,14 @@ s32 build_dns_query_a(DnsQuery *q, char *name, s16 len) {
     body = (u8 *)h + DNS_HEADER_SIZE;
     h->flags_high = 1;
     h->flags_low = 0;
-    h->questions = 1;
-    h->answers = 0;
-    h->authority = 0;
-    h->additional = 0;
+    h->qd = 1;
+    h->an = 0;
+    h->ns = 0;
+    h->ar = 0;
     n = TLobby__sub_8040B838(body, name, len);
     qt.type = DNS_TYPE_A;
     body += (s16)n;
-    qt.dns_class = DNS_CLASS_IN;
+    qt.cls = DNS_CLASS_IN;
     total = n + DNS_HEADER_SIZE;
     NetMemcpy(body, &qt, DNS_QUESTION_FIXED_SIZE);
     q->msg->len = total + DNS_QUESTION_FIXED_SIZE;
