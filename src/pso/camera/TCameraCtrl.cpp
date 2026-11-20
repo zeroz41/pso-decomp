@@ -1292,7 +1292,7 @@ s32 TCameraCtrl::release_photon_blast_camera() {
 void set_active_camera_pose_from_params(u8 *arg0) {
     u8 *temp_r4;
     if ((*(s32 *)((s8 *)&TCameraCtrl__view_state + 8) & 8) || (*(s32 *)((s8 *)&TCameraCtrl__view_state + 8) & 4)) {
-        temp_r4 = (u8 *)(*(s32 *)((s8 *)&camera_controller_registry + (*(u8 *)((s8 *)&TCameraCtrl__view_state + 0) * 4)));
+        temp_r4 = (u8 *)(*(saddr *)((s8 *)&camera_controller_registry + (*(u8 *)((s8 *)&TCameraCtrl__view_state + 0) * 4)));
         if (temp_r4 != NULL) {
             *(f32 *)((s8 *)temp_r4 + 0x3C) = (f32) *(f32 *)((s8 *)arg0 + 0x1C);
             *(f32 *)((s8 *)temp_r4 + 0x40) = (f32) *(f32 *)((s8 *)arg0 + 0x20);
@@ -1307,7 +1307,7 @@ void set_active_camera_pose_from_params(u8 *arg0) {
 void set_active_camera_pose(u8 *arg0, u8 *arg1) {
     u8 *temp_r5;
     if ((*(s32 *)((s8 *)&TCameraCtrl__view_state + 8) & 8) || (*(s32 *)((s8 *)&TCameraCtrl__view_state + 8) & 4)) {
-        temp_r5 = (u8 *)(*(s32 *)((s8 *)&camera_controller_registry + (*(u8 *)((s8 *)&TCameraCtrl__view_state + 0) * 4)));
+        temp_r5 = (u8 *)(*(saddr *)((s8 *)&camera_controller_registry + (*(u8 *)((s8 *)&TCameraCtrl__view_state + 0) * 4)));
         if (temp_r5 != NULL) {
             *(f32 *)((s8 *)temp_r5 + 0x3C) = (f32) *(f32 *)((s8 *)arg0 + 0);
             *(f32 *)((s8 *)temp_r5 + 0x40) = (f32) *(f32 *)((s8 *)arg0 + 4);
@@ -1653,20 +1653,20 @@ s32 *TCameraCtrl::get_view_matrix() {
 void TCameraCtrl::apply_split_screen_view_matrix() {
     if (is_split_screen() != 0) {
         if (TCameraCtrl::get_mode(&main_task) & 1) {
-            TCameraCtrl::concat_matrix(0U, (u32) ((u8 *)TCameraCtrl__view_matrices + ((TCameraCtrl::get_instance() - 1) * 0x30)));
+            TCameraCtrl::concat_matrix(0U, (uaddr) ((u8 *)TCameraCtrl__view_matrices + ((TCameraCtrl::get_instance() - 1) * 0x30)));
             return;
         }
-        TCameraCtrl::concat_matrix(0U, (u32) ((u8 *)TCameraCtrl__view_matrices + (TCameraCtrl::get_camera_no() * 0x30)));
+        TCameraCtrl::concat_matrix(0U, (uaddr) ((u8 *)TCameraCtrl__view_matrices + (TCameraCtrl::get_camera_no() * 0x30)));
         return;
     }
-    TCameraCtrl::concat_matrix(0U, (u32) TCameraCtrl__view_matrix);
+    TCameraCtrl::concat_matrix(0U, (uaddr) TCameraCtrl__view_matrix);
 }
 void transform_to_view__11TCameraCtrlFii(s32 arg0, s32 arg1) {
     push_matrix();
     if (is_split_screen() != 0) {
-        TCameraCtrl::concat_matrix((u32)(0), (u32)((void *) ((u8 *)&TCameraCtrl__view_matrices + (TCameraCtrl::get_camera_no() * 0x30))));
+        TCameraCtrl::concat_matrix((u32)(0), (uaddr)((void *) ((u8 *)&TCameraCtrl__view_matrices + (TCameraCtrl::get_camera_no() * 0x30))));
     } else {
-        TCameraCtrl::concat_matrix((u32)(0), (u32)&TCameraCtrl__view_matrix);
+        TCameraCtrl::concat_matrix((u32)(0), (uaddr)&TCameraCtrl__view_matrix);
     }
     matrix_mult_vec(0, (void *)arg0, (void *)arg1);
     pop_matrix();

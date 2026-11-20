@@ -118,7 +118,7 @@ E_80079580 *wall_query_scene_buffer;
 s32 csn_query_hit_count;
 f32 csn_query_nearest_hit_t;
 s32 *csn_query_hit_buffer;
-s32 wall_query_hit_result;
+saddr wall_query_hit_result;
 extern "C" {
 s32 get_csn_group_flags(u8 arg0);
 void TObjPlayer__sub_80079108(void);
@@ -132,7 +132,7 @@ extern "C" {
 s32 *csnVectorUnder(Vec *arg0, u32 *arg1, s32 arg2);
 void TObjPlayer__sub_80079120(saddr _w0);
 extern u32 lbl_804FFD40[];
-s32 *csnVecterUnder(s32 arg0, s32 arg1);
+s32 *csnVecterUnder(saddr arg0, s32 arg1);
 void TObjPlayer__sub_80079124(void *, void *);
 u32 TObjPlayer__sub_80079DE0(void *, void *);
 f32 vec_squared_length(Vec *);
@@ -910,7 +910,7 @@ done:
     TObjPlayer__sub_80079118("csnVectorUnder(Use Buffer)");
     return var_r31;
 }
-s32 *csnVecterUnder(s32 origin, s32 mask) {
+s32 *csnVecterUnder(saddr origin, s32 mask) {
     s32 *var_r31;
     TObjPlayer__sub_80079108();
     TObjPlayer__sub_8007911C();

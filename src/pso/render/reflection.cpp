@@ -104,7 +104,7 @@ s32 reset_ind_tev_stages__13TParticleCtrlFPv();
 s32 TObjEneRecon::render_player_marker(u16 arg0, s32 arg1) {
     s32 sp8[8];
     s32 var_r3;
-    u32 player;
+    uaddr player;
 
     if (is_central_control_area() == 0) {
         return 0;
@@ -112,7 +112,7 @@ s32 TObjEneRecon::render_player_marker(u16 arg0, s32 arg1) {
     if ((u16) scene_sora_reflect_active == 0) {
         return 1;
     }
-    player = (u32)get_player_by_client_id(arg0);
+    player = (uaddr)get_player_by_client_id(arg0);
     if (player == 0U) {
         return 0;
     }

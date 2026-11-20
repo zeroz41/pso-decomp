@@ -46,7 +46,7 @@ EneRow_8020E08C *TLobby__data_805D6114;
 s32 TLobby__current_floor_enemy_set_count;
 u32 TLobby__data_805D611C;
 s32 TLobby__data_805D6120;
-u32 TLobby__data_805D6124;
+uaddr TLobby__data_805D6124;
 s32 TLobby__data_805D6128;
 s32 item_drop_memory_pool_ar_addr;
 s32 item_drop_memory_pool_size;

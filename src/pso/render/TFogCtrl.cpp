@@ -23,7 +23,7 @@
 #include "pso/math/AngleLookup.h"
 
 extern "C" {
-extern u32 fog_ctrl_instance;
+extern uaddr fog_ctrl_instance;
 s32 request_fog__8TFogCtrlFPvii(u8 *arg0, s32 arg1, s32 arg2);
 extern s32 TFogCtrl__fog_instance_table[];
 void __ct__7TObjectFP7TObject(void *, void *);
@@ -188,7 +188,7 @@ void GXSetFogRangeAdj(s32, s32, GXFogAdjTable_800FAE1C *);
 extern s32 area_fog_row_table[];
 extern FogParam_800FBC5C fog_default_entry;
 extern u8 scene_projection_state[];
-extern u32 fog_entry_array;
+extern uaddr fog_entry_array;
 extern s32 fog_update_flags;
 extern s32 actor_frame_tick;
 extern s32 *tl_02;
@@ -208,9 +208,9 @@ s32 area_fog_row_table[36] = {
 };
 s32 TFogCtrl__fog_instance_table[4];
 FogParam_800FBC5C fog_default_entry;
-u32 fog_entry_array;
+uaddr fog_entry_array;
 s32 fog_update_flags;
-u32 fog_ctrl_instance;
+uaddr fog_ctrl_instance;
 
 extern "C" {
 void run_task__8TFogCtrlFv(Ctrl_800FB498 *arg0);
@@ -230,7 +230,7 @@ void init_scene_fog_system(void) {
         fog_default_entry.f38[i] = 0;
     }
     fog_default_entry.f18[6] = FOG_MAX;
-    fog_entry_array = (u32)mem_alloc(0x2000);
+    fog_entry_array = (uaddr)mem_alloc(0x2000);
     for (i = 0; i < 0x80; i++) {
         copy_fog_entry((u8 *)&((FogParam_800FBC5C *)fog_entry_array)[i], (u8 *)&fog_default_entry);
     }

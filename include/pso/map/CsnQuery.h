@@ -100,7 +100,7 @@ s32 TObjPlayer__sub_80079118(const char *name);
 void TObjPlayer__sub_8007911C(void);
 void TObjPlayer__sub_80079120(saddr _w0);
 void TObjPlayer__sub_80079124(void *_w0, void *_w1);
-s32 *csnVecterUnder(s32 origin, s32 mask);
+s32 *csnVecterUnder(saddr origin, s32 mask);
 s32 *csnVectorUnder(Vec *arg0, u32 *arg1, s32 arg2);
 s32 get_csn_group_flags(u8 arg0);
 }

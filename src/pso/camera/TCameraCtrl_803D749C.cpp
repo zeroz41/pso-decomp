@@ -203,7 +203,7 @@ void select_motion_sampler(s32 *arg0, f32 farg0) {
     } else {
         *(s32 *)((s8 *)current_motion_context + 0x28) = (s32) *(s32 *)((s8 *)motion_angle_sampler_table + temp_r4);
     }
-    *(s32 *)((s8 *)current_motion_context + 0x2C) = (s32) motion_key_sampler_table[0];
+    *(saddr *)((s8 *)current_motion_context + 0x2C) = (saddr) motion_key_sampler_table[0];
 }
 #pragma pop
 

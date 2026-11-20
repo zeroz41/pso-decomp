@@ -193,8 +193,8 @@ u8 *TCameraCtrl::init_conversation_camera(s32 i, s32 arg2, s32 arg3) {
   }
   else
   {
-    VecCopy((Vec *)(((u8 *)this) + 0x1C), (const Vec *)((*(s32 *)&camera_ctrl_instance) + 0x178));
-    VecCopy((Vec *)(((u8 *)this) + 0x28), (const Vec *)((*(s32 *)&camera_ctrl_instance) + 0x184));
+    VecCopy((Vec *)(((u8 *)this) + 0x1C), (const Vec *)((*(saddr *)&camera_ctrl_instance) + 0x178));
+    VecCopy((Vec *)(((u8 *)this) + 0x28), (const Vec *)((*(saddr *)&camera_ctrl_instance) + 0x184));
   }
   set_active_camera_pose((void *) (((u8 *)this) + 0x1C), (void *) (((u8 *)this) + 0x28));
   TCameraCtrl__fixed_npc_camera_active = 0;

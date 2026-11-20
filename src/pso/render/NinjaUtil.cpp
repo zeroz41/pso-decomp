@@ -101,7 +101,7 @@ saddr find_model_node(uaddr root, s32 index) {
     model_node_search_index = 0;
     model_node_search_result = NULL;
     find_model_node_walk(node);
-    return (s32)model_node_search_result;
+    return (saddr)model_node_search_result;
 }
 
 void debug_printf_nop(const char *format, ...) {}

@@ -446,7 +446,7 @@ void apply_follow_camera_offsets(void *arg0, void *arg1, s32 arg2, u16 arg3) {
 void TCameraCtrl::set_active_camera_flag() {
     u8 *temp_r3;
     if ((u8) (*(RecoveredGlobal_8006D460_TCameraCtrl__data_804FF628 *)&TCameraCtrl__view_state).value == 0) {
-        temp_r3 = (u8 *)(*(s32 *)((s8 *)(&camera_controller_registry.value) + (((*(RecoveredGlobal_8006D460_TCameraCtrl__data_804FF628 *)&TCameraCtrl__view_state).value * 4) & 0x3FC)));
+        temp_r3 = (u8 *)(*(saddr *)((s8 *)(&camera_controller_registry.value) + (((*(RecoveredGlobal_8006D460_TCameraCtrl__data_804FF628 *)&TCameraCtrl__view_state).value * 4) & 0x3FC)));
         if (temp_r3 != NULL) {
             *(s32 *)((s8 *)temp_r3 + 0x104) = 1;
         }
@@ -701,7 +701,7 @@ void TUnk_80488E00::vfunc_9(u8 *arg1, u8 *arg2) {
         arg0->field_44 = arg0->field_50 + *(f32 *)((s8 *)arg2 + 8);
         temp_r3 = (u8 *)(csnVector(&arg0->field_48, &arg0->field_3C, 0x100));
         if (temp_r3 != NULL) {
-            VecCopy((Vec *)(&arg0->field_3C), (const Vec *)(*(s32 *)((s8 *)temp_r3 + 4)));
+            VecCopy((Vec *)(&arg0->field_3C), (const Vec *)(*(saddr *)((s8 *)temp_r3 + 4)));
         }
     }
 }
