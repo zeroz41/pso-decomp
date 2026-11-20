@@ -1,3 +1,4 @@
+#include "pso/render/GinjaMaterialTextureSlot.h"
 #include "types.h"
 #include "pso/object/TObjDoaEx01.h"
 #include "pso/object/base/TObjMapObject.h"
@@ -214,8 +215,8 @@ void TObjDoaEx01::try_open() {
 
     bml_model = (s32)get_bml_model((void *)TObjDoaEx01__resource_bundle, 0);
     if (this->update_object_view_visibility(4e+02f, 2e+01f) != 0) {
-        ((TObjDoorJung *)(*(s32 *)((s8 *)TObjDoaEx01__alpha_model_node + 4)))->free_children((void *)1);
-        ((TObjDoorJung *)(*(s32 *)((s8 *)TObjDoaEx01__alpha_model_sibling + 4)))->free_children((void *)1);
+        set_ginja_model_texture_slot(reinterpret_cast<NJS_OBJECT *>(TObjDoaEx01__alpha_model_node)->model, 1);
+        set_ginja_model_texture_slot(reinterpret_cast<NJS_OBJECT *>(TObjDoaEx01__alpha_model_sibling)->model, 1);
         get_bml_texlist((void *)TObjDoaEx01__resource_bundle, 0);
         set_global_param__8TObjFishFl();
         push_matrix();
@@ -230,8 +231,8 @@ void TObjDoaEx01::draw_model() {
     s32 temp_r31;
     s32 temp_r31_2;
     if (this->update_object_view_visibility(4e+02f, 2e+01f) != 0) {
-        ((TObjDoorJung *)(*(s32 *)((s8 *)TObjDoaEx01__alpha_model_node + 4)))->free_children((void *)0);
-        ((TObjDoorJung *)(*(s32 *)((s8 *)TObjDoaEx01__alpha_model_sibling + 4)))->free_children((void *)0);
+        set_ginja_model_texture_slot(reinterpret_cast<NJS_OBJECT *>(TObjDoaEx01__alpha_model_node)->model, 0);
+        set_ginja_model_texture_slot(reinterpret_cast<NJS_OBJECT *>(TObjDoaEx01__alpha_model_sibling)->model, 0);
         temp_r31 = (s32)get_bml_model((void *)TObjDoaEx01__resource_bundle, 0);
         get_bml_texlist((void *)TObjDoaEx01__resource_bundle, 0);
         set_global_param__8TObjFishFl();

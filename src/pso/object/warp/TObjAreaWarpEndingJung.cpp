@@ -1,3 +1,4 @@
+#include "pso/render/GinjaMaterialTextureSlot.h"
 #include "pso/render/GinjaTexture.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
@@ -52,6 +53,9 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/render/ModelDrawContext.h"
 #include "pso/render/GinjaMaterial.h"
 
 #include "pso/object/base/TObjChara.h"
@@ -70,8 +74,6 @@
 // and "%xF" in first-use order) comes out exactly as in the original .sdata2.
 #pragma defer_codegen on
 
-struct Warp_8019B170 { u8 pad0[0x8C]; s32 f8C; };
-
 struct RecoveredGlobal_8019B854___vt__14TObjWarpString {
     s32 value;
     u8 remaining[0x14];
@@ -86,103 +88,11 @@ struct Obj_8019C924 { u8 pad0[0x84]; s32 id; u8 pad1[0xbc - 0x88]; s32 saved_id;
 
 struct Pkt_8019C988 { u8 pad0[4]; s16 f4; };
 
-struct ObjBase_8019BD84 { char pad[0x18]; };
-
-struct Obj_8019BD84 : ObjBase_8019BD84 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual s32 is_visible(f32, f32);
-};
-
-struct Node_8019BD84 { u32 flags; void *model; f32 pos[3]; s32 ang[3]; f32 scl[3]; Node_8019BD84 *child; Node_8019BD84 *sibling; };
-
 struct Ids_8019BD84 { u16 id[2]; };
-
-struct Warp_8019BD84 { u8 pad0[0x38]; f32 pos[3]; u8 pad44[0x1C]; s32 f60; u8 pad64[0x28]; s32 f8C; u8 pad90[0x34]; f32 fC4; s32 fC8; Node_8019BD84 *fCC; Node_8019BD84 *fD0; s32 fD4; s32 fD8; };
-
-
-struct Node_8019C250 {
-    u8 pad0[4];
-    void *f4;
-    u8 f8[0xC];
-    s32 f14;
-    s32 f18;
-    s32 f1C;
-    u8 pad20[0x2C - 0x20];
-    Node_8019C250 *next2C;
-    Node_8019C250 *next30;
-};
-
-struct Obj_8019C250 {
-    u8 pad0[0x38];
-    u8 f38[0x60 - 0x38];
-    s32 f60;
-    u8 pad64[0x8C - 0x64];
-    s32 f8C;
-    u8 pad90[0xC8 - 0x90];
-    f32 fC8;
-    s32 fCC;
-    Node_8019C250 *fD0;
-    Node_8019C250 *fD4;
-    s32 fD8;
-    s32 fDC;
-};
 
 struct Colors_8019C250 { u16 c[2]; };
 
-struct Node_8019C604 {
-    u8 pad0[4];
-    void *f4;
-    u8 f8[0xC];
-    s32 f14;
-    s32 f18;
-    s32 f1C;
-    u8 pad20[0x2C - 0x20];
-    Node_8019C604 *next2C;
-    Node_8019C604 *next30;
-};
-
-struct Obj_8019C604 {
-    u8 pad0[0x38];
-    u8 f38[0x60 - 0x38];
-    s32 f60;
-    u8 pad64[0x8C - 0x64];
-    s32 f8C;
-    u8 pad90[0xC4 - 0x90];
-    f32 fC8;
-    s32 fCC;
-    Node_8019C604 *fD0;
-    Node_8019C604 *fD4;
-    s32 fD8;
-    s32 fDC;
-};
-
 struct Colors_8019C604 { u16 c[2]; };
-
-struct Obj_8019BCBC {
-    u8 pad0[0x8C];
-    s32 f8C;
-};
-
-struct Obj_8019C53C {
-    u8 pad0[0x8C];
-    s32 f8C;
-};
-
-struct Obj_8019C144 {
-    u8 pad0[0x68];
-    f32 f68;
-    u8 pad1[0x8C - 0x6C];
-    s32 f8C;
-    u8 pad2[0xC4 - 0x90];
-    s32 fC4;
-};
 
 struct RecoveredGlobal_8019CA24_lbl_80515BA0 {
     s32 value;
@@ -316,17 +226,11 @@ int sprintf(char *, const char *, ...);
 void strncpy(s32, s32, s32);
 void debug_printf_at(s32 id, const char *fmt, ...);
 }
-void rotate_matrix_zyx(void *m, s32 x, s32 y, s32 z);
 extern "C" {
-void rotate_matrix_x(int, s32);
-void push_matrix();
-s32 post_translate_matrix(void *);
-void draw_ginja_model_with_motion(void *model, void *motion, f32 frame);
 }
 
 extern RecoveredGlobal_8019B854___vt__14TObjWarpString __vt__14TObjWarpString;
 extern RecoveredGlobal_8019CA24_lbl_80515BA0 lbl_80515BA0;
-extern u8 identity_matrix[];
 extern s32 local_client_id;
 
 void *create_TObjWarpString(char *text, u16 client_id);
@@ -551,7 +455,7 @@ TObjMapWarp::TObjMapWarp(TObject *parent, void *set_data) : TObjWarpBase(parent,
     m_name = TObjMapWarp__name;
     for (i = 0; i < 4; i++) {
         push_matrix_from(identity_matrix);
-        post_translate_matrix(&scale);
+        post_translate_matrix(&scale.x);
         rotate_matrix_y(0, rotation_y);
         matrix_mult_vec(NULL, &map_warp_destination_offsets[i], (Vec *)destinations[i]);
         pop_matrix();
@@ -706,13 +610,13 @@ void TObjMapWarp::draw_debug_destinations() {
         Vec b;
         Vec a = {0.0f, 0.0f, -3.0f};
         push_matrix_from(identity_matrix);
-        post_translate_matrix(&self->pos);
+        post_translate_matrix(&self->pos.x);
         rotate_matrix_y(0, self->yaw);
         end = &self->ends[i];
         matrix_mult_vec(NULL, &map_warp_destination_offsets[i], end);
         pop_matrix();
         push_matrix_from(identity_matrix);
-        post_translate_matrix(end);
+        post_translate_matrix(&end->x);
         rotate_matrix_y(0, self->yaw2);
         matrix_mult_vec(NULL, &a, &a);
         pop_matrix();
@@ -745,7 +649,7 @@ void TObjMapWarpForest::render() {
     if (this->update_object_view_visibility(400.0f, 20.0f) != 0) {
         TObjFish::set_global_param((s32)textures);
         push_matrix();
-        post_translate_matrix((u8 *)&this->position);
+        post_translate_matrix(&position.x);
         rotate_matrix_y(0, this->rotation_y);
         draw_ginja_object(baseModel);
         TParticleCtrl::begin_effect_render();
@@ -914,8 +818,8 @@ TObjAreaWarpForest::TObjAreaWarpForest(TObject *parent, void *set_data) : TObjAr
     u32 temp_r0;
     u32 temp_r3;
     m_name = TObjAreaWarpForest__name;
-    m_c4 = 0.0f;
-    *(s32 *)((s8 *)this + 0xC8) = 0;
+    beam_frame = 0.0f;
+    beam_rotation = 0;
     temp_r0 = set_params[2];
     temp_r3 = temp_r0 >> 0x1FU;
     set_params[2] = (u32) (((temp_r0 & 1) ^ temp_r3) - temp_r3);
@@ -942,67 +846,65 @@ TObjAreaWarpForest::TObjAreaWarpForest(TObject *parent, void *set_data) : TObjAr
 TObjAreaWarpForest::~TObjAreaWarpForest() {}
 
 void TObjAreaWarpForest::run_task() {
-    u8 *arg0 = (u8 *)this;
-  this->m_c4 += 4.0f;
-  if (((f32) ((*((s32 *) (((s8 *) (*((u8 **) (((s8 *) arg0) + 0xD4)))) + 4))) - (1 & 0xFFu))) < (this->m_c4))
-  {
-    this->m_c4 = 0.0f;
-  }
-  *((s32 *) (((s8 *) arg0) + 0xC8)) = (s32) ((*((s32 *) (((s8 *) arg0) + 0xC8))) + 0x150);
-  ((TObjAreaWarp *)arg0)->handle_area_selection();
+    beam_frame += 4.0f;
+    if (static_cast<f32>(beam_motion->frameCount - 1) < beam_frame) {
+        beam_frame = 0.0f;
+    }
+    beam_rotation += 0x150;
+    handle_area_selection();
 }
 
 void TObjAreaWarpForest::confirm_area_transfer(TObjPlayer *player) { TObjAreaWarp::confirm_area_transfer(player); }
 
 void TObjAreaWarpForest::render() {
-    Obj_8019C604 *self = (Obj_8019C604 *)this;
-    Node_8019C604 *m;
-    Node_8019C604 *n;
+
+    NJS_OBJECT *m;
+    NJS_OBJECT *n;
     if (this->update_object_view_visibility(400.0f, 20.0f) != 0) {
         Colors_8019C604 cols = {3, 2};
-        n = self->fD4->next2C;
+        n = beam_model->child;
         while (n != NULL) {
-            if (n->f4 != 0) {
-                ((TObjDoorJung *)(n->f4))->free_children((void *)cols.c[this->set_params[2]]);
+            if (n->model != 0) {
+                set_ginja_model_texture_slot(reinterpret_cast<void *>((n->model)), cols.c[this->set_params[2]]);
             }
-            n = n->next2C;
+            n = n->child;
         }
-        m = self->fD0;
-        TObjFish::set_global_param(self->fDC);
+        m = warp_model;
+        TObjFish::set_global_param(reinterpret_cast<s32>(textures));
         push_matrix();
-        ((void (*)(void *))post_translate_matrix)(self->f38);
-        ((void (*)(int, int))rotate_matrix_y)(0, this->rotation_y);
+        post_translate_matrix(&position.x);
+        rotate_matrix_y(NULL, this->rotation_y);
         push_matrix();
-        ((void (*)(void *))post_translate_matrix)(m->f8);
-        draw_ginja_model((s32)m->f4);
+        post_translate_matrix(m->pos);
+        draw_ginja_model((s32)m->model);
         TParticleCtrl::begin_effect_render();
-        m = m->next2C;
+        m = m->child;
         while (m != NULL) {
             push_matrix();
-            ((void (*)(void *))post_translate_matrix)(m->f8);
-            rotate_matrix_zyx(0, (m->f14), (m->f18), (m->f1C));
-            rotate_matrix_x(0, self->fCC);
-            draw_ginja_model((s32)m->f4);
-            ((void (*)(void))pop_matrix)();
-            m = m->next30;
+            post_translate_matrix(m->pos);
+            rotate_matrix_zyx(NULL, (m->ang[0]), (m->ang[1]), (m->ang[2]));
+            rotate_matrix_x(NULL, static_cast<s32>(beam_rotation));
+            draw_ginja_model((s32)m->model);
+            pop_matrix();
+            m = m->sibling;
         }
         TParticleCtrl::end_effect_render();
-        ((void (*)(void))pop_matrix)();
+        pop_matrix();
         TParticleCtrl::begin_effect_render();
-        draw_ginja_model_with_motion(self->fD4, (void *)self->fD8, this->m_c4);
+        draw_ginja_model_with_motion(beam_model, beam_motion, this->beam_frame);
         TParticleCtrl::end_effect_render();
-        ((void (*)(void))pop_matrix)();
+        pop_matrix();
     }
 }
 
 void TObjAreaWarpForest::debug_print_area_num() {
     this->TObjAreaWarp::debug_print_area_num();
     TObjNpcEnemy::set_global_count(0xFF00FF);
-    if (((Obj_8019C53C *)this)->f8C < 0) {
-        ((Obj_8019C53C *)this)->f8C = 0;
+    if (set_params[2] < 0) {
+        set_params[2] = 0;
     }
-    ((Obj_8019C53C *)this)->f8C = ((Obj_8019C53C *)this)->f8C % 2;
-    if (((Obj_8019C53C *)this)->f8C == 0) {
+    set_params[2] = set_params[2] % 2;
+    if (set_params[2] == 0) {
         TObjNpcEnemy::set_global_count(0xFFFFFF);
         debug_printf_at(0x130022, "<- COLOR : BLUE");
     } else {
@@ -1021,7 +923,7 @@ TObjAreaWarpQuest::TObjAreaWarpQuest(TObject *parent, void *set_data) : TObjArea
     u32 temp_r4;
     m_name = TObjAreaWarpQuest__name;
     beam_frame = 0.0f;
-    *(s32 *)((s8 *)this + 0xCC) = 0;
+    beam_rotation = 0;
     temp_r0 = *(u32 *)((s8 *)this + 0x8C);
     temp_r4 = temp_r0 >> 0x1FU;
     *(u32 *)((s8 *)this + 0x8C) = (u32) (((temp_r0 & 1) ^ temp_r4) - temp_r4);
@@ -1045,70 +947,68 @@ TObjAreaWarpQuest::TObjAreaWarpQuest(TObject *parent, void *set_data) : TObjArea
 TObjAreaWarpQuest::~TObjAreaWarpQuest() {}
 
 void TObjAreaWarpQuest::run_task() {
-    u8 *arg0 = (u8 *)this;
-  this->beam_frame += 4.0f;
-  if (((f32) ((unsigned long) ((*((s32 *) (((s8 *) (*((u8 **) (((s8 *) arg0) + 0xD8)))) + 4))) - 1))) < (this->beam_frame))
-  {
-    this->beam_frame = 0.0f;
-  }
-  *((s32 *) (((s8 *) arg0) + 0xCC)) = (s32) ((*((s32 *) (((s8 *) arg0) + 0xCC))) + 0x150);
-  ((TObjAreaWarp *)arg0)->handle_area_selection();
+    beam_frame += 4.0f;
+    if (static_cast<f32>(beam_motion->frameCount - 1) < beam_frame) {
+        beam_frame = 0.0f;
+    }
+    beam_rotation += 0x150;
+    handle_area_selection();
 }
 
 void TObjAreaWarpQuest::render() {
-    Obj_8019C250 *self = (Obj_8019C250 *)this;
-    Node_8019C250 *m;
-    Node_8019C250 *n;
+
+    NJS_OBJECT *m;
+    NJS_OBJECT *n;
     if (this->update_object_view_visibility(400.0f, 20.0f) != 0) {
         Colors_8019C250 cols = {3, 2};
-        n = self->fD4->next2C;
+        n = beam_model->child;
         while (n != NULL) {
-            if (n->f4 != 0) {
-                ((TObjDoorJung *)(n->f4))->free_children((void *)cols.c[self->f8C]);
+            if (n->model != 0) {
+                set_ginja_model_texture_slot(reinterpret_cast<void *>((n->model)), cols.c[set_params[2]]);
             }
-            n = n->next2C;
+            n = n->child;
         }
-        m = self->fD0;
-        TObjFish::set_global_param(self->fDC);
+        m = warp_model;
+        TObjFish::set_global_param(reinterpret_cast<s32>(textures));
         push_matrix();
-        ((void (*)(void *))post_translate_matrix)(self->f38);
-        ((void (*)(int, int))rotate_matrix_y)(0, this->rotation_y);
+        post_translate_matrix(&position.x);
+        rotate_matrix_y(NULL, this->rotation_y);
         push_matrix();
-        ((void (*)(void *))post_translate_matrix)(m->f8);
-        draw_ginja_model((s32)m->f4);
+        post_translate_matrix(m->pos);
+        draw_ginja_model((s32)m->model);
         TParticleCtrl::begin_effect_render();
-        m = m->next2C;
+        m = m->child;
         while (m != NULL) {
             push_matrix();
-            ((void (*)(void *))post_translate_matrix)(m->f8);
-            rotate_matrix_zyx(0, (m->f14), (m->f18), (m->f1C));
-            rotate_matrix_x(0, self->fCC);
-            draw_ginja_model((s32)m->f4);
-            ((void (*)(void))pop_matrix)();
-            m = m->next30;
+            post_translate_matrix(m->pos);
+            rotate_matrix_zyx(NULL, (m->ang[0]), (m->ang[1]), (m->ang[2]));
+            rotate_matrix_x(NULL, static_cast<s32>(beam_rotation));
+            draw_ginja_model((s32)m->model);
+            pop_matrix();
+            m = m->sibling;
         }
         TParticleCtrl::end_effect_render();
-        ((void (*)(void))pop_matrix)();
+        pop_matrix();
         TParticleCtrl::begin_effect_render();
-        draw_ginja_model_with_motion(self->fD4, (void *)self->fD8, this->beam_frame);
+        draw_ginja_model_with_motion(beam_model, beam_motion, this->beam_frame);
         TParticleCtrl::end_effect_render();
-        ((void (*)(void))pop_matrix)();
+        pop_matrix();
     }
 }
 
 void TObjAreaWarpQuest::debug_print_area_num() {
     this->TObjAreaWarp::debug_print_area_num();
-    if (((Obj_8019C144 *)this)->f68 < 0.0f) {
-        ((Obj_8019C144 *)this)->f68 = 0.0f;
+    if (scale.x < 0.0f) {
+        scale.x = 0.0f;
     }
-    ((Obj_8019C144 *)this)->fC4 = (s32)((Obj_8019C144 *)this)->f68;
-    if (((Obj_8019C144 *)this)->f8C < 0) {
-        ((Obj_8019C144 *)this)->f8C = 0;
+    player_set_id = (s32)scale.x;
+    if (set_params[2] < 0) {
+        set_params[2] = 0;
     }
-    ((Obj_8019C144 *)this)->f8C = ((Obj_8019C144 *)this)->f8C % 2;
+    set_params[2] = set_params[2] % 2;
     TObjNpcEnemy::set_global_count(0xFF00FF);
-    debug_printf_at(0x13001C, "<- PLAYER SET ID : %d", ((Obj_8019C144 *)this)->fC4);
-    if (((Obj_8019C144 *)this)->f8C == 0) {
+    debug_printf_at(0x13001C, "<- PLAYER SET ID : %d", player_set_id);
+    if (set_params[2] == 0) {
         TObjNpcEnemy::set_global_count(0xFFFFFF);
         debug_printf_at(0x130022, "<- COLOR : BLUE");
     } else {
@@ -1147,8 +1047,8 @@ TObjAreaWarpEnding::TObjAreaWarpEnding(TObject *parent, void *set_data) : TObjAr
     u32 temp_r0;
     u32 temp_r4;
     m_name = TObjAreaWarpEnding__name;
-    m_c4 = 0.0f;
-    *(s32 *)((s8 *)this + 0xC8) = 0;
+    beam_frame = 0.0f;
+    beam_rotation = 0;
     temp_r0 = set_params[2];
     temp_r4 = temp_r0 >> 0x1FU;
     set_params[2] = (u32) (((temp_r0 & 1) ^ temp_r4) - temp_r4);
@@ -1171,65 +1071,61 @@ TObjAreaWarpEnding::TObjAreaWarpEnding(TObject *parent, void *set_data) : TObjAr
 TObjAreaWarpEnding::~TObjAreaWarpEnding() {}
 
 void TObjAreaWarpEnding::run_task() {
-    u8 *arg0 = (u8 *)this;
-  unsigned int new_var;
-  this->m_c4 += 4.0f;
-  new_var = *((s32 *) (((s8 *) (*((u8 **) (((s8 *) arg0) + 0xD4)))) + 4));
-  if ((new_var - 1) < (this->m_c4))
-  {
-    this->m_c4 = 0.0f;
-  }
-  *((s32 *) (((s8 *) arg0) + 0xC8)) = (s32) ((*((s32 *) (((s8 *) arg0) + 0xC8))) + 0x150);
-  ((TObjAreaWarp *)arg0)->handle_area_selection();
+    beam_frame += 4.0f;
+    if (static_cast<f32>(beam_motion->frameCount - 1) < beam_frame) {
+        beam_frame = 0.0f;
+    }
+    beam_rotation += 0x150;
+    handle_area_selection();
 }
 
 void TObjAreaWarpEnding::render() {
-    Obj_8019BD84 *self = (Obj_8019BD84 *)this;
-    Warp_8019BD84 *arg0 = (Warp_8019BD84 *)self;
-    Node_8019BD84 *root;
-    Node_8019BD84 *node;
-    if (self->is_visible(400.0f, 20.0f) == 0) {
+
+
+    NJS_OBJECT *root;
+    NJS_OBJECT *node;
+    if (update_object_view_visibility(400.0f, 20.0f) == 0) {
         return;
     }
     Ids_8019BD84 ids = {3, 2};
-    for (node = arg0->fD0->child; node != 0; node = node->child) {
+    for (node = beam_model->child; node != 0; node = node->child) {
         if (node->model != 0) {
-            ((TObjDoorJung *)(node->model))->free_children((void *)ids.id[arg0->f8C]);
+            set_ginja_model_texture_slot(reinterpret_cast<void *>((node->model)), ids.id[set_params[2]]);
         }
     }
-    root = arg0->fCC;
-    TObjFish::set_global_param(arg0->fD8);
+    root = warp_model;
+    TObjFish::set_global_param(reinterpret_cast<s32>(textures));
     push_matrix();
-    ((void (*)(void *))post_translate_matrix)(arg0->pos);
-    ((void (*)(int, int))rotate_matrix_y)(0, arg0->f60);
+    post_translate_matrix(&position.x);
+    rotate_matrix_y(NULL, rotation_y);
     push_matrix();
-    ((void (*)(void *))post_translate_matrix)(root->pos);
+    post_translate_matrix(root->pos);
     draw_ginja_model((s32)root->model);
     TParticleCtrl::begin_effect_render();
     for (root = root->child; root != 0; root = root->sibling) {
         push_matrix();
-        ((void (*)(void *))post_translate_matrix)(root->pos);
-        rotate_matrix_zyx(0, root->ang[0], root->ang[1], root->ang[2]);
-        rotate_matrix_x(0, arg0->fC8);
+        post_translate_matrix(root->pos);
+        rotate_matrix_zyx(NULL, root->ang[0], root->ang[1], root->ang[2]);
+        rotate_matrix_x(NULL, static_cast<s32>(beam_rotation));
         draw_ginja_model((s32)root->model);
-        ((void (*)(void))pop_matrix)();
+        pop_matrix();
     }
     TParticleCtrl::end_effect_render();
-    ((void (*)(void))pop_matrix)();
+    pop_matrix();
     TParticleCtrl::begin_effect_render();
-    draw_ginja_model_with_motion(arg0->fD0, (void *)arg0->fD4, arg0->fC4);
+    draw_ginja_model_with_motion(beam_model, beam_motion, beam_frame);
     TParticleCtrl::end_effect_render();
-    ((void (*)(void))pop_matrix)();
+    pop_matrix();
 }
 
 void TObjAreaWarpEnding::debug_print_area_num() {
     this->TObjAreaWarp::debug_print_area_num();
     TObjNpcEnemy::set_global_count(0xFF00FF);
-    if (((Obj_8019BCBC *)this)->f8C < 0) {
-        ((Obj_8019BCBC *)this)->f8C = 0;
+    if (set_params[2] < 0) {
+        set_params[2] = 0;
     }
-    ((Obj_8019BCBC *)this)->f8C = ((Obj_8019BCBC *)this)->f8C % 2;
-    if (((Obj_8019BCBC *)this)->f8C == 0) {
+    set_params[2] = set_params[2] % 2;
+    if (set_params[2] == 0) {
         TObjNpcEnemy::set_global_count(0xFFFFFF);
         debug_printf_at(0x130022, "<- COLOR : BLUE");
     } else {
@@ -1492,9 +1388,9 @@ TObjAreaWarpEndingJung::TObjAreaWarpEndingJung(TObject *parent, void *set_data) 
 TObjAreaWarpEndingJung::~TObjAreaWarpEndingJung() {}
 
 void TObjAreaWarpEndingJung::run_task() {
-    this->m_c4 += 4.0f;
-    if (this->m_c4 > (TObjWarpJung::get_beam_frame_count() - 1.0f)) {
-        this->m_c4 = 0.0f;
+    this->beam_frame += 4.0f;
+    if (this->beam_frame > (TObjWarpJung::get_beam_frame_count() - 1.0f)) {
+        this->beam_frame = 0.0f;
     }
     handle_area_selection();
 }
@@ -1514,12 +1410,12 @@ void TObjAreaWarpEndingJung::render() {
             break;
         }
         TObjWarpJung::set_global_render_param();
-        ((s32 (*)(void))push_matrix)();
-        post_translate_matrix((u8 *)&this->position);
+        push_matrix();
+        post_translate_matrix(&position.x);
         rotate_matrix_y(0, this->rotation_y);
         TObjWarpJung::render_warp(0);
         TParticleCtrl::begin_effect_render();
-        TObjWarpJung::render_warp_effect(1, (s32) this->m_c4);
+        TObjWarpJung::render_warp_effect(1, (s32) this->beam_frame);
         TParticleCtrl::end_effect_render();
         pop_matrix();
     }
@@ -1527,11 +1423,11 @@ void TObjAreaWarpEndingJung::render() {
 
 void TObjAreaWarpEndingJung::debug_print_area_num() {
     TObjNpcEnemy::set_global_count(0xFF00FF);
-    if (((Warp_8019B170 *)this)->f8C < 0) {
-        ((Warp_8019B170 *)this)->f8C = 0;
+    if (set_params[2] < 0) {
+        set_params[2] = 0;
     }
-    ((Warp_8019B170 *)this)->f8C = ((Warp_8019B170 *)this)->f8C % 2;
-    if (((Warp_8019B170 *)this)->f8C == 0) {
+    set_params[2] = set_params[2] % 2;
+    if (set_params[2] == 0) {
         TObjNpcEnemy::set_global_count(0xFFFFFF);
         debug_printf_at(0x130022, "<- COLOR : RED");
     } else {

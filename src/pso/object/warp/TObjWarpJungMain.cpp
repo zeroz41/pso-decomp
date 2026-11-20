@@ -1,3 +1,4 @@
+#include "pso/render/GinjaMaterialTextureSlot.h"
 #include "pso/render/GinjaTexture.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
@@ -80,14 +81,14 @@ void TObjWarpJungMain::render() {
         case 0:
             if (warp_jung_beam_entry_index >= 0) {
                 for (i = 0; i < 6; i++) {
-                    ((TObjDoorJung *)warp_jung_beam_models[i])->free_children((void *)(warp_jung_beam_entry_index & 0xFFFF));
+                    set_ginja_model_texture_slot(warp_jung_beam_models[i], (warp_jung_beam_entry_index & 0xFFFF));
                 }
             }
             break;
         case 1:
             if (warp_jung_beam_blue_tex_entry >= 0) {
                 for (i = 0; i < 6; i++) {
-                    ((TObjDoorJung *)warp_jung_beam_models[i])->free_children((void *)(warp_jung_beam_blue_tex_entry & 0xFFFF));
+                    set_ginja_model_texture_slot(warp_jung_beam_models[i], (warp_jung_beam_blue_tex_entry & 0xFFFF));
                 }
             }
             break;
@@ -247,14 +248,14 @@ s32 TObjWarpJung__sub_801A0404(s32 arg0) {
     case 0:
         if (warp_jung_beam_entry_index >= 0) {
             for (i = 0; i < 6; i++) {
-                ((TObjDoorJung *)warp_jung_beam_models[i])->free_children((void *)(warp_jung_beam_entry_index & 0xFFFF));
+                set_ginja_model_texture_slot(warp_jung_beam_models[i], (warp_jung_beam_entry_index & 0xFFFF));
             }
         }
         break;
     case 1:
         if (warp_jung_beam_blue_tex_entry >= 0) {
             for (i = 0; i < 6; i++) {
-                ((TObjDoorJung *)warp_jung_beam_models[i])->free_children((void *)(warp_jung_beam_blue_tex_entry & 0xFFFF));
+                set_ginja_model_texture_slot(warp_jung_beam_models[i], (warp_jung_beam_blue_tex_entry & 0xFFFF));
             }
         }
         break;

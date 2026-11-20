@@ -1,3 +1,4 @@
+#include "pso/render/GinjaMaterialTextureSlot.h"
 #include "pso/render/GinjaUvScroll.h"
 #include "types.h"
 #include "pso/object/fence/TLazerFenceSw.h"
@@ -127,7 +128,7 @@ void TLazerFenceSw::draw_laser_beam() {
     s32 i;
 
     for (i = 0; i < 3; i++) {
-        ((TObjDoorJung *)(lazer_fence_beam_node_table[i]))->free_children((void *)self->fE8);
+        set_ginja_model_texture_slot(reinterpret_cast<void *>((lazer_fence_beam_node_table[i])), self->fE8);
     }
     TObjFish::set_global_param((s32)TLazerFenceSw__texture_list);
     if (actor_frame_tick != self->f114 && self->f110 >= 1.0f) {

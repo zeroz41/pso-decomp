@@ -18,7 +18,7 @@ struct TObjAreaWarpQuest : public TObjAreaWarp {
     s32 get_dest_area();
     s32 player_set_id;  // inferred from "<- PLAYER SET ID : %d"
     f32 beam_frame;                // frame of beam_motion
-    u8 unk_CC[0x4];
+    u32 beam_rotation;
     NJS_OBJECT *warp_model;                // forest warp model 0, fs_obj_warp.gj
     NJS_OBJECT *beam_model;                // model 1, fs_obj_warp_beam.gj
     AnimationMotion *beam_motion;  // motion 0, fs_obj_warp_beam.njm

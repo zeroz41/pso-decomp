@@ -1,10 +1,10 @@
+#include "pso/render/GinjaMaterialTextureSlot.h"
+#include "pso/render/GinjaModel.h"
 #include "types.h"
 #include "pso/render/GinjaTexture.h"
-#include "pso/object/door/TObjDoorJung.h"
 
 extern "C" {
 s32 strcmp(const char *, const char *);
-void set_material_texture_slot(void *);
 
 s32 find_texture_entry_by_name(const GinjaTextureList *list, const char *name) {
     const GinjaTextureEntry *ents;
@@ -22,12 +22,13 @@ s32 find_texture_entry_by_name(const GinjaTextureList *list, const char *name) {
     return -1;
 }
 
-void TObjDoorJung::free_children(void *arg1) {
-    if (this->m_prev != NULL) {
-        set_material_texture_slot(this->m_prev);
+void set_ginja_model_texture_slot(void *model, u32 slot) {
+    GinjaModel *mesh = static_cast<GinjaModel *>(model);
+    if (mesh->primary != NULL) {
+        set_material_texture_slot(mesh->primary, slot);
     }
-    if (this->m_next != NULL) {
-        ((void (*)(void *, void *))set_material_texture_slot)(this->m_next, arg1);
+    if (mesh->secondary != NULL) {
+        set_material_texture_slot(mesh->secondary, slot);
     }
 }
 

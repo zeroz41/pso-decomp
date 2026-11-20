@@ -1,3 +1,4 @@
+#include "pso/render/GinjaMaterialTextureSlot.h"
 #include "pso/render/GinjaUvScroll.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
@@ -185,7 +186,7 @@ s32 TObjDoorKey::draw_active_beam() {
     draw_ginja_object((void *)TObjDoorKey__ginja_model_table[1]);
     rotate_matrix_y(0, arg0->fF0);
     s32 *g = TObjDoorKey__ginja_model_table;
-    ((TObjDoorJung *)(((Node_8018FBB8 *)g[2])->f4))->free_children((void *)((u16)arg0->f8C));
+    set_ginja_model_texture_slot(reinterpret_cast<void *>((((Node_8018FBB8 *)g[2])->f4)), ((u16)arg0->f8C));
     draw_ginja_object((void *)g[2]);
     set_constant_material((const NJS_ARGB *)chunk_material_color_half_alpha_f32);
     model_render_flags = saved_model_render_flags;
@@ -205,7 +206,7 @@ s32 TObjDoorKey::draw_inactive_badge() {
     model_render_flags |= 0x10;
     set_constant_material(&door_key_beam_color_table[arg0->f8C]);
     s32 *g = TObjDoorKey__ginja_model_table;
-    ((TObjDoorJung *)(((Node_8018FCD8 *)g[2])->f4))->free_children((void *)((u16)arg0->f8C));
+    set_ginja_model_texture_slot(reinterpret_cast<void *>((((Node_8018FCD8 *)g[2])->f4)), ((u16)arg0->f8C));
     draw_ginja_object((void *)g[2]);
     set_constant_material((const NJS_ARGB *)chunk_material_color_half_alpha_f32);
     model_render_flags = saved_model_render_flags;

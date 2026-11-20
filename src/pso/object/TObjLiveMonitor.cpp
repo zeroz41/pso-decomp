@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/render/GinjaMaterialTextureSlot.h"
 #include "pso/object/TObjLiveMonitorSmall.h"
 #include "pso/unk/text_8020BFE4.h"
 #include "pso/object/TObjLiveMonitor.h"
@@ -24,7 +25,6 @@
 
 extern "C" {
 s32 TObjPlayer__sub_80084500();
-s32 free_children__12TObjDoorJungFPv(void *, u16);
 s32 TObjLiveMonitor__sub_8030C050(void* p);
 s32 draw_ginja_model(void *);
 s32 get_bml_model(s32, s32);
@@ -466,7 +466,7 @@ int TObjLiveMonitor::render_live_monitor_screen() {
     default:
         return *(s32 *)((s8 *)this + 0x24);
     }
-    free_children__12TObjDoorJungFPv((void *) (*(s32 *)((s8 *)(*(u8 **)((s8 *)this + 0x1C)) + 4)), var_r4);
+    set_ginja_model_texture_slot((void *) (*(s32 *)((s8 *)(*(u8 **)((s8 *)this + 0x1C)) + 4)), static_cast<u16>(var_r4));
     push_matrix();
     ::draw_ginja_model((void *) (*(s32 *)((s8 *)(*(u8 **)((s8 *)this + 0x1C)) + 4)));
     return pop_matrix();

@@ -1,3 +1,4 @@
+#include "pso/render/GinjaMaterialTextureSlot.h"
 #include "types.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/render/GinjaMaterial.h"
@@ -243,7 +244,7 @@ void TObjLazerFenceNorm::draw_model() {
 void TObjLazerFenceNorm::draw_animated_beam() {
     s32 i;
     for (i = 0; i < 4; i++) {
-        ((TObjDoorJung *)(((Obj_80192B5C *)this)->fC8[i]))->free_children((void *)(lbl_80445B7C[((Obj_80192B5C *)this)->fAC]));
+        set_ginja_model_texture_slot(reinterpret_cast<void *>((((Obj_80192B5C *)this)->fC8[i])), (lbl_80445B7C[((Obj_80192B5C *)this)->fAC]));
     }
     TObjFish::set_global_param((s32)lazer_fence_norm_texture_list);
     push_matrix();
@@ -384,7 +385,7 @@ void TObjLazerFenceExtra::draw_lazer_fence_extra_model() {
     Obj_80192554 *arg0 = (Obj_80192554 *)this;
     s32 i;
     for (i = 0; i < 4; i++) {
-        ((TObjDoorJung *)(arg0->fC8[i]))->free_children((void *)lbl_80445B7C[this->scale_level]);
+        set_ginja_model_texture_slot(reinterpret_cast<void *>((arg0->fC8[i])), lbl_80445B7C[this->scale_level]);
     }
     TObjFish::set_global_param((s32)lazer_fence_norm_texture_list);
     push_matrix();

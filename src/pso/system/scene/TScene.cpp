@@ -1,3 +1,4 @@
+#include "pso/render/GinjaMaterialTextureSlot.h"
 #include "pso/render/GinjaUvScroll.h"
 #include "pso/map/TMapCsnCtrl.h"
 #include "pso/system/ResourceFile.h"
@@ -577,7 +578,7 @@ void TScene::tick_material_fmt2() {
                 if (object->cycle->timer < 0) {
                     (*(s16 *)&object->cycle->index)++;
                     load_texture_sequence_frame(this, (Cyc_80205D24 *)(object->cycle));
-                    ((TObjDoorJung *)(node->model))->free_children((void *)object->cycle->texture);
+                    set_ginja_model_texture_slot(node->model, object->cycle->texture);
                     if (object->flags & 0x20) {
                         object->uv->texture = object->cycle->texture;
                     }
@@ -611,7 +612,7 @@ void TScene::tick_material_fmt2() {
                 if (anim->cycle->timer < 0) {
                     (*(s16 *)&anim->cycle->index)++;
                     load_texture_sequence_frame(this, (Cyc_80205D24 *)(anim->cycle));
-                    ((TObjDoorJung *)(node->model))->free_children((void *)anim->cycle->texture);
+                    set_ginja_model_texture_slot(node->model, anim->cycle->texture);
                 }
             }
             anim->flags |= 0x20000;
@@ -674,7 +675,7 @@ void TScene::tick_material_fmt1() {
                 if (object->cycle->timer < 0) {
                     (*(s16 *)&object->cycle->index)++;
                     load_texture_sequence_frame(this, (Cyc_80205D24 *)(object->cycle));
-                    ((TObjDoorJung *)(node->model))->free_children((void *)object->cycle->texture);
+                    set_ginja_model_texture_slot(node->model, object->cycle->texture);
                     if (object->flags & 0x20) {
                         object->uv->texture = object->cycle->texture;
                     }
@@ -706,7 +707,7 @@ void TScene::tick_material_fmt1() {
                 if (anim->cycle->timer < 0) {
                     (*(s16 *)&anim->cycle->index)++;
                     load_texture_sequence_frame(this, (Cyc_80205D24 *)(anim->cycle));
-                    ((TObjDoorJung *)(node->model))->free_children((void *)anim->cycle->texture);
+                    set_ginja_model_texture_slot(node->model, anim->cycle->texture);
                 }
             }
             anim->flags |= 0x20000;

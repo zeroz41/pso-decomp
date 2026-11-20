@@ -1,3 +1,4 @@
+#include "pso/render/GinjaMaterialTextureSlot.h"
 #include "pso/render/GinjaTexture.h"
 #include "types.h"
 #include "pso/system/BmlResourceDescriptor.h"
@@ -56,7 +57,6 @@ struct Node_8018F4AC {
     Node_8018F4AC *sibling;
 };
 Node_8018F4AC *get_bml_model(void *, int);
-void free_children__12TObjDoorJungFPv(s32, u16);
 void PPCSync();
 s32 rotate_matrix_y(int, int);
 s32 push_matrix();
@@ -134,10 +134,10 @@ void TObjDoorJung::render() {
     if (this->update_object_view_visibility(650.0f, 30.0f) != 0) {
         if (this->door_flags & 1) {
             if (lbl_805D5BF0 >= 0) {
-                free_children__12TObjDoorJungFPv(door_jung_child_list, lbl_805D5BF0);
+                set_ginja_model_texture_slot(reinterpret_cast<void *>(door_jung_child_list), static_cast<u16>(lbl_805D5BF0));
             }
         } else if (lbl_805D5BEC >= 0) {
-            free_children__12TObjDoorJungFPv(door_jung_child_list, lbl_805D5BEC);
+            set_ginja_model_texture_slot(reinterpret_cast<void *>(door_jung_child_list), static_cast<u16>(lbl_805D5BEC));
         }
         if (actor_frame_tick != lbl_805D5BDC) {
             if (TObjDoorJung__door_scene_buffer != NULL) {
@@ -149,15 +149,15 @@ void TObjDoorJung::render() {
         for (i = 0; i < *(s32 *)&this->unk_D4; i++) {
             if (is_current_floor_switch_set((u16)(this->switch_id + i)) == 1) {
                 if (lbl_805D5BE8 >= 0) {
-                    free_children__12TObjDoorJungFPv(TObjDoorJung__child_table[i], lbl_805D5BE8);
+                    set_ginja_model_texture_slot(reinterpret_cast<void *>(TObjDoorJung__child_table[i]), static_cast<u16>(lbl_805D5BE8));
                 }
             } else if (lbl_805D5BE4 >= 0) {
-                free_children__12TObjDoorJungFPv(TObjDoorJung__child_table[i], lbl_805D5BE4);
+                set_ginja_model_texture_slot(reinterpret_cast<void *>(TObjDoorJung__child_table[i]), static_cast<u16>(lbl_805D5BE4));
             }
         }
         for (j = *(s32 *)&this->unk_D4; j < 4; j++) {
             if (lbl_805D5BE8 >= 0) {
-                free_children__12TObjDoorJungFPv(TObjDoorJung__child_table[j], lbl_805D5BE8);
+                set_ginja_model_texture_slot(reinterpret_cast<void *>(TObjDoorJung__child_table[j]), static_cast<u16>(lbl_805D5BE8));
             }
         }
         TObjFish::set_global_param((s32)(lbl_805D5BD4));

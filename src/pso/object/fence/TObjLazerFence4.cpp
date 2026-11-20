@@ -1,3 +1,4 @@
+#include "pso/render/GinjaMaterialTextureSlot.h"
 #include "pso/object/fence/TObjLazerFenceNorm.h"
 #include "types.h"
 #include "pso/object/fence/TObjLazerFence4.h"
@@ -128,7 +129,7 @@ void TObjLazerFence4::draw_model() {
   var_r31 = 0;
   do
   {
-    ((TObjDoorJung *)(*((s32 *) ((arg0 + var_r31) + 0xC8))))->free_children((void *)(*new_var2));
+    set_ginja_model_texture_slot(reinterpret_cast<void *>((*((s32 *) ((arg0 + var_r31) + 0xC8)))), (*new_var2));
     var_r30 += 1;
     var_r31 += 4;
   }

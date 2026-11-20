@@ -12,7 +12,6 @@ struct TObjDoorJung : public TODoorBase {
     virtual void render();
     u8 unk_D4[0x4];
     static void free_buffers();
-    void free_children(void *arg1);
 };
 
 typedef char TObjDoorJung_size[sizeof(TObjDoorJung) == 0xD8 ? 1 : -1];

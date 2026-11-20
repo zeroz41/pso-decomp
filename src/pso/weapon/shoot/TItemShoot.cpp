@@ -8,6 +8,7 @@
 // the file is built with deferred code generation and written from its last
 // function back (configure.py).
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/render/GinjaMaterialTextureSlot.h"
 #include "types.h"
 #include "pso/weapon/shoot/TItemShoot.h"
 #include "pso/weapon/shoot/TItemShootModel.h"
@@ -305,7 +306,7 @@ void TItemShootGun::hook() {
 void TItemShootGun::render() {
     if (is_owner_alive()) {
         if (m_58 != NULL) {
-            ((TObjDoorJung *)(*(s32 *)((u8 *)m_58 + 4)))->free_children((void *)(m_70 & 0xFFFF));
+            set_ginja_model_texture_slot(reinterpret_cast<void *>((*(s32 *)((u8 *)m_58 + 4))), (m_70 & 0xFFFF));
             set_texlist((u32)m_5C);
             TParticleCtrl::begin_effect_render();
             push_matrix();

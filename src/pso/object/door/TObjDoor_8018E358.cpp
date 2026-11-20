@@ -1,3 +1,4 @@
+#include "pso/render/GinjaMaterialTextureSlot.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/object/door/TObjDoor.h"
 #include "types.h"
@@ -198,9 +199,9 @@ void draw_model__8TObjDoorFPv(Door_8018E358 *arg0) {
     draw_ginja_model_with_motion(TObjDoor__model_resource_ptrs.f0, (int)TObjDoor__motion_table[0], &TObjDoor__model_resource_ptrs, arg0->fB4);
     TParticleCtrl::begin_effect_render();
     DoorModelSet *g1 = &TObjDoor__model_resource_ptrs;
-    ((TObjDoorJung *)(g1->a->f4))->free_children((void *)0xA);
+    set_ginja_model_texture_slot(reinterpret_cast<void *>((g1->a->f4)), 0xA);
     DoorModelSet *g2 = &TObjDoor__model_resource_ptrs;
-    ((TObjDoorJung *)(g2->b->f4))->free_children((void *)0xA);
+    set_ginja_model_texture_slot(reinterpret_cast<void *>((g2->b->f4)), 0xA);
     draw_ginja_object(g1->a);
     draw_ginja_object(g2->b);
     TParticleCtrl::end_effect_render();
@@ -220,13 +221,13 @@ void render__8TObjDoorFPv(Door_8018E40C *arg0) {
     color.a = arg0->fC4;
     set_constant_material(&color);
     DoorModelSet *g0 = &TObjDoor__model_resource_ptrs;
-    ((TObjDoorJung *)(g0->c->f4))->free_children((void *)((u16)arg0->fD0));
+    set_ginja_model_texture_slot(reinterpret_cast<void *>((g0->c->f4)), ((u16)arg0->fD0));
     draw_ginja_object(g0->c);
     model_render_flags = saved_model_render_flags;
     DoorModelSet *g1 = &TObjDoor__model_resource_ptrs;
-    ((TObjDoorJung *)(g1->a->f4))->free_children((void *)0xA);
+    set_ginja_model_texture_slot(reinterpret_cast<void *>((g1->a->f4)), 0xA);
     DoorModelSet *g2 = &TObjDoor__model_resource_ptrs;
-    ((TObjDoorJung *)(g2->b->f4))->free_children((void *)0xA);
+    set_ginja_model_texture_slot(reinterpret_cast<void *>((g2->b->f4)), 0xA);
     draw_ginja_object(g1->a);
     draw_ginja_object(g2->b);
     TParticleCtrl::end_effect_render();
@@ -241,9 +242,9 @@ void draw_closing__8TObjDoorFPv(Door_8018E358 *arg0) {
     draw_ginja_model_with_motion(TObjDoor__model_resource_ptrs.f0, (int)TObjDoor__motion_table[0], &TObjDoor__model_resource_ptrs, arg0->fB4);
     TParticleCtrl::begin_effect_render();
     DoorModelSet *g1 = &TObjDoor__model_resource_ptrs;
-    ((TObjDoorJung *)(g1->a->f4))->free_children((void *)0xA);
+    set_ginja_model_texture_slot(reinterpret_cast<void *>((g1->a->f4)), 0xA);
     DoorModelSet *g2 = &TObjDoor__model_resource_ptrs;
-    ((TObjDoorJung *)(g2->b->f4))->free_children((void *)0xA);
+    set_ginja_model_texture_slot(reinterpret_cast<void *>((g2->b->f4)), 0xA);
     draw_ginja_object(g1->a);
     draw_ginja_object(g2->b);
     TParticleCtrl::end_effect_render();
@@ -263,13 +264,13 @@ s32 draw_closed__8TObjDoorFPv(Door_8018E5F4 *arg0) {
     color.a = arg0->fC4;
     set_constant_material(&color);
     DoorModelSet *g0 = &TObjDoor__model_resource_ptrs;
-    ((TObjDoorJung *)(g0->c->f4))->free_children((void *)((u16)arg0->fD0));
+    set_ginja_model_texture_slot(reinterpret_cast<void *>((g0->c->f4)), ((u16)arg0->fD0));
     draw_ginja_object(g0->c);
     model_render_flags = saved_model_render_flags;
     DoorModelSet *g1 = &TObjDoor__model_resource_ptrs;
-    ((TObjDoorJung *)(g1->a->f4))->free_children((void *)0xA);
+    set_ginja_model_texture_slot(reinterpret_cast<void *>((g1->a->f4)), 0xA);
     DoorModelSet *g2 = &TObjDoor__model_resource_ptrs;
-    ((TObjDoorJung *)(g2->b->f4))->free_children((void *)0xA);
+    set_ginja_model_texture_slot(reinterpret_cast<void *>((g2->b->f4)), 0xA);
     draw_ginja_object(g1->a);
     draw_ginja_object(g2->b);
     TParticleCtrl::end_effect_render();
@@ -298,13 +299,13 @@ s32 draw_locked__8TObjDoorFPv(Door_8018E74C *arg0) {
     color.a = arg0->fC4;
     set_constant_material(&color);
     DoorModelSet *g0 = &TObjDoor__model_resource_ptrs;
-    ((TObjDoorJung *)(g0->c->f4))->free_children((void *)((u16)arg0->fD0));
+    set_ginja_model_texture_slot(reinterpret_cast<void *>((g0->c->f4)), ((u16)arg0->fD0));
     draw_ginja_object(g0->c);
     model_render_flags = saved_model_render_flags;
     DoorModelSet *g1 = &TObjDoor__model_resource_ptrs;
-    ((TObjDoorJung *)(g1->a->f4))->free_children((void *)0xB);
+    set_ginja_model_texture_slot(reinterpret_cast<void *>((g1->a->f4)), 0xB);
     DoorModelSet *g2 = &TObjDoor__model_resource_ptrs;
-    ((TObjDoorJung *)(g2->b->f4))->free_children((void *)0xB);
+    set_ginja_model_texture_slot(reinterpret_cast<void *>((g2->b->f4)), 0xB);
     draw_ginja_object(g1->a);
     draw_ginja_object(g2->b);
     TParticleCtrl::end_effect_render();
