@@ -293,7 +293,6 @@ int TLobby__new_game_setup_flags;
 s32 online_lobby_scene_handle;
 s32 TLobby__online_lobby_frame_counter;
 void clear_resource_load_tasks(void);
-extern unsigned char lbl_80515BA0[];
 extern s32 local_client_id;
 void process_pending_resources(void);
 void clear_quest_floor_designations(void);
@@ -308,7 +307,7 @@ void reload_lobby_floor_scene(void);
 void init_area_lights(void);
 void load_floor_scene(void);
 void arrive_floor_population(void);
-void TLobby::set_flag_and_update() { TLobby__new_game_setup_flags = (TLobby__new_game_setup_flags | 0x1); TLobby__sub_801A4C6C(lbl_80515BA0); }
+void TLobby::set_flag_and_update() { TLobby__new_game_setup_flags = (TLobby__new_game_setup_flags | 0x1); TLobby__sub_801A4C6C(reinterpret_cast<u8 *>(&floor_transition_state)); }
 
 void TLobby::init_chr_select() { TKeyBoardControl::reset(); send_logout__6TLobbyFv(); init__23TAdSinglePlyChrSelectGCFv(); set_queued_main_phase(9); request_main_phase(18); }
 void TLobby::reset_to_chr_select() { reset_controller_input_state(); send_logout__6TLobbyFv(); TLobby::free_objects(); TKeyBoardControl__sub_8000F95C(); TLobby::clear_counter(); init__23TAdSinglePlyChrSelectGCFv(); set_queued_main_phase(9); request_main_phase(18); }
@@ -369,7 +368,7 @@ void reload_lobby_floor_scene(void) {
     TLobby::free_objects();
     main_task.delete_layer_children();
     main_task.resume_layers();
-    promote_area_floor(lbl_80515BA0);
+    promote_area_floor(reinterpret_cast<u8 *>(&floor_transition_state));
     TLobby::reset_counter();
     reset_story_select__6TLobbyFPv();
     get_team_state__6TLobbyFPv();
@@ -379,11 +378,11 @@ void reload_lobby_floor_scene(void) {
     TParticleCtrl::create_quad_sprites();
     TLoadCtrl::start_loading(2);
     TLobby__sub_8020A6B0(0xF);
-    TLobby__sub_80141038(lbl_80515BA0, 0xF, TLobby__lobby_number);
-    ((TLobby *)lbl_80515BA0)->set_value(0);
+    TLobby__sub_80141038(reinterpret_cast<u8 *>(&floor_transition_state), 0xF, TLobby__lobby_number);
+    floor_transition_state.set_next_floor_index(0);
     set_current_floor_area(0xF);
     TScene::set_scene(TLobby__lobby_number);
-    load_area_scene_and_init(lbl_80515BA0);
+    load_area_scene_and_init(reinterpret_cast<u8 *>(&floor_transition_state));
     load_battle_param_entry();
     TLoadCtrl::cleanup_scene();
     main_task.begin_frame();
@@ -519,7 +518,7 @@ s32 start_quest_mission(void) {
         }
     }
     main_task.delete_layer_children();
-    promote_area_floor(lbl_80515BA0);
+    promote_area_floor(reinterpret_cast<u8 *>(&floor_transition_state));
     TLobby::sync_story_select();
     TAdStorySelectGC::set_state(0);
     TKeyBoardControl::update();
@@ -539,7 +538,7 @@ s32 start_quest_mission(void) {
     TLobby::setup_quest_list();
     TLobby::set_enemy_mode_flag();
     TQuestListOnline::ensure_online_quests_loaded();
-    load_area_scene_and_init(lbl_80515BA0);
+    load_area_scene_and_init(reinterpret_cast<u8 *>(&floor_transition_state));
     get_current_floor();
     unlock_main_warp_destination();
     TLoadCtrl::cleanup_scene();
@@ -582,8 +581,8 @@ s32 change_floor_reload_area(void) {
         }
     }
     main_task.delete_layer_children();
-    promote_area_floor(lbl_80515BA0);
-    ((TLobby *)lbl_80515BA0)->clear_ready_flag_unless_locked();
+    promote_area_floor(reinterpret_cast<u8 *>(&floor_transition_state));
+    floor_transition_state.clear_ready_flag_unless_locked();
     TKeyBoardControl::update();
     TLobby::create_map_csn_ctrl();
     TParticleCtrl::create_quad_sprites();
@@ -598,7 +597,7 @@ s32 change_floor_reload_area(void) {
         TLobby::reset_item_id_counters();
         TLobby::reset_floor_items();
     }
-    r = ((s32)load_area_scene_and_init(lbl_80515BA0));
+    r = ((s32)load_area_scene_and_init(reinterpret_cast<u8 *>(&floor_transition_state)));
     get_current_floor();
     unlock_main_warp_destination();
     TLoadCtrl::cleanup_scene();
@@ -655,9 +654,9 @@ void cleanup_online_lobby_scene(void) {
     } while (var_r31 < 0x1E);
     cleanup__6TLobbyFv();
     if ((s32) online_lobby_scene_handle == 0) {
-        var_r3 = (s32 *)&lbl_80515BA0;
-        var_r3 = (s32 *)&lbl_80515BA0;
-        run_area_scene_cleanup((u8 *)&lbl_80515BA0);
+        var_r3 = (s32 *)&floor_transition_state;
+        var_r3 = (s32 *)&floor_transition_state;
+        run_area_scene_cleanup((u8 *)&floor_transition_state);
     }
     TLobby::free_single_player_chr_select();
     TLobby::update_photon_chairs();
@@ -850,14 +849,14 @@ void run_online_lobby_scene(void) {
         reset_state_flags__6TLobbyFv();
         if (TLobby__sub_801A3E8C() != 0) {
             TLobby::load_set_gsl_files();
-            ((Obj_80515BA0 *)lbl_80515BA0)->init_range(0);
+            floor_transition_state.init_range(0);
         } else {
-            ((Obj_80515BA0 *)lbl_80515BA0)->init_range(0xF);
-            ((TLobby *)lbl_80515BA0)->set_value(0);
+            floor_transition_state.init_range(0xF);
+            floor_transition_state.set_next_floor_index(0);
             set_current_floor_area(0xF);
             TScene::set_scene(0);
         }
-        load_area_scene_and_init(lbl_80515BA0);
+        load_area_scene_and_init(reinterpret_cast<u8 *>(&floor_transition_state));
         TLoadCtrl::cleanup_scene();
         process_deferred_player_setup__6TLobbyFv();
         main_task.begin_frame();
@@ -881,5 +880,5 @@ void TLobby::update_periodic_tick() {
     }
 }
 void TLobby__sub_801A4C6C(void* p) { *(u32*)((char*)p + 0x20) |= 0x1; }
-void TLobby::set_value(s32 v) { *(s32 *)&this->m_next = v; }
+void Obj_80515BA0::set_next_floor_index(s32 floor) { next_floor = floor; }
 void TLobby::reset_counter() { challenge_task_created = 0; }

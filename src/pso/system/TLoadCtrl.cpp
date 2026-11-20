@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/unk/TLobby_800FD78C.h"
 #include "pso/unk/TLobby_80228154.h"
 #include "pso/system/TLoadCtrl.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
@@ -38,7 +39,6 @@ void TNowLoading__sub_8001D4D4(void);
 u8 *TCameraCtrl__ct(u8 *arg0, void *parent);
 void TLoadCtrl__sub_80226DA0(s32 index);
 void fn_8034AD2C(void);
-extern s32 lbl_80515BA0[];
 extern s32 tl_su;
 extern s32 tl_camera;
 s32 TNowLoading__ct(s32, void *, const Vec *);
@@ -186,7 +186,7 @@ void TLoadCtrl::start_loading(u32 arg0) {
     TCameraCtrl::reset_view_state();
     TCameraCtrl::init_default_view();
     if (var_r31 == 2U) {
-        temp_r3 = select_area_entrance(lbl_80515BA0);
+        temp_r3 = select_area_entrance(reinterpret_cast<u8 *>(&floor_transition_state));
         if (temp_r3 == 0) {
             var_r31 = 3U;
         } else if (temp_r3 == 1) {

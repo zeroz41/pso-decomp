@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/unk/TLobby_800FD78C.h"
 #include "pso/unk/text_8024AC64.h"
 #include "pso/unk/text_8024ACA8.h"
 #include "pso/ui/window/TWindowReturnCity.h"
@@ -25,10 +26,6 @@ struct VObj_8026D208 : Base_8026D208 {
     virtual s32 m31();
 };
 
-struct RecoveredGlobal_8026D18C_lbl_80515BA0 {
-    s32 value;
-    u8 remaining[0x24];
-};
 
 extern "C" {
 void *get_player_by_client_id(s32);
@@ -54,19 +51,17 @@ extern s32 tl_00;
 void TWindowReturnCity__sub_8026D4BC(void);
 void TWindowReturnCity__sub_8026D4C0(void);
 }
-extern RecoveredGlobal_8026D18C_lbl_80515BA0 lbl_80515BA0;
 extern s32 lbl_805D55C0;
 int TWindowReturnCity__client_scan_index;
 void return_to_city_after_defeat(void);
-typedef char RecoveredGlobal_8026D18C_lbl_80515BA0_size[sizeof(RecoveredGlobal_8026D18C_lbl_80515BA0) == 0x28 ? 1 : -1];
 void return_to_city_after_defeat(void) {
     if (((s32) lbl_805D55C0 != 1) && ((s32) (*(s32 *)&TWindowReturnCity__client_scan_index) < 4)) {
         if (((s32)get_player_by_client_id((s32)((u32) (*(s32 *)&TWindowReturnCity__client_scan_index)))) != 0U) {
             prepare_hospital_return__10TObjPlayerFv();
         }
-        set_area__6TLobbyFl(&lbl_80515BA0.value, 0, (int) (get_floor_map_terrain(0)));
+        set_area__6TLobbyFl(&floor_transition_state, 0, (int) (get_floor_map_terrain(0)));
         mark_area_change_pending();
-        ((TObjAreaWarpQuest *)(&lbl_80515BA0.value))->get_dest_area();
+        floor_transition_state.get_next_floor();
         send_inter_level_warp_all__10TNpcPlayerFl();
         (*(s32 *)&TWindowReturnCity__client_scan_index) = 4;
     }

@@ -63,10 +63,6 @@
 #include "pso/boss/olgaflow/TBoss6Type2_8036DC80.h"
 
 
-struct RecoveredGlobal_801A3540_lbl_80515BA0 {
-    s32 value;
-    u8 remaining[0x24];
-};
 
 struct VBase_801A33DC { char pad[0x18]; };
 
@@ -82,7 +78,6 @@ struct VObj_801A33DC : VBase_801A33DC {
 
 struct Obj_801A33DC { u8 data[0x20]; };
 
-struct RecoveredGlobal_801A3540_lbl_80515BA0;
 struct VBase_801A3014 { char pad[0x18]; };
 
 struct VObj_801A3014 : VBase_801A3014 {
@@ -206,7 +201,6 @@ FloorResourceCallbacks offline_game_scene_callbacks[48] = {
     {TBGMulti__ct, TLobby::free_singleton_805D7018},
     {clear_boss6_player_snapshots, NULL},
 };
-extern RecoveredGlobal_801A3540_lbl_80515BA0 lbl_80515BA0;
 extern "C" {
 void __dt__7TObjectFv(void *, int);
 void find_leader_section_id(void *, s32);
@@ -279,7 +273,6 @@ extern s32 actor_frame_tick;
 s32 lbl_805D5CE0;
 extern s32 TLobby__lobby_state_flags;
 
-typedef char RecoveredGlobal_801A3540_lbl_80515BA0_size[sizeof(RecoveredGlobal_801A3540_lbl_80515BA0) == 0x28 ? 1 : -1];
 
 void TLobby::reload_offline_area() {
     Obj_801A3014 holder;
@@ -311,7 +304,7 @@ void TLobby::reload_offline_area() {
     }
     TLobby::reset_quest_state();
     main_task.delete_layer_children();
-    promote_area_floor((u8 *)&lbl_80515BA0);
+    promote_area_floor((u8 *)&floor_transition_state);
     TLobby::backup_story_select();
     TKeyBoardControl::update();
     get_team_state__6TLobbyFPv();
@@ -325,8 +318,8 @@ void TLobby::reload_offline_area() {
     TLobby::load_set_gsl_files();
     TLobby::load_set_event_gsl();
     load_battle_param_entry();
-    TLobby__sub_80141038(&lbl_80515BA0, 0, 0);
-    load_area_scene_and_init(&lbl_80515BA0);
+    TLobby__sub_80141038(&floor_transition_state, 0, 0);
+    load_area_scene_and_init(&floor_transition_state);
     TLoadCtrl::cleanup_scene();
     if (is_area_transfer_pending() != 0) {
         TLobby::reset_keyboard_state();
@@ -369,7 +362,7 @@ void TLobby::rebuild_area_keep_players() {
         }
     }
     main_task.delete_layer_children();
-    promote_area_floor((u8 *)&lbl_80515BA0);
+    promote_area_floor((u8 *)&floor_transition_state);
     TLobby::sync_story_select();
     TAdStorySelectGC::set_state(0);
     TKeyBoardControl::update();
@@ -402,10 +395,10 @@ void TLobby::rebuild_area_keep_players() {
     TLobby::setup_quest_list();
     TQuestListVM::load_vm();
     if (TRaderMapCore::is_not_split_screen() == 1) {
-        load_area_scene_and_init(&lbl_80515BA0);
+        load_area_scene_and_init(&floor_transition_state);
     } else {
-        TLobby__sub_80141038(&lbl_80515BA0, 0, 0);
-        load_area_scene_and_init(&lbl_80515BA0);
+        TLobby__sub_80141038(&floor_transition_state, 0, 0);
+        load_area_scene_and_init(&floor_transition_state);
     }
     TLoadCtrl::cleanup_scene();
     main_task.begin_frame();
@@ -441,13 +434,13 @@ void run_offline_area_transfer(void) {
         }
     }
     main_task.delete_layer_children();
-    promote_area_floor((u8 *)&lbl_80515BA0.value);
+    promote_area_floor((u8 *)&floor_transition_state);
     TKeyBoardControl::update();
     TLobby::create_map_csn_ctrl();
     TParticleCtrl::create_quad_sprites();
     TLoadCtrl::start_loading(2);
     find_leader_section_id(TLobby__data_805011D8, TLobby__designated_client_id);
-    load_area_scene_and_init(&lbl_80515BA0.value);
+    load_area_scene_and_init(&floor_transition_state);
     unlock_main_warp_destination(get_current_floor());
     TLoadCtrl::cleanup_scene();
     main_task.begin_frame();
@@ -479,7 +472,7 @@ void TLobby::teardown_scene() {
     main_task.delete_layer_children();
     main_task.resume_layers();
     ((TObject *)tl_su)->delete_children();
-    run_area_scene_cleanup((u8 *)&lbl_80515BA0.value);
+    run_area_scene_cleanup((u8 *)&floor_transition_state);
     TLobby::call_funcs_reverse(offline_game_scene_callbacks, sizeof(offline_game_scene_callbacks));
     clear_resource_load_tasks();
     TKeyBoardControl::update();
@@ -634,7 +627,7 @@ void init_offline_game_scene(void) {
     TObjPlayer__sub_801B1C8C();
     set_current_floor_area(0);
     TScene::set_scene(0);
-    ((Obj_80515BA0 *)(&lbl_80515BA0))->init_range(0);
+    floor_transition_state.init_range(0);
     TLobby::reset_keyboard_state();
     apply_phase_keyboard_mode();
     run_load_callback_table(offline_game_scene_callbacks, sizeof(offline_game_scene_callbacks));
@@ -656,7 +649,7 @@ void init_offline_game_scene(void) {
     TLobby__designated_client_id = 0;
     TLobby__sub_801A2DF4();
     find_leader_section_id(TLobby__data_805011D8, TLobby__designated_client_id);
-    load_area_scene_and_init(&lbl_80515BA0);
+    load_area_scene_and_init(&floor_transition_state);
     TLoadCtrl::cleanup_scene();
     main_task.begin_frame();
     main_task.run_task();

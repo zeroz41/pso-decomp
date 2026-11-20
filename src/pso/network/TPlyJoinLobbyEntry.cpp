@@ -1,4 +1,5 @@
 #include "pso/unk/TLobby_801E43E4.h"
+#include "pso/unk/TLobby_800FD78C.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "types.h"
 #include "pso/system/task/TObject.h"
@@ -427,7 +428,6 @@ extern const char lobby_list_header_block[];
 extern RecoveredGlobal_80135198_lbl_804A7008 lbl_804A7008;
 extern char lobby_idle_timeout_text_buffer[];
 extern RecoveredGlobal_80135974_lbl_805127F8 quest_story_flags_by_difficulty;
-extern u8 lbl_80515BA0[];
 extern s32 game_difficulty_selection;
 extern Mgr_801361E8 *game_protocol_instance;
 extern s32 quest_download_active;
@@ -3036,7 +3036,7 @@ void handle_game_join__6TLobbyFPv(Pkt_80136C94 *pkt) {
     }
     clear_enabled_main_warps();
     TLobby__deferred_player_setup_state = 4;
-    set_area__6TLobbyFl(lbl_80515BA0, 0, 0);
+    set_area__6TLobbyFl(reinterpret_cast<u8 *>(&floor_transition_state), 0, 0);
     TLobby::set_flag_and_update();
     mark_area_change_pending();
 }

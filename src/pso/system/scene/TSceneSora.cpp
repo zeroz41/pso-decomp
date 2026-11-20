@@ -1,4 +1,5 @@
 #include "pso/system/ResourceFile.h"
+#include "pso/unk/TLobby_800FD78C.h"
 #include "types.h"
 #include "pso/unk/TLobby_80207DA8.h"
 #include "pso/unk/TLobby_80131794.h"
@@ -21,10 +22,6 @@
 #include "pso/map/FloorArea.h"
 #include "pso/system/MatrixStack.h"
 
-struct RecoveredGlobal_802075F8_lbl_80515BA0 {
-    s32 value;
-    u8 remaining[0x24];
-};
 
 struct Ent_80207478 { s32 f0; char *name; };
 
@@ -178,14 +175,12 @@ void TSceneSora::load_sky_resources() {
 
 void TLobby__sub_802075F4(void) {  }
 }
-extern RecoveredGlobal_802075F8_lbl_80515BA0 lbl_80515BA0;
 extern s32 pending_adventure_map_floor;
 void prepare_adventure_maps(void);
-typedef char RecoveredGlobal_802075F8_lbl_80515BA0_size[sizeof(RecoveredGlobal_802075F8_lbl_80515BA0) == 0x28 ? 1 : -1];
 void prepare_adventure_maps(void) {
     randomize_adventure_maps();
     if ((s32) pending_adventure_map_floor != -1) {
-        TLobby__sub_80141038((u8 *)&lbl_80515BA0.value, pending_adventure_map_floor, get_floor_map_terrain(pending_adventure_map_floor));
+        TLobby__sub_80141038((u8 *)&floor_transition_state, pending_adventure_map_floor, get_floor_map_terrain(pending_adventure_map_floor));
         pending_adventure_map_floor = -1;
     }
 }

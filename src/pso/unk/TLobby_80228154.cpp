@@ -146,9 +146,9 @@ void TLobby__sub_80228154(Sprite_80228154 *sprite, s32 frame_index, s32 flags, f
 }
 }
 
-void TLobby::clear_ready_flag_unless_locked() {
+void Obj_80515BA0::clear_ready_flag_unless_locked() {
     if (get_current_floor_area() != AREA_LOBBY) {
-        *(s32 *)((s8 *)this + 0x20) = (s32) (*(s32 *)((s8 *)this + 0x20) & 0xFFFFFFFE);
+        state_flags &= ~1;
     }
 }
 
@@ -287,4 +287,4 @@ void promote_area_floor(u8 *arg0) {
     TLobby::reset_story_select_state();
 }
 
-Obj_80515BA0 lbl_80515BA0;
+Obj_80515BA0 floor_transition_state;

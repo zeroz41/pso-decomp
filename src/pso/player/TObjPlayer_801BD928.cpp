@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/unk/TLobby_800FD78C.h"
 #include "pso/system/data/FlagWord.h"
 #include "pso/ui/font/TFontSmallLobby.h"
 #include "pso/player/TObjPlayer.h"
@@ -130,7 +131,6 @@ typedef struct VObj_18_dac7f3 VObj_18_dac7f3;
 #pragma opt_pointer_analysis on
 #define PSO_VCALL_VObj_18_dac7f3_m0(_self, _arg0) (((VObj_18_dac7f3 *)(_self))->m0((_arg0)))
 
-extern s32 lbl_80515BA0[];
 extern const char *TObjPlayer__player_set_class_name;
 extern "C" s32 check_value_equals__13TUnk_804B6C24CFl(void *self, const char *name);
 
@@ -142,7 +142,7 @@ TObjPlayerSet *find_player_arrival_set(TObjPlayer *player, s32 slot) {
     if (side != -1) {
         player->reset_entrance_id();
     } else {
-        switch (select_area_entrance(lbl_80515BA0)) {
+        switch (select_area_entrance(reinterpret_cast<u8 *>(&floor_transition_state))) {
         case 0:
             side = 1;
             break;

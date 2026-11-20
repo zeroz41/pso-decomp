@@ -15,7 +15,6 @@ struct TObjAreaWarpQuest : public TObjAreaWarp {
     virtual void confirm_area_transfer(TObjPlayer *player);
     void render();
     void run_task();
-    s32 get_dest_area();
     s32 player_set_id;  // inferred from "<- PLAYER SET ID : %d"
     f32 beam_frame;                // frame of beam_motion
     u32 beam_rotation;

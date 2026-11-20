@@ -2,6 +2,7 @@
 // last to first, so they are defined here from the highest address down.
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/render/ChunkMaterialState.h"
+#include "pso/unk/TLobby_800FD78C.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "types.h"
 #include "pso/system/data/FlagWord.h"
@@ -642,8 +643,6 @@ struct VObj_801B2CE4 : VBase_801B2CE4 {
 };
 
 struct Eff_801B2CE4 { u16 f0; u16 f2; u32 f4; u32 f8; };
-
-struct ReturnLobby { u8 bytes[0x28]; };
 
 struct VBase_801B3274 { char pad[0x18]; };
 
@@ -1814,7 +1813,6 @@ u8 * find_entity_by_id(u16);
 s32 test_player_overlap_with_players(Obj_801B5DDC *, Obj_801B5DDC *, Vec *, Hit_801B5DDC *);
 void check_enemy_body_collisions(void *arg0);
 int clear_collision_bodies__14TObjCollidableFv(void*);
-s32 get_dest_area__17TObjAreaWarpQuestFv(void *);
 void fn_8019DD24(void *p, u32 v);
 u16 TObjRoomId__sub_801A1DB8(s32);
 s32 reset_motion_fields__8TObjBaseFv();
@@ -2244,7 +2242,6 @@ extern DeathItemPosition lbl_8050BF60;
 extern Color_801B6964 player_feedback_light_color[];
 extern void *player_slot_table[];
 extern u8 lobby_rule_settings[];
-extern ReturnLobby lbl_80515BA0;
 const char *lbl_805D3530 = "TObjPlayer";
 extern s32 actor_frame_tick;
 extern s32 lbl_805D55C0;
@@ -6141,9 +6138,9 @@ void complete_deferred_player_death(void) {
                 return;
             }
             ((TObjPlayer *)p)->prepare_hospital_return();
-            ((s32 (*)(void *, int, int))set_area__6TLobbyFl)(&lbl_80515BA0, 0, get_floor_map_terrain(0));
+            ((s32 (*)(void *, int, int))set_area__6TLobbyFl)(&floor_transition_state, 0, get_floor_map_terrain(0));
             ((s32 (*)(void))mark_area_change_pending)();
-            TNpcPlayer::send_inter_level_warp_all(get_dest_area__17TObjAreaWarpQuestFv(&lbl_80515BA0));
+            TNpcPlayer::send_inter_level_warp_all(floor_transition_state.get_next_floor());
             return;
         }
         ((TObjPlayer *)p)->create_return_city_window();
@@ -6159,7 +6156,7 @@ void TObjPlayer::prepare_hospital_return() {
     set_arrival_override_pos(((u16 (*)(void *))get_entity_id)(this), get_hospital_yaw__10TObjPlayerFv(this), get_hospital_position__10TObjPlayerFv(this));
     ((s32 (*)(void *, int))set_state_flags__10TObjPlayerFUl)(this, 0x800);
     set_battle_flag__10TObjPlayerFl(this, 0);
-    TNpcPlayer::apply_to_players((s32)(get_dest_area__17TObjAreaWarpQuestFv(&lbl_80515BA0)), (void *)(TNpcPlayer::get_lobby_entry_ptr()), (s32)(TNpcPlayer__sub_8034DE40()));
+    TNpcPlayer::apply_to_players((s32)(floor_transition_state.get_next_floor()), (void *)(TNpcPlayer::get_lobby_entry_ptr()), (s32)(TNpcPlayer__sub_8034DE40()));
 }
 
 void handle_6x34(void) {  }
@@ -6174,13 +6171,13 @@ int TLobby::player_flag_1() { return set_battle_flag__10TObjPlayerFl(this, 1); }
 #pragma scheduling off
 #pragma scheduling on
 void prepare_guild_return__10TObjPlayerFPv(void *player) {
-    set_area__6TLobbyFl(((u8 *)&lbl_80515BA0), 0, get_floor_map_terrain(0));
+    set_area__6TLobbyFl(((u8 *)&floor_transition_state), 0, get_floor_map_terrain(0));
     mark_area_change_pending();
     ((void (*)(s16, s32, s32))set_arrival_override_pos)(((s16 (*)(s32))get_entity_id)((s32) player), get_guild_return_yaw__10TObjPlayerFv(player), get_guild_return_position__10TObjPlayerFv(player));
     set_state_flags__10TObjPlayerFUl(player, 0x800);
     ((void (*)(void *, int))set_battle_flag__10TObjPlayerFl)(player, 1);
-    ((void (*)(void *, void *))send_6x21_inter_level_warp)(player, ((void * (*)(void *))get_dest_area__17TObjAreaWarpQuestFv)(((u8 *)&lbl_80515BA0)));
-    TNpcPlayer::apply_to_players((s32)(((void * (*)(void *))get_dest_area__17TObjAreaWarpQuestFv)(((u8 *)&lbl_80515BA0))), (void *)(get_party_position()), (s32)(get_party_yaw()));
+    send_6x21_inter_level_warp(player, floor_transition_state.get_next_floor());
+    TNpcPlayer::apply_to_players((s32)(floor_transition_state.get_next_floor()), (void *)(get_party_position()), (s32)(get_party_yaw()));
 }
 #pragma pop
 

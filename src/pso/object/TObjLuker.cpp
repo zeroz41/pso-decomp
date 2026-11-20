@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/unk/TLobby_800FD78C.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/TObjLuker.h"
@@ -110,7 +111,6 @@ s32 mark_area_change_pending();
 s32 send_6x21_inter_level_warp(int, void *);
 s32 set_area__6TLobbyFl(void *, int, int);
 s32 init_fields__9TTecLukerFs(void *, int);
-extern s32 lbl_80515BA0[];
 extern s32 lbl_805D55C0;
 void *TObjLuker__create(void *arg0);
 
@@ -327,7 +327,7 @@ void TObjLuker::transfer_to_town() {
   {
     return;
   }
-  set_area__6TLobbyFl(lbl_80515BA0, *((s16 *) (((s8 *) self) + 0x832)), get_floor_map_terrain(*((s16 *) (((s8 *) self) + 0x832))));
+  set_area__6TLobbyFl(reinterpret_cast<u8 *>(&floor_transition_state), *((s16 *) (((s8 *) self) + 0x832)), get_floor_map_terrain(*((s16 *) (((s8 *) self) + 0x832))));
   mark_area_change_pending();
   for (i = 0; i < 4; i++)
   {
@@ -347,7 +347,7 @@ void TObjLuker::transfer_to_town() {
       if (flag != 0)
       {
         ((TTecLuker *)(p + 0x848))->set_state(arg0->owner);
-        send_6x21_inter_level_warp((int) p, (void *) ((TObjAreaWarpQuest *)lbl_80515BA0)->get_dest_area());
+        send_6x21_inter_level_warp((int) p, (void *) floor_transition_state.get_next_floor());
         ((TObjMotion *)p)->set_room((s16) (*((s32 *) (((s8 *) self) + 0x834))));
       }
     }
@@ -359,7 +359,7 @@ void TObjLuker::transfer_to_town() {
     {
       ((TObjMotion *)local)->set_room((s16) (*((s32 *) (((s8 *) self) + 0x834))));
     }
-    send_6x21_inter_level_warp((int) local, (void *) ((TObjAreaWarpQuest *)lbl_80515BA0)->get_dest_area());
+    send_6x21_inter_level_warp((int) local, (void *) floor_transition_state.get_next_floor());
   }
   if (is_split_screen() != 0)
   {

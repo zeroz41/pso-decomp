@@ -1,4 +1,5 @@
 #include "pso/network/FloorEventCommand.h"
+#include "pso/unk/TLobby_800FD78C.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/ui/window/TWindowMessage.h"
@@ -479,7 +480,6 @@ s32 TObjPlayer__sub_801C1AC8();
 extern "C" {
 void TLobby__sub_80141038(u8 *arg0, s32 arg1, s32 arg2);
 }
-extern u8 lbl_80515BA0[];
 extern "C" {
 void *memcpy(void *, const void *, u32);
 void begin_message_substitution(u8 *a0, char *a1);
@@ -498,7 +498,7 @@ void qst_op_olga_flow_is_dead(s32 arg0) {
 void qst_op_initial_floor(void) {
     Tbl_801E6CA4 t = lobby_index_identity_table_b;
     if (qst_args[0] <= 0x11U) {
-        TLobby__sub_80141038(lbl_80515BA0, t.w[qst_args[0]], 0);
+        TLobby__sub_80141038(reinterpret_cast<u8 *>(&floor_transition_state), t.w[qst_args[0]], 0);
     }
 }
 
@@ -3779,11 +3779,11 @@ void qst_op_get_num_kills(s32 arg0, s32 arg1) {
 void qst_op_go_floor(s32 a, s32 b) {
     u32 r = ((u32 (*)(int, int))get_player_by_client_id)(qst_registers[(u8)a], b);
     if (r != 0 && local_client_id == qst_registers[(u8)a]) {
-        set_area__6TLobbyFl(lbl_80515BA0, qst_registers[(u8)b], get_floor_map_terrain(qst_registers[(u8)b]));
+        set_area__6TLobbyFl(reinterpret_cast<u8 *>(&floor_transition_state), qst_registers[(u8)b], get_floor_map_terrain(qst_registers[(u8)b]));
         mark_area_change_pending();
-        ((TObjAreaWarpQuest *)lbl_80515BA0)->get_dest_area();
+        floor_transition_state.get_next_floor();
         send_inter_level_warp_all__10TNpcPlayerFl();
-        send_6x21_inter_level_warp((void *)r, (s32)((void *)((TObjAreaWarpQuest *)lbl_80515BA0)->get_dest_area()));
+        send_6x21_inter_level_warp((void *)r, (s32)((void *)floor_transition_state.get_next_floor()));
     }
 }
 
@@ -3993,7 +3993,7 @@ void qst_op_clear_ba_rules() {
 void qst_op_ba_initial_floor(void) {
     Tbl_801EDC98 t = lobby_sub_801edc98_id_table;
     if ((u32)qst_args[0] <= 0x11U) {
-        TLobby__sub_80141038(lbl_80515BA0, t.w[(u32)qst_args[0]], 0);
+        TLobby__sub_80141038(reinterpret_cast<u8 *>(&floor_transition_state), t.w[(u32)qst_args[0]], 0);
     }
 }
 

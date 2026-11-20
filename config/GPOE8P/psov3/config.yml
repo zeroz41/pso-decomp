@@ -15646,7 +15646,7 @@ force_active:
   - set_type__15TPlyPhotonChairFl
   - set_type__22TPlyFollowParticleCtrlFUs
   - set_type_dragon__10TObjPlayerFv
-  - set_value__6TLobbyFl
+  - set_next_floor_index__12Obj_80515BA0Fl
   - set_visible_flag__14TBoss6PlotFalzFv
   - set_volopt_cage_flag__Fv
   - __ct__13TUnk_804ECDC0FP7TObjectPUc

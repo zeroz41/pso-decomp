@@ -12,6 +12,9 @@ class Obj_80515BA0 {
 public:
     Obj_80515BA0();
     void init_range(s32 floor);
+    s32 get_next_floor();
+    void set_next_floor_index(s32 floor);
+    void clear_ready_flag_unless_locked();
 
     s32 previous_floor;
     s32 current_floor;
@@ -24,6 +27,9 @@ public:
     s32 state_flags;
     u8 pad_24[4];
 };
+
+typedef char FloorTransitionState_size[sizeof(Obj_80515BA0) == 0x28 ? 1 : -1];
+extern Obj_80515BA0 floor_transition_state;
 
 // The control role create_player_object hands the local player(s) (name inferred).
 extern s32 player_control_role_base;

@@ -1,4 +1,5 @@
 #include "pso/render/GinjaMaterialTextureSlot.h"
+#include "pso/unk/TLobby_800FD78C.h"
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/object/base/CollisionBodySet.h"
 #include "pso/render/GinjaTexture.h"
@@ -96,10 +97,6 @@ struct Colors_8019C250 { u16 c[2]; };
 
 struct Colors_8019C604 { u16 c[2]; };
 
-struct RecoveredGlobal_8019CA24_lbl_80515BA0 {
-    s32 value;
-    u8 remaining[0x24];
-};
 
 
 
@@ -136,7 +133,6 @@ struct Data_8019CAB0 {
     void *fC0;
 };
 
-typedef char RecoveredGlobal_8019CA24_lbl_80515BA0_size[sizeof(RecoveredGlobal_8019CA24_lbl_80515BA0) == 0x28 ? 1 : -1];
 
 
 extern "C" {
@@ -186,7 +182,6 @@ extern "C" {
 }
 
 extern RecoveredGlobal_8019B854___vt__14TObjWarpString __vt__14TObjWarpString;
-extern RecoveredGlobal_8019CA24_lbl_80515BA0 lbl_80515BA0;
 extern s32 local_client_id;
 
 void *create_TObjWarpString(char *text, u16 client_id);
@@ -292,7 +287,7 @@ void bswap_6x94_inter_level_warp(void *p) { ((G_ClientIDHeader *)p)->bswap(); bs
 
 void TObjAreaWarpQuest__sub_8019DCD8(TObjPlayer *p, s32 v) { *(s32 *)((char *)p + 0x3c8) = v; }
 
-s32 TObjAreaWarpQuest::get_dest_area() { return *(s32 *)&this->m_next; }
+s32 Obj_80515BA0::get_next_floor() { return next_floor; }
 
 TObjMapWarpForest::~TObjMapWarpForest() {}
 
@@ -732,25 +727,25 @@ void TObjAreaWarp::handle_area_selection() {
 }
 
 void TObjAreaWarp::confirm_area_transfer(TObjPlayer *player) {
-    ((s32 (*)(void *, int, int))set_area__6TLobbyFl)(&lbl_80515BA0.value, (int) (this->dest_floor), (int) (get_floor_map_terrain(this->dest_floor)));
+    ((s32 (*)(void *, int, int))set_area__6TLobbyFl)(&floor_transition_state, (int) (this->dest_floor), (int) (get_floor_map_terrain(this->dest_floor)));
     ((s32 (*)(void))mark_area_change_pending)();
-    ((TObjAreaWarpQuest *)(&lbl_80515BA0.value))->get_dest_area();
+    floor_transition_state.get_next_floor();
     ((s32 (*)(void))send_inter_level_warp_all__10TNpcPlayerFl)();
-    send_6x21_inter_level_warp(player, (((TObjAreaWarpQuest *)(&lbl_80515BA0.value))->get_dest_area()));
+    send_6x21_inter_level_warp(player, (floor_transition_state.get_next_floor()));
     ((s32 (*)(s32, u32, s16, s32))play_sound_effect)(0x40003205, 0U, 0, 0);
 }
 
 void handle_6x94_inter_level_warp(Pkt_8019C988 *arg0) {
     bswap_6x94_inter_level_warp(arg0);
     if (arg0->f4 != get_current_floor()) {
-        set_area__6TLobbyFl(((u8 *)&lbl_80515BA0), arg0->f4, get_floor_map_terrain(arg0->f4));
+        set_area__6TLobbyFl(((u8 *)&floor_transition_state), arg0->f4, get_floor_map_terrain(arg0->f4));
         mark_area_change_pending();
         ((TWindowCtrl *)local_client_id)->suppress_slot();
-        ((TObjAreaWarpQuest *)((u8 *)&lbl_80515BA0))->get_dest_area();
+        floor_transition_state.get_next_floor();
         send_inter_level_warp_all__10TNpcPlayerFl();
         void *p = get_player_by_client_id(local_client_id);
         if (p != 0) {
-            send_6x21_inter_level_warp(p, (s32)(((TObjAreaWarpQuest *)((u8 *)&lbl_80515BA0))->get_dest_area()));
+            send_6x21_inter_level_warp(p, (s32)(floor_transition_state.get_next_floor()));
         }
     }
 }
@@ -974,7 +969,7 @@ void TObjAreaWarpQuest::debug_print_area_num() {
 void TObjAreaWarpQuest::confirm_area_transfer(TObjPlayer *player) {
     s32 i;
     TObjPlayer *p;
-    set_area__6TLobbyFl(((u8 *)&lbl_80515BA0), dest_floor, get_floor_map_terrain(dest_floor));
+    set_area__6TLobbyFl(((u8 *)&floor_transition_state), dest_floor, get_floor_map_terrain(dest_floor));
     mark_area_change_pending();
     if (player != 0 && player_set_id > 1) {
         TObjAreaWarpQuest__sub_8019DCD8(player, player_set_id);
@@ -987,9 +982,9 @@ void TObjAreaWarpQuest::confirm_area_transfer(TObjPlayer *player) {
             }
         }
     }
-    ((TObjAreaWarpQuest *)((u8 *)&lbl_80515BA0))->get_dest_area();
+    floor_transition_state.get_next_floor();
     send_inter_level_warp_all__10TNpcPlayerFl();
-    send_6x21_inter_level_warp(player, (s32)(((TObjAreaWarpQuest *)((u8 *)&lbl_80515BA0))->get_dest_area()));
+    send_6x21_inter_level_warp(player, (s32)(floor_transition_state.get_next_floor()));
 }
 
 const char *TObjAreaWarpEnding__name = "TObjAreaWarpEnding";

@@ -267,7 +267,6 @@ struct TLobby : public TObject {
     static void run_main_frame();
     static void update_camera_state();
     static void update_periodic_tick();
-    void set_value(s32 v);
     static void reset_counter();
     void update_child_player();
     void set_float_4(f32 v);
@@ -373,7 +372,6 @@ struct TLobby : public TObject {
     static void set_menu_index_main(u8 *arg0);
     static void refresh_render_state();
     static void wait_for_sound_init();
-    void clear_ready_flag_unless_locked();
     void set_area(s32 arg1);
     void add_token(const char *src);
     void trim_whitespace();

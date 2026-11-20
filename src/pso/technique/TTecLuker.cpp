@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/network/protocol/protocol_types.h"
+#include "pso/unk/TLobby_800FD78C.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/TUnk_804CC9D4.h"
 #include "pso/unk/TLobby_801E43E4.h"
@@ -153,7 +154,6 @@ void write_telepipe_record(u8 *arg0, u16 arg1, s16 arg2, u8 *arg3, s32 arg4);
 void start_placement_search(s32 arg0, s32 arg1, s32 arg2);
 s32 are_players_gathered_near(void *arg0, s32 *arg1, f32 range);
 void offset_point_toward_camera(u8 *arg0, u8 *arg1, f32 farg0);
-extern s32 lbl_80515BA0[];
 u8 *create_telepipe_marker(u8 *arg0, s32 arg1, s8 arg2, s8 arg3, s32 arg4, s32 arg5, s32 arg6, f32 farg0, f32 farg1);
 extern "C" {
 s32 free_collision_body_parts(void *);
@@ -396,7 +396,7 @@ block_43:
         if (is_split_screen() != 0) {
             TWindowCtrl::init_all_slots2();
         }
-        set_area__6TLobbyFl(lbl_80515BA0, 0, get_floor_map_terrain(0));
+        set_area__6TLobbyFl(reinterpret_cast<s32 *>(&floor_transition_state), 0, get_floor_map_terrain(0));
         mark_area_change_pending();
         return;
     case 4:
