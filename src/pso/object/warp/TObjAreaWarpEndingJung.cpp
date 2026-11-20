@@ -293,7 +293,6 @@ u8 * __ct__14TObjWarpStringFv(u8 *arg0, u8 *arg1, s32 arg2, s16 arg3);
 void handle_6x94_inter_level_warp(Pkt_8019C988 *arg0);
 s32 can_warp__11TObjMapWarpFlUs(void *, u16);
 void TObjAreaWarpQuest__sub_8019DCD8(TObjPlayer *, s32);
-f32 get_static_field4_as_float__12TObjWarpJungFv(f32);
 s32 TObjWarpJung__sub_801A0404(s32);
 int check_flag_100__10TObjPlayerFPv(void *p);
 void send_6x21_inter_level_warp(void *obj, s32 value);
@@ -381,7 +380,7 @@ s32 release_texture_list(void*);
 }
 
 BmlResource *forest_warp_bml_resource;
-u32 forest_warp_texture_list;
+GinjaTextureList *forest_warp_texture_list;
 // Set by TLobby while a quest is in progress; TObjAreaWarp's ctor reads it.
 s32 lobby_quest_progress_flag;
 
@@ -440,11 +439,11 @@ TObjMapWarpForest::~TObjMapWarpForest() {}
 
 void TObjMapForceWarp::open_confirm_window(s32) {}
 
-s32 get_forest_warp_model(s32 index) { return get_bml_model(forest_warp_bml_resource, index); }
+NJS_OBJECT *get_forest_warp_model(s32 index) { return (NJS_OBJECT *)get_bml_model(forest_warp_bml_resource, index); }
 
 AnimationMotion *get_forest_warp_motion(s32 index) { return get_bml_motion(forest_warp_bml_resource, index); }
 
-u32 get_forest_warp_textures() { return forest_warp_texture_list; }
+GinjaTextureList *get_forest_warp_textures() { return forest_warp_texture_list; }
 
 int TAdStorySelectGC::get_story_select() { return story_select_cursor; }
 
@@ -454,15 +453,15 @@ void load_forest_warp_resources(void) {
         resource = load_resource_from_descriptor(resource, 5, &forest_warp_resource_descriptor, 0, 0, 0);
     }
     forest_warp_bml_resource = resource;
-    forest_warp_texture_list = (u32)load_gvm_texture_file((s32)"fs_obj_warp.gvm");
+    forest_warp_texture_list = (GinjaTextureList *)load_gvm_texture_file((s32)"fs_obj_warp.gvm");
 }
 
 
 void TObjWarpBase::free_globals() {
-    if ((u32) forest_warp_texture_list != 0U) {
-        release_texture_list((void*)forest_warp_texture_list);
-        TAdSinglePlyChrSelectGC::safe_free(forest_warp_texture_list);
-        forest_warp_texture_list = 0U;
+    if (forest_warp_texture_list != NULL) {
+        release_texture_list(forest_warp_texture_list);
+        TAdSinglePlyChrSelectGC::safe_free((u32)forest_warp_texture_list);
+        forest_warp_texture_list = NULL;
     }
     free_bin_model_request(forest_warp_bml_resource, 1);
     forest_warp_bml_resource = 0;
@@ -745,13 +744,13 @@ void TObjMapWarpForest::run_task() {
 
 void TObjMapWarpForest::render() {
     if (this->update_object_view_visibility(400.0f, 20.0f) != 0) {
-        TObjFish::set_global_param(textures);
+        TObjFish::set_global_param((s32)textures);
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
-        draw_ginja_object((void *)baseModel);
+        draw_ginja_object(baseModel);
         TParticleCtrl::begin_effect_render();
-        draw_ginja_model_with_motion((void *)beamModel, (void *)motion, (f32)frame);
+        draw_ginja_model_with_motion(beamModel, motion, (f32)frame);
         TParticleCtrl::end_effect_render();
         pop_matrix();
     }
@@ -1494,11 +1493,8 @@ TObjAreaWarpEndingJung::TObjAreaWarpEndingJung(TObject *parent, void *set_data) 
 TObjAreaWarpEndingJung::~TObjAreaWarpEndingJung() {}
 
 void TObjAreaWarpEndingJung::run_task() {
-    f32 temp_f1;
-
-    temp_f1 = this->m_c4;
     this->m_c4 += 4.0f;
-    if (this->m_c4 > (get_static_field4_as_float__12TObjWarpJungFv(temp_f1) - 1.0f)) {
+    if (this->m_c4 > (TObjWarpJung::get_beam_frame_count() - 1.0f)) {
         this->m_c4 = 0.0f;
     }
     handle_area_selection();

@@ -1,3 +1,4 @@
+#include "pso/render/GvmTextureArchiveLookup.h"
 // The seabed tanks' shared resources: the archive and texture loader, the
 // scrolled-texture and model-node tables TObjSeabedSuiso_CH and
 // TObjSeabedSuisoBrakable read.
@@ -64,7 +65,7 @@ void TObjSeabedSuisoBrakable::load_resources() {
         if ((texture_list = (u32)load_gvm_texture_file((s32)"obj_seabed_suiso_2.GVM")) != 0) {
             SeabedSuisoTextureNames names = seabed_suiso_2_texture_names;
             for (i = 0; i < 5; i++) {
-                texture_entries[i] = ((TObjDoorJung *)texture_list)->find_entry_by_name(names.name[i]);
+                texture_entries[i] = find_texture_entry_by_name((const GinjaTextureList *)texture_list, names.name[i]);
             }
         }
         break;
@@ -79,7 +80,7 @@ void TObjSeabedSuisoBrakable::load_resources() {
         if ((texture_list = (u32)load_gvm_texture_file((s32)"obj_seabed_suiso.GVM")) != 0) {
             SeabedSuisoTextureNames names = seabed_suiso_texture_names;
             for (i = 0; i < 5; i++) {
-                texture_entries[i] = ((TObjDoorJung *)texture_list)->find_entry_by_name(names.name[i]);
+                texture_entries[i] = find_texture_entry_by_name((const GinjaTextureList *)texture_list, names.name[i]);
             }
         }
         break;

@@ -16,7 +16,7 @@ struct TObjWarpJungMain : public TObjAreaWarp {
     virtual void confirm_area_transfer(TObjPlayer *player);
     void render();
     void run_task();
-    f32 m_c4;
+    f32 beam_frame;
 };
 
 typedef char TObjWarpJungMain_size[sizeof(TObjWarpJungMain) == 0xC8 ? 1 : -1];
