@@ -664,7 +664,7 @@ void TWindowSubTradeMain::run_task() {
 
 void TWindowSubTradeMain::render() {  }
 
-s32 TWindowSubTradeMain::build_trade_menu() {
+saddr TWindowSubTradeMain::build_trade_menu() {
     u8 *arg0 = (u8 *)this;
   saddr titled_window_menu;
   titled_window_menu = create_titled_window_menu(((saddr (*)(int))get_window_layout_position)(0x5C), 5, (0, (saddr)TWindowSubStatusDisp::get_message_10(0x26)), (int) ((RecoveredFields_80331520_arg0 *) arg0)->field_28);
@@ -678,7 +678,7 @@ s32 TWindowSubTradeMain::build_trade_menu() {
   return titled_window_menu;
 }
 
-s32 TWindowSubTradeMain::create_trade_menu() {
+saddr TWindowSubTradeMain::create_trade_menu() {
     u8 *arg0 = (u8 *)this;
   saddr titled_window_menu;
   titled_window_menu = create_titled_window_menu(((saddr (*)(int))get_window_layout_position)(0x5E), 4, (0, (saddr)TWindowSubStatusDisp::get_message_10(0xDD)), (int) ((RecoveredFields_80331434_arg0 *) arg0)->field_28);
@@ -691,7 +691,7 @@ s32 TWindowSubTradeMain::create_trade_menu() {
   return titled_window_menu;
 }
 
-s32 TWindowSubTradeMain::open_confirm_yes_no() {
+saddr TWindowSubTradeMain::open_confirm_yes_no() {
     u8 *arg0 = (u8 *)this;
     saddr w = ((s32 (*)(void *, s32, s32, s32))create__19TWindowMessageYesNoFPvPvPvPv)(arg0, this->m_28, 0, 0);
     open_yes_no_prompt((TChCrTagPlBack *)((u8 *)w), (uaddr)(TWindowSubStatusDisp::get_message_10(0x20)), (saddr)(TWindowSubStatusDisp::get_message_10(0xE6)), (s32)(((s32 (*)(int))get_window_layout_position)(0x5F)), 282.0f);
@@ -727,7 +727,7 @@ u8 *TWindowSubTradeMain::open_confirm_prompt() {
     return w;
 }
 
-s32 TWindowSubTradeMain::create_trade_window() {
+saddr TWindowSubTradeMain::create_trade_window() {
     Plr_80331178 *p;
     saddr w;
     p = ((Plr_80331178 *)get_player_by_client_id((s8)TLobby::get_trade_mode()));
@@ -744,7 +744,7 @@ s32 TWindowSubTradeMain::create_trade_window() {
     return w;
 }
 
-s32 TWindowSubTradeMain::open_trade_equip_window() {
+saddr TWindowSubTradeMain::open_trade_equip_window() {
     Plr_803310BC *p;
     saddr w;
     p = get_player_by_client_id(((Self_803310BC *)this)->f28);
@@ -761,7 +761,7 @@ s32 TWindowSubTradeMain::open_trade_equip_window() {
     return w;
 }
 
-s32 TWindowSubTradeMain::create_list() {
+saddr TWindowSubTradeMain::create_list() {
     saddr equip_kind_window;
 
     equip_kind_window = create_equip_kind_window(get_window_layout_position(0x64), &trade_list_window_pos, this->m_28);
@@ -772,7 +772,7 @@ s32 TWindowSubTradeMain::create_list() {
     return equip_kind_window;
 }
 
-s32 TWindowSubTradeMain::create_input_number(s32 maximum) {
+saddr TWindowSubTradeMain::create_input_number(s32 maximum) {
     saddr storage;
 
     storage = (saddr)TObject::operator new(0x7C);
@@ -784,7 +784,7 @@ s32 TWindowSubTradeMain::create_input_number(s32 maximum) {
     return storage;
 }
 
-s32 TWindowSubTradeMain::create_help_item() {
+saddr TWindowSubTradeMain::create_help_item() {
     s32 var_r31;
 
     var_r31 = (saddr)TObject::operator new(0xBC);
@@ -930,7 +930,7 @@ void TWindowSubTradeMain::set_child_windows_enabled(s32 on) {
     }
 }
 
-void TWindowSubTradeMain::update_position_if_changed(s32 arg0, u8 *arg1, u8 *arg2) {
+void TWindowSubTradeMain::update_position_if_changed(saddr arg0, u8 *arg1, u8 *arg2) {
     if ((*(f32 *)((s8 *)arg1 + 0x30) != *(f32 *)((s8 *)arg2 + 0)) || (*(f32 *)((s8 *)arg1 + 0x34) != *(f32 *)((s8 *)arg2 + 4))) {
         TWindowSubTradeMain__sub_802448E4(arg1, arg2);
     }

@@ -584,7 +584,7 @@ void TWindowSubComCard::draw_text_gray(saddr arg0, s32 arg1, s32 arg2, s32 arg3)
     ((TWindowSubTradeMain *)arg0)->add_text_entry(arg1, arg2 | 0x10, arg3, 0xFF909090);
 }
 
-s32 TWindowSubTradeMain::add_text_entry(s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
+s32 TWindowSubTradeMain::add_text_entry(saddr arg1, s32 arg2, s32 arg3, s32 arg4) {
     u8 *arg0 = (u8 *)this;
     s16 temp_r7;
     u8 *window_help_item;

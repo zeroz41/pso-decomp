@@ -384,7 +384,7 @@ void TObjBoss2Tunnel::render(void* a1) { push_matrix(); TObjPlayer::invert_matri
 
 #pragma push
 #pragma fp_contract on
-void TObjBoss2Tunnel::transform_vec_by_camera(s32 arg0, saddr arg1, saddr arg2) {
+void TObjBoss2Tunnel::transform_vec_by_camera(saddr arg0, saddr arg1, saddr arg2) {
     push_matrix();
     TCameraCtrl::concat_matrix(0, ((saddr)TCameraCtrl::get_view_matrix()));
     matrix_mult_vec(NULL, (const Vec *)arg1, (Vec *)arg2);

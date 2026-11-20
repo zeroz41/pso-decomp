@@ -94,7 +94,7 @@ struct TObjBoss2Tunnel : public TObject {
     static s16 turn_toward_angle_limited(s32 arg0, s32 cur, s32 target, s32 step, s32 limit);
     s32 count_tree_nodes();
     static f32 calc_scaled_value(s32 arg0, f32 farg0);
-    static void transform_vec_by_camera(s32 arg0, saddr arg1, saddr arg2);
+    static void transform_vec_by_camera(saddr arg0, saddr arg1, saddr arg2);
     void render(void* a1);
     f32 update_scale();
     void finalize_and_send_60();

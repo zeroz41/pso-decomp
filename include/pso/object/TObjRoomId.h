@@ -14,7 +14,7 @@ struct TObjRoomId : public TObjBase {
     virtual void render();
     virtual void run_task();
     static s32 is_player_in_range(void *self, u16 id, f32 range);
-    static void draw_debug_line(u32 arg0, s32 arg1, s32 arg2, s32 arg3);
+    static void draw_debug_line(uaddr arg0, s32 arg1, s32 arg2, saddr arg3);
     Vec normal;
 };
 
