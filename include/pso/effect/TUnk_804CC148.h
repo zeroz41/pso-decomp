@@ -36,7 +36,7 @@ public:
     u8 unk_B0[0x4];
     u16 m_b4;
     u8 unk_B6[0x2];
-    s32 m_b8;
+    saddr m_b8;
     CollisionBody collisionBody;
     TObjCollidable *m_e8;
 };

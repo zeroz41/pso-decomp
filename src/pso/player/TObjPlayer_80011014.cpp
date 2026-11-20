@@ -1267,7 +1267,7 @@ void TObjChara::recalc_stats() {}
 void TObjChara::enemy_spawn_zalure_effect() {
     Stack_80010A84 stack;
     s32 oneshot_particle_emitter;
-    s32 arg0 = (saddr)this;
+    saddr arg0 = (saddr)this;
     stack.spC = 0;
     stack.sp8 = 0;
     stack.sp10 = -0x8000;
@@ -1289,7 +1289,7 @@ void TObjChara::trigger_switch_attack() {
 void TObjChara::enemy_spawn_jellen_effect() {
     Stack_80010B44 stack;
     s32 oneshot_particle_emitter;
-    s32 arg0 = (saddr)this;
+    saddr arg0 = (saddr)this;
     stack.spC = 0;
     stack.sp8 = 0;
     stack.sp10 = -0x8000;

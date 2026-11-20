@@ -74,7 +74,7 @@ s32 TOTrap::is_any_player_matching_stat() {
 }
 
 void TOTrap::vfunc_82() {
-    s32 temp_r31;
+    saddr temp_r31;
 
     calc_attach_pos();
     refresh_collision_body_centers();
@@ -85,7 +85,7 @@ void TOTrap::vfunc_82() {
         if (p != 0U) {
             u32 v = (u16) get_entity_id(p);
             if (v < 0x1000U) {
-                temp_r31 = (s32)get_player_by_client_id(v);
+                temp_r31 = (saddr)get_player_by_client_id(v);
                 if ((TObjPlayer::is_locally_controlled((void *)temp_r31) != 0) && (((TLobby *)temp_r31)->check_player_flag1() != 0)) {
                     TObjPlayer::send_code_45_1(temp_r31);
                 }

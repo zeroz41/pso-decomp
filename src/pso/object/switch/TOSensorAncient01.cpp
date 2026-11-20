@@ -160,9 +160,9 @@ void TOSensorAncient01::load_resources() {
     sensor_ancient01_model_resource = resource;
     ancient_sensor_resource_pair_table = (TOSensorAncient01Textures *)mem_alloc(0x10);
     ancient_sensor_resource_pair_table[0].plain = sensor_ancient01_model_resource->models[0].m_c;
-    ancient_sensor_resource_pair_table[0].red = (s32)load_gvm_texture_file((s32) "fs_obj_o_sensor01r.gvm");
-    ancient_sensor_resource_pair_table[1].plain = (s32)load_gvm_texture_file((s32) "fs_obj_o_sensor02.gvm");
-    ancient_sensor_resource_pair_table[1].red = (s32)load_gvm_texture_file((s32) "fs_obj_o_sensor02r.gvm");
+    ancient_sensor_resource_pair_table[0].red = (saddr)load_gvm_texture_file((s32) "fs_obj_o_sensor01r.gvm");
+    ancient_sensor_resource_pair_table[1].plain = (saddr)load_gvm_texture_file((s32) "fs_obj_o_sensor02.gvm");
+    ancient_sensor_resource_pair_table[1].red = (saddr)load_gvm_texture_file((s32) "fs_obj_o_sensor02r.gvm");
     lbl_805D5A90 = 0;
     lbl_805D5A94 = 0;
     lbl_805D5A98 = 0;

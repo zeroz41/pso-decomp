@@ -236,7 +236,7 @@ void TTecFoie::init_projectile_params() {
 }
 
 void TTecFoie::vfunc_6() {
-    s32 arg0 = (saddr)this;
+    saddr arg0 = (saddr)this;
     spawn_particle_effect((const void *)(arg0 + 0x20), 0x1DC);
     spawn_particle_effect((const void *)(arg0 + 0x20), 0x1DD);
 }

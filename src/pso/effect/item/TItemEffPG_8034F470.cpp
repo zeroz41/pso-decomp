@@ -146,14 +146,14 @@ s32 TObjPlayer::spawn_fire_explosion(uaddr a0, saddr a1) {
 
 void TObjPlayer::spawn_fire_explosion_at_item(s32 arg0, saddr arg1) {
     Ctx_80125628 *ctx = (Ctx_80125628 *)arg1;
-    u32 p = (u32)find_item_by_id(arg0);
+    uaddr p = (uaddr)find_item_by_id(arg0);
     if (p != 0U) {
         TObjPlayer::spawn_fire_explosion(p, (s32)((s32)ctx->obj->elems[ctx->idx].f1c));
     }
 }
 
 void TObjPlayer::spawn_fire_explosion_for_item(s32 arg0, s32 arg1) {
-    u32 temp_r3 = (u32)find_item_by_id(arg0);
+    uaddr temp_r3 = (uaddr)find_item_by_id(arg0);
     if (temp_r3 != 0U) {
         TObjPlayer::spawn_fire_explosion(temp_r3, arg1);
     }

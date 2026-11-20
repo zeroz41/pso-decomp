@@ -74,12 +74,12 @@ void TOBind::free_static_model() {
 }
 
 void TOBind::load_static_resource() {
-    s32 temp_r3;
-    s32 var_r0;
-    temp_r3 = (int)::operator new(0x440);
+    saddr temp_r3;
+    saddr var_r0;
+    temp_r3 = (saddr)::operator new(0x440);
     var_r0 = temp_r3;
     if (var_r0 != 0) {
-        var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 1, &bm_o_bind_resource_descriptor, 0, 0, 0));
+        var_r0 = (saddr) (load_resource_from_descriptor((void *) temp_r3, 1, &bm_o_bind_resource_descriptor, 0, 0, 0));
     }
     (*(saddr *)&TOBind__static_model_resource) = var_r0;
 }

@@ -232,7 +232,7 @@ u8 *TObjPlayer::create_trade_action_state(s32 arg0) {
 TUnk_804A5340::~TUnk_804A5340() {
 
 }
-void rocket_punch_return_timer(u32 arg0) {
+void rocket_punch_return_timer(uaddr arg0) {
     if (arg0 != 0U) {
         ((FlagWord *)(arg0 + 0x1F8))->clear(2);
     }

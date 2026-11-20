@@ -93,7 +93,7 @@ s32 forward_slot_selection__16TAdChrSelASlotGCFPvPv(void *, saddr, s32, f32);
 s32 is_local_client_floor_leader();
 s32 TObjWarpBossMulti__sub_8019E570(saddr arg0, f32 farg0);
 BmlResource *boss_warp_resource_bundle;
-s32 boss_warp_base_model;
+saddr boss_warp_base_model;
 s32 boss_warp_confirmation_model;
 s32 warp_boss_model;
 AnimationMotion *warp_boss_motion;

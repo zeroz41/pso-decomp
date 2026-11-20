@@ -52,7 +52,7 @@ s32 draw_chunk_object(s32);
 s32 rotate_matrix_z(int, int);
 s32 push_matrix();
 s32 post_translate_matrix(void *);
-extern s32 lobby_gvm_texture_handles[];
+extern saddr lobby_gvm_texture_handles[];
 extern s32 gogo_ball_bml_resource;
 s32 scale_matrix(int, f32, f32, f32);
 s32 rotate_matrix_x(int, int);
@@ -174,7 +174,7 @@ void *lbl_804B8DA0[3] = {
     (void *)0xc3fa0000, (void *)0x41a00000, (void *)0x0,
 };
 // The lobby GVM texture lists TLanguage::load_lobby_textures loads.
-s32 lobby_gvm_texture_handles[9] = {0};
+saddr lobby_gvm_texture_handles[9] = {0};
 const NJS_ARGB fish_draw_color[1] = {{0.2f, 0.0f, 0.0f, 0.0f}};
 // spawn_particle_effect_with_rotation takes x/y/z angles (0x8000 = half turn).
 struct Rot_80198A2C { s32 x, y, z; };
@@ -910,7 +910,7 @@ void TLanguage::load_lobby_textures() {
         obj = load_resource_from_descriptor(obj, 5, language_lobby_texture_descriptor, 0, 0, 0);
     }
     (*(void**)&gogo_ball_bml_resource) = obj;
-    lobby_gvm_texture_handles[0] = (s32)load_gvm_texture_file((saddr)"robby_chu.gvm");
+    lobby_gvm_texture_handles[0] = (saddr)load_gvm_texture_file((saddr)"robby_chu.gvm");
     lobby_gvm_texture_handles[1] = (s32)load_gvm_texture_file((saddr)"biri_ball.gvm");
     lobby_gvm_texture_handles[2] = (s32)load_gvm_texture_file((saddr)"bom_ball.gvm");
     lobby_gvm_texture_handles[3] = (s32)load_gvm_texture_file((saddr)"soft_ball.gvm");

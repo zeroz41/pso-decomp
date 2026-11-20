@@ -983,7 +983,7 @@ struct TObjPlayer : public TObjChara {
     static void create_tec_jelin(void *arg0, void *arg1, void *arg2, void *arg3);
     static s32 is_valid_and_active(uaddr arg0);
     s32 *gather_player_contacts(uaddr arg1, saddr _w2, s32 _w3);
-    s32 collect_body_contacts(int target, void *_w2, void *arg3);
+    saddr collect_body_contacts(int target, void *_w2, void *arg3);
     void collect_body_contacts_for_target(saddr arg1);
     void find_support_technique_contact_for_target(saddr arg1);
     void gather_contacts_for_self(s32 arg1);

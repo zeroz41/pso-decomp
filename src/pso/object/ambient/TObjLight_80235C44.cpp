@@ -374,7 +374,7 @@ saddr find_area_technique_contact(TUnk_804CC148 *self, TObjCollidable *target, C
     return (saddr)&technique_contact_query_results;
 }
 
-s32 TObjPlayer::collect_body_contacts(int target, void *_w2, void *player) {
+saddr TObjPlayer::collect_body_contacts(int target, void *_w2, void *player) {
     Vec pos;
     PD_802364D8 *e;
     PD_802364D8 *pd;
@@ -386,7 +386,7 @@ s32 TObjPlayer::collect_body_contacts(int target, void *_w2, void *player) {
     VecCopy((Vec *)&pos, (const Vec *)((u8 *)this + 0x20));
     resetTechniqueContactQuery();
     if ((u32)target == 0) {
-        return (s32)&technique_contact_query_results;
+        return (saddr)&technique_contact_query_results;
     }
     VecCopy((Vec *)((u8 *)target + 0x38), (const Vec *)&pos);
     if (get_entity_id(player) < 4) {
@@ -431,7 +431,7 @@ s32 TObjPlayer::collect_body_contacts(int target, void *_w2, void *player) {
             }
         }
     }
-    return (s32)&technique_contact_query_results;
+    return (saddr)&technique_contact_query_results;
 }
 
 void TUnk_804CC148::find_area_contact(s32 arg1) {

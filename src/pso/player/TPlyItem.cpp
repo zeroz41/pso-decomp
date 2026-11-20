@@ -157,15 +157,15 @@ const char *TPlyItem_name_ref = "TPlyItem";
 Shape_801D3C38 placement_search_collision_body = {{0}, 0.0f, {0}, 0, 0x10003};
 Body_801D3E20 placement_search_collision_probe = {&placement_search_collision_body, 1, {0.0f, 0.0f, 0.0f}, 0};
 
-s32 item_reduce_target_player;
+saddr item_reduce_target_player;
 u8 *player_item_collect_cursor;
 s32 inventory_update_field_d8_key;
 s32 *TObjPlayer__owner_field_write_cursor;
 s32 inventory_walk_progress_count;
 s32 inventory_walk_visit_count;
 s32 *player_owner_collect_cursor;
-s32 inventory_search_item_data;
-s32 owned_item_export_cursor;
+saddr inventory_search_item_data;
+saddr owned_item_export_cursor;
 u8 item_reduce_owner_match_field_ec;
 u8 reduce_owner_match_id;
 

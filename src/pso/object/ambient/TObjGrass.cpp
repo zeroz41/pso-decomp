@@ -232,7 +232,7 @@ struct Grass_800BD4D8 {
     u8 pad30C[4];
     f32 f310;
     u8 pad314[4];
-    s32 f318;
+    saddr f318;
     u8 pad31C[0x328 - 0x31C];
     s16 state;
     u8 pad32A[0x338 - 0x32A];
@@ -647,7 +647,7 @@ void TObjGrass::render() {
     rotate_matrix_y(0, *(s32 *)((s8 *)arg0 + 0x60));
     scale_matrix(0, (1.3f), *(f32 *)((s8 *)arg0 + 0x6C), (1.3f));
     if (TObjPlayer::check_demo_mode() == 1) {
-        draw_chunk_object((void *)(*(s32 *)((s8 *)arg0 + 0x34)));
+        draw_chunk_object((void *)(*(saddr *)((s8 *)arg0 + 0x34)));
     } else {
         TObjPlayer::toggle_particle_effect();
         TObjGrass__render_node_index = 0;
@@ -1017,7 +1017,7 @@ void TObjGrass::update_chase_target(void *arg0_) {
             VecCopy((Vec *)&v, (const Vec *)(*(u8 **)((s8 *)arg0 + 0x2A8) + 0x2FC));
             subtract_vector(&v, arg0 + 0x2FC);
             turn = angle_difference_abs(*(s32 *)((s8 *)arg0 + 0x60), (s32)((10430.38043493439) * atan2_float(v.x, v.z)));
-            if (turn < ((AttackParams *)(*(s32 *)((s8 *)arg0 + 0x318)))->get_attack_angle()) {
+            if (turn < ((AttackParams *)(*(saddr *)((s8 *)arg0 + 0x318)))->get_attack_angle()) {
                 *(s16 *)((s8 *)arg0 + 0x328) = 1;
             }
             break;

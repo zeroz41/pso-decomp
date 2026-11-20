@@ -517,7 +517,7 @@ void TUnk_804CCA0C::run_task() {
   s32 j;
   s32 i;
   s32 st;
-  u32 pl;
+  uaddr pl;
   best = 10000.0f;
   j = get_current_floor_area();
   st = j;
@@ -752,7 +752,7 @@ void TTecLuker::create_for_player(int arg0, saddr arg1) {
 
 void TTecLuker::apply_all_players() {
     s32 var_r31;
-    u32 player;
+    uaddr player;
 
     var_r31 = 0;
     do {

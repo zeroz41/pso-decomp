@@ -20,7 +20,7 @@ s32 obj_isState2_324__9TObjCharaFv();
 extern "C" {
 
 void TObjPlayer::init_battle() {
-    s32 arg0 = (saddr)this;
+    saddr arg0 = (saddr)this;
     ((s32 (*)())TObjPlayer__sub_801BC8F0)();
     set_flag_400000__10TObjPlayerFi((arg0));
     ((TObjPlayer *)(arg0 + 0x634))->enter_battle_state();

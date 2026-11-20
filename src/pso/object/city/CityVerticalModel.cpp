@@ -41,7 +41,7 @@ void vfunc_13__13TUnk_804B5C08Fl(void* a0);
 s32 push_matrix();
 s32 post_translate_matrix(void *);
 s32 draw_ginja_object();
-extern s32 city_common_texture_list;
+extern saddr city_common_texture_list;
 void render__13TUnk_804B5C08Fv(u8 *arg0);
 void run_task__13TUnk_804B5C08Fv(u8 *arg0);
 extern void *tl_05;

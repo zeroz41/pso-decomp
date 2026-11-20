@@ -168,7 +168,7 @@ s32 TItemShootModel::is_owner_alive() {
     return all_parents_unqueued_for_destruction() != 0 ? 1 : 0;
 }
 
-s32 create_shoot_model__10TObjPlayerFUiiif(u32 owner, s32 pos, s32 dir, f32 life) {
+s32 create_shoot_model__10TObjPlayerFUiiif(uaddr owner, saddr pos, saddr dir, f32 life) {
     TItemShootModel *model = NULL;
     if (0.0f != life && owner != 0U) {
         model = new TItemShootModel((void *)owner, (const Vec *)pos, (const Vec *)dir, life);
@@ -263,7 +263,7 @@ void TItemShootParticle::hook() {
     }
 }
 
-s32 create_gun_shot(s32 owner, s32 pos, s32 endpoint, f32 life) {
+s32 create_gun_shot(saddr owner, saddr pos, saddr endpoint, f32 life) {
     spawn_particle_effect((void *)pos, 9);
     return (saddr)new TItemShootGun((void *)owner, (const Vec *)pos, (const Vec *)endpoint, life);
 }
@@ -318,7 +318,7 @@ void TItemShootGun::render() {
     }
 }
 
-s32 create_shoot_model_rot_z(u32 owner, s32 pos, s32 dir, f32 life) {
+s32 create_shoot_model_rot_z(uaddr owner, saddr pos, saddr dir, f32 life) {
     TItemShootModelRotZ *model = NULL;
     if (0.0f != life && owner != 0U) {
         model = new TItemShootModelRotZ((void *)owner, (const Vec *)pos, (const Vec *)dir, life);

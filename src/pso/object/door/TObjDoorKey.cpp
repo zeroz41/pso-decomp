@@ -52,7 +52,7 @@ const char *TObjDoorKey__class_name = "TObjDoorKey";
 
 s32 TObjDoorKey__ginja_model_table[4];
 uaddr door_key_resource_handle;
-s32 TObjDoorKey__texture_handle;
+saddr TObjDoorKey__texture_handle;
 s16 door_key_id_counter;
 s32 TObjDoorKey__data_805D5C04;
 
@@ -317,7 +317,7 @@ void TObjDoorKey::load_resources() {
         r = load_resource_from_descriptor(r, 5, &TObjDoorKey__resource_descriptor, 0, 0, 0);
     }
     (*(saddr *)&door_key_resource_handle) = r;
-    TObjDoorKey__texture_handle = (s32)load_gvm_texture_file((saddr)"fe_obj_switch.gvm");
+    TObjDoorKey__texture_handle = (saddr)load_gvm_texture_file((saddr)"fe_obj_switch.gvm");
     TObjDoorKey__ginja_model_table[0] = get_bml_model((*(saddr *)&door_key_resource_handle), 1);
     TObjDoorKey__ginja_model_table[1] = get_bml_model((*(saddr *)&door_key_resource_handle), 2);
     s32 t = get_bml_model((*(saddr *)&door_key_resource_handle), 0);

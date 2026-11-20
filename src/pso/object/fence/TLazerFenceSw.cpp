@@ -90,7 +90,7 @@ const u16 lbl_80445CB8[4] = { 0, 1, 2, 3 };
 const char *TLazerFenceSw__class_name = "TLazerFenceSw";
 
 void *lazer_fence_switch_bml_resource;
-s32 TLazerFenceSw__texture_list;
+saddr TLazerFenceSw__texture_list;
 u8 *lazer_fence_switch_scroll_node;
 
 #pragma push
@@ -98,7 +98,7 @@ u8 *lazer_fence_switch_scroll_node;
 struct Sw_801936E0 {
     u8 pad0[0x38];
     u8 pos[0x60 - 0x38];
-    s32 f60;
+    saddr f60;
     u8 pad64[0xB0 - 0x64];
     f32 fB0;
     u8 padB4[0xD4 - 0xB4];
@@ -270,7 +270,7 @@ void TLazerFenceSw::load_resources() {
             obj = load_resource_from_descriptor(obj, 5, &fe_obj_switch_laz_j_resource_descriptor, 0, 0, 0);
         }
         lazer_fence_switch_bml_resource = obj;
-        TLazerFenceSw__texture_list = (s32)load_gvm_texture_file((saddr)fe_obj_switch_laz_j_gvm);
+        TLazerFenceSw__texture_list = (saddr)load_gvm_texture_file((saddr)fe_obj_switch_laz_j_gvm);
     } else {
         obj = ::operator new(0x440);
         if (obj != NULL) {

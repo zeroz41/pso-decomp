@@ -183,7 +183,7 @@ void TTecBarta::create_particle_emitters() {
     u32 i;
     const TechniqueEmitterSourceRow *row;
     u32 flags;
-    s32 base = (saddr)this;
+    saddr base = (saddr)this;
     angles[0] = self->angles[0];
     angles[1] = 0;
     angles[2] = self->angles[2];

@@ -71,7 +71,7 @@ extern s32 __vt__8TObjDoor[];
 extern void *tl_05;
 void *TObjDoor__create(void *arg0);
 void free_bin_model_request(void*, int);
-extern s32 TObjDoor__resource_param;
+extern saddr TObjDoor__resource_param;
 extern uaddr door_resource_handle;
 u8 *TObjDoorJung__ct(u8 *arg0, saddr arg1, saddr arg2);
 void *TObjDoorJung__create(void *arg0);
@@ -376,7 +376,7 @@ struct VObj_8018EAF8 : VBase_8018EAF8 {
 };
 typedef void (VObj_8018EAF8::*Pmf_8018EAF8)();
 
-s32 TObjDoor__resource_param;
+saddr TObjDoor__resource_param;
 uaddr door_resource_handle;
 s32 TObjDoor__data_805D5BC8;
 static s8 door_run_task_init_done;
@@ -553,7 +553,7 @@ void TObjDoor::load_resources() {
         p = (saddr)load_resource_from_descriptor((void *)p, 5, &door_resource_descriptor, 0, 0, 0);
     }
     door_resource_handle = p;
-    TObjDoor__resource_param = (s32)load_gvm_texture_file((saddr)lbl_80445588);
+    TObjDoor__resource_param = (saddr)load_gvm_texture_file((saddr)lbl_80445588);
     TObjDoor__model_resource_ptrs.f0 = get_bml_model(door_resource_handle, 4);
     TObjDoor__model_resource_ptrs.f4 = get_bml_model(door_resource_handle, 3);
     TObjDoor__model_resource_ptrs.c = (Node_8018E358 *)get_bml_model(door_resource_handle, 0);

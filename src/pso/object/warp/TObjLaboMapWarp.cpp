@@ -137,7 +137,7 @@ extern s16 TLobby__data_805D5CE8;
 
 extern u8 *city_common_model_archive;
 
-extern s32 city_common_texture_list;
+extern saddr city_common_texture_list;
 
 
 }
@@ -781,12 +781,12 @@ void *TObjLaboMapWarp::create(void *arg0) {
 }
 
 void TObjLaboMapWarp::load_static_resource() {
-    s32 temp_r3;
-    s32 var_r0;
-    temp_r3 = (int)::operator new(0x440);
+    saddr temp_r3;
+    saddr var_r0;
+    temp_r3 = (saddr)::operator new(0x440);
     var_r0 = temp_r3;
     if (var_r0 != 0) {
-        var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 5, &bm_obj_warp_labo_resource_descriptor, 0, 0, 0));
+        var_r0 = (saddr) (load_resource_from_descriptor((void *) temp_r3, 5, &bm_obj_warp_labo_resource_descriptor, 0, 0, 0));
     }
     (*(saddr *)&TObjLaboMapWarp__resource_bundle) = var_r0;
 }

@@ -11,7 +11,7 @@ public:
     TEffect();
     virtual ~TEffect();
 
-    u32 source;
+    uaddr source;
     Vec position;
     NJS_ARGB color;
     Vec scale;

@@ -33,8 +33,8 @@ LAYOUT_ASSERT(TOSensorAncient01_size, sizeof(TOSensorAncient01) == 0xF8);
 
 // set_params[2] picks the pair: the red texture list and the plain one.
 struct TOSensorAncient01Textures {
-    s32 red;
-    s32 plain;
+    saddr red;
+    saddr plain;
 };
 
 extern const char *TOSensorAncient01__class_name;

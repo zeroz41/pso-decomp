@@ -60,7 +60,7 @@ s32 push_matrix();
 s32 update_challenge_warp_window();
 s32 update_state__16TObjCityMainWarpFv();
 extern s32 camera_ctrl_instance;
-extern s32 city_common_texture_list;
+extern saddr city_common_texture_list;
 
 TObjCityMainWarpChallenge::TObjCityMainWarpChallenge(TObject *parent, void *set_data) : TObjAreaWarp(parent, set_data) {
     m_name = lbl_805D32B8;

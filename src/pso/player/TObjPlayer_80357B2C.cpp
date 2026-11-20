@@ -411,7 +411,7 @@ void prepare_freeze_special_effect(TObjPlayer *player, TObjBase *target, Vec *po
 }
 
 void weapon_fire_explosion_effect(TObjPlayer *player, TObjBase *target, Vec *pos, s32 phase) {
-    u32 obj;
+    uaddr obj;
     if (phase == 0) {
         spawn_particle_effect(&player->m_2fc, 0x69);
     }

@@ -10,7 +10,7 @@ public:
     void sub_801D591C();
     u16 get_client_id();
     virtual void run_task();
-    s32 unk_54;
+    saddr unk_54;
 };
 LAYOUT_ASSERT(TUnk_804C4468_size, sizeof(TUnk_804C4468) == 0x58);
 

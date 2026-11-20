@@ -3362,7 +3362,7 @@ void unequip_item__10TObjPlayerFiPv(saddr arg0, void *item) {
 }
 
 void TObjPlayer::unequip_all_units() {
-    s32 arg0 = (saddr)this;
+    saddr arg0 = (saddr)this;
     s32 var_r31;
     void *temp_r3;
 

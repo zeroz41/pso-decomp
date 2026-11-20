@@ -479,7 +479,7 @@ u8 *create_rafoie_explosion(u8 *arg0, s32 *arg1, s16 arg2, s16 arg3, saddr arg4,
     return arg0;
 }
 
-u8 *create_fire_explosion_effect(u8 *arg0, s32 *arg1, s16 arg2, s32 arg3, f32 farg0) {
+u8 *create_fire_explosion_effect(u8 *arg0, s32 *arg1, s16 arg2, saddr arg3, f32 farg0) {
     LAYOUT_ASSERT(sp8_offset, offsetof(Stack_802385EC, sp8) == 0x0);
     LAYOUT_ASSERT(spC_offset, offsetof(Stack_802385EC, spC) == 0x4);
     Stack_802385EC stack;

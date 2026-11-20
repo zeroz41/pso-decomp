@@ -55,14 +55,14 @@ void *TItemList__sub_801D3B00(void *list, void *source, void *pos, s8 arg);
 // (TObjPlayer_801D4890.cpp) set it, the recursive walks read and advance it.
 extern s32 inventory_walk_visit_count;
 extern s32 inventory_walk_progress_count;
-extern s32 item_reduce_target_player;
+extern saddr item_reduce_target_player;
 extern u8 item_reduce_owner_match_field_ec;
 extern u8 reduce_owner_match_id;
 extern s32 *TObjPlayer__owner_field_write_cursor;
 extern s32 *player_owner_collect_cursor;
 extern u8 *player_item_collect_cursor;
-extern s32 owned_item_export_cursor;
+extern saddr owned_item_export_cursor;
 extern s32 inventory_update_field_d8_key;
-extern s32 inventory_search_item_data;
+extern saddr inventory_search_item_data;
 
 #endif

@@ -155,7 +155,7 @@ void TTecAnti::copy_params(u8 *arg1) {
     *(s16 *)&this->m_down = (s16) *(s16 *)((s8 *)arg1 + 0x14);
     *(s16 *)((s8 *)arg0 + 0x16) = (s16) *(s16 *)((s8 *)arg1 + 0x16);
     *(s32 *)((s8 *)arg0 + 0x18) = (s32) *(s32 *)((s8 *)arg1 + 0x18);
-    *(s32 *)&this->source = (s32) *(s32 *)((s8 *)arg1 + 0x1C);
+    *(saddr *)&this->source = (s32) *(s32 *)((s8 *)arg1 + 0x1C);
     *(s16 *)((s8 *)arg0 + 0x20) = (s16) *(s16 *)((s8 *)arg1 + 0x20);
     *(u8 *)((s8 *)arg0 + 0x22) = (u8) *(u8 *)((s8 *)arg1 + 0x22);
     *(u8 *)((s8 *)arg0 + 0x23) = (u8) *(u8 *)((s8 *)arg1 + 0x23);

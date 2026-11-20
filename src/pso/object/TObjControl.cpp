@@ -47,7 +47,7 @@ extern s32 registered_player_count;
 
 extern s32 lbl_805D5870;
 
-extern u32 TObjPlayer__data_8050D460[];
+extern uaddr TObjPlayer__data_8050D460[];
 
 u8 *get_enemy_entity(u16 arg0);
 

@@ -154,7 +154,7 @@ f32 horizontal_distance_squared(void *, void *);
 s32 angle_diff_s16(s32 a, s32 b);
 s32 normalize_vector(void *);
 void* refresh_actor_body_spheres(CollisionBody_80155FBC, CollisionBody_80155FBC);
-extern s32 TObjPlayer__data_8050D460[];
+extern saddr TObjPlayer__data_8050D460[];
 void *__construct_new_array(void *, void (*)(void *), void *, s32, s32);
 Part_80156780 *init_collision_body_parts(Obj_80156780 *self, Part_80156780 *src, s32 count);
 void *get_player_by_client_id(u32 id);
@@ -207,7 +207,7 @@ void TObjPlayer__sub_8015434C(CollisionBody_80155FBC *set, s32 start, s32 count)
     f32 c;
     int flags;
     s32 shape;
-    s32 *entry;
+    saddr *entry;
     s32 i;
     TObjCollidable *actor;
     CollisionBody *other_body;
@@ -1274,6 +1274,6 @@ s32 TObjCollidable::access_object_saved_state(void *lobby, s16 arg2) {
 }
 }
 
-s32 TObjPlayer__data_8050D460[0x18C];
+saddr TObjPlayer__data_8050D460[0x18C];
 saddr player_battle_param_table[0x10];
 unsigned char lbl_8050DAD0[0x80];

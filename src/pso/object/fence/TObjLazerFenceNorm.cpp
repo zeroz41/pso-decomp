@@ -58,7 +58,7 @@ CollisionBody laser_fence_collision_body_parts[2][3] = {
     },
 };
 
-s32 lazer_fence_norm_texture_list;
+saddr lazer_fence_norm_texture_list;
 saddr lazer_fence_norm_bml_resource;
 
 struct Obj_80192554 { u8 pad0[0x38]; u8 f38[0x24]; s32 f5C; s32 f60; u8 pad64[0x48]; s32 fAC; u8 padB0[8]; f32 fB8; s32 fBC; s32 fC0; s32 fC4; s32 fC8[4]; };
@@ -129,7 +129,7 @@ void load_lazer_fence_norm_resources(void) {
             obj = load_resource_from_descriptor(obj, 5, &lazer_fence_norm_episode2_resource_descriptor, 0, 0, 0);
         }
         lazer_fence_norm_bml_resource = (saddr)obj;
-        lazer_fence_norm_texture_list = (s32)load_gvm_texture_file((saddr)"fe_obj_lazer2_2.gvm");
+        lazer_fence_norm_texture_list = (saddr)load_gvm_texture_file((saddr)"fe_obj_lazer2_2.gvm");
         break;
     default:
         obj = ::operator new(0x440);

@@ -24,7 +24,7 @@ const char *TObjDoorJung__class_name = "TObjDoorJung";
 
 s32 TObjDoorJung__child_table[4];
 void *TObjDoorJung__resource_handle;
-s32 lbl_805D5BD4;
+saddr lbl_805D5BD4;
 s32 door_jung_child_list;
 s32 lbl_805D5BDC;
 void *TObjDoorJung__door_scene_buffer;
