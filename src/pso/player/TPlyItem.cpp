@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/object/base/CollisionBodySet.h"
 #include "pso/item/TItem.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/unk/TLobby_8030A6A8.h"
@@ -34,15 +35,6 @@
 #include "pso/technique/TTecCtrl.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 
-struct Shape_801D3C38 {
-    u8 pad0[0xC];
-    f32 radius;
-    u8 pad10[4];
-    s32 f14;
-    s32 mask;
-    u8 pad1C[0x10];
-};
-struct Body_801D3E20 { void *colliders; s32 count; Vec position; s32 facing; };
 struct Actor_801D3E20 {
     u8 pad[0x30];
     u32 flags;
@@ -51,7 +43,7 @@ struct Actor_801D3E20 {
     u8 pad44[0x1c];
     s32 facing;
     u8 pad64[0x40];
-    void *colliders;
+    CollisionBody *colliders;
     s32 count;
 };
 struct Req_801D3780 {
@@ -67,9 +59,8 @@ void send_6x29_delete_item__10TObjPlayerFPvii(void *, s32, s32);
 s32 poll_memcard_result(s32);
 // The callers sign-extend the result (extsb), the header's member returns u8.
 s8 get_chr_select_state__23TAdSinglePlyChrSelectGCFv();
-void *refresh_actor_body_spheres(Body_801D3E20, Body_801D3E20);
 extern void *tl_07;
-void *find_placement_obstruction(void *self, Body_801D3E20 *s);
+void *find_placement_obstruction(void *self, CollisionBodySet *s);
 }
 typedef struct Rec_801D40D4 {
     u8 pad0[4];
@@ -155,8 +146,8 @@ s32 compare_item_data_masked(void *arg0, void *arg1, s32 arg2);
 const char *TItemList__name = "TItemList";
 const char *TPlyItem_name_ref = "TPlyItem";
 
-Shape_801D3C38 placement_search_collision_body = {{0}, 0.0f, {0}, 0, 0x10003};
-Body_801D3E20 placement_search_collision_probe = {&placement_search_collision_body, 1, {0.0f, 0.0f, 0.0f}, 0};
+CollisionBody placement_search_collision_body = {{0.0f, 0.0f, 0.0f}, 0.0f, 0.0f, 0, 0x10003, {0.0f, 0.0f, 0.0f}, 0.0f};
+CollisionBodySet placement_search_collision_probe = {&placement_search_collision_body, 1, {0.0f, 0.0f, 0.0f}, 0};
 
 s32 item_reduce_target_player;
 u8 *player_item_collect_cursor;
@@ -868,14 +859,14 @@ s32 TUnk_804C4498::reset_placement_search_ring() {
     this->radius = 6.0f * this->ring;
 }
 
-void *find_placement_obstruction(void *self, Body_801D3E20 *s) {
+void *find_placement_obstruction(void *self, CollisionBodySet *s) {
     s32 end = TLobby::get_lobby_flag();
     s32 i;
     for (i = TLobby::get_game_mode() + TObjEneDD::get_enemy_count(); i < end; i++) {
         Actor_801D3E20 *a = (Actor_801D3E20 *)TObjPlayer::get_player_data(i);
         if (a != 0 && a->colliders != 0 && !(a->flags & 0x800)) {
             if (10000.0f > horizontal_distance_squared(&s->position, &a->pos)) {
-                Body_801D3E20 b;
+                CollisionBodySet b;
                 void *r;
                 b.colliders = a->colliders;
                 b.count = a->count;
@@ -921,8 +912,8 @@ s32 TUnk_804C4498::step_placement_search() {
     }
     this->candidate.y = 6.0f + g->pos->y;
     placement_search_collision_body.radius = 3.0f;
-    placement_search_collision_body.f14 = 0;
-    placement_search_collision_body.mask = 0x31F03;
+    placement_search_collision_body.shape = 0;
+    placement_search_collision_body.flags = 0x31F03;
     VecCopy(&placement_search_collision_probe.position, &this->candidate);
     if (find_placement_obstruction(this, &placement_search_collision_probe) != NULL) {
         this->angle += this->step;

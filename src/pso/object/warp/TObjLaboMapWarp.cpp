@@ -683,7 +683,7 @@ void *TObjCityMapWarp::create(void *arg0) {
 
 void TObjCityMapWarp::open_confirm_window(s32 client_id) {
     if (playerPopups[client_id] == NULL) {
-        playerPopups[client_id] = (void *)create_window_menu(get_window_layout_position(0x33), 1, client_id);
+        playerPopups[client_id] = (TWindowMenu *)create_window_menu(get_window_layout_position(0x33), 1, client_id);
         clamp_destination_index();
         ((TWindowSubTradeMain *)playerPopups[client_id])->add_text_entry(get_localized_text_entry(9, map_warp_dest_text_ids[set_params[2]]), 0xA, 0, -1);
         ((TWindowSubComCardList *)playerPopups[client_id])->set_flag70_bit10();
@@ -785,7 +785,7 @@ void TObjLaboMapWarp::release_static_resource() {
 
 void TObjLaboMapWarp::open_confirm_window(s32 client_id) {
     if (playerPopups[client_id] == NULL) {
-        playerPopups[client_id] = (void *)create_window_menu(get_window_layout_position(0x33), 1, client_id);
+        playerPopups[client_id] = (TWindowMenu *)create_window_menu(get_window_layout_position(0x33), 1, client_id);
         clamp_index();
         ((TWindowSubTradeMain *)playerPopups[client_id])->add_text_entry(get_localized_text_entry(9, map_warp_dest_text_ids[set_params[2]]), 0xA, 0, -1);
         ((TWindowSubComCardList *)playerPopups[client_id])->set_flag70_bit10();

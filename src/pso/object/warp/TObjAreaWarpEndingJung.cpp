@@ -1,4 +1,5 @@
 #include "pso/render/GinjaMaterialTextureSlot.h"
+#include "pso/object/base/CollisionBodySet.h"
 #include "pso/render/GinjaTexture.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
@@ -100,51 +101,8 @@ struct RecoveredGlobal_8019CA24_lbl_80515BA0 {
 };
 
 
-struct Warp_8019D0A8 {
-    u8 pad0[0x60];
-    s32 yaw;
-    u8 pad64[0x68 - 0x64];
-    Vec pos;
-    u8 pad74[0x84 - 0x74];
-    s32 yaw2;
-    u8 pad88[0xBC - 0x88];
-    Vec ends[4];
-};
 
-struct VBase_8019D250 { char pad[0x18]; };
 
-struct VObj_8019D250 : VBase_8019D250 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13(s32);
-    virtual s32 m14();
-    virtual void m15();
-    virtual s32 m16(s32);
-    virtual void m17();
-    virtual void m18(u16);
-};
-
-struct Data_8019D250 {
-    u8 pad0[0x84];
-    s32 f84;
-    u8 pad88[0xAC - 0x88];
-    f32 fAC;
-    void *fB0;
-    u8 padB4[0xBC - 0xB4];
-    Vec ends[4];
-    void *win[4];
-};
 
 struct VBase_8019CAB0 { char pad[0x18]; };
 
@@ -180,7 +138,6 @@ struct Data_8019CAB0 {
 typedef char RecoveredGlobal_8019CA24_lbl_80515BA0_size[sizeof(RecoveredGlobal_8019CA24_lbl_80515BA0) == 0x28 ? 1 : -1];
 
 
-struct VObj_8019D250;
 extern "C" {
 
 void mark_area_change_pending();
@@ -193,7 +150,6 @@ s32 get_floor_destination_name();
 s32 get_localized_text_entry(s32, s32);
 s32 debug_draw_line(void *, void *, u32, u32);
 s32 fn_80141CB4(void *, f32);
-s32 test_player_body_overlap_at(void *, void *, Vec *);
 s32 *TObjCityMainWarp__sub_80186AF4(void);
 void * TObjAreaWarpEndingJung__create(void *arg0);
 s64 fn_8019B480(void *arg0, void *arg1);
@@ -457,7 +413,7 @@ TObjMapWarp::TObjMapWarp(TObject *parent, void *set_data) : TObjWarpBase(parent,
         push_matrix_from(identity_matrix);
         post_translate_matrix(&scale.x);
         rotate_matrix_y(0, rotation_y);
-        matrix_mult_vec(NULL, &map_warp_destination_offsets[i], (Vec *)destinations[i]);
+        matrix_mult_vec(NULL, &map_warp_destination_offsets[i], &destinations[i]);
         pop_matrix();
         playerPopups[i] = 0;
     }
@@ -534,29 +490,28 @@ u8 TObjMapWarp::can_warp(s32 arg0, u16 arg1) {
 
 
 void TObjMapWarp::process_player_warps() {
-    Data_8019D250 *d = (Data_8019D250 *)this;
     s32 i;
     TObjPlayer *t;
     s32 j;
     if (TRaderMapCore::is_not_split_screen() == 1) {
         for (i = 0; i < 4; i++) {
             if (can_warp__11TObjMapWarpFlUs(this, i) == 0) {
-                if (d->win[i] != NULL) {
-                    ((TWindowBase *)(d->win[i]))->close();
-                    d->win[i] = NULL;
+                if (playerPopups[i] != NULL) {
+                    ((TWindowBase *)(playerPopups[i]))->close();
+                    playerPopups[i] = NULL;
                 }
             } else {
-                if (d->win[i] != NULL) {
-                    ((TQuestVmDownLoadServer *)(d->win[i]))->clear_flag4_bit4();
-                    ((TObject *)d->win[i])->allow_rendering();
+                if (playerPopups[i] != NULL) {
+                    ((TQuestVmDownLoadServer *)(playerPopups[i]))->clear_flag4_bit4();
+                    ((TObject *)playerPopups[i])->allow_rendering();
                 }
                 t = find_warp_player_in_range(this, i, this->warp_range);
                 if (t != NULL) {
                     this->open_confirm_window(get_entity_id(t));
                     if (t->is_target_valid() != 0 && this->vfunc_18(((TRaderMapCore *)t)->get_map_id()) != 0) {
                         for (j = 0; j < 4; j++) {
-                            if (test_player_body_overlap_at(this, t, &d->ends[j]) == 0) {
-                                send_6x55_intra_map_warp(get_entity_id(t), &d->ends[j], this->set_params[0]);
+                            if (test_player_body_overlap_at(this, t, &destinations[j]) == 0) {
+                                send_6x55_intra_map_warp(get_entity_id(t), &destinations[j], this->set_params[0]);
                             }
                         }
                     }
@@ -567,7 +522,7 @@ void TObjMapWarp::process_player_warps() {
         }
         return;
     }
-    if (((VObj_8019D250 *)this)->m14() == 0) {
+    if (is_warp_enabled() == 0) {
         if (this->menu_window != NULL) {
             ((TWindowBase *)this->menu_window)->close();
             this->menu_window = NULL;
@@ -584,8 +539,8 @@ void TObjMapWarp::process_player_warps() {
             this->open_confirm_window(local_client_id);
             if (t2->is_target_valid() != 0 && this->vfunc_18(((TRaderMapCore *)t2)->get_map_id()) != 0) {
                 for (j2 = 0; j2 < 4; j2++) {
-                    if (test_player_body_overlap_at(((VObj_8019D250 *)this), t2, &d->ends[j2]) == 0) {
-                        send_6x55_intra_map_warp(get_entity_id(t2), &d->ends[j2], this->set_params[0]);
+                    if (test_player_body_overlap_at(this, t2, &destinations[j2]) == 0) {
+                        send_6x55_intra_map_warp(get_entity_id(t2), &destinations[j2], this->set_params[0]);
                     }
                 }
             }
@@ -596,8 +551,6 @@ void TObjMapWarp::process_player_warps() {
 }
 
 void TObjMapWarp::draw_debug_destinations() {
-    u8 *arg0 = (u8 *)this;
-    Warp_8019D0A8 *self = (Warp_8019D0A8 *)arg0;
     Vec *end;
     s32 i;
     TObjNpcEnemy::set_global_count(0xFF00FF);
@@ -610,14 +563,14 @@ void TObjMapWarp::draw_debug_destinations() {
         Vec b;
         Vec a = {0.0f, 0.0f, -3.0f};
         push_matrix_from(identity_matrix);
-        post_translate_matrix(&self->pos.x);
-        rotate_matrix_y(0, self->yaw);
-        end = &self->ends[i];
+        post_translate_matrix(&scale.x);
+        rotate_matrix_y(0, rotation_y);
+        end = &destinations[i];
         matrix_mult_vec(NULL, &map_warp_destination_offsets[i], end);
         pop_matrix();
         push_matrix_from(identity_matrix);
         post_translate_matrix(&end->x);
-        rotate_matrix_y(0, self->yaw2);
+        rotate_matrix_y(0, set_params[0]);
         matrix_mult_vec(NULL, &a, &a);
         pop_matrix();
         VecCopy((Vec *)&b, (const Vec *)end);
