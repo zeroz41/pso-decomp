@@ -216,7 +216,7 @@ s32 get_shop_weapon_stock_item(void *, int, s32);
 int TShopEquipmentListWindow__sub_8021C85C(int a0);
 s32 get_shop_text(s32);
 void *__ct__15TWindowHelpItemFPvUs(void *, s32, u16);
-s32 get_window_layout_position(s32);
+saddr get_window_layout_position(s32);
 void *create_item_list_window(s32, s32, u16);
 s32 get_item_count__24TShopEquipmentSellWindowFv(void *a, s32 b);
 void *create_cost_window(u16);

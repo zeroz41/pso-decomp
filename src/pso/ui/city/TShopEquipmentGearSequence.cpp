@@ -95,7 +95,7 @@ s32 lbl_805D6218;
 s32 lbl_805D621C;
 
 saddr set_service_counter_camera(void *, int);
-s32 get_window_layout_position(int, f32);
+saddr get_window_layout_position(int, f32);
 s32 TShopEquipmentGearSequence__window_slot_table[4];
 TShopEquipmentGearSequence *lbl_805D6220;
 const char *TShopEquipmentGearSequence__class_name = "TShopEquipmentGearSequence";

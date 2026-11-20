@@ -41,7 +41,7 @@ void THunterGuildWarning__sub_80211700(void) { THunterGuildWarning__instance = 0
 void THunterGuildWarning__sub_8021170C(void) { THunterGuildWarning__instance = 0; }
 
 extern "C" {
-s32 get_window_layout_position(s32 index);
+saddr get_window_layout_position(s32 index);
 }
 
 void THunterGuildWarning::close_windows() {

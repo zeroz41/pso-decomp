@@ -205,7 +205,7 @@ s32 try_buy_item(int, void *);
 s32 is_single_purchase_shop_item(u8 *p);
 extern "C" {
 uaddr create_yes_no_window(int, u16, int, int);
-s32 get_window_layout_position(s32);
+saddr get_window_layout_position(s32);
 extern const s32 local_client_id;
 s32 sub_802239EC__13TShopSequenceFv(void *);
 s32 play_sound_effect(int, int, int, int);

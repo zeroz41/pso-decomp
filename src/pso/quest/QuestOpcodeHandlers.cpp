@@ -1278,7 +1278,7 @@ int dispatch_message_window_text(void *w, int text, int flags);
 saddr create_quest_message_window_at(s32 arg0, saddr arg1);
 extern "C" {
 u32 create_quest_message_window();
-s32 get_window_layout_position(s32);
+saddr get_window_layout_position(s32);
 void fn_80278518(void *arg0, s32 arg1);
 s32 save_and_close__20TShopArmorListWindowFv();
 saddr create_equip_kind_window(saddr, const f32 *, s32);

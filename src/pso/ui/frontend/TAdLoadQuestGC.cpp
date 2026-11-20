@@ -16,7 +16,7 @@
 extern "C" {
 
 s32 TWindowCost__ct(s32, s32, s32, s32);
-s32 get_window_layout_position(s32);
+saddr get_window_layout_position(s32);
 
 s32 create_cost_window(s32 arg0) {
     s32 var_r30;

@@ -38,7 +38,7 @@ saddr get_window_layout_position(int);
 
 extern const char *window_duel_result_class_name;
 u8 *TWindowDuelResult__ct(u8 *arg0, s16 arg1);
-s32 get_localized_text_entry(int, int);
+saddr get_localized_text_entry(int, int);
 void *get_player_by_client_id(s32 i);
 s32 TWindowDuelResult__sub_801C19AC(f32 *arg0);
 void init_window_layout_entries(void *, void *, int);

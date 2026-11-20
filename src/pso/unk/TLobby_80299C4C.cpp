@@ -111,7 +111,7 @@ u32 create__14TWindowMessageFPvll(s32, s32 *, s32);
 s32 TLobby__sub_80292F5C();
 s32 get_player_by_client_id(int);
 saddr get_message_text(s32);
-s32 get_window_layout_position(s32);
+saddr get_window_layout_position(s32);
 void TObjPlayer__sub_8024ABDC(s32 arg0);
 
 s32 TLobby::is_multi_ready() {

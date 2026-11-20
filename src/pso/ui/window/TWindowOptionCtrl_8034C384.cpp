@@ -14,7 +14,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 
 extern "C" {
-s32 get_localized_text_entry(s32);
+saddr get_localized_text_entry(s32);
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
 s32 poll_memcard_result(saddr chan);
 s32 start_memcard_format(int, int, int, int, int);

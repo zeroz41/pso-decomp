@@ -60,7 +60,7 @@ extern "C" {
 u32 calc_text_width(char *s);
 s32 get_player__20TWindowSubStatusDispFv();
 uaddr lbl_805D6630;
-s32 get_localized_text_entry(s32, s32);
+saddr get_localized_text_entry(s32, s32);
 void restore_saved_depth_alpha_state(void);
 s32 defer_render__7TObjectFv();
 

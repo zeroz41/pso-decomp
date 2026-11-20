@@ -988,12 +988,12 @@ namespace P1_80137188 {
 
 extern "C" {
 extern const NJS_POINT2 lbl_8043EE10[];
-s32 get_window_layout_position(s32);
+saddr get_window_layout_position(s32);
 u32 update_window_mode_from_progress__6TLobbyFPv(s32 arg0, void *arg1);
 void TLobby__sub_801371B0(s32 arg0);
 extern u32 TLobby__download_list_window;
 extern const NJS_POINT2 lbl_8043EE08[];
-s32 get_window_layout_position(s32);
+saddr get_window_layout_position(s32);
 u32 update_window_mode_from_progress__6TLobbyFPv(s32 arg0, void *arg1);
 void TLobby__sub_80137228(s32 arg0);
 void disable_window_flags__6TLobbyFPv(void* a0);

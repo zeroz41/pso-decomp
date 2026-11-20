@@ -2016,7 +2016,7 @@ s32 save_character_file__23TAdSinglePlyChrSelectGCFi(int);
 s32 get_field_118__22TAdEnterSerialAccessGCFv();
 extern RecoveredGlobal_801FF200_lbl_80513910 chr_select_serial_seeds;
 s32 encrypt_save_and_write__23TAdSinglePlyChrSelectGCFv(void);
-s32 get_localized_text_entry(s32, s32);
+saddr get_localized_text_entry(s32, s32);
 s8 func_801A5E54__Fv(void);
 void render_frame__23TAdSinglePlyChrSelectGCFv(void);
 s32 TAdSinglePlyChrSelectGC__sub_801FDA4C();

@@ -55,7 +55,7 @@ struct Seq_80215CB8 { u8 pad[0x24]; saddr f24; };
 
 extern "C" {
 s32 set_service_counter_camera(void *, int);
-s32 get_window_layout_position(int, f32);
+saddr get_window_layout_position(int, f32);
 extern RecoveredGlobal_80215EF8___vt__17TJudgmentSequence __vt__17TJudgmentSequence;
 struct TJudgmentSequenceSlotFlags { s32 value; u8 remaining[0xC]; };
 TJudgmentSequenceSlotFlags TJudgmentSequence__slot_flags;

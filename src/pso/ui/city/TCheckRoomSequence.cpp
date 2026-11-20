@@ -174,7 +174,7 @@ s32 poll_memcard_result(saddr chan);
 int obj_getPtr2B0_20(u8 *p);
 s16 get_child_field1c__13TShopSequenceFv(void *);
 void *__ct__18TWindowInputNumberFPvllls(void *, s32, s32, s32, s32, s16);
-s32 get_window_layout_position(s32);
+saddr get_window_layout_position(s32);
 void begin_meseta_withdrawal__18TCheckRoomSequenceFPv(Seq_8020F478 *self);
 void begin_meseta_deposit__18TCheckRoomSequenceFPv(Seq_8020F730 *self);
 s32 get_max_stack_size__9TItemDataFv(void *);

@@ -164,7 +164,7 @@ struct Win_8021C968 : VObj_8021C968 {
 extern "C" {
 void *create_item_list_window(s32, s32, u16);
 s32 get_entity_id(s32);
-s32 get_window_layout_position(s32);
+saddr get_window_layout_position(s32);
 void *__ct__15TWindowHelpItemFPvUs(void *, s32, u16);
 void TWindowHelpItem__set_displayed_item_by_id(void *arg0, saddr arg1);
 void *create_window_quantity(u16 arg0);

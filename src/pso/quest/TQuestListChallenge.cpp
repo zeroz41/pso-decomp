@@ -109,7 +109,7 @@ s32 get_entity_id(s32);
 s32 get_quest_list_text(int, int, int);
 void *create_yes_no_window(s32, u16, saddr, saddr);
 void *create__14TWindowMessageFlPCfUll(s32, Pair_80288DA4 *, s32, u16);
-s32 get_window_layout_position(s32);
+saddr get_window_layout_position(s32);
 void update_selection__19TQuestListChallengeFv(QLC_80288DA4 *self);
 s32 lbl_805D64A8;
 s32 lbl_805D64AC;

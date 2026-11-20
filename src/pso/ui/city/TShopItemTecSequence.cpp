@@ -83,7 +83,7 @@ struct Seq_80220110 : VBase_18_80220110 {
 
 extern "C" {
 saddr set_service_counter_camera(void *, int);
-s32 get_window_layout_position(int, f32);
+saddr get_window_layout_position(int, f32);
 // Per-player slot flags, set by the ctor and cleared by the dtor (as THunterGuildSeqOffline__instance_table).
 s32 TShopItemTecSequence__slot_table[4];
 s32 lbl_805D6248;

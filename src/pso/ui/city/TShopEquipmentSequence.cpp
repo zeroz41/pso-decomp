@@ -81,7 +81,7 @@ struct Seq_8021D7B8 { u8 pad[0x24]; void *f24; u8 pad28[4]; void *win; };
 
 extern "C" {
 saddr set_service_counter_camera(void *, int);
-s32 get_window_layout_position(int, f32);
+saddr get_window_layout_position(int, f32);
 s32 TShopEquipmentSequence__slot_active_flags[4];
 const char *TShopEquipmentSequence__class_name = "TShopEquipmentSequence";
 TShopEquipmentSequence *lbl_805D6228;

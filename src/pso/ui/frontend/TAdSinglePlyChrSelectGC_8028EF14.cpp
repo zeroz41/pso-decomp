@@ -303,7 +303,7 @@ void map_shape_region_samples(s32 region, s32 *samples);
 extern CreationShapeBlend creation_shape_blend;
 s32 clear_creation_shape_eval_masks(f32 *dst, const f32 *a, const f32 *b, const f32 *c);
 s32 scan_creation_resources(void *arg0);
-u32 relocate_data_block_pointers(u32 arg0, u32 arg1);
+uaddr relocate_data_block_pointers(uaddr arg0, u32 arg1);
 void reset_character_creation_figure_rotation(void);
 extern void *creation_menu_main_obj;
 extern "C" {

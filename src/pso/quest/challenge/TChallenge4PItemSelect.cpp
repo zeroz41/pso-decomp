@@ -41,7 +41,7 @@ extern "C" {
 
 uaddr create_window_menu(saddr, saddr, saddr);
 s32 TWindowSubComCard__sub_80265500(u32);
-s32 get_window_layout_position(s32);
+saddr get_window_layout_position(s32);
 s32 fn_8034BE30(TChallenge4PResult *);
 s32 forward_trade_action_default__16TObjCityMainWarpFPviii(u32, s32, s32, s32);
 

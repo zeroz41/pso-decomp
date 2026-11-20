@@ -105,7 +105,7 @@ struct T_80217B30 { u8 pad[0x38]; s32 f38; };
 extern "C" {
 s32 get_entity_id(int);
 int set_field_20__15TShopWindowBaseFl(void*, int);
-s32 get_window_layout_position(int);
+saddr get_window_layout_position(int);
 u32 create__14TWindowMessageFPvll(s32, void *, int);
 
 s32 send_action__9TProtocolFR13GameListEntryUcPcPc(void *, void *, int, char *, char *);

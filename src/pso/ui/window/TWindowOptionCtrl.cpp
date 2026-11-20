@@ -50,7 +50,6 @@ u8 *get_window_layout_position(s32);
 s32 create__19TWindowMessageYesNoFPvPvPvPv(s32, s32, s32, s32);
 s32 free_member__17TWindowSubComCardFv(int, int);
 s32 forward_slot_selection__16TAdChrSelASlotGCFPvPv(int, void *, int, f32);
-s32 get_localized_text_entry(s32 arg0, s32 arg1);
 s32 align_menu_entry_positions(int);
 s32 forward_trade_action_default__16TObjCityMainWarpFPviii(s32, s32, s32, s32);
 s32 check_room_seq_4__16TAdChrSelASlotGCFl(s32, s32);

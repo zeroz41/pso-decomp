@@ -168,13 +168,11 @@ extern Ctrl_8033162C controller_input_state[];
 void TWindowCtrl__sub_8024ADF0(saddr arg0);
 void TWindowSubComCard__sub_8024AB98(s32 arg0);
 s32 end_camera_pan__10TObjPlayerFv();
-s32 TLobby__sub_802D29E8(u32 arg0);
 void TWindowCtrl__sub_8024ADAC(saddr arg0);
 void TWindowSubTradeMain__sub_802D2870(void);
 void fn_8024AB54(s32 arg0);
 int fn_8027B288(void *p);
 void fn_8027B2A8(void *);
-s32 TLobby__sub_802D2A0C(u32 arg0);
 }
 
 typedef struct RecoveredFields_80331434_arg0 RecoveredFields_80331434_arg0;

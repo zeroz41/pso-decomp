@@ -85,7 +85,7 @@ struct Obj_80213980 : V_80213980 { char pad1c[0x14]; s32 state; s32 f34; s32 thr
 
 extern "C" {
 
-s32 get_window_layout_position(s32);
+saddr get_window_layout_position(s32);
 // Online quest download state, read by TQuestListOnline (THunterGuildSeqOnlineTask.cpp).
 u8 TQuestListOnline__dat_download_state[0x3C];
 u8 TQuestListOnline__bin_download_state[0x3C];
@@ -219,7 +219,7 @@ extern "C" {
 
 int is_quest_active(void);
 
-s32 get_window_layout_position(s32);
+saddr get_window_layout_position(s32);
 int is_quest_active(void);
 s32 sub_802239EC__13TShopSequenceFv(void *);
 extern s32 THunterGuildSeqOffline__quest_result_callbacks[];
@@ -227,7 +227,7 @@ extern saddr quest_mission_manager;
 saddr set_service_counter_camera(void *, s32);
 u8 *create_yes_no_window(s32 arg0, s32 arg1, uaddr arg2, uaddr arg3);
 s32 sub_802239EC__13TShopSequenceFv(void *);
-s32 get_window_layout_position(s32);
+saddr get_window_layout_position(s32);
 
 s32 restore_player_state__13TShopSequenceFv();
 
