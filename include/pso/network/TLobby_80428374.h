@@ -124,7 +124,7 @@ s16 TLobby__sub_804290D4(s32 idx);
 void reset_boot_state(void);
 s32 wait_timeout_loop(void *params);
 void cancel_alarm_b(void);
-s32 init_buffer_pool(void);
+s16 init_buffer_pool(void);
 void reset_buffer_pool(void);
 #ifdef __cplusplus
 }

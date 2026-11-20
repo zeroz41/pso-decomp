@@ -71,10 +71,8 @@ s16 init_ipv4_interfaces();
 s16 init_ipv4_routing();
 s16 NetIPv6Init();
 s16 TUdpSocket__sub_8041118C();
-s16 TLobby__sub_80415690(); /* declared s16 here; the definition returns s32 */
 s16 NetIPv6InitNeighborDiscovery();
 s16 init_packet_fragment_pools();
-s16 TLobby__sub_80419A34(int); /* declared here with an int argument and an s16 return; the definition takes no arguments and returns s32 */
 s16 NetTCPInit();
 /* inferred: the avetcp.a version strings (names from their contents); init_network_stack checks the banner's
    leading '\n' through avetcp_version_banner_ptr */
@@ -129,16 +127,14 @@ s32 cleanup_subsystems(void) {
 s16 init_network_stack(void) {
     s16 init_ucb_entries(void);
     s16 result;
-    u32 count;
     if ((s32) *avetcp_version_banner_ptr != 0xA) {
         return -1;
     }
     if ((u32) TLobby__network_stack_init_count == 0U) {
         OSReport(lbl_804800F0);
     }
-    count = TLobby__network_stack_init_count;
-    TLobby__network_stack_init_count = count + 1;
-    result = TLobby__sub_80419A34(count);
+    ++TLobby__network_stack_init_count;
+    result = TLobby__sub_80419A34();
     if (result >= 0) {
         result = TLobby__sub_80415690();
         if (result >= 0) {

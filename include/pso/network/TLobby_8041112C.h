@@ -169,6 +169,7 @@ typedef char NetFragPool_size_check[sizeof(NetFragPool) == 0x18 ? 1 : -1];
 #ifdef __cplusplus
 extern "C" {
 #endif
+s16 TLobby__sub_80415690(void);
 extern LoopbackState network_loopback_state;
 extern NetBufferPool network_buffer_pool_state;
 extern Ipv6NdState ipv6_neighbor_discovery_state;

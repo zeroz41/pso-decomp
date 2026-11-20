@@ -42,6 +42,7 @@ typedef char NetThreadState_size_check[sizeof(NetThreadState) == 0x10 ? 1 : -1];
 extern "C" {
 #endif
 extern NetThreadState lbl_805C18A0;
+s16 TLobby__sub_803F8E9C(void);
 /* NetworkRuntime.c: the stack's OS layer (time, mutexes, threads, alarms, message queues) and string helpers. */
 s32 cancel_pending_alarms(void);
 void get_time_seconds(s32* out);

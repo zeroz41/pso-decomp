@@ -16,7 +16,7 @@ s32 reset_net_value(void) {
     return 0;
 }
 
-s32 TLobby__sub_80415690(void) {
+s16 TLobby__sub_80415690(void) {
     NetBufferPool* p;
     s16* step;
     u8 *cursor;

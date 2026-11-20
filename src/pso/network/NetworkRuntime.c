@@ -15,10 +15,8 @@
 #include "pso/network/NetworkRuntimeSlots.h"
 #include "pso/network/NetworkPacketPool.h"
 #include "pso/network/TLobby_80428374.h"
+#include "pso/network/TLobby_80426CAC.h"
 #include "pso/network/TLobby_803FAEA0.h"
-
-s32 TLobby__sub_80428358(void);
-
 
 NetworkAlarmSlot lobby_alarm_slot_table[0x40];
 NetworkMutexSlot network_mutex_slot_table[8];
@@ -42,10 +40,8 @@ s32 cancel_pending_alarms(void) {
     return 0;
 }
 
-s32 TLobby__sub_803F8E9C(void)
+s16 TLobby__sub_803F8E9C(void)
 {
-  s16 init_buffer_pool(void); /* declared s16 here; the definition returns s32 */
-  s16 TLobby__sub_80428360(); /* declared s16 here; the definition returns s32 */
   s32 i;
   s32 off;
   s32 cnt;

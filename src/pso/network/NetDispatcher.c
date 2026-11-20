@@ -17,8 +17,6 @@ struct Self_803FD85C;
 
 #include "pso/network/IPv6Send.h"
 #include "pso/network/NetStackTypes.h"
-s32 TLobby__sub_803F8E9C(void);
-s32 TLobby__sub_80419A34(void);
 void net_sleep_ms(s32 ms);
 void TLobby__sub_803F9344(u32 handle, void *source, s32 size);
 void NetEnqueueProtocolMessage(s32 payload, s16 detail, s16 first, s16 second, u16 protocol);
@@ -34,7 +32,7 @@ void TLobby__sub_80419A00(void) {
     NetMemset(&network_dispatch_state.lock_handle, 0, offsetof(NetworkDispatchState, unknown_F4));
     cancel_pending_alarms();
 }
-s32 TLobby__sub_80419A34(void) {
+s16 TLobby__sub_80419A34(void) {
     NetMemset(&network_dispatch_state, 0, offsetof(NetworkDispatchState, unknown_F4));
     network_dispatch_state.interval = 0x1E;
     return TLobby__sub_803F8E9C();
@@ -291,4 +289,3 @@ s32 register_protocol_handler(u16 type, NetProtocolHandler fn) {
     g->handlers[freei].fn = fn;
     return 0;
 }
-
