@@ -120,14 +120,14 @@ extern "C" {
 void play_shield_sound_cue(Obj_8011C59C *arg0);
 }
 void normalize_drop_area(s32 *p);
-s32 get_mag_feed_result(s32 arg0, s32 arg1);
+saddr get_mag_feed_result(s32 arg0, s32 arg1);
 void roll_item_channel_below(u32 arg0, s32 arg1);
 s32 is_unsealable_item(u8 *id);
-s32 get_item_stat_boost_record(s32 arg0, s32 arg1, s32 arg2);
+saddr get_item_stat_boost_record(s32 arg0, s32 arg1, s32 arg2);
 extern "C" {
 typedef struct Thing__8011c1e8_8011C000 { u8 a; u8 b; } Thing;
 
-s32 TObjPlayer::get_item_pmt_entry(u8 arg0) {
+saddr TObjPlayer::get_item_pmt_entry(u8 arg0) {
     void *temp_r5;
 
     temp_r5 = *(void **)((s8 *)item_pmt_tbl + 0x50);
@@ -152,7 +152,7 @@ s32 is_unsealable_item(u8 *id) {
     return 0;
 }
 
-s32 TObjPlayer::get_shield_pmt_entry(u8 arg0) {
+saddr TObjPlayer::get_shield_pmt_entry(u8 arg0) {
     if (arg0 == 0) {
         return 0;
     }
@@ -232,7 +232,7 @@ void roll_item_channel_below(u32 count, s32 arg1) {
     __cvt_fp2unsigned((f32) count * TObjPlayer::get_drop_random_float(arg1));
 }
 
-void TObjPlayer::drop_item_from_slot(s32 area, s32 arg1, s32 arg2) {
+void TObjPlayer::drop_item_from_slot(s32 area, s32 arg1, saddr arg2) {
     s32 sp8;
     s32 temp_r5;
     sp8 = arg1;
@@ -243,7 +243,7 @@ void TObjPlayer::drop_item_from_slot(s32 area, s32 arg1, s32 arg2) {
         select_enemy_drop__9TItemDropFPviiPv((*(u32 *)&item_mgr), area, temp_r5, arg2);
     }
 }
-void TObjPlayer::drop_item(s32 arg0, s32 arg1) {
+void TObjPlayer::drop_item(s32 arg0, saddr arg1) {
     s32 sp8;
     s32 temp_r4;
     sp8 = arg0;
@@ -254,7 +254,7 @@ void TObjPlayer::drop_item(s32 arg0, s32 arg1) {
         select_box_item__9TItemDropFiiPv((s32)(*(u32 *)&item_mgr), (s32)temp_r4, (u8 *)arg1);
     }
 }
-void TObjPlayer::drop_meseta_from_slot(s32 arg0, s32 arg1) {
+void TObjPlayer::drop_meseta_from_slot(s32 arg0, saddr arg1) {
     s32 sp8;
     s32 temp_r4;
     sp8 = arg0;
@@ -266,7 +266,7 @@ void TObjPlayer::drop_meseta_from_slot(s32 arg0, s32 arg1) {
     }
 }
 
-s32 get_item_stat_boost_record(s32 arg0, s32 type, s32 id) {
+saddr get_item_stat_boost_record(s32 arg0, s32 type, s32 id) {
     s32 idx;
     u8 *rec;
     idx = 0;
@@ -433,7 +433,7 @@ s32 get_item_star_count(s32 id) {
     return 0;
 }
 
-s32 get_mag_feed_result(s32 arg0, s32 arg1) {
+saddr get_mag_feed_result(s32 arg0, s32 arg1) {
     if ((arg0 >= 0) && (arg0 < 8)) {
         return *(s32 *)((s8 *)(*(saddr *)((s8 *)(*(u8 * *)&item_pmt_tbl) + 0x28)) + (arg0 * 4)) + (arg1 * 8);
     }
@@ -491,7 +491,7 @@ u8 get_weapon_class_motion_type(u8 arg0) {
     return 0U;
 }
 
-s32 TObjPlayer::get_item_by_slot_flag(u8 arg0) {
+saddr TObjPlayer::get_item_by_slot_flag(u8 arg0) {
     if (arg0 & 0x3F) {
         if (arg0 & 0x80) {
             return get_text_collection(0x1F4);

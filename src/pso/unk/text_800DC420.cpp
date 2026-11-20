@@ -143,7 +143,7 @@ void hit_object_in_radius__10TObjPlayerFPvPvPv(Src_800DC4B4 *arg0, Obj_800DC4B4 
     spawn_particle_effect(obj->pos, 0xFC);
 }
 
-s32 TObjPlayer::snap_to_ground(s32 arg0, s32 arg1) {
+s32 TObjPlayer::snap_to_ground(saddr arg0, saddr arg1) {
     u8 *temp_r3;
     temp_r3 = (u8 *)(csnVecterUnder(arg1, 0x16EF));
     if (temp_r3 == NULL) {

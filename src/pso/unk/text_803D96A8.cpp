@@ -50,9 +50,9 @@ void rotate_matrix_x(Matrix34* matrix, s32 angle) {
 
 #pragma push
 #pragma scheduling off
-void TObjPlayer::concat_matrix(u32 arg0, u32 arg1) {
-    u32 elements;
-    u32 var_r4;
+void TObjPlayer::concat_matrix(uaddr arg0, uaddr arg1) {
+    uaddr elements;
+    uaddr var_r4;
     elements = arg0;
     var_r4 = arg1;
     if (elements == 0U) {

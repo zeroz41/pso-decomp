@@ -1180,7 +1180,7 @@ struct TObjPlayer : public TObjChara {
     void process_all_elements();
     static void mult_vec_array(u32 arg0, s32 arg1);
     static void invert_matrix_in_place(uaddr arg0);
-    static void concat_matrix(u32 arg0, uaddr arg1);
+    static void concat_matrix(uaddr arg0, uaddr arg1);
     void concat_quaternion_rotation();
     void apply_quat_rotation(f32 farg0);
     static s32 is_gvm_load_ok();

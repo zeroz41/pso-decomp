@@ -255,7 +255,7 @@ asm f32 vec3_dot(const Vec *a, const Vec *b) {
 #pragma push
 #pragma scheduling off
 
-void TObjPlayer::invert_matrix_in_place(u32 arg0) {
+void TObjPlayer::invert_matrix_in_place(uaddr arg0) {
     u32 var_r3;
     var_r3 = arg0;
     if (var_r3 == 0U) {
