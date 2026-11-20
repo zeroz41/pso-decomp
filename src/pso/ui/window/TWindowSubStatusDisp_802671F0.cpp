@@ -304,14 +304,14 @@ void TWindowCheckBox::advance_all_entries(s32 arg1) {
 }
 
 void TWindowSubStatusDisp::refresh_selected_entry(s32 arg1) {
-    s32 temp_r31;
+    saddr temp_r31;
 
     temp_r31 = get_array_entry__11TWindowBaseFi(this, *(s16 *)((s8 *)this + 0x74));
     if (((s32 (*)(void))is_flag80_set__20TWindowSubStatusDispFv)() == 0) {
         if (arg1 != 0) {
             play_sound_effect(0x52D01, 0, 0, 0);
         }
-        finalize_state__20TWindowSubStatusDispFv(temp_r31);
+        ((TWindowSubStatusDisp *)temp_r31)->finalize_state();
     }
 }
 
@@ -466,9 +466,9 @@ void TWindowMenuIconLine::set_flag4() {
 }
 
 void TWindowMenuIconLine::handle_open() {
-    s32 temp_r31;
+    saddr temp_r31;
     temp_r31 = TWindowBase::get_array_entry((s16)this->cursor);
-    if ((is_flag_4_set__20TWindowSubStatusDispFv() == 0) || (is_flag80_set__20TWindowSubStatusDispFv(temp_r31) != 0)) {
+    if ((is_flag_4_set__20TWindowSubStatusDispFv() == 0) || (((TWindowSubStatusDisp *)temp_r31)->is_flag80_set() != 0)) {
         play_sound_effect(0x53F06, 0, 0, 0);
         return;
     }

@@ -42,7 +42,7 @@ void update_hp_tp_values__20TWindowSubStatusDispFPv(u8 *arg0);
 s32 draw_visible_window_entries(void *, void *, int);
 
 
-void *TWindowStatus__ct(void *arg0, s32 layout_pos, void *arg2, const WindowDescriptor *desc);
+void *TWindowStatus__ct(void *arg0, saddr layout_pos, void *arg2, const WindowDescriptor *desc);
 void TWindowSimpleStatus__ct(void *, s32, void *, const WindowDescriptor *);
 saddr get_window_layout_position(s32);
 
@@ -51,7 +51,6 @@ void update_lockon_window(u8 *arg0);
 void update_status_help_item(s32 arg0);
 extern "C" {
 
-s32 create__19TWindowSimpleStatusFPv(int, void *);
 }
 void set_status_entry_target(void *arg0, s32 arg1);
 #pragma readonly_strings on
@@ -219,7 +218,7 @@ TWindowStatus::~TWindowStatus() {
 
 
 
-void *TWindowStatus__ct(void *window_status, s32 layout_pos, void *arg2, const WindowDescriptor *desc) {
+void *TWindowStatus__ct(void *window_status, saddr layout_pos, void *arg2, const WindowDescriptor *desc) {
     TWindowSimpleStatus__ct(window_status, layout_pos, arg2, desc);
     *(s32 **)((s8 *)window_status + 0x18) = __vt__13TWindowStatus;
     ((TWindowStatus *)window_status)->m_name = TWindowStatus__name;
@@ -227,12 +226,12 @@ void *TWindowStatus__ct(void *window_status, s32 layout_pos, void *arg2, const W
 }
 
 s32 create_status_window(saddr arg0) {
-    s32 window_layout_position;
+    saddr window_layout_position;
     saddr window_status;
-    s32 var_r0;
+    saddr var_r0;
     window_layout_position = get_window_layout_position(0x1C);
     if (is_split_screen() != 0) {
-        return create__19TWindowSimpleStatusFPv((int)window_layout_position, (void *)arg0);
+        return (saddr)((TWindowSimpleStatus *)window_layout_position)->create((void *)arg0);
     }
     window_status = (saddr)TObject::operator new(0x78);
     var_r0 = window_status;

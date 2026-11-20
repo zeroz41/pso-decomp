@@ -228,7 +228,6 @@ void update_requirements__15TWindowHelpItemFv(Help_80254CE4 *self);
 void update_stat_comparison__15TWindowHelpItemFv(Help_802549B0 *self);
 extern "C" void TWindowHelpItem__vt0(HelpItem_802551C4 *self);
 extern "C" void TWindowHelpItem__vt3(HelpItem_8025500C *self);
-extern "C" Op_802544D8 *get_attribute_entry__10TObjPlayerFl(s32, s32);
 extern "C" void set_percentage_rows__15TWindowHelpItemFPvPvi(void *self, Op_802544D8 *ops, EntryFn_802544D8 fn);
 extern "C" u8 lbl_8044EDD8[];
 extern "C" u8 lbl_8044EDE0[];
@@ -621,7 +620,7 @@ struct HelpItem_802547C0 {
 #define lbl_804CF85C (*(EntryFn_802544D8 *)lbl_804CF85C)
 #define self ((HelpItem_802547C0 *)arg0)
 void TWindowHelpItem__vt1(void *arg0) {
-    s32 player;
+    saddr player;
     saddr a;
     saddr b;
     saddr c;
@@ -647,7 +646,7 @@ void TWindowHelpItem__vt1(void *arg0) {
         ((TWindowHelpItem *)c)->set_flag0_bit20();
         ((TWindowHelpItem *)d)->set_flag0_bit20();
         ((TWindowHelpItem *)e)->set_flag0_bit20();
-        set_percentage_rows__15TWindowHelpItemFPvPvi(self, get_attribute_entry__10TObjPlayerFl(player, 0), lbl_804CF844);
+        set_percentage_rows__15TWindowHelpItemFPvPvi(self, (Op_802544D8 *)((TObjPlayer *)player)->get_attribute_entry(0), lbl_804CF844);
         if (self->item != 0) {
             if (((TWindowHelpItem *)self)->is_item_already_equipped() != 0) {
                 set_percentage_rows__15TWindowHelpItemFPvPvi(self, 0, lbl_804CF850);

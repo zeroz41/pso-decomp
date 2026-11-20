@@ -54,7 +54,7 @@ struct Win_803438C4 {
     u8 input[4];
     s32 idx;
     Sub_803438C4 *subs[(0x7C - 0x24) / 4];
-    u32 x7C;
+    uaddr x7C;
     uaddr x80;
     u8 pad84[0x94 - 0x84];
     s32 x94;
@@ -210,7 +210,6 @@ extern const f32 TWindowDD__data_805DFB6C;
 
 extern const f32 lbl_805DFB90;
 void TWindowDD__sub_803435A0(u8 *arg0);
-s32 set_value_f32__9TWindowDDFl(int, int);
 s32 TWindowDD__sub_80341AE0(int);
 s32 TWindowDD__sub_80341AF8(int);
 s32 TWindowDD__sub_8034217C(int);
@@ -647,7 +646,7 @@ void TWindowDD::run_task() {
     }
     cur = w->subs[w->idx];
     if (w->x7C != 0 && cur != NULL) {
-        set_value_f32__9TWindowDDFl(w->x7C, TWindowDD__sub_8034217C((saddr)cur));
+        ((TWindowDD *)w->x7C)->set_value_f32(TWindowDD__sub_8034217C((saddr)cur));
     }
     switch (w->xA8) {
     case 2:

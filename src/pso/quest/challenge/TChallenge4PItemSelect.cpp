@@ -22,6 +22,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/item/TItemData.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/object/warp/TObjCityMainWarp.h"
 
 struct Stack_8034B158 {
     s8 sp8;
@@ -43,7 +44,6 @@ uaddr create_window_menu(saddr, saddr, saddr);
 s32 TWindowSubComCard__sub_80265500(u32);
 saddr get_window_layout_position(s32);
 s32 fn_8034BE30(TChallenge4PResult *);
-s32 forward_trade_action_default__16TObjCityMainWarpFPviii(u32, s32, s32, s32);
 
 }
 s32 challenge4p_item_select_text_ids[8] = { 0x120, 0x13D, 0x159, 0x11D, 0x12A, 0x147, 0x11F, 0x14E };
@@ -392,7 +392,7 @@ void TChallenge4PItemSelect::open_menu() {
         if ((uaddr)menu_window != 0U) {
             var_r29 = 0;
             do {
-                forward_trade_action_default__16TObjCityMainWarpFPviii((u32 &)menu_window, get_text_collection(challenge4p_item_select_text_ids[var_r29]), 6, var_r29);
+                TObjCityMainWarp::forward_trade_action_default(menu_window, get_text_collection(challenge4p_item_select_text_ids[var_r29]), 6, var_r29);
                 var_r29 += 1;
             } while (var_r29 < 8);
             ((TWindowSubComCardList *)menu_window)->set_scroll_target(252.0f, 1.4e+02f);

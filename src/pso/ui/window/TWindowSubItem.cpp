@@ -121,7 +121,6 @@ s32 TWindowSubItem__sub_8027AA78(s32 arg0);
 s32 set_depth__11TWindowBaseFf(s32);
 s32 TWindowSubEquip__sub_80263AF8(s32, s32);
 s32 align_menu_entry_positions(int);
-s32 forward_trade_action_default__16TObjCityMainWarpFPviii(s32, s32, s32, s32);
 saddr get_window_layout_position(s32);
 saddr get_player_by_client_id(s32);
 s32 TObjPlayer__sub_801B7B58(int, int, int);
@@ -600,15 +599,15 @@ s32 TWindowSubItem::create_count_input(s32 maximum) {
     return storage;
 }
 
-void TWindowSubItem::add_meseta_purpose_actions(s32 arg0, s32 arg1) {
+void TWindowSubItem::add_meseta_purpose_actions(saddr arg0, saddr arg1) {
     if (get_current_floor_area() == AREA_LOBBY) {
         TWindowSubComCard::draw_text_gray(arg1, (saddr)(TWindowSubStatusDisp::get_message_10(0x5F)), 6, 6);
         return;
     }
-    forward_trade_action_default__16TObjCityMainWarpFPviii(arg1, (saddr)(TWindowSubStatusDisp::get_message_10(0x5F)), 6, 6);
+    TObjCityMainWarp::forward_trade_action_default((void *)arg1, (saddr)(TWindowSubStatusDisp::get_message_10(0x5F)), 6, 6);
 }
 
-void TWindowSubItem::draw_slot(s32 arg1, s32 arg2, s32 arg3) {
+void TWindowSubItem::draw_slot(saddr arg1, saddr arg2, s32 arg3) {
     s32 temp_r31;
 
     temp_r31 = ((u32)__cntlzw(4 - (arg3 & 0xF)) >> 5) + 4;
@@ -616,7 +615,7 @@ void TWindowSubItem::draw_slot(s32 arg1, s32 arg2, s32 arg3) {
         TWindowSubComCard::draw_text_gray(arg2, (s32)(get_localized_text_entry(0x10, 0xF)), 6, temp_r31);
         return;
     }
-    forward_trade_action_default__16TObjCityMainWarpFPviii(arg2, (s32)(get_localized_text_entry(0x10, 0xF)), 0x26, temp_r31);
+    TObjCityMainWarp::forward_trade_action_default((void *)arg2, (s32)(get_localized_text_entry(0x10, 0xF)), 0x26, temp_r31);
 }
 
 void add_item_purpose_actions(TWindowSubItem *window_sub_item, saddr arg1, saddr arg2) {

@@ -67,7 +67,7 @@ struct TWindowCtrl : public TObject {
     static void release_slot(s8 *arg0);
     static void close_windows_by_flags(u16 arg0);
     static s32 open_balloon(u16 arg0, u8 *arg1, s32 arg2, s32 arg3);
-    static s32 open(s32 arg0, s32 arg1, s32 arg2);
+    static saddr open(s32 arg0, saddr arg1, s32 arg2);
     int open_default(int a1);
     static void create_level_up_window(saddr arg0, saddr arg1);
     static void set_window_flags(void *arg0, s32 arg1, s32 arg2);

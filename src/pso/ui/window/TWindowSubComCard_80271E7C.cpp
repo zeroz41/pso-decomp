@@ -136,7 +136,6 @@ extern "C" {
 s32 draw_card_icon__17TWindowSubComCardFll(int, int, void *);
 s32 align_menu_entry_positions(s32);
 s32 create_menu_window__17TWindowSubComCardFv(void);
-s32 create__14TWindowMessageFPvll(s32, s32 *, s32);
 void open_mode4_window__17TWindowSubComCardFv(void);
 void open_layout_window__17TWindowSubComCardFv(void);
 s32 TWindowSubComCard__sub_80273004(void);
@@ -150,7 +149,7 @@ void *get_player_by_client_id(s32 i);
 extern s32 local_client_id;
 s32 create_player_select_window__17TWindowSubComCardFv(void);
 void rebuild_com_card_list__17TWindowSubComCardFii(s32 arg0, saddr arg1);
-s32 create__17TWindowSubComCardFv(void);
+saddr create__17TWindowSubComCardFv(void);
 s32 create_keyboard__17TWindowSubComCardFi(saddr arg0);
 s32 create_keyboard__17TWindowSubComCardFii(saddr arg0, s32 arg1);
 void update_display_value__17TWindowSubComCardFUiUiPv(uaddr arg0, uaddr arg1, s32 *arg2);
@@ -1418,7 +1417,7 @@ void rebuild_com_card_list__17TWindowSubComCardFii(s32 arg0, saddr arg1) {
 extern "C" {
 
 void open_layout_window__17TWindowSubComCardFv(void) {
-    create__14TWindowMessageFPvll((s32)(get_window_layout_position(0x80)), (s32 *)com_card_layout_message_size, 1);
+    TWindowMessage::create((void *)get_window_layout_position(0x80), (saddr)com_card_layout_message_size, 1);
 }
 }
 #pragma push
@@ -1552,7 +1551,7 @@ u32 TWindowSubComCard__sub_80272A98(void *) {
     return w;
 }
 void open_mode4_window__17TWindowSubComCardFv(void) {
-    create__14TWindowMessageFPvll((s32)(get_window_layout_position(0x8f)), (s32 *)com_card_mode4_message_size, 1);
+    TWindowMessage::create((void *)get_window_layout_position(0x8f), (saddr)com_card_mode4_message_size, 1);
 }
 
 s32 create_menu_window__17TWindowSubComCardFv(void) {
@@ -1650,12 +1649,12 @@ u32 TWindowSubComCard__sub_80272640(void *) {
     return w;
 }
 
-s32 create__17TWindowSubComCardFv(void) {
-    s32 temp_r31;
-    s32 window_layout_position;
+saddr create__17TWindowSubComCardFv(void) {
+    saddr temp_r31;
+    saddr window_layout_position;
 
     window_layout_position = get_window_layout_position(0x98);
-    temp_r31 = create__14TWindowMessageFPvll(window_layout_position, (s32 *)com_card_message_size, 1);
+    temp_r31 = (saddr)TWindowMessage::create((void *)window_layout_position, (saddr)com_card_message_size, 1);
     set_depth__11TWindowBaseFf(50090.0f);
     return temp_r31;
 }

@@ -15,7 +15,7 @@ struct TWindowMessagePage : public TWindowMessage {
     void render();
     void run_task();
     u8 unk_90[0x4];
-    u32 m_94;
+    uaddr m_94;
 };
 
 LAYOUT_ASSERT(TWindowMessagePage_size, sizeof(TWindowMessagePage) == 0x98);

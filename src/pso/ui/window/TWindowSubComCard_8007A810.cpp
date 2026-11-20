@@ -282,7 +282,6 @@ struct Card_8007B0D0 {
 };
 
 extern "C" {
-s32 init_card__17TWindowSubComCardFPv(s32 *, s32);
 s32 count_leading_active__17TWindowSubComCardFPvi(Card_8007AF60 *p, s32 n);
 s32 TWindowSubComCard__sub_8007B010(Card_8007B010 *p, s32 n);
 
@@ -295,7 +294,7 @@ void TWindowSubComCard__sub_8007AF10(s32 arg0) {
     ((TWindowSubComCard *)(&sp8))->init_guild_card();
     temp = TWindowSubComCard::get_keyboard_mode();
     ((s32 (*)(Big *, s32))copy_struct__17TWindowSubComCardFPvPv)(&spC, temp);
-    init_card__17TWindowSubComCardFPv(&sp8, arg0);
+    ((TWindowSubComCard *)&sp8)->init_card((void *)(saddr)arg0);
 }
 #pragma pop
 
