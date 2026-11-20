@@ -43,7 +43,6 @@ extern "C" {
 s32 is_locally_controlled__10TObjPlayerFPv(void);
 f32 horizontal_distance_squared(void *, void *);
 void get_player_state__6TOMineFv(void *, u16);
-s32 fn_80171314(void *);
 }
 
 
@@ -292,7 +291,7 @@ int TOMineTrap__sub_80171350(void) {  return mine_trap_instance_id; }
 void TOMineTrap::sub_80171348(u16 v) { this->m_2d8 = v; }
 s16 TOMineTrap__sub_80171340(void* p) { return *(s16*)((char*)p + 0x326); }
 u16 TOMineTrap::get_trap_type() { return this->m_2d8; }
-s32 fn_80171314(void *p) { return ((TObjPlayer *)p)->check_flag(0x10000); }
+s32 fn_80171314(TObjPlayer *player) { return player->check_flag(0x10000); }
 TOMine::TOMine(TObject *parent) : TObjChara(parent) {
     m_name = TOMine__name;
     phase = 0;
@@ -1194,7 +1193,7 @@ void TOMineDisp::run_task() {
     switch (this->m_a4) {
     case 0:
         p = (u8 *)get_player_by_client_id(this->m_a8);
-        if (p != NULL && is_locally_controlled__10TObjPlayerFPv() != 0 && fn_80171314(p) != 0) {
+        if (p != NULL && is_locally_controlled__10TObjPlayerFPv() != 0 && fn_80171314((TObjPlayer *)p) != 0) {
             if (horizontal_distance_squared(((u8 *)this) + 0x38, p + 0x38) <= 40000.0f ||
                 ((TObjBase *)p)->get_room() == this->get_room()) {
                 this->m_a4 = 2;
@@ -1263,7 +1262,7 @@ void TOMineTrapDisp::run_task() {
             for (i = 0; i < 4; i++) {
                 pl = (u8 *)get_player_by_client_id(i);
                 if (pl != 0 && is_locally_controlled__10TObjPlayerFPv() != 0) {
-                    if (fn_80171314(pl) != 0 ||
+                    if (fn_80171314((TObjPlayer *)pl) != 0 ||
                         (TTecCtrl::is_technique_ready() != 0 && m_ac == (u16)get_entity_id(pl))) {
                         if (!(horizontal_distance_squared(&position, pl + 0x38) <= 40000.0f)) {
                             if ((s16)((TObjBase *)pl)->get_room() != (s16)this->get_room()) {

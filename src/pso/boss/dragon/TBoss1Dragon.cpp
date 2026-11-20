@@ -3098,7 +3098,7 @@ void TBoss1Dragon::update_spinning_projectile_attack(u32 reason) {
         break;
     case ENEMY_STATE_LEAVE:
         self->rotation_x = 0;
-        ((TObjEnemy *)self)->sub_8002AE64();
+        ((TObjMotion *)self)->sub_8002AE64();
         self->m_654 = 0;
         break;
     }
@@ -5817,7 +5817,7 @@ int TBoss8Dragon::test_card_flag_2() { return TWindowKeyBoardHard::test_card_fla
 
 void TBoss8Dragon::set_speed(f32 v) { *(f32 *)((u8 *)this + 0x10) = v; }
 
-void TObjEnemy::sub_8002AE64() {
+void TObjMotion::sub_8002AE64() {
     this->motion_flags = (s32) (this->motion_flags & 0xFFFFFFFE);
 }
 

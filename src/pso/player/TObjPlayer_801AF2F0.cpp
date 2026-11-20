@@ -6234,7 +6234,7 @@ void apply_speed_scale__10TObjPlayerFif(s32 arg0, f32 farg0) {
     } else {
         var_f1 = farg0;
     }
-    ((TObjEnemy *)arg0)->sub_800A7798(var_f1);
+    ((TObjMotion *)arg0)->sub_800A7798(var_f1);
 }
 
 s32 calc_scaled_value__10TObjPlayerFii(s32 arg0, s32 arg1) {

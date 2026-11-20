@@ -149,12 +149,12 @@ s16 TObjPlayer::get_field_2c8() { return this->m_2c8; }
 s16 TObjPlayer__sub_800A776C(void* p) { return *(s16*)((char*)p + 0x2ca); }
 int TObjPlayer__sub_800A7774(void* p) { return VecCopy__FP3VecPC3Vec((char*)p + 0x38); }
 
-void TObjEnemy::sub_800A7798(f32 farg0) {
+void TObjMotion::sub_800A7798(f32 farg0) {
     this->override_speed = farg0;
     this->set_flags_B0((u32)(0x100U));
 }
 
-void TObjEnemy::set_flags_B0(u32 v) { this->motion_flags |= v; }
+void TObjMotion::set_flags_B0(u32 v) { this->motion_flags |= v; }
 void TObjEneDimedian::vfunc_101() {  }
 
 void TObjEneDimedian::vfunc_99() {

@@ -1047,7 +1047,7 @@ void TObjPlayer__sub_800A54B4(u8 *arg0) {
             if (a < 0x10) {
                 F(s16, 0x328) = 1;
                 F(s16, 0xB8) = 2;
-                ((TObjEnemy *)arg0)->sub_800A7798(lbl_805D504C[0]);
+                ((TObjMotion *)arg0)->sub_800A7798(lbl_805D504C[0]);
                 if (check_path_obstructed(arg0, F(u8 *, 0x2A8) + 0x2FC) == 1) {
                     F(f32, 0x308) = F(f32, 0x30C) = F(f32, 0x310) = 0.0f;
                 } else {
@@ -1173,7 +1173,7 @@ void TObjEneSaver::vfunc_60() {
         if ((s32)(10430.38043493439 * a) < 0x10) {
             this->phase = 1;
             this->requested_action = 2;
-            ((TObjEnemy *)self)->sub_800A7798(*lbl_805D504C);
+            ((TObjMotion *)self)->sub_800A7798(*lbl_805D504C);
         } else {
             this->phase = 0;
             this->requested_action = 1;

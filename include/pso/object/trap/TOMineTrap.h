@@ -4,6 +4,10 @@
 #include "types.h"
 #include "pso/object/trap/TOMine.h"
 
+struct TObjPlayer;
+
+extern "C" s32 fn_80171314(TObjPlayer *player);
+
 struct TOMineTrap : public TOMine {
     // owner: the actor that placed it; kind 0-3 picks the attack; slot is its index among the owner's traps.
     TOMineTrap(TObjBase *owner, s16 kind, s16 slot);

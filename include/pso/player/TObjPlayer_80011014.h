@@ -6,6 +6,7 @@
 struct Vec;
 struct TObjEnemy;
 class TObjBase;
+class TObjChara;
 struct EnemyMoveParams;
 
 extern "C" {
@@ -61,7 +62,7 @@ void trigger_switch_attack__10TObjPlayerFPvi(void *arg0, s32 arg1);
 s32 try_spend_actor_meseta(u8 *arg0, s32 arg1);
 s32 vfunc_37__9TObjCharaFv(u8 *player);
 s32 update_attack_stat_status__9TObjCharaFv(u8 *player);
-u16 find_nearest_visible_player(TObjEnemy *enemy, Vec *out, f32 radius);
+u16 find_nearest_visible_player(TObjChara *searcher, Vec *out, f32 radius);
 void calc_velocity_toward_destination(TObjEnemy *enemy, Vec from, Vec to, f32 speed);
 f32 update_enemy_wander_move(TObjEnemy *enemy, Vec *dest, s32 mode, EnemyMoveParams *params, f32 min_distance);
 s32 enemy_turn_toward_dest__9TObjEnemyFl(TObjEnemy *enemy, s32 turn_speed);

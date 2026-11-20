@@ -334,7 +334,7 @@ void TOTrapAncient02::vfunc_81() {
         }
         break;
     case 2:
-        player = find_nearest_visible_player((TObjEnemy *)this, NULL, range);
+        player = find_nearest_visible_player(this, NULL, range);
         if (player != 0xFFFF) {
             p = get_player_by_client_id(player);
             target = (u8 *)p;
@@ -391,8 +391,8 @@ void TOTrapAncient02::vfunc_82() {
     case 2:
         if (target != NULL) {
             obj_setFlags30(target, 0x200);
-            ((TObjEnemy *)target)->sub_8002AE64();
-            ((TObjEnemy *)target)->sub_800A7798(1.0f);
+            ((TObjChara *)target)->sub_8002AE64();
+            ((TObjChara *)target)->sub_800A7798(1.0f);
             timer--;
             if (timer < 0) {
                 phase = 3;
@@ -557,7 +557,7 @@ void TOTrapAncient02R::find_target_player() {
     clear_player_status_flag(0, 1);
     calc_attach_pos();
     if (switch_id == -1 || is_current_floor_switch_set((u16)switch_id) == 1) {
-        player = find_nearest_visible_player((TObjEnemy *)this, NULL, range);
+        player = find_nearest_visible_player(this, NULL, range);
         if (player != 0xFFFF) {
             target = (u8 *)get_player_by_client_id(player);
             if (target != NULL) {
@@ -596,7 +596,7 @@ void TOTrapAncient02R::vfunc_81() {
         }
         break;
     case 2:
-        player = find_nearest_visible_player((TObjEnemy *)this, NULL, range);
+        player = find_nearest_visible_player(this, NULL, range);
         if (player != 0xFFFF) {
             TObjPlayer *p = get_player_by_client_id(player);
             target = (u8 *)p;

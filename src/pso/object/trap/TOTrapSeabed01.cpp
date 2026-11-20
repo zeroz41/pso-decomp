@@ -341,7 +341,7 @@ void TOTrapSeabed01::check_hold_player() {
     TObjPlayer *held;
     f32 distance;
     target = NULL;
-    player = find_nearest_visible_player((TObjEnemy *)this, NULL, range);
+    player = find_nearest_visible_player(this, NULL, range);
     if (player != 0xFFFF) {
         held = get_player_by_client_id(player);
         target = (u8 *)held;

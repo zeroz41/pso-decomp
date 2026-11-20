@@ -200,6 +200,9 @@ public:
     void set_field_d8(s32);
     void set_field_dc(s32);
     void set_field_b8(s16);
+    void sub_8002AE64();
+    void sub_800A7798(f32);
+    void set_flags_B0(u32);
     TObjMotionAction *get_anim_entry(int action);
     int test_motion_flags(s32 flags);
     void clear_motion_flags(s32 flags);
