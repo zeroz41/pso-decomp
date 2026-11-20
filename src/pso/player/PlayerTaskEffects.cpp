@@ -1096,7 +1096,7 @@ void update_player_appear_fade(u8 *arg0) {
         default:
             break;
         case 0:
-            if ((is_inactive__10TObjPlayerFv() != 0) && (check_flag_40000__10TObjPlayerFv((saddr)temp_r3) == 0) && (((TObjPlayer *)temp_r3)->check_flag_04000000() != 0) && (is_on_current_floor__10TObjPlayerFi((VO_801C6408 *)temp_r3) != 0)) {
+            if ((((TObjPlayer *)temp_r3)->is_inactive() != 0) && (check_flag_40000__10TObjPlayerFv((saddr)temp_r3) == 0) && (((TObjPlayer *)temp_r3)->check_flag_04000000() != 0) && (is_on_current_floor__10TObjPlayerFi((VO_801C6408 *)temp_r3) != 0)) {
                 if (--*(s16 *)((s8 *)arg0 + 2) < 0) {
                     if (TCameraCtrl::get_mode() != 0) {
                         ((TObjPlayer *)temp_r3)->render_material_state.alpha = 1.0f;
@@ -1160,7 +1160,7 @@ void TForceOperate::run_task() {
 
     if (TObjPlayer__sub_801C6DAC((u8 *)&m_1c) != 0) {
         temp_r31 = (void *)((TMainCursor *)((saddr)&m_1c))->get_state();
-        if ((is_target_valid__10TObjPlayerFv() != 0) && (((TObjPlayer *)temp_r31)->has_action_palette_entry() != 0)) {
+        if ((((TObjPlayer *)temp_r31)->is_target_valid() != 0) && (((TObjPlayer *)temp_r31)->has_action_palette_entry() != 0)) {
             ((TMainCursor *)(((TObjPlayer *)temp_r31)->m_424 + 0x4F8))->get_id();
             entity = find_entity_by_id();
             if (entity != NULL) {

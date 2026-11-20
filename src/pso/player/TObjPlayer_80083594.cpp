@@ -509,6 +509,7 @@ void TObjPlayer::draw_screen_quad(u32 arg0, s32 arg1, f32 farg0) {
 s32 TObjPlayer::check_all_players_ready() {
     s32 flag;
     s32 counter;
+    void *p;
     flag = 1;
     if (((s32)TObjPlayer__sub_80083F9C()) == 0) {
         return 0;
@@ -516,7 +517,7 @@ s32 TObjPlayer::check_all_players_ready() {
     if (get_main_phase() == 0xF) {
         counter = 0;
         do {
-            if ((get_player_by_client_id(counter) != 0U) && (is_inactive__10TObjPlayerFv() == 0)) {
+            if (((p = get_player_by_client_id(counter)) != NULL) && (((TObjPlayer *)p)->is_inactive() == 0)) {
                 flag = 0;
             }
             counter += 1;

@@ -2480,7 +2480,7 @@ void TObjPlayer::send_name_and_state() {
 void TObjPlayer__sub_801C94B8(u8 *arg0) {
     switch (*(s16 *)(arg0 + 0x328)) {
     case 1:
-        if (is_frozen__10TObjPlayerFv() == 0) {
+        if (((TObjPlayer *)arg0)->is_frozen() == 0) {
             ((void (*)(void *, int, int))run_action_state_phase__10TObjPlayerFisi)(arg0, 1, 0);
         }
         break;
@@ -2491,7 +2491,7 @@ void TObjPlayer::update_gated_action() {
     s32 temp_r31;
 
     if (this->phase == 0) {
-        if (is_status_flag_200__10TObjPlayerFv() != 0) {
+        if (this->is_status_flag_200() != 0) {
             temp_r31 = ((s32 (*)(void *))get_entity_id)(this);
             send_6x2F_change_player_hp(temp_r31, temp_r31, get_actor_hp__9TObjCharaFv(this));
             obj_clearFlags30((u32)0x200);
@@ -2646,7 +2646,7 @@ void TObjPlayer::update_service_hold() {
 void TObjPlayer::service_hold_phase2_nop() {  }
 
 void TObjPlayer::set_motion(saddr arg0) {
-    if (is_status_flag_200__10TObjPlayerFv() != 0) {
+    if (((TObjPlayer *)arg0)->is_status_flag_200() != 0) {
         if (((TObjCollidable *)arg0)->obj_testFlags30(0x400) != 0) {
             ((s32 (*)(s32, s32, s32))run_action_state_phase__10TObjPlayerFisi)(arg0, 0xE, 5);
             return;
@@ -5385,7 +5385,7 @@ s32 update_aim_target__10TObjPlayerFPv(void *arg0) {
     f32 temp_f1;
     s32 temp_r3;
 
-    if (is_inactive__10TObjPlayerFv() == 0) {
+    if (((TObjPlayer *)arg0)->is_inactive() == 0) {
         return 0;
     }
     temp_f1 = 1.5f * sin_table_lookup(*(s32 *)((s8 *)arg0 + 0x3F0));
@@ -5652,7 +5652,7 @@ s32 update_combat_stats__10TObjPlayerFPv(u8 *arg0) {
     f32 temp_f31;
     s32 temp_r3;
 
-    if (is_inactive__10TObjPlayerFv() == 0) {
+    if (((TObjPlayer *)arg0)->is_inactive() == 0) {
         return 0;
     }
     temp_f31 = apply_stat_multipliers_default__10TObjPlayerFv((void *) (arg0 + 0x5E0), (void *) (arg0));

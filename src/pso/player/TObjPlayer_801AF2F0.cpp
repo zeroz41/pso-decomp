@@ -2152,8 +2152,8 @@ s32 run_state_query__10TObjPlayerFi(s32, void *);
 
 s32 use_item__6TLobbyFlll(s32, void *, s32, s32, void *);
 void TLobby__sub_801D4C28(s32, Pl_801B0B88 *, s32, s32);
-u32 find_first_inventory_entry__10TObjPlayerFi(int, void *);
-u32 set_mode_and_refresh_object__10TObjPlayerFl(s32, s8 *);
+uaddr find_first_inventory_entry__10TObjPlayerFi(int, void *);
+uaddr set_mode_and_refresh_object__10TObjPlayerFl(s32, s8 *);
 s32 set_field_1c__10TObjPlayerFl(void *, void *);
 s32 draw_party_label__15TFontSmallLobbyFiUis(saddr, s32, s32);
 s32 accumulate_damage_stats(saddr, saddr, s32);
@@ -3266,6 +3266,7 @@ void send_6x25_equip_item(void *arg0, s32 arg1, s32 arg2) {
 }
 
 void handle_6x25_equip_item(void *arg0) {
+    void *node;
     Msg_801BA060 m;
     Player_801BA060 *p;
     void *o;
@@ -3274,7 +3275,7 @@ void handle_6x25_equip_item(void *arg0) {
     ((TObjPlayer *)(&m))->bswap_body_dwords5();
     if (validate_6x25_equip_item((G_ClientIDHeader *)&m) != 0) {
         p = ((Player_801BA060 * (*)(u16))get_player_by_client_id)(m.slot);
-        if ((p != NULL) && (((TObjPlayer *)(p->inv))->start_inventory_update(m.c) != 0U) && ((o = ((void * (*)(void))get_owner_if_alive__10TObjPlayerFv)()) != NULL)) {
+        if ((p != NULL) && ((node = ((TObjPlayer *)(p->inv))->start_inventory_update(m.c)) != NULL) && ((o = (void *)((TObjPlayer *)node)->get_owner_if_alive()) != NULL)) {
             ((TObjPlayer *)p)->equip_item_to_slot(o, m.d);
         }
     }
@@ -3324,6 +3325,7 @@ void *TObjPlayer::copy_unequip_fields(void *arg1) {
 }
 
 void handle_6x26_unequip_item(void *arg0) {
+    void *node;
     Msg_801B9E0C m;
     Player_801B9E0C *p;
     void *o;
@@ -3332,7 +3334,7 @@ void handle_6x26_unequip_item(void *arg0) {
     ((TObjPlayer *)(&m))->bswap_body_dwords4();
     if (validate_6x26_unequip_item((G_ClientIDHeader *)&m) != 0) {
         p = ((Player_801B9E0C * (*)(u16))get_player_by_client_id)(m.slot);
-        if ((p != NULL) && (((TObjPlayer *)(p->inv))->start_inventory_update(m.c) != 0U) && ((o = ((void * (*)(void))get_owner_if_alive__10TObjPlayerFv)()) != NULL)) {
+        if ((p != NULL) && ((node = ((TObjPlayer *)(p->inv))->start_inventory_update(m.c)) != NULL) && ((o = (void *)((TObjPlayer *)node)->get_owner_if_alive()) != NULL)) {
             ((void (*)(void *, void *))unequip_item__10TObjPlayerFiPv)(p, o);
         }
     }
@@ -3438,6 +3440,7 @@ s32 preview_equip_stats__10TObjPlayerFv(u8 *arg0, s16 *out, u8 *incoming) {
 #pragma push
 #pragma fp_contract on
 s32 preview_unequip_stats__10TObjPlayerFv(Self_801B96BC *self, Out_801B96BC *out, s32 key) {
+    void *node;
     u8 a[0x34];
     Stats_801B96BC c;
     u8 b[0x20];
@@ -3446,10 +3449,11 @@ s32 preview_unequip_stats__10TObjPlayerFv(Self_801B96BC *self, Out_801B96BC *out
     s32 base;
     f32 k;
     s16 d;
-    if (((TObjPlayer *)(self->fD00))->start_inventory_update(key) == 0U) {
+    node = ((TObjPlayer *)(self->fD00))->start_inventory_update(key);
+    if (node == NULL) {
         return 0;
     }
-    owner = ((VObj_801B96BC *)get_owner_if_alive__10TObjPlayerFv());
+    owner = ((VObj_801B96BC *)((TObjPlayer *)node)->get_owner_if_alive());
     if (owner == NULL) {
         return 0;
     }
@@ -3596,6 +3600,7 @@ bool TObjPlayer::is_target_in_facing_cone(void *target_arg) {
 #pragma pop
 
 s32 TObjPlayer::can_inventory_accept_item(u8 *item) {
+    void *node;
     s32 max;
     s32 n;
     VObj_801B91F0 *owner;
@@ -3603,13 +3608,14 @@ s32 TObjPlayer::can_inventory_accept_item(u8 *item) {
         if (item[0] == 4) {
             return 1;
         }
-        if (((u32 (*)(Inv_801B91F0 *, u8 *))set_mode_and_refresh_object__10TObjPlayerFl)(((Player_801B91F0 *)this)->inv, item) == 0) {
+        node = ((TObjPlayer *)((Player_801B91F0 *)this)->inv)->set_mode_and_refresh_object((saddr)item);
+        if (node == NULL) {
             if (((Player_801B91F0 *)this)->inv->count >= 30) {
                 return 0;
             }
             return ((TItemData *)item)->get_max_stack_size();
         }
-        owner = ((VObj_801B91F0 * (*)(void))get_owner_if_alive__10TObjPlayerFv)();
+        owner = (VObj_801B91F0 *)((TObjPlayer *)node)->get_owner_if_alive();
         if (owner == NULL) {
             return 0;
         }
@@ -3629,6 +3635,7 @@ void can_pickup_item_by_id__10TObjPlayerFP5TItem(saddr arg0, saddr arg1) {
 }
 
 s32 can_pickup_item__10TObjPlayerFP9TItemData(void *arg0, u8 *item_data) {
+    void *node;
     s32 temp_r31;
     s32 temp_r31_2;
     void *held;
@@ -3637,8 +3644,9 @@ s32 can_pickup_item__10TObjPlayerFP9TItemData(void *arg0, u8 *item_data) {
         if ((u8) *item_data == 4) {
             return obj_getPtr2B0_20((u8 *)arg0) < 0xF423F;
         }
-        if (((u32 (*)(void *, u8 *))set_mode_and_refresh_object__10TObjPlayerFl)(*(void **)((s8 *)arg0 + 0xD00), item_data) != 0U) {
-            held = ((void * (*)(void))get_owner_if_alive__10TObjPlayerFv)();
+        node = ((TObjPlayer *)*(void **)((s8 *)arg0 + 0xD00))->set_mode_and_refresh_object((saddr)item_data);
+        if (node != NULL) {
+            held = (void *)((TObjPlayer *)node)->get_owner_if_alive();
             if (held == NULL) {
                 return 0;
             }
@@ -3781,6 +3789,7 @@ s32 TObjPlayer::count_items_of_type(s8 arg1, s8 arg2, s8 arg3) {
 }
 
 void TObjPlayer::request_item_drop(s32 arg1, s32 arg2) {
+    void *node;
     Item_801B8AF8 item;
     VObj_801B8AF8 *owner;
     s32 id;
@@ -3790,10 +3799,11 @@ void TObjPlayer::request_item_drop(s32 arg1, s32 arg2) {
         ((void (*)(s32, s32, s32, s32))play_sound_effect)(0x53F06, 0, 0, 0);
         return;
     }
-    if (((TObjPlayer *)(*(saddr *)(((u8 *)this) + 0xD00)))->start_inventory_update(arg1) == 0) {
+    node = ((TObjPlayer *)(*(saddr *)(((u8 *)this) + 0xD00)))->start_inventory_update(arg1);
+    if (node == NULL) {
         return;
     }
-    owner = ((VObj_801B8AF8 * (*)(void))get_owner_if_alive__10TObjPlayerFv)();
+    owner = (VObj_801B8AF8 *)((TObjPlayer *)node)->get_owner_if_alive();
     if (owner == NULL) {
         return;
     }
@@ -4081,15 +4091,17 @@ void rebuild_player_inventory(void *arg0) {
 }
 
 s32 try_send_6x27_use_item(void *player, s32 arg1) {
+    void *node;
     struct S801B7F4C sp8;
     void *temp;
     if (((s32 (*)(void))is_lobby_floor_15__15TFontSmallLobbyFv)() != 0) {
         return 0;
     }
-    if (((TObjPlayer *)(*(saddr *)((s8 *)player + 0xD00)))->start_inventory_update(arg1) == 0U) {
+    node = ((TObjPlayer *)(*(saddr *)((s8 *)player + 0xD00)))->start_inventory_update(arg1);
+    if (node == NULL) {
         return 0;
     }
-    temp = ((void * (*)(void))get_owner_if_alive__10TObjPlayerFv)();
+    temp = (void *)((TObjPlayer *)node)->get_owner_if_alive();
     if (temp == NULL) {
         return 0;
     }
@@ -4108,6 +4120,7 @@ s32 try_send_6x27_use_item(void *player, s32 arg1) {
 }
 
 void handle_6x27_use_item(saddr arg0) {
+    void *node;
     Pkt_801B7EB8 pkt;
     u8 *temp_r3;
     u8 *temp_r3_2;
@@ -4116,8 +4129,8 @@ void handle_6x27_use_item(saddr arg0) {
     ((TObjPlayer *)(&pkt))->bswap_cmd_u32();
     if (validate_6x27_use_item((G_ClientIDHeader *)(&pkt)) != 0) {
         temp_r3 = ((u8 * (*)(u16))get_player_by_client_id)(pkt.client);
-        if ((temp_r3 != NULL) && (((TObjPlayer *)(*(saddr *)((s8 *)temp_r3 + 0xD00)))->start_inventory_update(pkt.item) != 0U)) {
-            temp_r3_2 = ((u8 * (*)(void))get_owner_if_alive__10TObjPlayerFv)();
+        if ((temp_r3 != NULL) && ((node = ((TObjPlayer *)(*(saddr *)((s8 *)temp_r3 + 0xD00)))->start_inventory_update(pkt.item)) != NULL)) {
+            temp_r3_2 = (u8 *)((TObjPlayer *)node)->get_owner_if_alive();
             if (temp_r3_2 != NULL) {
                 ((VObj_801B7EB8 *)temp_r3_2)->m29();
             }
@@ -4139,6 +4152,7 @@ void send_6x28_feed_mag(void *arg0, s32 arg1, s32 arg2) {
 }
 
 void handle_6x28_feed_mag(saddr arg0) {
+    void *node;
     Cmd_801B7D68 cmd;
     u8 *p;
     saddr a;
@@ -4148,10 +4162,10 @@ void handle_6x28_feed_mag(saddr arg0) {
     ((TObjPlayer *)(&cmd))->bswap_body_dwords2();
     if (validate_6x28_feed_mag((G_ClientIDHeader *)&cmd) != 0) {
         p = ((u8 * (*)(u16))get_player_by_client_id)(cmd.client);
-        if (p != NULL && ((TObjPlayer *)(*(saddr *)((s8 *)p + 0xD00)))->start_inventory_update(cmd.item_a) != 0U) {
-            a = ((s32 (*)(void))get_owner_if_alive__10TObjPlayerFv)();
-            if (a != 0 && ((TObjPlayer *)(*(saddr *)((s8 *)p + 0xD00)))->start_inventory_update(cmd.item_b) != 0U) {
-                b = ((s32 (*)(void))get_owner_if_alive__10TObjPlayerFv)();
+        if (p != NULL && (node = ((TObjPlayer *)(*(saddr *)((s8 *)p + 0xD00)))->start_inventory_update(cmd.item_a)) != NULL) {
+            a = ((TObjPlayer *)node)->get_owner_if_alive();
+            if (a != 0 && (node = ((TObjPlayer *)(*(saddr *)((s8 *)p + 0xD00)))->start_inventory_update(cmd.item_b)) != NULL) {
+                b = ((TObjPlayer *)node)->get_owner_if_alive();
                 if (b != 0) {
                     feed_item_to_mag((TItem *)a, (TItem *)b);
                 }
@@ -4162,31 +4176,39 @@ void handle_6x28_feed_mag(saddr arg0) {
 
 s32 fn_801B7CEC(u8 *arg0, s8 arg1, s8 arg2, s8 arg3) {
     struct ItemData_801B7CEC item;
+    void *found;
+    uaddr owner;
     ((void (*)(void *))init__9TItemDataFv)(&item);
     item.kind = arg1;
     item.group = arg2;
     item.sub = arg3;
-    if (((u32 (*)(int, void *))set_mode_and_refresh_object__10TObjPlayerFl)(*(s32 *)((s8 *)arg0 + 0xD00), &item) == 0U) {
+    found = ((TObjPlayer *)((TObjPlayer *)arg0)->inventory_objects)->set_mode_and_refresh_object((saddr)&item);
+    if (found == NULL) {
         return -1;
     }
-    if (get_owner_if_alive__10TObjPlayerFv() == 0U) {
+    owner = ((TObjPlayer *)found)->get_owner_if_alive();
+    if (owner == 0U) {
         return -1;
     }
-    return get_item_id__5TItemFv();
+    return ((TItem *)owner)->get_item_id();
 }
 
 s32 TObjPlayer::find_inventory_item_id(s8 arg1, s8 arg2) {
+    uaddr found;
+    uaddr owner;
     struct ItemData_801B7C78 item;
     ((void (*)(void *))init__9TItemDataFv)(&item);
     item.kind = arg1;
     item.group = arg2;
-    if (find_first_inventory_entry__10TObjPlayerFi(*(s32 *)((s8 *)((u8 *)this) + 0xD00), &item) == 0U) {
+    found = find_first_inventory_entry__10TObjPlayerFi(*(s32 *)((s8 *)((u8 *)this) + 0xD00), &item);
+    if (found == 0U) {
         return -1;
     }
-    if (get_owner_if_alive__10TObjPlayerFv() == 0U) {
+    owner = ((TObjPlayer *)found)->get_owner_if_alive();
+    if (owner == 0U) {
         return -1;
     }
-    return get_item_id__5TItemFv();
+    return ((TItem *)owner)->get_item_id();
 }
 
 s32 TWindowSubItem::is_usable(saddr arg0) {
@@ -6011,51 +6033,67 @@ s32 TObjPlayer::can_use_item(void *arg1) {
 }
 
 s32 TObjPlayer::check_can_add_item(s8 arg1, s8 arg2) {
+    uaddr node;
+    uaddr node2;
+    uaddr owner;
+    uaddr owner2;
     s8 sp8[24];
 
     ((TItemData *)sp8)->init();
     sp8[0] = arg1;
     sp8[1] = arg2;
-    if (set_mode_and_refresh_object__10TObjPlayerFl(*(s32 *)((s8 *)this + 0xD00), sp8) == 0U) {
+    node = set_mode_and_refresh_object__10TObjPlayerFl(*(s32 *)((s8 *)this + 0xD00), sp8);
+    if (node == 0U) {
         return 0;
     }
-    if (get_owner_if_alive__10TObjPlayerFv() == 0U) {
+    owner = ((TObjPlayer *)node)->get_owner_if_alive();
+    if (owner == 0U) {
         return 0;
     }
-    if (try_send_6x27_use_item(this, get_item_id__5TItemFv()) == 0) {
+    if (try_send_6x27_use_item(this, ((TItem *)owner)->get_item_id()) == 0) {
         return 0;
     }
-    if (set_mode_and_refresh_object__10TObjPlayerFl(*(s32 *)((s8 *)this + 0xD00), sp8) == 0U) {
+    node2 = set_mode_and_refresh_object__10TObjPlayerFl(*(s32 *)((s8 *)this + 0xD00), sp8);
+    if (node2 == 0U) {
         return 0;
     }
-    if (get_owner_if_alive__10TObjPlayerFv() == 0U) {
+    owner2 = ((TObjPlayer *)node2)->get_owner_if_alive();
+    if (owner2 == 0U) {
         return 0;
     }
-    return all_parents_unqueued_for_destruction__7TObjectFv() != 0 ? 1 : 0;
+    return ((TObject *)owner2)->all_parents_unqueued_for_destruction() != 0 ? 1 : 0;
 }
 
 int TObjPlayer::try_use_item_by_type(int arg1, int arg2, int arg3) {
+    uaddr node;
+    uaddr node2;
+    uaddr owner;
+    uaddr owner2;
     s8 sp8[24];
     ((TItemData *)sp8)->init();
     sp8[0] = arg1;
     sp8[1] = arg2;
     sp8[2] = arg3;
-    if (set_mode_and_refresh_object__10TObjPlayerFl(*(s32 *)((s8 *)this + 0xD00), sp8) == 0U) {
+    node = set_mode_and_refresh_object__10TObjPlayerFl(*(s32 *)((s8 *)this + 0xD00), sp8);
+    if (node == 0U) {
         return 0;
     }
-    if (get_owner_if_alive__10TObjPlayerFv() == 0U) {
+    owner = ((TObjPlayer *)node)->get_owner_if_alive();
+    if (owner == 0U) {
         return 0;
     }
-    if (try_send_6x27_use_item(this, get_item_id__5TItemFv()) == 0) {
+    if (try_send_6x27_use_item(this, ((TItem *)owner)->get_item_id()) == 0) {
         return 0;
     }
-    if (set_mode_and_refresh_object__10TObjPlayerFl(*(s32 *)((s8 *)this + 0xD00), sp8) == 0U) {
+    node2 = set_mode_and_refresh_object__10TObjPlayerFl(*(s32 *)((s8 *)this + 0xD00), sp8);
+    if (node2 == 0U) {
         return 0;
     }
-    if (get_owner_if_alive__10TObjPlayerFv() == 0U) {
+    owner2 = ((TObjPlayer *)node2)->get_owner_if_alive();
+    if (owner2 == 0U) {
         return 0;
     }
-    return all_parents_unqueued_for_destruction__7TObjectFv() != 0 ? 1 : 0;
+    return ((TObject *)owner2)->all_parents_unqueued_for_destruction() != 0 ? 1 : 0;
 }
 
 void TObjPlayer::disable_action_input() { ((int (*)(void*, void*))set_state_flags__10TObjPlayerFUl)(this, (void*)((void*)1024)); ((int (*)(void*, void*))get_player_result__18TChallenge4PResultFPv)(this, (void*)1); ((int (*)(void*, void*))get_player_result__18TChallenge4PResultFPv)(this, (void*)2); ((int (*)(void*, void*))get_player_result__18TChallenge4PResultFPv)(this, (void*)3); }
@@ -6604,9 +6642,10 @@ void TObjPlayer__sub_801B2014(s32 arg0) {
 }
 
 void send_6x24_teleport_player(u16 slot, void *pos, s32 heading) {
+    void *p;
     struct pkt_801B1FA4 pkt;
     ((TObjPlayer *)(&pkt))->init_cmd_6x24();
-    if (((u32 (*)(s32))get_player_by_client_id)(slot) != 0U && obj_isState2_324__9TObjCharaFv() == 0) {
+    if ((p = get_player_by_client_id(slot)) != NULL && ((TObjChara *)p)->obj_isState2_324() == 0) {
         pkt.slot = slot;
         pkt.heading = heading;
         VecCopy((Vec *)&pkt.pos, (const Vec *)pos);
@@ -6639,9 +6678,11 @@ void handle_6x24_teleport_player(saddr arg0) {
 }
 
 void send_6x2F_change_player_hp(s32 arg0, s32 arg1, s32 arg2) {
+    void *p;
+    void *q;
     Msg_801B1E54 m;
 
-    if (((((u32 (*)(u16))get_player_by_client_id)((u16)arg0) == 0U) || (obj_isState2_324__9TObjCharaFv() == 0)) && ((((u32 (*)(u16))get_player_by_client_id)((u16)arg1) == 0U) || (((s32 (*)(void))is_locally_controlled__10TObjPlayerFPv)() != 0))) {
+    if ((((p = ((void * (*)(u16))get_player_by_client_id)((u16)arg0)) == NULL) || (((TObjChara *)p)->obj_isState2_324() == 0)) && (((q = ((void * (*)(u16))get_player_by_client_id)((u16)arg1)) == NULL) || (TObjPlayer::is_locally_controlled(q) != 0))) {
         ((TObjPlayer *)(&m))->init_6x2F_packet_header();
         m.a = arg0;
         m.b = 0;
@@ -7225,28 +7266,36 @@ void TLobby::apply_battle_rules_to_players() {
 }
 
 s32 check_switch_available__6TLobbyFPvi(void *arg0, s32 key) {
+    void *node;
+    void *node2;
+    uaddr owner;
+    uaddr owner2;
     if (((s32 (*)(void))is_technique_ready__8TTecCtrlFv)() != 0) {
         if (fn_801D71D0(((s32 *)&lobby_rule_settings)) == 2) {
-            if (((TObjPlayer *)(*(saddr *)((s8 *)arg0 + 0xD00)))->start_inventory_update(key) == 0U) {
+            node = ((TObjPlayer *)(*(saddr *)((s8 *)arg0 + 0xD00)))->start_inventory_update(key);
+            if (node == NULL) {
                 return 0;
             }
-            if (get_owner_if_alive__10TObjPlayerFv() == 0U) {
+            owner = ((TObjPlayer *)node)->get_owner_if_alive();
+            if (owner == 0U) {
                 return 0;
             }
-            if (((u8 (*)(void))get_item_type__5TItemFv)() == 0) {
+            if (((TItem *)owner)->get_item_type() == 0) {
                 return 0;
             }
             goto block_8;
         }
 block_8:
         if (fn_801D719C(((s32 *)&lobby_rule_settings)) == 1) {
-            if (((TObjPlayer *)(*(saddr *)((s8 *)arg0 + 0xD00)))->start_inventory_update(key) == 0U) {
+            node2 = ((TObjPlayer *)(*(saddr *)((s8 *)arg0 + 0xD00)))->start_inventory_update(key);
+            if (node2 == NULL) {
                 return 0;
             }
-            if (get_owner_if_alive__10TObjPlayerFv() == 0U) {
+            owner2 = ((TObjPlayer *)node2)->get_owner_if_alive();
+            if (owner2 == 0U) {
                 return 0;
             }
-            if (((u8 (*)(void))get_item_type__5TItemFv)() == 2) {
+            if (((TItem *)owner2)->get_item_type() == 2) {
                 return 0;
             }
             goto block_15;

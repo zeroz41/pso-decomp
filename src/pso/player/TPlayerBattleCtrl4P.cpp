@@ -619,6 +619,7 @@ void TPlayerBattleCtrl4P::update_rematch_menu() {
 
 void TPlayerBattleCtrl4P::close_rematch_menu() {
     u32 var_r31;
+    uaddr p;
     if ((uaddr) this->intro_window != 0U) {
         ((TWindowBase *)this->intro_window)->close();
         this->intro_window = 0U;
@@ -629,7 +630,7 @@ void TPlayerBattleCtrl4P::close_rematch_menu() {
     }
     var_r31 = 0;
     do {
-        if ((((s32)get_player_by_client_id(var_r31)) != 0U) && (check_player_flag1__6TLobbyFv() != 0)) {
+        if (((p = get_player_by_client_id(var_r31)) != 0U) && (((TLobby *)p)->check_player_flag1() != 0)) {
             send_code_45_to_window__19TPlayerBattleCtrl4PFPvii((this), ((u16) var_r31), 1);
         }
         var_r31 += 1;
