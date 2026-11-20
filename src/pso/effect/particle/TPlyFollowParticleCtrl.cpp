@@ -218,7 +218,7 @@ Fol_80309E9C *TObjPlayer__sub_80309E9C(Fol_80309E9C *o) {
     return o;
 }
 
-s32 TObjPlayer__sub_80309E4C(s32 arg0, s16 arg1) {
+s32 TObjPlayer__sub_80309E4C(saddr arg0, s16 arg1) {
     if (arg0 != 0) {
         TObjPlayer::dt_follow_particle_ctrl(arg0 + 4, (s16)(-1));
         if (arg1 > 0) {
