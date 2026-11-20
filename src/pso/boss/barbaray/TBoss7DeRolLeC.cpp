@@ -36,6 +36,7 @@
 #include "pso/boss/barbaray/TBoss7Joint.h"
 
 #include "pso/boss/barbaray/TBoss7LaserPtcl.h"
+#include "pso/boss/barbaray/TBoss7TentacleNeedle.h"
 
 #include "pso/boss/barbaray/TBoss7LaserLight.h"
 
@@ -881,8 +882,6 @@ u8 *csnVector(s32 *, void *, s32);
 u32 __nw__7TObjectFUl(int);
 
 
-u8 *TBoss7LaserPtcl__ct(u8 *arg0, u8 *arg1, u8 *arg2, u8 *arg3);
-
 void TBoss7LaserPtcl__sub_802E8FCC(u8 *arg0, u32 arg1);
 
 void TObjFish__sub_802ECE90(void *arg0, int idx, int arg);
@@ -901,9 +900,6 @@ int play_sound_effect(void*, void*, void*, void*);
 void TObjFish__sub_802EBBC8(u8 *arg0, u32 arg1);
 
 
-s32 TBoss7Tentacle__sub_802F0904(s32);
-
-void TBoss7Tentacle__sub_802F0AF0(s32);
 
 void TObjFish__sub_802E85E0(u8 *arg0, u32 arg1, s32 arg2);
 
@@ -1211,7 +1207,6 @@ extern f32 lbl_804FF5E8[];
 
 struct Boss_802E83E8 { u8 pad[0x728]; s32 timer; s32 count; u8 pad730[0x7CC - 0x730]; u16 targets[4]; };
 
-void *TBoss7TentacleNeedle__ct(void *o, void *boss, void *pos);
 }
 
 struct Fish_802ECBDC;
@@ -3611,7 +3606,7 @@ void handle_tentacle_attack_state__8TObjFishFPvUii(Fish_802E9ADC *o, u32 arg1, s
             ok = 1;
             o->timer++;
             for (i = 0; i < 4; i++) {
-                if (TBoss7Tentacle__sub_802F0904(o->tent[i]) == 0) {
+                if (TBoss7Tentacle__sub_802F0904((u8 *)o->tent[i]) == 0) {
                     ok = 0;
                     break;
                 }
@@ -3627,7 +3622,7 @@ void handle_tentacle_attack_state__8TObjFishFPvUii(Fish_802E9ADC *o, u32 arg1, s
         break;
     case 5:
         for (j = 0; j < 4; j++) {
-            TBoss7Tentacle__sub_802F0AF0(o->tent[j]);
+            TBoss7Tentacle__sub_802F0AF0((u8 *)o->tent[j]);
         }
         break;
     }
@@ -3640,7 +3635,7 @@ void TObjFish__sub_802E979C(Fish_802E979C *o, u32 k, s32 dir) {
     switch (k) {
     case 4:
         for (s32 i = 0; i < 4; i++) {
-            TBoss7Tentacle__sub_802F0AF0((s32)o->kids[i]);
+            TBoss7Tentacle__sub_802F0AF0((u8 *)o->kids[i]);
         }
         TObjFish__sub_802ECBDC((Fish_802ECBDC *)o);
         o->flags |= 4;
@@ -3887,10 +3882,7 @@ void TBoss7LaserPtcl__sub_802E8FCC(u8 *arg0, u32 arg1) {
                 if ((u32) *(u32 *)((s8 *)arg0 + 0x7A8) != 0U) {
                     ((TObject *)(*(void **)((s8 *)arg0 + 0x7A8)))->queue_destruction();
                 }
-                boss7_laser_ptcl = __nw__7TObjectFUl(0x58);
-                if (boss7_laser_ptcl != 0U) {
-                    boss7_laser_ptcl = (u32)TBoss7LaserPtcl__ct((u8 *)boss7_laser_ptcl, (u8 *)arg0, (u8 *)((u8 *)arg0 + 0x4DC), (u8 *)temp_r30);
-                }
+                boss7_laser_ptcl = (u32)new TBoss7LaserPtcl((TObject *)arg0, (TBoss7LaserPtclVector *)((u8 *)arg0 + 0x4DC), (TBoss7LaserPtclVector *)temp_r30);
                 *(u32 *)((s8 *)arg0 + 0x7A8) = boss7_laser_ptcl;
                 TBoss7LaserPtcl__sub_802ECE28((arg0));
                 ((TBoss7LaserPtcl *)arg0)->free_laser_light();
@@ -4329,7 +4321,7 @@ void TObjFish__sub_802E85E0(u8 *arg0, u32 arg1, s32 arg2) {
             ok = 1;
             self->timer++;
             for (i = 0; i < 4; i++) {
-                if (TBoss7Tentacle__sub_802F0904(self->kids[i]) == 0) {
+                if (TBoss7Tentacle__sub_802F0904((u8 *)self->kids[i]) == 0) {
                     ok = 0;
                     break;
                 }
@@ -4345,7 +4337,7 @@ void TObjFish__sub_802E85E0(u8 *arg0, u32 arg1, s32 arg2) {
         return;
     case 5:
         for (k = 0; k < 4; k++) {
-            TBoss7Tentacle__sub_802F0AF0(self->kids[k]);
+            TBoss7Tentacle__sub_802F0AF0((u8 *)self->kids[k]);
         }
         return;
     case 1:
@@ -4427,10 +4419,7 @@ void TObjFish__sub_802E83E8(u8 *boss, u32 k) {
                 self->count--;
                 player = (u8 *)get_player_by_client_id(self->targets[self->count & 3]);
                 if (player != NULL) {
-                    o = TObject::operator new(0x7C);
-                    if (o != NULL) {
-                        TBoss7TentacleNeedle__ct(o, boss, player + 0x38);
-                    }
+                    new TBoss7TentacleNeedle((TObject *)boss, (Vec *)(player + 0x38));
                 }
             } else {
                 self->timer--;
@@ -4656,10 +4645,7 @@ void TBoss7DeRolLeC__spawn_crawfish_child(TBoss7DeRolLeC *self, s16 slot, const 
         set.unk_38 = 0.0f;
         set.unk_3C = 0;
         set.unk_3E = 0;
-        void *crawfish = TObject::operator new(0x3D0);
-        if (crawfish != NULL) {
-            TBoss7Crawfish__ct((u8 *)crawfish, (s32)self->crawfish_parent, (s32)&set);
-        }
+        new TBoss7Crawfish((TObject *)self->crawfish_parent, &set);
     }
 }
 #pragma pop

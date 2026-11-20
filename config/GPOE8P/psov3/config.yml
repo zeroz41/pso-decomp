@@ -426,7 +426,7 @@ force_active:
   - TBoss6Type2__sub_803300C8
   - TBoss7Crawfish__shared_resource
   - TBoss7LaserLight_name
-  - TBoss7PhotonBullet__ct
+  - __ct__18TBoss7PhotonBulletFP7TObjectP8TObjBasePvPvf
   - TBoss7Tentacle__needle_offsets
   - TBoss7Tentacle__segment_offsets
   - TBoss7Tentacle__sub_802EF954
@@ -929,12 +929,12 @@ force_active:
   - TObjBoss5PillarCtrl__ct
   - TObjBoss5PillarDemo__ct
   - TObjBoss5PillarDemo__sub_8028ACE8
-  - TObjBoss7DustCtrl__ct
+  - __ct__17TObjBoss7DustCtrlFP7TObject
   - TObjBoss7DustCtrl__helix_points
   - TObjBoss7DustCtrl__rotation_pairs
   - TObjBoss7DustCtrl__transformed_vertices
   - TObjBoss7DustCtrl__vertical_phase_angles
-  - TObjBoss7TunnelCol__ct
+  - __ct__18TObjBoss7TunnelColFP7TObject
   - TObjBoss8PillerCtrl__class_name
   - TObjBoss8PillerCtrl__sub_8035C034
   - TObjBs4CutAtk_name

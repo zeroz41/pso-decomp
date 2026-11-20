@@ -97,7 +97,6 @@ s32 scale_current_matrix(void *);
 void post_translate_matrix(void *);
 
 extern Vec TBoss7Tentacle__segment_offsets[];
-extern s32 __vt__20TBoss7TentacleNeedle[];
 extern u32 TBoss7Tentacle__needle_offsets[];
 
 struct Ten_802F01D0 { u8 pad0[0x50]; Vec v[14]; };
@@ -251,8 +250,8 @@ void TBoss7Tentacle::reset_state() { *(int*)((char*)this + 0x13c) = 0; *(int*)((
 
 void TBoss7Tentacle__sub_802F0918(void* p) { *(s32*)((char*)p + 0x13c) = 0; *(s32*)((char*)p + 0x140) = 16384; }
 
-u8 TBoss7Tentacle__sub_802F0904(u8 *arg0) {
-    return (u8) (*(s32 *)((s8 *)arg0 + 0x30) == 4);
+s32 TBoss7Tentacle__sub_802F0904(u8 *arg0) {
+    return (s32) (*(s32 *)((s8 *)arg0 + 0x30) == 4);
 }
 
 void TBoss7Tentacle::advance_path_position() {
@@ -551,9 +550,8 @@ void fn_802EFEA8(void) {
 
 #pragma push
 #pragma fp_contract on
-u8 *TBoss7TentacleNeedle__ct(TBoss7TentacleNeedle *self, void *parent, Vec *pos) {
-    __ct__7TObjectFP7TObject((void *)self, parent);
-    *(s32 **)((s8 *)self + 0x18) = __vt__20TBoss7TentacleNeedle;
+#define self this
+TBoss7TentacleNeedle::TBoss7TentacleNeedle(TObject *parent, Vec *pos) : TObject(parent) {
     self->m_name = boss7_tentacle_needle_name_ptr;
     *(f32 *)((s8 *)self + 0x34) = 1e-05f;
     *(s32 *)((s8 *)self + 0x28) = 0;
@@ -578,8 +576,8 @@ u8 *TBoss7TentacleNeedle__ct(TBoss7TentacleNeedle *self, void *parent, Vec *pos)
     }
     *(s32 *)((s8 *)self + 0x78) = boss7_tentacle_needle_target_state.value;
     *(f32 *)((s8 *)self + 0x74) = 0.0f;
-    return (u8 *)self;
 }
+#undef self
 #pragma pop
 
 TBoss7TentacleNeedle::~TBoss7TentacleNeedle() {

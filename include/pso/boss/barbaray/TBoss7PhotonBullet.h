@@ -5,9 +5,10 @@
 #include "pso/player/TUnk_804928CC.h"
 
 struct TBoss7PhotonBullet : public TUnk_804928CC {
+    TBoss7PhotonBullet(TObject *parent, TObjBase *owner, void *pos, void *dir, f32 speed);
     virtual ~TBoss7PhotonBullet();
-    void render();
-    void run_task();
+    virtual void run_task();
+    virtual void render();
     void* m_cc;
     u8 _padD0[0x8];
     void* m_d8;

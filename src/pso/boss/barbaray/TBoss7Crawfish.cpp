@@ -416,8 +416,6 @@ u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 u32 TBoss7Crawfish__shared_resource;
 s32 get_bml_texlist(int, int);
 s32 get_bml_model(int, int);
-s32 __ct__9TObjEnemyFP7TObject();
-extern s32 __vt__14TBoss7Crawfish[];
 int TBoss7Crawfish__sub_80308BEC(void *p);
 void free_bin_model_request(void*, int);
 s32 add_radar_scaled_marker(void *, int, int, int, f32);
@@ -464,10 +462,9 @@ TBoss7Crawfish::~TBoss7Crawfish() {
 }
 
 
-u8 *TBoss7Crawfish__ct(u8 *arg0, s32 arg1, s32 arg2) {
+#define arg0 ((u8 *)this)
+TBoss7Crawfish::TBoss7Crawfish(TObject *parent, void *arg2) : TObjEnemy(parent) {
     Vec v;
-    __ct__9TObjEnemyFP7TObject();
-    *(s32 **)((s8 *)arg0 + 0x18) = __vt__14TBoss7Crawfish;
     *(s32 *)((s8 *)arg0 + 0) = (s32) TBoss7Crawfish__class_name;
     ((TBoss7Crawfish *)arg0)->texlist = get_bml_texlist(TBoss7Crawfish__shared_resource, 0);
     copy_collision_body((CollisionBody *)(arg0 + 0x374), &crawfish_collision_body_desc);
@@ -478,7 +475,7 @@ u8 *TBoss7Crawfish__ct(u8 *arg0, s32 arg1, s32 arg2) {
     ((TObjMotion *)arg0)->set_animation((((TBoss7Crawfish *)arg0)->requested_action));
     ((TObjMotion *)arg0)->set_field_b8(((TBoss7Crawfish *)arg0)->requested_action);
     ((TObjChara *)arg0)->add_flags_2e4(2);
-    ((TBoss7Crawfish *)(arg0))->apply_set_data((void *)arg2);
+    ((TBoss7Crawfish *)(arg0))->apply_set_data(arg2);
     if (((TBoss7Crawfish *)arg0)->sub_80308AA8() != 0) {
         ((TObjEnemy *)arg0)->set_param(0x4A);
         ((TObjEnemy *)arg0)->bind_enemy_combat_stats((u8 *)(TLobby::register_boss(8)), (u8 *)(TLobby::dispatch_shared_handler_b(8)), (u8 *)(TLobby::register_object(8)));
@@ -508,8 +505,8 @@ u8 *TBoss7Crawfish__ct(u8 *arg0, s32 arg1, s32 arg2) {
         ((TBoss7Crawfish *)arg0)->scale.x = 1.0f;
     }
     ((TBoss7Crawfish *)arg0)->m_3cc = 0;
-    return arg0;
 }
+#undef arg0
 
 void TBoss7Crawfish::destroy_instance() {
     if ((u32) TBoss7Crawfish__shared_resource != 0U) {
