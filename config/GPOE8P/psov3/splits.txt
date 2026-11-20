@@ -891,16 +891,7 @@ pso/player/TPlyCharData.cpp:
 	.text       start:0x80071DFC end:0x80071E4C
 
 pso/player/TPlyDispConfig.cpp:
-	.text       start:0x80071E4C end:0x80071F1C
-
-pso/player/TPlyDispConfig_80071F1C.cpp:
-	.text       start:0x80071F1C end:0x80071F90
-
-pso/unk/text_80071F90.cpp:
-	.text       start:0x80071F90 end:0x80072004
-
-pso/unk/text_80072004.cpp:
-	.text       start:0x80072004 end:0x80072048
+	.text       start:0x80071E4C end:0x80072048
 
 pso/unk/TLobby_80072048.cpp:
 	.text       start:0x80072048 end:0x8007214C
@@ -3231,16 +3222,12 @@ pso/unk/TLobby_8013ADF0.cpp:
 	.text       start:0x8013ADF0 end:0x8013AE18
 
 pso/ui/hud/TMainCursor.cpp:
-	.text       start:0x8013AE18 end:0x8013D91C
+	.text       start:0x8013AE18 end:0x8013F264
 	.rodata     start:0x8043F090 end:0x8043F130
-	.data       start:0x804A7130 end:0x804A7248
+	.data       start:0x804A7130 end:0x804A72D8
 	.sdata      start:0x805D2CB0 end:0x805D2CC8
-	.sdata2     start:0x805DB0C8 end:0x805DB0F0
-
-pso/ui/hud/TLockOnCursor.cpp:
-	.text       start:0x8013D91C end:0x8013F264
-	.data       start:0x804A72C0 end:0x804A72D8
 	.sbss       start:0x805D5640 end:0x805D5650
+	.sdata2     start:0x805DB0C8 end:0x805DB0F0
 
 pso/ui/TLogo.cpp:
 	.text       start:0x8013F264 end:0x8013F810

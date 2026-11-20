@@ -254,7 +254,7 @@ s32 TPlyPhotonChair::load_resources() {
 
 }
 TPlyPhotonChair::~TPlyPhotonChair() {
-    ((TMainCursor *)((s8 *)this + 0xD0))->destroy(-1);
+    ((TUnk_804A7254 *)((s8 *)this + 0xD0))->TUnk_804A7254::~TUnk_804A7254();
     ((TUnk_804A7478 *)((s8 *)this + 0xB4))->TUnk_804A7478::~TUnk_804A7478();
     ((TUnk_804A7478 *)((s8 *)this + 0x98))->TUnk_804A7478::~TUnk_804A7478();
 }
@@ -266,7 +266,7 @@ u8 *TPlyPhotonChair__ct(u8 *ply_photon_chair, s32 arg1, s32 parent) {
     *(s32 **)((s8 *)ply_photon_chair + 0x18) = __vt__15TPlyPhotonChair;
     ((TUnk_804A7478 *)(ply_photon_chair + 0x98))->init();
     ((TUnk_804A7478 *)(ply_photon_chair + 0xB4))->init();
-    TMainCursor__sub_8013F1F0((ply_photon_chair + 0xD0));
+    __ct__13TUnk_804A7254Fv((ply_photon_chair + 0xD0));
     *(s32 *)((s8 *)ply_photon_chair + 0) = (s32)TPlyPhotonChair__class_name;
     ((TPlyPhotonChair *)ply_photon_chair)->set_field90(arg1);
     ((TPlyPhotonChair *)ply_photon_chair)->m_92 = 0;

@@ -9,10 +9,10 @@ u8 TMainCursor__sub_8013E900(void *p);
 s16 TMainCursor__sub_8013E920(void *p);
 void TMainCursor__sub_8013E928(void *p, s16 v);
 void TMainCursor__sub_8013E930(void *p, s16 v);
-void TMainCursor__sub_8013E970(u8 *arg0, s16 arg1, s16 arg2, s16 arg3);
+void TMainCursor__sub_8013E970(u8 *arg0, u16 arg1, s32 arg2, s32 arg3);
 void TMainCursor__sub_8013E9A0(void *p);
-int TMainCursor__sub_8013E9C0(void *p);
-int TMainCursor__sub_8013E9E0(void *p);
+void TMainCursor__sub_8013E9C0(void *p, u8 v);
+void TMainCursor__sub_8013E9E0(void *p, u8 v);
 void TMainCursor__sub_8013EA00(void *p, s32 v);
 void copy_target_record__11TMainCursorFPvPv(u8 *arg0, u8 *arg1);
 }
@@ -24,10 +24,10 @@ u8 TMainCursor__sub_8013E900(void *p);
 s16 TMainCursor__sub_8013E920(void *p);
 void TMainCursor__sub_8013E928(void *p, s16 v);
 void TMainCursor__sub_8013E930(void *p, s16 v);
-void TMainCursor__sub_8013E970(u8 *arg0, s16 arg1, s16 arg2, s16 arg3);
+void TMainCursor__sub_8013E970(u8 *arg0, u16 arg1, s32 arg2, s32 arg3);
 void TMainCursor__sub_8013E9A0(void *p);
-int TMainCursor__sub_8013E9C0(void *p);
-int TMainCursor__sub_8013E9E0(void *p);
+void TMainCursor__sub_8013E9C0(void *p, u8 v);
+void TMainCursor__sub_8013E9E0(void *p, u8 v);
 void TMainCursor__sub_8013EA00(void *p, s32 v);
 }
 // --- end of C functions

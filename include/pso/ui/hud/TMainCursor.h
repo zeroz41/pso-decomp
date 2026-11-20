@@ -3,14 +3,40 @@
 
 #include "types.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/data/FlagWord.h"
+#include "pso/player/TPlyGuildCardTag.h"
+#include "pso/unk/TUnk_804A7254.h"
+
+// TMainCursor +0x24.
+class TUnk_8013E800 {
+public:
+    u16 unk_0;
+
+    TUnk_8013E800();
+    ~TUnk_8013E800();
+};
+
+// TMainCursor +0x60; TUnk_8013EF6C holds two.
+class TUnk_8013E780 {
+public:
+    gc_tag unk_0;
+    s16 unk_4;
+    s16 unk_6;
+
+    TUnk_8013E780();
+    ~TUnk_8013E780();
+    void reset_target();
+};
 
 struct TMainCursor : public TObject {
+    TMainCursor(TObject *parent, s32 target_index, s32 target_id, s32 action_palette, s32 active, u16 offset_y, f32 size);
     virtual ~TMainCursor();
     s32 bind_action_channels();
     void sub_8013E724(f32);
     u32 m_1c;
-    void* m_20;
-    void* m_24;
+    FlagWord unk_20;
+    TUnk_8013E800 unk_24;
+    u8 pad_26[0x2];
     u8 unk_28[0x4];
     f32 m_2c;
     u8 unk_30[0x4];
@@ -19,11 +45,10 @@ struct TMainCursor : public TObject {
     f32 m_3c;
     void* m_40;
     u8 _pad44[0x8];
-    void* m_4c;
-    u8 _pad50[0x10];
-    void* m_60;
+    TUnk_804A7254 unk_4c;
+    TUnk_8013E780 unk_60;
     void update_position();
-    int check_type_and_enabled(void* _w1, void* _w2);
+    int check_type_and_enabled(u8 type, u8 enabled);
     s32 sort_actions_by_priority();
     void reset_state();
     void update_photon_chair();
@@ -66,15 +91,14 @@ struct TMainCursor : public TObject {
     int check_flag_1();
     u8 is_position_moved();
     int check_flag_4();
-    int forward_13E338_at_60();
-    int update_sub_60();
+    u8 forward_13E338_at_60();
+    u8 update_sub_60();
     void set_offset_y(s16 a1);
-    int init_field_60();
-    int get_action_palette();
-    int update_action_palette();
-    s32 reset();
+    void init_field_60(u8 v);
+    void get_action_palette(u8 v);
+    void update_action_palette(u8 v);
     int get_selected_entry();
-    int get_active();
+    u8 get_active();
     int is_cursor_clear();
     void set_color_mode(s32 v);
     void set_color(s32 v);
@@ -85,19 +109,15 @@ struct TMainCursor : public TObject {
     void set_size(f32 v);
     f32 get_pos();
     int get_rader_map();
-    void *destroy(s16 arg1);
     static void find_action_slot_for_target(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
-    u8 unk_64[0x4];
     void refresh_target_marker();
     void update_chair();
     void validate_target();
     void publish_nearest_target();
     int is_same_target(void *b);
-    s32 delete_this(s16 arg1);
     void set_target_id_at_60(u8 arg1);
     void set_target_id(s16 v);
     int set_target_index_at_60(void* _w1);
-    void reset_target();
     s32 get_body_exclude_mask();
     s32 get_body_include_mask();
     s32 get_actor_exclude_mask();

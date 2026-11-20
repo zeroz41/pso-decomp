@@ -602,7 +602,7 @@ struct TObjPlayer : public TObjChara {
     int query_flags_374();
     int get_quest_status();
     int get_field_0x374();
-    int update_main_cursor();
+    u8 update_main_cursor();
     void*reset_sub_status_disp();
     s32 update_timer();
     void update_field8();

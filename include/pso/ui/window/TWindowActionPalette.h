@@ -3,6 +3,7 @@
 
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
+#include "pso/player/TPlyGuildCardTag.h"
 
 // A sprite part of a window (layout record type 6): position, texture rectangle, colour.
 struct Icon_80243630 {
@@ -32,8 +33,6 @@ struct TWindowActionPalette : public TWindowBase {
         f32 y;
     };
 
-    // The destructor runs the member-array destructor by hand (__destroy_arr on
-    // resources): that element type carries no real name yet.
     virtual void run_task();
     virtual void render();
     virtual ~TWindowActionPalette();
@@ -51,7 +50,7 @@ struct TWindowActionPalette : public TWindowBase {
     f32 m_54;
     f32 m_58;
     s32 m_5c;
-    u8 resources[3][4];
+    gc_tag resources[3];
     u8 state;
     u8 unknown_6d[3];
     Scale scale;

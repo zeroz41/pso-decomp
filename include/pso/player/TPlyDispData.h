@@ -111,6 +111,8 @@ public:
 
 class TPlyDispConfig {
 public:
+    TPlyDispConfig();
+    ~TPlyDispConfig();
     void bswap() {
         m_smth.bswap();
         m_smth1.bswap();
@@ -120,7 +122,6 @@ public:
     TPlyDispConfigSmth m_smth1;
 public:
     void bswap_pair();
-    static s32 free_if_valid(s32 arg0, s16 arg1);
 };
 
 class TPlyDispData {

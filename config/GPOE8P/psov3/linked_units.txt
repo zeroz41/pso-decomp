@@ -946,7 +946,6 @@ pso/network/TLobby_804048E8.c
 pso/network/TLobby_80426CAC.c
 pso/network/TLobby_80428374.c
 pso/network/TLobby_80429598.c
-pso/ui/hud/TLockOnCursor.cpp
 pso/ui/TLogo.cpp
 pso/ui/TLogo_8001C134.cpp
 pso/ui/TLogo_8030818C.cpp
@@ -1101,7 +1100,6 @@ pso/player/TPlyCharData_801E0A04.cpp
 pso/player/TPlyClientConfig.cpp
 pso/player/TPlyDispConfig.cpp
 pso/player/TPlyDispConfigSmth.cpp
-pso/player/TPlyDispConfig_80071F1C.cpp
 pso/effect/particle/TPlyFollowParticleCtrl.cpp
 pso/player/TPlyGuildCardTag.cpp
 pso/player/TPlyGuildCardTag_80077BBC.cpp
@@ -2022,8 +2020,6 @@ pso/unk/text_8006EF80.cpp
 pso/unk/text_8006EF90.cpp
 pso/unk/text_80071A9C.cpp
 pso/unk/text_80071B30.cpp
-pso/unk/text_80071F90.cpp
-pso/unk/text_80072004.cpp
 pso/unk/text_80072230.cpp
 pso/unk/text_80074BD0.cpp
 pso/unk/text_80074C20.cpp
