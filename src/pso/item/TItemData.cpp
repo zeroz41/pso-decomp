@@ -91,7 +91,6 @@ struct Parm_8010C320
 extern "C" {
 s32 obj_getArrWord_254(void *, int);
 u16 get_entity_id(void *);
-saddr get_item_field_6__10TObjPlayerFPv(void *);
 int is_quest_active(void);
 s32 is_item_usable__9TItemDataFlPUc(void *, void *);
 s32 check_equip_requirements(void *self, TItemData *p, s32 *out);
@@ -1076,7 +1075,7 @@ s32 TItemData::calc_action_flags(s32 mask, u8 *player) {
       }
       case 10:
       {
-        void *it = (void *) get_item_field_6__10TObjPlayerFPv(player);
+        void *it = (void *) TObjPlayer::get_item_field_6(player);
         if (it != 0)
         {
           ((TItem *)it)->copy_to_item_data((TItemData *)buf);
@@ -1234,14 +1233,14 @@ f32 TItemData::get_shield_set_multiplier(u8 *arg1) {
   switch ((s32) temp_r0)
   {
     case 26:
-      temp_r3 = (u8 *) get_item_field_6__10TObjPlayerFPv(arg1);
+      temp_r3 = (u8 *) TObjPlayer::get_item_field_6(arg1);
       if ((temp_r3 != 0) && (((TItem *)temp_r3)->get_item_group() == 0x1A))
     {
       var_f31 = 2.0f;
     }
       break;
     case 38:
-      temp_r31 = get_item_field_6__10TObjPlayerFPv(arg1);
+      temp_r31 = TObjPlayer::get_item_field_6(arg1);
       temp_r30 = ((TItemData *)arg1)->get_item_field_2();
       if (((((((u32) temp_r31) != 0U) && (((u32) temp_r30) != 0U)) && (((TItem *)temp_r31)->get_item_group() == 1)) && (((TItem *)temp_r31)->get_item_index() == 5)) && (((TItem *)temp_r30)->get_item_index() == 0x28))
     {
@@ -1249,7 +1248,7 @@ f32 TItemData::get_shield_set_multiplier(u8 *arg1) {
     }
       break;
     case 36:
-      temp_r30_2 = get_item_field_6__10TObjPlayerFPv(arg1);
+      temp_r30_2 = TObjPlayer::get_item_field_6(arg1);
       temp_r31_2 = ((TItemData *)arg1)->get_item_field_2();
       if (((((((u32) temp_r30_2) != 0U) && (((u32) temp_r31_2) != 0U)) && (((TItem *)temp_r30_2)->get_item_group() == 2)) && (((TItem *)temp_r30_2)->get_item_index() == 5)) && (((TItem *)temp_r31_2)->get_item_index() == 0x26))
     {
@@ -1257,7 +1256,7 @@ f32 TItemData::get_shield_set_multiplier(u8 *arg1) {
     }
       break;
     case 37:
-      temp_r30_3 = get_item_field_6__10TObjPlayerFPv(arg1);
+      temp_r30_3 = TObjPlayer::get_item_field_6(arg1);
       temp_r31_3 = ((TItemData *)arg1)->get_item_field_2();
       if (((((((u32) temp_r30_3) != 0U) && (((u32) temp_r31_3) != 0U)) && (((TItem *)temp_r30_3)->get_item_group() == 6)) && (((TItem *)temp_r30_3)->get_item_index() == 6)) && (((TItem *)temp_r31_3)->get_item_index() == 0x27))
     {
@@ -1336,21 +1335,21 @@ f32 TItemData::get_armor_set_multiplier(u8 *arg1) {
         }
         break;
     case 40:
-        a1 = get_item_field_6__10TObjPlayerFPv(arg1);
+        a1 = TObjPlayer::get_item_field_6(arg1);
         b1 = ((TItemData *)arg1)->test_flag3();
         if ((u32)a1 != 0 && (u32)b1 != 0 && ((TItem *)a1)->get_item_group() == 1 && ((TItem *)a1)->get_item_index() == 5 && ((TItem *)b1)->get_item_index() == 0x26) {
             v = 1.5f;
         }
         break;
     case 38:
-        a2 = get_item_field_6__10TObjPlayerFPv(arg1);
+        a2 = TObjPlayer::get_item_field_6(arg1);
         b2 = ((TItemData *)arg1)->test_flag3();
         if ((u32)a2 != 0 && (u32)b2 != 0 && ((TItem *)a2)->get_item_group() == 2 && ((TItem *)a2)->get_item_index() == 5 && ((TItem *)b2)->get_item_index() == 0x24) {
             v = 1.5f;
         }
         break;
     case 39:
-        a3 = get_item_field_6__10TObjPlayerFPv(arg1);
+        a3 = TObjPlayer::get_item_field_6(arg1);
         b3 = ((TItemData *)arg1)->test_flag3();
         if ((u32)a3 != 0 && (u32)b3 != 0 && ((TItem *)a3)->get_item_group() == 6 && ((TItem *)a3)->get_item_index() == 6 && ((TItem *)b3)->get_item_index() == 0x25) {
             v = 1.5f;

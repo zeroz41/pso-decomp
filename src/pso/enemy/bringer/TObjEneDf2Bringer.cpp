@@ -901,7 +901,6 @@ void check_enemy_body_collisions(void *arg0);
 s32 obj_is_hit_receivable(void);
 s32 attack_target_history_add(saddr, TObjPlayer *);
 s32 is_player_entity_id(u16);
-saddr get_item_field_6__10TObjPlayerFPv(void *p);
 void TObjEneDD__sub_800BA438(s32 arg0, u8 *arg1);
 
 
@@ -1409,7 +1408,7 @@ s32 TObjEneDf2Bringer__sub_80099248(void *bringer) {
                 if (is_player_entity_id(get_entity_id(player)) != 0) {
                     if (TObjEneDD::check_v2_mode() != 0) {
                         if (TObjPlayer::is_locally_controlled(player) != 0) {
-                            TItem *item = (TItem *)get_item_field_6__10TObjPlayerFPv(player);
+                            TItem *item = (TItem *)TObjPlayer::get_item_field_6(player);
                             if (item != NULL) {
                                 TObjPlayer::send_6x26_unequip_item((void *)player, (void *)(item->get_item_id()));
                             }
